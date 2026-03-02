@@ -1,7 +1,7 @@
 # Lanthanum-Based Superconductors: STUR Framework Analysis
 
 **Document Type:** Material Science Analysis and Experimental Protocol
-**Framework:** STUR v4.4 (Z3 Helix Geometry)
+**Framework:** STUR v4.4 (∞₃ Helix Geometry)
 **Author:** STUR Physics Lab
 **Date:** 2026-02-05
 **Status:** Actionable Research Protocol for Experimentalists
@@ -965,7 +965,7 @@ g_eff = 4.39 * 1.5 / 0.25 = 26.3
 - `/home/user/STUR-Physics-Lab/scripts/stur_superconductor.html` - Interactive ATS Simulation
 - `/home/user/STUR-Physics-Lab/ATS_MATERIAL_CANDIDATES.md` - Broad Material Survey
 - `/home/user/STUR-Physics-Lab/ATS_GEFF_DERIVATION.md` - g_eff First-Principles Derivation
-- `/home/user/STUR-Physics-Lab/DERIVATION_CHAIN_HELIX.md` - Master Derivation Chain
+- `/home/user/STUR-Physics-Lab/DERIVATION_CHAIN_INFINITY.md` - Master Derivation Chain
 
 ### Experimental Literature
 - Bednorz & Muller (1986) - Discovery of LSCO superconductivity

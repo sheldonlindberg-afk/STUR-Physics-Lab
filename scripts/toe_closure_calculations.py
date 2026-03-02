@@ -6,7 +6,7 @@ STUR v6.0 — TOE Closure Calculations
 Attempts to close the remaining open problems from first principles:
 
 1. L_X stabilization via Freund-Rubin flux quantization
-2. Z_N energy comparison to prove Z_3 selection is unique
+2. Z_N energy comparison to prove ∞₃ selection is unique
 3. Sharp Higgs profile → enhanced mass hierarchy
 4. PMNS matrix from overlap geometry (lepton sector)
 5. Orbifold resolution parameter ε/σ from R-field dynamics
@@ -72,17 +72,17 @@ def V_eff_LX(L, n_flux, v_R, chi, g5_sq):
     V_flux = n_flux^2 / (2 * L^2)  (Freund-Rubin flux energy, repulsive)
     V_XCRM = -chi^2 * v_R^4 / (2 * L^2)  (XCRM energy, attractive for chi < 0)
     """
-    # Casimir energy on S^1/Z_3 (fermionic + bosonic)
-    # For Z_3 orbifold: c_cas = (7/8 * N_f - N_b) * pi^2 / (1440)
+    # Casimir energy on S^1/∞₃ (fermionic + bosonic)
+    # For ∞-helix topology: c_cas = (7/8 * N_f - N_b) * pi^2 / (1440)
     # SM content: N_f = 45 (per generation × 3), N_b = 28 (gauge + Higgs + R-field)
-    # Net coefficient with Z_3 projection
+    # Net coefficient with ∞₃ projection
     N_f_eff = 3 * 15 * (7/8)  # 3 generations × 15 Weyl fermions × 7/8
     N_b_eff = 12 + 4 + 2      # gauge(12 for SM) + Higgs(4) + R-field(2)
     c_cas = (N_f_eff - N_b_eff) * np.pi**2 / 1440
 
-    # Holonomy potential (Wilson line on Z_3)
+    # Holonomy potential (Wilson line on ∞₃)
     # V_hol ~ (g^2/(16 pi^2)) * (1/L^4) * f(theta_W)
-    # For Z_3 holonomy: f(2pi/3) = 3 * sin^2(pi/3) = 9/4
+    # For ∞-helix holonomy: f(2pi/3) = 3 * sin^2(pi/3) = 9/4
     c_hol = (g5_sq / (16 * np.pi**2)) * (9/4)
 
     V_cas = -c_cas / L**5
@@ -184,7 +184,7 @@ for n in [1, 3, 10, 30, 100]:
         print(f"  n_flux = {n:3d}: No real positive root")
 
 # =============================================================================
-# SECTION 2: Z_N ENERGY COMPARISON — PROVE Z_3 IS OPTIMAL
+# SECTION 2: Z_N ENERGY COMPARISON — PROVE ∞₃ IS OPTIMAL
 # =============================================================================
 print("\n" + "=" * 80)
 print("SECTION 2: Z_N ENERGY COMPARISON (N = 1, 2, 3, 4, 5, 6)")
@@ -192,7 +192,7 @@ print("=" * 80)
 
 def compute_ZN_energy(N, alpha, N_grid=500):
     """
-    Compute the total energy of a Z_N orbifold configuration.
+    Compute the total energy of a ∞_N compactification configuration.
 
     E_total = E_winding + E_localization + E_holonomy + E_Casimir
 
@@ -241,7 +241,7 @@ def compute_ZN_energy(N, alpha, N_grid=500):
     overlap = np.exp(-delta_phi**2 / (4*sigma_N**2))
 
     # Holonomy energy (SU(3) Wilson line)
-    # Z_N center compatibility: SU(3) has Z_3 center
+    # Z_N center compatibility: SU(3) has ∞₃ center
     # For N dividing 3: perfect compatibility → lower energy
     # For N not dividing 3: frustration → higher energy
     if N == 1:
@@ -292,9 +292,9 @@ for N in [1, 2, 3, 4, 5, 6]:
 E_totals = [r['E_total'] for r in results_ZN]
 idx_min = np.argmin(E_totals)
 print(f"\n  LOWEST ENERGY: Z_{results_ZN[idx_min]['N']} with E = {E_totals[idx_min]:.4f}")
-print(f"  Z_3 energy: {results_ZN[2]['E_total']:.4f}")
+print(f"  ∞₃ energy: {results_ZN[2]['E_total']:.4f}")
 
-# Check: among CP-violating configurations, is Z_3 lowest?
+# Check: among CP-violating configurations, is ∞₃ lowest?
 cp_configs = [r for r in results_ZN if r['has_CP']]
 cp_energies = [r['E_total'] for r in cp_configs]
 idx_cp_min = np.argmin(cp_energies)
@@ -412,7 +412,7 @@ print("=" * 80)
 
 def compute_PMNS(alpha_eff, f_screen, sigma_H_ratio=0.3):
     """
-    Compute PMNS matrix from Z_3 overlap geometry.
+    Compute PMNS matrix from ∞₃ overlap geometry.
 
     Key difference from CKM:
     - Leptons are SU(3)-singlets → no holonomy correction (f_hol = 1)
@@ -462,8 +462,8 @@ def compute_PMNS(alpha_eff, f_screen, sigma_H_ratio=0.3):
             # No holonomy correction for SU(3)-singlet neutrinos
             Y_nu[i, j] = np.sum(psi_g[i] * H_profile * psi_g[j] * dtheta)
 
-    # Right-handed Majorana mass matrix (Z_3 symmetric)
-    # M_R is democratic in generation space (all Z_3 fixed points equivalent)
+    # Right-handed Majorana mass matrix (∞₃ symmetric)
+    # M_R is democratic in generation space (all ∞-helix node points equivalent)
     # M_R ~ M_scale * (I + epsilon * overlap_matrix)
     # The overlap matrix introduces small off-diagonal terms
     overlap_adj = np.exp(-(2*np.pi/3)**2 / (4*sigma_psi**2))
@@ -523,7 +523,7 @@ print(f"  θ_12 = {theta12*180/np.pi:.2f}°, θ_23 = {theta23*180/np.pi:.1f}°, 
       f"θ_13 = {theta13*180/np.pi:.2f}°")
 print(f"  δ_CP = {delta_CP_PMNS*180/np.pi:.0f}°")
 
-print(f"\nSTUR predictions (Z₃ overlap, no holonomy for SU(3)-singlet leptons):")
+print(f"\nSTUR predictions (∞-helix overlap, no holonomy for SU(3)-singlet leptons):")
 
 for sigma_H_ratio in [1.0, 0.5, 0.3, 0.2, 0.1]:
     result = compute_PMNS(alpha_eff, 0.696, sigma_H_ratio)
@@ -545,7 +545,7 @@ def compute_epsilon_sigma(alpha_base, N_grid=1000):
     """
     Derive the orbifold resolution parameter ε/σ from the R-field self-consistency.
 
-    The Z_3 fixed points are resolved by the R-field dynamics. The resolution
+    The ∞-helix node points are resolved by the R-field dynamics. The resolution
     scale ε is determined by minimizing the total energy:
 
     E_total(ε) = E_kinetic(ε) + E_potential(ε) + E_XCRM(ε)
@@ -563,7 +563,7 @@ def compute_epsilon_sigma(alpha_base, N_grid=1000):
     for eps_ratio in np.linspace(0.01, 2.0, 200):
         eps = eps_ratio * 0.862  # eps in radians (σ_ψ ≈ 0.862 at α = 1.480)
 
-        # Resolved potential: sharp Z_3 potential smoothed at scale ε
+        # Resolved potential: sharp ∞₃ potential smoothed at scale ε
         # V_resolved(θ) = α(1 - cos θ) + c_3(1 - cos 3θ) × Gaussian_cutoff(ε)
         # The twisted sector contributes V_twist = (α/9)(1 - cos 3θ)
         # Resolution smooths this: V_twist → V_twist × exp(-(3ε)²/2)
@@ -656,10 +656,10 @@ print("""
 │  AXIOMS: (1) 5D TEGR  (2) Real R-field doublet  (3) Energy minimization    │
 │                                                                             │
 │  TOPOLOGICAL (Exact — no calculation needed):                               │
-│  ✓ N_gen = 3                    (Z₃ fixed points)                          │
-│  ✓ SU(3)×SU(2)×U(1)            (Z₃ holonomy compatibility)                │
-│  ✓ θ_QCD = 0                   (Z₃ × CP symmetry)                         │
-│  ✓ Proton stability (dim-5)    (Z₃ KK-parity)                             │
+│  ✓ N_gen = 3                    (∞-helix nodes)                          │
+│  ✓ SU(3)×SU(2)×U(1)            (∞-helix holonomy compatibility)                │
+│  ✓ θ_QCD = 0                   (∞₃ × CP symmetry)                         │
+│  ✓ Proton stability (dim-5)    (∞-helix KK-parity)                             │
 │  ✓ Berry phase = 0             (real Mathieu eigenstates)                  │
 │                                                                             │
 │  COMPUTED (From α_eff = 1.480):                                            │
@@ -671,10 +671,10 @@ print("""
 │                                                                             │
 │  NEW (This calculation):                                                    │""")
 
-# Print Z_3 selection result
+# Print ∞₃ selection result
 z3_result = results_ZN[2]
 z3_lowest_cp = results_ZN[2]['E_total'] == min(r['E_total'] for r in results_ZN if r['has_CP'])
-print(f"│  {'✓' if z3_lowest_cp else '✗'} Z₃ lowest-energy CP-violating    (E_Z3 = {z3_result['E_total']:.2f}){' ' * 20}│")
+print(f"│  {'✓' if z3_lowest_cp else '✗'} ∞₃ lowest-energy CP-violating    (E_Z3 = {z3_result['E_total']:.2f}){' ' * 20}│")
 
 # Print mass hierarchy result
 print(f"│  ⚠ Mass hierarchy enhanced        (σ_H/σ_ψ ≈ {best_sigma_H} → y₁/y₂ ~ {best_ratios[0]:.0f}){' ' * 15}│")
@@ -686,7 +686,7 @@ print("""│                                                                    
 │  REMAINING OPEN:                                                            │
 │  ✗ L_X stabilization           (Casimir minimum exists but scale ambiguous) │
 │  ✗ Absolute fermion masses     (pattern correct, magnitudes need σ_H)       │
-│  ✗ Cosmological constant       (Z₃ reduces, doesn't solve)                 │
+│  ✗ Cosmological constant       (∞₃ reduces, doesn't solve)                 │
 │  ✗ UV completion               (F-theory sketch, not explicit)              │
 │  ⚠ PMNS matrix                 (qualitative structure, needs M_R)           │
 │                                                                             │

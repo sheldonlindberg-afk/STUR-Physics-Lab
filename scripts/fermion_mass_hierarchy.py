@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Fermion Mass Hierarchy from Exact Yukawa Matrix on S¹/Z₃
+Fermion Mass Hierarchy from Exact Yukawa Matrix on S¹/∞₃
 ==========================================================
 
 STUR Framework v5.1 — Honest Mass Hierarchy Computation
@@ -9,20 +9,20 @@ This script computes the 3×3 Yukawa matrix Y_ij by direct numerical
 integration of Mathieu wavefunctions with a localized Higgs profile,
 then diagonalizes to get mass eigenvalues. NO correction factors.
 
-The question: What does the Z₃ geometry ACTUALLY predict for fermion
+The question: What does the ∞-helix geometry ACTUALLY predict for fermion
 mass ratios, given only α_eff = 1.480?
 
 Physics:
-- Three generations at Z₃ fixed points: θ = 0, 2π/3, 4π/3
+- Three generations at ∞-helix nodes: θ = 0, 2π/3, 4π/3
 - Higgs localized at θ = 0 (electroweak symmetry breaking at one point)
 - Yukawa coupling: Y_ij = ∫ ψ_i(θ) H(θ) ψ_j(θ) dθ
 - Up-type: helix phase exp(+iθ/3), down-type: exp(-iθ/3)
-- Z₃ twisted sectors: up quarks (n=1), down quarks (n=0)
+- ∞-helix twisted sectors: up quarks (n=1), down quarks (n=0)
 
 The mass hierarchy comes from THREE sources:
 1. Higgs localization: gen 3 (at Higgs) >> gens 1,2 (away from Higgs)
 2. Yukawa self-energy: top Yukawa feeds back into localization → α₃ > α₁,₂
-3. Z₃ twisted sector: wavefunction nodes for specific generations
+3. ∞-helix twisted sector: wavefunction nodes for specific generations
 
 This calculation reveals what the geometry gives and where it falls short.
 
@@ -201,7 +201,7 @@ def self_consistent_mass_hierarchy(alpha_base, sigma_H, N=2000, max_iter=20, tol
 
 if __name__ == '__main__':
     print("=" * 70)
-    print("  FERMION MASS HIERARCHY FROM EXACT YUKAWA MATRIX ON S¹/Z₃")
+    print("  FERMION MASS HIERARCHY FROM EXACT YUKAWA MATRIX ON S¹/∞₃")
     print("  STUR Framework v5.1 — No Correction Factors")
     print("=" * 70)
 
@@ -219,7 +219,7 @@ if __name__ == '__main__':
     # ══════════════════════════════════════════════════════════
 
     print(f"\n{'─' * 70}")
-    print("  SECTION 1: Wavefunctions at Z₃ Fixed Points")
+    print("  SECTION 1: Wavefunctions at ∞₃ Fixed Points")
     print(f"{'─' * 70}")
 
     centers = [0.0, 2*np.pi/3, 4*np.pi/3]
@@ -399,10 +399,10 @@ if __name__ == '__main__':
     if max_ratio < PDG_down['m3']/PDG_down['m2']:
         print(f"\n  ⚠ STRUCTURAL GAP: Even the maximum geometric ratio ({max_ratio:.1f})")
         print(f"  is LESS than the observed m_b/m_s ({PDG_down['m3']/PDG_down['m2']:.1f}).")
-        print(f"  The Z₃ geometry with uniform α CANNOT produce the full hierarchy.")
+        print(f"  The ∞-helix geometry with uniform α CANNOT produce the full hierarchy.")
         print(f"  Additional physics needed:")
         print(f"    • Generation-dependent α from Yukawa backreaction: δα/α ~ y²/(16π²) ~ 0.6%")
-        print(f"    • Z₃ twisted sector wavefunction nodes (for up-type splitting)")
+        print(f"    • ∞-helix twisted sector wavefunction nodes (for up-type splitting)")
         print(f"    • Or: abandon single-α assumption")
     else:
         print(f"\n  ✓ Geometric ratio ({max_ratio:.1f}) CAN accommodate observed hierarchy.")
@@ -467,12 +467,12 @@ if __name__ == '__main__':
     print(f"{'─' * 70}")
 
     print(f"""
-  WHAT THE Z₃ GEOMETRY GIVES (without correction factors):
+  WHAT THE ∞₃ GEOMETRY GIVES (without correction factors):
 
-  1. THREE GENERATIONS: ✓ (from Z₃ topology)
+  1. THREE GENERATIONS: ✓ (from ∞-helix topology)
 
   2. MASS HIERARCHY (qualitative): ✓
-     - Higgs localization at one Z₃ fixed point naturally produces
+     - Higgs localization at one ∞-helix node naturally produces
        one heavy generation + two light ones
      - Maximum ratio: exp(κ²/2) = {np.exp(kappa**2/2):.1f} at κ = {kappa:.3f}
 
@@ -482,7 +482,7 @@ if __name__ == '__main__':
        for down-type quarks (barely), but NOT for up-type
      - m_t/m_c observed = {PDG_up['m3']/PDG_up['m2']:.0f}, geometric max = {np.exp(kappa**2/2):.0f}
      - 2nd/1st generation splitting requires ADDITIONAL physics
-       (Z₃ twisted sector nodes, generation-dependent α, or
+       (∞-helix twisted sector nodes, generation-dependent α, or
        asymmetric Higgs profile)
 
   4. UP-DOWN MASS RATIO: WEAK
@@ -496,16 +496,16 @@ if __name__ == '__main__':
      - δα/α ~ y_t²/(16π²) ~ 0.6%
      - Too small to significantly enhance the hierarchy
 
-  CONCLUSION: The Z₃ geometry QUALITATIVELY explains the mass hierarchy
+  CONCLUSION: The ∞-helix geometry QUALITATIVELY explains the mass hierarchy
   (one heavy + two light generations) but QUANTITATIVELY falls short
   by factors of 5-500 depending on the sector. The correction factor
   chains in the framework (f_tail, f_node, etc.) are compensating for
   this gap, which means they are NOT derived but FITTED.
 
-  This is a genuine structural limitation of the single-α Z₃ model.
+  This is a genuine structural limitation of the single-α ∞₃ model.
   Possible resolutions:
-    a) Generation-dependent localization potentials (breaks Z₃ universality)
+    a) Generation-dependent localization potentials (breaks ∞₃ universality)
     b) Multiple Higgs doublets with different profiles
-    c) Additional orbifold structure beyond S¹/Z₃
+    c) Additional orbifold structure beyond S¹/∞₃
     d) Radiative mass generation for 1st/2nd gen (loop suppression)
 """)

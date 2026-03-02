@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """
-Cosmological Constant from Casimir Energy on S¹/Z₃
+Cosmological Constant from Casimir Energy on S¹/∞₃
 ====================================================
 
 STUR Framework v5.2 — Honest Computation
 
 The framework claims to connect the extra dimension to the cosmological
-constant. This script computes what the Casimir energy on S¹/Z₃
+constant. This script computes what the Casimir energy on S¹/∞₃
 actually gives and compares to the observed Λ₄.
 
-Key question: Does the S¹/Z₃ Casimir energy naturally give a small Λ₄?
+Key question: Does the S¹/∞₃ Casimir energy naturally give a small Λ₄?
 
-Spoiler from lx_effective_potential.py: The SM on S¹/Z₃ has
+Spoiler from lx_effective_potential.py: The SM on S¹/∞₃ has
 Δn_eff = -63 (fermion-dominated), giving POSITIVE Casimir energy.
 
 Author: STUR Physics Lab
@@ -31,26 +31,26 @@ v_EW = 246.22       # GeV
 
 def casimir_energy_density_5d(L, n_scalars=4, n_weyl=90, n_gauge=12):
     """
-    5D Casimir energy density on S¹/Z₃.
+    5D Casimir energy density on S¹/∞₃.
 
     ρ_Cas = (π²/1620) × (1/L⁵) × [n_b - (7/8)n_f]
-    where the 1/1620 = 1/(6 × 270) comes from the Z₃ projection
+    where the 1/1620 = 1/(6 × 270) comes from the ∞-helix projection
     reducing modes to every 3rd KK level.
     """
-    # On S¹/Z₃, only every 3rd KK mode survives: n = 0, 3, 6, ...
+    # On S¹/∞₃, only every 3rd KK mode survives: n = 0, 3, 6, ...
     # This reduces the sum by factor of 1/3⁴ = 1/81 compared to S¹
     # Standard S¹ result: ρ = π²/(1440 L⁵) × Δn (Ramond convention)
-    # Z₃ reduction: ρ = π²/(1440 × 81 × L⁵) × Δn ... NO
+    # ∞₃ reduction: ρ = π²/(1440 × 81 × L⁵) × Δn ... NO
 
-    # Actually: on S¹/Z₃, the KK spectrum is m_n = 3n/L, so:
+    # Actually: on S¹/∞₃, the KK spectrum is m_n = 3n/L, so:
     # ρ_Cas = Σ_{n=1}^∞ d.o.f. × (3n/L)⁵ × zeta-regularized sum
 
     # The standard result for bosons on S¹ with radius R:
     # ρ_b = -π²/(1440 R⁴) per d.o.f. (4D result after integration)
 
-    # For Z₃ orbifold with period L:
+    # For ∞-helix topology with period L:
     # Physical radius R = L/(2π), KK mass m_n = 2πn/L (on S¹)
-    # On Z₃: m_n = 2πn/(L/3) = 6πn/L (only multiples of 3 survive)
+    # On ∞₃: m_n = 2πn/(L/3) = 6πn/L (only multiples of 3 survive)
 
     # Effective radius R_eff = L/3
     # ρ_Cas = -π²/(1440) × (2π/L_eff)⁴ per boson d.o.f. (4D)
@@ -63,7 +63,7 @@ def casimir_energy_density_5d(L, n_scalars=4, n_weyl=90, n_gauge=12):
     # Standard S¹ Casimir: E_Cas/V₃ = -π²/(720 L⁴) × Δn  [Zeldovich convention]
     # (The factor depends on convention; using Appelquist-Chodos)
 
-    L_eff = L / 3  # Z₃ effective length
+    L_eff = L / 3  # ∞₃ effective length
 
     Delta_n = n_scalars + n_gauge * 2 - (7/8) * n_weyl
 
@@ -84,7 +84,7 @@ def print_section(title, num):
 
 def main():
     print("=" * 70)
-    print("  COSMOLOGICAL CONSTANT FROM CASIMIR ENERGY ON S¹/Z₃")
+    print("  COSMOLOGICAL CONSTANT FROM CASIMIR ENERGY ON S¹/∞₃")
     print("  STUR Framework v5.2 — First-Principles Computation")
     print("=" * 70)
 
@@ -129,7 +129,7 @@ def main():
     n_b_total = n_b_gauge + n_b_A5 + n_b_higgs  # = 40
     n_f_total = n_weyl_SM  # = 45
 
-    print_section("SM Field Content on S¹/Z₃", 1)
+    print_section("SM Field Content on S¹/∞₃", 1)
     print(f"""
   Gauge bosons (transverse): 12 × 2 = {n_b_gauge} bosonic d.o.f.
   Gauge A₅ scalars:          12 × 1 = {n_b_A5} bosonic d.o.f.
@@ -245,12 +245,12 @@ def main():
 
   The SM is fermion-heavy: Δn = {Delta_n:.2f}
 
-  With N=1 SUSY on S¹/Z₃:
+  With N=1 SUSY on S¹/∞₃:
     Each boson paired with a fermion → Δn = 0 exactly
     Casimir energy = 0 (to leading order)
     This is the standard SUSY motivation for the CC.
 
-  Without SUSY: The Z₃ orbifold provides NO mechanism to
+  Without SUSY: The ∞-helix topology provides NO mechanism to
   cancel the Casimir contribution. The residual ρ_Cas is
   determined by Δn and L, both of which are inputs.
 
@@ -262,25 +262,25 @@ def main():
     """)
 
     # ================================================================
-    # SECTION 6: Topological contribution from Z₃
+    # SECTION 6: Topological contribution from ∞₃
     # ================================================================
-    print_section("Topological Contribution from Z₃ Structure", 6)
+    print_section("Topological Contribution from ∞₃ Structure", 6)
 
-    # On Z₃ orbifold, there are contributions from twisted sectors
+    # On ∞-helix topology, there are contributions from twisted sectors
     # at the fixed points
     print(f"""
-  On S¹/Z₃, the vacuum energy has three contributions:
+  On S¹/∞₃, the vacuum energy has three contributions:
 
   1. BULK (untwisted): Standard Casimir from KK modes n = 0,3,6,...
      ρ_bulk = -(π²/720) × Δn / (L/3)⁴
      = {-(np.pi**2/720) * Delta_n / L_eff_CC**4:.2e} GeV⁴ (at L = L_CC)
 
-  2. FIXED POINT (twisted): Localized energy at the three Z₃ points
-     These come from modes with Z₃ phase ω = exp(2πi/3)
+  2. FIXED POINT (twisted): Localized energy at the three ∞₃ points
+     These come from modes with ∞-helix phase ω = exp(2πi/3)
      ρ_twisted ~ 3 × (Λ_UV⁴/16π²) × (1-ω)(1-ω²) = 3 × Λ_UV⁴/(16π²) × 3
      This is UV-sensitive and requires renormalization.
 
-  3. TORSION (R-field): Energy from the R-field vacuum on S¹/Z₃
+  3. TORSION (R-field): Energy from the R-field vacuum on S¹/∞₃
      V_R = v⁴ × λ_R (quartic coupling)
      At v = v_EW: V_R ~ (246 GeV)⁴ × O(1) ~ 3.7e9 GeV⁴
      This is 3.7e9 / 2.6e-47 = {3.7e9/2.6e-47:.0e} times too large!
@@ -288,7 +288,7 @@ def main():
   The twisted sector and R-field contributions are BOTH
   UV-sensitive and require cancellation to ~10⁻⁵⁶.
   This IS the cosmological constant problem — it's not solved
-  by putting the SM on S¹/Z₃.
+  by putting the SM on S¹/∞₃.
     """)
 
     # ================================================================
@@ -297,7 +297,7 @@ def main():
     print_section("What Would Actually Solve the CC Problem", 7)
 
     print(f"""
-  For the Z₃ Casimir energy to naturally explain Λ₄:
+  For the ∞-helix Casimir energy to naturally explain Λ₄:
 
   1. NEED: Δn ≈ 0 (boson-fermion balance)
      Status: Δn = {Delta_n:.1f} — far from zero
@@ -317,8 +317,8 @@ def main():
      Fix: Requires fine-tuning to 56 decimal places
 
   CONCLUSION:
-  The S¹/Z₃ compactification does NOT solve or illuminate
-  the cosmological constant problem. The CC on S¹/Z₃ has the
+  The S¹/∞₃ compactification does NOT solve or illuminate
+  the cosmological constant problem. The CC on S¹/∞₃ has the
   same fine-tuning issues as in 4D, plus additional contributions
   from KK towers and twisted sectors that make it WORSE.
     """)
@@ -330,11 +330,11 @@ def main():
 
     print(f"""
   CLAIM TESTED: "The cosmological constant can be computed from
-  Casimir energy on S¹/Z₃ in the STUR framework."
+  Casimir energy on S¹/∞₃ in the STUR framework."
 
   RESULT: FALSE
 
-  What the S¹/Z₃ Casimir energy gives:
+  What the S¹/∞₃ Casimir energy gives:
     ρ_Cas = -(π²/720) × Δn / (L/3)⁴
     With SM: Δn = {Delta_n:.1f} (fermion-dominated → positive ρ)
     Sign: CORRECT (Λ_obs > 0 and Δn < 0 → ρ_Cas > 0) ✓

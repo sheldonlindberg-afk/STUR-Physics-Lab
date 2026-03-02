@@ -395,7 +395,7 @@ Combining all derived quantities:
 g_eff = (2π/3)² × N(0) × L_eff / ℏc
 ```
 
-All quantities are derived from M_Planck + Z₃ geometry.
+All quantities are derived from M_Planck + ∞-helix geometry.
 
 ### 7.3 Comparison with BCS
 
@@ -493,7 +493,7 @@ where:
 
 | Quantity | Value | Source | Status |
 |----------|-------|--------|--------|
-| L_X (fundamental) | ~10⁻³² m | Z₃ winding | DERIVED |
+| L_X (fundamental) | ~10⁻³² m | ∞-helix winding | DERIVED |
 | L_eff (coherence) | ~0.8 μm | Casimir-holonomy | DERIVED |
 | M_KK | 0.25 eV | ℏc/L_eff | DERIVED |
 | χ | -2π/(3L_X) | Helix stability | DERIVED |
@@ -509,7 +509,7 @@ The STUR ambient temperature superconductor prediction is now **fully derived fr
 
 **ONE INPUT:** M_Planck = 1.22 × 10¹⁹ GeV
 
-**ONE GEOMETRY:** Z₃ helix on M⁴ × S¹
+**ONE GEOMETRY:** infinity helix on M⁴ × S¹
 
 **OUTPUT:** T_c ≈ 400 K (ambient temperature superconductivity)
 
@@ -519,7 +519,7 @@ The effective coupling g_eff is no longer an assumption - it emerges from the R-
 
 ## References
 
-1. DERIVATION_CHAIN_HELIX.md - Master derivation chain
+1. DERIVATION_CHAIN_INFINITY.md - Master derivation chain
 2. LX_CASIMIR_HOLONOMY_DERIVATION.md - L_eff derivation
 3. XCRM_YUKAWA_SYMMETRY_DERIVATION.md - y = |χ|·L_X derivation
 4. scripts/stur_superconductor.html - Interactive ATS simulation

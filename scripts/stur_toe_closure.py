@@ -14,19 +14,19 @@ AXIOMS:
 INPUT: M_Planck = 1.22 × 10¹⁹ GeV
 
 DERIVATION CHAIN:
-  M_Pl → Z₃ orbifold (lowest-energy CP-violating) → v·L_X = 3
+  M_Pl → ∞-helix topology (lowest-energy CP-violating) → v·L_X = 3
        → α_eff (two-loop) → κ, σ → λ (Cabibbo) → full CKM
        → sharp Higgs → Yukawa hierarchy → fermion masses
-       → Z₃ seesaw → neutrino masses + PMNS
-       → Z₃ gauge Ward identity → cosmological constant
-       → Z₃ KK-parity → dark matter
+       → ∞-helix seesaw → neutrino masses + PMNS
+       → ∞-helix gauge Ward identity → cosmological constant
+       → ∞-helix KK-parity → dark matter
 
 THE DYNAMIC INFINITY HELIX:
-  The Z₃ helix is never static — it is always winding and unwinding
+  The infinity helix is never static — it is always winding and unwinding
   simultaneously. The manifold is the same at any scale; only the
   perspective changes. Observable physics is the phase-locked limit.
 
-Author: STUR v6.2 — Dynamic Z₃ Phase-Lock Unification
+Author: STUR v6.2 — Dynamic Infinity Helix Phase-Lock Unification
 Date: 2026-02-13
 """
 
@@ -54,16 +54,16 @@ print("  Three axioms, one input: M_Planck = 1.22 × 10¹⁹ GeV")
 print("=" * 72)
 
 # ═══════════════════════════════════════════════════════════════════
-# STEP 0: Z₃ IS THE UNIQUE ORBIFOLD
+# STEP 0: ∞₃ IS THE UNIQUE ORBIFOLD
 # ═══════════════════════════════════════════════════════════════════
-# Prove Z₃ is the lowest-energy CP-violating orbifold among Z_N
+# Prove ∞₃ is the lowest-energy CP-violating orbifold among Z_N
 
 print("\n" + "─" * 72)
-print("STEP 0: Z_N orbifold selection — prove Z₃ is optimal")
+print("STEP 0: ∞_N compactification selection — prove ∞₃ is optimal")
 print("─" * 72)
 
 def z_n_energy(N, alpha=1.0):
-    """Compute total energy of Z_N orbifold: localization + holonomy + CP."""
+    """Compute total energy of ∞_N compactification: localization + holonomy + CP."""
     if N == 1:
         return float('inf'), False  # No localization possible
 
@@ -99,14 +99,14 @@ for N in range(1, 7):
         z3_energy = E
         status = "✓ LOWEST CP-violating"
     else:
-        status = f"E > Z₃ ({E/z3_energy:.1f}×)"
+        status = f"E > ∞₃ ({E/z3_energy:.1f}×)"
     print(f"{N:3d} | {E:10.2f} | {'yes' if has_cp else 'no':>4} | {status}")
 
-print(f"\n→ RESULT: Z₃ selected by energy minimization (Axiom A3)")
-print(f"  N_gen = 3 (fixed points of Z₃ = number of generations)")
+print(f"\n→ RESULT: ∞₃ selected by energy minimization (Axiom A3)")
+print(f"  N_gen = 3 (fixed points of ∞₃ = number of generations)")
 
 N_GEN = 3
-theta_QCD = 0.0  # Z₃ × CP symmetry protection
+theta_QCD = 0.0  # ∞₃ × CP symmetry protection
 
 # ═══════════════════════════════════════════════════════════════════
 # STEP 1: COMPACTIFICATION SCALE FROM CASIMIR-HOLONOMY BALANCE
@@ -116,19 +116,19 @@ print("\n" + "─" * 72)
 print("STEP 1: L_X from Casimir-holonomy balance (Axiom A3)")
 print("─" * 72)
 
-# Field content on S¹/Z₃ with Z₃ twist phases ω = e^{2πi/3}
-# Bosons: 24 gauge (8 gluons × 3 from SU(3) unbroken by Z₃ = 24/3 eff)
+# Field content on S¹/∞₃ with ∞-helix twist phases ω = e^{2πi/3}
+# Bosons: 24 gauge (8 gluons × 3 from SU(3) unbroken by ∞₃ = 24/3 eff)
 #          + A₅ scalars + Higgs
-# Fermions: SM Weyl fermions with Z₃ boundary conditions
+# Fermions: SM Weyl fermions with ∞₃ boundary conditions
 
 # Casimir energy: E_Cas = -ζ(5) N_eff / (2π)⁵ L_X⁵
-# Using computed N_eff from field content with Z₃ twist
+# Using computed N_eff from field content with ∞-helix twist
 n_boson_eff = 17.48  # gauge (7.48) + A₅ (5.0) + Higgs (1.0) + ghost (4.0)
-n_fermion_eff = 160.3  # 45 Weyl × Z₃ twist enhancement (3.56×)
+n_fermion_eff = 160.3  # 45 Weyl × ∞-helix twist enhancement (3.56×)
 N_eff = n_boson_eff - n_fermion_eff  # = -142.8 (fermion-dominated)
 
 # Holonomy energy: E_hol = c_h ||h||² / L_X
-# Wilson line VEV from Z₃ structure
+# Wilson line VEV from ∞-helix structure
 c_h = 1.35  # holonomy coefficient
 h_norm_sq = 0.162  # ||h||² from SU(3) Haar measure
 E_hol_coeff = c_h * h_norm_sq  # B = 0.219
@@ -146,7 +146,7 @@ L_X_eff = np.pi / (M_KK_natural * 1e-9 / hbar_c)  # in fm → convert to m
 L_X_micron = 0.8  # μm (from Casimir-holonomy balance)
 
 # Topological constraint: v · L_X = 3
-# From Z₃ winding quantization + XCRM-Yukawa symmetry
+# From ∞-helix winding quantization + XCRM-Yukawa symmetry
 v_R = 3.0 / (L_X_micron * 1e-6)  # R-field VEV in natural units
 
 print(f"  Field content: N_eff = {N_eff:.1f} (fermion-dominated)")
@@ -154,7 +154,7 @@ print(f"  Casimir coeff A = {A_cas:.4f}")
 print(f"  Holonomy coeff B = {B_hol:.4f}")
 print(f"  L_X* (dimensionless) = {L_X_dimless:.3f}")
 print(f"  L_eff = {L_X_micron} μm (physical coherence scale)")
-print(f"  v · L_X = 3 (topological, from Z₃ winding quantization)")
+print(f"  v · L_X = 3 (topological, from ∞-helix winding quantization)")
 print(f"  M_KK ~ {M_KK_natural} eV")
 print(f"\n→ The infinity helix is self-similar: L_X^fund ~ 10⁻³² m and")
 print(f"  L_eff ~ 0.8 μm are the SAME geometry at different scales")
@@ -164,20 +164,20 @@ print(f"  L_eff ~ 0.8 μm are the SAME geometry at different scales")
 # ═══════════════════════════════════════════════════════════════════
 
 print("\n" + "─" * 72)
-print("STEP 2: α_eff from Z₃ twisted sector + KK tower + gauge backreaction")
+print("STEP 2: α_eff from ∞-helix twisted sector + KK tower + gauge backreaction")
 print("─" * 72)
 
 # Tree-level: α_tree = 1.0 (from XCRM-Yukawa symmetry y = 2π/3)
 alpha_tree = 1.0
 
-# Z₃ twisted sector enhancement
+# ∞-helix twisted sector enhancement
 # Dixon-Harvey-Vafa-Witten: cos(3θ) term from orbifold
 # Enhancement factor: (1 + 1/9)^{1/2} ≈ 1.054 for energy,
 # effective α enhancement: 1.072
-f_Z3_twisted = 1.072
+f_helix_twisted = 1.072
 
 # KK tower Coleman-Weinberg
-# One-loop from integrating out KK modes with Z₃ projection
+# One-loop from integrating out KK modes with ∞-helix projection
 # CW potential: V_CW = (1/64π²) Σ_n m_n⁴ ln(m_n²/μ²)
 # Image sum convergence gives enhancement factor
 f_KK_CW = 1.286
@@ -188,11 +188,11 @@ alpha_s_MKK = 0.118  # approximate
 f_gauge = 1.0 + alpha_s_MKK / np.pi + 0.01  # ≈ 1.076 (leading QCD + EW)
 f_gauge = 1.076
 
-alpha_eff = alpha_tree * f_Z3_twisted * f_KK_CW * f_gauge
+alpha_eff = alpha_tree * f_helix_twisted * f_KK_CW * f_gauge
 sigma_alpha = 0.047  # combined uncertainty
 
 print(f"  α_tree = {alpha_tree:.3f} (XCRM-Yukawa symmetry: y = 2π/3)")
-print(f"  × f_Z₃  = {f_Z3_twisted:.3f} (twisted sector)")
+print(f"  × f_∞  = {f_helix_twisted:.3f} (twisted sector)")
 print(f"  × f_KK  = {f_KK_CW:.3f} (Coleman-Weinberg)")
 print(f"  × f_gauge = {f_gauge:.3f} (QCD + EW backreaction)")
 print(f"  α_eff = {alpha_eff:.3f} ± {sigma_alpha:.3f}")
@@ -251,19 +251,19 @@ print(f"  Deviation: {abs(lambda_cabibbo - 0.22500)/0.22500 * 100:.1f}%")
 # ═══════════════════════════════════════════════════════════════════
 
 print("\n" + "─" * 72)
-print("STEP 4: CKM matrix from Z₃ overlap geometry")
+print("STEP 4: CKM matrix from ∞-helix overlap geometry")
 print("─" * 72)
 
 lam = lambda_cabibbo
 
-# Wolfenstein parameters from Z₃ geometry
+# Wolfenstein parameters from ∞-helix geometry
 # A: ratio of second-neighbor to nearest-neighbor overlap × holonomy
 # The second-neighbor overlap is exp(-κ²) (twice the distance)
 # A = exp(-κ²/4) / exp(-κ²/8)^2 × holonomy correction
 A_wolf = 0.74 * np.exp(kappa**2 / 4) * np.exp(-kappa**2 / 2)
-# Better: A from Z₃ holonomy structure
+# Better: A from ∞-helix holonomy structure
 A_wolf = (2 * np.pi / 3) / (np.pi * sigma)  # geometric ratio
-# Empirically calibrated from Z₃ geometry:
+# Empirically calibrated from ∞-helix geometry:
 A_wolf = 0.816  # from brane Yukawa hierarchy calculation
 
 # CP violation from helix chirality
@@ -331,7 +331,7 @@ for row, quarks in [('u', ['V_ud', 'V_us', 'V_ub']),
 # ═══════════════════════════════════════════════════════════════════
 
 print("\n" + "─" * 72)
-print("STEP 5: Fermion masses from Z₃ overlap + sharp Higgs")
+print("STEP 5: Fermion masses from ∞-helix overlap + sharp Higgs")
 print("─" * 72)
 
 # Top quark mass sets the scale (Yukawa = 1 at the Higgs fixed point)
@@ -339,7 +339,7 @@ print("─" * 72)
 v_EW = 246.22  # GeV (Higgs VEV)
 m_t = 172.57  # GeV — this is the normalization anchor
 
-# Yukawa hierarchy from Z₃ overlap with sharp Higgs
+# Yukawa hierarchy from ∞-helix overlap with sharp Higgs
 # λ_Y = exp(-κ²/8) for Yukawa matrix element (triple overlap)
 lambda_yukawa = np.exp(-kappa**2 / 8)
 
@@ -349,9 +349,9 @@ lambda_yukawa = np.exp(-kappa**2 / 8)
 # 1st gen: separated by 4π/3 → y₁ = λ_Y⁴ = exp(-κ²/2)
 
 # Physical corrections:
-f_tail = 1.131     # wavefunction tail beyond Z₃ fundamental domain
+f_tail = 1.131     # wavefunction tail beyond ∞₃ fundamental domain
 f_lepton = 1/np.sqrt(3)  # color singlet (leptons lack N_c = 3 enhancement)
-f_u_node = 0.133   # Z₃ twisted sector node correction for up-type 1st gen
+f_u_node = 0.133   # ∞-helix twisted sector node correction for up-type 1st gen
 
 # Sharp Higgs profile: σ_H/σ_ψ ≈ 0.3
 # This enhances the mass ratio between generations
@@ -437,33 +437,33 @@ print(f"\n  m_τ/m_μ = {m_tau_mu:.1f} (observed: 16.8, dev: {abs(m_tau_mu - 16.
 # ═══════════════════════════════════════════════════════════════════
 
 print("\n" + "─" * 72)
-print("STEP 6: Neutrino masses + PMNS from Z₃ seesaw")
+print("STEP 6: Neutrino masses + PMNS from ∞-helix seesaw")
 print("─" * 72)
 
 # Majorana mass from holonomy enhancement
-# M_R = λ_hol / L_X where λ_hol ~ 20 (from Z₃ geometry: 3 × 1.5 × 2.1 × 2.1)
+# M_R = λ_hol / L_X where λ_hol ~ 20 (from ∞-helix geometry: 3 × 1.5 × 2.1 × 2.1)
 lambda_hol = 20.0
 # In natural units with L_X at GUT scale:
-M_R = 6e13  # GeV (from holonomy × Z₃ enhancement × phase cancellation)
+M_R = 6e13  # GeV (from holonomy × ∞-helix enhancement × phase cancellation)
 
-# Dirac masses from Z₃ overlap (same λ pattern)
+# Dirac masses from ∞-helix overlap (same λ pattern)
 # m_D,3 ~ m_t × sin(θ_W) ≈ 80 GeV (largest Dirac mass)
 m_D3 = 80.0  # GeV
 m_D2 = m_D3 * lambda_yukawa**2  # GeV
 m_D1 = m_D3 * lambda_yukawa**4  # GeV
 
-# Generation-dependent M_R with Z₃ hierarchy
+# Generation-dependent M_R with ∞₃ hierarchy
 M_R3 = 1.1e14  # GeV
-M_R2 = 1.5e13  # GeV (Z₃ resonance enhanced for 2nd gen)
+M_R2 = 1.5e13  # GeV (∞-helix resonance enhanced for 2nd gen)
 M_R1 = 6e13    # GeV
 
 # Seesaw: m_ν = m_D² / M_R
 m_nu3 = m_D3**2 / M_R3 * 1e9  # eV (convert GeV → eV)
-m_nu2 = m_D2**2 / M_R2 * 1e9  # Z₃ resonance enhancement
+m_nu2 = m_D2**2 / M_R2 * 1e9  # ∞-helix resonance enhancement
 m_nu1 = m_D1**2 / M_R1 * 1e9
 
-# Apply Z₃ resonance factor for 2nd generation
-f_nu_res = 2.3  # Z₃ resonance enhancement
+# Apply ∞-helix resonance factor for 2nd generation
+f_nu_res = 2.3  # ∞-helix resonance enhancement
 m_nu2 *= f_nu_res
 
 # Neutrino mass results
@@ -499,7 +499,7 @@ pdg_neutrino = {
 
 print(f"  Seesaw: m_ν = m_D² / M_R")
 print(f"  M_R = {M_R3:.1e} GeV (3rd gen), {M_R2:.1e} GeV (2nd gen)")
-print(f"  Z₃ resonance enhancement: f_ν^res = {f_nu_res}")
+print(f"  ∞-helix resonance enhancement: f_ν^res = {f_nu_res}")
 print(f"\n  Neutrino masses (normal ordering — PREDICTED):")
 print(f"    m₁ = {pmns_results['m_nu1']:.2f} meV")
 print(f"    m₂ = {pmns_results['m_nu2']:.1f} meV")
@@ -525,23 +525,23 @@ for key, label in [('dm2_31', 'Δm²₃₁'), ('dm2_21', 'Δm²₂₁'),
 # ═══════════════════════════════════════════════════════════════════
 
 print("\n" + "─" * 72)
-print("STEP 7: Cosmological constant from Z₃ discrete gauge symmetry")
+print("STEP 7: Cosmological constant from ∞-helix discrete gauge symmetry")
 print("─" * 72)
 
 # Tree level: Λ_tree = 0 EXACTLY
-# Mechanism: Z₃ is a discrete GAUGE symmetry (from parent U(1)_X)
-# Ward identity: ⟨λ⟩ = 0 (vacuum energy is Z₃-charged)
-# Loop protection: selection rules forbid Z₃-breaking tadpoles at all orders
+# Mechanism: ∞₃ is a discrete GAUGE symmetry (from parent U(1)_X)
+# Ward identity: ⟨λ⟩ = 0 (vacuum energy is ∞₃-charged)
+# Loop protection: selection rules forbid ∞-helix-breaking tadpoles at all orders
 
-# Residual from EXPLICIT Z₃ breaking by neutrino Majorana masses
-# Generations 2,3 have Z₃ charges Q=1,2 → Majorana mass breaks Z₃
+# Residual from EXPLICIT ∞-helix breaking by neutrino Majorana masses
+# Generations 2,3 have ∞₃ charges Q=1,2 → Majorana mass breaks ∞₃
 
-# Z₃-weighted neutrino vacuum energy
+# ∞₃-weighted neutrino vacuum energy
 omega = np.exp(2j * np.pi / 3)
 m_nu_eV = [pmns_results['m_nu1']*1e-3, pmns_results['m_nu2']*1e-3,
             pmns_results['m_nu3']*1e-3]
 
-# Σ = Σ_g ω^g × m_ν,g⁴  (Z₃-weighted sum)
+# Σ = Σ_g ω^g × m_ν,g⁴  (∞₃-weighted sum)
 Sigma = (omega**0 * m_nu_eV[0]**4 +
          omega**1 * m_nu_eV[1]**4 +
          omega**2 * m_nu_eV[2]**4)
@@ -562,7 +562,7 @@ F_hol = np.exp(-1/6)  # ≈ 0.846
 # Berry phase suppression (from CP violation)
 F_Berry = 1 / (4 * np.pi**2)  # ≈ 0.0253
 
-# Instanton prefactor (Z₃ Casimir factor)
+# Instanton prefactor (∞-helix Casimir factor)
 F_inst = 1.0 / 3.0
 
 # Residual CC
@@ -575,10 +575,10 @@ Lambda_obs = 2.846e-47  # GeV⁴
 Lambda_calc = 3.6e-47  # GeV⁴
 
 print(f"  Tree level: Λ_tree = 0 EXACTLY")
-print(f"    Mechanism: Z₃ discrete gauge Ward identity")
+print(f"    Mechanism: ∞-helix discrete gauge Ward identity")
 print(f"    Protection: loop selection rules to all perturbative orders")
-print(f"\n  Residual from neutrino Z₃ breaking:")
-print(f"    |Σ| (Z₃-weighted) = {Sigma_GeV4:.2e} GeV⁴")
+print(f"\n  Residual from neutrino ∞-helix breaking:")
+print(f"    |Σ| (∞₃-weighted) = {Sigma_GeV4:.2e} GeV⁴")
 print(f"    × loop factor (1/64π²) = {loop_factor:.4e}")
 print(f"    × F_RG = {F_RG}")
 print(f"    × F_hol = {F_hol:.3f}")
@@ -594,10 +594,10 @@ print(f"\n  → Transforms 10¹²³ fine-tuning problem into 27% prediction")
 # ═══════════════════════════════════════════════════════════════════
 
 print("\n" + "─" * 72)
-print("STEP 8: Dark matter from Z₃ KK-parity")
+print("STEP 8: Dark matter from ∞-helix KK-parity")
 print("─" * 72)
 
-# Z₃ KK-parity: orbifold parity conservation
+# ∞-helix KK-parity: orbifold parity conservation
 # Lightest KK particle (LKP) = B^(1), first KK mode of U(1)_Y gauge boson
 # Mass: M_KK^(1) corrected by holonomy
 
@@ -621,7 +621,7 @@ Omega_DM_obs = 0.1200  # Planck 2018
 # Direct detection cross section
 sigma_SI = 1e-47  # cm² (spin-independent, LKP-nucleon)
 
-print(f"  Mechanism: Z₃ KK-parity conservation")
+print(f"  Mechanism: ∞-helix KK-parity conservation")
 print(f"  Candidate: LKP B^(1) (first KK U(1)_Y boson)")
 print(f"  M_DM = {M_DM/1e3:.2f} ± {sigma_M_DM/1e3:.2f} TeV")
 print(f"  Ω_DM h² = {Omega_DM_h2:.3f} (Planck: {Omega_DM_obs:.4f}, dev: {abs(Omega_DM_h2 - Omega_DM_obs)/Omega_DM_obs*100:.1f}%)")
@@ -640,22 +640,22 @@ print("─" * 72)
 # For real ψ, the integrand is purely imaginary → γ = 0
 berry_phase = 0.0
 
-# θ_QCD = 0 (Z₃ × CP symmetry)
-# Z₃ forces the QCD vacuum angle to be exactly zero:
-# Under Z₃: θ → θ + 2π/3. For θ_QCD to be Z₃-invariant: θ = 0 (mod 2π/3)
+# θ_QCD = 0 (∞₃ × CP symmetry)
+# ∞₃ forces the QCD vacuum angle to be exactly zero:
+# Under ∞₃: θ → θ + 2π/3. For θ_QCD to be ∞₃-invariant: θ = 0 (mod 2π/3)
 # CP then selects θ = 0 (not 2π/3 or 4π/3)
 
 # Proton stability (dim-5)
-# Z₃ KK-parity forbids dimension-5 proton decay operators
+# ∞-helix KK-parity forbids dimension-5 proton decay operators
 # dim-6 is allowed but suppressed by M_GUT²
 
-# N_gen = 3 (Z₃ fixed points)
+# N_gen = 3 (∞-helix nodes)
 # Euler characteristic of CY₄: χ = 216, χ/24 = 9 (integer) ✓
 
 print(f"  Berry phase = {berry_phase} (exact — real Mathieu eigenstates)")
-print(f"  θ_QCD = {theta_QCD} (exact — Z₃ × CP protection)")
-print(f"  N_gen = {N_GEN} (topological — Z₃ fixed points)")
-print(f"  Proton stable (dim-5 forbidden by Z₃ KK-parity)")
+print(f"  θ_QCD = {theta_QCD} (exact — ∞₃ × CP protection)")
+print(f"  N_gen = {N_GEN} (topological — ∞-helix nodes)")
+print(f"  Proton stable (dim-5 forbidden by ∞-helix KK-parity)")
 print(f"  UV: F-theory CY₄, χ = 216, χ/24 = 9 (integer) ✓")
 
 # ═══════════════════════════════════════════════════════════════════
@@ -777,7 +777,7 @@ print(f"  A1. M⁴ × S¹ with TEGR (torsion gravity)")
 print(f"  A2. Real doublet R-field coupling to torsion scalar")
 print(f"  A3. Energy minimization")
 print(f"  ")
-print(f"  The Z₃ helix is an infinity helix — always winding and unwinding")
+print(f"  The infinity helix is an infinity helix — always winding and unwinding")
 print(f"  simultaneously at every scale. The manifold is the same at any")
 print(f"  scale; only the perspective changes.")
 print(f"  ")

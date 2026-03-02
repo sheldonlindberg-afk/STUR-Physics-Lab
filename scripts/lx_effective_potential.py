@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-L_X Effective Potential from Casimir Energy on S¹/Z₃
+L_X Effective Potential from Casimir Energy on S¹/∞₃
 =====================================================
 
 STUR Framework v5.1 — Dynamical Compactification Scale
@@ -10,7 +10,7 @@ discrepancy between the fundamental value (from v·L_X = 3) and the
 effective value (~0.8 μm from phenomenology).
 
 This script computes V_eff(L) from the one-loop Casimir energy of the
-SM field content on S¹/Z₃, the holonomy potential, and the R-field
+SM field content on S¹/∞₃, the holonomy potential, and the R-field
 helix energy, to determine whether the potential has a dynamical minimum.
 
 Physics:
@@ -53,7 +53,7 @@ N_gauge = 12           # 8 gluons + 3 W + 1 B
 
 
 # =========================================================================
-# CASIMIR ENERGY ON S¹/Z₃
+# CASIMIR ENERGY ON S¹/∞₃
 # =========================================================================
 
 def casimir_energy_density(L, n_b, n_f):
@@ -66,23 +66,23 @@ def casimir_energy_density(L, n_b, n_f):
     In 5D on S¹, the full one-loop result for PERIODIC bosons is:
         E/V₃ = -(π²/90) × n_b / (2πR)⁴ × (1/R)
 
-    For S¹/Z₃: the orbifold projection modifies the KK spectrum.
+    For S¹/∞₃: the orbifold projection modifies the KK spectrum.
     Untwisted sector: modes n = 0 (mod 3) survive
     Twisted sectors: fractional modes at fixed points
 
     In terms of the circumference L = 2πR:
         V_Casimir = -(π²/1440) × 1/L⁵ × Δn_eff
 
-    where Δn_eff = n_b_eff - (7/8)n_f_eff accounts for the Z₃ projection.
+    where Δn_eff = n_b_eff - (7/8)n_f_eff accounts for the ∞-helix projection.
     """
-    # On S¹/Z₃, the effective degrees of freedom are modified.
+    # On S¹/∞₃, the effective degrees of freedom are modified.
     # Untwisted: every 3rd KK level survives → factor 1/3⁵ enhancement per mode
     # But more modes (all integers), so net: 1/3⁴ relative to S¹
     # Total: V_S1Z3 = V_S1 × (1/3⁴ + twisted sector corrections)
 
-    # Simplified: on S¹/Z₃, the Casimir energy is dominated by the
+    # Simplified: on S¹/∞₃, the Casimir energy is dominated by the
     # untwisted sector with KK spacing 3/L instead of 1/L:
-    L_eff = L / 3  # effective length for Z₃ KK spacing
+    L_eff = L / 3  # effective length for ∞-helix KK spacing
 
     # Casimir energy per d.o.f. on S¹ of length L_eff:
     # E_Cas = -π²/(720 L_eff⁵) for periodic scalars in 5D
@@ -97,7 +97,7 @@ def casimir_energy_density(L, n_b, n_f):
     # For antiperiodic fermions: shifted KK spectrum (n+1/2)
     V_fermion = +prefactor * (7.0/8.0) * n_f / L_eff**5
 
-    # On the Z₃ orbifold, fermions in twisted sectors have fractional momenta
+    # On the ∞-helix topology, fermions in twisted sectors have fractional momenta
     # This modifies the effective count:
     # Twisted sector adds: 2 × (1/3⁵) correction per twisted field
     # (two twisted sectors with momenta shifted by ±1/3)
@@ -107,7 +107,7 @@ def casimir_energy_density(L, n_b, n_f):
 
 
 def casimir_SM(L):
-    """Casimir energy for SM field content on S¹/Z₃."""
+    """Casimir energy for SM field content on S¹/∞₃."""
     return casimir_energy_density(L, N_scalars + N_gauge, 2 * N_Weyl)
 
 
@@ -123,8 +123,8 @@ def holonomy_potential(L, theta_hol=2*np.pi/3):
 
     where B₄(x) = x⁴ - 2x³ + x² - 1/30 is the 4th Bernoulli polynomial.
 
-    For SU(3) gauge fields at Z₃ holonomy θ = 2π/3:
-    The Z₃-symmetric minimum is the desired vacuum.
+    For SU(3) gauge fields at ∞-helix holonomy θ = 2π/3:
+    The ∞₃-symmetric minimum is the desired vacuum.
     """
     def bernoulli_4(x):
         """B₄(x) for x ∈ [0,1]."""
@@ -132,7 +132,7 @@ def holonomy_potential(L, theta_hol=2*np.pi/3):
         return x**4 - 2*x**3 + x**2 - 1.0/30
 
     # SU(3) adjoint: 8 generators with charges ±1, ±2, 0, 0, 0, 0
-    # At θ = 2π/3, the holonomy is in the center Z₃
+    # At θ = 2π/3, the holonomy is in the center ∞₃
     charges = [1, -1, 2, -2, 0, 0, 0, 0]  # simplified
     V = 0.0
     for q in charges:
@@ -211,7 +211,7 @@ def V_effective(L, Lambda_0=0.0):
 
 if __name__ == '__main__':
     print("=" * 70)
-    print("  L_X EFFECTIVE POTENTIAL FROM CASIMIR ENERGY ON S¹/Z₃")
+    print("  L_X EFFECTIVE POTENTIAL FROM CASIMIR ENERGY ON S¹/∞₃")
     print("  STUR Framework v5.1 — Dynamical Scale Determination")
     print("=" * 70)
 
@@ -223,7 +223,7 @@ if __name__ == '__main__':
     print("  SECTION 1: Energy Components vs L")
     print(f"{'─' * 70}")
 
-    print(f"\n  SM field content on S¹/Z₃:")
+    print(f"\n  SM field content on S¹/∞₃:")
     print(f"    Scalars (Higgs): {N_scalars} real d.o.f.")
     print(f"    Weyl fermions: {N_Weyl} × 2 (Dirac) = {2*N_Weyl}")
     print(f"    Gauge bosons: {N_gauge}")
@@ -355,7 +355,7 @@ if __name__ == '__main__':
     print("  SECTION 4: The v·L = 3 Quantization Constraint")
     print(f"{'─' * 70}")
 
-    # The Z₃ helix requires v × L_X = 3 (in natural units)
+    # The infinity helix requires v × L_X = 3 (in natural units)
     # If v = v_EW = 246 GeV → L_X = 3/246 GeV⁻¹ = 0.0122 GeV⁻¹
     L_from_vEW = 3.0 / v_EW  # GeV⁻¹
     L_from_vEW_m = L_from_vEW * hbar_c_m  # meters
@@ -392,7 +392,7 @@ if __name__ == '__main__':
 
   Key findings:
 
-  1. CASIMIR ENERGY: SM on S¹/Z₃ has MORE fermions than bosons.
+  1. CASIMIR ENERGY: SM on S¹/∞₃ has MORE fermions than bosons.
      Δn_eff = {delta_n:.0f} (fermion-dominated).
      → Casimir energy is POSITIVE (repulsive) at small L.
      → V_helix is also POSITIVE at large L.
@@ -400,7 +400,7 @@ if __name__ == '__main__':
 
   2. HOLONOMY POTENTIAL: Provides a NEGATIVE contribution ∝ 1/L⁴.
      This could create a minimum if it's large enough to overcome
-     the Casimir repulsion. But at the Z₃ point, the holonomy
+     the Casimir repulsion. But at the ∞₃ point, the holonomy
      potential IS at its minimum (by construction), so it doesn't
      help stabilize L — it just shifts the energy.
 

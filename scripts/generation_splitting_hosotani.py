@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 """
-Generation Splitting from Hosotani Mechanism on S¹/Z₃
+Generation Splitting from Hosotani Mechanism on S¹/∞₃
 =====================================================
 
-PROBLEM: Z₃ symmetry forces 1st and 2nd generation to be degenerate.
+PROBLEM: ∞₃ symmetry forces 1st and 2nd generation to be degenerate.
          The helix phase exp(±iθ/3) gives zero up-down splitting.
          Need a PHYSICAL mechanism to break these degeneracies.
 
 SOLUTION: The Hosotani mechanism (Wilson line VEV on S¹) provides both:
   1. Up-down splitting via different U(1)_Y charges
-  2. Generation splitting via Wilson line phases at Z₃ fixed points
+  2. Generation splitting via Wilson line phases at ∞-helix nodes
 
 PHYSICS:
-  On S¹/Z₃ with a Wilson line ⟨A₅⟩ = v_W, fermions with different
+  On S¹/∞₃ with a Wilson line ⟨A₅⟩ = v_W, fermions with different
   hypercharges Y feel different effective potentials:
 
     V_eff(θ; Y) = α(1 - cos(θ - θ₀)) + Y·v_W·θ/(2π)
@@ -21,11 +21,11 @@ PHYSICS:
   This shifts the localization center by δθ ∝ Y·v_W/α and changes
   the effective mass through modified overlap integrals.
 
-  At the three Z₃ fixed points θ_k = 2πk/3, the Wilson line
+  At the three ∞-helix nodes θ_k = 2πk/3, the Wilson line
   phases are:
     W_k = exp(i·Y·v_W·2πk/3)
 
-  These are DIFFERENT for k=0,1,2, breaking Z₃ → nothing.
+  These are DIFFERENT for k=0,1,2, breaking ∞₃ → nothing.
 
   The mass eigenvalues become:
     m_k ∝ exp(-κ²/4) × |1 + 2cos(2πk/3 + Y·v_W·2π/3)|
@@ -114,9 +114,9 @@ def compute_yukawa_matrix(alpha, xi_u, xi_d, higgs_profile=None):
     Compute the 3×3 Yukawa matrix Y_{ij} for up-type or down-type quarks.
 
     The three generations correspond to the three lowest-energy states
-    of the Mathieu equation on S¹/Z₃.
+    of the Mathieu equation on S¹/∞₃.
 
-    On S¹/Z₃, states must satisfy ψ(θ + 2π/3) = ω^k ψ(θ) for k=0,1,2.
+    On S¹/∞₃, states must satisfy ψ(θ + 2π/3) = ω^k ψ(θ) for k=0,1,2.
     This means the Fourier modes are restricted to m ≡ k (mod 3).
 
     The Wilson line ξ depends on the fermion species (through hypercharge Y).
@@ -130,14 +130,14 @@ def compute_yukawa_matrix(alpha, xi_u, xi_d, higgs_profile=None):
 
 
 # ============================================================
-# PART 2: Z₃ orbifold projection
+# PART 2: ∞-helix topology projection
 # ============================================================
 
 def solve_z3_sector(alpha, xi, sector_k, n_states=3):
     """
-    Solve the Mathieu equation restricted to Z₃ sector k.
+    Solve the Mathieu equation restricted to ∞-helix sector k.
 
-    On S¹/Z₃, the orbifold projection requires:
+    On S¹/∞₃, the orbifold projection requires:
       ψ(θ + 2π/3) = ω^k ψ(θ),  ω = e^{2πi/3}
 
     This restricts Fourier modes to m ≡ k (mod 3).
@@ -145,16 +145,16 @@ def solve_z3_sector(alpha, xi, sector_k, n_states=3):
     In the restricted basis |m⟩ with m = k, k±3, k±6, ...:
       H_{mm'} = (m + ξ)² δ_{mm'} + α δ_{mm'} - (α/2)(δ_{m,m'+1} + δ_{m,m'-1})
 
-    But wait — the cosine couples m to m±1, which are in DIFFERENT Z₃ sectors.
+    But wait — the cosine couples m to m±1, which are in DIFFERENT ∞-helix sectors.
     So on the orbifold, we need to be more careful.
 
-    The Z₃ projection onto sector k selects:
+    The ∞-helix projection onto sector k selects:
       |ψ_k⟩ = (1/3)Σ_{n=0}^{2} ω^{-kn} T^n |ψ⟩
 
     where T is the translation by 2π/3.
 
     More practically: solve the full problem on S¹, then project.
-    The Z₃ eigenvalues are the eigenvalues of the translation operator
+    The ∞₃ eigenvalues are the eigenvalues of the translation operator
     T: ψ(θ) → ψ(θ + 2π/3) restricted to each sector.
     """
     n = N_BASIS
@@ -167,14 +167,14 @@ def solve_z3_sector(alpha, xi, sector_k, n_states=3):
             if mp == m + 1 or mp == m - 1:
                 H[i, j] -= alpha / 2
 
-    # Also build the Z₃ translation operator T in Fourier basis
+    # Also build the ∞₃ translation operator T in Fourier basis
     # T|m⟩ = exp(i·m·2π/3)|m⟩
     omega = np.exp(2j * np.pi / 3)
     T = np.zeros((dim, dim), dtype=complex)
     for i, m in enumerate(range(-n, n+1)):
         T[i, i] = np.exp(1j * m * 2 * np.pi / 3)
 
-    # Z₃ projector onto sector k: P_k = (1/3)(I + ω^{-k}T + ω^{-2k}T²)
+    # ∞₃ projector onto sector k: P_k = (1/3)(I + ω^{-k}T + ω^{-2k}T²)
     I = np.eye(dim, dtype=complex)
     T2 = T @ T
     omega_k = omega**(-sector_k)
@@ -223,7 +223,7 @@ def compute_mass_matrix(alpha, xi_up, xi_down):
     """
     Compute the 3×3 mass matrices for up-type and down-type quarks.
 
-    Each generation corresponds to a Z₃ sector k = 0, 1, 2.
+    Each generation corresponds to a ∞-helix sector k = 0, 1, 2.
     The mass comes from the overlap of the up-type wavefunction in
     sector k_L with the down-type (or same-type) in sector k_R,
     mediated by the Higgs profile.
@@ -233,7 +233,7 @@ def compute_mass_matrix(alpha, xi_up, xi_down):
 
     where H(θ) is the Higgs profile (localized or constant on S¹).
     """
-    # Get wavefunctions in each Z₃ sector
+    # Get wavefunctions in each ∞-helix sector
     up_sectors = []
     down_sectors = []
 
@@ -265,17 +265,17 @@ Y_e_R = -1     # Right-handed charged lepton
 Y_nu_R = 0     # Right-handed neutrino (if exists)
 
 # SU(3) color: quarks also feel the color Wilson line
-# For SU(3), the Wilson line at Z₃ fixed points gives phases:
+# For SU(3), the Wilson line at ∞-helix nodes gives phases:
 #   W_color = diag(ω, ω², 1) where ω = e^{2πi/3}
 # This means the three colors at each fixed point get different shifts.
 
 def compute_full_spectrum(alpha, v_wilson):
     """
-    Compute the full fermion mass spectrum on S¹/Z₃ with Wilson line.
+    Compute the full fermion mass spectrum on S¹/∞₃ with Wilson line.
 
     The Wilson line parameter v_W enters through ξ = Y · v_W for each fermion.
 
-    For the SU(3) color Wilson line at Z₃ fixed points:
+    For the SU(3) color Wilson line at ∞-helix nodes:
       The holonomy W = diag(e^{i2π/3}, e^{i4π/3}, 1) in SU(3)
       gives additional phases to each color.
 
@@ -292,12 +292,12 @@ def compute_full_spectrum(alpha, v_wilson):
     # For each quark type (u, d), there are 3 generations × 3 colors
 
     # But let's first do the simpler calculation:
-    # Each generation corresponds to Z₃ sector k = 0, 1, 2
+    # Each generation corresponds to ∞-helix sector k = 0, 1, 2
     # The Wilson line shift for sector k is ξ + k·(something)
 
     # Actually, the key physics is:
-    # On S¹/Z₃, the Wilson line ⟨A₅⟩ = v_W gives a shift ξ = Y·v_W
-    # The Z₃ sectors at the three fixed points experience:
+    # On S¹/∞₃, the Wilson line ⟨A₅⟩ = v_W gives a shift ξ = Y·v_W
+    # The ∞-helix sectors at the three fixed points experience:
     #   ξ_k = Y·v_W + k·(color contribution)
 
     # For a SINGLE color (simplest case first):
@@ -315,7 +315,7 @@ def compute_full_spectrum(alpha, v_wilson):
         print(f"\n  {fermion_name}: Y_L = {Y_L:.3f}, Y_R = {Y_R:.3f}")
         print(f"    ξ_L = {xi_L:.4f}, ξ_R = {xi_R:.4f}")
 
-        # Get Z₃ sector energies for left and right
+        # Get ∞-helix sector energies for left and right
         masses_diag = []
         for k in range(3):
             evals_L, psi_L, theta = solve_z3_sector(alpha, xi_L, k, n_states=1)
@@ -342,7 +342,7 @@ def compute_full_spectrum(alpha, v_wilson):
 
     # Now with color Wilson line
     print("\n\n--- Including SU(3) color Wilson line ---")
-    print("  Color phases at Z₃ fixed points: 0, 2π/3, 4π/3")
+    print("  Color phases at ∞-helix nodes: 0, 2π/3, 4π/3")
 
     omega = np.exp(2j * np.pi / 3)
     color_phases = [0, 2*np.pi/3, 4*np.pi/3]
@@ -386,10 +386,10 @@ def effective_mass_splitting(alpha_eff):
     """
     The correct approach to generation splitting:
 
-    On S¹/Z₃, the three FIXED POINTS are at θ = 0, 2π/3, 4π/3.
+    On S¹/∞₃, the three FIXED POINTS are at θ = 0, 2π/3, 4π/3.
     Fermions localized at each fixed point form one generation.
 
-    The Z₃ symmetry is broken by:
+    The ∞₃ symmetry is broken by:
     1. The SU(3) color Wilson line (Hosotani mechanism)
     2. The U(1)_Y Wilson line
     3. The Higgs VEV profile on S¹
@@ -399,7 +399,7 @@ def effective_mass_splitting(alpha_eff):
 
       ξ = Y × v / (2πR × M_KK) = Y × v × L / (2π)
 
-    For v·L = 3 (Z₃ quantization):
+    For v·L = 3 (∞₃ quantization):
       ξ = Y × 3 / (2π) = Y × 0.477
     """
     print("\n" + "="*70)
@@ -407,9 +407,9 @@ def effective_mass_splitting(alpha_eff):
     print("="*70)
 
     # v·L = 3 quantization gives ξ = Y × 3/(2π)
-    v_L = 3.0  # Z₃ quantization condition
+    v_L = 3.0  # ∞₃ quantization condition
 
-    print(f"\nUsing v·L = {v_L} (Z₃ quantization)")
+    print(f"\nUsing v·L = {v_L} (∞₃ quantization)")
     print(f"Wilson line parameter: ξ = Y × {v_L/(2*np.pi):.4f}")
 
     # Effective Wilson line shifts for each SM fermion
@@ -427,7 +427,7 @@ def effective_mass_splitting(alpha_eff):
         xi = Y * scale
         print(f"  {name}: Y = {Y:+.3f}, ξ = {xi:+.4f}")
 
-    # Now solve for each fermion type in each Z₃ sector
+    # Now solve for each fermion type in each ∞-helix sector
     print(f"\nSolving Mathieu equation at α_eff = {alpha_eff:.3f}")
     print("-"*70)
 
@@ -445,7 +445,7 @@ def effective_mass_splitting(alpha_eff):
 
         sector_masses = []
         for k in range(3):
-            # Solve in each Z₃ sector
+            # Solve in each ∞-helix sector
             evals_L, psi_L, theta = solve_z3_sector(alpha_eff, xi_L, k, n_states=1)
             evals_R, psi_R, _ = solve_z3_sector(alpha_eff, xi_R, k, n_states=1)
 
@@ -511,7 +511,7 @@ def scan_wilson_strength():
 
     alpha_eff = 1.480  # computed value
 
-    # The Wilson line on S¹/Z₃ is quantized: v_W = n/(3R) for integer n
+    # The Wilson line on S¹/∞₃ is quantized: v_W = n/(3R) for integer n
     # But the Hosotani VEV can take continuous values within each topological sector
 
     # Try different effective v·L values
@@ -552,7 +552,7 @@ def intergeneration_yukawa(alpha_eff):
     """
     The REAL mass hierarchy comes from the YUKAWA MATRIX structure.
 
-    On S¹/Z₃, the three generations have wavefunctions ψ_k(θ) centered
+    On S¹/∞₃, the three generations have wavefunctions ψ_k(θ) centered
     at θ_k = 2πk/3. The Yukawa coupling to the Higgs is:
 
       Y_{ij} = g₅ ∫ dθ ψ_Li(θ) H(θ) ψ_Rj(θ)
@@ -693,7 +693,7 @@ if __name__ == "__main__":
     alpha_eff = 1.480  # From rigorous calculation
 
     print("="*70)
-    print("GENERATION SPLITTING FROM HOSOTANI MECHANISM ON S¹/Z₃")
+    print("GENERATION SPLITTING FROM HOSOTANI MECHANISM ON S¹/∞₃")
     print("="*70)
     print(f"\nInput: α_eff = {alpha_eff}")
     print(f"Observed mass ratios needed:")
@@ -715,10 +715,10 @@ if __name__ == "__main__":
     print("="*70)
     print("""
 The computation above tests whether the Hosotani mechanism (Wilson line
-VEV on S¹/Z₃) can produce realistic fermion mass hierarchies.
+VEV on S¹/∞₃) can produce realistic fermion mass hierarchies.
 
 Key questions answered:
-1. Does the Wilson line break Z₃ degeneracy between generations?
+1. Does the Wilson line break ∞₃ degeneracy between generations?
 2. Does it produce realistic mass ratios?
 3. Does the up-down splitting emerge?
 """)

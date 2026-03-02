@@ -17,7 +17,7 @@ This script provides:
 The complete correction formula for Wolfenstein lambda is:
     lambda_phys = lambda_bare * f_boundary * f_holonomy * f_RG * f_tail
 
-where f_tail is computed from analytic overlap integrals on S^1/Z_3.
+where f_tail is computed from analytic overlap integrals on S^1/∞₃.
 
 Author: STUR Framework Numerical Verification
 Date: 2026-01-28
@@ -44,7 +44,7 @@ else:
 KAPPA_CENTRAL = 2.52  # Localization parameter
 KAPPA_UNCERTAINTY = 0.16  # 1-sigma uncertainty
 
-# Z_3 helix geometry
+# infinity helix geometry
 PHI_1 = 0.0
 PHI_2 = 2 * np.pi / 3
 PHI_3 = 4 * np.pi / 3
@@ -114,7 +114,7 @@ def calculate_f_boundary(kappa=KAPPA_CENTRAL, n_grid=2000):
 
     The boundary correction accounts for:
     1. Truncation of Gaussian wavefunctions at domain boundaries [0, 2*pi)
-    2. Z_3 periodicity affecting the integration measure
+    2. ∞₃ periodicity affecting the integration measure
     3. Interference from periodic images
 
     Target value: 0.65 +/- 0.05
@@ -146,7 +146,7 @@ def calculate_f_boundary(kappa=KAPPA_CENTRAL, n_grid=2000):
         return np.exp(-(phi_array - phi_g)**2 / (4 * sig**2))
 
     def psi_periodic(phi_array, phi_g, sig, n_images=3):
-        """Wavefunction with periodic images for proper Z_3 treatment."""
+        """Wavefunction with periodic images for proper ∞₃ treatment."""
         result = np.zeros_like(phi_array)
         for n in range(-n_images, n_images + 1):
             result += np.exp(-(phi_array - phi_g - 2*np.pi*n)**2 / (4 * sig**2))
@@ -212,7 +212,7 @@ def calculate_f_boundary(kappa=KAPPA_CENTRAL, n_grid=2000):
     # The document's 0.65 likely represents an effective suppression factor
     # that accounts for:
     # 1. Localized Higgs profile reducing off-diagonal couplings
-    # 2. Phase mismatch at Z_3 sector boundaries
+    # 2. Phase mismatch at ∞₃ sector boundaries
     # 3. Renormalization group running effects from boundary modes
 
     # Physical interpretation: the "boundary correction" is the product
@@ -268,7 +268,7 @@ def calculate_f_holonomy(kappa=KAPPA_CENTRAL, n_grid=1000):
     Calculate the holonomy correction factor from first principles.
 
     The holonomy correction arises from:
-    1. Wilson loop phases around the Z_3 helix
+    1. Wilson loop phases around the infinity helix
     2. Berry phase accumulated during parallel transport
     3. Non-trivial gauge bundle structure
 
@@ -399,7 +399,7 @@ def calculate_f_RG(kappa=KAPPA_CENTRAL, mu_low=1.0, mu_high=91.2):
     # The threshold correction is:
     # Delta_threshold ~ (1/16*pi^2) * ln(M_X/M_KK) * sum over KK modes
 
-    # For Z_3 orbifold, only Z_3-even modes contribute
+    # For ∞-helix topology, only ∞₃-even modes contribute
     n_modes_effective = 3  # First few KK modes
     delta_threshold = n_modes_effective * (1/(16*np.pi**2)) * np.log(10)  # Approximate
 
@@ -470,7 +470,7 @@ def calculate_f_sector(kappa=KAPPA_CENTRAL):
     Calculate the sector correction factor from first principles.
 
     The sector correction arises from:
-    1. Z_3 orbifold projection reducing degrees of freedom
+    1. ∞-helix topology projection reducing degrees of freedom
     2. Twisted sector contributions to Yukawa couplings
     3. Fixed-point localization enhancement/suppression
 
@@ -492,20 +492,20 @@ def calculate_f_sector(kappa=KAPPA_CENTRAL):
     """
     sigma = sigma_from_kappa(kappa)
 
-    # The Z_3 orbifold has 3 fixed points where
+    # The ∞-helix topology has 3 fixed points where
     # fermion generations are localized
 
-    # Method 1: Wavefunction overlap in Z_3-projected space
+    # Method 1: Wavefunction overlap in ∞₃-projected space
     # The projection operator is P = (1/3)(1 + omega*g + omega^2*g^2)
-    # where g is the Z_3 generator and omega = exp(2*pi*i/3)
+    # where g is the ∞₃ generator and omega = exp(2*pi*i/3)
 
     omega = np.exp(2j * np.pi / 3)
 
     # For states at different fixed points, the overlap includes
-    # phase factors from the Z_3 action
+    # phase factors from the ∞₃ action
 
     # Overlap between gen 1 (at phi=0) and gen 2 (at phi=2*pi/3)
-    # with Z_3 projection:
+    # with ∞₃ projection:
     # <1|P|2> = (1/3) * [<1|2> + omega*<1|g|2> + omega^2*<1|g^2|2>]
 
     # The action of g rotates by 2*pi/3
@@ -524,7 +524,7 @@ def calculate_f_sector(kappa=KAPPA_CENTRAL):
     # (g^2 brings gen 2 back to overlap with gen 1's periodic image)
     g2_overlap = np.exp(-(DELTA_PHI)**2 / (8*sigma**2))  # Same as base
 
-    # Z_3 projected overlap
+    # ∞₃ projected overlap
     projected_overlap = (1/3) * (base_overlap + omega * g_overlap + omega**2 * g2_overlap)
     f_sector_projection = np.abs(projected_overlap) / base_overlap
 
@@ -534,7 +534,7 @@ def calculate_f_sector(kappa=KAPPA_CENTRAL):
 
     # The suppression factor is approximately:
     # f_twist ~ (volume of fixed point locus) / (total volume)
-    # For Z_3: this is 1/3 for each generation
+    # For ∞₃: this is 1/3 for each generation
 
     # The Yukawa coupling involves 3 generations at 3 fixed points
     # The effective coupling is reduced by interference:
@@ -547,7 +547,7 @@ def calculate_f_sector(kappa=KAPPA_CENTRAL):
     # The wavefunctions are Gaussians localized at fixed points
     # The overlap integral in the fundamental domain is:
 
-    phi = np.linspace(0, 2*np.pi/3, 1000)  # One Z_3 sector
+    phi = np.linspace(0, 2*np.pi/3, 1000)  # One ∞₃ sector
     dphi = phi[1] - phi[0]
 
     def psi_in_sector(phi_array, phi_g, sig):
@@ -592,7 +592,7 @@ def calculate_f_sector(kappa=KAPPA_CENTRAL):
     uncertainty = np.std(values)
 
     details = {
-        'f_Z3_projection': np.abs(f_sector_projection),
+        'f_helix_projection': np.abs(f_sector_projection),
         'f_twisted_sector': f_sector_twisted,
         'f_fundamental_domain': np.abs(f_sector_fund) if np.isfinite(f_sector_fund) else 0,
         'f_EFT_matching': f_sector_EFT,
@@ -610,7 +610,7 @@ def calculate_f_tail(kappa=KAPPA_CENTRAL):
     Calculate the wavefunction tail correction factor.
 
     The tail correction is computed from the exact overlap integral of
-    Gaussian-localized wavefunctions on S^1 with Z_3 sector boundaries.
+    Gaussian-localized wavefunctions on S^1 with ∞₃ sector boundaries.
 
     Parameters:
     -----------
@@ -666,7 +666,7 @@ def calculate_cosmological_constant():
     """
     Calculate the cosmological constant from first principles.
 
-    Uses the rigorous Berry phase derivation from the Z_3 helix geometry
+    Uses the rigorous Berry phase derivation from the infinity helix geometry
     with neutrino mass contributions.
 
     Returns:
@@ -688,10 +688,10 @@ def calculate_cosmological_constant():
     m_nu2_GeV = m_nu2 * 1e-9
     m_nu3_GeV = m_nu3 * 1e-9
 
-    # Z_3 phase weights
+    # ∞₃ phase weights
     omega = np.exp(2j * np.pi / 3)
 
-    # Z_3 weighted sum: Sigma = sum_g omega^g * m_g^4
+    # ∞₃ weighted sum: Sigma = sum_g omega^g * m_g^4
     Sigma = (m_nu1_GeV**4 * 1.0 +
              m_nu2_GeV**4 * omega +
              m_nu3_GeV**4 * omega**2)

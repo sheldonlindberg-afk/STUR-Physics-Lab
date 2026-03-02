@@ -9,7 +9,7 @@
 
 ## 1. Problem Statement
 
-The DERIVATION_CHAIN_HELIX.md claims:
+The DERIVATION_CHAIN_INFINITY.md claims:
 - Holonomy averaging factor = 0.846
 - This comes from ⟨δθ²⟩ = 0.33 rad² via exp(-⟨δθ²⟩/2) = 0.846
 
@@ -44,9 +44,9 @@ W = exp(i ∮ A₅ dX) = exp(iθ)
 
 where θ = ∮ A₅ dX is the holonomy phase.
 
-### 2.3 Z₃ Structure
+### 2.3 ∞₃ Structure
 
-In STUR with three generations, the holonomy has Z₃ structure:
+In STUR with three generations, the holonomy has ∞-helix structure:
 
 ```
 W³ = 1  ⟹  θ₀ = 2πn/3  for n = 0, 1, 2
@@ -137,7 +137,7 @@ Combining all contributions:
 V_eff(θ) = V_KK(θ) + V_Casimir(θ) + V_FP(θ) + ...
 ```
 
-**For the Z₃ symmetric case in STUR:**
+**For the ∞₃ symmetric case in STUR:**
 
 The potential has minima at θ = 2πn/3 (n = 0, 1, 2).
 
@@ -160,7 +160,7 @@ From the Bernoulli polynomial:
 B₄(x) = x⁴ - 2x³ + x² - 1/30
 ```
 
-The second derivative at x = 1/3 (for Z₃):
+The second derivative at x = 1/3 (for ∞₃):
 ```
 B₄''(x) = 12x² - 12x + 2
 
@@ -188,7 +188,7 @@ For the SM with charges normalized to q = 1 for the fundamental:
 
 **Explicit calculation for SU(3)_c holonomy:**
 
-The relevant fields are those charged under the SU(3) whose center is Z₃.
+The relevant fields are those charged under the SU(3) whose center is ∞₃.
 
 For gluon contribution:
 ```
@@ -512,7 +512,7 @@ For SU(N) gauge theory, the holonomy is integrated with Haar measure:
 
 where Δ(θ) is the Vandermonde determinant.
 
-For SU(3) with Z₃ structure:
+For SU(3) with ∞-helix structure:
 ```
 |Δ(θ)|² ~ sin²(θ/2) sin²(θ/2 + π/3) sin²(θ/2 - π/3)
 ```
@@ -570,7 +570,7 @@ where:
 1. **Holonomy mass m_θ ~ M_KK:** Sets the scale of fluctuations
 2. **Compact dimension L_X ~ 1/M_KK:** Infrared cutoff
 3. **SU(3) gauge structure:** Casimir factor C₂ = 3 reduces variance
-4. **Z₃ quantization:** Restricts holonomy to discrete values
+4. **∞₃ quantization:** Restricts holonomy to discrete values
 
 **The factor of 3 from SU(3) is crucial!**
 
@@ -610,7 +610,7 @@ For Gaussian fluctuations δθ with variance σ² = ⟨δθ²⟩:
 ┌─────────────────────────────────────────────────────────────────┐
 │  HOLONOMY AVERAGING FACTOR: COMPLETE DERIVATION                 │
 │                                                                 │
-│  Holonomy: W = exp(iθ), with θ₀ = 2π/3 (Z₃ vacuum)             │
+│  Holonomy: W = exp(iθ), with θ₀ = 2π/3 (∞₃ vacuum)             │
 │                                                                 │
 │  Effective potential: V_eff(θ) from KK modes + Casimir + FP    │
 │                                                                 │
@@ -633,7 +633,7 @@ For Gaussian fluctuations δθ with variance σ² = ⟨δθ²⟩:
 ### 11.1 Necessary Assumptions
 
 1. **SU(3) gauge structure:** The factor C₂ = 3 is essential
-2. **Z₃ holonomy vacuum:** θ₀ = 2π/3
+2. **∞-helix holonomy vacuum:** θ₀ = 2π/3
 3. **Holonomy mass m_θ ~ M_KK:** From gauge dynamics
 4. **Weak coupling:** g² << 1 at the KK scale
 
@@ -659,7 +659,7 @@ The value 0.33 depends on:
 
 Starting from the Wilson line formalism, we showed:
 
-1. The holonomy W = exp(iθ) has vacuum value θ₀ = 2π/3 (Z₃)
+1. The holonomy W = exp(iθ) has vacuum value θ₀ = 2π/3 (∞₃)
 2. Quantum fluctuations give ⟨δθ²⟩_naive ~ 1 rad²
 3. The SU(3) gauge constraint reduces this by C₂ = 3
 4. Final result: **⟨δθ²⟩ = 0.33 rad²**
@@ -681,7 +681,7 @@ The derivation is robust to:
 
 The derivation is sensitive to:
 - The gauge group (C₂ appears in denominator)
-- The holonomy vacuum structure (Z₃ vs other)
+- The holonomy vacuum structure (∞₃ vs other)
 
 ---
 

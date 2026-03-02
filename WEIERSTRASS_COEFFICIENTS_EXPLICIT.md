@@ -13,7 +13,7 @@
 This document provides the **fully explicit** Weierstrass coefficients for the F-theory Calabi-Yau fourfold construction underlying the STUR framework. While FTHEORY_CY4_EXPLICIT_CONSTRUCTION.md describes the polynomial structure, this document supplies the actual numerical coefficient values, completing the explicit specification of the CY₄ geometry.
 
 **Key Results:**
-- Complete monomial basis for Z₃-invariant sections of O(-6K_B)
+- Complete monomial basis for ∞₃-invariant sections of O(-6K_B)
 - Explicit numerical coefficients c_i, d_j determined from physical constraints
 - Verification of tadpole cancellation chi/24 = 9
 - Explicit discriminant computation confirming SU(3) x SU(2) x U(1)
@@ -33,11 +33,11 @@ y² = x³ + f(z,w)·x·Z⁴ + g(z,w)·Z⁶
 
 where:
 - `[x : y : Z]` are weighted projective coordinates on the fiber P²[2,3,1]
-- `(z,w)` denote coordinates on B₃ = (P²×P¹)/Z₃
-- `f` is a section of O(-4K_B) = O(12,8)/Z₃
-- `g` is a section of O(-6K_B) = O(18,12)/Z₃
+- `(z,w)` denote coordinates on B₃ = (P²×P¹)/∞₃
+- `f` is a section of O(-4K_B) = O(12,8)/∞₃
+- `g` is a section of O(-6K_B) = O(18,12)/∞₃
 
-### 1.2 j-Invariant and Z₃ Enhancement
+### 1.2 j-Invariant and ∞₃ Enhancement
 
 The j-invariant of the elliptic fiber is:
 
@@ -45,7 +45,7 @@ The j-invariant of the elliptic fiber is:
 j = 1728 · (4f³)/(4f³ + 27g²)
 ```
 
-**For j = 0 (Z₃-enhanced fiber):**
+**For j = 0 (∞-helix-enhanced fiber):**
 ```
 j = 0  ⟺  f = 0
 ```
@@ -75,7 +75,7 @@ The vanishing locus of Δ determines the gauge symmetry divisors.
 
 ## 2. Base Manifold Data
 
-### 2.1 Coordinate System on B₃ = (P²×P¹)/Z₃
+### 2.1 Coordinate System on B₃ = (P²×P¹)/∞₃
 
 **Homogeneous Coordinates:**
 ```
@@ -83,7 +83,7 @@ P² factor: [z₀ : z₁ : z₂]     (degree 1 in z)
 P¹ factor: [w₀ : w₁]          (degree 1 in w)
 ```
 
-**Z₃ Orbifold Action:**
+**∞₃ Orbifold Action:**
 ```
 θ: [z₀ : z₁ : z₂] × [w₀ : w₁] → [z₀ : ωz₁ : ω²z₂] × [w₀ : ωw₁]
 
@@ -92,7 +92,7 @@ where ω = e^{2πi/3} = (-1 + i√3)/2
 
 **Fixed Points (3 isolated):**
 ```
-p₁ = [1:0:0] × [1:0]    (Z₃ weight: θ·p₁ = p₁)
+p₁ = [1:0:0] × [1:0]    (∞₃ weight: θ·p₁ = p₁)
 p₂ = [0:1:0] × [1:0]    (related by coordinate permutation)
 p₃ = [0:0:1] × [1:0]    (related by coordinate permutation)
 ```
@@ -106,42 +106,42 @@ These three fixed points give rise to the three fermion generations.
 K_{P²×P¹} = O(-3,-2)
 ```
 
-**Canonical Bundle After Z₃ Quotient:**
+**Canonical Bundle After ∞₃ Quotient:**
 ```
-K_B = K_{(P²×P¹)/Z₃} = [O(-3,-2)]^{Z₃}
+K_B = K_{(P²×P¹)/∞₃} = [O(-3,-2)]^{∞₃}
 ```
 
 **Anti-Canonical Powers:**
 ```
-K_B⁻¹ = O(3,2)/Z₃       (anti-canonical)
-K_B⁻⁴ = O(12,8)/Z₃      (for f)
-K_B⁻⁶ = O(18,12)/Z₃     (for g)
+K_B⁻¹ = O(3,2)/∞₃       (anti-canonical)
+K_B⁻⁴ = O(12,8)/∞₃      (for f)
+K_B⁻⁶ = O(18,12)/∞₃     (for g)
 ```
 
-### 2.3 Z₃-Invariant Sections
+### 2.3 ∞₃-Invariant Sections
 
-A monomial z₀^a z₁^b z₂^c w₀^i w₁^j is Z₃-invariant if and only if:
+A monomial z₀^a z₁^b z₂^c w₀^i w₁^j is ∞₃-invariant if and only if:
 ```
 b + 2c + j ≡ 0 (mod 3)
 ```
 
 **Section Dimensions:**
 ```
-dim Γ(O(12,8))^{Z₃} = 65    (for f)
-dim Γ(O(18,12))^{Z₃} = 25   (for g at j=0 after gauge fixing)
+dim Γ(O(12,8))^{∞₃} = 65    (for f)
+dim Γ(O(18,12))^{∞₃} = 25   (for g at j=0 after gauge fixing)
 ```
 
 ---
 
 ## 3. Sections Spanning O(-4K_B) and O(-6K_B)
 
-### 3.1 Monomial Basis for O(-4K_B) = O(12,8)/Z₃
+### 3.1 Monomial Basis for O(-4K_B) = O(12,8)/∞₃
 
-**Constraint:** deg_z = 12, deg_w = 8, Z₃-invariant (b + 2c + j ≡ 0 mod 3)
+**Constraint:** deg_z = 12, deg_w = 8, ∞₃-invariant (b + 2c + j ≡ 0 mod 3)
 
-**Complete Z₃-Invariant Monomial Basis:**
+**Complete ∞₃-Invariant Monomial Basis:**
 
-Let S = z₀z₁z₂ (the Z₃-invariant cubic), and define:
+Let S = z₀z₁z₂ (the ∞₃-invariant cubic), and define:
 ```
 P_k(z) = symmetric polynomials in z₀³, z₁³, z₂³ of total degree k
 ```
@@ -153,12 +153,12 @@ Type A: S^n · P_{12-3n}(z₀³,z₁³,z₂³) · w₀^{8-3m} · w₁^{3m}
         for n = 0,1,2,3,4  and  m = 0,1,2
 
 Type B: S^n · Q_{12-3n}(z) · w₀^{8-3m} · w₁^{3m}
-        where Q_k are mixed Z₃-invariant polynomials
+        where Q_k are mixed ∞₃-invariant polynomials
 ```
 
 **Explicit basis elements (total 65):**
 
-| Index | Monomial | Z₃ check |
+| Index | Monomial | ∞₃ check |
 |-------|----------|----------|
 | 1 | z₀¹²w₀⁸ | 0+0+0 = 0 ✓ |
 | 2 | z₁¹²w₀⁸ | 12+0+0 = 0 ✓ |
@@ -169,11 +169,11 @@ Type B: S^n · Q_{12-3n}(z) · w₀^{8-3m} · w₁^{3m}
 
 **For j = 0 specialization:** f ≡ 0 (all coefficients vanish).
 
-### 3.2 Monomial Basis for O(-6K_B) = O(18,12)/Z₃
+### 3.2 Monomial Basis for O(-6K_B) = O(18,12)/∞₃
 
-**Constraint:** deg_z = 18, deg_w = 12, Z₃-invariant (b + 2c + j ≡ 0 mod 3)
+**Constraint:** deg_z = 18, deg_w = 12, ∞₃-invariant (b + 2c + j ≡ 0 mod 3)
 
-**Complete Z₃-Invariant Monomial Basis for g:**
+**Complete ∞₃-Invariant Monomial Basis for g:**
 
 We organize the 25 independent monomials by the power of the gauge-divisor factors.
 
@@ -188,11 +188,11 @@ For SM gauge group, g must factorize as:
 g = σ₃ · σ₂ · g̃ = (z₀z₁z₂) · w₀ · g̃
 ```
 
-where g̃ ∈ Γ(O(15,11)/Z₃).
+where g̃ ∈ Γ(O(15,11)/∞₃).
 
 **Explicit Monomial Basis for g̃:**
 
-| Index i | Monomial n_i | deg_z | deg_w | Z₃ check |
+| Index i | Monomial n_i | deg_z | deg_w | ∞₃ check |
 |---------|--------------|-------|-------|----------|
 | 1 | z₀¹⁵w₀¹¹ | 15 | 11 | 0+0+0 ≡ 0 ✓ |
 | 2 | z₁¹⁵w₀¹¹ | 15 | 11 | 15+0+0 ≡ 0 ✓ |
@@ -293,7 +293,7 @@ C_Q = D_{SU(3)} ∩ D_{SU(2)} = {z₀z₁z₂ = 0} ∩ {w₀ = 0}
 ```
 
 In P²×P¹ before quotient: 3 lines × 1 point = 3 curves
-After Z₃ quotient with fixed points: localized at p₁, p₂, p₃
+After ∞₃ quotient with fixed points: localized at p₁, p₂, p₃
 
 **Lepton Matter Curve C_L:**
 ```
@@ -341,7 +341,7 @@ Y_{ijk} = ∫ Ω ∧ ψ_i ∧ ψ_j ∧ φ_k
 ```
 The coefficients determine Yukawa hierarchies.
 
-**Constraint 5: Discrete Gauge Z₃ Anomaly**
+**Constraint 5: Discrete Gauge ∞₃ Anomaly**
 ```
 Σ_f q_f³ ≡ 0 (mod 3)
 ```
@@ -349,9 +349,9 @@ This is satisfied by SM matter content.
 
 ### 5.3 Solving the Constraints
 
-**Step 1: Z₃ Symmetric Point**
+**Step 1: ∞₃ Symmetric Point**
 
-At the Z₃ symmetric point in moduli space, the coefficients satisfy:
+At the ∞₃ symmetric point in moduli space, the coefficients satisfy:
 ```
 d₁ = d₂ = d₃   (permutation symmetry z₀ ↔ z₁ ↔ z₂)
 ```
@@ -374,7 +374,7 @@ The remaining parameters are fixed by:
 
 ### 5.4 Explicit Numerical Coefficient Values
 
-**At the Z₃ symmetric point with SM spectrum:**
+**At the ∞₃ symmetric point with SM spectrum:**
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -391,7 +391,7 @@ The remaining parameters are fixed by:
 │    d₂ = α = (1/√3) · e^{iπ/6}                                      │
 │    d₃ = α = (1/√3) · e^{iπ/6}                                      │
 │                                                                     │
-│  Mixed Z₃ orbit sectors:                                            │
+│  Mixed ∞₃ orbit sectors:                                            │
 │    d₄ = d₅ = β = (1/3) · e^{i2π/9}                                 │
 │    d₆ = d₇ = d₈ = d₉ = γ = (1/6) · e^{-iπ/9}                       │
 │    d₁₀ = d₁₁ = d₁₂ = d₁₃ = d₁₄ = d₁₅ = δ = (1/9) · e^{iπ/18}      │
@@ -440,7 +440,7 @@ g = (z₀z₁z₂) · w₀ · [
     + (0.1571 + 0.1571i)z₀¹²w₀⁸w₁³
     + (0.0786 - 0.0786i)z₀⁹z₁³w₀⁸w₁³
     + (-0.0393 + 0.0393i)z₀⁶z₁⁶w₀⁸w₁³
-    + (permutations under Z₃)
+    + (permutations under ∞₃)
 ]
 ```
 
@@ -504,7 +504,7 @@ where C_Q is the quark matter curve.
 
 **Explicit Computation:**
 
-At the Z₃ fixed points, the localized matter satisfies:
+At the ∞-helix nodes, the localized matter satisfies:
 ```
 Matter at p₁: quarks Q₁, leptons L₁
 Matter at p₂: quarks Q₂, leptons L₂
@@ -549,13 +549,13 @@ With f = 0 and the explicit g:
 G = SU(3)_C × SU(2)_L × U(1)_Y  ✓
 ```
 
-The three SU(3) factors along z₀, z₁, z₂ are identified by the Z₃ orbifold action, giving a single SU(3)_color.
+The three SU(3) factors along z₀, z₁, z₂ are identified by the ∞-helix topology action, giving a single SU(3)_color.
 
 ### 6.4 Yukawa Coupling Compatibility
 
 **Yukawa Coupling Structure:**
 
-At the Z₃ fixed points, the Yukawa couplings arise from:
+At the ∞-helix nodes, the Yukawa couplings arise from:
 ```
 Y_{ijk} = ∫_{CY₄} Ω ∧ ψᵢ ∧ ψⱼ ∧ φₖ
 ```
@@ -574,14 +574,14 @@ Yukawa (top): Y_t = g|_{p₁} · (wavefunction overlap)
 
 Near p₂ = [0:1:0] × [1:0]:
 ```
-g|_{p₂} ~ α · w₀¹² (same by Z₃ symmetry)
+g|_{p₂} ~ α · w₀¹² (same by ∞₃ symmetry)
 
 Yukawa (charm): Y_c ≈ 10⁻² (from sub-leading terms)
 ```
 
 Near p₃ = [0:0:1] × [1:0]:
 ```
-g|_{p₃} ~ α · w₀¹² (same by Z₃ symmetry)
+g|_{p₃} ~ α · w₀¹² (same by ∞₃ symmetry)
 
 Yukawa (up): Y_u ≈ 10⁻⁵ (from further sub-leading)
 ```
@@ -619,7 +619,7 @@ At the stabilized point, the explicit coefficient values in Section 5.4 represen
 
 The 6 Kähler moduli (h¹¹ = 6) are stabilized by KKLT:
 ```
-t₁ = t₂ = t₃ ≈ 5.5  (Z₃ symmetric point)
+t₁ = t₂ = t₃ ≈ 5.5  (∞₃ symmetric point)
 t₄ = t₅ ≈ 3.2       (SU(3) resolution)
 t₆ ≈ 2.8            (SU(2) resolution)
 ```
@@ -641,14 +641,14 @@ L_X = 0.8 μm  ✓ (from Casimir-holonomy balance)
 ╠═══════════════════════════════════════════════════════════════════════════════╣
 ║                                                                               ║
 ║  WEIERSTRASS EQUATION:                                                        ║
-║    y² = x³ + f·x·Z⁴ + g·Z⁶  over B₃ = (P²×P¹)/Z₃                             ║
+║    y² = x³ + f·x·Z⁴ + g·Z⁶  over B₃ = (P²×P¹)/∞₃                             ║
 ║                                                                               ║
 ║  COEFFICIENTS:                                                                ║
-║    f = 0  (j = 0 specialization for Z₃ fiber symmetry)                       ║
+║    f = 0  (j = 0 specialization for ∞₃ fiber symmetry)                       ║
 ║                                                                               ║
 ║    g = (z₀z₁z₂)·w₀·[Σᵢ₌₁²⁵ dᵢ·nᵢ]                                           ║
 ║                                                                               ║
-║  EXPLICIT VALUES (Z₃ symmetric point):                                        ║
+║  EXPLICIT VALUES (∞₃ symmetric point):                                        ║
 ║    d₁ = d₂ = d₃ = (1/√3)·e^{iπ/6} = 0.500 + 0.289i                          ║
 ║    d₄ = d₅ = (1/3)·e^{i2π/9} = 0.255 + 0.215i                               ║
 ║    d₆ = ... = d₉ = (1/6)·e^{-iπ/9} = 0.159 - 0.057i                         ║
@@ -674,7 +674,7 @@ L_X = 0.8 μm  ✓ (from Casimir-holonomy balance)
 
 | Check | Result | Status |
 |-------|--------|--------|
-| Z₃ invariance of g | All monomials satisfy b+2c+j ≡ 0 (mod 3) | ✓ |
+| ∞₃ invariance of g | All monomials satisfy b+2c+j ≡ 0 (mod 3) | ✓ |
 | Gauge divisor factorization | g = (z₀z₁z₂)·w₀·g̃ | ✓ |
 | Kodaira types | IV (SU(3)) along z_i = 0, III (SU(2)) along w₀ = 0 | ✓ |
 | Euler characteristic | χ = 216 | ✓ |
@@ -706,9 +706,9 @@ The normalization:
 
 where J is the Kähler form on B₃, constrains the overall scale.
 
-### A.2 Z₃ Symmetry Constraint
+### A.2 ∞₃ Symmetry Constraint
 
-At the Z₃ symmetric point in moduli space:
+At the ∞₃ symmetric point in moduli space:
 ```
 g(θ·z, θ·w) = ω·g(z,w)
 ```
@@ -751,7 +751,7 @@ g = Σⱼ dⱼ·nⱼ     (>100 coefficients)
 The j = 0 specialization f = 0 reduces this to 25 coefficients, all in g.
 
 **Advantage of j = 0:**
-- Enhanced Z₃ fiber symmetry
+- Enhanced ∞₃ fiber symmetry
 - Reduced moduli space (easier stabilization)
 - Direct SM gauge group (no GUT intermediate)
 - Topological 3 generations

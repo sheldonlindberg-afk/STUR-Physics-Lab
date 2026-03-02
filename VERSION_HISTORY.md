@@ -13,7 +13,7 @@
 - Black hole entropy and holographic correspondence derived
 
 ### Documents Updated
-- DERIVATION_CHAIN_HELIX.md — Complete derivation chain
+- DERIVATION_CHAIN_INFINITY.md — Complete derivation chain
 
 ---
 
@@ -21,7 +21,7 @@
 
 ### Changes
 - Cosmological constant mechanism improved
-- Z₃ discrete gauge Ward identity derivation
+- ∞-helix discrete gauge Ward identity derivation
 
 ---
 

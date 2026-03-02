@@ -1,7 +1,7 @@
 # Explicit Numerical Boltzmann Integration for STUR Baryogenesis
 
 **Document Type:** Numerical Calculation with Full Integration
-**Framework:** STUR v4.4 (Z3 Helix Geometry)
+**Framework:** STUR v4.4 (∞₃ Helix Geometry)
 **Version:** 1.0
 **Date:** 2026-02-05
 **Purpose:** Explicit numerical solution of coupled Boltzmann equations for leptogenesis
@@ -11,7 +11,7 @@
 
 ## Abstract
 
-We present the full numerical integration of the coupled Boltzmann equations governing leptogenesis in the STUR Z3 framework. This document provides:
+We present the full numerical integration of the coupled Boltzmann equations governing leptogenesis in the STUR ∞₃ framework. This document provides:
 
 1. Complete coupled ODEs for heavy neutrino abundances Y_Ni and lepton asymmetry Y_L
 2. Explicit numerical implementation using adaptive Runge-Kutta methods
@@ -139,7 +139,7 @@ where:
   g(x) = sqrt(x) / (1-x)                        (self-energy)
 ```
 
-**STUR numerical values (from Z3 phases):**
+**STUR numerical values (from ∞₃ phases):**
 
 ```
 M_R,1 = 1.5e14 GeV
@@ -323,13 +323,13 @@ eta_B = 7.04 * Y_B
 
 ### 3.1 Central Parameter Set
 
-From STUR Z3 helix geometry (BARYOGENESIS_DERIVATION.md):
+From STUR ∞₃ helix geometry (BARYOGENESIS_DERIVATION.md):
 
 | Parameter | Central Value | Source |
 |-----------|---------------|--------|
-| M_R,1 | 1.5e14 GeV | Z3 kink (xi_1 = 0.76) |
-| M_R,2 | 1.5e14 GeV | Z3 kink (xi_2 = 0.76) |
-| M_R,3 | 1.1e14 GeV | Z3 kink (xi_3 = 0.55) |
+| M_R,1 | 1.5e14 GeV | ∞₃ kink (xi_1 = 0.76) |
+| M_R,2 | 1.5e14 GeV | ∞₃ kink (xi_2 = 0.76) |
+| M_R,3 | 1.1e14 GeV | ∞₃ kink (xi_3 = 0.55) |
 | y_0 | 0.50 | Seesaw matching |
 | lambda | 0.225 | Cabibbo angle |
 | phi_1 | pi/4 | Holonomy phase |
@@ -359,9 +359,9 @@ H(M_1) = 3.2e9 GeV
 
 | Parameter | Min | Central | Max | Uncertainty Source |
 |-----------|-----|---------|-----|-------------------|
-| M_R,1 | 1.2e14 | 1.5e14 | 1.8e14 | Z3 kink +/- 20% |
-| M_R,2 | 1.2e14 | 1.5e14 | 1.8e14 | Z3 kink +/- 20% |
-| M_R,3 | 0.9e14 | 1.1e14 | 1.4e14 | Z3 kink +/- 25% |
+| M_R,1 | 1.2e14 | 1.5e14 | 1.8e14 | ∞₃ kink +/- 20% |
+| M_R,2 | 1.2e14 | 1.5e14 | 1.8e14 | ∞₃ kink +/- 20% |
+| M_R,3 | 0.9e14 | 1.1e14 | 1.4e14 | ∞₃ kink +/- 25% |
 | y_0 | 0.45 | 0.50 | 0.55 | Seesaw +/- 10% |
 | eta_bar | 0.33 | 0.35 | 0.37 | Correction chain |
 | epsilon | 0.22 | 0.26 | 0.30 | Kink amplitude |
@@ -1036,7 +1036,7 @@ eta_B = (6.04 +/- 1.87) x 10^-10  [31% total uncertainty]
 |                                                                     |
 |   BARYOGENESIS NUMERICAL INTEGRATION - FINAL RESULTS                |
 |                                                                     |
-|   Framework: STUR v4.4 Z3 Helix Geometry                           |
+|   Framework: STUR v4.4 ∞₃ Helix Geometry                           |
 |   Method: Adaptive RK45 with BDF stiffness handling                |
 |   Validation: Compared to ULYSSES, leptomts (< 5% agreement)       |
 |                                                                     |
@@ -1149,7 +1149,7 @@ After corrections:
 ```
 +=======================================================================+
 |                                                                       |
-|   STUR Z3 LEPTOGENESIS: NUMERICAL BARYOGENESIS RESULT                |
+|   STUR ∞₃ LEPTOGENESIS: NUMERICAL BARYOGENESIS RESULT                |
 |                                                                       |
 |   eta_B^STUR = (6.04 +/- 1.54_stat +/- 1.15_syst) x 10^-10          |
 |              = (6.04 +/- 1.92) x 10^-10  [combined]                  |
@@ -1234,7 +1234,7 @@ Reproducibility: Verified across 100 runs (< 1e-10 variation)
 6. STUR Framework Documents:
    - BARYOGENESIS_DERIVATION.md
    - ETA_BAR_CORRECTION_CHAIN.md
-   - DISCRETE_GAUGE_Z3_CC_SOLUTION.md
+   - DISCRETE_GAUGE_INFINITY_HELIX_CC_SOLUTION.md
 
 ---
 

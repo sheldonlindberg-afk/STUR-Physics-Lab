@@ -1,7 +1,7 @@
 # STUR Falsification Protocol
 
 **Document Type:** Scientific Falsifiability Framework
-**Framework:** STUR v4.4 (Z_3 Helix Geometry)
+**Framework:** STUR v4.4 (∞₃ Helix Geometry)
 **Date:** 2026-02-05
 **Status:** Pre-Registered Falsification Criteria
 **Purpose:** Ensure STUR meets scientific falsifiability standards
@@ -38,17 +38,17 @@ This document establishes the definitive falsification protocol for the STUR (St
 
 ## 1. Immediate Falsifiers
 
-These observations would **definitively kill STUR** with no possible parameter adjustment. These are topological requirements built into the Z_3 helix geometry that cannot be relaxed.
+These observations would **definitively kill STUR** with no possible parameter adjustment. These are topological requirements built into the infinity helix geometry that cannot be relaxed.
 
 ### 1.1 Fourth Generation of Fermions
 
 **STUR Requirement:** N_gen = 3 EXACTLY
 
-**Mechanism:** The Z_3 orbifold has exactly 3 fixed points at phases phi_g = {0, 2pi/3, 4pi/3}. Each fixed point hosts one fermion generation. This is a topological invariant, not a tunable parameter.
+**Mechanism:** The ∞-helix topology has exactly 3 fixed points at phases phi_g = {0, 2pi/3, 4pi/3}. Each fixed point hosts one fermion generation. This is a topological invariant, not a tunable parameter.
 
 **Derivation:**
 ```
-S^1/Z_3 orbifold structure:
+S^1/∞₃ orbifold structure:
 - Identification: X ~ X + L_X/3
 - Fixed points: X_f = {0, L_X/3, 2L_X/3}
 - Each fixed point is isolated (no deformation removes it)
@@ -66,7 +66,7 @@ Therefore: N_gen = |Fixed points| = 3 (exact)
 IF: Discovery of a 4th generation fermion (quark or lepton)
     with standard weak interactions
 THEN: STUR IS FALSIFIED
-REASON: Cannot modify Z_3 topology to have 4 fixed points
+REASON: Cannot modify ∞₃ topology to have 4 fixed points
 NO PARAMETER ADJUSTMENT POSSIBLE
 ```
 
@@ -78,17 +78,17 @@ NO PARAMETER ADJUSTMENT POSSIBLE
 
 **STUR Requirement:** NORMAL ORDERING (m_1 < m_2 < m_3)
 
-**Mechanism:** The Z_3 resonance structure creates mass hierarchy through wavefunction localization. The tau-sector Z_3 coupling is strongest (phase omega^2), giving m_3 as the heaviest state.
+**Mechanism:** The ∞₃ resonance structure creates mass hierarchy through wavefunction localization. The tau-sector ∞₃ coupling is strongest (phase omega^2), giving m_3 as the heaviest state.
 
 **Derivation:**
 ```
-Z_3 kink amplitudes at fixed points:
+∞₃ kink amplitudes at fixed points:
   xi_3 : xi_2 : xi_1 = 0.55 : 0.76 : 0.76
 
 Seesaw mass hierarchy:
   m_nu,i = m_D,i^2 / M_R,i
 
-With Z_3 structure:
+With ∞₃ structure:
   m_3 >> m_2 > m_1 (NORMAL ORDERING)
 
 The helix chirality (left-handed winding) fixes:
@@ -104,7 +104,7 @@ The helix chirality (left-handed winding) fixes:
 IF: JUNO/DUNE definitively measure INVERTED ordering (>5 sigma)
     with Dm^2_31 < 0
 THEN: STUR IS FALSIFIED
-REASON: Z_3 resonance structure requires m_3 > m_2 > m_1
+REASON: ∞₃ resonance structure requires m_3 > m_2 > m_1
 NO PARAMETER ADJUSTMENT POSSIBLE
 ```
 
@@ -116,13 +116,13 @@ NO PARAMETER ADJUSTMENT POSSIBLE
 
 **STUR Requirement:** theta_QCD = 0 EXACTLY
 
-**Mechanism:** The Z_3 discrete gauge symmetry combined with CP at the orbifold fixed points enforces theta = 0. This is a symmetry requirement, not fine-tuning.
+**Mechanism:** The ∞₃ discrete gauge symmetry combined with CP at the orbifold fixed points enforces theta = 0. This is a symmetry requirement, not fine-tuning.
 
 **Derivation:**
 ```
-Z_3 x CP symmetry at each fixed point:
+∞₃ x CP symmetry at each fixed point:
   QCD vacuum transforms as: |theta> -> |-theta> under CP
-  Z_3 identifies: theta ~ theta + 2pi/3
+  ∞₃ identifies: theta ~ theta + 2pi/3
 
 Combined requirement:
   theta = -theta + 2pi*n/3  for some integer n
@@ -142,7 +142,7 @@ Result: theta_QCD = 0 (exact by symmetry)
 IF: Measurement of theta_QCD != 0 at >5 sigma
     (e.g., non-zero neutron EDM at level implying theta > 10^-9)
 THEN: STUR IS FALSIFIED
-REASON: Z_3 x CP symmetry requires theta = 0
+REASON: ∞₃ x CP symmetry requires theta = 0
 NO PARAMETER ADJUSTMENT POSSIBLE
 ```
 
@@ -154,17 +154,17 @@ NO PARAMETER ADJUSTMENT POSSIBLE
 
 **STUR Requirement:** Dimension-5 proton decay EXACTLY FORBIDDEN
 
-**Mechanism:** Z_3 KK-parity is a topological selection rule that forbids dimension-5 baryon-number-violating operators. Dimension-6 operators are suppressed by M_GUT^4.
+**Mechanism:** ∞-helix KK-parity is a topological selection rule that forbids dimension-5 baryon-number-violating operators. Dimension-6 operators are suppressed by M_GUT^4.
 
 **Derivation:**
 ```
-KK-parity under Z_3:
+KK-parity under ∞₃:
   Each field carries KK number n_KK
   Allowed vertices: sum(n_KK) = 0 mod 3
 
 Dimension-5 proton decay operator: QQQL
   Requires fields with n_KK = {1, 1, 1, 0} or similar
-  No Z_3-invariant combination exists
+  No ∞₃-invariant combination exists
   EXACTLY FORBIDDEN (not approximately)
 
 Dimension-6: tau_p ~ M_GUT^4 / (alpha_GUT^2 * m_p^5) ~ 10^40 years
@@ -183,7 +183,7 @@ Both far beyond experimental reach (current bound: tau_p > 2.4 x 10^34 years)
 ```
 IF: Proton decay observed with tau_p < 10^34 years
 THEN: STUR IS FALSIFIED
-REASON: Would require dimension-5 operators, violating Z_3 KK-parity
+REASON: Would require dimension-5 operators, violating ∞-helix KK-parity
 NO PARAMETER ADJUSTMENT POSSIBLE
 
 IF: Proton decay observed with 10^34 < tau_p < 10^36 years
@@ -217,11 +217,11 @@ These observations would create significant tension (>3 sigma) requiring investi
 
 **STUR Prediction:** theta_23 > 45 deg (UPPER OCTANT)
 
-**Mechanism:** The tau-sector has stronger Z_3 coupling due to larger Yukawa coupling and constructive interference at the omega^2 phase position.
+**Mechanism:** The tau-sector has stronger ∞₃ coupling due to larger Yukawa coupling and constructive interference at the omega^2 phase position.
 
 **Derivation:**
 ```
-Z_3 octant deviation:
+∞₃ octant deviation:
   delta(sin^2 theta_23) = +(1/2) * (m_tau/m_mu - 1)/(m_tau/m_mu + 1) * lambda_nu
                         = +0.091 (after threshold corrections)
 
@@ -239,7 +239,7 @@ THEN: STRONG TENSION (not immediately fatal)
 Possible Resolution Paths:
 1. Charged lepton sector contribution underestimated
 2. Threshold correction sign error
-3. Z_3 breaking pattern requires revision
+3. ∞₃ breaking pattern requires revision
 
 IF: theta_23 < 43 deg at >5 sigma
 THEN: SEVERE - likely fatal without major revision
@@ -253,11 +253,11 @@ THEN: SEVERE - likely fatal without major revision
 
 **STUR Prediction:** delta_CP = -90 deg +/- 6 deg (MAXIMAL CP VIOLATION)
 
-**Mechanism:** The Z_3 helix chirality creates maximal CP violation at fixed points.
+**Mechanism:** The infinity helix chirality creates maximal CP violation at fixed points.
 
 **Derivation:**
 ```
-From Z_3 helix structure:
+From infinity helix structure:
   arg[U_e2] = 0, arg[U_mu3] = 2pi/3, arg[U_e3] = -pi/6, arg[U_mu2] = pi/3
 
   delta_CP = 0 + 2pi/3 - (-pi/6) - pi/3 = pi/2 = 90 deg
@@ -276,7 +276,7 @@ THEN: CONSISTENT (within expected uncertainty)
 
 Possible Resolution Paths (if delta_CP != -90 deg):
 1. Higher-order charged lepton corrections
-2. Z_3 phase modifications from UV completion
+2. ∞₃ phase modifications from UV completion
 3. RG running effects larger than estimated
 ```
 
@@ -366,7 +366,7 @@ THEN: SEVERE - requires major revision
 
 **STUR Prediction:** CKM matrix is exactly unitary
 
-**Mechanism:** CKM emerges from Z_3 wavefunction overlaps; unitarity is automatic.
+**Mechanism:** CKM emerges from ∞₃ wavefunction overlaps; unitarity is automatic.
 
 **Current Status:**
 - |V_ud|^2 + |V_us|^2 + |V_ub|^2 = 0.9985 +/- 0.0005
@@ -469,7 +469,7 @@ IF discovery_4th_gen == True:
 #### Rule 2: Neutrino Ordering
 ```
 IF JUNO_ordering == "inverted" AND significance >= 5_sigma:
-    RETURN "STUR FALSIFIED - Z_3 requires normal ordering"
+    RETURN "STUR FALSIFIED - ∞₃ requires normal ordering"
 ELIF JUNO_ordering == "inverted" AND 3 <= significance < 5:
     RETURN "STUR SEVERELY CHALLENGED - await confirmation"
 ELSE:
@@ -519,7 +519,7 @@ ELSE:
 #### Rule 6: Proton Decay
 ```
 IF tau_proton < 1e34_years:
-    RETURN "STUR FALSIFIED - violates Z_3 KK-parity"
+    RETURN "STUR FALSIFIED - violates ∞-helix KK-parity"
 ELIF tau_proton < 1e36_years:
     RETURN "STUR SEVERELY CHALLENGED - dimension-6 rate too high"
 ELIF tau_proton observed at any level:
@@ -583,7 +583,7 @@ IF (mild_tension_1) AND (mild_tension_2) AND (mild_tension_3):
 | Prediction | STUR | SO(10) | Distinguishing Power |
 |------------|------|--------|---------------------|
 | Neutrino ordering | Normal (required) | Either | HIGH |
-| N_gen origin | Z_3 topology | Family symmetry | CONCEPTUAL |
+| N_gen origin | ∞₃ topology | Family symmetry | CONCEPTUAL |
 | Proton decay | tau ~ 10^40 yr | tau ~ 10^32-35 yr | **HIGH** |
 | L-R symmetry | No | Often present | MEDIUM |
 
@@ -596,7 +596,7 @@ IF (mild_tension_1) AND (mild_tension_2) AND (mild_tension_3):
 | Prediction | STUR | LQG | Distinguishing Power |
 |------------|------|-----|---------------------|
 | Area quantum | 4*ln(3)*l_P^2 (DERIVED) | 8*pi*gamma*l_P^2 (gamma FITTED) | CONCEPTUAL |
-| Black hole entropy | Derived from Z_3 holonomy | Derived from SU(2) networks | EQUIVALENT |
+| Black hole entropy | Derived from ∞-helix holonomy | Derived from SU(2) networks | EQUIVALENT |
 | Matter coupling | Complete (SM derived) | Incomplete | CONCEPTUAL |
 | Spacetime | Continuous with effective discreteness | Fundamentally discrete | PHILOSOPHICAL |
 | Extra dimensions | Required (5D) | Not required | TESTABLE |
@@ -609,7 +609,7 @@ IF (mild_tension_1) AND (mild_tension_2) AND (mild_tension_3):
 
 | Prediction | STUR | String Landscape | Distinguishing Power |
 |------------|------|------------------|---------------------|
-| Vacuum selection | Z_3 anomaly cancellation (unique) | Anthropic/statistical | **HIGH** |
+| Vacuum selection | ∞₃ anomaly cancellation (unique) | Anthropic/statistical | **HIGH** |
 | Cosmological constant | Derived (~3.6 x 10^-47 GeV^4) | Landscape range | **HIGH** |
 | N_gen | 3 (topological) | Various | MEDIUM |
 | Predictivity | 26+ derived parameters | Limited | **CONCEPTUAL** |
@@ -652,10 +652,10 @@ mildly disfavor SO(10).
 
 ### 5.1 If Inverted Ordering Confirmed
 
-**What fails:** Z_3 resonance structure for neutrino masses
+**What fails:** ∞₃ resonance structure for neutrino masses
 
 **What survives:**
-- Z_3 topology (N_gen = 3)
+- ∞₃ topology (N_gen = 3)
 - Gauge unification mechanism
 - Proton stability from KK-parity
 - theta_QCD = 0 mechanism
@@ -671,17 +671,17 @@ STUR -> "STUR-gauge" (gauge sector preserved)
 
 **Possible Rescue Paths:**
 - None within current framework (ordering is topological)
-- Would require abandoning Z_3 orbifold for neutrinos specifically
+- Would require abandoning ∞-helix topology for neutrinos specifically
 - Would fragment theory into disconnected sectors
 
 ---
 
 ### 5.2 If Fourth Generation Discovered
 
-**What fails:** Z_3 orbifold topology
+**What fails:** ∞-helix topology topology
 
 **What survives:**
-- Nothing coherent - Z_3 is foundational
+- Nothing coherent - ∞₃ is foundational
 
 **Graceful Degradation:**
 ```
@@ -690,13 +690,13 @@ STUR -> ABANDONED
       -> But no longer a unified framework
 ```
 
-**Assessment:** This is the most catastrophic falsifier. The entire framework depends on Z_3.
+**Assessment:** This is the most catastrophic falsifier. The entire framework depends on ∞₃.
 
 ---
 
 ### 5.3 If Early Proton Decay Observed
 
-**What fails:** Z_3 KK-parity selection rules
+**What fails:** ∞-helix KK-parity selection rules
 
 **What survives:**
 - Neutrino sector predictions (independent of KK-parity)
@@ -715,7 +715,7 @@ STUR -> "STUR-lite" (flavor physics preserved)
 
 ### 5.4 If theta_QCD != 0 Measured
 
-**What fails:** Z_3 x CP symmetry at fixed points
+**What fails:** ∞₃ x CP symmetry at fixed points
 
 **What survives:**
 - Generation structure
@@ -913,7 +913,7 @@ ELSE:
 |------|------------|-------------|-----------|
 | 2035+ | DARWIN | DM direct detection | LKP signature |
 | 2035+ | FCC | New particles | None predicted <M_GUT |
-| 2035+ | LISA | Stochastic GW | Z_3 domain walls |
+| 2035+ | LISA | Stochastic GW | ∞₃ domain walls |
 | 2040+ | Ultimate proton decay | tau_p | >>10^35 yr expected |
 
 **Final Assessment Protocol:**
@@ -976,7 +976,7 @@ FRAMEWORK CONFIDENCE: HIGH (pending JUNO)
 | Strong Tension | >3 sigma disagreement with prediction |
 | Pre-registered | Value committed before experimental result |
 | Topological | Property fixed by geometry, not tunable |
-| KK-parity | Z_3 selection rule from Kaluza-Klein number |
+| KK-parity | ∞₃ selection rule from Kaluza-Klein number |
 | LKP | Lightest Kaluza-Klein Particle (dark matter candidate) |
 
 ---

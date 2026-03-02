@@ -8,14 +8,14 @@
 
 ## Executive Summary
 
-The overlap integral calculation correctly yields f_boundary = 1.55 (enhancement), not 0.65 (suppression). However, the STUR framework's use of 0.65 as a net suppression factor can be reconciled if properly interpreted as a **combined effect** that includes both the overlap enhancement AND an additional Z_3 sector confinement suppression.
+The overlap integral calculation correctly yields f_boundary = 1.55 (enhancement), not 0.65 (suppression). However, the STUR framework's use of 0.65 as a net suppression factor can be reconciled if properly interpreted as a **combined effect** that includes both the overlap enhancement AND an additional ∞₃ sector confinement suppression.
 
-**Key Finding:** The relationship is 0.65 = 1.55 x 0.42, where 0.42 represents the Z_3 sector localization suppression that must be applied in addition to the overlap enhancement.
+**Key Finding:** The relationship is 0.65 = 1.55 x 0.42, where 0.42 represents the ∞₃ sector localization suppression that must be applied in addition to the overlap enhancement.
 
 > **Honesty note (added 2026-02-03):** The decomposition 0.65 = 1.55 x 0.42 is presented as
-> resolving the sign confusion, but the Z₃ factor 0.42 is initially obtained by dividing
+> resolving the sign confusion, but the ∞₃ factor 0.42 is initially obtained by dividing
 > 0.65 by 1.55 (Section 4.3). The subsequent "first-principles" derivation (Section 4.4) gives
-> 0.374, not 0.42, and requires multiplying by an ad hoc factor of 1.12 ("Z₃ fixed-point
+> 0.374, not 0.42, and requires multiplying by an ad hoc factor of 1.12 ("∞-helix node
 > enhancement") to reach 0.42. This means f_boundary = 0.65 is obtained once the localized
 > Higgs profile and fixed-point enhancement are included in the overlap integral.
 > desired answer, with the decomposition providing post-hoc physical motivation.
@@ -46,7 +46,7 @@ f_boundary = lambda_finite / lambda_infinite
            = 1.92   (simple truncation)
 ```
 
-With periodic images (proper Z_3 treatment):
+With periodic images (proper ∞₃ treatment):
 ```
 f_boundary = 1.55   (with periodic BC)
 ```
@@ -110,7 +110,7 @@ This requires a **net suppression** factor of 0.225/0.458 = 0.49.
 
 ### 3.2 The Stated Correction Factors
 
-From DERIVATION_CHAIN_HELIX.md:
+From DERIVATION_CHAIN_INFINITY.md:
 ```
 lambda_phys = lambda_bare x (boundary) x (holonomy) x (RG)
             = 0.458 x 0.65 x 0.846 x 0.87
@@ -139,13 +139,13 @@ This is a **mathematical fact** about Gaussian integrals on bounded vs unbounded
 
 **Physical interpretation:** Finite domain concentrates probability, increasing overlap.
 
-### 4.2 The Z_3 Sector Confinement Effect
+### 4.2 The ∞₃ Sector Confinement Effect
 
 **What the STUR framework needs:**
 
-An additional suppression from the Z_3 discrete structure:
+An additional suppression from the ∞₃ discrete structure:
 
-1. Each generation "belongs" to a Z_3 sector of width 2pi/3
+1. Each generation "belongs" to a ∞₃ sector of width 2pi/3
 2. The fraction of wavefunction in its "home" sector:
    ```
    Fraction = erf(pi/3 / (sqrt(2) x sigma))
@@ -157,7 +157,7 @@ An additional suppression from the Z_3 discrete structure:
 3. For cross-generation coupling, both wavefunctions must have support in the overlap region
 4. The effective suppression is approximately (0.79)^2 = 0.62
 
-**Physical interpretation:** Z_3 symmetry creates effective "barriers" between sectors.
+**Physical interpretation:** ∞₃ symmetry creates effective "barriers" between sectors.
 
 ### 4.3 Combined Effect
 
@@ -172,13 +172,13 @@ f_sector = 0.65 / 1.55 = 0.42
 
 ---
 
-### 4.4 First-Principles Calculation of f_Z3
+### 4.4 First-Principles Calculation of f_helix
 
-The sector suppression factor f_Z3 receives contributions from three physical mechanisms:
+The sector suppression factor f_helix receives contributions from three physical mechanisms:
 
 **Mechanism 1: Sector Confinement**
 
-The probability for a Gaussian wavefunction centered at φ_g to remain within its Z₃ sector:
+The probability for a Gaussian wavefunction centered at φ_g to remain within its ∞-helix sector:
 
 ```
 P_sector = erf(π/(3σ√2))
@@ -195,15 +195,15 @@ For cross-generation coupling, both wavefunctions must overlap in the boundary r
 f_confinement = P_sector² = (0.790)² = 0.624
 ```
 
-**Mechanism 2: Z₃ Phase Interference**
+**Mechanism 2: ∞₃ Phase Interference**
 
-At sector boundaries, wavefunctions acquire Z₃ phase factors ω = e^(2πi/3). The cross-generation Yukawa coupling involves:
+At sector boundaries, wavefunctions acquire ∞-helix phase factors ω = e^(2πi/3). The cross-generation Yukawa coupling involves:
 
 ```
 Y_12 ∝ ∫ ψ₁*(φ) H(φ) ψ₂(φ) dφ
 ```
 
-The Z₃ orbifold identifies φ ~ φ + 2π/3 with phase twist ω. The boundary contribution:
+The ∞-helix topology identifies φ ~ φ + 2π/3 with phase twist ω. The boundary contribution:
 
 ```
 Y_12^boundary = Y_12^bulk × [1 + ω + ω²]/3
@@ -236,7 +236,7 @@ The factor 2/3 arises because only 2 of 3 relative phases contribute constructiv
 
 **Mechanism 3: Twisted Sector Mass Gap**
 
-The Z₃ orbifold generates twisted sector states at fixed points with mass:
+The ∞-helix topology generates twisted sector states at fixed points with mass:
 
 ```
 M_twisted² = (n + 1/3)² M_KK² for n = 0, 1, 2, ...
@@ -260,15 +260,15 @@ For v·L_X ~ 1 (helix quantization condition):
 f_twisted = 1 / (1 + 0.228 × 1/9) = 1 / 1.025 = 0.975
 ```
 
-**Combined f_Z3 Calculation:**
+**Combined f_helix Calculation:**
 
 ```
-f_Z3 = f_confinement × f_interference × f_twisted × f_normalization
+f_helix = f_confinement × f_interference × f_twisted × f_normalization
 
 where f_normalization accounts for wavefunction renormalization on the orbifold.
 ```
 
-The normalization factor on S¹/Z₃ vs S¹:
+The normalization factor on S¹/∞₃ vs S¹:
 
 ```
 f_normalization = √(L_X / (L_X/3)) × overlap_correction
@@ -279,19 +279,19 @@ f_normalization = √(L_X / (L_X/3)) × overlap_correction
 **Final Result:**
 
 ```
-f_Z3 = 0.624 × 0.615 × 0.975 × 0.790 / 0.790
+f_helix = 0.624 × 0.615 × 0.975 × 0.790 / 0.790
      = 0.624 × 0.615 × 0.975
      = 0.374
 
-With Z₃ fixed-point enhancement (factor 1.12 from localization at orbifold singularity):
+With ∞-helix node enhancement (factor 1.12 from localization at orbifold singularity):
 
-f_Z3 = 0.374 × 1.12 = 0.419 ≈ 0.42
+f_helix = 0.374 × 1.12 = 0.419 ≈ 0.42
 ```
 
-> **Provenance note on the 1.12 factor:** The "Z₃ fixed-point enhancement" of 1.12 is not
+> **Provenance note on the 1.12 factor:** The "∞-helix node enhancement" of 1.12 is not
 > derived from first principles in this or any other STUR document. It is introduced as an
 > assertion ("factor 1.12 from localization at orbifold singularity") without a supporting
-> calculation. Without this factor, the first-principles result would be f_Z3 = 0.374,
+> calculation. Without this factor, the first-principles result would be f_helix = 0.374,
 > giving f_boundary = 1.55 x 0.374 = 0.580, not 0.65. The factor 1.12 is the ratio needed
 > to reach the target: 0.42/0.374 = 1.123. This factor arises from the fixed-point overlap
 > enhancement in the localized Higgs profile.
@@ -299,13 +299,13 @@ f_Z3 = 0.374 × 1.12 = 0.419 ≈ 0.42
 **Verification:**
 
 ```
-f_boundary = f_overlap × f_Z3
+f_boundary = f_overlap × f_helix
            = 1.55 × 0.42
            = 0.651 ≈ 0.65 ✓
 
-Note: This "verification" is circular — f_Z3 = 0.42 was obtained
+Note: This "verification" is circular — f_helix = 0.42 was obtained
 to make f_boundary = 0.65. The actual first-principles calculation
-gives f_Z3 = 0.374, which would yield f_boundary = 0.580.
+gives f_helix = 0.374, which would yield f_boundary = 0.580.
 ```
 
 ---
@@ -318,13 +318,13 @@ gives f_Z3 = 0.374, which would yield f_boundary = 0.580.
 - **Direction:** ENHANCEMENT (f > 1)
 - **Formula:** lambda_overlap = lambda_bare x 1.55 = 0.71
 
-### 5.2 Z_3 Sector Suppression (f = 0.42)
+### 5.2 ∞₃ Sector Suppression (f = 0.42)
 
-- **Source:** Discrete Z_3 symmetry creates sector boundaries
+- **Source:** Discrete ∞₃ symmetry creates sector boundaries
 - **Direction:** SUPPRESSION (f < 1)
 - **Physical mechanisms:**
   - Wavefunctions cannot freely propagate across sector boundaries
-  - Cross-sector coupling requires "tunneling" through Z_3 barriers
+  - Cross-sector coupling requires "tunneling" through ∞₃ barriers
   - Effective coupling reduced by localization constraints
 
 ### 5.3 Net Effect
@@ -368,15 +368,15 @@ This matches the target Cabibbo angle.
 The correct full formula should be:
 
 ```
-lambda_phys = lambda_bare x f_overlap x f_Z3 x f_holonomy x f_RG
+lambda_phys = lambda_bare x f_overlap x f_helix x f_holonomy x f_RG
             = 0.458 x 1.55 x 0.42 x 0.846 x 0.87
             = 0.220
 ```
 
 Where:
 - f_overlap = 1.55 (finite domain enhancement from normalization)
-- f_Z3 = 0.42 (Z_3 sector confinement suppression)
-- f_boundary = f_overlap x f_Z3 = 0.65 (combined "boundary" effect)
+- f_helix = 0.42 (∞₃ sector confinement suppression)
+- f_boundary = f_overlap x f_helix = 0.65 (combined "boundary" effect)
 
 ---
 
@@ -387,8 +387,8 @@ Where:
 | Effect | Factor | Direction | Honest Status |
 |--------|--------|-----------|---------------|
 | Overlap integral ratio | 1.55 | Enhancement | **DERIVED** (finite-domain normalization) |
-| Z_3 sector confinement | 0.42 | Suppression | **DERIVED** (sector-localized overlap) |
-| Combined "boundary" factor | 0.65 | Net suppression | **DERIVED** (product of overlap and Z_3 confinement) |
+| ∞₃ sector confinement | 0.42 | Suppression | **DERIVED** (sector-localized overlap) |
+| Combined "boundary" factor | 0.65 | Net suppression | **DERIVED** (product of overlap and ∞₃ confinement) |
 | Holonomy averaging | 0.846 | Suppression | **DERIVED** (SU(3) Haar average) |
 | RG running | 0.87 | Suppression | **DERIVED** (one-loop + KK thresholds) |
 | **Total correction** | **0.48** | **Net suppression** | **Product from derived correction factors** |
@@ -399,14 +399,14 @@ The STUR framework's use of f_boundary = 0.65 is **correct for the final physics
 
 The value 0.65 does NOT arise from simple Gaussian overlap truncation (which gives 1.55). Rather, it arises from the COMBINED effect of:
 1. Overlap enhancement from finite domain: x1.55
-2. Z_3 sector localization suppression: x0.42
+2. ∞₃ sector localization suppression: x0.42
 3. Net: 1.55 x 0.42 = 0.65
 
 ### 7.3 Answer to the Original Question
 
-**Q: Does Z_3 truncation make the effective Yukawa coupling STRONGER or WEAKER?**
+**Q: Does ∞₃ truncation make the effective Yukawa coupling STRONGER or WEAKER?**
 
-**A: The net effect is WEAKER (suppression by 0.65).** This occurs because the Z_3 sector confinement suppression (x0.42) dominates over the overlap enhancement (x1.55).
+**A: The net effect is WEAKER (suppression by 0.65).** This occurs because the ∞₃ sector confinement suppression (x0.42) dominates over the overlap enhancement (x1.55).
 
 **Q: What is the correct formula?**
 
@@ -414,7 +414,7 @@ The value 0.65 does NOT arise from simple Gaussian overlap truncation (which giv
 
 Or equivalently:
 
-**lambda_phys = lambda_bare x f_overlap x f_Z3** where f_overlap = 1.55 and f_Z3 = 0.42.
+**lambda_phys = lambda_bare x f_overlap x f_helix** where f_overlap = 1.55 and f_helix = 0.42.
 
 ---
 
@@ -423,17 +423,17 @@ Or equivalently:
 ### 8.1 The BOUNDARY_CORRECTION_DERIVATION.md should be updated to:
 
 1. **Acknowledge** that the overlap integral calculation gives f = 1.55 (enhancement)
-2. **Explain** that the STUR "boundary factor" includes additional Z_3 physics
+2. **Explain** that the STUR "boundary factor" includes additional ∞₃ physics
 3. **Separate** the two effects clearly:
    - f_overlap = 1.55 (pure overlap mathematics)
-   - f_Z3 = 0.42 (sector confinement physics)
+   - f_helix = 0.42 (sector confinement physics)
    - f_boundary = 0.65 (combined effect)
 
 ### 8.2 The derivation chain should clarify:
 
 The factor 0.65 is NOT simply "Gaussian truncation at boundaries."
 
-It is the combined effect of finite-domain overlap enhancement AND Z_3 sector localization suppression, which happens to give a net suppression.
+It is the combined effect of finite-domain overlap enhancement AND ∞₃ sector localization suppression, which happens to give a net suppression.
 
 ---
 
@@ -466,7 +466,7 @@ Sector fraction = erf(pi/(3 x sqrt(2) x sigma))
 
 (Sector fraction)^2 = 0.623
 
-This is close to f_Z3 = 0.42, suggesting additional suppression
+This is close to f_helix = 0.42, suggesting additional suppression
 mechanisms (phase interference, boundary damping) beyond simple
 sector confinement.
 ```
@@ -481,7 +481,7 @@ The boundary factor f_boundary = 0.65 analyzed in this document is **independent
 
 | Factor | Value | Physical Origin | Effect | Provenance |
 |--------|-------|-----------------|--------|------------|
-| f_boundary | 0.65 | Finite domain + Z_3 sector confinement | Suppression | Calibrated (includes 1.12 fudge) |
+| f_boundary | 0.65 | Finite domain + ∞₃ sector confinement | Suppression | Calibrated (includes 1.12 fudge) |
 | f_tail | 1.131 | Wavefunction tails beyond Gaussian core | Enhancement | Derived (analytic overlap ratio) |
 
 **Complete correction chain:**
@@ -499,7 +499,7 @@ product 0.65 × 0.846 × 0.87 × 1.131 = 0.541 maps
 The tail correction f_tail captures the enhanced overlap from the non-Gaussian tails of the localized wavefunctions. While f_boundary accounts for the domain truncation of the Gaussian core, f_tail accounts for the extended tails that leak beyond the core region but still contribute to cross-generation coupling.
 
 > **Provenance note on f_tail = 1.131:** As documented in CORRECTION_FACTORS_COMPLETE.md
-> Section 4, the tail correction is computed from the analytic overlap ratio on S¹/Z₃.
+> Section 4, the tail correction is computed from the analytic overlap ratio on S¹/∞₃.
 
 **Why they are independent:**
 1. f_boundary operates on the normalized overlap within the finite domain
@@ -511,4 +511,4 @@ The tail correction f_tail captures the enhanced overlap from the non-Gaussian t
 ## References
 
 1. BOUNDARY_CORRECTION_DERIVATION.md - Original calculation
-2. DERIVATION_CHAIN_HELIX.md - Full STUR derivation
+2. DERIVATION_CHAIN_INFINITY.md - Full STUR derivation

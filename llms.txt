@@ -4,12 +4,12 @@
 
 ## About This Site
 
-STUR (Sheldon's Theory of Unified Resistance) is a Theory of Everything candidate that derives the Standard Model of particle physics from three axioms plus the Planck mass. The framework uses Z₃ helix geometry on a compactified extra dimension.
+STUR (Sheldon's Theory of Unified Resistance) is a Theory of Everything candidate that derives the Standard Model of particle physics from three axioms plus the Planck mass. The framework uses infinity helix geometry on a compactified extra dimension.
 
 ## Key Documents for AI Analysis
 
 ### Primary Theory Documents (Markdown - Best for AI)
-- /DERIVATION_CHAIN_HELIX.md - Master derivation chain (262KB, complete TOE framework)
+- /DERIVATION_CHAIN_INFINITY.md - Master derivation chain (262KB, complete TOE framework)
 - /TOE_COMPLETION_CALCULATIONS.md - Final calculations closing all gaps
 - /COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md - Solution to CC problem
 - /ABSOLUTE_MASS_DERIVATION.md - All fermion masses from first principles
@@ -25,11 +25,11 @@ STUR (Sheldon's Theory of Unified Resistance) is a Theory of Everything candidat
 
 ## Core Claims
 
-1. **Three Generations**: Derived from Z₃ orbifold topology (3 fixed points)
+1. **Three Generations**: Derived from ∞-helix topology topology (3 fixed points)
 2. **Gauge Group**: SU(3)×SU(2)×U(1) from holonomy compatibility
 3. **Mass Hierarchies**: λ-scaling from Gaussian wavefunction overlaps
-4. **Cosmological Constant**: Λ = 0 at tree level from discrete gauge Z₃
-5. **Strong CP**: θ_QCD = 0 from Z₃×CP symmetry
+4. **Cosmological Constant**: Λ = 0 at tree level from discrete gauge ∞₃
+5. **Strong CP**: θ_QCD = 0 from ∞₃×CP symmetry
 
 ## Falsifiable Predictions
 
@@ -52,7 +52,7 @@ STUR (Sheldon's Theory of Unified Resistance) is a Theory of Everything candidat
 ```bibtex
 @misc{stur2025,
   author = {Lindberg, Sheldon},
-  title = {{STUR}: A Z₃ Helix Framework for Unified Physics},
+  title = {{STUR}: A ∞₃ Helix Framework for Unified Physics},
   year = {2025},
   url = {https://sheldonlindberg-afk.github.io/STUR-Physics-Lab}
 }

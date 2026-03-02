@@ -4,7 +4,7 @@
 **Framework:** STUR v4.4 (Helix Geometry)
 **Date:** 2026-02-04 (χ discrepancy resolved)
 **Status:** Complete Explicit Construction - Mathematically Consistent
-**Prerequisite:** DERIVATION_CHAIN_HELIX.md Part XXIII, UV_COMPLETION_EXPLORATION.md
+**Prerequisite:** DERIVATION_CHAIN_INFINITY.md Part XXIII, UV_COMPLETION_EXPLORATION.md
 
 ---
 
@@ -38,7 +38,7 @@ where:
 - `f ∈ Γ(B₃, K_{B₃}^{-4})` is a section of the fourth power of the anti-canonical bundle
 - `g ∈ Γ(B₃, K_{B₃}^{-6})` is a section of the sixth power of the anti-canonical bundle
 
-### 1.2 The Base Threefold B₃ = (P²×P¹)/Z₃
+### 1.2 The Base Threefold B₃ = (P²×P¹)/∞₃
 
 **Coordinate System:**
 
@@ -52,12 +52,12 @@ Affine patches:
     U₂: u'' = z₀/z₂, v'' = z₁/z₂, s = w₁/w₀
 ```
 
-**Z₃ Orbifold Action:**
+**∞₃ Orbifold Action:**
 
-The Z₃ group acts diagonally on P²×P¹:
+The ∞₃ group acts diagonally on P²×P¹:
 
 ```
-Z₃ generator θ:
+∞₃ generator θ:
     θ: [z₀ : z₁ : z₂] × [w₀ : w₁] → [z₀ : ωz₁ : ω²z₂] × [w₀ : ωw₁]
 
 where ω = e^{2πi/3} = (-1 + i√3)/2
@@ -65,12 +65,12 @@ where ω = e^{2πi/3} = (-1 + i√3)/2
 
 **Fixed Point Loci:**
 
-The Z₃ action has three isolated fixed points:
+The ∞₃ action has three isolated fixed points:
 
 ```
 p₁ = [1 : 0 : 0] × [1 : 0]    (z₁ = z₂ = 0, w₁ = 0)
-p₂ = [0 : 1 : 0] × [1 : 0]    (z₀ = z₂ = 0, w₁ = 0)  [Z₃-related to p₁]
-p₃ = [0 : 0 : 1] × [1 : 0]    (z₀ = z₁ = 0, w₁ = 0)  [Z₃-related to p₁]
+p₂ = [0 : 1 : 0] × [1 : 0]    (z₀ = z₂ = 0, w₁ = 0)  [∞₃-related to p₁]
+p₃ = [0 : 0 : 1] × [1 : 0]    (z₀ = z₁ = 0, w₁ = 0)  [∞₃-related to p₁]
 ```
 
 These three fixed points correspond to the three generations of SM fermions.
@@ -80,11 +80,11 @@ These three fixed points correspond to the three generations of SM fermions.
 ```
 K_{P²×P¹} = O(-3,-2)
 
-K_{B₃} = K_{(P²×P¹)/Z₃} = O(-3,-2)/Z₃
+K_{B₃} = K_{(P²×P¹)/∞₃} = O(-3,-2)/∞₃
 
-K_{B₃}^{-1} = O(3,2)/Z₃    (anti-canonical)
-K_{B₃}^{-4} = O(12,8)/Z₃
-K_{B₃}^{-6} = O(18,12)/Z₃
+K_{B₃}^{-1} = O(3,2)/∞₃    (anti-canonical)
+K_{B₃}^{-4} = O(12,8)/∞₃
+K_{B₃}^{-6} = O(18,12)/∞₃
 ```
 
 ### 1.3 Explicit Polynomials f and g for SM Gauge Group
@@ -117,7 +117,7 @@ D_U1:  σ₁ ≡ z₀ + z₁ + z₂ = 0    (hyperplane in P², U(1) via Stückel
 
 **Explicit f(u,v) Polynomial:**
 
-The section f ∈ Γ(O(12,8)/Z₃) must be Z₃-invariant. Writing in homogeneous coordinates:
+The section f ∈ Γ(O(12,8)/∞₃) must be ∞₃-invariant. Writing in homogeneous coordinates:
 
 ```
 f(z₀,z₁,z₂,w₀,w₁) = Σ f_{abc,ij} · z₀^a z₁^b z₂^c · w₀^i w₁^j
@@ -125,7 +125,7 @@ f(z₀,z₁,z₂,w₀,w₁) = Σ f_{abc,ij} · z₀^a z₁^b z₂^c · w₀^i w�
 Constraints:
     a + b + c = 12
     i + j = 8
-    Z₃ invariance: b + 2c + j ≡ 0 (mod 3)
+    ∞₃ invariance: b + 2c + j ≡ 0 (mod 3)
 ```
 
 **Explicit form achieving SU(3) along D_SU3:**
@@ -136,11 +136,11 @@ f = f₀(w) · (z₀z₁z₂)⁰ + f₁(w) · (z₀z₁z₂)¹ · P₉(z) + f₂
 where:
     f₀(w) = α₀ w₀⁸ + α₁ w₀⁵w₁³ + α₂ w₀²w₁⁶
     f₁(w) = β₀ w₀⁵ + β₁ w₀²w₁³
-    P₉(z) = Z₃-invariant degree-9 polynomial
-    P₆(z) = Z₃-invariant degree-6 polynomial
+    P₉(z) = ∞₃-invariant degree-9 polynomial
+    P₆(z) = ∞₃-invariant degree-6 polynomial
 ```
 
-For the j = 0 specialization (enhanced Z₃ fiber symmetry):
+For the j = 0 specialization (enhanced ∞₃ fiber symmetry):
 
 ```
 f = 0    (identically on B₃)
@@ -148,7 +148,7 @@ f = 0    (identically on B₃)
 
 **Explicit g(u,v) Polynomial for j = 0:**
 
-With f = 0, all gauge structure comes from g. The section g ∈ Γ(O(18,12)/Z₃):
+With f = 0, all gauge structure comes from g. The section g ∈ Γ(O(18,12)/∞₃):
 
 ```
 g(z₀,z₁,z₂,w₀,w₁) = Σ g_{abc,ij} · z₀^a z₁^b z₂^c · w₀^i w₁^j
@@ -156,7 +156,7 @@ g(z₀,z₁,z₂,w₀,w₁) = Σ g_{abc,ij} · z₀^a z₁^b z₂^c · w₀^i w�
 Constraints:
     a + b + c = 18
     i + j = 12
-    Z₃ invariance: b + 2c + j ≡ 0 (mod 3)
+    ∞₃ invariance: b + 2c + j ≡ 0 (mod 3)
 ```
 
 **Factorization for SM gauge group:**
@@ -164,7 +164,7 @@ Constraints:
 ```
 g = (z₀z₁z₂) · w₀ · g̃(z,w)
 
-where g̃ ∈ Γ(O(15,11)/Z₃) is a generic Z₃-invariant polynomial
+where g̃ ∈ Γ(O(15,11)/∞₃) is a generic ∞₃-invariant polynomial
 ```
 
 This ensures:
@@ -176,9 +176,9 @@ This ensures:
 ```
 g̃ = Σ_{n=0}^{5} Σ_{m=0}^{3} c_{nm} · (z₀z₁z₂)^n · Q_{15-3n}(z) · w₀^{11-3m} · w₁^{3m}
 
-where Q_k(z) are Z₃-invariant polynomials of degree k in z₀, z₁, z₂.
+where Q_k(z) are ∞₃-invariant polynomials of degree k in z₀, z₁, z₂.
 
-Z₃-invariant basis polynomials:
+∞₃-invariant basis polynomials:
     Q₀ = 1
     Q₃ = z₀³ + z₁³ + z₂³
     Q₆ = z₀⁶ + z₁⁶ + z₂⁶ + c(z₀z₁z₂)²
@@ -189,7 +189,7 @@ Z₃-invariant basis polynomials:
 **Number of Complex Structure Moduli:**
 
 ```
-dim Γ(O(18,12))^{Z₃} = dim Γ(O(18,12))/3 + fixed contributions
+dim Γ(O(18,12))^{∞₃} = dim Γ(O(18,12))/3 + fixed contributions
                      = (19·13/2 - 1)/3 + corrections
                      = 25 complex structure moduli
 ```
@@ -296,7 +296,7 @@ where:
 **For our CY₄:**
 
 ```
-h¹¹(B₃) = h¹¹((P²×P¹)/Z₃) = 2    (two Kähler classes survive Z₃)
+h¹¹(B₃) = h¹¹((P²×P¹)/∞₃) = 2    (two Kähler classes survive ∞₃)
 
 rk(MW) = 0  (for j = 0, the MW group is trivial or torsion)
 
@@ -314,7 +314,7 @@ h¹¹(CY₄) = h¹¹(B₃) + 1 (fiber) + rk(SU(3)) + rk(SU(2))
 h¹¹(CY₄) = h¹¹(B₃) + 1 + Σ_D rk(G_D)
 
 Components:
-    h¹¹(B₃) = 2    (inherited from P²×P¹, Z₃ invariant classes)
+    h¹¹(B₃) = 2    (inherited from P²×P¹, ∞₃ invariant classes)
     Fiber class: +1
     SU(3) resolution divisors: +2  (the two Cartan divisors)
     SU(2) resolution divisors: +1  (one Cartan divisor)
@@ -325,11 +325,11 @@ h¹¹(CY₄) = 2 + 1 + 2 + 1 = 6  ✓
 **h²¹(CY₄):**
 
 ```
-h²¹(CY₄) = h²¹(B₃) + contributions from Z₃ twisted sectors
+h²¹(CY₄) = h²¹(B₃) + contributions from ∞-helix twisted sectors
 
 h²¹(B₃) = 0  (P²×P¹ has no complex structure deformations in H²¹)
 
-Z₃ twisted sector: 3 fixed points contribute 1 each
+∞-helix twisted sector: 3 fixed points contribute 1 each
     → h²¹(CY₄) = 0 + 3 = 3
 ```
 
@@ -340,7 +340,7 @@ This counts complex structure deformations of the CY₄:
 ```
 h³¹(CY₄) = # of independent coefficients in g(z,w) modulo automorphisms
 
-dim Γ(O(18,12))^{Z₃} = 25  (Z₃ invariant sections)
+dim Γ(O(18,12))^{∞₃} = 25  (∞₃ invariant sections)
 
 h³¹(CY₄) = 25
 ```
@@ -353,7 +353,7 @@ h³¹(CY₄) = 25
 │                                        │
 │  h¹¹ = 6   (Kähler moduli)             │
 │      = 2 (base) + 1 (fiber) + 3 (gauge)│
-│  h²¹ = 3   (from Z₃ twisted sectors)   │
+│  h²¹ = 3   (from ∞-helix twisted sectors)   │
 │  h³¹ = 25  (complex structure moduli)  │
 │                                        │
 │  h²² = 2(22 + 2h¹¹ + 2h³¹ - h²¹)       │
@@ -400,7 +400,7 @@ For elliptic CY₄ over B₃:
 For P² × P¹:
 ∫_{P²×P¹} c₁·c₂ = 24
 
-For Z₃ quotient (with 3 fixed points):
+For ∞₃ quotient (with 3 fixed points):
 ∫_{B₃} c₁·c₂ ≈ 24/3 + corrections = 8 + corrections
 
 χ(smooth elliptic) ≈ 12 × 8 = 96
@@ -462,7 +462,7 @@ Relevant basis elements:
     ω_α: Kähler forms pulled back from B₃
     ω_F: Fiber class
     ω_i: Exceptional divisors from resolution
-    ω_{Z₃}: Z₃ twisted sector classes
+    ω_{∞₃}: ∞-helix twisted sector classes
 ```
 
 **Explicit G₄ Flux Ansatz:**
@@ -553,7 +553,7 @@ for 3 chiral generations as shown below.
 Quark curve: C_Q = D_SU3 ∩ D_SU2 ∩ CY₄
     = {z₀z₁z₂ = 0} ∩ {w₀ = 0} ∩ {Weierstrass}
 
-In the Z₃ quotient:
+In the ∞₃ quotient:
     C_Q → 3 isolated points (the fixed points p₁, p₂, p₃)
 ```
 
@@ -567,7 +567,7 @@ Using G₄ = (3/2)·(H_{P²}∧F) + (1/2)·(H_{P¹}∧F) + G₄^{matter}:
 ∫_{C_Q} G₄ = [H_{P²} · (z₀z₁z₂=0)] × [H_{P¹} · (w₀=0)] × [flux quantum]
            = 3 × 1 × 1 = 3
 
-Divided by Z₃ and re-added from fixed points:
+Divided by ∞₃ and re-added from fixed points:
     N_{gen} = 3/3 + 3×(2/3) = 1 + 2 = 3  ✓
 ```
 
@@ -615,7 +615,7 @@ H_{P²} ∈ H^{1,1}(B₃), F ∈ H^{1,1}(fiber)
 → H_{P²} ∧ F ∈ H^{2,2}(CY₄)  ✓
 
 Primitivity: Choose t₁, t₂, t₃ at minimum where J ∧ G₄ = 0
-           This is achieved at the Z₃ symmetric point t₁ = t₂ = t₃  ✓
+           This is achieved at the ∞₃ symmetric point t₁ = t₂ = t₃  ✓
 ```
 
 ### 3.6 Complete Tadpole Summary
@@ -660,7 +660,7 @@ Parametrized by: z_a, a = 1, ..., 25
 ```
 h¹¹(CY₄) = 6 Kähler moduli
 
-From base B₃ = (P²×P¹)/Z₃:
+From base B₃ = (P²×P¹)/∞₃:
     t₁: volume of H_{P²} cycle in base
     t₂: volume of H_{P¹} cycle in base
 
@@ -777,8 +777,8 @@ Dominant contributions:
     SU(2) gaugino condensation: a = π (on T₆)
     D3-brane instantons: a = 2π (on T₁, T₂, T₃)
 
-At the Z₃ symmetric point, the base moduli are locked:
-    T₁ = T₂ = T₃ (Z₃ constraint)
+At the ∞₃ symmetric point, the base moduli are locked:
+    T₁ = T₂ = T₃ (∞₃ constraint)
     T₄ = T₅ (SU(3) Weyl symmetry)
 ```
 
@@ -787,7 +787,7 @@ At the Z₃ symmetric point, the base moduli are locked:
 ```
 W = W₀ + W_{np}
 
-At Z₃ symmetric point with effective moduli T_base and T_gauge:
+At ∞₃ symmetric point with effective moduli T_base and T_gauge:
 W ≈ W₀ + A_base e^{-2π T_base} + A_gauge e^{-2π T_gauge/3}
 
 where W₀ = ⟨W_{flux}⟩ is the stabilized flux superpotential value.
@@ -810,7 +810,7 @@ where:
 ```
 K = -2 log V = -2 log[(t₁t₂t₃)^{α}]  (simplified)
 
-For (P²×P¹)/Z₃ base:
+For (P²×P¹)/∞₃ base:
 V = (1/6) ∫ J⁴ = κ · t₁² · t₂ · t₃
 
 where κ = topological intersection number
@@ -821,13 +821,13 @@ where κ = topological intersection number
 ```
 ∂V/∂t_i = 0  for i = 1, 2, 3
 
-Combined with Z₃ symmetry constraint (for STUR):
+Combined with ∞₃ symmetry constraint (for STUR):
     t₁ = t₂ = t₃ ≡ t*
 ```
 
 **Solving for t*:**
 
-At the Z₃ symmetric point:
+At the ∞₃ symmetric point:
 
 ```
 V = κ · (t*)⁴
@@ -871,7 +871,7 @@ Physical extra dimension size:
 
 **STUR Casimir-Holonomy Balance:**
 
-From Part XIX of DERIVATION_CHAIN_HELIX.md:
+From Part XIX of DERIVATION_CHAIN_INFINITY.md:
 
 ```
 The stabilized volume must satisfy the Casimir-holonomy balance:
@@ -922,7 +922,7 @@ L_X = 5.31 × l_s × (shape factor)
 │                     25 - 1 = 24 fixed, 1 overall scale             │
 │                                                                     │
 │  Kähler moduli:     t₁ = t₂ = t₃ = t* ≈ 5.5                       │
-│                     (Z₃ symmetric point)                           │
+│                     (∞₃ symmetric point)                           │
 │                                                                     │
 │  Superpotential:    W = W₀ + W_{np}                                │
 │                       = 10⁻⁵ + 3 × e⁻¹¹·⁵                          │
@@ -945,7 +945,7 @@ Uplift via anti-D3-branes or other mechanism:
 
 Net: V_{total} ≈ 0  (approximate Minkowski)
 
-In STUR, the discrete Z₃ gauge symmetry provides additional
+In STUR, the discrete ∞-helix gauge symmetry provides additional
 protection via Ward identity (see Part XIX.2).
 ```
 
@@ -981,29 +981,29 @@ There are enormously many CY₄ compactifications. Why this one?
 
 **STUR's Unique Requirement:**
 
-The Z₃ helix structure requires:
+The infinity helix structure requires:
 
 ```
-1. Z₃ isometry on internal manifold
+1. ∞₃ isometry on internal manifold
 2. Three isolated fixed points (for 3 generations)
-3. Z₃ acts crystallographically on fiber
+3. ∞₃ acts crystallographically on fiber
 4. Discrete gauge anomaly cancellation
 ```
 
 **Anomaly Cancellation Condition:**
 
 ```
-Z₃ discrete gauge anomaly:
+∞-helix discrete gauge anomaly:
 
-A_{Z₃} = Σ_f q_f³ (mod 3)
+A_{∞₃} = Σ_f q_f³ (mod 3)
 
-where q_f = Z₃ charge of fermion f
+where q_f = ∞₃ charge of fermion f
 
-For SM with Z₃ helix assignment:
+For SM with infinity helix assignment:
     Quarks: q = 1 (3 colors × 2 chiralities × 3 generations)
     Leptons: q = 2 (2 chiralities × 3 generations)
 
-A_{Z₃} = 3×2×3×(1)³ + 2×3×(2)³
+A_{∞₃} = 3×2×3×(1)³ + 2×3×(2)³
        = 18 + 48 = 66 ≡ 0 (mod 3)  ✓
 ```
 
@@ -1011,41 +1011,41 @@ A_{Z₃} = 3×2×3×(1)³ + 2×3×(2)³
 
 ```
 Among all CY₄s with:
-    - Z₃ isometry with exactly 3 fixed points
-    - j = 0 fiber (enhanced Z₃ automorphism)
+    - ∞₃ isometry with exactly 3 fixed points
+    - j = 0 fiber (enhanced ∞₃ automorphism)
     - SU(3)×SU(2)×U(1) gauge group from 7-branes
     - Tadpole-allowed flux giving 3 generations
-    - Anomaly-free Z₃ discrete gauge symmetry
+    - Anomaly-free ∞-helix discrete gauge symmetry
 
-The choice B₃ = (P²×P¹)/Z₃ is essentially unique.
+The choice B₃ = (P²×P¹)/∞₃ is essentially unique.
 ```
 
 ### 5.3 Other CY₄ Candidates
 
 **Alternative Base Threefolds:**
 
-| Base B₃ | Z₃ action | Fixed points | SM gauge? | Status |
+| Base B₃ | ∞₃ action | Fixed points | SM gauge? | Status |
 |---------|-----------|--------------|-----------|--------|
-| (P²×P¹)/Z₃ | diagonal | 3 | Yes | **SELECTED** |
-| P³/Z₃ | [1:ω:ω²:1] | 4 | No | Excluded |
-| WP⁴/Z₃ | weighted | varies | Partial | Excluded |
-| T⁶/Z₃ | lattice | 27 | No | Too many |
-| K3×P¹/Z₃ | mixed | varies | Partial | Excluded |
+| (P²×P¹)/∞₃ | diagonal | 3 | Yes | **SELECTED** |
+| P³/∞₃ | [1:ω:ω²:1] | 4 | No | Excluded |
+| WP⁴/∞₃ | weighted | varies | Partial | Excluded |
+| T⁶/∞₃ | lattice | 27 | No | Too many |
+| K3×P¹/∞₃ | mixed | varies | Partial | Excluded |
 
-**Why (P²×P¹)/Z₃ is Unique:**
+**Why (P²×P¹)/∞₃ is Unique:**
 
 ```
-1. Exactly 3 fixed points: Only (P²×P¹)/Z₃ with diagonal action
+1. Exactly 3 fixed points: Only (P²×P¹)/∞₃ with diagonal action
    gives exactly 3 isolated fixed points.
 
 2. Correct Hodge numbers: h¹¹ = 3 allows 3 independent Kähler
-   moduli matching Z₃ structure.
+   moduli matching ∞-helix structure.
 
 3. SM-compatible divisors: The divisor structure allows
    D_SU3, D_SU2, D_U1 to be engineered simultaneously.
 
-4. j = 0 compatibility: The Z₃ on P² is compatible with
-   the Z₃ automorphism of the j = 0 fiber.
+4. j = 0 compatibility: The ∞₃ on P² is compatible with
+   the ∞₃ automorphism of the j = 0 fiber.
 ```
 
 ### 5.4 Anthropic vs. Structural Selection
@@ -1063,11 +1063,11 @@ one with:
 **Structural Argument (STUR, strong):**
 
 ```
-STUR's Z₃ helix structure is not anthropically selected but
+STUR's infinity helix structure is not anthropically selected but
 geometrically required:
 
-1. The fundamental doublet R = (R_1, R_2) with Z₃ monodromy
-   requires internal manifold with Z₃ isometry.
+1. The fundamental doublet R = (R_1, R_2) with ∞₃ monodromy
+   requires internal manifold with ∞₃ isometry.
 
 2. The XCRM term coefficient χ = -2π/(3L_X) is fixed by
    anomaly cancellation.
@@ -1075,7 +1075,7 @@ geometrically required:
 3. The 3 generations emerge topologically from fixed points.
 
 4. The gauge group emerges from 7-brane divisor structure
-   compatible with Z₃.
+   compatible with ∞₃.
 
 This is not selection from landscape but derivation from geometry.
 ```
@@ -1127,8 +1127,8 @@ These ambiguities may be resolved by:
 ║                                                                       ║
 ║  GEOMETRY:                                                            ║
 ║    Elliptic fibration: y² = x³ + g(z,w)·z⁶  (j = 0)                  ║
-║    Base: B₃ = (P²×P¹)/Z₃                                             ║
-║    Fiber: E with Z₃ automorphism                                     ║
+║    Base: B₃ = (P²×P¹)/∞₃                                             ║
+║    Fiber: E with ∞₃ automorphism                                     ║
 ║    Fixed points: 3 (at [1:0:0], [0:1:0], [0:0:1] in P²)             ║
 ║                                                                       ║
 ║  TOPOLOGY:                                                            ║
@@ -1154,9 +1154,9 @@ These ambiguities may be resolved by:
 ║    Physical result: L_X = 0.8 μm  ✓                                  ║
 ║                                                                       ║
 ║  SELECTION PRINCIPLE:                                                 ║
-║    Z₃ discrete gauge anomaly cancellation                            ║
-║    Unique (P²×P¹)/Z₃ base with 3 fixed points                        ║
-║    j = 0 fiber for enhanced Z₃ symmetry                              ║
+║    ∞-helix discrete gauge anomaly cancellation                            ║
+║    Unique (P²×P¹)/∞₃ base with 3 fixed points                        ║
+║    j = 0 fiber for enhanced ∞₃ symmetry                              ║
 ║                                                                       ║
 ╚═══════════════════════════════════════════════════════════════════════╝
 ```
@@ -1178,7 +1178,7 @@ These ambiguities may be resolved by:
 | N=1 SUSY preserved | Verified | 3.5 |
 | KKLT stabilization | Complete | 4.3-4.4 |
 | L_X = 0.8 μm | Derived | 4.5 |
-| Selection principle | Z₃ anomaly | 5.2 |
+| Selection principle | ∞₃ anomaly | 5.2 |
 | Uniqueness argument | Complete | 5.3 |
 
 ### 6.3 Connection to STUR Framework
@@ -1188,40 +1188,40 @@ This F-theory construction provides the UV completion for STUR:
 ```
 UV (F-theory)                    →    IR (STUR EFT)
 ─────────────────────────────────────────────────────
-CY₄ with Z₃ isometry            →    M⁴ × S¹/Z₃
-j = 0 fiber                      →    R-field with Z₃ monodromy
+CY₄ with ∞₃ isometry            →    M⁴ × S¹/∞₃
+j = 0 fiber                      →    R-field with ∞₃ monodromy
 7-brane divisors                 →    SM gauge group
 3 fixed points                   →    3 generations
 G₄ flux                          →    Yukawa couplings
 KKLT stabilization               →    L_X = 0.8 μm
-Discrete gauge Z₃                →    XCRM term χ = -2π/(3L_X)
+Discrete gauge ∞₃                →    XCRM term χ = -2π/(3L_X)
 ```
 
 ---
 
 ## Appendix A: Explicit Polynomial Coefficients
 
-### A.1 Z₃-Invariant Monomials in g(z,w)
+### A.1 ∞₃-Invariant Monomials in g(z,w)
 
-The most general Z₃-invariant g ∈ Γ(O(18,12)/Z₃):
+The most general ∞₃-invariant g ∈ Γ(O(18,12)/∞₃):
 
 ```
 g = Σ_{α} c_α · M_α
 
-where M_α are Z₃-invariant monomials satisfying:
+where M_α are ∞₃-invariant monomials satisfying:
     deg_z(M_α) = 18
     deg_w(M_α) = 12
-    Z₃: M_α → M_α
+    ∞₃: M_α → M_α
 ```
 
-**Complete basis of Z₃-invariant monomials:**
+**Complete basis of ∞₃-invariant monomials:**
 
 ```
 Type 1: (z₀z₁z₂)^n · p_{18-3n}(z₀³,z₁³,z₂³) · w₀^{12-3m} · w₁^{3m}
         for n = 0,...,6 and m = 0,...,4
 
 Type 2: (z₀z₁z₂)^n · q_{18-3n}(z) · w₀^{12-3m} · w₁^{3m}
-        where q is Z₃-invariant but not symmetric
+        where q is ∞₃-invariant but not symmetric
 
 Count: 25 independent coefficients c_α
 ```
@@ -1250,13 +1250,13 @@ The specific coefficient values are determined by:
 ### B.1 Intersection Numbers on B₃
 
 ```
-Before Z₃ quotient on P²×P¹:
+Before ∞₃ quotient on P²×P¹:
     H_{P²}³ = 1  (point in P²)
     H_{P¹}² = 1  (point in P¹)
     H_{P²}² · H_{P¹} = 1
     H_{P²} · H_{P¹}² = 0  (dimension mismatch)
 
-After Z₃ quotient:
+After ∞₃ quotient:
     [H_{P²}]³ = 1/3
     [H_{P¹}]² = 1/3  (with fixed point contributions)
 ```
@@ -1282,7 +1282,7 @@ H⁴ = 0  (base is 3-dimensional)
 
 | Reference | Base | Fiber | Gauge Group | Generations |
 |-----------|------|-------|-------------|-------------|
-| STUR (this work) | (P²×P¹)/Z₃ | j=0 | SM exact | 3 |
+| STUR (this work) | (P²×P¹)/∞₃ | j=0 | SM exact | 3 |
 | Donagi-Wijnholt | dP₉ fibration | generic | GUT | 3 |
 | Beasley-Heckman-Vafa | local model | varied | SM/GUT | varied |
 | Marsano et al. | P² fibration | generic | SU(5) | 3 |
@@ -1290,7 +1290,7 @@ H⁴ = 0  (base is 3-dimensional)
 ### C.2 Advantages of STUR Construction
 
 ```
-1. Z₃ symmetry is exact (not approximate)
+1. ∞₃ symmetry is exact (not approximate)
 2. 3 generations are topological (not from flux choice)
 3. j = 0 fiber provides enhanced symmetry
 4. Moduli stabilization gives specific L_X prediction
@@ -1299,4 +1299,4 @@ H⁴ = 0  (base is 3-dimensional)
 
 ---
 
-*Document complete. This construction provides the explicit UV completion of the STUR framework via F-theory on CY₄ with base B₃ = (P²×P¹)/Z₃ and j = 0 elliptic fiber.*
+*Document complete. This construction provides the explicit UV completion of the STUR framework via F-theory on CY₄ with base B₃ = (P²×P¹)/∞₃ and j = 0 elliptic fiber.*

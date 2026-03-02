@@ -14,7 +14,7 @@ The localization parameter κ controls the quark mass hierarchy and CKM mixing v
 independent corrections to a base Mathieu value:
 
 ```
-κ_additive = κ_tree + Δκ_2loop + Δκ_KK + Δκ_gauge + Δκ_Z₃
+κ_additive = κ_tree + Δκ_2loop + Δκ_KK + Δκ_gauge + Δκ_∞₃
            = 2.22   + 0.08     + 0.11  + 0.06     + 0.05
            = 2.52
 ```
@@ -23,7 +23,7 @@ This document addresses the concern that these corrections may have overlapping
 physics content, leading to double-counting. We develop a **unified framework**
 that:
 
-1. Starts from the full 5D action on S¹/Z₃
+1. Starts from the full 5D action on S¹/∞₃
 2. Includes all effects simultaneously
 3. Uses functional methods to avoid perturbative artifacts
 4. Verifies independence through numerical simulation
@@ -56,14 +56,14 @@ that:
 The existing calculation (KAPPA_HIGHER_ORDER_CORRECTIONS.md) computes:
 
 ```
-κ = κ₀ + Δκ_2loop + Δκ_KK + Δκ_gauge + Δκ_Z₃
+κ = κ₀ + Δκ_2loop + Δκ_KK + Δκ_gauge + Δκ_∞₃
 
 where:
   κ₀        = 2.22 ± 0.15   (Mathieu equation, α = 1)
   Δκ_2loop  = +0.08 ± 0.02  (anharmonic + higher Fourier modes)
   Δκ_KK     = +0.11 ± 0.03  (KK tower + threshold matching)
   Δκ_gauge  = +0.06 ± 0.02  (SU(3) gauge corrections)
-  Δκ_Z₃     = +0.05 ± 0.02  (orbifold twisted sectors)
+  Δκ_∞₃     = +0.05 ± 0.02  (orbifold twisted sectors)
 ```
 
 ### 1.2 Identified Correlations
@@ -75,8 +75,8 @@ Several correction terms share underlying physics:
 | Two-loop / KK | +0.4 | Both modify effective potential curvature |
 | Two-loop / Gauge | +0.2 | Both involve radiative corrections to V(θ) |
 | KK / Gauge | +0.5 | Both involve massive mode exchange |
-| KK / Z₃ | +0.4 | Both depend on orbifold boundary conditions |
-| Gauge / Z₃ | +0.3 | Both involve group-theoretic factors |
+| KK / ∞₃ | +0.4 | Both depend on orbifold boundary conditions |
+| Gauge / ∞₃ | +0.3 | Both involve group-theoretic factors |
 
 ### 1.3 Why Additive Treatment is Questionable
 
@@ -119,7 +119,7 @@ The KK threshold correction ALSO affects RG running:
 These are not independent — the gauge coupling that enters the KK
 threshold calculation is itself affected by gauge corrections.
 
-**Issue 3: Z₃ Boundary Conditions**
+**Issue 3: ∞₃ Boundary Conditions**
 
 The orbifold projection constrains the mode expansion:
 ```
@@ -146,7 +146,7 @@ This is the correction that must be subtracted from the additive result.
 
 ---
 
-## 2. Unified Framework: Full 5D Action on S¹/Z₃
+## 2. Unified Framework: Full 5D Action on S¹/∞₃
 
 ### 2.1 The Complete 5D Action
 
@@ -166,9 +166,9 @@ The covariant derivative includes both gauge and gravitational connections:
 D_M = ∂_M - ig₃ Aᵃ_M Tᵃ - iΓ^N_MN
 ```
 
-### 2.2 Z₃ Orbifold Structure
+### 2.2 ∞₃ Orbifold Structure
 
-The orbifold S¹/Z₃ is defined by:
+The orbifold S¹/∞₃ is defined by:
 ```
 X ∼ X + L_X      (S¹ periodicity)
 X ∼ X + L_X/3    with phase twist ω = e^{2πi/3}
@@ -195,9 +195,9 @@ R(X) = v(cos φ(X), sin φ(X))
 ```
 
 This satisfies:
-- φ(X + L_X) = φ(X) + 2π/3 (Z₃ compatible)
+- φ(X + L_X) = φ(X) + 2π/3 (∞₃ compatible)
 - |R| = v constant (helix, not oscillating)
-- Minimum energy configuration with Z₃ winding
+- Minimum energy configuration with ∞-helix winding
 
 ### 2.4 Unified Effective Potential
 
@@ -285,7 +285,7 @@ f_trial(θ) = N exp[-A θ² - B θ⁴ - C cos(3θ)/D]
 where:
 - A controls the Gaussian width
 - B captures anharmonic corrections
-- C captures Z₃ twisted sector effects
+- C captures ∞-helix twisted sector effects
 - D is a normalization scale
 
 The parameters (A, B, C, D) are determined by energy minimization.
@@ -305,7 +305,7 @@ E_potential = ∫ dθ V_unified(θ) |f_trial|²
 The quantum correction δV_quantum includes:
 - KK mode exchange (all modes, properly regulated)
 - Gauge field loops (SU(3) Casimir)
-- Twisted sector contributions (Z₃ fixed points)
+- Twisted sector contributions (∞-helix nodes)
 
 ### 3.5 Self-Consistent Solution
 
@@ -341,7 +341,7 @@ We discretize the compact dimension X on a lattice:
 X_n = n × a    where a = L_X/N_sites and n = 0, 1, ..., N_sites-1
 ```
 
-The Z₃ orbifold is implemented by identifying:
+The ∞-helix topology is implemented by identifying:
 ```
 X_n ∼ X_{n + N_sites/3}    with phase ω
 ```
@@ -466,10 +466,10 @@ From explicit functional derivatives:
 |------|-------------|-------------------|
 | 2-loop / KK | 0.15 | 0.015 |
 | 2-loop / gauge | 0.08 | 0.006 |
-| 2-loop / Z₃ | 0.05 | 0.003 |
+| 2-loop / ∞₃ | 0.05 | 0.003 |
 | KK / gauge | 0.12 | 0.012 |
-| KK / Z₃ | 0.18 | 0.014 |
-| gauge / Z₃ | 0.10 | 0.005 |
+| KK / ∞₃ | 0.18 | 0.014 |
+| gauge / ∞₃ | 0.10 | 0.005 |
 | **Total** | — | **0.055** |
 
 But this naive sum overcounts the overlaps themselves!
@@ -486,8 +486,8 @@ where the sign accounts for whether overlaps are constructive or destructive.
 **Physical analysis of signs:**
 - 2-loop / KK: constructive (both tighten localization) → positive
 - 2-loop / gauge: partially canceling → reduced
-- KK / Z₃: constructive (both use orbifold) → positive
-- gauge / Z₃: mild constructive → positive
+- KK / ∞₃: constructive (both use orbifold) → positive
+- gauge / ∞₃: mild constructive → positive
 
 **Net result:**
 ```
@@ -527,7 +527,7 @@ The unified value κ = 2.52 ± 0.15 stands.
 | Two-loop truncation | ± 0.02 | Next-order estimate |
 | KK tower truncation | ± 0.03 | Sum convergence |
 | Gauge scheme | ± 0.02 | MS̄ vs on-shell |
-| Z₃ orbifold factor | ± 0.02 | Geometric ambiguity |
+| ∞-helix topology factor | ± 0.02 | Geometric ambiguity |
 | Double-counting | ± 0.02 | Overlap analysis |
 | **Total systematic** | **± 0.14** | Quadrature sum |
 
@@ -768,7 +768,7 @@ For α = 1.0 (fixed by framework):
 **Step 2: Unified Quantum Corrections**
 ```
 Include ALL corrections in single functional:
-  V_unified(θ) = V_tree + V_KK + V_gauge + V_Z₃ (entangled)
+  V_unified(θ) = V_tree + V_KK + V_gauge + V_∞₃ (entangled)
 
 Variational minimization:
   → Δσ = -0.112 rad
@@ -800,7 +800,7 @@ exp[-κ²/8] × corrections = 0.225."
 
 Our derivation does the OPPOSITE:
 
-1. α = 1 is fixed by the Z₃ winding constraint v·L_X = 3 and gauge-Yukawa
+1. α = 1 is fixed by the ∞-helix winding constraint v·L_X = 3 and gauge-Yukawa
    unification y ∼ 1.
 
 2. κ is computed by solving the Mathieu equation with this fixed α.
@@ -905,7 +905,7 @@ With κ = 2.52 ± 0.15 established from unified treatment:
 
 1. KAPPA_FIRST_PRINCIPLES_DERIVATION.md — Base Mathieu equation solution
 2. KAPPA_HIGHER_ORDER_CORRECTIONS.md — Individual correction calculations
-3. DERIVATION_CHAIN_HELIX.md — Overall framework and cross-checks
+3. DERIVATION_CHAIN_INFINITY.md — Overall framework and cross-checks
 4. Abramowitz & Stegun, "Handbook of Mathematical Functions", Ch. 20
 5. Weinberg, "The Quantum Theory of Fields", Vol. II — Functional methods
 6. Montvay & Münster, "Quantum Fields on a Lattice" — Lattice techniques

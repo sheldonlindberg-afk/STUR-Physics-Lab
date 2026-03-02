@@ -1,4 +1,4 @@
-# Explicit Derivation of the Z₃ Instanton Prefactor F_inst = 1/3
+# Explicit Derivation of the ∞₃ Instanton Prefactor F_inst = 1/3
 
 **Document Type:** First-Principles Calculation
 **Framework:** STUR v4.4 — Helix Geometry Unified Field Theory
@@ -10,9 +10,9 @@
 
 ## Abstract
 
-This document provides an explicit, step-by-step derivation of the Z₃ instanton prefactor F_inst = 1/3 that appears in the cosmological constant calculation. We employ two independent methods:
+This document provides an explicit, step-by-step derivation of the ∞₃ instanton prefactor F_inst = 1/3 that appears in the cosmological constant calculation. We employ two independent methods:
 
-1. **ζ-function regularization** of the functional determinant on S¹/Z₃
+1. **ζ-function regularization** of the functional determinant on S¹/∞₃
 2. **Casimir factor evaluation** using modular properties
 
 Both methods yield F_inst = 1/3 exactly, providing a robust cross-check. This factor reduces the predicted cosmological constant from Λ = 1.1 × 10⁻⁴⁶ GeV⁴ to Λ = 3.6 × 10⁻⁴⁷ GeV⁴, achieving agreement with observation.
@@ -21,7 +21,7 @@ Both methods yield F_inst = 1/3 exactly, providing a robust cross-check. This fa
 
 ## Table of Contents
 
-1. [Part I: Z₃ Functional Determinant Setup](#part-i-z3-functional-determinant-setup)
+1. [Part I: ∞₃ Functional Determinant Setup](#part-i-z3-functional-determinant-setup)
 2. [Part II: ζ-Function Regularization Framework](#part-ii-ζ-function-regularization-framework)
 3. [Part III: Explicit Eigenvalue Calculation](#part-iii-explicit-eigenvalue-calculation)
 4. [Part IV: Alternative Derivation via Casimir Factor](#part-iv-alternative-derivation-via-casimir-factor)
@@ -29,11 +29,11 @@ Both methods yield F_inst = 1/3 exactly, providing a robust cross-check. This fa
 
 ---
 
-## Part I: Z₃ Functional Determinant Setup
+## Part I: ∞₃ Functional Determinant Setup
 
 ### 1.1 Physical Context
 
-The instanton contribution to the vacuum energy involves a functional determinant arising from quantum fluctuations around the instanton background. For Z₃ instantons on the orbifold S¹/Z₃, this determinant encodes the effect of twisted boundary conditions.
+The instanton contribution to the vacuum energy involves a functional determinant arising from quantum fluctuations around the instanton background. For ∞₃ instantons on the orbifold S¹/∞₃, this determinant encodes the effect of twisted boundary conditions.
 
 **The instanton amplitude takes the form:**
 
@@ -62,27 +62,27 @@ $$D = -i\frac{d}{dX}$$
 
 with $\mathcal{O} = D^\dagger D = -\frac{d^2}{dX^2}$.
 
-### 1.3 Boundary Conditions on S¹/Z₃
+### 1.3 Boundary Conditions on S¹/∞₃
 
-The Z₃ orbifold identification acts as:
+The ∞-helix topology identification acts as:
 
 $$X \sim X + \frac{L}{3}$$
 
 with a simultaneous phase rotation by $\omega = e^{2\pi i/3}$.
 
-**For a field with Z₃ charge q:**
+**For a field with ∞₃ charge q:**
 
 $$\phi(X + L) = \omega^q \phi(X)$$
 
 The three sectors are:
 
-| Z₃ charge q | Boundary condition | Sector name |
+| ∞₃ charge q | Boundary condition | Sector name |
 |-------------|-------------------|-------------|
 | 0 | $\phi(X + L) = \phi(X)$ | Untwisted (periodic) |
 | 1 | $\phi(X + L) = \omega\,\phi(X)$ | Twisted by ω |
 | 2 | $\phi(X + L) = \omega^2\phi(X)$ | Twisted by ω² |
 
-**The cosmological constant field λ has Z₃ charge q = 1**, so we focus on the twisted sector.
+**The cosmological constant field λ has ∞₃ charge q = 1**, so we focus on the twisted sector.
 
 ### 1.4 Eigenvalue Spectrum
 
@@ -353,7 +353,7 @@ $$x^{N-1} + x^{N-2} + \cdots + x + 1 = \prod_{k=1}^{N-1}(x - \omega^k)$$
 
 $$N = \prod_{k=1}^{N-1}(1 - \omega^k)$$
 
-### 4.3 Explicit Calculation for Z₃
+### 4.3 Explicit Calculation for ∞₃
 
 **For N = 3, ω = e^(2πi/3):**
 
@@ -403,13 +403,13 @@ $$\prod_{k=1}^{N-1}2\sin(\pi k/N) = N$$
 
 $$2\sin(\pi/3) \times 2\sin(2\pi/3) = 2 \times \frac{\sqrt{3}}{2} \times 2 \times \frac{\sqrt{3}}{2} = \sqrt{3} \times \sqrt{3} = 3 \quad \checkmark$$
 
-### 4.5 The Casimir Factor for Z₃
+### 4.5 The Casimir Factor for ∞₃
 
 **Definition of the regularized Casimir factor:**
 
 The infinite product $\prod_{k=1}^{\infty}(1 - \omega^k)^{-1}(1 - \omega^{-k})^{-1}$ reduces to:
 
-$$\mathcal{C}_{Z_3} = \left[\prod_{k=1}^{2}(1 - \omega^k)\right]^{-1} = \frac{1}{(1 - \omega)(1 - \omega^2)} = \frac{1}{3}$$
+$$\mathcal{C}_{∞₃} = \left[\prod_{k=1}^{2}(1 - \omega^k)\right]^{-1} = \frac{1}{(1 - \omega)(1 - \omega^2)} = \frac{1}{3}$$
 
 **Why the infinite product reduces to finite product:**
 
@@ -421,7 +421,7 @@ $$\prod_{k=1}^{\infty}(1 - \omega^k)^{-1} = \prod_{j=0}^{\infty}\prod_{r=1}^{2}(
 
 Using ζ-regularization to handle the infinite product over j, the contribution from each j-cycle cancels except for the base factor, leaving:
 
-$$\mathcal{C}_{Z_3} = [(1-\omega)(1-\omega^2)]^{-1} = \frac{1}{3}$$
+$$\mathcal{C}_{∞₃} = [(1-\omega)(1-\omega^2)]^{-1} = \frac{1}{3}$$
 
 ### 4.6 Alternative: Modular Properties
 
@@ -429,7 +429,7 @@ $$\mathcal{C}_{Z_3} = [(1-\omega)(1-\omega^2)]^{-1} = \frac{1}{3}$$
 
 $$\eta(\tau) = q^{1/24}\prod_{n=1}^{\infty}(1 - q^n), \quad q = e^{2\pi i\tau}$$
 
-**At the Z₃ orbifold point** $\tau = \omega = e^{2\pi i/3}$:
+**At the ∞-helix topology point** $\tau = \omega = e^{2\pi i/3}$:
 
 The ratio of partition functions gives:
 
@@ -443,11 +443,11 @@ This provides an independent verification using modular invariance.
 
 ### 4.7 Result from Casimir Factor Approach
 
-$$\boxed{\mathcal{C}_{Z_3} = \frac{1}{3}}$$
+$$\boxed{\mathcal{C}_{∞₃} = \frac{1}{3}}$$
 
 **This is the instanton prefactor:**
 
-$$\boxed{F_{\text{inst}} = \mathcal{C}_{Z_3} = \frac{1}{3}}$$
+$$\boxed{F_{\text{inst}} = \mathcal{C}_{∞₃} = \frac{1}{3}}$$
 
 ---
 
@@ -458,7 +458,7 @@ $$\boxed{F_{\text{inst}} = \mathcal{C}_{Z_3} = \frac{1}{3}}$$
 | Method | Calculation | Result |
 |--------|-------------|--------|
 | ζ-function regularization | $\det_{\text{twist}} = e^{-\zeta'(0)} = e^{\log 3} = 3$ | $F = 1/3$ |
-| Casimir factor | $\mathcal{C}_{Z_3} = [(1-\omega)(1-\omega^2)]^{-1} = 1/3$ | $F = 1/3$ |
+| Casimir factor | $\mathcal{C}_{∞₃} = [(1-\omega)(1-\omega^2)]^{-1} = 1/3$ | $F = 1/3$ |
 
 **Both methods give F_inst = 1/3 exactly.**
 
@@ -488,14 +488,14 @@ $$\sin(\pi/3) = \frac{\sqrt{3}}{2} \implies 4\sin^2(\pi/3) = 3$$
 
 **Why F_inst = 1/3:**
 
-The factor of 3 arises because the Z₃ orbifold has **three distinct sectors** — the untwisted and two twisted sectors. The instanton tunnels between these sectors, and the amplitude is suppressed by a factor of 3 relative to the trivial background because:
+The factor of 3 arises because the ∞-helix topology has **three distinct sectors** — the untwisted and two twisted sectors. The instanton tunnels between these sectors, and the amplitude is suppressed by a factor of 3 relative to the trivial background because:
 
 1. The twisted boundary condition shifts the eigenvalue spectrum by 1/3
 2. This shift eliminates the zero mode that exists in the untwisted sector
 3. The regularized ratio of determinants is $(3)^{-1/2} \times (3)^{-1/2} = 1/3$ (for two chiralities)
 
 Alternatively, in the path integral picture:
-- The Z₃ orbifold has a fundamental domain that is 1/3 of the covering circle
+- The ∞-helix topology has a fundamental domain that is 1/3 of the covering circle
 - The measure over collective coordinates includes a factor 1/3 from the reduced volume
 - The determinant ratio compensates but leaves a residual 1/3 factor
 
@@ -547,7 +547,7 @@ and therefore $F_{\text{inst}} = 1/3$.
 │                                                                             │
 │  DERIVATION OF F_inst = 1/3                                                 │
 │                                                                             │
-│  STEP 1: Define twisted boundary condition on S¹/Z₃                         │
+│  STEP 1: Define twisted boundary condition on S¹/∞₃                         │
 │          φ(X + L) = ω·φ(X), where ω = e^(2πi/3)                            │
 │                                                                             │
 │  STEP 2: Compute eigenvalue spectrum                                        │
@@ -574,7 +574,7 @@ and therefore $F_{\text{inst}} = 1/3$.
 │  ─────────────────────────────────────────────────────────────────────────  │
 │                                                                             │
 │  CROSS-CHECK via Casimir factor:                                            │
-│          C_{Z_3} = [(1-ω)(1-ω²)]^(-1) = [3]^(-1) = 1/3   ✓                 │
+│          C_{∞₃} = [(1-ω)(1-ω²)]^(-1) = [3]^(-1) = 1/3   ✓                 │
 │                                                                             │
 │  ─────────────────────────────────────────────────────────────────────────  │
 │                                                                             │
@@ -629,7 +629,7 @@ $$\boxed{\Lambda_{\text{final}} = 3.6 \times 10^{-47} \text{ GeV}^4}$$
 5. STUR Framework Documents:
    - COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md
    - LX_CASIMIR_HOLONOMY_DERIVATION.md
-   - DERIVATION_CHAIN_HELIX.md
+   - DERIVATION_CHAIN_INFINITY.md
 
 ---
 

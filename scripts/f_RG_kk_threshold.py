@@ -254,7 +254,7 @@ def kk_threshold_correction():
   Universal corrections (common to all quarks) CANCEL in CKM.
   Only NON-UNIVERSAL corrections from holonomy-dependent KK masses survive.
 
-  For Z₃ holonomy with phases φ = (2π/3, -2π/3, 0):
+  For ∞-helix holonomy with phases φ = (2π/3, -2π/3, 0):
   KK masses: m_n(c) = |n + φ_c/(2π)| / R
 
   The non-universal threshold correction to Y_{ij}:
@@ -264,7 +264,7 @@ def kk_threshold_correction():
     # Compute non-universal threshold
     Delta_NU = 0
     for n in range(1, 20):
-        for shift in [1/3, -1/3, 0]:  # Z₃ holonomy shifts
+        for shift in [1/3, -1/3, 0]:  # ∞-helix holonomy shifts
             m_n_shifted = abs(n + shift)
             m_n_unshifted = n
             if m_n_shifted > 0 and m_n_unshifted > 0:
@@ -279,12 +279,12 @@ def kk_threshold_correction():
     # But this is the correction to the YUKAWA COUPLING, not to the CKM.
     # For the CKM, we need the DIFFERENCE in corrections between up and down quarks.
 
-    # Up quarks and down quarks have different Z₃ charges (in general).
+    # Up quarks and down quarks have different ∞₃ charges (in general).
     # If k_u = k_d for all generations: the threshold corrections are identical
     # and cancel completely in V = U_u† U_d.
 
     # If k_u ≠ k_d: there is a residual correction.
-    # For STUR: k_u_R ≠ k_d_R (different Z₃ charges for u_R and d_R)
+    # For STUR: k_u_R ≠ k_d_R (different ∞₃ charges for u_R and d_R)
     # This gives:
     # δV/V = (αs/4π) × Σ_n [F_n(k_u) - F_n(k_d)]
 
@@ -293,13 +293,13 @@ def kk_threshold_correction():
     # Δ(sin δ)/sin δ = Im(δV/V) / sin δ
     # where Im(δV/V) comes from the complex holonomy phases
 
-    # For Z₃ with phases ω^k:
+    # For ∞₃ with phases ω^k:
     # F_n(k) = Σ_c ω^{k×c} × log(m_n(c)/M_KK)
-    # This vanishes by Z₃ symmetry: Σ_c ω^{k×c} = 0 for k ≠ 0 mod 3
+    # This vanishes by ∞₃ symmetry: Σ_c ω^{k×c} = 0 for k ≠ 0 mod 3
 
     print(f"\n  CP phase threshold correction:")
     print(f"    F_n(k) = Σ_c ω^{'{k×c}'} × log(m_n(c)/M_KK)")
-    print(f"    By Z₃ symmetry: F_n(k) = 0 for k ≢ 0 (mod 3)")
+    print(f"    By ∞₃ symmetry: F_n(k) = 0 for k ≢ 0 (mod 3)")
     print(f"    → KK threshold correction to CP PHASE vanishes at one loop!")
 
     # Verify numerically
@@ -317,7 +317,7 @@ def kk_threshold_correction():
 
     # So the KK threshold correction to η̄ is ZERO at one loop!
     f_KK = 1.000
-    print(f"\n  f_KK(threshold) = {f_KK:.4f} (Z₃ symmetry protection)")
+    print(f"\n  f_KK(threshold) = {f_KK:.4f} (∞₃ symmetry protection)")
 
     return f_KK
 
@@ -541,7 +541,7 @@ def total_f_RG():
   ║                                                             ║
   ║  2. KK threshold (matching at M_KK):                         ║
   ║     f_KK = {f_KK:.6f}                                         ║
-  ║     (Z₃ symmetry protects CKM: non-universal part = 0)     ║
+  ║     (∞₃ symmetry protects CKM: non-universal part = 0)     ║
   ║                                                             ║
   ║  3. EW matching (KK modes in box diagrams):                  ║
   ║     f_EW = {f_EW:.6f}                                         ║
@@ -581,7 +581,7 @@ def total_f_RG():
     The result f_RG = {f_RG_total:.4f} differs from the old claim of 0.970.
 
     Key findings:
-    • KK threshold correction VANISHES by Z₃ symmetry (NOT -3% as claimed)
+    • KK threshold correction VANISHES by ∞₃ symmetry (NOT -3% as claimed)
     • EW matching gives tiny correction (< 0.1%)
     • CKM angle running is negligible (< 0.01%)
     • The Yukawa anomalous dimension gives the main effect

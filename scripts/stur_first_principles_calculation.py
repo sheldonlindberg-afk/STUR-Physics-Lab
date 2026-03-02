@@ -9,7 +9,7 @@ from first principles, replacing fitted correction factors with computed values.
 Calculations performed:
 1. Mathieu equation on [-π, π] with full cosine potential → κ(α)
 2. Anharmonic corrections: what happens beyond (1-cos θ)
-3. Z₃ orbifold domain [-π/3, π/3] with Bloch boundary conditions
+3. ∞-helix topology domain [-π/3, π/3] with Bloch boundary conditions
 4. Exact overlap integrals between generation wavefunctions
 5. Unified λ prediction (Cabibbo angle) without fitted factors
 6. SU(3) holonomy averaging via Haar measure Monte Carlo
@@ -231,23 +231,23 @@ def calc_anharmonic_corrections():
 
 
 # =============================================================================
-# SECTION 3: Z₃ ORBIFOLD — PROPER BOUNDARY CONDITIONS
+# SECTION 3: ∞₃ ORBIFOLD — PROPER BOUNDARY CONDITIONS
 # =============================================================================
 
 def calc_z3_orbifold():
     """
-    Solve the Mathieu equation on the Z₃ fundamental domain [-π/3, π/3]
-    with Bloch boundary conditions for each Z₃ sector.
+    Solve the Mathieu equation on the ∞₃ fundamental domain [-π/3, π/3]
+    with Bloch boundary conditions for each ∞-helix sector.
 
-    The Z₃ orbifold has three irreps labeled by q = 0, 1, 2:
+    The ∞-helix topology has three irreps labeled by q = 0, 1, 2:
         f(θ + 2π/3) = ω^q f(θ),  ω = e^{2πi/3}
 
     This corresponds to Bloch wavevector k = 3q/(2π) on the domain [-π/3, π/3].
     """
     print("\n" + "=" * 70)
-    print("SECTION 3: Z₃ ORBIFOLD BOUNDARY CONDITIONS")
+    print("SECTION 3: ∞₃ ORBIFOLD BOUNDARY CONDITIONS")
     print("  Domain: [-π/3, π/3] with Bloch BCs f(π/3) = ω^q f(-π/3)")
-    print("  ω = e^{2πi/3}, q = 0, 1, 2 (Z₃ irreps)")
+    print("  ω = e^{2πi/3}, q = 0, 1, 2 (∞₃ irreps)")
     print("=" * 70)
 
     alpha = 1.0
@@ -277,9 +277,9 @@ def calc_z3_orbifold():
     _, kfull, _, _ = extract_kappa(psi_full, theta_full)
 
     print(f"\n  Full domain [-π, π] periodic:  κ = {kfull:.4f}")
-    print(f"  Z₃ domain q=0 sector:          κ = {z3_results[0]['kappa']:.4f}")
+    print(f"  ∞₃ domain q=0 sector:          κ = {z3_results[0]['kappa']:.4f}")
     delta = z3_results[0]['kappa'] - kfull
-    print(f"  Z₃ BC correction:              Δκ = {delta:+.4f} ({delta/kfull*100:+.1f}%)")
+    print(f"  ∞₃ BC correction:              Δκ = {delta:+.4f} ({delta/kfull*100:+.1f}%)")
 
     return z3_results
 
@@ -302,7 +302,7 @@ def calc_overlap_integrals(alpha=1.0):
     For the off-diagonal Wolfenstein parameter:
         λ = Y₁₂ / √(Y₁₁ · Y₂₂)
 
-    This REPLACES the chain: λ_bare × f_boundary × f_tail × f_Z3.
+    This REPLACES the chain: λ_bare × f_boundary × f_tail × f_helix.
 
     We compute this in two ways:
     A) Gaussian overlap (analytic, for comparison)
@@ -310,7 +310,7 @@ def calc_overlap_integrals(alpha=1.0):
     """
     print("\n" + "=" * 70)
     print("SECTION 4: EXACT OVERLAP INTEGRALS (CENTRAL CALCULATION)")
-    print("  This replaces: λ_bare × f_boundary × f_tail × f_Z3")
+    print("  This replaces: λ_bare × f_boundary × f_tail × f_helix")
     print("  with a single computed number.")
     print("=" * 70)
 
@@ -410,10 +410,10 @@ def calc_overlap_integrals(alpha=1.0):
     print(f"      λ₀₂ = Y₀₂/√(Y₀₀·Y₂₂) = {lambda_02:.6f}")
     print(f"      λ₀₁² = {lambda_01**2:.6f}  (should ≈ λ₀₂ if hierarchy works)")
 
-    # --- Method C: Z₃ orbifold with Bloch boundary conditions ---
-    print(f"\n  Method C: Z₃ Orbifold Eigenstates (Bloch BCs)")
+    # --- Method C: ∞-helix topology with Bloch boundary conditions ---
+    print(f"\n  Method C: ∞₃ Orbifold Eigenstates (Bloch BCs)")
     print("  " + "-" * 50)
-    print(f"    On the Z₃ orbifold, each generation is in a different Bloch sector.")
+    print(f"    On the ∞-helix topology, each generation is in a different Bloch sector.")
     print(f"    The Yukawa coupling Y_{{ij}} between sectors q_i and q_j requires")
     print(f"    computing overlaps of Bloch waves with DIFFERENT wavevectors.")
     print(f"    For q ≠ q', orthogonality of Bloch states gives Y_{{qq'}} = 0")
@@ -704,9 +704,9 @@ def calc_rg_running():
 
 def calc_casimir_neff():
     """
-    Compute the Casimir energy sum N_eff for the twisted field spectrum on S¹/Z₃.
+    Compute the Casimir energy sum N_eff for the twisted field spectrum on S¹/∞₃.
 
-    The Casimir energy per unit 4-volume for a field with Z₃ twist parameter
+    The Casimir energy per unit 4-volume for a field with ∞-helix twist parameter
     k/3 on a circle of circumference L is:
 
         E_Casimir = -π²/(6L⁴) × f(k/3)
@@ -721,7 +721,7 @@ def calc_casimir_neff():
     """
     print("\n" + "=" * 70)
     print("SECTION 7: N_eff CASIMIR ENERGY SUM")
-    print("  Computing twisted Casimir energy for SM spectrum on S¹/Z₃")
+    print("  Computing twisted Casimir energy for SM spectrum on S¹/∞₃")
     print("=" * 70)
 
     def bernoulli_4(x):
@@ -730,18 +730,18 @@ def calc_casimir_neff():
         return x**4 - 2*x**3 + x**2 - 1/30
 
     def casimir_coeff(twist_fraction):
-        """Casimir coefficient for a field with twist k/3 on S¹/Z₃."""
+        """Casimir coefficient for a field with twist k/3 on S¹/∞₃."""
         return bernoulli_4(twist_fraction)
 
-    # SM field content and Z₃ twist assignments
-    # Each field has: name, n_dof (real), F (fermion=1, boson=0), Z₃ charge k
+    # SM field content and ∞-helix twist assignments
+    # Each field has: name, n_dof (real), F (fermion=1, boson=0), ∞₃ charge k
     #
-    # The Z₃ charges are determined by the representation under the helix:
-    # - Z₃ singlet (k=0): gauge fields, Higgs
-    # - Z₃ charged (k=1,2): fermion generations
+    # The ∞₃ charges are determined by the representation under the helix:
+    # - ∞₃ singlet (k=0): gauge fields, Higgs
+    # - ∞₃ charged (k=1,2): fermion generations
 
     fields = [
-        # Gauge bosons (all Z₃ singlets, k=0)
+        # Gauge bosons (all ∞₃ singlets, k=0)
         # Gluons: 8 colors × 2 polarizations = 16 real dof
         ("Gluons", 16, 0, 0),
         # W±: 2 × 3 dof (massive) = 6
@@ -753,11 +753,11 @@ def calc_casimir_neff():
         # Graviton: 2 dof (if included)
         # ("graviton", 2, 0, 0),
 
-        # Higgs (Z₃ singlet, k=0)
+        # Higgs (∞₃ singlet, k=0)
         # Real scalar: 1 dof (after symmetry breaking, 3 eaten)
         ("Higgs", 1, 0, 0),
 
-        # Fermions: 3 generations with Z₃ charges k=0,1,2
+        # Fermions: 3 generations with ∞₃ charges k=0,1,2
         # Each generation: quarks + leptons
         # Per quark flavor: 3 colors × 2 chiralities × 2 (particle+anti) = 12 real dof
         # Per lepton: 2 chiralities × 2 (particle+anti) = 4 real dof
@@ -786,7 +786,7 @@ def calc_casimir_neff():
     for name, n_dof, F, k in fields:
         if F == 0:  # boson
             twist = k / 3.0
-        else:  # fermion: anti-periodic + Z₃ twist
+        else:  # fermion: anti-periodic + ∞-helix twist
             twist = (k + 0.5) / 3.0  # anti-periodic adds 1/2
 
         b4 = casimir_coeff(twist)
@@ -809,10 +809,10 @@ def calc_casimir_neff():
     # A = -N_eff × π²/6 (Casimir)
     # B = holonomy potential ~ v⁴ × f(angles)
 
-    print(f"\n    Note: The Casimir energy coefficients depend on the Z₃ charge")
+    print(f"\n    Note: The Casimir energy coefficients depend on the ∞₃ charge")
     print(f"    assignments. Different assignments give different N_eff values.")
     print(f"    The above assumes the 'standard' assignment where generation g")
-    print(f"    carries Z₃ charge k=g.")
+    print(f"    carries ∞₃ charge k=g.")
 
     return {'N_eff': N_eff, 'fields': fields}
 
@@ -939,7 +939,7 @@ def grand_summary(kappa_results, anharmonic, overlap, holonomy, rg, casimir, alp
   3. EXACT OVERLAP INTEGRALS (α = 1):
      λ (exact periodic overlap) = {r['lambda_exact']:.6f}
      This REPLACES the old chain:
-       λ_bare × f_boundary × f_tail × f_Z3 = {r['lambda_bare']:.4f} × 0.65 × 1.131 = {r['lambda_bare']*0.65*1.131:.4f}
+       λ_bare × f_boundary × f_tail × f_helix = {r['lambda_bare']:.4f} × 0.65 × 1.131 = {r['lambda_bare']*0.65*1.131:.4f}
      Actual computed ratio (overlap/λ_bare): {r['effective_correction']:.4f}
        (vs claimed 0.683)
 
@@ -1003,7 +1003,7 @@ def calc_alpha_eff_verification():
     Verify the alpha_eff = 3/2 derivation from ALPHA_EFFECTIVE_DERIVATION.md.
 
     The three enhancement factors to alpha:
-    1. Z3 twisted sector: curvature enhancement from orbifold resolution
+    1. ∞₃ twisted sector: curvature enhancement from orbifold resolution
     2. KK tower: Coleman-Weinberg potential renormalization
     3. Gauge backreaction: QCD coupling to localized fermions
 
@@ -1011,23 +1011,23 @@ def calc_alpha_eff_verification():
     """
     print("\n" + "=" * 70)
     print("SECTION 9: EFFECTIVE ALPHA VERIFICATION (α_eff = 3/2)")
-    print("  Verifying: α_eff = α_tree × f_Z3 × f_KK × f_gauge")
+    print("  Verifying: α_eff = α_tree × f_helix × f_KK × f_gauge")
     print("=" * 70)
 
     alpha_tree = 1.0
     N = 4000
 
-    # --- Factor 1: Z3 twisted sector ---
-    print("\n  Factor 1: Z₃ Twisted Sector Enhancement")
+    # --- Factor 1: ∞₃ twisted sector ---
+    print("\n  Factor 1: ∞₃ Twisted Sector Enhancement")
     print("  " + "-" * 55)
 
     # Compute kappa for V = alpha(1 - cos theta) + gamma(1 - cos 3*theta)
     # where gamma = alpha/9 * eta_twist
-    # The Z3 orbifold adds cos(3theta) terms from twisted sectors
+    # The ∞₃ orbifold adds cos(3theta) terms from twisted sectors
 
     eta_twist_values = [0.0, 0.1, 0.2, 0.3, 0.5, 0.607, 1.0]
     vpp_header = 'V_eff\'\'(0)'
-    print(f"\n    {'eta_twist':>8s}  {'gamma':>10s}  {vpp_header:>10s}  {'kappa':>8s}  {'d_kappa':>8s}  {'f_Z3':>6s}")
+    print(f"\n    {'eta_twist':>8s}  {'gamma':>10s}  {vpp_header:>10s}  {'kappa':>8s}  {'d_kappa':>8s}  {'f_helix':>6s}")
     print("    " + "-" * 60)
 
     # Base result (no twisted sector)
@@ -1071,8 +1071,8 @@ def calc_alpha_eff_verification():
     _, kappa_z3, _, _ = extract_kappa(psi_z3, theta)
     f_z3_best = (kappa_z3 / kappa_0)**2
 
-    print(f"\n    Best estimate (η = 0.20): f_Z3 = {f_z3_best:.3f}")
-    print(f"    For f_Z3 = 11/9 = 1.222, need η ≈ 0.20-0.30")
+    print(f"\n    Best estimate (η = 0.20): f_helix = {f_z3_best:.3f}")
+    print(f"    For f_helix = 11/9 = 1.222, need η ≈ 0.20-0.30")
 
     # --- Factor 2: KK tower (analytical) ---
     print(f"\n  Factor 2: KK Tower Potential Renormalization")
@@ -1128,7 +1128,7 @@ def calc_alpha_eff_verification():
     print(f"\n  COMBINED RESULT:")
     print(f"  " + "=" * 55)
     print(f"    α_tree  = {alpha_tree:.3f}")
-    print(f"    × f_Z3  = {f_z3_best:.3f}")
+    print(f"    × f_helix  = {f_z3_best:.3f}")
     print(f"    × f_KK  = {f_KK:.3f}")
     print(f"    × f_gauge = {f_gauge:.3f}")
     print(f"    ─────────")
@@ -1182,7 +1182,7 @@ def calc_alpha_eff_verification():
 
     return {
         'alpha_eff': alpha_eff,
-        'f_Z3': f_z3_best,
+        'f_helix': f_z3_best,
         'f_KK': f_KK,
         'f_gauge': f_gauge,
         'kappa_eff': kappa_eff,

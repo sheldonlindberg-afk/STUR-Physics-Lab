@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>Sheldon's Theory of Unified Resistance</strong><br>
-  <em>STUR v6.2: Dynamic Z&#x2083; Infinity Helix &mdash; Theory of Everything Candidate</em>
+  <em>STUR v6.2: Dynamic Infinity Helix &mdash; Theory of Everything Candidate</em>
 </p>
 
 <p align="center">
@@ -27,15 +27,15 @@
 
 1. **TEGR** (Teleparallel Equivalent of General Relativity) -- gravity as torsion, not curvature
 2. **R-field doublet** -- a real scalar doublet on S^1 with the unique first-derivative XCRM coupling
-3. **Energy minimization** -- the Z_3 orbifold emerges as the lowest-energy CP-violating compactification
+3. **Energy minimization** -- the ∞-helix topology emerges as the lowest-energy CP-violating compactification
 
 **One input:** M_Planck (defining all scales).
 
 **Complete derivation chain:**
 
-> M_Planck --> Z_3 orbifold --> L_X stabilization --> alpha_eff --> kappa --> CKM --> fermion masses --> PMNS --> cosmological constant --> dark matter --> UV completion
+> M_Planck --> ∞-helix topology --> L_X stabilization --> alpha_eff --> kappa --> CKM --> fermion masses --> PMNS --> cosmological constant --> dark matter --> UV completion
 
-The Z_3 helix is not static. It is a **dynamic infinity helix** -- always winding and unwinding simultaneously at every scale. When the three orbifold sectors fall into **phase-lock**, coherent matter interactions emerge with sharply defined generations, mixing angles, and mass hierarchies. Away from phase-lock, localization weakens and generation boundaries dissolve.
+The infinity helix is not static. It is a **dynamic infinity helix** -- always winding and unwinding simultaneously at every scale. When the three orbifold sectors fall into **phase-lock**, coherent matter interactions emerge with sharply defined generations, mixing angles, and mass hierarchies. Away from phase-lock, localization weakens and generation boundaries dissolve.
 
 **The manifold is the same at any scale; only the perspective changes.** This discrete scale invariance, governed by the chronomagnetic ratio lambda_chrono = 3722/2705, resolves all apparent scale questions: L_X^fund ~ 10^-32 m (Planck-scale winding quantum) and L_eff ~ 0.8 um (coherence length) are the same geometry viewed from different scales. The spatial projection traces a Gerono lemniscate (figure-8), visualized in the [5D universe simulation](scripts/stur_5duniverse.html).
 
@@ -49,15 +49,15 @@ The Z_3 helix is not static. It is a **dynamic infinity helix** -- always windin
 
 | Observable | STUR Result | Method |
 |-----------|-------------|--------|
-| N_gen = 3 | Exact | Z_3 fixed-point count |
-| SU(3) x SU(2) x U(1) | Exact | Z_3 holonomy compatibility |
-| theta_QCD = 0 | Exact | Z_3 x CP symmetry (no axion needed) |
+| N_gen = 3 | Exact | ∞-helix node-point count |
+| SU(3) x SU(2) x U(1) | Exact | ∞-helix holonomy compatibility |
+| theta_QCD = 0 | Exact | ∞₃ x CP symmetry (no axion needed) |
 | Berry phase = 0 | Exact | Real Mathieu eigenstates |
-| Proton stability (dim-5) | Exact | Z_3 KK-parity selection rule |
-| sin^2 theta_12 = 0.303 | Exact | Z_3 resonance + seesaw |
-| sin^2 theta_23 = 0.572 | Exact | Z_3 resonance + seesaw |
-| sin^2 theta_13 = 0.0220 | 0.1% | Z_3 resonance + seesaw |
-| delta_CP(PMNS) = 197 deg | Central value | Z_3 resonance + seesaw |
+| Proton stability (dim-5) | Exact | ∞-helix KK-parity selection rule |
+| sin^2 theta_12 = 0.303 | Exact | ∞₃ resonance + seesaw |
+| sin^2 theta_23 = 0.572 | Exact | ∞₃ resonance + seesaw |
+| sin^2 theta_13 = 0.0220 | 0.1% | ∞₃ resonance + seesaw |
+| delta_CP(PMNS) = 197 deg | Central value | ∞₃ resonance + seesaw |
 
 **12 quantitative predictions at < 2% accuracy:**
 
@@ -90,7 +90,7 @@ The Z_3 helix is not static. It is a **dynamic infinity helix** -- always windin
 |-----------|------|-------------|--------|
 | Lambda | (3.6 +/- 2.6) x 10^-47 GeV^4 | (2.846 +/- 0.076) x 10^-47 GeV^4 | 27% (< 0.5 sigma) |
 
-The tree-level cosmological constant vanishes exactly via the Z_3 discrete gauge Ward identity. The residual arises from Z_3-breaking sources. This represents closure of the cosmological constant problem -- an improvement from 10^123 fine-tuning to 27% agreement.
+The tree-level cosmological constant vanishes exactly via the ∞₃ discrete gauge Ward identity. The residual arises from ∞₃-breaking sources. This represents closure of the cosmological constant problem -- an improvement from 10^123 fine-tuning to 27% agreement.
 
 **Dark matter:**
 
@@ -115,7 +115,7 @@ STUR is a scientific theory: it makes specific, falsifiable predictions. The fol
 | Normal neutrino ordering | JUNO/DUNE measure inverted ordering at > 5 sigma | NuFIT 6.0: normal preferred at 3.5 sigma |
 | theta_QCD = 0 exactly | Non-zero neutron EDM implying theta > 10^-9 | Current bound: \|theta\| < 10^-10 |
 | Proton stable (dim-5) | Proton decay via dimension-5 operators at any rate | tau_p > 2.4 x 10^34 yr (Super-K) |
-| Z_3 KK structure | Non-Z_3 KK graviton spectrum at future colliders | Not yet probed |
+| ∞-helix KK structure | Non-∞-helix KK graviton spectrum at future colliders | Not yet probed |
 
 ### Novel Chronomagnetic Predictions
 
@@ -130,14 +130,14 @@ These predictions are unique to STUR and have no counterpart in other frameworks
 
 ## The Dynamic Infinity Helix
 
-The central physical insight of STUR v6.2 is that the Z_3 helix is never static. It is an **infinity helix** -- a Gerono lemniscate in spatial projection -- that is always winding and unwinding simultaneously. The chronomagnetic modulation M(t) = |sin(omega ln(t/t_0))| with omega = 19.687 governs this oscillation.
+The central physical insight of STUR v6.2 is that the infinity helix is never static. It is an **infinity helix** -- a Gerono lemniscate in spatial projection -- that is always winding and unwinding simultaneously. The chronomagnetic modulation M(t) = |sin(omega ln(t/t_0))| with omega = 19.687 governs this oscillation.
 
 This resolves all apparent scale questions:
 
 | Apparent problem | Resolution |
 |-----------------|------------|
 | L_X has "two values" (10^-32 m vs 0.8 um) | Same geometry at different scales; L_X^fund (winding quantum) and L_eff (coherence length) are self-similar |
-| Cosmological constant | Dynamical residual from time-averaged oscillating vacuum; Z_3 Ward identity kills tree-level |
+| Cosmological constant | Dynamical residual from time-averaged oscillating vacuum; ∞-helix Ward identity kills tree-level |
 | Mass hierarchy | Each generation at a different scale of the self-similar structure; heavy fermions deep in phase-lock, light fermions near unwinding edge |
 | PMNS large mixing | Neutrinos live near the unwinding regime -- least localized, most sensitive to dynamic geometry; seesaw enhancement from varying geometry |
 
@@ -234,7 +234,7 @@ STUR-Physics-Lab/
 |   |-- ... (22 Python scripts total)
 |
 |-- *.md                    # Technical derivation documents (60 files)
-|   |-- DERIVATION_CHAIN_HELIX.md              # Master derivation chain (~1000 lines, v6.2)
+|   |-- DERIVATION_CHAIN_INFINITY.md              # Master derivation chain (~1000 lines, v6.2)
 |   |-- ABSOLUTE_MASS_DERIVATION.md            # All 9 fermion masses to <2%
 |   |-- COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md  # CC: 27% from observed
 |   |-- DARK_MATTER_RELIC_DENSITY.md           # DM: Omega h^2 = 0.119
@@ -263,14 +263,14 @@ STUR-Physics-Lab/
 
 ### Core Theory
 - [Core Theory Framework](scripts/stur_core_theory.html) -- Three axioms and derivation structure
-- [Z_3 Infinity Helix](scripts/stur_5duniverse.html) -- Dynamic extra-dimension topology
+- [∞₃ Infinity Helix](scripts/stur_5duniverse.html) -- Dynamic extra-dimension topology
 - [Generation Structure](scripts/stur_generations.html) -- Why exactly 3 generations
 - [Master Action Derivation](scripts/stur_master_action_derivation.html) -- Complete Lagrangian
 
 ### Derivation Chain
-- [Complete Derivation Chain](DERIVATION_CHAIN_HELIX.md) -- Full mathematical derivation (v6.2)
+- [Complete Derivation Chain](DERIVATION_CHAIN_INFINITY.md) -- Full mathematical derivation (v6.2)
 - [Absolute Mass Derivation](ABSOLUTE_MASS_DERIVATION.md) -- All 9 charged fermion masses
-- [Cosmological Constant](COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md) -- CC solution via Z_3 Ward identity
+- [Cosmological Constant](COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md) -- CC solution via ∞-helix Ward identity
 - [Dark Matter Relic Density](DARK_MATTER_RELIC_DENSITY.md) -- LKP prediction
 - [UV Completion](FTHEORY_CY4_EXPLICIT_CONSTRUCTION.md) -- F-theory CY_4 construction
 

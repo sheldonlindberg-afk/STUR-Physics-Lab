@@ -1,4 +1,4 @@
-# Absolute Mass Derivations from STUR Z₃ Helix Geometry
+# Absolute Mass Derivations from STUR ∞₃ Helix Geometry
 
 **Document Type:** Complete First-Principles Mass Derivation
 **Framework:** STUR (Helix Geometry) — Unified Field Theory
@@ -10,7 +10,7 @@
 
 ## Abstract
 
-This document presents the complete derivation of absolute fermion masses from the STUR Z₃ helix geometry. Starting from the localization dynamics established in KAPPA_FIRST_PRINCIPLES_DERIVATION.md, we extend the analysis to derive:
+This document presents the complete derivation of absolute fermion masses from the STUR infinity helix geometry. Starting from the localization dynamics established in KAPPA_FIRST_PRINCIPLES_DERIVATION.md, we extend the analysis to derive:
 
 1. Generation-dependent localization widths σ_g from R-field Yukawa coupling strength
 2. Absolute Yukawa couplings from 5D overlap integrals
@@ -36,7 +36,7 @@ where f_tail = 1.131 is the wavefunction tail correction.
 
 **ALL 9 CHARGED FERMION MASSES PREDICTED TO <2% ACCURACY!**
 
-We analyze the extent to which these inputs can be reduced, finding that v·L_X = 3 constrains v if L_X is known, and that α_em emerges from Z₃ holonomy normalization.
+We analyze the extent to which these inputs can be reduced, finding that v·L_X = 3 constrains v if L_X is known, and that α_em emerges from ∞-helix holonomy normalization.
 
 ---
 
@@ -55,7 +55,7 @@ We analyze the extent to which these inputs can be reduced, finding that v·L_X 
 
 ### 1.1 Review: The Base Localization Parameter κ
 
-From KAPPA_FIRST_PRINCIPLES_DERIVATION.md, the fermion localization in the Z₃ helix geometry is governed by the Mathieu-like equation:
+From KAPPA_FIRST_PRINCIPLES_DERIVATION.md, the fermion localization in the infinity helix geometry is governed by the Mathieu-like equation:
 
 ```
 -d²f/dθ² + α·(1 - cos θ)·f = ε·f
@@ -73,7 +73,7 @@ With higher-order corrections:
     +0.08  two-loop anharmonic
     +0.11  KK tower dressing
     +0.06  gauge backreaction
-    +0.05  Z₃ orbifold projection
+    +0.05  ∞-helix topology projection
     ─────
 κ_total = 2.52 ± 0.16
 ```
@@ -106,7 +106,7 @@ d²V_eff/dφ² |_{φ=φ_g} = y_R · v · cos(0) = y_R · v
 
 The effective Yukawa coupling y_R^eff for each generation differs due to:
 
-1. **Holonomy enhancement factors** that differ at each Z₃ fixed point
+1. **Holonomy enhancement factors** that differ at each ∞-helix node
 2. **KK mode mixing** that depends on the position in the fundamental domain
 3. **Wavefunction overlap with the Higgs profile**
 
@@ -119,7 +119,7 @@ Define the generation-dependent localization parameter:
 
 **Source 1: Holonomy Phase Contribution**
 
-At each Z₃ fixed point X_g = g·L_X/3, the holonomy Wilson line:
+At each ∞-helix node X_g = g·L_X/3, the holonomy Wilson line:
 ```
 W_g = exp(i · g · 2π/3)
 
@@ -137,7 +137,7 @@ For g = 1:  α_1 = α_base × |1 + 2c_hol·cos(2π/3)| = α_base × |1 - c_hol|
 For g = 2:  α_2 = α_base × |1 + 2c_hol·cos(4π/3)| = α_base × |1 - c_hol|
 ```
 
-From Z₃ gauge dynamics, c_hol = 1/C₂(SU(3)) = 1/3:
+From ∞-helix gauge dynamics, c_hol = 1/C₂(SU(3)) = 1/3:
 ```
 α_0 = α_base × (1 + 2/3) = 1.667 × α_base
 α_1 = α_2 = α_base × (1 - 1/3) = 0.667 × α_base
@@ -257,7 +257,7 @@ With corrections:
 
 ### 2.1 5D Yukawa Coupling Structure
 
-The 5D Yukawa Lagrangian in the Z₃ helix background:
+The 5D Yukawa Lagrangian in the infinity helix background:
 ```
 L_5D = ∫ dX [y_5D · ψ̄_L(x,X) · H(x,X) · ψ_R(x,X) + h.c.]
 ```
@@ -297,7 +297,7 @@ Higgs field (delocalized to leading order):
 ```
 H(φ) = H_0 × [1 + ε_H · cos(3φ)]
 
-where ε_H ≪ 1 accounts for weak Z₃-symmetric modulation
+where ε_H ≪ 1 accounts for weak ∞₃-symmetric modulation
 ```
 
 ### 2.3 Diagonal Yukawa Couplings (i = j)
@@ -337,7 +337,7 @@ Overlap_{i,i+1} / Overlap_{ii} = exp[-(2π/3)²/(8σ²)]
                                 = λ_bare
 ```
 
-This is exactly the Wolfenstein parameter derivation from DERIVATION_CHAIN_HELIX.md.
+This is exactly the Wolfenstein parameter derivation from DERIVATION_CHAIN_INFINITY.md.
 
 ### 2.5 Absolute Yukawa Coupling Derivation
 
@@ -525,7 +525,7 @@ The STUR framework currently uses **four fundamental inputs**:
 
 **The v·L_X = 3 Constraint:**
 
-From Z₃ winding quantization (DERIVATION_CHAIN_HELIX.md):
+From ∞-helix winding quantization (DERIVATION_CHAIN_INFINITY.md):
 ```
 The R-field must wind exactly N = 3 times around the compact dimension:
 
@@ -606,11 +606,11 @@ The electroweak Higgs VEV v_H = 246 GeV is SEPARATE and arises from:
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 3.3 Analysis: Can α_em Be Derived from Z₃ Holonomy?
+### 3.3 Analysis: Can α_em Be Derived from ∞₃ Holonomy?
 
 **Gauge coupling unification in STUR:**
 
-The Z₃ holonomy structure constrains the gauge couplings at M_KK:
+The ∞-helix holonomy structure constrains the gauge couplings at M_KK:
 ```
 At M_KK ~ M_GUT:
     α_1(M_KK) = α_2(M_KK) = α_3(M_KK) = α_GUT
@@ -618,7 +618,7 @@ At M_KK ~ M_GUT:
 The unification condition is a CONSTRAINT, not a derivation.
 ```
 
-**Z₃ holonomy and U(1) normalization:**
+**∞-helix holonomy and U(1) normalization:**
 
 The U(1)_Y coupling is related to the unified coupling by:
 ```
@@ -630,7 +630,7 @@ At M_Z:
 
 **Derivation attempt:**
 
-The Z₃ holonomy gives quantization of Wilson lines:
+The ∞-helix holonomy gives quantization of Wilson lines:
 ```
 W_Y = exp(i·g_Y·∮A_Y^5 dX) = exp(2πi·n/3)
 
@@ -648,7 +648,7 @@ where g_M is the Dirac monopole charge: g_Y × g_M = 2π
 This gives a relation but NOT a unique prediction for α_em without additional input.
 
 **However:** The combination of:
-1. Z₃ holonomy quantization
+1. ∞-helix holonomy quantization
 2. GUT normalization g_1 = √(5/3) g_Y
 3. sin²θ_W prediction from unification
 
@@ -665,10 +665,10 @@ This is close to observed 0.23121!
 **Conclusion on α_em:**
 ```
 ┌────────────────────────────────────────────────────────────────────────────┐
-│  α_em CAN POTENTIALLY be derived from Z₃ holonomy + unification           │
+│  α_em CAN POTENTIALLY be derived from ∞-helix holonomy + unification           │
 │                                                                             │
 │  The derivation chain:                                                      │
-│  1. Z₃ structure → SU(5) or SO(10) compatible unification                 │
+│  1. ∞-helix structure → SU(5) or SO(10) compatible unification                 │
 │  2. Unification → α_GUT ~ 1/24 at M_GUT                                   │
 │  3. RG running → α_em(M_Z) = α_GUT × sin²θ_W(M_Z) ~ 1/128                 │
 │                                                                             │
@@ -765,7 +765,7 @@ This is close to y_t = 0.991!
 │      v ~ 200-300 GeV    (from radiative EWSB if y_t known)                 │
 │                                                                             │
 │  In Principle Derivable (requires threshold corrections):                   │
-│      α_em ~ 1/128       (from Z₃ + unification + RG)                       │
+│      α_em ~ 1/128       (from ∞₃ + unification + RG)                       │
 │                                                                             │
 │  CURRENT STATUS: 4 inputs → possibly 1 truly fundamental input (M_Pl)      │
 │                                                                             │
@@ -823,14 +823,14 @@ The correction factors arise from:
 3. **QCD corrections** for quarks vs leptons
 4. **Electroweak corrections** depending on weak isospin
 
-**Calculation of R_f from Z₃ geometry:**
+**Calculation of R_f from ∞-helix geometry:**
 
 For up-type quarks:
 ```
 R_u = f_hol × f_Higgs × f_QCD
 
 f_hol = holonomy phase factor at φ = 0:
-      = exp(-⟨δθ²⟩/2) × (Z₃ sector weight)
+      = exp(-⟨δθ²⟩/2) × (∞-helix sector weight)
       = exp(-1/6) × (1/3) = 0.846 × 0.33 = 0.28
 
 f_Higgs = Higgs overlap ratio:
@@ -908,7 +908,7 @@ m_d = m_s × λ² × R_d × f_tail
 ```
 m_τ = v × Y_τ^(0) × f_ℓ × f_tail
     = 246.22 × 0.0102 × (1/√3) × 1.131
-    = 1.777 GeV  [Derived from Z₃ overlap at third fixed point]
+    = 1.777 GeV  [Derived from ∞-helix overlap at third fixed point]
     Observed: 1.777 GeV
     Agreement: 0.0%  ✓
 
@@ -928,11 +928,11 @@ m_e = m_μ × λ² × R_e
 ### 4.4.1 Color Singlet Correction for Leptons (f_ℓ = 1/√3)
 
 The systematic factor of √3 ≈ 1.73 overprediction for leptons (m_μ and m_e) has a
-fundamental origin in the Z₃ geometry: **color multiplicity in the overlap integral**.
+fundamental origin in the ∞-helix geometry: **color multiplicity in the overlap integral**.
 
 **Physical Origin:**
 
-In the 5D Z₃ orbifold, the Yukawa coupling arises from wavefunction overlap:
+In the 5D ∞-helix topology, the Yukawa coupling arises from wavefunction overlap:
 ```
 y_f = y_5D × ∫ dφ ψ*_L(φ) H(φ) ψ_R(φ) × (color sum)
 ```
@@ -983,7 +983,7 @@ The √N_c factor arises in several related ways:
 2. **Loop corrections**: At one-loop, the fermion self-energy has a color factor
    C_F = (N_c²-1)/(2N_c) for quarks vs 0 for leptons.
 
-3. **Z₃ holonomy matching**: The color SU(3)_C and the orbifold Z₃ are
+3. **∞-helix holonomy matching**: The color SU(3)_C and the orbifold ∞₃ are
    fundamentally connected; the color multiplicity enters the localization
    dynamics through the gauge backreaction term.
 
@@ -1046,7 +1046,7 @@ m_ℓ = m_ℓ^{naive} × 0.846 × 0.87 × 1.131 × 0.577
 │    overprediction in the lepton sector (μ, e). This factor arises from    │
 │    the absence of color multiplicity for leptons in the overlap integral. │
 │                                                                            │
-│    The Z₃ node structure correction f_u^{node} = 0.133 resolves the       │
+│    The ∞₃ node structure correction f_u^{node} = 0.133 resolves the       │
 │    first-generation up quark anomaly. Up quarks at φ = 0 are in the       │
 │    twisted sector (n=1), creating a node that suppresses Higgs overlap.   │
 │                                                                            │
@@ -1065,11 +1065,11 @@ m_u (predicted) / m_u (observed) = 16.1 / 2.16 = 7.5
 correctly (1.7% accuracy). This suggests the anomaly is specific to **up-type**
 first generation, not a general first-generation effect.
 
-### 4.5.1 Z₃ Node Structure for Up-Type Quarks
+### 4.5.1 ∞₃ Node Structure for Up-Type Quarks
 
 **Physical Origin:**
 
-Under the Z₃ orbifold action, different fermion types transform with different phases:
+Under the ∞-helix topology action, different fermion types transform with different phases:
 ```
 ψ(φ + 2π/3) = ω^n × ψ(φ)
 
@@ -1077,7 +1077,7 @@ where ω = exp(2πi/3) and n ∈ {0, 1, 2}
 ```
 
 For the first generation at φ = 0:
-- **Down-type quarks**: Transform with n = 0 (Z₃-invariant)
+- **Down-type quarks**: Transform with n = 0 (∞₃-invariant)
   → Wavefunction can peak at the fixed point
   → Normal overlap with Higgs
   → Prediction: m_d = 4.62 MeV ✓
@@ -1095,7 +1095,7 @@ For n = 1, the wavefunction near φ = 0 has the form:
        ≈ (3φ/2) × exp(-φ²/(4σ₁²))  for small φ
 ```
 
-The overlap with a Z₃-symmetric Higgs H(φ) = H_0[1 + ε_H cos(3φ)]:
+The overlap with a ∞₃-symmetric Higgs H(φ) = H_0[1 + ε_H cos(3φ)]:
 ```
 ⟨H|ψ_u⟩ = H_0 ∫ dφ [1 + ε_H cos(3φ)] × (3φ/2) × exp(-φ²/(4σ₁²))
 ```
@@ -1131,14 +1131,14 @@ For the observed suppression factor of 1/7.5 = 0.133:
 
 **Physical Interpretation of ε_H:**
 
-The Higgs modulation parameter ε_H = 0.40 represents the degree of Z₃ localization
+The Higgs modulation parameter ε_H = 0.40 represents the degree of ∞₃ localization
 of the Higgs field. This value is consistent with:
 
-1. **Higgs localization from EWSB**: The Higgs VEV breaks Z₃ symmetry mildly,
+1. **Higgs localization from EWSB**: The Higgs VEV breaks ∞₃ symmetry mildly,
    creating a preference for certain fixed points.
 
 2. **Threshold corrections**: At the M_KK scale, the Higgs profile receives
-   corrections from heavy KK modes that generate the Z₃-asymmetric component.
+   corrections from heavy KK modes that generate the ∞₃-asymmetric component.
 
 3. **Holonomy backreaction**: The gauge field holonomy creates a potential
    for the Higgs that varies with φ.
@@ -1158,8 +1158,8 @@ m_u^{corrected} = 16.1 MeV × 0.133 = 2.14 MeV
 │  FIRST-GENERATION UP QUARK CORRECTION                                       │
 │                                                                             │
 │  Physical Origin:                                                           │
-│      - Up quarks at φ = 0 have Z₃ charge n = 1 (twisted sector)            │
-│      - Down quarks at φ = 0 have Z₃ charge n = 0 (untwisted sector)        │
+│      - Up quarks at φ = 0 have ∞₃ charge n = 1 (twisted sector)            │
+│      - Down quarks at φ = 0 have ∞₃ charge n = 0 (untwisted sector)        │
 │      - n = 1 requires wavefunction node at fixed point                      │
 │      - Node suppresses Higgs overlap                                        │
 │                                                                             │
@@ -1173,13 +1173,13 @@ m_u^{corrected} = 16.1 MeV × 0.133 = 2.14 MeV
 │      m_u^{observed}  = 2.16 MeV                                             │
 │      Agreement: 0.9%  ✓                                                    │
 │                                                                             │
-│  Note: ε_H = 0.40 is a NEW DERIVED PARAMETER representing Higgs Z₃        │
+│  Note: ε_H = 0.40 is a NEW DERIVED PARAMETER representing Higgs ∞₃        │
 │  localization, consistent with EWSB and threshold corrections.             │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
 **Consistency Check:** The charm and top quarks (2nd and 3rd generation up-type)
-are at φ = 2π/3 and φ = 4π/3, which are ALSO Z₃ fixed points. At these points,
+are at φ = 2π/3 and φ = 4π/3, which are ALSO ∞-helix nodes. At these points,
 the n = 1 twisted sector has a different phase structure that does NOT produce
 a node, explaining why m_c and m_t predictions are accurate without this correction.
 
@@ -1208,7 +1208,7 @@ This explains why predictions are typically within a factor of 2.
 
 ### 5.1 Type I Seesaw Mechanism in STUR
 
-The STUR framework naturally incorporates right-handed neutrinos N_R at the Z₃ fixed points:
+The STUR framework naturally incorporates right-handed neutrinos N_R at the ∞-helix nodes:
 ```
 N_R,1 at φ = 0
 N_R,2 at φ = 2π/3
@@ -1238,13 +1238,13 @@ More conservative estimate: λ_hol = 20 ± 5
 
 **Hierarchical Majorana Mass Structure:**
 
-The Z₃ geometry generates a hierarchical structure for the right-handed neutrino
+The ∞-helix geometry generates a hierarchical structure for the right-handed neutrino
 Majorana masses. The three generations
-have different M_R values due to their positions at distinct Z₃ fixed points:
+have different M_R values due to their positions at distinct ∞-helix nodes:
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────┐
-│  HIERARCHICAL MAJORANA MASSES (from Z₃ geometry)                           │
+│  HIERARCHICAL MAJORANA MASSES (from ∞-helix geometry)                           │
 │                                                                             │
 │  M_R,3 = 1.1 × 10¹⁴ GeV    (third generation, φ = 4π/3)                   │
 │  M_R,2 = 1.5 × 10¹⁴ GeV    (second generation, φ = 2π/3)                  │
@@ -1269,7 +1269,7 @@ where:
     L_X = 1/M_KK (compactification scale)
 ```
 
-At each Z₃ fixed point, the holonomy contribution differs:
+At each ∞-helix node, the holonomy contribution differs:
 ```
 M_R,g = M_R^{base} × f_hol(φ_g)
 
@@ -1302,7 +1302,7 @@ Dirac masses:
     m_{D,1} = m_{D,2} × λ² × f_ν = 0.20 × 0.0506 × 2.3 = 23 MeV
 ```
 
-**Z₃ enhancement factor f_ν:**
+**∞-helix enhancement factor f_ν:**
 
 The neutrino sector has enhanced mixing due to the near-degeneracy of the three right-handed neutrinos:
 ```
@@ -1327,7 +1327,7 @@ m_{D,1} = 0.47 × 0.0506 × 5.3 = 0.13 GeV
 m_νi = m²_{D,i} / M_R,i
 ```
 
-### 5.4.1 Z₃ Resonance Enhancement for Second Generation
+### 5.4.1 ∞₃ Resonance Enhancement for Second Generation
 
 The second-generation neutrino at φ = 2π/3 occupies a special "resonance" position:
 it is equidistant from both the first generation (φ = 0) and third generation (φ = 4π/3).
@@ -1335,7 +1335,7 @@ This creates constructive interference in the Dirac mass coupling.
 
 **Physical Origin:**
 
-The Higgs field, being Z₃-symmetric, has enhanced overlap at all three fixed points.
+The Higgs field, being ∞₃-symmetric, has enhanced overlap at all three fixed points.
 For a neutrino at the second-generation position, the wavefunction can couple to
 Higgs peaks at ALL THREE fixed points simultaneously:
 
@@ -1363,7 +1363,7 @@ f_ν^{res} = 1 + 2λ_ν × cos(phase factor)
           = 1 - 0.76 = 0.24  [destructive? No...]
 ```
 
-Wait, the phases must be handled carefully. For Z₃-symmetric coupling:
+Wait, the phases must be handled carefully. For ∞₃-symmetric coupling:
 ```
 f_ν^{res} = |1 + ω × λ_ν + ω² × λ_ν|
           = |1 + λ_ν(ω + ω²)|
@@ -1429,7 +1429,7 @@ From seesaw:
 │  M_R,2 = 6.0 × 10¹³ GeV / 5.3 = 1.1 × 10¹³ GeV    (resonance-reduced)     │
 │  M_R,1 = 6.0 × 10¹³ GeV    (first generation)                              │
 │                                                                             │
-│  The factor 5.3 = f_ν^{res}² = 2.3² comes from the Z₃ resonance effect   │
+│  The factor 5.3 = f_ν^{res}² = 2.3² comes from the ∞-helix resonance effect   │
 │  for the second-generation Majorana mass.                                   │
 │                                                                             │
 └────────────────────────────────────────────────────────────────────────────┘
@@ -1486,7 +1486,7 @@ Agreement: 2.8%  ✓  EXCELLENT
 │  m₁             │ 0.28 meV       │ < few meV            │ ✓             │
 │  Σm_ν           │ 59 meV         │ < 120 meV (Planck)   │ ✓             │
 │                                                                             │
-│  KEY CORRECTION: Z₃ resonance enhancement f_ν^{res} = 2.3 for second      │
+│  KEY CORRECTION: ∞-helix resonance enhancement f_ν^{res} = 2.3 for second      │
 │  generation, arising from near-degeneracy of right-handed neutrinos.      │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -1510,7 +1510,7 @@ This gives:
 M_R = 20 × 2 × 10¹⁶ / 400 = 10¹⁵ GeV
 ```
 
-However, the Z₃ holonomy also introduces a **phase cancellation factor**:
+However, the ∞-helix holonomy also introduces a **phase cancellation factor**:
 ```
 f_phase = |1 + ω + ω²|_{reg} / 3 = 1/17
 ```
@@ -1524,7 +1524,7 @@ This value is consistent with our empirical fit to neutrino masses!
 
 ### 5.6 Final Neutrino Mass Predictions
 
-**CORRECTED predictions with Z₃ resonance enhancement:**
+**CORRECTED predictions with ∞-helix resonance enhancement:**
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────┐
@@ -1565,7 +1565,7 @@ This value is consistent with our empirical fit to neutrino masses!
 │      Current bound: |m_ββ| < 36-156 meV [KamLAND-Zen]                      │
 │      Status: Below current sensitivity, testable by nEXO                    │
 │                                                                             │
-│  KEY CORRECTION: Z₃ resonance enhancement f_ν^{res} = 2.3                  │
+│  KEY CORRECTION: ∞-helix resonance enhancement f_ν^{res} = 2.3                  │
 │                                                                             │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -1574,7 +1574,7 @@ This value is consistent with our empirical fit to neutrino masses!
 
 **Achievement 1: Mass-squared differences resolved**
 
-Both Δm²₃₁ and Δm²₂₁ are now predicted to <3% accuracy! The Z₃ resonance
+Both Δm²₃₁ and Δm²₂₁ are now predicted to <3% accuracy! The ∞-helix resonance
 enhancement f_ν^{res} = 2.3 for the second generation is the key correction.
 
 **Achievement 2: Normal Ordering prediction**
@@ -1596,10 +1596,10 @@ The sum Σm_ν = 59 meV is consistent with:
 
 ## Part V-B: CKM Matrix Parameters
 
-### 5B.1 CKM Matrix from Z₃ Localization
+### 5B.1 CKM Matrix from ∞₃ Localization
 
 The CKM matrix arises from the mismatch between up-type and down-type quark localization
-in the Z₃ helix geometry. The Wolfenstein parameterization:
+in the infinity helix geometry. The Wolfenstein parameterization:
 
 ```
 V_CKM ≈ [ 1 - λ²/2       λ              Aλ³(ρ - iη)  ]
@@ -1609,7 +1609,7 @@ V_CKM ≈ [ 1 - λ²/2       λ              Aλ³(ρ - iη)  ]
 
 ### 5B.2 Derivation of CKM Parameters
 
-**Parameter λ (Cabibbo angle):** Already derived in DERIVATION_CHAIN_HELIX.md
+**Parameter λ (Cabibbo angle):** Already derived in DERIVATION_CHAIN_INFINITY.md
 ```
 λ = exp(-κ²/8) = exp(-2.52²/8) = exp(-0.794) = 0.452
 
@@ -1626,7 +1626,7 @@ The parameter A relates to the ratio of third-to-second generation mixing:
 ```
 |V_cb| = Aλ²
 
-From Z₃ localization:
+From ∞₃ localization:
     |V_cb| = exp[-(φ_3 - φ_2)²/(4σ_eff²)] × f_hol
            = exp[-(2π/3)²/(4 × 0.9²)] × 0.846
            = exp[-1.22] × 0.846
@@ -1642,7 +1642,7 @@ Agreement: 1.2%  ✓  EXCELLENT
 
 **Parameters ρ̄ and η̄ (CP violation):**
 
-The CP-violating phase arises from the complex holonomy at Z₃ fixed points:
+The CP-violating phase arises from the complex holonomy at ∞-helix nodes:
 ```
 The Wilson line at generation g:
     W_g = exp(2πi·g/3)
@@ -1673,7 +1673,7 @@ Agreement: ρ̄ within 6%, η̄ within 0.6%  ✓
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────┐
-│  CKM MATRIX PARAMETERS: DERIVED FROM Z₃ GEOMETRY                           │
+│  CKM MATRIX PARAMETERS: DERIVED FROM ∞₃ GEOMETRY                           │
 │                                                                             │
 │  Parameter │ STUR Predicted │ PDG Observed    │ Agreement                  │
 │  ──────────┼────────────────┼─────────────────┼────────────────────────────│
@@ -1682,7 +1682,7 @@ Agreement: ρ̄ within 6%, η̄ within 0.6%  ✓
 │  ρ̄         │ 0.15 ± 0.03    │ 0.159±0.010     │ 6% (mechanism identified) │
 │  η̄         │ 0.35 ± 0.05    │ 0.348±0.010     │ 0.6% ✓                    │
 │                                                                             │
-│  All 4 Wolfenstein parameters derived from Z₃ localization geometry!       │
+│  All 4 Wolfenstein parameters derived from ∞₃ localization geometry!       │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -1690,7 +1690,7 @@ Agreement: ρ̄ within 6%, η̄ within 0.6%  ✓
 
 ## Part V-C: PMNS Matrix Angles
 
-### 5C.1 PMNS Matrix from Z₃ Neutrino Localization
+### 5C.1 PMNS Matrix from ∞₃ Neutrino Localization
 
 The PMNS matrix describes neutrino flavor mixing:
 ```
@@ -1702,12 +1702,12 @@ where U_ℓ diagonalizes charged leptons and U_ν diagonalizes the neutrino mass
 **Key difference from CKM:** Neutrino mixing angles are LARGE because:
 1. Right-handed neutrinos are more delocalized (larger σ_ν)
 2. The Majorana mass matrix has near-democratic structure
-3. Z₃ symmetry connects the μ and τ sectors
+3. ∞₃ symmetry connects the μ and τ sectors
 
 ### 5C.2 Derivation of θ₁₂ (Solar Angle)
 
 The solar angle θ₁₂ ≈ 33° arises from the near-democratic structure of the
-neutrino mass matrix at the Z₃ fixed points.
+neutrino mass matrix at the ∞-helix nodes.
 
 **Physical mechanism:**
 
@@ -1725,7 +1725,7 @@ sin²θ₁₂^{TB} = 1/3 = 0.333
 θ₁₂^{TB} = 35.3°
 ```
 
-**Z₃ corrections:**
+**∞₃ corrections:**
 
 The deviation from tribimaximal comes from the hierarchical Dirac masses:
 ```
@@ -1748,14 +1748,14 @@ Agreement: 1.2%  ✓  EXCELLENT
 
 ### 5C.3 Derivation of θ₂₃ (Atmospheric Angle)
 
-The atmospheric angle θ₂₃ ≈ 49° is nearly maximal due to the Z₃ symmetry
+The atmospheric angle θ₂₃ ≈ 49° is nearly maximal due to the ∞₃ symmetry
 relating the second and third generations.
 
 **Physical mechanism:**
 
 The μ and τ neutrino sectors are at φ = 2π/3 and φ = 4π/3, related by:
 ```
-Z₃: φ → φ + 2π/3
+∞₃: φ → φ + 2π/3
 ```
 
 This symmetry implies maximal mixing in the (2,3) sector: θ₂₃ → 45°.
@@ -1790,7 +1790,7 @@ Agreement: 3.5%  ✓  GOOD (within 1σ)
 ### 5C.4 Derivation of θ₁₃ (Reactor Angle)
 
 The reactor angle θ₁₃ ≈ 8.5° is small because it connects generations 1 and 3,
-which are maximally separated in the Z₃ geometry.
+which are maximally separated in the ∞-helix geometry.
 
 **Physical mechanism:**
 
@@ -1805,7 +1805,7 @@ where:
     σ_13 = √(σ_1 × σ_3) = √(0.703 × 0.969) = 0.825 rad
 ```
 
-However, the Z₃ twisted sector for first-generation leptons provides
+However, the ∞-helix twisted sector for first-generation leptons provides
 additional suppression (similar to up quarks):
 ```
 sin θ₁₃ = λ × f_twist
@@ -1825,7 +1825,7 @@ Agreement: 0.7%  ✓  EXCELLENT
 
 ### 5C.5 Derivation of δ_CP (PMNS CP Phase)
 
-The leptonic CP phase arises from the complex holonomy at Z₃ fixed points,
+The leptonic CP phase arises from the complex holonomy at ∞-helix nodes,
 analogous to the CKM phase.
 
 **Physical mechanism:**
@@ -1865,7 +1865,7 @@ Agreement: 0%  ✓  EXACT MATCH
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────┐
-│  PMNS MATRIX PARAMETERS: DERIVED FROM Z₃ GEOMETRY                          │
+│  PMNS MATRIX PARAMETERS: DERIVED FROM ∞₃ GEOMETRY                          │
 │                                                                             │
 │  Parameter │ STUR Predicted │ Observed (NuFIT)│ Agreement                  │
 │  ──────────┼────────────────┼─────────────────┼────────────────────────────│
@@ -1874,7 +1874,7 @@ Agreement: 0%  ✓  EXACT MATCH
 │  θ₁₃       │ 8.6°           │ 8.54° ± 0.12°   │ 0.7% ✓                    │
 │  δ_CP      │ 194°           │ 194° ± 24°      │ 0% ✓ (exact)              │
 │                                                                             │
-│  All 4 Dirac-type PMNS parameters derived from Z₃ geometry!                │
+│  All 4 Dirac-type PMNS parameters derived from ∞-helix geometry!                │
 │  Average agreement: 1.4%                                                    │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -1891,9 +1891,9 @@ U_PMNS = U_Dirac × diag(1, e^{iα₂₁/2}, e^{iα₃₁/2})
 where U_Dirac contains the three mixing angles (θ₁₂, θ₂₃, θ₁₃) and δ_CP
 ```
 
-**Physical mechanism in Z₃ geometry:**
+**Physical mechanism in ∞-helix geometry:**
 
-The three right-handed neutrinos N_R,g are localized at distinct Z₃ fixed points:
+The three right-handed neutrinos N_R,g are localized at distinct ∞-helix nodes:
 ```
 N_R,1 at φ = 0      (first fixed point)
 N_R,2 at φ = 2π/3   (second fixed point)
@@ -1971,7 +1971,7 @@ Future sensitivity: nEXO will reach ~10 meV
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────┐
-│  MAJORANA PHASES: DERIVED FROM Z₃ HOLONOMY                                 │
+│  MAJORANA PHASES: DERIVED FROM ∞₃ HOLONOMY                                 │
 │                                                                             │
 │  Parameter │ STUR Predicted │ Experimental Status                          │
 │  ──────────┼────────────────┼──────────────────────────────────────────────│
@@ -1988,7 +1988,7 @@ Future sensitivity: nEXO will reach ~10 meV
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────┐
-│  COMPLETE PMNS MATRIX: ALL 6 PARAMETERS FROM Z₃ GEOMETRY                   │
+│  COMPLETE PMNS MATRIX: ALL 6 PARAMETERS FROM ∞₃ GEOMETRY                   │
 │                                                                             │
 │  DIRAC-TYPE PARAMETERS (4):                                                │
 │  ─────────────────────────                                                 │
@@ -2006,7 +2006,7 @@ Future sensitivity: nEXO will reach ~10 meV
 │  α₂₁       │ 238° ± 15°     │ PREDICTION (testable via 0νββ)              │
 │  α₃₁       │ 118° ± 15°     │ PREDICTION (testable via 0νββ)              │
 │                                                                             │
-│  ALL 6 PMNS PARAMETERS derived from Z₃ geometry!                           │
+│  ALL 6 PMNS PARAMETERS derived from ∞-helix geometry!                           │
 │  The 2 Majorana phases are genuine predictions awaiting verification.       │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -2015,13 +2015,13 @@ Future sensitivity: nEXO will reach ~10 meV
 
 ## Part V-D: Higgs VEV Derivation
 
-### 5D.1 The Electroweak Hierarchy from Z₃ Geometry
+### 5D.1 The Electroweak Hierarchy from ∞₃ Geometry
 
 The electroweak scale v = 246.22 GeV is enormously smaller than the
 compactification scale M_KK ~ 2 × 10¹⁶ GeV. This hierarchy can be understood
-through a cascade of Z₃ suppressions.
+through a cascade of ∞₃ suppressions.
 
-### 5D.2 Froggatt-Nielsen Mechanism in Z₃
+### 5D.2 Froggatt-Nielsen Mechanism in ∞₃
 
 In the STUR framework, hierarchies arise from products of the small parameter:
 ```
@@ -2043,7 +2043,7 @@ Each fermion generation contributes one λ factor from localization overlap:
 - 3 generations of leptons: 3 × 2 = 6 insertions
 - Total fermion contribution: 12 insertions
 
-Each Z₃ fixed point contributes an additional factor:
+Each ∞-helix node contributes an additional factor:
 - 3 fixed points × 2 (holonomy + wavefunction): 6 insertions
 
 Additional suppression from gauge coupling running:
@@ -2059,7 +2059,7 @@ v = M_KK × λ^22 × (2π/3)^2
 where:
     M_KK = 2 × 10¹⁶ GeV
     λ^22 = 0.225^22 = 3.6 × 10⁻¹⁵
-    (2π/3)^2 = 4.39 (Z₃ geometric factor)
+    (2π/3)^2 = 4.39 (∞₃ geometric factor)
 
 v = 2 × 10¹⁶ × 3.6 × 10⁻¹⁵ × 4.39
   = 72 × 4.39
@@ -2074,7 +2074,7 @@ Including the holonomy phase cancellation (same factor as in M_R derivation):
 ```
 v = M_KK × λ^22 × (2π/3)² × f_hol
 
-where f_hol = 0.78 (from Z₃ phase average)
+where f_hol = 0.78 (from ∞-helix phase average)
 
 v = 316 × 0.78 = 246 GeV  ✓
 ```
@@ -2086,7 +2086,7 @@ The electroweak hierarchy v/M_KK ≈ 10⁻¹⁴ arises naturally from:
 1. **Fermion localization (12 powers of λ):** Each fermion generation
    contributes λ² from wavefunction overlap, giving λ^12 total.
 
-2. **Z₃ fixed point structure (6 powers of λ):** The three fixed points
+2. **∞-helix node structure (6 powers of λ):** The three fixed points
    and their holonomies contribute additional suppression.
 
 3. **Gauge coupling running (4 powers of λ):** The gauge couplings run
@@ -2104,7 +2104,7 @@ The electroweak hierarchy v/M_KK ≈ 10⁻¹⁴ arises naturally from:
 │  Components:                                                                │
 │      M_KK = 2 × 10¹⁶ GeV        (compactification scale)                  │
 │      λ^22 = 3.6 × 10⁻¹⁵        (22 Yukawa insertions)                    │
-│      (2π/3)² = 4.39             (Z₃ geometric factor)                      │
+│      (2π/3)² = 4.39             (∞₃ geometric factor)                      │
 │      f_hol = 0.78               (holonomy phase correction)                │
 │                                                                             │
 │  Result:                                                                    │
@@ -2130,7 +2130,7 @@ The electroweak hierarchy v/M_KK ≈ 10⁻¹⁴ arises naturally from:
   - Dirac: θ₁₂ (1.2%), θ₂₃ (3.5%), θ₁₃ (0.7%), δ_CP (exact)
   - Majorana: α₂₁ = 238° ± 15°, α₃₁ = 118° ± 15° (predictions for 0νββ)
 - **HIGGS VEV v = 246 GeV** derived from Froggatt-Nielsen mechanism (0.1%)
-- **ELECTROWEAK PARAMETERS** (m_t, m_H, θ_QCD, N_gen) derived from Z₃ topology
+- **ELECTROWEAK PARAMETERS** (m_t, m_H, θ_QCD, N_gen) derived from ∞-helix topology
 
 This document has derived:
 
@@ -2143,10 +2143,10 @@ This document has derived:
    - Hierarchy formula: y_{g-1}/y_g = λ² × R_sector
    - Explicit values for all 9 charged fermion Yukawas
 
-3. **Three key correction factors derived from Z₃ geometry:**
+3. **Three key correction factors derived from ∞-helix geometry:**
    - f_tail = 1.131 (wavefunction tail correction)
    - f_ℓ = 1/√3 (color singlet correction for leptons)
-   - f_u^{node} = 0.133 (Z₃ twisted sector node for first-gen up quark)
+   - f_u^{node} = 0.133 (∞-helix twisted sector node for first-gen up quark)
 
 4. **Complete charged fermion mass spectrum:**
    | Fermion | Predicted | Observed | Accuracy |
@@ -2161,10 +2161,10 @@ This document has derived:
 
 5. **Input parameter analysis:**
    - v remains fundamental input (not derivable from v·L_X = 3)
-   - α_em potentially derivable from Z₃ + unification
+   - α_em potentially derivable from ∞₃ + unification
    - m_t partially derivable from gauge-Higgs unification (30% uncertainty)
 
-6. **Neutrino masses (with Z₃ resonance enhancement):**
+6. **Neutrino masses (with ∞-helix resonance enhancement):**
    - M_R = 6×10¹³ GeV (with generation-dependent resonance)
    - m₃ = 50 meV, m₂ = 8.5 meV, m₁ = 0.28 meV
    - Δm²₃₁: 0.4% accuracy, Δm²₂₁: 2.8% accuracy
@@ -2173,7 +2173,7 @@ This document has derived:
 
 | Fermion | Previous Status | Resolution | Final Accuracy |
 |---------|-----------------|------------|----------------|
-| m_u | Factor 7.5 off | Z₃ node: f_u^{node} = 0.133 | **0.9%** |
+| m_u | Factor 7.5 off | ∞₃ node: f_u^{node} = 0.133 | **0.9%** |
 | m_c | 1.0% | f_tail = 1.131 | **1.0%** |
 | m_b | 0.4% | f_tail = 1.131 | **0.4%** |
 | m_s | Exact | f_tail = 1.131 | **0.0%** |
@@ -2191,7 +2191,7 @@ This document has derived:
 - m_μ: Previously 184 MeV (factor 1.74), now 106 MeV (0.5% agreement)
 - m_e: Previously 0.88 MeV (factor 1.72), now 0.508 MeV (0.6% agreement)
 
-**RESOLVED by f_u^{node} = 0.133 (Z₃ twisted sector node):**
+**RESOLVED by f_u^{node} = 0.133 (∞-helix twisted sector node):**
 - m_u: Previously 16.1 MeV (factor 7.5), now 2.14 MeV (0.9% agreement)
 
 ### 6.2.1 Neutrino Sector: NOW RESOLVED
@@ -2199,7 +2199,7 @@ This document has derived:
 | Observable | Previous Status | Resolution | Final Accuracy |
 |------------|-----------------|------------|----------------|
 | Δm²₃₁ | Factor 3 off | M_R = 6×10¹³ GeV | **0.4%** |
-| Δm²₂₁ | Factor 15 off | Z₃ resonance f_ν^{res} = 2.3 | **2.8%** |
+| Δm²₂₁ | Factor 15 off | ∞-helix resonance f_ν^{res} = 2.3 | **2.8%** |
 | m₃ | ~30 meV | Corrected M_R | **50 meV ✓** |
 | m₂ | ~2 meV | Resonance enhancement | **8.5 meV ✓** |
 | Σm_ν | ~32 meV | Full correction | **59 meV ✓** |
@@ -2316,9 +2316,9 @@ Majorana masses (hierarchical):
 
 ### B.1 Boundary Correction (f_boundary = 0.65)
 
-From DERIVATION_CHAIN_HELIX.md:
+From DERIVATION_CHAIN_INFINITY.md:
 ```
-f_boundary = (overlap enhancement) × (Z₃ sector suppression)
+f_boundary = (overlap enhancement) × (∞-helix sector suppression)
            = 1.55 × 0.42
            = 0.65 ± 0.05
 ```
@@ -2374,7 +2374,7 @@ See Section 4.2 for complete derivation of all R_f values.
 
 ## References
 
-1. STUR Framework v4.3 (DERIVATION_CHAIN_HELIX.md)
+1. STUR Framework v4.3 (DERIVATION_CHAIN_INFINITY.md)
 2. First-Principles κ Derivation (KAPPA_FIRST_PRINCIPLES_DERIVATION.md)
 3. PDG 2024: S. Navas et al., Phys. Rev. D 110, 030001 (2024)
 4. NuFIT 6.0: I. Esteban et al., JHEP 12 (2024) 216
@@ -2385,4 +2385,4 @@ See Section 4.2 for complete derivation of all R_f values.
 
 *Document Status: COMPLETE — Full mass spectrum derived*
 *Last Updated: 2026-02-06*
-*Achievement: ALL fermion masses and CKM parameters derived from Z₃ geometry*
+*Achievement: ALL fermion masses and CKM parameters derived from ∞-helix geometry*

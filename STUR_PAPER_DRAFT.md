@@ -10,10 +10,10 @@
 
 ## Abstract
 
-We present STUR (Sheldon's Theory of Unified Resistance), a five-dimensional effective field theory on M^4 x S^1/Z_3 that provides a geometrically-motivated framework for Standard Model structure. Starting from three foundational axioms---(1) 5D spacetime with a compact extra dimension, (2) a real doublet scalar field R coupled to torsion via TEGR, and (3) energy minimization selecting the vacuum---we derive that the R-field configuration forms a Z_3 helix structure. This geometry yields exactly three fermion generations (topological), the SU(3) x SU(2) x U(1) gauge group, and a natural solution to the strong CP problem (theta_QCD = 0 by Z_3 x CP symmetry). The fermion mass hierarchy and CKM mixing arise from overlap integrals of localized wavefunctions at Z_3 fixed points, governed by a Mathieu equation with coupling alpha_eff. At tree level alpha = 1 (from XCRM-Yukawa symmetry), quantum corrections enhance this to alpha_eff = 1.33 +/- 0.15 (computed) with a target value of 3/2 required to match the observed Cabibbo angle at 1.2% accuracy. The Higgs mass is predicted as 125 +/- 2 GeV from gauge-Higgs unification. Topological predictions (N_gen = 3, theta_QCD = 0, normal neutrino ordering) are robust, while precision predictions for masses and mixing angles depend on correction factors whose derivation status ranges from rigorous to semi-derived. The framework does not solve the cosmological constant problem and requires UV completion for a complete theory of quantum gravity. The theory makes falsifiable predictions testable by current and near-future experiments (JUNO, DUNE, ARIADNE).
+We present STUR (Sheldon's Theory of Unified Resistance), a five-dimensional effective field theory on M^4 × S^1/∞₃ that provides a geometrically-motivated framework for Standard Model structure. Starting from three foundational axioms---(1) 5D spacetime with a compact extra dimension, (2) a real doublet scalar field R coupled to torsion via TEGR, and (3) energy minimization selecting the vacuum---we derive that the R-field configuration forms a infinity helix structure. This geometry yields exactly three fermion generations (topological), the SU(3) x SU(2) x U(1) gauge group, and a natural solution to the strong CP problem (theta_QCD = 0 by ∞₃ x CP symmetry). The fermion mass hierarchy and CKM mixing arise from overlap integrals of localized wavefunctions at ∞-helix node points, governed by a Mathieu equation with coupling alpha_eff. At tree level alpha = 1 (from XCRM-Yukawa symmetry), quantum corrections enhance this to alpha_eff = 1.33 +/- 0.15 (computed) with a target value of 3/2 required to match the observed Cabibbo angle at 1.2% accuracy. The Higgs mass is predicted as 125 +/- 2 GeV from gauge-Higgs unification. Topological predictions (N_gen = 3, theta_QCD = 0, normal neutrino ordering) are robust, while precision predictions for masses and mixing angles depend on correction factors whose derivation status ranges from rigorous to semi-derived. The framework does not solve the cosmological constant problem and requires UV completion for a complete theory of quantum gravity. The theory makes falsifiable predictions testable by current and near-future experiments (JUNO, DUNE, ARIADNE).
 
 **PACS:** 12.10.Dm, 11.10.Kk, 04.50.+h, 12.15.Ff
-**Keywords:** Extra dimensions, Flavor physics, CKM matrix, Gauge-Higgs unification, Z_3 orbifold
+**Keywords:** Extra dimensions, Flavor physics, CKM matrix, Gauge-Higgs unification, ∞-helix topology
 
 ---
 
@@ -29,13 +29,13 @@ Extra-dimensional theories offer a geometric perspective on flavor. If different
 
 ### 1.3 The STUR Framework
 
-This paper presents STUR, a framework where the number of generations and their relative localizations emerge from the topology of a Z_3 helix configuration in a compact extra dimension. The key innovation is coupling a real doublet "resistance field" R to gravity via the teleparallel formalism (TEGR), with a unique first-derivative coupling (XCRM) that requires both compactification and non-trivial winding.
+This paper presents STUR, a framework where the number of generations and their relative localizations emerge from the topology of a infinity helix configuration in a compact extra dimension. The key innovation is coupling a real doublet "resistance field" R to gravity via the teleparallel formalism (TEGR), with a unique first-derivative coupling (XCRM) that requires both compactification and non-trivial winding.
 
 ### 1.4 Scope and Achievements
 
 STUR is an effective field theory valid below the compactification scale M_KK. Its achievements fall into three tiers:
 
-**Tier 1 (Topological, rigorous):** N_gen = 3 from Z_3 fixed points, theta_QCD = 0 from Z_3 x CP, proton decay suppression via KK-parity, normal neutrino mass ordering, gauge group SU(3) x SU(2) x U(1).
+**Tier 1 (Topological, rigorous):** N_gen = 3 from ∞-helix node points, theta_QCD = 0 from ∞₃ x CP, proton decay suppression via KK-parity, normal neutrino mass ordering, gauge group SU(3) x SU(2) x U(1).
 
 **Tier 2 (Derived with identified uncertainties):** Cabibbo angle lambda from overlap integrals (requires alpha_eff = 3/2, of which 88% is computed from first principles; see ALPHA_EFFECTIVE_DERIVATION.md), Higgs mass 125 +/- 2 GeV from gauge-Higgs unification, strong coupling alpha_s(M_Z) from KK threshold matching.
 
@@ -94,7 +94,7 @@ S_XCRM = integral d^4x chi v^2 integral_{-infty}^{+infty} d_X phi dX
 
 diverges for non-compact X. Finite action requires X to be a circle S^1 with period L_X.
 
-### 2.5 The Z_3 Helix
+### 2.5 The ∞₃ Helix
 
 Energy minimization determines the R-field vacuum. The energy density is:
 
@@ -121,12 +121,12 @@ The winding number N is determined by requiring integer winding over the period:
 phi(L_X) - phi(0) = 2 pi n / N => chi = -2 pi / (N L_X)
 ```
 
-The value N = 3 (Z_3) is selected by:
+The value N = 3 (∞₃) is selected by:
 1. **Observation:** N_gen = 2.984 +/- 0.008 from LEP Z-width [PDG 2024]
-2. **Holonomy Minimization:** The one-loop holonomy potential has its minimum at Z_3 center
-3. **Gauge Compatibility:** SU(3) color has center Z_3, requiring N divisible by 3
+2. **Holonomy Minimization:** The one-loop holonomy potential has its minimum at ∞₃ center
+3. **Gauge Compatibility:** SU(3) color has center ∞₃, requiring N divisible by 3
 
-This establishes the Z_3 helix structure with the R-field winding as:
+This establishes the infinity helix structure with the R-field winding as:
 
 ```
 R(X) = v (cos(2 pi X / 3 L_X), sin(2 pi X / 3 L_X))
@@ -142,15 +142,15 @@ These predictions follow from topology and symmetry with no adjustable parameter
 
 | Prediction | Derivation | Value | Experimental Status |
 |------------|------------|-------|---------------------|
-| N_gen | Z_3 fixed points | 3 (exact) | 2.984 +/- 0.008 [PDG 2024] |
-| Gauge group | Z_3 holonomy compatibility | SU(3) x SU(2) x U(1) | Confirmed |
-| theta_QCD | Z_3 x CP symmetry | 0 (exact) | < 10^-10 |
-| Dim-5 proton decay | Z_3 KK-parity | Forbidden | tau_p > 10^34 years |
-| Neutrino ordering | Z_3 resonance structure | Normal | Favored (3.5 sigma) |
+| N_gen | ∞-helix node points | 3 (exact) | 2.984 +/- 0.008 [PDG 2024] |
+| Gauge group | ∞-helix holonomy compatibility | SU(3) x SU(2) x U(1) | Confirmed |
+| theta_QCD | ∞₃ x CP symmetry | 0 (exact) | < 10^-10 |
+| Dim-5 proton decay | ∞-helix KK-parity | Forbidden | tau_p > 10^34 years |
+| Neutrino ordering | ∞₃ resonance structure | Normal | Favored (3.5 sigma) |
 
 ### 3.2 Fermion Localization and Mass Hierarchies
 
-Fermions are localized at the three Z_3 phases phi_g = 2 pi g / 3 (g = 0, 1, 2) with Gaussian profiles:
+Fermions are localized at the three ∞₃ phases phi_g = 2 pi g / 3 (g = 0, 1, 2) with Gaussian profiles:
 
 ```
 psi_g(phi) = N exp[-(phi - phi_g)^2 / (4 sigma^2)]
@@ -172,10 +172,10 @@ where alpha = (y v L_X / 2 pi)^2. The XCRM-Yukawa symmetry fixes alpha = 1, givi
 | Two-loop correction | +0.08 +/- 0.02 | Anharmonic terms |
 | KK tower dressing | +0.11 +/- 0.03 | Heavy mode renormalization |
 | Gauge backreaction | +0.06 +/- 0.02 | SU(3) corrections |
-| Z_3 orbifold projection | +0.05 +/- 0.02 | Twisted sector sharpening |
+| ∞-helix topology projection | +0.05 +/- 0.02 | Twisted sector sharpening |
 | **Total** | **2.52 +/- 0.16** | |
 
-**Universal Wavefunction Tail Correction:** All fermion masses receive a universal multiplicative correction f_tail = 1.131 +/- 0.023 from the finite extent of wavefunctions wrapping on S^1/Z_3 [11]. This purely geometric factor arises from the analytic overlap ratio of adjacent-generation Gaussians on the full circle relative to a single Z_3 sector:
+**Universal Wavefunction Tail Correction:** All fermion masses receive a universal multiplicative correction f_tail = 1.131 +/- 0.023 from the finite extent of wavefunctions wrapping on S^1/∞₃ [11]. This purely geometric factor arises from the analytic overlap ratio of adjacent-generation Gaussians on the full circle relative to a single ∞₃ sector:
 
 ```
 f_tail = [erf((2π - μ)/(√2σ)) - erf((0 - μ)/(√2σ))]
@@ -205,9 +205,9 @@ lambda = exp[-kappa^2 / 8] x f_sector x f_holonomy x f_RG x f_tail
 | eta-bar | 0.350 +/- 0.020 | 0.348 +/- 0.010 | 0.09 sigma |
 | J (Jarlskog) | (2.9 +/- 0.4) x 10^-5 | (3.08 +/- 0.13) x 10^-5 | 0.5 sigma |
 
-The eta-bar prediction includes three correction factors derived from Z_3 geometry:
+The eta-bar prediction includes three correction factors derived from ∞₃ geometry:
 - f_hol = 0.948: Holonomy fluctuation averaging (from <delta theta^2> = 1/C_2(SU(3)) = 1/3)
-- f_Berry = 0.975: Geometric Berry phase from transport on Z_3 helix
+- f_Berry = 0.975: Geometric Berry phase from transport on infinity helix
 - f_RG = 0.970: RG running with KK threshold matching
 
 ### 3.4 Higgs Mass
@@ -231,7 +231,7 @@ The 2 GeV theoretical uncertainty encompasses GUT threshold corrections (+/- 1 G
 
 ### 3.5 Gauge Coupling Unification
 
-With Z_3 KK threshold corrections, the three gauge couplings unify:
+With ∞-helix KK threshold corrections, the three gauge couplings unify:
 
 ```
 (3/5) alpha_1^-1(M_GUT) = 24.26 +/- 0.3
@@ -244,20 +244,20 @@ alpha_3^-1(M_GUT) = 24.38 +/- 0.3
 
 ### 3.6 PMNS Matrix and Neutrino Masses
 
-The atmospheric mixing angle theta_23 deviates from maximal due to Z_3 phase interference [13]:
+The atmospheric mixing angle theta_23 deviates from maximal due to ∞₃ phase interference [13]:
 
 ```
 sin^2(theta_23) = 1/2 + (lambda sqrt(3) / 4) |sin(delta_CP)| g(sigma/L_X)
 ```
 
 where g(sigma/L_X) is derived from three factors:
-- Z_3 phase interference: sin(2 pi/3) = 0.866
+- ∞₃ phase interference: sin(2 pi/3) = 0.866
 - Wavefunction overlap suppression: [1 - exp(-kappa^2/4)] = 0.796
 - Seesaw hierarchy enhancement: (M_R2/M_R3)^(1/4) x 0.91 = 1.10
 
 **Result:** g = 0.866 x 0.796 x 1.10 = 0.75 +/- 0.05, giving sin^2(theta_23) = 0.573.
 
-The neutrino mass-squared differences use the M_R hierarchy derived from Z_3 kink phases [12]:
+The neutrino mass-squared differences use the M_R hierarchy derived from ∞₃ kink phases [12]:
 
 ```
 M_R,i = M_0 x xi_i   where   xi_3 : xi_2 : xi_1 = 0.55 : 0.76 : 0.76
@@ -305,22 +305,22 @@ Each prediction's derivation involves intermediate quantities whose status range
 
 | Quantity | Value Used | Derivation Status | Confidence | Notes |
 |----------|-----------|-------------------|------------|-------|
-| **N_gen = 3** | 3 (exact) | TOPOLOGICAL | HIGH | Z_3 fixed points; N=3 is input to geometry choice, not output |
-| **theta_QCD = 0** | 0 (exact) | DERIVED | HIGH | Z_3 x CP symmetry; rigorous |
-| **Gauge group** | SU(3)xSU(2)xU(1) | DERIVED | HIGH | Holonomy of Z_3 connection |
+| **N_gen = 3** | 3 (exact) | TOPOLOGICAL | HIGH | ∞-helix node points; N=3 is input to geometry choice, not output |
+| **theta_QCD = 0** | 0 (exact) | DERIVED | HIGH | ∞₃ x CP symmetry; rigorous |
+| **Gauge group** | SU(3)xSU(2)xU(1) | DERIVED | HIGH | Holonomy of ∞₃ connection |
 | **alpha = 1** | 1.0 | ASSUMED | MEDIUM | From XCRM-Yukawa symmetry; not uniquely selected by axioms |
 | **alpha_eff** | 1.33 +/- 0.15 | COMPUTED | MEDIUM | From quantum corrections (target: 1.50); 12% gap unresolved |
 | **kappa** | 2.22 (base) | COMPUTED | HIGH | Numerical Mathieu equation solution |
 | **kappa corrections** | +0.30 | ESTIMATED | LOW | Dimensional analysis; potential double-counting |
-| **f_boundary** | 0.62 | SEMI-DERIVED | LOW | Sign confusion acknowledged; Z_3 factor calibrated |
+| **f_boundary** | 0.62 | SEMI-DERIVED | LOW | Sign confusion acknowledged; ∞₃ factor calibrated |
 | **f_holonomy** | 0.846 | ESTIMATED | MEDIUM | exp(-1/6) approximation; MC gives 1.31 (different quantity) |
 | **f_RG** | 0.87 | INCORRECT for ratio | LOW | Yukawa RATIO protected at 1-loop; applies to absolute coupling only |
 | **f_tail** | 1.131 | CALIBRATED | LOW | Geometric origin but magnitude tuned to close 5% gap |
-| **v * L_X = 3** | 3 (exact) | DERIVED | HIGH | Z_3 winding quantization |
+| **v * L_X = 3** | 3 (exact) | DERIVED | HIGH | ∞₃ winding quantization |
 | **L_X** | ~10^-32 m | DERIVED (from v) | MEDIUM | Depends on identifying v ~ M_GUT |
 | **L_eff** | ~0.8 um | DERIVED (different scale) | LOW | 10^26 ratio with L_X not fully explained |
 | **lambda_hol** | ~20 | NOT DERIVED | LOW | Stated as empirical; product decomposition inconsistent |
-| **M_R hierarchy** | xi ratios | SEMI-DERIVED | MEDIUM | Z_3 kink structure; amplitude epsilon = 0.26 fitted |
+| **M_R hierarchy** | xi ratios | SEMI-DERIVED | MEDIUM | ∞₃ kink structure; amplitude epsilon = 0.26 fitted |
 | **m_H = 125 GeV** | 125 +/- 2 GeV | DERIVED | HIGH | Gauge-Higgs unification + RG; robust prediction |
 | **alpha_s(M_Z)** | 0.118 | DERIVED | HIGH | KK threshold matching at M_GUT |
 | **eta-bar** | 0.350 +/- 0.020 | SEMI-DERIVED | MEDIUM | Base value from helix chirality; 3 correction factors |
@@ -341,7 +341,7 @@ This is an improvement over generic flavor models (which have 13+ free parameter
 
 **Status:** Partial framework, not solution.
 
-The Z_3 helix structure provides:
+The infinity helix structure provides:
 - Domain wall elimination (doublet vs. singlet)
 - Partial tree-level cancellation between XCRM and kinetic energy
 - Numerical proximity: M_KK^4 ~ 10^-52 GeV^4 ~ Lambda_obs
@@ -351,7 +351,7 @@ The Z_3 helix structure provides:
 - Fine-tuning of ~10^-70 still required
 - Loop contributions not systematically controlled
 
-We have explored a discrete gauge Z_3 protection mechanism that could force the cosmological constant to vanish (see COSMOLOGICAL_CONSTANT_Z3_MECHANISM.md), but this remains a conjecture requiring rigorous proof.
+We have explored a discrete gauge ∞₃ protection mechanism that could force the cosmological constant to vanish (see COSMOLOGICAL_CONSTANT_INFINITY_HELIX_MECHANISM.md), but this remains a conjecture requiring rigorous proof.
 
 ### 5.2 UV Completion
 
@@ -360,13 +360,13 @@ STUR is an effective field theory valid below M_KK ~ 10^16 GeV. Above this scale
 - 5D gravity has non-renormalizable divergences
 - Complete theory requires embedding in string/M-theory
 
-The Z_3 orbifold structure is compatible with heterotic string compactification, but the explicit embedding has not been constructed.
+The ∞-helix topology structure is compatible with heterotic string compactification, but the explicit embedding has not been constructed.
 
 ### 5.3 Mass Hierarchy Numerical Values
 
 The pattern m ~ lambda^(2n) is explained by Gaussian localization with kappa = 2.52. The precise numerical values now include:
 - Universal wavefunction tail correction f_tail = 1.131 [11]
-- Generation-dependent phase shifts from Z_3 kink structure [12]
+- Generation-dependent phase shifts from ∞₃ kink structure [12]
 - Sector-dependent gauge corrections (holonomy factors)
 - QCD running corrections with KK threshold matching
 
@@ -380,10 +380,10 @@ As of v4.5, the derivation status of key parameters has been revised to be more 
 
 | Parameter | Value | Geometric Origin | Calibration | Status |
 |-----------|-------|-----------------|-------------|--------|
-| f_tail | 1.131 +/- 0.023 | S^1/Z_3 overlap ratio | Magnitude adjusted to close 5% gap | SEMI-DERIVED |
-| M_R hierarchy | xi ratios | Z_3 kink phase structure | Kink amplitude epsilon = 0.26 fitted | SEMI-DERIVED |
-| g(sigma/L_X) | 0.75 +/- 0.05 | Z_3 phase interference | Seesaw power (1/4) not derived | SEMI-DERIVED |
-| f_boundary | 0.62 | Domain truncation | Z_3 factor obtained by division | CALIBRATED |
+| f_tail | 1.131 +/- 0.023 | S^1/∞₃ overlap ratio | Magnitude adjusted to close 5% gap | SEMI-DERIVED |
+| M_R hierarchy | xi ratios | ∞₃ kink phase structure | Kink amplitude epsilon = 0.26 fitted | SEMI-DERIVED |
+| g(sigma/L_X) | 0.75 +/- 0.05 | ∞₃ phase interference | Seesaw power (1/4) not derived | SEMI-DERIVED |
+| f_boundary | 0.62 | Domain truncation | ∞₃ factor obtained by division | CALIBRATED |
 
 **Parameters not derived from first principles:**
 
@@ -402,7 +402,7 @@ A cleaner derivation path for the Cabibbo angle replaces the multiplicative corr
 
 **New approach (v4.5):** Compute alpha_eff from quantum corrections to the localization potential, then obtain lambda directly from the overlap integral at alpha_eff.
 
-The computed value alpha_eff = 1.480 +/- 0.047 (one-loop + two-loop) accounts for Z_3 twisted sector curvature, KK tower renormalization, gauge backreaction, and two-loop corrections. This gives lambda = exp(-kappa^2/4) = 0.229 (1.6% agreement). The CP phase is now computed via Derivation D: delta_CKM = arctan(1/2) + pi/3 x f_screen = 68.3° (4.4% from observed 65.4°), with f_screen = 0.696 derived from the Debye-Waller factor of the Mathieu eigenstate.
+The computed value alpha_eff = 1.480 +/- 0.047 (one-loop + two-loop) accounts for ∞-helix twisted sector curvature, KK tower renormalization, gauge backreaction, and two-loop corrections. This gives lambda = exp(-kappa^2/4) = 0.229 (1.6% agreement). The CP phase is now computed via Derivation D: delta_CKM = arctan(1/2) + pi/3 x f_screen = 68.3° (4.4% from observed 65.4°), with f_screen = 0.696 derived from the Debye-Waller factor of the Mathieu eigenstate.
 
 See ALPHA_EFFECTIVE_DERIVATION.md for the complete calculation.
 
@@ -425,9 +425,9 @@ The theory makes testable predictions that would falsify it if contradicted:
 
 | Observation | Falsifies Because |
 |-------------|-------------------|
-| 4th generation discovered | N_gen must equal 3 (Z_3 topology) |
-| Inverted neutrino mass ordering | Z_3 resonance structure requires normal ordering |
-| theta_QCD measured nonzero | Z_3 x CP symmetry forbids theta term |
+| 4th generation discovered | N_gen must equal 3 (∞₃ topology) |
+| Inverted neutrino mass ordering | ∞₃ resonance structure requires normal ordering |
+| theta_QCD measured nonzero | ∞₃ x CP symmetry forbids theta term |
 | CKM unitarity violated > 5 sigma | Structure relies on unitarity |
 
 ### 6.2 Near-Term Tests
@@ -454,9 +454,9 @@ This may indicate two distinct length scales in the framework, or an error in on
 STUR achieves complete quantitative closure for Standard Model parameters within a geometrically-motivated effective field theory framework.
 
 **Quantitative Closure (100% within 10%, 92% within 5%):**
-- Exactly three fermion generations (Z_3 topology)
+- Exactly three fermion generations (∞₃ topology)
 - SM gauge group (holonomy compatibility)
-- Strong CP problem (Z_3 x CP symmetry)
+- Strong CP problem (∞₃ x CP symmetry)
 - All fermion masses with f_tail = 1.131 correction [11]
 - CKM matrix structure (all four Wolfenstein parameters)
 - PMNS mixing angles with derived g = 0.75 [13]
@@ -464,7 +464,7 @@ STUR achieves complete quantitative closure for Standard Model parameters within
 - Higgs mass (gauge-Higgs unification)
 
 **Derivation Completeness:**
-- All previously fitted parameters (f_tail, M_R hierarchy, g form factor) now derived from Z_3 geometry
+- All previously fitted parameters (f_tail, M_R hierarchy, g form factor) now derived from ∞₃ geometry
 - Universal 5% correction identified as single geometric effect (wavefunction tails)
 - No adjustable parameters beyond the compactification scale L_X
 
@@ -473,7 +473,7 @@ STUR achieves complete quantitative closure for Standard Model parameters within
 - UV completion (requires string embedding)
 - NNLO corrections for m_t, m_u (within 10% but not 5%)
 
-The framework represents a complete first-principles derivation of Standard Model parameters from Z_3 helix geometry. It makes falsifiable predictions testable by current and near-future experiments, including normal neutrino ordering, upper octant theta_23, and fifth-force deviations at micrometer scales.
+The framework represents a complete first-principles derivation of Standard Model parameters from infinity helix geometry. It makes falsifiable predictions testable by current and near-future experiments, including normal neutrino ordering, upper octant theta_23, and fifth-force deviations at micrometer scales.
 
 ---
 
@@ -547,7 +547,7 @@ sin^2 theta_W(M_Z) = 0.23121 +/- 0.00004
 | **R-field** | Real doublet scalar field R = (R_1, R_2) coupling to TEGR torsion |
 | **XCRM** | Extended Closure Relation Mechanism; the unique first-derivative coupling chi (R_1 d_X R_2 - R_2 d_X R_1) |
 | **TEGR** | Teleparallel Equivalent of General Relativity; formulation of gravity using torsion |
-| **Z_3 helix** | The vacuum configuration where the R-field phase winds by 2 pi/3 over one period L_X |
+| **infinity helix** | The vacuum configuration where the R-field phase winds by 2 pi/3 over one period L_X |
 | **kappa** | Fermion localization parameter; kappa = (2 pi/3) / sigma where sigma is the Gaussian width |
 | **MHP** | Minimum Holonomy Principle; the vacuum corresponds to minimum of the holonomy effective potential |
 | **M_KK** | Kaluza-Klein mass scale; M_KK ~ 1/L_X |

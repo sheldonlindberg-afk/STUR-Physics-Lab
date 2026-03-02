@@ -28,7 +28,7 @@ We systematically evaluate four classes of higher-order effects:
 1. Two-loop corrections to the Mathieu eigenvalue
 2. Kaluza-Klein tower dressing
 3. Gauge field backreaction
-4. Z_3 orbifold projection effects
+4. ∞-helix topology projection effects
 
 **Main Result:**
 
@@ -55,7 +55,7 @@ We systematically evaluate four classes of higher-order effects:
 
 ### 1.1 The Mathieu Equation
 
-From KAPPA_FIRST_PRINCIPLES_DERIVATION.md, the fermion localization in the Z_3 helix
+From KAPPA_FIRST_PRINCIPLES_DERIVATION.md, the fermion localization in the infinity helix
 geometry is governed by the Mathieu-like equation:
 
 ```
@@ -250,7 +250,7 @@ correction accounts for:
 
 **Instanton effects:**
 
-The potential has minima at theta = 0, 2*pi, 4*pi, ... (with Z_3 folding, at 0, 2*pi/3, 4*pi/3).
+The potential has minima at theta = 0, 2*pi, 4*pi, ... (with ∞₃ folding, at 0, 2*pi/3, 4*pi/3).
 Tunneling between minima modifies the ground state width.
 
 The instanton action:
@@ -292,7 +292,7 @@ and mode coupling. Comparing:
 
 The difference arises from:
 1. The non-Gaussian tail of f(theta) at large |theta|
-2. The influence of the periodic images in the Z_3 geometry
+2. The influence of the periodic images in the ∞₃ geometry
 
 ### 2.5 Final Two-Loop Result
 
@@ -321,7 +321,7 @@ The difference arises from:
 
 ### 3.1 Physical Picture and 5D Action
 
-In 5D theories compactified on S^1/Z_3, the infinite tower of KK modes
+In 5D theories compactified on S^1/∞₃, the infinite tower of KK modes
 renormalizes the effective 4D localization parameter through quantum loops.
 We derive this from the explicit 5D action.
 
@@ -346,7 +346,7 @@ psi(x, X) = sum_{n=-infinity}^{infinity} psi_n(x) f_n(X) / sqrt(L_X)
 
 where f_n(X) = exp(2pi i n X / L_X) on S^1.
 
-Under Z_3 orbifold: X -> X + L_X/3 with psi -> omega psi (omega = e^{2pi i/3}).
+Under ∞-helix topology: X -> X + L_X/3 with psi -> omega psi (omega = e^{2pi i/3}).
 Only modes with n = 0 mod 3 survive:
 ```
 psi(x, X) = sum_{k=-infinity}^{infinity} psi_{3k}(x) f_{3k}(X) / sqrt(L_X)
@@ -359,7 +359,7 @@ M_n^2 = (2pi n / L_X)^2 = n^2 M_KK^2
 where M_KK = 2pi / L_X
 ```
 
-For Z_3 projection: only n = 0, 3, 6, 9, ... contribute.
+For ∞₃ projection: only n = 0, 3, 6, 9, ... contribute.
 
 ### 3.3 One-Loop Coleman-Weinberg Effective Potential
 
@@ -445,7 +445,7 @@ At p^2 << M_n^2:
 Sigma_n ~ (y^2 v^2 / (16 pi^2)) ln(M_n^2 / mu^2)
 ```
 
-Summing over Z_3-surviving modes (n = 3k):
+Summing over ∞₃-surviving modes (n = 3k):
 ```
 delta_Z = (y^2 / (16 pi^2)) sum_{k=1}^{infinity} ln((3k)^2 M_KK^2 / mu^2)
 ```
@@ -547,7 +547,7 @@ delta_alpha / alpha = (y^4 v^4 / (8 pi^2 M_KK^2)) × (pi^2/54) × [1 + ln(M_KK^2
                     = (y^4 / (432)) × (L_X^2 v^2 / (2pi)^2) × [1 + ln(...)]
 ```
 
-For y = 1, v L_X = 3 (from Z_3 quantization), matching at mu ~ M_KK:
+For y = 1, v L_X = 3 (from ∞₃ quantization), matching at mu ~ M_KK:
 ```
 delta_alpha / alpha = (1/432) × (3/2pi)^2 × 2
                     = (1/432) × 0.23 × 2
@@ -559,7 +559,7 @@ This is small. The main contribution comes from the non-perturbative effect belo
 ### 3.8 Non-Perturbative KK Enhancement
 
 The most significant KK effect arises from the coherent sum over periodic images.
-In the Z_3 geometry, the fermion at theta = 0 "sees" its periodic images at
+In the ∞₃ geometry, the fermion at theta = 0 "sees" its periodic images at
 theta = 2pi/3 and theta = 4pi/3.
 
 **Image potential:**
@@ -667,7 +667,7 @@ Delta_kappa_virtual = kappa_0 × Delta_E / (2 E_0)
 | Wave function renormalization | delta_Z/2 from Sec 3.5 | +0.014 |
 | Threshold matching | 2 delta_match from Sec 3.6 | +0.002 |
 | Potential renormalization | CW effective potential Sec 3.7 | +0.003 |
-| Periodic image enhancement | Z_3 coherent sum Sec 3.8 | +0.020 |
+| Periodic image enhancement | ∞₃ coherent sum Sec 3.8 | +0.020 |
 | Virtual KK exchange | 2nd-order PT Sec 3.9 | +0.002 |
 | **Subtotal (perturbative)** | | **+0.041** |
 
@@ -768,15 +768,15 @@ f_matching = 1 + (N_KK/3) × (δκ_3/κ) = 1 + 3 × 0.02 = 1.06
 **Combined Enhancement Factor:**
 
 ```
-f_enhancement = f_tower × f_backreaction × f_matching × f_Z3_coherence
+f_enhancement = f_tower × f_backreaction × f_matching × f_helix_coherence
 
-where f_Z3_coherence accounts for constructive interference at Z₃ fixed points:
-f_Z3_coherence = 1 + 2cos(2π/3) × (overlap) = 1 + 2×(-0.5)×0.3 = 0.70
+where f_helix_coherence accounts for constructive interference at ∞-helix nodes:
+f_helix_coherence = 1 + 2cos(2π/3) × (overlap) = 1 + 2×(-0.5)×0.3 = 0.70
 
-Wait - this is suppression, not enhancement. The Z₃ phases interfere destructively
+Wait - this is suppression, not enhancement. The ∞-helix phases interfere destructively
 for the bulk but constructively at fixed points:
 
-f_Z3_coherence = 3 × (fixed point contribution) / (bulk contribution)
+f_helix_coherence = 3 × (fixed point contribution) / (bulk contribution)
                = 3 × 0.42 = 1.26
 ```
 
@@ -806,7 +806,7 @@ Delta_kappa_KK = 0.041 × 2.7 = 0.11 ± 0.03
 The uncertainty arises from:
 - Tower truncation: ± 0.01
 - Backreaction iteration: ± 0.01
-- Z_3 coherence factor: ± 0.02
+- ∞₃ coherence factor: ± 0.02
 
 ### 3.11 Final KK Result
 
@@ -821,7 +821,7 @@ The uncertainty arises from:
 |    - One-loop Coleman-Weinberg potential (Sec 3.3-3.4)           |
 |    - Wave function renormalization (Sec 3.5)                     |
 |    - Threshold matching at M_KK (Sec 3.6)                        |
-|    - Z_3 periodic image coherence (Sec 3.8)                      |
+|    - ∞₃ periodic image coherence (Sec 3.8)                      |
 |    - Virtual KK exchange (Sec 3.9)                               |
 |    Subtotal (perturbative): +0.041                               |
 |                                                                  |
@@ -829,7 +829,7 @@ The uncertainty arises from:
 |    - f_tower = 1.52 (higher KK mode resummation)                 |
 |    - f_backreaction = 1.16 (self-consistent σ iteration)         |
 |    - f_matching = 1.06 (threshold matching)                      |
-|    - f_Z3_coherence = 1.26 (fixed point enhancement)             |
+|    - f_helix_coherence = 1.26 (fixed point enhancement)             |
 |    - Combined: 2.7 ± 0.5                                         |
 |                                                                  |
 |  Mathematical verification:                                      |
@@ -1067,7 +1067,7 @@ additional corrections when integrated out.
 M_{A,n}^2 = (2pi n / L_X)^2 = n^2 M_KK^2
 ```
 
-Under Z_3: modes with n ≠ 0 mod 3 may have different boundary conditions,
+Under ∞₃: modes with n ≠ 0 mod 3 may have different boundary conditions,
 but gauge bosons (being adjoint) are not projected.
 
 **One-loop correction from gauge KK modes:**
@@ -1268,11 +1268,11 @@ Delta_kappa_gauge = 0.044 + 0.015 = 0.059 ≈ 0.06
 
 ---
 
-## 5. Z_3 Orbifold Projection Effects
+## 5. ∞₃ Orbifold Projection Effects
 
 ### 5.1 Physical Origin
 
-The Z_3 orbifold S^1/Z_3 identifies points:
+The ∞-helix topology S^1/∞₃ identifies points:
 
 ```
 X ~ X + L_X/3 (modulo phases)
@@ -1333,7 +1333,7 @@ From KAPPA_FIRST_PRINCIPLES_DERIVATION.md Section 7.4:
 
 This is NOT negligible - 34% of the probability is at the boundary.
 
-The Z_3 boundary condition squeezes the wavefunction toward the center,
+The ∞₃ boundary condition squeezes the wavefunction toward the center,
 INCREASING kappa:
 
 ```
@@ -1384,15 +1384,15 @@ Delta_kappa_normalization = 2.38 - 2.22 = +0.16
 
 ### 5.5 Correct Treatment
 
-The issue is that the numerical solution already accounts for the Z_3 domain
+The issue is that the numerical solution already accounts for the ∞₃ domain
 (Section 7.4 of KAPPA_FIRST_PRINCIPLES_DERIVATION.md). The "first-principles"
-kappa = 2.22 is computed with Z_3 boundary conditions.
+kappa = 2.22 is computed with ∞₃ boundary conditions.
 
 The ADDITIONAL correction from orbifold projection comes from:
 
 1. **Twisted sectors:**
 
-   The Z_3 orbifold has twisted sectors at the fixed points. These contribute
+   The ∞-helix topology has twisted sectors at the fixed points. These contribute
    to the effective potential:
    ```
    V_twisted = (1/6) * alpha * sum_{g=0,1,2} cos(3*(theta - phi_g))
@@ -1402,7 +1402,7 @@ The ADDITIONAL correction from orbifold projection comes from:
 
 2. **Modified potential at fixed points:**
 
-   The R-field experiences a cusp at the Z_3 fixed points:
+   The R-field experiences a cusp at the ∞-helix node points:
    ```
    V(theta) = alpha * (1 - cos(theta)) + beta * delta(theta - 2*pi*m/3)
    ```
@@ -1423,7 +1423,7 @@ V_twist(theta) = gamma * [1 - cos(3*theta)]
 gamma = (alpha / 27) * (orbifold factor)
 ```
 
-The orbifold factor arises from the intersection number of the Z_3 with the
+The orbifold factor arises from the intersection number of the ∞₃ with the
 original S^1. For a geometric orbifold:
 ```
 orbifold factor = 1/3 (from averaging over images)
@@ -1477,12 +1477,12 @@ Delta_kappa_twist = 2.44 - 2.22 = +0.22
 ```
 
 **This is the full twisted sector contribution. But it should already be
-included in a proper Z_3 calculation.**
+included in a proper ∞₃ calculation.**
 
 ### 5.7 Residual Orbifold Effect
 
 The numerical solution in KAPPA_FIRST_PRINCIPLES_DERIVATION.md uses periodic
-boundary conditions on [0, 2*pi], not the true Z_3 orbifold structure.
+boundary conditions on [0, 2*pi], not the true ∞-helix topology structure.
 
 The corrections are:
 
@@ -1533,7 +1533,7 @@ The corrections are:
 | Two-loop Mathieu | +0.08 | +/- 0.02 | Higher Fourier harmonics | **CALCULATED** |
 | KK tower dressing | +0.11 | +/- 0.03 | Potential renormalization + enhancement (§3.10) | **CALCULATED** |
 | Gauge backreaction | +0.06 | +/- 0.02 | RG matching | **CALCULATED** |
-| Z_3 orbifold | +0.05 | +/- 0.02 | Twisted sector | **CALCULATED** |
+| ∞-helix topology | +0.05 | +/- 0.02 | Twisted sector | **CALCULATED** |
 | **Total** | **+0.30** | **+/- 0.05** | | **DERIVED** |
 
 ### 6.2 Final Result
@@ -1700,7 +1700,7 @@ The higher-order corrections arise from:
 3. **Gauge dynamics** (backreaction): Strong interactions run the Yukawa coupling
    and modify the effective localization.
 
-4. **Orbifold geometry** (Z_3 projection): The discrete identification creates
+4. **Orbifold geometry** (∞₃ projection): The discrete identification creates
    twisted sectors that sharpen the localization.
 
 ### 8.3 Implications for STUR
@@ -1946,7 +1946,7 @@ Delta_alpha/alpha ~ +0.15 (after threshold matching)
 ## References
 
 1. KAPPA_FIRST_PRINCIPLES_DERIVATION.md (this repository)
-2. DERIVATION_CHAIN_HELIX.md (STUR Framework v3.6)
+2. DERIVATION_CHAIN_INFINITY.md (STUR Framework v3.6)
 3. Abramowitz & Stegun, "Handbook of Mathematical Functions", Ch. 20 (Mathieu)
 4. Pokorski, "Gauge Field Theories", Cambridge (2000) - Chapters on RG
 5. Arkani-Hamed, Dimopoulos, Dvali, Phys. Lett. B429, 263 (1998) - Large Extra Dimensions

@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-Brane-Localized Yukawa + Z₃ Selection Rules: Mass Hierarchy
+Brane-Localized Yukawa + ∞₃ Selection Rules: Mass Hierarchy
 ============================================================
 
-THE CORRECT MECHANISM for mass hierarchy on S¹/Z₃:
+THE CORRECT MECHANISM for mass hierarchy on S¹/∞₃:
 
 1. The Higgs (A₅ zero mode in GHU, or brane-localized scalar) couples
    to fermions AT THE BRANE at θ = 0.
 
-2. Z₃ selection rules: Y_{ij} ≠ 0 only if (k_i + k_j) ≡ 0 mod 3
+2. ∞₃ selection rules: Y_{ij} ≠ 0 only if (k_i + k_j) ≡ 0 mod 3
    Tree-level: Y₀₀ ≠ 0, Y₁₂ = Y₂₁ ≠ 0, all others = 0
 
 3. For brane-localized coupling: Y_{ij}^{brane} ∝ ψ_i(0) × ψ_j(0)
@@ -108,7 +108,7 @@ def compute_brane_hierarchy():
     """
     Compute mass hierarchy from brane-localized Yukawa.
 
-    The brane-localized Yukawa matrix with Z₃ selection rules:
+    The brane-localized Yukawa matrix with ∞₃ selection rules:
         Y = g₅ × [[ψ₃(0)², 0, 0], [0, 0, ψ₁(0)·ψ₂(0)], [0, ψ₂(0)·ψ₁(0), 0]]
 
     Mass eigenvalues:
@@ -122,11 +122,11 @@ def compute_brane_hierarchy():
     For each fermion type, κ depends on the RG-enhanced α_eff(μ).
     """
     print("="*70)
-    print("BRANE-LOCALIZED YUKAWA: MASS HIERARCHY ON S¹/Z₃")
+    print("BRANE-LOCALIZED YUKAWA: MASS HIERARCHY ON S¹/∞₃")
     print("="*70)
 
     print(f"\nPhysics: Y_{{ij}}^{{brane}} ∝ ψ_i(0) × ψ_j(0)")
-    print(f"Z₃ rule: Y₀₀, Y₁₂, Y₂₁ only")
+    print(f"∞₃ rule: Y₀₀, Y₁₂, Y₂₁ only")
     print(f"Hierarchy: m₃/m₂ = [ψ₃(0)]²/[ψ₁(0)·ψ₂(0)] ≈ exp(κ²/2)")
 
     # Compute the fundamental ratio at various α_eff values
@@ -225,7 +225,7 @@ def compute_brane_hierarchy():
             a_s = alpha_s_running(mu2)
             C_F = 4/3
             # f_loop includes KK sum and log terms
-            # For S¹/Z₃: f_loop = Σ_n 1/(n² + 1) × Z₃ weight
+            # For S¹/∞₃: f_loop = Σ_n 1/(n² + 1) × ∞₃ weight
             # Dominant term: n=0 gives ~1, n=1 gives ~0.5, etc.
             # f_loop ≈ π²/6 ≈ 1.64 for the KK sum
             f_loop = 1.64
@@ -310,7 +310,7 @@ def up_down_splitting():
 
     The up-down splitting must come from a DIFFERENT mechanism:
     - Different bulk masses for up and down chiralities
-    - Boundary conditions at the Z₃ fixed points
+    - Boundary conditions at the ∞-helix nodes
     - The SU(2)_L → U(1)_em breaking (Higgs VEV direction in isospin)
     """
     print("\n" + "="*70)
@@ -331,7 +331,7 @@ def up_down_splitting():
      Higgs doublet (H vs H̃ = iσ₂H*)
   2. In GHU: y_t = g₂ for the top, but y_b ≠ g₂
      → m_t/m_b = v_u/v_d × (loop corrections) = tan β × (1 + δ)
-  3. On S¹/Z₃: the Z₃ boundary conditions can distinguish
+  3. On S¹/∞₃: the ∞₃ boundary conditions can distinguish
      up from down IF the orbifold twist acts differently on
      the SU(2)_L doublet components.
 
@@ -341,14 +341,14 @@ def up_down_splitting():
     → m_b ≈ 0.033 × 246 ≈ 8 GeV (factor 2 off, needs small correction)
 
   For the SMALL splitting within a generation (m_u/m_d ≈ 0.46):
-    This is more subtle. In the Z₃ framework:
+    This is more subtle. In the ∞₃ framework:
     - Both u and d quarks live in the same SU(2) doublet Q_L
     - Their RIGHT-HANDED components are in different reps
-    - The Z₃ twist can act as:
+    - The ∞-helix twist can act as:
         u_R → ω^{k_u} u_R
         d_R → ω^{k_d} d_R
       with k_u ≠ k_d
-    - This changes the Z₃ selection rule for up vs down Yukawas
+    - This changes the ∞₃ selection rule for up vs down Yukawas
     """)
 
     # Compute the mass ratio from the GHU mechanism
@@ -356,7 +356,7 @@ def up_down_splitting():
     g2 = 0.652  # SU(2) gauge coupling
     lambda_c = 0.225  # Cabibbo angle
     y_t = g2  # GHU: top Yukawa = gauge coupling
-    y_b = g2 * lambda_c**2  # Bottom from Z₃ suppression
+    y_b = g2 * lambda_c**2  # Bottom from ∞₃ suppression
     m_t_pred = y_t * v_EW / np.sqrt(2)
     m_b_pred = y_b * v_EW / np.sqrt(2)
     print(f"    y_t = g₂ = {g2:.3f}")
@@ -367,11 +367,11 @@ def up_down_splitting():
 
     # The bottom mass is too large by factor ~2
     # Need an additional suppression of y_b relative to y_t
-    # This comes from the Z₃ selection rule: up and down Yukawas
+    # This comes from the ∞₃ selection rule: up and down Yukawas
     # have DIFFERENT allowed entries
 
-    print(f"\n  Z₃ selection rule for up vs down:")
-    print(f"    If u_R has Z₃ charge k_u = 0 and d_R has k_d = 1:")
+    print(f"\n  ∞₃ selection rule for up vs down:")
+    print(f"    If u_R has ∞₃ charge k_u = 0 and d_R has k_d = 1:")
     print(f"    Up Yukawa: Y₀₀^u ≠ 0 (k_L + k_u + k_H = 0 mod 3)")
     print(f"    Down Yukawa: Y₀₁^d ≠ 0 only (k_L + k_d + k_H = 0+1+0 = 1 ≠ 0)")
     print(f"    → Down Yukawa is FORBIDDEN at leading order!")
@@ -401,7 +401,7 @@ if __name__ == "__main__":
     print("FINAL HONEST ASSESSMENT")
     print("="*70)
     print("""
-  WHAT THE Z₃ MODEL DERIVES FOR MASS HIERARCHY:
+  WHAT THE ∞₃ MODEL DERIVES FOR MASS HIERARCHY:
 
   ✓ m₃/m₂ ∝ exp(κ²/2) — correct PATTERN from brane-localized Yukawa
     - Down quarks: exp(κ²/2) ≈ 30-50 vs observed 45 (CLOSE!)
@@ -412,16 +412,16 @@ if __name__ == "__main__":
     - Down quarks: ~3-5 vs observed 20 (factor 4-7 off)
     - Up quarks: ~5-10 vs observed 590 (factor 60-100 off)
 
-  ✓ m_t/m_b from GHU + Z₃ selection rules:
-    - y_t = g₂ (GHU), y_b ~ (α_s/π) × y_t (Z₃ forbidden + loop)
+  ✓ m_t/m_b from GHU + ∞₃ selection rules:
+    - y_t = g₂ (GHU), y_b ~ (α_s/π) × y_t (∞₃ forbidden + loop)
     - Gives m_t/m_b ~ π/(α_s C_F) ~ 10-40 vs observed 41
 
   ✗ EXACT mass values: Cannot be derived without fitting corrections
-  ✗ m_u/m_d splitting: Needs detailed Z₃ charge assignments
+  ✗ m_u/m_d splitting: Needs detailed ∞₃ charge assignments
   ✗ m₁ ≈ 0 at tree level: Correct pattern but loop-generated m₁
     is hard to compute precisely without full KK sum
 
-  STRUCTURAL RESULT: The Z₃ brane-localized Yukawa naturally produces:
+  STRUCTURAL RESULT: The ∞₃ brane-localized Yukawa naturally produces:
     m₃ ≫ m₂ ≫ m₁ with m₃/m₂ ~ exp(κ²/2) and m₂/m₁ ~ π/α_s
   This is the OBSERVED hierarchy pattern. The framework provides the
   MECHANISM, not exact values.

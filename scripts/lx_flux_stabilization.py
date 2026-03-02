@@ -10,7 +10,7 @@ positive and monotonically decreasing as L → ∞ → NO dynamical minimum.
 
 This script investigates three stabilization mechanisms:
 1. Goldberger-Wise mechanism (bulk scalar with boundary conditions)
-2. Gauge flux quantization on S¹/Z₃
+2. Gauge flux quantization on S¹/∞₃
 3. Brane tension + bulk cosmological constant balance
 
 The question: Can any of these mechanisms stabilize L_X at a phenomenologically
@@ -32,7 +32,7 @@ M_Pl = 2.435e18       # Reduced Planck mass (GeV)
 v_EW = 246.22         # Electroweak VEV (GeV)
 hbar_c_m = 1.9733e-16 # ℏc in m·GeV
 
-# SM field content on S¹/Z₃
+# SM field content on S¹/∞₃
 N_scalars = 4          # Higgs doublet
 N_gauge = 12           # 8 gluons + 3 W + 1 B
 N_Weyl = 45            # SM Weyl fermions (3 gen)
@@ -57,7 +57,7 @@ print(f"""
 
   Scaling:
     V_Casimir ~ +|Δn|/L⁵  (POSITIVE, fermion-dominated, Δn = {Delta_n:.1f})
-    V_holonomy ~ -D/L⁴    (can be positive or negative depending on Z₃)
+    V_holonomy ~ -D/L⁴    (can be positive or negative depending on ∞₃)
     V_helix ~ +v²/L²      (POSITIVE, helix gradient energy)
 
   dV/dL = -5|Δn|/L⁶ + 4D/L⁵ - 2v²/L³
@@ -71,7 +71,7 @@ print(f"""
 
 
 # =========================================================================
-# PART 1: GOLDBERGER-WISE MECHANISM ON S¹/Z₃
+# PART 1: GOLDBERGER-WISE MECHANISM ON S¹/∞₃
 # =========================================================================
 
 print(f"\n{'═' * 72}")
@@ -79,14 +79,14 @@ print("  PART 1: GOLDBERGER-WISE MECHANISM")
 print(f"{'═' * 72}")
 
 print(f"""
-  A bulk scalar Φ with mass m₅ and boundary conditions at Z₃ fixed points
+  A bulk scalar Φ with mass m₅ and boundary conditions at ∞-helix nodes
   creates an L-dependent potential through its classical energy.
 
-  On S¹/Z₃ with fixed points at y = 0, L/3, 2L/3:
+  On S¹/∞₃ with fixed points at y = 0, L/3, 2L/3:
     Φ(y) satisfies: ∂²Φ/∂y² - m₅² Φ = 0 (in each segment)
     With BCs: Φ(0) = v₀, Φ(L/3) = v₁, Φ(2L/3) = v₂
 
-  Z₃ symmetry: v₁ = v₂ ≡ v_b (brane VEVs equal by orbifold symmetry)
+  ∞₃ symmetry: v₁ = v₂ ≡ v_b (brane VEVs equal by orbifold symmetry)
 
   Classical bulk profile (one segment, 0 < y < L/3):
     Φ(y) = A cosh(m₅ y) + B sinh(m₅ y)
@@ -96,7 +96,7 @@ print(f"""
 
 def gw_potential_z3(L, m5, v0, vb, M5):
     """
-    Goldberger-Wise potential on S¹/Z₃.
+    Goldberger-Wise potential on S¹/∞₃.
 
     Parameters:
         L: circumference (GeV⁻¹)
@@ -166,12 +166,12 @@ def gw_potential_z3(L, m5, v0, vb, M5):
     V_seg = (m5**2 / 2.0) * ((A**2 + B**2) * integral_ch2
                                + 2 * A * B * integral_sh2)
 
-    # Three identical segments on S¹/Z₃
+    # Three identical segments on S¹/∞₃
     return 3.0 * V_seg
 
 
 # Test: compute V_GW for various L values
-print(f"  Testing Goldberger-Wise potential on S¹/Z₃:")
+print(f"  Testing Goldberger-Wise potential on S¹/∞₃:")
 print(f"  Bulk scalar mass: m₅ = 0.1 M_Pl, v₀ = M_Pl^(3/2), v_b = 0.5 M_Pl^(3/2)")
 
 # Physical parameters
@@ -224,7 +224,7 @@ print(f"""
     2. V_GW ~ -v₀ v_b × (L/L₀)^(4+2ν) (power-law in RS)
     3. Combined with V_RS ~ exp(4kL), creates a minimum
 
-  On FLAT S¹/Z₃, the mechanism is much weaker.
+  On FLAT S¹/∞₃, the mechanism is much weaker.
 """)
 
 
@@ -238,7 +238,7 @@ print(f"{'═' * 72}")
 
 
 def V_casimir_z3(L):
-    """Casimir energy on S¹/Z₃ for SM content. Returns GeV⁴ × L (5D→4D)."""
+    """Casimir energy on S¹/∞₃ for SM content. Returns GeV⁴ × L (5D→4D)."""
     # V_Cas = -(π²/1440) × Δn_eff / (L/3)⁵
     # For 4D energy density: multiply by 1/L (integrate over extra dim)
     # Actually V_Cas is already energy per unit 4D volume
@@ -343,7 +343,7 @@ for Lm in target_L_m:
 # =========================================================================
 
 print(f"\n{'═' * 72}")
-print("  PART 3: MAGNETIC FLUX QUANTIZATION ON S¹/Z₃")
+print("  PART 3: MAGNETIC FLUX QUANTIZATION ON S¹/∞₃")
 print(f"{'═' * 72}")
 
 print(f"""
@@ -356,7 +356,7 @@ print(f"""
   This scales as 1/L² — SAME as V_helix!
   → Flux alone cannot create a minimum (same sign, same scaling)
 
-  For Z₃ orbifold: only n = 0 mod 3 fluxes survive projection
+  For ∞-helix topology: only n = 0 mod 3 fluxes survive projection
   → V_flux = 2π²(3k)²/(e₅²L²) = 18π²k²/(e₅²L²)
 
   Combined with V_helix: both ∝ 1/L² → no minimum.
@@ -405,14 +405,14 @@ def dV_simple(L, A5, B4, C2, Lambda5):
 A5 = np.pi**2 * abs(Delta_n) / (1440.0 * 3**5)
 
 # B4 = holonomy (from the existing script, this is small)
-# At Z₃ point: V_hol ≈ -(3/(2π)⁴)(2B₄(1/3))/L⁴
+# At ∞₃ point: V_hol ≈ -(3/(2π)⁴)(2B₄(1/3))/L⁴
 def B4_bern(x):
     x = x % 1.0
     return x**4 - 2*x**3 + x**2 - 1.0/30
 
 V_hol_coefficient = -(3.0/(2*np.pi)**4) * (
     2*B4_bern(1.0/3) + 2*B4_bern(2.0/3) + 2*B4_bern(0) + 2*B4_bern(0))
-# Note: for Z₃, the charges give specific B₄ arguments
+# Note: for ∞₃, the charges give specific B₄ arguments
 # Simplified: use the total from existing calculation
 B4 = abs(V_hol_coefficient) if V_hol_coefficient > 0 else 0.001  # small positive
 
@@ -667,7 +667,7 @@ print(f"""
   │     This is a MODERATE fine-tuning (not as severe as 4D CC)    │
   │     But it's NOT derived from first principles                 │
   │                                                                 │
-  │  4. GOLDBERGER-WISE: Does NOT help on flat S¹/Z₃              │
+  │  4. GOLDBERGER-WISE: Does NOT help on flat S¹/∞₃              │
   │     (No warp factor to generate hierarchy)                     │
   │                                                                 │
   │  5. FLUX QUANTIZATION: Does NOT help                           │

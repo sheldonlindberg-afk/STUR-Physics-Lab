@@ -20,7 +20,7 @@ This document provides a **complete first-principles derivation** of the compact
 L_X* = (5 zeta(5) |N_eff| / (2pi)^5 c_h ||h||^2)^(1/4) ~ 0.8 um
 ```
 
-This is **not a free parameter** - it is uniquely determined by the Standard Model field content and Z_3 geometry.
+This is **not a free parameter** - it is uniquely determined by the Standard Model field content and ∞₃ geometry.
 
 ---
 
@@ -69,7 +69,7 @@ where:
 
 ### 2.1 General Formula
 
-For quantum fields on a compact space S^1/Z_3 with circumference L_X, the regularized Casimir energy density is:
+For quantum fields on a compact space S^1/∞₃ with circumference L_X, the regularized Casimir energy density is:
 
 ```
 E_Casimir = -zeta(5) * N_eff / (2pi)^5 * 1/L_X^5
@@ -89,9 +89,9 @@ The famous factor 7/8 appears for fermions due to antiperiodic boundary conditio
 N_eff = N_bosons - (7/8) * N_fermions
 ```
 
-### 2.3 STUR Field Content with Z_3 Twist
+### 2.3 STUR Field Content with ∞₃ Twist
 
-On the Z_3 helix, fields have twisted boundary conditions:
+On the infinity helix, fields have twisted boundary conditions:
 ```
 phi(X + L_X) = omega^k * phi(X)    where omega = exp(2pi*i/3)
 ```
@@ -114,21 +114,21 @@ For k=2: f(2/3) = 0.136  (twisted by omega^2)
 **SU(3)_c (gluons):**
 ```
 8 gluons * 3 polarizations = 24 dof
-Z_3 phase: omega (center of SU(3))
+∞₃ phase: omega (center of SU(3))
 Contribution: 24 * f_B(1/3) = 24 * 0.136 = 3.26
 ```
 
 **SU(2)_L (W bosons):**
 ```
 3 W's * 3 polarizations = 9 dof
-Z_3 phase: omega^2 (embedding in Z_3)
+∞₃ phase: omega^2 (embedding in ∞₃)
 Contribution: 9 * f_B(2/3) = 9 * 0.136 = 1.22
 ```
 
 **U(1)_Y (B boson):**
 ```
 1 B * 3 polarizations = 3 dof
-Z_3 phase: 1 (singlet)
+∞₃ phase: 1 (singlet)
 Contribution: 3 * f_B(0) = 3 * 1.000 = 3.00
 ```
 
@@ -141,7 +141,7 @@ N_gauge = 3.26 + 1.22 + 3.00 = 7.48
 
 ```
 5D graviton: 5 dof (traceless symmetric tensor in 5D)
-Z_3 phase: 1 (singlet - gravity is universal)
+∞₃ phase: 1 (singlet - gravity is universal)
 Contribution: 5 * 1.000 = 5.00
 ```
 
@@ -149,7 +149,7 @@ Contribution: 5 * 1.000 = 5.00
 
 ```
 R-field: 1 complex scalar = 2 dof
-Z_3 phase: omega (winds around helix)
+∞₃ phase: omega (winds around helix)
 But R-field has zero mode only: 1 * 1.000 = 1.00
 ```
 
@@ -157,7 +157,7 @@ But R-field has zero mode only: 1 * 1.000 = 1.00
 
 ```
 Higgs doublet: 4 real dof
-Z_3 phase: 1 (untwisted)
+∞₃ phase: 1 (untwisted)
 Contribution: 4 * 1.000 = 4.00
 ```
 
@@ -189,7 +189,7 @@ OR: Count Dirac fermions in 5D representation
 Per generation: 18 Dirac fermions (quarks: 3*3*2=18, leptons: 3*2=6)
 ```
 
-Using the document values from the STUR framework (3 generations, with Z_3 phases):
+Using the document values from the STUR framework (3 generations, with ∞₃ phases):
 ```
 Per generation: 144 real dof (from stur_moduli_stabilization.html)
   - This counts all quark and lepton spinor components
@@ -258,9 +258,9 @@ The holonomy (Wilson line) around the compact dimension is:
 W = P exp(i * integral_0^{L_X} A_5 dX)
 ```
 
-For the Z_3 helix with gauge group G, the holonomy must satisfy:
+For the infinity helix with gauge group G, the holonomy must satisfy:
 ```
-W^3 = 1  (since Z_3^3 = identity)
+W^3 = 1  (since ∞₃^3 = identity)
 ```
 
 This constrains the holonomy eigenvalues to {1, omega, omega^2}.
@@ -298,7 +298,7 @@ c_h = c_SU(3) + c_SU(2) + c_U(1) = 1.20 + 0.104 + 0.049 = 1.35
 
 ### 4.4 Holonomy Norm ||h||^2
 
-At the SM vacuum (Z_3 fixed point with h = 1/3):
+At the SM vacuum (∞-helix node point with h = 1/3):
 
 **SU(3) holonomy:**
 ```
@@ -404,7 +404,7 @@ E_XCRM = chi*v^2*(2pi/3L_X)
 
 The key insight from the framework: **L_X and v are not independent** - they satisfy:
 ```
-v * L_X = 3  (Z_3 winding quantization)
+v * L_X = 3  (∞₃ winding quantization)
 ```
 
 This constraint eliminates one variable. The minimization becomes:
@@ -594,7 +594,7 @@ This is the predicted mass of the extra-dimensional modulus.
 |                                                               |
 |  STEP 1: Count field content                                  |
 |  --------                                                     |
-|  Gauge bosons: 12 * 3 = 36 dof (with Z_3 twist: ~7.5)        |
+|  Gauge bosons: 12 * 3 = 36 dof (with ∞-helix twist: ~7.5)        |
 |  Graviton: 5 dof                                              |
 |  Scalars: 5 dof (R + Higgs)                                   |
 |  Fermions: 3 gen * 144 dof * (7/8) * twist factors ~ -160    |
@@ -647,7 +647,7 @@ This is the predicted mass of the extra-dimensional modulus.
 |       |  L_X* = 0.8 um = 8 * 10^-7 m            |           |
 |       |                                          |           |
 |       |  This is DERIVED, not INPUT              |           |
-|       |  from SM field content + Z_3 geometry    |           |
+|       |  from SM field content + ∞₃ geometry    |           |
 |       +-------------------------------------------+           |
 |                                                               |
 +===============================================================+
@@ -706,7 +706,7 @@ The coherence length l_coh ~ 0.3-30 m is **within reach of current experiments**
 | Source | Uncertainty | Effect on L_X |
 |--------|-------------|---------------|
 | N_eff counting | +/- 10 | +/- 2% |
-| Z_3 twist factors | +/- 20% | +/- 5% |
+| ∞-helix twist factors | +/- 20% | +/- 5% |
 | c_h gauge couplings | +/- 15% | +/- 4% |
 | ||h||^2 normalization | +/- 10% | +/- 3% |
 | Scale setting | +/- 50% | +/- 12% |
@@ -727,21 +727,21 @@ The compactification scale L_X ~ 0.8 um is **uniquely determined** by:
 
 1. **Standard Model field content** --> N_eff ~ -149 (fermion dominance)
 2. **Gauge group structure** --> c_h = 1.35, ||h||^2 = 0.162
-3. **Z_3 helix geometry** --> Quantizes the holonomy and winding
+3. **infinity helix geometry** --> Quantizes the holonomy and winding
 4. **Energy minimization** --> Casimir-holonomy balance
 
 **L_X is not a free parameter.** It is derived from the same principles that determine:
-- The number of generations (3 from Z_3 fixed points)
+- The number of generations (3 from ∞-helix node points)
 - The gauge group (SU(3) x SU(2) x U(1) from holonomy minimization)
 - The Yukawa hierarchy (from wavefunction overlaps)
 
-This closes the derivation chain: **everything follows from XCRM + compactness + Z_3**.
+This closes the derivation chain: **everything follows from XCRM + compactness + ∞₃**.
 
 ---
 
 ## References
 
-1. STUR Framework: DERIVATION_CHAIN_HELIX.md
+1. STUR Framework: DERIVATION_CHAIN_INFINITY.md
 2. Scale Analysis: SCALE_UNIFICATION_ANALYSIS.md
 3. Holonomy Derivation: HOLONOMY_AVERAGING_DERIVATION.md
 4. Moduli Stabilization: scripts/stur_moduli_stabilization.html

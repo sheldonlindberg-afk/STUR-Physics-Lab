@@ -674,7 +674,7 @@ Falsification: If χ_dia = -1.00 ± 0.02 confirmed
 │                                                                    │
 │  DERIVED FROM:                                                     │
 │  • M_Planck (one input)                                           │
-│  • Z₃ helix geometry                                              │
+│  • infinity helix geometry                                              │
 │  • S(u) = tanh(u)(1 - e^{-|u|}) saturation operator               │
 │                                                                    │
 │  RESULTS (T = 0):                                                  │
@@ -724,7 +724,7 @@ These questions define the research program for STUR ATS experimental verificati
 
 - [ATS Core Theory](scripts/stur_superconductor.html) — STUR superconductor derivation
 - [Master Action](scripts/stur_master_action_derivation.html) — XCRM foundation
-- [Derivation Chain](DERIVATION_CHAIN_HELIX.md) — Complete STUR framework
+- [Derivation Chain](DERIVATION_CHAIN_INFINITY.md) — Complete STUR framework
 - [LX Scale Resolution](COMPLETE_CORRECTIONS_AND_RESOLUTIONS.md) — L_eff derivation
 
 ---

@@ -5,10 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [6.0.0] - 2026-02-13 — Dynamic Z₃ Phase-Lock Unification
+## [6.0.0] - 2026-02-13 — Dynamic Infinity Helix Phase-Lock Unification
 
 ### Added
-- Dynamic Z₃ orbifold framework: twist angle θ(t) is a dynamical degree of freedom
+- Dynamic ∞-helix topology framework: twist angle θ(t) is a dynamical degree of freedom
 - Chronomagnetic modulation M(t) = |sin(ω ln(t/t₀))| with ω = 19.687, λ = 3722/2705
 - Phase-lock mechanism: coherent matter interactions emerge at M = 1
 - Time-dependent Mathieu equation: α(t) = α₀ × M(t) with band structure table
@@ -19,15 +19,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bimetric extension with massive graviton mode
 
 ### Changed
-- DERIVATION_CHAIN_HELIX.md: Complete rewrite from 9270 to ~950 lines (professional, focused)
+- DERIVATION_CHAIN_INFINITY.md: Complete rewrite from 9270 to ~950 lines (professional, focused)
 - Formula: exp[−κ²/4] (pairwise overlap) confirmed as CKM formula (not exp[−κ²/8])
 - α_eff = 1.480 ± 0.047 (two-loop), κ = 2.430, λ = 0.229 (1.6% from PDG)
 - CKM matrix: all 9 elements derived to 1.6–7.5% accuracy
 - L_X status: changed from "derived" to "OPEN" (no stable V_eff minimum)
-- Cosmological constant: changed from "solved" to "OPEN" (Z₃ reduces but doesn't solve)
-- All core HTML pages updated with v6.0 framework and dynamic Z₃ language
+- Cosmological constant: changed from "solved" to "OPEN" (∞₃ reduces but doesn't solve)
+- All core HTML pages updated with v6.0 framework and dynamic ∞₃ language
 - README.md updated with honest assessment and v6.0 results
-- STUR_WEB_OVERVIEW.md rewritten for dynamic Z₃ framework
+- STUR_WEB_OVERVIEW.md rewritten for dynamic ∞₃ framework
 
 ### Fixed
 - Correction factor audit: f_boundary, f_holonomy, f_RG, N_eff all flagged as unreproduced

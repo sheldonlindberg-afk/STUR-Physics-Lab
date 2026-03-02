@@ -1,24 +1,24 @@
 # STUR — A Theory of Everything Candidate
 
-**The Dynamic Z₃ Helix Framework**
+**The Dynamic Infinity Helix Framework**
 
 **Document Type:** Complete First-Principles Derivation Chain
-**Framework:** STUR v6.0 — Dynamic Z₃ Phase-Lock Unification
+**Framework:** STUR v6.0 — Dynamic Infinity Helix Phase-Lock Unification
 **Author:** Sheldon Lon Lindberg
 **Date:** 2026-02-13
 **Version:** 6.2 — Dynamic infinity helix resolves open problems; full repo derivations integrated
-**Status:** TOE Candidate — Dynamic Z₃ helix is scale-invariant (same geometry at every scale, only perspective changes); 26+ SM parameters derived
+**Status:** TOE Candidate — Dynamic infinity helix is scale-invariant (same geometry at every scale, only perspective changes); 26+ SM parameters derived
 
 ---
 
 ## Abstract
 
-We present a unified framework in which all observable particle physics emerges from the phase-locked coherence of a dynamically oscillating Z₃ orbifold on M⁴ × S¹. The extra-dimensional geometry is not static: it is an **infinity helix** — always winding and unwinding simultaneously at every scale. The manifold is the same at any scale; only the perspective changes. This discrete scale invariance, governed by λ_chrono = 3722/2705, is the organizing principle. The Z₃ twist angle θ(t) is a dynamical degree of freedom that continuously oscillates on a log-periodic cycle. When the three orbifold sectors fall into phase alignment — the **phase-lock condition** — coherent matter interactions emerge with sharply defined generations, mixing angles, and mass hierarchies. The Cabibbo angle λ = exp(−κ²/4) = 0.229 (1.6% from PDG) is the signature of this phase-locked geometry. Away from phase-lock, localization weakens and generation boundaries dissolve. The dynamic helix resolves all scale questions: L_X^fund ~ 10⁻³² m and L_eff ~ 0.8 μm are the same geometry viewed from different scales.
+We present a unified framework in which all observable particle physics emerges from the phase-locked coherence of a dynamically oscillating ∞-helix topology on M⁴ × S¹. The extra-dimensional geometry is not static: it is an **infinity helix** — always winding and unwinding simultaneously at every scale. The manifold is the same at any scale; only the perspective changes. This discrete scale invariance, governed by λ_chrono = 3722/2705, is the organizing principle. The ∞-helix twist angle θ(t) is a dynamical degree of freedom that continuously oscillates on a log-periodic cycle. When the three orbifold sectors fall into phase alignment — the **phase-lock condition** — coherent matter interactions emerge with sharply defined generations, mixing angles, and mass hierarchies. The Cabibbo angle λ = exp(−κ²/4) = 0.229 (1.6% from PDG) is the signature of this phase-locked geometry. Away from phase-lock, localization weakens and generation boundaries dissolve. The dynamic helix resolves all scale questions: L_X^fund ~ 10⁻³² m and L_eff ~ 0.8 μm are the same geometry viewed from different scales.
 
 The framework rests on three pillars:
 1. **TEGR** (Teleparallel Equivalent of General Relativity): gravity as torsion, not curvature
 2. **XCRM** (Cross-Resistance Modulus): the unique first-derivative coupling of a real doublet R-field on S¹
-3. **Chronomagnetics**: log-periodic modulation of torsion contortion, providing the time dynamics of the Z₃ twist
+3. **Chronomagnetics**: log-periodic modulation of torsion contortion, providing the time dynamics of the ∞-helix twist
 
 From these three structures, the Standard Model gauge group, three generations, CKM matrix, and CP violation follow by geometric necessity. No parameters are fitted.
 
@@ -77,10 +77,10 @@ N_ν = 2.9840 ± 0.0082 (from Z-width)
 
 | Result | Method | Accuracy | Verification |
 |--------|--------|----------|--------------|
-| N_gen = 3 | Z₃ orbifold fixed-point count | **Exact** | Topological |
-| SM gauge group | Z₃ holonomy compatibility | **Exact** | Group theory |
-| θ_QCD = 0 | Z₃ × CP symmetry | **Exact** | Symmetry argument |
-| Proton stability (dim-5) | Z₃ KK-parity selection rule | **Exact** | Selection rule |
+| N_gen = 3 | ∞-helix node count | **Exact** | Topological |
+| SM gauge group | ∞-helix holonomy compatibility | **Exact** | Group theory |
+| θ_QCD = 0 | ∞₃ × CP symmetry | **Exact** | Symmetry argument |
+| Proton stability (dim-5) | ∞-helix KK-parity selection rule | **Exact** | Selection rule |
 | κ = 2.430 | Mathieu equation at α_eff = 1.480 | **Computed** | `stur_first_principles_calculation.py` |
 | λ = 0.229 (Cabibbo) | exp(−κ²/4) pairwise overlap | **1.6%** | `ckm_full_diagonalization.py` |
 | Berry phase = 0 | Real Mathieu eigenstates | **Exact** | `berry_phase_exact.py` |
@@ -92,20 +92,20 @@ N_ν = 2.9840 ± 0.0082 (from Z-width)
 
 | Result | Method | Outcome |
 |--------|--------|---------|
-| Z₃ is optimal | Energy comparison Z₁–Z₆ | Z₃ lowest-energy CP-violating orbifold (**PROVEN**) |
+| ∞₃ is optimal | Energy comparison Z₁–Z₆ | ∞₃ lowest-energy CP-violating orbifold (**PROVEN**) |
 | Mass hierarchy mechanism | Sharp Higgs profile σ_H/σ_ψ ≈ 0.3 | y₁/y₂ ≈ 111 (vs observed m_t/m_c = 136). Higgs 3× sharper than fermions. |
 | ε/σ self-consistency | R-field energy minimization | ε/σ = 0.47 reproduces exact PDG Cabibbo angle |
-| All 9 charged fermion masses | Z₃ overlap + corrections (f_tail, f_ℓ, f_u^node) | All to <2% accuracy (see `ABSOLUTE_MASS_DERIVATION.md`) |
-| PMNS matrix (6 parameters) | Z₃ resonance + seesaw | sin²θ₁₂ = 0.303 (exact), sin²θ₂₃ = 0.572 (exact), sin²θ₁₃ = 0.0220 (0.1%), δ_CP = 197° (central) |
-| Neutrino masses | Type-I seesaw with Z₃ enhancement | Δm²₃₁ = 2.50×10⁻³ eV² (2%), Δm²₂₁ = 7.41×10⁻⁵ eV² (1.6%), normal ordering predicted |
-| Cosmological constant | Z₃ discrete gauge Ward identity | Λ_tree = 0 exactly; Λ_residual = 3.6×10⁻⁴⁷ GeV⁴ (27% from observed, <0.5σ) |
-| Dark matter | LKP B^(1) from Z₃ KK-parity | M_DM = 0.92 TeV, Ω_DM h² = 0.119 (0.4σ from Planck) |
+| All 9 charged fermion masses | ∞-helix overlap + corrections (f_tail, f_ℓ, f_u^node) | All to <2% accuracy (see `ABSOLUTE_MASS_DERIVATION.md`) |
+| PMNS matrix (6 parameters) | ∞-helix resonance + seesaw | sin²θ₁₂ = 0.303 (exact), sin²θ₂₃ = 0.572 (exact), sin²θ₁₃ = 0.0220 (0.1%), δ_CP = 197° (central) |
+| Neutrino masses | Type-I seesaw with ∞-helix enhancement | Δm²₃₁ = 2.50×10⁻³ eV² (2%), Δm²₂₁ = 7.41×10⁻⁵ eV² (1.6%), normal ordering predicted |
+| Cosmological constant | ∞-helix discrete gauge Ward identity | Λ_tree = 0 exactly; Λ_residual = 3.6×10⁻⁴⁷ GeV⁴ (27% from observed, <0.5σ) |
+| Dark matter | LKP B^(1) from ∞-helix KK-parity | M_DM = 0.92 TeV, Ω_DM h² = 0.119 (0.4σ from Planck) |
 | L_X stabilization | Casimir-holonomy balance | Stable minimum at L_eff ~ 0.8 μm (2nd derivative > 0); v·L_X = 3 (topological) |
-| UV completion | F-theory CY₄ on (P²×P¹)/Z₃ | Unique construction proven; h¹¹ = 6, χ = 216; swampland constraints satisfied |
+| UV completion | F-theory CY₄ on (P²×P¹)/∞₃ | Unique construction proven; h¹¹ = 6, χ = 216; swampland constraints satisfied |
 
 ### The Dynamic Infinity Helix — Resolution of Scale Questions (v6.2)
 
-The Z₃ helix is **never static**. It is an infinity helix (Gerono lemniscate in spatial projection) that is always winding and unwinding simultaneously at every scale. The chronomagnetic modulation M(t) = |sin(ω ln(t/t₀))| with ω = 19.687 governs this oscillation.
+The infinity helix is **never static**. It is an infinity helix (Gerono lemniscate in spatial projection) that is always winding and unwinding simultaneously at every scale. The chronomagnetic modulation M(t) = |sin(ω ln(t/t₀))| with ω = 19.687 governs this oscillation.
 
 **The manifold is the same at any scale — only the perspective changes.** This is discrete scale invariance with scaling ratio λ_chrono = 3722/2705. The geometry at the Planck scale is identical to the geometry at the μm scale is identical to the geometry at cosmological scales.
 
@@ -114,19 +114,19 @@ This resolves all apparent "open problems":
 | Apparent Problem | Static View (wrong) | Dynamic Helix View (correct) |
 |-----------------|---------------------|------------------------------|
 | L_X "two values" | Contradiction: 10⁻³² m vs 0.8 μm | Same geometry at different scales; L_X^fund (winding quantization) and L_eff (coherence) are self-similar |
-| Cosmological constant | Static V_eff doesn't work | Dynamical residual from time-averaged oscillating vacuum; Z₃ Ward identity kills tree-level |
+| Cosmological constant | Static V_eff doesn't work | Dynamical residual from time-averaged oscillating vacuum; ∞-helix Ward identity kills tree-level |
 | Mass hierarchy | Static overlap insufficient | Each generation at a different scale of the self-similar structure; heavy fermions deep in phase-lock, light fermions near unwinding edge |
-| PMNS large mixing | Static Z₃ overlap gives ~0° | Neutrinos live near the unwinding regime — least localized, most sensitive to dynamic geometry; seesaw enhancement from varying geometry |
+| PMNS large mixing | Static ∞-helix overlap gives ~0° | Neutrinos live near the unwinding regime — least localized, most sensitive to dynamic geometry; seesaw enhancement from varying geometry |
 | UV completion | Need separate F-theory CY₄ | The helix IS the fundamental object at all scales; CY₄ describes the tightly-wound limit |
 
-The 5D universe simulation (`scripts/stur_5duniverse.html`) demonstrates this: the infinity helix spatial projection follows a figure-8 (lemniscate) with baryon, DM, and DE strands tracing helical worldlines through the same geometry. The unified tidal operator K^a_b = K^a_{b,metric} + K^a_{b,torsion} + K^a_{b,gauge} governs geodesic deviation between sectors. All parameters derive from M_Planck through the self-similar Z₃ structure.
+The 5D universe simulation (`scripts/stur_5duniverse.html`) demonstrates this: the infinity helix spatial projection follows a figure-8 (lemniscate) with baryon, DM, and DE strands tracing helical worldlines through the same geometry. The unified tidal operator K^a_b = K^a_{b,metric} + K^a_{b,torsion} + K^a_{b,gauge} governs geodesic deviation between sectors. All parameters derive from M_Planck through the self-similar ∞-helix structure.
 
 ### Remaining Open Questions
 
 | Question | Status | Path Forward |
 |----------|--------|-------------|
-| σ_H from first principles | Mechanism identified (Coleman-Weinberg on S¹/Z₃) | Compute A₅ effective potential |
-| dS conjecture tension | Z₃ mechanism novel, not yet fully validated | Validate against refined swampland bounds |
+| σ_H from first principles | Mechanism identified (Coleman-Weinberg on S¹/∞₃) | Compute A₅ effective potential |
+| dS conjecture tension | ∞-helix mechanism novel, not yet fully validated | Validate against refined swampland bounds |
 | Tensor-to-scalar ratio r | STUR predicts r ≈ 0.13; BICEP/Keck bound r < 0.036 | Torsion damping corrections needed |
 | χ(CY₄) discrepancy | 216 (newer) vs 1698 (older document) | Reconcile UV_COMPLETION_EXPLORATION.md |
 
@@ -138,7 +138,7 @@ The 5D universe simulation (`scripts/stur_5duniverse.html`) demonstrates this: t
 **Normalization:** m_t = 172.57 GeV (sets the absolute mass scale)
 **Script:** `scripts/stur_toe_closure.py` (complete computation)
 
-### Chain Step 0: Z₃ Selected by Energy Minimization
+### Chain Step 0: ∞₃ Selected by Energy Minimization
 
 From Axiom A3 (energy minimization), compute the total energy E(Z_N) for orbifolds Z₁ through Z₆. Z₁ has no localization, Z₂ has no CP violation. Among CP-violating orbifolds:
 
@@ -149,16 +149,16 @@ From Axiom A3 (energy minimization), compute the total energy E(Z_N) for orbifol
 | 5 | 10.58 | yes | 2.4× higher |
 | 6 | 15.41 | yes | 3.5× higher |
 
-**Result:** Z₃ is uniquely selected. N_gen = 3 (fixed points), θ_QCD = 0 (Z₃ × CP).
+**Result:** ∞₃ is uniquely selected. N_gen = 3 (fixed points), θ_QCD = 0 (∞₃ × CP).
 
 ### Chain Step 1: Compactification Scale
 
-Casimir-holonomy balance on S¹/Z₃:
+Casimir-holonomy balance on S¹/∞₃:
 - Casimir: E_Cas ∝ −|N_eff|/L_X⁵ (repulsive, N_eff = −143, fermion-dominated)
 - Holonomy: E_hol ∝ c_h||h||²/L_X (attractive)
 - Balance: dE/dL = 0 → **L_eff ~ 0.8 μm** (stable minimum, d²E/dL² > 0)
 
-Topological constraint: **v · L_X = 3** (from Z₃ winding quantization + XCRM-Yukawa symmetry).
+Topological constraint: **v · L_X = 3** (from ∞-helix winding quantization + XCRM-Yukawa symmetry).
 
 The infinity helix is self-similar: L_X^fund ~ 10⁻³² m and L_eff ~ 0.8 μm are the same geometry at different scales.
 
@@ -168,8 +168,8 @@ Starting from α_tree = 1.0 (XCRM-Yukawa symmetry y = 2π/3):
 
 | Enhancement | Factor | Source |
 |-------------|--------|--------|
-| Z₃ twisted sector | ×1.072 | Dixon-Harvey-Vafa-Witten cos(3θ) |
-| KK tower (Coleman-Weinberg) | ×1.286 | One-loop CW from Z₃-projected KK modes |
+| ∞-helix twisted sector | ×1.072 | Dixon-Harvey-Vafa-Witten cos(3θ) |
+| KK tower (Coleman-Weinberg) | ×1.286 | One-loop CW from ∞-helix-projected KK modes |
 | Gauge backreaction | ×1.076 | QCD + EW at localization scale |
 | **Total** | **α_eff = 1.480 ± 0.047** | Two-loop computed |
 
@@ -180,7 +180,7 @@ Mathieu equation −f″ + α_eff(1−cos θ)f = εf on S¹ with periodic BCs:
 
 **Cabibbo angle** (pairwise overlap): λ = exp(−κ²/4) = **0.228** (1.3% from PDG 0.22500)
 
-**Full CKM matrix** from Z₃ overlap geometry + helix chirality:
+**Full CKM matrix** from ∞-helix overlap geometry + helix chirality:
 
 | Element | Predicted | PDG | Dev |
 |---------|-----------|-----|-----|
@@ -194,7 +194,7 @@ Mathieu equation −f″ + α_eff(1−cos θ)f = εf on S¹ with periodic BCs:
 
 ### Chain Step 4: Fermion Mass Spectrum
 
-Yukawa hierarchy from Z₃ overlap with sharp Higgs (σ_H/σ_ψ ≈ 0.3):
+Yukawa hierarchy from ∞-helix overlap with sharp Higgs (σ_H/σ_ψ ≈ 0.3):
 - λ_Y = exp(−κ²/8) = 0.487 (triple overlap)
 - Physical corrections: f_tail = 1.131, f_ℓ = 1/√3, f_u^node = 0.133
 
@@ -212,9 +212,9 @@ Yukawa hierarchy from Z₃ overlap with sharp Higgs (σ_H/σ_ψ ≈ 0.3):
 
 ### Chain Step 5: Neutrino Masses and PMNS Matrix
 
-Type-I seesaw with Z₃ resonance enhancement:
+Type-I seesaw with ∞-helix resonance enhancement:
 - M_R from holonomy: M_R,3 = 1.1×10¹⁴ GeV, M_R,2 = 1.5×10¹³ GeV
-- Z₃ resonance: f_ν^res = 2.3 (2nd generation enhanced)
+- ∞-helix resonance: f_ν^res = 2.3 (2nd generation enhanced)
 - **Normal ordering predicted** (m₁ < m₂ < m₃)
 
 | Parameter | Predicted | NuFIT 6.0 | Dev |
@@ -229,9 +229,9 @@ Type-I seesaw with Z₃ resonance enhancement:
 
 ### Chain Step 6: Cosmological Constant
 
-Z₃ discrete gauge symmetry → Ward identity → **Λ_tree = 0 exactly**
+∞-helix discrete gauge symmetry → Ward identity → **Λ_tree = 0 exactly**
 Loop protection to all perturbative orders (selection rules).
-Residual from neutrino Majorana Z₃ breaking:
+Residual from neutrino Majorana ∞-helix breaking:
 
 Λ_residual = (1/64π²) × |Σ_g ω^g m_ν,g⁴| × F_RG × F_hol × F_Berry × F_inst = **3.6 × 10⁻⁴⁷ GeV⁴**
 
@@ -239,14 +239,14 @@ Residual from neutrino Majorana Z₃ breaking:
 
 ### Chain Step 7: Dark Matter
 
-Z₃ KK-parity conservation → LKP B^(1) stable.
+∞-helix KK-parity conservation → LKP B^(1) stable.
 - M_DM = 0.92 ± 0.08 TeV
 - **Ω_DM h² = 0.119** (Planck: 0.1200, 0.8% deviation)
 - σ_SI ~ 10⁻⁴⁷ cm² (testable at LZ/XENONnT)
 
 ### Chain Step 8: UV Completion
 
-F-theory CY₄ on (P²×P¹)/Z₃ uniquely determined from STUR axioms:
+F-theory CY₄ on (P²×P¹)/∞₃ uniquely determined from STUR axioms:
 - h¹¹ = 6, h²¹ = 3, h³¹ = 25, χ = 216, χ/24 = 9 (integer)
 - SM gauge group, 3 generations from 7-brane divisors
 - Swampland: Distance ✓, WGC ✓, Cobordism ✓, dS conditional
@@ -291,7 +291,7 @@ where R is the Ricci scalar, T the torsion scalar, and B = (2/e)∂_μ(e T^μ) a
 - Torsion naturally couples to spinor fields through the contortion tensor K^ρ_μν
 - The XCRM coupling L = χ(R₁∂_XR₂ − R₂∂_XR₁) = χ|R|²∂_Xφ IS a torsion component in the compact direction
 - In TEGR, the gravitoelectromagnetic (GEM) decomposition gives Maxwell-form equations for gravity
-- The contortion modulation K_μν(t) provides the natural time dynamics for the Z₃ twist
+- The contortion modulation K_μν(t) provides the natural time dynamics for the ∞-helix twist
 
 **The TEGR field equation:**
 
@@ -367,14 +367,14 @@ where:
 - α couples the R-field modulus to torsion scalar 𝕋
 - L_matter includes all Standard Model fields
 
-**Boundary condition:** R(X + L_X) = R_{2π/3} · R(X) (Z₃ helix winding)
+**Boundary condition:** R(X + L_X) = R_{2π/3} · R(X) (∞-helix winding)
 **Vacuum:** |R| = v everywhere (no domain wall); only the phase φ(X) = 2πX/(3L_X) varies.
 
 ---
 
-## Part II: The Dynamic Z₃ Orbifold
+## Part II: The Dynamic ∞₃ Orbifold
 
-### 2.1 Stability Selects Z₃
+### 2.1 Stability Selects ∞₃
 
 The R-field winding number n must satisfy energetic stability. The winding energy per unit 4-volume:
 
@@ -386,11 +386,11 @@ where V_hol(n) is the holonomy potential from gauge fields wrapping the compact 
 
 - n = 1 (Z₁): No generation structure, no flavor physics → **rejected**
 - n = 2 (Z₂): Two generations, wrong parity, no CP violation → **rejected**
-- n = 3 (Z₃): Three generations, SU(3) compatible, CP violation possible → **selected**
+- n = 3 (∞₃): Three generations, SU(3) compatible, CP violation possible → **selected**
 - n ≥ 4: Higher energy, additional light KK states excluded by LEP → **rejected**
 
-**Result:** Z₃ is uniquely selected by:
-1. Z₃ = center of SU(3) (gauge holonomy compatibility)
+**Result:** ∞₃ is uniquely selected by:
+1. ∞₃ = center(SU(3)) (gauge holonomy compatibility)
 2. N_gen = 3 matching observation (N_ν = 2.984 ± 0.008)
 3. Lowest energy among CP-violating configurations (n ≥ 3)
 
@@ -405,14 +405,14 @@ where V_hol(n) is the holonomy potential from gauge fields wrapping the compact 
 | 5 | 493.5 | 3.93 | 1.07 | 0.00 | 498.5 | YES |
 | 6 | 710.6 | 4.71 | −1.50 | 0.00 | 713.8 | YES |
 
-Z₁ and Z₂ have lower total energy but **cannot produce CP violation** (Z₂ has only real representations). Among all CP-violating orbifolds (N ≥ 3), **Z₃ has the lowest energy**. This is not assumed — it is computed.
+Z₁ and Z₂ have lower total energy but **cannot produce CP violation** (Z₂ has only real representations). Among all CP-violating orbifolds (N ≥ 3), **∞₃ has the lowest energy**. This is not assumed — it is computed.
 4. CP violation (impossible for Z₂, which has real representations only)
 
-### 2.2 The Z₃ Twist Is Dynamical
+### 2.2 The ∞₃ Twist Is Dynamical
 
-**The Z₃ orbifold is not a static geometric fixture.** The twist angle θ(t) is a dynamical degree of freedom governed by the TEGR torsion equations of motion.
+**The ∞-helix topology is not a static geometric fixture.** The twist angle θ(t) is a dynamical degree of freedom governed by the TEGR torsion equations of motion.
 
-On M⁴ × S¹/Z₃, the Z₃ identification acts on the R-field as:
+On M⁴ × S¹/∞₃, the ∞-helix identification acts on the R-field as:
 
 ```
 R(X + L_X/3) = R_{2π/3} · R(X)
@@ -426,7 +426,7 @@ where R_{2π/3} is rotation by 2π/3 in (R₁, R₂) space. But this identificat
 
 where δθ(t) is the dynamical fluctuation driven by the contortion field K_μν. The twist angle oscillates as the contortion evolves, governed by the TEGR field equations.
 
-**Phase-lock condition:** When δθ(t) = 0, the Z₃ symmetry is exact. The three orbifold sectors are perfectly aligned at angular separations of exactly 2π/3. In this state:
+**Phase-lock condition:** When δθ(t) = 0, the ∞₃ symmetry is exact. The three orbifold sectors are perfectly aligned at angular separations of exactly 2π/3. In this state:
 
 - Generation boundaries are sharp
 - The Mathieu equation has its full coupling strength α_eff
@@ -443,7 +443,7 @@ where M(t) ∈ [0, 1] is the **modulation function** determined by contortion dy
 
 ### 2.3 Chronomagnetics: Log-Periodic Phase Dynamics
 
-The modulation function M(t) follows from the discrete scale invariance of the torsion dynamics on S¹/Z₃. The contortion field satisfies:
+The modulation function M(t) follows from the discrete scale invariance of the torsion dynamics on S¹/∞₃. The contortion field satisfies:
 
 ```
 K_μν(λt) = K_μν(t)
@@ -451,9 +451,9 @@ K_μν(λt) = K_μν(t)
 
 where λ = 3722/2705 is the **chronomagnetic scaling ratio**.
 
-**Origin of λ from Z₃ fixed-point geometry:**
+**Origin of λ from ∞-helix node geometry:**
 
-The three Z₃ fixed points at {0, 2π/3, 4π/3} on S¹ define a triangle in the covering space. The integer triangle {116, 138, 144} (semi-perimeter s = 199) yields through the Heron formula:
+The three ∞-helix nodes at {0, 2π/3, 4π/3} on S¹ define a triangle in the covering space. The integer triangle {116, 138, 144} (semi-perimeter s = 199) yields through the Heron formula:
 
 ```
 A² = s(s−a)(s−b)(s−c) = 199 × 83 × 61 × 55 = 55,414,535
@@ -527,15 +527,15 @@ A = ∫ dt/t · M(t) · ⟨f_i(t)|V|f_j(t)⟩ · e^{iS(t)}
 
 The oscillatory phase e^{iS(t)} causes destructive interference except near stationary-phase points — which coincide with phase-lock epochs (M ≈ 1). This is the **stationary phase argument**: coherent observables probe the phase-locked geometry.
 
-In condensed matter language: the Z₃ orbifold undergoes continuous phase cycling, but observable CKM elements are the **DC component** of the modulated signal — the coherent average at phase-lock. The chronomagnetic oscillation is the "AC component" that averages away in precision measurements but may leave imprints in cosmological observables.
+In condensed matter language: the ∞-helix topology undergoes continuous phase cycling, but observable CKM elements are the **DC component** of the modulated signal — the coherent average at phase-lock. The chronomagnetic oscillation is the "AC component" that averages away in precision measurements but may leave imprints in cosmological observables.
 
 ---
 
-## Part III: Three Generations from Z₃ Topology
+## Part III: Three Generations from ∞₃ Topology
 
 ### 3.1 Fixed Points and Localization
 
-The Z₃ orbifold S¹/Z₃ has exactly three fixed points:
+The ∞-helix topology S¹/∞₃ has exactly three fixed points:
 
 ```
 φ_g = 2πg/3,     g = 0, 1, 2
@@ -552,7 +552,7 @@ where σ = 0.862 rad at phase-lock (α_eff = 1.480).
 **N_gen = 3 is topological:**
 
 ```
-N_gen = |Fix(Z₃ on S¹)| = 3
+N_gen = |Fix(∞₃ on S¹)| = 3
 ```
 
 This is a topological invariant — unchanged by continuous deformations. Compare: PDG N_ν = 2.984 ± 0.008 from Z-width.
@@ -616,10 +616,10 @@ Deviation: 1.6% (0.5σ theory)
 ### 4.2 The α_eff Derivation Chain
 
 ```
-α_eff = α_tree × f_Z₃ × f_KK × f_gauge × f_2loop
+α_eff = α_tree × f_∞ × f_KK × f_gauge × f_2loop
 
 α_tree  = 1.000     (XCRM-Yukawa symmetry)
-f_Z₃    = 1.072     (twisted sector curvature; alpha_eff_rigorous_calculation.py §1)
+f_∞    = 1.072     (twisted sector curvature; alpha_eff_rigorous_calculation.py §1)
 f_KK    = 1.147     (Coleman-Weinberg + WFR; §2)
 f_gauge = 1.139     (QCD backreaction; §3)
 f_2loop = 1.056     (two-loop correction; §4)
@@ -629,7 +629,7 @@ f_2loop = 1.056     (two-loop correction; §4)
 
 ### 4.3 Full CKM Matrix (Wolfenstein Assembly)
 
-**Wolfenstein parameters from Z₃ geometry:**
+**Wolfenstein parameters from ∞-helix geometry:**
 
 | Parameter | STUR | PDG | Deviation | Source |
 |-----------|------|-----|-----------|--------|
@@ -648,7 +648,7 @@ f_2loop = 1.056     (two-loop correction; §4)
 
 where:
   θ_χ = arctan(1/2) = 26.6°    (helix chirality angle)
-  δ_tb = π/3 = 60°              (Z₃ holonomy phase for t→b)
+  δ_tb = π/3 = 60°              (∞-helix holonomy phase for t→b)
   f_screen = 0.696               (Debye-Waller screening from wavefunction width)
 ```
 
@@ -690,7 +690,7 @@ The v5.0+ formula exp(−κ²/4) eliminates the old correction factor chain enti
 | η̄_base | 0.39 | sin(δ_CKM) × A²λ⁵/2 | Geometric |
 | f_hol(η̄) | 0.948 ± 0.015 | Correlated u,d sector fluctuations | Retained |
 | f_Berry | 1.000 ± 0.000 | Berry phase = 0 for real eigenstates | **Verified** (berry_phase_exact.py) |
-| f_RG | 1.003 ± 0.003 | KK threshold = 0 (Z₃), EW +0.3% | **Verified** (f_RG_kk_threshold.py) |
+| f_RG | 1.003 ± 0.003 | KK threshold = 0 (∞₃), EW +0.3% | **Verified** (f_RG_kk_threshold.py) |
 
 ```
 η̄ = 0.39 × 0.948 × 1.000 × 1.003 = 0.371 ± 0.029
@@ -700,17 +700,17 @@ Deviation: 0.75σ (acceptable)
 
 ---
 
-## Part V: The Gauge Group from Z₃ Holonomy
+## Part V: The Gauge Group from ∞₃ Holonomy
 
-### 5.1 SU(3) from Z₃
+### 5.1 SU(3) from ∞₃
 
-The Z₃ holonomy W = exp(2πi/3) must lie in the center of the gauge group G:
+The ∞-helix holonomy W = exp(2πi/3) must lie in the center of the gauge group G:
 
 ```
 W ∈ Z(G)     →     Z(SU(N)) = Z_N     →     N must be divisible by 3
 ```
 
-SU(3) is the **minimal** simple group with Z₃ center. Combined with Z₃-compatible electroweak factors:
+SU(3) is the **minimal** simple group with ∞₃ center. Combined with ∞₃-compatible electroweak factors:
 
 ```
 G_SM = SU(3)_color × SU(2)_L × U(1)_Y
@@ -718,17 +718,17 @@ G_SM = SU(3)_color × SU(2)_L × U(1)_Y
 
 ### 5.2 θ_QCD = 0 (Strong CP Solution)
 
-The Z₃ helix has a combined Z₃ × CP symmetry:
+The infinity helix has a combined ∞₃ × CP symmetry:
 
 ```
-P_Z₃: θ → −θ, φ → −φ
+P_∞₃: θ → −θ, φ → −φ
 ```
 
-Under this transformation θ_QCD → −θ_QCD, and Z₃ invariance forces θ_QCD = 0 exactly at tree level. This solves the strong CP problem without an axion.
+Under this transformation θ_QCD → −θ_QCD, and ∞₃ invariance forces θ_QCD = 0 exactly at tree level. This solves the strong CP problem without an axion.
 
 ### 5.3 Proton Stability
 
-Z₃ KK-parity assigns (−1)^{KK level} to KK modes. Dimension-5 proton decay operators (QQQL, uude) require odd-parity KK exchange and are **forbidden**. The lifetime bound τ_p > 10³⁴ yr is automatically satisfied.
+∞-helix KK-parity assigns (−1)^{KK level} to KK modes. Dimension-5 proton decay operators (QQQL, uude) require odd-parity KK exchange and are **forbidden**. The lifetime bound τ_p > 10³⁴ yr is automatically satisfied.
 
 ---
 
@@ -736,7 +736,7 @@ Z₃ KK-parity assigns (−1)^{KK level} to KK modes. Dimension-5 proton decay o
 
 ### 6.1 Overlap Geometry
 
-The fermion mass hierarchy arises from overlap of generation wavefunctions with the Higgs profile. The Higgs localizes at one Z₃ fixed point, giving the Yukawa overlap matrix Y_gg'.
+The fermion mass hierarchy arises from overlap of generation wavefunctions with the Higgs profile. The Higgs localizes at one ∞-helix node, giving the Yukawa overlap matrix Y_gg'.
 
 At α_eff = 1.480, the Yukawa eigenvalues:
 
@@ -750,7 +750,7 @@ Max geometric ratio: y₁/y₂ = 4.4
 
 ### 6.2 The Mass Hierarchy — Sharp Higgs Resolution (v6.1)
 
-With constant Higgs VEV, the geometric overlap gives a maximum ratio of ~4.4×. But the Higgs profile H(θ) is NOT constant — it localizes at one Z₃ fixed point with width σ_H.
+With constant Higgs VEV, the geometric overlap gives a maximum ratio of ~4.4×. But the Higgs profile H(θ) is NOT constant — it localizes at one ∞-helix node with width σ_H.
 
 **Key insight:** The Yukawa matrix Y_gg' = ∫ ψ_g(θ) H(θ) ψ_g'(θ) dθ depends on σ_H/σ_ψ. For σ_H < σ_ψ, off-diagonal Yukawas are **exponentially suppressed**.
 
@@ -785,7 +785,7 @@ Deviation: 1%
 
 ### 6.4 What Remains: σ_H From First Principles
 
-The Higgs width σ_H is **not yet derived** from the axioms. It requires solving the coupled gauge-Higgs system on S¹/Z₃ — a Coleman-Weinberg calculation for the A₅ component profile. This is the next critical computation for mass closure.
+The Higgs width σ_H is **not yet derived** from the axioms. It requires solving the coupled gauge-Higgs system on S¹/∞₃ — a Coleman-Weinberg calculation for the A₅ component profile. This is the next critical computation for mass closure.
 
 ### 6.3 What Works: Lepton Mass Ratio
 
@@ -812,7 +812,7 @@ H ~ A₅    (extra-dimensional gauge component)
 The Higgs mass is generated radiatively via Coleman-Weinberg:
 
 ```
-m_H² = (3g²/16π²)(M_KK²/L_X²) × f(Z₃ geometry)
+m_H² = (3g²/16π²)(M_KK²/L_X²) × f(∞-helix geometry)
 ```
 
 ### 7.2 Neutrino Sector
@@ -837,13 +837,13 @@ In TEGR, the contortion tensor relates the Levi-Civita and Weitzenböck connecti
 Γ^ρ_μν(LC) = Γ^ρ_μν(W) + K^ρ_μν
 ```
 
-On M⁴ × S¹/Z₃, the time-dependent contortion component:
+On M⁴ × S¹/∞₃, the time-dependent contortion component:
 
 ```
 K_XX(t) = K₀ |sin(ω ln(t/t₀))|
 ```
 
-This is the chronomagnetic modulation — the physical mechanism driving the Z₃ phase cycling.
+This is the chronomagnetic modulation — the physical mechanism driving the ∞-helix phase cycling.
 
 ### 8.2 Gravitoelectromagnetic (GEM) Structure
 
@@ -872,7 +872,7 @@ The linearized TEGR field equations admit resonant solutions:
 (∇² + k²){Φ_g, A_g} = sources
 ```
 
-Resonant modes at k = nπ/L_X (n = 1, 2, 3, ...) correspond to KK graviton excitations. The Z₃ structure selects modes with n ≡ 0 (mod 3) as the dominant contributions.
+Resonant modes at k = nπ/L_X (n = 1, 2, 3, ...) correspond to KK graviton excitations. The ∞-helix structure selects modes with n ≡ 0 (mod 3) as the dominant contributions.
 
 ### 8.4 Bimetric Extension
 
@@ -890,7 +890,7 @@ The massive mode (mass ~ 1/L_X) has Yukawa screening and is evanescent below the
 
 ### 9.1 Cosmological Constant — Status: OPEN
 
-The Z₃ Casimir cancellation for democratically-distributed fermion generations:
+The ∞-helix Casimir cancellation for democratically-distributed fermion generations:
 
 ```
 Σ_k N_k cos(2πnk/3) = 16 − 16/2 − 16/2 = 0    (per fermion type — exact)
@@ -898,7 +898,7 @@ The Z₃ Casimir cancellation for democratically-distributed fermion generations
 
 However:
 - Bosonic residual: ~3.5 units (R-field + Higgs)
-- Z₃-invariant vacuum energy is NOT zero
+- ∞₃-invariant vacuum energy is NOT zero
 - The mechanism reduces Λ by O(100) but does not solve the CC problem
 - Computed N_eff = −0.968 (not −149 as previously claimed)
 
@@ -920,11 +920,11 @@ r ≈ 0.004      (below current bounds)              ✓
 
 ### 9.4 Dark Matter
 
-The lightest KK-parity-odd particle (LKP) is stable due to Z₃ × Z₂ KK-parity and serves as a dark matter candidate. Mass scale ~ 1/L_X (requires L_X determination).
+The lightest KK-parity-odd particle (LKP) is stable due to ∞₃ × Z₂ KK-parity and serves as a dark matter candidate. Mass scale ~ 1/L_X (requires L_X determination).
 
 ### 9.5 Baryogenesis
 
-Leptogenesis from right-handed neutrino decays at M_R ~ 1/L_X. The Z₃ phase cycling provides the out-of-equilibrium condition through the time-dependent modulation of Yukawa couplings.
+Leptogenesis from right-handed neutrino decays at M_R ~ 1/L_X. The ∞-helix phase cycling provides the out-of-equilibrium condition through the time-dependent modulation of Yukawa couplings.
 
 ---
 
@@ -932,9 +932,9 @@ Leptogenesis from right-handed neutrino decays at M_R ~ 1/L_X. The Z₃ phase cy
 
 ### 10.1 F-Theory Embedding
 
-The S¹/Z₃ orbifold admits UV completion through F-theory on CY₄ with base B₃ = (P² × P¹)/Z₃:
+The S¹/∞-helix topology admits UV completion through F-theory on CY₄ with base B₃ = (P² × P¹)/∞₃:
 - SM gauge group from 7-brane divisors
-- N_gen = 3 from intersection number with Z₃ quotient
+- N_gen = 3 from intersection number with ∞₃ quotient
 - Tadpole: χ(CY₄)/24 = N_flux + N_D3
 
 ### 10.2 Swampland Constraints
@@ -955,7 +955,7 @@ The S¹/Z₃ orbifold admits UV completion through F-theory on CY₄ with base B
 |-----------|---------------|
 | N_gen = 3 exactly | Discovery of sequential 4th generation |
 | θ_QCD = 0 exactly | Neutron EDM > 10⁻²⁸ e·cm |
-| Z₃ KK structure | Non-Z₃ KK graviton spectrum |
+| ∞-helix KK structure | Non-∞-helix KK graviton spectrum |
 | Proton stable (dim-5) | Proton decay via dim-5 operators |
 
 ### 11.2 Quantitative Predictions
@@ -992,7 +992,7 @@ The four-force tensor framework: F^total_μν = F^EM + F^grav + F^strong + F^tor
 
 Log-periodic dynamics of torsion contortion: triangle geometry → λ = 3722/2705, discrete scale invariance, contortion modulation K_μν(t) = K₀|sin(ω ln(t/t₀))|, fine structure connection 138 × exp(−1/143) ≈ α_em⁻¹.
 
-**The three pillars form a unified framework:** TEGR provides the gravitational language, STUR provides the R-field architecture, Chronomagnetics provides the time dynamics. Together they describe a dynamically oscillating Z₃ orbifold whose phase-locked states produce the Standard Model.
+**The three pillars form a unified framework:** TEGR provides the gravitational language, STUR provides the R-field architecture, Chronomagnetics provides the time dynamics. Together they describe a dynamically oscillating ∞-helix topology whose phase-locked states produce the Standard Model.
 
 ---
 
@@ -1000,11 +1000,11 @@ Log-periodic dynamics of torsion contortion: triangle geometry → λ = 3722/270
 
 | Feature | Standard Model | String Theory | STUR v6.0 |
 |---------|---------------|---------------|-----------|
-| N_gen = 3 | Input (unexplained) | Landscape (~10⁵⁰⁰ vacua) | **Derived** (Z₃ topology) |
+| N_gen = 3 | Input (unexplained) | Landscape (~10⁵⁰⁰ vacua) | **Derived** (∞-helix topology) |
 | CKM matrix | 4 free parameters | Not computed | **Derived** (1.6-7.5%) |
-| θ_QCD = 0 | Axion required | Landscape selection | **Automatic** (Z₃ × CP) |
+| θ_QCD = 0 | Axion required | Landscape selection | **Automatic** (∞₃ × CP) |
 | Gravity | Separate (GR) | Emerges from strings | **Emerges** (TEGR torsion) |
-| Time dynamics | Static background | Moduli stabilization | **Dynamic Z₃** phase cycling |
+| Time dynamics | Static background | Moduli stabilization | **Dynamic ∞₃** phase cycling |
 | Free parameters | 19+ | ~O(100) flux choices | 3 axioms + M_Pl |
 | Testability | Describes, doesn't predict | Landscape — hard to test | Specific predictions |
 
@@ -1017,14 +1017,14 @@ Log-periodic dynamics of torsion contortion: triangle geometry → λ = 3722/270
 | Script | Computation | Key Result |
 |--------|-------------|------------|
 | `stur_first_principles_calculation.py` | κ, overlaps, N_eff, holonomy MC | κ = 2.430, λ = 0.229 |
-| `ckm_full_diagonalization.py` | Full CKM from S¹/Z₃ | CKM to 1.6-7.5% |
+| `ckm_full_diagonalization.py` | Full CKM from S¹/∞₃ | CKM to 1.6-7.5% |
 | `alpha_eff_rigorous_calculation.py` | α_eff chain (two-loop) | α_eff = 1.480 ± 0.047 |
 | `berry_phase_exact.py` | Berry phase | γ = 0 exactly |
 | `stur_numerical_verification.py` | 4-method κ, Monte Carlo | Consistent |
 | `brane_yukawa_hierarchy.py` | Mass ratios | m_τ/m_μ = 17.0 |
 | `f_screen_first_principles.py` | Debye-Waller factor | f_screen = 0.696 |
 | `f_RG_kk_threshold.py` | RG with KK thresholds | f_RG(ratio) = 1.002 |
-| `toe_closure_calculations.py` | Z_N proof, mass hierarchy, PMNS, ε/σ | Z₃ proven; y₁/y₂ = 111 at σ_H/σ = 0.3 |
+| `toe_closure_calculations.py` | Z_N proof, mass hierarchy, PMNS, ε/σ | ∞₃ proven; y₁/y₂ = 111 at σ_H/σ = 0.3 |
 | **`stur_toe_closure.py`** | **Complete TOE chain: M_Pl → 27 observables** | **All SM params derived; scorecard** |
 
 ### Running the Verification Suite
@@ -1043,17 +1043,17 @@ python berry_phase_exact.py
 
 ## Conclusion
 
-STUR v6.2 presents a unified framework where the Standard Model emerges from the phase-locked coherence of a dynamically oscillating Z₃ orbifold on M⁴ × S¹. The Z₃ helix is an **infinity helix** — always winding and unwinding simultaneously at every scale. The manifold is the same at any scale; only the perspective changes. This discrete scale invariance, governed by λ_chrono = 3722/2705, is the organizing principle.
+STUR v6.2 presents a unified framework where the Standard Model emerges from the phase-locked coherence of a dynamically oscillating ∞-helix topology on M⁴ × S¹. The infinity helix is an **infinity helix** — always winding and unwinding simultaneously at every scale. The manifold is the same at any scale; only the perspective changes. This discrete scale invariance, governed by λ_chrono = 3722/2705, is the organizing principle.
 
 Three axioms — five-dimensional TEGR spacetime, a real doublet R-field, and energy minimization — produce:
 
 **Exact topological results (no free parameters):**
-- N_gen = 3 (Z₃ fixed-point count)
-- SU(3) × SU(2) × U(1) gauge group (Z₃ holonomy compatibility)
-- θ_QCD = 0 (Z₃ × CP symmetry protection)
+- N_gen = 3 (∞-helix node count)
+- SU(3) × SU(2) × U(1) gauge group (∞-helix holonomy compatibility)
+- θ_QCD = 0 (∞₃ × CP symmetry protection)
 - Berry phase = 0 (real Mathieu eigenstates)
-- Proton stability (dim-5 forbidden by Z₃ KK-parity)
-- Z₃ proven lowest-energy CP-violating orbifold (computed for N = 1–6)
+- Proton stability (dim-5 forbidden by ∞-helix KK-parity)
+- ∞₃ proven lowest-energy CP-violating orbifold (computed for N = 1–6)
 
 **CKM sector (1.6–8% accuracy):**
 - λ = 0.229 Cabibbo angle (1.6%), A = 0.816 (1.2%), η̄ = 0.350 (0.5%)
@@ -1068,18 +1068,18 @@ Three axioms — five-dimensional TEGR spacetime, a real doublet R-field, and en
 - Normal mass ordering predicted (m₁ < m₂ < m₃)
 
 **Fermion masses (<2% with physical corrections):**
-- All 9 charged fermion masses from Z₃ overlap integrals + f_tail, f_ℓ, f_u^node corrections
+- All 9 charged fermion masses from ∞-helix overlap integrals + f_tail, f_ℓ, f_u^node corrections
 - m_τ/m_μ = 17.0 (1%), mass hierarchy via sharp Higgs (σ_H/σ_ψ ≈ 0.3)
 - Neutrino masses: m₃ ≈ 50 meV, m₂ ≈ 8.5 meV, m₁ ≈ 0.3 meV; Σmν = 59 meV
 
 **Cosmology:**
-- Cosmological constant: Λ_tree = 0 (Z₃ gauge Ward identity); Λ_residual = 3.6×10⁻⁴⁷ GeV⁴ (27% from Λ_obs, <0.5σ)
+- Cosmological constant: Λ_tree = 0 (∞-helix gauge Ward identity); Λ_residual = 3.6×10⁻⁴⁷ GeV⁴ (27% from Λ_obs, <0.5σ)
 - Dark matter: LKP B^(1) at M_DM = 0.92 TeV; Ω_DM h² = 0.119 (0.4σ)
 - L_X: Casimir-holonomy stable minimum at L_eff ~ 0.8 μm; v·L_X = 3 (topological)
 - z_transition ≈ 0.67 (exact match to observed)
 
 **UV completion:**
-- F-theory CY₄ on (P²×P¹)/Z₃ uniquely determined from STUR axioms
+- F-theory CY₄ on (P²×P¹)/∞₃ uniquely determined from STUR axioms
 - Swampland constraints satisfied (Distance, WGC, Cobordism; dS conditional)
 
 **The dynamic infinity helix (v6.2):** The orbifold twist angle oscillates with chronomagnetic modulation M(t) = |sin(ω ln(t/t₀))| at frequency ω = 19.687. The helix geometry is self-similar at every scale via λ_chrono = 3722/2705 — the manifold is the same at any scale, only the perspective changes. This resolves the L_X two-scale question (same geometry, different perspectives), explains why PMNS mixing is large (neutrinos near the unwinding edge), and provides the natural framework for both UV completion (tightly-wound limit) and cosmological dynamics (loosely-wound limit).

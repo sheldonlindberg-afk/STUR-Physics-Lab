@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Berry Phase Computation from Exact Mathieu Wavefunctions on S¹/Z₃
+Berry Phase Computation from Exact Mathieu Wavefunctions on S¹/∞₃
 =================================================================
 
 STUR Framework v5.2 — Replace semi-derived f_Berry = 0.975
@@ -16,7 +16,7 @@ Three distinct Berry phases are relevant:
    transported around S¹. For a real ground state, this is zero.
 
 2. NON-ABELIAN BERRY PHASE: The 3×3 holonomy matrix for the
-   three generations under adiabatic Z₃ transport.
+   three generations under adiabatic ∞₃ transport.
 
 3. BARGMANN INVARIANT: arg(⟨ψ₁|ψ₂⟩⟨ψ₂|ψ₃⟩⟨ψ₃|ψ₁⟩)
    — the geometric phase from the triangle of three states.
@@ -150,13 +150,13 @@ def compute_abelian_berry_phase(alpha, n_steps=60):
 def compute_bargmann_invariant(alpha):
     """
     Compute the Bargmann invariant (geometric phase) for three
-    generation wavefunctions at the Z₃ fixed points:
+    generation wavefunctions at the ∞-helix nodes:
 
     γ_B = arg(⟨ψ₁|ψ₂⟩ ⟨ψ₂|ψ₃⟩ ⟨ψ₃|ψ₁⟩)
 
     For REAL wavefunctions, this is 0 or π.
     """
-    # Solve at three Z₃ fixed points
+    # Solve at three ∞-helix nodes
     _, psi_0 = solve_mathieu(alpha, 0.0)
     _, psi_1 = solve_mathieu(alpha, 2*np.pi/3)
     _, psi_2 = solve_mathieu(alpha, 4*np.pi/3)
@@ -331,7 +331,7 @@ def compute_momentum_berry_connection(alpha):
 
 def main():
     print("=" * 70)
-    print("  BERRY PHASE FROM EXACT MATHIEU WAVEFUNCTIONS ON S¹/Z₃")
+    print("  BERRY PHASE FROM EXACT MATHIEU WAVEFUNCTIONS ON S¹/∞₃")
     print("  STUR Framework v5.2 — First-Principles Computation")
     print("=" * 70)
 
@@ -372,7 +372,7 @@ def main():
 
     gamma_B, s01, s12, s20, bargmann = compute_bargmann_invariant(alpha)
 
-    print(f"\n  Wavefunctions at Z₃ fixed points θ₀ = 0, 2π/3, 4π/3")
+    print(f"\n  Wavefunctions at ∞-helix nodes θ₀ = 0, 2π/3, 4π/3")
     print(f"\n  Overlaps:")
     print(f"    ⟨ψ₀|ψ₁⟩ = {s01:.6f}")
     print(f"    ⟨ψ₁|ψ₂⟩ = {s12:.6f}")
@@ -496,7 +496,7 @@ def main():
 
     print(f"""
   The ETA_BAR_CORRECTION_CHAIN.md claims f_Berry = 0.975 as a
-  "geometric phase from fermion transport around the Z₃ helix."
+  "geometric phase from fermion transport around the infinity helix."
 
   Let's check each possible meaning:
 
@@ -542,10 +542,10 @@ def main():
     # SECTION 6: Non-Abelian Berry holonomy
     # ================================================================
     print("\n" + "─" * 70)
-    print("  SECTION 6: Non-Abelian Berry Holonomy (Z₃ transport)")
+    print("  SECTION 6: Non-Abelian Berry Holonomy (∞₃ transport)")
     print("─" * 70)
 
-    print(f"\n  Computing 3×3 holonomy matrix for Z₃ transport...")
+    print(f"\n  Computing 3×3 holonomy matrix for ∞₃ transport...")
     print(f"  (transporting all three generation centers by 2π/3)")
 
     U = compute_non_abelian_berry_holonomy(alpha, n_steps=30)
@@ -564,7 +564,7 @@ def main():
             row += f"{np.degrees(np.angle(U[i,j])):+8.2f}  "
         print(row)
 
-    # For identical wavefunctions at Z₃ points, transport by 2π/3
+    # For identical wavefunctions at ∞₃ points, transport by 2π/3
     # maps gen 0 → gen 1, gen 1 → gen 2, gen 2 → gen 0
     # So U should be close to the cyclic permutation matrix P₃
     print(f"\n  Expected: cyclic permutation P₃ = [[0,0,1],[1,0,0],[0,1,0]]")
@@ -593,9 +593,9 @@ def main():
      There is NO single-generation geometric phase.
 
   2. THREE-GENERATION BARGMANN INVARIANT = 0
-     For real wavefunctions at the three Z₃ points, all overlaps
+     For real wavefunctions at the three ∞₃ points, all overlaps
      are real ⟹ Bargmann invariant is real ⟹ γ_B = 0 or π.
-     No CP-violating geometric phase from the Z₃ triangle.
+     No CP-violating geometric phase from the ∞₃ triangle.
 
   3. HELIX PHASE creates complex overlaps via exp(±iθ/3):
      The Debye-Waller factor at q=2/3:
@@ -603,14 +603,14 @@ def main():
      This is a MAGNITUDE effect, not a phase rotation.
      It's ALREADY INCLUDED in f_screen (DW at q=1).
 
-  4. NON-ABELIAN HOLONOMY under Z₃ transport:
+  4. NON-ABELIAN HOLONOMY under ∞₃ transport:
      det(U) phase = {np.degrees(np.angle(det_U)):.4f}°
      This is a cyclic permutation, not a phase correction.
 
   CONCLUSION:
 
   f_Berry = 0.975 as claimed in ETA_BAR_CORRECTION_CHAIN.md
-  IS NOT DERIVABLE from the Mathieu wavefunctions on S¹/Z₃.
+  IS NOT DERIVABLE from the Mathieu wavefunctions on S¹/∞₃.
 
   The claimed derivation in that document uses:
     • Gaussian approximation (not needed — exact answer is simpler)

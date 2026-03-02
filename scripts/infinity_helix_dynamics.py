@@ -4,7 +4,7 @@ STUR v6.2 — Infinity Helix Dynamics: Computing the Geometry of
              Simultaneous Winding and Unwinding
 ================================================================
 
-The Z₃ helix is never static. It is always winding and unwinding
+The infinity helix is never static. It is always winding and unwinding
 simultaneously at every scale. This script computes the geometry
 from first principles.
 
@@ -25,9 +25,9 @@ MATHEMATICAL FRAMEWORK:
   2. Modulation function: M(t) = |sin(ω ln(t/t₀))| with ω = 2π/ln(λ)
   3. Scale-dependent modulation: M(t, s) = |sin(ω ln(t/t₀) + ω ln(s/s₀))|
   4. Spatial projection: Gerono lemniscate (figure-8 / ∞ symbol)
-  5. Full 5D worldline: helix through M⁴ × S¹/Z₃
+  5. Full 5D worldline: helix through M⁴ × S¹/∞₃
 
-Author: STUR v6.2 — Dynamic Z₃ Phase-Lock Unification
+Author: STUR v6.2 — Dynamic Infinity Helix Phase-Lock Unification
 Date: 2026-03-02
 """
 
@@ -46,7 +46,7 @@ else:
 # FUNDAMENTAL PARAMETERS
 # ═══════════════════════════════════════════════════════════════════════
 
-# Triangle {116, 138, 144} from Z₃ fixed-point geometry
+# Triangle {116, 138, 144} from ∞-helix node geometry
 a, b, c = 116, 138, 144
 s_tri = (a + b + c) // 2  # = 199
 A_sq = s_tri * (s_tri - a) * (s_tri - b) * (s_tri - c)
@@ -56,7 +56,7 @@ A_triangle = int(np.sqrt(A_sq))  # = 7444
 LAMBDA = 3722.0 / 2705.0  # = 1.375970...
 OMEGA = 2 * np.pi / np.log(LAMBDA)  # = 19.687 rad
 
-# Z₃ parameters
+# ∞₃ parameters
 ALPHA_EFF = 1.480  # effective coupling at phase-lock
 KAPPA = 2.430      # localization parameter
 SIGMA = 0.862      # RMS width (rad)
@@ -215,7 +215,7 @@ print(f"    Extremes: (±{R_helix}, 0) at τ = 0, π")
 # ═══════════════════════════════════════════════════════════════════════
 # PART 4: THE FULL 5D HELIX WORLDLINE
 # ═══════════════════════════════════════════════════════════════════════
-header("PART 4: Full 5D Helix Worldline through M⁴ × S¹/Z₃")
+header("PART 4: Full 5D Helix Worldline through M⁴ × S¹/∞₃")
 
 print(f"""
   The complete worldline in 5D:
@@ -227,9 +227,9 @@ print(f"""
     x(τ) = R cos(τ)                       (lemniscate x)
     y(τ) = (R/2) sin(2τ)                  (lemniscate y)
     z(τ) = Z_amp sin(2τ)                  (vertical oscillation)
-    φ(τ) = (2π/3) × [g + M(τ) × f(τ)]   (Z₃ phase, generation g)
+    φ(τ) = (2π/3) × [g + M(τ) × f(τ)]   (∞-helix phase, generation g)
 
-  The Z₃ phase φ(τ) is the crucial part:
+  The ∞-helix phase φ(τ) is the crucial part:
     - At phase-lock (M = 1): φ = 2πg/3 exactly (sharp generations)
     - At unwinding (M = 0): φ → delocalized (generation boundaries dissolve)
     - The oscillation between these states IS the winding/unwinding
@@ -252,7 +252,7 @@ phi_0 = 0 + 0 * M_tau           # gen 0 at fixed point
 phi_1 = 2 * np.pi / 3 * M_tau   # gen 1: locked at 2π/3 when M=1
 phi_2 = 4 * np.pi / 3 * M_tau   # gen 2: locked at 4π/3 when M=1
 
-# Spatial coordinates (lemniscate + Z₃ phase)
+# Spatial coordinates (lemniscate + ∞-helix phase)
 x_0 = np.cos(tau_range)
 y_0 = 0.5 * np.sin(2 * tau_range)
 
@@ -284,11 +284,11 @@ print(f"""
 
     Γ^ρ_μν(LC) = Γ^ρ_μν(W) + K^ρ_μν
 
-  On M⁴ × S¹/Z₃, the time-dependent compact contortion:
+  On M⁴ × S¹/∞₃, the time-dependent compact contortion:
 
     K_XX(t) = K₀ × M(t) = K₀ |sin(ω ln(t/t₀))|
 
-  This drives the Z₃ twist angle oscillation:
+  This drives the ∞-helix twist angle oscillation:
 
     θ_twist(t) = (2π/3) + δθ(t)
 
@@ -515,7 +515,7 @@ print(f"     This confirms stationary-phase dominance of coherent observables.")
 header("PART 9: Three Strands of the Infinity Helix")
 
 print(f"""
-  The three Z₃ sectors of the helix correspond to three physical strands:
+  The three ∞-helix sectors of the helix correspond to three physical strands:
 
     Strand 1 (g=0): Baryonic matter
       χ_B(τ) = χ₀ + K_χ sin(τ)
@@ -523,13 +523,13 @@ print(f"""
 
     Strand 2 (g=1): Dark matter
       χ_DM(τ) = −(χ₀ + 1.2 K_χ sin(τ + 0.4))
-      1.2× enhancement (Z₃ chirality), 0.4 rad phase offset
+      1.2× enhancement (∞-helix chirality), 0.4 rad phase offset
 
     Strand 3 (g=2): Dark energy
       χ_DE(τ) = 0.3 + 0.15 sin(2τ)
       Double frequency (ω = 2), suppressed amplitude
 
-  These trace three interleaved helical worldlines through M⁴ × S¹/Z₃.
+  These trace three interleaved helical worldlines through M⁴ × S¹/∞₃.
   The unified tidal operator K^a_b governs geodesic deviation between them:
 
     K^a_b = K^a_{{b,metric}} + K^a_{{b,torsion}} + K^a_{{b,gauge}}
@@ -590,7 +590,7 @@ print(f"""
   6. CONTORTION:
      K_XX(t) = K₀ M(t) drives twist angle δθ(t)
      |δθ|_rms = {np.degrees(np.sqrt(np.mean(delta_theta**2))):.2f}° (small fluctuation)
-     ⟨θ_twist⟩ = 2π/3 (mean twist is exact Z₃)
+     ⟨θ_twist⟩ = 2π/3 (mean twist is exact ∞₃)
 
   The manifold is the SAME at any scale; only the perspective changes.
   What we call "winding" and "unwinding" are the same process viewed

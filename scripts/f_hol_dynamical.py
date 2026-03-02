@@ -10,7 +10,7 @@ Previous claim: f_hol = 0.948 (SEMI-DERIVED from ⟨δθ²⟩ = 1/C₂(SU3) = 1/
 This script rigorously analyzes what f_hol should be.
 
 PHYSICS:
-The holonomy W = P exp(ig ∮ A₅ dθ) on S¹/Z₃ has vacuum value
+The holonomy W = P exp(ig ∮ A₅ dθ) on S¹/∞₃ has vacuum value
 W₀ = diag(ω, ω², 1) where ω = e^{2πi/3}.
 
 The CKM CP phase depends on the RELATIVE holonomy between generations.
@@ -19,7 +19,7 @@ the tree-level CP phase?
 
 Three levels of analysis:
   1. One-loop holonomy effective potential (V_eff)
-  2. Stability analysis (is Z₃ actually a minimum?)
+  2. Stability analysis (is ∞₃ actually a minimum?)
   3. Perturbative corrections to Yukawa couplings
   4. Honest assessment of f_hol status
 
@@ -45,13 +45,13 @@ def V_eff_1loop(delta, L=1.0, n_f=6):
     """
     One-loop effective potential for SU(3) holonomy on S¹.
 
-    Parameterize around Z₃: α = 2π/3 + δ, β = -2π/3 - δ
+    Parameterize around ∞₃: α = 2π/3 + δ, β = -2π/3 - δ
     (breathing mode fluctuation)
 
     V(δ) = -(d_b/π²L⁴) × Σ_{i<j} B₄(Δ_{ij}/(2π))
            +(d_f/π²L⁴) × n_f × Σ_c B₄(φ_c/(2π))
     """
-    # Phase eigenvalues around Z₃
+    # Phase eigenvalues around ∞₃
     phi1 = 2*np.pi/3 + delta
     phi2 = -2*np.pi/3 - delta
     phi3 = 0
@@ -85,7 +85,7 @@ def analyze_potential():
     L = 1.0
     eps = 1e-5
 
-    print("\n  Stability of Z₃ point (d²V/dδ²|_{δ=0}):")
+    print("\n  Stability of ∞₃ point (d²V/dδ²|_{δ=0}):")
     vpp = 'V"'
     print(f"  {'n_f':>5s} {vpp:>12s} {'Status':>15s} {'m_θ':>10s}")
     print(f"  {'-'*45}")
@@ -99,12 +99,12 @@ def analyze_potential():
         m_t = np.sqrt(abs(d2V))
         print(f"  {nf:5d} {d2V:+12.6f} {status:>15s} {m_t:10.4f}")
 
-    # Critical n_f where Z₃ flips from minimum to maximum
+    # Critical n_f where ∞₃ flips from minimum to maximum
     for nf in range(1, 13):
         if results[nf] < 0 and results[nf-1] > 0:
-            print(f"\n  ★ Z₃ transitions from MINIMUM to MAXIMUM at n_f = {nf}")
-            print(f"    For SM (n_f = 6): Z₃ is a MAXIMUM")
-            print(f"    For pure gauge (n_f = 0): Z₃ is a MINIMUM with V'' = {results[0]:+.6f}")
+            print(f"\n  ★ ∞₃ transitions from MINIMUM to MAXIMUM at n_f = {nf}")
+            print(f"    For SM (n_f = 6): ∞₃ is a MAXIMUM")
+            print(f"    For pure gauge (n_f = 0): ∞₃ is a MINIMUM with V'' = {results[0]:+.6f}")
 
     # Potential profile
     print(f"\n  Potential V(δ) - V(0) for SM (n_f = 6):")
@@ -116,29 +116,29 @@ def analyze_potential():
 
 
 # ============================================================
-# Part 2: Why the Z₃ Instability Matters
+# Part 2: Why the ∞₃ Instability Matters
 # ============================================================
 
 def analyze_z3_instability(V_results):
-    """Analyze implications of Z₃ being a maximum."""
+    """Analyze implications of ∞₃ being a maximum."""
     print("\n" + "="*70)
-    print("Part 2: Z₃ INSTABILITY ANALYSIS")
+    print("Part 2: ∞₃ INSTABILITY ANALYSIS")
     print("="*70)
 
     print("""
-  CRITICAL FINDING: Z₃ holonomy is a LOCAL MAXIMUM of V_eff for n_f ≥ 2.
+  CRITICAL FINDING: ∞-helix holonomy is a LOCAL MAXIMUM of V_eff for n_f ≥ 2.
 
   Physical interpretation:
-    • Gauge bosons (adjoint) FAVOR Z₃ center symmetry
-    • Fermions (fundamental) DISFAVOR Z₃ (they prefer deconfined vacuum)
-    • For SM with 6 quark flavors: fermions WIN → Z₃ is destabilized
+    • Gauge bosons (adjoint) FAVOR ∞₃ center symmetry
+    • Fermions (fundamental) DISFAVOR ∞₃ (they prefer deconfined vacuum)
+    • For SM with 6 quark flavors: fermions WIN → ∞₃ is destabilized
 
   This is the HOSOTANI MECHANISM: the holonomy dynamically adjusts
   to minimize V_eff. For n_f ≥ 2, the minimum is at δ = π/3
   (corresponding to the identity holonomy W = 1).
 
   Implications for STUR:
-    • The Z₃ holonomy CANNOT be maintained by V_eff alone
+    • The ∞-helix holonomy CANNOT be maintained by V_eff alone
     • Need additional stabilization mechanism:
       (a) Orbifold boundary conditions (TOPOLOGICAL protection)
       (b) Tree-level flux contribution
@@ -149,14 +149,14 @@ def analyze_z3_instability(V_results):
     # Check orbifold protection argument
     print("  --- Orbifold Protection Argument ---")
     print("""
-  On the ORBIFOLD S¹/Z₃ (as opposed to smooth S¹):
-    • The Z₃ symmetry acts as a GAUGE transformation at fixed points
-    • The holonomy is constrained: W must commute with Z₃ action
+  On the ORBIFOLD S¹/∞₃ (as opposed to smooth S¹):
+    • The ∞₃ symmetry acts as a GAUGE transformation at fixed points
+    • The holonomy is constrained: W must commute with ∞₃ action
     • This restricts W to the Cartan subalgebra
-    • BUT: it does NOT fix the eigenvalues to be at the Z₃ point
+    • BUT: it does NOT fix the eigenvalues to be at the ∞₃ point
     • The Cartan fluctuations (δ₃, δ₈) are UNCONSTRAINED by topology
 
-  Conclusion: the orbifold does NOT topologically protect the Z₃ holonomy.
+  Conclusion: the orbifold does NOT topologically protect the ∞-helix holonomy.
   The holonomy is a MODULUS that must be dynamically stabilized.
 """)
 
@@ -171,7 +171,7 @@ def analyze_z3_instability(V_results):
     V_z3 = V_eff_1loop(0, L, 6)
 
     print(f"    V_eff minimum at δ = {delta_min:.4f} rad = {delta_min*180/np.pi:.1f}°")
-    print(f"    V(δ_min) - V(Z₃) = {V_min - V_z3:.8f}")
+    print(f"    V(δ_min) - V(∞₃) = {V_min - V_z3:.8f}")
     print(f"    At this minimum, holonomy eigenvalues:")
     phi1_min = 2*np.pi/3 + delta_min
     phi2_min = -2*np.pi/3 - delta_min
@@ -185,7 +185,7 @@ def analyze_z3_instability(V_results):
           f"Δφ₁₃ = {phi1_min*180/np.pi:.1f}°, Δφ₂₃ = {-phi2_min*180/np.pi:.1f}°")
     if abs(delta_min - np.pi/3) < 0.1:
         print(f"      ≈ Identity holonomy → NO generation structure!")
-        print(f"      → Z₃ symmetry breaking → all 3 generations degenerate")
+        print(f"      → ∞₃ symmetry breaking → all 3 generations degenerate")
 
     return delta_min
 
@@ -199,7 +199,7 @@ def compute_perturbative_f_hol():
     Compute f_hol as a perturbative loop correction to Yukawa couplings.
 
     The CORRECT way to compute holonomy corrections to the CKM phase:
-    At tree level: CKM phase determined by classical holonomy at Z₃.
+    At tree level: CKM phase determined by classical holonomy at ∞₃.
     At one loop: virtual holonomy quanta (A₅ fluctuations) correct Yukawa.
 
     The correction:
@@ -214,8 +214,8 @@ def compute_perturbative_f_hol():
     alpha_s = 0.118
     g4_sq = 4 * np.pi * alpha_s
 
-    # KK spectrum with Z₃ holonomy
-    # For a field in the fundamental of SU(3) at the Z₃ point:
+    # KK spectrum with ∞-helix holonomy
+    # For a field in the fundamental of SU(3) at the ∞₃ point:
     # color 1: m_n = |n + 1/3| / R (shifted by 2π/3 = 1/3 of 2π)
     # color 2: m_n = |n - 1/3| / R (shifted by -2π/3 = -1/3 of 2π)
     # color 3: m_n = |n| / R (no shift)
@@ -315,7 +315,7 @@ def compute_perturbative_f_hol():
     for n in range(1, N_max + 1):
         # Each KK level contributes with mass m_n = n × M_KK
         # (shifted by holonomy phases)
-        for shift in [1/3, -1/3, 0]:  # Z₃ holonomy shifts for 3 colors
+        for shift in [1/3, -1/3, 0]:  # ∞-helix holonomy shifts for 3 colors
             m_n = abs(n + shift)  # in units of M_KK
             if m_n > 0:
                 Delta_KK += 1.0 / m_n**2
@@ -396,12 +396,12 @@ def haar_measure_analysis():
     print(f"    ⟨|tr(Ω)|²⟩_Haar = {trOmega_sq_avg:.4f} (should be 1.0 for SU(3))")
     print(f"    ⟨|tr(Ω)/3|²⟩ = {trOmega_sq_avg/9:.4f}")
 
-    # At Z₃: tr(Ω) = ω + ω² + 1 = 0
+    # At ∞₃: tr(Ω) = ω + ω² + 1 = 0
     # So ⟨|tr(Ω)|²⟩ = 1 means the Polyakov loop fluctuates around 0
 
     # Monte Carlo with CONFINING potential (like what the orbifold should provide)
-    print(f"\n  Holonomy with confining potential (Z₃ basin):")
-    print(f"  Simulates the effect of orbifold + dynamics stabilizing Z₃")
+    print(f"\n  Holonomy with confining potential (∞₃ basin):")
+    print(f"  Simulates the effect of orbifold + dynamics stabilizing ∞₃")
 
     np.random.seed(42)
     N_MC = 500000
@@ -536,7 +536,7 @@ def final_assessment():
     f_hol_pert = 1 - (alpha_s/(4*np.pi)) * (4/3) * 2*np.log(1/0.143) * 4
     # ΔJ/J = 4 × (-αs/4π × C_F × log(M_KK/m_θ))
 
-    # Regime 2: Debye-Waller with strong confinement (if Z₃ is stabilized)
+    # Regime 2: Debye-Waller with strong confinement (if ∞₃ is stabilized)
     # f_hol = exp(-⟨Δφ²⟩/2) where ⟨Δφ²⟩ from MC at the physical β
     f_hol_DW_weak = np.exp(-0.10)  # β ~ 3 (moderate confinement)
     f_hol_DW_strong = np.exp(-0.02)  # β ~ 20 (strong confinement)
@@ -549,8 +549,8 @@ def final_assessment():
   ║  f_hol STATUS: CANNOT BE RELIABLY DERIVED                      ║
   ╠══════════════════════════════════════════════════════════════════╣
   ║                                                                ║
-  ║  KEY OBSTRUCTION: Z₃ holonomy is UNSTABLE at one loop          ║
-  ║    V''(Z₃) < 0 for n_f ≥ 2 (SM has n_f = 6)                  ║
+  ║  KEY OBSTRUCTION: ∞-helix holonomy is UNSTABLE at one loop          ║
+  ║    V''(∞₃) < 0 for n_f ≥ 2 (SM has n_f = 6)                  ║
   ║    → Holonomy MUST be stabilized by non-perturbative physics   ║
   ║    → f_hol DEPENDS on the unknown stabilization mechanism      ║
   ║                                                                ║
@@ -570,7 +570,7 @@ def final_assessment():
   ║                                                                ║
   ║  HONEST STATUS: f_hol is UNDETERMINED                          ║
   ║    Range: 0.90 - 1.00 (perturbative to moderate confinement)   ║
-  ║    Cannot be pinned down without solving Z₃ stabilization      ║
+  ║    Cannot be pinned down without solving ∞₃ stabilization      ║
   ╚══════════════════════════════════════════════════════════════════╝
 """)
 
@@ -593,12 +593,12 @@ def final_assessment():
     f_hol_needed = eta_obs / (0.39 * f_Berry * f_RG)
     print(f"\n  For η̄ = {eta_obs} exactly: need f_hol = {f_hol_needed:.4f}")
     print(f"  This is within the allowed range [0.90, 1.00]")
-    print(f"  But it CANNOT be derived without solving Z₃ stabilization.")
+    print(f"  But it CANNOT be derived without solving ∞₃ stabilization.")
 
     print(f"""
   CONCLUSIONS:
-  1. The one-loop V_eff DESTABILIZES Z₃ for SM content (n_f ≥ 2)
-  2. Z₃ must be stabilized by additional physics (flux, instantons, etc.)
+  1. The one-loop V_eff DESTABILIZES ∞₃ for SM content (n_f ≥ 2)
+  2. ∞₃ must be stabilized by additional physics (flux, instantons, etc.)
   3. The stabilization mechanism determines f_hol
   4. Without knowing the mechanism, f_hol ∈ [0.90, 1.00]
   5. The original f_hol = 0.948 was FITTED to match η̄ observations
@@ -622,7 +622,7 @@ if __name__ == "__main__":
     # Part 1: One-loop potential
     V_results = analyze_potential()
 
-    # Part 2: Z₃ instability
+    # Part 2: ∞₃ instability
     delta_min = analyze_z3_instability(V_results)
 
     # Part 3: Perturbative correction (correct approach)

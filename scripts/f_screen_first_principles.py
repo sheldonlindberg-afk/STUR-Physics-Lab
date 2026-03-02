@@ -16,7 +16,7 @@ where:
   - f_screen = wavefunction overlap screening factor (TO BE DERIVED)
 
 Physical meaning of f_screen:
-The holonomy phase δ_tb = π/3 arises from the Z₃ Wilson line between
+The holonomy phase δ_tb = π/3 arises from the ∞₃ Wilson line between
 adjacent fixed points. A point-like fermion at a fixed point would
 experience the full phase. But a localized wavefunction with finite
 width σ averages the holonomy connection over its support, screening
@@ -169,7 +169,7 @@ def compute_f_screen_direct(psi, theta, sigma_gauss):
     """
     Compute f_screen from the exact Mathieu eigenstate.
 
-    The holonomy phase δ_tb = π/3 arises from the Z₃ Wilson line.
+    The holonomy phase δ_tb = π/3 arises from the ∞₃ Wilson line.
     The screening is:
 
         f_screen = |⟨ψ₀| e^{iθ} |ψ₀⟩|
@@ -180,14 +180,14 @@ def compute_f_screen_direct(psi, theta, sigma_gauss):
 
     Physical justification:
     The holonomy connection A₅ = 1/(3L) generates phase θ/3 along S¹.
-    Between adjacent Z₃ fixed points (Δθ = 2π/3), this gives
+    Between adjacent ∞-helix nodes (Δθ = 2π/3), this gives
     Δφ = 2π/9. But the CKM matrix involves the INTERFERENCE between
-    paths through different Z₃ sectors. The effective holonomy phase
+    paths through different ∞-helix sectors. The effective holonomy phase
     for the t→b transition in the CKM convention is δ_tb = π/3 = 60°.
 
     The screening of this phase by wavefunction delocalization is
     controlled by the Fourier component at q=1 (corresponding to
-    one full oscillation over 2π). This is because the Z₃ holonomy
+    one full oscillation over 2π). This is because the ∞-helix holonomy
     phase difference between adjacent generations, when expressed in
     the basis that diagonalizes the position operator modulo 2π/3,
     maps to the q=1 mode on the full circle.
@@ -302,7 +302,7 @@ if __name__ == '__main__':
         sig_eff = compute_effective_sigma(dw_e['magnitude'], q)
         note = ""
         if abs(q - 1/3) < 0.01:
-            note = "Z₃ holonomy"
+            note = "∞-helix holonomy"
         elif abs(q - 2/3) < 0.01:
             note = "Up-down phase diff"
         elif abs(q - 1.0) < 0.01:
@@ -505,7 +505,7 @@ if __name__ == '__main__':
     print("  SECTION 7: Yukawa Matrix Phase Cross-Check")
     print("=" * 64)
 
-    # Get wavefunctions at all three Z₃ fixed points
+    # Get wavefunctions at all three ∞-helix nodes
     centers = [0.0, 2*np.pi/3, 4*np.pi/3]
     psi_list = []
     for c in centers:

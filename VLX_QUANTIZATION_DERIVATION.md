@@ -1,4 +1,4 @@
-# Rigorous Derivation: v·L_X = 3 from Z₃ Winding Quantization
+# Rigorous Derivation: v·L_X = 3 from ∞₃ Winding Quantization
 
 **Document Type:** First-Principles Theoretical Derivation
 **Framework:** STUR v4.3 (Helix Geometry)
@@ -11,7 +11,7 @@
 
 This document provides a rigorous, first-principles derivation of the fundamental constraint
 **v·L_X = 3** in the STUR framework, where v is the R-field vacuum expectation value and
-L_X is the compactification length. This result follows necessarily from Z₃ winding
+L_X is the compactification length. This result follows necessarily from ∞-helix winding
 quantization and establishes that the three "external inputs" (L_X, v, M_R) are not
 independent but satisfy exact geometric constraints.
 
@@ -23,7 +23,7 @@ independent but satisfy exact geometric constraints.
 │       v · L_X = 3        (exactly)                                  │
 │                                                                     │
 │  This is NOT a free parameter. It follows from:                     │
-│    (1) Z₃ phase quantization                                        │
+│    (1) ∞-helix phase quantization                                        │
 │    (2) Energy minimization of the helix configuration               │
 │    (3) Fermion localization consistency                             │
 │    (4) Topological winding number quantization                      │
@@ -51,9 +51,9 @@ where:
 - φ is the phase angle
 - x^μ are the 4D Minkowski coordinates
 
-### 1.2 The Z₃ Boundary Condition
+### 1.2 The ∞₃ Boundary Condition
 
-The Z₃ orbifold structure imposes:
+The ∞-helix topology structure imposes:
 
 ```
 R(X + L_X) = e^{2πi/3} R(X)
@@ -72,7 +72,7 @@ This requires the phase to advance by 2π/3 over one period:
 
 ### 1.3 The Helix Ansatz
 
-The vacuum configuration satisfying the Z₃ boundary condition is:
+The vacuum configuration satisfying the ∞₃ boundary condition is:
 
 ```
 |R(X)| = v       (constant VEV)
@@ -86,7 +86,7 @@ k·L_X = 2π/3
 ∴ k = 2π/(3L_X)
 ```
 
-**Result:** The winding rate k is uniquely determined by Z₃ geometry:
+**Result:** The winding rate k is uniquely determined by ∞-helix geometry:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -149,7 +149,7 @@ V(v) = 0    (at the minimum of the Mexican hat)
 ### 2.3 Stability Condition
 
 The helix is stable when the energy is minimized with respect to the winding rate.
-Treating k as a variational parameter (within Z₃-allowed values k = 2πn/(3L_X)):
+Treating k as a variational parameter (within ∞₃-allowed values k = 2πn/(3L_X)):
 
 ```
 ∂ρ_E/∂k = v²(k + χ) = 0
@@ -200,7 +200,7 @@ number n ∈ ℤ is defined by:
 n = (1/2π) ∮ dφ = (1/2π)[φ(L_X) - φ(0)] = (1/2π)·(2π/3) = 1/3
 ```
 
-This fractional winding (1/3 per period) is characteristic of Z₃ structure.
+This fractional winding (1/3 per period) is characteristic of ∞-helix structure.
 After 3 periods (3L_X), the total winding is exactly 1.
 
 ### 3.2 The Quantized Holonomy
@@ -223,7 +223,7 @@ The holonomy becomes:
 U = exp(i·(2πv/(3L_X))·L_X) = exp(2πiv/3)
 ```
 
-For U to be a well-defined Z₃ element (U³ = 1), we require:
+For U to be a well-defined ∞₃ element (U³ = 1), we require:
 
 ```
 exp(2πiv/3)³ = exp(2πiv) = 1
@@ -233,7 +233,7 @@ exp(2πiv/3)³ = exp(2πiv) = 1
 
 ### 3.3 The Generation Counting Constraint
 
-Each Z₃ fixed point corresponds to one fermion generation. The fixed points are at:
+Each ∞-helix node corresponds to one fermion generation. The fixed points are at:
 
 ```
 X₀ = 0           (generation 1: e, u, d)
@@ -274,7 +274,7 @@ For this action to satisfy a minimal quantization condition (analogous to
 Bohr-Sommerfeld quantization):
 
 ```
-S_gen = 2π/3    (one Z₃ cell of action)
+S_gen = 2π/3    (one ∞₃ cell of action)
 
 ∴ 2πv²/9 = 2π/3
 
@@ -352,9 +352,9 @@ The constraint v·L_X = 3 admits a beautiful interpretation:
 **THEOREM (v·L_X Quantization):**
 
 In the STUR framework with:
-1. Z₃ orbifold structure on S¹ with period L_X
+1. ∞-helix topology structure on S¹ with period L_X
 2. R-field doublet with VEV |R| = v
-3. Helix winding satisfying Z₃ boundary conditions
+3. Helix winding satisfying ∞₃ boundary conditions
 4. XCRM-Yukawa coupling symmetry y = |χ|·L_X
 
 The product v·L_X is quantized:
@@ -363,13 +363,13 @@ The product v·L_X is quantized:
 v · L_X = N_gen = 3
 ```
 
-where N_gen is the number of fermion generations (= number of Z₃ fixed points).
+where N_gen is the number of fermion generations (= number of ∞-helix nodes).
 
 ### 4.2 Proof
 
-**Step 1: Establish the winding rate from Z₃ boundary condition.**
+**Step 1: Establish the winding rate from ∞₃ boundary condition.**
 
-The Z₃ boundary condition R(X + L_X) = e^{2πi/3}R(X) requires:
+The ∞₃ boundary condition R(X + L_X) = e^{2πi/3}R(X) requires:
 ```
 φ(X + L_X) - φ(X) = 2π/3
 
@@ -396,7 +396,7 @@ y = |χ|·L_X = (2π/(3L_X))·L_X = 2π/3                             □(Step 3
 
 **Step 4: Impose fermion localization consistency.**
 
-For stable fermion localization with one generation per Z₃ cell, the localization
+For stable fermion localization with one generation per ∞₃ cell, the localization
 parameter α = (y·v·L_X/2π)² must equal 1 (natural value). This requires:
 ```
 y·v·L_X = 2π
@@ -413,7 +413,7 @@ U = exp(2πiv/3) = exp(2πi·(3/L_X)/3) = exp(2πi/L_X)
 
 For L_X in natural units where L_X → L_X/M_GUT ≈ 1:
 ```
-U = exp(2πi) = 1 ∈ Z₃                                            □(Step 5)
+U = exp(2πi) = 1 ∈ ∞₃                                            □(Step 5)
 ```
 
 **Q.E.D.**
@@ -456,9 +456,9 @@ S_gen = 2πv²/9 = 2π/3  ⟹  v² = 3  (in units L_X = 1)
 
 ### 5.2 From Holonomy Eigenvalue Matching
 
-The Z₃ holonomy eigenvalues are {1, ω, ω²} where ω = e^{2πi/3}.
+The ∞-helix holonomy eigenvalues are {1, ω, ω²} where ω = e^{2πi/3}.
 
-For the R-field holonomy U = exp(2πiv/3) to match the Z₃ structure:
+For the R-field holonomy U = exp(2πiv/3) to match the ∞-helix structure:
 ```
 U = ω^m  for some m ∈ {0, 1, 2}
 
@@ -474,7 +474,7 @@ More generally: v·L_X = 3.
 
 ### 5.3 From Index Theorem Counting
 
-The Dirac operator on S¹/Z₃ has index:
+The Dirac operator on S¹/∞₃ has index:
 ```
 ind(D) = (1/2π) ∫_{S¹} F + (contribution from fixed points)
 ```
@@ -573,7 +573,7 @@ At the GUT scale where L_X ~ 1/M_GUT:
 
 The three "external inputs" are now related:
 ```
-v·L_X = 3           (from Z₃ quantization)
+v·L_X = 3           (from ∞₃ quantization)
 M_R ~ λ_hol/L_X     (from holonomy)
 L_X ~ f(M_Planck)   (from Casimir-holonomy balance)
 ```
@@ -587,7 +587,7 @@ L_X ~ f(M_Planck)   (from Casimir-holonomy balance)
 ### 8.1 The Derivation Chain
 
 ```
-Z₃ Boundary Condition: R(X + L_X) = e^{2πi/3}R(X)
+∞₃ Boundary Condition: R(X + L_X) = e^{2πi/3}R(X)
                     ↓
 Winding Rate Fixed: k = 2π/(3L_X)
                     ↓
@@ -604,7 +604,7 @@ Localization Consistency: α = (y·v·L_X/2π)² = 1
 
 ### 8.2 What Has Been Proven
 
-1. **The winding rate k is quantized** by Z₃: k = 2π/(3L_X)
+1. **The winding rate k is quantized** by ∞₃: k = 2π/(3L_X)
 
 2. **The XCRM coupling χ is determined** by stability: χ = -2π/(3L_X)
 
@@ -622,7 +622,7 @@ Localization Consistency: α = (y·v·L_X/2π)² = 1
 │  v · L_X = 3  is a DERIVED CONSTRAINT, not a free parameter.        │
 │                                                                     │
 │  It follows from:                                                   │
-│    • Z₃ winding quantization (topological)                          │
+│    • ∞-helix winding quantization (topological)                          │
 │    • Energy minimization (dynamical)                                │
 │    • XCRM-Yukawa symmetry (structural)                              │
 │    • Fermion localization (phenomenological)                        │
@@ -696,19 +696,19 @@ is the correct one.
 ### A.3 Comparison with Standard Orbifold Theories
 
 In standard orbifold compactifications, the VEV of a winding field is often
-constrained by the orbifold twist. For Z_N orbifolds:
+constrained by the orbifold twist. For ∞_N compactifications:
 ```
 v·L = N  (in appropriate units)
 ```
 
-For Z₃: v·L_X = 3. This matches standard results in string orbifold
+For ∞₃: v·L_X = 3. This matches standard results in string orbifold
 constructions and confirms the STUR derivation.
 
 ---
 
 ## References
 
-1. DERIVATION_CHAIN_HELIX.md — Complete STUR framework derivation
+1. DERIVATION_CHAIN_INFINITY.md — Complete STUR framework derivation
 2. ALPHA_PARAMETER_DERIVATION.md — Localization parameter analysis
 3. SCALE_UNIFICATION_ANALYSIS.md — Scale relationship analysis
 4. KAPPA_HIGHER_ORDER_CORRECTIONS.md — Higher-order corrections to κ

@@ -121,7 +121,7 @@ We seek the vacuum configuration. The helix ansatz is:
 phi(X) = k X        (linear winding with rate k to be determined)
 ```
 
-Boundary conditions for Z_3 twist:
+Boundary conditions for ∞-helix twist:
 ```
 R(X + L_X) = e^{2pi i/3} R(X)
 
@@ -445,7 +445,7 @@ about the normalization.
 ### 5.4 Constraint D: Geometric Matching
 
 **Physical motivation:** The fermion localization width sigma should match
-the Z_3 cell size 2pi/3 in phase space (natural geometric constraint).
+the ∞₃ cell size 2pi/3 in phase space (natural geometric constraint).
 
 ```
 sigma ~ 2pi/3
@@ -688,7 +688,7 @@ Or, if we define alpha' = 9 alpha = (3 y v L_X / 2pi)^2 = (y v L_X / (2pi/3))^2:
 -d^2f/dtheta^2 + alpha' (1 - cos(theta)) f = epsilon f
 ```
 
-The latter definition measures alpha' in units of the Z_3 cell (2pi/3) rather than
+The latter definition measures alpha' in units of the ∞₃ cell (2pi/3) rather than
 the full period (2pi).
 
 ### 7.4 Reconciliation with KAPPA_FIRST_PRINCIPLES_DERIVATION.md
@@ -712,7 +712,7 @@ effective potential strength, and kappa = (2pi/3)/sigma.
 | Quantity | Value | Source |
 |----------|-------|--------|
 | chi | -2pi/(3 L_X) | Helix stability (energy minimization) |
-| Winding k | 2pi/(3 L_X) | Z_3 boundary condition |
+| Winding k | 2pi/(3 L_X) | ∞₃ boundary condition |
 | |R| = v | Constant | Potential minimum |
 
 ### 8.2 Free Parameters (What IS NOT Determined)
@@ -787,7 +787,7 @@ The dimensionless localization parameter alpha = (y v L_X / 2pi)^2 is **NOT**
 uniquely determined by the current STUR framework. The framework fixes:
 
 1. The XCRM coupling chi = -2pi/(3 L_X) from helix stability
-2. The winding rate k = 2pi/(3 L_X) from Z_3 boundary conditions
+2. The winding rate k = 2pi/(3 L_X) from ∞₃ boundary conditions
 3. The R-field magnitude |R| = v from the potential minimum
 
 But the Yukawa coupling y remains a free parameter.
@@ -799,7 +799,7 @@ To uniquely determine alpha, one additional constraint is needed from:
 1. **XCRM-Yukawa symmetry:** y = |chi| L_X (from common origin)
 2. **Supersymmetry:** Relates superpotential and Kahler potential
 3. **Energy equipartition:** R-field and fermion energies balance
-4. **Geometric matching:** Localization fills Z_3 cell
+4. **Geometric matching:** Localization fills ∞₃ cell
 
 ### 9.3 If XCRM-Yukawa Symmetry Holds
 
@@ -913,9 +913,9 @@ constant requirements.
 
 ## References
 
-1. STUR Framework v3.6 (DERIVATION_CHAIN_HELIX.md)
+1. STUR Framework v3.6 (DERIVATION_CHAIN_INFINITY.md)
 2. KAPPA_FIRST_PRINCIPLES_DERIVATION.md
-3. HELIX_GEOMETRY_ANALYSIS.md
+3. INFINITY_INFINITY_HELIX_GEOMETRY_ANALYSIS.md
 4. Abramowitz & Stegun, "Handbook of Mathematical Functions", Ch. 20
 
 ---
