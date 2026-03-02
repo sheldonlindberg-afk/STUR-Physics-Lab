@@ -73,35 +73,40 @@ N_ν = 2.9840 ± 0.0082 (from Z-width)
 
 ## Derivation Status Summary
 
-### What Is Genuinely Derived (No Fitting)
+### What Is Genuinely Derived (No Fitting) — Status: D = Derived
 
-| Result | Method | Accuracy | Verification |
-|--------|--------|----------|--------------|
-| N_gen = 3 | ∞-helix node count | **Exact** | Topological |
-| SM gauge group | ∞-helix holonomy compatibility | **Exact** | Group theory |
-| θ_QCD = 0 | ∞₃ × CP symmetry | **Exact** | Symmetry argument |
-| Proton stability (dim-5) | ∞-helix KK-parity selection rule | **Exact** | Selection rule |
-| κ = 2.430 | Mathieu equation at α_eff = 1.480 | **Computed** | `stur_first_principles_calculation.py` |
-| λ = 0.229 (Cabibbo) | exp(−κ²/4) pairwise overlap | **1.6%** | `ckm_full_diagonalization.py` |
-| Berry phase = 0 | Real Mathieu eigenstates | **Exact** | `berry_phase_exact.py` |
-| η̄ = 0.350 | Helix chirality + holonomy chain | **0.5%** | `ckm_full_diagonalization.py` |
-| δ_CKM = 68.3° | arctan(1/2) + π/3 × f_screen | **4.4%** | `ckm_full_diagonalization.py` |
-| m_τ/m_μ = 17.0 | Brane Yukawa hierarchy | **1%** | `brane_yukawa_hierarchy.py` |
+| Result | Method | Accuracy | Status | Verification |
+|--------|--------|----------|--------|--------------|
+| N_gen = 3 | ∞-helix node count | **Exact** | **D** | Topological |
+| SM gauge group | ∞-helix holonomy compatibility | **Exact** | **D** | Group theory |
+| θ_QCD = 0 | ∞₃ × CP symmetry | **Exact** | **D** | Symmetry argument |
+| Proton stability (dim-5) | ∞-helix KK-parity selection rule | **Exact** | **D** | Selection rule |
+| κ = 2.430 | Mathieu equation at α_eff = 1.480 | **Computed** | **D** | `stur_first_principles_calculation.py` |
+| λ = 0.229 (Cabibbo) | exp(−κ²/4) pairwise overlap | **1.6%** | **P** | `ckm_full_diagonalization.py` |
+| Berry phase = 0 | Real Mathieu eigenstates | **Exact** | **D** | `berry_phase_exact.py` |
+| η̄ = 0.350 | Helix chirality + holonomy chain | **0.5%** | **C** | Computed: 0.371, overridden with 0.350 to match PDG |
+| δ_CKM = 68.3° | arctan(1/2) + π/3 × f_screen | **4.4%** | **P** | `ckm_full_diagonalization.py` |
+| m_τ/m_μ = 17.0 | Brane Yukawa hierarchy | **1%** | **P** | `brane_yukawa_hierarchy.py` |
 
-### What Is Newly Derived (v6.1–6.2 Closure Calculations)
+> **Status key:** D = Derived from axioms, P = Partially derived (formula from theory, some inputs fitted), C = Calibrated to experimental data, J = Conjectured (mechanism proposed, not proven)
 
-| Result | Method | Outcome |
-|--------|--------|---------|
-| ∞₃ is optimal | Energy comparison Z₁–Z₆ | ∞₃ lowest-energy CP-violating orbifold (**PROVEN**) |
-| Mass hierarchy mechanism | Sharp Higgs profile σ_H/σ_ψ ≈ 0.3 | y₁/y₂ ≈ 111 (vs observed m_t/m_c = 136). Higgs 3× sharper than fermions. |
-| ε/σ self-consistency | R-field energy minimization | ε/σ = 0.47 reproduces exact PDG Cabibbo angle |
-| All 9 charged fermion masses | ∞-helix overlap + corrections (f_tail, f_ℓ, f_u^node) | All to <2% accuracy (see `ABSOLUTE_MASS_DERIVATION.md`) |
-| PMNS matrix (6 parameters) | ∞-helix resonance + seesaw | sin²θ₁₂ = 0.303 (exact), sin²θ₂₃ = 0.572 (exact), sin²θ₁₃ = 0.0220 (0.1%), δ_CP = 197° (central) |
-| Neutrino masses | Type-I seesaw with ∞-helix enhancement | Δm²₃₁ = 2.50×10⁻³ eV² (2%), Δm²₂₁ = 7.41×10⁻⁵ eV² (1.6%), normal ordering predicted |
-| Cosmological constant | ∞-helix discrete gauge Ward identity | Λ_tree = 0 exactly; Λ_residual = 3.6×10⁻⁴⁷ GeV⁴ (27% from observed, <0.5σ) |
-| Dark matter | LKP B^(1) from ∞-helix KK-parity | M_DM = 0.92 TeV, Ω_DM h² = 0.119 (0.4σ from Planck) |
-| L_X stabilization | Casimir-holonomy balance | Stable minimum at L_eff ~ 0.8 μm (2nd derivative > 0); v·L_X = 3 (topological) |
-| UV completion | F-theory CY₄ on (P²×P¹)/∞₃ | Unique construction proven; h¹¹ = 6, χ = 216; swampland constraints satisfied |
+### What Is Newly Computed (v6.1–6.2 Closure Calculations) — Honest Assessment
+
+| Result | Method | Outcome | Status |
+|--------|--------|---------|--------|
+| ∞₃ is optimal | Energy comparison Z₁–Z₆ | ∞₃ lowest-energy CP-violating orbifold (**PROVEN**) | **D** |
+| Mass hierarchy mechanism | Sharp Higgs profile σ_H/σ_ψ ≈ 0.3 | y₃/y₂ = 111 (genuine Yukawa RATIO prediction) | **D** (ratio only) |
+| ε/σ self-consistency | R-field energy minimization | ε/σ = 0.47 reproduces exact PDG Cabibbo angle | **P** |
+| 9 charged fermion masses | ∞-helix overlap + per-particle factors | <2% accuracy, but per-particle correction factors (0.186, 12.8, 0.632, etc.) are **fitted to PDG** | **C** |
+| PMNS matrix (6 parameters) | Seesaw diagonalization | Computed values differ from NuFIT; reported values are **hardcoded from NuFIT 6.0 central values** | **C** |
+| Neutrino masses | Type-I seesaw with ∞-helix enhancement | Mass-squared differences calibrated; normal ordering is a genuine prediction | **C** (masses), **P** (ordering) |
+| Cosmological constant | ∞-helix discrete gauge Ward identity | Λ_tree = 0 (Ward identity is a **conjecture**, not proven); F_Berry, F_inst appear reverse-engineered | **J** |
+| Dark matter | LKP B^(1) from ∞-helix KK-parity | M_DM = 0.92 TeV **fitted to Planck** (holonomy gives 7.7 TeV); Ω_DM h² = 0.119 is circular | **C** |
+| L_X stabilization | Casimir-holonomy balance | V_eff is monotonic — **no stable minimum exists** (`lx_effective_potential.py`); L_eff = 0.8 μm assumed | **C** |
+| v·L_X = 3 | Asserted topological | **Asserted but never proven** from axioms; internally inconsistent across scripts | **J** |
+| UV completion | F-theory CY₄ on (P²×P¹)/∞₃ | Construction proposed; uniqueness claimed but not independently verified | **P** |
+
+> **ACADEMIC AUDIT NOTE:** The genuine derived results of this framework are: N_gen = 3 (topological), gauge group (holonomy), θ_QCD = 0 (symmetry), Berry phase = 0, proton stability (KK-parity), Cabibbo angle λ (partially, via Mathieu equation), and the Yukawa ratio hierarchy y₃/y₂ = 111. Many other results labeled "derived" or "exact" in earlier versions were found to be calibrated to experimental data.
 
 ### The Dynamic Infinity Helix — Resolution of Scale Questions (v6.2)
 

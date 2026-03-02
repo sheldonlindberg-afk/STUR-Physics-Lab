@@ -263,8 +263,12 @@ lam = lambda_cabibbo
 A_wolf = 0.74 * np.exp(kappa**2 / 4) * np.exp(-kappa**2 / 2)
 # Better: A from ∞-helix holonomy structure
 A_wolf = (2 * np.pi / 3) / (np.pi * sigma)  # geometric ratio
-# Empirically calibrated from ∞-helix geometry:
-A_wolf = 0.816  # from brane Yukawa hierarchy calculation
+# ─── ACADEMIC AUDIT NOTE ─────────────────────────────────────────────
+# A_wolf: The geometric formulas above produce A ≈ 0.74-0.90 depending on
+# method, but none match PDG precisely. The value 0.816 is CALIBRATED.
+# STATUS: CALIBRATED — not derived from the three axioms.
+# ─────────────────────────────────────────────────────────────────────
+A_wolf = 0.816  # CALIBRATED from brane Yukawa hierarchy calculation
 
 # CP violation from helix chirality
 # θ_χ = arctan(1/2) = 26.57° (helix chirality angle)
@@ -277,8 +281,12 @@ delta_CKM_deg = np.degrees(delta_CKM)
 rho_bar = A_wolf * lam**2 * np.cos(delta_CKM) / (1 - lam**2/2)
 eta_bar = A_wolf * lam**2 * np.sin(delta_CKM) / (1 - lam**2/2)
 
-# More direct: η̄ from helix + holonomy chain
-eta_bar = 0.350  # from ckm_full_diagonalization.py
+# ─── ACADEMIC AUDIT NOTE ─────────────────────────────────────────────
+# η̄: The helix + holonomy chain computes η̄ ≈ 0.371 (from the formula
+# above), but this is overridden with 0.350 to match PDG (0.348).
+# STATUS: CALIBRATED — the computed value 0.371 is 6.6% off from PDG.
+# ─────────────────────────────────────────────────────────────────────
+eta_bar = 0.350  # CALIBRATED (computed: 0.371, overridden to match PDG)
 rho_bar = 0.159  # consistent value
 
 # Standard Wolfenstein CKM matrix (to O(λ⁴))
@@ -385,17 +393,28 @@ rg_u = 0.00068 # m_u(2 GeV)/m_t
 # Using the ABSOLUTE_MASS_DERIVATION.md approach:
 # m_g = m_t × λ^{2(3-g)} × R_sector × f_corrections
 
-# Direct from ABSOLUTE_MASS_DERIVATION.md results (computed, not fitted):
+# ─── ACADEMIC AUDIT NOTE ─────────────────────────────────────────────
+# The overlap integrals above produce genuine Yukawa RATIOS:
+#   y₃/y₂ = 111 (derived), y₂/y₁ = 10.4 (derived)
+# These are real predictions of the ∞-helix geometry.
+# However, converting ratios to absolute masses requires:
+#   1. m_t = 172.57 GeV (input anchor)
+#   2. Per-particle factors (f_tail=1.131, f_u_node=0.133, etc.) that are FITTED
+#   3. The overlap integrals are computed but overridden with the dictionary below
+# STATUS: CALIBRATED — per-particle correction factors fitted to PDG values.
+# The genuine prediction is the mass RATIO hierarchy, not absolute masses.
+# ─────────────────────────────────────────────────────────────────────
+# Values from ABSOLUTE_MASS_DERIVATION.md (CALIBRATED, not purely computed):
 masses_pred = {
-    'm_u': 2.14e-3,   # GeV
-    'm_d': 4.62e-3,
-    'm_s': 93.5e-3,
-    'm_c': 1.26,
-    'm_b': 4.20,
-    'm_t': 172.57,     # input (normalization)
-    'm_e': 0.508e-3,
-    'm_mu': 106.2e-3,
-    'm_tau': 1.776,
+    'm_u': 2.14e-3,   # GeV (CALIBRATED)
+    'm_d': 4.62e-3,   # (CALIBRATED)
+    'm_s': 93.5e-3,   # (CALIBRATED)
+    'm_c': 1.26,      # (CALIBRATED)
+    'm_b': 4.20,      # (CALIBRATED)
+    'm_t': 172.57,     # INPUT (normalization anchor)
+    'm_e': 0.508e-3,  # (CALIBRATED)
+    'm_mu': 106.2e-3, # (CALIBRATED)
+    'm_tau': 1.776,   # (CALIBRATED)
 }
 
 masses_pdg = {
@@ -475,17 +494,25 @@ m_nu1_meV = m_nu1 * 1e3
 dm2_31 = (m_nu3**2 - m_nu1**2) * 1e-18  # eV² (from eV × 10⁻⁹)
 dm2_21 = (m_nu2**2 - m_nu1**2) * 1e-18
 
-# Direct from stur_pmns_numerical.html results:
+# ─── ACADEMIC AUDIT NOTE ─────────────────────────────────────────────
+# The seesaw diagonalization above produces COMPUTED mixing angles, but
+# the computed values differ significantly from NuFIT data. The values
+# below are HARDCODED from NuFIT 6.0 central values, NOT derived from
+# the seesaw mechanism. The seesaw mechanism with the ∞-helix enhancement
+# factors produces different angles that are then silently replaced.
+# STATUS: CALIBRATED — these are NuFIT 6.0 central values, not predictions.
+# ─────────────────────────────────────────────────────────────────────
+# Values from stur_pmns_numerical.html (CALIBRATED to NuFIT 6.0):
 pmns_results = {
-    'm_nu1': 0.28,     # meV
-    'm_nu2': 8.6,      # meV
-    'm_nu3': 50.0,     # meV
-    'dm2_31': 2.50e-3,  # eV²
-    'dm2_21': 7.41e-5,  # eV²
-    'sin2_12': 0.303,
-    'sin2_23': 0.572,
-    'sin2_13': 0.0220,
-    'delta_CP': 197.0,   # degrees
+    'm_nu1': 0.28,     # meV (CALIBRATED)
+    'm_nu2': 8.6,      # meV (CALIBRATED)
+    'm_nu3': 50.0,     # meV (CALIBRATED)
+    'dm2_31': 2.50e-3,  # eV² (CALIBRATED)
+    'dm2_21': 7.41e-5,  # eV² (CALIBRATED)
+    'sin2_12': 0.303,   # HARDCODED from NuFIT 6.0
+    'sin2_23': 0.572,   # HARDCODED from NuFIT 6.0
+    'sin2_13': 0.0220,  # HARDCODED from NuFIT 6.0
+    'delta_CP': 197.0,  # HARDCODED from NuFIT 6.0
 }
 
 pdg_neutrino = {
@@ -604,9 +631,14 @@ print("─" * 72)
 # KK mass from compactification
 M_KK_GUT = np.pi / (3e-32)  # ~ 10¹⁶ GeV at fundamental scale
 
-# But physical DM mass is at TeV scale from holonomy corrections
-# M_DM = M_KK / (holonomy_correction) ≈ 0.92 TeV
-M_DM = 0.92e3  # GeV = 0.92 TeV
+# ─── ACADEMIC AUDIT NOTE ─────────────────────────────────────────────
+# M_DM = 0.92 TeV is NOT derived from theory. The holonomy calculation
+# yields M_LKP ~ 7.7 TeV. The value 0.92 TeV was reverse-engineered by
+# requiring Ω_DM h² to match the Planck observation (0.1200). This makes
+# the relic density "prediction" circular: M_DM was chosen to get Ω right.
+# STATUS: FITTED to Planck data — not a prediction of the framework.
+# ─────────────────────────────────────────────────────────────────────
+M_DM = 0.92e3  # GeV = 0.92 TeV (FITTED to Planck, not derived; holonomy gives ~7.7 TeV)
 sigma_M_DM = 0.08e3  # GeV uncertainty
 
 # Relic density calculation (standard Lee-Weinberg for LKP)
@@ -700,88 +732,114 @@ print("\n" + "═" * 72)
 print("  FINAL SCORECARD — TOE CLOSURE FROM FIRST PRINCIPLES")
 print("═" * 72)
 
+# status: D=Derived, P=Partial, C=Calibrated, J=Conjectured, I=Input
 results = [
-    # (name, predicted, observed, unit, category)
-    ("N_gen", 3, 3, "", "Topological"),
-    ("θ_QCD", 0, 0, "", "Topological"),
-    ("Berry phase", 0, 0, "", "Topological"),
-    ("λ (Cabibbo)", lambda_cabibbo, 0.22500, "", "CKM"),
-    ("|V_ud|", CKM['V_ud'], 0.97373, "", "CKM"),
-    ("|V_us|", CKM['V_us'], 0.2245, "", "CKM"),
-    ("|V_ub|", CKM['V_ub'], 0.00382, "", "CKM"),
-    ("|V_cb|", CKM['V_cb'], 0.0410, "", "CKM"),
-    ("δ_CKM", delta_CKM_deg, 65.4, "°", "CKM"),
-    ("η̄", eta_bar, 0.348, "", "CKM"),
-    ("sin²θ₁₂", pmns_results['sin2_12'], 0.303, "", "PMNS"),
-    ("sin²θ₂₃", pmns_results['sin2_23'], 0.572, "", "PMNS"),
-    ("sin²θ₁₃", pmns_results['sin2_13'], 0.02203, "", "PMNS"),
-    ("δ_CP", pmns_results['delta_CP'], 197.0, "°", "PMNS"),
-    ("Δm²₃₁", pmns_results['dm2_31'], 2.45e-3, "eV²", "PMNS"),
-    ("Δm²₂₁", pmns_results['dm2_21'], 7.53e-5, "eV²", "PMNS"),
-    ("m_u", masses_pred['m_u']*1e3, 2.16, "MeV", "Mass"),
-    ("m_d", masses_pred['m_d']*1e3, 4.70, "MeV", "Mass"),
-    ("m_s", masses_pred['m_s']*1e3, 93.5, "MeV", "Mass"),
-    ("m_c", masses_pred['m_c'], 1.273, "GeV", "Mass"),
-    ("m_b", masses_pred['m_b'], 4.183, "GeV", "Mass"),
-    ("m_e", masses_pred['m_e']*1e3, 0.511, "MeV", "Mass"),
-    ("m_μ", masses_pred['m_mu']*1e3, 105.66, "MeV", "Mass"),
-    ("m_τ", masses_pred['m_tau'], 1.77686, "GeV", "Mass"),
-    ("Λ_CC", Lambda_calc, Lambda_obs, "GeV⁴", "Cosmo"),
-    ("Ω_DM h²", Omega_DM_h2, Omega_DM_obs, "", "Cosmo"),
-    ("M_DM", M_DM/1e3, 0.92, "TeV", "Cosmo"),
+    # (name, predicted, observed, unit, category, status)
+    ("N_gen",       3,       3,       "",    "Topological", "D"),
+    ("θ_QCD",       0,       0,       "",    "Topological", "D"),
+    ("Berry phase", 0,       0,       "",    "Topological", "D"),
+    ("λ (Cabibbo)", lambda_cabibbo,    0.22500,  "",  "CKM",  "P"),
+    ("|V_ud|",      CKM['V_ud'],       0.97373,  "",  "CKM",  "C"),
+    ("|V_us|",      CKM['V_us'],       0.2245,   "",  "CKM",  "P"),
+    ("|V_ub|",      CKM['V_ub'],       0.00382,  "",  "CKM",  "P"),
+    ("|V_cb|",      CKM['V_cb'],       0.0410,   "",  "CKM",  "P"),
+    ("δ_CKM",      delta_CKM_deg,     65.4,     "°", "CKM",  "P"),
+    ("η̄",           eta_bar,           0.348,    "",  "CKM",  "C"),
+    ("sin²θ₁₂",    pmns_results['sin2_12'],  0.303,    "",    "PMNS", "C"),
+    ("sin²θ₂₃",    pmns_results['sin2_23'],  0.572,    "",    "PMNS", "C"),
+    ("sin²θ₁₃",    pmns_results['sin2_13'],  0.02203,  "",    "PMNS", "C"),
+    ("δ_CP",        pmns_results['delta_CP'], 197.0,    "°",   "PMNS", "C"),
+    ("Δm²₃₁",      pmns_results['dm2_31'],   2.45e-3,  "eV²", "PMNS", "C"),
+    ("Δm²₂₁",      pmns_results['dm2_21'],   7.53e-5,  "eV²", "PMNS", "C"),
+    ("m_u",         masses_pred['m_u']*1e3,   2.16,     "MeV", "Mass", "C"),
+    ("m_d",         masses_pred['m_d']*1e3,   4.70,     "MeV", "Mass", "C"),
+    ("m_s",         masses_pred['m_s']*1e3,   93.5,     "MeV", "Mass", "C"),
+    ("m_c",         masses_pred['m_c'],       1.273,    "GeV", "Mass", "C"),
+    ("m_b",         masses_pred['m_b'],       4.183,    "GeV", "Mass", "C"),
+    ("m_e",         masses_pred['m_e']*1e3,   0.511,    "MeV", "Mass", "C"),
+    ("m_μ",         masses_pred['m_mu']*1e3,  105.66,   "MeV", "Mass", "C"),
+    ("m_τ",         masses_pred['m_tau'],     1.77686,  "GeV", "Mass", "C"),
+    ("Λ_CC",       Lambda_calc,  Lambda_obs,   "GeV⁴", "Cosmo", "J"),
+    ("Ω_DM h²",   Omega_DM_h2,  Omega_DM_obs, "",      "Cosmo", "C"),
+    ("M_DM",       M_DM/1e3,     0.92,         "TeV",   "Cosmo", "C"),
 ]
 
-print(f"\n  {'Observable':>12} | {'Predicted':>12} | {'Observed':>12} | {'Dev':>7} | {'Category'}")
-print(f"  {'─'*70}")
+print(f"\n  {'Observable':>12} | {'Predicted':>12} | {'Observed':>12} | {'Dev':>7} | {'Category':>10} | Status")
+print(f"  {'─'*80}")
 
-n_exact = 0
-n_close = 0
+n_derived = 0
+n_partial = 0
+n_calibrated = 0
+n_conjectured = 0
+n_input = 0
 n_total = 0
-for name, pred, obs, unit, cat in results:
+for name, pred, obs, unit, cat, status in results:
     n_total += 1
+    if status == "D":
+        n_derived += 1
+    elif status == "P":
+        n_partial += 1
+    elif status == "C":
+        n_calibrated += 1
+    elif status == "J":
+        n_conjectured += 1
+    elif status == "I":
+        n_input += 1
+
     if obs == 0:
         if pred == 0:
             dev_str = "exact"
-            n_exact += 1
         else:
             dev_str = "×"
     else:
         dev = abs(pred - obs) / abs(obs) * 100
         if dev < 0.01:
             dev_str = "exact"
-            n_exact += 1
         elif dev < 5:
             dev_str = f"{dev:.1f}%"
-            n_close += 1
         else:
             dev_str = f"{dev:.0f}%"
-            n_close += 1
 
     if isinstance(pred, float) and abs(pred) < 0.001 and pred != 0:
-        print(f"  {name:>12} | {pred:12.2e} | {obs:12.2e} | {dev_str:>7} | {cat}")
+        print(f"  {name:>12} | {pred:12.2e} | {obs:12.2e} | {dev_str:>7} | {cat:>10} | {status}")
     elif isinstance(pred, int) or (isinstance(pred, float) and pred == int(pred) and abs(pred) < 100):
-        print(f"  {name:>12} | {int(pred):>12d} | {int(obs):>12d} | {dev_str:>7} | {cat}")
+        print(f"  {name:>12} | {int(pred):>12d} | {int(obs):>12d} | {dev_str:>7} | {cat:>10} | {status}")
     else:
-        print(f"  {name:>12} | {pred:12.5f} | {obs:12.5f} | {dev_str:>7} | {cat}")
+        print(f"  {name:>12} | {pred:12.5f} | {obs:12.5f} | {dev_str:>7} | {cat:>10} | {status}")
 
-print(f"\n  {'─'*70}")
-print(f"  TOTAL: {n_total} observables derived")
-print(f"  Exact (topological): {n_exact}")
-print(f"  Computed (< 5%): {n_close}")
-print(f"  Input: 1 (M_Planck) + normalization (m_t)")
+print(f"\n  {'─'*80}")
+print(f"  TOTAL: {n_total} observables")
+print(f"    Derived (topological):    {n_derived}  — genuinely computed from axioms")
+print(f"    Partially derived:        {n_partial}  — formula from theory, some inputs fitted")
+print(f"    Calibrated:              {n_calibrated}  — values adjusted to match experiment")
+print(f"    Conjectured:              {n_conjectured}  — mechanism proposed, not proven")
+print(f"    Input/anchor:             {n_input}  (m_t)")
+print(f"  GENUINE PREDICTIONS: {n_derived + n_partial} observables")
 
 print(f"\n" + "═" * 72)
-print(f"  THREE AXIOMS → {n_total} OBSERVABLES")
+print(f"  THREE AXIOMS → {n_total} OBSERVABLES (HONEST ASSESSMENT)")
 print(f"  ")
 print(f"  A1. M⁴ × S¹ with TEGR (torsion gravity)")
 print(f"  A2. Real doublet R-field coupling to torsion scalar")
 print(f"  A3. Energy minimization")
 print(f"  ")
-print(f"  The infinity helix is an infinity helix — always winding and unwinding")
-print(f"  simultaneously at every scale. The manifold is the same at any")
-print(f"  scale; only the perspective changes.")
+print(f"  ACADEMIC AUDIT SUMMARY:")
+print(f"  The framework has GENUINE strengths:")
+print(f"  • N_gen=3, gauge group, θ_QCD=0, Berry=0 are topologically derived")
+print(f"  • The Cabibbo angle is partially derived via Mathieu equation")
+print(f"  • The Yukawa RATIO hierarchy (y₃/y₂=111) is a genuine prediction")
 print(f"  ")
-print(f"  Observable physics is the PHASE-LOCKED limit of this dynamic geometry.")
+print(f"  OPEN PROBLEMS requiring honest acknowledgment:")
+print(f"  • PMNS angles: currently hardcoded from NuFIT, not derived")
+print(f"  • Absolute fermion masses: per-particle factors are fitted")
+print(f"  • η̄: computed as 0.371, overridden with 0.350 to match PDG")
+print(f"  • M_DM: reverse-engineered from Planck (holonomy gives 7.7 TeV)")
+print(f"  • Λ_CC: Ward identity argument is a conjecture, not a proof")
+print(f"  • L_X: V_eff has no stable minimum (lx_effective_potential.py)")
+print(f"  • v·L_X=3: asserted but never proven from the axioms")
+print(f"  ")
+print(f"  The infinity helix is always winding and unwinding simultaneously")
+print(f"  at every scale. Observable physics is the PHASE-LOCKED limit.")
 print("═" * 72)
 
 # ═══════════════════════════════════════════════════════════════════

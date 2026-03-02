@@ -15,7 +15,7 @@
   <img src="https://img.shields.io/badge/Version-6.2-brightgreen" alt="Version: 6.2">
   <img src="https://img.shields.io/badge/PWA-Installable-green" alt="PWA: Installable">
   <img src="https://img.shields.io/badge/Pages-116+-blue" alt="Pages: 116+">
-  <img src="https://img.shields.io/badge/Observables_Derived-27-brightgreen" alt="Observables Derived: 27">
+  <img src="https://img.shields.io/badge/Observables_Computed-29_(9_derived)-blue" alt="Observables Computed: 29 (9 derived)">
   <img src="https://img.shields.io/badge/CKM_Matrix-1.6%25-orange" alt="CKM Matrix: 1.6%">
 </p>
 
@@ -23,7 +23,7 @@
 
 ## Overview
 
-**STUR** (Sheldon's Theory of Unified Resistance) is a Theory of Everything candidate that derives 27 Standard Model observables from three axioms and one input. The framework rests on:
+**STUR** (Sheldon's Theory of Unified Resistance) is a Theory of Everything candidate that computes 29 Standard Model observables from three axioms and one input. Of these, 5 are genuinely derived (topological), 4 are partially derived, 19 are calibrated to experimental data, and 1 is conjectured. The framework rests on:
 
 1. **TEGR** (Teleparallel Equivalent of General Relativity) -- gravity as torsion, not curvature
 2. **R-field doublet** -- a real scalar doublet on S^1 with the unique first-derivative XCRM coupling
@@ -43,63 +43,84 @@ The infinity helix is not static. It is a **dynamic infinity helix** -- always w
 
 ## Results Summary (v6.2)
 
-### Scorecard: 27 Observables from First Principles
+### Scorecard: 29 Observables — Honest Status Assessment
 
-**9 exact topological results (no parameters):**
+> **Status key:** **D** = Derived from axioms (no fitting), **P** = Partially derived (formula from theory, some inputs fitted), **C** = Calibrated to experimental data, **J** = Conjectured (mechanism proposed, not proven), **I** = Input/anchor
 
-| Observable | STUR Result | Method |
-|-----------|-------------|--------|
-| N_gen = 3 | Exact | ∞-helix node-point count |
-| SU(3) x SU(2) x U(1) | Exact | ∞-helix holonomy compatibility |
-| theta_QCD = 0 | Exact | ∞₃ x CP symmetry (no axion needed) |
-| Berry phase = 0 | Exact | Real Mathieu eigenstates |
-| Proton stability (dim-5) | Exact | ∞-helix KK-parity selection rule |
-| sin^2 theta_12 = 0.303 | Exact | ∞₃ resonance + seesaw |
-| sin^2 theta_23 = 0.572 | Exact | ∞₃ resonance + seesaw |
-| sin^2 theta_13 = 0.0220 | 0.1% | ∞₃ resonance + seesaw |
-| delta_CP(PMNS) = 197 deg | Central value | ∞₃ resonance + seesaw |
+**5 genuinely derived topological results (no parameters):**
 
-**12 quantitative predictions at < 2% accuracy:**
+| Observable | STUR Result | Method | Status |
+|-----------|-------------|--------|--------|
+| N_gen = 3 | Exact | ∞-helix node-point count | **D** |
+| SU(3) x SU(2) x U(1) | Exact | ∞-helix holonomy compatibility | **D** |
+| theta_QCD = 0 | Exact | ∞₃ x CP symmetry (no axion needed) | **D** |
+| Berry phase = 0 | Exact | Real Mathieu eigenstates | **D** |
+| Proton stability (dim-5) | Exact | ∞-helix KK-parity selection rule | **D** |
 
-| Observable | STUR | Measurement | Deviation |
-|-----------|------|-------------|-----------|
-| Cabibbo angle lambda | 0.229 | 0.22500 +/- 0.00067 | 1.6% |
-| \|V_ud\| | derived | 0.97373 +/- 0.00031 | 1.6% |
-| eta-bar (CP) | 0.350 | 0.348 +/- 0.010 | 0.5% |
-| m_t (top) | derived | 172.57 GeV | < 2% |
-| m_b (bottom) | derived | 4.183 GeV | 0.4% |
-| m_c (charm) | derived | 1.273 GeV | 1.0% |
-| m_s (strange) | derived | 93.5 MeV | 0.0% |
-| m_d (down) | derived | 4.70 MeV | 1.7% |
-| m_u (up) | derived | 2.16 MeV | 0.9% |
-| m_mu / m_tau | 17.0 | 16.8 | 1% |
-| Delta m^2_31 | 2.50 x 10^-3 eV^2 | 2.453 x 10^-3 | 2% |
-| Delta m^2_21 | 7.41 x 10^-5 eV^2 | 7.53 x 10^-5 | 1.6% |
+**4 partially derived results:**
 
-**3 predictions at < 5% accuracy:**
+| Observable | STUR | Measurement | Deviation | Status |
+|-----------|------|-------------|-----------|--------|
+| Cabibbo angle lambda | 0.229 | 0.22500 +/- 0.00067 | 1.6% | **P** — Mathieu equation genuine, α_eff chain has unjustified f_2loop |
+| delta_CKM | 68.3 deg | 65.4 deg | 4.4% | **P** — formula from helix chirality, f_screen genuine |
+| \|V_ub\| | derived | (3.82 +/- 0.20) x 10^-3 | < 5% | **P** — follows from λ (partial) and A (calibrated) |
+| \|V_cb\| | derived | (41.0 +/- 1.4) x 10^-3 | < 5% | **P** — follows from λ (partial) and A (calibrated) |
 
-| Observable | STUR | Measurement | Deviation |
-|-----------|------|-------------|-----------|
-| delta_CKM | 68.3 deg | 65.4 deg | 4.4% |
-| \|V_ub\| | derived | (3.82 +/- 0.20) x 10^-3 | < 5% |
-| \|V_cb\| | derived | (41.0 +/- 1.4) x 10^-3 | < 5% |
+**19 calibrated results (values adjusted to match experiment):**
 
-**Cosmological constant:**
+| Observable | STUR | Measurement | Deviation | Status |
+|-----------|------|-------------|-----------|--------|
+| eta-bar (CP) | 0.350 | 0.348 +/- 0.010 | 0.5% | **C** — computed value is 0.371, overridden with 0.350 |
+| \|V_ud\| | derived | 0.97373 +/- 0.00031 | 1.6% | **C** — follows from calibrated λ, A |
+| m_t (top) | 172.57 GeV | 172.57 GeV | input | **I** — normalization anchor |
+| m_b (bottom) | derived | 4.183 GeV | 0.4% | **C** — per-particle correction factors fitted to PDG |
+| m_c (charm) | derived | 1.273 GeV | 1.0% | **C** — per-particle correction factors fitted to PDG |
+| m_s (strange) | derived | 93.5 MeV | 0.0% | **C** — per-particle correction factors fitted to PDG |
+| m_d (down) | derived | 4.70 MeV | 1.7% | **C** — per-particle correction factors fitted to PDG |
+| m_u (up) | derived | 2.16 MeV | 0.9% | **C** — per-particle correction factors fitted to PDG |
+| m_mu / m_tau | 17.0 | 16.8 | 1% | **P** — Yukawa ratio y₃/y₂ = 111 is genuine |
+| sin^2 theta_12 = 0.303 | 0.303 | 0.303 | exact | **C** — hardcoded from NuFIT 6.0, not derived from seesaw |
+| sin^2 theta_23 = 0.572 | 0.572 | 0.572 | exact | **C** — hardcoded from NuFIT 6.0, not derived from seesaw |
+| sin^2 theta_13 = 0.0220 | 0.0220 | 0.02203 | 0.1% | **C** — hardcoded from NuFIT 6.0, not derived from seesaw |
+| delta_CP(PMNS) = 197 deg | 197 | 197 | central | **C** — hardcoded from NuFIT 6.0, not derived from seesaw |
+| Delta m^2_31 | 2.50 x 10^-3 eV^2 | 2.453 x 10^-3 | 2% | **C** — calibrated neutrino mass parameters |
+| Delta m^2_21 | 7.41 x 10^-5 eV^2 | 7.53 x 10^-5 | 1.6% | **C** — calibrated neutrino mass parameters |
+| M_DM | 0.92 +/- 0.08 TeV | consistent with limits | — | **C** — holonomy gives 7.7 TeV; 0.92 TeV reverse-engineered from Planck |
+| Omega_DM h^2 | 0.119 +/- 0.002 | 0.1200 +/- 0.0012 (Planck) | 0.8% | **C** — circular (follows from fitted M_DM) |
+
+**1 conjectured result:**
 
 | Observable | STUR | Measurement | Status |
 |-----------|------|-------------|--------|
-| Lambda | (3.6 +/- 2.6) x 10^-47 GeV^4 | (2.846 +/- 0.076) x 10^-47 GeV^4 | 27% (< 0.5 sigma) |
+| Lambda (CC) | (3.6 +/- 2.6) x 10^-47 GeV^4 | (2.846 +/- 0.076) x 10^-47 GeV^4 | **J** — Ward identity is a conjecture, not a proven theorem; F_Berry and F_inst appear reverse-engineered |
 
-The tree-level cosmological constant vanishes exactly via the ∞₃ discrete gauge Ward identity. The residual arises from ∞₃-breaking sources. This represents closure of the cosmological constant problem -- an improvement from 10^123 fine-tuning to 27% agreement.
+**Cosmological constant — honest assessment:**
 
-**Dark matter:**
+The tree-level CC is claimed to vanish via an ∞₃ discrete gauge Ward identity, but this Ward identity is a **conjecture** — the Krauss-Wilczek mechanism requires the discrete symmetry to be gauged (from a parent U(1)_X), and the proof that vacuum energy transforms nontrivially under ∞₃ has not been established. The suppression factors F_Berry = 1/(4π²) and F_inst = 1/3 appear reverse-engineered to reach the observed value.
+
+**Dark matter — honest assessment:**
 
 | Observable | STUR | Measurement | Status |
 |-----------|------|-------------|--------|
 | Candidate | B^(1) (LKP) | -- | Testable at LHC/future colliders |
-| M_DM | 0.92 +/- 0.08 TeV | consistent with limits | Predicted |
-| Omega_DM h^2 | 0.119 +/- 0.002 | 0.1200 +/- 0.0012 (Planck) | 0.8% (0.4 sigma) |
+| M_DM | 0.92 +/- 0.08 TeV | consistent with limits | **C** — fitted to Planck (holonomy predicts 7.7 TeV) |
+| Omega_DM h^2 | 0.119 +/- 0.002 | 0.1200 +/- 0.0012 (Planck) | **C** — circular (M_DM chosen to reproduce this) |
 | sigma_SI | ~ 10^-47 cm^2 | within LZ/XENONnT reach | Testable |
+
+**Genuine strengths of the framework:**
+- N_gen = 3, gauge group, θ_QCD = 0, Berry = 0, proton stability are topologically derived
+- The Cabibbo angle is partially derived via the Mathieu equation
+- The Yukawa ratio hierarchy (y₃/y₂ = 111) is a genuine geometric prediction
+- Normal neutrino ordering is a structural prediction
+
+**Open problems requiring resolution:**
+- PMNS angles: seesaw diagonalization produces values that differ from NuFIT; currently hardcoded
+- Absolute fermion masses: per-particle correction factors are fitted, not derived
+- η̄: theory computes 0.371, but 0.350 is used to match PDG
+- M_DM: holonomy predicts 7.7 TeV, not the claimed 0.92 TeV
+- Λ_CC: Ward identity argument is conjectural; suppression factors appear tuned
+- L_X: effective potential has no stable minimum (`lx_effective_potential.py`)
+- v·L_X = 3: asserted but never proven from the three axioms
 
 ---
 
