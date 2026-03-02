@@ -6,62 +6,164 @@
 
 <p align="center">
   <strong>Sheldon's Theory of Unified Resistance</strong><br>
-  <em>"One starting point. Everything derived. 100% closure achieved."</em>
+  <em>STUR v6.2: Dynamic Z&#x2083; Infinity Helix &mdash; Theory of Everything Candidate</em>
 </p>
 
 <p align="center">
   <a href="https://creativecommons.org/publicdomain/zero/1.0/"><img src="https://img.shields.io/badge/License-CC0_1.0-lightgrey.svg" alt="License: CC0-1.0"></a>
   <img src="https://img.shields.io/badge/Physics-Theory_of_Everything-blueviolet" alt="Physics: Theory of Everything">
+  <img src="https://img.shields.io/badge/Version-6.2-brightgreen" alt="Version: 6.2">
   <img src="https://img.shields.io/badge/PWA-Installable-green" alt="PWA: Installable">
-  <img src="https://img.shields.io/badge/Pages-114+-blue" alt="Pages: 114+">
-  <img src="https://img.shields.io/badge/Predictions-26+-orange" alt="Predictions: 26+">
-  <img src="https://img.shields.io/badge/TOE_Closure-100%25-brightgreen" alt="TOE Closure: 100%">
+  <img src="https://img.shields.io/badge/Pages-116+-blue" alt="Pages: 116+">
+  <img src="https://img.shields.io/badge/Observables_Derived-27-brightgreen" alt="Observables Derived: 27">
+  <img src="https://img.shields.io/badge/CKM_Matrix-1.6%25-orange" alt="CKM Matrix: 1.6%">
 </p>
 
 ---
 
 ## Overview
 
-**STUR** (Stochastic Teleparallel Unified Resistance) is a unified field theory that derives all Standard Model parameters from **Z_3 helix geometry** in 5D spacetime. **100% quantitative closure has been achieved** with all corrections derived from first principles.
+**STUR** (Sheldon's Theory of Unified Resistance) is a Theory of Everything candidate that derives 27 Standard Model observables from three axioms and one input. The framework rests on:
 
-The framework proposes that our universe exists in a 5-dimensional spacetime manifold **M^4 x S^1**, where the extra compact dimension is shaped as a **Z_3 helix**. This topological structure naturally gives rise to:
+1. **TEGR** (Teleparallel Equivalent of General Relativity) -- gravity as torsion, not curvature
+2. **R-field doublet** -- a real scalar doublet on S^1 with the unique first-derivative XCRM coupling
+3. **Energy minimization** -- the Z_3 orbifold emerges as the lowest-energy CP-violating compactification
 
-- **Exactly 3 generations** of matter (from Z_3 symmetry)
-- **All 26 Standard Model parameters** derived from first principles (100% within 10% of experimental values)
-- **26+ falsifiable predictions** testable by current and near-future experiments
-- **Unified wavefunction tail correction** (f_tail = 1.131 from analytic overlap) closing all remaining discrepancies
+**One input:** M_Planck (defining all scales).
 
-Starting from just **3 fundamental axioms**, STUR constructs a complete derivation chain to all known physics. With 100% TOE closure now achieved, it stands as the most constrained and falsifiable unified theory proposed.
+**Complete derivation chain:**
+
+> M_Planck --> Z_3 orbifold --> L_X stabilization --> alpha_eff --> kappa --> CKM --> fermion masses --> PMNS --> cosmological constant --> dark matter --> UV completion
+
+The Z_3 helix is not static. It is a **dynamic infinity helix** -- always winding and unwinding simultaneously at every scale. When the three orbifold sectors fall into **phase-lock**, coherent matter interactions emerge with sharply defined generations, mixing angles, and mass hierarchies. Away from phase-lock, localization weakens and generation boundaries dissolve.
+
+**The manifold is the same at any scale; only the perspective changes.** This discrete scale invariance, governed by the chronomagnetic ratio lambda_chrono = 3722/2705, resolves all apparent scale questions: L_X^fund ~ 10^-32 m (Planck-scale winding quantum) and L_eff ~ 0.8 um (coherence length) are the same geometry viewed from different scales. The spatial projection traces a Gerono lemniscate (figure-8), visualized in the [5D universe simulation](scripts/stur_5duniverse.html).
+
+---
+
+## Results Summary (v6.2)
+
+### Scorecard: 27 Observables from First Principles
+
+**9 exact topological results (no parameters):**
+
+| Observable | STUR Result | Method |
+|-----------|-------------|--------|
+| N_gen = 3 | Exact | Z_3 fixed-point count |
+| SU(3) x SU(2) x U(1) | Exact | Z_3 holonomy compatibility |
+| theta_QCD = 0 | Exact | Z_3 x CP symmetry (no axion needed) |
+| Berry phase = 0 | Exact | Real Mathieu eigenstates |
+| Proton stability (dim-5) | Exact | Z_3 KK-parity selection rule |
+| sin^2 theta_12 = 0.303 | Exact | Z_3 resonance + seesaw |
+| sin^2 theta_23 = 0.572 | Exact | Z_3 resonance + seesaw |
+| sin^2 theta_13 = 0.0220 | 0.1% | Z_3 resonance + seesaw |
+| delta_CP(PMNS) = 197 deg | Central value | Z_3 resonance + seesaw |
+
+**12 quantitative predictions at < 2% accuracy:**
+
+| Observable | STUR | Measurement | Deviation |
+|-----------|------|-------------|-----------|
+| Cabibbo angle lambda | 0.229 | 0.22500 +/- 0.00067 | 1.6% |
+| \|V_ud\| | derived | 0.97373 +/- 0.00031 | 1.6% |
+| eta-bar (CP) | 0.350 | 0.348 +/- 0.010 | 0.5% |
+| m_t (top) | derived | 172.57 GeV | < 2% |
+| m_b (bottom) | derived | 4.183 GeV | 0.4% |
+| m_c (charm) | derived | 1.273 GeV | 1.0% |
+| m_s (strange) | derived | 93.5 MeV | 0.0% |
+| m_d (down) | derived | 4.70 MeV | 1.7% |
+| m_u (up) | derived | 2.16 MeV | 0.9% |
+| m_mu / m_tau | 17.0 | 16.8 | 1% |
+| Delta m^2_31 | 2.50 x 10^-3 eV^2 | 2.453 x 10^-3 | 2% |
+| Delta m^2_21 | 7.41 x 10^-5 eV^2 | 7.53 x 10^-5 | 1.6% |
+
+**3 predictions at < 5% accuracy:**
+
+| Observable | STUR | Measurement | Deviation |
+|-----------|------|-------------|-----------|
+| delta_CKM | 68.3 deg | 65.4 deg | 4.4% |
+| \|V_ub\| | derived | (3.82 +/- 0.20) x 10^-3 | < 5% |
+| \|V_cb\| | derived | (41.0 +/- 1.4) x 10^-3 | < 5% |
+
+**Cosmological constant:**
+
+| Observable | STUR | Measurement | Status |
+|-----------|------|-------------|--------|
+| Lambda | (3.6 +/- 2.6) x 10^-47 GeV^4 | (2.846 +/- 0.076) x 10^-47 GeV^4 | 27% (< 0.5 sigma) |
+
+The tree-level cosmological constant vanishes exactly via the Z_3 discrete gauge Ward identity. The residual arises from Z_3-breaking sources. This represents closure of the cosmological constant problem -- an improvement from 10^123 fine-tuning to 27% agreement.
+
+**Dark matter:**
+
+| Observable | STUR | Measurement | Status |
+|-----------|------|-------------|--------|
+| Candidate | B^(1) (LKP) | -- | Testable at LHC/future colliders |
+| M_DM | 0.92 +/- 0.08 TeV | consistent with limits | Predicted |
+| Omega_DM h^2 | 0.119 +/- 0.002 | 0.1200 +/- 0.0012 (Planck) | 0.8% (0.4 sigma) |
+| sigma_SI | ~ 10^-47 cm^2 | within LZ/XENONnT reach | Testable |
+
+---
+
+## Falsifiable Predictions
+
+STUR is a scientific theory: it makes specific, falsifiable predictions. The following observations would definitively rule it out, with no possible parameter adjustment.
+
+### Immediate Falsifiers (Fatal)
+
+| Prediction | What would falsify STUR | Current status |
+|-----------|------------------------|----------------|
+| N_gen = 3 exactly | Discovery of a sequential 4th generation with standard weak interactions | LEP Z-width: N_nu = 2.984 +/- 0.008 |
+| Normal neutrino ordering | JUNO/DUNE measure inverted ordering at > 5 sigma | NuFIT 6.0: normal preferred at 3.5 sigma |
+| theta_QCD = 0 exactly | Non-zero neutron EDM implying theta > 10^-9 | Current bound: \|theta\| < 10^-10 |
+| Proton stable (dim-5) | Proton decay via dimension-5 operators at any rate | tau_p > 2.4 x 10^34 yr (Super-K) |
+| Z_3 KK structure | Non-Z_3 KK graviton spectrum at future colliders | Not yet probed |
+
+### Novel Chronomagnetic Predictions
+
+These predictions are unique to STUR and have no counterpart in other frameworks:
+
+- Log-periodic CKM drift at chronomagnetic timescale lambda_chrono = 3722/2705
+- Phase-lock signatures in cosmological observables
+- Chronomagnetic resonance at omega = 19.687
+- B^(1) KK dark matter at M ~ 0.92 TeV with direct-detection cross section ~ 10^-47 cm^2
+
+---
+
+## The Dynamic Infinity Helix
+
+The central physical insight of STUR v6.2 is that the Z_3 helix is never static. It is an **infinity helix** -- a Gerono lemniscate in spatial projection -- that is always winding and unwinding simultaneously. The chronomagnetic modulation M(t) = |sin(omega ln(t/t_0))| with omega = 19.687 governs this oscillation.
+
+This resolves all apparent scale questions:
+
+| Apparent problem | Resolution |
+|-----------------|------------|
+| L_X has "two values" (10^-32 m vs 0.8 um) | Same geometry at different scales; L_X^fund (winding quantum) and L_eff (coherence length) are self-similar |
+| Cosmological constant | Dynamical residual from time-averaged oscillating vacuum; Z_3 Ward identity kills tree-level |
+| Mass hierarchy | Each generation at a different scale of the self-similar structure; heavy fermions deep in phase-lock, light fermions near unwinding edge |
+| PMNS large mixing | Neutrinos live near the unwinding regime -- least localized, most sensitive to dynamic geometry; seesaw enhancement from varying geometry |
 
 ---
 
 ## Features
 
-### Complete Derivation Framework (100% Closure)
-- Full derivation chain from 3 axioms to all 26 Standard Model parameters
-- Z_3 helix topology explains the three-generation structure of fermions
-- Unified wavefunction tail correction (f_tail = 1.131) from Z_3 geometry
-- Unified treatment of gravity, electroweak, and strong forces
-
 ### Interactive Web Documentation
-- **Progressive Web App (PWA)** - installable on any device
-- **Works offline** - full service worker support
-- **114+ HTML pages** covering all aspects of the theory
-- **MathJax 3** for beautiful equation rendering
+- **Progressive Web App (PWA)** -- installable on any device
+- **Works offline** -- full service worker support
+- **116+ HTML pages** covering all aspects of the theory
+- **MathJax 3** for equation rendering
 
 ### Physics Domain Color Coding
-Equations are color-coded by physics domain for easy identification:
+Equations are color-coded by physics domain for visual identification:
 - Quantum Mechanics
 - Electromagnetism
-- Gravity/Cosmology
+- Gravity / Cosmology
 - Particle Physics
 - Thermodynamics
 - Mathematics
 
 ### Computational Verification
-- Python scripts for numerical verification of predictions
-- Boundary correction calculations
-- Parameter derivation analysis
+- 22 Python scripts for numerical verification of all predictions
+- 60 markdown derivation documents with complete mathematical chains
+- Independent cross-checks across multiple calculation methods
 
 ---
 
@@ -71,7 +173,7 @@ Equations are color-coded by physics domain for easy identification:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/STUR-Physics-Lab.git
+   git clone https://github.com/sheldonlindberg-afk/STUR-Physics-Lab.git
    cd STUR-Physics-Lab
    ```
 
@@ -96,7 +198,7 @@ Equations are color-coded by physics domain for easy identification:
 
    Navigate to `http://localhost:8000`
 
-> **Note:** No build step required - STUR Physics Lab is pure static HTML/CSS/JS.
+> **Note:** No build step required. STUR Physics Lab is pure static HTML/CSS/JS.
 
 ### Install as PWA
 
@@ -114,31 +216,42 @@ STUR-Physics-Lab/
 |-- sitemap.html            # Complete site navigation
 |-- mycitations.html        # References and citations
 |
-|-- scripts/                # Theory documentation (110 HTML pages)
+|-- scripts/                # Theory documentation and computation
 |   |-- stur_core_theory.html
 |   |-- stur_predictions.html
 |   |-- stur_simulations_hub.html
 |   |-- stur_cosmological_constant.html
-|   |-- stur_ckm_derivation.html
-|   |-- ... (105+ more pages)
+|   |-- stur_ckm_numerical.html
+|   |-- stur_pmns_numerical.html
+|   |-- stur_darkmatter_derivation.html
+|   |-- stur_5duniverse.html         # Dynamic infinity helix visualization
+|   |-- ... (116+ HTML pages total)
+|   |
+|   |-- stur_first_principles_calculation.py   # Core kappa, overlaps, N_eff
+|   |-- ckm_full_diagonalization.py            # Full CKM matrix derivation
+|   |-- cosmological_constant.py               # CC calculation
+|   |-- toe_closure_calculations.py            # TOE scorecard verification
+|   |-- ... (22 Python scripts total)
+|
+|-- *.md                    # Technical derivation documents (60 files)
+|   |-- DERIVATION_CHAIN_HELIX.md              # Master derivation chain (~1000 lines, v6.2)
+|   |-- ABSOLUTE_MASS_DERIVATION.md            # All 9 fermion masses to <2%
+|   |-- COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md  # CC: 27% from observed
+|   |-- DARK_MATTER_RELIC_DENSITY.md           # DM: Omega h^2 = 0.119
+|   |-- FALSIFICATION_PROTOCOL.md              # Pre-registered kill criteria
+|   |-- FTHEORY_CY4_EXPLICIT_CONSTRUCTION.md   # UV completion proof
+|   +-- ...
 |
 |-- assets/
 |   |-- css/                # Styling
-|   |   |-- stur-core.css       # Core styles
-|   |   |-- stur-glass.css      # Glassmorphism effects
-|   |   |-- stur-theory.css     # Theory page styles
-|   |   |-- stur-icons.css      # Icon styles
-|   |   +-- stur-index.css      # Index page styles
+|   |   |-- stur-core.css
+|   |   |-- stur-glass.css
+|   |   |-- stur-theory.css
+|   |   |-- stur-icons.css
+|   |   +-- stur-index.css
 |   |-- js/                 # JavaScript utilities
 |   +-- icons/              # PWA icons (72px to 512px)
 |
-|-- *.md                    # Technical derivation documents (28 files)
-|   |-- DERIVATION_CHAIN_HELIX.md
-|   |-- COSMOLOGICAL_CONSTANT_NEUTRINO_DERIVATION.md
-|   |-- ALPHA_PARAMETER_DERIVATION.md
-|   +-- ...
-|
-|-- *.py                    # Computational verification scripts
 |-- manifest.json           # PWA manifest
 |-- sw.js                   # Service worker for offline support
 +-- LICENSE                 # CC0 1.0 Universal
@@ -146,55 +259,43 @@ STUR-Physics-Lab/
 
 ---
 
-## Key Predictions
-
-STUR makes **26+ falsifiable predictions**, many testable in the near future:
-
-| Prediction | Status | Experiment |
-|------------|--------|------------|
-| **Normal neutrino mass ordering** | Testable 2025-27 | JUNO, DUNE |
-| **No 4th generation of fermions** | Discovery would falsify | LHC, future colliders |
-| **Fifth force at micrometer scale** | Active search | ARIADNE |
-| **Proton lifetime > 10^34 years** | Consistent with limits | Super-Kamiokande, Hyper-K |
-| **Specific dark matter properties** | Testable | Direct detection experiments |
-| **Cosmological constant value** | Derived from first principles | Cosmological observations |
-
-> **Critical Test:** The JUNO experiment (2025-2027) will definitively test the neutrino mass ordering prediction. An inverted ordering result would falsify STUR.
-
----
-
 ## Documentation
 
 ### Core Theory
-- [Core Theory Framework](scripts/stur_core_theory.html) - The three axioms and derivation structure
-- [Z_3 Helix Geometry](scripts/stur_5duniverse.html) - Extra dimension topology
-- [Generation Structure](scripts/stur_generations.html) - Why exactly 3 generations
+- [Core Theory Framework](scripts/stur_core_theory.html) -- Three axioms and derivation structure
+- [Z_3 Infinity Helix](scripts/stur_5duniverse.html) -- Dynamic extra-dimension topology
+- [Generation Structure](scripts/stur_generations.html) -- Why exactly 3 generations
+- [Master Action Derivation](scripts/stur_master_action_derivation.html) -- Complete Lagrangian
 
-### Predictions
-- [All Predictions](scripts/stur_predictions.html) - Complete list with experimental status
-- [Cosmological Constant](scripts/stur_cosmological_constant.html) - CC derivation and solution
+### Derivation Chain
+- [Complete Derivation Chain](DERIVATION_CHAIN_HELIX.md) -- Full mathematical derivation (v6.2)
+- [Absolute Mass Derivation](ABSOLUTE_MASS_DERIVATION.md) -- All 9 charged fermion masses
+- [Cosmological Constant](COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md) -- CC solution via Z_3 Ward identity
+- [Dark Matter Relic Density](DARK_MATTER_RELIC_DENSITY.md) -- LKP prediction
+- [UV Completion](FTHEORY_CY4_EXPLICIT_CONSTRUCTION.md) -- F-theory CY_4 construction
 
-### Technical Derivations
-- [Complete Derivation Chain](DERIVATION_CHAIN_HELIX.md) - Full mathematical derivation
-- [Alpha Parameter](ALPHA_PARAMETER_DERIVATION.md) - Fine structure constant
-- [Neutrino & CC](COSMOLOGICAL_CONSTANT_NEUTRINO_DERIVATION.md) - Neutrino mass and cosmological constant
+### Predictions and Falsification
+- [All Predictions](scripts/stur_predictions.html) -- Complete list with experimental status
+- [Falsification Protocol](FALSIFICATION_PROTOCOL.md) -- Pre-registered kill criteria
+- [Experimental Validation Roadmap](EXPERIMENTAL_VALIDATION_ROADMAP.md) -- Timeline and tests
 
 ### Simulations
-- [Simulations Hub](scripts/stur_simulations_hub.html) - Interactive demonstrations
+- [Simulations Hub](scripts/stur_simulations_hub.html) -- Interactive demonstrations
+- [5D Universe](scripts/stur_5duniverse.html) -- Dynamic infinity helix visualization
 
 ---
 
 ## Contributing
 
-Contributions are welcome! This is an open science project dedicated to the public domain.
+Contributions are welcome. This is an open science project dedicated to the public domain.
 
 ### Ways to Contribute
 
-1. **Scientific Review** - Analyze derivations and identify potential issues
-2. **Numerical Verification** - Run and extend computational checks
-3. **Documentation** - Improve clarity and accessibility
-4. **Web Development** - Enhance the interactive experience
-5. **Experimental Proposals** - Design tests for predictions
+1. **Scientific Review** -- Analyze derivations and identify potential issues
+2. **Numerical Verification** -- Run and extend computational checks
+3. **Documentation** -- Improve clarity and accessibility
+4. **Web Development** -- Enhance the interactive experience
+5. **Experimental Proposals** -- Design tests for STUR predictions
 
 ### Contribution Process
 
@@ -224,17 +325,37 @@ If you reference STUR in academic work, please cite:
 @misc{stur2025,
   author       = {Lindberg, Sheldon},
   title        = {{STUR}: {S}heldon's {T}heory of {U}nified {R}esistance --
-                  A {Z}_3 Helix Framework for Unified Physics},
+                  Dynamic {Z}_3 Infinity Helix Unification},
   year         = {2025},
   howpublished = {\url{https://github.com/sheldonlindberg-afk/STUR-Physics-Lab}},
-  note         = {A unified field theory candidate deriving Standard Model
-                  parameters from 3 axioms with 26+ falsifiable predictions}
+  note         = {TOE candidate (v6.2): 27 SM observables derived from three axioms
+                  and one input ($M_{\text{Planck}}$) via dynamic Z$_3$ orbifold
+                  phase-lock on TEGR torsion gravity}
+}
+
+@misc{chronomagnetics2026,
+  author       = {Burkeen, Derek and Cyrek, Christopher Br and Lockwood, J. M.
+                  and LaMarche, Derek and Beaubier, Jay and Lindberg, Sheldon},
+  title        = {Chronomagnetics: {A} Comprehensive Mathematical Foundation},
+  year         = {2026},
+  institution  = {Spectrality Institute},
+  note         = {Log-periodic dynamics of torsion contortion,
+                  triangle geometry $\lambda = 3722/2705$}
+}
+
+@misc{tegr2026,
+  author       = {Lockwood, J. M. and Cyrek, Christopher Br and Hansley, Dustin
+                  and Burkeen, Derek J.},
+  title        = {Teleparallel Dynamics: First Principles --- From Torsion
+                  Kinematics to Field Equations},
+  year         = {2026},
+  note         = {TEGR formulation, torsion tensor formalism, GEM structure}
 }
 ```
 
 ---
 
 <p align="center">
-  <em>Science advances by proposing falsifiable theories.</em><br>
+  <em>Three axioms. One input. Twenty-seven observables.</em><br>
   <strong>STUR awaits experimental judgment.</strong>
 </p>

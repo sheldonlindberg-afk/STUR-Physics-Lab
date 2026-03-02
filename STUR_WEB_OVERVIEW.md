@@ -1,32 +1,36 @@
 # STUR Framework: An Overview
 
-**A Geometric Explanation for Why the Universe Has Three Generations of Matter**
+**Dynamic Z₃ Phase-Lock Unification — Theory of Everything Candidate (v6.0)**
 
 ---
 
 ## Executive Summary
 
-The Standard Model of particle physics is extraordinarily successful at describing fundamental particles and forces, yet it leaves many questions unanswered: Why are there exactly three families of quarks and leptons? Why do their masses span such a vast range? Why does the universe have the specific mix of forces we observe?
+The Standard Model of particle physics successfully describes fundamental particles and forces, yet leaves deep questions unanswered: Why exactly three families of quarks and leptons? Why do their masses span such a vast range? Why this specific mix of forces?
 
-**STUR** (Sheldon's Theory of Unified Resistance) offers a geometric answer: if spacetime has one small extra dimension shaped like a special kind of spiral (a "Z_3 helix"), then many of these puzzling features emerge automatically from the shape of space itself.
+**STUR** (Sheldon's Theory of Unified Resistance) answers these questions through a **dynamically oscillating Z₃ orbifold** on M⁴ × S¹. The key insight: the extra-dimensional geometry is not static. The Z₃ twist angle continuously winds and unwinds on a log-periodic chronomagnetic cycle. When the three orbifold sectors fall into **phase-lock** — perfect 120° alignment — coherent matter interactions emerge with sharply defined generations and mixing angles.
+
+The framework rests on three pillars: **TEGR** (gravity as torsion), the **XCRM** coupling (unique R-field torsion term), and **Chronomagnetics** (log-periodic phase dynamics with λ = 3722/2705).
 
 ### Key Results at a Glance
 
-| What STUR Explains | How |
-|-------------------|-----|
-| Exactly 3 generations of matter | The spiral has 3 special points where particles localize |
-| Why masses are hierarchical | Particles at different points have different overlaps with the Higgs field |
-| The specific pattern of quark mixing | Geometric misalignment between up-type and down-type quarks |
-| Absence of certain problematic particles | Forbidden by the symmetry of the spiral |
-| Higgs mass = 125 GeV | Predicted from the geometry, not fitted |
+| What STUR Derives | How | Accuracy |
+|-------------------|-----|----------|
+| Exactly 3 generations | Z₃ fixed-point count (topological) | Exact |
+| Cabibbo angle λ = 0.229 | exp(−κ²/4) pairwise overlap at phase-lock | 1.6% from PDG |
+| Full CKM matrix (9 elements) | Wolfenstein assembly from Z₃ geometry | 1.6–7.5% |
+| CP violation δ_CKM = 68.3° | Helix chirality + holonomy phase | 4.4% |
+| θ_QCD = 0 | Z₃ × CP symmetry (no axion needed) | Exact |
+| m_τ/m_μ = 17.0 | Brane Yukawa hierarchy | 1% |
+| SU(3)×SU(2)×U(1) | Z₃ holonomy compatibility | Exact |
 
 ### What This Is (and Isn't)
 
-STUR is a **complete theoretical framework**---not experimentally verified, but a detailed hypothesis that makes specific predictions with 100% of parameters within 10% of observed values. It is:
+STUR is a **Theory of Everything candidate** — not experimentally verified, but a detailed framework that derives CKM matrix parameters to 1.6% accuracy from pure geometry. It is:
 
-- An "effective field theory": valid below a certain energy scale, but not the final word
-- Testable: makes predictions that current and future experiments can check
-- Complete: derives all Standard Model parameters from first principles (100% within 10%, 92% within 5%)
+- Built on TEGR (teleparallel gravity): valid at all energy scales via torsion
+- Testable: makes specific falsifiable predictions
+- Honest: L_X stabilization, absolute fermion masses, and the cosmological constant remain open
 - Under development: peer review and experimental verification are needed
 
 ---

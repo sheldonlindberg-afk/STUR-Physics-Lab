@@ -1,24 +1,30 @@
 # STUR High-Precision Predictions
 
 **Document Type:** Precision Physics Calculations
-**Framework:** STUR v4.3 (Z3 Helix Geometry)
-**Version:** 1.1
-**Date:** 2026-02-03
+**Framework:** STUR v6.0 (Dynamic Z₃ Phase-Lock Unification)
+**Version:** 2.0
+**Date:** 2026-02-13
 **Priority:** 4 - Higher Precision Predictions
-**Status:** Complete — 100% TOE Closure Achieved
+**Status:** CKM derived to 1.6-7.5% at phase-lock; mass spectrum qualitative; CC open
 
 ---
 
 ## Executive Summary
 
-This document presents high-precision predictions from the STUR framework, achieving **100% TOE closure** (all 26 Standard Model parameters within 10% of observation). Theoretical uncertainties are systematically reduced through:
-- Higher-order corrections
-- Complete error propagation
-- Two-loop RG evolution
-- Threshold matching
-- **Universal wavefunction tail correction (f_tail = 1.131)**
+This document presents precision predictions from the STUR framework. A comprehensive
+computational audit (2026-02-10, see DERIVATION_CHAIN_HELIX.md Appendix V) verified all
+calculations by running all 20 Python scripts and comparing claimed vs computed values.
 
-**Key Achievement:** All PMNS form factors (f, g, r) are now DERIVED from first principles, not fitted. Most mass predictions are within 2% after applying the ×1.131 wavefunction tail correction; maximum discrepancy is 10% (m_u, within lattice QCD uncertainty).
+**Key Achievement (verified):** The Cabibbo angle λ = 0.229 is derived to 1.6% accuracy
+from exp[−κ²/4] at α_eff = 1.480 (v5.0 corrected formula). The full CKM matrix is
+derived to 3-13% accuracy.
+
+**Key Corrections (v5.3):**
+- The formula exp[−κ²/8] (Yukawa element) was replaced by exp[−κ²/4] (CKM mixing angle)
+- Old correction factors (f_boundary=0.65, f_holonomy=0.846, f_RG=0.87) are SUPERSEDED
+- Fermion mass predictions are off by factors 3.8-21282× (mass_spectrum_full.py)
+- PMNS predictions need independent computational verification
+- χ²/dof = 6.91 (not 0.009 as previously reported)
 
 **Key Results:**
 
