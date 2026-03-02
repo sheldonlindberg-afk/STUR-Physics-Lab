@@ -110,19 +110,22 @@ N_ν = 2.9840 ± 0.0082 (from Z-width)
 
 ### The Dynamic Infinity Helix — Resolution of Scale Questions (v6.2)
 
-The infinity helix is **never static**. It is an infinity helix (Gerono lemniscate in spatial projection) that is always winding and unwinding simultaneously at every scale. The chronomagnetic modulation M(t) = |sin(ω ln(t/t₀))| with ω = 19.687 governs this oscillation.
+The infinity helix is **never static**. It is an infinity helix (Gerono lemniscate in spatial projection) with chronomagnetic modulation M(t) = |sin(ω ln(t/t₀))| with ω = 19.687 governing its oscillation between winding and unwinding.
 
-**The manifold is the same at any scale — only the perspective changes.** This is discrete scale invariance with scaling ratio λ_chrono = 3722/2705. The geometry at the Planck scale is identical to the geometry at the μm scale is identical to the geometry at cosmological scales.
+**The manifold is the same at any scale — only the perspective changes.** This is discrete scale invariance with scaling ratio λ_chrono = 3722/2705. Within one log-period, approximately 67% of the continuous scale range is winding (M > 0.5) and 33% is unwinding.
 
-This resolves all apparent "open problems":
+> **CHRONOMAGNETICS CLOSURE NOTE (v6.2.1):** The claim that 207 discrete self-similar copies are "simultaneously winding and unwinding" was found to be INCORRECT — all discrete copies at scales s_k = s₀λ^k have phase φ_k = 2πk ≡ 0 (mod 2π), meaning they are all at the same phase at any given time. The simultaneous winding/unwinding applies only to the continuous scale variation within one log-period. See `scripts/chronomagnetics_closure.py` PART 6.
 
-| Apparent Problem | Static View (wrong) | Dynamic Helix View (correct) |
-|-----------------|---------------------|------------------------------|
-| L_X "two values" | Contradiction: 10⁻³² m vs 0.8 μm | Same geometry at different scales; L_X^fund (winding quantization) and L_eff (coherence) are self-similar |
-| Cosmological constant | Static V_eff doesn't work | Dynamical residual from time-averaged oscillating vacuum; ∞-helix Ward identity kills tree-level |
-| Mass hierarchy | Static overlap insufficient | Each generation at a different scale of the self-similar structure; heavy fermions deep in phase-lock, light fermions near unwinding edge |
-| PMNS large mixing | Static ∞-helix overlap gives ~0° | Neutrinos live near the unwinding regime — least localized, most sensitive to dynamic geometry; seesaw enhancement from varying geometry |
-| UV completion | Need separate F-theory CY₄ | The helix IS the fundamental object at all scales; CY₄ describes the tightly-wound limit |
+**Chronomagnetics closure calculations** (`scripts/chronomagnetics_closure.py`) tested whether the dynamic geometry resolves the open problems from the academic audit:
+
+| Apparent Problem | Static View | Dynamic Helix (Chronomagnetics Closure) | Status |
+|-----------------|-------------|----------------------------------------|--------|
+| L_X "two values" | Contradiction: 10⁻³² m vs 0.8 μm | Self-similar geometry across scales (valid claim) | **Resolved** |
+| Cosmological constant | Static V_eff doesn't work | ⟨M⁴⟩ = 0.375 gives only 2.7× suppression — INSUFFICIENT for 10^122 hierarchy; Ward identity still conjectured | **OPEN** |
+| Mass hierarchy | Static overlap insufficient | Phase-lock Yukawa ratio y₃/y₂ = 111 (genuine prediction); but absolute masses still require fitted per-particle factors | **Partial** |
+| PMNS large mixing | Static ∞-helix overlap gives ~0° | M(t)-modulated seesaw: at M_eff ≈ 0.2 sin²θ₁₂ ≈ 0.35, but M_eff not uniquely determined from axioms; χ²/dof = 269 at best fit | **OPEN** |
+| Dark matter mass | Holonomy gives 7.7 TeV | M(t) averaging cannot bridge 7.7→0.92 TeV gap (requires M ≈ 0.12, deep unwinding) | **OPEN** |
+| UV completion | Need separate F-theory CY₄ | The helix IS the fundamental object at all scales; CY₄ describes the tightly-wound limit | **Claimed** |
 
 The 5D universe simulation (`scripts/stur_5duniverse.html`) demonstrates this: the infinity helix spatial projection follows a figure-8 (lemniscate) with baryon, DM, and DE strands tracing helical worldlines through the same geometry. The unified tidal operator K^a_b = K^a_{b,metric} + K^a_{b,torsion} + K^a_{b,gauge} governs geodesic deviation between sectors. All parameters derive from M_Planck through the self-similar ∞-helix structure.
 
@@ -981,6 +984,31 @@ The S¹/∞-helix topology admits UV completion through F-theory on CY₄ with b
 3. **Chronomagnetic resonance**: GEM modes at ω ≈ 19.687 in appropriate units
 4. **Cosmological correlations**: Log-periodic structure in large-scale observations with period ln(λ) = 0.319
 
+### 11.4 Chronomagnetics Closure Results (v6.2.1)
+
+Complete closure calculations were performed in `scripts/chronomagnetics_closure.py`. Key findings:
+
+| Calculation | Result | Status |
+|------------|--------|--------|
+| Time-dependent Mathieu band structure | λ_Cab = 0.228 at M=1 (1.5% from PDG) | **Derived** at phase-lock |
+| M(t)-weighted Yukawa matrix | y₃/y₂ = 111 (phase-lock), 100 (M²-weighted) | **Genuine** ratio prediction |
+| Absolute fermion masses | m_c = 1.55 GeV (22% off), m_u = 149 MeV (6813% off) | **Not derived** — need σ_H |
+| M(t)-modulated seesaw | sin²θ₁₂ ≈ 0.023 at phase-lock (93% off NuFIT) | **Not derived** — wrong order |
+| PMNS scan over M_eff | Best fit at M = 0.20, χ²/dof = 269 | **Not derived** — poor fit |
+| Dynamical CC (⟨M⁴⟩) | 2.7× suppression only | **Not solved** |
+| DM mass from M(t) averaging | Cannot bridge 7.7→0.92 TeV | **Not derived** |
+| Self-similar copy phases | All 207 copies at same phase (φ = 2πk ≡ 0) | **Bug fixed** |
+| Modular bridge (XCRM↔resistance) | XCRM force = modular commutator [K, A^X] | **Compatible** |
+
+**Honest assessment:** Chronomagnetics provides the correct **framework** (time-dependent Mathieu, stationary-phase argument, discrete scale invariance) but does not close any of the 19 calibrated quantities from the audit. The PMNS mechanism (neutrinos at sub-phase-lock M) is qualitatively interesting but produces the wrong numerical values. The triangle {116, 138, 144} from which λ_chrono derives remains unconnected to the three axioms.
+
+**Open problems for chronomagnetics:**
+1. Derive triangle {116, 138, 144} from the three axioms
+2. Solve the coupled time-dependent seesaw to get correct PMNS angles
+3. Derive σ_H from Coleman-Weinberg to close the mass hierarchy
+4. Find a dynamical mechanism for CC beyond ⟨M⁴⟩ suppression
+5. Explain M_DM discrepancy (holonomy 7.7 TeV vs fitted 0.92 TeV)
+
 ---
 
 ## Part XII: The Three Pillars — Paper Lineage
@@ -1087,7 +1115,7 @@ Three axioms — five-dimensional TEGR spacetime, a real doublet R-field, and en
 - F-theory CY₄ on (P²×P¹)/∞₃ uniquely determined from STUR axioms
 - Swampland constraints satisfied (Distance, WGC, Cobordism; dS conditional)
 
-**The dynamic infinity helix (v6.2):** The orbifold twist angle oscillates with chronomagnetic modulation M(t) = |sin(ω ln(t/t₀))| at frequency ω = 19.687. The helix geometry is self-similar at every scale via λ_chrono = 3722/2705 — the manifold is the same at any scale, only the perspective changes. This resolves the L_X two-scale question (same geometry, different perspectives), explains why PMNS mixing is large (neutrinos near the unwinding edge), and provides the natural framework for both UV completion (tightly-wound limit) and cosmological dynamics (loosely-wound limit).
+**The dynamic infinity helix (v6.2, updated v6.2.1):** The orbifold twist angle oscillates with chronomagnetic modulation M(t) = |sin(ω ln(t/t₀))| at frequency ω = 19.687. The helix geometry is self-similar at every scale via λ_chrono = 3722/2705. Chronomagnetics closure calculations (`chronomagnetics_closure.py`) confirm: the time-dependent Mathieu equation and stationary-phase argument correctly derive the Cabibbo angle at phase-lock (1.5%), and the Yukawa ratio y₃/y₂ = 111 is a genuine prediction. However, the M(t)-modulated seesaw does NOT correctly reproduce PMNS angles (best-fit χ²/dof = 269), chronomagnetic CC suppression (⟨M⁴⟩ = 0.375) is insufficient, and M(t) averaging cannot bridge the DM mass gap (7.7 TeV → 0.92 TeV). The framework provides the correct qualitative structure but 17 of 29 observables remain calibrated.
 
 **Testable predictions:** Normal neutrino ordering (JUNO, DUNE), log-periodic CKM modulation, TeV-scale LKP dark matter (LZ, XENONnT), fifth force at ~1 μm (ARIADNE), n_s = 0.967 ± 0.004 (Planck-consistent), proton stability via dim-5.
 
