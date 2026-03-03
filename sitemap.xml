@@ -692,6 +692,14 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- v7.0 Full TOE Closure -->
+  <url>
+    <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_v7_full_closure.py</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
   <!-- Missing pages added v6.5 -->
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_correction_factor_explorer.html</loc>
