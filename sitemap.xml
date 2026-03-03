@@ -3,7 +3,7 @@
   <!-- Homepage - Priority 1.0 -->
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/index.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -11,19 +11,19 @@
   <!-- Main Theory Pages - Priority 0.9 -->
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_core_theory.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_learn.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_predictions.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -31,19 +31,19 @@
   <!-- Utility Pages - Priority 0.5 -->
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/about.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/sitemap.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/mycitations.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -51,644 +51,682 @@
   <!-- Script Pages - Priority 0.7 -->
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_3bodyproblem.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_5duniverse.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_action_uniqueness.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_agiseed.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.4</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_anomaly_cancellation.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_appendix_casimir.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_appendix_experiments.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_appendix_loop.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_appendix_parameters.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_arc.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_atp.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.4</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_atp1.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.4</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_baryogenesis_numerical.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_biological_hub.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.4</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_black_hole_thermodynamics.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_chemistry.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_ckm_derivation.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_ckm_numerical.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_cosmological_constant.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_cosmological_derivation.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_cosmology_hub.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_cp_derivation.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_darkmatter_derivation.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_dhp_derivation.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_dhp_equations.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_dirac_equation.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_double_slit.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_energy_conditions.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_engine.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_experimental_protocol.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_falsification.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_faq.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_fcnc_bounds.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_fermion_masses.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_feynman_rules.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_fifth_force_screening.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_foundations_complete.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_foundations_hub.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_galaxy.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_gate.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_gauge_emergence.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_gauge_emergence_rigorous.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_gauge_unification_derivation.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_geometry_foundations.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_geometry_verifier.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_glossary.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_graphene.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_gravity_emergence.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_helix.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_higgs_derivation.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_higgs_mass_numerical.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_holoscreen.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_immunity.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.4</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_inflation_derivation.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_kk_spectrum_graviton.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_leptogenesis_thermal.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_life.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.4</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_mass_hierarchy_assessment.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_master_action_derivation.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_matter_coupling.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_maxwell_equations.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_mhp_coefficients.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_mhp_derivation.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_mindgate.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.4</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_moduli_stabilization.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_neuro.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.4</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_neutrino_derivation.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_numerical_predictions.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_open_problems.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_plasmaconfinement.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_pmns_numerical.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_precision_electroweak.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_proton_decay.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_qcd_confinement.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_qm_emergence.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_quantum_corrections.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_quantum_gravity.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_quantum_hub.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_quantumcomputing.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_replicator.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_running_couplings.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_sandbox.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_scalar.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_simulations_hub.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_sm_derivation.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_sm_hub.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_solidbh.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_sonolum.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_strong_cp_solution.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_superconductor.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_symbols.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_tabletop.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_technical_appendix.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_tfp_flavor.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_thegoldenratio.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_toe_proof.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_torweather.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_unification_reveal.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_unified_framework.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_unitarity_constraints.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_universe.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_uv_completion.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_uv_finiteness_proof.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_weak_interaction.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_wow.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_xcrm_closure.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_yukawa_derivation.html</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+
+  <!-- Missing pages added v6.5 -->
+  <url>
+    <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_correction_factor_explorer.html</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_lambda_residual.html</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_tau_mass_derivation.html</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_threshold_corrections.html</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_unification_precision.html</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/lucyos.html</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
   </url>
 </urlset>
