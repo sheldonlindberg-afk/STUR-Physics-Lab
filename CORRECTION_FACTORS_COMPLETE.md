@@ -26,7 +26,7 @@ Note: The product 0.62 × 0.846 × 0.87 × 1.131 = 0.516 is derived from the
 explicit overlap, holonomy, and RG threshold calculations listed below.
 ```
 
-**Note:** The f_tail factor (wavefunction tail correction) is now computed from the analytic overlap ratio on S¹/Z₃.
+**Note:** The f_tail factor (wavefunction tail correction) is now computed from the analytic overlap ratio on S¹/∞₃.
 
 **Correction factors for η̄ (CP violation):**
 ```
@@ -43,13 +43,13 @@ explicit overlap, holonomy, and RG threshold calculations listed below.
 
 #### 1.1 Physical Origin
 
-The BOUNDARY_CORRECTION_DERIVATION.md found that the naive "boundary correction" of 0.65 is actually the **sector confinement factor** - the fraction of each generation's wavefunction that lies within its own Z₃ sector.
+The BOUNDARY_CORRECTION_DERIVATION.md found that the naive "boundary correction" of 0.65 is actually the **sector confinement factor** - the fraction of each generation's wavefunction that lies within its own ∞-helix sector.
 
 #### 1.2 Calculation
 
 Each generation g is localized at phase φ_g = 2πg/3 with Gaussian width σ = (2π/3)/κ.
 
-The Z₃ sector for generation g spans:
+The ∞-helix sector for generation g spans:
 ```
 φ ∈ [φ_g - π/3, φ_g + π/3]
 ```
@@ -88,7 +88,7 @@ f_sector = 0.62 ± 0.03
 This replaces the incorrectly interpreted "boundary correction factor" of 0.65.
 
 > **Provenance note on f_sector = 0.62:** The sector confinement probability P_sector = erf(0.89)
-> = 0.789 is a genuine calculation for a Gaussian on the Z₃ domain. However, the step from
+> = 0.789 is a genuine calculation for a Gaussian on the ∞₃ domain. However, the step from
 > P_sector to f_sector = P_sector² = 0.62 assumes that the Yukawa overlap for diagonal
 > elements requires both fermions to be in the same sector with independent probabilities.
 > This is an approximation; the actual overlap integral depends on the detailed wavefunction
@@ -175,12 +175,12 @@ This gives 0.94, not 0.87. The 0.87 value includes additional threshold effects 
 
 #### 3.4 KK Threshold Sum
 
-The KK threshold correction is computed by summing the first Z₃-even KK modes:
+The KK threshold correction is computed by summing the first ∞₃-even KK modes:
 ```
 δλ_KK = -\sum_{n=1}^{N_{\rm KK}} \frac{\alpha_s}{\pi} \frac{1}{n^2} \ln\left(\frac{M_{\rm KK}}{m_t}\right)
 ```
 
-Using the Z₃-even tower (n = 1, 2, 3) and M_KK from the L_X scale, the threshold sum yields
+Using the ∞₃-even tower (n = 1, 2, 3) and M_KK from the L_X scale, the threshold sum yields
 δλ_KK ≈ -0.03, so
 ```
 f_RG = 0.97 × (1 - 0.03) = 0.87 ± 0.05
@@ -192,7 +192,7 @@ f_RG = 0.97 × (1 - 0.03) = 0.87 ± 0.05
 
 #### 4.1 Physical Origin
 
-Gaussian wavefunctions localized at each Z₃ sector have exponential tails that extend around the compact S¹ dimension. The correction is defined as the ratio of the overlap on the full circle to the overlap restricted to a single Z₃ sector.
+Gaussian wavefunctions localized at each ∞-helix sector have exponential tails that extend around the compact S¹ dimension. The correction is defined as the ratio of the overlap on the full circle to the overlap restricted to a single ∞-helix sector.
 
 #### 4.2 Calculation (analytic overlap ratio)
 
@@ -356,7 +356,7 @@ The key insight is that L_X is not determined by minimizing E(L_X). Instead:
 **L_X is fixed by external constraints:**
 1. Fifth-force experiments: L_X < 1 mm
 2. Proton decay: L_X > 10⁻²⁰ m (from M_GUT bound)
-3. Z₃ quantization: v·L_X = 3
+3. ∞₃ quantization: v·L_X = 3
 
 With v ~ M_GUT ~ 2×10¹⁶ GeV:
 ```
@@ -415,11 +415,11 @@ Total: κ = 2.52 ± 0.16
 | **For λ:** | | | | |
 | f_sector | 0.62 ± 0.03 | **DERIVED** | Approximate; uses P_sector^2 model | Sector confinement probability |
 | f_holonomy | 0.846 ± 0.02 | **DERIVED** | SU(3) Haar average exp(-1/6) | Holonomy phase fluctuations |
-| f_RG | 0.87 ± 0.05 | **DERIVED** | One-loop running + Z₃-even KK threshold sum | QCD + KK threshold running |
-| f_tail | 1.131 ± 0.023 | **DERIVED** | Analytic overlap ratio on S¹ vs single Z₃ sector | Wavefunction tails wrapping S¹/Z₃ |
+| f_RG | 0.87 ± 0.05 | **DERIVED** | One-loop running + ∞₃-even KK threshold sum | QCD + KK threshold running |
+| f_tail | 1.131 ± 0.023 | **DERIVED** | Analytic overlap ratio on S¹ vs single ∞-helix sector | Wavefunction tails wrapping S¹/∞₃ |
 | **For η̄:** | | | | |
 | f_hol | 0.948 ± 0.010 | **DERIVED** | Correlated holonomy variance model | exp[-⟨δθ²⟩/2] with ⟨δθ²⟩=1/3 |
-| f_Berry | 0.975 ± 0.005 | **DERIVED** | Genuine geometric calculation | Geometric phase on Z₃ helix |
+| f_Berry | 0.975 ± 0.005 | **DERIVED** | Genuine geometric calculation | Geometric phase on infinity helix |
 | f_RG | 0.970 ± 0.015 | **DERIVED** | RG + KK threshold sum | RG + KK threshold |
 
 ### 8. Final Predictions
@@ -455,7 +455,7 @@ Agreement: 0.09σ
 1. **f_sector = 0.62**: Approximately derived from sector confinement probability; modeling choices affect the precise value (see provenance note in Section 1)
 2. **f_holonomy (λ) = 0.846**: Derived from SU(3) Haar average exp(-1/6)
 3. **f_hol (η̄) = 0.948**: Derived from correlated holonomy fluctuations
-4. **f_Berry = 0.975**: Genuinely derived geometric phase on Z₃ helix
+4. **f_Berry = 0.975**: Genuinely derived geometric phase on infinity helix
 5. **XCRM-Yukawa symmetry**: y = |χ|·L_X from natural localization
 
 ### 9.2 What is Calibrated or Fitted

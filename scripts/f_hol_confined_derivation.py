@@ -4,7 +4,7 @@ DERIVATION ATTEMPT: f_hol = 0.948 from Confined-Phase Holonomy Statistics
 ==========================================================================
 
 Previous analyses (f_hol_dynamical.py, f_hol_phase_correction.py) showed:
-  1. Z₃ holonomy is DESTABILIZED at one loop (V'' < 0 for n_f ≥ 2)
+  1. ∞-helix holonomy is DESTABILIZED at one loop (V'' < 0 for n_f ≥ 2)
   2. All perturbative approaches give f_hol ≈ 1.000
   3. f_hol = 0.948 was FITTED, not derived
 
@@ -14,14 +14,14 @@ assumption that produces f_hol = 0.948.
 KEY INSIGHT: The original derivation uses ⟨δθ²⟩ = 1/C_A = 1/3.
 This result emerges naturally if the holonomy is in the CONFINED PHASE,
 where center symmetry is preserved and holonomy statistics follow from
-the SU(3) Haar measure restricted to the Z₃ sector.
+the SU(3) Haar measure restricted to the ∞-helix sector.
 
 Structure:
   Part 1: Why the treatment matters (4D field vs 0D variable)
   Part 2: Confined-phase Polyakov loop statistics → ⟨δθ²⟩
   Part 3: Formal derivation of f_hol from ⟨|L_fund|²⟩ = 1/N_c
   Part 4: Reproduce f_hol = 0.948 from correlated fluctuations
-  Part 5: Physical conditions for confinement on S¹/Z₃
+  Part 5: Physical conditions for confinement on S¹/∞₃
   Part 6: Honest assessment — what is assumed, what is proved
 
 Author: Claude (v5.4)
@@ -37,7 +37,7 @@ from scipy.integrate import dblquad, quad
 
 def holonomy_treatment():
     """
-    The holonomy zero mode on S¹/Z₃ can be treated at two levels:
+    The holonomy zero mode on S¹/∞₃ can be treated at two levels:
 
     (A) As a 4D FIELD (perturbative, weakly coupled):
         - The holonomy is a massless (or light) 4D scalar field A₅(x)
@@ -51,7 +51,7 @@ def holonomy_treatment():
 
     The question: which treatment is correct for STUR?
 
-    Answer: It depends on whether the 5D gauge theory on S¹/Z₃ is in
+    Answer: It depends on whether the 5D gauge theory on S¹/∞₃ is in
     the CONFINED or DECONFINED phase.
 
     - CONFINED: Holonomy is effectively 0D (frozen in spatial directions)
@@ -109,7 +109,7 @@ def polyakov_loop_statistics():
     This is a standard result from lattice gauge theory.
 
     We use this to derive the holonomy fluctuation variance
-    around the Z₃ center element.
+    around the ∞₃ center element.
     """
     print("\n" + "=" * 70)
     print("Part 2: CONFINED-PHASE POLYAKOV LOOP STATISTICS")
@@ -204,7 +204,7 @@ def derive_holonomy_fluctuations():
     DERIVATION: From ⟨|L_fund|²⟩ = 1/3 to the inter-generation
     phase fluctuation ⟨(Δφ_{12})²⟩.
 
-    Parameterize the holonomy around the Z₃ center element:
+    Parameterize the holonomy around the ∞₃ center element:
       Ω = diag(ω·e^{iδ₁}, ω²·e^{iδ₂}, e^{iδ₃})
     with constraint δ₁ + δ₂ + δ₃ = 0 (SU(3) tracelessness)
     and ω = e^{2πi/3}.
@@ -232,7 +232,7 @@ def derive_holonomy_fluctuations():
   Ω = diag(ω·e^{iδ₁}, ω²·e^{iδ₂}, e^{iδ₃})
   L = (1/3) Tr Ω = (1/3)(ω·e^{iδ₁} + ω²·e^{iδ₂} + e^{iδ₃})
 
-  At Z₃ center (δᵢ = 0): L₀ = (ω + ω² + 1)/3 = 0
+  At ∞₃ center (δᵢ = 0): L₀ = (ω + ω² + 1)/3 = 0
 
   Expanding to first order in δ:
     δL ≈ (i/3)(ω·δ₁ + ω²·δ₂ + δ₃)
@@ -394,7 +394,7 @@ def correlated_fluctuations():
       → L-sector holonomy fluctuations are 100% correlated
 
   (b) Right-handed quarks are SU(2) singlets:
-      u_R and d_R have DIFFERENT Z₃ charges (different hypercharges)
+      u_R and d_R have DIFFERENT ∞₃ charges (different hypercharges)
       Their holonomy coupling differs → decorrelation
 
   (c) The CKM phase comes from the MISMATCH between L and R sectors:
@@ -422,7 +422,7 @@ def correlated_fluctuations():
 
     # WAIT — this means the holonomy doesn't affect V at all at tree level!
     # The CP phase in V comes from the COMPLEX structure of Y^R,
-    # which depends on the Z₃ assignment of u_R, d_R.
+    # which depends on the ∞₃ assignment of u_R, d_R.
 
     # The correct picture:
     # Y_{ij}^u ∝ ⟨ψ_Li|ψ_uRj⟩ × exp(i × holonomy phase(k_Li, k_uRj))
@@ -434,10 +434,10 @@ def correlated_fluctuations():
     # For the INTER-GENERATION phase difference entering the CKM:
     # Δφ_CKM ∝ (k_uR - k_dR) × δθ_holonomy
     #
-    # where (k_uR - k_dR) is the Z₃ charge difference between u_R and d_R.
+    # where (k_uR - k_dR) is the ∞₃ charge difference between u_R and d_R.
 
-    # Z₃ charge assignments for SM quarks:
-    # In STUR: the three generations have Z₃ charges k = 0, 1, 2
+    # ∞₃ charge assignments for SM quarks:
+    # In STUR: the three generations have ∞₃ charges k = 0, 1, 2
     # The charge k determines the localization on the orbifold.
     #
     # For the CP phase, the relevant quantity is:
@@ -447,7 +447,7 @@ def correlated_fluctuations():
 
     # In the STUR model: Δk = 1 (by construction, to generate CP violation)
 
-    print(f"  The CKM CP phase depends on the R-sector Z₃ charge difference:")
+    print(f"  The CKM CP phase depends on the R-sector ∞₃ charge difference:")
     print(f"    Δk = k_uR - k_dR = 1 (mod 3)  [STUR assignment]")
     print(f"")
     print(f"  The holonomy fluctuation affecting the CP phase:")
@@ -466,21 +466,21 @@ def correlated_fluctuations():
     # (the "breathing mode" where eigenvalues approach/recede symmetrically)
 
     # The CP-relevant quantity is the INTER-GENERATION phase difference
-    # as seen by a quark with Z₃ charge k.
+    # as seen by a quark with ∞₃ charge k.
     # For k=1 quarks: they see phase φ_c shifted by holonomy → e^{iφ_c}
 
     # The effective CP phase fluctuation for the CKM:
     # δφ_eff = f(δθ_u) - f(δθ_d)
     # where f is the phase contribution from the mass matrix
 
-    # For correlated fluctuations (same holonomy, different Z₃ charges):
+    # For correlated fluctuations (same holonomy, different ∞₃ charges):
     # δφ_u = δθ × sin(2π/3)  [projection of holonomy on u-sector phase]
     # δφ_d = δθ × sin(2π × 2/3) = δθ × sin(4π/3) = -δθ × sin(2π/3)
     #
     # So: δφ_u - δφ_d = 2δθ × sin(2π/3)  [if Δk=1, they see OPPOSITE phases]
 
     # Wait, let me be more careful. The holonomy phase for a field with
-    # Z₃ charge k is: φ^{(k)} = k × θ_hol = k × 2π/3.
+    # ∞₃ charge k is: φ^{(k)} = k × θ_hol = k × 2π/3.
     # The fluctuation: δφ^{(k)} = k × δθ.
     # For the CKM: δφ_CKM ∝ (k_uR - k_dR) × δθ = Δk × δθ.
 
@@ -512,14 +512,14 @@ def correlated_fluctuations():
 
     # The "correlation length ξ = 2π" is the full circle circumference.
     # This means: holonomy fluctuations decorrelate over a distance 2π
-    # on the compact space. Fields separated by π/3 (one Z₃ sector)
+    # on the compact space. Fields separated by π/3 (one ∞-helix sector)
     # are significantly correlated (C = 0.846).
 
     # PHYSICAL INTERPRETATION:
     # The holonomy zero mode is UNIFORM on the circle → all points
-    # see the SAME fluctuation. But quarks at different Z₃ sectors
+    # see the SAME fluctuation. But quarks at different ∞-helix sectors
     # experience different PROJECTIONS of the holonomy fluctuation.
-    # The projection depends on their Z₃ charge:
+    # The projection depends on their ∞₃ charge:
     # field at sector k sees: e^{ik δα₃} ≈ 1 + ik δα₃
     # The phase contributed to mass matrix: Im(e^{ik δα₃}) = k × δα₃
 
@@ -579,9 +579,9 @@ def correlated_fluctuations():
     # If we define θ = (2/√3) × αₐ (some rescaled Cartan variable):
     # ⟨θ²⟩ = (4/3) × (1/2) = 2/3 → no
 
-    # Or if the Z₃ constraint reduces the Cartan space:
-    # On S¹/Z₃, the holonomy is restricted to Z₃-invariant configurations
-    # The Cartan space has 2D, but the Z₃ Weyl group constrains it
+    # Or if the ∞₃ constraint reduces the Cartan space:
+    # On S¹/∞₃, the holonomy is restricted to ∞₃-invariant configurations
+    # The Cartan space has 2D, but the ∞₃ Weyl group constrains it
     # The FUNDAMENTAL DOMAIN of the Weyl group is 1/6 of the full Cartan torus
     # This might effectively reduce ⟨δθ²⟩ by a factor
 
@@ -607,7 +607,7 @@ def correlated_fluctuations():
 
     print(f"\n  --- Self-consistent derivation from confinement ---")
     print(f"")
-    print(f"  ASSUMPTION: The SU(3) holonomy is stabilized at the Z₃ center")
+    print(f"  ASSUMPTION: The SU(3) holonomy is stabilized at the ∞₃ center")
     print(f"  by non-perturbative effects (monopoles/bions/orbifold), with")
     print(f"  confinement strength proportional to C_A.")
     print(f"")
@@ -704,7 +704,7 @@ def correlated_fluctuations():
 def confinement_conditions():
     """
     Under what conditions is the SU(3) holonomy in the confined phase
-    on S¹/Z₃?
+    on S¹/∞₃?
 
     The answer depends on the matter content:
     - Pure gauge: CONFINED (center symmetry preserved) for small L
@@ -719,11 +719,11 @@ def confinement_conditions():
     print("=" * 70)
 
     print("""
-  The question: Is the Z₃ holonomy a STABLE vacuum in STUR?
+  The question: Is the ∞-helix holonomy a STABLE vacuum in STUR?
 
   One-loop analysis (f_hol_dynamical.py):
-    V''(Z₃) < 0 for n_f ≥ 2 (SM has n_f = 6 active flavors)
-    → Z₃ is a LOCAL MAXIMUM of V_eff
+    V''(∞₃) < 0 for n_f ≥ 2 (SM has n_f = 6 active flavors)
+    → ∞₃ is a LOCAL MAXIMUM of V_eff
     → Perturbatively, the holonomy slides to the identity W = 1
 
   Non-perturbative mechanisms that could RESTORE center symmetry:
@@ -733,7 +733,7 @@ def confinement_conditions():
      stabilizing potential V_mon ~ exp(-S_mon) × cos(Nθ_hol)
      with S_mon = 8π²/(g₄²N).
      For SU(3): V_mon ~ exp(-8π²/(3g²)) × cos(3θ)
-     This FAVORS θ = 2π/3 (Z₃ center).
+     This FAVORS θ = 2π/3 (∞₃ center).
      Magnitude: |V_mon/V_pert| ~ exp(-8π²/(3×1.48)) / (1/16π²) ~ exp(-18)
      → TOO SMALL to overcome perturbative instability
 
@@ -744,7 +744,7 @@ def confinement_conditions():
      Required: h > h_crit ~ g₄²/(16π²) × (n_f - n_crit)
 
   3. ORBIFOLD BOUNDARY CONDITIONS:
-     The Z₃ orbifold projects out certain KK modes.
+     The ∞-helix topology projects out certain KK modes.
      The projected spectrum has FEWER destabilizing fermion modes.
      Effective n_f at the orbifold fixed point may be < 2.
 
@@ -757,9 +757,9 @@ def confinement_conditions():
   5. G₂ CONFINEMENT (STUR-specific):
      In M-theory on G₂ manifolds, the 4D gauge theory is generically
      CONFINING at low energies. The holonomy of the internal space
-     is fixed by the G₂ holonomy group, which contains Z₃.
+     is fixed by the G₂ holonomy group, which contains ∞₃.
      The G₂ structure provides a TOPOLOGICAL stabilization of the
-     Z₃ holonomy through the associative 3-form.
+     ∞-helix holonomy through the associative 3-form.
 """)
 
     # Estimate the required stabilization energy
@@ -774,7 +774,7 @@ def confinement_conditions():
     n_f = 6
     d_f = 4 * 7 / 8  # Fermion d.o.f. with statistics
 
-    # V''(Z₃) for the breathing mode
+    # V''(∞₃) for the breathing mode
     eps = 1e-5
     V_pp = 0
     for delta in [eps, -eps, 0]:
@@ -801,7 +801,7 @@ def confinement_conditions():
     V_pp_total = (V_plus - 2 * V_0 + V_minus) / eps ** 2
 
     print(f"  Quantitative estimate:")
-    print(f"    V''(Z₃)|_{{1-loop}} = {V_pp_total:.4f} / L⁴")
+    print(f"    V''(∞₃)|_{{1-loop}} = {V_pp_total:.4f} / L⁴")
     print(f"    {'STABLE' if V_pp_total > 0 else 'UNSTABLE'} "
           f"(sign: {'positive' if V_pp_total > 0 else 'NEGATIVE'})")
 
@@ -861,7 +861,7 @@ def honest_assessment():
   ║     → Effective variance: 0.103 rad²                               ║
   ║                                                                    ║
   ║  THE KEY ASSUMPTION:                                               ║
-  ║  The Z₃ holonomy is STABILIZED by non-perturbative effects        ║
+  ║  The ∞-helix holonomy is STABILIZED by non-perturbative effects        ║
   ║  (G₂ topology / orbifold / brane stabilization)                    ║
   ║  such that the confined-phase statistics apply.                     ║
   ║                                                                    ║
@@ -869,7 +869,7 @@ def honest_assessment():
   ║  WITH this assumption: f_hol = 0.948 (derivable)                   ║
   ║                                                                    ║
   ║  STATUS: CONDITIONALLY DERIVED                                     ║
-  ║    Condition: Z₃ holonomy stabilization by non-perturbative physics║
+  ║    Condition: ∞-helix holonomy stabilization by non-perturbative physics║
   ║    This is EXPECTED in the G₂ / M-theory context of STUR          ║
   ║    but requires explicit construction for a full proof              ║
   ╚══════════════════════════════════════════════════════════════════════╝
@@ -897,7 +897,7 @@ def honest_assessment():
     f_hol = 0.948 is DERIVABLE given the assumption of confined-phase
     holonomy statistics. The derivation chain is:
 
-    1. ASSUME: SU(3) holonomy in confined phase on S¹/Z₃
+    1. ASSUME: SU(3) holonomy in confined phase on S¹/∞₃
     2. DERIVE: ⟨|Tr Ω|²⟩ = 1 (Schur orthogonality, exact)
     3. DERIVE: ⟨δα₃²⟩ = ⟨δα₈²⟩ = 1/6 (Weyl symmetry + Schur)
     4. DERIVE: Inter-gen ⟨Δφ²⟩ = 4σ² = 2/3
@@ -912,12 +912,12 @@ def honest_assessment():
 
     The assumption is NATURAL in the G₂/M-theory context:
     - G₂ holonomy manifolds have fixed SU(3) structure
-    - The Z₃ orbifold is part of the G₂ construction
+    - The ∞-helix topology is part of the G₂ construction
     - Confinement is generic for 4D N=1 gauge theories from M-theory
 
   REVISED STATUS for η̄ correction chain:
     f_Berry = 1.000 — PROVED (exact, Berry phase vanishes for real ψ)
-    f_RG    = 1.003 — PROVED (Z₃ character orthogonality + SM perturbation theory)
+    f_RG    = 1.003 — PROVED (∞₃ character orthogonality + SM perturbation theory)
     f_hol   = 0.948 — CONDITIONALLY DERIVED (requires confined-phase assumption)
 """)
 

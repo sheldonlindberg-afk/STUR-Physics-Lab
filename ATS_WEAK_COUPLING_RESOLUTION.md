@@ -1,7 +1,7 @@
 # ATS Weak Coupling Resolution
 
 **Document Type:** Theoretical Analysis and Resolution
-**Framework:** STUR v4.4 (Z₃ Helix Geometry)
+**Framework:** STUR v4.4 (∞₃ Helix Geometry)
 **Date:** 2026-02-05
 **Status:** RESOLVED — The weak coupling tension is a feature, not a bug
 
@@ -35,7 +35,7 @@ The STUR saturation operator S(u) = tanh(u)(1 - e^{-|u|}) has quadratic onset S(
 
 ### 1.1 The Mathematical Issue
 
-The STUR saturation operator is derived from Z₃ helix geometry:
+The STUR saturation operator is derived from infinity helix geometry:
 
 $$S(u) = \tanh(u) \cdot (1 - e^{-|u|})$$
 
@@ -151,9 +151,9 @@ The quadratic onset S(u) ~ u² is not a bug — it is the mechanism by which STU
 
 The quadratic onset S(u) ~ u² has deep physical meaning:
 
-**From Z₃ Geometry:**
+**From ∞₃ Geometry:**
 - Both tanh(u) and (1 - e^{-|u|}) must vanish at u = 0
-- This is required by Z₃ parity and renormalizability
+- This is required by ∞₃ parity and renormalizability
 - The double-zero is not arbitrary — it is geometrically mandated
 
 **Physical Consequence:**
@@ -169,7 +169,7 @@ One might propose modifying S(u) to recover linear behavior:
 $$S_{modified}(u) = u \cdot \tanh(u) \cdot (1 - e^{-|u|}) / |u| = \text{sign}(u) \cdot \tanh(u) \cdot (1 - e^{-|u|})$$
 
 **This is incorrect because:**
-1. It violates the Z₃ geometric derivation
+1. It violates the ∞₃ geometric derivation
 2. It would predict STUR contributions to all superconductors (contradicting experiment)
 3. It removes the physical threshold behavior that distinguishes STUR from BCS
 
@@ -314,7 +314,7 @@ This matches cuprate observations (α ~ 0.0-0.3 in YBa₂Cu₃O₇).
 The weak-coupling tension in STUR superconductor theory is **resolved** by recognizing that:
 
 1. **STUR is a strong-coupling mechanism by design**
-   - The quadratic onset S(u) ~ u² is geometrically required by Z₃ helix structure
+   - The quadratic onset S(u) ~ u² is geometrically required by infinity helix structure
    - This automatically suppresses STUR in weak-coupling systems
 
 2. **BCS remains valid where it should**
@@ -337,7 +337,7 @@ The weak-coupling tension in STUR superconductor theory is **resolved** by recog
 | Option | Description | Status |
 |--------|-------------|--------|
 | **A** | STUR only applies above coupling threshold | **ADOPTED** — This is the correct interpretation |
-| B | Modify S(u) to recover linear behavior | REJECTED — Violates Z₃ geometry |
+| B | Modify S(u) to recover linear behavior | REJECTED — Violates ∞-helix geometry |
 | C | u² behavior is correct with consequences | **ADOPTED** — Consequences are testable |
 
 **Final Statement:**
@@ -402,6 +402,6 @@ The cuprates appear to sit in the STUR crossover regime, explaining their depart
 
 1. STUR Core Theory: `stur_core_theory.html`
 2. ATS Derivation: `stur_superconductor.html`
-3. Z₃ Helix Geometry: `DERIVATION_CHAIN_HELIX.md`
+3. ∞₃ Helix Geometry: `DERIVATION_CHAIN_INFINITY.md`
 4. BCS Theory: J. Bardeen, L.N. Cooper, J.R. Schrieffer, Phys. Rev. 108, 1175 (1957)
 5. Cuprate Review: P.A. Lee, N. Nagaosa, X.-G. Wen, Rev. Mod. Phys. 78, 17 (2006)

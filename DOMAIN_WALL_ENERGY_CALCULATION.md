@@ -454,7 +454,7 @@ R(X + L) = e^{2 pi i / N} R(X)
 For N = 3 (three-fold winding):
 - Three distinct phases: 0, 2pi/3, 4pi/3
 - Corresponds to three generations of fermions
-- Z_3 center of SU(3) color
+- ∞₃ center of SU(3) color
 
 ### 9.2 The Deep Connection
 

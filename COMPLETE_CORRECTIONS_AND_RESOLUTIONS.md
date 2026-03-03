@@ -39,13 +39,13 @@ The original Berry phase factor was a geometric estimate:
 F_Berry = (1/3)^2 x (1 - cos(2pi/3)) = (1/9) x (3/2) = 1/6 = 0.167
 ```
 
-This lacked rigorous derivation from the actual Berry connection on the Z_3 helix.
+This lacked rigorous derivation from the actual Berry connection on the infinity helix.
 
 ### 1.3 Rigorous Berry Phase Derivation
 
-**Step 1: Berry Connection on Z_3 Helix**
+**Step 1: Berry Connection on ∞₃ Helix**
 
-For neutrino states on the S^1/Z_3 orbifold, the Berry connection is:
+For neutrino states on the S^1/∞₃ orbifold, the Berry connection is:
 ```
 A_phi = <psi_g| i d/d(phi) |psi_g>
 ```
@@ -64,9 +64,9 @@ The PMNS matrix with CP phase delta_CP ~ -pi/2 (from PDG 2024) contributes:
 A_phi = (1/3) tr[U_PMNS^dag d/d(phi) U_PMNS]
 ```
 
-**Step 3: Berry Phase Around Z_3 Period**
+**Step 3: Berry Phase Around ∞₃ Period**
 
-The Berry phase accumulated around one Z_3 period (phi: 0 -> 2pi/3) is:
+The Berry phase accumulated around one ∞₃ period (phi: 0 -> 2pi/3) is:
 ```
 gamma = integral_0^{2pi/3} A_phi d(phi)
       = (2pi/3) x (delta_CP/pi)
@@ -123,7 +123,7 @@ Lambda_residual = (1/64pi^2) x |Sigma| x F_total
 
 The Berry phase suppression arises from:
 1. **CP violation phase**: delta_CP ~ -pi/2 creates destructive interference
-2. **Z_3 geometry**: The 2pi/3 period quantizes the Berry phase
+2. **∞₃ geometry**: The 2pi/3 period quantizes the Berry phase
 3. **Three-generation structure**: Phase factors from different generations partially cancel
 
 This is not fine-tuning - it's a geometric consequence of the observed CP violation phase.
@@ -140,7 +140,7 @@ The framework contains two physically distinct length scales:
 
 | Scale | Symbol | Value | Physical Origin |
 |-------|--------|-------|-----------------|
-| **Fundamental** | L_X | ~3 x 10^-32 m | Z_3 winding quantization: v*L_X = 3 with v ~ M_GUT |
+| **Fundamental** | L_X | ~3 x 10^-32 m | ∞₃ winding quantization: v*L_X = 3 with v ~ M_GUT |
 | **Effective** | L_eff | ~0.8 um | Casimir-holonomy energy balance in 4D effective theory |
 
 ### 2.2 Resolution: Two Scales Are Physically Distinct
@@ -149,7 +149,7 @@ The framework contains two physically distinct length scales:
 
 **Scale 1: Fundamental Geometric Compactification (L_X ~ 10^-32 m)**
 
-From the Z_3 winding quantization v * L_X = 3:
+From the ∞₃ winding quantization v * L_X = 3:
 ```
 With v_R ~ M_GUT ~ 2 x 10^16 GeV (required for gauge unification):
 
@@ -160,9 +160,9 @@ L_X = 3 / v_R = 3 / (2 x 10^16 GeV)
 
 **L_X governs:**
 - KK mass spectrum: M_KK = pi/L_X ~ 10^16 GeV
-- Number of generations: Z_3 fixed points at X = 0, L_X/3, 2*L_X/3
+- Number of generations: ∞-helix node points at X = 0, L_X/3, 2*L_X/3
 - Yukawa hierarchies: Wavefunction overlaps at separations ~ L_X/3
-- CKM/PMNS mixing: Generation structure from Z_3 geometry
+- CKM/PMNS mixing: Generation structure from ∞₃ geometry
 - Proton stability: No dimension-5 operators below M_GUT
 
 **Scale 2: Effective Coherence Length (L_eff ~ 0.8 um)**
@@ -208,7 +208,7 @@ R-field mass through multiple intermediate scales.
 |                                                                     |
 |  1. FUNDAMENTAL SCALE (L_X ~ 10^-32 m):                            |
 |     - Geometric size of compact dimension in UV-complete theory    |
-|     - Fixed by Z_3 topology: v*L_X = 3 (EXACT)                     |
+|     - Fixed by ∞₃ topology: v*L_X = 3 (EXACT)                     |
 |     - Governs: KK masses, generations, Yukawas, CKM/PMNS           |
 |     - NOT directly observable (too small for experiments)           |
 |                                                                     |
@@ -236,7 +236,7 @@ The two-scale interpretation maintains STUR's falsifiability:
 - TESTABLE with ARIADNE, next-generation Eot-Wash
 
 **Prediction 2:** Yukawas set by L_X, not L_eff
-- Generation structure from Z_3 fixed points at geometric scale
+- Generation structure from ∞-helix node points at geometric scale
 - Mass hierarchies from exp[-kappa^2/8] with kappa derived from L_X
 
 **If fifth-force experiments exclude the 0.8 um scale, the L_eff derivation is ruled out.**
@@ -269,7 +269,7 @@ where I(a, b) = integral_a^b |psi_1(phi)|^2 |psi_2(phi)|^2 d(phi)
 
 This depends only on:
 - Gaussian width sigma = (2pi/3)/kappa
-- The integration limits (set by Z_3 geometry)
+- The integration limits (set by ∞₃ geometry)
 
 **Step 3: Explicit Calculation**
 
@@ -310,7 +310,7 @@ f_tail = 2.027 / 1.791 = 1.132
 |                                                                   |
 |  Input: kappa = 2.52 (from Mathieu equation, NOT from CKM)       |
 |                                                                   |
-|  Calculation: Pure geometry of Gaussian overlaps on S^1/Z_3      |
+|  Calculation: Pure geometry of Gaussian overlaps on S^1/∞₃      |
 |                                                                   |
 |  Output: f_tail = 1.131 +/- 0.023                                |
 |                                                                   |
@@ -337,7 +337,7 @@ Ratio: 7.5
 
 ### 4.2 Physical Origin: First-Generation Boundary Effect
 
-The first generation is located at the Z_3 fixed point phi_1 = 0, which coincides with the orbifold boundary. This creates a boundary effect.
+The first generation is located at the ∞-helix node point phi_1 = 0, which coincides with the orbifold boundary. This creates a boundary effect.
 
 **Boundary Condition at phi = 0:**
 ```
@@ -346,7 +346,7 @@ psi(0^+) = R * psi(0^-) + T * psi_reflected
 
 where R and T are reflection and transmission coefficients.
 
-For Z_3 orbifold boundary:
+For ∞-helix topology boundary:
 ```
 R = (1 - alpha)/(1 + alpha)
 T = 2*sqrt(alpha)/(1 + alpha)
@@ -451,7 +451,7 @@ This is within 7% of the observed 2.16 MeV!
 |  1. Naive prediction: m_u^0 = 16.1 MeV                           |
 |                                                                   |
 |  2. Boundary phase shift: x 0.758                                 |
-|     (from KK mode interference at Z_3 fixed point)               |
+|     (from KK mode interference at ∞-helix node point)               |
 |                                                                   |
 |  3. QCD running: x 0.54                                           |
 |     (from RG evolution M_KK -> m_u)                              |
@@ -553,16 +553,16 @@ delta_m_l / m_l = delta^W + delta^Z + delta^H
 
 This gives a 10.6% reduction, not enough for 1/1.7 = 59% reduction.
 
-### 5.4 The Missing Factor: Lepton-Specific Z_3 Phase
+### 5.4 The Missing Factor: Lepton-Specific ∞₃ Phase
 
-In the STUR framework, leptons have different Z_3 embeddings than quarks due to their different gauge quantum numbers.
+In the STUR framework, leptons have different ∞₃ embeddings than quarks due to their different gauge quantum numbers.
 
-**Quark Z_3 charge:**
+**Quark ∞₃ charge:**
 ```
 Q_q = g mod 3 (generation index)
 ```
 
-**Lepton Z_3 charge (corrected):**
+**Lepton ∞₃ charge (corrected):**
 ```
 Q_l = g mod 3 + 1 (shifted by hypercharge contribution)
 ```
@@ -603,7 +603,7 @@ Agreement: 6%
 |                                                                   |
 |  Original prediction: m_l^naive (overpredicted by 1.7x)          |
 |                                                                   |
-|  Correction 1: Z_3 phase shift for leptons                        |
+|  Correction 1: ∞₃ phase shift for leptons                        |
 |    f_sector^lepton = 0.42 (vs 0.62 for quarks)                   |
 |    Factor: 0.68                                                   |
 |                                                                   |
@@ -615,7 +615,7 @@ Agreement: 6%
 |                                                                   |
 |  Predicted: 1.7 x 0.61 = 1.04 (vs 1.0 observed)                  |
 |                                                                   |
-|  STATUS: RESOLVED - Z_3 phase + EW threshold explains pattern    |
+|  STATUS: RESOLVED - ∞₃ phase + EW threshold explains pattern    |
 +------------------------------------------------------------------+
 ```
 
@@ -641,7 +641,7 @@ Result: Lambda = (1.1 +/- 0.8) x 10^-46 GeV^4
 ### 6.2 L_X Scale Relations
 
 ```
-Fundamental geometric scale (from Z_3 winding v*L_X = 3):
+Fundamental geometric scale (from ∞₃ winding v*L_X = 3):
   L_X = 3/v_R = 3 x 10^-32 m (with v_R ~ M_GUT)
 
   Physical role: Sets KK masses, generation structure, Yukawas
@@ -714,7 +714,7 @@ m_u = m_u^naive x f_boundary x f_KK x f_QCD x f_threshold
 |      - See LX_SCALE_HIERARCHY_RESOLUTION.md                         |
 |  [X] f_tail independence: Verified as derived from kappa            |
 |  [X] m_u anomaly: Boundary effect + QCD running                     |
-|  [X] Lepton overprediction: Z_3 phase + EW threshold               |
+|  [X] Lepton overprediction: ∞₃ phase + EW threshold               |
 |  [X] ATS weak coupling: S(u)~u² is a feature, not a bug            |
 |      - STUR is strong-coupling mechanism (requires u > 1)          |
 |      - BCS dominates at weak coupling (u < 0.5 regime)             |

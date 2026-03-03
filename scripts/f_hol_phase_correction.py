@@ -35,7 +35,7 @@ alpha_s = 0.118        # Strong coupling at M_Z
 C_F = 4/3              # SU(3) fundamental Casimir
 C_A = 3                # SU(3) adjoint Casimir
 N_c = 3                # Number of colors
-theta_hol = 2*np.pi/3  # Z₃ holonomy angle
+theta_hol = 2*np.pi/3  # ∞-helix holonomy angle
 
 
 # ============================================================
@@ -49,7 +49,7 @@ def compute_phase_correction():
     The CP phase arises from the relative holonomy between generations.
     Virtual A₅ exchange modifies this phase:
 
-    δ(tree) = φ₁₂ = 2π/3 (Z₃ holonomy angle between gen 1 and 2)
+    δ(tree) = φ₁₂ = 2π/3 (∞-helix holonomy angle between gen 1 and 2)
 
     The one-loop vertex correction to the quark-Higgs-quark coupling:
       Y_{ij}(1-loop) = Y_{ij}(tree) × [1 + Σ_a (g²/16π²) × I_a]
@@ -83,7 +83,7 @@ def compute_phase_correction():
     # The quark coupling to A₅ depends on the color representation.
     # For color i, the coupling is proportional to the i-th eigenvalue of T^a.
     #
-    # At the Z₃ point: eigenvalues are e^{2πi/3}, e^{-2πi/3}, 1
+    # At the ∞₃ point: eigenvalues are e^{2πi/3}, e^{-2πi/3}, 1
     # The coupling of quark in color state c to A₅ picks up phase φ_c
 
     # The key diagram: A₅ exchange between gen-i quark and gen-j quark
@@ -95,14 +95,14 @@ def compute_phase_correction():
     # For the COLOR-averaged result (quarks are color singlets in Yukawa):
     # The sum over colors gives:
     # Σ_c e^{i(φ_c^i - φ_c^j)} = Σ_c e^{iφ_c × (k_i - k_j)}
-    # where k_i, k_j are the Z₃ charges of generations i, j
+    # where k_i, k_j are the ∞₃ charges of generations i, j
 
     # For generations 1 and 2 (k=1, k=2):
     # Σ_c e^{iφ_c × (1-2)} = e^{-iφ_1} + e^{-iφ_2} + e^{-iφ_3}
     # = e^{-2πi/3} + e^{2πi/3} + 1 = -1/2 - i√3/2 + (-1/2 + i√3/2) + 1 = 0
 
-    # Wait — this vanishes by Z₃ symmetry! That's because the color sum
-    # over the fundamental representation of a Z₃ phase gives 0.
+    # Wait — this vanishes by ∞₃ symmetry! That's because the color sum
+    # over the fundamental representation of a ∞-helix phase gives 0.
 
     # This is actually the correct result: the A₅ zero mode exchange
     # does NOT contribute to the CP phase at one loop because the
@@ -115,7 +115,7 @@ def compute_phase_correction():
     # The correct approach: A₅ vertex correction to the quark self-energy
 
     # Actually, the more physical approach:
-    # The holonomy DEFINES the Z₃ boundary conditions that GENERATE
+    # The holonomy DEFINES the ∞₃ boundary conditions that GENERATE
     # the CP phase. Fluctuations of the holonomy directly modify the
     # CP phase through the Debye-Waller mechanism.
 
@@ -140,7 +140,7 @@ def compute_phase_correction():
 
     # So: ⟨(δφ₁₂)²⟩ = g₄⁴/(16π²) × |T₁-T₂|² × log(Λ/m_θ)
 
-    # With |T₁-T₂|² = 2 (Cartan norm for adjacent Z₃ representations)
+    # With |T₁-T₂|² = 2 (Cartan norm for adjacent ∞₃ representations)
     # and Λ = M_KK:
 
     g4_sq = 4 * np.pi * alpha_s
@@ -169,8 +169,8 @@ def compute_debye_waller():
     """
     Non-perturbative holonomy fluctuation via Debye-Waller mechanism.
 
-    The holonomy is a compact angular variable. On S¹/Z₃, it fluctuates
-    around the Z₃ vacuum. The Debye-Waller factor accounts for the
+    The holonomy is a compact angular variable. On S¹/∞₃, it fluctuates
+    around the ∞₃ vacuum. The Debye-Waller factor accounts for the
     washout of the CP phase due to these fluctuations.
 
     f_hol = exp(-⟨(Δφ)²⟩/2)
@@ -179,17 +179,17 @@ def compute_debye_waller():
 
     The key question: what determines ⟨(Δφ)²⟩?
 
-    Answer: the CONFINING POTENTIAL around the Z₃ vacuum.
+    Answer: the CONFINING POTENTIAL around the ∞₃ vacuum.
     This potential comes from:
-    (a) One-loop V_eff (DESTABILIZES Z₃ for SM!)
-    (b) Tree-level flux/brane effects (STABILIZE Z₃)
+    (a) One-loop V_eff (DESTABILIZES ∞₃ for SM!)
+    (b) Tree-level flux/brane effects (STABILIZE ∞₃)
     (c) Non-perturbative dynamics (instantons)
     """
     print("\n" + "="*70)
     print("Part 2: DEBYE-WALLER (NON-PERTURBATIVE) CONTRIBUTION")
     print("="*70)
 
-    # The confining potential around Z₃ is parameterized by an effective mass m_eff:
+    # The confining potential around ∞₃ is parameterized by an effective mass m_eff:
     # V(δ) = (1/2) m_eff² δ²
 
     # The quantum ground state gives:
@@ -239,7 +239,7 @@ def compute_debye_waller():
 
     print("""
   The non-perturbative Debye-Waller contribution requires knowing
-  the holonomy confining potential. Since V_eff DESTABILIZES Z₃
+  the holonomy confining potential. Since V_eff DESTABILIZES ∞₃
   for SM content, an additional stabilization mechanism is needed.
 
   We parameterize the unknown stabilization by m_eff (effective holonomy mass):
@@ -270,7 +270,7 @@ def compute_debye_waller():
         # (for adjacent roots in fundamental rep)
         # Actually the PHASE difference between generations involves
         # the eigenvalue difference, not the root.
-        # For Z₃: eigenvalue difference = |ω - ω²| = √3
+        # For ∞₃: eigenvalue difference = |ω - ω²| = √3
         # So |Δφ|² ∝ 3 × ⟨δ²⟩
         # But δ is the fluctuation of a Cartan generator, and the
         # eigenvalue phases are linear in δ with coefficients 1, -1, 0
@@ -344,7 +344,7 @@ def compute_combined():
 
   What we've found:
   • Quantum fluctuations of holonomy give f_DW ≈ 1.000 (4D suppressed)
-  • One-loop A₅ exchange gives Δδ/δ ≈ 0 (color trace vanishes at Z₃)
+  • One-loop A₅ exchange gives Δδ/δ ≈ 0 (color trace vanishes at ∞₃)
   • Neither mechanism produces f_hol ≈ 0.948
 
   REINTERPRETATION:
@@ -353,7 +353,7 @@ def compute_combined():
 
   In the Gaussian approximation:
     Y_{ij} ∝ exp(-κ² |θ_i - θ_j|²/8) → overlap is purely real
-    → The CP phase comes only from the Z₃ structure
+    → The CP phase comes only from the ∞-helix structure
 
   In the EXACT Mathieu wavefunctions:
     ψ_k(θ) has corrections beyond Gaussian
@@ -459,7 +459,7 @@ def compute_combined():
     # V_{ij} = ∫ ψ_i*(θ) × e^{i φ_{ij}(θ)} × ψ_j(θ) dθ
     # where φ_{ij}(θ) encodes the holonomy-dependent phase
 
-    # For the Z₃ holonomy: φ_{ij} = (k_i - k_j) × θ_hol = (k_i - k_j) × 2π/3
+    # For the ∞-helix holonomy: φ_{ij} = (k_i - k_j) × θ_hol = (k_i - k_j) × 2π/3
     # This is a CONSTANT → pulls out of the integral
     # V_{ij} = e^{i(k_i-k_j)2π/3} × S_{ij}
 
@@ -486,16 +486,16 @@ def compute_combined():
     # V_{ub} involves (u, b) = (gen 0, gen 2)
     # V_{cs} involves (c, s) = (gen 1, gen 1)
 
-    # The Z₃ phases:
+    # The ∞-helix phases:
     # up-type: u(k=0), c(k=1), t(k=2)
     # down-type: d(k=0), s(k=1), b(k=2)
 
     # V = U_L^u † × U_L^d
-    # If both up and down have the SAME Z₃ assignment:
+    # If both up and down have the SAME ∞₃ assignment:
     # V = 1 (no mixing!) — this is wrong.
 
     # The mixing comes from the DIFFERENCE in up/down localization.
-    # The Z₃ charges CAN differ: k_u ≠ k_d for right-handed fields.
+    # The ∞₃ charges CAN differ: k_u ≠ k_d for right-handed fields.
 
     # For f_hol in the η̄ chain: it was computed as a Debye-Waller factor
     # for the holonomy-induced phase in the CKM matrix.
@@ -517,7 +517,7 @@ def compute_combined():
 
   where:
     Y_u - Y_d = 1 (hypercharge difference)
-    θ_hol = 2π/3 (Z₃ holonomy angle)
+    θ_hol = 2π/3 (∞-helix holonomy angle)
     f_screen = 0.696 (Debye-Waller from angular fluctuations)
 
   The f_hol correction accounts for the HOLONOMY fluctuation washout
@@ -623,7 +623,7 @@ def honest_conclusion():
   ║  We tested THREE approaches to derive f_hol:                    ║
   ║                                                                 ║
   ║  1. Quantum fluctuations of SU(3) holonomy:                     ║
-  ║     → Z₃ is DESTABILIZED at one loop (V'' < 0 for n_f ≥ 2)    ║
+  ║     → ∞₃ is DESTABILIZED at one loop (V'' < 0 for n_f ≥ 2)    ║
   ║     → Cannot compute f_hol without solving stabilization        ║
   ║                                                                 ║
   ║  2. Perturbative A₅ exchange (1-loop Yukawa correction):        ║

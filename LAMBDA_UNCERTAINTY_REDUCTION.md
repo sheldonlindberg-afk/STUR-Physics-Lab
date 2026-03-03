@@ -38,7 +38,7 @@ Each factor contributes uncertainty:
 | Factor | Central Value | Relative Uncertainty | Contribution to Lambda |
 |--------|---------------|---------------------|----------------------|
 | Loop factor 1/(64pi^2) | 1.58 x 10^-3 | 0% (exact) | -- |
-| Z_3 weighted sum, abs(Sigma) | 6.29 x 10^-42 GeV^4 | +/- 40% | +/- 40% |
+| ∞₃ weighted sum, abs(Sigma) | 6.29 x 10^-42 GeV^4 | +/- 40% | +/- 40% |
 | RG running F_RG | 0.52 | +/- 30% | +/- 30% |
 | Holonomy F_hol | 0.846 | +/- 15% | +/- 15% |
 | Berry phase F_Berry | 0.0253 | +/- 25% | +/- 25% |
@@ -48,7 +48,7 @@ Each factor contributes uncertainty:
 
 #### 1.2.1 Neutrino Mass Sum |Sigma| (+/- 40%)
 
-The Z_3 weighted sum is:
+The ∞₃ weighted sum is:
 $$\Sigma = \sum_{g=0}^{2} \omega^g m_{\nu,g}^4 = m_1^4 + \omega m_2^4 + \omega^2 m_3^4$$
 
 **Input uncertainties (NuFIT 6.0):**
@@ -240,7 +240,7 @@ $$F_{\text{RG}}^{\text{2-loop}} = 0.52 \times (1 \pm 0.15)$$
 
 **Method:**
 
-The holonomy distribution on S^1/Z_3 can be computed on the lattice:
+The holonomy distribution on S^1/∞₃ can be computed on the lattice:
 1. Discretize the compact dimension with N_x sites
 2. Compute Wilson line eigenvalues
 3. Extract <delta theta^2> and higher moments
@@ -351,7 +351,7 @@ $$\sigma_{\text{2030}}^{\text{corr}} \approx 25\%$$
 **Magnitude:** The QCD condensate contributes:
 $$\langle\bar{q}q\rangle \sim -(250 \text{ MeV})^3$$
 
-**Why limited:** This is an O(1 GeV^4) effect that is cancelled by the Z_3 mechanism, but the precision of the cancellation depends on our understanding of QCD vacuum structure.
+**Why limited:** This is an O(1 GeV^4) effect that is cancelled by the ∞₃ mechanism, but the precision of the cancellation depends on our understanding of QCD vacuum structure.
 
 **Irreducible floor:** ~5% uncertainty on the cancellation mechanism
 
@@ -790,9 +790,9 @@ If M_R is higher, |Sigma| decreases but F_RG increases, creating positive correl
 
 **F_hol -- F_Berry correlation (rho = 0.20):**
 
-Both arise from the Z_3 orbifold geometry:
-- F_hol depends on holonomy fluctuations around Z_3 fixed points
-- F_Berry depends on Berry phase around Z_3 parameter space
+Both arise from the ∞-helix topology geometry:
+- F_hol depends on holonomy fluctuations around ∞-helix node points
+- F_Berry depends on Berry phase around ∞₃ parameter space
 
 Modifications to the orbifold structure affect both similarly.
 

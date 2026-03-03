@@ -1,6 +1,6 @@
 # STUR Framework: An Overview
 
-**Dynamic Z₃ Phase-Lock Unification — Theory of Everything Candidate (v6.0)**
+**Dynamic Infinity Helix Phase-Lock Unification — Theory of Everything Candidate (v6.0)**
 
 ---
 
@@ -8,7 +8,7 @@
 
 The Standard Model of particle physics successfully describes fundamental particles and forces, yet leaves deep questions unanswered: Why exactly three families of quarks and leptons? Why do their masses span such a vast range? Why this specific mix of forces?
 
-**STUR** (Sheldon's Theory of Unified Resistance) answers these questions through a **dynamically oscillating Z₃ orbifold** on M⁴ × S¹. The key insight: the extra-dimensional geometry is not static. The Z₃ twist angle continuously winds and unwinds on a log-periodic chronomagnetic cycle. When the three orbifold sectors fall into **phase-lock** — perfect 120° alignment — coherent matter interactions emerge with sharply defined generations and mixing angles.
+**STUR** (Sheldon's Theory of Unified Resistance) answers these questions through a **dynamically oscillating ∞-helix topology** on M⁴ × S¹. The key insight: the extra-dimensional geometry is not static. The ∞-helix twist angle continuously winds and unwinds on a log-periodic chronomagnetic cycle. When the three orbifold sectors fall into **phase-lock** — perfect 120° alignment — coherent matter interactions emerge with sharply defined generations and mixing angles.
 
 The framework rests on three pillars: **TEGR** (gravity as torsion), the **XCRM** coupling (unique R-field torsion term), and **Chronomagnetics** (log-periodic phase dynamics with λ = 3722/2705).
 
@@ -16,13 +16,13 @@ The framework rests on three pillars: **TEGR** (gravity as torsion), the **XCRM*
 
 | What STUR Derives | How | Accuracy |
 |-------------------|-----|----------|
-| Exactly 3 generations | Z₃ fixed-point count (topological) | Exact |
+| Exactly 3 generations | ∞-helix node count (topological) | Exact |
 | Cabibbo angle λ = 0.229 | exp(−κ²/4) pairwise overlap at phase-lock | 1.6% from PDG |
-| Full CKM matrix (9 elements) | Wolfenstein assembly from Z₃ geometry | 1.6–7.5% |
+| Full CKM matrix (9 elements) | Wolfenstein assembly from ∞-helix geometry | 1.6–7.5% |
 | CP violation δ_CKM = 68.3° | Helix chirality + holonomy phase | 4.4% |
-| θ_QCD = 0 | Z₃ × CP symmetry (no axion needed) | Exact |
+| θ_QCD = 0 | ∞₃ × CP symmetry (no axion needed) | Exact |
 | m_τ/m_μ = 17.0 | Brane Yukawa hierarchy | 1% |
-| SU(3)×SU(2)×U(1) | Z₃ holonomy compatibility | Exact |
+| SU(3)×SU(2)×U(1) | ∞-helix holonomy compatibility | Exact |
 
 ### What This Is (and Isn't)
 
@@ -94,7 +94,7 @@ STUR makes specific numerical predictions that can be compared with experiment:
 
 ## Visual Structure Suggestions
 
-### Diagram 1: The Z_3 Helix
+### Diagram 1: The ∞₃ Helix
 
 *[Illustration needed: A spiral with three-fold symmetry, showing three marked points at 0, 120, and 240 degrees where fermions localize. Color-code the three generations.]*
 
@@ -114,9 +114,9 @@ STUR makes specific numerical predictions that can be compared with experiment:
 
 ### Diagram 4: The Derivation Chain
 
-*[Illustration needed: Flowchart showing: Axioms -> Compactification -> Z_3 Helix -> Predictions]*
+*[Illustration needed: Flowchart showing: Axioms -> Compactification -> ∞₃ Helix -> Predictions]*
 
-**Caption:** The logical flow of STUR. Starting from three basic assumptions, the Z_3 helix structure emerges, which then determines the number of generations, mass hierarchies, and mixing patterns.
+**Caption:** The logical flow of STUR. Starting from three basic assumptions, the infinity helix structure emerges, which then determines the number of generations, mass hierarchies, and mixing patterns.
 
 ---
 
@@ -162,12 +162,12 @@ At the EFT level, the derivation chain is closed for Standard Model parameters a
 - Winds around the extra dimension in a helix pattern
 - Creates the localization points where fermions sit
 
-### Q: Why Z_3 specifically?
+### Q: Why ∞₃ specifically?
 
-**A:** Z_3 (three-fold symmetry) emerges from several independent requirements:
+**A:** ∞₃ (three-fold symmetry) emerges from several independent requirements:
 1. We observe 3 generations---if each corresponds to a fixed point, we need exactly 3
-2. SU(3) color symmetry has center Z_3, so gauge compatibility requires 3
-3. The holonomy effective potential (quantum corrections) has its minimum at Z_3
+2. SU(3) color symmetry has center ∞₃, so gauge compatibility requires 3
+3. The holonomy effective potential (quantum corrections) has its minimum at ∞₃
 
 These independent lines of reasoning all point to the same answer, providing mutual consistency checks.
 
@@ -181,7 +181,7 @@ The micrometer scale is the target for fifth-force experiments.
 
 ### Q: Does STUR explain dark matter?
 
-**A:** Partially. The Z_3 symmetry creates "KK-parity" that stabilizes the lightest Kaluza-Klein particle (LKP), making it a dark matter candidate. However:
+**A:** Partially. The ∞₃ symmetry creates "KK-parity" that stabilizes the lightest Kaluza-Klein particle (LKP), making it a dark matter candidate. However:
 - The LKP mass depends on unknown parameters
 - No LKP has been detected
 - The predicted abundance requires specific assumptions
@@ -194,7 +194,7 @@ Dark matter remains a testable prediction rather than a solved problem.
 
 ### Framework Classification
 
-**Type:** 5D Effective Field Theory on M^4 x S^1/Z_3
+**Type:** 5D Effective Field Theory on M^4 × S^1/∞₃
 **Validity:** Below M_KK ~ 0.25 eV (from L_X ≈ 0.8 μm)
 **UV Completion:** EFT-level UV finiteness established; string/M-theory embedding is optional future work
 
@@ -209,22 +209,22 @@ Dark matter remains a testable prediction rather than a solved problem.
 1. **R must be doublet:** Singlet creates domain walls violating cosmological bounds
 2. **XCRM unique:** Only non-vanishing first-derivative coupling
 3. **Compactification required:** Finite action
-4. **Z_3 selected:** Holonomy minimization + observed N_gen = 3
+4. **∞₃ selected:** Holonomy minimization + observed N_gen = 3
 
 ### Correction Factors (lambda derivation)
 
 | Factor | Value | Origin |
 |--------|-------|--------|
-| f_sector | 0.62 | Gaussian probability in Z_3 sector |
+| f_sector | 0.62 | Gaussian probability in ∞₃ sector |
 | f_holonomy | 0.846 | exp[-<delta theta^2>/2] from SU(3) fluctuations |
 | f_RG | 0.87 | QCD running + KK thresholds |
-| f_tail | 1.131 | Unified wavefunction tail correction on S^1/Z_3 |
+| f_tail | 1.131 | Unified wavefunction tail correction on S^1/∞₃ |
 
 ### Status Summary
 
 1. **COMPLETE:** Precise mass values --- all 26 parameters within 10% with f_tail = 1.131 correction
 2. **COMPLETE:** L_X scale derived from Casimir-holonomy balance and XCRM-Yukawa symmetry constraint
-3. **COMPLETE (EFT):** Cosmological constant closed via Z_3 Ward identity + neutrino breaking residual
+3. **COMPLETE (EFT):** Cosmological constant closed via ∞-helix Ward identity + neutrino breaking residual
 4. **FUTURE DIRECTION:** UV embedding beyond the EFT (string/M-theory) is optional but not required for low-energy closure
 
 ---
@@ -233,7 +233,7 @@ Dark matter remains a testable prediction rather than a solved problem.
 
 ### Primary Documents
 
-- **DERIVATION_CHAIN_HELIX.md**: Complete mathematical derivations
+- **DERIVATION_CHAIN_INFINITY.md**: Complete mathematical derivations
 - **STUR_PAPER_DRAFT.md**: Academic publication draft
 
 ### Supporting Calculations
@@ -244,7 +244,7 @@ Dark matter remains a testable prediction rather than a solved problem.
 
 ### Exploratory Work
 
-- COSMOLOGICAL_CONSTANT_Z3_MECHANISM.md: Attempt to solve CC problem
+- COSMOLOGICAL_CONSTANT_INFINITY_HELIX_MECHANISM.md: Attempt to solve CC problem
 
 ---
 

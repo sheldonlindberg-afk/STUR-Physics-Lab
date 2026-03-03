@@ -119,17 +119,17 @@ The potential V(R) has coefficients with dimensions. These must be specified in 
 
 ---
 
-## 3. Could G Emerge from Z₃ Geometry?
+## 3. Could G Emerge from ∞₃ Geometry?
 
-### 3.1 What Z₃ Provides
+### 3.1 What ∞₃ Provides
 
-The Z₃ helix structure provides:
+The infinity helix structure provides:
 - Exactly 3 generations (topological)
 - Winding quantization: v·L_X = 3 (dimensionless constraint)
 - Gauge group selection (dimensionless ratios)
 - Fermion localization patterns (dimensionless overlap ratios)
 
-**Crucially:** Z₃ is a discrete group. It provides only integers and ratios like 1/3, 2/3. It cannot provide a dimensional scale.
+**Crucially:** ∞₃ is a discrete group. It provides only integers and ratios like 1/3, 2/3. It cannot provide a dimensional scale.
 
 ### 3.2 The Casimir-Holonomy Balance
 
@@ -276,7 +276,7 @@ DERIVE: L_X from Casimir-holonomy balance
 DERIVE: v from v·L_X = 3
 DERIVE: M_R from M_R = λ_hol/L_X
 DERIVE: All fermion masses from overlap integrals
-DERIVE: All mixing angles from Z₃ geometry
+DERIVE: All mixing angles from ∞-helix geometry
 DERIVE: All gauge couplings from running
 ```
 
@@ -308,7 +308,7 @@ m_fermions                  ~ 10⁻³ - 10² GeV
 m_neutrino                 ~ 10⁻¹¹ GeV
 ```
 
-**All hierarchies emerge from one input through Z₃ geometry.**
+**All hierarchies emerge from one input through ∞-helix geometry.**
 
 ---
 
@@ -375,7 +375,7 @@ S_bulk ~ A_boundary / (4G)
 | M_R | Yes | Holonomy enhancement |
 | m_t | Yes | Overlap integrals |
 | sin²θ_W | Yes | Gauge unification |
-| θ_Cabibbo | Yes | Z₃ geometry |
+| θ_Cabibbo | Yes | ∞-helix geometry |
 | m_ν | Yes | Seesaw |
 
 ### 8.2 What Cannot Be Derived
@@ -493,16 +493,16 @@ G (emergent but not derived from nothing)
 
 ## 11. Final Word
 
-**The question was:** Can STUR derive M_Planck from the Z₃ helix geometry?
+**The question was:** Can STUR derive M_Planck from the infinity helix geometry?
 
-**The answer is:** No, and no theory can. The Z₃ geometry provides:
+**The answer is:** No, and no theory can. The ∞-helix geometry provides:
 - Discrete structure (integers, ratios)
 - Topological constraints (winding numbers)
 - Selection rules (which interactions exist)
 
 It cannot provide an absolute scale. M_Planck must be given.
 
-**But STUR's achievement stands:** From ONE input (M_Planck) and the Z₃ helix structure, ALL of physics emerges — all masses, all couplings, all mixing angles, all cosmic scales.
+**But STUR's achievement stands:** From ONE input (M_Planck) and the infinity helix structure, ALL of physics emerges — all masses, all couplings, all mixing angles, all cosmic scales.
 
 **This is as close to "deriving everything" as physics can possibly get.**
 
@@ -516,7 +516,7 @@ It cannot provide an absolute scale. M_Planck must be given.
 
 ## References
 
-1. DERIVATION_CHAIN_HELIX.md - Complete STUR derivation framework
+1. DERIVATION_CHAIN_INFINITY.md - Complete STUR derivation framework
 2. LX_CASIMIR_HOLONOMY_DERIVATION.md - L_X determination
 3. SCALE_UNIFICATION_ANALYSIS.md - Scale hierarchy analysis
 4. stur_gravity_emergence.html - TEGR derivation

@@ -15,10 +15,10 @@ const STUR_DEFINITIONS = {
 
   // Theory status caveat - displayed where appropriate
   theoryCaveat: "STUR v2.5 is a candidate unified framework built from one foundational coupling with falsifiable predictions. " +
-    "All mechanisms and parameters are derived from XCRM doublet coupling on a Z₃ helix. " +
-    "The R-field doublet R = (R₁, R₂) with winding phase automatically gives: 3 generations (|Z₃| = 3) and SU(3) from geometry (Z₃ = center). " +
+    "All mechanisms and parameters are derived from XCRM doublet coupling on a infinity helix. " +
+    "The R-field doublet R = (R₁, R₂) with winding phase automatically gives: 3 generations (|∞₃| = 3) and SU(3) from geometry (∞₃ = center). " +
     "Ultimate validity depends on experimental testing of the visibility prediction. " +
-    "See DERIVATION_CHAIN_HELIX.md for complete derivation chains.",
+    "See DERIVATION_CHAIN_INFINITY.md for complete derivation chains.",
 
   // ============================================================
   // DERIVED PRINCIPLES (v2.5: all derived from XCRM doublet, none are axioms)
@@ -30,38 +30,38 @@ const STUR_DEFINITIONS = {
       name: "XCRM Doublet Coupling",
       description: "The unique antisymmetric dimension-5 coupling χ(R₁∂_XR₂ - R₂∂_XR₁) between R-field doublet and extra dimension — the sole foundation from which everything follows",
       equation: "χ(R₁∂_X R₂ - R₂∂_X R₁) = χ|R|²∂_X φ",
-      status: "FOUNDATION: Uniquely determined by dimensional analysis + TEGR compatibility on M⁴ × S¹ with Z₃ helix",
-      derives: ["Z₃ helix geometry", "Master Action", "3 generations (automatic)", "SU(3) from geometry", "CC = 0"]
+      status: "FOUNDATION: Uniquely determined by dimensional analysis + TEGR compatibility on M⁴ × S¹ with infinity helix",
+      derives: ["infinity helix geometry", "Master Action", "3 generations (automatic)", "SU(3) from geometry", "CC = 0"]
     },
     masterAction: {
       id: "Derived 1",
       name: "The Master Action (Doublet Form)",
-      description: "Uniquely determined by XCRM doublet + diffeomorphism invariance on Z₃ helix",
+      description: "Uniquely determined by XCRM doublet + diffeomorphism invariance on infinity helix",
       equation: "S_STUR = ∫ [½(∇R)² - V(|R|) + χ(R₁∂_XR₂ - R₂∂_XR₁) + α|R|𝕋 + ℒ_matter] d⁵x",
-      status: "DERIVED: Follows uniquely from XCRM doublet + Z₃ helix boundary conditions",
+      status: "DERIVED: Follows uniquely from XCRM doublet + infinity helix boundary conditions",
       derivation: "stur_master_action_derivation.html"
     },
     dhp: {
       id: "Derived 2",
       name: "Dynamical Holonomy Principle (DHP)",
-      description: "Emerges from path integral saddle point on Z₃ helix — not postulated",
+      description: "Emerges from path integral saddle point on infinity helix — not postulated",
       equation: "Ω_DHP[history] = ∫₀^t_f Ω[config(t)] dt",
-      status: "DERIVED: Faddeev-Popov procedure on Z₃ helix forces holonomy minimization",
+      status: "DERIVED: Faddeev-Popov procedure on infinity helix forces holonomy minimization",
       closes: ["UV completion", "Neutrino masses", "CP violation", "Dark matter", "Λ addressed", "Inflation", "Baryogenesis", "Quantum gravity"],
       derivation: "stur_dhp_derivation.html"
     },
     tfp: {
       id: "Derived 3",
       name: "Topological Flavor Principle (TFP)",
-      description: "Fermion generations labeled by Z₃ phases — AUTOMATIC from helix topology, not calculated",
+      description: "Fermion generations labeled by ∞-helix phases — AUTOMATIC from helix topology, not calculated",
       equation: "φ_g = 2πg/3 for g ∈ {0, 1, 2}",
-      status: "AUTOMATIC: Z₃ helix has exactly 3 distinct phases → 3 generations is a THEOREM",
+      status: "AUTOMATIC: infinity helix has exactly 3 distinct phases → 3 generations is a THEOREM",
       closes: ["3 generations (AUTOMATIC)", "Yukawa hierarchies", "CKM/PMNS matrices", "CP violation (helix chirality → δ_CKM ≈ 70°)"],
       derivation: "stur_tfp_flavor.html",
       physicalMotivation: {
-        summary: "TFP is AUTOMATIC from Z₃ helix — it is a theorem, not a calculation",
+        summary: "TFP is AUTOMATIC from infinity helix — it is a theorem, not a calculation",
         mechanisms: [
-          "Z₃ helix structure has exactly |Z₃| = 3 distinct phase sectors",
+          "infinity helix structure has exactly |∞₃| = 3 distinct phase sectors",
           "Each fermion couples to one phase sector → one generation",
           "n_gen = 3 is TOPOLOGICAL, not dynamical",
           "Phase positions φ = 0, 2π/3, 4π/3 correspond to generations 1, 2, 3"
@@ -71,10 +71,10 @@ const STUR_DEFINITIONS = {
     mhp: {
       id: "Derived 4",
       name: "Minimum Holonomy Principle (MHP)",
-      description: "Emerges from path integral saddle point conditions on Z₃ helix — physical configurations minimize total holonomy action",
+      description: "Emerges from path integral saddle point conditions on infinity helix — physical configurations minimize total holonomy action",
       equation: "Ω[A,ψ,X_i] = ∫ Tr(W†W) dμ + λ_ψ Σ∫|D_X ψ_i|² dX + κ·I_top",
       status: "DERIVED: Faddeev-Popov + Vandermonde determinant forces holonomy minimization",
-      closes: ["Gauge group SU(3)×SU(2)×U(1) (Z₃ = center(SU(3)))", "Flavor structure", "Fermion localization profiles", "Moduli stabilization", "χ fixed by vacuum stability"],
+      closes: ["Gauge group SU(3)×SU(2)×U(1) (∞₃ = center(SU(3)))", "Flavor structure", "Fermion localization profiles", "Moduli stabilization", "χ fixed by vacuum stability"],
       derivation: "stur_mhp_derivation.html",
 
       // Physical Motivation for MHP
@@ -82,17 +82,17 @@ const STUR_DEFINITIONS = {
         summary: "MHP is a theorem of QFT on compact spaces — it emerges, it is not postulated",
         mechanisms: [
           "Path integral weights configurations by e^{iS}: saddle points dominate in classical limit",
-          "On Z₃ helix, gauge-fixing introduces Vandermonde determinant from Faddeev-Popov procedure",
+          "On infinity helix, gauge-fixing introduces Vandermonde determinant from Faddeev-Popov procedure",
           "Vandermonde determinant exponentially suppresses large holonomy configurations",
-          "Net effect: quantum mechanics on Z₃ helix naturally selects minimum holonomy"
+          "Net effect: quantum mechanics on infinity helix naturally selects minimum holonomy"
         ],
         analogy: "Just as entropy maximization emerges from counting microstates, MHP emerges from counting gauge orbits",
         relation_to_physics: [
           "Similar to how lowest-energy states dominate thermodynamics",
           "Analogous to path-of-least-action in classical mechanics",
-          "Z₃ structure connects naturally to SU(3) via center(SU(3)) = Z₃"
+          "∞-helix structure connects naturally to SU(3) via center(SU(3)) = ∞₃"
         ],
-        uniquenessProof: "Z₃ helix geometry makes SU(3) natural: Z₃ = center(SU(3)). Full gauge group from MHP on this geometry."
+        uniquenessProof: "infinity helix geometry makes SU(3) natural: ∞₃ = center(SU(3)). Full gauge group from MHP on this geometry."
       }
     }
   },
@@ -102,18 +102,18 @@ const STUR_DEFINITIONS = {
 
   // ============================================================
   // THEORY CLOSURE STATUS — COMPLETE (v2.5 Helix)
-  // See DERIVATION_CHAIN_HELIX.md for complete formal analysis
+  // See DERIVATION_CHAIN_INFINITY.md for complete formal analysis
   // ============================================================
   closure: {
     status: "COMPLETE",
-    statusLabel: "Candidate unified framework: all mechanisms and parameters derived from XCRM doublet on Z₃ helix — awaiting experimental verification",
+    statusLabel: "Candidate unified framework: all mechanisms and parameters derived from XCRM doublet on infinity helix — awaiting experimental verification",
     derivationsComplete: true, // All derivation chains complete as of v2.5
-    axiomCount: 1, // v2.5: One foundational coupling (XCRM doublet on Z₃ helix)
+    axiomCount: 1, // v2.5: One foundational coupling (XCRM doublet on infinity helix)
     freeParameters: 0, // L_X dynamically stabilized by Casimir-holonomy balance; χ fixed by vacuum stability
     theoryDeterminedParameters: 1, // L_X stabilized by Casimir-holonomy balance
     v25Improvements: {
-      threeGenerations: "AUTOMATIC from |Z₃| = 3 (theorem, not calculation)",
-      su3Color: "NATURAL from Z₃ = center(SU(3))",
+      threeGenerations: "AUTOMATIC from |∞₃| = 3 (theorem, not calculation)",
+      su3Color: "NATURAL from ∞₃ = center(SU(3))",
       cosmologicalConstant: "Addressed: |R| = v everywhere → no domain wall → Λ reduced (quantum corrections remain)",
       cpViolation: "NATURAL from helix chirality"
     },
@@ -131,8 +131,8 @@ const STUR_DEFINITIONS = {
         name: "XCRM coupling",
         value: "χ = -π/(3L_X)",
         status: "FIXED by vacuum stability (not tuned)",
-        note: "Determined by requiring zero vacuum energy on Z₃ helix",
-        derivation: "DERIVATION_CHAIN_HELIX.md [H.4.10]"
+        note: "Determined by requiring zero vacuum energy on infinity helix",
+        derivation: "DERIVATION_CHAIN_INFINITY.md [H.4.10]"
       },
       lambda: {
         name: "R-field self-coupling",
@@ -142,26 +142,26 @@ const STUR_DEFINITIONS = {
       }
     },
     // Rigorously Established (complete derivation chains from XCRM doublet)
-    // Status levels: "established" = mathematical theorem, "automatic" = follows from Z₃ topology, "mechanism" = form derived
+    // Status levels: "established" = mathematical theorem, "automatic" = follows from ∞-helix topology, "mechanism" = form derived
     rigorouslyEstablishedProblems: [
       { name: "Gaussian visibility", mechanism: "CLT phase averaging", equation: "B.15", status: "established", note: "Mathematical theorem: CLT + Gaussian averaging" },
       { name: "Coherence length", mechanism: "XCRM closure relation", equation: "B.9", status: "established", note: "Follows from parameter closure given L_X, σ_R" },
       { name: "TEGR emergence", mechanism: "Equilibrium limit", equation: "4.3", status: "established", note: "TEGR ≡ GR is standard mathematical identity" },
-      { name: "MHP derivation", mechanism: "Path integral saddle point", equation: "1.5", status: "established", note: "Standard Faddeev-Popov + Vandermonde on Z₃ helix" },
+      { name: "MHP derivation", mechanism: "Path integral saddle point", equation: "1.5", status: "established", note: "Standard Faddeev-Popov + Vandermonde on infinity helix" },
       { name: "Yang-Mills structure", mechanism: "XCRM degeneracy", equation: "5.4", status: "established", note: "Degeneracy → gauge symmetry" },
-      { name: "SU(3) color", mechanism: "Z₃ = center(SU(3))", equation: "H.5.5", status: "automatic", note: "v2.5: Z₃ helix structure implies SU(3) naturally" },
-      { name: "Gauge group SM", mechanism: "MHP on Z₃ helix", equation: "H.5.7", status: "established", note: "SU(3)×SU(2)×U(1) from MHP on Z₃ geometry" },
-      { name: "3 generations", mechanism: "|Z₃| = 3 phases", equation: "H.6.2", status: "automatic", note: "v2.5 AUTOMATIC: Z₃ helix has exactly 3 phases → n_gen = 3 is a THEOREM" },
+      { name: "SU(3) color", mechanism: "∞₃ = center(SU(3))", equation: "H.5.5", status: "automatic", note: "v2.5: infinity helix structure implies SU(3) naturally" },
+      { name: "Gauge group SM", mechanism: "MHP on infinity helix", equation: "H.5.7", status: "established", note: "SU(3)×SU(2)×U(1) from MHP on ∞-helix geometry" },
+      { name: "3 generations", mechanism: "|∞₃| = 3 phases", equation: "H.6.2", status: "automatic", note: "v2.5 AUTOMATIC: infinity helix has exactly 3 phases → n_gen = 3 is a THEOREM" },
       { name: "Flavor structure", mechanism: "Phase localization", equation: "H.7.1", status: "established", note: "Yukawas from phase space overlaps" },
       { name: "UV completion", mechanism: "Holonomy self-regulation", equation: "F.14h", status: "established", note: "High-momentum modes suppressed by holonomy", derivation: "stur_uv_completion.html" },
-      { name: "Yukawa hierarchies", mechanism: "Phase overlaps", equation: "H.7.6", status: "established", note: "Exponential suppression from Z₃ phase separation", derivation: "stur_yukawa_derivation.html" },
+      { name: "Yukawa hierarchies", mechanism: "Phase overlaps", equation: "H.7.6", status: "established", note: "Exponential suppression from ∞-helix phase separation", derivation: "stur_yukawa_derivation.html" },
       { name: "CKM/PMNS matrices", mechanism: "Phase mismatch", equation: "H.8.4", status: "established", note: "Wolfenstein structure from up/down phase mismatch", derivation: "stur_ckm_derivation.html" },
       { name: "Neutrino masses", mechanism: "Bulk seesaw", equation: "F.16", status: "established", note: "Bulk N_R + seesaw mechanism", derivation: "stur_neutrino_derivation.html" },
       { name: "CP violation", mechanism: "Helix chirality", equation: "H.8.6", status: "automatic", note: "v2.5: Helix winding direction breaks CP spontaneously → δ ≈ 70°", derivation: "stur_cp_derivation.html" },
-      { name: "Dark matter (LKP)", mechanism: "KK parity stability", equation: "F.20", status: "established", note: "Z₃ helix Z₂ parity gives stable LKP", derivation: "stur_darkmatter_derivation.html" },
+      { name: "Dark matter (LKP)", mechanism: "KK parity stability", equation: "F.20", status: "established", note: "infinity helix Z₂ parity gives stable LKP", derivation: "stur_darkmatter_derivation.html" },
       { name: "Cosmological constant", mechanism: "No domain wall", equation: "H.11.10", status: "addressed", note: "v2.5: |R| = v everywhere on helix → no domain wall energy → Λ reduced (quantum corrections under investigation)", derivation: "stur_cosmological_derivation.html" },
       { name: "Inflation + Baryogenesis", mechanism: "R-field dynamics + leptogenesis", equation: "F.24-25", status: "established", note: "R-field slow-roll + geometric CP phases", derivation: "stur_inflation_derivation.html" },
-      { name: "Gauge coupling unification", mechanism: "5D Z₃ helix geometry", equation: "GU.13", status: "established", note: "α_i(M_Pl) from MHP + Kac-Moody levels", derivation: "stur_gauge_unification_derivation.html" },
+      { name: "Gauge coupling unification", mechanism: "5D infinity helix geometry", equation: "GU.13", status: "established", note: "α_i(M_Pl) from MHP + Kac-Moody levels", derivation: "stur_gauge_unification_derivation.html" },
       { name: "Complete leptogenesis", mechanism: "Full Boltzmann + sphalerons", equation: "LT.16", status: "established", note: "η_B = 6.12×10⁻¹⁰ from thermal history", derivation: "stur_leptogenesis_thermal.html" },
       { name: "Fifth-force screening", mechanism: "XCRM RG screening", equation: "F.28", status: "established", note: "All-orders suppression via holonomy regulation", derivation: "stur_fifth_force_screening.html" },
       { name: "Strong CP solution", mechanism: "Helix Z₂ parity", equation: "F.30", status: "established", note: "θ̄_eff = 0 exactly from geometry", derivation: "stur_strong_cp_solution.html" }
@@ -176,9 +176,9 @@ const STUR_DEFINITIONS = {
       { name: "Coherence length", mechanism: "XCRM closure relation", equation: "B.9", status: "established" },
       { name: "TEGR emergence", mechanism: "Equilibrium limit", equation: "4.3", status: "established" },
       { name: "Yang-Mills structure", mechanism: "XCRM degeneracy", equation: "5.4", status: "established" },
-      { name: "SU(3) color", mechanism: "Z₃ = center(SU(3))", equation: "H.5.5", status: "automatic" },
-      { name: "Gauge group SM", mechanism: "MHP on Z₃ helix", equation: "H.5.7", status: "established" },
-      { name: "3 generations", mechanism: "|Z₃| = 3 phases", equation: "H.6.2", status: "automatic" },
+      { name: "SU(3) color", mechanism: "∞₃ = center(SU(3))", equation: "H.5.5", status: "automatic" },
+      { name: "Gauge group SM", mechanism: "MHP on infinity helix", equation: "H.5.7", status: "established" },
+      { name: "3 generations", mechanism: "|∞₃| = 3 phases", equation: "H.6.2", status: "automatic" },
       { name: "Flavor structure", mechanism: "Phase localization", equation: "H.7.1", status: "established" },
       { name: "UV completion", mechanism: "Holonomy self-regulation", equation: "F.14h", status: "established" },
       { name: "Yukawa hierarchies", mechanism: "Phase overlaps", equation: "H.7.6", status: "established" },
@@ -188,7 +188,7 @@ const STUR_DEFINITIONS = {
       { name: "Dark matter (LKP)", mechanism: "KK parity stability", equation: "F.20", status: "established" },
       { name: "Cosmological constant", mechanism: "No domain wall on helix", equation: "H.11.10", status: "automatic" },
       { name: "Inflation + Baryogenesis", mechanism: "R-field dynamics + leptogenesis", equation: "F.24-25", status: "established" },
-      { name: "Gauge coupling unification", mechanism: "5D Z₃ helix geometry", equation: "GU.13", status: "established" },
+      { name: "Gauge coupling unification", mechanism: "5D infinity helix geometry", equation: "GU.13", status: "established" },
       { name: "Complete leptogenesis", mechanism: "Full Boltzmann + sphalerons", equation: "LT.16", status: "established" },
       { name: "Fifth-force screening", mechanism: "XCRM RG screening", equation: "F.28", status: "established" },
       { name: "Strong CP solution", mechanism: "Helix Z₂ parity", equation: "F.30", status: "established" }
@@ -271,16 +271,16 @@ const STUR_DEFINITIONS = {
 
   // ============================================================
   // FIRST PRINCIPLES — v2.5 Helix Geometry
-  // See DERIVATION_CHAIN_HELIX.md for formal status of each derivation
+  // See DERIVATION_CHAIN_INFINITY.md for formal status of each derivation
   // ============================================================
   firstPrinciples: {
-    statement: "STUR v2.5 is a candidate unified framework: XCRM doublet coupling χ(R₁∂_XR₂ - R₂∂_XR₁) on a derived Z₃ helix provides the foundation for deriving Standard Model + gravity. R-doublet winding gives 3 generations (automatic from |Z₃|=3) and SU(3) (from Z₃=center). Awaiting experimental verification.",
+    statement: "STUR v2.5 is a candidate unified framework: XCRM doublet coupling χ(R₁∂_XR₂ - R₂∂_XR₁) on a derived infinity helix provides the foundation for deriving Standard Model + gravity. R-doublet winding gives 3 generations (automatic from |∞₃|=3) and SU(3) (from ∞₃=center). Awaiting experimental verification.",
 
     theoryDeterminedParameters: [
       "L_X ~ 1-10 μm (Casimir-holonomy balance — uniquely determined)",
       "χ = -π/(3L_X) (vacuum stability — uniquely determined)",
-      "n_gen = 3 (AUTOMATIC from Z₃ helix structure)",
-      "All 19 SM parameters (derived from Z₃ helix geometry + MHP localization)"
+      "n_gen = 3 (AUTOMATIC from infinity helix structure)",
+      "All 19 SM parameters (derived from infinity helix geometry + MHP localization)"
     ],
 
     closureRelation: {
@@ -302,13 +302,13 @@ const STUR_DEFINITIONS = {
     },
 
     mhpCloses: [
-      "Gauge group selection (SU(3) natural from Z₃ = center(SU(3)), full SM from MHP on Z₃ helix)",
-      "Flavor structure (localization from phase positions on Z₃ helix)",
+      "Gauge group selection (SU(3) natural from ∞₃ = center(SU(3)), full SM from MHP on infinity helix)",
+      "Flavor structure (localization from phase positions on infinity helix)",
       "Fermion localization profiles (Gaussian in phase space)"
     ],
 
     tfpCloses: [
-      "Generation number — v2.5 AUTOMATIC: |Z₃| = 3 phases → n_gen = 3 is a THEOREM",
+      "Generation number — v2.5 AUTOMATIC: |∞₃| = 3 phases → n_gen = 3 is a THEOREM",
       "Yukawa hierarchies — ESTABLISHED: phase overlaps give exponential suppression",
       "CKM/PMNS matrices — ESTABLISHED: phase mismatch between up/down sectors",
       "CP violation phase (δ_CKM ≈ 70° from helix chirality) — AUTOMATIC in v2.5"
@@ -316,14 +316,14 @@ const STUR_DEFINITIONS = {
 
     // Explicit caveats for claims (updated for v2.5)
     caveats: {
-      gaugeGroup: "In v2.5, SU(3) is NATURAL from Z₃ = center(SU(3)). The full SM gauge group " +
-                  "SU(3)×SU(2)×U(1) follows from MHP minimization on the Z₃ helix geometry.",
-      generations: "v2.5 AUTOMATIC: The Z₃ helix has exactly |Z₃| = 3 distinct phase sectors. " +
+      gaugeGroup: "In v2.5, SU(3) is NATURAL from ∞₃ = center(SU(3)). The full SM gauge group " +
+                  "SU(3)×SU(2)×U(1) follows from MHP minimization on the infinity helix geometry.",
+      generations: "v2.5 AUTOMATIC: The infinity helix has exactly |∞₃| = 3 distinct phase sectors. " +
                    "n_gen = 3 is a THEOREM, not a calculation. This is topological, not dynamical.",
       uvCompletion: "ESTABLISHED: UV finiteness via holonomy self-regulation. High-momentum modes " +
                     "accumulate large holonomy and are exponentially suppressed by the Faddeev-Popov measure. " +
                     "All loop integrals converge without regularization. See stur_uv_completion.html.",
-      cosmologicalConstant: "v2.5 Addressed: On the Z₃ helix, |R| = v everywhere (only phase varies). " +
+      cosmologicalConstant: "v2.5 Addressed: On the infinity helix, |R| = v everywhere (only phase varies). " +
                            "No domain wall → zero domain wall energy → Λ reduced to leading order. " +
                            "Observed Λ > 0 requires quantum corrections (under investigation)."
     },
@@ -336,10 +336,10 @@ const STUR_DEFINITIONS = {
       "Cosmological constant — v2.5 Addressed: no domain wall on helix → Λ reduced",
       "Inflation (R-field slow-roll from MHP) — ESTABLISHED: stur_inflation_derivation.html",
       "Baryogenesis (complete leptogenesis) — ESTABLISHED: stur_leptogenesis_thermal.html",
-      "Gauge coupling unification (5D Z₃ helix geometry) — ESTABLISHED: stur_gauge_unification_derivation.html",
+      "Gauge coupling unification (5D infinity helix geometry) — ESTABLISHED: stur_gauge_unification_derivation.html",
       "Fifth-force screening (XCRM regulation) — ESTABLISHED: stur_fifth_force_screening.html",
       "Strong CP (θ=0 from helix geometry) — ESTABLISHED: stur_strong_cp_solution.html",
-      "Quantum gravity (finite holonomy path integral on Z₃ helix)"
+      "Quantum gravity (finite holonomy path integral on infinity helix)"
     ],
 
     falsifiedIf: [
@@ -360,7 +360,7 @@ const STUR_DEFINITIONS = {
       name: "The Unified Resistance Action (v2.5 Helix)",
       latex: "S_{\\rm STUR}[\\mathbf{R}, g, X] = \\int_{\\mathcal{M}^5} d^4x\\, dX\\, \\sqrt{-g}\\, \\Big[\\underbrace{\\color{#4ade80}{\\tfrac{1}{2}(\\nabla \\mathbf{R})^2}}_{\\text{diffusion}} - \\underbrace{\\color{#f472b6}{V(|\\mathbf{R}|)}}_{\\text{relaxation}} + \\underbrace{\\color{#fbbf24}{\\chi\\,(R_1\\partial_X R_2 - R_2\\partial_X R_1)}}_{\\text{XCRM doublet}} + \\underbrace{\\color{#60a5fa}{\\alpha\\, |\\mathbf{R}|\\, \\mathbb{T}}}_{\\text{torsion}} + \\color{#22d3ee}{\\mathcal{L}_{\\rm matter}}\\Big]",
       tier: "core",
-      note: "R = (R₁, R₂) doublet with |R|² = R₁² + R₂². XCRM term = χ|R|²∂_Xφ where φ = arctan(R₂/R₁). Z₃ helix boundary conditions: R(X+L_X) = R_{2π/3}·R(X)."
+      note: "R = (R₁, R₂) doublet with |R|² = R₁² + R₂². XCRM term = χ|R|²∂_Xφ where φ = arctan(R₂/R₁). infinity helix boundary conditions: R(X+L_X) = R_{2π/3}·R(X)."
     },
 
     // First Principles closure

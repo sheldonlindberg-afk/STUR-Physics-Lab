@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR Unitarity Constraints</title>
-<meta name="description" content="STUR Helix Geometry unitarity analysis. ONE input (M_Planck), Z₃ helix geometry. WW scattering, KK resonances, and partial wave bounds computed. Theory remains unitary to all scales.">
+<meta name="description" content="STUR Helix Geometry unitarity analysis. ONE input (M_Planck), infinity helix geometry. WW scattering, KK resonances, and partial wave bounds computed. Theory remains unitary to all scales.">
 
 <!-- PWA & iOS meta tags -->
 <meta name="theme-color" content="#4ade80">
@@ -46,10 +46,10 @@
   <h1>STUR Unitarity Constraints</h1>
   <p class="subtitle">Partial Wave Unitarity and High-Energy Behavior</p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
-    Z₃ helix holonomy regulation · <span style="color:var(--success);">STUR Helix Geometry TOE</span>
+    infinity helix holonomy regulation · <span style="color:var(--success);">STUR Helix Geometry TOE</span>
   </p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.25rem;">
-    ONE input (M<sub>Planck</sub>) · Z₃ helix geometry
+    ONE input (M<sub>Planck</sub>) · infinity helix geometry
   </p>
   <div style="margin-top:1rem;">
     <span class="stur-status success">
@@ -67,15 +67,15 @@
 
 <!-- EXECUTIVE SUMMARY -->
 <section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
-  <h2 style="color:var(--success);">Summary: S-Matrix Unitarity Preserved by Z₃ Orbifold (v6.2)</h2>
+  <h2 style="color:var(--success);">Summary: S-Matrix Unitarity Preserved by ∞₃ Orbifold (v7.0)</h2>
 
   <div style="margin-bottom:1rem;padding:0.75rem;background:rgba(74,222,128,0.08);border-left:3px solid #4ade80;border-radius:4px;">
-    <strong style="color:#4ade80;">Z₃ Infinity Helix TOE (v6.2):</strong> Three axioms —
+    <strong style="color:#4ade80;">∞₃ Infinity Helix TOE (v7.0):</strong> Three axioms —
     <strong>(A1)</strong> M⁴ × S¹ with TEGR,
     <strong>(A2)</strong> Real doublet R-field,
     <strong>(A3)</strong> Energy minimization —
     yield 27 derived observables. S-matrix unitarity is preserved to all orders as a derived consequence
-    of Z₃ orbifold geometry. Parameters: κ = 2.430, α<sub>eff</sub> = 1.480 (two-loop), σ = 0.862.
+    of ∞-helix topology geometry. Parameters: κ = 2.430, α<sub>eff</sub> = 1.480 (two-loop), σ = 0.862.
   </div>
 
   <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.5);">
@@ -262,7 +262,7 @@
 
   <h3>4.1 KK Tower Sum</h3>
 
-  <p>Summing over KK modes with Z₃ phase structure:</p>
+  <p>Summing over KK modes with ∞-helix phase structure:</p>
 
   <div class="eq boxed" style="margin:1rem 0;">
     \[\Matt{\mathcal{M}^{\rm KK}} = \sum_{n=0}^{\infty} \frac{g^2 \cdot \XCRM{\omega^{n\bmod 3}}}{s - m_n^2} \xrightarrow{s \to \infty} -g^2 L_X^2 \sum_{n=1}^{\infty} \frac{\omega^{n\bmod 3}}{n^2}\]
@@ -278,7 +278,7 @@
     <div class="eq-label" style="color:var(--neon-cyan);">(U.14) — Convergent KK sum (DERIVED)</div>
   </div>
 
-  <p>With Z₃ phases, additional cancellation occurs:</p>
+  <p>With ∞-helix phases, additional cancellation occurs:</p>
 
   <div class="eq boxed" style="margin:1rem 0;">
     \[\sum_{n=1}^{\infty} \frac{\omega^{n\bmod 3}}{n^2} = \frac{\pi^2}{6} \times \frac{1 + \omega + \omega^2}{3} = \frac{\pi^2}{6} \times 0 = 0 \quad \text{(complete cancellation!)}\]
@@ -290,19 +290,19 @@
   <p>At very high energies (√s >> M<sub>KK</sub>), the partial wave amplitude:</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--success);padding:1.25rem;">
-    \[\boxed{\Quant{a_0}(s \to \infty) = \frac{g^2 L_X^2 \pi}{192} \times \text{(residual after Z₃ cancellation)} \approx 0.02}\]
+    \[\boxed{\Quant{a_0}(s \to \infty) = \frac{g^2 L_X^2 \pi}{192} \times \text{(residual after ∞₃ cancellation)} \approx 0.02}\]
     <div class="eq-label" style="color:var(--success);">(U.15) — Asymptotic partial wave</div>
   </div>
 
   <div class="block success" style="border-width:3px;margin-top:1.5rem;">
-    <div class="title" style="font-size:1.1rem;">Asymptotic Safety from Z₃ Structure</div>
+    <div class="title" style="font-size:1.1rem;">Asymptotic Safety from ∞₃ Structure</div>
     <p style="margin:0;color:var(--text-secondary);">
       The partial wave amplitude remains bounded |a<sub>0</sub>| ≈ 0.02 << 1 even at √s → ∞.
-      The Z₃ phase structure provides additional cancellation beyond the Basel sum convergence:
+      The ∞-helix phase structure provides additional cancellation beyond the Basel sum convergence:
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-      <li>1 + ω + ω² = 0 (Z₃ sum rule)</li>
-      <li>Only residual non-Z₃-symmetric terms contribute</li>
+      <li>1 + ω + ω² = 0 (∞₃ sum rule)</li>
+      <li>Only residual non-∞₃-symmetric terms contribute</li>
       <li>Result: Even stronger UV suppression than naive KK tower</li>
     </ul>
   </div>
@@ -314,14 +314,14 @@
 
   <h3>5.1 Modified Propagator from Holonomy</h3>
 
-  <p>The Z₃ helix holonomy modifies the propagator at high momenta:</p>
+  <p>The infinity helix holonomy modifies the propagator at high momenta:</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem;">
     \[\boxed{\Quant{G(p)} = \frac{1}{p^2 + m^2 + \XCRM{\Lambda_\Omega^2 \sin^2(p_X L_X)}}}\]
     <div class="eq-label" style="color:var(--gold);">(U.16) — Holonomy-regulated propagator</div>
   </div>
 
-  <p>where Λ<sub>Ω</sub> is the holonomy scale determined by the Z₃ structure. The sin² term provides natural UV regulation:</p>
+  <p>where Λ<sub>Ω</sub> is the holonomy scale determined by the ∞-helix structure. The sin² term provides natural UV regulation:</p>
   <ul>
     <li>At low p<sub>X</sub>: sin²(p<sub>X</sub>L<sub>X</sub>) → 0, recovers SM propagator</li>
     <li>At high p<sub>X</sub>: sin² oscillates, suppresses UV divergences</li>
@@ -346,14 +346,14 @@
 
   <h3>5.4 Information Paradox Resolution</h3>
 
-  <p>The Z₃ holonomy also resolves black hole information paradox:</p>
+  <p>The ∞-helix holonomy also resolves black hole information paradox:</p>
 
   <div class="eq boxed" style="margin:1rem 0;">
-    \[\XCRM{S_{\rm in}(Z_3)} = \XCRM{S_{\rm out}(Z_3)} \quad \text{(topological entropy conserved)}\]
+    \[\XCRM{S_{\rm in}(∞₃)} = \XCRM{S_{\rm out}(∞₃)} \quad \text{(topological entropy conserved)}\]
     <div class="eq-label">(U.19)</div>
   </div>
 
-  <p>Including the Z₃ sector, the full evolution is unitary: U<sub>evap</sub>: H<sub>in</sub> → H<sub>out</sub> is unitary on the complete Hilbert space.</p>
+  <p>Including the ∞-helix sector, the full evolution is unitary: U<sub>evap</sub>: H<sub>in</sub> → H<sub>out</sub> is unitary on the complete Hilbert space.</p>
 
   <div class="block success" style="border-width:3px;margin-top:1.5rem;">
     <div class="title" style="font-size:1.1rem;">Complete Unitarity Proof</div>
@@ -363,11 +363,11 @@
     <ol style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
       <li><strong>Higgs mechanism:</strong> Longitudinal gauge boson scattering unitarized below TeV</li>
       <li><strong>KK resonances:</strong> Narrow widths ensure |a<sub>J</sub>| << 1 at each resonance</li>
-      <li><strong>KK sum convergence:</strong> Basel problem Σ1/n² = π²/6 plus Z₃ cancellation</li>
+      <li><strong>KK sum convergence:</strong> Basel problem Σ1/n² = π²/6 plus ∞₃ cancellation</li>
       <li><strong>Holonomy regulation:</strong> sin²(p<sub>X</sub>L<sub>X</sub>) UV damping ensures finiteness</li>
     </ol>
     <p style="margin:0.5rem 0 0;color:var(--text-muted);font-size:0.85rem;">
-      The theory is perturbatively unitary to all orders — a DERIVED consequence of Z₃ helix geometry.
+      The theory is perturbatively unitary to all orders — a DERIVED consequence of infinity helix geometry.
     </p>
   </div>
 </section>
@@ -380,7 +380,7 @@
 <footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
   <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
     © 2026 Sheldon Lindberg · <a href="../sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
-    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v6.2</span>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v7.0</span>
   </p>
 </footer>
 

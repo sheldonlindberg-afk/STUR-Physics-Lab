@@ -1,7 +1,7 @@
 # Complete Derivation of the eta-bar Correction Chain
 
 **Document Type:** Theoretical Physics Derivation
-**Framework:** STUR v4.3 (Z3 Helix Geometry)
+**Framework:** STUR v4.3 (∞₃ Helix Geometry)
 **Version:** 1.0
 **Date:** 2026-01-25
 **Purpose:** Derive the three correction factors connecting eta-bar_base = 0.39 to eta-bar_obs = 0.348
@@ -10,7 +10,7 @@
 
 ## Executive Summary
 
-The STUR framework predicts the CP-violating Wolfenstein parameter eta-bar from Z3 helix geometry. The base calculation from helix chirality gives:
+The STUR framework predicts the CP-violating Wolfenstein parameter eta-bar from ∞₃ helix geometry. The base calculation from helix chirality gives:
 
 ```
 eta-bar_base = 0.39
@@ -39,12 +39,12 @@ Agreement: 0.75 sigma (acceptable)
 - f_hol = 0.948: **CONDITIONALLY DERIVED** — derivable from confined-phase
   holonomy statistics (Schur orthogonality gives ⟨|Tr Ω|²⟩=1, then Cartan
   decomposition gives σ²=1/6, with KK decorrelation C_ud=exp(-1/6)=0.846).
-  Condition: Z₃ holonomy stabilized non-perturbatively (natural in G₂/M-theory).
+  Condition: ∞-helix holonomy stabilized non-perturbatively (natural in G₂/M-theory).
   See f_hol_confined_derivation.py.
 
 **v5.3 UPDATE:** f_RG corrected from 0.970 to 1.003. The previous -3% KK threshold
-was WRONG — it violates Z₃ symmetry. Rigorous computation in f_RG_kk_threshold.py
-shows: KK threshold = 0 (Z₃ protection), CKM running < 10⁻⁵, EW matching = +0.3%.
+was WRONG — it violates ∞₃ symmetry. Rigorous computation in f_RG_kk_threshold.py
+shows: KK threshold = 0 (∞₃ protection), CKM running < 10⁻⁵, EW matching = +0.3%.
 Without f_hol (honest): η̄ = 0.391 ± 0.030 → 1.4σ from PDG (still consistent).
 
 **v5.2 UPDATE:** f_Berry = 1.000 exactly (NOT 0.975). Berry phase vanishes
@@ -68,7 +68,7 @@ for real wavefunctions. See scripts/berry_phase_exact.py for proof.
 
 ### 1.1 Origin of eta-bar from Helix Chirality
 
-In the STUR Z3 helix framework, CP violation arises from the spontaneous breaking of CP symmetry by the helix vacuum configuration:
+In the STUR ∞₃ helix framework, CP violation arises from the spontaneous breaking of CP symmetry by the helix vacuum configuration:
 
 ```
 R-field doublet: R = (R_1, R_2) = v(cos(phi), sin(phi))
@@ -82,7 +82,7 @@ Since phi_vac != 0, CP is spontaneously broken.
 
 ### 1.2 The CKM Phase delta
 
-The CKM CP-violating phase delta_CKM emerges from the geometric structure. The base calculation (Derivation D in DERIVATION_CHAIN_HELIX.md) gives:
+The CKM CP-violating phase delta_CKM emerges from the geometric structure. The base calculation (Derivation D in DERIVATION_CHAIN_INFINITY.md) gives:
 
 ```
 delta_CKM = theta_chi + delta_tb x f_screen
@@ -124,7 +124,7 @@ The quantity R_t = |V_td V_tb*| / |V_cd V_cb*| can be calculated from the helix 
 
 **Step 1: CKM Elements from Overlap Integrals**
 
-From the Z₃ helix, the CKM matrix elements are:
+From the infinity helix, the CKM matrix elements are:
 
 ```
 V_ij = ∫ ψ_ui*(φ) ψ_dj(φ) dφ × (phase factors)
@@ -239,7 +239,7 @@ This is 12% above the observed value. The following three corrections reduce it 
 
 ### 2.1 Physical Origin
 
-The holonomy W = exp(i theta) around the compact dimension X fluctuates around its Z3 vacuum value theta_0 = 2pi/3. These quantum fluctuations affect the CP-violating phase.
+The holonomy W = exp(i theta) around the compact dimension X fluctuates around its ∞₃ vacuum value theta_0 = 2pi/3. These quantum fluctuations affect the CP-violating phase.
 
 ### 2.2 Holonomy Fluctuation Variance
 
@@ -394,8 +394,8 @@ Rounded: f_hol = 0.948 +/- 0.010
 |  Correction factor:                                              |
 |    f_hol = exp(-0.103/2) = 0.948                                |
 |                                                                  |
-|  Connection to Z3: The factor 1/3 comes from C_2(SU(3)) = 3,    |
-|                    which is intimately connected to the Z3       |
+|  Connection to ∞₃: The factor 1/3 comes from C_2(SU(3)) = 3,    |
+|                    which is intimately connected to the ∞₃       |
 |                    center of SU(3) color.                        |
 +------------------------------------------------------------------+
 ```
@@ -413,7 +413,7 @@ with corrections noted.
 
 ### 3.1 Physical Origin (INCORRECT — see v5.2 note above)
 
-Fermions localized at different phases on the Z3 helix acquire Berry (geometric) phases when transported around the compact dimension. This modifies the effective CP-violating phase.
+Fermions localized at different phases on the ∞₃ helix acquire Berry (geometric) phases when transported around the compact dimension. This modifies the effective CP-violating phase.
 
 ### 3.2 Berry Connection
 
@@ -450,7 +450,7 @@ Consider the Berry phase for the off-diagonal CKM element V_ub (which dominates 
 gamma_Berry = arg(<u | d/d phi | d> x <d | d/d phi | s> x <s | d/d phi | u>)
 ```
 
-This is the geometric phase from the CLOSED LOOP: u -> d -> s -> u on the Z3 helix.
+This is the geometric phase from the CLOSED LOOP: u -> d -> s -> u on the ∞₃ helix.
 
 ### 3.5 Explicit Calculation
 
@@ -488,7 +488,7 @@ The three adjacent overlaps contribute:
 gamma_Berry = 3 x arg[-(pi/3)/(2 sigma^2) x 0.458 x (phase factors)]
 ```
 
-The phase factors from the Z3 structure:
+The phase factors from the ∞₃ structure:
 
 ```
 e^{i x 0} x e^{i x 2pi/3} x e^{i x 4pi/3} = e^{i(0 + 2pi/3 + 4pi/3)} = e^{i x 2pi} = 1
@@ -546,7 +546,7 @@ zero because the ground states are real (even parity). See scripts/berry_phase_e
 
 ### 3.7 Alternative Derivation: Adiabatic Transport
 
-When a fermion is adiabatically transported around the Z3 helix, it acquires a geometric phase:
+When a fermion is adiabatically transported around the ∞₃ helix, it acquires a geometric phase:
 
 ```
 gamma_adiabatic = integral_0^{2pi} A_phi d phi
@@ -760,12 +760,12 @@ Adding uncertainty: f_RG = 1.003 +/- 0.003
 
 **v5.3 CORRECTION:** The above estimate of 0.964 was WRONG. Rigorous computation
 in f_RG_kk_threshold.py shows:
-  - KK threshold correction = 0 (Z₃ symmetry protection, exact)
+  - KK threshold correction = 0 (∞₃ symmetry protection, exact)
   - CKM angle running = negligible (< 10⁻⁵)
   - EW matching = +0.3% (A₅ exchange in box diagrams)
   - TOTAL: f_RG = 1.003 ± 0.003
 The previous -3% KK threshold assumed non-universal corrections that violate
-Z₃ symmetry. The Z₃ charge assignment forces F_n(k) = Σ_c ω^{kc} log(m_n(c)/M_KK) = 0
+∞₃ symmetry. The ∞₃ charge assignment forces F_n(k) = Σ_c ω^{kc} log(m_n(c)/M_KK) = 0
 for k ≢ 0 mod 3, so the CP-phase-relevant part vanishes exactly.
 
 ### 4.8 Alternative: Direct eta-bar Running
@@ -790,7 +790,7 @@ This confirms our estimate.
 |                   from M_KK to M_Z                               |
 |                                                                  |
 |  Rigorous computation (f_RG_kk_threshold.py):                    |
-|    - KK threshold: 0% (Z₃ symmetry protection — EXACT)          |
+|    - KK threshold: 0% (∞₃ symmetry protection — EXACT)          |
 |      F_n(k) = Σ_c ω^{kc} log(m_n(c)/M_KK) = 0 for k≢0 mod 3   |
 |    - CKM angle running: < 10⁻⁵ (negligible)                     |
 |    - EW matching: +0.3% (A₅ exchange in box diagrams)            |
@@ -800,7 +800,7 @@ This confirms our estimate.
 |                                                                  |
 |  Why old value was wrong:                                        |
 |    The -3% "KK threshold" assumed non-universal corrections      |
-|    to the CP phase from KK modes. But Z₃ symmetry forces        |
+|    to the CP phase from KK modes. But ∞₃ symmetry forces        |
 |    these corrections to vanish for CP-odd observables.           |
 +------------------------------------------------------------------+
 ```
@@ -868,7 +868,7 @@ sigma_abs = 0.359 x 0.053 = 0.019 ~ 0.02
 |                                                                  |
 |   v5.2 NOTE: f_Berry correction eliminated (was 0.975, now 1.000)|
 |   v5.3 NOTE: f_RG corrected from 0.970 to 1.003                 |
-|     (KK threshold = 0 by Z₃ symmetry; EW matching +0.3%)        |
+|     (KK threshold = 0 by ∞₃ symmetry; EW matching +0.3%)        |
 |   η̄ = 0.371 (with f_hol FITTED), 0.391 (without f_hol)         |
 |                                                                  |
 +==================================================================+
@@ -881,7 +881,7 @@ sigma_abs = 0.359 x 0.053 = 0.019 ~ 0.02
 | eta-bar_base | 0.39 | +/- 0.02 | Helix chirality + unitarity triangle |
 | f_hol | 0.948 | +/- 0.010 | Holonomy phase fluctuations (<delta-theta^2> = 1/3) |
 | f_Berry | **1.000** | **exact** | **ELIMINATED (v5.2): Berry phase = 0 for real ψ** |
-| f_RG | 1.003 | +/- 0.003 | RG running: KK=0 (Z₃ protection), EW +0.3% (v5.3) |
+| f_RG | 1.003 | +/- 0.003 | RG running: KK=0 (∞₃ protection), EW +0.3% (v5.3) |
 | **eta-bar_final** | **0.371** | **+/- 0.029** | Combined result (v5.3: f_RG corrected) |
 
 ---
@@ -896,27 +896,27 @@ With f_Berry eliminated, only TWO correction factors remain:
 
 2. **Berry phase (1.000 — ELIMINATED v5.2)**: Exact computation shows the Berry phase vanishes for real Mathieu ground states. The Abelian Berry connection A = i⟨ψ|∂_λ|ψ⟩ = 0 by parity, and the Bargmann invariant is zero for real wavefunctions. This correction no longer contributes.
 
-3. **RG running (1.003)**: v5.3 correction — the RG effect is negligible. KK threshold corrections vanish by Z₃ symmetry. The only surviving effect is +0.3% from A₅ exchange in EW matching. Previous claim of 0.970 (top Yukawa driving η̄ down) was incorrect for the CKM CP phase.
+3. **RG running (1.003)**: v5.3 correction — the RG effect is negligible. KK threshold corrections vanish by ∞₃ symmetry. The only surviving effect is +0.3% from A₅ exchange in EW matching. Previous claim of 0.970 (top Yukawa driving η̄ down) was incorrect for the CKM CP phase.
 
-### 6.2 Connection to the Z3 Structure
+### 6.2 Connection to the ∞₃ Structure
 
-The surviving corrections are connected to the Z3 helix geometry:
+The surviving corrections are connected to the ∞₃ helix geometry:
 
 **f_hol = 0.948:**
 - Arises from SU(3) gauge constraint via C_2(SU(3)) = 3
-- The Z3 center of SU(3) is directly related to the Z3 helix structure
+- The ∞₃ center of SU(3) is directly related to the ∞₃ helix structure
 - The variance <delta-theta^2> = 1/3 is determined by the gauge group
 
 **f_Berry = 1.000 (ELIMINATED v5.2):**
-- Berry phase was expected from transport around the Z3 structure
+- Berry phase was expected from transport around the ∞₃ structure
 - However, real Mathieu ground states have identically zero Berry phase
 - This is because ψ(-θ) = ψ(θ) (even parity) → ⟨ψ|∂/∂θ|ψ⟩ = 0
 - The Bargmann invariant also vanishes: all overlaps ⟨ψ_i|ψ_j⟩ ∈ ℝ
 
 **f_RG = 1.003 (v5.3 corrected from 0.970):**
-- KK threshold corrections VANISH by Z₃ symmetry protection (exact)
+- KK threshold corrections VANISH by ∞₃ symmetry protection (exact)
 - Only surviving effect: +0.3% from A₅ exchange in EW box diagrams
-- Previous -3% KK threshold was incorrect (violated Z₃ symmetry)
+- Previous -3% KK threshold was incorrect (violated ∞₃ symmetry)
 - See f_RG_kk_threshold.py for rigorous derivation
 
 ### 6.3 Falsification Criteria
@@ -927,7 +927,7 @@ The correction chain makes specific predictions that can falsify STUR:
    The correction factors would need to change by more than 2 sigma.
 
 2. **If the holonomy variance is found to differ from 1/3:**
-   This would indicate SU(3) is not the relevant gauge group for the holonomy, falsifying the Z3-SU(3) connection.
+   This would indicate SU(3) is not the relevant gauge group for the holonomy, falsifying the ∞₃-SU(3) connection.
 
 3. **If Berry phase measurements in analogous systems give different values:**
    The geometric phase calculation could be tested in condensed matter analogs.
@@ -954,7 +954,7 @@ We have derived three correction factors that modify the base STUR prediction fo
 
 2. **f_Berry = 1.000 (ELIMINATED v5.2)**: Exact computation proves the Berry phase vanishes for real Mathieu ground states. See scripts/berry_phase_exact.py.
 
-3. **f_RG = 1.003** (v5.3 corrected from 0.970): From rigorous computation in f_RG_kk_threshold.py. KK threshold = 0 (Z₃ symmetry protection), EW matching = +0.3%. Previous -3% KK threshold was WRONG.
+3. **f_RG = 1.003** (v5.3 corrected from 0.970): From rigorous computation in f_RG_kk_threshold.py. KK threshold = 0 (∞₃ symmetry protection), EW matching = +0.3%. Previous -3% KK threshold was WRONG.
 
 ### 7.2 Final Result (v5.2)
 
@@ -985,7 +985,7 @@ The surviving corrections are:
   ⟨|Tr Ω|²⟩ = 1, Cartan decomposition gives σ² = 1/6, and with KK decorrelation
   C_ud = exp(-1/6) = 0.846 the effective variance is 0.103 rad² → f_hol = 0.948.
   The confinement assumption is natural in the G₂/M-theory context of STUR but
-  not proved from first principles (one-loop V_eff destabilizes Z₃ for n_f ≥ 2).
+  not proved from first principles (one-loop V_eff destabilizes ∞₃ for n_f ≥ 2).
 - f_Berry = 1.000: **PROVED** (berry_phase_exact.py). Berry phase vanishes identically
   for real Mathieu eigenstates.
 Without f_hol: η̄ = 0.391 (1.4σ from PDG — still consistent).
@@ -1032,7 +1032,7 @@ If λ is corrected by f_tail, there is a small (~0.1%) indirect effect on η̄ t
 ## References
 
 1. HOLONOMY_AVERAGING_DERIVATION.md - Complete holonomy variance derivation
-2. DERIVATION_CHAIN_HELIX.md - Base eta-bar calculation and Z3 framework
+2. DERIVATION_CHAIN_INFINITY.md - Base eta-bar calculation and ∞₃ framework
 3. PDG 2024 - Experimental values for CKM parameters
 4. Hosotani, Y. (1983) - Dynamical gauge symmetry breaking
 5. Berry, M.V. (1984) - Quantal phase factors
@@ -1044,5 +1044,5 @@ If λ is corrected by f_tail, there is a small (~0.1%) indirect effect on η̄ t
 **Without f_hol (honest):** eta-bar = 0.391 +/- 0.030, agreeing at 1.4σ
 **f_RG = 1.003 ± 0.001 PROVED** (flavor universality + A₅ exchange, f_RG_formal_proof.py)
 **f_hol = 0.948 CONDITIONALLY DERIVED** (confined-phase assumption, f_hol_confined_derivation.py)
-**f_hol = 0.948 FITTED** (Z₃ destabilized, all dynamical approaches give ≈ 1.000)
+**f_hol = 0.948 FITTED** (∞₃ destabilized, all dynamical approaches give ≈ 1.000)
 **f_Berry ELIMINATED** — Berry phase vanishes for real Mathieu eigenstates

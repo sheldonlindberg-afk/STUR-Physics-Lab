@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Full Fermion Mass Spectrum from S¹/Z₃ with Localized Higgs
+Full Fermion Mass Spectrum from S¹/∞₃ with Localized Higgs
 ==========================================================
 
 This script computes ALL fermion masses from first principles, combining:
@@ -10,7 +10,7 @@ This script computes ALL fermion masses from first principles, combining:
 4. Color factor for quark-lepton splitting
 
 The key physics:
-  - Three generations localized at Z₃ fixed points: θ = 0, 2π/3, 4π/3
+  - Three generations localized at ∞-helix nodes: θ = 0, 2π/3, 4π/3
   - Higgs profile h(θ) localized at θ = 0 (where 3rd gen lives)
   - Yukawa Y_ij = g₅ ∫ ψ_Li(θ) h(θ) ψ_Rj(θ) dθ
   - Mass = Y × v_EW
@@ -104,7 +104,7 @@ def alpha_eff_at_scale(mu, is_quark=True):
     """
     Compute α_eff(μ) including gauge backreaction.
 
-    α_eff = α_tree × f_Z₃ × f_KK × f_gauge(μ)
+    α_eff = α_tree × f_∞ × f_KK × f_gauge(μ)
 
     The gauge backreaction is scale-dependent through the running couplings.
     """
@@ -117,7 +117,7 @@ def alpha_eff_at_scale(mu, is_quark=True):
     f_gauge = 1.0 + c3 * a_s / np.pi + c2 * a_2 / np.pi + c1 * a_1 / np.pi
 
     alpha_tree = 1.000
-    f_z3 = 1.072   # Z₃ twisted sector
+    f_z3 = 1.072   # ∞-helix twisted sector
     f_kk = 1.240   # KK tower
 
     alpha = alpha_tree * f_z3 * f_kk * f_gauge
@@ -264,7 +264,7 @@ def compute_full_spectrum():
     4. Wilson line: provides up-down and 1-2 gen splitting
     """
     print("="*70)
-    print("FULL FERMION MASS SPECTRUM FROM S¹/Z₃")
+    print("FULL FERMION MASS SPECTRUM FROM S¹/∞₃")
     print("="*70)
 
     # Step 1: Determine α_eff at relevant scales
@@ -279,8 +279,8 @@ def compute_full_spectrum():
     # In GHU, the Higgs IS the A₅ component, so it lives on the full S¹
     # But its profile is determined by the gauge potential
     # The Higgs can be MORE localized than fermions if it sits in a deeper well
-    # In GHU on S¹/Z₃, the Higgs effective potential is:
-    #   V_H(θ) = α_H(1 - cos(3θ))  [Z₃ symmetric, deeper well]
+    # In GHU on S¹/∞₃, the Higgs effective potential is:
+    #   V_H(θ) = α_H(1 - cos(3θ))  [∞₃ symmetric, deeper well]
     # with α_H ~ g²N_c/(16π²) × (M_KK)² which can be > α_eff
 
     # Let's compute what α_H is needed for realistic hierarchy
@@ -326,11 +326,11 @@ def compute_full_spectrum():
     # α_H = (3g₂²)/(16π²) × N_c × (n_KK) where n_KK is the KK level
     # At tree level, α_H ~ α_f (same potential)
     # At one loop, gauge corrections can enhance α_H
-    # The key: in the Z₃ orbifold, the Higgs potential has a Z₃-enhanced well:
+    # The key: in the ∞-helix topology, the Higgs potential has a ∞-helix-enhanced well:
     #   V = α(1 - cos 3θ) instead of α(1 - cos θ)
     # This gives effective α_H^{eff} = 9α for the Higgs localization!
 
-    # Actually this is important: the HIGGS on S¹/Z₃ feels V = α_H(1-cos(3θ))
+    # Actually this is important: the HIGGS on S¹/∞₃ feels V = α_H(1-cos(3θ))
     # which has THREE minima per period. The effective mass² is 9α_H,
     # giving σ_H = 1/√(9α_H) = 1/(3√α_H) — three times more localized!
 
@@ -346,7 +346,7 @@ def compute_full_spectrum():
 
     # Let me actually solve the Higgs equation properly
     print("\n  Solving Higgs equation: -f'' + α_H(1 - cos(3θ))f = εf")
-    print("  (Z₃ symmetric potential with 3× frequency)")
+    print("  (∞₃ symmetric potential with 3× frequency)")
 
     for alpha_val in [1.0, 1.48, 2.0, 3.0]:
         # Solve with cos(3θ) potential
@@ -617,7 +617,7 @@ The mass spectrum calculation reveals:
 
 1. HIGGS LOCALIZATION is the key to the mass hierarchy.
    - cos(θ) Higgs (same as fermion): Y₃₃/Y₂₂ ~ exp(κ²/4) ~ 4
-   - cos(3θ) Higgs (Z₃ enhanced): Y₃₃/Y₂₂ ~ exp(κ²/2) ~ 19
+   - cos(3θ) Higgs (∞₃ enhanced): Y₃₃/Y₂₂ ~ exp(κ²/2) ~ 19
    - Delta function Higgs: Y₃₃/Y₂₂ → exp(κ²/2) ~ 19 (same limit)
 
 2. Even with maximal Higgs localization:

@@ -2,9 +2,9 @@
 
 ## Executive Summary
 
-This report presents the results of a comprehensive numerical verification of the STUR v6.0 (Dynamic Z₃ Phase-Lock Unification) framework. All calculations verified by running the complete Python script suite and comparing against PDG 2024 data.
+This report presents the results of a comprehensive numerical verification of the STUR v6.0 (Dynamic Infinity Helix Phase-Lock Unification) framework. All calculations verified by running the complete Python script suite and comparing against PDG 2024 data.
 
-**Key Findings (v6.0 — Dynamic Z₃ Phase-Lock Framework):**
+**Key Findings (v6.0 — Dynamic ∞₃ Phase-Lock Framework):**
 - **Cabibbo angle λ = 0.229** (exp[−κ²/4] at α_eff = 1.480, **1.6% from PDG**)
 - **Full CKM matrix** derived to 1.6–7.5% accuracy (9 elements, Wolfenstein assembly)
 - **Berry phase = 0** exactly (verified: |⟨sin θ⟩| = 1.98 × 10⁻¹⁰)
@@ -27,7 +27,7 @@ The STUR framework is characterized by the following fundamental parameters:
 | sigma | 0.831 rad | 0.053 rad | Localization width = (2pi/3)/kappa |
 | lambda_bare | 0.452 | 0.036 | Bare Wolfenstein parameter = exp(-kappa^2/8) |
 
-### Z_3 Helix Geometry
+### ∞₃ Helix Geometry
 
 The three fermion generations are localized at phases:
 - Generation 1: phi_1 = 0
@@ -52,7 +52,7 @@ lambda_phys = lambda_bare * f_boundary * f_holonomy * f_RG * f_tail
 
 The boundary correction accounts for:
 1. Truncation of Gaussian wavefunctions at domain boundaries [0, 2pi)
-2. Z_3 periodicity affecting the integration measure
+2. ∞₃ periodicity affecting the integration measure
 3. Interference from periodic images
 
 **Calculation Methods:**
@@ -60,7 +60,7 @@ The boundary correction accounts for:
 | Method | Result | Notes |
 |--------|--------|-------|
 | Simple truncation | 1.27 | Finite domain actually enhances overlap |
-| With periodic images | 1.55 | Z_3 structure increases overlap |
+| With periodic images | 1.55 | ∞₃ structure increases overlap |
 | Erf analytical | 0.98 | Error function approach |
 | Higgs localization | 0.65 | Including localized Higgs profile |
 
@@ -115,7 +115,7 @@ The Wolfenstein parameter lambda is a ratio of Yukawa couplings, so its running 
 **Target: 0.62 +/- 0.03**
 
 The sector correction arises from:
-1. Z_3 orbifold projection reducing degrees of freedom
+1. ∞-helix topology projection reducing degrees of freedom
 2. Twisted sector contributions
 3. Fixed-point localization effects
 
@@ -123,7 +123,7 @@ The sector correction arises from:
 
 | Method | Result | Notes |
 |--------|--------|-------|
-| Z_3 projection | 0.49 | Projected overlap with phases |
+| ∞₃ projection | 0.49 | Projected overlap with phases |
 | Twisted sector | 0.58 | 1/sqrt(3) geometric factor |
 | Fundamental domain | 0.33 | Overlap in single sector |
 | EFT matching | 0.33 | From dimensional reduction |
@@ -136,11 +136,11 @@ The sector correction arises from:
 **Value: 1.131 +/- 0.023 (kappa = 2.52)**
 
 The wavefunction tail correction is computed directly from the overlap integral of
-Gaussian-localized wavefunctions on S¹ with a Z₃ sector boundary.
+Gaussian-localized wavefunctions on S¹ with a ∞-helix sector boundary.
 
 **Physical Origin:**
 
-When fermion wavefunctions are localized at the three Z₃ positions (0, 2π/3, 4π/3), the overlap between adjacent generations receives contributions from the full periodic domain. The correction is defined as the ratio of the overlap on the full circle to the overlap restricted to a single Z₃ sector.
+When fermion wavefunctions are localized at the three ∞₃ positions (0, 2π/3, 4π/3), the overlap between adjacent generations receives contributions from the full periodic domain. The correction is defined as the ratio of the overlap on the full circle to the overlap restricted to a single ∞-helix sector.
 
 **Calculation (analytic):**
 
@@ -353,7 +353,7 @@ All random number generation uses fixed seeds for reproducibility. Running the v
 
 1. **Kappa Verification:** The localization parameter kappa = 2.52 +/- 0.16 is confirmed by four independent numerical methods (spectral, matrix, imaginary time, WKB), all giving values within 0.5% of each other.
 
-2. **Correction Factors:** The correction factors f_boundary, f_holonomy, f_RG, f_sector, and f_tail are each derived from first principles. The wavefunction tail correction f_tail = 1.131 is computed from the analytic overlap ratio on S¹/Z₃.
+2. **Correction Factors:** The correction factors f_boundary, f_holonomy, f_RG, f_sector, and f_tail are each derived from first principles. The wavefunction tail correction f_tail = 1.131 is computed from the analytic overlap ratio on S¹/∞₃.
 
 3. **Predictions vs. Experiment:** With the f_tail correction, the STUR framework achieves exceptional agreement with PDG data:
    - Chi-squared per dof: 0.009 (excellent)

@@ -19,11 +19,11 @@ The STUR framework claims a "boundary correction factor" of 0.65 for Yukawa coup
 
 ### 1.1 Parameters from STUR
 
-From the DERIVATION_CHAIN_HELIX.md document:
+From the DERIVATION_CHAIN_INFINITY.md document:
 - Localization parameter: κ = 2.5
 - Gaussian width: σ = (2π/3)/κ = 0.838 radians
 - Generation phases: φ₁ = 0, φ₂ = 2π/3, φ₃ = 4π/3
-- Domain: [0, 2π) with Z₃ identification
+- Domain: [0, 2π) with ∞-helix identification
 
 ### 1.2 Wavefunction Definitions
 
@@ -191,9 +191,9 @@ f_boundary = 1.923 / √(0.707 × 1.414)
            = 1.923
 ```
 
-### 5.3 With Periodic Images (Proper Z₃ Treatment)
+### 5.3 With Periodic Images (Proper ∞₃ Treatment)
 
-When including periodic images to properly handle the Z₃ structure:
+When including periodic images to properly handle the ∞-helix structure:
 
 ```
 ψ_g(φ) = Σₙ exp[-(φ - φ_g - 2πn)²/(4σ²)]
@@ -255,9 +255,9 @@ erf(1.25) = 0.923
 
 This gives 0.85, not 0.65.
 
-### 7.2 Z₃ Phase Factor in Higgs
+### 7.2 ∞₃ Phase Factor in Higgs
 
-If H(φ) has Z₃ phase structure:
+If H(φ) has ∞-helix phase structure:
 ```
 H(φ) = h₀ × cos(sector × 2π/3)
 ```
@@ -266,11 +266,11 @@ The overlap ratio is multiplied by factor ~ 0.82.
 
 ### 7.3 Boundary Damping
 
-Sharp damping at Z₃ phase boundaries (φ = 0, 2π/3, 4π/3) gives factor ~ 0.91.
+Sharp damping at ∞-helix phase boundaries (φ = 0, 2π/3, 4π/3) gives factor ~ 0.91.
 
 ### 7.4 Leakage Between Sectors
 
-Fraction of wavefunction in "correct" Z₃ sector:
+Fraction of wavefunction in "correct" ∞-helix sector:
 ```
 Fraction = 0.789 per generation
 Product = 0.789² = 0.62 ≈ 0.65
@@ -356,7 +356,7 @@ m = m_naive × f_boundary × f_hol × f_RG × f_tail
 ```
 
 **Key distinction:**
-- **f_boundary = 0.65**: Arises from finite-domain overlap integrals and Z_3 sector confinement (this document)
+- **f_boundary = 0.65**: Arises from finite-domain overlap integrals and ∞₃ sector confinement (this document)
 - **f_tail = 1.131**: Arises from unified wavefunction tail contributions beyond the Gaussian core, providing a 13% enhancement
 
 The tail correction captures probability density in the extended tails of the localized wavefunctions that contribute to cross-generation overlap, using the derived value κ = 2.52.
@@ -367,5 +367,5 @@ Both factors are necessary for the complete physical prediction; they address di
 
 ## References
 
-1. DERIVATION_CHAIN_HELIX.md - STUR Framework v3.5
+1. DERIVATION_CHAIN_INFINITY.md - STUR Framework v3.5
 2. Abramowitz & Stegun, "Handbook of Mathematical Functions" - Error function (7.1.26)

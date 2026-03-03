@@ -1,7 +1,7 @@
 # STUR Experimental Validation Roadmap
 
 **Document Type:** Comprehensive Experimental Predictions Catalog
-**Framework:** STUR v4.4 (Z_3 Helix Geometry)
+**Framework:** STUR v4.4 (∞₃ Helix Geometry)
 **Date:** 2026-02-05
 **Status:** Complete Validation Roadmap
 
@@ -45,7 +45,7 @@ This document catalogs all testable predictions from the STUR (Stochastic Telepa
 
 **STUR-Specific Prediction:**
 ```
-Normal mass ordering REQUIRED by Z_3 resonance structure
+Normal mass ordering REQUIRED by ∞₃ resonance structure
 If JUNO determines INVERTED ordering --> STUR FALSIFIED
 ```
 
@@ -67,8 +67,8 @@ If JUNO determines INVERTED ordering --> STUR FALSIFIED
 
 **STUR-Specific Predictions:**
 ```
-1. MAXIMAL CP violation: delta_CP = -pi/2 (from Z_3 helix chirality)
-2. UPPER OCTANT: theta_23 > 45 deg (from tau-sector Z_3 coupling)
+1. MAXIMAL CP violation: delta_CP = -pi/2 (from infinity helix chirality)
+2. UPPER OCTANT: theta_23 > 45 deg (from tau-sector ∞₃ coupling)
 3. Normal ordering (topological requirement)
 ```
 
@@ -117,7 +117,7 @@ Deviation from Newton's law:
 
 STUR predicts:
   lambda ~ 0.8 micrometer
-  alpha ~ 10^-3 to 10^-4 (from Z_3 Casimir correction)
+  alpha ~ 10^-3 to 10^-4 (from ∞₃ Casimir correction)
 
 NOTE: Scale ambiguity exists (see STUR_PAPER_DRAFT.md Section 6.3)
   L_X ~ 10^-32 m (from v L_X = 3 with v ~ M_GUT)
@@ -167,7 +167,7 @@ Detection of 0nu bb --> Requires inverted ordering or new physics
 **STUR-Specific Predictions:**
 ```
 DIMENSION-5 PROTON DECAY: EXACTLY FORBIDDEN
-  Mechanism: Z_3 KK-parity is topological selection rule
+  Mechanism: ∞-helix KK-parity is topological selection rule
   Not from parameter tuning but from helix geometry
 
 DIMENSION-6 PROTON DECAY:
@@ -186,7 +186,7 @@ DIMENSION-8 OPERATORS:
 OBSERVATION OF PROTON DECAY AT tau_p < 10^34 years --> STUR FALSIFIED
 
 This would require new dimension-5 or dimension-6 operators that
-violate Z_3 KK-parity, contradicting the helix geometry.
+violate ∞-helix KK-parity, contradicting the helix geometry.
 ```
 
 **Distinguishing Power:**
@@ -214,7 +214,7 @@ violate Z_3 KK-parity, contradicting the helix geometry.
    Lambda_obs = 2.846 x 10^-47 GeV^4
    Agreement: 27% (< 0.5 sigma)
 
-   Mechanism: Z_3 discrete gauge + neutrino Z_3 breaking
+   Mechanism: ∞₃ discrete gauge + neutrino ∞₃ breaking
    Key factors: F_Berry = 1/(4 pi^2), F_inst = 1/3
 
 2. NEUTRINO MASS SUM:
@@ -274,7 +274,7 @@ DARK MATTER CANDIDATE: Lightest KK Particle (LKP)
   Particle: B^(1) (first KK excitation of U(1)_Y gauge boson)
   Mass: M_LKP = 920 +/- 80 GeV
   Spin: 1 (vector boson)
-  Stability: Z_3 KK-parity (exactly conserved)
+  Stability: ∞-helix KK-parity (exactly conserved)
 
 RELIC ABUNDANCE:
   Omega_DM h^2 = 0.119 +/- 0.002 (thermal relic)
@@ -302,7 +302,7 @@ DIRECT DETECTION:
 **STUR-Specific Predictions:**
 ```
 1. NO 4TH GENERATION:
-   N_gen = 3 exactly (from Z_3 fixed points)
+   N_gen = 3 exactly (from ∞-helix node points)
    Discovery of 4th generation --> STUR FALSIFIED
 
 2. NO SUPERSYMMETRIC PARTNERS:
@@ -335,7 +335,7 @@ DIRECT DETECTION:
 **STUR Predictions:**
 ```
 STOCHASTIC GW BACKGROUND:
-  From Z_3 domain wall dynamics in early universe
+  From ∞₃ domain wall dynamics in early universe
   Frequency: f ~ 10^-3 Hz (LISA band)
   Amplitude: Omega_GW h^2 ~ 10^-12 (marginal for LISA)
 
@@ -352,10 +352,10 @@ PRIMORDIAL TENSOR MODES:
 
 | Observation | Mechanism Violated | Status |
 |-------------|-------------------|--------|
-| 4th generation discovered | Z_3 topology requires exactly 3 | Would FALSIFY |
-| Inverted neutrino ordering | Z_3 resonance structure | Would FALSIFY |
-| theta_QCD != 0 measured | Z_3 x CP symmetry | Would FALSIFY |
-| Proton decay tau < 10^34 yr | Z_3 KK-parity | Would FALSIFY |
+| 4th generation discovered | ∞₃ topology requires exactly 3 | Would FALSIFY |
+| Inverted neutrino ordering | ∞₃ resonance structure | Would FALSIFY |
+| theta_QCD != 0 measured | ∞₃ x CP symmetry | Would FALSIFY |
+| Proton decay tau < 10^34 yr | ∞-helix KK-parity | Would FALSIFY |
 
 ### 4.2 Strong Tension
 
@@ -504,7 +504,7 @@ PRIMORDIAL TENSOR MODES:
 1. NuFIT 6.0 (2024). Neutrino oscillation parameters. http://www.nu-fit.org
 2. PDG 2024 (Particle Data Group). Review of Particle Physics.
 3. Planck Collaboration (2018). Cosmological parameters.
-4. STUR Framework Documents: DERIVATION_CHAIN_HELIX.md, HIGH_PRECISION_PREDICTIONS.md, COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md
+4. STUR Framework Documents: DERIVATION_CHAIN_INFINITY.md, HIGH_PRECISION_PREDICTIONS.md, COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md
 
 ---
 

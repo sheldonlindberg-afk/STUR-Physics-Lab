@@ -1,7 +1,7 @@
 # Solar Mass Splitting Tension Analysis: Δm²₂₁ Discrepancy
 
 **Document Type:** Critical Experimental Vulnerability Analysis
-**Framework:** STUR v4.4 (Z₃ Helix Geometry)
+**Framework:** STUR v4.4 (∞₃ Helix Geometry)
 **Date:** 2026-02-05
 **Status:** Pre-emptive Defense Document
 **Priority:** HIGH - Most Immediate Experimental Vulnerability
@@ -15,7 +15,7 @@ The solar neutrino mass splitting Δm²₂₁ represents STUR's most significant
 **Key Numbers:**
 | Quantity | Value | Source |
 |----------|-------|--------|
-| STUR Prediction | (7.06 ± 0.35) × 10⁻⁵ eV² | Z₃ helix seesaw mechanism |
+| STUR Prediction | (7.06 ± 0.35) × 10⁻⁵ eV² | infinity helix seesaw mechanism |
 | NuFIT 5.3 Observed | (7.41 ± 0.21) × 10⁻⁵ eV² | Global neutrino fit |
 | Discrepancy | 5.0% (0.35 × 10⁻⁵ eV²) | |
 | Current Tension | **1.7σ** | Combined errors |
@@ -37,7 +37,7 @@ The solar neutrino mass splitting Δm²₂₁ represents STUR's most significant
 Δm²₂₁ = (7.06 ± 0.35) × 10⁻⁵ eV²
 
 Central value: 7.06 × 10⁻⁵ eV²
-Theoretical uncertainty: ±5.0% (from κ, M_R, and Z₃ parameter variations)
+Theoretical uncertainty: ±5.0% (from κ, M_R, and ∞₃ parameter variations)
 ```
 
 **Experimental Observation (NuFIT 5.3, Normal Ordering):**
@@ -85,10 +85,10 @@ Conservative assessment: ~1.7σ tension
 
 ### 2.1 Derivation Chain Overview
 
-The Δm²₂₁ prediction follows from the seesaw mechanism with Z₃-determined parameters:
+The Δm²₂₁ prediction follows from the seesaw mechanism with ∞₃-determined parameters:
 
 ```
-XCRM Axioms → Z₃ Helix → Fixed Points → M_R, m_D → Seesaw → m_ν → Δm²₂₁
+XCRM Axioms → ∞₃ Helix → Fixed Points → M_R, m_D → Seesaw → m_ν → Δm²₂₁
 ```
 
 ### 2.2 Key Parameters
@@ -98,7 +98,7 @@ XCRM Axioms → Z₃ Helix → Fixed Points → M_R, m_D → Seesaw → m_ν →
 M_R = λ_hol / L_X
 
 where:
-  λ_hol = f_base × f_loc × f_Wilson × f_Z₃
+  λ_hol = f_base × f_loc × f_Wilson × f_∞
         = 3 × 1.5 × 2.1 × 2.1
         = 19.8 ≈ 20
 
@@ -111,7 +111,7 @@ where:
 ```
 M_R,i = M_0 × ξ_i
 
-where ξ_i are Z₃ kink amplitudes:
+where ξ_i are ∞₃ kink amplitudes:
   ξ₃ : ξ₂ : ξ₁ = 0.55 : 0.76 : 0.76
 
 Giving:
@@ -126,7 +126,7 @@ m_D,i ∝ y_ν v × exp(-π(X_i/L_X)²)
 
 Numerical values:
   m_D,1 ≈ 1.5 GeV
-  m_D,2 ≈ 4.1 GeV (Z₃ enhanced)
+  m_D,2 ≈ 4.1 GeV (∞₃ enhanced)
   m_D,3 ≈ 100 GeV
 ```
 
@@ -136,7 +136,7 @@ m_νi = m²_D,i / M_R,i
 
 Results:
   m_ν₁ = (1.5 GeV)² / (1.5 × 10¹⁴ GeV) = 0.12 meV
-  m_ν₂ = (4.1 GeV)² / (1.5 × 10¹⁴ GeV) × f_Z₃ = 8.4 meV
+  m_ν₂ = (4.1 GeV)² / (1.5 × 10¹⁴ GeV) × f_∞ = 8.4 meV
   m_ν₃ = (100 GeV)² / (1.1 × 10¹⁴ GeV) = 50 meV
 ```
 
@@ -197,7 +197,7 @@ Correction magnitude:
 **Assessment:** RG running of masses is too small to resolve 5% discrepancy. However, running of PMNS parameters can indirectly affect effective Δm² through flavor-dependent corrections.
 
 **Potential Enhancement:**
-- If Z₃ structure introduces flavor-dependent anomalous dimensions
+- If ∞-helix structure introduces flavor-dependent anomalous dimensions
 - Estimated maximum correction: ~1-2%
 - **Verdict: Insufficient alone, but contributes**
 
@@ -230,7 +230,7 @@ If GUT partners contribute:
 ```
 At M_KK ~ 1/L_X, KK modes decouple.
 
-Z₃ structure creates flavor-dependent threshold:
+∞-helix structure creates flavor-dependent threshold:
   δ_th,KK(ν₂) - δ_th,KK(ν₁) ~ (g²/16π²) × sin²(2π/3)
                              ~ 0.002 × 0.75
                              ~ 0.15%
@@ -262,29 +262,29 @@ Could be added as extension if needed.
 
 **Double Seesaw / Inverse Seesaw:**
 ```
-Not part of minimal STUR, but could be accommodated if Z₃
+Not part of minimal STUR, but could be accommodated if ∞₃
 structure allows additional singlets.
 ```
 
 **Assessment:** Higher-order seesaw effects are negligible in Type-I. Type-II would require framework extension.
 
-### 3.4 Z₃ Breaking Effects
+### 3.4 ∞₃ Breaking Effects
 
-**Spontaneous Z₃ Breaking:**
+**Spontaneous ∞₃ Breaking:**
 ```
-If Z₃ is only approximate (broken at some scale Λ_Z₃):
+If ∞₃ is only approximate (broken at some scale Λ_∞₃):
 
 Effective potential:
-  V_eff = V_Z₃-symmetric + ε × V_breaking
+  V_eff = V_∞₃-symmetric + ε × V_breaking
 
 For soft breaking:
-  δm_ν/m_ν ~ ε × (v/Λ_Z₃)^n
+  δm_ν/m_ν ~ ε × (v/Λ_∞₃)^n
 
 If ε ~ 0.05 and n=2:
-  Λ_Z₃ ~ v × (0.05)^(-1/2) ~ 1 TeV
+  Λ_∞₃ ~ v × (0.05)^(-1/2) ~ 1 TeV
 ```
 
-**Explicit Z₃ Breaking from Planck-Suppressed Operators:**
+**Explicit ∞₃ Breaking from Planck-Suppressed Operators:**
 ```
 Operators of form:
   (Φ³/M_Pl) × N_R N_R
@@ -296,7 +296,7 @@ Effect on m_ν:
   δm_ν/m_ν ~ δM_R/M_R ~ 10⁻²⁶ (negligible)
 ```
 
-**Z₃ Domain Wall Dynamics:**
+**∞₃ Domain Wall Dynamics:**
 ```
 Kink amplitudes ξ_i at fixed points depend on domain wall profile.
 
@@ -307,7 +307,7 @@ If ξ₂ uncertainty is ±10%:
   δΔm²₂₁/Δm²₂₁ ~ 20%
 ```
 
-**Assessment:** Z₃ kink amplitudes offer the largest lever arm for adjustment. This is the most promising avenue but involves fitted parameters.
+**Assessment:** ∞₃ kink amplitudes offer the largest lever arm for adjustment. This is the most promising avenue but involves fitted parameters.
 
 ---
 
@@ -398,7 +398,7 @@ Add small off-diagonal elements to M_R matrix:
 M_R = diag(M_1, M_2, M_3) + ε × M_off
 
 With |ε| ~ 0.1, can shift effective m_ν₂ by ~5%.
-Requires specific Z₃ breaking pattern.
+Requires specific ∞-helix breaking pattern.
 ```
 
 ---
@@ -411,14 +411,14 @@ Requires specific Z₃ breaking pattern.
 
 **Detailed Analysis:**
 
-1. **Minimal STUR predicts 7.06 × 10⁻⁵ eV²** - This is a genuine, parameter-fixed prediction from the Z₃ seesaw mechanism.
+1. **Minimal STUR predicts 7.06 × 10⁻⁵ eV²** - This is a genuine, parameter-fixed prediction from the ∞-helix seesaw mechanism.
 
 2. **The 5% gap is not small** - It exceeds typical theoretical uncertainties from RG, threshold, and higher-order effects (~1-2% total).
 
 3. **Primary lever arm is ξ_i parameters** - These kink amplitudes are currently fitted, not derived. Adjusting them from (0.55, 0.76, 0.76) to (0.55, 0.73, 0.76) would resolve tension.
 
 4. **Such adjustment has consequences:**
-   - Requires physical justification for the modified Z₃ kink profile
+   - Requires physical justification for the modified ∞₃ kink profile
    - Must not spoil agreement with Δm²₃₁ (currently 0.4%)
    - Should be derivable from domain wall dynamics
 
@@ -470,9 +470,9 @@ Post-JUNO if central value confirmed: 17.5σ (fatal without modification)
 
 **The Δm²₂₁ prediction is falsifiable but not framework-fatal** because:
 
-1. **The ξ_i values are semi-empirical** - They represent kink amplitudes that should emerge from Z₃ domain wall dynamics but are currently fitted.
+1. **The ξ_i values are semi-empirical** - They represent kink amplitudes that should emerge from ∞₃ domain wall dynamics but are currently fitted.
 
-2. **Δm²₂₁ tests the neutrino sector specifically** - It does not directly test the core Z₃ topology or N_gen=3 prediction.
+2. **Δm²₂₁ tests the neutrino sector specifically** - It does not directly test the core ∞-helix topology or N_gen=3 prediction.
 
 3. **STUR's strongest predictions are topological:**
    - N_gen = 3 (exact)
@@ -500,7 +500,7 @@ Post-JUNO if central value confirmed: 17.5σ (fatal without modification)
 
 **Phase 2: Theoretical Investigation (6-18 months)**
 ```
-1. Calculate Z₃ domain wall profile with higher precision
+1. Calculate ∞₃ domain wall profile with higher precision
 2. Determine if ξ₂ = 0.73 emerges from first principles
 3. If not: identify what additional physics is needed
 4. Consider higher-order corrections to seesaw
@@ -520,17 +520,17 @@ Post-JUNO if central value confirmed: 17.5σ (fatal without modification)
 ### 7.1 Near-Term (Before JUNO Results)
 
 1. **Derive ξ_i from domain wall dynamics**
-   - Calculate Z₃ kink profile analytically
+   - Calculate ∞₃ kink profile analytically
    - Determine ξ₂ uncertainty from first principles
    - Establish whether ξ₂ ∈ [0.73, 0.76] is allowed
 
 2. **Complete RG analysis for neutrino sector**
    - Two-loop running of PMNS parameters
    - Flavor-dependent KK threshold effects
-   - Z₃ anomalous dimensions
+   - ∞₃ anomalous dimensions
 
 3. **Investigate seesaw structure corrections**
-   - Off-diagonal M_R elements from Z₃ breaking
+   - Off-diagonal M_R elements from ∞-helix breaking
    - Type-II seesaw compatibility
    - Double seesaw extensions
 
@@ -538,7 +538,7 @@ Post-JUNO if central value confirmed: 17.5σ (fatal without modification)
 
 **If tension increases:**
 - Prioritize ξ_i derivation
-- Consider Z₃ soft breaking scenarios
+- Consider ∞₃ soft breaking scenarios
 - Document modifications transparently
 
 **If tension decreases:**
@@ -558,7 +558,7 @@ The 6% tension in Δm²₂₁ (7.06 vs 7.41 × 10⁻⁵ eV²) is STUR's most sig
 
 1. **ξ_i kink amplitudes are fitted, not fully derived** - This is the weakest link
 2. **RG and threshold corrections are small (~1-2%)** - Cannot resolve full discrepancy
-3. **Z₃ breaking effects offer largest lever arm** - But require justification
+3. **∞-helix breaking effects offer largest lever arm** - But require justification
 
 ### 8.3 Path Forward
 
@@ -576,7 +576,7 @@ The Δm²₂₁ tension represents an **opportunity rather than a crisis**:
 
 1. NuFIT 5.3 (2024). http://www.nu-fit.org
 2. JUNO Collaboration (2022). "Neutrino Physics with JUNO." J.Phys.G 43, 030401.
-3. STUR Framework Documents: DERIVATION_CHAIN_HELIX.md, HIGH_PRECISION_PREDICTIONS.md
+3. STUR Framework Documents: DERIVATION_CHAIN_INFINITY.md, HIGH_PRECISION_PREDICTIONS.md
 4. EXPERIMENTAL_VALIDATION_ROADMAP.md
 
 ---

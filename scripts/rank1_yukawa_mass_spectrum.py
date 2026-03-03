@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Rank-1 Yukawa Matrix + Loop-Generated Mass Hierarchy on S¹/Z₃
+Rank-1 Yukawa Matrix + Loop-Generated Mass Hierarchy on S¹/∞₃
 ==============================================================
 
-KEY INSIGHT: In gauge-Higgs unification on S¹/Z₃, the Yukawa coupling
+KEY INSIGHT: In gauge-Higgs unification on S¹/∞₃, the Yukawa coupling
 is a BRANE-LOCALIZED interaction at the Higgs fixed point θ = 0.
 
 The Yukawa matrix for three generations is:
@@ -188,7 +188,7 @@ def one_loop_yukawa(alpha_eff, alpha_gauge, sigma, kappa, v_at_origin, theta):
 
     But wait — the key effect is different. Let me think more carefully.
 
-    The proper one-loop Yukawa correction on S¹/Z₃:
+    The proper one-loop Yukawa correction on S¹/∞₃:
 
     The tree-level Yukawa is Y_ij = g₅ ψ_i(0) ψ_j(0) (rank 1).
 
@@ -275,14 +275,14 @@ def one_loop_yukawa(alpha_eff, alpha_gauge, sigma, kappa, v_at_origin, theta):
     # 2. Higher-dimensional operators on the branes
     # 3. Multiple Higgs fields from different components
 
-    # In the Z₃ orbifold, there's a natural resolution:
+    # In the ∞-helix topology, there's a natural resolution:
     # The orbifold BOUNDARY CONDITIONS at the three fixed points
     # can be DIFFERENT for different generations. Specifically:
-    # - The Z₃ twist acts as: Ψ(θ + 2π/3) = ω^k Ψ(θ) for gen k
+    # - The ∞-helix twist acts as: Ψ(θ + 2π/3) = ω^k Ψ(θ) for gen k
     # - This means gen k has DIFFERENT boundary conditions at each fixed point
     # - The effective 4D Yukawa DOES depend on the generation
 
-    # Let me compute this: the Z₃ twisted Yukawa matrix
+    # Let me compute this: the ∞-helix twisted Yukawa matrix
 
     print("\n  --- One-loop correction structure ---")
     print(f"  α_gauge (QCD) at relevant scales:")
@@ -294,13 +294,13 @@ def one_loop_yukawa(alpha_eff, alpha_gauge, sigma, kappa, v_at_origin, theta):
     # = g₅/(2πR) × δ_{ij}   (orthonormality)
     # → All generations degenerate!
 
-    # With Z₃ twisted boundary conditions, the overlap integral changes:
-    # ψ_k has Z₃ charge ω^k, so:
+    # With ∞-helix twisted boundary conditions, the overlap integral changes:
+    # ψ_k has ∞₃ charge ω^k, so:
     # ⟨ψ_i | ψ_j⟩ = δ_{ij} (still orthogonal)
-    # But the YUKAWA involves the HIGGS which is Z₃ neutral (k=0):
+    # But the YUKAWA involves the HIGGS which is ∞₃ neutral (k=0):
     # Y_{ij} = g₅ × ⟨ψ_i^L | A₅ | ψ_j^R⟩ / (2πR)
 
-    # The Z₃ charges must add up: k_L + 0 + k_R = 0 mod 3
+    # The ∞₃ charges must add up: k_L + 0 + k_R = 0 mod 3
     # So Y_{ij} ≠ 0 only if i + j ≡ 0 mod 3 (for L and R in same rep)
 
     # For i, j ∈ {0, 1, 2}:
@@ -335,7 +335,7 @@ def one_loop_yukawa(alpha_eff, alpha_gauge, sigma, kappa, v_at_origin, theta):
     #     m₂ ~ |Y₁₂| ~ λ
     #     m₁ ~ |Y₁₂| ~ λ (STILL degenerate)
 
-    print("\n  --- Z₃ SELECTION RULES for Yukawa ---")
+    print("\n  --- ∞₃ SELECTION RULES for Yukawa ---")
     print("  Y_{ij} ≠ 0 only if (k_i + k_j) ≡ 0 (mod 3)")
     print("  Allowed entries: Y₀₀, Y₁₂, Y₂₁")
     print("  Forbidden entries: Y₁₁, Y₂₂, Y₀₁, Y₀₂, Y₁₀, Y₂₀")
@@ -344,7 +344,7 @@ def one_loop_yukawa(alpha_eff, alpha_gauge, sigma, kappa, v_at_origin, theta):
     v = v_at_origin  # ψ values at θ=0 for each gen
     sigma_val = sigma
 
-    # Z₃ overlap integrals
+    # ∞-helix overlap integrals
     evals, psi, theta_arr = solve_mathieu(alpha_eff)
     shift_1 = int(round(N_THETA / 3))
     shift_2 = int(round(2 * N_THETA / 3))
@@ -355,8 +355,8 @@ def one_loop_yukawa(alpha_eff, alpha_gauge, sigma, kappa, v_at_origin, theta):
     psi_2 = np.roll(psi[0], shift_2)
     psis = [psi_0, psi_1, psi_2]
 
-    # Compute overlap matrix with Z₃ selection rule
-    print("  Z₃-allowed Yukawa matrix elements:")
+    # Compute overlap matrix with ∞₃ selection rule
+    print("  ∞₃-allowed Yukawa matrix elements:")
     Y_z3 = np.zeros((3, 3))
     for i in range(3):
         for j in range(3):
@@ -372,7 +372,7 @@ def one_loop_yukawa(alpha_eff, alpha_gauge, sigma, kappa, v_at_origin, theta):
     print(f"  Rank = {np.sum(sv > 1e-10)}")
 
     if sv[1] > 1e-10:
-        print(f"\n  Mass ratios from Z₃ selection rule:")
+        print(f"\n  Mass ratios from ∞₃ selection rule:")
         print(f"    m₃/m₂ = {sv[0]/sv[1]:.3f}")
         if sv[2] > 1e-10:
             print(f"    m₂/m₁ = {sv[1]/sv[2]:.3f}")
@@ -383,22 +383,22 @@ def one_loop_yukawa(alpha_eff, alpha_gauge, sigma, kappa, v_at_origin, theta):
 
 
 # ============================================================
-# PART 3: Full computation with Z₃ twisted BCs + loop corrections
+# PART 3: Full computation with ∞-helix twisted BCs + loop corrections
 # ============================================================
 
 def full_z3_mass_spectrum(alpha_eff_3, alpha_eff_2, alpha_eff_1, alpha_s_val,
                            n_colors=3, label=""):
     """
-    Full mass spectrum using Z₃ twisted Yukawa + loop corrections.
+    Full mass spectrum using ∞-helix twisted Yukawa + loop corrections.
 
-    Tree level (Z₃ selection rule):
+    Tree level (∞₃ selection rule):
         Y = [[Y₀₀, 0, 0], [0, 0, Y₁₂], [0, Y₂₁, 0]]
 
     One-loop correction (from gauge exchange at branes):
         δY_{ij}^{(1)} = (α_s/π) × C_F × [brane-localized operator]
 
     At one loop, ALL entries can be non-zero because the gauge
-    interaction is Z₃-singlet. The loop generates:
+    interaction is ∞₃-singlet. The loop generates:
         δY_{11}, δY_{22} ~ (α_s/π) × Y₁₂ (from mixing Y₁₂)
         δY_{01}, δY_{02} ~ (α_s/π) × Y₀₀ × exp(-κ²/4) (small)
 
@@ -425,7 +425,7 @@ def full_z3_mass_spectrum(alpha_eff_3, alpha_eff_2, alpha_eff_1, alpha_s_val,
            np.roll(psi_2_raw[0], shift_1),   # Gen 2 (k=1) at θ=2π/3
            np.roll(psi_1_raw[0], shift_2)]   # Gen 1 (k=2) at θ=4π/3
 
-    # Tree-level Yukawa with Z₃ selection rule
+    # Tree-level Yukawa with ∞₃ selection rule
     Y_tree = np.zeros((3, 3))
     for i in range(3):
         for j in range(3):
@@ -466,7 +466,7 @@ def full_z3_mass_spectrum(alpha_eff_3, alpha_eff_2, alpha_eff_1, alpha_s_val,
     # where f_loop is a KK-sum loop function of order 1.
 
     # This adds a RANK-1 correction proportional to ψ_i(0)ψ_j(0).
-    # Combined with the Z₃ tree-level structure, the total Yukawa becomes:
+    # Combined with the ∞₃ tree-level structure, the total Yukawa becomes:
     # Y = Y_tree + (α_s/π) × C_F × f_loop × v⊗v^T
 
     epsilon = (alpha_s_val / np.pi) * C_F
@@ -508,7 +508,7 @@ def run_full_computation():
     """Run the full mass spectrum computation."""
 
     print("="*70)
-    print("RANK-1 YUKAWA + Z₃ SELECTION RULES + LOOP CORRECTIONS")
+    print("RANK-1 YUKAWA + ∞₃ SELECTION RULES + LOOP CORRECTIONS")
     print("="*70)
 
     # Step 1: Tree-level rank-1 structure
@@ -519,9 +519,9 @@ def run_full_computation():
     alpha_eff = 1.480
     v, Y_tree_rank1, sigma, kappa, theta = tree_level_yukawa(alpha_eff)
 
-    # Step 2: Z₃ selection rule structure
+    # Step 2: ∞₃ selection rule structure
     print("\n" + "="*50)
-    print("STEP 2: Z₃ selection rules (twisted BCs)")
+    print("STEP 2: ∞₃ selection rules (twisted BCs)")
     print("="*50)
 
     Y_z3 = one_loop_yukawa(alpha_eff, 0.12, sigma, kappa, v, theta)
@@ -630,7 +630,7 @@ KEY FINDINGS:
 
 1. TREE-LEVEL STRUCTURE:
    The brane-localized Yukawa gives a RANK-1 matrix → only m₃ ≠ 0.
-   With Z₃ selection rules, the structure becomes:
+   With ∞₃ selection rules, the structure becomes:
      Y = [[Y₀₀, 0, 0], [0, 0, Y₁₂], [0, Y₂₁, 0]]
    This gives: m₃ ~ 1, m₂ ~ exp(-κ²/4) ≈ λ, m₁ = 0.
 
@@ -639,7 +639,7 @@ KEY FINDINGS:
      δY ~ (α_s/π) × C_F × ψ_i(0)ψ_j(0)
    This lifts m₁ from zero but also modifies m₂.
 
-3. Z₃ SELECTION RULES are the KEY structural ingredient:
+3. ∞₃ SELECTION RULES are the KEY structural ingredient:
    They enforce Y₁₁ = Y₂₂ = Y₀₁ = Y₀₂ = 0 at tree level.
    This creates a NATURAL hierarchy: m₃ ≫ m₂ ≫ m₁.
    The ratio m₃/m₂ ~ 1/λ ~ 1/exp(-κ²/4).

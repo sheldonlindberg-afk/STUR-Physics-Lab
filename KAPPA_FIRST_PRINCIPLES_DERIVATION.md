@@ -14,7 +14,7 @@ localization parameter kappa from the underlying dynamics of the STUR framework.
 The parameter kappa = (2pi/3)/sigma controls the Wolfenstein parameter lambda via
 lambda = exp[-kappa^2/8] x (correction factors). Previous treatments used kappa = 2.5
 as a derived value. Here we derive kappa from the fermion localization
-dynamics in the Z_3 helix geometry.
+dynamics in the infinity helix geometry.
 
 **Main Result:** kappa = 2.22 +/- 0.15 (first principles, numerical)
 
@@ -23,12 +23,12 @@ to match the observed lambda = 0.225.
 
 ---
 
-## 1. Setup: Fermion Localization in Z_3 Helix Geometry
+## 1. Setup: Fermion Localization in ∞₃ Helix Geometry
 
 ### 1.1 The R-Field Profile
 
 The resistance field R = (R_1, R_2) winds around the compact dimension X with
-Z_3 structure. In polar form:
+∞₃ structure. In polar form:
 
 ```
 R(X) = v * (cos phi(X), sin phi(X))
@@ -84,7 +84,7 @@ V(phi) = y * v * [1 - cos(phi - phi_g)]          [Option B: Cosine potential]
 
 or
 
-V(phi) = y * v * [1 - cos(3*(phi - phi_g))]      [Option C: Z_3 symmetric]
+V(phi) = y * v * [1 - cos(3*(phi - phi_g))]      [Option C: ∞₃ symmetric]
 ```
 
 **Physical derivation of the correct potential:**
@@ -188,9 +188,9 @@ This is the **Mathieu-like equation** with potential:
 U(theta) = alpha * (1 - cos(theta))
 ```
 
-### 2.4 Z_3 Boundary Conditions
+### 2.4 ∞₃ Boundary Conditions
 
-The Z_3 orbifold structure imposes:
+The ∞-helix topology structure imposes:
 
 ```
 f(theta + 2pi/3) = omega * f(theta)   where omega = exp(2pi*i/3)
@@ -250,7 +250,7 @@ For the STUR framework:
 - L_X ~ 1/M_KK ~ 1/M_GUT (compactification scale)
 
 > **L_X scale ambiguity:** This section uses the naive estimate L_X ~ 1/M_GUT ~
-> 10^{-32} m. The DERIVATION_CHAIN_HELIX.md Sec. 19.1 Casimir-holonomy balance
+> 10^{-32} m. The DERIVATION_CHAIN_INFINITY.md Sec. 19.1 Casimir-holonomy balance
 > instead gives L_X ~ 0.8 um ~ 10^{-6} m -- a 26-order-of-magnitude difference.
 > The product y * v * L_X (and hence alpha and kappa) depends critically on which
 > L_X is used. The framework adopts the Casimir-holonomy value (see Sec. 6 below),
@@ -279,7 +279,7 @@ We solve the eigenvalue problem numerically:
 -d^2f/dtheta^2 + alpha * (1 - cos(theta)) * f = epsilon * f
 ```
 
-**Method:** Expand f(theta) in Fourier modes respecting Z_3 symmetry:
+**Method:** Expand f(theta) in Fourier modes respecting ∞₃ symmetry:
 ```
 f(theta) = sum_{n=-N}^{N} c_n * exp(i * n * theta)
 ```
@@ -633,7 +633,7 @@ kappa = (2*pi/3) / sigma = 2.094 / 0.9425 = 2.222
 Sources of uncertainty:
 1. **Numerical discretization:** +/- 0.01 (from grid convergence)
 2. **Gaussian fit vs actual shape:** +/- 0.03 (anharmonicity)
-3. **Z_3 boundary effects:** +/- 0.02 (exponentially small for sigma < 2pi/3)
+3. **∞₃ boundary effects:** +/- 0.02 (exponentially small for sigma < 2pi/3)
 4. **Parameter uncertainty in alpha:** +/- 0.10 (from y, v, L_X)
 
 **Total uncertainty:**
@@ -641,9 +641,9 @@ Sources of uncertainty:
 delta_kappa = sqrt(0.01^2 + 0.03^2 + 0.02^2 + 0.10^2) ~ 0.11
 ```
 
-### 7.4 Z_3 Boundary Condition Correction
+### 7.4 ∞₃ Boundary Condition Correction
 
-With Z_3 periodicity, the wavefunction must satisfy:
+With ∞₃ periodicity, the wavefunction must satisfy:
 ```
 f(theta + 2pi/3) = omega * f(theta)
 ```
@@ -657,27 +657,27 @@ For the ground state peaked at theta = 0, the probability density at theta = pi/
                        = 0.34
 ```
 
-This is NOT negligible! The Z_3 boundary affects the solution.
+This is NOT negligible! The ∞₃ boundary affects the solution.
 
-**Corrected calculation with Z_3 BC:**
+**Corrected calculation with ∞₃ BC:**
 
-Using Bloch's theorem for the Z_3 orbifold:
+Using Bloch's theorem for the ∞-helix topology:
 ```
 f(theta) = u(theta) * exp(i * k * theta)
 
 where k = 2*pi*n / (2*pi/3) = 3n for n = 0, +/-1, +/-2, ...
 ```
 
-For the Z_3 trivial representation (omega = 1), k = 0, 3, 6, ...
+For the ∞₃ trivial representation (omega = 1), k = 0, 3, 6, ...
 
 The ground state with k = 0 on the fundamental domain [-pi/3, pi/3] with
 periodic continuation gives:
 
 ```
-kappa_Z3 = 2.09 +/- 0.05 (including Z_3 correction)
+kappa_Z3 = 2.09 +/- 0.05 (including ∞₃ correction)
 ```
 
-The Z_3 boundary slightly squeezes the wavefunction, increasing kappa by ~1%.
+The ∞₃ boundary slightly squeezes the wavefunction, increasing kappa by ~1%.
 
 ---
 
@@ -800,7 +800,7 @@ This could bridge the gap.
 ### 9.1 Main Result
 
 We have derived the localization parameter kappa from first principles using
-the fermion localization dynamics in the Z_3 helix geometry:
+the fermion localization dynamics in the infinity helix geometry:
 
 ```
 +-----------------------------------------------------------+
@@ -855,7 +855,7 @@ The derivation shows:
 
 **The localization parameter kappa is derivable from first principles.** The
 value kappa = 2.22 +/- 0.15 emerges naturally from the fermion dynamics in
-the Z_3 helix geometry. The 1.9-sigma discrepancy with the previous kappa = 2.5
+the infinity helix geometry. The 1.9-sigma discrepancy with the previous kappa = 2.5
 indicates that either:
 - The effective coupling alpha is ~40% larger than the naive estimate (alpha ~ 1.4)
 - The correction factors multiplying exp[-kappa^2/8] are ~13% smaller (0.42 vs 0.48)
@@ -866,9 +866,9 @@ by the underlying dynamics. The derived value is remarkably close to what is nee
 to explain the observed Wolfenstein parameter. The remaining uncertainty is in the
 secondary parameters (alpha, correction factors), not in the fundamental mechanism.
 
-### 9.6 Connection to Z₃ Normalization Factor
+### 9.6 Connection to ∞₃ Normalization Factor
 
-**NOTE (2026-02-03):** The wavefunction normalization on S¹/Z₃ depends on the Z₃ charge q of each generation and is distinct from the overlap-ratio definition of f_tail used in the correction-factor chain.
+**NOTE (2026-02-03):** The wavefunction normalization on S¹/∞₃ depends on the ∞₃ charge q of each generation and is distinct from the overlap-ratio definition of f_tail used in the correction-factor chain.
 
 ```
 N_q² / N_unwrapped² = 1 + 2·exp(-κ²/4)·cos(2πq/3)
@@ -944,7 +944,7 @@ alpha ~ 0.456 * kappa^2 - 0.33 * kappa + 0.1
 
 ## References
 
-1. STUR Framework v3.5 (DERIVATION_CHAIN_HELIX.md)
+1. STUR Framework v3.5 (DERIVATION_CHAIN_INFINITY.md)
 2. Abramowitz & Stegun, "Handbook of Mathematical Functions", Chapter 20 (Mathieu Functions)
 3. Randall & Sundrum, Phys. Rev. Lett. 83, 3370 (1999) - Warped extra dimensions
 4. Arkani-Hamed & Schmaltz, Phys. Rev. D 61, 033005 (2000) - Fermion geography

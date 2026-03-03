@@ -112,12 +112,12 @@
       </span>
   </div>
   <div style="margin-top:0.5rem;padding:0.5rem;background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:8px;max-width:520px;margin-left:auto;margin-right:auto;font-size:0.8rem;">
-    <strong style="color:#4ade80;">All 26 SM parameters derived</strong> — f<sub>tail</sub> = 1.131 wavefunction tail correction applied; neutrino masses include hierarchical M<sub>R</sub> from Z₃ kinks
+    <strong style="color:#4ade80;">All 26 SM parameters derived</strong> — f<sub>tail</sub> = 1.131 wavefunction tail correction applied; neutrino masses include hierarchical M<sub>R</sub> from ∞₃ kinks
   </div>
   <div style="margin-top:1rem"><button class="btn btn-cite" id="copyCite">Copy Citation</button></div>
 </header>
 
-<!-- Derivation Chain Reference - v6.2 TOE -->
+<!-- Derivation Chain Reference - v7.0 TOE -->
 <div style="max-width:800px; margin:0 auto 1.5rem auto; padding:1rem; background:rgba(74,222,128,0.12); border:2px solid rgba(74,222,128,0.5); border-radius:10px;">
     <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
         <span class="stur-icon icon-book" style="color:#4ade80;"></span>
@@ -130,10 +130,10 @@
     </p>
     <p style="margin:0 0 0.5rem; font-size:0.8rem; color:var(--text-muted);">
         <strong>Derived:</strong> Gaussian decay form, saturation operator structure, all 26 SM parameters.
-        <strong>Corrections:</strong> f<sub>tail</sub> = 1.131 (wavefunction tails), hierarchical M<sub>R</sub> from Z₃ kinks.
+        <strong>Corrections:</strong> f<sub>tail</sub> = 1.131 (wavefunction tails), hierarchical M<sub>R</sub> from ∞₃ kinks.
     </p>
     <p style="margin:0; font-size:0.8rem;">
-        <a href="../DERIVATION_CHAIN_HELIX.md" style="color:#4ade80;">DERIVATION_CHAIN_HELIX.md</a> —
+        <a href="../DERIVATION_CHAIN_INFINITY.md" style="color:#4ade80;">DERIVATION_CHAIN_INFINITY.md</a> —
         Complete derivation from \(M_{\rm Planck}\)
     </p>
 </div>
@@ -162,7 +162,7 @@
     </p>
     <p style="margin:0.5rem 0 0;color:#4ade80;font-size:0.9rem;">
       <strong>100% TOE Status (2026-02-03):</strong> All 26 SM parameters derived within 10% (most within 2%).
-      Key corrections: f<sub>tail</sub> = 1.131 wavefunction tail correction; hierarchical M<sub>R</sub> from Z₃ kinks
+      Key corrections: f<sub>tail</sub> = 1.131 wavefunction tail correction; hierarchical M<sub>R</sub> from ∞₃ kinks
       (M<sub>R,3</sub>=1.1×10¹⁴, M<sub>R,2</sub>=M<sub>R,1</sub>=1.5×10¹⁴ GeV).
     </p>
   </div>
@@ -599,7 +599,7 @@
   const LN2_INV = 1.4426950408889634;
   const ULDM_A = 0.15;
 
-  // STUR saturation operator — Eq. B.16 from DERIVATION_CHAIN_HELIX.md
+  // STUR saturation operator — Eq. B.16 from DERIVATION_CHAIN_INFINITY.md
   const S_u = (u) => Math.tanh(u) * (1 - Math.exp(-Math.abs(u)));
 
   // ═══════════════════════════════════════════════════════════════════════════

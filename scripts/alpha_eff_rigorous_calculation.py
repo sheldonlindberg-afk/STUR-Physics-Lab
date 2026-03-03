@@ -8,17 +8,17 @@ Cabibbo angle through the Mathieu equation fermion localization.
 
 Three physically distinct enhancement mechanisms are computed:
 
-  1. Z₃ Twisted Sector: The orbifold S¹/Z₃ adds a cos(3θ) potential
+  1. ∞₃ Twisted Sector: The orbifold S¹/∞₃ adds a cos(3θ) potential
      from the three fixed points (Dixon-Harvey-Vafa-Witten, 1985).
      Coefficient: (α/9)(1 - cos 3θ) from orbifold volume factor.
 
   2. KK Tower Coleman-Weinberg: One-loop effective potential from
-     integrating out Kaluza-Klein modes with Z₃ projection.
+     integrating out Kaluza-Klein modes with ∞-helix projection.
 
   3. Gauge Backreaction: QCD and electroweak corrections to the
      effective Yukawa coupling at the localization scale.
 
-The result α_eff = α_tree × f_Z3 × f_KK × f_gauge is compared
+The result α_eff = α_tree × f_helix × f_KK × f_gauge is compared
 against the value α = 3/2 needed to reproduce λ_obs = 0.2250.
 
 Author: Computed for STUR v4.5
@@ -175,7 +175,7 @@ def compute_overlap_lambda(alpha, N_grid=4000):
 
     WHY periodic Gaussian and not exact Mathieu eigenstates?
     The Yukawa matrix element is Y_{ij} = y ∫ f_i*(θ) H(θ) f_j(θ) dθ
-    where H(θ) is the Higgs profile. The Higgs is localized at the Z₃
+    where H(θ) is the Higgs profile. The Higgs is localized at the ∞₃
     fixed points with a Gaussian profile of width ~ σ_H ≈ σ_f.
     This Higgs window function suppresses the non-Gaussian tails of the
     Mathieu eigenstates, making the periodic Gaussian overlap the
@@ -198,14 +198,14 @@ def compute_overlap_lambda(alpha, N_grid=4000):
 
 
 # =========================================================================
-# FACTOR 1: Z₃ TWISTED SECTOR ENHANCEMENT
+# FACTOR 1: ∞₃ TWISTED SECTOR ENHANCEMENT
 # =========================================================================
 
 def compute_z3_twisted_sector():
     """
-    Compute the Z₃ twisted sector enhancement to α.
+    Compute the ∞-helix twisted sector enhancement to α.
 
-    Physics: On the orbifold S¹/Z₃, the localization potential receives
+    Physics: On the orbifold S¹/∞₃, the localization potential receives
     an additional cos(3θ) contribution from the twisted sector states
     at the three fixed points.
 
@@ -225,14 +225,14 @@ def compute_z3_twisted_sector():
     R(θ + 2π/3) = ωR(θ) generates a potential at each fixed point
     that includes not only the direct cos(θ) from the local VEV
     mismatch, but also a cos(3θ) harmonic from the orbifold image
-    potentials reflected through the Z₃ identification.
+    potentials reflected through the ∞-helix identification.
 
     We compute κ for V_total = α(1-cosθ) + c₃(1-cos3θ) for various
-    coefficients c₃ and determine f_Z3 = (κ/κ₀)² (since κ ~ √α for
+    coefficients c₃ and determine f_helix = (κ/κ₀)² (since κ ~ √α for
     the Mathieu equation in the moderate-coupling regime).
     """
     print("=" * 72)
-    print("FACTOR 1: Z₃ TWISTED SECTOR ENHANCEMENT")
+    print("FACTOR 1: ∞₃ TWISTED SECTOR ENHANCEMENT")
     print("=" * 72)
 
     alpha = 1.0
@@ -263,11 +263,11 @@ def compute_z3_twisted_sector():
     # (use Gaussian approx since the exact method only handles cosine potentials)
     lambda_dhvw = compute_overlap_lambda_gaussian(sigma_dhvw)
 
-    f_Z3_dhvw = (kappa_dhvw / kappa_ref)**2
+    f_helix_dhvw = (kappa_dhvw / kappa_ref)**2
 
     print(f"\n    Result with full DHVW coefficient:")
     print(f"    κ = {kappa_dhvw:.4f}  (vs κ₀ = {kappa_ref:.4f})")
-    print(f"    f_Z3 = (κ/κ₀)² = {f_Z3_dhvw:.4f}")
+    print(f"    f_helix = (κ/κ₀)² = {f_helix_dhvw:.4f}")
     print(f"    λ = {lambda_dhvw:.6f}  (vs λ₀ = {lambda_ref:.6f})")
 
     # ----- Why (κ/κ₀)² is the correct measure -----
@@ -289,8 +289,8 @@ def compute_z3_twisted_sector():
     print(f"    (For κ ~ √α, expect p = 0.5; got p = {p:.3f})")
 
     # The correct α_eff enhancement is therefore (κ/κ₀)^(1/p)
-    f_Z3_exact = (kappa_dhvw / kappa_ref)**(1/p)
-    print(f"    Exact f_Z3 using measured scaling: (κ/κ₀)^(1/p) = {f_Z3_exact:.4f}")
+    f_helix_exact = (kappa_dhvw / kappa_ref)**(1/p)
+    print(f"    Exact f_helix using measured scaling: (κ/κ₀)^(1/p) = {f_helix_exact:.4f}")
 
     # ----- Physical suppression of twisted sector -----
     print(f"\n  Physical considerations for twisted sector suppression:")
@@ -300,7 +300,7 @@ def compute_z3_twisted_sector():
     print(f"    c₃(ε) = (α/9) × exp(-ε²/(2σ²))")
 
     # Scan over resolution parameters
-    print(f"\n    {'ε/σ':>6s}  {'c₃/α':>8s}  {'κ':>8s}  {'f_Z3':>8s}  {'f_Z3(exact)':>12s}")
+    print(f"\n    {'ε/σ':>6s}  {'c₃/α':>8s}  {'κ':>8s}  {'f_helix':>8s}  {'f_helix(exact)':>12s}")
     print("    " + "-" * 50)
 
     results_z3 = {}
@@ -313,24 +313,24 @@ def compute_z3_twisted_sector():
         fz = (kf / kappa_ref)**(1/p)
         fz_sq = (kf / kappa_ref)**2
         print(f"    {eps_ratio:6.2f}  {c3/alpha:8.4f}  {kf:8.4f}  {fz_sq:8.4f}  {fz:12.4f}")
-        results_z3[eps_ratio] = {'c3': c3, 'kappa': kf, 'f_Z3': fz, 'f_Z3_sq': fz_sq}
+        results_z3[eps_ratio] = {'c3': c3, 'kappa': kf, 'f_helix': fz, 'f_helix_sq': fz_sq}
 
-    # For the STUR framework, the Z₃ orbifold is TOPOLOGICAL (not resolved).
+    # For the STUR framework, the ∞-helix topology is TOPOLOGICAL (not resolved).
     # The R-field helix provides the resolution through its winding.
     # The effective suppression is ε/σ = 0 (sharp orbifold) to ε/σ ~ 0.5 (mild resolution).
     #
     # For SHARP orbifold (ε = 0): full DHVW coefficient applies
-    f_Z3_sharp = results_z3[0.0]['f_Z3']
+    f_helix_sharp = results_z3[0.0]['f_helix']
 
     # For ε/σ = 0.5 (mild resolution)
-    f_Z3_mild = results_z3[0.5]['f_Z3']
+    f_helix_mild = results_z3[0.5]['f_helix']
 
     print(f"\n  RESULT:")
-    print(f"    Sharp orbifold (ε = 0):       f_Z3 = {f_Z3_sharp:.4f}")
-    print(f"    Mild resolution (ε/σ = 0.5):  f_Z3 = {f_Z3_mild:.4f}")
+    print(f"    Sharp orbifold (ε = 0):       f_helix = {f_helix_sharp:.4f}")
+    print(f"    Mild resolution (ε/σ = 0.5):  f_helix = {f_helix_mild:.4f}")
 
-    # What value reproduces f_Z3 = 11/9?
-    # Find ε/σ that gives f_Z3 = 11/9
+    # What value reproduces f_helix = 11/9?
+    # Find ε/σ that gives f_helix = 11/9
     target = 11.0/9.0
     eps_scan = np.linspace(0, 2, 200)
     f_scan = []
@@ -345,12 +345,12 @@ def compute_z3_twisted_sector():
 
     # Find crossings
     idx = np.argmin(np.abs(f_scan - target))
-    print(f"\n    For f_Z3 = 11/9 = {target:.4f}, need ε/σ ≈ {eps_scan[idx]:.3f}")
+    print(f"\n    For f_helix = 11/9 = {target:.4f}, need ε/σ ≈ {eps_scan[idx]:.3f}")
     print(f"    (suppression factor: exp(-ε²/2σ²) = {np.exp(-eps_scan[idx]**2/2):.3f})")
 
     return {
-        'f_Z3_sharp': f_Z3_sharp,
-        'f_Z3_mild': f_Z3_mild,
+        'f_helix_sharp': f_helix_sharp,
+        'f_helix_mild': f_helix_mild,
         'kappa_ref': kappa_ref,
         'sigma_ref': sigma_ref,
         'scaling_exponent': p,
@@ -366,10 +366,10 @@ def compute_z3_twisted_sector():
 def compute_kk_tower_cw():
     """
     Compute the one-loop Coleman-Weinberg effective potential from the
-    KK tower with Z₃ projection.
+    KK tower with ∞-helix projection.
 
     The KK modes have masses m_n = n·M_KK = n·(2π/L_X).
-    On S¹/Z₃, only n ≡ 0 (mod 3) survive the projection for untwisted
+    On S¹/∞₃, only n ≡ 0 (mod 3) survive the projection for untwisted
     matter, but all modes contribute through loops.
 
     The CW effective potential from a Dirac fermion with θ-dependent mass:
@@ -405,7 +405,7 @@ def compute_kk_tower_cw():
     # curvature V''(0) is:
 
     print(f"\n  KK spectrum: m_n = n·M_KK, n = 1, 2, 3, ...")
-    print(f"  Z₃ projection: only n ≡ 0 (mod 3) for untwisted sector")
+    print(f"  ∞-helix projection: only n ≡ 0 (mod 3) for untwisted sector")
     print(f"  But ALL modes contribute in loops")
 
     # Method: compute δα from the explicit sum
@@ -489,20 +489,20 @@ def compute_kk_tower_cw():
         delta_alpha_CW_renorm += alpha / (n**2 + alpha)
     delta_alpha_CW_renorm *= Nd / (16 * np.pi**2)
 
-    # Z₃-projected version (only n ≡ 0 mod 3 in the propagator)
+    # ∞-helix-projected version (only n ≡ 0 mod 3 in the propagator)
     delta_alpha_CW_z3 = 0.0
     for k in range(1, n_max // 3 + 1):
         n = 3 * k
         delta_alpha_CW_z3 += alpha / (n**2 + alpha)
     delta_alpha_CW_z3 *= Nd / (16 * np.pi**2)
 
-    # However, ALL KK modes run in loops (not just Z₃-projected ones).
-    # The Z₃ projection applies to the external states, not the loop.
+    # However, ALL KK modes run in loops (not just ∞-helix-projected ones).
+    # The ∞-helix projection applies to the external states, not the loop.
     delta_alpha_CW = delta_alpha_CW_renorm
 
     print(f"\n  Method A: Renormalized CW curvature correction")
     print(f"    δα_CW/α (all KK modes) = {delta_alpha_CW:.6f}")
-    print(f"    δα_CW/α (Z₃ projected) = {delta_alpha_CW_z3:.6f}")
+    print(f"    δα_CW/α (∞₃ projected) = {delta_alpha_CW_z3:.6f}")
     print(f"    Using full tower (all modes run in loops): δα_CW/α = {delta_alpha_CW:.6f}")
 
     # --- Method B: Analytic partial sum ---
@@ -528,13 +528,13 @@ def compute_kk_tower_cw():
     print(f"    Σ ln(n²)/n² = {sum_ln_over_n2:.6f}")
     print(f"    δα_CW/α (analytic) = {delta_alpha_analytic:.6f}")
 
-    # --- Z₃ projected sum (only n ≡ 0 mod 3) ---
+    # --- ∞₃ projected sum (only n ≡ 0 mod 3) ---
     sum_z3 = sum(1.0/(3*k)**2 for k in range(1, n_max//3 + 1))
     delta_alpha_z3 = (Nd / (16 * np.pi**2)) * sum_z3
 
-    print(f"\n  Z₃ projected sum (n = 3, 6, 9, ...):")
+    print(f"\n  ∞₃ projected sum (n = 3, 6, 9, ...):")
     print(f"    Σ 1/(3k)² = {sum_z3:.6f}  (= π²/54 = {np.pi**2/54:.6f})")
-    print(f"    δα_CW(Z₃)/α = {delta_alpha_z3:.6f}")
+    print(f"    δα_CW(∞₃)/α = {delta_alpha_z3:.6f}")
 
     # --- Periodic image enhancement ---
     # On S¹, the wavefunction at θ=0 has periodic images at θ = 2πm
@@ -717,15 +717,15 @@ def compute_combined_result(z3_result, kk_result, gauge_result):
     print("COMBINED RESULT: α_eff FROM FIRST PRINCIPLES")
     print("=" * 72)
 
-    # Use the sharp orbifold (most physical for STUR's Z₃ helix)
-    f_Z3 = z3_result['f_Z3_sharp']
+    # Use the sharp orbifold (most physical for STUR's infinity helix)
+    f_helix = z3_result['f_helix_sharp']
     f_KK = kk_result['f_KK']
     f_gauge = gauge_result['f_gauge']
 
-    alpha_eff = 1.0 * f_Z3 * f_KK * f_gauge
+    alpha_eff = 1.0 * f_helix * f_KK * f_gauge
 
     print(f"\n  α_tree = 1.000  (from XCRM-Yukawa symmetry)")
-    print(f"  f_Z3   = {f_Z3:.4f}  (Z₃ twisted sector, sharp orbifold)")
+    print(f"  f_helix   = {f_helix:.4f}  (∞-helix twisted sector, sharp orbifold)")
     print(f"  f_KK   = {f_KK:.4f}  (Coleman-Weinberg + image + WFR)")
     print(f"  f_gauge = {f_gauge:.4f}  (QCD + EW + matching + coherence)")
     print(f"  ─────────────────")
@@ -735,16 +735,16 @@ def compute_combined_result(z3_result, kk_result, gauge_result):
     print(f"  Gap    = {(alpha_eff/1.5 - 1)*100:+.1f}%")
 
     # Error budget
-    # f_Z3: depends on orbifold resolution, ±0.10 (range from sharp to mild)
-    sigma_fZ3 = abs(z3_result['f_Z3_sharp'] - z3_result['f_Z3_mild'])
+    # f_helix: depends on orbifold resolution, ±0.10 (range from sharp to mild)
+    sigma_f_helix = abs(z3_result['f_helix_sharp'] - z3_result['f_helix_mild'])
     sigma_fKK = 0.03  # estimated from KK truncation effects
     sigma_fgauge = 0.02  # estimated from higher-order gauge corrections
 
     sigma_alpha = alpha_eff * np.sqrt(
-        (sigma_fZ3/f_Z3)**2 + (sigma_fKK/f_KK)**2 + (sigma_fgauge/f_gauge)**2
+        (sigma_f_helix/f_helix)**2 + (sigma_fKK/f_KK)**2 + (sigma_fgauge/f_gauge)**2
     )
     print(f"\n  Uncertainty budget:")
-    print(f"    σ(f_Z3)   = ±{sigma_fZ3:.3f}  (orbifold resolution)")
+    print(f"    σ(f_helix)   = ±{sigma_f_helix:.3f}  (∞-helix resolution)")
     print(f"    σ(f_KK)   = ±{sigma_fKK:.3f}  (KK truncation)")
     print(f"    σ(f_gauge) = ±{sigma_fgauge:.3f}  (higher-order gauge)")
     print(f"    σ(α_eff)  = ±{sigma_alpha:.3f}")
@@ -798,7 +798,7 @@ def compute_combined_result(z3_result, kk_result, gauge_result):
         'sigma_alpha': sigma_alpha,
         'kappa_eff': kappa_eff,
         'lambda_eff': lambda_eff,
-        'f_Z3': f_Z3,
+        'f_helix': f_helix,
         'f_KK': f_KK,
         'f_gauge': f_gauge,
     }
@@ -848,7 +848,7 @@ def compute_mass_hierarchy(alpha_eff, kappa_eff):
 if __name__ == '__main__':
     print("╔══════════════════════════════════════════════════════════════════════╗")
     print("║  RIGOROUS FIRST-PRINCIPLES CALCULATION OF α_eff                     ║")
-    print("║  STUR Framework — Cabibbo Angle from Z₃ Orbifold Localization       ║")
+    print("║  STUR Framework — Cabibbo Angle from ∞₃ Orbifold Localization       ║")
     print("║  Date: 2026-02-06                                                   ║")
     print("╚══════════════════════════════════════════════════════════════════════╝")
 
@@ -865,7 +865,7 @@ if __name__ == '__main__':
     print(f"  λ     = {result['lambda_eff']:.6f}")
     print(f"  λ_obs = 0.22500")
     print(f"\n  Enhancement breakdown:")
-    print(f"    f_Z3   = {result['f_Z3']:.4f}  (Z₃ twisted sector)")
+    print(f"    f_helix   = {result['f_helix']:.4f}  (∞-helix twisted sector)")
     print(f"    f_KK   = {result['f_KK']:.4f}  (KK tower)")
     print(f"    f_gauge = {result['f_gauge']:.4f}  (gauge corrections)")
-    print(f"    Product = {result['f_Z3']*result['f_KK']*result['f_gauge']:.4f}")
+    print(f"    Product = {result['f_helix']*result['f_KK']*result['f_gauge']:.4f}")

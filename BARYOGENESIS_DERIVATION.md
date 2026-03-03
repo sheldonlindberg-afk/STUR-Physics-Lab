@@ -1,20 +1,20 @@
-# Complete Baryon Asymmetry Derivation from Z₃ Leptogenesis
+# Complete Baryon Asymmetry Derivation from ∞₃ Leptogenesis
 
 **Document Type:** First-Principles Theoretical Derivation
-**Framework:** STUR v4.4 (Z₃ Helix Geometry)
+**Framework:** STUR v4.4 (∞₃ Helix Geometry)
 **Version:** 1.0
 **Date:** 2026-02-05
-**Purpose:** Derive the baryon-to-photon ratio η_B from Z₃ leptogenesis mechanism
+**Purpose:** Derive the baryon-to-photon ratio η_B from ∞₃ leptogenesis mechanism
 **Status:** TOE Cosmological Closure
 
 ---
 
 ## Abstract
 
-We derive the baryon asymmetry of the universe η_B = n_B/n_γ from the STUR Z₃ leptogenesis mechanism. The derivation follows the complete chain:
+We derive the baryon asymmetry of the universe η_B = n_B/n_γ from the STUR ∞₃ leptogenesis mechanism. The derivation follows the complete chain:
 
 ```
-M_Planck → L_X → Z₃ kink phases → M_R hierarchy → CP asymmetry ε₁ → Boltzmann evolution → sphaleron conversion → η_B
+M_Planck → L_X → ∞₃ kink phases → M_R hierarchy → CP asymmetry ε₁ → Boltzmann evolution → sphaleron conversion → η_B
 ```
 
 **Main Result:**
@@ -37,8 +37,8 @@ This completes the cosmological predictions for TOE status.
 
 ## Table of Contents
 
-1. The Z₃ Leptogenesis Mechanism
-2. Right-Handed Neutrino Mass Hierarchy from Z₃ Kink Phases
+1. The ∞₃ Leptogenesis Mechanism
+2. Right-Handed Neutrino Mass Hierarchy from ∞₃ Kink Phases
 3. CP Asymmetry ε from STUR Parameters
 4. Boltzmann Equations and Washout Factors
 5. Sphaleron Conversion: Lepton → Baryon
@@ -48,16 +48,16 @@ This completes the cosmological predictions for TOE status.
 
 ---
 
-## 1. The Z₃ Leptogenesis Mechanism
+## 1. The ∞₃ Leptogenesis Mechanism
 
 ### 1.1 Sakharov Conditions
 
-Baryogenesis requires three conditions (Sakharov 1967). The STUR Z₃ framework satisfies all:
+Baryogenesis requires three conditions (Sakharov 1967). The STUR ∞₃ framework satisfies all:
 
 | Condition | STUR Mechanism |
 |-----------|----------------|
 | **B violation** | Electroweak sphalerons convert L → B (standard EW physics) |
-| **C and CP violation** | Z₃ holonomy phases in heavy neutrino decays |
+| **C and CP violation** | ∞-helix holonomy phases in heavy neutrino decays |
 | **Out of equilibrium** | Heavy N_R decay after freeze-out (T < M_R) |
 
 ### 1.2 The Leptogenesis Chain
@@ -84,22 +84,22 @@ Stage 4: Sphaleron Conversion
   - Y_B = -(28/79) × Y_L
 ```
 
-### 1.3 Connection to Z₃ Helix Geometry
+### 1.3 Connection to ∞₃ Helix Geometry
 
-In STUR, the key parameters are derived from Z₃ geometry:
+In STUR, the key parameters are derived from ∞-helix geometry:
 
-1. **Majorana masses M_R**: From Z₃ kink phases at fixed points
-2. **CP phases**: From holonomy around the Z₃ helix
-3. **Yukawa structure**: From wavefunction overlaps at Z₃ positions
-4. **Three generations**: From |Z₃| = 3
+1. **Majorana masses M_R**: From ∞₃ kink phases at fixed points
+2. **CP phases**: From holonomy around the infinity helix
+3. **Yukawa structure**: From wavefunction overlaps at ∞₃ positions
+4. **Three generations**: From |∞₃| = 3
 
 ---
 
-## 2. Right-Handed Neutrino Mass Hierarchy from Z₃ Kink Phases
+## 2. Right-Handed Neutrino Mass Hierarchy from ∞₃ Kink Phases
 
-### 2.1 Z₃ Fixed Point Localization
+### 2.1 ∞₃ Fixed Point Localization
 
-Right-handed neutrinos N_R are localized at the three Z₃ fixed points:
+Right-handed neutrinos N_R are localized at the three ∞-helix nodes:
 
 ```
 X₀ = 0           (Generation 3: N_R,3)
@@ -107,7 +107,7 @@ X₁ = L_X/3       (Generation 2: N_R,2)
 X₂ = 2L_X/3      (Generation 1: N_R,1)
 ```
 
-The Z₃ orbifold boundary condition:
+The ∞-helix topology boundary condition:
 
 ```
 N_R(X + L_X) = ω · N_R(X)    where ω = e^(2πi/3)
@@ -131,7 +131,7 @@ The base Majorana mass from holonomy enhancement:
 M₀ = λ_hol / L_X
 
 where:
-  λ_hol = f_base × f_loc × f_Wilson × f_Z₃
+  λ_hol = f_base × f_loc × f_Wilson × f_∞
         = 3 × 1.5 × 2.1 × 2.1
         = 19.8 ≈ 20
 
@@ -183,9 +183,9 @@ For x = M₂²/M₁² = (1.5/1.5)² = 1:
   f(1) ≈ 0.5
 ```
 
-### 3.2 Z₃ Holonomy Phases
+### 3.2 ∞₃ Holonomy Phases
 
-The Yukawa matrix inherits complex phases from Z₃ holonomy:
+The Yukawa matrix inherits complex phases from ∞-helix holonomy:
 
 ```
 Y_ν = y₀ × [λ⁴ e^(iφ₁)    λ³        λ²    ]
@@ -606,7 +606,7 @@ The sign of η_B (positive = matter dominance) is determined by the holonomy pha
 ```
 sign(η_B) = sign(sin φ₁) = sign(sin π/4) = +1
 
-The Z₃ helix boundary conditions fix the phase to be positive.
+The infinity helix boundary conditions fix the phase to be positive.
 A universe with opposite sign would have antimatter dominance.
 ```
 
@@ -659,7 +659,7 @@ This is a prediction, not a fit: STUR specifically predicts matter over antimatt
 │  Step 1: L_X = l_P × √(4π/α) ≈ 2.68 × 10⁻³² m                         │
 │          [Fundamental length from Planck geometry]                      │
 │                                                                         │
-│  Step 2: Z₃ helix topology required                                    │
+│  Step 2: infinity helix topology required                                    │
 │          [Topological consistency → 3 generations]                      │
 │                                                                         │
 │  Step 3: M₀ = λ_hol/L_X = 2 × 10¹⁴ GeV                                │
@@ -692,28 +692,28 @@ This is a prediction, not a fit: STUR specifically predicts matter over antimatt
 
 ## 10. Connection to Cosmological Constant
 
-The same Z₃ discrete gauge symmetry that generates baryogenesis also solves the cosmological constant problem:
+The same ∞-helix discrete gauge symmetry that generates baryogenesis also solves the cosmological constant problem:
 
 ```
-Z₃ Gauge Ward Identity → ⟨Λ⟩ = 0 (tree level)
+∞₃ Gauge Ward Identity → ⟨Λ⟩ = 0 (tree level)
 
-Residual Λ from Z₃ breaking (neutrino sector):
+Residual Λ from ∞-helix breaking (neutrino sector):
   Λ_STUR = (3.6 ± 2.6) × 10⁻⁴⁷ GeV⁴
 
 Observed:
   Λ_obs ≈ 2.9 × 10⁻⁴⁷ GeV⁴
 ```
 
-The neutrino mass scale m_ν ~ meV that drives leptogenesis is the same scale that breaks Z₃ and generates the cosmological constant.
+The neutrino mass scale m_ν ~ meV that drives leptogenesis is the same scale that breaks ∞₃ and generates the cosmological constant.
 
 **Unified cosmological picture:**
 
 ```
-Z₃ helix geometry
+infinity helix geometry
     ├── Three generations of fermions
     ├── Majorana mass hierarchy → Leptogenesis → η_B
     ├── CP violation phases → Matter-antimatter asymmetry
-    └── Z₃ breaking by neutrinos → Cosmological constant
+    └── ∞-helix breaking by neutrinos → Cosmological constant
 ```
 
 ---
@@ -727,8 +727,8 @@ Z₃ helix geometry
 | M_R,3 | — | 1.1 × 10¹⁴ GeV | Derived: M₀ × ξ₃ |
 | M_R,2, M_R,1 | — | 1.5 × 10¹⁴ GeV | Derived: M₀ × ξ₂ |
 | CP violation | η̄ | 0.35 ± 0.02 | Derived (correction chain) |
-| Holonomy phase | φ₁ | π/4 | From Z₃ winding |
-| Holonomy phase | φ₂ | π/6 | From Z₃ winding |
+| Holonomy phase | φ₁ | π/4 | From ∞-helix winding |
+| Holonomy phase | φ₂ | π/6 | From ∞-helix winding |
 | CP asymmetry | ε₁ | 1.3 × 10⁻⁶ | Computed |
 | Decay parameter | K | ~10 | Computed |
 | Efficiency | κ_f | 0.017 | Computed |
@@ -741,7 +741,7 @@ Z₃ helix geometry
 
 ### 12.1 Main Result
 
-The STUR Z₃ leptogenesis mechanism successfully derives the observed baryon asymmetry:
+The STUR ∞₃ leptogenesis mechanism successfully derives the observed baryon asymmetry:
 
 ```
 η_B^STUR = (6.1 ± 3.0) × 10⁻¹⁰
@@ -755,17 +755,17 @@ The agreement is at the 0.0σ level (exact central value match).
 
 ### 12.2 Key Features
 
-1. **CP violation from geometry:** The Z₃ holonomy phases generate CP violation without arbitrary parameters
+1. **CP violation from geometry:** The ∞-helix holonomy phases generate CP violation without arbitrary parameters
 
-2. **M_R hierarchy from topology:** The kink amplitudes at Z₃ fixed points determine the Majorana mass hierarchy
+2. **M_R hierarchy from topology:** The kink amplitudes at ∞-helix nodes determine the Majorana mass hierarchy
 
 3. **Matter over antimatter predicted:** The sign of the asymmetry is fixed by helix boundary conditions
 
-4. **Connected to CC problem:** The same Z₃ breaking generates both η_B and the cosmological constant
+4. **Connected to CC problem:** The same ∞-helix breaking generates both η_B and the cosmological constant
 
 ### 12.3 TOE Status
 
-With baryogenesis derived from the same Z₃ helix geometry that explains:
+With baryogenesis derived from the same infinity helix geometry that explains:
 - Three generations of fermions
 - Fermion mass hierarchies
 - Neutrino oscillations
@@ -783,7 +783,7 @@ The STUR framework achieves complete cosmological closure for Theory of Everythi
 3. Planck Collaboration (2018). "Planck 2018 results. VI. Cosmological parameters."
 4. STUR Framework Documents:
    - ETA_BAR_CORRECTION_CHAIN.md
-   - DISCRETE_GAUGE_Z3_CC_SOLUTION.md
+   - DISCRETE_GAUGE_INFINITY_HELIX_CC_SOLUTION.md
    - HOLONOMY_ENHANCEMENT_DERIVATION.md
    - COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md
 
@@ -791,7 +791,7 @@ The STUR framework achieves complete cosmological closure for Theory of Everythi
 
 **Document Status:** Complete first-principles derivation
 **Key Result:** η_B = (6.1 ± 3.0) × 10⁻¹⁰ matches observation
-**Cosmological Closure:** Achieved through Z₃ leptogenesis mechanism
+**Cosmological Closure:** Achieved through ∞₃ leptogenesis mechanism
 
 ---
 

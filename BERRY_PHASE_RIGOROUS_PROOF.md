@@ -16,7 +16,7 @@ We present a rigorous, first-principles derivation of the Berry phase suppressio
 
 $$\boxed{F_{\text{Berry}} = \frac{|1 - e^{i\gamma}|^2}{(2\pi)^2} = \frac{1}{4\pi^2} \approx 0.0253}$$
 
-where gamma = -pi/3 is the Berry phase acquired by neutrino states transported around the Z_3 parameter space with CP-violating phase delta_CP = -pi/2.
+where gamma = -pi/3 is the Berry phase acquired by neutrino states transported around the ∞₃ parameter space with CP-violating phase delta_CP = -pi/2.
 
 ---
 
@@ -59,7 +59,7 @@ $$\gamma_C = \oint_C A \cdot dR = \iint_S F \cdot dS$$
 
 ### 1.2 Relevance to Neutrino Physics
 
-In the STUR framework, the three neutrino generations are localized at the three Z_3 fixed points of the compact dimension. The PMNS mixing matrix U_PMNS describes the transformation between flavor and mass eigenstates:
+In the STUR framework, the three neutrino generations are localized at the three ∞-helix node points of the compact dimension. The PMNS mixing matrix U_PMNS describes the transformation between flavor and mass eigenstates:
 
 $$|\nu_\alpha\rangle = \sum_i U_{\alpha i}^* |\nu_i\rangle$$
 
@@ -67,11 +67,11 @@ where alpha in {e, mu, tau} labels flavors and i in {1, 2, 3} labels mass eigens
 
 The PMNS matrix depends on parameters (theta_12, theta_23, theta_13, delta_CP), forming a parameter manifold. Transport of neutrino states around this manifold generates Berry phases.
 
-### 1.3 The Z_3 Connection
+### 1.3 The ∞₃ Connection
 
-The Z_3 orbifold structure of STUR imposes:
+The ∞-helix topology structure of STUR imposes:
 
-1. **Periodicity:** The parameter space has Z_3 identification
+1. **Periodicity:** The parameter space has ∞₃ identification
 2. **Holonomy quantization:** Berry phases are quantized in units of 2pi/3
 3. **CP structure:** The phase delta_CP determines the curvature distribution
 
@@ -87,7 +87,7 @@ $$\mathcal{M}_{\text{PMNS}} \cong S^2 \times S^2 \times S^1 \times S^1 / \sim$$
 
 where the two 2-spheres parameterize the mixing angles, one S^1 is the CP phase, and the identification ~ accounts for rephasing invariance.
 
-**Effective Parameter Space:** For the cosmological constant calculation, the relevant subspace is the Z_3 helix parameter phi in [0, 2pi), which encodes the position along the compact dimension.
+**Effective Parameter Space:** For the cosmological constant calculation, the relevant subspace is the infinity helix parameter phi in [0, 2pi), which encodes the position along the compact dimension.
 
 **Structure Group (G):** U(1) -- the overall phase of the neutrino state.
 
@@ -113,17 +113,17 @@ $$F = \omega_{FS}$$
 
 This establishes that the Berry phase has a purely geometric origin.
 
-### 2.3 The Z_3 Reduction
+### 2.3 The ∞₃ Reduction
 
-The Z_3 orbifold structure reduces CP^2 to a fundamental domain. Under the Z_3 action:
+The ∞-helix topology structure reduces CP^2 to a fundamental domain. Under the ∞₃ action:
 
-$$Z_3: |\nu_i\rangle \mapsto \omega^i |\nu_i\rangle, \quad \omega = e^{2\pi i/3}$$
+$$∞₃: |\nu_i\rangle \mapsto \omega^i |\nu_i\rangle, \quad \omega = e^{2\pi i/3}$$
 
 The quotient space is:
 
-$$\mathcal{M}_{Z_3} = \mathbb{CP}^2 / Z_3$$
+$$\mathcal{M}_{∞₃} = \mathbb{CP}^2 / ∞₃$$
 
-**Fixed Points:** The Z_3 action has three fixed points, corresponding to the three pure flavor states:
+**Fixed Points:** The ∞₃ action has three fixed points, corresponding to the three pure flavor states:
 
 $$|\nu_e\rangle, \quad |\nu_\mu\rangle, \quad |\nu_\tau\rangle$$
 
@@ -167,15 +167,15 @@ The factor 1/3 provides the correct averaging over generations.
 
 ### 3.3 Calculation of dU_PMNS
 
-Let phi denote the Z_3 helix parameter. In STUR, the PMNS matrix inherits phi-dependence through the localization structure.
+Let phi denote the infinity helix parameter. In STUR, the PMNS matrix inherits phi-dependence through the localization structure.
 
 **The phi-dependent PMNS matrix:**
 
-As neutrino states are transported around the Z_3 helix, the effective mixing angles acquire geometric phases. The dominant contribution comes from the CP phase:
+As neutrino states are transported around the infinity helix, the effective mixing angles acquire geometric phases. The dominant contribution comes from the CP phase:
 
 $$\delta_{\text{eff}}(\phi) = \delta_{\text{CP}} + \phi$$
 
-where phi in [0, 2pi/3) parameterizes one Z_3 sector.
+where phi in [0, 2pi/3) parameterizes one ∞₃ sector.
 
 **Derivative with respect to phi:**
 
@@ -230,7 +230,7 @@ For the one-dimensional parameter space phi, the curvature is trivially zero in 
 
 $$F = dA = 0$$
 
-However, the Z_3 orbifold structure introduces curvature concentrated at the fixed points.
+However, the ∞-helix topology structure introduces curvature concentrated at the fixed points.
 
 **Distributional Curvature:** On the orbifold M/Z_3, the curvature is:
 
@@ -238,19 +238,19 @@ $$F = 2\pi \sum_{k=0}^{2} q_k \cdot \delta^{(2)}(z - z_k) \, dz \wedge d\bar{z}$
 
 where z_k are the fixed points and q_k are the curvature charges.
 
-**For Z_3 with equal charges:** q_0 = q_1 = q_2 = 1/3, giving total curvature:
+**For ∞₃ with equal charges:** q_0 = q_1 = q_2 = 1/3, giving total curvature:
 
 $$\int F = 2\pi \times 3 \times \frac{1}{3} = 2\pi$$
 
-This matches the first Chern number of the CP^2 line bundle restricted to the Z_3 fundamental domain.
+This matches the first Chern number of the CP^2 line bundle restricted to the ∞₃ fundamental domain.
 
-### 4.2 The Berry Phase Around One Z_3 Sector
+### 4.2 The Berry Phase Around One ∞₃ Sector
 
-**Path:** Consider transport around one Z_3 sector, from phi = 0 to phi = 2pi/3.
+**Path:** Consider transport around one ∞₃ sector, from phi = 0 to phi = 2pi/3.
 
 **Berry Phase Calculation:**
 
-$$\gamma_{Z_3} = \int_0^{2\pi/3} A_\phi \, d\phi = \int_0^{2\pi/3} \frac{i}{3} \cdot (-i) \, d\phi$$
+$$\gamma_{∞₃} = \int_0^{2\pi/3} A_\phi \, d\phi = \int_0^{2\pi/3} \frac{i}{3} \cdot (-i) \, d\phi$$
 
 Wait -- let me be more careful. The connection A_phi is imaginary by convention, but the integral should give a real phase. Let me recalculate properly.
 
@@ -274,17 +274,17 @@ $$\gamma = \oint A_\phi \, d\phi$$
 
 Redefining: A_phi = (1/3) corresponds to the fraction of a full 2pi phase acquired per full circuit.
 
-**With the Z_3 structure:**
+**With the ∞₃ structure:**
 
-The total Berry phase around the full S^1 (three Z_3 sectors) should be:
+The total Berry phase around the full S^1 (three ∞₃ sectors) should be:
 
 $$\gamma_{\text{full}} = 2\pi \times n$$
 
 for integer n (quantization from single-valuedness).
 
-**For one Z_3 sector:**
+**For one ∞₃ sector:**
 
-$$\gamma_{Z_3} = \frac{2\pi}{3} \times \frac{\delta_{\text{CP}}}{\pi}$$
+$$\gamma_{∞₃} = \frac{2\pi}{3} \times \frac{\delta_{\text{CP}}}{\pi}$$
 
 The factor delta_CP / pi accounts for the CP violation phase contribution.
 
@@ -292,7 +292,7 @@ The factor delta_CP / pi accounts for the CP violation phase contribution.
 
 With delta_CP = -pi/2:
 
-$$\gamma_{Z_3} = \frac{2\pi}{3} \times \frac{-\pi/2}{\pi} = \frac{2\pi}{3} \times \left(-\frac{1}{2}\right) = -\frac{\pi}{3}$$
+$$\gamma_{∞₃} = \frac{2\pi}{3} \times \frac{-\pi/2}{\pi} = \frac{2\pi}{3} \times \left(-\frac{1}{2}\right) = -\frac{\pi}{3}$$
 
 $$\boxed{\gamma = -\frac{\pi}{3} = -60°}$$
 
@@ -360,7 +360,7 @@ $$\gamma = \frac{2 \times (-\pi/2)}{3} = -\frac{\pi}{3}$$
 
 **Physical Picture:**
 
-The vacuum energy receives contributions from all three neutrino generations. Each generation is localized at a different Z_3 fixed point, acquiring different geometric phases during quantum fluctuations.
+The vacuum energy receives contributions from all three neutrino generations. Each generation is localized at a different ∞-helix node point, acquiring different geometric phases during quantum fluctuations.
 
 **The Phase Factor:**
 
@@ -386,7 +386,7 @@ In STUR, the residual cosmological constant from the neutrino sector is:
 
 $$\Lambda_{\nu} = \frac{1}{64\pi^2} \times |\Sigma| \times F_{\text{Berry}}$$
 
-where Sigma is the Z_3-weighted sum of m_nu^4 (see COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md).
+where Sigma is the ∞₃-weighted sum of m_nu^4 (see COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md).
 
 **The Berry Phase Enters Through Interference:**
 
@@ -422,7 +422,7 @@ The one-loop vacuum energy from a fermion with mass m is:
 
 $$\rho_{\text{vac}} = -\frac{1}{2} \int \frac{d^4k}{(2\pi)^4} \ln(k^2 + m^2)$$
 
-For neutrinos in the STUR Z_3 geometry, the mass eigenstate |nu_i> at position phi on the helix acquires a Berry phase.
+For neutrinos in the STUR ∞₃ geometry, the mass eigenstate |nu_i> at position phi on the helix acquires a Berry phase.
 
 **Step 2: The Phase-Shifted Vacuum Energy**
 
@@ -432,9 +432,9 @@ $$\rho(\phi) = \rho_0 \times e^{i \gamma(\phi)}$$
 
 where gamma(phi) = A_phi * phi is the accumulated Berry phase.
 
-**Step 3: Integration Over the Z_3 Fundamental Domain**
+**Step 3: Integration Over the ∞₃ Fundamental Domain**
 
-The physical vacuum energy is the AVERAGE over the Z_3 orbifold:
+The physical vacuum energy is the AVERAGE over the ∞-helix topology:
 
 $$\bar{\rho} = \frac{3}{2\pi} \int_0^{2\pi/3} \rho(\phi) \, d\phi = \frac{3\rho_0}{2\pi} \int_0^{2\pi/3} e^{i\gamma(\phi)} \, d\phi$$
 
@@ -470,7 +470,7 @@ Without Berry phase effects, the total vacuum energy would be:
 
 $$\rho_{\text{unsuppressed}} = \frac{1}{64\pi^2} \times |\Sigma| \times 1$$
 
-where |Sigma| is the Z_3-weighted neutrino mass sum.
+where |Sigma| is the ∞₃-weighted neutrino mass sum.
 
 **The Berry Phase Modification:**
 
@@ -509,7 +509,7 @@ $$\boxed{F_{\text{Berry}} = \frac{1}{4\pi^2} = 0.02533}$$
 1. **The numerator |1 - e^{i gamma}|^2 = 1:** This is NOT a coincidence. For gamma = -pi/3, the interference factor evaluates to unity because |e^{i gamma}| = 1 and the real and imaginary parts combine to give magnitude 1.
 
 2. **The denominator (2pi)^2:** This normalization arises from two sources:
-   - One factor of 2pi from the periodic boundary condition on the Z_3 orbifold
+   - One factor of 2pi from the periodic boundary condition on the ∞-helix topology
    - One factor of 2pi from the normalization of the Berry phase integral
 
 3. **Geometric Origin:** The factor 1/(4pi^2) is the ratio of:
@@ -523,7 +523,7 @@ The value gamma = -pi/3 follows directly from delta_CP = -pi/2:
 $$\gamma = \frac{2\pi}{3} \times \frac{\delta_{\text{CP}}}{\pi} = \frac{2\pi}{3} \times \left(-\frac{1}{2}\right) = -\frac{\pi}{3}$$
 
 This is NOT reverse-engineered. It follows from:
-1. The Z_3 periodicity (factor of 2pi/3)
+1. The ∞₃ periodicity (factor of 2pi/3)
 2. The PMNS CP phase (delta_CP / pi)
 3. The experimental measurement delta_CP approx -pi/2
 
@@ -640,7 +640,7 @@ $$|1 - e^{i\gamma}|^2 \to |1 - 1|^2 = 0$$
 
 $$F_{\text{Berry}} \to 0$$
 
-**Physical Interpretation:** No CP violation means no Berry phase suppression of the cosmological constant. The Z_3 sum would give the naive (large) value.
+**Physical Interpretation:** No CP violation means no Berry phase suppression of the cosmological constant. The ∞₃ sum would give the naive (large) value.
 
 **Case 2: delta_CP -> +/- pi (CP conserved, opposite sign)**
 
@@ -671,11 +671,11 @@ This confirms our main result.
 
 **Why the Difference?**
 
-- The eta-bar Berry phase comes from quark transport on the Z_3 helix (CKM structure)
+- The eta-bar Berry phase comes from quark transport on the infinity helix (CKM structure)
 - The CC Berry phase comes from neutrino transport (PMNS structure)
 - Different mixing matrices, different CP phases, different geometric factors
 
-**Consistency:** Both are derived from the same Z_3 geometry but applied to different sectors.
+**Consistency:** Both are derived from the same ∞₃ geometry but applied to different sectors.
 
 ### 8.4 Numerical Cross-Check
 
@@ -715,7 +715,7 @@ $$\Lambda_{\text{STUR}} / \Lambda_{\text{obs}} = 1.27$$
 
 1. **The Berry Phase:**
 $$\gamma = -\frac{\pi}{3}$$
-derived from delta_CP = -pi/2 and Z_3 periodicity.
+derived from delta_CP = -pi/2 and ∞₃ periodicity.
 
 2. **The Suppression Factor:**
 $$F_{\text{Berry}} = \frac{|1 - e^{i\gamma}|^2}{(2\pi)^2} = \frac{1}{4\pi^2} = 0.0253 \pm 0.0063$$
@@ -727,7 +727,7 @@ $$F_{\text{Berry}} = \frac{|1 - e^{i\gamma}|^2}{(2\pi)^2} = \frac{1}{4\pi^2} = 0
 
 ### Why This Is NOT Reverse-Engineered
 
-1. **The Z_3 periodicity (2pi/3) is geometric** -- it comes from the orbifold structure, not from fitting Lambda.
+1. **The ∞₃ periodicity (2pi/3) is geometric** -- it comes from the orbifold structure, not from fitting Lambda.
 
 2. **The CP phase delta_CP = -pi/2 is measured** -- it's an experimental input from neutrino oscillations.
 
@@ -742,7 +742,7 @@ The derivation makes specific predictions:
 1. **If future measurements give delta_CP far from -pi/2:**
    F_Berry changes, affecting the Lambda prediction.
 
-2. **If the Z_3 structure is modified (e.g., to Z_4):**
+2. **If the ∞₃ structure is modified (e.g., to Z_4):**
    The factor 2pi/3 changes, giving a different F_Berry.
 
 3. **If neutrino mixing angles are refined:**
@@ -766,7 +766,7 @@ The derivation makes specific predictions:
 
 7. STUR Framework Documents:
    - COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md
-   - DERIVATION_CHAIN_HELIX.md
+   - DERIVATION_CHAIN_INFINITY.md
    - ETA_BAR_CORRECTION_CHAIN.md
 
 ---

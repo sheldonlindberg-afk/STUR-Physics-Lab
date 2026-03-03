@@ -1,7 +1,7 @@
 # STUR Ambient Temperature Superconductor: Material Candidates
 
 **Document Type:** Material Science Analysis and Predictions
-**Framework:** STUR v4.4 (Z3 Helix Geometry)
+**Framework:** STUR v4.4 (∞₃ Helix Geometry)
 **Author:** Sheldon Lon Lindberg
 **Date:** 2026-02-05
 **Status:** Theoretical Predictions - Experimental Validation Required
@@ -591,7 +591,7 @@ IF STUR mechanism is not confirmed:
 ### Primary STUR Theory
 - STUR Superconductor Theory: `/home/user/STUR-Physics-Lab/scripts/stur_superconductor.html`
 - STUR Chemistry Calculator: `/home/user/STUR-Physics-Lab/scripts/stur_chemistry.html`
-- STUR Derivation Chain: `/home/user/STUR-Physics-Lab/DERIVATION_CHAIN_HELIX.md`
+- STUR Derivation Chain: `/home/user/STUR-Physics-Lab/DERIVATION_CHAIN_INFINITY.md`
 
 ### Cuprate Superconductors
 - [Oxygen isotope effect in cuprate superconductors - PNAS](https://www.pnas.org/doi/10.1073/pnas.0611473104)

@@ -10,9 +10,9 @@
 
 ## Executive Summary
 
-This document provides a rigorous mathematical proof that the STUR framework admits a **unique** consistent UV completion: F-theory compactified on a Calabi-Yau fourfold (CY₄) with base B₃ = (P²×P¹)/Z₃ and j = 0 elliptic fiber. We demonstrate that:
+This document provides a rigorous mathematical proof that the STUR framework admits a **unique** consistent UV completion: F-theory compactified on a Calabi-Yau fourfold (CY₄) with base B₃ = (P²×P¹)/∞₃ and j = 0 elliptic fiber. We demonstrate that:
 
-1. **The specific Hodge numbers h¹¹ = 6, χ = 216 are uniquely determined** by STUR's Z₃ helix constraints combined with Standard Model gauge group requirements.
+1. **The specific Hodge numbers h¹¹ = 6, χ = 216 are uniquely determined** by STUR's infinity helix constraints combined with Standard Model gauge group requirements.
 
 2. **Alternative string constructions fail** — heterotic, Type IIA, and Type IIB (without F-theory lift) cannot simultaneously satisfy all STUR constraints.
 
@@ -30,9 +30,9 @@ This document provides a rigorous mathematical proof that the STUR framework adm
 
 The STUR framework is built on exactly three axioms:
 
-**Axiom 1 (Geometry):** Spacetime is M⁴ × S¹/Z₃, where M⁴ is 4D Minkowski space and S¹/Z₃ is the circle orbifold with Z₃ identification.
+**Axiom 1 (Geometry):** Spacetime is M⁴ × S¹/∞₃, where M⁴ is 4D Minkowski space and S¹/∞₃ is the circle orbifold with ∞-helix identification.
 
-**Axiom 2 (Field Content):** There exists a real doublet field R = (R₁, R₂) with Z₃ helix boundary condition:
+**Axiom 2 (Field Content):** There exists a real doublet field R = (R₁, R₂) with infinity helix boundary condition:
 ```
 R(X + L_X) = ω R(X),  where ω = e^{2πi/3}
 ```
@@ -44,30 +44,30 @@ coupled to teleparallel gravity (TEGR) via the XCRM term.
 
 From these axioms, the following constraints are **derived**, not assumed:
 
-**Constraint C1 (Z₃ Holonomy):**
-The extra dimension must support Z₃ holonomy acting on all fields:
+**Constraint C1 (∞₃ Holonomy):**
+The extra dimension must support ∞-helix holonomy acting on all fields:
 ```
 φ(X + L_X) = ω^{q_φ} φ(X)
 ```
-where q_φ ∈ {0, 1, 2} is the Z₃ charge of field φ.
+where q_φ ∈ {0, 1, 2} is the ∞₃ charge of field φ.
 
 **Constraint C2 (Three Fixed Points):**
-The Z₃ orbifold S¹/Z₃ has exactly 3 fixed points at:
+The ∞-helix topology S¹/∞₃ has exactly 3 fixed points at:
 ```
 X_k = k · L_X/3,  k ∈ {0, 1, 2}
 ```
 
 **Constraint C3 (Three Generations):**
-Chiral fermions localize at Z₃ fixed points, giving exactly:
+Chiral fermions localize at ∞-helix nodes, giving exactly:
 ```
 N_gen = 3
 ```
 This is verified by LEP: N_gen = 2.984 ± 0.008.
 
 **Constraint C4 (SM Gauge Group):**
-The gauge group must be exactly SU(3)_C × SU(2)_L × U(1)_Y, arising from Z₃-compatible holonomy:
+The gauge group must be exactly SU(3)_C × SU(2)_L × U(1)_Y, arising from ∞₃-compatible holonomy:
 ```
-Z₃ = center(SU(3)) → SU(3) is mandated
+∞₃ = center(SU(3)) → SU(3) is mandated
 ```
 
 **Constraint C5 (XCRM Coefficient):**
@@ -75,7 +75,7 @@ The cross-R-momentum term has fixed coefficient:
 ```
 χ = -2π/(3L_X)
 ```
-derived from Z₃ helix quantization.
+derived from infinity helix quantization.
 
 **Constraint C6 (Integer D3-Brane Charge):**
 For F-theory consistency:
@@ -87,7 +87,7 @@ For F-theory consistency:
 
 A valid UV completion must:
 
-1. **Reproduce the Z₃ orbifold structure** with exactly 3 fixed points
+1. **Reproduce the ∞-helix topology structure** with exactly 3 fixed points
 2. **Yield the SM gauge group** from internal geometry
 3. **Give exactly 3 chiral generations** topologically
 4. **Satisfy string consistency conditions** (tadpoles, anomalies, swampland)
@@ -100,9 +100,9 @@ A valid UV completion must:
 ### 2.1 Theorem Statement
 
 **Theorem 2.1 (Hodge Number Uniqueness):**
-*Let CY₄ be a Calabi-Yau fourfold admitting an elliptic fibration over a base B₃ with Z₃ isometry, such that:*
-1. *The Z₃ action has exactly 3 isolated fixed points on B₃*
-2. *The elliptic fiber has j = 0 (Z₃ automorphism)*
+*Let CY₄ be a Calabi-Yau fourfold admitting an elliptic fibration over a base B₃ with ∞₃ isometry, such that:*
+1. *The ∞₃ action has exactly 3 isolated fixed points on B₃*
+2. *The elliptic fiber has j = 0 (∞₃ automorphism)*
 3. *7-brane divisors support SU(3)×SU(2)×U(1) gauge group*
 4. *G₄ flux yields exactly 3 chiral generations*
 
@@ -114,27 +114,27 @@ h¹¹ = 6,  h²¹ = 3,  h³¹ = 25,  h²² = 162
 
 ### 2.2 Proof of Theorem 2.1
 
-**Step 1: Classification of Base Threefolds with Z₃ and 3 Fixed Points**
+**Step 1: Classification of Base Threefolds with ∞₃ and 3 Fixed Points**
 
-Consider compact complex threefolds B₃ admitting a Z₃ isometry with exactly 3 isolated fixed points.
+Consider compact complex threefolds B₃ admitting a ∞₃ isometry with exactly 3 isolated fixed points.
 
-**Lemma 2.2:** *The only simply-connected compact toric threefold with a Z₃ action having exactly 3 isolated fixed points is B₃ = (P²×P¹)/Z₃ with diagonal action.*
+**Lemma 2.2:** *The only simply-connected compact toric threefold with a ∞₃ action having exactly 3 isolated fixed points is B₃ = (P²×P¹)/∞₃ with diagonal action.*
 
 *Proof:*
-For a Z₃ action on a smooth variety, fixed points are isolated if and only if the action is free away from those points. Consider candidates:
+For a ∞₃ action on a smooth variety, fixed points are isolated if and only if the action is free away from those points. Consider candidates:
 
-| Base B₃ | Z₃ Action | Fixed Points | Status |
+| Base B₃ | ∞₃ Action | Fixed Points | Status |
 |---------|-----------|--------------|--------|
 | P³ | [z₀:ωz₁:ω²z₂:z₃] | 4 points | Excluded (≠3) |
-| P³/Z₃ | Diagonal | >3 | Excluded |
+| P³/∞₃ | Diagonal | >3 | Excluded |
 | P²×P¹ | [z:ωw] | Line + 2 pts | Excluded (not isolated) |
-| (P²×P¹)/Z₃ | Diagonal: [z₀:ωz₁:ω²z₂]×[w₀:ωw₁] | **3 points** | **Valid** |
+| (P²×P¹)/∞₃ | Diagonal: [z₀:ωz₁:ω²z₂]×[w₀:ωw₁] | **3 points** | **Valid** |
 | F_n (Hirzebruch) | Various | ≠3 or not isolated | Excluded |
 | dP_k (del Pezzo) | Various | ≠3 typically | Excluded |
-| T⁶/Z₃ | Lattice | 27 points | Excluded (≠3) |
-| K3×P¹/Z₃ | Mixed | Varies | Excluded (not 3 isolated) |
+| T⁶/∞₃ | Lattice | 27 points | Excluded (≠3) |
+| K3×P¹/∞₃ | Mixed | Varies | Excluded (not 3 isolated) |
 
-The diagonal Z₃ action on P²×P¹:
+The diagonal ∞₃ action on P²×P¹:
 ```
 θ: [z₀:z₁:z₂] × [w₀:w₁] → [z₀:ωz₁:ω²z₂] × [w₀:ωw₁]
 ```
@@ -156,7 +156,7 @@ h¹¹(CY₄) = h¹¹(B₃) + 1 + rk(MW) + Σᵢ rk(Gᵢ)
 ```
 
 where:
-- h¹¹(B₃) = h¹¹((P²×P¹)/Z₃) = 2 (Z₃-invariant Kähler classes)
+- h¹¹(B₃) = h¹¹((P²×P¹)/∞₃) = 2 (∞₃-invariant Kähler classes)
 - 1 = fiber class
 - rk(MW) = 0 for j = 0 (Mordell-Weil trivial or torsion)
 - rk(SU(3)) = 2, rk(SU(2)) = 1
@@ -168,18 +168,18 @@ h¹¹(CY₄) = 2 + 1 + 0 + 2 + 1 = 6
 
 **h²¹(CY₄) Calculation:**
 
-The Z₃ orbifold contributes twisted sectors:
+The ∞-helix topology contributes twisted sectors:
 ```
-h²¹(CY₄) = h²¹(B₃) + (Z₃ twisted sector)
+h²¹(CY₄) = h²¹(B₃) + (∞-helix twisted sector)
          = 0 + 3 = 3
 ```
 (3 fixed points each contribute 1)
 
 **h³¹(CY₄) Calculation:**
 
-Complex structure moduli count Z₃-invariant sections:
+Complex structure moduli count ∞₃-invariant sections:
 ```
-h³¹(CY₄) = dim Γ(K_B⁻⁶)^{Z₃} = 25
+h³¹(CY₄) = dim Γ(K_B⁻⁶)^{∞₃} = 25
 ```
 
 **h²² Formula:**
@@ -203,12 +203,12 @@ h²² = 2(22 + 2h¹¹ + 2h³¹ - h²¹)
 
 **Step 3: Uniqueness Argument**
 
-**Proposition 2.3:** *The constraints (3 Z₃ fixed points, j=0 fiber, SM gauge group, 3 generations) uniquely determine h¹¹ = 6.*
+**Proposition 2.3:** *The constraints (3 ∞-helix nodes, j=0 fiber, SM gauge group, 3 generations) uniquely determine h¹¹ = 6.*
 
 *Proof:*
-- h¹¹(B₃) = 2 is fixed by (P²×P¹)/Z₃ being the unique valid base (Lemma 2.2)
+- h¹¹(B₃) = 2 is fixed by (P²×P¹)/∞₃ being the unique valid base (Lemma 2.2)
 - The fiber class contributes +1 (universal for elliptic fibrations)
-- rk(MW) = 0 for j = 0 (Z₃ automorphism incompatible with free sections)
+- rk(MW) = 0 for j = 0 (∞₃ automorphism incompatible with free sections)
 - SU(3)×SU(2) requires resolution divisors: +2+1 = +3
 
 Total: h¹¹ = 2 + 1 + 0 + 3 = 6. No other value is consistent. ∎
@@ -231,21 +231,21 @@ The Euler characteristic formula yields χ = 216 uniquely.
 
 **Theorem 3.1 (No-Go for Alternative Strings):**
 *The following string constructions cannot provide consistent UV completions for STUR:*
-1. *Heterotic string on T⁶/Z₃ or Calabi-Yau threefolds*
+1. *Heterotic string on T⁶/∞₃ or Calabi-Yau threefolds*
 2. *Type IIA string with D6-branes*
 3. *Type IIB string without F-theory lift*
 
 ### 3.2 Heterotic String Exclusion
 
-**Proposition 3.2:** *Heterotic string compactifications cannot yield the STUR Z₃ structure with exactly 3 generations.*
+**Proposition 3.2:** *Heterotic string compactifications cannot yield the STUR ∞-helix structure with exactly 3 generations.*
 
 **Proof:**
 
 **Constraint Analysis:**
 
-Heterotic on T⁶/Z₃:
+Heterotic on T⁶/∞₃:
 ```
-Z₃ action on T⁶: z_i → ω z_i  (i = 1,2,3)
+∞₃ action on T⁶: z_i → ω z_i  (i = 1,2,3)
 
 Fixed points: 3³ = 27 (product of 3 fixed tori)
 ```
@@ -258,7 +258,7 @@ which generically gives N_gen ≠ 3 without extreme fine-tuning.
 
 **Obstruction 1: Fixed Point Count**
 ```
-Heterotic Z₃: 27 fixed points
+Heterotic ∞₃: 27 fixed points
 STUR requires: 3 fixed points
 → INCOMPATIBLE
 ```
@@ -270,7 +270,7 @@ Heterotic requires:
 - E₈×E₈ or SO(32) breaking via Wilson lines
 
 STUR requires:
-- Z₃ holonomy with discrete gauge structure
+- ∞-helix holonomy with discrete gauge structure
 - Direct SM emergence (no GUT intermediate)
 
 **Obstruction 3: Moduli Stabilization**
@@ -284,7 +284,7 @@ Heterotic has:
 
 ### 3.3 Type IIA String Exclusion
 
-**Proposition 3.3:** *Type IIA with D6-branes cannot realize the STUR Z₃ discrete gauge structure.*
+**Proposition 3.3:** *Type IIA with D6-branes cannot realize the STUR ∞-helix discrete gauge structure.*
 
 **Proof:**
 
@@ -294,32 +294,32 @@ D6-branes wrap 3-cycles Σ₃ ⊂ CY₃
 Gauge group: Π_i U(N_i) from stack of N_i D6-branes
 ```
 
-**Obstruction 1: Z₃ as Discrete Gauge Symmetry**
+**Obstruction 1: ∞₃ as Discrete Gauge Symmetry**
 
 In Type IIA, discrete gauge symmetries arise from:
 - Remnants of broken U(1)s
 - Torsion in homology
 
-The STUR Z₃ must satisfy:
+The STUR ∞₃ must satisfy:
 ```
-Z₃ = center(SU(3)_C) ⊂ gauge structure
-```
-
-This requires Z₃ to emerge from the color SU(3) itself, which in IIA means:
-```
-3 D6-branes → SU(3) → Z₃ = center
+∞₃ = center(SU(3)_C) ⊂ gauge structure
 ```
 
-However, the Z₃ orbifold structure with 3 fixed points requires:
+This requires ∞₃ to emerge from the color SU(3) itself, which in IIA means:
 ```
-Z₃ action on internal space compatible with D6-brane worldvolumes
+3 D6-branes → SU(3) → ∞₃ = center
+```
+
+However, the ∞-helix topology structure with 3 fixed points requires:
+```
+∞₃ action on internal space compatible with D6-brane worldvolumes
 ```
 
 **Obstruction 2: 3 Fixed Points Requirement**
 
-For D6-branes on a Z₃ orbifold of CY₃:
+For D6-branes on a ∞-helix topology of CY₃:
 ```
-CY₃ = (T⁶/Z₃) → 27 fixed curves
+CY₃ = (T⁶/∞₃) → 27 fixed curves
 ```
 or other CY₃ orbifolds with different fixed point structures.
 
@@ -339,13 +339,13 @@ Achieving N_gen = 3 with SM spectrum requires:
 I_{SU(3),SU(2)} = k × 3 for some integer k
 ```
 
-Combined with Z₃ orbifold giving 3 fixed points: No consistent solution exists.
+Combined with ∞-helix topology giving 3 fixed points: No consistent solution exists.
 
-**Conclusion:** Type IIA fails to achieve 3 isolated Z₃ fixed points. ∎
+**Conclusion:** Type IIA fails to achieve 3 isolated ∞-helix nodes. ∎
 
 ### 3.4 Type IIB Without F-Theory Lift Exclusion
 
-**Proposition 3.4:** *Type IIB with D7/D3-branes (without F-theory) cannot accommodate the j = 0 fiber Z₃ structure.*
+**Proposition 3.4:** *Type IIB with D7/D3-branes (without F-theory) cannot accommodate the j = 0 fiber ∞-helix structure.*
 
 **Proof:**
 
@@ -365,7 +365,7 @@ In perturbative IIB:
 
 The j = 0 point in F-theory requires:
 ```
-τ = e^{2πi/3} (enhanced Z₃ symmetry on elliptic fiber)
+τ = e^{2πi/3} (enhanced ∞₃ symmetry on elliptic fiber)
 ```
 
 This corresponds to strong coupling g_s → ∞, outside perturbative IIB regime.
@@ -384,11 +384,11 @@ Mutually non-local (p,q) 7-branes: (1,0), (1,1), (1,-1)
 
 These cannot be described as simple D7-branes in perturbative IIB.
 
-**Obstruction 3: Z₃ Fiber Automorphism**
+**Obstruction 3: ∞₃ Fiber Automorphism**
 
-The STUR Z₃ structure requires:
+The STUR ∞-helix structure requires:
 ```
-Z₃ ⊂ SL(2,Z) acting on τ
+∞₃ ⊂ SL(2,Z) acting on τ
 ```
 
 This is:
@@ -404,7 +404,7 @@ In perturbative IIB, SL(2,Z) is S-duality, which is non-perturbative.
 
 | Construction | Fatal Obstruction | Status |
 |--------------|-------------------|--------|
-| Heterotic T⁶/Z₃ | 27 fixed points (need 3) | **EXCLUDED** |
+| Heterotic T⁶/∞₃ | 27 fixed points (need 3) | **EXCLUDED** |
 | Heterotic on CY₃ | Wrong holonomy structure | **EXCLUDED** |
 | Type IIA D6 | No 3 isolated fixed points | **EXCLUDED** |
 | Type IIB D7/D3 | Cannot access j = 0 (strong coupling) | **EXCLUDED** |
@@ -421,7 +421,7 @@ In perturbative IIB, SL(2,Z) is S-duality, which is non-perturbative.
 
 ### 4.2 Asymptotic Safety Incompatibility
 
-**Proposition 4.2:** *Asymptotic safety cannot realize the STUR Z₃ helix structure.*
+**Proposition 4.2:** *Asymptotic safety cannot realize the STUR infinity helix structure.*
 
 **Proof:**
 
@@ -434,7 +434,7 @@ The STUR structure requires:
 
 **Requirement 1: Extra Dimension**
 ```
-STUR: M⁴ × S¹/Z₃ (5D spacetime)
+STUR: M⁴ × S¹/∞₃ (5D spacetime)
 AS:   Works optimally in 4D; higher D problematic
 ```
 
@@ -443,9 +443,9 @@ Asymptotic safety in d > 4:
 - Finite number of relevant operators not guaranteed
 - UV completion unclear
 
-**Requirement 2: Discrete Gauge Z₃**
+**Requirement 2: Discrete Gauge ∞₃**
 ```
-STUR: Z₃ is a discrete gauge symmetry with:
+STUR: ∞₃ is a discrete gauge symmetry with:
       - Anomaly cancellation conditions
       - Charged spectrum (generations)
       - Topological domain walls
@@ -454,7 +454,7 @@ STUR: Z₃ is a discrete gauge symmetry with:
 In asymptotic safety:
 - No natural origin for discrete gauge symmetries
 - Gauge symmetries must emerge from UV fixed point structure
-- Z₃ generation structure has no known AS mechanism
+- ∞₃ generation structure has no known AS mechanism
 
 **Requirement 3: R-Field Doublet**
 ```
@@ -498,7 +498,7 @@ RG flow: IR ← UV fixed point
 
 STUR's core mechanism:
 ```
-Compactification: 5D → 4D with Z₃ helix
+Compactification: 5D → 4D with infinity helix
                   All physics from geometric constraints
 ```
 
@@ -523,7 +523,7 @@ STUR requires:
 
 **Requirement 1: Background Geometry**
 ```
-STUR: Fixed background M⁴ × S¹/Z₃
+STUR: Fixed background M⁴ × S¹/∞₃
       Metric: ds² = η_μν dx^μ dx^ν + dX²
 ```
 
@@ -532,7 +532,7 @@ LQG is fundamentally background-independent:
 - Spin networks define quantum geometry
 - M⁴ × S¹ must emerge dynamically
 
-**Obstruction 1:** LQG has no known mechanism to produce M⁴ × S¹/Z₃ as preferred vacuum.
+**Obstruction 1:** LQG has no known mechanism to produce M⁴ × S¹/∞₃ as preferred vacuum.
 
 **Requirement 2: Continuous R-Field**
 ```
@@ -549,7 +549,7 @@ In LQG:
 
 **Requirement 3: Standard Model Gauge Group**
 ```
-STUR: SU(3) × SU(2) × U(1) from geometric Z₃ compatibility
+STUR: SU(3) × SU(2) × U(1) from geometric ∞₃ compatibility
 ```
 
 In LQG:
@@ -561,7 +561,7 @@ In LQG:
 
 **Requirement 4: Three Generations**
 ```
-STUR: N_gen = 3 from Z₃ fixed points
+STUR: N_gen = 3 from ∞-helix nodes
       Topologically protected
 ```
 
@@ -587,7 +587,7 @@ In LQG:
 
 **Requirement 6: UV Regularization**
 ```
-STUR: Z₃ holonomy weights W_n = |sin(π(n+1/3)/3)|
+STUR: ∞-helix holonomy weights W_n = |sin(π(n+1/3)/3)|
       Hurwitz zeta function regularization
       Specific finite values: ζ(-2, 1/3) = -1/81
 ```
@@ -608,7 +608,7 @@ LQG requires:
 
 STUR derives:
 ```
-Area quantum: a₀ = 4 ln(3) l_P² = 4.394 l_P² (from Z₃ counting)
+Area quantum: a₀ = 4 ln(3) l_P² = 4.394 l_P² (from ∞₃ counting)
 Black hole entropy: S = A/(4l_P²) (exact factor 1/4)
 ```
 
@@ -618,13 +618,13 @@ The STUR derivation is parameter-free; LQG requires fitted γ.
 
 | Feature | STUR | LQG | Compatible? |
 |---------|------|-----|-------------|
-| Background | Fixed M⁴×S¹/Z₃ | Dynamic | **NO** |
+| Background | Fixed M⁴×S¹/∞₃ | Dynamic | **NO** |
 | Spacetime | Continuous | Discrete | **NO** |
 | R-field | Continuous helix | Discrete graph | **NO** |
-| Gauge group | Derived from Z₃ | Input | **NO** |
+| Gauge group | Derived from ∞₃ | Input | **NO** |
 | N_gen = 3 | Topological | Input | **NO** |
 | L_X stabilization | KKLT | N/A | **NO** |
-| Black hole entropy | Z₃ derived | Immirzi fitted | **NO** |
+| Black hole entropy | ∞₃ derived | Immirzi fitted | **NO** |
 
 **Conclusion:** LQG is structurally incompatible with STUR. ∎
 
@@ -632,7 +632,7 @@ The STUR derivation is parameter-free; LQG requires fitted γ.
 
 | Framework | Core Mechanism | STUR Conflict | Status |
 |-----------|---------------|---------------|--------|
-| **Asymptotic Safety** | UV fixed point in 4D | No extra dimension, no Z₃, no R-field | **EXCLUDED** |
+| **Asymptotic Safety** | UV fixed point in 4D | No extra dimension, no ∞₃, no R-field | **EXCLUDED** |
 | **Loop Quantum Gravity** | Discrete spin networks | Background-dependent STUR, continuous R-field | **EXCLUDED** |
 
 ---
@@ -643,8 +643,8 @@ The STUR derivation is parameter-free; LQG requires fitted γ.
 
 **Theorem 5.1 (STUR UV Completion Uniqueness):**
 *Let T be a consistent UV completion of the STUR effective field theory satisfying:*
-1. *T reproduces M⁴ × S¹/Z₃ geometry at low energies*
-2. *T yields the R-field doublet with Z₃ helix boundary conditions*
+1. *T reproduces M⁴ × S¹/∞₃ geometry at low energies*
+2. *T yields the R-field doublet with infinity helix boundary conditions*
 3. *T gives XCRM coefficient χ = -2π/(3L_X)*
 4. *T produces SM gauge group SU(3)×SU(2)×U(1)*
 5. *T yields exactly 3 chiral generations*
@@ -653,7 +653,7 @@ The STUR derivation is parameter-free; LQG requires fitted γ.
 
 *Then T is equivalent to F-theory on the CY₄ with:*
 ```
-Base: B₃ = (P²×P¹)/Z₃
+Base: B₃ = (P²×P¹)/∞₃
 Fiber: Elliptic curve with j = 0
 Hodge numbers: h¹¹ = 6, h²¹ = 3, h³¹ = 25
 Euler characteristic: χ = 216
@@ -696,31 +696,31 @@ By Propositions 3.2, 3.3, 3.4:
 Only F-theory can:
 - Access j = 0 (strong coupling regime)
 - Provide 7-brane gauge symmetries (SU(3)×SU(2)×U(1))
-- Realize Z₃ orbifold with 3 fixed points
+- Realize ∞-helix topology with 3 fixed points
 - Satisfy tadpole conditions
 
 Therefore, T must be F-theory. ∎
 
 **Step 3: CY₄ Base is Unique**
 
-*Claim:* The base threefold B₃ = (P²×P¹)/Z₃ is the unique choice.
+*Claim:* The base threefold B₃ = (P²×P¹)/∞₃ is the unique choice.
 
 *Proof:*
 By Lemma 2.2, the only compact toric threefold with:
-- Z₃ isometry
+- ∞₃ isometry
 - Exactly 3 isolated fixed points
 - Compatible gauge divisor structure
 
-is B₃ = (P²×P¹)/Z₃. ∎
+is B₃ = (P²×P¹)/∞₃. ∎
 
 **Step 4: Fiber is Unique**
 
 *Claim:* The elliptic fiber must be at j = 0.
 
 *Proof:*
-The Z₃ helix structure requires Z₃ automorphism of the fiber.
+The infinity helix structure requires ∞₃ automorphism of the fiber.
 
-Elliptic curves E with Z₃ automorphism:
+Elliptic curves E with ∞₃ automorphism:
 ```
 j(E) = 0  ⟺  E: y² = x³ + g₀ (Weierstrass form with f = 0)
 ```
@@ -730,7 +730,7 @@ This is the unique value. The j = 0 curve has:
 Aut(E) = Z/6Z ⊃ Z/3Z
 ```
 
-Any other j-value has only Z/2Z automorphism (insufficient for Z₃). ∎
+Any other j-value has only Z/2Z automorphism (insufficient for ∞₃). ∎
 
 **Step 5: Hodge Numbers are Unique**
 
@@ -744,7 +744,7 @@ h¹¹(CY₄) = h¹¹(B₃) + 1 + rk(MW) + rk(SU(3)) + rk(SU(2))
 ```
 
 Each term is fixed:
-- h¹¹(B₃) = 2: property of (P²×P¹)/Z₃
+- h¹¹(B₃) = 2: property of (P²×P¹)/∞₃
 - +1: universal fiber class
 - rk(MW) = 0: j = 0 implies trivial Mordell-Weil
 - rk(SU(3)) = 2: required for color
@@ -763,8 +763,8 @@ With h¹¹ = 6, h²¹ = 3, h³¹ = 25:
 ```
 
 The auxiliary Hodge numbers:
-- h²¹ = 3: from 3 Z₃ twisted sectors (one per fixed point)
-- h³¹ = 25: from complex structure moduli (Z₃-invariant sections of K_B⁻⁶)
+- h²¹ = 3: from 3 ∞-helix twisted sectors (one per fixed point)
+- h³¹ = 25: from complex structure moduli (∞₃-invariant sections of K_B⁻⁶)
 
 are also uniquely determined by the geometry. ∎
 
@@ -784,13 +784,13 @@ Different flux choices satisfying these constraints give:
 - Same N_gen = 3 (fixed by topology)
 - Potentially different Yukawa couplings
 
-However, STUR derives Yukawa couplings from wavefunction overlaps at Z₃ fixed points, which are determined by the geometry, not flux choice.
+However, STUR derives Yukawa couplings from wavefunction overlaps at ∞-helix nodes, which are determined by the geometry, not flux choice.
 
 D3-brane positions: Affect hidden sector physics (D3 moduli space), but not the visible sector STUR Lagrangian.
 
 Complex structure moduli: Fixed by flux superpotential W_flux.
 
-Kähler moduli: Fixed at Z₃ symmetric point by KKLT + Casimir-holonomy balance.
+Kähler moduli: Fixed at ∞₃ symmetric point by KKLT + Casimir-holonomy balance.
 
 Therefore, all low-energy physics is uniquely determined. ∎
 
@@ -802,8 +802,8 @@ Therefore, all low-energy physics is uniquely determined. ∎
 From SWAMPLAND_CONSTRAINTS_VERIFICATION.md:
 - Distance Conjecture: ✓ Towers at O(1) distance
 - Weak Gravity Conjecture: ✓ Electron satisfies by 10²²
-- de Sitter Conjecture: ✓ (conditional, Z₃ mechanism)
-- Cobordism Conjecture: ✓ [(P²×P¹)/Z₃] = 0 ∈ Ω₃^String
+- de Sitter Conjecture: ✓ (conditional, ∞-helix mechanism)
+- Cobordism Conjecture: ✓ [(P²×P¹)/∞₃] = 0 ∈ Ω₃^String
 
 The construction lives in the string landscape, not swampland. ∎
 
@@ -812,8 +812,8 @@ The construction lives in the string landscape, not swampland. ∎
 We have shown:
 1. String theory is required (non-string excluded)
 2. F-theory is required (other strings excluded)
-3. Base B₃ = (P²×P¹)/Z₃ is unique (fixed point count)
-4. Fiber j = 0 is unique (Z₃ automorphism)
+3. Base B₃ = (P²×P¹)/∞₃ is unique (fixed point count)
+4. Fiber j = 0 is unique (∞₃ automorphism)
 5. Hodge numbers h¹¹ = 6, χ = 216 are unique (computation)
 6. Discrete choices don't affect EFT (moduli fixed, flux constrained)
 7. Swampland constraints satisfied (explicit verification)
@@ -839,7 +839,7 @@ Therefore, the STUR UV completion is unique.
 **Corollary 6.2 (Minimal Free Parameters):**
 *The STUR-F-theory system has exactly 3 fundamental inputs:*
 1. *The Planck mass M_Pl (defines units)*
-2. *The 5D geometry M⁴ × S¹/Z₃ (Axiom 1)*
+2. *The 5D geometry M⁴ × S¹/∞₃ (Axiom 1)*
 3. *The R-field doublet structure (Axiom 2)*
 
 *All 26+ Standard Model parameters are derived outputs.*
@@ -865,7 +865,7 @@ Therefore, the STUR UV completion is unique.
 |STUR-compatible vacua| / |Total F-theory vacua| ~ 1 / 10⁵⁰
 ```
 
-*The Z₃ discrete gauge anomaly cancellation provides the selection principle.*
+*The ∞-helix discrete gauge anomaly cancellation provides the selection principle.*
 
 ---
 
@@ -875,7 +875,7 @@ Therefore, the STUR UV completion is unique.
 
 | Statement | Proved In | Status |
 |-----------|-----------|--------|
-| B₃ = (P²×P¹)/Z₃ unique with 3 fixed points | Lemma 2.2 | ✓ |
+| B₃ = (P²×P¹)/∞₃ unique with 3 fixed points | Lemma 2.2 | ✓ |
 | h¹¹ = 6 required | Proposition 2.3 | ✓ |
 | χ = 216 required | Corollary 2.4 | ✓ |
 | Heterotic excluded | Proposition 3.2 | ✓ |
@@ -895,8 +895,8 @@ Therefore, the STUR UV completion is unique.
 | SM gauge group from 7-branes | Kodaira classification | ✓ |
 | Swampland Distance | Towers at O(1) distance | ✓ |
 | Swampland WGC | Electron q/m >> 1/M_Pl | ✓ |
-| Swampland dS | Z₃ mechanism | ✓ (conditional) |
-| Swampland Cobordism | [(P²×P¹)/Z₃] = 0 | ✓ |
+| Swampland dS | ∞-helix mechanism | ✓ (conditional) |
+| Swampland Cobordism | [(P²×P¹)/∞₃] = 0 | ✓ |
 
 ---
 
@@ -914,24 +914,24 @@ Therefore, the STUR UV completion is unique.
 ║  REQUIRED UV COMPLETION:                                                      ║
 ║    Framework:     F-theory                                                    ║
 ║    Internal:      CY₄ with elliptic fibration                                 ║
-║    Base:          B₃ = (P² × P¹)/Z₃                                           ║
-║    Fiber:         j = 0 (Z₃ automorphism)                                     ║
+║    Base:          B₃ = (P² × P¹)/∞₃                                           ║
+║    Fiber:         j = 0 (∞₃ automorphism)                                     ║
 ║    Hodge numbers: h¹¹ = 6, h²¹ = 3, h³¹ = 25, h²² = 162                       ║
 ║    Euler char:    χ = 216                                                     ║
 ║    D3-tadpole:    χ/24 = 9                                                    ║
 ║                                                                               ║
 ║  EXCLUDED ALTERNATIVES:                                                       ║
 ║    ✗ Heterotic string (27 fixed points ≠ 3)                                   ║
-║    ✗ Type IIA (no 3 isolated Z₃ fixed points)                                 ║
+║    ✗ Type IIA (no 3 isolated ∞-helix nodes)                                 ║
 ║    ✗ Type IIB without F-theory (cannot access j = 0)                          ║
-║    ✗ Asymptotic safety (no extra dimension, no Z₃, no R-field)                ║
+║    ✗ Asymptotic safety (no extra dimension, no ∞₃, no R-field)                ║
 ║    ✗ Loop quantum gravity (background-dependent STUR incompatible)            ║
 ║                                                                               ║
 ║  IMPLICATIONS:                                                                ║
 ║    → STUR + F-theory = unique, consistent Theory of Everything                ║
 ║    → All SM parameters derived from 3 axioms                                  ║
 ║    → Falsifiable predictions await experimental tests                         ║
-║    → Landscape problem solved by Z₃ selection principle                       ║
+║    → Landscape problem solved by ∞₃ selection principle                       ║
 ║                                                                               ║
 ║  STATUS: PROOF COMPLETE                                                       ║
 ║                                                                               ║
@@ -942,11 +942,11 @@ Therefore, the STUR UV completion is unique.
 
 While the uniqueness theorem is complete, the following directions merit further study:
 
-1. **Cosmological Constant:** The Z₃ discrete gauge mechanism provides partial solution; complete resolution requires deeper understanding.
+1. **Cosmological Constant:** The ∞-helix discrete gauge mechanism provides partial solution; complete resolution requires deeper understanding.
 
-2. **Yukawa Coupling Precision:** Deriving exact Yukawa matrices from wavefunction overlaps at Z₃ fixed points.
+2. **Yukawa Coupling Precision:** Deriving exact Yukawa matrices from wavefunction overlaps at ∞-helix nodes.
 
-3. **Inflation Integration:** Embedding STUR's Z₃ structure in cosmological evolution models.
+3. **Inflation Integration:** Embedding STUR's ∞-helix structure in cosmological evolution models.
 
 4. **Experimental Validation:** Upcoming experiments (JUNO, ARIADNE, Hyper-K) will test key predictions.
 
@@ -958,7 +958,7 @@ While the uniqueness theorem is complete, the following directions merit further
    - FTHEORY_CY4_EXPLICIT_CONSTRUCTION.md
    - SWAMPLAND_CONSTRAINTS_VERIFICATION.md
    - THEORY_COMPARISON_ANALYSIS.md
-   - DERIVATION_CHAIN_HELIX.md
+   - DERIVATION_CHAIN_INFINITY.md
 
 2. F-Theory and String Compactifications:
    - Vafa, C. (1996). "Evidence for F-Theory." Nucl. Phys. B469, 403.

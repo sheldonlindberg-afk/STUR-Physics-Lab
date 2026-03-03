@@ -97,7 +97,7 @@ def alpha_1_running(mu):
 
 def alpha_eff_at_scale(mu):
     """
-    Compute α_eff(μ) = α_tree × f_Z3 × f_KK × f_gauge(μ)
+    Compute α_eff(μ) = α_tree × f_helix × f_KK × f_gauge(μ)
 
     The key insight: f_gauge depends on the gauge couplings evaluated
     at scale μ, not at a fixed scale.
@@ -124,8 +124,8 @@ def alpha_eff_at_scale(mu):
     """
     alpha_tree = 1.000  # From XCRM-Yukawa symmetry
 
-    # Z₃ twisted sector (scale-independent)
-    f_Z3 = 1.072
+    # ∞-helix twisted sector (scale-independent)
+    f_helix = 1.072
 
     # KK tower (scale-independent to leading order)
     f_KK = 1.240
@@ -139,7 +139,7 @@ def alpha_eff_at_scale(mu):
 
     f_gauge = 1.0 + c3 * a_s / np.pi + c2 * a_2 / np.pi + c1 * a_1 / np.pi
 
-    alpha = alpha_tree * f_Z3 * f_KK * f_gauge
+    alpha = alpha_tree * f_helix * f_KK * f_gauge
     return alpha, f_gauge, a_s
 
 
@@ -202,7 +202,7 @@ def self_consistent_masses(sigma_H=0.20):
     """
     H_profile = compute_higgs_profile(sigma_H)
 
-    # Three Z₃ fixed points
+    # Three ∞-helix nodes
     centers = [0.0, 2*np.pi/3, 4*np.pi/3]
 
     # Initial: all at α_eff(v_EW)
@@ -265,7 +265,7 @@ def self_consistent_masses(sigma_H=0.20):
 
 def main():
     print("=" * 70)
-    print("  RG-ENHANCED MASS HIERARCHY ON S¹/Z₃")
+    print("  RG-ENHANCED MASS HIERARCHY ON S¹/∞₃")
     print("  Scale-Dependent α_eff(μ) from Running Gauge Couplings")
     print("=" * 70)
 
@@ -392,7 +392,7 @@ def main():
 
     # For each fermion, compute the overlap at its scale
     fermions = [
-        ('t', M_T, 0, True),    # name, mass, Z3 site (0=Higgs), is_quark
+        ('t', M_T, 0, True),    # name, mass, ∞₃ site (0=Higgs), is_quark
         ('c', M_C, 1, True),
         ('u', M_U, 2, True),
         ('b', M_B, 0, True),

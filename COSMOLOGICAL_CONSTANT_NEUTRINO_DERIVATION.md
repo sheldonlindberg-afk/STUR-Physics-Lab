@@ -10,7 +10,7 @@
 
 ## Abstract
 
-We derive the residual cosmological constant Λ_obs ~ 10⁻⁴⁷ GeV⁴ from the same physics that generates neutrino masses in the STUR framework. The discrete gauge Z₃ symmetry forces Λ_tree = 0, but the Majorana mass terms for right-handed neutrinos in generations 2 and 3 explicitly break Z₃. This breaking feeds into the cosmological constant sector through gravitational loops, generating:
+We derive the residual cosmological constant Λ_obs ~ 10⁻⁴⁷ GeV⁴ from the same physics that generates neutrino masses in the STUR framework. The discrete gauge ∞₃ symmetry forces Λ_tree = 0, but the Majorana mass terms for right-handed neutrinos in generations 2 and 3 explicitly break ∞₃. This breaking feeds into the cosmological constant sector through gravitational loops, generating:
 
 **Λ_residual = (3√3/256π⁴) × (m_ν² M_R²/M_P⁴) × v⁴**
 
@@ -18,31 +18,31 @@ We derive the residual cosmological constant Λ_obs ~ 10⁻⁴⁷ GeV⁴ from th
 
 ---
 
-## Part I: The Z₃ Breaking Structure
+## Part I: The ∞₃ Breaking Structure
 
-### 1.1 Z₃ Charges in STUR
+### 1.1 ∞₃ Charges in STUR
 
-In the STUR framework, fermion generations are localized at the three Z₃ fixed points with charges:
+In the STUR framework, fermion generations are localized at the three ∞-helix nodes with charges:
 
-| Generation | Fixed Point | Z₃ Charge Q |
+| Generation | Fixed Point | ∞₃ Charge Q |
 |------------|-------------|-------------|
 | 1 (e, ν_e, u, d) | X₀ = 0 | 0 |
 | 2 (μ, ν_μ, c, s) | X₁ = L_X/3 | 1 |
 | 3 (τ, ν_τ, t, b) | X₂ = 2L_X/3 | 2 |
 
-Under Z₃ gauge transformation:
+Under ∞-helix gauge transformation:
 ```
 ψ_g → ω^Q_g ψ_g     where ω = exp(2πi/3)
 ```
 
-### 1.2 The Majorana Mass Term and Z₃ Breaking
+### 1.2 The Majorana Mass Term and ∞₃ Breaking
 
 The Majorana mass term for right-handed neutrinos is:
 ```
 L_Majorana = (1/2) M_R (ν_R)^c ν_R + h.c.
 ```
 
-For Z₃ invariance, this term requires:
+For ∞₃ invariance, this term requires:
 ```
 (ν_R)^c ν_R → ω^(2Q) (ν_R)^c ν_R = (ν_R)^c ν_R
 
@@ -51,17 +51,17 @@ This requires: 2Q = 0 (mod 3)
 
 **Checking each generation:**
 
-| Generation | Q | 2Q mod 3 | Z₃ Status |
+| Generation | Q | 2Q mod 3 | ∞₃ Status |
 |------------|---|----------|-----------|
 | 1 | 0 | 0 | **Invariant** |
-| 2 | 1 | 2 | **BREAKS Z₃** |
-| 3 | 2 | 4 = 1 | **BREAKS Z₃** |
+| 2 | 1 | 2 | **BREAKS ∞₃** |
+| 3 | 2 | 4 = 1 | **BREAKS ∞₃** |
 
-**Critical Result:** The Majorana mass terms for generations 2 and 3 explicitly break the Z₃ gauge symmetry!
+**Critical Result:** The Majorana mass terms for generations 2 and 3 explicitly break the ∞-helix gauge symmetry!
 
-### 1.3 Quantifying the Z₃ Breaking
+### 1.3 Quantifying the ∞₃ Breaking
 
-The Z₃-breaking Majorana Lagrangian can be decomposed:
+The ∞-helix-breaking Majorana Lagrangian can be decomposed:
 ```
 L_M = L_M^(inv) + L_M^(break)
 
@@ -76,18 +76,18 @@ L_M^(2) → ω² L_M^(2)     (transforms with charge 2)
 L_M^(3) → ω L_M^(3)      (transforms with charge 1)
 ```
 
-**The Z₃ breaking parameter:**
+**The ∞-helix breaking parameter:**
 ```
-ε_Z₃ = M_R / M_*
+ε_∞₃ = M_R / M_*
 
-where M_* is the scale where Z₃ emerges as a gauge symmetry.
+where M_* is the scale where ∞₃ emerges as a gauge symmetry.
 ```
 
 In STUR, M_* ~ M_P (discrete gauge from UV completion), so:
 ```
-ε_Z₃ = M_R,3 / M_P ~ (1.1×10¹⁴ GeV) / (2.4×10¹⁸ GeV) ~ 4.6×10⁻⁵
+ε_∞₃ = M_R,3 / M_P ~ (1.1×10¹⁴ GeV) / (2.4×10¹⁸ GeV) ~ 4.6×10⁻⁵
 
-(using M_R,3 = 1.1×10¹⁴ GeV from Z₃ geometry)
+(using M_R,3 = 1.1×10¹⁴ GeV from ∞-helix geometry)
 ```
 
 ---
@@ -101,7 +101,7 @@ The Type-I seesaw mechanism gives light neutrino masses:
 m_ν = y_ν² v_EW² / M_R
 ```
 
-**STUR values (with M_R hierarchy from Z₃ geometry):**
+**STUR values (with M_R hierarchy from ∞-helix geometry):**
 ```
 M_R,3 = 1.1×10¹⁴ GeV          (at X₀, couples to ν₃)
 M_R,2 = 1.5×10¹⁴ GeV          (at X₁, couples to ν₂)
@@ -137,16 +137,16 @@ After integrating out heavy states:
 m_ν^(light) = -m_D M_R⁻¹ m_D^T = -y_ν² v_EW² M_R⁻¹
 ```
 
-**The Z₃ structure of M_R:**
+**The ∞-helix structure of M_R:**
 ```
       ( M_R^(1)    0        0      )
 M_R = (   0      M_R^(2)    0      )
       (   0        0      M_R^(3)  )
 
-where M_R^(g) ~ M_R × exp(i × 2πg/3) for Z₃ phase.
+where M_R^(g) ~ M_R × exp(i × 2πg/3) for ∞-helix phase.
 ```
 
-The off-diagonal Majorana terms are forbidden by the Z₃ gauge symmetry (they would require charge 0+1=1, 0+2=2, or 1+2=0 mod 3 — the last is allowed but suppressed by localization).
+The off-diagonal Majorana terms are forbidden by the ∞-helix gauge symmetry (they would require charge 0+1=1, 0+2=2, or 1+2=0 mod 3 — the last is allowed but suppressed by localization).
 
 ---
 
@@ -154,23 +154,23 @@ The off-diagonal Majorana terms are forbidden by the Z₃ gauge symmetry (they w
 
 ### 3.1 The Effective Action for the CC Field
 
-From the discrete gauge Z₃ mechanism (DISCRETE_GAUGE_Z3_CC_SOLUTION.md), the CC field λ has the action:
+From the discrete gauge ∞-helix mechanism (DISCRETE_GAUGE_INFINITY_HELIX_CC_SOLUTION.md), the CC field λ has the action:
 ```
 S_λ = ∫d⁴x √(-g) [|D_μλ|² - m_λ²|λ|² - (λ³ + λ*³)/M_λ]
 ```
 
-With exact Z₃: ⟨λ⟩ = 0 (gauge invariance).
+With exact ∞₃: ⟨λ⟩ = 0 (gauge invariance).
 
-**With Z₃ breaking from neutrino sector, we get a tadpole:**
+**With ∞-helix breaking from neutrino sector, we get a tadpole:**
 ```
 S_λ^(break) = ∫d⁴x √(-g) [ε_ν (λ + λ*)]
 
-where ε_ν is induced by the Z₃-breaking Majorana masses.
+where ε_ν is induced by the ∞-helix-breaking Majorana masses.
 ```
 
 ### 3.2 Computing the Tadpole
 
-The Z₃-breaking Majorana terms couple to gravity, which couples to the CC field. The one-loop diagram is:
+The ∞-helix-breaking Majorana terms couple to gravity, which couples to the CC field. The one-loop diagram is:
 
 ```
         λ
@@ -187,9 +187,9 @@ The Z₃-breaking Majorana terms couple to gravity, which couples to the CC fiel
 
 **The amplitude:**
 ```
-ε_ν = (1/M_P²) × ∫(d⁴k/(2π)⁴) × [M_R³ × G(k²)] × (Z₃ phase factor)
+ε_ν = (1/M_P²) × ∫(d⁴k/(2π)⁴) × [M_R³ × G(k²)] × (∞-helix phase factor)
 
-where G(k²) is the graviton propagator and the Z₃ phase factor
+where G(k²) is the graviton propagator and the ∞-helix phase factor
 accounts for the charge mismatch.
 ```
 
@@ -201,7 +201,7 @@ accounts for the charge mismatch.
     ~ (M_R³/16π²) × ln(M_P/M_R)
 ```
 
-**The Z₃ phase factor:**
+**The ∞-helix phase factor:**
 For generations 2 and 3 with charges Q=1,2:
 ```
 Phase factor = |ω² - 1|² + |ω - 1|²
@@ -254,7 +254,7 @@ Still too large. We need to trace through the full structure more carefully.
 
 ### 3.4 The Complete Diagram with Seesaw Insertion
 
-The correct diagram for Z₃ breaking feeding into the CC involves the full seesaw structure:
+The correct diagram for ∞-helix breaking feeding into the CC involves the full seesaw structure:
 
 ```
         λ (CC field)
@@ -271,12 +271,12 @@ The correct diagram for Z₃ breaking feeding into the CC involves the full sees
      |     |
    y_ν   y_ν
      |     |
-    ν_R===ν_R  (Majorana mass M_R — Z₃ breaking!)
+    ν_R===ν_R  (Majorana mass M_R — ∞-helix breaking!)
 ```
 
 **The complete amplitude:**
 ```
-ε_ν = (1/M_P²) × (v²/16π²) × (y_ν⁴) × M_R × (Z₃ phase)
+ε_ν = (1/M_P²) × (v²/16π²) × (y_ν⁴) × M_R × (∞-helix phase)
 ```
 
 Using the seesaw relation m_ν = y_ν² v² / M_R:
@@ -316,9 +316,9 @@ The minimum shifts to:
 ⟨λ⟩ ≈ ε_ν / m_λ²
 ```
 
-The mass m_λ is set by the Z₃ gauge dynamics. From the Krauss-Wilczek mechanism:
+The mass m_λ is set by the ∞-helix gauge dynamics. From the Krauss-Wilczek mechanism:
 ```
-m_λ ~ M_R (the scale where U(1)_X → Z₃)
+m_λ ~ M_R (the scale where U(1)_X → ∞₃)
 ```
 
 **The shifted VEV:**
@@ -349,7 +349,7 @@ Let's be more careful about dimensions. The CC field λ should have dimension [m
 
 **Redefining:** Let λ have dimension [mass]⁴.
 
-The Z₃-invariant potential:
+The ∞₃-invariant potential:
 ```
 V(λ) = |λ|²/M⁴ + (λ³ + λ*³)/M⁸ - ε(λ + λ*)/M⁴
 ```
@@ -358,9 +358,9 @@ where M is a mass scale and ε has dimension [mass]⁴.
 
 ### 4.2 The Breaking Parameter with Correct Dimensions
 
-The Z₃ breaking from the neutrino sector contributes:
+The ∞-helix breaking from the neutrino sector contributes:
 ```
-ε = (loop factor) × (seesaw scales) × (Z₃ phase) × (gravitational coupling)
+ε = (loop factor) × (seesaw scales) × (∞-helix phase) × (gravitational coupling)
 ```
 
 **From the seesaw diagram:**
@@ -398,9 +398,9 @@ v⁴ = (246 GeV)⁴ = 3.7×10⁹ GeV⁴
 
 Still too large by ~10⁴². We need more suppression.
 
-### 4.3 The Z₃ Phase Cancellation
+### 4.3 The ∞₃ Phase Cancellation
 
-**Key insight:** The Z₃ phases from different generations partially cancel!
+**Key insight:** The ∞-helix phases from different generations partially cancel!
 
 The contribution from each generation:
 ```
@@ -462,9 +462,9 @@ Let me reconsider the coupling structure.
 
 ## Part V: The Correct Mechanism — Holonomy-Mediated Breaking
 
-### 5.1 The Z₃ Holonomy Connection
+### 5.1 The ∞₃ Holonomy Connection
 
-In STUR, the Z₃ gauge field is characterized by its Wilson line:
+In STUR, the ∞-helix gauge field is characterized by its Wilson line:
 ```
 W = exp(i ∮ A_5 dX) ∈ {1, ω, ω²}
 ```
@@ -474,7 +474,7 @@ The cosmological constant field λ couples to the holonomy:
 L_λ-hol = g_λ × λ × Tr[W³ - 3W + 2]
 ```
 
-This coupling is Z₃ invariant (Tr[W³] is invariant).
+This coupling is ∞₃ invariant (Tr[W³] is invariant).
 
 ### 5.2 Holonomy Shift from Neutrino Sector
 
@@ -483,11 +483,11 @@ The neutrino Majorana masses modify the holonomy through the fermion determinant
 det(D_5 + M_R) → det(D_5 + M_R) × exp(iθ_ν)
 ```
 
-The phase θ_ν comes from the Z₃-breaking mass terms:
+The phase θ_ν comes from the ∞-helix-breaking mass terms:
 ```
-θ_ν = arg[det(M_R^(Z₃-breaking))]
+θ_ν = arg[det(M_R^(∞-helix-breaking))]
     = arg[M_R^(2)] + arg[M_R^(3)]
-    = (2π×1/3) + (2π×2/3)  [from Z₃ charges]
+    = (2π×1/3) + (2π×2/3)  [from ∞₃ charges]
     = 2π  [mod 2π = 0]
 ```
 
@@ -502,10 +502,10 @@ The effective holonomy including neutrino corrections:
 ```
 W_eff = W × exp(iδθ_ν)
 
-where δθ_ν = (y_ν²/16π²) × (v²/M_R²) × (Z₃ phase mismatch)
+where δθ_ν = (y_ν²/16π²) × (v²/M_R²) × (∞-helix phase mismatch)
 ```
 
-**The Z₃ phase mismatch:**
+**The ∞-helix phase mismatch:**
 ```
 For gen 2: phase = 2π/3
 For gen 3: phase = 4π/3
@@ -527,7 +527,7 @@ The holonomy shift induces a shift in the CC through the coupling:
 Λ_induced = g_λ × M_KK⁴ × δθ_ν × sin(3×θ_0)
 ```
 
-where θ_0 = 2π/3 is the background Z₃ phase and M_KK ~ 1/L_X ~ v/3 is the KK scale.
+where θ_0 = 2π/3 is the background ∞-helix phase and M_KK ~ 1/L_X ~ v/3 is the KK scale.
 
 **But M_KK ~ v ~ 10¹⁶ GeV gives Λ ~ 10⁶⁴ × 10⁻²⁸ ~ 10³⁶ GeV⁴ — way too big!**
 
@@ -546,7 +546,7 @@ This is the see-saw suppression from quantum gravity.
 
 Combining all factors:
 
-**The residual cosmological constant from neutrino Z₃ breaking:**
+**The residual cosmological constant from neutrino ∞-helix breaking:**
 
 ```
 ┌────────────────────────────────────────────────────────────────┐
@@ -559,7 +559,7 @@ Combining all factors:
 ```
 
 **The factors:**
-- 3√3/256π⁴ : Loop factors and Z₃ phase structure
+- 3√3/256π⁴ : Loop factors and ∞-helix phase structure
 - m_ν² M_R² : Seesaw invariant (= y_ν⁴ v⁴)
 - 1/M_P⁴ : Gravitational suppression (two powers of Newton's constant)
 - v⁴ : Electroweak scale (sets overall dimension)
@@ -570,8 +570,8 @@ Combining all factors:
 **Input values (updated with M_R hierarchy and f_tail correction):**
 ```
 m_ν = 0.0525 eV = 5.25×10⁻¹¹ GeV  [atmospheric scale with f_tail = 1.131]
-M_R,3 = 1.1×10¹⁴ GeV              [from Z₃ kink phase structure]
-M_R,2 = M_R,1 = 1.5×10¹⁴ GeV      [from Z₃ kink phase structure]
+M_R,3 = 1.1×10¹⁴ GeV              [from ∞₃ kink phase structure]
+M_R,2 = M_R,1 = 1.5×10¹⁴ GeV      [from ∞₃ kink phase structure]
 M_P = 2.435×10¹⁸ GeV              [reduced Planck mass]
 v = 246.22 GeV                     [Higgs VEV]
 κ = 2.52                           [STUR localization parameter]
@@ -676,15 +676,15 @@ For the seesaw spectrum with heavy M_R and light m_ν:
 ρ_vac^(ν) = -(1/64π²) × [M_R⁴ ln(M_R²/μ²) + m_ν⁴ ln(m_ν²/μ²)]
 ```
 
-**The Z₃-breaking contribution:**
+**The ∞-helix-breaking contribution:**
 
-Only the Z₃-breaking part of M_R contributes to the NET cosmological constant (the invariant part cancels by the discrete gauge mechanism).
+Only the ∞-helix-breaking part of M_R contributes to the NET cosmological constant (the invariant part cancels by the discrete gauge mechanism).
 
 ```
-Λ_Z₃-break = -(1/64π²) × ΔM_R⁴ × ln(M_R²/μ²) × (Z₃ phase factor)
+Λ_∞₃-break = -(1/64π²) × ΔM_R⁴ × ln(M_R²/μ²) × (∞-helix phase factor)
 ```
 
-where ΔM_R is the Z₃-breaking mass difference between generations.
+where ΔM_R is the ∞-helix-breaking mass difference between generations.
 
 ### 7.2 The Mass Splitting
 
@@ -699,9 +699,9 @@ M_R^(g) = M_R × [1 + (σ²/L_X²) × cos(2πg/3)]
 ΔM_R = M_R/κ² = (2×10¹⁴)/(6.35) GeV = 3.1×10¹³ GeV
 ```
 
-**The Z₃-breaking vacuum energy:**
+**The ∞-helix-breaking vacuum energy:**
 ```
-Λ_Z₃-break = (1/64π²) × (ΔM_R)⁴ × |ω² + ω - 2| × ln(M_R/m_ν)
+Λ_∞₃-break = (1/64π²) × (ΔM_R)⁴ × |ω² + ω - 2| × ln(M_R/m_ν)
 
 where |ω² + ω - 2| = |(-1/2 + i√3/2) + (-1/2 - i√3/2) - 2| = |-3| = 3
 ```
@@ -712,7 +712,7 @@ where |ω² + ω - 2| = |(-1/2 + i√3/2) + (-1/2 - i√3/2) - 2| = |-3| = 3
 
 ln(M_R/m_ν) = ln(2×10¹⁴/5×10⁻¹¹) = ln(4×10²⁴) = 57
 
-Λ_Z₃-break = (9.2×10⁵⁴ × 3 × 57)/(64 × 97.4) GeV⁴
+Λ_∞₃-break = (9.2×10⁵⁴ × 3 × 57)/(64 × 97.4) GeV⁴
            = (1.57×10⁵⁷)/(6233) GeV⁴
            = 2.5×10⁵³ GeV⁴
 ```
@@ -721,16 +721,16 @@ ln(M_R/m_ν) = ln(2×10¹⁴/5×10⁻¹¹) = ln(4×10²⁴) = 57
 
 ### 7.3 The Cancellation Mechanism
 
-The key insight is that the Z₃ gauge symmetry DOES cancel most of this. What remains is:
+The key insight is that the ∞-helix gauge symmetry DOES cancel most of this. What remains is:
 
 1. The tree-level contribution: EXACTLY ZERO (gauge invariance)
-2. The one-loop contribution: Cancels between generations by Z₃ sum
+2. The one-loop contribution: Cancels between generations by ∞₃ sum
 3. The two-loop contribution: PARTIALLY cancels
 4. The residual from mass splitting: SURVIVES
 
 **The two-loop residual:**
 ```
-Λ_residual = (1/64π²)² × (ΔM_R)⁴ × (m_ν/M_R)² × (Z₃ mismatch)
+Λ_residual = (1/64π²)² × (ΔM_R)⁴ × (m_ν/M_R)² × (∞₃ mismatch)
 ```
 
 The factor (m_ν/M_R)² = (5×10⁻¹¹/2×10¹⁴)² = 6.25×10⁻⁵⁰ comes from the seesaw suppression.
@@ -766,18 +766,18 @@ But this is circular — we're trying to DERIVE H from Λ, not the other way aro
 
 ### 8.1 The Key Insight: The Holonomy-Weighted Sum
 
-The correct formula emerges from recognizing that the Z₃ discrete gauge symmetry doesn't just SET Λ = 0, it WEIGHTS the contributions by holonomy factors.
+The correct formula emerges from recognizing that the ∞-helix discrete gauge symmetry doesn't just SET Λ = 0, it WEIGHTS the contributions by holonomy factors.
 
 The weighted sum of vacuum energies:
 ```
 Λ_eff = Σ_g [ρ_vac^(g) × W_g] / Σ_g W_g
 ```
 
-where W_g = exp(2πig/3) is the Z₃ holonomy weight for generation g.
+where W_g = exp(2πig/3) is the ∞-helix holonomy weight for generation g.
 
-**For Z₃-invariant masses:** Σ W_g = 1 + ω + ω² = 0, giving Λ_eff = 0/0 → regularized to 0.
+**For ∞₃-invariant masses:** Σ W_g = 1 + ω + ω² = 0, giving Λ_eff = 0/0 → regularized to 0.
 
-**For Z₃-breaking masses:** The weights don't perfectly cancel.
+**For ∞-helix-breaking masses:** The weights don't perfectly cancel.
 
 ### 8.2 The Weighted Vacuum Energy
 
@@ -795,7 +795,7 @@ With generation-dependent masses M_g = M_R × (1 + ε_g):
                      = -(4M_R⁴/64π²) × ln(M_R²/μ²) × Σ_g W_g ε_g
 ```
 
-**The Z₃-weighted mass splitting:**
+**The ∞₃-weighted mass splitting:**
 ```
 Σ_g W_g ε_g = ε_1 × 1 + ε_2 × ω + ε_3 × ω²
 
@@ -813,12 +813,12 @@ With ε_g = (1/κ²) × cos(2πg/3):
 
 ### 8.3 The Regularized Result
 
-The Z₃ sum in the denominator vanishes, so we need a regularized prescription:
+The ∞₃ sum in the denominator vanishes, so we need a regularized prescription:
 ```
 Λ_eff = lim_{δ→0} [Σ_g W_g ρ_g] / [Σ_g W_g + δ]
 ```
 
-**The physical regularization** comes from the finite localization width σ, which breaks the perfect Z₃ symmetry:
+**The physical regularization** comes from the finite localization width σ, which breaks the perfect ∞₃ symmetry:
 ```
 Σ_g W_g → Σ_g W_g × exp(-σ²/L_X²) = Σ_g W_g × exp(-1/κ²)
         = (1 + ω + ω²) × exp(-0.158)
@@ -852,7 +852,7 @@ The regularization actually comes from the NEXT order in the expansion:
 The resolution is that STUR includes automatic sequestering through the 5D geometry. The 4D cosmological constant is NOT the direct sum of vacuum energies, but the RESIDUAL after 5D bulk effects:
 
 ```
-Λ_4D = Λ_bulk^(5D) × (L_X/L_P)⁵ × (Z₃ factor)
+Λ_4D = Λ_bulk^(5D) × (L_X/L_P)⁵ × (∞₃ factor)
 ```
 
 where L_P = 1/M_P is the Planck length.
@@ -882,19 +882,19 @@ Still way off. The calculation needs one more crucial ingredient.
 
 ## Part IX: The Complete Solution
 
-### 9.1 The Seesaw-Suppressed Z₃ Breaking
+### 9.1 The Seesaw-Suppressed ∞₃ Breaking
 
-The key realization is that the EFFECTIVE Z₃ breaking seen by the CC field is not the bare Majorana mass, but the SEESAW-SUPPRESSED combination:
+The key realization is that the EFFECTIVE ∞-helix breaking seen by the CC field is not the bare Majorana mass, but the SEESAW-SUPPRESSED combination:
 
 ```
-ε_Z₃^(eff) = (m_ν/M_R) × ε_Z₃^(bare)
+ε_∞₃^(eff) = (m_ν/M_R) × ε_∞₃^(bare)
            = (m_ν/M_R) × (M_R/M_P)
            = m_ν/M_P
            = 5×10⁻¹¹ / 2.4×10¹⁸
            = 2.1×10⁻²⁹
 ```
 
-This is because the light neutrinos, not the heavy ones, communicate the Z₃ breaking to low energies.
+This is because the light neutrinos, not the heavy ones, communicate the ∞-helix breaking to low energies.
 
 ### 9.2 The Light Neutrino Contribution
 
@@ -909,9 +909,9 @@ The vacuum energy from light neutrinos:
 
 **This is only 10³ too large!** We're getting close.
 
-### 9.3 The Z₃ Phase Suppression
+### 9.3 The ∞₃ Phase Suppression
 
-The Z₃ holonomy weighting reduces this by the mismatch factor:
+The ∞-helix holonomy weighting reduces this by the mismatch factor:
 ```
 Λ_residual = ρ_ν × |Σ_g W_g ε_g| / |Σ_g W_g|_reg
            = 2.3×10⁻⁴⁴ × 0.237 / 0.063 GeV⁴
@@ -962,7 +962,7 @@ m_1 ≈ 0 (or very small)
 m_2 = √(Δm²₂₁) = 0.0086 eV
 m_3 = √(Δm²₃₁) = 0.05 eV × f_tail = 0.0525 eV    [f_tail = 1.131]
 
-Updated Δm² predictions (from Z₃ M_R hierarchy):
+Updated Δm² predictions (from ∞₃ M_R hierarchy):
   Δm²₃₁ = 2.50×10⁻³ eV²    [2% from observed 2.45×10⁻³ eV²]
   Δm²₂₁ = 7.41×10⁻⁵ eV²    [1.6% from observed 7.53×10⁻⁵ eV²]
 ```
@@ -974,7 +974,7 @@ Updated Δm² predictions (from Z₃ M_R hierarchy):
 ρ_3 = -(0.05 eV)⁴/(64π²) = -4.0×10⁻⁴⁶ GeV⁴
 ```
 
-**Z₃ weighted sum:**
+**∞₃ weighted sum:**
 ```
 Σ W_g ρ_g = 0 × 1 + ρ_2 × ω + ρ_3 × ω²
           = ρ_2 ω + ρ_3 ω²
@@ -1051,14 +1051,14 @@ The truth is between the bare and fully-decoupled values. Using geometric mean:
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │                                                                     │
-│  RESIDUAL COSMOLOGICAL CONSTANT FROM NEUTRINO Z₃ BREAKING           │
+│  RESIDUAL COSMOLOGICAL CONSTANT FROM NEUTRINO ∞₃ BREAKING           │
 │                                                                     │
 │                     |Σ_g W_g m_g⁴|                                  │
 │  Λ_residual = ─────────────────────── × F_decouple                  │
 │                64π² × |Σ_g W_g δ_g|                                 │
 │                                                                     │
 │  where:                                                             │
-│    W_g = exp(2πig/3) is the Z₃ holonomy weight                     │
+│    W_g = exp(2πig/3) is the ∞-helix holonomy weight                     │
 │    m_g = {0, √Δm²_sol, √Δm²_atm} are neutrino masses               │
 │    δ_g = exp(-g²/(9κ²)) - 1 are localization corrections           │
 │    F_decouple = √[(M_R/M_P)² × (4π ln(M_R/m_ν))]                   │
@@ -1101,7 +1101,7 @@ The residual cosmological constant arises from:
 
 1. **Light neutrino vacuum energy:** ~10⁻⁴⁶ GeV⁴ (from m_ν⁴)
 
-2. **Z₃ holonomy weighting:** Enhances by factor ~10 (from phase structure)
+2. **∞-helix holonomy weighting:** Enhances by factor ~10 (from phase structure)
 
 3. **Regularization:** Suppresses by factor ~20 (from localization)
 
@@ -1120,15 +1120,15 @@ The residual cosmological constant arises from:
 │                                                                     │
 │  COSMOLOGICAL CONSTANT: CORRECT SCALE DERIVED                        │
 │                                                                     │
-│  TREE LEVEL: Λ = 0 (exact, by discrete gauge Z₃)                   │
+│  TREE LEVEL: Λ = 0 (exact, by discrete gauge ∞₃)                   │
 │                                                                     │
-│  LOOP LEVEL: Protected to all orders (Z₃ Ward identities)          │
+│  LOOP LEVEL: Protected to all orders (∞₃ Ward identities)          │
 │                                                                     │
-│  RESIDUAL: Λ ~ 7 × 10⁻⁴⁶ GeV⁴ from neutrino Z₃ breaking           │
+│  RESIDUAL: Λ ~ 7 × 10⁻⁴⁶ GeV⁴ from neutrino ∞-helix breaking           │
 │                                                                     │
 │  MECHANISM:                                                         │
-│    - Majorana masses for gen 2,3 break Z₃                          │
-│    - Light neutrino vacuum energy weighted by Z₃ holonomy          │
+│    - Majorana masses for gen 2,3 break ∞₃                          │
+│    - Light neutrino vacuum energy weighted by ∞-helix holonomy          │
 │    - Regularized by localization, decoupled by seesaw              │
 │    - Factor ~26 discrepancy with observation remains                │
 │                                                                     │
@@ -1153,7 +1153,7 @@ The derivation predicts specific relationships:
 - Δm²₃₁ = 2.50×10⁻³ eV² vs observed 2.45×10⁻³ eV² (2% agreement)
 - Δm²₂₁ = 7.41×10⁻⁵ eV² vs observed 7.53×10⁻⁵ eV² (1.6% agreement)
 
-The M_R hierarchy from Z₃ kink phases resolves
+The M_R hierarchy from ∞₃ kink phases resolves
 the previous ~20% discrepancy in Δm²₃₁, bringing STUR predictions into excellent
 agreement with neutrino oscillation measurements.
 
@@ -1166,7 +1166,7 @@ agreement with neutrino oscillation measurements.
 │                                                                     │
 │  All fundamental constants derived from:                            │
 │    - Three axioms (5D, R-field, energy minimization)               │
-│    - Z₃ helix geometry                                             │
+│    - infinity helix geometry                                             │
 │    - Discrete gauge symmetry                                        │
 │                                                                     │
 │  Including the cosmological constant:                               │
@@ -1182,13 +1182,13 @@ agreement with neutrino oscillation measurements.
 
 ## References
 
-1. DISCRETE_GAUGE_Z3_CC_SOLUTION.md — The Z₃ gauge mechanism
-2. DERIVATION_CHAIN_HELIX.md — Complete STUR framework
+1. DISCRETE_GAUGE_INFINITY_HELIX_CC_SOLUTION.md — The ∞-helix gauge mechanism
+2. DERIVATION_CHAIN_INFINITY.md — Complete STUR framework
 3. Planck Collaboration (2018) — Λ_obs measurement
 4. NuFIT 6.0 — Neutrino mass parameters
 5. Weinberg, S. (1989) — "The Cosmological Constant Problem"
 
 ---
 
-*Document Status: DERIVED — Correct scale for Λ emerges from neutrino Z₃ breaking*
+*Document Status: DERIVED — Correct scale for Λ emerges from neutrino ∞-helix breaking*
 *Λ_calc = (7.3 ± 5.3) × 10⁻⁴⁶ GeV⁴ vs Λ_obs = 2.846 × 10⁻⁴⁷ GeV⁴ (factor ~26 discrepancy)*

@@ -35,7 +35,7 @@ From ALPHA_PARAMETER_DERIVATION.md, the following are determined by the framewor
 | Quantity | Value | Source |
 |----------|-------|--------|
 | χ | -2π/(3L_X) | Helix stability (energy minimization) |
-| k = |χ| | 2π/(3L_X) | Z₃ boundary condition |
+| k = |χ| | 2π/(3L_X) | ∞₃ boundary condition |
 | v | Constant | Potential minimum |
 
 What remains undetermined is the Yukawa coupling y. To fully derive α = 1 (and hence κ = 2.22), we need:
@@ -44,7 +44,7 @@ What remains undetermined is the Yukawa coupling y. To fully derive α = 1 (and 
 y · v · L_X = 2π  ⟹  α = (y·v·L_X/2π)² = 1
 ```
 
-Since v·L_X = 3 is derived from Z₃ quantization (VLX_QUANTIZATION_DERIVATION.md), we need:
+Since v·L_X = 3 is derived from ∞₃ quantization (VLX_QUANTIZATION_DERIVATION.md), we need:
 
 ```
 y = 2π/3 = |χ|·L_X
@@ -137,7 +137,7 @@ Phase resolved by fermion: Δφ_ferm ~ 2π/(y·v·L_X)
 y·v·L_X = 3
 ```
 
-With v·L_X = 3 (from Z₃ quantization):
+With v·L_X = 3 (from ∞₃ quantization):
 ```
 y = 1
 ```
@@ -182,7 +182,7 @@ where J^M_R is the R-field current. This generates:
 
 **Dimensional reduction:**
 
-In 5D, g_5 has dimension [mass]^{-1/2}. After reduction on S¹/Z₃:
+In 5D, g_5 has dimension [mass]^{-1/2}. After reduction on S¹/∞₃:
 ```
 g_4 = g_5 / √L_X
 
@@ -423,14 +423,14 @@ This gives y ~ sqrt(L_X) dependence, not y ~ L_X.
 
 ### 5.1 The 5D Anomaly
 
-In 5D, there is a parity anomaly for fermions. On S¹/Z₃, the anomaly must cancel for the theory to be consistent.
+In 5D, there is a parity anomaly for fermions. On S¹/∞₃, the anomaly must cancel for the theory to be consistent.
 
 **The parity anomaly coefficient:**
 ```
 A_parity = Σᵢ sign(m_ᵢ) × (contribution from fermion i)
 ```
 
-For our fermions localized at Z₃ fixed points, the effective mass is:
+For our fermions localized at ∞-helix nodes, the effective mass is:
 ```
 m_eff(X) = y · v · |e^{iφ(X)} - e^{iφ_g}|
 ```
@@ -496,7 +496,7 @@ The solution gives width σ and hence κ = (2π/3)/σ.
 
 **Self-consistency requirement:**
 
-The localization must be consistent with the Z₃ geometry. Specifically, the fermion wavefunction must "fit" properly within the Z₃ cell of angular width 2π/3.
+The localization must be consistent with the ∞-helix geometry. Specifically, the fermion wavefunction must "fit" properly within the ∞₃ cell of angular width 2π/3.
 
 ### 6.2 The Fitting Condition
 
@@ -522,7 +522,7 @@ This means:
 yv·L_X = 2π
 ```
 
-### 6.3 Combining with Z₃ Quantization
+### 6.3 Combining with ∞₃ Quantization
 
 From VLX_QUANTIZATION_DERIVATION.md:
 ```
@@ -544,8 +544,8 @@ And since |χ| = 2π/(3L_X):
 ### 6.4 Physical Interpretation
 
 The relation y = |χ|·L_X arises from requiring:
-1. **Z₃ quantization:** v·L_X = 3 (one R-field unit per generation)
-2. **Natural localization:** α = 1 (fermion "fits" the Z₃ cell)
+1. **∞₃ quantization:** v·L_X = 3 (one R-field unit per generation)
+2. **Natural localization:** α = 1 (fermion "fits" the ∞₃ cell)
 3. **Helix stability:** χ = -2π/(3L_X)
 
 These three conditions uniquely determine:
@@ -562,13 +562,13 @@ y = |χ|·L_X  ✓
 ### 7.1 The Logical Chain
 
 ```
-AXIOM: 5D spacetime M⁴ × S¹/Z₃ with R-field doublet
+AXIOM: 5D spacetime M⁴ × S¹/∞₃ with R-field doublet
        ↓
 DERIVED: χ = -2π/(3L_X)  [from helix stability, Argument 3]
        ↓
-DERIVED: k = |χ| = 2π/(3L_X)  [from Z₃ winding]
+DERIVED: k = |χ| = 2π/(3L_X)  [from ∞-helix winding]
        ↓
-DERIVED: v·L_X = 3  [from Z₃ quantization]
+DERIVED: v·L_X = 3  [from ∞₃ quantization]
        ↓
 REQUIRED: α = 1  [for natural fermion localization]
        ↓
@@ -585,7 +585,7 @@ DERIVED: y = 2π/3 = |χ|·L_X  [from y·v·L_X = 2π and v·L_X = 3]
 |  DERIVED RELATION: y = |χ|·L_X = 2π/3                           |
 |                                                                  |
 |  This follows from:                                              |
-|    1. Z₃ quantization: v·L_X = 3                                |
+|    1. ∞₃ quantization: v·L_X = 3                                |
 |    2. Natural localization: α = 1                                |
 |    3. Helix stability: χ = -2π/(3L_X)                           |
 |                                                                  |
@@ -599,7 +599,7 @@ DERIVED: y = 2π/3 = |χ|·L_X  [from y·v·L_X = 2π and v·L_X = 3]
 
 The condition α = 1 is "natural" because:
 
-1. **Geometric naturality:** The fermion localization width σ ~ 2π/3 fills exactly one Z₃ cell
+1. **Geometric naturality:** The fermion localization width σ ~ 2π/3 fills exactly one ∞₃ cell
 2. **Energy equipartition:** Kinetic and potential energies are comparable
 3. **Perturbative control:** Neither too localized (strong coupling) nor too spread (no hierarchy)
 
@@ -678,7 +678,7 @@ This is consistent with the phenomenological requirement κ ~ 2.5.
 
 The derivation can be falsified if:
 1. Future precision measurements require κ significantly different from 2.52
-2. The Z₃ quantization v·L_X = 3 is ruled out by other constraints
+2. The ∞₃ quantization v·L_X = 3 is ruled out by other constraints
 3. The sector confinement factor differs from ~0.6
 
 ---
@@ -688,7 +688,7 @@ The derivation can be falsified if:
 The XCRM-Yukawa symmetry y = |χ|·L_X is **derived**, not assumed. It follows from:
 
 1. The requirement that fermion localization be "natural" (α = 1)
-2. The Z₃ quantization condition v·L_X = 3
+2. The ∞₃ quantization condition v·L_X = 3
 3. The helix stability condition χ = -2π/(3L_X)
 
 Together, these uniquely determine y = 2π/3, which equals |χ|·L_X.
@@ -702,7 +702,7 @@ Together, these uniquely determine y = 2π/3, which equals |χ|·L_X.
 1. ALPHA_PARAMETER_DERIVATION.md - Analysis of the α parameter
 2. VLX_QUANTIZATION_DERIVATION.md - Derivation of v·L_X = 3
 3. KAPPA_FIRST_PRINCIPLES_DERIVATION.md - Mathieu equation solution
-4. DERIVATION_CHAIN_HELIX.md - Main derivation chain
+4. DERIVATION_CHAIN_INFINITY.md - Main derivation chain
 
 ---
 

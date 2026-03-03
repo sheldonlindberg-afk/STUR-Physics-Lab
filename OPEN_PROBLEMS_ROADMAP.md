@@ -1,7 +1,7 @@
 # STUR Open Problems and Roadmap — v6.2
 
 **Document Type:** Research Roadmap
-**Framework:** STUR v6.2 (Dynamic Z₃ Infinity Helix)
+**Framework:** STUR v6.2 (Dynamic Infinity Helix)
 **Date:** 2026-02-13
 **Purpose:** Current status assessment — what is derived, what remains
 
@@ -11,7 +11,7 @@
 
 STUR derives 26+ Standard Model parameters from three axioms (5D TEGR spacetime,
 real doublet R-field, energy minimization) and one input (M_Planck). The dynamic
-Z₃ infinity helix — always winding and unwinding simultaneously at every scale —
+∞₃ infinity helix — always winding and unwinding simultaneously at every scale —
 provides the geometric foundation. The manifold is the same at any scale; only the
 perspective changes (discrete scale invariance via λ_chrono = 3722/2705).
 
@@ -22,13 +22,13 @@ perspective changes (discrete scale invariance via λ_chrono = 3722/2705).
 ### OP-1: α_eff from First Principles — SOLVED ✓
 
 **Status:** α_eff = 1.480 ± 0.047 (one-loop + two-loop). λ = 0.229 (1.6% from PDG).
-**Method:** Z₃ twisted sector + KK tower + gauge backreaction.
+**Method:** ∞-helix twisted sector + KK tower + gauge backreaction.
 **Script:** `alpha_eff_rigorous_calculation.py`
 
 ### OP-2: L_X Scale — RESOLVED ✓
 
 **Status:** Two scales are the SAME geometry viewed at different scales.
-- L_X^fund ~ 3×10⁻³² m (Z₃ winding quantization: v·L_X = 3)
+- L_X^fund ~ 3×10⁻³² m (∞-helix winding quantization: v·L_X = 3)
 - L_eff ~ 0.8 μm (Casimir-holonomy balance)
 **Resolution:** The infinity helix is self-similar. λ_chrono = 3722/2705 connects all scales. The manifold is the same at any scale — only the perspective changes.
 **Scripts:** `lx_flux_stabilization.py`, `lx_effective_potential.py`
@@ -40,26 +40,26 @@ perspective changes (discrete scale invariance via λ_chrono = 3722/2705).
 - sin²θ₁₂ = 0.303 (exact), sin²θ₂₃ = 0.572 (exact), sin²θ₁₃ = 0.0220 (0.1%)
 - δ_CP = 197° (central value match), Δm²₃₁ (2%), Δm²₂₁ (1.6%)
 - Normal ordering predicted (falsifiable by JUNO/DUNE)
-**Method:** Z₃ resonance enhancement + Type-I seesaw with M_R from holonomy.
+**Method:** ∞-helix resonance enhancement + Type-I seesaw with M_R from holonomy.
 **Pages:** `stur_pmns_numerical.html`, `stur_neutrino_derivation.html`
 
 ### OP-4: Correction Factors — MOSTLY ELIMINATED ✓
 
 **Status:** α_eff approach replaced old 5-factor chain.
 - For CKM: direct computation via exp(−κ²/4) at α_eff
-- For masses: f_tail = 1.131 (wavefunction tail), f_ℓ = 1/√3 (color singlet), f_u^node = 0.133 (Z₃ twisted sector) — all physically motivated
+- For masses: f_tail = 1.131 (wavefunction tail), f_ℓ = 1/√3 (color singlet), f_u^node = 0.133 (∞-helix twisted sector) — all physically motivated
 **Document:** `ABSOLUTE_MASS_DERIVATION.md`
 
 ### OP-5: Cosmological Constant — SOLVED ✓
 
-**Status:** Λ_tree = 0 exactly (Z₃ discrete gauge Ward identity). Λ_residual = 3.6×10⁻⁴⁷ GeV⁴ (27% from Λ_obs, <0.5σ).
-**Method:** Discrete gauge Z₃ → Ward identity → loop protection to all orders → residual from neutrino Majorana Z₃ breaking.
-**Documents:** `COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md`, `DISCRETE_GAUGE_Z3_CC_SOLUTION.md`
+**Status:** Λ_tree = 0 exactly (∞-helix discrete gauge Ward identity). Λ_residual = 3.6×10⁻⁴⁷ GeV⁴ (27% from Λ_obs, <0.5σ).
+**Method:** Discrete gauge ∞₃ → Ward identity → loop protection to all orders → residual from neutrino Majorana ∞-helix breaking.
+**Documents:** `COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md`, `DISCRETE_GAUGE_INFINITY_HELIX_CC_SOLUTION.md`
 **Page:** `stur_cosmological_constant.html`
 
 ### OP-6: UV Completion — SOLVED ✓
 
-**Status:** F-theory CY₄ on (P²×P¹)/Z₃ uniquely determined.
+**Status:** F-theory CY₄ on (P²×P¹)/∞₃ uniquely determined.
 - h¹¹ = 6, h²¹ = 3, h³¹ = 25, χ = 216
 - Uniqueness proven (all alternatives eliminated: heterotic, Type IIA, non-F-theory IIB, asymptotic safety, LQG)
 - Swampland constraints verified (Distance ✓, WGC ✓, Cobordism ✓, dS conditional)
@@ -68,15 +68,15 @@ perspective changes (discrete scale invariance via λ_chrono = 3722/2705).
 ### OP-7: Dark Matter — SOLVED ✓
 
 **Status:** LKP B^(1) at M_DM = 0.92 ± 0.08 TeV. Ω_DM h² = 0.119 ± 0.002 (0.4σ from Planck).
-**Method:** Z₃ KK-parity conservation → lightest KK particle stable.
+**Method:** ∞-helix KK-parity conservation → lightest KK particle stable.
 **Document:** `DARK_MATTER_RELIC_DENSITY.md`
 
 ### OP-8: N = 3 Selection — SOLVED ✓
 
-**Status:** Z₃ proven lowest-energy CP-violating orbifold (computed for N = 1–6).
+**Status:** ∞₃ proven lowest-energy CP-violating orbifold (computed for N = 1–6).
 - Z₁: no CP violation
 - Z₂: CP violation but higher energy (E = 245)
-- Z₃: E = 181.5 (MINIMUM among CP-violating)
+- ∞₃: E = 181.5 (MINIMUM among CP-violating)
 - Z₄ through Z₆: monotonically increasing energy
 **Script:** `toe_closure_calculations.py`
 
@@ -96,7 +96,7 @@ perspective changes (discrete scale invariance via λ_chrono = 3722/2705).
 
 ### RQ-3: dS Conjecture Validation
 
-**Status:** Z₃ mechanism is novel but not yet proven to satisfy refined dS bounds.
+**Status:** ∞-helix mechanism is novel but not yet proven to satisfy refined dS bounds.
 **Impact:** Most stringent swampland constraint; conditional satisfaction.
 
 ### RQ-4: χ(CY₄) Discrepancy
@@ -115,11 +115,11 @@ perspective changes (discrete scale invariance via λ_chrono = 3722/2705).
 
 The following constitute a complete, falsifiable TOE candidate:
 
-1. **Dynamic Z₃ infinity helix framework** — geometry + chronomagnetics + TEGR
+1. **Dynamic ∞₃ infinity helix framework** — geometry + chronomagnetics + TEGR
 2. **CKM matrix from first principles** — λ, A, ρ̄, η̄, δ_CKM, full V_CKM (1.6–8%)
 3. **PMNS matrix from first principles** — all 6 parameters (0.1–3.5%)
 4. **Fermion mass spectrum** — all 9 charged + 3 neutrinos (<2% with corrections)
-5. **Cosmological constant** — Z₃ gauge protection + neutrino residual (27%, <0.5σ)
+5. **Cosmological constant** — ∞-helix gauge protection + neutrino residual (27%, <0.5σ)
 6. **Dark matter prediction** — TeV-scale LKP with Ω_DM h² = 0.119
 7. **UV completion** — unique F-theory CY₄, swampland-compatible
 8. **Falsification protocol** — JUNO, DUNE, LZ/XENONnT, ARIADNE, Planck
@@ -138,12 +138,12 @@ three axioms and one input (M_Planck)."**
 | `alpha_eff_rigorous_calculation.py` | α_eff chain | 1.480 ± 0.047 |
 | `berry_phase_exact.py` | Berry phase | 0 exactly |
 | `brane_yukawa_hierarchy.py` | Mass ratios | m_τ/m_μ = 17.0 (1%) |
-| `toe_closure_calculations.py` | Z_N energy, Higgs profile | Z₃ proven optimal |
+| `toe_closure_calculations.py` | Z_N energy, Higgs profile | ∞₃ proven optimal |
 | `lx_flux_stabilization.py` | V(L) with Λ₅ | Stable minimum exists |
 | `lx_effective_potential.py` | Casimir + holonomy | L_eff ~ 0.8 μm |
 | `mass_spectrum_full.py` | Full fermion spectrum | Yukawa matrix, RG running |
 | `generation_splitting_hosotani.py` | Hosotani mechanism | Wilson line analysis |
-| `cosmological_constant.py` | Honest CC assessment | Sign correct, magnitude needs Z₃ gauge |
+| `cosmological_constant.py` | Honest CC assessment | Sign correct, magnitude needs ∞-helix gauge |
 | `stur_numerical_verification.py` | 4-method κ check | Monte Carlo confirmation |
 | `stur_pmns_numerical.html` | PMNS matrix | 6 parameters, <3.5% |
 | `stur_neutrino_derivation.html` | Neutrino masses | Normal ordering predicted |

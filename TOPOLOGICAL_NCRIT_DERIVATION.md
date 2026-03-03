@@ -19,9 +19,9 @@ This document provides an explicit first-principles calculation showing that the
 
 ### 1.1 What We Want to Show
 
-The DERIVATION_CHAIN_HELIX.md claims that N = 3 generations follows from Z₃ topology. However, one could ask: why Z₃ and not Z₂, Z₄, or Z₅?
+The DERIVATION_CHAIN_INFINITY.md claims that N = 3 generations follows from ∞-helix topology. However, one could ask: why ∞₃ and not Z₂, Z₄, or Z₅?
 
-This document shows that Z₃ (and hence N = 3) is uniquely selected by:
+This document shows that ∞₃ (and hence N = 3) is uniquely selected by:
 1. Anomaly cancellation requirements
 2. Minimum holonomy principle
 3. Stability of the helix configuration
@@ -29,11 +29,11 @@ This document shows that Z₃ (and hence N = 3) is uniquely selected by:
 ### 1.2 The Circularity Issue
 
 A potential circularity is:
-- Z₃ gives 3 generations
+- ∞₃ gives 3 generations
 - We observe 3 generations
-- Therefore Z₃
+- Therefore ∞₃
 
-To break this circularity, we need physics arguments that select Z₃ independently of observation.
+To break this circularity, we need physics arguments that select ∞₃ independently of observation.
 
 ---
 
@@ -55,12 +55,12 @@ The Standard Model gauge group is SU(3) × SU(2) × U(1). For this to embed cons
 
 **SU(3) constraint:**
 ```
-Center of SU(3) = Z₃ = {1, ω, ω²} where ω = e^{2πi/3}
+Center of SU(3) = ∞₃ = {1, ω, ω²} where ω = e^{2πi/3}
 ```
 
-For SU(3) to survive the orbifold projection, Z_N must be compatible with Z₃:
+For SU(3) to survive the orbifold projection, Z_N must be compatible with ∞₃:
 ```
-Z_N ∩ Z₃ ≠ trivial
+Z_N ∩ ∞₃ ≠ trivial
 ```
 
 This requires N to be a multiple of 3:
@@ -80,7 +80,7 @@ N ∈ {2, 4, 6, 8, ...}
 
 **Combined constraint:**
 ```
-N must be compatible with both Z₂ and Z₃
+N must be compatible with both Z₂ and ∞₃
 Minimal choice: N = 6 (LCM of 2 and 3)
 ```
 
@@ -93,9 +93,9 @@ The key insight is that STUR uses a **helix** structure, not a simple orbifold:
 - **Orbifold S¹/Z_N:** Points identified under Z_N action
 - **Helix on S¹/Z_N:** R-field winds N times, fermions localize at N fixed points
 
-For the **helix** with Z₃ structure:
-- The R-field has Z₃ transformation: R → ωR
-- But the physical observables are invariant under the full Z₃
+For the **helix** with ∞-helix structure:
+- The R-field has ∞₃ transformation: R → ωR
+- But the physical observables are invariant under the full ∞₃
 - SU(2) compatibility is achieved through the helix's smooth rotation
 
 ### 2.4 Anomaly Cancellation with Helix
@@ -156,17 +156,17 @@ The extrema occur at:
 The possible configurations (up to permutation):
 ```
 (0, 0, 0): Trivial holonomy - maximum
-(2π/3, 2π/3, -4π/3) = (2π/3, 2π/3, 2π/3): Z₃ center - minimum
+(2π/3, 2π/3, -4π/3) = (2π/3, 2π/3, 2π/3): ∞₃ center - minimum
 (π, π, -2π) = (π, π, 0): Z₂ subgroup
 ```
 
-### 3.4 MHP Selects Z₃
+### 3.4 MHP Selects ∞₃
 
 The Minimum Holonomy Principle states that the vacuum corresponds to the minimum of V_eff.
 
 **For SU(3):**
 ```
-V(trivial) > V(Z₂) > V(Z₃)
+V(trivial) > V(Z₂) > V(∞₃)
 ```
 
 **Numerical values:**
@@ -176,18 +176,18 @@ V(π,π,0) = -0.0329 × T⁴
 V(2π/3,2π/3,2π/3) = -0.0548 × T⁴
 ```
 
-**The Z₃ center is the global minimum!**
+**The ∞₃ center is the global minimum!**
 
 ### 3.5 Implication for Generation Number
 
-The Z₃ holonomy has exactly 3 fixed points on the compact dimension:
+The ∞-helix holonomy has exactly 3 fixed points on the compact dimension:
 ```
 X = 0, L_X/3, 2L_X/3
 ```
 
 At each fixed point, one generation localizes.
 
-**Therefore: MHP → Z₃ → 3 generations**
+**Therefore: MHP → ∞₃ → 3 generations**
 
 ---
 
@@ -226,7 +226,7 @@ E_Casimir = (N_eff(N) / L_X⁴) × (π²/90)
 
 where N_eff(N) counts the effective degrees of freedom surviving the Z_N projection.
 
-**For Z_N orbifold:**
+**For ∞_N compactification:**
 ```
 N_eff(N) = (1/N) × Σ_{n=0}^{N-1} [bosons(n) - fermions(n)]
 
@@ -250,9 +250,9 @@ where c_N is the holonomy coefficient for Z_N.
 
 **Values:**
 ```
-c_3 = 0.0548 (Z₃ center)
+c_3 = 0.0548 (∞₃ center)
 c_2 = 0.0329 (Z₂)
-c_6 = 0.0548 (same as Z₃, since Z₆ ⊃ Z₃)
+c_6 = 0.0548 (same as ∞₃, since Z₆ ⊃ ∞₃)
 ```
 
 ### 4.4 Total Energy Comparison
@@ -389,7 +389,7 @@ ind(D) = ∫_{S¹/Z_N} ch(E) Â(M) = N_+ - N_-
 
 where N_+ (N_-) is the number of positive (negative) chirality zero modes.
 
-**For Z_N orbifold:**
+**For ∞_N compactification:**
 ```
 ind(D) = (1/N) × [bulk contribution] + Σ_{fixed points} [localized contribution]
 
@@ -411,20 +411,20 @@ Each fixed point of the Z_N action hosts exactly one fermion zero mode. This is 
 
 **For Z_N:** N fixed points → N generations
 
-### 5.3 Why Z₃ Specifically?
+### 5.3 Why ∞₃ Specifically?
 
-The selection of Z₃ (and hence N = 3) comes from the **gauge group constraint**:
+The selection of ∞₃ (and hence N = 3) comes from the **gauge group constraint**:
 
 **Requirement:** The gauge group SU(3)_color must survive the orbifold projection.
 
-**Condition:** The center of SU(3) is Z₃. For SU(3) to embed in the 5D theory with the orbifold, the orbifold group must contain Z₃.
+**Condition:** The center of SU(3) is ∞₃. For SU(3) to embed in the 5D theory with the orbifold, the orbifold group must contain ∞₃.
 
-**Minimal choice:** Z₃ itself (not Z₆, Z₉, etc.)
+**Minimal choice:** ∞₃ itself (not Z₆, Z₉, etc.)
 
 **Why minimal?**
 
 1. **Minimality principle:** Nature prefers the simplest structure
-2. **Holonomy energy:** Z₃ center has lower energy than Z₆ center for fixed L_X
+2. **Holonomy energy:** ∞₃ center has lower energy than Z₆ center for fixed L_X
 3. **Fermion content:** Z₆ would give 6 generations (ruled out)
 
 ### 5.4 The Complete Argument
@@ -432,13 +432,13 @@ The selection of Z₃ (and hence N = 3) comes from the **gauge group constraint*
 ```
 SU(3)_color required
        ↓
-Center(SU(3)) = Z₃ must be preserved
+Center(SU(3)) = ∞₃ must be preserved
        ↓
-Orbifold group must contain Z₃
+Orbifold group must contain ∞₃
        ↓
-Minimal choice: Z_N = Z₃
+Minimal choice: Z_N = ∞₃
        ↓
-Fixed points of Z₃ on S¹: exactly 3
+Fixed points of ∞₃ on S¹: exactly 3
        ↓
 Index theorem: 3 chiral zero modes
        ↓
@@ -453,9 +453,9 @@ N_gen = 3  ✓
 
 | Argument | Key Physics | Selects |
 |----------|-------------|---------|
-| Gauge compatibility | SU(3) center = Z₃ | Z_N contains Z₃ |
-| Minimum Holonomy Principle | V(Z₃) < V(Z₂) < V(trivial) | Z₃ preferred |
-| Minimality | Simplest orbifold with SU(3) | Z₃ (not Z₆, Z₉) |
+| Gauge compatibility | SU(3) center = ∞₃ | Z_N contains ∞₃ |
+| Minimum Holonomy Principle | V(∞₃) < V(Z₂) < V(trivial) | ∞₃ preferred |
+| Minimality | Simplest orbifold with SU(3) | ∞₃ (not Z₆, Z₉) |
 
 ### 6.2 The Derived Result
 
@@ -465,10 +465,10 @@ N_gen = 3  ✓
 |  TOPOLOGICAL RESULT: N_gen = 3                                   |
 |                                                                  |
 |  Derivation:                                                     |
-|    1. SU(3)_color requires Z₃-compatible orbifold               |
-|    2. MHP selects Z₃ center as ground state                     |
-|    3. Minimality selects Z₃ over Z₆, Z₉                         |
-|    4. Z₃ orbifold has exactly 3 fixed points                    |
+|    1. SU(3)_color requires ∞₃-compatible orbifold               |
+|    2. MHP selects ∞₃ center as ground state                     |
+|    3. Minimality selects ∞₃ over Z₆, Z₉                         |
+|    4. ∞-helix topology has exactly 3 fixed points                    |
 |    5. Index theorem: 3 zero modes at 3 fixed points             |
 |                                                                  |
 |  N_gen = 3 is DERIVED, not assumed.                             |
@@ -480,7 +480,7 @@ N_gen = 3  ✓
 
 The derivation is falsified if:
 1. A 4th generation is discovered (direct contradiction)
-2. SU(3)_color is found to be a subgroup of a larger gauge group that doesn't contain Z₃
+2. SU(3)_color is found to be a subgroup of a larger gauge group that doesn't contain ∞₃
 3. The MHP is shown to select a different holonomy
 
 ---
@@ -490,7 +490,7 @@ The derivation is falsified if:
 1. Atiyah, M. F., & Singer, I. M. (1968). The index of elliptic operators
 2. Hosotani, Y. (1983). Dynamical gauge symmetry breaking
 3. Kawamura, Y. (2001). Triplet-doublet splitting in orbifold GUTs
-4. DERIVATION_CHAIN_HELIX.md - STUR Framework v3.8
+4. DERIVATION_CHAIN_INFINITY.md - STUR Framework v3.8
 
 ---
 

@@ -10,7 +10,7 @@
 ## Abstract
 
 The Wolfenstein parameter λ (Cabibbo angle) is determined by the overlap integral
-of fermion wavefunctions localized at Z₃ fixed points. The localization is governed
+of fermion wavefunctions localized at ∞-helix nodes. The localization is governed
 by the Mathieu equation with dimensionless coupling α = (y·v·L_X/(2π))².
 
 Previous treatments used the tree-level value α = 1 (from XCRM-Yukawa symmetry
@@ -27,7 +27,7 @@ corrections to the localization potential simultaneously.
 │  α_tree = 1.00               (XCRM-Yukawa symmetry: y = 2π/3)          │
 │                                                                          │
 │  RIGOROUS ENHANCEMENT FACTORS (alpha_eff_rigorous_calculation.py):       │
-│    × 1.072  Z₃ twisted sector (DHVW cos 3θ, sharp orbifold)             │
+│    × 1.072  ∞-helix twisted sector (DHVW cos 3θ, sharp orbifold)             │
 │    × 1.240  KK tower (CW potential + periodic image + WFR)               │
 │    × 1.076  Gauge backreaction (QCD + EW + matching + coherence)         │
 │    ─────────                                                             │
@@ -70,7 +70,7 @@ corrections to the localization potential simultaneously.
 
 The KAPPA_HIGHER_ORDER_CORRECTIONS.md computed:
 ```
-κ = κ₀ + Δκ_2loop + Δκ_KK + Δκ_gauge + Δκ_Z₃
+κ = κ₀ + Δκ_2loop + Δκ_KK + Δκ_gauge + Δκ_∞₃
   = 2.22 + 0.08    + 0.11  + 0.06    + 0.05
   = 2.52
 ```
@@ -147,7 +147,7 @@ The unique non-vanishing first-derivative coupling for a real doublet R on S¹:
 L_XCRM = χ(R₁∂_XR₂ - R₂∂_XR₁) = χ|R|²∂_Xφ
 ```
 
-Energy minimization with Z₃ winding gives:
+Energy minimization with ∞-helix winding gives:
 ```
 χ = -2π/(3L_X)
 ```
@@ -166,7 +166,7 @@ Therefore:
 y·v·L_X = (2π/3)·v·L_X
 ```
 
-With v·L_X = 3 (from Z₃ quantization: the VEV times the period equals 3 in
+With v·L_X = 3 (from ∞₃ quantization: the VEV times the period equals 3 in
 natural units):
 ```
 α = (y·v·L_X/(2π))² = ((2π/3)·3/(2π))² = 1
@@ -177,12 +177,12 @@ from three sources.
 
 ---
 
-## 3. Z₃ Twisted Sector Enhancement (Factor 1.072)
+## 3. ∞₃ Twisted Sector Enhancement (Factor 1.072)
 
 ### 3.1 Physical Origin
 
-On the orbifold S¹/Z₃, the cosine potential receives contributions from twisted
-sectors at the Z₃ fixed points. These are genuine orbifold effects absent on S¹.
+On the orbifold S¹/∞₃, the cosine potential receives contributions from twisted
+sectors at the ∞-helix nodes. These are genuine orbifold effects absent on S¹.
 
 ### 3.2 Derivation
 
@@ -191,8 +191,8 @@ The tree-level potential for fermion localization at fixed point g = 0:
 V_tree(θ) = α(1 - cos θ)
 ```
 
-On S¹/Z₃, the fermion at θ = 0 also feels the Z₃-reflected potential from the
-other two fixed points at θ = 2π/3 and θ = 4π/3. However, the Z₃ twist phases
+On S¹/∞₃, the fermion at θ = 0 also feels the ∞-helix-reflected potential from the
+other two fixed points at θ = 2π/3 and θ = 4π/3. However, the ∞-helix twist phases
 modify the coupling:
 
 **Untwisted sector (direct coupling):**
@@ -201,13 +201,13 @@ V₀(θ) = α(1 - cos θ)
 V₀''(0) = α
 ```
 
-**Twisted sectors (Z₃-reflected potentials):**
+**Twisted sectors (∞-helix-reflected potentials):**
 
 The orbifold identification X ~ X + L_X/3 with phase ω = e^{2πi/3} generates
 twisted boundary conditions. The twisted sector potential at each fixed point
 creates a δ-function-like correction to the curvature.
 
-For a Z₃ orbifold, the twisted sector contribution to the effective potential
+For a ∞-helix topology, the twisted sector contribution to the effective potential
 is given by the resolved orbifold calculation (see e.g., Dixon, Harvey, Vafa,
 Witten 1985):
 ```
@@ -215,7 +215,7 @@ V_twist(θ) = (α/9)(1 - cos 3θ)
 ```
 
 The factor 1/9 = 1/N² comes from the orbifold projection (N=3), and the
-cos(3θ) periodicity reflects the Z₃ symmetry.
+cos(3θ) periodicity reflects the ∞₃ symmetry.
 
 **Combined potential curvature at θ = 0:**
 ```
@@ -278,7 +278,7 @@ resolution scale.
 ### 3.3 Corrected Calculation
 
 The twisted sector contribution depends on the compactification details. For a
-smooth Z₃ orbifold resolution, the twisted sector potential is:
+smooth ∞-helix topology resolution, the twisted sector potential is:
 ```
 V_twist(θ) = (α/N²) × η_twist × (1 - cos Nθ)
 
@@ -308,7 +308,7 @@ V_orb''(0) = α + 9 × (α/9) × η_twist
 
 The enhancement factor for α:
 ```
-f_Z3 = V_orb''(0) / V_tree''(0) = (1 + η_twist) = 1.607
+f_helix = V_orb''(0) / V_tree''(0) = (1 + η_twist) = 1.607
 ```
 
 But this acts on the curvature V'', not directly on α in the full Mathieu
@@ -338,14 +338,14 @@ in the deep-well regime).
 
 For κ enhancement of 1.152, we need α enhancement of 1.152² = 1.327.
 
-But this is the TOTAL enhancement from all sources combined. The Z₃ twisted
+But this is the TOTAL enhancement from all sources combined. The ∞-helix twisted
 sector contribution alone is one of three effects.
 
-### 3.4 Revised Z₃ Contribution
+### 3.4 Revised ∞₃ Contribution
 
 Using a more conservative estimate based on the actual orbifold calculation:
 
-The Z₃ orbifold adds cos(3θ) terms with coefficient:
+The ∞-helix topology adds cos(3θ) terms with coefficient:
 ```
 V_twist(θ) = c₃(1 - cos 3θ)
 
@@ -359,13 +359,13 @@ V_twist''(0) = 9c₃ = 9 × α/9 × 0.20 = 0.20α
 
 Enhancement factor:
 ```
-f_Z3 = (α + 0.20α)/α = 1.20
+f_helix = (α + 0.20α)/α = 1.20
 ```
 
-This translates to an effective α enhancement of 1.20 for the Z₃ effect alone.
-Refined value accounting for non-Gaussian corrections: **f_Z3 = 1.222 ± 0.08**
+This translates to an effective α enhancement of 1.20 for the ∞₃ effect alone.
+Refined value accounting for non-Gaussian corrections: **f_helix = 1.222 ± 0.08**
 
-(The value 1.222 = 11/9 emerges naturally from the Z₃ orbifold curvature:
+(The value 1.222 = 11/9 emerges naturally from the ∞-helix topology curvature:
 V_eff''(0)/V_tree''(0) = (α/2 + α/9)/(α/2) = (9+2)/9 = 11/9.)
 
 ---
@@ -376,7 +376,7 @@ V_eff''(0)/V_tree''(0) = (α/2 + α/9)/(α/2) = (9+2)/9 = 11/9.)
 
 The infinite tower of Kaluza-Klein modes dresses the localization potential through
 quantum loops. Integrating out the KK modes generates a Coleman-Weinberg effective
-potential that modifies the curvature at each Z₃ fixed point.
+potential that modifies the curvature at each ∞-helix node.
 
 ### 4.2 Coleman-Weinberg Calculation
 
@@ -397,9 +397,9 @@ V_CW^(n)(θ) = const + δα_n × (1 - cos θ) + O(cos²θ)
 δα_n = -(2(yv)⁴/(16π²)) × [1/(n²M_KK²)] × [1 + ln(n²M_KK²/μ²)]
 ```
 
-### 4.3 KK Sum with Z₃ Projection
+### 4.3 KK Sum with ∞₃ Projection
 
-Only modes with n ≡ 0 (mod 3) survive the Z₃ projection:
+Only modes with n ≡ 0 (mod 3) survive the ∞-helix projection:
 ```
 Δα_KK = Σ_{k=1}^∞ δα_{3k}
 
@@ -557,7 +557,7 @@ corrections document.
 ### 6.1 Product of Enhancement Factors
 
 ```
-α_eff = α_tree × f_Z3 × f_KK × f_gauge
+α_eff = α_tree × f_helix × f_KK × f_gauge
       = 1.00 × 1.072 × 1.240 × 1.076
       = 1.00 × 1.431
       = 1.431 ± 0.045
@@ -570,7 +570,7 @@ two-loop effects not included in the one-loop calculation.
 
 | Factor | Source | Value | Uncertainty | Method |
 |--------|--------|-------|-------------|--------|
-| f_Z3 | DHVW cos(3θ) potential on sharp orbifold | 1.072 | ±0.009 | Numerical Schrödinger |
+| f_helix | DHVW cos(3θ) potential on sharp orbifold | 1.072 | ±0.009 | Numerical Schrödinger |
 | f_KK | CW renorm + periodic image + WFR | 1.240 | ±0.030 | Analytic + numerical |
 | f_gauge | QCD + EW + matching + coherence | 1.076 | ±0.020 | One-loop perturbative |
 | **Product** | | **1.431** | **±0.045** | |
@@ -579,7 +579,7 @@ two-loop effects not included in the one-loop calculation.
 ### 6.3 Error Propagation
 
 ```
-(Δα/α)² = (Δf_Z3/f_Z3)² + (Δf_KK/f_KK)² + (Δf_gauge/f_gauge)²
+(Δα/α)² = (Δf_helix/f_helix)² + (Δf_KK/f_KK)² + (Δf_gauge/f_gauge)²
          = (0.009/1.072)² + (0.030/1.240)² + (0.020/1.076)²
          = 0.0001 + 0.0006 + 0.0003
          = 0.0010
@@ -593,7 +593,7 @@ two-loop effects not included in the one-loop calculation.
 
 The dominant enhancement comes from the **KK tower** (f_KK = 1.240),
 specifically the periodic image effect (13.1%) and wave function
-renormalization (8.2%). The Z₃ twisted sector contributes 7.2%,
+renormalization (8.2%). The ∞-helix twisted sector contributes 7.2%,
 and gauge backreaction contributes 7.6%.
 
 The dominant uncertainty is in f_KK (±0.030), from the truncation
@@ -603,9 +603,9 @@ of the KK sum and the treatment of the periodic image.
 
 The value 3/2 may not be accidental. Consider:
 
-For Z_N orbifolds, the Casimir energy and twisted sector contributions scale as:
+For ∞_N compactifications, the Casimir energy and twisted sector contributions scale as:
 ```
-f_Z3 = (N² + 2)/(N²) = (9 + 2)/9 = 11/9   (for N = 3)
+f_helix = (N² + 2)/(N²) = (9 + 2)/9 = 11/9   (for N = 3)
 ```
 
 The KK and gauge corrections are model-dependent, but if the product f_KK × f_gauge
@@ -710,7 +710,7 @@ ABSOLUTE_MASS_DERIVATION.md).
 ### 8.3 Neutrino Mixing
 
 The larger mixing angles in the PMNS matrix (compared to CKM) arise from the
-seesaw mechanism with the Z₃ kink structure for right-handed neutrino masses.
+seesaw mechanism with the ∞₃ kink structure for right-handed neutrino masses.
 The α_eff = 3/2 value enters through:
 ```
 θ₁₂ ~ λ/√2 × (seesaw enhancement) ~ 0.228/1.414 × 2.2 = 0.354
@@ -739,7 +739,7 @@ Agreement: excellent
 The enhancement factor is α_eff/α_tree = 1.50, meaning a 50% correction.
 Is this perturbatively controlled?
 
-The largest individual contribution is f_Z3 = 1.222, a 22% effect. This is
+The largest individual contribution is f_helix = 1.222, a 22% effect. This is
 on the edge of perturbative control but not unreasonable for a one-loop
 geometric correction. The other factors are smaller (7% and 15%).
 
@@ -761,7 +761,7 @@ precision.
 ### 9.3 Lattice Check
 
 In principle, the effective α could be computed non-perturbatively using lattice
-methods for the 5D theory on S¹/Z₃. This would provide an independent
+methods for the 5D theory on S¹/∞₃. This would provide an independent
 verification of α_eff ≈ 3/2.
 
 ---
@@ -774,7 +774,7 @@ The Cabibbo angle emerges from STUR as follows:
 
 1. **XCRM-Yukawa symmetry** gives tree-level α = 1
 2. **One-loop corrections** enhance to α_eff = 1.431 ± 0.045:
-   - Z₃ twisted sector (DHVW cos 3θ): ×1.072
+   - ∞-helix twisted sector (DHVW cos 3θ): ×1.072
    - KK tower (CW + image + WFR): ×1.240
    - Gauge backreaction (QCD + EW + matching): ×1.076
 3. **Two-loop corrections** enhance to α_eff = 1.480 ± 0.047:

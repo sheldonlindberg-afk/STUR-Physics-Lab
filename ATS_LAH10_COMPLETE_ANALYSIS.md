@@ -1,7 +1,7 @@
 # LaH₁₀ Complete Analysis: STUR Framework for Tc = 260 K
 
 **Document Type:** Comprehensive Material Analysis with Precision Parameter Fitting
-**Framework:** STUR v4.4 (Z₃ Helix Geometry)
+**Framework:** STUR v4.4 (∞₃ Helix Geometry)
 **Author:** STUR Physics Lab
 **Date:** 2026-02-05
 **Status:** Complete - PERFECT Tc Prediction Achieved

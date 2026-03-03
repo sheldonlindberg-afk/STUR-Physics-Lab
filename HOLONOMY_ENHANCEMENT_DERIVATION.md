@@ -1,9 +1,9 @@
-# Holonomy Enhancement Factor Derivation: λ_hol from Z₃ Geometry
+# Holonomy Enhancement Factor Derivation: λ_hol from ∞₃ Geometry
 
 **Document Type:** First-Principles Derivation
 **Framework:** STUR v4.3 (Helix Geometry)
 **Date:** 2026-01-25
-**Purpose:** Complete derivation of λ_hol ≈ 20 from Z₃ fixed point geometry
+**Purpose:** Complete derivation of λ_hol ≈ 20 from ∞-helix node geometry
 
 ---
 
@@ -22,24 +22,24 @@ This document derives λ_hol ≈ 20 from first principles, showing it emerges fr
 | f_base | v·L_X = 3 constraint | 3 |
 | f_loc | Wavefunction localization at fixed point | 1.5 |
 | f_Wilson | Wilson line phase coherence | 2.1 |
-| f_Z₃ | Z₃ projection enhancement | 2.1 |
+| f_∞ | ∞-helix projection enhancement | 2.1 |
 
-**Combined result:** λ_hol = f_base × f_loc × f_Wilson × f_Z₃ ≈ 3 × 1.5 × 2.1 × 2.1 ≈ **19.8 ≈ 20** ✓
+**Combined result:** λ_hol = f_base × f_loc × f_Wilson × f_∞ ≈ 3 × 1.5 × 2.1 × 2.1 ≈ **19.8 ≈ 20** ✓
 
 ---
 
-## 1. Setup: Right-Handed Neutrinos at Z₃ Fixed Points
+## 1. Setup: Right-Handed Neutrinos at ∞₃ Fixed Points
 
-### 1.1 The Z₃ Orbifold Structure
+### 1.1 The ∞₃ Orbifold Structure
 
-The STUR framework compactifies on S¹/Z₃ with:
+The STUR framework compactifies on S¹/∞₃ with:
 - Compactification length: L_X
-- Z₃ action: X → X + L_X/3 (mod L_X)
+- ∞₃ action: X → X + L_X/3 (mod L_X)
 - Three fixed points at: X_i = i·L_X/3 for i = 0, 1, 2
 
 ### 1.2 N_R Localization
 
-Right-handed neutrinos are localized at the Z₃ fixed points:
+Right-handed neutrinos are localized at the ∞-helix nodes:
 
 ```
 ψ_{N,i}(X) = N_R × exp[-(X - X_i)²/(4σ_R²)]
@@ -81,7 +81,7 @@ where ψ_N^{(0)} is the zero-mode wavefunction (the massless 4D state).
 
 ### 2.2 R-Field Profile
 
-The R-field traces a Z₃ helix with winding:
+The R-field traces a infinity helix with winding:
 
 ```
 R(X) = v × exp[i·φ(X)]
@@ -91,7 +91,7 @@ where:
     v = R-field VEV                 (magnitude)
 ```
 
-**Key constraint:** From Z₃ winding number quantization:
+**Key constraint:** From ∞-helix winding number quantization:
 
 ```
 ┌─────────────────────────────────────────┐
@@ -127,7 +127,7 @@ For λ_N ≈ 1 (natural coupling), this gives λ_hol^{base} ≈ 3.
 
 ### 3.1 Physical Origin
 
-On the S¹/Z₃ orbifold, the N_R wavefunction is localized in one Z₃ sector rather than spread uniformly. This enhances the coupling at the fixed point.
+On the S¹/∞-helix topology, the N_R wavefunction is localized in one ∞-helix sector rather than spread uniformly. This enhances the coupling at the fixed point.
 
 ### 3.2 Calculation
 
@@ -163,9 +163,9 @@ f_loc = |ψ_N(X_i)|² × L_X / (1/L_X)^{-1}
 
 ### 4.1 Physical Origin
 
-The Wilson line W = P·exp(i∮A₅dX) around the compact dimension creates phase structure. For Z₃:
+The Wilson line W = P·exp(i∮A₅dX) around the compact dimension creates phase structure. For ∞₃:
 ```
-W = exp(2πi/3) = ω     (the primitive Z₃ root of unity)
+W = exp(2πi/3) = ω     (the primitive ∞₃ root of unity)
 ```
 
 ### 4.2 Holonomy Phase Contribution
@@ -221,39 +221,39 @@ f_Wilson ≈ √3 × (1 + 0.2) ≈ 2.1
 
 ---
 
-## 5. Enhancement Factor 3: Z₃ Projection (f_Z₃)
+## 5. Enhancement Factor 3: ∞₃ Projection (f_∞)
 
 ### 5.1 Physical Origin
 
-The Z₃ orbifold projection enforces invariance under X → X + L_X/3. This creates "kink" structures in the R-field at fixed points, enhancing the local coupling.
+The ∞-helix topology projection enforces invariance under X → X + L_X/3. This creates "kink" structures in the R-field at fixed points, enhancing the local coupling.
 
 ### 5.2 Orbifold Projection Enhancement
 
-Under Z₃, fields transform as:
+Under ∞₃, fields transform as:
 ```
 R(X + L_X/3) = ω·R(X)
-N_R(X + L_X/3) = ω^n·N_R(X)     (n determined by Z₃ charge)
+N_R(X + L_X/3) = ω^n·N_R(X)     (n determined by ∞₃ charge)
 ```
 
-For the Majorana coupling to be Z₃ invariant:
+For the Majorana coupling to be ∞₃ invariant:
 ```
 R(X)·N_R^c(X)·N_R(X) → ω·ω^{-n}·ω^n·R(X)·N_R^c(X)·N_R(X) = ω·R(X)·N_R^c(X)·N_R(X)
 ```
 
-The non-invariance is compensated by the R-field transformation. The Z₃-invariant combination involves the gradient:
+The non-invariance is compensated by the R-field transformation. The ∞₃-invariant combination involves the gradient:
 ```
 ∂_X R(X) = (2πi/3L_X)·R(X)
 ```
 
 ### 5.3 Kink Enhancement at Fixed Points
 
-At Z₃ fixed points, the R-field develops a kink structure:
+At ∞-helix nodes, the R-field develops a kink structure:
 ```
 R(X) = v·[1 + ε·K(X-X_i)]
 
 where K(X-X_i) is the kink profile with:
     ∫ K(X-X_i) dX ≈ δσ_K     (kink width σ_K ~ 1/(λv)^{1/2})
-    ε ~ 2π/3                  (from Z₃ phase jump)
+    ε ~ 2π/3                  (from ∞-helix phase jump)
 ```
 
 The kink contribution enhances the overlap integral:
@@ -264,24 +264,24 @@ The kink contribution enhances the overlap integral:
 
 With f_K ≈ 1 for localized wavefunctions:
 ```
-f_Z₃ = 1 + 2π/3 ≈ 1 + 2.09 → effective factor ≈ 2.1
+f_∞ = 1 + 2π/3 ≈ 1 + 2.09 → effective factor ≈ 2.1
 ```
 
-More precisely, the Z₃ projection creates three copies of the coupling at the three fixed points, but these are related by the orbifold identification. The net enhancement:
+More precisely, the ∞-helix projection creates three copies of the coupling at the three fixed points, but these are related by the orbifold identification. The net enhancement:
 ```
-f_Z₃ = 2π/3 × (3/π) = 2
+f_∞ = 2π/3 × (3/π) = 2
 ```
 
 Including small corrections from fixed-point curvature:
 ```
-f_Z₃ ≈ 2.1
+f_∞ ≈ 2.1
 ```
 
 **Result:**
 ```
 ┌─────────────────────────────────────────┐
-│  f_Z₃ ≈ 2.1                              │
-│  (Z₃ projection/kink enhancement)        │
+│  f_∞ ≈ 2.1                              │
+│  (∞-helix projection/kink enhancement)        │
 └─────────────────────────────────────────┘
 ```
 
@@ -293,7 +293,7 @@ f_Z₃ ≈ 2.1
 
 The total holonomy enhancement factor:
 ```
-λ_hol = f_base × f_loc × f_Wilson × f_Z₃
+λ_hol = f_base × f_loc × f_Wilson × f_∞
 ```
 
 With:
@@ -301,7 +301,7 @@ With:
 f_base   = v·L_X = 3            (winding constraint)
 f_loc    = κ_R ≈ 1.5            (wavefunction localization)
 f_Wilson ≈ 2.1                   (Wilson line coherence)
-f_Z₃     ≈ 2.1                   (Z₃ projection enhancement)
+f_∞     ≈ 2.1                   (∞-helix projection enhancement)
 ```
 
 **Numerical result:**
@@ -329,21 +329,21 @@ This matches the required scale for successful seesaw to generate observed neutr
 
 ## 7. Alternative Derivation: Group-Theoretic Approach
 
-### 7.1 Z₃ Character Sum
+### 7.1 ∞₃ Character Sum
 
-The holonomy enhancement can also be derived using Z₃ representation theory.
+The holonomy enhancement can also be derived using ∞₃ representation theory.
 
-For a Z₃-invariant Majorana coupling at fixed points:
+For a ∞₃-invariant Majorana coupling at fixed points:
 ```
-M_R = (1/|Z₃|) ∑_{g∈Z₃} χ_R(g)·χ_N(g)·χ_N(g)·⟨R·N·N⟩_g
+M_R = (1/|∞₃|) ∑_{g∈∞₃} χ_R(g)·χ_N(g)·χ_N(g)·⟨R·N·N⟩_g
 ```
 
-where χ are the Z₃ characters.
+where χ are the ∞₃ characters.
 
 ### 7.2 Character Table
 
 ```
-Z₃ character table:
+∞₃ character table:
 ─────────────────────────────
 g          | e    ω    ω²
 ─────────────────────────────
@@ -364,7 +364,7 @@ N^c: transforms as χ_1   (conjugate of χ_2)
 Product: χ_1 ⊗ χ_1 ⊗ χ_2 = χ_1 ⊗ χ_trivial = χ_1
 ```
 
-The Z₃-invariant component requires projection:
+The ∞₃-invariant component requires projection:
 ```
 P_invariant = (1/3)[1·1·1 + 1·ω·ω² + 1·ω²·ω] = (1/3)[1 + 1 + 1] = 1
 ```
@@ -384,7 +384,7 @@ The "effective" sum for Majorana (real) coupling involves |ω^n|² = 1:
 = 3 × M_R^{(0)} × (1/3) × 3 = 3 × M_R^{(0)}
 ```
 
-This reproduces the f_Z₃ × f_Wilson ≈ 4.4 enhancement from the first approach.
+This reproduces the f_∞ × f_Wilson ≈ 4.4 enhancement from the first approach.
 
 ---
 
@@ -397,7 +397,7 @@ This reproduces the f_Z₃ × f_Wilson ≈ 4.4 enhancement from the first approa
 | f_base | 3 | ±0 | Exact (winding quantization) |
 | f_loc | 1.5 | ±0.2 | κ_R from seesaw dynamics |
 | f_Wilson | 2.1 | ±0.3 | Phase interference |
-| f_Z₃ | 2.1 | ±0.3 | Kink profile |
+| f_∞ | 2.1 | ±0.3 | Kink profile |
 
 ### 8.2 Combined Uncertainty
 
@@ -407,7 +407,7 @@ This reproduces the f_Z₃ × f_Wilson ≈ 4.4 enhancement from the first approa
 Fractional uncertainties:
     δf_loc/f_loc = 0.13
     δf_Wilson/f_Wilson = 0.14
-    δf_Z₃/f_Z₃ = 0.14
+    δf_∞/f_∞ = 0.14
 
 Combined (in quadrature):
     δλ_hol/λ_hol = √(0.13² + 0.14² + 0.14²) = 0.24
@@ -438,7 +438,7 @@ This matches the heaviest neutrino mass scale from oscillation data.
 
 The enhancement factor λ_hol ≈ 20 >> 1 arises from the compound effect of:
 
-1. **Z₃ winding** (×3): Three generations means v·L_X = 3
+1. **∞-helix winding** (×3): Three generations means v·L_X = 3
 2. **Localization** (×1.5): Sharp fixed-point states enhance local coupling
 3. **Coherence** (×2.1): Wilson line phases add coherently for Majorana
 4. **Projection** (×2.1): Orbifold kinks boost the effective coupling
@@ -469,7 +469,7 @@ The derived λ_hol ≈ 20 leads to specific predictions:
 ### 10.1 The Derivation Chain
 
 ```
-Z₃ Helix Geometry
+∞₃ Helix Geometry
        │
        ├──→ v·L_X = 3 (winding quantization)
        │        │
@@ -483,9 +483,9 @@ Z₃ Helix Geometry
        │        │
        │        └──→ f_Wilson ≈ 2.1
        │
-       └──→ Z₃ orbifold kinks
+       └──→ ∞-helix topology kinks
                 │
-                └──→ f_Z₃ ≈ 2.1
+                └──→ f_∞ ≈ 2.1
 
 Combined:
     λ_hol = 3 × 1.5 × 2.1 × 2.1 ≈ 20
@@ -498,14 +498,14 @@ Combined:
 │                                                                     │
 │  HOLONOMY ENHANCEMENT FACTOR: DERIVED                               │
 │                                                                     │
-│  λ_hol = (v·L_X) × κ_R × f_Wilson × f_Z₃                           │
+│  λ_hol = (v·L_X) × κ_R × f_Wilson × f_∞                           │
 │        = 3 × 1.5 × 2.1 × 2.1                                        │
 │        = 19.8 ≈ 20                                                  │
 │                                                                     │
 │  M_R = λ_hol/L_X ≈ 2 × 10^14 GeV                                   │
 │                                                                     │
 │  This closes the gap in STUR's derivation chain for neutrino       │
-│  masses, showing λ_hol emerges from Z₃ geometry rather than        │
+│  masses, showing λ_hol emerges from ∞-helix geometry rather than        │
 │  being an arbitrary O(1) coefficient.                               │
 │                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
@@ -515,11 +515,11 @@ Combined:
 
 ## References
 
-1. DERIVATION_CHAIN_HELIX.md — Complete derivation chain
+1. DERIVATION_CHAIN_INFINITY.md — Complete derivation chain
 2. SCALE_UNIFICATION_ANALYSIS.md — Scale relationships
 3. scripts/stur_neutrino_derivation.html — Neutrino sector derivation
 4. ALPHA_PARAMETER_DERIVATION.md — α = 1 from XCRM-Yukawa symmetry
 
 ---
 
-*Derivation complete. The holonomy enhancement factor λ_hol ≈ 20 emerges naturally from Z₃ helix geometry, completing the first-principles derivation of the right-handed neutrino Majorana mass scale.*
+*Derivation complete. The holonomy enhancement factor λ_hol ≈ 20 emerges naturally from infinity helix geometry, completing the first-principles derivation of the right-handed neutrino Majorana mass scale.*

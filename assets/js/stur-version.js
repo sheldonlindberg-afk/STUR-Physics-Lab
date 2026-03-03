@@ -20,7 +20,7 @@
     // Theory status - IMMUTABLE after publication
     theoryStatus: {
       complete: false, // Candidate framework - awaiting experimental verification
-      axiomCount: 1, // v2.5: One foundational coupling (XCRM doublet on Z₃ helix)
+      axiomCount: 1, // v2.5: One foundational coupling (XCRM doublet on infinity helix)
       derivedPrinciples: 4, // XCRM doublet → Master Action → DHP → TFP/MHP (TFP automatic in v2.5)
       freeParameters: 0, // Parameters derived from geometry
       closedProblems: 18, // v2.5 adds: 3 gen automatic, SU(3) from geometry (CC addressed, not solved)
@@ -28,8 +28,8 @@
       version: '2.5',
       versionName: 'Helix Geometry',
       v25Breakthroughs: [
-        '3 generations automatic from |Z₃| = 3',
-        'SU(3) color natural from Z₃ = center(SU(3))',
+        '3 generations automatic from |∞₃| = 3',
+        'SU(3) color natural from ∞₃ = center(SU(3))',
         'Cosmological constant addressed via XCRM self-tuning'
       ]
     },

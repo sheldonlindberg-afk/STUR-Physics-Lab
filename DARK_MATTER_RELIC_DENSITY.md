@@ -4,7 +4,7 @@
 **Framework:** STUR v4.4
 **Date:** 2026-02-05
 **Status:** COMPLETE - Critical for TOE Closure
-**Purpose:** Comprehensive dark matter relic density calculation from Z3 helix geometry
+**Purpose:** Comprehensive dark matter relic density calculation from ∞₃ helix geometry
 
 ---
 
@@ -19,7 +19,7 @@ This document provides a complete derivation of the dark matter relic density in
 | Dark matter candidate | B^(1) (KK hypercharge boson) | Unknown | Testable |
 | M_DM | 0.92 +/- 0.08 TeV | Consistent with limits | Predicted |
 | Omega_DM h^2 | 0.119 +/- 0.002 | 0.1200 +/- 0.0012 (Planck) | 0.4 sigma |
-| Stability mechanism | Z3 KK-parity | DM stable | Derived |
+| Stability mechanism | ∞₃ KK-parity | DM stable | Derived |
 | Direct detection sigma_SI | ~10^-47 cm^2 | Within LZ/XENONnT reach | Testable |
 
 ---
@@ -37,7 +37,7 @@ STUR right-handed neutrino masses (from holonomy):
     M_R = lambda_hol / L_X
 
 where:
-    lambda_hol = 3 x 1.5 x 2.1 x 2.1 = 20 (Z3 geometry factors)
+    lambda_hol = 3 x 1.5 x 2.1 x 2.1 = 20 (∞₃ geometry factors)
     L_X ~ 0.8 um (Casimir-holonomy scale)
     1/L_X ~ 10^13 GeV
 
@@ -47,9 +47,9 @@ Therefore:
 This is at the GUT/seesaw scale, NOT the keV warm dark matter scale!
 ```
 
-**2. Z3 Constrains to 3 Generations:**
+**2. ∞₃ Constrains to 3 Generations:**
 ```
-The Z3 helix has exactly 3 fixed points:
+The ∞₃ helix has exactly 3 fixed points:
     X_0 = 0, X_1 = L_X/3, X_2 = 2L_X/3
 
 Each fixed point hosts ONE generation of right-handed neutrino:
@@ -58,7 +58,7 @@ Each fixed point hosts ONE generation of right-handed neutrino:
     N_R,3 at X_2 (charge Q=2)
 
 There is NO room for a fourth sterile neutrino at a different mass scale.
-The Z3 = Z/3Z structure mathematically forbids additional generations.
+The ∞₃ = Z/3Z structure mathematically forbids additional generations.
 ```
 
 **3. Seesaw Role Precludes DM:**
@@ -80,7 +80,7 @@ STUR mass scales derived from M_Planck:
     - M_LKP ~ TeV (KK modes)
     - m_nu ~ 0.01-0.05 eV (light neutrinos)
 
-The keV scale does NOT appear naturally in the Z3 helix geometry.
+The keV scale does NOT appear naturally in the ∞₃ helix geometry.
 ```
 
 ### 1.2 The Actual Dark Matter Candidate: LKP
@@ -92,7 +92,7 @@ The 5D geometry M^4 x S^1/Z3 produces a KK tower:
 
     m_n^2 = m_0^2 + n^2/L_X^2 + Delta_m^2_hol
 
-The Z3 helix assigns KK-parity:
+The ∞₃ helix assigns KK-parity:
     P_KK = omega^n where omega = exp(2*pi*i/3)
 
 For n=0 (SM particles): P_KK = 1 (even)
@@ -115,14 +115,14 @@ the U(1)_Y hypercharge gauge boson:
 
 ---
 
-## Part II: Z3 Symmetry Constraints on Dark Matter
+## Part II: ∞₃ Symmetry Constraints on Dark Matter
 
-### 2.1 KK-Parity from Z3 Helix
+### 2.1 KK-Parity from ∞₃ Helix
 
-The Z3 helix structure automatically provides dark matter stability:
+The ∞₃ helix structure automatically provides dark matter stability:
 
 ```
-Under Z3 gauge transformation:
+Under ∞₃ gauge transformation:
     X -> X + L_X/3
     Phi(x,X) -> omega * Phi(x,X)
 
@@ -143,23 +143,23 @@ This requires n1 + n2 + n3 + ... = 0 (mod 3)
 ```
 +------------------------------------------------------------------+
 |                                                                  |
-|  THEOREM: LKP STABILITY FROM Z3                                  |
+|  THEOREM: LKP STABILITY FROM ∞₃                                  |
 |                                                                  |
 |  The Lightest Kaluza-Klein Particle (LKP) is ABSOLUTELY STABLE   |
 |  because:                                                        |
 |                                                                  |
 |  1. LKP has KK-parity P_KK = omega (n=1 mode)                   |
 |  2. All SM particles have P_KK = 1 (n=0 modes)                  |
-|  3. KK-parity is exactly conserved by Z3 gauge symmetry         |
+|  3. KK-parity is exactly conserved by ∞₃ gauge symmetry         |
 |  4. Therefore: LKP -> SM + SM is FORBIDDEN                      |
 |                                                                  |
-|  This is NOT ad hoc - it follows from the same Z3 geometry      |
+|  This is NOT ad hoc - it follows from the same ∞₃ geometry      |
 |  that gives 3 fermion generations!                              |
 |                                                                  |
 +------------------------------------------------------------------+
 ```
 
-### 2.2 Mass Spectrum from Z3 Holonomy
+### 2.2 Mass Spectrum from ∞₃ Holonomy
 
 The LKP mass receives contributions from holonomy:
 
@@ -269,7 +269,7 @@ where:
     x_f = M_LKP / T_f ~ 25-30 is the freeze-out parameter
     g_eff = Sum_i g_i * (1+Delta_i)^(3/2) * exp(-x_f*Delta_i)
 
-For STUR KK spectrum (from Z3 holonomy):
+For STUR KK spectrum (from ∞₃ holonomy):
     M_{l^(1)} - M_LKP ~ 0.01 * M_LKP (KK leptons nearly degenerate)
     M_{q^(1)} - M_LKP ~ 0.05 * M_LKP (KK quarks slightly heavier)
 
@@ -375,7 +375,7 @@ For Omega_s * h^2 ~ 0.12:
 For m_s = 7 keV (the X-ray line candidate):
     sin^2(2*theta) ~ 7.3 * 10^-12
 
-STUR PROBLEM: No mechanism generates such small mixing angles from Z3 geometry.
+STUR PROBLEM: No mechanism generates such small mixing angles from ∞₃ geometry.
 The active-sterile mixing in STUR is determined by:
     theta ~ m_D / M_R ~ (100 GeV) / (10^14 GeV) ~ 10^-12
 
@@ -433,9 +433,9 @@ are AUTOMATICALLY SATISFIED - there is simply no particle to produce X-rays!
 |                                                                  |
 +------------------------------------------------------------------+
 
-The Z3 structure with 3 fixed points allows ONLY 3 right-handed neutrinos,
+The ∞₃ structure with 3 fixed points allows ONLY 3 right-handed neutrinos,
 all at the seesaw scale. A keV sterile neutrino would require a 4th fixed
-point, which is mathematically impossible in Z3 = Z/3Z geometry.
+point, which is mathematically impossible in ∞₃ = Z/3Z geometry.
 ```
 
 ---
@@ -458,7 +458,7 @@ point, which is mathematically impossible in Z3 = Z/3Z geometry.
 |  Color: singlet                                                  |
 |  KK-parity: omega = exp(2*pi*i/3)                               |
 |                                                                  |
-|  Stability: ABSOLUTE (protected by Z3 gauge symmetry)           |
+|  Stability: ABSOLUTE (protected by ∞₃ gauge symmetry)           |
 |  Lifetime: tau > 10^30 years (effectively infinite)             |
 |                                                                  |
 +==================================================================+
@@ -618,7 +618,7 @@ Current status (2026):
 |  ------------------------------                                  |
 |  1. M_Planck -> L_X (dimensional reduction)                      |
 |  2. L_X -> KK tower (compactification)                          |
-|  3. Z3 helix -> KK-parity (stability)                           |
+|  3. ∞₃ helix -> KK-parity (stability)                           |
 |  4. Holonomy -> M_LKP ~ TeV (mass)                              |
 |  5. Thermal freeze-out -> Omega_DM h^2 = 0.119 (abundance)      |
 |                                                                  |
@@ -629,13 +629,13 @@ Current status (2026):
 |  | DM candidate          | B^(1) LKP    | Unknown     | Predict |
 |  | Mass                  | 0.92 TeV     | > 0.5 TeV   | OK      |
 |  | Omega_DM h^2          | 0.119        | 0.120       | 0.4 sig |
-|  | Stability             | Z3 exact     | DM stable   | OK      |
+|  | Stability             | ∞₃ exact     | DM stable   | OK      |
 |  | sigma_SI              | 10^-47 cm^2  | < 10^-46    | OK      |
 |  | X-ray decay           | ZERO         | None seen   | OK      |
 |                                                                  |
 |  NOT PREDICTED (and why):                                        |
 |  -------------------------                                       |
-|  - keV sterile neutrino: Z3 has only 3 fixed points             |
+|  - keV sterile neutrino: ∞₃ has only 3 fixed points             |
 |  - Warm dark matter: All candidates are cold (TeV or GUT scale) |
 |  - Decaying DM: KK-parity forbids all decays                    |
 |                                                                  |
@@ -680,7 +680,7 @@ STUR dark matter is FALSIFIABLE:
 |                                                                  |
 |  - Candidate identity: B^(1) (derived from 5D geometry)         |
 |  - Mass scale: TeV (derived from holonomy)                      |
-|  - Stability: Exact Z3 KK-parity (derived from helix)          |
+|  - Stability: Exact ∞₃ KK-parity (derived from helix)          |
 |  - Relic density: 0.119 (calculated from freeze-out)           |
 |  - Detection signatures: Specified (testable)                   |
 |                                                                  |
@@ -702,7 +702,7 @@ STUR dark matter is FALSIFIABLE:
 1. STUR Framework Documents:
    - stur_darkmatter_derivation.html - Main dark matter page
    - stur_neutrino_derivation.html - Neutrino masses and right-handed neutrinos
-   - DISCRETE_GAUGE_Z3_CC_SOLUTION.md - Z3 gauge symmetry
+   - DISCRETE_GAUGE_INFINITY_HELIX_CC_SOLUTION.md - ∞₃ gauge symmetry
    - HIGH_PRECISION_PREDICTIONS.md - Precision calculations
 
 2. Experimental References:
@@ -718,6 +718,6 @@ STUR dark matter is FALSIFIABLE:
 ---
 
 *Document Status: COMPLETE*
-*Dark matter relic density derived from first principles via Z3 geometry*
+*Dark matter relic density derived from first principles via ∞₃ geometry*
 *Omega_DM h^2 = 0.119 +/- 0.002 vs observed 0.1200 +/- 0.0012 (0.4 sigma agreement)*
 *Critical clarification: STUR predicts LKP (TeV), not sterile neutrino (keV) dark matter*

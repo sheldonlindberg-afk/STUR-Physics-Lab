@@ -13,7 +13,7 @@ The STUR framework contains two distinct length scales that have caused apparent
 
 | Scale | Symbol | Value | Physical Origin |
 |-------|--------|-------|-----------------|
-| **Fundamental** | L_X | ~3 x 10^-32 m | Z_3 winding quantization: v*L_X = 3 with v ~ M_GUT |
+| **Fundamental** | L_X | ~3 x 10^-32 m | ∞₃ winding quantization: v*L_X = 3 with v ~ M_GUT |
 | **Effective** | L_eff | ~0.8 um | Casimir-holonomy energy balance for R-field dynamics |
 
 **Resolution:** These are NOT the same scale, nor should they be. They describe different physical phenomena:
@@ -28,11 +28,11 @@ The ratio L_eff/L_X ~ 10^26 arises from the hierarchy between M_Planck and M_KK,
 
 ### 1.1 The Fundamental Compactification Scale L_X
 
-**Definition:** L_X is the geometric size of the compact S^1/Z_3 orbifold.
+**Definition:** L_X is the geometric size of the compact S^1/∞₃ orbifold.
 
-**Derivation from Z_3 Winding:**
+**Derivation from ∞₃ Winding:**
 
-The R-field doublet satisfies the Z_3 boundary condition:
+The R-field doublet satisfies the ∞₃ boundary condition:
 ```
 R(X + L_X) = exp(2*pi*i/3) * R(X)
 ```
@@ -43,7 +43,7 @@ The vacuum configuration is a helix with:
 phi(X) = (2*pi)/(3*L_X) * X   (linear winding)
 ```
 
-The winding rate k = 2*pi/(3*L_X) is fixed by Z_3 consistency.
+The winding rate k = 2*pi/(3*L_X) is fixed by ∞₃ consistency.
 
 **The constraint v*L_X = 3:**
 
@@ -72,7 +72,7 @@ L_X = 3/v = 3/(2 x 10^16 GeV)
 
 **Physical implications of L_X:**
 - KK mass scale: M_KK = pi/L_X ~ 2 x 10^16 GeV (at GUT scale)
-- Three generations: From three Z_3 fixed points at X = 0, L_X/3, 2*L_X/3
+- Three generations: From three ∞-helix node points at X = 0, L_X/3, 2*L_X/3
 - Yukawa hierarchy: From wavefunction overlaps at separation ~ L_X/3
 - Gauge unification: KK modes contribute to running above M_KK
 
@@ -96,7 +96,7 @@ where:
 N_eff = (bosonic dof) - (7/8)*(fermionic dof)
 
 From STUR field counting (LX_CASIMIR_HOLONOMY_DERIVATION.md):
-  Gauge bosons (with Z_3 twist): +7.48
+  Gauge bosons (with ∞-helix twist): +7.48
   5D graviton:                   +5.00
   R-field:                       +1.00
   Higgs:                         +4.00
@@ -138,7 +138,7 @@ For the helix with v*L_X = 3 (the FUNDAMENTAL constraint):
 ```
 
 The key insight: The stabilization occurs at TWO scales:
-1. L_X is fixed by v*L_X = 3 (Z_3 topological constraint)
+1. L_X is fixed by v*L_X = 3 (∞₃ topological constraint)
 2. L_eff emerges from the low-energy effective potential for R-field fluctuations
 
 **L_eff derivation:**
@@ -171,7 +171,7 @@ The crucial realization is that L_X and L_eff describe DIFFERENT physical quanti
 |  - Size of the compact dimension in the UV-complete theory        |
 |  - Fixed by topological constraint v*L_X = 3                      |
 |  - Sets M_KK = pi/L_X ~ M_GUT                                    |
-|  - Determines generation structure (Z_3 fixed points)             |
+|  - Determines generation structure (∞-helix node points)             |
 |  - Appears in Yukawa couplings, CKM/PMNS matrices                |
 |                                                                   |
 |  SCALE: L_X ~ 10^-32 m ~ M_GUT^-1                                |
@@ -277,7 +277,7 @@ This matches! The hierarchy is a product of multiple intermediate scales.
 
 **What IS derived from first principles:**
 ```
-1. v*L_X = 3 (Z_3 winding quantization) - RIGOROUS
+1. v*L_X = 3 (∞₃ winding quantization) - RIGOROUS
 2. L_X ~ 3 x 10^-32 m (given v ~ M_GUT) - RIGOROUS
 3. N_eff ~ -149 (field counting) - RIGOROUS
 4. Casimir-holonomy balance gives SOME scale - CONCEPTUAL
@@ -305,9 +305,9 @@ The TWO-SCALE INTERPRETATION is physically justified. The specific numerical rel
 | Observable | Governing Scale | Physical Reason |
 |------------|-----------------|-----------------|
 | KK mass spectrum | L_X | Direct geometric compactification |
-| Number of generations | L_X | Z_3 fixed points at geometric scale |
+| Number of generations | L_X | ∞-helix node points at geometric scale |
 | Yukawa hierarchies | L_X | Wavefunction overlaps in compact dimension |
-| CKM/PMNS mixing | L_X | Generation structure from Z_3 geometry |
+| CKM/PMNS mixing | L_X | Generation structure from ∞₃ geometry |
 | Fifth-force range | L_eff | R-field fluctuation coherence length |
 | Casimir experiments | L_eff | Quantum vacuum at accessible scales |
 | Radion mass | L_eff | Low-energy modulus fluctuations |
@@ -336,7 +336,7 @@ Yukawa couplings use the FUNDAMENTAL scale L_X:
 ```
 Y_ij = y_0 * integral psi_i^*(X) * H(X) * psi_j(X) dX
 
-The wavefunctions are localized at Z_3 fixed points X_k = k*L_X/3.
+The wavefunctions are localized at ∞-helix node points X_k = k*L_X/3.
 
 The overlap depends on sigma ~ L_X/kappa, giving:
   Y_12/Y_11 ~ exp[-kappa^2/8] ~ lambda_Cabibbo
@@ -422,7 +422,7 @@ The specific numerical value requires non-perturbative input that is not yet ava
 |                                                                     |
 |  1. FUNDAMENTAL SCALE (L_X ~ 10^-32 m):                            |
 |     - Geometric size of compact dimension                           |
-|     - Fixed by Z_3 topology: v*L_X = 3                             |
+|     - Fixed by ∞₃ topology: v*L_X = 3                             |
 |     - Governs: KK masses, generations, Yukawas, mixing             |
 |     - NOT directly observable (too small)                           |
 |                                                                     |
@@ -471,7 +471,7 @@ The two-scale interpretation makes STUR falsifiable:
 
 The L_X scale ambiguity is RESOLVED by recognizing that two physically distinct length scales exist in the STUR framework:
 
-1. **L_X ~ 10^-32 m** - The fundamental geometric compactification scale, fixed by Z_3 winding (v*L_X = 3)
+1. **L_X ~ 10^-32 m** - The fundamental geometric compactification scale, fixed by ∞₃ winding (v*L_X = 3)
 
 2. **L_eff ~ 0.8 um** - The effective coherence scale for low-energy R-field dynamics, set by Casimir-holonomy balance
 
@@ -484,7 +484,7 @@ The two-scale interpretation makes STUR falsifiable: specific predictions for fi
 ## References
 
 1. LX_CASIMIR_HOLONOMY_DERIVATION.md - Derivation of L_eff from Casimir-holonomy balance
-2. VLX_QUANTIZATION_DERIVATION.md - Derivation of v*L_X = 3 from Z_3 winding
+2. VLX_QUANTIZATION_DERIVATION.md - Derivation of v*L_X = 3 from ∞₃ winding
 3. SCALE_UNIFICATION_ANALYSIS.md - Analysis of scale relationships
 4. COMPLETE_CORRECTIONS_AND_RESOLUTIONS.md - Previous resolution attempt
 5. stur_fifth_force_screening.html - Fifth force phenomenology

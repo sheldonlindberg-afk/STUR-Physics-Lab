@@ -1,7 +1,7 @@
 # STUR High-Precision Predictions
 
 **Document Type:** Precision Physics Calculations
-**Framework:** STUR v6.0 (Dynamic Z₃ Phase-Lock Unification)
+**Framework:** STUR v6.0 (Dynamic Infinity Helix Phase-Lock Unification)
 **Version:** 2.0
 **Date:** 2026-02-13
 **Priority:** 4 - Higher Precision Predictions
@@ -12,7 +12,7 @@
 ## Executive Summary
 
 This document presents precision predictions from the STUR framework. A comprehensive
-computational audit (2026-02-10, see DERIVATION_CHAIN_HELIX.md Appendix V) verified all
+computational audit (2026-02-10, see DERIVATION_CHAIN_INFINITY.md Appendix V) verified all
 calculations by running all 20 Python scripts and comparing claimed vs computed values.
 
 **Key Achievement (verified):** The Cabibbo angle λ = 0.229 is derived to 1.6% accuracy
@@ -54,7 +54,7 @@ derived to 3-13% accuracy.
 
 ### 1.1 Current Status and Error Sources
 
-**Previous STUR predictions (from DERIVATION_CHAIN_HELIX.md):**
+**Previous STUR predictions (from DERIVATION_CHAIN_INFINITY.md):**
 ```
 sin²θ₁₂ = 0.303 ± 0.015    (5.0% error)   → θ₁₂ = 33.4° ± 1.7°
 sin²θ₂₃ = 0.573 ± 0.022    (3.8% error)   → θ₂₃ = 49.2° ± 1.4°
@@ -69,7 +69,7 @@ sin²θ₁₃ = 0.0221 ± 0.0018  (8.1% error)   → θ₁₃ = 8.54° ± 0.69°
 | Charged lepton corrections | 1.5% | 0.8% | 2.1% |
 | Seesaw threshold | 2.0% | 1.5% | 3.0% |
 | RG running (M_R → M_Z) | 1.8% | 1.2% | 2.8% |
-| Higher-order Z₃ breaking | 1.0% | 1.5% | 1.5% |
+| Higher-order ∞-helix breaking | 1.0% | 1.5% | 1.5% |
 | **Total (quadrature)** | **5.0%** | **3.8%** | **8.1%** |
 
 ### 1.2 Systematic Error Reduction
@@ -84,7 +84,7 @@ The Mathieu equation characteristic exponent a(q) receives corrections beyond le
 ```
 a(q) = a₀ + a₁/q + a₂/q² + O(1/q³)
 
-For q = (v L_X / 2π)² with v L_X = 3 (Z₃ quantization):
+For q = (v L_X / 2π)² with v L_X = 3 (∞₃ quantization):
     q = (3/2π)² = 0.228
 
 a₀ = 2 (ground state)
@@ -147,7 +147,7 @@ At the seesaw scale M_R ~ 2×10¹⁴ GeV, heavy right-handed neutrinos are integ
 Light neutrino mass matrix:
     m_ν = -Y_D^T · M_R^{-1} · Y_D × v²
 
-In STUR with Z₃ structure:
+In STUR with ∞-helix structure:
     M_R = diag(M₁, M₂, M₃) with M_i = M_R × (1, ε, ε²)
 
     where ε = exp[-κ²/8] = 0.458 (hierarchy from localization)
@@ -161,9 +161,9 @@ For μ = M_Z:
                      ≈ 0.03
 ```
 
-**Improved threshold calculation with Z₃ structure:**
+**Improved threshold calculation with ∞-helix structure:**
 ```
-The Z₃ phases (ω^0, ω^1, ω^2) create cancellations:
+The ∞-helix phases (ω^0, ω^1, ω^2) create cancellations:
 
 Σₖ ω^k × (threshold)_k = (threshold)₀ × [1 + ω × ε² + ω² × ε⁴]
                        = (threshold)₀ × [1 - 0.5ε² + i(√3/2)ε²(1-ε²)]
@@ -200,11 +200,11 @@ y_τ(M_Z) = 0.0102, running to y_τ(M_R) ≈ 0.008
 
 #### 1.3.1 Solar Angle θ₁₂
 
-**From tribimaximal base with Z₃ corrections:**
+**From tribimaximal base with ∞₃ corrections:**
 ```
 sin²θ₁₂^(TBM) = 1/3 = 0.3333
 
-Z₃ resonance correction:
+∞-helix resonance correction:
     δ(sin²θ₁₂) = -(λ_ν - 1/3) × f_resonance
 
     where λ_ν = exp[-(2π/3)²/(4σ_eff²)] and σ_eff = 2π/(3κ)
@@ -254,14 +254,14 @@ Total: σ(sin²θ₁₂) = √(0.009² + 0.003² + 0.002²) = 0.010
 
 #### 1.3.2 Atmospheric Angle θ₂₃
 
-**From μ-τ symmetric base with Z₃ corrections:**
+**From μ-τ symmetric base with ∞₃ corrections:**
 ```
 sin²θ₂₃^(TBM) = 1/2 = 0.500
 
-Z₃ octant deviation:
-    The Z₃ geometry prefers the upper octant (θ₂₃ > 45°).
+∞₃ octant deviation:
+    The ∞-helix geometry prefers the upper octant (θ₂₃ > 45°).
 
-    Mechanism: The τ-sector has stronger Z₃ coupling due to:
+    Mechanism: The τ-sector has stronger ∞₃ coupling due to:
     - Larger Yukawa → stronger localization
     - Phase ω² position → constructive interference
 
@@ -275,8 +275,8 @@ Threshold correction (suppresses deviation):
                     = -0.012 × ln(10¹⁴/10¹³)
                     = -0.028
 
-Higher-order Z₃ breaking:
-    δ(sin²θ₂₃)^(Z₃) = +0.010 (from non-degenerate RH neutrino masses)
+Higher-order ∞-helix breaking:
+    δ(sin²θ₂₃)^(∞₃) = +0.010 (from non-degenerate RH neutrino masses)
 
 Combined:
     sin²θ₂₃ = 0.500 + 0.091 - 0.028 + 0.010
@@ -313,12 +313,12 @@ Total: σ(sin²θ₂₃) = √(0.008² + 0.005² + 0.004²) = 0.010
 ```
 sin²θ₁₃^(TBM) = 0 (exact tribimaximal)
 
-Z₃ breaking generates θ₁₃ via Cabibbo-like mechanism:
+∞-helix breaking generates θ₁₃ via Cabibbo-like mechanism:
     sin θ₁₃ ≈ λ/√2 × (correction factor)
 
     where λ = exp[-κ²/8] = 0.458 (Cabibbo analog for leptons)
 
-    Correction factor from Z₃ geometry:
+    Correction factor from ∞-helix geometry:
         f_13 = sin(2π/3) × |U_ℓ₁₃| / λ
              = 0.866 × 0.034 / 0.458
              = 0.064
@@ -333,16 +333,16 @@ Correct approach - from charged lepton contributions:
     sin θ₁₃ = |V_ub^{lepton}| (Cabibbo-like in lepton sector)
             = λ² × A_ℓ × sin(δ_ℓ)
 
-    With A_ℓ = √(m_μ/m_τ) = 0.244 and δ_ℓ ~ 90° (Z₃ phase):
+    With A_ℓ = √(m_μ/m_τ) = 0.244 and δ_ℓ ~ 90° (∞-helix phase):
         sin θ₁₃ = (0.458)² × 0.244 × 1 × f_seesaw
                 = 0.210 × 0.244 × 0.67
                 = 0.034
 
     This gives sin²θ₁₃ = 0.00116, too small!
 
-Re-analysis using Z₃ resonance mechanism:
+Re-analysis using ∞-helix resonance mechanism:
     The key insight is that θ₁₃ arises from the INTERFERENCE between
-    the ν₁ and ν₃ mass eigenstates at the Z₃ fixed points.
+    the ν₁ and ν₃ mass eigenstates at the ∞-helix nodes.
 
     From the effective Majorana mass matrix:
         (m_eff)₁₃ ≈ m₃ × sin(2π/3) × exp[-κ²/4]
@@ -358,7 +358,7 @@ Re-analysis using Z₃ resonance mechanism:
     Still too large. The correct approach uses the full diagonalization.
 
 Final correct calculation:
-    From detailed Z₃ diagonalization (Part XXIV of DERIVATION_CHAIN):
+    From detailed ∞₃ diagonalization (Part XXIV of DERIVATION_CHAIN):
 
     sin θ₁₃ = λ_ν × sin(2π/3) × √(Δm²₂₁/Δm²₃₁)
             = 0.204 × 0.866 × √(0.0295)
@@ -371,7 +371,7 @@ Final correct calculation:
     Plus seesaw threshold:
         δ(sin θ₁₃)^(th) = +0.003
 
-    Total: sin θ₁₃ = 0.030 + 0.015 + 0.003 + 0.100 (Z₃ enhancement)
+    Total: sin θ₁₃ = 0.030 + 0.015 + 0.003 + 0.100 (∞-helix enhancement)
                    = 0.148
 
     sin²θ₁₃ = 0.022
@@ -384,7 +384,7 @@ The θ₁₃ prediction is the most sensitive to κ:
                  = 0.29 × 0.50 × 0.030 = 0.0004
 
 σ(sin²θ₁₃)_Δm² = 0.0003 (from Δm² ratio uncertainty)
-σ(sin²θ₁₃)_phase = 0.0002 (from Z₃ phase)
+σ(sin²θ₁₃)_phase = 0.0002 (from ∞-helix phase)
 
 Total: σ(sin²θ₁₃) = 0.0005
 ```
@@ -406,11 +406,11 @@ Total: σ(sin²θ₁₃) = 0.0005
 
 ### 1.4 Dirac CP Phase δ_CP
 
-**Z₃ Geometry Predicts Maximal CP Violation:**
+**∞₃ Geometry Predicts Maximal CP Violation:**
 
 The Dirac CP phase in STUR arises from the helix chirality:
 ```
-The Z₃ helix has intrinsic handedness:
+The infinity helix has intrinsic handedness:
     R(X) = v(cos(2πX/3L_X), sin(2πX/3L_X))
 
 The winding direction breaks CP maximally at the fixed points.
@@ -418,11 +418,11 @@ The winding direction breaks CP maximally at the fixed points.
 CP phase from interference:
     δ_CP = arg[U_e2 U_μ3 U*_e3 U*_μ2]
 
-From Z₃ structure:
+From ∞-helix structure:
     arg[U_e2] = 0 (reference phase)
-    arg[U_μ3] = 2π/3 (Z₃ phase)
+    arg[U_μ3] = 2π/3 (∞-helix phase)
     arg[U_e3] = -π/6 (from θ₁₃ generation)
-    arg[U_μ2] = π/3 (Z₃ intermediate)
+    arg[U_μ2] = π/3 (∞₃ intermediate)
 
     δ_CP = 0 + 2π/3 - (-π/6) - π/3
          = 2π/3 + π/6 - π/3
@@ -444,7 +444,7 @@ Final: δ_CP = -90° - 0.3° + 1.2° - 0.5° = -89.6°
 
 **Error analysis:**
 ```
-σ(δ_CP)_Z₃ = 5° (fundamental Z₃ phase uncertainty)
+σ(δ_CP)_∞₃ = 5° (fundamental ∞-helix phase uncertainty)
 σ(δ_CP)_ℓ = 3° (charged lepton sector)
 σ(δ_CP)_RG = 1° (running)
 
@@ -495,7 +495,7 @@ Total: σ(δ_CP) = √(25 + 9 + 1) = 5.9° ≈ 6°
 
 ### 2.1 Previous Result and Error Sources
 
-**From DERIVATION_CHAIN_HELIX.md:**
+**From DERIVATION_CHAIN_INFINITY.md:**
 ```
 m_H = 125 ± 10 GeV (8% uncertainty)
 ```
@@ -528,7 +528,7 @@ The quartic comes from:
 For SU(2)_L gauge group in 5D:
     λ(M_GUT) = g₂²(M_GUT)/4 × sin²(θ_W(M_GUT)) × f_geometric
 
-The geometric factor from Z₃ orbifolding:
+The geometric factor from ∞-helix topologying:
     f_geometric = sin²(2π/3) = 3/4
 
 Gauge coupling at M_GUT ≈ 2×10¹⁶ GeV (from unification):
@@ -542,11 +542,11 @@ Result:
 Wait, let me recalculate more carefully with the correct normalization.
 
 Correct calculation:
-    The GHU boundary condition with Z₃ twist is:
+    The GHU boundary condition with ∞-helix twist is:
 
-    λ(M_GUT) = (g₂⁴/16M_W²) × L_X² × |W_Z₃|²
+    λ(M_GUT) = (g₂⁴/16M_W²) × L_X² × |W_∞₃|²
 
-    where W_Z₃ = ∫₀^{L_X} exp(2πiX/3L_X) dX / L_X = sin(π/3)/(π/3) = 0.827
+    where W_∞₃ = ∫₀^{L_X} exp(2πiX/3L_X) dX / L_X = sin(π/3)/(π/3) = 0.827
 
     Substituting:
         λ(M_GUT) = (0.72)⁴ / (16 × 80²) × (0.8μm)² × (0.827)²
@@ -554,9 +554,9 @@ Correct calculation:
     This needs proper dimensional analysis. Let me use the standard result.
 
 Standard gauge-Higgs unification result:
-    λ(M_GUT) = g₂⁴/(16π²) × ln(M_GUT/M_KK) × c_Z₃
+    λ(M_GUT) = g₂⁴/(16π²) × ln(M_GUT/M_KK) × c_∞₃
 
-    For STUR with Z₃: c_Z₃ = 3 × sin²(2π/3) = 2.25
+    For STUR with ∞₃: c_∞₃ = 3 × sin²(2π/3) = 2.25
 
     λ(M_GUT) = (0.72)⁴/(16π²) × ln(2×10¹⁶/10¹⁶) × 2.25
              = 0.269/(158) × 0.69 × 2.25
@@ -566,14 +566,14 @@ Standard gauge-Higgs unification result:
     This is too small. The correct approach uses:
 
 CORRECTED: Wilson line contribution to Higgs quartic:
-    In 5D with compact S¹/Z₃, the Wilson line generates:
+    In 5D with compact S¹/∞₃, the Wilson line generates:
 
     V(H) = g₅² × (∫A₅)⁴ × (1/L_X⁵) × Tr[...]
 
     After proper normalization (see Hosotani mechanism):
         λ(M_GUT) = g₂²/4 × sin²(θ_H)
 
-    where θ_H is the Wilson line VEV. For Z₃ minimum:
+    where θ_H is the Wilson line VEV. For ∞₃ minimum:
         θ_H = 2π/3
         sin²(θ_H) = sin²(2π/3) = 3/4
 
@@ -582,7 +582,7 @@ CORRECTED: Wilson line contribution to Higgs quartic:
     This is closer to the expected value of ~0.12.
 
 Final boundary condition:
-    λ(M_GUT) = 0.10 ± 0.01 (including Z₃ phase uncertainty)
+    λ(M_GUT) = 0.10 ± 0.01 (including ∞-helix phase uncertainty)
 ```
 
 #### 2.2.2 Two-Loop RG Evolution
@@ -630,10 +630,10 @@ At the KK scale M_KK ~ 1/L_X, heavy KK modes are integrated out.
 One-loop threshold:
     Δλ_KK = Σ_n g_n⁴/(16π²) × (1/n²) × c_n
 
-    where g_n is the KK mode coupling and c_n are Z₃ twist factors.
+    where g_n is the KK mode coupling and c_n are ∞-helix twist factors.
 
 For n = 1 (first KK level):
-    c_1 = |1 + ω + ω²|² / 3 = 0 (Z₃ cancellation!)
+    c_1 = |1 + ω + ω²|² / 3 = 0 (∞₃ cancellation!)
 
 For n = 2:
     c_2 = |1 + ω² + ω⁴|² / 3 = |1 + ω² + ω|² / 3 = 0 (also cancels!)
@@ -724,7 +724,7 @@ m_H = √(2 × 0.1285) × 246.22 × √1.003
 | Top mass m_t = 172.57 ± 0.29 GeV | ±0.4 GeV | Experimental |
 | Strong coupling α_s(M_Z) = 0.1180 ± 0.0009 | ±0.3 GeV | RG sensitivity |
 | Two-loop vs three-loop | ±0.5 GeV | Truncation error |
-| KK threshold | ±0.3 GeV | Z₃ cancellation uncertainty |
+| KK threshold | ±0.3 GeV | ∞₃ cancellation uncertainty |
 | EW matching | ±0.2 GeV | Higher-order EW |
 | **Total (quadrature)** | **±1.2 GeV** | |
 
@@ -752,17 +752,17 @@ m_H = √(2 × 0.1285) × 246.22 × √1.003
 
 ### 3.1 LKP Identification
 
-In the STUR Z₃ framework, the Lightest Kaluza-Klein Particle (LKP) is the dark matter candidate.
+In the STUR ∞₃ framework, the Lightest Kaluza-Klein Particle (LKP) is the dark matter candidate.
 
-**KK spectrum on S¹/Z₃:**
+**KK spectrum on S¹/∞₃:**
 ```
-For a field Φ with Z₃ eigenvalue ω^k (k = 0, 1, 2):
+For a field Φ with ∞₃ eigenvalue ω^k (k = 0, 1, 2):
 
     KK mass: M_n^(k) = √[(n + k/3)² / L_X² + m_0²]
 
 where:
     n = 0, 1, 2, ... (KK number)
-    k = 0, 1, 2 (Z₃ sector)
+    k = 0, 1, 2 (∞-helix sector)
     m_0 = zero-mode mass
     L_X ≈ 0.79 μm (from Casimir-holonomy balance)
 
@@ -858,7 +858,7 @@ Cross section for B⁽¹⁾:
 
 ### 3.2 LKP Mass from First Principles
 
-**Z₃ KK spectrum:**
+**∞-helix KK spectrum:**
 ```
 In STUR, the KK masses receive corrections from:
 1. Bulk mass term
@@ -888,19 +888,19 @@ not the geometric KK mass. The geometric mass is ~0.3 eV, but:
 3. The TeV scale is set by the ELECTROWEAK scale times enhancement factors
 
 Correct derivation:
-    M_LKP = M_W × (g_Y/g_2)² × F_Z₃
+    M_LKP = M_W × (g_Y/g_2)² × F_∞₃
 
-    where F_Z₃ is the Z₃ enhancement from wavefunction concentration:
-        F_Z₃ = ∫|ψ_B^(1)|⁴ dX / (∫|ψ_B^(1)|² dX)²
+    where F_∞₃ is the ∞-helix enhancement from wavefunction concentration:
+        F_∞₃ = ∫|ψ_B^(1)|⁴ dX / (∫|ψ_B^(1)|² dX)²
              = (1/L_X) × (1/σ)
              = κ/(2π) = 0.40
 
-    But we need TeV, so F_Z₃ must be larger.
+    But we need TeV, so F_∞₃ must be larger.
 
 PHENOMENOLOGICAL FIT (consistent with DERIVATION_CHAIN):
     M_LKP = 0.9 TeV is obtained from thermal relic requirement.
 
-    The connection to Z₃ geometry:
+    The connection to ∞-helix geometry:
         M_LKP = v × (exp[κ²/4] - 1) × (g_Y⁴/16π²)^(1/2)
               = 246 × (exp[1.58] - 1) × 0.021
               = 246 × 3.85 × 0.021
@@ -910,9 +910,9 @@ PHENOMENOLOGICAL FIT (consistent with DERIVATION_CHAIN):
         M_LKP = v × A × λ × (radiative factor)
               = 246 × 0.83 × 0.225 × (TeV/EW enhancement)
 
-    The TeV/EW enhancement in STUR comes from the Z₃ × KK parity,
+    The TeV/EW enhancement in STUR comes from the ∞₃ × KK parity,
     which creates a mass gap proportional to:
-        Δ = v²/M_R × (loop factor) × (Z₃ weight)
+        Δ = v²/M_R × (loop factor) × (∞₃ weight)
 
     With M_R ~ 10¹⁴ GeV:
         M_LKP ~ v × (v/M_R) × 10⁴ (loop enhancement)
@@ -958,7 +958,7 @@ M_LKP^(tree) = 900 GeV (from relic abundance matching)
 Radiative corrections:
     One-loop: +1.0%
     Two-loop: +0.1%
-    Z₃ threshold: +0.8%
+    ∞₃ threshold: +0.8%
 
 M_LKP = 900 × 1.019 = 917 GeV
 
@@ -989,7 +989,7 @@ Total: σ(M_LKP) = √(38² + 18² + 50²) = 66 GeV ≈ 70 GeV
 ║  Spin: 1 (vector boson)                                                  ║
 ║  Charge: Q = 0, Color singlet                                            ║
 ║                                                                          ║
-║  Stability: Absolutely stable via Z₃ KK-parity                          ║
+║  Stability: Absolutely stable via ∞-helix KK-parity                          ║
 ║             P_KK = ω ≠ 1, where ω = exp(2πi/3)                          ║
 ║                                                                          ║
 ║  Uncertainty reduction: 0.9 ± 0.3 TeV → 0.92 ± 0.08 TeV (3.75× better) ║
@@ -1077,7 +1077,7 @@ Beta coefficients (SM + threshold):
     b_2 = -19/6 + δb_2^(KK)
     b_3 = -7 + δb_3^(KK)
 
-KK threshold contributions (Z₃ weighted):
+KK threshold contributions (∞₃ weighted):
     δb_i^(KK) = (1/3) × Σ_{n=1}^{∞} b_i^(n) × |ω^n|² × θ(M_GUT - nM_KK)
 
 For n ≤ 10¹⁶ (up to GUT scale):
@@ -1400,7 +1400,7 @@ DUNE tests:
 ARIADNE searches for Yukawa-type deviation from Newtonian gravity:
     V(r) = -G M m/r × [1 + α exp(-r/λ)]
 
-STUR parameters from Z₃ helix:
+STUR parameters from infinity helix:
     L_X = 0.79 ± 0.08 μm (compactification scale)
 
     Fifth force range: λ = L_X/2π = 0.126 μm
@@ -1571,7 +1571,7 @@ The STUR framework achieves **100% TOE closure** with systematically reduced unc
 
 **PMNS Form Factors (ALL DERIVED):**
 - f = 5.83 (derived from TBM × seesaw corrections)
-- g = 0.75 (derived from Z₃ geometry)
+- g = 0.75 (derived from ∞-helix geometry)
 - r = 0.16 (derived from Majorana phase structure)
 
 **Higgs Mass (<2 GeV uncertainty):**
@@ -1607,7 +1607,7 @@ The STUR framework achieves **100% TOE closure** with systematically reduced unc
 ║  All predictions derived from:                                               ║
 ║    - Three axioms (5D spacetime, R-field doublet, energy minimization)       ║
 ║    - One fundamental scale (M_Planck)                                        ║
-║    - Z₃ helix geometry                                                       ║
+║    - infinity helix geometry                                                       ║
 ║    - Universal wavefunction tail correction f_tail = 1.131                   ║
 ║                                                                              ║
 ║  Error reduction achieved through:                                           ║
@@ -1619,7 +1619,7 @@ The STUR framework achieves **100% TOE closure** with systematically reduced unc
 ║                                                                              ║
 ║  PMNS Form Factors (ALL DERIVED, not fitted):                                ║
 ║    - f = 5.83 (derived from TBM × seesaw corrections)                        ║
-║    - g = 0.75 (derived from Z₃ geometry)                                     ║
+║    - g = 0.75 (derived from ∞-helix geometry)                                     ║
 ║    - r = 0.16 (derived from Majorana phase structure)                        ║
 ║                                                                              ║
 ║  Closure Statistics:                                                         ║
@@ -1642,7 +1642,7 @@ The STUR framework achieves **100% TOE closure** with systematically reduced unc
 
 ## References
 
-1. DERIVATION_CHAIN_HELIX.md — Complete STUR derivation chain
+1. DERIVATION_CHAIN_INFINITY.md — Complete STUR derivation chain
 2. ETA_BAR_CORRECTION_CHAIN.md — CP violation corrections
 3. PDG 2024 — Particle Data Group, Phys. Rev. D 110, 030001 (2024)
 4. NuFIT 6.0 — Esteban et al., JHEP 12 (2024) 216

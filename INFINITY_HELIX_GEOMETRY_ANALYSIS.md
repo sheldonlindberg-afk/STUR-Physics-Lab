@@ -282,7 +282,7 @@ The gauge holonomy around the helix:
 W = P exp(i ∮ A_X dX)
 ```
 
-On helix with Z_3 twist, W must satisfy:
+On helix with ∞-helix twist, W must satisfy:
 ```
 W³ = 1  (returns to identity after 3 circuits)
 ```
@@ -293,9 +293,9 @@ This means W = exp(2πi h/3) where h is in the Cartan of the gauge group.
 
 For SU(N) gauge theory:
 - The allowed holonomies break SU(N) → subgroups
-- Z_3 twist naturally connects to SU(3) color!
+- ∞-helix twist naturally connects to SU(3) color!
 
-**Claim:** The helix Z_3 structure directly implies SU(3)_color.
+**Claim:** The helix ∞₃ structure directly implies SU(3)_color.
 
 For electroweak:
 - SU(2) × U(1) can emerge from the remaining structure
@@ -316,7 +316,7 @@ Three-fold helix: R → e^{2πi/3}R around circuit
        ↓ three phases = three generations
 Generation structure emerges naturally
        ↓ gauge holonomy on helix
-SU(3) color from Z_3 twist
+SU(3) color from ∞-helix twist
        ↓ twisted Casimir energy
 Cosmological constant suppressed
        ↓ fermion phase localization
@@ -351,7 +351,7 @@ where B₄(α) is the 4th Bernoulli polynomial:
 B₄(α) = α⁴ - 2α³ + α² - 1/30
 ```
 
-For Z_3 twist (α = 1/3):
+For ∞-helix twist (α = 1/3):
 ```
 B₄(1/3) = (1/3)⁴ - 2(1/3)³ + (1/3)² - 1/30
         = 1/81 - 2/27 + 1/9 - 1/30
@@ -368,7 +368,7 @@ Compare to untwisted (α = 0):
 B₄(0) = -1/30 ≈ -0.033
 ```
 
-**Result:** |E_Casimir(Z_3)| / |E_Casimir(untwisted)| ≈ 0.016/0.033 ≈ 0.48
+**Result:** |E_Casimir(∞₃)| / |E_Casimir(untwisted)| ≈ 0.016/0.033 ≈ 0.48
 
 This is a factor of ~2 suppression, not enough for 7 orders of magnitude.
 
@@ -479,17 +479,17 @@ This quantizes the product χv²L_X.
 
 With SM content (three generations observed), N = 3 is selected.
 
-### 10.5 Gauge Group from Z_3 Holonomy
+### 10.5 Gauge Group from ∞₃ Holonomy
 
-The gauge holonomy on helix with Z_3 structure:
+The gauge holonomy on helix with ∞₃ structure:
 ```
 W = exp(2πi H/3)
 ```
 
 where H is in the Cartan subalgebra.
 
-For SU(3): The center Z(SU(3)) = Z_3.
-The Z_3 helix naturally couples to SU(3) color!
+For SU(3): The center Z(SU(3)) = ∞₃.
+The infinity helix naturally couples to SU(3) color!
 
 For electroweak: SU(2) × U(1) emerges from the remaining gauge structure.
 
@@ -531,13 +531,13 @@ The helix "winds" in a specific direction (chirality), breaking CP.
 
 ## 11. Helix vs Orbifold: Summary
 
-| Aspect | Orbifold S¹/Z₂ | Helix (Z_3 twist) |
+| Aspect | Orbifold S¹/Z₂ | Helix (∞-helix twist) |
 |--------|----------------|-------------------|
 | R-field | Kink (real, varies) | Winding (complex, constant |R|) |
 | Domain wall | Present, E ~ v⁴/ξ | Absent |
 | Vacuum energy | Large (CC problem) | Can cancel (χ tuned) |
 | Generations | Winding numbers | Phase positions |
-| SU(3) color | Derived from MHP | Natural from Z_3 ↔ center(SU(3)) |
+| SU(3) color | Derived from MHP | Natural from ∞₃ ↔ center(SU(3)) |
 | CP violation | From holonomy flux | From helix chirality |
 | Free parameters | L_X, ξ, χ | L_X only (χ, N fixed) |
 
@@ -627,13 +627,13 @@ This is a constant — acts as an effective cosmological constant contribution.
 ## 12. Critical Assessment
 
 ### What Works
-1. Three generations emerge naturally from Z_3 structure
-2. SU(3) color connects to Z_3 center of SU(3)
+1. Three generations emerge naturally from ∞₃ structure
+2. SU(3) color connects to ∞₃ center of SU(3)
 3. Domain wall energy eliminated (helps CC)
 4. Fewer free parameters (χ fixed by consistency)
 
 ### What Has Been Verified
-1. CC calculation: partial cancellation achieved (see COSMOLOGICAL_CONSTANT_Z3_MECHANISM.md)
+1. CC calculation: partial cancellation achieved (see COSMOLOGICAL_CONSTANT_INFINITY_HELIX_MECHANISM.md)
 2. Higgs mechanism: gauge-Higgs unification via A₅ component
 3. Quantitative Yukawa matching
 4. TEGR coupling: real doublet R required (see Argument 1)
@@ -667,9 +667,9 @@ This is a constant — acts as an effective cosmological constant contribution.
 **Conclusion (Preliminary):**
 
 Helix geometry is a natural consequence of letting XCRM determine the geometry rather than assuming orbifold. It potentially:
-- Explains 3 generations geometrically (Z_3 structure)
+- Explains 3 generations geometrically (∞₃ structure)
 - Solves/ameliorates cosmological constant (twisted BC)
-- Connects directly to SU(3) color (Z_3 ↔ center of SU(3))
+- Connects directly to SU(3) color (∞₃ ↔ center of SU(3))
 - Removes domain wall energy contribution
 
 **Status:** Promising direction. Needs quantitative verification.

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-CKM Matrix from Z₃ Pairwise Overlap + Wolfenstein Assembly
+CKM Matrix from ∞₃ Pairwise Overlap + Wolfenstein Assembly
 ============================================================
 
-STUR Framework — Cabibbo Angle and Full CKM from S¹/Z₃ Geometry
+STUR Framework — Cabibbo Angle and Full CKM from S¹/∞₃ Geometry
 
 This script computes the CKM matrix elements using the STUR mechanism:
 
@@ -14,15 +14,15 @@ This script computes the CKM matrix elements using the STUR mechanism:
   2. The parameter A comes from the ratio of second-neighbor to
      nearest-neighbor overlaps, modified by the holonomy factor.
 
-  3. CP violation (ρ̄, η̄) comes from the helix chirality and Z₃
+  3. CP violation (ρ̄, η̄) comes from the helix chirality and ∞₃
      Wilson line phases.
 
 KEY FINDING: At α_eff = 1.480 (from two-loop calculation), the direct
 overlap on S¹ gives λ = 0.2313, only 2.8% from the observed 0.2250.
 
 WHY NOT FULL 3×3 DIAGONALIZATION:
-The Higgs is localized at ONE Z₃ fixed point (where EWSB occurs). This
-breaks the Z₃ democratic structure:
+The Higgs is localized at ONE ∞-helix node (where EWSB occurs). This
+breaks the ∞₃ democratic structure:
   - O₀₀ = 0.378  (generation at Higgs)
   - O₁₁ = O₂₂ = 0.053  (distant generations)
 Making the 3×3 diagonalization dominated by the 1-3 sector, not 1-2.
@@ -100,7 +100,7 @@ def get_sigma(alpha, N=2000):
 def compute_cabibbo_angle(alpha, N=4000):
     """
     Compute the Cabibbo angle λ from the direct overlap of fermion
-    wavefunctions at adjacent Z₃ fixed points.
+    wavefunctions at adjacent ∞-helix nodes.
 
     Method: Solve the Mathieu equation for wavefunctions at θ=0 and
     θ=2π/3, then compute their normalized overlap:
@@ -187,12 +187,12 @@ def compute_A_parameter(lambda_val, sigma, alpha):
 
     A = |V_cb| / λ²
 
-    In the Z₃ geometry, |V_cb| is determined by the overlap between
+    In the ∞-helix geometry, |V_cb| is determined by the overlap between
     generations 2 and 3 (second and third generation quarks), modified
     by the holonomy factor from the Wilson line.
 
     The key insight: |V_cb| is NOT simply the overlap parameter λ²
-    (which would give A = 1). The holonomy of the Z₃ orbifold introduces
+    (which would give A = 1). The holonomy of the ∞-helix topology introduces
     a geometric suppression:
 
         |V_cb| = λ² × exp[-(2π/3)²/(4σ_eff²)] × f_hol
@@ -201,19 +201,19 @@ def compute_A_parameter(lambda_val, sigma, alpha):
     second and third generation (from Higgs proximity effects).
 
     The holonomy factor f_hol = 0.846 arises from the Wilson line
-    W_g = exp(2πig/3) at each Z₃ fixed point, which modifies the
-    effective overlap when going through a Z₃ domain wall.
+    W_g = exp(2πig/3) at each ∞-helix node, which modifies the
+    effective overlap when going through a ∞₃ domain wall.
     """
     # The overlap between second and third generation determines V_cb
     # In the Wolfenstein parameterization: V_cb = Aλ²
     #
-    # From the Z₃ geometry:
+    # From the ∞-helix geometry:
     # The second-generation wavefunction has reduced overlap with the
     # Higgs profile (located at third-generation fixed point).
     # This gives V_cb = λ² × holonomy_factor
     #
-    # Holonomy factor from Wilson line at Z₃ fixed points:
-    f_hol = 0.846  # from DERIVATION_CHAIN_HELIX.md
+    # Holonomy factor from Wilson line at ∞-helix nodes:
+    f_hol = 0.846  # from DERIVATION_CHAIN_INFINITY.md
 
     # Effective overlap for V_cb:
     # The ratio σ_2/σ_3 determines the additional suppression
@@ -235,7 +235,7 @@ def compute_f_screen(psi, theta):
 
     f_screen = |⟨ψ₀|e^{iθ}|ψ₀⟩| = q=1 Debye-Waller factor
 
-    This measures how much of the Z₃ holonomy phase δ_tb = π/3 survives
+    This measures how much of the ∞-helix holonomy phase δ_tb = π/3 survives
     wavefunction averaging. For a Gaussian with width σ:
         f_screen = exp(-σ²/2)
 
@@ -257,7 +257,7 @@ def compute_cp_parameters(lambda_val, A_val, sigma, psi=None, theta=None):
     Compute ρ̄ and η̄ from the helix geometry using Derivation D.
 
     The CP-violating phase arises from the chiral helix structure
-    and the Z₃ holonomy. Using the CORRECT Derivation D formula:
+    and the ∞-helix holonomy. Using the CORRECT Derivation D formula:
 
         δ_CKM = θ_χ + δ_tb × f_screen
               = arctan(1/2) + π/3 × f_screen
@@ -369,8 +369,8 @@ def scan_alpha_for_cabibbo(alpha_values, N=4000):
 
 if __name__ == '__main__':
     print("╔════════════════════════════════════════════════════════════════╗")
-    print("║  CKM FROM Z₃ PAIRWISE OVERLAP + WOLFENSTEIN ASSEMBLY        ║")
-    print("║  STUR Framework v5.0 — Cabibbo Angle from S¹/Z₃ Geometry   ║")
+    print("║  CKM FROM ∞₃ PAIRWISE OVERLAP + WOLFENSTEIN ASSEMBLY        ║")
+    print("║  STUR Framework v5.0 — Cabibbo Angle from S¹/∞₃ Geometry   ║")
     print("╚════════════════════════════════════════════════════════════════╝\n")
 
     # PDG experimental values
@@ -470,7 +470,7 @@ if __name__ == '__main__':
     # ══════════════════════════════════════════════════════════
 
     print(f"\n{'=' * 64}")
-    print("  SECTION 3: Full Wolfenstein Parameters from Z₃ Geometry")
+    print("  SECTION 3: Full Wolfenstein Parameters from ∞₃ Geometry")
     print("=" * 64)
 
     # Use the GAUSSIAN analytic λ — this is the physical Cabibbo angle.
@@ -664,16 +664,16 @@ if __name__ == '__main__':
   ──────────────────────────────────────
 
   λ = {lam_pred:.5f}  [{abs(lam_pred-PDG['lambda'])/PDG['lambda']*100:.1f}% from PDG]
-    Source: Pairwise wavefunction overlap on S¹/Z₃
+    Source: Pairwise wavefunction overlap on S¹/∞₃
     Status: DERIVED (from α_eff, which is computed to two-loop)
 
   A = {A_pred:.4f}  [{abs(A_pred-PDG['A'])/PDG['A']*100:.1f}% from PDG]
-    Source: Holonomy factor at Z₃ fixed points
+    Source: Holonomy factor at ∞-helix nodes
     Status: SEMI-DERIVED (holonomy factor f_hol = 0.846 from geometry)
 
   η̄ = {cp['etabar']:.4f}  [{abs(cp['etabar']-PDG['etabar'])/PDG['etabar']*100:.1f}% from PDG]
     Source: Helix chirality + correction chain
-    Status: SEMI-DERIVED (correction factors from Z₃ geometry)
+    Status: SEMI-DERIVED (correction factors from ∞-helix geometry)
 
   ρ̄ = {cp['rhobar']:.4f}  [{abs(cp['rhobar']-PDG['rhobar'])/PDG['rhobar']*100:.1f}% from PDG]
     Source: Unitarity triangle from δ_CKM (Derivation D)

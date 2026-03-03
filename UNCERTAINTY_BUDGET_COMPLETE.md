@@ -1,7 +1,7 @@
 # Complete Uncertainty Budget for STUR Framework Predictions
 
 **Document Type:** Systematic Uncertainty Analysis and Error Budget
-**Framework:** STUR v4.4 (Z3 Helix Geometry)
+**Framework:** STUR v4.4 (∞₃ Helix Geometry)
 **Date:** 2026-02-05
 **Status:** Comprehensive Uncertainty Tracking
 
@@ -105,7 +105,7 @@ Lambda = (1/64*pi^2) x |Sigma| x F_RG x F_hol x F_Berry x F_inst
 | Factor | Central Value | Relative Uncertainty | Variance Contribution |
 |--------|---------------|---------------------|----------------------|
 | 1/(64*pi^2) | 1.58 x 10^-3 | 0% (exact) | 0% |
-| |Sigma| (Z3 weighted sum) | 6.29 x 10^-42 GeV^4 | +/- 40% | 31% |
+| |Sigma| (∞₃ weighted sum) | 6.29 x 10^-42 GeV^4 | +/- 40% | 31% |
 | F_RG (RG running) | 0.52 | +/- 30% | 17% |
 | F_hol (holonomy) | 0.846 | +/- 15% | 4% |
 | F_Berry (Berry phase) | 0.0253 | +/- 25% | 12% |
@@ -188,7 +188,7 @@ Omega_DM h^2 = (1.07 x 10^9 GeV^-1) / (M_Pl x sqrt(g_*) x J(x_f))
 | Charged lepton corrections | +/- 0.5% | +/- 0.3% | +/- 0.7% |
 | Seesaw threshold | +/- 0.6% | +/- 0.5% | +/- 1.0% |
 | RG running (M_R -> M_Z) | +/- 0.01% | +/- 0.01% | +/- 0.01% |
-| Z3 breaking | +/- 0.3% | +/- 0.5% | +/- 0.5% |
+| ∞₃ breaking | +/- 0.3% | +/- 0.5% | +/- 0.5% |
 | **Total (quadrature)** | **+/- 3.3%** | **+/- 1.7%** | **+/- 2.3%** |
 
 **Cross-Correlations:**
@@ -416,7 +416,7 @@ _______________________________________________________________________
 | Assumption | Impact if Wrong | Probability Correct |
 |------------|-----------------|---------------------|
 | Normal mass ordering | STUR falsified | ~95% (from data) |
-| Z3 symmetry exact | Framework fails | Core assumption |
+| ∞₃ symmetry exact | Framework fails | Core assumption |
 | No 4th generation | Topology violated | ~99.9% (LEP data) |
 | Seesaw scale M_R ~ 10^14 GeV | Factor of few on Lambda | Constrained by m_nu |
 | LKP is B^(1) | DM candidate change | ~90% (spectrum calc) |
@@ -427,7 +427,7 @@ _______________________________________________________________________
 
 1. **Inverted mass ordering confirmed:** STUR falsified, no error bar applies
 2. **4th generation discovered:** Framework requires fundamental revision
-3. **Proton decay at tau < 10^34 yr:** Z3 KK-parity violated
+3. **Proton decay at tau < 10^34 yr:** ∞₃ KK-parity violated
 4. **keV sterile neutrino DM:** Wrong DM candidate, new physics required
 
 **Scenarios That Would Decrease Uncertainties:**

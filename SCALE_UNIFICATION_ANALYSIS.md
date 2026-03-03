@@ -3,7 +3,7 @@
 **Document Type:** Deep Analysis
 **Framework:** STUR v4.3 (Helix Geometry)
 **Date:** 2026-01-25
-**Purpose:** Investigate whether L_X, v, and M_R are truly independent, or connected through Z₃ geometry
+**Purpose:** Investigate whether L_X, v, and M_R are truly independent, or connected through ∞-helix geometry
 
 ---
 
@@ -41,12 +41,12 @@ Examining the derivation chain reveals deep connections:
 
 **Connection 1: v·L_X = 3 (Proven)**
 
-From DERIVATION_CHAIN_HELIX.md (lines 785-803):
+From DERIVATION_CHAIN_INFINITY.md (lines 785-803):
 ```
 v * L_X = 3     (one unit of v*L_X per generation)
 ```
 
-This follows from Z₃ winding number quantization. The R-field VEV v and compactification scale L_X are NOT independent - they satisfy a fixed constraint.
+This follows from ∞-helix winding number quantization. The R-field VEV v and compactification scale L_X are NOT independent - they satisfy a fixed constraint.
 
 **Connection 2: M_R ~ 1/L_X (Derived)**
 
@@ -115,7 +115,7 @@ This is the ONLY dimensional scale in the theory. Everything else follows:
 | Parameter | Derivation from M_Planck |
 |-----------|--------------------------|
 | L_X | Casimir-holonomy minimization at L_X ~ f(M_Planck, N_eff) |
-| v | v = 3/L_X (from Z₃ winding) |
+| v | v = 3/L_X (from ∞-helix winding) |
 | M_R | M_R = λ_hol/L_X (from holonomy) |
 
 ### 3.2 Why This Is Profound
@@ -128,7 +128,7 @@ Standard physics has multiple independent scales:
 
 These span 30 orders of magnitude with no explanation for their ratios (the hierarchy problem).
 
-STUR claims these all derive from ONE input (M_Planck) through the Z₃ helix geometry.
+STUR claims these all derive from ONE input (M_Planck) through the infinity helix geometry.
 
 ---
 
@@ -136,7 +136,7 @@ STUR claims these all derive from ONE input (M_Planck) through the Z₃ helix ge
 
 ### 4.1 The v·L_X = 3 Constraint
 
-**Origin:** Z₃ winding number quantization.
+**Origin:** ∞-helix winding number quantization.
 
 The R-field traces a helix with winding:
 ```
@@ -155,7 +155,7 @@ This is dimensionless in natural units (ℏ = c = 1) where [v·L_X] = [mass × l
 
 ### 4.2 The M_R ~ 1/L_X Relation
 
-**Origin:** Holonomy-induced Majorana mass at Z₃ fixed points.
+**Origin:** Holonomy-induced Majorana mass at ∞-helix nodes.
 
 Right-handed neutrinos localize at fixed points X_i = i·L_X/3. They couple to the R-field through:
 ```
@@ -254,7 +254,7 @@ Three inputs: L_X, v, M_R
 │       ↓                                                             │
 │     L_X ~ 0.8 μm  ←── determined by quantum vacuum dynamics         │
 │       │                                                             │
-│       ├───→ v = 3/L_X ~ M_GUT  ←── Z₃ winding constraint           │
+│       ├───→ v = 3/L_X ~ M_GUT  ←── ∞-helix winding constraint           │
 │       │                                                             │
 │       └───→ M_R = λ_hol/L_X ~ 10^14 GeV  ←── holonomy coupling     │
 │                                                                     │
@@ -263,9 +263,9 @@ Three inputs: L_X, v, M_R
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-### 6.3 The Z₃ Helix Determines Everything
+### 6.3 The ∞₃ Helix Determines Everything
 
-The Z₃ structure provides:
+The ∞-helix structure provides:
 1. **Three generations** (from 3 fixed points)
 2. **v·L_X = 3** (from winding quantization)
 3. **M_R ~ 1/L_X** (from holonomy at fixed points)
@@ -279,7 +279,7 @@ The Z₃ structure provides:
 
 | Relation | Source | Status |
 |----------|--------|--------|
-| v·L_X = 3 | Z₃ winding number | **Rigorous** |
+| v·L_X = 3 | ∞-helix winding number | **Rigorous** |
 | χ = -2π/(3L_X) | Helix stability | **Rigorous** |
 | M_R ~ 1/L_X | Holonomy mass | **Conceptual** |
 
@@ -293,10 +293,10 @@ The Z₃ structure provides:
 
 ### 7.3 The Honest Picture
 
-STUR has **one fundamental dimensional input** (M_Planck) plus **one structural assumption** (Z₃ helix geometry). From these:
+STUR has **one fundamental dimensional input** (M_Planck) plus **one structural assumption** (infinity helix geometry). From these:
 
 - L_X is approximately determined (within O(1) factor)
-- v and M_R follow from L_X through Z₃ constraints
+- v and M_R follow from L_X through ∞₃ constraints
 
 This is far more constrained than "three independent external inputs" would suggest, but not quite "zero free parameters" if the O(1) coefficients are not fully derived.
 
@@ -304,16 +304,16 @@ This is far more constrained than "three independent external inputs" would sugg
 
 ## 8. Conclusion
 
-**The Pattern:** L_X, v, and M_R are all manifestations of a SINGLE scale, connected through Z₃ helix geometry.
+**The Pattern:** L_X, v, and M_R are all manifestations of a SINGLE scale, connected through infinity helix geometry.
 
 **The Key Relations:**
 ```
-v · L_X = 3        (Z₃ winding)
+v · L_X = 3        (∞-helix winding)
 M_R · L_X ≈ 20     (holonomy enhancement)
 L_X ≈ 0.8 μm       (Casimir-holonomy balance)
 ```
 
-**The Deep Insight:** The Z₃ helix doesn't just determine dimensionless ratios (like mass hierarchies and mixing angles). It also constrains the dimensional scales themselves, leaving only M_Planck as the true fundamental input.
+**The Deep Insight:** The infinity helix doesn't just determine dimensionless ratios (like mass hierarchies and mixing angles). It also constrains the dimensional scales themselves, leaving only M_Planck as the true fundamental input.
 
 **Verification Status:**
 - v·L_X = 3: Rigorously derived
@@ -324,11 +324,11 @@ L_X ≈ 0.8 μm       (Casimir-holonomy balance)
 
 ## References
 
-1. DERIVATION_CHAIN_HELIX.md - Complete derivation chain
+1. DERIVATION_CHAIN_INFINITY.md - Complete derivation chain
 2. ALPHA_PARAMETER_DERIVATION.md - α = 1 derivation
 3. stur_neutrino_derivation.html - M_R from holonomy
 4. stur_moduli_stabilization.html - L_X from Casimir-holonomy balance
 
 ---
 
-*Analysis complete. The three "external inputs" reduce to one fundamental scale (M_Planck) through Z₃ geometry.*
+*Analysis complete. The three "external inputs" reduce to one fundamental scale (M_Planck) through ∞-helix geometry.*
