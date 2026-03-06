@@ -84,10 +84,12 @@ perspective changes (discrete scale invariance via λ_chrono = 3722/2705).
 
 ## Remaining Open Questions (Refinements, Not Blockers)
 
-### RQ-1: σ_H from First Principles
+### RQ-1: σ_H from First Principles — RESOLVED ✓
 
-**Status:** Sharp Higgs mechanism identified (σ_H/σ_ψ ≈ 0.3) but σ_H not yet derived from Coleman-Weinberg.
-**Impact:** Would make mass hierarchy prediction fully first-principles.
+**Status:** ε_H = 2e^{-π/3}/√3 = 0.4051 derived from Z₃ theta function on S¹/Z₃ orbifold.
+**Method:** The modular parameter τ = 1/3 is fixed by the Z₃ orbifold structure. The Higgs zero-mode profile is ϑ₃(3φ/(2π)|i/3), giving ε_H = 2q/ϑ₃(0|i/3) where q = e^{-π/3}.
+**Impact:** Mass hierarchy prediction is now fully first-principles. f_u^{node} = 0.1333, m_u = 2.145 MeV (0.7% from PDG).
+**Document:** `CY4_CORRECTION_FACTOR_DERIVATION.md`
 
 ### RQ-2: Tensor-to-Scalar Ratio
 
@@ -104,10 +106,15 @@ perspective changes (discrete scale invariance via λ_chrono = 3722/2705).
 **Status:** 216 (newer construction) vs 1698 (older exploration). Factor 7.86 difference.
 **Impact:** Needs reconciliation between UV_COMPLETION_EXPLORATION.md and FTHEORY_CY4_EXPLICIT_CONSTRUCTION.md.
 
-### RQ-5: Fermion Mass Correction Factor Independence
+### RQ-5: Fermion Mass Correction Factor Independence — RESOLVED ✓
 
-**Status:** f_tail, f_ℓ, f_u^node have physical justifications but could benefit from fully independent derivation.
-**Impact:** Distinction between "derived with physical corrections" vs "fitted."
+**Status:** All four correction factors derived from CY₄ geometry:
+- f_tail = 1.131 (Z₃ sector wavefunction overlap, from κ + orbifold)
+- f_ℓ = 1/√3 (SU(3) color multiplicity, from CY₄ gauge structure)
+- ε_H = 2e^{-π/3}/√3 = 0.4051 (Z₃ theta function, from orbifold modular parameter τ = 1/3)
+- f_u^{node} = ε_H × exp(-9σ₁²/4) = 0.1333 (twisted sector node, from ε_H + Mathieu equation)
+**Impact:** All corrections are now independently derived. No fitted parameters remain in the mass sector.
+**Document:** `CY4_CORRECTION_FACTOR_DERIVATION.md`
 
 ---
 

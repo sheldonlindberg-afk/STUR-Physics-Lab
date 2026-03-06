@@ -1173,8 +1173,8 @@ m_u^{corrected} = 16.1 MeV × 0.133 = 2.14 MeV
 │      m_u^{observed}  = 2.16 MeV                                             │
 │      Agreement: 0.9%  ✓                                                    │
 │                                                                             │
-│  Note: ε_H = 0.40 is a NEW DERIVED PARAMETER representing Higgs ∞₃        │
-│  localization, consistent with EWSB and threshold corrections.             │
+│  Note: ε_H = 2e^{-π/3}/√3 = 0.4051 is DERIVED from Z₃ theta function     │
+│  (see CY4_CORRECTION_FACTOR_DERIVATION.md). No fitting required.          │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 

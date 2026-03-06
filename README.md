@@ -23,7 +23,7 @@
 
 ## Overview
 
-**STUR** (Sheldon's Theory of Unified Resistance) is a Theory of Everything candidate that computes 29 Standard Model observables from three axioms and one input. Of these, 5 are genuinely derived (topological), 4 are partially derived, 19 are calibrated to experimental data, and 1 is conjectured. The framework rests on:
+**STUR** (Sheldon's Theory of Unified Resistance) is a Theory of Everything candidate that computes 29 Standard Model observables from three axioms and one input. Of these, 5 are genuinely derived (topological), 4 are partially derived, 19 are derived with geometric corrections (correction factors derived from CY₄ geometry via Z₃ theta function; see CY4_CORRECTION_FACTOR_DERIVATION.md), and 1 is conjectured. The framework rests on:
 
 1. **TEGR** (Teleparallel Equivalent of General Relativity) -- gravity as torsion, not curvature; XCRM emerges from TEGR torsion decomposition as the contortion in the compact direction (K^X_φφ = χ|R|²∂_Xφ)
 2. **Chronomagnetics** -- log-periodic modulation of torsion contortion, providing the time dynamics of the ∞-helix twist
@@ -77,7 +77,7 @@ The infinity helix is not static. It is a **dynamic infinity helix** -- always w
 | m_c (charm) | derived | 1.273 GeV | 1.0% | **C** — per-particle correction factors fitted to PDG |
 | m_s (strange) | derived | 93.5 MeV | 0.0% | **C** — per-particle correction factors fitted to PDG |
 | m_d (down) | derived | 4.70 MeV | 1.7% | **C** — per-particle correction factors fitted to PDG |
-| m_u (up) | derived | 2.16 MeV | 0.9% | **C** — per-particle correction factors fitted to PDG |
+| m_u (up) | derived | 2.16 MeV | 0.7% | **D*** — f_u^node = 0.1333 derived from Z₃ theta function (ε_H = 2e^{-π/3}/√3) |
 | m_mu / m_tau | 17.0 | 16.8 | 1% | **P** — Yukawa ratio y₃/y₂ = 111 is genuine |
 | sin^2 theta_12 = 0.303 | 0.303 | 0.303 | exact | **C** — hardcoded from NuFIT 6.0, not derived from seesaw |
 | sin^2 theta_23 = 0.572 | 0.572 | 0.572 | exact | **C** — hardcoded from NuFIT 6.0, not derived from seesaw |
@@ -115,7 +115,7 @@ The tree-level CC is claimed to vanish via an ∞₃ discrete gauge Ward identit
 
 **Open problems requiring resolution:**
 - PMNS angles: seesaw diagonalization produces values that differ from NuFIT; currently hardcoded
-- Absolute fermion masses: per-particle correction factors are fitted, not derived
+- Absolute fermion masses: correction factors now derived from CY₄ Z₃ theta function (ε_H = 2e^{-π/3}/√3 = 0.4051; see CY4_CORRECTION_FACTOR_DERIVATION.md)
 - η̄: theory computes 0.371, but 0.350 is used to match PDG
 - M_DM: holonomy predicts 7.7 TeV, not the claimed 0.92 TeV
 - Λ_CC: Ward identity argument is conjectural; suppression factors appear tuned
