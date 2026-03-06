@@ -139,7 +139,7 @@ The 5D universe simulation (`scripts/stur_5duniverse.html`) demonstrates this: t
 | m_b/m_t quantitative gap | **Derived** (v7.0: 2-body overlap → 0.050 vs PDG 0.024); 2× | 5D vertex corrections + KK tower contributions |
 | PMNS θ₁₂ accuracy | **Derived** (v7.0: sin²θ₁₂ = 0.181 vs 0.303); 40% gap | Higher-order corrections to TBM + lepton Cabibbo |
 | Tensor-to-scalar ratio r | STUR predicts r ≈ 0.13; BICEP/Keck bound r < 0.036 | Torsion damping corrections needed |
-| χ(CY₄) discrepancy | 216 (newer) vs 1698 (older document) | Reconcile UV_COMPLETION_EXPLORATION.md |
+| χ(CY₄) discrepancy | **RESOLVED**: χ = 216 correct (1698 fails integrality: 1698/24 ∉ ℤ) | Stale refs in UV_COMPLETION_EXPLORATION.md corrected |
 
 ---
 

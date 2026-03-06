@@ -101,10 +101,10 @@ perspective changes (discrete scale invariance via λ_chrono = 3722/2705).
 **Status:** ∞-helix mechanism is novel but not yet proven to satisfy refined dS bounds.
 **Impact:** Most stringent swampland constraint; conditional satisfaction.
 
-### RQ-4: χ(CY₄) Discrepancy
+### RQ-4: χ(CY₄) Discrepancy — RESOLVED ✓
 
-**Status:** 216 (newer construction) vs 1698 (older exploration). Factor 7.86 difference.
-**Impact:** Needs reconciliation between UV_COMPLETION_EXPLORATION.md and FTHEORY_CY4_EXPLICIT_CONSTRUCTION.md.
+**Status:** χ = 216 is correct. The value 1698 fails integrality (1698/24 = 70.75 ∉ ℤ, violating tadpole cancellation). The value 72 conflated N_gen = ∫G₄ = 3 with χ/24. Hodge numbers h¹¹=6, h²¹=3, h³¹=25 verified by two independent formulas: χ = 6(8+h¹¹+h³¹-h²¹) = 6×36 = 216.
+**Impact:** Resolved. Stale references in HTML pages corrected.
 
 ### RQ-5: Fermion Mass Correction Factor Independence — RESOLVED ✓
 
