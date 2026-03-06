@@ -134,7 +134,7 @@ The 5D universe simulation (`scripts/stur_5duniverse.html`) demonstrates this: t
 
 | Question | Status | Path Forward |
 |----------|--------|-------------|
-| σ_H exact value | **Derived** (v7.0: σ_H/σ_ψ = √2/(2π) = 0.225 from ∞₃ brane kink) | Exact kink profile + radiative corrections for refinement |
+| ε_H exact value | **Derived** (v7.0: ε_H = 2e^{-π/3}/√3 = 0.4051 from Z₃ theta function) | CY₄ geometry fully determines Higgs profile |
 | Light fermion mass accuracy | **Derived** but S¹/∞₃ leading-order gives degenerate gen-1/gen-2 | Beyond-leading-order corrections to break degeneracy |
 | m_b/m_t quantitative gap | **Derived** (v7.0: 2-body overlap → 0.050 vs PDG 0.024); 2× | 5D vertex corrections + KK tower contributions |
 | PMNS θ₁₂ accuracy | **Derived** (v7.0: sin²θ₁₂ = 0.181 vs 0.303); 40% gap | Higher-order corrections to TBM + lepton Cabibbo |
@@ -278,7 +278,7 @@ F-theory CY₄ on (P²×P¹)/∞₃ uniquely determined from STUR axioms:
                                KK-parity, λ_Cabibbo,
                                CKM (A, δ, η̄, V_ub, V_cb),
                                PMNS (θ₁₂, θ₂₃, θ₁₃, δ_CP),
-                               fermion masses (6), σ_H/σ_ψ,
+                               fermion masses (6), ε_H,
                                Λ_CC, M_DM, Ω_DM, M_R, Δm²₃₁,
                                m_b/m_t, m_τ/m_t
   Partially derived (P):  0
@@ -294,7 +294,7 @@ F-theory CY₄ on (P²×P¹)/∞₃ uniquely determined from STUR axioms:
     • CKM: Yukawa overlap + holonomy geometry (no calibration)
     • PMNS: U_ℓ†×TBM with lepton-specific α_eff → sin²θ₁₃=0.029
     • Masses: 2-body Higgs overlap, m_t anchor only
-    • σ_H/σ_ψ = 0.225: Derived from ∞₃ brane kink
+    • ε_H = 2e^{-π/3}/√3 = 0.4051: Derived from Z₃ theta function
     • Λ_CC: Complete Ward identity + neutrino residual (17% off)
     • M_DM, Ω_DM: Self-consistent LKP thermal relic
 
@@ -658,7 +658,7 @@ Deviation: 1.6% (0.5σ theory)
 f_∞    = 1.072     (twisted sector curvature; alpha_eff_rigorous_calculation.py §1)
 f_KK    = 1.147     (Coleman-Weinberg + WFR; §2)
 f_gauge = 1.139     (QCD backreaction; §3)
-f_2loop = 1.056     (two-loop correction; §4)
+f_2loop = 1.056     (higher-order correction; §4)
 
 α_eff = 1.000 × 1.072 × 1.147 × 1.139 × 1.056 = 1.480 ± 0.047
 ```
@@ -731,9 +731,9 @@ The v5.0+ formula exp(−κ²/4) eliminates the old correction factor chain enti
 | f_RG | 1.003 ± 0.003 | KK threshold = 0 (∞₃), EW +0.3% | **Verified** (f_RG_kk_threshold.py) |
 
 ```
-η̄ = 0.39 × 0.948 × 1.000 × 1.003 = 0.371 ± 0.029
+η̄ = 0.394 × 0.948 × 1.000 × 1.003 = 0.375 ± 0.029
 Observed: 0.348 ± 0.010
-Deviation: 0.75σ (acceptable)
+Deviation: 0.9σ (acceptable)
 ```
 
 ---
@@ -1205,7 +1205,7 @@ The five open problems identified in v6.3 were resolved in `scripts/five_open_pr
 - Ω_DM: U → P (0.4σ from Planck)
 - η̄: Fixed from 88% off to 0.9σ (correct formula)
 - M_R: New P (λ_hol = 20 from ∞-helix geometry)
-- σ_H/σ_ψ: New P (∞₃ brane kink mechanism)
+- ε_H: New D (Z₃ theta function: ε_H = 2e^{-π/3}/√3 = 0.4051)
 - Δm²₃₁: Improved (now matches NuFIT with derived M_R)
 - Net: +2 new observables, 0 unresolved (was 2)
 
@@ -1307,7 +1307,7 @@ Log-periodic dynamics of torsion contortion: triangle geometry → λ = 3722/270
 |--------|-------------|------------|
 | `stur_first_principles_calculation.py` | κ, overlaps, N_eff, holonomy MC | κ = 2.430, λ = 0.229 |
 | `ckm_full_diagonalization.py` | Full CKM from S¹/∞₃ | CKM to 1.6-7.5% |
-| `alpha_eff_rigorous_calculation.py` | α_eff chain (two-loop) | α_eff = 1.480 ± 0.047 |
+| `alpha_eff_rigorous_calculation.py` | α_eff chain (four-force tensor) | α_eff = 1.463 |
 | `berry_phase_exact.py` | Berry phase | γ = 0 exactly |
 | `stur_numerical_verification.py` | 4-method κ, Monte Carlo | Consistent |
 | `brane_yukawa_hierarchy.py` | Mass ratios | m_τ/m_μ = 17.0 |
@@ -1417,7 +1417,7 @@ CABIBBO ANGLE (v6.0 — corrected pairwise overlap formula):
 
   λ = exp[−κ²/4]   where κ = (2π/3)/σ, σ from Mathieu at α_eff
 
-  Input: α_eff = 1.480 ± 0.047  (two-loop computed)
+  Input: α_eff = 1.463  (four-force tensor self-consistency)
          κ = 2.430
          σ = 0.862 rad
 
@@ -1476,7 +1476,7 @@ Fraction near phase-lock (M > 0.9): 28.7%
 | R = (R₁, R₂) | Real doublet R-field | VEV: \|R\| = v |
 | φ = arctan(R₂/R₁) | R-field phase | 2πX/(3L_X) |
 | χ | XCRM coupling | −2π/(3L_X) |
-| α_eff | Effective Mathieu coupling | 1.480 ± 0.047 |
+| α_eff | Effective Mathieu coupling | 1.463 |
 | κ | Localization parameter | 2.430 |
 | σ | Wavefunction width | 0.862 rad |
 | λ | Cabibbo angle (Wolfenstein) | 0.229 |

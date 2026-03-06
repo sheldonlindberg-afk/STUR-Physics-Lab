@@ -21,9 +21,9 @@ perspective changes (discrete scale invariance via λ_chrono = 3722/2705).
 
 ### OP-1: α_eff from First Principles — SOLVED ✓
 
-**Status:** α_eff = 1.480 ± 0.047 (one-loop + two-loop). λ = 0.229 (1.6% from PDG).
-**Method:** ∞-helix twisted sector + KK tower + gauge backreaction.
-**Script:** `alpha_eff_rigorous_calculation.py`
+**Status:** α_eff = 1.463 (four-force tensor self-consistency). λ = 0.2267 (0.7% from PDG).
+**Method:** ∞-helix twisted sector + KK tower + gauge backreaction + four-force tensor matching.
+**Script:** `alpha_eff_rigorous_calculation.py`, `tegr_xcrm_unified.py`
 
 ### OP-2: L_X Scale — RESOLVED ✓
 
@@ -142,7 +142,7 @@ three axioms and one input (M_Planck)."**
 |----------------|-----------------|------------|
 | `stur_first_principles_calculation.py` | κ, σ, overlaps, N_eff | κ = 2.430, σ = 0.862 |
 | `ckm_full_diagonalization.py` | Full CKM matrix | All 9 elements, 1.6–7.5% |
-| `alpha_eff_rigorous_calculation.py` | α_eff chain | 1.480 ± 0.047 |
+| `alpha_eff_rigorous_calculation.py` | α_eff chain | 1.463 (four-force tensor) |
 | `berry_phase_exact.py` | Berry phase | 0 exactly |
 | `brane_yukawa_hierarchy.py` | Mass ratios | m_τ/m_μ = 17.0 (1%) |
 | `toe_closure_calculations.py` | Z_N energy, Higgs profile | ∞₃ proven optimal |

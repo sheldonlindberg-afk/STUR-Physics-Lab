@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - DERIVATION_CHAIN_INFINITY.md: Complete rewrite from 9270 to ~950 lines (professional, focused)
 - Formula: exp[−κ²/4] (pairwise overlap) confirmed as CKM formula (not exp[−κ²/8])
-- α_eff = 1.480 ± 0.047 (two-loop), κ = 2.430, λ = 0.229 (1.6% from PDG)
+- α_eff = 1.463 (four-force tensor), κ = 2.430, λ = 0.2267 (0.7% from PDG)
 - CKM matrix: all 9 elements derived to 1.6–7.5% accuracy
 - L_X status: changed from "derived" to "OPEN" (no stable V_eff minimum)
 - Cosmological constant: changed from "solved" to "OPEN" (∞₃ reduces but doesn't solve)

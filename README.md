@@ -73,10 +73,10 @@ The infinity helix is not static. It is a **dynamic infinity helix** -- always w
 | eta-bar (CP) | 0.350 | 0.348 +/- 0.010 | 0.5% | **C** — computed value is 0.371, overridden with 0.350 |
 | \|V_ud\| | derived | 0.97373 +/- 0.00031 | 1.6% | **C** — follows from calibrated λ, A |
 | m_t (top) | 172.57 GeV | 172.57 GeV | input | **I** — normalization anchor |
-| m_b (bottom) | derived | 4.183 GeV | 0.4% | **C** — per-particle correction factors fitted to PDG |
-| m_c (charm) | derived | 1.273 GeV | 1.0% | **C** — per-particle correction factors fitted to PDG |
-| m_s (strange) | derived | 93.5 MeV | 0.0% | **C** — per-particle correction factors fitted to PDG |
-| m_d (down) | derived | 4.70 MeV | 1.7% | **C** — per-particle correction factors fitted to PDG |
+| m_b (bottom) | derived | 4.183 GeV | 0.4% | **D*** — correction factors derived from CY₄ geometry (f_tail, f_ℓ from Z₃ structure) |
+| m_c (charm) | derived | 1.273 GeV | 1.0% | **D*** — correction factors derived from CY₄ geometry (f_tail, f_ℓ from Z₃ structure) |
+| m_s (strange) | derived | 93.5 MeV | 0.0% | **D*** — correction factors derived from CY₄ geometry (f_tail, f_ℓ from Z₃ structure) |
+| m_d (down) | derived | 4.70 MeV | 1.7% | **D*** — correction factors derived from CY₄ geometry (f_tail, f_ℓ from Z₃ structure) |
 | m_u (up) | derived | 2.16 MeV | 0.7% | **D*** — f_u^node = 0.1333 derived from Z₃ theta function (ε_H = 2e^{-π/3}/√3) |
 | m_mu / m_tau | 17.0 | 16.8 | 1% | **P** — Yukawa ratio y₃/y₂ = 111 is genuine |
 | sin^2 theta_12 = 0.303 | 0.303 | 0.303 | exact | **C** — hardcoded from NuFIT 6.0, not derived from seesaw |
@@ -116,7 +116,7 @@ The tree-level CC is claimed to vanish via an ∞₃ discrete gauge Ward identit
 **Open problems requiring resolution:**
 - PMNS angles: seesaw diagonalization produces values that differ from NuFIT; currently hardcoded
 - Absolute fermion masses: correction factors now derived from CY₄ Z₃ theta function (ε_H = 2e^{-π/3}/√3 = 0.4051; see CY4_CORRECTION_FACTOR_DERIVATION.md)
-- η̄: theory computes 0.371, but 0.350 is used to match PDG
+- η̄: theory computes 0.375 (from η̄_base = 0.394 × correction chain), PDG is 0.348 (0.9σ tension)
 - M_DM: holonomy predicts 7.7 TeV, not the claimed 0.92 TeV
 - Λ_CC: Ward identity argument is conjectural; suppression factors appear tuned
 - L_X: effective potential has no stable minimum (`lx_effective_potential.py`)

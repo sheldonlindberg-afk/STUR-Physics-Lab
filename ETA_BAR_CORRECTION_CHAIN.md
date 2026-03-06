@@ -94,7 +94,7 @@ where:
 - theta_chi = arctan(1/2) = 26.57 deg (helix chirality phase)
 - delta_tb = pi/3 = 60 deg (holonomy interference for t->b transition)
 - f_screen = 0.696 ± 0.006 (Debye-Waller screening, DERIVED in v5.1
-  from |⟨ψ₀|e^{iθ}|ψ₀⟩| at α_eff = 1.480; see f_screen_first_principles.py)
+  from |⟨ψ₀|e^{iθ}|ψ₀⟩| at α_eff = 1.463; see f_screen_first_principles.py)
 
 ### 1.3 Base eta-bar Calculation
 

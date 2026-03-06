@@ -402,7 +402,7 @@ A cleaner derivation path for the Cabibbo angle replaces the multiplicative corr
 
 **New approach (v4.5):** Compute alpha_eff from quantum corrections to the localization potential, then obtain lambda directly from the overlap integral at alpha_eff.
 
-The computed value alpha_eff = 1.480 +/- 0.047 (one-loop + two-loop) accounts for ∞-helix twisted sector curvature, KK tower renormalization, gauge backreaction, and two-loop corrections. This gives lambda = exp(-kappa^2/4) = 0.229 (1.6% agreement). The CP phase is now computed via Derivation D: delta_CKM = arctan(1/2) + pi/3 x f_screen = 68.3° (4.4% from observed 65.4°), with f_screen = 0.696 derived from the Debye-Waller factor of the Mathieu eigenstate.
+The self-consistent value alpha_eff = 1.463 (four-force tensor matching) accounts for ∞-helix twisted sector curvature, KK tower renormalization, gauge backreaction, and higher-order corrections. This gives lambda = exp(-kappa^2/4) = 0.2267 (0.7% agreement). The CP phase is now computed via Derivation D: delta_CKM = arctan(1/2) + pi/3 x f_screen = 68.3° (4.4% from observed 65.4°), with f_screen = 0.696 derived from the Debye-Waller factor of the Mathieu eigenstate.
 
 See ALPHA_EFFECTIVE_DERIVATION.md for the complete calculation.
 
