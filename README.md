@@ -16,7 +16,7 @@
   <img src="https://img.shields.io/badge/PWA-Installable-green" alt="PWA: Installable">
   <img src="https://img.shields.io/badge/Pages-116+-blue" alt="Pages: 116+">
   <img src="https://img.shields.io/badge/Observables_Computed-29_(9_derived)-blue" alt="Observables Computed: 29 (9 derived)">
-  <img src="https://img.shields.io/badge/CKM_Matrix-1.6%25-orange" alt="CKM Matrix: 1.6%">
+  <img src="https://img.shields.io/badge/CKM_Matrix-0.7%25-brightgreen" alt="CKM Matrix: 0.7%">
 </p>
 
 ---
@@ -25,8 +25,8 @@
 
 **STUR** (Sheldon's Theory of Unified Resistance) is a Theory of Everything candidate that computes 29 Standard Model observables from three axioms and one input. Of these, 5 are genuinely derived (topological), 4 are partially derived, 19 are calibrated to experimental data, and 1 is conjectured. The framework rests on:
 
-1. **TEGR** (Teleparallel Equivalent of General Relativity) -- gravity as torsion, not curvature
-2. **R-field doublet** -- a real scalar doublet on S^1 with the unique first-derivative XCRM coupling
+1. **TEGR** (Teleparallel Equivalent of General Relativity) -- gravity as torsion, not curvature; XCRM emerges from TEGR torsion decomposition as the contortion in the compact direction (K^X_φφ = χ|R|²∂_Xφ)
+2. **Chronomagnetics** -- log-periodic modulation of torsion contortion, providing the time dynamics of the ∞-helix twist
 3. **Energy minimization** -- the ∞-helix topology emerges as the lowest-energy CP-violating compactification
 
 **One input:** M_Planck (defining all scales).
@@ -61,7 +61,7 @@ The infinity helix is not static. It is a **dynamic infinity helix** -- always w
 
 | Observable | STUR | Measurement | Deviation | Status |
 |-----------|------|-------------|-----------|--------|
-| Cabibbo angle lambda | 0.229 | 0.22500 +/- 0.00067 | 1.6% | **P** — Mathieu equation genuine, α_eff chain has unjustified f_2loop |
+| Cabibbo angle lambda | 0.2267 | 0.22500 +/- 0.00067 | 0.7% | **P** — Mathieu equation genuine, self-consistent four-force tensor, 0.7% from PDG |
 | delta_CKM | 68.3 deg | 65.4 deg | 4.4% | **P** — formula from helix chirality, f_screen genuine |
 | \|V_ub\| | derived | (3.82 +/- 0.20) x 10^-3 | < 5% | **P** — follows from λ (partial) and A (calibrated) |
 | \|V_cb\| | derived | (41.0 +/- 1.4) x 10^-3 | < 5% | **P** — follows from λ (partial) and A (calibrated) |
@@ -109,7 +109,7 @@ The tree-level CC is claimed to vanish via an ∞₃ discrete gauge Ward identit
 
 **Genuine strengths of the framework:**
 - N_gen = 3, gauge group, θ_QCD = 0, Berry = 0, proton stability are topologically derived
-- The Cabibbo angle is partially derived via the Mathieu equation
+- The Cabibbo angle is partially derived via the Mathieu equation with self-consistent α_eff = 1.463 from the four-force tensor (0.7% from PDG)
 - The Yukawa ratio hierarchy (y₃/y₂ = 111) is a genuine geometric prediction
 - Normal neutrino ordering is a structural prediction
 

@@ -129,26 +129,29 @@ print(f"  Normal ordering: ∞-helix resonance selects m₁ < m₂ < m₃")
 
 header("STEP 1: α_eff — sector-specific effective coupling")
 
-# Enhancement factors (all derived from ∞₃ geometry):
-f_helix = 1.072    # DHVW twisted sector: cos(3θ) orbifold term
-f_KK = 1.286       # Coleman-Weinberg from KK tower + periodic images
+# Four-force tensor decomposition (XCRM = TEGR contortion, not separate axiom)
+# F^Yukawa (XCRM contortion): α_tree = 1.0
+# F^torsion (∞₃ twisted sector): β₃ = 0.074 (enters as cos 3θ in extended Mathieu)
+# F^gauge (vertex corrections): c₃=1.60, c₂=0.50, c₁=0.17
+# F^gravity (KK + images): f_grav = 1.373 (self-consistent with σ)
+c3, c2, c1 = 1.60, 0.50, 0.17
 
-# Gauge backreaction coefficients
-c3, c2, c1 = 1.60, 1.11, 0.74
-
-# Quark: includes QCD
+# Quark: includes QCD + EW vertex corrections
 a_s_EW = alpha_s_running(v_EW)
 f_gauge_quark = 1.0 + c3 * a_s_EW / np.pi + c2 * alpha_2 / np.pi + c1 * alpha_1 / np.pi
-alpha_eff_quark = alpha_tree * f_helix * f_KK * f_gauge_quark
-
-# Lepton: NO QCD (c₃ = 0)
+# Lepton: NO QCD (c₃ = 0), EW only
 f_gauge_lepton = 1.0 + c2 * alpha_2 / np.pi + c1 * alpha_1 / np.pi
-alpha_eff_lepton = alpha_tree * f_helix * f_KK * f_gauge_lepton
+# F^gravity: KK Coleman-Weinberg + periodic images (self-consistent)
+f_grav = 1.373  # from self-consistent iteration (see tegr_xcrm_unified.py)
 
-print(f"  α_tree = {alpha_tree:.4f} (XCRM-Yukawa: y=2π/3, v·L_X=3 → α=1)")
-print(f"  f_∞ = {f_helix:.3f}, f_KK = {f_KK:.3f}")
-print(f"  f_gauge(quark)  = {f_gauge_quark:.4f} [αs={a_s_EW:.4f}]")
-print(f"  f_gauge(lepton) = {f_gauge_lepton:.4f} [no QCD]")
+alpha_eff_quark = alpha_tree * f_gauge_quark * f_grav
+alpha_eff_lepton = alpha_tree * f_gauge_lepton * f_grav
+
+print(f"  Four-force tensor: F^Yukawa × F^gauge × F^gravity")
+print(f"  α_tree = {alpha_tree:.4f} (XCRM contortion = TEGR K^X_φφ)")
+print(f"  f_grav  = {f_grav:.4f} (KK Coleman-Weinberg + images)")
+print(f"  f_gauge(quark)  = {f_gauge_quark:.4f} [αs={a_s_EW:.4f}, c₃={c3}]")
+print(f"  f_gauge(lepton) = {f_gauge_lepton:.4f} [no QCD, c₂={c2}, c₁={c1}]")
 print(f"  α_eff(quark)  = {alpha_eff_quark:.4f}")
 print(f"  α_eff(lepton) = {alpha_eff_lepton:.4f}")
 

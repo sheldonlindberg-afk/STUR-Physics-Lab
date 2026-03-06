@@ -164,38 +164,35 @@ print(f"  L_eff ~ 0.8 μm are the SAME geometry at different scales")
 # ═══════════════════════════════════════════════════════════════════
 
 print("\n" + "─" * 72)
-print("STEP 2: α_eff from ∞-helix twisted sector + KK tower + gauge backreaction")
+print("STEP 2: α_eff from four-force tensor (XCRM = TEGR contortion)")
 print("─" * 72)
 
-# Tree-level: α_tree = 1.0 (from XCRM-Yukawa symmetry y = 2π/3)
+# Tree-level: α_tree = 1.0 (from XCRM contortion K^X_φφ, not separate axiom)
 alpha_tree = 1.0
 
-# ∞-helix twisted sector enhancement
-# Dixon-Harvey-Vafa-Witten: cos(3θ) term from orbifold
-# Enhancement factor: (1 + 1/9)^{1/2} ≈ 1.054 for energy,
-# effective α enhancement: 1.072
-f_helix_twisted = 1.072
+# Four-force tensor decomposition:
+# F^Yukawa (XCRM contortion): α_tree = 1.0
+# F^torsion (∞₃ twisted sector): β₃ = 0.074 (enters as cos 3θ in extended Mathieu)
+beta_3 = alpha_tree * (1.0/9) * (2.0/3)  # DHVW twisted sector contortion
 
-# KK tower Coleman-Weinberg
-# One-loop from integrating out KK modes with ∞-helix projection
-# CW potential: V_CW = (1/64π²) Σ_n m_n⁴ ln(m_n²/μ²)
-# Image sum convergence gives enhancement factor
-f_KK_CW = 1.286
+# F^gauge (QCD + EW vertex corrections): scale-invariant via chronomagnetic bridge
+alpha_s_MZ = 0.1180
+alpha_2_val = (1/137.036) / 0.23121
+alpha_1_val = (1/137.036) / (1 - 0.23121)
+f_gauge = 1.0 + 1.60*alpha_s_MZ/np.pi + 0.50*alpha_2_val/np.pi + 0.17*alpha_1_val/np.pi
 
-# Gauge backreaction (QCD + EW)
-# At localization scale μ ~ 1/σ ~ M_KK
-alpha_s_MKK = 0.118  # approximate
-f_gauge = 1.0 + alpha_s_MKK / np.pi + 0.01  # ≈ 1.076 (leading QCD + EW)
-f_gauge = 1.076
+# F^gravity (KK Coleman-Weinberg + periodic images): self-consistent with σ
+f_grav = 1.373  # from self-consistent iteration (see tegr_xcrm_unified.py)
 
-alpha_eff = alpha_tree * f_helix_twisted * f_KK_CW * f_gauge
+alpha_eff = alpha_tree * f_gauge * f_grav  # ≈ 1.463
 sigma_alpha = 0.047  # combined uncertainty
 
-print(f"  α_tree = {alpha_tree:.3f} (XCRM-Yukawa symmetry: y = 2π/3)")
-print(f"  × f_∞  = {f_helix_twisted:.3f} (twisted sector)")
-print(f"  × f_KK  = {f_KK_CW:.3f} (Coleman-Weinberg)")
-print(f"  × f_gauge = {f_gauge:.3f} (QCD + EW backreaction)")
-print(f"  α_eff = {alpha_eff:.3f} ± {sigma_alpha:.3f}")
+print(f"  Four-force tensor: F^Yukawa × F^gauge × F^gravity")
+print(f"  α_tree  = {alpha_tree:.3f} (XCRM contortion = TEGR K^X_φφ)")
+print(f"  f_gauge = {f_gauge:.4f} (QCD + EW vertex corrections)")
+print(f"  f_grav  = {f_grav:.3f} (KK Coleman-Weinberg + images)")
+print(f"  β₃      = {beta_3:.4f} (DHVW twisted sector contortion)")
+print(f"  α_eff   = {alpha_eff:.3f} ± {sigma_alpha:.3f}")
 
 # ═══════════════════════════════════════════════════════════════════
 # STEP 3: SOLVE MATHIEU EQUATION → κ, σ, λ

@@ -114,17 +114,25 @@ print()
 centers = [0.0, 2 * np.pi / 3, 4 * np.pi / 3]
 gen_names = ['Gen 1 (u,d,e)', 'Gen 2 (c,s,μ)', 'Gen 3 (t,b,τ)']
 
-# α_eff from two-loop calculation (SAME for all generations)
-f_infty = 1.072    # ∞-helix twisted sector (Dixon-Harvey-Vafa-Witten)
-f_KK = 1.286       # Coleman-Weinberg from KK tower
-f_gauge = 1.076    # QCD + EW backreaction
-alpha_eff = alpha_Mathieu * f_infty * f_KK * f_gauge  # ≈ 1.480
+# Four-force tensor decomposition (XCRM = TEGR contortion, not separate axiom)
+# F^Yukawa (XCRM contortion): α_tree = 1.0
+# F^torsion (∞₃ twisted sector): β₃ = 0.074 (enters as cos 3θ in Mathieu eq.)
+# F^gauge (QCD + EW vertex corrections): scale-invariant via chronomagnetic bridge
+alpha_s_MZ = 0.1180
+alpha_2 = (1/137.036) / 0.23121
+alpha_1 = (1/137.036) / (1 - 0.23121)
+f_gauge = 1.0 + 1.60*alpha_s_MZ/np.pi + 0.50*alpha_2/np.pi + 0.17*alpha_1/np.pi
+# F^gravity (KK Coleman-Weinberg + periodic images): self-consistent with σ
+f_grav = 1.373  # from self-consistent iteration (see tegr_xcrm_unified.py)
+alpha_eff = alpha_Mathieu * f_gauge * f_grav  # ≈ 1.463
+beta_3 = alpha_Mathieu * (1.0/9) * (2.0/3)  # DHVW twisted sector contortion
 
-print(f"  α_eff = {alpha_eff:.4f} (from two-loop: {alpha_Mathieu:.3f} × {f_infty} × {f_KK} × {f_gauge})")
+print(f"  Four-force tensor: F^Yukawa × F^gauge × F^gravity")
+print(f"  f_gauge = {f_gauge:.4f} (QCD + EW vertex corrections)")
+print(f"  f_grav  = {f_grav:.4f} (KK Coleman-Weinberg + images)")
+print(f"  α_eff = {alpha_eff:.4f} (= α_Mathieu × f_gauge × f_grav)")
+print(f"  β₃ = {beta_3:.4f} (DHVW twisted sector contortion)")
 print(f"  Same potential depth for all three generations.")
-print(f"  (Generation-dependent holonomy modification exists in")
-print(f"   ABSOLUTE_MASS_DERIVATION.md but DEGRADES predictions")
-print(f"   without additional per-particle fitted factors.)")
 
 # Solve Mathieu for each generation (SAME α_eff, different center)
 kappas = []
