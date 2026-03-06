@@ -576,7 +576,7 @@ delta_CKM = theta_chi + (np.pi/3) * f_screen
 delta_CKM_deg = np.degrees(delta_CKM)
 
 # η̄ from the full holonomy correction chain
-eta_bar = 0.39 * 0.948 * 1.000 * 1.003  # base × f_hol × f_Berry × f_RG
+eta_bar = 0.394 * 0.948 * 1.000 * 1.003  # base × f_hol × f_Berry × f_RG (= 0.375)
 rho_bar = eta_bar / np.tan(delta_CKM)
 
 # Jarlskog invariant

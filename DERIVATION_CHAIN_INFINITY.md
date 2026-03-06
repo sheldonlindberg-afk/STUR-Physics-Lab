@@ -273,17 +273,16 @@ F-theory CY₄ on (P²×P¹)/∞₃ uniquely determined from STUR axioms:
   32 OBSERVABLES FROM THREE AXIOMS + FOUR INPUTS
   (M_Pl, v_EW, m_t, α_em)
 ═══════════════════════════════════════════════════════════════
-  Derived (D):          31  — N_gen, gauge group, θ_QCD, Berry,
+  Derived (D):          20  — N_gen, gauge group, θ_QCD, Berry,
                                proton stability, normal ordering,
-                               KK-parity, λ_Cabibbo,
-                               CKM (A, δ, η̄, V_ub, V_cb),
-                               PMNS (θ₁₂, θ₂₃, θ₁₃, δ_CP),
-                               fermion masses (6), ε_H,
-                               Λ_CC, M_DM, Ω_DM, M_R, Δm²₃₁,
-                               m_b/m_t, m_τ/m_t
-  Partially derived (P):  0
-  Calibrated (C):         0
-  Unresolved (U):         0
+                               KK-parity, λ_Cabibbo, A (exp(-1/6)),
+                               CKM (δ, V_ub, V_cb), fermion masses (6),
+                               ε_H, M_R, Δm²₃₁, m_b/m_t, m_τ/m_t
+  Partially derived (P):  2  — η̄ (0.9σ), δ_CKM (4.5%)
+  Calibrated (C):         7  — PMNS (θ₁₂, θ₂₃, θ₁₃, δ_CP), M_DM, Ω_DM,
+                               η̄_input
+  Assumption (A):         1  — v·L_X = 3 (not proven from axioms)
+  Conjectured (J):        1  — Λ_CC (Ward identity premise unproven)
   Input (I):              1  — (4 inputs count as 1 free-parameter
                                sector: M_Pl sets scale, v_EW/m_t/α_em
                                are EW sector)
@@ -1180,25 +1179,25 @@ The five open problems identified in v6.3 were resolved in `scripts/five_open_pr
 | KK-parity | Conserved | — | TEGR | **D** | ∞₃ gauge symmetry |
 | λ (Cabibbo) | 0.2267 | 0.225 | XCRM | **D** | exp(-κ²/4), 0.7% |
 | ε_H | 0.4051 | 0.40 | XCRM | **D** | 2e^{-π/3}/√3, Z₃ theta function |
-| A (Wolfenstein) | 0.655 | 0.826 | XCRM | **D** | Holonomy geometry [v7.0] |
+| A (Wolfenstein) | 0.847 | 0.826 | XCRM | **D** | exp(-1/6), SU(3) Debye-Waller, 2.5% [v7.1] |
 | δ_CKM | 68.3° | 65.4° | XCRM | **D** | 4.5% |
 | η̄ | 0.375 | 0.348 | XCRM | **D** | 0.9σ, correction chain [v7.0] |
 | \|V_ub\| | 0.00316 | 0.00382 | XCRM | **D** | Wolfenstein geometry [v7.0] |
 | \|V_cb\| | 0.0342 | 0.0410 | XCRM | **D** | Wolfenstein geometry [v7.0] |
-| sin²θ₁₂ | 0.181 | 0.303 | C+TEGR | **D** | U_ℓ†×TBM, full lepton Cabibbo [v7.0] |
-| sin²θ₂₃ | 0.446 | 0.572 | C+TEGR | **D** | U_ℓ†×TBM [v7.0] |
-| sin²θ₁₃ | 0.0295 | 0.0220 | C+TEGR | **D** | Full lepton Cabibbo (was 0.003) [v7.0] |
-| δ_CP (PMNS) | 270° | 197° | Chrono | **D** | ∞-helix chirality |
-| Λ_CC | 3.3×10⁻⁴⁷ | 2.8×10⁻⁴⁷ | All 3 | **D** | Ward identity + ν residual, 17% [v7.0] |
+| sin²θ₁₂ | 0.303 | 0.303 | C+TEGR | **C** | Hardcoded from NuFIT (Z₃ ≠ TBM; 40% gap if derived) [v7.1] |
+| sin²θ₂₃ | 0.572 | 0.572 | C+TEGR | **C** | Hardcoded from NuFIT (22% gap if derived) [v7.1] |
+| sin²θ₁₃ | 0.0220 | 0.0220 | C+TEGR | **C** | Hardcoded from NuFIT (34% gap if derived) [v7.1] |
+| δ_CP (PMNS) | 197° | 197° | Chrono | **C** | Hardcoded from NuFIT (theory gives 270°) [v7.1] |
+| Λ_CC | 3.3×10⁻⁴⁷ | 2.8×10⁻⁴⁷ | All 3 | **J** | Ward identity + ν residual, 17%; premise unproven [v7.1] |
 | 6 fermion masses | — | PDG | XCRM | **D** | 2-body Higgs overlap, m_t anchor [v7.0] |
 | M_R | 2×10¹⁴ | ~10¹⁴ | TEGR | **D** | λ_hol = 19.6 [v7.0] |
 | Δm²₃₁ | 2.5×10⁻³ | 2.5×10⁻³ | XCRM | **D** | Seesaw + M_R [v7.0] |
-| M_DM | 0.92 TeV | — | TEGR | **D** | LKP B^(1) freeze-out [v7.0] |
-| Ω_DM h² | 0.119 | 0.120 | TEGR | **D** | 0.4σ from Planck [v7.0] |
+| M_DM | 0.92 TeV | — | TEGR | **C** | Fitted to Planck; holonomy calc has error [v7.1] |
+| Ω_DM h² | 0.119 | 0.120 | TEGR | **C** | Circular (follows from fitted M_DM) [v7.1] |
 | m_b/m_t | 0.050 | 0.0242 | TEGR | **D** | 2-body Higgs overlap, 2× gap [v7.0] |
 | m_τ/m_t | 0.035 | 0.01030 | TEGR | **D** | Color factor + lepton α_eff [v7.0] |
 
-**Updated totals:** 31 D + 0 P + 0 C + 0 U + 1 I = 32
+**Updated totals (v7.1 honest):** 20 D + 2 P + 7 C + 1 A + 1 J + 1 I = 32
 
 **v6.3 → v6.4 upgrades:**
 - M_DM: U → P (LKP thermal relic, not fitted)
@@ -1218,12 +1217,13 @@ The five open problems identified in v6.3 were resolved in `scripts/five_open_pr
 - All 23 P observables upgraded to D via complete first-principles derivation
 - ε_H = 2e^{-π/3}/√3 = 0.4051: Derived from Z₃ theta function (was fitted 0.40)
 - f_u^node = 0.1333: Derived from ε_H + twisted sector (was fitted 0.133)
-- CKM A = 0.655: From holonomy geometry (was calibrated 0.816)
+- CKM A = 0.847: From exp(-1/6) SU(3) Debye-Waller (v7.0 had κ/π prefactor → 0.655; removed in v7.1)
 - sin²θ₁₃ = 0.0295: Full lepton Cabibbo angle (was θ/3 → 0.003, 10× improvement)
 - η̄ = 0.375: Complete correction chain, no override
 - All 6 fermion masses from m_t anchor + 2-body Higgs overlap (no sector anchoring)
 - Λ_CC = 3.3×10⁻⁴⁷: Complete Ward identity + neutrino residual (17% from obs)
-- Net: 31 D + 0 P + 0 C + 0 U + 1 I = 32
+- Net (v7.0 claimed): 31 D + 0 P + 0 C + 0 U + 1 I = 32
+- Net (v7.1 honest):  20 D + 2 P + 7 C + 0 U + 1 A + 1 J + 1 I = 32
 
 ### 11.8 Last 2 Closure: m_b/m_t and m_τ/m_t (v6.5)
 

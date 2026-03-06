@@ -340,11 +340,12 @@ header("STEP 5: CKM from ∞-helix pairwise overlaps + holonomy")
 
 lam = lambda_Cab
 
-# A from ∞₃ holonomy geometry:
-# A = (2π/3)/(πσ) × exp(-1/6) [Haar measure × generation spacing/width]
-A_geom = (2 * np.pi / 3) / (np.pi * sigma_psi_q) * np.exp(-1.0 / 6)
+# A from SU(3) holonomy Debye-Waller factor:
+# A = exp(-1/6) = exp(-⟨δ²⟩/2) where ⟨δ²⟩ = 1/N_c = 1/3 from SU(3) Haar measure
+# The v7.0 prefactor (κ/π) was unjustified — see seven_tensions_resolution.py #1
+A_geom = np.exp(-1.0 / 6)
 print(f"  λ = exp(-κ²/4) = {lam:.5f}  (PDG: 0.22500, dev: {abs(lam-0.225)/0.225*100:.1f}%)")
-print(f"  A = (2π/3)/(πσ) × exp(-1/6) = {A_geom:.4f}  (PDG: 0.826)")
+print(f"  A = exp(-1/6) = {A_geom:.4f}  (PDG: 0.826, dev: {abs(A_geom-0.826)/0.826*100:.1f}%)")
 
 # δ_CKM from helix chirality
 delta_CKM = np.arctan(0.5) + np.pi / 3 * f_screen

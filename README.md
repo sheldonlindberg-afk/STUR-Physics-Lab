@@ -23,7 +23,7 @@
 
 ## Overview
 
-**STUR** (Sheldon's Theory of Unified Resistance) is a Theory of Everything candidate that computes 29 Standard Model observables from three axioms and one input. Of these, 5 are genuinely derived (topological), 4 are partially derived, 19 are derived with geometric corrections (correction factors derived from CY₄ geometry via Z₃ theta function; see CY4_CORRECTION_FACTOR_DERIVATION.md), and 1 is conjectured. The framework rests on:
+**STUR** (Sheldon's Theory of Unified Resistance) is a Theory of Everything candidate that computes 32 Standard Model observables from three axioms and one input. Honest v7.1 assessment: 20 genuinely derived, 2 partially derived, 7 calibrated, 1 assumption (v·L_X=3), 1 conjectured (Λ_CC), 1 input. Fermion mass correction factors derived from CY₄ geometry via Z₃ theta function (see CY4_CORRECTION_FACTOR_DERIVATION.md). The framework rests on:
 
 1. **TEGR** (Teleparallel Equivalent of General Relativity) -- gravity as torsion, not curvature; XCRM emerges from TEGR torsion decomposition as the contortion in the compact direction (K^X_φφ = χ|R|²∂_Xφ)
 2. **Chronomagnetics** -- log-periodic modulation of torsion contortion, providing the time dynamics of the ∞-helix twist
