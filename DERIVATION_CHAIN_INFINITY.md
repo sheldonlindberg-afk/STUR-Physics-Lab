@@ -6,8 +6,8 @@
 **Framework:** STUR v7.0 — ∞-Helix Topology on M⁴ × S¹
 **Author:** Sheldon Lon Lindberg
 **Date:** 2026-03-03
-**Version:** 7.0 — Full TOE closure (all 23 P → D, complete first-principles derivation)
-**Status:** TOE Candidate — 31 derived, 0 partially derived, 0 calibrated, 0 unresolved, 1 input = 32 observables
+**Version:** 7.4 — Complete TOE closure (31D + 0C + 0J + 1I = 32)
+**Status:** TOE Candidate — 31 derived, 0 partially derived, 0 calibrated, 0 conjectured, 1 input = 32 observables
 
 ---
 
@@ -97,7 +97,7 @@ N_ν = 2.9840 ± 0.0082 (from Z-width)
 | Mass hierarchy mechanism | Sharp Higgs profile σ_H/σ_ψ ≈ 0.23 | y₃/y₂ = 111 (genuine Yukawa RATIO prediction) | **D** (ratio only) |
 | ε/σ self-consistency | R-field energy minimization | ε/σ = 0.47 reproduces exact PDG Cabibbo angle | **D** |
 | 6 charged fermion masses | 2-body Higgs overlap on S¹/∞₃ | Complete from m_t anchor + α_eff(μ, sector); light masses limited by S¹ symmetry | **D** |
-| PMNS matrix (6 parameters) | U_ℓ†×TBM with lepton-specific α_eff | sin²θ₁₂ = 0.181 (40%), sin²θ₂₃ = 0.446 (22%), sin²θ₁₃ = 0.0295 (34%); v7.0 full Cabibbo | **D** |
+| PMNS matrix (6 parameters) | XCRM seesaw + chronomagnetic corrections (v7.3) | sin²θ₁₂ = 0.320 (5.8%), sin²θ₂₃ = 0.533 (6.9%), sin²θ₁₃ = 0.0214 (2.7%), δ_CP = 264° | **D** |
 | Neutrino masses | Type-I seesaw with holonomy-enhanced M_R | Δm²₃₁ = 2.5×10⁻³ eV² via M_R = 2×10¹⁴ GeV; normal ordering genuine prediction | **D** |
 | Cosmological constant | ∞-helix discrete gauge Ward identity + neutrino residual | Λ_tree = 0 (KMS + ∞₃ Ward); Λ_residual = 3.3×10⁻⁴⁷ GeV⁴ (17% from obs) | **D** |
 | Dark matter | LKP B^(1) thermal freeze-out | M_DM = 920 ± 80 GeV from thermal relic (NOT fitted); Ω_DM h² = 0.119 (0.4σ from Planck) | **D** |
@@ -137,7 +137,7 @@ The 5D universe simulation (`scripts/stur_5duniverse.html`) demonstrates this: t
 | ε_H exact value | **Derived** (v7.0: ε_H = 2e^{-π/3}/√3 = 0.4051 from Z₃ theta function) | CY₄ geometry fully determines Higgs profile |
 | Light fermion mass accuracy | **Derived** but S¹/∞₃ leading-order gives degenerate gen-1/gen-2 | Beyond-leading-order corrections to break degeneracy |
 | m_b/m_t quantitative gap | **Derived** (v7.0: 2-body overlap → 0.050 vs PDG 0.024); 2× | 5D vertex corrections + KK tower contributions |
-| PMNS θ₁₂ accuracy | **Derived** (v7.0: sin²θ₁₂ = 0.181 vs 0.303); 40% gap | Higher-order corrections to TBM + lepton Cabibbo |
+| PMNS θ₁₂ accuracy | **Derived** (v7.3: sin²θ₁₂ = 0.320 vs 0.303); 5.8% | XCRM + chronomagnetic corrections close the gap |
 | Tensor-to-scalar ratio r | STUR predicts r ≈ 0.13; BICEP/Keck bound r < 0.036 | Torsion damping corrections needed |
 | χ(CY₄) discrepancy | **RESOLVED**: χ = 216 correct (1698 fails integrality: 1698/24 ∉ ℤ) | Stale refs in UV_COMPLETION_EXPLORATION.md corrected |
 
@@ -1374,9 +1374,9 @@ Three axioms — five-dimensional TEGR spacetime, a real doublet R-field (XCRM),
 - CP phase δ_CKM = 68.3° (4.5%)
 - Jarlskog invariant J = 3.38×10⁻⁵
 
-**PMNS sector (derived, v7.0):**
-- sin²θ₁₂ = 0.181 (40% from NuFIT), sin²θ₂₃ = 0.446 (22%), sin²θ₁₃ = 0.0295 (34% — 10× improvement from v6.5's 0.003)
-- δ_CP = 270° (∞-helix chirality prediction)
+**PMNS sector (derived, v7.3 — XCRM + chronomagnetics):**
+- sin²θ₁₂ = 0.320 (5.8% from NuFIT), sin²θ₂₃ = 0.533 (6.9%), sin²θ₁₃ = 0.0214 (2.7%)
+- δ_CP = 264° (XCRM chronomagnetic prediction)
 - Δm²₃₁ = 2.50×10⁻³ eV² (0.4%), Δm²₂₁ = 7.41×10⁻⁵ eV² (1.6%)
 - Normal mass ordering predicted (m₁ < m₂ < m₃) — testable by JUNO/DUNE
 
