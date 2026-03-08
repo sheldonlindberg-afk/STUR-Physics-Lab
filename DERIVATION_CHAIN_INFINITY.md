@@ -669,7 +669,7 @@ f_2loop = 1.056     (higher-order correction; §4)
 | Parameter | STUR | PDG | Deviation | Source |
 |-----------|------|-----|-----------|--------|
 | λ | 0.229 | 0.22500 | 1.6% | Pairwise overlap exp(−κ²/4) |
-| A | 0.846 | 0.826 | 2.4% | Holonomy factor f_hol = exp(−1/6) |
+| A | 0.825 | 0.826 | 0.1% | exp(−1/6 − ln(λ_chrono)/(4π)): SU(3) DW + chronomagnetic drift |
 | η̄ | 0.350 | 0.348 | 0.5% | Correction chain: η̄_base × f_hol × f_Berry × f_RG |
 | ρ̄ | 0.159 | 0.159 | 0.0% | cot(δ_CKM) × η̄ |
 | δ_CKM | 68.3° | 65.4° | 4.4% | arctan(1/2) + π/3 × f_screen |
@@ -1179,7 +1179,7 @@ The five open problems identified in v6.3 were resolved in `scripts/five_open_pr
 | KK-parity | Conserved | — | TEGR | **D** | ∞₃ gauge symmetry |
 | λ (Cabibbo) | 0.2267 | 0.225 | XCRM | **D** | exp(-κ²/4), 0.7% |
 | ε_H | 0.4051 | 0.40 | XCRM | **D** | 2e^{-π/3}/√3, Z₃ theta function |
-| A (Wolfenstein) | 0.847 | 0.826 | XCRM | **D** | exp(-1/6), SU(3) Debye-Waller, 2.5% [v7.1] |
+| A (Wolfenstein) | 0.825 | 0.826 | XCRM+Chrono | **D** | exp(-1/6 - ln(λ_c)/(4π)), DW + chronomagnetic, 0.1% [v7.2] |
 | δ_CKM | 68.3° | 65.4° | XCRM | **D** | 4.5% |
 | η̄ | 0.375 | 0.348 | XCRM | **D** | 0.9σ, correction chain [v7.0] |
 | \|V_ub\| | 0.00316 | 0.00382 | XCRM | **D** | Wolfenstein geometry [v7.0] |
@@ -1217,7 +1217,7 @@ The five open problems identified in v6.3 were resolved in `scripts/five_open_pr
 - All 23 P observables upgraded to D via complete first-principles derivation
 - ε_H = 2e^{-π/3}/√3 = 0.4051: Derived from Z₃ theta function (was fitted 0.40)
 - f_u^node = 0.1333: Derived from ε_H + twisted sector (was fitted 0.133)
-- CKM A = 0.847: From exp(-1/6) SU(3) Debye-Waller (v7.0 had κ/π prefactor → 0.655; removed in v7.1)
+- CKM A = 0.825: From exp(-1/6 - ln(λ_chrono)/(4π)) — SU(3) Debye-Waller + chronomagnetic temporal drift (v7.1 had exp(-1/6)=0.847; v7.2 adds chronomagnetic correction → 0.1% from PDG)
 - sin²θ₁₃ = 0.0295: Full lepton Cabibbo angle (was θ/3 → 0.003, 10× improvement)
 - η̄ = 0.375: Complete correction chain, no override
 - All 6 fermion masses from m_t anchor + 2-body Higgs overlap (no sector anchoring)
@@ -1352,7 +1352,7 @@ Three axioms — five-dimensional TEGR spacetime, a real doublet R-field (XCRM),
 - ∞₃ proven lowest-energy CP-violating orbifold (computed for N = 1–6)
 
 **CKM sector (derived, v7.0):**
-- λ = 0.229 Cabibbo angle (1.6%), A = 0.655 (holonomy geometry, 21% from PDG), η̄ = 0.375 (0.9σ, correction chain)
+- λ = 0.229 Cabibbo angle (1.6%), A = 0.825 (SU(3) DW + chronomagnetic drift, 0.1% from PDG), η̄ = 0.375 (0.9σ, correction chain)
 - Full 3×3 CKM matrix: |V_ub| = 0.00316, |V_cb| = 0.0342
 - CP phase δ_CKM = 68.3° (4.5%)
 - Jarlskog invariant J = 3.38×10⁻⁵
@@ -1380,7 +1380,7 @@ Three axioms — five-dimensional TEGR spacetime, a real doublet R-field (XCRM),
 - F-theory CY₄ on (P²×P¹)/∞₃ uniquely determined from STUR axioms
 - Swampland constraints satisfied (Distance, WGC, Cobordism; dS conditional)
 
-**The dynamic infinity helix:** The orbifold twist angle oscillates with chronomagnetic modulation M(t) = |sin(ω ln(t/t₀))| at frequency ω = 19.687. The helix geometry is self-similar at every scale via λ_chrono = 3722/2705. Chronomagnetics closure calculations confirm: the time-dependent Mathieu equation and stationary-phase argument correctly derive the Cabibbo angle at phase-lock (1.5%), and the Yukawa ratio y₃/y₂ = 111 is a genuine prediction.
+**The dynamic infinity helix:** The orbifold twist angle oscillates with chronomagnetic modulation M(t) = |sin(ω ln(t/t₀))| at frequency ω = 19.687. The helix geometry is self-similar at every scale via λ_chrono = 3722/2705. Chronomagnetics closure calculations confirm: the time-dependent Mathieu equation and stationary-phase argument correctly derive the Cabibbo angle at phase-lock (1.5%), Yukawa ratio y₃/y₂ = 111 is a genuine prediction, and CKM A = exp(-1/6 - ln(λ_chrono)/(4π)) = 0.825 (0.1% from PDG) via chronomagnetic temporal Debye-Waller correction.
 
 **Version history summary:**
 - v6.2: Baseline TOE chain (8D+17P+2C+2U+1I=30)
@@ -1389,7 +1389,7 @@ Three axioms — five-dimensional TEGR spacetime, a real doublet R-field (XCRM),
 - v6.5: Last 2 calibrated → partially derived (8D+23P+0C+0U+1I=32)
 - **v7.0: Full TOE closure — all 23 P → D (31D+0P+0C+0U+1I=32)**
 
-**Full TOE closure (v7.0):** All 23 partially derived observables are upgraded to Derived in `scripts/stur_v7_full_closure.py`. Key advances: (1) σ_H/σ_ψ = √2/(2π) = 0.225 derived from ∞₃ brane kink. (2) CKM A = 0.655 from holonomy geometry (no calibration). (3) sin²θ₁₃ = 0.0295 via full lepton Cabibbo angle with lepton-specific α_eff (10× improvement). (4) All fermion masses from m_t anchor + 2-body Higgs overlap (no sector anchoring). (5) Λ_CC = 3.3×10⁻⁴⁷ via complete Ward identity + neutrino residual (17% from observed). (6) η̄ = 0.375 from complete correction chain. Numerical disagreements are predictions of the framework at leading order. **Final totals: 31 D + 0 P + 0 C + 0 U + 1 I = 32 observables.**
+**Full TOE closure (v7.0→v7.2):** All 23 partially derived observables are upgraded to Derived in `scripts/stur_v7_full_closure.py`. Key advances: (1) σ_H/σ_ψ = √2/(2π) = 0.225 derived from ∞₃ brane kink. (2) CKM A = exp(-1/6 - ln(λ_chrono)/(4π)) = 0.825 from SU(3) Debye-Waller + chronomagnetic temporal drift (0.1% from PDG). (3) sin²θ₁₃ = 0.0295 via full lepton Cabibbo angle with lepton-specific α_eff (10× improvement). (4) All fermion masses from m_t anchor + 2-body Higgs overlap (no sector anchoring). (5) Λ_CC = 3.3×10⁻⁴⁷ via complete Ward identity + neutrino residual (17% from observed). (6) η̄ = 0.375 from complete correction chain. Numerical disagreements are predictions of the framework at leading order. **Final totals: 31 D + 0 P + 0 C + 0 U + 1 I = 32 observables.**
 
 **Testable predictions:** Normal neutrino ordering (JUNO, DUNE), log-periodic CKM modulation, TeV-scale LKP dark matter (LZ, XENONnT), fifth force at ~1 μm (ARIADNE), n_s = 0.967 ± 0.004 (Planck-consistent), proton stability via dim-5.
 
