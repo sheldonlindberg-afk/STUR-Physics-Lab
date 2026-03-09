@@ -3,9 +3,9 @@
 **The Dynamic Infinity Helix Framework**
 
 **Document Type:** Complete First-Principles Derivation Chain
-**Framework:** STUR v7.0 — ∞-Helix Topology on M⁴ × S¹
+**Framework:** STUR v7.4 — ∞-Helix Topology on M⁴ × S¹
 **Author:** Sheldon Lon Lindberg
-**Date:** 2026-03-03
+**Date:** 2026-03-08
 **Version:** 7.4 — Complete TOE closure (31D + 0C + 0J + 1I = 32)
 **Status:** TOE Candidate — 31 derived, 0 partially derived, 0 calibrated, 0 conjectured, 1 input = 32 observables
 
@@ -1302,7 +1302,7 @@ Log-periodic dynamics of torsion contortion: triangle geometry → λ = 3722/270
 
 ## Part XIII: Comparison with Other Frameworks
 
-| Feature | Standard Model | String Theory | STUR v7.0 |
+| Feature | Standard Model | String Theory | STUR v7.4 |
 |---------|---------------|---------------|-----------|
 | N_gen = 3 | Input (unexplained) | Landscape (~10⁵⁰⁰ vacua) | **Derived** (∞-helix topology) |
 | CKM matrix | 4 free parameters | Not computed | **Derived** (1.6–21%, zero free params) |
@@ -1356,7 +1356,7 @@ python berry_phase_exact.py
 
 ## Conclusion
 
-STUR v7.0 presents a unified framework where the Standard Model emerges from the phase-locked coherence of a dynamically oscillating ∞-helix topology on M⁴ × S¹. The framework derives 32 observables from four inputs (M_Pl, v_EW, m_t, α_em) via three pillars: TEGR torsion, XCRM, and chronomagnetics. All 31 non-input observables are now fully Derived (D) — complete formulas from 4 inputs + 3 axioms with zero free parameters.
+STUR v7.4 presents a unified framework where the Standard Model emerges from the phase-locked coherence of a dynamically oscillating ∞-helix topology on M⁴ × S¹. The framework derives 32 observables from four inputs (M_Pl, v_EW, m_t, α_em) via three pillars: TEGR torsion, XCRM, and chronomagnetics. All 31 non-input observables are now fully Derived (D) — complete formulas from 4 inputs + 3 axioms with zero free parameters.
 
 Three axioms — five-dimensional TEGR spacetime, a real doublet R-field (XCRM), and energy minimization — produce:
 
@@ -1369,7 +1369,7 @@ Three axioms — five-dimensional TEGR spacetime, a real doublet R-field (XCRM),
 - ∞₃ proven lowest-energy CP-violating orbifold (computed for N = 1–6)
 
 **CKM sector (derived, v7.0):**
-- λ = 0.229 Cabibbo angle (1.6%), A = 0.825 (SU(3) DW + chronomagnetic drift, 0.1% from PDG), η̄ = 0.375 (0.9σ, correction chain)
+- λ = 0.2267 Cabibbo angle (0.7%), A = 0.825 (SU(3) DW + chronomagnetic drift, 0.1% from PDG), η̄ = 0.375 (0.9σ, correction chain)
 - Full 3×3 CKM matrix: |V_ub| = 0.00316, |V_cb| = 0.0342
 - CP phase δ_CKM = 68.3° (4.5%)
 - Jarlskog invariant J = 3.38×10⁻⁵
