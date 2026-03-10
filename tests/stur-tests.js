@@ -93,12 +93,13 @@
     }
   });
 
-  TestSuite.run('Gaussian Visibility: Always positive', function() {
+  TestSuite.run('Gaussian Visibility: Always non-negative', function() {
     const V0 = 1.0;
     const lcoh = 1.0;
     for (let deltaL = 0; deltaL <= 100; deltaL += 10) {
       const V = V0 * Math.exp(-(deltaL * deltaL) / (lcoh * lcoh));
-      TestSuite.assert(V > 0, `V(${deltaL}) should be positive`);
+      // Note: exp(-900) underflows to 0.0 in IEEE 754, which is correct behavior
+      TestSuite.assert(V >= 0, `V(${deltaL}) should be non-negative`);
     }
   });
 
