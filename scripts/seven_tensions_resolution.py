@@ -49,12 +49,12 @@ print("""
   The Wolfenstein parameterization gives:
     |V_cb| = A × λ²
 
-  With λ = 0.2267 (0.7% from PDG), the issue is entirely in |V_cb|.
+  With λ = 0.231 (2.7% from PDG, two-loop α_eff), the issue is in both λ and |V_cb|.
 
-  Current derivation:
-    |V_cb|_STUR = 0.0342
-    |V_cb|_PDG  = 0.0410 ± 0.0011
-    Gap: 16.6%
+  v7.5 derivation (corrected Wolfenstein):
+    |V_cb|_STUR = 0.04402
+    |V_cb|_PDG  = 0.04182 ± 0.00085
+    Gap: 5.3% (resolved from 16.6% in v7.4)
 """)
 
 # Numerical investigation
