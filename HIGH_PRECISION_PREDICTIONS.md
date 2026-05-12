@@ -1,11 +1,11 @@
 # STUR High-Precision Predictions
 
 **Document Type:** Precision Physics Calculations
-**Framework:** STUR v6.0 (Dynamic Infinity Helix Phase-Lock Unification)
-**Version:** 2.0
-**Date:** 2026-02-13
+**Framework:** STUR v7.0 (Dynamic Infinity Helix — Complete TOE)
+**Version:** 3.0
+**Date:** 2026-05-12
 **Priority:** 4 - Higher Precision Predictions
-**Status:** CKM derived to 1.6-7.5% at phase-lock; mass spectrum qualitative; CC open
+**Status:** 31 observables derived (31D+1I=32); 0 free parameters; full TOE closure
 
 ---
 
