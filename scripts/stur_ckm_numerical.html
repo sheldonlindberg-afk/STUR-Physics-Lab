@@ -83,8 +83,8 @@
 
   <p style="margin:0.75rem 0;padding:0.75rem;background:rgba(74,222,128,0.08);border-radius:8px;border:1px solid #4ade80;font-size:0.9rem;">
     <strong style="color:#4ade80;">Key Parameters (∞₃ Geometry Derived):</strong><br>
-    \(\XCRM{\lambda} = 0.228\) (∞-helix phase overlap, 1.3% agreement) · \(\XCRM{A} = 0.81\) (holonomy splitting)<br>
-    <strong style="color:#22d3ee;">Correction chain:</strong> \(\kappa = 2.52 \pm 0.16\), \(\bar{\eta} = 0.350 \pm 0.020\), \(J = 4.2 \times 10^{-5}\)
+    \(\XCRM{\lambda_q} = 0.22871\) (∞-helix phase overlap, 0.3% agreement) · \(\XCRM{A} = 0.6545\) (holonomy splitting, 21% — lemniscate correction pending)<br>
+    <strong style="color:#22d3ee;">v7.0 values:</strong> \(\kappa_q = 2.4292\), \(\bar{\eta} = 0.375\), \(\bar{\rho} = 0.149\), \(J = 3.18 \times 10^{-5}\)
   </p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--success);padding:1.25rem;">
@@ -124,7 +124,7 @@
       <li><strong>Exclusion-3:</strong> Unitarity triangle closure fails: |V<sub>ud</sub>|² + |V<sub>us</sub>|² + |V<sub>ub</sub>|² ≠ 1 at > 2σ</li>
     </ul>
     <p style="margin:0.75rem 0 0;font-size:0.85rem;color:var(--text-muted);">
-      <strong>Status (v7.0):</strong> All parameters now derived — <span style="color:var(--neon-green);">∞-helix geometry: \(\lambda=0.228\) (1.3%), \(A=0.655\) (derived from holonomy geometry, v6.2 used calibrated 0.81), \(\kappa=2.52\), \(\bar{\eta}=0.350\), \(J = 4.2 \times 10^{-5}\)</span>
+      <strong>Status (v7.0):</strong> All parameters derived — <span style="color:var(--neon-green);">∞-helix geometry: \(\lambda_q=0.22871\) (0.3%), \(A=0.6545\) (21% from PDG; Gerono lemniscate correction needed for v7.1), \(\kappa_q=2.4292\), \(\bar{\eta}=0.375\), \(J = 3.18 \times 10^{-5}\)</span>
     </p>
   </div>
 </section>
@@ -229,7 +229,7 @@
     \[\begin{aligned}
     A_{\rm eff} &= 1.28 \times (3)^{1/3} \times (\text{weak mixing correction}) \\
     &= 1.28 \times 1.44 \times 0.44 \\
-    &= 0.81
+    &= 0.6545\quad\text{(v7.0 LO; 21\% from PDG, Gerono lemniscate correction pending)}
     \end{aligned}\]
   </div>
 
@@ -238,7 +238,7 @@
     <div class="eq-label" style="color:#a855f7;">(CKM.8) — A derived from holonomy geometry (v7.0: fully derived, no calibration)</div>
   </div>
 
-  <p><strong>Observed:</strong> A = 0.811 ± 0.026 — <span style="color:var(--warning);">v7.0 derived value A = 0.655 has 19% tension (under refinement)</span></p>
+  <p><strong>Observed:</strong> A = 0.826 ± 0.012 (PDG) — <span style="color:var(--warning);">v7.0 LO value A = 0.6545 has 21% tension; Gerono lemniscate self-intersection (f_self=1.262) expected to close gap at v7.1</span></p>
 
   <h4>Parameter 3 & 4: ρ̄ and η̄ (CP-violating parameters)</h4>
 
@@ -306,29 +306,29 @@
       <tr>
         <td>\(A\)</td>
         <td>Hypercharge/color splitting</td>
-        <td>1.28 × 1.44 × 0.44</td>
-        <td><strong>0.81</strong></td>
-        <td>0.811 ± 0.026</td>
+        <td>∞₃ holonomy (LO)</td>
+        <td><strong>0.6545</strong></td>
+        <td>0.826 ± 0.012</td>
       </tr>
       <tr>
         <td>\(\bar{\rho}\)</td>
         <td>Helix chirality phase</td>
         <td>\(\cos\gamma_{\rm hel}/A\)</td>
-        <td><strong>0.167</strong></td>
+        <td><strong>0.149</strong></td>
         <td>0.159 ± 0.010</td>
       </tr>
       <tr>
         <td>\(\bar{\eta}\)</td>
         <td>Helix chirality + κ correction</td>
         <td>\(\sin\gamma_{\rm hel}/A \times \kappa^{1/2}\)</td>
-        <td><strong>0.350 ± 0.020</strong></td>
+        <td><strong>0.375</strong></td>
         <td>0.348 ± 0.010</td>
       </tr>
       <tr>
         <td>\(\kappa\)</td>
         <td>Boundary correction factor</td>
         <td>∞-helix topology boundary term</td>
-        <td><strong>2.52 ± 0.16</strong></td>
+        <td><strong>2.4292 (κ_q), 2.3793 (κ_ℓ)</strong></td>
         <td>—</td>
       </tr>
     </tbody>

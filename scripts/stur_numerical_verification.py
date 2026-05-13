@@ -7,17 +7,16 @@ A comprehensive numerical verification of the STUR (Structured Topology Unified 
 Theory of Everything framework predictions.
 
 This script provides:
-1. First-principles derivation of all correction factors (including f_tail)
+1. v7.0 canonical values: κ_q=2.4292, κ_ℓ=2.3793, A=0.6545, η̄=0.375, ρ̄=0.149
 2. Monte Carlo uncertainty propagation with correlations
 3. Independent kappa verification using multiple numerical methods
 4. Complete prediction calculator for Standard Model observables
 5. Comparison with PDG experimental values
 6. Visualization of results
 
-The complete correction formula for Wolfenstein lambda is:
-    lambda_phys = lambda_bare * f_boundary * f_holonomy * f_RG * f_tail
-
-where f_tail is computed from analytic overlap integrals on S^1/∞₃.
+NOTE (v7.0): f_tail correction factor REMOVED. The complete formula for Wolfenstein lambda is:
+    lambda_phys = lambda_bare * f_boundary * f_holonomy * f_RG
+    (no f_tail; exact σ_H/σ_ψ = √2/(2π) = 0.2251 from ∞₃ brane kink closes the hierarchy)
 
 Author: STUR Framework Numerical Verification
 Date: 2026-01-28
@@ -40,9 +39,10 @@ else:
 # PHYSICAL CONSTANTS AND PARAMETERS
 # =============================================================================
 
-# Fundamental STUR parameters
-KAPPA_CENTRAL = 2.52  # Localization parameter
-KAPPA_UNCERTAINTY = 0.16  # 1-sigma uncertainty
+# Fundamental STUR parameters (v7.0 canonical values)
+KAPPA_CENTRAL = 2.4292   # κ_q — quark localization parameter (v7.0)
+KAPPA_LEPTON  = 2.3793   # κ_ℓ — lepton localization parameter (v7.0)
+KAPPA_UNCERTAINTY = 0.05  # 1-sigma uncertainty (reduced in v7.0)
 
 # infinity helix geometry
 PHI_1 = 0.0
@@ -62,7 +62,7 @@ def sigma_from_kappa(kappa):
 PDG_VALUES = {
     # CKM Parameters (Wolfenstein)
     'lambda': (0.22500, 0.00067),  # Wolfenstein lambda
-    'A': (0.826, 0.015),           # Wolfenstein A
+    'A': (0.826, 0.012),           # Wolfenstein A (PDG 2024)
     'rho_bar': (0.159, 0.010),     # Wolfenstein rho_bar
     'eta_bar': (0.348, 0.010),     # Wolfenstein eta_bar
 
@@ -1296,21 +1296,21 @@ def monte_carlo_predictions(n_samples=10000, seed=42):
     lambda_wolf_samples = lambda_bare_samples * f_total_samples
     distributions['lambda'] = lambda_wolf_samples
 
-    # CKM parameters from lambda
-    # A ~ 1.0 - 0.2 * (lambda - 0.225) / 0.01 (approximate sensitivity)
-    A_samples = 0.826 + 0.15 * (lambda_wolf_samples - 0.225) / 0.01
-    A_samples = np.clip(A_samples, 0.6, 1.0)
+    # CKM parameters from lambda (v7.0 values)
+    # A_v7.0 = 0.6545 (LO; 21% from PDG 0.826; Gerono lemniscate correction pending v7.1)
+    A_samples = 0.6545 + 0.05 * (lambda_wolf_samples - 0.22871) / 0.01
+    A_samples = np.clip(A_samples, 0.5, 0.9)
     distributions['A'] = A_samples
 
-    # rho_bar and eta_bar (from CP violation in helix)
-    rho_bar_samples = 0.159 + 0.01 * np.random.normal(0, 1, n_samples)
-    eta_bar_samples = 0.348 + 0.01 * np.random.normal(0, 1, n_samples)
+    # rho_bar and eta_bar (v7.0 from holonomy × Berry phase)
+    rho_bar_samples = 0.149 + 0.01 * np.random.normal(0, 1, n_samples)
+    eta_bar_samples = 0.375 + 0.01 * np.random.normal(0, 1, n_samples)
     distributions['rho_bar'] = rho_bar_samples
     distributions['eta_bar'] = eta_bar_samples
 
     # PMNS parameters
-    # theta12 ~ 33.4 deg from kappa geometry
-    theta12_samples = 33.41 + 2.0 * (kappa_samples - 2.52) / 0.16
+    # theta12 ~ 33.4 deg from kappa geometry (v7.0 kappa_q=2.4292)
+    theta12_samples = 33.41 + 2.0 * (kappa_samples - KAPPA_CENTRAL) / 0.16
     distributions['theta12_PMNS'] = theta12_samples
 
     # theta23 ~ 42 deg
@@ -1424,12 +1424,12 @@ def calculate_all_predictions(kappa=KAPPA_CENTRAL, include_uncertainties=True):
 
         'CKM': {
             'lambda': (lambda_wolf, lambda_wolf * 0.05) if include_uncertainties else lambda_wolf,
-            'A': (0.826, 0.015) if include_uncertainties else 0.826,
-            'rho_bar': (0.159, 0.010) if include_uncertainties else 0.159,
-            'eta_bar': (0.348, 0.010) if include_uncertainties else 0.348,
+            'A': (0.6545, 0.05) if include_uncertainties else 0.6545,  # v7.0 LO; 21% from PDG
+            'rho_bar': (0.149, 0.010) if include_uncertainties else 0.149,
+            'eta_bar': (0.375, 0.010) if include_uncertainties else 0.375,
             'sin_theta_12': (lambda_wolf, lambda_wolf * 0.05) if include_uncertainties else lambda_wolf,
-            'sin_theta_23': (lambda_wolf**2 * 0.826, lambda_wolf**2 * 0.02) if include_uncertainties else lambda_wolf**2 * 0.826,
-            'sin_theta_13': (lambda_wolf**3 * 0.826 * 0.38, lambda_wolf**3 * 0.01) if include_uncertainties else lambda_wolf**3 * 0.826 * 0.38,
+            'sin_theta_23': (lambda_wolf**2 * 0.6545, lambda_wolf**2 * 0.02) if include_uncertainties else lambda_wolf**2 * 0.6545,
+            'sin_theta_13': (lambda_wolf**3 * 0.6545 * 0.38, lambda_wolf**3 * 0.01) if include_uncertainties else lambda_wolf**3 * 0.6545 * 0.38,
             'delta_CKM': (1.144, 0.027) if include_uncertainties else 1.144,  # radians
         },
 
@@ -1437,10 +1437,10 @@ def calculate_all_predictions(kappa=KAPPA_CENTRAL, include_uncertainties=True):
             'theta12': (33.41, 0.75) if include_uncertainties else 33.41,  # degrees
             'theta23': (42.2, 1.1) if include_uncertainties else 42.2,
             'theta13': (8.62, 0.12) if include_uncertainties else 8.62,
-            'delta_CP': (230.0, 36.0) if include_uncertainties else 230.0,
-            'sin2_theta12': (0.307, 0.013) if include_uncertainties else 0.307,
-            'sin2_theta23': (0.454, 0.019) if include_uncertainties else 0.454,
-            'sin2_theta13': (0.0220, 0.0007) if include_uncertainties else 0.0220,
+            'delta_CP': (270.0, 0.0) if include_uncertainties else 270.0,  # STUR pred (PDG exp: ~230°)
+            'sin2_theta12': (0.1814, 0.015) if include_uncertainties else 0.1814,  # v7.0 (40% dev)
+            'sin2_theta23': (0.4451, 0.020) if include_uncertainties else 0.4451,  # v7.0 (22% dev)
+            'sin2_theta13': (0.02946, 0.001) if include_uncertainties else 0.02946,  # v7.0 (34% dev)
         },
 
         'masses': {
