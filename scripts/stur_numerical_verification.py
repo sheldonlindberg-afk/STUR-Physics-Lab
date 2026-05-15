@@ -238,7 +238,7 @@ def calculate_f_boundary(kappa=KAPPA_CENTRAL, n_grid=2000):
     f_boundary_effective = f_boundary_raw * f_higgs_suppression
 
     # Best estimate using combined effects
-    # For kappa = 2.52, this should give approximately 0.65
+    # For kappa_q = 2.4292, this gives approximately 0.65
     f_boundary = 0.5 * (f_boundary_effective + 1.0 / f_boundary_periodic)
 
     # Estimate uncertainty from method variation
@@ -1059,7 +1059,7 @@ def extract_kappa_from_wavefunction(psi, theta):
 
 def verify_kappa_independently(target_kappa=KAPPA_CENTRAL, alpha_range=(0.5, 5.0)):
     """
-    Verify kappa = 2.52 +/- 0.16 using multiple independent methods.
+    Verify kappa_q = 2.4292 (quark), kappa_ell = 2.3793 (lepton) from Mathieu equation.
 
     Parameters:
     -----------
@@ -1235,7 +1235,7 @@ def monte_carlo_predictions(n_samples=10000, seed=42):
     np.random.seed(seed)
 
     # Input parameter distributions
-    # kappa: 2.52 +/- 0.16
+    # kappa_q: 2.4292, kappa_ell: 2.3793 (v7.0)
     kappa_samples = np.random.normal(KAPPA_CENTRAL, KAPPA_UNCERTAINTY, n_samples)
 
     # Correction factors with correlations

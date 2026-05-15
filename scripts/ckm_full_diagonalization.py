@@ -617,8 +617,9 @@ if __name__ == '__main__':
     # Explain the resolution
     print(f"\n  RESOLUTION OF THE κ FORMULA DISCREPANCY:")
     print(f"  ─────────────────────────────────────────")
-    print(f"  The framework uses λ = exp(-κ²/8) with κ = 2.52 to get λ = 0.452,")
-    print(f"  then applies a holonomy correction factor of 0.498 to get λ = 0.225.")
+    print(f"  Pre-v7.0: λ = exp(-κ²/8) with κ = 2.52 → λ = 0.452, then a holonomy")
+    print(f"  correction ×0.498 → λ = 0.225 (ad-hoc; REMOVED in v7.0).")
+    print(f"  v7.0: κ_q = 2.4292 (Mathieu eq.), correct formula exp(-κ²/4) → λ = {np.exp(-2.4292**2/4):.5f}.")
     print(f"")
     print(f"  The CORRECT formula is λ = exp(-Δφ²/(4σ²)) = exp(-κ²/4):")
     print(f"    At κ = {kappa:.3f} (from α_eff = {alpha_eff}): λ = {lam_kappa4:.4f}")
