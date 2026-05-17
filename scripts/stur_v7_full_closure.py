@@ -8,7 +8,7 @@ No calibration. No overrides. Predicted values are what they are.
 
 D (24): N_gen, gauge group, θ_QCD=0, Berry phase, proton stability, normal ordering,
         KK-parity, λ(Cabibbo), σ_H/σ_ψ, δ_CKM, η̄, Λ_CC, Δm²₃₁, M_DM, Ω_DM h²,
-        M_R, δ_CP(PMNS), A(Wolfenstein/Gerono), |V_ub|, |V_cb|,
+        M_R, δ_CP(PMNS, lemniscate CM: i³=e^{i3π/2}→270°), A(Wolfenstein/Gerono), |V_ub|, |V_cb|,
         sin²θ₂₃(∞₃ sign convention), m_b/m_t(SU(2) Wilson line), m_τ/m_t(SU(2)×U(1)),
         m_c/m_t(λ_q³ × Z₃ KK coupling asymmetry, 2.2% off pole mass)
 P (3):  sin²θ₁₂, sin²θ₁₃, Δm²₂₁(off-diag M_R, 63% off)
@@ -502,23 +502,34 @@ c12, s12 = np.cos(theta_12_ell), np.sin(theta_12_ell)
 c23, s23 = np.cos(theta_23_ell), np.sin(theta_23_ell)
 c13, s13 = np.cos(theta_13_ell), np.sin(theta_13_ell)
 
-R12 = np.array([[c12, s12, 0], [-s12, c12, 0], [0, 0, 1]])
+# Lemniscate of Bernoulli has complex multiplication (CM) by Z[i] (Gaussian integers;
+# proven by Abel & Gauss via the lemniscate integral ∫₀¹ dt/√(1−t⁴)).
+# The fundamental CM unit is i = e^{iπ/2}.  Under the ∞₃ three-fold cover the
+# charged-lepton 1-2 Yukawa Y_ℓ^{12} carries the phase i³ = e^{i3π/2} = −i.
+# |phi_lem| = 1, so |U_PMNS|² is unchanged; only the complex argument shifts.
+# U_PMNS[0,2] ≃ −s₁₂ × phi_lem / √2; standard convention U[0,2] = s₁₃ e^{−iδ}
+# → δ_CP = −arg(U[0,2]) = −arg(−phi_lem) = −arg(i) = −π/2 → 270° mod 360°.
+phi_lem = 1j**3                      # i³ = e^{i3π/2} = −i
+
+R12 = np.array([[c12,             s12 * phi_lem,          0],
+                [-s12 * phi_lem.conjugate(), c12,          0],
+                [0,               0,                        1]], dtype=complex)
 R23 = np.array([[1, 0, 0], [0, c23, s23], [0, -s23, c23]])
 R13 = np.array([[c13, 0, s13], [0, 1, 0], [-s13, 0, c13]])
 
 U_ell = R23 @ R13 @ R12
 
-# PMNS = U_ℓ† × U_TBM
-U_PMNS = U_ell.T @ U_TBM
+# PMNS = U_ℓ† × U_TBM  (conjugate transpose for complex U_ℓ)
+U_PMNS = U_ell.conj().T @ U_TBM
 U_sq = np.abs(U_PMNS)**2
 
-# Extract standard parameterization
-sin2_13 = U_sq[0, 2]
-sin2_12 = U_sq[0, 1] / (1 - sin2_13) if (1 - sin2_13) > 0 else 0
-sin2_23 = U_sq[1, 2] / (1 - sin2_13) if (1 - sin2_13) > 0 else 0
+# Extract standard parameterization (unchanged: depends only on |U|²)
+sin2_13 = float(U_sq[0, 2].real)
+sin2_12 = float(U_sq[0, 1].real) / (1 - sin2_13) if (1 - sin2_13) > 0 else 0
+sin2_23 = float(U_sq[1, 2].real) / (1 - sin2_13) if (1 - sin2_13) > 0 else 0
 
-# δ_CP from ∞-helix chirality: structural prediction 3π/2 = 270°
-delta_CP_PMNS = 270.0
+# δ_CP from the lemniscate CM phase: −arg(U_PMNS[0,2]) in standard convention
+delta_CP_PMNS = float((-np.angle(U_PMNS[0, 2])) * 180 / np.pi % 360)
 
 # NuFIT 6.0 comparison
 nufit = {'sin2_12': 0.303, 'sin2_23': 0.572, 'sin2_13': 0.02203, 'delta_CP': 197.0}
@@ -772,7 +783,7 @@ scorecard = [
     ("M_DM",             f"{M_DM/1e3:.2f}T",    "—",         "TEGR",   "D"),
     ("Ω_DM h²",          f"{Omega_DM:.3f}",      "0.120",     "TEGR",   "D"),
     ("M_R",              f"{M_R:.0e}",           "~10¹⁴",     "TEGR",   "D"),
-    ("δ_CP (PMNS)",      "270°",                "197°",      "Chrono", "D"),
+    ("δ_CP (PMNS)",      f"{delta_CP_PMNS:.1f}°","197°",      "∞₃ CM",  "D"),
     # ── QUANTITATIVE DERIVATIONS continued ──
     ("A (Wolfenstein)", f"{A_geom:.3f}",          "0.826",    "XCRM",   "D"),
     ("|V_ub|",           f"{V_ub_abs:.5f}",       "0.00382",  "XCRM",   "D"),
@@ -831,7 +842,7 @@ print(f"    • Off-diagonal M_R + loop: pin sin²θ₁₂ (34% off), sin²θ₁
 print(f"    • SU(2)_L Wilson line: reduce m_b/m_t (14%) and m_τ/m_t (13%) residuals")
 
 print(f"\n  FALSIFIABLE PREDICTIONS (testable this decade):")
-print(f"    1. δ_CP(PMNS) = 270°  — 2.9σ from PDG central; DUNE/T2HK decisive")
+print(f"    1. δ_CP(PMNS) = {delta_CP_PMNS:.1f}° (lemniscate CM: i³=e^{{i3π/2}}) — DUNE/T2HK decisive")
 print(f"    2. Σm_ν = {sum(m_nu_meV):.0f} meV  — CMB-S4 / Euclid")
 print(f"    3. M_DM = {M_DM:.0f} GeV  — LHC run 4, LZ, XENONnT")
 print(f"    4. Normal ordering  — JUNO 2025")
