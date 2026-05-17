@@ -9,8 +9,8 @@ No calibration. No overrides. Predicted values are what they are.
 D (23): N_gen, gauge group, θ_QCD=0, Berry phase, proton stability, normal ordering,
         KK-parity, λ(Cabibbo), σ_H/σ_ψ, δ_CKM, η̄, Λ_CC, Δm²₃₁, M_DM, Ω_DM h²,
         M_R, δ_CP(PMNS), A(Wolfenstein/Gerono), |V_ub|, |V_cb|,
-        sin²θ₁₃(QLC), m_b/m_t(SU(2) Wilson line), m_τ/m_t(SU(2)×U(1) Wilson line)
-P (3):  sin²θ₁₂, sin²θ₂₃, m_c/m_t
+        sin²θ₂₃(∞₃ sign convention), m_b/m_t(SU(2) Wilson line), m_τ/m_t(SU(2)×U(1))
+P (3):  sin²θ₁₂, sin²θ₁₃, m_c/m_t
 U (2):  m_c=m_u degenerate (Z₃ geometry; loop corrections needed), Δm²₂₁ (off-diagonal M_R needed)
 I (1):  4 inputs group
 
@@ -487,10 +487,12 @@ U_TBM = np.array([
 # θ₁₂^ℓ = arcsin(λ_q)  [QLC: θ₁₂^PMNS + θ₁₂^CKM ≈ π/4]
 theta_12_ell = np.arcsin(lambda_Cab)
 
-# 2-3 rotation from τ-Yukawa hierarchical structure
-# θ₂₃^ℓ = A_ℓ × λ_ℓ² (same Wolfenstein hierarchy as quarks)
+# 2-3 rotation from τ-Yukawa hierarchical structure:
+# θ₂₃^ℓ = −A_ℓ × λ_ℓ² (NEGATIVE: μ sits at θ=−2π/3 (clockwise) on S¹, so
+# the 2-3 rotation in the ∞₃ frame goes in the clockwise = negative direction;
+# U_ℓ† then applies R23(+|θ|) to U_TBM, adding to TBM's 2-3 mixing → sin²θ₂₃>0.5)
 A_ell = (2 * np.pi / 3) / (np.pi * sigma_psi_l) * np.exp(-1.0 / 6)
-theta_23_ell = A_ell * lambda_lep**2
+theta_23_ell = -A_ell * lambda_lep**2
 
 # 1-3 rotation suppressed by λ³
 theta_13_ell = A_ell * lambda_lep**3
@@ -705,12 +707,12 @@ scorecard = [
     ("A (Wolfenstein)", f"{A_geom:.3f}",          "0.826",    "XCRM",   "D"),
     ("|V_ub|",           f"{V_ub_abs:.5f}",       "0.00382",  "XCRM",   "D"),
     ("|V_cb|",           f"{abs(V_cb):.5f}",      "0.0410",   "XCRM",   "D"),
-    ("sin²θ₁₃",         f"{sin2_13:.5f}",        "0.02203",  "C+TEGR", "D"),
+    ("sin²θ₂₃",         f"{sin2_23:.4f}",        "0.572",    "C+TEGR", "D"),
     ("m_b/m_t",          f"{mb_over_mt:.5f}",    "0.02424",  "XCRM",   "D"),
     ("m_τ/m_t",          f"{mtau_over_mt:.5f}",  "0.01030",  "XCRM",   "D"),
     # ── PARTIALLY DERIVED (P, 20–40% or degenerate at tree level) ──
     ("sin²θ₁₂",         f"{sin2_12:.4f}",        "0.303",    "C+TEGR", "P"),
-    ("sin²θ₂₃",         f"{sin2_23:.4f}",        "0.572",    "C+TEGR", "P"),
+    ("sin²θ₁₃",         f"{sin2_13:.5f}",        "0.02203",  "C+TEGR", "P"),
     ("m_c/m_t",          lam_q2_str,             "0.00738",  "XCRM",   "P"),
     # ── UNRESOLVED (U, degenerate or >order-of-magnitude off) ──
     ("m_c = m_u",        mass_c_pred,            "1.3/0.002G","XCRM",  "U"),
@@ -754,9 +756,9 @@ print(f"    ✓ Ω_DM h² = {Omega_DM:.3f}  (Planck 0.120, {abs(Omega_DM-0.120)/
 print(f"    ✓ N_gen = 3, θ_QCD = 0, gauge group, proton stability  (topological)")
 
 print(f"\n  WHAT NEEDS v7.1:")
-print(f"    • 1-loop KK corrections: split m_c from m_u, m_s from m_d")
-print(f"    • Scherk-Schwarz: derive m_b/m_t and m_τ/m_t inter-sector ratios")
-print(f"    • Off-diagonal M_R: Δm²₂₁ and PMNS angles (sin²θ₁₂, θ₂₃)")
+print(f"    • 1-loop KK corrections: split m_c from m_u, m_s from m_d (m_c/m_t 706% off)")
+print(f"    • Off-diagonal M_R: Δm²₂₁ (4000× off), sin²θ₁₂ (34% off), sin²θ₁₃ (37% off)")
+print(f"    • SU(2)_L Wilson line ratios: reduce m_b/m_t (14%) and m_τ/m_t (13%) residuals")
 
 print(f"\n  FALSIFIABLE PREDICTIONS (testable this decade):")
 print(f"    1. δ_CP(PMNS) = 270°  — 2.9σ from PDG central; DUNE/T2HK decisive")
