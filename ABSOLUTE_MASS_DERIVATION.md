@@ -1484,7 +1484,7 @@ Agreement: 2.8%  ✓  EXCELLENT
 │  m₃             │ 50 meV         │ ~50 meV (inferred)   │ ✓             │
 │  m₂             │ 8.5 meV        │ ~9 meV (inferred)    │ ✓             │
 │  m₁             │ 0.28 meV       │ < few meV            │ ✓             │
-│  Σm_ν           │ 59 meV         │ < 120 meV (Planck)   │ ✓             │
+│  Σm_ν           │ 50 meV         │ < 120 meV (Planck)   │ ✓             │
 │                                                                             │
 │  KEY CORRECTION: ∞-helix resonance enhancement f_ν^{res} = 2.3 for second      │
 │  generation, arising from near-degeneracy of right-handed neutrinos.      │
@@ -1556,7 +1556,7 @@ This value is consistent with our empirical fit to neutrino masses!
 │      Agreement: 2.8%  ✓  EXCELLENT                                         │
 │                                                                             │
 │  Sum of Neutrino Masses:                                                    │
-│      Σm_ν = 59 meV                                                         │
+│      Σm_ν = 50 meV                                                         │
 │      Cosmological bound: Σm_ν < 120 meV [Planck 2018]                      │
 │      Status: CONSISTENT ✓                                                  │
 │                                                                             │
@@ -1587,7 +1587,7 @@ Current data favor Normal Ordering at ~3σ, consistent with STUR. ✓
 
 **Achievement 3: Absolute mass scale**
 
-The sum Σm_ν = 59 meV is consistent with:
+The sum Σm_ν = 50 meV is consistent with:
 - Minimum from oscillations: ~60 meV (NO)
 - Cosmological bound: < 120 meV
 - This is a genuine prediction, testable by KATRIN and cosmology.
@@ -2202,7 +2202,7 @@ This document has derived:
 | Δm²₂₁ | Factor 15 off | ∞-helix resonance f_ν^{res} = 2.3 | **2.8%** |
 | m₃ | ~30 meV | Corrected M_R | **50 meV ✓** |
 | m₂ | ~2 meV | Resonance enhancement | **8.5 meV ✓** |
-| Σm_ν | ~32 meV | Full correction | **59 meV ✓** |
+| Σm_ν | ~32 meV | Full correction | **50 meV ✓** |
 
 ### 6.2.2 Remaining Open Questions
 

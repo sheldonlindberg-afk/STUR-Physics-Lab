@@ -51,9 +51,9 @@
   <div style="margin:1rem auto;max-width:700px;padding:0.75rem 1rem;background:rgba(251,191,36,0.08);border:2px solid #fbbf24;border-radius:10px;">
     <div style="font-size:0.85rem;color:#fbbf24;font-weight:600;margin-bottom:0.5rem;">KEY DERIVED PARAMETERS (v7.0)</div>
     <div style="display:flex;flex-wrap:wrap;gap:1rem;font-size:0.85rem;color:var(--text-secondary);">
-      <span><strong style="color:#4ade80;">κ</strong> = 2.52 ± 0.16 (derived)</span>
+      <span><strong style="color:#4ade80;">κ_q</strong> = 2.4292, <strong style="color:#4ade80;">κ_ℓ</strong> = 2.3793 (v7.0)</span>
       <span><strong style="color:#a78bfa;">L<sub>X</sub></strong> ≈ 0.8 μm</span>
-      <span><strong style="color:#f472b6;">σ<sub>H</sub>/σ<sub>ψ</sub></strong> ≈ 0.3 (sharp Higgs)</span>
+      <span><strong style="color:#f472b6;">σ<sub>H</sub>/σ<sub>ψ</sub></strong> = 0.2251 (∞₃ brane kink)</span>
       <span><strong style="color:#22d3ee;">All 9 masses</strong> to &lt;2%</span>
     </div>
   </div>
@@ -62,7 +62,7 @@
   <div style="margin:1rem auto;max-width:700px;padding:1rem;background:rgba(74,222,128,0.15);border:3px solid #4ade80;border-radius:12px;">
     <div style="font-size:0.9rem;color:#4ade80;text-align:center;font-weight:600;">v7.0 — All 9 Charged Fermion Masses Derived to &lt;2%</div>
     <p style="margin:0.5rem 0 0;color:var(--text);text-align:center;font-size:0.95rem;">
-      <strong>Sharp Higgs profile σ<sub>H</sub>/σ<sub>ψ</sub> ≈ 0.225</strong> combined with winding-sector corrections
+      <strong>Sharp Higgs profile σ<sub>H</sub>/σ<sub>ψ</sub> = 0.2251 (√2/(2π))</strong> combined with winding-sector corrections
       (f<sub>tail</sub>, f<sub>ℓ</sub>, f<sub>u</sub><sup>node</sup>) yields all 9 masses from
       M<sub>Planck</sub> → L<sub>X</sub> → κ → masses. Zero fitted parameters.
     </p>
@@ -74,7 +74,7 @@
 
   <!-- Derivation Chain Visualization -->
   <div style="margin:1.25rem auto;max-width:700px;padding:0.75rem;background:linear-gradient(90deg,rgba(74,222,128,0.08),rgba(167,139,250,0.12),rgba(74,222,128,0.08));border-radius:10px;font-size:0.85rem;text-align:center;">
-    <strong>v7.0 derivation:</strong> M<sub>Planck</sub> → <strong style="color:#a78bfa;">L<sub>X</sub></strong> → <strong style="color:#4ade80;">κ = 2.52</strong> → <strong style="color:#f472b6;">σ<sub>H</sub>/σ<sub>ψ</sub> ≈ 0.225</strong> → Overlap Integrals → <strong style="color:var(--success);">All 9 Masses (&lt;2%)</strong>
+    <strong>v7.0 derivation:</strong> M<sub>Planck</sub> → <strong style="color:#a78bfa;">L<sub>X</sub></strong> → <strong style="color:#4ade80;">κ_q = 2.4292</strong> → <strong style="color:#f472b6;">σ<sub>H</sub>/σ<sub>ψ</sub> = 0.2251 (√2/(2π))</strong> → Overlap Integrals → <strong style="color:var(--success);">All 9 Masses (&lt;2%)</strong>
   </div>
 
   <!-- Status Badge -->
@@ -145,7 +145,7 @@
       </p>
     </div>
     <div style="padding:1rem;background:rgba(34,211,238,0.08);border-radius:10px;border-left:4px solid #22d3ee;">
-      <strong style="color:#22d3ee;">★ Derived: Yukawa Coupling κ = 2.52 ± 0.16</strong>
+      <strong style="color:#22d3ee;">★ Derived: Yukawa Coupling κ_q = 2.4292, κ_ℓ = 2.3793 (v7.0)</strong>
       <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
         \(y_{i} = \kappa\exp(-w_i^2 L_X^2/18\sigma^2)\) where κ derived from Gaussian overlap integrals
       </p>
@@ -166,7 +166,7 @@
   <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.5);">
     <div class="title" style="font-size:1.1rem;color:#4ade80;">All Yukawa Couplings Derived — Parameters from Geometric Structure</div>
     <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
-      The universal coupling constant <strong>κ = 2.52 ± 0.16</strong> is derived from first principles via Gaussian overlap integrals.
+      The coupling constants <strong>κ_q = 2.4292 (quarks), κ_ℓ = 2.3793 (leptons)</strong> are derived from Mathieu equation solutions via κ = (2π/3)/σ_ψ.
       Mass hierarchies follow from localization geometry, not parameter fitting.
     </p>
   </div>
@@ -187,9 +187,9 @@
       </p>
     </div>
     <div style="padding:1rem;background:rgba(74,222,128,0.08);border-radius:10px;border-left:4px solid #4ade80;">
-      <strong style="color:#4ade80;">Step 3: Overlap Integral → κ = 2.52 ± 0.16</strong>
+      <strong style="color:#4ade80;">Step 3: Overlap Integral → κ_q = 2.4292 ± 0.16</strong>
       <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-        Universal coupling: \(\kappa = \int_0^{L_X} |\psi_H(X)|^2 |\psi_t(X)|^2 dX \cdot \sqrt{4\pi/L_X} = 2.52 \pm 0.16\)
+        v7.0: \(\kappa = (2\pi/3)/\sigma_\psi\), giving \(\kappa_q = 2.4292,\; \kappa_\ell = 2.3793\)
       </p>
     </div>
     <div style="padding:1rem;background:rgba(34,211,238,0.08);border-radius:10px;border-left:4px solid #22d3ee;">
@@ -201,7 +201,7 @@
   </div>
 
   <div class="eq law" style="background:#000;border:3px solid #4ade80;padding:1.25rem;">
-    \[\boxed{\kappa = 2.52 \pm 0.16 \quad \text{(derived from overlap integrals)}}\]
+    \[\boxed{\kappa_q = 2.4292,\; \kappa_\ell = 2.3793 \quad \text{(derived from Mathieu, v7.0)}}\]
     <div class="eq-label" style="color:#4ade80;">Universal Yukawa Coupling Constant (Derived)</div>
   </div>
 
@@ -568,7 +568,7 @@
   <h2 style="color:var(--success);">Summary: All 9 Masses Derived to &lt;2% (v7.0)</h2>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
-    \[\boxed{M_{\rm Planck} \xrightarrow{\text{XCRM}} L_X \xrightarrow{\sigma_H/\sigma_\psi \approx 0.225} \kappa = 2.52 \pm 0.16 \xrightarrow{\int \psi_i^* H \psi_j} y_{ij} \xrightarrow{m = yv} \text{All 9 Masses (<2\%)}}\]
+    \[\boxed{M_{\rm Planck} \xrightarrow{\text{XCRM}} L_X \xrightarrow{\sigma_H/\sigma_\psi \approx 0.225} \kappa_q = 2.4292 (v7.0) \xrightarrow{\int \psi_i^* H \psi_j} y_{ij} \xrightarrow{m = yv} \text{All 9 Masses (<2\%)}}\]
     <div class="eq-label" style="color:var(--success);">Complete Derivation Chain (v7.0 — Sharp Higgs, All Parameters Derived)</div>
   </div>
 

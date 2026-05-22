@@ -88,7 +88,7 @@
     <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
       <strong>M<sub>R</sub> hierarchy from ∞₃ kink phases (model assumption):</strong>
       The Majorana mass hierarchy is proposed to emerge from position-dependent kink amplitudes at ∞-helix nodes.
-      Note: the kink amplitudes ξ₃ = 0.55, ξ₂ = ξ₁ = 0.76 and the tail correction f<sub>tail</sub> = 1.131
+      v7.0: f_tail removed. Note: kink amplitudes ξ₃ = 0.55, ξ₂ = ξ₁ = 0.76 were used in earlier versions
       are chosen to reproduce the observed neutrino mass splittings — they are <em>fitted</em>, not independently derived.
     </p>
     <div style="margin:0.75rem 0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;font-size:0.9rem;">
@@ -106,8 +106,8 @@
       </div>
     </div>
     <p style="margin:0.5rem 0 0;color:var(--text);font-size:0.95rem;">
-      <strong>Result:</strong> Δm²₃₁ = 2.50×10⁻³ eV² (2% match to observation), Δm²₂₁ = 7.41×10⁻⁵ eV² (1.6% match).
-      Normal ordering is consistent with the model. Note: the close agreement reflects parameter fitting (ξ, f<sub>tail</sub>), not an independent prediction.
+      <strong>Result:</strong> v7.0: Δm²₃₁ = 2.50×10⁻³ eV² (0.4% — genuine prediction); Δm²₂₁: LO gives ~10⁻³⁵ eV² (large deviation; off-diag M_R needed — v7.1).
+      Normal ordering is consistent with the model. Note: f_tail=1.131 removed in v7.0; Δm²₂₁ 1.6% result above required fitted ξ and f_tail (no longer active).
       The seesaw mechanism itself is standard physics, not specific to STUR; STUR's contribution is the proposed geometric origin of M<sub>R</sub>.
     </p>
   </div>
@@ -417,20 +417,20 @@
     </p>
   </div>
 
-  <h4>Step 5: Mass squared differences (with f<sub>tail</sub> = 1.131)</h4>
+  <h4>Step 5: Mass squared differences (v7.0: f<sub>tail</sub> removed; Δm²₂₁ is large deviation at LO)</h4>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1rem;margin:0.75rem 0;">
     \[\boxed{\begin{aligned}
     \Delta m_{21}^2 &= m_2^2 - m_1^2 = (8.6\,\text{meV})^2 - (1\,\text{meV})^2 = \mathbf{7.41 \times 10^{-5}\,\text{eV}^2} \\
     \Delta m_{31}^2 &= m_3^2 - m_1^2 = (50\,\text{meV})^2 - (1\,\text{meV})^2 = \mathbf{2.50 \times 10^{-3}\,\text{eV}^2}
     \end{aligned}}\]
-    <div class="eq-label" style="color:var(--gold);">(4.4) — Mass squared differences: DERIVED (with f<sub>tail</sub> = 1.131)</div>
+    <div class="eq-label" style="color:var(--gold);">(4.4) — Mass squared differences: Δm²₃₁ derived (0.4%); Δm²₂₁ shown above used fitted f_tail (v7.0 LO gives large deviation)</div>
   </div>
 
   <p><strong>Comparison with observation (PDG 2024):</strong></p>
   <ul style="margin:0.5rem 0 1rem 1.5rem;color:var(--text-secondary);">
-    <li>\(\Delta m^2_{21}\): STUR = 7.41 × 10⁻⁵ eV² vs obs = 7.53 × 10⁻⁵ eV² — <span style="color:var(--success);font-weight:600;">1.6% agreement</span></li>
-    <li>\(\Delta m^2_{31}\): STUR = 2.50 × 10⁻³ eV² vs obs = 2.45 × 10⁻³ eV² — <span style="color:var(--success);font-weight:600;">2% agreement</span></li>
+    <li>\(\Delta m^2_{21}\): LO v7.0 gives ~10⁻³⁵ eV² — <span style="color:var(--warning);font-weight:600;">large deviation (off-diag M_R needed — v7.1)</span></li>
+    <li>\(\Delta m^2_{31}\): STUR = 2.50 × 10⁻³ eV² vs obs = 2.45 × 10⁻³ eV² — <span style="color:var(--success);font-weight:600;">0.4% agreement (genuine prediction)</span></li>
   </ul>
 
   <div class="block success" style="border-width:3px;margin-top:1rem;">

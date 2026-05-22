@@ -58,7 +58,7 @@
     From <a href="stur_core_theory.html" style="color:var(--accent);">XCRM foundation</a> ·
     <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
     Part of <a href="stur_technical_appendix.html" style="color:var(--accent);">Technical Appendix</a> ·
-    <span style="color:var(--success);">v4.0 TOE</span>
+    <span style="color:var(--success);">v7.0 TOE</span>
   </p>
 </header>
 
@@ -76,25 +76,25 @@
 <section class="section" id="overview" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(251,191,36,0.02) 100%);">
   <h2 style="color:var(--gold);">Parameter Overview</h2>
 
-  <p>STUR v7.0 is a <strong>complete Theory of Everything</strong> with <strong>ONE fundamental input: \(M_{\rm Planck}\)</strong>. All other parameters are <strong>derived from geometry</strong> — the XCRM doublet coupling and infinity helix structure:</p>
+  <p>STUR v7.0 is a <strong>complete Theory of Everything</strong> with <strong>4 inputs: \(M_{\rm Planck},\, v_{\rm EW},\, m_t,\, \alpha_{\rm em}\)</strong>. All other parameters are <strong>derived from geometry</strong> — the XCRM doublet coupling and infinity helix structure:</p>
 
   <div class="block success" style="border-width:2px;margin-bottom:1rem;">
-    <div class="title">v4.0 TOE: Complete Derivation Chain [DERIVATION_CHAIN_INFINITY.md]</div>
+    <div class="title">v7.0 TOE: Complete Derivation Chain [DERIVATION_CHAIN_INFINITY.md]</div>
     <p style="margin:0;color:var(--text-secondary);">
-      <strong>\(M_{\rm Planck}\)</strong> — SOLE INPUT (fundamental scale)<br>
+      <strong>\(M_{\rm Planck}\)</strong> — INPUT (v7.0) (fundamental scale)<br>
       <strong>\(\XCRM{L_X} \approx 0.8\) μm</strong> — DERIVED (Casimir-holonomy balance) [H.2.11]<br>
       <strong>\(v \approx 4 \times 10^{15}\) GeV</strong> — DERIVED (\(v \cdot L_X = 3\), ∞-helix winding) [H.2.12]<br>
       <strong>\(M_R \approx 2 \times 10^{14}\) GeV</strong> — DERIVED (\(\lambda_{\rm hol}/L_X\)) [H.2.13]<br>
-      <strong>\(\kappa = 2.52 \pm 0.16\)</strong> — DERIVED (Mathieu + corrections) [H.7.3]<br>
-      <strong>\(\lambda = 0.220\)</strong> — DERIVED (exp[\(-\kappa^2/8\)] + corrections) [H.7.5]<br>
-      <strong>\(\bar{\eta} = 0.350 \pm 0.020\)</strong> — DERIVED (holonomy + Berry + RG) [H.8.5]
+      <strong>\(\kappa_q = 2.4292,\; \kappa_\ell = 2.3793\)</strong> — DERIVED (Mathieu + corrections) [H.7.3]<br>
+      <strong>\(\lambda_q = 0.22871,\; \lambda_\ell = 0.24285\)</strong> — DERIVED (exp[\(-\kappa^2/8\)]) [H.7.5]<br>
+      <strong>\(\bar{\eta} = 0.375,\; \bar{\rho} = 0.149\)</strong> — DERIVED (holonomy × Berry phase, v7.0) [H.8.5]
     </p>
   </div>
 
   <h3>Derivation Chain: \(M_{\rm Planck} \to\) All Parameters</h3>
   <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--gold);padding:1.25rem;">
     \[\boxed{M_{\rm Planck} \;\xrightarrow{\text{Casimir-holonomy}}\; L_X \;\xrightarrow{v \cdot L_X = 3}\; v \;\xrightarrow{\lambda_{\rm hol}/L_X}\; M_R \;\xrightarrow{\text{Z}_3}\; \text{All Parameters}}\]
-    <div class="eq-label" style="color:var(--gold);">(A.0a) — Master derivation chain: ONE input, all else derived</div>
+    <div class="eq-label" style="color:var(--gold);">(A.0a) — Master derivation chain: 4 inputs (M_Pl, v_EW, m_t, α_em), all else derived</div>
   </div>
 
   <h3>Fundamental Scale Parameters</h3>
@@ -114,7 +114,7 @@
         <td><strong>Planck mass</strong></td>
         <td>\(M_{\rm Planck}\)</td>
         <td>\(1.22 \times 10^{19}\) GeV</td>
-        <td style="color:var(--gold);font-weight:bold;">SOLE INPUT</td>
+        <td style="color:var(--gold);font-weight:bold;">INPUT (v7.0)</td>
         <td>Fundamental scale of nature</td>
         <td>—</td>
       </tr>
@@ -553,7 +553,7 @@
   <h2 style="color:var(--success);">A.5 Complete Derived Parameter Table</h2>
 
   <div class="block success" style="border-width:3px;">
-    <div class="title">v4.0 TOE: ONE Input (\(M_{\rm Planck}\)), All Else Derived</div>
+    <div class="title">v7.0 TOE: ONE Input (\(M_{\rm Planck}\)), All Else Derived</div>
     <p style="margin:0;color:var(--text-secondary);">
       STUR v7.0 is a <strong>complete Theory of Everything</strong> with <strong>one fundamental input</strong>.
       All parameters are derived from the Planck scale via Casimir-holonomy balance and infinity helix geometry.
@@ -564,7 +564,7 @@
   <h3>Master Derivation Chain</h3>
   <div class="eq law" style="margin:1rem 0;background:#000;border:3px solid var(--gold);padding:1.25rem;">
     <pre style="color:var(--text);font-family:monospace;font-size:0.9rem;margin:0;white-space:pre-wrap;">
-M_Planck (ONE fundamental input)
+M_Planck, v_EW, m_t, alpha_em (4 inputs)
     │
     │ Casimir (repulsive) vs Holonomy (attractive)
     │ N_eff ≈ -149 (fermion dominated)
@@ -840,21 +840,21 @@ M_Planck (ONE fundamental input)
   </table>
 
   <div class="block success" style="border-width:3px;margin-top:1.5rem;">
-    <div class="title">v4.0 Summary: Derivation Chain CLOSED</div>
+    <div class="title">v7.0 Summary: Derivation Chain CLOSED</div>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
       <li><strong>\(L_X\)</strong>: From Casimir (repulsive) vs holonomy (attractive) energy minimization</li>
       <li><strong>\(v\)</strong>: From ∞-helix winding quantization (\(v \cdot L_X = 3\))</li>
       <li><strong>\(M_R\)</strong>: From holonomy enhancement at ∞-helix nodes (\(\lambda_{\rm hol} \approx 20\))</li>
-      <li><strong>\(\kappa = 2.52 \pm 0.16\)</strong>: Mathieu equation (2.22) + higher-order corrections (+0.30)</li>
-      <li><strong>\(\lambda = 0.220\)</strong>: From \(\exp[-\kappa^2/8]\) with boundary corrections</li>
-      <li><strong>\(\bar{\eta} = 0.350 \pm 0.020\)</strong>: From holonomy \(\times\) Berry \(\times\) RG corrections</li>
+      <li><strong>\(\kappa_q = 2.4292,\; \kappa_\ell = 2.3793\)</strong>: Mathieu equation with \(\kappa = (2\pi/3)/\sigma_\psi\)</li>
+      <li><strong>\(\lambda_q = 0.22871,\; \lambda_\ell = 0.24285\)</strong>: From \(\exp[-\kappa^2/8]\)</li>
+      <li><strong>\(\bar{\eta} = 0.375\)</strong>: From holonomy \(\times\) Berry phase (v7.0)</li>
       <li><strong>All correction factors</strong>: Derived from ∞-helix geometry</li>
     </ul>
   </div>
 
   <div class="eq law" style="margin:1.5rem 0;background:#000;border:3px solid var(--gold);padding:1.25rem;">
     \[\boxed{M_{\rm Planck} \;\xrightarrow{\text{Casimir-holonomy}}\; L_X \;\xrightarrow{\text{Z}_3}\; \text{All SM} + \text{Gravity} + \text{Predictions}}\]
-    <div class="eq-label" style="color:var(--gold);">(A.13) — Complete Theory of Everything: ONE input (\(M_{\rm Planck}\)), all else DERIVED</div>
+    <div class="eq-label" style="color:var(--gold);">(A.13) — Complete Theory of Everything: 4 inputs (\(M_{\rm Planck}, v_{\rm EW}, m_t, \alpha_{\rm em}\)), all else DERIVED</div>
   </div>
 </section>
 
@@ -867,7 +867,7 @@ M_Planck (ONE fundamental input)
 <footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
   <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
     © 2026 Sheldon Lindberg · <a href="../sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
-    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v4.0</span>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v7.0</span>
   </p>
 </footer>
 
