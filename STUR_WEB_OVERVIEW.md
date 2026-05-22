@@ -1,6 +1,6 @@
 # STUR Framework: An Overview
 
-**Dynamic Infinity Helix Phase-Lock Unification — Complete Theory of Everything (v7.0)**
+**Dynamic Infinity Helix Phase-Lock Unification — Theory of Everything Candidate (v7.0)**
 
 ---
 
@@ -12,7 +12,7 @@ The Standard Model of particle physics successfully describes fundamental partic
 
 The framework rests on three pillars: **TEGR** (gravity as torsion), the **XCRM** coupling (unique R-field torsion term), and **Chronomagnetics** (log-periodic phase dynamics with λ = 3722/2705).
 
-### Key Results at a Glance (v7.0 — 31D+1I=32, 0 free parameters)
+### Key Results at a Glance (v7.0 — 24D+3P+1U+1I=29)
 
 | What STUR Derives | How | Status |
 |-------------------|-----|--------|
@@ -24,16 +24,16 @@ The framework rests on three pillars: **TEGR** (gravity as torsion), the **XCRM*
 | σ_H/σ_ψ = √2/(2π) | ∞₃ brane kink localization | D — derived |
 | PMNS matrix (4 parameters) | U_ℓ† × U_TBM, lepton Cabibbo | D — derived |
 | Λ_CC = 3.3×10⁻⁴⁷ GeV⁴ | ∞₃ Ward identity + neutrino residual | D — 17% from obs. |
-| M_DM = 0.92 TeV | LKP B^(1) self-consistent freeze-out | D — testable |
+| M_DM = 949 GeV | LKP B^(1) self-consistent freeze-out | D — testable |
 | SU(3)×SU(2)×U(1) | ∞-helix holonomy compatibility | D — Exact |
 
 ### What This Is
 
-STUR is a **complete Theory of Everything** with 31 Standard Model observables derived from four inputs and three axioms — zero free parameters. It is:
+STUR is a **TOE candidate** with 29 observables (24D+3P+1U+1I) derived from four inputs and three axioms — minimal free parameters at leading order. It is:
 
 - Built on TEGR (teleparallel gravity): valid at all energy scales via torsion
-- Testable: makes specific falsifiable predictions (δ_CP = 270°, Σm_ν = 50 meV, M_DM = 0.92 TeV)
-- Complete: no open parameters; all P/C/J statuses upgraded to D in v7.0
+- Testable: makes specific falsifiable predictions (δ_CP = 267.9°, Σm_ν = 50 meV, M_DM = 949 GeV)
+- Honest: 3P+1U remain at LO (sin²θ₁₂, sin²θ₁₃, Δm²₂₁, m_u/m_t); NLO corrections pending
 - Awaiting experimental verification from JUNO, DUNE, T2HK, LZ, CMB-S4
 
 ---
@@ -259,4 +259,4 @@ This framework is presented for scientific evaluation. Constructive feedback, cr
 
 ---
 
-*Last updated: May 2026 | Framework version: STUR v7.0 (100% TOE Closure — 31D+1I=32)*
+*Last updated: May 2026 | Framework version: STUR v7.0 (honest 24D+3P+1U+1I=29 scorecard)*

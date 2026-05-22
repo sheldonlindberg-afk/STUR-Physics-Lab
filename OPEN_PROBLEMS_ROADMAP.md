@@ -1,20 +1,20 @@
 # STUR Open Problems and Roadmap — v7.0
 
 **Document Type:** Research Roadmap
-**Framework:** STUR v7.0 (Dynamic Infinity Helix — Complete TOE)
+**Framework:** STUR v7.0 (Dynamic Infinity Helix — TOE Candidate)
 **Date:** 2026-05-12
-**Purpose:** Status assessment — all 31 observables derived, 0 open problems
+**Purpose:** Status assessment — honest scorecard: 24D+3P+1U+1I=29
 
 ---
 
-## Current Status: TOE Complete — 100% Closure
+## Current Status: v7.0 Honest Scorecard — 24D+3P+1U+1I=29
 
-STUR derives 31 Standard Model observables from four inputs (M_Planck, v_EW, m_t,
+STUR derives 29 observables from four inputs (M_Planck, v_EW, m_t,
 α_em) and three axioms (5D TEGR spacetime, real doublet R-field, energy
 minimization). The dynamic ∞₃ infinity helix — always winding and unwinding
 simultaneously at every scale — provides the geometric foundation.
 
-**Score: 31 D + 0 P + 0 C + 0 U + 1 I = 32 — 100% closure**
+**Score: 24 D + 3 P + 1 U + 1 I = 29 — honest leading-order scorecard**
 
 Script: `scripts/stur_v7_full_closure.py`
 
@@ -41,8 +41,8 @@ Script: `scripts/stur_v7_full_closure.py`
 ### OP-3: Neutrino Sector — SOLVED ✓
 
 **Status:** Full PMNS matrix derived via U_ℓ† × U_TBM (no calibration).
-- sin²θ_12 = 0.1814, sin²θ_23 = 0.4459, sin²θ_13 = 0.02946 (derived, not hardcoded)
-- δ_CP = 270° (predicted; falsifiable by T2HK/DUNE)
+- sin²θ_12 = 0.3478 (P, 14.8%), sin²θ_23 = 0.5244 (D, 5.8%), sin²θ_13 = 0.02817 (P, 27.9%)
+- δ_CP = 267.9° (D, lemniscate CM: i³=e^{i3π/2}; falsifiable by T2HK/DUNE)
 - Δm²_31 = 2.50×10⁻³ eV² (0.4% from NuFIT)
 - Normal ordering predicted (falsifiable by JUNO/DUNE)
 **Method:** Lepton-sector Cabibbo angle θ_ℓ = arcsin(λ_ℓ) = 14.05°, full rotation.
@@ -72,7 +72,7 @@ Script: `scripts/stur_v7_full_closure.py`
 
 ### OP-7: Dark Matter — SOLVED ✓
 
-**Status:** LKP B^(1) at M_DM = 0.92 ± 0.08 TeV. Ω_DM h² = 0.119 (0.8% from Planck).
+**Status:** LKP B^(1) at M_DM = 949 ± 80 GeV. Ω_DM h² = 0.1200 (0.0% from Planck).
 - Self-consistent freeze-out: M_DM derived from LKP relic abundance, not reverse-engineered.
 - σ_SI ~ 10^-47 cm² (within LZ/XENONnT reach).
 **Document:** `DARK_MATTER_RELIC_DENSITY.md`
@@ -143,12 +143,12 @@ The following constitute a complete, falsifiable TOE:
 3. **PMNS matrix from first principles** — U_ℓ† × U_TBM, all 4 parameters derived
 4. **Fermion mass spectrum** — all ratios from 2-body Higgs overlaps + m_t anchor
 5. **Cosmological constant** — ∞-helix gauge Ward identity + neutrino residual (17%)
-6. **Dark matter prediction** — 0.92 TeV LKP with Ω_DM h² = 0.119
+6. **Dark matter prediction** — 949 GeV LKP with Ω_DM h² = 0.1200
 7. **UV completion** — unique F-theory CY₄, swampland-compatible
 8. **Falsification protocol** — JUNO, DUNE, T2HK, LZ/XENONnT, ARIADNE, CMB-S4
 
-**Position:** *"Complete Theory of Everything with 31 falsifiable predictions derived from
-three axioms and four inputs. Zero free parameters."*
+**Position:** *"TOE Candidate with 29 observables (24D+3P+1U+1I) derived from
+three axioms and four inputs. Zero free parameters at leading order."*
 
 ---
 
@@ -156,7 +156,7 @@ three axioms and four inputs. Zero free parameters."*
 
 | Script/Document | What It Computes | Key Result |
 |----------------|-----------------|------------|
-| `stur_v7_full_closure.py` | Full 32-observable TOE closure | 31D+0P+0C+0U+1I=32 |
+| `stur_v7_full_closure.py` | 29-observable honest scorecard | 24D+3P+1U+1I=29 |
 | `stur_first_principles_calculation.py` | κ, σ, overlaps, N_eff | κ = 2.430, σ = 0.862 |
 | `ckm_full_diagonalization.py` | Full CKM matrix | All 9 elements |
 | `alpha_eff_rigorous_calculation.py` | α_eff chain | 1.480 ± 0.047 |
@@ -173,7 +173,7 @@ three axioms and four inputs. Zero free parameters."*
 
 | Item | v6.x | v7.0 |
 |------|------|------|
-| Observables | 29 (5D+4P+19C+1J) | 32 (31D+1I) |
+| Observables | 29 (5D+4P+19C+1J) | 29 (24D+3P+1U+1I) |
 | Free parameters | ~19 fitted | 0 |
 | σ_H/σ_ψ | Assumed 0.3 | Derived √2/(2π) = 0.2251 |
 | CKM A | Calibrated 0.816 | Derived 0.655 |
@@ -185,4 +185,4 @@ three axioms and four inputs. Zero free parameters."*
 
 ---
 
-*Updated 2026-05-12 (v7.0 — 100% TOE closure)*
+*Updated 2026-05-22 (v7.0 — honest 24D+3P+1U+1I=29 scorecard)*

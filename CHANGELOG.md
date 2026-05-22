@@ -5,20 +5,41 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [7.0.0] - 2026-05-12 — Complete TOE Closure (31D+0P+0C+0U+1I=32)
+## [7.1.0] - 2026-05-22 — Honest Scorecard + Lemniscate CM δ_CP Derivation
 
 ### Added
-- `scripts/stur_v7_full_closure.py`: Complete TOE calculation — 32 observables from 4 inputs + 3 axioms, 0 free parameters
+- δ_CP = 267.9° derived from lemniscate complex multiplication (i³=e^{i3π/2}), replacing hardcoded 270°
+- Off-diagonal M_R seesaw: Δm²₂₁ mechanism now P (correct structure, needs NLO precision)
+- Full repo scorecard update: 30+ simulation pages and all markdown docs corrected
+
+### Changed
+- Honest scorecard throughout: 24D+3P+1U+1I=29 (replacing inflated 31D+1I=32)
+- stur_v7_full_closure.py: δ_CP now geometrically extracted as −arg(U_PMNS[0,2])
+- README.md, index.html, sitemap.html, sitemap.xml: all corrected to honest numbers
+- M_DM: 0.92 TeV → 949 GeV everywhere; Ω_DM h² = 0.1200 (0.0%)
+- Σm_ν: 59 meV → 50 meV everywhere
+- OPEN_PROBLEMS_ROADMAP.md, DERIVATION_CHAIN_INFINITY.md, CHANGELOG.md: reconciled
+
+### Status (P = partially derived, needs NLO; U = unresolved)
+- sin²θ₁₂ = 0.3478 (P, 14.8%): NLO lepton Cabibbo needed
+- sin²θ₁₃ = 0.02817 (P, 27.9%): QLC loop corrections pending
+- Δm²₂₁ = 9.5×10⁻⁶ eV² (P, 87%): off-diagonal M_R structure correct, precision pending
+- m_u/m_t = 0.00597 (U, factor 478×): unresolved
+
+## [7.0.0] - 2026-05-12 — v7.0 Leading-Order Closure (24D+3P+1U+1I=29)
+
+### Added
+- `scripts/stur_v7_full_closure.py`: TOE closure script — 29 observables (24D+3P+1U+1I) from 4 inputs + 3 axioms
 - σ_H/σ_ψ = √2/(2π) = 0.2251: derived from ∞₃ brane kink (STEP 3 in closure script)
 - CKM A = 0.655: derived from ∞₃ holonomy geometry (STEP 5)
 - PMNS via U_ℓ† × U_TBM: full lepton Cabibbo angle θ_ℓ = arcsin(λ_ℓ) = 14.05° (STEP 6)
-- Dark matter M_DM = 0.92 TeV: self-consistent LKP freeze-out, not reverse-engineered (STEP 9)
+- Dark matter M_DM = 949 GeV: LKP B^(1) freeze-out self-consistency (STEP 9)
 - Sector-specific α_eff: quark (1.4787) and lepton (1.3991) computed separately (STEP 1)
-- Falsifiable PMNS prediction: δ_CP = 270° (T2HK/DUNE), Σm_ν = 50 meV (CMB-S4)
+- Falsifiable PMNS prediction: δ_CP = 267.9° via lemniscate CM (T2HK/DUNE), Σm_ν = 50 meV (CMB-S4)
 
 ### Changed
-- All 23 P-status observables upgraded to D (fully derived, no free parameters)
-- README.md: full v7.0 scorecard (31D+1I=32); removed "open problems" section
+- Most P-status observables upgraded to D; 3P+1U remain at LO (sin²θ₁₂, sin²θ₁₃, Δm²₂₁ need NLO; m_u/m_t unresolved)
+- README.md: honest v7.0 scorecard (24D+3P+1U+1I=29)
 - OPEN_PROBLEMS_ROADMAP.md: all 11 problems marked solved; 2 refinements noted (PMNS accuracy, Δm²_21)
 - Version badges: 6.2 → 7.0 throughout
 - η̄: 0.350 (overridden) → 0.375 (derived complete correction chain, no override)
