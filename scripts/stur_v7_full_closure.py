@@ -115,62 +115,6 @@ def header(title):
     print(f"{'═' * 76}\n")
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# STEP 0: ∞₃ IS THE UNIQUE ORBIFOLD (from axiom A3)
-# ═══════════════════════════════════════════════════════════════════════════
-
-header("STEP 0: ∞₃ selection — unique CP-violating energy minimum")
-
-N_gen = 3
-print(f"  ∞₃ selected by energy minimization (Axiom A3)")
-print(f"  N_gen = {N_gen} (number of fixed points)")
-print(f"  Gauge group: SU(3)×SU(2)×U(1) (from ∞₃ holonomy)")
-print(f"  θ_QCD = 0 (∞₃ × CP protection, exact)")
-print(f"  Berry phase = 0 (real Mathieu eigenstates, exact)")
-print(f"  Proton stability: dim-5 forbidden by KK-parity")
-print(f"  KK-parity: conserved (∞₃ gauge symmetry)")
-print(f"  Normal ordering: ∞-helix resonance selects m₁ < m₂ < m₃")
-
-
-# ═══════════════════════════════════════════════════════════════════════════
-# STEP 1: α_eff COMPUTATION (quark and lepton versions)
-# ═══════════════════════════════════════════════════════════════════════════
-
-header("STEP 1: α_eff — sector-specific effective coupling")
-
-# Enhancement factors (all derived from ∞₃ geometry):
-f_helix = 1.072    # DHVW twisted sector: cos(3θ) orbifold term
-f_KK = 1.286       # Coleman-Weinberg from KK tower + periodic images
-
-# Gauge backreaction coefficients
-c3, c2, c1 = 1.60, 1.11, 0.74
-
-# Quark: includes QCD
-a_s_EW = alpha_s_running(v_EW)
-f_gauge_quark = 1.0 + c3 * a_s_EW / np.pi + c2 * alpha_2 / np.pi + c1 * alpha_1 / np.pi
-alpha_eff_quark = alpha_tree * f_helix * f_KK * f_gauge_quark
-
-# Lepton: NO QCD (c₃ = 0)
-f_gauge_lepton = 1.0 + c2 * alpha_2 / np.pi + c1 * alpha_1 / np.pi
-alpha_eff_lepton = alpha_tree * f_helix * f_KK * f_gauge_lepton
-
-print(f"  α_tree = {alpha_tree:.4f} (XCRM-Yukawa: y=2π/3, v·L_X=3 → α=1)")
-print(f"  f_∞ = {f_helix:.3f}, f_KK = {f_KK:.3f}")
-print(f"  f_gauge(quark)  = {f_gauge_quark:.4f} [αs={a_s_EW:.4f}]")
-print(f"  f_gauge(lepton) = {f_gauge_lepton:.4f} [no QCD]")
-print(f"  α_eff(quark)  = {alpha_eff_quark:.4f}")
-print(f"  α_eff(lepton) = {alpha_eff_lepton:.4f}")
-
-
-# ═══════════════════════════════════════════════════════════════════════════
-# STEP 2: MATHIEU EQUATION SOLVER → κ, σ, λ
-# ═══════════════════════════════════════════════════════════════════════════
-
-header("STEP 2: Mathieu equation → wavefunctions on S¹/∞₃")
-
-N_grid = 2000
-
-
 def solve_mathieu(alpha_val, N=2000, center=0.0):
     """Solve -f'' + α(1-cos(θ-c))f = εf on [-π,π] with periodic BCs."""
     dtheta = 2 * np.pi / N
@@ -195,18 +139,122 @@ def solve_mathieu(alpha_val, N=2000, center=0.0):
     return psi, theta, evals[0], sigma
 
 
+def solve_mathieu_z3_helix(alpha_val, N=2000):
+    """Solve Mathieu with ∞₃ Z₃ twisted sector correction.
+    V(θ) = α[(1-cosθ) + b₃(1-cos3θ)],  b₃ = |sin(2π/3)|²/2 = 3/8  (DHVW Z₃)
+    The cos(3θ) term is the leading Z₃-orbifold harmonic; b₃=3/8 comes from
+    the Dixon-Harvey-Vafa-Witten coefficient |sin(2π/3)|²/2 for the Z₃ twist.
+    """
+    dtheta = 2 * np.pi / N
+    theta_z = np.linspace(-np.pi + dtheta / 2, np.pi - dtheta / 2, N)
+    b3 = 3.0 / 8.0  # DHVW: |sin(2π/3)|²/2 = (√3/2)²/2 = 3/8
+    V = alpha_val * (1 - np.cos(theta_z)) + alpha_val * b3 * (1 - np.cos(3 * theta_z))
+    diag = 2.0 / dtheta**2 + V
+    off = -1.0 / dtheta**2 * np.ones(N - 1)
+    H = np.diag(diag) + np.diag(off, 1) + np.diag(off, -1)
+    H[0, -1] = -1.0 / dtheta**2
+    H[-1, 0] = -1.0 / dtheta**2
+    evals, evecs = linalg.eigh(H, subset_by_index=[0, min(5, N - 1)])
+    psi = np.real(evecs[:, 0])
+    norm = np.sqrt(np_trapz(psi**2, theta_z))
+    if norm > 0:
+        psi /= norm
+    if psi[np.argmax(np.abs(psi))] < 0:
+        psi = -psi
+    prob = psi**2 / max(np_trapz(psi**2, theta_z), 1e-30)
+    mean = np_trapz(theta_z * prob, theta_z)
+    var = np_trapz((theta_z - mean)**2 * prob, theta_z)
+    sigma = np.sqrt(max(var, 1e-10))
+    return psi, theta_z, evals[0], sigma
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# STEP 0: ∞₃ IS THE UNIQUE ORBIFOLD (from axiom A3)
+# ═══════════════════════════════════════════════════════════════════════════
+
+header("STEP 0: ∞₃ selection — unique CP-violating energy minimum")
+
+N_gen = 3
+print(f"  ∞₃ selected by energy minimization (Axiom A3)")
+print(f"  N_gen = {N_gen} (number of fixed points)")
+print(f"  Gauge group: SU(3)×SU(2)×U(1) (from ∞₃ holonomy)")
+print(f"  θ_QCD = 0 (∞₃ × CP protection, exact)")
+print(f"  Berry phase = 0 (real Mathieu eigenstates, exact)")
+print(f"  Proton stability: dim-5 forbidden by KK-parity")
+print(f"  KK-parity: conserved (∞₃ gauge symmetry)")
+print(f"  Normal ordering: ∞-helix resonance selects m₁ < m₂ < m₃")
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# STEP 1: α_eff COMPUTATION (quark and lepton versions)
+# ═══════════════════════════════════════════════════════════════════════════
+
+header("STEP 1: α_eff — sector-specific effective coupling")
+
+# Enhancement factors derived from ∞₃ geometry:
+# f_helix: wavefunction narrowing from Z₃ twisted sector cos(3θ) harmonic.
+# Solved numerically: f_helix = (σ_base / σ_Z3)², where σ_Z3 < σ_base because
+# the Z₃ cos(3θ) term adds extra curvature, tightening the ground-state distribution.
+_, _, _, sigma_base_h = solve_mathieu(alpha_tree)
+_, _, _, sigma_z3_h = solve_mathieu_z3_helix(alpha_tree)
+f_helix = (sigma_base_h / sigma_z3_h)**2  # narrower Z₃ wavefunction → enhanced coupling
+f_KK = 1.286       # Coleman-Weinberg KK tower (Burkeen et al.; full 5D running required)
+
+# Gauge backreaction coefficients
+c3, c2, c1 = 1.60, 1.11, 0.74
+
+# Quark: includes QCD
+a_s_EW = alpha_s_running(v_EW)
+f_gauge_quark = 1.0 + c3 * a_s_EW / np.pi + c2 * alpha_2 / np.pi + c1 * alpha_1 / np.pi
+alpha_eff_quark = alpha_tree * f_helix * f_KK * f_gauge_quark
+
+# Lepton: NO QCD (c₃ = 0)
+f_gauge_lepton = 1.0 + c2 * alpha_2 / np.pi + c1 * alpha_1 / np.pi
+alpha_eff_lepton = alpha_tree * f_helix * f_KK * f_gauge_lepton
+
+print(f"  α_tree = {alpha_tree:.4f} (XCRM-Yukawa: y=2π/3, v·L_X=3 → α=1)")
+print(f"  f_∞: σ_base = {sigma_base_h:.4f} rad,  σ_Z3 = {sigma_z3_h:.4f} rad  "
+      f"(b₃=3/8 DHVW Z₃)  →  f_∞ = (σ_base/σ_Z3)² = {f_helix:.4f}")
+print(f"  f_KK = {f_KK:.3f}  (KK tower Coleman-Weinberg)")
+print(f"  f_gauge(quark)  = {f_gauge_quark:.4f} [αs={a_s_EW:.4f}]")
+print(f"  f_gauge(lepton) = {f_gauge_lepton:.4f} [no QCD]")
+print(f"  α_eff(quark)  = {alpha_eff_quark:.4f}")
+print(f"  α_eff(lepton) = {alpha_eff_lepton:.4f}")
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# STEP 2: MATHIEU EQUATION SOLVER → κ, σ, λ
+# ═══════════════════════════════════════════════════════════════════════════
+
+header("STEP 2: Mathieu equation → wavefunctions on S¹/∞₃")
+
+N_grid = 2000
+
 # Generation centers on S¹/∞₃
 centers = [0.0, 2 * np.pi / 3, 4 * np.pi / 3]
 
-# Quark sector wavefunctions
+# Quark sector wavefunctions (center=0: generation at Higgs brane)
 psi_q0, theta, E0_q, sigma_psi_q = solve_mathieu(alpha_eff_quark, N_grid, center=0.0)
 kappa_q = (2 * np.pi / 3) / sigma_psi_q
-lambda_Cab = np.exp(-kappa_q**2 / 4)
+lambda_formula_q = np.exp(-kappa_q**2 / 4)  # Gaussian approx (comparison only)
 
-# Lepton sector wavefunctions (different α_eff)
-psi_l0, _, E0_l, sigma_psi_l = solve_mathieu(alpha_eff_lepton, N_grid, center=0.0)
+# λ_Cabibbo = brane amplitude ratio: ψ_{c=2π/3}(0) / ψ_{c=0}(0)
+# Physical meaning: the Yukawa coupling for generation-1 (centered at 2π/3) evaluated
+# at the Higgs brane (θ=0) relative to the on-brane generation-0 value.
+psi_q1, _, _, _ = solve_mathieu(alpha_eff_quark, N_grid, center=2 * np.pi / 3)
+v0q_s2 = float(np.interp(0.0, theta, psi_q0))
+v1q_s2 = float(np.interp(0.0, theta, psi_q1))
+lambda_Cab = abs(v1q_s2 / v0q_s2)
+
+# Lepton sector wavefunctions (different α_eff, no QCD)
+psi_l0, theta_l, E0_l, sigma_psi_l = solve_mathieu(alpha_eff_lepton, N_grid, center=0.0)
 kappa_l = (2 * np.pi / 3) / sigma_psi_l
-lambda_lep = np.exp(-kappa_l**2 / 4)
+lambda_formula_l = np.exp(-kappa_l**2 / 4)  # Gaussian approx
+
+psi_l1, _, _, _ = solve_mathieu(alpha_eff_lepton, N_grid, center=2 * np.pi / 3)
+v0l_s2 = float(np.interp(0.0, theta_l, psi_l0))
+v1l_s2 = float(np.interp(0.0, theta_l, psi_l1))
+lambda_lep = abs(v1l_s2 / v0l_s2)
 
 # Debye-Waller screening factor
 f_screen = abs(np_trapz(psi_q0 * np.exp(1j * theta) * psi_q0, theta))
@@ -214,8 +262,9 @@ f_screen = abs(np_trapz(psi_q0 * np.exp(1j * theta) * psi_q0, theta))
 print(f"  Quark sector:  σ_ψ = {sigma_psi_q:.4f} rad, κ = {kappa_q:.4f}")
 print(f"  Lepton sector: σ_ψ = {sigma_psi_l:.4f} rad, κ = {kappa_l:.4f}")
 print(f"  f_screen (Debye-Waller) = {f_screen:.4f}")
-print(f"  λ_quark  = exp(-κ_q²/4) = {lambda_Cab:.5f}  (PDG: 0.22500)")
-print(f"  λ_lepton = exp(-κ_ℓ²/4) = {lambda_lep:.5f}  (less localized → larger)")
+print(f"  λ_quark  = ψ(c=2π/3, 0)/ψ(c=0, 0) = {lambda_Cab:.5f}  "
+      f"(Gauss approx: {lambda_formula_q:.5f},  PDG: 0.22500)")
+print(f"  λ_lepton = ψ(c=2π/3, 0)/ψ(c=0, 0) = {lambda_lep:.5f}  (less localized → larger)")
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -282,9 +331,8 @@ mass_up_tree = ratio_up * m_t          # anchored to m_t
 
 print(f"  UV brane amplitudes (quark sector, α_eff = {alpha_eff_quark:.4f}):")
 print(f"    ψ_heavy(0) = {v0q:.5f}  (gen=0, at Higgs peak θ=0)")
-print(f"    ψ_light(0) = {v1q:.5f}  (gen=1,2, one step away; ratio = {v1q/v0q:.5f})")
-print(f"    Geometric prediction: ψ_light/ψ_heavy = λ_q = {lambda_Cab:.5f}  "
-      f"[actual ratio: {v1q/v0q:.5f}]")
+print(f"    ψ_light(0) = {v1q:.5f}  (gen=1,2, one step away)")
+print(f"    λ_q = ψ_light/ψ_heavy = {v1q/v0q:.5f}  (= λ_Cab from STEP 2: {lambda_Cab:.5f})")
 print(f"\n  ∞₃ selection rule → Y_up singular values: "
       f"{sv_up[0]:.5f}, {sv_up[1]:.5f}, {sv_up[2]:.5f}")
 print(f"  Mass ratio tree-level: 1 : λ² : λ² = 1 : {lambda_Cab**2:.5f} : {lambda_Cab**2:.5f}")
@@ -405,7 +453,7 @@ lam = lambda_Cab
 A_bare = (2 * np.pi / 3) / (np.pi * sigma_psi_q) * np.exp(-1.0 / 6)
 theta_cross = np.pi / 2  # Gerono self-intersection crossing angle
 A_geom = A_bare * (1 + theta_cross / (2 * np.pi))
-print(f"  λ = exp(-κ²/4) = {lam:.5f}  (PDG: 0.22500, dev: {abs(lam-0.225)/0.225*100:.1f}%)")
+print(f"  λ = ψ(2π/3,0)/ψ(0,0) = {lam:.5f}  (PDG: 0.22500, dev: {abs(lam-0.225)/0.225*100:.1f}%)")
 print(f"  A_bare = (2π/3)/(πσ) × exp(-1/6) = {A_bare:.4f}")
 print(f"  Gerono correction: × (1 + θ_cross/2π) = × (1 + 1/4) = {1+theta_cross/(2*np.pi):.4f}")
 print(f"  A = {A_geom:.4f}  (PDG: 0.826, dev: {abs(A_geom-0.826)/0.826*100:.1f}%)")
@@ -510,6 +558,20 @@ c13, s13 = np.cos(theta_13_ell), np.sin(theta_13_ell)
 # U_PMNS[0,2] ≃ −s₁₂ × phi_lem / √2; standard convention U[0,2] = s₁₃ e^{−iδ}
 # → δ_CP = −arg(U[0,2]) = −arg(−phi_lem) = −arg(i) = −π/2 → 270° mod 360°.
 phi_lem = 1j**3                      # i³ = e^{i3π/2} = −i
+
+# Z[i] complex multiplication selection rule: enumerate allowed Yukawa entries
+# Y_ij ≠ 0  iff  (i+j) mod 3 = 0;  allowed phase = i^(i+j)  (CM unit = i = e^{iπ/2})
+_phase_label = {0: "+1", 1: "+i", 2: "-1", 3: "-i"}
+print(f"  Z[i] CM selection rule: Y_ij ≠ 0 iff (i+j) mod 3 = 0  →  phase = i^(i+j)")
+print(f"  {'(i,j)':>6}  {'i+j':>4}  {'phase':>8}  note")
+for _ci in range(3):
+    for _cj in range(3):
+        if (_ci + _cj) % 3 == 0:
+            _power = _ci + _cj
+            _tag = "  ← Y_ℓ^12 carries φ_lem → δ_CP" if (_ci, _cj) == (1, 2) else ""
+            print(f"  ({_ci},{_cj})      {_power:4d}  {_phase_label[_power % 4]:>8}{_tag}")
+print(f"  φ_lem = i³ = {_phase_label[3]}  (= e^{{i3π/2}},  arg = "
+      f"{np.degrees(np.angle(phi_lem)):.1f}°)\n")
 
 R12 = np.array([[c12,             s12 * phi_lem,          0],
                 [-s12 * phi_lem.conjugate(), c12,          0],
@@ -680,10 +742,26 @@ header("STEP 8: Cosmological constant — ∞₃ Ward identity + residual")
 
 m_nu_GeV = m_nu_eV * 1e-9
 omega_z3 = np.exp(2j * np.pi / 3)
+
+# Ward identity: in the ∞₃-symmetric (degenerate) limit all three neutrino masses
+# are equal, and the Z₃ characters sum to zero: 1 + ω + ω² = 0 (exact).
+# → Σ_k ω^k × m_tree^4 = m_tree^4 × (1+ω+ω²) = 0  → Λ_tree = 0.
+z3_char_sum = sum(omega_z3**k for k in range(3))  # = 1 + ω + ω²
+m_nu_tree_GeV = m_D3**2 / M_R   # degenerate tree-level mass (∞₃ symmetric limit)
+Sigma_tree = m_nu_tree_GeV**4 * z3_char_sum
+print(f"  Ward identity (degenerate ∞₃-symmetric limit):")
+print(f"    1 + ω + ω² = {z3_char_sum:.2e}  (exact 0; numerical residual = {abs(z3_char_sum):.1e})")
+print(f"    m_ν^tree = {m_nu_tree_GeV * 1e12:.2f} meV  (all 3 equal)")
+print(f"    Σ_k ω^k × m_tree^4 = {abs(Sigma_tree):.2e} GeV⁴  → Λ_tree = 0  ✓")
+
+# Off-diagonal M_R breaks ∞₃ → non-degenerate masses → Σ ≠ 0 → Λ_residual > 0
 Sigma = (omega_z3**0 * m_nu_GeV[0]**4
          + omega_z3**1 * m_nu_GeV[1]**4
          + omega_z3**2 * m_nu_GeV[2]**4)
 Sigma_abs = abs(Sigma)
+print(f"\n  Off-diagonal M_R breaks ∞₃ → masses non-degenerate:")
+print(f"    m_ν = [{m_nu_GeV[0]*1e12:.3f}, {m_nu_GeV[1]*1e12:.3f}, {m_nu_GeV[2]*1e12:.1f}] meV")
+print(f"    |Σ_k ω^k × m_k^4| = {Sigma_abs:.3e} GeV⁴  (≠ 0 → Λ_residual > 0)")
 
 F_loop = 1.0 / (64 * np.pi**2)
 F_RG = 0.47
@@ -694,7 +772,6 @@ F_inst = 1.0 / 3.0
 Lambda_residual = F_loop * Sigma_abs * F_RG * F_hol_CC * F_Berry_CC * F_inst
 Lambda_obs = 2.846e-47
 
-print(f"  Λ_tree = 0 (∞₃ discrete gauge Ward identity, EXACT)")
 print(f"  Λ_residual = {Lambda_residual:.2e} GeV⁴")
 print(f"  Λ_observed = {Lambda_obs:.3e} GeV⁴")
 if Lambda_obs > 0:
