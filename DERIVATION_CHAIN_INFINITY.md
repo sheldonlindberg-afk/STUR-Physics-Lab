@@ -586,8 +586,8 @@ Applying the ∞₃ Phase Closure condition (n_w × κ × σ = 2π):
 ω_rounded = π × 3 × 2.430 × 0.862 = 19.742   (using rounded Mathieu values)
 ω_triangle = 2π / ln(3722/2705) = 19.6867     (triangle computation, 0.27% from ω_exact)
 
-λ_chrono (exact)    = e^{2π/ω} = e^{1/π} = 1.37561...
-λ_chrono (triangle) = 3722/2705 = 1.37597     (0.03% from e^{1/π})
+λ_chrono (exact)    = e^{2π/ω} = e^{1/π} = 1.37479...
+λ_chrono (triangle) = 3722/2705 = 1.37597     (0.085% from e^{1/π})
 ln(λ_chrono) (exact)    = 1/π = 0.31831...
 ln(λ_chrono) (triangle) = 0.31916             (0.27% from 1/π)
 ```
@@ -597,7 +597,7 @@ ln(λ_chrono) (triangle) = 0.31916             (0.27% from 1/π)
 The triangle gives a rational approximation to the exact irrational value e^{1/π}:
 
 ```
-3722/2705 = 1.37597...    vs    e^{1/π} = 1.37561...    (0.03% difference)
+3722/2705 = 1.37597...    vs    e^{1/π} = 1.37479...    (0.085% difference)
 ```
 
 This is analogous to how Pythagorean integer triples (3,4,5) approximate right triangles — the triangle captures the geometry to high accuracy but the underlying exact result is ω = 2π².
@@ -607,7 +607,7 @@ This is analogous to how Pythagorean integer triples (3,4,5) approximate right t
 | Quantity | Triangle Formula | Exact (Phase Closure) | Discrepancy |
 |---------|-----------------|----------------------|-------------|
 | ω | 19.6867 | 2π² = 19.7392 | 0.27% |
-| λ_chrono | 3722/2705 = 1.37597 | e^{1/π} = 1.37561 | 0.03% |
+| λ_chrono | 3722/2705 = 1.37597 | e^{1/π} = 1.37479 | 0.085% |
 | ln(λ_chrono) | 0.31916 | 1/π = 0.31831 | 0.27% |
 
 **Connection to the open problem:**
@@ -1535,7 +1535,7 @@ Triangle {116, 138, 144}:
 ```
 ∞₃ Phase Closure:  n_w × κ × σ = 3 × 2.430 × 0.862 = 6.284 ≈ 2π (0.016%)
 ω_exact  = 2π² = 19.7392
-λ_exact  = e^{1/π} = 1.37561...
+λ_exact  = e^{1/π} = 1.37479...
 ln(λ_exact) = 1/π = 0.31831...
 Discrepancy from triangle: 0.27%
 ```
@@ -1572,8 +1572,8 @@ Fraction near phase-lock (M > 0.9): 28.7%
 | σ | Wavefunction width | 0.862 rad |
 | λ | Cabibbo angle (Wolfenstein) | 0.229 |
 | M(t) | Chronomagnetic modulation | \|sin(ω ln(t/t₀))\| |
-| ω | Chronomagnetic frequency | 19.687 |
-| λ_chrono | Scaling ratio | 3722/2705 ≈ 1.376 |
+| ω | Chronomagnetic frequency | 2π² = 19.739 (v7.1 exact) |
+| λ_chrono | Scaling ratio | e^(1/π) = 1.37479 (v7.1 exact); triangle 3722/2705 ≈ 1.376 |
 | 𝕋 | TEGR torsion scalar | T = −R + B |
 | K^ρ_μν | Contortion tensor | Γ(LC) − Γ(W) |
 | f_screen | Debye-Waller factor | 0.696 |
