@@ -456,6 +456,81 @@ body {
   font-size: 12px;
 }
 
+/* ── Kill Criteria ────────────────────────────────────────────────────────── */
+.kill-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.kill-card {
+  padding: 16px;
+  background: rgba(245, 158, 11, 0.04);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 14px;
+  position: relative;
+}
+
+.kill-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 5px;
+  padding-right: 60px;
+}
+
+.kill-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.kill-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 4px;
+  padding: 2px 6px;
+  white-space: nowrap;
+}
+
+.verdict-callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+  background: rgba(245, 158, 11, 0.05);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: 12px;
+}
+
+.verdict-arrow {
+  font-size: 18px;
+  color: #f59e0b;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.verdict-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #f59e0b;
+  margin-bottom: 4px;
+}
+
+.verdict-body {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
 /* ── Navigate grid ────────────────────────────────────────────────────────── */
 .explore-grid {
   display: grid;
@@ -552,6 +627,7 @@ body {
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 600px) {
   .axioms-grid       { grid-template-columns: 1fr; }
+  .kill-grid         { grid-template-columns: 1fr; }
   .scorecard-grid    { grid-template-columns: repeat(2, 1fr); }
   .predictions-list  { grid-template-columns: 1fr; }
   .explore-grid      { grid-template-columns: repeat(2, 1fr); }
@@ -604,7 +680,7 @@ body {
       </div>
       <h1 class="hero-title">STUR <span class="version-badge">v7.0</span></h1>
       <p class="hero-tagline">One Theory &mdash; Three Axioms &mdash; 29 Observables</p>
-      <p class="hero-description">The ∞₃-helix on M<sup>4</sup>&thinsp;&times;&thinsp;S<sup>1</sup> is not postulated &mdash; it is the unique lowest-energy solution forced by TEGR torsion and the XCRM coupling. From that single geometric fact, the Standard Model gauge group, three generations, all fermion masses, CKM, PMNS, &Lambda;<sub>CC</sub>, and dark matter follow without additional free parameters.</p>
+      <p class="hero-description">The ∞₃-helix on M<sup>4</sup>&thinsp;&times;&thinsp;S<sup>1</sup> is not postulated &mdash; it is the unique lowest-energy solution forced by TEGR torsion and the XCRM coupling. The helix is not static: it continuously winds and unwinds through log-periodic phase cycling. The particle physics we observe &mdash; three sharp generations, definite mixing angles, discrete masses &mdash; corresponds to the phase-locked state. From that one geometry, the entire Standard Model and cosmological structure follow without additional free parameters.</p>
       <div class="actions">
         <a href="scripts/stur_learn.html" class="btn-primary">
           Read the Derivation
@@ -640,7 +716,7 @@ body {
       </div>
       <div class="axiom-result">
         <span class="axiom-result-arrow">→</span>
-        <span>These three axioms <strong>uniquely force the ∞₃ topology</strong> &mdash; a three-fold infinity-helix on S<sup>1</sup> with exactly three fixed points. No symmetry group is assumed; it is derived. Everything else follows from the geometry.</span>
+        <span>These three axioms <strong>uniquely force the ∞₃ topology</strong> &mdash; a three-fold infinity-helix on S<sup>1</sup> with exactly three fixed points. No symmetry group is assumed; it is derived. The topology is dynamic: the helix continuously winds and unwinds via chronomagnetic modulation M(t)&thinsp;=&thinsp;|sin(ω&thinsp;ln(t/t₀))|. Observable physics &mdash; sharp generations, definite quantum numbers &mdash; corresponds to the phase-locked regime where M&thinsp;=&thinsp;1. Everything else follows from the geometry.</span>
       </div>
     </section>
 
@@ -742,14 +818,42 @@ body {
         </div>
       </div>
 
-      <div class="section-label" style="margin-top: 28px;">Key Falsifiable Predictions</div>
+      <div class="section-label" style="margin-top: 28px;">Topological Kill Criteria &mdash; No Free Parameters to Adjust</div>
+      <div class="kill-grid">
+        <div class="kill-card">
+          <div class="kill-name">4th Generation Fermion</div>
+          <div class="kill-desc">The ∞₃ orbifold has exactly 3 fixed points. A sequential 4th generation is topologically impossible &mdash; no parameter adjustment can accommodate it.</div>
+        </div>
+        <div class="kill-card">
+          <div class="kill-name">Inverted Neutrino Ordering</div>
+          <div class="kill-badge">JUNO 2027</div>
+          <div class="kill-desc">∞₃ resonance requires normal ordering m₁&thinsp;&lt;&thinsp;m₂&thinsp;&lt;&thinsp;m₃. Inverted ordering confirmed at &gt;5&sigma; ends the theory with no escape.</div>
+        </div>
+        <div class="kill-card">
+          <div class="kill-name">Non-Zero &theta;<sub>QCD</sub></div>
+          <div class="kill-desc">∞₃&thinsp;&times;&thinsp;CP symmetry enforces &theta;<sub>QCD</sub>&thinsp;=&thinsp;0 exactly. A neutron EDM&thinsp;&gt;&thinsp;10<sup>&minus;28</sup>&thinsp;e&thinsp;&middot;&thinsp;cm directly contradicts this.</div>
+        </div>
+        <div class="kill-card">
+          <div class="kill-name">Dim-5 Proton Decay</div>
+          <div class="kill-desc">KK-parity forbids dimension-5 operators exactly. Observed proton decay via GUT-type operators kills the KK-parity selection rule.</div>
+        </div>
+      </div>
+      <div class="verdict-callout">
+        <span class="verdict-arrow">→</span>
+        <div>
+          <div class="verdict-title">Near-Term Verdict: JUNO 2027</div>
+          <div class="verdict-body">Normal neutrino mass ordering is a topological requirement of the ∞₃ geometry, not a preference. JUNO will determine the ordering at &gt;5&sigma; by 2027. Inverted ordering falsifies STUR completely &mdash; no free parameters exist to absorb the result. A theory that makes predictions of this kind is more scientifically useful than one that can always be tuned.</div>
+        </div>
+      </div>
+
+      <div class="section-label" style="margin-top: 28px;">Derived Quantitative Predictions</div>
       <ul class="predictions-list">
-        <li>Normal neutrino mass ordering (DUNE / T2HK)</li>
         <li>&Sigma;m<sub>&nu;</sub> = <span class="pred-value">50 meV</span> (CMB-S4 / Euclid)</li>
         <li>&delta;<sub>CP</sub> = <span class="pred-value">267.9&deg;</span> (PMNS, lemniscate CM)</li>
         <li>LKP dark matter B<sup>(1)</sup>: <span class="pred-value">949 GeV</span> (LHC / LZ)</li>
         <li>Fifth force at <span class="pred-value">&sim;1&thinsp;&mu;m</span> (ARIADNE / Casimir)</li>
         <li>&Lambda;<sub>CC</sub> = <span class="pred-value">3.3&thinsp;&times;&thinsp;10<sup>&minus;47</sup>&thinsp;GeV<sup>4</sup></span> (17% off obs.)</li>
+        <li>Log-periodic CKM drift at &lambda;<sub>chrono</sub> = <span class="pred-value">3722/2705</span></li>
       </ul>
     </section>
 
