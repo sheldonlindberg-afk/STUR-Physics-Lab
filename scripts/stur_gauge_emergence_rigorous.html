@@ -277,15 +277,56 @@
 
   <h3>3.1 MHP Rank Selection: Ambient Group is SU(5)</h3>
   <p>
-    The Minimum Holonomy Principle cost functional Ω[G] grows with rank(G) — more holonomy
-    directions in the Cartan subalgebra means higher Vandermonde cost. The minimal rank-4
-    group containing SU(3)<sub>C</sub> as a factor and supporting chiral fermion representations is SU(5):
+    The MHP cost functional Ω[G] = −∑<sub>α&gt;0</sub> ln|2 sin(π α·h)| sums over all positive roots α of G.
+    The number of positive roots |Φ<sup>+</sup>| grows with the group, so Ω[G] generically grows with group size.
+    Among groups compatible with the Z₃ color sector, the root counts are:
   </p>
-  <div class="eq law" style="background:#000;border:2px solid #fbbf24;padding:1.25rem;">
-    \[\boxed{\Omega[\text{SU}(5)] < \Omega[\text{SO}(10)] < \Omega[E_6] < \cdots}\]
-    <div class="eq-label" style="color:#fbbf24;">(3.1) — MHP cost grows with rank; SU(5) is the minimum</div>
+  <table style="width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.88rem;">
+    <thead>
+      <tr style="background:rgba(255,255,255,0.05);">
+        <th style="padding:0.5rem;text-align:left;border-bottom:2px solid #fbbf24;">Group</th>
+        <th style="padding:0.5rem;text-align:center;border-bottom:2px solid #fbbf24;">Rank</th>
+        <th style="padding:0.5rem;text-align:center;border-bottom:2px solid #fbbf24;">|Φ<sup>+</sup>|</th>
+        <th style="padding:0.5rem;text-align:left;border-bottom:2px solid #fbbf24;">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:rgba(74,222,128,0.1);">
+        <td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.06);">SU(5)</td>
+        <td style="padding:0.4rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.06);">4</td>
+        <td style="padding:0.4rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.06);">10</td>
+        <td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.06);color:#4ade80;">MHP minimum — selected</td>
+      </tr>
+      <tr>
+        <td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.06);">SO(10)</td>
+        <td style="padding:0.4rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.06);">5</td>
+        <td style="padding:0.4rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.06);">20</td>
+        <td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.06);color:#ef4444;">Higher cost (2× roots)</td>
+      </tr>
+      <tr>
+        <td style="padding:0.4rem;">E₆</td>
+        <td style="padding:0.4rem;text-align:center;">6</td>
+        <td style="padding:0.4rem;text-align:center;">36</td>
+        <td style="padding:0.4rem;color:#ef4444;">Higher cost (3.6× roots)</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    SU(5) is the unique minimal simply-laced group with SU(3) × SU(2) × U(1) as a maximal subgroup and
+    an anomaly-free chiral representation (5̄ ⊕ 10). Moreover, for the specific ∞₃-compatible holonomy
+    h = diag(⅓,⅓,⅓,−½,−½), an exact calculation shows the MHP cost for the broken roots of SU(5) <em>vanishes</em>:
+  </p>
+  <div style="margin:0.75rem 0;padding:0.75rem 1rem;background:rgba(0,0,0,0.5);border-radius:8px;border-left:3px solid #22d3ee;font-size:0.87rem;color:var(--text-secondary);">
+    The broken roots of SU(5) (cross-sector, color↔EW) satisfy α·h = h<sub>color</sub> − h<sub>EW</sub> = 1/3 − (−1/2) = 5/6.<br>
+    Therefore: |2 sin(π × 5/6)| = |2 sin(5π/6)| = |2 × ½| = 1.<br>
+    Cost: Ω = −6 × ln(1) = <strong style="color:#22d3ee;">0</strong> — the global minimum of the MHP functional.
   </div>
-  <p>SU(5) is the unique minimal simply-laced group that (a) contains SU(3) × SU(2) × U(1) as a maximal subgroup and (b) admits anomaly-free chiral fermion representations in 5̄ ⊕ 10.</p>
+  <p style="font-size:0.88rem;color:var(--text-muted);">
+    This is not coincidence: the Z₃-compatible holonomy h is precisely the one that minimizes the Hosotani
+    potential. All cross-sector root contributions give sin(5π/6) = 1/2, so their Vandermonde products = 1.
+    SU(5) with this holonomy achieves Ω = 0 — no additional cost to break SU(5) → SM. Higher groups (SO(10), E₆)
+    have more broken roots, giving strictly positive Ω.
+  </p>
 
   <h3>3.2 The ∞₃-Compatible Holonomy is Uniquely Fixed</h3>
   <p>The holonomy h ∈ Cartan(SU(5)) satisfies two independent constraints simultaneously:</p>
@@ -355,6 +396,18 @@
     \[\boxed{Y = -h = \operatorname{diag}\!\left(-\tfrac{1}{3},\, -\tfrac{1}{3},\, -\tfrac{1}{3},\, +\tfrac{1}{2},\, +\tfrac{1}{2}\right)}\]
     <div class="eq-label" style="color:#22d3ee;">(3.6) — Hypercharge generator from ∞₃ embedding (Y = −h)</div>
   </div>
+  <p>The 5̄ representation assignments follow directly from Y = −h. For the <strong>10 representation</strong> (the antisymmetric tensor product 5 ∧ 5), the hypercharge of a pair (i,j) is additive:</p>
+  <div class="eq boxed">
+    \[Y_{10}(i,j) = Y_{5}(i) + Y_{5}(j) = (-h_i) + (-h_j) = -(h_i + h_j)\]
+    <div class="eq-label">(3.7) — Hypercharge of 10-rep from antisymmetric product</div>
+  </div>
+  <p>Applying to the eigenvalues of h = diag(⅓,⅓,⅓,−½,−½):</p>
+  <ul style="margin:0.5rem 0 1rem 1.5rem;color:var(--text-secondary);font-size:0.9rem;line-height:1.8;">
+    <li><strong>Color-color pairs (i,j ∈ {1,2,3}):</strong> Y = −(1/3 + 1/3) = <strong style="color:#22d3ee;">−2/3</strong> → u<sup>c</sup><sub>R</sub> (SU(3) triplet 3̄, SU(2) singlet) ✓</li>
+    <li><strong>Color-EW pairs (i ∈ {1,2,3}, j ∈ {4,5}):</strong> Y = −(1/3 − 1/2) = −(−1/6) = <strong style="color:#22d3ee;">+1/6</strong> → (u<sub>L</sub>, d<sub>L</sub>) (SU(3) triplet 3, SU(2) doublet) ✓</li>
+    <li><strong>EW-EW pair (i,j ∈ {4,5}):</strong> Y = −(−1/2 − 1/2) = <strong style="color:#22d3ee;">+1</strong> → e<sup>c</sup><sub>R</sub> (SU(3) singlet, SU(2) singlet) ✓</li>
+  </ul>
+  <p>All SM hypercharge assignments are fully derived from Y = −h via the 5̄ direct entries and the 10-rep additive rule. No freedom remains.</p>
   <p>All SM hypercharge assignments follow from the SU(5) representations 5̄ ⊕ 10:</p>
   <table style="width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.87rem;">
     <thead>

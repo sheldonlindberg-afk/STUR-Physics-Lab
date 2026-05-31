@@ -180,10 +180,13 @@ Starting from α_tree = 1.0 (XCRM-Yukawa symmetry y = 2π/3):
 
 | Enhancement | Factor | Source |
 |-------------|--------|--------|
-| ∞-helix twisted sector | ×1.072 | Dixon-Harvey-Vafa-Witten cos(3θ) |
-| KK tower (Coleman-Weinberg) | ×1.286 | One-loop CW from ∞-helix-projected KK modes |
-| Gauge backreaction | ×1.076 | QCD + EW at localization scale |
-| **Total** | **α_eff = 1.480 ± 0.047** | Two-loop computed |
+| ∞-helix twisted sector (f_∞) | ×1.072 | Dixon-Harvey-Vafa-Witten cos(3θ) |
+| KK tower + WFR (f_KK) | ×1.147 | Coleman-Weinberg + wave-function renorm |
+| QCD backreaction (f_gauge) | ×1.139 | QCD + EW at localization scale |
+| Two-loop correction (f_2loop) | ×1.056 | Two-loop gauge threshold |
+| **Total** | **α_eff = 1.480 ± 0.047** | See §4.2 for full derivation |
+
+*Note: An earlier 3-factor approximation (×1.072 × ×1.286 × ×1.076 = 1.483) appears in some older tables. The canonical 4-factor computation in §4.2 gives 1.480 and is the correct value.*
 
 ### Chain Step 3: Cabibbo Angle and CKM Matrix
 
@@ -565,19 +568,26 @@ The condition holds to the precision of the two-loop Mathieu eigenvalue computat
 
 **Derivation of ω**
 
-The chronomagnetic frequency equals the angular action of the winding mode integrated over one complete circuit of the ∞₃ helix:
+The ∞₃ Phase Closure Condition (n_w × κ × σ = 2π) establishes the Bohr-Sommerfeld self-consistency of the winding mode. To connect this to the chronomagnetic frequency ω, we apply the **Log-Time Quantization Ansatz**:
+
+> The log-time harmonic oscillator (d²W/dτ² + ω²W = 0) has a half-period π/ω in log-time τ. Setting the angular frequency equal to π times the total orbifold action S = n_w × κ × σ:
 
 ```
-ω = π × (total phase) = π × n_w × κ × σ
+ω = π × S = π × n_w × κ × σ
 ```
 
-Applying the ∞₃ Phase Closure condition (n_w × κ × σ = 2π):
+> **Status:** This step — identifying ω = πS — is a **physical ansatz**, not a derived result. The motivation is that π is the half-period angle of the log-time oscillator (the natural unit of its angular spectrum), while S = n_w × κ × σ is the total Bohr-Sommerfeld action of the orbifold winding mode. The ansatz equates these, analogous to the de Broglie relation p = ℏk connecting a wave's natural unit to its quantum of action. **The numerical agreement (n_w × κ × σ = 6.284 ≈ 2π to 0.013%) strongly motivates this identification but does not constitute a proof. Establishing ω = πS from first principles remains an open theoretical problem.**
+
+Applying the Phase Closure condition (n_w × κ × σ = 2π):
 
 ```
 ω = π × 2π = 2π²
 ```
 
-**This is the exact result.** It follows from the topological self-consistency of the ∞₃ winding mode — no reference to the integer triangle is required.
+**Result (v7.1):** ω = 2π² = 19.7392, supported by:
+1. The phase closure coincidence n_w × κ × σ = 2π (0.013% precision)  
+2. Agreement with the triangle value ω_triangle = 19.6867 (0.27%)  
+3. Mathematical elegance: ω = 2π² is the unique value connecting the log-time frequency to the orbifold topology via a half-period rule.
 
 **Numerical values:**
 
@@ -1282,6 +1292,8 @@ The five open problems identified in v6.3 were resolved in `scripts/five_open_pr
 
 **Updated totals:** 31 D + 0 P + 0 C + 0 U + 1 I = 32
 
+*(Aspirational v7.0 claim. See honest scorecard at document header: 24D + 3P + 1U + 1I = 29. The 24D count requires <20% accuracy; 3 observables remain P (sin²θ₁₂: 14.8%, sin²θ₁₃: 27.9%, Δm²₂₁: 87%); 1 remains U (m_u/m_t: factor 478 off).)*
+
 **v6.3 → v6.4 upgrades:**
 - M_DM: U → P (LKP thermal relic, not fitted)
 - Ω_DM: U → P (0.4σ from Planck)
@@ -1305,6 +1317,8 @@ The five open problems identified in v6.3 were resolved in `scripts/five_open_pr
 - All 6 fermion masses from m_t anchor + 2-body Higgs overlap (no sector anchoring)
 - Λ_CC = 3.3×10⁻⁴⁷: Complete Ward identity + neutrino residual (17% from obs)
 - Net: 31 D + 0 P + 0 C + 0 U + 1 I = 32
+
+*(See honest scorecard: 24D + 3P + 1U + 1I = 29. Three P observables and one U remain from the conservative D/P/U classification.)*
 
 ### 11.8 Last 2 Closure: m_b/m_t and m_τ/m_t (v6.5)
 
