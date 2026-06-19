@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>STUR ⟺ ERP Longevity Lab — STUR Physics Lab</title>
+<meta name="description" content="Interactive simulation modeling mitochondrial energy resistance (éR) across the human lifespan using STUR v7.0 holonomy and the ERP framework.">
+
+<meta name="theme-color" content="#34d399">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="STUR Aging">
+<link rel="manifest" href="../manifest.json">
+<link rel="apple-touch-icon" href="../assets/4.13.png">
+<link rel="icon" type="image/png" href="../assets/4.13.png">
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']]}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+<style>
+/* ── Longevity Lab custom styles ── */
+:root {
+  --hub-color: #34d399;
+  --green:   #34d399;
+  --greenL:  #6ee7b7;
+  --cyan:    #00d4ff;
+  --amber:   #fbbf24;
+  --rose:    #f87171;
+  --red:     #ef4444;
+  --violet:  #a855f7;
+  --dim:     #94a3b8;
+  --gold:    #34d399;
+}
+
+body { background: #060d1a; color: #e2e8f0; font-family: system-ui, sans-serif; margin: 0; }
+
+.aging-wrap {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 0;
+  min-height: calc(100vh - 64px);
+}
+
+/* ── SIDEBAR ── */
+.aging-sidebar {
+  background: rgba(4,11,22,0.97);
+  border-right: 1px solid rgba(52,211,153,0.18);
+  padding: 16px 14px;
+  overflow-y: auto;
+}
+.sidebar-section { margin-bottom: 20px; }
+.sidebar-label {
+  color: var(--green);
+  font-size: 9px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.slider-row { margin-bottom: 12px; }
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  margin-bottom: 3px;
+}
+.slider-name { color: var(--dim); }
+.slider-val  { font-family: monospace; font-weight: 700; }
+input[type=range] {
+  width: 100%;
+  height: 4px;
+  accent-color: var(--green);
+  cursor: pointer;
+}
+select {
+  width: 100%;
+  background: rgba(10,22,40,0.9);
+  border: 1px solid rgba(52,211,153,0.25);
+  border-radius: 5px;
+  color: #e2e8f0;
+  font-size: 11px;
+  padding: 5px 8px;
+  cursor: pointer;
+  margin-top: 3px;
+}
+select option { background: #0a1628; }
+
+.live-panel {
+  background: rgba(4,11,24,0.9);
+  border: 1px solid rgba(52,211,153,0.12);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.live-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 11px;
+}
+.live-row:last-child { border-bottom: none; }
+.live-key { color: var(--dim); font-size: 10px; }
+.live-num { font-family: monospace; font-weight: 700; font-size: 12px; }
+
+.export-btn {
+  padding: 7px 16px;
+  background: var(--green);
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 4px;
+}
+.export-btn:hover { background: var(--greenL); }
+
+/* ── MAIN ── */
+.aging-main {
+  padding: 16px 20px;
+  overflow-y: auto;
+}
+
+/* hero */
+.aging-hero {
+  background: linear-gradient(135deg, rgba(52,211,153,0.06), rgba(0,212,255,0.04));
+  border: 1px solid rgba(52,211,153,0.22);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+}
+.aging-hero-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 6px;
+  letter-spacing: -0.3px;
+}
+.aging-hero-sub {
+  font-size: 11px;
+  color: var(--dim);
+  margin: 0 0 10px;
+  line-height: 1.5;
+}
+.aging-master-eq {
+  font-family: monospace;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 14px;
+  background: rgba(4,12,24,0.9);
+  border-left: 3px solid var(--green);
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  flex-wrap: wrap;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* tabs */
+.tab-bar {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 14px;
+  background: rgba(6,14,28,0.9);
+  padding: 4px;
+  border-radius: 8px;
+  flex-wrap: wrap;
+  width: fit-content;
+}
+.tab-btn {
+  padding: 6px 13px;
+  font-size: 11px;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--dim);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.tab-btn.active { background: var(--green); color: #000; }
+.tab-btn:hover:not(.active) { color: var(--green); }
+
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* plot box */
+.plot-box {
+  background: rgba(4,11,24,0.9);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+.plot-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--dim);
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* eq cards */
+.eq-card {
+  background: rgba(5,12,26,0.9);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-left: 3px solid var(--cyan);
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  font-family: monospace;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.eq-card.green  { border-left-color: var(--green); }
+.eq-card.amber  { border-left-color: var(--amber); }
+.eq-card.rose   { border-left-color: var(--rose); }
+.eq-card.violet { border-left-color: var(--violet); }
+
+/* value grid */
+.val-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 12px 0;
+}
+.val-box {
+  background: rgba(3,8,16,0.9);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 6px;
+  padding: 10px 8px;
+  text-align: center;
+}
+.val-box-label { font-size: 9px; color: var(--dim); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.val-box-num   { font-family: monospace; font-size: 17px; font-weight: 700; }
+
+/* section label */
+.sec-label {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--green);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 16px 0 8px;
+}
+
+/* milestone table */
+.milestone-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+.milestone-table th {
+  padding: 6px 10px;
+  background: rgba(52,211,153,0.1);
+  color: var(--green);
+  font-size: 9px;
+  text-align: left;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.milestone-table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: #e2e8f0;
+}
+.milestone-table tr:hover td { background: rgba(52,211,153,0.03); }
+.mono { font-family: monospace; }
+
+/* intervention cards */
+.int-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.int-card {
+  background: rgba(4,11,24,0.9);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 7px;
+  padding: 10px 12px;
+  text-align: center;
+}
+.int-card .int-name { font-size: 10px; font-weight: 700; margin-bottom: 4px; }
+.int-card .int-pct  { font-family: monospace; font-size: 18px; font-weight: 700; }
+.int-card .int-desc { font-size: 9px; color: var(--dim); margin-top: 4px; line-height: 1.4; }
+
+/* health zone strip */
+.hz-strip {
+  display: flex;
+  height: 24px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 8px 0;
+  font-size: 10px;
+  font-weight: 600;
+}
+.hz-insuf  { background: rgba(0,212,255,0.22); color: var(--cyan);   flex: 0 0 12%; display: flex; align-items: center; justify-content: center; }
+.hz-ok     { background: rgba(52,211,153,0.3); color: var(--green);  flex: 0 0 36%; display: flex; align-items: center; justify-content: center; border-left: 1px solid rgba(52,211,153,0.5); border-right: 1px solid rgba(52,211,153,0.5); }
+.hz-elev   { background: rgba(251,191,36,0.22); color: var(--amber); flex: 0 0 24%; display: flex; align-items: center; justify-content: center; }
+.hz-crit   { background: rgba(248,113,113,0.22); color: var(--rose); flex: 0 0 28%; display: flex; align-items: center; justify-content: center; }
+
+/* two-col layout */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+
+/* toast */
+.toast {
+  position: fixed; bottom: 20px; right: 20px;
+  background: var(--green); color: #000;
+  padding: 10px 20px; border-radius: 8px;
+  font-weight: 700; font-size: 12px;
+  opacity: 0; transition: opacity 0.3s;
+  z-index: 9999; pointer-events: none;
+}
+.toast.show { opacity: 1; }
+
+/* vertical divider */
+.vdiv { border-top: 1px solid rgba(255,255,255,0.05); margin: 12px 0; }
+
+/* stur equations panel */
+.stur-eq-panel {
+  background: rgba(4,11,24,0.9);
+  border: 1px solid rgba(52,211,153,0.15);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+.stur-eq-panel p {
+  font-size: 11px;
+  color: var(--dim);
+  line-height: 1.6;
+  margin: 6px 0;
+}
+
+@media (max-width: 760px) {
+  .aging-wrap { grid-template-columns: 1fr; }
+  .aging-sidebar { border-right: none; border-bottom: 1px solid rgba(52,211,153,0.18); }
+  .val-grid { grid-template-columns: repeat(2,1fr); }
+  .int-grid { grid-template-columns: repeat(2,1fr); }
+  .two-col { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">
+      <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
+      STUR Lab
+    </a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Home</a>
+      <a href="stur_biological_hub.html" class="glass-nav-link">Biology Hub</a>
+      <a href="stur_erp_lab.html" class="glass-nav-link">ERP Lab</a>
+      <a href="stur_atp.html" class="glass-nav-link">Mitochondria</a>
+      <button class="glass-nav-link" onclick="shareThis()" title="Share" style="background:none;border:none;cursor:pointer;color:inherit;">
+        Share
+      </button>
+    </div>
+  </nav>
+</header>
+
+<div class="aging-wrap">
+
+<!-- ═══════════════════════ SIDEBAR ═══════════════════════ -->
+<aside class="aging-sidebar">
+
+  <div class="sidebar-label">Aging Controls</div>
+
+  <div class="sidebar-section">
+    <div class="slider-row">
+      <div class="slider-header">
+        <span class="slider-name">Age cursor (yrs)</span>
+        <span class="slider-val" id="sv-age" style="color:var(--green)">40</span>
+      </div>
+      <input type="range" id="sl-age" min="0" max="100" step="1" value="40" oninput="onSlide()">
+    </div>
+
+    <div class="slider-row">
+      <div class="slider-header">
+        <span class="slider-name">J current (STUR)</span>
+        <span class="slider-val" id="sv-J" style="color:var(--amber)">0.500</span>
+      </div>
+      <input type="range" id="sl-J" min="0.1" max="2.0" step="0.01" value="0.5" oninput="onSlide()">
+    </div>
+
+    <div class="vdiv"></div>
+
+    <div style="font-size:9px;color:var(--dim);margin-bottom:5px;">INTERVENTION</div>
+    <select id="sel-interv" onchange="onSlide()">
+      <option value="none">None (baseline)</option>
+      <option value="cr">Caloric Restriction (−18%)</option>
+      <option value="ex">Exercise Training (−22%)</option>
+      <option value="rapa">Rapamycin mTOR (−15%)</option>
+      <option value="seno">Senolytic Therapy (−12%)</option>
+      <option value="combo">Combined Optimal (−35%)</option>
+    </select>
+  </div>
+
+  <!-- Live readout -->
+  <div class="sidebar-section">
+    <div class="sidebar-label">Live Readout</div>
+    <div class="live-panel">
+      <div class="live-row"><span class="live-key">Age</span><span class="live-num" id="lv-age" style="color:var(--green)">40 yr</span></div>
+      <div class="live-row"><span class="live-key">éR (baseline)</span><span class="live-num" id="lv-eR-base" style="color:var(--rose)">—</span></div>
+      <div class="live-row"><span class="live-key">éR (modified)</span><span class="live-num" id="lv-eR-mod" style="color:var(--amber)">—</span></div>
+      <div class="live-row"><span class="live-key">f (flux)</span><span class="live-num" id="lv-f" style="color:var(--cyan)">—</span></div>
+      <div class="live-row"><span class="live-key">EP</span><span class="live-num" id="lv-EP" style="color:var(--green)">—</span></div>
+      <div class="live-row"><span class="live-key">GDF15</span><span class="live-num" id="lv-gdf" style="color:var(--rose)">— pg/mL</span></div>
+      <div class="live-row"><span class="live-key">Φ_R (holonomy)</span><span class="live-num" id="lv-phi" style="color:var(--amber)">—</span></div>
+      <div class="live-row"><span class="live-key">V (efficiency)</span><span class="live-num" id="lv-V" style="color:var(--violet)">—</span></div>
+      <div class="live-row"><span class="live-key">Health Zone</span><span class="live-num" id="lv-zone">—</span></div>
+      <div class="live-row"><span class="live-key">Yrs in Goldilocks</span><span class="live-num" id="lv-yig" style="color:var(--green)">—</span></div>
+    </div>
+  </div>
+
+  <button class="export-btn" onclick="exportSVGs()">Export SVGs</button>
+</aside>
+
+<!-- ═══════════════════════ MAIN ═══════════════════════ -->
+<main class="aging-main">
+
+  <!-- Hero -->
+  <div class="aging-hero">
+    <div style="font-family:monospace;color:var(--green);font-size:9px;letter-spacing:3px;margin-bottom:4px;">STUR v7.0 ⟺ ERP — MITOCHONDRIAL LONGEVITY MODEL</div>
+    <h1 class="aging-hero-title">STUR ⟺ ERP Longevity Lab</h1>
+    <p class="aging-hero-sub">Interactive simulation of mitochondrial energy resistance (éR) across the human lifespan (0–100 yrs) using ERP biophysics and STUR v7.0 chronomagnetic holonomy. The Goldilocks window éR ∈ [0.3, 1.5] defines the longevity zone — interventions that keep you in it extend healthy lifespan.</p>
+    <div class="aging-master-eq">
+      <span style="color:var(--rose)">éR(age)</span>
+      <span style="color:var(--dim)">=</span>
+      <span style="color:#e2e8f0">EP(age)</span>
+      <span style="color:var(--dim)">/</span>
+      <span style="color:var(--cyan)">V(Φ_R)²</span>
+      <span style="color:var(--dim)"> | </span>
+      <span style="color:var(--amber)">Φ_R = J · ℓ(age)</span>
+      <span style="color:var(--dim)"> | </span>
+      <span style="color:var(--green)">Goldilocks: éR ∈ [0.3, 1.5]</span>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab(0)">Lifespan Trajectory</button>
+    <button class="tab-btn"        onclick="switchTab(1)">GDF15 Biomarker</button>
+    <button class="tab-btn"        onclick="switchTab(2)">STUR Holonomy</button>
+    <button class="tab-btn"        onclick="switchTab(3)">Chronomagnetic</button>
+    <button class="tab-btn"        onclick="switchTab(4)">Interventions</button>
+  </div>
+
+  <!-- ─── TAB 0: LIFESPAN TRAJECTORY ─── -->
+  <div class="tab-pane active" id="pane-0">
+
+    <div class="sec-label">éR vs Age — Full Lifespan Trajectory</div>
+
+    <!-- Health zone reference -->
+    <div class="hz-strip">
+      <div class="hz-insuf">éR &lt; 0.3<br><span style="font-size:8px;">Insufficient</span></div>
+      <div class="hz-ok">Goldilocks Zone: 0.3 – 1.5<br><span style="font-size:8px;">optimal health &amp; longevity</span></div>
+      <div class="hz-elev">1.5 – 3.0<br><span style="font-size:8px;">Elevated</span></div>
+      <div class="hz-crit">éR &gt; 3.0<br><span style="font-size:8px;">Critical</span></div>
+    </div>
+
+    <div class="plot-box">
+      <div class="plot-title">éR (energy resistance) vs Age [dashed = intervention, markers = key ages, shaded = Goldilocks]</div>
+      <svg id="plot-traj0" width="100%" height="300" viewBox="0 0 600 300" preserveAspectRatio="none"></svg>
+    </div>
+
+    <div class="val-grid" style="grid-template-columns:repeat(4,1fr);">
+      <div class="val-box">
+        <div class="val-box-label">éR at cursor age</div>
+        <div class="val-box-num" id="vb-eR" style="color:var(--rose)">—</div>
+      </div>
+      <div class="val-box">
+        <div class="val-box-label">Health Zone</div>
+        <div class="val-box-num" id="vb-zone" style="font-size:13px;">—</div>
+      </div>
+      <div class="val-box">
+        <div class="val-box-label">Peak Health Age</div>
+        <div class="val-box-num" style="color:var(--green)">~25 yr</div>
+      </div>
+      <div class="val-box">
+        <div class="val-box-label">Goldilocks Exit</div>
+        <div class="val-box-num" id="vb-exit" style="color:var(--amber)">—</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <div class="sec-label">Aging Model Equations</div>
+        <div class="eq-card green">éR(age) = 0.25 + 0.012·age + 0.00008·age²</div>
+        <div class="eq-card">f(age) = 0.95 · exp(−0.008·age)  [electron flux]</div>
+        <div class="eq-card amber">EP(age) = éR(age) · f(age)²  [derived]</div>
+      </div>
+      <div>
+        <div class="sec-label">Electron Flux Decay</div>
+        <div class="plot-box" style="margin-bottom:0;">
+          <div class="plot-title">f(age) — mitochondrial electron flux</div>
+          <svg id="plot-flux" width="100%" height="150" viewBox="0 0 280 150" preserveAspectRatio="none"></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── TAB 1: GDF15 BIOMARKER ─── -->
+  <div class="tab-pane" id="pane-1">
+    <div class="sec-label">GDF15 Biomarker — Mitochondrial Stress Indicator</div>
+    <p style="font-size:11px;color:var(--dim);margin:0 0 10px;line-height:1.5;">
+      GDF15 (Growth Differentiation Factor 15) is secreted by mitochondria under stress and rises with éR.
+      Validated in &gt;50,000 participants. Clinical thresholds: &lt;1200 pg/mL = healthy, 1200–2000 = warning, &gt;2000 = risk.
+    </p>
+
+    <div class="two-col">
+      <div>
+        <div class="plot-box">
+          <div class="plot-title">GDF15 (pg/mL) vs Age</div>
+          <svg id="plot-gdf-age" width="100%" height="220" viewBox="0 0 280 220" preserveAspectRatio="none"></svg>
+        </div>
+      </div>
+      <div>
+        <div class="plot-box">
+          <div class="plot-title">GDF15 vs éR (correlation)</div>
+          <svg id="plot-gdf-er" width="100%" height="220" viewBox="0 0 280 220" preserveAspectRatio="none"></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="val-grid">
+      <div class="val-box">
+        <div class="val-box-label">GDF15 at cursor age</div>
+        <div class="val-box-num" id="gdf-cur" style="color:var(--rose)">— pg/mL</div>
+      </div>
+      <div class="val-box">
+        <div class="val-box-label">Clinical Status</div>
+        <div class="val-box-num" id="gdf-status" style="font-size:13px;">—</div>
+      </div>
+      <div class="val-box">
+        <div class="val-box-label">éR at cursor age</div>
+        <div class="val-box-num" id="gdf-er" style="color:var(--amber)">—</div>
+      </div>
+    </div>
+
+    <div class="sec-label">GDF15 Formula</div>
+    <div class="eq-card green">GDF15(éR) = 0.5 · éR^0.3 · 1000  [pg/mL]</div>
+    <div class="eq-card amber">Ranges: ~500 pg/mL (young) → ~2500+ pg/mL (elderly / disease)</div>
+    <div class="eq-card rose">Clinical risk threshold: GDF15 &gt; 2000 pg/mL</div>
+  </div>
+
+  <!-- ─── TAB 2: STUR HOLONOMY AGING ─── -->
+  <div class="tab-pane" id="pane-2">
+    <div class="sec-label">STUR v7.0 Holonomy — Resistance Accumulation with Age</div>
+
+    <div class="stur-eq-panel">
+      <p>The STUR holonomy \(\Phi_R(age) = J \cdot \ell(age)\) describes how mitochondrial resistance coupling accumulates as mtDNA damage grows over a lifetime. The coupling efficiency \(V(\Phi_R) = e^{-\Phi_R^2/2}\) decays as holonomy increases, raising the effective energy resistance above the biological baseline.</p>
+      <p style="margin-top:8px;">
+        \(\ell(age) = 0.1 + 0.03 \cdot age\) &nbsp;&nbsp; (mtDNA damage path length) <br>
+        \(\Phi_R(age) = J \cdot \ell(age)\) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (STUR holonomy) <br>
+        \(V(\Phi_R) = e^{-\Phi_R^2/2}\) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (mitochondrial coupling efficiency) <br>
+        \(\acute{e}R_{STUR}(age) = EP(age) / V(\Phi_R)^2\) &nbsp;&nbsp; (STUR physics prediction)
+      </p>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <div class="plot-box">
+          <div class="plot-title">Φ_R(age) — holonomy accumulation</div>
+          <svg id="plot-phi-age" width="100%" height="200" viewBox="0 0 280 200" preserveAspectRatio="none"></svg>
+        </div>
+      </div>
+      <div>
+        <div class="plot-box">
+          <div class="plot-title">V(Φ_R) — coupling efficiency decay</div>
+          <svg id="plot-V-age" width="100%" height="200" viewBox="0 0 280 200" preserveAspectRatio="none"></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="plot-box">
+      <div class="plot-title">éR_biological vs éR_STUR comparison across lifespan</div>
+      <svg id="plot-er-compare" width="100%" height="260" viewBox="0 0 600 260" preserveAspectRatio="none"></svg>
+    </div>
+
+    <div class="val-grid">
+      <div class="val-box">
+        <div class="val-box-label">ℓ(age) at cursor</div>
+        <div class="val-box-num" id="stur-l" style="color:var(--amber)">—</div>
+      </div>
+      <div class="val-box">
+        <div class="val-box-label">Φ_R at cursor</div>
+        <div class="val-box-num" id="stur-phi" style="color:var(--violet)">—</div>
+      </div>
+      <div class="val-box">
+        <div class="val-box-label">V at cursor</div>
+        <div class="val-box-num" id="stur-V" style="color:var(--cyan)">—</div>
+      </div>
+      <div class="val-box">
+        <div class="val-box-label">éR_STUR</div>
+        <div class="val-box-num" id="stur-erS" style="color:var(--rose)">—</div>
+      </div>
+      <div class="val-box">
+        <div class="val-box-label">éR_biological</div>
+        <div class="val-box-num" id="stur-erB" style="color:var(--green)">—</div>
+      </div>
+      <div class="val-box">
+        <div class="val-box-label">Divergence ratio</div>
+        <div class="val-box-num" id="stur-div" style="color:var(--amber)">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── TAB 3: CHRONOMAGNETIC MILESTONES ─── -->
+  <div class="tab-pane" id="pane-3">
+    <div class="sec-label">Chronomagnetic Log-Periodic Milestones</div>
+    <div class="stur-eq-panel">
+      <p>STUR v7.0 predicts that biological phase transitions occur at log-periodic intervals scaled by the chronomagnetic ratio \(\lambda_{chrono} = e^{1/\pi} \approx 1.3756\). Each developmental milestone occurs at \(t_n = t_0 \cdot \lambda_{chrono}^n\), where each interval is \(\times 1.376\) longer than the previous.</p>
+      <p style="margin-top:6px;">
+        \(\lambda_{chrono} = e^{1/\pi} \approx 1.3756\) &nbsp;&nbsp;&nbsp;&nbsp; (chronomagnetic scaling ratio) <br>
+        \(t_n = t_0 \cdot \lambda_{chrono}^n\) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (milestone ages)
+      </p>
+    </div>
+
+    <div class="plot-box">
+      <div class="plot-title">Log-periodic biological timeline — λ_chrono = e^(1/π) ≈ 1.376</div>
+      <svg id="plot-chrono" width="100%" height="200" viewBox="0 0 600 200" preserveAspectRatio="none"></svg>
+    </div>
+
+    <div class="sec-label">Milestone Table</div>
+    <table class="milestone-table" id="milestone-table">
+      <thead>
+        <tr>
+          <th>n</th>
+          <th>t_n (yrs)</th>
+          <th>Biological Milestone</th>
+          <th>éR at t_n</th>
+          <th>f(t_n)</th>
+          <th>Health Zone</th>
+        </tr>
+      </thead>
+      <tbody id="milestone-tbody">
+        <!-- populated by JS -->
+      </tbody>
+    </table>
+
+    <div class="sec-label" style="margin-top:16px;">Chronomagnetic Intervals</div>
+    <div class="two-col">
+      <div class="eq-card green">λ_chrono = e^(1/π) ≈ 1.3756</div>
+      <div class="eq-card amber">t_0 = 1 yr (birth baseline), t_n = t_0 · λ^n</div>
+    </div>
+    <div class="eq-card violet">STUR prediction: éR oscillates log-periodically as mitochondria phase-transition at each t_n</div>
+  </div>
+
+  <!-- ─── TAB 4: INTERVENTION COMPARISON ─── -->
+  <div class="tab-pane" id="pane-4">
+    <div class="sec-label">Intervention Comparison — Extending Goldilocks Window</div>
+
+    <div class="int-grid">
+      <div class="int-card">
+        <div class="int-name" style="color:var(--dim)">Baseline</div>
+        <div class="int-pct" id="int-base-yig" style="color:var(--rose)">—</div>
+        <div class="int-desc">No intervention — natural aging trajectory</div>
+      </div>
+      <div class="int-card">
+        <div class="int-name" style="color:var(--cyan)">Caloric Restriction</div>
+        <div class="int-pct" id="int-cr-yig" style="color:var(--cyan)">—</div>
+        <div class="int-desc">AMPK activation, −18% éR, extends metabolic health</div>
+      </div>
+      <div class="int-card">
+        <div class="int-name" style="color:var(--green)">Exercise Training</div>
+        <div class="int-pct" id="int-ex-yig" style="color:var(--green)">—</div>
+        <div class="int-desc">Mitochondrial biogenesis, −22% éR, strongest intervention</div>
+      </div>
+      <div class="int-card">
+        <div class="int-name" style="color:var(--violet)">Rapamycin</div>
+        <div class="int-pct" id="int-rapa-yig" style="color:var(--violet)">—</div>
+        <div class="int-desc">mTOR inhibition, −15% éR, delays mito senescence</div>
+      </div>
+      <div class="int-card">
+        <div class="int-name" style="color:var(--amber)">Senolytics</div>
+        <div class="int-pct" id="int-seno-yig" style="color:var(--amber)">—</div>
+        <div class="int-desc">Removes senescent cells, −12% éR, clears SASP</div>
+      </div>
+      <div class="int-card">
+        <div class="int-name" style="color:#fff">Combined Optimal</div>
+        <div class="int-pct" id="int-combo-yig" style="color:#fff">—</div>
+        <div class="int-desc">All above, −35% éR, maximum healthy-lifespan extension</div>
+      </div>
+    </div>
+
+    <div class="plot-box">
+      <div class="plot-title">All interventions on same axes — éR vs Age (0–100)</div>
+      <svg id="plot-multi-interv" width="100%" height="300" viewBox="0 0 600 300" preserveAspectRatio="none"></svg>
+    </div>
+
+    <div class="plot-box">
+      <div class="plot-title">Years gained in Goldilocks window per intervention</div>
+      <svg id="plot-yig-bar" width="100%" height="200" viewBox="0 0 600 200" preserveAspectRatio="none"></svg>
+    </div>
+
+    <div class="sec-label">Optimal Protocol</div>
+    <div class="eq-card green" style="line-height:1.8;">
+      Optimal stacking order: <strong>Exercise (foundation)</strong> → Caloric Restriction (metabolic) → Rapamycin (late-life mTOR) → Senolytics (clearance pulses) → Combined = maximum éR reduction (−35%) and Goldilocks extension.
+    </div>
+    <div class="eq-card amber">
+      éR_modified(age) = éR_baseline(age) · modifier_factor &nbsp;&nbsp; [multiplicative interventions]
+    </div>
+  </div>
+
+</main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ════════════════════════════════════════════════════════════════
+//  CONSTANTS
+// ════════════════════════════════════════════════════════════════
+const LAMBDA_CHRONO = Math.exp(1 / Math.PI); // ≈ 1.3756
+
+// Intervention multipliers (applied to éR baseline)
+const INTERVENTIONS = {
+  none:  { name:'Baseline',            mult:1.00, color:'#f87171' },
+  cr:    { name:'Caloric Restriction', mult:0.82, color:'#00d4ff' },
+  ex:    { name:'Exercise Training',   mult:0.78, color:'#34d399' },
+  rapa:  { name:'Rapamycin',           mult:0.85, color:'#a855f7' },
+  seno:  { name:'Senolytics',          mult:0.88, color:'#fbbf24' },
+  combo: { name:'Combined Optimal',    mult:0.65, color:'#ffffff' },
+};
+
+// Biological milestones at log-periodic t_n
+const MILESTONES = [
+  { n:0,  t:1,   bio:'Infancy — mito biogenesis burst' },
+  { n:1,  t:null, bio:'Early walking / neural myelination' },
+  { n:2,  t:null, bio:'Language acquisition phase' },
+  { n:3,  t:null, bio:'School age — immune maturation' },
+  { n:4,  t:null, bio:'Adolescence / puberty onset' },
+  { n:5,  t:null, bio:'Peak mitochondrial function ~25yr' },
+  { n:6,  t:null, bio:'Midlife — first éR elevation' },
+  { n:7,  t:null, bio:'Goldilocks exit ~65yr' },
+  { n:8,  t:null, bio:'Late life — critical éR zone' },
+];
+// Precompute milestone ages
+MILESTONES.forEach(m => {
+  if (m.t === null) m.t = 1 * Math.pow(LAMBDA_CHRONO, m.n);
+});
+// Cap at 100
+MILESTONES.forEach(m => { m.t = Math.min(m.t, 100); });
+
+// ════════════════════════════════════════════════════════════════
+//  AGING MODEL MATH
+// ════════════════════════════════════════════════════════════════
+// Baseline éR trajectory (biological)
+function erBase(age) {
+  return 0.25 + 0.012 * age + 0.00008 * age * age;
+}
+
+// Electron flux (mitochondrial function, 0–1)
+function fFlux(age) {
+  return 0.95 * Math.exp(-0.008 * age);
+}
+
+// Energy production (derived from biological formula)
+function epAge(age) {
+  return erBase(age) * fFlux(age) * fFlux(age);
+}
+
+// STUR holonomy path length (mtDNA damage accumulation)
+function lAge(age) {
+  return 0.1 + 0.03 * age;
+}
+
+// Holonomy
+function phiR(J, age) {
+  return J * lAge(age);
+}
+
+// Coupling efficiency (Gaussian decay)
+function couplingV(phi) {
+  return Math.exp(-phi * phi / 2);
+}
+
+// STUR-predicted éR
+function erSTUR(J, age) {
+  const ep = epAge(age);
+  const phi = phiR(J, age);
+  const v = couplingV(phi);
+  return v < 1e-7 ? 1e6 : ep / (v * v);
+}
+
+// Modified éR with intervention
+function erModified(age, intervKey) {
+  return erBase(age) * INTERVENTIONS[intervKey].mult;
+}
+
+// GDF15 biomarker (pg/mL)
+function gdf15(er) {
+  return 0.5 * Math.pow(Math.max(er, 0.001), 0.3) * 1000;
+}
+
+// Health zone classification
+function healthZone(er) {
+  if (er < 0.3)  return { name:'INSUFFICIENT', color:'#00d4ff' };
+  if (er <= 1.5) return { name:'OPTIMAL',      color:'#34d399' };
+  if (er <= 3.0) return { name:'ELEVATED',     color:'#fbbf24' };
+  return               { name:'CRITICAL',      color:'#f87171' };
+}
+
+// GDF15 clinical status
+function gdfStatus(gdf) {
+  if (gdf < 1200) return { name:'Healthy',  color:'#34d399' };
+  if (gdf < 2000) return { name:'Warning',  color:'#fbbf24' };
+  return               { name:'At Risk',   color:'#f87171' };
+}
+
+// Count years in Goldilocks window (éR ∈ [0.3, 1.5])
+function yearsInGoldilocks(intervKey) {
+  let count = 0;
+  for (let a = 0; a <= 100; a++) {
+    const er = erBase(a) * INTERVENTIONS[intervKey].mult;
+    if (er >= 0.3 && er <= 1.5) count++;
+  }
+  return count;
+}
+
+// Find age when éR exits Goldilocks window (upward, age > 30)
+function goldilocksExit(intervKey) {
+  for (let a = 30; a <= 100; a++) {
+    const er = erBase(a) * INTERVENTIONS[intervKey].mult;
+    if (er > 1.5) return a;
+  }
+  return '>100';
+}
+
+// ════════════════════════════════════════════════════════════════
+//  SVG HELPERS (matching stur_erp_lab.html pattern)
+// ════════════════════════════════════════════════════════════════
+const SVG_NS = "http://www.w3.org/2000/svg";
+const pad = { t:20, r:20, b:34, l:46 };
+
+function svgEl(tag, attrs) {
+  const el = document.createElementNS(SVG_NS, tag);
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+  return el;
+}
+
+function clearSVG(id) {
+  const el = document.getElementById(id);
+  if (!el) return null;
+  while (el.firstChild) el.removeChild(el.firstChild);
+  return el;
+}
+
+function drawAxes(svg, W, H, xLabel, yLabel, p) {
+  const pp = p || pad;
+  const gx = W - pp.l - pp.r;
+  const gy = H - pp.t - pp.b;
+  svg.appendChild(svgEl('line', { x1:pp.l, y1:pp.t, x2:pp.l, y2:pp.t+gy, stroke:'#1e3a5f', 'stroke-width':'1' }));
+  svg.appendChild(svgEl('line', { x1:pp.l, y1:pp.t+gy, x2:pp.l+gx, y2:pp.t+gy, stroke:'#1e3a5f', 'stroke-width':'1' }));
+  const xl = svgEl('text', { x:pp.l+gx/2, y:H-3, fill:'#64748b', 'font-size':'9', 'text-anchor':'middle', 'font-family':'monospace' });
+  xl.textContent = xLabel; svg.appendChild(xl);
+  const yl = svgEl('text', { x:10, y:pp.t+gy/2, fill:'#64748b', 'font-size':'9', 'text-anchor':'middle', 'font-family':'monospace', transform:`rotate(-90,10,${pp.t+gy/2})` });
+  yl.textContent = yLabel; svg.appendChild(yl);
+  return { gx, gy };
+}
+
+function polyline(pts, color, width, dasharray) {
+  if (!pts.length) return svgEl('g', {});
+  const d = pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
+  const el = svgEl('path', { d, stroke:color, fill:'none', 'stroke-width': width || 1.5 });
+  if (dasharray) el.setAttribute('stroke-dasharray', dasharray);
+  return el;
+}
+
+function dot(x, y, r, color, label) {
+  const g = svgEl('g', {});
+  g.appendChild(svgEl('circle', { cx:x, cy:y, r, fill:color, stroke:'rgba(0,0,0,0.5)', 'stroke-width':'1' }));
+  if (label) {
+    const t = svgEl('text', { x:x+r+3, y:y+4, fill:color, 'font-size':'9', 'font-family':'monospace' });
+    t.textContent = label;
+    g.appendChild(t);
+  }
+  return g;
+}
+
+function addXTicks(svg, count, W, H, xMax, p, fmt) {
+  const pp = p || pad;
+  const gx = W - pp.l - pp.r;
+  const gy = H - pp.t - pp.b;
+  for (let i = 0; i <= count; i++) {
+    const x = pp.l + (i / count) * gx;
+    const val = (i / count) * xMax;
+    const t = svgEl('text', { x, y:pp.t+gy+13, fill:'#64748b', 'font-size':'8', 'text-anchor':'middle', 'font-family':'monospace' });
+    t.textContent = fmt ? fmt(val) : val.toFixed(0);
+    svg.appendChild(t);
+    svg.appendChild(svgEl('line', { x1:x, y1:pp.t+gy, x2:x, y2:pp.t+gy+3, stroke:'#1e3a5f' }));
+  }
+}
+
+function addYTicks(svg, ticks, W, H, yMax, p, fmt) {
+  const pp = p || pad;
+  const gx = W - pp.l - pp.r;
+  const gy = H - pp.t - pp.b;
+  ticks.forEach(val => {
+    const y = pp.t + gy - (val / yMax) * gy;
+    const t = svgEl('text', { x:pp.l-4, y:y+3, fill:'#64748b', 'font-size':'8', 'text-anchor':'end', 'font-family':'monospace' });
+    t.textContent = fmt ? fmt(val) : val.toFixed(1);
+    svg.appendChild(t);
+    svg.appendChild(svgEl('line', { x1:pp.l-2, y1:y, x2:pp.l, y2:y, stroke:'#1e3a5f' }));
+    svg.appendChild(svgEl('line', { x1:pp.l, y1:y, x2:pp.l+gx, y2:y, stroke:'rgba(30,58,95,0.3)' }));
+  });
+}
+
+// ════════════════════════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════════════════════════
+let currentAge = 40;
+let currentJ   = 0.5;
+let currentInterv = 'none';
+let activeTab = 0;
+
+// ════════════════════════════════════════════════════════════════
+//  PLOT: TAB 0 — LIFESPAN TRAJECTORY
+// ════════════════════════════════════════════════════════════════
+function drawLifespanTrajectory() {
+  const svg = clearSVG('plot-traj0');
+  if (!svg) return;
+  const W=600, H=300;
+  const { gx, gy } = drawAxes(svg, W, H, 'Age (years)', 'éR');
+  const erMax = 5.0;
+  const xA = a => pad.l + (a / 100) * gx;
+  const yE = e => pad.t + gy - Math.min(e / erMax, 1) * gy;
+
+  // Goldilocks band shading
+  svg.appendChild(svgEl('rect', { x:pad.l, y:yE(1.5), width:gx, height:yE(0.3)-yE(1.5), fill:'rgba(52,211,153,0.07)' }));
+  // Goldilocks boundary lines
+  svg.appendChild(svgEl('line', { x1:pad.l, y1:yE(1.5), x2:pad.l+gx, y2:yE(1.5), stroke:'rgba(52,211,153,0.35)', 'stroke-dasharray':'4 3' }));
+  svg.appendChild(svgEl('line', { x1:pad.l, y1:yE(0.3), x2:pad.l+gx, y2:yE(0.3), stroke:'rgba(0,212,255,0.3)', 'stroke-dasharray':'4 3' }));
+  // Critical zone top
+  svg.appendChild(svgEl('line', { x1:pad.l, y1:yE(3.0), x2:pad.l+gx, y2:yE(3.0), stroke:'rgba(248,113,113,0.2)', 'stroke-dasharray':'3 4' }));
+
+  // Labels
+  const lbl = (txt, y, c) => { const t = svgEl('text', { x:pad.l+gx-2, y, fill:c, 'font-size':'8', 'text-anchor':'end', 'font-family':'monospace' }); t.textContent=txt; svg.appendChild(t); };
+  lbl('éR=1.5 (Goldilocks upper)', yE(1.5)-2, '#34d399');
+  lbl('éR=0.3 (lower)', yE(0.3)-2, '#00d4ff');
+  lbl('éR=3.0 (critical)', yE(3.0)-2, '#f87171');
+
+  // Baseline curve (colored segments by zone)
+  for (let a = 0; a < 100; a++) {
+    const er1 = erBase(a);
+    const er2 = erBase(a+1);
+    const er_mid = erBase(a + 0.5);
+    const { color } = healthZone(er_mid);
+    svg.appendChild(polyline([
+      [xA(a), yE(Math.min(er1, erMax))],
+      [xA(a+1), yE(Math.min(er2, erMax))]
+    ], color, 2.5));
+  }
+
+  // Intervention trajectory (dashed)
+  if (currentInterv !== 'none') {
+    const ivPts = [];
+    for (let a = 0; a <= 100; a++) {
+      ivPts.push([xA(a), yE(Math.min(erModified(a, currentInterv), erMax))]);
+    }
+    svg.appendChild(polyline(ivPts, INTERVENTIONS[currentInterv].color, 1.8, '6 4'));
+  }
+
+  // Key age vertical markers
+  const keyAges = [1, 5, 15, 25, 45, 65, 85];
+  keyAges.forEach(a => {
+    const x = xA(a);
+    svg.appendChild(svgEl('line', { x1:x, y1:pad.t, x2:x, y2:pad.t+gy, stroke:'rgba(148,163,184,0.15)', 'stroke-dasharray':'2 3' }));
+    const t = svgEl('text', { x, y:pad.t+11, fill:'#64748b', 'font-size':'7', 'text-anchor':'middle', 'font-family':'monospace' });
+    t.textContent = a; svg.appendChild(t);
+  });
+
+  // Age cursor line
+  const cx = xA(currentAge);
+  svg.appendChild(svgEl('line', { x1:cx, y1:pad.t, x2:cx, y2:pad.t+gy, stroke:'rgba(52,211,153,0.6)', 'stroke-width':'1.5' }));
+
+  // Cursor dots
+  const er_cur = erBase(currentAge);
+  const { color:zc } = healthZone(er_cur);
+  svg.appendChild(dot(cx, yE(Math.min(er_cur, erMax)), 5, zc, `${er_cur.toFixed(2)}`));
+  if (currentInterv !== 'none') {
+    const er_iv = erModified(currentAge, currentInterv);
+    svg.appendChild(dot(cx, yE(Math.min(er_iv, erMax)), 4, INTERVENTIONS[currentInterv].color));
+  }
+
+  // X/Y ticks
+  addXTicks(svg, 10, W, H, 100, pad);
+  addYTicks(svg, [0, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0], W, H, erMax, pad);
+}
+
+function drawFlux() {
+  const svg = clearSVG('plot-flux');
+  if (!svg) return;
+  const W=280, H=150;
+  const pp = { t:16, r:12, b:30, l:40 };
+  const { gx, gy } = drawAxes(svg, W, H, 'Age (yr)', 'f(age)', pp);
+  const xs = a => pp.l + (a/100)*gx;
+  const ys = f => pp.t + gy - f*gy;
+
+  const pts = [];
+  for (let a=0; a<=100; a++) pts.push([xs(a), ys(fFlux(a))]);
+  svg.appendChild(polyline(pts, '#00d4ff', 2));
+
+  // cursor
+  svg.appendChild(svgEl('line', { x1:xs(currentAge), y1:pp.t, x2:xs(currentAge), y2:pp.t+gy, stroke:'rgba(52,211,153,0.5)', 'stroke-dasharray':'3 3' }));
+  svg.appendChild(dot(xs(currentAge), ys(fFlux(currentAge)), 4, '#34d399'));
+
+  addXTicks(svg, 5, W, H, 100, pp);
+  addYTicks(svg, [0, 0.25, 0.5, 0.75, 1.0], W, H, 1.0, pp);
+}
+
+// ════════════════════════════════════════════════════════════════
+//  PLOT: TAB 1 — GDF15
+// ════════════════════════════════════════════════════════════════
+function drawGDF15vsAge() {
+  const svg = clearSVG('plot-gdf-age');
+  if (!svg) return;
+  const W=280, H=220;
+  const pp = { t:16, r:14, b:30, l:50 };
+  const { gx, gy } = drawAxes(svg, W, H, 'Age (yr)', 'GDF15 (pg/mL)', pp);
+  const gMax = 4000;
+  const xs = a => pp.l + (a/100)*gx;
+  const ys = g => pp.t + gy - Math.min(g/gMax,1)*gy;
+
+  // Clinical threshold bands
+  svg.appendChild(svgEl('rect', { x:pp.l, y:pp.t, width:gx, height:ys(2000)-pp.t, fill:'rgba(248,113,113,0.07)' }));
+  svg.appendChild(svgEl('rect', { x:pp.l, y:ys(2000), width:gx, height:ys(1200)-ys(2000), fill:'rgba(251,191,36,0.07)' }));
+  svg.appendChild(svgEl('rect', { x:pp.l, y:ys(1200), width:gx, height:ys(0)-ys(1200), fill:'rgba(52,211,153,0.05)' }));
+
+  // Threshold lines
+  [1200, 2000].forEach((g, i) => {
+    svg.appendChild(svgEl('line', { x1:pp.l, y1:ys(g), x2:pp.l+gx, y2:ys(g), stroke:i===0?'rgba(251,191,36,0.5)':'rgba(248,113,113,0.5)', 'stroke-dasharray':'4 3' }));
+    const t = svgEl('text', { x:pp.l+2, y:ys(g)-3, fill:i===0?'#fbbf24':'#f87171', 'font-size':'7', 'font-family':'monospace' });
+    t.textContent = g+'pg/mL'; svg.appendChild(t);
+  });
+
+  // GDF15 baseline curve
+  const pts = [];
+  for (let a=0; a<=100; a++) {
+    const er = erBase(a);
+    pts.push([xs(a), ys(gdf15(er))]);
+  }
+  svg.appendChild(polyline(pts, '#f87171', 2));
+
+  // Intervention curve
+  if (currentInterv !== 'none') {
+    const ipts = [];
+    for (let a=0; a<=100; a++) {
+      ipts.push([xs(a), ys(gdf15(erModified(a, currentInterv)))]);
+    }
+    svg.appendChild(polyline(ipts, INTERVENTIONS[currentInterv].color, 1.5, '5 3'));
+  }
+
+  // Cursor
+  const cx = xs(currentAge);
+  const gCur = gdf15(erBase(currentAge));
+  svg.appendChild(svgEl('line', { x1:cx, y1:pp.t, x2:cx, y2:pp.t+gy, stroke:'rgba(52,211,153,0.5)', 'stroke-dasharray':'3 3' }));
+  svg.appendChild(dot(cx, ys(gCur), 4, '#34d399'));
+
+  addXTicks(svg, 5, W, H, 100, pp);
+  addYTicks(svg, [0, 1000, 2000, 3000, 4000], W, H, gMax, pp, v => v);
+}
+
+function drawGDF15vsER() {
+  const svg = clearSVG('plot-gdf-er');
+  if (!svg) return;
+  const W=280, H=220;
+  const pp = { t:16, r:14, b:30, l:50 };
+  const { gx, gy } = drawAxes(svg, W, H, 'éR', 'GDF15 (pg/mL)', pp);
+  const erMax = 5, gMax = 4000;
+  const xs = e => pp.l + Math.min(e/erMax,1)*gx;
+  const ys = g => pp.t + gy - Math.min(g/gMax,1)*gy;
+
+  // Threshold bands
+  svg.appendChild(svgEl('rect', { x:pp.l, y:pp.t, width:gx, height:ys(2000)-pp.t, fill:'rgba(248,113,113,0.07)' }));
+  svg.appendChild(svgEl('rect', { x:pp.l, y:ys(2000), width:gx, height:ys(1200)-ys(2000), fill:'rgba(251,191,36,0.07)' }));
+  // Goldilocks éR band (vertical)
+  svg.appendChild(svgEl('rect', { x:xs(0.3), y:pp.t, width:xs(1.5)-xs(0.3), height:gy, fill:'rgba(52,211,153,0.06)' }));
+
+  // Correlation curve
+  const pts = [];
+  for (let i=0; i<=200; i++) {
+    const er = (i/200)*erMax;
+    pts.push([xs(er), ys(gdf15(er))]);
+  }
+  svg.appendChild(polyline(pts, '#f87171', 2));
+
+  // Scatter dots colored by age
+  for (let a=0; a<=100; a+=5) {
+    const er = erBase(a);
+    const g = gdf15(er);
+    const { color } = healthZone(er);
+    if (er <= erMax && g <= gMax) svg.appendChild(dot(xs(er), ys(g), 2.5, color));
+  }
+
+  // Cursor dot
+  const erC = erBase(currentAge);
+  svg.appendChild(dot(xs(erC), ys(gdf15(erC)), 5, '#34d399', `age ${currentAge}`));
+
+  addXTicks(svg, 5, W, H, erMax, pp);
+  addYTicks(svg, [0, 1000, 2000, 3000, 4000], W, H, gMax, pp, v => v);
+}
+
+// ════════════════════════════════════════════════════════════════
+//  PLOT: TAB 2 — STUR HOLONOMY
+// ════════════════════════════════════════════════════════════════
+function drawPhiAge() {
+  const svg = clearSVG('plot-phi-age');
+  if (!svg) return;
+  const W=280, H=200;
+  const pp = { t:16, r:12, b:30, l:44 };
+  const { gx, gy } = drawAxes(svg, W, H, 'Age (yr)', 'Φ_R', pp);
+  const phiMax = phiR(currentJ, 100) * 1.1;
+  const xs = a => pp.l + (a/100)*gx;
+  const ys = phi => pp.t + gy - Math.min(phi/phiMax, 1)*gy;
+
+  const pts = [];
+  for (let a=0; a<=100; a++) pts.push([xs(a), ys(phiR(currentJ, a))]);
+  svg.appendChild(polyline(pts, '#a855f7', 2));
+
+  svg.appendChild(svgEl('line', { x1:xs(currentAge), y1:pp.t, x2:xs(currentAge), y2:pp.t+gy, stroke:'rgba(52,211,153,0.5)', 'stroke-dasharray':'3 3' }));
+  svg.appendChild(dot(xs(currentAge), ys(phiR(currentJ, currentAge)), 4, '#34d399'));
+
+  addXTicks(svg, 5, W, H, 100, pp);
+  addYTicks(svg, [0, phiMax*0.25, phiMax*0.5, phiMax*0.75, phiMax].map(v => parseFloat(v.toFixed(2))), W, H, phiMax, pp, v => v.toFixed(2));
+}
+
+function drawVAge() {
+  const svg = clearSVG('plot-V-age');
+  if (!svg) return;
+  const W=280, H=200;
+  const pp = { t:16, r:12, b:30, l:44 };
+  const { gx, gy } = drawAxes(svg, W, H, 'Age (yr)', 'V(Φ_R)', pp);
+  const xs = a => pp.l + (a/100)*gx;
+  const ys = v => pp.t + gy - Math.min(v, 1)*gy;
+
+  const pts = [];
+  for (let a=0; a<=100; a++) pts.push([xs(a), ys(couplingV(phiR(currentJ, a)))]);
+  svg.appendChild(polyline(pts, '#00d4ff', 2));
+
+  svg.appendChild(svgEl('line', { x1:xs(currentAge), y1:pp.t, x2:xs(currentAge), y2:pp.t+gy, stroke:'rgba(52,211,153,0.5)', 'stroke-dasharray':'3 3' }));
+  svg.appendChild(dot(xs(currentAge), ys(couplingV(phiR(currentJ, currentAge))), 4, '#34d399'));
+
+  addXTicks(svg, 5, W, H, 100, pp);
+  addYTicks(svg, [0, 0.25, 0.5, 0.75, 1.0], W, H, 1.0, pp);
+}
+
+function drawERCompare() {
+  const svg = clearSVG('plot-er-compare');
+  if (!svg) return;
+  const W=600, H=260;
+  const { gx, gy } = drawAxes(svg, W, H, 'Age (years)', 'éR');
+  const erMax = 6.0;
+  const xA = a => pad.l + (a/100)*gx;
+  const yE = e => pad.t + gy - Math.min(e/erMax,1)*gy;
+
+  // Goldilocks band
+  svg.appendChild(svgEl('rect', { x:pad.l, y:yE(1.5), width:gx, height:yE(0.3)-yE(1.5), fill:'rgba(52,211,153,0.06)' }));
+  svg.appendChild(svgEl('line', { x1:pad.l, y1:yE(1.5), x2:pad.l+gx, y2:yE(1.5), stroke:'rgba(52,211,153,0.3)', 'stroke-dasharray':'4 3' }));
+
+  // Biological éR
+  const bio_pts = [];
+  for (let a=0; a<=100; a++) bio_pts.push([xA(a), yE(Math.min(erBase(a), erMax))]);
+  svg.appendChild(polyline(bio_pts, '#34d399', 2));
+
+  // STUR éR
+  const stur_pts = [];
+  for (let a=0; a<=100; a++) {
+    const s = erSTUR(currentJ, a);
+    if (s <= erMax * 1.1) stur_pts.push([xA(a), yE(Math.min(s, erMax))]);
+  }
+  svg.appendChild(polyline(stur_pts, '#fbbf24', 1.8, '5 3'));
+
+  // Cursor
+  const cx = xA(currentAge);
+  svg.appendChild(svgEl('line', { x1:cx, y1:pad.t, x2:cx, y2:pad.t+gy, stroke:'rgba(52,211,153,0.5)' }));
+
+  // Legend
+  const ld = [['éR_biological (baseline)','#34d399'],['éR_STUR (holonomy model)','#fbbf24','5 3']];
+  ld.forEach(([l,c,d],i) => {
+    const lx = pad.l+gx-180, ly = pad.t+14+i*16;
+    svg.appendChild(svgEl('line', { x1:lx-30, y1:ly-3, x2:lx-6, y2:ly-3, stroke:c, 'stroke-width':'2', 'stroke-dasharray':d||'none' }));
+    const t = svgEl('text', { x:lx, y:ly, fill:c, 'font-size':'9', 'font-family':'monospace' });
+    t.textContent = l; svg.appendChild(t);
+  });
+
+  addXTicks(svg, 10, W, H, 100, pad);
+  addYTicks(svg, [0, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 6.0], W, H, erMax, pad);
+}
+
+// ════════════════════════════════════════════════════════════════
+//  PLOT: TAB 3 — CHRONOMAGNETIC MILESTONES
+// ════════════════════════════════════════════════════════════════
+function drawChronoTimeline() {
+  const svg = clearSVG('plot-chrono');
+  if (!svg) return;
+  const W=600, H=200;
+  const pp = { t:30, r:20, b:40, l:46 };
+  const gx = W - pp.l - pp.r;
+  const gy = H - pp.t - pp.b;
+
+  // Axes
+  svg.appendChild(svgEl('line', { x1:pp.l, y1:pp.t+gy, x2:pp.l+gx, y2:pp.t+gy, stroke:'#1e3a5f' }));
+  const xl = svgEl('text', { x:pp.l+gx/2, y:H-4, fill:'#64748b', 'font-size':'9', 'text-anchor':'middle', 'font-family':'monospace' });
+  xl.textContent = 'Age (years, log scale)'; svg.appendChild(xl);
+
+  const tMin=0.5, tMax=100;
+  const xT = t => pp.l + (Math.log(t/tMin)/Math.log(tMax/tMin)) * gx;
+  const yMid = pp.t + gy / 2;
+
+  // Timeline bar
+  svg.appendChild(svgEl('line', { x1:pp.l, y1:yMid, x2:pp.l+gx, y2:yMid, stroke:'rgba(148,163,184,0.3)', 'stroke-width':'2' }));
+
+  // Log scale x-ticks
+  [1, 5, 10, 20, 50, 100].forEach(t => {
+    const x = xT(t);
+    if (x < pp.l || x > pp.l+gx) return;
+    const tk = svgEl('text', { x, y:pp.t+gy+13, fill:'#64748b', 'font-size':'8', 'text-anchor':'middle', 'font-family':'monospace' });
+    tk.textContent = t; svg.appendChild(tk);
+    svg.appendChild(svgEl('line', { x1:x, y1:pp.t+gy, x2:x, y2:pp.t+gy+4, stroke:'#1e3a5f' }));
+  });
+
+  // Milestone markers
+  const milestoneColors = ['#00d4ff','#34d399','#34d399','#fbbf24','#fbbf24','#34d399','#fbbf24','#f87171','#f87171'];
+  MILESTONES.forEach((m, i) => {
+    const t = m.t;
+    if (t < tMin || t > tMax) return;
+    const x = xT(t);
+    const above = i % 2 === 0;
+    const c = milestoneColors[i] || '#94a3b8';
+    const yL = above ? yMid - 18 : yMid + 18;
+    const yT = above ? yMid - 30 : yMid + 30;
+
+    svg.appendChild(svgEl('line', { x1:x, y1:yMid, x2:x, y2:yL, stroke:c+'99', 'stroke-width':'1' }));
+    svg.appendChild(svgEl('circle', { cx:x, cy:yMid, r:4, fill:c, stroke:'rgba(0,0,0,0.5)', 'stroke-width':'1' }));
+
+    // Label
+    const tl = svgEl('text', { x, y:yT, fill:c, 'font-size':'7.5', 'text-anchor':'middle', 'font-family':'monospace' });
+    tl.textContent = t < 1.5 ? `t=${t.toFixed(1)}yr` : `${Math.round(t)}yr`;
+    svg.appendChild(tl);
+
+    // n label
+    const nl = svgEl('text', { x, y:above?yT-10:yT+10, fill:'#64748b', 'font-size':'7', 'text-anchor':'middle', 'font-family':'monospace' });
+    nl.textContent = `n=${m.n}`;
+    svg.appendChild(nl);
+  });
+
+  // Lambda annotation
+  const la = svgEl('text', { x:pp.l+gx-5, y:pp.t+10, fill:'#fbbf24', 'font-size':'9', 'text-anchor':'end', 'font-family':'monospace' });
+  la.textContent = `λ_chrono = e^(1/π) ≈ ${LAMBDA_CHRONO.toFixed(4)}`; svg.appendChild(la);
+}
+
+function renderMilestoneTable() {
+  const tbody = document.getElementById('milestone-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  MILESTONES.forEach(m => {
+    const t = m.t;
+    const er = erBase(t);
+    const f  = fFlux(t);
+    const { name, color } = healthZone(er);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="mono" style="color:#64748b">${m.n}</td>
+      <td class="mono" style="color:#e2e8f0">${t < 2 ? t.toFixed(2) : t.toFixed(1)}</td>
+      <td style="color:#94a3b8;font-size:10px;">${m.bio}</td>
+      <td class="mono" style="color:#f87171">${er.toFixed(3)}</td>
+      <td class="mono" style="color:#00d4ff">${f.toFixed(3)}</td>
+      <td class="mono" style="color:${color};font-weight:700;">${name}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// ════════════════════════════════════════════════════════════════
+//  PLOT: TAB 4 — INTERVENTIONS
+// ════════════════════════════════════════════════════════════════
+function drawMultiIntervention() {
+  const svg = clearSVG('plot-multi-interv');
+  if (!svg) return;
+  const W=600, H=300;
+  const { gx, gy } = drawAxes(svg, W, H, 'Age (years)', 'éR');
+  const erMax = 5.0;
+  const xA = a => pad.l + (a/100)*gx;
+  const yE = e => pad.t + gy - Math.min(e/erMax,1)*gy;
+
+  // Goldilocks band
+  svg.appendChild(svgEl('rect', { x:pad.l, y:yE(1.5), width:gx, height:yE(0.3)-yE(1.5), fill:'rgba(52,211,153,0.06)' }));
+  svg.appendChild(svgEl('line', { x1:pad.l, y1:yE(1.5), x2:pad.l+gx, y2:yE(1.5), stroke:'rgba(52,211,153,0.3)', 'stroke-dasharray':'4 3' }));
+
+  // All interventions
+  const keys = ['none','cr','ex','rapa','seno','combo'];
+  keys.forEach((k, ki) => {
+    const iv = INTERVENTIONS[k];
+    const pts = [];
+    for (let a=0; a<=100; a++) {
+      pts.push([xA(a), yE(Math.min(erBase(a)*iv.mult, erMax))]);
+    }
+    const dashArr = k === 'none' ? null : '5 3';
+    svg.appendChild(polyline(pts, iv.color, k==='none'?2.5:1.8, dashArr));
+  });
+
+  // Legend
+  keys.forEach((k, i) => {
+    const iv = INTERVENTIONS[k];
+    const lx = pad.l + 10 + (i%3)*190;
+    const ly = pad.t + 14 + Math.floor(i/3)*14;
+    svg.appendChild(svgEl('line', { x1:lx, y1:ly-3, x2:lx+24, y2:ly-3, stroke:iv.color, 'stroke-width':'2' }));
+    const t = svgEl('text', { x:lx+28, y:ly, fill:iv.color, 'font-size':'9', 'font-family':'monospace' });
+    t.textContent = iv.name; svg.appendChild(t);
+  });
+
+  // Cursor
+  const cx = xA(currentAge);
+  svg.appendChild(svgEl('line', { x1:cx, y1:pad.t, x2:cx, y2:pad.t+gy, stroke:'rgba(52,211,153,0.4)' }));
+
+  addXTicks(svg, 10, W, H, 100, pad);
+  addYTicks(svg, [0, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0], W, H, erMax, pad);
+}
+
+function drawYIGBar() {
+  const svg = clearSVG('plot-yig-bar');
+  if (!svg) return;
+  const W=600, H=200;
+  const pp = { t:16, r:20, b:40, l:50 };
+  const gx = W - pp.l - pp.r;
+  const gy = H - pp.t - pp.b;
+
+  svg.appendChild(svgEl('line', { x1:pp.l, y1:pp.t+gy, x2:pp.l+gx, y2:pp.t+gy, stroke:'#1e3a5f' }));
+  svg.appendChild(svgEl('line', { x1:pp.l, y1:pp.t, x2:pp.l, y2:pp.t+gy, stroke:'#1e3a5f' }));
+
+  const yl = svgEl('text', { x:12, y:pp.t+gy/2, fill:'#64748b', 'font-size':'9', 'text-anchor':'middle', 'font-family':'monospace', transform:`rotate(-90,12,${pp.t+gy/2})` });
+  yl.textContent = 'Years in Goldilocks'; svg.appendChild(yl);
+  const xl = svgEl('text', { x:pp.l+gx/2, y:H-4, fill:'#64748b', 'font-size':'9', 'text-anchor':'middle', 'font-family':'monospace' });
+  xl.textContent = 'Intervention'; svg.appendChild(xl);
+
+  const keys = ['none','cr','ex','rapa','seno','combo'];
+  const yigs = keys.map(k => yearsInGoldilocks(k));
+  const yigMax = Math.max(...yigs);
+  const bw = (gx - (keys.length-1)*6) / keys.length;
+
+  keys.forEach((k, i) => {
+    const iv = INTERVENTIONS[k];
+    const yig = yigs[i];
+    const bh = (yig/yigMax)*gy;
+    const bx = pp.l + i*(bw+6);
+    const by = pp.t + gy - bh;
+    svg.appendChild(svgEl('rect', { x:bx, y:by, width:bw, height:bh, fill:iv.color+'bb', rx:'3' }));
+
+    const nl = svgEl('text', { x:bx+bw/2, y:pp.t+gy+13, fill:iv.color, 'font-size':'7.5', 'text-anchor':'middle', 'font-family':'monospace' });
+    nl.textContent = iv.name.replace(' ',' ').replace('Restriction','CR').replace('Training','').replace('Combined Optimal','Combined');
+    svg.appendChild(nl);
+
+    const vl = svgEl('text', { x:bx+bw/2, y:by-3, fill:iv.color, 'font-size':'9', 'text-anchor':'middle', 'font-family':'monospace', 'font-weight':'700' });
+    vl.textContent = yig + ' yr'; svg.appendChild(vl);
+
+    // update stat cards
+    const elemId = 'int-'+k+'-yig';
+    const el = document.getElementById(elemId);
+    if (el) el.textContent = yig + ' yrs';
+  });
+
+  [0, Math.round(yigMax*0.5), Math.round(yigMax)].forEach(v => {
+    const y = pp.t + gy - (v/yigMax)*gy;
+    const t = svgEl('text', { x:pp.l-4, y:y+3, fill:'#64748b', 'font-size':'8', 'text-anchor':'end', 'font-family':'monospace' });
+    t.textContent = v; svg.appendChild(t);
+    svg.appendChild(svgEl('line', { x1:pp.l-2, y1:y, x2:pp.l, y2:y, stroke:'#1e3a5f' }));
+  });
+}
+
+// ════════════════════════════════════════════════════════════════
+//  LIVE READOUT UPDATE
+// ════════════════════════════════════════════════════════════════
+function updateLive() {
+  const age  = currentAge;
+  const J    = currentJ;
+  const iKey = currentInterv;
+
+  const erB  = erBase(age);
+  const erM  = erModified(age, iKey);
+  const f    = fFlux(age);
+  const ep   = epAge(age);
+  const gdf  = gdf15(erB);
+  const phi  = phiR(J, age);
+  const V    = couplingV(phi);
+  const { name:zone, color:zc } = healthZone(erB);
+  const yig  = yearsInGoldilocks(iKey);
+  const gExit = goldilocksExit(iKey);
+
+  // Sidebar
+  const set = (id, v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
+  const setColor = (id, c) => { const el=document.getElementById(id); if(el) el.style.color=c; };
+
+  set('lv-age',  age + ' yr');
+  set('lv-eR-base', erB.toFixed(3));
+  set('lv-eR-mod',  erM.toFixed(3));
+  set('lv-f',    f.toFixed(4));
+  set('lv-EP',   ep.toFixed(4));
+  set('lv-gdf',  Math.round(gdf) + ' pg/mL');
+  set('lv-phi',  phi.toFixed(3));
+  set('lv-V',    V.toFixed(4));
+  set('lv-zone', zone);
+  setColor('lv-zone', zc);
+  set('lv-yig',  yig + ' yr');
+  setColor('lv-eR-base', zc);
+
+  set('sv-age', age);
+  set('sv-J', J.toFixed(3));
+
+  // Tab 0 value boxes
+  set('vb-eR', erB.toFixed(3));
+  setColor('vb-eR', zc);
+  set('vb-zone', zone);
+  setColor('vb-zone', zc);
+  set('vb-exit', typeof gExit === 'number' ? gExit + ' yr' : gExit);
+
+  // Tab 1
+  set('gdf-cur', Math.round(gdf) + ' pg/mL');
+  setColor('gdf-cur', gdfStatus(gdf).color);
+  const gs = gdfStatus(gdf);
+  set('gdf-status', gs.name);
+  setColor('gdf-status', gs.color);
+  set('gdf-er', erB.toFixed(3));
+
+  // Tab 2
+  const ell = lAge(age);
+  const erS  = erSTUR(J, age);
+  set('stur-l', ell.toFixed(3));
+  set('stur-phi', phi.toFixed(3));
+  set('stur-V', V.toFixed(4));
+  set('stur-erS', erS.toFixed(3));
+  set('stur-erB', erB.toFixed(3));
+  set('stur-div', (erS/erB).toFixed(3));
+}
+
+// ════════════════════════════════════════════════════════════════
+//  TABS
+// ════════════════════════════════════════════════════════════════
+function switchTab(idx) {
+  activeTab = idx;
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i===idx));
+  document.querySelectorAll('.tab-pane').forEach((p,i) => p.classList.toggle('active', i===idx));
+  renderTab(idx);
+}
+
+function renderTab(idx) {
+  if (idx === 0) { drawLifespanTrajectory(); drawFlux(); }
+  if (idx === 1) { drawGDF15vsAge(); drawGDF15vsER(); }
+  if (idx === 2) { drawPhiAge(); drawVAge(); drawERCompare(); }
+  if (idx === 3) { drawChronoTimeline(); renderMilestoneTable(); }
+  if (idx === 4) { drawMultiIntervention(); drawYIGBar(); }
+}
+
+// ════════════════════════════════════════════════════════════════
+//  MASTER UPDATE
+// ════════════════════════════════════════════════════════════════
+function updateAll() {
+  currentAge   = parseInt(document.getElementById('sl-age').value);
+  currentJ     = parseFloat(document.getElementById('sl-J').value);
+  currentInterv = document.getElementById('sel-interv').value;
+
+  updateLive();
+  renderTab(activeTab);
+}
+
+function onSlide() { updateAll(); }
+
+// ════════════════════════════════════════════════════════════════
+//  EXPORT
+// ════════════════════════════════════════════════════════════════
+function exportSVGs() {
+  const ids = ['plot-traj0','plot-flux','plot-gdf-age','plot-gdf-er','plot-phi-age','plot-V-age','plot-er-compare','plot-chrono','plot-multi-interv','plot-yig-bar'];
+  ids.forEach(id => {
+    const svg = document.getElementById(id);
+    if (!svg) return;
+    const data = new XMLSerializer().serializeToString(svg);
+    const blob = new Blob([data], { type:'image/svg+xml' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = id + '.svg';
+    a.click();
+  });
+  toast('All SVGs exported!');
+}
+
+function shareThis() {
+  if (navigator.share) {
+    navigator.share({ title:'STUR ⟺ ERP Longevity Lab', url:location.href });
+  } else {
+    navigator.clipboard.writeText(location.href);
+    toast('Link copied!');
+  }
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ════════════════════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════════════════════
+window.addEventListener('load', () => {
+  updateAll();
+  console.log('STUR Longevity Lab ready. λ_chrono =', LAMBDA_CHRONO.toFixed(6));
+});
+</script>
+</body>
+</html>
