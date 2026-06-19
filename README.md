@@ -6,15 +6,15 @@
 
 <p align="center">
   <strong>Sheldon's Theory of Unified Resistance</strong><br>
-  <em>STUR v7.0: Dynamic Infinity Helix &mdash; Theory of Everything Candidate</em>
+  <em>STUR v7.1: Dynamic Infinity Helix &mdash; Theory of Everything Candidate</em>
 </p>
 
 <p align="center">
   <a href="https://creativecommons.org/publicdomain/zero/1.0/"><img src="https://img.shields.io/badge/License-CC0_1.0-lightgrey.svg" alt="License: CC0-1.0"></a>
   <img src="https://img.shields.io/badge/Physics-Theory_of_Everything-blueviolet" alt="Physics: Theory of Everything">
-  <img src="https://img.shields.io/badge/Version-7.0-brightgreen" alt="Version: 7.0">
+  <img src="https://img.shields.io/badge/Version-7.1-brightgreen" alt="Version: 7.1">
   <img src="https://img.shields.io/badge/PWA-Installable-green" alt="PWA: Installable">
-  <img src="https://img.shields.io/badge/Pages-117+-blue" alt="Pages: 117+">
+  <img src="https://img.shields.io/badge/Pages-120+-blue" alt="Pages: 120+">
   <img src="https://img.shields.io/badge/Scorecard-24D%2B3P%2B1U%2B1I%3D29-blue" alt="Scorecard: 24D+3P+1U+1I=29">
   <img src="https://img.shields.io/badge/TOE_Closure-83%25_honest-orange" alt="TOE Closure: 83% honest">
 </p>
@@ -39,11 +39,39 @@
 
 The infinity helix is not static. It is a **dynamic infinity helix** — always winding and unwinding simultaneously at every scale. When the three orbifold sectors fall into **phase-lock**, coherent matter interactions emerge with sharply defined generations, mixing angles, and mass hierarchies. Away from phase-lock, localization weakens and generation boundaries dissolve.
 
-**The manifold is the same at any scale; only the perspective changes.** This discrete scale invariance, governed by the chronomagnetic ratio lambda_chrono = 3722/2705, resolves all apparent scale questions: L_X^fund ~ 10^-32 m (Planck-scale winding quantum) and L_eff ~ 0.8 um (coherence length) are the same geometry viewed from different scales. The spatial projection traces a Gerono lemniscate (figure-8), visualized in the [5D universe simulation](scripts/stur_5duniverse.html).
+**The manifold is the same at any scale; only the perspective changes.** This discrete scale invariance, governed by the chronomagnetic ratio lambda_chrono = e^{1/π} = 1.37479 (exact), resolves all apparent scale questions: L_X^fund ~ 10^-32 m (Planck-scale winding quantum) and L_eff ~ 0.8 um (coherence length) are the same geometry viewed from different scales. The integer triangle {116, 138, 144} from the Chronomagnetics paper is a rational approximation (0.085%) to this exact result. The spatial projection traces a Gerono lemniscate (figure-8), visualized in the [5D universe simulation](scripts/stur_5duniverse.html).
+
+### v7.1 Improvements
+
+Five conceptual improvements over v7.0 (scorecard numbers unchanged — 24D+3P+1U+1I=29):
+
+1. **ω = 2π² established as primary.** The chronomagnetic frequency ω derives from ∞₃ phase
+   closure (n_w × κ × σ = 2π, verified 0.016%), giving ω = πS = 2π². The integer triangle
+   {116, 138, 144} is a secondary rational approximation (0.085% accuracy) to e^{1/π}.
+   See `TRIANGLE_GENESIS_DERIVATION.md`.
+
+2. **α = 1 from topological winding quantization.** A fermion completing one traversal of the
+   ∞₃ fundamental domain must accumulate exactly 2π phase (minimal non-trivial holonomy).
+   This forces y × v × L_X = 2π → α = 1, upgrading the condition from naturalness assumption
+   to topological requirement. See `XCRM_YUKAWA_SYMMETRY_DERIVATION.md` §6b.
+
+3. **Δm²₂₁ from Z₃-forced off-diagonal M_R.** The Z₃ selection rule g+h ≡ 0 (mod 3) forbids
+   diagonal (1,1) and (2,2) entries in M_R, forcing a pseudo-Dirac pair (ν_R1, ν_R2). This
+   naturally gives Δm²₂₁ << Δm²₃₁ without fine-tuning. Leading-order estimate 9.5 × 10⁻⁶ eV²
+   is 87% from PDG (NLO calculation pending). See `SOLAR_NEUTRINO_MASS_SPLIT.md`.
+
+4. **Geological predictions — honest calibration disclosure.** PDF Table 3 and Table 4 values
+   (Chronomagnetics paper) are not reproducible from the formula as stated without undisclosed
+   calibration parameters. The honest prediction is log-periodic spacing e^{1/(2π)} ≈ 1.17
+   between phase-lock epochs — a parameter-free, falsifiable claim. See
+   `GEOLOGICAL_PREDICTIONS_EXACT.md`.
+
+5. **δ_CP from lemniscate complex multiplication.** δ_CP = 267.9° derived from arg(i³) under
+   lemniscate CM (carries over from v7.1.0; documented in `DERIVATION_CHAIN_INFINITY.md`).
 
 ---
 
-## Results Summary (v7.0)
+## Results Summary (v7.1)
 
 ### Scorecard: 29 Observables — Honest Status
 

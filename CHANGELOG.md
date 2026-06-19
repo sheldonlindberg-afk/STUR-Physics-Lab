@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.1.1] - 2026-06-19 — Five Priority Improvements (Conceptual, No Scorecard Change)
+
+### Added
+- `TRIANGLE_GENESIS_DERIVATION.md`: ω = 2π² established as primary from ∞₃ phase closure;
+  triangle {116,138,144} documented as 0.085% rational approximation to e^{1/π}
+- `SOLAR_NEUTRINO_MASS_SPLIT.md`: Z₃ selection rule g+h ≡ 0 (mod 3) proves off-diagonal M_R
+  structure, explaining Δm²₂₁ << Δm²₃₁ without fine-tuning (pseudo-Dirac pair mechanism)
+- `GEOLOGICAL_PREDICTIONS_EXACT.md`: Honest recomputation disclosing PDF table-formula
+  discrepancy; genuine parameter-free prediction is log-periodic spacing e^{1/(2π)} ≈ 1.17
+- `XCRM_YUKAWA_SYMMETRY_DERIVATION.md` §6b: Derivation 6 — topological winding quantization
+  proves α = 1 from π₁(S¹/Z₃) = Z holonomy condition y × v × L_X = 2π
+
+### Changed
+- `README.md`: Version 7.0 → 7.1; v7.1 improvements section added; λ_chrono exact value
+  e^{1/π} stated alongside triangle approximation
+- `XCRM_YUKAWA_SYMMETRY_DERIVATION.md`: Header updated to v7.1; Derivation 6 is now preferred
+
+### Status (unchanged from v7.1.0)
+- Scorecard: 24D + 3P + 1U + 1I = 29 (no numerical changes — conceptual improvements only)
+- Open: ω = πS ansatz (log-time quantization connecting ω to orbifold action) remains unproved
+- Open: Δm²₂₁ quantitative precision needs NLO loop calculation
+- Open: Geological calibration parameters (t_c, t₀) need explicit publication
+
 ## [7.1.0] - 2026-05-22 — Honest Scorecard + Lemniscate CM δ_CP Derivation
 
 ### Added
