@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>STUR ⟺ ERP Neural Energy Lab — STUR Physics Lab</title>
+<meta name="description" content="Interactive simulation of neuronal energy crisis in neurodegeneration (Alzheimer's, Parkinson's, ALS) through the ERP framework and STUR v7.0 holonomy.">
+<meta name="theme-color" content="#a78bfa">
+<link rel="icon" type="image/png" href="../assets/4.13.png">
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']]}}</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+<style>
+:root {
+  --hub-color: #a78bfa;
+  --purple:    #a78bfa;
+  --purpleL:   #c4b5fd;
+  --cyan:      #00d4ff;
+  --green:     #22c55e;
+  --rose:      #f43f5e;
+  --amber:     #f59e0b;
+  --violet:    #8b5cf6;
+  --red:       #ef4444;
+  --dim:       #94a3b8;
+  --gold:      #c8932a;
+}
+
+.neuro-wrap {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 0;
+  min-height: calc(100vh - 64px);
+}
+
+/* ── SIDEBAR ── */
+.neuro-sidebar {
+  background: rgba(5,4,14,0.97);
+  border-right: 1px solid rgba(167,139,250,0.2);
+  padding: 14px 13px;
+  overflow-y: auto;
+}
+.sidebar-section { margin-bottom: 16px; }
+.sidebar-label {
+  color: var(--purple);
+  font-size: 9px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.slider-row { margin-bottom: 11px; }
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  margin-bottom: 3px;
+}
+.slider-name { color: var(--dim); }
+.slider-val  { font-family: monospace; font-weight: 700; }
+input[type=range] {
+  width: 100%;
+  height: 4px;
+  accent-color: var(--purple);
+  cursor: pointer;
+}
+
+/* disease preset buttons */
+.disease-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.disease-btn {
+  padding: 5px 2px;
+  font-size: 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(10,4,28,0.8);
+  color: var(--dim);
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+}
+.disease-btn:hover { border-color: rgba(167,139,250,0.5); color: var(--purple); }
+.disease-btn.active { background: rgba(167,139,250,0.18); border-color: var(--purple); color: var(--purpleL); }
+
+/* therapy selector */
+.therapy-select {
+  width: 100%;
+  background: rgba(10,4,28,0.9);
+  border: 1px solid rgba(167,139,250,0.25);
+  border-radius: 5px;
+  color: #e2e8f0;
+  font-size: 10px;
+  padding: 5px 7px;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+/* live panel */
+.live-panel {
+  background: rgba(4,3,16,0.92);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 9px 11px;
+}
+.live-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 10px;
+}
+.live-row:last-child { border-bottom: none; }
+.live-key { color: var(--dim); }
+.live-num { font-family: monospace; font-weight: 700; font-size: 11px; }
+
+/* ── MAIN ── */
+.neuro-main {
+  padding: 14px 18px;
+  overflow-y: auto;
+}
+
+/* hero */
+.neuro-hero {
+  background: linear-gradient(135deg, rgba(139,92,246,0.07), rgba(167,139,250,0.04));
+  border: 1px solid rgba(167,139,250,0.28);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+}
+.neuro-hero-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 5px;
+}
+.neuro-hero-sub { font-size: 11px; color: var(--dim); margin: 0 0 9px; }
+.neuro-master-eq {
+  font-family: monospace;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 12px;
+  background: rgba(4,3,16,0.92);
+  border-left: 3px solid var(--purple);
+  border-radius: 4px;
+  letter-spacing: 0.4px;
+  line-height: 1.6;
+}
+
+/* tabs */
+.tab-bar {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 13px;
+  background: rgba(10,4,28,0.85);
+  padding: 4px;
+  border-radius: 8px;
+  width: fit-content;
+  flex-wrap: wrap;
+}
+.tab-btn {
+  padding: 5px 11px;
+  font-size: 10px;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--dim);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.tab-btn.active { background: var(--purple); color: #fff; }
+.tab-btn:hover:not(.active) { color: var(--purple); }
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* section label */
+.sec-label {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--purple);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 14px 0 7px;
+}
+
+/* plot box */
+.plot-box {
+  background: rgba(4,3,16,0.9);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 11px;
+}
+.plot-title {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--dim);
+  margin-bottom: 7px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* eq cards */
+.eq-card {
+  background: rgba(5,3,18,0.9);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-left: 3px solid var(--purple);
+  border-radius: 5px;
+  padding: 7px 11px;
+  margin-bottom: 7px;
+  font-family: monospace;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.eq-card.green  { border-left-color: var(--green); }
+.eq-card.amber  { border-left-color: var(--amber); }
+.eq-card.rose   { border-left-color: var(--rose); }
+.eq-card.cyan   { border-left-color: var(--cyan); }
+.eq-card.violet { border-left-color: var(--violet); }
+
+/* val grid */
+.val-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7px;
+  margin: 10px 0;
+}
+.val-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.val-box {
+  background: rgba(3,2,14,0.9);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 6px;
+  padding: 8px 7px;
+  text-align: center;
+}
+.val-box-label { font-size: 8px; color: var(--dim); margin-bottom: 3px; }
+.val-box-num   { font-family: monospace; font-size: 15px; font-weight: 700; }
+
+/* goldilocks band */
+.neural-goldilocks {
+  display: flex;
+  height: 24px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 10px 0 4px;
+  font-size: 9px;
+  font-weight: 600;
+}
+.ngk-low    { background: rgba(0,212,255,0.22); color: var(--cyan);  flex:1; display:flex; align-items:center; justify-content:center; }
+.ngk-opt    { background: rgba(34,197,94,0.3);  color: var(--green); flex:2; display:flex; align-items:center; justify-content:center; border-left:1px solid rgba(34,197,94,0.4); border-right:1px solid rgba(34,197,94,0.4); }
+.ngk-warn   { background: rgba(245,158,11,0.22); color: var(--amber); flex:1; display:flex; align-items:center; justify-content:center; }
+.ngk-crisis { background: rgba(244,63,94,0.22); color: var(--rose);  flex:1; display:flex; align-items:center; justify-content:center; }
+
+/* table */
+.neuro-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 10px;
+}
+.neuro-table th {
+  padding: 5px 8px;
+  background: rgba(139,92,246,0.12);
+  color: var(--purple);
+  font-size: 9px;
+  text-align: left;
+  letter-spacing: 0.5px;
+}
+.neuro-table td {
+  padding: 5px 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: #e2e8f0;
+}
+.neuro-table tr:hover td { background: rgba(255,255,255,0.02); }
+.mono { font-family: monospace; }
+
+/* stur ext grid */
+.stur-ext-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 7px;
+  margin-top: 9px;
+}
+.stur-ext-card {
+  background: rgba(5,3,18,0.92);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 6px;
+  padding: 9px 11px;
+}
+.stur-ext-card .elabel { font-size: 8px; color: var(--dim); margin-bottom: 3px; letter-spacing: 1px; text-transform: uppercase; }
+.stur-ext-card .eval   { font-family: monospace; font-size: 12px; font-weight: 700; }
+.stur-ext-card .edesc  { font-size: 8px; color: var(--dim); margin-top: 3px; line-height: 1.4; }
+
+/* info blurb */
+.info-blurb {
+  font-size: 11px;
+  color: var(--dim);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.info-blurb b { color: #e2e8f0; }
+
+/* therapy bar grid */
+.therapy-bar-grid {
+  display: grid;
+  gap: 6px;
+  margin: 10px 0;
+}
+.therapy-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 60px 70px;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 10px;
+  background: rgba(5,3,18,0.85);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 6px;
+  font-size: 10px;
+}
+.therapy-bar-fill {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.08);
+  overflow: hidden;
+}
+.therapy-bar-inner { height: 100%; border-radius: 3px; }
+
+/* toast */
+.toast {
+  position: fixed; bottom: 20px; right: 20px;
+  background: var(--green); color: #000;
+  padding: 9px 18px; border-radius: 8px;
+  font-weight: 700; font-size: 12px;
+  opacity: 0; transition: opacity 0.3s;
+  z-index: 9999; pointer-events: none;
+}
+.toast.show { opacity: 1; }
+
+@media (max-width: 720px) {
+  .neuro-wrap { grid-template-columns: 1fr; }
+  .neuro-sidebar { border-right: none; border-bottom: 1px solid rgba(167,139,250,0.2); }
+  .val-grid { grid-template-columns: repeat(2,1fr); }
+  .stur-ext-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">
+      <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
+      STUR Lab
+    </a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Home</a>
+      <a href="stur_biological_hub.html" class="glass-nav-link">Biology Hub</a>
+      <a href="stur_erp_lab.html" class="glass-nav-link">ERP Lab</a>
+      <a href="stur_atp.html" class="glass-nav-link">Mitochondria</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+    </div>
+  </nav>
+</header>
+
+<div class="neuro-wrap">
+
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
+<aside class="neuro-sidebar">
+
+  <div class="sidebar-label">Neural Parameters</div>
+
+  <!-- Disease presets -->
+  <div class="sidebar-section">
+    <div style="font-size:8px;color:var(--dim);margin-bottom:5px;">DISEASE STATE PRESETS</div>
+    <div class="disease-grid" id="disease-grid">
+      <button class="disease-btn active" data-idx="0" onclick="loadDisease(0)">Healthy</button>
+      <button class="disease-btn"        data-idx="1" onclick="loadDisease(1)">MCI</button>
+      <button class="disease-btn"        data-idx="2" onclick="loadDisease(2)">Early AD</button>
+      <button class="disease-btn"        data-idx="3" onclick="loadDisease(3)">Moderate AD</button>
+      <button class="disease-btn"        data-idx="4" onclick="loadDisease(4)">Severe AD</button>
+      <button class="disease-btn"        data-idx="5" onclick="loadDisease(5)">Parkinson's</button>
+      <button class="disease-btn"        data-idx="6" onclick="loadDisease(6)">ALS</button>
+    </div>
+  </div>
+
+  <!-- Sliders -->
+  <div class="sidebar-section">
+    <div class="slider-row">
+      <div class="slider-header">
+        <span class="slider-name">f — electron flux</span>
+        <span class="slider-val" id="sv-f" style="color:var(--green)">0.850</span>
+      </div>
+      <input type="range" id="sl-f" min="0.1" max="1.0" step="0.01" value="0.85" oninput="onSlide()">
+    </div>
+    <div class="slider-row">
+      <div class="slider-header">
+        <span class="slider-name">EP — energy production</span>
+        <span class="slider-val" id="sv-EP" style="color:var(--purple)">1.800</span>
+      </div>
+      <input type="range" id="sl-EP" min="0.1" max="2.0" step="0.01" value="1.80" oninput="onSlide()">
+    </div>
+    <div class="slider-row">
+      <div class="slider-header">
+        <span class="slider-name">ℓ_axon (m)</span>
+        <span class="slider-val" id="sv-L" style="color:var(--cyan)">0.100</span>
+      </div>
+      <input type="range" id="sl-L" min="0.001" max="1.0" step="0.001" value="0.1" oninput="onSlide()">
+    </div>
+    <div class="slider-row">
+      <div class="slider-header">
+        <span class="slider-name">J — STUR current</span>
+        <span class="slider-val" id="sv-J" style="color:var(--amber)">0.800</span>
+      </div>
+      <input type="range" id="sl-J" min="0.1" max="2.0" step="0.01" value="0.8" oninput="onSlide()">
+    </div>
+  </div>
+
+  <!-- Therapy selector -->
+  <div class="sidebar-section">
+    <div class="sidebar-label">Therapy Intervention</div>
+    <select class="therapy-select" id="therapy-select" onchange="onTherapyChange()">
+      <option value="none">None (baseline)</option>
+      <option value="exercise">Exercise (BDNF/VEGF)</option>
+      <option value="keto">Ketogenic Diet</option>
+      <option value="nad">NAD+ Precursors (NMN/NR)</option>
+      <option value="mitoq">MitoQ (antioxidant)</option>
+      <option value="fasting">Intermittent Fasting</option>
+      <option value="dbs">Deep Brain Stimulation</option>
+      <option value="combined">Combined Protocol</option>
+    </select>
+  </div>
+
+  <!-- Live readout -->
+  <div class="sidebar-section">
+    <div class="sidebar-label">Live Neural Output</div>
+    <div class="live-panel">
+      <div class="live-row"><span class="live-key">éR</span><span class="live-num" id="lv-eR" style="color:var(--rose)">2.494</span></div>
+      <div class="live-row"><span class="live-key">Φ_R</span><span class="live-num" id="lv-phi" style="color:var(--amber)">0.080</span></div>
+      <div class="live-row"><span class="live-key">V(Φ_R)</span><span class="live-num" id="lv-V" style="color:var(--cyan)">0.997</span></div>
+      <div class="live-row"><span class="live-key">Firing Rate</span><span class="live-num" id="lv-FR" style="color:var(--green)">88.1 Hz</span></div>
+      <div class="live-row"><span class="live-key">Syn. Strength</span><span class="live-num" id="lv-S" style="color:var(--purple)">0.921</span></div>
+      <div class="live-row"><span class="live-key">Memory Eff.</span><span class="live-num" id="lv-M" style="color:var(--purpleL)">0.811</span></div>
+      <div class="live-row"><span class="live-key">Health Zone</span><span class="live-num" id="lv-zone" style="color:var(--green)">OPTIMAL</span></div>
+    </div>
+  </div>
+
+</aside>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<main class="neuro-main">
+
+  <!-- Hero -->
+  <div class="neuro-hero">
+    <div style="font-family:monospace;color:var(--purple);font-size:8px;letter-spacing:3px;margin-bottom:3px;">STUR v7.0 ⟺ ERP — NEURAL ENERGY CRISIS — ALZHEIMER'S / PARKINSON'S / ALS</div>
+    <h1 class="neuro-hero-title">STUR ⟺ ERP Neural Energy Lab</h1>
+    <p class="neuro-hero-sub">Modeling neuronal energy crisis in neurodegeneration through the ERP framework and STUR holonomy. Brain = 2% body mass, 20% energy. Neurons are post-mitotic — mitochondrial health is existential.</p>
+    <div class="neuro-master-eq">
+      <span style="color:var(--rose)">éR_neural</span> = <span style="color:var(--purple)">EP</span> / <span style="color:var(--cyan)">V(Φ_R)²</span>
+      &nbsp;|&nbsp;
+      <span style="color:var(--amber)">Φ_R</span> = J · ℓ_axon
+      &nbsp;|&nbsp;
+      <span style="color:var(--cyan)">V</span> = exp(−Φ_R²/2)
+      <br>
+      <span style="color:var(--green)">FR(éR)</span> = 100 / (1 + exp(2·(éR − 4.0)))
+      &nbsp;|&nbsp;
+      <span style="color:var(--purpleL)">M</span> = S(éR) · FR(éR) / 100
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab(0)">Neural Energy Bridge</button>
+    <button class="tab-btn"        onclick="switchTab(1)">Disease Progression</button>
+    <button class="tab-btn"        onclick="switchTab(2)">STUR Holonomy</button>
+    <button class="tab-btn"        onclick="switchTab(3)">Therapeutics</button>
+    <button class="tab-btn"        onclick="switchTab(4)">Neural Oscillations</button>
+  </div>
+
+  <!-- ═══ TAB 0: NEURAL ENERGY BRIDGE ═══ -->
+  <div class="tab-pane active" id="pane-0">
+
+    <p class="info-blurb">
+      Neurons are the most energy-demanding cells in the body. An action potential requires the <b>Na⁺/K⁺ ATPase</b>
+      to restore ionic gradients — consuming ~4.5 μmol ATP/g/min at rest (10× muscle). <b>Synaptic transmission</b>
+      accounts for 30–70% of total neuronal energy budget. Because neurons are <b>post-mitotic</b> (cannot divide),
+      mitochondrial dysfunction accumulates irreversibly — making éR the existential parameter.
+    </p>
+
+    <!-- Equations -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px;">
+      <div>
+        <div class="eq-card">éR_neural = EP / f²  &nbsp;(ERP, f≡electron flux)</div>
+        <div class="eq-card cyan">Φ_R = J · ℓ_axon  &nbsp;(STUR holonomy)</div>
+        <div class="eq-card green">V(Φ_R) = exp(−Φ_R²/2)  &nbsp;(synaptic coupling)</div>
+        <div class="eq-card amber">éR_STUR = EP / V(Φ_R)²</div>
+      </div>
+      <div>
+        <div class="eq-card rose">FR(éR) = 100 / (1 + e^{2·(éR−4)})  [Hz]</div>
+        <div class="eq-card violet">S(éR) = exp(−(éR−2.5)²/1.28)</div>
+        <div class="eq-card">M(éR) = S(éR) · FR(éR) / 100</div>
+        <div class="eq-card cyan">Healthy éR: [1.5, 3.5]  Crisis: >4.5</div>
+      </div>
+    </div>
+
+    <!-- Live parameter grid -->
+    <div class="val-grid" id="val-grid-0">
+      <div class="val-box"><div class="val-box-label">f (electron flux)</div><div class="val-box-num" id="b-f" style="color:var(--green)">0.850</div></div>
+      <div class="val-box"><div class="val-box-label">EP (energy prod.)</div><div class="val-box-num" id="b-EP" style="color:var(--purple)">1.800</div></div>
+      <div class="val-box"><div class="val-box-label">éR</div><div class="val-box-num" id="b-eR" style="color:var(--rose)">2.494</div></div>
+      <div class="val-box"><div class="val-box-label">Φ_R</div><div class="val-box-num" id="b-phi" style="color:var(--amber)">0.080</div></div>
+      <div class="val-box"><div class="val-box-label">V(Φ_R)</div><div class="val-box-num" id="b-V" style="color:var(--cyan)">0.997</div></div>
+      <div class="val-box"><div class="val-box-label">Firing Rate (Hz)</div><div class="val-box-num" id="b-FR" style="color:var(--green)">88.1</div></div>
+      <div class="val-box"><div class="val-box-label">Syn. Strength</div><div class="val-box-num" id="b-S" style="color:var(--purple)">0.921</div></div>
+      <div class="val-box"><div class="val-box-label">Memory Eff.</div><div class="val-box-num" id="b-M" style="color:var(--purpleL)">0.811</div></div>
+    </div>
+
+    <!-- Neural Goldilocks -->
+    <div class="sec-label">Neural Goldilocks Window (éR)</div>
+    <div class="neural-goldilocks">
+      <div class="ngk-low">Subcritical &lt;1.5</div>
+      <div class="ngk-opt">Optimal 1.5–3.5</div>
+      <div class="ngk-warn">Warning 3.5–4.5</div>
+      <div class="ngk-crisis">Crisis &gt;4.5</div>
+    </div>
+    <div style="position:relative;height:18px;margin-bottom:10px;">
+      <div id="ngk-marker" style="position:absolute;top:0;transform:translateX(-50%);font-size:13px;transition:left 0.3s;">▲</div>
+    </div>
+
+    <!-- Firing Rate curve -->
+    <div class="plot-box">
+      <div class="plot-title">Firing Rate FR(éR) — sigmoid decay at crisis threshold [current state marked]</div>
+      <svg id="plot-FR" width="100%" height="200" viewBox="0 0 600 200" preserveAspectRatio="none"></svg>
+    </div>
+
+    <!-- Memory efficiency curve -->
+    <div class="plot-box">
+      <div class="plot-title">Memory Consolidation Efficiency M(éR) = S(éR) × FR(éR) / 100</div>
+      <svg id="plot-M" width="100%" height="180" viewBox="0 0 600 180" preserveAspectRatio="none"></svg>
+    </div>
+
+  </div>
+
+  <!-- ═══ TAB 1: DISEASE PROGRESSION ═══ -->
+  <div class="tab-pane" id="pane-1">
+
+    <p class="info-blurb">
+      Neurodegenerative diseases progressively impair mitochondrial function. In <b>Alzheimer's</b>, Aβ oligomers
+      disrupt membrane potential (f ↓), while tau tangles randomize holonomy (Φ_R ↑). In <b>Parkinson's</b>,
+      α-synuclein aggregates block mitochondrial import in dopaminergic neurons — which fire tonically at 3–5 Hz
+      and are uniquely vulnerable. In <b>ALS</b>, motor neurons with ℓ_axon up to 1 m are most exposed to
+      holonomy drift.
+    </p>
+
+    <!-- Disease stage éR trajectories -->
+    <div class="plot-box">
+      <div class="plot-title">éR trajectory across disease stages — Alzheimer's / Parkinson's / ALS</div>
+      <svg id="plot-disease-eR" width="100%" height="230" viewBox="0 0 600 230" preserveAspectRatio="none"></svg>
+    </div>
+
+    <!-- Firing rate decline -->
+    <div class="plot-box">
+      <div class="plot-title">Firing rate decline across disease stages</div>
+      <svg id="plot-disease-FR" width="100%" height="200" viewBox="0 0 600 200" preserveAspectRatio="none"></svg>
+    </div>
+
+    <!-- Aβ load curve -->
+    <div class="plot-box">
+      <div class="plot-title">Alzheimer's: Aβ load → f decay → éR rise (positive feedback loop)</div>
+      <svg id="plot-abeta" width="100%" height="200" viewBox="0 0 600 200" preserveAspectRatio="none"></svg>
+    </div>
+
+    <!-- STUR holonomy short vs long -->
+    <div class="plot-box">
+      <div class="plot-title">V(Φ_R) for short interneurons vs long motor neurons (ℓ effect on vulnerability)</div>
+      <svg id="plot-axon-V" width="100%" height="190" viewBox="0 0 600 190" preserveAspectRatio="none"></svg>
+    </div>
+
+  </div>
+
+  <!-- ═══ TAB 2: STUR HOLONOMY ═══ -->
+  <div class="tab-pane" id="pane-2">
+
+    <p class="info-blurb">
+      STUR holonomy Φ_R = J · ℓ_axon encodes why <b>long-axon neurons fail first</b>. Motor neurons extend up to
+      1 m from spinal cord to foot — their holonomy is 1000× that of a 1 mm interneuron at the same J.
+      V(Φ_R) = exp(−Φ_R²/2) decays rapidly: even modest J fluctuations cause catastrophic éR elevation
+      in motor neurons, explaining the selective vulnerability seen in ALS.
+    </p>
+
+    <div class="eq-card amber" style="margin-bottom:7px;">\( \Phi_R = J \cdot \ell_{\text{axon}} \)</div>
+    <div class="eq-card cyan" style="margin-bottom:7px;">\( V(\Phi_R) = e^{-\Phi_R^2/2} \)</div>
+    <div class="eq-card rose" style="margin-bottom:7px;">\( \tilde{R}_{\text{STUR}} = \frac{EP}{V(\Phi_R)^2} = EP \cdot e^{\Phi_R^2} \)</div>
+    <div class="eq-card green" style="margin-bottom:10px;">\( \text{Long axon: } \Phi_R \gg 1 \Rightarrow V \to 0 \Rightarrow \tilde{R} \to \infty \text{ (ALS crisis)} \)</div>
+
+    <!-- V vs ℓ_axon plot -->
+    <div class="plot-box">
+      <div class="plot-title">V(Φ_R) vs ℓ_axon — catastrophic loss of coupling coherence in long motor neurons</div>
+      <svg id="plot-V-axon" width="100%" height="220" viewBox="0 0 600 220" preserveAspectRatio="none"></svg>
+    </div>
+
+    <!-- éR STUR across neuron types -->
+    <div class="plot-box">
+      <div class="plot-title">éR_STUR across neuron types (interneuron → pyramidal → motor → dopaminergic)</div>
+      <svg id="plot-neuron-eR" width="100%" height="200" viewBox="0 0 600 200" preserveAspectRatio="none"></svg>
+    </div>
+
+    <!-- Neuron type table -->
+    <div class="sec-label">Neuron Type Vulnerability Table</div>
+    <table class="neuro-table" id="neuron-table">
+      <thead>
+        <tr>
+          <th>Neuron Type</th>
+          <th>ℓ_axon (m)</th>
+          <th>Φ_R</th>
+          <th>V(Φ_R)</th>
+          <th>éR_STUR</th>
+          <th>Disease Risk</th>
+        </tr>
+      </thead>
+      <tbody id="neuron-table-body"></tbody>
+    </table>
+
+  </div>
+
+  <!-- ═══ TAB 3: THERAPEUTICS ═══ -->
+  <div class="tab-pane" id="pane-3">
+
+    <p class="info-blurb">
+      Therapeutic interventions target different steps of the ERP chain. <b>Exercise</b> upregulates BDNF/VEGF,
+      increasing f. <b>Ketogenic diet</b> provides ketone bodies as alternative fuel (EP ↑). <b>NAD+ precursors</b>
+      restore Complex I activity (f × 1.18). <b>MitoQ</b> scavenges mitochondrial ROS, slowing f decline.
+      <b>Intermittent fasting</b> activates AMPK → mitophagy → removes damaged mitochondria (f ↑).
+      <b>Deep brain stimulation</b> resets firing patterns, bypassing éR-limited output.
+    </p>
+
+    <!-- éR over time with/without therapy -->
+    <div class="plot-box">
+      <div class="plot-title">éR(t) trajectory over 20 years — with and without therapy interventions</div>
+      <svg id="plot-therapy-eR" width="100%" height="230" viewBox="0 0 600 230" preserveAspectRatio="none"></svg>
+    </div>
+
+    <!-- Therapy comparison bars -->
+    <div class="sec-label">Therapy Comparison — Firing Rate Recovery</div>
+    <div class="therapy-bar-grid" id="therapy-bar-grid">
+      <!-- populated by JS -->
+    </div>
+
+    <!-- STUR optimal J -->
+    <div class="plot-box">
+      <div class="plot-title">STUR prediction: optimal J current for each intervention (V maximized)</div>
+      <svg id="plot-J-optimal" width="100%" height="180" viewBox="0 0 600 180" preserveAspectRatio="none"></svg>
+    </div>
+
+  </div>
+
+  <!-- ═══ TAB 4: NEURAL OSCILLATIONS ═══ -->
+  <div class="tab-pane" id="pane-4">
+
+    <p class="info-blurb">
+      STUR v7.0's Berry phase (−π/3) connects to cyclic neural oscillations — particularly <b>gamma waves (~40 Hz)</b>
+      implicated in memory consolidation and disrupted in Alzheimer's. The normalized gamma frequency
+      ν_γ = κ²/(2πσ) ≈ 1.08 using STUR parameters (κ=2.430, σ=0.862) maps onto neural criticality.
+      δ_CP = 267.9° ≈ 270° (near-maximal CP violation) analogizes to left-right neural asymmetry in language.
+    </p>
+
+    <!-- Gamma coherence vs éR -->
+    <div class="plot-box">
+      <div class="plot-title">Gamma wave coherence vs éR — disruption in Alzheimer's (éR > 3.5)</div>
+      <svg id="plot-gamma" width="100%" height="210" viewBox="0 0 600 210" preserveAspectRatio="none"></svg>
+    </div>
+
+    <!-- Neural criticality -->
+    <div class="plot-box">
+      <div class="plot-title">Neural criticality (avalanche dynamics) — éR dependence on branching ratio</div>
+      <svg id="plot-criticality" width="100%" height="200" viewBox="0 0 600 200" preserveAspectRatio="none"></svg>
+    </div>
+
+    <!-- STUR extensions table -->
+    <div class="sec-label">STUR v7.0 Observables → Neural Phenomena</div>
+    <div class="stur-ext-grid" id="stur-ext-grid">
+      <!-- populated by JS -->
+    </div>
+
+  </div>
+
+</main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ════════════════════════════════════════════════════
+//  CORE NEURAL MATH
+// ════════════════════════════════════════════════════
+const neuralV    = phi => Math.exp(-phi * phi / 2);
+const neuralPhi  = (J, L) => J * L;
+const neuralEr   = (EP, f) => (f < 1e-6) ? 1e6 : EP / (f * f);
+const neuralErS  = (EP, phi) => { const v = neuralV(phi); return v < 1e-6 ? 1e6 : EP / (v * v); };
+const firingRate = er => 100 / (1 + Math.exp(2.0 * (er - 4.0)));
+const synStr     = er => Math.exp(-(er - 2.5) * (er - 2.5) / (2 * 0.8 * 0.8));
+const memEff     = er => synStr(er) * firingRate(er) / 100;
+const healthZone = er => {
+  if (er < 1.5)  return ['SUBCRITICAL', '#00d4ff'];
+  if (er < 3.5)  return ['OPTIMAL',     '#22c55e'];
+  if (er < 4.5)  return ['WARNING',     '#f59e0b'];
+  if (er < 6.0)  return ['CRISIS',      '#f43f5e'];
+  return           ['APOPTOSIS',  '#ef4444'];
+};
+
+// ════════════════════════════════════════════════════
+//  DISEASE STATES
+// ════════════════════════════════════════════════════
+const DISEASES = [
+  { name:"Healthy",      f:0.92, EP:1.85, label:"Healthy young neuron",      color:"#22c55e" },
+  { name:"MCI",          f:0.78, EP:1.52, label:"Mild Cognitive Impairment", color:"#84cc16" },
+  { name:"Early AD",     f:0.62, EP:1.10, label:"Early Alzheimer's",         color:"#f59e0b" },
+  { name:"Moderate AD",  f:0.45, EP:0.72, label:"Moderate Alzheimer's",      color:"#f97316" },
+  { name:"Severe AD",    f:0.28, EP:0.32, label:"Severe Alzheimer's",        color:"#f43f5e" },
+  { name:"Parkinson's",  f:0.35, EP:0.50, label:"Parkinson's (dopaminergic)",color:"#a78bfa" },
+  { name:"ALS",          f:0.30, EP:0.42, label:"ALS (motor neuron)",        color:"#ef4444" },
+];
+
+// Neuron types for holonomy table
+const NEURON_TYPES = [
+  { name:"Short interneuron",  L:0.001, baseEP:1.8, J_base:0.8 },
+  { name:"Cortical pyramidal", L:0.010, baseEP:1.8, J_base:0.8 },
+  { name:"Hippocampal CA1",    L:0.050, baseEP:1.7, J_base:0.8 },
+  { name:"Dopaminergic (SN)",  L:0.100, baseEP:1.6, J_base:0.9 },
+  { name:"Cerebellar Purkinje",L:0.200, baseEP:1.75,J_base:0.8 },
+  { name:"Motor neuron (ALS)", L:1.000, baseEP:1.8, J_base:0.8 },
+];
+
+// Therapies
+const THERAPIES = [
+  { name:"Exercise",     df:0.12,  dep:0,    dEP:0,     J_mod:0.9 },
+  { name:"Ketogenic",    df:0,     dep:0.15, dEP:0,     J_mod:0.85},
+  { name:"NAD+",         df_mul:1.18, dep:0, dEP:0,     J_mod:0.88},
+  { name:"MitoQ",        df:0.08,  dep:0,    dEP:0,     J_mod:0.92},
+  { name:"IF/Fasting",   df:0.10,  dep:0,    dEP:0,     J_mod:0.87},
+  { name:"DBS",          df:0,     dep:0,    dEP:0,     J_mod:0.70, fr_boost:15},
+  { name:"Combined",     df:0.20,  dep:0.15, dEP:0,     J_mod:0.75 },
+];
+
+// ════════════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════════════
+let st = { f:0.85, EP:1.80, L:0.10, J:0.80, therapy:'none', diseaseIdx:0 };
+let activeTab = 0;
+
+// ════════════════════════════════════════════════════
+//  SVG HELPERS
+// ════════════════════════════════════════════════════
+const SVG_NS = "http://www.w3.org/2000/svg";
+const pad = { t:20, r:22, b:34, l:46 };
+
+function svgEl(tag, attrs) {
+  const el = document.createElementNS(SVG_NS, tag);
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+  return el;
+}
+
+function clearSVG(id) {
+  const el = document.getElementById(id);
+  if (!el) return null;
+  while (el.firstChild) el.removeChild(el.firstChild);
+  return el;
+}
+
+function drawAxes(svg, W, H, xLabel, yLabel) {
+  const gx = W - pad.l - pad.r, gy = H - pad.t - pad.b;
+  svg.appendChild(svgEl('line', {x1:pad.l, y1:pad.t, x2:pad.l, y2:pad.t+gy, stroke:'#1e2d50', 'stroke-width':'1'}));
+  svg.appendChild(svgEl('line', {x1:pad.l, y1:pad.t+gy, x2:pad.l+gx, y2:pad.t+gy, stroke:'#1e2d50', 'stroke-width':'1'}));
+  const xl = svgEl('text', {x:pad.l+gx/2, y:H-3, fill:'#64748b', 'font-size':'9', 'text-anchor':'middle', 'font-family':'monospace'});
+  xl.textContent = xLabel; svg.appendChild(xl);
+  const yl = svgEl('text', {x:10, y:pad.t+gy/2, fill:'#64748b', 'font-size':'9', 'text-anchor':'middle', 'font-family':'monospace', transform:`rotate(-90,10,${pad.t+gy/2})`});
+  yl.textContent = yLabel; svg.appendChild(yl);
+  return {gx, gy};
+}
+
+function polyline(pts, color, width=1.5, dasharray='') {
+  if (!pts.length) return null;
+  const d = pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+  const el = svgEl('path', {d, stroke:color, fill:'none', 'stroke-width':width});
+  if (dasharray) el.setAttribute('stroke-dasharray', dasharray);
+  return el;
+}
+
+function dot(x, y, r, color, label='') {
+  const g = svgEl('g', {});
+  g.appendChild(svgEl('circle', {cx:x, cy:y, r, fill:color, stroke:'rgba(0,0,0,0.5)', 'stroke-width':'1'}));
+  if (label) {
+    const t = svgEl('text', {x:x+r+3, y:y+4, fill:color, 'font-size':'9', 'font-family':'monospace'});
+    t.textContent = label; g.appendChild(t);
+  }
+  return g;
+}
+
+function addYTicks(svg, ys, vals, fmt) {
+  vals.forEach(v => {
+    const y = ys(v);
+    const t = svgEl('text', {x:pad.l-4, y:y+3, fill:'#64748b', 'font-size':'8', 'text-anchor':'end', 'font-family':'monospace'});
+    t.textContent = (typeof fmt === 'function') ? fmt(v) : v.toFixed(1);
+    svg.appendChild(t);
+    svg.appendChild(svgEl('line', {x1:pad.l-2, y1:y, x2:pad.l, y2:y, stroke:'#1e2d50'}));
+  });
+}
+
+function addXTicks(svg, ys_bottom, xs, vals, fmt) {
+  vals.forEach(v => {
+    const x = xs(v);
+    const t = svgEl('text', {x, y:ys_bottom+12, fill:'#64748b', 'font-size':'8', 'text-anchor':'middle', 'font-family':'monospace'});
+    t.textContent = (typeof fmt === 'function') ? fmt(v) : v.toFixed(1);
+    svg.appendChild(t);
+    svg.appendChild(svgEl('line', {x1:x, y1:ys_bottom, x2:x, y2:ys_bottom+3, stroke:'#1e2d50'}));
+  });
+}
+
+function crisisLine(svg, ys, x0, x1, er_val, label) {
+  const y = ys(er_val);
+  const l = polyline([[x0,y],[x1,y]], '#f43f5e99', 1, '4 3');
+  if (l) svg.appendChild(l);
+  const t = svgEl('text', {x:x1-2, y:y-3, fill:'#f43f5e', 'font-size':'8', 'text-anchor':'end', 'font-family':'monospace'});
+  t.textContent = label; svg.appendChild(t);
+}
+
+// ════════════════════════════════════════════════════
+//  DERIVED VALUES
+// ════════════════════════════════════════════════════
+function getTherapyModified() {
+  let f = st.f, EP = st.EP, J = st.J;
+  const t = st.therapy;
+  if (t === 'exercise')  { f = Math.min(1.0, f + 0.12); }
+  if (t === 'keto')      { EP = Math.min(2.0, EP * 1.15); }
+  if (t === 'nad')       { f = Math.min(1.0, f * 1.18); }
+  if (t === 'mitoq')     { f = Math.min(1.0, f + 0.08); }
+  if (t === 'fasting')   { f = Math.min(1.0, f + 0.10); }
+  if (t === 'dbs')       { J = J * 0.70; }
+  if (t === 'combined')  { f = Math.min(1.0, f + 0.20); EP = Math.min(2.0, EP * 1.15); J = J * 0.75; }
+  return { f, EP, J };
+}
+
+function getDerived() {
+  const mod = getTherapyModified();
+  const phi = neuralPhi(mod.J, st.L);
+  const V   = neuralV(phi);
+  const er  = neuralEr(mod.EP, mod.f);
+  const erS = neuralErS(mod.EP, phi);
+  const FR  = firingRate(er);
+  const S   = synStr(er);
+  const M   = memEff(er);
+  return { f:mod.f, EP:mod.EP, J:mod.J, phi, V, er, erS, FR, S, M };
+}
+
+// ════════════════════════════════════════════════════
+//  PLOT 0-A: FIRING RATE vs éR
+// ════════════════════════════════════════════════════
+function drawFiringRate() {
+  const svg = clearSVG('plot-FR'); if (!svg) return;
+  const W=600, H=200;
+  const {gx, gy} = drawAxes(svg, W, H, 'éR (energy resistance)', 'Firing Rate (Hz)');
+  const erMax=7, frMax=100;
+  const xs = er => pad.l + (er/erMax)*gx;
+  const ys = fr => pad.t + gy - (fr/frMax)*gy;
+
+  // Goldilocks bands
+  svg.appendChild(svgEl('rect', {x:xs(1.5), y:pad.t, width:xs(3.5)-xs(1.5), height:gy, fill:'rgba(34,197,94,0.06)'}));
+  svg.appendChild(svgEl('rect', {x:xs(4.5), y:pad.t, width:xs(7)-xs(4.5),   height:gy, fill:'rgba(244,63,94,0.06)'}));
+
+  // FR curve
+  const pts = [];
+  for (let i=0; i<=300; i++) {
+    const er = (i/300)*erMax;
+    pts.push([xs(er), ys(firingRate(er))]);
+  }
+  const pl = polyline(pts, '#22c55e', 2.2); if (pl) svg.appendChild(pl);
+
+  // Crisis lines
+  crisisLine(svg, ys, pad.l, pad.l+gx, 0, ''); // just for reference point
+  const y45 = ys(firingRate(4.5));
+  svg.appendChild(svgEl('line', {x1:xs(4.5), y1:pad.t, x2:xs(4.5), y2:pad.t+gy, stroke:'#f43f5e88', 'stroke-dasharray':'4 3'}));
+  const t45 = svgEl('text', {x:xs(4.5)+2, y:pad.t+12, fill:'#f43f5e', 'font-size':'8', 'font-family':'monospace'});
+  t45.textContent='Crisis éR=4.5'; svg.appendChild(t45);
+  svg.appendChild(svgEl('line', {x1:xs(6.0), y1:pad.t, x2:xs(6.0), y2:pad.t+gy, stroke:'#ef444488', 'stroke-dasharray':'4 3'}));
+  const t60 = svgEl('text', {x:xs(6.0)+2, y:pad.t+12, fill:'#ef4444', 'font-size':'8', 'font-family':'monospace'});
+  t60.textContent='Apoptosis 6.0'; svg.appendChild(t60);
+
+  // Disease state dots
+  DISEASES.forEach(d => {
+    const er = neuralEr(d.EP, d.f);
+    if (er <= erMax) {
+      svg.appendChild(dot(xs(er), ys(firingRate(er)), 4, d.color, d.name));
+    }
+  });
+
+  // Current state
+  const {er} = getDerived();
+  if (er <= erMax) {
+    svg.appendChild(dot(xs(er), ys(firingRate(er)), 7, '#a78bfa', `éR=${er.toFixed(2)}`));
+  }
+
+  addYTicks(svg, ys, [0,20,40,60,80,100], v => v.toFixed(0));
+  addXTicks(svg, pad.t+gy, xs, [0,1,2,3,4,5,6,7]);
+}
+
+// ════════════════════════════════════════════════════
+//  PLOT 0-B: MEMORY EFFICIENCY vs éR
+// ════════════════════════════════════════════════════
+function drawMemEff() {
+  const svg = clearSVG('plot-M'); if (!svg) return;
+  const W=600, H=180;
+  const {gx, gy} = drawAxes(svg, W, H, 'éR', 'Memory Efficiency M');
+  const erMax=7;
+  const xs = er => pad.l + (er/erMax)*gx;
+  const ys = m  => pad.t + gy - m*gy;
+
+  svg.appendChild(svgEl('rect', {x:xs(1.5), y:pad.t, width:xs(3.5)-xs(1.5), height:gy, fill:'rgba(167,139,250,0.07)'}));
+
+  const ptsSyn=[], ptsMem=[];
+  for (let i=0; i<=300; i++) {
+    const er = (i/300)*erMax;
+    ptsSyn.push([xs(er), ys(synStr(er))]);
+    ptsMem.push([xs(er), ys(memEff(er))]);
+  }
+  const plSyn = polyline(ptsSyn, '#a78bfa88', 1.5, '4 3'); if (plSyn) svg.appendChild(plSyn);
+  const plMem = polyline(ptsMem, '#c4b5fd', 2.2); if (plMem) svg.appendChild(plMem);
+
+  // Optimal éR marker
+  const yOpt = ys(memEff(2.5));
+  svg.appendChild(svgEl('line', {x1:xs(2.5), y1:pad.t, x2:xs(2.5), y2:pad.t+gy, stroke:'rgba(167,139,250,0.4)', 'stroke-dasharray':'3 3'}));
+  const tOpt = svgEl('text', {x:xs(2.5)+2, y:pad.t+12, fill:'#a78bfa', 'font-size':'8', 'font-family':'monospace'});
+  tOpt.textContent='Optimal 2.5'; svg.appendChild(tOpt);
+
+  // Disease dots
+  DISEASES.forEach(d => {
+    const er = neuralEr(d.EP, d.f);
+    if (er <= erMax) {
+      svg.appendChild(dot(xs(er), ys(memEff(er)), 4, d.color, ''));
+    }
+  });
+
+  // Legend
+  const ld = [['Synaptic Strength S(éR)','#a78bfa'],['Memory Efficiency M(éR)','#c4b5fd']];
+  ld.forEach(([l,c],i) => {
+    const t = svgEl('text', {x:pad.l+gx-130, y:pad.t+14+i*13, fill:c, 'font-size':'9', 'font-family':'monospace'});
+    t.textContent=l; svg.appendChild(t);
+  });
+
+  // Current state
+  const {er} = getDerived();
+  if (er <= erMax) {
+    svg.appendChild(dot(xs(er), ys(memEff(er)), 6, '#a78bfa', `M=${memEff(er).toFixed(3)}`));
+  }
+
+  addYTicks(svg, ys, [0,0.2,0.4,0.6,0.8,1.0]);
+  addXTicks(svg, pad.t+gy, xs, [0,1,2,3,4,5,6,7]);
+}
+
+// ════════════════════════════════════════════════════
+//  PLOT 1-A: DISEASE éR TRAJECTORIES
+// ════════════════════════════════════════════════════
+// Disease stages for three conditions
+const AD_STAGES = [
+  {stage:0, f:0.92, EP:1.85, name:'Healthy'},
+  {stage:1, f:0.78, EP:1.52, name:'MCI'},
+  {stage:2, f:0.62, EP:1.10, name:'Early AD'},
+  {stage:3, f:0.45, EP:0.72, name:'Moderate'},
+  {stage:4, f:0.28, EP:0.32, name:'Severe'},
+];
+const PD_STAGES = [
+  {stage:0, f:0.92, EP:1.85},
+  {stage:1, f:0.75, EP:1.50},
+  {stage:2, f:0.55, EP:1.00},
+  {stage:3, f:0.40, EP:0.65},
+  {stage:4, f:0.28, EP:0.42},
+];
+const ALS_STAGES = [
+  {stage:0, f:0.92, EP:1.85},
+  {stage:1, f:0.72, EP:1.40},
+  {stage:2, f:0.52, EP:0.90},
+  {stage:3, f:0.38, EP:0.60},
+  {stage:4, f:0.25, EP:0.38},
+];
+
+function drawDiseaseER() {
+  const svg = clearSVG('plot-disease-eR'); if (!svg) return;
+  const W=600, H=230;
+  const {gx, gy} = drawAxes(svg, W, H, 'Disease Stage (0=Healthy → 4=Severe)', 'éR');
+  const stMax=4, erMax=8;
+  const xs = s  => pad.l + (s/stMax)*gx;
+  const ys = er => pad.t + gy - Math.min(er/erMax,1)*gy;
+
+  // Goldilocks band
+  svg.appendChild(svgEl('rect', {x:pad.l, y:ys(3.5), width:gx, height:ys(1.5)-ys(3.5), fill:'rgba(34,197,94,0.06)'}));
+
+  const drawLine = (stages, color, dash='') => {
+    const pts = stages.map(s => [xs(s.stage), ys(neuralEr(s.EP, s.f))]);
+    const pl = polyline(pts, color, 2, dash); if (pl) svg.appendChild(pl);
+    stages.forEach(s => {
+      const er = neuralEr(s.EP, s.f);
+      svg.appendChild(dot(xs(s.stage), ys(er), 4, color, ''));
+    });
+  };
+
+  drawLine(AD_STAGES, '#f59e0b');
+  drawLine(PD_STAGES, '#a78bfa', '5 3');
+  drawLine(ALS_STAGES, '#ef4444', '2 2');
+
+  // Crisis threshold
+  svg.appendChild(svgEl('line', {x1:pad.l, y1:ys(4.5), x2:pad.l+gx, y2:ys(4.5), stroke:'#f43f5e77', 'stroke-dasharray':'4 3'}));
+  const tc = svgEl('text', {x:pad.l+gx-2, y:ys(4.5)-3, fill:'#f43f5e', 'font-size':'8', 'text-anchor':'end', 'font-family':'monospace'});
+  tc.textContent='Crisis 4.5'; svg.appendChild(tc);
+
+  // Apoptosis
+  svg.appendChild(svgEl('line', {x1:pad.l, y1:ys(6.0), x2:pad.l+gx, y2:ys(6.0), stroke:'#ef444455', 'stroke-dasharray':'3 3'}));
+  const ta = svgEl('text', {x:pad.l+gx-2, y:ys(6.0)-3, fill:'#ef4444', 'font-size':'8', 'text-anchor':'end', 'font-family':'monospace'});
+  ta.textContent='Apoptosis 6.0'; svg.appendChild(ta);
+
+  // Legend
+  [['Alzheimer\'s','#f59e0b',''],['Parkinson\'s','#a78bfa','5 3'],['ALS','#ef4444','2 2']].forEach(([l,c,d],i) => {
+    const t = svgEl('text', {x:pad.l+10, y:pad.t+14+i*13, fill:c, 'font-size':'9', 'font-family':'monospace'});
+    t.textContent=l; svg.appendChild(t);
+  });
+
+  addYTicks(svg, ys, [0,2,4,6,8]);
+  ['Healthy','MCI','Early','Moderate','Severe'].forEach((l,i) => {
+    const x = xs(i);
+    const t = svgEl('text', {x, y:pad.t+gy+13, fill:'#64748b', 'font-size':'8', 'text-anchor':'middle', 'font-family':'monospace'});
+    t.textContent=l; svg.appendChild(t);
+  });
+}
+
+// ════════════════════════════════════════════════════
+//  PLOT 1-B: FIRING RATE DECLINE
+// ════════════════════════════════════════════════════
+function drawDiseaseFR() {
+  const svg = clearSVG('plot-disease-FR'); if (!svg) return;
+  const W=600, H=200;
+  const {gx, gy} = drawAxes(svg, W, H, 'Disease Stage', 'Firing Rate (Hz)');
+  const stMax=4, frMax=100;
+  const xs = s  => pad.l + (s/stMax)*gx;
+  const ys = fr => pad.t + gy - (fr/frMax)*gy;
+
+  const drawFRLine = (stages, color, dash='') => {
+    const pts = stages.map(s => [xs(s.stage), ys(firingRate(neuralEr(s.EP, s.f)))]);
+    const pl = polyline(pts, color, 2, dash); if (pl) svg.appendChild(pl);
+    stages.forEach(s => {
+      const fr = firingRate(neuralEr(s.EP, s.f));
+      svg.appendChild(dot(xs(s.stage), ys(fr), 4, color, ''));
+    });
+  };
+
+  drawFRLine(AD_STAGES, '#f59e0b');
+  drawFRLine(PD_STAGES, '#a78bfa', '5 3');
+  drawFRLine(ALS_STAGES, '#ef4444', '2 2');
+
+  // 50% firing threshold
+  svg.appendChild(svgEl('line', {x1:pad.l, y1:ys(50), x2:pad.l+gx, y2:ys(50), stroke:'#f59e0b66', 'stroke-dasharray':'4 3'}));
+  const t50 = svgEl('text', {x:pad.l+gx-2, y:ys(50)-3, fill:'#f59e0b', 'font-size':'8', 'text-anchor':'end', 'font-family':'monospace'});
+  t50.textContent='50% threshold'; svg.appendChild(t50);
+
+  [['Alzheimer\'s','#f59e0b'],['Parkinson\'s','#a78bfa'],['ALS','#ef4444']].forEach(([l,c],i) => {
+    const t = svgEl('text', {x:pad.l+10, y:pad.t+14+i*13, fill:c, 'font-size':'9', 'font-family':'monospace'});
+    t.textContent=l; svg.appendChild(t);
+  });
+
+  addYTicks(svg, ys, [0,20,40,60,80,100], v => v.toFixed(0));
+  ['Healthy','MCI','Early','Moderate','Severe'].forEach((l,i) => {
+    const x = xs(i);
+    const t = svgEl('text', {x, y:pad.t+gy+13, fill:'#64748b', 'font-size':'8', 'text-anchor':'middle', 'font-family':'monospace'});
+    t.textContent=l; svg.appendChild(t);
+  });
+}
+
+// ════════════════════════════════════════════════════
+//  PLOT 1-C: Aβ LOAD vs éR
+// ════════════════════════════════════════════════════
+function drawAbeta() {
+  const svg = clearSVG('plot-abeta'); if (!svg) return;
+  const W=600, H=200;
+  const {gx, gy} = drawAxes(svg, W, H, 'Aβ Load (oligomers, a.u.)', 'éR / f');
+  const abMax=10, erMax=7;
+  const xs = ab => pad.l + (ab/abMax)*gx;
+  const ys = v  => pad.t + gy - Math.min(v/erMax,1)*gy;
+
+  const f0=0.92, EP0=1.85;
+  const ptsER=[], ptsF=[];
+  for (let i=0; i<=200; i++) {
+    const ab = (i/200)*abMax;
+    const f  = f0 * Math.exp(-0.15 * ab);
+    const er = neuralEr(EP0, f);
+    ptsER.push([xs(ab), ys(Math.min(er, erMax))]);
+    ptsF.push([xs(ab), ys(f * erMax / 1.0)]);  // scale f to same axis
+  }
+  const plER = polyline(ptsER, '#f43f5e', 2.2); if (plER) svg.appendChild(plER);
+  const plF  = polyline(ptsF,  '#22c55e', 1.5, '4 3'); if (plF) svg.appendChild(plF);
+
+  // Crisis
+  svg.appendChild(svgEl('line', {x1:pad.l, y1:ys(4.5), x2:pad.l+gx, y2:ys(4.5), stroke:'#f43f5e77', 'stroke-dasharray':'3 3'}));
+  const tc = svgEl('text', {x:pad.l+gx-2, y:ys(4.5)-3, fill:'#f43f5e', 'font-size':'8', 'text-anchor':'end', 'font-family':'monospace'});
+  tc.textContent='Crisis threshold'; svg.appendChild(tc);
+
+  // Positive feedback arrow annotation
+  const t = svgEl('text', {x:pad.l+gx/2, y:pad.t+15, fill:'#f43f5e99', 'font-size':'9', 'text-anchor':'middle', 'font-family':'monospace'});
+  t.textContent='High éR → ROS ↑ → Aβ production ↑ (feedback loop)'; svg.appendChild(t);
+
+  [['éR = EP/f² (rises)','#f43f5e'],['f(Aβ) = f₀·exp(−0.15·Aβ)','#22c55e']].forEach(([l,c],i) => {
+    const t = svgEl('text', {x:pad.l+10, y:pad.t+14+i*13, fill:c, 'font-size':'9', 'font-family':'monospace'});
+    t.textContent=l; svg.appendChild(t);
+  });
+
+  addYTicks(svg, ys, [0,2,4,6], v => v.toFixed(0));
+  addXTicks(svg, pad.t+gy, xs, [0,2,4,6,8,10]);
+}
+
+// ════════════════════════════════════════════════════
+//  PLOT 1-D: V(Φ_R) SHORT vs LONG AXON
+// ════════════════════════════════════════════════════
+function drawAxonV() {
+  const svg = clearSVG('plot-axon-V'); if (!svg) return;
+  const W=600, H=190;
+  const {gx, gy} = drawAxes(svg, W, H, 'J (STUR current)', 'V(Φ_R) — coupling coherence');
+  const jMax=2;
+  const xs = j => pad.l + (j/jMax)*gx;
+  const ys = v => pad.t + gy - v*gy;
+
+  const axonLens = [
+    {L:0.001, name:'Short interneuron (1mm)', color:'#22c55e'},
+    {L:0.05,  name:'Pyramidal (50mm)',        color:'#84cc16'},
+    {L:0.10,  name:'Dopaminergic (100mm)',    color:'#f59e0b'},
+    {L:0.50,  name:'Motor (500mm)',           color:'#f97316'},
+    {L:1.00,  name:'Motor ALS (1000mm)',      color:'#ef4444'},
+  ];
+
+  axonLens.forEach((a, ai) => {
+    const pts = [];
+    for (let i=0; i<=200; i++) {
+      const j = (i/200)*jMax;
+      const phi = j * a.L;
+      pts.push([xs(j), ys(neuralV(phi))]);
+    }
+    const pl = polyline(pts, a.color, ai===4?2.5:1.5); if (pl) svg.appendChild(pl);
+    const t = svgEl('text', {x:pad.l+gx-135, y:pad.t+12+ai*13, fill:a.color, 'font-size':'8', 'font-family':'monospace'});
+    t.textContent=a.name; svg.appendChild(t);
+  });
+
+  // Current J marker
+  svg.appendChild(svgEl('line', {x1:xs(st.J), y1:pad.t, x2:xs(st.J), y2:pad.t+gy, stroke:'rgba(167,139,250,0.5)', 'stroke-dasharray':'3 3'}));
+
+  addYTicks(svg, ys, [0,0.25,0.5,0.75,1.0]);
+  addXTicks(svg, pad.t+gy, xs, [0,0.5,1.0,1.5,2.0]);
+}
+
+// ════════════════════════════════════════════════════
+//  PLOT 2-A: V vs ℓ_axon
+// ════════════════════════════════════════════════════
+function drawVAxon() {
+  const svg = clearSVG('plot-V-axon'); if (!svg) return;
+  const W=600, H=220;
+  const {gx, gy} = drawAxes(svg, W, H, 'ℓ_axon (m)', 'V(Φ_R) — synaptic coupling coherence');
+  const lMax=1.0;
+  const xs = l => pad.l + (l/lMax)*gx;
+  const ys = v => pad.t + gy - v*gy;
+
+  const jVals = [
+    {J:0.3, color:'#22c55e', name:'J=0.3 (low)'},
+    {J:0.8, color:'#a78bfa', name:'J=0.8 (normal)'},
+    {J:1.5, color:'#f43f5e', name:'J=1.5 (high stress)'},
+  ];
+
+  jVals.forEach(jv => {
+    const pts = [];
+    for (let i=1; i<=300; i++) {
+      const l = (i/300)*lMax;
+      const phi = jv.J * l;
+      pts.push([xs(l), ys(neuralV(phi))]);
+    }
+    const pl = polyline(pts, jv.color, 2); if (pl) svg.appendChild(pl);
+    const t = svgEl('text', {x:pad.l+gx-110, y:pad.t+13+jVals.indexOf(jv)*13, fill:jv.color, 'font-size':'9', 'font-family':'monospace'});
+    t.textContent=jv.name; svg.appendChild(t);
+  });
+
+  // Neuron type labels on x-axis
+  const neuronMarks = [
+    {L:0.001, name:'Intern.'},
+    {L:0.05,  name:'Pyram.'},
+    {L:0.10,  name:'Dopa.'},
+    {L:0.50,  name:'Motor'},
+    {L:1.00,  name:'ALS'},
+  ];
+  neuronMarks.forEach(nm => {
+    const x = xs(nm.L);
+    svg.appendChild(svgEl('line', {x1:x, y1:pad.t, x2:x, y2:pad.t+gy, stroke:'rgba(167,139,250,0.15)', 'stroke-dasharray':'2 3'}));
+    const t = svgEl('text', {x, y:pad.t+gy+13, fill:'#a78bfa99', 'font-size':'7', 'text-anchor':'middle', 'font-family':'monospace'});
+    t.textContent=nm.name; svg.appendChild(t);
+  });
+
+  // Current state
+  const phi = neuralPhi(st.J, st.L);
+  const V   = neuralV(phi);
+  if (st.L <= lMax) {
+    svg.appendChild(dot(xs(st.L), ys(V), 6, '#a78bfa', `V=${V.toFixed(3)}`));
+  }
+
+  addYTicks(svg, ys, [0,0.25,0.5,0.75,1.0]);
+}
+
+// ════════════════════════════════════════════════════
+//  PLOT 2-B: éR_STUR ACROSS NEURON TYPES (bar)
+// ════════════════════════════════════════════════════
+function drawNeuronER() {
+  const svg = clearSVG('plot-neuron-eR'); if (!svg) return;
+  const W=600, H=200;
+  const erMax = 12;
+  const n = NEURON_TYPES.length;
+  const bw = (W - pad.l - pad.r - (n-1)*8) / n;
+  const ys = er => pad.t + (H - pad.t - pad.b) - Math.min(er/erMax,1)*(H-pad.t-pad.b);
+
+  // axes
+  svg.appendChild(svgEl('line', {x1:pad.l, y1:pad.t, x2:pad.l, y2:H-pad.b, stroke:'#1e2d50', 'stroke-width':'1'}));
+  svg.appendChild(svgEl('line', {x1:pad.l, y1:H-pad.b, x2:W-pad.r, y2:H-pad.b, stroke:'#1e2d50', 'stroke-width':'1'}));
+
+  const colors = ['#22c55e','#84cc16','#f59e0b','#a78bfa','#f97316','#ef4444'];
+
+  NEURON_TYPES.forEach((nt, i) => {
+    const phi = nt.J_base * nt.L;
+    const erV = neuralErS(nt.baseEP, phi);
+    const er  = neuralEr(nt.baseEP, 0.85);
+    const erDisp = Math.min(erV, erMax);
+    const bh = (erDisp/erMax)*(H-pad.t-pad.b);
+    const bx = pad.l + i*(bw+8);
+    const by = H - pad.b - bh;
+    const c = colors[i];
+    svg.appendChild(svgEl('rect', {x:bx, y:by, width:bw, height:bh, fill:c+'bb', rx:'3'}));
+    const vl = svgEl('text', {x:bx+bw/2, y:by-3, fill:c, 'font-size':'8', 'text-anchor':'middle', 'font-family':'monospace'});
+    vl.textContent=erDisp.toFixed(2); svg.appendChild(vl);
+    const nl = svgEl('text', {x:bx+bw/2, y:H-pad.b+12, fill:c, 'font-size':'7', 'text-anchor':'middle', 'font-family':'monospace'});
+    nl.textContent=nt.name.split('(')[0].trim().substring(0,10); svg.appendChild(nl);
+  });
+
+  // Crisis line
+  svg.appendChild(svgEl('line', {x1:pad.l, y1:ys(4.5), x2:W-pad.r, y2:ys(4.5), stroke:'#f43f5e77', 'stroke-dasharray':'4 3'}));
+  const tc = svgEl('text', {x:W-pad.r-2, y:ys(4.5)-3, fill:'#f43f5e', 'font-size':'8', 'text-anchor':'end', 'font-family':'monospace'});
+  tc.textContent='Crisis 4.5'; svg.appendChild(tc);
+
+  addYTicks(svg, ys, [0,3,6,9,12], v => v.toFixed(0));
+  const yl = svgEl('text', {x:10, y:pad.t+(H-pad.t-pad.b)/2, fill:'#64748b', 'font-size':'9', 'text-anchor':'middle', 'font-family':'monospace', transform:`rotate(-90,10,${pad.t+(H-pad.t-pad.b)/2})`});
+  yl.textContent='éR_STUR'; svg.appendChild(yl);
+}
+
+// ════════════════════════════════════════════════════
+//  NEURON TABLE
+// ════════════════════════════════════════════════════
+function renderNeuronTable() {
+  const tbody = document.getElementById('neuron-table-body'); if (!tbody) return;
+  tbody.innerHTML = '';
+  NEURON_TYPES.forEach(nt => {
+    const phi = nt.J_base * nt.L;
+    const V   = neuralV(phi);
+    const erS = neuralErS(nt.baseEP, phi);
+    const [zone, zc] = healthZone(erS);
+    const risk = erS > 6.0 ? 'EXTREME' : erS > 4.5 ? 'HIGH' : erS > 3.5 ? 'MODERATE' : 'LOW';
+    const rc   = erS > 6.0 ? '#ef4444' : erS > 4.5 ? '#f43f5e' : erS > 3.5 ? '#f59e0b' : '#22c55e';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="mono">${nt.name}</td>
+      <td class="mono">${nt.L.toFixed(3)}</td>
+      <td class="mono" style="color:var(--amber)">${phi.toFixed(4)}</td>
+      <td class="mono" style="color:var(--cyan)">${V.toFixed(4)}</td>
+      <td class="mono" style="color:var(--rose)">${erS.toFixed(2)}</td>
+      <td class="mono" style="color:${rc}">${risk}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// ════════════════════════════════════════════════════
+//  PLOT 3-A: éR OVER TIME WITH THERAPY
+// ════════════════════════════════════════════════════
+function drawTherapyER() {
+  const svg = clearSVG('plot-therapy-eR'); if (!svg) return;
+  const W=600, H=230;
+  const {gx, gy} = drawAxes(svg, W, H, 'Time (years from diagnosis)', 'éR');
+  const tMax=20, erMax=7;
+  const xs = t  => pad.l + (t/tMax)*gx;
+  const ys = er => pad.t + gy - Math.min(er/erMax,1)*gy;
+
+  // Baseline disease progression (Moderate AD starting point)
+  const baseF0=0.45, baseEP0=0.72;
+  const baseEr0 = neuralEr(baseEP0, baseF0);
+
+  // No treatment: progressive decline
+  const ptsNone = [];
+  for (let i=0; i<=200; i++) {
+    const t = (i/200)*tMax;
+    const f  = baseF0 * Math.exp(-0.03*t);
+    const ep = baseEP0 * Math.exp(-0.015*t);
+    ptsNone.push([xs(t), ys(neuralEr(Math.max(ep,0.1), Math.max(f,0.05)))]);
+  }
+  const plNone = polyline(ptsNone, '#ef4444', 2.5); if (plNone) svg.appendChild(plNone);
+
+  // Each therapy
+  const therapyColors = ['#22c55e','#84cc16','#00d4ff','#a78bfa','#f59e0b','#f97316','#c4b5fd'];
+  const therapyData = [
+    {name:'Exercise',   df:0.12,  ep_mul:1.0,  decay:0.022},
+    {name:'Ketogenic',  df:0.05,  ep_mul:1.15, decay:0.020},
+    {name:'NAD+',       df:0.08,  ep_mul:1.05, decay:0.018},
+    {name:'MitoQ',      df:0.06,  ep_mul:1.0,  decay:0.021},
+    {name:'Fasting',    df:0.10,  ep_mul:1.05, decay:0.019},
+    {name:'DBS',        df:0.0,   ep_mul:1.0,  decay:0.025, er_offset:-0.5},
+    {name:'Combined',   df:0.20,  ep_mul:1.18, decay:0.012},
+  ];
+
+  therapyData.forEach((th, ti) => {
+    const f0_th  = Math.min(1.0, baseF0 + th.df);
+    const ep0_th = Math.min(2.0, baseEP0 * th.ep_mul);
+    const pts = [];
+    for (let i=0; i<=200; i++) {
+      const t = (i/200)*tMax;
+      const f  = f0_th * Math.exp(-th.decay*t);
+      const ep = ep0_th * Math.exp(-0.010*t);
+      let er = neuralEr(Math.max(ep,0.1), Math.max(f,0.05));
+      if (th.er_offset) er = Math.max(1.0, er + th.er_offset);
+      pts.push([xs(t), ys(Math.min(er,erMax))]);
+    }
+    const pl = polyline(pts, therapyColors[ti], 1.5, ti > 2 ? '4 2':''); if (pl) svg.appendChild(pl);
+  });
+
+  // Crisis line
+  svg.appendChild(svgEl('line', {x1:pad.l, y1:ys(4.5), x2:pad.l+gx, y2:ys(4.5), stroke:'#f43f5e66', 'stroke-dasharray':'4 3'}));
+
+  // Legend: None + therapies
+  const allNames = ['No treatment','Exercise','Ketogenic','NAD+','MitoQ','Fasting','DBS','Combined'];
+  const allColors = ['#ef4444',...therapyColors];
+  allNames.forEach((n,i) => {
+    if (i > 4) return; // too many — skip rest
+    const t = svgEl('text', {x:pad.l+10, y:pad.t+13+i*13, fill:allColors[i], 'font-size':'8', 'font-family':'monospace'});
+    t.textContent=n; svg.appendChild(t);
+  });
+
+  addYTicks(svg, ys, [0,2,4,6], v => v.toFixed(0));
+  addXTicks(svg, pad.t+gy, xs, [0,5,10,15,20]);
+}
+
+// ════════════════════════════════════════════════════
+//  THERAPY BAR CHART
+// ════════════════════════════════════════════════════
+function renderTherapyBars() {
+  const grid = document.getElementById('therapy-bar-grid'); if (!grid) return;
+  grid.innerHTML = '';
+  // header
+  const hdr = document.createElement('div');
+  hdr.className = 'therapy-row';
+  hdr.style.fontWeight = '700';
+  hdr.style.fontSize = '9px';
+  hdr.style.color = 'var(--dim)';
+  hdr.innerHTML = '<span>Therapy</span><span>FR Recovery</span><span>FR (Hz)</span><span>STUR J opt</span>';
+  grid.appendChild(hdr);
+
+  const baseF=DISEASES[3].f, baseEP=DISEASES[3].EP;
+  const baseFR = firingRate(neuralEr(baseEP, baseF));
+  const maxFR  = firingRate(neuralEr(DISEASES[0].EP, DISEASES[0].f));
+  const maxRec = maxFR - baseFR;
+
+  const therapyDefs = [
+    {name:'Exercise',  df:0.12, ep_mul:1.0,  J_opt:0.70, color:'#22c55e'},
+    {name:'Ketogenic', df:0.05, ep_mul:1.15, J_opt:0.72, color:'#84cc16'},
+    {name:'NAD+',      df:0.08, ep_mul:1.05, J_opt:0.75, color:'#00d4ff'},
+    {name:'MitoQ',     df:0.06, ep_mul:1.0,  J_opt:0.78, color:'#a78bfa'},
+    {name:'Fasting',   df:0.10, ep_mul:1.05, J_opt:0.73, color:'#f59e0b'},
+    {name:'DBS',       df:0.0,  ep_mul:1.0,  J_opt:0.50, color:'#f97316', er_offset:-0.5},
+    {name:'Combined',  df:0.20, ep_mul:1.18, J_opt:0.60, color:'#c4b5fd'},
+  ];
+
+  therapyDefs.forEach(th => {
+    const f_th = Math.min(1.0, baseF + th.df);
+    const ep_th= Math.min(2.0, baseEP * th.ep_mul);
+    let er = neuralEr(ep_th, f_th);
+    if (th.er_offset) er = Math.max(1.0, er + th.er_offset);
+    const fr = firingRate(er);
+    const rec = Math.max(0, fr - baseFR);
+    const pct = maxRec > 0 ? Math.min(rec/maxRec*100, 100) : 0;
+
+    const row = document.createElement('div');
+    row.className = 'therapy-row';
+    row.innerHTML = `
+      <span style="font-weight:600;color:${th.color}">${th.name}</span>
+      <div class="therapy-bar-fill"><div class="therapy-bar-inner" style="width:${pct.toFixed(1)}%;background:${th.color}"></div></div>
+      <span style="font-family:monospace;font-size:10px;color:${th.color}">${fr.toFixed(1)}</span>
+      <span style="font-family:monospace;font-size:10px;color:var(--amber)">${th.J_opt.toFixed(2)}</span>
+    `;
+    grid.appendChild(row);
+  });
+}
+
+// ════════════════════════════════════════════════════
+//  PLOT 3-B: OPTIMAL J BAR
+// ════════════════════════════════════════════════════
+function drawJOptimal() {
+  const svg = clearSVG('plot-J-optimal'); if (!svg) return;
+  const W=600, H=180;
+  const therapyJ = [
+    {name:'None',      J:0.80, color:'#94a3b8'},
+    {name:'Exercise',  J:0.70, color:'#22c55e'},
+    {name:'Ketogenic', J:0.72, color:'#84cc16'},
+    {name:'NAD+',      J:0.75, color:'#00d4ff'},
+    {name:'MitoQ',     J:0.78, color:'#a78bfa'},
+    {name:'Fasting',   J:0.73, color:'#f59e0b'},
+    {name:'DBS',       J:0.50, color:'#f97316'},
+    {name:'Combined',  J:0.60, color:'#c4b5fd'},
+  ];
+  const jMax=1.0;
+  const n=therapyJ.length;
+  const bw=(W-pad.l-pad.r-(n-1)*5)/n;
+  svg.appendChild(svgEl('line', {x1:pad.l, y1:pad.t, x2:pad.l, y2:H-pad.b, stroke:'#1e2d50'}));
+  svg.appendChild(svgEl('line', {x1:pad.l, y1:H-pad.b, x2:W-pad.r, y2:H-pad.b, stroke:'#1e2d50'}));
+
+  const ys = j => pad.t + (H-pad.t-pad.b) - (j/jMax)*(H-pad.t-pad.b);
+  therapyJ.forEach((th,i) => {
+    const bh = (th.J/jMax)*(H-pad.t-pad.b);
+    const bx = pad.l + i*(bw+5);
+    const by = H-pad.b-bh;
+    svg.appendChild(svgEl('rect', {x:bx, y:by, width:bw, height:bh, fill:th.color+'bb', rx:'2'}));
+    const vl = svgEl('text', {x:bx+bw/2, y:by-3, fill:th.color, 'font-size':'8', 'text-anchor':'middle', 'font-family':'monospace'});
+    vl.textContent=th.J.toFixed(2); svg.appendChild(vl);
+    const nl = svgEl('text', {x:bx+bw/2, y:H-pad.b+12, fill:th.color, 'font-size':'7', 'text-anchor':'middle', 'font-family':'monospace'});
+    nl.textContent=th.name.substring(0,8); svg.appendChild(nl);
+  });
+
+  addYTicks(svg, ys, [0,0.25,0.5,0.75,1.0]);
+  const yl = svgEl('text', {x:10, y:pad.t+(H-pad.t-pad.b)/2, fill:'#64748b', 'font-size':'9', 'text-anchor':'middle', 'font-family':'monospace', transform:`rotate(-90,10,${pad.t+(H-pad.t-pad.b)/2})`});
+  yl.textContent='Optimal J'; svg.appendChild(yl);
+}
+
+// ════════════════════════════════════════════════════
+//  PLOT 4-A: GAMMA COHERENCE vs éR
+// ════════════════════════════════════════════════════
+function drawGamma() {
+  const svg = clearSVG('plot-gamma'); if (!svg) return;
+  const W=600, H=210;
+  const {gx, gy} = drawAxes(svg, W, H, 'éR', 'Gamma Coherence (normalized)');
+  const erMax=7;
+  const xs = er => pad.l + (er/erMax)*gx;
+  const ys = v  => pad.t + gy - v*gy;
+
+  // Gamma coherence: peaks in healthy range, drops sharply in crisis
+  // Model: gamma_coh(éR) = exp(-(éR-2.2)^2/1.5) * (1 - 0.15*éR)
+  const gammaC = er => Math.max(0, Math.exp(-(er-2.2)*(er-2.2)/1.5) * (1 - 0.08*Math.max(er-1,0)));
+
+  const ptsGamma=[];
+  for (let i=0; i<=300; i++) {
+    const er = (i/300)*erMax;
+    ptsGamma.push([xs(er), ys(gammaC(er))]);
+  }
+  const pl = polyline(ptsGamma, '#a78bfa', 2.2); if (pl) svg.appendChild(pl);
+
+  // 40 Hz band marker
+  const kappa=2.430, sigma=0.862;
+  const nu_gamma = kappa*kappa/(2*Math.PI*sigma);  // normalized ≈ 1.08
+  const t_nu = svgEl('text', {x:pad.l+gx/2, y:pad.t+12, fill:'#a78bfa99', 'font-size':'9', 'text-anchor':'middle', 'font-family':'monospace'});
+  t_nu.textContent=`STUR ν_γ = κ²/(2πσ) = ${nu_gamma.toFixed(3)} (normalized) → maps to ~40 Hz gamma`; svg.appendChild(t_nu);
+
+  // Goldilocks band
+  svg.appendChild(svgEl('rect', {x:xs(1.5), y:pad.t, width:xs(3.5)-xs(1.5), height:gy, fill:'rgba(167,139,250,0.07)'}));
+
+  // Crisis line at 3.5
+  svg.appendChild(svgEl('line', {x1:xs(3.5), y1:pad.t, x2:xs(3.5), y2:pad.t+gy, stroke:'#f59e0b77', 'stroke-dasharray':'4 3'}));
+  const t35 = svgEl('text', {x:xs(3.5)+2, y:pad.t+20, fill:'#f59e0b', 'font-size':'8', 'font-family':'monospace'});
+  t35.textContent='AD disruption'; svg.appendChild(t35);
+
+  // Disease state dots
+  DISEASES.forEach(d => {
+    const er = neuralEr(d.EP, d.f);
+    if (er <= erMax) {
+      svg.appendChild(dot(xs(er), ys(gammaC(er)), 4, d.color, d.name.substring(0,8)));
+    }
+  });
+
+  addYTicks(svg, ys, [0,0.25,0.5,0.75,1.0]);
+  addXTicks(svg, pad.t+gy, xs, [0,1,2,3,4,5,6,7]);
+}
+
+// ════════════════════════════════════════════════════
+//  PLOT 4-B: NEURAL CRITICALITY
+// ════════════════════════════════════════════════════
+function drawCriticality() {
+  const svg = clearSVG('plot-criticality'); if (!svg) return;
+  const W=600, H=200;
+  const {gx, gy} = drawAxes(svg, W, H, 'éR', 'Branching Ratio σ (avalanche dynamics)');
+  const erMax=7;
+  const xs = er  => pad.l + (er/erMax)*gx;
+  const ys = sig => pad.t + gy - Math.min(sig/2,1)*gy;
+
+  // Branching ratio: peaks near 1 (criticality) at optimal éR
+  // Sub-critical (<1): éR too low or too high → no propagation / runaway
+  // Model: sigma_branch(éR) = 1.05 - 0.3*(éR-2.5)^2 + 0.02*éR (asymmetric)
+  const branchRatio = er => Math.max(0.05, 1.05 - 0.28*(er-2.5)*(er-2.5) + 0.01*er);
+
+  const ptsBR=[];
+  for (let i=0; i<=300; i++) {
+    const er = (i/300)*erMax;
+    ptsBR.push([xs(er), ys(branchRatio(er))]);
+  }
+  const pl = polyline(ptsBR, '#00d4ff', 2.2); if (pl) svg.appendChild(pl);
+
+  // σ=1 criticality line
+  svg.appendChild(svgEl('line', {x1:pad.l, y1:ys(1), x2:pad.l+gx, y2:ys(1), stroke:'#22c55e66', 'stroke-dasharray':'4 3'}));
+  const tc = svgEl('text', {x:pad.l+3, y:ys(1)-3, fill:'#22c55e', 'font-size':'8', 'font-family':'monospace'});
+  tc.textContent='Criticality σ=1'; svg.appendChild(tc);
+
+  // sub/super critical labels
+  const tsub = svgEl('text', {x:xs(1.2), y:ys(0.4), fill:'#64748b', 'font-size':'8', 'font-family':'monospace'});
+  tsub.textContent='Sub-critical'; svg.appendChild(tsub);
+  const tsup = svgEl('text', {x:xs(5.5), y:ys(0.3), fill:'#64748b', 'font-size':'8', 'font-family':'monospace'});
+  tsup.textContent='Failing'; svg.appendChild(tsup);
+
+  // Disease dots
+  DISEASES.forEach(d => {
+    const er = neuralEr(d.EP, d.f);
+    if (er <= erMax) {
+      svg.appendChild(dot(xs(er), ys(branchRatio(er)), 4, d.color, ''));
+    }
+  });
+
+  addYTicks(svg, ys, [0,0.5,1.0,1.5,2.0]);
+  addXTicks(svg, pad.t+gy, xs, [0,1,2,3,4,5,6,7]);
+}
+
+// ════════════════════════════════════════════════════
+//  STUR EXT GRID
+// ════════════════════════════════════════════════════
+const STUR_NEURAL = [
+  { label:'κ = 2.430',          val:'Localization param.',   color:'#00d4ff',
+    desc:'Mathieu localization → spatial scale of neural wavepacket. Maps to dendritic spine density and synaptic clustering radius.' },
+  { label:'σ = 0.862 rad',      val:'Firing threshold width',color:'#00d4ff',
+    desc:'RMS width of generation wavefunction. Maps to neuron\'s threshold variability — probabilistic firing in noisy networks.' },
+  { label:'λ_chrono = 1.376',   val:'Circadian/ultradian',   color:'#c8932a',
+    desc:'Log-periodic scale e^(1/π). Predicts ultradian oscillations in neural metabolic activity — consistent with ~90-min sleep cycles.' },
+  { label:'δ_CP = 267.9°',      val:'L-R asymmetry',         color:'#a855f7',
+    desc:'Near-maximal CP violation (≈270°). Analogizes to left-right neural asymmetry: language dominance, motor handedness, hippocampal asymmetry.' },
+  { label:'N_gen = 3',          val:'Three neural codes',     color:'#22c55e',
+    desc:'Three SM generations → three neural coding strategies: rate coding (f), temporal coding (phase), population coding (ensemble).' },
+  { label:'Berry phase = −π/3', val:'Gamma oscillations',    color:'#f59e0b',
+    desc:'Cyclic Berry phase in STUR helix → topological protection of memory traces. Gamma waves (40 Hz) encode persistent memory states.' },
+];
+
+function renderSTURNeural() {
+  const grid = document.getElementById('stur-ext-grid'); if (!grid) return;
+  grid.innerHTML = '';
+  STUR_NEURAL.forEach(e => {
+    const d = document.createElement('div');
+    d.className = 'stur-ext-card';
+    d.innerHTML = `<div class="elabel">${e.label}</div><div class="eval" style="color:${e.color}">${e.val}</div><div class="edesc">${e.desc}</div>`;
+    grid.appendChild(d);
+  });
+}
+
+// ════════════════════════════════════════════════════
+//  GOLDILOCKS MARKER
+// ════════════════════════════════════════════════════
+function updateGoldilocksMarker() {
+  const {er} = getDerived();
+  // Map éR 0-7 → 0-100%
+  const pct = Math.min(er/7*100, 99);
+  const marker = document.getElementById('ngk-marker');
+  if (!marker) return;
+  marker.style.left = pct + '%';
+  marker.style.color = er < 1.5 ? '#00d4ff' : er < 3.5 ? '#22c55e' : er < 4.5 ? '#f59e0b' : '#f43f5e';
+}
+
+// ════════════════════════════════════════════════════
+//  LIVE READOUT
+// ════════════════════════════════════════════════════
+function updateLive() {
+  const d = getDerived();
+  const [zone, zc] = healthZone(d.er);
+
+  // sidebar
+  const setT = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
+  setT('sv-f',  d.f.toFixed(3));
+  setT('sv-EP', d.EP.toFixed(3));
+  setT('sv-L',  st.L.toFixed(3));
+  setT('sv-J',  d.J.toFixed(3));
+  setT('lv-eR', d.er > 99 ? '∞' : d.er.toFixed(3));
+  setT('lv-phi', d.phi.toFixed(4));
+  setT('lv-V',   d.V.toFixed(4));
+  setT('lv-FR',  d.FR.toFixed(1) + ' Hz');
+  setT('lv-S',   d.S.toFixed(3));
+  setT('lv-M',   d.M.toFixed(3));
+  const zEl = document.getElementById('lv-zone');
+  if (zEl) { zEl.textContent = zone; zEl.style.color = zc; }
+
+  // tab 0 grid
+  setT('b-f',  d.f.toFixed(3));
+  setT('b-EP', d.EP.toFixed(3));
+  setT('b-eR', d.er > 99 ? '∞' : d.er.toFixed(3));
+  setT('b-phi', d.phi.toFixed(4));
+  setT('b-V',   d.V.toFixed(4));
+  setT('b-FR',  d.FR.toFixed(1));
+  setT('b-S',   d.S.toFixed(3));
+  setT('b-M',   d.M.toFixed(3));
+}
+
+// ════════════════════════════════════════════════════
+//  MASTER UPDATE
+// ════════════════════════════════════════════════════
+function updateAll() {
+  st.f  = parseFloat(document.getElementById('sl-f').value);
+  st.EP = parseFloat(document.getElementById('sl-EP').value);
+  st.L  = parseFloat(document.getElementById('sl-L').value);
+  st.J  = parseFloat(document.getElementById('sl-J').value);
+
+  updateLive();
+  updateGoldilocksMarker();
+
+  if (activeTab === 0) { drawFiringRate(); drawMemEff(); }
+  if (activeTab === 1) { drawDiseaseER(); drawDiseaseFR(); drawAbeta(); drawAxonV(); }
+  if (activeTab === 2) { drawVAxon(); drawNeuronER(); renderNeuronTable(); }
+  if (activeTab === 3) { drawTherapyER(); renderTherapyBars(); drawJOptimal(); }
+  if (activeTab === 4) { drawGamma(); drawCriticality(); renderSTURNeural(); }
+}
+
+function onSlide() {
+  // mark as no specific disease preset
+  document.querySelectorAll('.disease-btn').forEach(b => b.classList.remove('active'));
+  updateAll();
+}
+
+function onTherapyChange() {
+  st.therapy = document.getElementById('therapy-select').value;
+  updateAll();
+}
+
+// ════════════════════════════════════════════════════
+//  DISEASE PRESETS
+// ════════════════════════════════════════════════════
+function loadDisease(idx) {
+  document.querySelectorAll('.disease-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.querySelector(`[data-idx="${idx}"]`);
+  if (btn) btn.classList.add('active');
+
+  const d = DISEASES[idx];
+  st.f  = d.f;
+  st.EP = d.EP;
+  st.diseaseIdx = idx;
+
+  document.getElementById('sl-f').value  = d.f;
+  document.getElementById('sl-EP').value = d.EP;
+
+  updateAll();
+}
+
+// ════════════════════════════════════════════════════
+//  TAB SWITCHING
+// ════════════════════════════════════════════════════
+function switchTab(idx) {
+  activeTab = idx;
+  document.querySelectorAll('.tab-btn').forEach((b,i)  => b.classList.toggle('active', i===idx));
+  document.querySelectorAll('.tab-pane').forEach((p,i) => p.classList.toggle('active', i===idx));
+
+  if (idx === 0) { drawFiringRate(); drawMemEff(); }
+  if (idx === 1) { drawDiseaseER(); drawDiseaseFR(); drawAbeta(); drawAxonV(); }
+  if (idx === 2) { drawVAxon(); drawNeuronER(); renderNeuronTable(); }
+  if (idx === 3) { drawTherapyER(); renderTherapyBars(); drawJOptimal(); }
+  if (idx === 4) { drawGamma(); drawCriticality(); renderSTURNeural(); }
+}
+
+// ════════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════════
+window.addEventListener('load', () => {
+  st.therapy = 'none';
+  updateAll();
+  // Render static content for all tabs (so MathJax can process)
+  renderSTURNeural();
+  renderNeuronTable();
+  renderTherapyBars();
+  if (window.MathJax) MathJax.typesetPromise();
+  console.log('STUR ⟺ ERP Neural Energy Lab ready. éR_neural = EP/V(Φ_R)²');
+});
+</script>
+</body>
+</html>

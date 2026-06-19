@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>STUR ⟺ ERP Unified Lab — STUR Physics Lab</title>
+<meta name="description" content="Interactive simulation bridging STUR v7.0 resistance holonomy and the Energy Resistance Principle (Picard & Murugan, Cell Metabolism 2025).">
+
+<meta name="theme-color" content="#c8932a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="STUR">
+<link rel="manifest" href="../manifest.json">
+<link rel="apple-touch-icon" href="../assets/4.13.png">
+<link rel="icon" type="image/png" href="../assets/4.13.png">
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+
+<script src="../assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+/* ── ERP Lab custom styles ── */
+:root {
+  --gold:   #c8932a;
+  --goldL:  #e8b44a;
+  --cyan:   #00d4ff;
+  --green:  #22c55e;
+  --rose:   #f43f5e;
+  --amber:  #f59e0b;
+  --violet: #a855f7;
+  --red:    #ef4444;
+  --dim:    #94a3b8;
+}
+
+.erp-wrap {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  gap: 0;
+  min-height: calc(100vh - 64px);
+}
+
+/* sidebar */
+.erp-sidebar {
+  background: rgba(7,13,26,0.95);
+  border-right: 1px solid rgba(200,147,42,0.2);
+  padding: 16px 14px;
+  overflow-y: auto;
+}
+.erp-sidebar-section {
+  margin-bottom: 18px;
+}
+.erp-sidebar-label {
+  color: var(--gold);
+  font-size: 9px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.slider-row {
+  margin-bottom: 12px;
+}
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  margin-bottom: 3px;
+}
+.slider-name { color: var(--dim); }
+.slider-val  { font-family: monospace; font-weight: 700; }
+
+input[type=range] {
+  width: 100%;
+  height: 4px;
+  accent-color: var(--gold);
+  cursor: pointer;
+}
+
+.preset-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+.preset-btn {
+  padding: 5px 0;
+  font-size: 9px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(10,22,40,0.8);
+  color: var(--dim);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.preset-btn:hover  { border-color: rgba(200,147,42,0.5); color: var(--gold); }
+.preset-btn.active { background: rgba(200,147,42,0.15); border-color: var(--gold); color: var(--gold); }
+
+.live-panel {
+  background: rgba(4,11,24,0.9);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.live-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 11px;
+}
+.live-row:last-child { border-bottom: none; }
+.live-key { color: var(--dim); }
+.live-num { font-family: monospace; font-weight: 700; }
+
+/* main area */
+.erp-main {
+  padding: 16px 20px;
+  overflow-y: auto;
+}
+
+/* header badge */
+.erp-hero {
+  background: linear-gradient(135deg, rgba(200,147,42,0.06), rgba(0,212,255,0.04));
+  border: 1px solid rgba(200,147,42,0.25);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+}
+.erp-hero-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 6px;
+  letter-spacing: -0.3px;
+}
+.erp-hero-sub {
+  font-size: 11px;
+  color: var(--dim);
+  margin: 0 0 10px;
+}
+.erp-master-eq {
+  font-family: monospace;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 10px 14px;
+  background: rgba(6,15,32,0.9);
+  border-left: 3px solid var(--gold);
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+.erp-src-links { margin-top: 8px; display: flex; gap: 12px; flex-wrap: wrap; }
+.erp-src-links a { font-size: 10px; color: var(--cyan); text-decoration: none; }
+.erp-src-links a:hover { text-decoration: underline; }
+
+/* tabs */
+.tab-bar {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 14px;
+  background: rgba(10,22,40,0.8);
+  padding: 4px;
+  border-radius: 8px;
+  width: fit-content;
+}
+.tab-btn {
+  padding: 6px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--dim);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.tab-btn.active {
+  background: var(--gold);
+  color: #000;
+}
+.tab-btn:hover:not(.active) { color: var(--gold); }
+
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* eq cards */
+.eq-card {
+  background: rgba(5,12,26,0.9);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-left: 3px solid var(--cyan);
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  font-family: monospace;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.eq-card.gold  { border-left-color: var(--gold); }
+.eq-card.green { border-left-color: var(--green); }
+.eq-card.rose  { border-left-color: var(--rose); }
+.eq-card.amber { border-left-color: var(--amber); }
+
+/* value grid */
+.val-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 12px 0;
+}
+.val-box {
+  background: rgba(3,8,16,0.9);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 6px;
+  padding: 10px 8px;
+  text-align: center;
+}
+.val-box-label { font-size: 9px; color: var(--dim); margin-bottom: 4px; }
+.val-box-num   { font-family: monospace; font-size: 17px; font-weight: 700; }
+
+/* SVG plot container */
+.plot-box {
+  background: rgba(4,11,24,0.9);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+.plot-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--dim);
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* 7-step chain */
+.chain-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 12px 0;
+}
+.chain-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: rgba(5,12,26,0.8);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 6px;
+  font-size: 11px;
+  transition: all 0.15s;
+}
+.chain-step.active-step {
+  border-color: rgba(200,147,42,0.4);
+  background: rgba(200,147,42,0.06);
+}
+.chain-num {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: rgba(200,147,42,0.2);
+  color: var(--gold);
+  font-size: 10px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.chain-loc  { color: var(--dim); font-size: 9px; min-width: 110px; }
+.chain-name { color: #e2e8f0; font-weight: 600; flex: 1; }
+.chain-er   { font-family: monospace; font-size: 10px; }
+
+/* section subtitle */
+.sec-label {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 16px 0 8px;
+}
+
+/* mito state bar */
+.mito-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 10px 0;
+}
+.mito-row {
+  display: grid;
+  grid-template-columns: 100px 1fr 60px 60px 70px;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 10px;
+  background: rgba(5,12,26,0.8);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 6px;
+  font-size: 11px;
+}
+.mito-name { font-weight: 600; }
+.mito-bar-fill {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.1);
+  overflow: hidden;
+}
+.mito-bar-inner { height: 100%; border-radius: 3px; transition: width 0.3s; }
+.mito-val { font-family: monospace; text-align: right; font-size: 10px; }
+
+/* goldilocks band */
+.goldilocks {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 28px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 12px 0 6px;
+  font-size: 10px;
+  font-weight: 600;
+}
+.gk-low  { background: rgba(0,212,255,0.25); color: var(--cyan);  flex: 1; display: flex; align-items: center; justify-content: center; }
+.gk-opt  { background: rgba(34,197,94,0.35); color: var(--green); flex: 2; display: flex; align-items: center; justify-content: center; border-left: 1px solid rgba(34,197,94,0.5); border-right: 1px solid rgba(34,197,94,0.5); }
+.gk-high { background: rgba(244,63,94,0.25); color: var(--rose);  flex: 1; display: flex; align-items: center; justify-content: center; }
+
+/* ohm analogy table */
+.analogy-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+.analogy-table th {
+  padding: 6px 10px;
+  background: rgba(200,147,42,0.1);
+  color: var(--gold);
+  font-size: 10px;
+  text-align: left;
+  letter-spacing: 0.5px;
+}
+.analogy-table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: #e2e8f0;
+}
+.analogy-table tr:hover td { background: rgba(255,255,255,0.02); }
+.mono { font-family: monospace; }
+
+/* STUR ext table */
+.stur-ext-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+.stur-ext-card {
+  background: rgba(5,12,26,0.9);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.stur-ext-card .label { font-size: 9px; color: var(--dim); margin-bottom: 4px; letter-spacing: 1px; text-transform: uppercase; }
+.stur-ext-card .val   { font-family: monospace; font-size: 13px; font-weight: 700; }
+.stur-ext-card .desc  { font-size: 9px; color: var(--dim); margin-top: 4px; line-height: 1.4; }
+
+/* export btn */
+.export-btn {
+  padding: 7px 16px;
+  background: var(--gold);
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 6px;
+}
+.export-btn:hover { background: var(--goldL); }
+
+/* toast */
+.toast {
+  position: fixed; bottom: 20px; right: 20px;
+  background: var(--green); color: #000;
+  padding: 10px 20px; border-radius: 8px;
+  font-weight: 700; font-size: 12px;
+  opacity: 0; transition: opacity 0.3s;
+  z-index: 9999; pointer-events: none;
+}
+.toast.show { opacity: 1; }
+
+@media (max-width: 700px) {
+  .erp-wrap { grid-template-columns: 1fr; }
+  .erp-sidebar { border-right: none; border-bottom: 1px solid rgba(200,147,42,0.2); }
+  .val-grid { grid-template-columns: repeat(2,1fr); }
+  .stur-ext-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">
+      <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
+      STUR Lab
+    </a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Home</a>
+      <a href="stur_biological_hub.html" class="glass-nav-link">Biology Hub</a>
+      <a href="stur_atp.html" class="glass-nav-link">Mitochondria</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <button class="glass-nav-link glass-share-btn" onclick="shareThis()" title="Share">
+        <span class="stur-icon icon-link"></span> Share
+      </button>
+    </div>
+  </nav>
+</header>
+
+<div class="erp-wrap">
+
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
+<aside class="erp-sidebar">
+
+  <div class="erp-sidebar-label">Parameters</div>
+
+  <!-- Presets -->
+  <div class="erp-sidebar-section">
+    <div style="font-size:9px;color:var(--dim);margin-bottom:6px;">PICARD MITO STATES</div>
+    <div class="preset-grid" id="preset-grid">
+      <button class="preset-btn active" data-idx="0" onclick="loadPreset(0)">Healthy</button>
+      <button class="preset-btn"        data-idx="1" onclick="loadPreset(1)">Stressed</button>
+      <button class="preset-btn"        data-idx="2" onclick="loadPreset(2)">Pre-Apop.</button>
+      <button class="preset-btn"        data-idx="3" onclick="loadPreset(3)">Uncoupled</button>
+      <button class="preset-btn"        data-idx="4" onclick="loadPreset(4)">mPTP</button>
+      <button class="preset-btn"        data-idx="-1" onclick="loadPreset(-1)">Custom</button>
+    </div>
+  </div>
+
+  <!-- Sliders -->
+  <div class="erp-sidebar-section">
+    <div class="slider-row">
+      <div class="slider-header">
+        <span class="slider-name">Resistance current J</span>
+        <span class="slider-val" id="sv-J" style="color:var(--gold)">0.300</span>
+      </div>
+      <input type="range" id="sl-J" min="0.01" max="3" step="0.01" value="0.30" oninput="onSlide()">
+    </div>
+    <div class="slider-row">
+      <div class="slider-header">
+        <span class="slider-name">Path length ℓ</span>
+        <span class="slider-val" id="sv-L" style="color:var(--gold)">1.000</span>
+      </div>
+      <input type="range" id="sl-L" min="0.1" max="3" step="0.05" value="1.00" oninput="onSlide()">
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,0.05);margin:10px 0;"></div>
+    <div class="slider-row">
+      <div class="slider-header">
+        <span class="slider-name">Energy Potential EP</span>
+        <span class="slider-val" id="sv-EP" style="color:var(--rose)">0.500</span>
+      </div>
+      <input type="range" id="sl-EP" min="0.01" max="3" step="0.01" value="0.50" oninput="onSlide()">
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,0.05);margin:10px 0;"></div>
+    <div class="slider-row">
+      <div class="slider-header">
+        <span class="slider-name">STUR input u</span>
+        <span class="slider-val" id="sv-u" style="color:var(--amber)">1.200</span>
+      </div>
+      <input type="range" id="sl-u" min="0.01" max="4" step="0.05" value="1.20" oninput="onSlide()">
+    </div>
+  </div>
+
+  <!-- Live readout -->
+  <div class="erp-sidebar-section">
+    <div class="erp-sidebar-label">Live Output</div>
+    <div class="live-panel">
+      <div class="live-row"><span class="live-key">Φ_R</span><span class="live-num" id="lv-phi" style="color:var(--gold)">0.3000</span></div>
+      <div class="live-row"><span class="live-key">V (flux f)</span><span class="live-num" id="lv-V" style="color:var(--green)">0.9560</span></div>
+      <div class="live-row"><span class="live-key">éR = EP/V²</span><span class="live-num" id="lv-eR" style="color:var(--rose)">0.548</span></div>
+      <div class="live-row"><span class="live-key">S_u(u)</span><span class="live-num" id="lv-Su" style="color:var(--amber)">0.762</span></div>
+      <div class="live-row"><span class="live-key">ℓ_coh</span><span class="live-num" id="lv-lc" style="color:var(--cyan)">3.333</span></div>
+      <div class="live-row"><span class="live-key">GDF15 proxy</span><span class="live-num" id="lv-gdf" style="color:var(--rose)">0.829</span></div>
+      <div class="live-row"><span class="live-key">Health zone</span><span class="live-num" id="lv-zone" style="color:var(--green)">OPTIMAL</span></div>
+    </div>
+  </div>
+
+  <button class="export-btn" onclick="exportSVGs()" style="width:100%;">📤 Export SVGs</button>
+</aside>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<main class="erp-main">
+
+  <!-- Hero -->
+  <div class="erp-hero">
+    <div style="font-family:monospace;color:var(--gold);font-size:9px;letter-spacing:3px;margin-bottom:4px;">STUR v7.0 ⟺ ERP — PICARD & MURUGAN, CELL METABOLISM 2025</div>
+    <h1 class="erp-hero-title">Energy Resistance Unified Lab</h1>
+    <p class="erp-hero-sub">Resistance Holonomy Φ_R → Biological Energy Resistance éR • Interactive simulation of the ERP framework bridged to STUR ∞₃ helix geometry</p>
+    <div class="erp-master-eq">
+      <span style="color:var(--rose)">éR</span>
+      <span style="color:var(--dim)"> = </span>
+      <span style="color:#e2e8f0">EP</span>
+      <span style="color:var(--dim)"> / </span>
+      <span style="color:var(--green)">V²</span>
+      <span style="color:var(--dim)"> = </span>
+      <span style="color:#e2e8f0">EP</span>
+      <span style="color:var(--dim)"> · </span>
+      <span style="color:var(--cyan)">exp(+Φ_R²)</span>
+      <span style="color:var(--dim);font-size:9px;margin-left:10px;">[K_eff ≡ Φ_R &nbsp;|&nbsp; f ≡ V(Φ_R) &nbsp;|&nbsp; GDF15 ∝ éR]</span>
+    </div>
+    <div class="erp-src-links">
+      <a href="https://www.cell.com/cell-metabolism/abstract/S1550-4131(25)00387-0" target="_blank">📄 Cell Metabolism 2025 (37:2107–2127)</a>
+      <a href="https://pubmed.ncbi.nlm.nih.gov/41056945/" target="_blank" style="color:var(--amber);">🔬 PubMed PMID 41056945</a>
+      <a href="stur_biological_hub.html" style="color:var(--gold);">🌌 Biology Hub</a>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab(0)">Bridge</button>
+    <button class="tab-btn"        onclick="switchTab(1)">Saturation</button>
+    <button class="tab-btn"        onclick="switchTab(2)">Mito States</button>
+    <button class="tab-btn"        onclick="switchTab(3)">Phase Space</button>
+    <button class="tab-btn"        onclick="switchTab(4)">STUR Extensions</button>
+  </div>
+
+  <!-- ─── TAB 0: BRIDGE ─── -->
+  <div class="tab-pane active" id="pane-0">
+
+    <div class="sec-label">Bridge Identity</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+      <div>
+        <div class="eq-card gold">K_eff ≡ Φ_R = J · ℓ</div>
+        <div class="eq-card green">f ≡ V(Φ_R) = exp(−Φ_R²/2)</div>
+        <div class="eq-card rose">éR = EP / f² = EP · exp(+Φ_R²)</div>
+        <div class="eq-card amber">S_u(u) = tanh(u)·(1 − e⁻ᵘ)</div>
+        <div class="eq-card" style="border-left-color:var(--cyan);">GDF15 = 0.5 · éR^0.3 &nbsp;[capped 10]</div>
+      </div>
+      <div>
+        <div class="eq-card" style="border-left-color:var(--violet);">Ohm: V = R·I → P = R·I²</div>
+        <div class="eq-card" style="border-left-color:var(--violet);">ERP: EP = éR·f² (biological Ohm)</div>
+        <div class="eq-card" style="border-left-color:var(--violet);">STUR: Φ_R = J·ℓ (holonomy)</div>
+        <div class="eq-card" style="border-left-color:var(--violet);">Bridge: f ↔ V(Φ_R) ← Gaussian</div>
+        <div class="eq-card" style="border-left-color:var(--violet);">ℓ_coh = p₀ / (γ · J)</div>
+      </div>
+    </div>
+
+    <div class="val-grid">
+      <div class="val-box">
+        <div class="val-box-label">Φ_R (holonomy)</div>
+        <div class="val-box-num" id="b-phi" style="color:var(--gold)">0.300</div>
+      </div>
+      <div class="val-box">
+        <div class="val-box-label">V = f (flux)</div>
+        <div class="val-box-num" id="b-V" style="color:var(--green)">0.9560</div>
+      </div>
+      <div class="val-box">
+        <div class="val-box-label">éR</div>
+        <div class="val-box-num" id="b-eR" style="color:var(--rose)">0.548</div>
+      </div>
+      <div class="val-box">
+        <div class="val-box-label">GDF15</div>
+        <div class="val-box-num" id="b-gdf" style="color:var(--rose)">0.829</div>
+      </div>
+      <div class="val-box">
+        <div class="val-box-label">S_u</div>
+        <div class="val-box-num" id="b-Su" style="color:var(--amber)">0.762</div>
+      </div>
+      <div class="val-box">
+        <div class="val-box-label">ℓ_coh</div>
+        <div class="val-box-num" id="b-lc" style="color:var(--cyan)">3.333</div>
+      </div>
+    </div>
+
+    <!-- Goldilocks band -->
+    <div class="sec-label">Goldilocks Window</div>
+    <div class="goldilocks">
+      <div class="gk-low">Too little éR<br><span style="font-size:8px;">(no life)</span></div>
+      <div class="gk-opt">⬛ OPTIMAL éR ⬛<br><span style="font-size:8px;">health · longevity · efficiency</span></div>
+      <div class="gk-high">Too much éR<br><span style="font-size:8px;">(disease / aging)</span></div>
+    </div>
+    <div style="position:relative;height:20px;margin-bottom:10px;">
+      <div id="gk-marker" style="position:absolute;top:0;transform:translateX(-50%);font-size:14px;transition:left 0.3s;">▲</div>
+    </div>
+
+    <!-- éR vs Φ_R live curve -->
+    <div class="plot-box">
+      <div class="plot-title">éR = EP · exp(Φ_R²) vs Φ_R  [live EP = <span id="ep-label">0.500</span>]</div>
+      <svg id="plot-bridge" width="100%" height="180" viewBox="0 0 560 180" preserveAspectRatio="none"></svg>
+    </div>
+
+    <!-- 7-step chain -->
+    <div class="sec-label">7-Step Physiological Resistance Chain (Picard & Murugan 2025)</div>
+    <div class="chain-wrap" id="chain-wrap">
+      <!-- populated by JS -->
+    </div>
+
+    <!-- Ohm analogy table -->
+    <div class="sec-label">Biological Ohm's Law Analogy</div>
+    <table class="analogy-table">
+      <thead>
+        <tr><th>Quantity</th><th>Electrical</th><th>Biological (ERP)</th><th>STUR Bridge</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Potential</td><td class="mono">V (voltage)</td><td class="mono">EP (food electrons)</td><td class="mono">EP (input)</td></tr>
+        <tr><td>Resistance</td><td class="mono">R</td><td class="mono">éR</td><td class="mono">exp(Φ_R²)</td></tr>
+        <tr><td>Current</td><td class="mono">I</td><td class="mono">f (electron flux)</td><td class="mono">V(Φ_R)</td></tr>
+        <tr><td>Power</td><td class="mono">P = V·I = R·I²</td><td class="mono">EP = éR·f²</td><td class="mono">EP·V²</td></tr>
+        <tr><td>Biomarker</td><td class="mono">—</td><td class="mono">GDF15 ∝ éR</td><td class="mono">0.5·éR^0.3</td></tr>
+        <tr><td>Law</td><td class="mono">V = R·I</td><td class="mono">EP = éR·f²</td><td class="mono">éR = EP/V(Φ_R)²</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ─── TAB 1: SATURATION ─── -->
+  <div class="tab-pane" id="pane-1">
+    <div class="sec-label">S_u Saturation Function — STUR Gain Regulator</div>
+    <p style="font-size:11px;color:var(--dim);margin:0 0 10px;">
+      S_u(u) = tanh(u) · (1 − e<sup>−u</sup>) — saturates from 0 to 1 as u → ∞.
+      Regulates the gain between STUR holonomy coupling and biological response amplitude.
+    </p>
+    <div class="plot-box">
+      <div class="plot-title">S_u(u) and its components</div>
+      <svg id="plot-sat" width="100%" height="220" viewBox="0 0 560 220" preserveAspectRatio="none"></svg>
+    </div>
+    <div class="val-grid" style="grid-template-columns:repeat(4,1fr);margin-top:10px;">
+      <div class="val-box"><div class="val-box-label">u (current)</div><div class="val-box-num" id="s-u" style="color:var(--amber)">1.200</div></div>
+      <div class="val-box"><div class="val-box-label">tanh(u)</div><div class="val-box-num" id="s-tanh" style="color:var(--cyan)">0.834</div></div>
+      <div class="val-box"><div class="val-box-label">1−e^−u</div><div class="val-box-num" id="s-exp" style="color:var(--violet)">0.699</div></div>
+      <div class="val-box"><div class="val-box-label">S_u</div><div class="val-box-num" id="s-Su" style="color:var(--amber)">0.583</div></div>
+    </div>
+    <div class="sec-label" style="margin-top:14px;">Visibility V(Φ_R) — Electron Flux Decay</div>
+    <p style="font-size:11px;color:var(--dim);margin:0 0 10px;">
+      V(Φ_R) = exp(−Φ_R²/2) — Gaussian decay of electron flux with holonomy.
+      When Φ_R → 0: perfect coherence (V=1). When Φ_R → large: decoupled (V→0), éR → ∞.
+    </p>
+    <div class="plot-box">
+      <div class="plot-title">V(Φ_R) and éR(Φ_R) [EP fixed]</div>
+      <svg id="plot-vis" width="100%" height="200" viewBox="0 0 560 200" preserveAspectRatio="none"></svg>
+    </div>
+  </div>
+
+  <!-- ─── TAB 2: MITO STATES ─── -->
+  <div class="tab-pane" id="pane-2">
+    <div class="sec-label">Five Mitochondrial States — Picard Lab Presets</div>
+    <div class="plot-box">
+      <div class="plot-title">éR vs Resistance K for all mito states [EP from each preset]</div>
+      <svg id="plot-mito" width="100%" height="260" viewBox="0 0 560 260" preserveAspectRatio="none"></svg>
+    </div>
+
+    <div class="sec-label">State Comparison Table</div>
+    <div class="mito-bar" id="mito-bar">
+      <!-- populated by JS -->
+    </div>
+
+    <div class="sec-label">GDF15 Biomarker by State</div>
+    <p style="font-size:11px;color:var(--dim);margin:0 0 8px;">
+      GDF15 validated in >50,000 participants (UK Biobank proteomics). Elevated GDF15 predicts
+      diabetes, CVD, psychiatric disease, and all-cause mortality. Each state maps to a GDF15 range.
+    </p>
+    <div class="plot-box">
+      <div class="plot-title">GDF15 proxy by mitochondrial state</div>
+      <svg id="plot-gdf" width="100%" height="160" viewBox="0 0 560 160" preserveAspectRatio="none"></svg>
+    </div>
+  </div>
+
+  <!-- ─── TAB 3: PHASE SPACE ─── -->
+  <div class="tab-pane" id="pane-3">
+    <div class="sec-label">Phase Portrait: éR(EP, Φ_R)</div>
+    <p style="font-size:11px;color:var(--dim);margin:0 0 10px;">
+      Contour plot of éR = EP·exp(Φ_R²) in (Φ_R, EP) space. Contours show iso-resistance lines.
+      The current parameter point is shown as a gold marker. Move sliders to explore.
+    </p>
+    <div class="plot-box">
+      <div class="plot-title">Phase space — contour map of éR [gold dot = current state]</div>
+      <svg id="plot-phase" width="100%" height="320" viewBox="0 0 560 320" preserveAspectRatio="none"></svg>
+    </div>
+    <div class="sec-label">Time-like éR Trajectory (parametric in J)</div>
+    <div class="plot-box">
+      <div class="plot-title">éR vs J (path length ℓ fixed) — resistance current sweep</div>
+      <svg id="plot-traj" width="100%" height="180" viewBox="0 0 560 180" preserveAspectRatio="none"></svg>
+    </div>
+  </div>
+
+  <!-- ─── TAB 4: STUR EXTENSIONS ─── -->
+  <div class="tab-pane" id="pane-4">
+    <div class="sec-label">STUR v7.0 → ERP Bridge Extensions</div>
+    <p style="font-size:11px;color:var(--dim);margin:0 0 10px;">
+      STUR v7.0 observables re-expressed in ERP language. The ∞₃ helix localization parameter κ = 2.430
+      sets the holonomy scale. Generation wavefunction width σ = 0.862 rad maps to mitochondrial coherence.
+    </p>
+
+    <div class="stur-ext-grid" id="stur-ext-grid">
+      <!-- populated by JS -->
+    </div>
+
+    <div class="sec-label" style="margin-top:16px;">∞₃ Helix → Mitochondrial Topology Bridge</div>
+    <div class="plot-box">
+      <div class="plot-title">Mathieu localization profile vs biological coupling efficiency</div>
+      <svg id="plot-inf3" width="100%" height="200" viewBox="0 0 560 200" preserveAspectRatio="none"></svg>
+    </div>
+
+    <div class="sec-label">Chronomagnetic Cycle in ERP Context</div>
+    <p style="font-size:11px;color:var(--dim);margin:0 0 8px;">
+      STUR's log-periodic chronomagnetic cycle (λ_chrono = e^(1/π) ≈ 1.376) predicts that biological energy
+      resistance should also oscillate log-periodically — consistent with observed ultradian rhythms in
+      mitochondrial membrane potential and GDF15 secretion.
+    </p>
+    <div class="eq-card gold" style="margin-bottom:6px;">λ_chrono = 3722/2705 = e^(1/π) ≈ 1.376</div>
+    <div class="eq-card" style="border-left-color:var(--violet);">éR(t) ∝ EP · exp(+Φ_R² · |sin(ω·ln(t/t₀))|)  [chronomagnetic modulation]</div>
+  </div>
+
+</main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ════════════════════════════════════════════════════════
+//  CORE MATH
+// ════════════════════════════════════════════════════════
+const phi_R  = (J, L) => J * L;
+const V      = (phi) => Math.exp(-phi*phi/2);
+const eR     = (EP, phi) => { const v=V(phi); return v < 1e-6 ? 1e6 : EP/(v*v); };
+const S_u    = (u) => Math.tanh(u) * (1 - Math.exp(-u));
+const l_coh  = (J) => 1 / Math.max(J, 0.001);
+const GDF15  = (er) => Math.min(10, 0.5 * Math.pow(Math.max(er, 0.001), 0.3));
+
+const MITO = [
+  { name:"Healthy",       K:0.30, EP:0.50, r:1.8,  color:"#22c55e" },
+  { name:"Stressed",      K:0.55, EP:0.72, r:1.2,  color:"#f59e0b" },
+  { name:"Pre-Apoptotic", K:0.80, EP:0.90, r:0.9,  color:"#f43f5e" },
+  { name:"Uncoupled",     K:1.20, EP:1.10, r:0.25, color:"#a855f7" },
+  { name:"mPTP",          K:2.50, EP:1.40, r:0.10, color:"#ef4444" },
+];
+
+// ════════════════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════════════════
+let J=0.30, L=1.00, EP=0.50, u=1.20;
+let activeTab=0, activePreset=0;
+
+// ════════════════════════════════════════════════════════
+//  SVG HELPERS
+// ════════════════════════════════════════════════════════
+const SVG_NS = "http://www.w3.org/2000/svg";
+const pad = { t:18, r:18, b:32, l:44 };
+
+function svgEl(tag, attrs) {
+  const el = document.createElementNS(SVG_NS, tag);
+  for (const [k,v] of Object.entries(attrs)) el.setAttribute(k, v);
+  return el;
+}
+
+function clearSVG(id) {
+  const el = document.getElementById(id);
+  while (el.firstChild) el.removeChild(el.firstChild);
+  return el;
+}
+
+function drawAxes(svg, W, H, xLabel, yLabel, xTicks=5, yTicks=4) {
+  const gx = W - pad.l - pad.r, gy = H - pad.t - pad.b;
+  // axes
+  svg.appendChild(svgEl('line',{x1:pad.l,y1:pad.t,x2:pad.l,y2:pad.t+gy,stroke:'#1e3a5f',strokeWidth:'1'}));
+  svg.appendChild(svgEl('line',{x1:pad.l,y1:pad.t+gy,x2:pad.l+gx,y2:pad.t+gy,stroke:'#1e3a5f',strokeWidth:'1'}));
+  // labels
+  const xl = svgEl('text',{x:pad.l+gx/2,y:H-2,fill:'#64748b','font-size':'9','text-anchor':'middle','font-family':'monospace'});
+  xl.textContent = xLabel;
+  svg.appendChild(xl);
+  const yl = svgEl('text',{x:10,y:pad.t+gy/2,fill:'#64748b','font-size':'9','text-anchor':'middle','font-family':'monospace',transform:`rotate(-90,10,${pad.t+gy/2})`});
+  yl.textContent = yLabel;
+  svg.appendChild(yl);
+  return {gx, gy};
+}
+
+function polyline(pts, color, width=1.5, dasharray='none') {
+  if (!pts.length) return;
+  const d = pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+  const el = svgEl('path',{d,stroke:color,fill:'none','stroke-width':width});
+  if (dasharray!=='none') el.setAttribute('stroke-dasharray',dasharray);
+  return el;
+}
+
+function dot(x,y,r,color,label='') {
+  const g = svgEl('g',{});
+  g.appendChild(svgEl('circle',{cx:x,cy:y,r,fill:color,stroke:'rgba(0,0,0,0.5)','stroke-width':'1'}));
+  if (label) {
+    const t = svgEl('text',{x:x+r+2,y:y+4,fill:color,'font-size':'9','font-family':'monospace'});
+    t.textContent = label;
+    g.appendChild(t);
+  }
+  return g;
+}
+
+// ════════════════════════════════════════════════════════
+//  PLOT: BRIDGE CURVE  (éR vs Φ_R)
+// ════════════════════════════════════════════════════════
+function drawBridge() {
+  const svg = clearSVG('plot-bridge');
+  const W=560, H=180;
+  const {gx,gy} = drawAxes(svg, W, H, 'Φ_R (holonomy)', 'éR');
+  const N=200, phiMax=2.5;
+  const erMax = EP * Math.exp(phiMax*phiMax) * 0.8;  // cap
+  const xs = i => pad.l + (i/N)*gx;
+  const ys = er => pad.t + gy - Math.min((er/erMax)*gy, gy);
+
+  // background goldilocks zones
+  const erOpt1 = 0.3, erOpt2 = 1.5;
+  const yO1 = ys(erOpt1), yO2 = ys(erOpt2);
+  svg.appendChild(svgEl('rect',{x:pad.l,y:yO2,width:gx,height:yO1-yO2,fill:'rgba(34,197,94,0.06)'}));
+  svg.appendChild(svgEl('rect',{x:pad.l,y:pad.t,width:gx,height:yO2-pad.t,fill:'rgba(244,63,94,0.05)'}));
+
+  // curve
+  const pts = [];
+  for (let i=0;i<=N;i++) {
+    const phi = (i/N)*phiMax;
+    const er = eR(EP, phi);
+    if (er < erMax*1.05) pts.push([xs(i), ys(er)]);
+  }
+  svg.appendChild(polyline(pts, '#f43f5e', 2));
+
+  // current point
+  const curPhi = phi_R(J,L);
+  const curER  = eR(EP, curPhi);
+  if (curPhi <= phiMax && curER <= erMax) {
+    svg.appendChild(dot(xs(curPhi/phiMax*N), ys(curER), 5, '#c8932a', `éR=${curER.toFixed(2)}`));
+  }
+
+  // x ticks
+  for (let i=0;i<=5;i++) {
+    const phi = (i/5)*phiMax;
+    const x = pad.l + (i/5)*gx;
+    const t = svgEl('text',{x,y:pad.t+gy+12,fill:'#64748b','font-size':'8','text-anchor':'middle','font-family':'monospace'});
+    t.textContent = phi.toFixed(1);
+    svg.appendChild(t);
+    svg.appendChild(svgEl('line',{x1:x,y1:pad.t+gy,x2:x,y2:pad.t+gy+3,stroke:'#1e3a5f'}));
+  }
+}
+
+// ════════════════════════════════════════════════════════
+//  PLOT: SATURATION
+// ════════════════════════════════════════════════════════
+function drawSaturation() {
+  const svg = clearSVG('plot-sat');
+  const W=560, H=220;
+  const {gx,gy} = drawAxes(svg, W, H, 'u', 'value');
+  const N=200, uMax=4;
+  const xs = i => pad.l + (i/N)*gx;
+  const ys = v => pad.t + gy - v*gy;
+
+  // tanh(u)
+  const ptsTanh=[], ptsExp=[], ptsSu=[];
+  for (let i=0;i<=N;i++) {
+    const uu = (i/N)*uMax;
+    ptsTanh.push([xs(i), ys(Math.tanh(uu))]);
+    ptsExp.push([xs(i),  ys(1-Math.exp(-uu))]);
+    ptsSu.push([xs(i),   ys(S_u(uu))]);
+  }
+  svg.appendChild(polyline(ptsTanh, '#00d4ff', 1.2, '4 3'));
+  svg.appendChild(polyline(ptsExp,  '#a855f7', 1.2, '4 3'));
+  svg.appendChild(polyline(ptsSu,   '#f59e0b', 2));
+
+  // current u marker
+  const xi = xs(u/uMax*N);
+  const yv = ys(S_u(u));
+  svg.appendChild(svgEl('line',{x1:xi,y1:pad.t,x2:xi,y2:pad.t+gy,stroke:'rgba(200,147,42,0.4)','stroke-dasharray':'3 3'}));
+  svg.appendChild(dot(xi, yv, 5, '#f59e0b'));
+
+  // legend
+  const ld = [['tanh(u)','#00d4ff'],['1−e^−u','#a855f7'],['S_u(u)','#f59e0b']];
+  ld.forEach(([l,c],i) => {
+    const t = svgEl('text',{x:pad.l+gx-90,y:pad.t+14+i*14,fill:c,'font-size':'9','font-family':'monospace'});
+    t.textContent=l; svg.appendChild(t);
+  });
+
+  // y ticks
+  [0,0.25,0.5,0.75,1].forEach(v => {
+    const y=ys(v);
+    const t=svgEl('text',{x:pad.l-4,y:y+3,fill:'#64748b','font-size':'8','text-anchor':'end','font-family':'monospace'});
+    t.textContent=v.toFixed(2); svg.appendChild(t);
+    svg.appendChild(svgEl('line',{x1:pad.l-2,y1:y,x2:pad.l,y2:y,stroke:'#1e3a5f'}));
+  });
+}
+
+// ════════════════════════════════════════════════════════
+//  PLOT: VISIBILITY
+// ════════════════════════════════════════════════════════
+function drawVisibility() {
+  const svg = clearSVG('plot-vis');
+  const W=560, H=200;
+  const {gx,gy} = drawAxes(svg, W, H, 'Φ_R', '');
+  const N=200, phiMax=3;
+  const xs = i => pad.l + (i/N)*gx;
+
+  const erMaxLocal = Math.min(eR(EP,phiMax)*0.5, 20);
+  const ysV  = v  => pad.t + gy - v*gy;
+  const ysER = er => pad.t + gy - Math.min(er/erMaxLocal, 1)*gy;
+
+  const ptsV=[], ptsER=[];
+  for (let i=0;i<=N;i++) {
+    const phi=(i/N)*phiMax;
+    ptsV.push([xs(i),ysV(V(phi))]);
+    const er=eR(EP,phi);
+    if (er<=erMaxLocal*1.1) ptsER.push([xs(i),ysER(er)]);
+  }
+  svg.appendChild(polyline(ptsV,  '#22c55e', 2));
+  svg.appendChild(polyline(ptsER, '#f43f5e', 2));
+
+  // current Φ_R
+  const curPhi=phi_R(J,L);
+  const xi = xs(Math.min(curPhi/phiMax,1)*N);
+  svg.appendChild(svgEl('line',{x1:xi,y1:pad.t,x2:xi,y2:pad.t+gy,stroke:'rgba(200,147,42,0.5)','stroke-dasharray':'3 3'}));
+
+  const ld=[['V(Φ_R) = flux f','#22c55e'],['éR = EP/V²','#f43f5e']];
+  ld.forEach(([l,c],i) => {
+    const t=svgEl('text',{x:pad.l+gx-120,y:pad.t+14+i*14,fill:c,'font-size':'9','font-family':'monospace'});
+    t.textContent=l; svg.appendChild(t);
+  });
+}
+
+// ════════════════════════════════════════════════════════
+//  PLOT: MITO STATES scatter
+// ════════════════════════════════════════════════════════
+function drawMitoScatter() {
+  const svg = clearSVG('plot-mito');
+  const W=560, H=260;
+  const {gx,gy} = drawAxes(svg, W, H, 'K (resistance current)', 'éR');
+  const kMax=3, erMax=15;
+  const xs = k  => pad.l + (k/kMax)*gx;
+  const ys = er => pad.t + gy - Math.min(er/erMax,1)*gy;
+
+  // background curve for each mito EP
+  MITO.forEach(m => {
+    const pts=[];
+    for (let i=0;i<=200;i++) {
+      const k=(i/200)*kMax;
+      const er=eR(m.EP,phi_R(k,L));
+      if (er<=erMax) pts.push([xs(k),ys(er)]);
+    }
+    svg.appendChild(polyline(pts, m.color+'44', 1, '2 2'));
+  });
+
+  // Goldilocks band
+  svg.appendChild(svgEl('rect',{x:pad.l,y:ys(1.5),width:gx,height:ys(0.3)-ys(1.5),fill:'rgba(34,197,94,0.07)'}));
+
+  // dots for each state
+  MITO.forEach(m => {
+    const er=eR(m.EP,phi_R(m.K,L));
+    if (er<=erMax) {
+      svg.appendChild(dot(xs(m.K), ys(er), 7, m.color, `${m.name}: ${er.toFixed(2)}`));
+    }
+  });
+
+  // current point
+  const curER=eR(EP,phi_R(J,L));
+  if (J<=kMax && curER<=erMax) {
+    svg.appendChild(dot(xs(J), ys(curER), 5, '#c8932a'));
+  }
+
+  // y ticks
+  [0,3,6,9,12,15].forEach(er => {
+    const y=ys(er);
+    const t=svgEl('text',{x:pad.l-4,y:y+3,fill:'#64748b','font-size':'8','text-anchor':'end','font-family':'monospace'});
+    t.textContent=er; svg.appendChild(t);
+    svg.appendChild(svgEl('line',{x1:pad.l-2,y1:y,x2:pad.l,y2:y,stroke:'#1e3a5f'}));
+  });
+}
+
+// ════════════════════════════════════════════════════════
+//  PLOT: GDF15 bar chart
+// ════════════════════════════════════════════════════════
+function drawGDF15Chart() {
+  const svg = clearSVG('plot-gdf');
+  const W=560, H=160;
+  const gdfMax=10;
+  const bw = (W - pad.l - pad.r - (MITO.length-1)*6) / MITO.length;
+  MITO.forEach((m,i) => {
+    const er=eR(m.EP,phi_R(m.K,L));
+    const gdf=GDF15(er);
+    const bh=(gdf/gdfMax)*(H-pad.t-pad.b);
+    const bx=pad.l+i*(bw+6);
+    const by=H-pad.b-bh;
+    svg.appendChild(svgEl('rect',{x:bx,y:by,width:bw,height:bh,fill:m.color+'cc',rx:'3'}));
+    const nl=svgEl('text',{x:bx+bw/2,y:H-pad.b+11,fill:m.color,'font-size':'8','text-anchor':'middle','font-family':'monospace'});
+    nl.textContent=m.name.replace('Pre-Apoptotic','Pre-Apop.'); svg.appendChild(nl);
+    const vl=svgEl('text',{x:bx+bw/2,y:by-3,fill:m.color,'font-size':'8','text-anchor':'middle','font-family':'monospace'});
+    vl.textContent=gdf.toFixed(2); svg.appendChild(vl);
+  });
+  // baseline
+  svg.appendChild(svgEl('line',{x1:pad.l,y1:H-pad.b,x2:W-pad.r,y2:H-pad.b,stroke:'#1e3a5f'}));
+  const yl=svgEl('text',{x:10,y:pad.t+(H-pad.t-pad.b)/2,fill:'#64748b','font-size':'9','text-anchor':'middle','font-family':'monospace',transform:`rotate(-90,10,${pad.t+(H-pad.t-pad.b)/2})`});
+  yl.textContent='GDF15'; svg.appendChild(yl);
+}
+
+// ════════════════════════════════════════════════════════
+//  PLOT: PHASE SPACE contour
+// ════════════════════════════════════════════════════════
+function drawPhaseSpace() {
+  const svg = clearSVG('plot-phase');
+  const W=560, H=320;
+  const {gx,gy} = drawAxes(svg, W, H, 'Φ_R', 'EP');
+  const phiMax=2.5, epMax=3;
+  const xs = phi => pad.l + (phi/phiMax)*gx;
+  const ys = ep  => pad.t + gy - (ep/epMax)*gy;
+
+  // contour lines for éR = constant
+  const levels=[0.5,1,2,4,8,16];
+  const colors=['#22c55e','#84cc16','#f59e0b','#f43f5e','#ef4444','#7f1d1d'];
+  levels.forEach((er_lvl, li) => {
+    // For éR = EP·exp(Φ_R²): EP = éR·exp(−Φ_R²)
+    const pts=[];
+    for (let i=0;i<=200;i++) {
+      const phi=(i/200)*phiMax;
+      const ep_line = er_lvl * Math.exp(-phi*phi);
+      if (ep_line>=0 && ep_line<=epMax) {
+        pts.push([xs(phi), ys(ep_line)]);
+      }
+    }
+    svg.appendChild(polyline(pts, colors[li]+'99', 1.2));
+    if (pts.length) {
+      const t=svgEl('text',{x:pts[0][0]-2,y:pts[0][1],fill:colors[li],'font-size':'8','text-anchor':'end','font-family':'monospace'});
+      t.textContent=`éR=${er_lvl}`; svg.appendChild(t);
+    }
+  });
+
+  // current state marker
+  const curPhi=phi_R(J,L);
+  if (curPhi<=phiMax && EP<=epMax) {
+    svg.appendChild(dot(xs(curPhi), ys(EP), 7, '#c8932a', `(Φ=${curPhi.toFixed(2)}, EP=${EP.toFixed(2)})`));
+  }
+
+  // y ticks
+  [0,0.5,1,1.5,2,2.5,3].forEach(ep => {
+    const y=ys(ep);
+    const t=svgEl('text',{x:pad.l-4,y:y+3,fill:'#64748b','font-size':'8','text-anchor':'end','font-family':'monospace'});
+    t.textContent=ep.toFixed(1); svg.appendChild(t);
+    svg.appendChild(svgEl('line',{x1:pad.l-2,y1:y,x2:pad.l,y2:y,stroke:'#1e3a5f'}));
+  });
+}
+
+// ════════════════════════════════════════════════════════
+//  PLOT: TRAJECTORY (éR vs J sweep)
+// ════════════════════════════════════════════════════════
+function drawTraj() {
+  const svg = clearSVG('plot-traj');
+  const W=560, H=180;
+  const {gx,gy} = drawAxes(svg, W, H, 'J (resistance current)', 'éR');
+  const jMax=3, erMax=20;
+  const xs = j  => pad.l + (j/jMax)*gx;
+  const ys = er => pad.t + gy - Math.min(er/erMax,1)*gy;
+
+  const pts=[];
+  for (let i=0;i<=200;i++) {
+    const jj=(i/200)*jMax;
+    const er=eR(EP,phi_R(jj,L));
+    if (er<=erMax) pts.push([xs(jj),ys(er)]);
+  }
+  svg.appendChild(polyline(pts,'#00d4ff',2));
+
+  // Goldilocks band
+  svg.appendChild(svgEl('rect',{x:pad.l,y:ys(1.5),width:gx,height:ys(0.3)-ys(1.5),fill:'rgba(34,197,94,0.07)'}));
+
+  // current J marker
+  const xi=xs(J);
+  const yv=ys(Math.min(eR(EP,phi_R(J,L)),erMax));
+  svg.appendChild(svgEl('line',{x1:xi,y1:pad.t,x2:xi,y2:pad.t+gy,stroke:'rgba(200,147,42,0.5)','stroke-dasharray':'3 3'}));
+  svg.appendChild(dot(xi,yv,5,'#c8932a'));
+
+  [0,5,10,15,20].forEach(er=>{
+    const y=ys(er);
+    const t=svgEl('text',{x:pad.l-4,y:y+3,fill:'#64748b','font-size':'8','text-anchor':'end','font-family':'monospace'});
+    t.textContent=er; svg.appendChild(t);
+    svg.appendChild(svgEl('line',{x1:pad.l-2,y1:y,x2:pad.l,y2:y,stroke:'#1e3a5f'}));
+  });
+}
+
+// ════════════════════════════════════════════════════════
+//  PLOT: ∞₃ vs ERP coupling profile
+// ════════════════════════════════════════════════════════
+function drawInf3() {
+  const svg = clearSVG('plot-inf3');
+  const W=560, H=200;
+  const {gx,gy} = drawAxes(svg, W, H, 'θ (position on S¹/∞₃)', '');
+  const N=300, tMax=2*Math.PI;
+  const xs = i => pad.l + (i/N)*gx;
+  const ys = v => pad.t + gy - v*gy;
+
+  // STUR Mathieu localization wavefunction (3 Gaussians on circle)
+  const kappa=2.430, sigma=0.862;
+  const psiPts=[];
+  for (let i=0;i<=N;i++) {
+    const th=(i/N)*tMax;
+    let psi=0;
+    [0, 2*Math.PI/3, 4*Math.PI/3].forEach(th0 => {
+      psi += Math.exp(-Math.pow(((th-th0+Math.PI)%(2*Math.PI))-Math.PI, 2)/(2*sigma*sigma));
+    });
+    psiPts.push([xs(i), ys(Math.min(psi*0.45, 1))]);
+  }
+  svg.appendChild(polyline(psiPts, '#00d4ff', 2));
+
+  // ERP coupling efficiency V(phi) periodic version
+  const vPts=[];
+  for (let i=0;i<=N;i++) {
+    const th=(i/N)*tMax;
+    const phi=Math.abs(Math.sin(th*1.5))*1.5;
+    vPts.push([xs(i), ys(V(phi))]);
+  }
+  svg.appendChild(polyline(vPts, '#22c55e', 1.5, '4 3'));
+
+  const ld=[['ψ_gen(θ) — STUR localization','#00d4ff'],['V(Φ_R(θ)) — ERP flux coupling','#22c55e']];
+  ld.forEach(([l,c],i)=>{
+    const t=svgEl('text',{x:pad.l+gx-150,y:pad.t+14+i*14,fill:c,'font-size':'9','font-family':'monospace'});
+    t.textContent=l; svg.appendChild(t);
+  });
+
+  // mark 3 generation positions
+  [0,1,2].forEach(g=>{
+    const th=g*2*Math.PI/3;
+    const xi=xs(th/tMax*N);
+    svg.appendChild(svgEl('line',{x1:xi,y1:pad.t,x2:xi,y2:pad.t+gy,stroke:'rgba(200,147,42,0.3)','stroke-dasharray':'2 2'}));
+    const t=svgEl('text',{x:xi,y:pad.t+10,fill:'#c8932a','font-size':'8','text-anchor':'middle','font-family':'monospace'});
+    t.textContent=`Gen ${g+1}`; svg.appendChild(t);
+  });
+}
+
+// ════════════════════════════════════════════════════════
+//  7-STEP CHAIN
+// ════════════════════════════════════════════════════════
+const CHAIN = [
+  { loc:"Stomach / Intestines", name:"Digestion & assimilation",       er:0.05 },
+  { loc:"Heart / Vasculature",  name:"Cardiac output & blood flow",    er:0.08 },
+  { loc:"Capillary beds",       name:"Tissue perfusion",               er:0.07 },
+  { loc:"Cell membrane",        name:"Transport across bilayer",       er:0.12 },
+  { loc:"Cytoplasm",            name:"Glycolysis enzymatic cascades",  er:0.18 },
+  { loc:"Mitochondrial matrix", name:"Import + Krebs cycle",           er:0.22 },
+  { loc:"Inner membrane (ETC)", name:"Electron transport → pmf → ATP", er:0.28 },
+];
+
+function renderChain() {
+  const wrap = document.getElementById('chain-wrap');
+  wrap.innerHTML = '';
+  const curEP = EP;
+  let cumER = 0;
+  CHAIN.forEach((step,i) => {
+    cumER += step.er * curEP;
+    const active = i === CHAIN.length-1 ? 'active-step' : '';
+    const erScaled = (step.er * curEP).toFixed(3);
+    const cumStr   = cumER.toFixed(3);
+    const div = document.createElement('div');
+    div.className = `chain-step ${active}`;
+    div.innerHTML = `
+      <div class="chain-num">${i+1}</div>
+      <div class="chain-loc">${step.loc}</div>
+      <div class="chain-name">${step.name}</div>
+      <div class="chain-er" style="color:#f43f5e">+éR ${erScaled}</div>
+      <div class="chain-er" style="color:#94a3b8">Σ${cumStr}</div>
+    `;
+    wrap.appendChild(div);
+  });
+}
+
+// ════════════════════════════════════════════════════════
+//  MITO BAR TABLE
+// ════════════════════════════════════════════════════════
+function renderMitoBar() {
+  const wrap = document.getElementById('mito-bar');
+  wrap.innerHTML = '<div class="mito-row" style="font-size:9px;color:var(--dim);font-weight:700;"><span>State</span><span>éR bar</span><span>éR</span><span>GDF15</span><span>Health</span></div>';
+  const erMax = eR(MITO[4].EP, phi_R(MITO[4].K, 1)) * 1.1;
+  MITO.forEach(m => {
+    const er = eR(m.EP, phi_R(m.K, L));
+    const gdf = GDF15(er);
+    const pct = Math.min(er/erMax*100, 100);
+    const health = er<0.6?'Optimal':er<1.5?'Elevated':er<5?'High':'Critical';
+    const hc = er<0.6?'#22c55e':er<1.5?'#f59e0b':er<5?'#f43f5e':'#ef4444';
+    const row = document.createElement('div');
+    row.className = 'mito-row';
+    row.innerHTML = `
+      <span class="mito-name" style="color:${m.color}">${m.name}</span>
+      <div class="mito-bar-fill"><div class="mito-bar-inner" style="width:${pct}%;background:${m.color}"></div></div>
+      <span class="mito-val" style="color:${m.color}">${er>999?'∞':er.toFixed(2)}</span>
+      <span class="mito-val" style="color:var(--rose)">${gdf.toFixed(2)}</span>
+      <span class="mito-val" style="color:${hc}">${health}</span>
+    `;
+    wrap.appendChild(row);
+  });
+}
+
+// ════════════════════════════════════════════════════════
+//  STUR EXT CARDS
+// ════════════════════════════════════════════════════════
+const STUR_EXT = [
+  { label:"κ (localization)",  val:"2.430", color:"#00d4ff",
+    desc:"Mathieu parameter from ∞₃; sets wavefunction width σ=0.862 rad → Cabibbo angle λ=exp(−κ²/4)=0.229" },
+  { label:"σ (gen width)",     val:"0.862 rad", color:"#00d4ff",
+    desc:"RMS width of generation wavefunction = 49.4°. Maps to mitochondrial coupling coherence radius" },
+  { label:"λ_chrono",          val:"1.376", color:"#c8932a",
+    desc:"Log-periodic scaling ratio e^(1/π). Predicts ultradian oscillation of mitochondrial éR" },
+  { label:"N_gen = 3",         val:"exact", color:"#22c55e",
+    desc:"Three ∞₃ fixed points → three respiratory complex isoforms? Three ATP synthesis stages?" },
+  { label:"δ_CP = 270°",       val:"lemniscate", color:"#a855f7",
+    desc:"Maximal CP violation from helix chirality. Mitochondria are chiral (L-amino acids, D-sugars)" },
+  { label:"∞₃ Berry phase",    val:"0 (exact)", color:"#f59e0b",
+    desc:"Real Mathieu eigenstates → zero Berry phase → no geometric phase loss in energy transport" },
+  { label:"Λ_CC = 0 (tree)",   val:"Ward identity", color:"#22c55e",
+    desc:"Same discrete gauge symmetry protecting Λ=0 could protect mitochondrial resting potential" },
+  { label:"M_DM = 0.92 TeV",  val:"KK LKP", color:"#f43f5e",
+    desc:"Dark matter at 0.92 TeV from KK-parity. Same topology producing 3 generations may produce 3 ETC complexes" },
+];
+
+function renderSTURExt() {
+  const grid = document.getElementById('stur-ext-grid');
+  grid.innerHTML = '';
+  STUR_EXT.forEach(e => {
+    const d = document.createElement('div');
+    d.className = 'stur-ext-card';
+    d.innerHTML = `<div class="label">${e.label}</div><div class="val" style="color:${e.color}">${e.val}</div><div class="desc">${e.desc}</div>`;
+    grid.appendChild(d);
+  });
+}
+
+// ════════════════════════════════════════════════════════
+//  GOLDILOCKS MARKER
+// ════════════════════════════════════════════════════════
+function updateGoldilocksMarker() {
+  const er = eR(EP, phi_R(J,L));
+  // map er to pct: 0=left, 100=right; optimal 0.3-1.5
+  // low: 0-0.3, opt: 0.3-1.5, high: 1.5+
+  // map [0,5] → [0,100]%
+  const pct = Math.min(er/5*100, 99);
+  const marker = document.getElementById('gk-marker');
+  marker.style.left = pct + '%';
+  marker.style.color = er<0.3?'#00d4ff':er<1.5?'#22c55e':'#f43f5e';
+}
+
+// ════════════════════════════════════════════════════════
+//  HEALTH ZONE
+// ════════════════════════════════════════════════════════
+function healthZone(er) {
+  if (er<0.3)  return ['TOO LOW','#00d4ff'];
+  if (er<0.6)  return ['OPTIMAL','#22c55e'];
+  if (er<1.5)  return ['ELEVATED','#f59e0b'];
+  if (er<5)    return ['HIGH','#f43f5e'];
+  return ['CRITICAL','#ef4444'];
+}
+
+// ════════════════════════════════════════════════════════
+//  LIVE READOUT UPDATE
+// ════════════════════════════════════════════════════════
+function updateLive() {
+  const phi = phi_R(J,L);
+  const v   = V(phi);
+  const er  = eR(EP, phi);
+  const su  = S_u(u);
+  const lc  = l_coh(J);
+  const gdf = GDF15(er);
+  const [zone, zc] = healthZone(er);
+
+  // sidebar
+  document.getElementById('sv-J').textContent  = J.toFixed(3);
+  document.getElementById('sv-L').textContent  = L.toFixed(3);
+  document.getElementById('sv-EP').textContent = EP.toFixed(3);
+  document.getElementById('sv-u').textContent  = u.toFixed(3);
+  document.getElementById('lv-phi').textContent = phi.toFixed(4);
+  document.getElementById('lv-V').textContent   = v.toFixed(4);
+  document.getElementById('lv-eR').textContent  = er>999?'∞':er.toFixed(3);
+  document.getElementById('lv-Su').textContent  = su.toFixed(4);
+  document.getElementById('lv-lc').textContent  = lc.toFixed(3);
+  document.getElementById('lv-gdf').textContent = gdf.toFixed(3);
+  const zEl = document.getElementById('lv-zone');
+  zEl.textContent = zone; zEl.style.color = zc;
+
+  // bridge tab values
+  document.getElementById('b-phi').textContent = phi.toFixed(4);
+  document.getElementById('b-V').textContent   = v.toFixed(4);
+  document.getElementById('b-eR').textContent  = er>999?'∞':er.toFixed(3);
+  document.getElementById('b-gdf').textContent = gdf.toFixed(3);
+  document.getElementById('b-Su').textContent  = su.toFixed(4);
+  document.getElementById('b-lc').textContent  = lc.toFixed(3);
+  document.getElementById('ep-label').textContent = EP.toFixed(3);
+
+  // sat tab
+  document.getElementById('s-u').textContent    = u.toFixed(3);
+  document.getElementById('s-tanh').textContent = Math.tanh(u).toFixed(4);
+  document.getElementById('s-exp').textContent  = (1-Math.exp(-u)).toFixed(4);
+  document.getElementById('s-Su').textContent   = su.toFixed(4);
+}
+
+// ════════════════════════════════════════════════════════
+//  MASTER UPDATE
+// ════════════════════════════════════════════════════════
+function updateAll() {
+  J  = parseFloat(document.getElementById('sl-J').value);
+  L  = parseFloat(document.getElementById('sl-L').value);
+  EP = parseFloat(document.getElementById('sl-EP').value);
+  u  = parseFloat(document.getElementById('sl-u').value);
+  updateLive();
+  updateGoldilocksMarker();
+  renderChain();
+  drawBridge();
+  if (activeTab===1) { drawSaturation(); drawVisibility(); }
+  if (activeTab===2) { drawMitoScatter(); renderMitoBar(); drawGDF15Chart(); }
+  if (activeTab===3) { drawPhaseSpace(); drawTraj(); }
+  if (activeTab===4) { drawInf3(); }
+}
+
+function onSlide() {
+  // mark as custom preset
+  document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('[data-idx="-1"]').classList.add('active');
+  updateAll();
+}
+
+// ════════════════════════════════════════════════════════
+//  PRESETS
+// ════════════════════════════════════════════════════════
+function loadPreset(idx) {
+  document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector(`[data-idx="${idx}"]`).classList.add('active');
+  if (idx>=0) {
+    const m = MITO[idx];
+    J=m.K; EP=m.EP;
+    document.getElementById('sl-J').value  = J;
+    document.getElementById('sl-EP').value = EP;
+    activePreset=idx;
+  }
+  updateAll();
+  if (idx>=0) switchTab(2);
+}
+
+// ════════════════════════════════════════════════════════
+//  TABS
+// ════════════════════════════════════════════════════════
+function switchTab(idx) {
+  activeTab=idx;
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));
+  document.querySelectorAll('.tab-pane').forEach((p,i)=>p.classList.toggle('active',i===idx));
+  // render tab content
+  if (idx===1) { drawSaturation(); drawVisibility(); }
+  if (idx===2) { drawMitoScatter(); renderMitoBar(); drawGDF15Chart(); }
+  if (idx===3) { drawPhaseSpace(); drawTraj(); }
+  if (idx===4) { renderSTURExt(); drawInf3(); }
+}
+
+// ════════════════════════════════════════════════════════
+//  EXPORT
+// ════════════════════════════════════════════════════════
+function exportSVGs() {
+  const ids=['plot-bridge','plot-sat','plot-vis','plot-mito','plot-gdf','plot-phase','plot-traj','plot-inf3'];
+  ids.forEach(id => {
+    const svg=document.getElementById(id);
+    if (!svg) return;
+    const data = new XMLSerializer().serializeToString(svg);
+    const blob = new Blob([data],{type:'image/svg+xml'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = id+'.svg';
+    a.click();
+  });
+  toast('All SVGs exported!');
+}
+
+function shareThis() {
+  if (navigator.share) {
+    navigator.share({title:'STUR ⟺ ERP Lab',url:location.href});
+  } else {
+    navigator.clipboard.writeText(location.href);
+    toast('Link copied!');
+  }
+}
+
+function toast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ════════════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════════════
+window.addEventListener('load', () => {
+  renderSTURExt();
+  renderChain();
+  renderMitoBar();
+  updateAll();
+  console.log('✅ STUR ⟺ ERP Lab ready. ∞₃ bridge active.');
+});
+</script>
+</body>
+</html>

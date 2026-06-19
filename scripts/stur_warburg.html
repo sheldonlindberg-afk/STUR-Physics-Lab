@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>STUR ⟺ ERP Warburg Cancer Lab — STUR Physics Lab</title>
+<meta name="description" content="Interactive simulation of the Warburg effect (aerobic glycolysis in cancer) through the ERP framework and STUR holonomy.">
+
+<meta name="theme-color" content="#f87171">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="STUR">
+<link rel="manifest" href="../manifest.json">
+<link rel="apple-touch-icon" href="../assets/4.13.png">
+<link rel="icon" type="image/png" href="../assets/4.13.png">
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']]}}</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+<style>
+/* ── Warburg Lab custom styles ── */
+:root {
+  --hub-color: #f87171;
+  --red:    #f87171;
+  --redL:   #fca5a5;
+  --redD:   #dc2626;
+  --cyan:   #00d4ff;
+  --green:  #22c55e;
+  --amber:  #f59e0b;
+  --violet: #a855f7;
+  --blue:   #3b82f6;
+  --dim:    #94a3b8;
+}
+
+/* ── layout ── */
+.warburg-wrap {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 0;
+  min-height: calc(100vh - 64px);
+}
+
+/* ── sidebar ── */
+.warburg-sidebar {
+  background: rgba(12,4,4,0.97);
+  border-right: 1px solid rgba(248,113,113,0.2);
+  padding: 16px 14px;
+  overflow-y: auto;
+}
+.sidebar-section { margin-bottom: 18px; }
+.sidebar-label {
+  color: var(--hub-color);
+  font-size: 9px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.slider-row { margin-bottom: 12px; }
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  margin-bottom: 3px;
+}
+.slider-name { color: var(--dim); }
+.slider-val  { font-family: monospace; font-weight: 700; }
+input[type=range] {
+  width: 100%;
+  height: 4px;
+  accent-color: var(--hub-color);
+  cursor: pointer;
+}
+
+/* drug selector */
+.drug-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+.drug-btn {
+  padding: 5px 8px;
+  font-size: 9px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(10,4,4,0.8);
+  color: var(--dim);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+}
+.drug-btn:hover       { border-color: rgba(248,113,113,0.4); color: var(--redL); }
+.drug-btn.active-drug { background: rgba(248,113,113,0.15); border-color: var(--hub-color); color: var(--hub-color); }
+
+/* cell state presets */
+.preset-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+.preset-btn {
+  padding: 5px 0;
+  font-size: 9px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(10,4,4,0.8);
+  color: var(--dim);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.preset-btn:hover  { border-color: rgba(248,113,113,0.4); color: var(--redL); }
+.preset-btn.active { background: rgba(248,113,113,0.15); border-color: var(--hub-color); color: var(--hub-color); }
+
+/* live panel */
+.live-panel {
+  background: rgba(4,2,2,0.9);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.live-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 11px;
+}
+.live-row:last-child { border-bottom: none; }
+.live-key { color: var(--dim); }
+.live-num { font-family: monospace; font-weight: 700; }
+
+/* ── main area ── */
+.warburg-main {
+  padding: 16px 20px;
+  overflow-y: auto;
+  background: rgba(8,2,2,0.6);
+}
+
+/* hero */
+.warburg-hero {
+  background: linear-gradient(135deg, rgba(248,113,113,0.07), rgba(220,38,38,0.04));
+  border: 1px solid rgba(248,113,113,0.28);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+}
+.warburg-hero-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 6px;
+  letter-spacing: -0.3px;
+}
+.warburg-hero-sub {
+  font-size: 11px;
+  color: var(--dim);
+  margin: 0 0 10px;
+}
+.warburg-master-eq {
+  font-family: monospace;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 14px;
+  background: rgba(6,2,4,0.9);
+  border-left: 3px solid var(--hub-color);
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+.hero-links { margin-top: 8px; display: flex; gap: 12px; flex-wrap: wrap; }
+.hero-links a { font-size: 10px; color: var(--cyan); text-decoration: none; }
+.hero-links a:hover { text-decoration: underline; }
+
+/* tabs */
+.tab-bar {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 14px;
+  background: rgba(20,4,4,0.8);
+  padding: 4px;
+  border-radius: 8px;
+  width: fit-content;
+  flex-wrap: wrap;
+}
+.tab-btn {
+  padding: 6px 13px;
+  font-size: 11px;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--dim);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.tab-btn.active { background: var(--hub-color); color: #000; }
+.tab-btn:hover:not(.active) { color: var(--hub-color); }
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* eq cards */
+.eq-card {
+  background: rgba(5,2,8,0.9);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-left: 3px solid var(--cyan);
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  font-family: monospace;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.eq-card.red    { border-left-color: var(--hub-color); }
+.eq-card.green  { border-left-color: var(--green); }
+.eq-card.amber  { border-left-color: var(--amber); }
+.eq-card.violet { border-left-color: var(--violet); }
+.eq-card.blue   { border-left-color: var(--blue); }
+
+/* val grid */
+.val-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: 12px 0;
+}
+.val-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 12px 0;
+}
+.val-box {
+  background: rgba(3,2,6,0.9);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 6px;
+  padding: 10px 8px;
+  text-align: center;
+}
+.val-box-label { font-size: 9px; color: var(--dim); margin-bottom: 4px; }
+.val-box-num   { font-family: monospace; font-size: 16px; font-weight: 700; }
+
+/* plot box */
+.plot-box {
+  background: rgba(4,2,6,0.9);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+.plot-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--dim);
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* sec label */
+.sec-label {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--hub-color);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 16px 0 8px;
+}
+
+/* goldilocks band */
+.goldilocks {
+  display: flex;
+  align-items: center;
+  height: 28px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 10px 0 4px;
+  font-size: 10px;
+  font-weight: 600;
+}
+.gk-normal  { background: rgba(34,197,94,0.3);  color: var(--green); flex: 2; display: flex; align-items: center; justify-content: center; }
+.gk-warburg { background: rgba(248,113,113,0.2); color: var(--redL); flex: 1; display: flex; align-items: center; justify-content: center; }
+.gk-cancer  { background: rgba(220,38,38,0.3);   color: #fca5a5;    flex: 1; display: flex; align-items: center; justify-content: center; border-left: 1px solid rgba(220,38,38,0.4); }
+
+/* state comparison table */
+.state-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  margin-top: 8px;
+}
+.state-table th {
+  padding: 6px 10px;
+  background: rgba(248,113,113,0.1);
+  color: var(--hub-color);
+  font-size: 10px;
+  text-align: left;
+  letter-spacing: 0.5px;
+}
+.state-table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: #e2e8f0;
+}
+.state-table tr:hover td { background: rgba(255,255,255,0.02); }
+.mono { font-family: monospace; }
+
+/* therapy cards */
+.therapy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin: 10px 0;
+}
+.therapy-card {
+  background: rgba(5,2,8,0.9);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.therapy-card .t-name  { font-size: 11px; font-weight: 700; color: var(--hub-color); margin-bottom: 3px; }
+.therapy-card .t-mech  { font-size: 9px; color: var(--dim); line-height: 1.4; margin-bottom: 6px; }
+.therapy-card .t-val   { font-family: monospace; font-size: 12px; font-weight: 700; }
+
+/* holonomy state cards */
+.holo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin: 10px 0;
+}
+.holo-card {
+  background: rgba(5,2,8,0.9);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 6px;
+  padding: 10px 12px;
+  text-align: center;
+}
+.holo-card .h-label { font-size: 9px; color: var(--dim); margin-bottom: 4px; }
+.holo-card .h-val   { font-family: monospace; font-size: 14px; font-weight: 700; }
+.holo-card .h-desc  { font-size: 9px; color: var(--dim); margin-top: 4px; line-height: 1.4; }
+
+/* export btn */
+.export-btn {
+  padding: 7px 16px;
+  background: var(--hub-color);
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 6px;
+}
+.export-btn:hover { background: var(--redL); }
+
+/* toast */
+.toast {
+  position: fixed; bottom: 20px; right: 20px;
+  background: var(--green); color: #000;
+  padding: 10px 20px; border-radius: 8px;
+  font-weight: 700; font-size: 12px;
+  opacity: 0; transition: opacity 0.3s;
+  z-index: 9999; pointer-events: none;
+}
+.toast.show { opacity: 1; }
+
+/* dose indicator */
+.dose-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.08);
+  overflow: hidden;
+  margin-top: 4px;
+}
+.dose-fill { height: 100%; border-radius: 3px; background: var(--green); transition: width 0.3s; }
+
+@media (max-width: 720px) {
+  .warburg-wrap { grid-template-columns: 1fr; }
+  .warburg-sidebar { border-right: none; border-bottom: 1px solid rgba(248,113,113,0.2); }
+  .val-grid  { grid-template-columns: repeat(2,1fr); }
+  .val-grid-3 { grid-template-columns: repeat(2,1fr); }
+  .therapy-grid { grid-template-columns: 1fr; }
+  .holo-grid    { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">
+      <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
+      STUR Lab
+    </a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Home</a>
+      <a href="stur_biological_hub.html" class="glass-nav-link">Biology Hub</a>
+      <a href="stur_erp_lab.html" class="glass-nav-link">ERP Lab</a>
+      <a href="stur_atp.html" class="glass-nav-link">Mitochondria</a>
+    </div>
+  </nav>
+</header>
+
+<div class="warburg-wrap">
+
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
+<aside class="warburg-sidebar">
+
+  <div class="sidebar-label">Cell State Presets</div>
+  <div class="sidebar-section">
+    <div class="preset-grid" id="preset-grid">
+      <button class="preset-btn active" data-idx="0" onclick="loadPreset(0)">Normal</button>
+      <button class="preset-btn"        data-idx="1" onclick="loadPreset(1)">Early W.</button>
+      <button class="preset-btn"        data-idx="2" onclick="loadPreset(2)">Transition</button>
+      <button class="preset-btn"        data-idx="3" onclick="loadPreset(3)">Full W.</button>
+      <button class="preset-btn"        data-idx="4" onclick="loadPreset(4)">Anoikis</button>
+      <button class="preset-btn"        data-idx="-1" onclick="loadPreset(-1)">Custom</button>
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-label">Parameters</div>
+
+    <div class="slider-row">
+      <div class="slider-header">
+        <span class="slider-name">W (Warburg fraction)</span>
+        <span class="slider-val" id="sv-W" style="color:var(--hub-color)">0.30</span>
+      </div>
+      <input type="range" id="sl-W" min="0" max="1" step="0.01" value="0.30" oninput="onSlide()">
+    </div>
+
+    <div class="slider-row">
+      <div class="slider-header">
+        <span class="slider-name">J (STUR current)</span>
+        <span class="slider-val" id="sv-J" style="color:var(--amber)">1.00</span>
+      </div>
+      <input type="range" id="sl-J" min="0.1" max="2.0" step="0.05" value="1.00" oninput="onSlide()">
+    </div>
+
+    <div class="slider-row">
+      <div class="slider-header">
+        <span class="slider-name">Glucose uptake (x)</span>
+        <span class="slider-val" id="sv-G" style="color:var(--green)">1.0</span>
+      </div>
+      <input type="range" id="sl-G" min="1" max="40" step="0.5" value="1" oninput="onSlide()">
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-label">Drug Intervention</div>
+    <div class="slider-row">
+      <div class="slider-header">
+        <span class="slider-name">Drug dose (0–1)</span>
+        <span class="slider-val" id="sv-dose" style="color:var(--green)">0.50</span>
+      </div>
+      <input type="range" id="sl-dose" min="0" max="1" step="0.01" value="0.50" oninput="onSlide()">
+      <div class="dose-bar"><div class="dose-fill" id="dose-fill" style="width:50%"></div></div>
+    </div>
+    <div class="drug-selector" id="drug-selector">
+      <button class="drug-btn active-drug" data-drug="none"       onclick="selectDrug('none')">None (baseline)</button>
+      <button class="drug-btn"             data-drug="2dg"        onclick="selectDrug('2dg')">2-DG (glycolysis inhibitor)</button>
+      <button class="drug-btn"             data-drug="metformin"  onclick="selectDrug('metformin')">Metformin (complex I)</button>
+      <button class="drug-btn"             data-drug="dca"        onclick="selectDrug('dca')">DCA (PDK inhibitor)</button>
+      <button class="drug-btn"             data-drug="lonidamine" onclick="selectDrug('lonidamine')">Lonidamine (HK inhibitor)</button>
+      <button class="drug-btn"             data-drug="combined"   onclick="selectDrug('combined')">Combined therapy</button>
+    </div>
+  </div>
+
+  <!-- Live readout -->
+  <div class="sidebar-section">
+    <div class="sidebar-label">Live Readout</div>
+    <div class="live-panel">
+      <div class="live-row"><span class="live-key">W</span>         <span class="live-num" id="lv-W"   style="color:var(--hub-color)">0.300</span></div>
+      <div class="live-row"><span class="live-key">f (OXPHOS)</span><span class="live-num" id="lv-f"   style="color:var(--cyan)">0.723</span></div>
+      <div class="live-row"><span class="live-key">EP</span>        <span class="live-num" id="lv-EP"  style="color:var(--amber)">0.513</span></div>
+      <div class="live-row"><span class="live-key">éR</span>        <span class="live-num" id="lv-eR"  style="color:var(--hub-color)">0.980</span></div>
+      <div class="live-row"><span class="live-key">Φ_R</span>       <span class="live-num" id="lv-phi" style="color:var(--violet)">0.400</span></div>
+      <div class="live-row"><span class="live-key">V(Φ_R)</span>    <span class="live-num" id="lv-V"   style="color:var(--green)">0.923</span></div>
+      <div class="live-row"><span class="live-key">ATP/glucose</span><span class="live-num" id="lv-ATP" style="color:var(--green)">27.2</span></div>
+      <div class="live-row"><span class="live-key">pH</span>        <span class="live-num" id="lv-pH"  style="color:var(--amber)">7.16</span></div>
+      <div class="live-row"><span class="live-key">Growth rate</span><span class="live-num" id="lv-GR"  style="color:var(--cyan)">1.24</span></div>
+      <div class="live-row"><span class="live-key">Health zone</span><span class="live-num" id="lv-zone" style="color:var(--green)">NORMAL</span></div>
+    </div>
+  </div>
+
+  <button class="export-btn" onclick="exportSVGs()" style="width:100%;">Export SVGs</button>
+</aside>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<main class="warburg-main">
+
+  <!-- Hero -->
+  <div class="warburg-hero">
+    <div style="font-family:monospace;color:var(--hub-color);font-size:9px;letter-spacing:3px;margin-bottom:4px;">STUR v7.0 ⟺ ERP — WARBURG 1924 — AEROBIC GLYCOLYSIS IN CANCER</div>
+    <h1 class="warburg-hero-title">STUR ⟺ ERP Warburg Cancer Lab</h1>
+    <p class="warburg-hero-sub">Otto Warburg's 1924 discovery: cancer cells prefer glycolysis even in oxygen. The ERP framework maps this to holonomy pinning; STUR predicts 3 stable metabolic compactification states.</p>
+    <div class="warburg-master-eq">
+      <span style="color:var(--hub-color)">éR</span>
+      <span style="color:var(--dim)"> = </span>
+      <span style="color:#e2e8f0">EP</span>
+      <span style="color:var(--dim)"> / </span>
+      <span style="color:var(--green)">f²</span>
+      <span style="color:var(--dim)">  |  </span>
+      <span style="color:var(--violet)">Φ_R</span>
+      <span style="color:var(--dim)"> = </span>
+      <span style="color:#e2e8f0">J · ℓ</span>
+      <span style="color:var(--dim)">  |  </span>
+      <span style="color:#e2e8f0">f(W)</span>
+      <span style="color:var(--dim)"> = </span>
+      <span style="color:var(--cyan)">0.85·(1−W) + 0.10·W</span>
+    </div>
+    <div class="hero-links">
+      <a href="https://en.wikipedia.org/wiki/Warburg_effect" target="_blank">Warburg Effect (Wikipedia)</a>
+      <a href="stur_biological_hub.html" style="color:var(--hub-color);">Biology Hub</a>
+      <a href="stur_erp_lab.html" style="color:var(--amber);">ERP Lab</a>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab(0)">Warburg Bridge</button>
+    <button class="tab-btn"        onclick="switchTab(1)">Phase Transition</button>
+    <button class="tab-btn"        onclick="switchTab(2)">Cell States</button>
+    <button class="tab-btn"        onclick="switchTab(3)">Therapeutics</button>
+    <button class="tab-btn"        onclick="switchTab(4)">Holonomy Collapse</button>
+  </div>
+
+  <!-- ─── TAB 0: WARBURG BRIDGE ─── -->
+  <div class="tab-pane active" id="pane-0">
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+      <div>
+        <div class="eq-card red">f(W)  = 0.85·(1−W) + 0.10·W</div>
+        <div class="eq-card amber">EP(W) = 0.72·(1−W) + 0.05·W</div>
+        <div class="eq-card green">éR(W) = EP(W) / f(W)²</div>
+        <div class="eq-card violet">Φ_R = J · ℓ  (ℓ = mito path)</div>
+      </div>
+      <div>
+        <div class="eq-card blue">Normal (W=0):  f=0.85, éR≈1.00</div>
+        <div class="eq-card red">Warburg (W=1): f=0.10, éR≈5.00</div>
+        <div class="eq-card">V(Φ_R) = exp(−Φ_R²/2)  [flux decay]</div>
+        <div class="eq-card">éR_STUR = EP·exp(+Φ_R²)</div>
+      </div>
+    </div>
+
+    <div class="val-grid">
+      <div class="val-box">
+        <div class="val-box-label">W (Warburg fraction)</div>
+        <div class="val-box-num" id="b0-W" style="color:var(--hub-color)">0.300</div>
+      </div>
+      <div class="val-box">
+        <div class="val-box-label">f (OXPHOS fraction)</div>
+        <div class="val-box-num" id="b0-f" style="color:var(--cyan)">0.723</div>
+      </div>
+      <div class="val-box">
+        <div class="val-box-label">EP (ATP rate)</div>
+        <div class="val-box-num" id="b0-EP" style="color:var(--amber)">0.513</div>
+      </div>
+      <div class="val-box">
+        <div class="val-box-label">éR</div>
+        <div class="val-box-num" id="b0-eR" style="color:var(--hub-color)">0.980</div>
+      </div>
+      <div class="val-box">
+        <div class="val-box-label">Φ_R (holonomy)</div>
+        <div class="val-box-num" id="b0-phi" style="color:var(--violet)">0.400</div>
+      </div>
+      <div class="val-box">
+        <div class="val-box-label">V(Φ_R)</div>
+        <div class="val-box-num" id="b0-V" style="color:var(--green)">0.923</div>
+      </div>
+      <div class="val-box">
+        <div class="val-box-label">ATP/glucose</div>
+        <div class="val-box-num" id="b0-ATP" style="color:var(--green)">27.2</div>
+      </div>
+      <div class="val-box">
+        <div class="val-box-label">Tumor pH</div>
+        <div class="val-box-num" id="b0-pH" style="color:var(--amber)">7.16</div>
+      </div>
+    </div>
+
+    <!-- Goldilocks zone -->
+    <div class="sec-label">Metabolic State Window</div>
+    <div class="goldilocks">
+      <div class="gk-normal">NORMAL OXIDATIVE&nbsp;[W=0–0.2]</div>
+      <div class="gk-warburg">WARBURG SHIFT&nbsp;[W=0.2–0.6]</div>
+      <div class="gk-cancer">CANCER&nbsp;[W&gt;0.6]</div>
+    </div>
+    <div style="position:relative;height:20px;margin-bottom:12px;">
+      <div id="state-marker" style="position:absolute;top:0;transform:translateX(-50%);font-size:14px;transition:left 0.3s;color:var(--hub-color);">▲</div>
+    </div>
+
+    <!-- éR vs W main plot -->
+    <div class="plot-box">
+      <div class="plot-title">éR vs Warburg fraction W — resistance spike as cancer progresses</div>
+      <svg id="plot-erw" width="100%" height="260" viewBox="0 0 600 260" preserveAspectRatio="none"></svg>
+    </div>
+
+    <div class="sec-label">STUR Warburg Interpretation</div>
+    <p style="font-size:11px;color:var(--dim);line-height:1.6;margin:0 0 10px;">
+      In STUR, each mitochondrion carries a holonomy Φ_R = J·ℓ where ℓ is the membrane path length.
+      As cancer metabolically reprograms, ℓ increases (mitochondrial fragmentation), pinning Φ_R near
+      π/√2 ≈ 2.22 — the compactification maximum where V(Φ_R) is minimized and éR diverges.
+      This maps perfectly to the Warburg transition: W → 1 corresponds to Φ_R → π/√2.
+    </p>
+    <div class="eq-card violet">Oncogenic pinning: Φ_R_cancer ≈ π/√2 ≈ 2.221  [V minimized → éR maximized]</div>
+    <div class="eq-card red">éR_STUR = EP · exp(+Φ_R²) = EP · exp(Φ_R²)  [holonomy resistance formula]</div>
+  </div>
+
+  <!-- ─── TAB 1: PHASE TRANSITION ─── -->
+  <div class="tab-pane" id="pane-1">
+    <div class="sec-label">Order Parameter Landscape — Warburg Transition</div>
+    <p style="font-size:11px;color:var(--dim);line-height:1.6;margin:0 0 10px;">
+      W is the order parameter (0 = pure OXPHOS, 1 = pure Warburg). The landscape V(W) shows the
+      free energy wells: normal cell sits at W≈0, cancer locks into W≈1.
+      In the bistable region (W ∈ [0.2, 0.5]), both states are locally stable — a hysteresis loop.
+    </p>
+
+    <div class="plot-box">
+      <div class="plot-title">V(W) — free energy landscape showing bistability</div>
+      <svg id="plot-landscape" width="100%" height="240" viewBox="0 0 600 240" preserveAspectRatio="none"></svg>
+    </div>
+
+    <div class="sec-label">ATP Flux Comparison — OXPHOS vs Warburg vs Total</div>
+    <div class="plot-box">
+      <div class="plot-title">ATP flux (normalized) vs Warburg fraction W</div>
+      <svg id="plot-atpflux" width="100%" height="260" viewBox="0 0 600 260" preserveAspectRatio="none"></svg>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
+      <div>
+        <div class="eq-card green">OXPHOS flux = 36·(1−W)·1.0</div>
+        <div class="eq-card red">Warburg flux = 2·W·40  (40x glucose upregulation)</div>
+        <div class="eq-card amber">Total ATP = 36·(1−W) + 80·W</div>
+      </div>
+      <div>
+        <div class="eq-card blue">Cancer "wins" at W > 0.35 on total ATP flux</div>
+        <div class="eq-card violet">But 18x less efficient per glucose molecule</div>
+        <div class="eq-card">pH = 7.4 − 0.8·W  [acidification drives W up]</div>
+      </div>
+    </div>
+
+    <div class="sec-label">STUR Holonomy Pinning Condition</div>
+    <div class="eq-card violet" style="font-size:11px;line-height:1.7;">
+      dV/dΦ_R = 0  at  Φ_R = π/√2 ≈ 2.221<br>
+      V(Φ_R) = exp(−Φ_R²/2)  →  dV/dΦ_R = −Φ_R·V  = 0  iff  Φ_R = 0  (normal) or holonomy escape<br>
+      Cancer pinning: Φ_R locked at local maximum of éR where OXPHOS is fully suppressed
+    </div>
+  </div>
+
+  <!-- ─── TAB 2: CELL STATE COMPARISON ─── -->
+  <div class="tab-pane" id="pane-2">
+    <div class="sec-label">5 Cell States in (f, EP) Phase Space with éR Iso-lines</div>
+    <div class="plot-box">
+      <div class="plot-title">Scatter plot: (f, EP) space with constant éR contours</div>
+      <svg id="plot-scatter" width="100%" height="300" viewBox="0 0 600 300" preserveAspectRatio="none"></svg>
+    </div>
+
+    <div class="sec-label">State Comparison Bar Chart</div>
+    <div class="plot-box">
+      <div class="plot-title">éR, ATP yield, growth rate, pH — comparison across cell states</div>
+      <svg id="plot-bars" width="100%" height="260" viewBox="0 0 600 260" preserveAspectRatio="none"></svg>
+    </div>
+
+    <div class="sec-label">Detailed Parameter Table</div>
+    <table class="state-table">
+      <thead>
+        <tr>
+          <th>State</th><th>W</th><th>f</th><th>EP</th><th>éR</th>
+          <th>Φ_R</th><th>ATP/gluc</th><th>pH</th><th>éR class</th>
+        </tr>
+      </thead>
+      <tbody id="state-table-body">
+        <!-- populated by JS -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ─── TAB 3: THERAPEUTICS ─── -->
+  <div class="tab-pane" id="pane-3">
+    <div class="sec-label">Therapeutic Interventions — Shifting W Back to Normal</div>
+    <div class="plot-box">
+      <div class="plot-title">éR(W) for each drug intervention at current dose — lower is better</div>
+      <svg id="plot-drugs" width="100%" height="300" viewBox="0 0 600 300" preserveAspectRatio="none"></svg>
+    </div>
+
+    <div class="sec-label">Drug Efficacy Comparison (at current dose = <span id="dose-label">0.50</span>)</div>
+    <div class="plot-box">
+      <div class="plot-title">W restored, éR reduced, ATP normalized — per drug</div>
+      <svg id="plot-drugefficacy" width="100%" height="220" viewBox="0 0 600 220" preserveAspectRatio="none"></svg>
+    </div>
+
+    <div class="sec-label">Mechanism Cards</div>
+    <div class="therapy-grid">
+      <div class="therapy-card">
+        <div class="t-name">2-DG</div>
+        <div class="t-mech">2-Deoxyglucose: inhibits hexokinase and phosphoglucose isomerase — competes with glucose, blocks glycolytic entry</div>
+        <div class="t-val" style="color:var(--green)">W_eff = W · (1 − 0.6·dose)</div>
+      </div>
+      <div class="therapy-card">
+        <div class="t-name">Metformin</div>
+        <div class="t-mech">Complex I inhibitor: blocks ETC electron entry, paradoxically restores OXPHOS pressure; reduces éR via f↑</div>
+        <div class="t-val" style="color:var(--green)">f_eff = f + 0.15·dose</div>
+      </div>
+      <div class="therapy-card">
+        <div class="t-name">DCA</div>
+        <div class="t-mech">Dichloroacetate: inhibits PDK, reactivates pyruvate dehydrogenase — routes pyruvate to Krebs instead of lactate</div>
+        <div class="t-val" style="color:var(--green)">W_eff = W · (1 − 0.7·dose)</div>
+      </div>
+      <div class="therapy-card">
+        <div class="t-name">Lonidamine</div>
+        <div class="t-mech">Hexokinase inhibitor: detaches HK from mitochondria, disrupts the Warburg glycolytic advantage</div>
+        <div class="t-val" style="color:var(--green)">W_eff = W · (1 − 0.65·dose)</div>
+      </div>
+      <div class="therapy-card">
+        <div class="t-name">Combined</div>
+        <div class="t-mech">Multi-target protocol: DCA + 2-DG + Metformin in sequence. Synergistic — near-normal metabolic restoration</div>
+        <div class="t-val" style="color:var(--green)">W_eff = W · (1 − 0.85·dose)</div>
+      </div>
+      <div class="therapy-card">
+        <div class="t-name">None (baseline)</div>
+        <div class="t-mech">No intervention. Cancer cell maintains Warburg state. éR stays elevated, lactate export acidifies tumor microenvironment</div>
+        <div class="t-val" style="color:var(--hub-color)">W unchanged</div>
+      </div>
+    </div>
+
+    <div class="sec-label">Combination Therapy Optimal Protocol</div>
+    <div class="eq-card green" style="font-size:11px;line-height:1.7;">
+      Step 1: DCA (0.6 dose) — reroute pyruvate to Krebs, increase f by ~0.15<br>
+      Step 2: 2-DG (0.5 dose) — suppress remaining glycolysis, cut glucose uptake<br>
+      Step 3: Metformin (0.4 dose) — normalize complex I, reduce éR toward Goldilocks window<br>
+      Result: W_eff ≈ 0.04, éR ≈ 1.0, ATP/glucose ≈ 32, pH → 7.35 (near-normal)
+    </div>
+  </div>
+
+  <!-- ─── TAB 4: HOLONOMY COLLAPSE ─── -->
+  <div class="tab-pane" id="pane-4">
+    <div class="sec-label">V(Φ_R) Potential — Normal vs Cancer Pinned State</div>
+    <div class="plot-box">
+      <div class="plot-title">V(Φ_R) = exp(−Φ_R²/2) — normal minimum vs oncogenic pinning at Φ_R = π/√2</div>
+      <svg id="plot-holonomy" width="100%" height="260" viewBox="0 0 600 260" preserveAspectRatio="none"></svg>
+    </div>
+
+    <div class="sec-label">Φ_R Trajectory During Oncogenic Transformation</div>
+    <div class="plot-box">
+      <div class="plot-title">Φ_R trajectory from normal cell (low) to cancer (pinned) over W parameter</div>
+      <svg id="plot-trajectory" width="100%" height="220" viewBox="0 0 600 220" preserveAspectRatio="none"></svg>
+    </div>
+
+    <div class="sec-label">STUR Observables</div>
+    <div class="holo-grid">
+      <div class="holo-card">
+        <div class="h-label">λ_Cab (Cabibbo coupling)</div>
+        <div class="h-val" style="color:var(--cyan)">0.229</div>
+        <div class="h-desc">λ_Cab = exp(−κ²/4), κ=2.430. Minimum coupling efficiency at full Warburg state</div>
+      </div>
+      <div class="holo-card">
+        <div class="h-label">κ (localization param)</div>
+        <div class="h-val" style="color:var(--violet)">2.430</div>
+        <div class="h-desc">Mathieu parameter from ∞₃ helix — maps to mitochondrial cristae curvature radius</div>
+      </div>
+      <div class="holo-card">
+        <div class="h-label">Φ_R cancer (pinned)</div>
+        <div class="h-val" style="color:var(--hub-color)">π/√2</div>
+        <div class="h-desc">≈ 2.221. The holonomy value where V(Φ_R) is minimized and éR is maximized</div>
+      </div>
+      <div class="holo-card">
+        <div class="h-label">V_cancer (min flux)</div>
+        <div class="h-val" style="color:var(--hub-color)">0.082</div>
+        <div class="h-desc">V(π/√2) = exp(−π/4) ≈ 0.082. Only 8.2% of electron flux reaches ATP synthesis</div>
+      </div>
+      <div class="holo-card">
+        <div class="h-label">éR_cancer (max)</div>
+        <div class="h-val" style="color:var(--hub-color)">0.744</div>
+        <div class="h-desc">éR = EP/V² = 0.005/0.082² at full Warburg. Normalized éR spikes above Goldilocks</div>
+      </div>
+      <div class="holo-card">
+        <div class="h-label">N_gen analogy</div>
+        <div class="h-val" style="color:var(--green)">3</div>
+        <div class="h-desc">STUR predicts 3 stable compactification minima → 3 metabolic regimes: Normal, Warburg, mPTP collapse</div>
+      </div>
+    </div>
+
+    <div class="sec-label">Three Stable Compactification States</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;">
+      <div class="eq-card green" style="font-size:11px;line-height:1.6;">
+        State I: Normal<br>
+        Φ_R ≈ 0.4<br>
+        V ≈ 0.92<br>
+        éR ≈ 1.0 (Goldilocks)<br>
+        W ≈ 0, pH ≈ 7.4
+      </div>
+      <div class="eq-card amber" style="font-size:11px;line-height:1.6;">
+        State II: Warburg<br>
+        Φ_R ≈ π/√2 ≈ 2.22<br>
+        V ≈ 0.08<br>
+        éR ≈ 5+ (elevated)<br>
+        W ≈ 1, pH ≈ 6.6
+      </div>
+      <div class="eq-card red" style="font-size:11px;line-height:1.6;">
+        State III: mPTP<br>
+        Φ_R → ∞<br>
+        V → 0<br>
+        éR → ∞ (collapse)<br>
+        Membrane rupture
+      </div>
+    </div>
+
+    <div class="sec-label">Fermion Generation Analogy</div>
+    <p style="font-size:11px;color:var(--dim);line-height:1.6;margin:0 0 10px;">
+      STUR's ∞₃ helix generates exactly N_gen = 3 fermion generations from 3 fixed points on S¹.
+      By analogy, the 3 metabolic regimes (Normal, Warburg, mPTP) may be the biological realization
+      of these same 3 compactification minima. The Warburg transition is then analogous to
+      a quantum phase transition between generation-1 and generation-2 vacua — driven by
+      the oncogenic reprogramming of the R-field (mitochondrial membrane potential).
+    </p>
+    <div class="eq-card violet">N_gen = 3 (∞₃ fixed points) ↔ 3 metabolic regimes ↔ 3 ETC supercomplex isoforms</div>
+    <div class="eq-card blue">éR_normal ≈ 1.0 (Gen 1 vacuum) | éR_warburg ≈ 5 (Gen 2 vacuum) | éR_mPTP → ∞ (Gen 3 escape)</div>
+  </div>
+
+</main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ════════════════════════════════════════════════════════
+//  CORE MATH — WARBURG ERP FRAMEWORK
+// ════════════════════════════════════════════════════════
+
+// Warburg phase transition functions
+const f_of_W   = W => 0.85 * (1 - W) + 0.10 * W;         // OXPHOS fraction
+const EP_of_W  = W => 0.72 * (1 - W) + 0.05 * W;         // ATP production rate (normalized)
+const eR_basic = (EP, f) => f < 1e-6 ? 1e6 : EP / (f * f);
+const eR_of_W  = W => eR_basic(EP_of_W(W), f_of_W(W));
+
+// STUR holonomy
+const phi_R_normal = 0.4;  // ℓ=0.4, J=1.0
+const phi_R_cancer = Math.PI / Math.SQRT2;  // ≈ 2.221
+const phi_of_W   = (W, J) => {
+  const ell = 0.4 + W * (phi_R_cancer / J - 0.4);  // ℓ interpolation
+  return J * ell;
+};
+const V_of_phi   = phi => Math.exp(-phi * phi / 2);
+const eR_STUR    = (EP, phi) => { const v = V_of_phi(phi); return v < 1e-8 ? 1e8 : EP / (v * v); };
+
+// ATP yield
+const atp_of_W   = W => 36 * (1 - W) + 2 * W;            // ATP/glucose
+const atpFlux_OXPHOS = W => 36 * (1 - W);                 // OXPHOS contribution
+const atpFlux_WB     = W => 2 * W * 40;                   // Warburg contribution (40x glucose upregulation)
+const atpFlux_total  = W => atpFlux_OXPHOS(W) + atpFlux_WB(W);
+
+// pH
+const pH_of_W    = W => 7.4 - 0.8 * W;
+
+// Growth rate (relative)
+const growthRate = W => 1.0 + 1.5 * W * Math.exp(-0.5 * W);  // peaks near W≈0.8
+
+// Drug effect on W
+function drugEffect(W_raw, J, drug, dose) {
+  let Weff = W_raw, fboost = 0;
+  switch (drug) {
+    case '2dg':        Weff = W_raw * (1 - 0.6  * dose); break;
+    case 'metformin':  fboost = 0.15 * dose; break;
+    case 'dca':        Weff = W_raw * (1 - 0.7  * dose); break;
+    case 'lonidamine': Weff = W_raw * (1 - 0.65 * dose); break;
+    case 'combined':   Weff = W_raw * (1 - 0.85 * dose); break;
+  }
+  return { Weff: Math.max(0, Math.min(1, Weff)), fboost };
+}
+
+// Health zone
+function healthZone(eR) {
+  if (eR < 0.8)  return ['LOW éR',   '#00d4ff'];
+  if (eR < 1.3)  return ['NORMAL',   '#22c55e'];
+  if (eR < 2.0)  return ['ELEVATED', '#f59e0b'];
+  if (eR < 4.0)  return ['HIGH',     '#f43f5e'];
+  return           ['CANCER',  '#dc2626'];
+}
+
+// ════════════════════════════════════════════════════════
+//  CELL STATE PRESETS
+// ════════════════════════════════════════════════════════
+const CELL_STATES = [
+  { name:"Normal oxidative",   W:0.00, label:"Normal",     color:"#22c55e" },
+  { name:"Early Warburg",      W:0.25, label:"Early W.",   color:"#84cc16" },
+  { name:"Warburg transition", W:0.50, label:"Transition", color:"#f59e0b" },
+  { name:"Full Warburg cancer",W:0.85, label:"Full W.",    color:"#f43f5e" },
+  { name:"Anoikis-resistant",  W:0.95, label:"Anoikis",   color:"#dc2626" },
+];
+
+// ════════════════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════════════════
+let W = 0.30, J = 1.0, G = 1.0, dose = 0.50;
+let activeDrug = 'none', activeTab = 0, activePreset = -1;
+
+// ════════════════════════════════════════════════════════
+//  SVG HELPERS
+// ════════════════════════════════════════════════════════
+const SVG_NS = "http://www.w3.org/2000/svg";
+const pad = { t: 20, r: 20, b: 34, l: 46 };
+
+function svgEl(tag, attrs) {
+  const el = document.createElementNS(SVG_NS, tag);
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+  return el;
+}
+
+function clearSVG(id) {
+  const el = document.getElementById(id);
+  if (!el) return null;
+  while (el.firstChild) el.removeChild(el.firstChild);
+  return el;
+}
+
+function drawAxes(svg, W_total, H, xLabel, yLabel) {
+  const gx = W_total - pad.l - pad.r;
+  const gy = H - pad.t - pad.b;
+  svg.appendChild(svgEl('line', { x1: pad.l, y1: pad.t, x2: pad.l, y2: pad.t + gy, stroke: '#1e3a5f', 'stroke-width': '1' }));
+  svg.appendChild(svgEl('line', { x1: pad.l, y1: pad.t + gy, x2: pad.l + gx, y2: pad.t + gy, stroke: '#1e3a5f', 'stroke-width': '1' }));
+  // grid lines
+  for (let i = 1; i <= 4; i++) {
+    const y = pad.t + (i / 4) * gy;
+    svg.appendChild(svgEl('line', { x1: pad.l, y1: y, x2: pad.l + gx, y2: y, stroke: '#0d1f3a', 'stroke-dasharray': '3 3' }));
+  }
+  for (let i = 1; i <= 5; i++) {
+    const x = pad.l + (i / 5) * gx;
+    svg.appendChild(svgEl('line', { x1: x, y1: pad.t, x2: x, y2: pad.t + gy, stroke: '#0d1f3a', 'stroke-dasharray': '3 3' }));
+  }
+  // axis labels
+  const xl = svgEl('text', { x: pad.l + gx / 2, y: H - 3, fill: '#64748b', 'font-size': '9', 'text-anchor': 'middle', 'font-family': 'monospace' });
+  xl.textContent = xLabel; svg.appendChild(xl);
+  const yl = svgEl('text', { x: 10, y: pad.t + gy / 2, fill: '#64748b', 'font-size': '9', 'text-anchor': 'middle', 'font-family': 'monospace', transform: `rotate(-90,10,${pad.t + gy / 2})` });
+  yl.textContent = yLabel; svg.appendChild(yl);
+  return { gx, gy };
+}
+
+function polyline(pts, color, width = 1.5, dasharray = 'none') {
+  if (!pts.length) return svgEl('g', {});
+  const d = pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
+  const el = svgEl('path', { d, stroke: color, fill: 'none', 'stroke-width': width, 'stroke-linecap': 'round' });
+  if (dasharray !== 'none') el.setAttribute('stroke-dasharray', dasharray);
+  return el;
+}
+
+function dot(x, y, r, color, label = '') {
+  const g = svgEl('g', {});
+  g.appendChild(svgEl('circle', { cx: x, cy: y, r, fill: color, stroke: 'rgba(0,0,0,0.5)', 'stroke-width': '1' }));
+  if (label) {
+    const t = svgEl('text', { x: x + r + 3, y: y + 4, fill: color, 'font-size': '9', 'font-family': 'monospace' });
+    t.textContent = label; g.appendChild(t);
+  }
+  return g;
+}
+
+function xTicks(svg, gx, gy, min, max, count = 5) {
+  for (let i = 0; i <= count; i++) {
+    const v = min + (i / count) * (max - min);
+    const x = pad.l + (i / count) * gx;
+    const t = svgEl('text', { x, y: pad.t + gy + 12, fill: '#64748b', 'font-size': '8', 'text-anchor': 'middle', 'font-family': 'monospace' });
+    t.textContent = v.toFixed(v < 10 ? 2 : 0); svg.appendChild(t);
+    svg.appendChild(svgEl('line', { x1: x, y1: pad.t + gy, x2: x, y2: pad.t + gy + 3, stroke: '#1e3a5f' }));
+  }
+}
+
+function yTicks(svg, gy, min, max, count = 4) {
+  for (let i = 0; i <= count; i++) {
+    const v = min + (i / count) * (max - min);
+    const y = pad.t + gy - (i / count) * gy;
+    const t = svgEl('text', { x: pad.l - 4, y: y + 3, fill: '#64748b', 'font-size': '8', 'text-anchor': 'end', 'font-family': 'monospace' });
+    t.textContent = v.toFixed(v < 10 ? 1 : 0); svg.appendChild(t);
+    svg.appendChild(svgEl('line', { x1: pad.l - 2, y1: y, x2: pad.l, y2: y, stroke: '#1e3a5f' }));
+  }
+}
+
+function legend(svg, gx, items) {
+  items.forEach(([label, color], i) => {
+    const t = svgEl('text', { x: pad.l + gx - 5, y: pad.t + 12 + i * 14, fill: color, 'font-size': '9', 'text-anchor': 'end', 'font-family': 'monospace' });
+    t.textContent = label; svg.appendChild(t);
+  });
+}
+
+// ════════════════════════════════════════════════════════
+//  PLOT 0: éR vs W
+// ════════════════════════════════════════════════════════
+function drawERvsW() {
+  const svg = clearSVG('plot-erw'); if (!svg) return;
+  const PW = 600, H = 260;
+  const { gx, gy } = drawAxes(svg, PW, H, 'W (Warburg fraction 0→1)', 'éR');
+  const N = 200, erMax = 6.0;
+  const xs = i  => pad.l + (i / N) * gx;
+  const ys = er => pad.t + gy - Math.min(er / erMax, 1) * gy;
+
+  // Goldilocks band (éR 0.8–1.3 = normal)
+  svg.appendChild(svgEl('rect', { x: pad.l, y: ys(1.3), width: gx, height: ys(0.8) - ys(1.3), fill: 'rgba(34,197,94,0.07)' }));
+
+  // éR(W) curve
+  const pts = [];
+  for (let i = 0; i <= N; i++) {
+    const w = i / N;
+    const er = eR_of_W(w);
+    if (er <= erMax) pts.push([xs(i), ys(er)]);
+  }
+  svg.appendChild(polyline(pts, '#f87171', 2.5));
+
+  // STUR holonomy éR
+  const ptsS = [];
+  for (let i = 0; i <= N; i++) {
+    const w = i / N;
+    const phi = phi_of_W(w, J);
+    const ep  = EP_of_W(w);
+    const er  = eR_STUR(ep, phi);
+    if (er <= erMax) ptsS.push([xs(i), ys(er)]);
+  }
+  svg.appendChild(polyline(ptsS, '#a855f7', 1.8, '5 3'));
+
+  // normal zone vertical band
+  svg.appendChild(svgEl('rect', { x: pad.l, y: pad.t, width: gx * 0.15, height: gy, fill: 'rgba(34,197,94,0.05)' }));
+
+  // current W marker
+  const curER = eR_of_W(W);
+  if (curER <= erMax) {
+    const xi = xs(W * N), yi = ys(curER);
+    svg.appendChild(svgEl('line', { x1: xi, y1: pad.t, x2: xi, y2: pad.t + gy, stroke: 'rgba(248,113,113,0.4)', 'stroke-dasharray': '3 3' }));
+    svg.appendChild(dot(xi, yi, 6, '#f87171', `éR=${curER.toFixed(2)}`));
+  }
+
+  // cell state dots
+  CELL_STATES.forEach(cs => {
+    const er = eR_of_W(cs.W);
+    if (er <= erMax) {
+      const xi = xs(cs.W * N), yi = ys(er);
+      svg.appendChild(dot(xi, yi, 4, cs.color, cs.label));
+    }
+  });
+
+  xTicks(svg, gx, gy, 0, 1, 5);
+  yTicks(svg, gy, 0, erMax, 4);
+  legend(svg, gx, [['éR(W) ERP formula', '#f87171'], ['éR(W) STUR holonomy', '#a855f7'], ['Goldilocks (green band)', '#22c55e']]);
+}
+
+// ════════════════════════════════════════════════════════
+//  PLOT 1a: Free energy landscape V(W)
+// ════════════════════════════════════════════════════════
+function drawLandscape() {
+  const svg = clearSVG('plot-landscape'); if (!svg) return;
+  const PW = 600, H = 240;
+  const { gx, gy } = drawAxes(svg, PW, H, 'W (Warburg fraction)', 'Free energy F(W)');
+  const N = 300;
+  const xs = w => pad.l + w * gx;
+  // Double-well potential: two minima at W=0 and W=1
+  const F = w => {
+    // F = (W^2 - W)^2 + 0.25*W  (asymmetric double well biased toward cancer at high W)
+    const base = Math.pow(w * w - w, 2);
+    return base + 0.15 * w;
+  };
+  const Fmax = 0.28, Fmin = 0;
+  const ys = f => pad.t + gy - Math.min(Math.max((f - Fmin) / (Fmax - Fmin), 0), 1) * gy;
+
+  // filled area under curve
+  const pts = [];
+  for (let i = 0; i <= N; i++) {
+    const w = i / N;
+    pts.push([xs(w), ys(F(w))]);
+  }
+  // fill
+  const fillPts = [[pad.l, pad.t + gy], ...pts, [pad.l + gx, pad.t + gy]];
+  const fillD = fillPts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ') + ' Z';
+  svg.appendChild(svgEl('path', { d: fillD, fill: 'rgba(248,113,113,0.06)', stroke: 'none' }));
+  svg.appendChild(polyline(pts, '#f87171', 2.5));
+
+  // Bistable region shading
+  svg.appendChild(svgEl('rect', { x: xs(0.2), y: pad.t, width: xs(0.5) - xs(0.2), height: gy, fill: 'rgba(245,158,11,0.07)' }));
+  const biLabel = svgEl('text', { x: xs(0.35), y: pad.t + 14, fill: '#f59e0b', 'font-size': '9', 'text-anchor': 'middle', 'font-family': 'monospace' });
+  biLabel.textContent = 'Bistable'; svg.appendChild(biLabel);
+
+  // normal minimum marker
+  svg.appendChild(dot(xs(0.02), ys(F(0.02)), 6, '#22c55e', 'Normal (W≈0)'));
+  // cancer minimum marker
+  svg.appendChild(dot(xs(0.98), ys(F(0.98)), 6, '#dc2626', 'Cancer (W≈1)'));
+
+  // current W marker
+  svg.appendChild(svgEl('line', { x1: xs(W), y1: pad.t, x2: xs(W), y2: pad.t + gy, stroke: 'rgba(248,113,113,0.5)', 'stroke-dasharray': '4 3' }));
+  svg.appendChild(dot(xs(W), ys(F(W)), 5, '#f87171'));
+
+  xTicks(svg, gx, gy, 0, 1, 5);
+  yTicks(svg, gy, 0, Fmax, 4);
+}
+
+// ════════════════════════════════════════════════════════
+//  PLOT 1b: ATP flux comparison
+// ════════════════════════════════════════════════════════
+function drawATPFlux() {
+  const svg = clearSVG('plot-atpflux'); if (!svg) return;
+  const PW = 600, H = 260;
+  const { gx, gy } = drawAxes(svg, PW, H, 'W (Warburg fraction)', 'ATP flux (normalized)');
+  const N = 200, fluxMax = 120;
+  const xs = i  => pad.l + (i / N) * gx;
+  const ys = fl => pad.t + gy - Math.min(fl / fluxMax, 1) * gy;
+
+  const ptsOX = [], ptsWB = [], ptsTotal = [], ptsATP = [];
+  for (let i = 0; i <= N; i++) {
+    const w = i / N;
+    ptsOX.push([xs(i), ys(atpFlux_OXPHOS(w))]);
+    ptsWB.push([xs(i), ys(atpFlux_WB(w))]);
+    ptsTotal.push([xs(i), ys(atpFlux_total(w))]);
+    ptsATP.push([xs(i), ys(atp_of_W(w))]);
+  }
+  svg.appendChild(polyline(ptsOX,   '#22c55e', 2));
+  svg.appendChild(polyline(ptsWB,   '#f87171', 2));
+  svg.appendChild(polyline(ptsTotal,'#00d4ff', 2.5));
+  svg.appendChild(polyline(ptsATP,  '#f59e0b', 1.5, '5 3'));
+
+  // crossover point ~ W=0.35 where Warburg flux > OXPHOS flux
+  const crossW = 0.31; // 36*(1-W) = 80*W → W ≈ 36/116 ≈ 0.31
+  svg.appendChild(svgEl('line', { x1: xs(crossW * N), y1: pad.t, x2: xs(crossW * N), y2: pad.t + gy, stroke: 'rgba(245,158,11,0.5)', 'stroke-dasharray': '4 3' }));
+  const cl = svgEl('text', { x: xs(crossW * N) + 4, y: pad.t + 14, fill: '#f59e0b', 'font-size': '9', 'font-family': 'monospace' });
+  cl.textContent = 'Cancer wins'; svg.appendChild(cl);
+
+  // current W
+  svg.appendChild(svgEl('line', { x1: xs(W * N), y1: pad.t, x2: xs(W * N), y2: pad.t + gy, stroke: 'rgba(248,113,113,0.4)', 'stroke-dasharray': '3 3' }));
+
+  xTicks(svg, gx, gy, 0, 1, 5);
+  yTicks(svg, gy, 0, fluxMax, 4);
+  legend(svg, gx, [['OXPHOS flux', '#22c55e'], ['Warburg flux (×40 glucose)', '#f87171'], ['Total ATP flux', '#00d4ff'], ['ATP/glucose', '#f59e0b']]);
+}
+
+// ════════════════════════════════════════════════════════
+//  PLOT 2a: Scatter (f, EP) space
+// ════════════════════════════════════════════════════════
+function drawScatter() {
+  const svg = clearSVG('plot-scatter'); if (!svg) return;
+  const PW = 600, H = 300;
+  const { gx, gy } = drawAxes(svg, PW, H, 'f (OXPHOS electron flux)', 'EP (ATP production rate)');
+  const fMax = 1.0, epMax = 0.8;
+  const xs = f  => pad.l + (f / fMax) * gx;
+  const ys = ep => pad.t + gy - (ep / epMax) * gy;
+
+  // éR iso-lines: éR = EP/f², so EP = éR*f²
+  const isoLevels = [0.5, 1.0, 1.5, 2.5, 5.0];
+  const isoColors = ['#22c55e', '#84cc16', '#f59e0b', '#f43f5e', '#dc2626'];
+  isoLevels.forEach((er_lvl, li) => {
+    const pts = [];
+    for (let i = 0; i <= 200; i++) {
+      const f = (i / 200) * fMax;
+      const ep = er_lvl * f * f;
+      if (ep >= 0 && ep <= epMax) pts.push([xs(f), ys(ep)]);
+    }
+    if (pts.length) {
+      svg.appendChild(polyline(pts, isoColors[li] + '88', 1.2, '3 2'));
+      const last = pts[pts.length - 1];
+      const t = svgEl('text', { x: last[0] + 3, y: last[1], fill: isoColors[li], 'font-size': '8', 'font-family': 'monospace' });
+      t.textContent = `éR=${er_lvl}`; svg.appendChild(t);
+    }
+  });
+
+  // Cell state dots
+  CELL_STATES.forEach(cs => {
+    const f  = f_of_W(cs.W);
+    const ep = EP_of_W(cs.W);
+    svg.appendChild(dot(xs(f), ys(ep), 7, cs.color, cs.label));
+  });
+
+  // current state
+  const fC  = f_of_W(W);
+  const epC = EP_of_W(W);
+  svg.appendChild(dot(xs(fC), ys(epC), 5, '#ffffff'));
+
+  // ticks
+  [0, 0.2, 0.4, 0.6, 0.8, 1.0].forEach(f => {
+    const x = xs(f);
+    const t = svgEl('text', { x, y: pad.t + gy + 12, fill: '#64748b', 'font-size': '8', 'text-anchor': 'middle', 'font-family': 'monospace' });
+    t.textContent = f.toFixed(1); svg.appendChild(t);
+    svg.appendChild(svgEl('line', { x1: x, y1: pad.t + gy, x2: x, y2: pad.t + gy + 3, stroke: '#1e3a5f' }));
+  });
+  [0, 0.2, 0.4, 0.6, 0.8].forEach(ep => {
+    const y = ys(ep);
+    const t = svgEl('text', { x: pad.l - 4, y: y + 3, fill: '#64748b', 'font-size': '8', 'text-anchor': 'end', 'font-family': 'monospace' });
+    t.textContent = ep.toFixed(1); svg.appendChild(t);
+    svg.appendChild(svgEl('line', { x1: pad.l - 2, y1: y, x2: pad.l, y2: y, stroke: '#1e3a5f' }));
+  });
+}
+
+// ════════════════════════════════════════════════════════
+//  PLOT 2b: Bar chart comparison across states
+// ════════════════════════════════════════════════════════
+function drawBars() {
+  const svg = clearSVG('plot-bars'); if (!svg) return;
+  const PW = 600, H = 260;
+  const nStates = CELL_STATES.length;
+  const metrics = ['éR', 'ATP/36', 'pH norm', 'Growth'];
+  const mColors = ['#f87171', '#22c55e', '#00d4ff', '#f59e0b'];
+
+  const groupW = (PW - pad.l - pad.r) / nStates;
+  const barW   = groupW / (metrics.length + 1);
+  const barMax = H - pad.t - pad.b;
+
+  // axis
+  svg.appendChild(svgEl('line', { x1: pad.l, y1: H - pad.b, x2: PW - pad.r, y2: H - pad.b, stroke: '#1e3a5f' }));
+
+  CELL_STATES.forEach((cs, si) => {
+    const f  = f_of_W(cs.W);
+    const ep = EP_of_W(cs.W);
+    const er = eR_basic(ep, f);
+    const atp = atp_of_W(cs.W);
+    const ph  = pH_of_W(cs.W);
+    const gr  = growthRate(cs.W);
+
+    const vals = [
+      Math.min(er / 5.5, 1),           // éR normalized to 5.5
+      atp / 36,                          // ATP per glucose / 36
+      (ph - 6.4) / (7.4 - 6.4),         // pH normalized 6.4–7.4
+      Math.min(gr / 2.5, 1),            // growth rate normalized
+    ];
+
+    const groupX = pad.l + si * groupW + barW * 0.5;
+
+    // state label
+    const sl = svgEl('text', { x: groupX + barW * 2, y: H - 6, fill: cs.color, 'font-size': '8', 'text-anchor': 'middle', 'font-family': 'monospace' });
+    sl.textContent = cs.label; svg.appendChild(sl);
+
+    vals.forEach((v, mi) => {
+      const bx = groupX + mi * barW;
+      const bh = v * barMax * 0.9;
+      const by = H - pad.b - bh;
+      svg.appendChild(svgEl('rect', { x: bx, y: by, width: barW - 2, height: bh, fill: mColors[mi] + 'aa', rx: '2' }));
+    });
+  });
+
+  // legend
+  metrics.forEach((m, mi) => {
+    const t = svgEl('text', { x: pad.l + 5 + mi * 72, y: pad.t + 12, fill: mColors[mi], 'font-size': '9', 'font-family': 'monospace' });
+    t.textContent = m; svg.appendChild(t);
+  });
+}
+
+// ════════════════════════════════════════════════════════
+//  PLOT 2 table
+// ════════════════════════════════════════════════════════
+function renderStateTable() {
+  const tbody = document.getElementById('state-table-body');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  CELL_STATES.forEach(cs => {
+    const f   = f_of_W(cs.W);
+    const ep  = EP_of_W(cs.W);
+    const er  = eR_basic(ep, f);
+    const phi = phi_of_W(cs.W, J);
+    const atp = atp_of_W(cs.W);
+    const ph  = pH_of_W(cs.W);
+    const [zone, zc] = healthZone(er);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="color:${cs.color};font-weight:600;">${cs.name}</td>
+      <td class="mono">${cs.W.toFixed(2)}</td>
+      <td class="mono">${f.toFixed(3)}</td>
+      <td class="mono">${ep.toFixed(3)}</td>
+      <td class="mono" style="color:${cs.color}">${er.toFixed(3)}</td>
+      <td class="mono">${phi.toFixed(3)}</td>
+      <td class="mono">${atp.toFixed(1)}</td>
+      <td class="mono">${ph.toFixed(2)}</td>
+      <td class="mono" style="color:${zc}">${zone}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// ════════════════════════════════════════════════════════
+//  PLOT 3a: Drug curves éR(W)
+// ════════════════════════════════════════════════════════
+const DRUGS = [
+  { key: 'none',       label: 'None',       color: '#94a3b8' },
+  { key: '2dg',        label: '2-DG',       color: '#22c55e' },
+  { key: 'metformin',  label: 'Metformin',  color: '#00d4ff' },
+  { key: 'dca',        label: 'DCA',        color: '#84cc16' },
+  { key: 'lonidamine', label: 'Lonidamine', color: '#a855f7' },
+  { key: 'combined',   label: 'Combined',   color: '#f59e0b' },
+];
+
+function drawDrugCurves() {
+  const svg = clearSVG('plot-drugs'); if (!svg) return;
+  const PW = 600, H = 300;
+  const { gx, gy } = drawAxes(svg, PW, H, 'W_raw (untreated Warburg fraction)', 'éR after treatment');
+  const N = 200, erMax = 6.5;
+  const xs = i  => pad.l + (i / N) * gx;
+  const ys = er => pad.t + gy - Math.min(er / erMax, 1) * gy;
+
+  // Goldilocks band
+  svg.appendChild(svgEl('rect', { x: pad.l, y: ys(1.3), width: gx, height: ys(0.8) - ys(1.3), fill: 'rgba(34,197,94,0.07)' }));
+
+  DRUGS.forEach(drug => {
+    const pts = [];
+    for (let i = 0; i <= N; i++) {
+      const w_raw = i / N;
+      const { Weff, fboost } = drugEffect(w_raw, J, drug.key, dose);
+      const f_eff = Math.min(f_of_W(Weff) + fboost, 0.95);
+      const ep    = EP_of_W(Weff);
+      const er    = eR_basic(ep, f_eff);
+      if (er <= erMax) pts.push([xs(i), ys(er)]);
+    }
+    const lw = drug.key === activeDrug ? 2.5 : 1.2;
+    const dash = drug.key === 'none' ? '4 3' : 'none';
+    svg.appendChild(polyline(pts, drug.color, lw, dash));
+  });
+
+  // current W marker
+  svg.appendChild(svgEl('line', { x1: xs(W * N), y1: pad.t, x2: xs(W * N), y2: pad.t + gy, stroke: 'rgba(248,113,113,0.5)', 'stroke-dasharray': '3 3' }));
+
+  xTicks(svg, gx, gy, 0, 1, 5);
+  yTicks(svg, gy, 0, erMax, 4);
+  legend(svg, gx, DRUGS.map(d => [d.label, d.color]));
+}
+
+// ════════════════════════════════════════════════════════
+//  PLOT 3b: Drug efficacy bar chart
+// ════════════════════════════════════════════════════════
+function drawDrugEfficacy() {
+  const svg = clearSVG('plot-drugefficacy'); if (!svg) return;
+  const PW = 600, H = 220;
+  const nDrugs = DRUGS.length - 1; // skip "none"
+  const metrics = ['W restored', 'éR reduced', 'ATP norm'];
+  const mColors = ['#22c55e', '#f87171', '#00d4ff'];
+  const groupW = (PW - pad.l - pad.r) / nDrugs;
+  const barW   = groupW / (metrics.length + 1);
+  const barMax = H - pad.t - pad.b;
+
+  svg.appendChild(svgEl('line', { x1: pad.l, y1: H - pad.b, x2: PW - pad.r, y2: H - pad.b, stroke: '#1e3a5f' }));
+
+  DRUGS.slice(1).forEach((drug, di) => {
+    const { Weff, fboost } = drugEffect(W, J, drug.key, dose);
+    const f_eff  = Math.min(f_of_W(Weff) + fboost, 0.95);
+    const ep_eff = EP_of_W(Weff);
+    const er_eff = eR_basic(ep_eff, f_eff);
+    const er_raw = eR_of_W(W);
+    const atp_eff = atp_of_W(Weff);
+
+    const wRestored = 1 - Weff / (W + 0.001);
+    const erReduced = 1 - Math.min(er_eff / er_raw, 1);
+    const atpNorm   = atp_eff / 36;
+
+    const vals = [Math.max(0, wRestored), Math.max(0, erReduced), Math.min(atpNorm, 1)];
+    const groupX = pad.l + di * groupW + barW * 0.5;
+
+    const sl = svgEl('text', { x: groupX + barW * 1.5, y: H - 4, fill: drug.color, 'font-size': '8', 'text-anchor': 'middle', 'font-family': 'monospace' });
+    sl.textContent = drug.label; svg.appendChild(sl);
+
+    vals.forEach((v, mi) => {
+      const bx = groupX + mi * barW;
+      const bh = Math.max(0, v * barMax * 0.9);
+      const by = H - pad.b - bh;
+      const highlight = drug.key === activeDrug ? 'ff' : 'aa';
+      svg.appendChild(svgEl('rect', { x: bx, y: by, width: barW - 2, height: bh, fill: mColors[mi] + highlight, rx: '2' }));
+    });
+  });
+
+  metrics.forEach((m, mi) => {
+    const t = svgEl('text', { x: pad.l + 5 + mi * 80, y: pad.t + 12, fill: mColors[mi], 'font-size': '9', 'font-family': 'monospace' });
+    t.textContent = m; svg.appendChild(t);
+  });
+}
+
+// ════════════════════════════════════════════════════════
+//  PLOT 4a: V(Φ_R) holonomy potential
+// ════════════════════════════════════════════════════════
+function drawHolonomy() {
+  const svg = clearSVG('plot-holonomy'); if (!svg) return;
+  const PW = 600, H = 260;
+  const { gx, gy } = drawAxes(svg, PW, H, 'Φ_R (holonomy)', 'V(Φ_R) = exp(−Φ_R²/2)');
+  const N = 300, phiMax = 3.5;
+  const xs = phi => pad.l + (phi / phiMax) * gx;
+  const ys = v   => pad.t + gy - v * gy;
+
+  // V(Φ_R) curve
+  const pts = [];
+  for (let i = 0; i <= N; i++) {
+    const phi = (i / N) * phiMax;
+    pts.push([xs(phi), ys(V_of_phi(phi))]);
+  }
+  // fill under curve
+  const fillPts = [[pad.l, pad.t + gy], ...pts, [xs(phiMax), pad.t + gy]];
+  const fillD = fillPts.map((p, idx) => (idx ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ') + ' Z';
+  svg.appendChild(svgEl('path', { d: fillD, fill: 'rgba(34,197,94,0.05)', stroke: 'none' }));
+  svg.appendChild(polyline(pts, '#22c55e', 2.5));
+
+  // éR on same plot (secondary axis, scaled)
+  const erMax = 30;
+  const pts2 = [];
+  for (let i = 0; i <= N; i++) {
+    const phi = (i / N) * phiMax;
+    const ep  = EP_of_W(W);
+    const er  = eR_STUR(ep, phi);
+    if (er <= erMax) pts2.push([xs(phi), ys(er / erMax)]);
+  }
+  svg.appendChild(polyline(pts2, '#f87171', 1.5, '4 3'));
+
+  // Normal cell marker (Φ_R ≈ 0.4)
+  const phiN = phi_of_W(0, J);
+  svg.appendChild(svgEl('line', { x1: xs(phiN), y1: pad.t, x2: xs(phiN), y2: pad.t + gy, stroke: 'rgba(34,197,94,0.5)', 'stroke-dasharray': '3 3' }));
+  svg.appendChild(dot(xs(phiN), ys(V_of_phi(phiN)), 6, '#22c55e', `Normal Φ_R=${phiN.toFixed(2)}`));
+
+  // Cancer pinned marker (π/√2)
+  const phiC = phi_R_cancer;
+  svg.appendChild(svgEl('line', { x1: xs(phiC), y1: pad.t, x2: xs(phiC), y2: pad.t + gy, stroke: 'rgba(220,38,38,0.5)', 'stroke-dasharray': '3 3' }));
+  svg.appendChild(dot(xs(phiC), ys(V_of_phi(phiC)), 6, '#dc2626', `Cancer Φ_R=π/√2≈${phiC.toFixed(2)}`));
+
+  // Current Φ_R
+  const phiCur = phi_of_W(W, J);
+  if (phiCur <= phiMax) {
+    svg.appendChild(dot(xs(phiCur), ys(V_of_phi(phiCur)), 5, '#f87171'));
+  }
+
+  // ticks
+  [0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5].forEach(phi => {
+    const x = xs(phi);
+    const t = svgEl('text', { x, y: pad.t + gy + 12, fill: '#64748b', 'font-size': '8', 'text-anchor': 'middle', 'font-family': 'monospace' });
+    t.textContent = phi.toFixed(1); svg.appendChild(t);
+    svg.appendChild(svgEl('line', { x1: x, y1: pad.t + gy, x2: x, y2: pad.t + gy + 3, stroke: '#1e3a5f' }));
+  });
+  yTicks(svg, gy, 0, 1, 4);
+  legend(svg, gx, [['V(Φ_R) — electron flux', '#22c55e'], ['éR(Φ_R)/30 — resistance (dashed)', '#f87171']]);
+}
+
+// ════════════════════════════════════════════════════════
+//  PLOT 4b: Φ_R trajectory vs W (oncogenic transformation)
+// ════════════════════════════════════════════════════════
+function drawTrajectory() {
+  const svg = clearSVG('plot-trajectory'); if (!svg) return;
+  const PW = 600, H = 220;
+  const { gx, gy } = drawAxes(svg, PW, H, 'W (oncogenic progression)', 'Φ_R (holonomy)');
+  const N = 200, phiMax = 2.8;
+  const xs = i   => pad.l + (i / N) * gx;
+  const ys = phi => pad.t + gy - Math.min(phi / phiMax, 1) * gy;
+
+  // Φ_R(W) trajectory
+  const pts = [];
+  for (let i = 0; i <= N; i++) {
+    const w   = i / N;
+    const phi = phi_of_W(w, J);
+    if (phi <= phiMax) pts.push([xs(i), ys(phi)]);
+  }
+  svg.appendChild(polyline(pts, '#a855f7', 2.5));
+
+  // fill trajectory
+  const fillPts2 = [[pad.l, pad.t + gy], ...pts, [xs(N), pad.t + gy]];
+  const fillD2 = fillPts2.map((p, idx) => (idx ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ') + ' Z';
+  svg.appendChild(svgEl('path', { d: fillD2, fill: 'rgba(168,85,247,0.07)', stroke: 'none' }));
+
+  // Cancer pinned line at Φ_R_cancer
+  const yPinned = ys(phi_R_cancer);
+  svg.appendChild(svgEl('line', { x1: pad.l, y1: yPinned, x2: pad.l + gx, y2: yPinned, stroke: 'rgba(220,38,38,0.5)', 'stroke-dasharray': '4 3' }));
+  const pl = svgEl('text', { x: pad.l + gx - 5, y: yPinned - 3, fill: '#dc2626', 'font-size': '9', 'text-anchor': 'end', 'font-family': 'monospace' });
+  pl.textContent = `Cancer pinned: π/√2 ≈ ${phi_R_cancer.toFixed(3)}`; svg.appendChild(pl);
+
+  // current W
+  const curPhi = phi_of_W(W, J);
+  const xi = xs(W * N);
+  if (curPhi <= phiMax) {
+    svg.appendChild(svgEl('line', { x1: xi, y1: pad.t, x2: xi, y2: pad.t + gy, stroke: 'rgba(248,113,113,0.4)', 'stroke-dasharray': '3 3' }));
+    svg.appendChild(dot(xi, ys(curPhi), 5, '#f87171', `Φ_R=${curPhi.toFixed(2)}`));
+  }
+
+  xTicks(svg, gx, gy, 0, 1, 5);
+  yTicks(svg, gy, 0, phiMax, 4);
+}
+
+// ════════════════════════════════════════════════════════
+//  LIVE READOUT
+// ════════════════════════════════════════════════════════
+function computeState() {
+  const { Weff, fboost } = drugEffect(W, J, activeDrug, dose);
+  const f_eff  = Math.min(f_of_W(Weff) + fboost, 0.95);
+  const ep_eff = EP_of_W(Weff);
+  const er_eff = eR_basic(ep_eff, f_eff);
+  const phi    = phi_of_W(Weff, J);
+  const v      = V_of_phi(phi);
+  const atp    = atp_of_W(Weff);
+  const ph     = pH_of_W(Weff);
+  const gr     = growthRate(Weff);
+  const [zone, zc] = healthZone(er_eff);
+  return { Weff, f: f_eff, ep: ep_eff, er: er_eff, phi, v, atp, ph, gr, zone, zc };
+}
+
+function updateLive() {
+  const s = computeState();
+  // sidebar
+  document.getElementById('sv-W').textContent = W.toFixed(2);
+  document.getElementById('sv-J').textContent = J.toFixed(2);
+  document.getElementById('sv-G').textContent = G.toFixed(1);
+  document.getElementById('sv-dose').textContent = dose.toFixed(2);
+  document.getElementById('dose-fill').style.width = (dose * 100) + '%';
+  // live panel
+  document.getElementById('lv-W').textContent  = s.Weff.toFixed(3);
+  document.getElementById('lv-f').textContent  = s.f.toFixed(3);
+  document.getElementById('lv-EP').textContent = s.ep.toFixed(3);
+  document.getElementById('lv-eR').textContent = s.er.toFixed(3);
+  document.getElementById('lv-phi').textContent = s.phi.toFixed(3);
+  document.getElementById('lv-V').textContent  = s.v.toFixed(3);
+  document.getElementById('lv-ATP').textContent = s.atp.toFixed(1);
+  document.getElementById('lv-pH').textContent = s.ph.toFixed(2);
+  document.getElementById('lv-GR').textContent = s.gr.toFixed(2);
+  const zEl = document.getElementById('lv-zone');
+  zEl.textContent = s.zone; zEl.style.color = s.zc;
+  // tab 0 val boxes
+  document.getElementById('b0-W').textContent  = s.Weff.toFixed(3);
+  document.getElementById('b0-f').textContent  = s.f.toFixed(3);
+  document.getElementById('b0-EP').textContent = s.ep.toFixed(3);
+  document.getElementById('b0-eR').textContent = s.er.toFixed(3);
+  document.getElementById('b0-phi').textContent = s.phi.toFixed(3);
+  document.getElementById('b0-V').textContent  = s.v.toFixed(3);
+  document.getElementById('b0-ATP').textContent = s.atp.toFixed(1);
+  document.getElementById('b0-pH').textContent = s.ph.toFixed(2);
+  // dose label in tab 3
+  const dl = document.getElementById('dose-label');
+  if (dl) dl.textContent = dose.toFixed(2);
+  // state marker position
+  const marker = document.getElementById('state-marker');
+  marker.style.left = (s.Weff * 100) + '%';
+  marker.style.color = s.Weff < 0.2 ? '#22c55e' : s.Weff < 0.6 ? '#f59e0b' : '#dc2626';
+}
+
+// ════════════════════════════════════════════════════════
+//  MASTER UPDATE
+// ════════════════════════════════════════════════════════
+function updateAll() {
+  W    = parseFloat(document.getElementById('sl-W').value);
+  J    = parseFloat(document.getElementById('sl-J').value);
+  G    = parseFloat(document.getElementById('sl-G').value);
+  dose = parseFloat(document.getElementById('sl-dose').value);
+  updateLive();
+  // Always redraw tab 0
+  drawERvsW();
+  // Redraw active tab
+  if (activeTab === 1) { drawLandscape(); drawATPFlux(); }
+  if (activeTab === 2) { drawScatter(); drawBars(); renderStateTable(); }
+  if (activeTab === 3) { drawDrugCurves(); drawDrugEfficacy(); }
+  if (activeTab === 4) { drawHolonomy(); drawTrajectory(); }
+}
+
+function onSlide() {
+  // Remove preset highlight when manually sliding
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('[data-idx="-1"]').classList.add('active');
+  activePreset = -1;
+  updateAll();
+}
+
+// ════════════════════════════════════════════════════════
+//  PRESETS
+// ════════════════════════════════════════════════════════
+function loadPreset(idx) {
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`[data-idx="${idx}"]`).classList.add('active');
+  if (idx >= 0) {
+    const cs = CELL_STATES[idx];
+    W = cs.W;
+    document.getElementById('sl-W').value = W;
+    activePreset = idx;
+  }
+  updateAll();
+}
+
+// ════════════════════════════════════════════════════════
+//  DRUG SELECTOR
+// ════════════════════════════════════════════════════════
+function selectDrug(drug) {
+  activeDrug = drug;
+  document.querySelectorAll('.drug-btn').forEach(b => b.classList.remove('active-drug'));
+  document.querySelector(`[data-drug="${drug}"]`).classList.add('active-drug');
+  updateAll();
+}
+
+// ════════════════════════════════════════════════════════
+//  TABS
+// ════════════════════════════════════════════════════════
+function switchTab(idx) {
+  activeTab = idx;
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
+  document.querySelectorAll('.tab-pane').forEach((p, i) => p.classList.toggle('active', i === idx));
+  if (idx === 1) { drawLandscape(); drawATPFlux(); }
+  if (idx === 2) { drawScatter(); drawBars(); renderStateTable(); }
+  if (idx === 3) { drawDrugCurves(); drawDrugEfficacy(); }
+  if (idx === 4) { drawHolonomy(); drawTrajectory(); }
+}
+
+// ════════════════════════════════════════════════════════
+//  EXPORT
+// ════════════════════════════════════════════════════════
+function exportSVGs() {
+  const ids = ['plot-erw', 'plot-landscape', 'plot-atpflux', 'plot-scatter', 'plot-bars',
+               'plot-drugs', 'plot-drugefficacy', 'plot-holonomy', 'plot-trajectory'];
+  ids.forEach(id => {
+    const svg = document.getElementById(id);
+    if (!svg) return;
+    const data = new XMLSerializer().serializeToString(svg);
+    const blob = new Blob([data], { type: 'image/svg+xml' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = id + '.svg';
+    a.click();
+  });
+  showToast('All SVGs exported!');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ════════════════════════════════════════════════════════
+//  NAV TOGGLE (glass-header mobile)
+// ════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  const toggle = document.querySelector('.glass-nav-toggle');
+  const links  = document.querySelector('.glass-nav-links');
+  if (toggle && links) {
+    toggle.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!expanded));
+      links.classList.toggle('open', !expanded);
+    });
+  }
+});
+
+// ════════════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════════════
+window.addEventListener('load', () => {
+  updateAll();
+  console.log('STUR Warburg Cancer Lab ready. Warburg 1924 — STUR holonomy pinning at phi_R = pi/sqrt(2).');
+});
+</script>
+</body>
+</html>
