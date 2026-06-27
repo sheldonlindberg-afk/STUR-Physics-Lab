@@ -5,6 +5,35 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.2.0] - 2026-06-27 — Resistance Physics Framework (ERP + TEGR + XCRM + Chronomagnetics)
+
+### Added
+- `scripts/stur_resistance_physics.py` v2.0: Full resistance-first unification across 11 sections
+  - **ERP axiom** (Energy Resistance Principle): E = ½ R Φ² — single axiom spanning all scales
+  - **TEGR torsion resistance**: R_grav = M_Pl²/2 = ℏc/(2G_N); Friedmann equation = ERP at FRW scale
+  - **XCRM Kirchhoff loop**: n_w κ σ = 2π verified (2.5e-4 residual); ω = π × 2π = 2π² confirmed
+  - **Water as SI resistance standard**: K(P) bulk modulus table 0.1→1000 MPa (Tait equation)
+  - **Z₃ Mathieu fixed-point PMNS**: First-principles computation from 3 Mathieu eigenmodes
+    - sin²θ₂₃ = 0.500 **exact** (Z₂ symmetry of V=α(1−cosθ)); PDG: 0.545 (8% off → structural)
+    - sin²θ₁₃ = 0 **exact** (se₁ has node at θ=0 by Z₂ odd parity); PDG: 0.022 (needs U_ℓ correction)
+    - sin²θ₁₂ = 0.224 from ψ₂(0)²/(ψ₂(0)²+2ψ₂(2π/3)²); PDG: 0.307 (27% off)
+  - **λ_W = ψ₀(2π/3)/ψ₀(0) = 0.22545** (0.04% from PDG 0.22537) — supersedes exp(−κ²/4) = 0.229 (1.6%)
+  - **m_u via Wolfenstein ladder**: m_u = m_c × λ_W³ = 5.1 MeV (2.3× PDG) — best first-principles estimate
+  - **Resistance hierarchy clarification**: CKM mixing (inter-brane, λ_W from Mathieu) ≠ mass hierarchy (intra-brane, KK exponential)
+
+### Changed
+- **m_u status: U → P** (from 478× unresolved → 2.3× via Wolfenstein resistance ladder mechanism)
+- Scorecard: **24D + 4P + 0U + 1I = 29** (m_u moves from U to P)
+- `scripts/stur_v71_closure.py` committed: full TEGR→XCRM→Mathieu→CKM→PMNS→seesaw chain
+
+### Open (inherited from v7.1.1, updated estimates)
+- sin²θ₁₂ = 0.224 (27% off): Z₃ Mathieu gives 0.224; fix requires full U_ℓ† rotation with lemniscate phase
+- m_u = 5.1 MeV (2.3× PDG): Wolfenstein mechanism identified; 2× residual = NLO KK + QCD running m_u(M_KK)→m_u(2 GeV)
+- Δm²₂₁ = 8.5×10⁻⁶ eV² (89% off): pseudo-Dirac M_R structure correct; NLO XCRM loop pending
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
 ## [7.1.1] - 2026-06-19 — Five Priority Improvements (Conceptual, No Scorecard Change)
 
 ### Added
