@@ -5,7 +5,7 @@ STUR v7.0 — First-Principles Closure Script
 TEGR + XCRM + Chronomagnetics: all connections explicit.
 No tuning. No free parameters beyond the 4 inputs.
 
-Key improvements over v7.0:
+Key improvements in this script:
   1. TEGR → XCRM derivation chain shown explicitly
   2. U_ν from Z₃-forced bimaximal seesaw (not assumed TBM)
   3. Δm²₂₁ from XCRM antisymmetric KK perturbation
@@ -704,7 +704,7 @@ print(f"    U  {counts.get('U',0):2d}  m_u: nodal-zero gives {m_u_pred*1e3:.1f} 
 print(f"    I   1  (4 inputs: M_Pl, v_EW, m_t, α_em)")
 print(f"    TOTAL {total}")
 
-print(f"\n  v7.0 IMPROVEMENTS OVER v7.0 (conceptual, same scorecard numbers):")
+print(f"\n  KEY IMPROVEMENTS IN THIS SCRIPT (conceptual, same scorecard numbers):")
 print(f"    TEGR: explicit S_TEGR → T_KK(X) → XCRM → Mathieu derivation chain (PART 0)")
 print(f"    ω=2π²: from ∞₃ phase closure n_w×κ×σ=2π → ω=π×2π=2π² (PART 2 + PART 9)")
 print(f"    Z₃ M_R: selection rule g+h≡0(mod 3) forces pseudo-Dirac pair (PART 4)")

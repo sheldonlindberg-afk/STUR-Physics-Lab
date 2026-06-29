@@ -656,7 +656,7 @@ print(f"""
     I   1  (4 fundamental inputs)
     Closure fraction: {D_frac:.0f}%  ({counts['D']}D / {counts['D']+counts.get('P',0)} non-input observables)
 
-  v7.0 ADVANCES OVER v7.0:
+  KEY ADVANCES (this release):
     1. sin²θ₁₃ = {sin2_13:.4f}  DERIVED for first time from resistance physics
        Mechanism: φ_lem=−i acts on se₁(2π/3)≠0 via U_PMNS[νe,ν₃] = i s₁₂ se₁(2π/3)/n₃
        Status upgrade: 100% off (P) → {abs(sin2_13-0.022)/0.022*100:.0f}% off (D)

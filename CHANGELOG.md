@@ -73,7 +73,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   proves α = 1 from π₁(S¹/Z₃) = Z holonomy condition y × v × L_X = 2π
 
 ### Changed
-- `README.md`: Version 7.0 → 7.0; v7.0 improvements section added; λ_chrono exact value
+- `README.md`: Improvements section added; λ_chrono exact value
   e^{1/π} stated alongside triangle approximation
 - `XCRM_YUKAWA_SYMMETRY_DERIVATION.md`: Header updated to v7.0; Derivation 6 is now preferred
 

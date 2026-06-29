@@ -192,7 +192,7 @@ Starting from α_tree = 1.0 (XCRM-Yukawa symmetry y = 2π/3):
 | Two-loop correction (f_2loop) | ×1.056 | Two-loop gauge threshold |
 | **Total (v7.0)** | **α_eff = 1.480 ± 0.047** | See §4.2 for full derivation |
 
-*Note (v7.0 update): The v7.0 closure script (`stur_v71_closure.py`) and resistance physics script (`stur_resistance_physics.py`) use α_eff = 1.4584 (quark) and 1.3798 (lepton), derived from the self-consistency condition ε/σ = 0.898 at the Mathieu fixed point (updated from v7.0's 1.480/1.399 based on the improved Mathieu solver with N=3000 points). The Cabibbo prediction λ_W = ψ₀(2π/3)/ψ₀(0) = 0.22545 (0.04% PDG) confirms α_eff = 1.4584 is more accurate.*
+*Note: The closure scripts (`stur_v71_closure.py`, `stur_toe_closure.py`) and resistance physics script (`stur_resistance_physics.py`) use α_eff = 1.4584 (quark) and 1.3798 (lepton), derived from the self-consistency condition ε/σ = 0.898 at the Mathieu fixed point (improved from the initial table value 1.480/1.399 using the N=3000 point Mathieu solver). The Cabibbo prediction λ_W = ψ₀(2π/3)/ψ₀(0) = 0.22545 (0.04% PDG) confirms α_eff = 1.4584 is more accurate.*
 
 ### Chain Step 3: Cabibbo Angle and CKM Matrix
 

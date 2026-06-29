@@ -50,7 +50,7 @@ The infinity helix is not static. It is a **dynamic infinity helix** — always 
 
 **The manifold is the same at any scale; only the perspective changes.** This discrete scale invariance, governed by the chronomagnetic ratio lambda_chrono = e^{1/π} = 1.37479 (exact), resolves all apparent scale questions: L_X^fund ~ 10^-32 m (Planck-scale winding quantum) and L_eff ~ 0.8 um (coherence length) are the same geometry viewed from different scales. The integer triangle {116, 138, 144} from the Chronomagnetics paper is a rational approximation (0.085%) to this exact result. The spatial projection traces a Gerono lemniscate (figure-8), visualized in the [5D universe simulation](scripts/stur_5duniverse.html).
 
-### v7.0 Improvements (full PMNS derivation; sin²θ₁₃ from first principles)
+### PMNS Closure: Full U_ℓ† × U_ν (sin²θ₁₃ from first principles)
 
 Scorecard change: **25D+3P+0U+1I=29** (sin²θ₁₃ upgrades P→D; closure 86%→89%):
 
@@ -73,7 +73,7 @@ Scorecard change: **25D+3P+0U+1I=29** (sin²θ₁₃ upgrades P→D; closure 86%
 5. **TOE closure script `scripts/stur_toe_closure.py`** consolidates all 29 observables in
    11 parts: ERP axiom → α_eff → Mathieu → CKM → U_ν → U_ℓ → PMNS → Δm²₂₁ → m_u → DM+Λ_CC → fermion masses → grand scorecard.
 
-### v7.0 Improvements (resistance physics framework)
+### Resistance Physics Framework: ERP Unification
 
 Scorecard change: **24D+4P+0U+1I=29** (m_u upgrades U→P via Wolfenstein resistance ladder):
 
@@ -97,9 +97,9 @@ Scorecard change: **24D+4P+0U+1I=29** (m_u upgrades U→P via Wolfenstein resist
 5. **Two resistance mechanisms clarified.** CKM mixing (inter-brane λ_W) and mass hierarchy
    (intra-brane KK exponential) are distinct resistance processes. Previously conflated.
 
-### v7.0 Improvements
+### Conceptual Framework Improvements (ω, α, Δm²₂₁ mechanisms)
 
-Five conceptual improvements over v7.0 (scorecard numbers unchanged — 24D+3P+1U+1I=29):
+Five conceptual improvements (scorecard numbers unchanged at this stage — 24D+3P+1U+1I=29):
 
 1. **ω = 2π² established as primary.** The chronomagnetic frequency ω derives from ∞₃ phase
    closure (n_w × κ × σ = 2π, verified 0.016%), giving ω = πS = 2π². The integer triangle
