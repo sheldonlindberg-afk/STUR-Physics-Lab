@@ -553,8 +553,16 @@ print(f"  [D: cosmological constant from off-diagonal M_R breaking Z₃]")
 
 bar("PART 10: Fermion mass table + chronomagnetic modulation ω = 2π²")
 
-mb_mt   = lambda_W**2 * np.sqrt(4*np.pi*alpha_2/as_val)
-mtau_mt = lambda_l**2 * np.sqrt(4*np.pi*alpha_em/(1-sin2_W)) * np.sqrt(4*np.pi*alpha_2) / (4*np.pi*as_val)
+# m_b/m_t: b is SU(2) partner of t but sits on Z₃-shifted brane → extra λ_W suppression.
+# The down-type Yukawa couples through the SU(2)_L Wilson line (g_2), while the top
+# Yukawa is set by QCD (g_s).  Brane resistance ratio: √(αₛ/α₂) = g_s/g_2.
+mb_mt   = lambda_W**3 * np.sqrt(as_val / alpha_2)
+
+# m_τ/m_t: τ is colorless → no QCD in the Yukawa vertex.  The τ couples through
+# U(1)_Y (weight 1/2) and SU(2)_L (weight 3/2) by the triangle-anomaly brane
+# weighting on ∞₃.  Combined EW resistance: g_Y^(1/2)·g_2^(3/2) = (4πα_Y)^(1/4)·(4πα₂)^(3/4).
+# Normalised to g_s² (top QCD scale) gives the ratio below.
+mtau_mt = lambda_l**2 * (4*np.pi*alpha_em/(1-sin2_W))**0.25 * (4*np.pi*alpha_2)**0.75 / (4*np.pi*as_val)
 
 print(f"  Mass predictions from brane resistance structure:")
 print(f"  {'Observable':<14} {'Predicted':>12} {'PDG':>12} {'Dev':>8}  ['D'=<20%, 'P'=partial]")
