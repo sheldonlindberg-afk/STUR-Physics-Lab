@@ -3,17 +3,17 @@
 **The Dynamic Infinity Helix Framework**
 
 **Document Type:** Complete First-Principles Derivation Chain
-**Framework:** STUR v7.2 — ∞-Helix Topology on M⁴ × S¹ with Resistance Physics (ERP)
+**Framework:** STUR v7.3 — ∞-Helix Topology on M⁴ × S¹ with Resistance Physics (ERP)
 **Author:** Sheldon Lon Lindberg
-**Date:** 2026-06-27 (v7.2 update)
-**Version:** 7.2 — Resistance physics framework; λ_W from Mathieu Z₃ fixed point (0.04%); m_u → P
-**Status:** TOE Candidate — 24 derived (D), 4 partially derived (P), 0 unresolved, 1 input (I) = 29 observables
+**Date:** 2026-06-29 (v7.3 update)
+**Version:** 7.3 — Full PMNS from U_ℓ†×U_ν; sin²θ₁₃ derived (5%); scorecard 25D+3P+0U+1I
+**Status:** TOE Candidate — 25 derived (D), 3 partially derived (P), 0 unresolved, 1 input (I) = 29 observables
 
 ---
 
 ## Abstract
 
-We present a unified framework in which all observable particle physics emerges from the phase-locked coherence of a dynamically oscillating ∞-helix topology on M⁴ × S¹. The extra-dimensional geometry is not static: it is an **infinity helix** — always winding and unwinding simultaneously at every scale. The manifold is the same at any scale; only the perspective changes. This discrete scale invariance, governed by λ_chrono = e^{1/π} (exact), is the organizing principle. The ∞-helix twist angle θ(t) is a dynamical degree of freedom that continuously oscillates on a log-periodic cycle. When the three orbifold sectors fall into phase alignment — the **phase-lock condition** — coherent matter interactions emerge with sharply defined generations, mixing angles, and mass hierarchies. The Cabibbo (Wolfenstein) parameter λ_W = ψ₀(2π/3)/ψ₀(0) = 0.22545 (0.04% from PDG) is the inter-brane resistance ratio, the signature of this phase-locked geometry. Away from phase-lock, localization weakens and generation boundaries dissolve.
+We present a unified framework in which all observable particle physics emerges from the phase-locked coherence of a dynamically oscillating ∞-helix topology on M⁴ × S¹. The extra-dimensional geometry is not static: it is an **infinity helix** — always winding and unwinding simultaneously at every scale. The manifold is the same at any scale; only the perspective changes. This discrete scale invariance, governed by λ_chrono = e^{1/π} (exact), is the organizing principle. The ∞-helix twist angle θ(t) is a dynamical degree of freedom that continuously oscillates on a log-periodic cycle. When the three orbifold sectors fall into phase alignment — the **phase-lock condition** — coherent matter interactions emerge with sharply defined generations, mixing angles, and mass hierarchies. The Cabibbo (Wolfenstein) parameter λ_W = ψ₀(2π/3)/ψ₀(0) = 0.22545 (0.04% from PDG) is the inter-brane resistance ratio, the signature of this phase-locked geometry. Away from phase-lock, localization weakens and generation boundaries dissolve. In v7.3, the full PMNS mixing matrix is computed as U_PMNS = U_ℓ† × U_ν, with U_ν from the lepton brane Z₃ Mathieu network and U_ℓ carrying the lemniscate CM phase φ_lem = −i; this yields sin²θ₁₃ = 0.0232 (PDG 0.0220, 5%) — the first derivation of the reactor angle from resistance physics.
 
 The framework rests on three pillars united by the **Energy Resistance Principle (ERP)**:
 1. **TEGR** (Teleparallel Equivalent of General Relativity): gravity as torsion resistance (R_grav = M_Pl²/2)
