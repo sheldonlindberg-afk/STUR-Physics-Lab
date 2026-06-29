@@ -913,7 +913,7 @@ print(f"    ✓ M_DM = {M_DM:.0f} GeV from freeze-out (no free parameters)")
 print(f"    ✓ Ω_DM h² = {Omega_DM:.3f}  (Planck 0.120, {abs(Omega_DM-0.120)/0.120*100:.1f}%)")
 print(f"    ✓ N_gen = 3, θ_QCD = 0, gauge group, proton stability  (topological)")
 
-print(f"\n  WHAT NEEDS v7.1:")
+print(f"\n  WHAT NEEDS v7.0:")
 print(f"    • Higher-loop KK: m_u/m_t (1-loop gives 1 GeV vs PDG 0.002 GeV; 2-loop needed)")
 print(f"    • Off-diagonal M_R + loop: pin sin²θ₁₂ (34% off), sin²θ₁₃ (37% off); close Δm²₂₁ (63%)")
 print(f"    • SU(2)_L Wilson line: reduce m_b/m_t (14%) and m_τ/m_t (13%) residuals")

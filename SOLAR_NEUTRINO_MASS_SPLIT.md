@@ -1,7 +1,7 @@
 # Δm²₂₁ from Z₃-Forced Off-Diagonal Seesaw
 
 **Document Type:** Theoretical Derivation  
-**Framework:** STUR v7.1  
+**Framework:** STUR v7.0  
 **Date:** 2026-06-19  
 **Status:** P — Mechanism derived (Z₃ forces off-diagonal M_R); quantitative precision pending NLO  
 

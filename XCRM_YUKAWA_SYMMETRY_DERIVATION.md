@@ -1,8 +1,8 @@
 # First-Principles Derivation of XCRM-Yukawa Symmetry
 
 **Document Type:** Theoretical Physics Derivation
-**Framework:** STUR v7.1 (updated from v4.3)
-**Date:** 2026-06-19 (v7.1 addition: Derivation 6, topological winding quantization)
+**Framework:** STUR v7.0 (updated from v4.3)
+**Date:** 2026-06-19 (v7.0 addition: Derivation 6, topological winding quantization)
 **Status:** Complete First-Principles Analysis — Derivation 6 (§6b) is the preferred derivation
 **Purpose:** Derive y = |χ|·L_X from geometric principles, eliminating it as an assumption
 
@@ -557,9 +557,9 @@ y = |χ|·L_X  ✓
 
 ---
 
-## 6b. Derivation 6: Topological Winding Quantization (v7.1) — **PREFERRED**
+## 6b. Derivation 6: Topological Winding Quantization (v7.0) — **PREFERRED**
 
-> **Status (v7.1):** This derivation upgrades the α = 1 condition from a self-consistency
+> **Status (v7.0):** This derivation upgrades the α = 1 condition from a self-consistency
 > argument (§6) to a **topological quantization condition**. It is the strongest currently
 > available argument for y = 2π/3.
 

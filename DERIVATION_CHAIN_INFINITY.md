@@ -3,9 +3,9 @@
 **The Dynamic Infinity Helix Framework**
 
 **Document Type:** Complete First-Principles Derivation Chain
-**Framework:** STUR v7.3 — ∞-Helix Topology on M⁴ × S¹ with Resistance Physics (ERP)
+**Framework:** STUR v7.0 — ∞-Helix Topology on M⁴ × S¹ with Resistance Physics (ERP)
 **Author:** Sheldon Lon Lindberg
-**Date:** 2026-06-29 (v7.3 update)
+**Date:** 2026-06-29 (v7.0 update)
 **Version:** 7.3 — Full PMNS from U_ℓ†×U_ν; sin²θ₁₃ derived (5%); scorecard 25D+3P+0U+1I
 **Status:** TOE Candidate — 25 derived (D), 3 partially derived (P), 0 unresolved, 1 input (I) = 29 observables
 
@@ -13,14 +13,14 @@
 
 ## Abstract
 
-We present a unified framework in which all observable particle physics emerges from the phase-locked coherence of a dynamically oscillating ∞-helix topology on M⁴ × S¹. The extra-dimensional geometry is not static: it is an **infinity helix** — always winding and unwinding simultaneously at every scale. The manifold is the same at any scale; only the perspective changes. This discrete scale invariance, governed by λ_chrono = e^{1/π} (exact), is the organizing principle. The ∞-helix twist angle θ(t) is a dynamical degree of freedom that continuously oscillates on a log-periodic cycle. When the three orbifold sectors fall into phase alignment — the **phase-lock condition** — coherent matter interactions emerge with sharply defined generations, mixing angles, and mass hierarchies. The Cabibbo (Wolfenstein) parameter λ_W = ψ₀(2π/3)/ψ₀(0) = 0.22545 (0.04% from PDG) is the inter-brane resistance ratio, the signature of this phase-locked geometry. Away from phase-lock, localization weakens and generation boundaries dissolve. In v7.3, the full PMNS mixing matrix is computed as U_PMNS = U_ℓ† × U_ν, with U_ν from the lepton brane Z₃ Mathieu network and U_ℓ carrying the lemniscate CM phase φ_lem = −i; this yields sin²θ₁₃ = 0.0232 (PDG 0.0220, 5%) — the first derivation of the reactor angle from resistance physics.
+We present a unified framework in which all observable particle physics emerges from the phase-locked coherence of a dynamically oscillating ∞-helix topology on M⁴ × S¹. The extra-dimensional geometry is not static: it is an **infinity helix** — always winding and unwinding simultaneously at every scale. The manifold is the same at any scale; only the perspective changes. This discrete scale invariance, governed by λ_chrono = e^{1/π} (exact), is the organizing principle. The ∞-helix twist angle θ(t) is a dynamical degree of freedom that continuously oscillates on a log-periodic cycle. When the three orbifold sectors fall into phase alignment — the **phase-lock condition** — coherent matter interactions emerge with sharply defined generations, mixing angles, and mass hierarchies. The Cabibbo (Wolfenstein) parameter λ_W = ψ₀(2π/3)/ψ₀(0) = 0.22545 (0.04% from PDG) is the inter-brane resistance ratio, the signature of this phase-locked geometry. Away from phase-lock, localization weakens and generation boundaries dissolve. In v7.0, the full PMNS mixing matrix is computed as U_PMNS = U_ℓ† × U_ν, with U_ν from the lepton brane Z₃ Mathieu network and U_ℓ carrying the lemniscate CM phase φ_lem = −i; this yields sin²θ₁₃ = 0.0232 (PDG 0.0220, 5%) — the first derivation of the reactor angle from resistance physics.
 
 The framework rests on three pillars united by the **Energy Resistance Principle (ERP)**:
 1. **TEGR** (Teleparallel Equivalent of General Relativity): gravity as torsion resistance (R_grav = M_Pl²/2)
 2. **XCRM** (Cross-Resistance Modulus): the unique first-derivative coupling of a real doublet R-field on S¹, forming a Kirchhoff topological resistance loop (∮ y·v·dX = 2π)
 3. **Chronomagnetics**: log-periodic modulation of torsion contortion M(t) = |sin(ω ln t)|, ω = 2π²
 
-**ERP axiom (v7.2):** E = ½ R Φ² — resistance × flux² = energy at every scale.
+**ERP axiom (v7.0):** E = ½ R Φ² — resistance × flux² = energy at every scale.
 - α = Z₀/(2R_K) = μ₀ce²/(2h) [exact, 8×10⁻¹³ residual] — fine structure constant IS a resistance ratio
 - TEGR: E_grav = ½ M_Pl² × T [Friedmann equation = ERP at FRW scale]
 - XCRM: phase closure n_w κ σ = 2π → ω = π × 2π = 2π² [< 0.004% residual]
@@ -88,7 +88,7 @@ N_ν = 2.9840 ± 0.0082 (from Z-width)
 | θ_QCD = 0 | ∞₃ × CP symmetry | **Exact** | **D** | Symmetry argument |
 | Proton stability (dim-5) | ∞-helix KK-parity selection rule | **Exact** | **D** | Selection rule |
 | κ = 2.430 | Mathieu equation at α_eff = 1.480 | **Computed** | **D** | `stur_first_principles_calculation.py` |
-| λ_W = 0.22545 (Cabibbo) | ψ₀(2π/3)/ψ₀(0) at Z₃ fixed points | **0.04%** | **D** | `stur_resistance_physics.py` (v7.2); exp(−κ²/4)=0.229 (1.6%) is alternate formula |
+| λ_W = 0.22545 (Cabibbo) | ψ₀(2π/3)/ψ₀(0) at Z₃ fixed points | **0.04%** | **D** | `stur_resistance_physics.py` (v7.0); exp(−κ²/4)=0.229 (1.6%) is alternate formula |
 | Berry phase = 0 | Real Mathieu eigenstates | **Exact** | **D** | `berry_phase_exact.py` |
 | η̄ = 0.375 | Helix chirality + holonomy chain | **0.9σ** | **D** | v7.0: full correction chain (f_hol × f_Berry × f_RG) |
 | δ_CKM = 68.3° | arctan(1/2) + π/3 × f_screen | **4.4%** | **D** | `stur_v7_full_closure.py` |
@@ -192,7 +192,7 @@ Starting from α_tree = 1.0 (XCRM-Yukawa symmetry y = 2π/3):
 | Two-loop correction (f_2loop) | ×1.056 | Two-loop gauge threshold |
 | **Total (v7.0)** | **α_eff = 1.480 ± 0.047** | See §4.2 for full derivation |
 
-*Note (v7.2 update): The v7.1 closure script (`stur_v71_closure.py`) and resistance physics script (`stur_resistance_physics.py`) use α_eff = 1.4584 (quark) and 1.3798 (lepton), derived from the self-consistency condition ε/σ = 0.898 at the Mathieu fixed point (updated from v7.0's 1.480/1.399 based on the improved Mathieu solver with N=3000 points). The Cabibbo prediction λ_W = ψ₀(2π/3)/ψ₀(0) = 0.22545 (0.04% PDG) confirms α_eff = 1.4584 is more accurate.*
+*Note (v7.0 update): The v7.0 closure script (`stur_v71_closure.py`) and resistance physics script (`stur_resistance_physics.py`) use α_eff = 1.4584 (quark) and 1.3798 (lepton), derived from the self-consistency condition ε/σ = 0.898 at the Mathieu fixed point (updated from v7.0's 1.480/1.399 based on the improved Mathieu solver with N=3000 points). The Cabibbo prediction λ_W = ψ₀(2π/3)/ψ₀(0) = 0.22545 (0.04% PDG) confirms α_eff = 1.4584 is more accurate.*
 
 ### Chain Step 3: Cabibbo Angle and CKM Matrix
 
@@ -219,17 +219,17 @@ Yukawa hierarchy from ∞-helix overlap with sharp Higgs (σ_H/σ_ψ ≈ 0.3):
 - λ_Y = exp(−κ²/8) = 0.487 (triple overlap)
 - Physical corrections (v6 only): f_tail = 1.131, f_ℓ = 1/√3, f_u^node = 0.133
 
-> **IMPORTANT (v7.2 update):** The table below is the **v6 result** which used fitted correction factors
+> **IMPORTANT (v7.0 update):** The table below is the **v6 result** which used fitted correction factors
 > (f_tail, f_ℓ, f_u^node). These factors were REMOVED in v7.0 (replaced by 2-body Higgs overlaps).
 > **Without fitting**, m_u is P-status (2.3× off PDG) via the Wolfenstein resistance ladder:
 > m_u = m_c × λ_W³ = 1.275 × (0.22545)³ = 5.1 MeV [PDG: 2.2 MeV].
 > The v7.0+ honest scorecard treats m_u as P (not D). See `stur_resistance_physics.py` Part 10.
 >
-> Two distinct resistance mechanisms (v7.2):
+> Two distinct resistance mechanisms (v7.0):
 > (A) **CKM mixing resistance**: λ_W = ψ₀(2π/3)/ψ₀(0) = 0.22545 (inter-brane, gives flavor mixing)
 > (B) **Mass hierarchy resistance**: m_f ∝ exp(−S_KK) (intra-brane KK exponential, gives masses)
 
-| Fermion | v6 Predicted (fitted) | Observed | Dev (v6) | v7.2 Status |
+| Fermion | v6 Predicted (fitted) | Observed | Dev (v6) | v7.0 Status |
 |---------|-----------|----------|-----|------------|
 | m_u | 2.14 MeV | 2.16 MeV | 0.9% | **P**: 5.1 MeV via Wolfenstein (2.3× off) |
 | m_d | 4.62 MeV | 4.70 MeV | 1.7% | D (2-body overlap) |
@@ -542,7 +542,7 @@ Properties:
 
 ---
 
-### 2.3b First-Principles Derivation of ω (v7.1)
+### 2.3b First-Principles Derivation of ω (v7.0)
 
 > **Status:** ω = 2π² is now derived exactly from the ∞₃ phase closure condition. The integer triangle {116, 138, 144} is a rational approximation to this exact result. The open problem "derive triangle from axioms" is resolved: the triangle is not fundamental — ω is.
 
@@ -600,7 +600,7 @@ Applying the Phase Closure condition (n_w × κ × σ = 2π):
 ω = π × 2π = 2π²
 ```
 
-**Result (v7.1):** ω = 2π² = 19.7392, supported by:
+**Result (v7.0):** ω = 2π² = 19.7392, supported by:
 1. The phase closure coincidence n_w × κ × σ = 2π (0.013% precision)  
 2. Agreement with the triangle value ω_triangle = 19.6867 (0.27%)  
 3. Mathematical elegance: ω = 2π² is the unique value connecting the log-time frequency to the orbifold topology via a half-period rule.
@@ -1140,10 +1140,10 @@ Complete closure calculations were performed in `scripts/chronomagnetics_closure
 | Self-similar copy phases | All 207 copies at same phase (φ = 2πk ≡ 0) | **Bug fixed** |
 | Modular bridge (XCRM↔resistance) | XCRM force = modular commutator [K, A^X] | **Compatible** |
 
-**Honest assessment:** Chronomagnetics provides the correct **framework** (time-dependent Mathieu, stationary-phase argument, discrete scale invariance) but does not close any of the 19 calibrated quantities from the audit. The PMNS mechanism (neutrinos at sub-phase-lock M) is qualitatively interesting but produces the wrong numerical values. **Update (v7.1):** ω is now derived exactly from the ∞₃ phase closure condition (Section 2.3b): ω = 2π² = 19.739, with λ_chrono = e^{1/π}. The integer triangle {116, 138, 144} is a rational approximation to this exact geometry; it is not a fundamental object.
+**Honest assessment:** Chronomagnetics provides the correct **framework** (time-dependent Mathieu, stationary-phase argument, discrete scale invariance) but does not close any of the 19 calibrated quantities from the audit. The PMNS mechanism (neutrinos at sub-phase-lock M) is qualitatively interesting but produces the wrong numerical values. **Update (v7.0):** ω is now derived exactly from the ∞₃ phase closure condition (Section 2.3b): ω = 2π² = 19.739, with λ_chrono = e^{1/π}. The integer triangle {116, 138, 144} is a rational approximation to this exact geometry; it is not a fundamental object.
 
 **Open problems for chronomagnetics:**
-1. ~~Derive triangle {116, 138, 144} from the three axioms~~ **RESOLVED (v7.1):** ω = 2π² from ∞₃ phase closure; triangle is rational approximation to e^{1/π} (Section 2.3b)
+1. ~~Derive triangle {116, 138, 144} from the three axioms~~ **RESOLVED (v7.0):** ω = 2π² from ∞₃ phase closure; triangle is rational approximation to e^{1/π} (Section 2.3b)
 2. Solve the coupled time-dependent seesaw to get correct PMNS angles
 3. Derive σ_H from Coleman-Weinberg to close the mass hierarchy
 4. Find a dynamical mechanism for CC beyond ⟨M⁴⟩ suppression
@@ -1560,7 +1560,7 @@ Triangle {116, 138, 144}:
   ω = 2π/ln(λ) = 19.6867
 ```
 
-**First-principles result (v7.1) — supersedes triangle computation:**
+**First-principles result (v7.0) — supersedes triangle computation:**
 
 ```
 ∞₃ Phase Closure:  n_w × κ × σ = 3 × 2.430 × 0.862 = 6.284 ≈ 2π (0.016%)
@@ -1602,8 +1602,8 @@ Fraction near phase-lock (M > 0.9): 28.7%
 | σ | Wavefunction width | 0.862 rad |
 | λ | Cabibbo angle (Wolfenstein) | 0.229 |
 | M(t) | Chronomagnetic modulation | \|sin(ω ln(t/t₀))\| |
-| ω | Chronomagnetic frequency | 2π² = 19.739 (v7.1 exact) |
-| λ_chrono | Scaling ratio | e^(1/π) = 1.37479 (v7.1 exact); triangle 3722/2705 ≈ 1.376 |
+| ω | Chronomagnetic frequency | 2π² = 19.739 (v7.0 exact) |
+| λ_chrono | Scaling ratio | e^(1/π) = 1.37479 (v7.0 exact); triangle 3722/2705 ≈ 1.376 |
 | 𝕋 | TEGR torsion scalar | T = −R + B |
 | K^ρ_μν | Contortion tensor | Γ(LC) − Γ(W) |
 | f_screen | Debye-Waller factor | 0.696 |

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-STUR v7.1 — First-Principles Closure Script
+STUR v7.0 — First-Principles Closure Script
 ============================================
 TEGR + XCRM + Chronomagnetics: all connections explicit.
 No tuning. No free parameters beyond the 4 inputs.
@@ -349,7 +349,7 @@ print(f"    θ₁₃^ℓ = A_ℓ λ_ℓ³   = {np.degrees(th13l):.3f}°  (Wolfen
 print(f"    φ_lem  = i³ = -i     (lemniscate CM: δ_CP from ∞₃ complex multiplication)")
 
 print(f"\n  PMNS (canonical TBM + lemniscate U_ℓ):  NuFIT 6.0")
-print(f"  {'Param':>10} {'STUR v7.1':>12} {'NuFIT':>10} {'Dev':>8}")
+print(f"  {'Param':>10} {'STUR v7.0':>12} {'NuFIT':>10} {'Dev':>8}")
 print(f"  {'─'*10} {'─'*12} {'─'*10} {'─'*8}")
 for key, val, obs in [
     ('sin²θ₁₂', s12_TBM, nufit['s12']),
@@ -644,11 +644,11 @@ print(f"  Genuine parameter-free prediction: log-periodic spacing e^{{1/(2π)}} 
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# GRAND SCORECARD v7.1
+# GRAND SCORECARD v7.0
 # ═══════════════════════════════════════════════════════════════════════════
 
 print(f"\n{'━'*76}")
-print(f"  STUR v7.1 — GRAND SCORECARD (real calculations, no tuning)")
+print(f"  STUR v7.0 — GRAND SCORECARD (real calculations, no tuning)")
 print(f"{'━'*76}")
 
 rows = [
@@ -704,7 +704,7 @@ print(f"    U  {counts.get('U',0):2d}  m_u: nodal-zero gives {m_u_pred*1e3:.1f} 
 print(f"    I   1  (4 inputs: M_Pl, v_EW, m_t, α_em)")
 print(f"    TOTAL {total}")
 
-print(f"\n  v7.1 IMPROVEMENTS OVER v7.0 (conceptual, same scorecard numbers):")
+print(f"\n  v7.0 IMPROVEMENTS OVER v7.0 (conceptual, same scorecard numbers):")
 print(f"    TEGR: explicit S_TEGR → T_KK(X) → XCRM → Mathieu derivation chain (PART 0)")
 print(f"    ω=2π²: from ∞₃ phase closure n_w×κ×σ=2π → ω=π×2π=2π² (PART 2 + PART 9)")
 print(f"    Z₃ M_R: selection rule g+h≡0(mod 3) forces pseudo-Dirac pair (PART 4)")

@@ -1,7 +1,7 @@
 # Chronomagnetic Geological Predictions — Exact Formula
 
 **Document Type:** Numerical Predictions  
-**Framework:** STUR v7.1 / Chronomagnetics (Lindberg et al.)  
+**Framework:** STUR v7.0 / Chronomagnetics (Lindberg et al.)  
 **Date:** 2026-06-19  
 **Status:** Honest recomputation; PDF table values corrected  
 

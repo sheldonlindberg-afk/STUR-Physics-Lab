@@ -1297,7 +1297,7 @@ def monte_carlo_predictions(n_samples=10000, seed=42):
     distributions['lambda'] = lambda_wolf_samples
 
     # CKM parameters from lambda (v7.0 values)
-    # A_v7.0 = 0.6545 (LO; 21% from PDG 0.826; Gerono lemniscate correction pending v7.1)
+    # A_v7.0 = 0.6545 (LO; 21% from PDG 0.826; Gerono lemniscate correction pending v7.0)
     A_samples = 0.6545 + 0.05 * (lambda_wolf_samples - 0.22871) / 0.01
     A_samples = np.clip(A_samples, 0.5, 0.9)
     distributions['A'] = A_samples

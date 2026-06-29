@@ -6,13 +6,13 @@
 
 <p align="center">
   <strong>Sheldon's Theory of Unified Resistance</strong><br>
-  <em>STUR v7.3: Dynamic Infinity Helix &mdash; Theory of Everything Candidate</em>
+  <em>STUR v7.0: Dynamic Infinity Helix &mdash; Theory of Everything Candidate</em>
 </p>
 
 <p align="center">
   <a href="https://creativecommons.org/publicdomain/zero/1.0/"><img src="https://img.shields.io/badge/License-CC0_1.0-lightgrey.svg" alt="License: CC0-1.0"></a>
   <img src="https://img.shields.io/badge/Physics-Theory_of_Everything-blueviolet" alt="Physics: Theory of Everything">
-  <img src="https://img.shields.io/badge/Version-7.3-brightgreen" alt="Version: 7.3">
+  <img src="https://img.shields.io/badge/Version-7.0-brightgreen" alt="Version: 7.0">
   <img src="https://img.shields.io/badge/PWA-Installable-green" alt="PWA: Installable">
   <img src="https://img.shields.io/badge/Pages-120+-blue" alt="Pages: 120+">
   <img src="https://img.shields.io/badge/Scorecard-25D%2B3P%2B0U%2B1I%3D29-blue" alt="Scorecard: 25D+3P+0U+1I=29">
@@ -29,7 +29,7 @@
 2. **R-field doublet** — a real scalar doublet on S^1 with the unique first-derivative XCRM coupling
 3. **Energy minimization** — the ∞-helix topology emerges as the lowest-energy CP-violating compactification
 
-**Unifying axiom (v7.2) — Energy Resistance Principle (ERP):** E = ½ R Φ²
+**Unifying axiom (v7.0) — Energy Resistance Principle (ERP):** E = ½ R Φ²
 
 Every physical interaction is a resistance to state change. This single axiom connects quantum, gravitational, fluid, topological, and temporal scales:
 - Quantum: R_K = h/e² = 25813 Ω; α = Z₀/(2R_K) is a pure resistance ratio [exact, 8×10⁻¹³ residual]
@@ -50,7 +50,7 @@ The infinity helix is not static. It is a **dynamic infinity helix** — always 
 
 **The manifold is the same at any scale; only the perspective changes.** This discrete scale invariance, governed by the chronomagnetic ratio lambda_chrono = e^{1/π} = 1.37479 (exact), resolves all apparent scale questions: L_X^fund ~ 10^-32 m (Planck-scale winding quantum) and L_eff ~ 0.8 um (coherence length) are the same geometry viewed from different scales. The integer triangle {116, 138, 144} from the Chronomagnetics paper is a rational approximation (0.085%) to this exact result. The spatial projection traces a Gerono lemniscate (figure-8), visualized in the [5D universe simulation](scripts/stur_5duniverse.html).
 
-### v7.3 Improvements (full PMNS derivation; sin²θ₁₃ from first principles)
+### v7.0 Improvements (full PMNS derivation; sin²θ₁₃ from first principles)
 
 Scorecard change: **25D+3P+0U+1I=29** (sin²θ₁₃ upgrades P→D; closure 86%→89%):
 
@@ -73,7 +73,7 @@ Scorecard change: **25D+3P+0U+1I=29** (sin²θ₁₃ upgrades P→D; closure 86%
 5. **TOE closure script `scripts/stur_toe_closure.py`** consolidates all 29 observables in
    11 parts: ERP axiom → α_eff → Mathieu → CKM → U_ν → U_ℓ → PMNS → Δm²₂₁ → m_u → DM+Λ_CC → fermion masses → grand scorecard.
 
-### v7.2 Improvements (resistance physics framework)
+### v7.0 Improvements (resistance physics framework)
 
 Scorecard change: **24D+4P+0U+1I=29** (m_u upgrades U→P via Wolfenstein resistance ladder):
 
@@ -97,7 +97,7 @@ Scorecard change: **24D+4P+0U+1I=29** (m_u upgrades U→P via Wolfenstein resist
 5. **Two resistance mechanisms clarified.** CKM mixing (inter-brane λ_W) and mass hierarchy
    (intra-brane KK exponential) are distinct resistance processes. Previously conflated.
 
-### v7.1 Improvements
+### v7.0 Improvements
 
 Five conceptual improvements over v7.0 (scorecard numbers unchanged — 24D+3P+1U+1I=29):
 
@@ -123,11 +123,11 @@ Five conceptual improvements over v7.0 (scorecard numbers unchanged — 24D+3P+1
    `GEOLOGICAL_PREDICTIONS_EXACT.md`.
 
 5. **δ_CP from lemniscate complex multiplication.** δ_CP = 267.9° derived from arg(i³) under
-   lemniscate CM (carries over from v7.1.0; documented in `DERIVATION_CHAIN_INFINITY.md`).
+   lemniscate CM (carries over from v7.0.0; documented in `DERIVATION_CHAIN_INFINITY.md`).
 
 ---
 
-## Results Summary (v7.2)
+## Results Summary (v7.0)
 
 ### Scorecard: 29 Observables — Honest Status
 

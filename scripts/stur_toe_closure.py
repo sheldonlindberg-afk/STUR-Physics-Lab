@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-STUR v7.3 — Theory of Everything: Full First-Principles Closure
+STUR v7.0 — Theory of Everything: Full First-Principles Closure
 ================================================================
 ERP (Energy Resistance Principle) unification via TEGR + XCRM + Chronomagnetics.
 
-Three open problems from v7.2 CLOSED here:
+Three open problems from v7.0 CLOSED here:
   1. sin²θ₁₃: U_ℓ† × U_ν(Mathieu) generates nonzero θ₁₃ from lemniscate phase
   2. sin²θ₁₂: improved from 27% off (Mathieu alone) via full U_ℓ† × U_ν product
   3. m_u: exact Mathieu slope replaces Gaussian approximation in nodal-zero integral
@@ -340,7 +340,7 @@ print(f"""
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# PART 6 — FULL PMNS = U_ℓ† × U_ν  (KEY NEW CALCULATION v7.3)
+# PART 6 — FULL PMNS = U_ℓ† × U_ν  (KEY NEW CALCULATION v7.0)
 # ═══════════════════════════════════════════════════════════════════════════
 
 bar("PART 6: PMNS = U_ℓ† × U_ν — complete first-principles derivation")
@@ -359,8 +359,8 @@ dcp      = float(-np.angle(U_PMNS[0,2]) * 180/np.pi) % 360
 
 nufit = {'s12':0.307, 's23':0.545, 's13':0.0220, 'dcp':197.0}
 
-print(f"\n  PMNS mixing angles — v7.3 first-principles vs NuFIT 6.0:")
-print(f"  {'Parameter':<12} {'v7.3':>10} {'NuFIT':>10} {'Dev':>8}  {'Status'}")
+print(f"\n  PMNS mixing angles — v7.0 first-principles vs NuFIT 6.0:")
+print(f"  {'Parameter':<12} {'v7.0':>10} {'NuFIT':>10} {'Dev':>8}  {'Status'}")
 print(f"  {'─'*12} {'─'*10} {'─'*10} {'─'*8}  {'─'*6}")
 for key, val, obs in [
     ('sin²θ₁₂', sin2_12, nufit['s12']),
@@ -475,8 +475,8 @@ print("""  Up quark state = ANTISYMMETRIC combination of Z₃ branes:
 
     y_u/y_c = ψ_u'(0) × σ_H × √(2/π) / ψ_{2π/3}(0)
 
-  v7.3: ψ_u'(0) computed from exact Mathieu wavefunction slope
-        (v7.1 used Gaussian approximation ψ'(0) ≈ A₁ × (2π/3)/σ²)
+  v7.0: ψ_u'(0) computed from exact Mathieu wavefunction slope
+        (v7.0 used Gaussian approximation ψ'(0) ≈ A₁ × (2π/3)/σ²)
 """)
 
 psi_plus, th_p, _, sig_p = solve_mathieu_gs(alpha_q, N=4000, center=2*np.pi/3)
@@ -595,10 +595,10 @@ print(f"""
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# PART 11 — GRAND SCORECARD v7.3
+# PART 11 — GRAND SCORECARD v7.0
 # ═══════════════════════════════════════════════════════════════════════════
 
-bar("PART 11: GRAND SCORECARD v7.3 — Complete TOE from first principles")
+bar("PART 11: GRAND SCORECARD v7.0 — Complete TOE from first principles")
 
 scorecard = [
     # Topological / structural (exact)
@@ -617,7 +617,7 @@ scorecard = [
     ("η̄",             f"{eta_b:.4f}",              "0.348",        "XCRM",  "D", f"{abs(eta_b-0.348)/0.348*100:.1f}%"),
     ("|V_ub|",         f"{abs(Vub):.5f}",           "0.00382",      "XCRM",  "D", f"{abs(abs(Vub)-0.00382)/0.00382*100:.1f}%"),
     ("|V_cb|",         f"{abs(Vcb):.5f}",           "0.0410",       "XCRM",  "D", f"{abs(abs(Vcb)-0.0410)/0.0410*100:.1f}%"),
-    ("sin²θ₁₃",        f"{sin2_13:.4f}",            "0.0220",       "XCRM",  "D", f"{abs(sin2_13-0.0220)/0.0220*100:.0f}%  lemniscate NEW [v7.3]"),
+    ("sin²θ₁₃",        f"{sin2_13:.4f}",            "0.0220",       "XCRM",  "D", f"{abs(sin2_13-0.0220)/0.0220*100:.0f}%  lemniscate NEW [v7.0]"),
     ("sin²θ₂₃",        f"{sin2_23:.4f}",            "0.545",        "XCRM",  "D", f"{abs(sin2_23-0.545)/0.545*100:.1f}%  U_ℓ†×U_ν(Mathieu)"),
     ("δ_CP(PMNS)",     f"{dcp:.1f}°",               "197°",         "∞₃CM",  "D", f"{abs(dcp-197)/197*100:.1f}%  φ_lem=−i"),
     ("Δm²₃₁",         f"{Dm2_31:.2e}",             "2.511e-3",     "XCRM",  "D", f"{abs(Dm2_31-2.511e-3)/2.511e-3*100:.1f}%"),
@@ -649,14 +649,14 @@ D_frac = counts['D'] / (counts['D']+counts.get('P',0)+counts.get('U',0)) * 100
 
 print(f"""
   {'━'*74}
-  v7.3 SCORECARD SUMMARY  ({total} observables):
+  v7.0 SCORECARD SUMMARY  ({total} observables):
     D  {counts['D']:2d}  fully derived (< 20% from PDG)
     P  {counts.get('P',0):2d}  mechanism identified; NLO precision pending
-    U   0  (no fully unresolved items — m_u promoted U→P in v7.2)
+    U   0  (no fully unresolved items — m_u promoted U→P in v7.0)
     I   1  (4 fundamental inputs)
     Closure fraction: {D_frac:.0f}%  ({counts['D']}D / {counts['D']+counts.get('P',0)} non-input observables)
 
-  v7.3 ADVANCES OVER v7.2:
+  v7.0 ADVANCES OVER v7.0:
     1. sin²θ₁₃ = {sin2_13:.4f}  DERIVED for first time from resistance physics
        Mechanism: φ_lem=−i acts on se₁(2π/3)≠0 via U_PMNS[νe,ν₃] = i s₁₂ se₁(2π/3)/n₃
        Status upgrade: 100% off (P) → {abs(sin2_13-0.022)/0.022*100:.0f}% off (D)
@@ -675,7 +675,7 @@ print(f"""
       Chrono:    R_K × M(t)²        (time)
       Topology:  χ = −2π/(3L_X)    (XCRM)
 
-  FALSIFIABLE PREDICTIONS (v7.3):
+  FALSIFIABLE PREDICTIONS (v7.0):
     δ_CP  = {dcp:.1f}°          → DUNE/T2HK decisive by 2030
     Σm_ν  ≈ {sum_mnu:.0f} meV       → CMB-S4 / Euclid
     M_DM  = {M_DM:.0f} GeV      → LHC run 4, LZ, XENONnT

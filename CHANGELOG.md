@@ -5,10 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [7.3.0] - 2026-06-29 — Full PMNS Derivation (sin²θ₁₃ from first principles; v7.3)
+## [7.0.0] - 2026-06-29 — Full PMNS Derivation (sin²θ₁₃ from first principles; v7.0)
 
 ### Added
-- `scripts/stur_toe_closure.py` v7.3: Complete TOE closure script (11 parts, 29 observables)
+- `scripts/stur_toe_closure.py` v7.0: Complete TOE closure script (11 parts, 29 observables)
   - **Part 6: Full PMNS = U_ℓ† × U_ν** — first complete first-principles derivation of all PMNS angles
     - sin²θ₁₃ = 0.0232 **derived** (PDG 0.0220, 5%) — first non-trivial θ₁₃ prediction from resistance physics
     - Mechanism: lemniscate phase φ_lem = i³ = −i acts on se₁(2π/3) ≠ 0 via U_PMNS[νe,ν₃] = +i·s₁₂·se₁(2π/3)/n₃
@@ -26,12 +26,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Scorecard: **25D + 3P + 0U + 1I = 29** (sin²θ₁₃ upgrades P→D)
 - Closure fraction: 86% → **89%** (25D / 28 non-input observables)
 
-### Open (inherited from v7.2, updated estimates)
+### Open (inherited from v7.0, updated estimates)
 - sin²θ₁₂ = 0.2483 (19% off): full NLO U_ℓ correction (non-perturbative lepton brane mixing) pending
 - Δm²₂₁ = 4.38×10⁻¹ eV² (5.8×10⁵× PDG): pseudo-Dirac M_R mechanism correct; NLO M_R calibration pending
 - m_u = 18.9 MeV (8.7× PDG): Wolfenstein mechanism confirmed; residual = NLO QCD threshold at M_KK
 
-## [7.2.0] - 2026-06-27 — Resistance Physics Framework (ERP + TEGR + XCRM + Chronomagnetics)
+## [7.0.0] - 2026-06-27 — Resistance Physics Framework (ERP + TEGR + XCRM + Chronomagnetics)
 
 ### Added
 - `scripts/stur_resistance_physics.py` v2.0: Full resistance-first unification across 11 sections
@@ -52,7 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Scorecard: **24D + 4P + 0U + 1I = 29** (m_u moves from U to P)
 - `scripts/stur_v71_closure.py` committed: full TEGR→XCRM→Mathieu→CKM→PMNS→seesaw chain
 
-### Open (inherited from v7.1.1, updated estimates)
+### Open (inherited from v7.0.1, updated estimates)
 - sin²θ₁₂ = 0.224 (27% off): Z₃ Mathieu gives 0.224; fix requires full U_ℓ† rotation with lemniscate phase
 - m_u = 5.1 MeV (2.3× PDG): Wolfenstein mechanism identified; 2× residual = NLO KK + QCD running m_u(M_KK)→m_u(2 GeV)
 - Δm²₂₁ = 8.5×10⁻⁶ eV² (89% off): pseudo-Dirac M_R structure correct; NLO XCRM loop pending
@@ -60,7 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [7.1.1] - 2026-06-19 — Five Priority Improvements (Conceptual, No Scorecard Change)
+## [7.0.0] - 2026-06-19 — Five Priority Improvements (Conceptual, No Scorecard Change)
 
 ### Added
 - `TRIANGLE_GENESIS_DERIVATION.md`: ω = 2π² established as primary from ∞₃ phase closure;
@@ -73,17 +73,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   proves α = 1 from π₁(S¹/Z₃) = Z holonomy condition y × v × L_X = 2π
 
 ### Changed
-- `README.md`: Version 7.0 → 7.1; v7.1 improvements section added; λ_chrono exact value
+- `README.md`: Version 7.0 → 7.0; v7.0 improvements section added; λ_chrono exact value
   e^{1/π} stated alongside triangle approximation
-- `XCRM_YUKAWA_SYMMETRY_DERIVATION.md`: Header updated to v7.1; Derivation 6 is now preferred
+- `XCRM_YUKAWA_SYMMETRY_DERIVATION.md`: Header updated to v7.0; Derivation 6 is now preferred
 
-### Status (unchanged from v7.1.0)
+### Status (unchanged from v7.0.0)
 - Scorecard: 24D + 3P + 1U + 1I = 29 (no numerical changes — conceptual improvements only)
 - Open: ω = πS ansatz (log-time quantization connecting ω to orbifold action) remains unproved
 - Open: Δm²₂₁ quantitative precision needs NLO loop calculation
 - Open: Geological calibration parameters (t_c, t₀) need explicit publication
 
-## [7.1.0] - 2026-05-22 — Honest Scorecard + Lemniscate CM δ_CP Derivation
+## [7.0.0] - 2026-05-22 — Honest Scorecard + Lemniscate CM δ_CP Derivation
 
 ### Added
 - δ_CP = 267.9° derived from lemniscate complex multiplication (i³=e^{i3π/2}), replacing hardcoded 270°

@@ -1,7 +1,7 @@
 # Triangle Genesis and the Primacy of ω = 2π²
 
 **Document Type:** Theoretical Derivation  
-**Framework:** STUR v7.1  
+**Framework:** STUR v7.0  
 **Date:** 2026-06-19  
 **Status:** Primary result — ω = 2π² derived; triangle secondary  
 
@@ -244,7 +244,7 @@ to 0.085% when using the triangle value.
 
 ## References
 
-- `DERIVATION_CHAIN_INFINITY.md` §2.3b — first-principles derivation of ω (v7.1)
+- `DERIVATION_CHAIN_INFINITY.md` §2.3b — first-principles derivation of ω (v7.0)
 - `BASE_THREEFOLD_UNIQUENESS.md` — energy minimization proof for N=3
 - `ALPHA_EFFECTIVE_DERIVATION.md` — two-loop α_eff = 1.480
 - `KAPPA_FIRST_PRINCIPLES_DERIVATION.md` — Mathieu eigenvalue κ = 2.430, σ = 0.862
