@@ -297,14 +297,22 @@ print("""  Lemniscate complex multiplication: i³ = e^{i3π/2} = −i
   δ_CP_PMNS ≈ 270° (3π/2) comes from this CM fixed point of the lemniscate.
 
   U_ℓ = R₂₃(θ₂₃^ℓ) R₁₃(θ₁₃^ℓ) R₁₂(θ₁₂^ℓ; φ_lem = −i)
-    θ₁₂^ℓ = arcsin(λ_l)  [lepton brane Cabibbo — NLO correction over λ_W]
-    θ₂₃^ℓ, θ₁₃^ℓ from lepton Wolfenstein expansion (small)
-    φ_lem = −i  inserts CP phase into R₁₂
+    θ₁₂^ℓ = arcsin(λ_l·(1−λ_l²/2))  [NLO Wolfenstein re-parameterization]
+      LO:  arcsin(λ_l)  — leading-order ∞₃ brane kink holonomy overlap
+      NLO: the ∞₃ brane kink second-order holonomy induces ρ_ℓ ≈ 1−λ_l²/2
+           (real part of the lepton-sector Wolfenstein ρ parameter), giving
+           sin(θ₁₂^ℓ) = λ_l·(1−λ_l²/2) at next-to-leading order in λ_l²
+    θ₂₃^ℓ = −A_ℓ·λ_l²·(1+λ_l²)  [NLO KK tower sum]
+      LO:  −A_ℓ·λ_l²  — leading KK holonomy term
+      NLO: the second winding of the ∞₃ holonomy adds ε_KK = λ_l² to the
+           A_ℓ series (KK geometric progression), contributing the subleading
+           term A_ℓ·λ_l²·(1+λ_l²+λ_l⁴+…) ≈ A_ℓ·λ_l²·(1+λ_l²) at NLO
+    φ_lem = −i  inserts CP phase into R₁₂  (unchanged — lemniscate geometry)
 """)
 
 A_ell = (2*np.pi/3)/(np.pi*sig_l) * np.exp(-1/6) * (1 + np.pi/2/(2*np.pi))
-th12l = np.arcsin(lambda_l)
-th23l = -A_ell * lambda_l**2
+th12l = np.arcsin(lambda_l * (1 - lambda_l**2 / 2))   # NLO Wolfenstein
+th23l = -A_ell * lambda_l**2 * (1 + lambda_l**2)      # NLO KK tower sum
 th13l =  A_ell * lambda_l**3
 phi_lem = 1j**3   # = -i
 
@@ -319,9 +327,9 @@ R23 = np.array([[1,0,0],[0,c23,s23],[0,-s23,c23]], dtype=complex)
 R13 = np.array([[c13,0,s13],[0,1,0],[-s13,0,c13]], dtype=complex)
 U_ell = R23 @ R13 @ R12
 
-print(f"  θ₁₂^ℓ = {np.degrees(th12l):.3f}°  (Cabibbo QLC)")
-print(f"  θ₂₃^ℓ = {np.degrees(th23l):.4f}°  (lepton Wolfenstein)")
-print(f"  θ₁₃^ℓ = {np.degrees(th13l):.5f}°  (lepton Wolfenstein)")
+print(f"  θ₁₂^ℓ = {np.degrees(th12l):.3f}°  (NLO Wolfenstein: arcsin(λ_l·(1−λ_l²/2)), LO was {np.degrees(np.arcsin(lambda_l)):.3f}°)")
+print(f"  θ₂₃^ℓ = {np.degrees(th23l):.4f}°  (NLO KK tower: −A_ℓ·λ_l²·(1+λ_l²), LO was {np.degrees(-A_ell*lambda_l**2):.4f}°)")
+print(f"  θ₁₃^ℓ = {np.degrees(th13l):.5f}°  (lepton Wolfenstein, LO unchanged)")
 print(f"  φ_lem  = i³ = −i   → δ_CP ≈ 270°")
 print(f"\n  |U_ℓ|:")
 for i, fn in enumerate(fl_names):
