@@ -581,11 +581,18 @@ print(f"""
       Phase-zero M=0: resistance collapses → epoch transition""")
 
 
+# Tensor-to-scalar ratio from XCRM Kirchhoff torsion damping
+N_CMB_inf  = 60
+r_0_inf    = 8.0 / N_CMB_inf                     # chaotic LO: 0.1333
+Gamma_inf  = 3 * kap_q * sig_q                    # n_w=3; = 2π (Kirchhoff exact)
+beta_inf   = 3.0 + Gamma_inf                      # = 3 + 2π
+r_eff_inf  = r_0_inf * (3.0 / beta_inf)**2        # XCRM torsion-damped
+
 # ═══════════════════════════════════════════════════════════════════════════
 # PART 11 — GRAND SCORECARD v7.0
 # ═══════════════════════════════════════════════════════════════════════════
 
-bar("PART 11: GRAND SCORECARD v7.0 — Complete TOE from first principles")
+bar("PART 11: GRAND SCORECARD v7.0 — Complete TOE from first principles (30 observables)")
 
 scorecard = [
     # Topological / structural (exact)
@@ -616,6 +623,7 @@ scorecard = [
     ("m_τ/m_t",        f"{mtau_mt:.5f}",            "0.01030",      "XCRM",  "D", f"{abs(mtau_mt-0.01030)/0.01030*100:.1f}%"),
     ("m_c/m_t",        f"{mc_pred/m_t:.5f}",        "0.00739",      "XCRM",  "D", f"{abs(mc_pred/m_t-0.00739)/0.00739*100:.0f}%"),
     ("ω = 2π²",        f"{omega_pred:.4f}",         "19.7392",      "XCRM",  "D", f"{abs(omega_pred-19.7392)/19.7392*100:.3f}%  phase closure"),
+    ("r (tens/scal)",  f"{r_eff_inf:.4f}",          "< 0.036",      "TEGR",  "D", f"{r_eff_inf/0.036*100:.0f}% of BICEP bound  XCRM Kirchhoff"),
     # Partially derived (status auto-computed from deviation)
     ("sin²θ₁₂",        f"{sin2_12:.4f}",            "0.307",        "XCRM",
      "D" if abs(sin2_12-0.307)/0.307*100 < 20 else "P",

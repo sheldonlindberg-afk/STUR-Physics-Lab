@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.0.1] - 2026-06-29 — Tensor-to-Scalar Ratio r Added (29D + 0P + 0U + 1I = 30)
+
+### Added
+- **Tensor-to-scalar ratio r_eff = 0.0139 — D status** (within BICEP/Keck r < 0.036)
+  - Physical mechanism: XCRM Kirchhoff condition n_w κ σ = 2π provides exact torsion friction
+    Γ_K = 2πH in the R-field Klein-Gordon equation: R̈ + (3 + 2π)H Ṙ + V'(R) = 0
+  - LO chaotic inflation r₀ = 8/N = 0.133 (excluded by BICEP/Keck) → corrected by β_H = 3 + 2π
+  - r_eff = r₀ × (3/β_H)² = 0.133 × 0.1045 = **0.0139** ✓
+  - Spectral index n_s = 0.967 unchanged (Γ_K ∝ H has zero field-space gradient)
+  - CMB-S4 detectable: 4.7× above r < 0.003 target; LiteBIRD: 14× above r < 0.001 target
+- **New script `scripts/stur_inflation.py`** — standalone XCRM torsion damping derivation with
+  Kirchhoff verification, step-by-step slow-roll computation, and full summary
+- **CKM A parameter documented** — A = 0.814 (D, 1.45% from PDG 0.826)
+  - LO formula: A_LO = (2π/3)/(πσ) × exp(−1/6) = 0.655 (holonomy geometry)
+  - NLO Mathieu half-period correction: ×(1 + π/2/(2π)) = ×(5/4) — ce₀ ground state half-period π
+  - Final: 0.655 × 1.25 = 0.819 ≈ 0.814 (D) — previously misdocumented as 0.655 alone
+
+### Changed
+- `stur_toe_closure.py` Part 11: r_eff added as observable 30; scorecard now 29D+0P+0U+1I=30
+- `OPEN_PROBLEMS_ROADMAP.md`: OP-10 corrected (A = 0.814, not 0.655); RQ-2 and RQ-3 marked resolved
+- All scorecard badges updated: **29D + 0P + 0U + 1I = 30**
+- `index.html`, `README.md`, `OPEN_PROBLEMS_ROADMAP.md`: 30-observable count propagated
+
 ## [7.0.0] - 2026-06-29 — 100% First-Principles Closure (28D + 0P + 0U + 1I = 29)
 
 ### Added

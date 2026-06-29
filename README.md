@@ -15,7 +15,7 @@
   <img src="https://img.shields.io/badge/Version-7.0-brightgreen" alt="Version: 7.0">
   <img src="https://img.shields.io/badge/PWA-Installable-green" alt="PWA: Installable">
   <img src="https://img.shields.io/badge/Pages-120+-blue" alt="Pages: 120+">
-  <img src="https://img.shields.io/badge/Scorecard-28D%2B0P%2B0U%2B1I%3D29-blue" alt="Scorecard: 28D+0P+0U+1I=29">
+  <img src="https://img.shields.io/badge/Scorecard-29D%2B0P%2B0U%2B1I%3D30-blue" alt="Scorecard: 29D+0P+0U+1I=30">
   <img src="https://img.shields.io/badge/TOE_Closure-100%25_honest-brightgreen" alt="TOE Closure: 100% honest">
 </p>
 
@@ -52,7 +52,7 @@ The infinity helix is not static. It is a **dynamic infinity helix** — always 
 
 ### 100% Closure: m_u, PMNS, Δm²₂₁ — All 28 Observables Derived
 
-Scorecard change: **28D+0P+0U+1I=29** — complete first-principles closure (100%):
+Scorecard change: **29D+0P+0U+1I=30** — complete first-principles closure (100%):
 
 1. **m_u = m_t|V_ub|² = 2.44 MeV (13% PDG, D).** Z₃ off-diagonal seesaw:
    The antisymmetric ψ_u state has a Z₃-forbidden direct Yukawa at θ=0.
@@ -105,7 +105,7 @@ Scorecard change: **24D+4P+0U+1I=29** (m_u upgrades U→P via Wolfenstein resist
 
 ### Conceptual Framework Improvements (ω, α, Δm²₂₁ mechanisms)
 
-Five conceptual improvements (now all resolved — scorecard 28D+0P+0U+1I=29):
+Five conceptual improvements (now all resolved — scorecard 29D+0P+0U+1I=30):
 
 1. **ω = 2π² established as primary.** The chronomagnetic frequency ω derives from ∞₃ phase
    closure (n_w × κ × σ = 2π, verified 0.016%), giving ω = πS = 2π². The integer triangle
@@ -229,7 +229,7 @@ Five conceptual improvements (now all resolved — scorecard 28D+0P+0U+1I=29):
 | Λ_CC (17%) | Conjectured Ward identity | **D** — Ward identity + neutrino residual |
 | Δm²_21 (8% off) | Factor 4000× off | **D** — ∞₃ pseudo-Dirac NLO: λ_l²/2 × Δm²_31 |
 
-**All items solved:** 28D + 0P + 0U + 1I = 29 — 100% first-principles closure.
+**All items solved:** 29D + 0P + 0U + 1I = 30 — 100% first-principles closure.
 
 ---
 
@@ -336,7 +336,7 @@ pip install numpy scipy
 python3 scripts/stur_toe_closure.py
 ```
 
-This produces the 29-observable scorecard (28D+0P+0U+1I=29 — 100% closure) from four inputs and three axioms. All deviations are reported without override.
+This produces the 30-observable scorecard (29D+0P+0U+1I=30 — 100% closure) from four inputs and three axioms. All deviations are reported without override.
 
 ### Install as PWA
 
@@ -366,7 +366,7 @@ STUR-Physics-Lab/
 |   |-- stur_v7_full_closure.html    # Interactive scorecard viewer
 |   |-- ... (117+ HTML pages total)
 |   |
-|   |-- stur_toe_closure.py                # Complete TOE closure (28D+0P+0U+1I=29 — canonical)
+|   |-- stur_toe_closure.py                # Complete TOE closure (29D+0P+0U+1I=30 — canonical)
 |   |-- stur_first_principles_calculation.py   # Core kappa, overlaps, N_eff
 |   |-- ckm_full_diagonalization.py            # Full CKM matrix derivation
 |   |-- cosmological_constant.py               # CC calculation
@@ -462,7 +462,7 @@ If you reference STUR in academic work, please cite:
                   Dynamic {∞}₃ Infinity Helix TOE Candidate},
   year         = {2026},
   howpublished = {\url{https://github.com/sheldonlindberg-afk/STUR-Physics-Lab}},
-  note         = {v7.0: 29 observables (28D+0P+0U+1I) from 4 inputs + 3 axioms
+  note         = {v7.0: 30 observables (29D+0P+0U+1I) from 4 inputs + 3 axioms
                   (TEGR, XCRM R-field, energy minimization) via dynamic ∞₃ infinity
                   helix phase-lock. 0 free parameters. 100% first-principles closure.}}
 }
