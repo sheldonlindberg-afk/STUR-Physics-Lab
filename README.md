@@ -15,8 +15,8 @@
   <img src="https://img.shields.io/badge/Version-7.0-brightgreen" alt="Version: 7.0">
   <img src="https://img.shields.io/badge/PWA-Installable-green" alt="PWA: Installable">
   <img src="https://img.shields.io/badge/Pages-120+-blue" alt="Pages: 120+">
-  <img src="https://img.shields.io/badge/Scorecard-25D%2B3P%2B0U%2B1I%3D29-blue" alt="Scorecard: 25D+3P+0U+1I=29">
-  <img src="https://img.shields.io/badge/TOE_Closure-89%25_honest-orange" alt="TOE Closure: 89% honest">
+  <img src="https://img.shields.io/badge/Scorecard-27D%2B1P%2B0U%2B1I%3D29-blue" alt="Scorecard: 27D+1P+0U+1I=29">
+  <img src="https://img.shields.io/badge/TOE_Closure-96%25_honest-orange" alt="TOE Closure: 96% honest">
 </p>
 
 ---
@@ -44,7 +44,7 @@ Every physical interaction is a resistance to state change. This single axiom co
 
 > Axioms → ERP → ∞₃ orbifold → v·L_X = 3 → α_eff(quark/lepton) → Mathieu Z₃ fixed points → λ_W = ψ₀(2π/3)/ψ₀(0) → CKM → brane kink → σ_H → 2-body Higgs overlaps → fermion masses → U_ℓ†×TBM → PMNS → seesaw → neutrino masses → Λ_CC → dark matter → topological invariants
 
-**Honest scorecard:** 25 derived (D, <20% from PDG), 3 partially derived (P, correct mechanism, needs NLO), 0 unresolved, 1 input group (I). The [TOE closure script](scripts/stur_toe_closure.py) and [resistance script](scripts/stur_resistance_physics.py) report all deviations without override.
+**Honest scorecard:** 27 derived (D, <20% from PDG), 1 partially derived (P, correct mechanism, needs NLO), 0 unresolved, 1 input group (I). The [TOE closure script](scripts/stur_toe_closure.py) and [resistance script](scripts/stur_resistance_physics.py) report all deviations without override.
 
 The infinity helix is not static. It is a **dynamic infinity helix** — always winding and unwinding simultaneously at every scale. When the three orbifold sectors fall into **phase-lock**, coherent matter interactions emerge with sharply defined generations, mixing angles, and mass hierarchies. Away from phase-lock, localization weakens and generation boundaries dissolve.
 
@@ -52,16 +52,19 @@ The infinity helix is not static. It is a **dynamic infinity helix** — always 
 
 ### PMNS Closure: Full U_ℓ† × U_ν (sin²θ₁₃ from first principles)
 
-Scorecard change: **25D+3P+0U+1I=29** (sin²θ₁₃ upgrades P→D; closure 86%→89%):
+Scorecard change: **27D+1P+0U+1I=29** (sin²θ₁₃, sin²θ₁₂, Δm²₂₁ all reach D; closure 89%→96%):
 
-1. **sin²θ₁₃ = 0.0232 derived for the first time from resistance physics (5% PDG).**
+1. **sin²θ₁₃ = 0.0257 derived for the first time from resistance physics (17% PDG).**
    The lemniscate CM phase φ_lem = i³ = −i inserted into U_ℓ acts on the nonzero se₁(2π/3)
    amplitude in U_ν to produce U_PMNS[νe,ν₃] = +i·s₁₂·se₁(2π/3)/n₃ (purely imaginary).
    This is the first derivation of a non-trivial reactor angle from resistance topology.
 
 2. **Full PMNS = U_ℓ† × U_ν computed end-to-end.** U_ν from lepton brane (α_l = 1.3800)
-   Z₃ Mathieu fixed-point network; U_ℓ with Wolfenstein θ₁₂ = arcsin(λ_W) and φ_lem = −i.
-   sin²θ₁₂ improves 27% → 19% off; sin²θ₂₃ = 0.442; δ_CP = 272.9° (PDG 197°).
+   Z₃ Mathieu fixed-point network; U_ℓ with θ₁₂ = arcsin(λ_l) (lepton brane) and φ_lem = −i.
+   sin²θ₁₂ = 0.2500 (19% off, D); sin²θ₂₃ = 0.441; δ_CP = 272.7° (PDG 197°).
+
+2b. **Δm²₂₁ = λ_l²/2 × Δm²₃₁ = 6.92×10⁻⁵ eV² (8% off, D).** ∞₃ pseudo-Dirac NLO formula:
+    off-diagonal M_R ±b block gives m_ν₂ ≈ λ_l/√2 × m_ν₃ directly from lepton brane Cabibbo.
 
 3. **m_u exact Mathieu slope (nodal-zero mechanism).** ψ_u'(0) computed from finite-difference
    derivative of shifted Mathieu eigenfunction (replaces Gaussian approximation). Exact/Gauss
