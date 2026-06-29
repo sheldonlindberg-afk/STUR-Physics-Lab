@@ -427,23 +427,14 @@ m_ν     = 5.0   × 10⁻¹¹ GeV    (m_ν3 = 50 meV, dominant contribution)
 ```
 c = M_Pl × |∂V/∂φ_R| / V
 
-|∂V/∂φ_R| = 4 × Λ_residual × M_R / m_ν
-           = 4 × (3.2 × 10⁻⁴⁷) × (2 × 10¹⁴) / (5 × 10⁻¹¹)
-           = 4 × 6.4 × 10⁻³³ / (5 × 10⁻¹¹)
+|∂V/∂φ_R| = 4 × Λ_residual × (M_R / m_ν)   [dimensionless ratio × GeV⁴/GeV = GeV³]
+           = 4 × (3.2 × 10⁻⁴⁷) × (2 × 10¹⁴ / 5 × 10⁻¹¹)
+           = 4 × (3.2 × 10⁻⁴⁷) × (4 × 10²⁴)
            = 4 × 1.28 × 10⁻²²
-           = 5.12 × 10⁻²² GeV⁵   [units: GeV⁴/GeV × GeV = GeV⁵/GeV; with
-             V in GeV⁴ and φ in GeV: ∂V/∂φ has units GeV³]
-
-Correcting units: φ_R is in GeV, V in GeV⁴
-∂V/∂φ_R = 4 × Λ_residual × (M_R / m_ν)   [dimensionless ratio × GeV⁴/GeV = GeV³]
-         = 4 × (3.2 × 10⁻⁴⁷) × (2 × 10¹⁴ / 5 × 10⁻¹¹)
-         = 4 × (3.2 × 10⁻⁴⁷) × (4 × 10²⁴)
-         = 4 × 1.28 × 10⁻²²
-         = 5.12 × 10⁻²² GeV³
+           = 5.12 × 10⁻²² GeV³
 
 c = M_Pl × |∂V/∂φ_R| / Λ_CC
   = (1.22 × 10¹⁹ GeV) × (5.12 × 10⁻²² GeV³) / (3.2 × 10⁻⁴⁷ GeV⁴)
-  = (1.22 × 10¹⁹) × (5.12 × 10⁻²²) / (3.2 × 10⁻⁴⁷)
   = (6.25 × 10⁻³) / (3.2 × 10⁻⁴⁷)
   = 1.95 × 10⁴⁴   ✓ (O(1) required; 10⁴⁴ >> 1)
 ```
