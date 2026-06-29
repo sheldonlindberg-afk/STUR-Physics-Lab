@@ -1556,7 +1556,7 @@ This value is consistent with our empirical fit to neutrino masses!
 │      Agreement: 2.8%  ✓  EXCELLENT                                         │
 │                                                                             │
 │  Sum of Neutrino Masses:                                                    │
-│      Σm_ν = 50 meV                                                         │
+│      Σm_ν = 58 meV                                                         │
 │      Cosmological bound: Σm_ν < 120 meV [Planck 2018]                      │
 │      Status: CONSISTENT ✓                                                  │
 │                                                                             │
@@ -1587,7 +1587,7 @@ Current data favor Normal Ordering at ~3σ, consistent with STUR. ✓
 
 **Achievement 3: Absolute mass scale**
 
-The sum Σm_ν = 50 meV is consistent with:
+The sum Σm_ν = 58 meV is consistent with:
 - Minimum from oscillations: ~60 meV (NO)
 - Cosmological bound: < 120 meV
 - This is a genuine prediction, testable by KATRIN and cosmology.

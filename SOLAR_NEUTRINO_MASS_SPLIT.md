@@ -242,8 +242,8 @@ The Z₃-forced M_R structure makes specific predictions:
    detectable through oscillation-rate interference if M_R ~ 10¹⁴ GeV effects survive to
    low energy, though this is beyond near-term experiment reach.
 
-3. **Sum of neutrino masses:** Σm_ν = 50 meV (PDG: < 120 meV, CMB-S4 target: 20 meV).
-   This is a firm STUR prediction: CMB-S4 will either confirm or rule out Σm_ν ≈ 50 meV.
+3. **Sum of neutrino masses:** Σm_ν = 58 meV (PDG: < 120 meV, CMB-S4 target: 20 meV).
+   This is a firm STUR prediction: CMB-S4 will either confirm or rule out Σm_ν ≈ 58 meV.
 
 4. **No sterile neutrino at eV scale:** The seesaw scale is M_R = 2 × 10¹⁴ GeV, far above
    the eV range. STUR predicts no eV-scale sterile neutrino signals.
