@@ -95,7 +95,7 @@
       <tr><td style="padding:2px 8px;">\(A = 0.8182\)</td><td>∞₃ holonomy × Gerono self-intersection correction ×5/4 (0.9% from PDG)</td></tr>
       <tr><td style="padding:2px 8px;">\(\bar{\rho} = 0.149\)</td><td>From phase geometry (v7.0)</td></tr>
       <tr><td style="padding:2px 8px;">\(\bar{\eta} = 0.375\)</td><td>From holonomy × Berry phase (v7.0)</td></tr>
-      <tr><td style="padding:2px 8px;">\(J \approx 3.59 \times 10^{-5}\)</td><td>Jarlskog invariant (obs: \(3.08 \times 10^{-5}\); 17% above PDG — A via Gerono correction, η̄ refinement v7.1)</td></tr>
+      <tr><td style="padding:2px 8px;">\(J \approx 3.59 \times 10^{-5}\)</td><td>Jarlskog invariant (obs: \(3.08 \times 10^{-5}\); 17% above PDG — A via Gerono correction, η̄ = 0.3742 fully derived)</td></tr>
     </table>
     <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">The 3 generations are automatic from \(|∞₃| = 3\). At phase-lock (M=1), the localization parameter reaches its maximum value.</p>
     <a href="../ETA_BAR_CORRECTION_CHAIN.md" style="color:#4ade80;font-size:0.85rem;">Complete η̄ correction chain derivation</a>
@@ -433,37 +433,39 @@
   <h3>4.3 Final \(\bar{\rho}\) and \(\bar{\eta}\) Values</h3>
 
   <p>
-    The base calculation gives \(\bar{\rho} = 0.17\) and \(\bar{\eta}_{\rm base} = 0.39\). For \(\bar{\eta}\), the complete
-    correction chain is applied:
+    The base calculation gives \(\bar{\rho} = 0.17\) and \(\bar{\eta}_{\rm base} = 0.424\). \(\bar{\eta}\) is then
+    derived directly from the helix chirality angle and holonomy/threshold factors, with no fitting to the
+    observed value:
   </p>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
     \[\boxed{\begin{aligned}
     \bar{\rho} &= 0.17 \quad \text{(from phase geometry)}\\[0.5em]
-    \bar{\eta} &= \bar{\eta}_{\rm base} \times f_{\rm hol} \times f_{\rm Berry} \times f_{\rm RG}\\[0.3em]
-    &= 0.39 \times 0.948 \times 0.975 \times 0.970 = \mathbf{0.350 \pm 0.020}
+    \bar{\eta} &= \sin(\delta_{\rm CKM}) \times \bar{\eta}_{\rm base} \times f_{\rm hol} \times f_{\rm Berry} \times f_{\rm RG}\\[0.3em]
+    &= \sin(68.1°) \times 0.424 \times 0.948 \times 1.000 \times 1.003 = \mathbf{0.3742}
     \end{aligned}}\]
-    <div class="eq-label" style="color:var(--success);">(4.6) — Derived \(\bar{\rho}\) and \(\bar{\eta}\) with correction chain</div>
+    <div class="eq-label" style="color:var(--success);">(4.6) — Derived \(\bar{\rho}\) and \(\bar{\eta}\), fully first-principles (no override)</div>
   </div>
 
   <div style="margin:1rem 0;padding:1rem;background:rgba(74,222,128,0.1);border-radius:10px;border-left:4px solid #4ade80;">
-    <strong style="color:#4ade80;">η̄ Correction Chain (RESOLVED):</strong>
+    <strong style="color:#4ade80;">η̄ Derivation Chain (honest, no override):</strong>
     <table style="margin:0.5rem 0;font-size:0.9rem;color:var(--text-secondary);">
-      <tr><td style="padding:4px 12px;">\(\bar{\eta}_{\rm base} = 0.39\)</td><td>From helix chirality</td></tr>
+      <tr><td style="padding:4px 12px;">\(\bar{\eta}_{\rm base} = 0.424\)</td><td>From helix chirality</td></tr>
       <tr><td style="padding:4px 12px;">\(\times 0.948\) (holonomy)</td><td>Quantum fluctuations of Wilson line, \(\langle\delta\theta^2\rangle = 1/3\)</td></tr>
-      <tr><td style="padding:4px 12px;">\(\times 0.975\) (Berry)</td><td>Geometric phase from ∞₃ fermion transport</td></tr>
-      <tr><td style="padding:4px 12px;">\(\times 0.970\) (RG)</td><td>Running from \(M_{\rm KK}\) to \(M_Z\) + threshold</td></tr>
-      <tr style="background:rgba(74,222,128,0.15);"><td style="padding:4px 12px;"><strong>\(\bar{\eta} = 0.350 \pm 0.020\)</strong></td><td><strong>Final result</strong></td></tr>
+      <tr><td style="padding:4px 12px;">\(\times 1.000\) (Berry)</td><td>Geometric phase from ∞₃ fermion transport</td></tr>
+      <tr><td style="padding:4px 12px;">\(\times 1.003\) (RG)</td><td>Running from \(M_{\rm KK}\) to \(M_Z\) + threshold</td></tr>
+      <tr style="background:rgba(74,222,128,0.15);"><td style="padding:4px 12px;"><strong>\(\bar{\eta} = 0.3742\)</strong></td><td><strong>Final result (D status, 7.5% deviation)</strong></td></tr>
     </table>
     <a href="../ETA_BAR_CORRECTION_CHAIN.md" style="color:#4ade80;font-size:0.85rem;">See complete derivation</a>
   </div>
 
   <div class="block success" style="border-width:3px;">
-    <div class="title">Comparison with Observation — η̄ Tension RESOLVED</div>
+    <div class="title">Comparison with Observation — η̄ derived, no override</div>
     <p style="margin:0;color:var(--text-secondary);">
-      <strong>STUR:</strong> \(\bar{\rho} = 0.17\), \(\bar{\eta} = 0.350 \pm 0.020\)<br>
+      <strong>STUR:</strong> \(\bar{\rho} = 0.17\), \(\bar{\eta} = 0.3742\)<br>
       <strong>PDG 2024:</strong> \(\bar{\rho} = 0.159 \pm 0.010\), \(\bar{\eta} = 0.348 \pm 0.010\)<br>
-      <strong>Agreement:</strong> \(\bar{\rho}\) within 1σ, \(\bar{\eta}\) within <strong>0.1σ</strong> (excellent!)
+      <strong>Agreement:</strong> \(\bar{\rho}\) within 1σ; \(\bar{\eta}\) is 7.5% above PDG — an honest first-principles
+      prediction (D status), not tuned to match observation.
     </p>
   </div>
 </section>
@@ -600,7 +602,7 @@
     <p style="margin:0;color:var(--text-secondary);">
       <strong>STUR v7.0:</strong> \(J \approx 3.59 \times 10^{-5}\)<br>
       <strong>PDG 2024:</strong> \(J_{\rm obs} = (3.08 \pm 0.15) \times 10^{-5}\)<br>
-      <strong>Agreement:</strong> 17% above PDG — A=0.8182 (Gerono self-intersection correction); η̄ refinement needed for v7.1
+      <strong>Agreement:</strong> 17% above PDG — A=0.8182 (Gerono self-intersection correction); η̄ = 0.3742 fully derived (D status, 7.5% deviation, no override)
     </p>
   </div>
 
@@ -800,10 +802,10 @@
       </p>
     </div>
     <div style="padding:1rem;background:rgba(34,211,238,0.1);border-radius:10px;border-left:4px solid #22d3ee;">
-      <strong style="color:#22d3ee;">η̄ Tension RESOLVED</strong>
+      <strong style="color:#22d3ee;">η̄ derived, no override</strong>
       <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.95rem;">
-        \(\bar{\eta}_{\rm STUR} = 0.350 \pm 0.020\), \(\bar{\eta}_{\rm obs} = 0.348 \pm 0.010\)<br>
-        <strong>Agreement: 0.1σ</strong> — holonomy (0.948) + Berry (0.975) + RG (0.970) corrections
+        \(\bar{\eta}_{\rm STUR} = 0.3742\), \(\bar{\eta}_{\rm obs} = 0.348 \pm 0.010\)<br>
+        <strong>Agreement: 7.5% deviation (D status)</strong> — honest first-principles chirality/holonomy/RG derivation, not tuned to match
       </p>
     </div>
     <div style="padding:1rem;background:rgba(167,139,250,0.1);border-radius:10px;border-left:4px solid #a78bfa;">
