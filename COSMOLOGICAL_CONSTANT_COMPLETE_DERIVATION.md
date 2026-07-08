@@ -17,7 +17,7 @@ This document provides a complete, rigorous derivation of the cosmological const
 2. ∞₃ instanton prefactor: F_inst = 1/3 from ζ-regularized determinant ratio
 3. Threshold matching corrections at M_R scale
 
-**Final Result:**
+**Result as of this document's v4.4 revision (2026-02-05):**
 
 $$\boxed{\Lambda_{\text{STUR}} = (3.6 \pm 2.6) \times 10^{-47} \text{ GeV}^4}$$
 
@@ -25,9 +25,11 @@ compared to the observed value:
 
 $$\Lambda_{\text{obs}} = (2.846 \pm 0.076) \times 10^{-47} \text{ GeV}^4$$
 
-**The STUR prediction agrees with observation within 27% (< 0.5σ).**
+**The STUR prediction agrees with observation within 27% (< 0.5σ) — as computed with the mechanism and coefficients known at v4.4.**
 
-This represents **complete closure** of the cosmological constant problem — an improvement from the naive 10¹²³ fine-tuning to 27% agreement through the ∞-helix discrete gauge mechanism.
+> **Superseded — current canonical result:** The v7.0.2 framework (2026-06-29) replaced the hardcoded F_RG=0.47 coefficient used implicitly here with a derived F_XCRM = |ψ_l(0)² − ψ_l(2π/3)²| = 0.4459 (lepton brane Mathieu wavefunction at the Z₃ fixed points), giving the current canonical result **Λ_residual = 3.15×10⁻⁴⁷ GeV⁴ (10.8% deviation)**. See `CHANGELOG.md` [7.0.2] and `OPEN_PROBLEMS_ROADMAP.md` OP-5 for the up-to-date derivation and number; the 27% figure below is the historical v4.4 value, not the current one.
+
+This represents **complete closure** of the cosmological constant problem — an improvement from the naive 10¹²³ fine-tuning to (now) 10.8% agreement through the ∞-helix discrete gauge mechanism.
 
 ---
 

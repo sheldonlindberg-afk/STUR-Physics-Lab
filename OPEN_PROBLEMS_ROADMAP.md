@@ -205,7 +205,7 @@ three axioms and four inputs. Zero free parameters. 100% first-principles closur
 | `toe_closure_calculations.py` | Z_N energy, Higgs profile | ∞₃ proven optimal |
 | `mass_spectrum_full.py` | Full fermion spectrum | Yukawa matrix, RG running |
 | `stur_v7_full_closure.py` | CC + F_XCRM derivation | Λ_residual = 3.15×10⁻⁴⁷ GeV⁴ (10.8%) |
-| `cosmological_constant.py` | CC calculation | Λ_residual = 3.15×10⁻⁴⁷ GeV⁴ |
+| `cosmological_constant.py` | Historical negative result (v5.2, 2026-02-07): tests an earlier, since-abandoned naive Casimir-on-S¹/∞₃ mechanism | Concludes that mechanism does NOT compute the CC (L would be an untuned input) — superseded by the discrete-gauge Ward identity + F_XCRM mechanism above |
 | `stur_numerical_verification.py` | 4-method κ check | Monte Carlo confirmation |
 
 ---

@@ -369,14 +369,14 @@ STUR-Physics-Lab/
 |   |-- stur_toe_closure.py                # Complete TOE closure (29D+0P+0U+1I=30 — canonical)
 |   |-- stur_first_principles_calculation.py   # Core kappa, overlaps, N_eff
 |   |-- ckm_full_diagonalization.py            # Full CKM matrix derivation
-|   |-- cosmological_constant.py               # CC calculation
+|   |-- cosmological_constant.py               # Historical negative result (abandoned mechanism, superseded)
 |   |-- toe_closure_calculations.py            # TOE scorecard verification
 |   |-- ... (30 Python scripts total)
 |
 |-- *.md                    # Technical derivation documents (60 files)
 |   |-- DERIVATION_CHAIN_INFINITY.md              # Master derivation chain (v7.0)
 |   |-- ABSOLUTE_MASS_DERIVATION.md               # All 9 fermion masses
-|   |-- COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md  # CC: 17% from observed
+|   |-- COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md  # CC: 10.8% from observed (v7.0.2, F_XCRM)
 |   |-- DARK_MATTER_RELIC_DENSITY.md              # DM: Omega h^2 = 0.120
 |   |-- FALSIFICATION_PROTOCOL.md                 # Pre-registered kill criteria
 |   |-- FTHEORY_CY4_EXPLICIT_CONSTRUCTION.md      # UV completion proof

@@ -543,7 +543,11 @@ Omega_h2 = 1.07e9*xf/(M_Pl*np.sqrt(g_st)*sv) if sv>0 else 0
 omega_z3 = np.exp(2j*np.pi/3)
 m_nu_GeV = np.array([m_nu1_eV, m_nu2_eV, m_nu3_eV])*1e-9
 Sig_z3   = sum(omega_z3**k * m_nu_GeV[k]**4 for k in range(3))
-F_cc     = (1/(64*np.pi**2)) * 0.47 * np.exp(-1/6) * 1/(4*np.pi**2) / 3
+# F_XCRM: Z₃-weighted lepton brane squared amplitude at the three ∞₃ fixed points,
+# |ψ_l(0)² − ψ_l(2π/3)²|, derived from the lepton brane Mathieu wavefunction already
+# computed in Part 2 (A0l, A1l). Replaces the earlier hardcoded F_RG = 0.47 coefficient.
+F_XCRM   = abs(A0l**2 - A1l**2)
+F_cc     = (1/(64*np.pi**2)) * F_XCRM * np.exp(-1/6) * 1/(4*np.pi**2) / 3
 Lam_pred = F_cc * abs(Sig_z3)
 Lam_obs  = 2.846e-47
 
@@ -551,6 +555,7 @@ print(f"  TEGR KK-parity: ∞₃ gauge symmetry conserves KK-parity → LKP B^(1
 print(f"  M_DM = {M_DM:.0f} GeV = {M_DM/1e3:.3f} TeV  (Ω_DM h² = {Omega_h2:.4f}, PDG 0.1200, {abs(Omega_h2-0.120)/0.120*100:.1f}%)")
 print()
 print(f"  Z₃ Ward identity:  Σ_k ω^k m_k⁴ = {abs(Sig_z3):.2e} GeV⁴  (0 in degenerate limit  ✓)")
+print(f"  F_XCRM = |ψ_l(0)² − ψ_l(2π/3)²| = |{A0l**2:.5f} − {A1l**2:.5f}| = {F_XCRM:.5f}  (derived, replaces hardcoded F_RG=0.47)")
 print(f"  Λ_residual = {Lam_pred:.2e} GeV⁴   obs = {Lam_obs:.2e}   ratio = {Lam_pred/Lam_obs:.1f}×")
 print(f"  [D: cosmological constant from off-diagonal M_R breaking Z₃]")
 
