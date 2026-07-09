@@ -214,6 +214,12 @@ bar("PART 3: CKM matrix from ∞₃ inter-brane resistance ratio")
 f_screen = abs(_trapz(psi_q[:,0] * np.exp(1j*th_q) * psi_q[:,0], th_q))
 A_ell_cov = (2*np.pi/3)/(np.pi*sig_q) * np.exp(-1/6) * (1 + np.pi/2/(2*np.pi))
 delta_CKM = np.arctan(0.5) + np.pi/3 * f_screen
+# eta_b/rho_b correction chain: 0.424 (overlap_ratio), 0.948 (f_hol), 1.000 (f_Berry),
+# 1.003 (f_RG). Per this repo's own ETA_BAR_CORRECTION_CHAIN.md and
+# f_hol_phase_correction.py/f_hol_dynamical.py, f_hol=0.948 is FITTED, not derived from
+# a first-principles mechanism ("None of the physical mechanisms tested produces
+# f_hol ≈ 0.948"). |V_ub|, rho_b, and m_u (Part 8, via m_t*|V_ub|²) all inherit this,
+# so their "D" status below should not be read as fully independent of one fitted input.
 eta_b = np.sin(delta_CKM)*0.424*0.948*1.000*1.003
 rho_b = np.cos(delta_CKM)*0.424*0.948*1.000*1.003
 
@@ -406,6 +412,14 @@ print("""  Z₃ selection rule (i+j ≡ 0 mod 3) forces off-diagonal M_R:
 f_hol = 3*1.5*np.sqrt(3)*1.2*2.1
 M_R0  = f_hol * 1e13   # GeV (holonomy scale)
 
+# NOTE (honesty flag): m_nu3_atm is set directly from a literature Δm²31 reference value
+# (sqrt(2.453e-3) eV², "anchor to atmospheric"), and M_R0 cancels exactly in m_nu3_eV
+# below (m_nu3_eV = (m_nu3_atm*M_R0)/M_R0 = m_nu3_atm regardless of M_R0). So the "2.3%
+# deviation from PDG 2.511e-3" reported for Delta_m^2_31 below reflects the gap between
+# this hardcoded anchor constant and the current PDG central value, not an independent
+# prediction from M_R0/holonomy. Delta_m^2_21 (via lambda_l^2/2 * Delta_m^2_31 below) is
+# a genuine ratio-derivation on top of this anchor, so it is only as independent as that
+# ratio, not fully first-principles on its own.
 m_nu3_atm = np.sqrt(2.453e-3) * 1e-9   # GeV
 m_D3      = np.sqrt(m_nu3_atm * M_R0)  # anchor to atmospheric
 m_nu3_eV  = m_D3**2 / M_R0 * 1e9
@@ -535,6 +549,14 @@ bar("PART 9: Dark matter (LKP B^(1) freeze-out) + Cosmological constant")
 g_Y  = np.sqrt(4*np.pi*alpha_em/(1-sin2_W))
 Y4   = 3*(4/9)**2*3 + 3*(1/9)**2*3 + 1**2 + (1/4)**2*3
 xf, g_st = 26, 106.75;  f_co = 1.9
+# NOTE (honesty flag): sv_t is solved by inverting the freeze-out formula against the
+# hardcoded target 0.120 (Planck Ω_DM h²), then M_DM is solved from sv_t, then sv is
+# recomputed from M_DM and Omega_h2 recomputed from sv — by construction this returns
+# Omega_h2=0.1200 (0.0% dev) for ANY value of Y4 (verified: Y4 in [0.001, 9999] all give
+# 0.120000 to 6 decimals). So "Omega_h2 = 0.1200, 0.0% dev" below is a tautology of this
+# algebra, not an independent prediction — only M_DM (949 GeV) carries information, and
+# per this repo's own three_pillar_toe_closure.py, an independently-computed holonomy
+# mass scale gives ~7.7 TeV, with 0.92-0.95 TeV noted there as "fitted" to match Planck.
 sv_t = 1.07e9*xf / (M_Pl*np.sqrt(g_st)*0.120)
 M_DM = np.sqrt(max(g_Y**4*Y4*f_co/(16*np.pi*sv_t), 0))
 sv   = g_Y**4*Y4*f_co/(16*np.pi*M_DM**2) if M_DM>0 else 0
@@ -584,7 +606,7 @@ for nm, pr, ob, dev in [
     ("m_t (input)",    f"{m_t:.2f} GeV",          "172.57 GeV",  "input"),
     ("m_b/m_t",        f"{mb_mt:.5f}",             "0.02424",     f"{abs(mb_mt-0.02424)/0.02424*100:.1f}%  [D]"),
     ("m_τ/m_t",        f"{mtau_mt:.6f}",           "0.01030",     f"{abs(mtau_mt-0.01030)/0.01030*100:.1f}%  [D]"),
-    ("m_c",            f"{mc_pred:.3f} GeV",       "1.275 GeV",   f"{abs(mc_pred-1.275)/1.275*100:.0f}%  [D]"),
+    ("m_c",            f"{mc_pred:.3f} GeV",       "1.275 GeV",   f"{abs(mc_pred-1.275)/1.275*100:.0f}%  [{'D' if abs(mc_pred-1.275)/1.275*100 < 20 else 'P'}]"),
     ("m_u (CKM seesaw)",f"{m_u_CKM*1e3:.2f} MeV", "2.16 MeV",   f"{abs(m_u_CKM*1e3-2.16)/2.16*100:.0f}%  [{st_mu}]"),
     ("m_u (Wolfenst.)",f"{m_u_wolf*1e3:.1f} MeV", "2.16 MeV",   f"{m_u_wolf*1e3/2.16:.1f}×  [ref]"),
 ]:
@@ -634,7 +656,9 @@ scorecard = [
     ("|V_cb|",         f"{abs(Vcb):.5f}",           "0.0410",       "XCRM",  "D", f"{abs(abs(Vcb)-0.0410)/0.0410*100:.1f}%"),
     ("sin²θ₁₃",        f"{sin2_13:.4f}",            "0.0220",       "XCRM",  "D", f"{abs(sin2_13-0.0220)/0.0220*100:.0f}%  lemniscate NEW [v7.0]"),
     ("sin²θ₂₃",        f"{sin2_23:.4f}",            "0.545",        "XCRM",  "D", f"{abs(sin2_23-0.545)/0.545*100:.1f}%  U_ℓ†×U_ν(Mathieu)"),
-    ("δ_CP(PMNS)",     f"{dcp:.1f}°",               "197°",         "∞₃CM",  "D", f"{abs(dcp-197)/197*100:.1f}%  φ_lem=−i"),
+    ("δ_CP(PMNS)",     f"{dcp:.1f}°",               "197°",         "∞₃CM",
+     "D" if abs(dcp-197)/197*100 < 20 else "P",
+     f"{abs(dcp-197)/197*100:.1f}%  φ_lem=−i"),
     ("Δm²₃₁",         f"{Dm2_31:.2e}",             "2.511e-3",     "XCRM",  "D", f"{abs(Dm2_31-2.511e-3)/2.511e-3*100:.1f}%"),
     ("M_DM",           f"{M_DM:.0f} GeV",           "—",            "TEGR",  "D", "LKP B^(1) freeze-out"),
     ("Ω_DM h²",        f"{Omega_h2:.4f}",           "0.1200",       "TEGR",  "D", f"{abs(Omega_h2-0.120)/0.120*100:.1f}%"),
@@ -642,7 +666,9 @@ scorecard = [
     ("Λ_CC",           f"{Lam_pred:.1e}",           f"{Lam_obs:.1e}","All", "D", f"{abs(Lam_pred-Lam_obs)/Lam_obs*100:.0f}%  Z₃ Ward identity"),
     ("m_b/m_t",        f"{mb_mt:.5f}",              "0.02424",      "XCRM",  "D", f"{abs(mb_mt-0.02424)/0.02424*100:.1f}%"),
     ("m_τ/m_t",        f"{mtau_mt:.5f}",            "0.01030",      "XCRM",  "D", f"{abs(mtau_mt-0.01030)/0.01030*100:.1f}%"),
-    ("m_c/m_t",        f"{mc_pred/m_t:.5f}",        "0.00739",      "XCRM",  "D", f"{abs(mc_pred/m_t-0.00739)/0.00739*100:.0f}%"),
+    ("m_c/m_t",        f"{mc_pred/m_t:.5f}",        "0.00739",      "XCRM",
+     "D" if abs(mc_pred/m_t-0.00739)/0.00739*100 < 20 else "P",
+     f"{abs(mc_pred/m_t-0.00739)/0.00739*100:.0f}%"),
     ("ω = 2π²",        f"{omega_pred:.4f}",         "19.7392",      "XCRM",  "D", f"{abs(omega_pred-19.7392)/19.7392*100:.3f}%  phase closure"),
     ("r (tens/scal)",  f"{r_eff_inf:.4f}",          "< 0.036",      "TEGR",  "D", f"{r_eff_inf/0.036*100:.0f}% of BICEP bound  XCRM Kirchhoff"),
     # Partially derived (status auto-computed from deviation)
@@ -683,7 +709,9 @@ print(f"""
        Mechanism: φ_lem=−i acts on se₁(2π/3)≠0 via U_PMNS[νe,ν₃] = i s₁₂ se₁(2π/3)/n₃
        Status upgrade: 100% off (P) → {abs(sin2_13-0.022)/0.022*100:.0f}% off (D)
     2. sin²θ₁₂ improved: 27% off → {abs(sin2_12-0.307)/0.307*100:.0f}% off  (full U_ℓ†×U_ν product)
-    3. m_u = m_t|V_ub|² = {m_u_CKM*1e3:.2f} MeV  ({abs(m_u_CKM*1e3-2.16)/2.16*100:.0f}% PDG)  [D — 100% closure!]
+    3. m_u = m_t|V_ub|² = {m_u_CKM*1e3:.2f} MeV  ({abs(m_u_CKM*1e3-2.16)/2.16*100:.0f}% PDG)  [D]
+       (NOTE: this formula reuses the |V_ub| chain, which itself depends on the
+       eta_b/rho_b constants below — not fully independent of that chain)
        Z₃ seesaw: antisymmetric ψ_u couples to top via off-diagonal y_{{u,t}}=V_ub×y_t
     4. U_ν now from LEPTON brane (α_l = {alpha_l:.4f}) — physically correct sector
     5. QCD running factor {run_factor:.3f} computed explicitly (increases m_u at low μ)
