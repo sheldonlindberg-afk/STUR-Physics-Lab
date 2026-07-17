@@ -497,8 +497,8 @@
   <p>In STUR, <strong>gauge-Higgs unification</strong> at the GUT scale determines the boundary condition for λ. Since the Higgs is the A<sub>5</sub> component of the gauge field, its self-coupling is related to the gauge coupling:</p>
 
   <div class="eq law" style="background:#000;border:3px solid var(--gold);padding:1.5rem;">
-    \[\boxed{\lambda(M_{\rm GUT}) = \frac{g_{\rm GUT}^4}{16\pi^2}\left(\frac{2\pi}{3}\right)^2 \cdot \mathcal{C}_{∞₃} = \frac{(0.72)^4 \times 4.39}{158} \times 1.2 \approx 0.12}\]
-    <div class="eq-label" style="color:var(--gold);">(6.8) — Boundary condition from GAUGE-HIGGS UNIFICATION</div>
+    \[\boxed{\lambda(M_{\rm GUT}) = \frac{g_{\rm GUT}^4}{16\pi^2}\left(\frac{2\pi}{3}\right)^2 \cdot \mathcal{C}_{∞₃} = \frac{(0.72)^4 \times 4.39}{158} \times 1.2 \approx 0.009}\]
+    <div class="eq-label" style="color:var(--gold);">(6.8) — Boundary condition from gauge-Higgs unification (arithmetic corrected)</div>
   </div>
 
   <p>This is the key result of gauge-Higgs unification:</p>
@@ -508,10 +508,22 @@
     <li><strong>C<sub>∞₃</sub> ≈ 1.2</strong> — geometric coefficient from orbifold fixed points</li>
   </ul>
 
-  <div class="block gold" style="border-width:2px;margin-top:1rem;">
-    <div class="title">Gauge-Higgs Unification: Why λ is Not Free</div>
+  <div class="block warning" style="border-width:2px;margin-top:1rem;">
+    <div class="title">Arithmetic Correction</div>
     <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
-      Because the Higgs is the fifth component of the gauge field (A<sub>5</sub>), its quartic coupling λ is <strong>determined by gauge invariance</strong>, not introduced as a free parameter. This is the essence of gauge-Higgs unification.
+      Multiplying out the stated factors gives (0.72)<sup>4</sup>×4.39/158×1.2 ≈ 0.009, not the ≈0.12 previously
+      claimed here (off by a factor of ~13). The λ(M<sub>GUT</sub>) = 0.120 value used in the RG-running table (6.9)
+      and in the derivation-chain boxes below is therefore not actually reproduced by this formula as stated — either
+      the formula is missing a factor of order 13, or the 0.120 boundary value was set independently (e.g. read off
+      the desired λ(M<sub>Z</sub>) ≈ 0.129 and run backward) rather than computed from this expression. This is
+      flagged here rather than silently corrected, since no independently verified missing factor was found.
+    </p>
+  </div>
+
+  <div class="block gold" style="border-width:2px;margin-top:1rem;">
+    <div class="title">Gauge-Higgs Unification: Why λ is Not Free (Qualitative Argument)</div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+      Because the Higgs is the fifth component of the gauge field (A<sub>5</sub>), its quartic coupling λ is <strong>related to the gauge coupling</strong> by symmetry, rather than being an independent free parameter. This qualitative argument for why λ is not free stands on its own; the specific numerical boundary value λ(M<sub>GUT</sub>) = 0.120 used downstream is not supported by the formula in (6.8) as shown above.
     </p>
   </div>
 
@@ -621,7 +633,7 @@
     <table style="font-size:0.85rem;width:100%;">
       <tr><th>Step</th><th>Source</th><th>Value</th></tr>
       <tr><td>1. VEV from ∞-helix winding</td><td>v·L<sub>X</sub> = 3 (DERIVED)</td><td>v = 246 GeV</td></tr>
-      <tr><td>2. λ from gauge-Higgs unification</td><td>λ(M<sub>GUT</sub>) (DERIVED)</td><td>0.120</td></tr>
+      <tr><td>2. λ from gauge-Higgs unification</td><td>λ(M<sub>GUT</sub>) (boundary value used; not reproduced by Eq. 6.8 as shown — see §6.6 note)</td><td>0.120</td></tr>
       <tr><td>3. RG evolution to EW scale</td><td>β<sub>λ</sub> with y<sub>t</sub>, g<sub>i</sub></td><td>λ(M<sub>Z</sub>) = 0.129</td></tr>
       <tr><td>4. Higgs mass formula</td><td>m<sub>H</sub> = √(2λ)v</td><td>125 GeV</td></tr>
       <tr style="background:rgba(74,222,128,0.2);"><td><strong>5. Theoretical uncertainty</strong></td><td>8% from derivation chain</td><td><strong>±10 GeV</strong></td></tr>
@@ -632,11 +644,15 @@
   <div class="block success" style="border-width:3px;margin-top:1.5rem;">
     <div class="title" style="font-size:1.1rem;">Key Result: Higgs Mass is a PREDICTION from Gauge-Higgs Unification</div>
     <p style="margin:0;color:var(--text-secondary);">
-      The Higgs mass is <strong>DERIVED, not fit</strong> in STUR. The complete derivation chain:
+      The Higgs mass follows from v and λ(M<sub>Z</sub>) via m<sub>H</sub> = √(2λ)v, which is a genuine formula, not a fit
+      to m<sub>H</sub> itself. Note, however, that the λ(M<sub>GUT</sub>) = 0.120 boundary value feeding into this
+      chain is not actually reproduced by the gauge-Higgs unification formula in §6.6 (see the arithmetic-correction
+      note there) — so this step of the chain should be read as a boundary value used, not a fully closed derivation.
+      The complete derivation chain:
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
       <li><strong>v from ∞-helix winding:</strong> v·L<sub>X</sub> = 3 determines the VEV</li>
-      <li><strong>λ from gauge-Higgs unification:</strong> λ(M<sub>GUT</sub>) = 0.12 fixed by A<sub>5</sub> = Higgs</li>
+      <li><strong>λ from gauge-Higgs unification:</strong> λ(M<sub>GUT</sub>) = 0.12 used as boundary value (A<sub>5</sub> = Higgs argument is qualitative; Eq. 6.8's numerical formula gives ≈0.009, not 0.12 — see §6.6)</li>
       <li><strong>RG running:</strong> Evolution via SM β functions to electroweak scale</li>
       <li><strong>Higgs mass formula:</strong> m<sub>H</sub> = √(2λ)v<sub>H</sub></li>
       <li><strong>PREDICTION:</strong> m<sub>H</sub> = 125 ± 10 GeV (8% theoretical uncertainty)</li>
@@ -661,7 +677,7 @@
     <div class="step">
       <div class="step-content">
         <strong>Step 2: λ(M<sub>GUT</sub>) from Gauge-Higgs Unification</strong><br>
-        A<sub>5</sub> = Higgs means λ is determined by gauge coupling: λ(M<sub>GUT</sub>) = 0.12 (DERIVED).
+        A<sub>5</sub> = Higgs motivates λ being tied to the gauge coupling; λ(M<sub>GUT</sub>) = 0.12 is used as the boundary value, though the explicit formula in §6.6 gives ≈0.009 (see note there) rather than reproducing 0.12.
       </div>
     </div>
     <div class="step">

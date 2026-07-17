@@ -412,24 +412,34 @@
   <p><strong>Step 6: Total XCRM correction</strong></p>
 
   <div class="eq law" style="background:#000;border:2px solid #a855f7;padding:1.25rem;margin:0.75rem 0;">
-    \[\boxed{\Delta\theta_{\rm XCRM} = \Delta\theta_{\rm gR} + \Delta\theta_t + \Delta\theta_{\rm KK} \times \epsilon_{\rm CP} = (3.0 + 0.0008 + 5.5 \times 10^{-4}) \times 10^{-8} < \mathbf{10^{-7}}}\]
+    \[\boxed{\Delta\theta_{\rm XCRM} = \Delta\theta_{\rm gR} + \Delta\theta_t + \Delta\theta_{\rm KK} \times \epsilon_{\rm CP} = (3.0 + 0.081 + 5.5) \times 10^{-8} \approx 8.6\times\mathbf{10^{-8}}}\]
     <div class="eq-label" style="color:#a855f7;">(4.3) — XCRM threshold correction: DERIVED</div>
   </div>
 
-  <p>where ε_CP ~ 10⁻² is the CP-violating suppression from the real Yukawa structure.</p>
+  <p>where ε_CP ~ 10⁻² is the CP-violating suppression from the real Yukawa structure. (An earlier version of
+  this box wrote the second and third terms as 0.0008×10⁻⁸ and 5.5×10⁻⁴×10⁻⁸ — off by 100× and 10,000×
+  respectively from the Step-4/5 values above; corrected here. The bound also read "&lt;10⁻⁷", which the
+  corrected sum, 8.6×10⁻⁸, still satisfies.)</p>
 
   <h3>4.5 Total θ_eff</h3>
 
-  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;margin:0.75rem 0;">
-    \[\boxed{\theta_{\rm eff} = \theta_{\rm tree} + \Delta\theta_{\rm NP} + \Delta\theta_{\rm XCRM} = 0 + 10^{-29} + 10^{-9} < \mathbf{10^{-9}}}\]
-    <div class="eq-label" style="color:var(--success);">(4.4) — Total θ_eff: SAFELY BELOW 10⁻¹⁰ BOUND</div>
+  <div class="eq law" style="background:#000;border:3px solid var(--warning);padding:1.25rem;margin:0.75rem 0;">
+    \[\boxed{\theta_{\rm eff} = \theta_{\rm tree} + \Delta\theta_{\rm NP} + \Delta\theta_{\rm XCRM} = 0 + 10^{-29} + 8.6\times10^{-8} \approx \mathbf{8.6\times10^{-8}}}\]
+    <div class="eq-label" style="color:var(--warning);">(4.4) — Total θ_eff (corrected to match eq 4.3's own Δθ_XCRM)</div>
   </div>
 
-  <div class="block success">
-    <div class="title">Radiative Stability Proven</div>
+  <div class="block warning">
+    <div class="title">Honesty note: this does not clear the neutron-EDM bound as written</div>
     <p style="margin:0;color:var(--text-secondary);">
-      Loop corrections to θ are at most 10⁻⁹, well below the experimental bound |θ̄| < 10⁻¹⁰.
-      The Strong CP solution is radiatively stable.
+      An earlier version of this page plugged \(\Delta\theta_{\rm XCRM}\approx10^{-9}\) into eq (4.4) and
+      called the result "safely below" the bound |θ̄| &lt; 10⁻¹⁰ from §1.3 — but 10⁻⁹ is itself ten times
+      <em>larger</em> than 10⁻¹⁰, not below it, and it also did not match eq (4.3)'s own computed value.
+      Using eq (4.3)'s own numbers consistently, \(\theta_{\rm eff}\approx8.6\times10^{-8}\), which is about
+      three orders of magnitude <strong>above</strong> the |θ̄| &lt; 10⁻¹⁰ neutron-EDM bound, not below it.
+      This threshold-correction estimate has not been shown to satisfy the experimental bound; the tree-level
+      result \(\theta_{\rm tree}=0\) (exact, from ∞₃×CP symmetry) is unaffected and remains the basis for the
+      "no axion needed" claim, but the claimed radiative-stability margin below the EDM bound is not
+      established by the numbers in this section as they stand.
     </p>
   </div>
 </section>

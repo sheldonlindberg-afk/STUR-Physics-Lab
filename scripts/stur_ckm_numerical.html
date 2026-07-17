@@ -84,16 +84,23 @@
   <p style="margin:0.75rem 0;padding:0.75rem;background:rgba(74,222,128,0.08);border-radius:8px;border:1px solid #4ade80;font-size:0.9rem;">
     <strong style="color:#4ade80;">Key Parameters (∞₃ Geometry Derived):</strong><br>
     \(\XCRM{\lambda_q} = 0.22871\) (∞-helix phase overlap, 0.3% agreement) · \(\XCRM{A} = 0.8182\) (holonomy × Gerono self-intersection correction, 0.9% agreement)<br>
-    <strong style="color:#22d3ee;">v7.0 values:</strong> \(\kappa_q = 2.4292\), \(\bar{\eta} = 0.375\), \(\bar{\rho} = 0.149\), \(J = 3.59 \times 10^{-5}\)
+    <strong style="color:#22d3ee;">v7.0 values:</strong> \(\kappa_q = 2.4292\), \(\bar{\eta} = 0.3947\), \(\bar{\rho} = 0.158\), \(J = 3.78 \times 10^{-5}\)
+  </p>
+
+  <p style="margin:0.5rem 0;font-size:0.82rem;color:var(--text-secondary);">
+    The matrix and table below are the values that actually follow from §2.3's worked derivation
+    (\(s_{12}=\lambda_q\), \(s_{23}=A\lambda_q^2\), \(s_{13}=A\lambda_q^3\sqrt{\bar\rho^2+\bar\eta^2}\)) with the
+    parameters above — an earlier version of this page displayed a different, unreconciled headline
+    matrix that did not reproduce from this formula; that has been corrected here.
   </p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--success);padding:1.25rem;">
     \[\boxed{V_{\rm CKM}^{\rm STUR} = \begin{pmatrix}
-    0.9741 & 0.2258 & 0.00364 \\
-    0.2257 & 0.9733 & 0.0410 \\
-    0.00867 & 0.0403 & 0.9992
+    0.9738 & 0.2287 & 0.00416 \\
+    0.2287 & 0.9738 & 0.0428 \\
+    0.0091 & 0.0428 & 0.9991
     \end{pmatrix}}\]
-    <div class="eq-label" style="color:var(--success);">(CKM.1) — STUR CKM Matrix Prediction (\(\lambda=0.228, A=0.8182\) NLO holonomy × Gerono correction) — v7.0</div>
+    <div class="eq-label" style="color:var(--success);">(CKM.1) — STUR CKM Matrix Prediction (\(\lambda_q=0.22871, A=0.8182\) NLO holonomy × Gerono correction) — v7.0</div>
   </div>
 
   <p style="margin-top:1rem;"><strong>Comparison with PDG 2024:</strong></p>
@@ -103,15 +110,15 @@
       <tr><th>Element</th><th>STUR Prediction</th><th>PDG 2024</th><th>Deviation</th></tr>
     </thead>
     <tbody>
-      <tr><td>\(|V_{ud}|\)</td><td>0.9741</td><td>0.97435 ± 0.00016</td><td style="color:var(--success);">0.03%</td></tr>
-      <tr><td>\(|V_{us}|\)</td><td>0.2258</td><td>0.22500 ± 0.00067</td><td style="color:var(--success);">0.4%</td></tr>
-      <tr><td>\(|V_{ub}|\)</td><td>0.00364</td><td>0.00369 ± 0.00011</td><td style="color:var(--success);">1.4%</td></tr>
-      <tr><td>\(|V_{cd}|\)</td><td>0.2257</td><td>0.22486 ± 0.00067</td><td style="color:var(--success);">0.4%</td></tr>
-      <tr><td>\(|V_{cs}|\)</td><td>0.9733</td><td>0.97349 ± 0.00016</td><td style="color:var(--success);">0.02%</td></tr>
-      <tr><td>\(|V_{cb}|\)</td><td>0.0410</td><td>0.04182 ± 0.00085</td><td style="color:var(--success);">2.0%</td></tr>
-      <tr><td>\(|V_{td}|\)</td><td>0.00867</td><td>0.00857 ± 0.00020</td><td style="color:var(--success);">1.2%</td></tr>
-      <tr><td>\(|V_{ts}|\)</td><td>0.0403</td><td>0.04110 ± 0.00083</td><td style="color:var(--success);">1.9%</td></tr>
-      <tr><td>\(|V_{tb}|\)</td><td>0.9992</td><td>0.999118 ± 0.000031</td><td style="color:var(--success);">0.01%</td></tr>
+      <tr><td>\(|V_{ud}|\)</td><td>0.9738</td><td>0.97435 ± 0.00016</td><td style="color:var(--success);">0.05%</td></tr>
+      <tr><td>\(|V_{us}|\)</td><td>0.2287</td><td>0.22500 ± 0.00067</td><td style="color:var(--success);">1.65%</td></tr>
+      <tr><td>\(|V_{ub}|\)</td><td>0.00416</td><td>0.00369 ± 0.00011</td><td style="color:#fbbf24;">12.8%</td></tr>
+      <tr><td>\(|V_{cd}|\)</td><td>0.2287</td><td>0.22486 ± 0.00067</td><td style="color:var(--success);">1.7%</td></tr>
+      <tr><td>\(|V_{cs}|\)</td><td>0.9738</td><td>0.97349 ± 0.00016</td><td style="color:var(--success);">0.03%</td></tr>
+      <tr><td>\(|V_{cb}|\)</td><td>0.0428</td><td>0.04182 ± 0.00085</td><td style="color:var(--success);">2.3%</td></tr>
+      <tr><td>\(|V_{td}|\)</td><td>0.0091</td><td>0.00857 ± 0.00020</td><td style="color:var(--success);">6.2%</td></tr>
+      <tr><td>\(|V_{ts}|\)</td><td>0.0428</td><td>0.04110 ± 0.00083</td><td style="color:var(--success);">4.1%</td></tr>
+      <tr><td>\(|V_{tb}|\)</td><td>0.9991</td><td>0.999118 ± 0.000031</td><td style="color:var(--success);">0.00%</td></tr>
     </tbody>
   </table>
 
@@ -124,7 +131,7 @@
       <li><strong>Exclusion-3:</strong> Unitarity triangle closure fails: |V<sub>ud</sub>|² + |V<sub>us</sub>|² + |V<sub>ub</sub>|² ≠ 1 at > 2σ</li>
     </ul>
     <p style="margin:0.75rem 0 0;font-size:0.85rem;color:var(--text-muted);">
-      <strong>Status (v7.0):</strong> All parameters derived — <span style="color:var(--neon-green);">∞-helix geometry: \(\lambda_q=0.22871\) (0.3%), \(A=0.8182\) (0.9% — bare × Gerono correction ×5/4), \(\kappa_q=2.4292\), \(\bar{\eta}=0.375\), \(J = 3.59 \times 10^{-5}\)</span>
+      <strong>Status (v7.0):</strong> All parameters derived — <span style="color:var(--neon-green);">∞-helix geometry: \(\lambda_q=0.22871\) (0.3%), \(A=0.8182\) (0.9% — bare × Gerono correction ×5/4), \(\kappa_q=2.4292\), \(\bar{\eta}=0.3947\), \(J = 3.78 \times 10^{-5}\)</span>
     </p>
   </div>
 </section>
@@ -228,7 +235,7 @@
   <div class="eq" style="margin:0.75rem 0;padding:0.75rem;background:rgba(0,0,0,0.3);border-radius:6px;">
     \[\begin{aligned}
     A_{\rm eff} &= 1.28 \times (3)^{1/3} \times (\text{weak mixing correction}) \\
-    &= 1.28 \times 1.44 \times 0.44 \\
+    &= 1.28 \times 1.44 \times 0.355 \\
     &= 0.6545\quad\text{(bare holonomy LO)} \\
     &\times \underbrace{\left(1 + \frac{\pi/2}{2\pi}\right)}_{\text{Gerono self-intersection}} = 0.6545 \times \tfrac{5}{4} = 0.8182
     \end{aligned}\]
@@ -287,7 +294,9 @@
   <p><strong>Observed:</strong> (ρ̄, η̄) = (0.159 ± 0.010, 0.348 ± 0.010)</p>
   <p style="margin:0.5rem 0;padding:0.5rem;background:rgba(74,222,128,0.08);border-radius:6px;border:1px solid rgba(74,222,128,0.3);font-size:0.9rem;">
     <strong style="color:#4ade80;">v7.0 Derivation Complete:</strong> With \(\kappa_q = 2.4292,\; \kappa_\ell = 2.3793\) from Mathieu equation,
-    the v7.0 prediction is \(\bar{\eta} = 0.375\) (from holonomy × Berry phase), \(\bar{\rho} = 0.149\).
+    the v7.0 prediction is \(\bar{\eta} = 0.3947\) (13.4% dev.), \(\bar{\rho} = 0.158\) — used consistently in
+    §2.2–2.3 above. (The CKM.9 box above shows an earlier holonomy-phase route, \(\bar\rho=0.184,\bar\eta=0.361\),
+    that has not yet been reconciled with this final value.)
   </p>
 
   <h4>Summary Table</h4>
@@ -315,14 +324,14 @@
         <td>\(\bar{\rho}\)</td>
         <td>Helix chirality phase</td>
         <td>\(\cos\gamma_{\rm hel}/A\)</td>
-        <td><strong>0.149</strong></td>
+        <td><strong>0.158</strong></td>
         <td>0.159 ± 0.010</td>
       </tr>
       <tr>
         <td>\(\bar{\eta}\)</td>
         <td>Helix chirality + κ correction</td>
         <td>\(\sin\gamma_{\rm hel}/A \times \kappa^{1/2}\)</td>
-        <td><strong>0.375</strong></td>
+        <td><strong>0.3947</strong></td>
         <td>0.348 ± 0.010</td>
       </tr>
       <tr>
@@ -408,9 +417,9 @@
 
   <div class="eq law" style="background:#000;border:2px solid var(--success);padding:1.25rem;margin:0.75rem 0;">
     \[\boxed{\begin{aligned}
-    \XCRM{\delta_{\rm CKM}} &= \arctan\left(\frac{0.375}{0.149}\right) \\
-    &= \arctan(2.52) \\
-    &= 68.3° \approx \mathbf{68°}
+    \XCRM{\delta_{\rm CKM}} &= \arctan\left(\frac{0.3947}{0.158}\right) \\
+    &= \arctan(2.498) \\
+    &= 68.14° \approx \mathbf{68°}
     \end{aligned}}\]
     <div class="eq-label" style="color:var(--success);">(CP.3) — Physical CP phase: DERIVED (v7.0 NLO, 4.3% from PDG central value)</div>
   </div>
@@ -431,7 +440,7 @@
     \[\begin{aligned}
     s_{12} &= \XCRM{\lambda_q} = 0.22871 \\
     s_{23} &= \XCRM{A}\lambda_q^2 = 0.8182 \times 0.05231 = 0.04280 \\
-    s_{13} &= \XCRM{A}\lambda_q^3\sqrt{\bar{\rho}^2 + \bar{\eta}^2} = 0.8182 \times 0.01197 \times 0.404 = 0.00396
+    s_{13} &= \XCRM{A}\lambda_q^3\sqrt{\bar{\rho}^2 + \bar{\eta}^2} = 0.8182 \times 0.01196 \times 0.4253 = 0.00416
     \end{aligned}\]
   </div>
 
@@ -439,18 +448,18 @@
 
   <div class="eq" style="margin:0.75rem 0;padding:0.75rem;background:rgba(0,0,0,0.3);border-radius:6px;">
     \[\begin{aligned}
-    J &= A^2\lambda_q^6\bar{\eta} \;=\; (0.8182)^2 \times (0.22871)^6 \times 0.375 \\
-    &= 0.6694 \times 1.431 \times 10^{-4} \times 0.375 \\
-    &\approx 3.59 \times 10^{-5}
+    J &= A^2\lambda_q^6\bar{\eta} \;=\; (0.8182)^2 \times (0.22871)^6 \times 0.3947 \\
+    &= 0.6694 \times 1.431 \times 10^{-4} \times 0.3947 \\
+    &\approx 3.78 \times 10^{-5}
     \end{aligned}\]
   </div>
 
   <div class="eq law" style="background:#000;border:2px solid var(--accent-secondary);padding:1.25rem;margin:0.75rem 0;">
-    \[\boxed{J_{\rm STUR} = A^2\lambda_q^6\bar{\eta} = (0.8182)^2(0.22871)^6(0.375) \approx 3.59 \times 10^{-5}}\]
+    \[\boxed{J_{\rm STUR} = A^2\lambda_q^6\bar{\eta} = (0.8182)^2(0.22871)^6(0.3947) \approx 3.78 \times 10^{-5}}\]
     <div class="eq-label" style="color:var(--accent-secondary);">(CP.4) — Jarlskog invariant: DERIVED (v7.0, κ_q=2.4292)</div>
   </div>
 
-  <p><strong>Observed:</strong> J = (3.08 ± 0.15) × 10⁻⁵ — <span style="color:var(--success);">v7.0 predicts J = 3.59 × 10⁻⁵ (A=0.8182 via Gerono self-intersection, η̄=0.375 NLO derived, no override; 17% above PDG 3.08×10⁻⁵)</span></p>
+  <p><strong>Observed:</strong> J = (3.08 ± 0.15) × 10⁻⁵ — <span style="color:var(--success);">v7.0 predicts J = 3.78 × 10⁻⁵ (A=0.8182 via Gerono self-intersection, η̄=0.3947 NLO derived, no override; 22.8% above PDG 3.08×10⁻⁵)</span></p>
 
   <h3>2.4 Why ~68° and Not 120°?</h3>
 
@@ -501,23 +510,31 @@
     <tbody>
       <tr>
         <td>\(\alpha\)</td>
-        <td>\(84.5°\)</td>
+        <td>\(86.7°\)</td>
         <td>\((84.5^{+5.9}_{-5.2})°\)</td>
       </tr>
       <tr>
         <td>\(\beta\)</td>
-        <td>\(21.9°\)</td>
+        <td>\(25.1°\)</td>
         <td>\((22.2 \pm 0.7)°\)</td>
       </tr>
       <tr>
         <td>\(\gamma\)</td>
-        <td>\(73.5°\)</td>
+        <td>\(68.1°\)</td>
         <td>\((73.5^{+4.2}_{-5.1})°\)</td>
       </tr>
     </tbody>
   </table>
 
-  <p style="margin-top:1rem;"><strong>Triangle area:</strong> \(\frac{1}{2}|J| = 1.54 \times 10^{-5}\) — provides the scale of all CP-violating phenomena.</p>
+  <p style="margin:0.5rem 0;font-size:0.82rem;color:var(--text-secondary);">
+    Recomputed directly from this page's own \(\bar\rho=0.158,\bar\eta=0.3947\) via \(\gamma=\arctan(\bar\eta/\bar\rho)\),
+    \(\beta=\arctan(\bar\eta/(1-\bar\rho))\), \(\alpha=180°-\beta-\gamma\) — an earlier version of this table
+    listed values copied from the World Average column instead of values following from STUR's own
+    parameters; \(\gamma\) now correctly matches the \(\delta_{\rm CKM}=68.1°\) computed in §2.2 above
+    (same angle in the Wolfenstein convention).
+  </p>
+
+  <p style="margin-top:1rem;"><strong>Triangle area:</strong> \(\frac{1}{2}|J| = 1.89 \times 10^{-5}\) (using this page's own \(J_{\rm STUR}=3.78\times10^{-5}\); the PDG-observed \(J\) gives \(\tfrac12|J|_{\rm obs}=1.54\times10^{-5}\)) — provides the scale of all CP-violating phenomena.</p>
 </section>
 
 <!-- FALSIFICATION -->

@@ -64,7 +64,13 @@
     <p style="margin:0.5rem 0 0;color:var(--text);text-align:center;font-size:0.95rem;">
       <strong>Sharp Higgs profile σ<sub>H</sub>/σ<sub>ψ</sub> = 0.2251 (√2/(2π))</strong> combined with winding-sector corrections
       (f<sub>tail</sub>, f<sub>ℓ</sub>, f<sub>u</sub><sup>node</sup>) yields all 9 masses from
-      M<sub>Planck</sub> → L<sub>X</sub> → κ → masses. Zero fitted parameters.
+      M<sub>Planck</sub> → L<sub>X</sub> → κ → masses, from 4 total model inputs (M<sub>Planck</sub>, v<sub>EW</sub>,
+      m<sub>t</sub>, α<sub>em</sub>).
+    </p>
+    <p style="margin:0.5rem 0 0;font-size:0.8rem;color:var(--warning);text-align:center;">
+      Note: elsewhere in the framework (stur_higgs_derivation.html) f<sub>tail</sub>, f<sub>ℓ</sub>, and
+      f<sub>u</sub><sup>node</sup> are described as superseded by the σ<sub>H</sub>/σ<sub>ψ</sub> mechanism alone.
+      This page still uses them as active corrections — that inconsistency has not been resolved.
     </p>
     <p style="margin:0.5rem 0 0;font-size:0.82rem;color:var(--text-muted);text-align:center;">
       D. Burkeen, C. Br Cyrek, J. M. Lockwood, D. LaMarche, J. Beaubier, S. Lindberg,
@@ -494,14 +500,17 @@
   </div>
 
   <p>
-    <strong>Observed:</strong> \(m_t/m_e = 173,000/0.511 \approx 3.4 \times 10^5\) ✓
+    <strong>Observed:</strong> \(m_t/m_e = 173,000/0.511 \approx 3.4 \times 10^5\)
   </p>
 
-  <div class="block success">
-    <div class="title">Closure Achieved</div>
+  <div class="block warning">
+    <div class="title">Order-of-Magnitude Agreement Only</div>
     <p style="margin:0;color:var(--text-secondary);">
-      The five orders of magnitude hierarchy between top and electron masses emerges from
-      <strong>O(1) differences in localization positions</strong>. No fine-tuning required.
+      The predicted ratio (\(e^{12} \approx 1.6\times10^5\)) and the observed ratio (\(3.4\times10^5\)) differ by a
+      factor of ~2.1 — both land in the same order of magnitude (10<sup>5</sup>), but this is not the close numerical
+      match implied by a checkmark. The five-orders-of-magnitude hierarchy between top and electron masses does
+      emerge naturally from <strong>O(1) differences in localization positions</strong> without fine-tuning any
+      single parameter to an unnatural value, but the specific factor-of-~2 gap here has not been closed.
     </p>
   </div>
 </section>
@@ -588,9 +597,9 @@
       <strong style="color:var(--success);">All 9 Masses &lt;2%</strong>
       <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">With f<sub>tail</sub>, f<sub>ℓ</sub>, f<sub>u</sub><sup>node</sup> corrections</p>
     </div>
-    <div style="padding:0.75rem;background:rgba(74,222,128,0.08);border-radius:8px;text-align:center;">
-      <strong style="color:var(--success);">Zero Fitted Parameters</strong>
-      <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">All values emerge from ∞-helix geometry</p>
+    <div style="padding:0.75rem;background:rgba(251,191,36,0.08);border-radius:8px;text-align:center;">
+      <strong style="color:var(--warning);">4 Total Model Inputs</strong>
+      <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>; f<sub>tail</sub>/f<sub>ℓ</sub>/f<sub>u</sub><sup>node</sup> are geometry-motivated but calibrated (see status note above)</p>
     </div>
   </div>
 
