@@ -214,14 +214,20 @@ bar("PART 3: CKM matrix from ∞₃ inter-brane resistance ratio")
 f_screen = abs(_trapz(psi_q[:,0] * np.exp(1j*th_q) * psi_q[:,0], th_q))
 A_ell_cov = (2*np.pi/3)/(np.pi*sig_q) * np.exp(-1/6) * (1 + np.pi/2/(2*np.pi))
 delta_CKM = np.arctan(0.5) + np.pi/3 * f_screen
-# eta_b/rho_b correction chain: 0.424 (overlap_ratio), 0.948 (f_hol), 1.000 (f_Berry),
-# 1.003 (f_RG). Per this repo's own ETA_BAR_CORRECTION_CHAIN.md and
-# f_hol_phase_correction.py/f_hol_dynamical.py, f_hol=0.948 is FITTED, not derived from
-# a first-principles mechanism ("None of the physical mechanisms tested produces
-# f_hol ≈ 0.948"). |V_ub|, rho_b, and m_u (Part 8, via m_t*|V_ub|²) all inherit this,
-# so their "D" status below should not be read as fully independent of one fitted input.
-eta_b = np.sin(delta_CKM)*0.424*0.948*1.000*1.003
-rho_b = np.cos(delta_CKM)*0.424*0.948*1.000*1.003
+# eta_b/rho_b correction chain: 0.424 (overlap_ratio), f_hol (holonomy fluctuation),
+# 1.000 (f_Berry), 1.003 (f_RG). f_hol was previously hardcoded to 0.948, a value this
+# repo's own ETA_BAR_CORRECTION_CHAIN.md and f_hol_phase_correction.py/f_hol_dynamical.py
+# admit is FITTED, not derived ("None of the physical mechanisms tested produces
+# f_hol ≈ 0.948... all dynamical approaches give ≈1.000"). Using the value those same
+# investigations actually support, f_hol=1.000 (i.e. no holonomy-fluctuation suppression),
+# removes the fitted parameter. This still gives eta_b within the <20% D-threshold
+# (13.4% dev, vs the previous fitted 7.5%) and |V_ub| within it too (3.8% vs 1.6%), but
+# m_u (Part 8, via m_t*|V_ub|^2) crosses the threshold: 25.6% dev, so m_u's status below
+# is now correctly "P", not "D" -- that status change is a direct, honest consequence of
+# removing the fitted constant, not a new bug.
+f_hol_eta = 1.000
+eta_b = np.sin(delta_CKM)*0.424*f_hol_eta*1.000*1.003
+rho_b = np.cos(delta_CKM)*0.424*f_hol_eta*1.000*1.003
 
 lam = lambda_W
 Vub = A_ell_cov*lam**3*(rho_b - 1j*eta_b)
@@ -574,7 +580,7 @@ Lam_pred = F_cc * abs(Sig_z3)
 Lam_obs  = 2.846e-47
 
 print(f"  TEGR KK-parity: ∞₃ gauge symmetry conserves KK-parity → LKP B^(1) stable")
-print(f"  M_DM = {M_DM:.0f} GeV = {M_DM/1e3:.3f} TeV  (Ω_DM h² = {Omega_h2:.4f}, PDG 0.1200, {abs(Omega_h2-0.120)/0.120*100:.1f}%)")
+print(f"  M_DM = {M_DM:.0f} GeV = {M_DM/1e3:.3f} TeV  (mass scale FIXED by requiring Ω_DM h² = 0.1200; not independently derived — see Part 11 note)")
 print()
 print(f"  Z₃ Ward identity:  Σ_k ω^k m_k⁴ = {abs(Sig_z3):.2e} GeV⁴  (0 in degenerate limit  ✓)")
 print(f"  F_XCRM = |ψ_l(0)² − ψ_l(2π/3)²| = |{A0l**2:.5f} − {A1l**2:.5f}| = {F_XCRM:.5f}  (derived, replaces hardcoded F_RG=0.47)")
@@ -660,8 +666,18 @@ scorecard = [
      "D" if abs(dcp-197)/197*100 < 20 else "P",
      f"{abs(dcp-197)/197*100:.1f}%  φ_lem=−i"),
     ("Δm²₃₁",         f"{Dm2_31:.2e}",             "2.511e-3",     "XCRM",  "D", f"{abs(Dm2_31-2.511e-3)/2.511e-3*100:.1f}%"),
-    ("M_DM",           f"{M_DM:.0f} GeV",           "—",            "TEGR",  "D", "LKP B^(1) freeze-out"),
-    ("Ω_DM h²",        f"{Omega_h2:.4f}",           "0.1200",       "TEGR",  "D", f"{abs(Omega_h2-0.120)/0.120*100:.1f}%"),
+    # M_DM/Omega_h2 honesty note: sv_t above is solved by inverting the freeze-out formula
+    # against the hardcoded target Omega_h2=0.120, then M_DM is solved from sv_t, then
+    # Omega_h2 is recomputed from that same M_DM -- an algebraic tautology (verified: this
+    # returns 0.120000 for any Y4). No independent derivation of M_DM exists in this
+    # codebase: the one alternative attempt (three_pillar_toe_closure.py, M_DM=3/L_eff)
+    # gives 7.4e-10 GeV, ~21 orders of magnitude off, and is itself flagged there as a
+    # "holonomy scale mismatch" with 0.92-0.95 TeV admitted "fitted to match Planck".
+    # Marked "P" (not "D"): M_DM is a genuine LKP freeze-out calculation given a coupling
+    # and Y4, but Omega_h2's apparent "0.0% agreement" is fixed by construction, not
+    # an independently verified prediction.
+    ("M_DM",           f"{M_DM:.0f} GeV",           "—",            "TEGR",  "P", "LKP B^(1) freeze-out; mass scale fixed by requiring Omega_h2 below, not independently derived"),
+    ("Ω_DM h²",        f"{Omega_h2:.4f}",           "0.1200",       "TEGR",  "P", "0.0% by construction (tautological, see note above) -- not an independent prediction"),
     ("M_R",            f"{M_R0:.0e}",               "~10¹⁴",        "TEGR",  "D", "∞₃ holonomy"),
     ("Λ_CC",           f"{Lam_pred:.1e}",           f"{Lam_obs:.1e}","All", "D", f"{abs(Lam_pred-Lam_obs)/Lam_obs*100:.0f}%  Z₃ Ward identity"),
     ("m_b/m_t",        f"{mb_mt:.5f}",              "0.02424",      "XCRM",  "D", f"{abs(mb_mt-0.02424)/0.02424*100:.1f}%"),
@@ -709,9 +725,11 @@ print(f"""
        Mechanism: φ_lem=−i acts on se₁(2π/3)≠0 via U_PMNS[νe,ν₃] = i s₁₂ se₁(2π/3)/n₃
        Status upgrade: 100% off (P) → {abs(sin2_13-0.022)/0.022*100:.0f}% off (D)
     2. sin²θ₁₂ improved: 27% off → {abs(sin2_12-0.307)/0.307*100:.0f}% off  (full U_ℓ†×U_ν product)
-    3. m_u = m_t|V_ub|² = {m_u_CKM*1e3:.2f} MeV  ({abs(m_u_CKM*1e3-2.16)/2.16*100:.0f}% PDG)  [D]
+    3. m_u = m_t|V_ub|² = {m_u_CKM*1e3:.2f} MeV  ({abs(m_u_CKM*1e3-2.16)/2.16*100:.0f}% PDG)  [{st_mu}]
        (NOTE: this formula reuses the |V_ub| chain, which itself depends on the
-       eta_b/rho_b constants below — not fully independent of that chain)
+       eta_b/rho_b constants below — not fully independent of that chain. Since the
+       f_hol fix above removed a fitted constant, m_u's deviation rose past 20% and
+       its status is honestly P, not D, as of this version)
        Z₃ seesaw: antisymmetric ψ_u couples to top via off-diagonal y_{{u,t}}=V_ub×y_t
     4. U_ν now from LEPTON brane (α_l = {alpha_l:.4f}) — physically correct sector
     5. QCD running factor {run_factor:.3f} computed explicitly (increases m_u at low μ)
