@@ -281,11 +281,24 @@
     </thead>
     <tbody>
       <tr><td>M<sub>KK</sub> = M<sub>GUT</sub></td><td>1.8 × 10<sup>16</sup> GeV</td><td><strong style="color:var(--neon-green);">Derived:</strong> RG intersection</td></tr>
-      <tr><td>N<sub>eff</sub> = (M<sub>Pl</sub>/M<sub>KK</sub>)²</td><td>1.4 × 10<sup>4</sup></td><td><strong style="color:var(--neon-green);">Derived:</strong> From L<sub>X</sub></td></tr>
-      <tr><td>g<sub>5</sub>²</td><td>4π/118 ≈ 0.107</td><td><strong style="color:var(--neon-green);">Derived:</strong> MHP (GU.10)</td></tr>
-      <tr><td>α<sub>unif</sub> = g<sub>5</sub>² M<sub>KK</sub>/(4π²)</td><td>1/24</td><td><strong style="color:var(--neon-green);">Derived:</strong> (GU.7)</td></tr>
+      <tr><td>N<sub>eff</sub> = (M<sub>Pl</sub>/M<sub>KK</sub>)²</td><td>≈ 4.6 × 10<sup>5</sup></td><td><strong style="color:var(--neon-green);">Derived:</strong> From L<sub>X</sub>, using M<sub>Pl</sub> = 1.2209×10<sup>19</sup> GeV</td></tr>
+      <tr><td>g<sub>5</sub>²</td><td>4π/678 ≈ 0.0186</td><td><strong style="color:var(--neon-green);">Derived:</strong> MHP (GU.10)</td></tr>
+      <tr><td>α<sub>unif</sub> = g<sub>5</sub>² M<sub>KK</sub>/(4π²)</td><td>1/24 (target)</td><td><strong style="color:var(--warning);">Not closed:</strong> see caveat below</td></tr>
     </tbody>
   </table>
+
+  <p style="color:var(--warning);font-size:0.88rem;border-left:3px solid var(--warning);padding-left:0.75rem;">
+    <strong>Honesty note:</strong> Using the canonical 4D Planck mass M<sub>Pl</sub> = 1.2209×10<sup>19</sup> GeV
+    (one of the TOE's 4 inputs) with M<sub>KK</sub> = 1.8×10<sup>16</sup> GeV gives N<sub>eff</sub> ≈ 4.6×10<sup>5</sup>,
+    not the 1.4×10<sup>4</sup> previously quoted here — that smaller figure would require M<sub>Pl</sub>/M<sub>KK</sub> ≈ 118,
+    i.e. a Planck mass roughly 6× smaller than the canonical value. In addition, the boxed formula
+    α<sub>unif</sub> = g<sub>5</sub>²M<sub>KK</sub>/(4π²) mixes a dimensionless g<sub>5</sub>² (as defined by GU.10) with a
+    dimensionful M<sub>KK</sub> in GeV, so it does not reduce to the dimensionless α<sub>unif</sub> = 1/24 by direct
+    substitution of the numbers above — an unstated normalization (e.g. a compactification-radius factor) is
+    needed to close the dimensional gap. This is a known open point in the 5D-coupling derivation, not a
+    typo we can silently correct without inventing new physics; the downstream α<sub>s</sub>, sin²θ<sub>W</sub>, and
+    α<sub>em</sub><sup>-1</sup> predictions in §4.4 do not depend algebraically on this row and are unaffected.
+  </p>
 
   <h3>4.2 Running to M<sub>Z</sub></h3>
 
@@ -476,7 +489,10 @@ k₁ = 5/3, k₂ = 1, k₃ = 1
     <div class="eq-label" style="color:var(--gold);">(GU.18) — KK threshold corrections</div>
   </div>
 
-  <p>For STUR with M<sub>KK</sub> ≈ 2 TeV and infinity helix geometry:</p>
+  <p>For STUR with M<sub>KK</sub> = M<sub>GUT</sub> ≈ 1.8 × 10<sup>16</sup> GeV and infinity helix geometry
+  (this is the GUT-scale KK tower used throughout §4–6; it is distinct from the separate ~TeV-scale KK
+  resonance tower discussed in stur_unitarity_constraints.html and stur_running_couplings.html, which
+  concerns collider-accessible phenomenology rather than gauge unification):</p>
 
   <table>
     <thead>

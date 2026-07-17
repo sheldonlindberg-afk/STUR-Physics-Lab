@@ -215,14 +215,22 @@
     <li><strong>∞₃ discrete symmetry:</strong> The quotient must preserve the Calabi-Yau condition</li>
     <li><strong>Elliptic fibration:</strong> Required for F-theory interpretation</li>
     <li><strong>SM gauge group:</strong> Singular fibers of Kodaira type I₃ × I₂ × I₁</li>
-    <li><strong>Three generations:</strong> \(\chi(\text{CY}_4)/24 = 3\) (Euler characteristic constraint)</li>
+    <li><strong>Three generations:</strong> \(\chi(\text{CY}_4)/24 = 3\) (Euler characteristic constraint — required, but not yet satisfied by the canonical Hodge data; see §2.3)</li>
     <li><strong>Anomaly cancellation:</strong> Tadpole condition \(\int G_4 \wedge G_4 = \chi/24\)</li>
   </ol>
 
-  <div class="eq law" style="background:#000;border:3px solid var(--gold);padding:1.25rem;">
-    \[\boxed{N_{\rm gen} = \frac{\chi(\text{CY}_4)}{24} = \frac{72}{24} = 3}\]
-    <div class="eq-label" style="color:var(--gold);">(2.1) — Three generations from Euler characteristic</div>
+  <div class="eq law" style="background:#000;border:3px solid var(--warning);padding:1.25rem;">
+    \[\chi(\text{CY}_4) = 216 \;\; (\text{canonical Hodge data } h^{1,1}=6,\, h^{2,1}=3,\, h^{3,1}=25) \quad\Rightarrow\quad N_{\rm gen} = \frac{\chi(\text{CY}_4)}{24} = \frac{216}{24} = 9\]
+    <div class="eq-label" style="color:var(--warning);">(2.1) — Euler characteristic from canonical Hodge numbers gives 9, not the observed 3 generations</div>
   </div>
+  <p style="color:var(--warning);font-size:0.88rem;border-left:3px solid var(--warning);padding-left:0.75rem;">
+    <strong>Honesty note:</strong> This page previously quoted χ(CY<sub>4</sub>) = 72, tuned to give exactly
+    N<sub>gen</sub> = 3. The canonical Hodge-number data used elsewhere in this project
+    (h<sup>1,1</sup>=6, h<sup>2,1</sup>=3, h<sup>3,1</sup>=25, satisfying the standard CY₄ identity
+    χ = 6(8+h<sup>1,1</sup>+h<sup>3,1</sup>−h<sup>2,1</sup>)) gives χ = 216, exactly 3× larger, which yields
+    N<sub>gen</sub> = 9, not 3. This is an open discrepancy (factor of 3, not a minor higher-order effect)
+    between the "3 generations" claim and the canonical topological data — see §2.3 below.
+  </p>
 
   <h3>2.2 No Landscape Problem</h3>
 
@@ -245,9 +253,14 @@
   <h3>2.3 Euler Characteristic and the chi(CY₄) Discrepancy</h3>
 
   <p>
-    The value chi(CY₄) = 72 yields exactly 3 generations but carries a minor discrepancy at the level
-    of higher-order topological invariants. This is catalogued as one of the five remaining refinement
-    questions (see <a href="stur_open_problems.html" style="color:var(--accent);">Open Problems</a>).
+    The canonical Hodge numbers for this construction (h<sup>1,1</sup>=6, h<sup>2,1</sup>=3, h<sup>3,1</sup>=25,
+    used consistently in stur_uv_finiteness_proof.html) give χ(CY₄) = 216, not the χ = 72 previously
+    quoted on this page. χ = 216 yields N<sub>gen</sub> = 216/24 = 9, not the observed 3 generations —
+    a factor-of-3 discrepancy, not a "minor" higher-order-invariant correction as previously described.
+    This is catalogued as one of the five remaining refinement questions (see
+    <a href="stur_open_problems.html" style="color:var(--accent);">Open Problems</a>); it is not yet
+    resolved, and no derivation currently closes the gap between the topological χ=216 and the
+    phenomenologically required N<sub>gen</sub>=3.
   </p>
 </section>
 
@@ -378,7 +391,7 @@
       <tr>
         <td>3 generations</td>
         <td style="color:var(--gold);">From |∞₃| = 3</td>
-        <td style="color:var(--success);font-weight:600;">From chi(CY₄)/24 = 3</td>
+        <td style="color:var(--warning);font-weight:600;">chi(CY₄)/24 = 216/24 = 9, not yet reconciled with 3 (see §2.3)</td>
       </tr>
       <tr>
         <td>Moduli stabilization</td>
@@ -414,7 +427,7 @@
     <li><strong>Higgs width sigma_H:</strong> Independent derivation of σ<sub>H</sub>/σ<sub>ψ</sub> ≈ 0.225 from F-theory</li>
     <li><strong>Tensor-to-scalar ratio:</strong> Precise r prediction from F-theory inflaton</li>
     <li><strong>de Sitter conjecture:</strong> Precise compatibility with STUR cosmological constant</li>
-    <li><strong>chi(CY₄) discrepancy:</strong> Higher-order topological invariant matching</li>
+    <li><strong>chi(CY₄) discrepancy:</strong> Canonical Hodge data gives χ=216 ⇒ N_gen=9, a factor-of-3 mismatch with the observed 3 generations, not yet resolved</li>
     <li><strong>Correction factor independence:</strong> Verify f<sub>tail</sub>, f<sub>ℓ</sub>, f<sub>u</sub><sup>node</sup> derive from CY₄ geometry</li>
   </ol>
 </section>
@@ -449,7 +462,7 @@
       </tr>
       <tr>
         <td>Generation count</td>
-        <td style="color:var(--success);font-weight:600;">chi(CY₄)/24 = 72/24 = 3</td>
+        <td style="color:var(--warning);font-weight:600;">chi(CY₄)/24 = 216/24 = 9 vs. observed 3 — open discrepancy (§2.3)</td>
       </tr>
       <tr>
         <td>Low-energy matching</td>
