@@ -181,9 +181,23 @@
     \[\begin{aligned}
     \Delta S^{(1)}_{\rm fermion} &= \frac{3}{6\pi} \times 3 \times \left[1 - \frac{(2000)^2}{3(91)^2}\ln\frac{(2000)^2}{(91)^2}\right] \\
     &= \frac{3}{2\pi}\left[1 - 161 \times 6.1\right] \times e^{2\pi i/3} \\
-    &\approx 0.048 \times \cos(120°) = -0.024
+    &= \frac{3}{2\pi}\left[1 - 982\right]\times e^{2\pi i/3} \approx 0.4775\times(-981) \approx -469\quad\text{(NOT }-0.024\text{)}
     \end{aligned}\]
+    <div class="eq-label" style="color:var(--error);">Correcting the arithmetic — see honesty note below</div>
   </div>
+
+  <p style="color:var(--error);font-size:0.85rem;border-left:3px solid var(--error);padding-left:0.75rem;">
+    <strong>Honesty note (serious error):</strong> This page previously asserted
+    "3/(2π)[1−161×6.1]×e<sup>2πi/3</sup> ≈ 0.048×cos(120°) = −0.024." Carrying out the arithmetic exactly
+    as written: 3/(2π) ≈ 0.4775; 161×6.1 ≈ 982; bracket [1−982] ≈ −981; product 0.4775×(−981) ≈ −469 —
+    roughly <strong>four orders of magnitude larger</strong> than the "0.048" that was used to produce the
+    final boxed S<sup>STUR</sup> = 0.02±0.02 result below. The displayed derivation does not numerically
+    support its own headline result. We have not derived a corrected value for
+    Δ<sup>(1)</sup><sub>fermion</sub> — the (PE.5) formula, as written, grows with (KK mass)²/M<sub>Z</sub>²
+    rather than decoupling for heavy KK modes, which is itself physically suspect (new heavy states should
+    decouple, not dominate, the S parameter). This is flagged as an open, unresolved error rather than
+    silently patched.
+  </p>
 
   <div class="eq boxed" style="margin:1rem 0;">
     \[\begin{aligned}
@@ -193,10 +207,18 @@
 
   <p>Total from first 3 KK levels (with ∞-helix phases canceling partially):</p>
 
-  <div class="eq law" style="background:#000;border:2px solid var(--success);padding:1.25rem;">
-    \[\boxed{S^{\rm STUR} = 0.02 \pm 0.02}\]
-    <div class="eq-label" style="color:var(--success);">(PE.8) — Final S prediction</div>
+  <div class="eq law" style="background:#000;border:2px solid var(--warning);padding:1.25rem;">
+    \[S^{\rm STUR} = 0.02 \pm 0.02 \quad \text{(matches PDG global fit, but NOT numerically reproduced by the Δ}S^{(1)}_{\rm fermion}\text{ derivation above)}\]
+    <div class="eq-label" style="color:var(--warning);">(PE.8) — Final S prediction — consistent with data, but the shown derivation chain does not close</div>
   </div>
+
+  <p style="color:var(--warning);font-size:0.85rem;border-left:3px solid var(--warning);padding-left:0.75rem;">
+    <strong>Honesty note:</strong> S<sup>STUR</sup> = 0.02 ± 0.02 matches the real PDG global electroweak
+    fit value, but given the ~469 vs ~0.048 discrepancy above, this page does not actually show an
+    internally consistent calculation arriving at that number from (PE.5)–(PE.7). The pull-comparison
+    results in §5 (which take S<sup>STUR</sup> = 0.02±0.02 as a given input, not as something re-derived
+    from this section's arithmetic) are unaffected by this specific error.
+  </p>
 </section>
 
 <!-- SECTION 3: KK CONTRIBUTIONS TO T -->
@@ -379,7 +401,7 @@
       The Higgs mass M<sub>H</sub> = 125 GeV emerges from the Coleman-Weinberg potential on the infinity helix
       with RG improvement. The two-loop α<sub>eff</sub> = 1.480 ± 0.047 (from Casimir + holonomy + KK
       + gauge backreaction) governs the running that determines λ<sub>eff</sub>.
-      The Mathieu equation parameters κ = 2.430, σ = 0.862 rad control the winding mode contributions.
+      The Mathieu equation parameters κ<sub>q</sub> = 2.417, κ<sub>l</sub> = 2.367, σ = 0.862 rad control the winding mode contributions.
       This is a genuine prediction from 3 axioms — not a fit.
     </p>
   </div>
