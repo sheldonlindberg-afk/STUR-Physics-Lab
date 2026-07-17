@@ -560,9 +560,29 @@ xf, g_st = 26, 106.75;  f_co = 1.9
 # recomputed from M_DM and Omega_h2 recomputed from sv — by construction this returns
 # Omega_h2=0.1200 (0.0% dev) for ANY value of Y4 (verified: Y4 in [0.001, 9999] all give
 # 0.120000 to 6 decimals). So "Omega_h2 = 0.1200, 0.0% dev" below is a tautology of this
-# algebra, not an independent prediction — only M_DM (949 GeV) carries information, and
-# per this repo's own three_pillar_toe_closure.py, an independently-computed holonomy
-# mass scale gives ~7.7 TeV, with 0.92-0.95 TeV noted there as "fitted" to match Planck.
+# algebra, not an independent prediction — only M_DM (949 GeV) carries information.
+#
+# Searched this codebase and attempted a fresh derivation for an independent M_DM before
+# accepting this as unresolved:
+#   - three_pillar_toe_closure.py's own alternative (M_DM = 3/L_eff, L_eff=0.8um) gives
+#     7.4e-10 GeV -- ~21 orders of magnitude off, and that script itself calls this a
+#     "holonomy scale mismatch", separately admitting 0.92-0.95 TeV was "fitted" to match
+#     Planck.
+#   - f_RG_kk_threshold.py hardcodes "M_KK = 1000.0  # GeV (assumed KK scale)" -- an
+#     explicit assumption, not a derivation.
+#   - Tested every physically-motivated combination of this theory's own established
+#     scales (M_R~2e14 GeV, M_Pl, v_EW, 1/L_X^fund~6.6e15 GeV, and lambda_W~0.225, the one
+#     parameter in this codebase that's genuinely robust) against the TeV target: direct
+#     seesaw/geometric-mean combinations land 6-9 orders of magnitude away; M_R*lambda_W^n
+#     and (1/L_X^fund)*lambda_W^n only reach ~TeV at n~17-20, but nothing in this theory
+#     independently motivates that specific power (contrast m_c/m_t=lambda_W^3 or
+#     m_u=m_t*|V_ub|^2, which have stated brane-overlap/seesaw mechanisms fixing their
+#     exponent before checking the answer).
+#   Conclusion: no legitimate independent derivation of the LKP mass scale exists in this
+#   theory as currently constructed. The gap between its two natural geometric scales
+#   (~1e15-16 GeV from v*L_X=3, or ~0.25 eV from the L_eff Casimir-holonomy balance) and
+#   the required TeV scale is a genuine, unbridged ~15-25 order-of-magnitude hierarchy.
+#   M_DM=949 GeV should be read as fit to match the observed relic density, not derived.
 sv_t = 1.07e9*xf / (M_Pl*np.sqrt(g_st)*0.120)
 M_DM = np.sqrt(max(g_Y**4*Y4*f_co/(16*np.pi*sv_t), 0))
 sv   = g_Y**4*Y4*f_co/(16*np.pi*M_DM**2) if M_DM>0 else 0
@@ -676,8 +696,8 @@ scorecard = [
     # Marked "P" (not "D"): M_DM is a genuine LKP freeze-out calculation given a coupling
     # and Y4, but Omega_h2's apparent "0.0% agreement" is fixed by construction, not
     # an independently verified prediction.
-    ("M_DM",           f"{M_DM:.0f} GeV",           "—",            "TEGR",  "P", "LKP B^(1) freeze-out; mass scale fixed by requiring Omega_h2 below, not independently derived"),
-    ("Ω_DM h²",        f"{Omega_h2:.4f}",           "0.1200",       "TEGR",  "P", "0.0% by construction (tautological, see note above) -- not an independent prediction"),
+    ("M_DM",           f"{M_DM:.0f} GeV",           "—",            "TEGR",  "U", "LKP B^(1) freeze-out; mass scale fixed by requiring Omega_h2 below -- no independent derivation found, see note above (searched and attempted one; none exists)"),
+    ("Ω_DM h²",        f"{Omega_h2:.4f}",           "0.1200",       "TEGR",  "U", "0.0% by construction (tautological, see note above) -- not an independent prediction"),
     ("M_R",            f"{M_R0:.0e}",               "~10¹⁴",        "TEGR",  "D", "∞₃ holonomy"),
     ("Λ_CC",           f"{Lam_pred:.1e}",           f"{Lam_obs:.1e}","All", "D", f"{abs(Lam_pred-Lam_obs)/Lam_obs*100:.0f}%  Z₃ Ward identity"),
     ("m_b/m_t",        f"{mb_mt:.5f}",              "0.02424",      "XCRM",  "D", f"{abs(mb_mt-0.02424)/0.02424*100:.1f}%"),
@@ -714,11 +734,11 @@ D_frac = counts['D'] / (counts['D']+counts.get('P',0)+counts.get('U',0)) * 100
 print(f"""
   {'━'*74}
   v7.0 SCORECARD SUMMARY  ({total} observables):
-    D  {counts['D']:2d}  fully derived (< 20% from PDG)
+    D  {counts['D']:2d}  fully derived (< 20% from PDG, no fitted/circular inputs found)
     P  {counts.get('P',0):2d}  mechanism identified; NLO precision pending
-    U   0  (no fully unresolved items — m_u promoted U→P in v7.0)
+    U  {counts.get('U',0):2d}  no independent mechanism found (M_DM/Omega_DM h^2 -- searched, see Part 9 note; genuinely circular, not merely imprecise)
     I   1  (4 fundamental inputs)
-    Closure fraction: {D_frac:.0f}%  ({counts['D']}D / {counts['D']+counts.get('P',0)} non-input observables)
+    Closure fraction: {D_frac:.0f}%  ({counts['D']}D / {counts['D']+counts.get('P',0)+counts.get('U',0)} non-input observables)
 
   KEY ADVANCES (this release):
     1. sin²θ₁₃ = {sin2_13:.4f}  DERIVED for first time from resistance physics
