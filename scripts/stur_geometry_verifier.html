@@ -152,7 +152,7 @@ canvas{
     <strong>(A2)</strong> Real doublet R-field,
     <strong>(A3)</strong> Energy minimization &mdash;
     yield 30 observables (29D+0P+0U+1I). This verification tool demonstrates the infinity helix geometry with real-time PDE simulation.
-    Parameters: &kappa; = 2.430, &alpha;<sub>eff</sub> = 1.480 (two-loop), &sigma; = 0.862.
+    Parameters: &kappa;<sub>q</sub> = 2.417, &kappa;<sub>l</sub> = 2.367, &alpha;<sub>eff</sub> = 1.480 (two-loop), &sigma; = 0.862.
   </div>
   <!-- Status Badge -->
   <div style="margin-top:1rem;">
@@ -411,7 +411,7 @@ canvas{
       <div id="m_alphaPred" class="metric-value">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label">\(\Quant{\alpha^{-1}}(M_Z)\) Literature</div>
+      <div class="metric-label">\(\Quant{\alpha^{-1}}(M_Z)\) Single-loop self-check</div>
       <div id="m_alphaLit" class="metric-value">—</div>
     </div>
     <div class="metric">
@@ -615,7 +615,7 @@ canvas{
    ================================================================
    PAGE_VERSION: 6.2
    Framework: Three axioms (A1-A3), ∞₃ infinity helix TOE
-   30 observables (29D+0P+0U+1I) from κ = 2.430, α_eff = 1.480, σ = 0.862
+   30 observables (29D+0P+0U+1I) from κ_q = 2.417, κ_l = 2.367, α_eff = 1.480, σ = 0.862
 
    NEW IN v7.0:
      - ∞₃ infinity helix TOE framing (three axioms)
@@ -974,15 +974,18 @@ function drawQEDRunning(){
   }
   ctx.stroke();
   
+  // Note: alit is NOT an independent literature/PDG value — it is this page's own
+  // single-loop (electron-only) runningCoupling() formula evaluated once at default
+  // inputs. It is shown as a self-consistency reference point, not external validation.
   const alit=134.47, xlit=toX(Math.log(Ehigh)), ylit=toY(alit);
   ctx.fillStyle="#fbbf24"; ctx.beginPath(); ctx.arc(xlit,ylit,6,0,2*Math.PI); ctx.fill();
   const apred=runningCoupling(a0,Elow,Ehigh), ypred=toY(apred);
   ctx.fillStyle="#34d399"; ctx.beginPath(); ctx.arc(xlit,ypred,6,0,2*Math.PI); ctx.fill();
-  
+
   ctx.fillStyle="#94a3b8"; ctx.font="14px monospace";
   ctx.fillText("ln(E/eV)",w-80,h-10); ctx.fillText("α⁻¹",10,25);
   ctx.font="12px monospace";
-  ctx.fillText("QED",xlit+10,ylit); ctx.fillText("Theory",xlit+10,ypred-10);
+  ctx.fillText("Self-check",xlit+10,ylit); ctx.fillText("Theory",xlit+10,ypred-10);
 }
 
 function drawResistanceField(){
@@ -1004,7 +1007,7 @@ function drawResistanceField(){
   ctx.fillRect(bandL, 0, bandR-bandL, h);
   
   // Draw horizon marker (r/rs = 1.0)
-  const g_horizon = 0.7143; // Solve gammaToRrs(g) = 1.0
+  const g_horizon = 0.7621; // Solve gammaToRrs(g) = 1.0 (corrected: previous 0.7143 gave gammaToRrs=1.194, not 1.0)
   const xHorizon = g_horizon * w;
   ctx.strokeStyle="rgba(251,113,133,0.4)";
   ctx.setLineDash([8,4]);
@@ -1204,7 +1207,8 @@ function exportSnapshot(){
               doubleSlit:{energy_eV:+$("energy").value,a_nm:+$("a_nm").value,d_nm:+$("d_nm").value}},
     gaugeInvariant:{Q_delta_C:Qd,q_delta:qd,theta_rad:th,poissonBracket:br,elementaryCharge_C:e},
     qedRecovery:{beta:qedBeta(),alpha_inv_0:a0,alpha_inv_predicted:apred,
-                 alpha_inv_literature:134.47,error:Math.abs(apred-134.47),E_low_eV:Elow,E_high_eV:Ehigh},
+                 alpha_inv_singleLoopSelfCheck:134.47,note:"self-check value is this page's own one-loop electron formula, not an independent PDG literature figure",
+                 error:Math.abs(apred-134.47),E_low_eV:Elow,E_high_eV:Ehigh},
     horizon:{r_over_rs:rrs,rs_m:rs,r_m:r,redshift:redshiftFactor(rrs),hawkingTempK:hawkingTemp(M)},
     stur:{NX,DT,Dcoef,R_bg:R_BG,R_probe:R[idx],R_mean:mean(R),Rdot_rms:rms(Rdot),R_downsample:Rds},
     decoherence:{contrast,chi2_QM:c1,chi2_STUR:c2,deltaChi2:c1-c2,significance_proxy:Math.sqrt(Math.abs(c1-c2))},
@@ -1267,11 +1271,11 @@ FALSIFICATION CRITERIA (PROXY THRESHOLDS - NOT RIGOROUS TESTS)
 - √|Δχ²| < 1: Likely indistinguishable (heuristic)
 Status: ${Math.abs(dchi)<0.01?"INDISTINGUISHABLE (PROXY)":(dchi>0?"STUR IMPROVES (PROXY)":"QM BETTER (PROXY)")}
 
-QED RECOVERY
+QED SINGLE-LOOP SELF-CHECK (NOT an independent literature/PDG comparison — see note)
 α⁻¹(M_Z) Predicted: ${apred.toFixed(4)}
-α⁻¹(M_Z) Literature: 134.47
+α⁻¹(M_Z) Single-loop self-check: 134.47 (this page's own one-loop electron formula at default inputs)
 Error: ${Math.abs(apred-134.47).toFixed(4)}
-Status: ${Math.abs(apred-134.47)<0.1?"✓ VALIDATED":"✗ DISCREPANCY"}
+Status: ${Math.abs(apred-134.47)<0.1?"✓ INTERNALLY CONSISTENT (self-check)":"✗ DISCREPANCY"}
 
 ═══════════════════════════════════════════════════════════════════
 
@@ -1345,11 +1349,13 @@ function updateAll(){
   
   const Elow=parseFloat($("E_low").value)*1e6, Ehigh=parseFloat($("E_high").value)*1e9;
   const a0=parseFloat($("alpha_inv_0").value), apred=runningCoupling(a0,Elow,Ehigh);
+  // alit is a self-check constant (this page's own one-loop electron formula at default
+  // inputs), not an independent PDG/literature value for α⁻¹(M_Z) — see note above.
   const alit=134.47, aerr=Math.abs(apred-alit);
   updateMetric("m_beta",qedBeta(),6); updateMetric("m_alphaPred",apred,4);
   updateMetric("m_alphaLit",alit,2); updateMetric("m_alphaError",aerr,4);
   $("qedStatus").className = aerr<0.1?"validation-box pass":"validation-box fail";
-  $("qedStatus").textContent = aerr<0.1?`✓ QED: Δα⁻¹=${aerr.toFixed(4)}`:`✗ QED error: ${aerr.toFixed(4)}`;
+  $("qedStatus").textContent = aerr<0.1?`✓ Self-check consistent: Δα⁻¹=${aerr.toFixed(4)} (not an independent literature test)`:`✗ Self-check error: ${aerr.toFixed(4)}`;
   
   updateMetric("m_Ravg",mean(R),4); updateMetric("m_Rprobe",R[idx],4);
   updateMetric("m_Rdot",rms(Rdot),5);

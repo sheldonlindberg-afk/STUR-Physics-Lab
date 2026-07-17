@@ -52,7 +52,7 @@
       <strong>(A2)</strong> Real doublet R-field &nbsp;|&nbsp;
       <strong>(A3)</strong> Energy minimization<br>
       <strong style="color:#4ade80;">α<sub>eff</sub></strong> = 1.480 ± 0.047 (two-loop: Casimir + holonomy + KK + gauge backreaction)<br>
-      <strong style="color:#a78bfa;">κ</strong> = 2.430, <strong style="color:#a78bfa;">σ</strong> = 0.862 rad from Mathieu equation
+      <strong style="color:#a78bfa;">κ<sub>q</sub></strong> = 2.417, <strong style="color:#a78bfa;">κ<sub>l</sub></strong> = 2.367, <strong style="color:#a78bfa;">σ</strong> = 0.862 rad from Mathieu equation
     </div>
   </div>
 </header>
@@ -157,19 +157,32 @@
 
   <h3>2.1 Derivation from STUR TOE</h3>
 
-  <p>For SU(3)<sub>C</sub> in STUR with the derived matter content (3 generations of quarks):</p>
+  <p>For SU(3)<sub>C</sub> in STUR with the derived matter content (3 generations of quarks), using the
+  standard one-loop coefficient b<sub>0</sub> defined via β(g<sub>3</sub>) = -b<sub>0</sub>g<sub>3</sub>³/16π²
+  (note: this b<sub>0</sub> convention has the <em>opposite overall sign</em> from the b<sub>i</sub> used in
+  the §1.3 table and in eq. (3.3) below, where α<sub>i</sub><sup>-1</sup>(μ) = α<sub>i</sub><sup>-1</sup>(M<sub>Z</sub>)
+  − b<sub>i</sub>/(2π)ln(μ/M<sub>Z</sub>); the two are related by b<sub>0</sub> = −b<sub>3</sub>):</p>
 
   <div class="eq boxed">
-    \[b_3 = \frac{11}{3} \cdot 3 - \frac{4}{3} \cdot n_f \cdot \frac{1}{2} = 11 - \frac{2}{3}n_f\]
+    \[b_0 = \frac{11}{3} \cdot 3 - \frac{4}{3} \cdot n_f \cdot \frac{1}{2} = 11 - \frac{2}{3}n_f\]
     <div class="eq-label">(2.1)</div>
   </div>
 
   <p>For n<sub>f</sub> = 6 (u, d, c, s, t, b):</p>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
-    \[\boxed{b_3 = 11 - \frac{2}{3} \cdot 6 = 11 - 4 = 7 > 0 \quad \Rightarrow \quad \beta_3 = -\frac{7g_3^3}{16\pi^2} < 0}\]
+    \[\boxed{b_0 = 11 - \frac{2}{3} \cdot 6 = 11 - 4 = 7 > 0 \quad \Rightarrow \quad \beta_3 = -\frac{7g_3^3}{16\pi^2} < 0 \quad (\text{i.e. } b_3 = -7 \text{ in the §1.3/eq.(3.3) convention})}\]
     <div class="eq-label" style="color:var(--success);">(2.2) — QCD is asymptotically free</div>
   </div>
+
+  <p style="color:var(--warning);font-size:0.85rem;border-left:3px solid var(--warning);padding-left:0.75rem;">
+    <strong>Honesty note:</strong> This page previously wrote "b<sub>3</sub> = 11 − 4 = 7 &gt; 0" here while the
+    §1.3 table listed "b<sub>3</sub> = −7" for the same physical quantity — a direct sign contradiction under a
+    single symbol. Both numbers are correct one-loop QCD results, but in two different (and both standard)
+    sign conventions for what gets called "b<sub>i</sub>"; they have been relabeled b<sub>0</sub> (this section,
+    β=−b<sub>0</sub>g³/16π² convention) vs. b<sub>3</sub> (§1.3/eq. 3.3, dα<sup>-1</sup>/dlnμ = −b<sub>i</sub>/2π
+    convention) to remove the contradiction. b<sub>0</sub> = −b<sub>3</sub> = 7.
+  </p>
 
   <div class="block success" style="border-width:2px;">
     <div class="title">TOE Explanation: Why This Works</div>
@@ -202,9 +215,9 @@
 <section class="section" id="unification" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(167,139,250,0.04) 100%);">
   <h2 style="color:var(--gold);">3. TOE Gauge Unification from ∞₃ Geometry</h2>
 
-  <h3>3.1 5D Origin — ONE Input</h3>
+  <h3>3.1 5D Origin — Scale Set by M<sub>Planck</sub></h3>
 
-  <p>In the STUR framework, all gauge couplings derive from M<sub>Planck</sub> via the 5D unified coupling:</p>
+  <p>In the STUR framework, all gauge couplings derive from the scale set by M<sub>Planck</sub> (one of the TOE's 4 inputs) via the 5D unified coupling:</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);">
     \[\boxed{g_i^2(\mu) = \frac{g_5^2}{L_X} \cdot k_i \quad \text{at } \mu = M_{\rm KK} = \frac{1}{L_X}}\]
@@ -239,6 +252,13 @@
     \[\boxed{\XCRM{\Delta_1 = -3.72}, \quad \XCRM{\Delta_2 = +2.43}, \quad \XCRM{\Delta_3 = +2.22}}\]
     <div class="eq-label" style="color:var(--gold);">(3.4) — ∞₃ threshold corrections</div>
   </div>
+
+  <p style="color:var(--warning);font-size:0.85rem;border-left:3px solid var(--warning);padding-left:0.75rem;">
+    <strong>Honesty note:</strong> stur_gauge_unification_derivation.html quotes a different set of KK
+    threshold corrections for the same physical quantity ("KK threshold corrections at M<sub>GUT</sub>"):
+    Δ<sub>3</sub>=+2.1, Δ<sub>2</sub>=+0.8, Δ<sub>1</sub>=−1.4. The two pages have not been reconciled; treat
+    both sets as illustrative estimates rather than a single settled derivation.
+  </p>
 
   <p>These corrections arise from:</p>
   <ul>
@@ -292,13 +312,21 @@
   </table>
 
   <div class="block success" style="border-width:3px;margin-top:1.5rem;">
-    <div class="title" style="font-size:1.1rem;">TOE Achievement: Precise Unification from ONE Input</div>
+    <div class="title" style="font-size:1.1rem;">TOE Achievement: Precise Unification</div>
     <p style="margin:0;color:var(--text-secondary);">
-      The infinity helix geometry derives all gauge couplings from M<sub>Planck</sub> alone.
-      The GUT scale M<sub>GUT</sub> = 1.8×10<sup>16</sup> GeV emerges automatically, satisfying proton decay constraints
-      (τ<sub>p</sub> > 10<sup>39</sup> years). This is a true Theory of Everything prediction — not a fit.
+      The infinity helix geometry derives all gauge couplings from the TOE's 4 inputs (M<sub>Pl</sub>,
+      v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>). The GUT scale M<sub>GUT</sub> = 1.8×10<sup>16</sup> GeV
+      emerges automatically, giving a proton-decay lifetime τ<sub>p</sub> ~ 10<sup>34–36</sup> years (per
+      stur_gauge_unification_derivation.html §8), consistent with current experimental exclusion limits
+      (~1.6×10<sup>34</sup> years, Super-K) at the lower end of that range.
     </p>
   </div>
+  <p style="color:var(--warning);font-size:0.85rem;border-left:3px solid var(--warning);padding-left:0.75rem;">
+    <strong>Honesty note:</strong> This page previously claimed τ<sub>p</sub> &gt; 10<sup>39</sup> years,
+    which is inconsistent with the ~10<sup>34–36</sup>-year lifetime that stur_gauge_unification_derivation.html
+    itself derives from the same M<sub>GUT</sub>, and would already be excluded by current experiments if taken
+    literally as a lower bound. Corrected to match the companion page's derivation.
+  </p>
 </section>
 
 <!-- SECTION 4: KK THRESHOLD CORRECTIONS -->
@@ -351,9 +379,9 @@
 <section class="section" id="predictions" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
   <h2 style="color:var(--success);">5. TOE Quantitative Predictions</h2>
 
-  <h3>5.1 Low-Energy Values (Derived from M<sub>Planck</sub>)</h3>
+  <h3>5.1 Low-Energy Values (Derived from the TOE's 4 Inputs)</h3>
 
-  <p>From the TOE unification boundary condition (ONE input) and SM running:</p>
+  <p>From the TOE unification boundary condition and SM running:</p>
 
   <table>
     <thead>
@@ -397,7 +425,8 @@
       + KK + gauge backreaction contributions. Couplings unify at the L<sub>X</sub> scale.
       Asymptotic freedom, the unification scale, and ∞₃ threshold corrections (Δ<sub>1</sub> = -3.72,
       Δ<sub>2</sub> = +2.43, Δ<sub>3</sub> = +2.22) all emerge automatically from the Mathieu equation
-      with κ = 2.430 and σ = 0.862 rad. Zero free parameters.
+      with κ<sub>q</sub> = 2.417, κ<sub>l</sub> = 2.367, and σ = 0.862 rad — no additional free parameters
+      beyond the TOE's 4 inputs (M<sub>Pl</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>).
     </p>
   </div>
 </section>

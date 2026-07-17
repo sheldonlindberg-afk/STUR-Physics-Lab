@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR Unitarity Constraints</title>
-<meta name="description" content="STUR Helix Geometry unitarity analysis. ONE input (M_Planck), infinity helix geometry. WW scattering, KK resonances, and partial wave bounds computed. Theory remains unitary to all scales.">
+<meta name="description" content="STUR Helix Geometry unitarity analysis. 4 inputs (M_Planck, v_EW, m_t, α_em), infinity helix geometry. WW scattering, KK resonances, and partial wave bounds computed. Theory remains unitary to all scales.">
 
 <!-- PWA & iOS meta tags -->
 <meta name="theme-color" content="#4ade80">
@@ -49,7 +49,7 @@
     infinity helix holonomy regulation · <span style="color:var(--success);">STUR Helix Geometry TOE</span>
   </p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.25rem;">
-    ONE input (M<sub>Planck</sub>) · infinity helix geometry
+    4 inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>) · infinity helix geometry
   </p>
   <div style="margin-top:1rem;">
     <span class="stur-status success">
@@ -74,8 +74,8 @@
     <strong>(A1)</strong> M⁴ × S¹ with TEGR,
     <strong>(A2)</strong> Real doublet R-field,
     <strong>(A3)</strong> Energy minimization —
-    yield 30 observables (29D+0P+0U+1I). S-matrix unitarity is preserved to all orders as a derived consequence
-    of ∞-helix topology geometry. Parameters: κ = 2.430, α<sub>eff</sub> = 1.480 (two-loop), σ = 0.862.
+    yield 30 observables (24D+5P+0U+1I, 83% closure). S-matrix unitarity is preserved to all orders as a derived consequence
+    of ∞-helix topology geometry. Parameters: κ<sub>q</sub> = 2.417, κ<sub>l</sub> = 2.367, α<sub>eff</sub> = 1.480 (two-loop), σ = 0.862.
   </div>
 
   <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.5);">
@@ -182,6 +182,13 @@
     <div class="eq-label">(U.6)</div>
   </div>
 
+  <p style="color:var(--warning);font-size:0.8rem;border-left:3px solid var(--warning);padding-left:0.75rem;">
+    <strong>Note:</strong> 1.2 TeV is the standard literature value for this channel. Solving a<sub>0</sub>=1
+    using the SU(2) coupling g² ≈ 0.42 used elsewhere in this document (§3.3) instead gives √s ≈ 1.76 TeV;
+    reproducing 1.2 TeV requires g² ≈ 0.90. The two g² values used across this page are not mutually
+    consistent — this is a normalization/convention gap, not a claim we can resolve without further input.
+  </p>
+
   <h3>2.2 With Higgs (SM Solution)</h3>
 
   <p>The Higgs exchange cancels the growth:</p>
@@ -237,15 +244,31 @@
   <p>In STUR, KK particles have decay widths:</p>
 
   <div class="eq boxed" style="margin:1rem 0;">
-    \[\Gamma_{W^{(n)}} \approx \frac{g^2 n}{48\pi L_X} \approx \frac{g^2 M_{KK}}{48\pi} \approx 40\;\text{GeV}\]
+    \[\Gamma_{W^{(n)}} \approx \frac{g^2 n}{48\pi L_X} \approx \frac{g^2 M_{KK}}{48\pi} \approx 5.6\;\text{GeV}\]
     <div class="eq-label">(U.12)</div>
   </div>
 
-  <p>With g² ≈ 0.42 and M<sub>KK</sub> ≈ 2 TeV:</p>
+  <p style="color:var(--warning);font-size:0.85rem;border-left:3px solid var(--warning);padding-left:0.75rem;">
+    <strong>Honesty note:</strong> Direct substitution of g² ≈ 0.42 and M<sub>KK</sub> ≈ 2 TeV into
+    g²M<sub>KK</sub>/(48π) gives ≈5.6 GeV, not the ≈40 GeV previously quoted here (a factor-of-~7 error).
+    The corrected value is used below.
+  </p>
+
+  <p>With g² ≈ 0.42, M<sub>KK</sub> ≈ 2000 GeV, and Γ<sub>n</sub> ≈ 5.6 GeV, applying (U.11) directly:</p>
 
   <div class="eq boxed" style="margin:1rem 0;">
-    \[|a_J^{(1)}| \approx \frac{0.42}{2000 \times 40} \times (2000)^2 = \frac{0.42 \times 2000}{40} \approx 21 \times 10^{-3} \ll 1\]
+    \[|a_J^{(1)}| = \frac{g_n^2}{m_n \Gamma_n} \approx \frac{0.42}{2000 \times 5.6} \approx 3.8 \times 10^{-5} \ll 1\]
   </div>
+
+  <p style="color:var(--warning);font-size:0.85rem;border-left:3px solid var(--warning);padding-left:0.75rem;">
+    <strong>Honesty note:</strong> This page previously displayed
+    "0.42/(2000×40) × (2000)² = 0.42×2000/40 ≈ 21×10⁻³" for |a<sub>J</sub><sup>(1)</sup>|. That line contained
+    two errors: (i) 0.42×2000/40 evaluates to 21, not 21×10⁻³ — a factor-of-1000 arithmetic slip; and
+    (ii) the extraneous "×(2000)²" factor does not follow from (U.11) and should not have been there.
+    Applying (U.11) directly (as shown above) with the corrected Γ<sub>n</sub> ≈ 5.6 GeV gives |a<sub>J</sub><sup>(1)</sup>|
+    ≈ 3.8×10⁻⁵, still ≪ 1, so the qualitative conclusion (KK resonances remain unitary) is unaffected even
+    though the displayed intermediate numbers were wrong.
+  </p>
 
   <div class="block success">
     <div class="title">KK Resonances Are Narrow and Unitary</div>
@@ -278,33 +301,43 @@
     <div class="eq-label" style="color:var(--neon-cyan);">(U.14) — Convergent KK sum (DERIVED)</div>
   </div>
 
-  <p>With ∞-helix phases, additional cancellation occurs:</p>
+  <p>With ∞-helix phases, the following factoring was previously claimed:</p>
 
   <div class="eq boxed" style="margin:1rem 0;">
-    \[\sum_{n=1}^{\infty} \frac{\omega^{n\bmod 3}}{n^2} = \frac{\pi^2}{6} \times \frac{1 + \omega + \omega^2}{3} = \frac{\pi^2}{6} \times 0 = 0 \quad \text{(complete cancellation!)}\]
-    <div class="eq-label">(U.14a)</div>
+    \[\sum_{n=1}^{\infty} \frac{\omega^{n\bmod 3}}{n^2} \stackrel{\textbf{✗}}{=} \frac{\pi^2}{6} \times \frac{1 + \omega + \omega^2}{3} \stackrel{\textbf{✗}}{=} \frac{\pi^2}{6} \times 0 = 0 \quad \text{(NOT valid — see note)}\]
+    <div class="eq-label">(U.14a) — invalid factoring, retained for transparency</div>
   </div>
 
-  <h3>4.3 Amplitude Bounded</h3>
+  <p style="color:var(--warning);font-size:0.85rem;border-left:3px solid var(--warning);padding-left:0.75rem;">
+    <strong>Honesty note:</strong> This factoring is mathematically invalid. It implicitly assumes the three
+    residue-class partial sums Σ<sub>n≡0(3)</sub>1/n², Σ<sub>n≡1(3)</sub>1/n², Σ<sub>n≡2(3)</sub>1/n² are all
+    equal, which they are not (numerically: ≈0.183, 1.122, 0.340 respectively). 1+ω+ω²=0 is a true identity,
+    but it does not license pulling ω<sup>n mod 3</sup> out of the 1/n²-weighted sum this way. The actual value
+    of Σ<sub>n=1</sub><sup>∞</sup> ω<sup>n mod 3</sup>/n² is a nonzero complex number, numerically ≈ −0.548+0.677i
+    (magnitude ≈0.87) — not 0. There is no "complete cancellation," and the "Asymptotic Safety from ∞₃
+    Structure" claim below (U.15, |a₀|≈0.02) is not supported by this calculation as written. We have not
+    derived a corrected closed-form value for (U.15); it should be treated as unverified pending a
+    correct evaluation of the phase-weighted sum, not as a proven result.
+  </p>
 
-  <p>At very high energies (√s >> M<sub>KK</sub>), the partial wave amplitude:</p>
+  <h3>4.3 Amplitude Bounded (UNVERIFIED — see honesty note above)</h3>
 
-  <div class="eq law" style="background:#000;border:2px solid var(--success);padding:1.25rem;">
-    \[\boxed{\Quant{a_0}(s \to \infty) = \frac{g^2 L_X^2 \pi}{192} \times \text{(residual after ∞₃ cancellation)} \approx 0.02}\]
-    <div class="eq-label" style="color:var(--success);">(U.15) — Asymptotic partial wave</div>
+  <p>At very high energies (√s >> M<sub>KK</sub>), the partial wave amplitude was previously claimed to be:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--warning);padding:1.25rem;">
+    \[\Quant{a_0}(s \to \infty) = \frac{g^2 L_X^2 \pi}{192} \times \text{(residual after ∞₃ cancellation)} \approx 0.02 \quad \text{(NOT independently verified)}\]
+    <div class="eq-label" style="color:var(--warning);">(U.15) — Asymptotic partial wave — relies on the invalid (U.14a) cancellation</div>
   </div>
 
-  <div class="block success" style="border-width:3px;margin-top:1.5rem;">
-    <div class="title" style="font-size:1.1rem;">Asymptotic Safety from ∞₃ Structure</div>
+  <div class="block warning" style="border-width:3px;margin-top:1.5rem;">
+    <div class="title" style="font-size:1.1rem;">Asymptotic Safety from ∞₃ Structure — Caveat</div>
     <p style="margin:0;color:var(--text-secondary);">
-      The partial wave amplitude remains bounded |a<sub>0</sub>| ≈ 0.02 << 1 even at √s → ∞.
-      The ∞-helix phase structure provides additional cancellation beyond the Basel sum convergence:
+      The claim that |a<sub>0</sub>| ≈ 0.02 at √s → ∞, and the "even stronger UV suppression than naive KK
+      tower" framing, both depend on the (U.14a) cancellation shown above to be invalid. The Basel-sum
+      result in §4.2 (U.14), which does not rely on the phase cancellation, independently establishes that
+      the un-twisted KK tower amplitude is finite. The additional ∞₃-specific suppression claimed in (U.15)
+      is not established by the derivation on this page and should not be cited as a proven result.
     </p>
-    <ul style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-      <li>1 + ω + ω² = 0 (∞₃ sum rule)</li>
-      <li>Only residual non-∞₃-symmetric terms contribute</li>
-      <li>Result: Even stronger UV suppression than naive KK tower</li>
-    </ul>
   </div>
 </section>
 
