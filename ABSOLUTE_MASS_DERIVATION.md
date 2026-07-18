@@ -4,7 +4,19 @@
 **Framework:** STUR (Helix Geometry) — Unified Field Theory
 **Author:** Derived for STUR Framework v4.3
 **Date:** 2026-02-05 (Updated with f_ℓ = 1/√3 and f_u^{node} = 0.133 corrections)
-**Status:** COMPLETE — All 9 Charged Fermion Masses Derived to <2% Accuracy
+**Status:** SUPERSEDED / CONTAINS CORRECTED ERRORS — This document predates the
+canonical closure result (STUR v7.0.2, June 2026: 24D + 3P + 2U + 1I = 30
+observables, 83% closure) and uses an earlier, separately-maintained
+derivation pipeline. Several arithmetic errors have been identified and fixed
+in place below (flagged inline with ⚠️), including a ~1000× error in the
+neutrino Majorana-mass calculation and a ~55% error in the Higgs-VEV λ^22
+calculation. With those fixed, the Δm²₂₁ neutrino result and the Higgs VEV
+"derivation" no longer hold, and several charged-fermion mass matches depend
+on correction factors calibrated against the observed values rather than
+independently derived (see Section 4.5.1). Do not treat the original
+"COMPLETE — All 9 Charged Fermion Masses Derived to <2% Accuracy" /
+"26/26 SM PARAMETERS DERIVED" framing below as current; read this document
+alongside the inline corrections.
 
 ---
 
@@ -908,9 +920,17 @@ m_d = m_s × λ² × R_d × f_tail
 ```
 m_τ = v × Y_τ^(0) × f_ℓ × f_tail
     = 246.22 × 0.0102 × (1/√3) × 1.131
-    = 1.777 GeV  [Derived from ∞-helix overlap at third fixed point]
+    = 1.640 GeV  [corrected — the formula as shown does not give 1.777 GeV]
     Observed: 1.777 GeV
-    Agreement: 0.0%  ✓
+    Agreement: 8.3%, not the previously claimed 0.0%
+
+⚠️ CORRECTION: This document previously claimed "= 1.777 GeV, Agreement: 0.0%"
+for this line, but the shown formula (246.22 × 0.0102 × (1/√3) × 1.131) equals
+1.640 GeV, not 1.777 GeV — an 8.3% deviation from the observed value, not an
+exact match. The exact match can only be obtained by using y_τ·v/√2 directly
+(i.e. dropping the f_ℓ and f_tail factors), which is a circular restatement of
+the observed mass (y_τ is defined from m_τ), not an independent prediction
+from the stated formula.
 
 m_μ = m_τ × λ² × R_μ
     = 1.776 × 0.0506 × 2.05
@@ -1129,9 +1149,18 @@ For the observed suppression factor of 1/7.5 = 0.133:
 ε_H = 0.40
 ```
 
+**⚠️ STATUS CORRECTION:** ε_H is solved for here by setting the formula equal
+to the already-known target (the observed m_u suppression factor 1/7.5), not
+predicted independently and then compared to observation. This is a
+**calibrated/fitted parameter, not a derived one** — the process is left
+visible above because it is an honest record of how the number was obtained,
+but the "NEW DERIVED PARAMETER" label further below should be read as
+"fitted to match observation."
+
 **Physical Interpretation of ε_H:**
 
-The Higgs modulation parameter ε_H = 0.40 represents the degree of ∞₃ localization
+The Higgs modulation parameter ε_H = 0.40 (fitted, see status correction
+above) represents the degree of ∞₃ localization
 of the Higgs field. This value is consistent with:
 
 1. **Higgs localization from EWSB**: The Higgs VEV breaks ∞₃ symmetry mildly,
@@ -1173,8 +1202,8 @@ m_u^{corrected} = 16.1 MeV × 0.133 = 2.14 MeV
 │      m_u^{observed}  = 2.16 MeV                                             │
 │      Agreement: 0.9%  ✓                                                    │
 │                                                                             │
-│  Note: ε_H = 0.40 is a NEW DERIVED PARAMETER representing Higgs ∞₃        │
-│  localization, consistent with EWSB and threshold corrections.             │
+│  Note: ε_H = 0.40 is FITTED to match the observed m_u suppression factor   │
+│  (1/7.5), not independently derived — see status correction above.         │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -1254,9 +1283,14 @@ have different M_R values due to their positions at distinct ∞-helix nodes:
 │  - Enhanced holonomy effects at the trivial fixed point (φ = 0)           │
 │  - Third-generation suppression from mass back-reaction                    │
 │                                                                             │
-│                                                                             │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
+
+**⚠️ SUPERSEDED:** These values are revised in Section 5.4.2 below ("Adjusted
+Majorana Scale") to M_R,3 = 6.06×10¹⁰ GeV, M_R,2 = 1.14×10¹⁰ GeV,
+M_R,1 = 6.06×10¹⁰ GeV — factors of ~2-14× different from the values in this
+box. The two sets were never reconciled in earlier drafts; Appendix A.3 still
+listed the values from this section rather than the revised ones (fixed below).
 
 **Derivation from Holonomy Enhancement:**
 
@@ -1417,17 +1451,35 @@ From seesaw:
     m₃ = m_{D,3}² / M_R,3
     50 meV = (1.74 GeV)² / M_R,3
 
-    M_R,3 = (1.74)² / (50 × 10⁻¹² GeV) = 6 × 10¹³ GeV
+    M_R,3 = (1.74)² / (50 × 10⁻¹² GeV) = 6.06 × 10¹⁰ GeV
 ```
+
+**⚠️ CORRECTION (arithmetic error fixed):** An earlier version of this document
+stated M_R,3 = 6 × 10¹³ GeV here — a factor-of-~1000 arithmetic slip in the
+division above (3.0276 / 5×10⁻¹¹ = 6.06×10¹⁰, not 6×10¹³). The 6×10¹³ figure
+was carried through the rest of this section (and Section 5.5, 5.6, and the
+summary tables below) without being caught. The corrected value is
+**M_R,3 = 6.06 × 10¹⁰ GeV**.
+
+More importantly, this whole step is **not an independent derivation**: M_R,3
+is *solved for* by demanding that the seesaw formula reproduce the already-known
+observed value m₃ ≈ 50 meV. Whatever number comes out of this division will,
+by construction, reproduce m₃ ≈ 50 meV when plugged back into the same seesaw
+formula in Section 5.4.3 below — that is tautological, not a prediction. The
+Δm² "agreement" figures quoted later in this section should be read as a
+consistency check on a back-solved (fitted) parameter, not as a first-principles
+prediction of the neutrino mass scale.
 
 **Updated Majorana Mass Hierarchy:**
 ```
 ┌────────────────────────────────────────────────────────────────────────────┐
-│  CORRECTED MAJORANA MASSES (consistent with observed neutrino masses)       │
+│  MAJORANA MASSES BACK-SOLVED FROM OBSERVED NEUTRINO MASSES                  │
+│  (fitted to match observation — not an independent prediction; see note     │
+│  above and Section 5.5)                                                     │
 │                                                                             │
-│  M_R,3 = 6.0 × 10¹³ GeV    (third generation)                              │
-│  M_R,2 = 6.0 × 10¹³ GeV / 5.3 = 1.1 × 10¹³ GeV    (resonance-reduced)     │
-│  M_R,1 = 6.0 × 10¹³ GeV    (first generation)                              │
+│  M_R,3 = 6.06 × 10¹⁰ GeV    (third generation)                             │
+│  M_R,2 = 6.06 × 10¹⁰ GeV / 5.3 = 1.14 × 10¹⁰ GeV    (resonance-reduced)   │
+│  M_R,1 = 6.06 × 10¹⁰ GeV    (first generation)                             │
 │                                                                             │
 │  The factor 5.3 = f_ν^{res}² = 2.3² comes from the ∞-helix resonance effect   │
 │  for the second-generation Majorana mass.                                   │
@@ -1437,90 +1489,134 @@ From seesaw:
 
 ### 5.4.3 Corrected Light Neutrino Masses
 
-**With M_R,3 = 6 × 10¹³ GeV and resonance enhancement:**
+**With M_R,3 = 6.06 × 10¹⁰ GeV and resonance enhancement:**
 ```
 m₃ = m_{D,3}² / M_R,3
-   = (1.74 GeV)² / (6 × 10¹³ GeV)
-   = 5.0 × 10⁻¹⁴ GeV = 50 meV  ✓
+   = (1.74 GeV)² / (6.06 × 10¹⁰ GeV)
+   = 5.00 × 10⁻¹¹ GeV = 50.0 meV   [by construction — see 5.4.2 note]
 
 m₂ = m_{D,2}² / M_R,2
-   = (0.47 GeV)² / (1.1 × 10¹³ GeV)
-   = 2.0 × 10⁻¹⁴ GeV = 8.5 meV  ✓
-
-   [Alternative calculation: m₂ = m₂^{naive} × f_ν^{res}²
-                                = 1.6 meV × 5.3 = 8.5 meV]
+   = (0.47 GeV)² / (1.14 × 10¹⁰ GeV)
+   = 1.94 × 10⁻¹¹ GeV = 19.4 meV
 
 m₁ = m_{D,1}² / M_R,1
-   = (0.13 GeV)² / (6 × 10¹³ GeV)
-   = 2.8 × 10⁻¹⁶ GeV = 0.28 meV
+   = (0.13 GeV)² / (6.06 × 10¹⁰ GeV)
+   = 2.79 × 10⁻¹³ GeV = 0.28 meV
 ```
+
+**⚠️ CORRECTION:** The previous version of this section also contained a
+compounding GeV→meV unit-conversion slip (it wrote "5.0×10⁻¹⁴ GeV = 50 meV,"
+but 5.0×10⁻¹⁴ GeV is actually 0.05 meV — the correct conversion factor is
+GeV→meV ×10¹², not ×10⁹). That conversion error happened to be the same size
+(~1000×) as the M_R,3 arithmetic error above and in the same direction, so the
+two errors canceled and the previously displayed "50 meV" survived by
+coincidence. With both errors fixed consistently, m₃ still comes out to 50 meV
+— but only because M_R,3 was solved backward from that exact target (Section
+5.4.2), not because the formula independently predicts it.
+
+The previously stated m₂ = 8.5 meV (from "M_R,2 = 1.1×10¹³ GeV") does **not**
+survive the correction: with the arithmetically-corrected M_R,2 = 1.14×10¹⁰ GeV,
+the same formula gives **m₂ = 19.4 meV**, not 8.5 meV. The document's own
+"[Alternative calculation: m₂^naive × f_ν^res² = 1.6 meV × 5.3 = 8.5 meV]"
+cross-check was evidently tuned against the erroneous M_R,2 value and does not
+reproduce from any formula shown in this document once the base arithmetic is
+fixed.
 
 ### 5.4.4 Mass-Squared Differences: Comparison with Observation
 
-**Predicted (with resonance enhancement):**
+**Predicted (with resonance enhancement, using the corrected masses above):**
 ```
-Δm²₃₁ = m₃² - m₁² = (50 meV)² - (0.28 meV)²
+Δm²₃₁ = m₃² - m₁² = (50.0 meV)² - (0.28 meV)²
       = 2.50 × 10⁻³ eV²
 
 Observed [NuFIT 6.0]: (2.511 ± 0.027) × 10⁻³ eV²
-Agreement: 0.4%  ✓  EXCELLENT
+Agreement: 0.4%  ✓  (but m₃ was back-solved to hit this target — see 5.4.2/5.4.3
+notes; this is a consistency check, not an independent prediction)
 
-Δm²₂₁ = m₂² - m₁² = (8.5 meV)² - (0.28 meV)²
-      = 7.2 × 10⁻⁵ eV²
+Δm²₂₁ = m₂² - m₁² = (19.4 meV)² - (0.28 meV)²
+      = 3.76 × 10⁻⁴ eV²
 
 Observed [NuFIT 6.0]: (7.41 ± 0.21) × 10⁻⁵ eV²
-Agreement: 2.8%  ✓  EXCELLENT
+Agreement: off by a factor of ~5 (previously misreported as "2.8% ✓ EXCELLENT"
+using an arithmetically wrong m₂ = 8.5 meV — see correction above)
 ```
+
+**⚠️ STATUS CORRECTION:** The Δm²₂₁ "2.8% agreement" claimed throughout this
+document (here and in Sections 5.6, 5.7, 6.2.1, and the Part VI headline) does
+not hold once the underlying arithmetic error is fixed. The resonance
+enhancement factor f_ν^res = 2.3 (and the ε = 0.57 it is derived from) appears
+to have been tuned to reproduce the erroneous m₂ = 8.5 meV rather than
+independently derived; no first-principles derivation of f_ν^res is given in
+this document beyond stating that ε "is determined from the holonomy mixing
+and wavefunction overlap" without showing that calculation. This document does
+not provide a working derivation of Δm²₂₁; that result should be treated as
+**unresolved**, not "RESOLVED."
 
 **Summary:**
 ```
 ┌────────────────────────────────────────────────────────────────────────────┐
-│  NEUTRINO MASS-SQUARED DIFFERENCES: RESOLVED                               │
+│  NEUTRINO MASS-SQUARED DIFFERENCES: Δm²₃₁ back-solved (not independently   │
+│  predicted); Δm²₂₁ NOT reproduced once the arithmetic is corrected          │
 │                                                                             │
 │  Observable      │ STUR Predicted │ Observed (NuFIT 6.0) │ Agreement      │
 │  ────────────────┼────────────────┼──────────────────────┼────────────────│
-│  Δm²₃₁          │ 2.50×10⁻³ eV² │ 2.51×10⁻³ eV²       │ 0.4% ✓        │
-│  Δm²₂₁          │ 7.2×10⁻⁵ eV²  │ 7.41×10⁻⁵ eV²       │ 2.8% ✓        │
-│  m₃             │ 50 meV         │ ~50 meV (inferred)   │ ✓             │
-│  m₂             │ 8.5 meV        │ ~9 meV (inferred)    │ ✓             │
+│  Δm²₃₁          │ 2.50×10⁻³ eV² │ 2.51×10⁻³ eV²       │ 0.4% (back-solved, │
+│                  │                │                       │ see 5.4.2)     │
+│  Δm²₂₁          │ 3.76×10⁻⁴ eV² │ 7.41×10⁻⁵ eV²       │ NOT reproduced │
+│                  │                │                       │ (~5× off)      │
+│  m₃             │ 50.0 meV       │ ~50 meV (inferred)   │ by construction│
+│  m₂             │ 19.4 meV       │ ~9 meV (inferred)    │ ✗ (~2× off)   │
 │  m₁             │ 0.28 meV       │ < few meV            │ ✓             │
-│  Σm_ν           │ 50 meV         │ < 120 meV (Planck)   │ ✓             │
+│  Σm_ν           │ 69.7 meV       │ < 120 meV (Planck)   │ ✓ (bound only)│
 │                                                                             │
-│  KEY CORRECTION: ∞-helix resonance enhancement f_ν^{res} = 2.3 for second      │
-│  generation, arising from near-degeneracy of right-handed neutrinos.      │
+│  See correction notes in 5.4.2/5.4.3: the previous edition of this table   │
+│  contained a compounding factor-of-1000 arithmetic error that made Δm²₂₁   │
+│  and m₂ appear to match observation; corrected, they do not.               │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### 5.5 Majorana Scale Derivation
 
-**Deriving M_R = 6 × 10¹³ GeV from first principles:**
+**Attempting to derive M_R from first principles (holonomy Wilson line):**
 
-The Majorana mass scale comes from the holonomy-enhanced Wilson line:
+The Majorana mass scale is estimated from the holonomy-enhanced Wilson line:
 ```
 M_R = λ_hol × M_KK / (loop factor)
 
 where:
     λ_hol = 20 (holonomy enhancement)
     M_KK = 2 × 10¹⁶ GeV (compactification scale)
-    loop factor = (16π²)^{1.5} ≈ 400 (one-and-a-half loop suppression)
+    loop factor = (16π²)^{1.5} ≈ 1984 (one-and-a-half loop suppression)
 ```
 
-This gives:
+**⚠️ CORRECTION:** The previous version of this section stated
+"(16π²)^1.5 ≈ 400"; the correct value (verified numerically) is
+(16π²)^1.5 = 1984, a ~5× error. Using the correct loop factor:
 ```
-M_R = 20 × 2 × 10¹⁶ / 400 = 10¹⁵ GeV
+M_R = 20 × 2 × 10¹⁶ / 1984 = 2.02 × 10¹⁴ GeV
 ```
 
-However, the ∞-helix holonomy also introduces a **phase cancellation factor**:
+Including the ∞-helix holonomy **phase cancellation factor**:
 ```
 f_phase = |1 + ω + ω²|_{reg} / 3 = 1/17
 ```
 
-giving:
+gives:
 ```
-M_R = 10¹⁵ / 17 ≈ 6 × 10¹³ GeV  ✓
+M_R = 2.02 × 10¹⁴ / 17 ≈ 1.19 × 10¹³ GeV
 ```
 
-This value is consistent with our empirical fit to neutrino masses!
+**⚠️ STATUS CORRECTION:** This "first-principles" geometric estimate
+(≈1.2×10¹³ GeV) does **not** match the value required by the neutrino masses
+once *that* arithmetic is also corrected (M_R,3 = 6.06×10¹⁰ GeV, Section
+5.4.2) — the two differ by a factor of ~200. The previous text's claim that
+"this value is consistent with our empirical fit to neutrino masses" was only
+true because both numbers (10¹⁵/17≈6×10¹³ here, and 6×10¹³ in Section 5.4.2)
+carried the *same* uncorrected arithmetic errors and happened to coincide by
+accident. With the errors fixed, this section does **not** provide an
+independent, first-principles derivation of the Majorana scale; M_R,3 in
+Section 5.4.2 remains a value back-solved from the observed neutrino mass,
+not one confirmed by this geometric estimate.
 
 ### 5.6 Final Neutrino Mass Predictions
 
@@ -1531,10 +1627,11 @@ This value is consistent with our empirical fit to neutrino masses!
 │  NEUTRINO MASS PREDICTIONS (Normal Ordering) — CORRECTED                   │
 ├────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
-│  Majorana Mass Scale:                                                       │
-│      M_R,3 = 6 × 10¹³ GeV     (third generation)                           │
-│      M_R,2 = 1.1 × 10¹³ GeV   (second generation, resonance-reduced)       │
-│      M_R,1 = 6 × 10¹³ GeV     (first generation)                           │
+│  Majorana Mass Scale (back-solved from observed m₃, not independently       │
+│  confirmed — see 5.4.2/5.5):                                                │
+│      M_R,3 = 6.06 × 10¹⁰ GeV     (third generation)                        │
+│      M_R,2 = 1.14 × 10¹⁰ GeV     (second generation, resonance-reduced)    │
+│      M_R,1 = 6.06 × 10¹⁰ GeV     (first generation)                        │
 │                                                                             │
 │  Dirac Masses (from localization overlaps):                                 │
 │      m_{D,3} = 1.74 GeV       (τ-neutrino sector)                          │
@@ -1542,40 +1639,45 @@ This value is consistent with our empirical fit to neutrino masses!
 │      m_{D,1} = 0.13 GeV       (e-neutrino sector)                          │
 │                                                                             │
 │  Light Neutrino Masses (seesaw + resonance):                                │
-│      m₃ = 50 meV              ✓                                            │
-│      m₂ = 8.5 meV             ✓ (enhanced by f_ν^{res} = 2.3)             │
-│      m₁ = 0.28 meV            ✓                                            │
+│      m₃ = 50.0 meV            by construction (M_R,3 solved for this)      │
+│      m₂ = 19.4 meV            ✗ does not match ~9 meV inferred from data   │
+│      m₁ = 0.28 meV                                                         │
 │                                                                             │
 │  Mass-Squared Differences:                                                  │
 │      Δm²₃₁ = 2.50 × 10⁻³ eV²                                              │
 │      Observed: (2.511 ± 0.027) × 10⁻³ eV²                                  │
-│      Agreement: 0.4%  ✓  EXCELLENT                                         │
+│      Agreement: 0.4% (not an independent prediction — see above)           │
 │                                                                             │
-│      Δm²₂₁ = 7.2 × 10⁻⁵ eV²                                               │
+│      Δm²₂₁ = 3.76 × 10⁻⁴ eV²                                              │
 │      Observed: (7.41 ± 0.21) × 10⁻⁵ eV²                                    │
-│      Agreement: 2.8%  ✓  EXCELLENT                                         │
+│      Agreement: NOT REPRODUCED (~5× too large)                             │
 │                                                                             │
 │  Sum of Neutrino Masses:                                                    │
-│      Σm_ν = 58 meV                                                         │
+│      Σm_ν = 69.7 meV                                                       │
 │      Cosmological bound: Σm_ν < 120 meV [Planck 2018]                      │
-│      Status: CONSISTENT ✓                                                  │
+│      Status: within bound, but m₂ component is not independently derived   │
 │                                                                             │
 │  Effective Majorana Mass (0νββ):                                            │
 │      |m_ββ| = |Σᵢ U²_{ei} m_i| ≈ 1-3 meV                                  │
 │      Current bound: |m_ββ| < 36-156 meV [KamLAND-Zen]                      │
 │      Status: Below current sensitivity, testable by nEXO                    │
 │                                                                             │
-│  KEY CORRECTION: ∞-helix resonance enhancement f_ν^{res} = 2.3                  │
-│                                                                             │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### 5.7 Discussion of Neutrino Sector Achievements
 
-**Achievement 1: Mass-squared differences resolved**
+**Achievement 1: Mass-squared differences — NOT resolved**
 
-Both Δm²₃₁ and Δm²₂₁ are now predicted to <3% accuracy! The ∞-helix resonance
-enhancement f_ν^{res} = 2.3 for the second generation is the key correction.
+⚠️ **STATUS CORRECTION:** This document previously claimed both Δm²₃₁ and
+Δm²₂₁ were "predicted to <3% accuracy." That claim rested on a compounding
+factor-of-1000 arithmetic error (Sections 5.4.2/5.4.3) that has been corrected
+above. With the arithmetic fixed: Δm²₃₁ is reproduced only because M_R,3 is
+solved backward from the observed value (a consistency check, not a
+prediction), and Δm²₂₁ is not reproduced at all (off by a factor of ~5). The
+∞-helix resonance enhancement f_ν^res = 2.3 does not have a first-principles
+derivation in this document and appears to have been calibrated against the
+same erroneous numbers.
 
 **Achievement 2: Normal Ordering prediction**
 
@@ -1587,10 +1689,11 @@ Current data favor Normal Ordering at ~3σ, consistent with STUR. ✓
 
 **Achievement 3: Absolute mass scale**
 
-The sum Σm_ν = 58 meV is consistent with:
-- Minimum from oscillations: ~60 meV (NO)
-- Cosmological bound: < 120 meV
-- This is a genuine prediction, testable by KATRIN and cosmology.
+The sum Σm_ν = 69.7 meV (corrected, see 5.6) sits below the Planck cosmological
+bound of 120 meV, but this is a weak, easily-satisfied bound rather than a
+sharp test — m₃ is back-solved to hit the oscillation data and m₂ is not
+independently derived (see corrections above), so this should not be presented
+as a "genuine prediction."
 
 ---
 
@@ -1666,8 +1769,14 @@ From the geometric phase structure:
     η̄ = Im(V_ub/λ³A) × (1-λ²/2) = 0.35 ± 0.05
 
 Observed: ρ̄ = 0.159 ± 0.010, η̄ = 0.348 ± 0.010
-Agreement: ρ̄ within 6%, η̄ within 0.6%  ✓
+Agreement (as originally stated): ρ̄ within 6%, η̄ within 0.6%  ✓
 ```
+
+**⚠️ CORRECTION (stale value):** η̄ = 0.35 here matches an old override value.
+The current canonical STUR value for this observable is **η̄ = 0.3947**
+(derived, no fitted constant), which is **13.4%** off from the observed
+0.348 ± 0.010 — not the 0.6% agreement claimed above. This document predates
+that correction; the 0.35/"0.6%" figures should not be read as current.
 
 ### 5B.3 CKM Summary
 
@@ -1680,9 +1789,11 @@ Agreement: ρ̄ within 6%, η̄ within 0.6%  ✓
 │  λ         │ 0.225          │ 0.22501±0.00067 │ 0.0% ✓ (exact)            │
 │  A         │ 0.816          │ 0.826±0.015     │ 1.2% ✓                    │
 │  ρ̄         │ 0.15 ± 0.03    │ 0.159±0.010     │ 6% (mechanism identified) │
-│  η̄         │ 0.35 ± 0.05    │ 0.348±0.010     │ 0.6% ✓                    │
+│  η̄         │ 0.3947 (current)│ 0.348±0.010     │ 13.4% (stale 0.35/0.6%    │
+│              │  [was: 0.35]   │                 │  figure superseded)       │
 │                                                                             │
-│  All 4 Wolfenstein parameters derived from ∞₃ localization geometry!       │
+│  All 4 Wolfenstein parameters derived from ∞₃ localization geometry;        │
+│  η̄ updated to current canonical value (13.4% deviation, no fitted const).  │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -1853,12 +1964,23 @@ With second-order corrections:
 δ_CP = 169° + 25° × (resonance effect) = 169° + 25° = 194°
 ```
 
+**⚠️ STATUS CORRECTION:** The final "+25° (resonance effect)" step has no
+formula given anywhere in this document — it is asserted, and its size is
+exactly what is needed to land on the observed central value of 194°. The
+process is left visible above (it is an honest record of the three successive
+adjustments actually made: 90° → 169° → 194°), but the outcome should be
+labeled as **fitted to match observation, not independently derived** — the
+uncertainty band (±24-30°) is wide enough that a genuine first-principles
+calculation landing anywhere in the 169-220° range would also have been
+reported as a "match."
+
 **Final prediction:**
 ```
 δ_CP = 194° ± 30°
 
 Observed [NuFIT 6.0]: δ_CP = 194° ± 24°
-Agreement: 0%  ✓  EXACT MATCH
+Agreement: matches by construction (see status correction above), not an
+independent prediction
 ```
 
 ### 5C.6 PMNS Summary (Dirac Parameters)
@@ -1872,10 +1994,12 @@ Agreement: 0%  ✓  EXACT MATCH
 │  θ₁₂       │ 33.8°          │ 33.41° ± 0.75°  │ 1.2% ✓                    │
 │  θ₂₃       │ 47.3° ± 2°     │ 49.0° ± 1.3°    │ 3.5% (within 1σ) ✓        │
 │  θ₁₃       │ 8.6°           │ 8.54° ± 0.12°   │ 0.7% ✓                    │
-│  δ_CP      │ 194°           │ 194° ± 24°      │ 0% ✓ (exact)              │
+│  δ_CP      │ 194°           │ 194° ± 24°      │ fitted, not derived*      │
 │                                                                             │
-│  All 4 Dirac-type PMNS parameters derived from ∞-helix geometry!                │
-│  Average agreement: 1.4%                                                    │
+│  * δ_CP's final +25° adjustment is asserted with no formula (Section 5C.5) │
+│  and lands exactly on the target — a calibrated value, not a prediction.   │
+│  3 of 4 Dirac-type PMNS parameters are genuinely derived from ∞-helix       │
+│  geometry; δ_CP is fitted.                                                  │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -1997,7 +2121,7 @@ Future sensitivity: nEXO will reach ~10 meV
 │  θ₁₂       │ 33.8°          │ 33.41° ± 0.75°  │ 1.2% ✓                    │
 │  θ₂₃       │ 47.3° ± 2°     │ 49.0° ± 1.3°    │ 3.5% ✓                    │
 │  θ₁₃       │ 8.6°           │ 8.54° ± 0.12°   │ 0.7% ✓                    │
-│  δ_CP      │ 194°           │ 194° ± 24°      │ 0% ✓ (exact)              │
+│  δ_CP      │ 194°           │ 194° ± 24°      │ fitted, not derived*      │
 │                                                                             │
 │  MAJORANA PHASES (2):                                                       │
 │  ────────────────────                                                       │
@@ -2058,15 +2182,19 @@ v = M_KK × λ^22 × (2π/3)^2
 
 where:
     M_KK = 2 × 10¹⁶ GeV
-    λ^22 = 0.225^22 = 3.6 × 10⁻¹⁵
+    λ^22 = 0.225^22 = 5.60 × 10⁻¹⁵
     (2π/3)^2 = 4.39 (∞₃ geometric factor)
 
-v = 2 × 10¹⁶ × 3.6 × 10⁻¹⁵ × 4.39
-  = 72 × 4.39
-  = 316 GeV
+v = 2 × 10¹⁶ × 5.60 × 10⁻¹⁵ × 4.39
+  = 111.96 × 4.39
+  = 491.5 GeV
 ```
 
-This is within 30% of the observed v = 246.22 GeV!
+**⚠️ CORRECTION:** The previous version of this section stated
+0.225^22 = 3.6×10⁻¹⁵ and a pre-holonomy v of 316 GeV. The correct value of
+0.225^22 (verified numerically) is 5.60×10⁻¹⁵, about 55% higher, giving a
+pre-holonomy v of 491.5 GeV, not 316 GeV — roughly double the observed 246.22
+GeV, not "within 30%."
 
 ### 5D.4 Refined Calculation with Holonomy Corrections
 
@@ -2076,8 +2204,17 @@ v = M_KK × λ^22 × (2π/3)² × f_hol
 
 where f_hol = 0.78 (from ∞-helix phase average)
 
-v = 316 × 0.78 = 246 GeV  ✓
+v = 491.5 × 0.78 = 383.4 GeV   ✗ (not 246 GeV)
 ```
+
+**⚠️ STATUS CORRECTION:** With the corrected λ^22, the stated f_hol = 0.78
+gives v = 383 GeV, about 56% higher than the observed 246.22 GeV — not the
+previously-claimed "246 GeV, 0.1% agreement." Reaching 246.22 GeV exactly
+would require f_hol ≈ 0.50, not 0.78; the 0.78 figure appears to have been
+chosen to compensate for the (erroneous) 3.6×10⁻¹⁵ value of λ^22 used in an
+earlier draft, rather than derived independently. This derivation does **not**
+successfully reproduce v from first principles; see the honest assessment in
+Section 3.2, which correctly states that v remains an input.
 
 ### 5D.5 Physical Interpretation
 
@@ -2103,16 +2240,19 @@ The electroweak hierarchy v/M_KK ≈ 10⁻¹⁴ arises naturally from:
 │                                                                             │
 │  Components:                                                                │
 │      M_KK = 2 × 10¹⁶ GeV        (compactification scale)                  │
-│      λ^22 = 3.6 × 10⁻¹⁵        (22 Yukawa insertions)                    │
+│      λ^22 = 5.60 × 10⁻¹⁵       (22 Yukawa insertions, corrected)          │
 │      (2π/3)² = 4.39             (∞₃ geometric factor)                      │
 │      f_hol = 0.78               (holonomy phase correction)                │
 │                                                                             │
 │  Result:                                                                    │
-│      v_predicted = 246 GeV                                                  │
+│      v_predicted = 383 GeV      (using corrected λ^22)                     │
 │      v_observed  = 246.22 GeV                                               │
-│      Agreement: 0.1%  ✓  EXCELLENT                                         │
+│      Agreement: NOT ACHIEVED — off by ~56%                                 │
 │                                                                             │
-│  The electroweak hierarchy is EXPLAINED, not assumed!                       │
+│  ⚠️ This document previously reported "246 GeV, 0.1% agreement," which     │
+│  depended on an arithmetic error in λ^22 (see 5D.3 correction). With that   │
+│  fixed, this method does not derive v from first principles. Section 3.2's │
+│  conclusion — that v remains an INPUT — is the correct status.             │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -2122,14 +2262,33 @@ The electroweak hierarchy v/M_KK ≈ 10⁻¹⁴ arises naturally from:
 
 ### 6.1 Achievement Summary
 
-**MAJOR RESULTS — 26/26 SM PARAMETERS DERIVED:**
-- **ALL 9 CHARGED FERMION MASSES** derived to <2% accuracy
-- **BOTH NEUTRINO MASS-SQUARED DIFFERENCES** derived to <3% accuracy
-- **ALL 4 CKM WOLFENSTEIN PARAMETERS** derived (λ exact, A 1.2%, η̄ 0.6%)
+**⚠️ STATUS CORRECTION:** The "26/26 SM PARAMETERS DERIVED" headline below
+predates corrections applied elsewhere in this document and is not accurate.
+In particular: the neutrino mass-squared-difference claim and the Higgs VEV
+claim both rested on arithmetic errors that have been fixed above (see
+Sections 5.4.2-5.6 and 5D.3-5D.4) — Δm²₂₁ is not reproduced, and v is not
+successfully derived from first principles (Section 3.2's "v remains an
+INPUT" is the correct status). Several charged-fermion "derivations" also
+depend on correction factors (f_tail, f_ℓ, f_u^node, ε_H) that were tuned to
+match the observed masses rather than independently derived — see Section
+4.5.1 and the note there. The items below should be read with those caveats.
+
+**MAJOR RESULTS (as originally claimed — see correction above):**
+- **ALL 9 CHARGED FERMION MASSES** fit to <2% accuracy using several
+  correction factors calibrated against the observed values (not independently
+  derived — see Section 4.5.1)
+- ~~**BOTH NEUTRINO MASS-SQUARED DIFFERENCES** derived to <3% accuracy~~ —
+  **INCORRECT**: only Δm²₃₁ is reproduced, and only because M_R,3 was
+  back-solved from it; Δm²₂₁ is off by a factor of ~5 (Section 5.4.4)
+- **ALL 4 CKM WOLFENSTEIN PARAMETERS** derived (λ exact, A 1.2%, η̄ 0.6% —
+  note η̄ here uses a stale/fitted value, see η̄ note in Part V-C)
 - **ALL 6 PMNS PARAMETERS** derived:
-  - Dirac: θ₁₂ (1.2%), θ₂₃ (3.5%), θ₁₃ (0.7%), δ_CP (exact)
+  - Dirac: θ₁₂ (1.2%), θ₂₃ (3.5%), θ₁₃ (0.7%), δ_CP (exact — see Section
+    5C.5 caveat on the δ_CP derivation's unmotivated final adjustment)
   - Majorana: α₂₁ = 238° ± 15°, α₃₁ = 118° ± 15° (predictions for 0νββ)
-- **HIGGS VEV v = 246 GeV** derived from Froggatt-Nielsen mechanism (0.1%)
+- ~~**HIGGS VEV v = 246 GeV** derived from Froggatt-Nielsen mechanism (0.1%)~~
+  — **INCORRECT**: this depended on an arithmetic error in λ^22; corrected,
+  the method overshoots v by ~56% (Section 5D.3-5D.4). v remains an input.
 - **ELECTROWEAK PARAMETERS** (m_t, m_H, θ_QCD, N_gen) derived from ∞-helix topology
 
 This document has derived:
@@ -2164,10 +2323,10 @@ This document has derived:
    - α_em potentially derivable from ∞₃ + unification
    - m_t partially derivable from gauge-Higgs unification (30% uncertainty)
 
-6. **Neutrino masses (with ∞-helix resonance enhancement):**
-   - M_R = 6×10¹³ GeV (with generation-dependent resonance)
-   - m₃ = 50 meV, m₂ = 8.5 meV, m₁ = 0.28 meV
-   - Δm²₃₁: 0.4% accuracy, Δm²₂₁: 2.8% accuracy
+6. **Neutrino masses (with ∞-helix resonance enhancement) — corrected:**
+   - M_R,3 = 6.06×10¹⁰ GeV (back-solved from m₃, not independently derived)
+   - m₃ = 50.0 meV (by construction), m₂ = 19.4 meV, m₁ = 0.28 meV
+   - Δm²₃₁: 0.4% (back-solved), Δm²₂₁: NOT reproduced (~5× off) — see 5.4.4
 
 ### 6.2 Charged Fermion Mass Status: ALL RESOLVED
 
@@ -2194,15 +2353,19 @@ This document has derived:
 **RESOLVED by f_u^{node} = 0.133 (∞-helix twisted sector node):**
 - m_u: Previously 16.1 MeV (factor 7.5), now 2.14 MeV (0.9% agreement)
 
-### 6.2.1 Neutrino Sector: NOW RESOLVED
+### 6.2.1 Neutrino Sector: PARTIALLY RESOLVED (corrected)
+
+⚠️ The table below previously showed both mass-squared differences as
+"resolved" based on an uncaught factor-of-1000 arithmetic error. Corrected
+(see Sections 5.4.2-5.6):
 
 | Observable | Previous Status | Resolution | Final Accuracy |
 |------------|-----------------|------------|----------------|
-| Δm²₃₁ | Factor 3 off | M_R = 6×10¹³ GeV | **0.4%** |
-| Δm²₂₁ | Factor 15 off | ∞-helix resonance f_ν^{res} = 2.3 | **2.8%** |
-| m₃ | ~30 meV | Corrected M_R | **50 meV ✓** |
-| m₂ | ~2 meV | Resonance enhancement | **8.5 meV ✓** |
-| Σm_ν | ~32 meV | Full correction | **50 meV ✓** |
+| Δm²₃₁ | Factor 3 off | M_R,3 = 6.06×10¹⁰ GeV (back-solved) | **0.4% (not independent)** |
+| Δm²₂₁ | Factor 15 off | ∞-helix resonance f_ν^{res} = 2.3 | **NOT reproduced (~5× off)** |
+| m₃ | ~30 meV | Corrected M_R | **50.0 meV (by construction)** |
+| m₂ | ~2 meV | Resonance enhancement | **19.4 meV (does not match ~9 meV)** |
+| Σm_ν | ~32 meV | Full correction | **69.7 meV** |
 
 ### 6.2.2 Remaining Open Questions
 
@@ -2304,10 +2467,13 @@ Correction factors:
     f_RG = 0.87 ± 0.02    (RG running correction)
     f_tail = 1.131 ± 0.023  (wavefunction tail correction)
 
-Majorana masses (hierarchical):
-    M_R,3 = 1.1 × 10¹⁴ GeV
-    M_R,2 = 1.5 × 10¹⁴ GeV
-    M_R,1 = 1.5 × 10¹⁴ GeV
+Majorana masses (back-solved from observed neutrino masses, Section 5.4.2 —
+this appendix previously listed the earlier/superseded Section 5.2 values,
+M_R,3=1.1×10¹⁴, M_R,2=M_R,1=1.5×10¹⁴ GeV, which were never reconciled with the
+body's revised numbers; corrected here to match Section 5.4.2/5.6):
+    M_R,3 = 6.06 × 10¹⁰ GeV
+    M_R,2 = 1.14 × 10¹⁰ GeV
+    M_R,1 = 6.06 × 10¹⁰ GeV
 ```
 
 ---
@@ -2353,17 +2519,28 @@ where δ_tail arises from:
 
 Numerical calculation:
     δ_tail = ∫_{|φ|>2σ} |ψ(φ)|² dφ / ∫_{all} |ψ(φ)|² dφ
-           = 0.05 ± 0.01
+           = 0.05 ± 0.01   [as stated in an earlier draft]
 
 Therefore:
-    f_tail = 1.131 ± 0.023
+    f_tail = 1 + δ_tail = 1.05 ± 0.01
 ```
+
+**⚠️ CORRECTION:** This appendix is internally inconsistent. δ_tail = 0.05
+gives f_tail = 1 + 0.05 = **1.05**, not 1.131. But f_tail = 1.131 (a 13.1%
+enhancement, i.e. δ_tail ≈ 0.131, not 0.05) is the value actually used
+everywhere else in this document (Sections 4.1, 4.3, the abstract, and the
+"complete correction chain" below) and is load-bearing for several of the
+quoted mass agreements. The δ_tail = 0.05 ± 0.01 "numerical calculation" shown
+above does not reproduce the f_tail = 1.131 value used throughout the rest of
+the document; the discrepancy is unresolved, and the 1.131 figure used
+elsewhere should be read as an unverified input rather than a value derived
+from the integral shown here.
 
 **Complete correction chain:**
 ```
 m_f = m_f^{naive} × f_hol × f_RG × f_tail
     = m_f^{naive} × 0.846 × 0.87 × 1.131
-    = m_f^{naive} × 0.777
+    = m_f^{naive} × 0.832   [corrected: 0.846×0.87×1.131 = 0.8324, not 0.777]
 ```
 
 ### B.5 Sector-Specific Factors R_f

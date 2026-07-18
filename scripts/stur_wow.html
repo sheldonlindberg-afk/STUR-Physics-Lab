@@ -238,11 +238,16 @@
                 <div style="padding:1rem;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #f472b6;">
                     <strong style="color:#f472b6;">WOW.2 — Duration-Damping Relation</strong>
                     <div class="stur-eq derived" style="margin:0.75rem 0;">
-                        \[\boxed{\tau_{\text{transit}} = \frac{\pi}{\gamma} = 72 \pm 15\,\text{s} \quad (\gamma = 0.08\,\text{s}^{-1})}\]
+                        \[\boxed{\tau_{\text{transit}} = 72 \pm 15\,\text{s} \quad \text{(model input, matched to the observed Wow! signal duration)}}\]
                     </div>
                     <p style="margin:0;font-size:0.85rem;color:var(--text-muted);">
-                        Transit duration set by STUR damping coefficient γ from Master Action coupling.
-                        Future STUR transients should show τ ∈ [57, 87] s for same γ regime.
+                        τ<sub>transit</sub> is set directly as a model input (matched to the ~72 s duration of the
+                        historical Wow! signal); it is <em>not</em> currently derived from the resistance-field
+                        damping coefficient γ = 0.08 s⁻¹ — π/γ with this γ gives 39.3 s, not 72 s. An earlier
+                        version of this box incorrectly presented τ = π/γ as a closed-form derivation; that
+                        relation is not what the simulation code actually computes (γ and the transit duration
+                        are set independently in the model). Future STUR transients should show τ ∈ [57, 87] s
+                        for the same input regime.
                     </p>
                 </div>
 
@@ -293,7 +298,7 @@
                 </div>
                 <div style="padding:0.75rem 1rem;background:rgba(239,68,68,0.1);border-radius:8px;border-left:3px solid #ef4444;">
                     <strong style="color:#ef4444;">Exclusion 3:</strong>
-                    <span style="color:var(--text-secondary);">Transient duration τ < 30 s or τ > 150 s (outside γ ∈ [0.02, 0.2] range).</span>
+                    <span style="color:var(--text-secondary);">Transient duration τ < 30 s or τ > 150 s (outside the model's predicted input range; γ ∈ [0.02, 0.2] s⁻¹ is a separate damping-coefficient range and is not related to τ via π/γ — see WOW.2 note above).</span>
                 </div>
                 <div style="padding:0.75rem 1rem;background:rgba(239,68,68,0.1);border-radius:8px;border-left:3px solid #ef4444;">
                     <strong style="color:#ef4444;">Exclusion 4:</strong>

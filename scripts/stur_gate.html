@@ -132,9 +132,9 @@
             <h2 class="glass-section-title" style="color:var(--neon-green);">Complete EFT Framework Status</h2>
         </div>
         <div class="glass-section-body" style="font-size:0.92rem;">
-            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">One Input, ∞₃ Helix Geometry:</strong></p>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">4 Inputs, ∞₃ Helix Geometry:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li><strong>Single input:</strong> M<sub>Planck</sub> = 2.176 × 10<sup>-8</sup> kg — sets all scales</li>
+                <li><strong>4 fundamental inputs:</strong> M<sub>Planck</sub> = 2.176 × 10<sup>-8</sup> kg, v<sub>EW</sub> = 246.22 GeV, m<sub>t</sub> = 172.57 GeV, α<sub>em</sub> = 1/137.036 — set all scales</li>
                 <li>S(r) radial modulator derived from XCRM closure</li>
                 <li>Coherence length L₀ derived from Planck scale</li>
                 <li>All coupling constants fixed by ∞-helix topology</li>
@@ -165,7 +165,7 @@
         </div>
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;color:var(--text-secondary);">
-                The resistance corridor derives from the STUR TOE framework with M<sub>Planck</sub> as the single input:
+                The resistance corridor derives from the STUR TOE framework, with M<sub>Planck</sub> setting the length/time scale (one of the framework's 4 fundamental inputs):
             </p>
             <div class="stur-eq derived" style="margin:0.75rem 0;">
                 \[\XCRM{\mathcal{L}_{\text{XCRM}}} = \XCRM{\chi} |\mathbf{R}|^2 \partial_X \phi = \XCRM{\chi}(R_1 \partial_X R_2 - R_2 \partial_X R_1)\]
@@ -338,7 +338,7 @@
             <h2 class="glass-section-title">Model (Complete EFT)</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Single input:</strong> M<sub>Planck</sub> = 2.176 × 10<sup>-8</sup> kg determines all scales. The <a href="stur_core_theory.html#master-action" class="core-ref">Master Action</a>:</p>
+            <p><strong>4 fundamental inputs</strong> (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>); M<sub>Planck</sub> = 2.176 × 10<sup>-8</sup> kg sets the length/time scale here. The <a href="stur_core_theory.html#master-action" class="core-ref">Master Action</a>:</p>
 
             <div class="stur-eq law">
                 \[
@@ -438,7 +438,7 @@
 # ===============================================================
 # STUR Resistance Corridor
 #
-# Complete EFT Framework: ONE input (M_Planck), geometric framework
+# Complete EFT Framework: 4 fundamental inputs (M_Planck, v_EW, m_t, alpha_em), geometric framework
 #
 # Derives access probability from S(r) modulated forces
 # Shannon entropy quantifies information content
@@ -447,7 +447,7 @@
 #   - stur_gate.json  (success probabilities and entropy)
 #   - stur_gate.png   (force profile and reliability plots)
 #
-# Derived from Master Action with M_Planck as single input
+# Derived from Master Action; M_Planck sets the length/time scale used here
 # Application layer: corridor geometry is scenario-specific
 # ===============================================================
 
@@ -607,7 +607,7 @@ report = {
     "meta": {
         "page": "resistance-corridor",
         "version": "4.0",
-        "framework": "Complete EFT: ONE input (M_Planck), ∞₃ helix geometry",
+        "framework": "Complete EFT: 4 fundamental inputs (M_Planck, v_EW, m_t, alpha_em), ∞₃ helix geometry",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "F_tot = S(r)[F_EM + F_G + F_S] + F_sp + F_SC + F_v + F_d + F_b"
     },
@@ -632,7 +632,7 @@ with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
 print("=== STUR Resistance Corridor ===")
-print("Complete EFT Framework: ONE input (M_Planck), geometric framework")
+print("Complete EFT Framework: 4 fundamental inputs (M_Planck, v_EW, m_t, alpha_em), geometric framework")
 print(f"Best success: {s_best*100:.2f}%")
 print(f"Entropy:      {Sinfo:.3f} bits")
 print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>

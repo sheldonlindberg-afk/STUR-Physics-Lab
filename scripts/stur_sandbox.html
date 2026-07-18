@@ -89,7 +89,7 @@
 
 <header style="text-align:center;margin-bottom:1.5rem">
     <h1 style="background:linear-gradient(135deg,#fff 0%,#22d3ee 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-size:clamp(1.5rem,5vw,2.2rem);margin-bottom:0.5rem">STUR Sandbox</h1>
-    <p style="color:var(--text-secondary);max-width:600px;margin:0 auto;font-size:0.9rem">Theory of Everything Candidate Explorer — ONE input (M_Planck), infinity helix geometry</p>
+    <p style="color:var(--text-secondary);max-width:600px;margin:0 auto;font-size:0.9rem">Theory of Everything Candidate Explorer — 4 inputs (M_Planck, v_EW, m_t, α_em), infinity helix geometry</p>
 </header>
 
 <!-- TOE Framework Reference -->
@@ -99,7 +99,7 @@
         <strong style="color:#4ade80;">Complete EFT Framework — Theory of Everything Candidate</strong>
     </div>
     <p style="margin:0 0 0.5rem; font-size:0.85rem; color:var(--text-secondary);">
-        <strong>ONE input:</strong> M_Planck (defines the scale). <strong>∞₃ geometric framework.</strong><br>
+        <strong>4 fundamental inputs:</strong> M_Planck, v_EW, m_t, α_em (M_Planck defines the scale used in this sandbox). <strong>∞₃ geometric framework.</strong><br>
         All physics derives from the XCRM doublet coupling: \(\chi(R_1\partial_X R_2 - R_2\partial_X R_1) = \chi|\mathbf{R}|^2\partial_X\phi\).
         infinity helix topology yields SU(3) color and three generations. Everything else is derived.
     </p>
@@ -206,7 +206,7 @@
 <!-- PYTHON VERIFICATION SCRIPT -->
 <section class="panel warn">
     <h2><span class="stur-icon icon-zap" style="color:var(--neon-gold)"></span> Verification Script</h2>
-    <p style="margin-bottom:0.6rem;font-size:0.85rem;color:var(--text-secondary)">Copy to <a href="https://colab.research.google.com/" target="_blank" style="color:var(--neon-gold)">Google Colab</a> for framework verification. ONE input (M_Planck), ∞₃ geometric framework.</p>
+    <p style="margin-bottom:0.6rem;font-size:0.85rem;color:var(--text-secondary)">Copy to <a href="https://colab.research.google.com/" target="_blank" style="color:var(--neon-gold)">Google Colab</a> for framework verification. 4 inputs (M_Planck, v_EW, m_t, α_em), ∞₃ geometric framework.</p>
     <div class="btnrow" style="margin-bottom:0.6rem">
         <button class="primary" onclick="copyScript()" id="copyBtn"><span class="stur-icon icon-copy"></span> Copy Script</button>
         <a href="https://colab.research.google.com/" target="_blank" class="secondary" style="text-decoration:none;text-align:center;padding:0.55rem 0.9rem;border-radius:10px;background:rgba(0,0,0,0.4);border:1px solid var(--border-dim);color:var(--text-primary);font-family:var(--font-mono);font-size:0.82rem;font-weight:700">▶ Open Colab</a>
@@ -214,21 +214,22 @@
     <pre class="code" id="pythonScript">"""
 STUR v7.0 TOE FRAMEWORK — Verification Script
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-ONE INPUT: M_Planck (defines the scale)
+4 FUNDAMENTAL INPUTS: M_Planck, v_EW, m_t, alpha_em
 ∞₃ GEOMETRIC FRAMEWORK: Everything else derived
 """
 import numpy as np
 
 # ═══════════════════════════════════════════════════════════
-# THE SINGLE INPUT: Planck Mass
+# INPUTS: Planck Mass sets the scale used in this sandbox
+# (the full STUR framework uses 4 inputs: M_Planck, v_EW, m_t, alpha_em)
 # ═══════════════════════════════════════════════════════════
-M_Planck = 1.220890e19  # GeV (the ONLY input to the theory)
+M_Planck = 1.220890e19  # GeV (one of 4 fundamental inputs to the theory)
 l_Planck = 1.616255e-35  # meters (derived from M_Planck)
 
 print("STUR v7.0 TOE Framework")
 print("=" * 50)
-print(f"Single Input: M_Planck = {M_Planck:.6e} GeV")
-print(f"Free Parameters: ZERO")
+print(f"Scale-setting input (this sandbox): M_Planck = {M_Planck:.6e} GeV")
+print(f"Fundamental Inputs (framework-wide): 4 (M_Planck, v_EW, m_t, alpha_em)")
 print("=" * 50)
 
 # All other scales derived from M_Planck
@@ -276,7 +277,7 @@ print(f"  Error: {err:.4f}%  {'PASS' if err < 0.01 else 'FAIL'}")
 print("\n" + "═"*50)
 print("STUR v7.0 TOE VERIFICATION COMPLETE")
 print("━"*50)
-print("✓ ONE input: M_Planck")
+print("✓ 4 fundamental inputs: M_Planck, v_EW, m_t, alpha_em")
 print("✓ ∞₃ geometric framework")
 print("✓ All physics derived from Master Action")
 print("═"*50)</pre>
@@ -520,8 +521,8 @@ function copyScript() {
 function exportJSON() {
     const data = {
         framework: 'STUR v7.0 TOE',
-        input: { M_Planck: '1.220890e19 GeV (single input)' },
-        freeParameters: 0,
+        inputs: { M_Planck: '1.220890e19 GeV', v_EW: '246.22 GeV', m_t: '172.57 GeV', alpha_em: '1/137.036', count: 4 },
+        note: 'M_Planck sets the scale used in this sandbox; framework-wide, 4 fundamental inputs',
         explorerState: { L_X, sigma_R, y: 1.0, V0 },
         derived: { l_coh: l_coh(), lambda: LAMBDA },
         timestamp: new Date().toISOString()
@@ -537,8 +538,8 @@ function exportCSV() {
     const lc = l_coh();
     let csv = 'Parameter,Value,Note\n';
     csv += `Framework,STUR v7.0 TOE,\n`;
-    csv += `M_Planck,1.220890e19 GeV,Single Input\n`;
-    csv += `Free_Parameters,0,All derived\n`;
+    csv += `M_Planck,1.220890e19 GeV,Scale-setting input (1 of 4 framework inputs)\n`;
+    csv += `Inputs_Total,4,M_Planck v_EW m_t alpha_em\n`;
     csv += `L_X,${L_X},Explorer state\n`;
     csv += `sigma_R,${sigma_R},Explorer state\n`;
     csv += `l_coh,${lc},Derived\n`;
