@@ -666,9 +666,10 @@ input[type=range] {
   <div class="tab-pane" id="pane-4">
 
     <p class="info-blurb">
-      STUR v7.0's Berry phase (−π/3) connects to cyclic neural oscillations — particularly <b>gamma waves (~40 Hz)</b>
+      STUR v7.0's Berry phase (0, exact — real Mathieu eigenstates give zero geometric phase, not the non-trivial
+      −π/3 stated in earlier drafts) connects to cyclic neural oscillations — particularly <b>gamma waves (~40 Hz)</b>
       implicated in memory consolidation and disrupted in Alzheimer's. The normalized gamma frequency
-      ν_γ = κ²/(2πσ) ≈ 1.08 using STUR parameters (κ=2.430, σ=0.862) maps onto neural criticality.
+      ν_γ = κ²/(2πσ) ≈ 1.09 using STUR parameters (κ=2.430, σ=0.862) maps onto neural criticality.
       δ_CP = 272.8° ≈ 270° (near-maximal CP violation) analogizes to left-right neural asymmetry in language.
     </p>
 
@@ -1452,7 +1453,7 @@ function drawGamma() {
   const ys = v  => pad.t + gy - v*gy;
 
   // Gamma coherence: peaks in healthy range, drops sharply in crisis
-  // Model: gamma_coh(éR) = exp(-(éR-2.2)^2/1.5) * (1 - 0.15*éR)
+  // Model (comment corrected to match code): gamma_coh(éR) = exp(-(éR-2.2)^2/1.5) * (1 - 0.08*max(éR-1,0))
   const gammaC = er => Math.max(0, Math.exp(-(er-2.2)*(er-2.2)/1.5) * (1 - 0.08*Math.max(er-1,0)));
 
   const ptsGamma=[];
@@ -1464,7 +1465,7 @@ function drawGamma() {
 
   // 40 Hz band marker
   const kappa=2.430, sigma=0.862;
-  const nu_gamma = kappa*kappa/(2*Math.PI*sigma);  // normalized ≈ 1.08
+  const nu_gamma = kappa*kappa/(2*Math.PI*sigma);  // normalized ≈ 1.09 (kappa^2/(2*pi*sigma) = 5.9049/5.41593)
   const t_nu = svgEl('text', {x:pad.l+gx/2, y:pad.t+12, fill:'#a78bfa99', 'font-size':'9', 'text-anchor':'middle', 'font-family':'monospace'});
   t_nu.textContent=`STUR ν_γ = κ²/(2πσ) = ${nu_gamma.toFixed(3)} (normalized) → maps to ~40 Hz gamma`; svg.appendChild(t_nu);
 
@@ -1548,8 +1549,8 @@ const STUR_NEURAL = [
     desc:'Near-maximal CP violation (≈270°). Analogizes to left-right neural asymmetry: language dominance, motor handedness, hippocampal asymmetry.' },
   { label:'N_gen = 3',          val:'Three neural codes',     color:'#22c55e',
     desc:'Three SM generations → three neural coding strategies: rate coding (f), temporal coding (phase), population coding (ensemble).' },
-  { label:'Berry phase = −π/3', val:'Gamma oscillations',    color:'#f59e0b',
-    desc:'Cyclic Berry phase in STUR helix → topological protection of memory traces. Gamma waves (40 Hz) encode persistent memory states.' },
+  { label:'Berry phase = 0 (exact)', val:'Gamma oscillations',    color:'#f59e0b',
+    desc:'Real Mathieu eigenstates on the STUR helix give an exactly zero Berry phase (corrected from an earlier −π/3 draft) → zero geometric phase loss, i.e. phase-lock protection of memory traces. Gamma waves (40 Hz) encode persistent memory states.' },
 ];
 
 function renderSTURNeural() {

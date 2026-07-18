@@ -103,7 +103,10 @@
             </p>
             <p style="margin:0.5rem 0 0 0;color:var(--text-muted);font-size:0.8rem;">
                 Consciousness and "mind gate" applications are speculative extrapolations far beyond testable physics.
-                The force-coupling mathematics is derived from STUR, but biological/neural interpretations lack experimental support.
+                The force-coupling <em>functional form</em> (saturation operator S(u), Gaussian visibility decay) is motivated by STUR,
+                but biological/neural interpretations lack experimental support, and — honest note — the specific numeric constants used
+                in the demo below (compound parameters A/L0_sc/gamma_sc, battery energy scale, offsets, etc.) are hardcoded illustrative
+                literals, not computed from M_Planck or the other core inputs.
             </p>
         </div>
 
@@ -111,7 +114,7 @@
         <div style="margin-top:1rem;">
             <!-- Theory of Everything Candidate Badge -->
         <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(34,211,238,0.12);border:1px solid #22d3ee;border-radius:8px;max-width:500px;font-size:0.8rem;">
-          <span style="color:#22d3ee;font-weight:600;">THEORY OF EVERYTHING CANDIDATE</span> — ONE input (M_Planck), infinity helix geometry
+          <span style="color:#22d3ee;font-weight:600;">THEORY OF EVERYTHING CANDIDATE</span> — 4 inputs (M_Planck, v_EW, m_t, alpha_em), infinity helix geometry
         </div>
         <span class="stur-status success">
                 <span class="stur-icon icon-check sm"></span>
@@ -202,7 +205,7 @@
             <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(74,222,128,0.08);border:1px solid var(--neon-green);border-radius:8px;">
                 <p style="margin:0 0 0.5rem 0;color:var(--neon-green);font-weight:600;">Complete EFT Framework</p>
                 <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;">
-                    <li><strong>ONE input:</strong> M_Planck (defines l_P, t_P, all derived scales)</li>
+                    <li><strong>4 inputs:</strong> M_Planck, v_EW, m_t, alpha_em (M_Planck defines l_P, t_P; the others fix EW/top/QED scales)</li>
                     <li><strong>infinity helix geometry:</strong> All coupling constants derived from Planck mass</li>
                     <li><strong>L_0 = l_P:</strong> Curvature regulator fixed at Planck length</li>
                 </ul>
@@ -220,7 +223,7 @@
                   \;+\; \underbrace{\Matt{\mathcal{L}_{\rm matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (5D ∞₃ Helix, ONE input: M_Planck)</div>
+                <div class="stur-eq-label">Master Action (5D ∞₃ Helix, 4 inputs: M_Planck, v_EW, m_t, alpha_em)</div>
             </div>
 
             <p><strong>Planck-curvature regulator:</strong></p>
@@ -389,7 +392,7 @@
 #
 # What is solid (derived from STUR):
 #   - Multi-sector force superposition via S(r) modulator
-#   - ONE input (M_Planck), geometric framework
+#   - 4 inputs (M_Planck, v_EW, m_t, alpha_em), geometric framework
 #   - Force budget: EM, gravity, strong-like sectors
 #
 # What is speculative (not physics):
@@ -610,7 +613,7 @@ plt.show()</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Complete EFT (ONE input, infinity helix geometry) |
+                <strong>Version:</strong> STUR Complete EFT (4 inputs, infinity helix geometry) |
                 <strong>Page:</strong> mind-gate-implant (exploratory) |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -725,7 +728,7 @@ plt.show()</pre>
 const PAGE_ID = 'mind-gate-implant';
 const pageState = {
     version: 'Complete EFT',
-    framework: 'ONE input (M_Planck), ∞₃ helix geometry',
+    framework: '4 inputs (M_Planck, v_EW, m_t, alpha_em), ∞₃ helix geometry',
     status: 'EXPLORATORY - consciousness aspects highly speculative',
     params: {
         input: 'M_Planck (single input)',

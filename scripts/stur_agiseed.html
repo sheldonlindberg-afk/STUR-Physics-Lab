@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR RFD Simulator — Resistance Field Dynamics</title>
-<meta name="description" content="STUR RFD Simulator with ONE input (M_Planck). Demonstrates derived physics from ∞₃ helix geometry with final theory summary of speculative applications and effective free parameters.">
+<meta name="description" content="STUR RFD Simulator with 4 inputs (M_Planck, v_EW, m_t, alpha_em). Demonstrates derived physics from ∞₃ helix geometry with final theory summary of speculative applications and effective free parameters.">
 
 <!-- PWA & iOS meta tags -->
 <meta name="theme-color" content="#4ade80">
@@ -161,7 +161,7 @@
   <!-- Complete EFT Badge -->
   <div style="margin-top:1rem;padding:0.75rem;background:rgba(251,191,36,0.15);border:2px solid var(--gold);border-radius:10px;max-width:580px;margin-left:auto;margin-right:auto;">
     <div style="font-size:0.8rem;color:var(--gold);font-weight:600;">★ COMPLETE EFT FRAMEWORK</div>
-    <p style="margin:0.25rem 0 0;font-size:0.85rem;color:var(--text-secondary);"><strong>ONE input:</strong> M<sub>Planck</sub> &nbsp;|&nbsp; <strong>ZERO</strong> free parameters &nbsp;|&nbsp; All SM derived from Z<sub>3</sub> helix geometry</p>
+    <p style="margin:0.25rem 0 0;font-size:0.85rem;color:var(--text-secondary);"><strong>4 inputs:</strong> M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub> &nbsp;|&nbsp; <strong>83% closure</strong> (24D+3P+2U+1I of 30 observables) &nbsp;|&nbsp; Most SM derived from Z<sub>3</sub> helix geometry</p>
   </div>
   <p style="color: var(--text-muted); font-size: 0.95rem;margin-top:0.75rem;">Sheldon Lon Lindberg</p>
   <div style="margin-top:1rem"><button class="btn btn-cite" id="copyCite">Copy Citation</button></div>
@@ -184,7 +184,7 @@
 
   <p style="font-size:1.05rem;color:var(--text);margin-bottom:1.25rem;">
     <strong>The STUR RFD Simulator is a speculative computational exploration of resistance field dynamics.</strong>
-    The core Complete EFT aims to derive Standard Model physics from ONE input (M<sub>Planck</sub>), though several parameters require effective fitting (see correction factors).
+    The core Complete EFT aims to derive Standard Model physics from 4 inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>), though several parameters require effective fitting (see correction factors).
     This simulator explores how those fields might evolve numerically — treat as investigative, not predictive.
   </p>
   <p style="font-size:0.9rem;color:var(--text-tertiary);margin-bottom:1rem;padding:0.5rem 0.75rem;background:rgba(251,191,36,0.08);border-radius:6px;">
@@ -209,7 +209,7 @@
     <div class="title" style="color:#f59e0b;">Finalized Theory Summary: Derived vs Speculative</div>
     <p style="margin:0;color:var(--text-secondary);">
       <strong>Derived Physics (Core Theory):</strong> Z<sub>3</sub> helix uniqueness -> SU(3)×SU(2)×U(1) gauge groups,
-      3 generations, mass hierarchies. ONE input (M<sub>Planck</sub>), though correction factors introduce effective free parameters.<br><br>
+      3 generations, mass hierarchies. 4 inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>), though correction factors introduce effective free parameters.<br><br>
       <strong>Speculative Application (This Simulator):</strong> The RFD simulator explores numerical field evolution
       using λ = 3722/2705 for triangle weighting and log-periodic modulation. This is a <em>computational exploration</em>,
       not part of the core derivation chain. Treat simulation outputs as investigative, not predictive.
@@ -219,7 +219,7 @@
   <div class="block" style="border-left:4px solid #22d3ee;background:rgba(34,211,238,0.08);margin-top:1rem;">
     <div class="title" style="color:#22d3ee;">Complete EFT Framework Reference</div>
     <p style="margin:0;color:var(--text-secondary);">
-      <strong>Core Derivation (ONE input: M<sub>Planck</sub>):</strong> From the infinity helix geometry
+      <strong>Core Derivation (4 inputs: M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>):</strong> From the infinity helix geometry
       uniquely determines SU(3)×SU(2)×U(1) gauge structure, 3 fermion generations, and mass hierarchies.
       See <a href="../DERIVATION_CHAIN_INFINITY.md" style="color:#22d3ee;">DERIVATION_CHAIN_INFINITY.md</a> for the complete chain.<br><br>
       <strong>This Simulator:</strong> Explores numerical R-field dynamics as a speculative application of the framework.
@@ -433,7 +433,7 @@ Speculative computational application of the STUR unified theory.
 
 HONEST ASSESSMENT:
   DERIVED PHYSICS (Core Theory):
-    - ONE input: M_Planck
+    - 4 inputs: M_Planck, v_EW, m_t, alpha_em
     - Correction factors introduce effective free parameters (see CORRECTION_FACTORS_COMPLETE.md)
     - ∞₃ helix -> SU(3)×SU(2)×U(1), 3 generations, mass hierarchies
 
@@ -458,10 +458,14 @@ PDE System (mean-free, 2D/3D periodic):
   ∂R/∂t  = D·∇²R + χ·S_u(δX_c) + κ_Π·Π + nonlinear
   ∂Π/∂t  = η·δX_c - γ·Π
 
-Triangle weighting derived from chronomagnetic ratio λ = 3722/2705:
-  w_D   = 1 / (1 + λ + λ²)       ≈ 0.2705 / Σ
-  w_χ   = λ / (1 + λ + λ²)       ≈ 0.3722 / Σ
-  w_Π   = λ² / (1 + λ + λ + λ²)  (remainder)
+Triangle weighting derived from chronomagnetic ratio λ = 3722/2705 ≈ 1.37597
+(NOTE: earlier drafts of this comment showed w_D ≈ 0.2705/Σ and w_χ ≈ 0.3722/Σ —
+those "0.2705"/"0.3722" were just digits borrowed from the λ fraction itself and
+did NOT match the actual computed weights; the correct numeric values, with
+Σ = 1 + λ + λ² ≈ 4.26927, are shown below):
+  w_D   = 1 / (1 + λ + λ²)  = 1 / Σ    ≈ 0.23423
+  w_χ   = λ / (1 + λ + λ²)  = λ / Σ    ≈ 0.32230
+  w_Π   = λ² / (1 + λ + λ²) = λ² / Σ   ≈ 0.44347  (remainder; w_D + w_χ + w_Π = 1)
 
 Outputs:
   outdir/stur_growth.json     — Full simulation log with theory predictions
@@ -1007,7 +1011,7 @@ if __name__ == "__main__":
     <div class="block" style="border-left-color:var(--gold);">
       <div class="title" style="color:var(--gold);">Complete EFT: What Is Derived vs Speculative</div>
       <ul style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
-        <li><strong>DERIVED (Core Theory):</strong> ONE input (M<sub>Planck</sub>), with effective free parameters in correction factors</li>
+        <li><strong>DERIVED (Core Theory):</strong> 4 inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>), with effective free parameters in correction factors</li>
         <li><strong>DERIVED:</strong> Z<sub>3</sub> helix -> SU(3)×SU(2)×U(1), 3 generations, mass ratios</li>
         <li><strong>SPECULATIVE:</strong> λ = 3722/2705 triangle weights (computational exploration)</li>
         <li><strong>SPECULATIVE:</strong> Log-periodic modulation, RFD pattern formation</li>

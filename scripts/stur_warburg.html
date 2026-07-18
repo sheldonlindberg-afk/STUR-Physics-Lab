@@ -759,9 +759,9 @@ input[type=range] {
     <div class="sec-label">STUR Observables</div>
     <div class="holo-grid">
       <div class="holo-card">
-        <div class="h-label">λ_Cab (Cabibbo coupling)</div>
-        <div class="h-val" style="color:var(--cyan)">0.229</div>
-        <div class="h-desc">λ_Cab = exp(−κ²/4), κ=2.430. Minimum coupling efficiency at full Warburg state</div>
+        <div class="h-label">f* (Cabibbo-analog coupling)</div>
+        <div class="h-val" style="color:var(--cyan)">0.228</div>
+        <div class="h-desc">f* = exp(−κ²/4) = 0.228 at κ=2.430, close to (not exactly equal to) the canonical Cabibbo angle λ_Cab=0.22543. Minimum coupling efficiency at full Warburg state</div>
       </div>
       <div class="holo-card">
         <div class="h-label">κ (localization param)</div>
@@ -775,13 +775,13 @@ input[type=range] {
       </div>
       <div class="holo-card">
         <div class="h-label">V_cancer (min flux)</div>
-        <div class="h-val" style="color:var(--hub-color)">0.082</div>
-        <div class="h-desc">V(π/√2) = exp(−π/4) ≈ 0.082. Only 8.2% of electron flux reaches ATP synthesis</div>
+        <div class="h-val" style="color:var(--hub-color)">0.085</div>
+        <div class="h-desc">V(π/√2) = exp(−(π/√2)²/2) = exp(−π²/4) ≈ 0.085 (corrected: the exponent is −π²/4, not −π/4 — the π² was dropped when simplifying (π/√2)²/2). Only ~8.5% of electron flux reaches ATP synthesis</div>
       </div>
       <div class="holo-card">
         <div class="h-label">éR_cancer (max)</div>
-        <div class="h-val" style="color:var(--hub-color)">0.744</div>
-        <div class="h-desc">éR = EP/V² = 0.005/0.082² at full Warburg. Normalized éR spikes above Goldilocks</div>
+        <div class="h-val" style="color:var(--hub-color)">0.695</div>
+        <div class="h-desc">éR = EP/V² = 0.005/0.085² ≈ 0.695 at full Warburg (corrected using V≈0.085). Normalized éR spikes above Goldilocks</div>
       </div>
       <div class="holo-card">
         <div class="h-label">N_gen analogy</div>
@@ -863,7 +863,7 @@ const atpFlux_total  = W => atpFlux_OXPHOS(W) + atpFlux_WB(W);
 const pH_of_W    = W => 7.4 - 0.8 * W;
 
 // Growth rate (relative)
-const growthRate = W => 1.0 + 1.5 * W * Math.exp(-0.5 * W);  // peaks near W≈0.8
+const growthRate = W => 1.0 + 1.5 * W * Math.exp(-0.5 * W);  // corrected: monotonically increasing on W∈[0,2] (d/dW[W·e^-0.5W]=e^-0.5W(1-0.5W)>0 for W<2); max on this domain is at the W=2 boundary, not a peak near 0.8
 
 // Drug effect on W
 function drugEffect(W_raw, J, drug, dose) {

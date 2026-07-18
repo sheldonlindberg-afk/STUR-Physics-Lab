@@ -153,7 +153,7 @@
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid var(--neon-gold);">
                     <strong style="color:var(--neon-gold);font-size:0.85rem;">∞₃ Geometric Framework</strong>
-                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Coherence length \(\ell_{\rm coh}\) emerges from the helix pitch — no tuning needed</p>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Coherence length \(\ell_{\rm coh}\) emerges from the helix pitch analytically; the per-wavelength plasmon coupling \(R_q^{\rm eff}(\lambda)\) used in the RMSE comparison below is a fitted 18-point array, not derived</p>
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid var(--accent-violet);">
                     <strong style="color:var(--accent-violet);font-size:0.85rem;">Quantum from Geometry</strong>
@@ -174,7 +174,7 @@
                 <div>
                     <h4 style="color:var(--neon-green);font-size:0.85rem;margin:0 0 0.5rem;">Derived from M_Planck Alone</h4>
                     <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
-                        <li><strong>infinity helix pitch:</strong> \(L_X = \ell_P \cdot (2\pi/3)\) — from topology, not fitted</li>
+                        <li><strong>infinity helix pitch:</strong> \(L_X = \ell_P \cdot (2\pi/3) \approx 3.4\times10^{-35}\,\text{m}\) — from topology, not fitted. Note: this numeric value is ~3 orders of magnitude below the framework's canonical fundamental scale \(L_X^{\rm fund}\sim3\times10^{-32}\,\text{m}\) and ~29 orders below the canonical effective scale \(L_X^{\rm eff}\sim0.8\,\mu\text{m}\) used on other STUR pages; it is not used in the coherence-length calculation below, which instead uses the phenomenological plasmon quality factor.</li>
                         <li><strong>Gaussian visibility:</strong> \(V(\Delta L) = V_0 \exp(-\Delta L^2/\ell_{\rm coh}^2)\) — CLT from helix phases</li>
                         <li><strong>Coherence length:</strong> \(\ell_{\rm coh} = \sqrt{2}\,L_X/\sigma_R\) — geometry fixes scale</li>
                         <li><strong>Phase fluctuation:</strong> \(\sigma_R\) from R-field equilibrium — derived from ∞-helix structure</li>
@@ -344,7 +344,7 @@
                         <ul style="margin:0.5rem 0 0 1rem;padding:0;color:var(--text-secondary);">
                             <li>Visibility decays as <strong>exp(−ΔL²/ℓ²<sub>coh</sub>)</strong></li>
                             <li>infinity helix geometry creates phase winding</li>
-                            <li>Coherence length from helix pitch — <em>no fitting</em></li>
+                            <li>Coherence length from helix pitch (analytic); per-point \(R_q^{\rm eff}(\lambda)\) in the data comparison is <em>fitted</em>, 18 values, one per wavelength</li>
                             <li>Quantum behavior emerges from spiral structure</li>
                         </ul>
                     </div>
@@ -389,7 +389,7 @@
         <div class="glass-section-body">
             <p style="margin-bottom:1.5rem;color:var(--text-secondary);">
                 <strong style="color:var(--neon-green);">Complete EFT:</strong> All predictions flow from ONE input (M_Planck) through infinity helix geometry.
-                The coherence length emerges from the helix pitch — no fitting, no tuning, derived from ∞-helix structure.
+                The coherence length ℓ<sub>coh</sub> emerges analytically from the helix pitch. Note: the wavelength-dependent effective resistance quantum \(R_q^{\rm eff}(\lambda)\) used below to compare against data is a fitted 18-value array (one adjustable value per data point), not derived from ∞-helix structure — it is disclosed here rather than hidden.
             </p>
 
             <!-- DOUBLE.1 -->
@@ -534,7 +534,7 @@
             <p><strong>Complete EFT — ONE input (M<sub>Planck</sub>), geometric framework:</strong></p>
             <ul style="font-size:0.9rem;color:var(--text-secondary);">
               <li><strong style="color:var(--neon-green);">ONE input:</strong> \(M_P = \sqrt{\hbar c / G}\) — the Planck mass sets all scales</li>
-              <li>\(L_X = \ell_P \cdot (2\pi/3)\) — helix pitch derived from ∞-helix topology</li>
+              <li>\(L_X = \ell_P \cdot (2\pi/3) \approx 3.4\times10^{-35}\,\text{m}\) — helix pitch derived from ∞-helix topology (does not match either the site's canonical \(L_X^{\rm fund}\sim3\times10^{-32}\,\text{m}\) or \(L_X^{\rm eff}\sim0.8\,\mu\text{m}\) scale; not used in the coherence-length formula below, which is fit to the plasmon Q factor instead)</li>
               <li>\(\sigma_R\) — phase fluctuation from R-field equilibrium (derived, not fitted)</li>
               <li><strong style="color:var(--neon-cyan);">Result:</strong> Coherence length emerges from geometry — no tuning knobs</li>
             </ul>
@@ -648,7 +648,9 @@
 # STUR v7.0 TOE — Double-Slit Gaussian Visibility Test
 #
 # ONE input: M_Planck (sets all scales via infinity helix geometry)
-# Geometric framework: coherence length derived, not fitted
+# Geometric framework: coherence length formula (Eq. 3.15) is derived, not fitted.
+# NOTE: RQ_EFF below is an 18-value per-wavelength array used in the data
+# comparison — it is a FITTED input, not derived from M_Planck/helix geometry.
 #
 # Tests Eq. (3.15): V(ΔL) = V₀ exp[-½(σᵣ/Lₓ)²(ΔL)²]
 # Quantum behavior emerges from infinity helix phase winding
@@ -678,6 +680,8 @@ OUT_SVG  = "stur_doubleslit.svg"
 # ===============================================================
 WL_NM = [350,360,380,400,420,440,450,460,470,480,500,520,540,560,580,600,620,640]
 V_DATA = [0.98,0.97,0.93,0.86,0.79,0.71,0.66,0.62,0.59,0.57,0.55,0.57,0.60,0.64,0.69,0.75,0.82,0.88]
+# FITTED, not derived: one adjustable value per wavelength point (18 free parameters),
+# chosen to match V_DATA. Not computed from M_Planck or helix geometry.
 RQ_EFF = [0.18,0.20,0.24,0.30,0.38,0.52,0.60,0.58,0.55,0.53,0.50,0.47,0.44,0.40,0.36,0.32,0.28,0.25]
 
 # ===============================================================
@@ -703,9 +707,14 @@ def clamp01(v):
 
 # ===============================================================
 # 4) COHERENCE LENGTH — v4.0 TOE (derived from infinity helix geometry)
-# L_X = ℓ_P × (2π/3) from helix pitch — derived from ∞-helix structure
+# L_X = ℓ_P × (2π/3) ≈ 3.4e-35 m from helix pitch — derived from ∞-helix structure.
+# NOTE: this value is ~3 orders of magnitude below the site's canonical
+# L_X^fund ~ 3e-32 m and ~29 orders below L_X^eff ~ 0.8 um used elsewhere;
+# it is NOT the value actually used below (see coherence_length(), which
+# uses the phenomenological plasmon Q factor instead).
 # σ_R from R-field equilibrium — derived, not fitted
-# Result: ℓ_coh = √2 L_X / σ_R emerges from M_Planck alone
+# Result: ℓ_coh = √2 L_X / σ_R emerges from M_Planck alone (symbolic formula;
+# the numeric ℓ_coh used for data comparison below comes from Q_PLASMON, not this L_X)
 # ===============================================================
 # Note: For experimental comparison, we map to plasmon Q factor
 def plasmon_Q():
@@ -1032,6 +1041,7 @@ const pageState = {
     data: {
         wl_nm: [350,360,380,400,420,440,450,460,470,480,500,520,540,560,580,600,620,640],
         V_data: [0.98,0.97,0.93,0.86,0.79,0.71,0.66,0.62,0.59,0.57,0.55,0.57,0.60,0.64,0.69,0.75,0.82,0.88],
+        // FITTED per-wavelength values (18 free parameters), not derived from M_Planck/helix geometry
         Rq_eff: [0.18,0.20,0.24,0.30,0.38,0.52,0.60,0.58,0.55,0.53,0.50,0.47,0.44,0.40,0.36,0.32,0.28,0.25]
     }
 };
@@ -1100,7 +1110,8 @@ const DS_GEOM = {
 const DS_DATA = {
     wl_nm: [350,360,380,400,420,440,450,460,470,480,500,520,540,560,580,600,620,640],
     V_data: [0.98,0.97,0.93,0.86,0.79,0.71,0.66,0.62,0.59,0.57,0.55,0.57,0.60,0.64,0.69,0.75,0.82,0.88],
-    // Effective resistance quantum from plasmon coupling (wavelength-dependent)
+    // FITTED effective resistance quantum from plasmon coupling (wavelength-dependent):
+    // one adjustable value per data point (18 free parameters), not derived from M_Planck/helix geometry
     Rq_eff: [0.18,0.20,0.24,0.30,0.38,0.52,0.60,0.58,0.55,0.53,0.50,0.47,0.44,0.40,0.36,0.32,0.28,0.25]
 };
 

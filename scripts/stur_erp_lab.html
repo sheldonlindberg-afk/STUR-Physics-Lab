@@ -712,7 +712,7 @@ input[type=range] {
       resistance should also oscillate log-periodically — consistent with observed ultradian rhythms in
       mitochondrial membrane potential and GDF15 secretion.
     </p>
-    <div class="eq-card gold" style="margin-bottom:6px;">λ_chrono = 3722/2705 = e^(1/π) ≈ 1.376</div>
+    <div class="eq-card gold" style="margin-bottom:6px;">λ_chrono = e^(1/π) ≈ 1.3748 (the computational approximation 3722/2705 ≈ 1.3760 is close but NOT exactly equal — they differ by ≈0.085%)</div>
     <div class="eq-card" style="border-left-color:var(--violet);">éR(t) ∝ EP · exp(+Φ_R² · |sin(ω·ln(t/t₀))|)  [chronomagnetic modulation]</div>
   </div>
 
@@ -1196,7 +1196,7 @@ function renderMitoBar() {
 // ════════════════════════════════════════════════════════
 const STUR_EXT = [
   { label:"κ (localization)",  val:"2.430", color:"#00d4ff",
-    desc:"Mathieu parameter from ∞₃; sets wavefunction width σ=0.862 rad → Cabibbo angle λ=exp(−κ²/4)=0.229" },
+    desc:"Mathieu parameter from ∞₃ (single-brane simplification of v7.0's split κ_q=2.417/κ_l=2.367); sets wavefunction width σ=0.862 rad → f*=exp(−κ²/4)=0.228, close to (not equal to) Cabibbo angle λ_Cab=0.22543" },
   { label:"σ (gen width)",     val:"0.862 rad", color:"#00d4ff",
     desc:"RMS width of generation wavefunction = 49.4°. Maps to mitochondrial coupling coherence radius" },
   { label:"λ_chrono",          val:"1.376", color:"#c8932a",
