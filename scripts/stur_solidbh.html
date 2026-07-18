@@ -134,10 +134,10 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">ONE Input, ∞₃ Geometric Framework:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li><strong>Single Input:</strong> \(M_{\text{Pl}} = \sqrt{\hbar c / G}\) — the Planck mass defines all scales</li>
+                <li><strong>Single Input:</strong> \(M_{\text{Pl}} = \sqrt{\hbar c / G}\) — the Planck mass defines all scales. <strong>Honesty note:</strong> the executable simulation on this page hardcodes ħ, c, G, and k<sub>B</sub> as its actual inputs and computes M<sub>Pl</sub> as a derived property of G; since T<sub>H</sub>, S<sub>BH</sub>, and t<sub>evap</sub> below all depend on G directly, G — not M<sub>Pl</sub> — is the effective input in the code, the reverse of the framing here.</li>
                 <li>TEGR torsion scalar: \(\mathbb{T} = T^{\rho}{}_{\mu\nu}S_{\rho}{}^{\mu\nu}\) — emerges from R-field coupling</li>
-                <li>Hawking temperature: \(T_H = \hbar c^3 / (8\pi G M k_B)\) — derived from horizon torsion</li>
-                <li>Bekenstein entropy: \(S_{BH} = k_B c^3 A / (4G\hbar)\) — from holographic TEGR boundary</li>
+                <li>Hawking temperature: \(T_H = \hbar c^3 / (8\pi G M k_B)\) — derived from horizon torsion (standard Hawking 1975 result; unmodified by STUR at these orders)</li>
+                <li>Bekenstein entropy: \(S_{BH} = k_B c^3 A / (4G\hbar)\) — from holographic TEGR boundary (standard Bekenstein 1973 result)</li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-cyan);">Derived from TEGR Emergence:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
@@ -536,7 +536,13 @@ OUT_PNG  = "stur_blackhole.png"
 # ===============================================================
 @dataclass(frozen=True)
 class Constants:
-    """ONE input: M_Planck. All else derived."""
+    """HONESTY NOTE: hbar, c, G, k_B (below) are the actual hardcoded inputs
+    to this computation; M_Pl is a *derived property* of G (see M_Pl below),
+    not the other way around. All BH formulas (T_H, S_BH, t_evap) depend
+    directly on G, so the "M_Planck is the ONLY input" framing used
+    elsewhere on this page is backwards for this code: G is effectively
+    the input, and choosing a different M_Pl while holding G fixed would
+    not change any prediction here."""
     hbar: float = 1.054571817e-34   # J⋅s
     c: float = 2.99792458e8         # m/s
     G: float = 6.67430e-11          # m³/(kg⋅s²)
@@ -545,7 +551,7 @@ class Constants:
 
     @property
     def M_Pl(self):
-        """Planck mass — THE single input"""
+        """Planck mass — derived FROM G (not an independent input; see class docstring)"""
         return np.sqrt(self.hbar * self.c / self.G)
 
     @property

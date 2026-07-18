@@ -385,6 +385,7 @@
                 \]
                 <div class="stur-eq-label">Derived Gravitational Constant (TEGR emergence)</div>
             </div>
+            <p style="font-size:0.8rem;color:var(--text-muted);"><strong>Honesty note:</strong> numeric values for α and R<sub>bg</sub> are not given anywhere on this page, so this "derivation" cannot actually be checked against G=6.674×10⁻¹¹ — it is an assertion of the form, not a demonstrated calculation. The simulation code elsewhere on this page uses the measured value of G directly, not a value computed from this formula.</p>
 
             <p><strong>Modified gravity potential:</strong> At short distances, STUR predicts deviations from Newton:</p>
 
@@ -1005,6 +1006,14 @@ const ORBIT_EXP_DATA = {
 };
 
 // STUR period prediction using modified gravity
+// HONESTY NOTE: this function does NOT use the theory's actual S(r)-based
+// force law (omega^2 = -3Gm d/dr[S(r)/r] * 1/r, verified elsewhere on this
+// page). It instead applies an arbitrary placeholder correction proportional
+// to (1-S(r)) with a hardcoded 1e-8 prefactor (see `delta` below). Because
+// this prefactor is fixed to be tiny, the RMSE/chi-squared test below is
+// guaranteed to pass regardless of the actual physics — it is a
+// demonstration of methodology, not an independent falsification test of
+// the theory's real force law against JPL/LLR/Trojan-asteroid data.
 function tbPeriodSTUR(system_name, base_period_yr, L0_m) {
     // For demonstration, STUR predicts small correction based on S(r) modulator
     const AU_m = 1.496e11;
@@ -1020,6 +1029,8 @@ function tbPeriodSTUR(system_name, base_period_yr, L0_m) {
 
     // STUR modification factor (very small at astronomical scales)
     // Period modified as T_stur = T_kepler * (1 + δ) where δ ∝ (1 - S(r))
+    // NOTE: the 1e-8 prefactor is an arbitrary placeholder, not derived from
+    // the theory's own force-law formula above — see HONESTY NOTE above.
     const delta = (1 - Sr) * 1e-8; // Very small correction at these scales
 
     const period_stur = base_period_yr * (1 + delta);

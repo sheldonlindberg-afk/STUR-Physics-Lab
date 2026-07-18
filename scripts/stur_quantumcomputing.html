@@ -115,7 +115,7 @@
         <div style="margin-top:1rem;">
             <!-- Theory of Everything Candidate Badge -->
         <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(34,211,238,0.12);border:1px solid #22d3ee;border-radius:8px;max-width:480px;font-size:0.8rem;">
-          <span style="color:#22d3ee;font-weight:600;">THEORY OF EVERYTHING CANDIDATE</span> — ONE input (M<sub>Planck</sub>), infinity helix geometry
+          <span style="color:#22d3ee;font-weight:600;">THEORY OF EVERYTHING CANDIDATE</span> — 4 inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>), infinity helix geometry
         </div>
         <span class="stur-status success">
                 <span class="stur-icon icon-check sm"></span>
@@ -213,19 +213,19 @@
             <h2 class="glass-section-title" style="color:var(--neon-cyan);">STUR Framework Reference</h2>
         </div>
         <div class="glass-section-body" style="font-size:0.9rem;">
-            <p style="margin-bottom:0.75rem;">This simulation implements the Complete EFT framework from <a href="../DERIVATION_CHAIN_INFINITY.md" style="color:var(--neon-cyan);font-weight:600;">DERIVATION_CHAIN_INFINITY.md</a> — quantum behavior emerges from ∞-helix geometry with ONE input (M<sub>Planck</sub>):</p>
+            <p style="margin-bottom:0.75rem;">This simulation implements the Complete EFT framework from <a href="../DERIVATION_CHAIN_INFINITY.md" style="color:var(--neon-cyan);font-weight:600;">DERIVATION_CHAIN_INFINITY.md</a> — quantum behavior emerges from ∞-helix geometry with 4 inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>):</p>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;">
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #a78bfa;">
                     <strong style="color:#a78bfa;font-size:0.85rem;">∞₃ Geometry Origin</strong>
                     <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Quantum behavior emerges from ∞-helix topology: \(\omega = e^{2\pi i/3}\) generates discrete phases</p>
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid var(--neon-gold);">
-                    <strong style="color:var(--neon-gold);font-size:0.85rem;">Single Input: M<sub>Planck</sub></strong>
-                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">All scales derived from \(M_{\rm Pl}\): \(L_X = \sqrt{\hbar/(M_{\rm Pl} c)}\), from geometric framework</p>
+                    <strong style="color:var(--neon-gold);font-size:0.85rem;">4 Inputs, incl. M<sub>Planck</sub></strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">All scales claimed derived from \(M_{\rm Pl}\): \(L_X = \sqrt{\hbar/(M_{\rm Pl} c)} \approx 4.0\times10^{-18}\,\text{m}\). Honesty note: this is yet another numerically distinct "L<sub>X</sub>" formula/value from the ones used on other STUR pages (≈0.8 μm, ≈3.4×10⁻³⁵ m, ≈3×10⁻³² m canonical) — not reconciled with them.</p>
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid var(--neon-green);">
                     <strong style="color:var(--neon-green);font-size:0.85rem;">Coherence from Geometry</strong>
-                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">\(\Matt{\ell_{\rm coh}} \in [0.3, 30]\,\text{m}\) — derived from ∞-helix phase accumulation</p>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">\(\Matt{\ell_{\rm coh}} \in [0.3, 30]\,\text{m}\) — derived from ∞-helix phase accumulation. Honesty note: this exact range appears verbatim on stur_plasmaconfinement.html for an unrelated tokamak-plasma system, and does not connect to any parameter this page's lattice simulation actually uses (which instead uses a dimensionless, explicitly "calibrated" L₀=1.0 lattice-unit value below) — likely reused boilerplate, not independently derived here.</p>
                 </div>
             </div>
         </div>
@@ -274,9 +274,9 @@
                     </ul>
                 </div>
                 <div>
-                    <h4 style="color:var(--neon-gold);font-size:0.85rem;margin:0 0 0.5rem;">Single Input: M<sub>Planck</sub></h4>
+                    <h4 style="color:var(--neon-gold);font-size:0.85rem;margin:0 0 0.5rem;">4 Inputs, incl. M<sub>Planck</sub></h4>
                     <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
-                        <li><strong>One input:</strong> \(M_{\rm Pl} = 2.176 \times 10^{-8}\) kg</li>
+                        <li><strong>Inputs:</strong> \(M_{\rm Pl} = 2.176 \times 10^{-8}\) kg, \(v_{\rm EW}\), \(m_t\), \(\alpha_{\rm em}\)</li>
                         <li><strong>Geometric framework:</strong> All scales derived</li>
                         <li><strong>Lattice units:</strong> Simulation in natural units</li>
                     </ul>
@@ -544,7 +544,7 @@
                 <div class="stur-eq-label">Lattice Resistance Generator</div>
             </div>
 
-            <p><strong>Complete EFT Framework:</strong> ONE input (\(M_{\rm Pl}\)) sets all scales. Quantum phases emerge from ∞-helix geometry — \(\XCRM{L_0}\) derived, not fitted.</p>
+            <p><strong>Complete EFT Framework:</strong> 4 inputs (\(M_{\rm Pl}\), \(v_{\rm EW}\), \(m_t\), \(\alpha_{\rm em}\)) set all scales. Quantum phases emerge from ∞-helix geometry. Note: \(\XCRM{L_0}\) in the lattice simulation below is an explicitly calibrated dimensionless simulation input (L₀=1.0 lattice units), not derived from these inputs — see the page's own "Lattice parameters ... not derived from M_Planck" disclosure.</p>
         </div>
     </section>
 
@@ -778,7 +778,8 @@ STUR QC Lattice — ∞₃ Geometric Framework
 Tests STUR-modulated quantum evolution on 1D lattice.
 
 Complete EFT Framework:
-  - ONE input: M_Planck (all scales derived)
+  - 4 inputs: M_Planck, v_EW, m_t, alpha_em (lattice params L0/N/J/sigma_R below are
+  #   simulation inputs, not derived from these — see disclosure in prose)
   - ∞₃ geometric framework
   - Quantum behavior emerges from ∞-helix geometry
 
@@ -958,7 +959,7 @@ report = {
     "meta": {
         "page": "qc-lattice",
         "version": "4.0",
-        "framework": "Complete EFT: ONE input (M_Planck), ∞₃ geometric framework",
+        "framework": "Complete EFT: 4 inputs (M_Planck, v_EW, m_t, alpha_em), ∞₃ geometric framework",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "i hbar dPsi/dt = R_STUR Psi"
     },
