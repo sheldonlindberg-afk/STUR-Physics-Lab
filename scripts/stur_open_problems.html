@@ -153,15 +153,16 @@
   </div>
 
   <!-- Problem 5: PMNS Matrix -->
-  <h3>1.5 PMNS Matrix <span style="background:#4ade80;color:#000;padding:2px 6px;border-radius:4px;font-size:0.75rem;margin-left:0.5rem;">SOLVED</span></h3>
+  <h3>1.5 PMNS Matrix <span style="background:#fbbf24;color:#000;padding:2px 6px;border-radius:4px;font-size:0.75rem;margin-left:0.5rem;">MIXING ANGLES SOLVED, &delta;<sub>CP</sub> P-STATUS</span></h3>
 
-  <div class="block success" style="border-width:2px;">
-    <div class="title" style="color:var(--success);">All 6 Parameters: \(\sin^2\theta_{12}\) (18.9%), \(\sin^2\theta_{23}\) (19.4%), \(\sin^2\theta_{13}\) (9.9%), \(\delta_{\rm CP} = 272.8°\)</div>
+  <div class="block" style="border-width:2px;border-color:rgba(251,191,36,0.5);">
+    <div class="title" style="color:var(--gold);">3 Mixing Angles (D-status): \(\sin^2\theta_{12}\) (18.9%), \(\sin^2\theta_{23}\) (19.4%), \(\sin^2\theta_{13}\) (9.9%); \(\delta_{\rm CP} = 272.8°\) (38.5%, P-status)</div>
     <p style="margin:0;color:var(--text-secondary);">
-      All six PMNS parameters derived from bulk neutrino propagation on the infinity helix, with NLO
-      Wolfenstein and KK-tower corrections. The solar angle (18.9%) and atmospheric angle (19.4%) sit at
+      The three PMNS mixing angles are derived from bulk neutrino propagation on the infinity helix, with NLO
+      Wolfenstein and KK-tower corrections, reaching D-status. The solar angle (18.9%) and atmospheric angle (19.4%) sit at
       the ∞₃ Mathieu structural floor; reactor angle sin²θ₁₃ = 0.0242 (9.9%) via NLO lemniscate correction.
-      STUR predicts \(\delta_{\rm CP} = 272.8°\) from ∞₃ holonomy chirality (PDG experimental central ~197-230°).
+      STUR predicts \(\delta_{\rm CP} = 272.8°\) from ∞₃ holonomy chirality (PDG experimental central ~197-230°), a 38.5%
+      deviation — the mechanism is identified but precision is not yet at D-status, so this parameter is P-status.
       Normal neutrino mass ordering is predicted.
     </p>
     <p style="margin:0.5rem 0 0;color:var(--success);font-size:0.9rem;">
@@ -171,14 +172,15 @@
   </div>
 
   <!-- Problem 6: Fermion Masses -->
-  <h3>1.6 Fermion Mass Hierarchy <span style="background:#4ade80;color:#000;padding:2px 6px;border-radius:4px;font-size:0.75rem;margin-left:0.5rem;">SOLVED</span></h3>
+  <h3>1.6 Fermion Mass Hierarchy <span style="background:#fbbf24;color:#000;padding:2px 6px;border-radius:4px;font-size:0.75rem;margin-left:0.5rem;">MECHANISM SOLVED</span></h3>
 
-  <div class="block success" style="border-width:2px;">
-    <div class="title" style="color:var(--success);">All 9 Charged Fermion Masses to &lt;2% (Sharp Higgs \(\sigma_H/\sigma_\psi \approx 0.225\))</div>
+  <div class="block" style="border-width:2px;border-color:rgba(251,191,36,0.5);">
+    <div class="title" style="color:var(--gold);">9 Charged Fermion Mass Ratios, 10.4-29% Deviation (Sharp Higgs \(\sigma_H/\sigma_\psi \approx 0.225\))</div>
     <p style="margin:0;color:var(--text-secondary);">
       The Yukawa hierarchy arises from overlap integrals on the infinity helix with the sharp Higgs profile
       \(\sigma_H/\sigma_\psi \approx 0.225\). Winding-sector corrections (f<sub>tail</sub>, f<sub>ℓ</sub>,
-      f<sub>u</sub><sup>node</sup>) yield all 9 charged fermion masses to better than 2% agreement with observation.
+      f<sub>u</sub><sup>node</sup>) yield mass ratios m<sub>b</sub>/m<sub>t</sub> (10.4%, D) and m<sub>τ</sub>/m<sub>t</sub>
+      (12.9%, D); m<sub>c</sub>/m<sub>t</sub> (29%) and m<sub>u</sub> (26%) remain P-status.
     </p>
     <p style="margin:0.5rem 0 0;color:var(--success);font-size:0.9rem;">
       Derivation: <a href="stur_yukawa_derivation.html" style="color:var(--success);">stur_yukawa_derivation.html</a>,
@@ -299,10 +301,12 @@
   <div class="block" style="border-color:#fbbf24;border-width:2px;background:rgba(251,191,36,0.06);">
     <div class="title" style="color:#fbbf24;">Higher-Order Topological Invariant Matching</div>
     <p style="margin:0;color:var(--text-secondary);">
-      The Euler characteristic \(\chi(\text{CY}_4) = 72\) yields exactly 3 generations.
-      However, the Hodge numbers \(h^{1,1}\) and \(h^{3,1}\) of the specific CY₄ =
-      (\(\mathbb{P}^2 \times \mathbb{P}^1\))/∞₃ construction require precise computation to verify
-      consistency with the flux stabilization mechanism. This is a computational task, not a structural gap.
+      The site's canonical Hodge numbers for this CY₄ construction are \(h^{1,1}=6\), \(h^{2,1}=3\), \(h^{3,1}=25\),
+      giving \(\chi(\text{CY}_4) = 216\). Generation number \(N_{\rm gen}=3\) follows independently from the
+      \(|∞₃|=3\) topological argument (APS index theorem), not from this χ value, so the generation count is not
+      at risk here. However, full consistency between these Hodge numbers and the flux stabilization mechanism
+      still requires precise computation and has not yet been independently verified — this is an open
+      computational task, not a structural gap, but it should not be read as already settled.
     </p>
   </div>
 
@@ -338,8 +342,8 @@
 
   <p style="color:var(--text-muted);font-size:0.9rem;margin-top:1rem;border-left:3px solid #fbbf24;padding-left:1rem;">
     <strong>Note:</strong> None of these refinements affects the structural completeness of the framework.
-    The derivation chain from 3 axioms to 29 observables is closed regardless of the refinement outcomes.
-    These items represent the natural frontier of precision matching within a completed theory.
+    The derivation chain from 3 axioms + 4 inputs to 30 observables is 83% closed (24D+3P+2U+1I) regardless of the refinement outcomes below.
+    These items represent the natural frontier of precision matching and independent derivation within a mostly-completed theory.
   </p>
 </section>
 
@@ -348,10 +352,12 @@
   <h2 style="color:var(--success);">Conclusion</h2>
 
   <p style="color:var(--text);font-size:1.05rem;">
-    STUR v7.0 has resolved all eight structural problems that were identified as open in earlier versions.
-    The framework now derives 29 observables from 3 axioms (∞-helix topology, M<sub>Planck</sub>, master action)
-    with no fitted parameters. Four refinement questions remain, all at the level of precision matching
-    within the completed structure — the dS Swampland conjecture is now fully resolved.
+    STUR v7.0 has resolved the mechanism for all eight structural problems that were identified as open in earlier versions.
+    The framework derives 30 observables from 3 axioms (∞-helix topology, master action) and 4 inputs
+    (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>), reaching 83% closure (24D+3P+2U+1I) — dark matter
+    mass/relic density remain U-status, and δ<sub>CP</sub>(PMNS), m<sub>c</sub>/m<sub>t</sub>, and m<sub>u</sub> remain
+    P-status. Four refinement questions remain, at the level of precision matching or independent derivation
+    within an otherwise-completed structure — the dS Swampland conjecture is now fully resolved.
     Experimental verification through falsifiable predictions continues.
   </p>
 
