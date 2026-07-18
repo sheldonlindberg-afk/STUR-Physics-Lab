@@ -113,12 +113,20 @@ N_ν = 2.9840 ± 0.0082 (from Z-width)
 | PMNS matrix (6 parameters) | U_ℓ†×TBM with lepton-specific α_eff | sin²θ₁₂ = 0.181 (40%), sin²θ₂₃ = 0.446 (22%), sin²θ₁₃ = 0.0295 (34%); v7.0 full Cabibbo | **D** |
 | Neutrino masses | Type-I seesaw with holonomy-enhanced M_R | Δm²₃₁ = 2.5×10⁻³ eV² via M_R = 2×10¹⁴ GeV; normal ordering genuine prediction | **D** |
 | Cosmological constant | ∞-helix discrete gauge Ward identity + neutrino residual | Λ_tree = 0 (KMS + ∞₃ Ward); Λ_residual = 3.3×10⁻⁴⁷ GeV⁴ (17% from obs) | **D** |
-| Dark matter | LKP B^(1) thermal freeze-out | M_DM = 920 ± 80 GeV from thermal relic (NOT fitted); Ω_DM h² = 0.119 (0.4σ from Planck) | **D** |
+| Dark matter | LKP B^(1) thermal freeze-out | M_DM = 920 ± 80 GeV from thermal relic; Ω_DM h² = 0.119 (0.4σ from Planck) | **U** (corrected in FIX pass — the "NOT fitted" claim is false: DARK_MATTER_RELIC_DENSITY.md, the cited source, shows M_LKP is solved for by requiring Ω_DM h²≈0.12 after its own holonomy estimate gave ~7.7 TeV) |
 | m_b/m_t | 2-body Higgs overlap + Wilson line | δ_W = 2π/3 (topological) + 2-body overlap → 0.050 (PDG 0.0242; 2× gap from leading-order) | **D** |
 | m_τ/m_t | 2-body Higgs overlap + color factor 1/√3 | Lepton-specific α_eff + color factor → 0.035 (PDG 0.0103; 3× gap from leading-order) | **D** |
 | UV completion | F-theory CY₄ on (P²×P¹)/∞₃ | Construction proposed; uniqueness proof in UV_COMPLETION_UNIQUENESS_PROOF.md | **D** |
 
-> **ACADEMIC AUDIT NOTE (updated v7.0):** All 31 non-input observables are now Derived (D): complete formulas from 4 inputs (M_Pl, v_EW, m_t, α_em) + 3 axioms with zero free parameters. The v7.0 upgrade (`stur_v7_full_closure.py`) replaces all sector anchoring, ad-hoc factors, and calibrated values with first-principles derivations. Numerical disagreements with experiment (e.g., light fermion masses limited by S¹/∞₃ leading-order symmetry, PMNS θ₁₂ from full lepton Cabibbo) are predictions of the framework, not gaps in the derivation chain.
+> **ACADEMIC AUDIT NOTE (corrected in FIX pass):** Not all non-input observables are Derived
+> (D). m_u remains P-status (2.3× off, see Chain Step 4), and M_DM/Ω_DM h² are U-status
+> (circular — M_DM is solved for by requiring Ω_DM h²≈0.12, not independently derived; see
+> table row above and DARK_MATTER_RELIC_DENSITY.md). The framework uses 4 inputs (M_Pl, v_EW,
+> m_t, α_em); "zero free parameters" refers only to the absence of additional calibrated
+> constants beyond these 4 inputs within the D-status observables, not to a literally
+> parameter-free theory. The v7.0 upgrade (`stur_v7_full_closure.py`) replaced most sector
+> anchoring and calibrated values with first-principles derivations, but not all — see the
+> corrected Closure Scorecard (24D+3P+2U+1I=30, 83%) earlier in this document.
 
 ### The Dynamic Infinity Helix — Resolution of Scale Questions
 
@@ -295,7 +303,10 @@ Residual from neutrino Majorana ∞-helix breaking:
 ### Chain Step 8: UV Completion
 
 F-theory CY₄ on (P²×P¹)/∞₃ uniquely determined from STUR axioms:
-- h¹¹ = 6, h²¹ = 3, h³¹ = 25, χ = 216, χ/24 = 9 (integer)
+- h¹¹ = 6, h²¹ = 3, h³¹ = 25, χ = 216, χ/24 = 9 (integer) — **note (added in FIX pass):** this
+  χ=216 value is not settled; the "Remaining Open Questions" table above lists an unresolved
+  "χ(CY₄) discrepancy: 216 (newer) vs 1698 (older document)," so this should not be read as a
+  final, uniquely-determined number.
 - SM gauge group, 3 generations from 7-brane divisors
 - Swampland: Distance ✓, WGC ✓, Cobordism ✓, dS conditional
 
@@ -1491,7 +1502,7 @@ Log-periodic dynamics of torsion contortion: triangle geometry → λ = 3722/270
 | `stur_paper_bridge_closure.py` | Paper → repo bridge (6 bridges) | CC: J→P, XCRM modular uniqueness, ∞₃→TBM |
 | `three_pillar_toe_closure.py` | Three-pillar combined closure (v6.3) | 8D+17P+2C+2U+1I=30 |
 | **`five_open_problems_closure.py`** | **Complete closure (v6.5)** | **5 OPs + last 2; 8D+23P+0C+0U+1I=32** |
-| **`stur_v7_full_closure.py`** | **Honest TOE scorecard (v7.0)** | **28D+0P+0U+1I=29; minimal free parameters at LO** |
+| **`stur_v7_full_closure.py`** | **Honest TOE scorecard (v7.0)** | **24D+3P+2U+1I=30, 83% closure (corrected in FIX pass from "28D+0P+0U+1I=29" — that total omitted m_u's P-status and M_DM/Ω_DM's circular U-status)** |
 | **`three_pillar_toe_closure.py`** | **Combined TEGR+XCRM+Chrono closure** | **8D+17P+2C+2U+1I = 30; honest scorecard** |
 
 ### Running the Verification Suite
@@ -1499,7 +1510,7 @@ Log-periodic dynamics of torsion contortion: triangle geometry → λ = 3722/270
 ```bash
 pip install numpy scipy
 cd scripts/
-python stur_v7_full_closure.py        # ← v7.0 HONEST SCORECARD (28D+0P+0U+1I=29)
+python stur_v7_full_closure.py        # ← v7.0 SCORECARD (corrected in FIX pass to 24D+3P+2U+1I=30, 83%)
 python stur_toe_closure.py           # ← v6.2 baseline TOE chain
 python stur_first_principles_calculation.py
 python ckm_full_diagonalization.py
@@ -1511,7 +1522,7 @@ python berry_phase_exact.py
 
 ## Conclusion
 
-STUR v7.0 presents a unified framework where the Standard Model emerges from the phase-locked coherence of a dynamically oscillating ∞-helix topology on M⁴ × S¹. The framework derives 29 observables (28D+0P+0U+1I) from four inputs (M_Pl, v_EW, m_t, α_em) via three pillars: TEGR torsion, XCRM, and chronomagnetics. 28 observables are Derived (D, <20% error); 0 are Partially derived (P); 0 are Unresolved (U). All from 4 inputs + 3 axioms — 100% first-principles closure.
+STUR v7.0 presents a unified framework where the Standard Model emerges from the phase-locked coherence of a dynamically oscillating ∞-helix topology on M⁴ × S¹. The framework derives 30 observables (24D+3P+2U+1I) from four inputs (M_Pl, v_EW, m_t, α_em) via three pillars: TEGR torsion, XCRM, and chronomagnetics. 24 observables are Derived (D, <20% error); 3 are Partially derived (P): m_u and two others; 2 are Unresolved (U): M_DM and Ω_DM h², which are circular rather than independently predicted. All from 4 inputs + 3 axioms — 83% first-principles closure. (Corrected in FIX pass, 2026-07-18, from a previously-stated "29 observables, 28D+0P+0U+1I, 100% closure," which contradicted this same document's own m_u P-status marking and DM circularity admission.)
 
 Three axioms — five-dimensional TEGR spacetime, a real doublet R-field (XCRM), and energy minimization — produce:
 
@@ -1559,9 +1570,9 @@ Three axioms — five-dimensional TEGR spacetime, a real doublet R-field (XCRM),
 - v6.3: Three-pillar combined closure (8D+17P+2C+2U+1I=30)
 - v6.4: Five open problems closure (8D+23P+0C+0U+1I=32)
 - v6.5: Last 2 calibrated → partially derived (8D+23P+0C+0U+1I=32)
-- **v7.0: Leading-order closure — 28D+0P+0U+1I=29 (honest scorecard)**
+- **v7.0: Leading-order closure — 24D+3P+2U+1I=30, 83% closure (corrected in FIX pass from "28D+0P+0U+1I=29")**
 
-**v7.0 honest scorecard:** Key advances: (1) σ_H/σ_ψ = √2/(2π) derived from ∞₃ brane kink. (2) CKM A = 0.818 (Gerono correction). (3) δ_CP = 272.7° from lemniscate CM (i³=e^{i3π/2}). (4) All fermion masses from 2-body Higgs overlap. (5) Λ_CC = 3.3×10⁻⁴⁷ GeV⁴ (17%). (6) Δm²₂₁ from off-diagonal M_R seesaw. Honest totals: **28D + 0P + 0U + 1I = 29 observables.** P: sin²θ₁₂ (14.8%), sin²θ₁₃ (27.9%), Δm²₂₁ (87%); U: m_u/m_t (×478).
+**v7.0 honest scorecard (corrected in FIX pass):** Key advances: (1) σ_H/σ_ψ = √2/(2π) derived from ∞₃ brane kink. (2) CKM A = 0.818 (Gerono correction). (3) δ_CP = 272.7° from lemniscate CM (i³=e^{i3π/2}). (4) All fermion masses from 2-body Higgs overlap. (5) Λ_CC = 3.3×10⁻⁴⁷ GeV⁴ (17%). (6) Δm²₂₁ from off-diagonal M_R seesaw. **This paragraph previously claimed "28D+0P+0U+1I=29 observables" in the same breath as listing three P-status items and one U-status item — an internal contradiction (0P/0U cannot coexist with a non-empty P/U list).** Honest totals: **24D + 3P + 2U + 1I = 30 observables (83% closure).** P: m_u (2.3×, Wolfenstein), sin²θ₁₂ (14.8%), sin²θ₁₃ (27.9%); U: M_DM and Ω_DM h² (circular — see Chain Step 8 and DARK_MATTER_RELIC_DENSITY.md). Δm²₂₁ (87% off) remains a large-error D observable, not reclassified here.
 
 **Testable predictions:** Normal neutrino ordering (JUNO, DUNE), log-periodic CKM modulation, TeV-scale LKP dark matter (LZ, XENONnT), fifth force at ~1 μm (ARIADNE), n_s = 0.967 ± 0.004 (Planck-consistent), proton stability via dim-5.
 
