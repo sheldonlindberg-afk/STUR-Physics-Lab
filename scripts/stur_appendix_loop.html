@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR Appendix C: Loop Calculations</title>
-<meta name="description" content="STUR v7.0 Helix Geometry TOE: Complete UV finiteness from ∞₃ geometric framework with ONE input (M_Planck). infinity helix geometry derivation of one-loop and two-loop calculations, KK mode sums, holonomy weights, and zeta regularization.">
+<meta name="description" content="STUR v7.0 Helix Geometry TOE: Complete UV finiteness from ∞₃ geometric framework with 4 inputs (M_Planck, v_EW, m_t, alpha_em). infinity helix geometry derivation of one-loop and two-loop calculations, KK mode sums, holonomy weights, and zeta regularization.">
 <meta property="og:title" content="STUR Loop Calculations">
 <meta property="og:description" content="Loop corrections and UV finiteness analysis in STUR.">
 <meta property="og:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/4.13.png">
@@ -53,7 +53,7 @@
 
 <header class="masthead">
   <h1>STUR Appendix C: Loop Calculations</h1>
-  <p class="subtitle">Complete Derivation of UV Finiteness from Z<sub>3</sub> Helix Geometry<br><em style="font-size:0.9em;color:var(--text-dim);">ONE input (M<sub>Planck</sub>) | ∞₃ geometric framework</em></p>
+  <p class="subtitle">Complete Derivation of UV Finiteness from Z<sub>3</sub> Helix Geometry<br><em style="font-size:0.9em;color:var(--text-dim);">4 inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>) | ∞₃ geometric framework</em></p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
     From <a href="stur_core_theory.html" style="color:var(--accent);">XCRM foundation</a> ·
     <a href="stur_quantum_gravity.html" style="color:var(--accent);">Quantum Gravity</a> ·
@@ -213,7 +213,7 @@
       <strong>\(\XCRM{N_{\rm eff}} = -149\)</strong> (fermion-dominated, from SM dof count [H.2.10e])<br>
       <strong>\(c_h = 1.35\)</strong> (holonomy coefficient from gauge kinetics [H.2.10h])<br>
       <strong>\(\|h\|^2 = 0.162\)</strong> (SM vacuum holonomy norm [H.2.10i])<br>
-      <strong>\(\lambda = 0.219\)</strong> (Cabibbo angle: 2.5% agreement with PDG 0.2245)
+      <strong>\(c_h\|h\|^2 = 0.219\)</strong> (product used in the moduli-stabilization formula below — not the physical Cabibbo angle; the site's canonical Cabibbo \(\lambda_{\rm Cabibbo} = 0.22543\), 0.03% from PDG, is derived separately in Appendix A/H)
     </p>
   </div>
 
@@ -425,12 +425,18 @@
 
   <h3>C.6.6 Numerical Estimate</h3>
 
-  <p>With \(\XCRM{L_X} \sim 10^{-17}\) m (\(M_{\rm KK} \sim 5\) TeV) and \(m \sim\) GeV:</p>
+  <p>With \(\XCRM{L_X} \sim 10^{-17}\) m (\(M_{\rm KK} = \hbar c/L_X \approx 19.7\) GeV) and \(m \sim\) GeV:</p>
 
   <div class="eq boxed" style="margin:1rem 0;">
-    \[\Quant{\Sigma} \sim \frac{\Pot{\lambda}}{192\pi^2} \cdot (5\text{ TeV})^3 \approx \Pot{\lambda} \cdot (0.7\text{ TeV})^3\]
+    \[\Quant{\Sigma} \sim \frac{\Pot{\lambda}}{192\pi^2} \cdot (19.7\text{ GeV})^3 \approx \Pot{\lambda} \cdot (2.8\text{ GeV})^3\]
     <div class="eq-label">(C.23) — Numerical one-loop estimate</div>
   </div>
+  <p style="color:var(--warning,#fbbf24);font-size:0.85rem;">
+    <strong>Note:</strong> this section uses \(L_X \sim 10^{-17}\) m as a benchmark, which is ~25 orders of magnitude smaller
+    than the \(L_X \approx 0.8\,\mu\text{m}\) value used elsewhere in the site (e.g. Appendix D, Casimir-holonomy balance).
+    This is a known, unresolved <em>L<sub>X</sub> scale ambiguity</em> — the numbers in this section should be read as an
+    illustrative UV-finiteness check at a benchmark scale, not as using the site's canonical compactification size.
+  </p>
 </section>
 
 <!-- SECTION: TWO-LOOP GRAVITON -->
@@ -539,21 +545,21 @@
   <h3>C.8.2 Effective Cutoff Formula</h3>
 
   <div class="eq law" style="margin:1rem 0;background:#000;border:3px solid var(--gold);padding:1.25rem;">
-    \[\boxed{\Quant{\Lambda_{\rm UV}^{\rm eff}} \sim \min\!\left(\frac{1}{\XCRM{L_X}}, M_{\rm Pl}\right) \sim M_{\rm KK} \sim 5\text{ TeV}}\]
+    \[\boxed{\Quant{\Lambda_{\rm UV}^{\rm eff}} \sim \min\!\left(\frac{1}{\XCRM{L_X}}, M_{\rm Pl}\right) \sim M_{\rm KK}}\]
     <div class="eq-label" style="color:var(--gold);">(C.30) — Effective UV cutoff</div>
   </div>
 
-  <p>For \(\XCRM{L_X} \sim 10^{-17}\) m:</p>
+  <p>For \(\XCRM{L_X} \sim 10^{-17}\) m (benchmark scale; see scale-ambiguity note above):</p>
 
   <div class="eq boxed" style="margin:1rem 0;">
-    \[\Quant{\Lambda_{\rm UV}^{\rm eff}} = \frac{\hbar c}{\XCRM{L_X}} \approx \frac{197\text{ MeV}\cdot\text{fm}}{10^{-2}\text{ fm}} \approx 20\text{ TeV}\]
+    \[\Quant{\Lambda_{\rm UV}^{\rm eff}} = \frac{\hbar c}{\XCRM{L_X}} \approx \frac{197\text{ MeV}\cdot\text{fm}}{10^{-2}\text{ fm}} \approx 19.7\text{ GeV}\]
     <div class="eq-label">(C.31) — Numerical cutoff estimate</div>
   </div>
 
   <h3>C.8.3 Scale Hierarchy</h3>
 
   <div class="eq boxed" style="margin:1rem 0;">
-    \[m_{\rm EW} \sim 100\text{ GeV} \ll M_{\rm KK} \sim 5\text{ TeV} \ll M_{\rm Pl} \sim 10^{19}\text{ GeV}\]
+    \[m_{\rm EW} \sim 100\text{ GeV} \sim M_{\rm KK} \sim 19.7\text{ GeV (at this benchmark } L_X) \ll M_{\rm Pl} \sim 10^{19}\text{ GeV}\]
     <div class="eq-label">(C.32) — Scale hierarchy in STUR</div>
   </div>
 
@@ -575,7 +581,7 @@
       <strong>\(c_h = 1.35\)</strong> — Holonomy coefficient [H.2.10h]<br>
       <strong>\(\|h\|^2 = 0.162\)</strong> — SM vacuum holonomy norm [H.2.10i]<br>
       <strong>\(\zeta(5) = 1.0369\)</strong> — Riemann zeta function value<br>
-      <strong>\(\lambda = 0.219\)</strong> — Cabibbo angle (2.5% from PDG 0.2245)
+      <strong>\(c_h\|h\|^2 = 0.219\)</strong> — product used in moduli-stabilization formula (not the physical Cabibbo angle, \(\lambda_{\rm Cabibbo} = 0.22543\), 0.03% from PDG)
     </p>
   </div>
 

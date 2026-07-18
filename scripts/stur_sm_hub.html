@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Standard Model Derivations — STUR Physics Lab (STUR TOE)</title>
-<meta name="description" content="STUR v7.0 TOE: 30 observables (29D+0P+0U+1I) from 3 axioms + M_Planck. All fermion masses to <2%, CKM 1.6–7.5%, PMNS all D-status (9.9–19.4%), CC at 10.8%, DM at 0.8%. F-theory UV completion. No free parameters.">
+<meta name="description" content="STUR v7.0 TOE: 30 observables (24D+3P+2U+1I, 83% closure) from 3 axioms + 4 inputs. Most fermion masses to <2%, CKM 0.03–13.4%, PMNS mostly D-status (10–19.4%), CC at 7–10.8%, DM mass & relic density unresolved. F-theory UV completion. Zero dimensionless free parameters.">
 <meta property="og:title" content="STUR Standard Model — Particles & Forces">
 <meta property="og:description" content="How STUR derives the Standard Model: gauge groups, fermion generations, and mass hierarchies.">
 <meta property="og:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/4.13.png">
@@ -77,7 +77,7 @@
 
   <div class="hub-header">
     <h1>Standard Model Derivations (STUR TOE)</h1>
-    <p><strong>Complete Theory of Everything (v7.0):</strong> 30 observables (29D+0P+0U+1I) from <strong style="color:#4ade80;">3 axioms + M<sub>Planck</sub></strong>. All fermion masses to &lt;2%. No free parameters.</p>
+    <p><strong>Theory of Everything candidate (v7.0):</strong> 30 observables (24D+3P+2U+1I, 83% closure) from <strong style="color:#4ade80;">3 axioms + 4 inputs (M<sub>Pl</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>)</strong>. Most fermion masses to &lt;2%. Zero dimensionless free parameters.</p>
     <p style="margin-top:12px;font-size:0.9rem;">
       <span style="color:#4ade80;">3 generations</span> (topological) ·
       <span style="color:#4ade80;">Gauge group</span> (holonomy) ·
@@ -93,11 +93,11 @@
 
   <!-- WHAT'S DERIVED (STUR TOE) -->
   <section class="hub-section">
-    <div class="hub-section-title">v7.0 TOE Closure: 3 Axioms + M<sub>Planck</sub> → 29 Observables</div>
+    <div class="hub-section-title">v7.0: 3 Axioms + 4 Inputs → 30 Observables (83% Closure)</div>
 
     <!-- Fundamental derivation sources -->
     <div style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);border-radius:12px;padding:16px;margin-bottom:16px;">
-      <h4 style="color:#4ade80;margin:0 0 12px 0;font-size:0.9rem;">FROM 3 AXIOMS + M<sub>Planck</sub> (v7.0 — TOE CLOSURE):</h4>
+      <h4 style="color:#4ade80;margin:0 0 12px 0;font-size:0.9rem;">FROM 3 AXIOMS + 4 INPUTS (v7.0 — 83% CLOSURE):</h4>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
         <div>
           <strong style="color:#4ade80;">3 Generations</strong>
@@ -108,8 +108,8 @@
           <span style="color:var(--text-tertiary);font-size:0.8rem;display:block;">Holonomy: SU(3)×SU(2)×U(1)</span>
         </div>
         <div>
-          <strong style="color:#4ade80;">All 9 Masses (&lt;2%)</strong>
-          <span style="color:var(--text-tertiary);font-size:0.8rem;display:block;">Overlap integrals with f_tail, f_l, f_u corrections</span>
+          <strong style="color:#4ade80;">7 of 9 Masses (&lt;2%)</strong>
+          <span style="color:var(--text-tertiary);font-size:0.8rem;display:block;">Overlap integrals with f_tail, f_l, f_u corrections; m_u (26%) &amp; m_c/m_t (29%) partial</span>
         </div>
         <div>
           <strong style="color:#4ade80;">All Mixing</strong>
@@ -121,21 +121,21 @@
     <div class="derived-box">
       <span class="derived-item" style="background:rgba(74,222,128,0.25);border-color:#4ade80;font-weight:600;">GAUGE GROUP (holonomy)</span>
       <span class="derived-item" style="background:rgba(74,222,128,0.25);border-color:#4ade80;font-weight:600;">3 GENERATIONS (topological)</span>
-      <span class="derived-item" style="background:rgba(74,222,128,0.25);border-color:#4ade80;font-weight:600;">ALL 9 MASSES (&lt;2%)</span>
-      <span class="derived-item" style="background:rgba(74,222,128,0.25);border-color:#4ade80;font-weight:600;">CKM (1.6–7.5%) / PMNS (all D-status, 9.9–19.4%)</span>
-      <span class="derived-item">κ = 0.0263 (curvature, not CKM κ=2.52)</span>
+      <span class="derived-item" style="background:rgba(74,222,128,0.25);border-color:#4ade80;font-weight:600;">7 OF 9 MASSES (&lt;2%)</span>
+      <span class="derived-item" style="background:rgba(74,222,128,0.25);border-color:#4ade80;font-weight:600;">CKM (0.03–13.4%) / PMNS (mostly D-status, 10–19.4%)</span>
+      <span class="derived-item">κ_curv = 0.0263 (curvature parameter, distinct from CKM κ_q=2.417/κ_l=2.367)</span>
       <span class="derived-item">λ = 0.1195 (Higgs quartic at M_GUT)</span>
-      <span class="derived-item">η̄ = 0.3742 (derived, 7.5%)</span>
-      <span class="derived-item">Wolfenstein: λ=0.22871 (1.6%), A=0.6545 (21% — NLO needed)</span>
-      <span class="derived-item">ρ̄ = 0.132, η̄ = 0.3742</span>
-      <span class="derived-item">δ_CKM = 68.3° (4.4%)</span>
+      <span class="derived-item">η̄ = 0.3947 (derived, 13.4%)</span>
+      <span class="derived-item">Wolfenstein: λ=0.22543 (0.03%), A=0.814 (1.45%, NLO)</span>
+      <span class="derived-item">ρ̄ = 0.132, η̄ = 0.3947</span>
+      <span class="derived-item">δ_CKM = 68.1° (4.2%)</span>
       <span class="derived-item">θ_QCD = 0 (∞₃ parity)</span>
       <span class="derived-item">m_H = 125.09 GeV (derived)</span>
       <span class="derived-item">M_GUT = 2.1×10¹⁶ GeV</span>
       <span class="derived-item">τ_p ~ 10³⁶ yr (KK-parity)</span>
     </div>
     <p style="font-size:0.85rem;color:var(--text-tertiary);margin-top:8px;">
-      <strong style="color:#4ade80;">v7.0 TOE closure.</strong> 29 observables computed from 3 axioms + M<sub>Planck</sub> — no fits, no tuning, no free dimensionless parameters.
+      <strong style="color:#4ade80;">v7.0: 83% closure.</strong> 30 observables (24D+3P+2U+1I) computed from 3 axioms + 4 inputs — no fits, no tuning, zero dimensionless free parameters; 2 observables (DM mass &amp; relic density) remain unresolved.
     </p>
   </section>
 
@@ -180,13 +180,13 @@
       <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:10px;">
         <div style="background:rgba(96,165,250,0.1);padding:8px 12px;border-radius:6px;">
           <span style="color:var(--text-tertiary);font-size:0.75rem;">λ (Cabibbo) — derived</span><br>
-          <span style="color:#4ade80;font-weight:600;">0.229</span>
-          <span style="color:var(--text-tertiary);font-size:0.75rem;"> vs 0.2253 (exp) — 1.6%</span>
+          <span style="color:#4ade80;font-weight:600;">0.22543</span>
+          <span style="color:var(--text-tertiary);font-size:0.75rem;"> vs 0.2253 (exp) — 0.03%</span>
         </div>
         <div style="background:rgba(96,165,250,0.1);padding:8px 12px;border-radius:6px;">
-          <span style="color:var(--text-tertiary);font-size:0.75rem;">A — derived (NLO pending)</span><br>
-          <span style="color:#fbbf24;font-weight:600;">0.6545</span>
-          <span style="color:var(--text-tertiary);font-size:0.75rem;"> vs 0.826 (exp, 21% — lemniscate correction needed)</span>
+          <span style="color:var(--text-tertiary);font-size:0.75rem;">A — derived (NLO)</span><br>
+          <span style="color:#4ade80;font-weight:600;">0.814</span>
+          <span style="color:var(--text-tertiary);font-size:0.75rem;"> vs 0.826 (exp) — 1.45%</span>
         </div>
         <div style="background:rgba(96,165,250,0.1);padding:8px 12px;border-radius:6px;">
           <span style="color:var(--text-tertiary);font-size:0.75rem;">ρ̄ — derived</span><br>
@@ -195,13 +195,13 @@
         </div>
         <div style="background:rgba(96,165,250,0.1);padding:8px 12px;border-radius:6px;">
           <span style="color:var(--text-tertiary);font-size:0.75rem;">η̄ — derived</span><br>
-          <span style="color:#4ade80;font-weight:600;">0.3742</span>
-          <span style="color:var(--text-tertiary);font-size:0.75rem;"> vs 0.348 (exp, 7.5%)</span>
+          <span style="color:#4ade80;font-weight:600;">0.3947</span>
+          <span style="color:var(--text-tertiary);font-size:0.75rem;"> vs 0.348 (exp, 13.4%)</span>
         </div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;">
         <div style="background:rgba(74,222,128,0.1);padding:8px 12px;border-radius:6px;border:1px solid rgba(74,222,128,0.3);">
-          <span style="color:var(--text-tertiary);font-size:0.75rem;">κ (curvature)</span><br>
+          <span style="color:var(--text-tertiary);font-size:0.75rem;">κ (curvature, distinct from CKM κ_q/κ_l)</span><br>
           <span style="color:#4ade80;font-weight:600;">0.0263</span>
         </div>
         <div style="background:rgba(74,222,128,0.1);padding:8px 12px;border-radius:6px;border:1px solid rgba(74,222,128,0.3);">
@@ -210,11 +210,11 @@
         </div>
         <div style="background:rgba(74,222,128,0.1);padding:8px 12px;border-radius:6px;border:1px solid rgba(74,222,128,0.3);">
           <span style="color:var(--text-tertiary);font-size:0.75rem;">η̄ (CP phase)</span><br>
-          <span style="color:#4ade80;font-weight:600;">0.3742</span>
+          <span style="color:#4ade80;font-weight:600;">0.3947</span>
         </div>
       </div>
       <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.6;margin:0;">
-        CP-violating phase: $\quad \pred{\delta_{\text{CKM}} = 68.3°}$ vs $\obs{65.4° \pm 2.6°}$ (exp) — 4.4% · <a href="stur_ckm_derivation.html" style="color:var(--hub-color);">derivation →</a>
+        CP-violating phase: $\quad \pred{\delta_{\text{CKM}} = 68.1°}$ vs $\obs{65.4° \pm 2.6°}$ (exp) — 4.2% · <a href="stur_ckm_derivation.html" style="color:var(--hub-color);">derivation →</a>
       </p>
     </div>
 
@@ -310,12 +310,12 @@
       </a>
       <a href="stur_fermion_masses.html" class="hub-card">
         <div class="title">All Fermion Masses</div>
-        <div class="desc">All 9 charged fermion masses to &lt;2% with f_tail, f_l, f_u^node corrections</div>
-        <span class="tag">9 Masses</span>
+        <div class="desc">7 of 9 charged fermion masses to &lt;2% with f_tail, f_l, f_u^node corrections; m_u (26%) and m_c/m_t (29%) partially derived</div>
+        <span class="tag">7/9 Masses &lt;2%</span>
       </a>
       <a href="stur_neutrino_derivation.html" class="hub-card">
         <div class="title">Neutrino Masses</div>
-        <div class="desc">Seesaw from ∞₃ holonomy: Δm²₃₁ (2.3%), Δm²₂₁ = 6.92×10⁻⁵ eV² (8.1% — NLO pseudo-Dirac seesaw), normal ordering predicted</div>
+        <div class="desc">Seesaw from ∞₃ holonomy: Δm²₃₁ (2.3%), Δm²₂₁ = 6.92×10⁻⁵ eV² (8% — NLO pseudo-Dirac seesaw), normal ordering predicted</div>
       </a>
     </div>
   </section>
@@ -330,12 +330,12 @@
       </a>
       <a href="stur_ckm_numerical.html" class="hub-card">
         <div class="title">CKM Matrix (Numerical STUR)</div>
-        <div class="desc">Wolfenstein: λ=0.22871 (1.6%), A=0.6545 (21% — NLO needed), ρ̄=0.132, η̄=0.3742 (7.5%) — all 9 CKM elements 1.6–7.5%</div>
-        <span class="tag">δ = 68.3°</span>
+        <div class="desc">Wolfenstein: λ=0.22543 (0.03%), A=0.814 (1.45%, NLO), ρ̄=0.132, η̄=0.3947 (13.4%) — all 9 CKM elements span 0.03–13.4%</div>
+        <span class="tag">δ = 68.1°</span>
       </a>
       <a href="stur_pmns_numerical.html" class="hub-card">
         <div class="title">PMNS Matrix</div>
-        <div class="desc">All 6 PMNS parameters: sin²θ₁₂ (18.9%), sin²θ₂₃ (19.4%), sin²θ₁₃ (9.9%), δ_CP = 272.8° (STUR pred.), Δm²₃₁ (2.3%)</div>
+        <div class="desc">6 PMNS parameters: sin²θ₁₂ (19%), sin²θ₂₃ (19.4%), sin²θ₁₃ (10%), δ_CP = 272.8° (38.5%, partial), Δm²₃₁ (2.3%)</div>
         <span class="tag">Normal ν</span>
       </a>
       <a href="stur_cp_derivation.html" class="hub-card">
@@ -371,19 +371,19 @@
     <div class="hub-section-title">STUR TOE: The Complete Picture</div>
     <div style="background:linear-gradient(135deg,rgba(74,222,128,0.1) 0%,rgba(0,0,0,0.3) 100%);padding:20px;border-radius:12px;border:1px solid rgba(74,222,128,0.2);">
       <p style="color:var(--text-secondary);line-height:1.7;margin:0 0 12px 0;">
-        <strong style="color:#4ade80;font-size:1.1rem;">v7.0 TOE Closure:</strong> 29 observables <strong style="color:var(--hub-color);">derived</strong> from 3 axioms + <strong>M<sub>Planck</sub></strong>. The entire Standard Model emerges with no free dimensionless parameters.
+        <strong style="color:#4ade80;font-size:1.1rem;">v7.0: 83% Closure:</strong> 30 observables (24D+3P+2U+1I) <strong style="color:var(--hub-color);">derived or partially derived</strong> from 3 axioms + 4 inputs. Most of the Standard Model emerges with zero dimensionless free parameters; DM mass and relic density remain unresolved.
       </p>
       <ul style="color:var(--text-secondary);line-height:1.8;margin:0 0 16px 0;padding-left:20px;">
         <li><strong style="color:#4ade80;">Gauge group (holonomy):</strong> $\text{SU}(3)_C \times \text{SU}(2)_L \times \text{U}(1)_Y$ from ∞-helix holonomy on M<sup>5</sup></li>
         <li><strong style="color:#4ade80;">3 generations (topological):</strong> $\pi_1(S^1/\mathbb{Z}_3) = \mathbb{Z}_3$ — uniquely 3 fixed points</li>
-        <li><strong style="color:#4ade80;">All 9 fermion masses (&lt;2%):</strong> $y_f = \int \psi_L^\dagger H \psi_R \, d^5x$ with σ_H/σ_ψ = 0.2251 (∞₃ brane kink; v7.0: f_tail/f_ℓ/f_u^node removed)</li>
+        <li><strong style="color:#4ade80;">7 of 9 fermion masses (&lt;2%):</strong> $y_f = \int \psi_L^\dagger H \psi_R \, d^5x$ with σ_H/σ_ψ = 0.2251 (∞₃ brane kink; v7.0: f_tail/f_ℓ/f_u^node removed); m_u and m_c/m_t partially derived (&gt;20%)</li>
         <li><strong style="color:#4ade80;">All mixing angles (∞-helix phases):</strong> CKM/PMNS from $e^{2\pi i k/3}$ phase misalignment</li>
-        <li><strong style="color:#4ade80;">CP violation:</strong> $\delta_{\text{CKM}} = 68.3°$ (3.9%) from geometric phase; $\delta_{\text{CP}}^{\text{PMNS}} = 272.8°$ (lemniscate CM prediction)</li>
+        <li><strong style="color:#4ade80;">CP violation:</strong> $\delta_{\text{CKM}} = 68.1°$ (4.2%) from geometric phase; $\delta_{\text{CP}}^{\text{PMNS}} = 272.8°$ (38.5%, partially derived — lemniscate CM prediction)</li>
         <li><strong style="color:#4ade80;">Higgs mass:</strong> $m_H = 125.09$ GeV from $\lambda = g^2_{\text{GUT}}/3$ boundary condition</li>
       </ul>
       <div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:12px;margin-top:12px;">
         <p style="color:#f59e0b;font-size:0.9rem;margin:0;font-weight:600;">
-          30 observables (29D+0P+0U+1I) from 3 axioms + M_Planck. F-theory CY₄ UV completion on (P²×P¹)/∞₃. Dynamic infinity helix at all scales.
+          30 observables (24D+3P+2U+1I, 83% closure) from 3 axioms + 4 inputs. F-theory CY₄ UV completion on (P²×P¹)/∞₃. Dynamic infinity helix at all scales.
         </p>
         <p style="color:var(--text-tertiary);font-size:0.8rem;margin:8px 0 0 0;">
           See: <a href="../DERIVATION_CHAIN_INFINITY.md" style="color:var(--hub-color);">Complete derivation chain</a> |

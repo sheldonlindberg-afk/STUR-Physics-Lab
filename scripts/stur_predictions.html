@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR v7.0 Predictions — Falsifiable Tests from ∞₃ Helix Geometry</title>
-<meta name="description" content="STUR v7.0: 30 observables (29D+0P+0U+1I) from 3 axioms + M_Planck. Cabibbo angle λ = 0.229 = exp[−κ²/4], full CKM and PMNS matrices, 9 fermion masses, cosmological constant, dark matter relic density. 8 falsifiable predictions testable by near-future experiments (JUNO, DUNE, T2HK, LZ, ARIADNE, Hyper-K, LHCb, CMB-S4).">
+<meta name="description" content="STUR v7.0: 30 observables (24D+3P+2U+1I, 83% closure) from 3 axioms + 4 inputs. Cabibbo angle λ = 0.22543, full CKM and PMNS mixing angles, fermion mass ratios, cosmological constant, dark matter relic density (U-status). 8 falsifiable predictions testable by near-future experiments (JUNO, DUNE, T2HK, LZ, ARIADNE, Hyper-K, LHCb, CMB-S4).">
 <meta property="og:title" content="STUR v7.0 Predictions — Falsifiable Tests">
 <meta property="og:description" content="30 observables from 3 axioms. 8 falsifiable predictions testable by near-future experiments.">
 <meta property="og:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/4.13.png">
@@ -484,11 +484,11 @@
 
 <!-- NUMERICAL PREDICTIONS WITH ERROR BARS -->
 <section class="section" id="numerical-predictions" style="border:2px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.06) 0%, rgba(74,222,128,0.02) 100%);">
-  <h2 style="color:var(--success);">v7.0 Results: 29 Observables from 3 Axioms</h2>
+  <h2 style="color:var(--success);">v7.0 Results: 30 Observables from 3 Axioms (83% Closure)</h2>
 
   <p>
-    STUR v7.0 derives <strong>30 observables (29 derived)</strong> from 3 axioms (infinity helix geometry, XCRM substrate,
-    chronomagnetic cycle) plus M<sub>Planck</sub> as the sole dimensionful input.
+    STUR v7.0 tracks <strong>30 observables (24D+3P+2U+1I)</strong> from 3 axioms (infinity helix geometry, XCRM substrate,
+    chronomagnetic cycle) plus 4 dimensionful inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>).
     The Cabibbo angle is derived as λ = exp[−κ²/4] (pairwise overlap between adjacent ∞₃ sheets).
     Fermion masses use additional correction factors (f<sub>tail</sub>, f<sub>ℓ</sub>, f<sub>u</sub><sup>node</sup>)
     arising from wavefunction boundary effects.
@@ -509,12 +509,12 @@
         <tr>
           <td>Helix wavenumber κ</td>
           <td style="color:var(--gold);font-weight:600;">2.430</td>
-          <td>κ = √(4 α<sub>eff</sub> ln(1/λ))</td>
+          <td>κ = √(4 α<sub>eff</sub> ln(1/λ)); note the site's localization parameters are sector-dependent, κ<sub>q</sub> = 2.417, κ<sub>ℓ</sub> = 2.367 (Appendix A)</td>
         </tr>
         <tr>
-          <td>Cabibbo angle λ</td>
+          <td>Cabibbo angle λ (this formula)</td>
           <td style="color:var(--success);font-weight:600;">0.229</td>
-          <td>exp[−κ²/4] (1.6% from PDG 0.2257)</td>
+          <td>exp[−κ²/4] (1.6% from PDG 0.2257); note the site's canonical RG-based value is λ = 0.22543 (0.03%) — the two derivations are not yet reconciled</td>
         </tr>
         <tr>
           <td>Chronomagnetic ratio λ<sub>chrono</sub></td>
@@ -526,14 +526,16 @@
   </div>
 
   <div class="block" style="margin:1rem 0;border-color:var(--success);background:rgba(74,222,128,0.06);padding:0.75rem 1rem;">
-    <div class="title" style="color:var(--success);">v7.0 Scorecard Summary — 29D + 0P + 0U + 1I = 30 — 100% closure</div>
+    <div class="title" style="color:var(--success);">v7.0 Scorecard Summary — 24D + 3P + 2U + 1I = 30 — 83% closure</div>
     <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
-      <strong style="color:var(--success);">29 Derived (D):</strong> All 29 non-input observables fully derived &lt;20% from PDG &mdash; sin²θ₁₃ = 0.0242 (9.9%) from lemniscate CM,
-      m_u = 2.44 MeV (13%) from Z³ off-diagonal seesaw m_t|V_ub|², Δm²₂₁ = 6.92×10⁻⁵ eV² (8%) from pseudo-Dirac λ_l²/2×Δm²₃₁<br>
-      <strong style="color:var(--accent);">Key results:</strong> λ_W = 0.22543 (0.03%), all 9 CKM elements, full PMNS (6 parameters),
-      Δm²₃₁ (2.3%), Δm²₂₁ (8%), δ<sub>CP</sub> = 272.8°, Ω_DM h² = 0.1200 (0.0%), Λ_CC (10.8%)<br>
-      <strong style="color:var(--gold);">Cosmology:</strong> Ω<sub>DM</sub>h² = 0.1200 (0.4σ), Λ<sub>residual</sub> = 3.15 × 10⁻⁴⁷ GeV⁴ (10.8%, &lt;0.5σ)<br>
-      <strong style="color:var(--warning);">1 Input (I):</strong> M<sub>Planck</sub> = 1.22 × 10¹⁹ GeV — the sole dimensional input
+      <strong style="color:var(--success);">24 Derived (D):</strong> D-status observables reach &lt;20% from PDG &mdash; sin²θ₁₃ = 0.0242 (9.9%) from lemniscate CM,
+      Δm²₂₁ = 6.92×10⁻⁵ eV² (8%) from pseudo-Dirac λ_l²/2×Δm²₃₁<br>
+      <strong style="color:var(--warning,#fbbf24);">3 Predicted-mechanism (P):</strong> m_u = 2.71 MeV (26%), m_c/m_t (29%), δ<sub>CP</sub> = 272.8° (38.5%) — mechanism identified, precision pending<br>
+      <strong style="color:var(--error);">2 Unresolved (U):</strong> M<sub>DM</sub> = 949 GeV and Ω<sub>DM</sub>h² = 0.1200 — no independent derivation exists (tautological/circular, see <code>stur_toe_closure.py</code> Part 9)<br>
+      <strong style="color:var(--accent);">Key results:</strong> λ_W = 0.22543 (0.03%), CKM elements, PMNS mixing angles (D-status),
+      Δm²₃₁ (2.3%), Δm²₂₁ (8%), Λ_CC (7-10.8%)<br>
+      <strong style="color:var(--gold);">Cosmology:</strong> Λ<sub>residual</sub> = 3.15 × 10⁻⁴⁷ GeV⁴ (7-10.8%)<br>
+      <strong style="color:var(--warning);">4 Inputs (I):</strong> M<sub>Planck</sub> = 1.2209 × 10¹⁹ GeV, v<sub>EW</sub> = 246.22 GeV, m<sub>t</sub> = 172.57 GeV, α<sub>em</sub> = 1/137.036
     </p>
   </div>
 
@@ -614,7 +616,7 @@
         <td>δ<sub>CP</sub></td>
         <td style="color:var(--gold);font-weight:600;">272.8°</td>
         <td>197° ± 25° (T2K/NOvA)</td>
-        <td style="color:var(--warning);">STUR predicts 272.8°; exp. central 197°</td>
+        <td style="color:var(--warning,#fbbf24);">38.5% deviation (P-status — mechanism identified, precision pending)</td>
       </tr>
       <tr>
         <td>Δm²<sub>31</sub></td>
@@ -655,10 +657,10 @@
     </thead>
     <tbody>
       <tr>
-        <td>All 9 charged fermion masses</td>
+        <td>9 charged fermion mass ratios</td>
         <td style="color:var(--success);">Derived (with f<sub>tail</sub>, f<sub>ℓ</sub>, f<sub>u</sub><sup>node</sup>)</td>
         <td>PDG values</td>
-        <td style="color:var(--success);">&lt;2% each</td>
+        <td style="color:var(--warning,#fbbf24);">10.4-29% (m<sub>c</sub>/m<sub>t</sub>, m<sub>u</sub> are P-status)</td>
       </tr>
       <tr>
         <td>N<sub>gen</sub></td>
@@ -724,15 +726,15 @@
       </tr>
       <tr>
         <td>DM mass M</td>
-        <td style="color:var(--gold);font-weight:600;">949 GeV</td>
+        <td style="color:var(--warning,#fbbf24);font-weight:600;">949 GeV (U-status)</td>
         <td>—</td>
-        <td style="color:var(--accent);">Testable (LZ, XENONnT)</td>
+        <td style="color:var(--accent);">Testable (LZ, XENONnT); no independent derivation</td>
       </tr>
       <tr>
         <td>Ω<sub>DM</sub>h²</td>
-        <td style="color:var(--success);">0.119</td>
+        <td style="color:var(--warning,#fbbf24);">0.1200 (U-status)</td>
         <td>0.1200 ± 0.0012 (Planck)</td>
-        <td style="color:var(--success);">0.4σ</td>
+        <td style="color:var(--warning,#fbbf24);">Tautological — matches by construction</td>
       </tr>
       <tr>
         <td>σ<sub>SI</sub> (DM–nucleon)</td>
@@ -770,12 +772,12 @@
     </p>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
       <strong>PMNS:</strong> Neutrino mixing arises from the same ∞-helix geometry with Majorana-type mass generation.
-      All 6 PMNS parameters (3 angles, 1 phase, 2 mass-squared differences) are derived; see
+      3 mixing angles and 2 mass-squared differences are D-status (9.9-19.4%); δ<sub>CP</sub> is P-status (38.5%); see
       <a href="stur_pmns_numerical.html" style="color:var(--accent);">PMNS numerical derivation</a>.
     </p>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-      <strong>Fermion masses:</strong> All 9 charged fermion masses derived to &lt;2% using wavefunction overlap integrals
-      with correction factors f<sub>tail</sub> (boundary effects), f<sub>ℓ</sub> (lepton sector), and f<sub>u</sub><sup>node</sup> (up-quark nodal structure).
+      <strong>Fermion masses:</strong> 9 charged fermion mass ratios derived to 10.4-29% deviation using wavefunction overlap integrals
+      with correction factors f<sub>tail</sub> (boundary effects), f<sub>ℓ</sub> (lepton sector), and f<sub>u</sub><sup>node</sup> (up-quark nodal structure); m<sub>c</sub>/m<sub>t</sub> and m<sub>u</sub> are P-status.
       See <a href="../ABSOLUTE_MASS_DERIVATION.md" style="color:var(--accent);">ABSOLUTE_MASS_DERIVATION.md</a>.
     </p>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
@@ -1021,10 +1023,10 @@
   <div class="block" style="margin:1rem 0;border-color:var(--gold);background:rgba(251,191,36,0.1);padding:1rem;">
     <div class="title" style="color:var(--gold);">v7.0 Derivation Status</div>
     <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
-      <strong>30 observables (29D+0P+0U+1I)</strong> from 3 axioms + M<sub>Planck</sub>:
-      29 derived, 1 input, CC at 10.8% (&lt;0.5σ).
-      Full CKM (1.6–7.5%), full PMNS (all 6 parameters), all 9 fermion masses (&lt;2%),
-      cosmological constant, dark matter relic density Ω<sub>DM</sub>h² = 0.1200 (0.4σ).
+      <strong>30 observables (24D+3P+2U+1I, 83% closure)</strong> from 3 axioms + 4 inputs:
+      24 derived, 3 predicted-mechanism, 2 unresolved, 4 inputs. CC at 7-10.8%.
+      CKM (0.03–4.2%), PMNS mixing angles D-status (&delta;<sub>CP</sub> P-status, 38.5%), fermion mass ratios (10.4-29%),
+      cosmological constant derived, dark matter relic density Ω<sub>DM</sub>h² = 0.1200 (U-status, tautological).
     </p>
   </div>
 
@@ -1115,7 +1117,8 @@
     <div class="block" style="border-color:var(--gold);background:rgba(251,191,36,0.04);">
       <div class="title" style="color:var(--gold);">Dark Matter (4)</div>
       <p style="margin:0.5rem 0;color:var(--text-secondary);font-size:0.85rem;line-height:1.6;">
-        The lightest Kaluza-Klein particle B<sup>(1)</sup> at M = 949 GeV with Ω<sub>DM</sub>h² = 0.1200 (0.0% from Planck).
+        The lightest Kaluza-Klein particle B<sup>(1)</sup> at M = 949 GeV (U-status — extensively searched but no independent
+        derivation exists) with Ω<sub>DM</sub>h² = 0.1200 (U-status — matches Planck by construction, tautological).
         The spin-independent cross section σ<sub>SI</sub> ~ 10⁻⁴⁷ cm² lies just below current LZ limits
         and will be probed by next-generation direct detection experiments.
         See <a href="../DARK_MATTER_RELIC_DENSITY.md" style="color:var(--accent);">DARK_MATTER_RELIC_DENSITY.md</a>.

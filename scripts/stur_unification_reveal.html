@@ -699,7 +699,7 @@
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
                 <strong>Framework:</strong> STUR v7.0 Helix Geometry TOE |
-                <strong>Input:</strong> ONE (M<sub>Planck</sub>) |
+                <strong>Inputs:</strong> Four (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>) |
                 <strong>Free Parameters:</strong> ZERO |
                 <strong>Problems Solved:</strong> 25+ |
                 <strong>Predictions:</strong> 21 |
@@ -757,8 +757,8 @@ function generateReport() {
     const report = {
         meta: {
             framework: 'STUR v7.0 Helix Geometry TOE',
-            input: 'ONE (M_Planck)',
-            freeParameters: 'ZERO',
+            inputs: 'Four (M_Planck, v_EW, m_t, alpha_em)',
+            freeParameters: 'ZERO dimensionless',
             generated: new Date().toISOString(),
             totalPages: 34,
             problemsSolved: '25+',
@@ -769,7 +769,7 @@ function generateReport() {
         masterAction: 'S[R,g,X] = ∫d⁴x dX √(-g)[½|∇R|² - V(|R|) + χ(R₁∂_XR₂ - R₂∂_XR₁) + α|R|𝕋 + ℒ_matter]',
         z3BoundaryCondition: 'R(X + L_X) = R_{2π/3} · R(X)',
         universalPrediction: 'V(ΔL) = V₀ exp(-ΔL²/ℓ²_coh)',
-        singleInput: 'M_Planck (all other scales derived)',
+        inputs: 'M_Planck, v_EW, m_t, alpha_em (most other scales derived; DM mass & relic density unresolved)',
         freeParameters: 'ZERO (L_X dynamically stabilized by ∞-helix holonomy)',
         problemCategories: {
             particlePhysics: 8,
