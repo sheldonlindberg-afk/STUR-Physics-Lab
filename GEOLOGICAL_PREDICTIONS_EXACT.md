@@ -126,8 +126,10 @@ For ω = 2π²:
 Consecutive phase-lock epochs are spaced by the chronomagnetic ratio:
 
 ```
-t_{n+1} / t_n = exp(π / ω) = exp(1/(2π)) = e^{1/(2π)} = 1.1696   [exact, ω = 2π²]
-               ≈ 1.1694                                             [ω = ω_triangle]
+t_{n+1} / t_n = exp(π / ω) = exp(1/(2π)) = e^{1/(2π)} = 1.1725   [exact, ω = 2π²;
+               corrected — independently verified via python3: exp(1/(2π)) = 1.17252,
+               not the previously stated 1.1696, an arithmetic error of ~0.25%]
+               ≈ 1.1730                                             [ω = ω_triangle]
 ```
 
 This means phase-lock epochs are spaced by a factor of ~1.17 in lookback time, i.e., each
@@ -155,7 +157,7 @@ This corresponds to ~15.9% of a decade in log-time between consecutive phase-loc
 Even without fixing t_c and t₀, the framework makes a **parameter-free prediction**:
 
 > **Major coherence events should cluster at times forming a geometric sequence with ratio
-> e^{1/(2π)} ≈ 1.1696.**
+> e^{1/(2π)} ≈ 1.1725.**
 
 If major extinction events, magnetic reversals, and climate transitions are analyzed for
 log-time clustering, the chronomagnetic prediction is that they should be spaced by factors
@@ -167,16 +169,16 @@ require knowing the absolute phase-lock epochs.
 ## 4. Sample Computation: Phase-Lock Windows Near the Present
 
 Assuming the most recent phase-lock occurred N million years ago (unknown without calibration),
-the next predicted phase-lock is N × 1.1696 Ma ago, the one before that was N / 1.1696 Ma
+the next predicted phase-lock is N × 1.1725 Ma ago, the one before that was N / 1.1725 Ma
 ago.
 
 For reference: if we assume the Brunhes-Matuyama reversal (0.773 Ma) was near a phase-lock
 epoch, the predicted spacing gives neighboring epochs at:
 
 ```
-t_{prev} = 0.773 / 1.1696 = 0.661 Ma     (0.661 Ma ago)
-t_{next} = 0.773 × 1.1696 = 0.904 Ma     (0.904 Ma ago)
-t_{next+1} = 0.904 × 1.1696 = 1.058 Ma  (1.058 Ma ago)
+t_{prev} = 0.773 / 1.1725 = 0.659 Ma     (0.659 Ma ago)
+t_{next} = 0.773 × 1.1725 = 0.906 Ma     (0.906 Ma ago)
+t_{next+1} = 0.906 × 1.1725 = 1.063 Ma  (1.063 Ma ago)
 ```
 
 These are predictions conditional on the Brunhes-Matuyama being a phase-lock epoch —

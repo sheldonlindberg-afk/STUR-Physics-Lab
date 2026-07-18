@@ -626,6 +626,16 @@ For Gaussian fluctuations δθ with variance σ² = ⟨δθ²⟩:
 └─────────────────────────────────────────────────────────────────┘
 ```
 
+**Honesty note:** this "complete derivation" is the last of several attempts in this
+document (§5.4 gave 0.8, "too large"; §7.7 gave 1.13, "still too large"; §8.4 divided
+by C₂ to get 0.38, "close to 0.33" but not exact; §9.1 finally reaches 0.33 by
+choosing m_θL_X ~ 1, a loosely-justified O(1) input selected so the numerator equals
+≈1). The m_θL_X ~ 1 choice is what makes the numerator ≈1, which is what makes
+1/C₂(SU(3)) = 1/3 come out to the target 0.33 once divided by the (separately,
+correctly derived) Casimir. This is a parameter selected to hit a known target, not
+an independently predicted value — see §1's own admission that "the thermal
+fluctuation estimate gives ~0.1, not 0.33."
+
 ---
 
 ## 11. Assumptions Required
@@ -660,9 +670,13 @@ The value 0.33 depends on:
 Starting from the Wilson line formalism, we showed:
 
 1. The holonomy W = exp(iθ) has vacuum value θ₀ = 2π/3 (∞₃)
-2. Quantum fluctuations give ⟨δθ²⟩_naive ~ 1 rad²
+2. Quantum fluctuations give ⟨δθ²⟩_naive ~ 1 rad² (§9.1's specific choice of
+   m_θL_X ~ 1 is what makes this numerator ≈1; see §10.4 honesty note — earlier
+   attempts in §5.4 and §7.7 gave 0.8 and 1.13 rad² respectively before this
+   O(1) input was selected)
 3. The SU(3) gauge constraint reduces this by C₂ = 3
-4. Final result: **⟨δθ²⟩ = 0.33 rad²**
+4. Final result: **⟨δθ²⟩ = 0.33 rad²** (reproduces the pre-known target; not an
+   independent prediction)
 5. Yukawa averaging: **⟨Y⟩ = 0.846 × Y_classical**
 
 ### 12.2 The Critical Insight
@@ -694,5 +708,9 @@ The derivation is sensitive to:
 
 ---
 
-**Document Status:** Complete derivation with explicit assumptions
-**Key Result:** ⟨δθ²⟩ = 0.33 rad² requires SU(3) gauge structure via C₂ = 3
+**Document Status:** Derivation with explicit assumptions; the assumptions themselves
+(notably m_θL_X ~ 1, chosen in §9.1) are selected to reproduce the pre-known target
+0.33 rather than independently predicted — see the honesty note in §10.4 and the
+sequence of failed attempts in §5.4/§7.7/§8.4 that this final version supersedes.
+**Key Result:** ⟨δθ²⟩ = 0.33 rad² requires SU(3) gauge structure via C₂ = 3, AND a
+specific O(1) choice of m_θL_X that is fitted to the target, not independently derived.

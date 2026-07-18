@@ -25,6 +25,15 @@ This document derives λ_hol ≈ 20 from first principles, showing it emerges fr
 | f_∞ | ∞-helix projection enhancement | 2.1 |
 
 **Combined result:** λ_hol = f_base × f_loc × f_Wilson × f_∞ ≈ 3 × 1.5 × 2.1 × 2.1 ≈ **19.8 ≈ 20** ✓
+(product itself independently verified correct given these four inputs)
+
+**Caveat (added on review):** two of the four factors, f_Wilson and f_∞, are only
+reached in §4–5 below after an unexplained multiplicative "correction" is applied on
+top of a cleanly-derived base value (√3 for f_Wilson, 2.0 for f_∞) — see the
+annotations in those sections. The corrections move both factors to ≈2.1, which is
+what is needed for the product to land near the pre-known target λ_hol ≈ 20 (itself
+back-derived from the target M_R ≈ 2×10^14 GeV). f_base and f_loc are not affected by
+this issue.
 
 ---
 
@@ -208,7 +217,10 @@ Normalized to single sector: f_Wilson = 3/√3 = √3 ≈ 1.73
 
 Accounting for the interference between kink contributions at adjacent fixed points:
 ```
-f_Wilson ≈ √3 × (1 + 0.2) ≈ 2.1
+f_Wilson ≈ √3 × (1 + 0.2) ≈ 2.1   [the √3 ≈ 1.732 term is derived above; the
+      "×(1 + 0.2)" interference correction has no derivation shown anywhere in this
+      document — it is inserted without justification, nudging 1.73 up to the ≈2.1
+      needed for the final product (§6) to reach the pre-known target λ_hol ≈ 20]
 ```
 
 **Result:**
@@ -264,17 +276,24 @@ The kink contribution enhances the overlap integral:
 
 With f_K ≈ 1 for localized wavefunctions:
 ```
-f_∞ = 1 + 2π/3 ≈ 1 + 2.09 → effective factor ≈ 2.1
+f_∞ = 1 + 2π/3 = 3.09   [corrected — 1 + 2π/3 = 3.0944, not the previously stated
+      2.1; verified independently by python3. This formula and the one immediately
+      below give two different values (3.09 and 2.0) for the same claimed quantity
+      f_∞, neither of which equals the "≈2.1" adopted below without further
+      unexplained adjustment. This inconsistency is not resolved in this document.]
 ```
 
 More precisely, the ∞-helix projection creates three copies of the coupling at the three fixed points, but these are related by the orbifold identification. The net enhancement:
 ```
-f_∞ = 2π/3 × (3/π) = 2
+f_∞ = 2π/3 × (3/π) = 2   [verified correct: exactly 2.0]
 ```
 
 Including small corrections from fixed-point curvature:
 ```
-f_∞ ≈ 2.1
+f_∞ ≈ 2.1   [UNEXPLAINED — no derivation is given for the "small corrections" that
+      move either 3.09 or 2.0 to 2.1; this appears to be an ad hoc adjustment toward
+      the value needed for the final product (§6) to land near the pre-known target
+      λ_hol ≈ 20]
 ```
 
 **Result:**

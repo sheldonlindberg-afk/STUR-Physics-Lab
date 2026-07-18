@@ -25,22 +25,38 @@ eta-bar_obs = 0.348 +/- 0.010
 This document derives the complete correction chain:
 
 ```
-eta-bar = eta-bar_base x f_hol x f_Berry x f_RG
-        = 0.39 x 0.948 x 1.000 x 1.003
-        = 0.371 +/- 0.029
+eta-bar = sin(delta_CKM) x 0.424 x f_hol x f_Berry x f_RG
+        = sin(delta_CKM) x 0.424 x 1.000 x 1.000 x 1.003
+        = 0.3947
 ```
 
-Agreement: 0.75 sigma (acceptable)
+Agreement: 13.4% deviation from PDG 2024 (eta-bar_obs = 0.348 +/- 0.010) — Grade D.
 
-**v5.4 UPDATE:** Formal proofs completed for f_RG and f_hol:
+**v6.0 RESOLUTION (2026-07-18):** The self-contradiction flagged in prior audits of
+this document (f_hol = 0.948 simultaneously labeled "derived" in §2, "conditionally
+derived" in §7.3, and "FITTED" in the closing status block) has been resolved by
+**removing the override**. The canonical prediction script previously hard-coded
+f_hol = 0.948 as a fitted constant chosen to pull eta-bar toward the PDG value. That
+override has been deleted. Every dynamical calculation actually carried out in this
+document and in HOLONOMY_AVERAGING_DERIVATION.md — the one-loop effective potential,
+and every non-fitted attempt in the companion document — agrees that f_hol ≈ 1.000
+(the ∞₃ holonomy vacuum is destabilized for n_f ≥ 2, so no fluctuation suppression
+survives). The canonical script now uses the honest value **f_hol = 1.000**, and the
+chain gives **eta-bar = 0.3947**, a 13.4% deviation from the observed 0.348 (Grade D,
+not the sub-1σ "acceptable" result previously reported using the fitted 0.948). This
+is an honest downgrade, not a new error: it removes a fitted correction that had been
+dressed up as a derivation. See §2 and §7 below, both updated to reflect this.
+
+**Formal status of the remaining factors (v5.4, unaffected by the f_hol resolution):**
 - f_RG = 1.003 ± 0.001: **PROVED** — QCD KK threshold cancels in CKM by flavor
   universality (gluon corrections are generation-blind). Only A₅ exchange (+0.3%)
   survives. CKM angle running bounded to < 0.001%. See f_RG_formal_proof.py.
-- f_hol = 0.948: **CONDITIONALLY DERIVED** — derivable from confined-phase
-  holonomy statistics (Schur orthogonality gives ⟨|Tr Ω|²⟩=1, then Cartan
-  decomposition gives σ²=1/6, with KK decorrelation C_ud=exp(-1/6)=0.846).
-  Condition: ∞-helix holonomy stabilized non-perturbatively (natural in G₂/M-theory).
-  See f_hol_confined_derivation.py.
+- f_hol = 1.000: **HONEST VALUE (v6.0)** — the confined-phase "derivation" below
+  (Schur orthogonality → Cartan decomposition → C_ud = exp(-1/6) → f_hol = 0.948)
+  requires an unproven confinement assumption; the one-loop effective potential
+  actually destabilizes the ∞₃ vacuum for n_f ≥ 2, and every dynamical calculation
+  that does not assume confinement gives ≈1.000 (no suppression). f_hol = 0.948 is
+  therefore removed as a fitted number, not a derived one.
 
 **v5.3 UPDATE:** f_RG corrected from 0.970 to 1.003. The previous -3% KK threshold
 was WRONG — it violates ∞₃ symmetry. Rigorous computation in f_RG_kk_threshold.py
@@ -160,8 +176,17 @@ Y_23 / Y_12 = exp[-κ²(2² - 1²)/8] / exp[-κ²/8]
             = 0.096
 
 But this assumes uniform localization. With generation-dependent enhancement:
-A = 0.096 × (κ_eff/κ)² = 0.096 × (1.3)² × 2.1 = 0.81
+A = 0.096 × (κ_eff/κ)² = 0.096 × (1.3)² × 2.1 = 0.81  [ARITHMETIC ERROR]
 ```
+
+**Correction:** 0.096 × 1.69 × 2.1 = 0.3407, not 0.81 (verified independently). The
+document's stated result of 0.81 is the value needed to reproduce the target
+|V_cb| = A λ² ≈ 0.041; the correctly-multiplied 0.3407 does not. This is a genuine,
+unresolved arithmetic inconsistency: the "×2.1 enhancement" factor was evidently
+chosen to land on A ≈ 0.81 rather than derived, and even that stated target does not
+follow from the arithmetic shown. Downstream steps in this section continue to use
+A = 0.81 (matching the phenomenological |V_cb|), so this error is flagged here rather
+than propagated as a fix.
 
 **Step 4: Geometric Calculation of |V_td|**
 
@@ -189,7 +214,12 @@ R_t = |V_td V_tb*| / |V_cd V_cb*|
     = √[(1-ρ̄)² + η̄²]
 ```
 
-From the helix phase geometry with δ_CKM = 66.8°:
+From the helix phase geometry with δ_CKM = 66.8° [STALE — §1.2 above updates
+δ_CKM to 68.3°; this section was never recomputed with the updated value. Using
+68.3°: sin(68.3°) = 0.9291 vs. sin(66.8°) = 0.9186 used below, a ~1% difference that
+propagates into R_t, η̄_base, and every downstream number in this section. Flagged,
+not silently recomputed here — see the v6.0 resolution note in the Executive
+Summary, which uses the updated 68.3° value for the canonical result.]:
 
 ```
 ρ̄_geom = 0.17  (from cos component of phase)
@@ -224,8 +254,15 @@ From helix: Im(phase product) = sin(δ_CKM) × A² λ⁶ × f_overlap
           = 0.921 × 0.656 × 1.29×10⁻⁴ × 0.65
           = 5.07 × 10⁻⁵
 
-η̄ = 5.07×10⁻⁵ / (0.656 × 1.29×10⁻⁴) = 0.39 ✓
+η̄ = 5.07×10⁻⁵ / (0.656 × 1.29×10⁻⁴) = 5.07e-5 / 8.46e-5 = 0.599  [NOT 0.39]
 ```
+
+**Correction:** the division as shown gives 0.599, not 0.39 — the "✓" in the original
+was not a verified checksum. This alternative route to η̄_base does not actually
+reproduce the 0.39 obtained in Step 6 above; the two derivations of the same quantity
+disagree by roughly 50% once independently checked. Kept here unresolved rather than
+papered over; it does not affect the headline chain, which is built on the Step 6
+value.
 
 ---
 
@@ -235,7 +272,15 @@ This is 12% above the observed value. The following three corrections reduce it 
 
 ---
 
-## 2. Factor 0.948: Holonomy Correction to CP Phase
+## 2. Factor 0.948: Holonomy Correction to CP Phase [SUPERSEDED — v6.0]
+
+> **This section is retained for historical/audit transparency only.** The
+> f_hol = 0.948 result derived below rests on an unproven confinement assumption
+> (§7.3 admits: "not proved from first principles — one-loop V_eff destabilizes ∞₃
+> for n_f ≥ 2"). Every dynamical calculation that does not assume confinement gives
+> f_hol ≈ 1.000. The canonical script has been corrected to use f_hol = 1.000; the
+> derivation below should be read as "what f_hol would be IF the unproven confinement
+> assumption held," not as the value actually used in the current eta-bar prediction.
 
 ### 2.1 Physical Origin
 
@@ -612,10 +657,13 @@ This is consistent with our previous estimate of ~3 deg.
 |     Abelian phase = 3.3×10⁻¹⁴ (machine zero)                   |
 |     Bargmann arg = 0.0000° (exactly zero)                        |
 |                                                                  |
-|  IMPACT ON η̄:                                                   |
+|  IMPACT ON η̄ (version history):                                 |
 |     v5.1: η̄ = 0.39 × 0.948 × 0.975 × 0.970 = 0.350 (0.09σ)    |
 |     v5.2: η̄ = 0.39 × 0.948 × 1.000 × 0.970 = 0.359 (1.1σ)     |
 |     v5.3: η̄ = 0.39 × 0.948 × 1.000 × 1.003 = 0.371 (0.75σ)    |
+|     v6.0: η̄ = eta_base × 1.000 × 1.000 × 1.003 = 0.3947       |
+|           (13.4% dev.) — f_hol=0.948 fitted override REMOVED   |
+|           in v6.0; this row is the current canonical value      |
 |                                                                  |
 |  See: scripts/berry_phase_exact.py                               |
 +------------------------------------------------------------------+
@@ -809,28 +857,34 @@ This confirms our estimate.
 
 ## 5. Combined Result and Uncertainty Analysis
 
-### 5.1 The Complete Correction Chain
+### 5.1 The Complete Correction Chain (v6.0 — f_hol override removed)
 
 ```
 eta-bar_corrected = eta-bar_base x f_hol x f_Berry x f_RG
-                  = 0.39 x 0.948 x 1.000 x 1.003
+                  = 0.3947/1.003 x 1.000 x 1.000 x 1.003   [eta-bar_base ~ 0.3934,
+                                                             see Executive Summary]
 ```
 
 Step by step:
 
 ```
-Step 1: 0.39 x 0.948 = 0.370  (holonomy fluctuations)
-Step 2: 0.370 x 1.000 = 0.370 (Berry phase — NO correction, v5.2)
-Step 3: 0.370 x 1.003 = 0.371 (RG running — v5.3 corrected)
+Step 1: eta-bar_base x 1.000 = eta-bar_base  (f_hol honest value, v6.0 — was 0.948 FITTED)
+Step 2: x 1.000 = unchanged                  (Berry phase — NO correction, v5.2)
+Step 3: x 1.003 = 0.3947                     (RG running — v5.3 corrected)
 ```
+
+**v6.0 note:** the previous "Step 1: 0.39 x 0.948 = 0.370" is removed. f_hol = 0.948
+was a fitted number (see §2 superseded banner and §7.3); the canonical script now
+uses f_hol = 1.000, which is what every non-fitted dynamical calculation actually
+gives.
 
 ### 5.2 Uncertainty Propagation
 
 Individual uncertainties:
 
 ```
-eta-bar_base: 0.39 +/- 0.02 (5%)
-f_hol:        0.948 +/- 0.010 (1%)
+eta-bar_base: ~0.393 +/- 0.02 (5%)
+f_hol:        1.000, exact (v6.0 — no longer a fitted parameter with its own error bar)
 f_Berry:      1.000 +/- 0.000 (0%, exact — v5.2)
 f_RG:         1.003 +/- 0.003 (0.3%) — v5.3 corrected
 ```
@@ -838,38 +892,47 @@ f_RG:         1.003 +/- 0.003 (0.3%) — v5.3 corrected
 Combined relative uncertainty:
 
 ```
-sigma_rel^2 = (0.05)^2 + (0.01)^2 + (0.000)^2 + (0.015)^2
-            = 0.0025 + 0.0001 + 0.000 + 0.000225
-            = 0.00283
+sigma_rel^2 = (0.05)^2 + (0.000)^2 + (0.000)^2 + (0.003)^2
+            = 0.0025 + 0.000 + 0.000 + 0.000009
+            = 0.002509
 
-sigma_rel = 0.053 = 5.3%
+sigma_rel = 0.0501 = 5.0%
 ```
+
+(v6.0 correction: the previous line used (0.015)^2 for the f_RG term, which
+contradicted the f_RG uncertainty stated one line above it, 0.003. That mismatch is
+fixed here; f_hol no longer carries a separate fitted uncertainty since it is not a
+fitted parameter in v6.0.)
 
 Absolute uncertainty:
 
 ```
-sigma_abs = 0.359 x 0.053 = 0.019 ~ 0.02
+sigma_abs = 0.3947 x 0.0501 = 0.0198 ~ 0.02
 ```
 
-### 5.3 Final Result (UPDATED v5.2)
+### 5.3 Final Result (v6.0 — honest, f_hol override removed)
 
 ```
 +==================================================================+
 |                                                                  |
-|   FINAL RESULT: eta-bar = 0.359 +/- 0.020  (v5.2)               |
+|   FINAL RESULT: eta-bar = 0.3947 +/- 0.020  (v6.0)              |
 |                                                                  |
 |   Observed (PDG 2024): eta-bar = 0.348 +/- 0.010                |
 |                                                                  |
-|   Deviation: (0.359 - 0.348) / sqrt(0.020^2 + 0.010^2)          |
-|            = 0.011 / 0.022                                       |
-|            = 0.50 sigma → 1.1 sigma (with proper error estimate) |
+|   Deviation (%): |0.3947 - 0.348| / 0.348 = 13.4%               |
+|   Deviation (sigma): |0.3947-0.348| / sqrt(0.020^2+0.010^2)     |
+|            = 0.0467 / 0.0224 = 2.1 sigma                        |
 |                                                                  |
-|   AGREEMENT: ACCEPTABLE (1.1 sigma)                              |
+|   GRADE: D (13.4% deviation) — this is the honest result after  |
+|   removing the f_hol = 0.948 fitted override.                   |
 |                                                                  |
 |   v5.2 NOTE: f_Berry correction eliminated (was 0.975, now 1.000)|
 |   v5.3 NOTE: f_RG corrected from 0.970 to 1.003                 |
 |     (KK threshold = 0 by ∞₃ symmetry; EW matching +0.3%)        |
-|   η̄ = 0.371 (with f_hol FITTED), 0.391 (without f_hol)         |
+|   v6.0 NOTE: f_hol override (0.948, fitted) REMOVED. Honest     |
+|     value f_hol = 1.000 used throughout. Previously reported    |
+|     values of 0.371/0.75sigma (with fitted f_hol) and 0.359     |
+|     (stale v5.2 central value) are both superseded.             |
 |                                                                  |
 +==================================================================+
 ```
@@ -878,21 +941,26 @@ sigma_abs = 0.359 x 0.053 = 0.019 ~ 0.02
 
 | Factor | Value | Uncertainty | Physical Origin |
 |--------|-------|-------------|-----------------|
-| eta-bar_base | 0.39 | +/- 0.02 | Helix chirality + unitarity triangle |
-| f_hol | 0.948 | +/- 0.010 | Holonomy phase fluctuations (<delta-theta^2> = 1/3) |
+| eta-bar_base | ~0.393 | +/- 0.02 | Helix chirality + unitarity triangle |
+| f_hol | **1.000** | **exact (v6.0)** | **Honest value — 0.948 fitted override removed; §2 kept for history only** |
 | f_Berry | **1.000** | **exact** | **ELIMINATED (v5.2): Berry phase = 0 for real ψ** |
 | f_RG | 1.003 | +/- 0.003 | RG running: KK=0 (∞₃ protection), EW +0.3% (v5.3) |
-| **eta-bar_final** | **0.371** | **+/- 0.029** | Combined result (v5.3: f_RG corrected) |
+| **eta-bar_final** | **0.3947** | **+/- 0.020** | Combined result (v6.0: f_hol override removed) |
 
 ---
 
 ## 6. Physical Interpretation
 
-### 6.1 Why the Corrections Reduce eta-bar (v5.2 update)
+### 6.1 Why the Corrections Reduce eta-bar (v6.0 update)
 
-With f_Berry eliminated, only TWO correction factors remain:
+With both f_Berry and f_hol now equal to 1.000, only ONE correction factor
+survives:
 
-1. **Holonomy fluctuations (0.948)**: Quantum fluctuations always AVERAGE DOWN magnitudes via exp(-<delta-theta^2>/2) < 1.
+1. **Holonomy fluctuations (f_hol = 1.000, v6.0)**: The confined-phase "derivation"
+   in §2 (which gave 0.948) is superseded — it depends on an unproven confinement
+   assumption that the document's own §7.3 admits is contradicted by the one-loop
+   effective potential (∞₃ destabilized for n_f ≥ 2). Every dynamical calculation
+   that does not assume confinement gives f_hol ≈ 1.000, i.e. no suppression.
 
 2. **Berry phase (1.000 — ELIMINATED v5.2)**: Exact computation shows the Berry phase vanishes for real Mathieu ground states. The Abelian Berry connection A = i⟨ψ|∂_λ|ψ⟩ = 0 by parity, and the Bargmann invariant is zero for real wavefunctions. This correction no longer contributes.
 
@@ -900,12 +968,14 @@ With f_Berry eliminated, only TWO correction factors remain:
 
 ### 6.2 Connection to the ∞₃ Structure
 
-The surviving corrections are connected to the ∞₃ helix geometry:
-
-**f_hol = 0.948:**
-- Arises from SU(3) gauge constraint via C_2(SU(3)) = 3
-- The ∞₃ center of SU(3) is directly related to the ∞₃ helix structure
-- The variance <delta-theta^2> = 1/3 is determined by the gauge group
+**f_hol = 1.000 (v6.0, honest value):**
+- No suppression of the base prediction survives once the confinement assumption
+  (needed for the 0.948 figure) is dropped.
+- The §2 calculation showing <delta-theta^2> = 1/3 → f_hol = 0.948 remains an
+  interesting IF-confined result, but is not used in the canonical prediction.
+- The ∞₃ center of SU(3) may still be physically relevant to holonomy dynamics;
+  what changed is only that the associated numerical suppression factor is not
+  established, so it is not used to adjust the prediction.
 
 **f_Berry = 1.000 (ELIMINATED v5.2):**
 - Berry phase was expected from transport around the ∞₃ structure
@@ -923,7 +993,7 @@ The surviving corrections are connected to the ∞₃ helix geometry:
 
 The correction chain makes specific predictions that can falsify STUR:
 
-1. **If improved measurements give eta-bar > 0.37 or eta-bar < 0.33:**
+1. **If improved measurements give eta-bar far from 0.3947:**
    The correction factors would need to change by more than 2 sigma.
 
 2. **If the holonomy variance is found to differ from 1/3:**
@@ -937,58 +1007,73 @@ The correction chain makes specific predictions that can falsify STUR:
 | Approach | eta-bar prediction | Fitting required |
 |----------|-------------------|------------------|
 | SM (fitted) | 0.348 (input) | Yes (eta-bar is fitted) |
-| STUR base | 0.39 | No |
-| STUR corrected | 0.350 +/- 0.020 | No |
+| STUR base | ~0.393 | No |
+| STUR corrected (v6.0, honest) | 0.3947 +/- 0.020 | No (f_hol override removed) |
 
-STUR is the only framework that CALCULATES eta-bar from first principles.
+STUR calculates eta-bar from first principles, but the v6.0 honest result deviates
+from the observed value by 13.4% (Grade D), not the sub-1σ agreement previously
+reported using the fitted f_hol = 0.948.
 
 ---
 
 ## 7. Conclusion
 
-### 7.1 Summary of Derivations
+### 7.1 Summary of Derivations (v6.0)
 
 We have derived three correction factors that modify the base STUR prediction for eta-bar:
 
-1. **f_hol = 0.948**: From holonomy fluctuations with <delta-theta^2> = 1/3, determined by the SU(3) Casimir C_2 = 3.
+1. **f_hol = 1.000 (v6.0, honest value)**: The confined-phase "derivation" in §2
+   giving 0.948 depends on an assumption (∞₃ center symmetry preservation) that the
+   document's own dynamical calculation contradicts (one-loop V_eff destabilizes ∞₃
+   for n_f ≥ 2). With no dynamical mechanism established, f_hol = 1.000 (no
+   suppression) is the honest value, and the previous 0.948 has been removed as a
+   fitted override rather than a derived result.
 
 2. **f_Berry = 1.000 (ELIMINATED v5.2)**: Exact computation proves the Berry phase vanishes for real Mathieu ground states. See scripts/berry_phase_exact.py.
 
 3. **f_RG = 1.003** (v5.3 corrected from 0.970): From rigorous computation in f_RG_kk_threshold.py. KK threshold = 0 (∞₃ symmetry protection), EW matching = +0.3%. Previous -3% KK threshold was WRONG.
 
-### 7.2 Final Result (v5.2)
+### 7.2 Final Result (v6.0 — resolved)
 
 ```
-eta-bar = 0.39 x 0.948 x 1.000 x 1.003 = 0.371 +/- 0.029
+eta-bar = eta-bar_base x 1.000 x 1.000 x 1.003 = 0.3947
 
 Observed: eta-bar = 0.348 +/- 0.010
 
-Agreement: 0.75 sigma (acceptable)
-
-Without f_hol (honest): eta-bar = 0.39 x 1.000 x 1.003 = 0.391 +/- 0.030 → 1.4σ
+Deviation: 13.4% (2.1 sigma using propagated theory uncertainty +/- 0.020) — Grade D
 ```
 
-### 7.3 Significance (v5.2 update)
+### 7.3 Significance (v6.0 — resolution of prior self-contradiction)
 
-The correction chain reduces the base prediction from 0.39 to 0.371 (with fitted f_hol), bringing it within 0.75σ of the observed value. Without f_hol, η̄ = 0.391 (1.4σ from PDG — still consistent). The v5.3 correction of f_RG from 0.970 to 1.003 means the RG running barely changes the CP phase.
+**This document previously carried an unresolved internal contradiction**, flagged by
+independent audit: §2 presented f_hol = 0.948 as a confident multi-step "derivation,"
+the v5.4 banner called it "CONDITIONALLY DERIVED," and the closing status block (this
+section, prior revision) simultaneously called the same number "FITTED — not
+derived" and noted that "all dynamical approaches give ≈1.000." That contradiction is
+now resolved: **the fitted override has been removed.** The canonical script uses
+f_hol = 1.000, consistent with every dynamical calculation that does not assume
+confinement. The result is an honest downgrade of the eta-bar prediction from 0.371
+(0.75σ, using the fitted 0.948) to 0.3947 (13.4% deviation, Grade D, using the honest
+1.000) — a real change in the framework's reported closure, not merely a corrected
+label.
 
-The surviving corrections are:
-- Quantum fluctuations of the holonomy (f_hol = 0.948, FITTED — not derived)
-- RG running effects (f_RG = 1.003, DERIVED — v5.3)
+The surviving, non-fitted corrections are:
+- f_hol = 1.000 (v6.0 honest value — not fitted, not suppressed)
+- RG running effects (f_RG = 1.003, DERIVED — v5.3, unaffected by this resolution)
 
-**Honest assessment (v5.4):**
+**Formal status (v6.0):**
 - f_RG = 1.003 ± 0.001: **PROVED** (f_RG_formal_proof.py). QCD KK threshold cancels in
   CKM by flavor universality — gluon corrections are generation-blind. Only A₅ exchange
   survives (+0.3%). CKM running bounded to < 0.001% (Jarlskog elements run by < 10⁻⁵).
-- f_hol = 0.948: **CONDITIONALLY DERIVED** (f_hol_confined_derivation.py). IF the holonomy
-  is in the confined phase (center symmetry preserved), THEN Schur orthogonality gives
-  ⟨|Tr Ω|²⟩ = 1, Cartan decomposition gives σ² = 1/6, and with KK decorrelation
-  C_ud = exp(-1/6) = 0.846 the effective variance is 0.103 rad² → f_hol = 0.948.
-  The confinement assumption is natural in the G₂/M-theory context of STUR but
-  not proved from first principles (one-loop V_eff destabilizes ∞₃ for n_f ≥ 2).
+- f_hol = 1.000: **HONEST VALUE, v6.0** — the confined-phase route to 0.948 in §2
+  (f_hol_confined_derivation.py) requires an assumption (center symmetry preserved)
+  that this document's own one-loop effective potential contradicts for n_f ≥ 2.
+  f_hol = 0.948 is therefore a fitted number, not a derived one, and is no longer
+  used in the canonical prediction.
 - f_Berry = 1.000: **PROVED** (berry_phase_exact.py). Berry phase vanishes identically
   for real Mathieu eigenstates.
-Without f_hol: η̄ = 0.391 (1.4σ from PDG — still consistent).
+
+**Final eta-bar (v6.0): 0.3947, 13.4% deviation from PDG (Grade D).**
 
 ---
 
@@ -1039,10 +1124,15 @@ If λ is corrected by f_tail, there is a small (~0.1%) indirect effect on η̄ t
 6. Antusch et al., JHEP 0503 (2005) 024 - RG running of CKM parameters
 ---
 
-**Document Status:** Updated v5.4 — Formal proofs for f_RG and f_hol
-**Key Result:** eta-bar = 0.371 +/- 0.029 (with f_hol), agreeing at 0.75σ
-**Without f_hol (honest):** eta-bar = 0.391 +/- 0.030, agreeing at 1.4σ
+**Document Status:** Updated v6.0 — f_hol fitted override (0.948) REMOVED; resolved
+in favor of the honest dynamical value f_hol = 1.000. This closes the three-way
+self-contradiction ("derived" in §2 / "conditionally derived" in the v5.4 banner /
+"FITTED" in the prior version of this footer) that earlier audits flagged: the
+document now states, consistently throughout, that f_hol = 0.948 is a fitted number
+that has been removed, not a derived result that survives alongside a fitted label.
+**Key Result:** eta-bar = 0.3947, deviating 13.4% from PDG 0.348 (Grade D)
 **f_RG = 1.003 ± 0.001 PROVED** (flavor universality + A₅ exchange, f_RG_formal_proof.py)
-**f_hol = 0.948 CONDITIONALLY DERIVED** (confined-phase assumption, f_hol_confined_derivation.py)
-**f_hol = 0.948 FITTED** (∞₃ destabilized, all dynamical approaches give ≈ 1.000)
+**f_hol = 1.000 HONEST VALUE (v6.0)** — 0.948 was fitted, not derived, and is removed;
+  the confined-phase route to 0.948 requires an assumption this document's own
+  one-loop calculation contradicts (∞₃ destabilized for n_f ≥ 2)
 **f_Berry ELIMINATED** — Berry phase vanishes for real Mathieu eigenstates

@@ -292,7 +292,13 @@ Possible Resolution Paths (if delta_CP != -90 deg):
 
 **Observation:** Dm^2_21 = (7.41 +/- 0.21) x 10^-5 eV^2 [NuFIT 6.0]
 
-**Current Tension:** 1.7 sigma (acceptable)
+**Current Tension:** 0.86 sigma (acceptable) [corrected — standard quadrature
+combination |7.41-7.06|/sqrt(0.35²+0.21²) = 0.35/0.408 = 0.86σ, verified
+independently by python3. The previously stated 1.7 sigma instead divided only by
+the observational uncertainty (0.35/0.21 = 1.67), omitting the STUR theoretical
+uncertainty of ±0.35 — inconsistent with the quadrature method used for other
+tensions in this framework. The practical conclusion (acceptable, <2σ either way) is
+unaffected.]
 
 **Scenario Analysis:**
 ```
@@ -956,7 +962,7 @@ This document commits the STUR framework to scientific accountability:
 ```
 CURRENT STATUS: CONSISTENT WITH ALL DATA
                0 fatal falsifiers triggered
-               1 moderate tension (Dm^2_21 at 1.7 sigma)
+               1 moderate tension (Dm^2_21 at 0.86 sigma) [corrected, see §2.3]
                0 strong tensions (>3 sigma)
 
 NEAR-TERM RISK: JUNO mass ordering (2027-2028)

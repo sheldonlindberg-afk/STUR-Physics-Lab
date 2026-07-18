@@ -3,14 +3,14 @@
 **Document Type:** Rigorous Mathematical Proof
 **Framework:** STUR v4.4 -- Helix Geometry Unified Field Theory
 **Date:** 2026-02-05
-**Status:** PEER-REVIEW READY -- Complete First-Principles Derivation
+**Status:** PARTIALLY DERIVED -- individual steps are correct, but the interference formula (§5.2-5.3) was selected by trying and rejecting alternatives until one matched the target value (see "Provenance of F_Berry" note near the end); F_Berry should be treated as fitted, not fully first-principles derived
 **Purpose:** Establish the Berry phase vacuum energy suppression factor from geometric principles
 
 ---
 
 ## Abstract
 
-We present a rigorous, first-principles derivation of the Berry phase suppression factor F_Berry = 1/(4pi^2) that appears in the STUR cosmological constant formula. The derivation proceeds from the fiber bundle structure of neutrino flavor space, through explicit calculation of the Berry connection and curvature on the PMNS parameter manifold, to the vacuum energy suppression mechanism via destructive interference. Every step is algebraically explicit, with no reverse-engineering from the desired result.
+We present a derivation of the Berry phase suppression factor F_Berry = 1/(4pi^2) that appears in the STUR cosmological constant formula. The derivation proceeds from the fiber bundle structure of neutrino flavor space, through explicit calculation of the Berry connection and curvature on the PMNS parameter manifold, to the vacuum energy suppression mechanism via destructive interference. Every algebraic step shown is explicit and independently verified as correct, but the specific interference formula used (§5.2-5.3) was arrived at after several other candidate formulas were tried and rejected for not matching the target value, so this should be read as a curve-fit to F_Berry = 1/(4pi^2) rather than a reverse-engineering-free first-principles derivation.
 
 **Key Result:**
 
@@ -308,9 +308,14 @@ $$J = \text{Im}[U_{e1} U_{\mu 2} U_{e2}^* U_{\mu 1}^*] = \frac{1}{8} \sin(2\thet
 
 **Numerical Value (NuFIT 6.0):**
 
-$$J = \frac{1}{8} \times 0.928 \times 0.996 \times 0.292 \times 0.989 \times \sin(\delta_{\text{CP}})$$
+(Corrected in FIX pass: direct evaluation of sin(2θ_ij) from the quoted mixing angles
+θ12=33.4°, θ23=49.1°, θ13=8.54° gives sin(2θ12)=0.9191, sin(2θ23)=0.9898,
+sin(2θ13)=0.2937 — the values below were off by up to ~1%; corrected here. This does not
+change the qualitative conclusion.)
 
-$$J = 0.0335 \times \sin(\delta_{\text{CP}})$$
+$$J = \frac{1}{8} \times 0.9191 \times 0.9898 \times 0.2937 \times 0.989 \times \sin(\delta_{\text{CP}})$$
+
+$$J = 0.0330 \times \sin(\delta_{\text{CP}})$$
 
 With delta_CP approx -pi/2:
 
@@ -705,7 +710,19 @@ $$\Lambda_{\text{obs}} = 2.846 \times 10^{-47} \text{ GeV}^4$$
 
 $$\Lambda_{\text{STUR}} / \Lambda_{\text{obs}} = 1.27$$
 
-**Agreement within 27% -- well within the theoretical uncertainty.**
+**Agreement within 27% (as computed in this document) -- well within the theoretical uncertainty.**
+
+**Honesty note (added in FIX pass):** The F_inst = 1/3 "instanton prefactor" used above is
+asserted here (cited only as coming "from Part VIII of the complete derivation") and is not
+derived in this document; it is exactly the free multiplicative factor that converts the
+factor-of-3.9-too-high result (without F_inst, see COMPLETE_CORRECTIONS_AND_RESOLUTIONS.md,
+Λ=1.1e-46 GeV⁴) into the factor-of-1.27-too-high result quoted here. Other STUR documents
+computing the same quantity on nearby dates report different final values depending on
+whether F_inst is applied (e.g. Λ=1.1×10⁻⁴⁶ GeV⁴ without it, Λ=3.6×10⁻⁴⁷ GeV⁴ with it here).
+The current canonical repo-wide value is Λ_CC=3.15×10⁻⁴⁷ GeV⁴ (10.8% from Λ_obs). Readers
+should treat the 27% figure in this section as one of several inconsistent final numbers
+produced by this derivation chain, not as the settled result, pending a first-principles
+derivation of F_inst.
 
 ---
 
@@ -725,15 +742,26 @@ $$F_{\text{Berry}} = \frac{|1 - e^{i\gamma}|^2}{(2\pi)^2} = \frac{1}{4\pi^2} = 0
 - Berry connection: A_phi = 1/3 from PMNS trace
 - Destructive interference between trivial and non-trivial paths
 
-### Why This Is NOT Reverse-Engineered
+### Provenance of F_Berry = 1/(4pi^2) (honesty note added in FIX pass)
+
+This section previously asserted the result was "NOT Reverse-Engineered." That claim is not
+supported by the document's own derivation trail above (§4.2-4.3, §5.2-5.3), which shows
+several candidate interference formulas being tried and explicitly rejected ("This doesn't
+match expectations," "This is NOT the suppression mechanism") before landing on
+F_Berry = |1-e^{iγ}|²/(2π)², a formula selected because |1-e^{-iπ/3}|² evaluates to exactly 1
+(verified: 0.999999... ≈ 1), reproducing the target 1/(4π²) cleanly. That is curve-fitting to
+a target value, not an independent derivation, even though each individual algebraic step is
+correct.
+
+What IS independently supported:
 
 1. **The ∞₃ periodicity (2pi/3) is geometric** -- it comes from the orbifold structure, not from fitting Lambda.
 
 2. **The CP phase delta_CP = -pi/2 is measured** -- it's an experimental input from neutrino oscillations.
 
-3. **The interference formula |1 - e^{i gamma}|^2 / (2pi)^2 is standard** -- it appears in any Berry phase contribution to vacuum energy.
+3. **The interference formula |1 - e^{i gamma}|^2 / (2pi)^2 is one candidate among several tried** -- it is a plausible form for a Berry-phase contribution to vacuum energy, but this document does not show it is the uniquely correct one; it was retained because it reproduces the desired numerical target after other candidates failed.
 
-4. **The result F_Berry = 1/(4pi^2) emerges** -- it is not assumed or tuned.
+4. **The result F_Berry = 1/(4pi^2) should be treated as fitted, not derived**, pending an independent selection criterion for the interference formula that does not reference the target value.
 
 ### Falsification Criteria
 
@@ -771,7 +799,7 @@ The derivation makes specific predictions:
 
 ---
 
-**Document Status:** PEER-REVIEW READY
+**Document Status:** PARTIALLY DERIVED (arithmetic verified; interference-formula selection is curve-fit)
 **Key Result:** F_Berry = 1/(4pi^2) = 0.0253 +/- 0.0063
-**Derivation:** First-principles from fiber bundle geometry and measured PMNS parameters
-**Assessment:** Rigorous, explicit, and not reverse-engineered
+**Derivation:** Individual steps are first-principles from fiber bundle geometry and measured PMNS parameters; the final interference formula was selected among several tried candidates for matching the target value (see "Provenance of F_Berry" note, §Summary)
+**Assessment:** Arithmetically rigorous and explicit, but reverse-engineered in the sense that the winning formula was chosen because it reproduces 1/(4pi^2), not derived from an independent selection principle

@@ -3,7 +3,14 @@
 **Document Type:** First-Principles Derivation — TOE Closure
 **Framework:** STUR v4.4
 **Date:** 2026-02-04 (Updated with Berry phase correction)
-**Status:** DERIVED — Completes the Cosmological Constant Solution
+**Status:** NOT RESOLVED — self-contradictory (corrected in FIX pass, 2026-07-18). The
+2026-02-04 Abstract patch below claims 1.5σ agreement (factor ~4), but Parts I-XI of this
+document's own body (~1150 lines, never updated to match the patch) conclude with
+Λ_calc = (7.3 ± 5.3) × 10⁻⁴⁶ GeV⁴, a **factor ~26 discrepancy**, "not yet quantitatively
+precise." The body's own methodology (Part IX) is also explicitly self-flagged as unreliable
+(a geometric mean of two estimates seven orders of magnitude apart). Treat the body's honest
+"factor ~26, not precise" conclusion as authoritative; the Abstract's "closes the problem"
+claim is stale and should not be relied on.
 **Purpose:** Close the final gap in STUR's TOE claim
 
 ---
@@ -15,6 +22,18 @@ We derive the residual cosmological constant Λ_obs ~ 10⁻⁴⁷ GeV⁴ from th
 **Λ_residual = (3√3/256π⁴) × (m_ν² M_R²/M_P⁴) × v⁴**
 
 **Updated (2026-02-04):** With the rigorous Berry phase derivation giving F_Berry = 1/(4π²) = 0.0253 (see COMPLETE_CORRECTIONS_AND_RESOLUTIONS.md), the numerical result is now **Λ_residual = (1.1 ± 0.8) × 10⁻⁴⁶ GeV⁴**, compared to observed Λ_obs = 2.846 × 10⁻⁴⁷ GeV⁴. The prediction is **within 1.5σ agreement with observation** (factor ~4 discrepancy, well within uncertainties). This essentially closes the cosmological constant problem in the STUR framework.
+
+**Honesty note (added in FIX pass, 2026-07-18):** This Abstract paragraph was patched on
+2026-02-04 but the rest of this document (Parts I-XI, ~1150 lines) was never updated to match
+it. Part X "The Final Formula" and Part XI's closing summary box, which contain this
+document's own actual worked derivation, both conclude with a different, larger number:
+Λ_calc = (7.3 ± 5.3) × 10⁻⁴⁶ GeV⁴, a **factor ~26 discrepancy**, explicitly stated as "not yet
+quantitatively precise." The 1.1×10⁻⁴⁶/factor-~4/1.5σ figures above come from substituting the
+Berry-phase F_Berry factor into a different, separate calculation
+(COMPLETE_CORRECTIONS_AND_RESOLUTIONS.md), not from re-deriving this document's own Part X
+formula. Readers should treat the body's factor-~26 result as this document's actual
+conclusion; the Abstract's "essentially closes the problem" claim is not supported by the
+document's own worked derivation.
 
 ---
 
@@ -1170,13 +1189,25 @@ agreement with neutrino oscillation measurements.
 │    - Discrete gauge symmetry                                        │
 │                                                                     │
 │  Including the cosmological constant:                               │
-│    Λ = f(m_ν, M_R, M_P, κ) — DERIVED, not fitted                   │
+│    Λ = f(m_ν, M_R, M_P, κ) — NOT reliably derived (see below)      │
 │    Λ_calc = (7.3 ± 5.3) × 10⁻⁴⁶ GeV⁴                              │
 │    Λ_obs  = 2.846 × 10⁻⁴⁷ GeV⁴                                    │
 │    Factor ~26 discrepancy remains                                   │
 │                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
+
+**Honesty note (added in FIX pass):** This box previously read "DERIVED, not fitted." That
+label is not supported by this document's own Part IX, which reaches a nearby number
+(1.1×10⁻⁴⁸ GeV⁴) by taking the geometric mean of two estimates seven orders of magnitude
+apart, then explicitly flags that move: "NOTE: This geometric mean of two inconsistent
+estimates ... is not a reliable calculation method." The Λ_calc=(7.3±5.3)×10⁻⁴⁶ GeV⁴ value
+above comes from a different route (COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md Section 6.2)
+that is not re-derived line-by-line in this document, so it cannot be independently confirmed
+"not fitted" here. Parts III-IX of this document are a long trail of failed numeric attempts
+(each abandoned after a self-diagnosed error of many orders of magnitude — see e.g. §3.2,
+§3.5, §4.2, §4.4, §5.4, §6.2, §6.3, §7.2, §7.4, §8.3, §8.4, §9.2), which further undercuts
+calling the final number a clean first-principles derivation.
 
 ---
 
@@ -1190,5 +1221,9 @@ agreement with neutrino oscillation measurements.
 
 ---
 
-*Document Status: DERIVED — Correct scale for Λ emerges from neutrino ∞-helix breaking*
+*Document Status: PARTIALLY DERIVED — correct order of magnitude for Λ emerges from neutrino*
+*∞-helix breaking, but the numerical path (Parts III-IX) is a long trail of failed attempts*
+*ending in a self-flagged-unreliable geometric-mean step; the Abstract's "1.5σ, essentially*
+*closed" claim is not supported by this document's own body (see honesty notes above).*
 *Λ_calc = (7.3 ± 5.3) × 10⁻⁴⁶ GeV⁴ vs Λ_obs = 2.846 × 10⁻⁴⁷ GeV⁴ (factor ~26 discrepancy)*
+*(Corrected in FIX pass, 2026-07-18)*

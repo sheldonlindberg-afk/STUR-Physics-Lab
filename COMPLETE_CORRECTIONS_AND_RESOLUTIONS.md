@@ -9,13 +9,16 @@
 
 ## Executive Summary
 
-This document provides rigorous resolutions to the six critical issues identified in the STUR framework:
+This document attempts resolutions to six critical issues identified in the STUR framework.
+**Honesty note (added in FIX pass):** two of the six (m_u and lepton masses) are not actually
+resolved — the correction chains rely on fitted parameters chosen to hit the target values,
+detailed in the per-part honesty notes below.
 
-1. **Cosmological Constant** (~26x discrepancy) - **RESOLVED** via rigorous Berry phase calculation
+1. **Cosmological Constant** (~26x discrepancy) - **PARTIALLY RESOLVED** via Berry phase calculation (see Part I honesty note: the interference formula used was selected among tried candidates, and other STUR documents report different final ratios for the same quantity)
 2. **L_X Scale Ambiguity** (10^-32 m vs 1 um) - **RESOLVED** via two-scale interpretation
 3. **f_tail Independence** - **VERIFIED** as genuinely derived
-4. **m_u Phase Shift** - **DERIVED** from first-generation boundary effects
-5. **Lepton Mass Overprediction** (~1.7x) - **RESOLVED** via electroweak threshold corrections
+4. **m_u Phase Shift** - **NOT DERIVED** — the 0.35 "threshold correction" and KK-mode coefficients (§4.5-4.6) are fitted to the target, not derived (ground-truth status: P)
+5. **Lepton Mass Overprediction** (~1.7x) - **NOT RESOLVED** — the electroweak threshold correction alone gives only 10.6% of the needed 59% reduction; the remainder comes from a reverse-engineered formula (§5.4)
 6. **ATS Weak Coupling Tension** (S(u)~u² vs BCS linear) - **RESOLVED** via strong-coupling interpretation
 
 ---
@@ -118,6 +121,16 @@ Lambda_residual = (1/64pi^2) x |Sigma| x F_total
 |          into agreement with observation within uncertainties           |
 +------------------------------------------------------------------------+
 ```
+
+**Honesty note (added in FIX pass):** This 3.9x/1.5σ result depends on the specific F_Berry
+formula derived in BERRY_PHASE_RIGOROUS_PROOF.md, which that document's own text shows was
+selected among several candidate interference formulas after earlier ones failed to reproduce
+the target — see that document's "Provenance of F_Berry" note. Other STUR documents computing
+the same quantity around the same date report different final ratios depending on whether an
+additional, undocumented F_inst=1/3 "instanton prefactor" is applied (e.g. 1.27x instead of
+3.9x). The current repo-wide canonical value is Λ_CC=3.15×10⁻⁴⁷ GeV⁴ (10.8% from Λ_obs), which
+differs from both numbers quoted here. This section's arithmetic is internally consistent but
+should not be read as a settled, independently-verified 1.5σ agreement.
 
 ### 1.6 Physical Interpretation
 
@@ -465,9 +478,20 @@ This is within 7% of the observed 2.16 MeV!
 |                                                                   |
 |  Agreement: 7% (within uncertainties)                             |
 |                                                                   |
-|  STATUS: RESOLVED - First-generation boundary effect derived     |
+|  STATUS: PARTIALLY DERIVED, NOT RESOLVED (corrected in FIX pass) |
 +------------------------------------------------------------------+
 ```
+
+**Honesty note (added in FIX pass):** This chain should not be labeled "RESOLVED." §4.4 tries
+a boundary phase-shift mechanism and gets only an 8% reduction ("not enough"); §4.5 introduces
+KK-mode interference coefficients c1=-0.3, c2=0.1, c3=-0.05 with no derivation given ("For the
+first few KK modes:" is asserted, not derived) and is still insufficient ("Still not enough.
+Let me reconsider..."); §4.6 then adds a "threshold corrections" factor of 0.35 with zero
+derivation, chosen specifically to land within 7% of the target 2.16 MeV. The chained
+arithmetic (0.54×0.758×0.35×16.1=2.31 MeV) is correct given the inputs, but the 0.35 threshold
+factor and the c_n KK coefficients are free parameters tuned to hit the target, not derived
+quantities. This matches the ground-truth scorecard status of m_u as **P** (partially
+derived), not D.
 
 ---
 
@@ -615,9 +639,19 @@ Agreement: 6%
 |                                                                   |
 |  Predicted: 1.7 x 0.61 = 1.04 (vs 1.0 observed)                  |
 |                                                                   |
-|  STATUS: RESOLVED - ∞₃ phase + EW threshold explains pattern    |
+|  STATUS: PARTIALLY DERIVED, NOT RESOLVED (corrected in FIX pass) |
 +------------------------------------------------------------------+
 ```
+
+**Honesty note (added in FIX pass):** The W/Z-loop electroweak correction (§5.3) is a genuine
+derivation and gives only a 10.6% reduction — explicitly "not enough for 1/1.7 = 59%
+reduction" (§5.3 conclusion). The remaining shortfall is patched in §5.4 by an invented
+formula f_sector^lepton = f_sector^quark × exp(-π²/(9κ²)) with no derivation given for why
+this specific exponential applies to leptons but not quarks; it is reverse-engineered to
+produce the ratio 0.42/0.62=0.68 needed (combined with the derived 0.894 EW factor) to land
+m_μ and m_e within 6% of target. The chained arithmetic is correct, but roughly half of the
+correction (the f_sector^lepton piece) is a fitted rather than derived factor, so this should
+not be labeled "RESOLVED."
 
 ---
 
@@ -706,15 +740,22 @@ m_u = m_u^naive x f_boundary x f_KK x f_QCD x f_threshold
 +====================================================================+
 |                                                                     |
 |  RESOLVED ISSUES:                                                   |
-|  [X] Cosmological constant: 1.5 sigma agreement (Berry phase fix)   |
+|  [X] Cosmological constant: 1.5 sigma agreement (Berry phase fix,   |
+|      but see honesty note in Part I 1.5 -- F_Berry formula was      |
+|      selected among several tried candidates, not uniquely derived) |
 |  [X] L_X scale ambiguity: Two-scale interpretation justified        |
 |      - L_X ~ 10^-32 m (fundamental, from v*L_X = 3)                |
 |      - L_eff ~ 0.8 um (effective, from Casimir-holonomy)           |
 |      - Both physically distinct and necessary                       |
 |      - See LX_SCALE_HIERARCHY_RESOLUTION.md                         |
 |  [X] f_tail independence: Verified as derived from kappa            |
-|  [X] m_u anomaly: Boundary effect + QCD running                     |
-|  [X] Lepton overprediction: ∞₃ phase + EW threshold               |
+|  [ ] m_u anomaly: NOT resolved -- 0.35 "threshold correction" and   |
+|      KK coefficients c1,c2,c3 are fitted, not derived (see Part IV  |
+|      honesty note). Ground-truth status: P (partially derived).     |
+|  [ ] Lepton overprediction: NOT resolved -- f_sector^lepton formula |
+|      is reverse-engineered to hit the target (see Part V honesty    |
+|      note). W/Z EW correction alone gives only 10.6% of the needed  |
+|      59% reduction.                                                 |
 |  [X] ATS weak coupling: S(u)~u² is a feature, not a bug            |
 |      - STUR is strong-coupling mechanism (requires u > 1)          |
 |      - BCS dominates at weak coupling (u < 0.5 regime)             |
@@ -728,8 +769,11 @@ m_u = m_u^naive x f_boundary x f_KK x f_QCD x f_threshold
 |                                                                     |
 |  FALSIFIABILITY: Preserved via fifth-force predictions at um scale  |
 |                                                                     |
-|  OVERALL: All 26 SM parameters + Lambda derived from 3 axioms       |
-|           with ~5% typical agreement                                |
+|  OVERALL (corrected in FIX pass): The framework uses 4 inputs       |
+|  (M_Pl, v_EW, m_t, alpha_em), not zero free parameters. Current     |
+|  repo-wide canonical scorecard: 24D + 3P + 2U + 1I = 30 observables |
+|  (83% closure), not "all 26 SM parameters derived." m_u and the     |
+|  lepton masses corrected in this document remain P-status, not D.   |
 +====================================================================+
 ```
 
@@ -751,6 +795,8 @@ m_u = m_u^naive x f_boundary x f_KK x f_QCD x f_threshold
 
 ---
 
-**Document Status:** COMPLETE RESOLUTION
+**Document Status:** PARTIAL RESOLUTION (4 of 6 issues genuinely resolved; m_u and lepton mass
+chains rely on fitted, not derived, correction factors — see per-part honesty notes; corrected
+in FIX pass, 2026-07-18)
 **Version:** 4.4
 **Date:** 2026-02-04

@@ -248,7 +248,7 @@ Comparison with observation:
 
 λ_pred/λ_obs = 0.233/0.225 = 1.04
 
-Discrepancy: 4.0%
+Discrepancy: 3.7% (corrected in FIX pass from stated "4.0%" -- verified: 0.23335/0.225 = 1.0371)
 ```
 
 **The wavefunction tail correction f_tail = 1.131 shifts λ upward relative to the previous 1.05 value; downstream fits should be updated consistently using the analytic overlap definition.**
@@ -260,6 +260,20 @@ With κ = 2.48 (slightly adjusted):
 
 Agreement: 1%
 ```
+
+**Correction (FIX pass):** The "0.481" used above is not this document's own current
+correction-factor product. It is the OLD, deprecated 3-factor chain
+(f_boundary × f_holonomy × f_RG = 0.65 × 0.846 × 0.87 = 0.4784, rounds to 0.481) inherited from
+the superseded f_boundary=0.65 approach, not the current chain defined at the top of this
+document (f_sector × f_holonomy × f_RG × f_tail = 0.62 × 0.846 × 0.87 × 1.131 = 0.516, verified).
+Using the document's own current chain at κ=2.48 instead gives:
+```
+λ(κ=2.48, current chain) = 0.463 × 0.516 = 0.239
+Deviation from λ_obs = 0.225: 6.3%, not "Agreement: 1%"
+```
+This "1%" figure was produced by pairing an updated κ with a stale, superseded correction
+chain (an apparent copy-paste artifact) rather than by consistently using the document's own
+current numbers. The genuine current-chain result (κ=2.52) remains the 3.7% figure above.
 
 ---
 
@@ -418,7 +432,7 @@ Total: κ = 2.52 ± 0.16
 | f_RG | 0.87 ± 0.05 | **DERIVED** | One-loop running + ∞₃-even KK threshold sum | QCD + KK threshold running |
 | f_tail | 1.131 ± 0.023 | **DERIVED** | Analytic overlap ratio on S¹ vs single ∞-helix sector | Wavefunction tails wrapping S¹/∞₃ |
 | **For η̄:** | | | | |
-| f_hol | 0.948 ± 0.010 | **DERIVED** | Correlated holonomy variance model | exp[-⟨δθ²⟩/2] with ⟨δθ²⟩=1/3 |
+| f_hol | 0.948 ± 0.010 | **FITTED, not derived** (corrected in FIX pass) | This repo's own ground-truth audit finds 0.948 explicitly labeled "FITTED" elsewhere in the STUR documentation, contradicting the "DERIVED" label previously shown here; treat as calibrated, not first-principles | exp[-⟨δθ²⟩/2] with ⟨δθ²⟩=1/3 (⟨δθ²⟩=1/3 itself is not independently justified) |
 | f_Berry | 0.975 ± 0.005 | **DERIVED** | Genuine geometric calculation | Geometric phase on infinity helix |
 | f_RG | 0.970 ± 0.015 | **DERIVED** | RG + KK threshold sum | RG + KK threshold |
 
@@ -443,8 +457,15 @@ Agreement: 4% (update with analytic overlap f_tail)
   = 0.350 ± 0.020
 
 Observed: η̄ = 0.348 ± 0.010
-Agreement: 0.09σ
+Agreement: 0.17σ (corrected in FIX pass from stated "0.09σ" -- verified: (0.3497-0.348)/0.010 = 0.166σ)
 ```
+
+**Honesty note (added in FIX pass):** This chain uses f_hol = 0.948, which is fitted (see
+table above), so the 0.17σ agreement partly reflects calibration rather than pure prediction.
+It also predates the framework's current canonical η̄ value elsewhere in this repo
+(η̄=0.3947, a 13.4% deviation from observation, obtained without a fitted constant) — the two
+values (0.350 here vs. 0.3947 canonical) are not the same calculation and should not be
+conflated. This document's η̄=0.350 chain should be treated as superseded.
 
 ---
 
@@ -454,7 +475,7 @@ Agreement: 0.09σ
 
 1. **f_sector = 0.62**: Approximately derived from sector confinement probability; modeling choices affect the precise value (see provenance note in Section 1)
 2. **f_holonomy (λ) = 0.846**: Derived from SU(3) Haar average exp(-1/6)
-3. **f_hol (η̄) = 0.948**: Derived from correlated holonomy fluctuations
+3. **f_hol (η̄) = 0.948**: **FITTED, not derived** (corrected in FIX pass) — labeled "DERIVED" earlier in this document but explicitly called "FITTED" elsewhere in this repo's own documentation; the ⟨δθ²⟩=1/3 input is not independently justified
 4. **f_Berry = 0.975**: Genuinely derived geometric phase on infinity helix
 5. **XCRM-Yukawa symmetry**: y = |χ|·L_X from natural localization
 

@@ -649,7 +649,10 @@ and narrower than the previous vague "conditional satisfaction."
 M_Pl = 1.2209 × 10¹⁹ GeV   (PDG 2024)
 M_R  = 2 × 10¹⁴ GeV        (STUR seesaw scale, from v·L_X = 3 holonomy)
 m_ν3 = 5.0 × 10⁻² eV       (neutrino mass, √(Δm²₃₁), NuFIT 6.0)
-Λ_CC = 3.2 × 10⁻⁴⁷ GeV⁴    (observed cosmological constant, Planck 2018)
+Λ_CC = 3.2 × 10⁻⁴⁷ GeV⁴    (fiducial Λ_residual value used in §4–6 above, see task
+                             specification, §3.2; NOT the observed value — the
+                             actual observed Λ_obs = 2.846×10⁻⁴⁷ GeV⁴, Planck 2018,
+                             per §3.2)
 
 Derived:
   ε_ν = m_ν / M_R = 2.5 × 10⁻²⁵   (breaking parameter)
