@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR Quantum Mechanics Emergence — Schrodinger Equation from Path Integral</title>
-<meta name="description" content="Quantum mechanics emerges from ONE input (M_Planck). Complete derivation chain from Master Action to Schrodinger equation, commutation relations, and Born rule via 5D path integral.">
+<meta name="description" content="STUR's account of quantum mechanics, built from 4 inputs (M_Planck, v_EW, m_t, alpha_em). Standard path-integral derivation chain to Schrodinger equation, commutation relations, and Born rule; STUR's specific claims are noted where they go beyond the standard construction.">
 
 <!-- PWA & iOS meta tags -->
 <meta name="theme-color" content="#4ade80">
@@ -44,7 +44,7 @@
 
 <header class="masthead">
   <h1>Quantum Mechanics from STUR</h1>
-  <p class="subtitle">QM Emerges from ONE Input (M<sub>Planck</sub>)</p>
+  <p class="subtitle">QM in STUR, Built from 4 Inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, &alpha;<sub>em</sub>)</p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
     Complete Derivation Chain: M<sub>Planck</sub> → Master Action → Path Integral → Schrodinger Equation
   </p>
@@ -69,14 +69,22 @@
     <strong>(A1)</strong> M⁴ × S¹ with TEGR,
     <strong>(A2)</strong> Real doublet R-field,
     <strong>(A3)</strong> Energy minimization —
-    yield 30 observables (29D+0P+0U+1I). Quantum mechanics emerges from the path integral over ∞₃ configurations.
-    Parameters: κ = 2.430, α<sub>eff</sub> = 1.480 (two-loop), σ = 0.862.
+    yield 30 observables (24D+3P+2U+1I, 83% closure) from 4 inputs (M<sub>Pl</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>).
+    Quantum mechanics on this page is obtained via the standard Feynman path-integral construction.
+    Parameters: κ<sub>q</sub> = 2.417, κ<sub>l</sub> = 2.367, α<sub>eff</sub> = 1.480 (two-loop), σ = 0.862.
   </div>
 
   <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.5);">
-    <div class="title" style="font-size:1.1rem;">ONE Input Framework: M<sub>Planck</sub> → Quantum Mechanics (v7.0)</div>
+    <div class="title" style="font-size:1.1rem;">Standard Path-Integral Construction, with STUR's Specific Claim (v7.0)</div>
     <p style="margin:0;color:var(--text);line-height:1.7;">
-      In the STUR framework, quantum mechanics is <strong>not assumed</strong>—it <strong>emerges</strong> from the path integral over ∞₃ configurations, traced back to ONE input (M<sub>Planck</sub>) through the complete derivation chain. The 5D path integral on the helix geometry M<sup>4</sup> × S<sup>1</sup> with ∞-helix topology produces all QM phenomena when the extra dimension X becomes unobservable:
+      Sections 2–3 below (Schrodinger equation, commutators) use the standard Feynman path-integral
+      construction (1948) — a textbook route that holds for <em>any</em> action S[x], not specifically
+      S<sub>STUR</sub>; the equations shown do not reference R or Φ. STUR's specific, additional claim is
+      that the underlying action is S<sub>STUR</sub> (traced to M<sub>Planck</sub> and the other 3 inputs) and
+      that the Born rule and decoherence (Sections 4–5, which <em>do</em> reference the R-field) follow from
+      R-field phase statistics. That connective step — S<sub>STUR</sub> → the specific path integral used below
+      — is asserted, not separately derived on this page. What the 5D path integral produces when X becomes
+      unobservable:
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
       <li><strong>Schrodinger equation</strong> from path integral saddle point (Section 2)</li>
@@ -98,9 +106,9 @@
 <section class="section" id="path-integral">
   <h2>1. The STUR Path Integral</h2>
 
-  <h3>1.1 Full 5D Partition Function from ONE Input</h3>
+  <h3>1.1 Full 5D Partition Function</h3>
 
-  <p>In the STUR framework, the path integral follows from ONE input (M<sub>Planck</sub>):</p>
+  <p>In the STUR framework, the path integral is postulated to be built on the Master Action, whose scales trace to M<sub>Planck</sub> (one of the framework's 4 inputs):</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);">
     \[\boxed{Z = \int \mathcal{D}[g_{MN}, A_M, \psi, \mathbf{R}]\, e^{iS_{\rm STUR}/\hbar}}\]
@@ -111,7 +119,7 @@
 
   <div class="eq boxed">
     \[S_{\rm STUR} = \int d^5x \sqrt{-g} \left[\frac{M_5^3}{2}\mathcal{R} + \frac{1}{2}|\nabla\mathbf{R}|^2 - V(|\mathbf{R}|) + \chi|\mathbf{R}|^2\partial_X\phi + \alpha |\mathbf{R}| \mathbb{T} + \mathcal{L}_{\rm gauge} + \mathcal{L}_{\rm matter}\right]\]
-    <div class="eq-label">(1.2) — STUR Master Action: M<sub>5</sub> = (M<sub>Pl</sub>²/L<sub>X</sub>)<sup>1/3</sup> from ONE input</div>
+    <div class="eq-label">(1.2) — STUR Master Action: M<sub>5</sub> = (M<sub>Pl</sub>²/L<sub>X</sub>)<sup>1/3</sup></div>
   </div>
 
   <h3>1.2 Dimensional Reduction to 4D</h3>
@@ -145,7 +153,7 @@
 
 <!-- SECTION 2: SCHRODINGER EQUATION -->
 <section class="section" id="schrodinger" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
-  <h2 style="color:var(--gold);">2. Derivation of Schrodinger Equation — From ONE Input</h2>
+  <h2 style="color:var(--gold);">2. Deriving the Schrodinger Equation — Standard Path-Integral Route</h2>
 
   <h3>2.1 Path Integral to Wave Function</h3>
 
@@ -198,11 +206,14 @@
   </div>
 
   <div class="block success" style="margin-top:1rem;">
-    <div class="title">Key Result — STUR Derivation Chain</div>
+    <div class="title">Key Result — Standard Path-Integral Construction</div>
     <p style="margin:0;color:var(--text-secondary);">
-      The Schrodinger equation is <strong>not a postulate</strong>—it follows from the path integral,
-      which in turn follows from the STUR Master Action. In STUR, the entire chain traces back to
-      <strong>ONE input</strong>: M<sub>Planck</sub> → S<sub>STUR</sub> → Path Integral → Schrodinger Equation.
+      Equations (2.1)–(2.5) above are the standard Feynman path-integral derivation of the Schrodinger
+      equation (1948) for a generic action S[x] = ∫(½mẋ² − V)dt; it holds regardless of what S[x] is,
+      and nowhere in this derivation does S<sub>STUR</sub>, R, or Φ appear. STUR's specific contribution is
+      asserting that the physical action is S<sub>STUR</sub> (traced to M<sub>Planck</sub> and the framework's
+      3 other inputs), which is not itself derived on this page — it follows from the standard
+      construction once an action is assumed, not from STUR uniquely.
     </p>
   </div>
 
@@ -429,8 +440,19 @@
   <p>The resistance field \(\Diff{R}\) has quantum fluctuations characterized by:</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);">
-    \[\boxed{\Diff{\delta R(x)} \sim \mathcal{N}(0, \Diff{\sigma_R^2}) \quad \text{with} \quad \Diff{\sigma_R} \sim 10^{-6} v \sim 10^{12} \text{ GeV}}\]
+    \[\boxed{\Diff{\delta R(x)} \sim \mathcal{N}(0, \Diff{\sigma_R^2}) \quad \text{with} \quad \Diff{\sigma_R} \sim 10^{-6} v}\]
     <div class="eq-label" style="color:var(--gold);">(7.1) — R-field fluctuation amplitude</div>
+  </div>
+
+  <div class="block gold" style="margin-top:0.5rem;">
+    <div class="title">Unresolved Numerical Inconsistency</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      With the electroweak VEV used throughout STUR (v = v<sub>EW</sub> = 246.22 GeV), 10<sup>−6</sup>v ≈
+      2.5×10<sup>−4</sup> GeV — not the 10<sup>12</sup> GeV previously stated here, which was off by
+      roughly 16 orders of magnitude. That earlier figure is not reproducible from v<sub>EW</sub> and this
+      page does not otherwise specify or derive a value of σ<sub>R</sub>; the correct scale for σ<sub>R</sub>
+      is not established. This is left flagged rather than papered over.
+    </p>
   </div>
 
   <h3>7.2 Gaussian Phase Statistics</h3>
@@ -455,7 +477,18 @@
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
     \[\boxed{\Matt{\ell_{\rm coh}} = \frac{\hbar}{\Quant{y} \cdot \Diff{\sigma_R}/v} \approx 1 - 100 \text{ m}}\]
-    <div class="eq-label" style="color:var(--success);">(7.4) — STUR coherence length (DERIVED)</div>
+    <div class="eq-label" style="color:var(--success);">(7.4) — STUR coherence length (order-of-magnitude estimate)</div>
+  </div>
+
+  <div class="block gold" style="margin-top:0.5rem;">
+    <div class="title">Cross-Page Formula Conflict (Unreconciled)</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      <a href="stur_xcrm_closure.html">stur_xcrm_closure.html</a> (XCRM Closure Relation, eq. 2.27) states a
+      structurally different closed form for the same named quantity: ℓ<sub>coh</sub> = √2·L<sub>X</sub>/(y·σ<sub>R</sub>),
+      with no ħ or v dependence. The two pages' formulas are not algebraically reconcilable as written,
+      and (given the σ<sub>R</sub> inconsistency noted in §7.1 above) neither value of ℓ<sub>coh</sub> should be
+      treated as an established result.
+    </p>
   </div>
 
   <p>The visibility decays as:</p>
@@ -492,8 +525,8 @@
   <div class="walkthrough" style="margin:1rem 0;">
     <div class="step">
       <div class="step-content">
-        <strong>ONE Input: M<sub>Planck</sub></strong><br>
-        Single fundamental scale sets everything
+        <strong>Input: M<sub>Planck</sub></strong><br>
+        One of STUR's 4 inputs (with v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>); sets the Master Action scales
       </div>
     </div>
     <div class="step">
@@ -548,16 +581,19 @@
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
     \[\boxed{M_{\rm Pl} \;\xrightarrow{\text{STUR}}\; S_{\rm STUR} \;\xrightarrow{\text{path int}}\; K \;\xrightarrow{\varepsilon\to 0}\; i\hbar\partial_t\psi = \hat{H}\psi \;\xrightarrow{}\; [x,p]=i\hbar \;\xrightarrow{}\; P=|\psi|^2}\]
-    <div class="eq-label" style="color:var(--success);">STUR Complete QM Derivation: ONE Input → All of Quantum Mechanics</div>
+    <div class="eq-label" style="color:var(--success);">STUR's QM Chain: Standard Path Integral + Asserted R-Field Mechanism</div>
   </div>
 
   <div class="block success" style="margin-top:1rem;">
-    <div class="title">Quantum Mechanics from ONE Input</div>
+    <div class="title">Summary: What Is and Isn't Shown Above</div>
     <p style="margin:0;color:var(--text-secondary);">
-      In the STUR Helix Geometry TOE, all of quantum mechanics—Schrodinger equation, commutation relations,
-      uncertainty principle, Born rule—follows from <strong>ONE input</strong> (M<sub>Planck</sub>) via the
-      complete derivation chain. QM is <strong>derived</strong>, not postulated. The R-field fluctuations
-      on M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub> provide the physical mechanism for all quantum phenomena.
+      The Schrodinger equation, commutators, and uncertainty relation (Sections 2–3, 6) follow from the
+      standard Feynman path-integral construction, which holds for any action and does not itself
+      demonstrate a connection to S<sub>STUR</sub>, R, or Φ. The Born rule and decoherence/collapse
+      (Sections 4–5) do explicitly invoke R-field phase statistics. QM here is a mix of standard
+      construction (given an action) plus STUR's specific, asserted claim about what that action is and
+      how R-field fluctuations enter — the latter is not independently derived from M<sub>Planck</sub> alone
+      on this page.
     </p>
   </div>
 </section>
@@ -599,11 +635,12 @@
   </table>
 
   <div class="block gold" style="margin-top:1rem;">
-    <div class="title">STUR TOE: ONE Input Replaces All QM Postulates</div>
+    <div class="title">STUR TOE vs. Standard QM Postulates</div>
     <p style="margin:0;color:var(--text-secondary);">
-      STUR replaces the 6 postulates of standard QM with <strong>ONE input</strong> (M<sub>Planck</sub>).
-      The Master Action, helix geometry, and all derived scales follow from this single input.
-      Quantum mechanics then emerges mathematically from the path integral formulation.
+      STUR asserts the 6 postulates of standard QM can be replaced by its 4 inputs (M<sub>Planck</sub>,
+      v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>) plus the Master Action and R-field mechanism. As shown in
+      the "Derived" column above, most of this table's content is the standard path-integral route applied
+      to an assumed action, not a demonstration that the action must be S<sub>STUR</sub> specifically.
     </p>
   </div>
 </section>

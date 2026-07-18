@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XCRM Energy Conditions — v7.0 STUR TOE</title>
-    <meta name="description" content="STUR v7.0 TOE: Energy conditions from infinity helix geometry. 3 axioms + M_Planck, F-theory CY₄ UV completion on (P²×P¹)/∞₃. WEC, NEC, SEC, DEC all satisfied. 30 observables (29D+0P+0U+1I).">
+    <meta name="description" content="STUR v7.0 TOE: Energy conditions from infinity helix geometry. 3 axioms + 4 inputs, F-theory CY₄ UV completion (proposed) on (P²×P¹)/∞₃. WEC, NEC, SEC, DEC all satisfied. 30 observables (24D+3P+2U+1I, 83% closure).">
 
 <!-- PWA & iOS meta tags -->
 <meta name="theme-color" content="#4ade80">
@@ -169,12 +169,12 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">v7.0 STUR TOE Framework:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li><strong>Framework input:</strong> 3 axioms + M<sub>Planck</sub> → 29 observables</li>
-                <li><strong>infinity helix geometry</strong> — the fundamental TOE structure (F-theory CY₄ UV completion proven)</li>
+                <li><strong>Framework input:</strong> 3 axioms + 4 inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>) → 30 observables (24D+3P+2U+1I, 83% closure)</li>
+                <li><strong>infinity helix geometry</strong> — the framework's central structure (F-theory CY₄ UV completion proposed)</li>
                 <li>Energy conditions follow directly from Master Action structure</li>
                 <li>infinity helix boundary conditions determine XCRM integral</li>
                 <li>Mexican-hat potential V(|R|) ≥ 0 from topology</li>
-                <li><strong>F-theory CY₄:</strong> (P²×P¹)/∞₃, h¹¹=6, h²¹=3, h³¹=25, χ=216</li>
+                <li><strong>F-theory CY₄:</strong> (P²×P¹)/∞₃, h¹¹=6, h²¹=3, h³¹=25, χ=216 (note: χ cannot be independently checked from these three Hodge numbers alone — the standard CY₄ formula also needs h²²)</li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Parameters Used (status noted):</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
@@ -553,14 +553,14 @@
         </table>
 
         <div class="block success" style="margin-top:1rem;">
-            <div class="title">Physical Consistency (v7.0 TOE — F-theory Confirmed)</div>
+            <div class="title">Physical Consistency (v7.0 TOE)</div>
             <p style="margin:0;color:var(--text-secondary);">
-                The v7.0 STUR TOE satisfies all classical energy conditions from ∞-helix geometry alone. The F-theory
-                CY₄ UV completion on (P²×P¹)/∞₃ confirms these conditions hold at all energy scales. This ensures:
+                The v7.0 STUR TOE satisfies all classical energy conditions from ∞-helix geometry alone. The proposed F-theory
+                CY₄ UV completion on (P²×P¹)/∞₃ is asserted to be consistent with these conditions holding at all energy scales. This is intended to ensure:
                 causal energy propagation, stable ground state, no runaway solutions,
                 and consistency with the positive energy theorems of GR.
-                The ∞₃ infinity helix is the fundamental TOE structure; all 29 observables (including energy condition satisfaction)
-                are derived from 3 axioms + M<sub>Planck</sub>.
+                The ∞₃ infinity helix is the framework's central structure; STUR's 30 observables (24D+3P+2U+1I, 83% closure, including energy condition satisfaction)
+                are addressed from 3 axioms + 4 inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>).
             </p>
         </div>
     </section>
@@ -601,7 +601,7 @@ OUT_PNG  = "stur_energy_conditions.png"
 # ===============================================================
 # STUR PARAMETERS (assumed values — not derived from M_Planck)
 # ===============================================================
-L_X = 1e-6      # Compactification scale (m) — assumed, not measured
+L_X = 0.8e-6    # Compactification scale (m) — assumed from Casimir-holonomy model (matches L_X ≈ 0.8 μm stated above; previously 1e-6, which did not match)
 v = 1.0         # VEV of R-field — assumed dimensionless value
 lam = 0.1       # Self-coupling lambda — assumed
 chi = 1.0       # XCRM coupling — assumed
@@ -610,9 +610,9 @@ N_x = 100       # Grid points in X
 N_r = 50        # Grid points in radial coordinate
 
 # ===============================================================
-# POTENTIAL V(|\mathbf{R}|)
+# POTENTIAL V(|R|)
 # ===============================================================
-def V(|\mathbf{R}|):
+def V(R):
     """Mexican-hat potential - always non-negative"""
     return (lam / 4.0) * (R**2 - v**2)**2
 

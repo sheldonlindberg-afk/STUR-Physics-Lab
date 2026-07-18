@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR Dark Matter — Derivation from First Principles</title>
-<meta name="description" content="STUR v7.0: Derivation of dark matter as the Lightest Kaluza-Klein Particle B^(1). M = 0.92 ± 0.08 TeV, Ωh² = 0.119 (0.4σ from Planck), σ_SI ~ 10⁻⁴⁷ cm². LKP mass and relic density derived from infinity helix geometry.">
+<meta name="description" content="STUR v7.0: Dark matter as the Lightest Kaluza-Klein Particle B^(1). M = 0.92 ± 0.08 TeV, Ωh² = 0.1200, σ_SI ~ 10⁻⁴⁷ cm². The mechanism (KK-parity stability) is derived from infinity helix geometry, but the mass scale and relic density are U-status: fitted, not independently derived — see the honesty note on this page.">
 
 <!-- PWA & iOS meta tags -->
 <meta name="theme-color" content="#4ade80">
@@ -49,17 +49,31 @@
 
   <!-- v7.0 TOE Highlight -->
   <div style="margin:1rem auto;max-width:700px;padding:1rem;background:rgba(74,222,128,0.15);border:3px solid #4ade80;border-radius:12px;">
-    <div style="font-size:0.9rem;color:#4ade80;text-align:center;font-weight:600;">TOE Closure (v7.0) — Dark Matter Derived</div>
+    <div style="font-size:0.9rem;color:#4ade80;text-align:center;font-weight:600;">TOE Closure (v7.0) — Dark Matter Candidate Identified</div>
     <p style="margin:0.5rem 0 0;color:var(--text);text-align:center;font-size:0.95rem;">
-      <strong>M<sub>LKP</sub> = 0.92 &pm; 0.08 TeV</strong> (B<sup>(1)</sup>) | <strong>&Omega;<sub>DM</sub>h&sup2; = 0.119</strong> (0.4&sigma; from Planck) | <strong>&sigma;<sub>SI</sub> ~ 10<sup>&minus;47</sup> cm&sup2;</strong>
+      <strong>M<sub>LKP</sub> = 0.92 &pm; 0.08 TeV</strong> (B<sup>(1)</sup>) | <strong>&Omega;<sub>DM</sub>h&sup2; = 0.1200</strong> (0.0&sigma; from Planck, by construction) | <strong>&sigma;<sub>SI</sub> ~ 10<sup>&minus;47</sup> cm&sup2;</strong>
+    </p>
+  </div>
+
+  <!-- HONESTY NOTE -->
+  <div style="margin:1rem auto;max-width:700px;padding:1rem;background:rgba(245,158,11,0.1);border:2px solid var(--warning);border-radius:12px;">
+    <div style="font-size:0.9rem;color:var(--warning);text-align:center;font-weight:600;">Status: mechanism derived, mass scale U (unresolved/fitted)</div>
+    <p style="margin:0.5rem 0 0;color:var(--text);text-align:center;font-size:0.9rem;">
+      The <strong>KK-parity stability mechanism</strong> (why the LKP cannot decay) is a genuine geometric derivation from
+      the ∞₃ symmetry. The <strong>numerical mass scale</strong> M<sub>DM</sub> ≈ 949 GeV, however, is <strong>not</strong>
+      independently derived — an extensive documented search (in <code>scripts/stur_toe_closure.py</code>, Part 9) for a
+      formula linking M<sub>DM</sub> to M<sub>R</sub>, M<sub>Pl</sub>, v<sub>EW</sub>, 1/L<sub>X</sub>, or λ<sub>W</sub> found
+      none that lands on the TeV scale without an unmotivated exponent. The mass is set to reproduce the observed relic
+      abundance, and Ω<sub>DM</sub>h² = 0.1200 is consequently a mathematically tautological result (it returns 0.1200
+      for any value of the theory's Y4 group-factor), not an independent prediction. Both are U-status.
     </p>
   </div>
 
   <!-- v7.0 TOE Derivation Chain Visualization -->
   <div style="margin:1.25rem auto;max-width:700px;padding:0.75rem;background:linear-gradient(90deg,rgba(74,222,128,0.08),rgba(167,139,250,0.12),rgba(74,222,128,0.08));border-radius:10px;font-size:0.85rem;text-align:center;">
-    <strong>Complete chain:</strong> M<sub>Planck</sub> → L<sub>X</sub> → KK Tower → ∞-helix KK-Parity → <strong style="color:var(--success);">M<sub>LKP</sub> = 949 GeV, Ω<sub>DM</sub>h² = 0.1200</strong>
+    <strong>Complete chain:</strong> M<sub>Planck</sub> → L<sub>X</sub> → KK Tower → ∞-helix KK-Parity → <strong style="color:var(--success);">M<sub>LKP</sub> = 949 GeV (U)</strong>, <strong style="color:var(--warning);">Ω<sub>DM</sub>h² = 0.1200 (U)</strong>
   </div>
-  <p style="text-align:center;font-size:0.8rem;color:var(--text-muted);">v7.0 — All dark matter properties derived from the dynamic infinity helix geometry</p>
+  <p style="text-align:center;font-size:0.8rem;color:var(--text-muted);">v7.0 — KK-parity stability mechanism is derived; the mass scale and relic density are fitted (U status), see honesty note above</p>
 
   <!-- Status Badge -->
   <div style="margin-top:1rem;">
@@ -84,26 +98,27 @@
 <section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
   <h2 style="color:var(--success);">Dark Matter Derivation [H.DM] — v7.0</h2>
 
-  <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.5);">
-    <div class="title" style="font-size:1.1rem;">Dark Matter Derived from M<sub>Planck</sub> → L<sub>X</sub> Chain (v7.0)</div>
+  <div class="block warning" style="border-width:3px;background:rgba(0,0,0,0.5);">
+    <div class="title" style="font-size:1.1rem;">KK-Parity Mechanism Derived; Mass Scale Fitted (v7.0, U status)</div>
     <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
-      <strong>LKP B<sup>(1)</sup> dark matter is derived from the STUR infinity helix geometry.</strong>
-      L<sub>X</sub> follows from M<sub>Planck</sub> via holonomy stabilization, fixing the KK mass spectrum.
-      The holonomy correction Δm²<sub>hol</sub> lifts the raw KK scale (~0.2 eV from L<sub>X</sub> ~ 0.8 μm)
-      to the TeV scale via the ∞₃ Wilson line mechanism. The resulting LKP mass M = 0.92 ± 0.08 TeV
-      yields Ω<sub>DM</sub>h² = 0.1200 (0.4σ from Planck 2018: 0.1200 ± 0.0012) through standard thermal freeze-out.
+      <strong>The LKP B<sup>(1)</sup> candidate and its stability follow from the STUR infinity helix geometry.</strong>
+      L<sub>X</sub> follows from M<sub>Planck</sub> via holonomy stabilization, fixing the raw KK mass spectrum
+      (~0.2 eV from L<sub>X</sub> ~ 0.8 μm). The "holonomy correction" Δm²<sub>hol</sub> that lifts this to the TeV
+      scale is <strong>not independently derived</strong> — it is set to reproduce the desired mass. The resulting
+      LKP mass M = 0.92 ± 0.08 TeV is chosen so that standard thermal freeze-out gives Ω<sub>DM</sub>h² = 0.1200,
+      matching Planck 2018 (0.1200 ± 0.0012) by construction, not as an independent prediction.
     </p>
   </div>
 
-  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;margin:1rem 0;">
+  <div class="eq law" style="background:#000;border:3px solid var(--warning);padding:1.25rem;margin:1rem 0;">
     \[\boxed{\begin{aligned}
-    \Matt{M_{\rm LKP}} &\sim \Diff{\text{TeV scale}} \quad \text{(from } L_X \text{)} \\[0.5em]
-    \Omega_{\rm DM} h^2 &= \Diff{0.119} \quad \text{(thermal relic prediction)}
+    \Matt{M_{\rm LKP}} &\sim \Diff{\text{TeV scale}} \quad \text{(scale from } L_X\text{; precise value fitted, U)} \\[0.5em]
+    \Omega_{\rm DM} h^2 &= \Diff{0.1200} \quad \text{(thermal relic, tautological given fitted mass, U)}
     \end{aligned}}\]
-    <div class="eq-label" style="color:var(--success);">[H.DM.4, H.DM.6] — LKP mass and relic density (v7.0)</div>
+    <div class="eq-label" style="color:var(--warning);">[H.DM.4, H.DM.6] — LKP mass and relic density (v7.0) — U status, see honesty note above</div>
   </div>
 
-  <p style="text-align:center;"><strong>Observed (Planck 2018):</strong> \(\Omega_{\rm DM} h^2 = 0.1200 \pm 0.0012\) — <span style="color:var(--success);">0.4σ agreement with STUR derivation.</span></p>
+  <p style="text-align:center;"><strong>Observed (Planck 2018):</strong> \(\Omega_{\rm DM} h^2 = 0.1200 \pm 0.0012\) — matches by construction (U status), not an independent derivation.</p>
 </section>
 
 <!-- DERIVATION CHAIN -->
@@ -130,9 +145,9 @@
       </p>
     </div>
     <div style="padding:1rem;background:rgba(34,211,238,0.08);border-radius:10px;border-left:4px solid #22d3ee;">
-      <strong style="color:#22d3ee;">Step 3: Thermal Relic → Ω<sub>DM</sub>h²</strong>
+      <strong style="color:#22d3ee;">Step 3: Thermal Relic → Ω<sub>DM</sub>h² (U status)</strong>
       <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-        Standard thermal freeze-out with M<sub>LKP</sub> = 949 GeV yields Ω<sub>DM</sub>h² = 0.1200, within 0.4σ of Planck measurement (0.1200 ± 0.0012).
+        Standard thermal freeze-out with M<sub>LKP</sub> = 949 GeV (a fitted, not independently derived, mass — see honesty note above) yields Ω<sub>DM</sub>h² = 0.1200, matching Planck (0.1200 ± 0.0012) by construction.
       </p>
     </div>
   </div>
@@ -449,9 +464,9 @@
     For \(\Matt{M_{\rm LKP}} = 0.92 \pm 0.08\) TeV:
   </p>
 
-  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;margin:1rem 0;">
-    \[\boxed{\Omega_{\rm LKP} h^2 = \Diff{0.119} \quad \text{(derived, 0.4}\sigma\text{ from Planck)}}\]
-    <div class="eq-label" style="color:var(--success);">[H.DM.6] — STUR dark matter relic density (v7.0)</div>
+  <div class="eq law" style="background:#000;border:3px solid var(--warning);padding:1.25rem;margin:1rem 0;">
+    \[\boxed{\Omega_{\rm LKP} h^2 = \Diff{0.1200} \quad \text{(matches Planck by construction; U status — mass fitted, not derived)}}\]
+    <div class="eq-label" style="color:var(--warning);">[H.DM.6] — STUR dark matter relic density (v7.0, U status)</div>
   </div>
 
   <p>
@@ -467,8 +482,8 @@
       \[\langle\sigma v\rangle_{\rm LKP} \approx \frac{g_1^4}{16\pi M_{\rm LKP}^2} \times \sum_f \frac{Y_f^4 N_c}{4} \approx 1-3 \times 10^{-26}\,\text{cm}^3/\text{s}\]
     </div>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary);">
-      This is the "WIMP miracle" cross section! With M<sub>LKP</sub> ~ TeV (from L<sub>X</sub>) and KK-parity (from ∞₃),
-      the theory yields Ω<sub>DM</sub>h² = 0.1200 (0.0% from Planck). All derived from M<sub>Planck</sub> via the dynamic infinity helix geometry.
+      This is the "WIMP miracle" cross section! With M<sub>LKP</sub> ~ TeV (order of magnitude from L<sub>X</sub>) and KK-parity (derived from ∞₃),
+      the theory yields Ω<sub>DM</sub>h² = 0.1200 by construction, since M<sub>LKP</sub> is fitted to match Planck rather than independently derived (U status — see honesty note at top of page).
     </p>
   </div>
 </section>
@@ -544,13 +559,26 @@
 
   <p>Therefore:</p>
 
-  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
-    \[\boxed{\Omega_{\rm DM} h^2 = \frac{1.07 \times 10^9}{1.22 \times 10^{19} \times 10.3 \times 9.4 \times 10^{-11}} = \frac{1.07 \times 10^9}{1.18 \times 10^{10}} = 0.119}\]
-    <div class="eq-label" style="color:var(--success);">(DM.5.5) — STUR dark matter relic density</div>
+  <div class="eq law" style="background:#000;border:3px solid var(--warning);padding:1.25rem;">
+    \[\boxed{\Omega_{\rm DM} h^2 = \frac{1.07 \times 10^9}{1.22 \times 10^{19} \times 10.3 \times 9.4 \times 10^{-11}} = \frac{1.07 \times 10^9}{1.18 \times 10^{10}} = 0.091}\]
+    <div class="eq-label" style="color:var(--warning);">(DM.5.5) — Standard freeze-out cross-check using M<sub>LKP</sub> = 949 GeV as an input (corrected arithmetic: the division was previously misstated as 0.119; it is actually 0.091, about 24% below the Planck value)</div>
+  </div>
+
+  <div class="block warning" style="margin:0.75rem 0;">
+    <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+      <strong>Honesty note:</strong> this freeze-out calculation, once the arithmetic is corrected, does <em>not</em>
+      reproduce the Planck value to 0.8% — it lands at Ω<sub>DM</sub>h² ≈ 0.091, about 24% low. It is therefore not an
+      independent confirmation of Ω<sub>DM</sub>h² = 0.1200. The 0.1200 figure quoted elsewhere on this page and site-wide
+      comes from a separate, mathematically tautological relation (U status — it returns 0.1200 regardless of the
+      theory's Y4 group-factor) documented in <code>scripts/stur_toe_closure.py</code> (Part 9), not from this
+      freeze-out cross-check. Likewise M<sub>DM</sub> = 949 GeV is not independently derived: an extensive documented
+      search (seesaw/geometric-mean combinations of M<sub>R</sub>, M<sub>Pl</sub>, v<sub>EW</sub>, 1/L<sub>X</sub>, λ<sub>W</sub>)
+      found no formula that lands on the TeV scale without an unmotivated exponent — see the same file for the search log.
+    </p>
   </div>
 
   <p style="text-align:center;font-size:1.1rem;margin-top:1rem;">
-    <strong>Observed (Planck 2018):</strong> Ω<sub>DM</sub>h² = 0.1200 ± 0.0012 — <span style="color:var(--success);">✓ 0.8% agreement</span>
+    <strong>Observed (Planck 2018):</strong> Ω<sub>DM</sub>h² = 0.1200 ± 0.0012 — this freeze-out cross-check gives 0.091 (24% low); see honesty note above.
   </p>
 
   <h3>5.5 LKP Mass Range for Ω<sub>DM</sub> Match</h3>
@@ -565,10 +593,10 @@
   <div class="block success" style="border-width:3px;margin-top:1.5rem;">
     <div class="title" style="font-size:1.1rem;">v7.0: LKP Dark Matter from ∞₃ Dynamic Infinity Helix</div>
     <p style="margin:0;color:var(--text-secondary);">
-      STUR derives the LKP B<sup>(1)</sup> dark matter candidate from the infinity helix geometry.
-      KK-parity stability is a structural consequence of the ∞-helix topology. The TeV-scale mass
-      (M = 0.92 ± 0.08 TeV) emerges from the holonomy correction to the raw KK scale, yielding
-      Ω<sub>DM</sub>h² = 0.1200 (0.0% from Planck) and σ<sub>SI</sub> ~ 10<sup>−47</sup> cm² within reach of LZ/XENONnT.
+      STUR identifies the LKP B<sup>(1)</sup> as the dark matter candidate from the infinity helix geometry.
+      KK-parity stability is a structural consequence of the ∞-helix topology (genuinely derived). The TeV-scale mass
+      (M = 0.92 ± 0.08 TeV), however, is fitted via the holonomy correction rather than independently derived (U status),
+      giving Ω<sub>DM</sub>h² = 0.1200 by construction and σ<sub>SI</sub> ~ 10<sup>−47</sup> cm² within reach of LZ/XENONnT.
     </p>
   </div>
 </section>
@@ -664,10 +692,10 @@
       <strong style="color:#4ade80;">STUR v7.0 TOE</strong>
       <ul style="margin:0.5rem 0 0;font-size:0.9rem;color:var(--text-secondary);">
         <li>LKP from existing 5D fields</li>
-        <li>Stability from ∞-helix KK-parity</li>
-        <li>M<sub>LKP</sub> ~ TeV from L<sub>X</sub> (from M<sub>Planck</sub>)</li>
-        <li>Ω<sub>DM</sub>h² = 0.1200 (0.0% from Planck)</li>
-        <li>All derived from M<sub>Planck</sub> chain</li>
+        <li>Stability from ∞-helix KK-parity (derived)</li>
+        <li>M<sub>LKP</sub> ~ TeV scale from L<sub>X</sub>; precise value fitted (U)</li>
+        <li>Ω<sub>DM</sub>h² = 0.1200 by construction (U)</li>
+        <li>Stability mechanism derived; mass scale and relic density are not</li>
       </ul>
     </div>
   </div>
@@ -675,14 +703,14 @@
 
 <!-- SUMMARY -->
 <section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
-  <h2 style="color:var(--success);">Summary: Dark Matter Derived from M<sub>Planck</sub> → L<sub>X</sub> Chain [H.DM] — v7.0</h2>
+  <h2 style="color:var(--success);">Summary: Dark Matter Candidate from M<sub>Planck</sub> → L<sub>X</sub> Chain [H.DM] — v7.0</h2>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
     \[\boxed{\begin{aligned}
-    &M_{\rm Planck} \xrightarrow{\text{dim. red.}} \XCRM{L_X} \xrightarrow{\text{KK tower}} \Matt{M_{\rm LKP}} \sim \text{TeV} \\[0.5em]
-    &\xrightarrow{\mathbb{Z}_3 \text{ parity}} \text{LKP stable} \xrightarrow{\text{thermal}} \Omega_{\rm DM} h^2 = \Diff{0.119}
+    &M_{\rm Planck} \xrightarrow{\text{dim. red.}} \XCRM{L_X} \xrightarrow{\text{KK tower}} \Matt{M_{\rm LKP}} \sim \text{TeV (U, fitted)} \\[0.5em]
+    &\xrightarrow{\mathbb{Z}_3 \text{ parity (D)}} \text{LKP stable} \xrightarrow{\text{thermal}} \Omega_{\rm DM} h^2 = \Diff{0.1200 \text{ (U)}}
     \end{aligned}}\]
-    <div class="eq-label" style="color:var(--success);">Complete Prediction Chain [H.DM.1-6]</div>
+    <div class="eq-label" style="color:var(--success);">Complete Prediction Chain [H.DM.1-6] — mechanism (parity/stability) D-status, mass scale and relic density U-status</div>
   </div>
 
   <table style="width:100%;margin:1.5rem 0;">
@@ -694,19 +722,19 @@
         <td>LKP mass (from L<sub>X</sub>)</td>
         <td>\(\Matt{M_{\rm LKP}} = 0.92 \pm 0.08\) TeV</td>
         <td>Consistent with limits</td>
-        <td style="color:var(--success);">✓</td>
+        <td style="color:var(--warning);">U (fitted)</td>
       </tr>
       <tr>
         <td>Relic density (thermal)</td>
-        <td>\(\Omega_{\rm LKP} h^2 = 0.119\)</td>
+        <td>\(\Omega_{\rm LKP} h^2 = 0.1200\)</td>
         <td>\(\Omega_{\rm DM} h^2 = 0.1200 \pm 0.0012\)</td>
-        <td style="color:var(--success);">✓ (0.4σ)</td>
+        <td style="color:var(--warning);">U (tautological)</td>
       </tr>
       <tr>
         <td>LKP stability (∞₃ parity)</td>
         <td>KK-parity conserved</td>
         <td>DM stable</td>
-        <td style="color:var(--success);">✓</td>
+        <td style="color:var(--success);">✓ D</td>
       </tr>
       <tr>
         <td>Direct detection</td>
@@ -718,11 +746,12 @@
   </table>
 
   <p style="text-align:center;margin-top:1rem;font-size:1.1rem;color:var(--text);">
-    Dark matter derived from M<sub>Planck</sub> via the dynamic infinity helix (v7.0)
+    Dark matter candidate and stability mechanism derived from M<sub>Planck</sub> via the dynamic infinity helix (v7.0); mass scale is fitted
   </p>
   <p style="text-align:center;font-size:0.95rem;color:var(--text-secondary);">
-    LKP B<sup>(1)</sup>: M = 0.92 ± 0.08 TeV from L<sub>X</sub>, stability from ∞-helix KK-parity, Ω<sub>DM</sub>h² = 0.1200 (0.0% from Planck),
-    σ<sub>SI</sub> ~ 10<sup>−47</sup> cm². All derived from the M<sub>Planck</sub> → L<sub>X</sub> chain.
+    LKP B<sup>(1)</sup>: M = 0.92 ± 0.08 TeV (U status, not independently derived — see honesty note),
+    stability from ∞-helix KK-parity (D status), Ω<sub>DM</sub>h² = 0.1200 by construction (U status),
+    σ<sub>SI</sub> ~ 10<sup>−47</sup> cm². The KK-parity mechanism is derived from the M<sub>Planck</sub> → L<sub>X</sub> chain; the mass scale is not.
   </p>
 </section>
 

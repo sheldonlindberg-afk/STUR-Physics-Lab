@@ -345,18 +345,28 @@
     \end{aligned}\]
   </div>
 
-  <p>Converting to natural units (\(\hbar c = 1.97 \times 10^{-13}\) GeV·m):</p>
+  <p>Converting to natural units (\(\hbar c = 1.973 \times 10^{-16}\) GeV·m):</p>
 
   <div class="eq" style="margin:0.75rem 0;padding:0.75rem;background:rgba(0,0,0,0.3);border-radius:6px;">
-    \[\delta\rho_{\rm loop} \sim 1.5 \times 10^{22} \times (\hbar c)^4 \sim 1.5 \times 10^{22} \times 1.5 \times 10^{-51}\,\text{GeV}^4\]
+    \[\delta\rho_{\rm loop} \sim 1.5 \times 10^{22} \times (\hbar c)^4 \sim 1.5 \times 10^{22} \times 1.5 \times 10^{-63}\,\text{GeV}^4\]
   </div>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
-    \[\boxed{\Quant{\rho_\Lambda^{\rm STUR}} \sim 7 \times 10^{-46}\,\text{GeV}^4}\]
-    <div class="eq-label" style="color:var(--success);">(Λ.H9) — Λ_residual from neutrino ∞-helix breaking (DERIVED, not fitted)</div>
+    \[\boxed{\Quant{\rho_\Lambda^{\rm STUR,\,naive}} \sim 2.3 \times 10^{-41}\,\text{GeV}^4}\]
+    <div class="eq-label" style="color:var(--success);">(Λ.H9) — Crude naive 1/L<sub>X</sub>⁴ order-of-magnitude estimate (not the refined result)</div>
   </div>
 
-  <p><strong>Observed value:</strong> \(\rho_\Lambda^{\rm obs} = 2.846 \times 10^{-47}\) GeV⁴. The STUR ∞-helix mechanism predicts Λ_residual 10.8% (&lt;0.5σ) of observation — a significant improvement over the naive 10¹²⁰ fine-tuning problem.</p>
+  <p><strong>Honesty note:</strong> a previous version of this page contained an arithmetic error here (an incorrect
+  ħc conversion factor off by 3 orders of magnitude, compounded by a further error in the final multiplication,
+  together giving a spuriously small ~7×10⁻⁴⁶ GeV⁴ that happened to look closer to the observed value than the
+  correct naive-estimate arithmetic actually produces). With the arithmetic corrected, this crude \(1/(16\pi^2 L_X^4)\)
+  estimate gives ~2.3×10⁻⁴¹ GeV⁴ — about six orders of magnitude <em>larger</em> than both the observed value and the
+  theory's own refined result below. This naive estimate omits the neutrino-mass-suppression and log factors that
+  enter the actual mechanism; it is shown only to illustrate the scale of the raw loop estimate before those
+  suppressions, not as a working prediction. The refined calculation (Λ.11b below) is the one that produces the
+  reported headline number.</p>
+
+  <p><strong>Observed value:</strong> \(\rho_\Lambda^{\rm obs} = 2.846 \times 10^{-47}\) GeV⁴. The STUR ∞-helix mechanism's refined calculation predicts Λ_residual = 3.15×10⁻⁴⁷ GeV⁴, 10.8% (&lt;0.5σ) of observation — a significant improvement over the naive 10¹²⁰ fine-tuning problem.</p>
 
   <div style="margin-top:1.5rem;padding:1rem;background:rgba(74,222,128,0.1);border-radius:8px;border:2px solid var(--success);">
     <strong style="color:var(--success);">Summary: ∞₃ Ward Identity Mechanism</strong>
@@ -488,11 +498,11 @@
     \end{aligned}\]
   </div>
 
-  <p>Converting to energy units (\(\hbar c = 1.97 \times 10^{-13}\) GeV·m):</p>
+  <p>Converting to energy units (\(\hbar c = 1.973 \times 10^{-16}\) GeV·m):</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--warning);padding:1rem;">
-    \[\boxed{\Pot{\rho_\Lambda^{\rm naive}} \sim 7 \times 10^{-46}\,\text{GeV}^4}\]
-    <div class="eq-label" style="color:var(--warning);">(Λ.11a) — Naive 1/L_X⁴ estimate (order of magnitude)</div>
+    \[\boxed{\Pot{\rho_\Lambda^{\rm naive}} \sim 2.3 \times 10^{-41}\,\text{GeV}^4}\]
+    <div class="eq-label" style="color:var(--warning);">(Λ.11a) — Naive 1/L_X⁴ estimate (order of magnitude only; corrected arithmetic — see §1's Honesty note. This estimate is ~6 orders of magnitude away from both Λ_obs and the refined result below since it omits the neutrino-mass suppression and log factors used in Λ.11b; it is not itself a prediction)</div>
   </div>
 
   <p>The refined calculation uses the neutrino Majorana mass spectrum with ∞-helix twisted boundary conditions (see <a href="../COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md" style="color:var(--neon-gold);">full derivation</a>):</p>
@@ -516,7 +526,7 @@
   </ol>
 
   <div style="margin-top:1rem;padding:1rem;background:rgba(74,222,128,0.1);border-radius:8px;border:1px solid var(--success);">
-    <strong style="color:var(--success);">Bottom Line:</strong> The ∞-helix Ward identity forces Λ_tree = 0 exactly. The residual from neutrino Majorana ∞-helix breaking gives Λ_residual 10.8% (&lt;0.5σ) of the observed Λ_obs = 2.846 × 10⁻⁴⁷ GeV⁴. Combined with LKP dark matter (Ω_DM h² = 0.119, 0.4σ from Planck), the entire dark sector is derived from the ∞₃ framework. <a href="../COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md" style="color:var(--neon-gold);">See complete derivation →</a>
+    <strong style="color:var(--success);">Bottom Line:</strong> The ∞-helix Ward identity forces Λ_tree = 0 exactly. The residual from neutrino Majorana ∞-helix breaking gives Λ_residual 10.8% (&lt;0.5σ) of the observed Λ_obs = 2.846 × 10⁻⁴⁷ GeV⁴. LKP dark matter (Ω_DM h² = 0.1200, formally 0.0% from Planck) is <strong>not</strong> independently derived in this framework — its mass scale is fixed circularly to reproduce the observed relic abundance (U status; see stur_darkmatter_derivation.html and stur_toe_closure.py Part 9 for the documented search that found no independent derivation), so "the entire dark sector is derived" overstates the dark-matter side; only the cosmological-constant residual above is a genuine (D-status) derivation. <a href="../COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md" style="color:var(--neon-gold);">See complete derivation →</a>
   </div>
 </section>
 
