@@ -386,10 +386,12 @@ m_eff = 2π/(NL_X) × (momentum from winding)
 
 For N = 3 and L_X ~ 1 μm:
 ```
-m_eff ~ 2π/(3 × 10⁻⁶ m) ~ 2 × 10⁶ m⁻¹ ~ 0.2 eV
+m_eff ~ 2π/(3 × 10⁻⁶ m) ~ 2.09 × 10⁶ m⁻¹ ~ 0.41 eV
 ```
+(k = 2.094×10⁶ m⁻¹; E = ℏc·k with ℏc = 1.973×10⁻⁷ eV·m gives 0.41 eV, not the
+previously-stated 0.2 eV — a factor-of-2 slip in the m⁻¹→energy conversion.)
 
-This is very light, so mL ~ 0.2 eV × 1 μm / (ℏc) ~ 10⁻³, giving minimal suppression.
+This is still light on collider scales, so mL ~ 0.41 eV × 1 μm / (ℏc) ~ 2×10⁻³, giving minimal suppression (the qualitative conclusion is unaffected by the correction).
 
 ### 9.3 The Real Suppression Mechanism
 

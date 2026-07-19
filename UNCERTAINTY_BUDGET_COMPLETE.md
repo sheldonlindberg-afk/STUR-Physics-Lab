@@ -42,7 +42,7 @@ This document provides a comprehensive uncertainty budget tracking all error sou
 
 | Prediction | Central Value | Statistical Error | Systematic Error | Total Error | Observed Value | Deviation |
 |------------|---------------|-------------------|------------------|-------------|----------------|-----------|
-| **Lambda (CC)** | 3.6 x 10^-47 GeV^4 | +/- 1.9 x 10^-47 | +/- 1.8 x 10^-47 | +/- 2.6 x 10^-47 (72%) | (2.846 +/- 0.076) x 10^-47 | 0.3 sigma |
+| **Lambda (CC)** | 3.6 x 10^-47 GeV^4 | +/- 1.9 x 10^-47 | +/- 1.8 x 10^-47 | +/- 2.6 x 10^-47 (72%) | (2.846 +/- 0.076) x 10^-47 | 0.3 sigma (note: this document's 3.6e-47 central value is one of several distinct figures found across the repo for this quantity — the current canonical value from scripts/stur_toe_closure.py is 3.0e-47 GeV^4, 7% off, D; see README.md) |
 | **eta_B** | 6.1 x 10^-10 | +/- 1.5 x 10^-10 | +/- 1.2 x 10^-10 | +/- 1.9 x 10^-10 (32%) | (6.12 +/- 0.04) x 10^-10 | 0.01 sigma |
 | **Omega_DM h^2** | 0.119 | +/- 0.0015 | +/- 0.001 | +/- 0.002 (1.7%) | 0.1200 +/- 0.0012 | 0.4 sigma |
 | **Sum(m_nu)** | 0.059 eV | +/- 0.004 eV | +/- 0.002 eV | +/- 0.005 eV (8%) | < 0.12 eV | Consistent |
@@ -54,10 +54,10 @@ This document provides a comprehensive uncertainty budget tracking all error sou
 |-----------|-----------------|-------------|-------------|-------------|----------------------|-----------|
 | sin^2(theta_12) | 0.303 | +/- 0.007 | +/- 0.007 | +/- 0.010 (3.3%) | 0.303 +/- 0.012 | 0.00 sigma |
 | sin^2(theta_23) | 0.573 | +/- 0.007 | +/- 0.007 | +/- 0.010 (1.7%) | 0.572 +/- 0.018 | 0.05 sigma |
-| sin^2(theta_13) | 0.0221 | +/- 0.0003 | +/- 0.0004 | +/- 0.0005 (2.3%) | 0.02203 +/- 0.00056 | 0.13 sigma |
+| sin^2(theta_13) | 0.0221 | +/- 0.0003 | +/- 0.0004 | +/- 0.0005 (2.3%) | 0.02203 +/- 0.00056 | 0.093 sigma (corrected from 0.13) |
 | delta_CP | -90 deg | +/- 4 deg | +/- 4 deg | +/- 6 deg (6.7%) | -89 +/- 10 deg | 0.1 sigma |
-| Delta m^2_21 | 7.06 x 10^-5 eV^2 | +/- 0.25 x 10^-5 | +/- 0.25 x 10^-5 | +/- 0.35 x 10^-5 (5%) | (7.41 +/- 0.21) x 10^-5 | 1.0 sigma |
-| Delta m^2_31 | 2.50 x 10^-3 eV^2 | +/- 0.02 x 10^-3 | +/- 0.015 x 10^-3 | +/- 0.025 x 10^-3 (1%) | (2.511 +/- 0.027) x 10^-3 | 0.4 sigma |
+| Delta m^2_21 | 7.06 x 10^-5 eV^2 | +/- 0.25 x 10^-5 | +/- 0.25 x 10^-5 | +/- 0.35 x 10^-5 (5%) | (7.41 +/- 0.21) x 10^-5 | 0.86 sigma (corrected from 1.0; also note: this document's 7.06e-5 central value is a stale v4.4-era figure superseded by the current canonical 6.92e-5, 8% off, D — see SOLAR_NEUTRINO_MASS_SPLIT.md / scripts/stur_toe_closure.py) |
+| Delta m^2_31 | 2.50 x 10^-3 eV^2 | +/- 0.02 x 10^-3 | +/- 0.015 x 10^-3 | +/- 0.025 x 10^-3 (1%) | (2.511 +/- 0.027) x 10^-3 | 0.30 sigma (corrected from 0.4) |
 | Mass Ordering | NORMAL | -- | -- | Required | Normal (3.5 sigma) | Consistent |
 
 ### 1.3 CKM Matrix Parameters
@@ -76,7 +76,7 @@ This document provides a comprehensive uncertainty budget tracking all error sou
 |-----------|-----------------|-------------|---------------------|-----------|
 | m_H (Higgs) | 125.18 GeV | +/- 1.2 GeV (1.0%) | 125.25 +/- 0.17 GeV | 0.06 sigma |
 | alpha_s(M_Z) | 0.1181 | +/- 0.0006 (0.5%) | 0.1180 +/- 0.0009 | 0.08 sigma |
-| sin^2(theta_W) | 0.2312 | +/- 0.0001 (0.04%) | 0.23121 +/- 0.00004 | 0.03 sigma |
+| sin^2(theta_W) | 0.2312 | +/- 0.0001 (0.04%) | 0.23121 +/- 0.00004 | 0.093 sigma (corrected from 0.03; sqrt(0.0001^2+0.00004^2)-weighted deviation is ~3x the previously-stated figure) |
 | M_GUT | 1.8 x 10^16 GeV | +/- 0.3 x 10^16 (17%) | -- | Prediction |
 | alpha_GUT^-1 | 24.3 | +/- 0.5 (2%) | -- | Prediction |
 
@@ -256,7 +256,7 @@ M_GUT         --      --     --        --        --        --       +0.8
 
 | Prediction | Theoretical Floor | Experimental Floor | Combined Floor |
 |------------|-------------------|-------------------|----------------|
-| Lambda (CC) | 5% | 15% | 17% |
+| Lambda (CC) | 5% | 15% | 15.8% (corrected from 17%; sqrt(5%^2+15%^2)=15.8%) |
 | eta_B | 5% | 10% | 11% |
 | Omega_DM h^2 | 2% | 1% | 2% |
 | PMNS angles | 0.2% | 0.3% | 0.3% |

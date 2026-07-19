@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-This document provides a rigorous comparison of STUR (Stochastic Teleparallel Unified Resistance) against the major competing Theory of Everything candidates. STUR is a 5D effective field theory on M^4 × S^1/∞₃ that derives Standard Model parameters from infinity helix geometry. We compare its approaches, predictions, and limitations against Grand Unified Theories, supersymmetric extensions, string theory, loop quantum gravity, and asymptotic safety.
+This document provides a rigorous comparison of STUR (Sheldon's Theory of Unified Resistance — corrected from an earlier "Stochastic Teleparallel" expansion used in this document; see README.md/STUR_PAPER_DRAFT.md/STUR_WEB_OVERVIEW.md for the canonical name) against the major competing Theory of Everything candidates. STUR is a 5D effective field theory on M^4 × S^1/∞₃ that derives Standard Model parameters from infinity helix geometry. We compare its approaches, predictions, and limitations against Grand Unified Theories, supersymmetric extensions, string theory, loop quantum gravity, and asymptotic safety.
 
 **Key Finding:** STUR offers a distinctive approach that combines elements from several frameworks while maintaining unique geometric constraints. It achieves gauge unification without supersymmetry, provides UV regularization through helix geometry rather than discretization, and offers an F-theory UV completion. However, it shares limitations with other approaches regarding the cosmological constant problem and trans-Planckian physics.
 
@@ -702,7 +702,9 @@ STUR:
   3. Energy minimization
 
   26 SM parameters + cosmological physics derived
-  100% within 10%, 92% within 5% of observed values
+  Current honest scorecard: 24D+3P+2U+1I=30, 83% closure (not 100%/10% —
+  see README.md / OPEN_PROBLEMS_ROADMAP.md); 2 quantities (M_DM, Omega_DM h^2)
+  are unresolved/circular, not derived
 ```
 
 **Dimensional Dependence:**
@@ -856,7 +858,12 @@ STUR:
 STUR occupies a distinctive position among unification frameworks:
 
 **What STUR Does Well:**
-1. Derives all 26 SM parameters from 3 axioms (100% within 10%)
+1. Derives most SM parameters from 3 axioms plus 4 dimensional inputs — but not
+   "100% within 10%": the canonical scorecard (`scripts/stur_toe_closure.py`)
+   currently gives 24D + 3P + 2U + 1I = 30 (83% closure), with 2 quantities
+   (M_DM, Ω_DM h²) unresolved/circular and 3 partially derived, not the
+   unqualified "100%" claimed here (see README.md / OPEN_PROBLEMS_ROADMAP.md
+   for the current honest count)
 2. Achieves gauge unification without supersymmetry
 3. Provides topological protection for proton stability
 4. Explains three generations geometrically
