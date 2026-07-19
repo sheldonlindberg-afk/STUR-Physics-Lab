@@ -2,20 +2,52 @@
 
 ## Executive Summary
 
-This report presents the results of a comprehensive numerical verification of the STUR v7.0 (Dynamic Infinity Helix — Complete TOE) framework. All calculations verified by running `scripts/stur_v7_full_closure.py` and comparing against PDG 2024 / NuFIT 6.0 data.
+This report presents the results of a numerical verification exercise for the STUR v7.0
+(Dynamic Infinity Helix — Complete TOE) framework, originally run via
+`scripts/stur_numerical_verification.py` and comparing against PDG 2024 / NuFIT 6.0 data.
 
-**Key Findings (v7.0 — Complete TOE, 31D+1I=32):**
-- **Cabibbo angle λ = 0.2287** (exp[−κ²/4] at α_eff(quark) = 1.4787, **1.6% from PDG**)
-- **Full CKM matrix** derived to 1.6–17% accuracy (9 elements, Wolfenstein assembly)
-- **Berry phase = 0** exactly (verified: |⟨sin θ⟩| = 1.98 × 10⁻¹⁰)
+> **INTEGRITY CORRECTION (FIX phase, 2026-07-18):** This report (generated 2026-01-28,
+> updated 2026-02-03, "Verification Suite Version 1.1") predates the current canonical closure
+> script (`scripts/stur_toe_closure.py`) and reports a scorecard ("31D+0P+0C+0U+1I=32, 100%
+> closure") found nowhere else in the repo's version history. Worse, an audit of its source
+> script (`scripts/stur_numerical_verification.py`, `PDG_VALUES`/`calculate_all_predictions`)
+> found that several of its §5.1 "STUR Prediction" table entries (m_u, m_d, m_s, m_c, m_b, m_t,
+> sin²θ_W, alpha_s(M_Z)) are **hardcoded copies of the PDG central values themselves**, not
+> independently computed — i.e., those rows were not genuine predictions. This report has been
+> corrected below: the fabricated rows have been replaced with the actual values the current
+> canonical script (`stur_toe_closure.py`) computes (or, where that script does not
+> independently derive a quantity, marked NOT DERIVED), and the executive-summary scorecard,
+> Λ_CC, M_DM/Ω_DM h², and kappa values below have been updated to match the canonical v7.0
+> scorecard. Historical/narrative content (§2's curve-fitting walkthrough, §3-4) is left intact
+> per the audit protocol but should be read as illustrative of the fitting process, not as an
+> independent-prediction table.
+
+**Key Findings (v7.0 canonical scorecard, `stur_toe_closure.py`, 24D+3P+2U+1I=30, 83% closure):**
+- **Cabibbo angle λ = 0.22543** (ψ₀(2π/3)/ψ₀(0) at phase-lock, **0.03% from PDG 0.22537**) —
+  [CORRECTED: previous text "λ=0.2287, α_eff(quark)=1.4787, 1.6%" used a different, older
+  formula variant; the canonical script's current figure is 0.22543, 0.03%]
+- **Full CKM matrix** derived to 0.1–8.4% accuracy (9 elements, Wolfenstein assembly)
+- **Berry phase = 0** exactly (verified: |⟨sin θ⟩| ~ 10⁻¹⁰)
 - **σ_H/σ_ψ = √2/(2π) = 0.2251**: derived from ∞₃ brane kink (not assumed)
-- **PMNS matrix**: all 4 parameters derived via U_ℓ† × U_TBM (no calibration)
-- **Λ_CC = 3.3×10⁻⁴⁷ GeV⁴**: Ward identity + neutrino residual (17% from observed)
-- **M_DM = 0.92 TeV**: self-consistent LKP freeze-out
-- **Ω_DM h² = 0.119**: 0.8% from Planck (derived)
-- Kappa: κ = 2.4292 (quark), κ = 2.3793 (lepton) — sector-specific
-- **Score: 31 D + 0 P + 0 C + 0 U + 1 I = 32 — 100% closure**
-- **Run:** `python3 scripts/stur_v7_full_closure.py` to reproduce all results
+- **PMNS matrix**: parameters derived via U_ℓ† × U_TBM; sin²θ₂₃ 19.4% off, δ_CP(PMNS) 38.5%
+  off (status **P**, not fully closed)
+- **Λ_CC = 3.0×10⁻⁴⁷ GeV⁴**: Z₃ Ward identity + neutrino residual (**7%** from observed
+  2.8×10⁻⁴⁷ GeV⁴) — [CORRECTED from "3.3×10⁻⁴⁷ GeV⁴, 17%"]
+- **M_DM = 949 GeV / Ω_DM h² = 0.1200**: LKP freeze-out — status **U**, confirmed circular
+  (M_DM's mass scale is fixed by requiring the observed relic density; Ω_DM h² then matches by
+  construction, 0.0% deviation, and is not an independent prediction) — [CORRECTED from
+  "M_DM=0.92 TeV self-consistent" / "Ω_DM h²=0.119, 0.8%, derived", which presented this as an
+  independent D-status prediction]
+- Kappa: κ_q = 2.417 (quark), κ_l = 2.367 (lepton) — sector-specific — [CORRECTED from
+  "κ=2.4292 (quark), κ=2.3793 (lepton)"; also note §3 of this document's own body still uses a
+  single universal κ=2.52 at α=1, a different, older parametrization that predates the
+  sector-specific split — this is a genuine internal inconsistency in this document, left
+  as-is in §3 with this note added, per the audit's "leave narration, flag the issue" protocol]
+- **Score: 24 D + 3 P + 2 U + 1 I = 30 observables — 83% closure** (24D / 29 non-input
+  observables) — [CORRECTED from "31D+0P+0C+0U+1I=32, 100% closure"]
+- **Run:** `python3 scripts/stur_toe_closure.py` to reproduce the current canonical results
+  (this report's original source script, `scripts/stur_numerical_verification.py`, is a
+  separate, older verification harness — see integrity note above)
 
 ---
 
@@ -245,26 +277,36 @@ The correction factors have physical correlations:
 
 ### 5.1 Detailed Comparison Table
 
-| Observable | STUR Prediction | PDG Value | Uncertainty | Tension |
-|------------|-----------------|-----------|-------------|---------|
+**[REPLACED, FIX phase 2026-07-18 — see Integrity Correction note in Executive Summary.]**
+The table below previously listed a "STUR Prediction" column that was numerically identical
+to the "PDG Value" column, row for row, for every entry — traced to
+`scripts/stur_numerical_verification.py`'s `PDG_VALUES` dict being hardcoded directly into
+several "predictions" (m_u through m_t, sin²θ_W, alpha_s(M_Z)). That is not a genuine
+first-principles comparison. The table below instead reports the actual values computed by
+the current canonical script (`scripts/stur_toe_closure.py`), with rows that script does not
+independently derive explicitly marked NOT DERIVED rather than filled in with copied PDG
+numbers.
+
+| Observable | STUR Prediction (canonical script) | PDG/NuFIT Observed | Deviation | Status |
+|------------|-------------------------------------|---------------------|-----------|--------|
 | **CKM Parameters** |
-| lambda | 0.223 | 0.225 | 0.001 | 0.2 sigma |
-| A | 0.826 | 0.826 | 0.015 | < 0.1 sigma |
-| rho_bar | 0.159 | 0.159 | 0.010 | < 0.1 sigma |
-| eta_bar | 0.348 | 0.348 | 0.010 | < 0.1 sigma |
-| **Quark Masses (GeV at M_Z)** |
-| m_u | 0.00216 | 0.00216 | 0.00049 | < 0.1 sigma |
-| m_d | 0.00467 | 0.00467 | 0.00048 | < 0.1 sigma |
-| m_s | 0.0934 | 0.0934 | 0.0082 | < 0.1 sigma |
-| m_c | 1.27 | 1.27 | 0.02 | < 0.1 sigma |
-| m_b | 4.18 | 4.18 | 0.03 | < 0.1 sigma |
-| m_t | 172.69 | 172.69 | 0.30 | < 0.1 sigma |
+| λ (Cabibbo) | 0.22543 | 0.22537 | 0.03% | D |
+| A | 0.8140 | 0.826 | 1.5% | D |
+| ρ̄ | *not independently reported as a standalone output by the canonical script (used internally in the V_ub calculation only)* | 0.159 | — | NOT DERIVED (as standalone) |
+| η̄ | 0.3947 | 0.348 | 13.4% | D |
+| **Quark Masses** |
+| m_u (CKM seesaw, m_t·\|V_ub\|²) | 2.71 MeV | 2.16 MeV | 26% | P |
+| m_d | *no first-principles formula in the current canonical script* | 4.67 MeV | — | NOT DERIVED |
+| m_s | *no first-principles formula in the current canonical script* | 93.4 MeV | — | NOT DERIVED |
+| m_c (= m_t·λ³·(1−δc)) | 1.647 GeV | 1.275 GeV | 29% | P |
+| m_b (via m_b/m_t = 0.02172 × input m_t) | 3.75 GeV | 4.18 GeV | 10.3% | D (ratio) |
+| m_t | 172.57 GeV | 172.57 GeV | — | **INPUT**, not a prediction |
 | **Neutrino Parameters** |
-| Delta_m21_sq (eV^2) | 7.42e-5 | 7.42e-5 | 0.21e-5 | < 0.1 sigma |
-| Delta_m32_sq (eV^2) | 2.515e-3 | 2.515e-3 | 0.028e-3 | < 0.1 sigma |
+| Δm²₂₁ (eV²) | 6.92×10⁻⁵ | 7.53×10⁻⁵ | 8.1% | D |
+| Δm²₃₁ (eV²) [document's "Delta_m32_sq" row; canonical script reports Δm²₃₁, of comparable magnitude to Δm²₃₂ under normal ordering] | 2.45×10⁻³ | 2.511×10⁻³ | 2.3% | D |
 | **Electroweak** |
-| sin^2(theta_W) | 0.2312 | 0.2312 | 0.00003 | < 0.1 sigma |
-| alpha_s(M_Z) | 0.1180 | 0.1180 | 0.0009 | < 0.1 sigma |
+| sin²(θ_W) | *used as a fixed input parameter (0.23119) in the canonical script, not derived; not part of the current 30-observable scorecard* | 0.2312 | — | **INPUT**, not a prediction |
+| alpha_s(M_Z) | *the canonical script's α_s(μ) running uses hardcoded Λ_QCD threshold values as calibration inputs, not a first-principles prediction; not part of the current 30-observable scorecard* | 0.1180 | — | **INPUT/calibration**, not a prediction |
 
 ### 5.2 Statistical Summary
 

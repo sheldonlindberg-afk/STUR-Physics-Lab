@@ -12,7 +12,7 @@ The Standard Model of particle physics successfully describes fundamental partic
 
 The framework rests on three pillars: **TEGR** (gravity as torsion), the **XCRM** coupling (unique R-field torsion term), and **Chronomagnetics** (log-periodic phase dynamics with λ_chrono = e^{1/π} = 1.3748).
 
-### Key Results at a Glance (v7.0 — 28D+0P+0U+1I=29)
+### Key Results at a Glance (v7.0 — 24D+3P+2U+1I=30, 83% closure)
 
 | What STUR Derives | How | Status |
 |-------------------|-----|--------|
@@ -23,17 +23,21 @@ The framework rests on three pillars: **TEGR** (gravity as torsion), the **XCRM*
 | θ_QCD = 0 | ∞₃ × CP symmetry (no axion needed) | D — Exact |
 | σ_H/σ_ψ = √2/(2π) | ∞₃ brane kink localization | D — derived |
 | PMNS matrix (4 parameters) | U_ℓ† × U_TBM, lepton Cabibbo | D — derived |
-| Λ_CC = 3.3×10⁻⁴⁷ GeV⁴ | ∞₃ Ward identity + neutrino residual | D — 17% from obs. |
-| M_DM = 949 GeV | LKP B^(1) self-consistent freeze-out | D — testable |
+| Λ_CC = 3.0×10⁻⁴⁷ GeV⁴ | ∞₃ Ward identity + neutrino residual | D — 7% from obs. |
+| M_DM = 949 GeV / Ω_DM h² = 0.1200 | LKP B^(1) freeze-out | **U** — self-consistent but circular (M_DM tuned to match observed relic density, not independently predicted) |
 | SU(3)×SU(2)×U(1) | ∞-helix holonomy compatibility | D — Exact |
 
 ### What This Is
 
-STUR is a **TOE candidate** with 29 observables (28D+0P+0U+1I) derived from four inputs and three axioms — zero free parameters. It is:
+STUR is a **TOE candidate** with 30 observables (24D+3P+2U+1I, 83% closure) derived from
+**four inputs** (M_Planck, α, L_X, and one additional calibration — see honesty tables in
+STUR_PAPER_DRAFT.md §4.1) and three axioms. It is:
 
 - Built on TEGR (teleparallel gravity): valid at all energy scales via torsion
 - Testable: makes specific falsifiable predictions (δ_CP = 272.7°, Σm_ν = 58 meV, M_DM = 949 GeV)
-- Complete: 28D + 0P + 0U + 1I = 29 — 100% first-principles closure
+- 83% closed at the "D" (fully derived, <20% from PDG) level: 24D + 3P + 2U + 1I = 30
+  observables, with 3 "P" (mechanism identified, precision pending) and 2 "U" (confirmed
+  circular — M_DM/Ω_DM h²) items still open
 - Awaiting experimental verification from JUNO, DUNE, T2HK, LZ, CMB-S4
 
 ---
@@ -127,10 +131,13 @@ STUR makes specific numerical predictions that can be compared with experiment:
 
 ### Q: Is this a "Theory of Everything"?
 
-**A:** Yes, in the sense of deriving all Standard Model parameters from first principles. With the unified wavefunction tail correction (f_tail = 1.131), STUR achieves:
-- 100% of parameters within 10% of observed values
-- 92% of parameters within 5% of observed values
-- 77% of parameters within 2% of observed values
+**A:** In the sense of attempting to derive Standard Model and cosmological parameters from
+first principles, yes — though closure is not yet complete. Current scorecard (v7.0,
+`scripts/stur_toe_closure.py`): **24D + 3P + 2U + 1I = 30 observables, 83% closure** — 24
+observables are fully derived (D, <20% from PDG), 3 have an identified mechanism with
+precision still pending (P), 2 are confirmed circular rather than independently predicted (U:
+M_DM / Ω_DM h²), and 1 is an input rather than a prediction. The framework uses **4 genuinely
+free inputs** (not zero), documented in STUR_PAPER_DRAFT.md's honesty table.
 
 At the EFT level, the derivation chain is closed for Standard Model parameters and cosmological quantities. UV embedding beyond the EFT remains a longer-term direction, but does not affect the closed low-energy predictions. It should be understood as an "effective field theory"---a framework valid below a certain energy scale.
 
@@ -259,4 +266,4 @@ This framework is presented for scientific evaluation. Constructive feedback, cr
 
 ---
 
-*Last updated: 2026-06-29 | Framework version: STUR v7.0 (28D+0P+0U+1I=29 — 100% closure)*
+*Last updated: 2026-07-18 | Framework version: STUR v7.0 (24D+3P+2U+1I=30 — 83% closure)*

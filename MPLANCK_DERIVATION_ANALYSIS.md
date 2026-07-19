@@ -15,7 +15,15 @@ This document examines the most fundamental question in theoretical physics: **C
 
 1. **The Dimensional Barrier is Real**: Any physical theory with observational content requires at least ONE dimensional scale. This is not a limitation of current theories but a logical necessity.
 
-2. **STUR's Achievement**: STUR reduces all physics to ONE dimensional input (M_Planck) plus ZERO dimensionless parameters. This is the theoretical minimum.
+2. **STUR's Achievement (corrected):** the canonical STUR framework (v7.0.2)
+   uses **four** dimensional/dimensionless inputs — M_Planck, v_EW, m_t, and
+   α_em (see README.md, DERIVATION_CHAIN_INFINITY.md, and
+   `scripts/stur_toe_closure.py`) — not the single input claimed in earlier
+   drafts of this document (v3.8/v4.3). M_Planck anchors the derivation
+   chain for many downstream scales, but v_EW, m_t, and α_em are separate,
+   independently-supplied inputs in the current framework, not derived from
+   M_Planck alone. Reducing this to a single input remains aspirational
+   future work (see ABSOLUTE_MASS_DERIVATION.md), not an accomplished result.
 
 3. **The Barrier Cannot Be Circumvented**: Attempts to derive G always either:
    - Import another dimensional scale (displacing the problem)
@@ -56,12 +64,21 @@ M_Planck → L_X → v → M_R → all other scales
 
 This is a derivation chain starting from M_Planck. It does NOT claim to derive M_Planck itself.
 
-The framework document states explicitly:
+An earlier (v3.8/v4.3-era) framework document stated:
 ```
 "STUR has ONE fundamental dimensional input: M_Planck."
 ```
 
-This is honest and correct. The question is whether even this can be eliminated.
+**Correction:** this claim is superseded. The current canonical STUR framework
+(v7.0.2) uses four inputs — M_Planck, v_EW, m_t, α_em — as stated consistently
+across README.md, DERIVATION_CHAIN_INFINITY.md, STUR_WEB_OVERVIEW.md, and
+`scripts/stur_toe_closure.py`. M_Planck is one of these four, not the sole
+input. The philosophical argument in this document (Buckingham π, the
+dimensional-barrier reasoning below) is still valid in general — some
+dimensional input is always required — but the specific claim that STUR needs
+only M_Planck is not accurate for the current framework. The question of
+whether the other three inputs could eventually be derived from M_Planck alone
+remains open future work, not an accomplished result.
 
 ---
 
@@ -250,7 +267,10 @@ M_Planck is the natural terminus because:
 2. It's where spacetime curvature becomes quantum
 3. It's the natural unit of mass for a theory unifying QM and GR
 
-**STUR's choice of M_Planck as the sole input is canonical.**
+**Correction:** M_Planck is a canonical anchor of the derivation chain, but it
+is not STUR's *sole* input in the current (v7.0.2) framework — see the
+correction in Section 1.3 above. The current framework uses four inputs
+(M_Planck, v_EW, m_t, α_em).
 
 ---
 
@@ -263,13 +283,18 @@ M_Planck is the natural terminus because:
 | Standard Model | 3 (ℏ, c, G) | 19+ |
 | MSSM | 3 | 100+ |
 | String Theory | 3 | Moduli (many) |
-| **STUR v3.8** | **1 (M_Planck)** | **0** |
+| STUR v3.8 (historical claim, superseded) | 1 (M_Planck) | 0 |
+| **STUR v7.0.2 (canonical)** | **4 (M_Planck, v_EW, m_t, α_em)** | **0 free (3 axioms constrain the rest)** |
 
-**STUR achieves the theoretical minimum:** One dimensional scale, zero free dimensionless parameters.
+**Corrected:** the "1 input, 0 parameters" row reflects an earlier (v3.8)
+framework claim that was never reconciled with the later 4-input canonical
+framework and should not be read as the current STUR achievement. The current
+framework still substantially reduces inputs relative to the Standard Model
+(4 vs. 19+), but it is not a single-input theory.
 
 ### 6.2 What "Zero Free Parameters" Means
 
-From the derivation chain:
+From the derivation chain (as originally written; see correction below):
 ```
 GIVEN: M_Planck
 DERIVE: L_X from Casimir-holonomy balance
@@ -280,7 +305,12 @@ DERIVE: All mixing angles from ∞-helix geometry
 DERIVE: All gauge couplings from running
 ```
 
-**Every physical quantity is determined by M_Planck alone.**
+**Corrected:** in the canonical v7.0.2 framework, v_EW, m_t, and α_em are also
+given (not derived from M_Planck alone) and feed into the fermion-mass and
+coupling calculations above alongside M_Planck. "Zero free parameters" refers
+to there being no additional tunable dimensionless fit parameters beyond the
+four inputs and three axioms — not to every physical quantity being determined
+by M_Planck in isolation.
 
 ### 6.3 The Scale Hierarchy
 
@@ -502,14 +532,23 @@ G (emergent but not derived from nothing)
 
 It cannot provide an absolute scale. M_Planck must be given.
 
-**But STUR's achievement stands:** From ONE input (M_Planck) and the infinity helix structure, ALL of physics emerges — all masses, all couplings, all mixing angles, all cosmic scales.
+**STUR's achievement (corrected):** From its four canonical inputs (M_Planck,
+v_EW, m_t, α_em) and the infinity helix structure, a very large fraction of
+physics emerges — most masses, couplings, mixing angles, and cosmic scales —
+with no additional free dimensionless parameters beyond those four inputs and
+three axioms. This is a substantial reduction relative to the Standard Model's
+19+ free parameters, even though it is not literally "one input."
 
-**This is as close to "deriving everything" as physics can possibly get.**
+**This is a strong reduction in the number of free parameters, though not the
+single-input theoretical minimum this document originally claimed.**
 
 ---
 
-**Document Status:** Complete analysis of the derivability of M_Planck
-**Main Result:** M_Planck is the necessary and sufficient dimensional input for STUR
+**Document Status:** Analysis of the derivability of M_Planck; corrected to
+reflect the canonical 4-input (M_Planck, v_EW, m_t, α_em) framework rather
+than the superseded "one input" claim of the original v3.8/v4.3 draft
+**Main Result:** M_Planck is a necessary dimensional input for STUR (one of
+four canonical inputs, not the sole input)
 **Philosophical Conclusion:** The dimensional scale of reality is not itself derivable from within physics
 
 ---

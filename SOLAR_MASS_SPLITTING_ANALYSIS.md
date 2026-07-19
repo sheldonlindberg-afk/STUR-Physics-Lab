@@ -8,9 +8,22 @@
 
 ---
 
+> **SUPERSEDED NOTICE (added in FIX phase, 2026-07-18):** This document uses the v4.4-era
+> fitted-ξ_i "kink amplitude" seesaw hierarchy. It has been **superseded** by the current
+> canonical Δm²₂₁ mechanism — the Z₃-forced off-diagonal M_R / pseudo-Dirac seesaw in
+> `scripts/stur_toe_closure.py` (Part 7), which gives **Δm²₂₁ = 6.92×10⁻⁵ eV² (7.53×10⁻⁵
+> observed, 8% deviation, status D)** using the formula Δm²₂₁ = λ_l²/2 × Δm²₃₁. That number,
+> not the 7.06×10⁻⁵ eV² derived below, is the value cited in README.md / CHANGELOG.md /
+> OPEN_PROBLEMS_ROADMAP.md as the repo's headline result. This document is retained for
+> historical/vulnerability-analysis context and because its arithmetic errors (see Step 4
+> below) have been corrected, but its own ξ_i-fitted derivation chain should **not** be read
+> as the current canonical derivation. See also SOLAR_NEUTRINO_MASS_SPLIT.md, which derives yet
+> a third value (9.5×10⁻⁶ eV², P/Open) via a different mechanism again — none of the three
+> numbers in these documents agree with each other.
+
 ## Executive Summary
 
-The solar neutrino mass splitting Δm²₂₁ represents STUR's most significant near-term experimental vulnerability. The 6% discrepancy between STUR prediction and observation, currently at ~1.7σ tension, will be decisively tested by JUNO's sub-percent precision measurements expected by 2027-2028.
+The solar neutrino mass splitting Δm²₂₁ represents STUR's most significant near-term experimental vulnerability. The ~5% discrepancy between STUR prediction and observation (previously mislabeled "6%" in this document — recomputed: |7.41−7.06|/7.41 = 4.7%, matching the Key Numbers table's own "5.0%" row below), currently at ~1.7σ tension, will be decisively tested by JUNO's sub-percent precision measurements expected by 2027-2028.
 
 **Key Numbers:**
 | Quantity | Value | Source |
@@ -64,7 +77,7 @@ Conservative assessment: ~1.7σ tension
 
 | Parameter | STUR | Observed | Tension |
 |-----------|------|----------|---------|
-| Δm²₂₁ | 7.06 × 10⁻⁵ eV² | 7.41 × 10⁻⁵ eV² | **6% (1.7σ)** |
+| Δm²₂₁ | 7.06 × 10⁻⁵ eV² | 7.41 × 10⁻⁵ eV² | **5% (1.7σ)** |
 | Δm²₃₁ | 2.50 × 10⁻³ eV² | 2.511 × 10⁻³ eV² | 0.4% (0.4σ) |
 | sin²θ₁₂ | 0.303 | 0.303 | 0.0σ |
 | sin²θ₂₃ | 0.573 | 0.572 | 0.1σ |
@@ -134,18 +147,38 @@ Numerical values:
 ```
 m_νi = m²_D,i / M_R,i
 
-Results:
-  m_ν₁ = (1.5 GeV)² / (1.5 × 10¹⁴ GeV) = 0.12 meV
-  m_ν₂ = (4.1 GeV)² / (1.5 × 10¹⁴ GeV) × f_∞ = 8.4 meV
-  m_ν₃ = (100 GeV)² / (1.1 × 10¹⁴ GeV) = 50 meV
+Results (CORRECTED — see note below):
+  m_ν₁ = (1.5 GeV)² / (1.5 × 10¹⁴ GeV) = 1.5×10⁻¹⁴ GeV = 0.015 meV
+  m_ν₂ = (4.1 GeV)² / (1.5 × 10¹⁴ GeV) = 0.112 meV  [× f_∞ needed to reach 8.4 meV — see note]
+  m_ν₃ = (100 GeV)² / (1.1 × 10¹⁴ GeV) = 9.09×10⁻¹¹ GeV = 90.9 meV
 ```
+
+> **ARITHMETIC CORRECTION NOTE (FIX phase, 2026-07-18):** The original v4.4 text of this
+> document stated m_ν₁ = 0.12 meV and m_ν₃ = 50 meV; direct evaluation of m_ν=m²_D/M_R from
+> this document's own stated m_D, M_R inputs gives 0.015 meV (8× smaller) and 90.9 meV (1.8×
+> larger) respectively — those were arithmetic errors, now corrected above. m_ν₂ is left at
+> its originally stated 8.4 meV because no derivation for that number exists: the plain
+> seesaw formula gives only 0.112 meV, so an enhancement factor of ~75× is required to reach
+> 8.4 meV, far larger than the f_∞ = 2.1 "kink amplitude" factor defined in §2.1 for a
+> different quantity (λ_hol), and no source for a ~75× factor is given anywhere in this
+> document. **Consequence of the correction:** using the corrected m_ν₃ = 90.9 meV instead of
+> 50 meV would change Δm²₃₁ = m²_ν₃ − m²_ν₁ from the previously stated 2.50×10⁻³ eV² to
+> ≈8.26×10⁻³ eV², which badly disagrees with the observed 2.511×10⁻³ eV² (previously cited in
+> §1.2 as a 0.4% match). This shows the m_D,i / M_R,i / ξ_i intermediate values in this
+> document do not actually satisfy the stated seesaw formula simultaneously for both Δm²₂₁ and
+> Δm²₃₁ — i.e., the "agreement" reported throughout §1.2 and elsewhere in this document is not
+> self-consistent arithmetic from the stated inputs. This reinforces the SUPERSEDED notice at
+> the top of this document: treat this derivation chain as a historical, fitted placeholder,
+> not a first-principles result. The canonical current derivation
+> (`scripts/stur_toe_closure.py` Part 7) uses a different mechanism entirely and does not rely
+> on these ξ_i/m_D/M_R placeholder values.
 
 **Step 5: Mass Squared Difference**
 ```
 Δm²₂₁ = m²_ν₂ - m²_ν₁
-      = (8.4 meV)² - (0.12 meV)²
-      = 70.56 × 10⁻⁶ eV² - 0.014 × 10⁻⁶ eV²
-      = 7.06 × 10⁻⁵ eV²
+      = (8.4 meV)² - (0.015 meV)²   [m_ν₁ corrected, see Step 4 note]
+      = 70.56 × 10⁻⁶ eV² - 0.000225 × 10⁻⁶ eV²
+      = 7.06 × 10⁻⁵ eV²   (unchanged to 3 s.f. — m_ν₁ contribution is negligible either way)
 ```
 
 ### 2.3 Sensitivity Analysis
@@ -552,7 +585,7 @@ Post-JUNO if central value confirmed: 17.5σ (fatal without modification)
 
 ### 8.1 Current Status
 
-The 6% tension in Δm²₂₁ (7.06 vs 7.41 × 10⁻⁵ eV²) is STUR's most significant near-term vulnerability. At ~1.7σ, it does not falsify the framework but demands attention.
+The ~5% tension in Δm²₂₁ (7.06 vs 7.41 × 10⁻⁵ eV²) is STUR's most significant near-term vulnerability for this (superseded) ξ_i-fitted mechanism. At ~1.7σ, it does not falsify the framework but demands attention. Note this entire mechanism has since been superseded by the pseudo-Dirac seesaw of `stur_toe_closure.py` Part 7 (Δm²₂₁ = 6.92×10⁻⁵ eV², 8% off, status D) — see the notice at the top of this document.
 
 ### 8.2 Key Uncertainties
 

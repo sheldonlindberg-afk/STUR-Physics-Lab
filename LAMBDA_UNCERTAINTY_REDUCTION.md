@@ -10,11 +10,17 @@
 ## Executive Summary
 
 **Current Status:**
-$$\Lambda_{\text{STUR}} = (3.6 \pm 2.6) \times 10^{-47} \text{ GeV}^4 \quad (72\% \text{ relative uncertainty})$$
+$$\Lambda_{\text{STUR}} = (3.6 \pm 2.4) \times 10^{-47} \text{ GeV}^4 \quad (66.8\% \text{ relative uncertainty})$$
+
+*(Corrected: the headline uncertainty figure did not reproduce from this
+document's own stated correlation matrix when recomputed via
+$\sigma_{\text{total}}^2 = \sigma^T C \sigma$ — see Section 1.4. The correct
+value is 66.8%, not the originally-stated 72%; the ±2.6 error bar is
+correspondingly revised to ±2.4×10⁻⁴⁷ GeV⁴.)*
 
 **Goal:** Reduce total uncertainty to <30%
 
-**Key Finding:** The 72% uncertainty is dominated by four sources:
+**Key Finding:** The 66.8% uncertainty (corrected from 72%; see Section 1.4) is dominated by four sources:
 1. Neutrino mass uncertainties (40% contribution)
 2. RG running factor (30% contribution)
 3. Berry phase from delta_CP measurement (25% contribution)
@@ -161,25 +167,34 @@ $$\sigma_{\text{uncorr}} = \sqrt{40^2 + 30^2 + 15^2 + 25^2 + 1^2}\% = \sqrt{1600
 Using the correlation matrix C and uncertainty vector sigma = (40, 30, 15, 25, 1):
 $$\sigma_{\text{total}}^2 = \sigma^T C \sigma$$
 
-**Numerical evaluation:**
-$$\sigma_{\text{total}} = 72\%$$
+**Numerical evaluation (corrected):**
+$$\sigma_{\text{total}}^2 = \sigma^T C \sigma = 4457.5 \implies \sigma_{\text{total}} = \sqrt{4457.5}\% = 66.8\%$$
 
-The correlations **increase** total uncertainty from 58% to 72% because the dominant correlations (|Sigma|-F_RG, F_hol-F_Berry) are positive.
+*(This document originally stated 72% here; recomputing $\sigma^T C \sigma$
+directly from the correlation matrix and uncertainty vector given above yields
+4457.5, whose square root is 66.8%, not 72%. Verified numerically via
+$\sigma^T C \sigma$.)*
+
+The correlations **increase** total uncertainty from 58% to 66.8% because the dominant correlations (|Sigma|-F_RG, F_hol-F_Berry) are positive.
 
 ### 1.5 Dominant Error Hierarchy
 
 Ranked by contribution to total variance:
 
-| Rank | Source | Individual sigma | Variance Contribution |
+| Rank | Source | Individual sigma | Variance Contribution (corrected) |
 |------|--------|-----------------|----------------------|
-| 1 | Neutrino masses (|Sigma|) | 40% | 31% of total variance |
-| 2 | RG running (F_RG) | 30% | 17% |
-| 3 | Berry phase (F_Berry) | 25% | 12% |
-| 4 | Holonomy (F_hol) | 15% | 4% |
+| 1 | Neutrino masses (|Sigma|) | 40% | 35.9% of total variance |
+| 2 | RG running (F_RG) | 30% | 20.2% |
+| 3 | Berry phase (F_Berry) | 25% | 14.0% |
+| 4 | Holonomy (F_hol) | 15% | 5.0% |
 | 5 | Instanton (F_inst) | 1% | <0.1% |
-| -- | Correlations | -- | 36% of total variance |
+| -- | Correlations | -- | 24.8% of total variance |
 
-**Critical insight:** The correlation terms contribute 36% of the total variance. Reducing correlations is as important as reducing individual uncertainties.
+*(Corrected: these percentages were originally computed against the erroneous
+total variance implied by 72% [5184]; recomputed against the correct total
+variance of 4457.5 [66.8%²], each source's share changes as shown above.)*
+
+**Critical insight:** The correlation terms contribute about 25% of the total variance (corrected from 36%). Reducing correlations is still important, though individual uncertainties — especially the neutrino mass scale — dominate more than the original figures suggested.
 
 ---
 
@@ -569,7 +584,7 @@ $$\boxed{\Lambda_{\text{STUR}}^{\text{improved}} = (3.7 \pm 1.7) \times 10^{-47}
 
 | Version | Central Value | Uncertainty | Agreement with Lambda_obs |
 |---------|---------------|-------------|--------------------------|
-| Original | 3.6 x 10^-47 GeV^4 | 72% | 27% (< 0.5 sigma) |
+| Original | 3.6 x 10^-47 GeV^4 | 66.8% (corrected from 72%) | 27% (< 0.5 sigma) |
 | Improved | 3.7 x 10^-47 GeV^4 | 47% | 30% (0.6 sigma) |
 
 The improved calculation maintains agreement with observation while significantly reducing uncertainty.
@@ -619,7 +634,7 @@ $$\boxed{\text{Target } <30\% \text{ uncertainty achievable by 2032}}$$
 | NOvA + T2K combined | delta_CP to +/- 12 deg | Reduces F_Berry error by 5% |
 | CMB-S4 | Sum m_nu < 0.08 eV | Constrains mass hierarchy |
 
-**Expected improvement:** 72% --> 55%
+**Expected improvement:** 66.8% (corrected from 72%) --> 55%
 
 #### 5.1.2 Medium-Term (2029-2035)
 
@@ -676,7 +691,7 @@ $$\sigma_{\text{ultimate}} = \sqrt{5^2 + 3^2 + 2^2 + 2^2}\% = \sqrt{25 + 9 + 4 +
                     UNCERTAINTY REDUCTION TIMELINE
     ___________________________________________________________________
 
-    2026 (Current):    72% +----------------------------------+
+    2026 (Current):  66.8% +----------------------------------+  (corrected from 72%)
                             |XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|
                             +----------------------------------+
 
@@ -710,10 +725,12 @@ $$\sigma_{\text{ultimate}} = \sqrt{5^2 + 3^2 + 2^2 + 2^2}\% = \sqrt{25 + 9 + 4 +
 
 ### 6.1 Key Findings
 
-1. **Current uncertainty (72%) is dominated by:**
-   - Neutrino mass uncertainties (40%, contributing 31% of variance)
-   - RG running uncertainties (30%, contributing 17% of variance)
-   - Correlation effects (contributing 36% of variance)
+1. **Current uncertainty (66.8%, corrected from an originally-stated 72% that
+   did not reproduce from this document's own correlation matrix — see
+   Section 1.4) is dominated by:**
+   - Neutrino mass uncertainties (40%, contributing 35.9% of variance)
+   - RG running uncertainties (30%, contributing 20.2% of variance)
+   - Correlation effects (contributing 24.8% of variance)
 
 2. **Near-term reduction to 47% is achievable through:**
    - Two-loop RG calculation (30% --> 15%)
@@ -754,7 +771,8 @@ $$\sigma_{\text{ultimate}} = \sqrt{5^2 + 3^2 + 2^2 + 2^2}\% = \sqrt{25 + 9 + 4 +
 |                                                                        |
 |  COSMOLOGICAL CONSTANT UNCERTAINTY REDUCTION: ASSESSMENT               |
 |                                                                        |
-|  CURRENT:  Lambda = (3.6 +/- 2.6) x 10^-47 GeV^4  (72% uncertainty)   |
+|  CURRENT:  Lambda = (3.6 +/- 2.4) x 10^-47 GeV^4  (66.8% uncertainty,  |
+|            corrected from an originally-stated 72% -- see Sec 1.4)    |
 |                                                                        |
 |  IMPROVED: Lambda = (3.7 +/- 1.7) x 10^-47 GeV^4  (47% uncertainty)   |
 |            (With theoretical improvements implemented)                 |
@@ -806,7 +824,7 @@ If M_R is measured independently (e.g., from proton decay or gravitational wave 
 
 Lattice determination of F_hol is independent of Berry phase calculation, reducing F_hol -- F_Berry correlation.
 
-**Impact:** With independent determinations, the correlation contribution to variance drops from 36% to ~10%, improving overall uncertainty from 72% to ~50% (without other improvements).
+**Impact:** With independent determinations, the correlation contribution to variance drops from 24.8% (corrected from an originally-stated 36%) to ~10%, improving overall uncertainty from 66.8% (corrected from 72%) to ~50% (without other improvements).
 
 ---
 
@@ -853,7 +871,7 @@ Lattice determination of F_hol is independent of Berry phase calculation, reduci
 ---
 
 **Document Status:** Complete Strategic Analysis
-**Current Uncertainty:** 72%
+**Current Uncertainty:** 66.8% (corrected from an originally-stated 72% that did not reproduce from the document's own correlation matrix; see Section 1.4)
 **Improved (theoretical):** 47%
 **Target (2032):** <30%
 **Ultimate Floor:** ~7%

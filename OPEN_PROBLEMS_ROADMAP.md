@@ -3,18 +3,20 @@
 **Document Type:** Research Roadmap
 **Framework:** STUR v7.0 (Dynamic Infinity Helix — TOE Candidate)
 **Date:** 2026-06-29
-**Purpose:** Status assessment — honest scorecard: 29D+0P+0U+1I=30 — 100% closure
+**Purpose:** Status assessment — honest scorecard: 24D+3P+2U+1I=30 — 83% closure
 
 ---
 
-## Current Status: v7.0 Final Scorecard — 29D+0P+0U+1I=30 (100% Closure)
+## Current Status: v7.0 Final Scorecard — 24D+3P+2U+1I=30 (83% Closure)
 
 STUR derives 30 observables from four inputs (M_Planck, v_EW, m_t,
 α_em) and three axioms (5D TEGR spacetime, real doublet R-field, energy
 minimization). The dynamic ∞₃ infinity helix — always winding and unwinding
 simultaneously at every scale — provides the geometric foundation.
 
-**Score: 29 D + 0 P + 0 U + 1 I = 30 — 100% first-principles closure**
+**Score: 24 D + 3 P + 2 U + 1 I = 30 — 83% first-principles closure**
+(Post-v7.0.2 correction: the fitted f_hol constant was removed from η̄, and M_DM/Ω_DM h² were
+reclassified U after no independent derivation was found in the codebase.)
 
 Script: `scripts/stur_toe_closure.py` (canonical master script)
 
@@ -186,8 +188,8 @@ The following constitute a complete, falsifiable TOE:
 8. **Inflation** — r_eff = 0.014 from XCRM Kirchhoff torsion damping
 9. **Falsification protocol** — JUNO, DUNE, T2HK, LZ/XENONnT, ARIADNE, CMB-S4
 
-**Position:** *"TOE Candidate with 30 observables (29D+0P+0U+1I) derived from
-three axioms and four inputs. Zero free parameters. 100% first-principles closure."*
+**Position:** *"TOE Candidate with 30 observables (24D+3P+2U+1I) derived from
+three axioms and four inputs. 83% first-principles closure."*
 
 ---
 
@@ -195,9 +197,9 @@ three axioms and four inputs. Zero free parameters. 100% first-principles closur
 
 | Script/Document | What It Computes | Key Result |
 |----------------|-----------------|------------|
-| `stur_toe_closure.py` | 30-observable canonical scorecard | 29D+0P+0U+1I=30 (100%) |
+| `stur_toe_closure.py` | 30-observable canonical scorecard | 24D+3P+2U+1I=30 (83%) |
 | `stur_inflation.py` | Tensor-to-scalar ratio | r_eff = 0.0139 (D) |
-| `stur_first_principles_calculation.py` | κ, σ, overlaps, N_eff | κ = 2.430, σ = 0.862 |
+| `stur_first_principles_calculation.py` | κ, σ, overlaps, N_eff | κ_q = 2.417, κ_l = 2.367, σ = 0.862 |
 | `ckm_full_diagonalization.py` | Full CKM matrix | All 9 elements |
 | `alpha_eff_rigorous_calculation.py` | α_eff chain | 1.480 ± 0.047 |
 | `berry_phase_exact.py` | Berry phase | 0 exactly |
@@ -214,14 +216,14 @@ three axioms and four inputs. Zero free parameters. 100% first-principles closur
 
 | Item | v6.x | v7.0 |
 |------|------|------|
-| Observables | 29 (5D+4P+19C+1J) | 30 (29D+0P+0U+1I) |
-| Free parameters | ~19 fitted | 0 |
+| Observables | 29 (5D+4P+19C+1J) | 30 (24D+3P+2U+1I, 83% closure) |
+| Free parameters | ~19 fitted | 0 (beyond the 4 canonical inputs) |
 | σ_H/σ_ψ | Assumed 0.3 | Derived √2/(2π) = 0.2251 |
 | CKM A | Calibrated 0.816 | Derived 0.655 → 0.814 (NLO) |
 | PMNS θ_13 | Hardcoded 0.022 | Derived 0.0242 (9.9%, NLO) |
 | PMNS θ_12,θ_23 | Unconstrained | Structural floor (19% honest prediction) |
 | η̄ | Overridden 0.350 | Derived 0.375 |
-| M_DM | Reverse-engineered | Self-consistent freeze-out |
+| M_DM | Reverse-engineered | Self-consistent freeze-out (reclassified U post-v7.0.2: no independent derivation found) |
 | Λ_CC | Conjectured | Derived Ward identity |
 | r (tens/scal) | Not computed | 0.0139 (XCRM Kirchhoff) |
 | dS swampland | Conditional | SATISFIED (c ≈ 2×10⁴⁴) |
@@ -231,4 +233,6 @@ three axioms and four inputs. Zero free parameters. 100% first-principles closur
 
 ---
 
-*Updated 2026-06-29 (v7.0 final — 29D+0P+0U+1I=30 — 100% closure; NLO PMNS + F_XCRM derivation complete)*
+*Updated 2026-07 (post-v7.0.2 canonical script correction — 24D+3P+2U+1I=30 — 83% closure;
+f_hol fitted constant removed from η̄, M_DM/Ω_DM h² reclassified U after documented search found
+no independent derivation)*

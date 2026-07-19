@@ -182,6 +182,14 @@ Complex structure moduli count ∞₃-invariant sections:
 h³¹(CY₄) = dim Γ(K_B⁻⁶)^{∞₃} = 25
 ```
 
+**Honesty note (2026-07):** the value 25 above is asserted, not derived from an explicit
+combinatorial count. A direct brute-force enumeration of ∞₃-invariant monomials in the
+relevant Weierstrass coefficient sections (see WEIERSTRASS_COEFFICIENTS_EXPLICIT.md §2.3/§3.2)
+gives counts in the hundreds (273–824 depending on bidegree), not 25. That companion document's
+claimed "25-monomial basis" does not independently reproduce this number from first-principles
+enumeration — it should be read as consistent-with, not independent confirmation of, h³¹=25.
+This is a genuine gap in the derivation chain, flagged here rather than papered over.
+
 **h²² Formula:**
 ```
 h²² = 2(22 + 2h¹¹ + 2h³¹ - h²¹)
@@ -837,12 +845,20 @@ Therefore, the STUR UV completion is unique.
 ### 6.2 Parameter Count
 
 **Corollary 6.2 (Minimal Free Parameters):**
-*The STUR-F-theory system has exactly 3 fundamental inputs:*
+*The STUR-F-theory system has exactly 4 fundamental inputs, consistent with the canonical
+framing used throughout the repository (README.md, OPEN_PROBLEMS_ROADMAP.md):*
 1. *The Planck mass M_Pl (defines units)*
-2. *The 5D geometry M⁴ × S¹/∞₃ (Axiom 1)*
-3. *The R-field doublet structure (Axiom 2)*
+2. *The electroweak vev v_EW*
+3. *The top-quark mass m_t*
+4. *The electromagnetic fine-structure constant α_em*
 
-*All 26+ Standard Model parameters are derived outputs.*
+*The 5D geometry M⁴ × S¹/∞₃ (Axiom 1) and the R-field doublet structure (Axiom 2) are structural
+axioms, not numerical inputs — they constrain the form of the theory but do not by themselves
+supply a dimensionful/dimensionless number. Given these axioms plus the 4 numerical inputs
+above, 24D+3P+2U+1I = 30 Standard-Model-sector observables are derived outputs at 83% closure
+(current canonical scorecard; see CHANGELOG.md/OPEN_PROBLEMS_ROADMAP.md). An earlier version of
+this corollary claimed only 3 inputs (effectively M_Pl alone), which understated the input count
+and has been corrected here.*
 
 ### 6.3 Falsifiability
 
