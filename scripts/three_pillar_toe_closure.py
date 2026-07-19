@@ -6,7 +6,7 @@ THREE-PILLAR TOE CLOSURE: TEGR + XCRM + CHRONOMAGNETICS
 STUR v6.3 — Combined Pillar Closure
 
 This script combines ALL derivation mechanisms from the three pillars
-to close as many of the 29 observables as possible from first principles.
+to close as many of the 30 observables as possible from first principles.
 
 PILLAR 1 — TEGR: Torsion gravity, compactification M⁴ × S¹/∞₃, holonomy
 PILLAR 2 — XCRM: L_XCRM = χ|R|²∂_Xφ, Yukawa coupling y = 2π/3
@@ -18,7 +18,7 @@ INPUTS (4 only):
   3. m_t = 172.57 GeV (top quark mass — sets Yukawa scale)
   4. α_em = 1/137.036
 
-From these 4 inputs + 3 axioms, derive ALL 29 observables.
+From these 4 inputs + 3 axioms, derive ALL 30 observables.
 
 Author: STUR Physics Lab — Three-Pillar Closure
 Date: 2026-03-03
@@ -763,7 +763,7 @@ for item in scorecard:
 counts['I'] = 1
 
 print(f"\n  {'─'*76}")
-print(f"  TOTALS (29 observables):")
+print(f"  TOTALS ({sum(counts.values())} observables):")
 print(f"    Derived (D):           {counts['D']:2d}  — from axioms alone")
 print(f"    Partially derived (P): {counts['P']:2d}  — formula from theory, some inputs")
 print(f"    Calibrated (C):        {counts['C']:2d}  — fitted to data")
