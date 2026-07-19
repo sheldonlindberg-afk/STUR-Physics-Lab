@@ -239,7 +239,7 @@ three axioms and four inputs. 83% first-principles closure."*
 | CKM A | Calibrated 0.816 | Derived 0.655 → 0.814 (NLO) |
 | PMNS θ_13 | Hardcoded 0.022 | Derived 0.0242 (9.9%, NLO) |
 | PMNS θ_12,θ_23 | Unconstrained | Structural floor (19% honest prediction) |
-| η̄ | Overridden 0.350 | Derived 0.375 |
+| η̄ | Overridden 0.350 | Derived 0.3947 (13.4%, f_hol fitted constant removed) |
 | M_DM | Reverse-engineered | Self-consistent freeze-out (reclassified U post-v7.0.2: no independent derivation found) |
 | Λ_CC | Conjectured | Derived Ward identity |
 | r (tens/scal) | Not computed | 0.0139 (XCRM Kirchhoff) |

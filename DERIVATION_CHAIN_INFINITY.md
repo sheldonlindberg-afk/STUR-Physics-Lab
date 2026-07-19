@@ -846,7 +846,7 @@ f_2loop = 1.056     (two-loop correction; §4)
 |-----------|------|-----|-----------|--------|
 | λ | 0.229 | 0.22500 | 1.6% | Pairwise overlap exp(−κ²/4) |
 | A | 0.846 | 0.826 | 2.4% | Holonomy factor f_hol = exp(−1/6) |
-| η̄ | 0.350 | 0.348 | 0.5% | Correction chain: η̄_base × f_hol × f_Berry × f_RG |
+| η̄ | 0.350 | 0.348 | 0.5% | Correction chain: η̄_base × f_hol × f_Berry × f_RG (this f_hol=0.948 was later found to be a fitted, not derived, constant — see §11.2 above and CORRECTION_FACTORS_COMPLETE.md; canonical value without it is 0.3947, 13.4%) |
 | ρ̄ | 0.159 | 0.159 | 0.0% | cot(δ_CKM) × η̄ |
 | δ_CKM | 68.3° | 65.4° | 4.4% | arctan(1/2) + π/3 × f_screen |
 
@@ -1154,11 +1154,15 @@ The S¹/∞-helix topology admits UV completion through F-theory on CY₄ with b
 
 ### 11.2 Quantitative Predictions
 
+> Synced to `scripts/stur_toe_closure.py` (canonical). The η̄ figure below was
+> previously 0.350 — that value depended on a fitted f_hol=0.948 constant, since
+> removed; the canonical value without that fitted constant is 0.3947 (13.4% off).
+
 | Observable | STUR | Measured | Status |
 |-----------|------|---------|--------|
-| λ (Cabibbo) | 0.229 ± 0.008 | 0.22500 ± 0.00067 | ✓ (1.6%) |
-| η̄ (CP) | 0.350 ± 0.029 | 0.348 ± 0.010 | ✓ (0.5%) |
-| δ_CKM | 68.3° | 65.4° | ✓ (4.4%) |
+| λ (Cabibbo) | 0.22543 | 0.22537 ± 0.00067 | ✓ (0.03%) |
+| η̄ (CP) | 0.3947 | 0.348 ± 0.010 | ✓ (13.4%) |
+| δ_CKM | 68.1° | 65.4° | ✓ (4.2%) |
 | N_gen | 3 (exact) | 2.984 ± 0.008 | ✓ |
 | θ_QCD | 0 (exact) | < 10⁻¹⁰ | ✓ |
 | m_τ/m_μ | 17.0 | 16.8 | ✓ (1%) |
