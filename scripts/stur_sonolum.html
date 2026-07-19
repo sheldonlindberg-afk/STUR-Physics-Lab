@@ -95,14 +95,14 @@
         </p>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Sonoluminescence as QED vacuum fluctuation amplification during bubble collapse.
-            ONE input: \(M_{\rm Planck}\). ∞₃ geometric framework. All coupling strengths derived from \(\alpha_{\rm em}\).
+            4 canonical inputs: \(M_{\rm Planck}\), v_EW, m_t, \(\alpha_{\rm em}\). ∞₃ geometric framework. All coupling strengths derived from \(\alpha_{\rm em}\).
         </p>
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
             <!-- Theory of Everything Candidate Badge -->
         <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:8px;max-width:480px;font-size:0.8rem;">
-          <span style="color:#4ade80;font-weight:600;">THEORY OF EVERYTHING CANDIDATE</span> — QED application | ONE input (M_Planck) | infinity helix geometry
+          <span style="color:#4ade80;font-weight:600;">THEORY OF EVERYTHING CANDIDATE</span> — QED application | 4 canonical inputs (M_Planck, v_EW, m_t, alpha_em) | infinity helix geometry
         </div>
         <span class="stur-status success">
                 <span class="stur-icon icon-check sm"></span>
@@ -158,7 +158,7 @@
             <h2 class="glass-section-title" style="color:var(--neon-green);">First Principles Status — Fully Derived</h2>
         </div>
         <div class="glass-section-body" style="font-size:0.92rem;">
-            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">ONE Input (M_Planck):</strong></p>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">4 Canonical Inputs (M_Planck):</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
                 <li>\(M_{\rm Planck} = 1.22 \times 10^{19}\) GeV — the single dimensionful input to the TOE</li>
             </ul>
@@ -234,7 +234,7 @@
         </div>
         <div class="glass-section-body">
             <p style="margin-bottom:1.5rem;color:var(--text-secondary);">
-                All predictions derived from QED vacuum dynamics. ONE input: M_Planck. ∞₃ geometric framework.
+                All predictions derived from QED vacuum dynamics. 4 canonical inputs: M_Planck, v_EW, m_t, alpha_em. ∞₃ geometric framework.
             </p>
 
             <!-- SONO.1 -->
@@ -597,7 +597,7 @@
 # =====================================================================
 # STUR Sonoluminescence from QED Vacuum Fluctuations
 #
-# ONE INPUT: M_Planck (sets all scales)
+# 4 CANONICAL INPUTS: M_Planck, v_EW, m_t, alpha_em (sets all scales)
 # GEOMETRIC FRAMEWORK: alpha_em = 1/137 derived from gauge unification
 #
 # Physics: Dynamical Casimir effect — moving bubble wall creates
@@ -636,7 +636,7 @@ fluids = {
 }
 
 # ---------------------------------------------------------------------
-# 2. Global constants — ONE INPUT (M_Planck), geometric framework
+# 2. Global constants — 4 canonical inputs (M_Planck, v_EW, m_t, alpha_em), geometric framework
 # ---------------------------------------------------------------------
 P_INF   = 1.0e5       # ambient pressure (Pa)
 T0      = 293.0       # ambient temperature (K)
@@ -782,7 +782,7 @@ results = {}
 fluids_order = list(fluids.keys())
 
 print("=== STUR Complete EFT: Sonoluminescence from QED ===")
-print("ONE INPUT: M_Planck | GEOMETRIC FRAMEWORK: alpha_em derived")
+print("4 CANONICAL INPUTS: M_Planck, v_EW, m_t, alpha_em | GEOMETRIC FRAMEWORK: alpha_em derived")
 for name in fluids_order:
     print("Running:", name)
     Rmins, Tmaxs, Lambdas, Ngamma = run_multibubble(name, N=60)
@@ -836,7 +836,7 @@ if wien_dev > 0.20:
 xpos = np.arange(len(fluids_order))
 
 fig, ax = plt.subplots(1, 3, figsize=(14, 4))
-fig.suptitle("STUR Complete EFT: Sonoluminescence from QED (ONE input, geometric framework)",
+fig.suptitle("STUR Complete EFT: Sonoluminescence from QED (4 canonical inputs, geometric framework)",
              fontsize=11, color='#4ade80')
 
 # Panel 1: peak temperature
@@ -1093,7 +1093,7 @@ document.getElementById('dlBtn').addEventListener('click', function() {
   // STUR SONOLUMINESCENCE v7.0 — Real-time Rayleigh-Plesset + QED Casimir
   // ═══════════════════════════════════════════════════════════════════════════
   //
-  // Framework: ONE input (M_Planck), ∞₃ geometric framework
+  // Framework: 4 canonical inputs (M_Planck, v_EW, m_t, alpha_em), ∞₃ geometric framework
   // Physics: Dynamical Casimir effect with QED coupling α_em derived from geometry
   //
   // NEW IN v5.0:

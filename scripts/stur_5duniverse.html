@@ -614,7 +614,7 @@
 # STUR 5D UGR v7.0 – Dynamic Infinity Helix on M^4 × S^1/∞₃
 #   (Metric + Torsion + Gauge) with Scientific Plots
 #
-# v7.0 Chronomagnetics: geometric framework, ONE input (M_Planck)
+# v7.0 Chronomagnetics: geometric framework, 4 canonical inputs (M_Planck, v_EW, m_t, alpha_em)
 # Dynamic Infinity Helix: Gerono lemniscate, simultaneously winding & unwinding
 # Discrete scale invariance: lambda_chrono = e^{1/pi} = 1.3748, omega = 2*pi**2 = 19.739
 # L_X derived from Casimir-holonomy balance; v*L_X = 3 (topological)
@@ -902,7 +902,7 @@ def main():
             "page": "5d-unified-gravity",
             "version": "v7.0",
             "equation": "eta''(tau) + K(tau) eta = 0",
-            "framework": "M^4 × S^1/∞₃ orbifold, Dynamic Infinity Helix, ONE input (M_Planck)"
+            "framework": "M^4 × S^1/∞₃ orbifold, Dynamic Infinity Helix, 4 canonical inputs (M_Planck, v_EW, m_t, alpha_em)"
         },
         "params": {
             "tau_max": float(TAU_MAX),
@@ -918,7 +918,7 @@ def main():
         json.dump(report, f, indent=2)
 
     print("=== STUR 5D UGR v7.0 Chronomagnetics (M^4 × S^1/∞₃) ===")
-    print(f"Framework:  geometric framework, ONE input (M_Planck)")
+    print(f"Framework:  geometric framework, 4 canonical inputs (M_Planck, v_EW, m_t, alpha_em)")
     print(f"tau_max:    {TAU_MAX:.4f}")
     print(f"Samples:    {N_SAMPLES}")
     print(f"Outputs: {OUT_PNG}, {OUT_JSON}")

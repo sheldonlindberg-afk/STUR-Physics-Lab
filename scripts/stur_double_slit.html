@@ -148,7 +148,7 @@
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">How it works (8th grade version):</strong> Imagine space has a hidden spiral shape, like a twisted helix. When light travels through this spiral, it picks up small phase shifts. These shifts add up and blur the interference pattern — that's what we measure as "decoherence."</p>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;">
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid var(--neon-green);">
-                    <strong style="color:var(--neon-green);font-size:0.85rem;">ONE Input</strong>
+                    <strong style="color:var(--neon-green);font-size:0.85rem;">4 Canonical Inputs</strong>
                     <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Planck mass \(M_P = \sqrt{\hbar c / G}\) — everything else is derived from infinity helix geometry</p>
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid var(--neon-gold);">
@@ -205,7 +205,7 @@
         </div>
         <div class="glass-section-body">
             <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:0.85rem;margin-bottom:1rem;">
-                <span style="padding:6px 12px;background:rgba(74,222,128,0.15);border-radius:8px;border:1px solid rgba(74,222,128,0.4);color:#4ade80;font-weight:600;">M_Planck (ONE input)</span>
+                <span style="padding:6px 12px;background:rgba(74,222,128,0.15);border-radius:8px;border:1px solid rgba(74,222,128,0.4);color:#4ade80;font-weight:600;">M_Planck (1 of 4 canonical inputs)</span>
                 <span style="color:var(--text-muted);">→</span>
                 <span style="padding:6px 12px;background:rgba(251,191,36,0.15);border-radius:8px;border:1px solid rgba(251,191,36,0.4);color:#fbbf24;">∞₃ Helix Geometry</span>
                 <span style="color:var(--text-muted);">→</span>
@@ -340,7 +340,7 @@
                 <h4 style="color:var(--neon-green);font-size:0.85rem;margin:0 0 0.5rem;">What Each Model Predicts</h4>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;font-size:0.85rem;">
                     <div>
-                        <strong style="color:var(--neon-green);">STUR (ONE input: M_Planck):</strong>
+                        <strong style="color:var(--neon-green);">STUR (4 canonical inputs: M_Planck, v_EW, m_t, alpha_em):</strong>
                         <ul style="margin:0.5rem 0 0 1rem;padding:0;color:var(--text-secondary);">
                             <li>Visibility decays as <strong>exp(−ΔL²/ℓ²<sub>coh</sub>)</strong></li>
                             <li>infinity helix geometry creates phase winding</li>
@@ -388,7 +388,7 @@
         </div>
         <div class="glass-section-body">
             <p style="margin-bottom:1.5rem;color:var(--text-secondary);">
-                <strong style="color:var(--neon-green);">Complete EFT:</strong> All predictions flow from ONE input (M_Planck) through infinity helix geometry.
+                <strong style="color:var(--neon-green);">Complete EFT:</strong> All predictions flow from 4 canonical inputs (M_Planck, v_EW, m_t, alpha_em) through infinity helix geometry.
                 The coherence length ℓ<sub>coh</sub> emerges analytically from the helix pitch. Note: the wavelength-dependent effective resistance quantum \(R_q^{\rm eff}(\lambda)\) used below to compare against data is a fitted 18-value array (one adjustable value per data point), not derived from ∞-helix structure — it is disclosed here rather than hidden.
             </p>
 
@@ -531,9 +531,9 @@
                 <div class="stur-eq-label">Coherence Length — <a href="stur_technical_appendix.html#gaussian-visibility" style="color:var(--neon-cyan)">Tech. Appendix Eq. B.9</a></div>
             </div>
 
-            <p><strong>Complete EFT — ONE input (M<sub>Planck</sub>), geometric framework:</strong></p>
+            <p><strong>Complete EFT — 4 canonical inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, &alpha;<sub>em</sub>), geometric framework:</strong></p>
             <ul style="font-size:0.9rem;color:var(--text-secondary);">
-              <li><strong style="color:var(--neon-green);">ONE input:</strong> \(M_P = \sqrt{\hbar c / G}\) — the Planck mass sets all scales</li>
+              <li><strong style="color:var(--neon-green);">Canonical inputs (4):</strong> \(M_P = \sqrt{\hbar c / G}\) sets the overall scale; v_EW, m_t, α_em fix the remaining dimensionless ratios</li>
               <li>\(L_X = \ell_P \cdot (2\pi/3) \approx 3.4\times10^{-35}\,\text{m}\) — helix pitch derived from ∞-helix topology (does not match either the site's canonical \(L_X^{\rm fund}\sim3\times10^{-32}\,\text{m}\) or \(L_X^{\rm eff}\sim0.8\,\mu\text{m}\) scale; not used in the coherence-length formula below, which is fit to the plasmon Q factor instead)</li>
               <li>\(\sigma_R\) — phase fluctuation from R-field equilibrium (derived, not fitted)</li>
               <li><strong style="color:var(--neon-cyan);">Result:</strong> Coherence length emerges from geometry — no tuning knobs</li>
@@ -647,7 +647,7 @@
 # ===============================================================
 # STUR v7.0 TOE — Double-Slit Gaussian Visibility Test
 #
-# ONE input: M_Planck (sets all scales via infinity helix geometry)
+# 4 canonical inputs: M_Planck, v_EW, m_t, alpha_em (sets all scales via infinity helix geometry)
 # Geometric framework: coherence length formula (Eq. 3.15) is derived, not fitted.
 # NOTE: RQ_EFF below is an 18-value per-wavelength array used in the data
 # comparison — it is a FITTED input, not derived from M_Planck/helix geometry.
@@ -882,7 +882,7 @@ report = {
     "meta": {
         "page": "double-slit-visibility",
         "version": "v7.0-TOE",
-        "framework": "∞₃ geometric framework, ONE input (M_Planck)",
+        "framework": "∞₃ geometric framework, 4 canonical inputs (M_Planck, v_EW, m_t, alpha_em)",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "V(ΔL) = V₀ exp[-½(σᵣ/Lₓ)²(ΔL)²]"
     },

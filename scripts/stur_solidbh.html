@@ -93,7 +93,7 @@
             <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a>
         </p>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
-            Derives black hole thermodynamics from TEGR torsion with ONE input (M<sub>Planck</sub>) and ∞₃ geometric framework.
+            Derives black hole thermodynamics from TEGR torsion with 4 canonical inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, &alpha;<sub>em</sub>) and ∞₃ geometric framework.
             Hawking temperature, Bekenstein entropy, and information preservation emerge from first principles.
         </p>
 
@@ -101,7 +101,7 @@
         <div style="margin-top:1rem;">
             <!-- v4.0 TOE Badge -->
         <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:8px;max-width:500px;font-size:0.8rem;">
-          <span style="color:#4ade80;font-weight:600;">★ v4.0 TOE</span> — ONE input: M<sub>Pl</sub>, infinity helix geometry
+          <span style="color:#4ade80;font-weight:600;">★ v4.0 TOE</span> — 4 canonical inputs: M<sub>Pl</sub>, v<sub>EW</sub>, m<sub>t</sub>, &alpha;<sub>em</sub>, infinity helix geometry
         </div>
         <span class="stur-status success">
                 <span class="stur-icon icon-check-circle sm"></span>
@@ -132,7 +132,7 @@
             <h2 class="glass-section-title" style="color:var(--neon-green);">First Principles Status — v7.0 TOE</h2>
         </div>
         <div class="glass-section-body" style="font-size:0.92rem;">
-            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">ONE Input, ∞₃ Geometric Framework:</strong></p>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">4 Canonical Inputs, ∞₃ Geometric Framework:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
                 <li><strong>Single Input:</strong> \(M_{\text{Pl}} = \sqrt{\hbar c / G}\) — the Planck mass defines all scales. <strong>Honesty note:</strong> the executable simulation on this page hardcodes ħ, c, G, and k<sub>B</sub> as its actual inputs and computes M<sub>Pl</sub> as a derived property of G; since T<sub>H</sub>, S<sub>BH</sub>, and t<sub>evap</sub> below all depend on G directly, G — not M<sub>Pl</sub> — is the effective input in the code, the reverse of the framing here.</li>
                 <li>TEGR torsion scalar: \(\mathbb{T} = T^{\rho}{}_{\mu\nu}S_{\rho}{}^{\mu\nu}\) — emerges from R-field coupling</li>
@@ -197,7 +197,7 @@
         </div>
         <div class="glass-section-body">
             <p style="margin-bottom:1rem;color:var(--text-secondary);">
-                Black hole thermodynamics emerges from TEGR torsion coupling with <strong>ONE input</strong> (M<sub>Pl</sub>) and <strong>∞₃ geometric framework</strong>.
+                Black hole thermodynamics emerges from TEGR torsion coupling with the STUR framework's <strong>4 canonical inputs</strong> (M<sub>Pl</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>) and <strong>∞₃ geometric framework</strong>.
             </p>
 
             <div class="stur-eq law" style="margin:1rem 0;">
@@ -425,7 +425,7 @@
                   \;+\; \underbrace{\Matt{\mathcal{L}_{\rm matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v4.0 TOE — ONE input: M<sub>Pl</sub>)</div>
+                <div class="stur-eq-label">Master Action (v4.0 TOE — 4 canonical inputs: M<sub>Pl</sub>, v<sub>EW</sub>, m<sub>t</sub>, &alpha;<sub>em</sub>)</div>
             </div>
 
             <p><strong>TEGR gravity emergence (v4.0):</strong> At the R-field VEV \(|R| = v\):</p>
@@ -511,7 +511,7 @@
 # STUR Black Hole Physics — v7.0 TOE
 #
 # Derives BH thermodynamics from TEGR with:
-#   - ONE input: M_Planck
+#   - 4 canonical inputs: M_Planck, v_EW, m_t, alpha_em
 #   - geometric framework
 #
 # Outputs:
@@ -620,7 +620,7 @@ t_evap_ref = evaporation_time(M_ref, C)
 # ===============================================================
 fig, axes = plt.subplots(2, 2, figsize=(12, 10), dpi=150)
 fig.patch.set_facecolor('#050814')
-fig.suptitle('STUR v7.0 TOE: Black Hole Thermodynamics\nONE input (M_Pl), ∞₃ geometric framework',
+fig.suptitle('STUR v7.0 TOE: Black Hole Thermodynamics\n4 canonical inputs (M_Pl, v_EW, m_t, alpha_em), ∞₃ geometric framework',
              color='#4ade80', fontsize=14, fontweight='bold')
 
 # Hawking Temperature
@@ -690,7 +690,7 @@ report = {
         "page": "black-hole-physics",
         "version": "v7.0-TOE",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "framework": "ONE input (M_Pl), ∞₃ geometric framework"
+        "framework": "4 canonical inputs (M_Pl, v_EW, m_t, alpha_em), ∞₃ geometric framework"
     },
     "input": {
         "M_Planck_kg": float(C.M_Pl),
@@ -750,7 +750,7 @@ print(f"\nOutputs: {OUT_PNG}, {OUT_JSON}")</pre>
             <h2 class="glass-section-title">Reproduce</h2>
         </div>
         <div class="glass-section-body">
-            <p>Export all derived quantities in the standard STUR schema (ONE input, ZERO parameters):</p>
+            <p>Export all derived quantities in the standard STUR schema (4 canonical inputs: M_Planck, v_EW, m_t, alpha_em):</p>
 
             <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
                 <button class="glass-btn primary" onclick="exportJSON()">

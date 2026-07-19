@@ -128,7 +128,7 @@ Standard physics has multiple independent scales:
 
 These span 30 orders of magnitude with no explanation for their ratios (the hierarchy problem).
 
-STUR claims these all derive from ONE input (M_Planck) through the infinity helix geometry.
+STUR claims these all derive from M_Planck (anchoring the scale) through the infinity helix geometry — though the current canonical framework (v7.0.2) uses 4 dimensional inputs total (M_Planck, v_EW, m_t, α_em), not M_Planck alone; see MPLANCK_DERIVATION_ANALYSIS.md's correction note and README.md.
 
 ---
 
