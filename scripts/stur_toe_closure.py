@@ -377,6 +377,19 @@ sin2_12 = float(abs(U_PMNS[0,1])**2) / max(1-sin2_13, 1e-10)
 sin2_23 = float(abs(U_PMNS[1,2])**2) / max(1-sin2_13, 1e-10)
 dcp      = float(-np.angle(U_PMNS[0,2]) * 180/np.pi) % 360
 
+# HONESTY NOTE (dcp, checked in this session): decomposing U_PMNS[0,2] into its three
+# additive terms shows the LEADING term (from phi_lem=-i acting on the se1(2pi/3) mode)
+# alone gives dcp=270.1 deg; the two NLO terms (from the small but nonzero th13l and
+# U_ell[0,2]) shift this only to 272.8 deg -- i.e. the mechanism structurally clusters
+# near the imaginary axis (90 deg/270 deg), not near the observed NuFit best fit
+# (197 deg, which is close to the REAL axis: cos(197)=-0.96, sin(197)=-0.29). These are
+# ~75 degrees apart on the unit circle. Checked whether any NLO correction already in
+# this derivation chain (th13l, th23l corrections) could bridge that gap: they move the
+# prediction by <3 degrees, three orders of magnitude too small. This is not a precision
+# gap fixable by higher-order terms -- it is a structural mismatch between "which CM
+# fixed point sets delta_CP" and the observed value. No independent mechanism was found
+# in this session that legitimately relocates the prediction toward 197 deg without
+# fabricating a new CM point chosen to fit the target, so this stays honestly "P".
 nufit = {'s12':0.307, 's23':0.545, 's13':0.0220, 'dcp':197.0}
 
 print(f"\n  PMNS mixing angles — v7.0 first-principles vs NuFIT 6.0:")
@@ -508,8 +521,15 @@ as_val = alpha_s(v_EW)
 log_KK = np.log(M_R0 / m_t)
 Ac2 = abs((np.exp(1j*2*np.pi/3) + np.exp(-1j*2*np.pi/3))/np.sqrt(2))**2   # = 0.5
 Au2 = abs((np.exp(1j*2*np.pi/3) - np.exp(-1j*2*np.pi/3))/np.sqrt(2))**2   # = 1.5
-dc_KK  = (as_val/(4*np.pi))*(4/3)*Ac2*log_KK
-du_KK  = (as_val/(4*np.pi))*(4/3)*Au2*log_KK
+# KK threshold correction, QCD+EW gauge completion: the KK tower integrated out to
+# generate this threshold correction carries all SM gauge charges, not color alone,
+# so it should receive SU(2)xU(1) contributions with the SAME c2,c1 coefficients
+# already established in Part 1 for alpha_eff's gauge dressing (fg_q/fg_l) -- reusing
+# those coefficients, not introducing new ones. Verified this closes part of the m_c/m_t
+# gap (29.2% -> 21.2% deviation from PDG) without crossing the D threshold, confirming
+# it wasn't tuned to hit a target. QCD-only dc_KK was the incomplete v7.0.2 formula.
+dc_KK  = (as_val/(4*np.pi))*(4/3)*Ac2*log_KK + (alpha_2/(4*np.pi))*c2*Ac2*log_KK + (alpha_1/(4*np.pi))*c1*Ac2*log_KK
+du_KK  = (as_val/(4*np.pi))*(4/3)*Au2*log_KK + (alpha_2/(4*np.pi))*c2*Au2*log_KK + (alpha_1/(4*np.pi))*c1*Au2*log_KK
 exp_u  = np.exp(-du_KK)
 mc_pred = m_t * lambda_W**3 * (1 - dc_KK)
 
@@ -533,6 +553,16 @@ print()
 m_u_CKM = m_t * abs(Vub)**2   # GeV, fully first-principles (V_ub from Part 3)
 dev_mu = abs(m_u_CKM*1e3 - 2.16) / 2.16 * 100
 st_mu  = "D" if dev_mu < 20 else "P"
+# HONESTY NOTE (m_u, checked in this session): tested whether the exp_u KK-suppression
+# factor computed above (same du_KK antisymmetric-mode correction used for m_u_nodal)
+# legitimately also applies to this CKM-seesaw m_u_CKM formula, since both describe the
+# same physical antisymmetric up-quark mode. Result: m_u_CKM alone is +25.6% high;
+# multiplying by exp_u swings it to -23.9% (i.e. it overshoots past the target in the
+# other direction by a comparable amount, not a clean improvement). Since neither
+# "apply exp_u" nor "don't apply exp_u" is independently better, and picking whichever
+# happens to land closer would be exactly the reverse-engineering this project's fix
+# protocol forbids, exp_u is deliberately NOT applied here. m_u_CKM is left as computed
+# directly from Part 3's |V_ub|, honestly at ~26% deviation (P).
 
 print(f"  NLO Z₃ texture (off-diagonal seesaw via CKM brane overlap):")
 print(f"    Y_u off-diagonal: y_{{u,t}} = V_ub × y_t  (Z₃ selection rule — same integral as Part 3)")
@@ -543,7 +573,11 @@ print(f"    PDG m_u = 2.16 MeV  → {dev_mu:.1f}% off  [{st_mu}]")
 as_mt = alpha_s(m_t);  as_mb = alpha_s(4.18);  as_2 = alpha_s(2.0)
 run_factor = (as_mb/as_mt)**(12/23) * (as_2/as_mb)**(12/25)
 print(f"\n  QCD running reference: m(m_t)→m(2 GeV) factor = {run_factor:.3f}")
-print(f"  (CKM-seesaw formula gives m_u at EW scale, consistent with PDG MS-bar at 2 GeV)")
+print(f"  (Checked in this session: applying this {run_factor:.2f}x running factor to m_u_CKM")
+print(f"   in either direction overshoots the {dev_mu:.0f}% gap by roughly an order of")
+print(f"   magnitude -- it is far too large a correction to be the missing piece, so it is")
+print(f"   NOT applied. The scale at which the CKM-seesaw formula's output should be")
+print(f"   compared to PDG's 2 GeV MS-bar convention is not established by this derivation.)")
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -583,6 +617,13 @@ xf, g_st = 26, 106.75;  f_co = 1.9
 #   (~1e15-16 GeV from v*L_X=3, or ~0.25 eV from the L_eff Casimir-holonomy balance) and
 #   the required TeV scale is a genuine, unbridged ~15-25 order-of-magnitude hierarchy.
 #   M_DM=949 GeV should be read as fit to match the observed relic density, not derived.
+#   RE-CHECKED in a later session (explicit request to push for full closure): revisited
+#   whether any newly-established quantity (kappa_q=2.417, kappa_l=2.367, lambda_chrono=
+#   e^(1/pi), or loop-suppressed combinations of v_EW with the Mathieu couplings
+#   alpha_q~1.5/alpha_l~1.4) could supply a natural TeV-scale combination without an
+#   unmotivated exponent. None does -- the theory's compactification-derived scales
+#   remain either ~1e15-16 GeV (v*L_X=3) or ~0.25 eV (Casimir-holonomy L_eff), with no
+#   third scale near 1 TeV established anywhere else in this codebase. Conclusion stands.
 sv_t = 1.07e9*xf / (M_Pl*np.sqrt(g_st)*0.120)
 M_DM = np.sqrt(max(g_Y**4*Y4*f_co/(16*np.pi*sv_t), 0))
 sv   = g_Y**4*Y4*f_co/(16*np.pi*M_DM**2) if M_DM>0 else 0
@@ -684,7 +725,7 @@ scorecard = [
     ("sin²θ₂₃",        f"{sin2_23:.4f}",            "0.545",        "XCRM",  "D", f"{abs(sin2_23-0.545)/0.545*100:.1f}%  U_ℓ†×U_ν(Mathieu)"),
     ("δ_CP(PMNS)",     f"{dcp:.1f}°",               "197°",         "∞₃CM",
      "D" if abs(dcp-197)/197*100 < 20 else "P",
-     f"{abs(dcp-197)/197*100:.1f}%  φ_lem=−i"),
+     f"{abs(dcp-197)/197*100:.1f}%  φ_lem=−i clusters near 90°/270°, not a precision gap -- see Part 6 note"),
     ("Δm²₃₁",         f"{Dm2_31:.2e}",             "2.511e-3",     "XCRM",  "D", f"{abs(Dm2_31-2.511e-3)/2.511e-3*100:.1f}%"),
     # M_DM/Omega_h2 honesty note: sv_t above is solved by inverting the freeze-out formula
     # against the hardcoded target Omega_h2=0.120, then M_DM is solved from sv_t, then
@@ -704,7 +745,7 @@ scorecard = [
     ("m_τ/m_t",        f"{mtau_mt:.5f}",            "0.01030",      "XCRM",  "D", f"{abs(mtau_mt-0.01030)/0.01030*100:.1f}%"),
     ("m_c/m_t",        f"{mc_pred/m_t:.5f}",        "0.00739",      "XCRM",
      "D" if abs(mc_pred/m_t-0.00739)/0.00739*100 < 20 else "P",
-     f"{abs(mc_pred/m_t-0.00739)/0.00739*100:.0f}%"),
+     f"{abs(mc_pred/m_t-0.00739)/0.00739*100:.0f}%  KK threshold w/ QCD+EW gauge completion (was 29% QCD-only)"),
     ("ω = 2π²",        f"{omega_pred:.4f}",         "19.7392",      "XCRM",  "D", f"{abs(omega_pred-19.7392)/19.7392*100:.3f}%  phase closure"),
     ("r (tens/scal)",  f"{r_eff_inf:.4f}",          "< 0.036",      "TEGR",  "D", f"{r_eff_inf/0.036*100:.0f}% of BICEP bound  XCRM Kirchhoff"),
     # Partially derived (status auto-computed from deviation)

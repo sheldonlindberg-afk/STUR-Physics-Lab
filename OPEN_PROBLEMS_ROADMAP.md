@@ -22,7 +22,7 @@ Script: `scripts/stur_toe_closure.py` (canonical master script)
 
 ---
 
-## ALL Problems Solved
+## Problem-by-Problem Status (most solved; OP-3's δ_CP item and OP-7 are not — see below)
 
 ### OP-1: α_eff from First Principles — SOLVED ✓
 
@@ -40,11 +40,15 @@ Script: `scripts/stur_toe_closure.py` (canonical master script)
 **Scripts:** `lx_flux_stabilization.py`, `lx_effective_potential.py`
 **Documents:** `LX_CASIMIR_HOLONOMY_DERIVATION.md`, `LX_SCALE_HIERARCHY_RESOLUTION.md`
 
-### OP-3: Neutrino Sector — SOLVED ✓
+### OP-3: Neutrino Sector — MOSTLY SOLVED (mixing angles D; δ_CP still P)
 
-**Status:** Full PMNS matrix derived via U_ℓ† × U_TBM (no calibration). NLO corrections applied.
+**Status:** Full PMNS matrix derived via U_ℓ† × U_ν (no calibration). NLO corrections applied.
 - sin²θ_12 = 0.2491 (D, 18.9%), sin²θ_23 = 0.4391 (D, 19.4%), sin²θ_13 = 0.0242 (D, 9.9%)
-- δ_CP = 272.8° (I, lemniscate CM: i³=e^{i3π/2}; falsifiable by T2HK/DUNE)
+- δ_CP = 272.8° (**P**, not I — 38.5% off NuFIT 197°; lemniscate CM: i³=e^{i3π/2}; the
+  mechanism structurally clusters the prediction near 90°/270° on the phase circle, ~75°
+  from NuFIT's best fit near the real axis — checked whether any NLO correction already in
+  this derivation chain could bridge that gap: they move the prediction by <3°, far too
+  small. This is a structural mismatch, not a precision gap. Falsifiable by T2HK/DUNE.)
 - Δm²_31 = 2.45×10⁻³ eV² (2.3% from NuFIT)
 - Normal ordering predicted (falsifiable by JUNO/DUNE)
 **Method:** NLO Wolfenstein re-parameterization: sin(θ₁₂^ℓ) = λ_ℓ·(1−λ_ℓ²/2); NLO KK tower:
@@ -79,11 +83,23 @@ the previously hardcoded 0.47).
 - Swampland constraints verified (Distance ✓, WGC ✓, Cobordism ✓, dS ✓ — see DS_CONJECTURE_PROOF.md)
 **Documents:** `FTHEORY_CY4_EXPLICIT_CONSTRUCTION.md`, `UV_COMPLETION_UNIQUENESS_PROOF.md`
 
-### OP-7: Dark Matter — SOLVED ✓
+### OP-7: Dark Matter — UNRESOLVED (reclassified U, post-v7.0.2)
 
-**Status:** LKP B^(1) at M_DM = 949 ± 80 GeV. Ω_DM h² = 0.1200 (0.0% from Planck).
-- Self-consistent freeze-out: M_DM derived from LKP relic abundance, not reverse-engineered.
-- σ_SI ~ 10^-47 cm² (within LZ/XENONnT reach).
+**Status:** LKP B^(1) at M_DM = 949 GeV. Ω_DM h² = 0.1200 is NOT an independent 0.0%
+agreement with Planck — it is tautological by construction: the freeze-out formula is
+inverted against the hardcoded target Ω_DM h²=0.120 to solve for the cross-section, then
+M_DM is solved from that cross-section, then Ω_DM h² is recomputed from that same M_DM.
+Verified this returns 0.120000 to 6 decimals for any input value of Y4 across 5+ orders
+of magnitude, confirming the "agreement" is algebraic, not physical.
+- **Correcting a prior false claim in this section:** M_DM was previously described here
+  as "derived from LKP relic abundance, not reverse-engineered" — that is incorrect. See
+  `scripts/stur_toe_closure.py` Part 9 for the full derivation showing the circularity,
+  and the extensive documented search (there and re-checked in a later session) for an
+  independent mass-scale mechanism, which found none: this theory's natural geometric
+  scales are ~10^15-16 GeV (v·L_X=3) or ~0.25 eV (Casimir-holonomy L_eff), neither close
+  to the required ~1 TeV, and no legitimate combination bridges that ~15-25 order-of-
+  magnitude gap without an unmotivated free exponent.
+- σ_SI ~ 10^-47 cm² (within LZ/XENONnT reach) — testable regardless of the derivation gap.
 **Document:** `DARK_MATTER_RELIC_DENSITY.md`
 
 ### OP-8: N = 3 Selection — SOLVED ✓
@@ -127,7 +143,8 @@ the previously hardcoded 0.47).
 **Assessment:** The ∞₃ Mathieu U_ν sets structural floors that cannot be lifted by λ_ℓ²-order U_ℓ
 corrections. The 19% deviation in θ_12 and θ_23 is an honest prediction of the fixed-point
 geometry. sin²θ_13 derivation (from zero) is the primary PMNS achievement.
-**Impact:** Complete — all parameters D; no further NLO work required.
+**Impact:** Complete for the three mixing angles (all D). The CP phase δ_CP is a separate
+parameter and remains **P** (38.5% off, structural — see OP-3 above); this RQ does not cover it.
 
 ### RQ-2: Δm²_21 (Solar Mass Splitting) — RESOLVED ✓
 
