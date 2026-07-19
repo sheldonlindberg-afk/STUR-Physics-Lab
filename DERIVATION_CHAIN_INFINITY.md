@@ -110,12 +110,12 @@ N_ν = 2.9840 ± 0.0082 (from Z-width)
 | Mass hierarchy mechanism | Sharp Higgs profile σ_H/σ_ψ ≈ 0.23 | y₃/y₂ = 111 (genuine Yukawa RATIO prediction) | **D** (ratio only) |
 | ε/σ self-consistency | R-field energy minimization | ε/σ = 0.47 reproduces exact PDG Cabibbo angle | **D** |
 | 6 charged fermion masses | 2-body Higgs overlap on S¹/∞₃ | Complete from m_t anchor + α_eff(μ, sector); light masses limited by S¹ symmetry | **D** |
-| PMNS matrix (6 parameters) | U_ℓ†×TBM with lepton-specific α_eff | sin²θ₁₂ = 0.181 (40%), sin²θ₂₃ = 0.446 (22%), sin²θ₁₃ = 0.0295 (34%); v7.0 full Cabibbo | **D** |
+| PMNS matrix (6 parameters) | U_ℓ†×TBM with lepton-specific α_eff | sin²θ₁₂ = 0.181 (40%), sin²θ₂₃ = 0.446 (22%), sin²θ₁₃ = 0.0295 (34%); v7.0 full Cabibbo | **D** (stale intermediate-stage figures, all >20% off as stated here — this row's own "D" violates the project's <20% rule; current canonical values are sin²θ₁₂=0.2491 (19%), sin²θ₂₃=0.4391 (19.4%), sin²θ₁₃=0.0242 (10%), all genuinely D — see the corrected Closure Scorecard above) |
 | Neutrino masses | Type-I seesaw with holonomy-enhanced M_R | Δm²₃₁ = 2.5×10⁻³ eV² via M_R = 2×10¹⁴ GeV; normal ordering genuine prediction | **D** |
 | Cosmological constant | ∞-helix discrete gauge Ward identity + neutrino residual | Λ_tree = 0 (KMS + ∞₃ Ward); Λ_residual = 3.3×10⁻⁴⁷ GeV⁴ (17% from obs) | **D** |
 | Dark matter | LKP B^(1) thermal freeze-out | M_DM = 920 ± 80 GeV from thermal relic; Ω_DM h² = 0.119 (0.4σ from Planck) | **U** (corrected in FIX pass — the "NOT fitted" claim is false: DARK_MATTER_RELIC_DENSITY.md, the cited source, shows M_LKP is solved for by requiring Ω_DM h²≈0.12 after its own holonomy estimate gave ~7.7 TeV) |
-| m_b/m_t | 2-body Higgs overlap + Wilson line | δ_W = 2π/3 (topological) + 2-body overlap → 0.050 (PDG 0.0242; 2× gap from leading-order) | **D** |
-| m_τ/m_t | 2-body Higgs overlap + color factor 1/√3 | Lepton-specific α_eff + color factor → 0.035 (PDG 0.0103; 3× gap from leading-order) | **D** |
+| m_b/m_t | 2-body Higgs overlap + Wilson line | δ_W = 2π/3 (topological) + 2-body overlap → 0.050 (PDG 0.0242; 2× gap from leading-order) | **D** (stale leading-order figure; current canonical value is 0.02172, 10.4% off, genuinely D — see Closure Scorecard above) |
+| m_τ/m_t | 2-body Higgs overlap + color factor 1/√3 | Lepton-specific α_eff + color factor → 0.035 (PDG 0.0103; 3× gap from leading-order) | **D** (stale leading-order figure; current canonical value is 0.01163, 12.9% off, genuinely D — see Closure Scorecard above) |
 | UV completion | F-theory CY₄ on (P²×P¹)/∞₃ | Construction proposed; uniqueness proof in UV_COMPLETION_UNIQUENESS_PROOF.md | **D** |
 
 > **ACADEMIC AUDIT NOTE (corrected in FIX pass):** Not all non-input observables are Derived
@@ -1341,6 +1341,12 @@ The five open problems identified in v6.3 were resolved in `scripts/five_open_pr
 
 **Full TOE Closure Scorecard (v7.0):**
 
+> **Note (FIX pass):** the table below previously showed an older, stale iteration of these
+> numbers (e.g. A=0.655, |V_ub|=0.00316, m_b/m_t=0.050 "2× gap" marked **D**, sin²θ₁₃ at 34%
+> off marked **D**, δ_CP at 37% off marked **D**) that did not match the canonical script and,
+> in several rows, violated this project's own <20%-deviation rule for **D** status. Replaced
+> with the live output of `scripts/stur_toe_closure.py`, the canonical source of truth.
+
 | Observable | Predicted | Observed | Pillar | Status | Note |
 |-----------|-----------|----------|--------|--------|------|
 | N_gen = 3 | 3 | 3 | TEGR | **D** | ∞-helix topology |
@@ -1350,27 +1356,29 @@ The five open problems identified in v6.3 were resolved in `scripts/five_open_pr
 | Proton stability | Stable | Stable | TEGR | **D** | KK-parity |
 | Normal ordering | NH | NH | TEGR | **D** | ∞-helix resonance |
 | KK-parity | Conserved | — | TEGR | **D** | ∞₃ gauge symmetry |
-| λ (Cabibbo) | 0.229 | 0.225 | XCRM | **D** | exp(-κ²/4), 1.6% |
-| σ_H/σ_ψ | 0.225 | ~0.23 | XCRM | **D** | √2/(2π) brane kink [v7.0] |
-| A (Wolfenstein) | 0.655 | 0.826 | XCRM | **D** | Holonomy geometry [v7.0] |
-| δ_CKM | 68.3° | 65.4° | XCRM | **D** | 4.5% |
-| η̄ | 0.375 | 0.348 | XCRM | **D** | 0.9σ, correction chain [v7.0] |
-| \|V_ub\| | 0.00316 | 0.00382 | XCRM | **D** | Wolfenstein geometry [v7.0] |
-| \|V_cb\| | 0.0342 | 0.0410 | XCRM | **D** | Wolfenstein geometry [v7.0] |
-| sin²θ₁₂ | 0.181 | 0.303 | C+TEGR | **D** | U_ℓ†×TBM, full lepton Cabibbo [v7.0] |
-| sin²θ₂₃ | 0.446 | 0.572 | C+TEGR | **D** | U_ℓ†×TBM [v7.0] |
-| sin²θ₁₃ | 0.0295 | 0.0220 | C+TEGR | **D** | Full lepton Cabibbo (was 0.003) [v7.0] |
-| δ_CP (PMNS) | 270° | 197° | Chrono | **D** | ∞-helix chirality |
-| Λ_CC | 3.3×10⁻⁴⁷ | 2.8×10⁻⁴⁷ | All 3 | **D** | Ward identity + ν residual, 17% [v7.0] |
-| 6 fermion masses | — | PDG | XCRM | **D (5)/P (1)** | 2-body Higgs overlap, m_t anchor [v7.0]; m_u is P-status (2.3× off, see Chain Step 4) despite this row's "D" label |
-| M_R | 2×10¹⁴ | ~10¹⁴ | TEGR | **D** | λ_hol = 19.6 [v7.0] |
-| Δm²₃₁ | 2.5×10⁻³ | 2.5×10⁻³ | XCRM | **D** | Seesaw + M_R [v7.0] |
+| λ (Cabibbo) | 0.22543 | 0.22537 | XCRM | **D** | ψ₀(2π/3)/ψ₀(0), 0.03% |
+| σ_H/σ_ψ | 0.2251 | ~0.23 | XCRM | **D** | √2/(2π) brane kink |
+| A (Wolfenstein) | 0.8140 | 0.826 | XCRM | **D** | Holonomy geometry |
+| δ_CKM | 68.1° | 65.4° | XCRM | **D** | 4.2% |
+| η̄ | 0.3947 | 0.348 | XCRM | **D** | 13.4%, f_hol fitted constant removed |
+| \|V_ub\| | 0.00397 | 0.00382 | XCRM | **D** | 3.8% |
+| \|V_cb\| | 0.04136 | 0.0410 | XCRM | **D** | 0.9% |
+| sin²θ₁₂ | 0.2491 | 0.307 | C+TEGR | **D** | U_ℓ†×U_ν, full lepton Cabibbo, 19% |
+| sin²θ₂₃ | 0.4391 | 0.545 | C+TEGR | **D** | U_ℓ†×U_ν, 19.4% |
+| sin²θ₁₃ | 0.0242 | 0.0220 | C+TEGR | **D** | Full lepton Cabibbo, 10% |
+| δ_CP (PMNS) | 272.8° | 197° | Chrono | **P** | 38.5% off — φ_lem=−i clusters near 90°/270°, a structural mismatch with NuFIT's best fit near the real axis, not a precision gap (see README.md Results Summary) |
+| Λ_CC | 3.0×10⁻⁴⁷ | 2.8×10⁻⁴⁷ | All 3 | **D** | Ward identity + ν residual, 7% |
+| m_b/m_t | 0.02172 | 0.02424 | XCRM | **D** | 2-body Higgs overlap, 10.4% |
+| m_τ/m_t | 0.01163 | 0.01030 | XCRM | **D** | Color factor + lepton α_eff, 12.9% |
+| m_c/m_t | 0.00895 | 0.00739 | XCRM | **P** | 21%, KK threshold w/ QCD+EW gauge completion |
+| m_u | 2.71 MeV | 2.16 MeV | XCRM | **P** | 26%, Z₃ seesaw m_t·\|V_ub\|² |
+| M_R | 2×10¹⁴ | ~10¹⁴ | TEGR | **D** | ∞₃ holonomy |
+| Δm²₃₁ | 2.45×10⁻³ | 2.511×10⁻³ | XCRM | **D** | Seesaw + M_R, 2.3% |
+| Δm²₂₁ | 6.92×10⁻⁵ | 7.53×10⁻⁵ | XCRM | **D** | pseudo-Dirac λ_l²/2×Δm²₃₁, 8% |
 | M_DM | 949 GeV | — | TEGR | **U** (corrected in FIX pass from "D") | LKP B^(1) freeze-out is circular — mass solved for by requiring Ω_DM h²≈0.12; holonomy gives ~7.7 TeV independently |
-| Ω_DM h² | 0.119 | 0.120 | TEGR | **U** (corrected in FIX pass from "D") | Tautological given M_DM was tuned to reach this value |
-| m_b/m_t | 0.050 | 0.0242 | TEGR | **D** | 2-body Higgs overlap, 2× gap [v7.0] |
-| m_τ/m_t | 0.035 | 0.01030 | TEGR | **D** | Color factor + lepton α_eff [v7.0] |
+| Ω_DM h² | 0.1200 | 0.1200 | TEGR | **U** (corrected in FIX pass from "D") | Tautological given M_DM was tuned to reach this value |
 
-**Updated totals (corrected in FIX pass):** 24 D + 3 P + 0 C + 2 U + 1 I = 30 (83% closure)
+**Updated totals (corrected in FIX pass):** 24 D + 3 P + 2 U + 1 I = 30 (83% closure)
 
 *(This table previously claimed 31D+0P+0U+1I=32, which double-counted M_DM/Ω_DM as "Derived"
 despite this document's own Chain Step 8 and DARK_MATTER_RELIC_DENSITY.md showing the
@@ -1572,7 +1580,7 @@ Three axioms — five-dimensional TEGR spacetime, a real doublet R-field (XCRM),
 - v6.5: Last 2 calibrated → partially derived (8D+23P+0C+0U+1I=32)
 - **v7.0: Leading-order closure — 24D+3P+2U+1I=30, 83% closure (corrected in FIX pass from "28D+0P+0U+1I=29")**
 
-**v7.0 honest scorecard (corrected in FIX pass):** Key advances: (1) σ_H/σ_ψ = √2/(2π) derived from ∞₃ brane kink. (2) CKM A = 0.818 (Gerono correction). (3) δ_CP = 272.7° from lemniscate CM (i³=e^{i3π/2}). (4) All fermion masses from 2-body Higgs overlap. (5) Λ_CC = 3.3×10⁻⁴⁷ GeV⁴ (17%). (6) Δm²₂₁ from off-diagonal M_R seesaw. **This paragraph previously claimed "28D+0P+0U+1I=29 observables" in the same breath as listing three P-status items and one U-status item — an internal contradiction (0P/0U cannot coexist with a non-empty P/U list).** Honest totals: **24D + 3P + 2U + 1I = 30 observables (83% closure).** P: m_u (2.3×, Wolfenstein), sin²θ₁₂ (14.8%), sin²θ₁₃ (27.9%); U: M_DM and Ω_DM h² (circular — see Chain Step 8 and DARK_MATTER_RELIC_DENSITY.md). Δm²₂₁ (87% off) remains a large-error D observable, not reclassified here.
+**v7.0 honest scorecard (corrected in FIX pass, numbers re-synced to the canonical script):** Key advances: (1) σ_H/σ_ψ = √2/(2π) derived from ∞₃ brane kink. (2) CKM A = 0.8140 (holonomy geometry). (3) δ_CP = 272.8° from lemniscate CM (i³=e^{i3π/2}) — 38.5% off NuFIT 197°, a structural mismatch (see the Closure Scorecard note above), so this item is **P**, not D. (4) All fermion masses from 2-body Higgs overlap. (5) Λ_CC = 3.0×10⁻⁴⁷ GeV⁴ (7%, D). (6) Δm²₂₁ = 6.92×10⁻⁵ eV² (8% off, D) from off-diagonal M_R seesaw — λ_l²/2×Δm²₃₁. **This paragraph previously claimed "28D+0P+0U+1I=29 observables" in the same breath as listing three P-status items and one U-status item — an internal contradiction (0P/0U cannot coexist with a non-empty P/U list).** Honest totals: **24D + 3P + 2U + 1I = 30 observables (83% closure).** P: m_u (26% off, Z₃ seesaw m_t·|V_ub|²), m_c/m_t (21% off, KK threshold), δ_CP(PMNS) (38.5% off, structural — see above); U: M_DM and Ω_DM h² (circular — see Chain Step 8 and DARK_MATTER_RELIC_DENSITY.md).
 
 **Testable predictions:** Normal neutrino ordering (JUNO, DUNE), log-periodic CKM modulation, TeV-scale LKP dark matter (LZ, XENONnT), fifth force at ~1 μm (ARIADNE), n_s = 0.967 ± 0.004 (Planck-consistent), proton stability via dim-5.
 

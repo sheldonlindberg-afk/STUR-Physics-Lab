@@ -34,7 +34,7 @@ STUR is a **TOE candidate** with 30 observables (24D+3P+2U+1I, 83% closure) deri
 STUR_PAPER_DRAFT.md §4.1) and three axioms. It is:
 
 - Built on TEGR (teleparallel gravity): valid at all energy scales via torsion
-- Testable: makes specific falsifiable predictions (δ_CP = 272.7°, Σm_ν = 58 meV, M_DM = 949 GeV)
+- Testable: makes specific falsifiable predictions (δ_CP = 272.8°, Σm_ν = 58 meV, M_DM = 949 GeV)
 - 83% closed at the "D" (fully derived, <20% from PDG) level: 24D + 3P + 2U + 1I = 30
   observables, with 3 "P" (mechanism identified, precision pending) and 2 "U" (confirmed
   circular — M_DM/Ω_DM h²) items still open
