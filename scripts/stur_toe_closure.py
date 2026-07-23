@@ -390,6 +390,20 @@ dcp      = float(-np.angle(U_PMNS[0,2]) * 180/np.pi) % 360
 # fixed point sets delta_CP" and the observed value. No independent mechanism was found
 # in this session that legitimately relocates the prediction toward 197 deg without
 # fabricating a new CM point chosen to fit the target, so this stays honestly "P".
+#
+# FOLLOW-UP CHECK (later session, explicit request to push toward full closure): tested
+# all four natural automorphisms of the lemniscate's CM by Z[i], phi_lem = i^k for
+# k=0,1,2,3 (the theory's stated mechanism uses k=3). Result: i^0=1 (i.e. NO complex
+# phase at all) gives dcp=180.0 deg, only 8.6% off -- much closer than i^3's 38.5%, and
+# would even cross the D-threshold. i^1 gives 87.2 deg (55.8% off) and i^2 gives 0.0 deg
+# (100% off); neither helps. The i^0 result is NOT adopted as a fix: phi_lem=1 means no
+# complex phase is inserted by this mechanism at all, which contradicts the section's own
+# physical premise (delta_CP emerging FROM the lemniscate's complex multiplication) and
+# has no independent motivation in this framework for why the identity automorphism (over
+# i^3, i^1, or i^2) should be the physically relevant CM point -- choosing it only because
+# it fits would be indistinguishable from the reverse-engineering flagged and removed
+# elsewhere in this repo. Recorded here as a genuine, documented lead for future
+# theoretical work (an independent argument for k=0 over k=3 would matter), not a result.
 nufit = {'s12':0.307, 's23':0.545, 's13':0.0220, 'dcp':197.0}
 
 print(f"\n  PMNS mixing angles — v7.0 first-principles vs NuFIT 6.0:")
