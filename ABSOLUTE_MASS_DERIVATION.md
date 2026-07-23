@@ -2328,7 +2328,14 @@ This document has derived:
    - m₃ = 50.0 meV (by construction), m₂ = 19.4 meV, m₁ = 0.28 meV
    - Δm²₃₁: 0.4% (back-solved), Δm²₂₁: NOT reproduced (~5× off) — see 5.4.4
 
-### 6.2 Charged Fermion Mass Status: ALL RESOLVED
+### 6.2 Charged Fermion Mass Status: ALL RESOLVED (as computed with tuned correction factors — see 6.1 status correction above)
+
+> **Cross-document note:** this section's m_u = 2.14 MeV (0.9%, via f_u^node=0.133) is a
+> third, distinct value for m_u in this repository — different from
+> COMPLETE_CORRECTIONS_AND_RESOLUTIONS.md's 2.30 MeV (7%, itself flagged "NOT resolved,
+> fitted") and from the canonical `scripts/stur_toe_closure.py`'s 2.71 MeV (26% off, P-status,
+> via an independent Z₃-seesaw mechanism m_u=m_t·|V_ub|²). None of the three should be read
+> as the settled value; the canonical scorecard figure is the one in stur_toe_closure.py.
 
 | Fermion | Previous Status | Resolution | Final Accuracy |
 |---------|-----------------|------------|----------------|
