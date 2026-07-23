@@ -73,10 +73,10 @@ n_w × κ × σ = 2π
 Numerical verification:
 
 ```
-3 × 2.430 × 0.862 = 6.284 ≈ 2π = 6.2832     (0.016% agreement)
+3 × 2.430 × 0.862 = 6.284 ≈ 2π = 6.2832     (0.0126% agreement, corrected from a previously-stated 0.016%: |6.284-6.28319|/6.28319 = 0.0126%)
 ```
 
-This 0.016% residual is consistent with rounding κ and σ to four significant figures from
+This ~0.013% residual is consistent with rounding κ and σ to four significant figures from
 the two-loop Mathieu computation. The condition holds to the precision of the derivation.
 
 ### 1.5 Step 4: Cauchy-Euler Dynamics → M(t)
@@ -173,7 +173,7 @@ The triangle has several notable properties:
 
 ```
 541/199 = 2.71859...   vs   e = 2.71828...   (0.011%)
-3722/2705 ≈ φ^{2/3}   vs   1.3748          (0.09%)
+3722/2705 ≈ φ^{2/3}   vs   1.3748          (0.25%, corrected from a previously-stated 0.09%; φ^{2/3}=1.37824, 3722/2705=1.37597, |1.37824-1.3748|/1.3748=0.250%)
 541 is prime
 1861 = 7444/4 is prime
 ```
@@ -199,8 +199,8 @@ approximations to it naturally encounter combinations of these transcendentals.
 | Step | Claim | Status |
 |------|-------|--------|
 | Axioms → ∞₃ | Energy minimization selects N=3 | **Derived** (see BASE_THREEFOLD_UNIQUENESS.md) |
-| ∞₃ → Mathieu | α_eff → κ, σ | **Derived** (two-loop, 0.016% closure) |
-| Mathieu → phase closure | n_w × κ × σ = 2π | **Verified** to 0.016% |
+| ∞₃ → Mathieu | α_eff → κ, σ | **Derived** (two-loop, 0.013% closure, corrected from 0.016%) |
+| Mathieu → phase closure | n_w × κ × σ = 2π | **Verified** to 0.013% (corrected from 0.016%) |
 | Phase closure → ω = 2π² | ω = π × S | **Physical ansatz** (see §1.6) |
 | ω = 2π² → triangle | 3722/2705 ≈ e^{1/π} | **Consequence** of approximation |
 
@@ -213,7 +213,7 @@ condition forces ω = π × (total orbifold action). This is a well-defined prob
 Kaluza-Klein compactification; it has not yet been solved in closed form.
 
 The supporting evidence for the ansatz:
-- Numerical agreement: n_w × κ × σ = 6.284 ≈ 2π (0.016%)
+- Numerical agreement: n_w × κ × σ = 6.284 ≈ 2π (0.013%, corrected from 0.016%)
 - ω_triangle = 19.6867 vs ω_exact = 19.7392 (0.27%) — both are consistent
 - Mathematical elegance: ω = 2π² connects log-time frequency to orbifold topology
 - Discrete scale invariance: Φ(λt) = Φ(t) proven exactly from ω = 2π/ln(λ)

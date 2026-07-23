@@ -194,10 +194,18 @@ The quadratic onset is **required** by the framework's internal consistency.
 ### 4.2 Crossover Criterion
 
 Define the crossover as where STUR contribution becomes significant:
-$$S(u_{cross}) = 0.5 \quad \Rightarrow \quad u_{cross} \approx 1.05$$
+$$S(u_{cross}) = 0.5 \quad \Rightarrow \quad u_{cross} \approx 1.03$$
 
-More precisely, solving tanh(u)(1 - e^{-u}) = 0.5:
-$$u_{cross} = 1.05$$
+More precisely, solving tanh(u)(1 - e^{-u}) = 0.5 (verified numerically via
+python3 bisection to high precision):
+$$u_{cross} = 1.0345$$
+
+**⚠️ CORRECTION:** This was previously stated as u_cross = 1.05
+(S(1.05) = 0.508, not exactly 0.500 — about a 1.5% discrepancy). The corrected
+root is 1.0345. This figure is repeated as an established constant elsewhere
+in the codebase (e.g. ATS_LANTHANUM_MATERIALS.md Section 2.3); those
+references were not all individually corrected in this pass, but the source
+value here has been fixed.
 
 **Physical interpretation:**
 - For u < 1: STUR contribution < 50%, BCS-like behavior
@@ -225,6 +233,18 @@ S(2.5) = 0.89 → 89% STUR saturation
               → strong STUR enhancement
               → Tc > 300 K possible
 ```
+
+**⚠️ NOTE — not an independent derivation:** Algebraically,
+(g_R/M_R)×(M_R/ω_c) = g_R/ω_c — the M_R factor cancels, so this line provides
+no independent constraint beyond "g_R/M_R ~ 1"; the "~2.5" is asserted, not
+derived from the quantities shown (g_R/M_R~1 alone doesn't yield 2.5 without
+separately knowing g_R/ω_c, which is the thing being solved for). Companion
+documents in this repository (ATS_GEFF_DERIVATION.md, ATS_LAH10_COMPLETE_ANALYSIS.md)
+treat M_R = M_KK = ω_c = 250 meV as the same electronic scale, which would
+make M_R/ω_c = 1 and g_eff ~ g_R/M_R ~ 1, not 2.5. The value 2.5 matches the
+target coupling ratio asserted/fitted in those companion documents
+(e.g. ATS_LAH10's fitted g_eff/ωc=2.50) and should be read as calibrated to
+match that target rather than independently derived here.
 
 ### 4.4 Comparison with Known Materials
 
@@ -362,7 +382,12 @@ $$\tanh(u) = u - \frac{u^3}{3} + \frac{2u^5}{15} + O(u^7)$$
 $$1 - e^{-u} = u - \frac{u^2}{2} + \frac{u^3}{6} - \frac{u^4}{24} + \frac{u^5}{120} + O(u^6)$$
 
 Product:
-$$S(u) = u^2 - \frac{u^3}{2} - \frac{u^4}{6} + \frac{u^5}{6} + O(u^6)$$
+$$S(u) = u^2 - \frac{u^3}{2} - \frac{u^4}{6} + \frac{u^5}{8} + \frac{31u^6}{360} + O(u^7)$$
+
+**⚠️ CORRECTION:** The u⁵ coefficient was previously stated as 1/6; the
+correct coefficient (re-derived symbolically via sympy, multiplying the two
+series above) is **1/8**. This does not affect the leading-order quadratic
+onset claim below, which only depends on the u² and u³ terms.
 
 Leading behavior: S(u) ≈ u² for |u| << 1.
 

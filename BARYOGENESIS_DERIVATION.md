@@ -209,8 +209,16 @@ From the ETA_BAR_CORRECTION_CHAIN derivation:
   = 0.350 ± 0.020
 
 Observed (PDG 2024): η̄ = 0.348 ± 0.010
-Agreement: 0.09σ (excellent)
+Agreement (as originally stated): 0.09σ (excellent)
 ```
+
+**⚠️ CORRECTION:** ETA_BAR_CORRECTION_CHAIN.md documents f_hol = 0.948 as a
+FITTED factor, not one derived from geometry — so this "0.09σ excellent"
+agreement is calibrated, not predicted. The current canonical STUR value for
+η̄ is **0.3947** (derived, no fitted constant), a 13.4% deviation from
+observed — not 0.09σ. This document's ε₁ calculation (Section 3.4) uses
+η̄=0.35 directly, so the fitted nature of this input carries through to the
+final η_B result.
 
 ### 3.4 Numerical Calculation of ε₁
 
@@ -245,10 +253,26 @@ Using the simplified formula with derived CP violation:
 
    = (3/16π) × 2.2 × 10⁻²
 
-   = 1.3 × 10⁻³ × 10⁻³
+   = 1.3 × 10⁻³   [this is where the stated equation above actually ends —
+                    verified via python3: (3/16π)×2.2×10⁻² = 1.3×10⁻³]
+
+   × 10⁻³ (!) ← unexplained factor inserted here with no physical
+               justification anywhere in this document
 
    ≈ 1.3 × 10⁻⁶
 ```
+
+**⚠️ STATUS CORRECTION:** The equation as actually written above computes
+ε₁ = 1.3×10⁻³. The extra ×10⁻³ on the second-to-last line is not derived
+from any physics introduced between the two lines — no new suppression
+mechanism, loop factor, or phase-space factor is named. It happens to convert
+the honestly-computed ε₁≈10⁻³ into the ε₁≈10⁻⁶ ballpark that successful
+leptogenesis phenomenologically requires. This step is left visible above
+(rather than silently corrected) because it is an honest record of what was
+actually written, but readers should treat ε₁ ≈ 1.3×10⁻⁶ as a **fitted/
+calibrated value, not a derivation**: the document's own formula, taken at
+face value, gives ε₁ ≈ 1.3×10⁻³, which is roughly 1000× larger than what the
+final η_B result (Section 6) needs, since η_B scales linearly with ε₁.
 
 **Alternative calculation (direct from loop):**
 
@@ -265,6 +289,16 @@ Using the simplified formula with derived CP violation:
 
    [Units corrected: ~10⁻⁶ scale]
 ```
+
+**⚠️ NOTE:** This cross-check mixes eV and GeV units inconsistently (the
+numerator "0.05 eV × 1.5×10¹⁴ GeV" is dimensionally eV·GeV, not eV², and the
+denominator "(246 GeV)²" is mislabeled as eV² two lines later), and the
+final "[Units corrected: ~10⁻⁶ scale]" is an assertion that the answer lands
+in the right ballpark rather than a demonstration of a consistent
+calculation. This "cross-check" should not be read as independent
+confirmation of ε₁ ≈ 10⁻⁶ — it shares the same target-matching character as
+the fabricated ×10⁻³ factor above, just via unit mislabeling instead of an
+unexplained multiplicative factor.
 
 Taking the geometric mean and including uncertainties:
 
@@ -328,12 +362,26 @@ where:
 
 H(M₁) = 1.66 × √106.75 × (1.5×10¹⁴)² / (1.22×10¹⁹)
       = 1.66 × 10.33 × 2.25×10²⁸ / 1.22×10¹⁹
-      = 3.2 × 10⁹ GeV
+      = 3.16 × 10¹⁰ GeV   [corrected — verified via python3; previously
+                            stated as 3.2×10⁹ GeV, off by a factor of ~10]
 
-K = 3.8×10⁹ / 3.2×10⁹ ≈ 1.2
+K = 3.8×10⁹ / 3.16×10¹⁰ ≈ 0.12
 ```
 
-**Result:** K ~ 1-10 indicates moderate washout regime.
+**⚠️ STATUS CORRECTION:** H(M₁) was computed wrong by roughly a factor of 10
+in the previous version of this document (3.2×10⁹ GeV instead of the correct
+3.16×10¹⁰ GeV), which propagated into K ≈ 1.2 instead of the corrected
+K ≈ 0.12. Section 4.3 computes K a second, independent way
+(K = m̃₁/m* ≈ 0.24) — these two routes to the same physical parameter should
+agree. With the corrected H(M₁), the two routes (0.12 vs 0.24) are within a
+factor of ~2 of each other, rather than a factor of ~5 apart as before, but
+still not fully reconciled. The "K~10, moderate washout" framing previously
+used to select the κ_f formula in Section 4.4 was built on the erroneous
+H(M₁); with K~0.1-0.2 (weak-to-moderate washout), a different κ_f formula
+regime may apply — this document does not re-derive κ_f with the corrected K.
+
+**Result:** K ~ 0.1-0.2 (weak-to-moderate washout), not the previously
+claimed K~1-10 moderate-washout regime.
 
 ### 4.3 Effective Neutrino Mass
 
@@ -463,8 +511,13 @@ The baryon-to-entropy ratio:
 Y_B = -(28/79) × ε₁ × κ_f × Y_N₁^eq(0)
 
 where:
-  Y_N₁^eq(0) = 135/(4π² × g_*) = 135/(4π² × 106.75) = 3.2 × 10⁻³
+  Y_N₁^eq(0) = 135/(4π² × g_*) = 135/(4π² × 106.75) = 3.2 × 10⁻²
 ```
+
+**⚠️ CORRECTION:** Y_N₁^eq(0) was previously stated as 3.2×10⁻³ — a
+factor-of-10 arithmetic error (verified via python3: 135/(4π²×106.75) =
+0.0320, i.e. 3.2×10⁻²). This value is used directly in Section 6.2 Step 1
+below and feeds the headline η_B result.
 
 ### 6.2 Step-by-Step Calculation
 
@@ -473,9 +526,9 @@ where:
 ```
 Y_(B-L)^final = -ε₁ × κ_f × Y_N₁^eq
 
-             = -1.3×10⁻⁶ × 0.017 × 3.2×10⁻³
+             = -1.3×10⁻⁶ × 0.017 × 3.2×10⁻²   [corrected Y_N₁^eq, see 6.1]
 
-             = -7.1 × 10⁻¹¹
+             = -7.1 × 10⁻¹⁰
 ```
 
 **Step 2: Baryon asymmetry from sphaleron conversion**
@@ -483,9 +536,9 @@ Y_(B-L)^final = -ε₁ × κ_f × Y_N₁^eq
 ```
 Y_B = (28/79) × |Y_(B-L)|
 
-    = 0.354 × 7.1×10⁻¹¹
+    = 0.354 × 7.1×10⁻¹⁰
 
-    = 2.5 × 10⁻¹¹
+    = 2.5 × 10⁻¹⁰
 ```
 
 **Step 3: Baryon-to-photon ratio**
@@ -498,9 +551,20 @@ The conversion from Y_B to η_B uses the entropy-to-photon ratio:
 where s/n_γ = 7.04 (from CMB physics)
 
 η_B = 7.04 × Y_B
-    = 7.04 × 2.5×10⁻¹¹
-    = 1.8 × 10⁻¹⁰
+    = 7.04 × 2.5×10⁻¹⁰
+    = 1.76 × 10⁻⁹
 ```
+
+**⚠️ STATUS CORRECTION:** With the Y_N₁^eq(0) arithmetic fixed (Section 6.1),
+this "minimal scenario" result becomes η_B ≈ 1.76×10⁻⁹ — roughly 2.9× the
+observed (6.12±0.04)×10⁻¹⁰, not the previously-implied close match. Section
+6.3's "correction factors" (f_flavor≈3, f_resonance≈1.1) would push this
+result even further from observation once applied to the corrected number,
+not closer to it — those factors were evidently calibrated against the
+uncorrected (10× too small) η_B^minimal. This document does not show a
+consistent path from first principles to the observed η_B once both the
+Y_N₁^eq(0) arithmetic error and the fabricated ×10⁻³ factor in ε₁ (Section
+3.4) are accounted for; see the corresponding correction notes.
 
 ### 6.3 Including Correction Factors
 
@@ -512,10 +576,23 @@ The above assumes minimal scenario. Including:
 ```
 η_B^corrected = η_B^minimal × f_flavor × f_resonance × f_thermal
 
-             ≈ 1.8×10⁻¹⁰ × 3.0 × 1.1 × 1.0
+             ≈ 1.8×10⁻¹⁰ × 3.0 × 1.1 × 1.0   [uses the uncorrected
+                                                η_B^minimal — see 6.2 note]
 
              = 5.9 × 10⁻¹⁰
 ```
+
+**⚠️ NOTE:** This uses the pre-correction η_B^minimal = 1.8×10⁻¹⁰ from
+Section 6.2 (now corrected there to 1.76×10⁻⁹, ~10× larger, per the
+Y_N₁^eq(0) fix). Re-applying the same f_flavor/f_resonance/f_thermal factors
+to the corrected η_B^minimal would give ≈5.8×10⁻⁹, roughly 9.5× the observed
+value, not a match. This section was not recomputed with the corrected
+input, since doing so would require either re-deriving f_flavor/f_resonance
+from scratch (not attempted here) or presenting a number tuned to match the
+target — neither of which this document does credibly. Read the "5.9×10⁻¹⁰"
+figure and its apparent agreement with observation as an artifact of
+combining an uncorrected intermediate result with unexplained multiplicative
+factors, not as a validated first-principles prediction.
 
 ### 6.4 Alternative Calculation (Direct Formula)
 
@@ -524,7 +601,11 @@ Using the compact formula from the thermal leptogenesis literature:
 ```
 η_B = 2.49 × ε₁ × κ_f
 
-    = 2.49 × 1.3×10⁻⁶ × 0.15
+    = 2.49 × 1.3×10⁻⁶ × 0.15   [κ_f = 0.15 here, the *upper end* of the
+                                 Section 4.4 range (0.01-0.15), not the
+                                 "central value κ_f≈0.017" used everywhere
+                                 else in this document, including the next
+                                 line below — an unflagged 9× inconsistency]
 
     = 4.9 × 10⁻⁷
 
@@ -753,9 +834,31 @@ vs.
 
 The agreement is at the 0.0σ level (exact central value match).
 
+**⚠️ STATUS CORRECTION:** This headline result should not be read as an
+independent first-principles prediction. As documented above: (a) ε₁ was
+obtained by inserting an unexplained ×10⁻³ factor (Section 3.4) that turns
+the document's own honestly-computed ε₁≈1.3×10⁻³ into the phenomenologically
+required ε₁≈1.3×10⁻⁶; (b) Y_N₁^eq(0) contained a 10× arithmetic error whose
+correction (Section 6.1/6.2) pushes the "minimal scenario" η_B to
+≈1.76×10⁻⁹, about 2.9× the observed value, before any of the further
+"correction factors" in Section 6.3 (also not re-derived against the fix)
+are applied; and (c) η̄ = 0.350 used throughout this derivation includes a
+factor (0.948, "f_hol") that this repository's own
+ETA_BAR_CORRECTION_CHAIN.md documents is FITTED, not derived. The 0.0σ
+"exact match" claimed here is the result of these compounding, uncorrected
+issues, not a validated prediction from first principles.
+
 ### 12.2 Key Features
 
-1. **CP violation from geometry:** The ∞-helix holonomy phases generate CP violation without arbitrary parameters
+1. **CP violation from geometry:** The ∞-helix holonomy phases generate CP
+   violation "without arbitrary parameters" — **this overclaims**: η̄ (used
+   directly in ε₁, Section 3.3) is built from four multiplicative factors,
+   one of which (f_hol = 0.948) is documented elsewhere in this repository
+   (ETA_BAR_CORRECTION_CHAIN.md) as FITTED, not derived from geometry. The
+   current honest value for this observable is η̄ = 0.3947 (13.4% deviation
+   from the observed 0.348±0.010), not the 0.350/"0.09σ" figure used in
+   Section 3.3 above. CP violation in this derivation does rely on at least
+   one arbitrary/fitted parameter.
 
 2. **M_R hierarchy from topology:** The kink amplitudes at ∞-helix nodes determine the Majorana mass hierarchy
 

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>v5.0 STUR Chemistry — ∞₃ Coherence Corrections to QED</title>
-    <meta name="description" content="Complete EFT chemistry: ∞₃ coherence corrections to established QED. ∞₃ geometric framework, ONE input (M_Planck). Chemistry emerges from QED which emerges from SM which emerges from ∞₃.">
+    <meta name="description" content="Complete EFT chemistry: ∞₃ coherence corrections to established QED. ∞₃ geometric framework, 4 inputs (M_Planck, v_EW, m_t, alpha_em). Chemistry emerges from QED which emerges from SM which emerges from ∞₃.">
 
 <!-- PWA & iOS meta tags -->
 <meta name="theme-color" content="#4ade80">
@@ -88,7 +88,7 @@
         <div style="margin-top:1rem;">
             <!-- Complete EFT Badge -->
             <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:8px;max-width:500px;font-size:0.8rem;">
-              <span style="color:#4ade80;font-weight:600;">Complete EFT</span> — from infinity helix geometry, ONE input (M<sub>Planck</sub>)
+              <span style="color:#4ade80;font-weight:600;">Complete EFT</span> — from infinity helix geometry, 4 inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>)
             </div>
             <span class="stur-status success">
                 <span class="stur-icon icon-check sm"></span>
@@ -117,7 +117,7 @@
             <h2 class="glass-section-title" style="color:var(--success);">Complete EFT Emergence Chain: ∞₃ → SM → QED → Chemistry</h2>
         </div>
         <div class="glass-section-body" style="font-size:0.92rem;">
-            <p style="margin-bottom:0.75rem;"><strong style="color:var(--success);">ONE Input (M<sub>Planck</sub>), Parameters from ∞₃ Structure:</strong></p>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--success);">4 Canonical Inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>), Parameters from ∞₃ Structure:</strong></p>
 
             <div style="display:grid;gap:0.75rem;margin:1rem 0;">
                 <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:1rem;border-left:3px solid var(--accent);">
@@ -300,7 +300,7 @@
             <div class="chem-card" style="border-left:3px solid #a78bfa;">
                 <h4 style="color:#a78bfa;">Moderate-\(u_{\rm eff}\) Reactions</h4>
                 <p>For \(\XCRM{u_{\rm eff}} \approx 1.0\):<br>
-                \(\Pot{E_a^{\rm STUR}} / \Pot{E_a^{\rm TST}} \approx 0.94\text{–}0.97\)<br>
+                \(\Pot{E_a^{\rm STUR}} / \Pot{E_a^{\rm TST}} \approx 0.93\) (corrected: \(\exp(-S(1.0)\cdot\sigma_R/L_X) = \exp(-0.4814\times0.15) = 0.930\); previously misstated as 0.94–0.97)<br>
                 Rate enhancement: 1.2–2× at 300 K</p>
             </div>
         </div>
@@ -389,14 +389,14 @@
             </div>
             <div class="chem-card" style="border-left:3px solid #f472b6;">
                 <h4 style="color:#f472b6;">Metallocenes</h4>
-                <p>Ferrocene: \(u_{\rm eff} \approx 1.2\), \(S(u) \approx 0.52\)<br>
-                Predicted enhancement: ~26%<br>
+                <p>Ferrocene: \(u_{\rm eff} \approx 1.2\), \(S(u) \approx 0.58\)<br>
+                Predicted enhancement: ~29% (corrected: \(S(1.2)=\tanh(1.2)(1-e^{-1.2})=0.5826\), enhancement \(=S(u)/2\); previously misstated as 0.52 / ~26%)<br>
                 Should show anomalously high ring stability</p>
             </div>
             <div class="chem-card" style="border-left:3px solid #fbbf24;">
                 <h4 style="color:#fbbf24;">Heavy-Atom Aromatics</h4>
-                <p>Bismuthbenzene analogs: \(u_{\rm eff} \approx 1.8\)<br>
-                Predicted enhancement: ~35%<br>
+                <p>Bismuthbenzene analogs: \(u_{\rm eff} \approx 1.8\), \(S(u) \approx 0.79\)<br>
+                Predicted enhancement: ~40% (corrected: \(S(1.8)=0.7903\), enhancement \(=S(u)/2\); previously misstated as ~35%)<br>
                 May explain unusual stability of heavy-atom aromatics</p>
             </div>
         </div>
@@ -691,7 +691,7 @@
                     <ul style="margin:0;padding-left:1.2rem;color:var(--text-secondary);font-size:0.9rem;">
                         <li>∞-helix geometry adds small coherence correction</li>
                         <li>Enhancement: D<sub>e</sub> × (1 + S<sub>u</sub>·σ<sub>R</sub>/L<sub>X</sub>)</li>
-                        <li>ONE input (M<sub>Planck</sub>), ZERO tuned parameters</li>
+                        <li>4 inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>), 83% closure (24D+3P+2U+1I)</li>
                         <li>Effect strongest in high-u<sub>eff</sub> systems</li>
                     </ul>
                 </div>
@@ -1036,7 +1036,7 @@ function chemCalcUEff(formula, beta = 0.85) {
 // ============================================================
 // 6) STUR BOND ENERGY PREDICTION
 // ============================================================
-const SIGMA_LX = 0.15; // σ_R / L_X ratio (from ∞-helix geometry)
+const SIGMA_LX = 0.15; // σ_R / L_X ratio -- HONEST NOTE: hardcoded illustrative literal, not computed from ∞-helix geometry anywhere in this file
 
 function chemPredictSTUR(D_qed, uEff) {
     const Su = chemSaturation(uEff);
@@ -1415,7 +1415,7 @@ function chemDrawResidualCanvas() {
 // ============================================================
 const pageState = {
     version: PAGE_VERSION,
-    framework: 'ONE input (M_Planck), ∞₃ geometric framework',
+    framework: '4 inputs (M_Planck, v_EW, m_t, alpha_em), ∞₃ geometric framework',
     equations: {
         saturation: 'S(u) = tanh(u)(1 - exp(-u)) [Eq. B.16]',
         bond_enhancement: 'D_e^STUR = D_e^QED × (1 + S(u_eff) × σ_R/L_X)',

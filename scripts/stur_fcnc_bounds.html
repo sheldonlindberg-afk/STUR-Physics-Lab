@@ -57,7 +57,9 @@
       FCNCs suppressed by the <strong>∞₃ alignment mechanism</strong>: generation wavefunctions
       are localized at ∞-helix nodes with overlap controlled by
       <strong style="color:#a78bfa;">κ = 2.430</strong> and <strong style="color:#a78bfa;">σ = 0.862 rad</strong> from the Mathieu equation.<br>
-      Overlap suppression: exp[−κ²/4] for pairwise mixing.
+      Overlap suppression: \(e^{-|X_i-X_j|^2/4\sigma^2}\) — same functional form as the CKM pairwise
+      overlap \(e^{-\kappa^2/4}\), but evaluated at each pair's actual node separation, giving exponents
+      of ≈3.5 (adjacent generations) and ≈14 (1st–3rd generation), not κ²/4 = 1.48 itself (see §4.3).
     </div>
   </div>
 </header>
@@ -76,7 +78,7 @@
   three independent suppression factors that emerge from the same 3 axioms:</p>
   <ul>
     <li><strong>GIM mechanism in KK sector:</strong> ∞₃ universality preserves CKM structure</li>
-    <li><strong>∞₃ alignment suppression:</strong> Generations localized at fixed points with overlap ~ exp[−κ²/4], where κ = 2.430 from the Mathieu equation</li>
+    <li><strong>∞₃ alignment suppression:</strong> Generations localized at fixed points with overlap ~ \(e^{-|X_i-X_j|^2/4\sigma^2}\) (exponent ≈3.5 for adjacent generations, ≈14 for 1st–3rd), from the same node-separation geometry that gives κ = 2.430 from the Mathieu equation</li>
     <li><strong>σ = 0.862 rad winding width:</strong> Controls the Gaussian spread at each fixed point</li>
     <li><strong>TeV-scale KK masses:</strong> M<sub>KK</sub> ≈ 2 TeV from Casimir-holonomy stabilization</li>
   </ul>
@@ -156,6 +158,16 @@
     \[\boxed{\frac{\Delta M_K^{\rm KK}}{\Delta M_K^{\rm SM}} < 10^{-3} \quad (\text{negligible})}\]
     <div class="eq-label" style="color:var(--success);">(FCNC.6)</div>
   </div>
+
+  <p style="margin:0.5rem 0;font-size:0.82rem;color:var(--text-secondary);">
+    Honesty note: the intermediate algebra above is written in a confusing form — the factor
+    \((2\times10^{-7})^{-2}\) already encodes \(\delta V_{sd}\), so writing \((\delta V/V_{cs}V_{cd})^2\)
+    again double-counts it, and the implied denominator (~0.01) doesn't match \(V_{cs}V_{cd}\approx0.218\).
+    This has not been re-derived cleanly; however, since \(\delta V_{sd}^{(n)}/V_{ts}^*V_{td} \sim 10^{-7}\)
+    is already many orders of magnitude below unity, the qualitative conclusion above — KK contributions
+    negligible relative to the SM box diagram — is robust regardless of how this particular intermediate
+    step is cleaned up.
+  </p>
 </section>
 
 <!-- SECTION 3: B-BBAR MIXING -->
@@ -256,7 +268,7 @@
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
       <li><strong>GIM mechanism:</strong> Preserved in KK sector by ∞₃ universality</li>
       <li><strong>∞₃ alignment:</strong> Generations aligned at fixed points with separation 2π/3</li>
-      <li><strong>Exponential suppression:</strong> Overlap ~ exp[−κ²/4] where κ = 2.430 from Mathieu equation</li>
+      <li><strong>Exponential suppression:</strong> Overlap ~ \(e^{-|X_i-X_j|^2/4\sigma^2}\) (exponent ≈3.5 adjacent-gen, ≈14 1st–3rd-gen; the CKM-mixing shorthand exp[−κ²/4], κ = 2.430 from the Mathieu equation, uses the same geometry but a different pair separation)</li>
       <li><strong>Winding width:</strong> σ = 0.862 rad controls the Gaussian spread at each fixed point</li>
     </ul>
     <p style="margin:0.5rem 0 0;color:var(--text-muted);font-size:0.85rem;">

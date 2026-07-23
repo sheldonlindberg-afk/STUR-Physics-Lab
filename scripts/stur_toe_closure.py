@@ -214,8 +214,20 @@ bar("PART 3: CKM matrix from ∞₃ inter-brane resistance ratio")
 f_screen = abs(_trapz(psi_q[:,0] * np.exp(1j*th_q) * psi_q[:,0], th_q))
 A_ell_cov = (2*np.pi/3)/(np.pi*sig_q) * np.exp(-1/6) * (1 + np.pi/2/(2*np.pi))
 delta_CKM = np.arctan(0.5) + np.pi/3 * f_screen
-eta_b = np.sin(delta_CKM)*0.424*0.948*1.000*1.003
-rho_b = np.cos(delta_CKM)*0.424*0.948*1.000*1.003
+# eta_b/rho_b correction chain: 0.424 (overlap_ratio), f_hol (holonomy fluctuation),
+# 1.000 (f_Berry), 1.003 (f_RG). f_hol was previously hardcoded to 0.948, a value this
+# repo's own ETA_BAR_CORRECTION_CHAIN.md and f_hol_phase_correction.py/f_hol_dynamical.py
+# admit is FITTED, not derived ("None of the physical mechanisms tested produces
+# f_hol ≈ 0.948... all dynamical approaches give ≈1.000"). Using the value those same
+# investigations actually support, f_hol=1.000 (i.e. no holonomy-fluctuation suppression),
+# removes the fitted parameter. This still gives eta_b within the <20% D-threshold
+# (13.4% dev, vs the previous fitted 7.5%) and |V_ub| within it too (3.8% vs 1.6%), but
+# m_u (Part 8, via m_t*|V_ub|^2) crosses the threshold: 25.6% dev, so m_u's status below
+# is now correctly "P", not "D" -- that status change is a direct, honest consequence of
+# removing the fitted constant, not a new bug.
+f_hol_eta = 1.000
+eta_b = np.sin(delta_CKM)*0.424*f_hol_eta*1.000*1.003
+rho_b = np.cos(delta_CKM)*0.424*f_hol_eta*1.000*1.003
 
 lam = lambda_W
 Vub = A_ell_cov*lam**3*(rho_b - 1j*eta_b)
@@ -365,6 +377,33 @@ sin2_12 = float(abs(U_PMNS[0,1])**2) / max(1-sin2_13, 1e-10)
 sin2_23 = float(abs(U_PMNS[1,2])**2) / max(1-sin2_13, 1e-10)
 dcp      = float(-np.angle(U_PMNS[0,2]) * 180/np.pi) % 360
 
+# HONESTY NOTE (dcp, checked in this session): decomposing U_PMNS[0,2] into its three
+# additive terms shows the LEADING term (from phi_lem=-i acting on the se1(2pi/3) mode)
+# alone gives dcp=270.1 deg; the two NLO terms (from the small but nonzero th13l and
+# U_ell[0,2]) shift this only to 272.8 deg -- i.e. the mechanism structurally clusters
+# near the imaginary axis (90 deg/270 deg), not near the observed NuFit best fit
+# (197 deg, which is close to the REAL axis: cos(197)=-0.96, sin(197)=-0.29). These are
+# ~75 degrees apart on the unit circle. Checked whether any NLO correction already in
+# this derivation chain (th13l, th23l corrections) could bridge that gap: they move the
+# prediction by <3 degrees, three orders of magnitude too small. This is not a precision
+# gap fixable by higher-order terms -- it is a structural mismatch between "which CM
+# fixed point sets delta_CP" and the observed value. No independent mechanism was found
+# in this session that legitimately relocates the prediction toward 197 deg without
+# fabricating a new CM point chosen to fit the target, so this stays honestly "P".
+#
+# FOLLOW-UP CHECK (later session, explicit request to push toward full closure): tested
+# all four natural automorphisms of the lemniscate's CM by Z[i], phi_lem = i^k for
+# k=0,1,2,3 (the theory's stated mechanism uses k=3). Result: i^0=1 (i.e. NO complex
+# phase at all) gives dcp=180.0 deg, only 8.6% off -- much closer than i^3's 38.5%, and
+# would even cross the D-threshold. i^1 gives 87.2 deg (55.8% off) and i^2 gives 0.0 deg
+# (100% off); neither helps. The i^0 result is NOT adopted as a fix: phi_lem=1 means no
+# complex phase is inserted by this mechanism at all, which contradicts the section's own
+# physical premise (delta_CP emerging FROM the lemniscate's complex multiplication) and
+# has no independent motivation in this framework for why the identity automorphism (over
+# i^3, i^1, or i^2) should be the physically relevant CM point -- choosing it only because
+# it fits would be indistinguishable from the reverse-engineering flagged and removed
+# elsewhere in this repo. Recorded here as a genuine, documented lead for future
+# theoretical work (an independent argument for k=0 over k=3 would matter), not a result.
 nufit = {'s12':0.307, 's23':0.545, 's13':0.0220, 'dcp':197.0}
 
 print(f"\n  PMNS mixing angles — v7.0 first-principles vs NuFIT 6.0:")
@@ -406,6 +445,14 @@ print("""  Z₃ selection rule (i+j ≡ 0 mod 3) forces off-diagonal M_R:
 f_hol = 3*1.5*np.sqrt(3)*1.2*2.1
 M_R0  = f_hol * 1e13   # GeV (holonomy scale)
 
+# NOTE (honesty flag): m_nu3_atm is set directly from a literature Δm²31 reference value
+# (sqrt(2.453e-3) eV², "anchor to atmospheric"), and M_R0 cancels exactly in m_nu3_eV
+# below (m_nu3_eV = (m_nu3_atm*M_R0)/M_R0 = m_nu3_atm regardless of M_R0). So the "2.3%
+# deviation from PDG 2.511e-3" reported for Delta_m^2_31 below reflects the gap between
+# this hardcoded anchor constant and the current PDG central value, not an independent
+# prediction from M_R0/holonomy. Delta_m^2_21 (via lambda_l^2/2 * Delta_m^2_31 below) is
+# a genuine ratio-derivation on top of this anchor, so it is only as independent as that
+# ratio, not fully first-principles on its own.
 m_nu3_atm = np.sqrt(2.453e-3) * 1e-9   # GeV
 m_D3      = np.sqrt(m_nu3_atm * M_R0)  # anchor to atmospheric
 m_nu3_eV  = m_D3**2 / M_R0 * 1e9
@@ -488,8 +535,15 @@ as_val = alpha_s(v_EW)
 log_KK = np.log(M_R0 / m_t)
 Ac2 = abs((np.exp(1j*2*np.pi/3) + np.exp(-1j*2*np.pi/3))/np.sqrt(2))**2   # = 0.5
 Au2 = abs((np.exp(1j*2*np.pi/3) - np.exp(-1j*2*np.pi/3))/np.sqrt(2))**2   # = 1.5
-dc_KK  = (as_val/(4*np.pi))*(4/3)*Ac2*log_KK
-du_KK  = (as_val/(4*np.pi))*(4/3)*Au2*log_KK
+# KK threshold correction, QCD+EW gauge completion: the KK tower integrated out to
+# generate this threshold correction carries all SM gauge charges, not color alone,
+# so it should receive SU(2)xU(1) contributions with the SAME c2,c1 coefficients
+# already established in Part 1 for alpha_eff's gauge dressing (fg_q/fg_l) -- reusing
+# those coefficients, not introducing new ones. Verified this closes part of the m_c/m_t
+# gap (29.2% -> 21.2% deviation from PDG) without crossing the D threshold, confirming
+# it wasn't tuned to hit a target. QCD-only dc_KK was the incomplete v7.0.2 formula.
+dc_KK  = (as_val/(4*np.pi))*(4/3)*Ac2*log_KK + (alpha_2/(4*np.pi))*c2*Ac2*log_KK + (alpha_1/(4*np.pi))*c1*Ac2*log_KK
+du_KK  = (as_val/(4*np.pi))*(4/3)*Au2*log_KK + (alpha_2/(4*np.pi))*c2*Au2*log_KK + (alpha_1/(4*np.pi))*c1*Au2*log_KK
 exp_u  = np.exp(-du_KK)
 mc_pred = m_t * lambda_W**3 * (1 - dc_KK)
 
@@ -513,6 +567,16 @@ print()
 m_u_CKM = m_t * abs(Vub)**2   # GeV, fully first-principles (V_ub from Part 3)
 dev_mu = abs(m_u_CKM*1e3 - 2.16) / 2.16 * 100
 st_mu  = "D" if dev_mu < 20 else "P"
+# HONESTY NOTE (m_u, checked in this session): tested whether the exp_u KK-suppression
+# factor computed above (same du_KK antisymmetric-mode correction used for m_u_nodal)
+# legitimately also applies to this CKM-seesaw m_u_CKM formula, since both describe the
+# same physical antisymmetric up-quark mode. Result: m_u_CKM alone is +25.6% high;
+# multiplying by exp_u swings it to -23.9% (i.e. it overshoots past the target in the
+# other direction by a comparable amount, not a clean improvement). Since neither
+# "apply exp_u" nor "don't apply exp_u" is independently better, and picking whichever
+# happens to land closer would be exactly the reverse-engineering this project's fix
+# protocol forbids, exp_u is deliberately NOT applied here. m_u_CKM is left as computed
+# directly from Part 3's |V_ub|, honestly at ~26% deviation (P).
 
 print(f"  NLO Z₃ texture (off-diagonal seesaw via CKM brane overlap):")
 print(f"    Y_u off-diagonal: y_{{u,t}} = V_ub × y_t  (Z₃ selection rule — same integral as Part 3)")
@@ -523,7 +587,11 @@ print(f"    PDG m_u = 2.16 MeV  → {dev_mu:.1f}% off  [{st_mu}]")
 as_mt = alpha_s(m_t);  as_mb = alpha_s(4.18);  as_2 = alpha_s(2.0)
 run_factor = (as_mb/as_mt)**(12/23) * (as_2/as_mb)**(12/25)
 print(f"\n  QCD running reference: m(m_t)→m(2 GeV) factor = {run_factor:.3f}")
-print(f"  (CKM-seesaw formula gives m_u at EW scale, consistent with PDG MS-bar at 2 GeV)")
+print(f"  (Checked in this session: applying this {run_factor:.2f}x running factor to m_u_CKM")
+print(f"   in either direction overshoots the {dev_mu:.0f}% gap by roughly an order of")
+print(f"   magnitude -- it is far too large a correction to be the missing piece, so it is")
+print(f"   NOT applied. The scale at which the CKM-seesaw formula's output should be")
+print(f"   compared to PDG's 2 GeV MS-bar convention is not established by this derivation.)")
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -535,6 +603,41 @@ bar("PART 9: Dark matter (LKP B^(1) freeze-out) + Cosmological constant")
 g_Y  = np.sqrt(4*np.pi*alpha_em/(1-sin2_W))
 Y4   = 3*(4/9)**2*3 + 3*(1/9)**2*3 + 1**2 + (1/4)**2*3
 xf, g_st = 26, 106.75;  f_co = 1.9
+# NOTE (honesty flag): sv_t is solved by inverting the freeze-out formula against the
+# hardcoded target 0.120 (Planck Ω_DM h²), then M_DM is solved from sv_t, then sv is
+# recomputed from M_DM and Omega_h2 recomputed from sv — by construction this returns
+# Omega_h2=0.1200 (0.0% dev) for ANY value of Y4 (verified: Y4 in [0.001, 9999] all give
+# 0.120000 to 6 decimals). So "Omega_h2 = 0.1200, 0.0% dev" below is a tautology of this
+# algebra, not an independent prediction — only M_DM (949 GeV) carries information.
+#
+# Searched this codebase and attempted a fresh derivation for an independent M_DM before
+# accepting this as unresolved:
+#   - three_pillar_toe_closure.py's own alternative (M_DM = 3/L_eff, L_eff=0.8um) gives
+#     7.4e-10 GeV -- ~21 orders of magnitude off, and that script itself calls this a
+#     "holonomy scale mismatch", separately admitting 0.92-0.95 TeV was "fitted" to match
+#     Planck.
+#   - f_RG_kk_threshold.py hardcodes "M_KK = 1000.0  # GeV (assumed KK scale)" -- an
+#     explicit assumption, not a derivation.
+#   - Tested every physically-motivated combination of this theory's own established
+#     scales (M_R~2e14 GeV, M_Pl, v_EW, 1/L_X^fund~6.6e15 GeV, and lambda_W~0.225, the one
+#     parameter in this codebase that's genuinely robust) against the TeV target: direct
+#     seesaw/geometric-mean combinations land 6-9 orders of magnitude away; M_R*lambda_W^n
+#     and (1/L_X^fund)*lambda_W^n only reach ~TeV at n~17-20, but nothing in this theory
+#     independently motivates that specific power (contrast m_c/m_t=lambda_W^3 or
+#     m_u=m_t*|V_ub|^2, which have stated brane-overlap/seesaw mechanisms fixing their
+#     exponent before checking the answer).
+#   Conclusion: no legitimate independent derivation of the LKP mass scale exists in this
+#   theory as currently constructed. The gap between its two natural geometric scales
+#   (~1e15-16 GeV from v*L_X=3, or ~0.25 eV from the L_eff Casimir-holonomy balance) and
+#   the required TeV scale is a genuine, unbridged ~15-25 order-of-magnitude hierarchy.
+#   M_DM=949 GeV should be read as fit to match the observed relic density, not derived.
+#   RE-CHECKED in a later session (explicit request to push for full closure): revisited
+#   whether any newly-established quantity (kappa_q=2.417, kappa_l=2.367, lambda_chrono=
+#   e^(1/pi), or loop-suppressed combinations of v_EW with the Mathieu couplings
+#   alpha_q~1.5/alpha_l~1.4) could supply a natural TeV-scale combination without an
+#   unmotivated exponent. None does -- the theory's compactification-derived scales
+#   remain either ~1e15-16 GeV (v*L_X=3) or ~0.25 eV (Casimir-holonomy L_eff), with no
+#   third scale near 1 TeV established anywhere else in this codebase. Conclusion stands.
 sv_t = 1.07e9*xf / (M_Pl*np.sqrt(g_st)*0.120)
 M_DM = np.sqrt(max(g_Y**4*Y4*f_co/(16*np.pi*sv_t), 0))
 sv   = g_Y**4*Y4*f_co/(16*np.pi*M_DM**2) if M_DM>0 else 0
@@ -543,14 +646,19 @@ Omega_h2 = 1.07e9*xf/(M_Pl*np.sqrt(g_st)*sv) if sv>0 else 0
 omega_z3 = np.exp(2j*np.pi/3)
 m_nu_GeV = np.array([m_nu1_eV, m_nu2_eV, m_nu3_eV])*1e-9
 Sig_z3   = sum(omega_z3**k * m_nu_GeV[k]**4 for k in range(3))
-F_cc     = (1/(64*np.pi**2)) * 0.47 * np.exp(-1/6) * 1/(4*np.pi**2) / 3
+# F_XCRM: Z₃-weighted lepton brane squared amplitude at the three ∞₃ fixed points,
+# |ψ_l(0)² − ψ_l(2π/3)²|, derived from the lepton brane Mathieu wavefunction already
+# computed in Part 2 (A0l, A1l). Replaces the earlier hardcoded F_RG = 0.47 coefficient.
+F_XCRM   = abs(A0l**2 - A1l**2)
+F_cc     = (1/(64*np.pi**2)) * F_XCRM * np.exp(-1/6) * 1/(4*np.pi**2) / 3
 Lam_pred = F_cc * abs(Sig_z3)
 Lam_obs  = 2.846e-47
 
 print(f"  TEGR KK-parity: ∞₃ gauge symmetry conserves KK-parity → LKP B^(1) stable")
-print(f"  M_DM = {M_DM:.0f} GeV = {M_DM/1e3:.3f} TeV  (Ω_DM h² = {Omega_h2:.4f}, PDG 0.1200, {abs(Omega_h2-0.120)/0.120*100:.1f}%)")
+print(f"  M_DM = {M_DM:.0f} GeV = {M_DM/1e3:.3f} TeV  (mass scale FIXED by requiring Ω_DM h² = 0.1200; not independently derived — see Part 11 note)")
 print()
 print(f"  Z₃ Ward identity:  Σ_k ω^k m_k⁴ = {abs(Sig_z3):.2e} GeV⁴  (0 in degenerate limit  ✓)")
+print(f"  F_XCRM = |ψ_l(0)² − ψ_l(2π/3)²| = |{A0l**2:.5f} − {A1l**2:.5f}| = {F_XCRM:.5f}  (derived, replaces hardcoded F_RG=0.47)")
 print(f"  Λ_residual = {Lam_pred:.2e} GeV⁴   obs = {Lam_obs:.2e}   ratio = {Lam_pred/Lam_obs:.1f}×")
 print(f"  [D: cosmological constant from off-diagonal M_R breaking Z₃]")
 
@@ -579,7 +687,7 @@ for nm, pr, ob, dev in [
     ("m_t (input)",    f"{m_t:.2f} GeV",          "172.57 GeV",  "input"),
     ("m_b/m_t",        f"{mb_mt:.5f}",             "0.02424",     f"{abs(mb_mt-0.02424)/0.02424*100:.1f}%  [D]"),
     ("m_τ/m_t",        f"{mtau_mt:.6f}",           "0.01030",     f"{abs(mtau_mt-0.01030)/0.01030*100:.1f}%  [D]"),
-    ("m_c",            f"{mc_pred:.3f} GeV",       "1.275 GeV",   f"{abs(mc_pred-1.275)/1.275*100:.0f}%  [D]"),
+    ("m_c",            f"{mc_pred:.3f} GeV",       "1.275 GeV",   f"{abs(mc_pred-1.275)/1.275*100:.0f}%  [{'D' if abs(mc_pred-1.275)/1.275*100 < 20 else 'P'}]"),
     ("m_u (CKM seesaw)",f"{m_u_CKM*1e3:.2f} MeV", "2.16 MeV",   f"{abs(m_u_CKM*1e3-2.16)/2.16*100:.0f}%  [{st_mu}]"),
     ("m_u (Wolfenst.)",f"{m_u_wolf*1e3:.1f} MeV", "2.16 MeV",   f"{m_u_wolf*1e3/2.16:.1f}×  [ref]"),
 ]:
@@ -629,15 +737,29 @@ scorecard = [
     ("|V_cb|",         f"{abs(Vcb):.5f}",           "0.0410",       "XCRM",  "D", f"{abs(abs(Vcb)-0.0410)/0.0410*100:.1f}%"),
     ("sin²θ₁₃",        f"{sin2_13:.4f}",            "0.0220",       "XCRM",  "D", f"{abs(sin2_13-0.0220)/0.0220*100:.0f}%  lemniscate NEW [v7.0]"),
     ("sin²θ₂₃",        f"{sin2_23:.4f}",            "0.545",        "XCRM",  "D", f"{abs(sin2_23-0.545)/0.545*100:.1f}%  U_ℓ†×U_ν(Mathieu)"),
-    ("δ_CP(PMNS)",     f"{dcp:.1f}°",               "197°",         "∞₃CM",  "D", f"{abs(dcp-197)/197*100:.1f}%  φ_lem=−i"),
+    ("δ_CP(PMNS)",     f"{dcp:.1f}°",               "197°",         "∞₃CM",
+     "D" if abs(dcp-197)/197*100 < 20 else "P",
+     f"{abs(dcp-197)/197*100:.1f}%  φ_lem=−i clusters near 90°/270°, not a precision gap -- see Part 6 note"),
     ("Δm²₃₁",         f"{Dm2_31:.2e}",             "2.511e-3",     "XCRM",  "D", f"{abs(Dm2_31-2.511e-3)/2.511e-3*100:.1f}%"),
-    ("M_DM",           f"{M_DM:.0f} GeV",           "—",            "TEGR",  "D", "LKP B^(1) freeze-out"),
-    ("Ω_DM h²",        f"{Omega_h2:.4f}",           "0.1200",       "TEGR",  "D", f"{abs(Omega_h2-0.120)/0.120*100:.1f}%"),
+    # M_DM/Omega_h2 honesty note: sv_t above is solved by inverting the freeze-out formula
+    # against the hardcoded target Omega_h2=0.120, then M_DM is solved from sv_t, then
+    # Omega_h2 is recomputed from that same M_DM -- an algebraic tautology (verified: this
+    # returns 0.120000 for any Y4). No independent derivation of M_DM exists in this
+    # codebase: the one alternative attempt (three_pillar_toe_closure.py, M_DM=3/L_eff)
+    # gives 7.4e-10 GeV, ~21 orders of magnitude off, and is itself flagged there as a
+    # "holonomy scale mismatch" with 0.92-0.95 TeV admitted "fitted to match Planck".
+    # Marked "P" (not "D"): M_DM is a genuine LKP freeze-out calculation given a coupling
+    # and Y4, but Omega_h2's apparent "0.0% agreement" is fixed by construction, not
+    # an independently verified prediction.
+    ("M_DM",           f"{M_DM:.0f} GeV",           "—",            "TEGR",  "U", "LKP B^(1) freeze-out; mass scale fixed by requiring Omega_h2 below -- no independent derivation found, see note above (searched and attempted one; none exists)"),
+    ("Ω_DM h²",        f"{Omega_h2:.4f}",           "0.1200",       "TEGR",  "U", "0.0% by construction (tautological, see note above) -- not an independent prediction"),
     ("M_R",            f"{M_R0:.0e}",               "~10¹⁴",        "TEGR",  "D", "∞₃ holonomy"),
     ("Λ_CC",           f"{Lam_pred:.1e}",           f"{Lam_obs:.1e}","All", "D", f"{abs(Lam_pred-Lam_obs)/Lam_obs*100:.0f}%  Z₃ Ward identity"),
     ("m_b/m_t",        f"{mb_mt:.5f}",              "0.02424",      "XCRM",  "D", f"{abs(mb_mt-0.02424)/0.02424*100:.1f}%"),
     ("m_τ/m_t",        f"{mtau_mt:.5f}",            "0.01030",      "XCRM",  "D", f"{abs(mtau_mt-0.01030)/0.01030*100:.1f}%"),
-    ("m_c/m_t",        f"{mc_pred/m_t:.5f}",        "0.00739",      "XCRM",  "D", f"{abs(mc_pred/m_t-0.00739)/0.00739*100:.0f}%"),
+    ("m_c/m_t",        f"{mc_pred/m_t:.5f}",        "0.00739",      "XCRM",
+     "D" if abs(mc_pred/m_t-0.00739)/0.00739*100 < 20 else "P",
+     f"{abs(mc_pred/m_t-0.00739)/0.00739*100:.0f}%  KK threshold w/ QCD+EW gauge completion (was 29% QCD-only)"),
     ("ω = 2π²",        f"{omega_pred:.4f}",         "19.7392",      "XCRM",  "D", f"{abs(omega_pred-19.7392)/19.7392*100:.3f}%  phase closure"),
     ("r (tens/scal)",  f"{r_eff_inf:.4f}",          "< 0.036",      "TEGR",  "D", f"{r_eff_inf/0.036*100:.0f}% of BICEP bound  XCRM Kirchhoff"),
     # Partially derived (status auto-computed from deviation)
@@ -667,18 +789,22 @@ D_frac = counts['D'] / (counts['D']+counts.get('P',0)+counts.get('U',0)) * 100
 print(f"""
   {'━'*74}
   v7.0 SCORECARD SUMMARY  ({total} observables):
-    D  {counts['D']:2d}  fully derived (< 20% from PDG)
+    D  {counts['D']:2d}  fully derived (< 20% from PDG, no fitted/circular inputs found)
     P  {counts.get('P',0):2d}  mechanism identified; NLO precision pending
-    U   0  (no fully unresolved items — m_u promoted U→P in v7.0)
+    U  {counts.get('U',0):2d}  no independent mechanism found (M_DM/Omega_DM h^2 -- searched, see Part 9 note; genuinely circular, not merely imprecise)
     I   1  (4 fundamental inputs)
-    Closure fraction: {D_frac:.0f}%  ({counts['D']}D / {counts['D']+counts.get('P',0)} non-input observables)
+    Closure fraction: {D_frac:.0f}%  ({counts['D']}D / {counts['D']+counts.get('P',0)+counts.get('U',0)} non-input observables)
 
   KEY ADVANCES (this release):
     1. sin²θ₁₃ = {sin2_13:.4f}  DERIVED for first time from resistance physics
        Mechanism: φ_lem=−i acts on se₁(2π/3)≠0 via U_PMNS[νe,ν₃] = i s₁₂ se₁(2π/3)/n₃
        Status upgrade: 100% off (P) → {abs(sin2_13-0.022)/0.022*100:.0f}% off (D)
     2. sin²θ₁₂ improved: 27% off → {abs(sin2_12-0.307)/0.307*100:.0f}% off  (full U_ℓ†×U_ν product)
-    3. m_u = m_t|V_ub|² = {m_u_CKM*1e3:.2f} MeV  ({abs(m_u_CKM*1e3-2.16)/2.16*100:.0f}% PDG)  [D — 100% closure!]
+    3. m_u = m_t|V_ub|² = {m_u_CKM*1e3:.2f} MeV  ({abs(m_u_CKM*1e3-2.16)/2.16*100:.0f}% PDG)  [{st_mu}]
+       (NOTE: this formula reuses the |V_ub| chain, which itself depends on the
+       eta_b/rho_b constants below — not fully independent of that chain. Since the
+       f_hol fix above removed a fitted constant, m_u's deviation rose past 20% and
+       its status is honestly P, not D, as of this version)
        Z₃ seesaw: antisymmetric ψ_u couples to top via off-diagonal y_{{u,t}}=V_ub×y_t
     4. U_ν now from LEPTON brane (α_l = {alpha_l:.4f}) — physically correct sector
     5. QCD running factor {run_factor:.3f} computed explicitly (increases m_u at low μ)

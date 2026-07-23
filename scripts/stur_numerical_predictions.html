@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR Numerical Predictions — Concrete Experimental Values</title>
-<meta name="description" content="STUR TOE Candidate: All predictions flow from ONE input (M_Planck). Specific numerical predictions: coherence lengths, visibility decay rates, signal strengths, and comparison with current experimental capabilities.">
+<meta name="description" content="STUR TOE Candidate: Most predictions flow from 4 inputs (M_Planck, v_EW, m_t, alpha_em). Specific numerical predictions: coherence lengths, visibility decay rates, signal strengths, and comparison with current experimental capabilities.">
 
 <!-- PWA & iOS meta tags -->
 <meta name="theme-color" content="#4ade80">
@@ -68,7 +68,7 @@
 <div class="glass-section" style="border-color:var(--gold);background:rgba(251,191,36,0.06);margin-bottom:1.5rem;">
     <div class="glass-section-header">
         <span class="stur-icon icon-link size-24" style="color:var(--gold);"></span>
-        <h2 class="glass-section-title" style="color:var(--gold);">Executive Summary: TOE Candidate Predictions (ONE Input: M<sub>Planck</sub>)</h2>
+        <h2 class="glass-section-title" style="color:var(--gold);">Executive Summary: TOE Candidate Predictions (4 Inputs: M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>)</h2>
     </div>
     <div class="glass-section-body">
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
@@ -111,8 +111,8 @@
   <h2 style="color:var(--success);">TOE Candidate: Complete Numerical Predictions with Error Bars</h2>
 
   <p style="color:var(--text-secondary);margin-bottom:1rem;">
-    All values below are <strong>derived from ONE input (M<sub>Planck</sub>)</strong> using the \(\XCRM{\text{XCRM}}\) coupling
-    and \(\Quant{∞₃}\) helix geometry. Parameters derived from ∞-helix structure, not calibrated to data — this is true TOE-level predictivity.
+    Most values below are <strong>derived from 4 inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>)</strong> using the \(\XCRM{\text{XCRM}}\) coupling
+    and \(\Quant{∞₃}\) helix geometry. Most parameters are derived from ∞-helix structure, not calibrated to data; a few (marked P/U-status) remain open.
   </p>
 
   <table style="width:100%;border-collapse:collapse;">
@@ -312,8 +312,8 @@
       </tr>
       <tr style="border-bottom:1px solid var(--separator);">
         <td style="padding:10px 12px;">δ<sub>CKM</sub></td>
-        <td style="padding:10px 12px;font-weight:600;">68.3°</td>
-        <td style="padding:10px 12px;">4.4% (PDG: 71.4°)</td>
+        <td style="padding:10px 12px;font-weight:600;">68.1°</td>
+        <td style="padding:10px 12px;">4.2% (PDG: 65.4° ± 3.2°)</td>
         <td style="padding:10px 12px;">Helix chirality phase</td>
       </tr>
       <tr style="border-bottom:1px solid var(--separator);">
@@ -324,46 +324,46 @@
       </tr>
 
       <!-- PMNS MATRIX — ALL 6 PARAMETERS -->
-      <tr style="background:rgba(34,211,238,0.08);"><td colspan="4" style="padding:8px 12px;font-weight:600;color:var(--accent);">PMNS Matrix — All 6 Parameters Derived (v7.0)</td></tr>
+      <tr style="background:rgba(34,211,238,0.08);"><td colspan="4" style="padding:8px 12px;font-weight:600;color:var(--accent);">PMNS Matrix — Canonical v7.0 Values (per stur_toe_closure.py)</td></tr>
       <tr style="border-bottom:1px solid var(--separator);">
         <td style="padding:10px 12px;">sin<sup>2</sup>θ<sub>12</sub></td>
-        <td style="padding:10px 12px;font-weight:600;">0.304</td>
-        <td style="padding:10px 12px;">Exact match (PDG: 0.304)</td>
+        <td style="padding:10px 12px;font-weight:600;">0.2491</td>
+        <td style="padding:10px 12px;">18.9% (D — PDG: 0.307 ± 0.013)</td>
         <td style="padding:10px 12px;">∞-helix seesaw phase overlap</td>
       </tr>
       <tr style="border-bottom:1px solid var(--separator);">
         <td style="padding:10px 12px;">sin<sup>2</sup>θ<sub>23</sub></td>
-        <td style="padding:10px 12px;font-weight:600;">0.573</td>
-        <td style="padding:10px 12px;">Exact match (PDG: 0.573)</td>
+        <td style="padding:10px 12px;font-weight:600;">0.4391</td>
+        <td style="padding:10px 12px;">19.4% (D — PDG: 0.545 ± 0.021)</td>
         <td style="padding:10px 12px;">∞₃ atmospheric overlap</td>
       </tr>
       <tr style="border-bottom:1px solid var(--separator);">
         <td style="padding:10px 12px;">sin<sup>2</sup>θ<sub>13</sub></td>
-        <td style="padding:10px 12px;font-weight:600;">0.02200</td>
-        <td style="padding:10px 12px;">0.1% (PDG: 0.02203)</td>
+        <td style="padding:10px 12px;font-weight:600;">0.0242</td>
+        <td style="padding:10px 12px;">9.9% (D — PDG: 0.02203 ± 0.00056)</td>
         <td style="padding:10px 12px;">Reactor angle from helix</td>
       </tr>
       <tr style="border-bottom:1px solid var(--separator);">
         <td style="padding:10px 12px;">δ<sub>CP</sub> (PMNS)</td>
         <td style="padding:10px 12px;font-weight:600;">272.8°</td>
-        <td style="padding:10px 12px;">PDG central: 197°±25° — STUR predicts 272.8° (lemniscate CM)</td>
+        <td style="padding:10px 12px;">38.5% (P-status — mechanism identified, precision pending; PDG central: 197°±25°)</td>
         <td style="padding:10px 12px;">∞₃ helix chirality (3π/2 phase)</td>
       </tr>
       <tr style="border-bottom:1px solid var(--separator);">
         <td style="padding:10px 12px;">Δm<sup>2</sup><sub>31</sub></td>
-        <td style="padding:10px 12px;font-weight:600;">2.51 × 10<sup>−3</sup> eV<sup>2</sup></td>
-        <td style="padding:10px 12px;">2% accuracy</td>
-        <td style="padding:10px 12px;">Seesaw from helix geometry</td>
+        <td style="padding:10px 12px;font-weight:600;">2.45 × 10<sup>−3</sup> eV<sup>2</sup></td>
+        <td style="padding:10px 12px;">2.3% (D)</td>
+        <td style="padding:10px 12px;">Seesaw from helix geometry; relies on a hardcoded anchor constant, not purely holonomy-derived</td>
       </tr>
       <tr style="border-bottom:1px solid var(--separator);">
         <td style="padding:10px 12px;">Δm<sup>2</sup><sub>21</sub></td>
-        <td style="padding:10px 12px;font-weight:600;">7.42 × 10<sup>−5</sup> eV<sup>2</sup></td>
-        <td style="padding:10px 12px;">1.6% accuracy</td>
+        <td style="padding:10px 12px;font-weight:600;">6.92 × 10<sup>−5</sup> eV<sup>2</sup></td>
+        <td style="padding:10px 12px;">8% (D)</td>
         <td style="padding:10px 12px;">Solar splitting from ∞₃</td>
       </tr>
 
       <!-- 9 FERMION MASSES -->
-      <tr style="background:rgba(251,191,36,0.08);"><td colspan="4" style="padding:8px 12px;font-weight:600;color:var(--gold);">9 Fermion Masses — All Derived to &lt;2% (v7.0)</td></tr>
+      <tr style="background:rgba(251,191,36,0.08);"><td colspan="4" style="padding:8px 12px;font-weight:600;color:var(--gold);">9 Fermion Masses (v7.0) — m<sub>t</sub> is an input (172.57 GeV), not derived; mass <em>ratios</em> m<sub>c</sub>/m<sub>t</sub> (21%) and m<sub>u</sub> (26%) are P-status, not &lt;2%</td></tr>
       <tr style="border-bottom:1px solid var(--separator);">
         <td style="padding:10px 12px;">m<sub>e</sub></td>
         <td style="padding:10px 12px;font-weight:600;">0.511 MeV</td>
@@ -439,14 +439,14 @@
       <tr style="border-bottom:1px solid var(--separator);">
         <td style="padding:10px 12px;">DM candidate mass</td>
         <td style="padding:10px 12px;font-weight:600;">949 GeV (LKP B<sup>(1)</sup>)</td>
-        <td style="padding:10px 12px;">Derived from L<sub>X</sub></td>
-        <td style="padding:10px 12px;">Lightest KK particle</td>
+        <td style="padding:10px 12px;">U-status — no independent derivation</td>
+        <td style="padding:10px 12px;">Lightest KK particle; extensively searched but circular per stur_toe_closure.py Part 9</td>
       </tr>
       <tr style="border-bottom:1px solid var(--separator);">
         <td style="padding:10px 12px;">Ω<sub>DM</sub>h<sup>2</sup></td>
-        <td style="padding:10px 12px;font-weight:600;">0.119</td>
-        <td style="padding:10px 12px;">0.4σ (Planck: 0.120 ± 0.001)</td>
-        <td style="padding:10px 12px;">Relic density calculation</td>
+        <td style="padding:10px 12px;font-weight:600;">0.1200</td>
+        <td style="padding:10px 12px;">U-status — tautological (Planck: 0.1200 ± 0.0012)</td>
+        <td style="padding:10px 12px;">Formula returns Planck's value regardless of the theory's Y4 group factor</td>
       </tr>
 
       <!-- PRECISION TESTS -->
@@ -890,7 +890,7 @@
     <p style="margin:0;color:var(--text-secondary);">
       The fifth-force from R-field exchange is screened by the XCRM term, making STUR compatible with
       sub-millimeter gravity tests while predicting a detectable signal at the edge of current bounds.
-      All parameters derived from ONE input (M<sub>Planck</sub>).
+      Parameters derived from 4 inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>).
       See <a href="../DERIVATION_CHAIN_INFINITY.md" style="color:var(--success);">DERIVATION_CHAIN_INFINITY.md §10</a> for full derivation.
     </p>
   </div>
@@ -1005,8 +1005,8 @@
   <div class="block success" style="margin-bottom:1.25rem;border-width:2px;">
     <div class="title" style="color:var(--success);">TOE Candidate: Comprehensive Constraint Verification</div>
     <p style="margin:0;color:var(--text-secondary);">
-      STUR has been verified against all major experimental constraints from precision physics,
-      cosmology, and gravitational wave observations. All constraints pass with parameters derived from ONE input (M<sub>Planck</sub>).
+      STUR has been checked against major experimental constraints from precision physics,
+      cosmology, and gravitational wave observations. Most constraints pass with parameters derived from 4 inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>).
       See <a href="../DERIVATION_CHAIN_INFINITY.md" style="color:var(--success);">DERIVATION_CHAIN_INFINITY.md §10B</a> for full derivations.
     </p>
   </div>
@@ -1428,7 +1428,7 @@
 <section class="section" style="background:rgba(74,222,128,0.04);border:1px solid rgba(74,222,128,0.2);padding:1rem 1.5rem;">
   <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
     <strong style="color:var(--success);">See Also:</strong>
-    <a href="../DERIVATION_CHAIN_INFINITY.md" style="color:var(--accent);">Helix Geometry TOE Candidate Derivation Chain</a> — complete formal derivations from ONE input (M<sub>Planck</sub>) |
+    <a href="../DERIVATION_CHAIN_INFINITY.md" style="color:var(--accent);">Helix Geometry TOE Candidate Derivation Chain</a> — formal derivations from 4 inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>) |
     <a href="stur_sm_derivation.html" style="color:var(--accent);">SM Derivation</a> — gauge group from first principles |
     <a href="stur_uv_completion.html" style="color:var(--accent);">UV Completion</a> — finiteness proof |
     <a href="stur_falsification.html" style="color:var(--accent);">Falsification</a> — experimental protocol |

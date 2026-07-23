@@ -284,10 +284,12 @@
       <strong style="color:var(--neon-cyan);">Chronomagnetic modulation</strong>
       (Burkeen <em>et al.</em>, <em>Chronomagnetics</em>, 2026):
       The winding amplitude follows a log-periodic oscillation determined by the discrete scale invariance ratio
-      \(\lambda_{\rm chrono} = 3722/2705 \approx 1.376\):
+      \(\lambda_{\rm chrono} = e^{1/\pi} \approx 1.3748\) (exact; the integer-triangle ratio
+      \(3722/2705 \approx 1.376\) is a rational approximation to this, not fundamental — see
+      <a href="stur_chronomagnetics_omega.html" style="color:var(--neon-cyan);">Chronomagnetics: ω</a>):
     </p>
     <div style="text-align:center;padding:0.75rem;background:#000;border-radius:6px;border:1px solid var(--neon-cyan);margin-bottom:0.75rem;">
-      \[\XCRM{M(t)} = \bigl|\sin\!\bigl(\omega \ln(t/t_0)\bigr)\bigr|, \quad \omega = \frac{\pi}{\ln \lambda_{\rm chrono}} = 19.687\]
+      \[\XCRM{M(t)} = \bigl|\sin\!\bigl(\omega \ln(t/t_0)\bigr)\bigr|, \quad \omega = \frac{2\pi}{\ln \lambda_{\rm chrono}} = 2\pi^2 = 19.7392 \quad \text{(exact)}\]
     </div>
 
     <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:0.75rem;">
@@ -303,7 +305,8 @@
       <h4 style="color:var(--neon-cyan);margin:0 0 0.5rem;font-size:0.85rem;">Discrete Scale Invariance</h4>
       <p style="color:var(--text-secondary);font-size:0.85rem;margin:0;">
         The manifold is the <em>same</em> at any scale; only the perspective changes. Discrete scale invariance
-        via \(\lambda_{\rm chrono} = 3722/2705\) connects every scale from the fundamental length
+        via \(\lambda_{\rm chrono} = e^{1/\pi} \approx 1.3748\) (exact; \(3722/2705\) is a rational approximation)
+        connects every scale from the fundamental length
         \(L_X^{\rm fund} \sim 10^{-32}\) m to the effective compactification radius
         \(L_{\rm eff} \sim 0.8\;\mu\text{m}\). These are not two different geometries but the
         <em>same</em> self-similar helix viewed at different resolution, related by
@@ -367,15 +370,16 @@
         <p style="color:var(--text-muted);font-size:0.78rem;margin:0.4rem 0 0;">
           The fermion mass hierarchy arises from the scale hierarchy of the self-similar helix.
           Yukawa couplings \(y_{ij} \propto e^{-\kappa^2/8}\) (triple overlap with Higgs at midpoint)
-          yield all 9 charged fermion masses to &lt;2% accuracy.
+          yield 7 of 9 charged fermion masses to &lt;2% accuracy (m_u, m_c/m_t remain P-status).
         </p>
       </div>
       <div style="background:rgba(0,0,0,0.4);padding:0.75rem;border-radius:6px;border-left:3px solid #a78bfa;">
         <strong style="color:#a78bfa;font-size:0.8rem;">PMNS (Neutrinos)</strong>
         <p style="color:var(--text-muted);font-size:0.78rem;margin:0.4rem 0 0;">
           Neutrinos reside near the unwinding edge of the infinity helix where generation overlaps
-          are maximal, producing large mixing angles: \(\sin^2\theta_{12}\), \(\sin^2\theta_{23}\) exact,
-          \(\sin^2\theta_{13}\) (34% — KK pending), and \(\delta_{\rm CP} = 272.8°\) (lemniscate CM prediction). Normal ordering predicted.
+          are maximal, producing large mixing angles: \(\sin^2\theta_{12} = 0.2491\) (18.9%),
+          \(\sin^2\theta_{23} = 0.4391\) (19.4%), \(\sin^2\theta_{13} = 0.0242\) (9.9% — NLO lemniscate, D),
+          and \(\delta_{\rm CP} = 272.8°\) (lemniscate CM prediction). Normal ordering predicted.
         </p>
       </div>
       <div style="background:rgba(0,0,0,0.4);padding:0.75rem;border-radius:6px;border-left:3px solid var(--neon-gold);">
@@ -412,8 +416,8 @@
     <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:0.75rem;">
       The energy-minimizing configuration has constant magnitude and linear phase winding.
       In v7.0, the winding rate is modulated by the chronomagnetic function
-      \(M(t) = |\sin(\omega \ln(t/t_0))|\) at \(\omega = 19.687\), derived from the discrete scale
-      invariance ratio \(\lambda_{\rm chrono} = 3722/2705\). The helix simultaneously winds and unwinds
+      \(M(t) = |\sin(\omega \ln(t/t_0))|\) at \(\omega = 2\pi^2 = 19.7392\) (exact), derived from the discrete scale
+      invariance ratio \(\lambda_{\rm chrono} = e^{1/\pi} \approx 1.3748\). The helix simultaneously winds and unwinds
       at all times; the manifold is the same at any scale, with
       \(L_X^{\rm fund} \sim 10^{-32}\) m and \(L_{\rm eff} \sim 0.8\;\mu\text{m}\) representing the
       <em>same</em> geometry at different resolutions:
@@ -601,13 +605,19 @@
         \[\XCRM{E_{\rm total}(L_X)} = \frac{A}{L_X^5} + \frac{B}{L_X}\]
       </div>
       <div style="color:var(--text-muted);font-size:0.85rem;margin-bottom:0.75rem;">
-        where \(A = \zeta(5)|N_{\rm eff}|/(2\pi)^5 = 1.037 \times 149 / 961.4 = \Quant{0.161}\)<br>
+        where \(A = \zeta(5)|N_{\rm eff}|/(2\pi)^5 = 1.037 \times 149 / 9792.6 = \Quant{0.0158}\)<br>
         and \(B = c_h \times \|h\|^2 = 1.35 \times 0.162 = \Quant{0.219}\)
       </div>
       <div style="text-align:center;padding:0.75rem;background:rgba(74,222,128,0.1);border:1px solid var(--neon-green);border-radius:4px;">
-        \[\frac{dE}{dL_X} = 0 \quad\Rightarrow\quad L_X^4 = \frac{5A}{B} = \frac{5 \times 0.161}{0.219} = \Quant{3.68}\]
-        \[\boxed{\XCRM{L_X^*} = (3.68)^{1/4} = \Quant{1.39} \text{ (dimensionless)}}\]
+        \[\frac{dE}{dL_X} = 0 \quad\Rightarrow\quad L_X^4 = \frac{5A}{B} = \frac{5 \times 0.0158}{0.219} = \Quant{0.361}\]
+        \[\boxed{\XCRM{L_X^*} = (0.361)^{1/4} = \Quant{0.775} \text{ (dimensionless)}}\]
       </div>
+      <p style="color:var(--text-muted);font-size:0.78rem;margin-top:0.5rem;">
+        Correction: an earlier version of this box misstated \((2\pi)^5\) as 961.4 (the correct value is
+        9792.6, off by ~10.2×), which propagated into A, \(L_X^4\), and \(L_X^*\) above — now corrected.
+        This does not change the headline \(L_X \approx 0.8\ \mu\text{m}\) result in Step 4 below, which is
+        obtained independently from \(M_{\rm KK}\) and \(\hbar c/M_{\rm KK}\), sidestepping this A/B ratio.
+      </p>
     </div>
 
     <!-- Step 4: Physical Scale -->
@@ -880,8 +890,8 @@
 \(\XCRM{\mathbf{R}(X + L_X) = \mathbf{R}_{2\pi/3} \cdot \mathbf{R}(X)}\)
 is the core geometric constraint from which all physics derives. The ∞₃ infinity helix is never static — it simultaneously
 winds and unwinds at every instant, with its spatial projection tracing a Gerono lemniscate (figure-eight).
-Chronomagnetic modulation \(M(t) = |\sin(\omega \ln(t/t_0))|\) at \(\omega = 19.687\) (derived from
-\(\lambda_{\rm chrono} = 3722/2705\)) governs the winding dynamics, with 28.7% of each log-period spent in
+Chronomagnetic modulation \(M(t) = |\sin(\omega \ln(t/t_0))|\) at \(\omega = 2\pi^2 = 19.7392\) (exact; derived from
+\(\lambda_{\rm chrono} = e^{1/\pi} \approx 1.3748\)) governs the winding dynamics, with 28.7% of each log-period spent in
 phase-lock where coherent matter physics emerges. Discrete scale invariance ensures the manifold is the same at any
 scale: \(L_X^{\rm fund} \sim 10^{-32}\) m and \(L_{\rm eff} \sim 0.8\;\mu\text{m}\) are the same geometry at
 different resolutions. Key v7.0 parameters: \(\kappa = 2.430\), \(\sigma = 0.862\) rad,
@@ -971,11 +981,12 @@ The ∞₃ infinity helix is never static — it simultaneously winds and
 unwinds at every instant. Its spatial projection traces a Gerono
 lemniscate (figure-eight). Phase-locked coherent matter emerges when
 the three sectors achieve exact 120° separation. Discrete scale
-invariance via λ_chrono = 3722/2705 connects all scales from
-L_X^fund ~ 10⁻³² m to L_eff ~ 0.8 μm as the SAME geometry.
+invariance via λ_chrono = e^(1/π) ≈ 1.3748 (exact; 3722/2705 is a rational
+approximation) connects all scales from L_X^fund ~ 10⁻³² m to L_eff ~ 0.8 μm
+as the SAME geometry.
 
 v7.0 key parameters:  κ = 2.430, σ = 0.862 rad, λ = 0.228 = exp[-κ²/4]
-Chronomagnetic modulation: M(t) = |sin(ω ln(t/t₀))| at ω = π/ln(3722/2705) = 19.687
+Chronomagnetic modulation: M(t) = |sin(ω ln(t/t₀))| at ω = 2π² = 19.7392 (exact)
 Phase-lock fraction: 28.7% of each log-period
 Dynamical twist angle: θ(t) = 2π/3 + δθ(t), governed by TEGR torsion
 
@@ -1205,7 +1216,7 @@ hydrogen 1s shift plots, and the exported <code>stur_helix_spectrum.json</code>.
     <em>Chronomagnetics: A Comprehensive Mathematical Foundation,</em> Spectrality Institute (2026).
     <a href="Chronomagnetics.pdf" target="_blank" style="color:#a78bfa;">[PDF]</a>
     — Source of the discrete scale invariance ratio &lambda;<sub>chrono</sub> = e<sup>1/&pi;</sup> = 1.3748,
-    chronomagnetic modulation M(t) = |sin(&omega; ln(t/t<sub>0</sub>))| at &omega; = 19.687,
+    chronomagnetic modulation M(t) = |sin(&omega; ln(t/t<sub>0</sub>))| at &omega; = 2&pi;&sup2; = 19.7392 (exact),
     and the 28.7% phase-lock fraction governing the infinity helix dynamics.
   </p>
   <p style="margin:0;color:rgba(255,255,255,0.5);font-size:0.82rem;">

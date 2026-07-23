@@ -6,8 +6,14 @@
 **Framework:** STUR v7.0 — ∞-Helix Topology on M⁴ × S¹ with Resistance Physics (ERP)
 **Author:** Sheldon Lon Lindberg
 **Date:** 2026-06-29 (v7.0 update)
-**Version:** 7.0 — Full PMNS from U_ℓ†×U_ν; all 28 observables derived; scorecard 28D+0P+0U+1I
-**Status:** TOE Candidate — 28 derived (D), 0 partially derived (P), 0 unresolved, 1 input (I) = 29 observables
+**Version:** 7.0 — Full PMNS from U_ℓ†×U_ν; scorecard corrected in FIX pass (2026-07-18) to
+match the current repo-wide canonical count: 24D+3P+2U+1I=30 observables (83% closure). This
+document previously stated three mutually inconsistent totals in three different places
+(header: 28D+0P+0U+1I=29; Closure Scorecard box: 31D+0P+1I=32; Part XI: 31D+0P+0U+1I=32 vs. a
+different "honest" 28D+0P+0U+1I=29) while simultaneously marking m_u as P-status in its own
+fermion table — a direct contradiction with any "0P" total. See the honesty notes at the
+Closure Scorecard box and Part XI for details.
+**Status:** TOE Candidate — 24 derived (D), 3 partially derived (P), 2 unresolved (U), 1 input (I) = 30 observables (83% closure)
 
 ---
 
@@ -104,15 +110,23 @@ N_ν = 2.9840 ± 0.0082 (from Z-width)
 | Mass hierarchy mechanism | Sharp Higgs profile σ_H/σ_ψ ≈ 0.23 | y₃/y₂ = 111 (genuine Yukawa RATIO prediction) | **D** (ratio only) |
 | ε/σ self-consistency | R-field energy minimization | ε/σ = 0.47 reproduces exact PDG Cabibbo angle | **D** |
 | 6 charged fermion masses | 2-body Higgs overlap on S¹/∞₃ | Complete from m_t anchor + α_eff(μ, sector); light masses limited by S¹ symmetry | **D** |
-| PMNS matrix (6 parameters) | U_ℓ†×TBM with lepton-specific α_eff | sin²θ₁₂ = 0.181 (40%), sin²θ₂₃ = 0.446 (22%), sin²θ₁₃ = 0.0295 (34%); v7.0 full Cabibbo | **D** |
+| PMNS matrix (6 parameters) | U_ℓ†×TBM with lepton-specific α_eff | sin²θ₁₂ = 0.181 (40%), sin²θ₂₃ = 0.446 (22%), sin²θ₁₃ = 0.0295 (34%); v7.0 full Cabibbo | **D** (stale intermediate-stage figures, all >20% off as stated here — this row's own "D" violates the project's <20% rule; current canonical values are sin²θ₁₂=0.2491 (19%), sin²θ₂₃=0.4391 (19.4%), sin²θ₁₃=0.0242 (10%), all genuinely D — see the corrected Closure Scorecard above) |
 | Neutrino masses | Type-I seesaw with holonomy-enhanced M_R | Δm²₃₁ = 2.5×10⁻³ eV² via M_R = 2×10¹⁴ GeV; normal ordering genuine prediction | **D** |
 | Cosmological constant | ∞-helix discrete gauge Ward identity + neutrino residual | Λ_tree = 0 (KMS + ∞₃ Ward); Λ_residual = 3.3×10⁻⁴⁷ GeV⁴ (17% from obs) | **D** |
-| Dark matter | LKP B^(1) thermal freeze-out | M_DM = 920 ± 80 GeV from thermal relic (NOT fitted); Ω_DM h² = 0.119 (0.4σ from Planck) | **D** |
-| m_b/m_t | 2-body Higgs overlap + Wilson line | δ_W = 2π/3 (topological) + 2-body overlap → 0.050 (PDG 0.0242; 2× gap from leading-order) | **D** |
-| m_τ/m_t | 2-body Higgs overlap + color factor 1/√3 | Lepton-specific α_eff + color factor → 0.035 (PDG 0.0103; 3× gap from leading-order) | **D** |
+| Dark matter | LKP B^(1) thermal freeze-out | M_DM = 920 ± 80 GeV from thermal relic; Ω_DM h² = 0.119 (0.4σ from Planck) | **U** (corrected in FIX pass — the "NOT fitted" claim is false: DARK_MATTER_RELIC_DENSITY.md, the cited source, shows M_LKP is solved for by requiring Ω_DM h²≈0.12 after its own holonomy estimate gave ~7.7 TeV) |
+| m_b/m_t | 2-body Higgs overlap + Wilson line | δ_W = 2π/3 (topological) + 2-body overlap → 0.050 (PDG 0.0242; 2× gap from leading-order) | **D** (stale leading-order figure; current canonical value is 0.02172, 10.4% off, genuinely D — see Closure Scorecard above) |
+| m_τ/m_t | 2-body Higgs overlap + color factor 1/√3 | Lepton-specific α_eff + color factor → 0.035 (PDG 0.0103; 3× gap from leading-order) | **D** (stale leading-order figure; current canonical value is 0.01163, 12.9% off, genuinely D — see Closure Scorecard above) |
 | UV completion | F-theory CY₄ on (P²×P¹)/∞₃ | Construction proposed; uniqueness proof in UV_COMPLETION_UNIQUENESS_PROOF.md | **D** |
 
-> **ACADEMIC AUDIT NOTE (updated v7.0):** All 31 non-input observables are now Derived (D): complete formulas from 4 inputs (M_Pl, v_EW, m_t, α_em) + 3 axioms with zero free parameters. The v7.0 upgrade (`stur_v7_full_closure.py`) replaces all sector anchoring, ad-hoc factors, and calibrated values with first-principles derivations. Numerical disagreements with experiment (e.g., light fermion masses limited by S¹/∞₃ leading-order symmetry, PMNS θ₁₂ from full lepton Cabibbo) are predictions of the framework, not gaps in the derivation chain.
+> **ACADEMIC AUDIT NOTE (corrected in FIX pass):** Not all non-input observables are Derived
+> (D). m_u remains P-status (2.3× off, see Chain Step 4), and M_DM/Ω_DM h² are U-status
+> (circular — M_DM is solved for by requiring Ω_DM h²≈0.12, not independently derived; see
+> table row above and DARK_MATTER_RELIC_DENSITY.md). The framework uses 4 inputs (M_Pl, v_EW,
+> m_t, α_em); "zero free parameters" refers only to the absence of additional calibrated
+> constants beyond these 4 inputs within the D-status observables, not to a literally
+> parameter-free theory. The v7.0 upgrade (`stur_v7_full_closure.py`) replaced most sector
+> anchoring and calibrated values with first-principles derivations, but not all — see the
+> corrected Closure Scorecard (24D+3P+2U+1I=30, 83%) earlier in this document.
 
 ### The Dynamic Infinity Helix — Resolution of Scale Questions
 
@@ -130,14 +144,18 @@ The infinity helix is **never static**. It is an infinity helix (Gerono lemnisca
 | Cosmological constant | Static V_eff doesn't work | Ward identity + neutrino residual: Λ = 3.3×10⁻⁴⁷ GeV⁴ (17% from obs) | **D** (v7.0) |
 | Mass hierarchy | Static overlap insufficient | 2-body Higgs overlap + sector-specific α_eff + Wilson line | **D** (v7.0) |
 | PMNS large mixing | Static ∞-helix overlap gives ~0° | U_ℓ†×TBM with full lepton Cabibbo angle → sin²θ₁₃ = 0.029 | **D** (v7.0) |
-| Dark matter mass | Holonomy gives 7.7 TeV | LKP B^(1) thermal freeze-out: M_DM = 949 GeV, Ω h² = 0.1200 (0.0%) | **D** (v7.0) |
+| Dark matter mass | Holonomy gives 7.7 TeV | LKP B^(1) thermal freeze-out: M_DM = 949 GeV, Ω h² = 0.1200 (0.0%) | **U** (corrected in FIX pass — the Ω h²=0.1200 "0.0% deviation" is the tautology signature: M_DM is solved for by requiring Ω_DM h²=0.120, not independently derived. See DARK_MATTER_RELIC_DENSITY.md, which explicitly documents the holonomy calculation giving ~7.7 TeV and M_LKP being "CORRECTED (from thermal relic matching)" to reach the target. No independent derivation of M_DM exists in this codebase.) |
 | UV completion | Need separate F-theory CY₄ | Uniqueness proof in UV_COMPLETION_UNIQUENESS_PROOF.md | **D** |
 
 The 5D universe simulation (`scripts/stur_5duniverse.html`) demonstrates this: the infinity helix spatial projection follows a figure-8 (lemniscate) with baryon, DM, and DE strands tracing helical worldlines through the same geometry. The unified tidal operator K^a_b = K^a_{b,metric} + K^a_{b,torsion} + K^a_{b,gauge} governs geodesic deviation between sectors. All parameters derive from M_Planck through the self-similar ∞-helix structure.
 
 ### Remaining Open Questions (v7.0)
 
-> **Note:** As of v7.0, all 28 non-input observables are Derived (D, <20% error), 1 is Input (I). 100% first-principles closure achieved. The items below are quantitative refinements, not missing mechanisms.
+> **Note (corrected in FIX pass):** The current repo-wide canonical scorecard is
+> 24D + 3P + 2U + 1I = 30 observables (83% closure), not "100% first-principles closure." m_u
+> is P-status (see fermion table below); M_DM and Ω_DM h² are U-status (circular, see table
+> row above); the items below are a mix of quantitative refinements and genuinely open
+> mechanisms, not purely the former.
 
 | Question | Status | Path Forward |
 |----------|--------|-------------|
@@ -150,11 +168,11 @@ The 5D universe simulation (`scripts/stur_5duniverse.html`) demonstrates this: t
 
 ---
 
-## TOE Closure Chain — From 4 Inputs to 29 Observables
+## TOE Closure Chain — From 4 Inputs to 30 Observables
 
 **Inputs:** M_Pl = 1.22 × 10¹⁹ GeV, v_EW = 246.22 GeV, m_t = 172.57 GeV, α_em⁻¹ = 137.036
 **Axioms:** 5D TEGR spacetime, real doublet R-field (XCRM), energy minimization
-**Scripts:** `scripts/stur_toe_closure.py` (canonical — 28D+0P+0U+1I=29), `scripts/five_open_problems_closure.py` (v6.5 historical), `scripts/stur_v7_full_closure.py` (v7.0 historical)
+**Scripts:** `scripts/stur_toe_closure.py` (canonical — corrected in FIX pass to 24D+3P+2U+1I=30, 83% closure), `scripts/five_open_problems_closure.py` (v6.5 historical), `scripts/stur_v7_full_closure.py` (v7.0 historical)
 
 ### Chain Step 0: ∞₃ Selected by Energy Minimization
 
@@ -199,7 +217,7 @@ Starting from α_tree = 1.0 (XCRM-Yukawa symmetry y = 2π/3):
 Mathieu equation −f″ + α_eff(1−cos θ)f = εf on S¹ with periodic BCs:
 - σ = 0.862 rad (RMS width), κ = (2π/3)/σ = 2.430
 
-**Cabibbo angle** (pairwise overlap): λ = exp(−κ²/4) = **0.228** (1.3% from PDG 0.22500)
+**Cabibbo angle** (pairwise overlap): λ = exp(−κ²/4) = **0.228** (1.6% from PDG 0.22500 — corrected in FIX pass; verified exp(-2.430²/4)=0.2285, giving 1.55%≈1.6%, not the "1.3%" previously stated here, which was inconsistent with the same computation elsewhere in this document)
 
 **Full CKM matrix** from ∞-helix overlap geometry + helix chirality:
 
@@ -273,51 +291,79 @@ Residual from neutrino Majorana ∞-helix breaking:
 ### Chain Step 7: Dark Matter
 
 ∞-helix KK-parity conservation → LKP B^(1) stable.
-- M_DM = 0.92 ± 0.08 TeV
-- **Ω_DM h² = 0.119** (Planck: 0.1200, 0.8% deviation)
-- σ_SI ~ 10⁻⁴⁷ cm² (testable at LZ/XENONnT)
+- M_DM = 0.92 ± 0.08 TeV (also quoted as 949 GeV elsewhere in this document — see honesty
+  note on value drift below; both figures are downstream of the same circular fit)
+- **Ω_DM h² = 0.119** (Planck: 0.1200, 0.8% deviation; also quoted elsewhere in this
+  document as "0.1200 (0.0%)" — an exact match, which is the signature of a solved-for
+  target rather than an independent prediction. U-status, not D. See
+  DARK_MATTER_RELIC_DENSITY.md.)
+- σ_SI ~ 10⁻⁴⁷ cm² (testable at LZ/XENONnT — but see DARK_MATTER_RELIC_DENSITY.md §5.3 for a
+  units-error correction that raises this to ~7×10⁻⁴⁶ cm²)
 
 ### Chain Step 8: UV Completion
 
 F-theory CY₄ on (P²×P¹)/∞₃ uniquely determined from STUR axioms:
-- h¹¹ = 6, h²¹ = 3, h³¹ = 25, χ = 216, χ/24 = 9 (integer)
+- h¹¹ = 6, h²¹ = 3, h³¹ = 25, χ = 216, χ/24 = 9 (integer) — **note (added in FIX pass):** this
+  χ=216 value is not settled; the "Remaining Open Questions" table above lists an unresolved
+  "χ(CY₄) discrepancy: 216 (newer) vs 1698 (older document)," so this should not be read as a
+  final, uniquely-determined number.
 - SM gauge group, 3 generations from 7-brane divisors
 - Swampland: Distance ✓, WGC ✓, Cobordism ✓, dS conditional
 
 ### Closure Scorecard (v7.0)
 
+**Honesty note (added in FIX pass, 2026-07-18):** The box below previously claimed
+31D+0P+0U+1I=32 (and, in Part XI of this same document, a separately-labeled "current honest"
+28D+0P+0U+1I=29) — three different, mutually inconsistent totals across this one file, none of
+which matched the repo-wide canonical scorecard. It also listed M_DM and Ω_DM as "Derived"
+despite this document's own Chain Step 8 dark-matter section and DARK_MATTER_RELIC_DENSITY.md
+showing M_DM is solved for by requiring Ω_DM h²≈0.12 (circular), and listed 0 P despite m_u
+being explicitly marked P a few sections earlier (Chain Step 4). The corrected box below
+reflects the current canonical count.
+
 ```
 ═══════════════════════════════════════════════════════════════
-  32 OBSERVABLES FROM THREE AXIOMS + FOUR INPUTS
+  30 OBSERVABLES FROM THREE AXIOMS + FOUR INPUTS
   (M_Pl, v_EW, m_t, α_em)
+  (Corrected in FIX pass from a previously-claimed 31D+0P+0U+1I=32)
 ═══════════════════════════════════════════════════════════════
-  Derived (D):          31  — N_gen, gauge group, θ_QCD, Berry,
+  Derived (D):          24  — N_gen, gauge group, θ_QCD, Berry,
                                proton stability, normal ordering,
                                KK-parity, λ_Cabibbo,
                                CKM (A, δ, η̄, V_ub, V_cb),
                                PMNS (θ₁₂, θ₂₃, θ₁₃, δ_CP),
-                               fermion masses (6), σ_H/σ_ψ,
-                               Λ_CC, M_DM, Ω_DM, M_R, Δm²₃₁,
+                               fermion masses (5 of 6 — m_u excluded, see P),
+                               σ_H/σ_ψ, Λ_CC, M_R, Δm²₃₁,
                                m_b/m_t, m_τ/m_t
-  Partially derived (P):  0
+  Partially derived (P):  3  — m_u (2.3× off via Wolfenstein, Chain Step 4),
+                               and two further P-status observables per the
+                               repo-wide canonical scorecard (see
+                               scripts/stur_toe_closure.py)
   Calibrated (C):         0
-  Unresolved (U):         0
+  Unresolved (U):         2  — M_DM (circular: solved for by requiring
+                               Ω_DM h²≈0.12, holonomy calc gives ~7.7 TeV
+                               independently, ~8x off — see
+                               DARK_MATTER_RELIC_DENSITY.md),
+                               Ω_DM h² (tautological for the same reason)
   Input (I):              1  — (4 inputs count as 1 free-parameter
                                sector: M_Pl sets scale, v_EW/m_t/α_em
                                are EW sector)
 ═══════════════════════════════════════════════════════════════
+  83% closure (24/29 non-input observables fully derived)
 
-  v7.0 UPGRADE: All 23 P → D via complete first-principles
-  derivation in scripts/stur_v7_full_closure.py:
+  v7.0 UPGRADE: Most previously-P observables moved to D via
+  first-principles derivation in scripts/stur_v7_full_closure.py:
     • CKM: Yukawa overlap + holonomy geometry (no calibration)
     • PMNS: U_ℓ†×TBM with lepton-specific α_eff → sin²θ₁₃=0.029
-    • Masses: 2-body Higgs overlap, m_t anchor only
+    • Masses: 2-body Higgs overlap, m_t anchor only (except m_u, still P)
     • σ_H/σ_ψ = 0.225: Derived from ∞₃ brane kink
     • Λ_CC: Complete Ward identity + neutrino residual (17% off)
-    • M_DM, Ω_DM: Self-consistent LKP thermal relic
+    • M_DM, Ω_DM: NOT self-consistently derived — the "thermal relic"
+      calculation inverts the target Ω_DM h²≈0.12 to solve for M_DM,
+      per this document's own Chain Step 8 and DARK_MATTER_RELIC_DENSITY.md
 
   Criterion: 'D' = complete formula from 4 inputs + 3 axioms,
-  no free parameters. Predicted value IS what it is.
+  no free parameters used to hit the target. Predicted value IS what it is.
 ```
 
 ---
@@ -800,7 +846,7 @@ f_2loop = 1.056     (two-loop correction; §4)
 |-----------|------|-----|-----------|--------|
 | λ | 0.229 | 0.22500 | 1.6% | Pairwise overlap exp(−κ²/4) |
 | A | 0.846 | 0.826 | 2.4% | Holonomy factor f_hol = exp(−1/6) |
-| η̄ | 0.350 | 0.348 | 0.5% | Correction chain: η̄_base × f_hol × f_Berry × f_RG |
+| η̄ | 0.350 | 0.348 | 0.5% | Correction chain: η̄_base × f_hol × f_Berry × f_RG (this f_hol=0.948 was later found to be a fitted, not derived, constant — see §11.2 above and CORRECTION_FACTORS_COMPLETE.md; canonical value without it is 0.3947, 13.4%) |
 | ρ̄ | 0.159 | 0.159 | 0.0% | cot(δ_CKM) × η̄ |
 | δ_CKM | 68.3° | 65.4° | 4.4% | arctan(1/2) + π/3 × f_screen |
 
@@ -1108,11 +1154,15 @@ The S¹/∞-helix topology admits UV completion through F-theory on CY₄ with b
 
 ### 11.2 Quantitative Predictions
 
+> Synced to `scripts/stur_toe_closure.py` (canonical). The η̄ figure below was
+> previously 0.350 — that value depended on a fitted f_hol=0.948 constant, since
+> removed; the canonical value without that fitted constant is 0.3947 (13.4% off).
+
 | Observable | STUR | Measured | Status |
 |-----------|------|---------|--------|
-| λ (Cabibbo) | 0.229 ± 0.008 | 0.22500 ± 0.00067 | ✓ (1.6%) |
-| η̄ (CP) | 0.350 ± 0.029 | 0.348 ± 0.010 | ✓ (0.5%) |
-| δ_CKM | 68.3° | 65.4° | ✓ (4.4%) |
+| λ (Cabibbo) | 0.22543 | 0.22537 ± 0.00067 | ✓ (0.03%) |
+| η̄ (CP) | 0.3947 | 0.348 ± 0.010 | ✓ (13.4%) |
+| δ_CKM | 68.1° | 65.4° | ✓ (4.2%) |
 | N_gen | 3 (exact) | 2.984 ± 0.008 | ✓ |
 | θ_QCD | 0 (exact) | < 10⁻¹⁰ | ✓ |
 | m_τ/m_μ | 17.0 | 16.8 | ✓ (1%) |
@@ -1201,7 +1251,7 @@ Complete combined closure calculations were performed in `scripts/three_pillar_t
 | Berry phase | 0 | 0 | XCRM | **D** | Real Mathieu |
 | Proton stability | Stable | Stable | TEGR | **D** | KK-parity |
 | Normal ordering | m₁<m₂<m₃ | ✓ | TEGR | **D** | ∞-helix resonance |
-| λ (Cabibbo) | 0.228 | 0.225 | XCRM+C | **D** | exp(-κ²/4), 1.3% |
+| λ (Cabibbo) | 0.228 | 0.225 | XCRM+C | **D** | exp(-κ²/4), 1.6% (corrected in FIX pass from "1.3%" — verified) |
 | y₃/y₂ ratio | 44 | 44.7 (b/s) | XCRM | **D** | Mathieu overlap |
 | A (Wolfenstein) | 0.826 | 0.826 | XCRM | **P** | Holonomy |
 | δ_CKM | 68.3° | 65.4° | XCRM | **P** | 4.4% |
@@ -1223,7 +1273,7 @@ Complete combined closure calculations were performed in `scripts/three_pillar_t
 
 **What each pillar contributes:**
 1. **TEGR:** N_gen, gauge group, θ_QCD, proton stability, normal ordering, gravity emergence, holonomy structure
-2. **XCRM:** Cabibbo angle (1.3%), Yukawa hierarchy, CKM matrix, fermion mass ratios, Λ_tree = 0 (Ward identity)
+2. **XCRM:** Cabibbo angle (1.6%, corrected in FIX pass from "1.3%"), Yukawa hierarchy, CKM matrix, fermion mass ratios, Λ_tree = 0 (Ward identity)
 3. **Chronomagnetics:** Phase-lock condition, TBM PMNS structure, Cabibbo at phase-lock, time dynamics
 
 **Critical honest findings:**
@@ -1237,7 +1287,10 @@ Complete combined closure calculations were performed in `scripts/three_pillar_t
 
 The five open problems identified in v6.3 were resolved in `scripts/five_open_problems_closure.py`:
 
-> **KEY FINDING:** All 5 open problems are now closed. The 2 UNRESOLVED quantities (M_DM, Ω_DM) are upgraded to PARTIALLY DERIVED. The framework now has **0 unresolved** observables.
+> **KEY FINDING (corrected in FIX pass):** 4 of the 5 open problems are genuinely closed. The
+> M_DM/Ω_DM "closure" (OP-2, below) is not valid — the calculation is circular, not a genuine
+> upgrade from UNRESOLVED to PARTIALLY DERIVED. The framework's current honest count is
+> 2 U observables (M_DM, Ω_DM), not 0. See the OP-2 honesty note below.
 
 **OP-1: Inter-sector mass ratios** → CLOSED via RG-enhanced α_eff(μ, sector)
 - Quarks: f_gauge includes QCD (c₃ = 1.60) → larger α at low μ → more localized
@@ -1246,12 +1299,18 @@ The five open problems identified in v6.3 were resolved in `scripts/five_open_pr
 - Full quantitative closure requires 2-loop + threshold matching
 - Reference: `scripts/rg_enhanced_mass_hierarchy.py`
 
-**OP-2: M_DM scale** → CLOSED via LKP thermal relic (DARK_MATTER_RELIC_DENSITY.md)
-- DM candidate: B^(1) (1st KK excitation of U(1)_Y gauge boson)
-- Stability: ∞₃ KK-parity (EXACT discrete gauge symmetry)
+**OP-2: M_DM scale** → **NOT actually closed** (corrected in FIX pass) via LKP thermal relic (DARK_MATTER_RELIC_DENSITY.md)
+- DM candidate: B^(1) (1st KK excitation of U(1)_Y gauge boson) — genuinely derived
+- Stability: ∞₃ KK-parity (EXACT discrete gauge symmetry) — genuinely derived
 - M_DM = 920 ± 80 GeV from thermal freeze-out with coannihilation
 - Ω_DM h² = 0.119 ± 0.002 (Planck: 0.1200 ± 0.0012, agreement: 0.4σ)
-- NOT fitted: follows from ∞₃ topology + SM couplings + standard cosmology
+- **"NOT fitted" claim is false** (corrected in FIX pass): DARK_MATTER_RELIC_DENSITY.md, the
+  document cited here as the source, explicitly states M_LKP is "CORRECTED (from thermal relic
+  matching)... determined by requiring Omega_DM h^2 ~ 0.12," after its own first-principles
+  holonomy estimate gave ~7.7 TeV (~8x larger, discarded). The mass scale does NOT follow from
+  ∞₃ topology + SM couplings + standard cosmology alone — it is solved for using the
+  observational target as an input. This is a direct, checkable contradiction between this
+  document's claim and its own cited source.
 - v6.3 error: confused IR compactification scale (0.2 eV) with DM mass
 
 **OP-3: M_R seesaw scale** → CLOSED via holonomy enhancement (HOLONOMY_ENHANCEMENT_DERIVATION.md)
@@ -1264,9 +1323,18 @@ The five open problems identified in v6.3 were resolved in `scripts/five_open_pr
 - v6.3 used WRONG formula (η̄ = A×λ²×sin δ = 0.040, 88% off)
 - Correct: η̄ = η̄_base × f_hol × f_Berry × f_RG = 0.394 × 0.948 × 1.000 × 1.003 = 0.375 ± 0.029
 - PDG: 0.348 ± 0.010, deviation: 0.9σ — acceptable
-- f_hol = 0.948 from SU(3) Haar measure + Schur orthogonality
-- f_Berry = 1.000 exactly (real Mathieu eigenstates)
+- f_hol = 0.948 from SU(3) Haar measure + Schur orthogonality (this repo's own ground-truth
+  audit elsewhere labels this same 0.948 constant "FITTED," not derived — see
+  CORRECTION_FACTORS_COMPLETE.md)
+- f_Berry = 1.000 exactly (real Mathieu eigenstates) — note CORRECTION_FACTORS_COMPLETE.md
+  uses f_Berry = 0.975 for the same η̄ chain and gets η̄ = 0.350, a different value from the
+  0.375 computed here; the two documents are not consistent on this input.
 - f_RG = 1.003 (KK threshold = 0 by ∞₃ protection, EW matching = +0.3%)
+- **Honesty note (added in FIX pass):** The current repo-wide canonical η̄ value is 0.3947
+  (13.4% deviation from PDG, D-status, obtained without a fitted constant), which differs from
+  both the 0.375 computed here and the 0.350 in CORRECTION_FACTORS_COMPLETE.md. The three
+  values (0.375, 0.350, 0.3947) come from different correction chains across this repo; this
+  section's 0.9σ agreement should not be read as the settled, sole calculation of η̄.
 
 **OP-5: σ_H/σ_ψ** → PARTIALLY CLOSED via ∞₃ brane kink mechanism
 - Coleman-Weinberg alone gives only ~4% enhancement (insufficient)
@@ -1277,6 +1345,12 @@ The five open problems identified in v6.3 were resolved in `scripts/five_open_pr
 
 **Full TOE Closure Scorecard (v7.0):**
 
+> **Note (FIX pass):** the table below previously showed an older, stale iteration of these
+> numbers (e.g. A=0.655, |V_ub|=0.00316, m_b/m_t=0.050 "2× gap" marked **D**, sin²θ₁₃ at 34%
+> off marked **D**, δ_CP at 37% off marked **D**) that did not match the canonical script and,
+> in several rows, violated this project's own <20%-deviation rule for **D** status. Replaced
+> with the live output of `scripts/stur_toe_closure.py`, the canonical source of truth.
+
 | Observable | Predicted | Observed | Pillar | Status | Note |
 |-----------|-----------|----------|--------|--------|------|
 | N_gen = 3 | 3 | 3 | TEGR | **D** | ∞-helix topology |
@@ -1286,29 +1360,37 @@ The five open problems identified in v6.3 were resolved in `scripts/five_open_pr
 | Proton stability | Stable | Stable | TEGR | **D** | KK-parity |
 | Normal ordering | NH | NH | TEGR | **D** | ∞-helix resonance |
 | KK-parity | Conserved | — | TEGR | **D** | ∞₃ gauge symmetry |
-| λ (Cabibbo) | 0.229 | 0.225 | XCRM | **D** | exp(-κ²/4), 1.6% |
-| σ_H/σ_ψ | 0.225 | ~0.23 | XCRM | **D** | √2/(2π) brane kink [v7.0] |
-| A (Wolfenstein) | 0.655 | 0.826 | XCRM | **D** | Holonomy geometry [v7.0] |
-| δ_CKM | 68.3° | 65.4° | XCRM | **D** | 4.5% |
-| η̄ | 0.375 | 0.348 | XCRM | **D** | 0.9σ, correction chain [v7.0] |
-| \|V_ub\| | 0.00316 | 0.00382 | XCRM | **D** | Wolfenstein geometry [v7.0] |
-| \|V_cb\| | 0.0342 | 0.0410 | XCRM | **D** | Wolfenstein geometry [v7.0] |
-| sin²θ₁₂ | 0.181 | 0.303 | C+TEGR | **D** | U_ℓ†×TBM, full lepton Cabibbo [v7.0] |
-| sin²θ₂₃ | 0.446 | 0.572 | C+TEGR | **D** | U_ℓ†×TBM [v7.0] |
-| sin²θ₁₃ | 0.0295 | 0.0220 | C+TEGR | **D** | Full lepton Cabibbo (was 0.003) [v7.0] |
-| δ_CP (PMNS) | 270° | 197° | Chrono | **D** | ∞-helix chirality |
-| Λ_CC | 3.3×10⁻⁴⁷ | 2.8×10⁻⁴⁷ | All 3 | **D** | Ward identity + ν residual, 17% [v7.0] |
-| 6 fermion masses | — | PDG | XCRM | **D** | 2-body Higgs overlap, m_t anchor [v7.0] |
-| M_R | 2×10¹⁴ | ~10¹⁴ | TEGR | **D** | λ_hol = 19.6 [v7.0] |
-| Δm²₃₁ | 2.5×10⁻³ | 2.5×10⁻³ | XCRM | **D** | Seesaw + M_R [v7.0] |
-| M_DM | 949 GeV | — | TEGR | **D** | LKP B^(1) freeze-out [v7.0] |
-| Ω_DM h² | 0.119 | 0.120 | TEGR | **D** | 0.4σ from Planck [v7.0] |
-| m_b/m_t | 0.050 | 0.0242 | TEGR | **D** | 2-body Higgs overlap, 2× gap [v7.0] |
-| m_τ/m_t | 0.035 | 0.01030 | TEGR | **D** | Color factor + lepton α_eff [v7.0] |
+| λ (Cabibbo) | 0.22543 | 0.22537 | XCRM | **D** | ψ₀(2π/3)/ψ₀(0), 0.03% |
+| σ_H/σ_ψ | 0.2251 | ~0.23 | XCRM | **D** | √2/(2π) brane kink |
+| A (Wolfenstein) | 0.8140 | 0.826 | XCRM | **D** | Holonomy geometry |
+| δ_CKM | 68.1° | 65.4° | XCRM | **D** | 4.2% |
+| η̄ | 0.3947 | 0.348 | XCRM | **D** | 13.4%, f_hol fitted constant removed |
+| \|V_ub\| | 0.00397 | 0.00382 | XCRM | **D** | 3.8% |
+| \|V_cb\| | 0.04136 | 0.0410 | XCRM | **D** | 0.9% |
+| sin²θ₁₂ | 0.2491 | 0.307 | C+TEGR | **D** | U_ℓ†×U_ν, full lepton Cabibbo, 19% |
+| sin²θ₂₃ | 0.4391 | 0.545 | C+TEGR | **D** | U_ℓ†×U_ν, 19.4% |
+| sin²θ₁₃ | 0.0242 | 0.0220 | C+TEGR | **D** | Full lepton Cabibbo, 10% |
+| δ_CP (PMNS) | 272.8° | 197° | Chrono | **P** | 38.5% off — φ_lem=−i clusters near 90°/270°, a structural mismatch with NuFIT's best fit near the real axis, not a precision gap (see README.md Results Summary) |
+| Λ_CC | 3.0×10⁻⁴⁷ | 2.8×10⁻⁴⁷ | All 3 | **D** | Ward identity + ν residual, 7% |
+| m_b/m_t | 0.02172 | 0.02424 | XCRM | **D** | 2-body Higgs overlap, 10.4% |
+| m_τ/m_t | 0.01163 | 0.01030 | XCRM | **D** | Color factor + lepton α_eff, 12.9% |
+| m_c/m_t | 0.00895 | 0.00739 | XCRM | **P** | 21%, KK threshold w/ QCD+EW gauge completion |
+| m_u | 2.71 MeV | 2.16 MeV | XCRM | **P** | 26%, Z₃ seesaw m_t·\|V_ub\|² |
+| M_R | 2×10¹⁴ | ~10¹⁴ | TEGR | **D** | ∞₃ holonomy |
+| Δm²₃₁ | 2.45×10⁻³ | 2.511×10⁻³ | XCRM | **D** | Seesaw + M_R, 2.3% |
+| Δm²₂₁ | 6.92×10⁻⁵ | 7.53×10⁻⁵ | XCRM | **D** | pseudo-Dirac λ_l²/2×Δm²₃₁, 8% |
+| M_DM | 949 GeV | — | TEGR | **U** (corrected in FIX pass from "D") | LKP B^(1) freeze-out is circular — mass solved for by requiring Ω_DM h²≈0.12; holonomy gives ~7.7 TeV independently |
+| Ω_DM h² | 0.1200 | 0.1200 | TEGR | **U** (corrected in FIX pass from "D") | Tautological given M_DM was tuned to reach this value |
 
-**Updated totals:** 31 D + 0 P + 0 C + 0 U + 1 I = 32
+**Updated totals (corrected in FIX pass):** 24 D + 3 P + 2 U + 1 I = 30 (83% closure)
 
-*(Historical v6.x claim. Current honest scorecard: 28D + 0P + 0U + 1I = 29 — 100% first-principles closure. See document header.)*
+*(This table previously claimed 31D+0P+0U+1I=32, which double-counted M_DM/Ω_DM as "Derived"
+despite this document's own Chain Step 8 and DARK_MATTER_RELIC_DENSITY.md showing the
+calculation is circular, and claimed "0P" despite m_u being marked P at Chain Step 4. A
+separately-stated "current honest scorecard" elsewhere in this document claimed a third total,
+28D+0P+0U+1I=29, which was also wrong (still 0P, still missing the M_DM/Ω_DM U-status). The
+figure above — 24D+3P+2U+1I=30, 83% closure — is the current repo-wide canonical count; see
+also the corrected header and Closure Scorecard box earlier in this document.)*
 
 **v6.3 → v6.4 upgrades:**
 - M_DM: U → P (LKP thermal relic, not fitted)
@@ -1332,9 +1414,11 @@ The five open problems identified in v6.3 were resolved in `scripts/five_open_pr
 - η̄ = 0.375: Complete correction chain, no override
 - All 6 fermion masses from m_t anchor + 2-body Higgs overlap (no sector anchoring)
 - Λ_CC = 3.3×10⁻⁴⁷: Complete Ward identity + neutrino residual (17% from obs)
-- Net: 31 D + 0 P + 0 C + 0 U + 1 I = 32
+- Net (corrected in FIX pass): 24 D + 3 P + 0 C + 2 U + 1 I = 30 (83% closure) — not all 23
+  previously-P observables actually reached D; m_u remains P, and M_DM/Ω_DM are U (circular),
+  not D. See the honesty note on the scorecard table above.
 
-*(See honest scorecard: 28D + 0P + 0U + 1I = 29. Three P observables and one U remain from the conservative D/P/U classification.)*
+*(See current honest scorecard: 24D + 3P + 2U + 1I = 30, 83% closure.)*
 
 ### 11.8 Last 2 Closure: m_b/m_t and m_τ/m_t (v6.5)
 
@@ -1430,7 +1514,7 @@ Log-periodic dynamics of torsion contortion: triangle geometry → λ = 3722/270
 | `stur_paper_bridge_closure.py` | Paper → repo bridge (6 bridges) | CC: J→P, XCRM modular uniqueness, ∞₃→TBM |
 | `three_pillar_toe_closure.py` | Three-pillar combined closure (v6.3) | 8D+17P+2C+2U+1I=30 |
 | **`five_open_problems_closure.py`** | **Complete closure (v6.5)** | **5 OPs + last 2; 8D+23P+0C+0U+1I=32** |
-| **`stur_v7_full_closure.py`** | **Honest TOE scorecard (v7.0)** | **28D+0P+0U+1I=29; minimal free parameters at LO** |
+| **`stur_v7_full_closure.py`** | **Honest TOE scorecard (v7.0)** | **24D+3P+2U+1I=30, 83% closure (corrected in FIX pass from "28D+0P+0U+1I=29" — that total omitted m_u's P-status and M_DM/Ω_DM's circular U-status)** |
 | **`three_pillar_toe_closure.py`** | **Combined TEGR+XCRM+Chrono closure** | **8D+17P+2C+2U+1I = 30; honest scorecard** |
 
 ### Running the Verification Suite
@@ -1438,7 +1522,7 @@ Log-periodic dynamics of torsion contortion: triangle geometry → λ = 3722/270
 ```bash
 pip install numpy scipy
 cd scripts/
-python stur_v7_full_closure.py        # ← v7.0 HONEST SCORECARD (28D+0P+0U+1I=29)
+python stur_v7_full_closure.py        # ← v7.0 SCORECARD (corrected in FIX pass to 24D+3P+2U+1I=30, 83%)
 python stur_toe_closure.py           # ← v6.2 baseline TOE chain
 python stur_first_principles_calculation.py
 python ckm_full_diagonalization.py
@@ -1450,7 +1534,7 @@ python berry_phase_exact.py
 
 ## Conclusion
 
-STUR v7.0 presents a unified framework where the Standard Model emerges from the phase-locked coherence of a dynamically oscillating ∞-helix topology on M⁴ × S¹. The framework derives 29 observables (28D+0P+0U+1I) from four inputs (M_Pl, v_EW, m_t, α_em) via three pillars: TEGR torsion, XCRM, and chronomagnetics. 28 observables are Derived (D, <20% error); 0 are Partially derived (P); 0 are Unresolved (U). All from 4 inputs + 3 axioms — 100% first-principles closure.
+STUR v7.0 presents a unified framework where the Standard Model emerges from the phase-locked coherence of a dynamically oscillating ∞-helix topology on M⁴ × S¹. The framework derives 30 observables (24D+3P+2U+1I) from four inputs (M_Pl, v_EW, m_t, α_em) via three pillars: TEGR torsion, XCRM, and chronomagnetics. 24 observables are Derived (D, <20% error); 3 are Partially derived (P): m_u and two others; 2 are Unresolved (U): M_DM and Ω_DM h², which are circular rather than independently predicted. All from 4 inputs + 3 axioms — 83% first-principles closure. (Corrected in FIX pass, 2026-07-18, from a previously-stated "29 observables, 28D+0P+0U+1I, 100% closure," which contradicted this same document's own m_u P-status marking and DM circularity admission.)
 
 Three axioms — five-dimensional TEGR spacetime, a real doublet R-field (XCRM), and energy minimization — produce:
 
@@ -1498,9 +1582,9 @@ Three axioms — five-dimensional TEGR spacetime, a real doublet R-field (XCRM),
 - v6.3: Three-pillar combined closure (8D+17P+2C+2U+1I=30)
 - v6.4: Five open problems closure (8D+23P+0C+0U+1I=32)
 - v6.5: Last 2 calibrated → partially derived (8D+23P+0C+0U+1I=32)
-- **v7.0: Leading-order closure — 28D+0P+0U+1I=29 (honest scorecard)**
+- **v7.0: Leading-order closure — 24D+3P+2U+1I=30, 83% closure (corrected in FIX pass from "28D+0P+0U+1I=29")**
 
-**v7.0 honest scorecard:** Key advances: (1) σ_H/σ_ψ = √2/(2π) derived from ∞₃ brane kink. (2) CKM A = 0.818 (Gerono correction). (3) δ_CP = 272.7° from lemniscate CM (i³=e^{i3π/2}). (4) All fermion masses from 2-body Higgs overlap. (5) Λ_CC = 3.3×10⁻⁴⁷ GeV⁴ (17%). (6) Δm²₂₁ from off-diagonal M_R seesaw. Honest totals: **28D + 0P + 0U + 1I = 29 observables.** P: sin²θ₁₂ (14.8%), sin²θ₁₃ (27.9%), Δm²₂₁ (87%); U: m_u/m_t (×478).
+**v7.0 honest scorecard (corrected in FIX pass, numbers re-synced to the canonical script):** Key advances: (1) σ_H/σ_ψ = √2/(2π) derived from ∞₃ brane kink. (2) CKM A = 0.8140 (holonomy geometry). (3) δ_CP = 272.8° from lemniscate CM (i³=e^{i3π/2}) — 38.5% off NuFIT 197°, a structural mismatch (see the Closure Scorecard note above), so this item is **P**, not D. (4) All fermion masses from 2-body Higgs overlap. (5) Λ_CC = 3.0×10⁻⁴⁷ GeV⁴ (7%, D). (6) Δm²₂₁ = 6.92×10⁻⁵ eV² (8% off, D) from off-diagonal M_R seesaw — λ_l²/2×Δm²₃₁. **This paragraph previously claimed "28D+0P+0U+1I=29 observables" in the same breath as listing three P-status items and one U-status item — an internal contradiction (0P/0U cannot coexist with a non-empty P/U list).** Honest totals: **24D + 3P + 2U + 1I = 30 observables (83% closure).** P: m_u (26% off, Z₃ seesaw m_t·|V_ub|²), m_c/m_t (21% off, KK threshold), δ_CP(PMNS) (38.5% off, structural — see above); U: M_DM and Ω_DM h² (circular — see Chain Step 8 and DARK_MATTER_RELIC_DENSITY.md).
 
 **Testable predictions:** Normal neutrino ordering (JUNO, DUNE), log-periodic CKM modulation, TeV-scale LKP dark matter (LZ, XENONnT), fifth force at ~1 μm (ARIADNE), n_s = 0.967 ± 0.004 (Planck-consistent), proton stability via dim-5.
 

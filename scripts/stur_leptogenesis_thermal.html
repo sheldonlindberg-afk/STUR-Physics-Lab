@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR Leptogenesis — Complete Thermal History with Boltzmann Equations</title>
-<meta name="description" content="100% TOE Closure: Complete derivation of leptogenesis with M_R hierarchy from ∞₃ kink phases. M_R,3 = 1.1×10¹⁴ GeV, M_R,2 = M_R,1 = 1.5×10¹⁴ GeV derived from first principles. Δm²₃₁ = 2.50×10⁻³ eV² (2% from observed). η_B = 6.12 × 10⁻¹⁰ from geometric framework.">
+<meta name="description" content="STUR leptogenesis model with M_R hierarchy from ∞₃ kink phases. M_R,3 = 1.1×10¹⁴ GeV, M_R,2 = M_R,1 = 1.5×10¹⁴ GeV motivated (fitted) parameters. Δm²₃₁ = 2.50×10⁻³ eV² (2% from observed). η_B ~ 10⁻⁹-10⁻¹⁰ order-of-magnitude estimate from the geometric framework; the precision headline figure of 6.12×10⁻¹⁰ is a target value, not a derived result — see the page's honesty notes.">
 
 <!-- PWA & iOS meta tags -->
 <meta name="theme-color" content="#4ade80">
@@ -332,6 +332,19 @@
     \end{aligned}\]
   </div>
 
+  <div class="block warning" style="margin-top:0.75rem;font-size:0.9rem;">
+    <p style="margin:0;color:var(--text-secondary);">
+      <strong>Honesty note:</strong> converting \(m_{\nu_3} = 0.05\,\text{eV} = 5\times10^{-11}\,\text{GeV}\) and plugging
+      in gives \((5\times10^{-11}\,\text{GeV} \times 1.5\times10^{14}\,\text{GeV})/(174\,\text{GeV})^2 \approx 0.247\),
+      not the \(2.5\times10^{-7}\) shown — a discrepancy of about six orders of magnitude, propagating to
+      \(\epsilon_1 \approx 0.013\) rather than the boxed \(2.6\times10^{-9}\) (itself implausibly large for a CP
+      asymmetry, which should be \(\ll 1\)). This has not been reconciled; the \(\epsilon_1 = 1.2\times10^{-6}\) used
+      later in §5.4 should be read as a separately assumed input, not as a value derived from the formula above. It is
+      also inconsistent with stur_baryogenesis_numerical.html's own (also unreconciled) \(\epsilon_1 \approx 1.3\times10^{-6}\)
+      figure, computed by yet another route.
+    </p>
+  </div>
+
   <div class="block success" style="margin-top:1rem;">
     <div class="title">Unified CP Violation from ∞₃</div>
     <p style="margin:0;color:var(--text-secondary);">
@@ -460,9 +473,21 @@
 
   <p>And to the baryon-to-photon ratio (accounting for entropy dilution):</p>
 
-  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
-    \[\boxed{\eta_B = \frac{n_B}{n_\gamma} = \frac{s}{n_\gamma} Y_B = 7.04 \times Y_B = 6.12 \times 10^{-10}}\]
-    <div class="eq-label" style="color:var(--success);">(LT.16) — Final baryon asymmetry</div>
+  <div class="eq law" style="background:#000;border:3px solid var(--warning);padding:1.25rem;">
+    \[\boxed{\eta_B = \frac{n_B}{n_\gamma} = \frac{s}{n_\gamma} Y_B = 7.04 \times Y_B = 7.04 \times 2.3\times10^{-10} \approx 1.6\times10^{-9}}\]
+    <div class="eq-label" style="color:var(--warning);">(LT.16) — Corrected multiplication; see honesty note below</div>
+  </div>
+
+  <div class="block warning" style="margin:0.75rem 0;font-size:0.9rem;">
+    <p style="margin:0;color:var(--text-secondary);">
+      <strong>Honesty note:</strong> \(7.04 \times 2.3\times10^{-10} \approx 1.6\times10^{-9}\), not the
+      \(6.12\times10^{-10}\) previously boxed here — a factor of ~2.7 discrepancy. The previously stated
+      \(6.12\times10^{-10}\) exactly matches the observed Planck/BBN value, which indicates it was asserted as a
+      target rather than actually propagated from the \(\times7.04\) step above. Carrying this page's own numbers
+      through honestly gives \(\eta_B \approx 1.6\times10^{-9}\), about 2.6× the observed \(6.12\times10^{-10}\) —
+      order-of-magnitude consistent, not a precision match. This chain has multiple unreconciled steps (see the
+      §3.3 honesty note above on \(\epsilon_1\)) and should not be read as a precision (D-status) prediction.
+    </p>
   </div>
 </section>
 
@@ -500,17 +525,17 @@
       <tr><td>M<sub>R,1</sub> (at X₂)</td><td>1.5 × 10<sup>14</sup> GeV</td><td><strong style="color:var(--neon-green);">⊙ DERIVED:</strong> M₀ × ξ₁ = M₀ × (1−ε/2)² = M₀ × 0.76</td></tr>
       <tr><td>ε (kink amplitude)</td><td>0.26</td><td><strong style="color:var(--neon-gold);">◆ DERIVED:</strong> (2π/3) × (σ<sub>K</sub>/σ<sub>R</sub>) from ∞₃</td></tr>
       <tr><td>Δm²₃₁</td><td>2.50 × 10<sup>-3</sup> eV²</td><td><strong style="color:var(--neon-green);">⊙ DERIVED:</strong> 2% from observed (2.45×10⁻³)</td></tr>
-      <tr><td>Δm²₂₁</td><td>7.41 × 10<sup>-5</sup> eV²</td><td><strong style="color:var(--neon-green);">⊙ DERIVED:</strong> 1.6% from observed (7.53×10⁻⁵)</td></tr>
+      <tr><td>Δm²₂₁</td><td>7.41 × 10<sup>-5</sup> eV²</td><td><strong style="color:var(--neon-green);">⊙ DERIVED:</strong> 1.6% from observed (7.53×10⁻⁵) — an earlier LO estimate; the current canonical figure is 6.92×10⁻⁵ eV² (8.1%) via the pseudo-Dirac NLO mechanism, see stur_neutrino_derivation.html</td></tr>
       <tr><td>sin(δ<sub>CP</sub>)</td><td>√3/2 ≈ 0.866</td><td><strong style="color:var(--neon-gold);">◆ FIXED:</strong> sin(2π/3) from ∞-helix geometry</td></tr>
-      <tr><td>ε<sub>1</sub> (CP asymmetry)</td><td>2.6 × 10<sup>-9</sup></td><td><strong style="color:var(--neon-green);">⊙ DERIVED:</strong> (3√3/32π)(m<sub>ν</sub>M<sub>R,1</sub>/v²)(M<sub>R,1</sub>/M<sub>R,2</sub>)</td></tr>
-      <tr><td>κ<sub>f</sub> (efficiency)</td><td>0.15</td><td><strong style="color:var(--neon-green);">⊙ DERIVED:</strong> Weak washout + corrections</td></tr>
+      <tr><td>ε<sub>1</sub> (CP asymmetry)</td><td>2.6 × 10<sup>-9</sup></td><td><strong style="color:var(--warning);">△ UNRECONCILED:</strong> formula (3√3/32π)(m<sub>ν</sub>M<sub>R,1</sub>/v²)(M<sub>R,1</sub>/M<sub>R,2</sub>) actually evaluates to ≈0.013 with the stated inputs, not 2.6×10⁻⁹ — see §3.3 honesty note</td></tr>
+      <tr><td>κ<sub>f</sub> (efficiency)</td><td>0.15</td><td><strong style="color:var(--warning);">△ UNRECONCILED:</strong> differs from the κ≈0.017 computed in §5.3 and the κ_f≈3×10⁻⁴ implied elsewhere by back-solving; not independently reconciled here</td></tr>
       <tr><td>c<sub>s</sub> (sphaleron)</td><td>28/79 ≈ 0.354</td><td><strong style="color:var(--neon-cyan);">◆ FIXED:</strong> SM degrees of freedom</td></tr>
     </tbody>
   </table>
 
-  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;margin-top:1.5rem;">
+  <div class="eq law" style="background:#000;border:3px solid var(--warning);padding:1.25rem;margin-top:1.5rem;">
     \[\boxed{\eta_B^{\rm STUR} = 2.49 \times \epsilon_1 \times \kappa_f = (6.1 \pm 3.0) \times 10^{-10}}\]
-    <div class="eq-label" style="color:var(--success);">Final STUR prediction — within 1σ of observation!</div>
+    <div class="eq-label" style="color:var(--warning);">Target/motivating value — the ε₁ and κ_f entries feeding this equation are themselves unreconciled (see table notes above and §3.3/§5.4 honesty notes); order-of-magnitude estimate, not a precision (D-status) prediction</div>
   </div>
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0;">
@@ -524,10 +549,12 @@
     </div>
   </div>
 
-  <div class="block success" style="border-width:3px;">
-    <div class="title" style="font-size:1.1rem;">100% TOE CLOSURE: M<sub>R</sub> Hierarchy Derived from First Principles</div>
+  <div class="block warning" style="border-width:3px;">
+    <div class="title" style="font-size:1.1rem;">M<sub>R</sub> Hierarchy Motivated by ∞₃ Kink Phases; η<sub>B</sub> Chain Not Fully Reconciled</div>
     <p style="margin:0;color:var(--text-secondary);">
-      η<sub>B</sub> = 6.1 × 10⁻¹⁰ emerges from the TOE derivation chain via <strong>infinity helix geometry</strong>:<br>
+      η<sub>B</sub> = 6.1 × 10⁻¹⁰ is the target value motivating this chain via <strong>infinity helix geometry</strong>,
+      though the ε₁ and κ_f steps feeding it are not internally consistent (see notes above) — order-of-magnitude
+      motivation, not a precision derivation:<br>
       • <strong>M<sub>Planck</sub> → L<sub>X</sub>:</strong> Compactification scale from Planck physics<br>
       • <strong>L<sub>X</sub> → M<sub>R</sub> hierarchy:</strong> ∞₃ kink phases give M<sub>R,3</sub> = 1.1×10¹⁴, M<sub>R,2</sub> = M<sub>R,1</sub> = 1.5×10¹⁴ GeV (see derivation)<br>
       • <strong>ξ factors:</strong> ξ₃ = (1−ε)² = 0.55, ξ₂ = ξ₁ = (1−ε/2)² = 0.76 where ε = 0.26<br>

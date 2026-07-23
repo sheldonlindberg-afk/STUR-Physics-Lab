@@ -294,6 +294,15 @@ For the full cosine potential, numerical solution gives:
 kappa(alpha) ~ 1.48 × sqrt(alpha + 0.7 sqrt(alpha))
 ```
 
+**⚠️ CORRECTION:** This formula does not actually fit the numerical table
+above or the fuller table in Appendix A.2 (verified via python3). It
+undershoots the tabulated kappa by roughly 8-16% at every alpha value tested
+(e.g. alpha=1.00: formula gives kappa=1.93 vs tabulated kappa=2.22, a 13%
+miss; alpha=0.10: formula gives 0.84 vs tabulated 1.00, a 16% miss). No
+corrected closed-form interpolation is provided in its place — this formula
+should be treated as a rough, currently-inaccurate approximation, not a
+validated fit to the numerical data.
+
 ---
 
 ## 4. The Question: What Determines y?
@@ -363,7 +372,12 @@ y v L_X = 2pi/3
 alpha = (2pi/3 / 2pi)^2 = 1/9 ~ 0.11
 ```
 
-This gives kappa ~ 1.5 (from numerical solution).
+**⚠️ CORRECTION:** This document's own numerical table (Appendix A.2) gives
+kappa ≈ 1.00 at alpha=0.10 and kappa ≈ 1.08 at alpha=0.25 — interpolating,
+alpha ≈ 0.11 corresponds to **kappa ≈ 1.0-1.05**, not the "kappa ~ 1.5"
+claimed here. That figure is roughly 40-50% too high relative to this
+document's own numerics and is not corrected anywhere else in the document
+(the same wrong figure is repeated in Section 6.3 and Section 8.4 below).
 
 **Alternative form of the constraint:**
 ```
@@ -556,7 +570,9 @@ And:
 +-----------------------------------------------------------+
 ```
 
-This gives kappa ~ 1.5.
+This gives kappa ~ 1.5. **⚠️ Same correction as Section 5.1 applies: this
+document's own numerical table gives kappa ≈ 1.0-1.05 at alpha≈0.11, not
+1.5** — see the correction note there.
 
 ### 6.4 Alternative: If v L_X = 3
 
@@ -729,7 +745,9 @@ effective potential strength, and kappa = (2pi/3)/sigma.
 y = |chi| L_X = 2pi/3
 
 Combined with v L_X = 3: alpha = 1, kappa = 2.22
-Combined with v L_X = 1: alpha = 1/9, kappa = 1.5
+Combined with v L_X = 1: alpha = 1/9, kappa ≈ 1.0-1.05 (corrected from the
+   "kappa = 1.5" stated in Sections 5.1/6.3 — see correction note there;
+   this document's own numerical table does not support kappa=1.5 at alpha=1/9)
 ```
 
 **Option 2: Supersymmetric Constraint**

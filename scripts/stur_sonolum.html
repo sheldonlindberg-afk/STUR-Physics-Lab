@@ -95,14 +95,14 @@
         </p>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Sonoluminescence as QED vacuum fluctuation amplification during bubble collapse.
-            ONE input: \(M_{\rm Planck}\). ∞₃ geometric framework. All coupling strengths derived from \(\alpha_{\rm em}\).
+            4 canonical inputs: \(M_{\rm Planck}\), v_EW, m_t, \(\alpha_{\rm em}\). ∞₃ geometric framework. All coupling strengths derived from \(\alpha_{\rm em}\).
         </p>
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
             <!-- Theory of Everything Candidate Badge -->
         <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:8px;max-width:480px;font-size:0.8rem;">
-          <span style="color:#4ade80;font-weight:600;">THEORY OF EVERYTHING CANDIDATE</span> — QED application | ONE input (M_Planck) | infinity helix geometry
+          <span style="color:#4ade80;font-weight:600;">THEORY OF EVERYTHING CANDIDATE</span> — QED application | 4 canonical inputs (M_Planck, v_EW, m_t, alpha_em) | infinity helix geometry
         </div>
         <span class="stur-status success">
                 <span class="stur-icon icon-check sm"></span>
@@ -158,7 +158,7 @@
             <h2 class="glass-section-title" style="color:var(--neon-green);">First Principles Status — Fully Derived</h2>
         </div>
         <div class="glass-section-body" style="font-size:0.92rem;">
-            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">ONE Input (M_Planck):</strong></p>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">4 Canonical Inputs (M_Planck):</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
                 <li>\(M_{\rm Planck} = 1.22 \times 10^{19}\) GeV — the single dimensionful input to the TOE</li>
             </ul>
@@ -234,7 +234,7 @@
         </div>
         <div class="glass-section-body">
             <p style="margin-bottom:1.5rem;color:var(--text-secondary);">
-                All predictions derived from QED vacuum dynamics. ONE input: M_Planck. ∞₃ geometric framework.
+                All predictions derived from QED vacuum dynamics. 4 canonical inputs: M_Planck, v_EW, m_t, alpha_em. ∞₃ geometric framework.
             </p>
 
             <!-- SONO.1 -->
@@ -284,11 +284,12 @@
                 <h4 style="color:var(--neon-gold);margin:0 0 0.5rem;font-size:0.9rem;">SONO.4 — QED Photon Rate (Derived)</h4>
                 <div class="stur-eq derived" style="margin:0.75rem 0;">
                     \[
-                    \Gamma_\gamma = \alpha_{\rm em}^3 \cdot \frac{\dot{R}}{R} \approx 10^{10} \,\text{s}^{-1}
+                    \Gamma_\gamma = \alpha_{\rm em}^3 \cdot \frac{\dot{R}}{R}
                     \]
                 </div>
                 <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
                     Photon emission rate from dynamical Casimir effect with QED coupling.
+                    <br><strong>Honesty note:</strong> Using this page's own collapse parameters (\(\dot R/c\sim10^{-3}\), \(R_0\approx4.5\,\mu\text{m}\)), this formula gives \(\Gamma_\gamma\sim10^4\text{-}10^6\,\text{s}^{-1}\), not \(10^{10}\,\text{s}^{-1}\) — a discrepancy of several orders of magnitude that has not been resolved. The executable simulation below additionally rescales the computed photon count by ×10¹² for visualization (see code), so the plotted \(N_\gamma\) is not a direct physical prediction either.
                     <br><strong>Derived:</strong> \(\alpha_{\rm em} = 1/137\) from gauge unification, derived from ∞-helix structure.
                 </p>
             </div>
@@ -370,13 +371,13 @@
                 <div class="stur-eq-label">Photon Production — Unruh-like effective temperature</div>
             </div>
 
-            <p><strong>QED emission rate (derived, not fitted):</strong></p>
+            <p><strong>QED emission rate (formula derived, not fitted; numeric value below does not check out — see note):</strong></p>
 
             <div class="stur-eq derived">
                 \[
-                \Gamma_\gamma = \alpha_{\rm em}^3 \cdot \frac{|\dot{R}|}{R} \approx 10^{10}\,\text{s}^{-1} \text{ at collapse}
+                \Gamma_\gamma = \alpha_{\rm em}^3 \cdot \frac{|\dot{R}|}{R}
                 \]
-                <div class="stur-eq-label">Photon Emission Rate — from \(\alpha_{\rm em}\) only, derived from geometric framework</div>
+                <div class="stur-eq-label">Photon Emission Rate — from \(\alpha_{\rm em}\) only, derived from geometric framework. Substituting this page's own \(\dot R/c\sim10^{-3}\), \(R\sim R_0=4.5\,\mu\text{m}\) gives \(\Gamma_\gamma\sim10^4\text{-}10^6\,\text{s}^{-1}\), not \(10^{10}\,\text{s}^{-1}\) — flagged as unresolved rather than force-matched.</div>
             </div>
 
             <p><strong>Key insight:</strong> The bubble wall acts as an accelerating mirror. At collapse, \(\dot{R}/c \sim 10^{-3}\)
@@ -596,7 +597,7 @@
 # =====================================================================
 # STUR Sonoluminescence from QED Vacuum Fluctuations
 #
-# ONE INPUT: M_Planck (sets all scales)
+# 4 CANONICAL INPUTS: M_Planck, v_EW, m_t, alpha_em (sets all scales)
 # GEOMETRIC FRAMEWORK: alpha_em = 1/137 derived from gauge unification
 #
 # Physics: Dynamical Casimir effect — moving bubble wall creates
@@ -635,7 +636,7 @@ fluids = {
 }
 
 # ---------------------------------------------------------------------
-# 2. Global constants — ONE INPUT (M_Planck), geometric framework
+# 2. Global constants — 4 canonical inputs (M_Planck, v_EW, m_t, alpha_em), geometric framework
 # ---------------------------------------------------------------------
 P_INF   = 1.0e5       # ambient pressure (Pa)
 T0      = 293.0       # ambient temperature (K)
@@ -733,7 +734,12 @@ def run_traj(seed, fluid_name, steps=4000, n_cycles=3):
         # Integrated to give cumulative photon count
         beta = abs(Rdot) / C_LIGHT  # dimensionless velocity
         dN_gamma = (ALPHA_EM**3 / (12.0 * np.pi)) * beta**2 * (C_LIGHT / R) * dt
-        N_gamma += dN_gamma * 1e12  # scale for visualization
+        # HONESTY NOTE: the x1e12 factor below is an arbitrary visualization
+        # scaling, not a physical prediction. The raw dN_gamma is too small
+        # (~1e4-1e6 photons/s at collapse per the boxed formula in the text)
+        # to be visible on the plot; N_gamma reported/plotted below is in
+        # arbitrary units, not a falsifiable photon count.
+        N_gamma += dN_gamma * 1e12  # scale for visualization (arb. units, NOT physical)
 
         # Store
         R_hist.append(R / R0)  # dimensionless radius
@@ -776,7 +782,7 @@ results = {}
 fluids_order = list(fluids.keys())
 
 print("=== STUR Complete EFT: Sonoluminescence from QED ===")
-print("ONE INPUT: M_Planck | GEOMETRIC FRAMEWORK: alpha_em derived")
+print("4 CANONICAL INPUTS: M_Planck, v_EW, m_t, alpha_em | GEOMETRIC FRAMEWORK: alpha_em derived")
 for name in fluids_order:
     print("Running:", name)
     Rmins, Tmaxs, Lambdas, Ngamma = run_multibubble(name, N=60)
@@ -830,7 +836,7 @@ if wien_dev > 0.20:
 xpos = np.arange(len(fluids_order))
 
 fig, ax = plt.subplots(1, 3, figsize=(14, 4))
-fig.suptitle("STUR Complete EFT: Sonoluminescence from QED (ONE input, geometric framework)",
+fig.suptitle("STUR Complete EFT: Sonoluminescence from QED (4 canonical inputs, geometric framework)",
              fontsize=11, color='#4ade80')
 
 # Panel 1: peak temperature
@@ -1087,7 +1093,7 @@ document.getElementById('dlBtn').addEventListener('click', function() {
   // STUR SONOLUMINESCENCE v7.0 — Real-time Rayleigh-Plesset + QED Casimir
   // ═══════════════════════════════════════════════════════════════════════════
   //
-  // Framework: ONE input (M_Planck), ∞₃ geometric framework
+  // Framework: 4 canonical inputs (M_Planck, v_EW, m_t, alpha_em), ∞₃ geometric framework
   // Physics: Dynamical Casimir effect with QED coupling α_em derived from geometry
   //
   // NEW IN v5.0:
@@ -1304,9 +1310,11 @@ document.getElementById('dlBtn').addEventListener('click', function() {
       const T = Math.min(Math.max(T_ad, 300), 50000);
 
       // QED dynamical Casimir: photon count ~ alpha_em^3 * (Rdot/c)^2
-      const alphaEm = 1/137.036;  // derived from M_Planck, not tunable
+      const alphaEm = 1/137.036;  // one of the framework's 4 fundamental inputs (not derived, not tunable)
       const c = 3e8;
       const beta = Math.abs(Rdot) / c;
+      // NOTE: the trailing x1e12 factor is an arbitrary visualization scaling,
+      // not a physical prediction — see honesty note in the Python simulation above.
       chi += (alphaEm**3 / (12 * Math.PI)) * beta**2 * (c / R) * dt * 1e12;
 
       // Store data (subsampled)

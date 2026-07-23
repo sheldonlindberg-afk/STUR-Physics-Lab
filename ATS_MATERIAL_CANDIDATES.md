@@ -407,14 +407,30 @@ Synthesis approach:
 
 Using the STUR chemistry framework (from stur_chemistry.html):
 
-| Candidate | Formula | u_geo | u_chr | u_eff | S(u_eff) | Predicted Enhancement |
-|-----------|---------|-------|-------|-------|----------|----------------------|
-| A | La2Bi1Cu1O4 | 1.2 | 1.8 | 2.7 | 0.92 | +13.8% |
-| B | La1Bi1H10 | 2.1 | 2.4 | 4.1 | 0.99 | +14.9% |
-| C | C6La2Bi1 | 1.8 | 2.1 | 3.6 | 0.97 | +14.6% |
-| D | Nd1La1Ni1Cu1O4 | 0.8 | 1.2 | 1.8 | 0.79 | +11.9% |
+**⚠️ CORRECTION:** Every row below was arithmetically wrong given the
+document's own stated formula (Section 6.1: u_eff = u_geo + beta×u_chr,
+beta=0.7). Applying that formula to each candidate's u_geo/u_chr (verified
+via python3) gives u_eff 8-12% lower than previously tabulated, and
+correspondingly different S(u_eff):
 
-**Highest STUR enhancement: Candidate B (LaBiH10)**
+| Candidate | Formula | u_geo | u_chr | u_eff (corrected) | S(u_eff) (corrected) | Predicted Enhancement |
+|-----------|---------|-------|-------|-------|----------|----------------------|
+| A | La2Bi1Cu1O4 | 1.2 | 1.8 | 2.46 | 0.90 | not re-verified |
+| B | La1Bi1H10 | 2.1 | 2.4 | 3.78 | 0.98 | not re-verified |
+| C | C6La2Bi1 | 1.8 | 2.1 | 3.27 | 0.96 | not re-verified |
+| D | Nd1La1Ni1Cu1O4 | 0.8 | 1.2 | 1.64 | 0.75 | not re-verified |
+
+(Previous, incorrect table had u_eff = 2.7, 4.1, 3.6, 1.8 and S(u_eff) =
+0.92, 0.99, 0.97, 0.79 respectively — those S(u_eff) values were internally
+consistent with the wrong u_eff numbers rather than with the formula-correct
+ones, indicating the error originated in the u_eff column itself. The
+"Predicted Enhancement" percentages were not independently re-derived in
+this pass and should be treated as unverified pending recalculation from the
+corrected S(u_eff) values.)
+
+**Highest STUR enhancement: Candidate B (LaBiH10)** — ranking unchanged after
+correction (B still has the highest u_eff and S(u_eff) of the four), but the
+underlying numbers have been fixed.
 
 ---
 

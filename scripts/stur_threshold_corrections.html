@@ -99,7 +99,7 @@
     <strong>(A1)</strong> M⁴ × S¹ with TEGR,
     <strong>(A2)</strong> Real doublet R-field,
     <strong>(A3)</strong> Energy minimization —
-    yield 30 observables (29D+0P+0U+1I) including precision gauge coupling predictions.
+    yield 30 observables (24D+3P+2U+1I, 83% closure) including precision gauge coupling predictions.
     Parameters: κ = 2.430, α<sub>eff</sub> = 1.480 (two-loop), σ = 0.862.
   </div>
 
@@ -230,19 +230,42 @@
 
   <div class="eq law" style="background:#000;border:2px solid var(--success);padding:1.25rem;">
     \[\boxed{\begin{aligned}
-    M_{\text{KK}} &= 2 \times 10^{16} \text{ GeV} \\
+    M_{\text{KK}} &= 2 \times 10^{16} \text{ GeV} \quad {}^{\dagger} \\
     \alpha_{\text{GUT}} &= 0.0385 \\
     N_{\text{max}} &= 20 \text{ (convergent)} \\
     \\
     \alpha_s(M_Z) &= 0.1180 \pm 0.0010 \quad [\text{Obs: } 0.1180 \pm 0.0009] \\
     \sin^2\theta_W &= 0.2312 \pm 0.0005 \quad [\text{Obs: } 0.23121 \pm 0.00004]
     \end{aligned}}\]
-    <div class="eq-label" style="color:var(--success);">[TH.2] — Optimal threshold solution</div>
+    <div class="eq-label" style="color:var(--success);">[TH.2] — Optimal threshold solution (<sup>†</sup> see cross-file scale note below)</div>
   </div>
+
+  <p style="font-size:0.85rem;color:var(--warning);">
+    <sup>†</sup> This page anchors M<sub>KK</sub> ≈ 2×10<sup>16</sup> GeV (GUT-scale). Elsewhere in the framework,
+    <a href="stur_fermion_masses.html" style="color:var(--accent);">stur_fermion_masses.html</a> uses
+    "M<sub>KK</sub> ∼ 5 TeV" for RG threshold corrections to fermion masses — 12 orders of magnitude lower for
+    nominally the same symbol. This has not been reconciled between the two pages.
+  </p>
 
   <div style="margin-top:1.5rem;padding:1rem;background:rgba(74,222,128,0.1);border-radius:8px;">
     <strong style="color:var(--success);">Result:</strong> With optimal threshold matching, both α_s(M_Z) and sin²θ_W
     achieve <strong>&lt;1% accuracy</strong>, reducing the threshold uncertainty from ~2% to the observational level.
+  </div>
+
+  <div class="block warning" style="margin-top:1rem;">
+    <div class="title">Calculator Bug Fixed — Boxed Result Still Not Reproduced</div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+      The interactive calculator above previously had a dead-code bug: its threshold loop set
+      \(m_n = n \cdot M_{\rm KK}\) and only accumulated a contribution when \(m_n &lt; M_{\rm KK}\) — a condition
+      that is never true for \(n \geq 1\), so the KK threshold corrections \(\Delta_i\) were silently always zero,
+      regardless of \(N_{\rm max}\) or \(M_{\rm KK}\). That guard has been removed so the calculator now implements
+      the formula in Eq. [above] as written. However, running it with this page's own default slider values
+      (\(\log_{10}(M_{\rm KK}/{\rm GeV}) = 16.3\), \(\alpha_{\rm GUT} = 0.0385\), \(N_{\rm max} = 20\)) does not
+      reproduce the boxed α<sub>s</sub>(M<sub>Z</sub>) = 0.1180, sin²θ<sub>W</sub> = 0.2312 result — the corrected
+      sum is large enough to push the predictions well away from the observed values. This is flagged rather than
+      silently tuned to match; the boxed "Optimal Threshold Solution" above should be treated as unverified until
+      someone establishes what parameter choice (if any) actually reproduces it with the corrected code.
+    </p>
   </div>
 </section>
 
@@ -351,17 +374,21 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   function calculateThreshold(N, MKK) {
+    // Δ_i^KK = (1/2π) Σ_{n=1}^{N_max} b_i^(n) ln(M_KK/m_n), with m_n = n·M_KK (eq. above).
+    // NOTE (bug fix): this previously had a stray "if (mn < MKK)" guard. Since m_n = n·M_KK is
+    // always >= M_KK for n >= 1, that guard was never true, so delta.{U1,SU2,SU3} were always
+    // exactly zero regardless of N_max or M_KK — the KK threshold mechanism never contributed
+    // anything. The formula above has no such filter, so the guard is removed and every KK level
+    // is summed directly.
     let delta = { U1: 0, SU2: 0, SU3: 0 };
     const R = 1 / MKK;
 
     for (let n = 1; n <= N; n++) {
       const mn = n / R;
-      if (mn < MKK) {
-        const logFactor = Math.log(MKK / mn);
-        delta.U1 += bKK.U1 * logFactor / (2 * Math.PI);
-        delta.SU2 += bKK.SU2 * logFactor / (2 * Math.PI);
-        delta.SU3 += bKK.SU3 * logFactor / (2 * Math.PI);
-      }
+      const logFactor = Math.log(MKK / mn);
+      delta.U1 += bKK.U1 * logFactor / (2 * Math.PI);
+      delta.SU2 += bKK.SU2 * logFactor / (2 * Math.PI);
+      delta.SU3 += bKK.SU3 * logFactor / (2 * Math.PI);
     }
 
     // ∞₃ multiplicity

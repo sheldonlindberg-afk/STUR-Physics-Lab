@@ -377,7 +377,7 @@
     </p>
 
     <div class="eq" style="margin:1rem 0;padding:1rem;background:rgba(0,0,0,0.3);border-radius:8px;">
-      \[\int_0^{L_X/3} \sqrt{2 \cdot \frac{\chi v^2}{L_X^2} \cdot \chi v^2 \left(\frac{2\pi}{3L_X}\right)^2 L_X^2}\, dX = \int_0^{L_X/3} \frac{2\pi \chi v^2}{3L_X}\, dX = \frac{2\pi \chi v^2}{3L_X} \cdot \frac{L_X}{3} = \frac{2\pi \chi v^2}{9}\]
+      \[\int_0^{L_X/3} \sqrt{2 \cdot \frac{\chi v^2}{L_X^2} \cdot \chi v^2 \left(\frac{2\pi}{3L_X}\right)^2 L_X^2}\, dX = \int_0^{L_X/3} \frac{2\sqrt{2}\,\pi \chi v^2}{3L_X}\, dX = \frac{2\sqrt{2}\,\pi \chi v^2}{3L_X} \cdot \frac{L_X}{3} = \frac{2\sqrt{2}\,\pi \chi v^2}{9}\]
     </div>
 
     <p style="color:var(--text-secondary);font-size:0.95rem;">
@@ -385,9 +385,18 @@
     </p>
 
     <div class="eq law" style="background:#000;border:3px solid #22d3ee;padding:1.25rem;margin:1rem 0;">
-      \[\boxed{\XCRM{\lambda_{\rm GUT}} = \exp\!\left(-\frac{2\pi \cdot 3}{9}\right) = \exp\!\left(-\frac{2\pi}{3}\right) = e^{-2.094} \approx 0.1234}\]
-      <div class="eq-label" style="color:#22d3ee;">(2.3c) — Wolfenstein parameter at GUT scale: DERIVED</div>
+      \[\boxed{\XCRM{\lambda_{\rm GUT}} = \exp\!\left(-\frac{2\sqrt{2}\,\pi \cdot 3}{9}\right) = \exp\!\left(-\frac{2\sqrt{2}\,\pi}{3}\right) = e^{-2.9632} \approx 0.0517}\]
+      <div class="eq-label" style="color:#22d3ee;">(2.3c) — Wolfenstein parameter at GUT scale: Mechanism ✓ (see note)</div>
     </div>
+
+    <p style="margin:0.5rem 0;color:var(--text-muted);font-size:0.85rem;">
+      <em>Note: the integrand \(\sqrt{2m_{\rm eff}V(R)}\) carries a factor of &radic;2 that a previous version of this
+      page dropped, giving the wrong intermediate value \(e^{-2\pi/3}\approx 0.1234\). With the &radic;2 restored,
+      the leading-order WKB result is \(\lambda_{\rm GUT}\approx 0.0517\), which does not land as close to the
+      physical Cabibbo value before RG running as the (arithmetically incorrect) earlier figure did. The Step 4
+      RG-running correction factors below were fit to reach the target λ &asymp; 0.228 rather than independently
+      derived, so this section should be read as calibrated, not a clean first-principles derivation.</em>
+    </p>
 
     <p style="margin:1rem 0;color:var(--text-secondary);">
       <strong>Step 4: RG running to low energy</strong>
@@ -405,7 +414,7 @@
       <tr><td>Two-loop RGE (M<sub>GUT</sub> → M<sub>Z</sub>)</td><td>×1.015</td><td>1.5%</td></tr>
       <tr><td>KK threshold corrections at M<sub>KK</sub></td><td>×1.52</td><td>52%</td></tr>
       <tr><td>Electroweak matching at M<sub>Z</sub></td><td>×1.058</td><td>5.8%</td></tr>
-      <tr><td>∞₃ pitch precision correction</td><td>×1.08</td><td>8%</td></tr>
+      <tr><td>∞₃ pitch precision correction</td><td>×1.13</td><td>13%</td></tr>
     </table>
 
     <div class="eq law" style="background:#000;border:3px solid #4ade80;padding:1.25rem;margin:1rem 0;">
@@ -415,6 +424,16 @@
 
     <p style="margin:0;color:var(--text-muted);font-size:0.85rem;text-align:center;">
       <strong style="color:#4ade80;">v7.0 Agreement: 1.3% — improved from earlier 4% estimate via refined ∞₃ pitch correction</strong>
+    </p>
+    <p style="margin:0.5rem 0 0;color:var(--text-muted);font-size:0.85rem;">
+      <em>Note: the correction-factor table above previously listed the "∞₃ pitch precision correction" as ×1.08
+      while the boxed calculation below it used ×1.13 for the same factor — an internal inconsistency, now made
+      consistent by matching the table to the value actually used in the calculation. This "∞₃ pitch precision
+      correction" and the KK-threshold factor (×1.52) are not independently derived elsewhere on this page; they
+      function as free parameters tuned so the RG-corrected chain lands near the PDG value, rather than being
+      predicted in advance. Combined with the &radic;2 correction to the leading-order value noted above (which
+      this Step 4 chain does not yet incorporate), the 0.228 result here should be read as fit to the target,
+      not as an independent derivation.</em>
     </p>
   </div>
 
@@ -607,12 +626,12 @@
   <h3>4.2 CKM Phase Predicted</h3>
 
   <div class="eq law" style="background:#000;border:2px solid var(--success);padding:1.25rem;">
-    \[\boxed{\delta_{\rm CKM} = \arg(V_{ub}^* V_{cb}) = 68.0° \quad \text{(v7.0 prediction, 3.9\% from PDG 65.4°)}}\]
-    <div class="eq-label" style="color:var(--success);">(4.2) — v7.0 CKM phase from TFP: δ = 68.0°, J = 4.2 × 10<sup>-5</sup></div>
+    \[\boxed{\delta_{\rm CKM} = \arg(V_{ub}^* V_{cb}) = 68.1° \quad \text{(v7.0 prediction, 4.2\% from PDG 65.4°)}}\]
+    <div class="eq-label" style="color:var(--success);">(4.2) — v7.0 CKM phase from TFP: δ = 68.1°, J = 4.2 × 10<sup>-5</sup></div>
   </div>
 
   <p>
-    <strong>PDG central value:</strong> \(\delta_{\rm CKM} = 65.4°\). v7.0 prediction: <strong>68.0°</strong> (3.9%).
+    <strong>PDG central value:</strong> \(\delta_{\rm CKM} = 65.4°\). v7.0 prediction: <strong>68.1°</strong> (4.2%).
     Jarlskog invariant: <strong>J = 4.2 × 10<sup>-5</sup></strong>.
   </p>
 </section>
@@ -693,7 +712,7 @@
         <li>9 fermion masses — all &lt;2% via triple overlap λ<sub>Y</sub> = exp(-κ²/8) + sharp Higgs</li>
         <li>CKM: λ = 0.228 (1.3%), full matrix 1.6-7.5%</li>
         <li>6 PMNS parameters (from seesaw geometry)</li>
-        <li>CP: δ<sub>CKM</sub> = 68.0° (3.9%), J = 4.2 × 10<sup>-5</sup></li>
+        <li>CP: δ<sub>CKM</sub> = 68.1° (4.2%), J = 4.2 × 10<sup>-5</sup></li>
       </ul>
     </div>
   </div>

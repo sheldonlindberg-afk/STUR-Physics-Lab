@@ -46,7 +46,7 @@ This document provides a systematic index of all mathematical proofs, theorems, 
 | ID | Result | Location | Status | Dependencies |
 |----|--------|----------|--------|--------------|
 | **P1** | Lambda_STUR = (3.6 +/- 2.6) x 10^-47 GeV^4 | COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md | **SEMI-RIGOROUS** | T1, T4, T5, L3 |
-| **P2** | kappa = 2.52 +/- 0.15 from unified calculation | KAPPA_UNIFIED_CALCULATION.md | **SEMI-RIGOROUS** | Mathieu equation, corrections |
+| **P2** | kappa = 2.52 +/- 0.15 from unified calculation (superseded — see note) | KAPPA_UNIFIED_CALCULATION.md | **FITTED (superseded)** | Mathieu equation, corrections |
 | **P3** | N_gen = 3 from ∞₃ topology | DERIVATION_CHAIN_INFINITY.md, BASE_THREEFOLD_UNIQUENESS.md | **RIGOROUS** | T2, L1 |
 | **P4** | Lambda_tree = 0 exactly | COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md, Part III | **RIGOROUS** | T1 |
 | **P5** | SM gauge group from ∞-helix holonomy | DERIVATION_CHAIN_INFINITY.md | **SEMI-RIGOROUS** | T2 |
@@ -59,9 +59,19 @@ This document provides a systematic index of all mathematical proofs, theorems, 
 | **C1** | Berry phase gamma = -pi/3 | BERRY_PHASE_RIGOROUS_PROOF.md, Part IV | **RIGOROUS** | +/- 7° from delta_CP |
 | **C2** | F_Berry = 0.0253 +/- 0.0063 | BERRY_PHASE_RIGOROUS_PROOF.md, Part VII | **RIGOROUS** | 25% |
 | **C3** | F_inst = 0.333 +/- 0.003 | INSTANTON_PREFACTOR_EXPLICIT.md | **RIGOROUS** | 1% |
-| **C4** | kappa_Mathieu = 2.22 +/- 0.02 | KAPPA_UNIFIED_CALCULATION.md | **RIGOROUS** | — |
+| **C4** | kappa_Mathieu = 2.22 +/- 0.15 (superseded; see note below table) | KAPPA_FIRST_PRINCIPLES_DERIVATION.md | **FITTED (superseded)** | Uncertainty corrected from an erroneously-quoted +/- 0.02 (KAPPA_UNIFIED_CALCULATION.md's box); the source document (KAPPA_FIRST_PRINCIPLES_DERIVATION.md) states +/- 0.15 for this same central value |
 | **C5** | Double-counting correction Delta_kappa_DC = 0.02 +/- 0.02 | KAPPA_UNIFIED_CALCULATION.md | **SEMI-RIGOROUS** | — |
 | **C6** | Domain wall surface tension sigma ~ 10^54 GeV^3 | DOMAIN_WALL_ENERGY_CALCULATION.md | **RIGOROUS** | — |
+
+> **Note on kappa entries (P2, C4, C5) — superseded:** KAPPA_UNIFIED_CALCULATION.md,
+> KAPPA_FIRST_PRINCIPLES_DERIVATION.md, and KAPPA_HIGHER_ORDER_CORRECTIONS.md all
+> target an older phenomenological reference kappa_pheno = 2.5 via narrated
+> post-hoc curve-fitting, not the current canonical value. The framework's
+> current canonical localization parameters are kappa_q = 2.417 and
+> kappa_l = 2.367, computed directly by the Mathieu ground-state-width method
+> in `scripts/stur_toe_closure.py` (no fitting to a preset target). The P2/C4/C5
+> entries above are retained for historical traceability but should not be read
+> as the framework's current kappa value.
 
 ---
 
@@ -323,7 +333,7 @@ CRITICAL PATH:
 | F_Berry = 1/4pi^2 | Stokes theorem, direct integration | Exact |
 | F_inst = 1/3 | Zeta-function, Casimir factor, numerical | Exact |
 | h^11 = 6, chi = 216 | Batyrev formula, alternative formula | Exact |
-| kappa = 2.52 | Variational, lattice, cross-checks from lambda | Within 3% |
+| kappa = 2.52 (superseded target; see note in §1.4) | Variational, lattice, cross-checks from lambda | 8.7% (corrected; source document's "3%" does not reproduce from its own numbers) |
 | Lambda prediction | Full formula, scaling argument | Within 27% of observation |
 
 ---
@@ -337,7 +347,7 @@ CRITICAL PATH:
 | CY_4 | Calabi-Yau fourfold with elliptic fibration | FTHEORY_CY4_EXPLICIT_CONSTRUCTION.md |
 | F_Berry | Berry phase suppression factor = 1/4pi^2 | BERRY_PHASE_RIGOROUS_PROOF.md |
 | F_inst | Instanton prefactor = 1/3 | INSTANTON_PREFACTOR_EXPLICIT.md |
-| kappa | Localization parameter ~ 2.52 | KAPPA_UNIFIED_CALCULATION.md |
+| kappa | Localization parameter; canonically kappa_q = 2.417, kappa_l = 2.367 (scripts/stur_toe_closure.py); older superseded target ~2.52 in KAPPA_UNIFIED_CALCULATION.md | KAPPA_UNIFIED_CALCULATION.md |
 | lambda | Cosmological constant field | COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md |
 | Lambda | Physical cosmological constant | COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md |
 | h^{p,q} | Hodge numbers of CY_4 | FTHEORY_CY4_EXPLICIT_CONSTRUCTION.md |

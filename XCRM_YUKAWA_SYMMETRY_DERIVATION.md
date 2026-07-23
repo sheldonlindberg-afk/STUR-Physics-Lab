@@ -576,7 +576,7 @@ n_w = 1). Under this traversal, the R-field phase φ(X) advances by:
 Δφ = ∮ ∂_X φ dX = χ × L_X / χ = 2π/3 × (number of fixed points)
 ```
 
-Wait — let us be precise. The R-field on S¹/Z₃ has winding number n_w = 1, meaning φ
+To be precise: the R-field on S¹/Z₃ has winding number n_w = 1, meaning φ
 advances by 2π over the full circle. On the Z₃ fundamental domain (one-third of S¹), φ
 advances by 2π/3.
 
@@ -610,6 +610,18 @@ y × v × L_X = 2π
 is **topologically quantized** — any other value fails to produce a consistent wavefunction
 on the orbifold.
 
+> **Honesty note (2026-07):** the minimal holonomy condition stated above — that a fermion
+> completing one traversal must accumulate *exactly* 2π, rather than some other multiple or
+> fraction consistent with π₁(S¹/Z₃) = Z — is **asserted and motivated**, not independently
+> proven. π₁(S¹/Z₃) = Z only guarantees that the accumulated phase is quantized in units
+> compatible with the winding number; it does not by itself single out 2π as opposed to any
+> other allowed value. 2π is chosen here because it is the value that reproduces v·L_X = 3 and
+> N_gen = 3, i.e. the known answer. This is the same soft-circularity documented in
+> VLX_QUANTIZATION_DERIVATION.md §3.5 for the closely related α=1 condition (unsurprising, since
+> the two conditions are algebraically equivalent). Derivation 6 should therefore be read as the
+> most physically motivated of the arguments presented, not as an independent, first-principles
+> proof of y = 2π/3.
+
 ### 6b.3 Derivation of y
 
 From the minimal holonomy condition:
@@ -638,9 +650,11 @@ The Mathieu parameter α = (y × v × L_X / 2π)² is then:
 α = (2π / 2π)² = 1
 ```
 
-α = 1 is not imposed; it is a **consequence** of the topological quantization condition.
-This upgrades the status of α = 1 from "natural localization assumption" (§6) to
-"topologically required."
+Within this argument, α = 1 follows algebraically from the assumed 2π holonomy condition rather
+than being imposed directly. But since that 2π condition is itself asserted/motivated rather
+than independently proven (see honesty note in §6b.2), this should be read as a **reframing**
+of the α = 1 assumption in more topological language, not a fully independent proof that
+upgrades it to "topologically required" in the strict sense.
 
 ### 6b.5 Comparison with Derivation 5b
 

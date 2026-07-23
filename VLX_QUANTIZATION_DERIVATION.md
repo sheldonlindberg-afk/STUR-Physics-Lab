@@ -254,6 +254,10 @@ The "phase space cell" per generation has:
 
 ### 3.4 The Dirac-like Quantization
 
+**Status: FAILED — left visible for transparency, not resolved.** This attempt does not reach
+a self-consistent result; it is superseded by the successful argument in §3.5. It is retained
+here (rather than deleted) so the reader can see which approaches were tried and rejected.
+
 The product v·L_X has dimensions [mass]·[length] = 1 in natural units (ℏ = c = 1).
 This dimensionless quantity must satisfy a quantization condition for the theory
 to be consistent.
@@ -296,6 +300,10 @@ dimensionless combination:
 (v·L_X)² = v² · L_X² = 3 · L_X / L_X ...
 ```
 
+This line does not resolve to a clean result and the argument trails off unfinished; it is not
+used anywhere downstream. §3.5 below is the derivation the rest of the document actually relies
+on.
+
 ### 3.5 The Fermion Localization Argument (Decisive)
 
 This is the cleanest derivation. From the XCRM-Yukawa symmetry (derived in
@@ -322,6 +330,15 @@ y·v·L_X = 2π
 ```
 
 **This is the fundamental constraint!**
+
+**Honesty note on circularity:** the step "for α to equal 1" is asserted as "the natural value,"
+not independently derived. No argument is given here for why α must equal exactly 1 rather than
+any other O(1) constant — and α=1 is exactly the choice needed to reproduce v·L_X = 3 (and hence
+N_gen = 3). This is the same soft-circularity pattern flagged in
+XCRM_YUKAWA_SYMMETRY_DERIVATION.md §6b, which attempts (but does not fully succeed) to upgrade
+this same condition to a topological quantization argument. Readers should treat α=1 as a
+motivated, physically reasonable choice consistent with the observed generation count — not as
+an independently proven necessity.
 
 ### 3.6 Physical Interpretation
 
@@ -424,6 +441,10 @@ U = exp(2πi) = 1 ∈ ∞₃                                            □(Step
 
 ### 5.1 From Action Quantization
 
+**Status: FAILED — left visible for transparency, not resolved.** As with §3.4, this attempt
+does not reach v·L_X = 3 and is not used as a load-bearing derivation anywhere else in this
+document; §3.5 is the decisive argument.
+
 The XCRM action for the helix over one period is:
 ```
 S_XCRM = ∫₀^{L_X} χ·v²·(∂_X φ)·dX
@@ -500,21 +521,28 @@ This matches N_gen = 3 exactly when v·L_X = 3.
 
 ### 6.2 Numerical Values
 
-Taking L_X ~ 0.8 μm = 4×10⁶ GeV⁻¹:
+Taking L_X ~ 0.8 μm, converted via ħc = 0.1973 GeV·fm (1 μm = 10⁹ fm):
 ```
-v = 3/L_X = 3/(4×10⁶ GeV⁻¹) = 7.5×10⁻⁷ GeV
-```
-
-This result is inconsistent with v ~ M_GUT, requiring unit reconsideration.
-
-In proper units where L_X ~ M_KK⁻¹ ~ (10⁻⁶ eV)⁻¹:
-```
-L_X ~ 0.8 μm → 1/L_X ~ 0.25 eV (Kaluza-Klein scale)
-
-v = 3/L_X ~ 0.75 eV (in low-energy units; see resolution below)
+L_X = 0.8 μm = 8×10⁸ fm = (8×10⁸ fm)/(0.1973 GeV·fm) ≈ 4.05×10⁹ GeV⁻¹
 ```
 
-This is inconsistent with v ~ M_GUT. Let me re-examine...
+**Correction note (2026-07):** an earlier version of this section stated
+L_X ~ 0.8 μm = 4×10⁶ GeV⁻¹, a unit-conversion error of roughly 1000× (the correct figure is
+≈4.05×10⁹ GeV⁻¹, verified above). That error propagated into a first (wrong) estimate
+v = 3/L_X = 7.5×10⁻⁷ GeV = 750 eV, which the original text flagged as "inconsistent with
+v ~ M_GUT" and then patched with a second, separately-computed low-energy estimate without
+identifying that the real bug was the unit conversion itself. Using the corrected L_X directly
+resolves this cleanly:
+```
+1/L_X ≈ 2.47×10⁻¹⁰ GeV ≈ 0.25 eV   (Kaluza-Klein scale, consistent with M_KK used elsewhere)
+
+v = 3/L_X ≈ 7.4×10⁻¹⁰ GeV ≈ 0.74 eV
+```
+This is the same order of magnitude as the M_KK ~ 0.25 eV / v ~ 0.75 eV figures already used
+downstream in this document — the two numbers are now consistent with each other because the
+unit-conversion error has been removed, not because of a separate resolution mechanism.
+
+This value (v ~ sub-eV) is still inconsistent with v ~ M_GUT.
 
 **Resolution:** The formula v·L_X = 3 uses *dimensionless* combinations normalized
 to the appropriate scale. In practice:
@@ -578,7 +606,9 @@ M_R ~ λ_hol/L_X     (from holonomy)
 L_X ~ f(M_Planck)   (from Casimir-holonomy balance)
 ```
 
-**Only M_Planck remains as a truly free dimensional input!**
+**These relations reduce the (L_X, v, M_R) sector to a single free parameter, but M_Planck is
+not the only fundamental input in the overall STUR framework** — the canonical framework uses 4
+numerical inputs (M_Planck, v_EW, m_t, α_em); see README.md and OPEN_PROBLEMS_ROADMAP.md.
 
 ---
 
@@ -665,6 +695,10 @@ The Mathieu equation uses Convention 2, while the localization parameter uses
 Convention 1. Both are consistent.
 
 ### A.2 The Phase Space Volume
+
+**Status: FAILED — left visible for transparency, not resolved.** This heuristic argument does
+not independently reproduce v·L_X = 3 (it requires an extra ad hoc factor to match); it is not
+relied on elsewhere. The rigorous derivation remains §3.5/§4.
 
 The phase space for the R-field helix:
 ```

@@ -65,11 +65,11 @@
 
   <!-- Key Parameters Box -->
   <div style="margin:1rem auto;max-width:700px;padding:0.75rem 1rem;background:rgba(74,222,128,0.12);border:2px solid #4ade80;border-radius:10px;">
-    <div style="font-size:0.85rem;color:#4ade80;font-weight:600;margin-bottom:0.5rem;">100% TOE CLOSURE — DERIVATION CHAIN</div>
+    <div style="font-size:0.85rem;color:#4ade80;font-weight:600;margin-bottom:0.5rem;">DERIVATION CHAIN — SEE ARITHMETIC NOTE IN §4.4</div>
     <div style="display:flex;flex-wrap:wrap;gap:1rem;font-size:0.85rem;color:var(--text-secondary);">
-      <span><strong style="color:#f472b6;">m<sub>H</sub></strong> = 125.18 GeV (0.06% from obs)</span>
+      <span><strong style="color:#f472b6;">m<sub>H</sub></strong> = 125.2 GeV (tree+loop, §4.2), ≈0.04% from obs — <em>before</em> f<sub>tail</sub></span>
       <span><strong style="color:#a78bfa;">M<sub>Planck</sub></strong> → M<sub>GUT</sub> → m<sub>H</sub></span>
-      <span><strong style="color:#4ade80;">f<sub>tail</sub></strong> = 1.131</span>
+      <span><strong style="color:#4ade80;">f<sub>tail</sub></strong> = 1.131 (application doesn't check out — see §4.4)</span>
       <span><strong style="color:#60a5fa;">Gauge-Higgs Unified</strong></span>
     </div>
   </div>
@@ -82,8 +82,8 @@
     </span>
   </div>
   <!-- Theory Status Badge -->
-  <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:8px;max-width:500px;font-size:0.8rem;">
-    <span style="color:#4ade80;font-weight:600;">100% TOE Closure</span> — With f<sub>tail</sub> = 1.131: m<sub>H</sub> = 125.18 GeV (0.06% from observation)
+  <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(245,158,11,0.12);border:1px solid var(--warning);border-radius:8px;max-width:500px;font-size:0.8rem;">
+    <span style="color:var(--warning);font-weight:600;">Arithmetic correction (§4.4)</span> — the claimed m<sub>H</sub> = 125.18 GeV via f<sub>tail</sub><sup>-1</sup> is not reproduced by the stated formula; see the note in §4.4
   </div>
 </header>
 
@@ -92,20 +92,22 @@
   <h2 style="color:var(--success);">Main Result: Gauge-Higgs Unification</h2>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
-    \[\boxed{m_H = 125.18 \pm 1.2\, \text{GeV} \quad \text{(with } f_{\rm tail} = 1.131\text{)}}\]
-    <div class="eq-label" style="color:var(--success);">STUR — 100% TOE Closure Achieved</div>
+    \[\boxed{m_H = 125.2 \pm 2.2\, \text{GeV} \quad \text{(tree-level + 1-loop, before } f_{\rm tail}\text{)}}\]
+    <div class="eq-label" style="color:var(--success);">STUR — Higgs mass from gauge-Higgs unification + RG running</div>
   </div>
 
   <p style="margin-top:1rem;">
-    <strong>Observed value:</strong> m<sub>H</sub> = 125.25 ± 0.17 GeV (PDG 2024) — <span style="color:var(--success);font-weight:600;">0.06% discrepancy</span>
+    <strong>Observed value:</strong> m<sub>H</sub> = 125.25 ± 0.17 GeV (PDG 2024) — <span style="color:var(--success);font-weight:600;">≈0.04% discrepancy</span>, using the §4.2 result directly (see §4.4 for why the additional f<sub>tail</sub> correction is not applied consistently)
   </p>
 
-  <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.5);">
-    <div class="title" style="font-size:1.1rem;">100% TOE Closure with f<sub>tail</sub> = 1.131</div>
+  <div class="block warning" style="border-width:3px;background:rgba(0,0,0,0.5);">
+    <div class="title" style="font-size:1.1rem;">Correction: f<sub>tail</sub> = 1.131 Application Doesn't Check Out</div>
     <p style="margin:0;color:var(--text);line-height:1.7;">
       The Higgs mass emerges from gauge-Higgs unification where the Higgs doublet is the A<sub>5</sub> component
-      of a higher-dimensional gauge field. With the unified wavefunction tail correction <strong>f<sub>tail</sub> = 1.131</strong>,
-      the prediction achieves 0.06% agreement with observation. This closes the derivation chain completely.
+      of a higher-dimensional gauge field. The §4.2 tree+loop result (125.2 GeV) is already close to the observed
+      value on its own. The page previously claimed that applying the wavefunction-tail correction
+      <strong>f<sub>tail</sub> = 1.131</strong> tightens this to 0.06% agreement (125.18 GeV) — but as shown in §4.4,
+      125.2 / 1.131 = 110.70 GeV, not 125.18 GeV, so that specific step does not hold up arithmetically.
     </p>
   </div>
 
@@ -398,7 +400,7 @@
 
   <h3>4.3 Uncertainty Breakdown</h3>
 
-  <p>Sources of theoretical uncertainty (±2.3 GeV total):</p>
+  <p>Sources of theoretical uncertainty (±2.2 GeV total):</p>
 
   <table>
     <thead>
@@ -415,7 +417,7 @@
   <p>Combined in quadrature:</p>
 
   <div class="eq boxed">
-    \[\delta m_H^{\rm th} = \sqrt{1.5^2 + 1.2^2 + 0.8^2 + 0.6^2}\,{\rm GeV} = 2.3\,{\rm GeV}\]
+    \[\delta m_H^{\rm th} = \sqrt{1.5^2 + 1.2^2 + 0.8^2 + 0.6^2}\,{\rm GeV} = 2.2\,{\rm GeV}\]
     <div class="eq-label">(4.3) — Theoretical uncertainty</div>
   </div>
 
@@ -423,9 +425,22 @@
 
   <p>The unified wavefunction tail correction f<sub>tail</sub> = 1.131 accounts for Gaussian wavefunction tails in overlap integrals:</p>
 
-  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
-    \[\boxed{m_H^{\rm STUR} = 125.2 \times f_{\rm tail}^{-1} = 125.18\, \text{GeV} \quad \text{(with } f_{\rm tail} = 1.131\text{)}}\]
-    <div class="eq-label" style="color:var(--success);">(4.4) — 100% TOE Closure Achieved</div>
+  <div class="eq law" style="background:#000;border:3px solid var(--warning);padding:1.5rem;">
+    \[\boxed{m_H^{\rm STUR} = 125.2 \times f_{\rm tail}^{-1} = 110.70\, \text{GeV} \quad \text{(with } f_{\rm tail} = 1.131\text{)}}\]
+    <div class="eq-label" style="color:var(--warning);">(4.4) — Arithmetic corrected: f<sub>tail</sub><sup>-1</sup> does not give 125.18 GeV</div>
+  </div>
+
+  <div class="block warning" style="margin-top:1rem;">
+    <div class="title">Arithmetic Correction</div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+      125.2 / 1.131 = 110.70 GeV, not 125.18 GeV as previously claimed here — the two numbers differ by
+      ~11.6%, and 110.70 GeV is an 11.6% <em>under</em>-shoot of the observed m<sub>H</sub> ≈ 125.25 GeV, not a
+      0.06% match. The "125.18 GeV" figure quoted elsewhere on this page is not actually produced by applying
+      f<sub>tail</sub><sup>-1</sup> to the 125.2 GeV tree+loop result from §4.2; those two numbers are already
+      within ~0.04% of the observed value <em>without</em> any f<sub>tail</sub> correction, so applying f<sub>tail</sub>
+      here is inconsistent with reaching 125.18 GeV. The "0.06% agreement" and "100% TOE Closure" claims elsewhere
+      on this page that are built on this step are not supported by the arithmetic shown.
+    </p>
   </div>
 
   <div class="block" style="margin-top:1rem;border-color:#22d3ee;background:rgba(34,211,238,0.08);">
@@ -434,7 +449,8 @@
       The correction f<sub>tail</sub> = 1.131 represents the ratio of overlap integrals on
       S<sup>1</sup>/∞₃ vs a single ∞-helix sector. While geometrically motivated, its numerical
       value was calibrated to close ~5% systematic discrepancies across observables.
-      <strong>Status: SEMI-DERIVED</strong> (geometric origin, but magnitude adjusted to match data).
+      <strong>Status: SEMI-DERIVED</strong> (geometric origin, but magnitude adjusted to match data) — and, as
+      shown above, its arithmetic application to the Higgs mass in this section does not check out.
     </p>
   </div>
 
@@ -462,9 +478,9 @@
     <tbody>
       <tr style="background:rgba(74,222,128,0.08);">
         <td>m<sub>H</sub></td>
-        <td>125.18 GeV (with f<sub>tail</sub> = 1.131)</td>
+        <td>125.2 GeV (tree+loop, §4.2); the further f<sub>tail</sub> step to "125.18 GeV" does not check out — see §4.4</td>
         <td>125.25 ± 0.17 GeV</td>
-        <td style="color:var(--success);">0.06% — 100% TOE closure</td>
+        <td style="color:var(--warning);">≈0.04% (using §4.2 value directly)</td>
       </tr>
     </tbody>
   </table>
@@ -476,12 +492,16 @@
     <div class="eq-label">(5.1) — Observation within gauge-Higgs unification range</div>
   </div>
 
-  <div class="block success" style="border-width:3px;">
-    <div class="title" style="font-size:1.1rem;">100% TOE Closure Achieved</div>
+  <div class="block warning" style="border-width:3px;">
+    <div class="title" style="font-size:1.1rem;">Closure Claim Corrected</div>
     <p style="margin:0;color:var(--text-secondary);">
-      With the unified wavefunction tail correction <strong>f<sub>tail</sub> = 1.131</strong>, the framework predicts
-      m<sub>H</sub> = 125.18 GeV — achieving 0.06% agreement with the observed 125.25 GeV.
-      The Higgs mass is <strong>derived from M<sub>Planck</sub></strong>, not fitted.
+      The §4.2 tree+loop result (m<sub>H</sub> = 125.2 GeV) is already close to the observed 125.25 GeV without
+      any f<sub>tail</sub> correction. The additional step claiming f<sub>tail</sub> = 1.131 tightens this to
+      125.18 GeV (0.06% agreement) is not supported by the arithmetic (125.2/1.131 = 110.70 GeV — see §4.4), so
+      the "100% TOE closure" framing built on that step should not be taken at face value.
+      The Higgs mass formula itself (m<sub>H</sub><sup>2</sup> = 2λv<sup>2</sup>) is a genuine prediction, not a fit
+      to m<sub>H</sub>, but the λ(M<sub>GUT</sub>) boundary value it depends on is also not independently reproduced
+      (see <a href="stur_higgs_derivation.html" style="color:var(--accent);">stur_higgs_derivation.html</a> §6.6).
     </p>
   </div>
 </section>
@@ -530,21 +550,21 @@
   </div>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
-    \[\boxed{M_{\rm Planck} \;\xrightarrow{\rm XCRM}\; M_{\rm GUT} \;\xrightarrow{\rm ∞₃\; helix}\; \lambda(M_{\rm GUT}) \;\xrightarrow{\rm RG}\; \lambda(M_Z) \;\xrightarrow{m_H^2 = 2\lambda v^2 / f_{\rm tail}}\; m_H = 125.18\, \text{GeV}}\]
-    <div class="eq-label" style="color:var(--success);">Complete Derivation — 100% TOE Closure with f<sub>tail</sub> = 1.131</div>
+    \[\boxed{M_{\rm Planck} \;\xrightarrow{\rm XCRM}\; M_{\rm GUT} \;\xrightarrow{\rm ∞₃\; helix}\; \lambda(M_{\rm GUT}) \;\xrightarrow{\rm RG}\; \lambda(M_Z) \;\xrightarrow{m_H^2 = 2\lambda v^2}\; m_H = 125.2\, \text{GeV}}\]
+    <div class="eq-label" style="color:var(--success);">Complete Derivation Chain (f<sub>tail</sub> step omitted — see arithmetic note in §4.4)</div>
   </div>
 
-  <div class="block success" style="margin-top:1rem;">
-    <div class="title">Key Result: 100% TOE Closure Achieved</div>
+  <div class="block warning" style="margin-top:1rem;">
+    <div class="title">Key Result, Corrected</div>
     <p style="margin:0;color:var(--text-secondary);">
-      The Higgs mass is <strong>derived from M<sub>Planck</sub></strong> via:
+      The Higgs mass formula m<sub>H</sub><sup>2</sup> = 2λ(M<sub>Z</sub>)v<sup>2</sup> is applied via:
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-      <li><strong>Gauge-Higgs unification:</strong> Higgs = A<sub>5</sub> component of higher-dimensional gauge field</li>
-      <li><strong>infinity helix geometry:</strong> Fixes λ(M<sub>GUT</sub>) ≈ 0.1–0.15 from orbifold structure</li>
+      <li><strong>Gauge-Higgs unification:</strong> Higgs = A<sub>5</sub> component of higher-dimensional gauge field (qualitative argument)</li>
+      <li><strong>infinity helix geometry:</strong> λ(M<sub>GUT</sub>) ≈ 0.1–0.15 used as boundary value; the specific formula for it in stur_higgs_derivation.html §6.6 does not reproduce this range (off by ~13x) — flagged there</li>
       <li><strong>RG running:</strong> Evolution via SM β functions from M<sub>GUT</sub> to M<sub>Z</sub></li>
-      <li><strong>Unified correction:</strong> f<sub>tail</sub> = 1.131 from wavefunction tail contributions</li>
-      <li><strong>Final result:</strong> m<sub>H</sub> = 125.18 GeV — 0.06% from observation (100% TOE closure)</li>
+      <li><strong>f<sub>tail</sub> = 1.131:</strong> appears in this page in three mutually inconsistent forms (m<sub>H</sub>×f<sub>tail</sub><sup>-1</sup> here, m<sub>H</sub><sup>2</sup>/f<sub>tail</sub> in the boxed equation above, both giving different results); it is omitted from the chain shown above rather than silently reconciled</li>
+      <li><strong>Result without f<sub>tail</sub>:</strong> m<sub>H</sub> = 125.2 GeV — ≈0.04% from the observed 125.25 GeV</li>
     </ul>
   </div>
 </section>

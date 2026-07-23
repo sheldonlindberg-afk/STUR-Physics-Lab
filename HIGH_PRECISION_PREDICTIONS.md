@@ -5,7 +5,11 @@
 **Version:** 3.0
 **Date:** 2026-05-12
 **Priority:** 4 - Higher Precision Predictions
-**Status:** 28D+0P+0U+1I=29; 0 free parameters; 100% first-principles TOE closure
+**Status:** 24D+3P+2U+1I=30 observables, 83% closure (canonical scorecard); 4 inputs
+[corrected — the previously stated "28D+0P+0U+1I=29; 0 free parameters; 100%
+first-principles TOE closure" does not match the canonical framework-wide scorecard
+and is contradicted by this document's own body, which admits χ²/dof=6.91 and
+fermion mass errors up to 21,282× (see Executive Summary below and §7.3)]
 
 ---
 
@@ -16,6 +20,9 @@ computational audit (2026-02-10, see DERIVATION_CHAIN_INFINITY.md Appendix V) ve
 calculations by running all 20 Python scripts and comparing claimed vs computed values.
 
 **Key Achievement (verified):** The Cabibbo angle λ = 0.229 is derived to 1.6% accuracy
+[cross-document inconsistency: EXPERIMENTAL_VALIDATION_ROADMAP.md §6.2 lists the STUR
+CKM prediction for the same quantity as λ = 0.220 ± 0.01 — a different central value
+for the same "derived" parameter in a companion document; not resolved here]
 from exp[−κ²/4] at α_eff = 1.480 (v5.0 corrected formula). The full CKM matrix is
 derived to 3-13% accuracy.
 
@@ -376,6 +383,15 @@ Final correct calculation:
 
     sin²θ₁₃ = 0.022
 ```
+
+**Note on the "∞-helix enhancement" term (0.100):** this term has no derivation
+anywhere in this document — it is simply added to the sum of the three derived terms
+(0.030+0.015+0.003 = 0.048) to reach 0.148 = sin(8.54°), which is the value needed to
+match the experimental θ₁₃. The preceding text shows three earlier formula attempts
+failing in sequence (0.311, 0.034, 0.177) before this final combination is assembled.
+This is reverse-engineering to the known answer, not a first-principles prediction;
+it is left visible here rather than presented as clean 0.82% agreement without
+qualification. The arithmetic (0.030+0.015+0.003+0.100=0.148) is itself correct.
 
 **Error analysis for θ₁₃:**
 ```
@@ -1542,14 +1558,23 @@ M_Z                │ 0.10                     │
 For 9 observables with 4 inputs (M_Pl, v, m_t, α_em):
     dof = 9 - 4 = 5
 
-χ²/dof = 0.131/5 = 0.026
+χ²/dof = 0.131/5 = 0.026   (arithmetic independently verified correct: 0.1315/5 = 0.0263)
 
-This is an EXCELLENT fit (χ²/dof << 1).
+This is an EXCELLENT fit AMONG THE 9 OBSERVABLES SELECTED FOR THIS TABLE (χ²/dof << 1).
 
 p-value = P(χ² > 0.131 | dof = 5) > 0.999
-
-STUR provides a highly consistent description of precision data.
 ```
+
+**This χ²/dof = 0.026 is cherry-picked and should not be read as an overall fit
+quality for the framework.** The 9 observables in this table (mixing angles, m_H,
+gauge couplings, η̄) are exactly the subset where STUR performs well. They exclude
+the fermion mass spectrum, which this document's own Executive Summary (line 25)
+admits is "off by factors 3.8-21282×" and which drives the honest headline
+χ²/dof = 6.91 reported at line 27. Both numbers are arithmetically correct for the
+observable sets they use; the issue is that §7 below previously used the favorable
+0.026 figure to claim "100% TOE closure," which is not supported once the excluded
+mass-spectrum failures are counted. See the canonical scorecard: 24D+3P+2U+1I=30
+observables, 83% closure — not 100%.
 
 ---
 
@@ -1557,11 +1582,18 @@ STUR provides a highly consistent description of precision data.
 
 ### 7.1 Summary of High-Precision Predictions
 
-The STUR framework achieves **100% TOE closure** with systematically reduced uncertainties. With the universal wavefunction tail correction (f_tail = 1.131):
+**Framework-wide closure is 83%** (canonical scorecard: 24D+3P+2U+1I=30 observables),
+not "100% TOE closure" as previously claimed here. That claim was based on the
+cherry-picked 9-observable subset in §6.3, which excludes the fermion mass spectrum
+this document's own Executive Summary admits is off by factors of 3.8-21282× (line
+25). Within that favorable 9-observable subset only, with the universal wavefunction
+tail correction (f_tail = 1.131):
 - **85% of parameters within 2%** of observation
 - **96% of parameters within 5%** of observation
 - **100% of parameters within 10%** of observation
 - **Maximum discrepancy: 10%** (m_u — within lattice QCD uncertainty)
+
+These percentages describe the selected subset, not the framework as a whole.
 
 **PMNS Angles (all <1% uncertainty):**
 - θ₁₂ = 33.41° ± 0.28° (0.84%) — Exp: 33.44° ± 0.77°
@@ -1601,12 +1633,14 @@ The STUR framework achieves **100% TOE closure** with systematically reduced unc
 
 ```
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║             STUR HIGH-PRECISION PREDICTIONS: 100% TOE CLOSURE                 ║
+║   STUR HIGH-PRECISION PREDICTIONS: 83% CLOSURE (24D+3P+2U+1I=30 observables)   ║
+║   [corrected — previously claimed "100% TOE CLOSURE"; see note below]         ║
 ╠══════════════════════════════════════════════════════════════════════════════╣
 ║                                                                              ║
 ║  All predictions derived from:                                               ║
 ║    - Three axioms (5D spacetime, R-field doublet, energy minimization)       ║
-║    - One fundamental scale (M_Planck)                                        ║
+║    - One fundamental scale (M_Planck) plus 4 total inputs (M_Pl, v, m_t,     ║
+║      alpha_em) used in this document's fits — not zero free parameters       ║
 ║    - infinity helix geometry                                                       ║
 ║    - Universal wavefunction tail correction f_tail = 1.131                   ║
 ║                                                                              ║
@@ -1617,19 +1651,24 @@ The STUR framework achieves **100% TOE closure** with systematically reduced unc
 ║    - Full error propagation                                                  ║
 ║    - Wavefunction tail correction (×1.131)                                   ║
 ║                                                                              ║
-║  PMNS Form Factors (ALL DERIVED, not fitted):                                ║
-║    - f = 5.83 (derived from TBM × seesaw corrections)                        ║
-║    - g = 0.75 (derived from ∞-helix geometry)                                     ║
-║    - r = 0.16 (derived from Majorana phase structure)                        ║
+║  PMNS Form Factors (as used in this document's fits — sin θ13 in particular  ║
+║  is only reached after an unexplained "+0.100 (∞-helix enhancement)" term,   ║
+║  see §1.3.3; NOT independently first-principles derived):                    ║
+║    - f = 5.83                                                                ║
+║    - g = 0.75                                                                ║
+║    - r = 0.16                                                                ║
 ║                                                                              ║
-║  Closure Statistics:                                                         ║
-║    - 85% of masses within 2% of observation                                  ║
-║    - 96% of parameters within 5% of observation                              ║
-║    - 100% of parameters within 10% of observation  ★ FULL CLOSURE ★          ║
-║    - Maximum discrepancy: 10% (m_u — within lattice QCD uncertainty)         ║
+║  Closure Statistics (WITHIN THE 9-OBSERVABLE SUBSET OF §6.3 ONLY — excludes  ║
+║  the fermion mass spectrum, admitted off by 3.8-21282x, see Exec. Summary):  ║
+║    - 85% of that subset within 2% of observation                             ║
+║    - 96% of that subset within 5% of observation                             ║
+║    - 100% of that subset within 10% of observation                           ║
+║    - Maximum discrepancy in that subset: 10% (m_u)                          ║
 ║                                                                              ║
-║  Status: ALL PREDICTIONS CONSISTENT WITH EXPERIMENT                          ║
-║          Combined χ²/dof = 0.026 (excellent fit)                            ║
+║  Status: 83% CLOSURE FRAMEWORK-WIDE. The 9-observable subset above has       ║
+║          chi^2/dof = 0.026, but including fermion masses gives chi^2/dof =   ║
+║          6.91 (Executive Summary, line 27) — NOT "all predictions            ║
+║          consistent with experiment"                                        ║
 ║                                                                              ║
 ║  Most decisive test: JUNO neutrino mass ordering (2025-2027)                ║
 ║    - Normal ordering confirmed → STUR supported                              ║
@@ -1652,6 +1691,10 @@ The STUR framework achieves **100% TOE closure** with systematically reduced unc
 
 ---
 
-**Document Status:** Complete — 100% TOE Closure
+**Document Status:** Complete — 83% closure (24D+3P+2U+1I=30 observables), not 100%.
+The "100% TOE Closure" and "χ²/dof=0.026 excellent fit" figures previously reported
+here described only a favorable 9-observable subset (§6.3); this document's own
+Executive Summary reports the framework-wide χ²/dof = 6.91 with fermion masses
+included, off by up to 21,282× in places.
 **Last Updated:** 2026-02-03
 **Framework Version:** STUR v4.3 (with f_tail = 1.131 wavefunction tail correction)

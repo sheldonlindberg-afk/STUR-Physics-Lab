@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR Holoscreen — Interactive Visibility Simulator</title>
-<meta name="description" content="Complete EFT Framework: One input (M_Planck), from geometric framework. Interactive visualization of the STUR visibility law from teleparallel holonomy.">
+<meta name="description" content="STUR EFT Framework (4 canonical inputs: M_Planck, v_EW, m_t, alpha_em), geometric framework. Interactive visualization of the STUR visibility law from teleparallel holonomy.">
 
 <!-- PWA & iOS meta tags -->
 <meta name="theme-color" content="#4ade80">
@@ -97,7 +97,7 @@
       From <a href="stur_core_theory.html" style="color:var(--accent);">XCRM foundation</a> ·
       <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
       <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a> ·
-      <span style="color:var(--success);">100% TOE Closure Achieved</span>
+      <span style="color:var(--success);">83% TOE Closure (24D+3P+2U+1I=30)</span>
   </p>
   <p class="subtitle">Interactive Visibility Simulator</p>
   <!-- Status Badge -->
@@ -108,7 +108,7 @@
       </span>
       <span class="stur-status success" style="margin-left:0.5rem;">
           <span class="stur-icon icon-check sm"></span>
-          100% TOE CLOSURE
+          83% TOE CLOSURE
       </span>
   </div>
   <div style="margin-top:0.5rem;padding:0.5rem;background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:8px;max-width:520px;margin-left:auto;margin-right:auto;font-size:0.8rem;">
@@ -121,7 +121,7 @@
 <div style="max-width:800px; margin:0 auto 1.5rem auto; padding:1rem; background:rgba(74,222,128,0.12); border:2px solid rgba(74,222,128,0.5); border-radius:10px;">
     <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
         <span class="stur-icon icon-book" style="color:#4ade80;"></span>
-        <strong style="color:#4ade80;">100% TOE CLOSURE: Complete EFT Framework</strong>
+        <strong style="color:#4ade80;">83% TOE Closure: Complete EFT Framework</strong>
     </div>
     <p style="margin:0 0 0.5rem; font-size:0.85rem; color:var(--text-secondary);">
         <strong>Input:</strong> \(M_{\rm Planck}\) only. All other scales derived.
@@ -150,18 +150,18 @@
 
 <!-- PURPOSE AND STATUS - v4.0 TOE -->
 <section class="section" id="purpose" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.06) 0%, rgba(74,222,128,0.04) 100%);">
-  <h2 style="color:var(--gold);">Purpose and Status: 100% TOE Closure Achieved</h2>
+  <h2 style="color:var(--gold);">Purpose and Status: 83% TOE Closure</h2>
 
   <div class="block gold">
-    <div class="title">Single Input Framework — 100% Quantitative Closure</div>
+    <div class="title">Geometric Framework — 83% Quantitative Closure (24D+3P+2U+1I=30)</div>
     <p style="margin:0;color:var(--text-secondary)">
-      <strong>ONE input:</strong> \(M_{\rm Planck}\). <strong>Parameters derived from geometric structure</strong>, not adjusted to data.
+      <strong>4 inputs:</strong> \(M_{\rm Planck}\), \(v_{\rm EW}\), \(m_t\), \(\alpha_{\rm em}\). <strong>Parameters derived from geometric structure</strong>, not adjusted to data, except where noted below as speculative/order-unity approximations.
       The holoscreen visualizes predictions from the STUR teleparallel framework.
-      All other scales (including \(L_0\)) are in principle derivable from the Planck mass.
+      All other scales (including \(L_0\)) are in principle derivable from the Planck mass, though the numerical chain involves approximations that could be off by orders of magnitude (see "What Is Speculative" below) — so this page's status is 83% closure, not 100%.
       This is a <em>diagnostic and falsification instrument</em>, not experimental validation.
     </p>
     <p style="margin:0.5rem 0 0;color:#4ade80;font-size:0.9rem;">
-      <strong>100% TOE Status (2026-02-03):</strong> All 26 SM parameters derived within 10% (most within 2%).
+      <strong>83% TOE Status (2026-02-03):</strong> All 26 SM parameters derived within 10% (most within 2%).
       Key corrections: f<sub>tail</sub> = 1.131 wavefunction tail correction; hierarchical M<sub>R</sub> from ∞₃ kinks
       (M<sub>R,3</sub>=1.1×10¹⁴, M<sub>R,2</sub>=M<sub>R,1</sub>=1.5×10¹⁴ GeV).
     </p>
@@ -477,7 +477,7 @@
   // STUR HOLOSCREEN — v5.0 COMPLETE EFT FRAMEWORK IMPLEMENTATION
   //
   // PAGE_VERSION: 5.0
-  // Framework: ONE input (M_Planck), geometric framework
+  // Framework: 4 canonical inputs (M_Planck, v_EW, m_t, alpha_em), geometric framework
   //
   // DERIVED (solid ground):
   //   - Gaussian form: V = exp(-Phi_R^2 / 2)
@@ -630,7 +630,10 @@
     return V0 * Math.exp(-l_eff_m / effective_coh);
   }
 
-  // Mass scale factors for different particle types
+  // Mass scale factors for different particle types.
+  // HONESTY NOTE: these are hand-picked per-type constants, not derived from
+  // M_Planck/L_0/the holonomy formula — they feed directly into hsVisibilitySTUR()
+  // below, so the "no fitting" framing on this page does not fully apply to them.
   function getMassScale(type) {
     switch(type) {
       case 'neutron': return 1.0;        // Reference scale
@@ -654,7 +657,9 @@
     // STUR parameters
     const L0_m = L0_nm * 1e-9;
 
-    // Null model: coherent V_0 with type-dependent exponential decay
+    // Null model: coherent V_0 with type-dependent exponential decay.
+    // These per-type V0/L_coh values are hardcoded fit-comparison constants,
+    // not derived from the STUR framework (they define the competing model).
     const nullParams = {
       neutron: { V0: 0.95, L_coh: 0.15 },
       atom: { V0: 0.98, L_coh: 15.0 },

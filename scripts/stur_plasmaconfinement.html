@@ -115,7 +115,7 @@
         <div style="margin-top:1rem;">
             <!-- Theory of Everything Candidate Badge -->
         <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:8px;max-width:500px;font-size:0.8rem;">
-          <span style="color:#4ade80;font-weight:600;">THEORY OF EVERYTHING CANDIDATE</span> — One input (M<sub>Planck</sub>), infinity helix geometry; apparatus parameters are scenario inputs
+          <span style="color:#4ade80;font-weight:600;">THEORY OF EVERYTHING CANDIDATE</span> — 4 canonical inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, &alpha;<sub>em</sub>), infinity helix geometry; apparatus parameters are scenario inputs
         </div>
         <span class="stur-status success">
                 <span class="stur-icon icon-check sm"></span>
@@ -146,11 +146,11 @@
             <h2 class="glass-section-title" style="color:var(--neon-green);">Complete EFT Framework Status</h2>
         </div>
         <div class="glass-section-body" style="font-size:0.92rem;">
-            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">One Input (M<sub>Planck</sub>), Plus Scenario Inputs:</strong></p>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">4 Framework Inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>), Plus Scenario Inputs:</strong></p>
             <ul style="margin:0 0 1rem 0;padding-left:1.5rem;color:var(--text-secondary);">
-                <li><strong>Input:</strong> \(M_{\rm Planck}\) — the sole fundamental scale</li>
+                <li><strong>Inputs:</strong> \(M_{\rm Planck}\), \(v_{\rm EW}\), \(m_t\), \(\alpha_{\rm em}\)</li>
                 <li><strong>Derived:</strong> Compactification \(\XCRM{L_X} \approx 0.8\,\mu\text{m}\) from Casimir-holonomy balance [H.2.11]</li>
-                <li><strong>Derived:</strong> Coherence length \(\Matt{L_0} = \sqrt{2}L_X/\sigma_R\) closes plasma scale</li>
+                <li><strong>Claimed derived:</strong> Coherence length \(\Matt{L_0} = \sqrt{2}L_X/\sigma_R\) closes plasma scale — but the executable simulation hardcodes \(L_0=10^{-3}\,\text{m}\) directly; \(\sigma_R\) is never given a numeric value, so this formula is not actually evaluated anywhere on this page (see Executable Simulation section)</li>
                 <li><strong>Derived:</strong> All gauge couplings, masses, mixing from infinity helix geometry</li>
             </ul>
 
@@ -166,7 +166,7 @@
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid var(--accent-violet);">
                     <strong style="color:var(--accent-violet);font-size:0.85rem;">SM + XCRM → Plasma Confinement</strong>
-                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">STUR modulator \(S(r)\) gates Lorentz force; coherence length \(\Matt{\ell_{\rm coh}} \in [0.3, 30]\,\text{m}\)</p>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">STUR modulator \(S(r)\) gates Lorentz force; coherence length \(\Matt{\ell_{\rm coh}} \in [0.3, 30]\,\text{m}\) (honesty note: this exact range appears verbatim on stur_quantumcomputing.html for an unrelated qubit-lattice system — likely reused boilerplate rather than a per-system derived value; L<sub>0</sub>≈1 mm is actually used in this page's simulation, ~2-3 orders of magnitude away from this stated range)</p>
                 </div>
             </div>
         </div>
@@ -477,7 +477,7 @@
                   \;+\; \underbrace{\Matt{\mathcal{L}_{\rm matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (5D ∞₃ Geometry) — One Input (M<sub>Planck</sub>)</div>
+                <div class="stur-eq-label">Master Action (5D ∞₃ Geometry) — 4 Canonical Inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, &alpha;<sub>em</sub>)</div>
             </div>
 
             <p><strong>Limit assumed:</strong> Weak-field GR metric with Earth gravity. The STUR modulator gates the Lorentz force:</p>
@@ -725,7 +725,7 @@ STUR Plasma Torus — Multi-Particle 4D
 ==================================================
 Tests STUR-modulated Lorentz force in weak-field GR.
 
-Complete EFT Framework: One input (M_Planck), geometric framework.
+Complete EFT Framework: 4 canonical inputs (M_Planck, v_EW, m_t, alpha_em), geometric framework.
 Plasma physics emerges: M_Planck → infinity helix → SM gauge group → U(1)_EM + XCRM → confinement
 
 Key equation: du^μ/dτ + Γ^μ_αβ u^α u^β = (q/m) S F^μ_ν u^ν
@@ -747,7 +747,10 @@ R_E = 6.371e6             # Earth radius (m)
 q   = 1.602176634e-19     # proton charge
 m   = 1.67262192369e-27   # proton mass
 Bz  = 1.5                 # Tesla
-L0  = 1.0e-3              # STUR length = √2 L_X / σ_R [m] — DERIVED from M_Planck
+L0  = 1.0e-3              # STUR length, nominally = sqrt(2) L_X / sigma_R [m].
+                           # HONESTY NOTE: hardcoded here, not computed from L_X/sigma_R —
+                           # sigma_R has no numeric value defined anywhere on this page,
+                           # so this formula is asserted, not evaluated.
 R_major = 2.0e-2          # torus major radius [m]
 a_minor = 4.0e-3          # torus minor radius [m]
 Npart   = 400

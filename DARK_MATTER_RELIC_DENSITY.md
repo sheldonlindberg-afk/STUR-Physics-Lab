@@ -3,7 +3,14 @@
 **Document Type:** First-Principles Derivation
 **Framework:** STUR v4.4
 **Date:** 2026-02-05
-**Status:** COMPLETE - Critical for TOE Closure
+**Status:** PARTIALLY DERIVED / CIRCULAR ON M_DM (corrected in FIX pass, 2026-07-18) — the DM
+candidate identity (B^(1) KK hypercharge boson) and stability mechanism (∞₃ KK-parity) are
+genuinely derived from ∞₃ geometry, but the mass scale M_DM/M_LKP is **not** independently
+derived: Part II.2.2 below shows the first-principles holonomy estimate gives ~7.7 TeV, ~8x
+the quoted value, and the quoted M_LKP~0.92 TeV is obtained instead by inverting the target
+Ω_DM h²≈0.12 ("CORRECTED (from thermal relic matching)... determined by requiring Omega_DM h^2
+~ 0.12"). Ω_DM h² itself is therefore not a genuine prediction either — see ground-truth
+status U (circular/tautological) for both M_DM and Ω_DM h².
 **Purpose:** Comprehensive dark matter relic density calculation from ∞₃ helix geometry
 
 ---
@@ -17,10 +24,10 @@ This document provides a complete derivation of the dark matter relic density in
 | Parameter | STUR Prediction | Observation | Status |
 |-----------|-----------------|-------------|--------|
 | Dark matter candidate | B^(1) (KK hypercharge boson) | Unknown | Testable |
-| M_DM | 0.92 +/- 0.08 TeV | Consistent with limits | Predicted |
-| Omega_DM h^2 | 0.119 +/- 0.002 | 0.1200 +/- 0.0012 (Planck) | 0.4 sigma |
+| M_DM | 0.92 +/- 0.08 TeV | Consistent with limits | **CIRCULAR (U)** — set by requiring Omega_DM h^2~0.12, not independently predicted; see Part II.2.2 |
+| Omega_DM h^2 | 0.119 +/- 0.002 | 0.1200 +/- 0.0012 (Planck) | **CIRCULAR (U)** — M_LKP was tuned to reproduce this value, so the "0.4 sigma" agreement is not an independent check |
 | Stability mechanism | ∞₃ KK-parity | DM stable | Derived |
-| Direct detection sigma_SI | ~10^-47 cm^2 | Within LZ/XENONnT reach | Testable |
+| Direct detection sigma_SI | ~10^-47 cm^2 | Within LZ/XENONnT reach | Testable (but see §5.3 correction — this document's own arithmetic has a units error; a corrected evaluation gives ~7e-46 cm^2, in tension with LZ limits) |
 
 ---
 
@@ -335,6 +342,16 @@ This is slightly low. Adjusting M_LKP to 920 GeV gives:
     Omega_LKP * h^2 = 0.119
 ```
 
+**Honesty note (added in FIX pass):** As written, this step "adjusts" M_LKP to the same value
+already used above (920 GeV) and simply asserts a different result (0.119 instead of 0.096)
+with no new calculation shown. Verified independently: since Ω h² scales roughly as M_LKP²
+through this formula, raising Ω h² from 0.096 to 0.119 would require M_LKP≈1.02 TeV, not 920
+GeV. So even reverse-engineering the intended "adjustment," the quoted final M_DM (0.92 TeV)
+is inconsistent with what this document's own formula requires to produce its own quoted
+Ω_DM h²=0.119. Combined with the direct M_LKP-inversion admission in Part II.2.2 above, the
+relic-density number in this section should be read as asserted to match the target, not shown
+to follow from the stated calculation.
+
 ### 3.5 Precise Relic Density Result
 
 ```
@@ -506,9 +523,23 @@ where:
 sigma_SI ~ (0.3^2 * 0.94^2 * 0.94^2) / (3.14 * 125^4) * (0.36^4 / 920^2)
          ~ (0.09 * 0.88 * 0.88) / (7.7 * 10^8) * (1.68*10^-2 / 8.5*10^5)
          ~ 9 * 10^-11 / (7.7 * 10^8) * 2.0 * 10^-8
-         ~ 2.3 * 10^-27 GeV^-4
-         ~ 2.3 * 10^-27 * (0.389)^2 * 10^-54 cm^2 / GeV^-4
-         ~ 3.5 * 10^-48 cm^2
+         ~ 1.8 * 10^-18 GeV^-2   [corrected in FIX pass: original showed "2.3e-27 GeV^-4",
+                                    which has the wrong power of GeV -- the formula as stated
+                                    evaluates dimensionally to GeV^-2, not GeV^-4; verified by
+                                    direct python evaluation of the stated formula and inputs]
+         ~ 1.8 * 10^-18 * 0.389 * 10^-27 cm^2 / GeV^-2   [standard (hbar*c)^2 = 0.389e-27 cm^2*GeV^2 conversion]
+         ~ 7.1 * 10^-46 cm^2
+
+**Correction note (FIX pass):** The original text here produced 3.5×10⁻⁴⁸ cm², about 200x
+smaller than the value obtained by directly evaluating the document's own stated formula with
+its own stated inputs (7.1×10⁻⁴⁶ cm², verified independently via python). The error traces to
+a units slip (treating the intermediate result as GeV⁻⁴ instead of GeV⁻²) followed by applying
+the (ħc)² conversion an extra time. The corrected value, 7×10⁻⁴⁶ cm², would be in tension
+with/excluded by current LZ limits (~10⁻⁴⁷ cm²), unlike the original (miscalculated)
+3.5×10⁻⁴⁸ cm², which sits comfortably within the "testable, not yet excluded" range this
+document's Executive Summary claims. This does not change the paper's overall conclusion about
+M_DM being circular, but it does mean the direct-detection testability claim in the Executive
+Summary table should not be taken at face value without redoing this calculation carefully.
 
 STUR PREDICTION: sigma_SI ~ 10^-47 to 10^-48 cm^2
 
@@ -614,23 +645,29 @@ Current status (2026):
 |                                                                  |
 |  STUR DARK MATTER: THEORY OF EVERYTHING CLOSURE                  |
 |                                                                  |
-|  DERIVED FROM FIRST PRINCIPLES:                                  |
+|  DERIVED FROM FIRST PRINCIPLES (items 4-5 corrected in FIX pass): |
 |  ------------------------------                                  |
 |  1. M_Planck -> L_X (dimensional reduction)                      |
 |  2. L_X -> KK tower (compactification)                          |
 |  3. ∞₃ helix -> KK-parity (stability)                           |
-|  4. Holonomy -> M_LKP ~ TeV (mass)                              |
-|  5. Thermal freeze-out -> Omega_DM h^2 = 0.119 (abundance)      |
+|  4. Holonomy -> M_LKP ~ TeV (mass) -- NOT actually how the        |
+|     quoted mass is obtained; the holonomy calculation (Part       |
+|     II.2.2) gives ~7.7 TeV, ~8x the quoted 0.92 TeV. The quoted   |
+|     mass is instead solved for by requiring item 5 below equal    |
+|     the observed 0.12 -- i.e. 4 and 5 are circular, not two       |
+|     independent derivations.                                      |
+|  5. Thermal freeze-out -> Omega_DM h^2 = 0.119 (abundance) --     |
+|     tautological given M_LKP was chosen to produce this value     |
 |                                                                  |
 |  KEY RESULTS:                                                    |
 |  ------------                                                    |
 |  | Quantity              | STUR         | Observed    | Status  |
 |  |-----------------------+--------------+-------------+---------|
 |  | DM candidate          | B^(1) LKP    | Unknown     | Predict |
-|  | Mass                  | 0.92 TeV     | > 0.5 TeV   | OK      |
-|  | Omega_DM h^2          | 0.119        | 0.120       | 0.4 sig |
+|  | Mass                  | 0.92 TeV     | > 0.5 TeV   | CIRCULAR (U), not "OK" -- see item 4 above |
+|  | Omega_DM h^2          | 0.119        | 0.120       | CIRCULAR (U), not "0.4 sig[ma]" -- see item 5 above |
 |  | Stability             | ∞₃ exact     | DM stable   | OK      |
-|  | sigma_SI              | 10^-47 cm^2  | < 10^-46    | OK      |
+|  | sigma_SI              | 10^-47 cm^2  | < 10^-46    | Recompute needed -- §5.3 has a units error; corrected value is ~7e-46 cm^2 |
 |  | X-ray decay           | ZERO         | None seen   | OK      |
 |                                                                  |
 |  NOT PREDICTED (and why):                                        |
@@ -673,16 +710,22 @@ STUR dark matter is FALSIFIABLE:
 ```
 +==================================================================+
 |                                                                  |
-|  DARK MATTER RELIC DENSITY: DERIVED FROM M_PLANCK               |
+|  DARK MATTER RELIC DENSITY: PARTIALLY DERIVED (corrected in FIX  |
+|  pass -- mass scale and relic density are circular, not derived) |
 |                                                                  |
-|  The STUR framework provides a COMPLETE, PREDICTIVE dark        |
-|  matter theory:                                                  |
+|  The STUR framework provides a PREDICTIVE dark matter theory for |
+|  the DM candidate identity and stability mechanism, but NOT for  |
+|  the mass scale or relic density:                                |
 |                                                                  |
 |  - Candidate identity: B^(1) (derived from 5D geometry)         |
-|  - Mass scale: TeV (derived from holonomy)                      |
+|  - Mass scale: TeV order-of-magnitude only from holonomy;        |
+|    the quoted 0.92 TeV specifically is fixed by requiring        |
+|    Omega_DM h^2~0.12, not independently derived (Part II.2.2)    |
 |  - Stability: Exact ∞₃ KK-parity (derived from helix)          |
-|  - Relic density: 0.119 (calculated from freeze-out)           |
-|  - Detection signatures: Specified (testable)                   |
+|  - Relic density: 0.119 is not an independent calculation --     |
+|    it follows tautologically once M_LKP is tuned to reach it     |
+|  - Detection signatures: Specified (testable), but see §5.3      |
+|    units-error correction above before treating sigma_SI as safe |
 |                                                                  |
 |  IMPORTANT CLARIFICATION:                                        |
 |  STUR does NOT predict keV-scale sterile neutrino dark matter.  |
@@ -717,7 +760,10 @@ STUR dark matter is FALSIFIABLE:
 
 ---
 
-*Document Status: COMPLETE*
+*Document Status: PARTIALLY DERIVED -- DM candidate identity and stability mechanism are*
+*genuinely derived from ∞₃ geometry; M_DM/M_LKP and Omega_DM h^2 are circular (U status), as*
+*this document's own Part II.2.2 and §3.4 admit. (Status labels corrected in FIX pass,*
+*2026-07-18; the underlying physics narration is unchanged.)*
 *Dark matter relic density derived from first principles via ∞₃ geometry*
 *Omega_DM h^2 = 0.119 +/- 0.002 vs observed 0.1200 +/- 0.0012 (0.4 sigma agreement)*
 *Critical clarification: STUR predicts LKP (TeV), not sterile neutrino (keV) dark matter*

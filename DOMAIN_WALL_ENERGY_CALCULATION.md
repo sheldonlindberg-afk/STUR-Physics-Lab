@@ -167,10 +167,15 @@ Converting to meters (using hbar*c = 1.97 * 10^{-16} GeV*m):
 ```
 delta = 1.414 * 10^{-18} GeV^{-1} * (1.97 * 10^{-16} GeV*m)
       = 2.8 * 10^{-34} m
-      ~ 0.02 * l_Planck
+      ~ 17.3 * l_Planck   [corrected — using l_Planck = 1.616e-35 m, the ratio
+                            delta/l_Planck = 17.3, not 0.02. The wall is about 17x
+                            LARGER than the Planck length, not smaller.]
 ```
 
-**The wall is thinner than the Planck length!** This is a sub-Planckian structure.
+**The wall is about 17 times larger than the Planck length**, not thinner as
+previously (incorrectly) stated — the "sub-Planckian" claim was backwards. This
+correction does not affect the paper's main conclusion, which rests on the
+surface-tension bound below, not on this length comparison.
 
 ### 3.3 Surface Tension
 
@@ -195,7 +200,9 @@ sigma ~ 10^54 GeV^3
 
 Or in terms of mass:
 ```
-sigma^{1/3} ~ 10^18 GeV ~ 10^9 GeV above (1 MeV)^3
+sigma^{1/3} ~ 10^18 GeV ~ 10^21 times above 1 MeV   [corrected — dimensionally,
+      sigma^{1/3} (GeV) should be compared to 1 MeV (GeV), not (1 MeV)^3;
+      10^18 GeV / 10^{-3} GeV = 10^21, consistent with §4.4 below]
 ```
 
 ---
@@ -221,7 +228,10 @@ The classic constraint (Zel'dovich, Kobzarev, Okun 1974):
 
 Domain walls must not dominate before matter-radiation equality. This requires:
 ```
-sigma < (1 MeV)^3 ~ 10^{-3} GeV^3
+sigma < (1 MeV)^3 = (10^{-3} GeV)^3 = 10^{-9} GeV^3   [corrected — the previous
+      "~10^{-3} GeV^3" treated the linear 1 MeV = 10^{-3} GeV as if it were already
+      cubed; independently verified: (10^{-3})^3 = 10^{-9}, a six-order-of-magnitude
+      cubing error]
 ```
 
 ### 4.3 More Stringent Modern Bounds
@@ -240,10 +250,15 @@ sigma < (100 keV)^3 ~ 10^{-12} GeV^3
 
 | Quantity | Calculated | Allowed | Ratio |
 |----------|------------|---------|-------|
-| sigma | 10^54 GeV^3 | 10^{-3} GeV^3 | 10^57 |
+| sigma | 9.43×10^53 GeV^3 | 10^{-9} GeV^3 [corrected, was 10^{-3}] | ~10^63 [corrected, was 10^57] |
 | sigma^{1/3} | 10^18 GeV | 10^{-3} GeV | 10^21 |
 
-**The real scalar domain wall exceeds cosmological bounds by 57 orders of magnitude!**
+**The real scalar domain wall exceeds cosmological bounds by approximately 63 orders
+of magnitude** [corrected from the previously stated 57 — using the correct bound
+sigma < (1 MeV)^3 = 10^{-9} GeV^3 with sigma ≈ 9.43×10^53 GeV^3, the violation factor
+is 9.43×10^53 / 10^{-9} ≈ 10^63, verified independently by python3]. The qualitative
+conclusion (real-scalar domain walls are catastrophically ruled out, motivating the
+doublet structure) is unaffected; only the specific quoted magnitude changes.
 
 ---
 
@@ -422,12 +437,15 @@ sigma = (2 sqrt(2) / 3) sqrt(lambda) v^3
 
 **Cosmological bound:**
 ```
-sigma < (1 MeV)^3 ~ 10^{-3} GeV^3
+sigma < (1 MeV)^3 = 10^{-9} GeV^3   [corrected, was 10^{-3} GeV^3]
 ```
 
 **Required VEV for marginal viability:**
 ```
-v_max = (sigma_max / sqrt(lambda))^{1/3} ~ 10^{-1} GeV
+v_max = (sigma_max / sqrt(lambda))^{1/3} ~ (10^{-9})^{1/3} ~ 10^{-3} GeV   [corrected,
+      was 10^{-1} GeV — off by two orders of magnitude due to the propagated (1 MeV)^3
+      error; 10^{-3} GeV = 1 MeV is also dimensionally as expected: v_max should be
+      of order the bound scale itself]
 ```
 
 This is FAR below the GUT/Planck scale needed for STUR!
@@ -435,7 +453,7 @@ This is FAR below the GUT/Planck scale needed for STUR!
 ### 8.2 The Conclusion
 
 For v ~ 10^18 GeV (STUR scale):
-- Single real scalar: sigma ~ 10^54 GeV^3 **RULED OUT by 10^57**
+- Single real scalar: sigma ~ 9.43×10^53 GeV^3 **RULED OUT by ~10^63** [corrected, was "10^54 GeV^3 RULED OUT by 10^57"]
 - Real doublet: No domain walls, E ~ v^2/L^2 **VIABLE**
 
 **STUR must use a doublet, not a single real scalar.**
@@ -528,8 +546,8 @@ E = integral_{-inf}^{+inf} dx [2 V(R)]
 | delta (meters) | delta * hbar*c | 2.8 * 10^{-34} m |
 | sigma | (2sqrt(2)/3) sqrt(lambda) v^3 | 0.94 * 10^54 GeV^3 |
 | sigma^{1/3} | - | 10^18 GeV |
-| Bound on sigma | ZKO constraint | < 10^{-3} GeV^3 |
-| Violation factor | sigma / sigma_bound | 10^57 |
+| Bound on sigma | ZKO constraint | < 10^{-9} GeV^3 [corrected, was 10^{-3}] |
+| Violation factor | sigma / sigma_bound | ~10^63 [corrected, was 10^57] |
 
 ---
 
@@ -546,4 +564,4 @@ E = integral_{-inf}^{+inf} dx [2 V(R)]
 ---
 
 **Document Status:** Complete, peer-review ready
-**Key Result:** Domain walls from a real scalar at GUT scale violate cosmological bounds by 10^57, necessitating a doublet structure for STUR.
+**Key Result:** Domain walls from a real scalar at GUT scale violate cosmological bounds by approximately 10^63 [corrected from a previously stated 10^57, which used an incorrectly-cubed (1 MeV)^3 bound; independently verified by python3], necessitating a doublet structure for STUR.

@@ -3,7 +3,23 @@
 **Document Type:** Theoretical Physics Derivation
 **Author:** Derived for STUR Framework v4.3
 **Date:** 2026-01-25
-**Status:** Complete First-Principles Calculation
+**Status:** Complete First-Principles Calculation (historical; see superseded note below)
+
+---
+
+> **Note (superseded):** This document's kappa ~ 2.5 target predates and is
+> superseded by the current Mathieu-equation-based calculation in
+> `scripts/stur_toe_closure.py`, which gives kappa_q = 2.417, kappa_l = 2.367
+> via a different (non-fitted) method — the exact ground-state width of the
+> Mathieu equation on each brane, not a phenomenologically-targeted fit. This
+> document is preserved as historical derivation work: it documents an earlier
+> (v4.3-era) attempt to derive kappa from first principles, which as the text
+> below shows did not converge on its own stated target and instead used
+> post-hoc correction factors to approach kappa ~ 2.5 (itself an older
+> phenomenological reference value, not the canonical kappa_q/kappa_l above).
+> The numbers, narration, and "best-fit" language below are left intact for
+> historical transparency; only the final status label has been corrected from
+> "DERIVED" to reflect that this is a fitted, not first-principles, result.
 
 ---
 
@@ -805,9 +821,12 @@ the fermion localization dynamics in the infinity helix geometry:
 ```
 +-----------------------------------------------------------+
 |                                                           |
-|  DERIVED: kappa = 2.22 +/- 0.15                           |
+|  FITTED (superseded): kappa = 2.22 +/- 0.15               |
 |                                                           |
-|  (from solving the Mathieu equation with alpha = 1)       |
+|  (from solving a v4.3-era Mathieu equation with alpha = 1,|
+|   targeting the older kappa_pheno ~ 2.5 reference; not    |
+|   the canonical kappa_q = 2.417 / kappa_l = 2.367 now     |
+|   computed by scripts/stur_toe_closure.py)                |
 |                                                           |
 +-----------------------------------------------------------+
 ```
@@ -853,18 +872,18 @@ The derivation shows:
 
 ### 9.5 Conclusion
 
-**The localization parameter kappa is derivable from first principles.** The
-value kappa = 2.22 +/- 0.15 emerges naturally from the fermion dynamics in
-the infinity helix geometry. The 1.9-sigma discrepancy with the previous kappa = 2.5
-indicates that either:
-- The effective coupling alpha is ~40% larger than the naive estimate (alpha ~ 1.4)
-- The correction factors multiplying exp[-kappa^2/8] are ~13% smaller (0.42 vs 0.48)
-- Both effects contribute partially
-
-This represents significant progress: kappa is no longer arbitrary but constrained
-by the underlying dynamics. The derived value is remarkably close to what is needed
-to explain the observed Wolfenstein parameter. The remaining uncertainty is in the
-secondary parameters (alpha, correction factors), not in the fundamental mechanism.
+**Status (corrected): fitted to an earlier target, superseded.** The
+value kappa = 2.22 +/- 0.15 emerges from a v4.3-era Mathieu-equation setup, but
+as Section 9.2's provenance note and the narrative above make explicit, closing
+the 1.9-sigma gap to the then-target kappa = 2.5 required a "best-fit" alpha
+(Section 5.3) and a reverse-engineered correction factor (Section 8, "Option B"),
+not an independent derivation. Read literally, the honest conclusion is that
+this document's own first-principles calculation gives kappa = 2.22, not 2.5,
+and neither value is the framework's current canonical kappa_q = 2.417 /
+kappa_l = 2.367 (see the superseded note at the top of this document). The
+remaining uncertainty is in the secondary parameters (alpha, correction
+factors) as well as in the overall methodology, which this document itself
+shows was tuned toward a preset target rather than derived independently.
 
 ### 9.6 Connection to ∞₃ Normalization Factor
 

@@ -52,6 +52,29 @@ corrections to the localization potential simultaneously.
 └──────────────────────────────────────────────────────────────────────────┘
 ```
 
+**⚠️ CORRECTION — internal inconsistency:** The three factors above
+(f_helix=1.072, f_KK=1.240, f_gauge=1.076), attributed to
+`alpha_eff_rigorous_calculation.py`, do **not** match the step-by-step values
+this document itself derives in Sections 3-5:
+- Section 3.4 reaches **f_helix = 1.222 ± 0.08**, not 1.072.
+- Section 4.5 reaches **f_KK = 1.068 ± 0.03** (an intermediate combined value
+  of 1.076 appears mid-derivation but is then refined away), not 1.240 — yet
+  Section 4's own heading calls it "Factor 1.240," a number the section's
+  derivation never actually reaches.
+- Section 5.5 reaches **f_gauge = 1.150 ± 0.06**, not 1.076.
+
+The product of the header's three numbers (1.072×1.240×1.076=1.431) is
+arithmetically correct, but appears to be built from mismatched/relabeled
+factors rather than the document's own "refined" body results. Taking the
+product of the body's actual refined values instead gives
+1.222×1.068×1.150 = **1.501** — closer to the stated target of 1.52 (1.2%
+shortfall) than the 5.9% shortfall reported above. This document does not
+resolve which set of numbers is correct (doing so would require rerunning
+`scripts/alpha_eff_rigorous_calculation.py`, which was not independently
+re-verified as part of this pass); both are presented here so the discrepancy
+is visible rather than hidden. Treat the "1.431 / 8.5% agreement" headline
+result with this caveat.
+
 **Key advantages:**
 1. Replaces the chain λ = exp[-κ²/8] × f_sector × f_holonomy × f_RG × f_tail
    (5 factors, each 5-15% uncertain) with three computed enhancement factors to α.
@@ -591,10 +614,15 @@ two-loop effects not included in the one-loop calculation.
 
 ### 6.4 Dominant Contributions
 
-The dominant enhancement comes from the **KK tower** (f_KK = 1.240),
-specifically the periodic image effect (13.1%) and wave function
-renormalization (8.2%). The ∞-helix twisted sector contributes 7.2%,
-and gauge backreaction contributes 7.6%.
+**⚠️ CORRECTION:** This subsection previously cited "periodic image effect
+(13.1%) and wave function renormalization (8.2%)" for f_KK, but Section 4.5's
+own derivation gives periodic image = **6.8%** (f_KK_image = 0.068, line 475)
+and wave function renormalization = **1.3%** (δZ = 0.013, line 468) — the
+percentages here did not match Section 4's own numbers. Using Section 4's
+figures: the ∞-helix twisted sector contributes 22.2% (Section 3.4,
+f_helix=1.222) and gauge backreaction contributes 15.0% (Section 5.5,
+f_gauge=1.150) — also different from the 7.2%/7.6% previously stated here,
+consistent with the header-vs-body mismatch flagged in the Abstract box above.
 
 The dominant uncertainty is in f_KK (±0.030), from the truncation
 of the KK sum and the treatment of the periodic image.
@@ -758,6 +786,17 @@ is already close to the non-perturbative answer, and two-loop effects partially
 cancel. A more careful treatment with resummation would be needed for sub-percent
 precision.
 
+**⚠️ CORRECTION — contradicts Section 10.1:** This crude estimate
+(Δα_eff ~ +0.17, landing at α_eff ≈ 1.67) is not reconciled with the itemized
+two-loop calculation in Section 10.1 below, which instead finds
+Δα_eff ≈ +0.049 (α_eff = 1.480). The two two-loop treatments disagree by more
+than a factor of 3 in the size of the correction (+0.17 here vs. +0.049 in
+Section 10.1) and are never cross-referenced. This document does not explain
+why the itemized calculation supersedes this crude estimate; both are left
+here since neither is independently re-verified in this pass, but readers
+should not treat Section 10.1's "no free parameters" two-loop result as
+settled given this unresolved internal contradiction.
+
 ### 9.3 Lattice Check
 
 In principle, the effective α could be computed non-perturbatively using lattice
@@ -787,8 +826,16 @@ The Cabibbo angle emerges from STUR as follows:
 6. **Observed**: λ = 0.2250 ± 0.0007
 7. **Agreement**: 1.6% (0.8σ)
 
-**Assessment:** The two-loop calculation reproduces the Cabibbo angle to 1.6%
-with no free parameters and no correction factors.
+**Assessment:** The two-loop calculation reproduces the Cabibbo angle to 1.6%.
+Note this κ = 2.430 matches the current canonical STUR value used elsewhere
+in the codebase — but the document's own Abstract/header box (top of this
+file) advertises only the inferior one-loop result (κ=2.521, 8.5% agreement)
+as its headline "STATUS," not this better two-loop result. The "no free
+parameters and no correction factors" framing should also be read against
+the Section 9.2/10.1 two-loop-estimate contradiction noted above, and the
+one-loop factor sourcing problem noted in the Abstract box — the two-loop
+itemized corrections (+2.35%, +0.52%, +0.14%, +0.39%) are not independently
+re-derived or re-verified in this pass.
 
 ### 10.2 Formula Correction (v4.3 → v5.0)
 
@@ -806,7 +853,17 @@ This eliminates the need for the holonomy correction factor of 0.498.
 
 ### 10.3 Full CKM Matrix (via Wolfenstein Assembly)
 
-Using λ = 0.231, A = 0.846, η̄ = 0.350, ρ̄ = 0.074:
+Using λ = 0.231, A = 0.846, η̄ = 0.350 [STALE — see correction below], ρ̄ = 0.074:
+
+**⚠️ CORRECTION:** η̄ = 0.350 is a stale/superseded override value. The
+current canonical STUR value is **η̄ = 0.3947** (derived, no fitted
+constant), a 13.4% deviation from the observed 0.348 ± 0.010, not the implied
+close match here. Separately, λ = 0.231 used in this table matches none of
+the several other λ values derived elsewhere in this same document (0.225
+observed/target, 0.2278 "direct overlap" in Section 7, 0.2285 "two-loop
+final" in Section 10.1/10.2) — introduced here without explanation. Neither
+figure was independently re-derived in this pass; both are flagged rather
+than silently replaced.
 
 | Element | STUR | PDG | Dev |
 |---------|------|-----|-----|

@@ -464,7 +464,7 @@
   <div class="block warning">
     <div class="title">Scope and Status (Complete EFT)</div>
     <p class="muted" style="margin:0">
-      <strong>One input (M<sub>Planck</sub>), infinity helix geometry.</strong>
+      <strong>Four inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>), infinity helix geometry.</strong>
       This framework presents a <strong>unified teleparallel effective theory</strong> with an explicit
       <strong>STUR resistance field</strong> coupled to torsion. TEGR (≡ GR) provides the geometric backbone;
       STUR supplies the dynamical scalar resistance field \(\XCRM{R(x^\mu,t,X)}\) and its gauge-invariant holonomy;
@@ -483,7 +483,12 @@
       STUR predicts that a scalar resistance field coupled to teleparallel torsion produces a
       <strong>Gaussian visibility suppression</strong>
       \(\Pot{V(\Delta L)} = V_0\exp[-(\Matt{\Delta L}/\Matt{\ell_{\rm coh}})^2]\)
-      with \(\Matt{\ell_{\rm coh}}\) <em>derived</em> (not fitted) from ∞-helix geometry.
+      with \(\Matt{\ell_{\rm coh}}\) <em>derived</em> (not fitted) from ∞-helix geometry, in the sense that its
+      <strong>functional form</strong> \(\ell_{\rm coh} = \sqrt{2}\,L_X/\sigma_R\) follows from Gaussian phase
+      averaging — not that its two input scales are themselves first-principles numbers. As noted below,
+      \(L_X\) and \(\sigma_R\) are model-dependent, not-independently-measured assumed scales, so the
+      <em>numeric value</em> of \(\ell_{\rm coh}\) still carries that model dependence even though the law
+      relating it to \(L_X,\sigma_R\) is derived.
       The suppression depends dominantly on interferometer arm separation \(\Matt{\Delta L}\) and is
       <strong>independent of particle mass and internal structure at fixed shot time</strong>.
       This is the single discriminating observable that distinguishes STUR from decoherence, ULDM, and standard QM.
@@ -742,6 +747,10 @@
   This scaling follows from Stokes' theorem applied to the resistance holonomy and provides a concrete
   pathway to macroscopic observability despite microscopic \(\XCRM{L_X}\). The loop-enhanced coherence length
   scales as \(\Matt{\ell_{\rm coh}^{\rm loop}} = \Matt{\ell_{\rm coh}^{\rm linear}} \cdot \Matt{\xi}/\sqrt{A}\).
+  <em>Units note:</em> \(\Phi_R\) is dimensionless (it enters as \(\exp(-\Phi_R^2/2)\)), so here \(A_{\rm loop}\)
+  is understood as the loop area expressed in units of \(L_X^2\) (i.e. a dimensionless ratio \(A_{\rm loop}/L_X^2\)
+  already folded into the boxed expression's \(A_{\rm loop}\)), not a bare area — otherwise the right-hand side
+  would carry units of length².
 </p>
 
   </section>
@@ -750,21 +759,25 @@
     <h2><span class="section-dot" style="background:var(--gold)"></span> Computational Constants (Simulation Only)</h2>
 
     <div class="block" style="border-left:4px solid #a78bfa;background:rgba(167,139,250,0.08);margin-bottom:1rem;">
-      <div class="title" style="color:#a78bfa;">Historical Note</div>
+      <div class="title" style="color:#a78bfa;">Correction (this page previously overstated what was removed)</div>
       <p class="muted" style="margin:0;">
-        The constant \(\lambda = 3722/2705\) was previously part of a "chronomagnetics" framework that has been
-        <strong>removed from the core STUR physics theory</strong>. It is retained here solely for
-        computational/AGI simulation purposes — providing useful triangle weighting ratios and log-periodic
-        modulation structure for numerical experiments.
+        Chronomagnetics itself — the discrete-scale-invariant modulation \(M(t)=|\sin(\omega\ln(t/t_0))|\) with
+        \(\omega = 2\pi^2\) and \(\lambda_{\rm chrono} = e^{1/\pi} \approx 1.3748\) — is <strong>still part of the
+        current v7.0 canonical framework</strong> (Part 10 of the TOE grand scorecard, "chronomagnetic modulation").
+        What is <strong>not</strong> core physics is only the specific <em>rational approximation</em>
+        \(3722/2705 \approx 1.37597\) used below: it is a computational/AGI-simulation convenience that is
+        close to, but not equal to, \(e^{1/\pi}\) (they differ by ≈0.085%). Other STUR pages that cite
+        \(\lambda_{\rm chrono} = e^{1/\pi}\) as an active v7.0 prediction are consistent with the core theory;
+        this page's earlier wording incorrectly implied the whole chronomagnetic mechanism had been excised.
       </p>
     </div>
 
-    <div class="eq law">\[\boxed{\color{#fbbf24}{\lambda} = \frac{3722}{2705} \approx 1.376}\]<div class="eq-label">(Computational Constant — Not Core Physics)</div></div>
+    <div class="eq law">\[\boxed{\color{#fbbf24}{\lambda} = \frac{3722}{2705} \approx 1.376}\]<div class="eq-label">(Computational Approximation to \(e^{1/\pi}\) — Simulation Convenience Only)</div></div>
 
     <p class="muted">
-      This constant provides useful numerical structure for simulations but <strong>makes no testable predictions
-      beyond the core STUR theory</strong>. The core STUR predictions (Gaussian visibility decay, coherence length)
-      are independent of this constant.
+      This rational-fraction constant provides useful numerical structure for simulations (triangle weighting
+      ratios, log-periodic modulation) but <strong>makes no testable predictions beyond the core STUR chronomagnetic
+      mechanism</strong>, whose canonical closed form is \(\lambda_{\rm chrono} = e^{1/\pi} \approx 1.3748\).
     </p>
 
 <h3>Computational Applications</h3>
@@ -793,7 +806,7 @@
 <div class="block success" style="border-left:4px solid var(--stur);margin-top:1rem;">
   <div class="title" style="color:var(--stur);">STUR Framework — Complete EFT</div>
   <p class="muted" style="margin:0;font-size:0.95rem;line-height:1.65;">
-    <strong style="color:var(--text);">One input (M<sub>Planck</sub>), geometric framework:</strong>
+    <strong style="color:var(--text);">4 canonical inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>), geometric framework:</strong>
     The STUR unified framework derives from infinity helix geometry on M⁴ × S¹.
     The R-field doublet winds through field space, producing:
   </p>
@@ -1633,8 +1646,8 @@ function S_u_engine(u) {
   const L = 10;
   const dx = L / N;
   const Rbg = 0.0;
-  const kappa = 1.0;
-  
+  const diffusionCoeff = 1.0; // generic PDE-solver coupling constant; unrelated to the headline κ=2.417/2.367 localization parameters
+
   let R = new Float64Array(N);
   let T = new Float64Array(N);
   let running = false;
@@ -1674,7 +1687,7 @@ function S_u_engine(u) {
   function computeTorsion() {
     for (let i = 1; i < N - 1; i++) {
       const dRdx = (R[i + 1] - R[i - 1]) / (2 * dx);
-      T[i] = kappa * dRdx * dRdx;
+      T[i] = diffusionCoeff * dRdx * dRdx;
     }
     T[0] = T[1];
     T[N - 1] = T[N - 2];

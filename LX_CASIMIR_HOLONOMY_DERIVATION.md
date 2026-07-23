@@ -3,13 +3,25 @@
 **Document Type:** First-Principles Derivation
 **Framework:** STUR v4.3 (Helix Geometry)
 **Date:** 2026-01-25
-**Purpose:** Derive L_X ~ 0.8 um from fundamental physics without fitting
+**Purpose:** Derive the dimensionless Casimir-holonomy prefactor for the compactification scale L_X from fundamental physics without fitting
 
 ---
 
+> **Honesty note (added in review):** the boxed formula below is
+> **dimensionless** (explicitly acknowledged in §6.2: "in units where L is
+> dimensionless, scale set by theory") — it does not itself evaluate to a
+> length. Numerically it evaluates to L_X* ~ 0.775 (corrected from an
+> original arithmetic error that used (2pi)^5 = 961.4, which is actually
+> pi^6; the correct (2pi)^5 = 9792.6 — see §6.2-6.3). The "~0.8 um" physical
+> figure quoted throughout this document is obtained separately in §6.4 by
+> asserting M_KK ~ 0.25 eV with no supporting calculation shown; it is not an
+> output of this boxed formula. See §6.4 and §12 for details.
+
 ## Executive Summary
 
-This document provides a **complete first-principles derivation** of the compactification scale L_X from the balance between:
+This document provides a **first-principles derivation of a dimensionless
+prefactor** (see honesty note above) for the compactification scale L_X, from
+the balance between:
 
 1. **Casimir energy** - Quantum vacuum fluctuations in the compact dimension (repulsive for fermion-dominated content)
 2. **Holonomy energy** - Cost of maintaining non-trivial Wilson line winding (attractive toward finite L_X)
@@ -17,10 +29,13 @@ This document provides a **complete first-principles derivation** of the compact
 **Main Result:**
 
 ```
-L_X* = (5 zeta(5) |N_eff| / (2pi)^5 c_h ||h||^2)^(1/4) ~ 0.8 um
+L_X* = (5 zeta(5) |N_eff| / (2pi)^5 c_h ||h||^2)^(1/4) ~ 0.775 (dimensionless; corrected)
 ```
 
-This is **not a free parameter** - it is uniquely determined by the Standard Model field content and ∞₃ geometry.
+This dimensionless combination is **not a free parameter** - it is uniquely
+determined by the Standard Model field content and ∞₃ geometry. The
+conversion to a physical length (~0.8 um) is a separate step (§6.4) that this
+document does not derive from first principles; see honesty note above.
 
 ---
 
@@ -446,7 +461,7 @@ This gives:
 |-----------|-------|--------|
 | zeta(5) | 1.0369 | Riemann zeta function |
 | |N_eff| | 149 | Field counting (Section 3) |
-| (2pi)^5 | 961.4 | |
+| (2pi)^5 | 9792.6 (corrected; was erroneously given as 961.4 = pi^6, not (2pi)^5) | |
 | c_h | 1.35 | Gauge group calculation (Section 4.3) |
 | ||h||^2 | 0.162 | SM vacuum configuration (Section 4.4) |
 
@@ -455,14 +470,15 @@ This gives:
 **Coefficient A (Casimir):**
 ```
 A = zeta(5) * |N_eff| / (2pi)^5
-  = 1.0369 * 149 / 961.4
-  = 154.5 / 961.4
-  = 0.161
+  = 1.0369 * 149 / 9792.6      [corrected: (2pi)^5 = 9792.6, not 961.4;
+                                  the original value 961.4 is actually pi^6]
+  = 154.5 / 9792.6
+  = 0.0158
 ```
 
 In natural units where [A] = (energy)^4 = (mass)^4:
 ```
-A = 0.161 (in units where L is dimensionless, scale set by theory)
+A = 0.0158 (in units where L is dimensionless, scale set by theory)
 ```
 
 **Coefficient B (holonomy):**
@@ -475,27 +491,49 @@ B = c_h * ||h||^2
 ### 6.3 Computing L_X*
 
 ```
-L_X^4 = 5A/B = 5 * 0.161 / 0.219 = 0.805 / 0.219 = 3.68
+L_X^4 = 5A/B = 5 * 0.0158 / 0.219 = 0.079 / 0.219 = 0.361   [corrected]
 
-L_X = (3.68)^(1/4) = 1.39 (in dimensionless units)
+L_X = (0.361)^(1/4) = 0.775 (in dimensionless units)   [corrected from 1.39]
 ```
+
+**Honesty note on this section:** as stated in §6.2 above, A (and hence L_X*)
+is dimensionless — "in units where L is dimensionless, scale set by theory."
+Neither the erroneous L_X* = 1.39 nor the corrected L_X* = 0.775 is a length;
+this boxed formula (§5, "Main Result") does not by itself evaluate to 0.8 um
+or to any physical length. The "~0.8 um" figure quoted in the Executive
+Summary and in the boxed "Key Formula" (§7.3) is not derived from this
+Casimir-holonomy balance calculation — see §6.4 below.
 
 ### 6.4 Setting the Physical Scale
 
-The dimensionless ratio must be converted to physical units. The scale is set by the self-consistency condition at the KK scale where the running couplings enter.
+**This step is not a derivation from the Casimir-holonomy balance above; it is
+an independent, unexplained assertion.** The dimensionless ratio L_X* computed
+in §6.3 is never actually converted to physical units by any calculation in
+this document. Instead, the physical scale M_KK ~ 0.25 eV is simply asserted
+below with no supporting computation shown, and the companion document
+MPLANCK_DERIVATION_ANALYSIS.md (§3.3) independently identifies this same gap
+as circular ("you need to know M_KK to run couplings to M_KK... The honest
+answer: the absolute scale is set by matching to M_Planck").
 
-**From running coupling analysis:**
+**Asserted, not derived, from "running coupling analysis":**
 ```
 At the scale M_KK = 1/L_X where gauge couplings take their derived values,
-the balance gives:
+the balance is asserted to give:
 
-M_KK ~ 0.25 eV
+M_KK ~ 0.25 eV        [NOT DERIVED — no running-coupling calculation is
+                        shown anywhere in this document; see honesty note
+                        above and MPLANCK_DERIVATION_ANALYSIS.md §3.3]
 
-Therefore:
+Therefore (this step's arithmetic is correct, given the asserted M_KK):
 L_X = hbar*c / M_KK = (1.97 * 10^-7 eV*m) / (0.25 eV)
     = 7.9 * 10^-7 m
     ~ 0.8 um
 ```
+
+**Conclusion: the "L_X ~ 0.8 um" headline result of this document is not an
+output of the boxed Casimir-holonomy formula.** It follows entirely from the
+independently-asserted M_KK ~ 0.25 eV, whose derivation does not appear in
+this document.
 
 ---
 
@@ -527,14 +565,17 @@ L_X = [5*zeta(5)*|N_eff| / (2pi)^5 * c_h * ||h||^2]^(1/4) * l_Planck^(-1) * f(g_
 where f(g_i) is a function of dimensionless gauge couplings
 ```
 
-**Expanding:**
+**Expanding (corrected — see §6.2-6.3):**
 ```
-L_X = (5 * 1.04 * 149 / 961.4 * 1.35 * 0.162)^(1/4) * (M_Planck)^(-1) * correction
+L_X = (5 * 1.04 * 149 / 9792.6 * 1.35 * 0.162)^(1/4) * (M_Planck)^(-1) * correction
 
-    = (3.68)^(1/4) * l_Planck * (M_Planck^4/M_KK^4)^(1/4)
+    = (0.361)^(1/4) * l_Planck * (M_Planck^4/M_KK^4)^(1/4)
 
-    = 1.39 * l_Planck * (M_Planck/M_KK)
+    = 0.775 * l_Planck * (M_Planck/M_KK)
 ```
+As noted in §6.3-6.4, this dimensionless prefactor (0.775) does not by itself
+fix the physical scale; M_KK is asserted, not derived, elsewhere in this
+document.
 
 ### 7.3 The Key Formula
 
@@ -606,7 +647,7 @@ This is the predicted mass of the extra-dimensional modulus.
 |  STEP 2: Calculate Casimir coefficient A                      |
 |  --------                                                     |
 |  A = zeta(5) * |N_eff| / (2pi)^5                             |
-|    = 1.037 * 149 / 961.4 = 0.161                             |
+|    = 1.037 * 149 / 9792.6 = 0.0158  [corrected, see Sec 6.2] |
 |                                                               |
 +---------------------------------------------------------------+
 |                                                               |
@@ -624,30 +665,36 @@ This is the predicted mass of the extra-dimensional modulus.
 |                                                               |
 |  STEP 4: Minimize E_total = A/L_X^5 + B/L_X                   |
 |  --------                                                     |
-|  dE/dL_X = 0  -->  L_X^4 = 5A/B = 5*0.161/0.219 = 3.68       |
+|  dE/dL_X = 0  -->  L_X^4 = 5A/B = 5*0.0158/0.219 = 0.361      |
+|                     [corrected; see Sec 6.2-6.3]              |
 |                                                               |
-|  L_X* = (3.68)^(1/4) ~ 1.39 (dimensionless)                  |
+|  L_X* = (0.361)^(1/4) ~ 0.775 (dimensionless, NOT a length)   |
 |                                                               |
 +---------------------------------------------------------------+
 |                                                               |
-|  STEP 5: Set physical scale from self-consistency             |
+|  STEP 5: Set physical scale — NOT self-consistent, ASSERTED   |
 |  --------                                                     |
-|  Running couplings at M_KK determine:                         |
+|  M_KK ~ 0.25 eV is asserted here with no running-coupling     |
+|  calculation shown (see honesty note, Sec 6.4); it is not     |
+|  derived from Step 4's dimensionless L_X* = 0.775.            |
 |                                                               |
-|  M_KK ~ 0.25 eV                                               |
+|  M_KK ~ 0.25 eV        [ASSERTED, NOT DERIVED]                 |
 |                                                               |
-|  L_X = hbar*c / M_KK ~ 0.79 um                               |
+|  L_X = hbar*c / M_KK ~ 0.79 um   (arithmetic correct given    |
+|                                    the asserted M_KK)          |
 |                                                               |
 +---------------------------------------------------------------+
 |                                                               |
-|  FINAL RESULT:                                                |
+|  FINAL RESULT (corrected framing):                            |
 |  =============                                                |
 |                                                               |
 |       +-------------------------------------------+           |
-|       |  L_X* = 0.8 um = 8 * 10^-7 m            |           |
+|       |  L_X ~ 0.8 um = 8 * 10^-7 m              |           |
 |       |                                          |           |
-|       |  This is DERIVED, not INPUT              |           |
-|       |  from SM field content + ∞₃ geometry    |           |
+|       |  This follows from an ASSERTED M_KK,      |           |
+|       |  NOT from the Casimir-holonomy balance    |           |
+|       |  formula (Steps 1-4), which only fixes    |           |
+|       |  a dimensionless prefactor (0.775).       |           |
 |       +-------------------------------------------+           |
 |                                                               |
 +===============================================================+
@@ -723,19 +770,25 @@ L_X = 0.8 um * (1 +/- 0.15)
 
 ## 12. Conclusion
 
-The compactification scale L_X ~ 0.8 um is **uniquely determined** by:
+**Corrected assessment:** the Casimir-holonomy energy balance (Steps 1-4,
+§1-6) genuinely determines a dimensionless prefactor, L_X* ~ 0.775, from:
 
 1. **Standard Model field content** --> N_eff ~ -149 (fermion dominance)
 2. **Gauge group structure** --> c_h = 1.35, ||h||^2 = 0.162
 3. **infinity helix geometry** --> Quantizes the holonomy and winding
 4. **Energy minimization** --> Casimir-holonomy balance
 
-**L_X is not a free parameter.** It is derived from the same principles that determine:
-- The number of generations (3 from ∞-helix node points)
-- The gauge group (SU(3) x SU(2) x U(1) from holonomy minimization)
-- The Yukawa hierarchy (from wavefunction overlaps)
+However, **the physical scale L_X ~ 0.8 um is not fixed by this mechanism.**
+Converting the dimensionless prefactor to a physical length requires an
+absolute scale (M_KK ~ 0.25 eV), which this document asserts (§6.4) rather
+than derives — a gap independently flagged by
+MPLANCK_DERIVATION_ANALYSIS.md §3.3 as circular. So while the *shape* of the
+Casimir-holonomy balance is a real, non-fitted result, the claim "**L_X is not
+a free parameter**" is only true of the dimensionless prefactor; the physical
+scale itself still requires an external input not supplied here.
 
-This closes the derivation chain: **everything follows from XCRM + compactness + ∞₃**.
+This document does not close the full derivation chain to a physical length;
+what it closes is the dimensionless energy-balance argument.
 
 ---
 
@@ -749,6 +802,13 @@ This closes the derivation chain: **everything follows from XCRM + compactness +
 
 ---
 
-**Document Status:** Complete first-principles derivation
-**Key Result:** L_X* = (5*zeta(5)*|N_eff|/(2pi)^5 * c_h*||h||^2)^(1/4) ~ 0.8 um
-**Verification:** Stable minimum confirmed by second derivative test
+**Document Status:** Partial derivation — the Casimir-holonomy balance derives
+a dimensionless prefactor (~0.775, corrected from an original (2pi)^5
+arithmetic error); the "~0.8 um" physical scale requires an additional,
+independently-asserted M_KK ~ 0.25 eV not derived in this document (see §6.4,
+§12).
+**Key Result:** L_X* = (5*zeta(5)*|N_eff|/(2pi)^5 * c_h*||h||^2)^(1/4) ~ 0.775
+(dimensionless); physical L_X ~ 0.8 um requires the separately-asserted
+M_KK ~ 0.25 eV.
+**Verification:** Stable minimum confirmed by second derivative test (applies
+to the dimensionless minimization only)

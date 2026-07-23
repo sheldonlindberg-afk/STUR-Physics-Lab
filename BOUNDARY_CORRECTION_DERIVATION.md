@@ -128,33 +128,44 @@ For infinite domain: I_∞ = √(2π) × σ
 
 **Y₁₁ (Generation 1 at φ=0):**
 ```
-x_upper = 2π/(√2 × 0.838) = 7.50
+x_upper = 2π/(√2 × 0.838) = 5.30
 x_lower = 0/(√2 × 0.838) = 0
 
-erf(7.50) = 1.000
+erf(5.30) = 1.000
 erf(0) = 0
 
-Y₁₁ = √π × √2 × σ × (1.000 - 0) = 1.485
+Y₁₁ = √(π/2) × σ × (1.000 - 0) = 1.050
 Y₁₁_∞ = √(2π) × σ = 2.100
 
-f₁₁ = Y₁₁/Y₁₁_∞ = 0.707  (= 1/√2, as expected for half-Gaussian)
+f₁₁ = Y₁₁/Y₁₁_∞ = 0.500  (exact half-Gaussian truncation)
 ```
 
-**Y₂₂ (Generation 2 at φ=2π/3):**
+**Correction (FIX pass):** The original version of this section computed the prefactor as
+"√π × √2 × σ = 1.485" — this is arithmetically wrong on two counts: (1) it silently drops a
+factor of √2 relative to the formula stated in §4.1 (√(π/2)×σ, not √π×√2×σ), and (2) even its
+own stated product √π×√2×σ evaluates to 2.100, not 1.485 (the 1.485 shown was actually
+√π×σ, i.e. the √2 factor was dropped a second time when multiplying). The resulting f₁₁=0.707
+was then narrated as "expected for half-Gaussian" — that phrase is itself backwards: 0.500 (a
+clean 1/2, verified independently via direct erf integration:
+f₁₁=0.4999999999999675) is the value expected for a half-Gaussian truncation, not 0.707.
+The "as expected" language was a post-hoc justification attached to an arithmetic error, not a
+genuine physical expectation.
+
+**Y₂₂ (Generation 2 at φ=2π/3):** (corrected in FIX pass — same missing-√2 prefactor error as Y₁₁ above)
 ```
-x_upper = (2π - 2π/3)/(√2 × 0.838) = 5.00
-x_lower = (0 - 2π/3)/(√2 × 0.838) = -2.50
+x_upper = (2π - 2π/3)/(√2 × 0.838) = 3.53
+x_lower = (0 - 2π/3)/(√2 × 0.838) = -1.77
 
-erf(5.00) = 1.000
-erf(-2.50) = -1.000 (approx)
+erf(3.53) = 1.000
+erf(-1.77) = -0.988
 
-Y₂₂ = √π × √2 × σ × (1.000 - (-1.000)) = 2.969
+Y₂₂ = √(π/2) × σ × (1.000 - (-0.988)) = 2.088
 Y₂₂_∞ = 2.100
 
-f₂₂ = Y₂₂/Y₂₂_∞ = 1.414  (= √2)
+f₂₂ = Y₂₂/Y₂₂_∞ = 0.994
 ```
 
-**Y₁₂ (Cross-generation):**
+**Y₁₂ (Cross-generation):** (corrected in FIX pass — same missing-√2 prefactor error)
 ```
 φ_mid = π/3
 σ_eff = σ/√2 = 0.592
@@ -164,13 +175,23 @@ x_upper = (2π - π/3)/(√2 × 0.592) = 6.25
 x_lower = (0 - π/3)/(√2 × 0.592) = -1.25
 
 erf(6.25) = 1.000
-erf(-1.25) = -0.923
+erf(-1.25) = -0.924
 
-Y₁₂ = prefactor × √π × √2 × σ_eff × (1.000 - (-0.923)) = 1.307
+Y₁₂ = prefactor × √(π/2) × σ_eff × (1.000 - (-0.924)) = 0.654
 Y₁₂_∞ = prefactor × √(2π) × σ_eff = 0.680
 
-f₁₂ = Y₁₂/Y₁₂_∞ = 1.923
+f₁₂ = Y₁₂/Y₁₂_∞ = 0.961
 ```
+
+**Errata note (FIX pass):** §4.2's original Y₁₁, Y₂₂, and Y₁₂ all used the same erroneous
+prefactor (missing a factor of √2 relative to the formula stated in §4.1), which the document
+itself flagged as suspicious for Y₁₁ ("as expected for half-Gaussian," now corrected above).
+Recomputing all three consistently with the §4.1 formula (verified via direct python erf
+integration) gives f₁₁=0.500, f₂₂=0.994, f₁₂=0.961, in place of the original 0.707, 1.414,
+1.923. This changes the downstream f_boundary value (§5.2) but not the document's own
+conclusion: f_boundary is still >1 (enhancement) under every method tried here, still the
+opposite sign from the 0.65 (suppression) the STUR framework needs elsewhere. The √2 slip does
+not rescue the claimed 0.65.
 
 ---
 
@@ -183,13 +204,18 @@ f_boundary = (Y₁₂_finite / Y₁₂_∞) / √[(Y₁₁_finite/Y₁₁_∞) �
            = f₁₂ / √(f₁₁ × f₂₂)
 ```
 
-### 5.2 Calculation
+### 5.2 Calculation (corrected in FIX pass)
 
 ```
-f_boundary = 1.923 / √(0.707 × 1.414)
-           = 1.923 / √(1.000)
-           = 1.923
+f_boundary = 0.961 / √(0.500 × 0.994)
+           = 0.961 / 0.705
+           = 1.364
 ```
+
+(Original document, before the §4.2 arithmetic correction, computed 1.923 / √(0.707 × 1.414)
+= 1.923 here. The corrected value 1.364 is smaller but still >1 — the qualitative conclusion
+of this document, that simple Gaussian-overlap truncation gives f_boundary>1 rather than the
+needed 0.65, is unchanged.)
 
 ### 5.3 With Periodic Images (Proper ∞₃ Treatment)
 
@@ -214,7 +240,7 @@ f_boundary = 1.550 / √(1.002 × 1.002) = 1.547
 
 | Method | f_boundary |
 |--------|------------|
-| Simple truncation | 1.92 |
+| Simple truncation | 1.36 (corrected in FIX pass from 1.92 — §4.2 had a missing-√2 prefactor error; see errata note there) |
 | Periodic images | 1.55 |
 | Normalized wavefunctions | 1.27 |
 | **Document claims** | **0.65** |
@@ -286,7 +312,7 @@ This is the closest match! **The 0.65 may represent (sector confinement)².**
 
 | Calculation | Result |
 |-------------|--------|
-| Finite-domain Gaussian overlap (f₁₂/√(f₁₁f₂₂)) | 1.27 - 1.92 |
+| Finite-domain Gaussian overlap (f₁₂/√(f₁₁f₂₂)) | 1.27 - 1.55 (simple truncation corrected in FIX pass from 1.92 to 1.36; see §6 errata) |
 | With periodic images | 1.55 |
 | **1/f_boundary** | **0.65** |
 | [erf(Δ/(2σ))]² | 0.85 |

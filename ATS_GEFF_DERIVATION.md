@@ -188,7 +188,18 @@ g_eff = 70.2 eV⁻² × 1 eV⁻¹ × 0.25 eV
       = 17.55 (dimensionless)
 ```
 
-This is a **strong coupling** regime where the STUR saturation operator S(u) becomes essential.
+**⚠️ DIMENSIONAL ANALYSIS ERROR:** As defined, g_eff = G_eff × N(0) × ω_c has
+units eV⁻² × eV⁻¹ × eV = **eV⁻²**, not dimensionless. The label "dimensionless"
+above does not follow from the stated definition; some missing
+unit-canceling factor (e.g. a volume or normalization factor in N(0), or a
+different definition of the BCS coupling) would be needed to make g_eff
+genuinely dimensionless, and none is shown. The numeric value 17.55 is
+arithmetically self-consistent given the inputs (verified via python3), but
+its use as a dimensionless BCS-type coupling in the tanh/exp saturation
+formulas below (Sections 4.2, 5.3) is not dimensionally justified as written.
+
+This is nonetheless treated as a **strong coupling** regime where the STUR
+saturation operator S(u) becomes essential.
 
 ---
 
@@ -255,8 +266,9 @@ For the self-consistent solution, we integrate:
 ```
 λ = V_eff × N(0) = y² × N(0) / M_R²
   = (2π/3)² × (1 eV⁻¹) / (0.25 eV)²
-  = 4.39 × 16 eV⁻¹
-  = 70.2 eV⁻¹
+  = 4.39 × 16 eV⁻²        [corrected: 1/(0.25 eV)² = 16 eV⁻², not 16 eV⁻¹]
+  = 70.2 eV⁻²·eV⁻¹ = 70.2 eV⁻³   [not eV⁻¹ as previously stated — see the
+                                   dimensional-analysis note in Section 3.3]
 ```
 
 The dimensionless coupling:
@@ -302,8 +314,19 @@ Real materials have additional suppressions:
 
 Combined correction factor: f_material ≈ 0.25
 
+**⚠️ CORRECTION:** Multiplying the three stated component ranges together
+(verified via python3) gives a combined range of **0.015 to 0.10**
+(0.1×0.3×0.5 to 0.2×0.5×1.0) — the asserted f_material ≈ 0.25 lies entirely
+outside this range, more than double the stated upper bound of 0.10. The
+value 0.25 is exactly what is needed to bring the pre-correction Δ₀ = 231 meV
+down to the target ≈58-60 meV (231×0.25≈58); it does not follow from the
+three components listed above. This should be read as a fitted/reverse-
+engineered factor chosen to hit the target Δ₀, not a value computed from the
+stated physical inputs.
+
 ```
-Δ₀(physical) ≈ 231 meV × 0.25 ≈ 58 meV ≈ 60 meV
+Δ₀(physical) ≈ 231 meV × 0.25 ≈ 58 meV ≈ 60 meV   [f_material not
+                                                     independently justified]
 ```
 
 ---
@@ -326,6 +349,11 @@ T_c = 2Δ₀ / (3.52 × k_B)
     = 120 meV / (303 μeV/K)
     = 396 K
 ```
+(Minor unreconciled rounding note: this document also states T_c ≈ 394 K in
+the Abstract/Section 6.2 box, and rounds up to "≈400 K" in the Section 10
+conclusion, for what should be the same calculation. The differences are
+~0.5-1.5% and don't change the qualitative conclusion, but the three figures
+are not reconciled to a single stated precision anywhere in the document.)
 
 ### 6.2 Complete Derivation Chain
 
@@ -505,13 +533,25 @@ where:
 
 ### 10.3 Conclusion
 
-The STUR ambient temperature superconductor prediction is now **fully derived from first principles**:
+**⚠️ CORRECTION:** The "ONE INPUT" claim below is not accurate. In addition to
+M_Planck and the helix geometry, this derivation chain uses several
+material-specific parameters that are not derived from either: N(0) ≈ 1
+state/(eV·atom) ("typical metal" value, Section 3.3), v_F ≈ 10⁶ m/s ("typical
+metal" value), the Coulomb pseudopotential μ* ≈ 0.1-0.2, screening ≈0.3-0.5,
+and multi-band ≈0.5-1.0 (Section 5.4). This is consistent with the
+STUR-wide canonical framework of **4 inputs** (M_Planck, v, m_t, α_em) plus,
+here, additional condensed-matter material parameters that are external to
+the core framework — not a literal single input.
+
+The STUR ambient temperature superconductor prediction as originally framed:
 
 **ONE INPUT:** M_Planck = 1.22 × 10¹⁹ GeV
 
 **ONE GEOMETRY:** infinity helix on M⁴ × S¹
 
 **OUTPUT:** T_c ≈ 400 K (ambient temperature superconductivity)
+
+(See correction above — several unstated material inputs are also required.)
 
 The effective coupling g_eff is no longer an assumption - it emerges from the R-field doublet coupling to electrons, integrated out at the KK mass scale, with the saturation operator S(u) preventing strong-coupling divergence.
 

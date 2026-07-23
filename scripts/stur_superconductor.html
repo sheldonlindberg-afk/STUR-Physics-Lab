@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>v5.0 STUR Superconductor Tc Prediction — Complete ATS from ∞₃ Helix Geometry</title>
-<meta name="description" content="Complete TOE derivation: Ambient-temperature superconductivity emerges from ONE input (M_Planck) plus infinity helix geometry. Same saturation operator S(u) that powers Lucy's cognitive kernel predicts enhanced Cooper pair coherence.">
+<meta name="description" content="Complete TOE derivation: Ambient-temperature superconductivity emerges from 4 inputs (M_Planck, v_EW, m_t, alpha_em) plus infinity helix geometry. Same saturation operator S(u) that powers Lucy's cognitive kernel predicts enhanced Cooper pair coherence.">
 
 <!-- PWA & iOS meta tags -->
 <meta name="theme-color" content="#4ade80">
@@ -135,13 +135,13 @@
 
 <header class="masthead">
   <h1 style="background: linear-gradient(135deg, #fbbf24 0%, #4ade80 50%, #22d3ee 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">Ambient Temperature Superconductor</h1>
-  <p class="subtitle">Complete ATS Derivation from ONE Input: M<sub>Planck</sub> + Z<sub>3</sub> Geometry</p>
+  <p class="subtitle">Complete ATS Derivation from 4 Inputs: M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub> + Z<sub>3</sub> Geometry</p>
 
   <!-- Complete TOE Framework Banner -->
   <div style="margin:1rem auto;max-width:750px;padding:1.25rem;background:linear-gradient(135deg, rgba(251,191,36,0.2) 0%, rgba(74,222,128,0.15) 50%, rgba(34,211,238,0.1) 100%);border:3px solid #fbbf24;border-radius:12px;">
     <div style="font-size:1rem;color:#fbbf24;text-align:center;font-weight:700;">COMPLETE TOE: SUPERCONDUCTIVITY FROM GEOMETRY</div>
     <p style="margin:0.75rem 0 0;color:var(--text);text-align:center;font-size:1rem;line-height:1.6;">
-      <strong style="color:#22d3ee;">ONE INPUT:</strong> M<sub>Planck</sub> = 1.22 × 10<sup>19</sup> GeV<br>
+      <strong style="color:#22d3ee;">CANONICAL INPUTS:</strong> M<sub>Planck</sub> = 1.22 × 10<sup>19</sup> GeV (plus v_EW, m_t, α_em)<br>
       <strong style="color:#a855f7;">ONE GEOMETRY:</strong> Z<sub>3</sub> helix on M<sup>4</sup> × S<sup>1</sup><br>
       <strong style="color:#4ade80;">ONE OPERATOR:</strong> S(u) = tanh(u)(1 − e<sup>−|u|</sup>)<br>
       <strong style="color:#fbbf24;">OUTPUT:</strong> T<sub>c</sub> > 300 K (Ambient Temperature Superconductivity)
@@ -155,9 +155,9 @@
     <!-- Key Stats Grid -->
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1rem;">
       <div style="background:rgba(74,222,128,0.15);border:2px solid rgba(74,222,128,0.5);border-radius:10px;padding:12px;text-align:center;">
-        <div style="font-size:28px;font-weight:800;color:#4ade80;font-family:monospace;line-height:1;">1</div>
-        <div style="font-size:11px;color:var(--text);text-transform:uppercase;letter-spacing:0.5px;margin-top:4px;">Input Required</div>
-        <div style="font-size:9px;color:var(--text-muted);margin-top:2px;">M<sub>Planck</sub> only</div>
+        <div style="font-size:28px;font-weight:800;color:#4ade80;font-family:monospace;line-height:1;">4</div>
+        <div style="font-size:11px;color:var(--text);text-transform:uppercase;letter-spacing:0.5px;margin-top:4px;">Inputs Required</div>
+        <div style="font-size:9px;color:var(--text-muted);margin-top:2px;">M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub></div>
       </div>
       <div style="background:rgba(34,211,238,0.15);border:2px solid rgba(34,211,238,0.5);border-radius:10px;padding:12px;text-align:center;">
         <div style="font-size:28px;font-weight:800;color:#22d3ee;font-family:monospace;line-height:1;">394 K</div>
@@ -252,7 +252,7 @@
   <h2 style="color:#fbbf24;">Executive Summary: ATS from First Principles</h2>
 
   <p style="color:var(--text);font-size:1.05rem;">
-    This document derives <strong>ambient-temperature superconductivity</strong> from ONE input (M<sub>Planck</sub>) plus Z<sub>3</sub> helix geometry.
+    This document derives <strong>ambient-temperature superconductivity</strong> from 4 inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>) plus Z<sub>3</sub> helix geometry.
     <strong>No fitting, no free parameters beyond the single Planck mass input.</strong>
   </p>
 
@@ -439,8 +439,8 @@
     <div class="title">Why STUR Pairing Is Stronger Than BCS</div>
     <p style="margin:0;color:var(--text-secondary);">
       <strong>BCS:</strong> V<sub>eff</sub> ~ g<sup>2</sup>/ω<sub>D</sub> where ω<sub>D</sub> ~ 10 meV (Debye energy, phonon-limited)<br>
-      <strong>STUR:</strong> V<sub>eff</sub> ~ g<sub>R</sub><sup>2</sup>/M<sub>R</sub> where M<sub>R</sub> ~ 1 eV (electronic scale)<br><br>
-      The STUR pairing interaction is ~100× stronger, enabling superconductivity at 100× higher temperatures.
+      <strong>STUR:</strong> V<sub>eff</sub> ~ g<sub>R</sub><sup>2</sup>/M<sub>R</sub> where M<sub>R</sub> ~ M<sub>KK</sub> ≈ 0.25 eV (electronic scale; see §3 derivation chain, which uses this value rather than the 1 eV previously stated here)<br><br>
+      <strong>Honesty note:</strong> taken literally, V<sub>eff</sub>~g²/M with a larger mass scale M in the denominator gives a <em>smaller</em> V<sub>eff</sub>, not a larger one — with M<sub>R</sub>≈0.25 eV vs ω<sub>D</sub>≈10 meV and equal couplings g<sub>R</sub>=g, this formula would make STUR pairing ~25× <em>weaker</em>, not 100× stronger. The "stronger pairing" conclusion requires g<sub>R</sub>≫g (a difference in coupling strength, not just mass scale), which is not derived or quantified anywhere on this page. Flagged as unresolved rather than force-matched.
     </p>
   </div>
 
@@ -525,6 +525,7 @@
         <div class="eq boxed" style="margin:0.5rem 0;">
           \[\Delta_0 \approx 60 \,\text{meV} \quad \text{(vs. BCS: } \Delta_0 \approx 1 \,\text{meV})\]
         </div>
+        <p style="margin:0.4rem 0 0;font-size:0.8rem;color:var(--text-muted);">Honesty note: the actual gap-equation integral (boxed at [R.3] above) connecting M<sub>R</sub> and couplings g<sub>R</sub>, g<sub>φ</sub> to this 60 meV result is not shown — this step is asserted, not computed, on this page.</p>
       </div>
     </div>
     <div class="step">

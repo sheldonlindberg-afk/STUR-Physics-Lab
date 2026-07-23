@@ -425,7 +425,11 @@ The selection of ∞₃ (and hence N = 3) comes from the **gauge group constrain
 
 1. **Minimality principle:** Nature prefers the simplest structure
 2. **Holonomy energy:** ∞₃ center has lower energy than Z₆ center for fixed L_X
-3. **Fermion content:** Z₆ would give 6 generations (ruled out)
+3. **Fermion content:** Z₆ would give 6 generations (ruled out because 6 ≠ 3
+   observed generations — this criterion uses the observed N_gen = 3 to select
+   against the alternative, which is the same circularity this document's own
+   §1.2 warns against: "∞₃ gives 3 generations / We observe 3 generations /
+   Therefore ∞₃")
 
 ### 5.4 The Complete Argument
 
@@ -459,6 +463,18 @@ N_gen = 3  ✓
 
 ### 6.2 The Derived Result
 
+> **Honesty note:** this document's own §4.4-4.7 report three sequential
+> energy-minimization attempts to derive N_gen = 3 directly, and each one
+> explicitly fails: Attempt 1 finds larger N energetically preferred
+> ("E_total(N) decreases with N"), Attempt 2 gives N_crit ≈ 39 not 3, and
+> Attempt 3 gives N ≈ 1.29 not 3. The topological argument below, which the
+> conclusion box calls "DERIVED, not assumed," is a different (§5) approach
+> reached only after those three failed, and its final selection step (§5.3
+> point 3 above) uses the observed N_gen = 3 to rule out the Z₆ alternative —
+> the same circularity flagged in this document's own §1.2. Read honestly,
+> N_gen = 3 is not derived from first principles in this document by either
+> route attempted.
+
 ```
 +------------------------------------------------------------------+
 |                                                                  |
@@ -471,7 +487,9 @@ N_gen = 3  ✓
 |    4. ∞-helix topology has exactly 3 fixed points                    |
 |    5. Index theorem: 3 zero modes at 3 fixed points             |
 |                                                                  |
-|  N_gen = 3 is DERIVED, not assumed.                             |
+|  N_gen = 3 is ASSERTED via a topological argument that itself   |
+|  depends on ruling out alternatives using the observed N_gen=3  |
+|  (circular) — NOT independently derived. See honesty note above.|
 |                                                                  |
 +------------------------------------------------------------------+
 ```

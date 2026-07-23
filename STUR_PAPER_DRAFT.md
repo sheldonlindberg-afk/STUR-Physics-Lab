@@ -10,7 +10,7 @@
 
 ## Abstract
 
-We present STUR (Sheldon's Theory of Unified Resistance), a five-dimensional effective field theory on M^4 × S^1/∞₃ that provides a geometrically-motivated framework for Standard Model structure. Starting from three foundational axioms---(1) 5D spacetime with a compact extra dimension, (2) a real doublet scalar field R coupled to torsion via TEGR, and (3) energy minimization selecting the vacuum---we derive that the R-field configuration forms a infinity helix structure. This geometry yields exactly three fermion generations (topological), the SU(3) x SU(2) x U(1) gauge group, and a natural solution to the strong CP problem (theta_QCD = 0 by ∞₃ x CP symmetry). The fermion mass hierarchy and CKM mixing arise from overlap integrals of localized wavefunctions at ∞-helix node points, governed by a Mathieu equation with coupling alpha_eff. At tree level alpha = 1 (from XCRM-Yukawa symmetry), quantum corrections enhance this to alpha_eff = 1.33 +/- 0.15 (computed) with a target value of 3/2 required to match the observed Cabibbo angle at 1.2% accuracy. The Higgs mass is predicted as 125 +/- 2 GeV from gauge-Higgs unification. Topological predictions (N_gen = 3, theta_QCD = 0, normal neutrino ordering) are robust, while precision predictions for masses and mixing angles depend on correction factors whose derivation status ranges from rigorous to semi-derived. The framework does not solve the cosmological constant problem and requires UV completion for a complete theory of quantum gravity. The theory makes falsifiable predictions testable by current and near-future experiments (JUNO, DUNE, ARIADNE).
+We present STUR (Sheldon's Theory of Unified Resistance), a five-dimensional effective field theory on M^4 × S^1/∞₃ that provides a geometrically-motivated framework for Standard Model structure. Starting from three foundational axioms---(1) 5D spacetime with a compact extra dimension, (2) a real doublet scalar field R coupled to torsion via TEGR, and (3) energy minimization selecting the vacuum---we derive that the R-field configuration forms a infinity helix structure. This geometry yields exactly three fermion generations (topological), the SU(3) x SU(2) x U(1) gauge group, and a natural solution to the strong CP problem (theta_QCD = 0 by ∞₃ x CP symmetry). The fermion mass hierarchy and CKM mixing arise from overlap integrals of localized wavefunctions at ∞-helix node points, governed by a Mathieu equation with coupling alpha_eff. At tree level alpha = 1 (from XCRM-Yukawa symmetry), quantum corrections enhance this to alpha_eff = 1.480 +/- 0.047 (one-loop + two-loop; see Sec. 5.4.1), close to the target value of 3/2 required to match the observed Cabibbo angle, giving lambda = exp(-kappa^2/4) = 0.229 (1.6% accuracy). [CORRECTED — an earlier draft of this abstract stated alpha_eff = 1.33 +/- 0.15, which conflicted with the value actually computed and used in Sec. 5.4.1 of this same document; the two values are now reconciled to the Sec. 5.4.1 figure, which is the one used in the live canonical closure script.] The Higgs mass is predicted as 125 +/- 2 GeV from gauge-Higgs unification. Topological predictions (N_gen = 3, theta_QCD = 0, normal neutrino ordering) are robust, while precision predictions for masses and mixing angles depend on correction factors whose derivation status ranges from rigorous to semi-derived. The framework does not solve the cosmological constant problem and requires UV completion for a complete theory of quantum gravity. The theory makes falsifiable predictions testable by current and near-future experiments (JUNO, DUNE, ARIADNE).
 
 **PACS:** 12.10.Dm, 11.10.Kk, 04.50.+h, 12.15.Ff
 **Keywords:** Extra dimensions, Flavor physics, CKM matrix, Gauge-Higgs unification, ∞-helix topology
@@ -267,6 +267,13 @@ This hierarchy, combined with the seesaw mechanism, yields:
 - Delta m^2_21 = 7.06 x 10^-5 eV^2 (observed: 7.41 +/- 0.21)
 - Delta m^2_31 = 2.50 x 10^-3 eV^2 (observed: 2.511 +/- 0.027)
 
+[STALE VALUE NOTE, added FIX phase 2026-07-18: This document (v4.5, Feb 2026) uses the
+superseded xi_i-fitted seesaw value for Delta m^2_21. The current canonical value from the
+Z3-forced pseudo-Dirac mechanism (`scripts/stur_toe_closure.py` Part 7, Delta m^2_21 =
+lambda_l^2/2 x Delta m^2_31) is 6.92 x 10^-5 eV^2, 8% from the PDG value, status D. See
+SOLAR_MASS_SPLITTING_ANALYSIS.md and SOLAR_NEUTRINO_MASS_SPLIT.md for further detail and
+cross-references on this superseded/canonical distinction.]
+
 ---
 
 ## 4. Comparison Table: Predictions vs. Observations
@@ -289,7 +296,7 @@ All mass predictions include the universal f_tail = 1.131 correction [11]. Neutr
 | | m_s | 93.5 +/- 2 MeV | 93.5 +/- 0.8 MeV | PDG 2024 | 0.5% |
 | | m_t : m_c : m_u | 1 : lambda^4 : lambda^8 | Pattern matches | PDG 2024 | PATTERN |
 | **Neutrinos** | Ordering | Normal | Favored (3.5 sigma) | NuFIT 6.0 | Consistent |
-| | Delta m^2_21 | 7.06 x 10^-5 eV^2 | (7.41 +/- 0.21) x 10^-5 eV^2 | NuFIT 6.0 | 6% |
+| | Delta m^2_21 [STALE, see Sec. 3 note] | 7.06 x 10^-5 eV^2 | (7.41 +/- 0.21) x 10^-5 eV^2 | NuFIT 6.0 | 6% (superseded; canonical value is 6.92e-5, 8%, D) |
 | | Delta m^2_31 | 2.50 x 10^-3 eV^2 | (2.511 +/- 0.027) x 10^-3 eV^2 | NuFIT 6.0 | 0.4% |
 | | sin^2(theta_23) | 0.573 +/- 0.03 | 0.572 +/- 0.018 | NuFIT 6.0 | 0.06 sigma |
 | **Unification** | alpha_s(M_Z) | 0.118 | 0.1180 +/- 0.0009 | PDG 2024 | EXACT |
@@ -309,7 +316,7 @@ Each prediction's derivation involves intermediate quantities whose status range
 | **theta_QCD = 0** | 0 (exact) | DERIVED | HIGH | ∞₃ x CP symmetry; rigorous |
 | **Gauge group** | SU(3)xSU(2)xU(1) | DERIVED | HIGH | Holonomy of ∞₃ connection |
 | **alpha = 1** | 1.0 | ASSUMED | MEDIUM | From XCRM-Yukawa symmetry; not uniquely selected by axioms |
-| **alpha_eff** | 1.33 +/- 0.15 | COMPUTED | MEDIUM | From quantum corrections (target: 1.50); 12% gap unresolved |
+| **alpha_eff** | 1.480 +/- 0.047 | COMPUTED | MEDIUM | From quantum corrections (one-loop + two-loop, Sec. 5.4.1; target: 1.50); [CORRECTED — this row previously stated 1.33 +/- 0.15, inconsistent with the 1.480 +/- 0.047 value actually used in Sec. 5.4.1 of this document; now reconciled] |
 | **kappa** | 2.22 (base) | COMPUTED | HIGH | Numerical Mathieu equation solution |
 | **kappa corrections** | +0.30 | ESTIMATED | LOW | Dimensional analysis; potential double-counting |
 | **f_boundary** | 0.62 | SEMI-DERIVED | LOW | Sign confusion acknowledged; ∞₃ factor calibrated |
@@ -451,29 +458,48 @@ This may indicate two distinct length scales in the framework, or an error in on
 
 ## 7. Conclusions
 
-STUR achieves complete quantitative closure for Standard Model parameters within a geometrically-motivated effective field theory framework.
+[CORRECTED, FIX phase 2026-07-18: This section previously claimed "complete quantitative
+closure" and "no adjustable parameters beyond L_X," directly contradicting this document's
+own Sec. 4.1 Honesty Table, which classifies only 5 of 18 intermediate quantities as
+rigorously DERIVED (7 SEMI-DERIVED, 5 ESTIMATED/CALIBRATED, 1 NOT DERIVED), and Sec. 4.1's
+own statement that "the honest count of genuinely free inputs is: M_Planck, alpha (or
+equivalently alpha_eff), and L_X (or equivalently v)" — i.e., not zero, and not "no adjustable
+parameters beyond L_X." The text below is revised to match the document's own honesty table
+rather than overclaim beyond it.]
 
-**Quantitative Closure (100% within 10%, 92% within 5%):**
+STUR achieves substantial but incomplete quantitative closure for Standard Model parameters
+within a geometrically-motivated effective field theory framework: 26/26 sampled predictions
+land within 10% of observation and 24/26 within 5% (Sec. 4), but this closure relies on
+several calibrated/estimated correction factors, not a fully first-principles derivation chain
+(see Sec. 4.1 Honesty Table: 5/18 rigorously derived, 7/18 semi-derived, 5/18
+estimated/calibrated, 1/18 not derived).
+
+**Quantitative Closure (26/26 within 10%, 24/26 within 5% — see caveats above):**
 - Exactly three fermion generations (∞₃ topology)
 - SM gauge group (holonomy compatibility)
 - Strong CP problem (∞₃ x CP symmetry)
-- All fermion masses with f_tail = 1.131 correction [11]
+- All fermion masses with f_tail = 1.131 correction [11] (f_tail itself is CALIBRATED, not derived — Sec. 4.1)
 - CKM matrix structure (all four Wolfenstein parameters)
 - PMNS mixing angles with derived g = 0.75 [13]
-- Neutrino mass-squared differences with M_R hierarchy [12]
+- Neutrino mass-squared differences with M_R hierarchy [12] (uses the superseded xi_i-fitted mechanism; see Sec. 3 stale-value note)
 - Higgs mass (gauge-Higgs unification)
 
-**Derivation Completeness:**
-- All previously fitted parameters (f_tail, M_R hierarchy, g form factor) now derived from ∞₃ geometry
-- Universal 5% correction identified as single geometric effect (wavefunction tails)
-- No adjustable parameters beyond the compactification scale L_X
+**Derivation Completeness (revised to match Sec. 4.1):**
+- Several previously fitted parameters (v*L_X=3, alpha_s, m_H) are rigorously or semi-derived from ∞₃ geometry
+- Others (f_tail, f_holonomy, f_RG, lambda_hol, kappa corrections) remain calibrated, estimated, or not derived — see Sec. 4.1
+- **This document's own honest count of genuinely free inputs is: M_Planck, alpha (or
+  alpha_eff), and L_X (or v) — i.e., the framework does NOT have zero adjustable parameters.**
+  The broader repository scorecard (see STUR_WEB_OVERVIEW.md) counts 4 free inputs across the
+  full 30-observable closure.
 
 **Open Problems:**
 - Cosmological constant (framework but not solution)
 - UV completion (requires string embedding)
 - NNLO corrections for m_t, m_u (within 10% but not 5%)
+- lambda_hol (~20) is explicitly NOT DERIVED (Sec. 4.1)
+- Scale ambiguity between L_X ~ 10^-32 m and ~1 micrometer is unresolved (Sec. 6.3)
 
-The framework represents a complete first-principles derivation of Standard Model parameters from infinity helix geometry. It makes falsifiable predictions testable by current and near-future experiments, including normal neutrino ordering, upper octant theta_23, and fifth-force deviations at micrometer scales.
+The framework represents a substantial, but not complete, first-principles derivation of Standard Model parameters from infinity helix geometry, with several correction factors still calibrated rather than derived. It makes falsifiable predictions testable by current and near-future experiments, including normal neutrino ordering, upper octant theta_23, and fifth-force deviations at micrometer scales.
 
 ---
 

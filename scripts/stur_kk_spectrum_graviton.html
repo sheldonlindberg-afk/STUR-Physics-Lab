@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR KK Spectrum & Graviton Mass — L_X SOLVED (v7.0)</title>
-<meta name="description" content="STUR v7.0: Complete KK spectrum on infinity helix with L_X SOLVED. Graviton tower starts at M_KK ~ 1/L_X. F-theory CY₄ UV completion proven. 29 observables from 3 axioms + M_Planck.">
+<meta name="description" content="STUR v7.0: Complete KK spectrum on infinity helix with L_X SOLVED. Graviton tower starts at M_KK ~ 1/L_X. F-theory CY₄ UV completion proven. 30 observables (24D+3P+2U+1I, 83% closure) from 3 axioms + 4 inputs (M_Planck, v_EW, m_t, alpha_em).">
 
 <!-- PWA & iOS meta tags -->
 <meta name="theme-color" content="#4ade80">
@@ -54,7 +54,7 @@
   <!-- v7.0 F-theory context -->
   <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(167,139,250,0.08);border:1px solid #a78bfa;border-radius:8px;max-width:600px;font-size:0.8rem;">
     <span style="color:#a78bfa;font-weight:600;">F-theory CY₄:</span> (P²×P¹)/∞₃ uniquely determines KK tower. Graviton tower starts at M<sub>KK</sub> ~ 1/L<sub>X</sub>.
-    All 30 observables (29D+0P+0U+1I) from 3 axioms + M<sub>Planck</sub>.
+    All 30 observables (24D+3P+2U+1I, 83% closure) from 3 axioms + M<sub>Planck</sub>.
   </div>
 </header>
 
@@ -86,7 +86,7 @@
   <p style="margin-top:1rem;">Key results from L<sub>X</sub> ≈ 0.8 μm:</p>
   <ul>
     <li><strong>KK mass scale:</strong> M<sub>KK</sub> = ℏc/L<sub>X</sub> ≈ 0.25 eV</li>
-    <li><strong>First KK graviton:</strong> m<sub>G</sub><sup>(1)</sup> = 2π/L<sub>X</sub> ≈ 1.55 eV</li>
+    <li><strong>First KK graviton:</strong> m<sub>G</sub><sup>(1)</sup> = 1/L<sub>X</sub> ≈ 0.25 eV (consistent with M<sub>KK</sub> above and eq. KK.6; a previous version of this page used an inconsistent 2π/L<sub>X</sub> convention)</li>
     <li><strong>∞-helix phase structure:</strong> ω<sup>n</sup> = e<sup>2πin/3</sup> phases for generation mixing</li>
     <li><strong>R-field coherence:</strong> ℓ<sub>coh</sub> ~ 0.1-10 μm (from R-field fluctuations)</li>
   </ul>
@@ -169,19 +169,20 @@
     </thead>
     <tbody>
       <tr style="background:rgba(74,222,128,0.1);"><td>0</td><td>0 (massless)</td><td>+1</td><td>1/M<sub>Pl</sub></td></tr>
-      <tr><td>1</td><td>1.55 eV</td><td>ω</td><td>1/M<sub>Pl</sub></td></tr>
-      <tr><td>2</td><td>3.10 eV</td><td>ω²</td><td>1/M<sub>Pl</sub></td></tr>
-      <tr><td>3</td><td>4.65 eV</td><td>+1</td><td>1/M<sub>Pl</sub></td></tr>
-      <tr><td>10</td><td>15.5 eV</td><td>+1</td><td>1/M<sub>Pl</sub></td></tr>
-      <tr><td>10⁶</td><td>1.55 MeV</td><td>+1</td><td>1/M<sub>Pl</sub></td></tr>
+      <tr><td>1</td><td>0.25 eV</td><td>ω</td><td>1/M<sub>Pl</sub></td></tr>
+      <tr><td>2</td><td>0.49 eV</td><td>ω²</td><td>1/M<sub>Pl</sub></td></tr>
+      <tr><td>3</td><td>0.74 eV</td><td>+1</td><td>1/M<sub>Pl</sub></td></tr>
+      <tr><td>10</td><td>2.47 eV</td><td>+1</td><td>1/M<sub>Pl</sub></td></tr>
+      <tr><td>10⁶</td><td>0.25 MeV</td><td>+1</td><td>1/M<sub>Pl</sub></td></tr>
     </tbody>
   </table>
 
   <div class="block success">
     <div class="title">KK Mass Formula</div>
     <p style="margin:0;color:var(--text-secondary);">
-      m<sub>n</sub> = n × 2π/L<sub>X</sub> = n × 2π/(0.8 μm) ≈ n × 1.55 eV.
-      The meV-scale graviton KK modes could contribute to fifth-force experiments and precision gravity tests.
+      m<sub>n</sub> = n/L<sub>X</sub> = n/(0.8 μm) ≈ n × 0.25 eV (consistent with eq. KK.6 and the ∞₃ mode functions
+      KK.3; corrected from an earlier version of this page that used an inconsistent 2π/L<sub>X</sub> ≈ 1.55 eV convention).
+      The sub-eV-scale graviton KK modes could contribute to fifth-force experiments and precision gravity tests.
     </p>
   </div>
 
@@ -288,9 +289,19 @@
 
   <p>The radion (size modulus of the extra dimension) mass from moduli stabilization:</p>
 
-  <div class="eq law" style="background:#000;border:2px solid var(--xcrm);padding:1.25rem;">
-    \[\boxed{m_\phi = \sqrt{\frac{\partial^2 V}{\partial L_X^2}}\bigg|_{L_X^*} = \frac{\sqrt{20}}{L_X^*} \cdot \left(\frac{|N_{\rm eff}|}{c_h ||h||^2}\right)^{1/4} \approx 3\;\text{meV}}\]
-    <div class="eq-label" style="color:var(--xcrm);">(KK.12) — Radion mass</div>
+  <div class="eq law" style="background:#000;border:2px solid var(--warning);padding:1.25rem;">
+    \[\boxed{m_\phi = \sqrt{\frac{\partial^2 V}{\partial L_X^2}}\bigg|_{L_X^*} = \frac{\sqrt{20}}{L_X^*} \cdot \left(\frac{|N_{\rm eff}|}{c_h ||h||^2}\right)^{1/4} \approx 3\;\text{meV (unreconciled — see honesty note)}}\]
+    <div class="eq-label" style="color:var(--warning);">(KK.12) — Radion mass</div>
+  </div>
+
+  <div class="block warning" style="margin:0.75rem 0;font-size:0.9rem;">
+    <p style="margin:0;color:var(--text-secondary);">
+      <strong>Honesty note:</strong> plugging in the stated inputs (N<sub>eff</sub>=−22, c<sub>h</sub>=1.35, ||h||²=0.162,
+      L<sub>X</sub>≈0.8 μm ⇒ 1/L<sub>X</sub>≈0.25 eV) gives \((|N_{\rm eff}|/(c_h||h||^2))^{1/4} \approx 3.17\) and
+      \(m_\phi = \sqrt{20}\times 0.25\,\text{eV}\times 3.17 \approx 3.5\,\text{eV}\) — about 1160× larger than the boxed
+      "≈3 meV", not smaller. This formula/result pairing has not been reconciled; the radion mass should be treated as
+      unresolved rather than a confirmed 3 meV prediction.
+    </p>
   </div>
 
   <h3>5.2 Radion Coupling</h3>
@@ -321,14 +332,14 @@
       <tr><th>Particle Type</th><th>Zero Mode</th><th>1st KK (n=1)</th><th>2nd KK (n=2)</th><th>KK Scale</th></tr>
     </thead>
     <tbody>
-      <tr><td>Graviton G</td><td>0 (massless)</td><td style="color:var(--success);">1.55 eV</td><td>3.10 eV</td><td>2π/L<sub>X</sub></td></tr>
-      <tr><td>Photon γ</td><td>0</td><td>1.55 eV</td><td>3.10 eV</td><td>2π/L<sub>X</sub></td></tr>
-      <tr><td>Gluon g</td><td>0</td><td>1.55 eV</td><td>3.10 eV</td><td>2π/L<sub>X</sub></td></tr>
+      <tr><td>Graviton G</td><td>0 (massless)</td><td style="color:var(--success);">0.25 eV</td><td>0.49 eV</td><td>1/L<sub>X</sub></td></tr>
+      <tr><td>Photon γ</td><td>0</td><td>0.25 eV</td><td>0.49 eV</td><td>1/L<sub>X</sub></td></tr>
+      <tr><td>Gluon g</td><td>0</td><td>0.25 eV</td><td>0.49 eV</td><td>1/L<sub>X</sub></td></tr>
       <tr><td>W<sup>±</sup></td><td>80.4 GeV</td><td>80.4 GeV</td><td>80.4 GeV</td><td>m<sub>0</sub> + n²/R<sub>X</sub>²</td></tr>
       <tr><td>Z<sup>0</sup></td><td>91.2 GeV</td><td>91.2 GeV</td><td>91.2 GeV</td><td>m<sub>0</sub> + n²/R<sub>X</sub>²</td></tr>
       <tr><td>Higgs H</td><td>125 GeV</td><td>125 GeV</td><td>125 GeV</td><td>m<sub>0</sub> + n²/R<sub>X</sub>²</td></tr>
       <tr><td>Top t</td><td>173 GeV</td><td>173 GeV</td><td>173 GeV</td><td>(c+½)/L<sub>X</sub></td></tr>
-      <tr style="background:rgba(251,191,36,0.1);"><td>Radion φ</td><td style="color:var(--gold);">3 meV</td><td>—</td><td>—</td><td>unique</td></tr>
+      <tr style="background:rgba(251,191,36,0.1);"><td>Radion φ</td><td style="color:var(--warning);">3 meV (unreconciled, see §5.1)</td><td>—</td><td>—</td><td>unique</td></tr>
     </tbody>
   </table>
 
@@ -340,12 +351,14 @@
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
       <li>M<sub>KK</sub> = ℏc/L<sub>X</sub> ≈ 0.25 eV (fundamental KK scale)</li>
-      <li>First KK mode: m<sub>1</sub> = 2π/L<sub>X</sub> ≈ 1.55 eV</li>
+      <li>First KK mode: m<sub>1</sub> = 1/L<sub>X</sub> ≈ 0.25 eV (consistent with M<sub>KK</sub> above)</li>
       <li>Graviton tower: eV-scale spacing (fifth-force range), starts at M<sub>KK</sub> ~ 1/L<sub>X</sub></li>
       <li>Coherence length: ℓ<sub>coh</sub> ~ 0.1-10 μm (visibility prediction)</li>
     </ul>
     <p style="margin:0.5rem 0 0;color:var(--text-muted);font-size:0.85rem;">
-      The radion (3 meV) is the lightest massive mode and could contribute to fifth-force experiments at submillimeter scales.
+      The radion mass (boxed formula gives ≈3 meV, but the formula does not reproduce this value with the stated
+      inputs — see §5.1 honesty note) would, if confirmed, be the lightest massive mode and could contribute to
+      fifth-force experiments at submillimeter scales.
     </p>
   </div>
 

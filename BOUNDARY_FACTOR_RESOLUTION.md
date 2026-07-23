@@ -12,13 +12,17 @@ The overlap integral calculation correctly yields f_boundary = 1.55 (enhancement
 
 **Key Finding:** The relationship is 0.65 = 1.55 x 0.42, where 0.42 represents the ∞₃ sector localization suppression that must be applied in addition to the overlap enhancement.
 
-> **Honesty note (added 2026-02-03):** The decomposition 0.65 = 1.55 x 0.42 is presented as
-> resolving the sign confusion, but the ∞₃ factor 0.42 is initially obtained by dividing
-> 0.65 by 1.55 (Section 4.3). The subsequent "first-principles" derivation (Section 4.4) gives
-> 0.374, not 0.42, and requires multiplying by an ad hoc factor of 1.12 ("∞-helix node
-> enhancement") to reach 0.42. This means f_boundary = 0.65 is obtained once the localized
-> Higgs profile and fixed-point enhancement are included in the overlap integral.
-> desired answer, with the decomposition providing post-hoc physical motivation.
+> **Honesty note (added 2026-02-03; corrected/de-garbled in FIX pass 2026-07-18):** The
+> decomposition 0.65 = 1.55 x 0.42 is presented as resolving the sign confusion, but the ∞₃
+> factor 0.42 is initially obtained by dividing 0.65 by 1.55 (Section 4.3) — i.e. by working
+> backward from the target answer, not by independent calculation. The subsequent
+> "first-principles" derivation (Section 4.4) gives 0.374, not 0.42, and requires multiplying
+> by an ad hoc factor of 1.12 ("∞-helix node enhancement," not itself derived) to reach 0.42.
+> This means f_boundary = 0.65 is obtained by choosing the ∞₃ sector-confinement factor to
+> hit the desired answer, with the "first-principles" decomposition providing post-hoc
+> physical motivation rather than an independent derivation. The §7.1 summary table's
+> "DERIVED" labels for the 0.42 and 0.65 rows should be read in light of this — they are not
+> independently derived quantities.
 
 ---
 
@@ -387,15 +391,24 @@ Where:
 | Effect | Factor | Direction | Honest Status |
 |--------|--------|-----------|---------------|
 | Overlap integral ratio | 1.55 | Enhancement | **DERIVED** (finite-domain normalization) |
-| ∞₃ sector confinement | 0.42 | Suppression | **DERIVED** (sector-localized overlap) |
-| Combined "boundary" factor | 0.65 | Net suppression | **DERIVED** (product of overlap and ∞₃ confinement) |
+| ∞₃ sector confinement | 0.42 | Suppression | **FITTED, not derived** — obtained by dividing the target 0.65 by 1.55 (§4.3); the independent §4.4 calculation gives 0.374 and requires an underived 1.12 "enhancement" factor to reach 0.42 (see Honesty note above) |
+| Combined "boundary" factor | 0.65 | Net suppression | **FITTED, not derived** — this is the target value the 0.42 factor was chosen to reproduce; the §4.4 "verification" is explicitly circular (see line ~306) |
 | Holonomy averaging | 0.846 | Suppression | **DERIVED** (SU(3) Haar average) |
 | RG running | 0.87 | Suppression | **DERIVED** (one-loop + KK thresholds) |
-| **Total correction** | **0.48** | **Net suppression** | **Product from derived correction factors** |
+| **Total correction** | **0.48** | **Net suppression** | **Mixed: two factors derived (0.846, 0.87), two factors fitted to target (0.42, 0.65) — not a fully derived product** |
 
-### 7.2 Physical Conclusion
+### 7.2 Physical Conclusion (corrected in FIX pass)
 
-The STUR framework's use of f_boundary = 0.65 is **correct for the final physics**, and the interpretation in BOUNDARY_CORRECTION_DERIVATION.md should emphasize the complete decomposition.
+The STUR framework's use of f_boundary = 0.65 reproduces the needed final physics by
+construction, not because it was independently derived. The genuine first-principles
+calculation in BOUNDARY_CORRECTION_DERIVATION.md gives f_boundary in the range 1.27-1.55
+(enhancement, wrong sign), and the decomposition 0.65 = 1.55 x 0.42 in this document only
+"resolves" the sign by introducing a 0.42 factor that was itself solved for backward from
+0.65, then given a post-hoc "first-principles" derivation (§4.4) requiring an additional
+underived 1.12 fudge factor. The interpretation in BOUNDARY_CORRECTION_DERIVATION.md — that
+0.65 cannot currently be derived from first principles and may be a fitting parameter — is the
+more accurate summary; this document's claim of full derivation should not be treated as
+resolving that finding.
 
 The value 0.65 does NOT arise from simple Gaussian overlap truncation (which gives 1.55). Rather, it arises from the COMBINED effect of:
 1. Overlap enhancement from finite domain: x1.55

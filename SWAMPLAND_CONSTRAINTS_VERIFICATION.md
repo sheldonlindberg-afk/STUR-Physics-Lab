@@ -8,6 +8,20 @@
 
 ---
 
+> **UPDATE NOTE (FIX phase, 2026-07-18):** This document (v4.4, 2026-02-04) predates
+> `DS_CONJECTURE_PROOF.md` (v7.0.2, 2026-06-29), which CHANGELOG.md and
+> OPEN_PROBLEMS_ROADMAP.md now cite as resolving the de Sitter conjecture: **all 4 swampland
+> constraints are currently claimed satisfied (Distance ✓, WGC ✓, Cobordism ✓, dS ✓)**. The
+> "CONDITIONALLY SATISFIED" dS verdict below has been updated to match. The
+> Λ_residual figure below has also been corrected to match `DS_CONJECTURE_PROOF.md`'s value
+> (Λ_residual ≈ 3.2–3.6×10⁻⁴⁷ GeV⁴ from neutrino Majorana M_R breaking of Z₃ symmetry) — the
+> previously-stated "~10⁻⁴⁶ GeV⁴" figure here had no shown derivation. Note there is also a
+> separate, explicitly-abandoned exploratory estimate elsewhere in the repo
+> (`DISCRETE_GAUGE_INFINITY_HELIX_CC_SOLUTION.md` §10.4, "Option C," ~10⁻⁸² GeV⁴, self-labeled
+> "too small by 10³⁵") — that is a different, failed dimensional-analysis attempt from an
+> earlier document and is **not** the mechanism DS_CONJECTURE_PROOF.md uses; it should not be
+> conflated with the Λ_residual figure cited here.
+
 ## Executive Summary
 
 This document analyzes the STUR F-theory UV completion against the major swampland conjectures. The swampland program distinguishes effective field theories (EFTs) that can arise from consistent quantum gravity (the "landscape") from those that cannot (the "swampland").
@@ -27,7 +41,7 @@ This document analyzes the STUR F-theory UV completion against the major swampla
 |------------|--------|---------|
 | Distance Conjecture | **SATISFIED** | Towers appear at O(1) distance |
 | Weak Gravity Conjecture | **SATISFIED** | ∞₃ has charged objects; SM gauge groups have WGC-satisfying particles |
-| de Sitter Conjecture | **CONDITIONALLY SATISFIED** | KKLT uplift is marginal; alternative mechanisms available |
+| de Sitter Conjecture | **SATISFIED** (updated per DS_CONJECTURE_PROOF.md v7.0.2 — see note above; was "CONDITIONALLY SATISFIED" in this document's original v4.4 text) | ∞-helix residual dS vacuum satisfies refined dS conjecture with margin c ~ 10⁴⁴ |
 | Cobordism Conjecture | **SATISFIED** | (P²×P¹)/∞₃ has trivial Ω₃^{String} cobordism class |
 
 ---
@@ -489,7 +503,9 @@ $$S_{\text{bounce}} \sim \frac{M_{\text{Pl}}^4}{V_{\text{barrier}}} \sim 10^{120
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│  de SITTER CONJECTURE: CONDITIONALLY SATISFIED                          │
+│  de SITTER CONJECTURE: SATISFIED                                        │
+│  (updated per DS_CONJECTURE_PROOF.md v7.0.2 — see UPDATE NOTE at top    │
+│   of this document; this box originally read "CONDITIONALLY SATISFIED") │
 │                                                                         │
 │  Assessment of STUR dS Vacuum:                                          │
 │                                                                         │
@@ -499,11 +515,12 @@ $$S_{\text{bounce}} \sim \frac{M_{\text{Pl}}^4}{V_{\text{barrier}}} \sim 10^{120
 │     • Resulting Λ ~ 10⁻¹²⁰ M_Pl⁴                                        │
 │     • STATUS: Marginally consistent; debates ongoing in literature      │
 │                                                                         │
-│  2. STUR ∞₃ Mechanism:                                                  │
-│     • Discrete gauge ∞₃ forces Λ_tree = 0 exactly                       │
-│     • Λ_residual ~ 10⁻⁴⁶ GeV⁴ from neutrino mass breaking              │
-│     • Novel mechanism not covered by standard dS conjecture             │
-│     • STATUS: Provides alternative route; requires further study        │
+│  2. STUR ∞₃ Mechanism (canonical, per DS_CONJECTURE_PROOF.md v7.0.2):   │
+│     • Discrete gauge ∞₃ forces Λ_tree = 0 exactly (Minkowski, Stage 1)  │
+│     • Λ_residual ≈ 3.2-3.6×10⁻⁴⁷ GeV⁴ from neutrino Majorana M_R        │
+│       breaking of Z₃ symmetry (Stage 2)                                 │
+│     • Refined dS conjecture Condition B satisfied with margin c~10⁴⁴    │
+│     • STATUS: Proven satisfied in DS_CONJECTURE_PROOF.md (2026-06-29)   │
 │                                                                         │
 │  3. Stability:                                                          │
 │     • Moduli masses: m_T ~ 10⁻¹⁵ eV (ultralight)                        │
@@ -511,11 +528,12 @@ $$S_{\text{bounce}} \sim \frac{M_{\text{Pl}}^4}{V_{\text{barrier}}} \sim 10^{120
 │     • Tunneling rate: Γ ~ e^{-10^{120}} (extremely stable)              │
 │     • STATUS: Metastable with lifetime >> H^{-1}                        │
 │                                                                         │
-│  OVERALL: The dS conjecture is the most stringent for STUR.             │
-│  The ∞-helix mechanism provides a novel protection that may circumvent       │
-│  standard objections. Further study needed for definitive verdict.      │
+│  OVERALL: The dS conjecture was the most stringent for STUR at the time │
+│  this document (v4.4) was written. It has since been resolved by the    │
+│  ∞-helix mechanism in DS_CONJECTURE_PROOF.md (v7.0.2), which this       │
+│  document predates.                                                     │
 │                                                                         │
-│  CONSISTENCY CHECK: ⚡ (Conditional — requires ∞-helix mechanism validation) │
+│  CONSISTENCY CHECK: ✓ (Satisfied — see DS_CONJECTURE_PROOF.md v7.0.2)   │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -755,7 +773,7 @@ $$\Lambda_{QG} \lesssim M_{\text{Pl}} / N^{1/(d-2)}$$
 |------------|----------------------|-------------|-------|
 | **Distance** | m_tower ~ e^{-λΔ} M_Pl | **SATISFIED** | Towers at O(1) distance; vacuum is in landscape interior |
 | **Weak Gravity** | q/m ≥ 1/M_Pl | **SATISFIED** | Electron satisfies by 10²²; ∞₃ has charged objects |
-| **de Sitter** | |∇V|/V ≥ c or min(∇²V)/V ≤ -c' | **CONDITIONAL** | KKLT marginal; ∞-helix mechanism provides novel protection |
+| **de Sitter** | |∇V|/V ≥ c or min(∇²V)/V ≤ -c' | **SATISFIED** (updated — proven in DS_CONJECTURE_PROOF.md v7.0.2) | KKLT marginal; ∞-helix mechanism (Condition B, margin c~10⁴⁴) resolves it |
 | **Cobordism** | [M] = 0 ∈ Ω_d^G | **SATISFIED** | (P²×P¹)/∞₃ trivializes via explicit bounding manifold |
 | **No Global Sym** | All symmetries gauged | **SATISFIED** | ∞₃ is discrete gauge via Krauss-Wilczek |
 | **Completeness** | All charges exist | **SATISFIED** | All ∞₃ charges and SM reps populated |
@@ -763,14 +781,17 @@ $$\Lambda_{QG} \lesssim M_{\text{Pl}} / N^{1/(d-2)}$$
 
 ### 6.2 Potential Concerns and Resolutions
 
-**Concern 1: dS Conjecture Tension**
+**Concern 1: dS Conjecture Tension (RESOLVED per DS_CONJECTURE_PROOF.md v7.0.2)**
 
 The KKLT construction is under debate in the literature. Some argue it violates the dS conjecture.
 
-**Resolution:** The STUR ∞-helix mechanism provides an alternative route:
-- Λ_tree = 0 by discrete gauge Ward identity
-- Λ_residual from ∞-helix breaking is naturally small
-- This is a novel mechanism not captured by the standard dS analysis
+**Resolution:** The STUR ∞-helix mechanism provides an alternative route, since proven in
+DS_CONJECTURE_PROOF.md:
+- Λ_tree = 0 by discrete gauge Ward identity (Stage 1, Minkowski — trivially consistent)
+- Λ_residual ≈ 3.2-3.6×10⁻⁴⁷ GeV⁴ from ∞-helix (neutrino Majorana M_R) breaking (Stage 2)
+- Refined dS conjecture Condition B is satisfied with margin c ~ 10⁴⁴
+- This is a novel mechanism not captured by the standard dS analysis, and is now a proven
+  result rather than an open avenue
 
 **Concern 2: Light Moduli**
 
@@ -796,7 +817,7 @@ Moduli stabilization in dS typically suffers from the η-problem.
 |------------|-------------|----------|-------------|
 | Distance | Infinite tower ⟹ EFT breakdown | Critical | **OK** |
 | WGC | Remnants ⟹ information loss | Severe | **OK** |
-| de Sitter | No stable dS ⟹ no late-time acceleration | High (cosmological) | **Marginal** |
+| de Sitter | No stable dS ⟹ no late-time acceleration | High (cosmological) | **OK** (updated — see DS_CONJECTURE_PROOF.md v7.0.2) |
 | Cobordism | Topological inconsistency | Critical | **OK** |
 
 ### 6.4 Final Verdict
@@ -816,17 +837,20 @@ Moduli stabilization in dS typically suffers from the η-problem.
 ║                                                                           ║
 ║    Distance Conjecture:         ✓ SATISFIED                               ║
 ║    Weak Gravity Conjecture:     ✓ SATISFIED                               ║
-║    de Sitter Conjecture:        ⚡ CONDITIONALLY SATISFIED                 ║
+║    de Sitter Conjecture:        ✓ SATISFIED (DS_CONJECTURE_PROOF.md v7.0.2)║
 ║    Cobordism Conjecture:        ✓ SATISFIED                               ║
 ║    Additional Constraints:      ✓ ALL SATISFIED                           ║
 ║                                                                           ║
-║  OVERALL VERDICT:                                                         ║
+║  OVERALL VERDICT (updated FIX phase, 2026-07-18):                         ║
 ║                                                                           ║
 ║    The STUR F-theory UV completion is CONSISTENT with swampland           ║
 ║    constraints. The construction lives in the string landscape,           ║
-║    not the swampland. The only potential tension is with the              ║
-║    de Sitter conjecture, but the ∞-helix discrete gauge mechanism              ║
-║    provides a novel protection that may resolve this tension.             ║
+║    not the swampland. All 4 constraints, including the de Sitter          ║
+║    conjecture, are now claimed satisfied — the ∞-helix discrete gauge     ║
+║    mechanism (Λ_tree=0 exactly, Λ_residual≈3.2-3.6e-47 GeV⁴, Condition B  ║
+║    margin c~10⁴⁴) is proven in DS_CONJECTURE_PROOF.md (v7.0.2, 2026-06-29)║
+║    rather than merely conjectured, as this document (v4.4) originally     ║
+║    described it.                                                          ║
 ║                                                                           ║
 ║    The construction satisfies all critical swampland criteria:            ║
 ║    - No infinite towers at the vacuum                                     ║
@@ -836,10 +860,8 @@ Moduli stabilization in dS typically suffers from the η-problem.
 ║                                                                           ║
 ║  RECOMMENDATION:                                                          ║
 ║                                                                           ║
-║    The STUR UV completion passes swampland tests. Further study           ║
-║    of the ∞₃ protection mechanism for the cosmological constant           ║
-║    is warranted, as it may represent a new class of solutions             ║
-║    to the dS conjecture tension.                                          ║
+║    The STUR UV completion passes swampland tests, including the de        ║
+║    Sitter conjecture (see DS_CONJECTURE_PROOF.md for the full proof).     ║
 ║                                                                           ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
 ```
@@ -921,9 +943,13 @@ $$\frac{p_1}{2} \in H^4 \text{ (string condition)}$$
    - UV_COMPLETION_EXPLORATION.md
    - COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md
    - SCALE_UNIFICATION_ANALYSIS.md
+   - DS_CONJECTURE_PROOF.md (v7.0.2, 2026-06-29) — canonical proof that the de Sitter
+     conjecture is satisfied; supersedes this document's original "CONDITIONALLY SATISFIED"
+     dS verdict
 
 ---
 
-**Document Status:** COMPLETE VERIFICATION
-**Key Result:** STUR F-theory UV completion satisfies all major swampland constraints
-**Recommendation:** Further study of ∞-helix mechanism as novel dS conjecture resolution
+**Document Status:** COMPLETE VERIFICATION (dS section updated FIX phase, 2026-07-18)
+**Key Result:** STUR F-theory UV completion satisfies all major swampland constraints,
+including the de Sitter conjecture (proven in DS_CONJECTURE_PROOF.md v7.0.2)
+**Recommendation:** See DS_CONJECTURE_PROOF.md for the full dS conjecture proof

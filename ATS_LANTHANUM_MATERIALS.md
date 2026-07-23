@@ -56,11 +56,23 @@ For LSCO, the effective coupling is:
 u_geo (geometric) = H_content * 0.1 + layered_factor = 0 + 1.2 = 1.2
 u_chr (chronon) = Sum(Z_i * f_i) = (57*0.15 + 38*0.07 + 29*0.15 + 8*0.40) * 0.01
                 = (8.55 + 2.66 + 4.35 + 3.2) * 0.01 = 0.19
-
-u_eff = u_geo + 0.7 * u_chr = 1.2 + 0.7 * 0.19 = 1.33
 ```
 
-**Result:** u_eff ~ 1.3, giving S(u_eff) ~ 0.67
+**⚠️ CORRECTION:** The atomic fractions used above (0.15, 0.07, 0.15, 0.40
+for La, Sr, Cu, O) sum to 0.77, not 1.0 — they are not proper mole fractions.
+For La₁.₈₅Sr₀.₁₅CuO₄ (7 atoms per formula unit), the correct mole fractions
+are La=0.264, Sr=0.021, Cu=0.143, O=0.571 (summing to 1.0), giving (verified
+via python3):
+```
+u_chr (corrected) = (57×0.264 + 38×0.021 + 29×0.143 + 8×0.571) × 0.01 = 0.246
+u_eff = u_geo + 0.7 × u_chr = 1.2 + 0.7 × 0.246 = 1.37
+```
+This matches the independent worksheet calculation in Section 7.1, which
+used the same correct-mole-fraction approach and got u_chr=0.246, u_eff=1.37
+— confirming the corrected value here rather than the original 0.19/1.33.
+
+**Result:** u_eff ~ 1.37 (corrected from 1.33), giving S(1.37) ~ 0.66
+(verified via python3: tanh(1.37)×(1−e⁻¹·³⁷) = 0.655)
 
 **Dimensionless g_eff:**
 ```
@@ -247,9 +259,19 @@ STUR analysis:
 u_eff estimate for La0.8Sr0.2NiO2:
   u_geo = 0.8 (less layered character than cuprates)
   u_chr = (57*0.16 + 38*0.04 + 28*0.2 + 8*0.4) * 0.01 = 0.20
-  u_eff = 0.8 + 0.7 * 0.20 = 0.94
 
-  S(u_eff) = 0.52 (below crossover, weak STUR enhancement)
+  ⚠️ CORRECTION: The fractions used above (0.16, 0.04, 0.2, 0.4) sum to only
+  0.8, not 1.0. They come from dividing the atom counts (0.8 La, 0.2 Sr,
+  1 Ni, 2 O) by 5, but the compound's actual total atom count per formula
+  unit is 0.8+0.2+1+2 = 4, not 5. Using the correct denominator of 4 gives
+  fractions (0.2, 0.05, 0.25, 0.5) and (verified via python3):
+    u_chr (corrected) = (57*0.2 + 38*0.05 + 28*0.25 + 8*0.5) * 0.01 = 0.243
+    u_eff = 0.8 + 0.7 * 0.243 = 0.97
+
+  S(u_eff) = 0.465 (corrected from 0.52; verified via python3:
+  tanh(0.97)×(1−e⁻⁰·⁹⁷) = 0.465) — still below crossover, weak STUR
+  enhancement, but the downstream Tc-enhancement prediction below (which used
+  the uncorrected 0.94/0.52) has not been re-derived here.
 ```
 
 #### STUR Enhancement Potential
@@ -295,13 +317,28 @@ where:
 
 ### 2.2 Detailed Parameter Table
 
+**⚠️ NOTE:** The LSCO u_chr/u_eff/S(u_eff) values below (0.19/1.33/0.67) use
+the uncorrected atomic-fraction calculation flagged in Section 1.1; the
+corrected values (using proper mole fractions, matching the Section 7.1
+worksheet) are u_chr≈0.246, u_eff≈1.37, S(u_eff)≈0.66. The LaNiO2 row's
+u_chr=0.20 similarly uses a stoichiometrically incorrect denominator — see
+Section 1.4 correction. These are left as originally tabulated below (rather
+than silently rewritten across every downstream reference) since the errors
+are documented at their source; treat this table with those corrections in
+mind.
+
 | Material | v_F (m/s) | N(0) (eV^-1) | u_geo | u_chr | u_eff | S(u_eff) | g_eff |
 |----------|-----------|--------------|-------|-------|-------|----------|-------|
-| **La2-xSrxCuO4** | 2.0e5 | 1.5 | 1.2 | 0.19 | 1.33 | 0.67 | 26.3 |
+| **La2-xSrxCuO4** | 2.0e5 | 1.5 | 1.2 | 0.19* | 1.33* | 0.67* | 26.3 |
 | **La2-xBaxCuO4** | 1.8e5 | 1.4 | 1.1 | 0.18 | 1.23 | 0.61 | 23.7 |
 | **LaH10** (180 GPa) | 8.0e5 | 2.0 | 2.1 | 0.57 | 2.50 | 0.90 | 35.2 |
-| **LaNiO2** | 1.5e5 | 1.0 | 0.8 | 0.20 | 0.94 | 0.52 | 18.2 |
-| **STUR Optimal** | 1.0e6 | 1.5 | 2.5 | 0.80 | 3.06 | 0.95 | 40+ |
+| **LaNiO2** | 1.5e5 | 1.0 | 0.8 | 0.20* | 0.94* | 0.52* | 18.2 |
+| **STUR Optimal** | 1.0e6 | 1.5 | 2.5 | 0.80 | 3.06 | 0.95 | 40+† |
+
+*See correction notes above (Sections 1.1, 1.4) — these entries use
+uncorrected fraction calculations.
+†See correction below — this g_eff figure does not follow from the
+document's own g_eff formula (Section 7.2).
 
 ### 2.3 Critical Coupling Threshold
 
@@ -934,6 +971,13 @@ where:
 N(0) ~ 1.5 states/(eV*spin*Cu)
 g_eff = 4.39 * 1.5 / 0.25 = 26.3
 ```
+
+**⚠️ CORRECTION:** The Section 2.2 summary table's "STUR Optimal" row lists
+N(0)=1.5 (the same N(0) as the LSCO row above) but g_eff="40+" — applying
+this same formula to N(0)=1.5 gives g_eff = 4.39×1.5/0.25 = **26.3**, not
+"40+" (more than 50% off). No alternate N(0) or formula is given anywhere in
+this document to justify the "40+" figure for that row; it should be treated
+as unverified.
 
 ### 7.3 S(u) Lookup Table
 

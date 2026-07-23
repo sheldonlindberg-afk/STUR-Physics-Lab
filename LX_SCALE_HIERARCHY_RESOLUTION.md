@@ -1,9 +1,12 @@
 # L_X Scale Hierarchy Resolution: Fundamental vs Effective Compactification Scales
 
-**Document Type:** Complete Theoretical Analysis and Resolution
+**Document Type:** Theoretical Analysis (partial resolution — see Sec 2.4, 5.2)
 **Framework:** STUR v4.4 (Helix Geometry)
 **Date:** 2026-02-04
-**Purpose:** Definitively resolve the apparent L_X scale ambiguity in the STUR framework
+**Purpose:** Resolve the apparent L_X scale ambiguity in the STUR framework;
+the qualitative two-scale picture is resolved, the quantitative power-law
+connection between the scales remains a fit (see Sec 2.4, 5.2, and Document
+Status at the end of this document)
 
 ---
 
@@ -286,7 +289,11 @@ This matches! The hierarchy is a product of multiple intermediate scales.
 **What remains phenomenological:**
 ```
 1. The specific value L_eff ~ 0.8 um depends on scale-setting
-2. The power law L_eff = L_X * (M_Pl/M_KK)^n with n ~ 2.5 is a FIT
+2. The power law L_eff = L_X * (M_Pl/M_KK)^n with n ~ 8.3 is a FIT
+   [corrected: this document's own §2.3 computes n ~ 25/3 ~ 8.3 from the
+   stated L_eff/L_X ~ 10^25 and M_Pl/M_KK ~ 10^3; an inconsistent "n ~ 2.5"
+   previously appeared here and in §5.2 with no independent derivation
+   shown for that value]
 3. The intermediate scale hierarchy is not uniquely determined
 ```
 
@@ -435,16 +442,22 @@ The specific numerical value requires non-perturbative input that is not yet ava
 |  RELATION: L_eff/L_X ~ (multiple scale hierarchies) ~ 10^25        |
 |                                                                     |
 |  STATUS: The two-scale interpretation is PHYSICALLY JUSTIFIED.     |
-|  The specific power law is partially phenomenological but the      |
-|  existence of both scales is DERIVED from the framework.           |
+|  The existence of both scales follows from the framework's         |
+|  geometric setup, but the specific power law connecting them       |
+|  is a FIT (Sec 2.4), not a derivation — see Sec 5.2.               |
 +====================================================================+
 ```
 
 ### 5.2 Open Questions
 
-While the scale hierarchy is resolved conceptually, specific questions remain:
+While the two-scale interpretation is conceptually justified, the specific
+numerical relation between the scales is not resolved; the following
+questions remain:
 
-1. **Precise power law:** The relation L_eff = L_X * (M_Pl/M_KK)^n with n ~ 2.5 matches data but needs non-perturbative derivation.
+1. **Precise power law:** The relation L_eff = L_X * (M_Pl/M_KK)^n with
+   n ~ 8.3 (Sec 2.3; corrected from an inconsistent "n ~ 2.5" that appeared
+   here with no independent derivation) matches data but needs non-perturbative
+   derivation.
 
 2. **Intermediate scales:** What sets the specific intermediate mass thresholds?
 
@@ -491,6 +504,11 @@ The two-scale interpretation makes STUR falsifiable: specific predictions for fi
 
 ---
 
-**Document Status:** COMPLETE RESOLUTION
-**Key Result:** Two-scale interpretation physically justified; power law partially phenomenological
+**Document Status:** PARTIALLY RESOLVED (corrected from "COMPLETE RESOLUTION" —
+see Sec 2.4's own self-assessment, which grades the power-law derivation as
+CONCEPTUAL and explicitly states "n ~ 8.3 is a FIT"; this is not consistent
+with a "complete" resolution)
+**Key Result:** Two-scale interpretation physically justified; power law is a
+fit, not a derivation (n ~ 8.3, corrected from an internally inconsistent
+"n ~ 2.5")
 **Falsifiability:** Preserved via fifth-force predictions at um scale

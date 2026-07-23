@@ -3,24 +3,26 @@
 **Document Type:** Research Roadmap
 **Framework:** STUR v7.0 (Dynamic Infinity Helix — TOE Candidate)
 **Date:** 2026-06-29
-**Purpose:** Status assessment — honest scorecard: 29D+0P+0U+1I=30 — 100% closure
+**Purpose:** Status assessment — honest scorecard: 24D+3P+2U+1I=30 — 83% closure
 
 ---
 
-## Current Status: v7.0 Final Scorecard — 29D+0P+0U+1I=30 (100% Closure)
+## Current Status: v7.0 Final Scorecard — 24D+3P+2U+1I=30 (83% Closure)
 
 STUR derives 30 observables from four inputs (M_Planck, v_EW, m_t,
 α_em) and three axioms (5D TEGR spacetime, real doublet R-field, energy
 minimization). The dynamic ∞₃ infinity helix — always winding and unwinding
 simultaneously at every scale — provides the geometric foundation.
 
-**Score: 29 D + 0 P + 0 U + 1 I = 30 — 100% first-principles closure**
+**Score: 24 D + 3 P + 2 U + 1 I = 30 — 83% first-principles closure**
+(Post-v7.0.2 correction: the fitted f_hol constant was removed from η̄, and M_DM/Ω_DM h² were
+reclassified U after no independent derivation was found in the codebase.)
 
 Script: `scripts/stur_toe_closure.py` (canonical master script)
 
 ---
 
-## ALL Problems Solved
+## Problem-by-Problem Status (most solved; OP-3's δ_CP item and OP-7 are not — see below)
 
 ### OP-1: α_eff from First Principles — SOLVED ✓
 
@@ -38,11 +40,15 @@ Script: `scripts/stur_toe_closure.py` (canonical master script)
 **Scripts:** `lx_flux_stabilization.py`, `lx_effective_potential.py`
 **Documents:** `LX_CASIMIR_HOLONOMY_DERIVATION.md`, `LX_SCALE_HIERARCHY_RESOLUTION.md`
 
-### OP-3: Neutrino Sector — SOLVED ✓
+### OP-3: Neutrino Sector — MOSTLY SOLVED (mixing angles D; δ_CP still P)
 
-**Status:** Full PMNS matrix derived via U_ℓ† × U_TBM (no calibration). NLO corrections applied.
+**Status:** Full PMNS matrix derived via U_ℓ† × U_ν (no calibration). NLO corrections applied.
 - sin²θ_12 = 0.2491 (D, 18.9%), sin²θ_23 = 0.4391 (D, 19.4%), sin²θ_13 = 0.0242 (D, 9.9%)
-- δ_CP = 272.8° (I, lemniscate CM: i³=e^{i3π/2}; falsifiable by T2HK/DUNE)
+- δ_CP = 272.8° (**P**, not I — 38.5% off NuFIT 197°; lemniscate CM: i³=e^{i3π/2}; the
+  mechanism structurally clusters the prediction near 90°/270° on the phase circle, ~75°
+  from NuFIT's best fit near the real axis — checked whether any NLO correction already in
+  this derivation chain could bridge that gap: they move the prediction by <3°, far too
+  small. This is a structural mismatch, not a precision gap. Falsifiable by T2HK/DUNE.)
 - Δm²_31 = 2.45×10⁻³ eV² (2.3% from NuFIT)
 - Normal ordering predicted (falsifiable by JUNO/DUNE)
 **Method:** NLO Wolfenstein re-parameterization: sin(θ₁₂^ℓ) = λ_ℓ·(1−λ_ℓ²/2); NLO KK tower:
@@ -77,11 +83,23 @@ the previously hardcoded 0.47).
 - Swampland constraints verified (Distance ✓, WGC ✓, Cobordism ✓, dS ✓ — see DS_CONJECTURE_PROOF.md)
 **Documents:** `FTHEORY_CY4_EXPLICIT_CONSTRUCTION.md`, `UV_COMPLETION_UNIQUENESS_PROOF.md`
 
-### OP-7: Dark Matter — SOLVED ✓
+### OP-7: Dark Matter — UNRESOLVED (reclassified U, post-v7.0.2)
 
-**Status:** LKP B^(1) at M_DM = 949 ± 80 GeV. Ω_DM h² = 0.1200 (0.0% from Planck).
-- Self-consistent freeze-out: M_DM derived from LKP relic abundance, not reverse-engineered.
-- σ_SI ~ 10^-47 cm² (within LZ/XENONnT reach).
+**Status:** LKP B^(1) at M_DM = 949 GeV. Ω_DM h² = 0.1200 is NOT an independent 0.0%
+agreement with Planck — it is tautological by construction: the freeze-out formula is
+inverted against the hardcoded target Ω_DM h²=0.120 to solve for the cross-section, then
+M_DM is solved from that cross-section, then Ω_DM h² is recomputed from that same M_DM.
+Verified this returns 0.120000 to 6 decimals for any input value of Y4 across 5+ orders
+of magnitude, confirming the "agreement" is algebraic, not physical.
+- **Correcting a prior false claim in this section:** M_DM was previously described here
+  as "derived from LKP relic abundance, not reverse-engineered" — that is incorrect. See
+  `scripts/stur_toe_closure.py` Part 9 for the full derivation showing the circularity,
+  and the extensive documented search (there and re-checked in a later session) for an
+  independent mass-scale mechanism, which found none: this theory's natural geometric
+  scales are ~10^15-16 GeV (v·L_X=3) or ~0.25 eV (Casimir-holonomy L_eff), neither close
+  to the required ~1 TeV, and no legitimate combination bridges that ~15-25 order-of-
+  magnitude gap without an unmotivated free exponent.
+- σ_SI ~ 10^-47 cm² (within LZ/XENONnT reach) — testable regardless of the derivation gap.
 **Document:** `DARK_MATTER_RELIC_DENSITY.md`
 
 ### OP-8: N = 3 Selection — SOLVED ✓
@@ -125,7 +143,8 @@ the previously hardcoded 0.47).
 **Assessment:** The ∞₃ Mathieu U_ν sets structural floors that cannot be lifted by λ_ℓ²-order U_ℓ
 corrections. The 19% deviation in θ_12 and θ_23 is an honest prediction of the fixed-point
 geometry. sin²θ_13 derivation (from zero) is the primary PMNS achievement.
-**Impact:** Complete — all parameters D; no further NLO work required.
+**Impact:** Complete for the three mixing angles (all D). The CP phase δ_CP is a separate
+parameter and remains **P** (38.5% off, structural — see OP-3 above); this RQ does not cover it.
 
 ### RQ-2: Δm²_21 (Solar Mass Splitting) — RESOLVED ✓
 
@@ -186,8 +205,8 @@ The following constitute a complete, falsifiable TOE:
 8. **Inflation** — r_eff = 0.014 from XCRM Kirchhoff torsion damping
 9. **Falsification protocol** — JUNO, DUNE, T2HK, LZ/XENONnT, ARIADNE, CMB-S4
 
-**Position:** *"TOE Candidate with 30 observables (29D+0P+0U+1I) derived from
-three axioms and four inputs. Zero free parameters. 100% first-principles closure."*
+**Position:** *"TOE Candidate with 30 observables (24D+3P+2U+1I) derived from
+three axioms and four inputs. 83% first-principles closure."*
 
 ---
 
@@ -195,9 +214,9 @@ three axioms and four inputs. Zero free parameters. 100% first-principles closur
 
 | Script/Document | What It Computes | Key Result |
 |----------------|-----------------|------------|
-| `stur_toe_closure.py` | 30-observable canonical scorecard | 29D+0P+0U+1I=30 (100%) |
+| `stur_toe_closure.py` | 30-observable canonical scorecard | 24D+3P+2U+1I=30 (83%) |
 | `stur_inflation.py` | Tensor-to-scalar ratio | r_eff = 0.0139 (D) |
-| `stur_first_principles_calculation.py` | κ, σ, overlaps, N_eff | κ = 2.430, σ = 0.862 |
+| `stur_first_principles_calculation.py` | κ, σ, overlaps, N_eff | κ_q = 2.417, κ_l = 2.367, σ = 0.862 |
 | `ckm_full_diagonalization.py` | Full CKM matrix | All 9 elements |
 | `alpha_eff_rigorous_calculation.py` | α_eff chain | 1.480 ± 0.047 |
 | `berry_phase_exact.py` | Berry phase | 0 exactly |
@@ -205,7 +224,7 @@ three axioms and four inputs. Zero free parameters. 100% first-principles closur
 | `toe_closure_calculations.py` | Z_N energy, Higgs profile | ∞₃ proven optimal |
 | `mass_spectrum_full.py` | Full fermion spectrum | Yukawa matrix, RG running |
 | `stur_v7_full_closure.py` | CC + F_XCRM derivation | Λ_residual = 3.15×10⁻⁴⁷ GeV⁴ (10.8%) |
-| `cosmological_constant.py` | CC calculation | Λ_residual = 3.15×10⁻⁴⁷ GeV⁴ |
+| `cosmological_constant.py` | Historical negative result (v5.2, 2026-02-07): tests an earlier, since-abandoned naive Casimir-on-S¹/∞₃ mechanism | Concludes that mechanism does NOT compute the CC (L would be an untuned input) — superseded by the discrete-gauge Ward identity + F_XCRM mechanism above |
 | `stur_numerical_verification.py` | 4-method κ check | Monte Carlo confirmation |
 
 ---
@@ -214,14 +233,14 @@ three axioms and four inputs. Zero free parameters. 100% first-principles closur
 
 | Item | v6.x | v7.0 |
 |------|------|------|
-| Observables | 29 (5D+4P+19C+1J) | 30 (29D+0P+0U+1I) |
-| Free parameters | ~19 fitted | 0 |
+| Observables | 29 (5D+4P+19C+1J) | 30 (24D+3P+2U+1I, 83% closure) |
+| Free parameters | ~19 fitted | 0 (beyond the 4 canonical inputs) |
 | σ_H/σ_ψ | Assumed 0.3 | Derived √2/(2π) = 0.2251 |
 | CKM A | Calibrated 0.816 | Derived 0.655 → 0.814 (NLO) |
 | PMNS θ_13 | Hardcoded 0.022 | Derived 0.0242 (9.9%, NLO) |
 | PMNS θ_12,θ_23 | Unconstrained | Structural floor (19% honest prediction) |
-| η̄ | Overridden 0.350 | Derived 0.375 |
-| M_DM | Reverse-engineered | Self-consistent freeze-out |
+| η̄ | Overridden 0.350 | Derived 0.3947 (13.4%, f_hol fitted constant removed) |
+| M_DM | Reverse-engineered | Self-consistent freeze-out (reclassified U post-v7.0.2: no independent derivation found) |
 | Λ_CC | Conjectured | Derived Ward identity |
 | r (tens/scal) | Not computed | 0.0139 (XCRM Kirchhoff) |
 | dS swampland | Conditional | SATISFIED (c ≈ 2×10⁴⁴) |
@@ -231,4 +250,6 @@ three axioms and four inputs. Zero free parameters. 100% first-principles closur
 
 ---
 
-*Updated 2026-06-29 (v7.0 final — 29D+0P+0U+1I=30 — 100% closure; NLO PMNS + F_XCRM derivation complete)*
+*Updated 2026-07 (post-v7.0.2 canonical script correction — 24D+3P+2U+1I=30 — 83% closure;
+f_hol fitted constant removed from η̄, M_DM/Ω_DM h² reclassified U after documented search found
+no independent derivation)*

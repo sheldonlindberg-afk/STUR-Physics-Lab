@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR Glossary — Definitions and Terminology</title>
-<meta name="description" content="STUR Glossary: Complete reference for Theory of Everything Candidate terms, parameters, and derived quantities. One input (M_Planck), all else derived including L_X from Casimir-holonomy balance, v from winding constraint, and 3 generations from infinity helix geometry.">
+<meta name="description" content="STUR Glossary: Complete reference for Theory of Everything Candidate terms, parameters, and derived quantities. 4 inputs (M_Planck, v_EW, m_t, alpha_em), most else derived including L_X from Casimir-holonomy balance, v from winding constraint, and 3 generations from infinity helix geometry.">
 <meta property="og:title" content="STUR Glossary">
 <meta property="og:description" content="Comprehensive glossary of terms used in the STUR physics framework.">
 <meta property="og:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/4.13.png">
@@ -89,15 +89,15 @@
     <p style="margin:0;color:var(--text-secondary);">
       A <strong>Theory of Everything (TOE)</strong> where all physics emerges from the R-field doublet
       \(\XCRM{\mathbf{R}} = (R_1, R_2) = |R|e^{i\phi}\) defined on a 5D infinity helix manifold M⁴ × S¹.
-      The theory derives gravity (via TEGR), gauge forces, matter, and cosmology from a single dimensional input: \(M_{\rm Planck}\).
+      The theory derives most of gravity (via TEGR), gauge forces, matter, and cosmology from 4 dimensional inputs: \(M_{\rm Planck}\), \(v_{\rm EW}\), \(m_t\), and \(\alpha_{\rm em}\).
     </p>
     <div style="margin:0.75rem 0;padding:0.75rem;background:rgba(74,222,128,0.1);border-radius:8px;border-left:3px solid #4ade80;">
       <strong style="color:#4ade80;">Theory of Everything Candidate Achievements:</strong>
       <ul style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.88rem;">
-        <li><strong>One input:</strong> \(M_{\rm Planck} = \sqrt{\hbar c/G}\) — all else derived</li>
-        <li><strong>30 observables (29D+0P+0U+1I)</strong> from 3 axioms + M<sub>Planck</sub> [H.1.4]</li>
+        <li><strong>4 canonical inputs:</strong> \(M_{\rm Planck} = \sqrt{\hbar c/G}\), v_EW, m_t, α_em — remaining 30 observables derived</li>
+        <li><strong>30 observables (24D+3P+2U+1I, 83% closure)</strong> from 3 axioms + 4 inputs [H.1.4]</li>
         <li><strong>Falsifiable predictions</strong> with specific numerical values (JUNO, DUNE, LZ, ARIADNE, CMB-S4)</li>
-        <li><strong>Key derived parameters:</strong> \(\kappa = 2.430\), \(\lambda_{\rm hol} \approx 20\), \(\bar{\eta} = 0.350\), \(\lambda_{\rm chrono} = 3722/2705\)</li>
+        <li><strong>Key derived parameters:</strong> \(\kappa_q = 2.417\), \(\kappa_\ell = 2.367\), \(\lambda_{\rm hol} \approx 20\), \(\bar{\eta} = 0.3947\), \(\lambda_{\rm chrono} = 3722/2705\)</li>
         <li><strong>\(L_X \approx 0.8\,\mu\text{m}\)</strong> — derived from Casimir-holonomy balance</li>
         <li><strong>3 generations automatic</strong> — \(|∞₃| = 3\) from \(v \cdot L_X = 3\) winding constraint</li>
       </ul>
@@ -279,7 +279,7 @@
       \[\XCRM{Y_{ij}} \propto \lambda^{|w_i - w_j|} \quad \text{where} \quad \lambda = e^{-2\pi/3}\]
     </div>
     <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
-      After RG running: \(\lambda_{\rm phys} \approx 0.220\) (4% from PDG value 0.2257).
+      After RG running: \(\lambda_{\rm phys} \approx 0.22543\) (0.03% from PDG value 0.22537).
     </p>
   </div>
 
@@ -323,7 +323,7 @@
     </div>
     <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
       After two-loop RG running, KK threshold corrections, and electroweak matching:
-      \(\lambda_{\rm phys} = 0.220\) (compared to PDG: 0.2257 ± 0.0010).
+      \(\lambda_{\rm phys} = 0.22543\) (compared to PDG: 0.22537 ± 0.00060 — 0.03% deviation).
     </p>
     <p style="margin:0.5rem 0 0;color:var(--text-muted);font-size:0.85rem;">
       <strong>Reference:</strong> [H.7.5g] — Complete two-loop derivation
@@ -336,7 +336,7 @@
     <div style="display:grid;gap:12px;">
       <div style="display:flex;align-items:flex-start;gap:12px;">
         <span style="color:#fbbf24;font-weight:bold;min-width:100px;">\(M_{\rm Planck}\)</span>
-        <span style="color:var(--text-secondary);font-size:0.9rem;">The ONE fundamental input. Everything else is derived from this single number.</span>
+        <span style="color:var(--text-secondary);font-size:0.9rem;">The primary geometric input. Most other quantities are derived from it, together with 3 additional SM inputs (\(v_{\rm EW}\), \(m_t\), \(\alpha_{\rm em}\)).</span>
       </div>
       <div style="display:flex;align-items:flex-start;gap:12px;">
         <span style="color:var(--accent);font-weight:bold;min-width:100px;">\(L_X\)</span>
@@ -369,43 +369,42 @@
   <div class="block" style="margin-bottom:1.5rem;border-left-color:#f472b6;border-width:3px;">
     <div class="title" style="color:#f472b6;font-size:1.1rem;">Theory of Everything (TOE)</div>
     <p style="margin:0;color:var(--text-secondary);">
-      A complete unified physics framework where <strong>all physical parameters are derived from a single dimensional input</strong>.
-      STUR achieves TOE status by deriving all Standard Model parameters, cosmological constants, and flavor structure
-      from \(M_{\rm Planck}\) alone, with no fitted parameters.
+      A unified physics framework where <strong>most physical parameters are derived from 4 dimensional inputs</strong>.
+      STUR pursues TOE status by deriving most Standard Model parameters, cosmological constants, and flavor structure
+      from \(M_{\rm Planck}\), \(v_{\rm EW}\), \(m_t\), and \(\alpha_{\rm em}\), with 24 of 30 tracked observables reaching honest D-status (83% closure); 3 are P-status (mechanism identified, precision pending) and 2 remain U-status (no independent derivation).
     </p>
     <div style="margin:0.75rem 0;padding:0.75rem;background:rgba(74,222,128,0.1);border-radius:8px;border-left:3px solid #4ade80;">
-      <strong style="color:#4ade80;">TOE Criteria Satisfied:</strong>
+      <strong style="color:#4ade80;">TOE Criteria Status:</strong>
       <ul style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.88rem;">
-        <li><strong>One input:</strong> \(M_{\rm Planck} = \sqrt{\hbar c/G}\) (dimensional anchor)</li>
-        <li><strong>All else derived:</strong> 25+ parameters computed from geometry and topology</li>
-        <li><strong>Complete closure:</strong> No adjustable parameters, no fitting to data</li>
+        <li><strong>4 inputs:</strong> \(M_{\rm Planck} = \sqrt{\hbar c/G}\), \(v_{\rm EW}\), \(m_t\), \(\alpha_{\rm em}\) (dimensional anchors)</li>
+        <li><strong>Most else derived:</strong> 24 of 30 observables at D-status from geometry and topology</li>
+        <li><strong>Partial closure:</strong> 83% (24D+3P+2U+1I); DM mass and Ω<sub>DM</sub>h² remain U-status</li>
       </ul>
     </div>
   </div>
 
   <div class="block gold" style="margin-bottom:1.5rem;border-width:2px;">
-    <div class="title" style="color:var(--gold);">\(M_{\rm Planck}\) — The ONE Fundamental Input</div>
+    <div class="title" style="color:var(--gold);">\(M_{\rm Planck}\) — Primary Dimensional Input</div>
     <p style="margin:0;color:var(--text-secondary);">
-      The Planck mass is the <strong>only dimensional input</strong> in the complete STUR framework:
+      The Planck mass is the <strong>primary dimensional input</strong> in the STUR framework, alongside 3 additional SM inputs:
     </p>
     <div class="eq boxed" style="margin:0.75rem 0;">
       \[M_{\rm Planck} = \sqrt{\frac{\hbar c}{G}} \approx 2.176 \times 10^{-8}\,\text{kg} \approx 1.22 \times 10^{19}\,\text{GeV}/c^2\]
     </div>
     <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
-      All other masses, lengths, times, and coupling constants are <strong>derived</strong> as dimensionless ratios
-      times appropriate powers of \(M_{\rm Planck}\), \(\ell_{\rm Planck}\), and \(t_{\rm Planck}\).
+      Most other masses, lengths, times, and coupling constants are <strong>derived</strong> as dimensionless ratios
+      times appropriate powers of \(M_{\rm Planck}\), \(\ell_{\rm Planck}\), and \(t_{\rm Planck}\), combined with \(v_{\rm EW}\), \(m_t\), and \(\alpha_{\rm em}\).
     </p>
     <div style="background:rgba(251,191,36,0.12);padding:12px 16px;border-radius:8px;margin-top:0.75rem;border:1px solid rgba(251,191,36,0.3);">
       <strong style="color:#fbbf24;font-size:0.9rem;">In Plain English:</strong>
       <p style="margin:6px 0 0;font-size:0.85rem;color:var(--text-tertiary);line-height:1.6;">
-        Think of the Planck mass as the <strong>only number nature needs</strong> to build everything else.
-        It is like knowing the size of one LEGO brick and being able to calculate the size of every building you could make.
-        Every particle mass, every force strength, every length scale in the universe follows from this single number.
-        This is what makes STUR a true "Theory of Everything"—one input, everything else computed.
+        Think of the Planck mass as the <strong>anchor number</strong> from which most of the rest is built, alongside 3 other measured Standard Model quantities.
+        It is like knowing the size of one LEGO brick and being able to calculate the size of most buildings you could make — though a few pieces (like the dark matter mass) still have to be looked up rather than computed.
+        This is what STUR uses in its pursuit of a "Theory of Everything"—4 inputs, most everything else computed.
       </p>
     </div>
     <p style="margin:0.75rem 0 0;color:#4ade80;font-size:0.9rem;">
-      <strong>Status:</strong> Fundamental input (not derived) — this is the single free parameter of the TOE.
+      <strong>Status:</strong> Fundamental input (not derived) — one of the 4 free parameters of the TOE candidate.
     </p>
   </div>
 
@@ -463,17 +462,17 @@
   </div>
 
   <div class="block" style="margin-bottom:1.5rem;border-left-color:#fbbf24;">
-    <div class="title" style="color:#fbbf24;">\(\kappa\) (kappa) — Localization Parameter (Fully Derived)</div>
+    <div class="title" style="color:#fbbf24;">\(\kappa\) (kappa) — Localization Parameter (Derived, Sector-Dependent)</div>
     <p style="margin:0;color:var(--text-secondary);">
       The dimensionless parameter controlling fermion localization at ∞-helix nodes.
-      <strong>Fully derived</strong> from the holonomy effective potential:
+      <strong>Derived</strong> from the holonomy effective potential, with distinct values per sector:
     </p>
     <div class="eq boxed" style="margin:0.75rem 0;">
-      \[\kappa = 2.430 \pm 0.16\]
+      \[\kappa_q = 2.417, \quad \kappa_\ell = 2.367\]
     </div>
     <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
-      The value emerges from solving the Mathieu equation eigenvalue problem on the infinity helix at
-      \(\alpha_{\rm eff} = 1.480\) (two-loop). The uncertainty reflects sub-leading corrections.
+      The values emerge from solving the Mathieu equation eigenvalue problem on the infinity helix at
+      \(\alpha_{\rm eff} = 1.480\) (two-loop), separately for the quark (\(\kappa_q\)) and lepton (\(\kappa_\ell\)) sectors.
     </p>
     <p style="margin:0.5rem 0 0;color:var(--text-muted);font-size:0.85rem;">
       <strong>Reference:</strong> [H.6.3] — Fermion localization calculation
@@ -505,11 +504,12 @@
       <strong>Derived from ∞-helix phase structure</strong>:
     </p>
     <div class="eq boxed" style="margin:0.75rem 0;">
-      \[\bar{\eta} = 0.350 \pm 0.020\]
+      \[\bar{\eta} = 0.3947\]
     </div>
     <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
       The CP-violating phase arises from the complex ∞-helix phases \(e^{2\pi i k/3}\) at the three fixed points.
-      Compare to PDG value: \(\bar{\eta} = 0.355 \pm 0.012\) — agreement within 1.5%.
+      Compare to PDG value: \(\bar{\eta} = 0.348 \pm 0.010\) — 13.4% deviation (D status), an honest first-principles
+      prediction with no override.
     </p>
     <p style="margin:0.5rem 0 0;color:var(--text-muted);font-size:0.85rem;">
       <strong>Reference:</strong> [H.7.5h] — CP violation from ∞-helix geometry
@@ -637,10 +637,10 @@
       Stable by KK parity conservation on the infinity helix:
     </p>
     <div class="eq boxed" style="margin:0.75rem 0;">
-      \[M_{B^{(1)}} = 0.92\,\text{TeV}, \quad \Omega_{\rm DM} h^2 = 0.119 \quad (0.4\sigma \text{ from Planck})\]
+      \[M_{B^{(1)}} = 0.949\,\text{TeV}, \quad \Omega_{\rm DM} h^2 = 0.1200 \quad (\text{U-status} \text{ — no independent derivation})\]
     </div>
     <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
-      The relic density matches the Planck 2018 measurement \(\Omega_{\rm DM} h^2 = 0.120 \pm 0.001\) to 0.8%.
+      The mass value has been extensively searched but has no independent derivation (see <code>stur_toe_closure.py</code> Part 9 comments) and the relic-density formula returns the Planck central value \(\Omega_{\rm DM} h^2 = 0.1200\) by construction, regardless of the theory's Y4 group factor — both are flagged U-status (circular), not genuine predictions.
       Testable via LHC Run 4 direct production and LZ/XENONnT direct detection experiments.
     </p>
     <p style="margin:0.5rem 0 0;color:var(--text-muted);font-size:0.85rem;">
@@ -721,17 +721,17 @@
   </table>
 
   <div class="block success" style="margin-top:1rem;">
-    <div class="title">Parameter Closure — One Input, All Else Derived (TOE)</div>
+    <div class="title">Parameter Closure — 4 Canonical Inputs, 83% of Observables Derived (TOE)</div>
     <p style="margin:0;color:var(--text-secondary);">
-      STUR achieves <strong>Theory of Everything</strong> status with a single dimensional input (\(M_{\rm Planck}\))
-      and all other parameters derived:
+      STUR pursues <strong>Theory of Everything</strong> status with 4 dimensional inputs (\(M_{\rm Planck}\), \(v_{\rm EW}\), \(m_t\), \(\alpha_{\rm em}\))
+      and most other parameters derived:
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-      <li>\(M_{\rm Planck} = \sqrt{\hbar c/G}\) — <strong>the sole input</strong> (dimensional anchor)</li>
+      <li>\(M_{\rm Planck} = \sqrt{\hbar c/G}\) — <strong>primary input</strong> (dimensional anchor)</li>
       <li>\(\Diff{L_X^* \approx 0.8\,\mu\text{m}}\) — derived from Casimir-holonomy balance [H.2.11]</li>
-      <li>\(\kappa = 2.430 \pm 0.16\) — derived localization parameter (Mathieu equation, two-loop) [H.6.3]</li>
+      <li>\(\kappa_q = 2.417\), \(\kappa_\ell = 2.367\) — derived localization parameters (Mathieu equation, two-loop) [H.6.3]</li>
       <li>\(\lambda_{\rm hol} \approx 20\) — derived from ∞-helix geometry</li>
-      <li>\(\bar{\eta} = 0.350 \pm 0.020\) — derived CP violation parameter [H.7.5h]</li>
+      <li>\(\bar{\eta} = 0.3947\) — derived CP violation parameter, 13.4% deviation, no override [H.7.5h]</li>
       <li>\(\XCRM{\chi = -\pi/(3L_X)}\) — fixed by vacuum stability [H.4.10]</li>
       <li>\(\Tor{\alpha = 1}\) — fixed by XCRM-Yukawa symmetry [H.3.4]</li>
       <li>\(\gamma_{\rm Berry} = 0.975\) — derived geometric phase correction [H.6.5]</li>
@@ -766,8 +766,8 @@
       </tr>
       <tr>
         <td style="font-weight:600;">Localization Parameter</td>
-        <td>\(\kappa\) from holonomy eigenvalue</td>
-        <td>\(2.430 \pm 0.16\)</td>
+        <td>\(\kappa_q, \kappa_\ell\) from holonomy eigenvalue</td>
+        <td>\(2.417,\ 2.367\)</td>
         <td>[H.6.3]</td>
       </tr>
       <tr>
@@ -779,7 +779,7 @@
       <tr>
         <td style="font-weight:600;">CP-Violation \(\bar{\eta}\)</td>
         <td>\(\bar{\eta}\) from ∞-helix phase structure</td>
-        <td>\(0.350 \pm 0.020\)</td>
+        <td>\(0.3947\)</td>
         <td>[H.7.5h]</td>
       </tr>
       <tr>
@@ -803,7 +803,7 @@
       <tr>
         <td style="font-weight:600;">Wolfenstein \(\lambda\)</td>
         <td>\(\lambda = e^{-2\pi/3} \times (\text{RG factors})\)</td>
-        <td>\(0.220\) (PDG: 0.226)</td>
+        <td>\(0.22543\) (PDG: 0.22537, 0.03%)</td>
         <td>[H.7.5g]</td>
       </tr>
       <tr>
@@ -829,7 +829,7 @@
   <div style="background:rgba(74,222,128,0.12);padding:16px 20px;border-radius:10px;margin-bottom:1.5rem;border:1px solid rgba(74,222,128,0.3);">
     <strong style="color:#4ade80;font-size:0.95rem;">The Big Picture:</strong>
     <p style="margin:8px 0 0;font-size:0.9rem;color:var(--text-secondary);line-height:1.7;">
-      In STUR, there is a logical chain that connects the single input (\(M_{\rm Planck}\)) to everything else:
+      In STUR, there is a logical chain that connects the primary input (\(M_{\rm Planck}\)), together with 3 additional SM inputs, to most of the rest:
     </p>
     <div style="text-align:center;margin:1rem 0;font-size:0.9rem;color:var(--text-tertiary);">
       <span style="color:#fbbf24;font-weight:bold;">\(M_{\rm Planck}\)</span>

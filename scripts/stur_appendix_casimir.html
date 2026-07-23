@@ -200,7 +200,7 @@
   </p>
 
   <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--accent-secondary);">
-    \[\boxed{\rho_{\rm Casimir} = -\frac{c_{\rm Cas} \cdot N_{\rm dof}}{(\XCRM{L_X})^5}}\]
+    \[\boxed{\rho_{\rm Casimir} = -\frac{c_{\rm Cas} \cdot N_{\rm dof}}{(\XCRM{L_X})^4}}\]
     <div class="eq-label" style="color:var(--accent-secondary);">(D.4) — Casimir energy density</div>
   </div>
 
@@ -213,7 +213,7 @@
 
   <h3>Behavior</h3>
   <div class="eq boxed" style="margin:1rem 0;">
-    \[\frac{\partial \rho_{\rm Casimir}}{\partial \XCRM{L_X}} = +\frac{5 c_{\rm Cas} N_{\rm dof}}{(\XCRM{L_X})^6} > 0\]
+    \[\frac{\partial \rho_{\rm Casimir}}{\partial \XCRM{L_X}} = +\frac{4 c_{\rm Cas} N_{\rm dof}}{(\XCRM{L_X})^5} > 0\]
     <div class="eq-label">(D.5) — Casimir pressure (shrinking)</div>
   </div>
 
@@ -327,7 +327,7 @@
   <div class="block success" style="border-width:2px;">
     <div class="title">Result: \(L_X\) is Dynamically Fixed</div>
     <ol style="margin:0.75rem 0 0;color:var(--text-secondary);">
-      <li><strong>Casimir energy:</strong> Attracts, \(\propto L_X^{-5}\)</li>
+      <li><strong>Casimir energy:</strong> Attracts, \(\propto L_X^{-4}\)</li>
       <li><strong>Holonomy energy:</strong> Repels, diverges as \(\ln(L_X)\) for small \(L_X\)</li>
       <li><strong>Balance:</strong> Unique stable minimum at \(L_X^* \sim 0.1-10\; \mu\text{m}\)</li>
     </ol>
@@ -396,9 +396,16 @@
 
   <h3>Calculation</h3>
   <div class="eq boxed" style="margin:1rem 0;">
-    \[L_X^* \sim \left(\frac{0.02 \times 100}{(246 \text{ GeV})^4}\right)^{1/4} \times (\hbar c) \approx 1\; \mu\text{m}\]
+    \[L_X^* \sim \left(\frac{0.02 \times 100}{(246 \text{ GeV})^4}\right)^{1/4} \times (\hbar c) \approx 9.5 \times 10^{-19}\; \text{m}\]
     <div class="eq-label">(D.15) — Worked example</div>
   </div>
+  <p style="color:var(--warning,#fbbf24);font-size:0.9rem;">
+    <strong>Caveat:</strong> plugging \(v = 246\) GeV (the Higgs VEV) into this formula gives \(\sim 10^{-18}\) m, roughly
+    13 orders of magnitude below the \(L_X^* \sim 0.1\text{–}10\;\mu\text{m}\) result claimed elsewhere in this appendix
+    (Eq. D.11). Matching \(L_X^* \sim 1\,\mu\text{m}\) from this same formula would require an effective scale
+    \(v \sim 0.2\text{–}0.4\) eV, not the electroweak VEV. This scale mismatch is unresolved and is flagged here rather
+    than papered over; it should not be read as an independently verified numerical derivation of \(L_X\).
+  </p>
 
   <h3>Resulting Coherence Length</h3>
   <p>

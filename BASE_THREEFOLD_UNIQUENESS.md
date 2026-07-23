@@ -3,7 +3,7 @@
 **Document Type:** Mathematical Proof - Algebraic Geometry
 **Framework:** STUR v4.4 (Helix Geometry)
 **Date:** 2026-02-05
-**Status:** Rigorous Classification Theorem
+**Status:** Classification Theorem — UNRESOLVED GAP (the diagonal ∞₃ action on P²×P¹ yields 6 fixed points, not 3; the reduction to 3 points relies on an unjustified restriction to a P² slice — see §5.5 and §7.3)
 **Prerequisites:** Toric geometry, Group actions on algebraic varieties
 
 ---
@@ -898,7 +898,9 @@ This construction is unique up to:
 - Choice of which P^1 point to fix (2 choices, equivalent by automorphism)
 - Overall automorphism of P^2 x P^1
 
-**Conclusion:** B_3 = (P² × P¹)/∞₃, with the understanding that the "3 fixed points" refers to the P^2 sublocus, is unique. qed
+**Conclusion (as originally stated):** B_3 = (P² × P¹)/∞₃, with the understanding that the "3 fixed points" refers to the P^2 sublocus, is unique. qed
+
+**Honesty caveat (added in FIX pass):** This "qed" is not actually established. The diagonal ∞₃ action defined at the start of this proof (Step 3(c)) has 6 isolated fixed points on P²×P¹, not 3. The restriction to the P²×{[1:0]} slice that discards the other 3 fixed points (over [0:1]) is an ad hoc move with no geometric or physical justification given anywhere in this document — it is chosen because it produces the desired count, not derived from the stated group action. The uniqueness theorem as stated should be read as unproved; the "3 generations" claim resting on it needs an independent justification for why only half the fixed-point set is physical, which this document does not supply.
 
 ### 5.4 The Lefschetz Verification
 
@@ -1053,20 +1055,20 @@ The compact smooth toric threefold P^2 x P^1, with ∞₃ action on the P^2 fact
 | P^3 excluded | Yes | 4.2 | Fixed curves (Lemma 4.3) |
 | P^1 x P^1 x P^1 excluded | Yes | 4.3 | Fixed diagonal curve (Lemma 4.4) |
 | Blow-ups excluded | Yes | 5.3 | Increase fixed point count |
-| P^2 x P^1 valid | Yes | 4.5 | 3 fixed points on P^2 factor |
+| P^2 x P^1 valid | **NO — unresolved** | 4.5/5.5 | The stated diagonal action gives 6 fixed points on the product; "3 fixed points on P^2 factor" is obtained only by an unjustified restriction to a slice (see §5.5 caveat) |
 | Lefschetz consistency | Yes | 5.6 | chi(P^2,theta) = 1 = 1/3+1/3+1/3 |
 | Surface uniqueness | Yes | 5.3 | Theorem 5.2 |
 | Threefold uniqueness | Yes | 5.5 | Theorem 5.1 |
 
 ### 7.3 Mathematical Rigor Assessment
 
-This proof meets the standards of algebraic geometry journals:
+**Honesty note (added in FIX pass):** This section previously claimed the proof "meets the standards of algebraic geometry journals." It does not, in its current form. The central fixed-point count is inconsistent: the diagonal ∞₃ action considered in §5.5 gives 6 isolated fixed points on P²×P¹ (also 9 under other actions considered in §4.5), not the claimed 3, and the reduction to 3 is an unexplained restriction to a P² slice with no stated geometric or physical justification. The Appendix B Lefschetz cross-check for the actual 6-point configuration is abandoned mid-calculation ("This is getting complicated...") and the claim that "the Lefschetz formula is satisfied" is asserted, not shown. Items 1-4 below (definitions, classification framework, enumeration, verification tooling) are genuinely solid; item 5 (uniqueness proved) is not established.
 
 1. **Definitions:** All objects (fans, toric varieties, actions) precisely defined
 2. **Classification:** Based on established theorems (Oda, Fulton)
 3. **Enumeration:** Complete and systematic
-4. **Verification:** Multiple independent checks (direct, Lefschetz)
-5. **Uniqueness:** Proved by exhaustive elimination
+4. **Verification:** Multiple independent checks attempted (direct, Lefschetz), but the Lefschetz check for the actually-defined action is incomplete
+5. **Uniqueness:** NOT proved by exhaustive elimination — the P²×P¹ case (§5.5) is resolved only by an ad hoc, undefended restriction, not by elimination
 
 ### 7.4 Open Questions
 
@@ -1193,7 +1195,7 @@ This is getting complicated. The key point is that the Lefschetz formula is sati
 
 ---
 
-**Document Status:** COMPLETE
-**Mathematical Rigor:** Journal-grade
-**Uniqueness Claim:** VERIFIED
-**Date:** 2026-02-05
+**Document Status:** INCOMPLETE — unresolved 3-vs-6-vs-9 fixed-point gap (see §5.5, §7.3)
+**Mathematical Rigor:** Not journal-grade in current form
+**Uniqueness Claim:** NOT VERIFIED — rests on an unjustified restriction, not a proof
+**Date:** 2026-02-05 (honesty labels corrected in FIX pass, 2026-07-18)

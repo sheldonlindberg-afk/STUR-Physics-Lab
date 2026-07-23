@@ -1366,11 +1366,13 @@
         \(\mathcal{O}(1)\) differences in localization positions. With \(\sigma \sim L_X/10\), the hierarchy is:
       </p>
       <div class="eq boxed" style="margin:0.75rem 0 0;">
-        \[\frac{m_t}{m_e} = \exp\!\left(\frac{(\Delta X_e)^2 - (\Delta X_t)^2}{4\sigma^2}\right) = \exp\!\left(\frac{5.8^2 - 0.7^2}{4}\right) \approx 3 \times 10^5 \quad \checkmark\]
+        \[\frac{m_t}{m_e} = \exp\!\left(\frac{(\Delta X_e)^2 - (\Delta X_t)^2}{4}\right) = \exp\!\left(\frac{5.8^2 - 0.7^2}{4}\right) \approx 4 \times 10^3\]
       </div>
       <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-        <strong>Status:</strong> This derivation is now explicit. The MHP variational equations have closed-form solutions
-        that reproduce the observed mass spectrum with no fine-tuning of 5D Yukawa couplings.
+        <strong>Status:</strong> Caveat — the physical ratio is \(m_t/m_e \approx 3.4\times10^5\), but plugging the table's own
+        \(\Delta X_t=0.7\), \(\Delta X_e=5.8\) into this formula gives \(\approx 4\times10^3\), about 85× too small.
+        The qualitative mechanism (O(1) localization differences producing exponentially large mass ratios) is illustrated,
+        but this specific formula/input pair does not close the numerical gap. Flagged as an open item, not a verified derivation.
       </p>
     </div>
   </div>
@@ -2314,8 +2316,8 @@
   <div class="block success" style="border-width:2px;">
     <div class="title" style="color:var(--success);">Status: ALL CALCULATED — Zero Calibration</div>
     <p style="margin:0;color:var(--text-secondary);">
-      <strong>v7.0 Helix Geometry TOE calculates all flavor parameters from ∞-helix geometry.</strong>
-      λ = 0.220 from e<sup>-2π/3</sup> + RG running. All CKM elements from phase mismatch (1-2%). Neutrino masses from Majorana broadening (2-6%).
+      <strong>v7.0 Helix Geometry TOE calculates most flavor parameters from ∞-helix geometry.</strong>
+      λ = 0.22543 from e<sup>-2π/3</sup> + RG running (0.03% from PDG). CKM elements from phase mismatch range 0.03–4.2%. Neutrino mixing angles range 8–19.4% (δ<sub>CP</sub> is P-status at 38.5%).
     </p>
   </div>
 
@@ -2331,9 +2333,9 @@
 
   <ul>
     <li><strong>Generation number:</strong> n = |∞₃| = 3 is <span style="color:var(--success);">AUTOMATIC</span> from helix geometry</li>
-    <li><strong>Wolfenstein λ:</strong> λ = e<sup>-2π/3</sup> × (RG) = 0.220 is <span style="color:var(--success);">CALCULATED</span> (4% from PDG)</li>
-    <li><strong>All CKM elements:</strong> <span style="color:var(--success);">CALCULATED</span> from phase mismatch (1-2% accuracy)</li>
-    <li><strong>Neutrino Δm²:</strong> <span style="color:var(--success);">CALCULATED</span> from ∞₃ Majorana broadening (2-6% accuracy)</li>
+    <li><strong>Wolfenstein λ:</strong> λ = e<sup>-2π/3</sup> × (RG) = 0.22543 is <span style="color:var(--success);">CALCULATED</span> (0.03% from PDG)</li>
+    <li><strong>CKM elements:</strong> <span style="color:var(--success);">CALCULATED</span> from phase mismatch (0.03–4.2% accuracy)</li>
+    <li><strong>Neutrino Δm²:</strong> <span style="color:var(--success);">CALCULATED</span> from ∞₃ Majorana broadening (2.3–8% accuracy)</li>
   </ul>
 
   <h3>H.2 The MHP Flavor Mechanism</h3>

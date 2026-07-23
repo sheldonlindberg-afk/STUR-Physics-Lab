@@ -3,7 +3,21 @@
 **Document Type:** Theoretical Physics Calculation
 **Author:** Derived for STUR Framework v4.3
 **Date:** 2026-01-25
-**Status:** Complete Higher-Order Analysis
+**Status:** Complete Higher-Order Analysis (historical; see superseded note below)
+
+---
+
+> **Note (superseded):** This document's kappa ~ 2.5 target predates and is
+> superseded by the current Mathieu-equation-based calculation in
+> `scripts/stur_toe_closure.py`, which gives kappa_q = 2.417, kappa_l = 2.367
+> via a different (non-fitted) method — the exact ground-state width of the
+> Mathieu equation on each brane. The correction terms below were assembled to
+> close the gap between an earlier first-principles estimate (kappa_0 = 2.22,
+> see KAPPA_FIRST_PRINCIPLES_DERIVATION.md) and an older phenomenological
+> reference kappa_pheno = 2.5, not the canonical values above. Sections below
+> labeled "DERIVED" or "CALCULATED" should be read as "estimated toward a
+> preset target," per the narrative and provenance notes in the text itself.
+> This document is preserved as historical derivation work.
 
 ---
 
@@ -317,7 +331,10 @@ The difference arises from:
 
 ## 3. Kaluza-Klein Tower Dressing — First-Principles Derivation
 
-**Derivation Status: DERIVED (from 5D field theory)**
+**Derivation Status: PARTIALLY ESTIMATED (superseded) — the genuinely computed
+subtotal is +0.041 (Section 3.10); the "enhancement factor" used to reach the
++0.11 value needed to hit kappa = 2.52 is adjusted post hoc (see Section 3.10
+"Rounding with uncertainties") rather than independently derived.**
 
 ### 3.1 Physical Picture and 5D Action
 
@@ -844,7 +861,9 @@ The uncertainty arises from:
 
 ## 4. Gauge Field Backreaction — First-Principles Derivation
 
-**Derivation Status: DERIVED (from QCD coupling to localized fermions)**
+**Derivation Status: ESTIMATED (superseded) — see Section 6.4, which admits
+this and the orbifold correction are needed to bring the running total within
+stated error bars of the kappa = 2.5 target.**
 
 ### 4.1 Physical Setup: Gauge Coupling to Localized Fermions
 
@@ -1534,7 +1553,7 @@ The corrections are:
 | KK tower dressing | +0.11 | +/- 0.03 | Potential renormalization + enhancement (§3.10) | **CALCULATED** |
 | Gauge backreaction | +0.06 | +/- 0.02 | RG matching | **CALCULATED** |
 | ∞-helix topology | +0.05 | +/- 0.02 | Twisted sector | **CALCULATED** |
-| **Total** | **+0.30** | **+/- 0.05** | | **DERIVED** |
+| **Total** | **+0.30** | **+/- 0.05** | | **FITTED (superseded) — see Section 8.1** |
 
 ### 6.2 Final Result
 
@@ -1551,16 +1570,20 @@ The corrections are:
 |                                                                  |
 |  --------------------------------------------------------        |
 |                                                                  |
-|  Comparison with phenomenological value:                         |
+|  Comparison with OLDER phenomenological value (superseded):      |
 |                                                                  |
-|  kappa_pheno  = 2.5 (used in STUR)                               |
+|  kappa_pheno  = 2.5 (pre-Mathieu-method reference, not current)  |
 |                                                                  |
 |  Difference   = |2.52 - 2.50| / 0.16 = 0.13 sigma                |
 |                                                                  |
-|  EXCELLENT AGREEMENT                                             |
+|  AGREEMENT WITH THE (SUPERSEDED) TARGET THIS WAS FITTED TO       |
 |                                                                  |
 +------------------------------------------------------------------+
 ```
+
+Note: kappa_pheno = 2.5 here is the older, pre-Mathieu-method reference value
+this document was fitted toward — not the current canonical kappa_q = 2.417 /
+kappa_l = 2.367 computed by `scripts/stur_toe_closure.py`.
 
 ### 6.3 Breakdown by Effect Type
 
@@ -1674,7 +1697,14 @@ This is within our stated uncertainty of +/- 0.16.
 
 ### 8.1 Main Result
 
-The localization parameter kappa can be FULLY DERIVED from first principles:
+**Status (corrected): fitted to an earlier target, superseded.** As Section
+3.10 and Section 6.4 make explicit in-text, the individual correction terms
+below were adjusted piece-by-piece (including an unexplained "rounding" of the
+KK enhancement factor from 2.36 to 2.7) until the running total cleared the
+then-target kappa = 2.5 within stated error bars. Read honestly, this is a
+fit to a preset target, not a from-first-principles derivation, and neither
+2.22 nor 2.52 is the framework's current canonical kappa_q = 2.417 / kappa_l
+= 2.367 (see the superseded note at the top of this document):
 
 ```
 kappa = 2.22 (Mathieu equation, alpha = 1)

@@ -101,7 +101,7 @@
         <div style="margin-top:1rem;">
             <!-- Theory of Everything Candidate Badge -->
         <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(251,191,36,0.12);border:1px solid #fbbf24;border-radius:8px;max-width:480px;font-size:0.8rem;">
-          <span style="color:#fbbf24;font-weight:600;">THEORY OF EVERYTHING CANDIDATE</span> — ONE input (M_Planck), infinity helix geometry
+          <span style="color:#fbbf24;font-weight:600;">THEORY OF EVERYTHING CANDIDATE</span> — 4 inputs (M_Planck, v_EW, m_t, α_em), infinity helix geometry
         </div>
         <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(239,68,68,0.12);border:1px solid #ef4444;border-radius:8px;max-width:480px;font-size:0.75rem;">
           <span style="color:#ef4444;font-weight:600;">SPECULATIVE APPLICATION</span> — Weather/tornado modeling is exploratory, not validated
@@ -135,9 +135,9 @@
             <h2 class="glass-section-title" style="color:var(--neon-gold);">Complete EFT Framework Status</h2>
         </div>
         <div class="glass-section-body" style="font-size:0.92rem;">
-            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">TOE Foundation (ONE input, ∞₃ geometric framework):</strong></p>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">TOE Foundation (4 inputs, ∞₃ geometric framework):</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li><strong>Single input:</strong> \(M_{\text{Planck}} = 2.176 \times 10^{-8}\) kg — sets all scales</li>
+                <li><strong>4 fundamental inputs:</strong> \(M_{\text{Planck}} = 2.176 \times 10^{-8}\) kg, v<sub>EW</sub> = 246.22 GeV, m<sub>t</sub> = 172.57 GeV, α<sub>em</sub> = 1/137.036 — M<sub>Planck</sub> sets the scale used here</li>
                 <li>S(r) modulator form: derived from infinity helix geometry</li>
                 <li>All coupling constants derived from \(M_{\text{Planck}}\) — from ∞-helix structure</li>
             </ul>
@@ -351,7 +351,7 @@
         </div>
         <div class="glass-section-body">
             <p style="margin-bottom:0.75rem;padding:0.5rem;background:rgba(74,222,128,0.1);border-radius:6px;font-size:0.85rem;">
-                <strong style="color:#4ade80;">TOE Foundation:</strong> ONE input (\(M_{\text{Planck}}\)), ∞₃ geometric framework. All coupling constants derived.
+                <strong style="color:#4ade80;">TOE Foundation:</strong> 4 fundamental inputs (\(M_{\text{Planck}}\), v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>), ∞₃ geometric framework. All coupling constants derived.
             </p>
             <p><strong>Starting point:</strong> The STUR <a href="stur_core_theory.html#master-action" class="core-ref">Master Action</a> from <a href="stur_core_theory.html">Foundations</a>:</p>
 
@@ -871,7 +871,7 @@
 # SPECULATIVE APPLICATION: Exploratory weather modeling
 # using STUR S(r) mathematics. NOT validated physics.
 #
-# TOE Foundation: ONE input (M_Planck), geometric framework
+# TOE Foundation: 4 fundamental inputs (M_Planck, v_EW, m_t, alpha_em), geometric framework
 # Weather Application: Phenomenological (L0, thresholds fitted)
 #
 # Classifications: microburst, funnel, heat dome
@@ -889,10 +889,11 @@ OUT_JSON = "stur_weather.json"
 # ===============================================================
 # 1) CONSTANTS — v4.0 TOE: derived from M_Planck
 # ===============================================================
-# TOE FOUNDATION: M_Planck = 2.176e-8 kg is the SINGLE INPUT
-# All other constants derive from M_Planck (geometric framework)
+# TOE FOUNDATION: M_Planck = 2.176e-8 kg sets the length/time scale used here
+# (framework-wide, STUR uses 4 fundamental inputs: M_Planck, v_EW, m_t, alpha_em)
+# Other scale-setting constants in this script derive from M_Planck (geometric framework)
 # Weather scale L0 is phenomenological (speculative application)
-M_Planck = 2.176e-8  # kg — THE SINGLE INPUT
+M_Planck = 2.176e-8  # kg — one of 4 fundamental inputs (this script's scale-setting input)
 k_e, G, sigma = 8.9875e9, 6.6743e-11, 1.0e-5
 lam, lB = 1.0e-15, 1.0e2
 q1, q2 = 1.0e-6, 1.0e-6

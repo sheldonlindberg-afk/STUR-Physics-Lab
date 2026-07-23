@@ -1038,8 +1038,10 @@ The choice B₃ = (P²×P¹)/∞₃ is essentially unique.
 1. Exactly 3 fixed points: Only (P²×P¹)/∞₃ with diagonal action
    gives exactly 3 isolated fixed points.
 
-2. Correct Hodge numbers: h¹¹ = 3 allows 3 independent Kähler
-   moduli matching ∞-helix structure.
+2. Correct Hodge numbers: h¹¹ = 6 [corrected — was mis-stated as 3 here,
+   contradicting h¹¹ = 6 used consistently elsewhere in this document, e.g. lines 17,
+   322, 354, 1135, and the χ=216 computation in §... above] allows 6 independent
+   Kähler moduli matching ∞-helix structure.
 
 3. SM-compatible divisors: The divisor structure allows
    D_SU3, D_SU2, D_U1 to be engineered simultaneously.
@@ -1092,8 +1094,10 @@ This is not selection from landscape but derivation from geometry.
 2. Complex structure moduli: The 25 moduli are stabilized at
    discrete values, but which discrete values depends on flux.
 
-3. D3-brane positions: The 37 D3-branes can be at various
-   positions. Some configurations may be preferred.
+3. D3-brane positions: The 4 D3-branes [corrected — was mis-stated as "37" here,
+   contradicting N_D3 = 4 used consistently elsewhere in this document, e.g. lines
+   541, 633, 1146, and the tadpole identity 5+4=9=χ/24 at line 1147] can be at
+   various positions. Some configurations may be preferred.
 ```
 
 **Resolution via Further Constraints:**

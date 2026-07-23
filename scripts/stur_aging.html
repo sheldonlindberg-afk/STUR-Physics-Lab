@@ -625,9 +625,9 @@ select option { background: #0a1628; }
   <div class="tab-pane" id="pane-3">
     <div class="sec-label">Chronomagnetic Log-Periodic Milestones</div>
     <div class="stur-eq-panel">
-      <p>STUR v7.0 predicts that biological phase transitions occur at log-periodic intervals scaled by the chronomagnetic ratio \(\lambda_{chrono} = e^{1/\pi} \approx 1.3756\). Each developmental milestone occurs at \(t_n = t_0 \cdot \lambda_{chrono}^n\), where each interval is \(\times 1.376\) longer than the previous.</p>
+      <p>STUR v7.0 predicts that biological phase transitions occur at log-periodic intervals scaled by the chronomagnetic ratio \(\lambda_{chrono} = e^{1/\pi} \approx 1.3748\). Each developmental milestone occurs at \(t_n = t_0 \cdot \lambda_{chrono}^n\), where each interval is \(\times 1.376\) longer than the previous.</p>
       <p style="margin-top:6px;">
-        \(\lambda_{chrono} = e^{1/\pi} \approx 1.3756\) &nbsp;&nbsp;&nbsp;&nbsp; (chronomagnetic scaling ratio) <br>
+        \(\lambda_{chrono} = e^{1/\pi} \approx 1.3748\) &nbsp;&nbsp;&nbsp;&nbsp; (chronomagnetic scaling ratio) <br>
         \(t_n = t_0 \cdot \lambda_{chrono}^n\) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (milestone ages)
       </p>
     </div>
@@ -656,7 +656,7 @@ select option { background: #0a1628; }
 
     <div class="sec-label" style="margin-top:16px;">Chronomagnetic Intervals</div>
     <div class="two-col">
-      <div class="eq-card green">λ_chrono = e^(1/π) ≈ 1.3756</div>
+      <div class="eq-card green">λ_chrono = e^(1/π) ≈ 1.3748</div>
       <div class="eq-card amber">t_0 = 1 yr (birth baseline), t_n = t_0 · λ^n</div>
     </div>
     <div class="eq-card violet">STUR prediction: éR oscillates log-periodically as mitochondria phase-transition at each t_n</div>
@@ -695,7 +695,7 @@ select option { background: #0a1628; }
       <div class="int-card">
         <div class="int-name" style="color:#fff">Combined Optimal</div>
         <div class="int-pct" id="int-combo-yig" style="color:#fff">—</div>
-        <div class="int-desc">All above, −35% éR, maximum healthy-lifespan extension</div>
+        <div class="int-desc">All above, −35% éR (assumed diminishing-returns/overlap, not the naive product of the four individual multipliers, which would give ≈−52%), maximum healthy-lifespan extension</div>
       </div>
     </div>
 
@@ -711,10 +711,10 @@ select option { background: #0a1628; }
 
     <div class="sec-label">Optimal Protocol</div>
     <div class="eq-card green" style="line-height:1.8;">
-      Optimal stacking order: <strong>Exercise (foundation)</strong> → Caloric Restriction (metabolic) → Rapamycin (late-life mTOR) → Senolytics (clearance pulses) → Combined = maximum éR reduction (−35%) and Goldilocks extension.
+      Optimal stacking order: <strong>Exercise (foundation)</strong> → Caloric Restriction (metabolic) → Rapamycin (late-life mTOR) → Senolytics (clearance pulses) → Combined = maximum éR reduction (−35%) and Goldilocks extension. Note: the individual per-intervention multipliers (cr 0.82 × ex 0.78 × rapa 0.85 × seno 0.88 = 0.478) would give ≈−52% if combined naively/independently; the −35% figure used for "Combined Optimal" is a separately assumed, more conservative value reflecting expected diminishing returns and biological overlap between mechanisms, not the literal product below.
     </div>
     <div class="eq-card amber">
-      éR_modified(age) = éR_baseline(age) · modifier_factor &nbsp;&nbsp; [multiplicative interventions]
+      éR_modified(age) = éR_baseline(age) · modifier_factor &nbsp;&nbsp; [multiplicative interventions, except "Combined Optimal" which uses an independently assumed diminishing-returns factor rather than the raw product]
     </div>
   </div>
 
@@ -727,7 +727,7 @@ select option { background: #0a1628; }
 // ════════════════════════════════════════════════════════════════
 //  CONSTANTS
 // ════════════════════════════════════════════════════════════════
-const LAMBDA_CHRONO = Math.exp(1 / Math.PI); // ≈ 1.3756
+const LAMBDA_CHRONO = Math.exp(1 / Math.PI); // ≈ 1.3748
 
 // Intervention multipliers (applied to éR baseline)
 const INTERVENTIONS = {
@@ -761,6 +761,15 @@ MILESTONES.forEach(m => { m.t = Math.min(m.t, 100); });
 // ════════════════════════════════════════════════════════════════
 //  AGING MODEL MATH
 // ════════════════════════════════════════════════════════════════
+// HONEST NOTE: the numeric coefficients below (0.25, 0.012, 0.00008, 0.95, -0.008,
+// 0.1, 0.03, 0.5, 0.3, 1000, etc.) are hand-chosen phenomenological curve-fit
+// constants illustrating plausible qualitative éR/GDF15 trajectories. They are NOT
+// derived from STUR's core constants (κ_q=2.417, κ_l=2.367, η̄=0.3947) or from
+// M_Planck — despite the hero text above describing this as a "STUR v7.0
+// chronomagnetic holonomy" simulation, the age-dependent baseline/flux/damage
+// curves themselves are an illustrative biological parametrization, not a
+// first-principles derivation. Only the chronomagnetic ratio λ_chrono = e^(1/π)
+// used for the milestone timing (Tab 3) traces back to the core v7.0 theory.
 // Baseline éR trajectory (biological)
 function erBase(age) {
   return 0.25 + 0.012 * age + 0.00008 * age * age;

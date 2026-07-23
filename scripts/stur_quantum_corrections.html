@@ -91,7 +91,7 @@
           <strong>(A1)</strong> M⁴ × S¹ with TEGR,
           <strong>(A2)</strong> Real doublet R-field,
           <strong>(A3)</strong> Energy minimization —
-          yield 30 observables (29D+0P+0U+1I). One-loop + two-loop quantum correction chain verified.
+          yield 30 observables (24D+3P+2U+1I, 83% closure). One-loop + two-loop quantum correction chain verified.
           α<sub>eff</sub> = 1.480 from two-loop computation. κ = 2.430, σ = 0.862.
         </div>
 
@@ -645,6 +645,20 @@
   <div class="eq boxed">
     \[\Lambda_{\rm hol} = \frac{1}{\XCRM{L_X}} \approx 10^{11}\, \text{GeV}\]
     <div class="eq-label">(7.1) — Holonomy regulation scale</div>
+  </div>
+
+  <div class="block warning">
+    <div class="title">Cross-File Scale Inconsistency: L<sub>X</sub></div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+      This value implies L<sub>X</sub> ≈ 2×10<sup>-27</sup> m. Other pages in the framework quote very different
+      values for what is meant to be the same compactification length: <code>stur_yukawa_derivation.html</code>
+      states L<sub>X</sub> ≈ 0.8 μm (implying 1/L<sub>X</sub> ~ 2×10<sup>-10</sup> GeV), and
+      <code>stur_higgs_derivation.html</code> derives L<sub>X</sub> ≈ 1.2×10<sup>-17</sup> m from v·L<sub>X</sub> = 3
+      (implying 1/L<sub>X</sub> ~ 16 GeV in natural units). These three numbers disagree by roughly 17-37 orders
+      of magnitude and are not mutually consistent, even though L<sub>X</sub> is meant to be a single fundamental
+      scale feeding M<sub>Planck</sub> → L<sub>X</sub> → v → masses throughout the framework. This is noted here
+      rather than silently resolved, since no independently verified reconciliation was found.
+    </p>
   </div>
 
   <h3>7.2 Higher-Dimensional Operators Are Suppressed</h3>

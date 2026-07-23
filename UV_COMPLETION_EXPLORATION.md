@@ -150,16 +150,27 @@ Thus the UV construction yields exactly three generations.
 
 ### 3.4 Tadpole consistency (closure check)
 
-For the elliptic CY_4 used in the embedding:
+For the elliptic CY_4 used in the embedding (same B₃ = (P²×P¹)/∞₃, j=0 construction as
+UV_COMPLETION_UNIQUENESS_PROOF.md and WEIERSTRASS_COEFFICIENTS_EXPLICIT.md, with
+h¹¹=6, h²¹=3, h³¹=25):
 
 ```
-χ(CY_4) = 1698
-χ/24 = 71
-N_flux = 34
-N_D3 = 37
+χ(CY_4) = 216
+χ/24 = 9
+N_flux = 5
+N_D3 = 4
 ```
 
-The D3-tadpole condition χ/24 = N_flux + N_D3 is satisfied.
+The D3-tadpole condition χ/24 = N_flux + N_D3 is satisfied (5+4=9).
+
+**Correction note (2026-07):** an earlier version of this section stated χ=1698, χ/24=71,
+N_flux=34, N_D3=37. That figure was arithmetically wrong on its own terms (1698/24=70.75,
+not an integer, and 34+37=71≠70.75 — it violated the document's own tadpole identity) and
+also contradicted UV_COMPLETION_UNIQUENESS_PROOF.md §1.2/§2.2 and
+WEIERSTRASS_COEFFICIENTS_EXPLICIT.md, which independently compute χ=216 for this identical
+geometry. No alternative construction was intended here — this was a transcription/calculation
+error in the earlier v4.3 pass, now corrected to match the canonical χ=216 result used
+throughout the rest of the UV-completion document set.
 
 ---
 

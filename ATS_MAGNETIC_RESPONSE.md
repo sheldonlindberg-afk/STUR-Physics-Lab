@@ -110,9 +110,21 @@ Combining the modifications:
 λ_L = √(m* / μ₀ n e²)
     = √(2 × 9.11×10⁻³¹ / (4π×10⁻⁷ × 5×10²⁷ × (1.6×10⁻¹⁹)²))
     = √(1.82×10⁻³⁰ / (4π×10⁻⁷ × 5×10²⁷ × 2.56×10⁻³⁸))
-    = √(1.82×10⁻³⁰ / 1.61×10⁻¹⁷)
-    ≈ 34 nm
+    = √(1.82×10⁻³⁰ / 1.61×10⁻¹⁶)
+    ≈ 106 nm
 ```
+
+**⚠️ CORRECTION:** The previous version of this document had an exponent
+transcription error in the denominator (wrote 1.61×10⁻¹⁷, but
+4π×10⁻⁷ × 5×10²⁷ × 2.56×10⁻³⁸ = 1.61×10⁻¹⁶, verified via python3) and then
+reported "≈ 34 nm" as the final answer — a number that does not follow from
+either the correct physics (which gives **λ_L ≈ 106 nm**) or from the
+document's own (also erroneous) shown denominator (which would give ≈336 nm).
+The 34 nm figure does not follow from the work shown by any evident path; it
+has been replaced above with the correctly-computed value, λ_L ≈ 106 nm. This
+is also more consistent with the rough estimate "≈50 nm" quoted earlier in
+Section 1.2 than the previous 34 nm figure was, though still not an exact
+match — that earlier estimate is not independently re-derived here.
 
 **S(u) correction factor at T = 0:**
 
@@ -128,11 +140,25 @@ The correction comes from the different functional form near T_c. For the zero-t
 
 where α_S ≈ 0.3 is the S(u) enhancement factor from integrating the modified kernel.
 
-**Result:**
+**⚠️ CORRECTION:** Evaluating this formula with the document's own stated
+inputs (Δ₀=60 meV, k_B T_c=34 meV, so Δ₀/k_B T_c=1.76) and the corrected
+λ_L≈106 nm from Section 1.4 above (verified via python3):
+λ_STUR(0) = 106 × [1 + 0.3×1.76]^0.5 = 106 × 1.237 ≈ **132 nm**, not 150 nm.
+Using the document's previous (erroneous) λ_L=34 nm instead gives ≈42 nm —
+also not 150 nm. The boxed headline result below does not follow from this
+formula and these inputs under any combination checked. It is left in place
+(unverified) rather than replaced with a fabricated match, since this is the
+single most important number in the document — it feeds directly into
+κ_STUR (Section 2.2), the Type-II classification (Section 2.3), H_c1
+(Section 3.2), and the H_c2/H_c1 ratio (Section 3.4) below, all of which
+should be treated with the same caveat.
+
+**Result (as originally stated — not reproduced by the formula above; see correction):**
 
 ```
 ┌────────────────────────────────────────────────────────────────────┐
-│  λ_STUR(T=0) ≈ 150 nm                                             │
+│  λ_STUR(T=0) ≈ 150 nm   [NOT independently reproduced — see         │
+│  correction note above; formula + stated inputs give ≈132 nm]      │
 │                                                                    │
 │  (Enhanced over bare London depth by S(u) kernel modification)    │
 └────────────────────────────────────────────────────────────────────┘
@@ -672,10 +698,17 @@ Falsification: If χ_dia = -1.00 ± 0.02 confirmed
 ┌────────────────────────────────────────────────────────────────────┐
 │  STUR MAGNETIC RESPONSE — SUMMARY                                  │
 │                                                                    │
-│  DERIVED FROM:                                                     │
+│  DERIVED FROM (as originally claimed):                             │
 │  • M_Planck (one input)                                           │
 │  • infinity helix geometry                                              │
 │  • S(u) = tanh(u)(1 - e^{-|u|}) saturation operator               │
+│                                                                    │
+│  ⚠️ CORRECTION: This document also uses several material-specific  │
+│  inputs not derived from M_Planck or the helix geometry: m*≈2m_e, │
+│  n≈5×10²¹ cm⁻³ carrier density, v_F≈10⁶ m/s, N(0)≈10⁴⁷ J⁻¹m⁻³,     │
+│  α_S≈0.3, δ_R≈0.1-0.3, χ_R≈-0.1 (Sections 1-3). "One input" is    │
+│  not accurate; this is consistent with the framework-wide 4-input  │
+│  count (M_Planck, v, m_t, α_em) plus additional material inputs.   │
 │                                                                    │
 │  RESULTS (T = 0):                                                  │
 │  • Penetration depth:  λ ≈ 150 nm                                 │

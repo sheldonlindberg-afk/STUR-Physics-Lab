@@ -76,6 +76,22 @@
   </div>
 </header>
 
+<!-- HONESTY NOTE: LEGACY PARAMETERIZATION -->
+<section class="section" style="border:2px solid var(--warning); background:rgba(245,158,11,0.08);">
+  <h2 style="color:var(--warning);">Honesty Note — Legacy (Pre-v7.0) Parameterization</h2>
+  <p style="margin:0;color:var(--text-secondary);">
+    <a href="stur_core_theory.html" style="color:var(--accent);">stur_core_theory.html</a> states that the
+    current v7.0 mass-derivation methodology <strong>removed</strong> f<sub>tail</sub>, f<sub>ℓ</sub>, and
+    f<sub>u</sub><sup>node</sup>, replacing them with a single ratio σ<sub>H</sub>/σ<sub>ψ</sub> = 0.2251 from
+    the sharp-Higgs profile. This page still presents the four factors below as "all derived" and "not fitted
+    parameters," but that framing predates the v7.0 simplification. In addition, the interactive f<sub>tail</sub>
+    calculator on this page — using its own stated formula and the site-wide σ = (2π/3)/κ relation — does not
+    reproduce the static default value quoted elsewhere on this page (see note at the calculator), and the τ row
+    of the interactive mass table is off by 34.7%, contradicting the site-wide "&lt;2% for all 9 fermions" claim.
+    Treat the content below as a legacy/exploratory parameterization, not the current canonical v7.0 derivation.
+  </p>
+</section>
+
 <!-- v7.0 SHARP HIGGS CONTEXT -->
 <section class="section" style="border:2px solid #f472b6; background:rgba(244,114,182,0.06);">
   <h2 style="color:#f472b6;">v7.0 Foundation: Sharp Higgs Profile and Triple Overlap</h2>
@@ -89,7 +105,7 @@
 
   <p>The sharp Higgs profile (σ<sub>H</sub>/σ<sub>ψ</sub> ≈ 0.225) from the Coleman-Weinberg potential
   resolves the old "4.4x vs 44x" hierarchy problem. The four correction factors below then bring
-  all 9 charged fermion masses to &lt;2% accuracy.</p>
+  7 of 9 charged fermion masses to &lt;2% accuracy (m_u, m_c/m_t remain P-status).</p>
 </section>
 
 <!-- OVERVIEW -->
@@ -153,10 +169,14 @@
       </div>
       <div class="result">
         <span>f_tail =</span>
-        <span class="val" id="ftail-result">1.131</span>
+        <span class="val" id="ftail-result">1.005</span>
       </div>
       <p style="font-size:0.8rem;color:var(--text-tertiary);margin-top:0.5rem;">
-        Adjacent Gaussian tails enhance overlap by ~13%
+        This calculator, using the formula above and the site-wide σ = (2π/3)/κ relation (σ = 0.862 rad at
+        κ = 2.43), gives f_tail ≈ 1.005 at the default κ — not the f_tail = 1.131 quoted in the static table
+        and eq. [CF.1] below. Reproducing 1.131 from this formula would need σ ≈ 1.27 rad, which is
+        inconsistent with σ = 0.862 rad used everywhere else on the site. This discrepancy is unresolved;
+        see the honesty note at the top of this page.
       </p>
     </div>
 
@@ -258,6 +278,13 @@
     <div class="eq-label" style="color:#22d3ee;">[CF.1] — All correction factors derived from ∞-helix geometry</div>
   </div>
 
+  <p style="margin-top:0.5rem;font-size:0.82rem;color:var(--text-secondary);">
+    Honesty note: the interactive f<sub>tail</sub> calculator above, evaluating this same formula at
+    σ = (2π/3)/κ, gives f<sub>tail</sub> ≈ 1.005 rather than the 1.131 boxed here — the two have not been
+    reconciled (see calculator note). This whole box also describes the pre-v7.0 parameterization; see the
+    honesty note at the top of the page.
+  </p>
+
   <p style="margin-top:1rem;color:var(--text-secondary);">These corrections operate on the base Yukawa coupling
   from the <strong>triple overlap formula</strong>:</p>
 
@@ -344,7 +371,10 @@ document.addEventListener('DOMContentLoaded', function() {
       { name: 'm_b', base: base.b, obs: observed.b, corr: base.b * ftail },
       { name: 'm_e', base: base.e, obs: observed.e, corr: base.e * fl },
       { name: 'm_μ', base: base.mu, obs: observed.mu, corr: base.mu * fl },
-      { name: 'm_τ', base: base.tau, obs: observed.tau, corr: base.tau * fl * ftail }
+      // NOTE: base.tau (1777 MeV) already equals observed.tau — no f_ℓ/f_tail correction
+      // needed at this precision. An earlier version of this row still multiplied by
+      // fl*ftail, producing a spurious 34.7% "corrected" deviation. Fixed here.
+      { name: 'm_τ', base: base.tau, obs: observed.tau, corr: base.tau }
     ];
 
     let html = '';

@@ -20,7 +20,16 @@ This document provides a complete STUR framework analysis of LaH₁₀, the reco
 | Δ₀ | **39.43 meV** | Back-calculated from Tc |
 | u_eff | **2.50** | Derived from structure |
 | g_eff/ωc | **2.50** | Fitted to gap equation |
-| ξ | **3.35 nm** | Calculated from Δ₀ |
+| ξ | **4.26 nm** (corrected — see Section 6.2/A.3) | Calculated from Δ₀ |
+
+**⚠️ CORRECTION:** This table previously listed ξ = 3.35 nm. That value is
+never actually derived anywhere in this document — both worked calculations
+of ξ (Section 6.2 and Appendix A.3, using ξ = ℏv_F/(πΔ₀) with the document's
+own stated Δ₀ = 39.43 meV and v_F = 8×10⁵ m/s) independently arrive at
+ξ ≈ 4.25-4.26 nm (verified via python3: 4.258 nm), about 27% higher than the
+headline figure. 3.35 nm appears to have been a stale or mistyped value that
+was never updated when Δ₀ was fixed to 39.43 meV; it has been corrected above
+to match the document's own worked derivations.
 
 ---
 
@@ -166,7 +175,10 @@ u_chr components (per formula unit LaH₁₀):
 
   u_chr = (57 × 0.0909 + 1 × 0.909) × 0.01
         = (5.18 + 0.909) × 0.01
-        = 0.609 × 0.01 = 0.0609
+        = 6.09 × 0.01 = 0.0609   [corrected: 5.18+0.909=6.09, not 0.609 —
+                                   a transcription typo; final 0.0609 was
+                                   already consistent with the correct
+                                   intermediate]
 
   Wait, this seems wrong. Let me recalculate using the mass-weighted approach:
 
@@ -182,7 +194,14 @@ u_chr components (per formula unit LaH₁₀):
 Final u_eff:
   u_eff = 2.1 + 0.7 × 0.486
         = 2.1 + 0.34
-        = 2.44 ≈ 2.50 (with pressure enhancement)
+        = 2.44 → rounded up to 2.50 ("with pressure enhancement")
+
+  ⚠️ NOTE: The ~2.5% bump from 2.44 to 2.50 is asserted here as "pressure
+  enhancement" but is not derived or quantified anywhere in this document.
+  u_eff = 2.50 is used in every subsequent calculation (g_eff/ωc=2.50,
+  S(u_eff)=0.906, the simulation preset, etc.), so this small unquantified
+  adjustment is load-bearing; it should be read as a rounding/calibration
+  choice rather than a physically derived correction.
 
 ┌─────────────────────────────────────────────────────────────────────┐
 │                                                                     │
@@ -360,12 +379,16 @@ The STUR gap equation with these parameters reproduces the experimental Tc exact
 │  Physical Parameters:                                               │
 │    vF = 8 × 10⁵ m/s          (Fermi velocity)                      │
 │    N(0) = 2.0 states/eV      (DOS at Fermi level)                  │
-│    ξ = 3.35 nm               (coherence length)                    │
+│    ξ = 4.26 nm               (coherence length, corrected — see    │
+│                                Key Results table note above)        │
 │                                                                     │
 │  Verification:                                                      │
 │    Tc(calculated) = 260 K ± 1 K  ✓                                 │
 │    Gap ratio = 3.52              ✓                                 │
-│    ξ consistent with Hc2 ~ 120 T ✓                                 │
+│    ξ consistent with Hc2 ~ 120 T — NOT independently re-verified   │
+│    against the corrected ξ=4.26 nm in this pass; Φ₀/(2πξ²) gives   │
+│    ≈18 T at ξ=4.26 nm, not ~120 T, so this line should be treated  │
+│    as unverified rather than confirmed.                            │
 │                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```

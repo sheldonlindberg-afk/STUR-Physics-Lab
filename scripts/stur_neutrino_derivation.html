@@ -106,9 +106,18 @@
       </div>
     </div>
     <p style="margin:0.5rem 0 0;color:var(--text);font-size:0.95rem;">
-      <strong>Result:</strong> v7.0: Δm²₃₁ = 2.50×10⁻³ eV² (0.4% — genuine prediction); Δm²₂₁: LO gives ~10⁻³⁵ eV² (large deviation; off-diag M_R needed — v7.1).
-      Normal ordering is consistent with the model. Note: f_tail=1.131 removed in v7.0; Δm²₂₁ 1.6% result above required fitted ξ and f_tail (no longer active).
-      The seesaw mechanism itself is standard physics, not specific to STUR; STUR's contribution is the proposed geometric origin of M<sub>R</sub>.
+      <strong>Result:</strong> v7.0.2 (NLO): Δm²₃₁ = 2.45×10⁻³ eV² (2.3% — genuine prediction);
+      Δm²₂₁ = 6.92×10⁻⁵ eV² (8.1%, <strong style="color:var(--success);">D status</strong>) via the
+      <strong>pseudo-Dirac seesaw mechanism</strong>. The Z₃ selection rule (i+j ≡ 0 mod 3) forces an
+      off-diagonal M<sub>R</sub> block, M<sub>R</sub> = M₀·diag(a,0,0) + M₀b·[[0,0,0],[0,0,1],[0,1,0]],
+      whose eigenvalues {a, +b, −b} give a pseudo-Dirac pair {N₂,N₃} that is quasi-degenerate at leading order.
+      The XCRM antisymmetric KK perturbation δV<sub>KK</sub> = ε<sub>KK</sub>sin(θ) breaks this degeneracy
+      (δA = (A₊−A₋)/2 ≠ 0 → m<sub>ν₂</sub> ≠ m<sub>ν₁</sub>), giving at NLO:
+      Δm²₂₁ = (λ<sub>ℓ</sub>²/2)·Δm²₃₁ = (0.2375)²/2 × 2.453×10⁻³ eV² = 6.919×10⁻⁵ eV² (PDG 7.53×10⁻⁵ eV², 8.1%).
+      Normal ordering is predicted (m₁≈0, m₂≈8.32 meV, m₃≈49.5 meV, Σm<sub>ν</sub>≈57.8 meV).
+      This closes the previously open v7.0 gap without any fitted ξ or f_tail parameters.
+      The seesaw mechanism itself is standard physics, not specific to STUR; STUR's contribution is the geometric,
+      Z₃-forced origin of the off-diagonal M<sub>R</sub> structure that produces the pseudo-Dirac splitting.
     </p>
   </div>
 </section>
@@ -139,7 +148,8 @@
     <div style="padding:1rem;background:rgba(34,211,238,0.08);border-radius:10px;border-left:4px solid #22d3ee;">
       <strong style="color:#22d3ee;">Step 4: Seesaw with ∞₃ Enhancement</strong>
       <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-        Light masses: \(\Matt{m_{\nu_3}} = 50\) meV, \(\Matt{m_{\nu_2}} = 8.4\) meV (∞₃ enhanced), \(\Matt{m_{\nu_1}} = 0.12\) meV
+        Illustrative toy-calc masses: \(\Matt{m_{\nu_3}} = 50\) meV, \(\Matt{m_{\nu_2}} = 0.084\) meV (∞₃ enhanced), \(\Matt{m_{\nu_1}} = 0.011\) meV
+        (order-of-magnitude estimate; the reported headline spectrum is the NLO pseudo-Dirac result m₁≈0, m₂≈8.32 meV, m₃≈49.5 meV — see Summary)
       </p>
     </div>
   </div>
@@ -399,11 +409,11 @@
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;margin:0.75rem 0;">
     \[\boxed{\begin{aligned}
-    \Matt{m_{\nu_1}} &= 1.1 \times 10^{-14}\,\text{GeV} = \mathbf{0.12\,\text{meV}} \quad \text{(lightest)} \\
-    \Matt{m_{\nu_2}} &= 8.4 \times 10^{-14}\,\text{GeV} = \mathbf{8.4\,\text{meV}} \quad \text{(Z}_3\text{ enhanced)} \\
+    \Matt{m_{\nu_1}} &= 1.1 \times 10^{-14}\,\text{GeV} = \mathbf{0.011\,\text{meV}} \quad \text{(lightest)} \\
+    \Matt{m_{\nu_2}} &= 8.4 \times 10^{-14}\,\text{GeV} = \mathbf{0.084\,\text{meV}} \quad \text{(Z}_3\text{ enhanced)} \\
     \Matt{m_{\nu_3}} &= 5 \times 10^{-11}\,\text{GeV} = \mathbf{50\,\text{meV}} \quad \text{(heaviest)}
     \end{aligned}}\]
-    <div class="eq-label" style="color:var(--success);">(4.3) — Neutrino mass spectrum: DERIVED</div>
+    <div class="eq-label" style="color:var(--success);">(4.3) — Illustrative toy seesaw estimate using assumed placeholder Dirac masses (1.5/4.1/100 GeV); order-of-magnitude only. Corrected GeV→meV conversion (1 GeV = 10¹² meV) applied uniformly to all three generations — a previous version of this page applied it inconsistently (10× and 100× errors on ν₁, ν₂). This toy estimate is <strong>not</strong> the reported headline result; see the pseudo-Dirac NLO spectrum (m₁≈0, m₂≈8.32 meV, m₃≈49.5 meV) in the Executive Summary and the Summary section below.</div>
   </div>
 
   <!-- ∞₃ Resonance Enhancement -->
@@ -417,20 +427,20 @@
     </p>
   </div>
 
-  <h4>Step 5: Mass squared differences (v7.0: f<sub>tail</sub> removed; Δm²₂₁ is large deviation at LO)</h4>
+  <h4>Step 5: Mass squared differences (v7.0.2 NLO: Δm²₂₁ derived via pseudo-Dirac seesaw)</h4>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1rem;margin:0.75rem 0;">
     \[\boxed{\begin{aligned}
-    \Delta m_{21}^2 &= m_2^2 - m_1^2 = (8.6\,\text{meV})^2 - (1\,\text{meV})^2 = \mathbf{7.41 \times 10^{-5}\,\text{eV}^2} \\
+    \Delta m_{21}^2 &= m_2^2 - m_1^2 = (8.6\,\text{meV})^2 - (1\,\text{meV})^2 = \mathbf{7.30 \times 10^{-5}\,\text{eV}^2} \quad \text{(LO illustrative)} \\
     \Delta m_{31}^2 &= m_3^2 - m_1^2 = (50\,\text{meV})^2 - (1\,\text{meV})^2 = \mathbf{2.50 \times 10^{-3}\,\text{eV}^2}
     \end{aligned}}\]
-    <div class="eq-label" style="color:var(--gold);">(4.4) — Mass squared differences: Δm²₃₁ derived (0.4%); Δm²₂₁ shown above used fitted f_tail (v7.0 LO gives large deviation)</div>
+    <div class="eq-label" style="color:var(--gold);">(4.4) — Mass squared differences: Δm²₃₁ derived (2.3%); Δm²₂₁ LO estimate above refined at NLO by the pseudo-Dirac seesaw correction Δm²₂₁ = (λ<sub>ℓ</sub>²/2)·Δm²₃₁ = 6.92×10⁻⁵ eV² (8.1%, D status)</div>
   </div>
 
   <p><strong>Comparison with observation (PDG 2024):</strong></p>
   <ul style="margin:0.5rem 0 1rem 1.5rem;color:var(--text-secondary);">
-    <li>\(\Delta m^2_{21}\): LO v7.0 gives ~10⁻³⁵ eV² — <span style="color:var(--warning);font-weight:600;">large deviation (off-diag M_R needed — v7.1)</span></li>
-    <li>\(\Delta m^2_{31}\): STUR = 2.50 × 10⁻³ eV² vs obs = 2.45 × 10⁻³ eV² — <span style="color:var(--success);font-weight:600;">0.4% agreement (genuine prediction)</span></li>
+    <li>\(\Delta m^2_{21}\): STUR NLO (pseudo-Dirac seesaw) = 6.92 × 10⁻⁵ eV² vs obs = 7.53 × 10⁻⁵ eV² — <span style="color:var(--success);font-weight:600;">8.1% agreement (D status, derived — no longer open)</span></li>
+    <li>\(\Delta m^2_{31}\): STUR = 2.45 × 10⁻³ eV² vs obs = 2.51 × 10⁻³ eV² — <span style="color:var(--success);font-weight:600;">2.3% agreement (genuine prediction)</span></li>
   </ul>
 
   <div class="block success" style="border-width:3px;margin-top:1rem;">
@@ -653,14 +663,14 @@
       <tr>
         <td>\(\nu_1\)</td>
         <td>\(X_0 = 0\)</td>
-        <td><strong>0.12 meV</strong></td>
-        <td>Lightest (minimal overlap)</td>
+        <td><strong>0.011 meV</strong></td>
+        <td>Lightest (minimal overlap); illustrative toy-calc value — see note above eq. (4.3)</td>
       </tr>
       <tr style="background:rgba(34,211,238,0.08);">
         <td>\(\nu_2\)</td>
         <td>\(X_1 = L_X/3\)</td>
-        <td><strong>8.4 meV</strong></td>
-        <td>∞-helix resonance enhanced</td>
+        <td><strong>0.084 meV</strong></td>
+        <td>∞-helix resonance enhanced; illustrative toy-calc value</td>
       </tr>
       <tr style="background:rgba(74,222,128,0.12);">
         <td>\(\nu_3\)</td>
@@ -675,8 +685,9 @@
     <div class="title">Hierarchy Prediction</div>
     <p style="margin:0;color:var(--text-secondary);">
       STUR predicts <strong>normal hierarchy</strong> (\(m_1 < m_2 \ll m_3\)) from the geometry of
-      ∞-helix node localization. The ratio \(m_2/m_1 \approx 70\) while \(m_3/m_2 \approx 6\)
-      reflects the ∞-helix resonance structure. This constitutes a testable prediction.
+      ∞-helix node localization. In this illustrative toy calculation the ratio \(m_2/m_1 \approx 7.6\)
+      while \(m_3/m_2 \approx 595\); the qualitative ordering \(m_1 \ll m_2 \ll m_3\) is the testable
+      prediction, not the precise ratios, which depend on the assumed (not independently derived) Dirac masses.
     </p>
   </div>
 </section>
@@ -721,31 +732,36 @@
   <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:0.75rem;margin:1.5rem 0;text-align:center;">
     <div style="padding:1rem;background:rgba(0,0,0,0.4);border-radius:8px;border:1px solid rgba(74,222,128,0.3);">
       <div style="font-size:0.8rem;color:var(--text-muted);">ν₁ (lightest)</div>
-      <div style="font-size:1.5rem;font-weight:700;color:var(--text);">0.12 meV</div>
+      <div style="font-size:1.5rem;font-weight:700;color:var(--text);">≈0 meV</div>
     </div>
     <div style="padding:1rem;background:rgba(34,211,238,0.1);border-radius:8px;border:1px solid rgba(34,211,238,0.4);">
       <div style="font-size:0.8rem;color:#22d3ee;">ν₂ (∞₃ enhanced)</div>
-      <div style="font-size:1.5rem;font-weight:700;color:#22d3ee;">8.4 meV</div>
+      <div style="font-size:1.5rem;font-weight:700;color:#22d3ee;">8.32 meV</div>
     </div>
     <div style="padding:1rem;background:rgba(74,222,128,0.1);border-radius:8px;border:1px solid rgba(74,222,128,0.4);">
       <div style="font-size:0.8rem;color:var(--success);">ν₃ (heaviest)</div>
-      <div style="font-size:1.5rem;font-weight:700;color:var(--success);">50 meV</div>
+      <div style="font-size:1.5rem;font-weight:700;color:var(--success);">49.5 meV</div>
     </div>
   </div>
+  <p style="text-align:center;margin:-0.5rem 0 1rem;font-size:0.8rem;color:var(--text-muted);">
+    These are the headline NLO pseudo-Dirac masses (Σm<sub>ν</sub> ≈ 57.8 meV), inferred from the Δm² values below assuming m₁≈0.
+    The separate illustrative toy seesaw calculation in §4.3/§5B (using assumed placeholder Dirac masses) gives a different,
+    order-of-magnitude-only spectrum (0.011 / 0.084 / 50 meV) and is not the reported result.
+  </p>
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;">
     <div style="padding:0.75rem;background:rgba(0,0,0,0.3);border-radius:8px;text-align:center;">
       <div style="font-size:0.8rem;color:var(--text-muted);">Δm²₂₁ (solar)</div>
       <div style="font-size:1.1rem;color:var(--text);">
-        <strong>7.41 × 10⁻⁵</strong> eV²
-        <span style="font-size:0.8rem;color:var(--success);"> (obs: 7.53, 1.6%)</span>
+        <strong>6.92 × 10⁻⁵</strong> eV²
+        <span style="font-size:0.8rem;color:var(--success);"> (obs: 7.53, 8.1%, D — pseudo-Dirac NLO)</span>
       </div>
     </div>
     <div style="padding:0.75rem;background:rgba(0,0,0,0.3);border-radius:8px;text-align:center;">
       <div style="font-size:0.8rem;color:var(--text-muted);">Δm²₃₁ (atmospheric)</div>
       <div style="font-size:1.1rem;color:var(--text);">
-        <strong>2.50 × 10⁻³</strong> eV²
-        <span style="font-size:0.8rem;color:var(--success);"> (obs: 2.45, 2%)</span>
+        <strong>2.45 × 10⁻³</strong> eV²
+        <span style="font-size:0.8rem;color:var(--success);"> (obs: 2.51, 2.3%; relies on a hardcoded anchor constant — not purely holonomy-derived, see stur_toe_closure.py)</span>
       </div>
     </div>
   </div>

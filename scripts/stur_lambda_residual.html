@@ -188,7 +188,7 @@
     <div class="result-grid">
       <div class="result-card" id="lambda-card">
         <div class="label">Λ_pred (10⁻⁴⁷ GeV⁴)</div>
-        <div class="value" id="lambda-pred">6.5</div>
+        <div class="value" id="lambda-pred">3.15</div>
       </div>
       <div class="result-card">
         <div class="label">Λ_obs (10⁻⁴⁷ GeV⁴)</div>
@@ -196,7 +196,7 @@
       </div>
       <div class="result-card" id="ratio-card">
         <div class="label">Ratio Λ_pred/Λ_obs</div>
-        <div class="value" id="ratio-val">2.3</div>
+        <div class="value" id="ratio-val">1.11</div>
       </div>
       <div class="result-card" id="discrepancy-card">
         <div class="label">Target ratio</div>
@@ -229,8 +229,9 @@
   <div style="margin-top:1.5rem;padding:1rem;background:rgba(74,222,128,0.1);border-radius:8px;">
     <strong style="color:var(--success);">Key insight:</strong> The ∞-helix phase factor f_∞ = 0.44 emerges naturally
     from the sum over twisted sectors: Σ_n omega^n where omega = e^{2 pi i/3}. The regularized value (1 + omega + omega²)_reg = 0.44
-    gives the required suppression. This is the same ∞₃ symmetry that stabilizes the LKP B<sup>(1)</sup> dark matter candidate
-    (M_DM = 949 GeV, Omega_DM h² = 0.119).
+    gives the required suppression. This is the same ∞₃ symmetry invoked for the LKP B<sup>(1)</sup> dark matter candidate
+    (M_DM = 949 GeV, Omega_DM h² = 0.1200) — though unlike f_∞ here, the dark-matter mass scale itself is not
+    independently derived (U status; see stur_darkmatter_derivation.html).
   </div>
 
   <div style="margin-top:1rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
@@ -240,7 +241,7 @@
     </div>
     <div style="padding:0.75rem;background:rgba(167,139,250,0.08);border-radius:8px;border-left:3px solid #a78bfa;">
       <strong style="color:#a78bfa;">Dark Matter</strong>
-      <p style="margin:0.25rem 0 0;font-size:0.9rem;color:var(--text-secondary);">LKP B<sup>(1)</sup>, M = 949 GeV, Ω h² = 0.119 (0.4σ)</p>
+      <p style="margin:0.25rem 0 0;font-size:0.9rem;color:var(--text-secondary);">LKP B<sup>(1)</sup>, M = 949 GeV (U status), Ω h² = 0.1200 (U status — tautological, not an independent prediction)</p>
     </div>
   </div>
 </section>
@@ -311,9 +312,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const f = parseFloat(fZ3.value);
     const tl = parseFloat(twoloop.value);
 
-    // Λ ∝ m_ν^4 / (16π²) × f_∞ × two-loop
-    // Base: with m₃ = 50 meV, gives ~6.5 × 10^-47 for f=1
-    const lambdaPred = 6.5 * Math.pow(m / 0.05, 4) * f * tl;
+    // Λ ∝ m_ν^4 / (16π²) × f_∞ × two-loop  (simplified linear proxy for the full
+    // m_ν^4[ln(m²/μ²) − 3/2] formula in eq. Λ.1/Λ.2 — not an exact reproduction)
+    // Calibrated so the documented defaults (m₃=50 meV, f_∞=0.44, two-loop=1.0) reproduce
+    // the headline static-text result Λ_residual = 3.15×10^-47 GeV^4 (10.8% from Λ_obs).
+    // At f=1 this proxy would give ~7.16 × 10^-47.
+    const lambdaPred = 7.159 * Math.pow(m / 0.05, 4) * f * tl;
     const ratio = lambdaPred / LAMBDA_OBS;
 
     document.getElementById('m3-val').textContent = parseFloat(m3.value).toFixed(1);
@@ -347,7 +351,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     for (let f = 0.3; f <= 0.7; f += 0.02) {
       labels.push(f.toFixed(2));
-      const lambda = 6.5 * Math.pow(m / 0.05, 4) * f * tl;
+      const lambda = 7.159 * Math.pow(m / 0.05, 4) * f * tl;
       ratios.push(lambda / LAMBDA_OBS);
       target.push(1.0);
     }

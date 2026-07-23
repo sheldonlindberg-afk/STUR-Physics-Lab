@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR Fifth-Force Screening — ∞₃ TOE Prediction</title>
-<meta name="description" content="TOE prediction: Fifth-force screening from XCRM holonomy. ONE input (M_Planck), from geometric framework. Testable at micrometer scale.">
+<meta name="description" content="TOE prediction: Fifth-force screening from XCRM holonomy. Built from 4 inputs (M_Planck, v_EW, m_t, alpha_em) plus a separately-fitted compactification scale L_X, from geometric framework. Testable at micrometer scale.">
 
 <!-- PWA & iOS meta tags -->
 <meta name="theme-color" content="#4ade80">
@@ -58,7 +58,7 @@
   </div>
   <!-- Complete EFT Badge -->
   <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(34,211,238,0.12);border:1px solid #22d3ee;border-radius:8px;max-width:480px;font-size:0.8rem;">
-    <span style="color:#22d3ee;font-weight:600;">★ ∞₃ INFINITY HELIX TOE</span> — Three axioms (A1-A3), 30 observables (29D+0P+0U+1I)
+    <span style="color:#22d3ee;font-weight:600;">★ ∞₃ INFINITY HELIX TOE</span> — Three axioms (A1-A3), 30 observables (24D+3P+2U+1I, 83% closure)
   </div>
   <!-- TOE Prediction from Derivation Chain -->
   <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(74,222,128,0.08);border-radius:8px;border:1px solid #4ade80;max-width:540px;font-size:0.85rem;">
@@ -84,8 +84,8 @@
     <strong>(A1)</strong> M<sup>4</sup> &times; S<sup>1</sup> with TEGR,
     <strong>(A2)</strong> Real doublet R-field,
     <strong>(A3)</strong> Energy minimization &mdash;
-    yield 30 observables (29D+0P+0U+1I). XCRM holonomy screening is a direct consequence of the DHP path integral measure on the infinity helix.
-    Parameters: &kappa; = 2.430, &alpha;<sub>eff</sub> = 1.480 (two-loop), &sigma; = 0.862.
+    yield 30 observables (24D+3P+2U+1I, 83% closure) from 4 inputs (M<sub>Pl</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>). XCRM holonomy screening is asserted to be a direct consequence of the DHP path integral measure on the infinity helix.
+    Parameters: &kappa;<sub>q</sub> = 2.417, &kappa;<sub>l</sub> = 2.367, &alpha;<sub>eff</sub> = 1.480 (two-loop), &sigma; = 0.862.
   </div>
   <h2 style="color:var(--success);">Summary: Fifth Force Naturally Screened</h2>
 
@@ -96,7 +96,7 @@
     <div class="eq-label" style="color:var(--success);">(FF.1) — Screened fifth-force strength</div>
   </div>
 
-  <p style="margin-top:1rem;">The power n is determined by the number of loops contributing to holonomy suppression. For STUR with \(\XCRM{L_X} \approx 0.8\,\mu\text{m}\): n ≈ 2, giving α<sub>eff</sub>(10 μm) ~ 10² — <span style="color:var(--success);">consistent with experimental bounds</span>.</p>
+  <p style="margin-top:1rem;">The power n is determined by the number of loops contributing to holonomy suppression. For STUR with \(\XCRM{L_X} \approx 0.8\,\mu\text{m}\): n ≈ 2, giving α<sub>eff</sub>(10 μm) ~ 10² — <span style="color:var(--success);">consistent with experimental bounds</span>. <strong>Note:</strong> this page states three different values for α<sub>eff</sub>(10 μm) in different sections (~10² here, ~10⁴ in §3.4/FF.9, and 10⁰–10² in the §5.2 predictions table) — see the caveat at §3.4 below; treat this quantity as order-of-magnitude and unreconciled across sections.</p>
 
   <div class="block warning" style="margin-top:1rem;">
     <div class="title">L<sub>X</sub> Scale Ambiguity</div>
@@ -238,6 +238,20 @@
     <div class="eq-label" style="color:var(--success);">(FF.9) — Numerical screening result at \(L_X = 0.8\,\mu\text{m}\)</div>
   </div>
 
+  <div class="block gold" style="margin:0.75rem 0;">
+    <div class="title">Undefined, Fitted Parameter N<sub>0</sub></div>
+    <p style="margin:0;color:var(--text-secondary);">
+      N<sub>0</sub> is not defined anywhere else on this page. Back-solving the displayed arithmetic
+      (exp(−149/N<sub>0</sub>) ≈ 10<sup>−30</sup>) requires N<sub>0</sub> ≈ 2.16 — an unstated constant with
+      no independent justification given, apparently chosen to land the suppression inside the experimental
+      bound. This is also the source of the three-way disagreement on α<sub>eff</sub>(10 μm) across this page
+      (~10² in the executive summary, ~10⁴ here, and 10⁰–10² in the §5.2 predictions table): the value is
+      sensitive to N<sub>0</sub> and other unstated choices, and these sections were not made mutually
+      consistent. Treat α<sub>eff</sub>(10 μm) as an unresolved order-of-magnitude estimate, not a single
+      derived prediction.
+    </p>
+  </div>
+
   <p>This is within the experimental bound α < 10⁴ at λ = 10 μm. The screening is enhanced at \(\XCRM{L_X} = 0.8\,\mu\text{m}\) compared to 1 μm.</p>
 
   <div class="block success">
@@ -308,7 +322,7 @@
       </tr>
       <tr>
         <td>α(10 μm)</td>
-        <td>~ 10⁰ – 10²</td>
+        <td>~ 10⁰ – 10² <span style="color:var(--text-dim);font-size:0.85em;">(§3.4/FF.9 gives ~10⁴ instead — see caveat there)</span></td>
         <td>Strong screening at λ > \(\XCRM{L_X}\)</td>
       </tr>
       <tr>

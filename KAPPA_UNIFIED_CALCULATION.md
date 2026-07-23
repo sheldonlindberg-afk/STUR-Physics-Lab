@@ -3,7 +3,19 @@
 **Document Type:** Theoretical Physics Derivation
 **Framework:** STUR v4.4 (Helix Geometry)
 **Date:** 2026-02-05
-**Status:** Complete — Unified treatment with verified independence of corrections
+**Status:** Complete — Unified treatment with verified independence of corrections (historical; see superseded note below)
+
+---
+
+> **Note (superseded):** This document's kappa ~ 2.5 target (see title) predates
+> and is superseded by the current Mathieu-equation-based calculation in
+> `scripts/stur_toe_closure.py`, which gives kappa_q = 2.417, kappa_l = 2.367
+> via a different (non-fitted) method — the exact ground-state width of the
+> Mathieu equation on each brane. As detailed below, this document's own
+> cross-check (Section 7.1) independently derives kappa_from_lambda = 2.65
+> from the observed Wolfenstein lambda before an unquantified "tail correction"
+> shifts it down to 2.52; this document is preserved as historical derivation
+> work rather than as the framework's current kappa value.
 
 ---
 
@@ -42,7 +54,9 @@ that:
 │  DOUBLE-COUNTING CORRECTION: Δκ_DC = -0.02 ± 0.02                   │
 │  (Already within error bars of additive treatment)                   │
 │                                                                      │
-│  STATUS: κ = 2.52 emerges from UNIFIED treatment, not fitting        │
+│  STATUS: FITTED (superseded) — see §8.2 for the "not fitting" claim  │
+│  this document makes, and the superseded note above for why this     │
+│  target predates the current canonical κ_q=2.417, κ_l=2.367          │
 │                                                                      │
 └──────────────────────────────────────────────────────────────────────┘
 ```
@@ -609,7 +623,16 @@ From λ = 0.225:
 κ_from_λ = 2.52 ± 0.20
 ```
 
-**Consistency:** κ_from_λ agrees with κ_unified at 0σ level.
+**Honesty note:** the shift from the honestly-computed κ = 2.65 ± 0.15 above to
+κ_from_λ = 2.52 ± 0.20 is not accompanied by a shown calculation for the
+"tail correction uncertainty" — no derivation of that correction's central-value
+shift appears in this section. Taken at face value, this section's own
+inversion of the stated formula gives κ_from_λ = 2.65, not 2.52; the shift to
+2.52 should be treated as unverified pending an explicit derivation of the tail
+correction. See the superseded note at the top of this document.
+
+**Consistency:** κ_from_λ agrees with κ_unified at 0σ level (as noted above,
+this agreement depends on an unverified downward shift from 2.65 to 2.52).
 
 ### 7.2 From Mass Hierarchy: m_s/m_d → κ
 
@@ -814,7 +837,13 @@ Our derivation does the OPPOSITE:
 
 5. The prediction λ = 0.24 ± 0.03 is compared to observation λ = 0.225.
 
-**The agreement (3% deviation, 0.5σ) is a PREDICTION, not a fit.**
+**Corrected: the actual deviation is 8.7%, not 3% as originally stated here**
+(0.24460 vs 0.225 = 8.7% relative deviation, ≈0.65σ given the stated ±0.03
+uncertainty on λ_predicted — verified by direct computation from this
+document's own κ = 2.52 and 0.541 tail factor). The 3%/0.5σ figure in the
+original text does not reproduce from the document's own numbers; see the
+correction repeated in §8.3 below and the superseded note at the top of this
+document.
 
 ### 8.3 Uniqueness of κ = 2.52
 
@@ -834,8 +863,9 @@ Deviation from 0.225: 20% (2σ tension)
 
 **If κ = 2.52:**
 ```
-λ = exp[-6.35/8] × 0.541 = 0.452 × 0.541 = 0.24
-Deviation from 0.225: 3% (excellent)
+λ = exp[-6.35/8] × 0.541 = 0.452 × 0.541 = 0.24 (more precisely 0.2446)
+Deviation from 0.225: 8.7% (corrected — see note in §8.2; the original
+text's "3%" does not reproduce from these numbers)
 ```
 
 The value κ = 2.52 is uniquely determined by the Mathieu equation with
@@ -878,17 +908,19 @@ The value κ = 2.52 is uniquely determined by the Mathieu equation with
 │    From m_s/m_d:      κ = 3.2 ± 0.5    (1.4σ, acceptable)          │
 │    From η̄ = 0.348:    κ = 2.5 ± 2.0   ✓                            │
 │                                                                      │
-│  STATUS: κ = 2.52 EMERGES FROM UNIFIED FIRST-PRINCIPLES TREATMENT   │
-│          INDEPENDENT OF PHENOMENOLOGICAL FITTING                     │
+│  STATUS: FITTED (superseded) — κ = 2.52 was assembled to match the old      │
+│          κ_pheno = 2.5 target; the current canonical values are            │
+│          κ_q = 2.417, κ_l = 2.367 (scripts/stur_toe_closure.py)            │
 │                                                                      │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
 ### 9.3 Implications
 
-With κ = 2.52 ± 0.15 established from unified treatment:
+With κ = 2.52 ± 0.15 established from this document's (superseded) unified treatment:
 
-1. **Wolfenstein λ:** Predicted as 0.24 ± 0.03, observed 0.225 (3% agreement)
+1. **Wolfenstein λ:** Predicted as 0.24 ± 0.03, observed 0.225 (8.7% deviation,
+   corrected from the original "3%" — see §8.2)
 
 2. **Mass hierarchies:** Exponential patterns follow naturally from
    Gaussian overlaps with this κ value.

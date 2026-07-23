@@ -21,6 +21,20 @@ quantitative prediction Δm²₂₁ ≈ 9.5 × 10⁻⁶ eV² at leading order is
 value 7.53 × 10⁻⁵ eV². NLO loop corrections are expected to close this gap; that calculation
 is not yet complete.
 
+> **CROSS-REFERENCE NOTE (added FIX phase, 2026-07-18):** The repo's current canonical
+> scorecard (README.md / CHANGELOG.md / `scripts/stur_toe_closure.py` PART 7) cites
+> **Δm²₂₁ = 6.92×10⁻⁵ eV² (8% off PDG, status D)**, obtained via a *different* formula —
+> Δm²₂₁ = λ_l²/2 × Δm²₃₁, an XCRM antisymmetric-KK-perturbation pseudo-Dirac splitting — not
+> the Higgs-VEV-asymmetry leading-order estimate (9.5×10⁻⁶ eV², 87% off, P/Open) derived in
+> §4 of this document. Both documents describe a Z₃-forced pseudo-Dirac M_R structure
+> qualitatively, but the quantitative LO number computed here does **not** reproduce, and was
+> not used to derive, the canonical 6.92×10⁻⁵ eV² figure. Readers looking for the derivation
+> behind the repo's headline Δm²₂₁ = 6.92×10⁻⁵ eV² (D) claim should consult
+> `scripts/stur_toe_closure.py` PART 7 directly, not this document's §4 numerical estimate.
+> This document remains an accurate, honestly-labeled (P/Open) account of its own
+> Higgs-VEV-asymmetry calculation, but should not be read as the source of the canonical D
+> value cited elsewhere in the repo.
+
 ---
 
 ## 1. Z₃ Selection Rules for M_R
@@ -259,6 +273,7 @@ The Z₃-forced M_R structure makes specific predictions:
 | Δm²₂₁ << Δm²₃₁ qualitatively | Geometric hierarchy §2.3 | **Derived** |
 | Δm²₂₁(LO) ≈ 9.5 × 10⁻⁶ eV² | Numerical estimate §4.2 | **P** (87% off) |
 | Quantitative precision | Requires NLO loop calculation | **Open** |
+| *(for reference)* Canonical repo value Δm²₂₁ = 6.92×10⁻⁵ eV² (8% off, D) | `stur_toe_closure.py` PART 7, λ_l²/2×Δm²₃₁ formula — different mechanism/formula than §4 above | **D** (elsewhere; not derived in this document) |
 | Normal ordering | From ν_R0 isolation §5.1 | **Prediction** |
 
 ---
@@ -268,6 +283,9 @@ The Z₃-forced M_R structure makes specific predictions:
 - `DERIVATION_CHAIN_INFINITY.md` §4.4 — seesaw and PMNS derivation
 - `scripts/chronomagnetics_closure.py` PART 3 — phase-lock seesaw computation
 - `scripts/stur_v7_full_closure.py` STEP 7 — type-I seesaw with holonomy M_R
+- `scripts/stur_toe_closure.py` PART 7 — canonical current derivation of the repo's headline
+  Δm²₂₁ = 6.92×10⁻⁵ eV² (8%, D) figure, via Δm²₂₁ = λ_l²/2 × Δm²₃₁ (a different formula from
+  §4 of this document — see Cross-Reference Note in the Executive Summary)
 - `KAPPA_FIRST_PRINCIPLES_DERIVATION.md` — Mathieu eigenvalues κ, σ
 - `SOLAR_MASS_SPLITTING_ANALYSIS.md` — earlier analysis (predates Z₃ selection rule proof)
 - PDG 2024: Δm²₂₁ = 7.53 × 10⁻⁵ eV², Δm²₃₁ = 2.453 × 10⁻³ eV² (NuFIT 5.3)

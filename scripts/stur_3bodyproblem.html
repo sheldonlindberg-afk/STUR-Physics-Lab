@@ -147,7 +147,7 @@
             <p style="margin-bottom:0.75rem;"><strong>How gravity works in STUR:</strong> We start with just one number from nature (the Planck mass). Everything else follows from the math.</p>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;">
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #4ade80;">
-                    <strong style="color:#4ade80;font-size:0.85rem;">ONE Input</strong>
+                    <strong style="color:#4ade80;font-size:0.85rem;">4 Canonical Inputs</strong>
                     <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">\(M_{\text{Planck}} = 2.176 \times 10^{-8}\) kg — the only thing we put in</p>
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #60a5fa;">
@@ -221,7 +221,7 @@
 
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #4ade80;">
-                    <strong style="color:#4ade80;font-size:0.8rem;">Step 1: One Input</strong>
+                    <strong style="color:#4ade80;font-size:0.8rem;">Step 1: Canonical Inputs</strong>
                     <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Start with M<sub>Planck</sub> — nature's fundamental mass scale</p>
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #60a5fa;">
@@ -312,7 +312,7 @@
                 </div>
                 <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
                     At \(r \gtrsim 3\Matt{L_0}\), STUR approaches Newtonian limit.
-                    <br><strong>Threshold:</strong> \(\XCRM{S(r)} > 0.95\) for \(r > 2.5 \times 10^9\,\text{m}\).
+                    <br><strong>Threshold:</strong> \(\XCRM{S(r)} > 0.95\) for \(r > 3.1 \times 10^9\,\text{m}\) (\(\approx 3.1\,\Matt{L_0}\)).
                 </p>
             </div>
         </div>
@@ -385,6 +385,7 @@
                 \]
                 <div class="stur-eq-label">Derived Gravitational Constant (TEGR emergence)</div>
             </div>
+            <p style="font-size:0.8rem;color:var(--text-muted);"><strong>Honesty note:</strong> numeric values for α and R<sub>bg</sub> are not given anywhere on this page, so this "derivation" cannot actually be checked against G=6.674×10⁻¹¹ — it is an assertion of the form, not a demonstrated calculation. The simulation code elsewhere on this page uses the measured value of G directly, not a value computed from this formula.</p>
 
             <p><strong>Modified gravity potential:</strong> At short distances, STUR predicts deviations from Newton:</p>
 
@@ -926,7 +927,7 @@ print(f"\nOutputs: stur_3body.png, stur_3body.json")</pre>
         </div>
         <div class="glass-section-body" style="font-size:0.88rem;">
             <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
-                <li>STUR Derivation Chain — ONE input (M<sub>Planck</sub>), G derived from TEGR</li>
+                <li>STUR Derivation Chain — 4 canonical inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, &alpha;<sub>em</sub>), G derived from TEGR</li>
                 <li>STUR Foundations, <a href="stur_core_theory.html">stur_core_theory.html</a> — Master Action, TEGR emergence</li>
                 <li>STUR Gravity Emergence, <a href="stur_gravity_emergence.html">stur_gravity_emergence.html</a> — G = 1/(16πα R<sub>bg</sub>)</li>
                 <li>Goldstein — Classical Mechanics (3-body problem)</li>
@@ -1005,6 +1006,14 @@ const ORBIT_EXP_DATA = {
 };
 
 // STUR period prediction using modified gravity
+// HONESTY NOTE: this function does NOT use the theory's actual S(r)-based
+// force law (omega^2 = -3Gm d/dr[S(r)/r] * 1/r, verified elsewhere on this
+// page). It instead applies an arbitrary placeholder correction proportional
+// to (1-S(r)) with a hardcoded 1e-8 prefactor (see `delta` below). Because
+// this prefactor is fixed to be tiny, the RMSE/chi-squared test below is
+// guaranteed to pass regardless of the actual physics — it is a
+// demonstration of methodology, not an independent falsification test of
+// the theory's real force law against JPL/LLR/Trojan-asteroid data.
 function tbPeriodSTUR(system_name, base_period_yr, L0_m) {
     // For demonstration, STUR predicts small correction based on S(r) modulator
     const AU_m = 1.496e11;
@@ -1020,6 +1029,8 @@ function tbPeriodSTUR(system_name, base_period_yr, L0_m) {
 
     // STUR modification factor (very small at astronomical scales)
     // Period modified as T_stur = T_kepler * (1 + δ) where δ ∝ (1 - S(r))
+    // NOTE: the 1e-8 prefactor is an arbitrary placeholder, not derived from
+    // the theory's own force-law formula above — see HONESTY NOTE above.
     const delta = (1 - Sr) * 1e-8; // Very small correction at these scales
 
     const period_stur = base_period_yr * (1 + delta);

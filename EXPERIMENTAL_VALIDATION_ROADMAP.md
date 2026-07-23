@@ -423,17 +423,17 @@ PRIMORDIAL TENSOR MODES:
 
 | Parameter | STUR Prediction | Observed [PDG 2024] | Agreement |
 |-----------|-----------------|---------------------|-----------|
-| lambda | 0.220 +/- 0.01 | 0.2250 +/- 0.0007 | 1.8 sigma |
-| A | 0.81 +/- 0.04 | 0.826 +/- 0.015 | 1.1 sigma |
-| rho-bar | 0.17 +/- 0.02 | 0.159 +/- 0.010 | 1.1 sigma |
-| eta-bar | 0.350 +/- 0.020 | 0.348 +/- 0.010 | 0.09 sigma |
-| J (Jarlskog) | (2.9 +/- 0.4) x 10^-5 | (3.08 +/- 0.13) x 10^-5 | 0.5 sigma |
+| lambda | 0.220 +/- 0.01 | 0.2250 +/- 0.0007 | 0.50 sigma [corrected — independently recomputed via standard quadrature, |pred-obs|/sqrt(sigma_pred^2+sigma_obs^2) = 0.005/0.0100 = 0.50, not the previously stated 1.8 sigma; NOTE: this row's lambda=0.220 also conflicts with HIGH_PRECISION_PREDICTIONS.md's lambda=0.229 for the same "derived" quantity — unresolved cross-document inconsistency] |
+| A | 0.81 +/- 0.04 | 0.826 +/- 0.015 | 0.37 sigma [corrected, was 1.1 sigma] |
+| rho-bar | 0.17 +/- 0.02 | 0.159 +/- 0.010 | 0.49 sigma [corrected, was 1.1 sigma] |
+| eta-bar | 0.3947 +/- 0.020 [updated per ETA_BAR_CORRECTION_CHAIN.md v6.0 — the fitted f_hol=0.948 override was removed; previous 0.350 value is superseded] | 0.348 +/- 0.010 | 2.1 sigma (13.4% deviation, Grade D) [corrected, was 0.09 sigma using the now-superseded 0.350 prediction] |
+| J (Jarlskog) | (2.9 +/- 0.4) x 10^-5 | (3.08 +/- 0.13) x 10^-5 | 0.43 sigma [corrected, was 0.5 sigma] |
 
 ### 6.3 Particle Masses
 
 | Parameter | STUR Prediction | Observed [PDG 2024] | Agreement |
 |-----------|-----------------|---------------------|-----------|
-| m_H | 125.18 +/- 1.2 GeV | 125.25 +/- 0.11 GeV | 0.06 sigma |
+| m_H | 125.18 +/- 1.2 GeV | 125.25 +/- 0.11 GeV [cross-document inconsistency: HIGH_PRECISION_PREDICTIONS.md quotes the same PDG-2024 experimental m_H as 125.25 +/- 0.17 GeV in three places — the two companion documents disagree on the stated experimental uncertainty for the same shared input; not resolved here, flagged for correction at the source] | 0.06 sigma |
 | m_t pattern | lambda^0 x (scale) | 172.57 GeV | PATTERN |
 | m_b | 4.20 +/- 0.08 GeV | 4.183 +/- 0.007 GeV | 0.5% |
 | m_c | 1.26 +/- 0.03 GeV | 1.273 +/- 0.005 GeV | 0.8% |

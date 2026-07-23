@@ -82,8 +82,8 @@
     <strong>(A1)</strong> M<sup>4</sup> &times; S<sup>1</sup> with TEGR,
     <strong>(A2)</strong> Real doublet R-field,
     <strong>(A3)</strong> Energy minimization &mdash;
-    yield 29 observables (28 derived + 1 input). Gauge coupling unification emerges with ∞-helix KK threshold corrections fully computed.
-    Parameters: &kappa; = 2.430, &alpha;<sub>eff</sub> = 1.480 (two-loop), &sigma; = 0.862.
+    yield 30 observables (24 derived + 5 partial + 1 input, 83% closure) using 4 inputs (M<sub>Pl</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>). Gauge coupling unification emerges with ∞-helix KK threshold corrections fully computed.
+    Parameters: &kappa;<sub>q</sub> = 2.417, &kappa;<sub>l</sub> = 2.367, &alpha;<sub>eff</sub> = 1.480 (two-loop), &sigma; = 0.862.
   </div>
   <h2 style="color:var(--success);">Gauge Coupling Unification (v7.0)</h2>
   <p>STUR predicts exact gauge coupling unification at M_GUT ≈ 2 × 10¹⁶ GeV. The three SM gauge couplings
@@ -152,11 +152,28 @@
   <div class="chart-container">
     <canvas id="unificationChart"></canvas>
   </div>
+
+  <div style="margin-top:1rem;padding:0.75rem 1rem;background:rgba(251,191,36,0.08);border:1px solid var(--warning);border-radius:8px;font-size:0.85rem;color:var(--text-secondary);">
+    <strong style="color:var(--warning);">Illustrative one-loop-only result for current slider settings</strong>
+    (not the headline STUR prediction — see caveat above):
+    α<sub>s</sub>(M<sub>Z</sub>) ≈ <span id="alphas-illustrative">–</span>,
+    sin²θ<sub>W</sub>(M<sub>Z</sub>) ≈ <span id="sin2tw-illustrative">–</span>,
+    α⁻¹(M<sub>Z</sub>) ≈ <span id="alpha-illustrative">–</span>
+  </div>
 </section>
 
 <!-- PRECISION TABLE -->
 <section class="section">
   <h2>Low-Energy Predictions</h2>
+
+  <p style="color:var(--warning);font-size:0.85rem;border-left:3px solid var(--warning);padding-left:0.75rem;margin-bottom:1rem;">
+    <strong>Honesty note:</strong> The values below are the final, threshold-corrected STUR predictions
+    (see stur_gauge_unification_derivation.html and stur_running_couplings.html for the full derivation
+    including KK threshold corrections and two-loop effects). They are <em>not</em> reproduced by the naive
+    one-loop-only interactive calculator further down this page — that calculator uses the default slider
+    settings and one-loop running alone, which (like the plain SM) does not achieve precise unification;
+    its output is shown separately below the chart, labeled as illustrative.
+  </p>
 
   <table style="width:100%;border-collapse:collapse;">
     <thead>
@@ -216,6 +233,15 @@
       <div style="color:var(--text-tertiary);font-size:0.8rem;margin-top:0.25rem;">SU(3)_C</div>
     </div>
   </div>
+
+  <p style="color:var(--warning);font-size:0.85rem;border-left:3px solid var(--warning);padding-left:0.75rem;margin-top:1rem;">
+    <strong>Honesty note:</strong> These signs match the b<sub>i</sub> convention used in
+    stur_running_couplings.html's §1.3 table (dα<sub>i</sub><sup>-1</sup>/dlnμ = −b<sub>i</sub>/2π). However,
+    stur_gauge_unification_derivation.html uses the opposite-sign convention (b₃=+7, b₂=+19/6, b₁=−41/10)
+    for the same physical one-loop coefficients. Both are internally standard conventions for a
+    differently-defined β<sub>i</sub>, but the two pages have not been unified onto a single convention —
+    readers comparing the two should not expect the raw b<sub>i</sub> numbers to match sign-for-sign.
+  </p>
 </section>
 
 <footer style="text-align:center;padding:2rem;border-top:1px solid rgba(255,255,255,0.1);margin-top:2rem;">
@@ -320,12 +346,15 @@ document.addEventListener('DOMContentLoaded', function() {
       labels.push(logMu.toFixed(1));
       const mu = Math.pow(10, logMu);
 
-      // Run from GUT scale down
+      // Run from GUT scale down. Integrating the stated ODE dα_i^-1/dlnμ = -b_i/(2π)
+      // from μ=MGUT down to μ gives α_i^-1(μ) = aGUTinv + b_i * ln(MGUT/μ) / (2π).
+      // (Previously this used "aGUTinv - b_i*lnRatio/(2π)", which has the wrong sign
+      // relative to the ODE stated above — corrected here.)
       const lnRatio = Math.log(MGUT / mu);
 
-      const a1 = aGUTinv - b1 * lnRatio / (2 * Math.PI);
-      const a2 = aGUTinv - b2 * lnRatio / (2 * Math.PI);
-      const a3 = aGUTinv - b3 * lnRatio / (2 * Math.PI);
+      const a1 = aGUTinv + b1 * lnRatio / (2 * Math.PI);
+      const a2 = aGUTinv + b2 * lnRatio / (2 * Math.PI);
+      const a3 = aGUTinv + b3 * lnRatio / (2 * Math.PI);
 
       data1.push(a1);
       data2.push(a2);
@@ -354,18 +383,27 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('logSUSY-val').textContent = 'None (SM only)';
     }
 
-    // Calculate low-energy predictions
+    // Calculate low-energy predictions from the naive one-loop-only running at the
+    // current slider settings. This is illustrative only — it does NOT reproduce the
+    // headline threshold-corrected STUR predictions in the table above (see honesty
+    // note there), just as plain one-loop SM running alone does not achieve precise
+    // unification. Results are written to the dedicated "illustrative" spans below the
+    // chart, not into the headline prediction table, to avoid the previous bug where
+    // this calculation silently overwrote the correct static table values on page load.
     const lnGUT_Z = Math.log(MGUT / M_Z);
-    const a1_MZ = aGUTinv - b1 * lnGUT_Z / (2 * Math.PI);
-    const a2_MZ = aGUTinv - b2 * lnGUT_Z / (2 * Math.PI);
-    const a3_MZ = aGUTinv - b3 * lnGUT_Z / (2 * Math.PI);
+    const a1_MZ = aGUTinv + b1 * lnGUT_Z / (2 * Math.PI);
+    const a2_MZ = aGUTinv + b2 * lnGUT_Z / (2 * Math.PI);
+    const a3_MZ = aGUTinv + b3 * lnGUT_Z / (2 * Math.PI);
 
     const alpha_s = 1 / a3_MZ;
     const sin2tw = a1_MZ / (a1_MZ + a2_MZ * 5/3);
 
-    document.getElementById('alphas-pred').textContent = alpha_s.toFixed(4);
-    document.getElementById('sin2tw-pred').textContent = sin2tw.toFixed(4);
-    document.getElementById('alpha-pred').textContent = (1/(1/a1_MZ + 1/a2_MZ)).toFixed(1);
+    const illusAlphaS = document.getElementById('alphas-illustrative');
+    const illusSin2tw = document.getElementById('sin2tw-illustrative');
+    const illusAlpha = document.getElementById('alpha-illustrative');
+    if (illusAlphaS) illusAlphaS.textContent = alpha_s > 0 ? alpha_s.toFixed(4) : 'n/a (unphysical at this setting)';
+    if (illusSin2tw) illusSin2tw.textContent = sin2tw.toFixed(4);
+    if (illusAlpha) illusAlpha.textContent = (1/(1/a1_MZ + 1/a2_MZ)).toFixed(1);
 
     // Convergence quality
     const spread = Math.abs(data1[data1.length-1] - data3[data3.length-1]) / aGUTinv;

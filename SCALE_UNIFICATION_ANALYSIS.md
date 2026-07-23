@@ -128,7 +128,7 @@ Standard physics has multiple independent scales:
 
 These span 30 orders of magnitude with no explanation for their ratios (the hierarchy problem).
 
-STUR claims these all derive from ONE input (M_Planck) through the infinity helix geometry.
+STUR claims these all derive from M_Planck (anchoring the scale) through the infinity helix geometry — though the current canonical framework (v7.0.2) uses 4 dimensional inputs total (M_Planck, v_EW, m_t, α_em), not M_Planck alone; see MPLANCK_DERIVATION_ANALYSIS.md's correction note and README.md.
 
 ---
 
@@ -194,7 +194,19 @@ L_X^4 = 5A/B
 L_X* = (5A/B)^(1/4)
 ```
 
-Numerical evaluation with N_eff ≈ -149, c_h ≈ 1.35 yields L_X* ≈ 0.8 μm.
+> **Honesty note:** as written, this minimization does not work. With A > 0 and
+> B > 0 (both signs as stated above), every term of ∂E/∂L_X = -5A/L_X⁶ - B/L_X²
+> is strictly negative for all L_X > 0, so E_total(L_X) is monotonically
+> decreasing with no interior stationary point — setting ∂E/∂L_X = 0 and solving
+> for a positive L_X⁴ = 5A/B is not valid from this equation (it would require A
+> and B to have opposite signs, contradicting the stated setup). The L_X* ≈ 0.8 μm
+> figure below does not actually follow from this energy-balance argument as
+> written; it is asserted, not derived, from the equation above. §7.2 separately
+> flags L_X as depending on an uncertain N_eff calculation, but that caveat is
+> about precision, not about this specific algebraic inconsistency (as written,
+> the claimed minimum does not exist at all).
+
+Numerical evaluation with N_eff ≈ -149, c_h ≈ 1.35 yields L_X* ≈ 0.8 μm (see honesty note above — this number is asserted, not derived from the stated stationarity condition).
 
 ---
 

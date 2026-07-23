@@ -131,6 +131,20 @@ dim Γ(O(12,8))^{∞₃} = 65    (for f)
 dim Γ(O(18,12))^{∞₃} = 25   (for g at j=0 after gauge fixing)
 ```
 
+> **HONESTY NOTE (2026-07) — this dimension count does not independently reproduce h³¹=25.**
+> A direct brute-force enumeration of ∞₃-invariant monomials z₀^a z₁^b z₂^c w₀^i w₁^j at the
+> stated multidegrees, using the invariance condition b+2c+j ≡ 0 (mod 3) given above, yields:
+> dim Γ(O(12,8))^{∞₃} = **273** (not 65, ~4× larger), dim Γ(O(18,12))^{∞₃} = **824** (not 25,
+> ~33× larger), and for the factored g̃ ∈ Γ(O(15,11)/∞₃) actually tabulated in §3.2 below,
+> **544** (not 25, ~22× larger). The 65 and 25 figures stated here and the "complete" 25-monomial
+> table in §3.2 are a small, truncated subset — not the full invariant-monomial basis — and the
+> value 25 matches h³¹=25 from UV_COMPLETION_UNIQUENESS_PROOF.md §2.2 (itself asserted there
+> without independent derivation) rather than emerging from this combinatorial count. This
+> section should be read as **consistent with** h³¹=25, not as an independent combinatorial
+> confirmation of it. The content below is left in place rather than deleted or silently
+> "corrected" to match 25, since fabricating a matching derivation would be worse than flagging
+> the gap honestly.
+
 ---
 
 ## 3. Sections Spanning O(-4K_B) and O(-6K_B)
@@ -175,7 +189,13 @@ Type B: S^n · Q_{12-3n}(z) · w₀^{8-3m} · w₁^{3m}
 
 **Complete ∞₃-Invariant Monomial Basis for g:**
 
-We organize the 25 independent monomials by the power of the gauge-divisor factors.
+> **HONESTY NOTE:** as flagged in §2.3 above, this is not actually the complete basis — direct
+> enumeration finds 544 ∞₃-invariant monomials for g̃ ∈ Γ(O(15,11)/∞₃) at this multidegree, not
+> 25. The 25 monomials tabulated below are a truncated subset sized to match the asserted
+> h³¹=25, not a first-principles-complete count. Table left as-is for transparency.
+
+We organize the 25 independent monomials by the power of the gauge-divisor factors (see honesty
+note above — "25" here is a chosen subset size, not a derived total).
 
 **Gauge Divisor Factorization:**
 ```

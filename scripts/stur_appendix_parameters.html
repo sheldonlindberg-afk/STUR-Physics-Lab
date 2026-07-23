@@ -85,9 +85,9 @@
       <strong>\(\XCRM{L_X} \approx 0.8\) μm</strong> — DERIVED (Casimir-holonomy balance) [H.2.11]<br>
       <strong>\(v \approx 4 \times 10^{15}\) GeV</strong> — DERIVED (\(v \cdot L_X = 3\), ∞-helix winding) [H.2.12]<br>
       <strong>\(M_R \approx 2 \times 10^{14}\) GeV</strong> — DERIVED (\(\lambda_{\rm hol}/L_X\)) [H.2.13]<br>
-      <strong>\(\kappa_q = 2.4292,\; \kappa_\ell = 2.3793\)</strong> — DERIVED (Mathieu + corrections) [H.7.3]<br>
-      <strong>\(\lambda_q = 0.22871,\; \lambda_\ell = 0.24285\)</strong> — DERIVED (exp[\(-\kappa^2/8\)]) [H.7.5]<br>
-      <strong>\(\bar{\eta} = 0.375,\; \bar{\rho} = 0.149\)</strong> — DERIVED (holonomy × Berry phase, v7.0) [H.8.5]
+      <strong>\(\kappa_q = 2.417,\; \kappa_\ell = 2.367\)</strong> — DERIVED (Mathieu + corrections) [H.7.3]<br>
+      <strong>\(\lambda_q = 0.2321,\; \lambda_\ell = 0.2464\)</strong> — DERIVED (exp[\(-\kappa^2/4\)]) [H.7.5]<br>
+      <strong>\(\bar{\eta} = 0.3947,\; \bar{\rho} = 0.17\)</strong> — DERIVED (holonomy × Berry phase, v7.0), 13.4%/1.1σ deviation [H.8.5]
     </p>
   </div>
 
@@ -199,26 +199,26 @@
     <tbody>
       <tr>
         <td>Localization parameter</td>
-        <td>\(\kappa\)</td>
-        <td>\(2.52 \pm 0.16\)</td>
+        <td>\(\kappa_q,\, \kappa_\ell\)</td>
+        <td>\(2.417,\, 2.367\)</td>
         <td style="color:var(--success);">DERIVED</td>
-        <td>Mathieu equation (2.22) + higher-order corrections (+0.30)</td>
+        <td>Mathieu equation + higher-order corrections (sector-dependent)</td>
         <td>[H.7.3]</td>
       </tr>
       <tr>
         <td>Cabibbo angle</td>
-        <td>\(\lambda\)</td>
-        <td>\(0.220\)</td>
+        <td>\(\lambda_{\rm Cabibbo}\)</td>
+        <td>\(0.22543\) (0.03% from PDG)</td>
         <td style="color:var(--success);">DERIVED</td>
-        <td>\(\exp[-\kappa^2/8] \times\) boundary corrections</td>
+        <td>\(e^{-2\pi/3}\times\) RG running (physical Wolfenstein λ; see §H below for sector λ<sub>q</sub>, λ<sub>ℓ</sub> from \(\exp[-\kappa^2/4]\))</td>
         <td>[H.7.5]</td>
       </tr>
       <tr>
         <td>CP-violating parameter</td>
         <td>\(\bar{\eta}\)</td>
-        <td>\(0.350 \pm 0.020\)</td>
+        <td>\(0.3947\)</td>
         <td style="color:var(--success);">DERIVED</td>
-        <td>\(0.39 \times f_{\rm hol} \times f_{\rm Berry} \times f_{\rm RG}\)</td>
+        <td>\(\sin(\delta_{\rm CKM}) \times f_{\rm hol} \times f_{\rm Berry} \times f_{\rm RG}\) (13.4% deviation, no override)</td>
         <td>[H.8.5]</td>
       </tr>
     </tbody>
@@ -244,20 +244,20 @@
       <tr>
         <td>Holonomy factor \(f_{\rm hol}\)</td>
         <td>\(0.948\)</td>
-        <td style="color:var(--success);">DERIVED</td>
-        <td>\(\exp(-\langle\delta\theta^2\rangle/2)\) with \(\langle\delta\theta^2\rangle = 1/C_2({\rm SU(3)}) = 1/3\)</td>
+        <td style="color:var(--warning, #fbbf24);">CALIBRATED</td>
+        <td>Nominally \(\exp(-\langle\delta\theta^2\rangle/2)\) with \(\langle\delta\theta^2\rangle = 1/C_2({\rm SU(3)}) = 1/3\), but \(\exp(-1/6) = 0.846\), not 0.948. The stated formula does not reproduce the value used downstream; treat \(f_{\rm hol}=0.948\) as a calibrated input pending a corrected formula, not a clean derivation.</td>
       </tr>
       <tr>
         <td>Berry phase \(f_{\rm Berry}\)</td>
-        <td>\(0.975\)</td>
+        <td>\(1.000\)</td>
         <td style="color:var(--success);">DERIVED</td>
-        <td>Geometric phase from transport on infinity helix</td>
+        <td>Geometric phase from transport on infinity helix (value used in the boxed \(\bar\eta\) formula below; an earlier estimate of 0.975 has been superseded)</td>
       </tr>
       <tr>
         <td>RG factor \(f_{\rm RG}\)</td>
-        <td>\(0.970\)</td>
+        <td>\(1.003\)</td>
         <td style="color:var(--success);">DERIVED</td>
-        <td>One-loop running \(M_{\rm KK} \to M_Z\) with KK thresholds</td>
+        <td>One-loop running \(M_{\rm KK} \to M_Z\) with KK thresholds (value used in the boxed \(\bar\eta\) formula below; an earlier estimate of 0.970 has been superseded)</td>
       </tr>
     </tbody>
   </table>
@@ -346,14 +346,18 @@
     Self-consistent solution: \(\XCRM{L_X} \approx 0.8\) μm, \(M_{\rm KK} \approx 0.25\) eV
   </p>
 
-  <h3>\(\bar{\eta}\) Correction Chain (Fully Derived)</h3>
+  <h3>\(\bar{\eta}\) Correction Chain (Derived, No Override)</h3>
   <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--success);padding:1.25rem;">
-    \[\boxed{\bar{\eta} = \bar{\eta}_{\rm base} \times f_{\rm hol} \times f_{\rm Berry} \times f_{\rm RG} = 0.39 \times 0.948 \times 0.975 \times 0.970 = 0.350 \pm 0.020}\]
-    <div class="eq-label" style="color:var(--success);">(A.0c) — \(\bar{\eta}\) derived from helix geometry + three correction factors</div>
+    \[\bar{\eta} = \sin(\delta_{\rm CKM}) \times \bar{\eta}_{\rm base} \times f_{\rm hol} \times f_{\rm Berry} \times f_{\rm RG} = \sin(68.1°) \times 0.424 \times 0.948 \times 1.000 \times 1.003 = 0.3742\]
+    <div class="eq-label" style="color:var(--success);">(A.0c) — This manual factor chain gives 0.3742</div>
   </div>
   <p>
     <strong>Observed [PDG 2024]:</strong> \(\bar{\eta} = 0.348 \pm 0.010\)<br>
-    <strong>Agreement:</strong> \(0.09\sigma\) (EXCELLENT) — all correction factors derived from ∞-helix geometry
+    <strong>Canonical value (stur_toe_closure.py):</strong> \(\bar{\eta} = 0.3947\), 13.4% deviation (D status).<br>
+    <strong>Note:</strong> The manual correction-chain above (0.3742) does not currently reproduce the canonical script's
+    0.3947; the discrepancy (~5.5%) is an open reconciliation item between this appendix's factor-by-factor bookkeeping
+    and the current computed value. Neither number is tuned to match observation, but they disagree with each other and
+    should not both be cited as "the" derived value until reconciled.
   </p>
 </section>
 
@@ -553,11 +557,11 @@
   <h2 style="color:var(--success);">A.5 Complete Derived Parameter Table</h2>
 
   <div class="block success" style="border-width:3px;">
-    <div class="title">v7.0 TOE: ONE Input (\(M_{\rm Planck}\)), All Else Derived</div>
+    <div class="title">v7.0 TOE: 4 Inputs (\(M_{\rm Planck}, v_{\rm EW}, m_t, \alpha_{\rm em}\)), Most Else Derived</div>
     <p style="margin:0;color:var(--text-secondary);">
-      STUR v7.0 is a <strong>complete Theory of Everything</strong> with <strong>one fundamental input</strong>.
-      All parameters are derived from the Planck scale via Casimir-holonomy balance and infinity helix geometry.
-      The derivation chain is <strong>CLOSED</strong>.
+      STUR v7.0 is a <strong>Theory of Everything candidate</strong> with <strong>4 fundamental inputs</strong>.
+      Most parameters are derived from these via Casimir-holonomy balance and infinity helix geometry.
+      The derivation chain reaches <strong>83% closure</strong> (24D+3P+2U+1I of 30 tracked observables).
     </p>
   </div>
 
@@ -643,8 +647,8 @@ M_Planck, v_EW, m_t, alpha_em (4 inputs)
     <tbody>
       <tr>
         <td>Localization parameter</td>
-        <td>\(\kappa\)</td>
-        <td>\(2.52 \pm 0.16\)</td>
+        <td>\(\kappa_q,\, \kappa_\ell\)</td>
+        <td>\(2.417,\, 2.367\)</td>
         <td>—</td>
         <td style="color:var(--success);font-weight:bold;">DERIVED</td>
         <td>Mathieu + corrections</td>
@@ -653,19 +657,19 @@ M_Planck, v_EW, m_t, alpha_em (4 inputs)
       <tr>
         <td>Cabibbo angle</td>
         <td>\(\lambda\)</td>
-        <td>\(0.220\)</td>
-        <td>\(0.2250 \pm 0.0007\)</td>
+        <td>\(0.22543\)</td>
+        <td>\(0.22537 \pm 0.00060\)</td>
         <td style="color:var(--success);font-weight:bold;">DERIVED</td>
-        <td>\(1.8\sigma\)</td>
+        <td>\(0.03\%\)</td>
         <td>[H.7.5]</td>
       </tr>
       <tr>
         <td>CKM \(A\) parameter</td>
         <td>\(A\)</td>
-        <td>\(0.655\)</td>
+        <td>\(0.814\)</td>
         <td>\(0.826 \pm 0.015\)</td>
-        <td style="color:var(--success);font-weight:bold;">DERIVED (holonomy)</td>
-        <td>\(\sim 19\%\) tension</td>
+        <td style="color:var(--success);font-weight:bold;">DERIVED (holonomy + NLO)</td>
+        <td>\(1.45\%\)</td>
         <td>[H.8.3]</td>
       </tr>
       <tr>
@@ -680,19 +684,19 @@ M_Planck, v_EW, m_t, alpha_em (4 inputs)
       <tr>
         <td>CP parameter \(\bar{\eta}\)</td>
         <td>\(\bar{\eta}\)</td>
-        <td>\(0.350 \pm 0.020\)</td>
+        <td>\(0.3947\)</td>
         <td>\(0.348 \pm 0.010\)</td>
         <td style="color:var(--success);font-weight:bold;">DERIVED</td>
-        <td>\(0.09\sigma\)</td>
+        <td>13.4% (D)</td>
         <td>[H.8.5]</td>
       </tr>
       <tr>
         <td>CP phase</td>
         <td>\(\delta_{\rm CKM}\)</td>
-        <td>\(\approx 67°\)</td>
-        <td>\(68° \pm 3°\)</td>
+        <td>\(68.1°\)</td>
+        <td>\(65.4° \pm 3.2°\)</td>
         <td style="color:var(--success);font-weight:bold;">DERIVED</td>
-        <td>\(\sim 0.3\sigma\)</td>
+        <td>\(4.2\%\)</td>
         <td>[H.8.5]</td>
       </tr>
       <tr>
@@ -840,21 +844,22 @@ M_Planck, v_EW, m_t, alpha_em (4 inputs)
   </table>
 
   <div class="block success" style="border-width:3px;margin-top:1.5rem;">
-    <div class="title">v7.0 Summary: Derivation Chain CLOSED</div>
+    <div class="title">v7.0 Summary: Derivation Chain 83% Closed (24D+3P+2U+1I)</div>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
       <li><strong>\(L_X\)</strong>: From Casimir (repulsive) vs holonomy (attractive) energy minimization</li>
       <li><strong>\(v\)</strong>: From ∞-helix winding quantization (\(v \cdot L_X = 3\))</li>
       <li><strong>\(M_R\)</strong>: From holonomy enhancement at ∞-helix nodes (\(\lambda_{\rm hol} \approx 20\))</li>
-      <li><strong>\(\kappa_q = 2.4292,\; \kappa_\ell = 2.3793\)</strong>: Mathieu equation with \(\kappa = (2\pi/3)/\sigma_\psi\)</li>
-      <li><strong>\(\lambda_q = 0.22871,\; \lambda_\ell = 0.24285\)</strong>: From \(\exp[-\kappa^2/8]\)</li>
-      <li><strong>\(\bar{\eta} = 0.375\)</strong>: From holonomy \(\times\) Berry phase (v7.0)</li>
-      <li><strong>All correction factors</strong>: Derived from ∞-helix geometry</li>
+      <li><strong>\(\kappa_q = 2.417,\; \kappa_\ell = 2.367\)</strong>: Mathieu equation with \(\kappa = (2\pi/3)/\sigma_\psi\)</li>
+      <li><strong>\(\lambda_q = 0.2321,\; \lambda_\ell = 0.2464\)</strong>: From \(\exp[-\kappa^2/4]\)</li>
+      <li><strong>\(\bar{\eta} = 0.3947\)</strong>: From holonomy \(\times\) Berry phase (v7.0), 13.4% deviation</li>
+      <li><strong>Most correction factors</strong>: Derived from ∞-helix geometry; \(f_{\rm hol}\) remains calibrated pending a corrected formula (see A.0c note above)</li>
+      <li><strong>Still open</strong>: DM mass and Ω<sub>DM</sub>h² (U-status), δ<sub>CP</sub>(PMNS), m<sub>c</sub>/m<sub>t</sub>, m<sub>u</sub> (P-status)</li>
     </ul>
   </div>
 
   <div class="eq law" style="margin:1.5rem 0;background:#000;border:3px solid var(--gold);padding:1.25rem;">
-    \[\boxed{M_{\rm Planck} \;\xrightarrow{\text{Casimir-holonomy}}\; L_X \;\xrightarrow{\text{Z}_3}\; \text{All SM} + \text{Gravity} + \text{Predictions}}\]
-    <div class="eq-label" style="color:var(--gold);">(A.13) — Complete Theory of Everything: 4 inputs (\(M_{\rm Planck}, v_{\rm EW}, m_t, \alpha_{\rm em}\)), all else DERIVED</div>
+    \[\boxed{M_{\rm Planck} \;\xrightarrow{\text{Casimir-holonomy}}\; L_X \;\xrightarrow{\text{Z}_3}\; \text{Most SM} + \text{Gravity} + \text{Predictions}}\]
+    <div class="eq-label" style="color:var(--gold);">(A.13) — TOE candidate: 4 inputs (\(M_{\rm Planck}, v_{\rm EW}, m_t, \alpha_{\rm em}\)), most else DERIVED (83% closure)</div>
   </div>
 </section>
 

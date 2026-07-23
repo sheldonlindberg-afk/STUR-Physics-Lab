@@ -120,7 +120,7 @@
       <tr><th>Parameter</th><th>STUR v7.0 (NLO)</th><th>NuFIT 6.0</th><th>Dev</th></tr>
     </thead>
     <tbody>
-      <tr><td>\(\sin^2\theta_{12}\)</td><td>0.2491</td><td>\(0.303 \pm 0.012\)</td><td style="color:#fbbf24;">18.9% (D)</td></tr>
+      <tr><td>\(\sin^2\theta_{12}\)</td><td>0.2491</td><td>\(0.303 \pm 0.012\)</td><td style="color:#fbbf24;">17.8% (D)</td></tr>
       <tr><td>\(\sin^2\theta_{23}\)</td><td>0.4391</td><td>\(0.545 \pm 0.018\)</td><td style="color:#fbbf24;">19.4% (D)</td></tr>
       <tr><td>\(\sin^2\theta_{13}\)</td><td>0.0242</td><td>\(0.02203 \pm 0.00056\)</td><td style="color:#4ade80;">9.9% (D)</td></tr>
       <tr><td>\(\delta_{\rm CP}\)</td><td>\(272.8°\) <strong style="color:#4ade80;">(PREDICTION)</strong></td><td>\(197° \pm 25°\)</td><td style="color:#fbbf24;">38% (D)</td></tr>
@@ -144,7 +144,7 @@
       <li><strong>Exclusion-4:</strong> Any mixing angle deviates from prediction by > 3σ<sub>exp</sub></li>
     </ul>
     <p style="margin:0.75rem 0 0;font-size:0.85rem;color:var(--text-muted);">
-      <strong>Current status (v7.0 NLO):</strong> All parameters D-status; sin²θ₁₃ at 9.9%, θ₁₂/θ₂₃ at 18.9–19.4% (U_ν structural floor), Δm²₂₁ at 8.1%, Δm²₃₁ at 2.3%; δ<sub>CP</sub> = 272.8° is a sharp prediction
+      <strong>Current status (v7.0 NLO):</strong> Mixing angles D-status; sin²θ₁₃ at 9.9%, θ₁₂/θ₂₃ at 17.8–19.4% (U_ν structural floor), Δm²₂₁ at 8.1%, Δm²₃₁ at 2.3%; δ<sub>CP</sub> = 272.8° is a sharp, falsifiable prediction but is **P-status** (38.5% off NuFIT 197°, structural mismatch — see stur_toe_proof.html)
     </p>
     <p style="margin:0.5rem 0 0;font-size:0.85rem;color:#22d3ee;">
       <strong>Key improvement:</strong> PMNS form factors f, g, r are now DERIVED from first principles (previously fitted).
@@ -297,27 +297,47 @@
       </tr>
     </tbody>
   </table>
+  <p style="font-size:0.83rem;color:var(--text-muted);margin-top:0.5rem;">
+    <strong>Note:</strong> plugging the stated inputs (\(M_0=3\times10^{14}\) GeV, \(y_\nu v = 100\) GeV, \(\lambda=0.219\))
+    into the formulas shown above gives \(m_1 \approx 0.00018\) meV, \(m_2 \approx 0.077\) meV, \(m_3 \approx 33.3\) meV
+    — not the tabulated 0.86 / 8.66 / 50.2 meV. The exponents used here (\(\lambda^8:\lambda^4:1\)) also do not match
+    the \(\lambda^4:\lambda^2:1\) ratio quoted in §2.1 above for the same eigenvalue pattern. This table is unreconciled
+    legacy content; the canonical, D-status mass spectrum is the one in the Executive Summary box (PMNS.1) and in
+    <a href="stur_neutrino_derivation.html">stur_neutrino_derivation.html</a>, not these tabulated numbers.
+  </p>
 
-  <h3>2.3 Mass-Squared Differences (v7.0, M<sub>R</sub> = 2×10¹⁴ GeV from holonomy)</h3>
+  <h3>2.3 Mass-Squared Differences (superseded — earlier λ-texture estimate, kept for reference)</h3>
+
+  <div class="block warning" style="margin:0 0 0.75rem;">
+    <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+      <strong>Note:</strong> this subsection predates the v7.0.2 NLO pseudo-Dirac seesaw fix. Using this section's own
+      λ⁸:λ⁴:1 texture masses (\(m_1, m_2\) from §2.1/§2.2) gives \(\Delta m_{21}^2\) far below observation, as shown
+      below. That gap is <strong>not</strong> current — it is resolved by the pseudo-Dirac seesaw mechanism
+      (Z₃-forced off-diagonal M<sub>R</sub> block) described in the Executive Summary above and in
+      <a href="stur_neutrino_derivation.html">stur_neutrino_derivation.html</a>, which gives the headline,
+      D-status result \(\Delta m_{21}^2 = 6.92\times10^{-5}\,\text{eV}^2\) (8.1%). This section is retained to show
+      the earlier calculation's shortfall, not as the current prediction.
+    </p>
+  </div>
 
   <div class="eq boxed" style="margin:1rem 0;">
     \[\begin{aligned}
-    \Delta m_{21}^2 &= m_2^2 - m_1^2 = 1.87 \times 10^{-8} \text{ eV}^2 \quad \text{(obs: 7.53\times10^{-5} — large deviation)} \\
+    \Delta m_{21}^2 &= m_2^2 - m_1^2 = 1.87 \times 10^{-8} \text{ eV}^2 \quad \text{(obs: 7.53\times10^{-5} — large deviation, superseded)} \\
     \Delta m_{31}^2 &= m_3^2 - m_1^2 = 2.50 \times 10^{-3} \text{ eV}^2 \quad \text{(obs: 2.511\times10^{-3} — 0.4%)}
     \end{aligned}\]
-    <div class="eq-label">(PMNS.7) — Mass-squared differences (v7.0 computed; Δm²<sub>31</sub> correct, Δm²<sub>21</sub> needs full RG running)</div>
+    <div class="eq-label">(PMNS.7) — Earlier λ-texture calculation (v7.0, pre-NLO fix); Δm²<sub>31</sub> was already close, Δm²<sub>21</sub> was the open gap now closed by the pseudo-Dirac mechanism (see note above)</div>
   </div>
 
-  <p>Δm²<sub>31</sub> (atmospheric) matches NuFIT to 0.4%. Δm²<sub>21</sub> (solar) is off by a large factor — the Dirac mass spectrum does not yet reproduce the solar splitting without full three-generation RG running to M<sub>Z</sub>.</p>
+  <p>Δm²<sub>31</sub> (atmospheric) matches NuFIT to 0.4% even in this earlier calculation. Δm²<sub>21</sub> (solar) was off by a large factor here — this specific gap is what the v7.0.2 pseudo-Dirac seesaw mechanism closes (8.1% agreement, D-status; see Executive Summary and stur_neutrino_derivation.html). It is <em>not</em> an open problem requiring further RG running.</p>
 
   <h3>2.4 Sum of Neutrino Masses</h3>
 
   <div class="eq law" style="background:#000;border:2px solid var(--success);padding:1rem;">
-    \[\boxed{\sum m_\nu = m_1 + m_2 + m_3 \approx 59 \text{ meV}}\]
-    <div class="eq-label" style="color:var(--success);">(PMNS.8) — Cosmological mass sum</div>
+    \[\boxed{\sum m_\nu = m_1 + m_2 + m_3 \approx 59 \text{ meV (using the §2.2 legacy table values)}}\]
+    <div class="eq-label" style="color:var(--success);">(PMNS.8) — Cosmological mass sum; the headline Executive Summary spectrum (PMNS.1) instead gives Σm<sub>ν</sub> ≈ 50.1 meV — both are well within the Planck bound below regardless of which mass set is used</div>
   </div>
 
-  <p><strong>Cosmological bound:</strong> \(\sum m_\nu < 120\) meV (Planck 2018) — STUR is well within bounds.</p>
+  <p><strong>Cosmological bound:</strong> \(\sum m_\nu < 120\) meV (Planck 2018) — STUR is well within bounds under either mass set above.</p>
 </section>
 
 <!-- MIXING ANGLES -->
