@@ -767,3 +767,71 @@ STUR dark matter is FALSIFIABLE:
 *Dark matter relic density derived from first principles via ∞₃ geometry*
 *Omega_DM h^2 = 0.119 +/- 0.002 vs observed 0.1200 +/- 0.0012 (0.4 sigma agreement)*
 *Critical clarification: STUR predicts LKP (TeV), not sterile neutrino (keV) dark matter*
+
+---
+
+## Part VIII: Non-Thermal Production Mechanisms (checked in a later session, both open leads)
+
+The M_DM circularity documented above is specific to the thermal WIMP-like freeze-out
+scenario built around the LKP candidate. A later session tested whether a genuinely
+*different* production mechanism -- not another mass-scale combination fed into the same
+freeze-out formula -- could independently close the dark matter sector. Two were tried.
+
+### 8.1 Misalignment / vacuum realignment (axion-like) -- RULED OUT
+
+Treated m_phi = 1/L_eff = 0.247 eV (this theory's own Casimir-holonomy coherence-length
+scale, already established, not invented for this test) as a light modulus displaced from
+its minimum pre-inflation and released to oscillate coherently -- a standard axion-like
+production channel that is cold regardless of particle mass since it is never thermalized.
+Computed Omega_phi h^2 (oscillation onset at H(T_osc)=m_phi, standard entropy-dilution
+tracking to today) for every field-displacement scale f already established elsewhere in
+this theory:
+
+| f (displacement scale)         | Omega_phi h^2 | vs. target 0.12          |
+|---------------------------------|---------------|---------------------------|
+| M_Pl (Planck-scale modulus)      | 1.1e13        | overcloses by 13 orders   |
+| 1/L_X_fund (compactification)    | 3.3e6         | overcloses by 6-7 orders  |
+| M_R (seesaw scale)               | 3.1e3         | overcloses by 3-4 orders  |
+| v_EW (weak scale)                | 4.6e-21       | underproduces by 21 orders|
+
+The field range needed to hit 0.12 exactly is f ~ 1.25e12 GeV -- **no scale anywhere in
+this theory is established near that value.** This is the classic moduli/Polonyi problem:
+a sub-eV field at any of this theory's genuinely-derived scales either wildly overcloses
+the universe or is negligible. Same failure mode as the thermal LKP mass (Part II.2.2
+above), just relocated from an exponent to a field-range parameter. **Not adopted; ruled
+out cleanly, not a near-miss.**
+
+### 8.2 Gravitational particle production at reheating -- OPEN LEAD, not a derivation
+
+Tested whether dark matter could instead be produced purely gravitationally (mass ~ H_I,
+the inflationary Hubble scale, no new coupling required). H_I was derived from this
+theory's own r_eff = 0.0139 (already established in `stur_inflation.py`, from XCRM
+Kirchhoff torsion damping -- untouched for this test) via the standard relation
+r = (2/pi^2)(H_I/M_Pl,reduced)^2:
+
+    H_I = 2.92e13 GeV
+
+Compared against M_R = 2.0e14 GeV -- established independently, from holonomy/seesaw, an
+unrelated part of this theory:
+
+    M_R / H_I = 6.84
+
+These two numbers, derived from unrelated sectors of the theory, land within one order of
+magnitude of each other. This is a genuine, unforced coincidence -- neither number was
+adjusted to produce this result.
+
+**This is not yet a closure.** Converting M_R/H_I into an actual Omega_DM h^2 requires the
+gravitational-production formula from the literature (Chung-Kolb-Riotto and successors),
+which carries an O(1) coefficient c in a suppression factor ~exp(-c * M_R/H_I) that depends
+on spin, minimal-vs-conformal coupling, and the sharpness of the inflation-to-radiation
+transition -- none of which is fixed by anything established in this theory. Checked the
+sensitivity directly: c=1 gives suppression 1.1e-3, c=2 gives 1.1e-6, c=2*pi gives 2.1e-19
+-- a 16-order-of-magnitude spread from a single unfixed O(1) constant. Quoting a specific
+Omega_DM h^2 from this would mean picking that coefficient from memory and presenting it as
+a derivation; declined for that reason.
+
+**Documented here as the one legitimate open lead on OP-7**, to be picked up by a future
+session willing to do the actual first-principles Bogoliubov mode-function calculation
+through this theory's specific inflation-to-radiation transition (not a literature
+coefficient lookup). Until that calculation exists, M_DM and Omega_DM h^2 remain U, as
+Parts II.2.2 and VII above already state.

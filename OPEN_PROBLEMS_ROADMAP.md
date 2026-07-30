@@ -101,6 +101,14 @@ of magnitude, confirming the "agreement" is algebraic, not physical.
   magnitude gap without an unmotivated free exponent.
 - σ_SI ~ 10^-47 cm² (within LZ/XENONnT reach) — testable regardless of the derivation gap.
 **Document:** `DARK_MATTER_RELIC_DENSITY.md`
+**Non-thermal mechanisms checked (later session, see Part VIII of that document):**
+misalignment/vacuum-realignment DM ruled out cleanly (every established field-range scale
+over- or under-produces by 3-21 orders of magnitude; no natural scale near the ~1.25e12 GeV
+needed). Gravitational production at reheating found a genuine, unforced coincidence
+(M_R/H_I = 6.84, both independently derived elsewhere in this theory) but is NOT a closure —
+converting it to Ω_DM h² needs an unfixed O(1) exponent coefficient with a 16-order-of-
+magnitude sensitivity; a real Bogoliubov mode-function calculation, not a literature lookup,
+is the legitimate next step. OP-7 remains U.
 
 ### OP-8: N = 3 Selection — SOLVED ✓
 
