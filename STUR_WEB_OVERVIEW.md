@@ -191,7 +191,7 @@ The micrometer scale is the target for fifth-force experiments.
 
 ### Q: Does STUR explain dark matter?
 
-**A:** Partially. The ∞₃ symmetry creates "KK-parity" that stabilizes the lightest Kaluza-Klein particle (LKP), making it a dark matter candidate. However:
+**A:** Partially. The ∞₃ symmetry creates "KK-triality" that stabilizes the lightest Kaluza-Klein particle (LKP), making it a dark matter candidate. However:
 - The LKP mass depends on unknown parameters
 - No LKP has been detected
 - The predicted abundance requires specific assumptions

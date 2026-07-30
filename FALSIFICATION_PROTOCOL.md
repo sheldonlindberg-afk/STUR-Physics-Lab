@@ -154,11 +154,25 @@ NO PARAMETER ADJUSTMENT POSSIBLE
 
 **STUR Requirement:** Dimension-5 proton decay EXACTLY FORBIDDEN
 
-**Mechanism:** ∞-helix KK-parity is a topological selection rule that forbids dimension-5 baryon-number-violating operators. Dimension-6 operators are suppressed by M_GUT^4.
+**Mechanism:** ∞-helix KK-triality is a topological selection rule that forbids dimension-5 baryon-number-violating operators. Dimension-6 operators are suppressed by M_GUT^4.
+
+**Naming note (corrected in audit pass):** this document previously called this mechanism
+"KK-parity," borrowing that term from Universal Extra Dimensions (UED) model-building
+literature (Appelquist, Cheng & Dobrescu 2001), where KK-parity is specifically a Z₂ (two-
+valued, mod-2) conserved quantity from an S¹/Z₂ orbifold. STUR's own selection rule below is
+explicitly mod-3 ("sum(n_KK) = 0 mod 3"), consistent with the ∞₃ = S¹/Z₃ orbifold used
+throughout this framework — a three-valued conserved charge, not a two-valued parity. "Parity"
+is the wrong technical term for a mod-3 quantity; "triality" (used elsewhere in physics for
+Z₃-valued conserved charges, e.g. QCD color triality under the SU(3) center) is accurate.
+This is a naming correction only — the underlying mod-3 selection-rule strategy for forbidding
+proton-decay operators has real precedent in the discrete-symmetry BSM literature (Z₃
+symmetries proposed specifically to forbid dangerous baryon-number-violating operators while
+permitting Standard Model Yukawa couplings, sometimes discussed under "baryon triality" in
+that literature) and is not itself being revised here.
 
 **Derivation:**
 ```
-KK-parity under ∞₃:
+KK-triality under ∞₃:
   Each field carries KK number n_KK
   Allowed vertices: sum(n_KK) = 0 mod 3
 
@@ -183,7 +197,7 @@ Both far beyond experimental reach (current bound: tau_p > 2.4 x 10^34 years)
 ```
 IF: Proton decay observed with tau_p < 10^34 years
 THEN: STUR IS FALSIFIED
-REASON: Would require dimension-5 operators, violating ∞-helix KK-parity
+REASON: Would require dimension-5 operators, violating ∞-helix KK-triality
 NO PARAMETER ADJUSTMENT POSSIBLE
 
 IF: Proton decay observed with 10^34 < tau_p < 10^36 years
@@ -525,7 +539,7 @@ ELSE:
 #### Rule 6: Proton Decay
 ```
 IF tau_proton < 1e34_years:
-    RETURN "STUR FALSIFIED - violates ∞-helix KK-parity"
+    RETURN "STUR FALSIFIED - violates ∞-helix KK-triality"
 ELIF tau_proton < 1e36_years:
     RETURN "STUR SEVERELY CHALLENGED - dimension-6 rate too high"
 ELIF tau_proton observed at any level:
@@ -663,7 +677,7 @@ mildly disfavor SO(10).
 **What survives:**
 - ∞₃ topology (N_gen = 3)
 - Gauge unification mechanism
-- Proton stability from KK-parity
+- Proton stability from KK-triality
 - theta_QCD = 0 mechanism
 - CKM matrix derivation
 - Charged lepton mass ratios
@@ -702,10 +716,10 @@ STUR -> ABANDONED
 
 ### 5.3 If Early Proton Decay Observed
 
-**What fails:** ∞-helix KK-parity selection rules
+**What fails:** ∞-helix KK-triality selection rules
 
 **What survives:**
-- Neutrino sector predictions (independent of KK-parity)
+- Neutrino sector predictions (independent of KK-triality)
 - Cosmological constant mechanism
 - Flavor structure derivations
 - Gauge unification (affected but not destroyed)
@@ -982,7 +996,7 @@ FRAMEWORK CONFIDENCE: HIGH (pending JUNO)
 | Strong Tension | >3 sigma disagreement with prediction |
 | Pre-registered | Value committed before experimental result |
 | Topological | Property fixed by geometry, not tunable |
-| KK-parity | ∞₃ selection rule from Kaluza-Klein number |
+| KK-triality | ∞₃ selection rule from Kaluza-Klein number |
 | LKP | Lightest Kaluza-Klein Particle (dark matter candidate) |
 
 ---

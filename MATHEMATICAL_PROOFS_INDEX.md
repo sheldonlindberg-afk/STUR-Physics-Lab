@@ -277,7 +277,7 @@ CRITICAL PATH:
 | N_gen = 3 | ∞-helix node point topology | BASE_THREEFOLD_UNIQUENESS.md | L1, T2 |
 | SM gauge group | ∞-helix holonomy compatibility | DERIVATION_CHAIN_INFINITY.md | — |
 | lambda = 0.225 | Gaussian overlap exp[-kappa^2/8] | KAPPA_UNIFIED_CALCULATION.md | P2 |
-| Proton stable (dim-5) | ∞-helix KK-parity selection rule | DERIVATION_CHAIN_INFINITY.md | — |
+| Proton stable (dim-5) | ∞-helix KK-triality selection rule | DERIVATION_CHAIN_INFINITY.md | — |
 | theta_QCD = 0 | ∞₃ x CP symmetry | DERIVATION_CHAIN_INFINITY.md | — |
 | Fifth force at micron scale | Casimir-holonomy balance | DERIVATION_CHAIN_INFINITY.md | — |
 

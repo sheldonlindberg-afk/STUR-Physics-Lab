@@ -4,7 +4,7 @@
 **Framework:** STUR v4.4
 **Date:** 2026-02-05
 **Status:** PARTIALLY DERIVED / CIRCULAR ON M_DM (corrected in FIX pass, 2026-07-18) — the DM
-candidate identity (B^(1) KK hypercharge boson) and stability mechanism (∞₃ KK-parity) are
+candidate identity (B^(1) KK hypercharge boson) and stability mechanism (∞₃ KK-triality) are
 genuinely derived from ∞₃ geometry, but the mass scale M_DM/M_LKP is **not** independently
 derived: Part II.2.2 below shows the first-principles holonomy estimate gives ~7.7 TeV, ~8x
 the quoted value, and the quoted M_LKP~0.92 TeV is obtained instead by inverting the target
@@ -26,7 +26,7 @@ This document provides a complete derivation of the dark matter relic density in
 | Dark matter candidate | B^(1) (KK hypercharge boson) | Unknown | Testable |
 | M_DM | 0.92 +/- 0.08 TeV | Consistent with limits | **CIRCULAR (U)** — set by requiring Omega_DM h^2~0.12, not independently predicted; see Part II.2.2 |
 | Omega_DM h^2 | 0.119 +/- 0.002 | 0.1200 +/- 0.0012 (Planck) | **CIRCULAR (U)** — M_LKP was tuned to reproduce this value, so the "0.4 sigma" agreement is not an independent check |
-| Stability mechanism | ∞₃ KK-parity | DM stable | Derived |
+| Stability mechanism | ∞₃ KK-triality | DM stable | Derived |
 | Direct detection sigma_SI | ~10^-47 cm^2 | Within LZ/XENONnT reach | Testable (but see §5.3 correction — this document's own arithmetic has a units error; a corrected evaluation gives ~7e-46 cm^2, in tension with LZ limits) |
 
 ---
@@ -99,13 +99,13 @@ The 5D geometry M^4 x S^1/Z3 produces a KK tower:
 
     m_n^2 = m_0^2 + n^2/L_X^2 + Delta_m^2_hol
 
-The ∞₃ helix assigns KK-parity:
+The ∞₃ helix assigns KK-triality:
     P_KK = omega^n where omega = exp(2*pi*i/3)
 
 For n=0 (SM particles): P_KK = 1 (even)
 For n=1 (1st KK mode): P_KK = omega != 1 (odd)
 
-KK-parity is CONSERVED -> LKP cannot decay to SM particles!
+KK-triality is CONSERVED -> LKP cannot decay to SM particles!
 ```
 
 **LKP Identity:**
@@ -116,7 +116,7 @@ the U(1)_Y hypercharge gauge boson:
     - Spin: 1 (vector boson)
     - Electric charge: 0
     - Color: singlet
-    - KK-parity: omega (odd)
+    - KK-triality: omega (odd)
     - Mass: M_LKP ~ 0.9 TeV (from holonomy corrections)
 ```
 
@@ -124,7 +124,7 @@ the U(1)_Y hypercharge gauge boson:
 
 ## Part II: ∞₃ Symmetry Constraints on Dark Matter
 
-### 2.1 KK-Parity from ∞₃ Helix
+### 2.1 KK-Triality from ∞₃ Helix
 
 The ∞₃ helix structure automatically provides dark matter stability:
 
@@ -140,7 +140,7 @@ The KK modes transform as:
     Phi^(n) -> omega^n * Phi^(n)
 
 CONSERVATION LAW:
-In any interaction vertex, the product of KK-parities must equal 1:
+In any interaction vertex, the product of KK-trialities must equal 1:
     omega^(n1+n2+n3+...) = 1
 
 This requires n1 + n2 + n3 + ... = 0 (mod 3)
@@ -155,9 +155,9 @@ This requires n1 + n2 + n3 + ... = 0 (mod 3)
 |  The Lightest Kaluza-Klein Particle (LKP) is ABSOLUTELY STABLE   |
 |  because:                                                        |
 |                                                                  |
-|  1. LKP has KK-parity P_KK = omega (n=1 mode)                   |
+|  1. LKP has KK-triality P_KK = omega (n=1 mode)                   |
 |  2. All SM particles have P_KK = 1 (n=0 modes)                  |
-|  3. KK-parity is exactly conserved by ∞₃ gauge symmetry         |
+|  3. KK-triality is exactly conserved by ∞₃ gauge symmetry         |
 |  4. Therefore: LKP -> SM + SM is FORBIDDEN                      |
 |                                                                  |
 |  This is NOT ad hoc - it follows from the same ∞₃ geometry      |
@@ -473,7 +473,7 @@ point, which is mathematically impossible in ∞₃ = Z/3Z geometry.
 |  Spin: 1 (vector boson)                                         |
 |  Electric charge: 0                                              |
 |  Color: singlet                                                  |
-|  KK-parity: omega = exp(2*pi*i/3)                               |
+|  KK-triality: omega = exp(2*pi*i/3)                               |
 |                                                                  |
 |  Stability: ABSOLUTE (protected by ∞₃ gauge symmetry)           |
 |  Lifetime: tau > 10^30 years (effectively infinite)             |
@@ -602,7 +602,7 @@ STUR prediction M_LKP = 0.92 TeV is TESTABLE at HL-LHC!
 |    This produces X-rays at E = m_s/2                             |
 |                                                                  |
 |  For STUR LKP:                                                   |
-|    B^(1) -> SM + gamma is FORBIDDEN by KK-parity!               |
+|    B^(1) -> SM + gamma is FORBIDDEN by KK-triality!               |
 |                                                                  |
 |  The LKP cannot decay to ANY lighter particles because:          |
 |    1. All SM particles have P_KK = 1                             |
@@ -649,7 +649,7 @@ Current status (2026):
 |  ------------------------------                                  |
 |  1. M_Planck -> L_X (dimensional reduction)                      |
 |  2. L_X -> KK tower (compactification)                          |
-|  3. ∞₃ helix -> KK-parity (stability)                           |
+|  3. ∞₃ helix -> KK-triality (stability)                           |
 |  4. Holonomy -> M_LKP ~ TeV (mass) -- NOT actually how the        |
 |     quoted mass is obtained; the holonomy calculation (Part       |
 |     II.2.2) gives ~7.7 TeV, ~8x the quoted 0.92 TeV. The quoted   |
@@ -674,7 +674,7 @@ Current status (2026):
 |  -------------------------                                       |
 |  - keV sterile neutrino: ∞₃ has only 3 fixed points             |
 |  - Warm dark matter: All candidates are cold (TeV or GUT scale) |
-|  - Decaying DM: KK-parity forbids all decays                    |
+|  - Decaying DM: KK-triality forbids all decays                    |
 |                                                                  |
 +==================================================================+
 ```
@@ -721,7 +721,7 @@ STUR dark matter is FALSIFIABLE:
 |  - Mass scale: TeV order-of-magnitude only from holonomy;        |
 |    the quoted 0.92 TeV specifically is fixed by requiring        |
 |    Omega_DM h^2~0.12, not independently derived (Part II.2.2)    |
-|  - Stability: Exact ∞₃ KK-parity (derived from helix)          |
+|  - Stability: Exact ∞₃ KK-triality (derived from helix)          |
 |  - Relic density: 0.119 is not an independent calculation --     |
 |    it follows tautologically once M_LKP is tuned to reach it     |
 |  - Detection signatures: Specified (testable), but see §5.3      |

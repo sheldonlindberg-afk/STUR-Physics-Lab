@@ -167,7 +167,7 @@ Detection of 0nu bb --> Requires inverted ordering or new physics
 **STUR-Specific Predictions:**
 ```
 DIMENSION-5 PROTON DECAY: EXACTLY FORBIDDEN
-  Mechanism: ∞-helix KK-parity is topological selection rule
+  Mechanism: ∞-helix KK-triality is topological selection rule
   Not from parameter tuning but from helix geometry
 
 DIMENSION-6 PROTON DECAY:
@@ -186,7 +186,7 @@ DIMENSION-8 OPERATORS:
 OBSERVATION OF PROTON DECAY AT tau_p < 10^34 years --> STUR FALSIFIED
 
 This would require new dimension-5 or dimension-6 operators that
-violate ∞-helix KK-parity, contradicting the helix geometry.
+violate ∞-helix KK-triality, contradicting the helix geometry.
 ```
 
 **Distinguishing Power:**
@@ -274,7 +274,7 @@ DARK MATTER CANDIDATE: Lightest KK Particle (LKP)
   Particle: B^(1) (first KK excitation of U(1)_Y gauge boson)
   Mass: M_LKP = 920 +/- 80 GeV
   Spin: 1 (vector boson)
-  Stability: ∞-helix KK-parity (exactly conserved)
+  Stability: ∞-helix KK-triality (exactly conserved)
 
 RELIC ABUNDANCE:
   Omega_DM h^2 = 0.119 +/- 0.002 (thermal relic)
@@ -355,7 +355,7 @@ PRIMORDIAL TENSOR MODES:
 | 4th generation discovered | ∞₃ topology requires exactly 3 | Would FALSIFY |
 | Inverted neutrino ordering | ∞₃ resonance structure | Would FALSIFY |
 | theta_QCD != 0 measured | ∞₃ x CP symmetry | Would FALSIFY |
-| Proton decay tau < 10^34 yr | ∞-helix KK-parity | Would FALSIFY |
+| Proton decay tau < 10^34 yr | ∞-helix KK-triality | Would FALSIFY |
 
 ### 4.2 Strong Tension
 
