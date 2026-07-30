@@ -31,6 +31,15 @@
 
 **Unifying axiom (v7.0) — Energy Resistance Principle (ERP):** E = ½ R Φ²
 
+*Honesty note: ERP is adapted from Picard & Murugan, "The energy resistance principle,"
+Cell Metabolism 37, 2107–2122 (2025) — a real, peer-reviewed paper about mitochondrial
+bioenergetics. That paper is explicit that ERP is "a heuristic — an emergent
+generalization... rather than a fundamental or universally accepted law," and calls its
+own EP = éR·f² relation "a foundational scaffold" that "calls for empirical validation."
+STUR's extension of this biological heuristic into an axiom spanning quantum
+electrodynamics, gravity, and topology below is STUR's own extrapolation — the citation
+supports the biological analogy, not the physics unification claim.*
+
 Every physical interaction is a resistance to state change. This single axiom connects quantum, gravitational, fluid, topological, and temporal scales:
 - Quantum: R_K = h/e² = 25813 Ω; α = Z₀/(2R_K) is a pure resistance ratio [exact, 8×10⁻¹³ residual]
 - Gravity: R_grav = M_Pl²/2 = ℏc/(2G_N); torsion T is the flux; Friedmann = ERP at FRW scale
