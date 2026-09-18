@@ -55,14 +55,14 @@ STUR: ∞-helix holonomy selects SU(3) x SU(2) x U(1) geometrically
 SU(5):  Dimension-5 operators via colored Higgs triplet
         tau_p ~ 10^31 years → RULED OUT
 
-STUR:   ∞-helix KK-parity is a TOPOLOGICAL SELECTION RULE
+STUR:   ∞-helix KK-triality is a TOPOLOGICAL SELECTION RULE
         Dimension-5 operators: EXACTLY FORBIDDEN (not tuned)
         Dimension-6 operators: Suppressed by M_GUT^4
 
         tau_p^STUR ~ 10^40 years >> 10^34 years (experimental bound)
 
         Derivation chain:
-        Helix geometry → ∞₃ symmetry → KK-parity → dim-5 forbidden
+        Helix geometry → ∞₃ symmetry → KK-triality → dim-5 forbidden
 ```
 
 **sin^2(theta_W) Prediction:**
@@ -280,7 +280,7 @@ MSSM:  Lightest Supersymmetric Particle (LSP)
 
 STUR:  Lightest KK Particle (LKP)
        Kaluza-Klein photon or Z: m ~ few TeV
-       Naturally stable via KK-parity conservation
+       Naturally stable via KK-triality conservation
        Different detection signatures
 ```
 
@@ -756,7 +756,7 @@ STUR:
 | SU(5) + SUSY | Dim-5 Higgsino | ~10^32-33 years | Marginal |
 | SO(10) | Multiple channels | ~10^32-35 years | Marginal |
 | Flipped SU(5) | Suppressed dim-5 | ~10^35-36 years | Consistent |
-| **STUR** | **∞-helix KK-parity (dim-5 EXACT forbidden)** | **~10^40 years** | **Safe (topological)** |
+| **STUR** | **∞-helix KK-triality (dim-5 EXACT forbidden)** | **~10^40 years** | **Safe (topological)** |
 
 ### Black Hole Entropy Comparison
 

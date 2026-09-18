@@ -427,7 +427,7 @@ _______________________________________________________________________
 
 1. **Inverted mass ordering confirmed:** STUR falsified, no error bar applies
 2. **4th generation discovered:** Framework requires fundamental revision
-3. **Proton decay at tau < 10^34 yr:** ∞₃ KK-parity violated
+3. **Proton decay at tau < 10^34 yr:** ∞₃ KK-triality violated
 4. **keV sterile neutrino DM:** Wrong DM candidate, new physics required
 
 **Scenarios That Would Decrease Uncertainties:**

@@ -896,7 +896,7 @@ where:
 
 This is still too small! The TeV scale must come from a different mechanism.
 
-RESOLUTION: The "TeV" KK scale is the EFFECTIVE scale for KK parity conservation,
+RESOLUTION: The "TeV" KK scale is the EFFECTIVE scale for KK-triality conservation,
 not the geometric KK mass. The geometric mass is ~0.3 eV, but:
 
 1. The LKP is COMPOSITE: B⁽¹⁾_eff = linear combination of KK modes
@@ -926,7 +926,7 @@ PHENOMENOLOGICAL FIT (consistent with DERIVATION_CHAIN):
         M_LKP = v × A × λ × (radiative factor)
               = 246 × 0.83 × 0.225 × (TeV/EW enhancement)
 
-    The TeV/EW enhancement in STUR comes from the ∞₃ × KK parity,
+    The TeV/EW enhancement in STUR comes from the ∞₃ × KK-triality,
     which creates a mass gap proportional to:
         Δ = v²/M_R × (loop factor) × (∞₃ weight)
 
@@ -1005,7 +1005,7 @@ Total: σ(M_LKP) = √(38² + 18² + 50²) = 66 GeV ≈ 70 GeV
 ║  Spin: 1 (vector boson)                                                  ║
 ║  Charge: Q = 0, Color singlet                                            ║
 ║                                                                          ║
-║  Stability: Absolutely stable via ∞-helix KK-parity                          ║
+║  Stability: Absolutely stable via ∞-helix KK-triality                          ║
 ║             P_KK = ω ≠ 1, where ω = exp(2πi/3)                          ║
 ║                                                                          ║
 ║  Uncertainty reduction: 0.9 ± 0.3 TeV → 0.92 ± 0.08 TeV (3.75× better) ║

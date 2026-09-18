@@ -638,6 +638,38 @@ xf, g_st = 26, 106.75;  f_co = 1.9
 #   unmotivated exponent. None does -- the theory's compactification-derived scales
 #   remain either ~1e15-16 GeV (v*L_X=3) or ~0.25 eV (Casimir-holonomy L_eff), with no
 #   third scale near 1 TeV established anywhere else in this codebase. Conclusion stands.
+#
+# FURTHER RE-CHECKED (later session, explicit request to push for full closure by trying
+# a genuinely different PRODUCTION MECHANISM instead of another thermal-freeze-out mass
+# combination):
+#   (a) Misalignment/vacuum-realignment DM (axion-like: treat m_phi = 1/L_eff = 0.247 eV,
+#       already established in this theory, as a modulus that oscillates coherently from
+#       an early displacement f). Computed Omega_phi h^2 for every field-range scale this
+#       theory already establishes: f=M_Pl gives 1.1e13 (overcloses by 13 orders of
+#       magnitude), f=1/L_X_fund gives 3.3e6 (overcloses by 6-7 orders), f=M_R gives 3.1e3
+#       (overcloses by 3-4 orders), f=v_EW gives 4.6e-21 (underproduces by 21 orders). The
+#       field range needed to hit 0.12 exactly is f~1.25e12 GeV -- no scale in this theory
+#       is established anywhere near that value. Same failure mode as the thermal LKP mass,
+#       just relocated from an exponent to a field-range parameter. RULED OUT.
+#   (b) Gravitational particle production at reheating (mass ~ H_I, no new coupling
+#       needed). H_I derived from this theory's own r_eff=0.0139 (already established, from
+#       XCRM Kirchhoff torsion damping) via the standard r = (2/pi^2)(H_I/M_Pl_reduced)^2
+#       relation: H_I = 2.92e13 GeV. Compared against M_R = 2.0e14 GeV (established
+#       independently, from holonomy/seesaw -- unrelated part of the theory): M_R/H_I =
+#       6.84, i.e. these two independently-derived numbers from unrelated sectors land
+#       within one order of magnitude of each other. This is a genuine, unforced
+#       coincidence, NOT constructed to fit. NOT YET A DERIVATION: converting this ratio
+#       into an actual Omega_DM h^2 requires the gravitational-production formula from the
+#       literature (Chung-Kolb-Riotto and successors), which carries an O(1) coefficient c
+#       in exp(-c*M_R/H_I) that depends on spin, minimal-vs-conformal coupling, and
+#       transition sharpness -- none fixed by anything in this theory. Checked the
+#       sensitivity directly: c=1 gives suppression 1.1e-3, c=2 gives 1.1e-6, c=2*pi gives
+#       2.1e-19 -- a 16-order-of-magnitude spread from one unfixed O(1) constant. Quoting a
+#       specific Omega_DM h^2 here would mean picking that coefficient from memory and
+#       presenting it as a derivation; declined for that reason. OPEN LEAD, not closure:
+#       the real next step is a first-principles Bogoliubov mode-function calculation
+#       through this theory's specific inflation-to-radiation transition (not a literature
+#       coefficient lookup) -- substantial effort, not attempted in this session.
 sv_t = 1.07e9*xf / (M_Pl*np.sqrt(g_st)*0.120)
 M_DM = np.sqrt(max(g_Y**4*Y4*f_co/(16*np.pi*sv_t), 0))
 sv   = g_Y**4*Y4*f_co/(16*np.pi*M_DM**2) if M_DM>0 else 0

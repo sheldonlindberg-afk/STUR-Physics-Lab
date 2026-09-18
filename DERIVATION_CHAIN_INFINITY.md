@@ -92,7 +92,7 @@ N_ν = 2.9840 ± 0.0082 (from Z-width)
 | N_gen = 3 | ∞-helix node count | **Exact** | **D** | Topological |
 | SM gauge group | ∞-helix holonomy compatibility | **Exact** | **D** | Group theory |
 | θ_QCD = 0 | ∞₃ × CP symmetry | **Exact** | **D** | Symmetry argument |
-| Proton stability (dim-5) | ∞-helix KK-parity selection rule | **Exact** | **D** | Selection rule |
+| Proton stability (dim-5) | ∞-helix KK-triality selection rule | **Exact** | **D** | Selection rule |
 | κ = 2.430 | Mathieu equation at α_eff = 1.480 | **Computed** | **D** | `stur_first_principles_calculation.py` |
 | λ_W = 0.22545 (Cabibbo) | ψ₀(2π/3)/ψ₀(0) at Z₃ fixed points | **0.04%** | **D** | `stur_resistance_physics.py` (v7.0); exp(−κ²/4)=0.229 (1.6%) is alternate formula |
 | Berry phase = 0 | Real Mathieu eigenstates | **Exact** | **D** | `berry_phase_exact.py` |
@@ -290,7 +290,7 @@ Residual from neutrino Majorana ∞-helix breaking:
 
 ### Chain Step 7: Dark Matter
 
-∞-helix KK-parity conservation → LKP B^(1) stable.
+∞-helix KK-triality conservation → LKP B^(1) stable.
 - M_DM = 0.92 ± 0.08 TeV (also quoted as 949 GeV elsewhere in this document — see honesty
   note on value drift below; both figures are downstream of the same circular fit)
 - **Ω_DM h² = 0.119** (Planck: 0.1200, 0.8% deviation; also quoted elsewhere in this
@@ -329,7 +329,7 @@ reflects the current canonical count.
 ═══════════════════════════════════════════════════════════════
   Derived (D):          24  — N_gen, gauge group, θ_QCD, Berry,
                                proton stability, normal ordering,
-                               KK-parity, λ_Cabibbo,
+                               KK-triality, λ_Cabibbo,
                                CKM (A, δ, η̄, V_ub, V_cb),
                                PMNS (θ₁₂, θ₂₃, θ₁₃, δ_CP),
                                fermion masses (5 of 6 — m_u excluded, see P),
@@ -939,7 +939,7 @@ Under this transformation θ_QCD → −θ_QCD, and ∞₃ invariance forces θ_
 
 ### 5.3 Proton Stability
 
-∞-helix KK-parity assigns (−1)^{KK level} to KK modes. Dimension-5 proton decay operators (QQQL, uude) require odd-parity KK exchange and are **forbidden**. The lifetime bound τ_p > 10³⁴ yr is automatically satisfied.
+∞-helix KK-triality assigns (−1)^{KK level} to KK modes. Dimension-5 proton decay operators (QQQL, uude) require odd-parity KK exchange and are **forbidden**. The lifetime bound τ_p > 10³⁴ yr is automatically satisfied.
 
 ---
 
@@ -1114,7 +1114,7 @@ r ≈ 0.004      (below current bounds)              ✓
 
 ### 9.4 Dark Matter — Status: Partially Derived (v6.4 OP-2)
 
-The lightest KK-parity-odd particle (LKP) B^(1) is stable due to ∞₃ KK-parity (exact discrete gauge symmetry). **v6.4 resolution:** M_DM = 920 ± 80 GeV from thermal freeze-out with coannihilation. Ω_DM h² = 0.119 ± 0.002 (Planck: 0.1200 ± 0.0012, 0.4σ). NOT fitted — follows from ∞₃ topology + SM couplings + standard cosmology. See DARK_MATTER_RELIC_DENSITY.md.
+The lightest KK-triality-odd particle (LKP) B^(1) is stable due to ∞₃ KK-triality (exact discrete gauge symmetry). **v6.4 resolution:** M_DM = 920 ± 80 GeV from thermal freeze-out with coannihilation. Ω_DM h² = 0.119 ± 0.002 (Planck: 0.1200 ± 0.0012, 0.4σ). NOT fitted — follows from ∞₃ topology + SM couplings + standard cosmology. See DARK_MATTER_RELIC_DENSITY.md.
 
 ### 9.5 Baryogenesis — Status: Partially Derived
 
@@ -1249,7 +1249,7 @@ Complete combined closure calculations were performed in `scripts/three_pillar_t
 | Gauge group | SM | SM | TEGR | **D** | Holonomy |
 | θ_QCD = 0 | 0 | 0 | TEGR | **D** | ∞₃ × CP |
 | Berry phase | 0 | 0 | XCRM | **D** | Real Mathieu |
-| Proton stability | Stable | Stable | TEGR | **D** | KK-parity |
+| Proton stability | Stable | Stable | TEGR | **D** | KK-triality |
 | Normal ordering | m₁<m₂<m₃ | ✓ | TEGR | **D** | ∞-helix resonance |
 | λ (Cabibbo) | 0.228 | 0.225 | XCRM+C | **D** | exp(-κ²/4), 1.6% (corrected in FIX pass from "1.3%" — verified) |
 | y₃/y₂ ratio | 44 | 44.7 (b/s) | XCRM | **D** | Mathieu overlap |
@@ -1301,7 +1301,7 @@ The five open problems identified in v6.3 were resolved in `scripts/five_open_pr
 
 **OP-2: M_DM scale** → **NOT actually closed** (corrected in FIX pass) via LKP thermal relic (DARK_MATTER_RELIC_DENSITY.md)
 - DM candidate: B^(1) (1st KK excitation of U(1)_Y gauge boson) — genuinely derived
-- Stability: ∞₃ KK-parity (EXACT discrete gauge symmetry) — genuinely derived
+- Stability: ∞₃ KK-triality (EXACT discrete gauge symmetry) — genuinely derived
 - M_DM = 920 ± 80 GeV from thermal freeze-out with coannihilation
 - Ω_DM h² = 0.119 ± 0.002 (Planck: 0.1200 ± 0.0012, agreement: 0.4σ)
 - **"NOT fitted" claim is false** (corrected in FIX pass): DARK_MATTER_RELIC_DENSITY.md, the
@@ -1357,9 +1357,9 @@ The five open problems identified in v6.3 were resolved in `scripts/five_open_pr
 | Gauge group | SM | SM | TEGR | **D** | Holonomy |
 | θ_QCD = 0 | 0 | 0 | TEGR | **D** | ∞₃ × CP |
 | Berry phase | 0 | 0 | XCRM | **D** | Real Mathieu |
-| Proton stability | Stable | Stable | TEGR | **D** | KK-parity |
+| Proton stability | Stable | Stable | TEGR | **D** | KK-triality |
 | Normal ordering | NH | NH | TEGR | **D** | ∞-helix resonance |
-| KK-parity | Conserved | — | TEGR | **D** | ∞₃ gauge symmetry |
+| KK-triality | Conserved | — | TEGR | **D** | ∞₃ gauge symmetry |
 | λ (Cabibbo) | 0.22543 | 0.22537 | XCRM | **D** | ψ₀(2π/3)/ψ₀(0), 0.03% |
 | σ_H/σ_ψ | 0.2251 | ~0.23 | XCRM | **D** | √2/(2π) brane kink |
 | A (Wolfenstein) | 0.8140 | 0.826 | XCRM | **D** | Holonomy geometry |
@@ -1543,7 +1543,7 @@ Three axioms — five-dimensional TEGR spacetime, a real doublet R-field (XCRM),
 - SU(3) × SU(2) × U(1) gauge group (∞-helix holonomy compatibility)
 - θ_QCD = 0 (∞₃ × CP symmetry protection)
 - Berry phase = 0 (real Mathieu eigenstates)
-- Proton stability (dim-5 forbidden by ∞-helix KK-parity)
+- Proton stability (dim-5 forbidden by ∞-helix KK-triality)
 - ∞₃ proven lowest-energy CP-violating orbifold (computed for N = 1–6)
 
 **CKM sector (derived, v7.0):**

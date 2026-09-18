@@ -35,7 +35,7 @@ This paper presents STUR, a framework where the number of generations and their 
 
 STUR is an effective field theory valid below the compactification scale M_KK. Its achievements fall into three tiers:
 
-**Tier 1 (Topological, rigorous):** N_gen = 3 from ∞-helix node points, theta_QCD = 0 from ∞₃ x CP, proton decay suppression via KK-parity, normal neutrino mass ordering, gauge group SU(3) x SU(2) x U(1).
+**Tier 1 (Topological, rigorous):** N_gen = 3 from ∞-helix node points, theta_QCD = 0 from ∞₃ x CP, proton decay suppression via KK-triality, normal neutrino mass ordering, gauge group SU(3) x SU(2) x U(1).
 
 **Tier 2 (Derived with identified uncertainties):** Cabibbo angle lambda from overlap integrals (requires alpha_eff = 3/2, of which 88% is computed from first principles; see ALPHA_EFFECTIVE_DERIVATION.md), Higgs mass 125 +/- 2 GeV from gauge-Higgs unification, strong coupling alpha_s(M_Z) from KK threshold matching.
 
@@ -145,7 +145,7 @@ These predictions follow from topology and symmetry with no adjustable parameter
 | N_gen | ∞-helix node points | 3 (exact) | 2.984 +/- 0.008 [PDG 2024] |
 | Gauge group | ∞-helix holonomy compatibility | SU(3) x SU(2) x U(1) | Confirmed |
 | theta_QCD | ∞₃ x CP symmetry | 0 (exact) | < 10^-10 |
-| Dim-5 proton decay | ∞-helix KK-parity | Forbidden | tau_p > 10^34 years |
+| Dim-5 proton decay | ∞-helix KK-triality | Forbidden | tau_p > 10^34 years |
 | Neutrino ordering | ∞₃ resonance structure | Normal | Favored (3.5 sigma) |
 
 ### 3.2 Fermion Localization and Mass Hierarchies

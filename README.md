@@ -31,6 +31,15 @@
 
 **Unifying axiom (v7.0) — Energy Resistance Principle (ERP):** E = ½ R Φ²
 
+*Honesty note: ERP is adapted from Picard & Murugan, "The energy resistance principle,"
+Cell Metabolism 37, 2107–2122 (2025) — a real, peer-reviewed paper about mitochondrial
+bioenergetics. That paper is explicit that ERP is "a heuristic — an emergent
+generalization... rather than a fundamental or universally accepted law," and calls its
+own EP = éR·f² relation "a foundational scaffold" that "calls for empirical validation."
+STUR's extension of this biological heuristic into an axiom spanning quantum
+electrodynamics, gravity, and topology below is STUR's own extrapolation — the citation
+supports the biological analogy, not the physics unification claim.*
+
 Every physical interaction is a resistance to state change. This single axiom connects quantum, gravitational, fluid, topological, and temporal scales:
 - Quantum: R_K = h/e² = 25813 Ω; α = Z₀/(2R_K) is a pure resistance ratio [exact, 8×10⁻¹³ residual]
 - Gravity: R_grav = M_Pl²/2 = ℏc/(2G_N); torsion T is the flux; Friedmann = ERP at FRW scale
@@ -180,9 +189,9 @@ current canonical scorecard post-v7.0.2 correction is 24D+3P+2U+1I=30, 83%):
 | SU(3) × SU(2) × U(1) | Exact | ∞-helix holonomy compatibility | **D** |
 | θ_QCD = 0 | Exact | ∞₃ × CP symmetry (no axion needed) | **D** |
 | Berry phase = 0 | Exact | Real Mathieu eigenstates | **D** |
-| Proton stability (dim-5) | Exact | ∞-helix KK-parity selection rule | **D** |
+| Proton stability (dim-5) | Exact | ∞-helix KK-triality selection rule | **D** |
 | Normal ordering | m_1 < m_2 < m_3 | ∞-helix resonance selection | **D** |
-| KK-parity | Conserved | ∞₃ gauge symmetry | **D** |
+| KK-triality | Conserved | ∞₃ gauge symmetry | **D** |
 
 **CKM sector (derived from α_eff + holonomy):**
 
