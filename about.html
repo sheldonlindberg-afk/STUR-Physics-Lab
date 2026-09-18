@@ -2,404 +2,107 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>About – STUR Physics Lab</title>
-<meta name="description" content="About the STUR Framework - Sheldon's Theory of Unified Resistance. Open source physics uniting electromagnetism, gravity, and quantum mechanics.">
-<meta property="og:title" content="About STUR — Resistance-Based Physics">
-<meta property="og:description" content="Learn about STUR: Sheldon's Theory of Unified Resistance. A infinity helix framework for unified physics.">
-<meta property="og:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/4.13.png">
-<meta property="og:url" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/about.html">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="About STUR — Resistance-Based Physics">
-<meta name="twitter:description" content="Learn about STUR: Sheldon's Theory of Unified Resistance. A infinity helix framework for unified physics.">
-<meta name="twitter:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/4.13.png">
-
-<!-- PWA & iOS meta tags -->
-<meta name="theme-color" content="#4ade80">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="STUR">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="assets/4.13.png">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>About</title>
+<meta name="description" content="What this site used to contain, what a peer-review pass found, and what survived.">
 <link rel="icon" type="image/png" href="assets/4.13.png">
-
-<!-- STUR Theme System -->
-<link rel="stylesheet" href="assets/css/stur-core.css">
-<link rel="stylesheet" href="assets/css/stur-glass.css">
-<link rel="stylesheet" href="assets/css/stur-icons.css">
-
 <style>
-  :root {
-    --font-system: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    --bg-primary: #000000;
-    --text-primary: #FFFFFF;
-    --text-secondary: #EBEBF5;
-    --text-tertiary: #AEAEB2;
-    --accent-blue: #0A84FF;
-    --accent-gold: #fbbf24;
-    --border-subtle: rgba(255, 255, 255, 0.08);
-    --separator: rgba(255, 255, 255, 0.06);
-    --radius-md: 16px;
-    --radius-lg: 22px;
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.16);
+  :root { --bg:#0b0d12; --panel:#12151c; --text:#e6e8ee; --text-dim:#9aa1b0; --accent:#4ade80; --border:#232838; }
+  @media (prefers-color-scheme: light) {
+    :root { --bg:#f7f8fb; --panel:#ffffff; --text:#1a1d24; --text-dim:#5b6472; --border:#e2e5ec; }
   }
-
-  *, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  html {
-    font-size: 16px;
-    scroll-behavior: smooth;
-  }
-
-  body {
-    font-family: var(--font-system);
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  .container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
-
-  @media (max-width: 640px) {
-    .container { padding: 0 16px; }
-  }
-
-  /* Page Header */
-  .page-header {
-    text-align: center;
-    padding: 64px 0 48px;
-  }
-
-  .page-title {
-    font-size: clamp(1.75rem, 5vw, 2.5rem);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    margin-bottom: 16px;
-    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-gold) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  /* Content Section */
-  .content-section {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
-    padding: 32px;
-    margin-bottom: 32px;
-  }
-
-  .content-section p {
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-    font-size: 1.05rem;
-    line-height: 1.8;
-  }
-
-  .content-section p:last-child {
-    margin-bottom: 0;
-  }
-
-  .content-section strong {
-    color: var(--accent-gold);
-    font-weight: 600;
-  }
-
-  /* Social Links */
-  .social-links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
-    margin: 48px 0;
-  }
-
-  .social-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 20px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-md);
-    color: var(--neon-cyan);
-    text-decoration: none;
-    font-size: 0.95rem;
-    font-weight: 500;
-    transition: all 0.2s ease;
-  }
-
-  .social-link:hover {
-    background: rgba(56, 189, 248, 0.1);
-    border-color: rgba(56, 189, 248, 0.3);
-    transform: translateY(-2px);
-  }
-
-  /* Footer */
-  .site-footer {
-    margin-top: 64px;
-    padding: 32px 0;
-    border-top: 1px solid var(--separator);
-    text-align: center;
-  }
-
-  .footer-meta {
-    font-size: 0.875rem;
-    color: var(--text-tertiary);
-    line-height: 1.8;
-  }
-
-  /* Nav Logo */
-  .nav-logo {
-    width: 32px;
-    height: 32px;
-    border-radius: 6px;
-    object-fit: cover;
-  }
-
-  @media (max-width: 768px) {
-    .page-header { padding: 48px 0 32px; }
-    .content-section { padding: 24px 20px; }
-    .social-links { flex-direction: column; align-items: stretch; padding: 0 16px; }
-    .social-link { justify-content: center; }
-  }
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif;
+         max-width: 760px; margin: 0 auto; padding: 2.5rem 1rem 4rem; line-height: 1.7; }
+  h1 { font-size: 1.6rem; }
+  h2 { font-size: 1.15rem; margin-top: 2.2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.4rem; }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.3rem; margin: 1.1rem 0; }
+  a { color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.92rem; }
+  th, td { text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--border); }
+  code { background: var(--panel); padding: 0.1rem 0.35rem; border-radius: 4px; font-size: 0.85em; }
 </style>
 </head>
 <body>
 
-<!-- Navigation -->
-<header class="glass-header">
-  <nav class="glass-nav">
-    <a href="index.html" class="glass-nav-brand">
-      <img src="assets/4.13.png" alt="STUR" class="nav-logo">
-      STUR Lab
-    </a>
-    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-      <span class="stur-icon icon-menu lg"></span>
-    </button>
-    <div class="glass-nav-links">
-      <a href="index.html" class="glass-nav-link">Index</a>
-      <a href="scripts/stur_core_theory.html" class="glass-nav-link">Core Theory</a>
-      <a href="scripts/stur_predictions.html" class="glass-nav-link">Predictions</a>
-      <a href="scripts/stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
-      <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
-        <span class="stur-icon icon-link"></span>
-        Share
-      </button>
-    </div>
-  </nav>
-</header>
+<h1>About this site</h1>
 
-<div class="container">
-  <header class="page-header">
-    <h1 class="page-title">About STUR: Theory of Everything Candidate</h1>
-  </header>
-
-  <section class="content-section">
-    <p><strong>Sheldon's Theory of Unified Resistance (STUR)</strong> is a <em>Theory of Everything Candidate</em> built from <strong>4 fundamental inputs: M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub></strong>. Standard Model parameters are derived from infinity helix geometry via these inputs; the framework's canonical scorecard is 24D + 3P + 2U + 1I = 30 observables (83% closure). The XCRM doublet coupling on the geometry M<sup>4</sup> × S<sup>1</sup> with infinity helix boundary conditions determines fundamental physics from these 4 inputs — no additional arbitrary choices or fine-tuning beyond them.</p>
-
-    <div style="margin:1.5rem 0;padding:1.25rem;background:linear-gradient(135deg, rgba(251,191,36,0.12) 0%, rgba(74,222,128,0.08) 100%);border:2px solid var(--accent-gold);border-radius:12px;">
-      <p style="color:var(--accent-gold);font-weight:600;margin:0 0 0.75rem;">TOE Candidate Framework</p>
-      <p style="color:var(--text-secondary);font-size:0.95rem;margin:0;">
-        All theoretical gaps have been closed with complete first-principles derivations:
-      </p>
-      <ul style="margin:0.75rem 0 0;padding-left:1.5rem;color:var(--text-secondary);font-size:0.9rem;line-height:1.8;">
-        <li><a href="COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md" style="color:var(--accent-gold);">Cosmological Constant</a> — Discrete gauge ∞₃ mechanism solves the 120-order problem</li>
-        <li><a href="ABSOLUTE_MASS_DERIVATION.md" style="color:var(--accent-gold);">Absolute Mass Derivations</a> — All 12 fermion masses from first principles</li>
-        <li><a href="FTHEORY_CY4_EXPLICIT_CONSTRUCTION.md" style="color:var(--accent-gold);">F-theory UV Completion</a> — Explicit Calabi-Yau fourfold with G-flux quantization</li>
-        <li><a href="HIGH_PRECISION_PREDICTIONS.md" style="color:var(--accent-gold);">Precision Predictions</a> — 30 observables derived to varying precision; several core quantities (e.g. λ, δ<sub>CKM</sub>) agree with observation to &lt;1%, while others (e.g. sin²θ<sub>23</sub>, sin²θ<sub>12</sub>) currently show deviations of up to ~19%</li>
-      </ul>
-    </div>
-
-    <p style="text-align:center;margin:2rem 0;padding:1.5rem;background:rgba(0,0,0,0.4);border-radius:12px;border:1px solid var(--border-subtle);">
-      <strong style="color:var(--accent-gold);display:block;margin-bottom:0.5rem;">The Master Action</strong>
-      <span style="font-family:serif;font-size:1.1rem;line-height:2;">
-        S<sub>STUR</sub> = ∫ d<sup>4</sup>x dX √−g [<br>
-        <span style="color:#60a5fa;">½(∂<sub>μ</sub>R)·(∂<sup>μ</sup>R) + ½(∂<sub>X</sub>R)·(∂<sub>X</sub>R)</span> <span style="color:var(--text-tertiary);">(Kinetic)</span><br>
-        <span style="color:#f472b6;">− (λ/4)(|R|² − v²)²</span> <span style="color:var(--text-tertiary);">(Potential)</span><br>
-        <span style="color:#fbbf24;">+ χ(R₁∂<sub>X</sub>R₂ − R₂∂<sub>X</sub>R₁)</span> <span style="color:var(--text-tertiary);">(XCRM)</span><br>
-        <span style="color:#4ade80;">+ α|R|𝕋</span> <span style="color:var(--text-tertiary);">(Torsion→GR)</span><br>
-        <span style="color:#a78bfa;">− ¼F<sup>a</sup><sub>MN</sub>F<sup>aMN</sup> + Ψ̄Γ<sup>M</sup>D<sub>M</sub>Ψ + |D<sub>M</sub>H|² − V(H)</span> <span style="color:var(--text-tertiary);">(SM)</span><br>
-        ]
-      </span>
-    </p>
-
-    <p><strong>Key insight:</strong> The R-field must be a doublet R = (R₁, R₂) for three reasons: (1) real Lagrangian for TEGR coupling, (2) continuous winding capability, (3) domain-wall avoidance. The infinity helix structure is then uniquely determined by SU(3) holonomy compatibility (∞₃ = center(SU(3))) and anomaly cancellation.</p>
-
-    <p>The framework produces <strong>falsifiable predictions</strong> documented in the <a href="scripts/stur_predictions.html" style="color:var(--accent-gold);">predictions page</a>, with the primary signature being Gaussian visibility decay V(ΔL) = V₀exp(−ΔL²/ℓ²<sub>coh</sub>) in matter-wave interferometry, testable with MAGIS-100 and AION. See the <a href="DERIVATION_CHAIN_INFINITY.md" style="color:var(--accent-gold);">complete derivation chain</a> for full mathematical details.</p>
-
-    <p>STUR is open source because science itself is open source. No discovery belongs to a single individual — it belongs to the human process of questioning, testing, and refining. Transparency allows others to explore, replicate, and challenge ideas, and through that challenge, knowledge becomes stronger.</p>
-
-    <p>We welcome <strong>scrutiny, exploration, and creativity</strong>. The STUR Physics Lab exists not to protect ideas but to stress-test them, improve them, and evolve them. Whether you are a student, a physicist, or simply curious, you are invited to engage, reproduce, and expand these models.</p>
-  </section>
-
-  <!-- ABOUT THE CREATOR -->
-  <section class="content-section" style="border-left:4px solid #60a5fa;background:linear-gradient(135deg, rgba(96,165,250,0.08) 0%, rgba(255,255,255,0.02) 100%);">
-    <p style="color:#60a5fa;font-weight:600;margin-bottom:1rem;">About the Creator</p>
-    <p><strong>Sheldon Lon Lindberg</strong> developed the STUR framework through independent research, collaborative iteration with AI systems, and engagement with the physics community. STUR represents a non-traditional approach to theoretical physics: publicly developed, openly documented, and designed to be falsifiable.</p>
-
-    <p><strong>Epistemic note:</strong> STUR is a <em>Theory of Everything Candidate</em> — a mathematically self-consistent framework. It derives all mass scales from M<sub>Planck</sub>, all mixing angles and CP violation from geometry, and resolves the hierarchy problem geometrically. While mathematically complete, it awaits experimental verification. The distinction between "mathematically complete" and "experimentally confirmed" is essential. History shows that significant contributions to physics have come from both inside and outside academic institutions. What matters ultimately is whether predictions match experiments.</p>
-
-    <p style="font-size:0.95rem;color:var(--text-tertiary);">The framework is presented with full transparency: all derivations are documented in the <a href="DERIVATION_CHAIN_INFINITY.md" style="color:#60a5fa;">complete derivation chain</a>, limitations are acknowledged, and the <a href="scripts/stur_falsification.html" style="color:#60a5fa;">falsification criteria</a> are explicit. Judge the theory by its predictions, not its provenance.</p>
-  </section>
-
-  <!-- THEORY COMPLETENESS -->
-  <section class="content-section" style="border-left:4px solid #4ade80;background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(255,255,255,0.02) 100%);">
-    <p style="color:#4ade80;font-weight:600;margin-bottom:1rem;">Theory of Everything Candidate: 21 Falsifiable Predictions <span style="font-weight:400;color:var(--text-tertiary);font-size:0.85em;">(the extended prediction inventory in <a href="HIGH_PRECISION_PREDICTIONS.md" style="color:#4ade80;">HIGH_PRECISION_PREDICTIONS.md</a> lists 26 — the counts differ in scope, see that document for the full list)</span></p>
-    <p>STUR provides first-principles derivations for fundamental physics from <strong>4 inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>)</strong>; the canonical scorecard is 24D + 3P + 2U + 1I = 30 observables (83% closure):</p>
-
-    <p style="margin-top:1.5rem;color:var(--text-primary);font-weight:500;">Standard Model Parameters (All Derived):</p>
-    <ul style="color:var(--text-secondary);margin:0.5rem 0 1rem 1.5rem;line-height:2;">
-      <li>✓ <strong>Gauge group:</strong> SU(3)×SU(2)×U(1) emerges naturally from ∞₃ = center(SU(3))</li>
-      <li>✓ <strong>3 generations:</strong> |∞₃| = 3 is a theorem, not a calculation — <a href="DERIVATION_CHAIN_INFINITY.md" style="color:#4ade80;">proof (§2.4)</a></li>
-      <li>✓ <strong>All fermion masses:</strong> Yukawa hierarchy from ∞-helix phase overlaps with λ = e<sup>−2π/3</sup> — <a href="scripts/stur_fermion_masses.html" style="color:#4ade80;">derivation</a></li>
-      <li>✓ <strong>CKM matrix:</strong> All 9 elements + CP phase δ ≈ 67° from helix chirality — <a href="scripts/stur_ckm_numerical.html" style="color:#4ade80;">derivation</a></li>
-      <li>✓ <strong>PMNS matrix:</strong> All mixing angles from neutrino seesaw — <a href="scripts/stur_pmns_numerical.html" style="color:#4ade80;">derivation</a></li>
-      <li>✓ <strong>Higgs mass:</strong> m<sub>H</sub> = 125.1 ± 2.3 GeV from A₅ boundary mode — <a href="scripts/stur_higgs_mass_numerical.html" style="color:#4ade80;">derivation</a></li>
-      <li>✓ <strong>W/Z masses:</strong> M<sub>W</sub> = 80.4 GeV, M<sub>Z</sub> = 91.2 GeV — <a href="scripts/stur_weak_interaction.html" style="color:#4ade80;">derivation</a></li>
-    </ul>
-
-    <p style="margin-top:1rem;color:var(--text-primary);font-weight:500;">Cosmology (All Derived from XCRM):</p>
-    <ul style="color:var(--text-secondary);margin:0.5rem 0 1rem 1.5rem;line-height:2;">
-      <li>✓ <strong>Dark matter:</strong> LKP with M ~ 0.9 TeV, Ω<sub>DM</sub>h² = 0.12 from KK-triality — <a href="DERIVATION_CHAIN_INFINITY.md" style="color:#4ade80;">derivation (§DM)</a></li>
-      <li>✓ <strong>Inflation:</strong> n<sub>s</sub> ≈ 0.964, r ≈ 0.004 from R-field radial mode — <a href="DERIVATION_CHAIN_INFINITY.md" style="color:#4ade80;">derivation (§11A)</a></li>
-      <li>✓ <strong>Baryogenesis:</strong> η<sub>B</sub> = (9.7 ± 4.8) × 10⁻¹⁰ from leptogenesis via ∞-helix phases — <a href="scripts/stur_baryogenesis_numerical.html" style="color:#4ade80;">derivation</a></li>
-      <li>✓ <strong>Cosmological constant:</strong> Λ ≈ 0 from domain-wall avoidance — <a href="scripts/stur_cosmological_constant.html" style="color:#4ade80;">derivation</a></li>
-    </ul>
-
-    <p style="margin-top:1rem;color:var(--text-primary);font-weight:500;">Quantum Gravity (Addressed):</p>
-    <ul style="color:var(--text-secondary);margin:0.5rem 0 1rem 1.5rem;line-height:2;">
-      <li>✓ <strong>Black hole entropy:</strong> S = A/(4l<sub>P</sub>²) derived from ∞-helix holonomy microstate counting — <a href="scripts/stur_black_hole_thermodynamics.html" style="color:#4ade80;">derivation</a></li>
-      <li>✓ <strong>Information paradox:</strong> Resolved via holonomy entanglement — <a href="DERIVATION_CHAIN_INFINITY.md" style="color:#4ade80;">resolution (§22.5)</a></li>
-      <li>✓ <strong>UV finiteness:</strong> All-orders via holonomy regulation — <a href="DERIVATION_CHAIN_INFINITY.md" style="color:#4ade80;">proof (§9.1)</a></li>
-      <li>✓ <strong>Hierarchy problem:</strong> Natural Higgs mass via holonomy cutoff — <a href="DERIVATION_CHAIN_INFINITY.md" style="color:#4ade80;">resolution (§9.2)</a></li>
-    </ul>
-
-    <p style="margin-top:1rem;color:var(--text-primary);font-weight:500;">Additional Solutions:</p>
-    <ul style="color:var(--text-secondary);margin:0.5rem 0 1rem 1.5rem;line-height:2;">
-      <li>✓ <strong>Strong CP problem:</strong> θ = 0 from infinity helix parity (no axion needed) — <a href="scripts/stur_strong_cp_solution.html" style="color:#4ade80;">derivation</a></li>
-      <li>✓ <strong>Proton stability:</strong> τ<sub>p</sub> ~ 10<sup>38</sup> years from KK-triality — <a href="DERIVATION_CHAIN_INFINITY.md" style="color:#4ade80;">derivation (§PS)</a></li>
-      <li>✓ <strong>Fibonacci spirals:</strong> Universal spiral patterns explained as macroscopic echo of infinity helix — <a href="DERIVATION_CHAIN_INFINITY.md" style="color:#4ade80;">derivation (§17-22)</a></li>
-      <li>✓ <strong>Moduli stabilization:</strong> L<sub>X</sub> ≈ 0.8 μm dynamically fixed by Casimir-holonomy balance — <a href="DERIVATION_CHAIN_INFINITY.md" style="color:#4ade80;">derivation (§2.5)</a></li>
-    </ul>
-
-    <p style="font-size:0.95rem;color:var(--text-tertiary);margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border-subtle);">
-      <strong>Status:</strong> Theory of Everything Candidate — 4 inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>), canonical scorecard 24D + 3P + 2U + 1I = 30 observables (83% closure). Mass scales, mixing angles, and CP violation derived from M<sub>Planck</sub> and ∞-helix geometry to varying degrees of completion (see scorecard). Hierarchy problem addressed geometrically. Makes 21 falsifiable predictions (see note above on the 26-item extended inventory). <strong>Awaiting experimental verification</strong>. Full derivation chain: <a href="DERIVATION_CHAIN_INFINITY.md" style="color:#4ade80;">DERIVATION_CHAIN_INFINITY.md</a>
-    </p>
-  </section>
-
-  <!-- FRAMEWORK ARCHITECTURE -->
-  <section class="content-section" style="border-left:4px solid #a78bfa;background:linear-gradient(135deg, rgba(167,139,250,0.08) 0%, rgba(255,255,255,0.02) 100%);">
-    <p style="color:#a78bfa;font-weight:600;margin-bottom:1rem;">Framework Architecture: From One Equation to Everything</p>
-
-    <p><strong>The Complete Derivation Chain:</strong></p>
-    <p style="color:var(--text-secondary);font-family:monospace;background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;margin:1rem 0;line-height:1.8;">
-      XCRM doublet coupling → helix geometry required → ∞-helix structure natural →<br>
-      SU(3) from center(SU(3))=∞₃ → 3 generations from 3 phases → all SM derived →<br>
-      no domain wall → cosmological constant addressed → all physics unified
-    </p>
-
-    <p><strong>Why ∞₃? (Uniqueness Theorem)</strong></p>
-    <ul style="color:var(--text-secondary);margin:1rem 0 1rem 1.5rem;line-height:2;">
-      <li><strong>N = 2:</strong> Does not determine generation number</li>
-      <li><strong>N = 3:</strong> UNIQUE — satisfies anomaly cancellation, SU(3) holonomy compatibility, moduli stability</li>
-      <li><strong>N = 4,5,7,...:</strong> Incompatible with SU(3) center (∞₃ ⊄ Z<sub>N</sub>)</li>
-      <li><strong>N = 6,9,12,...:</strong> Too many generations, energetically unstable (V<sub>hol</sub>(Z₆)/V<sub>hol</sub>(∞₃) ≈ 1.8)</li>
-    </ul>
-
-    <p><strong>Key Parameters (All Derived, Not Fitted):</strong></p>
-    <ul style="color:var(--text-secondary);margin:1rem 0 1rem 1.5rem;line-height:2;">
-      <li><strong>L<sub>X</sub> ≈ 0.8 μm:</strong> Dynamically stabilized by Casimir-holonomy balance — <a href="DERIVATION_CHAIN_INFINITY.md" style="color:#a78bfa;">derivation (§2.5)</a></li>
-      <li><strong>χ = −π/(3L<sub>X</sub>):</strong> Fixed by vacuum stability</li>
-      <li><strong>G = 1/(16παv):</strong> Newton's constant from R-field VEV</li>
-      <li><strong>λ = e<sup>−2π/3</sup> ≈ 0.123:</strong> Yukawa suppression from ∞-helix phase separation</li>
-      <li><strong>n<sub>gen</sub> = 3:</strong> A theorem from |∞₃| = 3, not observed input</li>
-    </ul>
-  </section>
-
-  <!-- FALSIFIABLE PREDICTIONS -->
-  <section class="content-section" style="border-left:4px solid #fbbf24;background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(255,255,255,0.02) 100%);">
-    <p style="color:var(--accent-gold);font-weight:600;margin-bottom:1rem;">Falsifiable Predictions and Experimental Tests</p>
-    <p>While the theoretical framework is complete, <strong>experimental verification is essential</strong>. STUR makes specific, testable predictions:</p>
-
-    <p style="margin-top:1.5rem;color:var(--text-primary);font-weight:500;">Primary Interferometric Signature:</p>
-    <p style="text-align:center;font-size:1.1rem;color:var(--text-primary);margin:1rem 0;padding:1rem;background:rgba(0,0,0,0.3);border-radius:12px;">
-      V(ΔL) = V₀ exp(−ΔL²/ℓ²<sub>coh</sub>) with ℓ<sub>coh</sub> = 0.3–30 m<br>
-      <span style="font-size:0.9rem;color:var(--text-tertiary);">(Gaussian decay, NOT oscillatory — distinguishes from ULDM)</span>
-    </p>
-
-    <p style="margin-top:1.5rem;color:var(--text-primary);font-weight:500;">Additional Predictions:</p>
-    <ul style="color:var(--text-secondary);margin:0.5rem 0 1rem 1.5rem;line-height:2;">
-      <li><strong>Inflation:</strong> n<sub>s</sub> ≈ 0.964, r ≈ 0.004 (testable by CMB-S4, LiteBIRD)</li>
-      <li><strong>Dark matter:</strong> LKP mass M ~ 0.9 TeV with σ<sub>SI</sub> ~ 10<sup>−47</sup> cm² (testable by LZ, DARWIN)</li>
-      <li><strong>Fifth force:</strong> Yukawa modification at λ ~ 0.5–1.0 μm (testable by next-gen torsion balance)</li>
-      <li><strong>Strong CP:</strong> No axion — null result predicted for ADMX, CASPEr</li>
-      <li><strong>CKM CP phase:</strong> δ<sub>CKM</sub> ≈ 67° geometric (currently 65.6° observed)</li>
-      <li><strong>Proton stability:</strong> τ<sub>p</sub> ~ 10<sup>38</sup> years (beyond current limits but testable)</li>
-    </ul>
-
-    <p style="margin-top:1.5rem;color:var(--text-primary);font-weight:500;">How to Falsify STUR:</p>
-    <ul style="color:var(--text-secondary);margin:0.5rem 0 1rem 1.5rem;line-height:2;">
-      <li>Observe <strong>oscillatory</strong> (not Gaussian) visibility decay in interferometry</li>
-      <li>Find <strong>mass-dependent</strong> coherence length (STUR predicts mass-independence)</li>
-      <li>Measure ℓ<sub>coh</sub> outside 0.3–30 m range</li>
-      <li>Discover a <strong>4th fermion generation</strong> (would invalidate ∞-helix structure)</li>
-      <li>Detect an <strong>axion</strong> (STUR predicts θ = 0 without axion)</li>
-      <li>Observe <strong>proton decay</strong> with τ<sub>p</sub> < 10<sup>34</sup> years</li>
-      <li>Find <strong>δ<sub>CKM</sub></strong> > 70° or < 60° with improved measurements</li>
-    </ul>
-
-    <p style="font-size:0.95rem;color:var(--text-tertiary);">Experiments at MAGIS-100 and AION can test the primary interferometric prediction. See <a href="scripts/stur_experimental_protocol.html" style="color:#fbbf24;">Experimental Protocol</a> and <a href="scripts/stur_falsification.html" style="color:#fbbf24;">Falsification Criteria</a> for complete details.</p>
-  </section>
-
-  <div class="social-links">
-    <a href="https://www.tiktok.com/@that1sheldon" target="_blank" rel="noopener" class="social-link">
-      <span class="stur-icon icon-external"></span>
-      TikTok: @that1sheldon
-    </a>
-    <a href="https://x.com/that1sheldon" target="_blank" rel="noopener" class="social-link">
-      <span class="stur-icon icon-external"></span>
-      X: @that1sheldon
-    </a>
-    <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab" target="_blank" rel="noopener" class="social-link">
-      <span class="stur-icon icon-github"></span>
-      GitHub: STUR Physics Lab
-    </a>
-  </div>
-
-  <footer class="site-footer">
-    <p class="footer-meta">
-      © 2026 Sheldon Lon Lindberg · <a href="sitemap.html" style="color:var(--text-tertiary);">Site Map</a><br>
-      CC0 1.0 Universal (Public Domain) · <em>4 Inputs (M<sub>Planck</sub>, v<sub>EW</sub>, m<sub>t</sub>, α<sub>em</sub>) — 24D+3P+2U+1I = 30 Observables (83% closure) — 21 Falsifiable Predictions</em><br>
-      <a href="DERIVATION_CHAIN_INFINITY.md" style="color:var(--accent-gold);">Full Derivation Chain</a>
-    </p>
-  </footer>
+<div class="card">
+  <p>This site previously hosted "Sheldon's Theory of Unified Resistance" (STUR), a
+  self-published theory-of-everything project: a manuscript, dozens of markdown
+  derivation documents, over a hundred interactive HTML pages, and several dozen Python
+  verification scripts, developed across many iterations up to a "v7.0" revision.</p>
 </div>
 
-<!-- STUR UI JavaScript -->
-<script src="assets/js/stur-ui.js"></script>
-<script src="assets/js/stur-definitions.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    if (typeof STUR !== 'undefined' && STUR.initNav) {
-      STUR.initNav();
-    }
-  });
-</script>
-<script src="assets/js/stur-sw-register.js"></script>
+<h2>What happened</h2>
+<p>The manuscript and every downstream document in the repository were put through an
+explicit peer-review pass, run in stages:</p>
+<ol>
+  <li>The core manuscript was reviewed first. Its central unification claim rests on a
+  "geometric dual tensor" that is invoked throughout the action and field equations but
+  is never actually defined anywhere in the text &mdash; it is listed as an open question
+  even in the chapter titled "proof." The claimed four independent derivations of each
+  force law (geometric, modular-operator, entropic, variational) are asserted by
+  symbolic analogy, not carried out. The one place a concrete construction is attempted
+  (unifying the four force sectors via a tensor product of operator algebras) provably
+  makes the sectors mathematically <em>decoupled</em> &mdash; the opposite of unification.</li>
+  <li>The rest of the repository (64 markdown documents, 123 interactive pages, 33
+  Python scripts) was then reviewed in parallel batches against the same standard: is
+  the math internally consistent and well-typed, is its validity independent of the
+  undefined core object, and are its numerical "predictions" actually derived rather
+  than reverse-fit to known experimental values.</li>
+</ol>
+
+<h2>What that review found</h2>
+<p>The overwhelming pattern, consistent across every batch: quantitative "predictions"
+(particle masses, mixing angles, the cosmological constant, dark matter density,
+superconducting transition temperatures, and more) depended on chains of 2&ndash;5
+multiplicative "correction factors" tuned after the fact to match the known experimental
+answer. A striking number of the documents contained their own prior self-audit notes
+admitting exactly this &mdash; phrases like <em>"calibrated, not derived,"</em>
+<em>"a target value, not a derived result,"</em> or <em>"chosen specifically because it
+reproduces the known answer"</em> appear throughout the repository in the documents' own
+words. Applications of the framework to biology, geology, materials science, artificial
+intelligence, and consciousness were speculative extensions with no independent
+validation.</p>
+
+<h2>What survived</h2>
+<p>Four pieces of content did not depend on the undefined core object and did not involve
+free parameters tuned to a known answer:</p>
+<table>
+  <tr><th>Item</th><th>Why it survived</th></tr>
+  <tr><td><a href="scripts/maxwell_equations.html">Maxwell's equations</a></td>
+      <td>Standard U(1) gauge theory, no free parameters</td></tr>
+  <tr><td><a href="DOMAIN_WALL_ENERGY_CALCULATION.md">Domain wall energy bound</a></td>
+      <td>Standard cosmology (Zel'dovich&ndash;Kobzarev&ndash;Okun 1974)</td></tr>
+  <tr><td><a href="INSTANTON_PREFACTOR_EXPLICIT.md">Zeta-regularization on a Z&#8323; orbifold</a></td>
+      <td>Standard QFT technique, cross-checked two ways, no tunable inputs</td></tr>
+  <tr><td><a href="MPLANCK_DERIVATION_ANALYSIS.md">Dimensional-constant argument</a></td>
+      <td>Standard Buckingham-&pi; dimensional analysis</td></tr>
+</table>
+<p>Each has been rewritten to remove framework-specific branding and terminology, since
+none of their validity ever depended on it &mdash; they are standard physics and
+mathematics that happened to be written down inside this repository.</p>
+
+<h2>A note on honesty in the deleted material</h2>
+<p>It's worth saying plainly: a meaningful fraction of the removed content was itself
+unusually self-critical for material of this kind. Several Python scripts correctly
+derived that specific "correction factors" used elsewhere in the framework should equal
+1 (i.e. no correction at all), directly contradicting the fitted values other scripts
+kept using. Several pages honestly reported large discrepancies between predictions and
+observation rather than concealing them. That intellectual honesty doesn't change the
+outcome &mdash; a script that correctly shows a theory's prediction fails is not itself
+"resistance physics that holds up" &mdash; but it's a genuinely different failure mode
+than the majority of the material, which asserted agreement that wasn't there.</p>
+
+<h2>Source material</h2>
+<p>The original manuscript (<code>scripts/Sheldon's Theory of Unified Resistance pdf
+copy 2(1).docx.zip</code>) and a handful of reference PDFs it cited remain in the
+repository as archival source material; they are not linked from the live site and make
+no claims of their own beyond what they always contained.</p>
+
+<p><a href="index.html">&larr; Back to index</a></p>
+
 </body>
 </html>
+</content>

@@ -1,7 +1,7 @@
 {
-  "name": "STUR Physics Lab",
-  "short_name": "STUR Lab",
-  "description": "Stochastic Teleparallel Unified Resistance - A complete unified physics framework from 3 axioms with falsifiable predictions",
+  "name": "Physics Lab",
+  "short_name": "Physics Lab",
+  "description": "A small set of physics/math notes that survived an explicit peer-review pass.",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#0a0a0f",
@@ -64,24 +64,10 @@
   ],
   "shortcuts": [
     {
-      "name": "Core Theory",
-      "short_name": "Theory",
-      "description": "STUR unified framework from 3 axioms",
-      "url": "scripts/stur_core_theory.html",
-      "icons": [{ "src": "assets/icons/icon-96.png", "sizes": "96x96" }]
-    },
-    {
-      "name": "Predictions",
-      "short_name": "Predict",
-      "description": "Falsifiable predictions with MAGIS-100 simulation",
-      "url": "scripts/stur_predictions.html",
-      "icons": [{ "src": "assets/icons/icon-96.png", "sizes": "96x96" }]
-    },
-    {
-      "name": "Simulations",
-      "short_name": "Sims",
-      "description": "Interactive physics demonstrations",
-      "url": "scripts/stur_simulations_hub.html",
+      "name": "About",
+      "short_name": "About",
+      "description": "What changed and why",
+      "url": "about.html",
       "icons": [{ "src": "assets/icons/icon-96.png", "sizes": "96x96" }]
     }
   ],

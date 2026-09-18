@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Maxwell's Equations from the U(1) Gauge Action</title>
+<meta name="description" content="Standard textbook derivation of Maxwell's equations from the U(1) Yang-Mills action via Euler-Lagrange variation.">
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root {
+    --bg: #0b0d12; --panel: #12151c; --text: #e6e8ee; --text-dim: #9aa1b0;
+    --accent: #4ade80; --border: #232838;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg:#f7f8fb; --panel:#ffffff; --text:#1a1d24; --text-dim:#5b6472; --border:#e2e5ec; }
+  }
+  body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif;
+         max-width: 780px; margin: 0 auto; padding: 2rem 1rem 4rem; line-height: 1.65; }
+  h1 { font-size: 1.6rem; margin-bottom: 0.25rem; }
+  .subtitle { color: var(--text-dim); margin-top: 0; }
+  h2 { font-size: 1.2rem; margin-top: 2.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.4rem; }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; margin: 1rem 0; }
+  .eq { text-align: center; margin: 1.25rem 0; overflow-x: auto; }
+  a { color: var(--accent); }
+  footer { margin-top: 3rem; color: var(--text-dim); font-size: 0.85rem; }
+</style>
+</head>
+<body>
+
+<h1>Maxwell's Equations from the U(1) Gauge Action</h1>
+<p class="subtitle">Standard electromagnetism, derived from a gauge-invariant Lagrangian by variation</p>
+
+<div class="card">
+  <p>This page derives the four Maxwell equations from the U(1) Yang-Mills action in the
+  abelian (linear) limit. This is textbook gauge field theory — no additional physical
+  assumptions are used beyond gauge invariance and the standard variational principle.</p>
+</div>
+
+<h2>1. The Gauge Field and Field Strength</h2>
+<p>Introduce a U(1) gauge connection $A_\mu$ (the four-potential). Its field strength
+(curvature) is the antisymmetric tensor</p>
+<div class="eq">\[F_{\mu\nu} = \partial_\mu A_\nu - \partial_\nu A_\mu\]</div>
+<p>which is invariant under the gauge transformation $A_\mu \to A_\mu + \partial_\mu\lambda$
+for any scalar function $\lambda(x)$.</p>
+
+<h2>2. The Action</h2>
+<p>The gauge-invariant, Lorentz-invariant action built from $F_{\mu\nu}$ at lowest order,
+with a matter current $J^\mu$ minimally coupled, is</p>
+<div class="eq">\[S = \int d^4x \left[-\tfrac{1}{4}F_{\mu\nu}F^{\mu\nu} - J^\mu A_\mu\right]\]</div>
+
+<h2>3. Equation of Motion (Inhomogeneous Maxwell Equations)</h2>
+<p>Varying $S$ with respect to $A_\mu$ and applying the Euler&ndash;Lagrange equation
+$\partial_\nu\!\left(\dfrac{\partial\mathcal{L}}{\partial(\partial_\nu A_\mu)}\right) -
+\dfrac{\partial\mathcal{L}}{\partial A_\mu} = 0$ gives</p>
+<div class="eq">\[\partial_\nu F^{\mu\nu} = J^\mu\]</div>
+<p>This single tensor equation contains two of Maxwell's four equations. Writing out the
+$\mu=0$ and $\mu=i$ components in terms of $\vec E$ and $\vec B$ (via
+$F^{0i}=E^i$, $F^{ij}=-\epsilon^{ijk}B_k$) recovers</p>
+<div class="eq">\[\nabla\cdot\vec E = \rho \qquad\qquad \nabla\times\vec B - \partial_t\vec E = \vec J\]</div>
+<p>(Gauss's law and the Amp&egrave;re&ndash;Maxwell law, in units with $\varepsilon_0=\mu_0=1$.)</p>
+
+<h2>4. Bianchi Identity (Homogeneous Maxwell Equations)</h2>
+<p>Because $F_{\mu\nu}=\partial_\mu A_\nu-\partial_\nu A_\mu$ is built from a potential,
+it automatically satisfies the Bianchi identity</p>
+<div class="eq">\[\partial_{[\lambda}F_{\mu\nu]} = 0\]</div>
+<p>which is equivalent to the remaining two Maxwell equations:</p>
+<div class="eq">\[\nabla\cdot\vec B = 0 \qquad\qquad \nabla\times\vec E + \partial_t\vec B = 0\]</div>
+<p>(No magnetic monopoles, and Faraday's law.) These hold identically — they are a
+consequence of $F$ having a potential, not a separate dynamical equation.</p>
+
+<h2>5. Charge Conservation</h2>
+<p>Because $F^{\mu\nu}$ is antisymmetric, $\partial_\mu\partial_\nu F^{\mu\nu} \equiv 0$,
+so the equation of motion $\partial_\nu F^{\mu\nu}=J^\mu$ forces</p>
+<div class="eq">\[\partial_\mu J^\mu = 0\]</div>
+<p>Charge conservation is automatic once the gauge-invariant action is written down; it
+need not be imposed separately.</p>
+
+<h2>Summary</h2>
+<div class="card">
+  <p>All four of Maxwell's equations follow from two ingredients: (1) an action built from
+  the field-strength tensor of a U(1) connection, varied by the standard Euler&ndash;Lagrange
+  procedure, and (2) the Bianchi identity, which is automatic once $F_{\mu\nu}$ is derived
+  from a potential $A_\mu$. No extra structure, free parameters, or additional physical
+  postulates are required beyond gauge invariance itself.</p>
+</div>
+
+<footer>
+  Standard gauge field theory (see e.g. Jackson, <em>Classical Electrodynamics</em>;
+  Peskin &amp; Schroeder, <em>An Introduction to Quantum Field Theory</em>, ch. 2 and 15).
+</footer>
+
+</body>
+</html>
+</content>

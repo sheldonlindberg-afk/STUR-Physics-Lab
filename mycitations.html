@@ -2,396 +2,57 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>References – STUR Physics Lab</title>
-<meta name="description" content="References for the STUR Physics Framework. Academic references, Zenodo DOIs, and core theory sources.">
-<meta property="og:title" content="STUR Citations & References">
-<meta property="og:description" content="Academic references and citations for the STUR unified physics framework.">
-<meta property="og:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/4.13.png">
-<meta property="og:url" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/mycitations.html">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="STUR Citations & References">
-<meta name="twitter:description" content="Academic references and citations for the STUR unified physics framework.">
-<meta name="twitter:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/4.13.png">
-
-<!-- PWA & iOS meta tags -->
-<meta name="theme-color" content="#4ade80">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="STUR">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="assets/4.13.png">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>References</title>
 <link rel="icon" type="image/png" href="assets/4.13.png">
-
-<!-- STUR Theme System -->
-<link rel="stylesheet" href="assets/css/stur-core.css">
-<link rel="stylesheet" href="assets/css/stur-glass.css">
-<link rel="stylesheet" href="assets/css/stur-icons.css">
-
 <style>
-  :root {
-    --font-system: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    --bg-primary: #000000;
-    --text-primary: #FFFFFF;
-    --text-secondary: #EBEBF5;
-    --text-tertiary: #AEAEB2;
-    --accent-blue: #0A84FF;
-    --accent-gold: #fbbf24;
-    --accent-cyan: #22d3ee;
-    --border-subtle: rgba(255, 255, 255, 0.08);
-    --separator: rgba(255, 255, 255, 0.06);
-    --radius-md: 16px;
-    --radius-lg: 22px;
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.16);
+  :root { --bg:#0b0d12; --panel:#12151c; --text:#e6e8ee; --text-dim:#9aa1b0; --accent:#4ade80; --border:#232838; }
+  @media (prefers-color-scheme: light) {
+    :root { --bg:#f7f8fb; --panel:#ffffff; --text:#1a1d24; --text-dim:#5b6472; --border:#e2e5ec; }
   }
-
-  *, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  html {
-    font-size: 16px;
-    scroll-behavior: smooth;
-  }
-
-  body {
-    font-family: var(--font-system);
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  .container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
-
-  @media (max-width: 640px) {
-    .container { padding: 0 16px; }
-  }
-
-  /* Page Header */
-  .page-header {
-    text-align: center;
-    padding: 64px 0 48px;
-  }
-
-  .page-title {
-    font-size: clamp(1.75rem, 5vw, 2.5rem);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    margin-bottom: 16px;
-    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-gold) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  /* Content Section */
-  .content-section {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
-    padding: 32px;
-    margin-bottom: 32px;
-  }
-
-  .content-section p {
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-    font-size: 1.05rem;
-    line-height: 1.8;
-  }
-
-  .content-section p:last-child {
-    margin-bottom: 0;
-  }
-
-  .content-section strong {
-    color: var(--accent-gold);
-    font-weight: 600;
-  }
-
-  /* Section Headers */
-  .section-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--accent-cyan);
-    margin: 48px 0 24px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border-subtle);
-  }
-
-  .section-title:first-of-type {
-    margin-top: 0;
-  }
-
-  /* References */
-  .refs {
-    margin: 0;
-    padding: 0;
-  }
-
-  .ref-item {
-    color: var(--text-secondary);
-    margin-bottom: 16px;
-    font-size: 0.95rem;
-    line-height: 1.7;
-    padding-left: 0;
-  }
-
-  .ref-item em {
-    color: var(--text-primary);
-    font-style: italic;
-  }
-
-  .ref-item a {
-    color: var(--accent-cyan);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .ref-item a:hover {
-    color: var(--accent-gold);
-    text-decoration: underline;
-  }
-
-  .ref-category {
-    font-weight: 600;
-    color: var(--accent-gold);
-    margin: 24px 0 12px;
-    font-size: 0.95rem;
-  }
-
-  .ref-category:first-child {
-    margin-top: 0;
-  }
-
-  /* Footer */
-  .site-footer {
-    margin-top: 64px;
-    padding: 32px 0;
-    border-top: 1px solid var(--separator);
-    text-align: center;
-  }
-
-  .footer-meta {
-    font-size: 0.875rem;
-    color: var(--text-tertiary);
-    line-height: 1.8;
-  }
-
-  /* Nav Logo */
-  .nav-logo {
-    width: 32px;
-    height: 32px;
-    border-radius: 6px;
-    object-fit: cover;
-  }
-
-  @media (max-width: 768px) {
-    .page-header { padding: 48px 0 32px; }
-    .content-section { padding: 24px 20px; }
-  }
+  body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif;
+         max-width: 760px; margin: 0 auto; padding: 2.5rem 1rem 4rem; line-height: 1.7; }
+  h1 { font-size: 1.6rem; }
+  h2 { font-size: 1.05rem; margin-top: 1.8rem; }
+  ul { padding-left: 1.2rem; }
+  li { margin: 0.4rem 0; }
+  a { color: var(--accent); }
 </style>
 </head>
 <body>
+<h1>References</h1>
+<p style="color:var(--text-dim);">Citations for the standard physics/math content currently on this site.
+Full reference lists also appear at the bottom of each page.</p>
 
-<!-- Navigation -->
-<header class="glass-header">
-  <nav class="glass-nav">
-    <a href="index.html" class="glass-nav-brand">
-      <img src="assets/4.13.png" alt="STUR" class="nav-logo">
-      STUR Lab
-    </a>
-    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-      <span class="stur-icon icon-menu lg"></span>
-    </button>
-    <div class="glass-nav-links">
-      <a href="index.html" class="glass-nav-link">Index</a>
-      <a href="scripts/stur_core_theory.html" class="glass-nav-link">Core Theory</a>
-      <a href="scripts/stur_predictions.html" class="glass-nav-link">Predictions</a>
-      <a href="scripts/stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
-      <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
-        <span class="stur-icon icon-link"></span>
-        Share
-      </button>
-    </div>
-  </nav>
-</header>
+<h2>Maxwell's Equations</h2>
+<ul>
+  <li>Jackson, J. D. <em>Classical Electrodynamics</em>.</li>
+  <li>Peskin, M. E. &amp; Schroeder, D. V. <em>An Introduction to Quantum Field Theory</em>, ch. 2 &amp; 15.</li>
+</ul>
 
-<div class="container">
-  <header class="page-header">
-    <h1 class="page-title">References & Citation</h1>
-  </header>
+<h2>Domain Wall Energy</h2>
+<ul>
+  <li>Zel'dovich, Ya. B., Kobzarev, I. Yu., Okun, L. B. (1974). "Cosmological consequences of a spontaneous breakdown of a discrete symmetry." Zh. Eksp. Teor. Fiz. 67, 3&ndash;11.</li>
+  <li>Vilenkin, A., Shellard, E. P. S. (2000). <em>Cosmic Strings and Other Topological Defects</em>. Cambridge University Press.</li>
+  <li>Kibble, T. W. B. (1976). "Topology of cosmic domains and strings." J. Phys. A 9, 1387.</li>
+  <li>Planck Collaboration (2018). "Planck 2018 results. VI. Cosmological parameters." arXiv:1807.06209.</li>
+</ul>
 
-  <section class="content-section" style="background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(74,222,128,0.04) 100%);border-color:rgba(251,191,36,0.3);">
-    <h3 style="color:var(--accent-gold);font-size:1.1rem;margin-bottom:1rem;">How to Cite This Work</h3>
+<h2>Zeta-Function Regularization</h2>
+<ul>
+  <li>Ray, D. B. &amp; Singer, I. M. (1971). "R-torsion and the Laplacian on Riemannian manifolds." Advances in Mathematics 7, 145&ndash;210.</li>
+  <li>Hawking, S. W. (1977). "Zeta function regularization of path integrals in curved spacetime." Comm. Math. Phys. 55, 133&ndash;148.</li>
+  <li>Elizalde, E. et al. (1994). <em>Zeta Regularization Techniques with Applications</em>. World Scientific.</li>
+  <li>Krauss, L. M. &amp; Wilczek, F. (1989). "Discrete Gauge Symmetry in Continuum Theories." Phys. Rev. Lett. 62, 1221.</li>
+</ul>
 
-    <p>If you reference STUR in academic work, please use the following citation:</p>
+<h2>Dimensional Analysis</h2>
+<ul>
+  <li>Buckingham, E. (1914). "On physically similar systems." Physical Review 4(4), 345.</li>
+  <li>Dirac, P. A. M. (1937). "The Cosmological Constants." Nature 139, 323.</li>
+</ul>
 
-    <div style="background:rgba(0,0,0,0.3);border-radius:8px;padding:16px;margin:16px 0;font-family:monospace;font-size:0.85rem;color:var(--text-secondary);overflow-x:auto;">
-<pre style="margin:0;white-space:pre-wrap;">@misc{stur2025,
-  author       = {Lindberg, Sheldon},
-  title        = {{STUR}: {S}heldon's {T}heory of {U}nified {R}esistance --
-                  A {Z}_3 Helix Framework for Unified Physics},
-  year         = {2025},
-  howpublished = {\url{https://sheldonlindberg-afk.github.io/STUR-Physics-Lab}},
-  note         = {Theory of Everything candidate with 26 falsifiable predictions
-                  (HIGH_PRECISION_PREDICTIONS.md extended inventory; the core
-                  framework overview on about.html lists 21 — scope differs)}
-}</pre>
-    </div>
-
-    <p style="font-size:0.9rem;color:var(--text-tertiary);">Or in plain text: Lindberg, S. (2025). <em>STUR: Sheldon's Theory of Unified Resistance — A ∞₃ Helix Framework for Unified Physics.</em> https://sheldonlindberg-afk.github.io/STUR-Physics-Lab</p>
-    <p style="font-size:0.85rem;color:var(--text-tertiary);"><strong>Note:</strong> the "falsifiable predictions" count varies by page/scope across this site — 26 refers to the extended inventory in <a href="HIGH_PRECISION_PREDICTIONS.md" style="color:var(--accent-cyan);">HIGH_PRECISION_PREDICTIONS.md</a>, while <a href="about.html" style="color:var(--accent-cyan);">about.html</a>'s core framework overview cites 21. These have not yet been reconciled into a single canonical count.</p>
-  </section>
-
-  <section class="content-section">
-    <h3 style="color:var(--accent-cyan);font-size:1.1rem;margin-bottom:1rem;">On Validation</h3>
-
-    <p>Peer review serves an important function in science: it filters incremental contributions, catches errors, and maintains standards within established paradigms. This project does not seek to bypass that process out of disrespect—rather, history suggests that <strong>final analysis has never moved the needle on paradigm-level theories</strong>.</p>
-
-    <p>Einstein's relativity was not validated by committee approval—it was validated by Eddington's eclipse observations. Boltzmann's statistical mechanics was rejected by his peers until experiments confirmed atomic reality. Continental drift was dismissed for decades until seafloor spreading provided material evidence. The pattern is consistent: paradigm shifts require <em>empirical demonstration</em>, not institutional consensus.</p>
-
-    <p><strong>STUR seeks validation through three channels:</strong></p>
-
-    <ul style="color:var(--text-secondary);margin:1rem 0 1.5rem 1.5rem;line-height:2;">
-      <li><strong style="color:var(--accent-gold);">Material Synthesis</strong> — Laboratory realization of STUR-predicted phenomena, including the ambient-temperature superconductor (ATS) protocol and resistance-field materials</li>
-      <li><strong style="color:var(--accent-gold);">Formal Lab Falsification</strong> — Interferometric tests at facilities like MAGIS-100 and AION to confirm or exclude the Gaussian visibility prediction</li>
-      <li><strong style="color:var(--accent-gold);">Computational Verification (AGI)</strong> — Independent derivation and consistency checking by advanced AI systems capable of rigorous mathematical analysis</li>
-    </ul>
-
-    <p>If STUR is correct, material synthesis will produce results. If it is wrong, the falsification protocol specifies exactly how experiments will exclude it. These are the standards by which paradigm-level claims should be judged.</p>
-
-    <p style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border-subtle);">The STUR framework was developed in public view through open dialogue and iterative refinement. Open-source science is not rebellion—it is transparency. Truth strengthens when everyone has the tools to test it.</p>
-  </section>
-
-  <h2 class="section-title">References</h2>
-
-  <section class="content-section">
-    <div class="refs">
-      <p class="ref-item">Lindberg, S. (2025). <em>Sheldon's Theory of Unified Resistance (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17203762">https://doi.org/10.5281/zenodo.17203762</a></p>
-
-      <p class="ref-item">Lindberg, S. (2025). <em>Resistance Arc Toy Model 4.2 (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17446257">https://doi.org/10.5281/zenodo.17446257</a></p>
-
-      <p class="ref-item">Lindberg, S. (2025, October 17). <em>Sheldon's Theory of Unified Resistance: Field Manual.</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17374820">https://doi.org/10.5281/zenodo.17374820</a></p>
-
-      <p class="ref-item">Lindberg, S. (2025). <em>Sheldon's Resistance Gate (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17447497">https://doi.org/10.5281/zenodo.17447497</a></p>
-
-      <p class="ref-item">Lindberg, S. (2025). <em>Sheldon's Resistance Battery (Patent Pending) (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17459791">https://doi.org/10.5281/zenodo.17459791</a></p>
-
-      <p class="ref-item">Lindberg, S. (2025). <em>Sheldon's Resistance Replicator (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17459706">https://doi.org/10.5281/zenodo.17459706</a></p>
-
-      <p class="ref-item">Lindberg, S. (2025). <em>STUR Unified Double Slit Experiment (48.4).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17478951">https://doi.org/10.5281/zenodo.17478951</a></p>
-
-      <p class="ref-item">Lindberg, S. (2025). <em>Sheldon's Law of Resistance (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17479965">https://doi.org/10.5281/zenodo.17479965</a></p>
-
-      <p class="ref-item">Lindberg, S. (2025). <em>STUR Flying Arc (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17500550">https://doi.org/10.5281/zenodo.17500550</a></p>
-
-      <p class="ref-item">Lindberg, S. (2025). <em>STUR Time Core (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17503381">https://doi.org/10.5281/zenodo.17503381</a></p>
-
-      <p class="ref-item">Lindberg, S. (2025). <em>The Law of Resistance (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17509809">https://doi.org/10.5281/zenodo.17509809</a></p>
-    </div>
-  </section>
-
-  <h2 class="section-title">Core Theory References</h2>
-
-  <section class="content-section">
-    <div class="refs">
-      <p class="ref-category">Teleparallel Gravity</p>
-      <p class="ref-item">Aldrovandi, R. & Pereira, J.G. (2013). <em>Teleparallel Gravity: An Introduction</em>. Springer. <a href="https://doi.org/10.1007/978-94-007-5143-9">doi:10.1007/978-94-007-5143-9</a></p>
-      <p class="ref-item">Maluf, J.W. (2013). The teleparallel equivalent of general relativity. <em>Annalen der Physik</em> 525, 339–357.</p>
-      <p class="ref-item">Bahamonde, S. et al. (2023). Teleparallel gravity: From theory to cosmology. <em>Rep. Prog. Phys.</em> 86, 026901.</p>
-
-      <p class="ref-category">Extra Dimensions & Kaluza-Klein</p>
-      <p class="ref-item">Overduin, J.M. & Wesson, P.S. (1997). Kaluza-Klein gravity. <em>Phys. Rep.</em> 283, 303–378.</p>
-      <p class="ref-item">Randall, L. & Sundrum, R. (1999). Large mass hierarchy from a small extra dimension. <em>Phys. Rev. Lett.</em> 83, 3370.</p>
-      <p class="ref-item">Kaplan, D.B. (1992). A method for simulating chiral fermions on the lattice. <em>Phys. Lett. B</em> 288, 342–347.</p>
-
-      <p class="ref-category">Non-Equilibrium Field Theory</p>
-      <p class="ref-item">Calzetta, E.A. & Hu, B.L. (2008). <em>Nonequilibrium Quantum Field Theory</em>. Cambridge University Press.</p>
-      <p class="ref-item">Kamenev, A. (2011). <em>Field Theory of Non-Equilibrium Systems</em>. Cambridge University Press.</p>
-
-      <p class="ref-category">Atom Interferometry</p>
-      <p class="ref-item">Cronin, A.D., Schmiedmayer, J. & Pritchard, D.E. (2009). Optics and interferometry with atoms and molecules. <em>Rev. Mod. Phys.</em> 81, 1051–1129.</p>
-      <p class="ref-item">Kovachy, T. et al. (2015). Quantum superposition at the half-metre scale. <em>Nature</em> 528, 530–533.</p>
-      <p class="ref-item">Asenbaum, P. et al. (2017). Phase shift in an atom interferometer due to spacetime curvature. <em>Phys. Rev. Lett.</em> 118, 183602.</p>
-      <p class="ref-item">Abe, M. et al. [MAGIS-100] (2021). Matter-wave atomic gradiometer interferometric sensor. <em>Quantum Sci. Technol.</em> 6, 044003.</p>
-
-      <p class="ref-category">Decoherence & Wave-Function Collapse</p>
-      <p class="ref-item">Bassi, A. et al. (2013). Models of wave-function collapse. <em>Rev. Mod. Phys.</em> 85, 471–527.</p>
-
-      <p class="ref-category">Ultralight Dark Matter & Scalar Fields</p>
-      <p class="ref-item">Graham, P.W. et al. (2016). New observables for direct detection of axion dark matter. <em>Phys. Rev. D</em> 93, 075029.</p>
-      <p class="ref-item">Badurina, L. et al. (2022). Prospective sensitivities of atom interferometers to gravitational waves and ultralight dark matter. <em>Phil. Trans. R. Soc. A</em> 380, 20210060.</p>
-      <p class="ref-item">Arvanitaki, A. et al. (2018). Searching for dilaton dark matter with atomic clocks. <em>Phys. Rev. D</em> 97, 075020.</p>
-      <p class="ref-item">Hui, L. et al. (2017). Ultralight scalars as cosmological dark matter. <em>Phys. Rev. D</em> 95, 043541.</p>
-    </div>
-  </section>
-
-  <h2 class="section-title">Biological Physics — ERP Bridge</h2>
-
-  <section class="content-section" style="background:linear-gradient(135deg,rgba(52,211,153,0.08) 0%,rgba(251,191,36,0.04) 100%);border-color:rgba(52,211,153,0.35);">
-    <div style="margin-bottom:1rem;padding:0.75rem 1rem;background:rgba(52,211,153,0.12);border-left:4px solid #34d399;border-radius:4px;font-size:0.9rem;">
-      <strong style="color:#34d399;">STUR–ERP Bridge Theorem (v7.0):</strong> The ERP master equation EP = éR·f² is formally derived from STUR Axiom 2 (R-field doublet + XCRM coupling) via Kaluza-Klein reduction on S¹ and Mathieu localization. See <a href="scripts/stur_erp_bridge.html" style="color:#34d399;">formal derivation</a>.
-    </div>
-    <div class="refs">
-      <p class="ref-category">Primary ERP Reference</p>
-      <p class="ref-item">Picard, M. &amp; Murugan, N.J. (2025). The energy resistance principle. <em>Cell Metabolism</em> 37, 2107–2122. <a href="https://doi.org/10.1016/j.cmet.2025.09.002">doi:10.1016/j.cmet.2025.09.002</a></p>
-      <p class="ref-item" style="font-size:0.85em;color:var(--text-muted,#888);">Note: the source paper frames ERP explicitly as "a heuristic — an emergent generalization... rather than a fundamental or universally accepted law" for mitochondrial bioenergetics, and calls its EP = éR·f² relation "a foundational scaffold" that "calls for empirical validation," not an established physical law. STUR's extension of this relation to quantum electrodynamics, gravity, and topology (below) is STUR's own move, not a claim made or supported by this citation.</p>
-
-      <p class="ref-category">GDF15 Biomarker Validation</p>
-      <p class="ref-item">Picard, M. (2021). The rise of mitochondria in medicine. <em>Mitochondrion</em> 30, 105–116.</p>
-      <p class="ref-item">UK Biobank Collaborative Group (2015). UK Biobank: An open access resource. <em>PLoS Med</em> 12, e1001779.</p>
-
-      <p class="ref-category">STUR–ERP Interactive Demonstrations</p>
-      <p class="ref-item"><a href="scripts/stur_erp_bridge.html">STUR ⟺ ERP Bridge Theorem</a> — Formal derivation, correspondence dictionary, 6 falsifiable predictions</p>
-      <p class="ref-item"><a href="scripts/stur_erp_lab.html">ERP Unified Lab</a> — Core bridge simulation: holonomy Φ_R → éR = EP/f², mito states, GDF15</p>
-      <p class="ref-item"><a href="scripts/stur_aging.html">Longevity Lab</a> — éR lifespan trajectory, chronomagnetic milestones λ_chrono = e^(1/π)</p>
-      <p class="ref-item"><a href="scripts/stur_warburg.html">Warburg Cancer Lab</a> — Holonomy pinning Φ_R = π/√2 maps the aerobic glycolysis switch</p>
-      <p class="ref-item"><a href="scripts/stur_neuro_erp.html">Neural Energy Lab</a> — Long-axon vulnerability, AD/PD/ALS, Berry phase → gamma protection</p>
-    </div>
-  </section>
-
-  <h2 class="section-title">Unpublished Work</h2>
-
-  <section class="content-section">
-    <div class="refs">
-      <p class="ref-category">Teleparallel Dynamics</p>
-      <p class="ref-item">Lockwood, J., Cyrek, C.B., Hansley, D. & Burkeen, D.J. (2026). <em>Teleparallel Dynamics: First Principles — From Torsion Kinematics to Field Equations.</em> Unpublished technical manuscript, 32 pages. January 2026. Primary topics: Teleparallel Equivalent of General Relativity (TEGR), torsion tensor formalism, inertial spin connection, gravitoelectromagnetism (GEM), harmonic GEM (HGEM), bimetric teleparallel extensions. <a href="scripts/TEGR%202.pdf" target="_blank">[PDF]</a></p>
-
-      <p class="ref-category">Chronomagnetics</p>
-      <p class="ref-item">Burkeen, D., Cyrek, C.B., Lockwood, J.M., LaMarche, D., Beaubier, J. & Lindberg, S. (2026). <em>Chronomagnetics: A Comprehensive Mathematical Foundation.</em> Spectrality Institute, Generative Lab. GPT-5.2 Extended / Sonnet 4.5 technical monograph, 27 pages. January 13, 2026. Primary topics: log-periodic dynamics, triangle-derived constants, teleparallel gravity coupling, chronomagnetic flux phase, dimensional verification, cosmological and geological predictions. <a href="scripts/Chronomagnetics.pdf" target="_blank">[PDF]</a></p>
-    </div>
-  </section>
-
-  <footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
-  <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
-    © 2026 Sheldon Lindberg · <a href="sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
-    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v4.0</span>
-  </p>
-</footer>
-</div>
-
-<!-- STUR UI JavaScript -->
-<script src="assets/js/stur-ui.js"></script>
-<script src="assets/js/stur-definitions.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    if (typeof STUR !== 'undefined' && STUR.initNav) {
-      STUR.initNav();
-    }
-  });
-</script>
-<script src="assets/js/stur-sw-register.js"></script>
+<p><a href="index.html">&larr; Back to index</a></p>
 </body>
 </html>
+</content>

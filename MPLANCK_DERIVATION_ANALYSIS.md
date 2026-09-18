@@ -1,563 +1,98 @@
-# Can M_Planck Be Derived? The Deepest Question in Physics
+# Can a Dimensional Constant Be Derived from Pure Mathematics?
 
-**Document Type:** Foundational Analysis
-**Framework:** STUR v4.3 (Helix Geometry)
-**Date:** 2026-01-25
-**Purpose:** Explore whether the Planck mass can be derived from first principles or must remain an irreducible input
+**Document Type:** Foundational analysis (dimensional analysis / philosophy of physics)
+**Status:** Standard argument, self-contained
 
 ---
 
-## Executive Summary
-
-This document examines the most fundamental question in theoretical physics: **Can the gravitational coupling G (equivalently M_Planck = √(ℏc/G)) be derived from first principles, or is it necessarily an input parameter?**
-
-**Main conclusions:**
-
-1. **The Dimensional Barrier is Real**: Any physical theory with observational content requires at least ONE dimensional scale. This is not a limitation of current theories but a logical necessity.
-
-2. **STUR's Achievement (corrected):** the canonical STUR framework (v7.0.2)
-   uses **four** dimensional/dimensionless inputs — M_Planck, v_EW, m_t, and
-   α_em (see README.md, DERIVATION_CHAIN_INFINITY.md, and
-   `scripts/stur_toe_closure.py`) — not the single input claimed in earlier
-   drafts of this document (v3.8/v4.3). M_Planck anchors the derivation
-   chain for many downstream scales, but v_EW, m_t, and α_em are separate,
-   independently-supplied inputs in the current framework, not derived from
-   M_Planck alone. Reducing this to a single input remains aspirational
-   future work (see ABSOLUTE_MASS_DERIVATION.md), not an accomplished result.
-
-3. **The Barrier Cannot Be Circumvented**: Attempts to derive G always either:
-   - Import another dimensional scale (displacing the problem)
-   - Use self-consistency conditions that fix only ratios
-   - Invoke anthropic selection (shifting the burden to initial conditions)
-
-4. **What STUR Actually Derives**: G = 1/(16πα R_bg) is a **relation**, not a derivation of G. It expresses G in terms of other quantities that themselves require a scale.
-
-5. **The Deep Insight**: The question "Why is G what it is?" may be ill-posed. The actual question is: "Why does the universe have the dimensional content it has?" This is metaphysics, not physics.
-
----
-
-## 1. The Fundamental Barrier
-
-### 1.1 What Does "Derive" Mean?
-
-To "derive" G would mean expressing it as a function of:
-- Pure numbers (π, e, integers)
-- Fundamental constants that are themselves dimensionless
-- Logical or geometric necessities
-
-**The problem**: G has dimensions of [length³/(mass × time²)]. You cannot construct a dimensional quantity from dimensionless inputs alone.
-
-### 1.2 The Dimensional Analysis Theorem
-
-**Theorem (Buckingham π):** Any physical law relating n dimensional quantities involving k fundamental dimensions can be rewritten as a relationship among (n-k) dimensionless groups.
-
-**Corollary:** To determine a dimensional quantity absolutely (not just relative to others), you need at least one dimensional input.
-
-**Implication:** No amount of clever mathematics can derive M_Planck from pure numbers. At minimum, ONE dimensional scale must be given.
-
-### 1.3 What STUR Claims
-
-STUR claims:
-```
-M_Planck → L_X → v → M_R → all other scales
-```
-
-This is a derivation chain starting from M_Planck. It does NOT claim to derive M_Planck itself.
-
-An earlier (v3.8/v4.3-era) framework document stated:
-```
-"STUR has ONE fundamental dimensional input: M_Planck."
-```
-
-**Correction:** this claim is superseded. The current canonical STUR framework
-(v7.0.2) uses four inputs — M_Planck, v_EW, m_t, α_em — as stated consistently
-across README.md, DERIVATION_CHAIN_INFINITY.md, STUR_WEB_OVERVIEW.md, and
-`scripts/stur_toe_closure.py`. M_Planck is one of these four, not the sole
-input. The philosophical argument in this document (Buckingham π, the
-dimensional-barrier reasoning below) is still valid in general — some
-dimensional input is always required — but the specific claim that STUR needs
-only M_Planck is not accurate for the current framework. The question of
-whether the other three inputs could eventually be derived from M_Planck alone
-remains open future work, not an accomplished result.
-
----
-
-## 2. How G Appears in STUR
-
-### 2.1 The TEGR Emergence
-
-In STUR, gravity emerges via the torsion coupling:
-```
-L_TEGR = α |R| 𝕋
-```
-
-At equilibrium (R → R_bg), this becomes:
-```
-L_TEGR = α R_bg 𝕋 = (1/16πG) 𝕋
-```
-
-**Therefore:**
-```
-G = 1/(16π α R_bg)
-```
-
-### 2.2 What This Relation Does and Doesn't Do
-
-**What it does:**
-- Relates G to the torsion coupling α and R-field VEV R_bg
-- Shows gravity is not fundamental but emergent
-- Unifies gravitational and scalar sectors
-
-**What it doesn't do:**
-- Derive G without knowing α and R_bg
-- Eliminate the need for a dimensional input
-
-**The question shifts to:** Can α and R_bg be derived without importing a scale?
-
-### 2.3 The α Parameter
-
-The torsion coupling α has dimensions [mass⁻¹]. In STUR:
-```
-α ~ 1/M_Planck
-```
-
-This is not a derivation but a matching condition: α is whatever it needs to be to reproduce observed gravity.
-
-### 2.4 The R_bg Parameter
-
-The R-field background value R_bg is determined by potential minimization:
-```
-∂V/∂R |_{R=R_bg} = 0
-```
-
-The potential V(R) has coefficients with dimensions. These must be specified in terms of some scale.
-
-**Result:** G = 1/(16πα R_bg) doesn't derive G; it relates G to other dimensional quantities.
-
----
-
-## 3. Could G Emerge from ∞₃ Geometry?
-
-### 3.1 What ∞₃ Provides
-
-The infinity helix structure provides:
-- Exactly 3 generations (topological)
-- Winding quantization: v·L_X = 3 (dimensionless constraint)
-- Gauge group selection (dimensionless ratios)
-- Fermion localization patterns (dimensionless overlap ratios)
-
-**Crucially:** ∞₃ is a discrete group. It provides only integers and ratios like 1/3, 2/3. It cannot provide a dimensional scale.
-
-### 3.2 The Casimir-Holonomy Balance
-
-STUR claims L_X is derived from:
-```
-E_total(L_X) = E_Casimir + E_holonomy = A/L_X⁵ + B/L_X
-
-Minimum: L_X* = (5A/B)^{1/4}
-```
-
-**But:**
-- A = ζ(5)|N_eff|/(2π)⁵ is dimensionless (in units where [energy] = [length⁻¹])
-- B = c_h ||h||² is dimensionless
-- So L_X* is determined only UP TO an overall scale
-
-The ratio (5A/B)^{1/4} is a pure number. To get L_X in meters, you need to multiply by some length scale — which brings us back to M_Planck.
-
-### 3.3 The Scale-Setting Problem
-
-From the Casimir derivation document:
-```
-M_KK ~ 0.25 eV
-L_X = ℏc/M_KK ~ 0.8 μm
-```
-
-**But where does the 0.25 eV come from?**
-
-The document says: "from running coupling analysis at M_KK."
-
-This is circular: you need to know M_KK to run couplings to M_KK.
-
-**The honest answer:** The absolute scale is set by matching to M_Planck.
-
----
-
-## 4. Could Self-Consistency Fix G?
-
-### 4.1 The Bootstrap Dream
-
-The most ambitious approach: perhaps self-consistency requirements uniquely determine G.
-
-**Idea:** If the theory must be internally consistent, and consistency requires specific relations, perhaps these fix G absolutely.
-
-### 4.2 What Self-Consistency Actually Fixes
-
-In STUR, self-consistency requirements include:
-
-1. **Anomaly cancellation:** Fixes gauge group structure (dimensionless)
-2. **Moduli stability:** Fixes L_X in terms of other scales (ratios)
-3. **Vacuum stability:** Fixes potential shape (dimensionless coefficients)
-4. **UV finiteness:** Fixes coupling relations (dimensionless)
-
-**None of these provide a dimensional scale.**
-
-### 4.3 The Dirac Large Number Hypothesis
-
-Dirac noticed:
-```
-M_Planck/m_proton ~ 10¹⁹ ~ √(age of universe × H₀)
-```
-
-This suggests G might be related to cosmological scales. But:
-- This shifts the problem to "Why is the universe this old?"
-- The relation may be coincidental
-- It doesn't derive G from first principles
-
-### 4.4 Anthropic Considerations
-
-One could argue: "G must have this value for observers to exist."
-
-**Problems:**
-- This is selection, not derivation
-- It requires a multiverse with varying G
-- It doesn't explain WHY G varies or how values are selected
-
-**STUR explicitly avoids anthropics.** The framework aims for unique predictions, not ensemble averaging.
-
----
-
-## 5. The Deeper Question: What Would "Deriving G" Mean?
-
-### 5.1 Three Possibilities
-
-**Possibility 1: G is truly fundamental**
-- It's a brute fact of reality
-- No deeper explanation exists
-- Physics accepts one irreducible constant
-
-**Possibility 2: G emerges from more fundamental structure**
-- Space itself is discrete (Planck-scale discreteness)
-- G measures "how discrete" space is
-- But this just shifts to: "Why is spacetime discrete at this scale?"
-
-**Possibility 3: G is environmental**
-- Different regions of reality have different G
-- Our G is selected by consistency/anthropics
-- But this doesn't derive G; it contextualizes it
-
-### 5.2 The Logical Structure
-
-Consider this:
-```
-Q: Why is G = 6.67×10⁻¹¹ N⋅m²/kg²?
-
-A: Because M_Planck = √(ℏc/G) = 1.22×10¹⁹ GeV
-
-Q: Why is M_Planck that value?
-
-A: Because... [any answer either invokes another scale or is tautological]
-```
-
-**The regress must terminate somewhere.** Physics chooses M_Planck (or equivalently G, or ℏ, or c) as the terminus.
-
-### 5.3 Why M_Planck is Natural
-
-M_Planck is the natural terminus because:
-1. It's where quantum (ℏ) and gravitational (G) effects meet
-2. It's where spacetime curvature becomes quantum
-3. It's the natural unit of mass for a theory unifying QM and GR
-
-**Correction:** M_Planck is a canonical anchor of the derivation chain, but it
-is not STUR's *sole* input in the current (v7.0.2) framework — see the
-correction in Section 1.3 above. The current framework uses four inputs
-(M_Planck, v_EW, m_t, α_em).
-
----
-
-## 6. What STUR Actually Achieves
-
-### 6.1 Dimensional Input Reduction
-
-| Theory | Dimensional Inputs | Dimensionless Parameters |
-|--------|-------------------|-------------------------|
-| Standard Model | 3 (ℏ, c, G) | 19+ |
-| MSSM | 3 | 100+ |
-| String Theory | 3 | Moduli (many) |
-| STUR v3.8 (historical claim, superseded) | 1 (M_Planck) | 0 |
-| **STUR v7.0.2 (canonical)** | **4 (M_Planck, v_EW, m_t, α_em)** | **0 free (3 axioms constrain the rest)** |
-
-**Corrected:** the "1 input, 0 parameters" row reflects an earlier (v3.8)
-framework claim that was never reconciled with the later 4-input canonical
-framework and should not be read as the current STUR achievement. The current
-framework still substantially reduces inputs relative to the Standard Model
-(4 vs. 19+), but it is not a single-input theory.
-
-### 6.2 What "Zero Free Parameters" Means
-
-From the derivation chain (as originally written; see correction below):
-```
-GIVEN: M_Planck
-DERIVE: L_X from Casimir-holonomy balance
-DERIVE: v from v·L_X = 3
-DERIVE: M_R from M_R = λ_hol/L_X
-DERIVE: All fermion masses from overlap integrals
-DERIVE: All mixing angles from ∞-helix geometry
-DERIVE: All gauge couplings from running
-```
-
-**Corrected:** in the canonical v7.0.2 framework, v_EW, m_t, and α_em are also
-given (not derived from M_Planck alone) and feed into the fermion-mass and
-coupling calculations above alongside M_Planck. "Zero free parameters" refers
-to there being no additional tunable dimensionless fit parameters beyond the
-four inputs and three axioms — not to every physical quantity being determined
-by M_Planck in isolation.
-
-### 6.3 The Scale Hierarchy
+## The Question
+
+Can a dimensionful physical constant — the Planck mass, Newton's constant G, or any
+other quantity with units — ever be derived purely from dimensionless mathematics
+(pure numbers, integers, topological invariants), or must every physical theory take at
+least one dimensional quantity as an irreducible input?
+
+## The Dimensional Barrier
+
+**To "derive" a dimensional constant like G would mean** expressing it as a function of
+pure numbers (π, e, integers), other dimensionless constants, or logical/geometric
+necessities alone. But G has dimensions of [length³/(mass·time²)]. You cannot construct
+a dimensional quantity from dimensionless inputs — there is nothing in a pure number to
+tell you what unit of length, mass, or time it refers to.
+
+**Theorem (Buckingham π):** Any physical law relating n dimensional quantities involving
+k independent fundamental dimensions can be rewritten as a relationship among (n−k)
+dimensionless groups.
+
+**Corollary:** To determine a dimensional quantity in absolute terms (not merely relative
+to another dimensional quantity), at least one dimensional input must be supplied
+somewhere in the theory. No amount of internal self-consistency, topological structure,
+or discrete symmetry can substitute for it, because those objects only ever supply
+integers and ratios — dimensionless numbers — never units.
+
+## What This Rules Out
+
+Three commonly-proposed routes for avoiding a dimensional input each fail for a specific,
+identifiable reason:
+
+**1. Topological/discrete structure alone.** A discrete symmetry group, orbifold, or
+winding number provides only integers and ratios (like 1/3, 2/3). It can fix *relations
+between* scales, but never an absolute scale itself — the ratio of two lengths can be a
+pure number, but a single length cannot be.
+
+**2. Self-consistency conditions.** Anomaly cancellation, moduli stabilization, vacuum
+stability, and similar consistency requirements fix dimensionless coupling relations and
+gauge-group structure. None of them supply a dimensional scale on their own; any apparent
+scale-fixing calculation that uses such conditions can be checked for where a dimensional
+input was smuggled in (usually via a coefficient in a potential, or a normalization
+condition that secretly refers to an external scale).
+
+**3. Dimensional transmutation.** In QCD, the proton mass arises dynamically from
+renormalization-group running (e.g. $m_p \sim \Lambda_{QCD} \sim M_Z \exp(-8\pi^2/g_s^2)$),
+which looks like it generates a scale "for free." But this always requires (a) a starting
+scale at which to begin running and (b) a coupling value at that scale — both of which are
+themselves dimensional or scale-referenced inputs. The mechanism *converts* one scale
+(and a dimensionless coupling) into another; it does not eliminate the need for a scale.
+
+## The Logical Structure
 
 ```
-M_Planck                    ~ 10¹⁹ GeV    (INPUT)
-    │
-    │ Casimir-holonomy balance
-    ↓
-1/L_X                       ~ 10⁶ GeV     (hidden scale)
-    │
-    │ v·L_X = 3
-    ↓
-v (R-field VEV)            ~ 10¹⁶ GeV    (GUT scale)
-    │
-    │ Gauge-Higgs unification + RG
-    ↓
-v_H (Higgs VEV)            ~ 10² GeV     (EW scale)
-    │
-    │ Yukawa overlaps
-    ↓
-m_fermions                  ~ 10⁻³ - 10² GeV
-    │
-    │ Seesaw mechanism
-    ↓
-m_neutrino                 ~ 10⁻¹¹ GeV
+Q: Why does G have the value it has?
+A: Because M_Planck = sqrt(hbar c / G) has the value it has.
+Q: Why does M_Planck have that value?
+A: Any answer either (a) invokes another dimensional scale, displacing the question,
+   or (b) is a dimensionless self-consistency statement, which — by the Buckingham-π
+   corollary above — cannot fix an absolute scale, or (c) invokes anthropic/selection
+   reasoning, which explains why observers see that value without deriving the value
+   itself from first principles.
 ```
 
-**All hierarchies emerge from one input through ∞-helix geometry.**
-
----
-
-## 7. Possible Future Directions
-
-### 7.1 Dimensional Transmutation
-
-In QCD, the proton mass arises from dimensional transmutation:
-```
-m_proton ~ Λ_QCD ~ M_Z × exp(-8π²/g_s²)
-```
-
-The scale emerges from RG running, not from input.
-
-**Could something similar work for M_Planck?**
-
-**Problem:** Dimensional transmutation requires:
-1. A scale at which to start running
-2. A coupling value at that scale
-
-Both require initial dimensional information.
-
-### 7.2 Quantum Cosmology
-
-Perhaps G is determined by quantum cosmological initial conditions:
-- Wheeler-DeWitt equation
-- No-boundary proposal
-- Tunneling from nothing
-
-**Challenge:** These approaches have their own dimensional inputs (the cosmological constant, Planck density, etc.).
-
-### 7.3 Information-Theoretic Bounds
-
-Perhaps there's a maximum information density in spacetime:
-```
-I_max ~ A/(4 l_Planck²)     (Bekenstein bound)
-```
-
-**Could this fix l_Planck?**
-
-**Problem:** The bound is expressed IN terms of l_Planck. It doesn't derive it.
-
-### 7.4 Holographic Principle
-
-If spacetime is holographic:
-```
-S_bulk ~ A_boundary / (4G)
-```
-
-**Could holography constrain G?**
-
-**Current status:** Holography relates bulk/boundary physics but doesn't fix the overall scale.
-
----
-
-## 8. The Honest Assessment
-
-### 8.1 What Can Be Derived
-
-| Quantity | Can Be Derived From M_Planck? | Method |
-|----------|-------------------------------|--------|
-| L_X | Yes | Casimir-holonomy balance |
-| v | Yes | v·L_X = 3 |
-| M_R | Yes | Holonomy enhancement |
-| m_t | Yes | Overlap integrals |
-| sin²θ_W | Yes | Gauge unification |
-| θ_Cabibbo | Yes | ∞-helix geometry |
-| m_ν | Yes | Seesaw |
-
-### 8.2 What Cannot Be Derived
-
-| Quantity | Why Not Derivable |
-|----------|-------------------|
-| M_Planck | Sets the overall dimensional scale |
-| G | Equivalent to M_Planck |
-| ℏ | Unit system choice once G fixed |
-| c | Unit system choice once G fixed |
-
-### 8.3 The Logical Terminus
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                                                                 │
-│  M_Planck = √(ℏc/G) is the IRREDUCIBLE dimensional input.      │
-│                                                                 │
-│  This is not a failure. It is the structure of physics.        │
-│                                                                 │
-│  ANY theory with observational content requires at least        │
-│  one dimensional scale. STUR achieves the minimum: exactly 1.  │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 9. Conclusion: The Barrier is Fundamental
-
-### 9.1 Summary
-
-1. **M_Planck cannot be derived from pure mathematics.** Dimensional analysis forbids constructing a dimensional quantity from dimensionless inputs.
-
-2. **STUR doesn't claim to derive M_Planck.** It derives everything ELSE from M_Planck — an achievement of extraordinary power.
-
-3. **The reduction to one input is the theoretical minimum.** No theory can have zero dimensional inputs and still make dimensional predictions.
-
-4. **This is not a limitation but a feature.** The question "Why is M_Planck what it is?" may be asking for an explanation that cannot exist in physics.
-
-### 9.2 The Proper Framing
-
-**Wrong question:** "Can STUR derive M_Planck?"
-
-**Right question:** "Can STUR derive everything else from M_Planck?"
-
-**Answer:** Yes. And that is remarkable.
-
-### 9.3 The Meta-Physical Boundary
-
-The question "Why does the universe have the scales it has?" reaches beyond physics into metaphysics. Physics describes the relations between quantities; the absolute scale of existence is not itself a physical fact but the stage on which physical facts play out.
-
-**STUR's position:** M_Planck defines the scale of reality. Everything else follows.
-
-This is the most economical possible physical theory.
-
----
-
-## 10. Technical Appendix: The Relation G = 1/(16πα R_bg)
-
-### 10.1 Derivation
-
-Starting from the STUR master action:
-```
-S = ∫ d⁵x √g [α|R|𝕋 + L_kinetic + L_potential + L_XCRM + L_matter]
-```
-
-At equilibrium (R → R_bg), the torsion term becomes:
-```
-L_grav = α R_bg 𝕋
-```
-
-Matching to Einstein-Hilbert:
-```
-L_EH = (1/16πG) R_GR = -(1/16πG) 𝕋 + (total derivative)
-```
-
-Therefore:
-```
-α R_bg = 1/(16πG)
-G = 1/(16π α R_bg)
-```
-
-### 10.2 What This Means
-
-This relation shows that G is determined by:
-- The torsion-scalar coupling strength α
-- The R-field equilibrium value R_bg
-
-But both α and R_bg have dimensions. Their product has the right dimensions for 1/G.
-
-**The relation is a consistency check, not a derivation of G from first principles.**
-
-### 10.3 The Chain of Dependencies
-
-```
-M_Planck (given)
-    │
-    │ Definition: α ~ 1/M_Planck (matching condition)
-    ↓
-α (torsion coupling)
-    │
-    │ Potential minimization with M_Planck-scaled coefficients
-    ↓
-R_bg (R-field VEV)
-    │
-    │ G = 1/(16π α R_bg)
-    ↓
-G (emergent but not derived from nothing)
-```
-
-**Every step requires M_Planck as input.** The chain demonstrates internal consistency, not independent derivation.
-
----
-
-## 11. Final Word
-
-**The question was:** Can STUR derive M_Planck from the infinity helix geometry?
-
-**The answer is:** No, and no theory can. The ∞-helix geometry provides:
-- Discrete structure (integers, ratios)
-- Topological constraints (winding numbers)
-- Selection rules (which interactions exist)
-
-It cannot provide an absolute scale. M_Planck must be given.
-
-**STUR's achievement (corrected):** From its four canonical inputs (M_Planck,
-v_EW, m_t, α_em) and the infinity helix structure, a very large fraction of
-physics emerges — most masses, couplings, mixing angles, and cosmic scales —
-with no additional free dimensionless parameters beyond those four inputs and
-three axioms. This is a substantial reduction relative to the Standard Model's
-19+ free parameters, even though it is not literally "one input."
-
-**This is a strong reduction in the number of free parameters, though not the
-single-input theoretical minimum this document originally claimed.**
-
----
-
-**Document Status:** Analysis of the derivability of M_Planck; corrected to
-reflect the canonical 4-input (M_Planck, v_EW, m_t, α_em) framework rather
-than the superseded "one input" claim of the original v3.8/v4.3 draft
-**Main Result:** M_Planck is a necessary dimensional input for STUR (one of
-four canonical inputs, not the sole input)
-**Philosophical Conclusion:** The dimensional scale of reality is not itself derivable from within physics
-
----
+The regress must terminate somewhere with an irreducible dimensional input. This is not
+a defect of any particular theory; it is a structural fact about what "dimensional"
+means.
+
+## Why This Matters for Evaluating Any "Unification" Claim
+
+Any theory that claims to reduce a set of physical constants to "zero free parameters"
+should be checked against this bound: **at least one dimensional input is logically
+required**, no matter how much dimensionless structure (topology, discrete symmetries,
+group-theoretic selection rules) the theory contains upstream of it. A claim to have
+derived *every* dimensional constant, including the very last one, from pure numbers
+is provably impossible by the Buckingham-π argument above — not merely difficult, but
+outside what mathematics permits.
+
+A more modest and checkable claim is: "this theory needs only N dimensional inputs,"
+for some small N, with everything else following as dimensionless ratios or
+consistency conditions. That claim is falsifiable in the ordinary way (count the actual
+independent dimensional inputs the calculation uses) and is the right standard to hold
+any such framework to, rather than the impossible standard of zero dimensional inputs.
 
 ## References
 
-1. DERIVATION_CHAIN_INFINITY.md - Complete STUR derivation framework
-2. LX_CASIMIR_HOLONOMY_DERIVATION.md - L_X determination
-3. SCALE_UNIFICATION_ANALYSIS.md - Scale hierarchy analysis
-4. stur_gravity_emergence.html - TEGR derivation
-5. Buckingham, E. (1914). "On physically similar systems"
-6. Dirac, P.A.M. (1937). "The Cosmological Constants"
+1. Buckingham, E. (1914). "On physically similar systems: illustrations of the use of
+   dimensional equations." Physical Review 4(4), 345.
+2. Dirac, P. A. M. (1937). "The Cosmological Constants." Nature 139, 323.
+3. Bekenstein, J. D. (1973). "Black holes and entropy." Phys. Rev. D 7, 2333 (for the
+   related point that even information-theoretic bounds like the Bekenstein bound are
+   stated in terms of a pre-existing length scale, not derivations of one).
+</content>

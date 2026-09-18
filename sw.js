@@ -9,7 +9,7 @@
  * - Images: Cache-first
  */
 
-const CACHE_VERSION = 'stur-v2.5.0';
+const CACHE_VERSION = 'v3.0.0-pruned';
 const CACHE_NAME = `stur-cache-${CACHE_VERSION}`;
 
 // Core shell files - always cache these
@@ -19,28 +19,12 @@ const SHELL_ASSETS = [
   '/manifest.json',
   '/about.html',
   '/sitemap.html',
-  '/assets/css/stur-core.css',
-  '/assets/css/stur-glass.css',
-  '/assets/css/stur-icons.css',
-  '/assets/css/stur-index.css',
-  '/assets/css/stur-theory.css',
-  '/assets/js/stur-ui.js',
-  '/assets/js/stur-definitions.js',
-  '/assets/js/stur-version.js',
-  '/assets/js/stur-mathjax-config.js',
-  '/assets/js/stur-sw-register.js',
   '/assets/4.13.png'
 ];
 
 // Theory pages - cache on navigation
 const THEORY_PAGES = [
-  '/scripts/stur_core_theory.html',
-  '/scripts/stur_predictions.html',
-  '/scripts/stur_falsification.html',
-  '/scripts/stur_symbols.html',
-  '/scripts/stur_glossary.html',
-  '/scripts/stur_faq.html',
-  '/scripts/stur_simulations_hub.html'
+  '/scripts/maxwell_equations.html'
 ];
 
 // CDN resources to cache
