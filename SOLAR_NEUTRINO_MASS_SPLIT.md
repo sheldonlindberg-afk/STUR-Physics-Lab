@@ -278,6 +278,61 @@ The Z₃-forced M_R structure makes specific predictions:
 
 ---
 
+## 7. Resonant Leptogenesis Check (later session, explicit attempt to use this pseudo-Dirac
+   structure for baryogenesis)
+
+The pseudo-Dirac pair (ν_R1, ν_R2) derived above is exactly the mass pattern resonant
+leptogenesis (Pilaftsis & Underwood, Nucl.Phys. B692 (2004) 303) needs — nearly-degenerate
+heavy Majorana states resonantly enhance the CP asymmetry ε₁ in their decays. This section
+records a genuine attempt to use it, computed from this repo's own already-derived numbers
+(M_R0, m_ν3), not from BARYOGENESIS_DERIVATION.md's fitted ×10⁻³ factor (see that document's
+own flagged correction).
+
+**Step 1 — self-consistent Yukawa coupling.** Standard type-I seesaw, m_ν = h²v²/(2M_R),
+solved for h using M_R0 = 1.964×10¹⁴ GeV and m_ν3 = 49.5 meV (both already in
+`scripts/stur_toe_closure.py` PART 7): h ≈ 0.567 (h² ≈ 0.32). An honest O(1) Yukawa — no
+new assumption, just reading off what this theory's own numbers already imply.
+
+**Step 2 — decay width and resonance condition.** Γ = h²M_R0/(8π) ≈ 2.51×10¹² GeV, so
+Γ/M_R0 ≈ 1.28%. Maximal resonant enhancement needs the pseudo-Dirac splitting
+ΔM/M ~ Γ/(2M) ≈ 0.64%. Checked every already-derived STUR-native candidate ratio for this
+splitting (λ_l ≈ 23.8%, λ_l² ≈ 5.6%, λ_l²/2 ≈ 2.8%, the exact ratio used for Δm²₂₁
+elsewhere in this document): none land within an order of magnitude of 0.64%.
+
+**Step 3 — the actual finding (not what was expected going in).** Scanning ε₁ across the
+full range of ΔM/M (not just at the resonance point) with this theory's own h² and Γ shows
+the asymmetry is *overproduced* almost everywhere — even at ΔM/M = 1 (no tuning at all),
+ε₁ ~ 6×10⁻³, about seven orders of magnitude larger than what successful leptogenesis
+needs (ε₁ ~ 10⁻⁶ to 10⁻⁹ depending on washout efficiency κ). Resonance does not rescue
+this scenario; it was never the bottleneck. The actual obstruction is that this theory's
+own mass/coupling scale generates far too much CP violation, not too little — the opposite
+diagnosis from BARYOGENESIS_DERIVATION.md's fitted-×10⁻³-to-boost-ε₁ approach, which had
+the problem backwards.
+
+**Step 4 — why the needed suppression can't currently be computed.** Bringing η_B down to
+the observed value needs either near-exact mass degeneracy (ΔM/M ~ 10⁻¹², far beyond
+anything the "Higgs VEV asymmetry" mechanism in §3 above would plausibly produce) or a CP
+phase suppressed to ~10⁻⁶–10⁻⁷. This theory's own independently-computed phases (δ_CKM ≈
+68°, PMNS δ_CP ≈ 273°) are all O(0.1–1) — six or seven orders of magnitude too large.
+
+The phase that would need to supply this suppression is arg(b), the complex phase of the
+pseudo-Dirac Majorana mass parameter in §1.3's M_R matrix (written there as b* in the
+(2,1) entry, i.e. genuinely complex). Re-examining the Z₃ selection-rule proof in §1.2:
+the condition ω₃^(g+h) = 1 constrains which matrix *entries* can be nonzero (a texture
+constraint on the indices g, h) — it places no constraint whatsoever on the complex
+*phase* of an allowed entry's value. Z₃ invariance is satisfied by b at any phase. This
+is why neither this document nor `BARYOGENESIS_DERIVATION.md` computes arg(b): the
+symmetry argument used to derive the texture is structurally incapable of fixing it, not
+merely incomplete at NLO. Closing this gap would require new physics not currently in this
+framework — a vacuum-alignment mechanism, an additional discrete CP symmetry, or similar —
+not a more careful loop calculation.
+
+**Status of baryogenesis in this framework:** genuinely open, with the obstruction now
+precisely identified (phase of b, structurally undetermined by Z₃) rather than papered
+over with an unexplained numerical factor.
+
+---
+
 ## References
 
 - `DERIVATION_CHAIN_INFINITY.md` §4.4 — seesaw and PMNS derivation

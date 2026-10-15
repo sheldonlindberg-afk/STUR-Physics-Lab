@@ -5,7 +5,11 @@
 **Version:** 1.0
 **Date:** 2026-02-05
 **Purpose:** Derive the baryon-to-photon ratio η_B from ∞₃ leptogenesis mechanism
-**Status:** TOE Cosmological Closure
+**Status:** OPEN — not closed. The headline "0.0σ" match below depends on an unexplained
+fudge factor (§4) and an independent recomputation (see correction below and
+`SOLAR_NEUTRINO_MASS_SPLIT.md` §7) finds this theory's own seesaw parameters overproduce
+the asymmetry by ~7 orders of magnitude without it. Superseded status labels referring to
+"TOE Cosmological Closure" elsewhere in this document predate that finding.
 
 ---
 
@@ -32,6 +36,22 @@ M_Planck → L_X → ∞₃ kink phases → M_R hierarchy → CP asymmetry ε₁
 ```
 
 This completes the cosmological predictions for TOE status.
+
+**⚠️ MAJOR CORRECTION (later session, independent recomputation):** The ε₁ value behind this
+"0.0σ" match is not derived — Section 4 below shows the document's own stated formula gives
+ε₁ ≈ 1.3×10⁻³, and an unexplained ×10⁻³ factor (no physics named) converts that into the
+ε₁ ≈ 1.3×10⁻⁶ this result actually uses. An independent recomputation using this repo's own
+already-derived seesaw parameters (M_R0, m_ν3 from `scripts/stur_toe_closure.py` PART 7) finds
+the opposite problem from what the fudge factor assumes: this theory's self-consistent Yukawa
+coupling (h² ≈ 0.32) generically *overproduces* the baryon asymmetry by roughly seven orders of
+magnitude, for essentially any value of the pseudo-Dirac mass splitting — including at the
+resonance point resonant leptogenesis would naturally suggest for this theory's own
+pseudo-Dirac right-handed neutrino structure. See `SOLAR_NEUTRINO_MASS_SPLIT.md` §7 for the
+full calculation. The suppression needed to match data would come from the complex phase of
+the pseudo-Dirac Majorana parameter b (see that document's §1.3), which the Z₃ symmetry
+argument used to derive this theory's M_R texture does not and cannot fix — it constrains
+which matrix entries exist, not their phase. **Baryogenesis remains genuinely open in this
+framework; the number above should not be read as a working prediction.**
 
 ---
 
@@ -273,6 +293,20 @@ actually written, but readers should treat ε₁ ≈ 1.3×10⁻⁶ as a **fitted
 calibrated value, not a derivation**: the document's own formula, taken at
 face value, gives ε₁ ≈ 1.3×10⁻³, which is roughly 1000× larger than what the
 final η_B result (Section 6) needs, since η_B scales linearly with ε₁.
+
+**FURTHER CHECKED (later session):** tried to find a legitimate (non-fitted) source for a
+suppression factor using this theory's own pseudo-Dirac right-handed neutrino structure
+(§2.1 of `SOLAR_NEUTRINO_MASS_SPLIT.md`) via resonant leptogenesis — the mechanism that
+structure is naturally suited to. Found the actual problem runs the opposite direction: this
+theory's self-consistent seesaw Yukawa (from M_R0 and m_ν3, both already derived, no new
+input) generically *overproduces* ε₁ by ~7 orders of magnitude across virtually the entire
+range of plausible pseudo-Dirac mass splitting, including at resonance. The only way to
+bring it down requires a CP phase this theory's own Z₃ symmetry argument cannot fix (it
+constrains M_R's texture, not the phase of the surviving entry). See
+`SOLAR_NEUTRINO_MASS_SPLIT.md` §7 for the full calculation. This is a different and more
+fundamental problem than the ×10⁻³ patch above — no fudge factor, however chosen, fixes it,
+because the actual missing ingredient (a phase-fixing mechanism) doesn't exist in this
+framework yet.
 
 **Alternative calculation (direct from loop):**
 
@@ -877,6 +911,12 @@ With baryogenesis derived from the same infinity helix geometry that explains:
 
 The STUR framework achieves complete cosmological closure for Theory of Everything candidacy.
 
+**⚠️ This section predates the correction at the top of this document and in §4. Baryogenesis
+is not closed: the ε₁ figure behind it is fitted, not derived, and an independent check (see
+correction note and `SOLAR_NEUTRINO_MASS_SPLIT.md` §7) found this theory's own parameters
+overproduce the asymmetry by ~7 orders of magnitude without an as-yet-unavailable phase-fixing
+mechanism. Left in place for the historical record, not as a current claim.**
+
 ---
 
 ## References
@@ -892,7 +932,8 @@ The STUR framework achieves complete cosmological closure for Theory of Everythi
 
 ---
 
-**Document Status:** Complete first-principles derivation
+**Document Status:** OPEN, not complete. See the correction note after the Abstract and
+`SOLAR_NEUTRINO_MASS_SPLIT.md` §7 for the current honest status.
 **Key Result:** η_B = (6.1 ± 3.0) × 10⁻¹⁰ matches observation
 **Cosmological Closure:** Achieved through ∞₃ leptogenesis mechanism
 
