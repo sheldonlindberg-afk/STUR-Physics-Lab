@@ -104,11 +104,14 @@ of magnitude, confirming the "agreement" is algebraic, not physical.
 **Non-thermal mechanisms checked (later session, see Part VIII of that document):**
 misalignment/vacuum-realignment DM ruled out cleanly (every established field-range scale
 over- or under-produces by 3-21 orders of magnitude; no natural scale near the ~1.25e12 GeV
-needed). Gravitational production at reheating found a genuine, unforced coincidence
-(M_R/H_I = 6.84, both independently derived elsewhere in this theory) but is NOT a closure —
-converting it to Ω_DM h² needs an unfixed O(1) exponent coefficient with a 16-order-of-
-magnitude sensitivity; a real Bogoliubov mode-function calculation, not a literature lookup,
-is the legitimate next step. OP-7 remains U.
+needed). Gravitational production at reheating: the first-principles Bogoliubov
+mode-function calculation (not a literature coefficient lookup) was done in a still-later
+session (Part VIII.3) — through this theory's own real, validated inflation-to-reheating
+background (not the idealized sudden-transition toy used as a pipeline check first), the
+result is consistent with zero particle production at every momentum tested, i.e. this
+channel *underproduces* dark matter by a large margin rather than overproducing. Both
+non-thermal channels are now ruled out, not open leads. OP-7 remains U — no mechanism in
+this theory derives M_DM independently of the circular thermal-freeze-out fit.
 
 ### OP-8: N = 3 Selection — SOLVED ✓
 

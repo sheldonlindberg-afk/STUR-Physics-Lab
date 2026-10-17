@@ -835,3 +835,59 @@ session willing to do the actual first-principles Bogoliubov mode-function calcu
 through this theory's specific inflation-to-radiation transition (not a literature
 coefficient lookup). Until that calculation exists, M_DM and Omega_DM h^2 remain U, as
 Parts II.2.2 and VII above already state.
+
+### 8.3 The open lead from 8.2, closed -- first-principles Bogoliubov calculation: RULED OUT
+
+A later session picked up the lead from 8.2 and did the calculation 8.2 declined to fake:
+solved the mode equation
+
+    f_k'' + 3 H(t) f_k' + [(k/a(t))^2 + M_chi^2] f_k = 0
+
+for the chi field (M_chi = 1.964e14 GeV, this theory's own M_R0, established independently
+of this calculation) through this theory's own actual background, extracted the Bogoliubov
+particle number n_k from the adiabatic-vacuum subtraction once the effective frequency
+Omega(t,k) stabilizes, and integrated over k for the comoving number density. The pipeline
+was first validated against a known analytic case (instantaneous de Sitter-to-flat join)
+before being pointed at this theory.
+
+**Pass 1 (idealized, sudden transition).** Joined this theory's own solved end-of-inflation
+state to an exact w=0 matter-domination tail with an *instantaneous* kink at the join.
+Using this theory's own ratio M_chi/H_end = 25.3 (H_end taken directly from
+resisted_genesis's solved background at the actual end of inflation -- a sharper quantity
+than the r_eff-based M_R/H_I = 6.84 estimate in 8.2, which used a side-channel estimate of
+H_I rather than the theory's own solved value):
+
+    Omega_chi h^2 ~ 4.9e4   -- overcloses the universe by ~5 orders of magnitude.
+
+An instantaneous join is a known artifact generator in this literature -- a kink injects
+power at every k and spuriously enhances production -- so this number was not treated as
+the theory's prediction, only as a check that the pipeline produces a large, non-trivial
+signal when fed a sharp transition.
+
+**Pass 2 (real, "use only real calculations").** Replaced the idealized join with this
+theory's own numerically-integrated background end to end: the exact inflationary
+trajectory (Phase 1) stitched to the exact oscillating-condensate reheating trajectory
+(Phase 2, 6 oscillation periods), matched at the junction to 6 decimal places in H, with
+H-dot obtained from the exact continuity relation H-dot = -chi-dot^2/2 (no new assumption --
+the radiation component is negligible in this window, ~1.8 of the 14.29 e-folds needed for
+it to catch up to the oscillating condensate). Result:
+
+    n_k is consistent with ZERO at every momentum tested, k = 0.05 to 150 H_end.
+
+The residual (~5e-4) is stable under 4 orders of magnitude of integration-tolerance
+tightening (1e-9 -> 1e-13), i.e. it is a genuine adiabatic-vacuum bookkeeping floor, not
+integration noise. The pipeline's sensitivity was cross-checked on the *same* real
+background by artificially lowering M/H_end: M/H=1 gives n_k~3e6, M/H=2 gives ~1.4e5,
+M/H=5 gives ~1.2e-2, M/H=10 gives ~2.6e-5, M/H=25.3 (this theory's actual value) gives a
+result consistent with zero. This is exactly the expected adiabatic (exponentially
+suppressed) falloff with M/H -- confirming the near-zero result at the theory's real M/H is
+physical, not a broken pipeline.
+
+**Conclusion.** Using this theory's own real, validated background -- not the idealized
+sudden join, not a borrowed literature coefficient -- gravitational particle production
+*underproduces* dark matter by a large margin, nowhere near Omega_DM h^2 = 0.12. This is
+the opposite failure mode from the idealized sudden-transition estimate, and it closes 8.2
+as a **RULED OUT**, not an open lead: both non-thermal production channels tried in this
+theory (8.1 misalignment, 8.2/8.3 gravitational production) now fail cleanly. No
+alternative to the circular thermal LKP freeze-out M_DM (Part II.2.2 above) has been found
+anywhere in this theory. M_DM and Omega_DM h^2 remain U.

@@ -651,25 +651,43 @@ xf, g_st = 26, 106.75;  f_co = 1.9
 #       field range needed to hit 0.12 exactly is f~1.25e12 GeV -- no scale in this theory
 #       is established anywhere near that value. Same failure mode as the thermal LKP mass,
 #       just relocated from an exponent to a field-range parameter. RULED OUT.
-#   (b) Gravitational particle production at reheating (mass ~ H_I, no new coupling
-#       needed). H_I derived from this theory's own r_eff=0.0139 (already established, from
-#       XCRM Kirchhoff torsion damping) via the standard r = (2/pi^2)(H_I/M_Pl_reduced)^2
-#       relation: H_I = 2.92e13 GeV. Compared against M_R = 2.0e14 GeV (established
-#       independently, from holonomy/seesaw -- unrelated part of the theory): M_R/H_I =
-#       6.84, i.e. these two independently-derived numbers from unrelated sectors land
-#       within one order of magnitude of each other. This is a genuine, unforced
-#       coincidence, NOT constructed to fit. NOT YET A DERIVATION: converting this ratio
-#       into an actual Omega_DM h^2 requires the gravitational-production formula from the
-#       literature (Chung-Kolb-Riotto and successors), which carries an O(1) coefficient c
-#       in exp(-c*M_R/H_I) that depends on spin, minimal-vs-conformal coupling, and
-#       transition sharpness -- none fixed by anything in this theory. Checked the
-#       sensitivity directly: c=1 gives suppression 1.1e-3, c=2 gives 1.1e-6, c=2*pi gives
-#       2.1e-19 -- a 16-order-of-magnitude spread from one unfixed O(1) constant. Quoting a
-#       specific Omega_DM h^2 here would mean picking that coefficient from memory and
-#       presenting it as a derivation; declined for that reason. OPEN LEAD, not closure:
-#       the real next step is a first-principles Bogoliubov mode-function calculation
-#       through this theory's specific inflation-to-radiation transition (not a literature
-#       coefficient lookup) -- substantial effort, not attempted in this session.
+#   (b) Gravitational particle production at reheating -- the open lead above was CLOSED
+#       in a later session by doing the first-principles Bogoliubov mode-function
+#       calculation itself (no literature coefficient lookup, no guessed c): RULED OUT.
+#       Method: solved the mode equation f_k'' + 3H f_k' + [(k/a)^2+M^2] f_k = 0 for the
+#       chi field (M_chi = 1.964e14 GeV, this theory's own M_R0) through this theory's own
+#       solved inflation-to-reheating background, extracted the Bogoliubov particle number
+#       n_k via the adiabatic-vacuum subtraction once Omega2(t,k) stabilizes, integrated
+#       d^3k n_k/(2pi)^3 for the comoving number density. Pipeline first validated against
+#       a known analytic toy case (de Sitter -> flat, instantaneous join) before use.
+#       Pass 1 (IDEALIZED, sudden transition): joined this theory's own solved end-of-
+#       inflation state (H_end, giving M_chi/H_end=25.3 -- the theory's own ratio, sharper
+#       than the r_eff-based M_R/H_I=6.84 estimate above since it comes directly from
+#       resisted_genesis's solved background rather than a side-channel r_eff estimate) to
+#       an exact w=0 matter-domination tail with an INSTANTANEOUS kink at the join. Result:
+#       Omega_chi h^2 ~ 4.9e4 -- overcloses by ~5 orders of magnitude. But an instantaneous
+#       join is a known artifact-generator (a kink injects power at all k and spuriously
+#       enhances production) -- not this theory's actual physics, so not reported as a
+#       finding on its own.
+#       Pass 2 (REAL, use only real calculations): replaced the idealized join with this
+#       theory's OWN numerically-integrated background end to end -- the exact inflationary
+#       trajectory (Phase 1) stitched to the exact oscillating-condensate reheating
+#       trajectory (Phase 2, 6 oscillation periods), matched at the junction to 6 decimal
+#       places in H with Hdot from the exact continuity relation (no new assumption). Result:
+#       n_k is consistent with ZERO at every momentum tested (k=0.05-150 H_end) -- the
+#       residual (~5e-4) is stable to 4 orders of magnitude of integration-tolerance
+#       tightening, i.e. a genuine adiabatic-vacuum bookkeeping floor, not integration noise.
+#       Cross-checked the pipeline is actually sensitive (not silently broken) by lowering
+#       M/H_end on the SAME real background: M/H=1 -> n_k~3e6, M/H=2 -> ~1.4e5, M/H=5 ->
+#       ~1.2e-2, M/H=10 -> ~2.6e-5, M/H=25.3 (this theory's real value) -> consistent with 0.
+#       This is exactly the expected adiabatic (exp-suppressed) falloff with M/H, confirming
+#       the near-zero result at M/H=25.3 is real, not a bug.
+#       CONCLUSION: using this theory's own real background (not the idealized sudden join,
+#       not a borrowed literature coefficient), gravitational production UNDERproduces dark
+#       matter by a large margin -- the opposite failure mode from the idealized estimate,
+#       and nowhere near Omega_DM h^2=0.12. RULED OUT, same verdict as (a). Both non-thermal
+#       channels tried in this theory now fail cleanly; no alternative to the circular
+#       thermal-freeze-out M_DM above has been found.
 sv_t = 1.07e9*xf / (M_Pl*np.sqrt(g_st)*0.120)
 M_DM = np.sqrt(max(g_Y**4*Y4*f_co/(16*np.pi*sv_t), 0))
 sv   = g_Y**4*Y4*f_co/(16*np.pi*M_DM**2) if M_DM>0 else 0
