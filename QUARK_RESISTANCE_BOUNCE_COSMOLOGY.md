@@ -121,7 +121,15 @@ damping (§2.3), the 18× spread between these two values only shifts H_bounce b
 **Specialization to quarks.** Popławski's mechanism is generic to any fermion species; it is
 narrowed here to quarks specifically because that is the claim under test. Quark dof used:
 g_Q = 2 flavors (u,d) × 3 colors × 2 (quark/antiquark) × 2 spin = 24 — the conservative
-(minimal) version of the claim; leptons would only add more source density.
+(minimal) version of the claim. Broadening to all 3 generations of SM fermions (quarks +
+charged leptons + neutrinos, g=90 total, the standard fermionic dof behind g*=106.75) was
+checked explicitly using the computed η from §2.4 (which is species-independent for an
+exactly massless fermion, since the mode equation never references flavor or color — only the
+overall dof count g enters): H_bounce ∝ g^(−1/2), so g=90 instead of g=24 only buys a factor
+of √(90/24) ≈ 1.94. At C=9/16 that moves H_bounce from 101 to 52 M̄_Pl; at C=1/32, from 207 to
+107 M̄_Pl. Still deeply trans-Planckian either way — broadening the source species is the same
+weak lever that already failed for the preon-layer idea in §2.2, for the same structural
+reason (a square/fourth-root dependence on dof, not linear).
 
 ### 2.1 Thermal sourcing (first attempt) — lands trans-Planckian
 

@@ -147,3 +147,13 @@ print(" the torsion term. So eta_computed can be fed back into the H_bounce form
 for C_label, C_val in [("1/32 (best-anchored)", 1 / 32), ("9/16 (alt. convention)", 9 / 16)]:
     Hb = (3 / (C_val * eta_computed ** 2 * tb.G_Q ** 2)) ** 0.25
     print(f"  C={C_label}: self-consistent H_bounce = {Hb:.2f} M_Pl")
+
+print("\n=== Does broadening to all SM fermions (not just quarks) help? ===")
+print("(eta_computed is species-independent for an exactly massless fermion -- the mode")
+print(" equation never references flavor/color, only the overall dof count g -- so this is")
+print(" just H_bounce ~ g^(-1/2) at fixed eta_computed, C)")
+G_ALL_FERMIONS = 90   # standard 3-generation SM fermion dof (quarks 72 + charged leptons 12 + neutrinos 6)
+for C_label, C_val in [("1/32", 1 / 32), ("9/16", 9 / 16)]:
+    for g, glabel in [(tb.G_Q, "quarks only"), (G_ALL_FERMIONS, "all SM fermions")]:
+        Hb = (3 / (C_val * eta_computed ** 2 * g ** 2)) ** 0.25
+        print(f"  C={C_label:5s}  g={g:3d} ({glabel:16s})  H_bounce = {Hb:7.2f} M_Pl")
