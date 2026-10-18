@@ -70,6 +70,22 @@ this matter content, not a limitation of the integration. A genuinely different 
 requires additional physics. §2 adds exactly one piece of such physics, chosen to be real and
 citable rather than invented.
 
+**On dark energy specifically — Ω_Λ is taken as measured throughout this document, not
+derived or explained.** The question that opened this whole thread was framed as "start with
+DM and DE and work backwards"; everything from here on is about DM's side of that (the early
+universe, via the DM-sourced bounce in §2). A real, first-principles dark-energy *production*
+mechanism is not attempted, and should not be expected from this document — the cosmological
+constant problem (why vacuum energy is ~10¹²³ times smaller than the naive QFT estimate) is
+one of the most famous open problems in physics, not something to casually resolve as a side
+effect of a bounce calculation. For the record: this project has its own existing, separately
+documented attempt at this (`COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md`, claimed status
+"SOLVED" in `OPEN_PROBLEMS_ROADMAP.md` OP-5, Λ_residual = 3.15×10⁻⁴⁷ GeV⁴, a 10.8% deviation
+from the observed 2.846×10⁻⁴⁷ GeV⁴, via a ∞₃ discrete-gauge Ward identity argument). That
+derivation was **not re-audited as part of this document** — it uses an entirely different
+mechanism (discrete gauge symmetry breaking, not torsion or tunneling) and has no established
+connection to the bounce mechanism in §2. Citing it here only to be transparent about what
+else exists in this project, not as a verification, and not as a connection — there isn't one.
+
 ---
 
 ## 2. Mechanism: Einstein-Cartan torsion repulsion, sourced by quarks
@@ -508,6 +524,11 @@ This is recorded as the real menu of options, not a recommendation to pick one.
    reach a trustworthy density would mostly be modeling the standard model, not this proposal.
 4. **If a first-order EWSB is wanted** (to literally recover a tunneling-driven weak-force
    activation, per §4) — see the sketch added below, §4.1.
+5. **A real dark-energy production mechanism** — not attempted (§1), and not something this
+   kind of document should be expected to resolve; it's the open cosmological constant
+   problem. This project's own separate, pre-existing attempt
+   (`COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md`, OP-5) was cited for transparency but
+   **not re-audited** here, and has no established connection to this document's mechanism.
 
 ---
 
