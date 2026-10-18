@@ -464,6 +464,13 @@ STUR-Physics-Lab/
 - [Simulations Hub](scripts/stur_simulations_hub.html) — Interactive demonstrations
 - [5D Universe](scripts/stur_5duniverse.html) — Dynamic infinity helix visualization
 
+### Exploratory / Open Research (not closure claims)
+- [Quark-Resistance Torsion Bounce](QUARK_RESISTANCE_BOUNCE_COSMOLOGY.md) — standalone
+  real-ΛCDM backward cosmology (H0 as a free dial) plus a test of whether an Einstein-Cartan
+  torsion mechanism, sourced by quark pair production, can replace the Big Bang singularity;
+  includes a corrected analysis of why quark binding sources the strong force, not the weak
+  force. Status: OPEN, not a STUR result.
+
 ---
 
 ## Contributing
