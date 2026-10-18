@@ -131,6 +131,27 @@ of √(90/24) ≈ 1.94. At C=9/16 that moves H_bounce from 101 to 52 M̄_Pl; at 
 weak lever that already failed for the preon-layer idea in §2.2, for the same structural
 reason (a square/fourth-root dependence on dof, not linear).
 
+**Checked for a connection to STUR's own established parameters — none found, and one
+important distinction to avoid.** Searched this repository for any of the numbers used above
+(C=1/32, 9/16; g_Q=24; η_computed≈9.5×10⁻⁶; H_bounce≈100–207 M̄_Pl) against STUR's own
+established dimensionless constants (κ=2.430, σ=0.862, α_eff=1.480, λ_chrono=e^(1/π)≈1.376,
+κ_q=2.417, κ_l=2.367, and others). No genuine match exists — the one numerical near-miss found
+(α_GUT~1/24 at the GUT scale, in `ABSOLUTE_MASS_DERIVATION.md`) is a coupling constant at an
+unrelated energy scale, not a degrees-of-freedom count, and treating it as a connection would
+be exactly the kind of forced numerology this project has flagged and rejected elsewhere
+(e.g. the chronomagnetics triangle, the δ_CP automorphism). Reported here as a clean null
+result, not a near-miss. There is, however, a conceptual distinction worth making explicitly:
+STUR's own first axiom is TEGR (gravity as torsion, not curvature) — superficially resonant
+with this document's torsion-based mechanism, but **not the same thing**. TEGR is a
+*reformulation* of ordinary GR (same predictions, same singularities, by construction — the
+torsion there is a geometric re-encoding of curvature, not a new physical effect). The
+Einstein-Cartan-Kibble-Sciama torsion used in this document is a genuine *extension* beyond
+GR, sourced by fermion spin density, that changes physical predictions at high density (that
+is the entire point of the bounce). STUR's TEGR axiom, taken on its own, would **not** by
+itself produce this bounce mechanism — ECKS spin-torsion coupling is an additional ingredient
+this document imports from outside STUR's stated axioms, not a consequence already contained
+in them. Conflating the two kinds of "torsion" would be a mistake, not a discovery.
+
 ### 2.1 Thermal sourcing (first attempt) — lands trans-Planckian
 
 Sourcing n_q(a) from a pre-existing thermal quark bath (standard entropy-conservation
