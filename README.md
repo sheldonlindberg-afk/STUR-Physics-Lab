@@ -466,10 +466,14 @@ STUR-Physics-Lab/
 
 ### Exploratory / Open Research (not closure claims)
 - [Quark-Resistance Torsion Bounce](QUARK_RESISTANCE_BOUNCE_COSMOLOGY.md) — standalone
-  real-ΛCDM backward cosmology (H0 as a free dial) plus a test of whether an Einstein-Cartan
-  torsion mechanism, sourced by quark pair production, can replace the Big Bang singularity;
-  includes a corrected analysis of why quark binding sources the strong force, not the weak
-  force. Status: OPEN, not a STUR result.
+  real-ΛCDM backward cosmology (H0 as a free dial), tested against whether an Einstein-Cartan
+  torsion mechanism, sourced by quark pair production, can replace the Big Bang singularity.
+  **Negative result**: every variant tried (thermal bath, preon-layer patch, self-sourced
+  production with an assumed efficiency, self-sourced with an *actually computed* efficiency)
+  lands at or above ~100 M_Planck, not a trustworthy sub-Planckian scale. Also includes a
+  corrected analysis of why quark binding sources the strong force, not the weak force, and a
+  survey of what new physics a literal tunneling-driven weak force would require. Status:
+  OPEN, negative result, not a STUR closure claim.
 
 ---
 

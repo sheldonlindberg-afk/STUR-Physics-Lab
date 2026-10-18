@@ -26,9 +26,10 @@ gravitational particle production, lattice electroweak-transition results) with 
 coefficient explicitly flagged as such — no numerology, no fabricated precision. Both halves
 of the original claim are checked: does "resistance to tunneling creates quarks" supply a real
 gravitational effect that can replace the Big Bang singularity with something more specific
-(§1–§3), and does "binding creates the weak force" survive as stated (§4)? The remaining open
-items — the exact ECKS coefficient, a full backreacting numerical solve, and what new physics
-a literal tunneling-driven weak force would require — are listed in §7.
+(§1–§3, answer: not quite — real mechanism, wrong magnitude by ~100×), and does "binding
+creates the weak force" survive as stated (§4, answer: no, misattributed, corrected)? The
+remaining open items (what would still need to change for either half to actually close) are
+listed in §7.
 
 ---
 
