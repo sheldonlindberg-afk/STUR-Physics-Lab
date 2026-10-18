@@ -2,8 +2,12 @@
 
 **Document Type:** Exploratory Derivation (standalone real-physics baseline + extension)
 **Framework:** Standard ΛCDM + Einstein-Cartan-Kibble-Sciama (ECKS) torsion gravity
-**Status:** OPEN — one mechanism built and checked for coherence; not a closed STUR result
-**Scripts:** `scripts/lcdm_backward_baseline.py`, `scripts/quark_resistance_torsion_bounce.py`
+**Status:** OPEN — negative result. Every version of the torsion-bounce mechanism tried here
+(thermal-sourced, preon-layer-patched, self-sourced with an assumed production efficiency,
+and self-sourced with an actually *computed* production efficiency) lands trans-Planckian.
+Not a closed STUR result; see §5 for the full verdict table.
+**Scripts:** `scripts/lcdm_backward_baseline.py`, `scripts/quark_resistance_torsion_bounce.py`,
+`scripts/quark_bogoliubov_bounce.py`
 
 ---
 
@@ -231,6 +235,56 @@ exact match to the ΛCDM baseline, for C = 9/16, η = 0.1. Ω_torsion/Ω_r at BB
 8.0×10⁻¹⁶⁹ — even more negligible than the thermal version (the self-sourced term falls off
 even faster, n² ∝ a⁻¹²).
 
+### 2.4 Computing η instead of assuming it — the mechanism does not survive
+
+Everything in §2.3 above used η as a scanned free parameter (0.01–1), on the heuristic
+assumption that gravitational particle production populates modes up to k~H at O(η)
+occupancy. That heuristic can actually be checked: the dimensionless bounce shape implied by
+§2.3's own ansatz is exact and closed-form (matter and Λ are negligible near the bounce, so
+E²(a) = Ω_r a⁻⁴ − Ω_r a_bounce⁸ a⁻¹², with a_bounce defined by E²=0). In x≡a/a_bounce,
+τ≡H_bounce·t, this gives a **universal, parameter-free bounce shape**:
+
+h(x) ≡ H/H_bounce = √(x⁻⁴ − x⁻¹²), &nbsp; dx/dτ = √(x⁻² − x⁻¹⁰)
+
+(cross-checked two independent ways — finite difference on the full E²(a), and the closed
+form's own derivative — that dh/dτ at the bounce is exactly 4.0000, i.e. Ḣ(0) = 4 H_bounce²,
+an exact identity of this mechanism, not a fitted number). Running the **same validated
+Bogoliubov/adiabatic-vacuum mode equation** used for the dark-matter calculation
+(`DARK_MATTER_RELIC_DENSITY.md` Part VIII.3) — not an assumed occupation, an actual mode
+equation solved through this exact bounce background, for quarks (M/H_bounce ~ 10⁻²¹,
+indistinguishable from exactly massless) — gives a genuinely computed number:
+
+**η_computed ≈ 9.5 × 10⁻⁶**
+
+five to six orders of magnitude below the η ≳ 0.3 that §2.3 needed for a sub-Planckian
+result. This was checked for IR convergence (the momentum integrand k²n_k → 0 as k → 0,
+confirmed down to k=0.002 H_bounce, so the result isn't an artifact of an unresolved
+long-wavelength tail) and the representative-mode trace shows the expected plateau
+(adiabaticity restored) well before the read-out point. Physically: only a narrow band of
+modes near the bounce's own curvature scale (κ ~ 0.1–1 in H_bounce units) are produced with
+order-unity occupancy; most of the naive "all modes up to k~H" phase space assumed by the η
+heuristic simply isn't actually populated for a *smooth* (non-singular) transition — this is
+the real, computed answer, not the optimistic guess.
+
+Feeding this back into the self-consistency formula from §2.3 (valid regardless of which C or
+η was used to locate the bounce in the first place, since the dimensionless shape above does
+not depend on them — only on the mechanism's a⁻¹² structure):
+
+| C | self-consistent H_bounce (using η_computed) |
+|---|---|
+| 1/32 (best-anchored) | **207 M̄_Pl** |
+| 9/16 (alternative convention) | **101 M̄_Pl** |
+
+**This reverses the §2.3 conclusion.** Once the production efficiency is actually computed
+rather than optimistically assumed, the self-sourced mechanism lands at ~100–200 M̄_Pl —
+*worse* than the original thermal-bath estimate in §2.1 for the better-anchored coefficient.
+The conceptual fix (let the tunneling event supply its own density, rather than assuming a
+pre-existing bath) was the right question to ask, and the calculation needed to answer it was
+worth doing properly — but the honest answer is that it does not rescue this mechanism. A
+smooth, non-singular bounce in this specific construction (quarks, this specific a⁻¹² torsion
+term) produces far too few quanta to generate enough self-sourced repulsion to turn around
+before trans-Planckian densities, for either candidate value of C.
+
 ---
 
 ## 3. What "the whole universe tunneling at once" can and can't mean
@@ -330,7 +384,8 @@ Higgs sector gives for free — and to say so.
 | Can resistance-to-tunneling (quark-sourced torsion) replace the singularity with something real? | Yes, via a real, citable mechanism (ECKS/Popławski) — a bounce always exists for any positive coupling. |
 | Is the bounce scale trustworthy with a pre-existing thermal bath? | No — trans-Planckian (1.4–138 M̄_Pl) for any plausible coupling. |
 | Does adding sub-quark dof fix this? | No — checked quantitatively; the lever is too weak (∝1/g) and the fix requires implausible dof. |
-| Does letting the tunneling event supply its own density fix this? | Yes — self-consistency gives a fourth-root-damped result landing at 0.15–8.5 M̄_Pl across the full honest parameter range, with the literature-anchored point (C=9/16, η=0.1) at 0.98 M̄_Pl. |
+| Does letting the tunneling event supply its own density fix this, *assuming* an O(η) production efficiency? | Looked like yes at first — fourth-root-damped self-consistency landed at 0.15–8.5 M̄_Pl across the scanned η ∈ [0.01,1]. |
+| Does it still work once η is *actually computed* (§2.4), not assumed? | **No.** Running the real Bogoliubov mode equation through the exact bounce background gives η≈9.5×10⁻⁶ — far below what §2.3 needed. Self-consistent H_bounce comes out at 101–207 M̄_Pl, worse than the original thermal estimate. This reverses the §2.3 conclusion. |
 | Does any of this disturb standard cosmology (age, BBN)? | No, checked explicitly in both versions — negligible at BBN, exact age match in both cases. |
 | Does quark binding create the weak force? | No — misattributed. Binding resistance is the strong force (confinement). The weak force's familiar form comes from EWSB, which is a smooth crossover in the real SM (T_c=159.5 GeV), not a tunneling event, unless new BSM scalar content is added. |
 
@@ -381,6 +436,14 @@ Higgs sector gives for free — and to say so.
 
 ---
 
-**Document Status:** OPEN. One real mechanism built, scanned honestly over its uncertain
-coefficients, and checked for coherence against standard cosmology. Not a STUR closure claim —
-a standalone real-physics exploration, written up for reproducibility.
+**Document Status:** OPEN, negative result on the cosmological half of the original claim. A
+real mechanism (ECKS torsion repulsion) was built, scanned honestly over its uncertain
+coefficients, and checked for coherence against standard cosmology (age, BBN both pass in
+every version). Four variants were tried — thermal bath, preon-layer patch, self-sourced with
+an assumed efficiency, self-sourced with a computed efficiency — and none lands at a
+trustworthy sub-Planckian scale; the best current number is ~100 M̄_Pl. "Resistance to
+tunneling creates quarks" remains a real, citable mechanism in the sense that it genuinely
+produces *some* gravitational repulsion, but not enough, by 2+ orders of magnitude in H, to
+credibly replace the Big Bang singularity with this specific construction. Not a STUR closure
+claim — a standalone real-physics exploration, written up for reproducibility, including the
+negative result.
