@@ -382,6 +382,36 @@ treat a first-order EWSB as a new, explicit BSM ingredient (extra scalars, as el
 baryogenesis model-builders already do for the same reason), not something the measured SM
 Higgs sector gives for free — and to say so.
 
+### 4.1 What a first-order EWSB would actually require (sketch, not a new model)
+
+If this is carried forward, here is what real electroweak-baryogenesis model-building uses to
+restore a first-order transition — a survey of the existing options, not a new derivation or
+a specific proposal for this project to adopt:
+
+- **A real gauge-singlet scalar added to the Higgs sector** (Profumo, Ramsey-Musolf &
+  Shaughnessy, *Singlet Higgs Phenomenology and the Electroweak Phase Transition*,
+  arXiv:0705.2425): the singlet mixes with the Higgs and can produce a tree-level barrier
+  between the symmetric and broken phases, restoring a strong first-order transition for
+  specific regions of its mass/coupling parameter space. One new scalar field, one new mass
+  scale, one new coupling — the minimal addition.
+- **A dimension-six EFT deformation of the Higgs potential**, i.e. a new operator (H†H)³
+  suppressed by a cutoff scale Λ, without committing to what new states generate it (Grojean,
+  Servant & Wells, hep-ph/0610003): viable for Λ in the range ~500–1000 GeV. This is the
+  "agnostic" option — it doesn't say what the new physics is, only that something at the TeV
+  scale must generate this operator.
+- **A second Higgs doublet** (2HDM): can restore a first-order transition for part of its
+  parameter space, generally requiring one new scalar mass at least ~300 GeV (per a
+  dimension-six-operator treatment: Anisha, Biermann, Englert & Mühlleitner, *Two Higgs
+  doublets, effective interactions and a strong first-order electroweak phase transition*,
+  JHEP 08 (2022) 091, arXiv:2204.06966).
+
+All three options share the same structure: **a new scalar (or an EFT stand-in for one) at or
+near the TeV scale**, with no fixed, uniquely preferred choice among them in the literature.
+Nothing established elsewhere in this project (κ, σ, chronomagnetics, the Z₃ triangle) points
+to a specific new scalar at this scale — adopting any of these would be a genuinely new,
+unmotivated conjecture for this project, not a consequence of anything already derived here.
+This is recorded as the real menu of options, not a recommendation to pick one.
+
 ---
 
 ## 5. Summary verdict
@@ -424,6 +454,12 @@ Higgs sector gives for free — and to say so.
   full Standard Model, 66.5 ± 1.4 GeV in the pure SU(2)-Higgs sector)
 - D'Onofrio & Rummukainen, *The Standard Model cross-over on the lattice*, Phys. Rev. D 93,
   025003 (2016), arXiv:1508.07161 (crossover at the physical Higgs mass, T_c = 159.5 ± 1.5 GeV)
+- Profumo, Ramsey-Musolf & Shaughnessy, *Singlet Higgs Phenomenology and the Electroweak
+  Phase Transition*, arXiv:0705.2425 (§4.1, BSM option: real singlet scalar)
+- Grojean, Servant & Wells, hep-ph/0610003 (§4.1, BSM option: dimension-six (H†H)³ operator)
+- Anisha, Biermann, Englert & Mühlleitner, *Two Higgs doublets, effective interactions and a
+  strong first-order electroweak phase transition*, JHEP 08 (2022) 091, arXiv:2204.06966
+  (§4.1, BSM option: two Higgs doublet model)
 
 ---
 
@@ -435,12 +471,22 @@ Higgs sector gives for free — and to say so.
    source directly (confirmed session-wide network policy, not arxiv-specific) to pick
    between them or rule out a third convention entirely. A future session with that access
    should replace this two-candidate treatment with the verified value.
-2. **This is a leading-order (test-field, fixed-background) estimate**, standard practice in
-   this literature but not a full dynamical, self-consistently backreacting numerical solve
-   through the bounce.
-3. **If a first-order EWSB is wanted** (to literally recover a tunneling-driven weak-force
-   activation, per §4), the specific new scalar content required has not been specified or
-   checked against anything else established in this project.
+2. **This is a leading-order (test-field, fixed-background) estimate, not a full dynamical,
+   self-consistently backreacting solve — considered, and deliberately not pursued further.**
+   Backreaction corrections matter when a leading-order result is marginal; §2.4's result
+   (H_bounce off by a factor of ~100–200 from the Planck scale once η is actually computed)
+   is not marginal. No plausible O(1)-ish backreaction correction closes a 2-order-of-magnitude
+   gap, so building the full nonlinear solver was judged not to be worth the effort it would
+   take relative to what it could change. This would need revisiting only if a future
+   coefficient-C determination (item 1) or a different source mechanism entirely moved the
+   leading-order estimate back into marginal territory.
+3. **Post-bounce continuity (quarks → QCD confinement) — not modeled, and not high-value to
+   model further given item 2.** Standard thermal-history physics (hadronization at the real
+   QCD crossover, T≈155 MeV) is well-established and independent of whether this specific
+   bounce mechanism is viable; modeling it in detail for a mechanism already shown not to
+   reach a trustworthy density would mostly be modeling the standard model, not this proposal.
+4. **If a first-order EWSB is wanted** (to literally recover a tunneling-driven weak-force
+   activation, per §4) — see the sketch added below, §4.1.
 
 ---
 
