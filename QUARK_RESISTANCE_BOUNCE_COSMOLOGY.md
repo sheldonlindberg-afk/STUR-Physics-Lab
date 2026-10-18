@@ -76,7 +76,12 @@ Substituting the algebraic torsion solution back into Einstein's equation produc
 effective extra term in the stress-energy tensor, quadratic in fermion number density n and
 **repulsive**:
 
-ρ_eff = ρ − α n², &nbsp; p_eff = p + α n²
+ρ_eff = ρ − α n², &nbsp; p_eff = p − α n²
+
+(**correction**: an earlier version of this document wrote p_eff = p + α n² — opposite sign.
+That was wrong, caught on a later audit pass; see the honesty note below for the verified
+form. It never affected any computed number here, because the bounce-location code only ever
+uses the ρ_eff/H² equation, not p_eff — confirmed by grep against the script.)
 
 This is the real mechanism behind Popławski's nonsingular big-bounce cosmology (*Phys. Rev. D*
 85, 107502 (2012), arXiv:1111.4595), built on the original ECKS formalism (Hehl, von der
@@ -84,16 +89,30 @@ Heyde, Kerlick & Nester, *Rev. Mod. Phys.* 48, 393 (1976)). It directly operatio
 "resistance to tunneling" as gravitational repulsion rather than an invented force, and it
 specializes naturally to a TEGR/torsion-based framework.
 
-**Honesty note on the coefficient.** α must have units of 1/mass² by dimensional analysis
-alone, and gravity's only natural mass scale is the Planck mass, so α = C/M̄_Pl² for some
-dimensionless C. **The exact primary-source value of C could not be verified in this session**
-— arxiv.org and every mirror/review host tried (ar5iv, export.arxiv.org, inspirehep,
-semanticscholar) were blocked by this session's network policy. Secondary-source search
-snippets gave two different prefactors in different unit conventions (α=(9/16)κ in one,
-α=κ(ℏc)²/32 in another) that could not be reconciled without the primary derivation. C is
-therefore treated throughout as an **explicit, scanned free parameter** — the same honest
-treatment already given to the Chung-Kolb-Riotto O(1) coefficient in
-`DARK_MATTER_RELIC_DENSITY.md` Part VIII.
+**Honesty note on the coefficient — updated with a better-anchored estimate.** α must have
+units of 1/mass² by dimensional analysis alone, and gravity's only natural mass scale is the
+Planck mass, so α = C/M̄_Pl² for some dimensionless C. **The primary-source papers themselves
+remain unreachable in this session** — not just arxiv.org, but every external host tried
+(ar5iv, export.arxiv.org, inspirehep, semanticscholar, and even unrelated university/personal
+pages like math.newhaven.edu) returns a proxy-level connection refusal, confirming this is a
+session-wide network policy, not an arxiv-specific block. What changed on a later pass:
+targeted search queries surfaced a **self-consistent, cross-checked** equation rather than a
+bare assertion. Unger & Popławski (*Big Bounce and Closed Universe from Spin and Torsion*,
+ApJ 870, 78 (2019), arXiv:1808.08327) give the general spin-fluid form ε_eff = ε − κs²/4,
+p_eff = p − κs²/4 (s = spin density; same-sign correction to both, as corrected above), and
+for an **unpolarized** fermion gas s² = (1/8)(ℏcn)². Substituting: κs²/4 =
+κ(ℏc)²n²/32 = αn² with **α = κ(ℏc)²/32**, i.e. **C = 1/32 ≈ 0.03125** (using κ=8πG=1/M̄_Pl² in
+natural units). This substitution is arithmetically verified here, not just quoted — it is
+why this value is trusted more than the other secondary-source figure found earlier
+(α=(9/16)κ, from arXiv:1111.4595, a different paper using "a different spin-averaging
+convention" per the search's own description — the two are not necessarily in conflict, but
+this session cannot read either primary derivation to confirm which applies). C is still
+reported as a **range, not a single verified number** — C=1/32 is the best-anchored current
+estimate, C=9/16 the alternative-convention figure, both explicitly scanned below alongside
+the same honest treatment already given to the Chung-Kolb-Riotto O(1) coefficient in
+`DARK_MATTER_RELIC_DENSITY.md` Part VIII. Because of the self-sourced mechanism's fourth-root
+damping (§2.3), the 18× spread between these two values only shifts H_bounce by
+18^(1/4) ≈ 2.1× — it does not change the qualitative conclusion either way.
 
 **Specialization to quarks.** Popławski's mechanism is generic to any fermion species; it is
 narrowed here to quarks specifically because that is the claim under test. Quark dof used:
@@ -186,8 +205,9 @@ magnitude, so η² spans 4 orders):
 | C | η = 0.01 | η = 0.1 | η = 1 |
 |---|---|---|---|
 | 0.01 | 8.50 | 2.69 | 0.85 |
+| 0.03125 (= 1/32, best-anchored, see above) | 6.39 | **2.02** | 0.64 |
 | 0.1 | 4.78 | 1.51 | 0.48 |
-| 0.5625 (= 9/16) | 3.10 | **0.98** | 0.31 |
+| 0.5625 (= 9/16, alternative convention) | 3.10 | 0.98 | 0.31 |
 | 1 | 2.69 | 0.85 | 0.27 |
 | 10 | 1.51 | 0.48 | 0.15 |
 
@@ -196,13 +216,15 @@ magnitude, so η² spans 4 orders):
 Across the whole scan, H_bounce/M̄_Pl spans only 0.15–8.5 — under two orders of magnitude
 (1.75 decades), despite the combined input (C η²) swinging over 7 orders of magnitude —
 consistent with the ¼-power law above: (10⁷)^(1/4) ≈ 56, matching the observed 8.5/0.15 ≈ 57.
-For the one literature-anchored
-coefficient (C = 9/16) with a conservative production efficiency (η = 0.1):
-**H_bounce = 0.98 M̄_Pl** — landing right at the Planck scale, which is the physically correct
-place for a classical mechanism to hand off to quantum gravity, not several orders of
-magnitude past it. For η = 1 (maximal occupancy), the bounce is comfortably sub-Planckian
-across the whole C range tested (0.15–0.85 M̄_Pl); for the same literature-anchored C = 9/16
-specifically, η = 1 gives 0.31 M̄_Pl.
+For the best-anchored coefficient (C = 1/32, derived above from the cross-checked spin-density
+substitution) with a conservative production efficiency (η = 0.1): **H_bounce = 2.02 M̄_Pl** —
+still trans-Planckian by a factor of ~2, inside the η=1 column it drops to **0.64 M̄_Pl**,
+sub-Planckian. The alternative-convention figure (C = 9/16) gives 0.98 M̄_Pl at η=0.1 and
+0.31 M̄_Pl at η=1. Both candidate coefficients land in the same qualitative place: right
+around the Planck scale, requiring η to not be too conservative (η ≳ 0.3–1, i.e. gravitational
+particle production populating a sizeable fraction of the available modes) to end up
+comfortably sub-Planckian rather than marginally above it. For η = 1 (maximal occupancy), the
+bounce is comfortably sub-Planckian across the whole C range tested (0.15–0.85 M̄_Pl).
 
 **Coherence checks (both pass, same as §2.1):** age(bounce → today) = **13.814064 Gyr**, an
 exact match to the ΛCDM baseline, for C = 9/16, η = 0.1. Ω_torsion/Ω_r at BBN =
@@ -324,6 +346,8 @@ Higgs sector gives for free — and to say so.
   arXiv:2102.04486 (2021)
 - Popławski, *Nonsingular, big-bounce cosmology from spinor-torsion coupling*, Phys. Rev. D 85,
   107502 (2012), arXiv:1111.4595
+- Unger & Popławski, *Big Bounce and Closed Universe from Spin and Torsion*, Astrophys. J. 870,
+  78 (2019), arXiv:1808.08327 (source of the best-anchored coefficient, C = 1/32, used in §2)
 - Hehl, von der Heyde, Kerlick & Nester, *General Relativity with Spin and Torsion: Foundations
   and Prospects*, Rev. Mod. Phys. 48, 393 (1976)
 - Chung, Kolb & Riotto, *Superheavy dark matter*, Phys. Rev. D 59, 023501 (1998),
@@ -342,9 +366,12 @@ Higgs sector gives for free — and to say so.
 
 ## 7. Open items (not addressed here)
 
-1. **The exact ECKS coefficient C** — this session could not reach arxiv.org or any mirror to
-   verify it against the primary source. A future session with that access should replace the
-   scanned-C treatment with the verified value.
+1. **The exact ECKS coefficient C** — narrowed, not resolved. §2 now anchors C=1/32 to a
+   cross-checked equation (Unger & Popławski 2019) rather than a bare assertion, with C=9/16
+   as the alternative-convention figure, but this session still cannot reach any primary
+   source directly (confirmed session-wide network policy, not arxiv-specific) to pick
+   between them or rule out a third convention entirely. A future session with that access
+   should replace this two-candidate treatment with the verified value.
 2. **This is a leading-order (test-field, fixed-background) estimate**, standard practice in
    this literature but not a full dynamical, self-consistently backreacting numerical solve
    through the bounce.

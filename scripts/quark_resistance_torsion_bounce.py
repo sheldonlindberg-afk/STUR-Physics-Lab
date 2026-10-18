@@ -9,27 +9,39 @@ MECHANISM (real, citable, not invented here):
   no kinetic term), sourced locally by fermion spin density. Substituting the
   algebraic torsion solution back into the Einstein equation produces an
   EFFECTIVE extra term in the stress-energy tensor that is quadratic in the
-  fermion number density n and REPULSIVE (negative effective energy density,
-  positive effective pressure): rho_eff = rho - alpha*n^2, p_eff = p + alpha*n^2.
-  This is the real mechanism behind Poplawski's nonsingular big-bounce
-  cosmology (Phys. Rev. D 85, 107502 (2012), arXiv:1111.4595; see also Hehl,
-  von der Heyde, Kerlick & Nester, Rev. Mod. Phys. 48, 393 (1976) for the
-  original ECKS formalism).
+  fermion number density n and REPULSIVE: rho_eff = rho - alpha*n^2,
+  p_eff = p - alpha*n^2 (SAME sign on both -- an earlier version of this file
+  had p_eff = p + alpha*n^2, which was wrong; corrected on audit. It never
+  affected any number below, since p_eff is never used in this script, only
+  rho_eff via the H^2/Friedmann equation). This is the real mechanism behind
+  Poplawski's nonsingular big-bounce cosmology (Phys. Rev. D 85, 107502
+  (2012), arXiv:1111.4595; see also Hehl, von der Heyde, Kerlick & Nester,
+  Rev. Mod. Phys. 48, 393 (1976) for the original ECKS formalism).
 
 HONESTY NOTE ON THE COEFFICIENT (read before trusting any bounce number
-below): arxiv.org and all mirror/review hosts (ar5iv, export.arxiv.org,
-inspirehep, semanticscholar) are blocked by this session's egress proxy, so
-the exact PRIMARY-SOURCE numerical prefactor could not be verified directly
-in this session. Secondary-source search snippets gave two DIFFERENT
-prefactors in different unit conventions (alpha=(9/16)*kappa in one, alpha =
-kappa*(hbar*c)^2/32 in another) that could not be reconciled without reading
-the primary derivation. What IS certain by dimensional analysis alone (no
-literature needed): alpha must have units of 1/mass^2, and gravity's only
-natural mass scale is the Planck mass, so alpha = C / M_Pl_reduced^2 for
-some dimensionless C that the literature puts at O(0.1-1) in the cases found.
-C is therefore treated here as an EXPLICIT, SCANNED free parameter -- exactly
-the same honest treatment given to the Chung-Kolb-Riotto O(1) coefficient in
-DARK_MATTER_RELIC_DENSITY.md Part VIII -- not a fabricated precise number.
+below): arxiv.org and every other external host tried (ar5iv,
+export.arxiv.org, inspirehep, semanticscholar, and even unrelated
+university/personal pages) return a proxy-level connection refusal in this
+session -- confirmed to be a session-wide network policy, not an
+arxiv-specific block. alpha must have units of 1/mass^2 by dimensional
+analysis alone, and gravity's only natural mass scale is the Planck mass, so
+alpha = C / M_Pl_reduced^2 for some dimensionless C. Targeted search queries
+did surface a SELF-CONSISTENT, cross-checked equation (not just a bare
+assertion): Unger & Poplawski, Big Bounce and Closed Universe from Spin and
+Torsion, ApJ 870, 78 (2019), arXiv:1808.08327, give the general spin-fluid
+form with alpha = kappa*s^2/(4*n^2), and for an UNPOLARIZED fermion gas
+s^2 = (1/8)*(hbar*c*n)^2, substituting to alpha = kappa*(hbar*c)^2/32, i.e.
+C = 1/32 = 0.03125 (verified by direct substitution, not just quoted). A
+DIFFERENT paper (arXiv:1111.4595) gives alpha=(9/16)*kappa instead, from "a
+different spin-averaging convention" per the search summary -- this session
+cannot read either primary derivation to confirm which applies here. C=1/32
+is treated as the best-anchored current estimate; C=9/16 as the alternative-
+convention figure; both are scanned below alongside a wider range, the same
+honest treatment already given to the Chung-Kolb-Riotto O(1) coefficient in
+DARK_MATTER_RELIC_DENSITY.md Part VIII. Because of the self-sourced
+mechanism's 1/4-power damping (see below), the 18x spread between these two
+values only shifts H_bounce by 18**0.25 =~ 2.1x -- not a free pass to treat
+C as precisely known, but not a conclusion-changing uncertainty either.
 
 WHAT n IS, AND WHY IT'S SPECIALIZED TO QUARKS (a choice, flagged as such):
 Poplawski's mechanism is generic to any fermion species; it is specialized
@@ -269,7 +281,7 @@ if __name__ == "__main__":
     print("\n=== Self-sourced production: the tunneling event supplies its own density ===")
     print("  n_q(a) = eta * g_Q * H_rad(a)^3  (gravitational production, not a pre-existing bath)")
     print(f"  {'C':>8} {'eta':>6}   a_bounce      H_bounce/M_Pl")
-    for C in [0.01, 0.1, 9 / 16, 1.0, 10.0]:
+    for C in [0.01, 1 / 32, 0.1, 9 / 16, 1.0, 10.0]:
         for eta in [0.01, 0.1, 1.0]:
             report_bounce_selfsourced(H0, C, eta, Om, Or, OL)
 
