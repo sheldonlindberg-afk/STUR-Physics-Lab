@@ -238,19 +238,29 @@ a **first-order** electroweak phase transition, yes — it would proceed by bubb
 exactly like the vacuum decay discussed in §3, and the weak force's familiar form would
 literally switch on inside expanding bubbles.
 
-**But the real Standard Model's electroweak transition is not that.** Lattice studies find the
-SM electroweak transition is first-order only for Higgs mass below a critical value of
-roughly 72 GeV (Kajantie, Laine, Rummukainen & Shaposhnikov; critical mass confirmed by later
-continuum-extrapolated lattice work, e.g. Csikor, Fodor & Heitger). The measured Higgs mass is
-125 GeV — far above that boundary. Above it, the transition is a smooth **crossover**: no
-bubble nucleation, no latent heat, no tunneling. A dedicated lattice study at the physical
-Higgs mass (D'Onofrio & Rummukainen, *The Standard Model cross-over on the lattice*,
-arXiv:1508.07161) finds a crossover at T_c = 159.5 ± 1.5 GeV. **In the real, measured Standard
+**But the real Standard Model's electroweak transition is not that.** Kajantie, Laine,
+Rummukainen & Shaposhnikov (*Is There a Hot Electroweak Phase Transition at m_H ≳ m_W?*,
+Phys. Rev. Lett. 77, 2887 (1996), hep-ph/9605288) gave the first non-perturbative lattice
+evidence against a hot electroweak transition once the Higgs mass reaches the W mass. The
+continuum-extrapolated endpoint itself — the precise Higgs mass below which the transition is
+first-order and above which it is a crossover — was pinned down by Csikor, Fodor & Heitger
+(*Endpoint of the Hot Electroweak Phase Transition*, Phys. Rev. Lett. 82, 21 (1999),
+hep-ph/9809291) at **72.4 ± 1.7 GeV** for the full Standard Model (66.5 ± 1.4 GeV in the
+pure SU(2)-Higgs sector before adding fermions). The measured Higgs mass is 125 GeV — far
+above that boundary. Above it, the transition is a smooth **crossover**: no bubble
+nucleation, no latent heat, no tunneling. A later dedicated lattice study at the physical
+Higgs mass (D'Onofrio & Rummukainen, *The Standard Model cross-over on the lattice*, Phys.
+Rev. D 93, 025003 (2016), arXiv:1508.07161) finds a crossover at T_c = 159.5 ± 1.5 GeV. **In
+the real, measured Standard
 Model, the weak force did not turn on via a tunneling event** — it switched on smoothly. This
-is also why electroweak baryogenesis (which needs a first-order transition to work at all) is
-known to require new physics beyond the SM Higgs sector — it's the same well-established gap
-this project's own `BARYOGENESIS_DERIVATION.md` and `SOLAR_NEUTRINO_MASS_SPLIT.md` work has
-already run into from a different direction.
+is also the standard reason *electroweak* baryogenesis (the specific mechanism that needs a
+first-order transition to supply its out-of-equilibrium condition) is known to require new
+Higgs-sector physics beyond the SM. Note this is a separate point from this project's own
+`BARYOGENESIS_DERIVATION.md`, which uses leptogenesis (CP-violating heavy-neutrino decay) plus
+standard electroweak sphalerons, not electroweak baryogenesis — sphalerons are active in the
+symmetric phase above ≈130 GeV regardless of whether the transition below them is first-order
+or a crossover, so that document's mechanism does not depend on the EWPT's order and is not
+affected by the finding in this section.
 
 **The one place a real "resistance" framing legitimately applies to the weak force** is not
 tunneling at all: the W/Z mass itself (the reason the weak force is weak) is a restoring/mass
@@ -306,10 +316,13 @@ Higgs sector gives for free — and to say so.
   and Prospects*, Rev. Mod. Phys. 48, 393 (1976)
 - Chung, Kolb & Riotto, *Superheavy dark matter*, Phys. Rev. D 59, 023501 (1998),
   arXiv:hep-ph/9802238
-- Coleman, *Fate of the false vacuum: Semiclassical theory*, Phys. Rev. D 15, 2929 (1977)
+- Coleman, *The Fate of the False Vacuum. 1. Semiclassical Theory*, Phys. Rev. D 15, 2929 (1977)
 - Kajantie, Laine, Rummukainen & Shaposhnikov, *Is There a Hot Electroweak Phase Transition at
-  m_H ≳ m_W?*, Phys. Rev. Lett. 77, 2887 (1996), hep-ph/9605288 (first-order/crossover boundary
-  at m_H ≈ 72(2) GeV)
+  m_H ≳ m_W?*, Phys. Rev. Lett. 77, 2887 (1996), hep-ph/9605288 (first non-perturbative lattice
+  evidence against a hot transition once m_H reaches m_W)
+- Csikor, Fodor & Heitger, *Endpoint of the Hot Electroweak Phase Transition*, Phys. Rev. Lett.
+  82, 21 (1999), hep-ph/9809291 (continuum-extrapolated endpoint: m_H = 72.4 ± 1.7 GeV for the
+  full Standard Model, 66.5 ± 1.4 GeV in the pure SU(2)-Higgs sector)
 - D'Onofrio & Rummukainen, *The Standard Model cross-over on the lattice*, Phys. Rev. D 93,
   025003 (2016), arXiv:1508.07161 (crossover at the physical Higgs mass, T_c = 159.5 ± 1.5 GeV)
 
