@@ -18,12 +18,13 @@ proposed origin mechanism: the universe begins in its lowest-energy state and qu
 claimed to generate the weak force.
 
 Everything below is built from standard, citable physics (ΛCDM, Einstein-Cartan gravity,
-gravitational particle production) with every free coefficient explicitly flagged as such — no
-numerology, no fabricated precision. **The "binding creates the weak force" half of the claim
-is not addressed here** — that is explicitly the next open step (see §6). What *is* addressed
-is the cosmological half: does "resistance to tunneling creates quarks" supply a real
-gravitational effect that can replace the Big Bang singularity with something more specific,
-and if so, where does it land?
+gravitational particle production, lattice electroweak-transition results) with every free
+coefficient explicitly flagged as such — no numerology, no fabricated precision. Both halves
+of the original claim are checked: does "resistance to tunneling creates quarks" supply a real
+gravitational effect that can replace the Big Bang singularity with something more specific
+(§1–§3), and does "binding creates the weak force" survive as stated (§4)? The remaining open
+items — the exact ECKS coefficient, a full backreacting numerical solve, and what new physics
+a literal tunneling-driven weak force would require — are listed in §7.
 
 ---
 
@@ -165,14 +166,22 @@ where H_rad(a) is the **unperturbed** (pre-torsion) radiation-domination Hubble 
 standard leading-order treatment of computing production on the background the universe would
 have had, absent backreaction.
 
-**Why this resolves the trans-Planckian problem.** Substituting back and solving
-self-consistently (torsion term now depends on H itself):
+**Why this resolves the trans-Planckian problem.** At the bounce, the torsion term balances
+the radiation term: C η² g_Q² H_rad⁶ / (3 H0² M̄_Pl⁴) = H_rad²/H0² (using Ω_r(a) =
+H_rad(a)²/H0² at this order). The H0 and a-dependence cancel exactly, leaving a closed
+equation for H_rad itself:
 
-H_bounce ∝ M̄_Pl · (3 / (C η² g_Q²))^(1/8)
+C η² g_Q² H_rad⁴ = 3 M̄_Pl⁴ &nbsp;⟹&nbsp; **H_bounce = M̄_Pl · (3 / (C η² g_Q²))^(1/4)**
 
-An **eighth-root** dependence on the product of every uncertain number in the problem — vastly
-more damped than the direct, linear sensitivity in §2.1. Scanning C ∈ [0.01, 10] and
-η ∈ [0.01, 1] (five combined orders of magnitude of honest uncertainty):
+A **fourth-root** dependence on the product of every uncertain number in the problem — still
+far more damped than the direct, linear sensitivity in §2.1, though less dramatic than an
+earlier draft of this derivation claimed (an eighth-root dependence was written down first and
+is wrong: that exponent belongs to how the bounce *scale factor* a_bounce depends on these
+parameters, not to H_bounce; re-deriving and then checking directly against the numerical scan
+below — e.g. holding C fixed and comparing η=0.01 to η=1, a 10⁴× swing in η² should move
+H_bounce by exactly (10⁴)^(1/4)=10×, and the table does: 8.495/0.850 = 9.994 — confirms 1/4,
+not 1/8). Scanning C ∈ [0.01, 10] (3 orders of magnitude) and η ∈ [0.01, 1] (2 orders of
+magnitude, so η² spans 4 orders):
 
 | C | η = 0.01 | η = 0.1 | η = 1 |
 |---|---|---|---|
@@ -184,13 +193,16 @@ more damped than the direct, linear sensitivity in §2.1. Scanning C ∈ [0.01, 
 
 (table entries are H_bounce / M̄_Pl)
 
-Across the whole scan, H_bounce/M̄_Pl spans only 0.15–8.5 — under two orders of magnitude,
-despite five orders of magnitude of input uncertainty. For the one literature-anchored
+Across the whole scan, H_bounce/M̄_Pl spans only 0.15–8.5 — under two orders of magnitude
+(1.75 decades), despite the combined input (C η²) swinging over 7 orders of magnitude —
+consistent with the ¼-power law above: (10⁷)^(1/4) ≈ 56, matching the observed 8.5/0.15 ≈ 57.
+For the one literature-anchored
 coefficient (C = 9/16) with a conservative production efficiency (η = 0.1):
 **H_bounce = 0.98 M̄_Pl** — landing right at the Planck scale, which is the physically correct
 place for a classical mechanism to hand off to quantum gravity, not several orders of
-magnitude past it. For η → 1 (maximal occupancy), the bounce is comfortably sub-Planckian
-(0.15–0.31 M̄_Pl).
+magnitude past it. For η = 1 (maximal occupancy), the bounce is comfortably sub-Planckian
+across the whole C range tested (0.15–0.85 M̄_Pl); for the same literature-anchored C = 9/16
+specifically, η = 1 gives 0.31 M̄_Pl.
 
 **Coherence checks (both pass, same as §2.1):** age(bounce → today) = **13.814064 Gyr**, an
 exact match to the ΛCDM baseline, for C = 9/16, η = 0.1. Ω_torsion/Ω_r at BBN =
@@ -296,7 +308,7 @@ Higgs sector gives for free — and to say so.
 | Can resistance-to-tunneling (quark-sourced torsion) replace the singularity with something real? | Yes, via a real, citable mechanism (ECKS/Popławski) — a bounce always exists for any positive coupling. |
 | Is the bounce scale trustworthy with a pre-existing thermal bath? | No — trans-Planckian (1.4–138 M̄_Pl) for any plausible coupling. |
 | Does adding sub-quark dof fix this? | No — checked quantitatively; the lever is too weak (∝1/g) and the fix requires implausible dof. |
-| Does letting the tunneling event supply its own density fix this? | Yes — self-consistency gives an eighth-root-damped result landing at 0.15–0.98 M̄_Pl across the full honest parameter range. |
+| Does letting the tunneling event supply its own density fix this? | Yes — self-consistency gives a fourth-root-damped result landing at 0.15–8.5 M̄_Pl across the full honest parameter range, with the literature-anchored point (C=9/16, η=0.1) at 0.98 M̄_Pl. |
 | Does any of this disturb standard cosmology (age, BBN)? | No, checked explicitly in both versions — negligible at BBN, exact age match in both cases. |
 | Does quark binding create the weak force? | No — misattributed. Binding resistance is the strong force (confinement). The weak force's familiar form comes from EWSB, which is a smooth crossover in the real SM (T_c=159.5 GeV), not a tunneling event, unless new BSM scalar content is added. |
 
