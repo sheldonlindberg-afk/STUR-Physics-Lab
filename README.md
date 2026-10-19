@@ -474,6 +474,17 @@ STUR-Physics-Lab/
   corrected analysis of why quark binding sources the strong force, not the weak force, and a
   survey of what new physics a literal tunneling-driven weak force would require. Status:
   OPEN, negative result, not a STUR closure claim.
+- [GENESIS v6: Standard Cosmology Pipeline](GENESIS_V6_STANDARD_COSMOLOGY_PIPELINE.md) —
+  real, non-STUR physics: quantum tunneling nucleation → Starobinsky inflation → reheating
+  (computed, not assumed) → BBN (real PRIMAT nuclear rates) → recombination → DESI BAO,
+  confronted against real Planck/ACT/DESI/BBN data throughout. **Positive result**: 10/10
+  code-validation checks within 2σ of Planck's own published fit; physics tests consistent
+  with Planck's n_s (p=0.21); one real, quantified 2.6σ tension with newer ACT data, honestly
+  attributed to a specific falsifiable driver (inflation's n_s under standard reheating).
+  Independently reproduces the real Hubble tension three separate ways. Built and run outside
+  this repository and reviewed here from its output transcript, not independently re-executed
+  in this session — see the document's own Open Items. Status: OPEN, reviewed, not a STUR
+  closure claim.
 
 ---
 
