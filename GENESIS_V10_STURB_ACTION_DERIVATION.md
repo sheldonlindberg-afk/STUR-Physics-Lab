@@ -97,7 +97,7 @@ What this means for the falsification criteria:
 
 ## 5. Open costs of the extension (why this is not yet "derived from STUR")
 
-1. **c_γ ≈ 0.020 is unnatural.** Anomaly matching gives c_γ = E/2, with E = Σ X_f N_c Q_f², so the smallest natural value is 1/2. At c_γ = 1/2 and phase rate ω, β_rec ≈ 7°, which is excluded. Either the phase rotates about 25× slower than ω, or the photon coupling is suppressed by a mechanism not yet identified.
+1. **c_γ ≈ 0.020 is unnatural.** The chiral rotation gives c_γ = Σ X_f N_c Q_f² over R-charged Dirac fermions, so the smallest natural value is 1 (one charged lepton). At c_γ = 1 and phase rate ω, β_rec ≈ 14°, which is excluded. Either the phase rotates about 50× slower than ω, or the photon coupling is suppressed by a mechanism not yet identified. *(Corrected 2026-10-22: an earlier version said c_γ = E/2, smallest value 1/2, β ≈ 7°, 25×.)* STUR's own Yukawa gives c_γ = 8; see the addendum "β from the action, nothing fitted".
 2. **|R| ∝ t^{−1/2} contradicts the pinned vacuum |R| = v**, which `stur_master_action_derivation.html` uses for Λ_tree = 0. The rotating mode must be a separate light doublet (for example a KK or winding mode), not the vacuum R itself. That identification is not derived.
 3. **The rotating mode must have no color anomaly.** If the R-charged fermions carried color, φ G G̃ would make θ_QCD roll by about 200 rad since recombination, in conflict with the nEDM bound and with STUR's own "no axion" prediction (`stur_strong_cp_solution.html`). Only leptons, or color-vectorlike fermions, may carry R-charge.
 4. **ξ ≈ 146 is a large non-minimal coupling.** Its origin in the TEGR-XCRM reduction is not derived either. The literature analogue is "teleparallel dark energy" (ξ𝕋φ²).
@@ -136,3 +136,31 @@ Keep the A1 and A2 status in the pre-registration as "bridge hypothesis; not der
 - **Achromaticity:** β must be the same across all frequency bands.
 
 **What it cannot decide:** whether the rotation builds up with log-time. With the calibration angle marginalized, the STUR-B Δβ is a 1.0σ signal. Late-only rotation or miscalibration sits 1.0σ away, early-only rotation 0.2σ, and accrual in ln a instead of ln t 0.0σ. The Δβ criterion is therefore stored as a consistency check, not a decisive test.
+
+---
+
+## Addendum (2026-10-22): β from the action, nothing fitted
+
+`scripts/genesis_v10_beta_from_action.py` computes β with no free parameter. Every input comes from STUR:
+
+- **c_γ.** STUR's fermion coupling (`ALPHA_PARAMETER_DERIVATION.md` §1.2) is L_Y = −y(ψ̄_L R₁ ψ_R + ψ̄_L R₂ γ⁵ ψ_R + h.c.) = −y|R| ψ̄ e^{iγ⁵φ} ψ. This is a chiral, axion-like coupling for every charged fermion. Removing the phase by a chiral rotation gives, through the ABJ anomaly, **c_γ = Σ N_c Q_f² = 8** over three generations, and a color coefficient **c_s = 3**.
+- **Δφ.** The only log-time rate in STUR is the chronomagnetic **ω = 2π²**. That gives Δφ = ω ln(t₀/t*) = 207.7 rad since recombination.
+
+| Fermion content | c_γ | Predicted β | EB-equivalent (mod 90°) | C_BB/C_EE | vs observed 0.277 ± 0.057° |
+|---|---|---|---|---|---|
+| **STUR Yukawa, all charged fermions** | **8** | **110.6°** | **19.7°** | **0.40** | **340σ** |
+| leptons only | 3 | 41.5° | 41.1° | 0.98 | 717σ |
+| one generation | 8/3 | 36.9° | 36.6° | 0.92 | 636σ |
+| one charged lepton | 1 | 13.8° | 13.7° | 0.21 | 236σ |
+
+The calculation averages the rotation over the recombination visibility function. Depolarization is negligible, with polarization fraction ≥ 0.997.
+
+**Result.** The prediction derived from STUR's own ingredients is excluded by existing data:
+
+1. **The angle is far too large.** β is about 400× too large, 340σ away from the measured value.
+2. **It would make large B-modes.** Rotating E-modes into B-modes would give C_BB ≈ 0.4 C_EE, while observations require less than about 1%.
+3. **It conflicts with STUR's strong-CP solution.** The same rotation would make θ_QCD roll by 1246 rad. That contradicts the neutron EDM bound and STUR's own claim of no axion.
+
+Matching 0.277° would need the phase to rotate about 400× slower than ω (with c_γ = 8). The repo contains no mechanism for that. The Master Action as written (φ̇ = Q/v²a³) leaves Δφ set by an initial condition, so it makes no β prediction at all.
+
+**Implication for the pre-registration.** The status "bridge hypothesis; not derived from the STUR action" in both pre-registration files remains accurate. In fact it is now stronger: the direct derivation from STUR's own ingredients gives a β that is already excluded. A STUR-based birefringence prediction needs a new element: either a reason the R-phase rotates about 400× slower than ω today, or a reason the anomaly coefficient is suppressed. That element must also remove the color anomaly.

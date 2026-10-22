@@ -254,9 +254,9 @@ def part_D(bg, N, z, phi_C):
         out[name] = (ratio, db)
         print(f"  {name:34s} {ratio:7.3f} {breio:9.4f}° {db:+10.4f}° {s0:5.1f}σ {sp_:8.1f}σ {cg:>11s}")
     print("\n  c_g for C1 assumes the phase rotates at the chronomagnetic rate omega per unit ln t.")
-    print("  Anomaly matching gives c_g = E/2, E = sum_f X_f N_c Q_f^2 over R-charged chiral fermions;")
-    print("  the smallest natural value is c_g = 1/2 (one charged lepton). c_g ~ 0.02 is ~25x below")
-    print("  it: with c_g = 1/2 and phase rate omega, beta_rec would be ~ 7 deg, excluded.")
+    print("  The chiral rotation psi -> exp(-i gamma^5 theta/2) psi gives c_g = sum_f X_f N_c Q_f^2 over")
+    print("  R-charged Dirac fermions (genesis_v10_beta_from_action.py); the smallest natural value is")
+    print("  c_g = 1 (one charged lepton), ~50x above 0.02: beta_rec would be ~ 14 deg, excluded.")
     r1 = out["C1 STUR-B pre-registered (ln t)"][0]
     gate("C1 reproduces the pre-registered ratio 0.2129", abs(r1 - 0.21289825) < 1e-4, f"{r1:.4f}")
     return out
