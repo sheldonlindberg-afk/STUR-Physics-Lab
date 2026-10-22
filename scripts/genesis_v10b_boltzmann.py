@@ -59,10 +59,18 @@ class Sources:
     """S_E(k, eta) on a low-l grid (full history) and a high-l grid (recombination)."""
 
     def __init__(self, tau=0.0544, dz_reion=0.5, r=0.0):
-        p = camb.set_params(**COSMO, tau=tau, r=r, lmax=2500, WantTensors=r > 0)
+        # scalar-only run for the sources: with WantTensors on, get_time_evolution does not
+        # return the scalar E source (C_EE gate fails by 100%); tensors go in a separate run
+        p = camb.set_params(**COSMO, tau=tau, lmax=2500)
         p.Reion.delta_redshift = dz_reion
         self.pars = p
         self.res = camb.get_results(p)
+        if r > 0:
+            pt = camb.set_params(**COSMO, tau=tau, r=r, lmax=2500, WantTensors=True)
+            pt.Reion.delta_redshift = dz_reion
+            self.res_tot = camb.get_results(pt)
+        else:
+            self.res_tot = self.res
         self.eta0 = self.res.tau0
         self.zre = self.res.Params.Reion.redshift
         # low l: k <= 0.03, whole history (reionization needs it)
@@ -83,7 +91,7 @@ class Sources:
         self.zstar = self.res.get_derived_params()['zstar']
         self.tstar = self.res.physical_time(self.zstar)
         self.cl_unl = self.res.get_unlensed_scalar_cls(CMB_unit='muK', raw_cl=True)
-        self.cl_len = self.res.get_total_cls(CMB_unit='muK', raw_cl=True)
+        self.cl_len = self.res_tot.get_total_cls(CMB_unit='muK', raw_cl=True)
 
     def transfers(self, ells, betas):
         """C_EE (unrotated) and C_EB for each rotation history beta(z, t) [deg], per l"""
