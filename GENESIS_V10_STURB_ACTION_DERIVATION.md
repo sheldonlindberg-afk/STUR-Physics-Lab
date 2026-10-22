@@ -112,3 +112,27 @@ Keep the A1 and A2 status in the pre-registration as "bridge hypothesis; not der
 
 - record the C2 law (ratio 0.234, Δβ = −0.212 ± 0.044°) as the action-motivated variant, together with the extension L_B written above;
 - add C0 (ratio ≈ 0) to the competing-explanations list, noting that LiteBIRD separates it from STUR-B at only about 0.8σ.
+
+---
+
+## Addendum (2026-10-22): Stage 10b full-Boltzmann run and the inflation decision
+
+**Decision:** the pre-registration commits to **GENESIS R² inflation, r = 0.0035** (N* = 55). The r_eff = 0.0139 of `scripts/stur_inflation.py` is not used in this pre-registration.
+
+`scripts/genesis_v10b_boltzmann.py` (Stage 10b) replaces Stage 10's simplified reionization line-of-sight calculation with exact CAMB 2.0.5 E-mode sources. All 5 of its validation checks pass. Pre-registration file: `scripts/genesis_v10b_preregistration.json`, SHA-256 `8dde755844ca7c2416a6618f4565bce815ea3fd8d9e9268492e509ebb2663018`. The Stage 10 file is unchanged; both stand.
+
+| Quantity | Stage 10 (simplified) | Stage 10b (full Boltzmann) |
+|---|---|---|
+| κ [deg per unit ln t] | 0.02632 | 0.02674 ± 0.00550 |
+| β_reio/β_rec | 0.213 | **0.231** (0.225–0.259 across ε, phase, t_c, τ, reionization width) |
+| Δβ | −0.218 ± 0.045° | **−0.213 ± 0.044°** |
+| LiteBIRD σ(Δβ) | 0.05° (quoted) | **0.211° (computed, at r = 0.0035)** |
+
+**Why the computed σ(Δβ) is 4× the quoted value.** The quoted 0.05° (Sherwin & Namikawa 2021) assumes no primordial B-modes. GENESIS's own tensors add irreducible variance at ℓ = 2–10, exactly where β_reio is measured. The computed σ(Δβ) is 0.078° at r = 0, 0.142° at r = 0.001, 0.211° at r = 0.0035, and 0.352° at r = 0.0139.
+
+**What LiteBIRD can decide, at r = 0.0035:**
+- **Tensors:** r = 0.0035 at about 3.5σ. A measurement of r < 0.001 excludes GENESIS.
+- **Overall rotation:** κ ≠ 0 from high-ℓ β. Sensitivity is 41σ with the angle calibration known, so in practice LiteBIRD's ~0.02° absolute calibration sets the limit.
+- **Achromaticity:** β must be the same across all frequency bands.
+
+**What it cannot decide:** whether the rotation builds up with log-time. With the calibration angle marginalized, the STUR-B Δβ is a 1.0σ signal. Late-only rotation or miscalibration sits 1.0σ away, early-only rotation 0.2σ, and accrual in ln a instead of ln t 0.0σ. The Δβ criterion is therefore stored as a consistency check, not a decisive test.
