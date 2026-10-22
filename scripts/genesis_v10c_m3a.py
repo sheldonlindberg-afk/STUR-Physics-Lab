@@ -36,7 +36,6 @@ import os
 
 import camb
 import numpy as np
-from scipy.optimize import brentq
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 _spec = importlib.util.spec_from_file_location("g10b", os.path.join(HERE, "genesis_v10b_boltzmann.py"))
@@ -79,31 +78,35 @@ def run(fsky=0.6, noise=2.2, fwhm=30.0, lmax=1000, out_json="genesis_v10c_m3a_pr
         z2 = np.sum(wv * np.exp(2j * K * (th(t0) - th(gh['t']))))
         return np.degrees(np.angle(z2) / 2), abs(z2)
 
-    # ---- solve A0(delta) on a fine phase grid
+    # ---- exact calibration. beta ~ 0.3 deg, so beta_eff(l) is linear in A0: compute the
+    # exact high-l angle per unit A0 at every phase, solve A0 = beta_now / beta_high, then
+    # verify with a second exact pass at the solved amplitudes.
+    ells_lo = np.arange(2, 41)
+    ells_hi = np.unique(np.round(np.geomspace(45, 1500, 40)).astype(int))
+    ells = np.concatenate([ells_lo, ells_hi])
+    nl_h = G.litebird_noise(ells_hi, noise, fwhm)
     deltas = np.linspace(0, 2 * np.pi, 145)[:-1]
-    Agrid = np.linspace(1e-3, A_MAX, 1500)
+    H1 = {float(d): (lambda z, t, th=theta_fn(1.0, d, t0): np.degrees(K * (th(t0) - th(t)))) for d in deltas}
+    print(f"  pass 1: exact high-l angle per unit A0 at {len(deltas)} phases ...")
+    ce1, cb1 = src.transfers(ells_hi, H1)
+    hh = ells_hi >= 50
+    wl1 = (2 * ells_hi + 1) * ce1 ** 2 / ((ce1 + nl_h) * (src.cl_len[ells_hi, 2] + nl_h))
     sols = {}
-    for d in deltas:
-        vals = np.array([rec_angle(A, d)[0] for A in Agrid]) - BETA_NOW
-        idx = np.where(np.sign(vals[:-1]) != np.sign(vals[1:]))[0]
-        if len(idx):
-            A0 = brentq(lambda A: rec_angle(A, d)[0] - BETA_NOW, Agrid[idx[0]], Agrid[idx[0] + 1], xtol=1e-10)
-            sols[float(d)] = A0
+    for d in H1:
+        b1 = G.beta_eff(ce1, cb1[d])
+        bh1 = np.sum(wl1[hh] * b1[hh]) / np.sum(wl1[hh])
+        if bh1 > 0 and BETA_NOW / bh1 <= A_MAX:
+            sols[d] = BETA_NOW / bh1
     ds = np.array(sorted(sols))
     print(f"  phases with a solution (A0 <= {A_MAX} rad): {len(ds)}/{len(deltas)};"
           f" delta in [{ds.min():.3f}, {ds.max():.3f}] rad")
     print(f"  A0 range: {min(sols.values()):.3f} - {max(sols.values()):.3f} rad")
-    gate("recombination angle reproduces beta_now at every solution",
-         max(abs(rec_angle(sols[d], d)[0] - BETA_NOW) for d in ds) < 1e-6, "max error < 1e-6 deg")
 
-    # ---- exact CAMB transfers for every solution (+ STUR-B for the forecast)
-    ells_lo = np.arange(2, 41)
-    ells_hi = np.unique(np.round(np.geomspace(45, 1500, 20)).astype(int))
-    ells = np.concatenate([ells_lo, ells_hi])
+    # ---- pass 2: exact transfers at the solved amplitudes (+ STUR-B and miscalibration)
     H = {d: (lambda z, t, th=theta_fn(sols[d], d, t0): np.degrees(K * (th(t0) - th(t)))) for d in ds}
     H["STUR-B"] = G.histories(src)["STUR-B (ln t)"]
     H["late-only / miscalibration"] = lambda z, t: 1.0 + 0 * z
-    print(f"  computing exact transfers at {len(ells)} multipoles for {len(H)} histories ...")
+    print(f"  pass 2: exact transfers at {len(ells)} multipoles for {len(H)} histories ...")
     cee, ceb = src.transfers(ells, H)
     gate("C_EE vs CAMB, l = 2-40", np.max(np.abs(cee[:39] / src.cl_unl[ells_lo, 1] - 1)) < 0.01,
          f"max dev {np.max(np.abs(cee[:39] / src.cl_unl[ells_lo, 1] - 1)):.1e}")
@@ -120,8 +123,8 @@ def run(fsky=0.6, noise=2.2, fwhm=30.0, lmax=1000, out_json="genesis_v10c_m3a_pr
         preds[d] = dict(A0=sols[d], beta_high=bh, beta_reio=br, ratio=br / bh, delta_beta=br - bh,
                         pol=rec_angle(sols[d], d)[1], beta_eff_by_ell=b)
     bh_all = [p['beta_high'] for p in preds.values()]
-    gate("exact high-l angle = beta_now (visibility method check)",
-         max(abs(x - BETA_NOW) for x in bh_all) < 0.01, f"range {min(bh_all):.4f}-{max(bh_all):.4f} deg")
+    gate("exact high-l angle = beta_now at solved A0 (linearity)",
+         max(abs(x - BETA_NOW) for x in bh_all) < 1e-3, f"range {min(bh_all):.5f}-{max(bh_all):.5f} deg")
     ratios = np.array([p['ratio'] for p in preds.values()])
     dbs = np.array([p['delta_beta'] for p in preds.values()])
     pols = np.array([p['pol'] for p in preds.values()])
@@ -129,8 +132,11 @@ def run(fsky=0.6, noise=2.2, fwhm=30.0, lmax=1000, out_json="genesis_v10c_m3a_pr
     print(f"    beta_reio/beta_rec = {ratios.min():.3f} to {ratios.max():.3f}")
     print(f"    Delta beta         = {dbs.min():+.4f} to {dbs.max():+.4f} deg")
     print(f"    recombination polarisation fraction >= {pols.min():.5f}")
-    print(f"    beta_eff(l) flat: max |beta_eff(l) - beta_now| over l = 2-1500 is"
-          f" {max(np.max(np.abs(p['beta_eff_by_ell'] - BETA_NOW)) for p in preds.values()):.4f} deg")
+    hdev = max(np.max(np.abs(p['beta_eff_by_ell'][hi] - BETA_NOW)) for p in preds.values())
+    print(f"    high-l structure: max |beta_eff(l) - beta_now| over l = 50-1500 is {hdev:.4f} deg"
+          " (oscillation period in ln t ~ visibility width; stored per phase)")
+    pm = preds[ds[len(ds) // 2]]['beta_eff_by_ell']
+    print("    median phase, high l: " + " ".join(f"{l}:{b:.3f}" for l, b in zip(ells[hi][::4], pm[hi][::4])))
     print(f"    d beta/dt today <= {np.degrees(K * max(sols.values()) * OMEGA / (t0 * 1e9)):.1e} deg/yr")
     print(f"    (STUR-B, Stage 10b: ratio {STURB_STAGE10B['ratio']}, Delta beta {STURB_STAGE10B['delta_beta']} deg)")
 
@@ -173,7 +179,7 @@ def run(fsky=0.6, noise=2.2, fwhm=30.0, lmax=1000, out_json="genesis_v10c_m3a_pr
         "LiteBIRD finds |beta| < 3 x 0.02 deg at high l (absolute calibration): STUR-M3a excluded (it requires beta = beta_now != 0)",
         f"LiteBIRD finds Delta beta inconsistent with [{dbs.min():+.3f}, {dbs.max():+.3f}] deg at > 3 sigma (combined): STUR-M3a excluded",
         "beta varies with frequency across LiteBIRD bands beyond Faraday/foreground expectations: STUR-M3a (achromatic) excluded",
-        "beta_eff(l) shows l-dependence beyond the stored curves at > 3 sigma: STUR-M3a excluded (it predicts a flat beta_eff(l))",
+        "beta_eff(l) inconsistent at > 3 sigma with the stored curve of every admissible phase: STUR-M3a excluded",
         "a QCD axion is detected, or quarks are shown to carry R-charge: assumption H2 (c_s = 0) fails, STUR-M3a excluded",
     ]
     payload = dict(
@@ -186,7 +192,7 @@ def run(fsky=0.6, noise=2.2, fwhm=30.0, lmax=1000, out_json="genesis_v10c_m3a_pr
             H2="only leptons carry R-charge: c_g = 3, c_s = 0",
             H3="beta = (c_g alpha / 2 pi)[theta(t0) - theta(t_emit)]",
             status="H1 needs an explicit U(1)-breaking restoring force; H1 and H2 are not derived from the Master Action",
-            rules="A0 <= 3 rad; A0 solved per delta to match beta_now at high l; predictions are full ranges over all admissible delta",
+            rules="A0 <= 3 rad; A0 solved per delta so the exact EB-weighted high-l (l = 50-1500) angle equals beta_now; predictions are full ranges over all admissible delta",
         ),
         inputs=dict(beta_now=G.DATA['beta_now'], tau=G.DATA['tau'], cosmology=G.COSMO, r=0.0035,
                     c_g=C_G, c_s=C_S, omega=OMEGA, A_max=A_MAX),
@@ -196,8 +202,9 @@ def run(fsky=0.6, noise=2.2, fwhm=30.0, lmax=1000, out_json="genesis_v10c_m3a_pr
             ratio_reio_over_rec=[float(ratios.min()), float(ratios.max())],
             delta_beta_deg=[float(dbs.min()), float(dbs.max())],
             recombination_pol_fraction_min=float(pols.min()),
-            achromatic=True, flat_beta_eff=True,
-            beta_eff_by_ell_median_phase={int(l): float(b) for l, b in zip(ells, preds[dmed]['beta_eff_by_ell'])},
+            achromatic=True,
+            beta_eff_by_ell_per_phase={f"{d:.4f}": {int(l): float(b) for l, b in zip(ells, preds[d]['beta_eff_by_ell'])}
+                                       for d in ds},
             ratio_robustness_median_phase=rob,
             no_qcd_axion=True,
         ),
