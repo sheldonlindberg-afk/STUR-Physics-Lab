@@ -244,24 +244,38 @@ def run(fsky=0.6, noise=2.2, fwhm=30.0, lmax=1000, out_json="genesis_v10b_prereg
     print("\n  robustness of beta_reio/beta_rec:")
     rob = {}
 
-    def ratio_for(srcx, **kw):
-        Hx = histories(srcx, **kw)
-        ce, cb = srcx.transfers(ells, {"s": Hx["STUR-B (ln t)"]})
-        b = beta_eff(ce, cb["s"])
-        bh = np.sum(wl[hi] * b[hi]) / np.sum(wl[hi])
-        return float(np.sum(wlo * b[lo]) / np.sum(wlo) / bh)
-    for lab, kw in [("eps = 0 (baseline)", {}),
-                    ("t_c = 1e5 yr", dict(t_c=1e-4)), ("t_c = 1 Myr", dict(t_c=1e-3))]:
-        rob[lab] = ratio_for(src, **kw)
+    # every history only reweights the same S_E j_l products, so all variants on one source
+    # set are evaluated in a single pass, on l = 2-10 plus a subset of the flat high-l plateau
+    rsel = (ells <= 10) | ((ells >= 50) & (np.arange(len(ells)) % 3 == 0))
+    er, wlr, hir, lor = ells[rsel], wl[rsel], hi[rsel], lo[rsel]
+    wlor = (2 * er[lor] + 1) * cee[rsel][lor]
+
+    def ratios(srcx, variants):
+        Hs = {lab: histories(srcx, **kw)["STUR-B (ln t)"] for lab, kw in variants.items()}
+        ce, cb = srcx.transfers(er, Hs)
+        out = {}
+        for lab in variants:
+            b = beta_eff(ce, cb[lab])
+            bh = np.sum(wlr[hir] * b[hir]) / np.sum(wlr[hir])
+            out[lab] = float(np.sum(wlor * b[lor]) / np.sum(wlor) / bh)
+        return out
+    phases = np.linspace(0, 2 * np.pi, 7)[:-1]
+    variants = {"eps = 0 (baseline)": {}, "t_c = 1e5 yr": dict(t_c=1e-4), "t_c = 1 Myr": dict(t_c=1e-3)}
+    for e_ in (0.5, 1.0):
+        for i, ph in enumerate(phases):
+            variants[f"eps={e_} ph{i}"] = dict(eps=e_, phase=ph)
+    rr = ratios(src, variants)
+    for lab in ("eps = 0 (baseline)", "t_c = 1e5 yr", "t_c = 1 Myr"):
+        rob[lab] = rr[lab]
         print(f"    {lab:28s} {rob[lab]:.3f}")
     for e_ in (0.5, 1.0):
-        rr = [ratio_for(src, eps=e_, phase=ph) for ph in np.linspace(0, 2 * np.pi, 7)[:-1]]
-        rob[f"eps = {e_}, phases"] = [min(rr), max(rr)]
-        print(f"    {'eps = ' + str(e_) + ', 6 phases':28s} [{min(rr):.3f}, {max(rr):.3f}]")
+        v = [rr[f"eps={e_} ph{i}"] for i in range(len(phases))]
+        rob[f"eps = {e_}, phases"] = [min(v), max(v)]
+        print(f"    {'eps = ' + str(e_) + ', 6 phases':28s} [{min(v):.3f}, {max(v):.3f}]")
     for lab, kw in [("tau - 1 sigma", dict(tau=DATA['tau'][0] - DATA['tau'][1])),
                     ("tau + 1 sigma", dict(tau=DATA['tau'][0] + DATA['tau'][1])),
                     ("reion width dz = 1.5", dict(dz_reion=1.5))]:
-        rob[lab] = ratio_for(Sources(**kw))
+        rob[lab] = ratios(Sources(**kw), {lab: {}})[lab]
         print(f"    {lab:28s} {rob[lab]:.3f}")
     spread = max(abs(v - rob["eps = 0 (baseline)"]) if not isinstance(v, list)
                  else max(abs(x - rob["eps = 0 (baseline)"]) for x in v) for v in rob.values())
