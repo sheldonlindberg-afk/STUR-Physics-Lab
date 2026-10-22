@@ -203,3 +203,42 @@ M3 also has two requirements of its own:
 2. R-charges for leptons only.
 
 Neither is derived in the repo.
+
+---
+
+## Addendum (2026-10-22): STUR-M3a pre-registered alongside STUR-B (Stage 10c)
+
+`scripts/genesis_v10c_m3a.py` produces `scripts/genesis_v10c_m3a_preregistration.json`, SHA-256 `d3008ee624930ae356f4cfe3c89f331d7cbae8628346c895a4dba37f44224638`. It records both STUR-B hashes. None of the three files replaces another.
+
+**Hypothesis.**
+- θ(t) = A₀ sin(2π² ln(t/t₀) + δ), with constant amplitude.
+- Only leptons carry R-charge, so c_γ = 3 and c_s = 0.
+- β = (c_γ α/2π)[θ(t₀) − θ(t_emit)].
+
+**Rules fixed before computing.**
+- A₀ ≤ 3 rad.
+- A₀ is solved per phase so that the exact EB-weighted high-ℓ angle equals β_now.
+- The predictions are the full ranges over all admissible phases.
+
+**Admissible solutions.** 49 of 144 phases qualify: δ = 0.52–2.62 rad, with A₀ = 1.44–2.93 rad. Both gates pass.
+
+| Prediction | STUR-M3a | STUR-B (Stage 10b) |
+|---|---|---|
+| β_reio/β_rec | 0.983 – 1.093 (τ ±1σ, reionization width: 1.05–1.07) | 0.231 |
+| Δβ | −0.005 to +0.026° | −0.213 ± 0.044° |
+| High-ℓ β_eff(ℓ) | ℓ-dependent, up to 0.07° from β_now (stored per phase) | flat (0.273–0.280°) |
+| Depolarization at recombination | < 10⁻⁴ | negligible |
+| Frequency dependence | none | none |
+| QCD axion | none (c_s = 0 required) | not addressed |
+
+**What LiteBIRD can and cannot decide** (Δβ, angle calibration marginalized, r = 0.0035):
+- If STUR-B is true, M3a is disfavored at **1.0σ**.
+- If M3a is true, STUR-B is disfavored at only 0.3σ.
+- M3a vs miscalibration: 0.35σ.
+- Δβ therefore cannot separate the two hypotheses decisively.
+
+What does decide:
+- an absolute high-ℓ β ≠ 0 (both hypotheses need this);
+- achromaticity across frequency bands;
+- the ℓ-structure of β_eff, which needs a dedicated forecast;
+- no QCD axion, for M3a.
