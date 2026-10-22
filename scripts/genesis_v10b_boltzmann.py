@@ -144,11 +144,13 @@ def litebird_noise(ell, noise_uk_arcmin, fwhm_arcmin):
     return (np.radians(noise_uk_arcmin / 60.0)) ** 2 * np.exp(ell * (ell + 1) * th ** 2 / (8 * np.log(2)))
 
 
-def eb_forecast(src, L, templ, fid_name, fsky, noise, fwhm, lmax):
-    """templ[name](l) = C_EB per unit amplitude on the full l range; alpha template = 2(C_EE - C_BB)"""
+def eb_forecast(src, L, templ, fid_name, fsky, noise, fwhm, lmax, cl=None):
+    """templ[name](l) = C_EB per unit amplitude on the full l range; alpha template = 2(C_EE - C_BB).
+    cl: total (lensed + tensor) spectra; primordial B-modes are irreducible variance for EB"""
+    cl = src.cl_len if cl is None else cl
     ell = np.arange(2, lmax + 1)
-    cee = src.cl_len[ell, 1]
-    cbb = src.cl_len[ell, 2]
+    cee = cl[ell, 1]
+    cbb = cl[ell, 2]
     nl = litebird_noise(ell, noise, fwhm)
     var = ((cee + nl) * (cbb + nl)) / ((2 * ell + 1) * fsky)
     t_alpha = 2 * np.radians(1.0) * (cee - cbb)          # dC_EB / d alpha [per deg]
@@ -299,8 +301,24 @@ def run(fsky=0.6, noise=2.2, fwhm=30.0, lmax=1000, out_json="genesis_v10b_prereg
     for n, d in fc['delta_chi2'].items():
         print(f"      {n:34s} Delta chi^2 = {d:7.2f}  ({np.sqrt(d):.1f} sigma)")
 
+    # ---- primordial B-modes are cosmic variance for the l = 2-10 EB measurement
+    print("\n  sigma(Delta beta) vs tensor amplitude (the GENESIS r prediction degrades its own test):")
+    r_scan = {}
+    for r_, lab in ((0.0, "r = 0 (Sherwin & Namikawa-like)"), (0.001, "r = 0.001"),
+                    (0.0035, "r = 0.0035 (GENESIS R^2, used above)"), (0.0139, "r = 0.0139 (stur_inflation.py)")):
+        pr_ = camb.set_params(**COSMO, tau=DATA['tau'][0], r=r_, lmax=2500, WantTensors=r_ > 0)
+        clr = camb.get_results(pr_).get_total_cls(CMB_unit='muK', raw_cl=True)
+        f_ = eb_forecast(src, L, templ, "STUR-B (ln t)", fsky, noise, fwhm, lmax, cl=clr)
+        sdb = abs(P['delta_beta']) * f_['sigma_A_marg_alpha']
+        r_scan[str(r_)] = dict(sigma_delta_beta_deg=sdb, signal_sigma=1 / f_['sigma_A_marg_alpha'])
+        print(f"    {lab:38s} sigma(Delta beta) = {sdb:.3f} deg   STUR-B Delta beta at {1 / f_['sigma_A_marg_alpha']:.1f} sigma")
+
     crit = [
-        f"LiteBIRD finds Delta beta inconsistent with {P['delta_beta']:+.3f} deg at > 3 sigma (combined): STUR-B log-time accrual excluded",
+        f"LiteBIRD finds Delta beta inconsistent with {P['delta_beta']:+.3f} deg at > 3 sigma (combined, computed sigma "
+        f"{s_db_lb:.3f} deg at r = 0.0035): STUR-B log-time accrual excluded. NOTE: at this sigma the test is weak "
+        f"(late-only rotation sits {np.sqrt(fc['delta_chi2']['late-only / miscalibration']):.1f} sigma away); it is a "
+        f"consistency check, not a decisive test, unless r is small",
+        "LiteBIRD measures r < 0.0010 at 95%: GENESIS R^2 inflation (any reheating) excluded",
         "LiteBIRD finds |beta| < 3 x 0.02 deg at high l: STUR-B coupling kappa excluded",
         "beta varies with frequency across LiteBIRD bands beyond Faraday/foreground expectations: STUR-B (achromatic) excluded",
         f"beta_eff(l) at l = 2-10 inconsistent with the stored curve at > 3 sigma for every eps, phase in the robustness scan",
@@ -325,7 +343,7 @@ def run(fsky=0.6, noise=2.2, fwhm=30.0, lmax=1000, out_json="genesis_v10b_prereg
         ),
         litebird_forecast=dict(fsky=fsky, noise_uK_arcmin=noise, fwhm_arcmin=fwhm, lmax=lmax,
                                detection_sigma_alpha_marg=det, sigma_delta_beta_deg=s_db_lb,
-                               delta_chi2=fc['delta_chi2']),
+                               delta_chi2=fc['delta_chi2'], sigma_delta_beta_vs_r=r_scan),
         falsification=crit,
         gates=gates,
     )
