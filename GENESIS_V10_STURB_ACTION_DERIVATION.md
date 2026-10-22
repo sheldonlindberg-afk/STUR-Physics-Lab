@@ -164,3 +164,42 @@ The calculation averages the rotation over the recombination visibility function
 Matching 0.277° would need the phase to rotate about 400× slower than ω (with c_γ = 8). The repo contains no mechanism for that. The Master Action as written (φ̇ = Q/v²a³) leaves Δφ set by an initial condition, so it makes no β prediction at all.
 
 **Implication for the pre-registration.** The status "bridge hypothesis; not derived from the STUR action" in both pre-registration files remains accurate. In fact it is now stronger: the direct derivation from STUR's own ingredients gives a β that is already excluded. A STUR-based birefringence prediction needs a new element: either a reason the R-phase rotates about 400× slower than ω today, or a reason the anomaly coefficient is suppressed. That element must also remove the color anomaly.
+
+---
+
+## Addendum (2026-10-22): no-fit check of r, and a search for a suppression mechanism
+
+### r (`scripts/genesis_v10_r_from_action.py`)
+
+- **r = 0.0035 (pre-registered) is not a STUR output.** It assumes Starobinsky R² inflation. The STUR action has no R² (or 𝕋²) term, and f(𝕋) gravity does not propagate a scalaron.
+- **`stur_inflation.py`'s r = 0.0139 is a calculation slip.** It rescales ε at fixed N. But its own friction β_H = 3 + 2π also stretches N(R). Done consistently, its model gives **r = 24/(β_H N) = 0.043** at N = 60 (0.047 at N = 55). Numerical integration confirms this, and the β_H = 3 limit reproduces 8/N. That value is above the BICEP/Keck bound of 0.036, so the model is excluded. Its n_s = 1 − 2/N claim is correct.
+
+### Suppression search (`scripts/genesis_v10_phase_suppression.py`)
+
+Only mechanisms built from structure already in the repo were tested. No numerical ratio was searched for to produce the required factor of about 400.
+
+| Mechanism | c_γ | c_s | Result |
+|---|---|---|---|
+| M1: Z₃ generation R-charges sum to zero | 0 | 0 | β = 0 exactly. Strong-CP safe, but 4.9σ from the measured 0.277° |
+| M2: only leptons carry R-charge | 3 | 0 | Rotation at ω gives β = 41°, excluded |
+| M3: the R-phase **oscillates**, θ = A sin(ω ln t + δ), leptons only | 3 | 0 | Bounded excursion of order A instead of 207 rad: see below |
+
+**M3(a), the repo's own equation (friction 1/t, constant amplitude):**
+
+- **Amplitude.** β_now = 0.277° is reproduced with **A₀ = 1.45–2.72 rad**, an O(1) amplitude. The pre-set naturalness gate (A₀ ≤ 1 rad) still fails, and the threshold was fixed before the run.
+- **Sign.** Only today's phases δ ≈ 0.5–2.1 rad give a positive β, so the measured sign of β selects the phase.
+- **What it predicts.** The oscillating part averages out across each visibility window. Every photon then carries the same angle K·A₀ sin δ, so **β_reio/β_rec = 1.01–1.06 and Δβ = +0.004 to +0.016°**.
+
+**M3(b), FRW friction (amplitude ∝ t^(−1/2)):**
+
+- **Depolarization.** The amplitude at recombination is about 192× larger than today, so most phases depolarize the CMB heavily (polarization fraction 0.07–0.92).
+- **Surviving phases.** Those that keep polarization above about 98.7% need A₀ ≈ 0.13–0.18 rad and give **ratio ≈ 0.01 to −0.08** (early-only-like).
+
+**Conclusion.** The only STUR-internal mechanism that gives a natural size (M3a) predicts **no tomographic difference**, ratio ≈ 1. That is the opposite of STUR-B's pre-registered 0.231, and at LiteBIRD it is indistinguishable from late-time rotation or miscalibration. No mechanism found in the repo reproduces log-time accrual (ratio ≈ 0.23) with natural parameters.
+
+M3 also has two requirements of its own:
+
+1. A restoring force on the R-phase. This explicitly breaks the Master Action's U(1), as Part A shows.
+2. R-charges for leptons only.
+
+Neither is derived in the repo.
