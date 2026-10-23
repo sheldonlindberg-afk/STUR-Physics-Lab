@@ -143,8 +143,8 @@ print(f"""
   ε_eff  = ε₀ × (3/β_H)² = {eps_0:.5f} × {f_sq:.5f} = {eps_eff:.6f}
   r_eff  = 16 ε_eff       = {r_eff:.5f}
 
-  BICEP/Keck bound: r < {r_BICEP}   →  r_eff = {r_eff:.4f}  ✓ WITHIN BOUND
-  CMB-S4 target:   r < {r_CMBS4}   →  will DETECT at {r_eff/r_CMBS4:.1f}× above sensitivity
+  [SUPERSEDED - calculation slip, see STEP 3b] r_eff = {r_eff:.4f} rescales eps at fixed N;
+  with the e-fold remapping the same model gives r = 24/(beta_H N) = {24/(beta_H*N_CMB):.4f} (excluded).
 """)
 
 # ─── STEP 3: Spectral index ───────────────────────────────────────────────────
