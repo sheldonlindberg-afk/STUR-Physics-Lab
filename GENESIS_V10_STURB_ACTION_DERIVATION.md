@@ -242,3 +242,29 @@ What does decide:
 - achromaticity across frequency bands;
 - the ℓ-structure of β_eff, which needs a dedicated forecast;
 - no QCD axion, for M3a.
+
+---
+
+## Addendum (2026-10-23): detectability of STUR-M3a's ℓ-dependent β_eff (`scripts/genesis_v10c_m3a_lshape.py`)
+
+**How the forecast was checked.** The script re-derives the registered M3a solutions using the registered rule. It recovers the same 49 phases and reproduces the stored β_eff(ℓ) curves to 6×10⁻⁵°. It then extends the exact CAMB transfers to ℓ = 3000; C_EE matches CAMB to 4×10⁻⁴ there.
+
+**The shape it predicts.** At high ℓ, M3a's β_eff(ℓ) falls below β_now. For the median phase: 0.277° at ℓ ≈ 135, 0.266° at 944, 0.237° at 1536, 0.169° at 2499. The cause is that the oscillation period in ln t (1/π) is comparable to the recombination visibility width, so higher multipoles weight different parts of that window. STUR-B is flat (0.273–0.282°). A constant rotation, whether a true β or miscalibration, is flat by construction, so this test is calibration-free.
+
+**Forecast.** The table gives the significance at which a flat rotation with a free angle is rejected if M3a is true, across all 49 admissible phases. Instrument parameters are approximate.
+
+| Experiment | M3a: min / median / max | STUR-B control |
+|---|---|---|
+| LiteBIRD (2.2 μK′, 30′, ℓ ≤ 1000) | 0.35 / 0.38 / 0.60σ | 1.0σ |
+| ACT DR6-like (18 μK′, 1.4′, ℓ 300–3000) | 1.0 / 1.2 / 2.1σ | 0.1σ |
+| Simons Observatory LAT-like (8 μK′) | 2.5 / 3.2 / 6.3σ | 0.2σ |
+| CMB-S4-like (2 μK′) | 8.1 / 11.3 / 25.9σ | 0.6σ |
+
+**Conclusion.** M3a's decisive test is the **high-ℓ decline of β_eff(ℓ)**. It comes from ground-based telescopes, not LiteBIRD. Simons Observatory reaches about 3σ (2.5σ for the least favorable phase). A CMB-S4-class survey would confirm or exclude the decline at more than 8σ for every admissible phase. Existing ACT DR6 data are already at the 1–2σ level, so a published binned β(ℓ) from ACT would be an informative first check.
+
+**Not modelled:**
+- lensing remapping of the EB pattern, which smooths the decline somewhat;
+- foreground residuals;
+- ℓ-dependent instrumental EB, for example beam ellipticity, which could mimic or mask the shape.
+
+The registered curves extend only to ℓ = 1500. The ℓ = 1500–3000 curves computed here have not yet been hashed in a pre-registration.
