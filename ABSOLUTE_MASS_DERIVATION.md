@@ -5,8 +5,8 @@
 **Author:** Derived for STUR Framework v4.3
 **Date:** 2026-02-05 (Updated with f_ℓ = 1/√3 and f_u^{node} = 0.133 corrections)
 **Status:** SUPERSEDED / CONTAINS CORRECTED ERRORS — This document predates the
-canonical closure result (STUR v7.0.2, June 2026: 24D + 3P + 2U + 1I = 30
-observables, 83% closure) and uses an earlier, separately-maintained
+canonical closure result (STUR v7.0.2, June 2026: 23D + 3P + 3U + 1I = 30
+observables, 79% closure) and uses an earlier, separately-maintained
 derivation pipeline. Several arithmetic errors have been identified and fixed
 in place below (flagged inline with ⚠️), including a ~1000× error in the
 neutrino Majorana-mass calculation and a ~55% error in the Higgs-VEV λ^22

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR Inflation & Baryogenesis — Derivation from First Principles (v7.0)</title>
-<meta name="description" content="v7.0 TOE: Derivation of cosmic inflation and baryogenesis from infinity helix dynamics. R-field inflation with n_s = 0.9667 (Planck-consistent). Tree-level r0 ≈ 0.133 is torsion-damped via Gamma_K=2*pi*H, beta_H=3+2*pi to r_eff = 0.0139, 39% of the BICEP/Keck bound (r < 0.036).">
+<meta name="description" content="v7.0 TOE: Derivation of cosmic inflation and baryogenesis from infinity helix dynamics. R-field inflation with n_s = 0.9667 (Planck-consistent). Tree-level r0 ≈ 0.133 is torsion-damped via Gamma_K=2*pi*H, beta_H=3+2*pi to r_eff = 0.0139 as originally computed; corrected (2026-10-23) r = 0.043 exceeds the BICEP/Keck bound (r < 0.036), so this model is excluded.">
 
 <!-- PWA & iOS meta tags -->
 <meta name="theme-color" content="#4ade80">
@@ -49,8 +49,9 @@
 
   <!-- v7.0 TOE Derivation Chain Visualization -->
   <div style="margin:1.25rem auto;max-width:800px;padding:0.75rem;background:linear-gradient(90deg,rgba(74,222,128,0.08),rgba(167,139,250,0.12),rgba(74,222,128,0.08));border-radius:10px;font-size:0.85rem;text-align:center;">
-    <strong>v7.0 chain:</strong> ∞₃ Helix → R-field Dynamics → <strong style="color:var(--success);">R-field Inflation (DERIVED)</strong> → n<sub>s</sub> = 0.9667 <strong style="color:var(--gold);">(PREDICTION)</strong> · r<sub>eff</sub> = 0.0139 (torsion-damped, 39% of BICEP/Keck bound)
+    <strong>v7.0 chain:</strong> ∞₃ Helix → R-field Dynamics → <strong style="color:var(--success);">R-field Inflation (DERIVED)</strong> → n<sub>s</sub> = 0.9667 <strong style="color:var(--gold);">(PREDICTION)</strong> · r<sub>eff</sub> = 0.0139 (torsion-damped, 39% of BICEP/Keck bound) <em>(superseded 2026-10-23: corrected r = 0.043, excluded by BICEP/Keck)</em>
   </div>
+  <div style="margin:1rem auto;max-width:800px;padding:0.75rem 1rem;background:rgba(239,68,68,0.1);border-radius:8px;border-left:3px solid #ef4444;font-size:0.9rem;"><strong style="color:#ef4444;">Correction (2026-10-23):</strong> r<sub>eff</sub> = r₀(3/β<sub>H</sub>)² ≈ 0.0139 is a calculation slip: it rescales ε at fixed N, but the torsion friction also stretches N(R) and moves the pivot. Done consistently, the same model gives r = 24/(β<sub>H</sub>N) ≈ 0.043 (N = 60), above the BICEP/Keck bound r &lt; 0.036, so it is <strong>excluded</strong> (status D → U; check: <code>scripts/genesis_v10_r_from_action.py</code>). n<sub>s</sub> = 1 − 2/N is unaffected. The GENESIS LiteBIRD pre-registration uses Starobinsky R² (r = 0.0035), a GENESIS assumption, not derived from STUR. Values of 0.0139 below are kept as originally written.</div>
   <p style="text-align:center;font-size:0.8rem;color:var(--text-muted);">v7.0 TOE — Same infinity helix that gives SM parameters now gives inflation</p>
 
   <!-- Status Badge -->
@@ -84,7 +85,7 @@
       The scalar spectral index n<sub>s</sub> = 0.9667 is Planck-consistent.
       The tree-level tensor-to-scalar ratio r₀ ≈ 0.133 is damped by the torsion coupling
       (Γ<sub>K</sub> = 2πH, β<sub>H</sub> = 3+2π) to r<sub>eff</sub> = r₀×(3/β<sub>H</sub>)² ≈ 0.0139, comfortably
-      within the BICEP/Keck bound (r &lt; 0.036) — this mechanism is resolved, not an open refinement.
+      within the BICEP/Keck bound (r &lt; 0.036) — this mechanism is resolved, not an open refinement. <em>(Superseded: see the correction above; the consistent value r ≈ 0.043 is excluded.)</em>
       Post-inflation reheating produces heavy right-handed neutrinos, whose CP-violating decays
       generate the baryon asymmetry via leptogenesis.
     </p>
@@ -111,7 +112,7 @@
     <div style="padding:1rem;background:rgba(251,191,36,0.08);border-radius:10px;border-left:4px solid #fbbf24;">
       <strong style="color:#fbbf24;">Step 3: Concrete Predictions</strong>
       <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-        <strong>n<sub>s</sub> = 0.9667</strong> (PREDICTION, Planck-consistent) · <strong>r<sub>eff</sub> ≈ 0.0139</strong> (torsion-damped) — testable by CMB-S4, LiteBIRD
+        <strong>n<sub>s</sub> = 0.9667</strong> (PREDICTION, Planck-consistent) · <strong>r<sub>eff</sub> ≈ 0.0139</strong> (torsion-damped) — testable by CMB-S4, LiteBIRD <em>(superseded 2026-10-23: corrected r = 0.043, excluded by BICEP/Keck)</em>
       </p>
     </div>
     <div style="padding:1rem;background:rgba(34,211,238,0.08);border-radius:10px;border-left:4px solid #22d3ee;">
@@ -320,7 +321,7 @@
     </div>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
       \(r_{\rm eff} = 0.0139\) is about 39% of the BICEP/Keck bound (\(r < 0.036\)) — comfortably consistent, and a
-      sharp, falsifiable target for CMB-S4/LiteBIRD. The spectral index n<sub>s</sub> = 0.9667 is robustly
+      sharp, falsifiable target for CMB-S4/LiteBIRD. <em>(superseded 2026-10-23: corrected r = 0.043, excluded by BICEP/Keck)</em> The spectral index n<sub>s</sub> = 0.9667 is robustly
       Planck-consistent and does not depend on this refinement.
     </p>
   </div>
@@ -341,8 +342,8 @@
       </tr>
       <tr style="background:rgba(74,222,128,0.08);">
         <td>Tensor-to-scalar ratio \(r\)</td>
-        <td style="font-weight:bold;color:var(--success);">\(r_{\rm eff} \approx \mathbf{0.0139}\) (torsion-damped, DERIVED)</td>
-        <td>\(< 0.036\) (95% CL) -- consistent, 39% of bound</td>
+        <td style="font-weight:bold;color:#ef4444;">\(r \approx \mathbf{0.043}\) (corrected 2026-10-23; was 0.0139, a slip) -- U</td>
+        <td>\(< 0.036\) (95% CL) -- EXCLUDED, 120% of bound</td>
       </tr>
       <tr style="background:rgba(74,222,128,0.08);">
         <td>Number of e-folds \(N_e\)</td>
@@ -639,7 +640,7 @@
     <strong style="color:#4ade80;font-size:0.85rem;">Current Status:</strong>
     <span style="font-size:0.85rem;color:var(--text-secondary);">
       n<sub>s</sub> = 0.9667 vs Planck 2018 0.9649 ± 0.0042 — consistent ✓.
-      r<sub>eff</sub> = 0.0139 vs BICEP/Keck bound r &lt; 0.036 — consistent ✓ (39% of bound).
+      r<sub>eff</sub> = 0.0139 vs BICEP/Keck bound r &lt; 0.036 — consistent ✓ (39% of bound). <strong style="color:#ef4444;">Superseded:</strong> corrected r ≈ 0.043 — excluded ✗.
       η<sub>B</sub> ~ 10⁻⁹–10⁻¹⁰ order-of-magnitude estimate (see stur_leptogenesis_thermal.html honesty notes — the precise 6.12×10⁻¹⁰ figure is a target value, not a fully reconciled derivation).
     </span>
   </div>
@@ -653,8 +654,8 @@
     \[\boxed{\begin{aligned}
     &\text{Scalar spectral index:} &n_s &= \Diff{0.9667} &&\textbf{PREDICTION} \\
     &&&&& \text{(Planck: } 0.9649 \pm 0.0042\text{)} \;\checkmark \\[0.3em]
-    &\text{Tensor-to-scalar ratio:} &r_{\rm eff} &\approx \Diff{0.0139} &&\textbf{(torsion-damped, resolved)} \\
-    &&&&& \text{(BICEP/Keck: } r < 0.036\text{)} \;\checkmark \\[0.3em]
+    &\text{Tensor-to-scalar ratio:} &r &\approx \Diff{0.043} &&\textbf{(corrected 2026-10-23; was 0.0139)} \\
+    &&&&& \text{(BICEP/Keck: } r < 0.036\text{)} \;\times\;\text{excluded} \\[0.3em]
     &\text{Number of e-folds:} &N_e &\approx \Diff{55} &&\checkmark\;\text{SUFFICIENT} \\[0.3em]
     &\text{Running:} &dn_s/d\ln k &\approx -2/N^2 \approx -0.0007 &&\checkmark\;\text{SMALL}
     \end{aligned}}\]
@@ -662,12 +663,12 @@
   </div>
 
   <div class="eq law" style="background:#000;border:3px solid var(--gold);padding:1.25rem;margin-top:1rem;">
-    \[\boxed{\text{Z}_3\text{ Helix} \xrightarrow{\text{R-field}} \alpha|R|\mathbb{T} \xrightarrow{\text{v7.0}} n_s = 0.9667\;\checkmark,\;\; r_{\rm eff} \approx 0.0139\;\text{(torsion-damped)}\;\checkmark}\]
+    \[\boxed{\text{Z}_3\text{ Helix} \xrightarrow{\text{R-field}} \alpha|R|\mathbb{T} \xrightarrow{\text{v7.0}} n_s = 0.9667\;\checkmark,\;\; r \approx 0.043\;\text{(corrected; excluded)}\;\times}\]
     <div class="eq-label" style="color:var(--gold);">Same ∞₃ Helix → SM Parameters AND Inflation (v7.0)</div>
   </div>
 
   <p style="text-align:center;margin-top:1rem;font-size:1.1rem;color:var(--text);">
-    <strong>v7.0 TOE: The same infinity helix geometry that gives SM parameters also derives R-field inflation with n<sub>s</sub> = 0.9667 and torsion-damped r<sub>eff</sub> = 0.0139.</strong>
+    <strong>v7.0 TOE: The same infinity helix geometry that gives SM parameters also derives R-field inflation with n<sub>s</sub> = 0.9667 and torsion-damped r<sub>eff</sub> = 0.0139.</strong> <em>(Corrected 2026-10-23: the consistent value is r ≈ 0.043, excluded by BICEP/Keck; n<sub>s</sub> stands.)</em>
   </p>
 </section>
 

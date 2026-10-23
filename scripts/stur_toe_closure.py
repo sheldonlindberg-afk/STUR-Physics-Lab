@@ -653,7 +653,11 @@ xf, g_st = 26, 106.75;  f_co = 1.9
 #       just relocated from an exponent to a field-range parameter. RULED OUT.
 #   (b) Gravitational particle production at reheating (mass ~ H_I, no new coupling
 #       needed). H_I derived from this theory's own r_eff=0.0139 (already established, from
-#       XCRM Kirchhoff torsion damping) via the standard r = (2/pi^2)(H_I/M_Pl_reduced)^2
+#       XCRM Kirchhoff torsion damping) [CORRECTED 2026-10-23: r_eff = 0.0139 is a slip; the
+#       consistent value of the same model is r = 24/(beta_H N) = 0.043, excluded by
+#       BICEP/Keck -- see scripts/genesis_v10_r_from_action.py. With r = 0.043, H_I rises by
+#       sqrt(0.043/0.0139) = 1.76x to ~5.1e13 GeV and M_R/H_I ~ 3.9; the lead below rests on
+#       an excluded inflation model] via the standard r = (2/pi^2)(H_I/M_Pl_reduced)^2
 #       relation: H_I = 2.92e13 GeV. Compared against M_R = 2.0e14 GeV (established
 #       independently, from holonomy/seesaw -- unrelated part of the theory): M_R/H_I =
 #       6.84, i.e. these two independently-derived numbers from unrelated sectors land
@@ -742,7 +746,9 @@ N_CMB_inf  = 60
 r_0_inf    = 8.0 / N_CMB_inf                     # chaotic LO: 0.1333
 Gamma_inf  = 3 * kap_q * sig_q                    # n_w=3; = 2π (Kirchhoff exact)
 beta_inf   = 3.0 + Gamma_inf                      # = 3 + 2π
-r_eff_inf  = r_0_inf * (3.0 / beta_inf)**2        # XCRM torsion-damped
+r_eff_old  = r_0_inf * (3.0 / beta_inf)**2        # superseded: eps rescaled at fixed N (slip)
+r_eff_inf  = 24.0 / (beta_inf * N_CMB_inf)        # corrected 2026-10-23: e-fold remapping included
+                                                  # (= 0.043 > BICEP/Keck 0.036; genesis_v10_r_from_action.py)
 
 # ═══════════════════════════════════════════════════════════════════════════
 # PART 11 — GRAND SCORECARD v7.0
@@ -793,7 +799,9 @@ scorecard = [
      "D" if abs(mc_pred/m_t-0.00739)/0.00739*100 < 20 else "P",
      f"{abs(mc_pred/m_t-0.00739)/0.00739*100:.0f}%  KK threshold w/ QCD+EW gauge completion (was 29% QCD-only)"),
     ("ω = 2π²",        f"{omega_pred:.4f}",         "19.7392",      "XCRM",  "D", f"{abs(omega_pred-19.7392)/19.7392*100:.3f}%  phase closure"),
-    ("r (tens/scal)",  f"{r_eff_inf:.4f}",          "< 0.036",      "TEGR",  "D", f"{r_eff_inf/0.036*100:.0f}% of BICEP bound  XCRM Kirchhoff"),
+    ("r (tens/scal)",  f"{r_eff_inf:.4f}",          "< 0.036",      "TEGR",
+     "D" if r_eff_inf < 0.036 else "U",
+     f"{r_eff_inf/0.036*100:.0f}% of BICEP bound -- EXCLUDED; was D at r={r_eff_old:.4f} (slip, corrected 2026-10-23)"),
     # Partially derived (status auto-computed from deviation)
     ("sin²θ₁₂",        f"{sin2_12:.4f}",            "0.307",        "XCRM",
      "D" if abs(sin2_12-0.307)/0.307*100 < 20 else "P",
@@ -824,6 +832,7 @@ print(f"""
     D  {counts['D']:2d}  fully derived (< 20% from PDG, no fitted/circular inputs found)
     P  {counts.get('P',0):2d}  mechanism identified; NLO precision pending
     U  {counts.get('U',0):2d}  no independent mechanism found (M_DM/Omega_DM h^2 -- searched, see Part 9 note; genuinely circular, not merely imprecise)
+          + r: its only STUR model (torsion-damped chaotic) gives r = 0.043, excluded (2026-10-23)
     I   1  (4 fundamental inputs)
     Closure fraction: {D_frac:.0f}%  ({counts['D']}D / {counts['D']+counts.get('P',0)+counts.get('U',0)} non-input observables)
 

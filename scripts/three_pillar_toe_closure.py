@@ -60,7 +60,7 @@ y_Yukawa = abs(chi) * L_X_inv_GeV        # = 2π/3
 alpha_Mathieu = (y_Yukawa * v_EW * L_X_inv_GeV / (2 * np.pi))**2
 
 # Chronomagnetic parameters (from triangle {116, 138, 144})
-lambda_chrono = 3722 / 2705    # 1.3760
+lambda_chrono = 3722 / 2705    # 1.3760  # triangle approximation; v7.0 exact value is e^(1/pi) = 1.37479 (0.085% apart)
 omega_chrono = 2 * np.pi / np.log(lambda_chrono)  # 19.687
 
 # KK mass scale

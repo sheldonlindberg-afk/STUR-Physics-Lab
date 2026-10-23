@@ -36,7 +36,7 @@ else:
 # FUNDAMENTAL CHRONOMAGNETIC PARAMETERS
 # ═════════════════════════════════════════════════════════════════════════
 
-lambda_chrono = 3722 / 2705          # 1.375970...
+lambda_chrono = 3722 / 2705          # 1.375970...  # triangle approximation; v7.0 exact value is e^(1/pi) = 1.37479 (0.085% apart)
 ln_lambda = np.log(lambda_chrono)     # 0.319159...
 omega_chrono = 2 * np.pi / ln_lambda  # 19.687
 alpha_eff_phase_lock = 1.480          # at M = 1

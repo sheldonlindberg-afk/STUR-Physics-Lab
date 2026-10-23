@@ -7,13 +7,13 @@
 **Author:** Sheldon Lon Lindberg
 **Date:** 2026-06-29 (v7.0 update)
 **Version:** 7.0 — Full PMNS from U_ℓ†×U_ν; scorecard corrected in FIX pass (2026-07-18) to
-match the current repo-wide canonical count: 24D+3P+2U+1I=30 observables (83% closure). This
+match the current repo-wide canonical count: 23D+3P+3U+1I=30 observables (79% closure). This
 document previously stated three mutually inconsistent totals in three different places
 (header: 28D+0P+0U+1I=29; Closure Scorecard box: 31D+0P+1I=32; Part XI: 31D+0P+0U+1I=32 vs. a
 different "honest" 28D+0P+0U+1I=29) while simultaneously marking m_u as P-status in its own
 fermion table — a direct contradiction with any "0P" total. See the honesty notes at the
 Closure Scorecard box and Part XI for details.
-**Status:** TOE Candidate — 24 derived (D), 3 partially derived (P), 2 unresolved (U), 1 input (I) = 30 observables (83% closure)
+**Status:** TOE Candidate — 23 derived (D), 3 partially derived (P), 3 unresolved (U), 1 input (I) = 30 observables (79% closure)
 
 ---
 
@@ -126,13 +126,13 @@ N_ν = 2.9840 ± 0.0082 (from Z-width)
 > constants beyond these 4 inputs within the D-status observables, not to a literally
 > parameter-free theory. The v7.0 upgrade (`stur_v7_full_closure.py`) replaced most sector
 > anchoring and calibrated values with first-principles derivations, but not all — see the
-> corrected Closure Scorecard (24D+3P+2U+1I=30, 83%) earlier in this document.
+> corrected Closure Scorecard (23D+3P+3U+1I=30, 79%) earlier in this document.
 
 ### The Dynamic Infinity Helix — Resolution of Scale Questions
 
 The infinity helix is **never static**. It is an infinity helix (Gerono lemniscate in spatial projection) with chronomagnetic modulation M(t) = |sin(ω ln(t/t₀))| with ω = 19.687 governing its oscillation between winding and unwinding.
 
-**The manifold is the same at any scale — only the perspective changes.** This is discrete scale invariance with scaling ratio λ_chrono = 3722/2705. Within one log-period, approximately 67% of the continuous scale range is winding (M > 0.5) and 33% is unwinding.
+**The manifold is the same at any scale — only the perspective changes.** This is discrete scale invariance with scaling ratio λ_chrono = 3722/2705 (rational approximation of the v7.0 exact e^{1/π} = 1.37479). Within one log-period, approximately 67% of the continuous scale range is winding (M > 0.5) and 33% is unwinding.
 
 > **CHRONOMAGNETICS CLOSURE NOTE (v6.2.1):** The claim that 207 discrete self-similar copies are "simultaneously winding and unwinding" was found to be INCORRECT — all discrete copies at scales s_k = s₀λ^k have phase φ_k = 2πk ≡ 0 (mod 2π), meaning they are all at the same phase at any given time. The simultaneous winding/unwinding applies only to the continuous scale variation within one log-period. See `scripts/chronomagnetics_closure.py` PART 6.
 
@@ -152,7 +152,7 @@ The 5D universe simulation (`scripts/stur_5duniverse.html`) demonstrates this: t
 ### Remaining Open Questions (v7.0)
 
 > **Note (corrected in FIX pass):** The current repo-wide canonical scorecard is
-> 24D + 3P + 2U + 1I = 30 observables (83% closure), not "100% first-principles closure." m_u
+> 23D + 3P + 3U + 1I = 30 observables (79% closure), not "100% first-principles closure." m_u
 > is P-status (see fermion table below); M_DM and Ω_DM h² are U-status (circular, see table
 > row above); the items below are a mix of quantitative refinements and genuinely open
 > mechanisms, not purely the former.
@@ -172,7 +172,7 @@ The 5D universe simulation (`scripts/stur_5duniverse.html`) demonstrates this: t
 
 **Inputs:** M_Pl = 1.22 × 10¹⁹ GeV, v_EW = 246.22 GeV, m_t = 172.57 GeV, α_em⁻¹ = 137.036
 **Axioms:** 5D TEGR spacetime, real doublet R-field (XCRM), energy minimization
-**Scripts:** `scripts/stur_toe_closure.py` (canonical — corrected in FIX pass to 24D+3P+2U+1I=30, 83% closure), `scripts/five_open_problems_closure.py` (v6.5 historical), `scripts/stur_v7_full_closure.py` (v7.0 historical)
+**Scripts:** `scripts/stur_toe_closure.py` (canonical — corrected in FIX pass to 23D+3P+3U+1I=30, 79% closure), `scripts/five_open_problems_closure.py` (v6.5 historical), `scripts/stur_v7_full_closure.py` (v7.0 historical)
 
 ### Chain Step 0: ∞₃ Selected by Energy Minimization
 
@@ -349,7 +349,7 @@ reflects the current canonical count.
                                sector: M_Pl sets scale, v_EW/m_t/α_em
                                are EW sector)
 ═══════════════════════════════════════════════════════════════
-  83% closure (24/29 non-input observables fully derived)
+  79% closure (23/29 non-input observables fully derived)
 
   v7.0 UPGRADE: Most previously-P observables moved to D via
   first-principles derivation in scripts/stur_v7_full_closure.py:
@@ -549,7 +549,7 @@ The modulation function M(t) follows from the discrete scale invariance of the t
 K_μν(λt) = K_μν(t)
 ```
 
-where λ = 3722/2705 is the **chronomagnetic scaling ratio**.
+where λ = 3722/2705 is the **chronomagnetic scaling ratio**. *(Note: §2.3b below supersedes this with the v7.0 exact value λ = e^{1/π} = 1.37479; 3722/2705 is its rational approximation, 0.085% off.)*
 
 **Origin of λ from ∞-helix node geometry:**
 
@@ -600,7 +600,10 @@ The TEGR-XCRM action on the FLRW background M⁴ × S¹/∞₃ gives an effectiv
 d²W/dt² + (1/t) dW/dt + (ω/t)² W = 0     [Cauchy-Euler in cosmological time]
 ```
 
-The (1/t) damping term comes from TEGR torsion on FLRW; the (ω/t)² restoring term comes from the XCRM coupling χ between the R-field winding mode and the torsion background. The general solution:
+The (1/t) damping term comes from TEGR torsion on FLRW; the (ω/t)² restoring term comes from the XCRM coupling χ between the R-field winding mode and the torsion background.
+> **Honesty note (2026-10-23):** this equation is not the FRW zero-mode equation it is described as. For a homogeneous mode in a ∝ t^p the friction is 3H = 3p/t, which is **2/t** in matter domination (p = 2/3), not 1/t (1/t needs p = 1/3, a stiff/kination era). With 2/t the solution is W = t^(−1/2) sin(√(ω² − ¼) ln t): the amplitude decays. The (ω/t)² ∝ H² restoring term is a non-minimal coupling ξ𝕋|R|² that does not appear in the Master Action (which has α|R|𝕋), and the Master Action's U(1) forbids any restoring force on the R-phase. W is a real amplitude, not the R-field angle. See `scripts/genesis_v10_sturb_action_audit.py` (Parts A–B). The log-periodic form and ω = 2π² below are kept as originally stated; they remain a hypothesis.
+
+The general solution:
 
 ```
 W(t) = A sin(ω ln(t/t₀)) + B cos(ω ln(t/t₀))
@@ -1169,7 +1172,7 @@ The S¹/∞-helix topology admits UV completion through F-theory on CY₄ with b
 
 ### 11.3 Novel Chronomagnetic Predictions
 
-1. **Log-periodic CKM drift**: Precision measurements should show modulation at λ_chrono = 3722/2705 timescale
+1. **Log-periodic CKM drift**: Precision measurements should show modulation at λ_chrono = 3722/2705 (rational approximation of the v7.0 exact e^{1/π} = 1.37479) timescale
 2. **Phase-lock signatures**: Enhanced coherent scattering at cosmological epochs where M(t) = 1
 3. **Chronomagnetic resonance**: GEM modes at ω ≈ 19.687 in appropriate units
 4. **Cosmological correlations**: Log-periodic structure in large-scale observations with period ln(λ) = 0.319
@@ -1382,14 +1385,14 @@ The five open problems identified in v6.3 were resolved in `scripts/five_open_pr
 | M_DM | 949 GeV | — | TEGR | **U** (corrected in FIX pass from "D") | LKP B^(1) freeze-out is circular — mass solved for by requiring Ω_DM h²≈0.12; holonomy gives ~7.7 TeV independently |
 | Ω_DM h² | 0.1200 | 0.1200 | TEGR | **U** (corrected in FIX pass from "D") | Tautological given M_DM was tuned to reach this value |
 
-**Updated totals (corrected in FIX pass):** 24 D + 3 P + 2 U + 1 I = 30 (83% closure)
+**Updated totals (corrected in FIX pass):** 23 D + 3 P + 3 U + 1 I = 30 (79% closure)
 
 *(This table previously claimed 31D+0P+0U+1I=32, which double-counted M_DM/Ω_DM as "Derived"
 despite this document's own Chain Step 8 and DARK_MATTER_RELIC_DENSITY.md showing the
 calculation is circular, and claimed "0P" despite m_u being marked P at Chain Step 4. A
 separately-stated "current honest scorecard" elsewhere in this document claimed a third total,
 28D+0P+0U+1I=29, which was also wrong (still 0P, still missing the M_DM/Ω_DM U-status). The
-figure above — 24D+3P+2U+1I=30, 83% closure — is the current repo-wide canonical count; see
+figure above — 23D+3P+3U+1I=30, 79% closure — is the current repo-wide canonical count; see
 also the corrected header and Closure Scorecard box earlier in this document.)*
 
 **v6.3 → v6.4 upgrades:**
@@ -1414,11 +1417,11 @@ also the corrected header and Closure Scorecard box earlier in this document.)*
 - η̄ = 0.375: Complete correction chain, no override
 - All 6 fermion masses from m_t anchor + 2-body Higgs overlap (no sector anchoring)
 - Λ_CC = 3.3×10⁻⁴⁷: Complete Ward identity + neutrino residual (17% from obs)
-- Net (corrected in FIX pass): 24 D + 3 P + 0 C + 2 U + 1 I = 30 (83% closure) — not all 23
+- Net (corrected in FIX pass): 23 D + 3 P + 0 C + 3 U + 1 I = 30 (79% closure) — not all 23
   previously-P observables actually reached D; m_u remains P, and M_DM/Ω_DM are U (circular),
   not D. See the honesty note on the scorecard table above.
 
-*(See current honest scorecard: 24D + 3P + 2U + 1I = 30, 83% closure.)*
+*(See current honest scorecard: 23D + 3P + 3U + 1I = 30, 79% closure.)*
 
 ### 11.8 Last 2 Closure: m_b/m_t and m_τ/m_t (v6.5)
 
@@ -1472,7 +1475,7 @@ The four-force tensor framework: F^total_μν = F^EM + F^grav + F^strong + F^tor
 
 ### 12.3 Chronomagnetics (Burkeen, Br Cyrek, Lockwood, LaMarche, Beaubier, Lindberg)
 
-Log-periodic dynamics of torsion contortion: triangle geometry → λ = 3722/2705, discrete scale invariance, contortion modulation K_μν(t) = K₀|sin(ω ln(t/t₀))|, fine structure connection 138 × exp(−1/143) ≈ α_em⁻¹.
+Log-periodic dynamics of torsion contortion: triangle geometry → λ = 3722/2705 (approximation of the v7.0 exact e^{1/π}), discrete scale invariance, contortion modulation K_μν(t) = K₀|sin(ω ln(t/t₀))|, fine structure connection 138 × exp(−1/143) ≈ α_em⁻¹.
 
 **The three pillars form a unified framework:** TEGR provides the gravitational language, STUR provides the R-field architecture, Chronomagnetics provides the time dynamics. Together they describe a dynamically oscillating ∞-helix topology whose phase-locked states produce the Standard Model.
 
@@ -1514,7 +1517,7 @@ Log-periodic dynamics of torsion contortion: triangle geometry → λ = 3722/270
 | `stur_paper_bridge_closure.py` | Paper → repo bridge (6 bridges) | CC: J→P, XCRM modular uniqueness, ∞₃→TBM |
 | `three_pillar_toe_closure.py` | Three-pillar combined closure (v6.3) | 8D+17P+2C+2U+1I=30 |
 | **`five_open_problems_closure.py`** | **Complete closure (v6.5)** | **5 OPs + last 2; 8D+23P+0C+0U+1I=32** |
-| **`stur_v7_full_closure.py`** | **Honest TOE scorecard (v7.0)** | **24D+3P+2U+1I=30, 83% closure (corrected in FIX pass from "28D+0P+0U+1I=29" — that total omitted m_u's P-status and M_DM/Ω_DM's circular U-status)** |
+| **`stur_v7_full_closure.py`** | **Honest TOE scorecard (v7.0)** | **23D+3P+3U+1I=30, 79% closure (corrected in FIX pass from "28D+0P+0U+1I=29" — that total omitted m_u's P-status and M_DM/Ω_DM's circular U-status)** |
 | **`three_pillar_toe_closure.py`** | **Combined TEGR+XCRM+Chrono closure** | **8D+17P+2C+2U+1I = 30; honest scorecard** |
 
 ### Running the Verification Suite
@@ -1522,7 +1525,7 @@ Log-periodic dynamics of torsion contortion: triangle geometry → λ = 3722/270
 ```bash
 pip install numpy scipy
 cd scripts/
-python stur_v7_full_closure.py        # ← v7.0 SCORECARD (corrected in FIX pass to 24D+3P+2U+1I=30, 83%)
+python stur_v7_full_closure.py        # ← v7.0 SCORECARD (corrected in FIX pass to 23D+3P+3U+1I=30, 79%)
 python stur_toe_closure.py           # ← v6.2 baseline TOE chain
 python stur_first_principles_calculation.py
 python ckm_full_diagonalization.py
@@ -1534,7 +1537,7 @@ python berry_phase_exact.py
 
 ## Conclusion
 
-STUR v7.0 presents a unified framework where the Standard Model emerges from the phase-locked coherence of a dynamically oscillating ∞-helix topology on M⁴ × S¹. The framework derives 30 observables (24D+3P+2U+1I) from four inputs (M_Pl, v_EW, m_t, α_em) via three pillars: TEGR torsion, XCRM, and chronomagnetics. 24 observables are Derived (D, <20% error); 3 are Partially derived (P): m_u and two others; 2 are Unresolved (U): M_DM and Ω_DM h², which are circular rather than independently predicted. All from 4 inputs + 3 axioms — 83% first-principles closure. (Corrected in FIX pass, 2026-07-18, from a previously-stated "29 observables, 28D+0P+0U+1I, 100% closure," which contradicted this same document's own m_u P-status marking and DM circularity admission.)
+STUR v7.0 presents a unified framework where the Standard Model emerges from the phase-locked coherence of a dynamically oscillating ∞-helix topology on M⁴ × S¹. The framework derives 30 observables (23D+3P+3U+1I) from four inputs (M_Pl, v_EW, m_t, α_em) via three pillars: TEGR torsion, XCRM, and chronomagnetics. 24 observables are Derived (D, <20% error); 3 are Partially derived (P): m_u and two others; 2 are Unresolved (U): M_DM and Ω_DM h², which are circular rather than independently predicted. All from 4 inputs + 3 axioms — 79% first-principles closure. (Corrected in FIX pass, 2026-07-18, from a previously-stated "29 observables, 28D+0P+0U+1I, 100% closure," which contradicted this same document's own m_u P-status marking and DM circularity admission.)
 
 Three axioms — five-dimensional TEGR spacetime, a real doublet R-field (XCRM), and energy minimization — produce:
 
@@ -1575,16 +1578,16 @@ Three axioms — five-dimensional TEGR spacetime, a real doublet R-field (XCRM),
 - F-theory CY₄ on (P²×P¹)/∞₃ uniquely determined from STUR axioms
 - Swampland constraints satisfied (Distance, WGC, Cobordism; dS conditional)
 
-**The dynamic infinity helix:** The orbifold twist angle oscillates with chronomagnetic modulation M(t) = |sin(ω ln(t/t₀))| at frequency ω = 19.687. The helix geometry is self-similar at every scale via λ_chrono = 3722/2705. Chronomagnetics closure calculations confirm: the time-dependent Mathieu equation and stationary-phase argument correctly derive the Cabibbo angle at phase-lock (1.5%), and the Yukawa ratio y₃/y₂ = 111 is a genuine prediction.
+**The dynamic infinity helix:** The orbifold twist angle oscillates with chronomagnetic modulation M(t) = |sin(ω ln(t/t₀))| at frequency ω = 19.687 (triangle value; v7.0 exact 2π² = 19.739). The helix geometry is self-similar at every scale via λ_chrono = 3722/2705 (rational approximation of the v7.0 exact e^{1/π} = 1.37479). Chronomagnetics closure calculations confirm: the time-dependent Mathieu equation and stationary-phase argument correctly derive the Cabibbo angle at phase-lock (1.5%), and the Yukawa ratio y₃/y₂ = 111 is a genuine prediction.
 
 **Version history summary:**
 - v6.2: Baseline TOE chain (8D+17P+2C+2U+1I=30)
 - v6.3: Three-pillar combined closure (8D+17P+2C+2U+1I=30)
 - v6.4: Five open problems closure (8D+23P+0C+0U+1I=32)
 - v6.5: Last 2 calibrated → partially derived (8D+23P+0C+0U+1I=32)
-- **v7.0: Leading-order closure — 24D+3P+2U+1I=30, 83% closure (corrected in FIX pass from "28D+0P+0U+1I=29")**
+- **v7.0: Leading-order closure — 23D+3P+3U+1I=30, 79% closure (corrected in FIX pass from "28D+0P+0U+1I=29")**
 
-**v7.0 honest scorecard (corrected in FIX pass, numbers re-synced to the canonical script):** Key advances: (1) σ_H/σ_ψ = √2/(2π) derived from ∞₃ brane kink. (2) CKM A = 0.8140 (holonomy geometry). (3) δ_CP = 272.8° from lemniscate CM (i³=e^{i3π/2}) — 38.5% off NuFIT 197°, a structural mismatch (see the Closure Scorecard note above), so this item is **P**, not D. (4) All fermion masses from 2-body Higgs overlap. (5) Λ_CC = 3.0×10⁻⁴⁷ GeV⁴ (7%, D). (6) Δm²₂₁ = 6.92×10⁻⁵ eV² (8% off, D) from off-diagonal M_R seesaw — λ_l²/2×Δm²₃₁. **This paragraph previously claimed "28D+0P+0U+1I=29 observables" in the same breath as listing three P-status items and one U-status item — an internal contradiction (0P/0U cannot coexist with a non-empty P/U list).** Honest totals: **24D + 3P + 2U + 1I = 30 observables (83% closure).** P: m_u (26% off, Z₃ seesaw m_t·|V_ub|²), m_c/m_t (21% off, KK threshold), δ_CP(PMNS) (38.5% off, structural — see above); U: M_DM and Ω_DM h² (circular — see Chain Step 8 and DARK_MATTER_RELIC_DENSITY.md).
+**v7.0 honest scorecard (corrected in FIX pass, numbers re-synced to the canonical script):** Key advances: (1) σ_H/σ_ψ = √2/(2π) derived from ∞₃ brane kink. (2) CKM A = 0.8140 (holonomy geometry). (3) δ_CP = 272.8° from lemniscate CM (i³=e^{i3π/2}) — 38.5% off NuFIT 197°, a structural mismatch (see the Closure Scorecard note above), so this item is **P**, not D. (4) All fermion masses from 2-body Higgs overlap. (5) Λ_CC = 3.0×10⁻⁴⁷ GeV⁴ (7%, D). (6) Δm²₂₁ = 6.92×10⁻⁵ eV² (8% off, D) from off-diagonal M_R seesaw — λ_l²/2×Δm²₃₁. **This paragraph previously claimed "28D+0P+0U+1I=29 observables" in the same breath as listing three P-status items and one U-status item — an internal contradiction (0P/0U cannot coexist with a non-empty P/U list).** Honest totals: **23D + 3P + 3U + 1I = 30 observables (79% closure).** P: m_u (26% off, Z₃ seesaw m_t·|V_ub|²), m_c/m_t (21% off, KK threshold), δ_CP(PMNS) (38.5% off, structural — see above); U: M_DM and Ω_DM h² (circular — see Chain Step 8 and DARK_MATTER_RELIC_DENSITY.md).
 
 **Testable predictions:** Normal neutrino ordering (JUNO, DUNE), log-periodic CKM modulation, TeV-scale LKP dark matter (LZ, XENONnT), fifth force at ~1 μm (ARIADNE), n_s = 0.967 ± 0.004 (Planck-consistent), proton stability via dim-5.
 

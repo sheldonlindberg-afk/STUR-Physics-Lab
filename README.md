@@ -15,8 +15,8 @@
   <img src="https://img.shields.io/badge/Version-7.0-brightgreen" alt="Version: 7.0">
   <img src="https://img.shields.io/badge/PWA-Installable-green" alt="PWA: Installable">
   <img src="https://img.shields.io/badge/Pages-120+-blue" alt="Pages: 120+">
-  <img src="https://img.shields.io/badge/Scorecard-24D%2B3P%2B2U%2B1I%3D30-blue" alt="Scorecard: 24D+3P+2U+1I=30">
-  <img src="https://img.shields.io/badge/TOE_Closure-83%25_honest-brightgreen" alt="TOE Closure: 83% honest">
+  <img src="https://img.shields.io/badge/Scorecard-23D%2B3P%2B3U%2B1I%3D30-blue" alt="Scorecard: 23D+3P+3U+1I=30">
+  <img src="https://img.shields.io/badge/TOE_Closure-79%25_honest-brightgreen" alt="TOE Closure: 79% honest">
 </p>
 
 ---
@@ -53,7 +53,7 @@ Every physical interaction is a resistance to state change. This single axiom co
 
 > Axioms → ERP → ∞₃ orbifold → v·L_X = 3 → α_eff(quark/lepton) → Mathieu Z₃ fixed points → λ_W = ψ₀(2π/3)/ψ₀(0) → CKM → brane kink → σ_H → 2-body Higgs overlaps → fermion masses → U_ℓ†×TBM → PMNS → seesaw → neutrino masses → Λ_CC → dark matter → topological invariants
 
-**Honest scorecard:** 24 derived (D, <20% from PDG), 3 partially derived (P), 2 unresolved (U), 1 input group (I) — **83% first-principles closure**. The [TOE closure script](scripts/stur_toe_closure.py) and [resistance script](scripts/stur_resistance_physics.py) report all deviations without override. (Post-v7.0.2 correction: the fitted f_hol constant was removed from η̄, and M_DM/Ω_DM h² were reclassified U after a documented search found no independent derivation.)
+**Honest scorecard:** 23 derived (D, <20% from PDG), 3 partially derived (P), 3 unresolved (U), 1 input group (I) — **79% first-principles closure**. *(2026-10-23: was 24D+3P+2U+1I, 83%. The tensor-to-scalar ratio moved D → U: r_eff = 0.0139 was a calculation slip, and the consistent value of the same model, r = 0.043, is excluded by BICEP/Keck — see `scripts/genesis_v10_r_from_action.py`.)* The [TOE closure script](scripts/stur_toe_closure.py) and [resistance script](scripts/stur_resistance_physics.py) report all deviations without override. (Post-v7.0.2 correction: the fitted f_hol constant was removed from η̄, and M_DM/Ω_DM h² were reclassified U after a documented search found no independent derivation.)
 
 The infinity helix is not static. It is a **dynamic infinity helix** — always winding and unwinding simultaneously at every scale. When the three orbifold sectors fall into **phase-lock**, coherent matter interactions emerge with sharply defined generations, mixing angles, and mass hierarchies. Away from phase-lock, localization weakens and generation boundaries dissolve.
 
@@ -65,7 +65,7 @@ Scorecard change at v7.0.2 (2026-06-29): **29D+0P+0U+1I=30** — reported as com
 first-principles closure (100%) at the time. **This has since been superseded:** a
 post-v7.0.2 audit removed the fitted f_hol constant from η̄ and reclassified M_DM/Ω_DM h² as
 unresolved (U) after finding no independent derivation for them in the codebase. The current
-canonical scorecard is **24D+3P+2U+1I=30 (83%)**. The individual derivations below are
+canonical scorecard is **23D+3P+3U+1I=30 (79%)**. The individual derivations below are
 presented as originally computed at v7.0.2 for historical record; **the removal of the
 fitted f_hol constant (which m_u's formula depends on via |V_ub|) directly changed m_u's
 own number and pushed it from D to P status** — it is not unaffected, contrary to what an
@@ -104,7 +104,7 @@ mismatch, not a precision gap).
 ### Resistance Physics Framework: ERP Unification
 
 Historical intermediate stage (predates the U_ℓ† fix and the f_hol correction below —
-scorecard totals here do not match the current canonical 24D+3P+2U+1I=30; see the Results
+scorecard totals here do not match the current canonical 23D+3P+3U+1I=30; see the Results
 Summary section above for current status). Scorecard at this stage: **24D+4P+0U+1I=29**
 (m_u upgrades U→P via Wolfenstein resistance ladder):
 
@@ -134,7 +134,7 @@ Summary section above for current status). Scorecard at this stage: **24D+4P+0U+
 ### Conceptual Framework Improvements (ω, α, Δm²₂₁ mechanisms)
 
 Five conceptual improvements (resolved at the time — scorecard then read 29D+0P+0U+1I=30;
-current canonical scorecard post-v7.0.2 correction is 24D+3P+2U+1I=30, 83%):
+current canonical scorecard post-v7.0.2 correction is 23D+3P+3U+1I=30, 79%):
 
 1. **ω = 2π² established as primary.** The chronomagnetic frequency ω derives from ∞₃ phase
    closure (n_w × κ × σ = 2π, verified 0.016%), giving ω = πS = 2π². The integer triangle
@@ -170,7 +170,7 @@ current canonical scorecard post-v7.0.2 correction is 24D+3P+2U+1I=30, 83%):
 
 > **Status key:** **D** = Derived, <20% from PDG (complete formula, no free parameters) · **P** = Partially derived (correct mechanism, needs loop/NLO corrections, ≥20% off) · **U** = Unresolved (no independent mechanism found; circular or fitted) · **I** = Input/anchor
 
-**Score: 24 D + 3 P + 2 U + 1 I = 30 (83% closure)**
+**Score: 23 D + 3 P + 3 U + 1 I = 30 (79% closure)**
 
 > The tables below are synced to the live output of `scripts/stur_toe_closure.py`
 > (the single canonical source of truth). An earlier version of this section
@@ -269,7 +269,7 @@ current canonical scorecard post-v7.0.2 correction is 24D+3P+2U+1I=30, 83%):
 | Λ_CC (7%) | Conjectured Ward identity | **D** — Ward identity + neutrino residual |
 | Δm²_21 (8% off) | Factor 4000× off | **D** — ∞₃ pseudo-Dirac NLO: λ_l²/2 × Δm²_31 |
 
-**Current canonical scorecard:** 24D + 3P + 2U + 1I = 30 — 83% first-principles closure.
+**Current canonical scorecard:** 23D + 3P + 3U + 1I = 30 — 79% first-principles closure.
 This is the actual, currently-achieved closure fraction — not 100%, and the 3 P's and
 2 U's are not merely awaiting more decimal places: m_u and δ_CP(PMNS) reuse parts of
 the CKM chain rather than standing as fully independent predictions, m_c/m_t and
@@ -305,6 +305,18 @@ These predictions are unique to STUR and have no counterpart in other frameworks
 - Chronomagnetic resonance at ω = 2π² = 19.7392 (exact; 19.687 is a rational triangle-integer approximation, 0.27% off, see TRIANGLE_GENESIS_DERIVATION.md)
 - B^(1) KK dark matter at M ~ 949 GeV with σ_SI ~ 10^-47 cm^2 (LZ/XENONnT)
 - Fifth force at ~1 μm scale (ARIADNE experiment)
+
+### CMB Birefringence: Pre-Registered Bridge Hypotheses (not derived)
+
+Two hypotheses for the isotropic CMB polarisation rotation β are pre-registered with SHA-256 hashes
+for LiteBIRD and ground-based CMB data. **Neither is derived from the STUR Master Action.** A no-fit
+derivation from STUR's own chiral R-Yukawa (c_γ = 8) and ω = 2π² gives β ≈ 110°, excluded by existing
+data (`scripts/genesis_v10_beta_from_action.py`; full audit in `GENESIS_V10_STURB_ACTION_DERIVATION.md`).
+
+| Hypothesis | Prediction | Decisive test | Pre-registration |
+|---|---|---|---|
+| STUR-B: rotation accrues in log-time (κ fitted to β = 0.277°) | β_reio/β_rec = 0.231, Δβ = −0.213 ± 0.044°, flat β_eff(ℓ), achromatic | absolute β ≠ 0, achromaticity; Δβ only ~1σ at LiteBIRD for r = 0.0035 | `scripts/genesis V10 preregistration` (`c05406dd94c6…`), `scripts/genesis_v10b_preregistration.json` (`8dde755844ca…`) |
+| STUR-M3a: oscillating R-phase, leptons-only R-charge | β_reio/β_rec = 0.98–1.09, β_eff(ℓ) falls to ~0.17° by ℓ ≈ 2500, achromatic, no QCD axion | high-ℓ β_eff(ℓ) decline: ~3σ Simons Observatory, >8σ CMB-S4-class | `scripts/genesis_v10c_m3a_preregistration.json` (`d3008ee62493…`) |
 
 ---
 
@@ -383,7 +395,7 @@ pip install numpy scipy
 python3 scripts/stur_toe_closure.py
 ```
 
-This produces the 30-observable scorecard (24D+3P+2U+1I=30 — 83% closure) from four inputs and three axioms. All deviations are reported without override.
+This produces the 30-observable scorecard (23D+3P+3U+1I=30 — 79% closure) from four inputs and three axioms. All deviations are reported without override.
 
 ### Install as PWA
 
@@ -413,7 +425,7 @@ STUR-Physics-Lab/
 |   |-- stur_v7_full_closure.html    # Interactive scorecard viewer
 |   |-- ... (117+ HTML pages total)
 |   |
-|   |-- stur_toe_closure.py                # Complete TOE closure (24D+3P+2U+1I=30 — canonical, 83%)
+|   |-- stur_toe_closure.py                # Complete TOE closure (23D+3P+3U+1I=30 — canonical, 79%)
 |   |-- stur_first_principles_calculation.py   # Core kappa, overlaps, N_eff
 |   |-- ckm_full_diagonalization.py            # Full CKM matrix derivation
 |   |-- cosmological_constant.py               # Historical negative result (abandoned mechanism, superseded)
@@ -509,9 +521,9 @@ If you reference STUR in academic work, please cite:
                   Dynamic {∞}₃ Infinity Helix TOE Candidate},
   year         = {2026},
   howpublished = {\url{https://github.com/sheldonlindberg-afk/STUR-Physics-Lab}},
-  note         = {v7.0: 30 observables (24D+3P+2U+1I) from 4 inputs + 3 axioms
+  note         = {v7.0: 30 observables (23D+3P+3U+1I) from 4 inputs + 3 axioms
                   (TEGR, XCRM R-field, energy minimization) via dynamic ∞₃ infinity
-                  helix phase-lock. 83% first-principles closure.}}
+                  helix phase-lock. 79% first-principles closure.}}
 }
 
 @misc{chronomagnetics2026,

@@ -873,7 +873,7 @@ a, b, c = 116, 138, 144
 s = (a + b + c) // 2  # = 199
 A_sq = s * (s - a) * (s - b) * (s - c)  # Heron's formula
 A_triangle = int(np.sqrt(A_sq))  # = 7444
-lambda_chrono = 3722.0 / 2705.0
+lambda_chrono = 3722.0 / 2705.0  # triangle approximation; v7.0 exact value is e^(1/pi) = 1.37479 (0.085% apart)
 omega_chrono = 2 * np.pi / np.log(lambda_chrono)
 
 # Phase-lock statistics

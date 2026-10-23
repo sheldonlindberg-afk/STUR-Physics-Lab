@@ -875,6 +875,16 @@ The predictions documented in Section 6 are hereby pre-registered as of 2026-02-
 
 ---
 
+### 6.x CMB Birefringence Bridge Hypotheses (Pre-Registered 2026-10-22/23)
+
+Not derived from the Master Action (a no-fit derivation gives β ≈ 110°, excluded). Full hashes:
+
+- STUR-B Stage 10: `scripts/genesis V10 preregistration`, SHA-256 `c05406dd94c6ea596166a9e2121e895975ca4fb7e06e579cf42092f95d265bb3`
+- STUR-B Stage 10b (full Boltzmann): `scripts/genesis_v10b_preregistration.json`, SHA-256 `8dde755844ca7c2416a6618f4565bce815ea3fd8d9e9268492e509ebb2663018`
+- STUR-M3a Stage 10c: `scripts/genesis_v10c_m3a_preregistration.json`, SHA-256 `d3008ee624930ae356f4cfe3c89f331d7cbae8628346c895a4dba37f44224638`
+
+Each file stores its own falsification criteria. Summary: STUR-B is excluded if Δβ is inconsistent with −0.213° at >3σ, if |β| < 0.06° at high ℓ, or if β is chromatic. STUR-M3a is excluded if β = 0, if β_eff(ℓ) is inconsistent with every stored phase curve, if β is chromatic, or if a QCD axion is found.
+
 ## 7. Timeline and Checkpoints
 
 ### 7.1 Near-Term Checkpoints (2025-2028)

@@ -44,7 +44,7 @@ else:
 # ═════════════════════════════════════════════════════════════════════════
 
 # Repo parameters
-lambda_chrono = 3722 / 2705          # 1.375970...
+lambda_chrono = 3722 / 2705          # 1.375970...  # triangle approximation; v7.0 exact value is e^(1/pi) = 1.37479 (0.085% apart)
 ln_lambda = np.log(lambda_chrono)
 omega_chrono = 2 * np.pi / ln_lambda  # 19.687
 alpha_eff = 1.480                     # Mathieu potential at phase-lock

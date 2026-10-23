@@ -93,6 +93,10 @@ print("""  TEGR Action (5D, M⁴ × S¹/∞₃):
     d²W/dt² + (1/t)dW/dt + (ω/t)²W = 0
     → W(t) = A sin(ω ln(t/t₀))   [chronomagnetic modulation]
     → M(t) = |sin(ω ln(t/t₀))|
+
+  Honesty note (2026-10-23): FRW matter-era friction is 3H = 2/t, not 1/t; with 2/t,
+  W = t^(-1/2) sin(sqrt(ω²−1/4) ln t). The (ω/t)² term is not in the Master Action
+  (its U(1) forbids it). See scripts/genesis_v10_sturb_action_audit.py.
 """)
 
 # TEGR torsion contortion connection
@@ -610,6 +614,8 @@ omega_tri     = 2*np.pi/np.log(3722/2705)
 print(f"  TEGR Cauchy-Euler equation on FLRW (a∝t^{{2/3}}):")
 print(f"    d²W/dt² + (1/t)dW/dt + (ω/t)²W = 0")
 print(f"    Solution: M(t) = |sin(ω ln(t/t₀))|  [chronomagnetic modulation]")
+print(f"    [note 2026-10-23: FRW matter-era friction is 3H = 2/t, not 1/t; the (ω/t)² term is")
+print(f"     not in the Master Action -- see scripts/genesis_v10_sturb_action_audit.py]")
 print(f"\n  ∞₃ phase closure → ω = π × (n_w κ σ) = π × {phase:.4f} = {omega_exact:.4f}")
 print(f"  ω_exact (2π²)     = {omega_exact:.6f}")
 print(f"  ω_triangle        = {omega_tri:.6f}  (3722/2705 approx, 0.27% off)")

@@ -26,8 +26,20 @@ Modified slow-roll parameters (with total friction β_H = 3 + 2π):
     ε_eff = ε₀ × (3/β_H)²
     r_eff = 16 ε_eff = r₀ × (3/(3 + 2π))²
 
-Result: r_eff ≈ 0.014 < 0.036 (BICEP/Keck)  ✓
+Result (as originally computed): r_eff ≈ 0.014 < 0.036 (BICEP/Keck)
         n_s ≈ 0.967 (Hubble-proportional friction leaves tilt unchanged)
+
+Honesty note (2026-10-23, corrected): r_eff = r₀ (3/β_H)² is a calculation slip.
+It rescales ε at FIXED N, but the extra friction also stretches the e-fold count,
+N = (β_H/3)(R² − R_end²)/4, which moves the pivot field value. Done consistently
+(same model, same assumptions, M_Pl = 1):
+    ε_H = 3/(2 β_H N),   r = 16 ε_H = 24/(β_H N) = 0.043  (N = 60; 0.047 at N = 55)
+This is ABOVE the BICEP/Keck 95% bound r < 0.036: the model is excluded. Direct
+numerical integration confirms it (scripts/genesis_v10_r_from_action.py). The n_s
+claim survives: with friction, −Ḣ/H² = (β_H/3) ε_H, and n_s = 1 − 2/N is unchanged.
+Status: D → U (excluded). The GENESIS pre-registration uses Starobinsky R² with
+r = 0.0035; that is a GENESIS modelling assumption, not a STUR derivation (the
+Master Action has no R² term).
 
 References
 ----------
@@ -180,11 +192,28 @@ print(f"""
     NLO deviation: {abs(n_s_NLO - n_s_Planck)/n_s_Planck*100:.2f}%  from Planck  (consistent)
 """)
 
+# ─── STEP 3b: Corrected tensor-to-scalar ratio (2026-10-23) ──────────────────
+bar("STEP 3b: CORRECTED r — include the friction-stretched e-fold mapping")
+
+# The r_eff above rescales eps at fixed N. But N(R) = (β_H/3)(R² − R_end²)/4 with
+# friction, so at fixed N the pivot field value is smaller and eps_H is larger:
+#   eps_H = (9/β_H²)(2/R²) with R² = 12 N/β_H  →  eps_H = 3/(2 β_H N)
+r_eff_old   = r_eff                              # superseded value, kept for the record
+eps_corr    = 3.0 / (2.0 * beta_H * N_CMB)
+r_corr      = 16.0 * eps_corr                    # = 24/(β_H N)
+print(f"""
+  superseded:  r_eff = r₀ (3/β_H)²   = {r_eff_old:.5f}   (eps rescaled at fixed N)
+  corrected:   r     = 24/(β_H N)    = {r_corr:.5f}   (N = {N_CMB}; same model, same assumptions)
+  BICEP/Keck 95%:  r < {r_BICEP}  ->  corrected value is {'EXCLUDED' if r_corr > r_BICEP else 'allowed'}
+  Numerical check: scripts/genesis_v10_r_from_action.py (direct integration, r = 0.0429)
+""")
+r_eff = r_corr                                   # all output below uses the corrected value
+
 # ─── STEP 4: Summary ─────────────────────────────────────────────────────────
 bar("SUMMARY: STUR tensor-to-scalar ratio from first principles")
 
 dev_r_pct   = (r_eff / r_BICEP) * 100   # fraction of BICEP bound used
-status_r    = "D" if r_eff < r_BICEP else "P"
+status_r    = "D" if r_eff < r_BICEP else "U (excluded)"
 
 print(f"""
   INPUT (Kirchhoff exact):
@@ -195,25 +224,26 @@ print(f"""
     XCRM torsion friction:      Γ_K/H = 2π  (Kirchhoff exact)
     Modified friction:          β_H = 3 + 2π = {beta_H:.4f}
     Suppression:                (3/β_H)² = {f_sq:.5f}
-    Corrected prediction:       r_eff = r₀ × (3/β_H)² = {r_eff:.5f}
+    Superseded (slip):          r_eff = r₀ × (3/β_H)² = {r_eff_old:.5f}
+    Corrected (e-fold remap):   r = 24/(β_H N)       = {r_eff:.5f}
 
   STATUS:
     r_eff  = {r_eff:.4f}    ({dev_r_pct:.0f}% of BICEP/Keck bound)    [{status_r}]
     n_s    = {n_s_0:.4f}    ({abs(n_s_0-n_s_Planck)/n_s_Planck*100:.2f}% from Planck)       [D]
 
-  BICEP/Keck  r < {r_BICEP}:  STUR r_eff = {r_eff:.4f}  WITHIN BOUND ✓
-  CMB-S4      r < {r_CMBS4}:  STUR r_eff = {r_eff:.4f}  DETECTABLE  (4.7× above target)
-  LiteBIRD    r < 0.001:      STUR r_eff = {r_eff:.4f}  DETECTABLE  (14× above target)
+  BICEP/Keck  r < {r_BICEP}:  STUR r = {r_eff:.4f}  {'WITHIN BOUND' if r_eff < r_BICEP else 'EXCLUDED (above the 95% bound)'}
 
   Physical mechanism:
     The ∞₃ XCRM Kirchhoff loop n_w κ σ = 2π provides an exact torsion contortion
-    coupling Γ_K = 2πH.  This slows the R-field roll, reducing gravitational wave
-    power by factor (3/(3+2π))² = {f_sq:.4f} relative to standard chaotic inflation.
+    coupling Γ_K = 2πH.  This slows the R-field roll. At FIXED field value it reduces
+    eps by (3/(3+2π))² = {f_sq:.4f}, but the extra e-folds move the pivot, so at fixed
+    N the net suppression of r is only 3/β_H = {3/beta_H:.4f} (corrected 2026-10-23).
     The scalar spectrum amplitude increases but the TILT (n_s − 1) is unchanged
     because Γ_K ∝ H has zero field-space gradient.
 
-  NOTE: RQ-3 (Tensor-to-scalar ratio) in OPEN_PROBLEMS_ROADMAP is hereby resolved.
-        r_eff = {r_eff:.4f} computed from first principles; consistent with all CMB bounds.
+  NOTE: RQ-3 (Tensor-to-scalar ratio) in OPEN_PROBLEMS_ROADMAP is NOT resolved: the
+        corrected r = {r_eff:.4f} of this model is excluded by BICEP/Keck. (The GENESIS
+        pre-registration's r = 0.0035 assumes Starobinsky R², not derived from STUR.)
 """)
 
 print(f"  r_eff = {r_eff:.5f}  [{status_r}]")

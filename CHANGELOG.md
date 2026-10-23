@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] - 2026-10-23 — Corrections from the GENESIS v10 STUR-B audit
+
+### Fixed
+- **Tensor-to-scalar ratio:** r_eff = 0.0139 (7.0.1) was a calculation slip — ε was rescaled at fixed N, but the XCRM friction also stretches N(R). The consistent value of the same model is **r = 24/(β_H N) = 0.043** (N = 60), above BICEP/Keck r < 0.036: excluded. Status D → U. `stur_inflation.py` and `stur_toe_closure.py` now print the corrected value; check script `scripts/genesis_v10_r_from_action.py`. n_s = 1 − 2/N is unaffected.
+- **Scorecard:** 24D+3P+2U+1I = 30 (83%) → **23D+3P+3U+1I = 30 (79%)**, from the r downgrade only. Updated in current-status statements across the site; historical entries below are left as written.
+- **Cauchy-Euler chronomagnetic equation** (DERIVATION_CHAIN_INFINITY.md §2.3b and pages that copy it): notes added — FRW matter-era friction is 3H = 2/t, not 1/t, and the (ω/t)² term is not in the Master Action (`scripts/genesis_v10_sturb_action_audit.py`).
+- **λ_chrono:** notes added where 3722/2705 (triangle approximation) is presented as the current value; the v7.0 exact value is e^{1/π}.
+
+### Added
+- GENESIS v10 LiteBIRD pre-registrations of two birefringence **bridge hypotheses** (not derived from the action): STUR-B (Stage 10 / 10b) and STUR-M3a (Stage 10c). A no-fit derivation from STUR's own chiral Yukawa and ω = 2π² gives β ≈ 110° (excluded); see `GENESIS_V10_STURB_ACTION_DERIVATION.md`.
+
 ## [7.0.2] - 2026-06-29 — NLO PMNS + Fermion Masses Fixed + F_XCRM Derived + dS Conjecture Proven
 
 ### Added
@@ -32,7 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [7.0.1] - 2026-06-29 — Tensor-to-Scalar Ratio r Added (29D + 0P + 0U + 1I = 30)
 
 ### Added
-- **Tensor-to-scalar ratio r_eff = 0.0139 — D status** (within BICEP/Keck r < 0.036)
+- **Tensor-to-scalar ratio r_eff = 0.0139 — D status** (within BICEP/Keck r < 0.036) *(superseded 2026-10-23: slip; corrected r = 0.043, excluded — see [Unreleased])*
   - Physical mechanism: XCRM Kirchhoff condition n_w κ σ = 2π provides exact torsion friction
     Γ_K = 2πH in the R-field Klein-Gordon equation: R̈ + (3 + 2π)H Ṙ + V'(R) = 0
   - LO chaotic inflation r₀ = 8/N = 0.133 (excluded by BICEP/Keck) → corrected by β_H = 3 + 2π

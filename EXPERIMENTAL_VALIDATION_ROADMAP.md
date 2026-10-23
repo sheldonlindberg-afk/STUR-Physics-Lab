@@ -375,6 +375,17 @@ PRIMORDIAL TENSOR MODES:
 
 ---
 
+### 4.x CMB Birefringence (bridge hypotheses, pre-registered 2026-10-22/23)
+
+| Observation | Hypothesis affected | Status |
+|---|---|---|
+| LiteBIRD/SO find β consistent with 0 at high ℓ | STUR-B and STUR-M3a (both need β ≠ 0) | Would FALSIFY both |
+| β varies with frequency beyond Faraday/foregrounds | STUR-B and STUR-M3a (achromatic) | Would FALSIFY both |
+| High-ℓ β_eff(ℓ) flat to SO/CMB-S4 precision | STUR-M3a (predicts decline to ~0.17° by ℓ ≈ 2500) | Would FALSIFY M3a |
+| Δβ inconsistent with −0.213° at >3σ | STUR-B | Would FALSIFY STUR-B (weak test at r = 0.0035) |
+
+Neither hypothesis is derived from the STUR action; see `GENESIS_V10_STURB_ACTION_DERIVATION.md`.
+
 ## 5. Validation Milestones
 
 ### 5.1 Strong Validation (Would Substantially Support STUR)

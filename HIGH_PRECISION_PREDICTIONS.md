@@ -5,7 +5,7 @@
 **Version:** 3.0
 **Date:** 2026-05-12
 **Priority:** 4 - Higher Precision Predictions
-**Status:** 24D+3P+2U+1I=30 observables, 83% closure (canonical scorecard); 4 inputs
+**Status:** 23D+3P+3U+1I=30 observables, 79% closure (canonical scorecard); 4 inputs
 [corrected — the previously stated "28D+0P+0U+1I=29; 0 free parameters; 100%
 first-principles TOE closure" does not match the canonical framework-wide scorecard
 and is contradicted by this document's own body, which admits χ²/dof=6.91 and
@@ -1573,8 +1573,8 @@ admits is "off by factors 3.8-21282×" and which drives the honest headline
 χ²/dof = 6.91 reported at line 27. Both numbers are arithmetically correct for the
 observable sets they use; the issue is that §7 below previously used the favorable
 0.026 figure to claim "100% TOE closure," which is not supported once the excluded
-mass-spectrum failures are counted. See the canonical scorecard: 24D+3P+2U+1I=30
-observables, 83% closure — not 100%.
+mass-spectrum failures are counted. See the canonical scorecard: 23D+3P+3U+1I=30
+observables, 79% closure — not 100%.
 
 ---
 
@@ -1582,7 +1582,7 @@ observables, 83% closure — not 100%.
 
 ### 7.1 Summary of High-Precision Predictions
 
-**Framework-wide closure is 83%** (canonical scorecard: 24D+3P+2U+1I=30 observables),
+**Framework-wide closure is 79%** (canonical scorecard: 23D+3P+3U+1I=30 observables),
 not "100% TOE closure" as previously claimed here. That claim was based on the
 cherry-picked 9-observable subset in §6.3, which excludes the fermion mass spectrum
 this document's own Executive Summary admits is off by factors of 3.8-21282× (line
@@ -1633,7 +1633,7 @@ These percentages describe the selected subset, not the framework as a whole.
 
 ```
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║   STUR HIGH-PRECISION PREDICTIONS: 83% CLOSURE (24D+3P+2U+1I=30 observables)   ║
+║   STUR HIGH-PRECISION PREDICTIONS: 79% CLOSURE (23D+3P+3U+1I=30 observables)   ║
 ║   [corrected — previously claimed "100% TOE CLOSURE"; see note below]         ║
 ╠══════════════════════════════════════════════════════════════════════════════╣
 ║                                                                              ║
@@ -1665,7 +1665,7 @@ These percentages describe the selected subset, not the framework as a whole.
 ║    - 100% of that subset within 10% of observation                           ║
 ║    - Maximum discrepancy in that subset: 10% (m_u)                          ║
 ║                                                                              ║
-║  Status: 83% CLOSURE FRAMEWORK-WIDE. The 9-observable subset above has       ║
+║  Status: 79% CLOSURE FRAMEWORK-WIDE. The 9-observable subset above has       ║
 ║          chi^2/dof = 0.026, but including fermion masses gives chi^2/dof =   ║
 ║          6.91 (Executive Summary, line 27) — NOT "all predictions            ║
 ║          consistent with experiment"                                        ║
@@ -1691,7 +1691,7 @@ These percentages describe the selected subset, not the framework as a whole.
 
 ---
 
-**Document Status:** Complete — 83% closure (24D+3P+2U+1I=30 observables), not 100%.
+**Document Status:** Complete — 79% closure (23D+3P+3U+1I=30 observables), not 100%.
 The "100% TOE Closure" and "χ²/dof=0.026 excellent fit" figures previously reported
 here described only a favorable 9-observable subset (§6.3); this document's own
 Executive Summary reports the framework-wide χ²/dof = 6.91 with fermion masses

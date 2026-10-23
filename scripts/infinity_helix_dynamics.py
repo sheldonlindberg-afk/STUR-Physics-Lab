@@ -53,7 +53,7 @@ A_sq = s_tri * (s_tri - a) * (s_tri - b) * (s_tri - c)
 A_triangle = int(np.sqrt(A_sq))  # = 7444
 
 # Chronomagnetic scaling ratio
-LAMBDA = 3722.0 / 2705.0  # = 1.375970...
+LAMBDA = 3722.0 / 2705.0  # = 1.375970...  # triangle approximation; v7.0 exact value is e^(1/pi) = 1.37479 (0.085% apart)
 OMEGA = 2 * np.pi / np.log(LAMBDA)  # = 19.687 rad
 
 # ∞₃ parameters
