@@ -29,7 +29,7 @@ We therefore register two explicitly assumption-based hypotheses:
 
 **STUR-M3a predictions.**
 - β_reio/β_rec ≈ 1, so there is no tomographic signal.
-- The high-ℓ angle declines with ℓ: 0.277° → about 0.17° by ℓ ≈ 2500.
+- The high-ℓ angle is ℓ-dependent. For the median phase it declines (0.277° → about 0.17° by ℓ ≈ 2500); across all admissible phases β_eff(ℓ = 3000) spans 0.079–0.568°, so some phases rise instead.
 - A flat rotation would be rejected at 2.5–6.3σ by a Simons Observatory-like survey and 8–26σ by a CMB-S4-like survey. LiteBIRD gives 0.4–0.6σ.
 
 All predictions are hashed and time-stamped before the relevant data are released.
@@ -120,7 +120,7 @@ Two tensor ratios are associated with the model; neither is an output of the act
 - **r = 0.0035.** This is Starobinsky R² at N* = 55. The STUR action is linear in 𝕋 and contains no R² term, so this value is an imported assumption.
 - **r = 0.0139.** This comes from the repo's chaotic inflation with extra friction β_H = 3 + 2π. It rescales ε at fixed N, but the friction also stretches N(R). Done consistently, the result is r = 24/(β_H N) = 0.043 at N = 60. Numerical integration confirms this, and the standard-friction limit reproduces 8/N. That value exceeds the BICEP/Keck bound r < 0.036 [REF TO VERIFY: BICEP/Keck 2021, PRL 127, 151301]. The model's n_s = 1 − 2/N is unaffected (`genesis_v10_r_from_action.py`).
 
-[PENDING: theory-gap results — whether any STUR-internal mechanism supplies the U(1)-breaking restoring force, a lepton-only R-charge, or a natural c_γ suppression]
+**Theory gaps** (`scripts/genesis_v10f_theory_gaps.py`). None is closed. (a) The Yukawa phase potential and the Z₃ twisted boundary condition leave the phase zero mode exactly flat; the potentials that do exist are static and give a fixed-frequency oscillation, not sin(ω ln t), which averages out of the CMB; a log-time form needs an H²-coupling such as ξ𝕋|R|², absent from the action. (b) The repo localizes quarks with the same R-Yukawa as leptons, so quarks carry R-charge: c_γ = 8, c_s = 3. M3a with these charges needs A₀ = 0.54–1.10 rad and makes θ_QCD oscillate by 3.2–6.6 rad, violating the neutron-EDM bound by ~10¹⁰. **M3a's assumption H2 therefore conflicts with the repo's own fermion localization.** (c) The background of inflation driven by |R| itself is parameter-free (ε_H = 15/(10N + 15) ≈ 0.024 at N = 60), but n_s and r cannot yet be computed: non-minimally coupled teleparallel scalars can lack linear scalar perturbations unless their coupling functions satisfy a special relation (Raatikainen & Räsänen, JCAP 12 (2019) 021), not shown for STUR.
 
 ## 4. Two bridge hypotheses
 
@@ -177,7 +177,7 @@ Grids:
 | Fitted | κ = 0.02674 ± 0.00550° per unit ln t | A₀ = 1.44–2.93 rad, δ = 0.52–2.62 rad (49/144 phases) |
 | β_reio/β_rec | 0.231 (0.225–0.259 over ε, phase, t_c, τ, reionization width) | 0.983–1.093 (1.05–1.07 over τ, reionization width) |
 | Δβ | −0.213 ± 0.044° | −0.005 to +0.026° |
-| High-ℓ β_eff(ℓ) | flat, 0.273–0.282° | declining: 0.277° (ℓ≈135) → 0.237° (1536) → 0.169° (2499), median phase |
+| High-ℓ β_eff(ℓ) | flat, 0.273–0.282° | ℓ-dependent: median phase 0.277° (ℓ≈135) → 0.237° (1536) → 0.169° (2499); at ℓ = 3000, 0.079–0.568° across phases |
 | Frequency dependence | none | none |
 | QCD axion | — | none (c_s = 0) |
 
@@ -215,17 +215,17 @@ If M3a is true, STUR-B is disfavored at only 0.3σ. **The Δβ test is a consist
 - achromaticity across frequency bands;
 - for GENESIS R², detection of r = 0.0035 (about 3.5σ at LiteBIRD; r < 0.001 excludes it).
 
-[PENDING: field-normalization constraints — energy density of the R-phase mode, axion–photon and lepton-spin bounds as functions of the decay constant f]
-[PENDING: anisotropic birefringence from inflationary fluctuations of the massless phase vs. Planck/ACT limits]
+**Field normalization** (`scripts/genesis_v10d_field_constraints.py`). The decay constant f of the R-phase is not fixed by STUR, whose two VEVs (3/L_X ≈ 0.74 eV and ≈ 2×10¹⁶ GeV) are mutually inconsistent and both excluded for M3a (the first by the photon coupling, the second by an energy fraction Ω ≈ 0.02–0.085). Treating f as free, the allowed windows are: STUR-B with c_γ = 8, none (θ_QCD rolls); STUR-B with c_γ = 0.02, 1.4×10¹⁰–2.0×10¹⁶ GeV; M3a, from 2.1×10¹² GeV (light during inflation) or 8.7×10⁹ GeV (heavy) up to 6.9×10¹⁵ GeV. The upper edges come from early-dark-energy fractions (literature range 0.0036–0.021, not tracker-specific); the lower edges from ACT DR6 anisotropic birefringence or the NGC 1275 photon-coupling bound. The lepton CPT-odd coupling is ~10¹⁰ below laboratory reach.
+**Anisotropic birefringence.** If the phase is light during inflation (H_I = 1.47×10¹³ GeV for r = 0.0035), δθ ≈ H_I/2πf gives a scale-invariant rotation spectrum; ACT DR6's A_CB < 0.15×10⁻⁴ rad² (95%) then sets the lower edge of f quoted above. (The A_CB unit convention was inferred from the paper's own conversion, matching to 2%, not read from its definition.)
 
 ## 8. Limitations
 
 1. **Input robustness.** Every calibration depends on β_now = 0.277 ± 0.057° [5]. That value rests on the analysis's instrumental priors. With dust mitigation the detection drops to 3.5σ, and the ACT-only values are lower (0.207 ± 0.073° [5]; 0.20 ± 0.08° [6]). Because κ and A₀ scale linearly with β_now, a lower true β rescales the STUR-B and M3a amplitudes but not the predicted shapes (ratios, ℓ-dependence).
-2. **Calibration weighting.** The M3a amplitude is fixed with LiteBIRD-like weights over ℓ = 50–1500. The measured β_now comes from ACT+Planck, which weight ℓ up to about 3000, where M3a declines. Its A₀ and the implied ACT-weighted β are therefore slightly inconsistent. STUR-B is unaffected because its curve is flat. [PENDING: ACT-weighted calibration of M3a]
-3. **Systematics not modelled:** lensing remapping of the EB pattern, foreground residuals, ℓ-dependent instrumental EB such as beam ellipticity, and the expected Faraday rotation used to judge achromaticity. [PENDING: lensing and systematics study]
+2. **Calibration weighting.** The M3a amplitude is fixed with LiteBIRD-like weights over ℓ = 50–1500. The measured β_now comes from ACT+Planck, which weight ℓ up to about 3000, where M3a's β_eff departs from flat. At the registered A₀, an ACT DR6+Planck-like analysis would measure β = 0.260–0.266° rather than 0.277° (−0.29 to −0.19σ of β_now; approximate noise models). This is recorded as a known limitation in the Stage 10c2 addendum; the registered predictions are not altered. STUR-B is unaffected because its curve is flat.
+3. **Systematics not modelled:** lensing remapping of the EB pattern, foreground residuals, ℓ-dependent instrumental EB such as beam ellipticity, and the expected Faraday rotation used to judge achromaticity. Quantified in `scripts/genesis_v10e_systematics.py`. (a) Lensing, computed by lensing the rotated ξ₋ = EE − BB + 2iEB (gated: constant rotation preserved to 2×10⁻¹⁵), reduces the M3a shape significance by 5–12% (median SO-like 3.0σ, S4-like 10.5σ). (b) An ℓ-dependent instrumental polarization-angle drift of about 0.07–0.10° between ℓ ≈ 300 and 2500 is largely degenerate with M3a's shape; marginalizing it lowers the medians to 1.3σ (SO-like) and 5.1σ (S4-like). The shape test is decisive only if the ℓ-dependence of the angle calibration is known to ≲ 0.02°. Dust EB (∝ ℓ^−2.42) costs at most 12%. (c) For |RM| ≤ 10 rad m⁻², Faraday rotation differs by ≤ 0.010° across 68–235 GHz, below LiteBIRD's σ(β) ≈ 0.02°; the achromaticity criterion is |β_F| < 0.032° at 40 GHz in a fit β(ν) = β₀ + β_F (ν/40 GHz)⁻².
 4. **Approximate instruments.** Noise, beam and sky fractions are approximate, and the forecasts are Gaussian Fisher estimates.
 5. **Theory.** Neither hypothesis is derived. STUR-B's κ is fitted. M3a needs an explicit U(1) breaking and a lepton-only charge assignment. Neither r value is a model output.
-6. **Pre-registration scope.** M3a's registered curves extend only to ℓ = 1500, while its strongest signature lies at ℓ = 1500–3000. [PENDING: addendum pre-registration of the ℓ = 1500–3000 curves]
+6. **Pre-registration scope.** M3a's registered curves extend only to ℓ = 1500, while its strongest signature lies at ℓ = 1500–3000. Done: Stage 10c2 addendum, SHA-256 `425eb65fd2371baee762ca77893ea472107b2c90bcacbc128e70b6bb12eaa308`, registering the ℓ ≤ 3000 curves of all 49 phases and the shape-test criterion.
 7. **Review.** None of this has been independently reviewed.
 
 ## 9. Pre-registration and verification
@@ -258,7 +258,7 @@ Time-stamp: [PENDING: independent time-stamp — merge to the default branch and
 | `genesis_v10_r_from_action.py` | §3.4 | — |
 | `genesis_v10_phase_suppression.py` | M1–M3 search | — |
 
-**Versions used:** Python 3.13, CAMB 2.0.5, NumPy 2.5.3, SciPy 1.18.1, SymPy 1.14.0. [PENDING: pinned requirements file]
+**Versions used:** Python 3.13, CAMB 2.0.5, NumPy 2.5.3, SciPy 1.18.1, SymPy 1.14.0. Pinned in `scripts/requirements-genesis.txt`.
 
 ## References
 

@@ -268,3 +268,22 @@ What does decide:
 - ℓ-dependent instrumental EB, for example beam ellipticity, which could mimic or mask the shape.
 
 The registered curves extend only to ℓ = 1500. The ℓ = 1500–3000 curves computed here have not yet been hashed in a pre-registration.
+
+---
+
+## Addendum (2026-10-23): gap-list review (items 1–12)
+
+| # | Item | Result | Where |
+|---|---|---|---|
+| 1 | Independent timestamp | **Open: owner's decision** (merge to `main`, or Zenodo/OSF) | — |
+| 2 | M3a ℓ = 1500–3000 curves | Pre-registered: Stage 10c2 addendum, SHA-256 `425eb65f…a308`. β_eff(3000) = 0.079–0.568° across phases, so it does not decline for every phase | `scripts/genesis_v10c2_m3a_highl_addendum.*` |
+| 3 | ACT-weighted calibration | At the registered A₀, ACT+Planck-like β = 0.260–0.266° (−0.29 to −0.19σ); recorded as a limitation, predictions unaltered | same addendum |
+| 4 | β_now citation | **Verified**: Eskilt, arXiv:2608.06480, PRD 114, 043553. The dust-mitigated test gives 3.5σ, not 4.8σ | paper draft §1 |
+| 5 | Versions | Pinned | `scripts/requirements-genesis.txt` |
+| 6 | Field normalization f | Not fixed by STUR. Both repo VEVs are excluded for M3a. Allowed f windows exist for STUR-B (c_γ = 0.02) and M3a, but not for STUR-B with c_γ = 8 | `scripts/genesis_v10d_field_constraints.py` |
+| 7 | Anisotropic birefringence | ACT DR6 A_CB sets the lower edge of f (light-field case) | same |
+| 8 | Systematics | Lensing −5–12%. **An ℓ-dependent angle-calibration drift of ~0.1° can mimic M3a**: the shape test needs that drift known to ≲ 0.02°. Faraday rotation ≤ 0.010° across the CMB bands | `scripts/genesis_v10e_systematics.py` |
+| 9 | Theory gaps | None closed. **M3a's H2 (leptons-only R-charge) conflicts with the repo's own quark localization**; the restoring force is not in the action; n_s and r from |R| inflation are not computable yet | `scripts/genesis_v10f_theory_gaps.py` |
+| 10 | Repo consistency | Scorecard 24D+3P+2U+1I (83%) → **23D+3P+3U+1I (79%)** (r → U); Cauchy-Euler and λ notes; STUR-B/M3a listed as bridge hypotheses | 91 files |
+| 11 | Full repo run | 32/33 ran (`alpha_eff_rigorous_calculation.py` times out). **The run report shows the 79% is itself overstated**: Λ_CC and L_X are inputs by the repo's own scripts, Δm²₃₁ is hard-coded, and f_hol, f_Berry and λ_W each have conflicting values | `docs/REPO_SCRIPT_RUN_REPORT.md` |
+| 12 | Paper draft | Drafted and filled. Open: the timestamp, and 4 references marked [REF TO VERIFY] | `docs/GENESIS_V10_BIREFRINGENCE_PAPER_DRAFT.md` |
