@@ -855,7 +855,7 @@ framing used throughout the repository (README.md, OPEN_PROBLEMS_ROADMAP.md):*
 *The 5D geometry M⁴ × S¹/∞₃ (Axiom 1) and the R-field doublet structure (Axiom 2) are structural
 axioms, not numerical inputs — they constrain the form of the theory but do not by themselves
 supply a dimensionful/dimensionless number. Given these axioms plus the 4 numerical inputs
-above, 24D+3P+2U+1I = 30 Standard-Model-sector observables are derived outputs at 83% closure
+above, 23D+3P+3U+1I = 30 Standard-Model-sector observables are derived outputs at 79% closure
 (current canonical scorecard; see CHANGELOG.md/OPEN_PROBLEMS_ROADMAP.md). An earlier version of
 this corollary claimed only 3 inputs (effectively M_Pl alone), which understated the input count
 and has been corrected here.*

@@ -90,7 +90,10 @@ d²W/dt² + (1/t) dW/dt + (ω/t)² W = 0
 ```
 
 The (1/t) damping comes from TEGR torsion on FLRW; the (ω/t)² restoring force comes from
-the XCRM coupling. This is a Cauchy-Euler equation whose general solution is:
+the XCRM coupling.
+> **Honesty note (2026-10-23):** this equation is not the FRW zero-mode equation it is described as. For a homogeneous mode in a ∝ t^p the friction is 3H = 3p/t, which is **2/t** in matter domination (p = 2/3), not 1/t (1/t needs p = 1/3, a stiff/kination era). With 2/t the solution is W = t^(−1/2) sin(√(ω² − ¼) ln t): the amplitude decays. The (ω/t)² ∝ H² restoring term is a non-minimal coupling ξ𝕋|R|² that does not appear in the Master Action (which has α|R|𝕋), and the Master Action's U(1) forbids any restoring force on the R-phase. W is a real amplitude, not the R-field angle. See `scripts/genesis_v10_sturb_action_audit.py` (Parts A–B). The log-periodic form and ω = 2π² below are kept as originally stated; they remain a hypothesis.
+
+This is a Cauchy-Euler equation whose general solution is:
 
 ```
 W(t) = A sin(ω ln(t/t₀)) + B cos(ω ln(t/t₀))

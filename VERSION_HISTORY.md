@@ -15,7 +15,7 @@ corrected:
   independent first-principles derivation for these two observables anywhere in the codebase
   (they had been carried as D on the strength of a self-consistency freeze-out fit, not an
   independent derivation).
-- Current canonical scorecard: **24D + 3P + 2U + 1I = 30 observables, 83% closure**
+- Current canonical scorecard: **23D + 3P + 3U + 1I = 30 observables, 79% closure**
   (κ_q = 2.417, κ_l = 2.367; 4 numerical inputs: M_Planck, v_EW, m_t, α_em).
 
 This supersedes the "29D+0P+0U+1I=30, 100% closure" figure reported in the v7.0.0–v7.0.2 entries
@@ -37,6 +37,7 @@ below, which reflected the state of the script before this correction.
 ## Version 7.0.1 — Tensor-to-Scalar Ratio r Added (2026-06-29)
 
 ### Major Changes
+- *(Superseded 2026-10-23: r_eff = 0.0139 was a calculation slip; consistent value 0.043, excluded by BICEP/Keck, status U — see `scripts/genesis_v10_r_from_action.py`.)*
 - r_eff = 0.0139 derived via XCRM Kirchhoff torsion damping of chaotic inflation (D status,
   within BICEP/Keck bound); new script `scripts/stur_inflation.py`
 - CKM parameter A = 0.814 documented (NLO Mathieu half-period correction; was previously

@@ -3,18 +3,18 @@
 **Document Type:** Research Roadmap
 **Framework:** STUR v7.0 (Dynamic Infinity Helix — TOE Candidate)
 **Date:** 2026-06-29
-**Purpose:** Status assessment — honest scorecard: 24D+3P+2U+1I=30 — 83% closure
+**Purpose:** Status assessment — honest scorecard: 23D+3P+3U+1I=30 — 79% closure
 
 ---
 
-## Current Status: v7.0 Final Scorecard — 24D+3P+2U+1I=30 (83% Closure)
+## Current Status: v7.0 Final Scorecard — 23D+3P+3U+1I=30 (79% Closure)
 
 STUR derives 30 observables from four inputs (M_Planck, v_EW, m_t,
 α_em) and three axioms (5D TEGR spacetime, real doublet R-field, energy
 minimization). The dynamic ∞₃ infinity helix — always winding and unwinding
 simultaneously at every scale — provides the geometric foundation.
 
-**Score: 24 D + 3 P + 2 U + 1 I = 30 — 83% first-principles closure**
+**Score: 23 D + 3 P + 3 U + 1 I = 30 — 79% first-principles closure**
 (Post-v7.0.2 correction: the fitted f_hol constant was removed from η̄, and M_DM/Ω_DM h² were
 reclassified U after no independent derivation was found in the codebase.)
 
@@ -160,13 +160,15 @@ parameter and remains **P** (38.5% off, structural — see OP-3 above); this RQ 
 **Method:** Pseudo-Dirac seesaw: Δm²_21 = λ_ℓ² / 2 × Δm²_31 from Z₃-forced off-diagonal M_R.
 **Impact:** Resolved. Normal ordering confirmed. Document: `SOLAR_NEUTRINO_MASS_SPLIT.md`.
 
-### RQ-3: Tensor-to-Scalar Ratio — RESOLVED ✓
+### RQ-3: Tensor-to-Scalar Ratio — REOPENED (corrected 2026-10-23)
 
-**Status:** r_eff = 0.0139 (within BICEP/Keck r < 0.036) — D status.
+> **Correction (2026-10-23):** r_eff = 0.0139 below is a calculation slip. It rescales ε at fixed N, but the friction also stretches N(R) and moves the pivot. Done consistently, the same model gives r = 24/(β_H N) = 0.043 at N = 60 (0.047 at N = 55), above the BICEP/Keck 95% bound r < 0.036, so this model is excluded (`scripts/genesis_v10_r_from_action.py`, direct numerical integration). n_s = 1 − 2/N is unaffected. Status D → U. The GENESIS LiteBIRD pre-registration uses Starobinsky R² with r = 0.0035; that is a GENESIS assumption, not a STUR derivation (no R² term in the Master Action).
+
+**Status (superseded):** r_eff = 0.0139 (within BICEP/Keck r < 0.036) — D status.
 **Method:** XCRM Kirchhoff torsion damping: Γ_K = n_w κ σ × H = 2πH; β_H = 3 + 2π;
 r_eff = r₀ × (3/β_H)² = 0.133 × 0.1045 = 0.0139. Spectral index n_s = 0.967 unchanged.
 **Script:** `scripts/stur_inflation.py`; also in `stur_toe_closure.py` Part 11.
-**Impact:** Resolved. Detectable by CMB-S4 (4.7× above r < 0.003 target).
+**Impact (superseded):** Resolved. Detectable by CMB-S4 (4.7× above r < 0.003 target). Now reopened: no STUR inflation model consistent with BICEP/Keck exists in the repo.
 
 ### RQ-4: dS Conjecture Validation — RESOLVED ✓ (2026-06-29)
 
@@ -210,11 +212,11 @@ The following constitute a complete, falsifiable TOE:
 5. **Cosmological constant** — ∞-helix gauge Ward identity + F_XCRM derived; residual 10.8%
 6. **Dark matter prediction** — 949 GeV LKP with Ω_DM h² = 0.1200
 7. **UV completion** — unique F-theory CY₄, all 4 swampland constraints satisfied
-8. **Inflation** — r_eff = 0.014 from XCRM Kirchhoff torsion damping
+8. **Inflation** — r_eff = 0.014 from XCRM Kirchhoff torsion damping *(superseded 2026-10-23: corrected r = 0.043, excluded by BICEP/Keck)*
 9. **Falsification protocol** — JUNO, DUNE, T2HK, LZ/XENONnT, ARIADNE, CMB-S4
 
-**Position:** *"TOE Candidate with 30 observables (24D+3P+2U+1I) derived from
-three axioms and four inputs. 83% first-principles closure."*
+**Position:** *"TOE Candidate with 30 observables (23D+3P+3U+1I) derived from
+three axioms and four inputs. 79% first-principles closure."*
 
 ---
 
@@ -222,8 +224,8 @@ three axioms and four inputs. 83% first-principles closure."*
 
 | Script/Document | What It Computes | Key Result |
 |----------------|-----------------|------------|
-| `stur_toe_closure.py` | 30-observable canonical scorecard | 24D+3P+2U+1I=30 (83%) |
-| `stur_inflation.py` | Tensor-to-scalar ratio | r_eff = 0.0139 (D) |
+| `stur_toe_closure.py` | 30-observable canonical scorecard | 23D+3P+3U+1I=30 (79%) |
+| `stur_inflation.py` | Tensor-to-scalar ratio | r = 0.043 (U, excluded; the earlier 0.0139 was a slip) |
 | `stur_first_principles_calculation.py` | κ, σ, overlaps, N_eff | κ_q = 2.417, κ_l = 2.367, σ = 0.862 |
 | `ckm_full_diagonalization.py` | Full CKM matrix | All 9 elements |
 | `alpha_eff_rigorous_calculation.py` | α_eff chain | 1.480 ± 0.047 |
@@ -241,7 +243,7 @@ three axioms and four inputs. 83% first-principles closure."*
 
 | Item | v6.x | v7.0 |
 |------|------|------|
-| Observables | 29 (5D+4P+19C+1J) | 30 (24D+3P+2U+1I, 83% closure) |
+| Observables | 29 (5D+4P+19C+1J) | 30 (23D+3P+3U+1I, 79% closure) |
 | Free parameters | ~19 fitted | 0 (beyond the 4 canonical inputs) |
 | σ_H/σ_ψ | Assumed 0.3 | Derived √2/(2π) = 0.2251 |
 | CKM A | Calibrated 0.816 | Derived 0.655 → 0.814 (NLO) |
@@ -250,7 +252,7 @@ three axioms and four inputs. 83% first-principles closure."*
 | η̄ | Overridden 0.350 | Derived 0.3947 (13.4%, f_hol fitted constant removed) |
 | M_DM | Reverse-engineered | Self-consistent freeze-out (reclassified U post-v7.0.2: no independent derivation found) |
 | Λ_CC | Conjectured | Derived Ward identity |
-| r (tens/scal) | Not computed | 0.0139 (XCRM Kirchhoff) |
+| r (tens/scal) | Not computed | 0.0139 (XCRM Kirchhoff) → corrected 0.043, excluded (2026-10-23) |
 | dS swampland | Conditional | SATISFIED (c ≈ 2×10⁴⁴) |
 | m_b/m_t, m_τ/m_t | Incorrect formulas (292%, 16%) | Fixed: 10.4%, 12.9% (D) |
 | F_cc (CC coefficient) | Hardcoded 0.47 | Derived F_XCRM = 0.4459 from ψ_l |
@@ -258,6 +260,6 @@ three axioms and four inputs. 83% first-principles closure."*
 
 ---
 
-*Updated 2026-07 (post-v7.0.2 canonical script correction — 24D+3P+2U+1I=30 — 83% closure;
+*Updated 2026-07 (post-v7.0.2 canonical script correction — 23D+3P+3U+1I=30 — 79% closure;
 f_hol fitted constant removed from η̄, M_DM/Ω_DM h² reclassified U after documented search found
 no independent derivation)*

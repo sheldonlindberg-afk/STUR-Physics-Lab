@@ -22,7 +22,7 @@ This report presents the results of a numerical verification exercise for the ST
 > per the audit protocol but should be read as illustrative of the fitting process, not as an
 > independent-prediction table.
 
-**Key Findings (v7.0 canonical scorecard, `stur_toe_closure.py`, 24D+3P+2U+1I=30, 83% closure):**
+**Key Findings (v7.0 canonical scorecard, `stur_toe_closure.py`, 23D+3P+3U+1I=30, 79% closure):**
 - **Cabibbo angle λ = 0.22543** (ψ₀(2π/3)/ψ₀(0) at phase-lock, **0.03% from PDG 0.22537**) —
   [CORRECTED: previous text "λ=0.2287, α_eff(quark)=1.4787, 1.6%" used a different, older
   formula variant; the canonical script's current figure is 0.22543, 0.03%]
@@ -43,7 +43,7 @@ This report presents the results of a numerical verification exercise for the ST
   single universal κ=2.52 at α=1, a different, older parametrization that predates the
   sector-specific split — this is a genuine internal inconsistency in this document, left
   as-is in §3 with this note added, per the audit's "leave narration, flag the issue" protocol]
-- **Score: 24 D + 3 P + 2 U + 1 I = 30 observables — 83% closure** (24D / 29 non-input
+- **Score: 23 D + 3 P + 3 U + 1 I = 30 observables — 79% closure** (23D / 29 non-input
   observables) — [CORRECTED from "31D+0P+0C+0U+1I=32, 100% closure"]
 - **Run:** `python3 scripts/stur_toe_closure.py` to reproduce the current canonical results
   (this report's original source script, `scripts/stur_numerical_verification.py`, is a

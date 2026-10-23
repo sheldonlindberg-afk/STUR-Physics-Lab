@@ -809,6 +809,8 @@ theory's own r_eff = 0.0139 (already established in `stur_inflation.py`, from XC
 Kirchhoff torsion damping -- untouched for this test) via the standard relation
 r = (2/pi^2)(H_I/M_Pl,reduced)^2:
 
+> **Correction (2026-10-23):** r_eff = 0.0139 is a calculation slip in `stur_inflation.py`; the same model gives r = 0.043 (excluded by BICEP/Keck; `scripts/genesis_v10_r_from_action.py`). With r = 0.043, H_I rises by sqrt(0.043/0.0139) = 1.76x to ~5.1e13 GeV and M_R/H_I falls to ~3.9. This lead now rests on an excluded inflation model; the numbers below are kept as originally computed.
+
     H_I = 2.92e13 GeV
 
 Compared against M_R = 2.0e14 GeV -- established independently, from holonomy/seesaw, an
