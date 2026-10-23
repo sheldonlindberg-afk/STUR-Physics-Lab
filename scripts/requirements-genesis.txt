@@ -1,0 +1,8 @@
+# Exact versions used to generate the GENESIS v10 pre-registrations
+# (Stage 10, 10b, 10c, 10c2) and the STUR-B / M3a audit scripts.
+# Python 3.13.16. The pre-registration code hashes prove which script ran;
+# these pins are needed to reproduce the numbers bit-for-bit.
+camb==2.0.5
+numpy==2.5.3
+scipy==1.18.1
+sympy==1.14.0
