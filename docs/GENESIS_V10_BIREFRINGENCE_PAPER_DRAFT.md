@@ -44,7 +44,7 @@ C_ℓ^EB = ½ sin 4β (C_ℓ^EE − C_ℓ^BB).
 
 The leading systematic is an instrumental miscalibration α of the polarization angle, which this formula cannot separate from β.
 
-**Current measurements.** Using Galactic foreground emission to calibrate α, Minami & Komatsu reported β = 0.35 ± 0.14° from Planck 2018 [1]. Eskilt & Komatsu reported β = 0.342 (+0.094/−0.091)° from WMAP and Planck combined, with no evidence of frequency dependence over 23–353 GHz [2]. The pre-registrations below use β_now = 0.277 ± 0.057°, attributed to a joint ACT DR6 + Planck analysis (arXiv:2608.06480). **This reference has not been verified by us and must be checked before the inputs are relied on.** [PENDING: verification of arXiv:2608.06480]
+**Current measurements.** Using Galactic foreground emission to calibrate α, Minami & Komatsu reported β = 0.35 ± 0.14° from Planck 2018 [1]. Eskilt & Komatsu reported β = 0.342 (+0.094/−0.091)° from WMAP and Planck combined, with no evidence of frequency dependence over 23–353 GHz [2]. The pre-registrations below use β_now = 0.277 ± 0.057° (4.8σ), from Eskilt's joint analysis of ACT and Planck [5]. That analysis uses its reported instrumental priors; its ACT-only reproduction gives 0.207 ± 0.073°, and a dust-mitigation robustness test excludes β = 0 at only 3.5σ (see §8). The ACT collaboration's own DR6 EB analysis reports a rotation of 0.20 ± 0.08° [6].
 
 **Tomography.** The reionization bump (ℓ ≲ 10) and the recombination peaks probe the rotation accumulated since z ≈ 8 and z ≈ 1100 respectively. Their difference Δβ = β_reio − β_rec is immune to α. Sherwin & Namikawa forecast σ(Δβ) ≈ 0.05° for LiteBIRD-class experiments [3]. LiteBIRD's own forecasts for isotropic birefringence are given in [4].
 
@@ -220,7 +220,7 @@ If M3a is true, STUR-B is disfavored at only 0.3σ. **The Δβ test is a consist
 
 ## 8. Limitations
 
-1. **Unverified input.** β_now = 0.277 ± 0.057° (arXiv:2608.06480) is unverified, and every calibration depends on it.
+1. **Input robustness.** Every calibration depends on β_now = 0.277 ± 0.057° [5]. That value rests on the analysis's instrumental priors. With dust mitigation the detection drops to 3.5σ, and the ACT-only values are lower (0.207 ± 0.073° [5]; 0.20 ± 0.08° [6]). Because κ and A₀ scale linearly with β_now, a lower true β rescales the STUR-B and M3a amplitudes but not the predicted shapes (ratios, ℓ-dependence).
 2. **Calibration weighting.** The M3a amplitude is fixed with LiteBIRD-like weights over ℓ = 50–1500. The measured β_now comes from ACT+Planck, which weight ℓ up to about 3000, where M3a declines. Its A₀ and the implied ACT-weighted β are therefore slightly inconsistent. STUR-B is unaffected because its curve is flat. [PENDING: ACT-weighted calibration of M3a]
 3. **Systematics not modelled:** lensing remapping of the EB pattern, foreground residuals, ℓ-dependent instrumental EB such as beam ellipticity, and the expected Faraday rotation used to judge achromaticity. [PENDING: lensing and systematics study]
 4. **Approximate instruments.** Noise, beam and sky fractions are approximate, and the forecasts are Gaussian Fisher estimates.
@@ -266,5 +266,6 @@ Time-stamp: [PENDING: independent time-stamp — merge to the default branch and
 [2] J. R. Eskilt and E. Komatsu, "Improved Constraints on Cosmic Birefringence from the WMAP and Planck Cosmic Microwave Background Polarization Data," Phys. Rev. D 106, 063503 (2022), arXiv:2205.13962.
 [3] B. D. Sherwin and T. Namikawa, cosmic birefringence tomography and calibration independence with reionization signals, arXiv:2108.09287 (2021). [Exact title and journal: REF TO VERIFY]
 [4] LiteBIRD Collaboration, "LiteBIRD Science Goals and Forecasts: constraining isotropic cosmic birefringence," arXiv:2503.22322.
-[5] ACT DR6 + Planck joint birefringence analysis, arXiv:2608.06480. **UNVERIFIED.**
-[6] A. Lewis, A. Challinor and A. Lasenby, CAMB. [REF TO VERIFY]
+[5] J. R. Eskilt, "Cosmic birefringence from a joint analysis of ACT and Planck," arXiv:2608.06480; Phys. Rev. D 114, 043553 (2026).
+[6] ACT Collaboration, DR6 EB rotation-angle analysis (0.20 ± 0.08°), as reported via arXiv:2509.13654. [Exact citation: REF TO VERIFY]
+[7] A. Lewis, A. Challinor and A. Lasenby, CAMB. [REF TO VERIFY]
