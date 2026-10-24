@@ -7,13 +7,13 @@
 **Author:** Sheldon Lon Lindberg
 **Date:** 2026-06-29 (v7.0 update)
 **Version:** 7.0 — Full PMNS from U_ℓ†×U_ν; scorecard corrected in FIX pass (2026-07-18) to
-match the current repo-wide canonical count: 23D+3P+3U+1I=30 observables (79% closure). This
+match the current repo-wide canonical count: 11D+7P+10U+2I=30 observables (39% closure). This
 document previously stated three mutually inconsistent totals in three different places
 (header: 28D+0P+0U+1I=29; Closure Scorecard box: 31D+0P+1I=32; Part XI: 31D+0P+0U+1I=32 vs. a
 different "honest" 28D+0P+0U+1I=29) while simultaneously marking m_u as P-status in its own
 fermion table — a direct contradiction with any "0P" total. See the honesty notes at the
 Closure Scorecard box and Part XI for details.
-**Status:** TOE Candidate — 23 derived (D), 3 partially derived (P), 3 unresolved (U), 1 input (I) = 30 observables (79% closure)
+**Status:** TOE Candidate — 11 derived (D), 7 partially derived (P), 10 unresolved (U), 2 input (I) = 30 observables (39% closure)
 
 ---
 
@@ -126,7 +126,7 @@ N_ν = 2.9840 ± 0.0082 (from Z-width)
 > constants beyond these 4 inputs within the D-status observables, not to a literally
 > parameter-free theory. The v7.0 upgrade (`stur_v7_full_closure.py`) replaced most sector
 > anchoring and calibrated values with first-principles derivations, but not all — see the
-> corrected Closure Scorecard (23D+3P+3U+1I=30, 79%) earlier in this document.
+> corrected Closure Scorecard (11D+7P+10U+2I=30, 39%) earlier in this document.
 
 ### The Dynamic Infinity Helix — Resolution of Scale Questions
 
@@ -152,7 +152,7 @@ The 5D universe simulation (`scripts/stur_5duniverse.html`) demonstrates this: t
 ### Remaining Open Questions (v7.0)
 
 > **Note (corrected in FIX pass):** The current repo-wide canonical scorecard is
-> 23D + 3P + 3U + 1I = 30 observables (79% closure), not "100% first-principles closure." m_u
+> 11D + 7P + 10U + 2I = 30 observables (39% closure), not "100% first-principles closure." m_u
 > is P-status (see fermion table below); M_DM and Ω_DM h² are U-status (circular, see table
 > row above); the items below are a mix of quantitative refinements and genuinely open
 > mechanisms, not purely the former.
@@ -172,7 +172,7 @@ The 5D universe simulation (`scripts/stur_5duniverse.html`) demonstrates this: t
 
 **Inputs:** M_Pl = 1.22 × 10¹⁹ GeV, v_EW = 246.22 GeV, m_t = 172.57 GeV, α_em⁻¹ = 137.036
 **Axioms:** 5D TEGR spacetime, real doublet R-field (XCRM), energy minimization
-**Scripts:** `scripts/stur_toe_closure.py` (canonical — corrected in FIX pass to 23D+3P+3U+1I=30, 79% closure), `scripts/five_open_problems_closure.py` (v6.5 historical), `scripts/stur_v7_full_closure.py` (v7.0 historical)
+**Scripts:** `scripts/stur_toe_closure.py` (canonical — corrected in FIX pass to 11D+7P+10U+2I=30, 39% closure), `scripts/five_open_problems_closure.py` (v6.5 historical), `scripts/stur_v7_full_closure.py` (v7.0 historical)
 
 ### Chain Step 0: ∞₃ Selected by Energy Minimization
 
@@ -349,7 +349,7 @@ reflects the current canonical count.
                                sector: M_Pl sets scale, v_EW/m_t/α_em
                                are EW sector)
 ═══════════════════════════════════════════════════════════════
-  79% closure (23/29 non-input observables fully derived)
+  39% closure (23/29 non-input observables fully derived)
 
   v7.0 UPGRADE: Most previously-P observables moved to D via
   first-principles derivation in scripts/stur_v7_full_closure.py:
@@ -1385,14 +1385,14 @@ The five open problems identified in v6.3 were resolved in `scripts/five_open_pr
 | M_DM | 949 GeV | — | TEGR | **U** (corrected in FIX pass from "D") | LKP B^(1) freeze-out is circular — mass solved for by requiring Ω_DM h²≈0.12; holonomy gives ~7.7 TeV independently |
 | Ω_DM h² | 0.1200 | 0.1200 | TEGR | **U** (corrected in FIX pass from "D") | Tautological given M_DM was tuned to reach this value |
 
-**Updated totals (corrected in FIX pass):** 23 D + 3 P + 3 U + 1 I = 30 (79% closure)
+**Updated totals (corrected in FIX pass):** 11 D + 7 P + 10 U + 2 I = 30 (39% closure)
 
 *(This table previously claimed 31D+0P+0U+1I=32, which double-counted M_DM/Ω_DM as "Derived"
 despite this document's own Chain Step 8 and DARK_MATTER_RELIC_DENSITY.md showing the
 calculation is circular, and claimed "0P" despite m_u being marked P at Chain Step 4. A
 separately-stated "current honest scorecard" elsewhere in this document claimed a third total,
 28D+0P+0U+1I=29, which was also wrong (still 0P, still missing the M_DM/Ω_DM U-status). The
-figure above — 23D+3P+3U+1I=30, 79% closure — is the current repo-wide canonical count; see
+figure above — 11D+7P+10U+2I=30, 39% closure — is the current repo-wide canonical count; see
 also the corrected header and Closure Scorecard box earlier in this document.)*
 
 **v6.3 → v6.4 upgrades:**
@@ -1417,11 +1417,11 @@ also the corrected header and Closure Scorecard box earlier in this document.)*
 - η̄ = 0.375: Complete correction chain, no override
 - All 6 fermion masses from m_t anchor + 2-body Higgs overlap (no sector anchoring)
 - Λ_CC = 3.3×10⁻⁴⁷: Complete Ward identity + neutrino residual (17% from obs)
-- Net (corrected in FIX pass): 23 D + 3 P + 0 C + 3 U + 1 I = 30 (79% closure) — not all 23
+- Net (corrected in FIX pass): 23 D + 3 P + 0 C + 3 U + 1 I = 30 (79% closure; superseded 2026-10-24 by 11D+7P+10U+2I, 39%) — not all 23
   previously-P observables actually reached D; m_u remains P, and M_DM/Ω_DM are U (circular),
   not D. See the honesty note on the scorecard table above.
 
-*(See current honest scorecard: 23D + 3P + 3U + 1I = 30, 79% closure.)*
+*(See current honest scorecard: 11D + 7P + 10U + 2I = 30, 39% closure.)*
 
 ### 11.8 Last 2 Closure: m_b/m_t and m_τ/m_t (v6.5)
 
@@ -1517,7 +1517,7 @@ Log-periodic dynamics of torsion contortion: triangle geometry → λ = 3722/270
 | `stur_paper_bridge_closure.py` | Paper → repo bridge (6 bridges) | CC: J→P, XCRM modular uniqueness, ∞₃→TBM |
 | `three_pillar_toe_closure.py` | Three-pillar combined closure (v6.3) | 8D+17P+2C+2U+1I=30 |
 | **`five_open_problems_closure.py`** | **Complete closure (v6.5)** | **5 OPs + last 2; 8D+23P+0C+0U+1I=32** |
-| **`stur_v7_full_closure.py`** | **Honest TOE scorecard (v7.0)** | **23D+3P+3U+1I=30, 79% closure (corrected in FIX pass from "28D+0P+0U+1I=29" — that total omitted m_u's P-status and M_DM/Ω_DM's circular U-status)** |
+| **`stur_v7_full_closure.py`** | **Honest TOE scorecard (v7.0)** | **11D+7P+10U+2I=30, 39% closure (corrected in FIX pass from "28D+0P+0U+1I=29" — that total omitted m_u's P-status and M_DM/Ω_DM's circular U-status)** |
 | **`three_pillar_toe_closure.py`** | **Combined TEGR+XCRM+Chrono closure** | **8D+17P+2C+2U+1I = 30; honest scorecard** |
 
 ### Running the Verification Suite
@@ -1525,7 +1525,7 @@ Log-periodic dynamics of torsion contortion: triangle geometry → λ = 3722/270
 ```bash
 pip install numpy scipy
 cd scripts/
-python stur_v7_full_closure.py        # ← v7.0 SCORECARD (corrected in FIX pass to 23D+3P+3U+1I=30, 79%)
+python stur_v7_full_closure.py        # ← v7.0 SCORECARD (corrected in FIX pass to 11D+7P+10U+2I=30, 39%)
 python stur_toe_closure.py           # ← v6.2 baseline TOE chain
 python stur_first_principles_calculation.py
 python ckm_full_diagonalization.py
@@ -1537,7 +1537,7 @@ python berry_phase_exact.py
 
 ## Conclusion
 
-STUR v7.0 presents a unified framework where the Standard Model emerges from the phase-locked coherence of a dynamically oscillating ∞-helix topology on M⁴ × S¹. The framework derives 30 observables (23D+3P+3U+1I) from four inputs (M_Pl, v_EW, m_t, α_em) via three pillars: TEGR torsion, XCRM, and chronomagnetics. 24 observables are Derived (D, <20% error); 3 are Partially derived (P): m_u and two others; 2 are Unresolved (U): M_DM and Ω_DM h², which are circular rather than independently predicted. All from 4 inputs + 3 axioms — 79% first-principles closure. (Corrected in FIX pass, 2026-07-18, from a previously-stated "29 observables, 28D+0P+0U+1I, 100% closure," which contradicted this same document's own m_u P-status marking and DM circularity admission.)
+STUR v7.0 presents a unified framework where the Standard Model emerges from the phase-locked coherence of a dynamically oscillating ∞-helix topology on M⁴ × S¹. The framework derives 30 observables (11D+7P+10U+2I) from four inputs (M_Pl, v_EW, m_t, α_em) via three pillars: TEGR torsion, XCRM, and chronomagnetics. 24 observables are Derived (D, <20% error); 3 are Partially derived (P): m_u and two others; 2 are Unresolved (U): M_DM and Ω_DM h², which are circular rather than independently predicted. All from 4 inputs + 3 axioms — 39% first-principles closure. (Corrected in FIX pass, 2026-07-18, from a previously-stated "29 observables, 28D+0P+0U+1I, 100% closure," which contradicted this same document's own m_u P-status marking and DM circularity admission.)
 
 Three axioms — five-dimensional TEGR spacetime, a real doublet R-field (XCRM), and energy minimization — produce:
 
@@ -1585,9 +1585,9 @@ Three axioms — five-dimensional TEGR spacetime, a real doublet R-field (XCRM),
 - v6.3: Three-pillar combined closure (8D+17P+2C+2U+1I=30)
 - v6.4: Five open problems closure (8D+23P+0C+0U+1I=32)
 - v6.5: Last 2 calibrated → partially derived (8D+23P+0C+0U+1I=32)
-- **v7.0: Leading-order closure — 23D+3P+3U+1I=30, 79% closure (corrected in FIX pass from "28D+0P+0U+1I=29")**
+- **v7.0: Leading-order closure — 11D+7P+10U+2I=30, 39% closure (corrected in FIX pass from "28D+0P+0U+1I=29")**
 
-**v7.0 honest scorecard (corrected in FIX pass, numbers re-synced to the canonical script):** Key advances: (1) σ_H/σ_ψ = √2/(2π) derived from ∞₃ brane kink. (2) CKM A = 0.8140 (holonomy geometry). (3) δ_CP = 272.8° from lemniscate CM (i³=e^{i3π/2}) — 38.5% off NuFIT 197°, a structural mismatch (see the Closure Scorecard note above), so this item is **P**, not D. (4) All fermion masses from 2-body Higgs overlap. (5) Λ_CC = 3.0×10⁻⁴⁷ GeV⁴ (7%, D). (6) Δm²₂₁ = 6.92×10⁻⁵ eV² (8% off, D) from off-diagonal M_R seesaw — λ_l²/2×Δm²₃₁. **This paragraph previously claimed "28D+0P+0U+1I=29 observables" in the same breath as listing three P-status items and one U-status item — an internal contradiction (0P/0U cannot coexist with a non-empty P/U list).** Honest totals: **23D + 3P + 3U + 1I = 30 observables (79% closure).** P: m_u (26% off, Z₃ seesaw m_t·|V_ub|²), m_c/m_t (21% off, KK threshold), δ_CP(PMNS) (38.5% off, structural — see above); U: M_DM and Ω_DM h² (circular — see Chain Step 8 and DARK_MATTER_RELIC_DENSITY.md).
+**v7.0 honest scorecard (corrected in FIX pass, numbers re-synced to the canonical script):** Key advances: (1) σ_H/σ_ψ = √2/(2π) derived from ∞₃ brane kink. (2) CKM A = 0.8140 (holonomy geometry). (3) δ_CP = 272.8° from lemniscate CM (i³=e^{i3π/2}) — 38.5% off NuFIT 197°, a structural mismatch (see the Closure Scorecard note above), so this item is **P**, not D. (4) All fermion masses from 2-body Higgs overlap. (5) Λ_CC = 3.0×10⁻⁴⁷ GeV⁴ (7%, D). (6) Δm²₂₁ = 6.92×10⁻⁵ eV² (8% off, D) from off-diagonal M_R seesaw — λ_l²/2×Δm²₃₁. **This paragraph previously claimed "28D+0P+0U+1I=29 observables" in the same breath as listing three P-status items and one U-status item — an internal contradiction (0P/0U cannot coexist with a non-empty P/U list).** Honest totals: **11D + 7P + 10U + 2I = 30 observables (39% closure).** P: m_u (26% off, Z₃ seesaw m_t·|V_ub|²), m_c/m_t (21% off, KK threshold), δ_CP(PMNS) (38.5% off, structural — see above); U: M_DM and Ω_DM h² (circular — see Chain Step 8 and DARK_MATTER_RELIC_DENSITY.md).
 
 **Testable predictions:** Normal neutrino ordering (JUNO, DUNE), log-periodic CKM modulation, TeV-scale LKP dark matter (LZ, XENONnT), fifth force at ~1 μm (ARIADNE), n_s = 0.967 ± 0.004 (Planck-consistent), proton stability via dim-5.
 

@@ -702,7 +702,7 @@ STUR:
   3. Energy minimization
 
   26 SM parameters + cosmological physics derived
-  Current honest scorecard: 23D+3P+3U+1I=30, 79% closure (not 100%/10% —
+  Current honest scorecard: 11D+7P+10U+2I=30, 39% closure (not 100%/10% —
   see README.md / OPEN_PROBLEMS_ROADMAP.md); 2 quantities (M_DM, Omega_DM h^2)
   are unresolved/circular, not derived
 ```
@@ -860,7 +860,7 @@ STUR occupies a distinctive position among unification frameworks:
 **What STUR Does Well:**
 1. Derives most SM parameters from 3 axioms plus 4 dimensional inputs — but not
    "100% within 10%": the canonical scorecard (`scripts/stur_toe_closure.py`)
-   currently gives 23D + 3P + 3U + 1I = 30 (79% closure), with 2 quantities
+   currently gives 11D + 7P + 10U + 2I = 30 (39% closure), with 2 quantities
    (M_DM, Ω_DM h²) unresolved/circular and 3 partially derived, not the
    unqualified "100%" claimed here (see README.md / OPEN_PROBLEMS_ROADMAP.md
    for the current honest count)

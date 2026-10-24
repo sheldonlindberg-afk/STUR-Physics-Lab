@@ -15,7 +15,7 @@ corrected:
   independent first-principles derivation for these two observables anywhere in the codebase
   (they had been carried as D on the strength of a self-consistency freeze-out fit, not an
   independent derivation).
-- Current canonical scorecard: **23D + 3P + 3U + 1I = 30 observables, 79% closure**
+- Current canonical scorecard: **11D + 7P + 10U + 2I = 30 observables, 39% closure**
   (κ_q = 2.417, κ_l = 2.367; 4 numerical inputs: M_Planck, v_EW, m_t, α_em).
 
 This supersedes the "29D+0P+0U+1I=30, 100% closure" figure reported in the v7.0.0–v7.0.2 entries

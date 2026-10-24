@@ -3,18 +3,18 @@
 **Document Type:** Research Roadmap
 **Framework:** STUR v7.0 (Dynamic Infinity Helix — TOE Candidate)
 **Date:** 2026-06-29
-**Purpose:** Status assessment — honest scorecard: 23D+3P+3U+1I=30 — 79% closure
+**Purpose:** Status assessment — honest scorecard: 11D+7P+10U+2I=30 — 39% closure
 
 ---
 
-## Current Status: v7.0 Final Scorecard — 23D+3P+3U+1I=30 (79% Closure)
+## Current Status: v7.0 Final Scorecard — 11D+7P+10U+2I=30 (39% Closure)
 
 STUR derives 30 observables from four inputs (M_Planck, v_EW, m_t,
 α_em) and three axioms (5D TEGR spacetime, real doublet R-field, energy
 minimization). The dynamic ∞₃ infinity helix — always winding and unwinding
 simultaneously at every scale — provides the geometric foundation.
 
-**Score: 23 D + 3 P + 3 U + 1 I = 30 — 79% first-principles closure**
+**Score: 11 D + 7 P + 10 U + 2 I = 30 — 39% first-principles closure**
 (Post-v7.0.2 correction: the fitted f_hol constant was removed from η̄, and M_DM/Ω_DM h² were
 reclassified U after no independent derivation was found in the codebase.)
 
@@ -215,8 +215,8 @@ The following constitute a complete, falsifiable TOE:
 8. **Inflation** — r_eff = 0.014 from XCRM Kirchhoff torsion damping *(superseded 2026-10-23: corrected r = 0.043, excluded by BICEP/Keck)*
 9. **Falsification protocol** — JUNO, DUNE, T2HK, LZ/XENONnT, ARIADNE, CMB-S4
 
-**Position:** *"TOE Candidate with 30 observables (23D+3P+3U+1I) derived from
-three axioms and four inputs. 79% first-principles closure."*
+**Position:** *"TOE Candidate with 30 observables (11D+7P+10U+2I) derived from
+three axioms and four inputs. 39% first-principles closure."*
 
 ---
 
@@ -224,7 +224,7 @@ three axioms and four inputs. 79% first-principles closure."*
 
 | Script/Document | What It Computes | Key Result |
 |----------------|-----------------|------------|
-| `stur_toe_closure.py` | 30-observable canonical scorecard | 23D+3P+3U+1I=30 (79%) |
+| `stur_toe_closure.py` | 30-observable canonical scorecard | 11D+7P+10U+2I=30 (39%) |
 | `stur_inflation.py` | Tensor-to-scalar ratio | r = 0.043 (U, excluded; the earlier 0.0139 was a slip) |
 | `stur_first_principles_calculation.py` | κ, σ, overlaps, N_eff | κ_q = 2.417, κ_l = 2.367, σ = 0.862 |
 | `ckm_full_diagonalization.py` | Full CKM matrix | All 9 elements |
@@ -243,7 +243,7 @@ three axioms and four inputs. 79% first-principles closure."*
 
 | Item | v6.x | v7.0 |
 |------|------|------|
-| Observables | 29 (5D+4P+19C+1J) | 30 (23D+3P+3U+1I, 79% closure) |
+| Observables | 29 (5D+4P+19C+1J) | 30 (11D+7P+10U+2I, 39% closure) |
 | Free parameters | ~19 fitted | 0 (beyond the 4 canonical inputs) |
 | σ_H/σ_ψ | Assumed 0.3 | Derived √2/(2π) = 0.2251 |
 | CKM A | Calibrated 0.816 | Derived 0.655 → 0.814 (NLO) |
@@ -260,6 +260,6 @@ three axioms and four inputs. 79% first-principles closure."*
 
 ---
 
-*Updated 2026-07 (post-v7.0.2 canonical script correction — 23D+3P+3U+1I=30 — 79% closure;
+*Updated 2026-07 (post-v7.0.2 canonical script correction — 11D+7P+10U+2I=30 — 39% closure;
 f_hol fitted constant removed from η̄, M_DM/Ω_DM h² reclassified U after documented search found
 no independent derivation)*

@@ -5,7 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - 2026-10-23 — Corrections from the GENESIS v10 STUR-B audit
+## [Unreleased]
+
+### Changed (2026-10-24) — evidence-based scorecard re-score
+- Canonical scorecard re-scored row by row: **23D+3P+3U+1I (79%) → 11D+7P+10U+2I (39%)**. Evidence for every row in `docs/SCORECARD_RESCORE_2026-10-24.md`; `scripts/stur_toe_closure.py` now prints the previous and new status side by side.
+- D → U: θ_QCD = 0, Berry phase, KK-parity, Δm²₃₁, M_R, Λ_CC, ω = 2π². D → P: gauge group, sin²θ₂₃, m_τ/m_t, Δm²₂₁. D → I: α = Z₀/(2R_K).
+- Current-status statements across the site updated; earlier changelog entries are left as written.
+ - 2026-10-23 — Corrections from the GENESIS v10 STUR-B audit
 
 ### Fixed
 - **Tensor-to-scalar ratio:** r_eff = 0.0139 (7.0.1) was a calculation slip — ε was rescaled at fixed N, but the XCRM friction also stretches N(R). The consistent value of the same model is **r = 24/(β_H N) = 0.043** (N = 60), above BICEP/Keck r < 0.036: excluded. Status D → U. `stur_inflation.py` and `stur_toe_closure.py` now print the corrected value; check script `scripts/genesis_v10_r_from_action.py`. n_s = 1 − 2/N is unaffected.
