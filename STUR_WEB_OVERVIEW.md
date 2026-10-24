@@ -12,7 +12,7 @@ The Standard Model of particle physics successfully describes fundamental partic
 
 The framework rests on three pillars: **TEGR** (gravity as torsion), the **XCRM** coupling (unique R-field torsion term), and **Chronomagnetics** (log-periodic phase dynamics with λ_chrono = e^{1/π} = 1.3748).
 
-### Key Results at a Glance (v7.0 — 23D+3P+3U+1I=30, 79% closure)
+### Key Results at a Glance (v7.0 — 11D+7P+10U+2I=30, 39% closure)
 
 | What STUR Derives | How | Status |
 |-------------------|-----|--------|
@@ -29,13 +29,13 @@ The framework rests on three pillars: **TEGR** (gravity as torsion), the **XCRM*
 
 ### What This Is
 
-STUR is a **TOE candidate** with 30 observables (23D+3P+3U+1I, 79% closure) derived from
+STUR is a **TOE candidate** with 30 observables (11D+7P+10U+2I, 39% closure) derived from
 **four inputs** (M_Planck, α, L_X, and one additional calibration — see honesty tables in
 STUR_PAPER_DRAFT.md §4.1) and three axioms. It is:
 
 - Built on TEGR (teleparallel gravity): valid at all energy scales via torsion
 - Testable: makes specific falsifiable predictions (δ_CP = 272.8°, Σm_ν = 58 meV, M_DM = 949 GeV)
-- 79% closed at the "D" (fully derived, <20% from PDG) level: 23D + 3P + 3U + 1I = 30
+- 39% closed at the "D" (fully derived, <20% from PDG) level: 11D + 7P + 10U + 2I = 30
   observables, with 3 "P" (mechanism identified, precision pending) and 2 "U" (confirmed
   circular — M_DM/Ω_DM h²) items still open
 - Awaiting experimental verification from JUNO, DUNE, T2HK, LZ, CMB-S4
@@ -133,7 +133,7 @@ STUR makes specific numerical predictions that can be compared with experiment:
 
 **A:** In the sense of attempting to derive Standard Model and cosmological parameters from
 first principles, yes — though closure is not yet complete. Current scorecard (v7.0,
-`scripts/stur_toe_closure.py`): **23D + 3P + 3U + 1I = 30 observables, 79% closure** — 24
+`scripts/stur_toe_closure.py`): **11D + 7P + 10U + 2I = 30 observables, 39% closure** — 24
 observables are fully derived (D, <20% from PDG), 3 have an identified mechanism with
 precision still pending (P), 2 are confirmed circular rather than independently predicted (U:
 M_DM / Ω_DM h²), and 1 is an input rather than a prediction. The framework uses **4 genuinely
@@ -266,4 +266,4 @@ This framework is presented for scientific evaluation. Constructive feedback, cr
 
 ---
 
-*Last updated: 2026-07-18 | Framework version: STUR v7.0 (23D+3P+3U+1I=30 — 79% closure)*
+*Last updated: 2026-07-18 | Framework version: STUR v7.0 (11D+7P+10U+2I=30 — 39% closure)*

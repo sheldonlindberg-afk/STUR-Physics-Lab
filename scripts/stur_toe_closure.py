@@ -816,12 +816,47 @@ scorecard = [
     ("M_Pl,v,m_t,α",   "4 inputs",                  "—",            "—",     "I", "fundamental inputs"),
 ]
 
-print(f"  {'Observable':<16} {'Predicted':>14} {'Observed':>12} {'Pillar':>6} S  {'Dev / Note'}")
-print(f"  {'─'*16} {'─'*14} {'─'*12} {'─'*6} ─  {'─'*34}")
-counts = {'D':0,'P':0,'U':0,'I':0}
+# ── EVIDENCE-BASED RE-SCORE (2026-10-24) ────────────────────────────────────
+# Rules: D = computed from the stated inputs with no observable-specific fitted or
+# hard-coded constant, not contradicted by another repo script/page, and still < 20%
+# when the repo's own computed f_KK = 1.2401 (alpha_eff_rigorous_calculation.py) replaces
+# the hard-coded f_KK = 1.286 above; P = partial (unexplained factor, or > 20% off);
+# U = not derived, input in disguise, no measured counterpart, or contradicted by the repo;
+# I = declared input. Row-by-row evidence: docs/SCORECARD_RESCORE_2026-10-24.md.
+# The 'prev' column is the status assigned in the list above, printed unchanged.
+RESCORE = {
+    "Gauge group":   ("P", "SM selection via MHP asserted; gauge-field origin 'not separately derived' (stur_maxwell_equations.html:84)"),
+    "θ_QCD = 0":     ("U", "repo's own threshold estimate theta_eff ~ 8.6e-8 exceeds the nEDM bound 1e-10 (stur_strong_cp_solution.html:432); R-phase carries a colour anomaly c_s = 3 (docs/GENESIS_V10F_THEORY_GAPS.md)"),
+    "Berry phase":   ("U", "no measured counterpart; the repo elsewhere uses a nonzero Berry phase gamma = -pi/3 (BERRY_PHASE_RIGOROUS_PROOF.md:19)"),
+    "KK-parity":     ("U", "no measured counterpart (observed '—'); mechanism renamed KK-triality (commit 73a36ae)"),
+    "α = Z₀/(2R_K)": ("I", "definitional identity (Z0 = mu0 c, R_K = h/e^2); alpha_em is one of the four declared inputs"),
+    "sin²θ₂₃":       ("P", "19.4% only with hard-coded f_KK = 1.286; 20.1% with the repo's computed f_KK = 1.2401"),
+    "Δm²₃₁":         ("U", "hard-coded anchor sqrt(2.453e-3) eV^2; M_R0 cancels (stur_toe_closure.py:447-456)"),
+    "M_R":           ("U", "M_R0 = 3*1.5*sqrt(3)*1.2*2.1e13 GeV, unexplained constants (stur_toe_closure.py:445); no measurement"),
+    "Λ_CC":          ("U", "built on hard-coded neutrino masses (to the 4th power) and fitted F_Berry = 1/(4pi^2) (BERRY_PHASE_RIGOROUS_PROOF.md:6); cosmological_constant.py:356 says 'NOT computed'"),
+    "m_τ/m_t":       ("P", "12.9% with hard-coded f_KK; 20.7% with the repo's computed f_KK = 1.2401"),
+    "ω = 2π²":       ("U", "tautology: 3*kap_q*sig_q = 2pi identically since kap_q = (2pi/3)/sig_q (this file, PART 2); omega = pi*S is a stated ansatz (DERIVATION_CHAIN_INFINITY.md:644); not a measurement"),
+    "Δm²₂₁":         ("P", "ratio lambda_l^2/2 derived; absolute scale inherited from the hard-coded Delta m^2_31"),
+}
+rescored = []
 for nm,pr,ob,pillar,st,note in scorecard:
-    counts[st] = counts.get(st,0)+1
-    print(f"  {nm:<16} {pr:>14} {ob:>12} {pillar:>6} {st}  {note}")
+    new_st, why = RESCORE.get(nm, (st, ""))
+    rescored.append((nm,pr,ob,pillar,st,new_st,note,why))
+
+print(f"  {'Observable':<16} {'Predicted':>14} {'Observed':>12} {'Pillar':>6} prev new  {'Dev / Note'}")
+print(f"  {'─'*16} {'─'*14} {'─'*12} {'─'*6} ──── ───  {'─'*34}")
+counts = {'D':0,'P':0,'U':0,'I':0}
+counts_prev = {'D':0,'P':0,'U':0,'I':0}
+for nm,pr,ob,pillar,st,new_st,note,why in rescored:
+    counts_prev[st] = counts_prev.get(st,0)+1
+    counts[new_st] = counts.get(new_st,0)+1
+    flag = "*" if new_st != st else " "
+    print(f"  {nm:<16} {pr:>14} {ob:>12} {pillar:>6}  {st}   {new_st}{flag} {note}")
+    if why:
+        print(f"  {'':<16} {'':>14} {'':>12} {'':>6}           -> re-score: {why}")
+prev_frac = counts_prev['D'] / (counts_prev['D']+counts_prev['P']+counts_prev['U']) * 100
+print(f"\n  previous (2026-10-23): {counts_prev['D']}D+{counts_prev['P']}P+{counts_prev['U']}U+{counts_prev['I']}I = "
+      f"{sum(counts_prev.values())}, closure {prev_frac:.0f}%   (* = status changed by the re-score)")
 
 total = sum(counts.values())
 D_frac = counts['D'] / (counts['D']+counts.get('P',0)+counts.get('U',0)) * 100
@@ -829,12 +864,12 @@ D_frac = counts['D'] / (counts['D']+counts.get('P',0)+counts.get('U',0)) * 100
 print(f"""
   {'━'*74}
   v7.0 SCORECARD SUMMARY  ({total} observables):
-    D  {counts['D']:2d}  fully derived (< 20% from PDG, no fitted/circular inputs found)
-    P  {counts.get('P',0):2d}  mechanism identified; NLO precision pending
-    U  {counts.get('U',0):2d}  no independent mechanism found (M_DM/Omega_DM h^2 -- searched, see Part 9 note; genuinely circular, not merely imprecise)
-          + r: its only STUR model (torsion-damped chaotic) gives r = 0.043, excluded (2026-10-23)
-    I   1  (4 fundamental inputs)
-    Closure fraction: {D_frac:.0f}%  ({counts['D']}D / {counts['D']+counts.get('P',0)+counts.get('U',0)} non-input observables)
+    [re-scored 2026-10-24; see docs/SCORECARD_RESCORE_2026-10-24.md]
+    D  {counts['D']:2d}  derived (< 20%, no fitted/hard-coded constant, robust to the repo's computed f_KK)
+    P  {counts.get('P',0):2d}  partial (unexplained factor, or > 20% off)
+    U  {counts.get('U',0):2d}  not derived / input in disguise / no measurement / contradicted in the repo
+    I  {counts.get('I',0):2d}  declared inputs (the 4-input group; alpha = Z0/(2R_K) is an identity on input alpha_em)
+    Closure fraction: {D_frac:.0f}%  ({counts['D']}D / {counts['D']+counts.get('P',0)+counts.get('U',0)} non-input rows)
 
   KEY ADVANCES (this release):
     1. sin²θ₁₃ = {sin2_13:.4f}  DERIVED for first time from resistance physics

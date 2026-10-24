@@ -771,8 +771,8 @@ m_u = m_u^naive x f_boundary x f_KK x f_QCD x f_threshold
 |                                                                     |
 |  OVERALL (corrected in FIX pass): The framework uses 4 inputs       |
 |  (M_Pl, v_EW, m_t, alpha_em), not zero free parameters. Current     |
-|  repo-wide canonical scorecard: 23D + 3P + 3U + 1I = 30 observables |
-|  (79% closure), not "all 26 SM parameters derived." m_u and the     |
+|  repo-wide canonical scorecard: 11D + 7P + 10U + 2I = 30 observables |
+|  (39% closure), not "all 26 SM parameters derived." m_u and the     |
 |  lepton masses corrected in this document remain P-status, not D.   |
 +====================================================================+
 ```
