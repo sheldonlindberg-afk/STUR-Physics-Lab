@@ -20,7 +20,7 @@
     // Theory status - IMMUTABLE after publication
     theoryStatus: {
       complete: false, // Candidate framework - awaiting experimental verification
-      axiomCount: 1, // v2.5: One foundational coupling (XCRM doublet on infinity helix)
+      axiomCount: 3, // v7.0: (A1) M4 x S1 with TEGR, (A2) real doublet R-field, (A3) energy minimisation (v2.5 had 1)
       derivedPrinciples: 4, // XCRM doublet → Master Action → DHP → TFP/MHP (TFP automatic in v2.5)
       freeParameters: 0, // Parameters derived from geometry
       closedProblems: 18, // v2.5 adds: 3 gen automatic, SU(3) from geometry (CC addressed, not solved)

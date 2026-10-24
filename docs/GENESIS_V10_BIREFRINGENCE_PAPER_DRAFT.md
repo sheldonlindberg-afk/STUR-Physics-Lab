@@ -2,7 +2,7 @@
 
 **Sheldon Lindberg**
 
-*Draft, 2026-10-23. Not submitted. Prepared with AI assistance (Claude, Anthropic): the computations, audits and text were produced in an AI-assisted session and have not yet been independently reviewed. Items marked [PENDING: …] await results from parallel work. Items marked [REF TO VERIFY] are references not yet checked against the original source.*
+*Draft, 2026-10-23. Not submitted. Prepared with AI assistance (Claude, Anthropic): the computations, audits and text were produced in an AI-assisted session and have not yet been independently reviewed. Items marked [PENDING: …] await results from parallel work. All references were checked against bibliographic records (2026-10-24); [3]'s journal is inferred from its DOI.*
 
 ---
 
@@ -38,7 +38,7 @@ All predictions are hashed and time-stamped before the relevant data are release
 
 ## 1. Introduction
 
-A parity-violating coupling of a pseudoscalar field φ to photons, L ⊃ (g/4) φ F F̃, rotates the plane of linear polarization by β = (g/2)Δφ along the photon's path [REF TO VERIFY: Carroll, Field & Jackiw 1990; Harari & Sikivie 1992]. In the CMB, an isotropic β converts E-modes to B-modes:
+A parity-violating coupling of a pseudoscalar field φ to photons, L ⊃ (g/4) φ F F̃, rotates the plane of linear polarization by β = (g/2)Δφ along the photon's path [S. M. Carroll, G. B. Field & R. Jackiw, Phys. Rev. D 41, 1231 (1990); D. Harari & P. Sikivie, Phys. Lett. B 289, 67 (1992)]. In the CMB, an isotropic β converts E-modes to B-modes:
 
 C_ℓ^EB = ½ sin 4β (C_ℓ^EE − C_ℓ^BB).
 
@@ -118,7 +118,7 @@ The rotation is averaged over the visibility function, and depolarization is neg
 Two tensor ratios are associated with the model; neither is an output of the action.
 
 - **r = 0.0035.** This is Starobinsky R² at N* = 55. The STUR action is linear in 𝕋 and contains no R² term, so this value is an imported assumption.
-- **r = 0.0139.** This comes from the repo's chaotic inflation with extra friction β_H = 3 + 2π. It rescales ε at fixed N, but the friction also stretches N(R). Done consistently, the result is r = 24/(β_H N) = 0.043 at N = 60. Numerical integration confirms this, and the standard-friction limit reproduces 8/N. That value exceeds the BICEP/Keck bound r < 0.036 [REF TO VERIFY: BICEP/Keck 2021, PRL 127, 151301]. The model's n_s = 1 − 2/N is unaffected (`genesis_v10_r_from_action.py`).
+- **r = 0.0139.** This comes from the repo's chaotic inflation with extra friction β_H = 3 + 2π. It rescales ε at fixed N, but the friction also stretches N(R). Done consistently, the result is r = 24/(β_H N) = 0.043 at N = 60. Numerical integration confirms this, and the standard-friction limit reproduces 8/N. That value exceeds the BICEP/Keck bound r < 0.036 [BICEP/Keck Collaboration, P. A. R. Ade et al., Phys. Rev. Lett. 127, 151301 (2021), arXiv:2110.00483]. The model's n_s = 1 − 2/N is unaffected (`genesis_v10_r_from_action.py`).
 
 **Theory gaps** (`scripts/genesis_v10f_theory_gaps.py`). None is closed. (a) The Yukawa phase potential and the Z₃ twisted boundary condition leave the phase zero mode exactly flat; the potentials that do exist are static and give a fixed-frequency oscillation, not sin(ω ln t), which averages out of the CMB; a log-time form needs an H²-coupling such as ξ𝕋|R|², absent from the action. (b) The repo localizes quarks with the same R-Yukawa as leptons, so quarks carry R-charge: c_γ = 8, c_s = 3. M3a with these charges needs A₀ = 0.54–1.10 rad and makes θ_QCD oscillate by 3.2–6.6 rad, violating the neutron-EDM bound by ~10¹⁰. **M3a's assumption H2 therefore conflicts with the repo's own fermion localization.** (c) The background of inflation driven by |R| itself is parameter-free (ε_H = 15/(10N + 15) ≈ 0.024 at N = 60), but n_s and r cannot yet be computed: non-minimally coupled teleparallel scalars can lack linear scalar perturbations unless their coupling functions satisfy a special relation (Raatikainen & Räsänen, JCAP 12 (2019) 021), not shown for STUR.
 
@@ -264,8 +264,8 @@ Time-stamp: [PENDING: independent time-stamp — merge to the default branch and
 
 [1] Y. Minami and E. Komatsu, "New Extraction of the Cosmic Birefringence from the Planck 2018 Polarization Data," Phys. Rev. Lett. 125, 221301 (2020), arXiv:2011.11254.
 [2] J. R. Eskilt and E. Komatsu, "Improved Constraints on Cosmic Birefringence from the WMAP and Planck Cosmic Microwave Background Polarization Data," Phys. Rev. D 106, 063503 (2022), arXiv:2205.13962.
-[3] B. D. Sherwin and T. Namikawa, cosmic birefringence tomography and calibration independence with reionization signals, arXiv:2108.09287 (2021). [Exact title and journal: REF TO VERIFY]
+[3] B. D. Sherwin and T. Namikawa, "Cosmic birefringence tomography and calibration-independence with reionization signals in the CMB", arXiv:2108.09287 (2021); DOI 10.1093/mnras/stac3146 (MNRAS).
 [4] LiteBIRD Collaboration, "LiteBIRD Science Goals and Forecasts: constraining isotropic cosmic birefringence," arXiv:2503.22322.
 [5] J. R. Eskilt, "Cosmic birefringence from a joint analysis of ACT and Planck," arXiv:2608.06480; Phys. Rev. D 114, 043553 (2026).
-[6] ACT Collaboration, DR6 EB rotation-angle analysis (0.20 ± 0.08°), as reported via arXiv:2509.13654. [Exact citation: REF TO VERIFY]
-[7] A. Lewis, A. Challinor and A. Lasenby, CAMB. [REF TO VERIFY]
+[6] P. Diego-Palazuelos and E. Komatsu, "Cosmic Birefringence from the Atacama Cosmology Telescope Data Release 6", arXiv:2509.13654 (2025): β = 0.215 ± 0.074° (2.9σ); it quotes the ACT collaboration's EB rotation angle 0.20 ± 0.08° from T. Louis et al. (ACT), "DR6 Power Spectra, Likelihoods and ΛCDM Parameters", arXiv:2503.14452, JCAP (2025).
+[7] A. Lewis, A. Challinor and A. Lasenby, "Efficient computation of CMB anisotropies in closed FRW models", ApJ 538, 473 (2000), arXiv:astro-ph/9911177 (CAMB).

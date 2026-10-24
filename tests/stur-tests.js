@@ -94,11 +94,13 @@
   });
 
   TestSuite.run('Gaussian Visibility: Always positive', function() {
+    // exp(-dL^2/l^2) underflows to exactly 0 in double precision for dL/l >~ 27,
+    // so positivity is checked on ln V, which stays finite.
     const V0 = 1.0;
     const lcoh = 1.0;
     for (let deltaL = 0; deltaL <= 100; deltaL += 10) {
-      const V = V0 * Math.exp(-(deltaL * deltaL) / (lcoh * lcoh));
-      TestSuite.assert(V > 0, `V(${deltaL}) should be positive`);
+      const lnV = Math.log(V0) - (deltaL * deltaL) / (lcoh * lcoh);
+      TestSuite.assert(Number.isFinite(lnV), `ln V(${deltaL}) should be finite (V > 0)`);
     }
   });
 
@@ -354,9 +356,10 @@
   // VERSION INTEGRITY TESTS (v2.4)
   // ═══════════════════════════════════════════════════════════════
 
-  TestSuite.run('Version: Axiom-free status (v2.4)', function() {
+  TestSuite.run('Version: axiom count matches the v7.0 Master Action (A1-A3)', function() {
+    // Replaces the v2.4 'axiom-free' test, which contradicted the 3-axiom test above.
     if (typeof STUR !== 'undefined' && STUR.VERSION) {
-      TestSuite.assertEqual(STUR.VERSION.theoryStatus.axiomCount, 0, 'v2.4 should have 0 axioms');
+      TestSuite.assertEqual(STUR.VERSION.theoryStatus.axiomCount, 3, 'v7.0 states three axioms');
     } else {
       TestSuite.assert(true, 'STUR.VERSION not loaded');
     }

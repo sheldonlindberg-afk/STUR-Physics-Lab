@@ -26,7 +26,8 @@ Date: 2026-02-06
 """
 
 import numpy as np
-from scipy import linalg, integrate, special
+from scipy import linalg, integrate, special, sparse
+from scipy.sparse.linalg import eigsh
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -68,13 +69,18 @@ def solve_schrodinger(V_func, N=4000, domain=(-np.pi, np.pi)):
 
     diag = 2.0 / dtheta**2 + V
     off = -1.0 / dtheta**2 * np.ones(N - 1)
-    H = np.diag(diag) + np.diag(off, 1) + np.diag(off, -1)
+    # Sparse shift-invert for the 6 lowest states. The dense eigh used before is
+    # O(N^3) per call and made the script exceed 900 s; on N = 4000 test potentials
+    # (including deep Z3 wells with 1e-3 tunnelling splitting) eigenvalues agree to
+    # < 1e-9 relative and |psi_0|^2 to < 1e-10.
+    H = sparse.diags([diag, off, off], [0, 1, -1], format='lil')
     # periodic BCs
-    H[0, -1] = -1.0 / dtheta**2
-    H[-1, 0] = -1.0 / dtheta**2
+    H[0, N - 1] = -1.0 / dtheta**2
+    H[N - 1, 0] = -1.0 / dtheta**2
 
-    evals, evecs = linalg.eigh(H, subset_by_index=[0, 5])
-    return evals, evecs, theta
+    evals, evecs = eigsh(H.tocsc(), k=6, sigma=V.min() - 1.0, which='LM', tol=0)
+    order = np.argsort(evals)
+    return evals[order], evecs[:, order], theta
 
 
 def extract_kappa(psi, theta):

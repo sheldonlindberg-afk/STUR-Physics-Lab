@@ -108,7 +108,7 @@ const STUR_DEFINITIONS = {
     status: "COMPLETE",
     statusLabel: "Candidate unified framework: all mechanisms and parameters derived from XCRM doublet on infinity helix — awaiting experimental verification",
     derivationsComplete: true, // All derivation chains complete as of v2.5
-    axiomCount: 1, // v2.5: One foundational coupling (XCRM doublet on infinity helix)
+    axiomCount: 3, // v7.0: (A1) M4 x S1 with TEGR, (A2) real doublet R-field, (A3) energy minimisation (v2.5 had 1)
     freeParameters: 0, // L_X dynamically stabilized by Casimir-holonomy balance; χ fixed by vacuum stability
     theoryDeterminedParameters: 1, // L_X stabilized by Casimir-holonomy balance
     v25Improvements: {
