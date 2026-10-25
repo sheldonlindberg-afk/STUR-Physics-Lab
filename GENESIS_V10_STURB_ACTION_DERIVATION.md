@@ -287,3 +287,24 @@ The registered curves extend only to ℓ = 1500. The ℓ = 1500–3000 curves co
 | 10 | Repo consistency | Scorecard 24D+3P+2U+1I (83%) → **23D+3P+3U+1I (79%)** (r → U); Cauchy-Euler and λ notes; STUR-B/M3a listed as bridge hypotheses | 91 files |
 | 11 | Full repo run | 32/33 ran (`alpha_eff_rigorous_calculation.py` times out). **The run report shows the 79% is itself overstated**: Λ_CC and L_X are inputs by the repo's own scripts, Δm²₃₁ is hard-coded, and f_hol, f_Berry and λ_W each have conflicting values | `docs/REPO_SCRIPT_RUN_REPORT.md` |
 | 12 | Paper draft | Drafted and filled. Open: the timestamp, and 4 references marked [REF TO VERIFY] | `docs/GENESIS_V10_BIREFRINGENCE_PAPER_DRAFT.md` |
+
+---
+
+## Addendum (2026-10-25): the six review issues resolved, and the hypothesis that fits best
+
+| # | Issue | Resolution | Where |
+|---|---|---|---|
+| 1 | M3a's leptons-only charge conflicts with STUR | **Applies to every β ≠ 0 hypothesis, not just M3a.** A phase with c_s ≠ 0 is a QCD axion, pinned by QCD. So STUR-B also needs R-neutral quarks. Unresolved inside STUR; it is now a stated assumption of both | `scripts/genesis_v10g_hypothesis_ranking.py` |
+| 2 | Instrument drift can fake M3a's shape | **Joint EB+TB with a free angle per ℓ** absorbs any pure-angle drift exactly. Flat rotation is rejected at 4.2 / 6.5 / 16.5σ (min/median/max) for an S4-like survey, and at 1.1 / 1.7 / 4.3σ for SO-like. Extra bands or instruments do not help (nested null models). An external prior needs ≲ 0.007° (SO, median) or 0.022° (S4, all phases). Remaining risk: T→P leakage and ellipticity, which need T–P null tests | `scripts/genesis_v10h_drift_robust_shape.py`, `docs/GENESIS_V10H_DRIFT_ROBUST_SHAPE.md` |
+| 3 | M3a's high-ℓ pattern depends on its phase | Criteria cover every admissible phase. Wording corrected throughout | Stage 10c2 addendum, paper draft |
+| 4 | β input is 3.5σ when dust-mitigated | Rankings use all three inputs (4.9σ / 3.5σ / ACT-only 2.9σ). Amplitudes rescale; shapes do not | Stage 10g |
+| 5 | Scorecards don't hold up | **Re-scored row by row: 79% → 39% (11D+7P+10U+2I)** | `docs/SCORECARD_RESCORE_2026-10-24.md` |
+| 6 | Field-size windows | Folded into the ranking. STUR-B with STUR's own c_γ = 8 is excluded | Stage 10d, 10g |
+
+**Ranking (Stage 10g).**
+- **H0: STUR as written (β ≈ 0).** Needs no extra assumptions. In tension with the measured β at 3.5–4.9σ.
+- **C0: the action's own free rotation.** Excluded. BBN caps f at 5×10¹⁰ GeV, while ACT's anisotropic birefringence needs f > 2×10¹² GeV at the GENESIS H_I.
+- **M3a.** Needs c_s = 0, no pinned cos 3θ potential, and an H²-scaled restoring force. It is viable with O(1) numbers.
+- **STUR-B.** Needs everything M3a needs, plus a ~150× suppression with no mechanism.
+
+**Conclusion.** The hypothesis that fits STUR's mathematics best is **H0: no isotropic birefringence**. If β ≠ 0 is confirmed, STUR needs new physics, and **M3a is the most economical β ≠ 0 hypothesis**. Its decisive test is joint EB+TB tomography at CMB-S4 sensitivity.
