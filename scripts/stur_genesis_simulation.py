@@ -391,8 +391,13 @@ def run_model(name, bg, chrono, proj, args, exact):
             return exact.split(exact.beta_eff({"x": h})[1]["x"])[0]
         amp, ok = fit_amplitude(name, bg, chrono, args, proj.beta_rec)      # fast pre-fit
         if name not in ("H0", "U0"):
-            h = model_history(name, bg, chrono, args, amp)
-            amp *= BETA_NOW[0] / brec(h) if brec(h) != 0 else 1.0           # exact (linear) refit
+            # exact refit, iterated: M3a with FRW friction rotates by degrees at recombination,
+            # so a single linear step is not enough
+            for _ in range(5):
+                b = brec(model_history(name, bg, chrono, args, amp))
+                if b == 0 or abs(b / BETA_NOW[0] - 1) < 1e-3:
+                    break
+                amp *= BETA_NOW[0] / b
     else:
         amp, ok = fit_amplitude(name, bg, chrono, args, proj.beta_rec)
     h = model_history(name, bg, chrono, args, amp)
