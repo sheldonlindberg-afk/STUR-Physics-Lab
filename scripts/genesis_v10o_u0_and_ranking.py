@@ -79,6 +79,7 @@ def part1():
     wlo = (2 * ells[lo] + 1) * ce0[lo]
 
     H0_gyr = bg.H0
+    K3 = 3 * ALPHA / (2 * np.pi)
     mt0_grid = np.geomspace(1.0, 3e3, 14)
     thetas_i = np.linspace(0.1, 1.0, 7) * (np.pi / 3) * 0.999
     u_i = np.log(1e-7)
@@ -92,28 +93,30 @@ def part1():
                                       n=int(min(4e5, 4e4 + 40 * mt0)))
             key = (float(mt0), float(th_i))
             sols[key] = (ue, th, thu)
+            # built at the TRUE small angle for c_g = 3 (as Stage 10j); a per-unit-K history would
+            # reach tens of degrees, where beta_eff (an arcsin) saturates and is not linear
             hist[key] = (lambda z, t, ue=ue, th=th: np.degrees(
-                1.0 * (th[-1] - np.interp(np.log(t), ue, th))))      # per unit K: Delta theta [deg]
+                K3 * (th[-1] - np.interp(np.log(t), ue, th))))
     print(f"  {len(hist)} histories, exact transfers at {len(ells)} multipoles ...")
     cee, ceb = src.transfers(ells, hist)
 
-    # beta per unit K (K = c_g alpha / 2 pi) is exactly linear at these tiny angles; check it
-    probe = list(hist)[len(hist) // 2]
+    # c_g = 6 is obtained by scaling the exact c_g = 3 result by 2; verify on the history with the
+    # LARGEST rotation (not a frozen one), where any non-linearity would show
     K6 = 6 * ALPHA / (2 * np.pi)
-    th_scaled = {"lin": (lambda z, t, f=hist[probe]: K6 * f(z, t))}
+    probe = max(hist, key=lambda k: abs(np.sum(G.beta_eff(cee, ceb[k])[hi])))
+    th_scaled = {"x2": (lambda z, t, f=hist[probe]: 2 * f(z, t))}
     ce_l, cb_l = src.transfers(ells[hi], th_scaled)
-    b_exact = G.beta_eff(ce_l, cb_l["lin"])
-    b_lin = K6 * G.beta_eff(cee, ceb[probe])[hi]
-    gate("beta linear in K (exact c_g = 6 vs scaled per-unit)", np.max(np.abs(b_exact - b_lin)) < 1e-4,
-         f"max dev {np.max(np.abs(b_exact - b_lin)):.1e} deg")
+    b_exact = G.beta_eff(ce_l, cb_l["x2"])
+    b_lin = 2 * G.beta_eff(cee, ceb[probe])[hi]
+    gate("c_g = 6 = 2 x exact c_g = 3 (largest-rotation history)", np.max(np.abs(b_exact - b_lin)) < 1e-4,
+         f"max dev {np.max(np.abs(b_exact - b_lin)):.1e} deg (max beta {np.max(np.abs(b_exact)):.3f})")
 
     def stats(key, K):
-        b = K * G.beta_eff(cee, ceb[key])
+        b = (K / K3) * G.beta_eff(cee, ceb[key])
         bh = np.sum(wl[hi] * b[hi]) / np.sum(wl[hi])
         br = np.sum(wlo * b[lo]) / np.sum(wlo)
         return bh, br, b
     # gate: reproduce Stage 10j's c_g = 3 plateau (0.20-0.22 deg) at H0 < m < H(z*)
-    K3 = 3 * ALPHA / (2 * np.pi)
     plateau3 = max(abs(stats(k, K3)[0]) for k in hist if 3 <= k[0] <= 300)
     gate("c_g = 3 plateau reproduces Stage 10j (0.20-0.22 deg)", 0.19 <= plateau3 <= 0.23, f"{plateau3:.4f} deg")
 
