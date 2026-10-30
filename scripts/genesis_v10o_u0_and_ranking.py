@@ -82,11 +82,19 @@ def part1():
     K3 = 3 * ALPHA / (2 * np.pi)
     mt0_grid = np.geomspace(1.0, 3e3, 14)
     thetas_i = np.linspace(0.1, 1.0, 7) * (np.pi / 3) * 0.999
+    th_max = thetas_i[-1]
+    # Stage 10j's exact grid points (m t0 = 0.3 (1e5)^(k/21)) for a point-by-point reproduction gate
+    j10 = {7: 0.2083, 8: 0.2201, 12: 0.2100}           # its printed max|beta| at theta_i = pi/3 * 0.999, c_g = 3
+    mt0_j = {k: 0.3 * 1e5 ** (k / 21) for k in j10}
+    # dense mass scan at the largest initial angle: beta depends on today's phase m t0
+    mt0_dense = np.geomspace(1.0, 3e3, 80)
     u_i = np.log(1e-7)
     hist, sols = {}, {}
-    for mt0 in mt0_grid:
+    pairs = [(mt0, th) for mt0 in mt0_grid for th in thetas_i] + \
+            [(mt0, th_max) for mt0 in list(mt0_j.values()) + list(mt0_dense)]
+    for mt0, th_i in pairs:
         m_gyr = mt0 / bg.t0
-        for th_i in thetas_i:
+        if True:
             ue, th, thu = J.integrate(bg, u_i, bg.u0, [th_i, 0.0],
                                       lambda u: 3 * bg.Ht_of(u) - 1,
                                       lambda u, m=m_gyr: (m * np.exp(u)) ** 2, nonlin=True,
@@ -116,15 +124,23 @@ def part1():
         bh = np.sum(wl[hi] * b[hi]) / np.sum(wl[hi])
         br = np.sum(wlo * b[lo]) / np.sum(wlo)
         return bh, br, b
-    # gate: reproduce Stage 10j's c_g = 3 plateau (0.20-0.22 deg) at H0 < m < H(z*)
-    plateau3 = max(abs(stats(k, K3)[0]) for k in hist if 3 <= k[0] <= 300)
-    gate("c_g = 3 plateau reproduces Stage 10j (0.20-0.22 deg)", 0.19 <= plateau3 <= 0.23, f"{plateau3:.4f} deg")
+    # gate: reproduce Stage 10j point by point at its own (m, theta_i)
+    dev = max(abs(abs(stats((float(mt0_j[k]), float(th_max)), K3)[0]) - v) for k, v in j10.items())
+    gate("reproduces Stage 10j at its own grid points (c_g = 3)", dev < 2e-3, f"max dev {dev:.1e} deg")
+    env = np.array([abs(stats((float(m), float(th_max)), K3)[0]) for m in mt0_dense])
+    k_pk = int(np.argmax(env))
+    print(f"\n  dense scan, c_g = 3, theta_i = pi/3: max|beta_rec| = {env.max():.4f} deg at m/H0 = "
+          f"{mt0_dense[k_pk] / (H0_gyr * bg.t0):.1f};  10j's sampled plateau was 0.20-0.22 deg")
+    print(f"    fraction of the dense mass grid with |beta| >= {BETA_NOW} deg: c_g = 3: {np.mean(env >= BETA_NOW):.2f};"
+          f"  c_g = 6: {np.mean(2 * env >= BETA_NOW):.2f}")
+    print(f"    physical ceiling (full swing 2 pi/3): c_g = 3: {np.degrees(K3 * 2 * np.pi / 3):.3f} deg")
 
     rows = []
     print(f"\n  {'m [eV]':>9s} {'m/H0':>7s} {'theta_i':>8s} {'beta_rec':>9s} {'beta_reio':>10s} {'ratio':>7s}"
           f" {'Delta beta':>10s} {'f_min':>9s} {'f_max':>9s} {'window':>7s}")
     for mt0 in mt0_grid:
-        bh = np.array([stats((float(mt0), float(t)), K6)[0] for t in thetas_i])
+        # the sign of beta follows the sign of theta_i (free), so solve on |beta|
+        bh = np.array([abs(stats((float(mt0), float(t)), K6)[0]) for t in thetas_i])
         if np.max(bh) < BETA_NOW:
             continue
         j = np.argmax(bh >= BETA_NOW)
@@ -137,8 +153,9 @@ def part1():
             th_sol = thetas_i[j - 1] + w * (thetas_i[j] - thetas_i[j - 1])
             k_lo, k_hi = (float(mt0), float(thetas_i[j - 1])), (float(mt0), float(thetas_i[j]))
         s_lo, s_hi = stats(k_lo, K6), stats(k_hi, K6)
-        br = (1 - w) * s_lo[1] + w * s_hi[1]
-        bcurve = (1 - w) * s_lo[2] + w * s_hi[2]
+        sgn = np.sign(s_hi[0])                    # orient so beta_rec = +beta_now
+        br = sgn * ((1 - w) * s_lo[1] + w * s_hi[1])
+        bcurve = sgn * ((1 - w) * s_lo[2] + w * s_hi[2])
         # energy today per unit f^2: theta_dot^2/2 + (m^2/9)(1 - cos 3 theta), from the bracketing solution
         ue, th, thu = sols[k_hi]
         m_gev = mt0 / bg.t0 / GYR_S * HBAR_GEV_S
