@@ -308,3 +308,34 @@ The registered curves extend only to ℓ = 1500. The ℓ = 1500–3000 curves co
 - **STUR-B.** Needs everything M3a needs, plus a ~150× suppression with no mechanism.
 
 **Conclusion.** The hypothesis that fits STUR's mathematics best is **H0: no isotropic birefringence**. If β ≠ 0 is confirmed, STUR needs new physics, and **M3a is the most economical β ≠ 0 hypothesis**. Its decisive test is joint EB+TB tomography at CMB-S4 sensitivity.
+
+---
+
+## Addendum (2026-10-30): explained claims replaced by calculations (Stages 10i–10o)
+
+Each claim that had been settled by argument has now been computed. All stages pass their gates, except two whose failures are findings (10k, 10n).
+
+| Claim | Computed result | Stage |
+|---|---|---|
+| QCD pins a gluon-coupled R-phase | Confirmed: \|β\| ≤ 7×10⁻²³° | 10i |
+| β ≠ 0 needs c_s = 0 | Confirmed, for STUR-B and M3a alike | 10i |
+| Reading B gives c_γ = 0 | Modified: the flat direction gives c_γ = c_s = 0; nonzero coupling needs X-pinned fermions, which the repo lacks | 10i |
+| M3a needs leptons-only charges | **Refuted**: 49 c_s = 0 assignments exist, including some with charged quarks (c_γ up to 6) | 10i |
+| A static cos 3θ mass averages out | Confirmed at m ≥ 6×10⁻¹⁶ GeV. **Refuted** for H₀ < m < H(z*), which gives the U0 candidate | 10j |
+| M3a needs a mass ∝ 1/t | **Worse**: with FRW friction, no mass law reproduces M3a | 10j |
+| A lower β only rescales | True for STUR-B. **False for M3a**: its admissible phases go from 49 to 55, and its worst-phase S4 significance drops from 4.18 to 3.24σ | 10k |
+| Leakage "needs null tests" | **Worse**: free g_B(ℓ) takes M3a's joint EB+TB test to 0σ; it needs about 0.01% calibration | 10l |
+| PMF Faraday rotation is zero-mean | Confirmed: isotropic part 5×10⁻¹⁷° | 10l |
+| f(T) has no scalaron | Confirmed. STUR's own scalar also has no propagating mode, so STUR has no inflation of its own | 10m |
+| Isocurvature, energy bounds, A_CB units | Mostly confirmed; edges move by 12–14%; STUR-B Part C is heavy during inflation | 10n |
+| Stage 10j's c_γ = 3 plateau of 0.21° | **Sampling artifact**: the true maximum is 0.2876° | 10o |
+
+**Ranking from computed inputs (Stage 10o; `docs/GENESIS_V10O_U0_AND_RANKING.md`).**
+
+1. **H0 (β ≈ 0)** still fits STUR's mathematics best, at 2.9–4.9σ from the data.
+2. Among β ≠ 0 options:
+   - C0 is excluded.
+   - M3a is not realisable with Hubble friction.
+   - **U0 (ultralight static mass, c_γ = 6) ranks above STUR-B.** It needs one free mass and no unexplained suppression. It is not pre-registered.
+
+**Known limitation of the registered Stage 10b (from 10k).** Rescaling from κ = 1° shifts the ratio by 2.5×10⁻³ relative, which is 1.5×10⁻⁴° in β_reio. That is negligible next to σ(Δβ) = 0.044°.
