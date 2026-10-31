@@ -72,3 +72,16 @@ def test_birth_point_is_one_loop_minimum():
     for a in (0.0, 1.0, 5.0):
         assert np.argmin(T.one_loop(x, a, 0, 0.0)) == 120
         assert np.argmin(T.one_loop(x, a, 1, np.pi)) == 120
+
+
+def test_orbifold_positivity_of_brane_terms():
+    # R5.L2: Z2-even brane terms on the orbifold keep Tr T > 0
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src", "checks"))
+    import r5_lagrangian as L5
+    rng = np.random.default_rng(3)
+    for _ in range(2000):
+        M, p, L = rng.uniform(0, 5), rng.uniform(0, 5), rng.uniform(0.1, 3)
+        a0, b0, a1, b1 = rng.normal(0, 3, 4)
+        P = L5.expm_sym(M * L / 2, p * L / 2)
+        T = P @ L5.expm_sym(a1, b1) @ P @ L5.expm_sym(a0, b0)
+        assert np.trace(T) > 0

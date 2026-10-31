@@ -1,5 +1,12 @@
 # Refinement round 4: torsion beyond TEGR ("spacetime resistance")
 
+> **Superseded by round 5** ([`REFINEMENT_R5.md`](REFINEMENT_R5.md)). Deriving the 5D Lagrangian
+> shows that the torsion twist &chi; assumed here does not exist on S&sup1;/Z&#8322;. The torsion
+> component that could twist fermions, T_y, is odd under the orbifold reflection, so its
+> holonomy vanishes. The conclusions "&beta; = &alpha;/2 without tuning via torsion" and "torsion
+> twist = dark matter" are **withdrawn**. The dynamics below remain correct for any field
+> of this type, and section A&rsquo;s no-go is extended to all orders in round 5.
+
 Date: 2026-10-31. Script: [`src/checks/r4_torsion.py`](../src/checks/r4_torsion.py), about 75 s.
 Status: **exploratory extension**. It is called STUR-ROLL-T below and is
 not yet part of the core STUR-ROLL claim.

@@ -53,10 +53,11 @@ its text (details in [`REFINEMENT_R1.md`](REFINEMENT_R1.md)):
 - **Nucleation phase:** H_nuc lies between 15/L and about 0.6 f/&radic;N. This implies r &lesssim; 10&#8315;&sup3; unless
   f &gtrsim; 10&sup1;&#8308; GeV. If the phase is R&sup2; inflation, then m &lesssim; 3&times;10&#8315;&sup3;&#8304; eV (R3.3).
 - **The hilltop start is not derived.** &theta;'s potential is ~1e-87 too weak to hold &theta; at 0 at nucleation.
-  A smooth birth fixes &theta; = 0 but makes it a minimum. The exploratory torsion extension
-  ([`REFINEMENT_R4.md`](REFINEMENT_R4.md)) resolves this with a fermion-only torsion twist, at the
-  cost of a postulated tree-level torsion potential. In that extension the twist can be the
-  dark matter (with isocurvature and domain-wall requirements) but not the dark energy.
+  A smooth birth fixes &theta; = 0 but makes it a minimum; round 5 proves this exactly (positivity
+  theorem). The 5D torsion twist of round 4 does not exist, so the R4 dark-matter link is
+  withdrawn. The one local escape is an orbifold-parity-breaking brane coupling
+  &Sigma;&psi;&#772;&Gamma;^y&psi;, which works if its twist &delta; is within 0.094 of &pi;
+  ([`REFINEMENT_R5.md`](REFINEMENT_R5.md)). Deriving &delta; = &pi; is open.
 - See [`REFINEMENT_R2.md`](REFINEMENT_R2.md) for the round-3 list.
 - **The axiom J_a = B** is assumed.
 - **The &beta; signal itself** may be a calibration systematic (see the caveat in
