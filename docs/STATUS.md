@@ -48,7 +48,10 @@ its text (details in [`REFINEMENT_R1.md`](REFINEMENT_R1.md)):
   relative to the half-integer bare level; k_eff = 0 is equally consistent (R1.1).
 - **The initial seed** must lie between about 1e-20 and 1.2e-2 (at m = 1e-30 eV). It is
   set by H_nuc/(2&pi;f) and the number of e-folds, neither of which is derived yet.
-- **Global structure:** integer k assumes [SU(3)&times;SU(2)&times;U(1)]/Z&#8326; (R2.2).
+- **Global structure:** STUR-ROLL adopts [SU(3)&times;SU(2)&times;U(1)]/Z&#8326; (round 3, R3.2), so k &isin; &Zopf;.
+  The model therefore predicts no fractionally charged colour-singlet particles.
+- **Nucleation phase:** H_nuc lies between 15/L and about 0.6 f/&radic;N. This implies r &lesssim; 10&#8315;&sup3; unless
+  f &gtrsim; 10&sup1;&#8308; GeV. If the phase is R&sup2; inflation, then m &lesssim; 3&times;10&#8315;&sup3;&#8304; eV (R3.3).
 - See [`REFINEMENT_R2.md`](REFINEMENT_R2.md) for the round-3 list.
 - **The axiom J_a = B** is assumed.
 - **The &beta; signal itself** may be a calibration systematic (see the caveat in

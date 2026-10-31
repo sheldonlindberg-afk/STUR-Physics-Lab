@@ -135,6 +135,7 @@ docs/PREDICTIONS.md         beta(l) tables and falsification criteria
 docs/STATUS.md              what is derived, assumed, missing, and open
 docs/REFINEMENT_R1.md       round 1: literature audit, corrections, open items
 docs/REFINEMENT_R2.md       round 2: synthesis of four parallel checks (R2_*.md)
+docs/REFINEMENT_R3.md       round 3: Z6 commitment, nucleation phase, Planck tomography
 docs/REFERENCES.md          bibliography (with verification status)
 src/checks/                 independent checks for each refinement round
 index.html                  project website (GitHub Pages)

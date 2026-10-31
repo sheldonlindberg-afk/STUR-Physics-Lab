@@ -67,5 +67,5 @@ checked.
 - **N4.1.** BICEP/Keck Collaboration, "BICEP/Keck XVII: Line of sight distortion analysis," arXiv:2210.08038. Defines A_CB through L(L+1)C_L^&alpha;&alpha;/2&pi; = A_CB &times; 10&#8315;&#8308; rad&sup2;.
 - **N4.2.** A. Gruppuso et al., "Planck 2018 constraints on anisotropic birefringence and its cross-correlation with CMB anisotropy," arXiv:2008.10334. A^&alpha;&alpha; &lt; 0.104 deg&sup2; (95%).
 - **N4.3.** SPT anisotropic-birefringence limits, A_CB &lt; 1.2 (0.53 with a lensing prior), as reported in arXiv:2504.13154.†
-- **N4.4.** T. Namikawa, "Tomographic constraint on anisotropic cosmic birefringence," arXiv:2410.05149 (Planck PR4, reionization-era).† The numerical value has not been verified.
+- **N4.4.** T. Namikawa, "Tomographic constraint on anisotropic cosmic birefringence," *Phys. Rev. D* **111**, 023501 (2025), arXiv:2410.05149. Planck PR4, reionization era; the abstract reports a result consistent with null.† The numerical bound has not been verified.
 - **N5.** "Updated cosmological constraints on axion dark energy with DESI," arXiv:2503.20178.† The authors have not been verified.
