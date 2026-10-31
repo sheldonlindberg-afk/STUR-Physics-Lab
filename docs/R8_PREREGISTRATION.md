@@ -106,3 +106,29 @@ kill criterion, because its constant is not fixed.
   the correlated predictions listed. If 8A fails, the sentence stays and links
   to the no-go.
 - The same applies to 8B and dark energy.
+
+## Addendum 1 (before any production calculation)
+
+Added after solving only the R&sup2; background (&mu; = 2.97&times;10&sup1;&sup3; GeV,
+H* = 1.47&times;10&sup1;&sup3; GeV, H_end = 7.1&times;10&sup1;&sup2; GeV), before any &phi;
+production was computed.
+
+**D-A3 is ambiguous in R&sup2; gravity.** "Minimally coupled" can mean coupled to
+the Jordan-frame metric, in which R&sup2; gravity is defined, or to the
+Einstein-frame metric. In the Einstein frame the Jordan reading gives &phi; the
+equation
+
+    phi'' + (3H - sqrt(2/3) dphi_s/dt) phi' + (k^2/a^2 + M^2 e^(-sqrt(2/3) phi_s)) phi = 0
+
+(phi_s = scalaron), so &phi;'s effective mass during inflation is
+M e^(&minus;&phi;_s/&radic;6), about ten times smaller than M. The isocurvature
+condition P2 then reads M e^(&minus;&phi;_s*/&radic;6) &ge; 3H*/2.
+
+- **Primary (decides pass/fail): Jordan-frame coupling (J).** This is what
+  "R&sup2; inflation" means, and it is the same coupling that makes the scalaron
+  decay and reheat (D-A4).
+- **Sensitivity only: Einstein-frame spectator (E).** The Starobinsky
+  potential with &phi; coupled only through the metric.
+
+**Counting.** &phi; is a complex field (two real degrees of freedom at its
+lightest KK level, R2.2), so its abundance counts two real scalars.
