@@ -1,7 +1,7 @@
 {
   "name": "STUR Physics Lab",
   "short_name": "STUR Lab",
-  "description": "Stochastic Teleparallel Unified Resistance - A complete unified physics framework from 3 axioms with falsifiable predictions",
+  "description": "STUR-ROLL: Lambda-CDM plus one derived sector predicting the CMB birefringence angle |beta| = alpha/2 = 0.2091 deg with no fitted parameter",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#0a0a0f",
@@ -10,7 +10,11 @@
   "scope": "./",
   "lang": "en",
   "dir": "ltr",
-  "categories": ["education", "science", "physics"],
+  "categories": [
+    "education",
+    "science",
+    "physics"
+  ],
   "iarc_rating_id": "",
   "icons": [
     {
@@ -64,25 +68,16 @@
   ],
   "shortcuts": [
     {
-      "name": "Core Theory",
-      "short_name": "Theory",
-      "description": "STUR unified framework from 3 axioms",
-      "url": "scripts/stur_core_theory.html",
-      "icons": [{ "src": "assets/icons/icon-96.png", "sizes": "96x96" }]
-    },
-    {
-      "name": "Predictions",
-      "short_name": "Predict",
-      "description": "Falsifiable predictions with MAGIS-100 simulation",
-      "url": "scripts/stur_predictions.html",
-      "icons": [{ "src": "assets/icons/icon-96.png", "sizes": "96x96" }]
-    },
-    {
-      "name": "Simulations",
-      "short_name": "Sims",
-      "description": "Interactive physics demonstrations",
-      "url": "scripts/stur_simulations_hub.html",
-      "icons": [{ "src": "assets/icons/icon-96.png", "sizes": "96x96" }]
+      "name": "STUR v7 archive",
+      "short_name": "Archive",
+      "description": "Superseded STUR v7 site",
+      "url": "archive/v7-toe/index.html",
+      "icons": [
+        {
+          "src": "assets/icons/icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
     }
   ],
   "related_applications": [],

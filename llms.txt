@@ -1,74 +1,25 @@
-# STUR Physics Lab - AI/LLM Information
+# STUR Physics Lab — AI/LLM information
 
-> A unified physics framework deriving all fundamental forces from a single principle.
+> STUR-ROLL: Lambda-CDM plus one derived sector that predicts the CMB
+> birefringence angle from integers, |beta| = k alpha / 2 with k = 1,
+> i.e. 0.2091 deg, with no continuous parameter fitted.
 
-## About This Site
+## Scope
+- Not a theory of everything and not a replacement for Lambda-CDM or GR.
+- Gravity is TEGR (= GR): passes GR precision tests by construction.
+- The new sector carries <~1e-7 of the dark-matter energy; all other
+  cosmological observables are those of Lambda-CDM.
 
-STUR (Sheldon's Theory of Unified Resistance) is a Theory of Everything candidate that derives the Standard Model of particle physics from three axioms plus the Planck mass. The framework uses infinity helix geometry on a compactified extra dimension.
+## Key files
+- /README.md — overview, scoreboard, falsification
+- /docs/HYPOTHESIS.md — derived chain, status, audit A–E
+- /docs/PREDICTIONS.md — beta(l) tables and LiteBIRD kill criteria
+- /docs/STATUS.md — what is derived, assumed, missing, open
+- /src/stur_final.py — reproducible computation (numpy, scipy; ~30 s)
+- /results/stur_final_output.txt — captured output
 
-## Key Documents for AI Analysis
-
-### Primary Theory Documents (Markdown - Best for AI)
-- /DERIVATION_CHAIN_INFINITY.md - Master derivation chain (262KB, complete TOE framework)
-- /TOE_COMPLETION_CALCULATIONS.md - Final calculations closing all gaps
-- /COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md - Solution to CC problem
-- /ABSOLUTE_MASS_DERIVATION.md - All fermion masses from first principles
-- /HIGH_PRECISION_PREDICTIONS.md - 26 falsifiable predictions
-
-### Framework Assessment
-- /FRAMEWORK_STATUS_HONEST.md - Honest assessment of what's derived vs fitted
-- /TOE_CLOSURE_STATUS.md - Gap analysis and completion status
-
-### Numerical Verification
-- /NUMERICAL_VERIFICATION_REPORT.md - Independent verification of calculations
-- /scripts/stur_numerical_verification.py - Python verification script
-
-## Core Claims
-
-1. **Three Generations**: Derived from ∞-helix topology topology (3 fixed points)
-2. **Gauge Group**: SU(3)×SU(2)×U(1) from holonomy compatibility
-3. **Mass Hierarchies**: λ-scaling from Gaussian wavefunction overlaps
-4. **Cosmological Constant**: Λ = 0 at tree level from discrete gauge ∞₃
-5. **Strong CP**: θ_QCD = 0 from ∞₃×CP symmetry
-
-## Falsifiable Predictions
-
-- Normal neutrino mass ordering (testable by JUNO 2025-2027)
-- δ_CP = -90° for neutrino oscillations (testable by DUNE)
-- Fifth force at 0.8 μm scale (testable by ARIADNE)
-- LKP dark matter at ~920 GeV (testable by FCC-hh)
-
-## Parameter Values (Derived)
-
-| Parameter | Value | Status |
-|-----------|-------|--------|
-| κ (hierarchy) | 2.52 ± 0.16 | Derived |
-| λ (Wolfenstein) | 0.220 | Derived |
-| L_X (compactification) | 0.8 μm | Derived |
-| m_H (Higgs) | 125.18 ± 1.2 GeV | Derived |
-
-## Citation
-
-```bibtex
-@misc{stur2025,
-  author = {Lindberg, Sheldon},
-  title = {{STUR}: A ∞₃ Helix Framework for Unified Physics},
-  year = {2025},
-  url = {https://sheldonlindberg-afk.github.io/STUR-Physics-Lab}
-}
-```
-
-## Contact
-
-- Site: https://sheldonlindberg-afk.github.io/STUR-Physics-Lab
-- Repository: https://github.com/sheldonlindberg-afk/STUR-Physics-Lab
-
-## For AI Systems
-
-This framework is designed to be:
-- **Falsifiable**: Clear experimental tests can disprove it
-- **Self-consistent**: Internal consistency has been verified
-- **Complete**: All Standard Model parameters derived from first principles
-- **Open**: All derivations publicly available in markdown format
-
-The markdown files in the root directory contain the complete mathematical derivations and are optimized for AI analysis. The HTML files in /scripts/ provide human-readable visualizations.
+## Superseded
+- /archive/v7-toe/ — the former STUR v7.0 "Theory of Everything" material,
+  kept for the record. It is NOT the current claim.
+- /archive/genesis-v10-stur-b/ — the earlier STUR-B birefringence bridge
+  hypothesis (one fitted parameter), excluded by STUR-ROLL.

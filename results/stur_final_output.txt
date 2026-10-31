@@ -1,0 +1,161 @@
+==============================================================================
+ STUR FINAL
+==============================================================================
+ Step 4. Wilson-line potential (one loop; 5D Dirac 4 dof, scalar 2)
+   de Sitter check, H L = 0.3 -> flat space: deviation 9.7e-04
+   scalar dominates above H_c = 15.1/L (nucleation) and T_c = 9.8/L
+   below both: V = m^2 f^2 (1 + cos theta), theta = 0 is a hilltop -> roll
+
+ Step 5. Roll 0 -> pi, beta = (alpha / 2 pi) Delta theta, k = 1
+   ideal: alpha / 2 = 0.2091 deg
+     m [eV]   seed  lands/pi  beta_rec
+      3e-31  1e-02    0.9927   0.2069°
+      3e-31  1e-04    0.9843   0.2058°
+      1e-30  1e-02    0.9962   0.2076°
+      1e-30  1e-04    0.9951   0.2080°
+      3e-30  1e-02    1.0016   0.2087°
+      3e-30  1e-04    1.0023   0.2095°
+   seed = H_nuc / (2 pi f), window 1e-4 to 0.3. Reionization angle (full
+   line-of-sight projection, sec. 10 of the full code): beta_reio/beta_rec
+   = 0.6-0.8 at m = 1e-31, ~0.2 at 3e-31, ~0 for m >= 1e-30 eV.
+
+==============================================================================
+ Audit of the derivation
+==============================================================================
+ A. Coupling normalisation (KK tower of one Dirac fermion, charge 1)
+   M r =  2.0: c_g = 0.50000 sgn M   (exact: 1/2)
+   M r = 10.0: c_g = 0.49998 sgn M   (exact: 1/2)
+   bare level in Z + 1/2 (parity anomaly) -> k_eff integer; ladder:
+   k = 1: beta = 0.2091 deg   pulls -1.2, -0.1, -1.4 sigma
+   k = 2: beta = 0.4181 deg   pulls +2.5, +2.7, +0.8 sigma
+   k = 3: beta = 0.6272 deg   pulls +6.1, +5.6, +3.1 sigma
+
+ B. Seed robustness (roll start set by the hilltop displacement)
+      seed   m=3e-31   m=1e-30   m=1e-29   lands/pi
+     1e-02    0.993    0.996    1.000
+     1e-10    1.008    0.992    1.000
+     1e-20    1.001    0.962    0.998
+     1e-40    1.249    1.083    0.996
+     1e-80    0.483    0.866    1.011
+   beta = k alpha/2 within 4% needs a seed >~ 1e-20 (m = 1e-30) or
+   >~ 1e-40 (m = 1e-29); smaller seeds roll late and land 0.5-1.25 pi.
+
+ C. Cosmological consistency of the theta sector (k = 1)
+   photon coupling g = alpha/(pi f) < 8e-13/GeV -> f > 2.9e+09 GeV
+   domain walls: regions roll to +pi or -pi; theta's lift is continuous,
+   so they are separated by sine-Gordon walls, tension 8 m f^2;
+   CMB bound (1 MeV)^3 -> f < sqrt(1e18 eV^3 / 8 m)
+   theta energy: hilltop 2 m^2 f^2 released at H ~ m/3 ->
+   fraction of dark matter ~ 6 (f / M_Pl)^2
+   m = 3e-31 eV: f in [2.9e+09, 6.5e+14] GeV; DM fraction <= 4e-07
+   m = 1e-30 eV: f in [2.9e+09, 3.5e+14] GeV; DM fraction <= 1e-07
+   m = 1e-29 eV: f in [2.9e+09, 1.1e+14] GeV; DM fraction <= 1e-08
+   -> CMB spectra, BAO, SNe, lensing, BBN unchanged at <= 1e-7: the
+      sector is invisible except through beta. The CMB rotation stays
+      isotropic (theta = 0 at every emission point); walls only make
+      late-time (reionization-era) birefringence patchy.
+
+==============================================================================
+ D. Multipole pattern beta(l)
+==============================================================================
+   z_re = 7.69 for tau = 0.0544; check: constant 0.3 deg returned at every l to 1e-16
+     m [eV]     l=2     l=3     l=4     l=6     l=8    l=10    l>=30
+      1e-31  0.1205  0.1608  0.1840  0.2028  0.2084  0.2080   0.2019
+      3e-31  0.0188  0.0315  0.0449  0.0737  0.0841  0.0758   0.2058
+      1e-30 -0.0009 -0.0008 -0.0007 -0.0006 -0.0005 -0.0006   0.2080
+      3e-30  0.0005  0.0005  0.0005  0.0005  0.0005  0.0005   0.2095
+   deg. Reion = reionization E modes only (approximate quadrupole).
+   Cross-check with CLASS (exact E-mode source S_E(k, tau), same
+   cosmology and tanh reionization, z_re = 7.690; class_check.py):
+   projection reproduces CLASS C_l^EE shape to 0.2% for l = 2-100;
+   a constant angle is returned exactly. Full beta(l), seed 1e-4:
+     m [eV]    l=2    l=3    l=4    l=6    l=8   l=10   l=15   l=20   l=30
+      1e-31 0.1244 0.1632 0.1850 0.2020 0.2067 0.2057 0.2025 0.2017 0.2019
+      3e-31 0.0212 0.0349 0.0494 0.0804 0.0958 0.1178 0.1780 0.2035 0.2055
+      1e-30 0.0000 0.0009 0.0023 0.0109 0.0345 0.0524 0.1507 0.2029 0.2075
+   Reion agrees with CLASS to <= 0.004 deg for l <= 5. From l ~ 6 the
+   recombination E modes contribute and beta(l) climbs to the alpha/2
+   plateau by l ~ 20; Reion misses that rise, so use the CLASS table.
+   Shape alone does NOT discriminate: a generic ALP (free mass and free
+   amplitude, quadratic potential) fits these curves to rms 0.005, 0.007,
+   0.0003 deg (alp_vs_stur.py). What does discriminate:
+   1. the amplitude: plateau = alpha/2 exactly (needs absolute angle
+      calibration);
+   2. calibration-free: miscalibration rotates every l equally, so
+      beta(l) - beta(30) is immune to it. STUR fixes its size:
+      |beta(2) - beta(30)| = 0.078, 0.184, 0.207 deg for m = 1e-31,
+      3e-31, 1e-30, and never more than alpha/2 = 0.209 deg. An ALP
+      has no such bound (its amplitude is free);
+   3. no anisotropic birefringence at high l: theta = 0 at every
+      emission point, so the recombination rotation is exactly uniform;
+      an ALP with initial-angle fluctuations rotates patchily there.
+
+==============================================================================
+ E. New particles vs experiment
+==============================================================================
+   content: charge-1 vectorlike fermion psi (mass M_f), neutral scalar
+   phi charged under B (M_b > M_f), B KK modes (n / r_c), theta (m).
+   requirements:
+   * psi must decay (a stable charged relic is excluded by heavy-hydrogen
+     searches): brane mixing with a Standard-Model lepton is allowed
+     (B gauge parameter vanishes at the fixed points); lifetime < 1 s
+     for BBN. It is then a vectorlike lepton: LHC excludes ~< 1 TeV.
+   * theta is shift-symmetric, coupled only to F Ftilde: no fifth force,
+     no equivalence-principle violation at tree level.
+   * phi, B KK modes: Standard Model is B-neutral, so produced only via
+     psi loops; Yukawa range hbar/(M c) far below the 52 um Eot-Wash limit.
+   M_f from m = 1e-30 eV: m^2 f^2 ~ e^(-M_f L) / L^4 (log accuracy)
+   nucleation window H_c < H_nuc < 2 f with H_c ~ 16 / L -> 1/L < f / 8
+    f [GeV]  1/L [GeV]  M_f L  M_f [GeV]  status
+      3e+09      1e+03    164    1.6e+05  allowed
+      3e+09      1e+06    191    1.9e+08  allowed
+      3e+09      1e+10    228    2.3e+12  H_nuc window closed
+      3e+09      1e+13    256    2.6e+15  H_nuc window closed
+      1e+12      1e+03    152    1.5e+05  allowed
+      1e+12      1e+06    180    1.8e+08  allowed
+      1e+12      1e+10    216    2.2e+12  allowed
+      1e+12      1e+13    244    2.4e+15  H_nuc window closed
+      3e+14      1e+03    141    1.4e+05  allowed
+      3e+14      1e+06    168    1.7e+08  allowed
+      3e+14      1e+10    205    2.1e+12  allowed
+      3e+14      1e+13    233    2.3e+15  allowed
+   -> allowed from 1/L ~ 10 GeV (M_f > 1 TeV) up to f/8; for 1/L >~ 1 TeV
+   psi sits at >~ 1e5 GeV, beyond colliders: then the sector is testable
+   only through birefringence.
+
+==============================================================================
+ Scoreboard (n.d. = not predicted)
+==============================================================================
+ test                                     GR+QFT GR+QFT+axion    STUR-ROLL    STUR-2025
+ Cassini gamma (2003)                       PASS         PASS         PASS         n.d.
+ Mercury perihelion (beta)                  PASS         PASS         PASS         n.d.
+ GW speed (GW170817)                        PASS         PASS         PASS         n.d.
+ inverse-square law (Eot-Wash)              PASS         PASS         PASS         FAIL
+ equivalence principle (MICROSCOPE)         PASS         PASS         PASS         n.d.
+ electron g-2                               PASS         PASS         PASS         n.d.
+ Hawking T, area law, M^3 lifetime          PASS         PASS         PASS         n.d.
+ CMB birefringence |beta| (2 sigma)         FAIL         PASS         PASS         n.d.
+ flat rotation without dark matter          n.d.         n.d.         n.d.         FAIL
+ passed / failed                             7/1          8/0          8/0          0/2
+
+ AIC on beta = chi^2 + 2 x fitted parameters (lower is better)
+ dataset                         GR+QFT     axion      STUR
+ joint2026 (ACT DR6+Planck)       23.62      2.00      1.46
+ ACT DR6                           8.44      2.00      0.01
+ WMAP+Planck PR4                  13.67      2.00      2.10
+
+ Reading
+  * STUR-ROLL agrees with every gate GR+QFT passes (by construction:
+    TEGR = GR) and adds beta with no continuous fit (k = 1 minimal):
+    beta = 0.2080 deg; pulls -1.21, -0.09, -1.45 sigma (joint, ACT, WMAP+PR4).
+  * vs GR+QFT: Delta AIC 8-22, but that is the beta measurement itself
+    and rests on the angle-calibration caveat; global comparison valid
+    only because section C shows the sector changes nothing else.
+  * vs a generic axion: STUR is better on 2 of 3 datasets, within 0.1 on
+    the third; Delta AIC < 2, not yet significant. STUR's edge: beta is a
+    prediction (alpha/2), the axion's is a fit. LiteBIRD decides:
+    falsified if |beta| leaves 0.209 deg; |beta(low l) - beta(high l)|
+    exceeds 0.209 deg (calibration-free); no single theta mass fits
+    beta(l); or anisotropic birefringence is found at high l.
+  * STUR-2025 tanh gravity fails Eot-Wash and the rotation-curve claim;
+    it is superseded by STUR-ROLL (TEGR = GR on all gravity tests).
