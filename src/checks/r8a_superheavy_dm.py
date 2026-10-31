@@ -201,31 +201,82 @@ def stur_window_r2(H_inf_gev):
     return best, f_min
 
 
-if __name__ == "__main__":
+def real_production(M, kappas, t1=4000.0, t2=16000.0):
+    """Jordan frame: separate real production from the virtual dressing by the
+    still-oscillating scalaron, n_k = n_real + c amp^2, using two readouts."""
+    out = []
+    for T in (t1, t2):
+        B = background(t_max=T + 10)
+        tf = turning_time(B, T)
+        amp = abs(B["sol"].sol(tf)[0])
+        nk, _, _, _ = produce(B, M, 1, kappas, t_final=tf, k_start=1000.0)
+        out.append((amp, nk))
+    (a1, n1), (a2, n2) = out
+    c = (n1 - n2) / (a1 ** 2 - a2 ** 2)
+    return n2 - c * a2 ** 2, n1, n2, a1, a2, c
+
+
+def main():
     B = background()
     mu = B["mu"] * MPL_GEV
-    print("mu = %.3e GeV, H* = %.3e GeV (%.3f mu), H_end = %.3e GeV (%.3f mu)" % (
-        mu, B["H_star"] * mu, B["H_star"], B["H_end"] * mu, B["H_end"]))
-    print("t_end =", B["t_end"], " e-folds simulated to end:", B["lna_end"], "p* =", B["p_star"])
-    import time
-    mu_g = mu
-    t_rh = t_rh_gev(mu_g)
+    t_rh = t_rh_gev(mu)
     tf = turning_time(B, 4000.0)
-    p_end = B["sol"].sol(tf)[0]
-    print(f"T_RH (scalaron -> Higgs) = {t_rh:.2e} GeV; final time t = {tf:.1f}/mu,"
-          f" a/a_e = {np.exp(B['sol'].sol(tf)[2] - B['lna_end']):.1f}, scalaron amplitude {abs(p_end):.1e}")
+    print(BAR + "\n B  R^2 background and inputs\n" + BAR)
+    print(f"   scalaron mass mu = {mu:.3e} GeV;  H* = {B['H_star'] * mu:.3e} GeV;"
+          f"  H_end = {B['H_end'] * mu:.3e} GeV;  phi_s* = {B['p_star']:.2f} M_Pl")
+    print(f"   T_RH (scalaron -> Higgs, D-A4) = {t_rh:.2e} GeV")
     thr_J = 1.5 * B["H_star"] * np.exp(S23 * B["p_star"] / 2)
     thr_E = 1.5 * B["H_star"]
-    Mmax, fmin = stur_window_r2(B["H_star"] * mu_g)
-    print(f"P2 thresholds: (J) M >= {thr_J:.2f} mu = {thr_J * mu_g:.2e} GeV; (E) M >= {thr_E:.2f} mu")
-    print(f"STUR window (R2 corner): M_phi <= {Mmax:.2e} GeV = {Mmax / mu_g:.2f} mu; f >= {fmin:.2e} GeV")
+    Mmax, fmin = stur_window_r2(B["H_star"] * mu)
+    print(f"   P2 (isocurvature): (J) M >= {thr_J:.2f} mu = {thr_J * mu:.2e} GeV;"
+          f"  (E) M >= {thr_E:.2f} mu = {thr_E * mu:.2e} GeV")
+    print(f"   P3 (no scalaron -> phi phi): M > mu/2 = {mu / 2:.2e} GeV;  T_RH << M: yes")
+    print(f"   STUR window (R^2 corner, N = 60): M_phi <= {Mmax:.2e} GeV = {Mmax / mu:.2f} mu")
+
+    print("\n" + BAR + "\n P  Jordan frame (primary): production inside the window\n" + BAR)
+    kap4 = np.array([0.2, 0.8, 2.0, 5.0])
+    for M in (thr_J, Mmax / mu):
+        nr, n1, n2, a1, a2, c = real_production(M, kap4)
+        print(f"   M = {M:.2f} mu: n_k at scalaron amp {a1:.1e}: "
+              + " ".join(f"{x:.2e}" for x in n1))
+        print(f"   {'':14s}at scalaron amp {a2:.1e}: " + " ".join(f"{x:.2e}" for x in n2))
+        print(f"   {'':14s}n_k / amp^2 = " + " ".join(f"{x:.3e}" for x in c)
+              + "  (constant: virtual dressing)")
+        print(f"   {'':14s}real n_k = n - c amp^2 = " + " ".join(f"{x:+.1e}" for x in nr))
+        bound = np.max(np.abs(nr)) + 1e-16
+        r_plateau, nk, _ = n_over_rho(B, M, 1, np.geomspace(0.05, 60, 18), t_final=tf,
+                                      k_start=1000.0)
+        om_bound = omega_h2(M, r_plateau, mu, t_rh) * bound / np.max(nk)
+        print(f"   {'':14s}-> Omega h^2 <= {om_bound:.0e}  (P1 needs 0.12): FAIL")
+    print("   Below the threshold the field is light during inflation:")
+    r, nk, _ = n_over_rho(B, 3.0, 1, np.geomspace(0.05, 60, 18), t_final=tf, k_start=1000.0)
+    sl = np.log(nk[1] / nk[0]) / np.log(np.geomspace(0.05, 60, 18)[1] / 0.05) + 3
+    print(f"   M = 3.00 mu: Omega h^2 = {omega_h2(3.0, r, mu, t_rh):.1e}, IR slope of"
+          f" k^3 n_k = {sl:+.2f} (scale-invariant-ish: isocurvature): P2 FAIL")
+    print("   -> (J): no M_phi in STUR's window satisfies P1 and P2 together. 8A is a NO-GO.")
+
+    print("\n" + BAR + "\n E  Einstein-frame spectator (sensitivity only)\n" + BAR)
     kap = np.geomspace(0.05, 60, 18)
-    for c, Ms in ((1, (thr_J, Mmax / mu_g, 3.0)), (0, (thr_E, 1.0, 1.5, 2.0, 3.0))):
-        for M in Ms:
-            t1 = time.time()
-            r, nk, wr = n_over_rho(B, M, c, kap, t_final=tf)
-            om = omega_h2(M, r, mu_g, t_rh)
-            slope = np.log(kap[1] ** 3 * nk[1] / (kap[0] ** 3 * nk[0])) / np.log(kap[1] / kap[0])
-            print(f"{'JE'[1 - c]} M = {M:5.2f} mu: n/rho = {r:.3e}, Omega h^2 = {om:.2e},"
-                  f" IR slope of k^3 n_k = {slope:+.2f}, max|W+1/2| = {np.max(np.abs(wr + 0.5)):.0e},"
-                  f" n_k(min..max) = {nk.min():.1e}..{nk.max():.1e}  [{time.time() - t1:.0f}s]", flush=True)
+    res = []
+    for M in (thr_E, 1.0, 1.5, 2.0, 2.5, 3.0):
+        r, nk, _ = n_over_rho(B, M, 0, kap, t_final=tf, k_start=1000.0)
+        om = omega_h2(M, r, mu, t_rh)
+        res.append((M, om))
+        print(f"   M = {M:.2f} mu = {M * mu:.2e} GeV: Omega h^2 = {om:.2e}  (n_k max {nk.max():.1e})")
+    Ms, oms = np.array(res).T
+    lg = np.log(oms)
+    j = np.where((lg[:-1] - np.log(0.12)) * (lg[1:] - np.log(0.12)) <= 0)[0]
+    if len(j):
+        j = j[0]
+        Mx = Ms[j] + (np.log(0.12) - lg[j]) * (Ms[j + 1] - Ms[j]) / (lg[j + 1] - lg[j])
+        print(f"   -> Omega h^2 = 0.12 at M ~ {Mx:.2f} mu = {Mx * mu:.1e} GeV (inside the"
+              f" window, above P2 and P3).")
+        for t in (1e8, 1e10):
+            print(f"      T_RH = {t:.0e} GeV would rescale Omega by {t / t_rh:.2f}:"
+                  " the crossing mass moves only logarithmically.")
+    print("   -> if phi coupled to the Einstein-frame metric, 8A would pass P1-P3;")
+    print("      but that is not R^2 gravity, and it was preregistered as a sensitivity check.")
+
+
+if __name__ == "__main__":
+    main()
