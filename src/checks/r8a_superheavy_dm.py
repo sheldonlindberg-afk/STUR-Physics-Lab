@@ -50,7 +50,7 @@ def n_sr(p0, p1):
     return np.trapezoid(V(x) / dV(x), x)
 
 
-def background():
+def background(t_max=4000.0):
     p_end_sr = brentq(lambda p: eps_sr(p) - 1, 0.1, 3)
     p_star = brentq(lambda p: n_sr(p, p_end_sr) - N_STAR, 1, 20)
     # A_s = V / (24 pi^2 eps) with V in units of mu^2 M_Pl^2 -> mu^2 factor
@@ -64,7 +64,7 @@ def background():
         H = np.sqrt((0.5 * v * v + V(p)) / 3)
         return [v, -3 * H * v - dV(p), H]
 
-    sol = solve_ivp(rhs, [0, 4000], [p0, v0, 0.0], method="DOP853",
+    sol = solve_ivp(rhs, [0, t_max], [p0, v0, 0.0], method="DOP853",
                     rtol=1e-11, atol=1e-13, dense_output=True, max_step=0.05)
     t = sol.t
     p, v, lna = sol.y
