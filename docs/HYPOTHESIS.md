@@ -186,6 +186,10 @@ What these would mean for physics if confirmed is in
   **Dark matter is the Lambda-CDM component.**
 - **Dark energy.** No field in the sector can play the role: a field that light
   could not trigger the roll (R4 &sect;C), and torsion gives no twist (R5).
+  Round 8 tested the natural extension, a second holonomy on the same circle,
+  against preregistered criteria. It can mimic thawing dark energy, but it
+  violates the weak gravity conjecture by a factor of about 10&#8309;&#8312; in
+  vacuum energy ([`REFINEMENT_R8.md`](REFINEMENT_R8.md), module 8B).
   **Dark energy is the cosmological constant.**
 
 ## Caveat

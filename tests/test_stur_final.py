@@ -134,3 +134,30 @@ def test_late_potential_has_no_preferred_roll_direction():
     th_i = 1e-3 * np.random.default_rng(0).standard_normal(1000)
     b = F.ALPHA / (2 * np.pi) * (np.pi - th_i)
     assert np.all(b > 0)
+
+
+def _checks(name):
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src", "checks"))
+    return __import__(name)
+
+
+def test_r8a_reheating_and_mass_window():
+    # R8 8A: scalaron -> Higgs reheating and the largest M_phi in the R^2 corner
+    A = _checks("r8a_superheavy_dm")
+    t_rh = A.t_rh_gev(2.970e13)
+    assert 4.0e9 < t_rh < 5.2e9
+    m_max, f_min = A.stur_window_r2(1.466e13)
+    assert 2.1e14 < m_max < 2.4e14 and 1.8e14 < f_min < 2.0e14
+
+
+def test_r8b_dark_energy_fails_weak_gravity():
+    # R8 8B: a thawing holonomy with w0 < -0.7 has f2 ~ 0.08 M_Pl, so the WGC
+    # needs a charged state with M_c L <= sqrt(2)/f2 ~ 17, but V2 = rho_DE needs
+    # every charged state at M_c L >= 134 (1/L = 875 GeV)
+    D = _checks("r8b_holonomy_de")
+    f2 = D.solve_f2(13.0, 2.8e-4)
+    a, th, w, ode, _ = D.evolve(13.0, f2, 2.8e-4)
+    w0, wa = D.cpl(a, w)
+    assert abs(ode - D.ODE) < 1e-6 and w0 < -0.7
+    need = -np.log(D.RHO_DE_EV4 * (1 / 875e9) ** 4)
+    assert np.sqrt(2) / f2 < need / 5
