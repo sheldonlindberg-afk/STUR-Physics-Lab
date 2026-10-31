@@ -85,3 +85,16 @@ STUR-ROLL is falsified if:
 If the current &beta; signal turns out to be a calibration systematic, the
 test disappears. STUR-ROLL is then not confirmed, and it is only weakly
 disfavoured.
+
+## Further predictions (rounds 3&ndash;6)
+
+- **Tensor modes:** r &lesssim; 10&#8315;&sup3; unless f &gtrsim; 10&sup1;&#8308; GeV. If the nucleation phase is R&sup2;
+  inflation: r &asymp; 0.003, 2&times;10&#8315;&sup3;&sup1; &lesssim; m &lesssim; 3&times;10&#8315;&sup3;&#8304; eV and f &asymp; 2&ndash;8&times;10&sup1;&#8308; GeV
+  (R3.3; the exact Starobinsky random walk changes these by &le; 3%).
+- **Colliders:** a KK hypercharge boson near 6 TeV, with 4&ndash;5&times; the SSM dilepton
+  rate, appears only at the 1/L &asymp; 1 TeV edge (R2.3). Otherwise the sector is
+  beyond colliders.
+- **No fractionally charged colour-singlet particles** (from the Z&#8326; global
+  structure, R3.2).
+- **The sign of &beta; is one value for the whole observable universe.** It is
+  fixed at the brane twist, inside the single nucleated patch (R6).

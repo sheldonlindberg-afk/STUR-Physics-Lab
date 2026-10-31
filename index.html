@@ -723,8 +723,8 @@ body {
       <h1 class="hero-title">STUR-ROLL</h1>
       <p class="hero-tagline">Cosmic Birefringence from Integers</p>
       <div class="formula">|&beta;| = k&alpha;/2 = 0.2091&deg;<small>k = 1 (minimal level) &middot; no continuous parameter fitted</small></div>
-      <p class="hero-premise">A holonomy &theta; on a compact fifth dimension couples to light through a Chern&ndash;Simons term at integer level k. As the universe cools, &theta; = 0 becomes a hilltop, &theta; rolls to &pi;, and the polarization of the CMB rotates by exactly k&alpha;/2.</p>
-      <p class="hero-description">The scope is narrow on purpose: Lambda-CDM plus one derived sector, not a replacement. Gravity is TEGR, which is GR. The new sector is invisible everywhere except in &beta;, and LiteBIRD decides.</p>
+      <p class="hero-premise">The universe is born with its fifth dimension closing off smoothly, which fixes a holonomy &theta; at exactly 0. A brane on the orbifold then twists by exactly &pi;, turning that birth point into a hilltop. Much later &theta; rolls to &pi;, and through a Chern&ndash;Simons term at integer level k it rotates the polarization of the CMB by exactly k&alpha;/2.</p>
+      <p class="hero-description">The scope is narrow on purpose: Lambda-CDM plus one derived sector, not a replacement. Gravity is GR. Dark matter and dark energy are those of Lambda-CDM. The new sector is visible essentially only in &beta;, and LiteBIRD decides.</p>
       <div class="actions">
         <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/HYPOTHESIS.md" class="btn-primary">
           Read the Hypothesis
@@ -754,19 +754,19 @@ body {
         </div>
         <div class="axiom-card">
           <div class="axiom-number">Cosmology</div>
-          <div class="axiom-name">&le; 10<sup>&minus;7</sup> of dark matter</div>
+          <div class="axiom-name">&le; 2&times;10<sup>&minus;5</sup> of matter</div>
           <div class="axiom-desc">In the allowed window, CMB spectra, BAO, supernovae, lensing and BBN are exactly those of Lambda-CDM. The only thing that changes is &beta;.</div>
         </div>
       </div>
       <div class="axiom-result">
         <span class="axiom-result-arrow">&rarr;</span>
-        <span>The global model comparison therefore <strong>reduces to the &beta; likelihood</strong>. Assumed axiom: the field B with J<sub>a</sub> = B. Discrete choice: k = 1 (minimal). Everything else follows from the chain below.</span>
+        <span>The global model comparison therefore <strong>reduces to the &beta; likelihood</strong>. Axiom: a smooth birth. Discrete choices: k = 1, the minimum of the brane potential at &pi;, and the brane charges. No continuous parameter is tuned.</span>
       </div>
       <div class="verdict-callout" style="margin-top:12px">
         <span class="verdict-arrow">&rarr;</span>
         <div>
           <div class="verdict-title">Prior Art</div>
-          <div class="verdict-body">The same observable, &beta; &asymp; 0.21&thinsp;c<sub>&gamma;</sub>&deg; from a hilltop axion whose walls form after recombination, was predicted by Lee, Murai, Takahashi &amp; Yin, <em>Phys. Rev. D</em> 112, 043538 (2025). STUR-ROLL proposes a 5D origin for their two assumptions: c<sub>&gamma;</sub> = 1 from level quantisation, and the hilltop start from cooling. <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/REFINEMENT_R1.md" style="color:#4ade80">Refinement round 1 &rarr;</a></div>
+          <div class="verdict-body">The same observable, &beta; &asymp; 0.21&thinsp;c<sub>&gamma;</sub>&deg; from a hilltop axion whose walls form after recombination, was predicted by Lee, Murai, Takahashi &amp; Yin, <em>Phys. Rev. D</em> 112, 043538 (2025). STUR-ROLL derives both of their assumptions from 5D: c<sub>&gamma;</sub> = 1 from level quantisation, and the hilltop start from a smooth birth plus a brane twist fixed at &pi; by symmetry. <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/REFINEMENT_R6.md" style="color:#4ade80">Refinement round 6 &rarr;</a></div>
         </div>
       </div>
     </section>
@@ -776,38 +776,45 @@ body {
       <div class="section-label">Derivation Chain</div>
       <div class="chain">
         <div class="chain-step">
-          <div class="chain-node"><div class="chain-dot">1</div></div>
+          <div class="chain-node"><div class="chain-dot">A1</div></div>
           <div class="chain-content">
-            <div class="chain-title">Zero-Energy Start</div>
-            <div class="chain-detail">Wheeler&ndash;DeWitt H&Psi; = 0: the universe nucleates whole &nbsp;&middot;&nbsp; &theta; = &Phi;<sub>R</sub> = &oint; J<sub>a</sub>dx<sup>a</sup> (a Z<sub>2</sub>-odd U(1) on S<sup>1</sup>/Z<sub>2</sub>) starts at rest in a minimum</div>
+            <div class="chain-title">Axiom: Smooth Birth</div>
+            <div class="chain-detail">the universe nucleates with the fifth dimension (S<sup>1</sup>/Z<sub>2</sub>) closing off smoothly &nbsp;&middot;&nbsp; holonomies trivial: <strong>&theta; = 0 exactly</strong></div>
           </div>
         </div>
         <div class="chain-step">
-          <div class="chain-node"><div class="chain-dot">2</div></div>
+          <div class="chain-node"><div class="chain-dot">1</div></div>
           <div class="chain-content">
-            <div class="chain-title">5D Chern&ndash;Simons Coupling</div>
-            <div class="chain-detail">L = (k&alpha;/4&pi;) &theta; F F&#771; &nbsp;&middot;&nbsp; k an integer</div>
+            <div class="chain-title">Positivity Theorem</div>
+            <div class="chain-detail">with the boundary conditions of a smooth birth, the vacuum energy obeys E(&theta;) &ge; E(0) to all orders &nbsp;&middot;&nbsp; at birth &theta; = 0 is a minimum</div>
           </div>
         </div>
         <div class="chain-step">
           <div class="chain-node"><div class="chain-dot">k</div></div>
           <div class="chain-content">
-            <div class="chain-title">Integer Level from the KK Tower</div>
-            <div class="chain-detail">charge-1 bulk fermion: c<sub>g</sub> = &frac12; sgn M (computed 0.50000) &nbsp;&middot;&nbsp; parity anomaly &rArr; half-integer bare level &rArr; k<sub>eff</sub> &isin; &Zopf; &nbsp;&middot;&nbsp; k = 1 minimal (k = 2, 3 sit at +2.5&sigma;, +6.1&sigma;)</div>
-          </div>
-        </div>
-        <div class="chain-step">
-          <div class="chain-node"><div class="chain-dot">T<sub>c</sub></div></div>
-          <div class="chain-content">
-            <div class="chain-title">Cooling Is the Trigger</div>
-            <div class="chain-detail">exact one-loop Wilson-line potential: the scalar dominates above H<sub>c</sub> = 15.1/L and T<sub>c</sub> = 9.8/L, so &theta; = 0 at nucleation &nbsp;&middot;&nbsp; below them V = m&sup2;f&sup2;(1 + cos &theta;), so &theta; = 0 is a hilltop</div>
+            <div class="chain-title">Integer Level</div>
+            <div class="chain-detail">5D Chern&ndash;Simons term, parity anomaly, Z<sub>6</sub> &nbsp;&middot;&nbsp; L = (k&alpha;/4&pi;)&theta;FF&#771;, k &isin; &#8484;, k = 1 minimal &nbsp;&middot;&nbsp; a roll by &pi; gives <strong>&beta; = k&alpha;/2 exactly</strong></div>
           </div>
         </div>
         <div class="chain-step">
           <div class="chain-node"><div class="chain-dot">&pi;</div></div>
           <div class="chain-content">
-            <div class="chain-title">The Roll and the Angle</div>
-            <div class="chain-detail">&theta;: 0 &rarr; &pi; &nbsp;&middot;&nbsp; &beta; = (k&alpha;/2&pi;)&middot;&pi; = &alpha;/2 &nbsp;&middot;&nbsp; computed 0.2080&deg; (m = 10<sup>&minus;30</sup> eV), lands at 0.995&pi; &nbsp;&middot;&nbsp; the sign is random per region</div>
+            <div class="chain-title">The Orbifold Twists</div>
+            <div class="chain-detail">a brane angle &vartheta; rolls 0 &rarr; &pi;; the orbifold parity fixes it at <strong>exactly &pi;</strong> &nbsp;&middot;&nbsp; a fermion-parity defect: the bulk fermion becomes periodic</div>
+          </div>
+        </div>
+        <div class="chain-step">
+          <div class="chain-node"><div class="chain-dot">&#8963;</div></div>
+          <div class="chain-content">
+            <div class="chain-title">Birth Point Becomes the Hilltop</div>
+            <div class="chain-detail">late-time Wilson-line potential V = m&sup2;f&sup2;(1 + cos &theta;) &nbsp;&middot;&nbsp; &theta; still sits at its birth value</div>
+          </div>
+        </div>
+        <div class="chain-step">
+          <div class="chain-node"><div class="chain-dot">&beta;</div></div>
+          <div class="chain-content">
+            <div class="chain-title">The Roll</div>
+            <div class="chain-detail">&theta;: 0 &rarr; &pi; at z &asymp; 4&ndash;300 &nbsp;&middot;&nbsp; <strong>&beta; = &alpha;/2</strong>, computed 0.2081&ndash;0.2094&deg; &nbsp;&middot;&nbsp; tomography &Delta;&beta; &isin; [&minus;0.21&deg;, &minus;0.15&deg;]</div>
           </div>
         </div>
       </div>
@@ -891,8 +898,9 @@ body {
           <div class="kill-desc">This test is calibration-free: a miscalibration rotates every &ell; equally. STUR-ROLL bounds the difference by &alpha;/2; a generic ALP does not.</div>
         </div>
         <div class="kill-card">
-          <div class="kill-name">No single &theta; mass fits &beta;(&ell;)</div>
-          <div class="kill-desc">One mass sets the whole multipole pattern, from the &ell; = 2&ndash;10 reionization bump to the &ell; &ge; 30 plateau.</div>
+          <div class="kill-name">&Delta;&beta; outside [&minus;0.21&deg;, &minus;0.15&deg;]</div>
+          <div class="kill-badge">LiteBIRD</div>
+          <div class="kill-desc">Reionization minus recombination angle: about 3&ndash;4&sigma; from zero at LiteBIRD. |&beta;| &asymp; 0.2&deg; together with &Delta;&beta; &asymp; 0 would falsify STUR-ROLL.</div>
         </div>
         <div class="kill-card">
           <div class="kill-name">Anisotropic birefringence at high &ell;</div>

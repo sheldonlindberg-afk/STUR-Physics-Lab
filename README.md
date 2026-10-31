@@ -21,47 +21,47 @@
 ## The hypothesis
 
 STUR-ROLL adds a single sector to Lambda-CDM, and that sector predicts the
-isotropic CMB birefringence angle from integers alone:
+isotropic CMB birefringence angle from integers and symmetry:
 
-> **|&beta;| = k&alpha;/2, with k = 1 (the minimal level) &rArr; 0.2091&deg;. No continuous parameter is fitted.**
+> **|&beta;| = k&alpha;/2, with k = 1 &rArr; 0.2091&deg;.** There is no continuous fitted
+> parameter and no initial-condition coincidence.
 
 The scope is narrow on purpose. STUR-ROLL is **not** a replacement for
 established physics:
 
-- **Gravity is TEGR, which is GR.** STUR-ROLL therefore passes the GR
-  precision tests by construction. This is consistency, not a new success.
-- **The new sector carries &lesssim; 10&#8315;&#8311; of the dark-matter
-  energy** in the allowed window. CMB spectra, BAO, supernovae, lensing and BBN
-  are exactly those of Lambda-CDM, so the global model comparison reduces to
-  the &beta; likelihood.
-- **The alternatives** are GR+QFT (&beta; = 0) and a generic axion (&beta; fitted).
+- **Gravity is GR** (written as TEGR, embedded in Poincar&eacute; gauge theory), so
+  the GR precision tests pass by construction.
+- **Dark matter and dark energy are those of Lambda-CDM.** The new sector
+  explains neither (see [`docs/HYPOTHESIS.md`](docs/HYPOTHESIS.md)).
+- **The new sector carries &lesssim; 2&times;10&#8315;&#8309; of the matter energy.** CMB spectra,
+  BAO, supernovae, lensing and BBN are those of Lambda-CDM, so the global model
+  comparison reduces to the &beta; likelihood.
 
-> **Prior art (refinement round 1).** The same observable, &beta; &asymp; 0.21 c_&gamma;&deg;
-> from a hilltop axion whose walls form after recombination, was predicted by
-> Lee, Murai, Takahashi & Yin, *Phys. Rev. D* 112, 043538 (2025). STUR-ROLL's
-> contribution is a **UV origin** for their two assumptions: c_&gamma; = 1 from
-> the 5D level quantisation, and the hilltop start from the Wilson-line
-> potential flipping sign as the universe cools. See
-> [`docs/REFINEMENT_R1.md`](docs/REFINEMENT_R1.md).
+> **Relation to prior work.** The observable, &beta; &asymp; 0.21 c_&gamma;&deg; from a hilltop
+> axion, was predicted by Lee, Murai, Takahashi & Yin, *Phys. Rev. D* 112,
+> 043538 (2025). STUR-ROLL **derives both of their assumptions** from a 5D
+> theory: c_&gamma; = 1 from level quantisation, and the hilltop start from a smooth
+> birth followed by a brane twist.
 
 ## The derived chain
 
 | # | Step | Result |
 |---|------|--------|
-| 1 | Zero-energy start (Wheeler&ndash;DeWitt H&Psi; = 0) | the universe nucleates whole; &theta; (the R-field holonomy on S&sup1;/Z&#8322;) starts at rest in a minimum |
-| 2 | 5D Chern&ndash;Simons term | L = (k&alpha;/4&pi;) &theta; F F&#771;, with k an integer |
-| 3 | Bulk content: a charge-1 fermion and a neutral scalar | KK tower gives c_g = &frac12; sgn M; the parity anomaly makes the bare level half-integer &rArr; k_eff is an integer; k = 1 is minimal |
-| 4 | Wilson-line potential (exact one loop) | the scalar dominates on de Sitter and at high T, so &theta; = 0 at nucleation; below T_c &asymp; 9.8/L the fermions dominate: V = m&sup2;f&sup2;(1 + cos &theta;), so &theta; = 0 becomes a hilltop and **cooling triggers the roll** |
-| 5 | Roll &theta;: 0 &rarr; &pi; | &beta; = (k&alpha;/2&pi;)&middot;&pi; = **&alpha;/2** |
+| A1 | **Axiom: smooth birth.** The universe nucleates with the fifth dimension (S&sup1;/Z&#8322;) closing off smoothly. | the holonomies are trivial at birth: **&theta; = 0 exactly** |
+| 1 | Positivity theorem (all orders) | at birth, &theta; = 0 is the minimum of the vacuum energy |
+| 2 | 5D Chern&ndash;Simons term, parity anomaly, Z&#8326; | L = (k&alpha;/4&pi;)&theta;FF&#771; with **k &isin; &Zopf;**, k = 1 minimal; a roll by &pi; gives **&beta; = k&alpha;/2 exactly** |
+| 3 | **The orbifold twists:** a brane angle &vartheta; rolls 0 &rarr; &pi; | the orbifold parity fixes it at **exactly &pi;**; it acts as a fermion-parity defect, so the bulk fermion becomes periodic |
+| 4 | Late-time Wilson-line potential | V = m&sup2;f&sup2;(1 + cos &theta;): the birth value **&theta; = 0 is now the hilltop** |
+| 5 | The roll at z &asymp; 4&ndash;300 | &theta;: 0 &rarr; &pi;, **&beta; = &alpha;/2** (computed 0.2081&ndash;0.2094&deg;) |
 
-**Derived:** steps 1&ndash;5, k integer, the step size &pi;, and a random sign
-of &beta; per region. **Discrete choice:** k = 1 (minimal). k = 2 or 3 give
-0.418&deg; or 0.627&deg;, which sit at +2.5&sigma; and +6.1&sigma; from the
-joint measurement. **Conditions:** the roll must start early enough (seed
-&gtrsim; 10&#8315;&sup2;&#8304; at m = 10&#8315;&sup3;&#8304; eV), and f must lie in the
-window 2.9&times;10&#8313; GeV to about 10&sup1;&#8308; GeV. **Assumed axiom:** the field
-B with J_a = B.
+**Inputs.**
+- **Discrete choices:** k = 1; the minimum of the brane potential is at &pi;;
+  the brane-angle charges (fermion odd, scalar even).
+- **Conditions:** m_&vartheta; &gtrsim; 2H_nuc; H_nuc &lesssim; 0.08 f; 1/L &gtrsim; 0.8&ndash;1.0 TeV; and
+  2&times;10&#8315;&sup3;&sup1; &lesssim; m &lesssim; 10&#8315;&sup2;&#8312; eV.
+- **Axiom:** A1, the smooth birth.
 
+How the chain was reached: the six refinement rounds in `docs/REFINEMENT_R*.md`.
 Full detail: [`docs/HYPOTHESIS.md`](docs/HYPOTHESIS.md).
 
 ## Scoreboard
