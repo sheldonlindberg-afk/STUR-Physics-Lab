@@ -1,0 +1,98 @@
+==============================================================================
+ Q1/Q4  Hilltop holonomy as the whole dark energy (no Lambda)
+==============================================================================
+   theta_2i from the inflationary random walk, s0 sqrt(60) with s0 = H/(2 pi f2):
+   for f2 ~ M_Pl and H_nuc <= 4.7e13 GeV (r < 0.036): theta_2i <~ 3e-5.
+    m2/H0  theta_2i  f2/M_Pl      w0      wa  Om_DE  dtheta
+      1.0     1e-15    1.013  -1.000  -0.000  0.685   0.000
+      1.0     1e-10    1.013  -1.000  -0.000  0.685   0.000
+      1.0     3e-05    1.013  -1.000  -0.000  0.685   0.000
+      1.0     1e-02    1.013  -1.000  -0.000  0.685   0.001
+      3.0     1e-15    0.338  -1.000  -0.000  0.685   0.000
+      3.0     1e-10    0.338  -1.000  -0.000  0.685   0.000
+      3.0     3e-05    0.338  -1.000  -0.000  0.685   0.000
+      3.0     1e-02    0.338  -1.000  -0.000  0.685   0.018
+      6.0     1e-15    0.169  -1.000  -0.000  0.685   0.000
+      6.0     1e-10    0.169  -1.000  -0.000  0.685   0.000
+      6.0     3e-05    0.169  -1.000  -0.000  0.685   0.001
+      6.0     1e-02    0.169  -0.994  -0.011  0.685   0.222
+     10.0     1e-15    0.101  -1.000  -0.000  0.685   0.000
+     10.0     1e-10    0.101  -1.000  -0.000  0.685   0.000
+     10.0     3e-05    0.101  -1.000  -0.000  0.685   0.018
+     10.0     1e-02    0.131  -0.357  -1.173  0.685   2.594
+     15.0     1e-15    0.068  -1.000  -0.000  0.685   0.000
+     15.0     1e-10    0.068  -1.000  -0.000  0.685   0.000
+     15.0     3e-05    0.070  -0.910  -0.169  0.685   1.173
+     15.0     1e-02    0.130   0.161  -1.884  0.685   3.515
+     20.0     1e-15    0.051  -1.000  -0.000  0.685   0.000
+     20.0     1e-10    0.051  -1.000  -0.000  0.685   0.000
+     20.0     3e-05    0.071  -0.250  -1.339  0.685   4.730
+     20.0     1e-02    0.131   0.335  -1.930  0.685   2.887
+     30.0     1e-15   no solution
+     30.0     1e-10   no solution
+     30.0     3e-05    0.070   0.263  -2.036  0.685   4.123
+     30.0     1e-02    0.132   0.341  -1.432  0.685   3.059
+
+==============================================================================
+ Q4  Predicted (w0, wa) locus (random-walk offset, not fitted)
+==============================================================================
+   theta_2i = H_nuc sqrt(60)/(2 pi f2) at its largest (H_nuc = 4.7e13 GeV),
+   iterated with f2; one free input remains: m2.
+   m2 =  11.0 H0: theta_2i = 2.6e-04, f2 = 0.092 M_Pl, w0 = -0.989, wa = -0.020
+   m2 =  12.0 H0: theta_2i = 2.8e-04, f2 = 0.086 M_Pl, w0 = -0.944, wa = -0.105
+   m2 =  12.5 H0: theta_2i = 2.8e-04, f2 = 0.084 M_Pl, w0 = -0.886, wa = -0.211
+   m2 =  13.0 H0: theta_2i = 2.8e-04, f2 = 0.084 M_Pl, w0 = -0.800, wa = -0.373
+   m2 =  13.5 H0: theta_2i = 2.8e-04, f2 = 0.084 M_Pl, w0 = -0.690, wa = -0.577
+   m2 =  14.0 H0: theta_2i = 2.8e-04, f2 = 0.085 M_Pl, w0 = -0.567, wa = -0.804
+   m2 =  15.0 H0: theta_2i = 2.7e-04, f2 = 0.087 M_Pl, w0 = -0.323, wa = -1.252
+   -> a one-parameter curve from (w0, wa) = (-1, 0) toward (-0.5, -0.9):
+      thawing hilltop quintessence. Reaching w0 > -0.95 needs m2 within
+      ~10% of 12-14 H0: the coincidence problem, restated as a mass.
+
+==============================================================================
+ Q2  Weak gravity conjecture for U(1)_B' on STUR's circle L
+==============================================================================
+   electric WGC: a charged state with M_c <= sqrt(2) g4' M_Pl, g4' = 1/(f2 L)
+   i.e. M_c L <= sqrt(2) M_Pl / f2.  A charged bulk state of mass M_c
+   contributes ~ e^(-M_c L)/L^4 to V2, so V2 = rho_DE needs every charged
+   state to have M_c L >= -ln(rho_DE L^4):
+     1/L =    9e+02 GeV: M_c L >= 134.4
+     1/L =    1e+06 GeV: M_c L >= 162.6
+     1/L =    1e+10 GeV: M_c L >= 199.4
+     1/L =    4e+12 GeV: M_c L >= 223.4
+   rows with w0 < -0.7 have f2 = 0.05-1.01 M_Pl, so WGC
+   allows M_c L <= 1.40-27.91.
+   -> the WGC state would have M_c L ~ 1 and add ~1/L^4 to V2, more than
+      rho_DE by a factor >= 2e+58. Q2 FAILS.
+   Escape: a WGC multiplet with exact Bose-Fermi degeneracy cancels in V2;
+   it must be degenerate to ~1 part in 1e58, i.e. unbroken bulk
+   supersymmetry for that multiplet. Recorded as a loophole, not a pass.
+   Conversely f2 small enough for the WGC (f2 <~ sqrt(2)/135 ~ 0.01 M_Pl)
+   f2 = 0.01 M_Pl -> m2 = 101 H0: the field rolled long ago.
+   f2 = 0.03 M_Pl -> m2 = 34 H0: the field rolled long ago.
+   m2 = 34 H0 (theta_2i = 8e-04): Omega_DE = 0.685 needs f2 = 0.095, but w(today) = +0.92, CPL w0 = +0.42
+   m2 = 100 H0 (theta_2i = 2e-03): Omega_DE = 0.685 needs f2 = 0.108, but w(today) = +0.18, CPL w0 = +0.00
+   -> the field has rolled and oscillates (matter-like): Q1 fails.
+   -> Q1 (w0 < -0.7) and Q2 (WGC) cannot hold together.
+
+==============================================================================
+ Q3  Extra late-time rotation if theta_2 couples to photons
+==============================================================================
+   Delta beta_DE = (k2 alpha / 2 pi) Delta theta_2 since recombination;
+   it adds to beta at every l (Delta beta_tomography unchanged).
+   m2 =    1 H0, w0 = -1.000: k2 = 1 adds 0.0000 deg (0.0% of alpha/2)
+   m2 =    3 H0, w0 = -1.000: k2 = 1 adds 0.0000 deg (0.0% of alpha/2)
+   m2 =    6 H0, w0 = -1.000: k2 = 1 adds 0.0000 deg (0.0% of alpha/2)
+   m2 =   10 H0, w0 = -1.000: k2 = 1 adds 0.0012 deg (0.6% of alpha/2)
+   m2 =   15 H0, w0 = -0.910: k2 = 1 adds 0.0781 deg (37.4% of alpha/2)
+   m2 =   20 H0, w0 = -0.250: k2 = 1 adds 0.3147 deg (150.6% of alpha/2)
+   m2 =   30 H0, w0 = +0.263: k2 = 1 adds 0.2743 deg (131.2% of alpha/2)
+   -> wherever w0 > -0.95 the extra rotation is >= 0.078 deg: then k2 = 0
+      is required (a new discrete choice), else |beta| != alpha/2.
+
+==============================================================================
+ dS  Refined de Sitter conjecture at the hilltop
+==============================================================================
+   f2 = 0.05 M_Pl: M_Pl^2 |V''|/V = 1/(2 f2^2) = 192.23
+   f2 = 1.01 M_Pl: M_Pl^2 |V''|/V = 1/(2 f2^2) = 0.49
+   The conjecture asks for >= c' = O(1): mild tension, reported only.

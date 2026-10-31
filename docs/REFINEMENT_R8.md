@@ -2,7 +2,7 @@
 
 Date: 2026-10-31. Preregistration: [`R8_PREREGISTRATION.md`](R8_PREREGISTRATION.md)
 (committed before any calculation, with one addendum fixing the frame reading
-of D-A3 before production was computed). Scripts:
+of D-A3 before production was computed). Scripts (captured output in [`results/`](../results/)):
 [`src/checks/r8a_superheavy_dm.py`](../src/checks/r8a_superheavy_dm.py),
 [`src/checks/r8b_holonomy_de.py`](../src/checks/r8b_holonomy_de.py).
 
