@@ -1,6 +1,9 @@
 # Status: what is reproducible, what was corrected, what is open
 
-Last updated after refinement round 6 (2026-10-31).
+Last updated after refinement round 7 (2026-10-31).
+
+> **In plain terms.** This page is the honest ledger: what has been computed
+> and can be rerun, what was found wrong and fixed, and what is still open.
 
 ## Reproducible in this repo
 
@@ -10,10 +13,12 @@ Last updated after refinement round 6 (2026-10-31).
 | `src/checks/refinement_r1.py` | KK closed form, normalisation, prior art, KK photon, WGC | runs, under 2 s |
 | `src/checks/r2_*.py` | distinguishing prediction, orbifold level, LHC bound, seed and anisotropy | each re-run and verified (R2 synthesis) |
 | `src/checks/r3_nucleation.py` | nucleation window, r link, R&sup2; corner | runs, under 1 s |
-| `src/checks/r4_torsion.py` | torsion-twist dynamics (superseded physics, kept for the record) | runs, ~75 s |
+| `src/checks/r4_torsion.py` | torsion-twist dynamics (superseded physics, kept for the record) | runs, ~2 min |
 | `src/checks/r5_lagrangian.py` | torsion parities, orbifold positivity, brane twist | runs, ~2 s |
 | `src/checks/r6_brane_angle.py` | brane angle: exact &pi;, charges, timing, full chain | runs, ~3 s |
-| `tests/` | 9 tests, including the full-output regression | all pass (CI) |
+| `src/checks/r7_audit.py` | full math audit: sign of &beta;, tomography with domains, windows, couplings | runs, ~1.5 min |
+| `assets/js/stur-roll-sim.js` | in-browser roll simulator used by the website | matches `stur_final` step 5 to 4 decimals (CI, `node --test`) |
+| `tests/` | 12 Python tests (including the full-output regression) and the web-simulator test | all pass (CI) |
 
 ## Corrections to `stur_final.py`
 
@@ -28,13 +33,26 @@ superseded:
 | A | c_g = 0.49998 at Mr = 10 | truncation of the KK sum; exactly &frac12;, and the roll gives exactly &pi;/2 | R1.1, R2.2 |
 | C | DM fraction &le; 10&#8315;&#8311; | about 42&times; larger (&le; 2&times;10&#8315;&#8309;); still negligible | R2.1 |
 | E | allowed from 1/L ~ 10 GeV | 1/L &gtrsim; 0.8&ndash;1.0 TeV (bulk hypercharge, KK boson &gt; 5.1&ndash;5.5 TeV) | R1.4, R2.3 |
+| E | nucleation window 1/L &lt; f/8 | 1/L &lt; f/197 (from H_nuc &lt; 0.076f); two grid rows become excluded | R7 A3 |
+| E | M_f &gtrsim; 10&#8309; GeV at 1/L &gtrsim; 1 TeV | lightest &psi; M_f &asymp; 1.2&times;10&#8309; GeV | R7 A5 |
+| B | timely roll needs seed &gtrsim; 10&#8315;&#8308;&#8304; at m = 10&#8315;&sup2;&#8313; eV | conservative: seeds down to 10&#8315;&#8312;&#8304; land within 1.1% | R7 A7 |
+| D | Reion agrees with CLASS to &le; 0.004&deg; | &le; 0.005&deg; | R7 A6 |
 | E | brane mixing allowed (at both branes) | allowed only at y = 0 | R2.2 |
 | header | "the R-field holonomy, J_a = B" | the holonomy of a Z&#8322;-odd bulk U(1)_B (no extra axiom needed) | R5 |
 | framing | &beta; = &alpha;/2 as a new observable | the observable is prior art (Lee et al. 2025); STUR-ROLL derives its assumptions | R1.3 |
 
 Round 4's torsion twist is **withdrawn** (R5): it does not exist on S&sup1;/Z&#8322;.
 
-## Closed in this round (finishing the open list)
+## Corrections to the documents in round 7
+
+| Statement | Corrected | Round |
+|---|---|---|
+| "the sign of &beta; is set once for the whole universe at the brane twist" | the twist leaves a symmetric hilltop; the sign follows &theta;_i in our region, is uniform on our sky, and can differ in distant regions | R7 A1 |
+| &Delta;&beta; &isin; [&minus;0.209&deg;, &minus;0.146&deg;]; &Delta;&beta; &asymp; 0 falsifies | [&minus;0.209&deg;, &minus;0.122&deg;] with the expected opposite-domain fraction; &Delta;&beta; &asymp; 0 falsifies only without a large-scale anisotropic rotation | R7 A2 |
+| g&#8324; ~ 10&#8315;&#8310;&ndash;10&#8315;&sup1;&sup1; | 10&#8315;&sup1;&sup2; to 5&times;10&#8315;&sup3; (conclusion unchanged) | R7 A4 |
+| R2.1 and R2.3 bounds quoted with the superseded 1/L &gt; 5 TeV or f/8 | marked superseded in those files | R7 |
+
+## Closed in round 6 (finishing the open list)
 
 - **The hilltop start**: derived (R6). The smooth birth gives &theta; = 0, and the
   brane twist at exactly &pi; makes it the hilltop.

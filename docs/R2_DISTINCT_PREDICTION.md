@@ -1,5 +1,11 @@
 # Round 2, item 1: what distinguishes STUR-ROLL from hilltop domain walls?
 
+> **Round 7 corrections** (see [`REFINEMENT_R7.md`](REFINEMENT_R7.md)):
+>
+> 1. **Tomography (D2).** The window [&minus;0.209&deg;, &minus;0.146&deg;] assumes our reionization shell lies in one domain. With the expected opposite-domain fraction (&le; 0.085) it widens to [&minus;0.209&deg;, &minus;0.122&deg;], 2.4&ndash;4.2&sigma; at LiteBIRD. &Delta;&beta; &asymp; 0 falsifies only if no large-scale anisotropic rotation is seen.
+> 2. **Superseded inputs (D4, D5).** This report predates R2.3: "1/L &gtrsim; 5 TeV", "H_c &ge; 7.5&times;10&#8308; GeV", "up to f/8" and "&psi; &gtrsim; 10&#8312; GeV" now read 1/L &gtrsim; 0.9 TeV, H_c &gtrsim; 1.3&times;10&#8308; GeV, 1/L &lt; f/197 and &psi; &gtrsim; 1.2&times;10&#8309; GeV. No conclusion changes.
+> 3. **Reion vs CLASS** agrees to &le; 0.005&deg; (not 0.004&deg;) for &ell; &le; 4.
+
 Date: 2026-10-31. Code: [`src/checks/r2_distinct_prediction.py`](../src/checks/r2_distinct_prediction.py) (about 2 min).
 Numbered references [n] refer to [`REFERENCES.md`](REFERENCES.md); new ones, [N1] onward, are listed at the end.
 

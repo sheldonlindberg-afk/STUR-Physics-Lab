@@ -17,5 +17,10 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt pytest
-      - name: Regression test (output must match EXPECTED_OUTPUT exactly)
+      - name: Regression and physics tests (output must match EXPECTED_OUTPUT exactly)
         run: python -m pytest tests/ -q
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Web simulator matches the Python roll
+        run: node --test tests/web_sim.test.mjs

@@ -99,3 +99,38 @@ def test_brane_angle_twist_is_exactly_pi_and_flips_theta():
     th = np.linspace(-np.pi, np.pi, 721)
     V = -1.0 * np.cos(th + np.pi) - 0.3 * np.cos(th)
     assert abs(th[V.argmax()]) < 1e-3
+
+
+def _r7():
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src", "checks"))
+    import r7_audit as A
+    return A
+
+
+def test_opposite_domain_rotation_is_alpha_minus_own():
+    # R7 A2: an opposite domain rotates reionization light by alpha - beta_own,
+    # so a half-and-half shell gives beta_reio = alpha/2 and Delta beta ~ 0
+    A = _r7()
+    alpha = np.degrees(F.ALPHA)
+    assert abs(A.delta_beta(0.05, 0.2, 1.0) - (alpha - 0.05 - 0.2)) < 1e-12
+    assert abs(A.delta_beta(0.0, alpha / 2, 0.5)) < 1e-12
+    # the round-7 window edge: m = 2e-31 eV, f = 0.085
+    assert abs(A.delta_beta(0.0679, 0.2144, 0.085) + 0.1225) < 1e-4
+
+
+def test_nucleation_window_is_f_over_197():
+    # R7 A3: H_nuc < 2 pi f (0.03 pi)/sqrt(60) and H_nuc > 15.06/L
+    A = _r7()
+    ratio = A.H_C / (2 * np.pi * A.SEED_3PCT / np.sqrt(A.N_EFOLDS))
+    assert 196 < ratio < 198
+
+
+def test_late_potential_has_no_preferred_roll_direction():
+    # R7 A1: V = m^2 f^2 (1 + cos theta) is even, so the sign of beta follows
+    # theta_i in our region; beta_rec still has one sign on our whole sky
+    th = np.linspace(-np.pi, np.pi, 2001)
+    V = 1 + np.cos(th)
+    assert np.max(np.abs(V - V[::-1])) < 1e-12
+    th_i = 1e-3 * np.random.default_rng(0).standard_normal(1000)
+    b = F.ALPHA / (2 * np.pi) * (np.pi - th_i)
+    assert np.all(b > 0)
