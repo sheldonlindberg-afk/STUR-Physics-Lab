@@ -121,7 +121,10 @@ a specific way.
   the universe's expansion, structure and contents. The new sector holds less
   than 2&times;10&#8315;&#8309; of the matter energy.
 - **Dark matter and dark energy.** Both remain unexplained by this sector.
-  STUR-ROLL is deliberately narrow.
+  Round 8 tested the two most natural ways the sector could supply them and
+  ruled both out against criteria fixed in advance
+  ([`REFINEMENT_R8.md`](REFINEMENT_R8.md)). If the nucleation phase is not
+  R&sup2; gravity, the dark-matter question reopens for a stable heavy scalar.
 - **Everyday and collider physics.** All new particles except possibly one
   (a heavy partner of the photon near 6 TeV, only at the edge of the allowed
   range) are far beyond any collider.

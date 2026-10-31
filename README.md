@@ -118,12 +118,15 @@ fills the universe; the universe distinguishes left from right in how it treats
 light; the rotation is set by a whole number, as electric charge is; and, if
 STUR-ROLL is the reason, space has a compact fifth dimension whose shape was fixed
 at the birth of the universe. General relativity and &Lambda;CDM would stand
-unchanged. See [`docs/IMPLICATIONS.md`](docs/IMPLICATIONS.md), which separates
+unchanged, and dark matter and dark energy would still need their own
+explanations: round 8 tested the sector's two natural candidates against
+preregistered criteria and ruled both out
+([`docs/REFINEMENT_R8.md`](docs/REFINEMENT_R8.md)). See [`docs/IMPLICATIONS.md`](docs/IMPLICATIONS.md), which separates
 what the data alone would establish from what is specific to STUR-ROLL.
 
 ## Verification
 
-The math has been through seven refinement rounds. Round 7
+The math has been through eight refinement rounds. Round 7
 ([`docs/REFINEMENT_R7.md`](docs/REFINEMENT_R7.md)) recomputed every number,
 including an independent re-integration of the roll, and corrected seven
 statements; the headline &beta; = &alpha;/2 was unaffected. Every round has a
@@ -164,7 +167,8 @@ docs/PREDICTIONS.md          beta(l), tomography, falsification criteria
 docs/IMPLICATIONS.md         what it would mean for physics if confirmed
 docs/GLOSSARY.md             every term, in plain and precise language
 docs/STATUS.md               what is derived, corrected, assumed, and open
-docs/REFINEMENT_R1-R7.md     the seven refinement rounds (R2_*.md: round-2 detail)
+docs/REFINEMENT_R1-R8.md     the eight refinement rounds (R2_*.md: round-2 detail)
+docs/R8_PREREGISTRATION.md   round-8 criteria, committed before the calculation
 docs/REFERENCES.md           bibliography, with verification status
 archive/                     superseded material (STUR v7, GENESIS v10), kept for the record
 ```

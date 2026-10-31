@@ -246,8 +246,12 @@ def main():
         bound = np.max(np.abs(nr)) + 1e-16
         r_plateau, nk, _ = n_over_rho(B, M, 1, np.geomspace(0.05, 60, 18), t_final=tf,
                                       k_start=1000.0)
-        om_bound = omega_h2(M, r_plateau, mu, t_rh) * bound / np.max(nk)
-        print(f"   {'':14s}-> Omega h^2 <= {om_bound:.0e}  (P1 needs 0.12): FAIL")
+        om_plateau = omega_h2(M, r_plateau, mu, t_rh)
+        om_bound = om_plateau * bound / np.max(nk)
+        w = kap4 ** 3                                # number density weights k^3
+        om_w = om_plateau * np.sum(w * np.abs(nr)) / np.sum(w * n1)
+        print(f"   {'':14s}-> Omega h^2 <= {om_bound:.0e} (largest residual on every mode);"
+              f" k^3-weighted ~ {om_w:.0e}.  P1 needs 0.12: FAIL")
     print("   Below the threshold the field is light during inflation:")
     r, nk, _ = n_over_rho(B, 3.0, 1, np.geomspace(0.05, 60, 18), t_final=tf, k_start=1000.0)
     sl = np.log(nk[1] / nk[0]) / np.log(np.geomspace(0.05, 60, 18)[1] / 0.05) + 3

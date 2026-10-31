@@ -6,15 +6,74 @@ of D-A3 before production was computed). Scripts:
 [`src/checks/r8a_superheavy_dm.py`](../src/checks/r8a_superheavy_dm.py),
 [`src/checks/r8b_holonomy_de.py`](../src/checks/r8b_holonomy_de.py).
 
+## Bottom line
+
+| Module | Verdict | Why |
+|---|---|---|
+| **8A** superheavy &phi; as dark matter | **no-go** (primary reading) | Masses light enough to make enough &phi; leave CMB isocurvature; masses heavy enough to avoid it make essentially none (&Omega;h&sup2; &lesssim; 10&#8315;&sup3;, needs 0.12). |
+| **8B** second holonomy as dark energy | **no-go** | Works as thawing dark energy, but violates the weak gravity conjecture by ~10&#8309;&#8312; in vacuum energy. |
+
+**STUR-ROLL does not explain dark matter or dark energy.** This is now a
+calculated conclusion, against criteria fixed in advance, not a deferral.
+
 ## Module 8A: superheavy bulk scalar &phi; as dark matter
 
-**Status: in progress.** The first production run at the isocurvature
-threshold gave occupation numbers at the level of the initial-condition error
-floor (~10&#8315;&sup1;&#8304;), so its &Omega;h&sup2; is not yet trusted. A convergence
-test with deeper initial conditions is running; the verdict will be added
-here only after it converges.
+> **In plain terms.** The heavy particle &phi; that STUR-ROLL already contains
+> could be dark matter if it is stable and if the end of inflation makes the
+> right amount of it. It turns out there is no right amount. If &phi; is light
+> enough to be made in quantity, it also leaves a pattern in the CMB that
+> observations have already ruled out. If it is heavy enough to avoid that
+> pattern, almost none of it is made. In R&sup2; inflation proper, the gap
+> between the two is a factor of about 10 in mass, and STUR-ROLL's allowed
+> range sits entirely on the "almost none" side.
 
-<!-- 8A_SUMMARY -->
+**Verdict: no-go in the primary (Jordan-frame) reading. P1 and P2 cannot
+hold together.**
+
+**Inputs (computed).** R&sup2; background: scalaron mass &mu; = 2.97&times;10&sup1;&sup3;
+GeV, H* = 1.47&times;10&sup1;&sup3; GeV, H_end = 7.1&times;10&sup1;&sup2; GeV. Reheating by
+scalaron decay to the Higgs: T_RH = 4.6&times;10&#8313; GeV (no new parameter).
+STUR-ROLL's window in the R&sup2; corner: M_&phi; &le; 2.23&times;10&sup1;&#8308; GeV =
+7.52 &mu;.
+
+| Condition | Jordan frame (primary) | Einstein frame (sensitivity) |
+|---|---|---|
+| P2 isocurvature threshold | M &ge; 6.59 &mu; = 1.96&times;10&sup1;&#8308; GeV, because &phi;'s mass during inflation is M e^(&minus;&phi;_s/&radic;6), ~9&times; smaller | M &ge; 0.74 &mu; = 2.2&times;10&sup1;&sup3; GeV |
+| P1 abundance in the allowed range | **fails**: &Omega;h&sup2; &lesssim; 10&#8315;&sup3; at 6.59 &mu; and 7.52 &mu; (k&sup3;-weighted; &le; 10&#8315;&sup2;&ndash;4&times;10&#8315;&sup2; on the most conservative bound) | passes: &Omega;h&sup2; = 0.12 at M &asymp; 2.8 &mu; &asymp; 8.4&times;10&sup1;&sup3; GeV |
+| P1 below the P2 threshold | M = 3 &mu;: &Omega;h&sup2; &asymp; 19 (overproduced), spectrum near scale-invariant on large scales | &mdash; |
+| P3 no other channel | passes (M &gt; &mu;/2; T_RH &laquo; M) | passes |
+| P4 correlated prediction | &mdash; | 1/L &asymp; 3.8&times;10&sup1;&sup1; GeV for any (m, f) in the corner, so the KK hypercharge boson sits at ~2.4&times;10&sup1;&sup2; GeV: **no collider signal**; r &asymp; 0.003 |
+
+**How the Jordan-frame bound was established.** The production calculation
+solves the &phi; mode equations from Bunch&ndash;Davies initial conditions through
+the end of inflation and the scalaron oscillations, and reads off Bogoliubov
+coefficients by projection onto the late-time adiabatic modes. Three
+numerical effects were separated:
+
+1. **Initial-condition error** scales as (aH/k_start)&#8308;. Moving the start
+   from k/aH = 300 to 1000 removed an infrared excess (3&times;10&#8315;&sup1;&sup1; &rarr;
+   6&times;10&#8315;&sup1;&#8308;).
+2. **Virtual dressing.** The scalaron still oscillates slightly at readout
+   (amplitude 4&times;10&#8315;&#8308;), dressing &phi;'s mass and producing an apparent
+   n_k &asymp; 2&times;10&#8315;&sup1;&sup2;. Reading out 4&times; later, when the amplitude is 4&times;
+   smaller, n_k falls 16&times;: n_k/amp&sup2; is constant to 1% (1.26 vs
+   1.25&times;10&#8315;&#8309;). Subtracting it leaves real production consistent with
+   zero (|n_k| &lesssim; 5&times;10&#8315;&sup1;&#8309; at the modes that dominate the number
+   density).
+3. **Earlier first-pass values** (&Omega;h&sup2; &asymp; 1.4&ndash;1.9 at the window edges)
+   were this dressing, not production. They are recorded here because the
+   first commit of this round flagged them as untrusted.
+
+**Why the Einstein-frame pass does not rescue the module.** R&sup2; inflation is
+defined in the Jordan frame, and the Jordan-frame coupling is the one that
+reheats the universe (D-A4). Coupling &phi; to the Einstein-frame metric would
+need a separate, unmotivated structure. The preregistration (addendum 1) fixed
+the Jordan reading as primary before any production was computed, and the
+Einstein reading as a sensitivity check only. It is reported because a
+different inflation model, with &phi; a pure spectator, would behave like it:
+**if the nucleation phase is not R&sup2; gravity, the dark-matter question
+reopens** at M_&phi; &asymp; 2.8 &mu; &asymp; 6 H*, with no collider signal as its correlated
+prediction.
 
 ## Module 8B: a second holonomy as dark energy
 

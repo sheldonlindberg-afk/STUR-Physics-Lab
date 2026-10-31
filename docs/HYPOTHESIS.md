@@ -183,6 +183,11 @@ What these would mean for physics if confirmed is in
   there is no 4D B charge. &psi; decays through brane mixing at y = 0 (R2.2),
   and &phi; through the analogous brane couplings. &vartheta; sits at its
   minimum after inflation. &theta; contributes &lesssim; 2&times;10&#8315;&#8309;.
+  Round 8 tested the natural candidate, a stable &phi; made by gravitational
+  production at the end of R&sup2; inflation, against preregistered criteria.
+  Masses light enough to be made in quantity leave CMB isocurvature; masses
+  heavy enough to avoid it are made at &Omega;h&sup2; &lesssim; 10&#8315;&sup3;
+  ([`REFINEMENT_R8.md`](REFINEMENT_R8.md), module 8A).
   **Dark matter is the Lambda-CDM component.**
 - **Dark energy.** No field in the sector can play the role: a field that light
   could not trigger the roll (R4 &sect;C), and torsion gives no twist (R5).

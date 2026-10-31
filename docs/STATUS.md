@@ -72,7 +72,10 @@ Round 4's torsion twist is **withdrawn** (R5): it does not exist on S&sup1;/Z&#8
 - **Dark matter and dark energy**: settled as **outside the theory's scope**.
   The sector has no stable particle and no field that could act as dark
   energy (`HYPOTHESIS.md`). This is a conclusion, not a deferral: the math
-  checked and excluded the torsion route (R4, R5).
+  checked and excluded the torsion route (R4, R5), and round 8 excluded the
+  two natural extensions against preregistered criteria: a stable bulk
+  scalar as gravitationally produced dark matter (8A), and a second holonomy
+  as dark energy (8B). See [`REFINEMENT_R8.md`](REFINEMENT_R8.md).
 
 ## Still open (cannot be closed from this session)
 
