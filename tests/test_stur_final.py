@@ -40,3 +40,14 @@ def test_full_output_matches_expected():
     got = [line.rstrip() for line in buf.getvalue().strip().splitlines()]
     exp = [line.rstrip() for line in F.EXPECTED_OUTPUT.strip().splitlines()]
     assert got == exp
+
+
+def test_kk_coupling_closed_form():
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src", "checks"))
+    import refinement_r1 as R
+    for Mr in (0.2, 2.0):
+        assert abs(R.cg_sum(1.0, Mr, 20000000) - R.cg_exact(1.0, Mr)) < 1e-7
+    # one full period of theta shifts the theta-term by exactly pi
+    t = np.linspace(0, 2 * np.pi, 20001)
+    per = np.trapezoid([R.cg_exact(x, 0.3) for x in t], t)
+    assert abs(per / np.pi - 1) < 1e-6

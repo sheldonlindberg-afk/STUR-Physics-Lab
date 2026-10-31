@@ -46,6 +46,14 @@ fits these curves ([`src/alp_vs_stur.py`](../src/alp_vs_stur.py)):
 
 ## What does discriminate
 
+> **Scope of these discriminators (refinement round 1).** They separate
+> STUR-ROLL from a *generic* ALP. They do **not** separate it from the hilltop
+> domain-wall scenario of Lee, Murai, Takahashi & Yin (PRD 112, 043538,
+> 2025) with c_&gamma; = 1, which has the same amplitude and the same
+> isotropy. A distinguishing prediction would have to come from the 5D sector;
+> see [`REFINEMENT_R1.md`](REFINEMENT_R1.md), open item 3.
+
+
 1. **The amplitude.** The plateau is exactly &alpha;/2. Testing this needs an
    absolute calibration of the polarization angle.
 2. **The calibration-free difference.** A miscalibration rotates every &ell;

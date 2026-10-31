@@ -23,9 +23,23 @@ from this repo:
 `src/alp_vs_stur.py` does `import stur_final`, so run it from `src/` or with
 `src/` on the path: `cd src && python alp_vs_stur.py <class run dir>`.
 
+## Corrections to `stur_final.py` found in refinement round 1
+
+`stur_final.py` is kept byte-for-byte as uploaded. These corrections apply to
+its text (details in [`REFINEMENT_R1.md`](REFINEMENT_R1.md)):
+
+- **Section A:** "c_g = 0.49998 at Mr = 10" is truncation of the KK sum. The
+  exact closed form gives &frac12; to e^(&minus;63).
+- **Section E:** "allowed from 1/L ~ 10 GeV" is superseded. The charged bulk
+  fermion requires a bulk photon, whose KK modes are bounded at a few TeV, so
+  1/L &gtrsim; few TeV and M_f &gtrsim; 10&#8312; GeV in every allowed row.
+- **Framing:** &beta; = &alpha;/2 from a hilltop roll is prior art (Lee et al. 2025).
+  STUR-ROLL is a UV origin for c_&gamma; = 1 and for the hilltop start.
+
 ## Open items
 
-- **k = 1 is a discrete choice**, not derived. It is the minimal nonzero level.
+- **k = 1 is a discrete choice**, not derived. Equivalently, it is the sign of the bulk mass
+  relative to the half-integer bare level; k_eff = 0 is equally consistent (R1.1).
 - **The initial seed** must be large enough (&gtrsim; 1e-20 at m = 1e-30 eV). It is
   set by H_nuc/(2&pi;f), which lies in a window rather than at a derived value.
 - **The axiom J_a = B** is assumed.

@@ -36,6 +36,14 @@ established physics:
   the &beta; likelihood.
 - **The alternatives** are GR+QFT (&beta; = 0) and a generic axion (&beta; fitted).
 
+> **Prior art (refinement round 1).** The same observable, &beta; &asymp; 0.21 c_&gamma;&deg;
+> from a hilltop axion whose walls form after recombination, was predicted by
+> Lee, Murai, Takahashi & Yin, *Phys. Rev. D* 112, 043538 (2025). STUR-ROLL's
+> contribution is a **UV origin** for their two assumptions: c_&gamma; = 1 from
+> the 5D level quantisation, and the hilltop start from the Wilson-line
+> potential flipping sign as the universe cools. See
+> [`docs/REFINEMENT_R1.md`](docs/REFINEMENT_R1.md).
+
 ## The derived chain
 
 | # | Step | Result |
@@ -123,6 +131,9 @@ tests/                      regression + sanity tests (run in CI)
 docs/HYPOTHESIS.md          claim, chain, status, consistency checks, new particles
 docs/PREDICTIONS.md         beta(l) tables and falsification criteria
 docs/STATUS.md              what is derived, assumed, missing, and open
+docs/REFINEMENT_R1.md       round 1: literature audit, corrections, open items
+docs/REFERENCES.md          bibliography (with verification status)
+src/checks/                 independent checks for each refinement round
 index.html                  project website (GitHub Pages)
 archive/v7-toe/             superseded STUR v7 "Theory of Everything" material
 archive/genesis-v10-stur-b/ superseded STUR-B bridge hypothesis (GENESIS v10)
