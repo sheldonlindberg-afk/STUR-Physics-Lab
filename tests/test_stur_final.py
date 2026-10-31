@@ -61,3 +61,14 @@ def test_roll_integral_is_exactly_half_pi():
     for Mr in (0.05, 0.3, 2.0):
         val = np.trapezoid([R.cg_exact(x, Mr) for x in t], t)
         assert abs(val / (np.pi / 2) - 1) < 1e-6
+
+
+def test_birth_point_is_one_loop_minimum():
+    # R4.A: smooth-cap birth (bosons periodic, fermions antiperiodic) is the
+    # minimum of every one-loop Wilson-line contribution
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src", "checks"))
+    import r4_torsion as T
+    x = np.linspace(-np.pi, np.pi, 241)
+    for a in (0.0, 1.0, 5.0):
+        assert np.argmin(T.one_loop(x, a, 0, 0.0)) == 120
+        assert np.argmin(T.one_loop(x, a, 1, np.pi)) == 120
