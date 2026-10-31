@@ -138,6 +138,7 @@ docs/REFINEMENT_R2.md       round 2: synthesis of four parallel checks (R2_*.md)
 docs/REFINEMENT_R3.md       round 3: Z6 commitment, nucleation phase, Planck tomography
 docs/REFINEMENT_R4.md       round 4 (exploratory, superseded): torsion twist
 docs/REFINEMENT_R5.md       round 5: the Lagrangian; no 5D torsion twist; positivity theorem; brane-parity twist
+docs/REFINEMENT_R6.md       round 6: brane angle fixes the twist at exactly pi; hilltop start derived
 docs/REFERENCES.md          bibliography (with verification status)
 src/checks/                 independent checks for each refinement round
 index.html                  project website (GitHub Pages)

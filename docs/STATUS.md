@@ -57,7 +57,11 @@ its text (details in [`REFINEMENT_R1.md`](REFINEMENT_R1.md)):
   theorem). The 5D torsion twist of round 4 does not exist, so the R4 dark-matter link is
   withdrawn. The one local escape is an orbifold-parity-breaking brane coupling
   &Sigma;&psi;&#772;&Gamma;^y&psi;, which works if its twist &delta; is within 0.094 of &pi;
-  ([`REFINEMENT_R5.md`](REFINEMENT_R5.md)). Deriving &delta; = &pi; is open.
+  ([`REFINEMENT_R5.md`](REFINEMENT_R5.md)). **Round 6 resolves this:** an angle-valued brane field &vartheta;
+  can only settle at the parity-symmetric points 0 or &pi;, so &delta; = &pi; exactly when its minimum is at &pi;.
+  With q_&psi; odd and q_&phi; even it acts as a fermion-parity defect, and &theta; = 0 is the hilltop from birth.
+  &beta; = &alpha;/2 to &lt; 1% for H_nuc &lesssim; 6&times;10&#8315;&sup3; f ([`REFINEMENT_R6.md`](REFINEMENT_R6.md)). Remaining inputs: the sign of V(&vartheta;)
+  and the charges (discrete), m_&vartheta; &gtrsim; 2H_nuc, and the smooth-birth axiom.
 - See [`REFINEMENT_R2.md`](REFINEMENT_R2.md) for the round-3 list.
 - **The axiom J_a = B** is assumed.
 - **The &beta; signal itself** may be a calibration systematic (see the caveat in

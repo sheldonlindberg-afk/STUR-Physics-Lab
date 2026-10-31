@@ -85,3 +85,17 @@ def test_orbifold_positivity_of_brane_terms():
         P = L5.expm_sym(M * L / 2, p * L / 2)
         T = P @ L5.expm_sym(a1, b1) @ P @ L5.expm_sym(a0, b0)
         assert np.trace(T) > 0
+
+
+def test_brane_angle_twist_is_exactly_pi_and_flips_theta():
+    # R6: Z2-even periodic V(vartheta) is stationary at 0 and pi; at vartheta = pi
+    # with q_psi odd, q_phi even, theta = 0 is the hilltop
+    v = np.linspace(-np.pi, np.pi, 4001)
+    rng = np.random.default_rng(5)
+    for _ in range(200):
+        c = rng.normal(0, 1, 4)
+        dV = sum(-ck * (k + 1) * np.sin((k + 1) * v) for k, ck in enumerate(c))
+        assert abs(dV[2000]) < 1e-12 and abs(dV[0]) < 1e-12
+    th = np.linspace(-np.pi, np.pi, 721)
+    V = -1.0 * np.cos(th + np.pi) - 0.3 * np.cos(th)
+    assert abs(th[V.argmax()]) < 1e-3
