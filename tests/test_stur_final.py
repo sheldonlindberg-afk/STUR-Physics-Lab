@@ -51,3 +51,13 @@ def test_kk_coupling_closed_form():
     t = np.linspace(0, 2 * np.pi, 20001)
     per = np.trapezoid([R.cg_exact(x, 0.3) for x in t], t)
     assert abs(per / np.pi - 1) < 1e-6
+
+
+def test_roll_integral_is_exactly_half_pi():
+    # R2.2: Phi(pi) - Phi(0) = (pi/2) sgn M for any M r -> beta = k alpha/2 exactly
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src", "checks"))
+    import refinement_r1 as R
+    t = np.linspace(0, np.pi, 40001)
+    for Mr in (0.05, 0.3, 2.0):
+        val = np.trapezoid([R.cg_exact(x, Mr) for x in t], t)
+        assert abs(val / (np.pi / 2) - 1) < 1e-6

@@ -31,8 +31,14 @@ its text (details in [`REFINEMENT_R1.md`](REFINEMENT_R1.md)):
 - **Section A:** "c_g = 0.49998 at Mr = 10" is truncation of the KK sum. The
   exact closed form gives &frac12; to e^(&minus;63).
 - **Section E:** "allowed from 1/L ~ 10 GeV" is superseded. The charged bulk
-  fermion requires a bulk photon, whose KK modes are bounded at a few TeV, so
-  1/L &gtrsim; few TeV and M_f &gtrsim; 10&#8312; GeV in every allowed row.
+  fermion requires bulk hypercharge. Its KK bosons (M&#8321; = 2&pi;/L) are excluded
+  below 5.1&ndash;5.5 TeV, so **1/L &gtrsim; 0.8&ndash;1.0 TeV** and M_f &gtrsim; 1.4&times;10&#8309; GeV (round 2,
+  correcting round 1&rsquo;s 2&pi; slip).
+- **Section C:** the DM fractions are about 42&times; too small, because release happens
+  at H &asymp; m/19.5, not m/3. They are still negligible (R2.1).
+- **Step 5 seed window** "1e-4 to 0.3": the upper end is excluded; the seed must be
+  &lesssim; 1.2e-2 (R2.4).
+- **Section A:** &beta; = k_eff&middot;&alpha;/2 holds exactly on the orbifold (R2.2).
 - **Framing:** &beta; = &alpha;/2 from a hilltop roll is prior art (Lee et al. 2025).
   STUR-ROLL is a UV origin for c_&gamma; = 1 and for the hilltop start.
 
@@ -40,8 +46,10 @@ its text (details in [`REFINEMENT_R1.md`](REFINEMENT_R1.md)):
 
 - **k = 1 is a discrete choice**, not derived. Equivalently, it is the sign of the bulk mass
   relative to the half-integer bare level; k_eff = 0 is equally consistent (R1.1).
-- **The initial seed** must be large enough (&gtrsim; 1e-20 at m = 1e-30 eV). It is
-  set by H_nuc/(2&pi;f), which lies in a window rather than at a derived value.
+- **The initial seed** must lie between about 1e-20 and 1.2e-2 (at m = 1e-30 eV). It is
+  set by H_nuc/(2&pi;f) and the number of e-folds, neither of which is derived yet.
+- **Global structure:** integer k assumes [SU(3)&times;SU(2)&times;U(1)]/Z&#8326; (R2.2).
+- See [`REFINEMENT_R2.md`](REFINEMENT_R2.md) for the round-3 list.
 - **The axiom J_a = B** is assumed.
 - **The &beta; signal itself** may be a calibration systematic (see the caveat in
   [`HYPOTHESIS.md`](HYPOTHESIS.md)).

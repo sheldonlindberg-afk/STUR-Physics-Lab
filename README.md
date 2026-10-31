@@ -97,6 +97,8 @@ axion's is a fit.
 
 STUR-ROLL is ruled out if any of these holds:
 
+0. **&Delta;&beta; = &beta;_reio &minus; &beta;_rec is not in [&minus;0.21&deg;, &minus;0.15&deg;]** (round 2). This
+   tomographic test is the sharpest one: about 3&ndash;4&sigma; at LiteBIRD.
 1. **|&beta;| moves away from 0.209&deg;.** The amplitude is fixed at &alpha;/2.
 2. **|&beta;(low &ell;) &minus; &beta;(high &ell;)| exceeds 0.209&deg;.** This
    test is calibration-free: a miscalibration rotates every &ell; by the same
@@ -132,6 +134,7 @@ docs/HYPOTHESIS.md          claim, chain, status, consistency checks, new partic
 docs/PREDICTIONS.md         beta(l) tables and falsification criteria
 docs/STATUS.md              what is derived, assumed, missing, and open
 docs/REFINEMENT_R1.md       round 1: literature audit, corrections, open items
+docs/REFINEMENT_R2.md       round 2: synthesis of four parallel checks (R2_*.md)
 docs/REFERENCES.md          bibliography (with verification status)
 src/checks/                 independent checks for each refinement round
 index.html                  project website (GitHub Pages)

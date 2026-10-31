@@ -67,7 +67,15 @@ fits these curves ([`src/alp_vs_stur.py`](../src/alp_vs_stur.py)):
 
 ## Falsification criteria (LiteBIRD)
 
+**Sharpest test (round 2, R2.1).** In the derived-amplitude window
+2e-31 &lesssim; m &lesssim; 1e-28 eV, STUR-ROLL predicts
+**&Delta;&beta; = &beta;_reio &minus; &beta;_rec &isin; [&minus;0.209&deg;, &minus;0.146&deg;]**. With LiteBIRD&rsquo;s
+&sigma;(&Delta;&beta;) &asymp; 0.05&deg; this is 2.9&ndash;4.2&sigma; from zero. An instrumental miscalibration
+and late-rolling (dark-energy-like) fields give &Delta;&beta; &asymp; 0 instead.
+
 STUR-ROLL is falsified if:
+
+- |&beta;| &asymp; 0.2&deg; is confirmed together with &Delta;&beta; &asymp; 0;
 
 - |&beta;| moves away from 0.209&deg;;
 - |&beta;(low &ell;) &minus; &beta;(high &ell;)| exceeds 0.209&deg; (calibration-free);

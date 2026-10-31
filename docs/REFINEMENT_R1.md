@@ -1,5 +1,13 @@
 # Refinement round 1: audit of the STUR-ROLL chain against the literature
 
+> **Round 2 corrected two statements in this document**
+> (see [`REFINEMENT_R2.md`](REFINEMENT_R2.md)):
+>
+> 1. **R1.4 bound.** The few-TeV bound applies to the KK mass M&#8321; = 2&pi;/L, not to 1/L, so the correct bound is 1/L &gtrsim; 0.8&ndash;1.0 TeV.
+> 2. **Anisotropy limit.** The ACT DR6 limit is A_CB &lt; 0.15, not 0.52.
+>
+> R2.2 also showed that &beta; = k_eff&middot;&alpha;/2 holds **exactly**, with no e^(&minus;2&pi;MR) correction.
+
 Date: 2026-10-31. Code: [`src/checks/refinement_r1.py`](../src/checks/refinement_r1.py), which runs in under 2 s.
 References are labelled [n] and listed in [`REFERENCES.md`](REFERENCES.md).
 
@@ -85,6 +93,6 @@ For a Wilson-line axion, f = 1/(g&#8324;L) [20], up to O(2&pi;) factors that dep
 1. **Orbifold version of the level argument.** R1.1 works on the covering circle. Check, with anomaly inflow on S&sup1;/Z&#8322; [11], that a Z&#8322;-odd B with Z&#8322;-even B&#8325; leaves k&#8320; &isin; &Zopf; + &frac12; and k_eff = 1 intact, including the fixed-point contributions.
 2. **LHC recast** of KK photons with brane fermions, to replace the 5 TeV placeholder.
 3. **Distinct prediction versus [3].** Look for a relation that the UV sector fixes, for example between m, f and L, or a correlated signal from &psi; or the B KK modes.
-4. **Seed statistics.** Compute the &theta; fluctuation spectrum through nucleation, the probability of a wall inside our Hubble volume, and the reionization-era anisotropic birefringence. Compare with [15, 16] and with the ACT DR6 bound A_CB &lt; 0.52 [21].
+4. **Seed statistics.** Compute the &theta; fluctuation spectrum through nucleation, the probability of a wall inside our Hubble volume, and the reionization-era anisotropic birefringence. Compare with [15, 16] and with the ACT DR6 bound A_CB &lt; 0.15 [21] *(corrected from 0.52 in round 2)*.
 5. **Time-dependent birefringence today.** &theta; oscillates around &pi; with period 2&pi;/m, about 130 Myr for m = 10&#8315;&sup3;&#8304; eV, so the ACT DR6 time-dependent search [22] does not apply. Confirm this quantitatively.
 6. **Missing companion scripts** (see [`STATUS.md`](STATUS.md)), in particular `class_check.py`.
