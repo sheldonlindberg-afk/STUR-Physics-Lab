@@ -145,3 +145,8 @@ compares an energy density to an entropy density.
   here yet predicts something that differs from standard physics.
 - **The next decisive test** is the full σ appearing in Δ⟨K⟩ in 2+1D (Z₂ lattice
   gauge theory). If it doesn't, the confinement row fails.
+
+**Update (step 3, [Z2_GAUGE.md](Z2_GAUGE.md)):** in 2+1D with heavy dynamical charges, the
+full string energy does enter Δ⟨K⟩, with weight c_s = 3.0–3.9 against the quark's
+c_q ≈ 2.1. ΔS still saturates. Static charges turn out to be superselection sectors,
+with D = ∞.

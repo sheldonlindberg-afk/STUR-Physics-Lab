@@ -1,0 +1,26 @@
+
+==============================================================================
+Z1  2+1D Z2 gauge theory, STATIC charges: dynamical flux tube crossing the cut
+==============================================================================
+Lx=6 Ly=3 h=1.0: dim 262144, A-configs 16384, resolved modes 512, max K 67.9
+  ell=1: dE= 3.5032  dS=+0.3169  d<K>=  0.4030  D=  0.0861  sum d*dE=  0.0480  d<K>/sum=  8.397  leak 4e-15
+  ell=2: dE= 5.2332  dS=+0.3837  d<K>= -0.2468  D= -0.6305  sum d*dE=  1.3827  d<K>/sum= -0.179  leak 1e+00
+  ell=3: dE= 6.9601  dS=+0.4083  d<K>= -0.2468  D= -0.6551  sum d*dE=  4.4390  d<K>/sum= -0.056  leak 1e+00
+  ell=4: dE= 8.6953  dS=+0.4186  d<K>= -0.2469  D= -0.6654  sum d*dE=  9.2460  d<K>/sum= -0.027  leak 1e+00
+  string tension from dE(ell): sigma = 1.7303 per link (strong-coupling 2h = 2.0)
+  dS increments: +0.0668, +0.0246, +0.0103  (saturates)
+  leak = 1 for ell >= 2: a static charge at an INTERIOR vertex of A is a Gauss-law
+  superselection label of rho_A, so supp(rho_string) and supp(rho_vac) are disjoint and
+  D(string||vac) = infinity. d<K> is undefined there (values printed are meaningless).
+  -> use heavy DYNAMICAL charges instead: stur_z2_higgs.py
+Lx=6 Ly=3 h=0.5: dim 262144, A-configs 16384, resolved modes 405, max K 69.3
+  ell=1: dE= 1.1335  dS=+0.5303  d<K>=  0.7366  D=  0.2063  sum d*dE=  0.0641  d<K>/sum= 11.484  leak 1e-13
+  ell=2: dE= 1.6395  dS=+0.6448  d<K>= -0.7564  D= -1.4012  sum d*dE=  0.5250  d<K>/sum= -1.441  leak 1e+00
+  ell=3: dE= 2.1396  dS=+0.6840  d<K>= -0.7564  D= -1.4404  sum d*dE=  1.4918  d<K>/sum= -0.507  leak 1e+00
+  ell=4: dE= 2.6832  dS=+0.6976  d<K>= -0.7564  D= -1.4540  sum d*dE=  3.0873  d<K>/sum= -0.245  leak 1e+00
+  string tension from dE(ell): sigma = 0.5149 per link (strong-coupling 2h = 1.0)
+  dS increments: +0.1145, +0.0392, +0.0136  (saturates)
+  leak = 1 for ell >= 2: a static charge at an INTERIOR vertex of A is a Gauss-law
+  superselection label of rho_A, so supp(rho_string) and supp(rho_vac) are disjoint and
+  D(string||vac) = infinity. d<K> is undefined there (values printed are meaningless).
+  -> use heavy DYNAMICAL charges instead: stur_z2_higgs.py
