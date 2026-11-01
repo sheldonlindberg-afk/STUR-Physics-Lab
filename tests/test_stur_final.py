@@ -161,3 +161,13 @@ def test_r8b_dark_energy_fails_weak_gravity():
     assert abs(ode - D.ODE) < 1e-6 and w0 < -0.7
     need = -np.log(D.RHO_DE_EV4 * (1 / 875e9) ** 4)
     assert np.sqrt(2) / f2 < need / 5
+
+
+def test_r9_symmetric_overlaps_reproduce_masses():
+    # R9 9B: profiles solved from anarchic Yukawas reproduce all six quark masses,
+    # and the leading estimate |V_us| ~ sqrt(m_d/m_s) is the Gatto-Sartori-Tonin value
+    C = _checks("r9_cabibbo")
+    rng = np.random.default_rng(11)
+    sol, res = C.solve_profiles(C.anarchic(rng), C.anarchic(rng))
+    assert res < 1e-6
+    assert abs(np.sqrt(C.M_DN[0] / C.M_DN[1]) - 0.224) < 0.002

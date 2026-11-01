@@ -196,6 +196,11 @@ What these would mean for physics if confirmed is in
   violates the weak gravity conjecture by a factor of about 10&#8309;&#8312; in
   vacuum energy ([`REFINEMENT_R8.md`](REFINEMENT_R8.md), module 8B).
   **Dark energy is the cosmological constant.**
+- **Quark flavour.** STUR-ROLL does not predict quark mixing. Its discrete
+  symmetries act identically on all three generations, and letting quarks
+  spread into the extra dimension gives a Cabibbo angle anywhere in about
+  0.15&ndash;0.6, tested against preregistered criteria
+  ([`REFINEMENT_R9.md`](REFINEMENT_R9.md)).
 
 ## Caveat
 

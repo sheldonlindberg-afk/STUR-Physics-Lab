@@ -1,6 +1,6 @@
 # Status: what is reproducible, what was corrected, what is open
 
-Last updated after refinement round 8 (2026-10-31).
+Last updated after refinement round 9 (2026-11-01).
 
 > **In plain terms.** This page is the honest ledger: what has been computed
 > and can be rerun, what was found wrong and fixed, and what is still open.
@@ -18,9 +18,10 @@ Last updated after refinement round 8 (2026-10-31).
 | `src/checks/r6_brane_angle.py` | brane angle: exact &pi;, charges, timing, full chain | runs, ~3 s |
 | `src/checks/r8a_superheavy_dm.py` | DM module: R&sup2; background, gravitational production of &phi; (Bogoliubov), &Omega;h&sup2; | runs, several minutes |
 | `src/checks/r8b_holonomy_de.py` | DE module: thawing holonomy, (w&#8320;, w_a) locus, weak gravity conjecture | runs, ~15 s |
+| `src/checks/r9_cabibbo.py` | flavour module: symmetry-fixed angles (9A), anarchic overlaps (9B) | runs, ~2 min |
 | `src/checks/r7_audit.py` | full math audit: sign of &beta;, tomography with domains, windows, couplings | runs, ~1.5 min |
 | `assets/js/stur-roll-sim.js` | in-browser roll simulator used by the website | matches `stur_final` step 5 to 4 decimals (CI, `node --test`) |
-| `tests/` | 14 Python tests (including the full-output regression) and the web-simulator test | all pass (CI) |
+| `tests/` | 15 Python tests (including the full-output regression) and the web-simulator test | all pass (CI) |
 
 ## Corrections to `stur_final.py`
 

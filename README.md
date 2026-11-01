@@ -126,7 +126,7 @@ what the data alone would establish from what is specific to STUR-ROLL.
 
 ## Verification
 
-The math has been through eight refinement rounds. Round 7
+The math has been through nine refinement rounds. Round 7
 ([`docs/REFINEMENT_R7.md`](docs/REFINEMENT_R7.md)) recomputed every number,
 including an independent re-integration of the roll, and corrected seven
 statements; the headline &beta; = &alpha;/2 was unaffected. Every round has a
@@ -167,8 +167,10 @@ docs/PREDICTIONS.md          beta(l), tomography, falsification criteria
 docs/IMPLICATIONS.md         what it would mean for physics if confirmed
 docs/GLOSSARY.md             every term, in plain and precise language
 docs/STATUS.md               what is derived, corrected, assumed, and open
-docs/REFINEMENT_R1-R8.md     the eight refinement rounds (R2_*.md: round-2 detail)
+docs/REFINEMENT_R1-R9.md     the nine refinement rounds (R2_*.md: round-2 detail)
 docs/R8_PREREGISTRATION.md   round-8 criteria, committed before the calculation
+docs/R9_PREREGISTRATION.md   round-9 criteria (Cabibbo angle), committed before the calculation
+docs/ARCHIVE_TRIAGE.md       every archive claim screened against preregistered gates
 docs/REFERENCES.md           bibliography, with verification status
 archive/                     superseded material (STUR v7, GENESIS v10), kept for the record
 ```

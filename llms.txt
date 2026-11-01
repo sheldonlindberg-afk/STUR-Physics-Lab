@@ -29,6 +29,8 @@
 - /docs/STATUS.md — derived, corrected, assumed, open
 - /docs/REFINEMENT_R7.md — full math audit
 - /docs/REFINEMENT_R8.md — dark matter and dark energy modules: both no-go (preregistered)
+- /docs/REFINEMENT_R9.md — Cabibbo angle: not predicted (preregistered)
+- /docs/ARCHIVE_TRIAGE.md — archive claims screened: none survives
 - /src/stur_final.py — reproducible computation (numpy, scipy; ~30 s)
 - /src/checks/ — one script per refinement round
 
