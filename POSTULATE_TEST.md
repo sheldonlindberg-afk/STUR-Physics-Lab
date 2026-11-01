@@ -8,6 +8,9 @@ environment, one whose noise breaks the standard fluctuation–dissipation
 relation (see §5). Because the result is a contradiction and not a measurable
 difference, this report gives no MAGIS-100 or AION signal.
 
+Follow-up: every assumption below is varied, and every exact match listed, in
+[ASSUMPTIONS.md](ASSUMPTIONS.md).
+
 Reproduce: `python3 src/stur_postulate_test.py` (about 35 s). The full output is in
 `results/postulate_test/output.txt`, and `tests/test_postulate_test.py` pins the
 key numbers. Every number below comes from that output.
