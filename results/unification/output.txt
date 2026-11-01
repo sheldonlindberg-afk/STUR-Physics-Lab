@@ -1,0 +1,70 @@
+
+==============================================================================
+U2  Visibility = parity of exchanged quanta:  V = <(-1)^{Delta N}>
+==============================================================================
+Exact for linear coupling to bosons, any bath state diagonal in Fock basis
+(algebra: D(a)^dag Pi D(a) = Pi D(2a); FOLLOWS, literature not checked).
+   alpha=0.3 thermal          T=0.05:  <(-1)^dN> = +0.835270210791   V = +0.835270210791
+   alpha=0.3 random diagonal        :  <(-1)^dN> = -0.121252555685   V = -0.121252555685
+   alpha=0.6 thermal          T=2.00:  <(-1)^dN> = +0.052878868623   V = +0.052878868623
+   alpha=0.6 random diagonal        :  <(-1)^dN> = -0.046360132204   V = -0.046360132204
+   alpha=1.1 thermal          T=0.70:  <(-1)^dN> = +0.019341576949   V = +0.019341576949
+   alpha=1.1 random diagonal        :  <(-1)^dN> = +0.023803466109   V = +0.023803466109
+   max |difference| = 7.6e-17   CHECK
+   Same object as a free-field Wilson loop <0|D(alpha)|0>: abelian W(C) is the
+   visibility of a charge interferometer around C (KNOWN). For Gaussian noise
+   -ln V = 2 Var(N_exch): the phase variance counts exchanged quanta.
+
+==============================================================================
+U1  Free-fermion chain: one equation for horizon-type entanglement
+==============================================================================
+(a) Modular Hamiltonian of a block of L sites vs 2 pi x local boost (CHM/BW, KNOWN).
+    Prediction (continuum): h_(x-1,x) = -(2 pi/v_F) x (L-x)/L,  2 pi/v_F = pi
+    L= 20: nearest-neighbour only 3.3557;  all hoppings, centre 3.14061, x=L/4 3.37936   (pi = 3.14159);  |longer|/|nn| = 0.026
+    L= 40: nearest-neighbour only 3.3703;  all hoppings, centre 3.14135, x=L/4 3.25304   (pi = 3.14159);  |longer|/|nn| = 0.029
+    L= 60: nearest-neighbour only 3.3742;  all hoppings, centre 3.14148, x=L/4 3.21435   (pi = 3.14159);  |longer|/|nn| = 0.030
+    -> the 2 pi of the Euclidean horizon (P4) is the slope of the modular Hamiltonian:
+       K = 2 pi x (boost-weighted energy). Lattice CHECK (finite-L corrections shrink).
+
+(b) First law and positivity on a ring (N = 202, half filling, closed shell), L = 40
+    excitation: rotate a filled wavepacket at the cut into an empty one by angle eps
+    eps= 0.200:  dS = +9.857445e-02   d<K> = +2.169692e-01   dS/d<K> = 0.45432   D = 1.184e-01   D/eps^2 = 2.95987
+    eps= 0.100:  dS = +4.464602e-02   d<K> = +7.427971e-02   dS/d<K> = 0.60105   D = 2.963e-02   D/eps^2 = 2.96337
+    eps= 0.050:  dS = +2.093903e-02   d<K> = +2.833770e-02   dS/d<K> = 0.73891   D = 7.399e-03   D/eps^2 = 2.95947
+    eps= 0.025:  dS = +1.009847e-02   d<K> = +1.194645e-02   dS/d<K> = 0.84531   D = 1.848e-03   D/eps^2 = 2.95677
+    first-order slopes (fit a eps + b eps^2):  dS: 0.39708   d<K>: 0.39745   ratio 0.99907
+    -> first order: dS = d<K> (first law); difference D >= 0 is pure eps^2. CHECK
+
+(c) Local Clausius form  dS = sum_x dE(x)/T_loc(x),  T_loc(x) = v_F/(2 pi beta(x))  (ring CHM)
+    eps=0.025: sum dE/T_loc = +1.194272e-02   exact d<K> = +1.194645e-02   ratio = 0.99969
+    -> the Unruh-weighted local energy IS the modular energy (lattice, 0.0x %),
+       and by (b) its first-order change equals dS.
+    -> STUR's E = T S is the integrated, global-T caricature of THIS local law;
+       the temperature is the local Unruh-type T_loc(x), not one global T.
+
+==============================================================================
+U3  Entanglement entropy of a free scalar across a sphere (Srednicki 1993)
+==============================================================================
+   R/a =  10.5:  S =   33.3216   S/(R/a)^2 = 0.3022
+   R/a =  14.5:  S =   63.6906   S/(R/a)^2 = 0.3029
+   R/a =  18.5:  S =  103.7999   S/(R/a)^2 = 0.3033
+   R/a =  22.5:  S =  153.6470   S/(R/a)^2 = 0.3035
+   R/a =  26.5:  S =  213.2291   S/(R/a)^2 = 0.3036
+   extrapolated S = 0.3046 (R/a)^2  (LIT Srednicki 0.30)  ->  S = 0.02424 A/a^2
+   Bekenstein-Hawking A/4lP^2 needs a = lP x sqrt(4 x 0.0242) = 0.311 lP,
+   or N_species = 1/(4 x 0.0242) = 10.3 scalars at cutoff a = lP
+   KNOWN (Susskind-Uglum 1994): this cutoff dependence is exactly the renormalisation
+   of 1/G; the horizon 'tension' runs as  1/(4G(mu)) = 1/(4G_0) + c N_species mu^2.
+   -> the known sigma(mu) for the HORIZON sector, with c computed above.
+
+==============================================================================
+U4  The QCD sector: where the candidate does not (yet) close
+==============================================================================
+Abelian/free fields: W(C) = <D(alpha)> -> perimeter law (P2), fits U2 exactly.
+Confining SU(3): area law is non-perturbative; no closed-form K is known for a
+region pierced by a flux tube. The precise target that would complete U1+U2:
+   compute the modular Hamiltonian / entanglement of a region cut by a confining
+   string and check whether sigma_QCD appears as its boost-weighted energy,
+   i.e. whether  dS_string = 2 pi sum beta(x) dE_string(x)  with E_string = sigma L.
+Testable toy (next step): 2+1D compact U(1) or Z2 lattice gauge theory - confining,
+small enough for exact diagonalisation.
