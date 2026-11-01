@@ -1,7 +1,7 @@
 {
   "name": "STUR Physics Lab",
   "short_name": "STUR Lab",
-  "description": "STUR-ROLL: Lambda-CDM plus one derived sector predicting the CMB birefringence angle |beta| = alpha/2 = 0.2091 deg with no fitted parameter",
+  "description": "STUR Resistance Equation: one loop phase Phi_R sets visibility, entropy, energy and the holographic ceiling; one labelled postulate",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#0a0a0f",
@@ -67,6 +67,18 @@
     }
   ],
   "shortcuts": [
+    {
+      "name": "STUR-ROLL archive",
+      "short_name": "STUR-ROLL",
+      "description": "Archived STUR-ROLL site (cosmic birefringence)",
+      "url": "archive/stur-roll/index.html",
+      "icons": [
+        {
+          "src": "assets/icons/icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
     {
       "name": "STUR v7 archive",
       "short_name": "Archive",
