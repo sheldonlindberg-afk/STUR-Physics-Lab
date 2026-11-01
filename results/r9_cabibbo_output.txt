@@ -1,0 +1,47 @@
+==============================================================================
+ 9A  Can a STUR-ROLL discrete symmetry fix |V_us|?
+==============================================================================
+   Bulk quarks: a chiral zero mode needs the same orbifold parity at both
+   branes. The brane angle vartheta = pi multiplies the y = 0 parity by
+   (-1)^q, so a field with odd q has NO zero mode (its lightest mode sits
+   at the KK scale). Chiral quarks therefore need q even: vartheta = pi acts
+   as +1 on every quark. The orbifold parity of each zero mode is fixed by
+   its chirality, the same for every generation. The Z6 centre is part of
+   the gauge group and acts identically on all generations.
+   -> bulk quarks: every generation carries identical discrete charges;
+      all 9 Yukawa entries are allowed in each sector.
+
+   Brane-localised quarks escape the zero-mode condition, so vartheta's
+   (-1)^q can differ between generations. Enumerating every assignment
+   q in {0,1} for Q_i, u_i, d_i and the Higgs (2^10 = 1024):
+     some quark massless (excluded):      912
+     |V_us| varies with the couplings:    104
+     |V_us| fixed by the symmetry:        8  -> values [np.float64(0.0)]
+   -> abelian Z2 charges either leave |V_us| continuous or pin it to an
+      endpoint (only 0 occurs here); they never fix a value in between.
+      9A: NO-GO (as preregistered).
+
+==============================================================================
+ 9B  |V_us| from wavefunction overlaps (anarchic bulk quarks)
+==============================================================================
+   Y_d = F_Q y_d F_d, Y_u = F_Q y_u F_u; D-9B3: F_Q = F_d per generation.
+   y anarchic: |y| log-uniform in [1/3, 3], uniform phases. Profiles solved
+   so the six masses come out exactly. 20000 samples.
+   converged: 19265 / 20000  (failed: 735)
+   reference: sqrt(m_d/m_s) = 0.2240
+   |V_us|: median 0.3145;  68% [0.1486, 0.6218];  95% [0.0581, 0.9033];  observed 0.225
+   |V_cb|: median 0.1608;  68% [0.0732, 0.3451];  95% [0.0276, 0.6544];  observed 0.041
+   |V_ub|: median 0.0436;  68% [0.0184, 0.0955];  95% [0.0065, 0.1827];  observed 0.0037
+   observed |V_us| sits at the 32th percentile; 68% half-width = 75% of the median (sharp pass needs <= 30%)
+   -> 9B: CONSISTENT, NOT PREDICTIVE
+   Secondary (reported, not used for the verdict, as preregistered):
+     observed |V_cb| = 0.041 sits at the 5.5th percentile
+     observed |V_ub| = 0.0037 sits at the 0.8th percentile
+   -> the symmetric profiles that make |V_us| testable predict |V_cb| ~ sqrt(m_s/m_b)
+      and |V_ub| ~ sqrt(m_d/m_b), both too large: |V_ub| falls outside the 95% band.
+
+   Without D-9B3 (F_d free): F_Q1/F_Q2 is unconstrained by the masses,
+   F_Q1/F_Q2 = 0.015: median |V_us| = 0.022
+   F_Q1/F_Q2 = 0.050: median |V_us| = 0.074
+   F_Q1/F_Q2 = 0.150: median |V_us| = 0.215
+   -> |V_us| tracks the free ratio F_Q1/F_Q2: no prediction without D-9B3.

@@ -99,3 +99,75 @@ def test_brane_angle_twist_is_exactly_pi_and_flips_theta():
     th = np.linspace(-np.pi, np.pi, 721)
     V = -1.0 * np.cos(th + np.pi) - 0.3 * np.cos(th)
     assert abs(th[V.argmax()]) < 1e-3
+
+
+def _r7():
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src", "checks"))
+    import r7_audit as A
+    return A
+
+
+def test_opposite_domain_rotation_is_alpha_minus_own():
+    # R7 A2: an opposite domain rotates reionization light by alpha - beta_own,
+    # so a half-and-half shell gives beta_reio = alpha/2 and Delta beta ~ 0
+    A = _r7()
+    alpha = np.degrees(F.ALPHA)
+    assert abs(A.delta_beta(0.05, 0.2, 1.0) - (alpha - 0.05 - 0.2)) < 1e-12
+    assert abs(A.delta_beta(0.0, alpha / 2, 0.5)) < 1e-12
+    # the round-7 window edge: m = 2e-31 eV, f = 0.085
+    assert abs(A.delta_beta(0.0679, 0.2144, 0.085) + 0.1225) < 1e-4
+
+
+def test_nucleation_window_is_f_over_197():
+    # R7 A3: H_nuc < 2 pi f (0.03 pi)/sqrt(60) and H_nuc > 15.06/L
+    A = _r7()
+    ratio = A.H_C / (2 * np.pi * A.SEED_3PCT / np.sqrt(A.N_EFOLDS))
+    assert 196 < ratio < 198
+
+
+def test_late_potential_has_no_preferred_roll_direction():
+    # R7 A1: V = m^2 f^2 (1 + cos theta) is even, so the sign of beta follows
+    # theta_i in our region; beta_rec still has one sign on our whole sky
+    th = np.linspace(-np.pi, np.pi, 2001)
+    V = 1 + np.cos(th)
+    assert np.max(np.abs(V - V[::-1])) < 1e-12
+    th_i = 1e-3 * np.random.default_rng(0).standard_normal(1000)
+    b = F.ALPHA / (2 * np.pi) * (np.pi - th_i)
+    assert np.all(b > 0)
+
+
+def _checks(name):
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src", "checks"))
+    return __import__(name)
+
+
+def test_r8a_reheating_and_mass_window():
+    # R8 8A: scalaron -> Higgs reheating and the largest M_phi in the R^2 corner
+    A = _checks("r8a_superheavy_dm")
+    t_rh = A.t_rh_gev(2.970e13)
+    assert 4.0e9 < t_rh < 5.2e9
+    m_max, f_min = A.stur_window_r2(1.466e13)
+    assert 2.1e14 < m_max < 2.4e14 and 1.8e14 < f_min < 2.0e14
+
+
+def test_r8b_dark_energy_fails_weak_gravity():
+    # R8 8B: a thawing holonomy with w0 < -0.7 has f2 ~ 0.08 M_Pl, so the WGC
+    # needs a charged state with M_c L <= sqrt(2)/f2 ~ 17, but V2 = rho_DE needs
+    # every charged state at M_c L >= 134 (1/L = 875 GeV)
+    D = _checks("r8b_holonomy_de")
+    f2 = D.solve_f2(13.0, 2.8e-4)
+    a, th, w, ode, _ = D.evolve(13.0, f2, 2.8e-4)
+    w0, wa = D.cpl(a, w)
+    assert abs(ode - D.ODE) < 1e-6 and w0 < -0.7
+    need = -np.log(D.RHO_DE_EV4 * (1 / 875e9) ** 4)
+    assert np.sqrt(2) / f2 < need / 5
+
+
+def test_r9_symmetric_overlaps_reproduce_masses():
+    # R9 9B: profiles solved from anarchic Yukawas reproduce all six quark masses,
+    # and the leading estimate |V_us| ~ sqrt(m_d/m_s) is the Gatto-Sartori-Tonin value
+    C = _checks("r9_cabibbo")
+    rng = np.random.default_rng(11)
+    sol, res = C.solve_profiles(C.anarchic(rng), C.anarchic(rng))
+    assert res < 1e-6
+    assert abs(np.sqrt(C.M_DN[0] / C.M_DN[1]) - 0.224) < 0.002

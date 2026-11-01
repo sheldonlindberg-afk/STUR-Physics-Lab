@@ -3,1012 +3,379 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#4ade80">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="STUR">
-<title>STUR-ROLL — Birefringence from Integers</title>
-<meta name="description" content="STUR-ROLL adds one derived sector to Lambda-CDM and predicts the CMB birefringence angle from integers: |β| = kα/2, k = 1 → 0.2091°, with no fitted parameter. Falsifiable by LiteBIRD.">
-<meta property="og:title" content="STUR-ROLL — Birefringence from Integers">
-<meta property="og:description" content="Lambda-CDM plus one derived sector: |β| = α/2 = 0.2091°, no fitted parameter. Gravity is TEGR = GR. Decided by LiteBIRD.">
+<meta name="theme-color" content="#07090d" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f8fa" media="(prefers-color-scheme: light)">
+<title>STUR-ROLL</title>
+<meta name="description" content="STUR-ROLL predicts the rotation of the CMB's polarization from whole numbers: |β| = α/2 = 0.2091°, with no fitted parameter. Run the roll in your browser, see the evidence, and see how LiteBIRD will test it.">
+<meta property="og:title" content="STUR-ROLL: cosmic birefringence from integers">
+<meta property="og:description" content="|β| = α/2 = 0.2091° with no fitted parameter. Interactive simulator, evidence, kill criteria, and what it would mean for physics.">
 <meta property="og:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/4.13.png">
 <meta property="og:url" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="STUR-ROLL — Birefringence from Integers">
-<meta name="twitter:description" content="|β| = α/2 = 0.2091° from integers, no fitted parameter. Lambda-CDM plus one derived sector; decided by LiteBIRD.">
-<meta name="twitter:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/4.13.png">
-
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="assets/4.13.png">
 <link rel="icon" type="image/png" href="assets/4.13.png">
-
+<link rel="apple-touch-icon" href="assets/4.13.png">
+<link rel="stylesheet" href="assets/css/stur-roll-app.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "STUR Physics Lab",
-  "url": "https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/",
-  "description": "STUR-ROLL: Lambda-CDM plus one derived sector predicting the CMB birefringence angle |β| = α/2 = 0.2091° with no fitted parameter.",
+  "@type": "ScholarlyArticle",
+  "name": "STUR-ROLL: cosmic birefringence from integers",
   "author": {"@type": "Person", "name": "Sheldon Lindberg"},
-  "about": {
-    "@type": "ScholarlyArticle",
-    "name": "STUR-ROLL: derived birefringence chain and precision scoreboard",
-    "abstract": "A Z2-odd U(1) holonomy θ on an S¹/Z2 orbifold couples to photons through a 5D Chern–Simons term at integer level k. A one-loop Wilson-line potential turns θ = 0 into a hilltop as the universe cools, θ rolls to π, and the CMB polarization rotates by β = kα/2. For the minimal level k = 1, β = 0.2091°, within 1.2σ of the joint ACT DR6 + Planck measurement, with no continuous parameter fitted. Gravity is TEGR (equivalent to GR) and the sector carries ≲1e-7 of the dark-matter energy, so all other observables are those of Lambda-CDM.",
-    "author": {"@type": "Person", "name": "Sheldon Lindberg"},
-    "keywords": ["cosmic birefringence", "Chern-Simons", "orbifold", "Wilson line", "axion-like particle", "LiteBIRD", "TEGR"],
-    "isAccessibleForFree": true
-  }
+  "url": "https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/",
+  "abstract": "A Z2-odd U(1) holonomy θ on an S¹/Z2 orbifold couples to photons through a 5D Chern–Simons term at integer level k. A smooth birth fixes θ = 0; an orbifold-odd brane angle twists to exactly π and turns θ = 0 into a hilltop of the late-time Wilson-line potential. θ rolls by π between recombination and reionization, rotating CMB polarization by β = kα/2 = 0.2091° for k = 1, with no continuous parameter fitted. Gravity is GR (TEGR); the sector holds < 2e-5 of the matter energy. LiteBIRD tests the amplitude and the tomographic difference Δβ ∈ [−0.21°, −0.12°].",
+  "keywords": ["cosmic birefringence", "Chern-Simons", "orbifold", "Wilson line", "axion", "LiteBIRD", "CMB polarization"],
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "isAccessibleForFree": true
 }
 </script>
-
-<link rel="stylesheet" href="assets/css/stur-core.css">
-<link rel="stylesheet" href="assets/css/stur-glass.css">
-<link rel="stylesheet" href="assets/css/stur-icons.css">
-
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --safe-top: env(safe-area-inset-top);
-  --safe-bottom: env(safe-area-inset-bottom);
-  --safe-left: env(safe-area-inset-left);
-  --safe-right: env(safe-area-inset-right);
-  --accent: #4ade80;
-  --accent-glow: rgba(74, 222, 128, 0.4);
-  --accent-dim: rgba(74, 222, 128, 0.15);
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --text-tertiary: rgba(255, 255, 255, 0.4);
-  --border: rgba(255, 255, 255, 0.1);
-}
-
-html { height: 100%; }
-
-body {
-  min-height: 100%;
-  min-height: 100dvh;
-  background: #000;
-  color: var(--text-primary);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-tap-highlight-color: transparent;
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-#app {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: calc(var(--header-height, 72px) + var(--safe-top, 0px) + 48px) 24px calc(48px + var(--safe-bottom));
-  animation: fadeIn 0.6s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ── Hero ─────────────────────────────────────────────────────────────────── */
-.hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin-bottom: 56px;
-  width: 100%;
-  max-width: 560px;
-}
-
-.hero-icon {
-  width: 100px;
-  height: 100px;
-  border-radius: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 24px;
-  background: #000;
-  box-shadow: 0 20px 50px rgba(74, 222, 128, 0.2);
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 10px;
-}
-
-.hero-icon img { width: 100%; height: 100%; object-fit: contain; }
-
-.hero-title {
-  font-size: 36px;
-  font-weight: 700;
-  margin-bottom: 12px;
-  letter-spacing: -0.02em;
-}
-
-.hero-tagline {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--accent);
-  margin-bottom: 16px;
-  letter-spacing: -0.01em;
-}
-
-.hero-premise {
-  color: var(--text-secondary);
-  font-size: 15px;
-  max-width: 480px;
-  margin-bottom: 16px;
-  line-height: 1.65;
-  padding-left: 14px;
-  border-left: 2px solid rgba(74, 222, 128, 0.25);
-}
-
-.hero-description {
-  color: var(--text-secondary);
-  font-size: 15px;
-  max-width: 480px;
-  margin-bottom: 32px;
-  line-height: 1.65;
-}
-
-/* ── Buttons ──────────────────────────────────────────────────────────────── */
-.actions {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 100%;
-  max-width: 320px;
-}
-
-.btn-primary {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 16px 24px;
-  background: linear-gradient(135deg, rgba(74, 222, 128, 0.9) 0%, rgba(34, 197, 94, 0.9) 100%);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 16px;
-  color: #000;
-  font-size: 16px;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 20px var(--accent-glow), 0 0 40px rgba(74, 222, 128, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  position: relative;
-  overflow: hidden;
-  animation: btnPulse 3s ease-in-out infinite;
-}
-
-@keyframes btnPulse {
-  0%, 100% { box-shadow: 0 4px 20px var(--accent-glow), 0 0 40px rgba(74, 222, 128, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
-  50%       { box-shadow: 0 4px 25px var(--accent-glow), 0 0 60px rgba(74, 222, 128, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
-}
-
-.btn-primary::before {
-  content: '';
-  position: absolute;
-  top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  transition: left 0.5s ease;
-  pointer-events: none;
-}
-
-.btn-primary:hover::before { left: 100%; }
-
-.btn-primary:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 8px 35px var(--accent-glow), 0 0 50px rgba(74, 222, 128, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.35);
-  animation: none;
-}
-
-.btn-primary:active { transform: translateY(-1px) scale(0.98); transition: all 0.1s ease; }
-
-.btn-primary svg { width: 20px; height: 20px; transition: transform 0.3s ease; }
-.btn-primary:hover svg { transform: translateX(4px); }
-
-.btn-secondary {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 14px 24px;
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  color: var(--text-secondary);
-  font-size: 15px;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.15);
-  color: var(--text-primary);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-.btn-secondary:active { transform: translateY(0) scale(0.98); transition: all 0.1s ease; }
-
-/* ── Shared section wrapper ───────────────────────────────────────────────── */
-.section {
-  width: 100%;
-  max-width: 800px;
-  padding: 0 24px;
-  margin-bottom: 52px;
-}
-
-.section-label {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--text-tertiary);
-  margin-bottom: 16px;
-}
-
-/* ── Three Axioms ─────────────────────────────────────────────────────────── */
-.axioms-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 12px;
-}
-
-.axiom-card {
-  padding: 20px 16px;
-  background: rgba(74, 222, 128, 0.04);
-  border: 1px solid rgba(74, 222, 128, 0.15);
-  border-radius: 16px;
-}
-
-.axiom-number {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--accent);
-  margin-bottom: 6px;
-}
-
-.axiom-name {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 8px;
-}
-
-.axiom-desc {
-  font-size: 12px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-}
-
-.axiom-result {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 14px 16px;
-  background: rgba(74, 222, 128, 0.05);
-  border: 1px solid rgba(74, 222, 128, 0.2);
-  border-radius: 12px;
-  font-size: 14px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-}
-
-.axiom-result-arrow {
-  font-size: 18px;
-  color: var(--accent);
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-
-.axiom-result strong { color: var(--accent); font-weight: 600; }
-
-/* ── Derivation Chain ─────────────────────────────────────────────────────── */
-.chain {
-  display: flex;
-  flex-direction: column;
-}
-
-.chain-step {
-  display: grid;
-  grid-template-columns: 100px 1fr;
-  gap: 16px;
-}
-
-.chain-node {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 10px;
-}
-
-.chain-dot {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 2px solid rgba(74, 222, 128, 0.4);
-  background: rgba(74, 222, 128, 0.07);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--accent);
-  flex-shrink: 0;
-  font-family: 'SF Mono', 'Menlo', monospace;
-}
-
-.chain-step:not(:last-child) .chain-node::after {
-  content: '';
-  width: 2px;
-  flex: 1;
-  min-height: 28px;
-  background: linear-gradient(to bottom, rgba(74, 222, 128, 0.25), rgba(74, 222, 128, 0.05));
-  margin-top: 8px;
-  margin-bottom: 0;
-}
-
-.chain-content {
-  padding: 10px 0 24px;
-}
-
-.chain-title {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 5px;
-}
-
-.chain-detail {
-  font-size: 12px;
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
-
-/* ── Scorecard ────────────────────────────────────────────────────────────── */
-.scorecard-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 24px;
-}
-
-.scorecard-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 16px 12px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 14px;
-}
-
-.scorecard-number {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--accent);
-  line-height: 1.2;
-}
-
-.scorecard-label-text {
-  font-size: 11px;
-  color: var(--text-secondary);
-  text-align: center;
-  margin-top: 4px;
-  line-height: 1.3;
-}
-
-.predictions-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px 16px;
-}
-
-.predictions-list li {
-  font-size: 13px;
-  color: var(--text-secondary);
-  padding: 6px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-}
-
-.predictions-list li::before {
-  content: '';
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  flex-shrink: 0;
-  position: relative;
-  top: -1px;
-}
-
-.pred-value {
-  color: var(--accent);
-  font-family: 'SF Mono', 'Menlo', monospace;
-  font-size: 12px;
-}
-
-.scorecard-grid + .section-label { margin-top: 28px; }
-.verdict-callout + .section-label { margin-top: 28px; }
-
-/* ── Kill Criteria ────────────────────────────────────────────────────────── */
-.kill-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-bottom: 12px;
-}
-
-.kill-card {
-  padding: 16px;
-  background: rgba(245, 158, 11, 0.04);
-  border: 1px solid rgba(245, 158, 11, 0.2);
-  border-radius: 14px;
-  position: relative;
-}
-
-.kill-name {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 5px;
-  padding-right: 60px;
-}
-
-.kill-desc {
-  font-size: 12px;
-  color: var(--text-secondary);
-  line-height: 1.45;
-}
-
-.kill-badge {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: #f59e0b;
-  background: rgba(245, 158, 11, 0.12);
-  border: 1px solid rgba(245, 158, 11, 0.3);
-  border-radius: 4px;
-  padding: 2px 6px;
-  white-space: nowrap;
-}
-
-.verdict-callout {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 14px 16px;
-  background: rgba(245, 158, 11, 0.05);
-  border: 1px solid rgba(245, 158, 11, 0.25);
-  border-radius: 12px;
-}
-
-.verdict-arrow {
-  font-size: 18px;
-  color: #f59e0b;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-
-.verdict-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: #f59e0b;
-  margin-bottom: 4px;
-}
-
-.verdict-body {
-  font-size: 12px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-}
-
-/* ── Navigate grid ────────────────────────────────────────────────────────── */
-.explore-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-
-.explore-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 12px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 16px;
-  text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.explore-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
-.explore-card:hover::before { opacity: 1; }
-
-.explore-card:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.12);
-  transform: translateY(-4px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-}
-
-.explore-card:active { transform: translateY(-2px) scale(0.98); transition: all 0.1s ease; }
-
-.explore-icon { width: 28px; height: 28px; margin-bottom: 8px; transition: transform 0.3s ease; }
-.explore-card:hover .explore-icon { transform: scale(1.15); }
-.explore-icon svg { width: 100%; height: 100%; transition: filter 0.3s ease; }
-.explore-card:hover .explore-icon svg { filter: drop-shadow(0 0 8px currentColor); }
-
-.explore-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; }
-.explore-desc  { font-size: 11px; color: var(--text-tertiary); text-align: center; }
-
-/* ── Footer ───────────────────────────────────────────────────────────────── */
-.footer {
-  padding: 24px;
-  padding-bottom: calc(24px + var(--safe-bottom));
-  text-align: center;
-  border-top: 1px solid var(--border);
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.footer-links {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px 20px;
-  margin-bottom: 16px;
-}
-
-.footer-link {
-  color: var(--text-tertiary);
-  text-decoration: none;
-  font-size: 13px;
-  transition: all 0.2s ease;
-  padding: 4px 8px;
-  border-radius: 6px;
-}
-
-.footer-link:hover { color: var(--text-secondary); background: rgba(255, 255, 255, 0.05); }
-
-.footer-meta { font-size: 12px; color: var(--text-tertiary); }
-.footer-meta a { color: var(--text-tertiary); text-decoration: none; }
-.footer-meta a:hover { color: var(--text-secondary); }
-
-.version-badge {
-  display: inline-block;
-  padding: 2px 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
-  font-family: 'SF Mono', 'Menlo', monospace;
-  font-size: 11px;
-  margin-left: 8px;
-}
-
-/* ── Responsive ───────────────────────────────────────────────────────────── */
-@media (max-width: 600px) {
-  .axioms-grid       { grid-template-columns: 1fr; }
-  .kill-grid         { grid-template-columns: 1fr; }
-  .scorecard-grid    { grid-template-columns: repeat(2, 1fr); }
-  .predictions-list  { grid-template-columns: 1fr; }
-  .explore-grid      { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 480px) {
-  .hero-title    { font-size: 28px; }
-  .hero-tagline  { font-size: 16px; }
-  .actions       { max-width: 280px; }
-  .chain-step    { grid-template-columns: 64px 1fr; gap: 8px; }
-}
-
-@media (max-width: 768px) {
-  .main { padding-top: calc(var(--header-height, 72px) + var(--safe-top, 0px) + 24px); }
-}
-
-@media (min-width: 768px) {
-  .hero-icon  { width: 120px; height: 120px; border-radius: 28px; }
-  .hero-title { font-size: 42px; }
-}
-</style>
-<style>
-/* ── STUR-ROLL additions (same palette as the original theme) ─────────────── */
-.formula {
-  font-family: 'SF Mono', 'Menlo', monospace;
-  font-size: 22px;
-  color: var(--accent);
-  padding: 14px 20px;
-  margin-bottom: 20px;
-  background: rgba(74, 222, 128, 0.05);
-  border: 1px solid rgba(74, 222, 128, 0.2);
-  border-radius: 14px;
-  text-shadow: 0 0 24px var(--accent-glow);
-}
-.formula small { display: block; font-size: 12px; color: var(--text-secondary); text-shadow: none; margin-top: 4px; }
-.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 12px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.06); }
-.score-table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 520px; }
-.score-table th, .score-table td { padding: 10px 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.04); color: var(--text-secondary); }
-.score-table th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-tertiary); font-weight: 600; background: rgba(255, 255, 255, 0.02); }
-.score-table td:first-child, .score-table th:first-child { text-align: left; }
-.score-table .hl { background: rgba(74, 222, 128, 0.05); color: var(--text-primary); }
-.score-table .num { font-family: 'SF Mono', 'Menlo', monospace; }
-.pass { color: var(--accent); font-weight: 600; }
-.fail { color: #f87171; font-weight: 600; }
-.nd   { color: var(--text-tertiary); }
-.table-note { font-size: 12px; color: var(--text-tertiary); line-height: 1.5; margin-bottom: 8px; }
-.archive-note {
-  font-size: 13px; color: var(--text-secondary); line-height: 1.6;
-  padding: 14px 16px; border-radius: 12px;
-  background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06);
-}
-.archive-note a { color: var(--accent); text-decoration: none; }
-.archive-note a:hover { text-decoration: underline; }
-.scorecard-number.small { font-size: 22px; }
-</style>
 </head>
-<body>
+<body data-mode="plain">
+<a class="skip" href="#main">Skip to content</a>
 
-<header class="glass-header">
-  <nav class="glass-nav">
-    <a href="index.html" class="glass-nav-brand">
-      <img src="assets/4.13.png" alt="STUR" class="nav-logo">
-      STUR Lab
-    </a>
-    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-      <span class="stur-icon icon-menu lg"></span>
-    </button>
-    <div class="glass-nav-links">
-      <a href="index.html" class="glass-nav-link active">Home</a>
-      <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/HYPOTHESIS.md" class="glass-nav-link">Hypothesis</a>
-      <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/PREDICTIONS.md" class="glass-nav-link">Predictions</a>
-      <a href="archive/v7-toe/index.html" class="glass-nav-link">Archive</a>
+<header class="top">
+  <div class="top-inner">
+    <a class="brand" href="#top"><img src="assets/4.13.png" alt="" width="30" height="30">STUR-ROLL</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#idea">Idea</a>
+      <a href="#simulator">Simulator</a>
+      <a href="#pattern">Pattern</a>
+      <a href="#evidence">Evidence</a>
+      <a href="#tests">Tests</a>
+      <a href="#meaning">If true</a>
+      <a href="#learn">Learn</a>
+      <a href="#reproduce">Reproduce</a>
+    </nav>
+    <div class="mode" role="group" aria-label="Reading level">
+      <button type="button" data-set-mode="plain" aria-pressed="true">Plain</button>
+      <button type="button" data-set-mode="tech" aria-pressed="false">Technical</button>
     </div>
-  </nav>
+  </div>
 </header>
 
-<div id="app">
-  <main class="main">
-
-    <!-- Hero -->
-    <div class="hero">
-      <div class="hero-icon">
-        <img src="assets/4.13.png" alt="STUR" width="120" height="120">
+<main id="main">
+  <!-- Hero -->
+  <div class="hero" id="top">
+    <div>
+      <p class="eyebrow">A falsifiable prediction for the LiteBIRD era</p>
+      <h1>Light from the Big Bang, turned by <span>half of &alpha;</span></h1>
+      <div class="formula">|&beta;| = k&alpha;/2 = 0.2091&deg;<small>k = 1 &middot; no fitted parameter &middot; computed 0.2080&deg;</small></div>
+      <p class="lede plain">The oldest light in the universe arrives slightly polarized, and recent measurements suggest its polarization has been turned by about a fifth of a degree. STUR-ROLL says that turn is not an accident: a hidden field rolled exactly halfway around a circle, and half a turn rotates light by exactly half of nature's fine-structure constant.</p>
+      <p class="lede tech">STUR-ROLL adds one sector to &Lambda;CDM: the holonomy &theta; of a Z&#8322;-odd U(1) on an S&sup1;/Z&#8322; orbifold, coupled to photons by a 5D Chern&ndash;Simons term at integer level k. A smooth birth fixes &theta; = 0; a parity-fixed brane twist makes it a hilltop; the roll &theta;: 0 &rarr; &pi; after recombination gives &beta; = k&alpha;/2 exactly.</p>
+      <div class="cta">
+        <a class="btn primary" href="#simulator">Run the roll &rarr;</a>
+        <a class="btn" href="#meaning">What it would mean</a>
       </div>
-      <h1 class="hero-title">STUR-ROLL</h1>
-      <p class="hero-tagline">Cosmic Birefringence from Integers</p>
-      <div class="formula">|&beta;| = k&alpha;/2 = 0.2091&deg;<small>k = 1 (minimal level) &middot; no continuous parameter fitted</small></div>
-      <p class="hero-premise">The universe is born with its fifth dimension closing off smoothly, which fixes a holonomy &theta; at exactly 0. A brane on the orbifold then twists by exactly &pi;, turning that birth point into a hilltop. Much later &theta; rolls to &pi;, and through a Chern&ndash;Simons term at integer level k it rotates the polarization of the CMB by exactly k&alpha;/2.</p>
-      <p class="hero-description">The scope is narrow on purpose: Lambda-CDM plus one derived sector, not a replacement. Gravity is GR. Dark matter and dark energy are those of Lambda-CDM. The new sector is visible essentially only in &beta;, and LiteBIRD decides.</p>
-      <div class="actions">
-        <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/HYPOTHESIS.md" class="btn-primary">
-          Read the Hypothesis
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </a>
-        <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/src/stur_final.py" class="btn-secondary">
-          Run the Code
-        </a>
+      <div class="stats">
+        <div class="stat"><b>0.2091&deg;</b><span>predicted angle, from whole numbers</span></div>
+        <div class="stat"><b>0</b><span>adjustable knobs fitted to data</span></div>
+        <div class="stat"><b>&minus;1.2&sigma;</b><span>from the latest combined measurement</span></div>
       </div>
     </div>
+    <div>
+      <svg class="dial" id="dial" viewBox="-110 -110 220 220" role="img" aria-label="Animation: the hidden field rolls half a turn while the polarization of light rotates by 0.21 degrees, shown magnified."></svg>
+      <p class="dial-caption plain">Left dial: the hidden field rolls half a turn. Right bar: light's polarization turns with it (magnified 200&times;).</p>
+      <p class="dial-caption tech">&theta;: 0 &rarr; &pi; (outer marker); polarization angle &beta; = (&alpha;/2&pi;)&theta;, shown &times;200.</p>
+    </div>
+  </div>
 
-    <!-- Scope -->
-    <section class="section">
-      <div class="section-label">The Claim and Its Scope</div>
-      <div class="axioms-grid">
-        <div class="axiom-card">
-          <div class="axiom-number">Scope</div>
-          <div class="axiom-name">&Lambda;CDM + one sector</div>
-          <div class="axiom-desc">STUR-ROLL adds a single derived sector to Lambda-CDM. The alternatives are GR+QFT (&beta; = 0) and a generic axion (&beta; fitted).</div>
-        </div>
-        <div class="axiom-card">
-          <div class="axiom-number">Gravity</div>
-          <div class="axiom-name">TEGR = GR</div>
-          <div class="axiom-desc">STUR-ROLL agrees with every GR precision test by construction. This is consistency, not a new success.</div>
-        </div>
-        <div class="axiom-card">
-          <div class="axiom-number">Cosmology</div>
-          <div class="axiom-name">&le; 2&times;10<sup>&minus;5</sup> of matter</div>
-          <div class="axiom-desc">In the allowed window, CMB spectra, BAO, supernovae, lensing and BBN are exactly those of Lambda-CDM. The only thing that changes is &beta;.</div>
-        </div>
+  <!-- Idea -->
+  <section id="idea" aria-labelledby="idea-h">
+    <p class="eyebrow">The idea</p>
+    <h2 id="idea-h">Four steps from the birth of the universe to a number</h2>
+    <p class="lede plain">Each step is either an assumption, stated openly, or a result that follows from the one before. Switch to <em>Technical</em> at the top for the equations.</p>
+    <p class="lede tech">Axiom A1 plus the derived chain of <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/HYPOTHESIS.md">HYPOTHESIS.md</a>. Each step cites the refinement round that established it.</p>
+    <div class="grid g2 steps">
+      <div class="card step">
+        <span class="tag warn">assumption</span>
+        <h3>A smooth beginning</h3>
+        <p class="plain">The universe starts out smoothly, with a tiny fifth dimension that closes off neatly. Nothing can be twisted at that moment, so the hidden field starts at exactly zero, at the bottom of a valley.</p>
+        <p class="tech small">Axiom A1: nucleation through a geometry in which S&sup1;/Z&#8322; caps off. Holonomies around the contractible cycle are trivial, &theta; = &vartheta; = 0. With bosons periodic and fermions antiperiodic, Z(&theta;) = Tr e<sup>&minus;LH</sup>e<sup>i&theta;Q</sup> has positive weights, so E(&theta;) &ge; E(0) to all orders (R5).</p>
       </div>
-      <div class="axiom-result">
-        <span class="axiom-result-arrow">&rarr;</span>
-        <span>The global model comparison therefore <strong>reduces to the &beta; likelihood</strong>. Axiom: a smooth birth. Discrete choices: k = 1, the minimum of the brane potential at &pi;, and the brane charges. No continuous parameter is tuned.</span>
+      <div class="card step">
+        <span class="tag ok">derived</span>
+        <h3>The coupling comes in whole numbers</h3>
+        <p class="plain">How strongly the field turns light can only come in whole-number steps, like electric charge. The smallest step means: half a turn of the field rotates light by exactly half the fine-structure constant, &alpha;/2.</p>
+        <p class="tech small">The 5D Chern&ndash;Simons term gives L = (k&alpha;/4&pi;)&theta;FF&#771; with k = &kappa; + &frac12; sgn M &isin; &Zopf; (parity anomaly, Z&#8326; structure). The fermion tower gives &Phi;(&pi;) &minus; &Phi;(0) = (&pi;/2) sgn M exactly, so &Delta;&theta; = &pi; yields &beta; = k&alpha;/2 (R1.1, R2.2, R3.2).</p>
       </div>
-      <div class="verdict-callout" style="margin-top:12px">
-        <span class="verdict-arrow">&rarr;</span>
-        <div>
-          <div class="verdict-title">Prior Art</div>
-          <div class="verdict-body">The same observable, &beta; &asymp; 0.21&thinsp;c<sub>&gamma;</sub>&deg; from a hilltop axion whose walls form after recombination, was predicted by Lee, Murai, Takahashi &amp; Yin, <em>Phys. Rev. D</em> 112, 043538 (2025). STUR-ROLL derives both of their assumptions from 5D: c<sub>&gamma;</sub> = 1 from level quantisation, and the hilltop start from a smooth birth plus a brane twist fixed at &pi; by symmetry. <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/REFINEMENT_R6.md" style="color:#4ade80">Refinement round 6 &rarr;</a></div>
-        </div>
+      <div class="card step">
+        <span class="tag ok">derived</span>
+        <h3>A switch flips, and the valley becomes a hilltop</h3>
+        <p class="plain">A switch on the edge of the extra dimension flips. Symmetry forces it to land exactly fully flipped. That changes the landscape: the field's valley floor becomes a hilltop, and the field is still sitting on top.</p>
+        <p class="tech small">An orbifold-odd brane angle &vartheta; (coupling &vartheta;J<sup>y</sup>) has parity-fixed extrema at exactly 0 and &pi;; it rolls to &pi; for m<sub>&vartheta;</sub> &gtrsim; 2H. With q<sub>&psi;</sub> odd it is a fermion-parity defect: &psi; becomes periodic and V = m&sup2;f&sup2;(1 + cos &theta;) (R6).</p>
       </div>
-    </section>
+      <div class="card step">
+        <span class="tag ok">derived</span>
+        <h3>The roll, after the light left</h3>
+        <p class="plain">Between about 3 million and 1.4 billion years after the Big Bang, the field rolls off the hilltop and settles half a turn away. The CMB light had already left, so it arrives with the full turn: 0.2091&deg;.</p>
+        <p class="tech small">For 2&times;10<sup>&minus;31</sup> &lesssim; m &lesssim; 10<sup>&minus;28</sup> eV the roll occurs at z &asymp; 4&ndash;300, after recombination: &beta;<sub>rec</sub> = 0.2081&ndash;0.2094&deg; for s&#8320; = 10<sup>&minus;4</sup>&ndash;10<sup>&minus;3</sup> (R2.1, R6).</p>
+      </div>
+    </div>
+    <details>
+      <summary>Inputs, conditions, and what STUR-ROLL does not claim</summary>
+      <div class="body">
+        <p><strong>Discrete choices (no dials):</strong> level k = 1; the brane potential's minimum at &pi;; brane charges q<sub>&psi;</sub> odd, q<sub>&phi;</sub> even; the Z&#8326; global structure.</p>
+        <p><strong>Conditions:</strong> 2&times;10<sup>&minus;31</sup> &lesssim; m &lesssim; 10<sup>&minus;28</sup> eV; 0.9 TeV &lesssim; 1/L &lt; f/197; H<sub>nuc</sub> &lesssim; 0.076 f; m<sub>&vartheta;</sub> &gtrsim; 2H<sub>nuc</sub>.</p>
+        <p><strong>Not claimed:</strong> STUR-ROLL is not a theory of everything. Gravity is general relativity; dark matter and dark energy remain those of &Lambda;CDM. The new sector holds less than 2&times;10<sup>&minus;5</sup> of the matter energy.</p>
+        <p><strong>Prior art:</strong> the same observable, &beta; &asymp; 0.21c<sub>&gamma;</sub>&deg;, comes from the hilltop axion of Lee, Murai, Takahashi &amp; Yin (<em>PRD</em> 112, 043538, 2025). STUR-ROLL derives both of their assumptions (c<sub>&gamma;</sub> = 1 and the hilltop start) from a 5D theory.</p>
+      </div>
+    </details>
+  </section>
 
-    <!-- Derivation Chain -->
-    <section class="section">
-      <div class="section-label">Derivation Chain</div>
-      <div class="chain">
-        <div class="chain-step">
-          <div class="chain-node"><div class="chain-dot">A1</div></div>
-          <div class="chain-content">
-            <div class="chain-title">Axiom: Smooth Birth</div>
-            <div class="chain-detail">the universe nucleates with the fifth dimension (S<sup>1</sup>/Z<sub>2</sub>) closing off smoothly &nbsp;&middot;&nbsp; holonomies trivial: <strong>&theta; = 0 exactly</strong></div>
-          </div>
+  <!-- Simulator -->
+  <section id="simulator" aria-labelledby="sim-h">
+    <p class="eyebrow">Interactive</p>
+    <h2 id="sim-h">Run the roll yourself</h2>
+    <p class="lede plain">This solves the field's equation of motion in your browser, through the real expansion history of the universe. Change the field's mass or its starting nudge and watch where it lands. The curve shows how much light emitted at each moment is rotated when it reaches us.</p>
+    <p class="lede tech">Adaptive Dormand&ndash;Prince integration of &theta;&Prime; + (3 + d ln H/dN)&theta;&prime; = (m/H)&sup2; sin &theta; in N = ln a, from z = 10<sup>4</sup> to 0, Planck 2018 &Lambda;CDM. A port of <code>stur_final.roll</code>, checked against it to 4 decimals in CI. Plotted: &beta;(z<sub>emit</sub>) = (k&alpha;/2&pi;)[&theta;(0) &minus; &theta;(z)].</p>
+    <div class="sim">
+      <div class="card">
+        <div class="ctrl">
+          <label for="m-in"><span><span class="plain">Field mass</span><span class="tech">&theta; mass m</span></span><output id="m-out">1.0e-30 eV</output></label>
+          <input id="m-in" type="range" min="-32" max="-29" step="0.05" value="-30" aria-describedby="m-hint">
+          <p class="hint" id="m-hint"><span class="plain">Heavier fields roll earlier. Too light and the roll has not finished today; too heavy and it starts before the CMB is released.</span><span class="tech">Derived-amplitude window: 2&times;10<sup>&minus;31</sup>&ndash;10<sup>&minus;28</sup> eV (slider stops at 10<sup>&minus;29</sup> for speed).</span></p>
         </div>
-        <div class="chain-step">
-          <div class="chain-node"><div class="chain-dot">1</div></div>
-          <div class="chain-content">
-            <div class="chain-title">Positivity Theorem</div>
-            <div class="chain-detail">with the boundary conditions of a smooth birth, the vacuum energy obeys E(&theta;) &ge; E(0) to all orders &nbsp;&middot;&nbsp; at birth &theta; = 0 is a minimum</div>
-          </div>
+        <div class="ctrl">
+          <label for="s-in"><span><span class="plain">Starting nudge</span><span class="tech">initial offset &theta;<sub>i</sub></span></span><output id="s-out">1e-4 rad</output></label>
+          <input id="s-in" type="range" min="-8" max="-0.5" step="0.1" value="-4" aria-describedby="s-hint">
+          <p class="hint" id="s-hint"><span class="plain">How far the field has drifted off the exact hilltop. Smaller nudges roll later.</span><span class="tech">&theta;<sub>i</sub> &asymp; s&#8320;&radic;N from the inflationary random walk (R2.4); &beta; within 3% needs &theta;<sub>i</sub> &lesssim; 0.094.</span></p>
         </div>
-        <div class="chain-step">
-          <div class="chain-node"><div class="chain-dot">k</div></div>
-          <div class="chain-content">
-            <div class="chain-title">Integer Level</div>
-            <div class="chain-detail">5D Chern&ndash;Simons term, parity anomaly, Z<sub>6</sub> &nbsp;&middot;&nbsp; L = (k&alpha;/4&pi;)&theta;FF&#771;, k &isin; &#8484;, k = 1 minimal &nbsp;&middot;&nbsp; a roll by &pi; gives <strong>&beta; = k&alpha;/2 exactly</strong></div>
+        <div class="ctrl">
+          <label><span><span class="plain">Coupling step k</span><span class="tech">Chern&ndash;Simons level k</span></span><output id="k-out">k = 1</output></label>
+          <div class="seg" role="group" aria-label="Level k">
+            <button type="button" data-k="1" aria-pressed="true">1</button>
+            <button type="button" data-k="2" aria-pressed="false">2</button>
+            <button type="button" data-k="3" aria-pressed="false">3</button>
           </div>
+          <p class="hint"><span class="plain">STUR-ROLL picks the smallest step, k = 1. Try 2 or 3 to see the data reject them.</span><span class="tech">k = 2, 3 give 0.418&deg; and 0.627&deg;: +2.5&sigma; and +6.1&sigma; from the joint measurement.</span></p>
         </div>
-        <div class="chain-step">
-          <div class="chain-node"><div class="chain-dot">&pi;</div></div>
-          <div class="chain-content">
-            <div class="chain-title">The Orbifold Twists</div>
-            <div class="chain-detail">a brane angle &vartheta; rolls 0 &rarr; &pi;; the orbifold parity fixes it at <strong>exactly &pi;</strong> &nbsp;&middot;&nbsp; a fermion-parity defect: the bulk fermion becomes periodic</div>
-          </div>
-        </div>
-        <div class="chain-step">
-          <div class="chain-node"><div class="chain-dot">&#8963;</div></div>
-          <div class="chain-content">
-            <div class="chain-title">Birth Point Becomes the Hilltop</div>
-            <div class="chain-detail">late-time Wilson-line potential V = m&sup2;f&sup2;(1 + cos &theta;) &nbsp;&middot;&nbsp; &theta; still sits at its birth value</div>
-          </div>
-        </div>
-        <div class="chain-step">
-          <div class="chain-node"><div class="chain-dot">&beta;</div></div>
-          <div class="chain-content">
-            <div class="chain-title">The Roll</div>
-            <div class="chain-detail">&theta;: 0 &rarr; &pi; at z &asymp; 4&ndash;300 &nbsp;&middot;&nbsp; <strong>&beta; = &alpha;/2</strong>, computed 0.2081&ndash;0.2094&deg; &nbsp;&middot;&nbsp; tomography &Delta;&beta; &isin; [&minus;0.21&deg;, &minus;0.15&deg;]</div>
+        <div class="ctrl">
+          <label>Presets</label>
+          <div class="presets">
+            <button type="button" data-preset="-30,-4">Fiducial</button>
+            <button type="button" data-preset="-31,-4">Late roll</button>
+            <button type="button" data-preset="-29,-4">Early roll</button>
+            <button type="button" data-preset="-32,-2">Too light</button>
+            <button type="button" data-preset="-30,-0.6">Big nudge</button>
           </div>
         </div>
       </div>
-    </section>
+      <div class="card">
+        <div class="chart-wrap">
+          <canvas class="chart" id="roll-chart" aria-label="Rotation of light versus the redshift at which it was emitted" role="img"></canvas>
+          <span class="busy" id="busy">computing&hellip;</span>
+        </div>
+        <div class="readout" aria-live="polite">
+          <div><b id="r-beta">&mdash;</b><span>CMB rotation &beta;<sub>rec</sub></span></div>
+          <div><b id="r-ratio">&mdash;</b><span>&beta; &divide; (k&alpha;/2)</span></div>
+          <div><b id="r-lands">&mdash;</b><span><span class="plain">where it lands (&divide;&pi;)</span><span class="tech">&theta;(0)/&pi;</span></span></div>
+          <div><b id="r-zroll">&mdash;</b><span><span class="plain">roll happened at redshift</span><span class="tech">z at &theta; = &pi;/2</span></span></div>
+        </div>
+        <div class="verdict" id="verdict"></div>
+        <div class="pulls" id="pulls" aria-label="Distance from each measurement in standard deviations"></div>
+        <p class="small muted" style="margin-top:6px">Shaded: within 1&sigma;; dashed: within 2&sigma;. Scale &plusmn;4&sigma;.</p>
+      </div>
+    </div>
+  </section>
 
-    <!-- Scoreboard -->
-    <section class="section">
-      <div class="section-label">Scoreboard</div>
-      <div class="scorecard-grid">
-        <div class="scorecard-card">
-          <span class="scorecard-number small">0.2091&deg;</span>
-          <span class="scorecard-label-text">Prediction &alpha;/2<br>computed 0.2080&deg;</span>
+  <!-- Pattern -->
+  <section id="pattern" aria-labelledby="pat-h">
+    <p class="eyebrow">The fingerprint</p>
+    <h2 id="pat-h">Big patches of sky are rotated less</h2>
+    <div class="grid g2">
+      <div>
+        <p class="plain">The CMB's polarization was imprinted twice: when the CMB was released (fine patterns on the sky) and again when the first stars lit up the universe (sky-wide patterns). By the second time, the field had already rolled, so the sky-wide patterns are rotated less. That is why the angle depends on the size of the pattern.</p>
+        <p class="tech">&beta;(&ell;) from the CLASS E-mode source (seed 10<sup>&minus;4</sup>, z<sub>re</sub> = 7.69). For &ell; &lesssim; 10 the reionization source dominates and &beta; is reduced; recombination modes take over from &ell; ~ 6 and &beta; reaches the &alpha;/2 plateau by &ell; ~ 20. A generic ALP with free mass and amplitude can mimic each curve to rms 0.0003&ndash;0.007&deg;, so the shape alone does not discriminate; the amplitude and the tomographic difference do.</p>
+        <div class="callout info"><b>Calibration-free check</b><span class="plain">An instrument that is slightly mis-rotated turns every pattern by the same amount, so the <em>difference</em> between big and small patterns ignores that error. STUR-ROLL says the difference can never exceed 0.209&deg;.</span><span class="tech">A miscalibration adds a constant to every &ell;, so &beta;(2) &minus; &beta;(30) is immune; STUR-ROLL bounds |&beta;(low &ell;) &minus; &beta;(high &ell;)| &le; &alpha;/2.</span></div>
+      </div>
+      <div class="card">
+        <canvas class="chart" id="ell-chart" role="img" aria-label="Rotation angle versus multipole for three masses"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tomography -->
+  <section id="tomo" aria-labelledby="tomo-h">
+    <p class="eyebrow">The sharpest test</p>
+    <h2 id="tomo-h">Early light versus late light</h2>
+    <p class="lede plain">LiteBIRD can measure the rotation of "late" light (from when the first stars formed) separately from "early" light (from the CMB release). STUR-ROLL says the late light is turned much less, so the difference is large and negative. An instrument error, or a field that rolled only recently, would make the difference zero.</p>
+    <p class="lede tech">&Delta;&beta; = &beta;<sub>reio</sub> &minus; &beta;<sub>rec</sub>. A fraction f of the reionization shell may lie in an opposite-sign domain, where photons are rotated by &alpha; &minus; &beta;<sub>own</sub>; then &beta;<sub>reio</sub> = (1 &minus; f)&beta;<sub>own</sub> + f(&alpha; &minus; &beta;<sub>own</sub>) (R7 A2). LiteBIRD: &sigma;(&Delta;&beta;) &asymp; 0.05&deg;.</p>
+    <div class="grid g2">
+      <div class="card">
+        <div class="ctrl">
+          <label for="t-m"><span><span class="plain">Field mass</span><span class="tech">m</span></span><output id="t-m-out"></output></label>
+          <input id="t-m" type="range" min="0" max="6" step="1" value="3">
         </div>
-        <div class="scorecard-card">
-          <span class="scorecard-number">0</span>
-          <span class="scorecard-label-text">Continuous parameters fitted<br>(k = 1 is a discrete choice)</span>
+        <div class="ctrl">
+          <label for="t-f"><span><span class="plain">Share of sky that rolled the other way</span><span class="tech">opposite-domain fraction f</span></span><output id="t-f-out"></output></label>
+          <input id="t-f" type="range" min="0" max="0.5" step="0.005" value="0">
+          <p class="hint"><span class="plain">Usually small (below 0.085 after a long inflation). Near 0.5 the difference vanishes, but the sky would then look patchy, which can be checked.</span><span class="tech">P<sub>opp</sub> &le; 0.085 for N<sub>extra</sub> &ge; 60 (R2.4). f &asymp; 0.5 implies a large-scale anisotropic rotation, rms &asymp; 0.2&deg;.</span></p>
         </div>
-        <div class="scorecard-card">
-          <span class="scorecard-number">8/0</span>
-          <span class="scorecard-label-text">Gates passed / failed<br>at 2&sigma;</span>
-        </div>
-        <div class="scorecard-card">
-          <span class="scorecard-number small">&minus;1.21&sigma;</span>
-          <span class="scorecard-label-text">Pull vs joint ACT DR6 + Planck<br>0.277 &plusmn; 0.057&deg;</span>
-        </div>
-        <div class="scorecard-card">
-          <span class="scorecard-number small">8&ndash;22</span>
-          <span class="scorecard-label-text">&Delta;AIC vs GR+QFT<br>(this is the &beta; measurement itself)</span>
-        </div>
-        <div class="scorecard-card">
-          <span class="scorecard-number small">&lt; 2</span>
-          <span class="scorecard-label-text">&Delta;AIC vs a generic axion<br>not yet significant</span>
+        <div class="readout" style="grid-template-columns: repeat(2, minmax(0, 1fr))">
+          <div><b id="t-db">&mdash;</b><span>&Delta;&beta;</span></div>
+          <div><b id="t-sig">&mdash;</b><span>LiteBIRD significance from zero</span></div>
         </div>
       </div>
+      <div class="card">
+        <svg class="numline" id="numline" viewBox="0 0 600 120" role="img" aria-label="Number line of the tomographic difference"></svg>
+        <p class="small muted">Green band: STUR-ROLL's window for the expected sky ([&minus;0.209&deg;, &minus;0.122&deg;]). Grey band: &plusmn;1&sigma; around zero at LiteBIRD, where a miscalibration would land.</p>
+      </div>
+    </div>
+  </section>
 
-      <div class="section-label">Precision Gates</div>
-      <div class="table-wrap">
-        <table class="score-table">
-          <thead><tr><th>Test</th><th>GR+QFT</th><th>+ axion</th><th>STUR-ROLL</th><th>STUR-2025</th></tr></thead>
+  <!-- Evidence -->
+  <section id="evidence" aria-labelledby="ev-h">
+    <p class="eyebrow">Evidence so far</p>
+    <h2 id="ev-h">How it scores against the data</h2>
+    <p class="lede plain">The scoring rules were fixed before the numbers were computed. Measurements of the angle sit within 1.5 standard deviations of the prediction. A model with a free knob can match any single measurement, so the real advantage here is that nothing was tuned.</p>
+    <p class="lede tech">Rules fixed in advance: pass/fail gates at 2&sigma;, then AIC = &chi;&sup2; + 2&times;(fitted parameters) on &beta;. Gravity gates pass by construction (TEGR = GR). &Delta;AIC versus a generic axion is &lt; 2: not yet significant.</p>
+    <div class="grid g2">
+      <div class="table">
+        <table>
+          <thead><tr><th>Measurement of &beta;</th><th>Value</th><th>Pull</th></tr></thead>
           <tbody>
-            <tr><td>Cassini &gamma; (2003)</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="hl pass">PASS</td><td class="nd">n.d.</td></tr>
-            <tr><td>Mercury perihelion</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="hl pass">PASS</td><td class="nd">n.d.</td></tr>
-            <tr><td>GW speed (GW170817)</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="hl pass">PASS</td><td class="nd">n.d.</td></tr>
-            <tr><td>Inverse-square law (Eot-Wash)</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="hl pass">PASS</td><td class="fail">FAIL</td></tr>
-            <tr><td>Equivalence principle (MICROSCOPE)</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="hl pass">PASS</td><td class="nd">n.d.</td></tr>
-            <tr><td>Electron g&minus;2</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="hl pass">PASS</td><td class="nd">n.d.</td></tr>
-            <tr><td>Hawking T, area law, M&sup3; lifetime</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="hl pass">PASS</td><td class="nd">n.d.</td></tr>
-            <tr><td>CMB birefringence |&beta;| (2&sigma;)</td><td class="fail">FAIL</td><td class="pass">PASS</td><td class="hl pass">PASS</td><td class="nd">n.d.</td></tr>
-            <tr><td>Flat rotation without dark matter</td><td class="nd">n.d.</td><td class="nd">n.d.</td><td class="hl nd">n.d.</td><td class="fail">FAIL</td></tr>
-            <tr><td><strong>Passed / failed</strong></td><td class="num">7/1</td><td class="num">8/0</td><td class="hl num">8/0</td><td class="num">0/2</td></tr>
+            <tr><td>ACT DR6 + Planck (2026)</td><td class="num">0.277 &plusmn; 0.057&deg;</td><td class="num">&minus;1.21&sigma;</td></tr>
+            <tr><td>ACT DR6</td><td class="num">0.215 &plusmn; 0.074&deg;</td><td class="num">&minus;0.09&sigma;</td></tr>
+            <tr><td>WMAP + Planck PR4</td><td class="num">0.342 &plusmn; 0.0925&deg;</td><td class="num">&minus;1.45&sigma;</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="table-note">n.d. = not predicted. The axion passes the &beta; gate because its &beta; is fitted to the data. STUR-2025 (the tanh(r/1&nbsp;mm) gravity law) is superseded and is shown only for the record.</p>
-
-      <div class="section-label">AIC on &beta; &mdash; &chi;&sup2; + 2 &times; fitted parameters (lower is better)</div>
-      <div class="table-wrap">
-        <table class="score-table">
-          <thead><tr><th>Dataset</th><th>Measured</th><th>GR+QFT</th><th>Axion</th><th>STUR-ROLL</th></tr></thead>
+      <div class="table">
+        <table>
+          <thead><tr><th>AIC (lower is better)</th><th>No new physics</th><th>Fitted axion</th><th>STUR-ROLL</th></tr></thead>
           <tbody>
-            <tr><td>Joint 2026 (ACT DR6 + Planck)</td><td class="num">0.277 &plusmn; 0.057&deg;</td><td class="num">23.62</td><td class="num">2.00</td><td class="hl num pass">1.46</td></tr>
-            <tr><td>ACT DR6</td><td class="num">0.215 &plusmn; 0.074&deg;</td><td class="num">8.44</td><td class="num">2.00</td><td class="hl num pass">0.01</td></tr>
-            <tr><td>WMAP + Planck PR4</td><td class="num">0.342 &plusmn; 0.0925&deg;</td><td class="num">13.67</td><td class="num pass">2.00</td><td class="hl num">2.10</td></tr>
+            <tr><td>ACT DR6 + Planck</td><td class="num">23.62</td><td class="num">2.00</td><td class="num hl pass">1.46</td></tr>
+            <tr><td>ACT DR6</td><td class="num">8.44</td><td class="num">2.00</td><td class="num hl pass">0.01</td></tr>
+            <tr><td>WMAP + Planck PR4</td><td class="num">13.67</td><td class="num pass">2.00</td><td class="num hl">2.10</td></tr>
           </tbody>
         </table>
       </div>
-    </section>
-
-    <!-- Falsification -->
-    <section class="section">
-      <div class="section-label">Falsification Criteria</div>
-      <div class="kill-grid">
-        <div class="kill-card">
-          <div class="kill-name">|&beta;| moves away from 0.209&deg;</div>
-          <div class="kill-badge">LiteBIRD</div>
-          <div class="kill-desc">The amplitude is fixed at &alpha;/2 with no free parameter to absorb a different value.</div>
+    </div>
+    <details>
+      <summary>Precision gates: gravity and particle physics</summary>
+      <div class="body">
+        <div class="table">
+          <table>
+            <thead><tr><th>Test</th><th>GR+QFT</th><th>+ axion</th><th>STUR-ROLL</th><th>STUR-2025 (retired)</th></tr></thead>
+            <tbody>
+              <tr><td>Cassini &gamma;, Mercury perihelion, GW speed</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="nd">n.d.</td></tr>
+              <tr><td>Inverse-square law (E&ouml;t-Wash)</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="fail">FAIL</td></tr>
+              <tr><td>Equivalence principle, electron g&minus;2, black-hole thermodynamics</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="nd">n.d.</td></tr>
+              <tr><td>CMB birefringence |&beta;| (2&sigma;)</td><td class="fail">FAIL</td><td class="pass">PASS (fitted)</td><td class="pass">PASS (predicted)</td><td class="nd">n.d.</td></tr>
+              <tr><td>Flat rotation curves without dark matter</td><td class="nd">n.d.</td><td class="nd">n.d.</td><td class="nd">n.d.</td><td class="fail">FAIL</td></tr>
+            </tbody>
+          </table>
         </div>
-        <div class="kill-card">
-          <div class="kill-name">|&beta;(low &ell;) &minus; &beta;(high &ell;)| &gt; 0.209&deg;</div>
-          <div class="kill-badge">LiteBIRD</div>
-          <div class="kill-desc">This test is calibration-free: a miscalibration rotates every &ell; equally. STUR-ROLL bounds the difference by &alpha;/2; a generic ALP does not.</div>
-        </div>
-        <div class="kill-card">
-          <div class="kill-name">&Delta;&beta; outside [&minus;0.21&deg;, &minus;0.15&deg;]</div>
-          <div class="kill-badge">LiteBIRD</div>
-          <div class="kill-desc">Reionization minus recombination angle: about 3&ndash;4&sigma; from zero at LiteBIRD. |&beta;| &asymp; 0.2&deg; together with &Delta;&beta; &asymp; 0 would falsify STUR-ROLL.</div>
-        </div>
-        <div class="kill-card">
-          <div class="kill-name">Anisotropic birefringence at high &ell;</div>
-          <div class="kill-desc">&theta; = 0 at every emission point, so the recombination-era rotation is exactly uniform. An ALP with initial-angle fluctuations would rotate patchily.</div>
-        </div>
+        <p class="small" style="margin-top:10px">Gravity gates pass by construction because the gravitational sector is general relativity. They show consistency, not a new success.</p>
       </div>
-      <div class="verdict-callout">
-        <span class="verdict-arrow">&rarr;</span>
-        <div>
-          <div class="verdict-title">Caveat: Angle Calibration</div>
-          <div class="verdict-body">The &beta; measurements rely on calibrating the polarization angle against Galactic foregrounds, and the ACT+Planck authors call the signal a hint whose systematics need to be understood. If it is a systematic, the test disappears. The <em>shape</em> of &beta;(&ell;) on its own does not discriminate either: a generic ALP with a free mass and a free amplitude reproduces it to an rms of 0.0003&ndash;0.007&deg;. What can discriminate is the amplitude, the calibration-free bound, and uniformity at high &ell;.</div>
-        </div>
+    </details>
+    <div class="callout"><b>The caveat that matters most</b>
+      <span class="plain">Measuring this angle requires knowing exactly which way the telescope's detectors point, and that calibration leans on our own galaxy's dust. The teams call the signal a hint. If it turns out to be a calibration error, the test disappears.</span>
+      <span class="tech">&beta; measurements calibrate the polarization angle on Galactic foregrounds; the ACT and ACT+Planck authors describe the signal as a hint with systematics to be understood. Tomography (&Delta;&beta;) is the calibration-independent check.</span>
+    </div>
+  </section>
+
+  <!-- Tests -->
+  <section id="tests" aria-labelledby="tests-h">
+    <p class="eyebrow">How to kill it</p>
+    <h2 id="tests-h">Results that would rule STUR-ROLL out</h2>
+    <p class="lede plain">A prediction with no knobs is easy to break. Any one of these LiteBIRD outcomes would falsify it.</p>
+    <p class="lede tech">Falsification criteria (corrected in round 7). Any one suffices.</p>
+    <div class="grid g3">
+      <div class="card kill"><p class="sub">|&beta;| &ne; 0.209&deg;</p><h3>The angle comes out different</h3><p class="small muted">The amplitude is fixed at &alpha;/2. There is nothing to adjust.</p></div>
+      <div class="card kill"><p class="sub">&Delta;&beta; &asymp; 0, sky uniform</p><h3>Early and late light turned alike</h3><p class="small muted"><span class="plain">If the angle is confirmed but early and late light are turned equally, and the sky is not patchy, the roll did not happen when STUR-ROLL says.</span><span class="tech">|&beta;| &asymp; 0.2&deg; with &Delta;&beta; &asymp; 0 and no large-scale anisotropic reionization rotation (R7 A2).</span></p></div>
+      <div class="card kill"><p class="sub">|&beta;(low &ell;) &minus; &beta;(high &ell;)| &gt; 0.209&deg;</p><h3>Too big a gap between scales</h3><p class="small muted">Immune to calibration errors. STUR-ROLL caps this gap at &alpha;/2.</p></div>
+      <div class="card kill"><p class="sub">no single m fits &beta;(&ell;)</p><h3>The pattern does not fit</h3><p class="small muted">One field mass must explain the angle at every scale.</p></div>
+      <div class="card kill"><p class="sub">anisotropy at high &ell;</p><h3>The CMB is rotated patchily</h3><p class="small muted">Recombination-era light must be turned by the same amount in every direction.</p></div>
+      <div class="card kill"><p class="sub">fractional charge found</p><h3>A free particle with &frac13; charge</h3><p class="small muted">Whole-number k needs the Z&#8326; structure, which forbids such particles.</p></div>
+    </div>
+  </section>
+
+  <!-- Meaning -->
+  <section id="meaning" aria-labelledby="mean-h">
+    <p class="eyebrow">If it is right</p>
+    <h2 id="mean-h">What it would mean for physics</h2>
+    <p class="lede plain">Confirmation would not overturn Einstein or the standard model of cosmology. It would add something new and strange on top of them, and it would tell us something about how the universe began.</p>
+    <p class="lede tech">Separating what the data alone would establish from what is specific to STUR-ROLL. Full discussion: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/IMPLICATIONS.md">IMPLICATIONS.md</a>.</p>
+    <h3 style="margin:8px 0 12px">What the measurement alone would establish</h3>
+    <div class="grid g4">
+      <div class="card soft"><span class="tag ok">new physics</span><h3>A new field</h3><p class="small muted plain">Something invisible fills the universe and affects only light's polarization.</p><p class="small muted tech">A pseudoscalar with &phi;FF&#771; coupling that evolved between z &asymp; 1100 and 8: beyond the Standard Model.</p></div>
+      <div class="card soft"><span class="tag ok">record</span><h3>The lightest thing ever seen</h3><p class="small muted plain">Its particles would be 10<sup>33</sup>&ndash;10<sup>36</sup> times lighter than an electron.</p><p class="small muted tech">m &asymp; 2&times;10<sup>&minus;31</sup>&ndash;10<sup>&minus;28</sup> eV; Compton wavelength 0.4&ndash;200 Mpc.</p></div>
+      <div class="card soft"><span class="tag ok">symmetry</span><h3>A handed universe</h3><p class="small muted plain">The cosmos would turn light one way rather than the other: it would tell left from right.</p><p class="small muted tech">Cosmological parity violation in the photon sector.</p></div>
+      <div class="card soft"><span class="tag ok">topology</span><h3>Whole numbers in the sky</h3><p class="small muted plain">The angle would equal a whole number times a constant of nature, as electric charge does.</p><p class="small muted tech">A quantised anomaly coefficient read off the CMB: a cosmological Millikan experiment.</p></div>
+    </div>
+    <h3 style="margin:28px 0 12px">What STUR-ROLL would add, if it is the explanation</h3>
+    <div class="grid g4">
+      <div class="card soft"><span class="tag">geometry</span><h3>A fifth dimension</h3><p class="small muted plain">Space would have one more direction, curled up smaller than 10<sup>&minus;18</sup> m.</p><p class="small muted tech">&theta; is an orbifold holonomy; 0.9 TeV &lesssim; 1/L &lt; f/197, circumference &lesssim; 2&times;10<sup>&minus;19</sup> m.</p></div>
+      <div class="card soft"><span class="tag">quantum rules</span><h3>An anomaly at work</h3><p class="small muted plain">A subtle quantum rule (a half unit made whole by matter) would be operating in nature.</p><p class="small muted tech">k = &kappa; + &frac12; sgn M: the 5D parity anomaly fixes the integer.</p></div>
+      <div class="card soft"><span class="tag">known forces</span><h3>The shape of the Standard Model</h3><p class="small muted plain">No free particle could carry a third of an electron's charge.</p><p class="small muted tech">Gauge group [SU(3)&times;SU(2)&times;U(1)]/Z&#8326;.</p></div>
+      <div class="card soft"><span class="tag">origins</span><h3>A smooth birth</h3><p class="small muted plain">Today's angle would carry a fingerprint of how the universe began.</p><p class="small muted tech">Supports axiom A1: nucleation with the fifth dimension capping off, in the spirit of no-boundary proposals.</p></div>
+    </div>
+    <div class="callout info"><b>What would not change</b>General relativity, the standard &Lambda;CDM picture of the cosmos, and everyday particle physics all stay as they are. Dark matter and dark energy would still need their own explanations. And because the same observations also fit the hilltop-axion model of Lee et al., confirmation would support STUR-ROLL's mechanism indirectly, not prove it.</div>
+  </section>
+
+  <!-- Learn -->
+  <section id="learn" aria-labelledby="learn-h">
+    <p class="eyebrow">Learn</p>
+    <h2 id="learn-h">Key terms and common questions</h2>
+    <div class="grid g2">
+      <dl class="gloss card">
+        <dt>Fine-structure constant &alpha;</dt><dd>The strength of the interaction between light and charge, about 1/137. Half of it, in degrees, is 0.2091&deg;.</dd>
+        <dt>Birefringence &beta;</dt><dd>A rotation of light's polarization on its way to us.</dd>
+        <dt>CMB</dt><dd>The afterglow of the Big Bang, released about 380,000 years after it.</dd>
+        <dt>Multipole &ell;</dt><dd>Angular size on the sky: small &ell; is a big patch, large &ell; a fine pattern.</dd>
+        <dt>Redshift z</dt><dd>How much the universe has expanded since light set out. Larger z means earlier.</dd>
+        <dt>Axion</dt><dd>A hypothetical, extremely light particle that can rotate polarization.</dd>
+        <dt>Orbifold, brane</dt><dd>A tiny extra dimension folded in half; its edges, where ordinary particles live.</dd>
+        <dt>LiteBIRD</dt><dd>A Japanese-led satellite that will map the CMB's polarization across the whole sky.</dd>
+      </dl>
+      <div>
+        <details open><summary>Is this a "theory of everything"?</summary><div class="body">No. It adds one small sector to the standard model of cosmology to explain one measurement. Gravity, dark matter and dark energy are left as they are.</div></details>
+        <details><summary>Is the 0.2091&deg; really not fitted?</summary><div class="body">It is &alpha;/2, fixed by a whole number (k = 1) and by the field rolling exactly half a turn. The field's mass only affects whether the roll finishes in time, which shifts the result by under 3% across the allowed range.</div></details>
+        <details><summary>Has anyone predicted this number before?</summary><div class="body">Yes: Lee, Murai, Takahashi &amp; Yin (2025) obtained &beta; &asymp; 0.21&deg; from a hilltop axion. STUR-ROLL's contribution is to derive their two assumptions from a five-dimensional theory.</div></details>
+        <details><summary>What if the measurement is a calibration error?</summary><div class="body">Then the test disappears: STUR-ROLL would be unmotivated but not refuted. The tomographic test (early versus late light) is immune to that error.</div></details>
+        <details><summary>Does it explain dark matter or dark energy?</summary><div class="body">No, and this was tested rather than assumed. Before calculating, the two most natural extensions were written down with pass/fail rules. A heavy particle made at the end of inflation either leaves a forbidden pattern in the CMB or is made in amounts at least a hundred times too small. A second hidden field can mimic dark energy but breaks a widely trusted rule of quantum gravity. Both are documented in <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/REFINEMENT_R8.md">round 8</a>.</div></details>
+        <details><summary>Does it predict particle masses or mixing angles?</summary><div class="body">No. The old "theory of everything" version claimed to, but every claim failed a check fixed in advance (<a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/ARCHIVE_TRIAGE.md">archive triage</a>). Round 9 tested whether STUR-ROLL itself can predict the Cabibbo angle: its symmetries cannot tell the quark generations apart, and letting quarks spread into the extra dimension gives an angle anywhere from about 0.15 to 0.6. Consistent with the measured 0.225, but not a prediction (<a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/REFINEMENT_R9.md">round 9</a>).</div></details>
+        <details><summary>How was the math checked?</summary><div class="body">Nine refinement rounds, each with its own script. Round 7 recomputed every number, including an independent re-integration, and corrected seven statements. Round 8 tested dark-matter and dark-energy extensions against preregistered criteria. This page's simulator is tested against the Python code in CI.</div></details>
+        <p class="small" style="margin-top:12px"><a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/GLOSSARY.md">Full glossary &rarr;</a></p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Explore -->
-    <section class="section">
-      <div class="section-label">Explore</div>
-      <div class="explore-grid">
-        <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/HYPOTHESIS.md" class="explore-card">
-          <span class="explore-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/>
-              <line x1="12" y1="22" x2="12" y2="15.5"/>
-              <polyline points="22 8.5 12 15.5 2 8.5"/>
-            </svg>
-          </span>
-          <span class="explore-title">Hypothesis</span>
-          <span class="explore-desc">Chain, status, audit A&ndash;E</span>
-        </a>
-        <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/PREDICTIONS.md" class="explore-card">
-          <span class="explore-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <circle cx="12" cy="12" r="6"/>
-              <circle cx="12" cy="12" r="2"/>
-            </svg>
-          </span>
-          <span class="explore-title">Predictions</span>
-          <span class="explore-desc">&beta;(&ell;) and kill criteria</span>
-        </a>
-        <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/STATUS.md" class="explore-card">
-          <span class="explore-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 11l3 3L22 4"/>
-              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
-            </svg>
-          </span>
-          <span class="explore-title">Status</span>
-          <span class="explore-desc">Derived, assumed, open</span>
-        </a>
-        <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/src/stur_final.py" class="explore-card">
-          <span class="explore-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="16 18 22 12 16 6"/>
-              <polyline points="8 6 2 12 8 18"/>
-            </svg>
-          </span>
-          <span class="explore-title">Source Code</span>
-          <span class="explore-desc">stur_final.py &middot; ~30 s</span>
-        </a>
-        <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/stur_final_output.txt" class="explore-card">
-          <span class="explore-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" y1="20" x2="18" y2="10"/>
-              <line x1="12" y1="20" x2="12" y2="4"/>
-              <line x1="6" y1="20" x2="6" y2="14"/>
-            </svg>
-          </span>
-          <span class="explore-title">Results</span>
-          <span class="explore-desc">Full captured output</span>
-        </a>
-        <a href="archive/v7-toe/index.html" class="explore-card">
-          <span class="explore-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="21 8 21 21 3 21 3 8"/>
-              <rect x="1" y="3" width="22" height="5"/>
-              <line x1="10" y1="12" x2="14" y2="12"/>
-            </svg>
-          </span>
-          <span class="explore-title">v7 Archive</span>
-          <span class="explore-desc">Superseded ToE site</span>
-        </a>
+  <!-- Reproduce -->
+  <section id="reproduce" aria-labelledby="rep-h">
+    <p class="eyebrow">Open science</p>
+    <h2 id="rep-h">Reproduce every number</h2>
+    <div class="grid g2">
+      <div>
+        <pre><code>git clone https://github.com/sheldonlindberg-afk/STUR-Physics-Lab
+cd STUR-Physics-Lab
+pip install -r requirements.txt
+python src/stur_final.py        # ~30 s
+python src/checks/r7_audit.py   # ~1.5 min, the math audit
+python -m pytest tests/ -q      # regression + physics tests
+node --test tests/web_sim.test.mjs</code></pre>
       </div>
-    </section>
-
-    <section class="section">
-      <div class="archive-note">
-        <strong>What happened to STUR v7?</strong> The earlier &ldquo;Theory of Everything&rdquo; framing (the infinity helix, ERP, the 30-observable scorecard, and the 2025 tanh gravity law) is superseded by STUR-ROLL. It is preserved unchanged in the <a href="archive/v7-toe/index.html">v7 archive</a>, and the GENESIS v10 / STUR-B pre-registration is in <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/archive/README.md">archive/</a>. Old links to <code>scripts/&hellip;</code> pages now live under <code>archive/v7-toe/scripts/</code>.
+      <div class="grid" style="gap:10px">
+        <a class="card" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/HYPOTHESIS.md"><h3>Hypothesis</h3><span class="small muted">The claim, the chain, the constraints</span></a>
+        <a class="card" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/PREDICTIONS.md"><h3>Predictions</h3><span class="small muted">&beta;(&ell;), tomography, kill criteria</span></a>
+        <a class="card" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/STATUS.md"><h3>Status</h3><span class="small muted">What is derived, corrected, and still open</span></a>
+        <a class="card" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/REFINEMENT_R7.md"><h3>Round 7 audit</h3><span class="small muted">Every number rechecked</span></a>
       </div>
-    </section>
+    </div>
+  </section>
+</main>
 
-  </main>
+<footer>
+  <div class="foot">
+    <span>&copy; 2026 Sheldon Lindberg &middot; CC0 1.0 &middot; <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab">GitHub</a></span>
+    <span><a href="archive/v7-toe/index.html">Archive: superseded STUR v7</a></span>
+  </div>
+</footer>
 
-  <footer class="footer">
-    <nav class="footer-links">
-      <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/HYPOTHESIS.md" class="footer-link">Hypothesis</a>
-      <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/PREDICTIONS.md" class="footer-link">Predictions</a>
-      <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab" class="footer-link">GitHub</a>
-      <a href="archive/v7-toe/index.html" class="footer-link">v7 Archive</a>
-    </nav>
-    <p class="footer-meta">
-      &copy; 2026 Sheldon Lindberg &middot; CC0 1.0 <span class="version-badge">STUR-ROLL</span>
-    </p>
-  </footer>
-</div>
-
-<script src="assets/js/stur-ui.js"></script>
+<script src="assets/js/stur-roll-sim.js"></script>
+<script src="assets/js/stur-roll-app.js"></script>
 <script src="assets/js/stur-sw-register.js"></script>
 </body>
 </html>

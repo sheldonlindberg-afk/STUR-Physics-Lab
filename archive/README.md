@@ -28,3 +28,10 @@ and `scripts/genesis V10 preregistration`, and their **contents are unchanged**:
 
 STUR-B needs initial &theta; energy and is excluded by the full STUR-ROLL code.
 STUR-ROLL replaces its fitted &kappa; with the derived &alpha;/2.
+
+## Triage (2026-10-31)
+
+Every claim here was screened against four gates fixed in advance
+([`docs/ARCHIVE_TRIAGE_CRITERIA.md`](../docs/ARCHIVE_TRIAGE_CRITERIA.md)).
+None survives; the reasons, claim by claim, are in
+[`docs/ARCHIVE_TRIAGE.md`](../docs/ARCHIVE_TRIAGE.md).

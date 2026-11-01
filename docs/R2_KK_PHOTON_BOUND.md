@@ -1,5 +1,7 @@
 # Round 2, item 3: collider bound on the KK photon (replaces the R1.4 placeholder)
 
+> **Round 7 corrections** (see [`REFINEMENT_R7.md`](REFINEMENT_R7.md)): the section 5 grid uses the old nucleation window 1/L &lt; f/8. After R2.4 it is 1/L &lt; f/197, so the rows (10&sup1;&sup2;, 10&sup1;&#8304;) and (3&times;10&sup1;&#8308;, 10&sup1;&sup3;) GeV are excluded. The lightest viable &psi; is about 1.2&times;10&#8309; GeV at 1/L = 0.875 TeV, not 1.4&times;10&#8309; GeV.
+
 Code: [`src/checks/r2_kk_photon_bound.py`](../src/checks/r2_kk_photon_bound.py), which runs in under 1 s.
 Reference labels [N1]&ndash;[N6] are listed at the end. Entries marked † still
 need their numbers checked against the full text.
