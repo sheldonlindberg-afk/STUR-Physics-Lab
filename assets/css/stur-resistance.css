@@ -1,0 +1,81 @@
+/* STUR Resistance Equation page. Builds on stur-roll-app.css (tokens, layout,
+   cards, tables, tags); only the pieces that page did not need live here. */
+
+.tag.known { background: color-mix(in srgb, var(--blue) 14%, transparent); color: var(--blue); }
+.tag.post { background: var(--warn-soft); color: var(--warn); }
+.tag.hyp { background: color-mix(in srgb, var(--violet) 14%, transparent); color: var(--violet); }
+.tag.ok { background: var(--accent-soft); color: var(--accent); }
+
+/* Keep Greek and case-sensitive symbols out of uppercase table headers */
+th.nc, th .nc { text-transform: none; letter-spacing: 0; }
+
+/* Equation block: one line per relation, wraps on phones */
+.eq {
+  font-family: var(--serif); font-size: clamp(19px, 2.6vw, 25px); line-height: 1.5;
+  padding: 14px 20px; margin: 4px 0 18px;
+  border: 1px solid var(--border-strong); border-radius: 12px; background: var(--surface);
+}
+.eq .row { display: flex; flex-wrap: wrap; gap: 6px 28px; }
+.eq .row + .row { margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--border); }
+.eq .hl { color: var(--warn); }
+.eq small { display: block; font: 13px var(--sans); color: var(--muted); margin-top: 8px; }
+.eq-inline { font-family: var(--serif); font-size: 1.12em; white-space: nowrap; }
+.eq.sm { font-size: clamp(17px, 2.2vw, 21px); padding: 10px 16px; margin: 10px 0 14px; display: block; overflow-x: auto; }
+
+/* Status at a glance (hero right column) */
+.glance { display: grid; gap: 8px; }
+.glance .g-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: start; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.glance .g-row:last-child { border-bottom: 0; }
+.glance .g-row .t { font-weight: 600; font-size: 15px; line-height: 1.35; }
+.glance .g-row .c { grid-column: 1 / -1; font-size: 13px; color: var(--muted); }
+.glance .g-row .tag { margin: 0; white-space: nowrap; }
+
+/* Legend */
+.legend { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 900px) { .legend { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .legend { grid-template-columns: minmax(0, 1fr); } }
+.legend .card p { font-size: 14px; color: var(--muted); margin: 0; }
+
+/* Step cards span full width on one column */
+.steps .step h3 { margin-top: 2px; }
+.steps .step .eq.sm { margin-bottom: 10px; }
+
+/* Interference fringes */
+canvas.fringes { width: 100%; height: 220px; display: block; border-radius: 10px; background: var(--surface-2); }
+@media (max-width: 620px) { canvas.fringes { height: 180px; } }
+.mc-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 12px; }
+.mc-row .btn { padding: 8px 14px; font-size: 14px; }
+
+/* SVG charts */
+svg.plot { width: 100%; height: auto; display: block; }
+svg.plot text { font: 12px var(--sans); fill: var(--muted); }
+svg.plot .axis { stroke: var(--border-strong); stroke-width: 1; }
+svg.plot .grid { stroke: var(--border); stroke-width: 1; }
+.keyrow { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; color: var(--muted); margin-top: 8px; }
+.keyrow i { display: inline-block; width: 18px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+
+/* Scale ladder (QCD to Planck) */
+.ladder { position: relative; height: 54px; margin: 18px 0 6px; }
+.ladder .bar { position: absolute; left: 0; right: 0; top: 22px; height: 8px; border-radius: 999px;
+  background: linear-gradient(90deg, var(--blue), var(--violet), var(--warn)); opacity: 0.55; }
+.ladder .pt { position: absolute; top: 14px; width: 24px; height: 24px; border-radius: 50%; transform: translateX(-50%);
+  border: 2px solid var(--text); background: var(--surface); }
+.ladder .lbl { position: absolute; top: -4px; transform: translateX(-50%); font-size: 12px; color: var(--muted); white-space: nowrap; }
+.ladder .q { position: absolute; left: 50%; top: 36px; transform: translateX(-50%); font: 600 12px var(--mono); color: var(--warn); white-space: nowrap; }
+
+/* Open problems numbered list */
+.open { counter-reset: o; }
+.open .card { position: relative; padding-left: 52px; }
+.open .card::before {
+  counter-increment: o; content: counter(o);
+  position: absolute; left: 18px; top: 18px; width: 26px; height: 26px; border-radius: 50%;
+  display: grid; place-items: center; font: 700 13px var(--mono);
+  color: var(--warn); border: 1.5px solid var(--warn); background: var(--warn-soft);
+}
+.open .card h3 { font-size: 16px; }
+
+.refs { font-size: 14px; color: var(--muted); padding-left: 20px; margin: 0; }
+.refs li { margin-bottom: 6px; }
+.dl { display: grid; gap: 12px; }
+.dl .card { text-decoration: none; color: var(--text); display: block; }
+.dl .card:hover { border-color: var(--border-strong); }

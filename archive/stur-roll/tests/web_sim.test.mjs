@@ -5,7 +5,7 @@ import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 
 const require = createRequire(import.meta.url);
-const S = require("../assets/js/stur-roll-sim.js");
+const S = require("../../../assets/js/stur-roll-sim.js");
 
 // (m [eV], seed) -> (lands/pi, beta_rec [deg]) from results/stur_final_output.txt
 const EXPECTED = [

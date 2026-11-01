@@ -1,8 +1,24 @@
 # Archive: superseded material
 
 Everything here is kept for the record and is **not** the current claim of
-this repository. The current hypothesis is STUR-ROLL; see the
+this repository. The current work is the STUR Resistance Equation; see the
 [top-level README](../README.md).
+
+## `stur-roll/`: STUR-ROLL (archived 2026-11-01)
+
+The entire repository as of commit `b75d7ef` (round 9): the STUR-ROLL home
+page, `README.md`, `docs/`, `src/`, `results/` and `tests/`, plus copies of
+`CITATION.cff`, `llms.txt` and `requirements.txt`. The full pre-archive state
+is commit `b75d7ef`; files moved with `git mv` keep their history under
+`git log --follow`. Only paths were changed: the page's
+links to `assets/` and `manifest.json` now go up two levels, its document links
+point to `archive/stur-roll/docs/`, and the JS test loads the simulator from
+`../../../assets/js/`. The site renders at `/archive/stur-roll/` and its Python
+and JS tests still run in CI.
+
+STUR-ROLL predicts |&beta;| = k&alpha;/2 = 0.2091&deg; for CMB birefringence, to
+be tested by LiteBIRD. It was archived when the home page moved to the
+resistance-equation work.
 
 ## `v7-toe/`: STUR v7.0 "Theory of Everything" (superseded)
 
@@ -32,6 +48,6 @@ STUR-ROLL replaces its fitted &kappa; with the derived &alpha;/2.
 ## Triage (2026-10-31)
 
 Every claim here was screened against four gates fixed in advance
-([`docs/ARCHIVE_TRIAGE_CRITERIA.md`](../docs/ARCHIVE_TRIAGE_CRITERIA.md)).
+([`docs/ARCHIVE_TRIAGE_CRITERIA.md`](stur-roll/docs/ARCHIVE_TRIAGE_CRITERIA.md)).
 None survives; the reasons, claim by claim, are in
-[`docs/ARCHIVE_TRIAGE.md`](../docs/ARCHIVE_TRIAGE.md).
+[`docs/ARCHIVE_TRIAGE.md`](stur-roll/docs/ARCHIVE_TRIAGE.md).

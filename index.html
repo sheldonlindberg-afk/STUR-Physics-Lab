@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#07090d" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f6f8fa" media="(prefers-color-scheme: light)">
-<title>STUR-ROLL</title>
-<meta name="description" content="STUR-ROLL predicts the rotation of the CMB's polarization from whole numbers: |β| = α/2 = 0.2091°, with no fitted parameter. Run the roll in your browser, see the evidence, and see how LiteBIRD will test it.">
-<meta property="og:title" content="STUR-ROLL: cosmic birefringence from integers">
-<meta property="og:description" content="|β| = α/2 = 0.2091° with no fitted parameter. Interactive simulator, evidence, kill criteria, and what it would mean for physics.">
+<title>STUR Resistance Equation</title>
+<meta name="description" content="Resistance is one loop phase, Φ_R: its variance is entropy, its energy cost is set by temperature, and its ceiling is set by boundary area. One postulate, S_R = ½ k_B Φ_R², labelled as such; every number reproduced by stur_verify.py.">
+<meta property="og:title" content="STUR Resistance Equation: one loop phase, one postulate">
+<meta property="og:description" content="Visibility, entropy, energy and the holographic ceiling from one phase Φ_R. Reproduces Smarr's Mc² = 2TS and the Skyrme energies. Every step labelled known, postulate, follows or check.">
 <meta property="og:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/4.13.png">
 <meta property="og:url" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">
 <meta property="og:type" content="website">
@@ -17,15 +17,15 @@
 <link rel="icon" type="image/png" href="assets/4.13.png">
 <link rel="apple-touch-icon" href="assets/4.13.png">
 <link rel="stylesheet" href="assets/css/stur-roll-app.css">
+<link rel="stylesheet" href="assets/css/stur-resistance.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "ScholarlyArticle",
-  "name": "STUR-ROLL: cosmic birefringence from integers",
+  "name": "STUR Resistance Equation: Derivation Record",
   "author": {"@type": "Person", "name": "Sheldon Lindberg"},
+  "datePublished": "2026-11-01",
   "url": "https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/",
-  "abstract": "A Z2-odd U(1) holonomy θ on an S¹/Z2 orbifold couples to photons through a 5D Chern–Simons term at integer level k. A smooth birth fixes θ = 0; an orbifold-odd brane angle twists to exactly π and turns θ = 0 into a hilltop of the late-time Wilson-line potential. θ rolls by π between recombination and reionization, rotating CMB polarization by β = kα/2 = 0.2091° for k = 1, with no continuous parameter fitted. Gravity is GR (TEGR); the sector holds < 2e-5 of the matter energy. LiteBIRD tests the amplitude and the tomographic difference Δβ ∈ [−0.21°, −0.12°].",
-  "keywords": ["cosmic birefringence", "Chern-Simons", "orbifold", "Wilson line", "axion", "LiteBIRD", "CMB polarization"],
   "license": "https://creativecommons.org/publicdomain/zero/1.0/",
   "isAccessibleForFree": true
 }
@@ -36,15 +36,15 @@
 
 <header class="top">
   <div class="top-inner">
-    <a class="brand" href="#top"><img src="assets/4.13.png" alt="" width="30" height="30">STUR-ROLL</a>
+    <a class="brand" href="#top"><img src="assets/4.13.png" alt="" width="30" height="30">STUR</a>
     <nav class="nav" aria-label="Sections">
-      <a href="#idea">Idea</a>
-      <a href="#simulator">Simulator</a>
-      <a href="#pattern">Pattern</a>
-      <a href="#evidence">Evidence</a>
-      <a href="#tests">Tests</a>
-      <a href="#meaning">If true</a>
-      <a href="#learn">Learn</a>
+      <a href="#equation">Equation</a>
+      <a href="#derivation">Derivation</a>
+      <a href="#visibility">Visibility</a>
+      <a href="#ceiling">Ceiling</a>
+      <a href="#collapse">Collapse</a>
+      <a href="#cycle">Cycle</a>
+      <a href="#open">Open problems</a>
       <a href="#reproduce">Reproduce</a>
     </nav>
     <div class="mode" role="group" aria-label="Reading level">
@@ -58,310 +58,332 @@
   <!-- Hero -->
   <div class="hero" id="top">
     <div>
-      <p class="eyebrow">A falsifiable prediction for the LiteBIRD era</p>
-      <h1>Light from the Big Bang, turned by <span>half of &alpha;</span></h1>
-      <div class="formula">|&beta;| = k&alpha;/2 = 0.2091&deg;<small>k = 1 &middot; no fitted parameter &middot; computed 0.2080&deg;</small></div>
-      <p class="lede plain">The oldest light in the universe arrives slightly polarized, and recent measurements suggest its polarization has been turned by about a fifth of a degree. STUR-ROLL says that turn is not an accident: a hidden field rolled exactly halfway around a circle, and half a turn rotates light by exactly half of nature's fine-structure constant.</p>
-      <p class="lede tech">STUR-ROLL adds one sector to &Lambda;CDM: the holonomy &theta; of a Z&#8322;-odd U(1) on an S&sup1;/Z&#8322; orbifold, coupled to photons by a 5D Chern&ndash;Simons term at integer level k. A smooth birth fixes &theta; = 0; a parity-fixed brane twist makes it a hilltop; the roll &theta;: 0 &rarr; &pi; after recombination gives &beta; = k&alpha;/2 exactly.</p>
+      <p class="eyebrow">Derivation record &middot; 1 Nov 2026</p>
+      <h1>Spacetime resists. The resistance is <span>one phase</span>.</h1>
+      <div class="eq" aria-label="The candidate resistance equation">
+        <div class="row"><span>&Phi;<sub>R</sub> = &#8750;<sub>C</sub> A<sub>&mu;</sub> dx<sup>&mu;</sup></span><span>&langle;W(C)&rangle; = e<sup>&minus;&frac12;&langle;&Phi;<sub>R</sub>&sup2;&rangle;</sup></span></div>
+        <div class="row"><span class="hl">S<sub>R</sub> = &frac12; k<sub>B</sub> &Phi;<sub>R</sub>&sup2;</span><span>E<sub>R</sub> = &frac12; k<sub>B</sub>T &Phi;<sub>R</sub>&sup2;</span></div>
+        <div class="row"><span>&frac12;&Phi;<sub>R</sub>&sup2; = &sigma;(&mu;) A &le; A / 4&#8467;<sub>P</sub>&sup2;</span></div>
+        <small>Highlighted: the one STUR postulate. Everything else is established physics or follows from it.</small>
+      </div>
+      <p class="lede plain">When a particle can take two paths, the paths interfere and make bright and dark fringes. If spacetime jostles the phase between the paths, the fringes wash out. STUR proposes that this washing-out is spacetime keeping a record, that the record costs energy, and that the most spacetime can ever record is the amount a black hole holds. Pushed to that limit, the equation lands exactly on a known black-hole law.</p>
+      <p class="lede tech">&Phi;<sub>R</sub> is the holonomy of a connection A<sub>&mu;</sub> around a loop C. Its variance sets fringe visibility (a Gaussian Wilson loop). The postulate identifies &minus;k<sub>B</sub> ln(V/V<sub>0</sub>) with entropy recorded by spacetime; Landauer then fixes the energy, and the Bekenstein bound fixes the ceiling. Saturating the ceiling at the Hawking temperature reproduces Smarr's Mc&sup2; = 2TS with nothing put in.</p>
       <div class="cta">
-        <a class="btn primary" href="#simulator">Run the roll &rarr;</a>
-        <a class="btn" href="#meaning">What it would mean</a>
+        <a class="btn primary" href="#visibility">Wash out the fringes &rarr;</a>
+        <a class="btn" href="docs/STUR_Resistance_Equation_Derivation_Record.pdf">Read the derivation (PDF)</a>
       </div>
       <div class="stats">
-        <div class="stat"><b>0.2091&deg;</b><span>predicted angle, from whole numbers</span></div>
-        <div class="stat"><b>0</b><span>adjustable knobs fitted to data</span></div>
-        <div class="stat"><b>&minus;1.2&sigma;</b><span>from the latest combined measurement</span></div>
+        <div class="stat"><b>1</b><span>new postulate, labelled as such</span></div>
+        <div class="stat"><b>0.500000</b><span>E<sub>R</sub>/Mc&sup2; at the ceiling, for every mass tested</span></div>
+        <div class="stat"><b>1.2317</b><span>one-fold energy &divide; 12&pi;&sup2;; literature 1.232</span></div>
       </div>
     </div>
-    <div>
-      <svg class="dial" id="dial" viewBox="-110 -110 220 220" role="img" aria-label="Animation: the hidden field rolls half a turn while the polarization of light rotates by 0.21 degrees, shown magnified."></svg>
-      <p class="dial-caption plain">Left dial: the hidden field rolls half a turn. Right bar: light's polarization turns with it (magnified 200&times;).</p>
-      <p class="dial-caption tech">&theta;: 0 &rarr; &pi; (outer marker); polarization angle &beta; = (&alpha;/2&pi;)&theta;, shown &times;200.</p>
+    <div class="card">
+      <p class="eyebrow" style="margin-bottom:4px">Status at a glance</p>
+      <div class="glance">
+        <div class="g-row"><span class="t">Visibility = Gaussian Wilson loop</span><span class="tag known">known</span><span class="c">Monte Carlo agrees to 3 decimals</span></div>
+        <div class="g-row"><span class="t">S<sub>R</sub> = &frac12; k<sub>B</sub>&Phi;<sub>R</sub>&sup2;</span><span class="tag post">postulate</span><span class="c">Must be tested by experiment</span></div>
+        <div class="g-row"><span class="t">E<sub>R</sub> = &frac12; k<sub>B</sub>T&Phi;<sub>R</sub>&sup2;</span><span class="tag">follows</span><span class="c">Landauer's principle</span></div>
+        <div class="g-row"><span class="t">Ceiling reproduces black-hole entropy and Smarr's Mc&sup2; = 2TS</span><span class="tag ok">check passed</span><span class="c">E<sub>R</sub>/Mc&sup2; = 0.500000 for all masses tested</span></div>
+        <div class="g-row"><span class="t">&frac12;&Phi;<sub>R</sub>&sup2; = &sigma;(&mu;)A spans QCD to Planck</span><span class="tag hyp">hypothesis</span><span class="c">Running of &sigma;(&mu;) not yet derived</span></div>
+        <div class="g-row"><span class="t">A fold resists collapse at a definite size</span><span class="tag known">known</span><span class="c">Skyrme B=1: 1.2317 &times; 12&pi;&sup2;, literature 1.232</span></div>
+      </div>
     </div>
   </div>
 
-  <!-- Idea -->
-  <section id="idea" aria-labelledby="idea-h">
-    <p class="eyebrow">The idea</p>
-    <h2 id="idea-h">Four steps from the birth of the universe to a number</h2>
-    <p class="lede plain">Each step is either an assumption, stated openly, or a result that follows from the one before. Switch to <em>Technical</em> at the top for the equations.</p>
-    <p class="lede tech">Axiom A1 plus the derived chain of <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/HYPOTHESIS.md">HYPOTHESIS.md</a>. Each step cites the refinement round that established it.</p>
-    <div class="grid g2 steps">
-      <div class="card step">
-        <span class="tag warn">assumption</span>
-        <h3>A smooth beginning</h3>
-        <p class="plain">The universe starts out smoothly, with a tiny fifth dimension that closes off neatly. Nothing can be twisted at that moment, so the hidden field starts at exactly zero, at the bottom of a valley.</p>
-        <p class="tech small">Axiom A1: nucleation through a geometry in which S&sup1;/Z&#8322; caps off. Holonomies around the contractible cycle are trivial, &theta; = &vartheta; = 0. With bosons periodic and fermions antiperiodic, Z(&theta;) = Tr e<sup>&minus;LH</sup>e<sup>i&theta;Q</sup> has positive weights, so E(&theta;) &ge; E(0) to all orders (R5).</p>
-      </div>
-      <div class="card step">
-        <span class="tag ok">derived</span>
-        <h3>The coupling comes in whole numbers</h3>
-        <p class="plain">How strongly the field turns light can only come in whole-number steps, like electric charge. The smallest step means: half a turn of the field rotates light by exactly half the fine-structure constant, &alpha;/2.</p>
-        <p class="tech small">The 5D Chern&ndash;Simons term gives L = (k&alpha;/4&pi;)&theta;FF&#771; with k = &kappa; + &frac12; sgn M &isin; &Zopf; (parity anomaly, Z&#8326; structure). The fermion tower gives &Phi;(&pi;) &minus; &Phi;(0) = (&pi;/2) sgn M exactly, so &Delta;&theta; = &pi; yields &beta; = k&alpha;/2 (R1.1, R2.2, R3.2).</p>
-      </div>
-      <div class="card step">
-        <span class="tag ok">derived</span>
-        <h3>A switch flips, and the valley becomes a hilltop</h3>
-        <p class="plain">A switch on the edge of the extra dimension flips. Symmetry forces it to land exactly fully flipped. That changes the landscape: the field's valley floor becomes a hilltop, and the field is still sitting on top.</p>
-        <p class="tech small">An orbifold-odd brane angle &vartheta; (coupling &vartheta;J<sup>y</sup>) has parity-fixed extrema at exactly 0 and &pi;; it rolls to &pi; for m<sub>&vartheta;</sub> &gtrsim; 2H. With q<sub>&psi;</sub> odd it is a fermion-parity defect: &psi; becomes periodic and V = m&sup2;f&sup2;(1 + cos &theta;) (R6).</p>
-      </div>
-      <div class="card step">
-        <span class="tag ok">derived</span>
-        <h3>The roll, after the light left</h3>
-        <p class="plain">Between about 3 million and 1.4 billion years after the Big Bang, the field rolls off the hilltop and settles half a turn away. The CMB light had already left, so it arrives with the full turn: 0.2091&deg;.</p>
-        <p class="tech small">For 2&times;10<sup>&minus;31</sup> &lesssim; m &lesssim; 10<sup>&minus;28</sup> eV the roll occurs at z &asymp; 4&ndash;300, after recombination: &beta;<sub>rec</sub> = 0.2081&ndash;0.2094&deg; for s&#8320; = 10<sup>&minus;4</sup>&ndash;10<sup>&minus;3</sup> (R2.1, R6).</p>
-      </div>
+  <!-- Equation / legend -->
+  <section id="equation" aria-labelledby="eq-h">
+    <p class="eyebrow">How to read it</p>
+    <h2 id="eq-h">Every step carries a label</h2>
+    <p class="lede">So a referee can see exactly where STUR adds something new, and where it only repeats physics that is already tested.</p>
+    <div class="legend">
+      <div class="card"><span class="tag known">known physics</span><p>Established, published, independently tested.</p></div>
+      <div class="card"><span class="tag post">STUR postulate</span><p>A new claim the theory makes. It stands or falls by experiment.</p></div>
+      <div class="card"><span class="tag">follows</span><p>Derived from the lines above it, with no new assumption.</p></div>
+      <div class="card"><span class="tag ok">consistency check</span><p>A place where the equation must reproduce a known exact result, and does or does not.</p></div>
     </div>
     <details>
-      <summary>Inputs, conditions, and what STUR-ROLL does not claim</summary>
+      <summary>The physical picture being formalised</summary>
       <div class="body">
-        <p><strong>Discrete choices (no dials):</strong> level k = 1; the brane potential's minimum at &pi;; brane charges q<sub>&psi;</sub> odd, q<sub>&phi;</sub> even; the Z&#8326; global structure.</p>
-        <p><strong>Conditions:</strong> 2&times;10<sup>&minus;31</sup> &lesssim; m &lesssim; 10<sup>&minus;28</sup> eV; 0.9 TeV &lesssim; 1/L &lt; f/197; H<sub>nuc</sub> &lesssim; 0.076 f; m<sub>&vartheta;</sub> &gtrsim; 2H<sub>nuc</sub>.</p>
-        <p><strong>Not claimed:</strong> STUR-ROLL is not a theory of everything. Gravity is general relativity; dark matter and dark energy remain those of &Lambda;CDM. The new sector holds less than 2&times;10<sup>&minus;5</sup> of the matter energy.</p>
-        <p><strong>Prior art:</strong> the same observable, &beta; &asymp; 0.21c<sub>&gamma;</sub>&deg;, comes from the hilltop axion of Lee, Murai, Takahashi &amp; Yin (<em>PRD</em> 112, 043538, 2025). STUR-ROLL derives both of their assumptions (c<sub>&gamma;</sub> = 1 and the hilltop start) from a 5D theory.</p>
+        <p>All matter ends in black holes, which evaporate by Hawking radiation until the universe holds almost no energy and almost no information. That empty state is the condition for a universe-wide quantum tunneling event, with no parent vacuum. Spacetime resists that tunneling, and the resistance appears as quarks: folds of spacetime that hold a definite size and carry spin. Folds bind into larger structures, and the cycle repeats.</p>
+        <p>Two working axioms carry the picture into equations: the universe is <strong>holographic</strong> (a region's information lives on its boundary), and <strong>energy and information are interconvertible</strong> at a stated exchange rate.</p>
       </div>
     </details>
   </section>
 
-  <!-- Simulator -->
-  <section id="simulator" aria-labelledby="sim-h">
-    <p class="eyebrow">Interactive</p>
-    <h2 id="sim-h">Run the roll yourself</h2>
-    <p class="lede plain">This solves the field's equation of motion in your browser, through the real expansion history of the universe. Change the field's mass or its starting nudge and watch where it lands. The curve shows how much light emitted at each moment is rotated when it reaches us.</p>
-    <p class="lede tech">Adaptive Dormand&ndash;Prince integration of &theta;&Prime; + (3 + d ln H/dN)&theta;&prime; = (m/H)&sup2; sin &theta; in N = ln a, from z = 10<sup>4</sup> to 0, Planck 2018 &Lambda;CDM. A port of <code>stur_final.roll</code>, checked against it to 4 decimals in CI. Plotted: &beta;(z<sub>emit</sub>) = (k&alpha;/2&pi;)[&theta;(0) &minus; &theta;(z)].</p>
+  <!-- Derivation -->
+  <section id="derivation" aria-labelledby="der-h">
+    <p class="eyebrow">The derivation</p>
+    <h2 id="der-h">Six steps, one quantity</h2>
+    <p class="lede plain">Switch to <em>Technical</em> at the top for the full equations behind each step.</p>
+    <p class="lede tech">Condensed from the derivation record. Equation numbers and full arguments are in the <a href="docs/STUR_Resistance_Equation_Derivation_Record.pdf">PDF</a>.</p>
+    <div class="grid g2 steps">
+      <div class="card step">
+        <span class="tag known">known physics</span>
+        <h3>Resistance holonomy</h3>
+        <p class="plain">Send a particle around a closed loop and it comes back with a phase twist, &Phi;<sub>R</sub>. That twist equals the total field passing through the loop, so it is tied to an <em>area</em>, which is where holography enters later. A steady twist only shifts the fringes; only a <em>fluctuating</em> twist washes them out.</p>
+        <div class="tech">
+          <div class="eq sm">&Phi;<sub>R</sub> = &#8750;<sub>C</sub> A<sub>&mu;</sub>dx<sup>&mu;</sup> = &int;<sub>&Sigma;</sub> F<sub>&mu;&nu;</sub> d&Sigma;<sup>&mu;&nu;</sup> &nbsp;(&part;&Sigma; = C)</div>
+          <p class="small">A<sub>&mu;</sub> must be a connection, not a current, for the loop integral to be gauge invariant. For Gaussian fluctuations, V = V<sub>0</sub>|&langle;e<sup>i&Phi;<sub>R</sub></sup>&rangle;| = V<sub>0</sub>e<sup>&minus;&frac12;&langle;&Phi;<sub>R</sub>&sup2;&rangle;</sup>. <strong>Open choice:</strong> spin connection (spin &frac12;, torsion, TEGR), U(1), or a new field.</p>
+        </div>
+      </div>
+      <div class="card step">
+        <span class="tag post">STUR postulate</span>
+        <h3>Resistance entropy</h3>
+        <p class="plain">The single new claim: washed-out fringes are entropy that spacetime has recorded, exactly &frac12;k<sub>B</sub> per unit of squared phase spread. It is backed by the proven link between fringe loss and which-path information, but it goes further than that link does, so it has to be tested.</p>
+        <div class="tech">
+          <div class="eq sm">S<sub>R</sub> &equiv; &minus;k<sub>B</sub> ln(V/V<sub>0</sub>) = &frac12; k<sub>B</sub> &Phi;<sub>R</sub>&sup2;</div>
+          <p class="small">Support: Englert's duality V&sup2; + D&sup2; &le; 1. A referee will note that for ordinary decoherence by a known environment the entropy produced is not in general &minus;ln V; the postulate claims spacetime is a specific environment.</p>
+        </div>
+      </div>
+      <div class="card step">
+        <span class="tag">follows</span> <span class="tag ok">check passed</span>
+        <h3>Energy, ceiling, and the Smarr check</h3>
+        <p class="plain">Recording information at a temperature costs energy (Landauer). No region can record more than a black hole of the same surface area (Bekenstein). Push the phase to that limit for a real black hole at its own Hawking temperature, and the energy comes out as exactly half the hole's mass-energy: a known exact law, reproduced without being put in.</p>
+        <div class="tech">
+          <div class="eq sm">E<sub>R</sub> = &frac12; k<sub>B</sub>T &Phi;<sub>R</sub>&sup2;, &nbsp; &Phi;<sub>R</sub>&sup2; &le; A / 2&#8467;<sub>P</sub>&sup2;</div>
+          <div class="eq sm">E<sub>R</sub> = T<sub>H</sub>S<sub>BH</sub> = <span style="white-space:nowrap">(&#8463;c&sup3;/8&pi;GMk<sub>B</sub>)&middot;(4&pi;GM&sup2;k<sub>B</sub>/&#8463;c)</span> = &frac12;Mc&sup2;</div>
+          <p class="small">Equipartition form: &Phi;<sub>R</sub> acts as one thermal quadratic mode, matching Verlinde's E = &frac12;Nk<sub>B</sub>T. Smarr: Mc&sup2; = 2TS.</p>
+        </div>
+      </div>
+      <div class="card step">
+        <span class="tag known">known physics</span>
+        <h3>From quantum mechanics to field theory</h3>
+        <p class="plain">The same phase works for one particle and for a whole field. How the phase spread grows with the loop tells you which kind of force you have: growing with the loop's edge means charges fly free (electromagnetism); growing with its area means charges are trapped (quarks).</p>
+        <div class="tech">
+          <div class="eq sm">&langle;W(C)&rangle; = exp(&minus;&frac12;&langle;&Phi;<sub>R</sub>&sup2;&rangle;), &nbsp; &langle;&Phi;<sub>R</sub>&sup2;&rangle; = g&sup2;&#8750;<sub>C</sub>&#8750;<sub>C</sub> dx<sup>&mu;</sup>dy<sup>&nu;</sup> D<sub>&mu;&nu;</sub>(x&minus;y)</div>
+          <p class="small">Exact for a Gaussian (free) field. Perimeter law: free charges (EM). Area law &frac12;&langle;&Phi;<sub>R</sub>&sup2;&rangle; = &sigma;&middot;area: confinement (QCD), &sigma; the string tension.</p>
+        </div>
+      </div>
+      <div class="card step">
+        <span class="tag hyp">STUR hypothesis</span>
+        <h3>One area law from quarks to black holes</h3>
+        <p class="plain">Quark confinement and the black-hole limit have the same shape: a tension times an area. STUR claims they are one law whose tension changes with scale, by a factor of about 10<sup>38</sup>. The equation that carries one end to the other has not been derived yet.</p>
+        <div class="tech">
+          <div class="eq sm">&frac12;&Phi;<sub>R</sub>&sup2; = &sigma;(&mu;) A, &nbsp; d&sigma;/d ln &mu; = &beta;(&sigma;) <span class="small muted">(to be derived)</span></div>
+          <p class="small">The flow must keep electromagnetism on the perimeter law in between. In holographic language &mu; is bulk depth (holographic RG), so this is how &Phi;<sub>R</sub> changes with depth: where QFT meets gravity.</p>
+        </div>
+      </div>
+      <div class="card step">
+        <span class="tag known">known physics</span>
+        <h3>Resistance to collapse</h3>
+        <p class="plain">Ordinary lumps of field always shrink to nothing. Add one extra energy term that grows as the lump shrinks and the lump settles at a definite size. That term is a precise mathematical form of &ldquo;resistance to collapse&rdquo;, and STUR needs a version of it made from spacetime geometry.</p>
+        <div class="tech">
+          <div class="eq sm">E(&lambda;) = &lambda;E<sub>2</sub> + E<sub>4</sub>/&lambda;, &nbsp; &lambda;<sub>*</sub> = &radic;(E<sub>4</sub>/E<sub>2</sub>), &nbsp; E<sub>min</sub> = 2&radic;(E<sub>2</sub>E<sub>4</sub>)</div>
+          <p class="small">Derrick's theorem; E<sub>4</sub> is Skyrme's term. Quantised Skyrmions carry spin &frac12; for odd N<sub>c</sub> (Witten 1983); geons can too (Friedman&ndash;Sorkin 1980).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visibility interactive -->
+  <section id="visibility" aria-labelledby="vis-h">
+    <p class="eyebrow">Interactive &middot; Steps 1&ndash;3</p>
+    <h2 id="vis-h">Jostle the phase, watch the fringes fade</h2>
+    <p class="lede plain">Drag the slider to add random phase noise between the two paths. The fringes lose contrast, and under the STUR postulate the lost contrast is entropy spacetime has recorded. Run a Monte Carlo to check the formula yourself.</p>
+    <p class="lede tech">&Phi;<sub>R</sub> ~ N(0, s&sup2;). Plotted: I(x) &prop; 1 + V cos(kx) with V = e<sup>&minus;s&sup2;/2</sup>. The Monte Carlo estimates |&langle;e<sup>i&Phi;</sup>&rangle;| from samples drawn in your browser (seeded Box&ndash;Muller), as check 2 of <code>stur_verify.py</code> does with 2&times;10<sup>6</sup> samples.</p>
     <div class="sim">
       <div class="card">
         <div class="ctrl">
-          <label for="m-in"><span><span class="plain">Field mass</span><span class="tech">&theta; mass m</span></span><output id="m-out">1.0e-30 eV</output></label>
-          <input id="m-in" type="range" min="-32" max="-29" step="0.05" value="-30" aria-describedby="m-hint">
-          <p class="hint" id="m-hint"><span class="plain">Heavier fields roll earlier. Too light and the roll has not finished today; too heavy and it starts before the CMB is released.</span><span class="tech">Derived-amplitude window: 2&times;10<sup>&minus;31</sup>&ndash;10<sup>&minus;28</sup> eV (slider stops at 10<sup>&minus;29</sup> for speed).</span></p>
-        </div>
-        <div class="ctrl">
-          <label for="s-in"><span><span class="plain">Starting nudge</span><span class="tech">initial offset &theta;<sub>i</sub></span></span><output id="s-out">1e-4 rad</output></label>
-          <input id="s-in" type="range" min="-8" max="-0.5" step="0.1" value="-4" aria-describedby="s-hint">
-          <p class="hint" id="s-hint"><span class="plain">How far the field has drifted off the exact hilltop. Smaller nudges roll later.</span><span class="tech">&theta;<sub>i</sub> &asymp; s&#8320;&radic;N from the inflationary random walk (R2.4); &beta; within 3% needs &theta;<sub>i</sub> &lesssim; 0.094.</span></p>
-        </div>
-        <div class="ctrl">
-          <label><span><span class="plain">Coupling step k</span><span class="tech">Chern&ndash;Simons level k</span></span><output id="k-out">k = 1</output></label>
-          <div class="seg" role="group" aria-label="Level k">
-            <button type="button" data-k="1" aria-pressed="true">1</button>
-            <button type="button" data-k="2" aria-pressed="false">2</button>
-            <button type="button" data-k="3" aria-pressed="false">3</button>
-          </div>
-          <p class="hint"><span class="plain">STUR-ROLL picks the smallest step, k = 1. Try 2 or 3 to see the data reject them.</span><span class="tech">k = 2, 3 give 0.418&deg; and 0.627&deg;: +2.5&sigma; and +6.1&sigma; from the joint measurement.</span></p>
+          <label for="sig-in"><span><span class="plain">Phase noise</span><span class="tech">spread s = &radic;&langle;&Phi;<sub>R</sub>&sup2;&rangle;</span></span><output id="sig-out">1.00 rad</output></label>
+          <input id="sig-in" type="range" min="0" max="3" step="0.01" value="1" aria-describedby="sig-hint">
+          <p class="hint" id="sig-hint"><span class="plain">Zero: perfect fringes. A fixed (non-random) twist would only slide the fringes sideways; it is the randomness that fades them.</span><span class="tech">A fixed phase gives |e<sup>i&phi;</sup>| = 1: fringes shift, visibility stays 1.</span></p>
         </div>
         <div class="ctrl">
           <label>Presets</label>
           <div class="presets">
-            <button type="button" data-preset="-30,-4">Fiducial</button>
-            <button type="button" data-preset="-31,-4">Late roll</button>
-            <button type="button" data-preset="-29,-4">Early roll</button>
-            <button type="button" data-preset="-32,-2">Too light</button>
-            <button type="button" data-preset="-30,-0.6">Big nudge</button>
+            <button type="button" data-sig="0">No noise</button>
+            <button type="button" data-sig="0.5">0.5 rad</button>
+            <button type="button" data-sig="1">1 rad</button>
+            <button type="button" data-sig="1.5">1.5 rad</button>
+            <button type="button" data-sig="2">2 rad</button>
           </div>
         </div>
+        <div class="mc-row">
+          <button type="button" class="btn" id="mc-btn">Run Monte Carlo (200,000 samples)</button>
+        </div>
+        <p class="small muted" id="mc-out" aria-live="polite" style="margin-top:10px"></p>
       </div>
       <div class="card">
-        <div class="chart-wrap">
-          <canvas class="chart" id="roll-chart" aria-label="Rotation of light versus the redshift at which it was emitted" role="img"></canvas>
-          <span class="busy" id="busy">computing&hellip;</span>
-        </div>
+        <canvas class="fringes" id="fringes" role="img" aria-label="Interference fringes whose contrast falls as phase noise grows"></canvas>
         <div class="readout" aria-live="polite">
-          <div><b id="r-beta">&mdash;</b><span>CMB rotation &beta;<sub>rec</sub></span></div>
-          <div><b id="r-ratio">&mdash;</b><span>&beta; &divide; (k&alpha;/2)</span></div>
-          <div><b id="r-lands">&mdash;</b><span><span class="plain">where it lands (&divide;&pi;)</span><span class="tech">&theta;(0)/&pi;</span></span></div>
-          <div><b id="r-zroll">&mdash;</b><span><span class="plain">roll happened at redshift</span><span class="tech">z at &theta; = &pi;/2</span></span></div>
+          <div><b id="r-v">&mdash;</b><span><span class="plain">fringe contrast V/V<sub>0</sub></span><span class="tech">e<sup>&minus;s&sup2;/2</sup></span></span></div>
+          <div><b id="r-s">&mdash;</b><span><span class="plain">entropy recorded</span><span class="tech">S<sub>R</sub>/k<sub>B</sub> = s&sup2;/2</span></span></div>
+          <div><b id="r-e">&mdash;</b><span><span class="plain">energy cost, in k<sub>B</sub>T</span><span class="tech">E<sub>R</sub>/k<sub>B</sub>T</span></span></div>
+          <div><b id="r-d">&mdash;</b><span><span class="plain">path info allowed</span><span class="tech">D<sub>max</sub> = &radic;(1 &minus; V&sup2;)</span></span></div>
         </div>
-        <div class="verdict" id="verdict"></div>
-        <div class="pulls" id="pulls" aria-label="Distance from each measurement in standard deviations"></div>
-        <p class="small muted" style="margin-top:6px">Shaded: within 1&sigma;; dashed: within 2&sigma;. Scale &plusmn;4&sigma;.</p>
+        <div class="callout"><b>Where the postulate lives</b>The contrast formula is established physics. Reading the lost contrast as <em>entropy recorded by spacetime</em>, and its energy cost, is the STUR postulate.</div>
       </div>
     </div>
   </section>
 
-  <!-- Pattern -->
-  <section id="pattern" aria-labelledby="pat-h">
-    <p class="eyebrow">The fingerprint</p>
-    <h2 id="pat-h">Big patches of sky are rotated less</h2>
+  <!-- Ceiling -->
+  <section id="ceiling" aria-labelledby="ceil-h">
+    <p class="eyebrow">Consistency check &middot; Steps 3 &amp; 5</p>
+    <h2 id="ceil-h">At the ceiling, the equation lands on Smarr's law</h2>
+    <p class="lede">Saturate &Phi;<sub>R</sub>&sup2; = A/2&#8467;<sub>P</sub>&sup2; for a Schwarzschild hole and set T to its Hawking temperature. The resistance entropy becomes the Bekenstein&ndash;Hawking entropy, and the energy becomes exactly half of Mc&sup2;, for every mass.</p>
     <div class="grid g2">
       <div>
-        <p class="plain">The CMB's polarization was imprinted twice: when the CMB was released (fine patterns on the sky) and again when the first stars lit up the universe (sky-wide patterns). By the second time, the field had already rolled, so the sky-wide patterns are rotated less. That is why the angle depends on the size of the pattern.</p>
-        <p class="tech">&beta;(&ell;) from the CLASS E-mode source (seed 10<sup>&minus;4</sup>, z<sub>re</sub> = 7.69). For &ell; &lesssim; 10 the reionization source dominates and &beta; is reduced; recombination modes take over from &ell; ~ 6 and &beta; reaches the &alpha;/2 plateau by &ell; ~ 20. A generic ALP with free mass and amplitude can mimic each curve to rms 0.0003&ndash;0.007&deg;, so the shape alone does not discriminate; the amplitude and the tomographic difference do.</p>
-        <div class="callout info"><b>Calibration-free check</b><span class="plain">An instrument that is slightly mis-rotated turns every pattern by the same amount, so the <em>difference</em> between big and small patterns ignores that error. STUR-ROLL says the difference can never exceed 0.209&deg;.</span><span class="tech">A miscalibration adds a constant to every &ell;, so &beta;(2) &minus; &beta;(30) is immune; STUR-ROLL bounds |&beta;(low &ell;) &minus; &beta;(high &ell;)| &le; &alpha;/2.</span></div>
-      </div>
-      <div class="card">
-        <canvas class="chart" id="ell-chart" role="img" aria-label="Rotation angle versus multipole for three masses"></canvas>
-      </div>
-    </div>
-  </section>
-
-  <!-- Tomography -->
-  <section id="tomo" aria-labelledby="tomo-h">
-    <p class="eyebrow">The sharpest test</p>
-    <h2 id="tomo-h">Early light versus late light</h2>
-    <p class="lede plain">LiteBIRD can measure the rotation of "late" light (from when the first stars formed) separately from "early" light (from the CMB release). STUR-ROLL says the late light is turned much less, so the difference is large and negative. An instrument error, or a field that rolled only recently, would make the difference zero.</p>
-    <p class="lede tech">&Delta;&beta; = &beta;<sub>reio</sub> &minus; &beta;<sub>rec</sub>. A fraction f of the reionization shell may lie in an opposite-sign domain, where photons are rotated by &alpha; &minus; &beta;<sub>own</sub>; then &beta;<sub>reio</sub> = (1 &minus; f)&beta;<sub>own</sub> + f(&alpha; &minus; &beta;<sub>own</sub>) (R7 A2). LiteBIRD: &sigma;(&Delta;&beta;) &asymp; 0.05&deg;.</p>
-    <div class="grid g2">
-      <div class="card">
-        <div class="ctrl">
-          <label for="t-m"><span><span class="plain">Field mass</span><span class="tech">m</span></span><output id="t-m-out"></output></label>
-          <input id="t-m" type="range" min="0" max="6" step="1" value="3">
-        </div>
-        <div class="ctrl">
-          <label for="t-f"><span><span class="plain">Share of sky that rolled the other way</span><span class="tech">opposite-domain fraction f</span></span><output id="t-f-out"></output></label>
-          <input id="t-f" type="range" min="0" max="0.5" step="0.005" value="0">
-          <p class="hint"><span class="plain">Usually small (below 0.085 after a long inflation). Near 0.5 the difference vanishes, but the sky would then look patchy, which can be checked.</span><span class="tech">P<sub>opp</sub> &le; 0.085 for N<sub>extra</sub> &ge; 60 (R2.4). f &asymp; 0.5 implies a large-scale anisotropic rotation, rms &asymp; 0.2&deg;.</span></p>
-        </div>
-        <div class="readout" style="grid-template-columns: repeat(2, minmax(0, 1fr))">
-          <div><b id="t-db">&mdash;</b><span>&Delta;&beta;</span></div>
-          <div><b id="t-sig">&mdash;</b><span>LiteBIRD significance from zero</span></div>
-        </div>
-      </div>
-      <div class="card">
-        <svg class="numline" id="numline" viewBox="0 0 600 120" role="img" aria-label="Number line of the tomographic difference"></svg>
-        <p class="small muted">Green band: STUR-ROLL's window for the expected sky ([&minus;0.209&deg;, &minus;0.122&deg;]). Grey band: &plusmn;1&sigma; around zero at LiteBIRD, where a miscalibration would land.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Evidence -->
-  <section id="evidence" aria-labelledby="ev-h">
-    <p class="eyebrow">Evidence so far</p>
-    <h2 id="ev-h">How it scores against the data</h2>
-    <p class="lede plain">The scoring rules were fixed before the numbers were computed. Measurements of the angle sit within 1.5 standard deviations of the prediction. A model with a free knob can match any single measurement, so the real advantage here is that nothing was tuned.</p>
-    <p class="lede tech">Rules fixed in advance: pass/fail gates at 2&sigma;, then AIC = &chi;&sup2; + 2&times;(fitted parameters) on &beta;. Gravity gates pass by construction (TEGR = GR). &Delta;AIC versus a generic axion is &lt; 2: not yet significant.</p>
-    <div class="grid g2">
-      <div class="table">
-        <table>
-          <thead><tr><th>Measurement of &beta;</th><th>Value</th><th>Pull</th></tr></thead>
-          <tbody>
-            <tr><td>ACT DR6 + Planck (2026)</td><td class="num">0.277 &plusmn; 0.057&deg;</td><td class="num">&minus;1.21&sigma;</td></tr>
-            <tr><td>ACT DR6</td><td class="num">0.215 &plusmn; 0.074&deg;</td><td class="num">&minus;0.09&sigma;</td></tr>
-            <tr><td>WMAP + Planck PR4</td><td class="num">0.342 &plusmn; 0.0925&deg;</td><td class="num">&minus;1.45&sigma;</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="table">
-        <table>
-          <thead><tr><th>AIC (lower is better)</th><th>No new physics</th><th>Fitted axion</th><th>STUR-ROLL</th></tr></thead>
-          <tbody>
-            <tr><td>ACT DR6 + Planck</td><td class="num">23.62</td><td class="num">2.00</td><td class="num hl pass">1.46</td></tr>
-            <tr><td>ACT DR6</td><td class="num">8.44</td><td class="num">2.00</td><td class="num hl pass">0.01</td></tr>
-            <tr><td>WMAP + Planck PR4</td><td class="num">13.67</td><td class="num pass">2.00</td><td class="num hl">2.10</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <details>
-      <summary>Precision gates: gravity and particle physics</summary>
-      <div class="body">
         <div class="table">
           <table>
-            <thead><tr><th>Test</th><th>GR+QFT</th><th>+ axion</th><th>STUR-ROLL</th><th>STUR-2025 (retired)</th></tr></thead>
+            <thead><tr><th>Mass (M<sub>&#9737;</sub>)</th><th class="nc">&Phi;<sub>max</sub>&sup2;</th><th class="nc">S<sub>R</sub>/S<sub>BH</sub></th><th class="nc">E<sub>R</sub>/Mc&sup2;</th></tr></thead>
             <tbody>
-              <tr><td>Cassini &gamma;, Mercury perihelion, GW speed</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="nd">n.d.</td></tr>
-              <tr><td>Inverse-square law (E&ouml;t-Wash)</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="fail">FAIL</td></tr>
-              <tr><td>Equivalence principle, electron g&minus;2, black-hole thermodynamics</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="nd">n.d.</td></tr>
-              <tr><td>CMB birefringence |&beta;| (2&sigma;)</td><td class="fail">FAIL</td><td class="pass">PASS (fitted)</td><td class="pass">PASS (predicted)</td><td class="nd">n.d.</td></tr>
-              <tr><td>Flat rotation curves without dark matter</td><td class="nd">n.d.</td><td class="nd">n.d.</td><td class="nd">n.d.</td><td class="fail">FAIL</td></tr>
+              <tr><td class="num">10<sup>&minus;3</sup></td><td class="num">2.10&times;10<sup>71</sup></td><td class="num">1.000000000000</td><td class="num hl">0.500000000000</td></tr>
+              <tr><td class="num">1</td><td class="num">2.10&times;10<sup>77</sup></td><td class="num">1.000000000000</td><td class="num hl">0.500000000000</td></tr>
+              <tr><td class="num">4&times;10<sup>6</sup> <span class="nd">(Sgr A*)</span></td><td class="num">3.36&times;10<sup>90</sup></td><td class="num">1.000000000000</td><td class="num hl">0.500000000000</td></tr>
+              <tr><td class="num">10<sup>11</sup></td><td class="num">2.10&times;10<sup>99</sup></td><td class="num">1.000000000000</td><td class="num hl">0.500000000000</td></tr>
             </tbody>
           </table>
         </div>
-        <p class="small" style="margin-top:10px">Gravity gates pass by construction because the gravitational sector is general relativity. They show consistency, not a new success.</p>
+        <p class="small muted" style="margin-top:8px">CODATA 2018 constants; check 1 of <code>stur_verify.py</code>. Analytically E<sub>R</sub> = T<sub>H</sub>S<sub>BH</sub> = Mc&sup2;/2 for every M.</p>
       </div>
-    </details>
-    <div class="callout"><b>The caveat that matters most</b>
-      <span class="plain">Measuring this angle requires knowing exactly which way the telescope's detectors point, and that calibration leans on our own galaxy's dust. The teams call the signal a hint. If it turns out to be a calibration error, the test disappears.</span>
-      <span class="tech">&beta; measurements calibrate the polarization angle on Galactic foregrounds; the ACT and ACT+Planck authors describe the signal as a hint with systematics to be understood. Tomography (&Delta;&beta;) is the calibration-independent check.</span>
+      <div class="card">
+        <h3>One tension, two ends <span class="tag hyp" style="vertical-align:middle;margin-left:6px">hypothesis</span></h3>
+        <p class="small muted">The QCD string tension and the holographic maximum are both &ldquo;tension &times; area&rdquo;. STUR claims one running &sigma;(&mu;) connects them.</p>
+        <div class="ladder" aria-hidden="true">
+          <div class="bar"></div>
+          <span class="lbl" style="left:6%">QCD</span><span class="pt" style="left:6%"></span>
+          <span class="lbl" style="left:94%">Planck</span><span class="pt" style="left:94%"></span>
+          <span class="q">d&sigma;/d ln &mu; = ?</span>
+        </div>
+        <div class="table" style="margin-top:22px">
+          <table>
+            <thead><tr><th>Scale</th><th>Tension <span class="nc">&sigma;</span></th><th class="nc">m<sup>&minus;2</sup></th></tr></thead>
+            <tbody>
+              <tr><td>QCD <span class="nd">confinement</span></td><td class="num">(0.44 GeV)&sup2; &asymp; 0.98 GeV/fm</td><td class="num">5.0&times;10<sup>30</sup></td></tr>
+              <tr><td>Planck <span class="nd">BH entropy</span></td><td class="num">1/(4&#8467;<sub>P</sub>&sup2;)</td><td class="num">9.6&times;10<sup>68</sup></td></tr>
+              <tr><td><strong>Ratio</strong></td><td></td><td class="num hl">1.9&times;10<sup>38</sup></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small muted" style="margin-top:8px">No curve is drawn between the ends on purpose: without a derived flow equation it would be decoration.</p>
+      </div>
     </div>
   </section>
 
-  <!-- Tests -->
-  <section id="tests" aria-labelledby="tests-h">
-    <p class="eyebrow">How to kill it</p>
-    <h2 id="tests-h">Results that would rule STUR-ROLL out</h2>
-    <p class="lede plain">A prediction with no knobs is easy to break. Any one of these LiteBIRD outcomes would falsify it.</p>
-    <p class="lede tech">Falsification criteria (corrected in round 7). Any one suffices.</p>
-    <div class="grid g3">
-      <div class="card kill"><p class="sub">|&beta;| &ne; 0.209&deg;</p><h3>The angle comes out different</h3><p class="small muted">The amplitude is fixed at &alpha;/2. There is nothing to adjust.</p></div>
-      <div class="card kill"><p class="sub">&Delta;&beta; &asymp; 0, sky uniform</p><h3>Early and late light turned alike</h3><p class="small muted"><span class="plain">If the angle is confirmed but early and late light are turned equally, and the sky is not patchy, the roll did not happen when STUR-ROLL says.</span><span class="tech">|&beta;| &asymp; 0.2&deg; with &Delta;&beta; &asymp; 0 and no large-scale anisotropic reionization rotation (R7 A2).</span></p></div>
-      <div class="card kill"><p class="sub">|&beta;(low &ell;) &minus; &beta;(high &ell;)| &gt; 0.209&deg;</p><h3>Too big a gap between scales</h3><p class="small muted">Immune to calibration errors. STUR-ROLL caps this gap at &alpha;/2.</p></div>
-      <div class="card kill"><p class="sub">no single m fits &beta;(&ell;)</p><h3>The pattern does not fit</h3><p class="small muted">One field mass must explain the angle at every scale.</p></div>
-      <div class="card kill"><p class="sub">anisotropy at high &ell;</p><h3>The CMB is rotated patchily</h3><p class="small muted">Recombination-era light must be turned by the same amount in every direction.</p></div>
-      <div class="card kill"><p class="sub">fractional charge found</p><h3>A free particle with &frac13; charge</h3><p class="small muted">Whole-number k needs the Z&#8326; structure, which forbids such particles.</p></div>
-    </div>
-  </section>
-
-  <!-- Meaning -->
-  <section id="meaning" aria-labelledby="mean-h">
-    <p class="eyebrow">If it is right</p>
-    <h2 id="mean-h">What it would mean for physics</h2>
-    <p class="lede plain">Confirmation would not overturn Einstein or the standard model of cosmology. It would add something new and strange on top of them, and it would tell us something about how the universe began.</p>
-    <p class="lede tech">Separating what the data alone would establish from what is specific to STUR-ROLL. Full discussion: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/IMPLICATIONS.md">IMPLICATIONS.md</a>.</p>
-    <h3 style="margin:8px 0 12px">What the measurement alone would establish</h3>
-    <div class="grid g4">
-      <div class="card soft"><span class="tag ok">new physics</span><h3>A new field</h3><p class="small muted plain">Something invisible fills the universe and affects only light's polarization.</p><p class="small muted tech">A pseudoscalar with &phi;FF&#771; coupling that evolved between z &asymp; 1100 and 8: beyond the Standard Model.</p></div>
-      <div class="card soft"><span class="tag ok">record</span><h3>The lightest thing ever seen</h3><p class="small muted plain">Its particles would be 10<sup>33</sup>&ndash;10<sup>36</sup> times lighter than an electron.</p><p class="small muted tech">m &asymp; 2&times;10<sup>&minus;31</sup>&ndash;10<sup>&minus;28</sup> eV; Compton wavelength 0.4&ndash;200 Mpc.</p></div>
-      <div class="card soft"><span class="tag ok">symmetry</span><h3>A handed universe</h3><p class="small muted plain">The cosmos would turn light one way rather than the other: it would tell left from right.</p><p class="small muted tech">Cosmological parity violation in the photon sector.</p></div>
-      <div class="card soft"><span class="tag ok">topology</span><h3>Whole numbers in the sky</h3><p class="small muted plain">The angle would equal a whole number times a constant of nature, as electric charge does.</p><p class="small muted tech">A quantised anomaly coefficient read off the CMB: a cosmological Millikan experiment.</p></div>
-    </div>
-    <h3 style="margin:28px 0 12px">What STUR-ROLL would add, if it is the explanation</h3>
-    <div class="grid g4">
-      <div class="card soft"><span class="tag">geometry</span><h3>A fifth dimension</h3><p class="small muted plain">Space would have one more direction, curled up smaller than 10<sup>&minus;18</sup> m.</p><p class="small muted tech">&theta; is an orbifold holonomy; 0.9 TeV &lesssim; 1/L &lt; f/197, circumference &lesssim; 2&times;10<sup>&minus;19</sup> m.</p></div>
-      <div class="card soft"><span class="tag">quantum rules</span><h3>An anomaly at work</h3><p class="small muted plain">A subtle quantum rule (a half unit made whole by matter) would be operating in nature.</p><p class="small muted tech">k = &kappa; + &frac12; sgn M: the 5D parity anomaly fixes the integer.</p></div>
-      <div class="card soft"><span class="tag">known forces</span><h3>The shape of the Standard Model</h3><p class="small muted plain">No free particle could carry a third of an electron's charge.</p><p class="small muted tech">Gauge group [SU(3)&times;SU(2)&times;U(1)]/Z&#8326;.</p></div>
-      <div class="card soft"><span class="tag">origins</span><h3>A smooth birth</h3><p class="small muted plain">Today's angle would carry a fingerprint of how the universe began.</p><p class="small muted tech">Supports axiom A1: nucleation with the fifth dimension capping off, in the spirit of no-boundary proposals.</p></div>
-    </div>
-    <div class="callout info"><b>What would not change</b>General relativity, the standard &Lambda;CDM picture of the cosmos, and everyday particle physics all stay as they are. Dark matter and dark energy would still need their own explanations. And because the same observations also fit the hilltop-axion model of Lee et al., confirmation would support STUR-ROLL's mechanism indirectly, not prove it.</div>
-  </section>
-
-  <!-- Learn -->
-  <section id="learn" aria-labelledby="learn-h">
-    <p class="eyebrow">Learn</p>
-    <h2 id="learn-h">Key terms and common questions</h2>
+  <!-- Collapse -->
+  <section id="collapse" aria-labelledby="col-h">
+    <p class="eyebrow">Known physics &middot; Step 6</p>
+    <h2 id="col-h">A fold that refuses to shrink</h2>
+    <p class="lede plain">Without the resistance term, a lump's energy keeps falling as it shrinks, so it collapses. With it, there is a valley: a size the lump settles at. The numbers come from relaxing the Skyrme model on a 4,000-point grid and match the published values.</p>
+    <p class="lede tech">Relaxed B=1 hedgehog (L-BFGS-B, analytic gradient, 4,000-point radial grid, R<sub>max</sub> = 20 in Skyrme units). Rescaling x &rarr; &lambda;x sends E<sub>2</sub> &rarr; &lambda;E<sub>2</sub>, E<sub>4</sub> &rarr; E<sub>4</sub>/&lambda;. At the minimum E<sub>2</sub> = 73.61, E<sub>4</sub> = 72.27: equal to grid error, as the virial theorem demands.</p>
     <div class="grid g2">
-      <dl class="gloss card">
-        <dt>Fine-structure constant &alpha;</dt><dd>The strength of the interaction between light and charge, about 1/137. Half of it, in degrees, is 0.2091&deg;.</dd>
-        <dt>Birefringence &beta;</dt><dd>A rotation of light's polarization on its way to us.</dd>
-        <dt>CMB</dt><dd>The afterglow of the Big Bang, released about 380,000 years after it.</dd>
-        <dt>Multipole &ell;</dt><dd>Angular size on the sky: small &ell; is a big patch, large &ell; a fine pattern.</dd>
-        <dt>Redshift z</dt><dd>How much the universe has expanded since light set out. Larger z means earlier.</dd>
-        <dt>Axion</dt><dd>A hypothetical, extremely light particle that can rotate polarization.</dd>
-        <dt>Orbifold, brane</dt><dd>A tiny extra dimension folded in half; its edges, where ordinary particles live.</dd>
-        <dt>LiteBIRD</dt><dd>A Japanese-led satellite that will map the CMB's polarization across the whole sky.</dd>
-      </dl>
-      <div>
-        <details open><summary>Is this a "theory of everything"?</summary><div class="body">No. It adds one small sector to the standard model of cosmology to explain one measurement. Gravity, dark matter and dark energy are left as they are.</div></details>
-        <details><summary>Is the 0.2091&deg; really not fitted?</summary><div class="body">It is &alpha;/2, fixed by a whole number (k = 1) and by the field rolling exactly half a turn. The field's mass only affects whether the roll finishes in time, which shifts the result by under 3% across the allowed range.</div></details>
-        <details><summary>Has anyone predicted this number before?</summary><div class="body">Yes: Lee, Murai, Takahashi &amp; Yin (2025) obtained &beta; &asymp; 0.21&deg; from a hilltop axion. STUR-ROLL's contribution is to derive their two assumptions from a five-dimensional theory.</div></details>
-        <details><summary>What if the measurement is a calibration error?</summary><div class="body">Then the test disappears: STUR-ROLL would be unmotivated but not refuted. The tomographic test (early versus late light) is immune to that error.</div></details>
-        <details><summary>Does it explain dark matter or dark energy?</summary><div class="body">No, and this was tested rather than assumed. Before calculating, the two most natural extensions were written down with pass/fail rules. A heavy particle made at the end of inflation either leaves a forbidden pattern in the CMB or is made in amounts at least a hundred times too small. A second hidden field can mimic dark energy but breaks a widely trusted rule of quantum gravity. Both are documented in <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/REFINEMENT_R8.md">round 8</a>.</div></details>
-        <details><summary>Does it predict particle masses or mixing angles?</summary><div class="body">No. The old "theory of everything" version claimed to, but every claim failed a check fixed in advance (<a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/ARCHIVE_TRIAGE.md">archive triage</a>). Round 9 tested whether STUR-ROLL itself can predict the Cabibbo angle: its symmetries cannot tell the quark generations apart, and letting quarks spread into the extra dimension gives an angle anywhere from about 0.15 to 0.6. Consistent with the measured 0.225, but not a prediction (<a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/REFINEMENT_R9.md">round 9</a>).</div></details>
-        <details><summary>How was the math checked?</summary><div class="body">Nine refinement rounds, each with its own script. Round 7 recomputed every number, including an independent re-integration, and corrected seven statements. Round 8 tested dark-matter and dark-energy extensions against preregistered criteria. This page's simulator is tested against the Python code in CI.</div></details>
-        <p class="small" style="margin-top:12px"><a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/GLOSSARY.md">Full glossary &rarr;</a></p>
+      <div class="card">
+        <svg class="plot" id="derrick" viewBox="0 0 520 320" role="img" aria-label="Energy versus lump size. With the resistance term the curve has a minimum near lambda equals 1; without it, energy falls to zero as the lump shrinks."></svg>
+        <div class="keyrow"><span><i style="background:var(--accent)"></i>with resistance term, &lambda;E<sub>2</sub> + E<sub>4</sub>/&lambda;</span><span><i style="background:var(--bad)"></i>without, &lambda;E<sub>2</sub></span><span><i style="background:var(--warn);height:8px;width:8px;border-radius:50%"></i>script values</span></div>
       </div>
+      <div>
+        <div class="table">
+          <table>
+            <thead><tr><th>Configuration</th><th class="nc">E / (12&pi;&sup2;B)</th><th>Published</th></tr></thead>
+            <tbody>
+              <tr><td>One fold <span class="nd">B=1, exact hedgehog</span></td><td class="num hl">1.2317</td><td class="num">1.232</td></tr>
+              <tr><td>Two folds merged <span class="nd">B=2, rational map</span></td><td class="num hl">1.2083</td><td class="num">1.208</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout info"><b>Folds bind</b>Two merged folds have 5.55 units less energy than two separate ones (1.9%): combining makes them more tightly bound, as the STUR picture requires.</div>
+        <div class="callout"><b>STUR's task</b>Build a resistance term from spacetime geometry, not from a separate field, that does what E<sub>4</sub> does here. In holonomy terms, spin &frac12; means a 2&pi; loop returns the state multiplied by &minus;1.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cycle -->
+  <section id="cycle" aria-labelledby="cyc-h">
+    <p class="eyebrow">The cosmological cycle</p>
+    <h2 id="cyc-h">Slow, but finite</h2>
+    <p class="lede">Every black hole evaporates eventually. Accelerating expansion means matter ends in many separate holes rather than one, but each still evaporates, so the cycle only needs &ldquo;all black holes&rdquo;.</p>
+    <div class="grid g2">
+      <div>
+        <div class="table">
+          <table>
+            <thead><tr><th>Black hole</th><th>Evaporation time</th></tr></thead>
+            <tbody>
+              <tr><td>1 solar mass</td><td class="num">2.1&times;10<sup>67</sup> yr</td></tr>
+              <tr><td>Sgr A* (4&times;10<sup>6</sup> M<sub>&#9737;</sub>)</td><td class="num">1.3&times;10<sup>87</sup> yr</td></tr>
+              <tr><td>10<sup>11</sup> M<sub>&#9737;</sub> (largest known class)</td><td class="num">2.1&times;10<sup>100</sup> yr</td></tr>
+              <tr><td>All the observable universe's mass</td><td class="num">9.0&times;10<sup>135</sup> yr</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small muted" style="margin-top:8px">t = 5120&pi;G&sup2;M&sup3;/(&#8463;c&#8308;); check 4 of <code>stur_verify.py</code>.</p>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <span class="tag known">known (LQC)</span>
+          <h3>1 &middot; Matter collapse stops</h3>
+          <div class="eq sm">H&sup2; = (8&pi;G/3) &rho; (1 &minus; &rho;/&rho;<sub>c</sub>), &nbsp; &rho;<sub>c</sub> &asymp; 0.41&rho;<sub>Pl</sub></div>
+          <p class="small muted">The bracket halts collapse: the loop-quantum-cosmology template.</p>
+        </div>
+        <div class="card">
+          <span class="tag hyp">STUR hypothesis</span>
+          <h3>2 &middot; The tunneling event</h3>
+          <div class="eq sm">&Gamma;(&rho;) = &#119964; exp[&minus;(B<sub>0</sub> + R(&rho;))/&#8463;]</div>
+          <p class="small muted">R large while matter exists, finite as &rho; &rarr; 0. The Bekenstein bound links the two: as density falls, the ceiling on &Phi;<sub>R</sub>&sup2; falls with it, leaving a zero-information blank slate. Writing R(&rho;) and &rho;<sub>c</sub> in terms of &Phi;<sub>R</sub> is open.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Open problems -->
+  <section id="open" aria-labelledby="open-h">
+    <p class="eyebrow">Falsification targets</p>
+    <h2 id="open-h">What the equation stands or falls on</h2>
+    <p class="lede">In order of importance.</p>
+    <div class="grid g2 open">
+      <div class="card kill"><h3>Test the postulate</h3><p class="small muted">S<sub>R</sub> = &frac12;k<sub>B</sub>&Phi;<sub>R</sub>&sup2; predicts &Phi;<sub>R</sub>&sup2; = 2E/(k<sub>B</sub>T): at fixed energy deposited, a <strong>colder interferometer loses more visibility</strong>. First check whether standard decoherence theory already predicts this scaling. If yes, the postulate is consistent but not new; if no, it is a falsifiable signature for atom interferometers (MAGIS-100, AION).</p></div>
+      <div class="card kill"><h3>Fix the connection A<sub>&mu;</sub></h3><p class="small muted">Spin connection, U(1), or a new field. Until it is fixed, &Phi;<sub>R</sub> has no definite value in any experiment.</p></div>
+      <div class="card kill"><h3>Derive &sigma;(&mu;)</h3><p class="small muted">A flow equation carrying the QCD tension to the Planck tension across 38 orders of magnitude, with electromagnetism kept on the perimeter law in between.</p></div>
+      <div class="card kill"><h3>Show the two areas are the same kind</h3><p class="small muted">The QCD area law uses loops in spacetime; the black-hole area is a horizon. AdS/CFT connects them, but our universe has positive &Lambda;, where holography is not established.</p></div>
+      <div class="card kill"><h3>Quark quantum numbers</h3><p class="small muted">Field solitons give baryons. Getting quarks from spacetime folds requires 3 colours, charges &#8532; and &minus;&#8531;, three generations and confinement. No existing work does this.</p></div>
+      <div class="card kill"><h3>One quantity for bounce and barrier</h3><p class="small muted">Write R(&rho;) and &rho;<sub>c</sub> in terms of &Phi;<sub>R</sub>, so one quantity sets both the bounce and the tunneling barrier.</p></div>
+      <div class="card kill"><h3>Information paradox</h3><p class="small muted">If evaporation ends at zero information, STUR must say where black-hole information goes.</p></div>
     </div>
   </section>
 
   <!-- Reproduce -->
   <section id="reproduce" aria-labelledby="rep-h">
-    <p class="eyebrow">Open science</p>
-    <h2 id="rep-h">Reproduce every number</h2>
+    <p class="eyebrow">Reproduce</p>
+    <h2 id="rep-h">Every number on this page, from one script</h2>
     <div class="grid g2">
       <div>
         <pre><code>git clone https://github.com/sheldonlindberg-afk/STUR-Physics-Lab
 cd STUR-Physics-Lab
 pip install -r requirements.txt
-python src/stur_final.py        # ~30 s
-python src/checks/r7_audit.py   # ~1.5 min, the math audit
-python -m pytest tests/ -q      # regression + physics tests
-node --test tests/web_sim.test.mjs</code></pre>
+python3 src/stur_verify.py      # ~20 s, numpy + scipy</code></pre>
+        <p class="small muted" style="margin-top:10px">CI reruns the script on every push and requires its output to match <code>results/stur_verify_output.txt</code> exactly.</p>
+        <details>
+          <summary>References</summary>
+          <div class="body">
+            <p class="small">Standard literature, cited from knowledge and not link-checked; verify page details before submission.</p>
+            <ul class="refs">
+              <li>Ashtekar, Pawlowski, Singh, &ldquo;Quantum nature of the big bang&rdquo;, PRL 96, 141301 (2006)</li>
+              <li>Battye, Sutcliffe, &ldquo;Symmetric Skyrmions&rdquo;, PRL 79, 363 (1997)</li>
+              <li>Bekenstein, &ldquo;Universal upper bound on the entropy-to-energy ratio for bounded systems&rdquo;, PRD 23, 287 (1981)</li>
+              <li>de Boer, Verlinde, Verlinde, &ldquo;On the holographic renormalization group&rdquo;, JHEP 08 (2000) 003</li>
+              <li>Derrick, &ldquo;Comments on nonlinear wave equations as models for elementary particles&rdquo;, J. Math. Phys. 5, 1252 (1964)</li>
+              <li>Englert, &ldquo;Fringe visibility and which-way information: an inequality&rdquo;, PRL 77, 2154 (1996)</li>
+              <li>Friedman, Sorkin, &ldquo;Spin &frac12; from gravity&rdquo;, PRL 44, 1100 (1980)</li>
+              <li>Hawking, &ldquo;Particle creation by black holes&rdquo;, Commun. Math. Phys. 43, 199 (1975)</li>
+              <li>Houghton, Manton, Sutcliffe, &ldquo;Rational maps, monopoles and Skyrmions&rdquo;, Nucl. Phys. B 510, 507 (1998)</li>
+              <li>Landauer, &ldquo;Irreversibility and heat generation in the computing process&rdquo;, IBM J. Res. Dev. 5, 183 (1961)</li>
+              <li>Maldacena, &ldquo;Wilson loops in large N field theories&rdquo;, PRL 80, 4859 (1998)</li>
+              <li>Penrose, <em>Cycles of Time</em> (Bodley Head, 2010)</li>
+              <li>Rovelli, Vidotto, &ldquo;Planck stars&rdquo;, Int. J. Mod. Phys. D 23, 1442026 (2014)</li>
+              <li>Ryu, Takayanagi, &ldquo;Holographic derivation of entanglement entropy from AdS/CFT&rdquo;, PRL 96, 181602 (2006)</li>
+              <li>Skyrme, &ldquo;A unified field theory of mesons and baryons&rdquo;, Nucl. Phys. 31, 556 (1962)</li>
+              <li>Smarr, &ldquo;Mass formula for Kerr black holes&rdquo;, PRL 30, 71 (1973)</li>
+              <li>Verlinde, &ldquo;On the origin of gravity and the laws of Newton&rdquo;, JHEP 04 (2011) 029</li>
+              <li>Vilenkin, &ldquo;Creation of universes from nothing&rdquo;, Phys. Lett. B 117, 25 (1982)</li>
+            </ul>
+          </div>
+        </details>
       </div>
-      <div class="grid" style="gap:10px">
-        <a class="card" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/HYPOTHESIS.md"><h3>Hypothesis</h3><span class="small muted">The claim, the chain, the constraints</span></a>
-        <a class="card" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/PREDICTIONS.md"><h3>Predictions</h3><span class="small muted">&beta;(&ell;), tomography, kill criteria</span></a>
-        <a class="card" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/STATUS.md"><h3>Status</h3><span class="small muted">What is derived, corrected, and still open</span></a>
-        <a class="card" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/docs/REFINEMENT_R7.md"><h3>Round 7 audit</h3><span class="small muted">Every number rechecked</span></a>
+      <div class="dl">
+        <a class="card" href="docs/STUR_Resistance_Equation_Derivation_Record.pdf"><h3>Derivation record (PDF)</h3><span class="small muted">The full nine-page record, with status labels on every step</span></a>
+        <a class="card" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/src/stur_verify.py"><h3>stur_verify.py</h3><span class="small muted">Five checks: Smarr, phase noise, tensions, evaporation, Skyrme</span></a>
+        <a class="card" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/stur_verify_output.txt"><h3>Script output</h3><span class="small muted">The reference output CI compares against</span></a>
+        <a class="card" href="archive/stur-roll/index.html"><h3>Archive: STUR-ROLL</h3><span class="small muted">The previous site: cosmic birefringence |&beta;| = &alpha;/2, simulator and nine refinement rounds</span></a>
       </div>
     </div>
   </section>
@@ -370,12 +392,11 @@ node --test tests/web_sim.test.mjs</code></pre>
 <footer>
   <div class="foot">
     <span>&copy; 2026 Sheldon Lindberg &middot; CC0 1.0 &middot; <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab">GitHub</a></span>
-    <span><a href="archive/v7-toe/index.html">Archive: superseded STUR v7</a></span>
+    <span><a href="archive/stur-roll/index.html">Archive: STUR-ROLL</a> &middot; <a href="archive/v7-toe/index.html">STUR v7</a></span>
   </div>
 </footer>
 
-<script src="assets/js/stur-roll-sim.js"></script>
-<script src="assets/js/stur-roll-app.js"></script>
+<script src="assets/js/stur-resistance.js"></script>
 <script src="assets/js/stur-sw-register.js"></script>
 </body>
 </html>

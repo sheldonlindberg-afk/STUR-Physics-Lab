@@ -1,13 +1,13 @@
 cff-version: 1.2.0
 message: "If you use this work, please cite it as below."
-title: "STUR-ROLL: cosmic birefringence from integers"
+title: "STUR Resistance Equation: Derivation Record"
 abstract: >-
-  A Z2-odd U(1) holonomy on an S1/Z2 orbifold couples to photons through a
-  5D Chern-Simons term at integer level k. A smooth birth fixes the holonomy
-  at zero; a parity-fixed brane twist turns that point into a hilltop; the
-  late roll by pi rotates CMB polarization by beta = k alpha / 2 = 0.2091 deg
-  for k = 1, with no fitted parameter. Testable by LiteBIRD through the
-  amplitude and the tomographic difference.
+  Resistance is one loop phase, Phi_R, whose variance is entropy, whose
+  energy cost is set by temperature, and whose ceiling is set by boundary
+  area. One line is a STUR postulate, S_R = 1/2 k_B Phi_R^2; the rest is
+  established physics or follows from it. Saturating the holographic ceiling
+  at the Hawking temperature reproduces Smarr's relation Mc^2 = 2TS. Every
+  number is reproduced by src/stur_verify.py.
 authors:
   - family-names: Lindberg
     given-names: Sheldon
@@ -16,10 +16,10 @@ license: CC0-1.0
 repository-code: "https://github.com/sheldonlindberg-afk/STUR-Physics-Lab"
 url: "https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/"
 keywords:
-  - cosmic birefringence
-  - CMB polarization
-  - Chern-Simons
-  - orbifold
-  - axion
-  - LiteBIRD
-date-released: "2026-10-31"
+  - holonomy
+  - Wilson loop
+  - fringe visibility
+  - holographic bound
+  - Smarr relation
+  - Skyrmion
+date-released: "2026-11-01"

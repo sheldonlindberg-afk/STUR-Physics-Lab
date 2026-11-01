@@ -11,6 +11,11 @@
     var p = location.pathname, m = p.match(/^(\/STUR-Physics-Lab\/)(.*)$/i);
     if (!m || /^archive\//i.test(m[2])) return;
     var rest = m[2];
+    // STUR-ROLL docs, code and results moved to /archive/stur-roll/ on 2026-11-01.
+    if (/^(docs\/(?!STUR_Resistance)|src\/(checks\/|stur_final|alp_vs_stur)|results\/(?!stur_verify)|tests\/(test_stur_final|web_sim))/i.test(rest)) {
+      location.replace(m[1] + 'archive/stur-roll/' + rest + location.search + location.hash);
+      return;
+    }
     if (/^scripts\//i.test(rest) || /^tests\//i.test(rest) ||
         /^(about|mycitations|sitemap)\.html$/i.test(rest) || /\.md$/i.test(rest)) {
       location.replace(m[1] + 'archive/v7-toe/' + rest + location.search + location.hash);
@@ -39,9 +44,10 @@
   <div class="box">
     <img src="/STUR-Physics-Lab/assets/4.13.png" alt="STUR">
     <h1>Page not found</h1>
-    <p>The site has been reorganized around STUR-ROLL. Pages from STUR v7 now live in the archive.</p>
+    <p>The site now leads with the STUR Resistance Equation. The STUR-ROLL site and the STUR v7 pages live in the archive.</p>
     <div class="links">
-      <a class="primary" href="/STUR-Physics-Lab/">STUR-ROLL home</a>
+      <a class="primary" href="/STUR-Physics-Lab/">STUR home</a>
+      <a class="secondary" href="/STUR-Physics-Lab/archive/stur-roll/index.html">STUR-ROLL archive</a>
       <a class="secondary" href="/STUR-Physics-Lab/archive/v7-toe/index.html">STUR v7 archive</a>
     </div>
   </div>
