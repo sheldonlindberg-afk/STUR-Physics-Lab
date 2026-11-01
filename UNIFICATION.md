@@ -113,6 +113,10 @@ says nothing about QCD.
 
 ## 4. The gap: QCD confinement
 
+**Update:** step 2 ([CONFINEMENT.md](CONFINEMENT.md)) narrows this gap. Bisognano–Wichmann
+applies to QCD's vacuum too. By the replica argument and the lattice test, the confinement area
+enters the modular energy ⟨K⟩, not the entropy. The text below is the original statement.
+
 Free and abelian fields fit (U2) and give a perimeter law. The confining area
 law with σ_QCD is non-perturbative, and nobody knows K for a region pierced by
 a flux tube.
