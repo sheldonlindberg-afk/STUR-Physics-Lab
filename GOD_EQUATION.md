@@ -55,3 +55,43 @@ With the assumed σ(wₐ), that's a 4–8σ mismatch in wₐ.
 
 **What this tells the search:** a holographic equation would have to produce w < −1
 in the past and w > −1 today. Plain horizon holography gives the reverse.
+
+## Front 2: running vacuum, the bridge from our own equation
+
+Script: `src/god_eq_running_vacuum.py`; output: `results/god_equation/running_vacuum.txt`.
+
+**R1: our equation's own bridge is dead (FOLLOWS).** The species running of the
+horizon tension (U3), evaluated at the cosmic scale μ = H, changes G by
+δG/G = 4cN(H₀/M_P)² = 1.3×10⁻¹²³ per scalar field. **Our unified equation predicts
+nothing for dark energy.**
+
+**R2: the running-vacuum family (KNOWN; Shapiro & Solà).** Vacuum energy slowly
+exchanges with matter: ρ_vac(H) = ρ₀ + (3ν/8π)M_P²(H² − H₀²). In this model matter
+isn't separately conserved. An analysis that assumes it is would infer an
+effective w₀ and wₐ:
+- **ν > 0 lands in DESI's quadrant** (w₀ > −1, wₐ < 0), and ν < 0 in the opposite
+  one. That is the right direction, unlike front 1.
+- The model never crosses w = −1 over 0.3 < a < 1.
+- Matching DESI's w₀ = −0.75 needs **ν ≈ 0.13**, which then gives wₐ = −2.1. From
+  ν ≈ 0.03 upward, the inferred dark-energy density turns negative in the past.
+
+**R3: the early universe kills the size.** Matter then scales as a^(−3(1−ν)), so at
+recombination the matter density is off by a factor a^(3ν). For ν = 0.13 that factor
+is 0.06: a 16× deficit. Planck pins Ω_c h² to about 1% (LIT: 0.120 ± 0.001), which
+requires |ν| ≲ 4.8×10⁻⁴. At that ν, w₀ = −0.9994 and wₐ = −0.006: **about 0.2% of
+the DESI signal.**
+
+The 1% criterion is crude. It ignores parameter degeneracies, and I haven't checked
+the published running-vacuum fits. But the gap is a factor of 277.
+
+**Verdict:** the running vacuum has the right *sign* for DESI but is about 300×
+too weak once the CMB is respected. Our unified equation doesn't feed it at all.
+
+## What two fronts have taught the search
+
+DESI's hint needs dark energy that is phantom in the past (w < −1) and above −1
+today, *without* changing the early universe. Neither a horizon-holographic density
+(wrong direction) nor a vacuum–matter exchange (right direction, CMB-limited)
+does this. Simple vacuum-energy equations can't produce it; it needs a dynamical
+field or a late-time-only effect. The DESI signal itself may also shrink, since it
+depends on the supernova calibration.
