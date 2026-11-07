@@ -52,3 +52,11 @@ def test_three_generations():
     assert [r[0] for r in T.allowed_Ng(5) if r[2]] == [5]
     mu = brentq(lambda m: T.sin2_running(m) - 0.25, 100, 1e6)
     assert 3.5e3 < mu < 3.9e3
+
+
+def test_su3L_and_hypercharge_selection():
+    import god_eq_su3L_running as L
+    assert L.landau(5)[1] is None and L.landau(7)[1] < L.M_PLANCK      # SU(3)_L cuts N_c >= 7
+    from fractions import Fraction
+    assert L.bY(3, False) == Fraction(-41, 6)                          # reproduces the SM
+    assert L.bY_pole(3)[1] > L.M_PLANCK > L.bY_pole(5)[1]               # hypercharge cuts 5 (estimate)

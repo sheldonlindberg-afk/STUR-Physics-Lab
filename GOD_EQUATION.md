@@ -263,3 +263,62 @@ one in the triplet.
   bileptons) within the LHC's long-term reach.
 - **The wall moves but doesn't fall:** why that one number is 3 is still decided by
   observation.
+
+## Front 7: running couplings select N_c = N_g = 3 (conditional)
+
+Script: `src/god_eq_su3L_running.py`; output: `results/god_equation/su3L_running.txt`.
+
+**Assumption (labelled):** the theory stays perturbative, with no Landau pole, up to the
+Planck scale. This is a standard criterion, not a theorem.
+
+**L1–L3: SU(3)_L (one loop, computed).** With N_g = N_c there are N_c(1 + N_c) Weyl
+triplets, and the running coefficient is b_L = 11 − N_c(1 + N_c)/3 − (scalar terms).
+Starting from 1/α_L(4 TeV) = 31.5:
+
+| N_c | b_L (3 scalar triplets) | Landau pole |
+|---|---|---|
+| 3 | +6.5 | none (asymptotically free) |
+| 5 | +0.5 | none (asymptotically free) |
+| 7 | −8.2 | 1.3×10¹⁴ GeV, below the Planck scale |
+| 9 | −19.5 | 10⁸ GeV |
+
+Adding the minimal model's sextet gives the same verdict: N_c = 5 then has a pole at
+10²⁶¹ GeV, harmless. **So SU(3)_L cuts every N_c ≥ 7; theory leaves {3, 5}.**
+
+**L4: hypercharge (ESTIMATE).** This is hypercharge-equivalent running with front 5's
+N_c-dependent charges, one exotic quark per generation (β = −1/√3 pattern) and only the
+Standard Model Higgs among scalars. The method reproduces the Standard Model's b_Y = −41/6
+exactly.
+
+| Content | b_Y | Landau pole |
+|---|---|---|
+| N_c = N_g = 3, with exotics | −9.50 | 4.7×10³⁰ GeV: **above** the Planck scale |
+| N_c = N_g = 5, with exotics | −22.17 | 1.6×10¹⁵ GeV: **below** the Planck scale |
+| N_c = N_g = 7 | −24 to −40 | 10¹⁰–10¹⁴ GeV: below |
+
+**Robustness.** A pole exactly at the Planck scale corresponds to |b_Y| = 16.61:
+- N_c = 3 would flip only if |b_Y| grew by 7.1;
+- N_c = 5 would flip only if it shrank by 5.6.
+
+The three scalar triplets add roughly 1–2 (not computed exactly). The true U(1)_X charges
+would shift b by O(1). Neither is large enough to flip either verdict.
+
+**Verdict, conditional on the framework (3-3-1, β = ±1/√3 type) and the assumption
+(perturbative to the Planck scale):**
+- Witten's anomaly (front 5) requires N_c odd.
+- The SU(3)_L anomaly plus QCD asymptotic freedom (front 6) gives N_g = N_c.
+- SU(3)_L perturbativity removes N_c ≥ 7.
+- Hypercharge perturbativity removes N_c = 5.
+- **That leaves exactly N_c = N_g = 3:** the colours, the generations, and through
+  anomalies the ⅓ charges, all from one chain of consistency conditions.
+
+**Status:**
+- **Known vs new:** N_g = 3 from 3-3-1 is KNOWN (Frampton). Extending the chain to fix N_c
+  as well, using N_c-dependent charges and Landau poles, is this project's step. I haven't
+  checked whether it is in the literature.
+- **Not computed:** the hypercharge step is an estimate; two-loop terms, the exact X
+  charges and the full scalar content are open.
+- **Assumption-dependent:** a Landau pole below the Planck scale only signals new physics,
+  not inconsistency. Drop the assumption and the selection drops with it.
+- **What decides the framework:** the β = ±1/√3 3-3-1 models predict a Z′ and bileptons,
+  which the LHC (now) and future colliders can find or exclude.
