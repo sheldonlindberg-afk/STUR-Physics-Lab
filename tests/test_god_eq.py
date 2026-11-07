@@ -73,3 +73,12 @@ def test_331_exact_two_loop():
     for Nc in (3, 5, 7):
         assert all(v == 0 for v in E.anomalies(Nc).values())
     assert E.run_two_loop(3)[0] > E.M_PLANCK > E.run_two_loop(5)[0]
+
+
+def test_331_plus_variant():
+    import os, sys
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
+    import god_eq_331_exact as E
+    for Nc in (3, 5, 7):
+        assert all(v == 0 for v in E.anomalies(Nc, E.model_331_plus).values())
+    assert E.run_two_loop(3, model=E.model_331_plus)[0] > E.M_PLANCK > E.run_two_loop(5, model=E.model_331_plus)[0]

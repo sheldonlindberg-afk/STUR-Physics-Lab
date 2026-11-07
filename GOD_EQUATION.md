@@ -377,3 +377,38 @@ Still conditional on:
 1. the 3-3-1 framework, decided by collider searches for its Z′ and bileptons;
 2. the perturbativity assumption;
 3. this β value. The β = +1/√3 variant hasn't been checked.
+
+## Front 7c: the other viable variant (β = +1/√3)
+
+Same script, section E4. Exact charges for general N_c:
+- lepton triplets (ν, e, E⁻) with X = −⅔, plus a heavy charged lepton E;
+- quark triplet X = Q_u − ⅔, with a d-like exotic quark;
+- quark anti-triplet X = Q_d + ⅔, with a u-like exotic quark;
+- scalars X = ⅓, ⅓, −⅔, fixed by the Yukawa couplings.
+
+**All anomalies vanish** for N_c = 3, 5 and 7.
+
+**Two-loop blow-up scale (GeV) for three perturbativity criteria. The Planck scale is
+1.2×10¹⁹ GeV.**
+
+| Variant | Criterion | N_c = 3 | N_c = 5 |
+|---|---|---|---|
+| β = −1/√3 | g = 4π | 3.0×10²⁹ | 1.3×10¹⁵ |
+| β = −1/√3 | α = 1 | 1.8×10²⁹ | 1.0×10¹⁵ |
+| β = −1/√3 | g = 1 (α = 0.08) | 5.3×10²⁵ | 2.7×10¹³ |
+| β = +1/√3 | g = 4π | **4.0×10¹⁹** | 5.5×10¹¹ |
+| β = +1/√3 | α = 1 | **2.9×10¹⁹** | 4.7×10¹¹ |
+| β = +1/√3 | g = 1 (α = 0.08) | 2.0×10¹⁷ | 3.6×10¹⁰ |
+
+N_c = 7 fails in both variants (10⁸–10¹⁰ GeV).
+
+**Verdict:**
+- **β = −1/√3:** selects N_c = N_g = 3 under every criterion, by many orders of magnitude.
+- **β = +1/√3:** selects 3 under the standard criteria (g = 4π, α = 1), but only narrowly:
+  its pole sits a factor of 2–3 above the Planck scale. The g = 1 criterion is overly
+  strict, since α = 0.08 is still perturbative.
+  - The margin grows with the 3-3-1 scale: 2.9×10¹⁹ GeV at 2 TeV, 9.9×10¹⁹ at 30 TeV.
+  - Two-loop Yukawa terms are not included. In the Standard Model they slow U(1) growth;
+    I haven't checked whether they do so here.
+- **So in both viable 3-3-1 variants, perturbativity to the Planck scale leaves exactly
+  N_c = N_g = 3.** The result is robust in one variant and narrow in the other.

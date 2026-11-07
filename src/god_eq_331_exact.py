@@ -127,8 +127,27 @@ def model_331(Nc):
     return gs, ferm, scal, (Xt, Xa, Qu, Qd, Ng, nA)
 
 
-def anomalies(Nc):
-    gs, ferm, scal, (Xt, Xa, Qu, Qd, Ng, nA) = model_331(Nc)
+def model_331_plus(Nc):
+    """beta = +1/sqrt3: Q = T3 + T8/sqrt3 + X.  Leptons (nu, e, E-) triplets X = -2/3 with
+    heavy charged lepton E; quark triplet (u, d, J) X = Q_u - 2/3 (J d-like); anti-triplet
+    (d, -u, J') X = Q_d + 2/3 (J' u-like).  Scalars from the Yukawas: X = 1/3, 1/3, -2/3."""
+    Qu, Qd = F(Nc + 1, 2 * Nc), F(1 - Nc, 2 * Nc)
+    Ng, nA = Nc, (1 + Nc) // 2
+    Xt, Xa = Qu - F(2, 3), Qd + F(2, 3)
+    gs = [Group("X"), Group("SU3L", 3), Group("SUNc", Nc)]
+    ferm = [(Ng, (None, 3, 1), F(-2, 3)), (Ng, (None, 1, 1), F(1)), (Ng, (None, 1, 1), F(1)),
+            (Ng - nA, (None, 3, Nc), Xt), (nA, (None, 3, Nc), Xa)]
+    ferm += [(Ng, (None, 1, Nc), -Qu), (Ng, (None, 1, Nc), -Qd),
+             (Ng - nA, (None, 1, Nc), -Qd), (nA, (None, 1, Nc), -Qu)]
+    scal = [(1, (None, 3, 1), F(1, 3)), (1, (None, 3, 1), F(1, 3)), (1, (None, 3, 1), F(-2, 3))]
+    return gs, ferm, scal, (Xt, Xa, Qu, Qd, Ng, nA)
+
+
+MODELS = {"-1/sqrt3": model_331, "+1/sqrt3": model_331_plus}
+
+
+def anomalies(Nc, model=model_331):
+    gs, ferm, scal, (Xt, Xa, Qu, Qd, Ng, nA) = model(Nc)
     def dim(d):
         p = 1
         for x in d[1:]:
@@ -144,8 +163,8 @@ def anomalies(Nc):
     return A
 
 
-def run_two_loop(Nc, mu0=4e3, loops=2):
-    gs, ferm, scal, _ = model_331(Nc)
+def run_two_loop(Nc, mu0=4e3, loops=2, model=model_331, gmax=4 * pi):
+    gs, ferm, scal, _ = model(Nc)
     a, b = coefficients(gs, ferm, scal)
     a = np.array([float(x) for x in a]); b = np.array([[float(x) for x in r] for r in b])
     L0 = log(mu0 / MZ) / (2 * pi)
@@ -162,7 +181,7 @@ def run_two_loop(Nc, mu0=4e3, loops=2):
         return g**3 / (16 * pi**2) * (a + two)
 
     def blow(t, g):
-        return 4 * pi - max(g)                                 # g = 4 pi: non-perturbative
+        return gmax - max(g)                                   # default g = 4 pi: non-perturbative
     blow.terminal = True
     tmax = log(1e40 / mu0)
     sol = solve_ivp(rhs, [0, tmax], g0, events=blow, rtol=1e-9, atol=1e-12, max_step=0.5)
@@ -210,7 +229,30 @@ def main():
               f"{'none' if res[1] is None else f'{res[1]:.1e}'}")
 
 
+def variant_plus():
+    banner("E4  The other viable variant: beta = +1/sqrt3 (exact charges, two loops)")
+    for Nc in [3, 5, 7]:
+        A = anomalies(Nc, model_331_plus)
+        print(f"   N_c = {Nc} anomalies: " + ", ".join(f"{k} = {v}" for k, v in A.items()))
+    for Nc in [3, 5, 7]:
+        mp, a, b, aXi = run_two_loop(Nc, model=model_331_plus)
+        print(f"   N_c = N_g = {Nc}: a = ({a[0]:.2f}, {a[1]:.2f}, {a[2]:.2f})  ->  "
+              f"{'no blow-up below 1e40 GeV' if mp is None else f'blow-up at {mp:.1e} GeV'}"
+              f"  {'' if mp is None else ('BELOW' if mp < M_PLANCK else 'above') + ' Planck'}")
+    print("   criterion for 'non-perturbative' (blow-up scale, GeV; Planck = 1.2e19):")
+    for name, m in MODELS.items():
+        for crit, gm in [("g = 4 pi", 4 * pi), ("alpha = 1", sqrt(4 * pi)), ("g = 1 (alpha = 0.08)", 1.0)]:
+            r = [run_two_loop(Nc, model=m, gmax=gm)[0] for Nc in (3, 5)]
+            print(f"     beta = {name:8s} {crit:22s} N_c = 3: {r[0]:.1e}   N_c = 5: {r[1]:.1e}")
+    for mu0 in [2e3, 1e4, 3e4]:
+        res = [run_two_loop(Nc, mu0=mu0, model=model_331_plus)[0] for Nc in (3, 5)]
+        print(f"     mu_331 = {mu0/1e3:5.0f} TeV:  N_c = 3 -> "
+              f"{'none' if res[0] is None else f'{res[0]:.1e}'}   N_c = 5 -> "
+              f"{'none' if res[1] is None else f'{res[1]:.1e}'}")
+
+
 if __name__ == "__main__":
     import sys, os
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     main()
+    variant_plus()
