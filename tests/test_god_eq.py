@@ -34,3 +34,12 @@ def test_spin_charge_twist():
     best = min(S.mismatch(a, b, c, 0.0, sm) for a in range(3) for b in range(2)
                for c in np.linspace(0, 6, 6001))
     assert best > 1.9                                            # none without B-L
+
+
+def test_why_three():
+    import god_eq_why_three as W
+    import sympy as sp
+    Qu, Qd, cub = W.charges(3)
+    assert (Qu, Qd, cub) == (sp.Rational(2, 3), sp.Rational(-1, 3), 0)
+    Qu5, Qd5, cub5 = W.charges(5)
+    assert cub5 == 0 and 5 * (Qu5**2 - Qd5**2) == 1          # pi0 amplitude blind to N_c

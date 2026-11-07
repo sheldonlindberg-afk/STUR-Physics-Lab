@@ -184,3 +184,31 @@ string.
   generations and masses are untouched; and quark-as-fold fails on baryons.
 - **What's left to explain:** *why N_c = 3*. That single number fixes the thirds, the
   Z₃ twist and the baryon's three quarks.
+
+## Front 5: why three colours?
+
+Script: `src/god_eq_why_three.py`; output: `results/god_equation/why_three.txt`.
+
+Each route is labelled **THEORY** (a theoretical selection) or **OBSERVATION**.
+
+| Route | Result | Kind |
+|---|---|---|
+| W1: Witten's global SU(2) anomaly | each generation has N_c + 1 doublets, which must be an even number, so **N_c must be odd** | THEORY |
+| W2: perturbative anomalies + Yukawas, solved symbolically | Q_u = (N_c + 1)/2N_c, Q_d = (1 − N_c)/2N_c; the cubic anomaly vanishes for *every* N_c. Anomalies fix the charges *given* N_c, not N_c. | THEORY (no selection) |
+| W3: front 4's spin–charge relation, (−1)^F = exp(iπN_c(B−L)) | works only for odd N_c, the same condition as W1. **The twist and Witten's anomaly agree.** | THEORY |
+| W4: asymptotic freedom with 6 flavours | b₀ > 0 for any N_c ≥ 2; only a lower bound (a strong force has to exist) | THEORY (lower bound) |
+| W5: front 4's minimal fold | works for every N_c, with colour twist k = N_c − 1 | no selection |
+| W6: π⁰ → γγ | N_c(Q_u² − Q_d²) = 1 for *every* N_c (KNOWN, Bär–Wiese) | blind to N_c |
+| W6: R-ratio below charm, vs KEDR 2.225 ± 0.051 (LIT) | N_c = 1: −24σ · 2: −15σ · **3: −1.0σ** · 4: +16σ · 5: +33σ · 7: +73σ | **OBSERVATION picks 3** |
+
+R uses N_c-dependent charges and α_s(2.45 GeV) = 0.272 from our two-loop running. α_s
+would itself shift with N_c, but that can't absorb a 15–33σ miss.
+
+**Verdict:**
+- **Theory gives:** N_c odd (two independent routes, Witten's anomaly and the twist,
+  which agree), plus N_c ≥ 2 if a strong force exists at all. So N_c ∈ {3, 5, 7, …}.
+- **Observation picks 3** (the R-ratio). Three is the *smallest* value theory allows,
+  but nothing derived here forces minimality.
+- **This is a wall.** "Why 3 and not 5" has no theoretical answer in known physics or
+  in anything built here. A god equation would have to supply a principle that selects
+  the minimal odd value, or fix N_c some other way.
