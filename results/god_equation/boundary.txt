@@ -1,0 +1,26 @@
+
+==============================================================================
+A  Shaposhnikov-Wetterich: lambda(mu*) = 0
+==============================================================================
+   mu* = 2.44e+18 GeV:  predicted m_H =  133.0 GeV (one loop, m_t = 172.57)   beta_lambda(mu*) = -2.3e-04
+                         m_t needed for m_H = 125.20:  168.61 GeV   (measured 172.57 +- 0.29)
+   mu* = 1.22e+19 GeV:  predicted m_H =  133.1 GeV (one loop, m_t = 172.57)   beta_lambda(mu*) = -1.4e-04
+                         m_t needed for m_H = 125.20:  168.61 GeV   (measured 172.57 +- 0.29)
+
+   calibration: one-loop stability bound 133.1 GeV vs NNLO ~129.5 (recalled) -> one-loop offset ~+3.6 GeV
+   corrected SW prediction (mu* = 2.4e+18): m_H ~ 129.4 GeV  vs measured 125.20
+   corrected SW prediction (mu* = 1.2e+19): m_H ~ 129.5 GeV  vs measured 125.20
+   -> lambda ~ 0 near M_P is near-critical: beta_lambda is small there too, so the
+      condition is natural - but at face value it predicts m_H ~ 129-130, not 125.
+
+==============================================================================
+B  Eichhorn-Held: y_t^2 - y_b^2 = g1^2/3 at mu*  ->  m_t
+==============================================================================
+   mu* = 2.44e+18:  g1 = 0.4686, y_t(fixed point) = 0.2706  (measured y_t runs to 0.4112)
+                     predicted m_t =  135.9 GeV   measured 172.57
+   mu* = 1.22e+19:  g1 = 0.4759, y_t(fixed point) = 0.2748  (measured y_t runs to 0.4025)
+                     predicted m_t =  139.6 GeV   measured 172.57
+   LIT (retrieved via search, not read in full): Eichhorn-Held 2017 (arXiv 1707.01107 v3):
+   M_t ~ 171 GeV for a RANGE of gravity couplings (not parameter-free) and M_h ~ 132 GeV.
+   Their 2018 top/bottom-from-hypercharge paper (1803.04027) could not be read here (network
+   block); this parameter-free one-loop version gives m_t ~ 136-140 GeV - UNRECONCILED.

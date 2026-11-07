@@ -500,3 +500,45 @@ and quantum numbers. *Numbers* (masses, couplings, Λ) need dynamics with a boun
 condition or a symmetry, and the equation contains neither. Getting them needs **new,
 testable structure**, and the cleanest candidate class is a UV boundary condition at the
 Planck scale.
+
+## Front 10: Planck-scale boundary conditions (asymptotic-safety gravity)
+
+Script: `src/god_eq_boundary.py`; output: `results/god_equation/boundary.txt`.
+
+These are the cleanest known mechanisms that turn a condition at the Planck scale into a
+*number*. The transition scale μ* is scanned between the reduced Planck mass
+(2.4×10¹⁸ GeV) and M_Pl (1.2×10¹⁹ GeV). Running is one loop, with y_t, y_b and λ.
+
+**A. Shaposhnikov–Wetterich: λ(μ*) = 0 (KNOWN mechanism)**
+- **Prediction:** m_H = 133.0–133.1 GeV at one loop. After subtracting the one-loop
+  offset calibrated against the NNLO stability bound (~129.5 GeV, recalled), that becomes
+  **≈ 129.5 GeV, against a measured 125.20**.
+- **β_λ(μ*) ≈ −2×10⁻⁴.** The condition is natural, because the Standard Model is near-
+  critical there (λ and β_λ both about zero near the Planck scale).
+- **Inverted:** m_H = 125.20 would need **m_t ≈ 168.6 GeV** (one loop), against a measured
+  172.57 ± 0.29.
+- **Independent cross-check:** the corrected Eichhorn–Held paper also predicts
+  M_h ≈ 132 GeV (LIT, retrieved via search).
+
+**Verdict: λ(M_Pl) = 0 is a near miss.** It overshoots the Higgs mass by about 4 GeV, the
+same miss as vacuum stability in front 9.
+
+**B. Eichhorn–Held: a universal gravitational term in the Yukawa couplings**
+- **The relation (FOLLOWS, derived here at one loop):** if both y_t and y_b sit at fixed
+  points with a common gravity term, the strong and weak terms cancel, leaving
+  **y_t² − y_b² = g₁²/3** at μ*. That fixes y_t(μ*) = 0.271–0.275 *with no free gravity
+  parameter*.
+- **Prediction:** running down gives **m_t ≈ 136–140 GeV, against a measured 172.57**:
+  about 20% low. The measured y_t only reaches 0.40–0.41 at those scales.
+- **The literature's ~171 GeV** (Eichhorn–Held 2017) uses a *range* of gravity couplings,
+  so it isn't parameter-free. Their parameter-free top/bottom paper (arXiv:1803.04027)
+  couldn't be read here (network block), so the gap between my 136–140 GeV and their
+  result is **unreconciled**.
+
+**Verdict:** the Planck boundary conditions are the right *kind* of mechanism. They are the
+first things in the search that output continuous numbers. Tested at one loop:
+- the Higgs comes out about 4 GeV too heavy;
+- the parameter-free top relation comes out about 35 GeV too light.
+
+Neither reproduces the data as it stands. The Higgs miss is robust; the top result needs
+the 2018 paper to settle.

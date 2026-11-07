@@ -99,3 +99,12 @@ def test_higgs_stability_criterion_fails():
     s = G.run(125.20)
     lam = s.sol(np.linspace(0, log(G.M_PLANCK / G.MT), 200))[4]
     assert lam.min() < 0                          # measured Higgs: lambda turns negative before M_P
+
+
+def test_planck_boundary_conditions():
+    import god_eq_boundary as B
+    from scipy.optimize import brentq
+    mH = brentq(lambda m: B.lam_at(m, B.G.MT, 1.22089e19), 100, 200)
+    assert 130 < mH < 136                         # one loop, before calibration
+    mt = brentq(lambda m: B.lam_at(125.20, m, 1.22089e19), 160, 180)
+    assert 167 < mt < 170
