@@ -1,0 +1,34 @@
+
+==============================================================================
+I1  Confining Ising chain: are quark and string weighted equally in K?  (INCONCLUSIVE)
+==============================================================================
+N=18 G=1.0 J=0.85 h=0.05: eps_CTM = 2.53265 (2pi/v = 3.6960), resolved modes 53/512
+  ell=1: dE= 0.2581  dS=+0.0201  d<K>= 19.2260  eps*sum d dE=  4.0825  ratio=4.7093  string share   2.9%  leak 3e-01
+  ell=2: dE= 0.3431  dS=+0.0287  d<K>= 28.7157  eps*sum d dE=  8.3432  ratio=3.4418  string share   5.4%  leak 2e-01
+  ell=3: dE= 0.4277  dS=+0.0378  d<K>= 26.0623  eps*sum d dE= 12.7746  ratio=2.0402  string share   7.9%  leak 2e-01
+  ell=4: dE= 0.5111  dS=+0.0528  d<K>= 28.9904  eps*sum d dE= 17.3175  ratio=1.6741  string share  10.3%  leak 2e-01
+  ell=5: dE= 0.5916  dS=+0.1031  d<K>= 33.7352  eps*sum d dE= 21.7775  ratio=1.5491  string share  12.8%  leak 6e-02
+  ell=6: dE= 0.6536  dS=+0.5007  d<K>= 25.4954  eps*sum d dE= 25.1050  ratio=1.0156  string share  15.3%  leak 3e-02
+N=18 G=1.0 J=0.9 h=0.05: eps_CTM = 2.27933 (2pi/v = 3.4907), resolved modes 49/512
+  ell=1: dE= 0.2489  dS=+0.0305  d<K>= 15.5009  eps*sum d dE=  3.5179  ratio=4.4063  string share   3.2%  leak 3e-01
+  ell=2: dE= 0.3300  dS=+0.0461  d<K>= 24.8382  eps*sum d dE=  7.1646  ratio=3.4668  string share   5.8%  leak 2e-01
+  ell=3: dE= 0.4099  dS=+0.0665  d<K>= 23.8508  eps*sum d dE= 10.9210  ratio=2.1839  string share   8.3%  leak 2e-01
+  ell=4: dE= 0.4871  dS=+0.1072  d<K>= 26.0497  eps*sum d dE= 14.6908  ratio=1.7732  string share  11.0%  leak 2e-01
+  ell=5: dE= 0.5557  dS=+0.2427  d<K>= 28.5213  eps*sum d dE= 18.1590  ratio=1.5706  string share  14.0%  leak 5e-02
+  ell=6: dE= 0.5832  dS=+0.4596  d<K>= 19.4095  eps*sum d dE= 20.6042  ratio=0.9420  string share  15.6%  leak 2e-02
+N=18 G=1.0 J=0.95 h=0.05: eps_CTM = 1.95450 (2pi/v = 3.3069), resolved modes 54/512
+  ell=1: dE= 0.2369  dS=+0.0464  d<K>= 15.9466  eps*sum d dE=  2.8635  ratio=5.5689  string share   3.9%  leak 2e-01
+  ell=2: dE= 0.3125  dS=+0.0737  d<K>= 21.9056  eps*sum d dE=  5.7978  ratio=3.7783  string share   6.5%  leak 2e-01
+  ell=3: dE= 0.3853  dS=+0.1141  d<K>= 23.0398  eps*sum d dE=  8.7685  ratio=2.6276  string share   9.3%  leak 1e-01
+  ell=4: dE= 0.4516  dS=+0.1936  d<K>= 22.9225  eps*sum d dE= 11.6457  ratio=1.9683  string share  12.4%  leak 1e-01
+  ell=5: dE= 0.4995  dS=+0.3515  d<K>= 23.2543  eps*sum d dE= 14.1493  ratio=1.6435  string share  15.8%  leak 4e-02
+  ell=6: dE= 0.5014  dS=+0.3614  d<K>= 16.5503  eps*sum d dE= 16.2481  ratio=1.0186  string share  15.5%  leak 2e-02
+N=18 G=1.0 J=0.95 h=0.02: eps_CTM = 1.95450 (2pi/v = 3.3069), resolved modes 62/512
+  ell=1: dE= 0.0890  dS=+0.0646  d<K>= 15.4684  eps*sum d dE=  2.7455  ratio=5.6340  string share   2.7%  leak 2e-01
+  ell=2: dE= 0.1166  dS=+0.1066  d<K>= 19.4150  eps*sum d dE=  5.4805  ratio=3.5425  string share   3.5%  leak 1e-01
+  ell=3: dE= 0.1421  dS=+0.1699  d<K>= 20.5872  eps*sum d dE=  8.1670  ratio=2.5208  string share   4.7%  leak 1e-01
+  ell=4: dE= 0.1637  dS=+0.2652  d<K>= 22.7832  eps*sum d dE= 10.7373  ratio=2.1219  string share   5.9%  leak 4e-02
+  ell=5: dE= 0.1780  dS=+0.3756  d<K>= 19.8218  eps*sum d dE= 13.1168  ratio=1.5112  string share   6.7%  leak 3e-02
+  ell=6: dE= 0.1814  dS=+0.4145  d<K>= 15.9277  eps*sum d dE= 15.2606  ratio=1.0437  string share   6.3%  leak 1e-02
+
+leak = 2e-3 ... 3e-1: d<K> not resolved; the ratio to eps*sum d dE is not meaningful.

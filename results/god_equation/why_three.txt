@@ -1,0 +1,70 @@
+
+==============================================================================
+W1  Witten global anomaly: doublets per generation = N_c + 1 must be even
+==============================================================================
+   N_c = 1:  doublets = 2  -> allowed
+   N_c = 2:  doublets = 3  -> ANOMALOUS
+   N_c = 3:  doublets = 4  -> allowed
+   N_c = 4:  doublets = 5  -> ANOMALOUS
+   N_c = 5:  doublets = 6  -> allowed
+   N_c = 7:  doublets = 8  -> allowed
+   -> THEORY: N_c must be odd.
+
+==============================================================================
+W2  Anomaly cancellation for general N_c (charges come out N_c-dependent)
+==============================================================================
+   N_c = 1:  Q_u = 1      Q_d = 0       cubic anomaly residual = 0
+   N_c = 2:  Q_u = 3/4    Q_d = -1/4    cubic anomaly residual = 0
+   N_c = 3:  Q_u = 2/3    Q_d = -1/3    cubic anomaly residual = 0
+   N_c = 4:  Q_u = 5/8    Q_d = -3/8    cubic anomaly residual = 0
+   N_c = 5:  Q_u = 3/5    Q_d = -2/5    cubic anomaly residual = 0
+   N_c = 7:  Q_u = 4/7    Q_d = -3/7    cubic anomaly residual = 0
+   general:  Q_u = (N_c + 1)/(2*N_c),  Q_d = (1 - N_c)/(2*N_c),  cubic residual = 0
+   -> every N_c cancels all perturbative anomalies: they fix the CHARGES given N_c, not N_c.
+
+==============================================================================
+W3  Spin-charge relation (front 4) for general N_c: (-1)^F = exp(i pi N_c (B-L))
+==============================================================================
+   N_c = 1:  quark -1, lepton -1  -> consistent
+   N_c = 2:  quark -1, lepton +1  -> FAILS
+   N_c = 3:  quark -1, lepton -1  -> consistent
+   N_c = 4:  quark -1, lepton +1  -> FAILS
+   N_c = 5:  quark -1, lepton -1  -> consistent
+   N_c = 7:  quark -1, lepton -1  -> consistent
+   -> same condition as W1 (N_c odd): the twist and Witten's anomaly agree.
+
+==============================================================================
+W4  Asymptotic freedom with n_f = 6
+==============================================================================
+   N_c = 1:  b0 = no gauge group (no strong force)
+   N_c = 2:  b0 = 10/3
+   N_c = 3:  b0 = 7
+   N_c = 4:  b0 = 32/3
+   N_c = 5:  b0 = 43/3
+   N_c = 7:  b0 = 65/3
+   -> only a LOWER bound (N_c >= 2, i.e. a strong force exists at all). No upper bound.
+
+==============================================================================
+W5  Minimal combined fold (front 4) for general N_c
+==============================================================================
+   N_c = 1:  k = 0, m = 1  ->  quark J = 1/2, lepton J = 1/2
+   N_c = 2:  k = 1, m = 1  ->  quark J = 1/2, lepton J = 1/2
+   N_c = 3:  k = 2, m = 1  ->  quark J = 1/2, lepton J = 1/2
+   N_c = 4:  k = 3, m = 1  ->  quark J = 1/2, lepton J = 1/2
+   N_c = 5:  k = 4, m = 1  ->  quark J = 1/2, lepton J = 1/2
+   N_c = 7:  k = 6, m = 1  ->  quark J = 1/2, lepton J = 1/2
+   -> works for EVERY N_c: the fold does not select 3.
+
+==============================================================================
+W6  Observables with anomaly-consistent charges
+==============================================================================
+   alpha_s(2.45 GeV) = 0.272 (2-loop, our running from alpha_s(M_Z) = 0.118)
+   N_c   pi0->gg ~ N_c(Qu^2-Qd^2)    R(u,d,s)     R vs KEDR 2.225 +- 0.051
+     1   1                              1.000       -24.0 sigma
+     2   1                              1.442       -15.4 sigma
+     3   1                              2.173        -1.0 sigma
+     4   1                              3.015       +15.5 sigma
+     5   1                              3.930       +33.4 sigma
+     7   1                              5.938       +72.8 sigma
+   -> pi0 -> gamma gamma cannot see N_c (KNOWN, Baer-Wiese). The R-ratio can: only N_c = 3 fits.
+   (alpha_s would itself change with N_c; the N_c = 5 miss is 33 sigma, far beyond that.)

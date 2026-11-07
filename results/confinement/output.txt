@@ -1,0 +1,54 @@
+
+==============================================================================
+C1  Lattice Schwinger model: flux tube crossing the entanglement cut
+==============================================================================
+N=16, x=1.0, m/g=0.5, q=0.5:  sigma = 0.22963 per site (bare q^2 = 0.25);  resolved Schmidt modes 50/256, max K = 68.9
+  ell=1:  dS = +0.1127   d<K> = 0.1294   D = 0.0167   K_BW = 0.1086   d<K>/K_BW = 1.191   leak 2e-15
+  ell=2:  dS = +0.1242   d<K> = 0.1751   D = 0.0508   K_BW = 0.1547   d<K>/K_BW = 1.131   leak -7e-16
+  ell=3:  dS = +0.1311   d<K> = 0.3576   D = 0.2265   K_BW = 0.3514   d<K>/K_BW = 1.018   leak 5e-11
+  ell=4:  dS = +0.1320   d<K> = 0.4766   D = 0.3446   K_BW = 0.4800   d<K>/K_BW = 0.993   leak 5e-08
+  ell=5:  dS = +0.1327   d<K> = 0.8445   D = 0.7118   K_BW = 0.8842   d<K>/K_BW = 0.955   leak 8e-06
+  ell=6:  dS = +0.1328   d<K> = 1.0401   D = 0.9072   K_BW = 1.1120   d<K>/K_BW = 0.935   leak 2e-04
+  dynamical energy per string link eps_dyn = 0.0170;  q^2 - sigma = 0.0204  -> K sees 7.4% of sigma
+  dS spread over ell >= 3: 0.0018 (saturates);  d<K> fit: 0.0266 ell^2 + 0.0046 ell + 0.0842;  BW coefficient (pi/v) eps_dyn = 0.0266
+N=20, x=1.0, m/g=0.5, q=0.5:  sigma = 0.22948 per site (bare q^2 = 0.25);  resolved Schmidt modes 67/1024, max K = 69.1
+  ell=1:  dS = +0.1127   d<K> = 0.1294   D = 0.0167   K_BW = 0.1086   d<K>/K_BW = 1.191   leak -4e-16
+  ell=2:  dS = +0.1242   d<K> = 0.1751   D = 0.0508   K_BW = 0.1547   d<K>/K_BW = 1.132   leak 1e-15
+  ell=3:  dS = +0.1311   d<K> = 0.3576   D = 0.2265   K_BW = 0.3514   d<K>/K_BW = 1.018   leak 4e-11
+  ell=4:  dS = +0.1320   d<K> = 0.4766   D = 0.3446   K_BW = 0.4798   d<K>/K_BW = 0.993   leak 5e-08
+  ell=5:  dS = +0.1327   d<K> = 0.8456   D = 0.7128   K_BW = 0.8840   d<K>/K_BW = 0.956   leak 4e-06
+  ell=6:  dS = +0.1328   d<K> = 1.0441   D = 0.9113   K_BW = 1.1095   d<K>/K_BW = 0.941   leak 1e-04
+  ell=7:  dS = +0.1329   d<K> = 1.4715   D = 1.3386   K_BW = 1.7293   d<K>/K_BW = 0.851   leak 2e-03
+  ell=8:  dS = +0.1330   d<K> = 1.6467   D = 1.5137   K_BW = 2.0556   d<K>/K_BW = 0.801   leak 4e-03
+  dynamical energy per string link eps_dyn = 0.0171;  q^2 - sigma = 0.0205  -> K sees 7.5% of sigma
+  dS spread over ell >= 3: 0.0019 (saturates);  d<K> fit: 0.0194 ell^2 + 0.0577 ell + 0.0133;  BW coefficient (pi/v) eps_dyn = 0.0269
+N=16, x=4.0, m/g=0.5, q=0.5:  sigma = 0.22800 per site (bare q^2 = 0.25);  resolved Schmidt modes 114/256, max K = 69.1
+  ell=1:  dS = +0.0564   d<K> = 0.0627   D = 0.0063   K_BW = 0.0584   d<K>/K_BW = 1.072   leak 1e-15
+  ell=2:  dS = +0.0681   d<K> = 0.0896   D = 0.0215   K_BW = 0.0853   d<K>/K_BW = 1.050   leak 2e-15
+  ell=3:  dS = +0.0782   d<K> = 0.1418   D = 0.0635   K_BW = 0.1398   d<K>/K_BW = 1.014   leak 6e-14
+  ell=4:  dS = +0.0815   d<K> = 0.1935   D = 0.1119   K_BW = 0.1956   d<K>/K_BW = 0.989   leak 1e-10
+  ell=5:  dS = +0.0843   d<K> = 0.2872   D = 0.2029   K_BW = 0.3000   d<K>/K_BW = 0.957   leak 2e-08
+  ell=6:  dS = +0.0853   d<K> = 0.3775   D = 0.2922   K_BW = 0.4037   d<K>/K_BW = 0.935   leak 3e-07
+  dynamical energy per string link eps_dyn = 0.0193;  q^2 - sigma = 0.0220  -> K sees 8.5% of sigma
+  dS spread over ell >= 3: 0.0070 (saturates);  d<K> fit: 0.0086 ell^2 + 0.0030 ell + 0.0507;  BW coefficient (pi/v) eps_dyn = 0.0076
+N=16, x=1.0, m/g=1.0, q=0.5:  sigma = 0.24398 per site (bare q^2 = 0.25);  resolved Schmidt modes 80/256, max K = 69.1
+  ell=1:  dS = +0.0465   d<K> = 0.0496   D = 0.0031   K_BW = 0.0525   d<K>/K_BW = 0.946   leak 1e-16
+  ell=2:  dS = +0.0491   d<K> = 0.0625   D = 0.0134   K_BW = 0.0681   d<K>/K_BW = 0.918   leak -3e-15
+  ell=3:  dS = +0.0497   d<K> = 0.1040   D = 0.0542   K_BW = 0.1198   d<K>/K_BW = 0.868   leak 4e-12
+  ell=4:  dS = +0.0498   d<K> = 0.1372   D = 0.0874   K_BW = 0.1609   d<K>/K_BW = 0.853   leak 6e-09
+  ell=5:  dS = +0.0498   d<K> = 0.2205   D = 0.1707   K_BW = 0.2643   d<K>/K_BW = 0.834   leak 3e-06
+  ell=6:  dS = +0.0498   d<K> = 0.2710   D = 0.2212   K_BW = 0.3342   d<K>/K_BW = 0.811   leak 5e-05
+  dynamical energy per string link eps_dyn = 0.0034;  q^2 - sigma = 0.0060  -> K sees 1.4% of sigma
+  dS spread over ell >= 3: 0.0001 (saturates);  d<K> fit: 0.0063 ell^2 + 0.0017 ell + 0.0386;  BW coefficient (pi/v) eps_dyn = 0.0053
+
+==============================================================================
+C2  Replica equation: both areas in one generating function (FOLLOWS)
+==============================================================================
+ln Z_n = (1 - n) A_H/(4 G) - n sigma A_swept + ...   (A_swept = pi ell^2 per sheet)
+S = (1 - n d/dn) ln Z_n |_{n=1};   <K> - <K>_vac = sigma A_swept  (BW)
+   numerical: S(with string) = 1.82500000,  S(vacuum) = 1.82500000,  A_H/4 = 1.82500000
+   Renyi-2: with string 1.82500000  vacuum 1.82500000
+   Renyi-3: with string 1.82500000  vacuum 1.82500000
+   -> the confinement area drops out of EVERY entropy (linear in n) and survives only
+      in the modular energy; the horizon area survives in S. Lattice test: C1 dS
+      must saturate with string length while d<K> grows.

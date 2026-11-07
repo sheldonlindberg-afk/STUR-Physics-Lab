@@ -1,0 +1,28 @@
+
+==============================================================================
+P1  Standard-gravity 'spacetime environment' for an atom interferometer
+==============================================================================
+E_P = 1.9561e+09 J
+Delta E (arms in different clock states, Sr 698 nm) = 2.844e-19 J
+Delta E (kinetic, 100 hbar k at 10 m/s)            = 9.488e-25 J
+
+Interrogation time t = 1.0 s; assumed visibility sensitivity dV = 0.001 (parameter, not a MAGIS spec)
+  cosmic graviton background (LIT prediction, unobserved) T = 9.050e-01 K   Gamma = 2.51e-45   enhancement needed F = 4.0e+41
+  de Sitter horizon, T = hbar H/(2 pi kB)                 T = 2.198e-30 K   Gamma = 6.08e-75   enhancement needed F = 1.6e+71
+  Unruh temperature of a lab held at g = 9.81             T = 3.978e-20 K   Gamma = 1.10e-64   enhancement needed F = 9.1e+60
+  deliberately absurd: T = 300 K graviton bath            T = 3.000e+02 K   Gamma = 8.30e-43   enhancement needed F = 1.2e+39
+
+  -> with standard gravity, spacetime-as-environment decoherence needs an enhancement
+     F ~ 10^41 (graviton background) to 10^71 (de Sitter); even a 300 K graviton bath
+     needs 10^39. A STUR signal at MAGIS/AION needs new structure, not GR.
+
+==============================================================================
+P2  Lab-testable consequences of the unified equation (all STANDARD physics)
+==============================================================================
+  (a) V = <(-1)^{Delta N}> (visibility = parity of exchanged quanta): testable with a
+      qubit + cavity mode, measuring photon-number parity of the cavity (standard).
+  (b) Entanglement Hamiltonian = local, distance-weighted energy (BW): already measured
+      by entanglement-Hamiltonian tomography in quantum simulators (LIT: Kokail et al. 2021).
+  (c) Confining string: entropy length-independent, modular energy ~ sigma x area:
+      testable in Rydberg / trapped-ion simulators of confining Ising chains (standard).
+  None of these distinguishes STUR from standard physics.

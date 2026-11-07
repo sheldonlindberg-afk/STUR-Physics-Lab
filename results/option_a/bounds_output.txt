@@ -1,0 +1,58 @@
+
+==============================================================================
+B1  Joint bounds on (kappa, xi) and the best-case MAGIS/AION-class signal
+==============================================================================
+   LIGO-type differential acceleration ASD used (ESTIMATE): 1.58e-14 m s^-2/sqrt(Hz)
+   Scan stops at xi = R_Earth: beyond it the apparatus co-moves with the noise and only
+   the tidal part is observable (equivalence principle) - the formula below would be wrong.
+   xi [m]    kappa_Kovachy  kappa_LPF    kappa_heat   kappa_LIGO   binding   Gamma(1 m x 2 s)  Gamma(3 m x 4 s)  Gamma(10 m x 10 s)
+    1.0e-07     1.21e-18     2.77e-32     5.25e-19     9.92e-30  LPF             1.04e-13        6.24e-13        5.20e-12
+    3.2e-07     1.21e-18     2.78e-32     1.66e-18     9.92e-30  LPF             1.04e-13        6.25e-13        5.21e-12
+    1.0e-06     1.21e-18     2.77e-32     5.25e-18     9.92e-30  LPF             1.04e-13        6.24e-13        5.20e-12
+    3.2e-06     1.21e-18     2.77e-32     1.66e-17     9.91e-30  LPF             1.04e-13        6.25e-13        5.21e-12
+    1.0e-05     1.21e-18     2.78e-32     5.25e-17     9.90e-30  LPF             1.04e-13        6.26e-13        5.21e-12
+    3.2e-05     1.21e-18     2.78e-32     1.66e-16     9.91e-30  LPF             1.04e-13        6.26e-13        5.21e-12
+    1.0e-04     1.21e-18     2.78e-32     5.25e-16     9.92e-30  LPF             1.04e-13        6.25e-13        5.21e-12
+    3.2e-04     1.21e-18     2.78e-32     1.66e-15     9.90e-30  LPF             1.04e-13        6.25e-13        5.21e-12
+    1.0e-03     1.21e-18     2.78e-32     5.25e-15     9.91e-30  LPF             1.04e-13        6.26e-13        5.22e-12
+    3.2e-03     1.22e-18     2.80e-32     1.66e-14     9.93e-30  LPF             1.04e-13        6.29e-13        5.25e-12
+    1.0e-02     1.25e-18     2.93e-32     5.25e-14     9.96e-30  LPF             1.08e-13        6.56e-13        5.49e-12
+    3.2e-02     1.34e-18     3.84e-32     1.66e-13     1.02e-29  LPF             1.36e-13        8.46e-13        7.15e-12
+    1.0e-01     1.65e-18     8.35e-32     5.25e-13     1.22e-29  LPF             2.62e-13        1.77e-12        1.54e-11
+    3.2e-01     2.77e-18     3.29e-31     1.66e-12     2.26e-29  LPF             7.45e-13        6.13e-12        5.81e-11
+    1.0e+00     6.97e-18     4.14e-30     5.25e-12     6.32e-29  LPF             4.60e-12        5.50e-11        6.49e-10
+    3.2e+00     2.13e-17     1.13e-28     1.66e-11     1.97e-28  LPF             4.39e-11        7.18e-10        1.27e-08
+    1.0e+01     6.70e-17     3.50e-27     5.25e-11     6.22e-28  LIGO            7.77e-11        1.38e-09        3.45e-08
+    3.2e+01     2.12e-16     1.11e-25     1.66e-10     1.97e-27  LIGO            7.78e-11        1.40e-09        3.83e-08
+    1.0e+02     6.69e-16     3.49e-24     5.25e-10     6.22e-27  LIGO            7.78e-11        1.40e-09        3.88e-08
+    3.2e+02     2.12e-15     1.11e-22     1.66e-09     1.97e-26  LIGO            7.78e-11        1.40e-09        3.89e-08
+    1.0e+03     6.69e-15     3.50e-21     5.25e-09     6.31e-26  LIGO            7.89e-11        1.42e-09        3.95e-08
+    3.2e+03     2.12e-14     1.11e-19     1.66e-08     2.58e-25  LIGO            1.02e-10        1.84e-09        5.11e-08
+    1.0e+04     6.69e-14     3.49e-18     5.25e-08     3.12e-24  LIGO            3.91e-10        7.03e-09        1.95e-07
+    3.2e+04     2.12e-13     1.11e-16     1.66e-07     8.38e-23  LIGO            3.31e-09        5.97e-08        1.66e-06
+    1.0e+05     6.69e-13     3.49e-15     5.25e-07     2.60e-21  LIGO            3.26e-08        5.86e-07        1.63e-05
+    3.2e+05     2.12e-12     1.10e-13     1.66e-06     8.22e-20  LIGO            3.25e-07        5.85e-06        1.63e-04
+    1.0e+06     6.69e-12     3.49e-12     5.25e-06     2.60e-18  LIGO            3.25e-06        5.85e-05        1.62e-03
+    3.2e+06     2.12e-11     1.11e-10     1.66e-05     8.21e-17  LIGO            3.25e-05        5.85e-04        1.62e-02
+    6.4e+06     4.25e-11     8.41e-10     3.34e-05     6.72e-16  LIGO            1.32e-04        2.37e-03        6.60e-02
+
+   Best case over xi (Sr-87, illustrative geometries):
+     1 m x 2 s    max Gamma = 1.32e-04  at xi = 6.4e+06 m
+     3 m x 4 s    max Gamma = 2.37e-03  at xi = 6.4e+06 m
+     10 m x 10 s  max Gamma = 6.60e-02  at xi = 6.4e+06 m
+
+   Sensitivity to the LIGO ESTIMATE (best Gamma, 3 m x 4 s, over xi <= R_Earth):
+     LIGO acceleration ASD x    0.1:  best Gamma = 2.37e-05
+     LIGO acceleration ASD x    1.0:  best Gamma = 2.37e-03
+     LIGO acceleration ASD x   10.0:  best Gamma = 2.37e-01
+     LIGO acceleration ASD x  100.0:  best Gamma = 2.37e+01
+
+==============================================================================
+B2  Robustness to the two inputs not retrieved (LPF separation, Kovachy T)
+==============================================================================
+   d = 0.30 m, T_Kovachy = 0.9 s:  best Gamma(3 m x 4 s) = 2.37e-03
+   d = 0.30 m, T_Kovachy = 1.1 s:  best Gamma(3 m x 4 s) = 2.37e-03
+   d = 0.38 m, T_Kovachy = 0.9 s:  best Gamma(3 m x 4 s) = 2.37e-03
+   d = 0.38 m, T_Kovachy = 1.1 s:  best Gamma(3 m x 4 s) = 2.37e-03
+   d = 0.45 m, T_Kovachy = 0.9 s:  best Gamma(3 m x 4 s) = 2.37e-03
+   d = 0.45 m, T_Kovachy = 1.1 s:  best Gamma(3 m x 4 s) = 2.37e-03
