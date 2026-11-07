@@ -412,3 +412,37 @@ N_c = 7 fails in both variants (10⁸–10¹⁰ GeV).
     I haven't checked whether they do so here.
 - **So in both viable 3-3-1 variants, perturbativity to the Planck scale leaves exactly
   N_c = N_g = 3.** The result is robust in one variant and narrow in the other.
+
+## Front 8: masses, starting with Koide's formula
+
+Script: `src/god_eq_masses.py`; output: `results/god_equation/masses.txt`.
+
+**Koide's formula (KNOWN, 1982):** Q = (m_e + m_μ + m_τ)/(√m_e + √m_μ + √m_τ)² = 2/3.
+Inputs: m_τ = 1776.93 ± 0.09 MeV (PDG, retrieved); m_e and m_μ from CODATA (recalled).
+- **K1:** Q − 2/3 = −2.2×10⁻⁶ ± 5.1×10⁻⁶, which is **−0.43σ**. Koide predicts
+  m_τ = 1776.969 MeV, also within 0.43σ of the measurement.
+- **K2, the Z₃ form (Brannen):** √m_k = M(1 + A·cos(δ + 2πk/3)). The fit gives
+  A = 1.414209, matching √2 (which is Koide). Only δ mod 2π/3 is meaningful, since
+  relabelling the generations shifts δ by 2π/3; it comes out as 0.2222248.
+- **K2b/K2c, a sharper test (FOLLOWS).** Assume Koide holds exactly. Then the
+  precisely known m_μ/m_e fixes δ = 0.222222047 ± 4×10⁻¹⁰. **2/9 misses by 1.75×10⁻⁷, a
+  447σ discrepancy** (using the recalled CODATA precision). So "δ = 2/9" is a near-miss
+  numerical coincidence, not an exact law. Koide itself still fits.
+- **K3:** the same Q for quark triplets gives 0.85 (u, c, t), 0.73 (d, s, b) and 0.46
+  (s, c, b): no relation. Quark masses also run with scale, so a scale-free version isn't
+  even well defined.
+- **K4, a hostile check.** With m_τ drawn log-uniform between m_μ and 10 GeV, the chance of
+  landing this close to 2/3 is 2×10⁻⁵. Allowing for how many formulas people have tried,
+  that becomes 0.2% (100 tries), 2% (1000 tries) or 19% (10,000 tries). Suggestive, not
+  proof.
+
+**Verdict for the search:**
+- Koide's relation is the most precise unexplained mass pattern, at 0.4σ. Its Z₃ form
+  (phases 2π/3) matches the generation count the 3-3-1 chain fixes (N_g = 3).
+- **Nothing derived here produces A = √2.** The Z₃ in Koide's formula acts on
+  generations, not on colour, and no part of the 3-3-1 chain builds a mass matrix with
+  that structure.
+- It also holds for pole masses only, which is a puzzle for any field-theory origin.
+- **Wall:** explaining masses needs new structure: a flavour symmetry with a Z₃
+  (circulant) mass matrix whose amplitude is fixed at √2, made compatible with how masses
+  run with energy. Nothing in this repository supplies it.

@@ -82,3 +82,11 @@ def test_331_plus_variant():
     for Nc in (3, 5, 7):
         assert all(v == 0 for v in E.anomalies(Nc, E.model_331_plus).values())
     assert E.run_two_loop(3, model=E.model_331_plus)[0] > E.M_PLANCK > E.run_two_loop(5, model=E.model_331_plus)[0]
+
+
+def test_koide():
+    import god_eq_masses as K
+    q = K.Q([K.me, K.mmu, K.mtau])
+    assert abs(q - 2 / 3) < 1e-5
+    M, A, d = K.brannen([K.me, K.mmu, K.mtau])
+    assert abs(A - 2 ** 0.5) < 1e-5
