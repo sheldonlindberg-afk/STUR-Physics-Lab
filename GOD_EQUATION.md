@@ -95,3 +95,42 @@ today, *without* changing the early universe. Neither a horizon-holographic dens
 does this. Simple vacuum-energy equations can't produce it; it needs a dynamical
 field or a late-time-only effect. The DESI signal itself may also shrink, since it
 depends on the supernova calibration.
+
+## Front 3: a quark as a folded, twisted area of spacetime
+
+Script: `src/god_eq_quark_fold.py`; output: `results/god_equation/quark_fold.txt`.
+
+**The fold equation.** Take a closed surface (the fold) threaded by flux Φ (the twist),
+with a charge q bound to it. The field around them stores angular momentum
+
+**J = qΦ/4π**  (Thomson 1904, KNOWN; Heaviside–Lorentz units with ħ = c = 1)
+
+Single-valuedness requires qΦ = 2πn (Dirac 1931, KNOWN), so **J = n/2**. The STUR
+claim is that a quark is the n = 1 fold.
+
+**F1 CHECK.** Numerically, J = 0.079577471546 = 1/4π at separations of 0.5, 1 and 3,
+agreeing to 12 digits. Spin ½ really does come from folding and twisting, and
+the size of the fold doesn't matter.
+
+**The quark checklist:**
+
+| Property | Result |
+|---|---|
+| Spin ½ | **Yes**, from an odd Dirac twist (n = 1) |
+| Charge ⅓ | **No.** A one-third twist (the Z₃ colour centre, the source of fractional charge via Q ≡ ⅔·triality mod 1, which I verified for u, d, ū, e, ν, g, W) gives J = 1/6 or 1/3, which is forbidden for an isolated object. The twist that makes ⅓ can't be the twist that makes spin ½. |
+| Baryons | **No-go with electromagnetic flux.** Three spin-½ folds need odd n each, and three odd numbers can't sum to zero: none of the triples in [−7, 7] does. Every proton would be a magnetic monopole. |
+| Colour | **No-go with colour-magnetic flux.** The minimal consistent fold gives "spin" 1, −½, −½ to the three colours, which breaks exact SU(3). Spin-from-isospin (Jackiw–Rebbi) needs an adjoint Higgs that QCD doesn't have. |
+| Generations | **No.** Higher twists give J = 3/2, 5/2, …: higher spin, not heavier spin-½ copies. |
+| Mass | **No.** An electromagnetic fold has E = 17.13ħc/r_c. An up quark (2.16 MeV) would need r_c = 1565 fm, which is 1,900 proton radii. Compositeness bounds (r_c ≲ ħc/20 TeV; an approximate literature value) force E ≳ 343 TeV, so the mass needs cancellation to 6×10⁻⁹. A pure-spacetime fold (spinorial geon, Friedman–Sorkin 1980) sits at the Planck scale: m_u/E_P = 1.8×10⁻²². |
+
+**Verdict:**
+- **What works:** the fold equation *does* turn a twist into intrinsic spin ½. That
+  part of the picture is real physics; charge–monopole composites are fermions
+  (KNOWN).
+- **What fails:** a quark can't be such a fold. Fractional charge, baryon
+  neutrality, colour symmetry, generations and mass each fail. The mismatch is
+  structural: spin ½ needs a *full* twist (2π), while fractional charge needs a
+  *one-third* twist (2π/3).
+- **What a successful fold equation would have to do:** produce spin ½ and a Z₃
+  phase from the *same* geometry. In known physics these come from different
+  places (the Lorentz group and the centre of SU(3)).

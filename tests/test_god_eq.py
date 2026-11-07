@@ -16,3 +16,10 @@ def test_running_vacuum_quadrant_and_cmb_limit():
     assert w0 > -1 and wa < 0                         # DESI quadrant for nu > 0
     _, _, _, w0, wa = R.rvm_weff(4.8e-4)
     assert abs(w0 + 1) < 1e-3 and abs(wa) < 0.01      # negligible at the CMB-allowed nu
+
+
+def test_fold_spin_and_baryon_nogo():
+    import itertools
+    import god_eq_quark_fold as F
+    assert abs(F.thomson_J(1.0) - 1 / (4 * 3.141592653589793)) < 1e-9
+    assert not [c for c in itertools.product(range(-7, 8, 2), repeat=3) if sum(c) == 0]
