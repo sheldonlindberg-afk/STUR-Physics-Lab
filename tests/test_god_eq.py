@@ -117,3 +117,10 @@ def test_331_higgs_threshold():
     y = H.state_at(125.20, H.MU331)
     lam_crit = brentq(lambda L: H.lam_MP_from(np.r_[y[:5], L]), 0.0, 0.3)
     assert 0.015 < lam_crit - y[5] < 0.03       # positive, O(0.02) threshold needed
+
+
+def test_unification():
+    import god_eq_unification as U
+    mu, ia = U.sm_triangle()
+    c12, c23 = U.crossing(mu, ia[0], ia[1]), U.crossing(mu, ia[1], ia[2])
+    assert 1e12 < c12 < 1e14 and 1e16 < c23 < 1e17           # known SM near-miss triangle

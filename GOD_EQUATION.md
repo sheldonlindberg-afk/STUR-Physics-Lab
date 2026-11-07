@@ -590,3 +590,40 @@ So a threshold of the right size is ordinary.
 *integers* (more gauge symmetry, more multiplets) brings in *more* continuous parameters,
 and they sit exactly where the continuous predictions come from. Discrete success and
 continuous predictivity pull in opposite directions in this framework.
+
+## Front 12: gauge-coupling unification in 3-3-1
+
+Script: `src/god_eq_unification.py`; output: `results/god_equation/unification.txt`.
+
+**Test (embedding-independent).** SU(3)_C and SU(3)_L share the standard normalization,
+so in *any* unified group containing both, their couplings must meet. The calculation
+uses the calibrated two-loop machinery.
+
+**U0, reference.** The Standard Model's GUT-normalized couplings meet pairwise at
+1.1×10¹³ (g₁–g₂), 1.7×10¹⁴ (g₁–g₃) and 2.9×10¹⁶ GeV (g₂–g₃). That's the KNOWN near-miss
+triangle, reproduced.
+
+**U1, the result.** In both β = ∓1/√3 variants with N_c = N_g = 3, the one-loop
+coefficients are a_L = −6.5 and a_3 = −5. α_L⁻¹ starts above α_3⁻¹ and falls away from it
+faster:
+
+| 3-3-1 scale | Gap α_L⁻¹ − α_3⁻¹ at that scale | Gap at M_Pl | Meet? |
+|---|---|---|---|
+| 2 TeV | 19.05 | 27.94 | never |
+| 4 TeV | 18.61 | 27.33 | never |
+| 10⁵ GeV | 16.57 | 24.50 | never |
+| 10¹⁰ GeV | 9.38 | 14.47 | never |
+| 10¹⁵ GeV | 2.25 | 4.51 | never |
+
+**No unification for any 3-3-1 scale**, so sin²θ_W is **not** predicted.
+
+**U2, what it would take.** Meeting at 10¹⁵–10¹⁹ GeV needs a_L − a_3 to rise from −1.5 to
+between +3.3 and +4.5. That's **14–18 extra colourless SU(3)_L Weyl triplets**, or 29–36
+scalar triplets. Matter on that scale would change front 7's running (a_L(N_c = 3) from
+−6.5 to about −0.9; a_L(N_c = 5) to about +5), so the N_c-selection chain would have to be
+redone.
+
+**Verdict:** the minimal 3-3-1 content that selects "3" **doesn't unify**, and can't
+predict the gauge couplings. Making it unify takes a large ad hoc addition of matter. The
+trade-off from front 11 shows up again: the content that fixes the integers is the
+content that blocks the continuous predictions.

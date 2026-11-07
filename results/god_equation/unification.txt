@@ -1,0 +1,39 @@
+
+==============================================================================
+U0  Reference: Standard Model (two loop, GUT-normalised U(1))
+==============================================================================
+   g1-g2 meet at 1.1e+13 GeV
+   g2-g3 meet at 2.9e+16 GeV
+   g1-g3 meet at 1.7e+14 GeV
+   -> three different scales: the KNOWN near miss (no SM unification)
+
+==============================================================================
+U1  3-3-1 (beta = -1/sqrt3), N_c = N_g = 3: do SU(3)_C and SU(3)_L meet?
+==============================================================================
+   one-loop a = (X 8.67, L -6.50, C -5.00)
+   mu_331 = 2e+03 GeV: 1/alpha_L - 1/alpha_3 =  19.05 at mu_331,  27.94 at M_P  ->  NEVER meet below M_P
+   mu_331 = 4e+03 GeV: 1/alpha_L - 1/alpha_3 =  18.61 at mu_331,  27.33 at M_P  ->  NEVER meet below M_P
+   mu_331 = 1e+05 GeV: 1/alpha_L - 1/alpha_3 =  16.57 at mu_331,  24.50 at M_P  ->  NEVER meet below M_P
+   mu_331 = 1e+10 GeV: 1/alpha_L - 1/alpha_3 =   9.38 at mu_331,  14.47 at M_P  ->  NEVER meet below M_P
+   mu_331 = 1e+15 GeV: 1/alpha_L - 1/alpha_3 =   2.25 at mu_331,   4.51 at M_P  ->  NEVER meet below M_P
+
+==============================================================================
+U1  3-3-1 (beta = +1/sqrt3), N_c = N_g = 3: do SU(3)_C and SU(3)_L meet?
+==============================================================================
+   one-loop a = (X 14.00, L -6.50, C -5.00)
+   mu_331 = 2e+03 GeV: 1/alpha_L - 1/alpha_3 =  19.05 at mu_331,  27.94 at M_P  ->  NEVER meet below M_P
+   mu_331 = 4e+03 GeV: 1/alpha_L - 1/alpha_3 =  18.61 at mu_331,  27.33 at M_P  ->  NEVER meet below M_P
+   mu_331 = 1e+05 GeV: 1/alpha_L - 1/alpha_3 =  16.57 at mu_331,  24.50 at M_P  ->  NEVER meet below M_P
+   mu_331 = 1e+10 GeV: 1/alpha_L - 1/alpha_3 =   9.38 at mu_331,  14.47 at M_P  ->  NEVER meet below M_P
+   mu_331 = 1e+15 GeV: 1/alpha_L - 1/alpha_3 =   2.25 at mu_331,   4.51 at M_P  ->  NEVER meet below M_P
+
+==============================================================================
+U2  What it would take: extra SU(3)_L-charged matter
+==============================================================================
+   meet at 1e+15 GeV needs a_L - a_3 = +4.45 (now -1.50):  +5.95 = 18 extra colourless Weyl triplets (or 36 complex scalar triplets)
+   meet at 1e+16 GeV needs a_L - a_3 = +4.10 (now -1.50):  +5.60 = 17 extra colourless Weyl triplets (or 34 complex scalar triplets)
+   meet at 1e+17 GeV needs a_L - a_3 = +3.79 (now -1.50):  +5.29 = 16 extra colourless Weyl triplets (or 32 complex scalar triplets)
+   meet at 1e+19 GeV needs a_L - a_3 = +3.28 (now -1.50):  +4.78 = 14 extra colourless Weyl triplets (or 29 complex scalar triplets)
+   Adding that much SU(3)_L matter moves a_L(N_c = 3) from -6.50 to about -0.9 (fermions), and
+   a_L(N_c = 5) from -0.5 to about +5: front 7's N_c-selection chain would have to be
+   redone with the new content (not done here).
