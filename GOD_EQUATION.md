@@ -524,21 +524,26 @@ These are the cleanest known mechanisms that turn a condition at the Planck scal
 same miss as vacuum stability in front 9.
 
 **B. Eichhorn–Held: a universal gravitational term in the Yukawa couplings**
-- **The relation (FOLLOWS, derived here at one loop):** if both y_t and y_b sit at fixed
-  points with a common gravity term, the strong and weak terms cancel, leaving
-  **y_t² − y_b² = g₁²/3** at μ*. That fixes y_t(μ*) = 0.271–0.275 *with no free gravity
-  parameter*.
-- **Prediction:** running down gives **m_t ≈ 136–140 GeV, against a measured 172.57**:
-  about 20% low. The measured y_t only reaches 0.40–0.41 at those scales.
-- **The literature's ~171 GeV** (Eichhorn–Held 2017) uses a *range* of gravity couplings,
-  so it isn't parameter-free. Their parameter-free top/bottom paper (arXiv:1803.04027)
-  couldn't be read here (network block), so the gap between my 136–140 GeV and their
-  result is **unreconciled**.
+
+I read arXiv:1803.04027 after the network was opened.
+- **My one-loop relation is confirmed.** The paper's Eq. 6 and Fig. 1 give
+  y_t² − y_b² = g_Y²/3, the same relation I derived independently.
+- **I applied it at the wrong scale.** It holds at the *transplanckian* fixed point,
+  reached only far above the Planck scale; the couplings run along a trajectory down to
+  M_Pl. Imposing it *at* M_Pl gave my m_t ≈ 136–140 GeV, which is withdrawn as a
+  misapplication (kept in the output for the record).
+- **The actual result (LIT, read from the paper).** The gravity parameter f_g is fitted to
+  g_Y = 0.358, and f_y to the bottom mass M_b = 4.9 GeV. The top is then *retrodicted* as
+  **M_t = 178 GeV** with one-loop Standard Model running, or **182 GeV** with two-loop.
+  Measured: 172.57 GeV, so +3% and +5.5%. The paper also gives M_s/M_t ≈ 0, against a
+  measured 5×10⁻⁴.
 
 **Verdict:** the Planck boundary conditions are the right *kind* of mechanism. They are the
-first things in the search that output continuous numbers. Tested at one loop:
-- the Higgs comes out about 4 GeV too heavy;
-- the parameter-free top relation comes out about 35 GeV too light.
+first things in the search that output continuous numbers. As they stand they give:
+- **m_H ≈ 129–132 GeV** (vs 125.2);
+- **m_t ≈ 178–182 GeV** (vs 172.6).
 
-Neither reproduces the data as it stands. The Higgs miss is robust; the top result needs
-the 2018 paper to settle.
+Both are **near misses of 3–5%**, and in the published versions the miss *grows* at
+higher loop order. This is the boundary of current knowledge, not a gap specific to
+STUR. Closing it needs a better quantum-gravity calculation of the gravity terms f_g and
+f_y, which no lab here can supply.

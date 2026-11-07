@@ -20,7 +20,11 @@ B  Eichhorn-Held: y_t^2 - y_b^2 = g1^2/3 at mu*  ->  m_t
                      predicted m_t =  135.9 GeV   measured 172.57
    mu* = 1.22e+19:  g1 = 0.4759, y_t(fixed point) = 0.2748  (measured y_t runs to 0.4025)
                      predicted m_t =  139.6 GeV   measured 172.57
-   LIT (retrieved via search, not read in full): Eichhorn-Held 2017 (arXiv 1707.01107 v3):
-   M_t ~ 171 GeV for a RANGE of gravity couplings (not parameter-free) and M_h ~ 132 GeV.
-   Their 2018 top/bottom-from-hypercharge paper (1803.04027) could not be read here (network
-   block); this parameter-free one-loop version gives m_t ~ 136-140 GeV - UNRECONCILED.
+   ^ MISAPPLIED (kept for the record): the relation holds at the TRANSPLANCKIAN fixed point,
+     reached only far above M_P; below it the couplings follow a trajectory, so imposing it
+     AT M_P is wrong.  The relation itself is confirmed by the paper (its Eq. 6 and Fig. 1:
+     beta ~ 3(y_t^2 - y_b^2) - g_Y^2;  y_t^2 - g_Y^2/3 -> y_b*^2 in the far UV).
+   LIT (read from arXiv 1803.04027 v2, Eichhorn & Held): with f_g fitted to g_Y(173 GeV) = 0.358
+   and f_y fitted to M_b = 4.9 GeV, the top is RETRODICTED as M_t = 178 GeV (one-loop SM
+   running) or 182 GeV (two-loop); measured 172.57 -> +3% / +5.5%.  Strange: M_s/M_t ~ 0
+   predicted vs 5e-4 measured.  Their 2017 paper (1707.01107 v3): M_h ~ 132 GeV.

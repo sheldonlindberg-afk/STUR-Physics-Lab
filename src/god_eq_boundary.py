@@ -5,7 +5,7 @@ gravity) as a source of CONTINUOUS parameters.
 
 A. Shaposhnikov-Wetterich (2010, KNOWN): gravity makes lambda irrelevant above the
    Planck scale, so lambda(mu*) ~ 0 at the transition scale mu*  ->  predicts m_H.
-B. Eichhorn-Held (2018, KNOWN mechanism): one universal gravitational term -f_y y in
+B. Eichhorn-Held (2018, arXiv 1803.04027, KNOWN mechanism): one universal gravitational term -f_y y in
    every Yukawa beta function.  Fixed points for y_t and y_b (one loop, FOLLOWS):
         beta_yt/y_t = beta_yb/y_b  =>  3 (y_t^2 - y_b^2) - g1^2 = 0   (g2, g3 terms cancel)
    i.e. y_t^2 - y_b^2 = g1^2/3 at mu*  ->  predicts m_t with no free gravity parameter.
@@ -103,10 +103,14 @@ def main():
         print(f"   mu* = {mu:.2e}:  g1 = {g1P:.4f}, y_t(fixed point) = {ytP_fp:.4f}"
               f"  (measured y_t runs to {ytP_meas:.4f})")
         print(f"                     predicted m_t = {mt_from_yt(down[3]):6.1f} GeV   measured 172.57")
-    print("   LIT (retrieved via search, not read in full): Eichhorn-Held 2017 (arXiv 1707.01107 v3):")
-    print("   M_t ~ 171 GeV for a RANGE of gravity couplings (not parameter-free) and M_h ~ 132 GeV.")
-    print("   Their 2018 top/bottom-from-hypercharge paper (1803.04027) could not be read here (network")
-    print("   block); this parameter-free one-loop version gives m_t ~ 136-140 GeV - UNRECONCILED.")
+    print("   ^ MISAPPLIED (kept for the record): the relation holds at the TRANSPLANCKIAN fixed point,")
+    print("     reached only far above M_P; below it the couplings follow a trajectory, so imposing it")
+    print("     AT M_P is wrong.  The relation itself is confirmed by the paper (its Eq. 6 and Fig. 1:")
+    print("     beta ~ 3(y_t^2 - y_b^2) - g_Y^2;  y_t^2 - g_Y^2/3 -> y_b*^2 in the far UV).")
+    print("   LIT (read from arXiv 1803.04027 v2, Eichhorn & Held): with f_g fitted to g_Y(173 GeV) = 0.358")
+    print("   and f_y fitted to M_b = 4.9 GeV, the top is RETRODICTED as M_t = 178 GeV (one-loop SM")
+    print("   running) or 182 GeV (two-loop); measured 172.57 -> +3% / +5.5%.  Strange: M_s/M_t ~ 0")
+    print("   predicted vs 5e-4 measured.  Their 2017 paper (1707.01107 v3): M_h ~ 132 GeV.")
 
 
 if __name__ == "__main__":
