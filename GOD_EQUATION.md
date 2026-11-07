@@ -134,3 +134,53 @@ the size of the fold doesn't matter.
 - **What a successful fold equation would have to do:** produce spin ½ and a Z₃
   phase from the *same* geometry. In known physics these come from different
   places (the Lorentz group and the centre of SU(3)).
+
+## Front 4: one twist that does both (spin ½ and the thirds)
+
+Script: `src/god_eq_spin_charge.py`; output: `results/god_equation/spin_charge.txt`.
+
+**Question.** Is there one gauge twist g that acts as (−1)^F (−1 on every fermion, +1
+on every boson)? A fold carrying g would then set statistics from charge.
+
+**S1 CHECK.** The Standard Model's Z₆ element (ω, −1, e^{2πiY}) acts trivially on every
+field, to 10⁻¹⁶.
+
+**S2: no such twist in the Standard Model's gauge group.** The best mismatch is 2.0.
+ν_R has nothing to flip its sign. Even without ν_R the mismatch is 1.62: e_R forces a
+half-integer hypercharge angle, which then gives the Higgs a phase of ±i.
+
+**S3: with gauged B−L there is one.** (−1)^{2J} = exp(3πi(B−L)) on every field. This is
+the KNOWN spin–charge relation, the centre element −1 of Spin(10). A smaller twist also
+works, B−L angle π *combined with the colour centre ω*: for quarks, ω·e^{iπ/3} = −1.
+**One combined twist carries both the colour ⅓ and the fermion sign.**
+
+**S4: the fold built from it.**
+- A pure B−L fold needs flux 6π to be Dirac-consistent, because quark B−L = ⅓. It shifts
+  the angular momentum of anything bound to it by J = 3(B−L)/2 mod 1, which is right for
+  every case tested: quark ½, lepton ½, Higgs 0, meson 0, diquark 0, baryon ½,
+  pentaquark ½.
+- **S4b, the minimal combined fold:** colour-centre twist k = 2 plus B−L flux 2π. It gives
+  quarks *and* leptons exactly J = ½, and the scalar S an integer. The colour twist is
+  what makes the ⅓ B−L charge Dirac-consistent.
+- **This object is known.** The minimal grand-unified monopole carries colour-magnetic
+  flux that compensates fractional charges (LIT, recalled: Dokos–Tomaras 1980 for
+  SU(5)).
+
+**S5: the twist doesn't force the thirds.** S3 allows quark B−L = (2m + 1)/3, so ⅓, 1,
+5/3, … are all consistent. The thirds come from **N_c = 3** through anomaly cancellation
+(N_c·Y_Q + Y_L = 0, which gives Q_u = 2/3 and Q_d = −1/3 only for N_c = 3; computed for
+N_c = 1–5).
+
+**S6: the baryon no-go survives** if the quark *is* the fold. Three odd twist numbers
+never cancel, and B−L flux is confined, so an uncancelled fold would drag an infinite
+string.
+
+**Verdict:**
+- **What works:** "one twist that does both" exists, and its minimal form is a colour-
+  centre twist plus B−L flux. It gives every quark and lepton spin ½ and every boson
+  integer spin. **The precise version of the fold idea is the grand-unified monopole: the
+  fold is the monopole, and the quark is what the fold acts on, not the fold itself.**
+- **What doesn't:** colour SU(3) and its N_c = 3, which fixes the thirds, are inputs;
+  generations and masses are untouched; and quark-as-fold fails on baryons.
+- **What's left to explain:** *why N_c = 3*. That single number fixes the thirds, the
+  Z₃ twist and the baryon's three quarks.

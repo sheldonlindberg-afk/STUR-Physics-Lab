@@ -23,3 +23,14 @@ def test_fold_spin_and_baryon_nogo():
     import god_eq_quark_fold as F
     assert abs(F.thomson_J(1.0) - 1 / (4 * 3.141592653589793)) < 1e-9
     assert not [c for c in itertools.product(range(-7, 8, 2), repeat=3) if sum(c) == 0]
+
+
+def test_spin_charge_twist():
+    import numpy as np
+    import god_eq_spin_charge as S
+    assert S.mismatch(0, 0, 0, 3 * np.pi, S.FIELDS) < 1e-9       # exp(3 pi i (B-L)) = (-1)^2J
+    assert S.mismatch(1, 0, 0, np.pi, S.FIELDS) < 1e-9           # colour centre + B-L pi
+    sm = [f for f in S.FIELDS if f[0] != "S(B-L=2)"]
+    best = min(S.mismatch(a, b, c, 0.0, sm) for a in range(3) for b in range(2)
+               for c in np.linspace(0, 6, 6001))
+    assert best > 1.9                                            # none without B-L
