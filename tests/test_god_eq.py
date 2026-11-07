@@ -90,3 +90,12 @@ def test_koide():
     assert abs(q - 2 / 3) < 1e-5
     M, A, d = K.brannen([K.me, K.mmu, K.mtau])
     assert abs(A - 2 ** 0.5) < 1e-5
+
+
+def test_higgs_stability_criterion_fails():
+    import god_eq_gaps as G
+    import numpy as np
+    from math import log
+    s = G.run(125.20)
+    lam = s.sol(np.linspace(0, log(G.M_PLANCK / G.MT), 200))[4]
+    assert lam.min() < 0                          # measured Higgs: lambda turns negative before M_P

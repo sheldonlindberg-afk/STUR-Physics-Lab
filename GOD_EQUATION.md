@@ -446,3 +446,57 @@ Inputs: m_τ = 1776.93 ± 0.09 MeV (PDG, retrieved); m_e and m_μ from CODATA (r
 - **Wall:** explaining masses needs new structure: a flavour symmetry with a Z₃
   (circulant) mass matrix whose amplitude is fixed at √2, made compatible with how masses
   run with energy. Nothing in this repository supplies it.
+
+## Front 9: what the equation hasn't produced, and why
+
+### The structural reason: it fixes integers, not numbers
+
+Everything the search has *derived* is discrete:
+- N_c = 3 colours;
+- N_g = 3 generations;
+- charges in thirds;
+- spin ½ from a twist;
+- which statistics each particle has.
+
+All of these come from anomalies, topology and consistency. The Standard Model's **19
+free parameters are continuous**: 6 quark masses, 3 lepton masses, 3 CKM angles and a
+phase, 3 gauge couplings, the Higgs mass and vacuum value, and θ_QCD. Neutrinos add about
+7 more. **The equation has fixed none of them.**
+
+### The test: can our one continuous-valued criterion fix a continuous parameter?
+
+Script: `src/god_eq_gaps.py`; output: `results/god_equation/gaps_higgs.txt`.
+
+The criterion is front 7's "consistent up to the Planck scale". Applied to the Higgs, it
+means the self-coupling must stay ≥ 0 up to the Planck scale (vacuum stability). The test
+uses one-loop running, with approximate (tree-level) matching and recalled PDG inputs:
+- **The measured m_H = 125.20 GeV fails.** λ turns negative at about 9×10⁸ GeV, and
+  λ(M_P) = −0.026.
+- **As a prediction,** stability up to the Planck scale needs **m_H ≥ 133.1 GeV** at one
+  loop.
+- **The bound is very sensitive to the top Yukawa:** 1% in y_t moves it by 3.4 GeV
+  (126.3–139.8 GeV for ±2%). The precision two-loop literature value is about 129–130 GeV
+  (LIT, recalled).
+
+**So the criterion misses the Higgs mass.** Measured 125 GeV means the vacuum is
+metastable (KNOWN). This doesn't undo front 7: a Landau pole is a real breakdown of the
+theory, while metastability only means the vacuum decays long after now. But **the
+criterion can't produce continuous parameters**: it fails at the first one tested.
+
+### Gap map
+
+| Not produced | Why not (structural) | What *could* produce it | Status here |
+|---|---|---|---|
+| Fermion masses, mixings | Masses are Yukawa couplings: continuous, unconstrained by anomalies or topology | flavour symmetry (e.g. Z₃ with Koide's √2), Froggatt–Nielsen, a UV boundary condition | Koide fits at 0.4σ; δ = 2/9 is excluded (447σ); nothing here gives √2 (front 8) |
+| Higgs mass | same: a continuous coupling | a UV boundary condition (asymptotic-safety gravity predicted ~126 GeV, LIT, recalled) | Planck stability gives ≥ 133 GeV (one loop) vs 125 (this front) |
+| Gauge couplings | continuous; only their *running* follows | unification, or UV fixed points | not attempted |
+| Why 3 and not 5 | needs a framework plus an assumption | 3-3-1 plus perturbativity | **conditionally derived** (fronts 5–7c) |
+| Dark energy | the vacuum equation has no free term that runs at the right size | a new dynamical field that crosses w = −1 late | holographic (wrong sign) and running vacuum (CMB-limited) fail (fronts 1–2) |
+| Quark as a spacetime fold | a fold gives spin ½ but can't also give the thirds or neutral baryons | the fold acts *on* quarks (a GUT-type monopole) | fronts 3–4 |
+| STUR's own claims | the postulate fails decoherence; spacetime noise is excluded | — | POSTULATE_TEST, OPTION_A, WALL |
+
+**The single why:** *consistency* (anomalies, topology, perturbativity) produces integers
+and quantum numbers. *Numbers* (masses, couplings, Λ) need dynamics with a boundary
+condition or a symmetry, and the equation contains neither. Getting them needs **new,
+testable structure**, and the cleanest candidate class is a UV boundary condition at the
+Planck scale.
