@@ -108,3 +108,12 @@ def test_planck_boundary_conditions():
     assert 130 < mH < 136                         # one loop, before calibration
     mt = brentq(lambda m: B.lam_at(125.20, m, 1.22089e19), 160, 180)
     assert 167 < mt < 170
+
+
+def test_331_higgs_threshold():
+    import god_eq_331_higgs as H
+    import numpy as np
+    from scipy.optimize import brentq
+    y = H.state_at(125.20, H.MU331)
+    lam_crit = brentq(lambda L: H.lam_MP_from(np.r_[y[:5], L]), 0.0, 0.3)
+    assert 0.015 < lam_crit - y[5] < 0.03       # positive, O(0.02) threshold needed

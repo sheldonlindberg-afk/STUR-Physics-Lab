@@ -547,3 +547,46 @@ Both are **near misses of 3–5%**, and in the published versions the miss *grow
 higher loop order. This is the boundary of current knowledge, not a gap specific to
 STUR. Closing it needs a better quantum-gravity calculation of the gravity terms f_g and
 f_y, which no lab here can supply.
+
+## Front 11: does the 3-3-1 content that selects "3" also fix the Higgs mass?
+
+Script: `src/god_eq_331_higgs.py`; output: `results/god_equation/331_higgs.txt`.
+
+**P1: parameter count.** The 3-3-1 scalar sector (three triplets) has **13** parameters,
+against the Standard Model's **2**:
+- 3 mass terms;
+- 3 self-quartics;
+- 6 cross-quartics;
+- 1 trilinear coupling.
+
+Add the ratio of vacuum values and the exotic-quark Yukawas on top. "λ(M_Pl) = 0" no longer
+has a unique meaning: *which* quartics vanish, and with what mixing, are new choices.
+
+**P2: the threshold needed.** Integrating out heavy scalars that mix with the light Higgs
+lowers its quartic by δ = κ²/λ_S at μ₃₃₁ (KNOWN mechanism; Elias-Miró et al. 2012,
+recalled). This is the *only* sign that mechanism can give, and it's the sign needed.
+
+Approximation: Standard Model one-loop running above μ₃₃₁; the 3-3-1 running of the
+quartics is not computed.
+- λ_SM(4 TeV) from the measured m_H: 0.0810.
+- The value that runs to zero at M_Pl: 0.1016.
+- **Needed: δ = 0.0207** (one-loop miss; smaller against the calibrated ~129.5 GeV miss).
+
+**P3: is that size natural?** With κ and λ_S log-uniform in [0.01, 1]:
+- 5.5% land within ±25% of the needed δ;
+- 67% overshoot, giving m_H below 125 GeV.
+
+So a threshold of the right size is ordinary.
+
+**Verdict:**
+- **It accommodates, not predicts.** The 3-3-1 sector that selects N_c = N_g = 3 can
+  *accommodate* m_H = 125.2 together with λ(M_Pl) = 0, using ordinary couplings and the
+  right-sign threshold. It can't *predict* it, because the threshold is a free parameter.
+- **The top mass is untested.** The same applies to the Eichhorn–Held top retrodiction:
+  exotic quarks and the U(1)_X fixed point change the trajectory in model-dependent ways.
+  I haven't computed that.
+
+**What this says about the search:** there's a trade-off. The structure that fixes the
+*integers* (more gauge symmetry, more multiplets) brings in *more* continuous parameters,
+and they sit exactly where the continuous predictions come from. Discrete success and
+continuous predictivity pull in opposite directions in this framework.
