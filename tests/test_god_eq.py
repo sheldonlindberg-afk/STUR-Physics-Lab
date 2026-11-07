@@ -60,3 +60,16 @@ def test_su3L_and_hypercharge_selection():
     from fractions import Fraction
     assert L.bY(3, False) == Fraction(-41, 6)                          # reproduces the SM
     assert L.bY_pole(3)[1] > L.M_PLANCK > L.bY_pole(5)[1]               # hypercharge cuts 5 (estimate)
+
+
+def test_331_exact_two_loop():
+    import os, sys
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
+    from fractions import Fraction as F
+    import god_eq_331_exact as E
+    a, b = E.sm_check()
+    assert a == [F(41, 10), F(-19, 6), F(-7)]
+    assert b == [[F(199, 50), F(27, 10), F(44, 5)], [F(9, 10), F(35, 6), F(12)], [F(11, 10), F(9, 2), F(-26)]]
+    for Nc in (3, 5, 7):
+        assert all(v == 0 for v in E.anomalies(Nc).values())
+    assert E.run_two_loop(3)[0] > E.M_PLANCK > E.run_two_loop(5)[0]

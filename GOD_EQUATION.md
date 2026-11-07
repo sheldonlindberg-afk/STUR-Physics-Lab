@@ -322,3 +322,58 @@ would shift b by O(1). Neither is large enough to flip either verdict.
   not inconsistency. Drop the assumption and the selection drops with it.
 - **What decides the framework:** the β = ±1/√3 3-3-1 models predict a Z′ and bileptons,
   which the LHC (now) and future colliders can find or exclude.
+
+## Front 7b: firming up "N_c = N_g = 3": exact charges, full scalars, two loops
+
+Script: `src/god_eq_331_exact.py`; output: `results/god_equation/331_exact.txt`.
+
+**Model.** The β = −1/√3 3-3-1 model, with N_g = N_c and quark charges from front 5. The
+exact U(1)_X charges come from Q = T3 + βT8 + X:
+- quark triplet: X = Q_u − ⅓;
+- quark anti-triplet: X = Q_d + ⅓;
+- leptons: −⅓;
+- scalars η, ρ, χ: −⅓, +⅔, −⅓. These are fixed by the Yukawa couplings and don't depend
+  on N_c.
+
+**E1 CHECK (calibration).** The general two-loop gauge machinery reproduces the Standard
+Model's one-loop coefficients (41/10, −19/6, −7) and **all nine two-loop entries exactly**.
+The calibration caught two errors of mine: a GUT-normalisation bug, and the scalar
+normalisation, which must count a complex scalar as two real degrees of freedom.
+
+**E2 CHECK.** Every gauge anomaly (X³, grav²X, SU(3)_L²X, SU(N_c)²X, SU(3)_L³) vanishes
+exactly for N_c = 3, 5 and 7, so the general-N_c model is consistent.
+
+**E3: two-loop gauge running from the 3-3-1 scale.** Starting from 1/α_X(4 TeV) = 83.76;
+"blow-up" means a coupling reaching g = 4π.
+
+| N_c = N_g | one-loop a_X | Blow-up (2-loop) | vs Planck |
+|---|---|---|---|
+| 3 | 26/3 = 8.67 | 3.0×10²⁹ GeV | **above** |
+| 5 | 19.33 | 1.3×10¹⁵ GeV | **below** |
+| 7 | 34.44 | 9.7×10⁹ GeV | below |
+
+- **Stable across the 3-3-1 scale.** For μ_331 = 2–30 TeV, N_c = 3 blows up at
+  (2.7–3.7)×10²⁹ GeV and N_c = 5 at (0.8–4.5)×10¹⁵ GeV.
+- **Margins.** A pole exactly at the Planck scale needs a_X = 14.76; the margins are
+  +6.09 for N_c = 3 and −4.57 for N_c = 5. Charges and scalars are now exact.
+- **Not included:** two-loop Yukawa terms. They enter only at two loops, and the verdict
+  is already set at one loop.
+- **Cross-check:** a_X = 26/3 for N_c = 3 matches the value I recall from the literature
+  (not retrieved).
+
+**Literature (one search).** The link between generations and colours via anomaly
+cancellation is KNOWN (N_g divisible by N_c), as are the minimal model's ~4 TeV pole and
+the β = 1/√3 model's high-energy U(1) pole. No source found derives N_c *itself* through
+perturbativity. Not a novelty proof.
+
+**Firmed-up verdict.** In the β = −1/√3 3-3-1 framework, requiring the theory to stay
+perturbative up to the Planck scale, the chain
+
+  Witten's anomaly (N_c odd) → SU(3)_L anomaly + QCD asymptotic freedom (N_g = N_c) → U(1)_X running
+
+**selects N_c = N_g = 3 uniquely.**
+
+Still conditional on:
+1. the 3-3-1 framework, decided by collider searches for its Z′ and bileptons;
+2. the perturbativity assumption;
+3. this β value. The β = +1/√3 variant hasn't been checked.
