@@ -212,3 +212,54 @@ would itself shift with N_c, but that can't absorb a 15–33σ miss.
 - **This is a wall.** "Why 3 and not 5" has no theoretical answer in known physics or
   in anything built here. A god equation would have to supply a principle that selects
   the minimal odd value, or fix N_c some other way.
+
+## Front 6: why three generations? (3-3-1 models)
+
+Script: `src/god_eq_three_generations.py`; output: `results/god_equation/three_generations.txt`.
+
+**Framework (KNOWN; Pisano–Pleitez, Frampton 1992).** The gauge group is
+SU(3)_C × SU(3)_L × U(1)_X: the weak SU(2) is enlarged to SU(3)_L, so each
+generation's left-handed fields come in triplets.
+
+**G1 + G2 (computed).** The SU(3)_L anomaly requires as many triplets as
+anti-triplets: N_g(1 + N_c) = 2nN_c, where n is the number of quark generations in the
+anti-triplet. QCD stays asymptotically free only if the 3N_g quark flavours satisfy
+11N_c/3 − 2N_g > 0. Together:
+
+| N_c | Generation numbers the anomaly allows | Allowed by asymptotic freedom too |
+|---|---|---|
+| 3 | 3, 6, 9, … | **3** |
+| 5 | 5, 10, … | **5** |
+| 7 | 7, 14, … | **7** |
+
+**The generation number is locked to the colour number: N_g = N_c.** For N_c = 3 the
+counting reproduces the standard assignment: two quark generations in the anti-triplet,
+one in the triplet.
+
+**G3, with front 5.**
+- **One number, not two.** N_c must be odd (Witten's anomaly and the spin–charge twist),
+  and 3-3-1 sets N_g = N_c, so the two "threes" are a single number.
+- **The data agree.** The measured N_g = 3 (LEP neutrino counting, LIT, recalled) and the
+  R-ratio (N_c = 3) both say 3.
+- **Still open:** why that number is 3 and not 5 or 7.
+
+**G4: the minimal model vs data.**
+- Running the Standard Model couplings at one loop, sin²θ_W reaches ¼ at
+  **μ* = 3.68 TeV**. There the U(1)_X coupling diverges, so the minimal model's new gauge
+  bosons must sit below about 3.7 TeV. The literature quotes a similar cap
+  (m_Z′ ≲ 3.1 TeV, LIT).
+- LHC dilepton searches exclude a minimal-model Z′ below 5 TeV (LIT).
+- So **minimal 3-3-1 is excluded**, unless two-loop and threshold effects, which I didn't
+  compute, raise μ* by 36%.
+- The β = ±1/√3 variants have no such pole. The N_g = N_c result holds there too (same
+  triplet counting), with Z′ > 3.6–4.2 TeV (LIT): **alive and testable**.
+
+**Verdict:**
+- **Real result:** both "threes" reduce to one number, linked *by theory*. That number
+  must be odd (front 5), and the generations must equal the colours (3-3-1 + asymptotic
+  freedom).
+- **Excluded:** the minimal version that first gave this argument.
+- **Surviving:** the β = ±1/√3 versions, which predict new heavy gauge bosons (a Z′ and
+  bileptons) within the LHC's long-term reach.
+- **The wall moves but doesn't fall:** why that one number is 3 is still decided by
+  observation.

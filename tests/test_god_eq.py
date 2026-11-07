@@ -43,3 +43,12 @@ def test_why_three():
     assert (Qu, Qd, cub) == (sp.Rational(2, 3), sp.Rational(-1, 3), 0)
     Qu5, Qd5, cub5 = W.charges(5)
     assert cub5 == 0 and 5 * (Qu5**2 - Qd5**2) == 1          # pi0 amplitude blind to N_c
+
+
+def test_three_generations():
+    import god_eq_three_generations as T
+    from scipy.optimize import brentq
+    assert [r[0] for r in T.allowed_Ng(3) if r[2]] == [3]
+    assert [r[0] for r in T.allowed_Ng(5) if r[2]] == [5]
+    mu = brentq(lambda m: T.sin2_running(m) - 0.25, 100, 1e6)
+    assert 3.5e3 < mu < 3.9e3
