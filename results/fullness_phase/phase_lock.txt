@@ -1,0 +1,48 @@
+
+==============================================================================
+L1  CHECK: Adler locking
+==============================================================================
+   dw/K = 0.50: slip rate 0.00000  vs  0.00000  -> LOCKED
+   dw/K = 0.99: slip rate 0.00000  vs  0.00000  -> LOCKED
+   dw/K = 1.50: slip rate 1.11765  vs  1.11803  -> slips
+   dw/K = 3.00: slip rate 2.82828  vs  2.82843  -> slips
+
+==============================================================================
+L2-L3  Energy to view dx, and where the probe makes a horizon
+==============================================================================
+   probe wavelength 1e-06 m:
+      dx = 1e-18 m:  E_HL = 3.16e-08 J,  E_SQL = 5.03e+03 J
+      dx = 1e-25 m:  E_HL = 3.16e-01 J,  E_SQL = 5.03e+17 J
+      dx = 1e-33 m:  E_HL = 3.16e+07 J,  E_SQL = 5.03e+33 J
+   probe wavelength 1e-15 m:
+      dx = 1e-18 m:  E_HL = 3.16e-08 J,  E_SQL = 5.03e-06 J
+      dx = 1e-25 m:  E_HL = 3.16e-01 J,  E_SQL = 5.03e+08 J
+      dx = 1e-33 m:  E_HL = 3.16e+07 J,  E_SQL = 5.03e+24 J
+
+   imaging (wavelength = dx):        dx_min = sqrt2 l_P = 2.29e-35 m
+   classical light (SQL), R = lambda: dx_min = l_P/sqrt(pi) = 9.12e-36 m  (any colour)
+   quantum light (HL), lambda = 1e-06 m: dx_min = 2 l_P^2/lambda = 5.2e-64 m  <- probe ALONE allows sub-Planck
+   quantum light (HL), lambda = 1e+00 m: dx_min = 2 l_P^2/lambda = 5.2e-70 m  <- probe ALONE allows sub-Planck
+
+==============================================================================
+L4  Mutual locking: the system is pulled too
+==============================================================================
+   system = lock region (R_s = c t)             : dx >= 1.62e-35 m
+   1 s lock, 1 m system (small: spreads more)   : dx >= 2.80e-31 m
+   1 s lock, causal part of system (R_s = c t)  : dx >= 1.62e-35 m
+   Causality: in a lock of duration t only the part of the system within c t can
+   respond together, so R_s <= c t and dx >= l_P = 1.616e-35 m, whatever the probe.
+   FOLLOWS: the Planck wall is a property of LOCKING, not of light.  Quantum light
+   beats the probe wall (L3) but not the back-action wall: the harder the probe
+   pulls, the harder the system is pulled.
+   (Ng & van Dam, KNOWN, get (l_P^2 L)^(1/3) by assuming the clock is no bigger
+   than dx; the causal assumption here gives l_P exactly.)
+
+==============================================================================
+L5  The wall in fullness terms
+==============================================================================
+   Fullness of the lock region at the imaging wall: rho = 0.060 rho_P
+   With rho_max >= rho_P (user's choice C), the wall is reached at phi <= 0.060:
+   everything between the measurement wall and the ceiling (phi = 1) can never be
+   viewed, because locking to it makes a horizon first.  This is P1 restated as a
+   theorem about measurement.

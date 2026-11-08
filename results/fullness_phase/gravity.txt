@@ -1,0 +1,33 @@
+
+==============================================================================
+G1  The law and its checks
+==============================================================================
+   Friedmann (F) residual over u in (0, pi): 1.3e-15
+   phi = 2.50e-07:  f/T = 1.0000000835   (TEGR = GR limit is 1; FOLLOWS: 1 + phi/3 + ...)
+   phi = 2.50e-05:  f/T = 1.0000083333   (TEGR = GR limit is 1; FOLLOWS: 1 + phi/3 + ...)
+   phi = 2.50e-03:  f/T = 1.0008330537   (TEGR = GR limit is 1; FOLLOWS: 1 + phi/3 + ...)
+   f_T just below / above half-full: 1.57079623 / 1.57079643  (pi/2 = 1.57079633)
+   torsion T = 4 T_b phi (1 - phi): zero at empty AND full, max |T| = 4 pi G rho_max at phi = 1/2
+   with rho_max = rho_Planck: max |T| = 4.323e+87 s^-2 = 4 pi / t_P^2
+
+==============================================================================
+G2  A collapsing universe: stops at full, re-expands
+==============================================================================
+   dust     : max fullness = 0.999999366  (H there = +8.0e-04);  a_min/a_start = 4.6416e-02;  ends expanding: True;  constraint drift 5.1e-08
+   radiation: max fullness = 0.999997432  (H there = +1.6e-03);  a_min/a_start = 1.0000e-01;  ends expanding: True;  constraint drift 5.1e-08
+   CHECK dust: a_min/a_start = (phi0)^(1/3) = 4.6416e-02
+
+==============================================================================
+G3  Collapsing stars: a pure-matter core inside the horizon
+==============================================================================
+   object          M (kg)       r_s (m)      core R_b (m)   R_b/r_s     horizon->core (s)
+   1 solar mass   1.989e+30   2.954e+03    4.516e-23      1.5e-26    6.569e-06   (2 r_s / 3c = 6.569e-06)
+   Sgr A*         8.552e+36   1.270e+10    7.344e-21      5.8e-31    2.825e+01   (2 r_s / 3c = 2.825e+01)
+   M87*           1.293e+40   1.920e+13    8.428e-20      4.4e-33    4.270e+04   (2 r_s / 3c = 4.270e+04)
+   Only masses below 3.76e-09 kg = 0.173 m_P (3.8 micrograms) have
+   a full core bigger than their horizon.  rho_max above rho_P lowers this further.
+   FOLLOWS: for every astrophysical black hole the horizon forms at LOW fullness
+   (M87*: about 0.4 kg/m^3), so no density ceiling can remove the horizon.  What the
+   law removes is the singularity: the inside is pure matter at phi = 1.  After the
+   bounce the core re-expands (a white-hole phase inside).  What the outside sees
+   needs the static spherical solution of (FP): OPEN.

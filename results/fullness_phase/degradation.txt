@@ -1,0 +1,22 @@
+
+==============================================================================
+D1-D2  How slow must 'time itself' degrade matter?
+==============================================================================
+   Earth: M c^2 = 5.37e+41 J, heat flow 47 TW  ->  tau > 3.6e+20 yr
+   Proton decay (Super-K, p -> e+ pi0): tau > 2.4e+34 yr  (7e+13 times stronger)
+   CHECK (D) static: rho_m = 0.6065306597 vs e^-1/2 = 0.6065306597; total = 1.000000000000
+
+==============================================================================
+D3  What the bound means
+==============================================================================
+   Matter degraded since the Big Bang: < t_U / tau = 5.8e-25  (unobservable today).
+   Far-future race (yr):  stars stop forming ~1e14 | degradation ~2e+34+ | solar-mass
+   black hole evaporates (Hawking, 5120 pi G^2 M^3 / hbar c^4) ~2e+67.
+   FOLLOWS: degradation erases all free matter long before black holes evaporate.
+   FOLLOWS: it cannot empty a black hole.  Inside the core, rest mass becomes
+   radiation, but gravity counts all energy: phi stays 1 and the mass M is unchanged.
+   Only the expansion of space dilutes radiation (rho_r ~ a^-4) towards 0.  So the
+   user's arc 'to 1, then back to 0' needs BOTH: degradation turns matter into
+   radiation, expansion takes radiation to 0.
+   OPEN: the theory has not yet fixed tau.  If it predicts tau, Hyper-Kamiokande
+   (sensitivity ~1e35 yr, recalled) can test it.
