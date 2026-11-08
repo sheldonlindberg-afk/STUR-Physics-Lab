@@ -1,0 +1,65 @@
+
+==============================================================================
+X1  Torsion outside a black hole
+==============================================================================
+   r/r_s     T r_s^2 (general)   (Schwarzschild form)   far-field -2M^2/r^4
+     1.001   -5.922188e+01       -5.922188e+01          -4.980e-01
+     1.010   -1.597761e+01       -1.597761e+01          -4.805e-01
+     1.500   -2.750232e-01       -2.750232e-01          -9.877e-02
+     3.000   -9.164767e-03       -9.164767e-03          -6.173e-03
+    10.000   -5.551703e-05       -5.551703e-05          -5.000e-05
+   100.000   -5.050473e-09       -5.050473e-09          -5.000e-09
+   -> |T| grows without bound as r -> r_s: the horizon is where the law matters.
+   Law deviation f/T - 1 at the photon sphere (r = 1.5 r_s), rho_max = rho_P:
+      10 Msun : 2.2e-81   (EHT and LIGO: unobservable)
+      Sgr A*  : 1.2e-92   (EHT and LIGO: unobservable)
+      M87*    : 5.2e-99   (EHT and LIGO: unobservable)
+
+==============================================================================
+X2  The cap: the static exterior ends just above the horizon
+==============================================================================
+   CHECK exact root vs formula ln(1/delta) = 4 ln(r_s/l_P) + 2 ln(2 pi chi):
+      r_s = 1e+03 l_P:  exact 31.306776   formula 31.306775
+      r_s = 1e+06 l_P:  exact 58.937796   formula 58.937796
+   object      r_s (m)      proper height of cap   redshift at cap
+   10 Msun             2.954e+04   2.81e-75 m (1.7e-40 l_P)   2.10e+79
+   62 Msun (GW150914)  1.831e+05   4.54e-76 m (2.8e-41 l_P)   8.07e+80
+   Sgr A*              1.270e+10   6.55e-81 m (4.1e-46 l_P)   3.88e+90
+   The cap sits a sub-Planck proper distance above the horizon: by part 3 no
+   measurement can tell it from a horizon directly.  Only what it DOES can.
+
+==============================================================================
+X3a  If the cap reflects at all: echoes (sharp, almost parameter-free)
+==============================================================================
+   final mass        echo delay (non-spinning)   chi = 1e3 instead of 1
+   10 Msun                0.0719 s                      0.0747 s
+   62 Msun (GW150914)     0.4550 s                      0.4719 s
+   1e6 Msun (LISA)     8102.5364 s                   8374.7989 s
+   LIT (recalled): Abedi, Dykaar & Afshordi 2016 claimed echoes in GW150914 at
+   ~0.29 s (Planck-length wall, with spin); LIGO-Virgo searches since find no
+   significant echoes.  Here the cap is at l_P^2/r_s, not l_P, so ln(1/delta) is
+   doubled: the predicted delay is about TWICE the Planck-wall value.  Spin is not
+   included (needs the rotating solution of the law: OPEN).
+
+==============================================================================
+X3b  If the cap lets the bounce straight out
+==============================================================================
+   Outside time ~ (r_s/c) ln(1/delta) = 36.0 ms for 10 Msun: every accreting black hole
+   would re-explode what it swallows.  X-ray binaries and quasars persist: EXCLUDED.
+
+==============================================================================
+X3c  If the cap releases the bounce at its redshift (NEW assumption)
+==============================================================================
+   t_esc / t_Hawking = 0.002083 = 1/480 (chi = 1)
+   1 Msun : t_esc = 4.4e+64 yr  (no conflict with any observation)
+   Sgr A* : t_esc = 3.5e+84 yr  (no conflict with any observation)
+   Black holes releasing their bounce TODAY (if primordial): M = 1.35e+12 kg
+      (Hawking evaporation ending today, photons only: 1.73e+11 kg; ~5e11 kg with all species, recalled)
+      burst energy M c^2 = 1.2e+29 J, all at once, size r_s = 2.0e-15 m,
+      characteristic photon energy hbar c / r_s = 98 MeV (gamma rays).
+   Hawking evaporation ends with a TeV flash of the last ~1e7 kg (recalled); the bounce
+   instead releases ~1e+12 kg at ~100 MeV.  Distinct in energy and size.
+   OPEN: the primordial black-hole abundance is unknown, so the burst RATE is
+   not predicted; Fermi-LAT burst searches would bound it.
+   ALTERNATIVE (same cap, Planck-time dynamics instead of the core's): t ~ M^2,
+   the Haggard-Rovelli scaling (LIT, recalled).  The theory must decide.

@@ -1,4 +1,4 @@
-# Fullness-phase theory (working name): version 0.1
+# Fullness-phase theory (working name): version 0.2
 
 *A new start, built from the user's postulates. The earlier STUR program and the
 god-equation search (REPORT.md, GOD_EQUATION.md) are not inputs. Every number below is
@@ -73,6 +73,42 @@ Rest mass becomes radiation, and total energy is conserved.
 | L4 | **Locking is mutual,** so the system is pulled too. The system spreads by δx² ≥ ħt/2m (Salecker–Wigner, KNOWN). It must not be its own black hole, and by causality only its part within ct can join a lock lasting t. Together these give **δx ≥ l_P for any probe colour, photon number or quantum state.** | NEW (Ng & van Dam, KNOWN, get (l_P²L)^⅓ under a different assumption) |
 | L5 | At the measurement wall, the lock region's fullness is 0.06 ρ_P. With ρ_max ≥ ρ_P, everything between the wall and φ = 1 can never be viewed. P1 becomes a statement about measurement. | FOLLOWS |
 
+## Part 4: where the core's bounce gets out (v0.2)
+
+Script: `src/fp_black_hole_exterior.py` (torsion derived in
+`src/fp_torsion_derivation.py`); output: `results/fullness_phase/black_hole_exterior.txt`.
+
+**X1, torsion outside a black hole.** For the spherical tetrad the torsion scalar is
+T = 2(√B − 1)[A(√B − 1) − rA′]/(r²AB), derived with sympy. The same form appears in
+Bahamonde et al. (LIT, recalled).
+- **Schwarzschild:** T = (4/r²)[1 − (r − M)/√(r(r − 2M))].
+- **Far away** it falls off as −2M²/r⁴.
+- **At the horizon it diverges.**
+
+The law's deviation from GR at the photon sphere is 10⁻⁸¹ (10 M☉) to 10⁻⁹⁹ (M87*), which
+is invisible to the Event Horizon Telescope and to LIGO.
+
+**X2, the cap (FOLLOWS).** The law only exists for |T| ≤ 4πχ/l_P², where χ = ρ_max/ρ_P.
+So the static exterior ends at a *cap surface*:
+- position: √δ = l_P²/(2πχ r_s²), with r_cap = r_s(1 + δ);
+- height above the horizon: l_P²/(πχ r_s), a proper distance below the Planck length
+  (10⁻⁴⁰ l_P for 10 M☉);
+- redshift: 2πχ r_s²/l_P².
+
+By part 3 no measurement can resolve the cap directly. Only what it *does* can be seen.
+
+**X3, what the cap does decides the observables:**
+
+| If the cap… | Observable | Status |
+|---|---|---|
+| (a) reflects at all | Gravitational-wave **echoes**, delayed by 2[r*(3M) − r*(r_cap)]/c. Values: **0.072 s** (10 M☉), **0.455 s** (62 M☉, GW150914), 8100 s (10⁶ M☉, LISA). ρ_max enters only through a logarithm: χ = 10³ adds 4%. That's about twice the delay of a Planck-length wall. | Sharp prediction. LIGO–Virgo searches have found no significant echoes (recalled), so this case needs low reflectivity. Spin isn't included yet. |
+| (b) lets the bounce straight out | Re-emission within about 36 ms (10 M☉): accreting black holes would explode. | **Excluded** by persistent X-ray binaries and quasars. |
+| (c) releases the bounce at its own redshift (NEW assumption) | t_esc = (32πχ/3)G²M³/(ħc⁴) = t_Hawking/480. Stellar and galactic black holes: 10⁶⁴ yr and longer. **Primordial black holes of 1.35×10¹² kg would be bursting today**, releasing 1.2×10²⁹ J at once at about 100 MeV (gamma rays). | Testable by gamma-ray burst searches such as Fermi-LAT. The rate isn't predicted, because the abundance of primordial black holes is unknown. |
+
+Same cap, different assumption: if the cap runs on Planck time rather than the core's
+bounce time, t ∝ M² instead. That's the Haggard–Rovelli scaling (LIT, recalled). The
+theory has to decide between them; that's the next open problem.
+
 ## What is new, and what isn't
 
 - **Coincides with known physics:** the expansion law (loop quantum cosmology), the
@@ -86,10 +122,10 @@ Rest mass becomes radiation, and total energy is conserved.
 
 ## Open problems (next work)
 
-1. **The outside of a black hole.** The static, spherical solution of the gravity law
-   decides what the outside sees: an ordinary horizon, a modified one, or a bounce visible
-   from outside. This is the decisive test of "black holes are pure matter" against
-   gravitational-wave and Event Horizon Telescope data.
+1. **What the cap does.** Part 4 found the cap. Whether it reflects (giving echoes),
+   releases the bounce at its redshift (giving gamma-ray bursts from primordial black
+   holes), or runs on Planck time (t ∝ M²) needs the non-static solution at the cap. The
+   rotating (Kerr) version is needed to compare echoes with real, spinning remnants.
 2. **Fix τ.** Nothing yet sets the degradation time. If the theory predicts it,
    Hyper-Kamiokande (about 10³⁵ yr, recalled) can test it.
 3. **The present universe.** Does the dance (torsion ∝ φ(1 − φ) on the scale of voids and
@@ -107,5 +143,6 @@ Rest mass becomes radiation, and total energy is conserved.
 python src/fp_gravity.py       # results/fullness_phase/gravity.txt
 python src/fp_degradation.py   # results/fullness_phase/degradation.txt
 python src/fp_phase_lock.py    # results/fullness_phase/phase_lock.txt
+python src/fp_black_hole_exterior.py  # results/fullness_phase/black_hole_exterior.txt
 python -m pytest tests/test_fullness_phase.py -q
 ```

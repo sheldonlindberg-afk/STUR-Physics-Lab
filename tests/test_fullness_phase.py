@@ -42,3 +42,17 @@ def test_phase_lock():
     assert P.probe_wall(1e-6, "HL") < 1e-60                          # probe alone: sub-Planck
     assert abs(P.backaction_wall(1.0, P.c) / P.L_P - 1) < 1e-12      # mutual lock: l_P
     assert abs(P.main()["phi_wall"] - 0.0597) < 1e-3
+
+
+def test_black_hole_exterior():
+    import fp_black_hole_exterior as X
+    r = np.array([1.01, 1.5, 3.0, 50.0])
+    A = 1 - 1 / r
+    assert np.allclose(X.torsion_general(r, A, 1 / A, 1 / r ** 2), X.torsion_schw(r, 1.0))
+    assert abs(X.torsion_schw(1e3, 1.0) / (-2 * 0.25 / 1e12) - 1) < 2e-3    # -2M^2/r^4
+    assert abs(X.torsion_schw(1 + 1e-8, 1.0)) > 1e4                           # diverges
+    assert abs(X.cap_exact(1e4) - X.cap(1e4 * X.L_P)["ln_inv_delta"]) < 1e-5  # cap formula
+    M62 = 62 * X.M_SUN
+    assert abs(X.echo_delay(M62) - 0.455) < 0.002                             # echo delay
+    assert abs(X.t_escape(M62) / X.t_hawking(M62) - 1 / 480) < 1e-12
+    assert abs(X.mass_escaping_now() / 1.35e12 - 1) < 0.01
