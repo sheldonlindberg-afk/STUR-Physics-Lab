@@ -1,0 +1,67 @@
+
+==============================================================================
+T1  CHECKS on the timescape distance (recalled formulas, verified here)
+==============================================================================
+   closed-form F vs numerical integral of 1/(gamma t^2/3):  1.487842593068 vs 1.487842593068
+   z(t0) = 0.00e+00  (must be 0);  f_v(t0) = 0.695000000000  (must be f = 0.695)
+   low-z slope D_L'(0) = 0.813359  vs  1/H0_dressed = 0.813327
+   dressed a(tau) = abar/gamma in wall time:  H0 = 1.229517625 vs 1.229517625;  q0 = -0.035998 vs closed form (Wiltshire, recalled) -0.035998
+   q0 read off D_L(z) as if FLRW: -0.1939.  FOLLOWS: differs from the metric q0
+   because the dressed geometry is not FLRW (the areal radius carries extra z-
+   dependence), so 'q0 from supernovae' is model-dependent in timescape.
+   Either way q0 < 0: apparent acceleration with NO dark energy; the bare (volume-
+   average) expansion always decelerates.
+   CHECK flat LCDM Om=0.3: q0 = -0.5484  vs  Om*3/2 - 1 = -0.5500
+
+==============================================================================
+T2  Pantheon+ (official standardization, STAT+SYS covariance): LCDM vs timescape
+==============================================================================
+   chi^2 with the magnitude/H0 offset marginalized.  Delta = chi2(TS) - chi2(LCDM):
+   negative favours timescape.  ln B = ln Z_TS - ln Z_LCDM (Seifert et al. priors).
+   Milne (empty) and Einstein-de Sitter (matter only, no averaging) for scale.
+
+   z key  z_min    N    Om (LCDM)        f_v0 (TS)        chi2_LCDM  Delta   ln B    dEdS     dMilne
+   zHD   0.010  1580   0.333 +- 0.018   0.853 +- 0.039     1386.4   +5.13   -4.07   +693.3    +48.2
+   zHD   0.023  1371   0.328 +- 0.019   0.855 +- 0.044     1209.7   +7.07   -5.09   +662.8    +50.6
+   zHD   0.033  1176   0.334 +- 0.020   0.829 +- 0.050     1039.1   +5.06   -3.19   +547.6    +38.5
+   zHD   0.050  1056   0.332 +- 0.022   0.816 +- 0.039      922.5   +5.12   -2.84   +444.7    +32.5
+   zHD   0.075   987   0.338 +- 0.024   0.791 +- 0.032      867.3   +2.06   -0.90   +331.5    +21.4
+   zHD   0.100   960   0.333 +- 0.025   0.791 +- 0.033      834.7   +2.97   -1.37   +308.3    +22.4
+   zCMB  0.010  1578   0.347 +- 0.019   0.828 +- 0.044     1423.2   -0.47   -0.44   +648.0    +32.7
+   zCMB  0.023  1367   0.346 +- 0.019   0.824 +- 0.040     1232.6   +1.41   -1.22   +606.9    +34.7
+   zCMB  0.033  1175   0.343 +- 0.020   0.816 +- 0.041     1052.2   +1.75   -1.18   +521.6    +30.2
+   zCMB  0.050  1053   0.335 +- 0.022   0.813 +- 0.037      917.1   +4.50   -2.46   +441.6    +31.0
+   zCMB  0.075   985   0.342 +- 0.025   0.785 +- 0.049      867.2   +1.30   -0.45   +323.1    +19.7
+   zCMB  0.100   960   0.335 +- 0.025   0.787 +- 0.041      834.7   +2.60   -1.14   +304.8    +21.7
+
+==============================================================================
+T2b DIAGNOSTIC: undo the Pantheon+ bias correction (simulated in a FLRW model)
+==============================================================================
+   Seifert et al. omit cosmology-dependent bias corrections.  Adding delta_bias back
+   (covariance unchanged, so this is approximate) isolates that one difference.
+
+   z key  z_min    N    Om (LCDM)        f_v0 (TS)        Delta   ln B
+   zHD   0.010  1580   0.307 +- 0.018   0.904 +- 0.054    +9.01   -8.44
+   zHD   0.033  1176   0.312 +- 0.019   0.870 +- 0.077    +7.02   -5.59
+   zHD   0.075   987   0.320 +- 0.024   0.817 +- 0.041    +2.33   -1.51
+   zCMB  0.010  1578   0.321 +- 0.018   0.880 +- 0.056    +2.24   -3.77
+   zCMB  0.033  1175   0.321 +- 0.020   0.854 +- 0.035    +3.27   -3.15
+   zCMB  0.075   985   0.323 +- 0.024   0.813 +- 0.037    +1.57   -1.02
+
+==============================================================================
+T3  Verdict
+==============================================================================
+   Reference CHECK: LCDM, zHD, z > 0.01: Om = 0.333 +- 0.018  (Brout et al. 2022, retrieved: 0.334 +- 0.018).
+   1. Matter only, smooth (EdS): worse by Delta chi^2 = +693.  In an FLRW
+      universe the supernovae DO demand acceleration; that part is not an artifact.
+   2. Timescape (no dark energy) fits nearly as well: Delta chi^2 = +5.1 (official
+      analysis, z > 0.01), ln B = -4.1.  Over all 12 cuts/redshift choices Delta chi^2 spans
+      -0.5 .. +7.1 and ln B spans -5.1 .. -0.4: LCDM mildly preferred or a tie.
+      Beyond the homogeneity scale (z > 0.075): |ln B| <= 1.4 -> inconclusive.
+   3. Seifert et al. 2024 (own Tripp standardization, same light curves): ln B > +5.
+      The SIGN of the preference is set by the light-curve standardization.  Undoing
+      the FLRW-simulated bias correction moves it the other way (ln B -> -8.4), so that
+      correction is not what hides timescape here.
+   4. Fitted f_v0 = 0.853 +- 0.039 vs Planck-CMB timescape 0.695 (+0.041 -0.051): 2.8 sigma apart.
+   VERDICT: supernovae alone cannot tell 'dark energy' from 'averaging artifact'.
+   The difference is a few chi^2 units and flips sign with the analysis choices.

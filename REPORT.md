@@ -1,7 +1,7 @@
 # STUR and the search for a unifying equation: consolidated report
 
 *Status as of November 2026. Every number below is computed by a script in `src/` and
-pinned by `tests/` (43 tests, all passing). Detailed records are in the topic reports
+pinned by `tests/` (46 tests, all passing). Detailed records are in the topic reports
 linked from each section.*
 
 ## How the work was done
@@ -91,6 +91,7 @@ Details: GOD_EQUATION.md.
 | 10 | Planck boundary conditions | λ(M_Pl) = 0 gives m_H ≈ 129.5 (calibrated) vs 125.2. Eichhorn–Held retrodict m_t = 178 / 182 GeV vs 172.6. Near misses of 3–5%. |
 | 11 | Does 3-3-1 fix the Higgs? | 13 scalar parameters vs 2. A threshold δ = 0.021 is needed and is ordinary in size, so 3-3-1 accommodates rather than predicts. |
 | 12 | Gauge unification in 3-3-1 | SU(3)_C and SU(3)_L never meet: the gap grows from 18.6 to 27.3. Meeting would need 14–18 extra triplets. |
+| 13 | Is dark energy a measurement artifact? (timescape vs ΛCDM, Pantheon+) | Smooth matter-only fails (Δχ² = +693). Timescape, with no dark energy, ties or loses mildly under the official Pantheon+ analysis (Δχ² = −0.5 to +7.1, ln B = −0.4 to −5.1). A published reanalysis finds ln B > +5 for timescape, so the sign follows the standardization. Fitted f_v0 = 0.853 is 2.8σ from the Planck value. Undecided by supernovae. |
 
 ## 4. The main positive result, with its conditions
 
@@ -144,6 +145,7 @@ project's step. Searches found no prior derivation, which is not proof there isn
 | Masses: Koide's √2 | new structure | a flavour symmetry with a Z₃ circulant mass matrix, compatible with running |
 | Higgs and top from the Planck scale | new physics | better quantum-gravity computations of the gravity terms f_g and f_y |
 | Dark energy crossing w = −1 | new structure | a dynamical field active only late; or the DESI signal fading |
+| Dark energy vs averaging (timescape) | data | BAO + CMB with one consistent f_v0; the redshift drift ż (ELT/ANDES); a settled supernova standardization |
 | Unification | new structure | ad hoc extra matter, which would also force a redo of front 7 |
 | Testing the "3 = 3" chain | experiment | a Z′ or bilepton discovery, or exclusion, at the LHC and future colliders |
 
@@ -177,5 +179,5 @@ Errors caught by the checks and fixed, recorded for transparency:
   requirements; it's unproven until a fresh session starts on it.
 - **Reproduce:**
   1. `pip install -r requirements.txt pytest matplotlib`
-  2. `python -m pytest tests -q` (43 tests)
+  2. `python -m pytest tests -q` (46 tests)
   3. run any `src/*.py` to regenerate its file in `results/`.

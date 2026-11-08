@@ -627,3 +627,90 @@ redone.
 predict the gauge couplings. Making it unify takes a large ad hoc addition of matter. The
 trade-off from front 11 shows up again: the content that fixes the integers is the
 content that blocks the continuous predictions.
+
+## Front 13: is dark energy a measurement artifact? (timescape vs ΛCDM on Pantheon+)
+
+Script: `src/god_eq_timescape.py`; output: `results/timescape/output.txt`; tests:
+`tests/test_timescape.py`. The Pantheon+ data (LIT, retrieved: Scolnic et al. 2022, Brout
+et al. 2022) download on first run into the git-ignored `data/pantheon_plus/`.
+
+**The question.** The user's intuition: dark energy is a placeholder for a measurement we
+don't understand. The sharpest published version is the **timescape** cosmology (KNOWN,
+Wiltshire 2007–2009):
+- We sit in a bound region whose clocks run slow compared with the voids that fill most
+  of the volume.
+- Fitting a smooth (FLRW) model to that lumpy universe then invents an acceleration.
+- Timescape has **no dark energy** and one parameter, the void fraction f_v0. Flat ΛCDM
+  also has one parameter, Ω_m.
+
+**Published claim (LIT, retrieved, Seifert, Lane, Galoppo, Ridden-Harper & Wiltshire
+2024, MNRAS Lett., arXiv:2412.15143).**
+- Using their own Tripp standardization of the Pantheon+ light curves, with no
+  cosmology-dependent bias corrections, they find **ln B > 5** for timescape.
+- Beyond the homogeneity scale (z > 0.075) the preference is still ln B > 1.
+- Their fitted void fraction is f_v0 = 0.737 ± 0.029.
+
+**This test.** I use the same light curves with the *official* Pantheon+ analysis: the
+standardized, bias-corrected magnitudes m_b_corr and the full 1701×1701 STAT+SYS
+covariance. The magnitude/H₀ offset is marginalized analytically, so only the shape of
+D_L(z) is tested, which is exactly what dark energy is inferred from. I reuse Seifert et
+al.'s priors (f_v0 ∈ [0.500, 0.799], Ω_m ∈ [0.143, 0.487]).
+
+**T1, checks on the timescape distance.** The formulas were recalled, then verified:
+- the closed-form antiderivative F(t) matches numerical integration to 10⁻¹²;
+- the slope of D_L(z) at z = 0 is 1/H₀ with the dressed H₀ = (4f² + f + 4)/(2(2+f)) H̄₀, to
+  4×10⁻⁵;
+- the dressed scale factor a = ā/γ̄ in wall time reproduces Wiltshire's closed-form
+  q₀ = −0.035998 (f_v0 = 0.695) to 10⁻⁸.
+
+FOLLOWS: q₀ read off D_L(z) as if the universe were FLRW is −0.19, not −0.036. The dressed
+geometry is not FLRW, so "q₀ from supernovae" depends on the model in timescape. Both
+values are negative: the acceleration is apparent, with no dark energy.
+
+**T2, the result.** Δχ² = χ²(TS) − χ²(ΛCDM); a negative value favours timescape.
+
+| redshift | z_min | N | Ω_m (ΛCDM) | f_v0 (TS) | Δχ² | ln B |
+|---|---|---|---|---|---|---|
+| z_HD | 0.010 | 1580 | 0.333 ± 0.018 | 0.853 ± 0.039 | +5.1 | −4.1 |
+| z_HD | 0.023 | 1371 | 0.328 ± 0.019 | 0.855 ± 0.044 | +7.1 | −5.1 |
+| z_HD | 0.033 | 1176 | 0.334 ± 0.020 | 0.829 ± 0.050 | +5.1 | −3.2 |
+| z_HD | 0.050 | 1056 | 0.332 ± 0.022 | 0.816 ± 0.039 | +5.1 | −2.8 |
+| z_HD | 0.075 | 987 | 0.338 ± 0.024 | 0.791 ± 0.032 | +2.1 | −0.9 |
+| z_HD | 0.100 | 960 | 0.333 ± 0.025 | 0.791 ± 0.033 | +3.0 | −1.4 |
+| z_CMB | 0.010 | 1578 | 0.347 ± 0.019 | 0.828 ± 0.044 | −0.5 | −0.4 |
+| z_CMB | 0.075 | 985 | 0.342 ± 0.025 | 0.785 ± 0.049 | +1.3 | −0.5 |
+
+(The full 12-row table is in the output.)
+- **CHECK:** Ω_m = 0.333 ± 0.018 against Brout et al.'s 0.334 ± 0.018 (retrieved).
+- **Scale:** smooth matter only (Einstein–de Sitter) is worse by Δχ² = +693, and the empty
+  Milne universe by +48.
+- **Prior effect:** the ln B values include a prior penalty, because the best-fit f_v0
+  often lies above Seifert et al.'s upper bound of 0.799. Δχ² doesn't depend on the prior.
+
+**T2b, diagnostic.** Undoing the FLRW-simulated bias correction δ_bias (Brout et al. eq. 1)
+makes timescape *worse* (z_HD, z > 0.01: ln B = −8.4). So that correction isn't what
+separates this result from Seifert et al.'s. The difference lies in the light-curve
+standardization and the likelihood.
+
+**Verdict.**
+1. **In a smooth (FLRW) universe the acceleration is real.** Matter alone misses by
+   Δχ² ≈ 700, so "dark energy is an artifact" can't hold *within* FLRW.
+2. **Supernovae alone can't tell dark energy from an averaging artifact.** Timescape, with
+   no dark energy, fits within Δχ² ≈ 0–7 of ΛCDM. With the official analysis ΛCDM is
+   mildly preferred (ln B from −0.4 to −5.1). With Seifert et al.'s standardization
+   timescape is preferred (ln B > 5). Beyond the homogeneity scale (z > 0.075) every
+   variant is inconclusive (|ln B| ≤ 1.5).
+3. **There is a consistency tension.** The fitted void fraction here, 0.853 ± 0.039, lies
+   2.8σ above the value timescape needs to fit the Planck CMB (0.695, LIT as quoted by
+   Seifert et al.).
+
+**What would decide it.** Supernovae can't, because the systematic in standardization is
+as large as the signal. The discriminators are other probes:
+- **BAO plus CMB:** timescape needs a consistent f_v0, and front 15 is the natural
+  extension of this.
+- **The redshift drift ż (Sandage–Loeb):** it differs in sign between the models at
+  z ≲ 2. This is KNOWN, and testable by ELT/ANDES.
+- **Clock-rate (lapse) tests**, such as Hubble-flow variance between voids and walls.
+
+The user's intuition survives as a live, unrefuted hypothesis, but these data don't
+support it over ΛCDM.
