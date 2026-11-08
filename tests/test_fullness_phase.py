@@ -56,3 +56,22 @@ def test_black_hole_exterior():
     assert abs(X.echo_delay(M62) - 0.455) < 0.002                             # echo delay
     assert abs(X.t_escape(M62) / X.t_hawking(M62) - 1 / 480) < 1e-12
     assert abs(X.mass_escaping_now() / 1.35e12 - 1) < 0.01
+
+
+def test_collapse_shock_lifetime():
+    import sympy as sp
+    import fp_collapse_shock as S
+    # conservation form reproduces the layer law exactly
+    t, R, k = sp.symbols("t R k", positive=True)
+    b = sp.Function("b")(t, R)
+    cons = sp.diff(R ** 2 * b, t) + sp.diff(-(k / 2) * R ** 3 * sp.sin(b) ** 2, R)
+    bt = sp.solve(sp.Eq(cons, 0), sp.diff(b, t))[0]
+    assert sp.simplify(bt - k * R * sp.sin(b) * sp.cos(b) * sp.diff(b, R)
+                       - sp.Rational(3, 2) * k * sp.sin(b) ** 2) == 0
+    T2, h = S.lifetime(2.0)
+    T3, _ = S.lifetime(3.0)
+    assert abs(T2 - 91.7) < 0.5 and abs(T3 - 215.4) < 0.5            # pinned
+    assert 23.5 < T3 / 9 < 24.3                                       # T ~ 24 M^2
+    assert abs(h[-1, 1] - 4.0) < 0.1 and abs(h[-1, 2] - h[-1, 1]) < 0.1   # edges meet at r_s
+    T2c, _ = S.lifetime(2.0, chi=4.0)
+    assert abs(T2c / T2 - 2.0) < 0.1                                  # T ~ sqrt(chi)

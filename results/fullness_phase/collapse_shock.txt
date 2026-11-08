@@ -1,0 +1,43 @@
+
+==============================================================================
+S1  Lifetime of a black hole formed from collapsing dust
+==============================================================================
+   M (m_P)   lifetime T (t_P)   T / M^2   horizon formed at
+      2.0            91.7       22.921    t = 4.4
+      4.0           384.0       24.000    t = 5.0
+      6.0           866.6       24.073    t = 7.5
+      8.0          1543.3       24.114    t = 10.0
+   power-law fit: T ~ M^2.037   (M^2 vs part 4's M^3 assumption: M^2 wins)
+
+==============================================================================
+S2  Robustness (M = 4)
+==============================================================================
+   grid dR/2                T ratio 0.9943
+   box 2 r_s                T ratio 1.0000
+   star starts at 1.2 r_s   T ratio 0.9928
+   ceiling chi = 4          T ratio 1.9997
+   ceiling chi = 1/4        T ratio 0.4892
+   -> converged to <1%; box-independent; T ~ sqrt(chi) (ratio 2.00 and 0.49).
+   Mechanism (horizon history):
+      t =     5.0   outer horizon 7.925   inner edge 7.275
+      t =   101.8   outer horizon 7.975   inner edge 5.075
+      t =   169.2   outer horizon 7.975   inner edge 6.075
+      t =   228.3   outer horizon 7.975   inner edge 6.725
+      t =   282.7   outer horizon 7.975   inner edge 7.225
+      t =   334.1   outer horizon 7.975   inner edge 7.625
+      t =   382.7   outer horizon 7.975   inner edge 7.975
+   The outer horizon stays at r_s = 8; the shock drives the inner edge out to meet it.
+
+==============================================================================
+S3  What it means (chi = 1, T = c0 M^2, c0 = 24.11)
+==============================================================================
+   1 solar mass : lifetime 3.4e+26 yr   (Hawking: 2e+67 yr)
+   Sgr A*       : lifetime 6.4e+39 yr   (Hawking: 2e+87 yr)
+   M87*         : lifetime 1.5e+46 yr   (Hawking: 6e+96 yr)
+   Black holes ending TODAY (if primordial): M = 1.26e+22 kg (about 0.17 Moon masses)
+      r_s = 18.7 micrometres; energy released 1.1e+39 J; wavelength ~ r_s -> far infrared
+   Stellar black holes outlive the universe by ~1e16: no conflict with any
+   observation.  Matter that fell in comes back out, after ~M^2: black holes are
+   long-lived pure-matter bounces, not permanent holes.
+   OPEN: what the emerging matter looks like (spectrum), the rotating case, and
+   whether the shock reflects gravitational waves (echoes).
