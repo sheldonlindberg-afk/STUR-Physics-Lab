@@ -714,3 +714,74 @@ as large as the signal. The discriminators are other probes:
 
 The user's intuition survives as a live, unrefuted hypothesis, but these data don't
 support it over ΛCDM.
+
+## Front 14: is timescape's void fraction the real cosmic web's?
+
+Script: `src/god_eq_void_fraction.py`; output: `results/void_fraction/output.txt`; tests:
+`tests/test_void_fraction.py`.
+
+**The question.** The user's framing: the universe is a dance between full (1) and empty
+(0) regions. Timescape (front 13) turns that into one number, the void volume fraction
+f_v0. The fits disagree on it:
+
+| Source | f_v0 |
+|---|---|
+| Supernovae, official Pantheon+ (front 13) | 0.853 ± 0.039 |
+| Supernovae, Seifert et al. 2024 | 0.737 ± 0.029 |
+| Planck CMB (Duley et al. 2013) | 0.695 (+0.041 −0.051) |
+
+But f_v0 is not a free parameter: it's how much of space is empty, and galaxy surveys
+measure that directly.
+
+**Timescape's definition (LIT, retrieved, Wiltshire 2007, gr-qc/0702082).**
+- Voids are the *dominant* voids, about 30 h⁻¹ Mpc across and larger.
+- Minivoids inside walls count as wall.
+- In the tracker solution the voids are taken to be empty.
+
+**The census (LIT, retrieved).** SDSS DR7, volume-limited (M_r < −20.09, z < 0.107):
+
+| Catalog | Volume | Galaxies | Mean galaxy δ_v (computed) |
+|---|---|---|---|
+| Pan et al. 2012, VoidFinder (r > 10 h⁻¹ Mpc) | 0.62 | 0.07 | −0.89 |
+| Douglass et al. 2023, VoidFinder | 0.61 | 0.18 | −0.70 |
+| Douglass et al. 2023, V2/VIDE | 0.63–0.68 | 0.64 | +0.02 to −0.06 |
+| Douglass et al. 2023, V2/REVOLVER | 0.86–0.90 | 0.82 | −0.05 to −0.09 |
+
+ΛCDM mocks (Horizon Run 4) reproduce these values.
+
+**V1.** Only VoidFinder's voids are underdense. The V2 "voids" are watershed basins with
+walls included, at about mean galaxy density, so their 0.86–0.90 isn't a timescape void
+fraction. The cosmic web in numbers: about 61% of space holds 7–18% of the galaxies.
+
+**V2.** The survey sees f_v at its volume-median redshift, z_eff = 0.0845. The timescape
+tracker maps the census value 0.615 to **f_v0 = 0.639** today. That's a correction of
++0.02, so redshift closes no gap.
+
+**V3, what a void phase of the required size would have to contain.** I model the density
+field as lognormal. Its Lorenz curve is exact, V(m) = Φ(Φ⁻¹(m) + s) (FOLLOWS), and matches
+Monte Carlo to 10⁻³. I calibrate s on each VoidFinder pair (s = 1.78 for Pan, 1.20 for
+Douglass), in galaxies.
+
+| Required f_v0 | Galaxies in voids | Mean void δ_v |
+|---|---|---|
+| 0.695 (CMB) | 9–23% | −0.86 to −0.66 |
+| 0.737 (Seifert) | 11–27% | −0.84 to −0.63 |
+| 0.853 (official supernovae) | 22–42% | −0.74 to −0.50 |
+
+**Verdict.**
+- **The cosmic web supports f_v0 ≈ 0.64–0.70.** That's consistent with timescape's CMB
+  value: a void phase of 0.695 is as empty as the measured voids.
+- **Seifert et al.'s 0.737 is marginal.**
+- **The official-Pantheon+ 0.853 is strained, not excluded.** It lies 0.21 above the
+  census, 5.5 times its statistical error. It needs voids anywhere from as empty as
+  VoidFinder's (on the Pan anchor) to half the mean density (on the Douglass anchor).
+- **The void definition cuts both ways.** VoidFinder includes voids smaller than
+  Wiltshire's dominant scale, which pushes the value down. It counts only galaxy-free
+  spheres and misses low-density edge volume, which pushes it up.
+- **This tests timescape's consistency, not timescape against ΛCDM.** ΛCDM mocks give the
+  same census, so the result says the cosmic web is self-consistent with timescape's CMB
+  and Seifert-standardization supernova fits. It doesn't favour timescape over ΛCDM.
+
+**What would move it:** a void census using timescape's own definition (dominant voids,
+finite-infinity walls) in N-body or survey data, measured in matter (for example, weak
+lensing of voids) rather than galaxies.

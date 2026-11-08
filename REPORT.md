@@ -1,7 +1,7 @@
 # STUR and the search for a unifying equation: consolidated report
 
 *Status as of November 2026. Every number below is computed by a script in `src/` and
-pinned by `tests/` (46 tests, all passing). Detailed records are in the topic reports
+pinned by `tests/` (49 tests, all passing). Detailed records are in the topic reports
 linked from each section.*
 
 ## How the work was done
@@ -92,6 +92,7 @@ Details: GOD_EQUATION.md.
 | 11 | Does 3-3-1 fix the Higgs? | 13 scalar parameters vs 2. A threshold δ = 0.021 is needed and is ordinary in size, so 3-3-1 accommodates rather than predicts. |
 | 12 | Gauge unification in 3-3-1 | SU(3)_C and SU(3)_L never meet: the gap grows from 18.6 to 27.3. Meeting would need 14–18 extra triplets. |
 | 13 | Is dark energy a measurement artifact? (timescape vs ΛCDM, Pantheon+) | Smooth matter-only fails (Δχ² = +693). Timescape, with no dark energy, ties or loses mildly under the official Pantheon+ analysis (Δχ² = −0.5 to +7.1, ln B = −0.4 to −5.1). A published reanalysis finds ln B > +5 for timescape, so the sign follows the standardization. Fitted f_v0 = 0.853 is 2.8σ from the Planck value. Undecided by supernovae. |
+| 14 | Is timescape's void fraction the real cosmic web's? | SDSS void census: underdense voids fill 0.61–0.62 of the volume, giving f_v0 = 0.64 today. That's consistent with timescape's CMB value (0.695); Seifert's 0.737 is marginal; the official-supernova 0.853 is strained (+0.21), not excluded. ΛCDM mocks give the same census, so this checks timescape's consistency and doesn't favour it over ΛCDM. |
 
 ## 4. The main positive result, with its conditions
 
@@ -179,5 +180,5 @@ Errors caught by the checks and fixed, recorded for transparency:
   requirements; it's unproven until a fresh session starts on it.
 - **Reproduce:**
   1. `pip install -r requirements.txt pytest matplotlib`
-  2. `python -m pytest tests -q` (46 tests)
+  2. `python -m pytest tests -q` (49 tests)
   3. run any `src/*.py` to regenerate its file in `results/`.

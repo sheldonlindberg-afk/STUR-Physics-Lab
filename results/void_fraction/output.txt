@@ -1,0 +1,55 @@
+
+==============================================================================
+V1  How empty are the measured 'voids'?  (mean galaxy density contrast)
+==============================================================================
+   catalog                        volume    galaxies   delta_v (galaxies)
+   Pan+2012 VoidFinder            0.62        0.07      -0.89
+   Douglass+2023 VoidFinder       0.61        0.18      -0.70
+   Douglass+2023 V2/VIDE          0.63-0.68   0.64      +0.02 .. -0.06
+   Douglass+2023 V2/REVOLVER      0.86-0.90   0.82      -0.05 .. -0.09
+   -> only VoidFinder's voids are underdense (delta_v = -0.70 to -0.89).  The V2
+      watershed 'voids' sit at 0.93-1.02 of the MEAN galaxy density: they are
+      basins that include walls, not empty regions.  Their 0.86-0.90 is not a
+      timescape void fraction.
+
+==============================================================================
+V2  Redshift: survey value -> present-day f_v0 (timescape tracker)
+==============================================================================
+   volume-median redshift of the z < 0.107 sample: z_eff = 0.0845
+   f_v0 = 0.695  ->  f_v(z_eff) = 0.6735
+   f_v0 = 0.853  ->  f_v(z_eff) = 0.8414
+   measured underdense-void fraction 0.61-0.62 (take 0.615) -> f_v0 = 0.639
+   The correction is ~+0.01: redshift does not close any gap.
+
+==============================================================================
+V3  What would a void phase of the required size have to contain?
+==============================================================================
+   calibration Pan+2012 VoidFinder: s = 1.781   (CHECK Monte Carlo V(m) = 0.6198 vs 0.6200)
+   calibration Douglass+2023 VoidFinder: s = 1.195   (CHECK Monte Carlo V(m) = 0.6095 vs 0.6100)
+
+   target f_v0                           galaxy fraction in voids   delta_v
+   Planck CMB (Duley+2013)              0.695   0.09 - 0.23               -0.86 .. -0.66
+   SNe, Seifert+2024                    0.737   0.11 - 0.27               -0.84 .. -0.63
+   SNe, official Pantheon+ (front 13)   0.853   0.22 - 0.42               -0.74 .. -0.50
+   (Evaluated at f_v(z_eff), i.e. what the SDSS volume would show.)
+
+==============================================================================
+V4  Verdict
+==============================================================================
+   Census of underdense voids: 0.61-0.62 of the volume -> f_v0 = 0.64 today.
+   Definitional systematic, both directions: VoidFinder keeps voids down to r = 10
+   h^-1 Mpc, below Wiltshire's dominant ~30 Mpc-diameter scale (pushes f_v0 DOWN);
+   it counts only galaxy-free spheres, missing low-density volume at void edges
+   (pushes f_v0 UP).  The two VoidFinder runs disagree on the galaxy content (7%
+   vs 18%), which sets the spread of the extrapolation in V3.
+   Planck CMB (Duley+2013)              needs 0.695: +0.056 above the census
+   SNe, Seifert+2024                    needs 0.737: +0.098 above the census
+   SNe, official Pantheon+ (front 13)   needs 0.853: +0.214 above the census
+   A void phase of 0.853 would sit at delta_v = -0.74 .. -0.50: from 'as empty as
+   VoidFinder's voids' (Pan anchor) to 'half the mean density' (Douglass anchor).
+   A void phase of 0.695 sits at -0.86 .. -0.66: as empty as the measured voids.
+   VERDICT: the cosmic web supports f_v0 ~ 0.64-0.70, consistent with timescape's
+   CMB value; Seifert et al.'s 0.737 is marginal; the official-Pantheon+ 0.853 is
+   strained (needs voids much fuller than measured on one anchor), not excluded.
+   LCDM mocks reproduce the same census, so this is a consistency test OF
+   timescape, not evidence FOR it over LCDM.
