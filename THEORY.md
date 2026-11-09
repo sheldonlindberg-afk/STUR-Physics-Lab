@@ -1,4 +1,4 @@
-# The Make It Make Sense theory (MIMS): version 0.6
+# The Make It Make Sense theory (MIMS): version 0.7
 
 *Named by its author. Earlier working name: fullness-phase theory, which is why the scripts
 are `src/fp_*.py`. A new start, built from the user's postulates. The earlier STUR program and the
@@ -316,6 +316,52 @@ other, since dust doesn't collide.
   theory needs an equation of state p(φ). OPEN, and now the top priority. Real primordial
   holes are radiation-era plasma (part 6, B2), which already has pressure p = ρc²/3.
 
+## Part 9: collapse of matter that pushes back (v0.7, in progress)
+
+Script: `src/fp_fluid_collapse.py`; output: `results/fullness_phase/fluid_collapse.txt`.
+
+**The author's choice:** radiation that stiffens near full. In causal form:
+- the sound speed² is 1/3 + (2/3)φ² up to full, and 1 beyond;
+- that's ordinary radiation (p = ρc²/3) at low fullness, with sound reaching the speed of
+  light exactly at full;
+- pressure can't grow without limit, because past p = ρc² sound would travel faster than
+  light.
+
+**Gravity with pressure (FOLLOWS).** For a uniform region, the law and energy conservation
+give exactly d²R/dτ² = −[(m + 4πR³p) − φ̄(4m + 8πR³p)]/R². With p = 0 that's part 8's law,
+and with no ceiling it's GR.
+
+**The solver.** It uses that law layer by layer, inside the Misner–Sharp equations for a
+spherical fluid in GR (KNOWN):
+- the lapse (each layer's clock rate) comes from the pressure gradient;
+- Γ² = 1 + U² − 2m(1 − φ̄)/R is solved to convergence;
+- energy comes from each zone's adiabat;
+- time-stepping is fourth-order (RK4).
+
+The start is a uniform ball at 1.5 r_s in free fall. That's an arbitrary starting point,
+not a model of how primordial holes form. Outer zones that escape are removed and counted;
+in spherical symmetry this can't affect the inside.
+
+**Results:**
+
+| Run | Horizon forms | Escaped | Peak fullness | Ends with |
+|---|---|---|---|---|
+| Check, dust M = 2 | 1.13 M | 0 | 1.0000 | T = 7.59 (part 8: 7.53) |
+| Stiffening, M = 2 | 3.14 M | 39% | 0.72 | shock at 8.69 M, at 0.30 r_s |
+| Stiffening, M = 4 | about 3.1 M | 39% | 0.24 | step failure at 8.53 M |
+| Radiation, M = 2 | about 3.1 M | 39% | **7.7** | step failure at 8.71 M |
+| Radiation, M = 4 | 3.07 M | 39% | 0.25 | shock at 8.54 M, at 0.28 r_s |
+
+- **F1:** radiation pressure blows about 39% of the mass off before the horizon forms. The
+  fraction depends on the start.
+- **F2:** plain radiation overshoots the ceiling (7.7 times full at M = 2); the stiffening
+  holds it.
+- **F3:** at about 8.7 M, infalling outer layers form a **shock** near 0.3 r_s, before the
+  core reaches full. The step failures happen at the same moment, apparently that shock
+  caught inside a sub-step; that reading isn't confirmed. This solver only follows smooth
+  flow, so **the bounce, the lifetime and the burst need a shock-capturing method.** OPEN,
+  and now the top priority.
+
 ## What is new, and what isn't
 
 - **Coincides with known physics:** the expansion law (loop quantum cosmology), the
@@ -334,12 +380,12 @@ other, since dust doesn't collide.
 
 ## Open problems (next work)
 
-1. **An equation of state p(φ) (top priority).** Part 8 shows dust can't respect P1 under
-   either counting rule, so matter at the ceiling must resist compression. The natural
-   starting point is radiation (p = ρc²/3, which is what primordial holes are made of),
-   stiffening as φ → 1. Collapsing a fluid with p(φ) decides:
-   - whether the bounce re-emerges into our region (part 5 type, slow) or opens a new
-     region (part 8 type, about 3.5M);
+1. **Shock capturing for the fluid collapse (top priority).** The equation of state is now
+   chosen (part 9: radiation stiffening to the speed of light at full). The fluid run
+   reaches a shock at about 8.7 M, before the core bounces. A shock-capturing scheme is
+   needed to follow it through. It decides:
+   - whether the bounce re-emerges into our region or opens a new one;
+   - the lifetime;
    - whether and when the TeV flash happens.
 2. **Echoes and spin.** Does the shock or the cap reflect gravitational waves? The rotating
    version is needed to compare with real, spinning merger remnants.
@@ -365,5 +411,6 @@ python src/fp_collapse_shock.py       # results/fullness_phase/collapse_shock.tx
 python src/fp_burst.py                # results/fullness_phase/burst.txt (about 30 s)
 python src/fp_local_fullness.py       # results/fullness_phase/local_fullness.txt (about 10 s)
 python src/fp_shell_crossing.py       # results/fullness_phase/shell_crossing.txt (about 2 s)
+python src/fp_fluid_collapse.py       # results/fullness_phase/fluid_collapse.txt (about 2 min)
 python -m pytest tests/test_fullness_phase.py -q
 ```

@@ -105,3 +105,13 @@ def test_shell_crossing():
     assert abs(u["T"] / 2.0 - 3.766) < 0.02 and abs(u["phmax"] - 1.0) < 0.01 and u["ncross"] == 0
     c = E.run(2.0, profile="conc")
     assert abs(c["T"] / 2.0 - 3.03) < 0.05 and c["phmax"] > 100 and c["ncross"] > 0
+
+
+def test_fluid_collapse():
+    import fp_fluid_collapse as F
+    d = F.run(2.0, kind="dust")
+    assert abs(d["T"] - 7.59) < 0.05 and abs(d["phimax"] - 1) < 1e-3        # dust limit
+    r = F.run(2.0, kind="stiff", maxsteps=300000)
+    assert r["fail"] == "shock" and abs(r["t"] / 2.0 - 8.69) < 0.1          # shock at ~8.7 M
+    assert abs(r["escaped"] - 0.394) < 0.01 and r["phimax"] < 1             # blow-off; ceiling held
+    assert abs(r["t_form"] / 2.0 - 3.14) < 0.05
