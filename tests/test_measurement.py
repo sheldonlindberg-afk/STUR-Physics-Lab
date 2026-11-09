@@ -40,3 +40,11 @@ def test_bell_and_swapping():
     assert abs(M.chsh(mc(M.stretched_local)) - 2.0) < 0.02
     S, p = M.swap_chsh()
     assert abs(S - 2 * np.sqrt(2)) < 1e-12 and abs(p - 0.25) < 1e-12
+
+
+def test_split_charge_self_repulsion():
+    d, u, v = M.split_charge_kick(mass_fraction=0.5)
+    bp = 2 * 5e-5 * v
+    assert abs(d * 1e6 - 19.47) < 0.05 and abs(u / bp - 0.669) < 0.005
+    d1, u1, _ = M.split_charge_kick(mass_fraction=1.0)
+    assert abs(u1 / bp - 0.438) < 0.005

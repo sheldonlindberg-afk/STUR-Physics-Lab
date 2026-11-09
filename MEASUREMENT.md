@@ -21,6 +21,7 @@ one, each ingredient is tested the way options A–C were tested in [WALL.md](WA
 |---|---|---|
 | M1 | Measurement creates the **definite outcome** (which path, where the dot lands), not the electron. The electron's mass and charge are already there at the slits. | **Partly right, reworded.** The equation is KNOWN: V = \|⟨E₁\|E₂⟩\| |
 | M2a | A real charge cloud repels itself. Hydrogen solved with that self-repulsion binds by 6.64 eV; measured: 13.60 eV. | **Excluded** (factor 2) |
+| M2c | Restated as "one EM charge pulled into two places": the halves (e/2 each) repel in flight, a kick 0.4–0.7× the interferometer's own deflection; and a nearby surface would not wash out the fringes, but it does (Sonnentag & Hasselbach 2007). | **Excluded** |
 | M2b | The cloud exists, at the right size and energy, in positronium (e⁺e⁻), which contains no quarks or gluons. | **Excluded** |
 | M3 | "One stretched object with an instant reaction" gives S = 2√2, the same as quantum mechanics, and cannot send signals. Without the instant reaction it gives S = 2, which experiment rules out. | **Survives, but not new.** It is a picture of entanglement (collapse / Bohm-type nonlocality), not a replacement for it. |
 
@@ -96,22 +97,57 @@ exists. Stated that way, it is already the content of the equation above.
 So "entanglement isn't real" doesn't follow. The stretched-object picture is a
 description of entanglement, and it gives the same predictions.
 
+## T5. One EM charge pulled into two places, with ordinary EM only
+
+This is M2 without the strong force: one charge, really split between the two paths.
+
+**Self-repulsion in flight.** 50 keV electron, halves of e/2 starting 5 µm apart,
+0.3 m of flight, typical biprism deflection of 5×10⁻⁵ rad per beam (an assumed
+typical value, not fitted):
+
+| Inertia of each half | Separation after flight | Repulsion kick / biprism kick |
+|---|---|---|
+| Half the electron's mass | 5.0 → 19.5 µm | 0.67 |
+| Full electron mass (least kick) | 5.0 → 13.8 µm | 0.44 |
+
+The halves push each other apart by an amount comparable to the interferometer's
+own deflection. The kick depends on e² and on the path separation, so it would warp
+the fringe spacing, and it acts on every electron, even when they are sent one at a
+time. Standard theory has no such term.
+
+**The field test, already done.** Where is the electron's field while it is in two
+places?
+
+- Split charge: a nearby surface feels e/2 + e/2, an ordinary classical field. The
+  image charges only shift the phase, and the fringes stay sharp.
+- Quantum: the image charge is different for the two paths, so the surface holds
+  which-path information. The fringes fade, as V = |⟨E₁|E₂⟩|.
+
+Sonnentag & Hasselbach (PRL 98, 200402, 2007) flew electrons past a semiconducting
+plate and saw the fringes fade. The fading grew with path separation and with
+closeness to the plate, as decoherence theory predicts (LIT).
+
+**What survives:** the charge is in two places as an *amplitude*, which does not
+repel itself, and its field is in two places as an amplitude too. That is the
+standard picture, reached using EM alone.
+
 ## What this means for a new equation
 
-None of the three ingredients yields a measurable difference from standard quantum
+None of the ingredients yields a measurable difference from standard quantum
 mechanics. M2 conflicts with data; M1 and M3 restate known physics. The same wall
 as [WALL.md](WALL.md) §3 applies: a new equation needs a free parameter that
 changes some number.
 
-Two places where M3's idea does touch quantum gravity, and where a parameter could live:
+**The Planck scale.** The Planck scale is taken here as the place where the current
+equations (general relativity plus quantum field theory) stop giving finite,
+trustworthy answers. It is not assumed to be a breakdown of reality. Nothing above
+depends on Planck-scale physics.
 
-1. **ER = EPR** (Maldacena–Susskind 2013): entangled particles are connected by a
-   non-traversable wormhole. That is M3's "one object stretched across spacetime",
-   made precise, and it is a conjecture, not a test.
-2. **Gravity-induced entanglement** (Bose et al. 2017; Marletto–Vedral 2017). Put
-   two masses each into a two-path superposition and let only gravity act between
-   them. If they become entangled, gravity must be quantum. In M3's language, gravity
-   itself would be the thing that stretches one object across both masses. This
-   is a real experiment under development, so it is where a STUR prediction would need to
-   go: a deviation from the standard entangling phase Δφ = G m² t / (ħ d) at some
-   scale.
+**Where gravity enters without exotic physics.** Gravity-induced entanglement
+(Bose et al. 2017; Marletto–Vedral 2017): put two masses each into a two-path
+superposition and let only ordinary Newtonian gravity act between them. The
+standard prediction is a path-dependent phase Δφ = G m² t / (ħ d), which entangles
+the masses if gravity's field is in two places as an amplitude, just as T5 shows
+for the electron's EM field. If gravity's field is instead a single classical
+average (the gravitational version of the split charge), the masses never
+entangle. This experiment is being developed, and it is the gravity version of T5.

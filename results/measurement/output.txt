@@ -71,16 +71,41 @@ T4  M3: entanglement as one particle stretched across space, reacting instantly
       measurement, from pieces that never met.
 
 ==============================================================================
+T5  'One EM charge pulled into two places', with ordinary electromagnetism only
+==============================================================================
+   Setup: 50 keV electron, halves of e/2 start 5 um apart, 0.3 m of flight.
+   (Biprism deflection ~5e-5 rad per beam is a typical value, not a fit.)
+   mass split with the charge      : separation 5.0 ->  19.5 um, relative kick   8281 m/s = 0.67 x biprism's 12372 m/s
+   mass not split (upper inertia)  : separation 5.0 ->  13.8 um, relative kick   5422 m/s = 0.44 x biprism's 12372 m/s
+   FOLLOWS: a split charge pushes itself apart by an amount comparable to the
+   interferometer's own deflection. The kick depends on e^2 and on the path
+   separation, so it would warp the fringe spacing, and it acts on EVERY single
+   electron, even when they are sent one at a time. Standard theory has no such
+   term and is what electron biprism experiments are analysed with.
+   The cleaner, already-done test: what does the electron's FIELD do while it is
+   in two places?
+     split charge:  a nearby surface feels e/2 + e/2, a classical field. Image
+                    charges only shift the phase; fringes stay sharp.
+     quantum:       the surface's image charge differs for the two paths, so it
+                    holds which-path information; fringes FADE as V = |<E1|E2>|.
+   LIT: Sonnentag & Hasselbach, PRL 98, 200402 (2007) flew electrons past a
+   semiconducting plate and saw the fringes fade, growing with path separation and
+   closeness to the plate, as decoherence theory predicts.
+   -> A literally split EM charge is excluded by electromagnetism alone (T1, T5).
+      What survives: the charge is in two places as an AMPLITUDE that does not
+      repel itself, and its field is in two places as an amplitude too.
+
+==============================================================================
 VERDICT
 ==============================================================================
    M1  partly right, reworded: measurement creates the definite outcome, not the
        particle. Equation: V = |<E1|E2>| (KNOWN). Fringes need no observer, only
        the absence of a record.
-   M2  excluded twice: a real cloud repels itself (hydrogen binding off by x2), and the
-       cloud exists in positronium where there is no strong force.
+   M2  excluded three ways: a real cloud repels itself (hydrogen binding off by x2),
+       a split charge pushes its own halves apart in flight (T5), and the cloud
+       exists in positronium where there is no strong force.
    M3  consistent with data only as instant nonlocality, which is already standard
-       quantum mechanics in another picture. Its quantum-gravity version is the
-       ER = EPR conjecture (Maldacena-Susskind 2013), also untested.
+       quantum mechanics in another picture.
    The quantum-gravity test that touches all three: gravity-induced entanglement
    (Bose et al.; Marletto-Vedral 2017). If gravity can entangle two masses, the
    'stretched object' must be stretched by gravity itself.

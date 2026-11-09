@@ -263,20 +263,79 @@ def t4_entanglement():
     return S_qm, S_inst, S_loc, (mB1, mB2), Sw
 
 
+# ---------------------------------------------------------------------------------------
+# T5. M2 restated (user, follow-up): no exotic physics, just one EM charge pulled into two
+#     places. Taken literally, each half carries e/2 and ordinary Coulomb repulsion acts
+#     between the halves while they fly through an electron biprism interferometer.
+# ---------------------------------------------------------------------------------------
+K_COUL = 8.9875517923e9
+E_CH = 1.602176634e-19
+M_E_KG = 9.1093837015e-31
+C_LIGHT = 2.99792458e8
+
+
+def split_charge_kick(kev=50.0, d0=5e-6, L=0.3, mass_fraction=0.5):
+    """Two halves of charge e/2 (each with mass_fraction of the electron's mass) start at
+    separation d0 with no relative velocity and fly a distance L. Returns the final
+    separation, the relative transverse speed, and the beam speed."""
+    from scipy.integrate import solve_ivp
+    g = 1 + kev * 1e3 * E_CH / (M_E_KG * C_LIGHT**2)
+    v = C_LIGHT * np.sqrt(1 - 1 / g**2)
+    m = g * M_E_KG * mass_fraction            # transverse inertia gamma*m
+
+    def rhs(_, y):
+        return [y[1], 2 * K_COUL * (E_CH / 2) ** 2 / y[0] ** 2 / m]
+    sol = solve_ivp(rhs, [0, L / v], [d0, 0.0], rtol=1e-11, atol=1e-20)
+    return sol.y[0, -1], sol.y[1, -1], v
+
+
+def t5_split_charge():
+    banner("T5  'One EM charge pulled into two places', with ordinary electromagnetism only")
+    alpha_bp = 5e-5                           # typical biprism deflection per beam (rad)
+    print("   Setup: 50 keV electron, halves of e/2 start 5 um apart, 0.3 m of flight.")
+    print("   (Biprism deflection ~5e-5 rad per beam is a typical value, not a fit.)")
+    out = {}
+    for mf, lab in [(0.5, "mass split with the charge"), (1.0, "mass not split (upper inertia)")]:
+        d, u, v = split_charge_kick(mass_fraction=mf)
+        bp = 2 * alpha_bp * v
+        out[mf] = (d, u, bp)
+        print(f"   {lab:32s}: separation 5.0 -> {d*1e6:5.1f} um,"
+              f" relative kick {u:6.0f} m/s = {u/bp:4.2f} x biprism's {bp:.0f} m/s")
+    print("   FOLLOWS: a split charge pushes itself apart by an amount comparable to the")
+    print("   interferometer's own deflection. The kick depends on e^2 and on the path")
+    print("   separation, so it would warp the fringe spacing, and it acts on EVERY single")
+    print("   electron, even when they are sent one at a time. Standard theory has no such")
+    print("   term and is what electron biprism experiments are analysed with.")
+    print("   The cleaner, already-done test: what does the electron's FIELD do while it is")
+    print("   in two places?")
+    print("     split charge:  a nearby surface feels e/2 + e/2, a classical field. Image")
+    print("                    charges only shift the phase; fringes stay sharp.")
+    print("     quantum:       the surface's image charge differs for the two paths, so it")
+    print("                    holds which-path information; fringes FADE as V = |<E1|E2>|.")
+    print("   LIT: Sonnentag & Hasselbach, PRL 98, 200402 (2007) flew electrons past a")
+    print("   semiconducting plate and saw the fringes fade, growing with path separation and")
+    print("   closeness to the plate, as decoherence theory predicts.")
+    print("   -> A literally split EM charge is excluded by electromagnetism alone (T1, T5).")
+    print("      What survives: the charge is in two places as an AMPLITUDE that does not")
+    print("      repel itself, and its field is in two places as an amplitude too.")
+    return out
+
+
 def main():
     t1_charge_cloud()
     t2_strong_force()
     t3_double_slit()
     t4_entanglement()
+    t5_split_charge()
     banner("VERDICT")
     print("   M1  partly right, reworded: measurement creates the definite outcome, not the")
     print("       particle. Equation: V = |<E1|E2>| (KNOWN). Fringes need no observer, only")
     print("       the absence of a record.")
-    print("   M2  excluded twice: a real cloud repels itself (hydrogen binding off by x2), and the")
-    print("       cloud exists in positronium where there is no strong force.")
+    print("   M2  excluded three ways: a real cloud repels itself (hydrogen binding off by x2),")
+    print("       a split charge pushes its own halves apart in flight (T5), and the cloud")
+    print("       exists in positronium where there is no strong force.")
     print("   M3  consistent with data only as instant nonlocality, which is already standard")
-    print("       quantum mechanics in another picture. Its quantum-gravity version is the")
-    print("       ER = EPR conjecture (Maldacena-Susskind 2013), also untested.")
+    print("       quantum mechanics in another picture.")
     print("   The quantum-gravity test that touches all three: gravity-induced entanglement")
     print("   (Bose et al.; Marletto-Vedral 2017). If gravity can entangle two masses, the")
     print("   'stretched object' must be stretched by gravity itself.")
