@@ -1,0 +1,86 @@
+
+==============================================================================
+T1  M2 as a REAL charge cloud (Schrodinger's 1926 charge-density reading)
+==============================================================================
+   KNOWN: a classical charge distribution has self-energy J = 1/2 int rho phi.
+   Standard 1s (no self-repulsion): E =  -13.6054 eV, <r> = 1.5000 a0
+   Self-energy of that 1s cloud:     J = 5/16 Ha = 8.5036 eV  (62% of the binding energy)
+   FOLLOWS, self-consistent real cloud: E =   -6.6384 eV, <r> = 2.5040 a0
+   (variational check, exponential trial: E = -121/512 Ha = -6.4308 eV)
+   LIT measured ionization energy: 13.598434 eV
+   -> a real self-repelling cloud binds by 6.64 eV, a factor 2.0 too weak,
+      and is 1.7x too large. Every line of the hydrogen spectrum would move.
+   -> Whatever surrounds the proton does NOT repel itself. It is not a real charge
+      cloud; it is an amplitude for where the ONE whole charge e will be found.
+   KNOWN corollary: in a double slit every detection registers a whole e, never e/2.
+
+==============================================================================
+T2  M2: is the electron's cloud made by the strong force?
+==============================================================================
+   KNOWN: electrons are leptons; they carry no colour charge, so gluons do not
+   couple to them at tree level. Test the claim anyway, by range and by a clean atom.
+   Strong-force range hbar/(m_pi c) = 1.4138 fm;  Bohr radius = 52917.7 fm
+   Yukawa suppression at the cloud's size: exp(-37429) = 10^-16255
+   Positronium (e+ e-) has an electron cloud and NO quarks or gluons anywhere.
+   Bohr formula with reduced mass m_e/2, pure EM: 1S-2S = 1,233,690,735.4 MHz
+   LIT measured:                                  1S-2S = 1,233,607,216.4 MHz
+   Relative difference 6.8e-05, which is the size of the known QED (alpha^2) corrections;
+   with those included the agreement is at the 10^-9 level (LIT).
+   -> The cloud exists, at the right size and energy, where there is no strong
+      force at all. M2's strong-force origin is excluded.
+
+==============================================================================
+T3  M1: the double slit with a which-path record (the measurement equation)
+==============================================================================
+   KNOWN (Wootters-Zurek 1979, Englert 1996): with detector states |E1>, |E2>,
+     P(y) = |psi1|^2 + |psi2|^2 + 2 Re[psi1 psi2* <E2|E1>],   V = |<E1|E2>|,
+     D^2 + V^2 <= 1, with equality for pure detector states.
+   theta/pi   D (which-path)   V (simulated)   D^2+V^2
+      0.00         0.0000          1.0000    1.000000
+      0.10         0.3090          0.9511    1.000000
+      0.20         0.5878          0.8090    1.000000
+      0.30         0.8090          0.5878    1.000000
+      0.40         0.9511          0.3090    1.000000
+      0.50         1.0000          0.0000    1.000000
+   Real phaseless cloud, NO detector at all: V = 0.0000
+   LIT: single electrons, one at a time, build up fringes (Tonomura 1989; Bach
+   2013). At 50 keV the fringe spacing follows lambda = h/p = 5.355 pm, which
+   uses the electron's mass: what passes the slits already has m_e and e.
+   -> A phaseless cloud gives V = 0 and is excluded. What M1 gets right: a definite
+      PATH does not exist until a record of it exists. The fringes fade continuously
+      with the overlap <E1|E2>, not with a person looking. Measurement creates the
+      definite outcome (the dot), not the electron (its mass, charge and spin).
+
+==============================================================================
+T4  M3: entanglement as one particle stretched across space, reacting instantly
+==============================================================================
+   KNOWN quantum prediction (singlet):          S = 2.8284  (2 sqrt2 = 2.8284)
+   Stretched object, instant reaction (MC):     S = 2.8219
+   Stretched object, no instant reaction (MC):  S = 2.0000  (Bell bound 2)
+   Bob's P(+1) with Alice at a: 0.5000;  at a': 0.5000  -> no message can be sent
+   Entanglement swapping: particles 1 and 4 never interact; after a Bell
+   measurement on 2,3 (prob 0.25), (1,4) give S = 2.8284
+   LIT: loophole-free Bell tests (Hensen 2015; Giustina 2015; Shalm 2015) see S > 2;
+   the reaction, if there is one, is faster than 10^4 c (Salart 2008), and any finite
+   speed would allow signalling (Bancal 2012), so it must be truly instant.
+   -> M3 SURVIVES, but only in its instant form, and it is not new: an instant
+      reaction across a single extended object reproduces the quantum prediction
+      exactly (it is collapse / Bohm-type nonlocality). It is not an alternative to
+      entanglement; it is a picture of it. It makes no different prediction, and
+      swapping shows the 'one object' can be assembled after the fact, by a
+      measurement, from pieces that never met.
+
+==============================================================================
+VERDICT
+==============================================================================
+   M1  partly right, reworded: measurement creates the definite outcome, not the
+       particle. Equation: V = |<E1|E2>| (KNOWN). Fringes need no observer, only
+       the absence of a record.
+   M2  excluded twice: a real cloud repels itself (hydrogen binding off by x2), and the
+       cloud exists in positronium where there is no strong force.
+   M3  consistent with data only as instant nonlocality, which is already standard
+       quantum mechanics in another picture. Its quantum-gravity version is the
+       ER = EPR conjecture (Maldacena-Susskind 2013), also untested.
+   The quantum-gravity test that touches all three: gravity-induced entanglement
+   (Bose et al.; Marletto-Vedral 2017). If gravity can entangle two masses, the
+   'stretched object' must be stretched by gravity itself.
