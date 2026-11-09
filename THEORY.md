@@ -1,4 +1,4 @@
-# The Make It Make Sense theory (MIMS): version 0.3
+# The Make It Make Sense theory (MIMS): version 0.4
 
 *Named by its author. Earlier working name: fullness-phase theory, which is why the scripts
 are `src/fp_*.py`. A new start, built from the user's postulates. The earlier STUR program and the
@@ -171,6 +171,56 @@ units. The horizon is where outgoing light can't move outward (v < −1).
   is unknown.
 - **This supersedes part 4's case (c)** (M³, primordial holes of 1.35×10¹² kg).
 
+## Part 6: what comes out when the horizon dissolves (v0.4)
+
+Script: `src/fp_burst.py`; output: `results/fullness_phase/burst.txt`.
+
+**B1, what the collapse leaves (dust, part 5's law).** Running past the lifetime T:
+- **Nothing is left inside r_s.** All the mass sits in one shell just outside r_s, which
+  drifts outward at a pace fixed in units of T: it reaches 1.14 r_s at 1.5T and 1.26 r_s at
+  2T.
+- **The position is converged.** It agrees to 0.1% across three grids
+  (Δr = 0.05, 0.025, 0.0125).
+- **It moves very slowly:** about 0.019/M times c. That's 3×10⁻³² c for a real hole.
+- **The result:** a horizonless shell of pure matter. That's the user's "black holes are
+  pure matter", taken literally.
+- **But the shell breaks P1 (FOLLOWS).** It's unresolved: its local fullness is 6 to 94 and
+  rises as the grid is refined. The part-1 law caps the *mean* fullness inside each radius,
+  not the local density. **The law must also cap local fullness.** That acts like a
+  pressure, and it decides how fast the shell actually comes out. OPEN, and now the top
+  priority.
+
+**B2, what a hole ending today is made of.**
+- Its mass is M_now = 1.26×10²² kg, and it must be primordial.
+- It formed when the horizon mass was about M, at t_f = GM/c³ = 3.1×10⁻¹⁴ s.
+- **FOLLOWS:** the mean density inside r_s, 3c⁶/(32πG³M²), *equals* the density of the
+  universe at t_f exactly.
+- So the hole is early-universe plasma at kT_f = **2.7 TeV**, with all Standard Model
+  species (g* = 106.75). LIT, recalled: holes form at a fraction γ ≈ 0.2 of the horizon
+  mass; with γ = 0.2, kT_f = 1.2 TeV.
+
+**B3, the photon energy (an upper bound, FOLLOWS).**
+- Entropy is conserved through an adiabatic collapse and bounce, and only increases in
+  shocks. So the emerging plasma, back at about r_s, is **no hotter than at formation**:
+  kT_out ≤ kT_f.
+- Baryon loading is 8×10⁻¹⁴, so this is a pure-radiation fireball. Such a fireball's
+  observed temperature stays about T₀ (KNOWN, recalled: Goodman 1986; Paczyński 1986).
+
+**B4, the burst if the plasma gets out promptly:**
+
+| Quantity | Value |
+|---|---|
+| Energy | 1.1×10³⁹ J, at once |
+| Photon energy | ≲ 7 TeV (2.7 kT_f) |
+| Photons (half the energy, assumed) | ~5×10⁴⁴ |
+| Arrival spread | ~r_s/c = 6×10⁻¹⁴ s |
+| Reach (10⁵ m² ground array, 10 photons; both chosen, not specifications) | ~20 Mpc, inside the ~100 Mpc range of multi-TeV photons (recalled) |
+| Signature | many multi-TeV air showers in the same nanosecond across the array, with TeV neutrinos at the same moment |
+
+**The two ends:** with no pressure (dust), there's no burst and the shell drifts out over
+many lifetimes. With prompt release, there's the nanosecond TeV flash above. The
+local-fullness law decides between them.
+
 ## What is new, and what isn't
 
 - **Coincides with known physics:** the expansion law (loop quantum cosmology), the
@@ -187,10 +237,12 @@ units. The horizon is where outgoing light can't move outward (v < −1).
 
 ## Open problems (next work)
 
-1. **The signal.** What does the emerging matter look like when the horizon dissolves:
-   its spectrum, and whether its energy is released over r_s/c or longer? This sets what
-   telescopes should search for (far infrared, from 19 μm holes, or reprocessed into other
-   bands).
+1. **The local-fullness law (now the top priority).** Part 6 found that the law, as
+   written, caps only the *mean* fullness inside each radius. After the shock forms, the
+   local fullness exceeds 1, which breaks P1. The law has to cap local fullness too. It
+   will act like a pressure, and it decides whether the remnant shell drifts out (no burst)
+   or blows out (the TeV flash). It is also needed to confirm the part 5 lifetime, which was
+   computed with the mean-fullness law.
 2. **Echoes and spin.** Does the shock or the cap reflect gravitational waves? The rotating
    version is needed to compare with real, spinning merger remnants.
 3. **Fix τ.** Nothing yet sets the degradation time. If the theory predicts it,
@@ -212,5 +264,6 @@ python src/fp_degradation.py   # results/fullness_phase/degradation.txt
 python src/fp_phase_lock.py    # results/fullness_phase/phase_lock.txt
 python src/fp_black_hole_exterior.py  # results/fullness_phase/black_hole_exterior.txt
 python src/fp_collapse_shock.py       # results/fullness_phase/collapse_shock.txt (about 4 min)
+python src/fp_burst.py                # results/fullness_phase/burst.txt (about 30 s)
 python -m pytest tests/test_fullness_phase.py -q
 ```

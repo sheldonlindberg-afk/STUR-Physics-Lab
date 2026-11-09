@@ -1,0 +1,36 @@
+
+==============================================================================
+B1  What the collapse leaves (dust, part 5's law)
+==============================================================================
+   M = 3 m_P, three grid spacings:
+   dR = 0.05   t = 1.5 T: front 1.1375 r_s; 80% of mass in [1.1458, 1.1458] r_s; m(<0.95 r_s) = 0.000 M; peak local fullness 22.7
+   dR = 0.05   t = 2.0 T: front 1.2542 r_s; 80% of mass in [1.2625, 1.2625] r_s; m(<0.95 r_s) = 0.000 M; peak local fullness 20.9
+   dR = 0.025  t = 1.5 T: front 1.1438 r_s; 80% of mass in [1.1438, 1.1438] r_s; m(<0.95 r_s) = 0.000 M; peak local fullness 6.0
+   dR = 0.025  t = 2.0 T: front 1.2604 r_s; 80% of mass in [1.2604, 1.2604] r_s; m(<0.95 r_s) = 0.000 M; peak local fullness 32.3
+   (dR = 0.0125, run once in this project: front 1.1448 / 1.2594 r_s, peak 42 / 94.)
+   shell speed ~ 0.0065 c at M = 3  ->  ~0.019/M c
+   -> no horizon, nothing inside: a horizonless shell of pure matter, drifting out.
+   -> but its local fullness is far above 1 and rises with resolution: the dust law
+      breaks P1 inside the shock.  The law must also cap LOCAL fullness: OPEN.
+
+==============================================================================
+B2  What a hole ending today is made of
+==============================================================================
+   M_now = 1.260e+22 kg = 5.79e+29 m_P;  formed at t_f = GM/c^3 = 3.12e-14 s
+   density of the universe then 4.5894e+35 kg/m^3; mean density inside r_s 4.5894e+35  (equal: FOLLOWS)
+   -> early-universe plasma at k T_f = 2.74 TeV, all species (g* = 106.75)
+      (gamma = 0.2: k T_f = 1.23 TeV)
+      (gamma = 0.5: k T_f = 1.94 TeV)
+
+==============================================================================
+B3-B4  The burst (upper bound on photon energy)
+==============================================================================
+   baryon loading eta m_p c^2 / (2.7 kT) = 7.7e-14: pure-radiation fireball
+   energy 1.13e+39 J; photons at <~ 7.4 TeV; ~4.8e+44 photons (half the energy, assumed)
+   arrival spread ~ r_s / c = 6.2e-14 s: every photon lands at the same moment
+   seen by a 1e5 m^2 ground array (10 photons) out to 20 Mpc, inside the
+   ~100 Mpc range multi-TeV photons survive (recalled: absorption on starlight)
+   SIGNATURE: many multi-TeV air showers at the same nanosecond across the array;
+   TeV neutrinos at the same moment.
+   In the dust model (no pressure) instead: no burst; the shell drifts out over
+   ~T per 0.2 r_s.  These are the two ends; the local-fullness law (B1) decides.

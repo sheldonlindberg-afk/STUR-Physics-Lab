@@ -75,3 +75,16 @@ def test_collapse_shock_lifetime():
     assert abs(h[-1, 1] - 4.0) < 0.1 and abs(h[-1, 2] - h[-1, 1]) < 0.1   # edges meet at r_s
     T2c, _ = S.lifetime(2.0, chi=4.0)
     assert abs(T2c / T2 - 2.0) < 0.1                                  # T ~ sqrt(chi)
+
+
+def test_burst():
+    import fp_burst as Bu
+    x = Bu.shell_after(2.0, 0.05, (1.5,))[0]
+    assert abs(x["front"] - 1.1438) < 0.01 and x["inside"] < 0.01    # empty inside, shell out
+    assert x["peak"] > 1                                              # breaks the local ceiling
+    M = 1.26e22
+    t_f, ru, rh, kT = Bu.formation(M)
+    assert abs(ru / rh - 1) < 1e-12                                   # hole = universe at t_f
+    assert abs(kT / Bu.EV / 1e12 - 2.74) < 0.03
+    E, e_ph, N, d = Bu.burst(M, kT)
+    assert abs(d / Bu.MPC - 20) < 1.5
