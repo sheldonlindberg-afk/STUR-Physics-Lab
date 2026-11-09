@@ -29,6 +29,10 @@ Results (computed here): T = c0 sqrt(chi) M^2 with c0 ~ 24 (fit; (8 pi/3)^(3/2) 
 numerically close, not derived).  The outer horizon stays at r_s; the shock pushes the
 inner horizon outward until they meet.  This DECIDES part 4's open choice: lifetime ~ M^2,
 not M^3.
+
+CAVEAT (part 7): the shock is a one-turn phase slip, and this solver counts it as a winding.
+Postulate P1 (the ceiling at every point) forces the angle rule instead, so the M^2 lifetime
+here is the winding-rule answer, not yet the theory's.
 """
 import numpy as np
 

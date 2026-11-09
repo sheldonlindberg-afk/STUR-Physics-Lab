@@ -81,10 +81,19 @@ def test_burst():
     import fp_burst as Bu
     x = Bu.shell_after(2.0, 0.05, (1.5,))[0]
     assert abs(x["front"] - 1.1438) < 0.01 and x["inside"] < 0.01    # empty inside, shell out
-    assert x["peak"] > 1                                              # breaks the local ceiling
     M = 1.26e22
     t_f, ru, rh, kT = Bu.formation(M)
     assert abs(ru / rh - 1) < 1e-12                                   # hole = universe at t_f
     assert abs(kT / Bu.EV / 1e12 - 2.74) < 0.03
     E, e_ph, N, d = Bu.burst(M, kT)
     assert abs(d / Bu.MPC - 20) < 1.5
+
+
+def test_local_fullness():
+    import fp_local_fullness as L
+    a = L.artifact_check()
+    assert a["spurious"] > 10 and a["inside"] < 1e-3 and a["width"] <= 3   # artifact, thin shell
+    r = L.local_law(2.0)
+    assert r["phmax"] <= 1.0 and abs(r["t_out"] / 2.0 - 3.57) < 0.1         # P1 kept, fast exit
+    assert abs(L.smooth_winding_shell_ratio(3.0) - 32 * 3.141592653589793 / 3 * 9) < 1e-6
+    assert abs(L.israel_speed(1.0) - 0.75) < 1e-12

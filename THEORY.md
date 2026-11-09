@@ -1,4 +1,4 @@
-# The Make It Make Sense theory (MIMS): version 0.4
+# The Make It Make Sense theory (MIMS): version 0.5
 
 *Named by its author. Earlier working name: fullness-phase theory, which is why the scripts
 are `src/fp_*.py`. A new start, built from the user's postulates. The earlier STUR program and the
@@ -144,6 +144,10 @@ units. The horizon is where outgoing light can't move outward (v < −1).
 
 (The M = 12 run took 7 minutes, so it isn't part of the script's default output.)
 
+> **Status after part 7:** this lifetime uses the *winding* rule for the shock. P1 forces
+> the *angle* rule instead (part 7), so the M² lifetime below is the winding-rule answer,
+> not yet the theory's. The numbers are kept as a record.
+
 - **The lifetime is T ≈ 24.2·√χ·M²** (in Planck units). The ratio still creeps up slowly
   with M (24.00, 24.07, 24.11, 24.16), so the large-M value is about 24.2 ± 0.1. (8π/3)^{3/2} = 24.24 is
   numerically close, but it isn't derived.
@@ -182,13 +186,17 @@ Script: `src/fp_burst.py`; output: `results/fullness_phase/burst.txt`.
 - **The position is converged.** It agrees to 0.1% across three grids
   (Δr = 0.05, 0.025, 0.0125).
 - **It moves very slowly:** about 0.019/M times c. That's 3×10⁻³² c for a real hole.
+  *Part 7: this slow drift is an artifact of the winding rule. GR outside r_s moves such a
+  shell at about 0.7c.*
 - **The result:** a horizonless shell of pure matter. That's the user's "black holes are
   pure matter", taken literally.
-- **But the shell breaks P1 (FOLLOWS).** It's unresolved: its local fullness is 6 to 94 and
-  rises as the grid is refined. The part-1 law caps the *mean* fullness inside each radius,
-  not the local density. **The law must also cap local fullness.** That acts like a
-  pressure, and it decides how fast the shell actually comes out. OPEN, and now the top
-  priority.
+- **The shell breaks P1.** The mass rises from 0 to M across about 2 cells, and in the
+  exact solution across zero width, so the local density is unbounded. The part-1 law caps
+  the *mean* fullness inside each radius, not the local density.
+- **CORRECTION (part 7):** v0.4 reported the shell's local fullness as "6 to 94, rising
+  with resolution". Those numbers were an artifact. In the one cell holding the shock, the
+  stored phase is an average of b ≈ π and b ≈ 0, which sits near π/2 ("full"), and
+  converting it to mass gave a spurious (4π/3)R³ρ_max. **Retracted.**
 
 **B2, what a hole ending today is made of.**
 - Its mass is M_now = 1.26×10²² kg, and it must be primordial.
@@ -217,9 +225,58 @@ Script: `src/fp_burst.py`; output: `results/fullness_phase/burst.txt`.
 | Reach (10⁵ m² ground array, 10 photons; both chosen, not specifications) | ~20 Mpc, inside the ~100 Mpc range of multi-TeV photons (recalled) |
 | Signature | many multi-TeV air showers in the same nanosecond across the array, with TeV neutrinos at the same moment |
 
-**The two ends:** with no pressure (dust), there's no burst and the shell drifts out over
-many lifetimes. With prompt release, there's the nanosecond TeV flash above. The
-local-fullness law decides between them.
+**Part 7 settles which end:** a thin shell outside r_s moves at about 0.7c (the GR
+junction condition), so once the matter is outside r_s it leaves promptly. The TeV flash
+above is the theory's burst. *When* it happens is open again.
+
+## Part 7: the ceiling at every point (v0.5)
+
+Script: `src/fp_local_fullness.py`; output: `results/fullness_phase/local_fullness.txt`.
+
+**L1, correction.** See part 6: the reported local-fullness numbers were an artifact of a
+cell-averaged phase, and are retracted. The zero-thickness shell is real.
+
+**L2, a local law tried (NEW).** Weight each layer's active mass by its *own* fullness:
+d²Rᵢ/dτ² = −(G/Rᵢ²) Σⱼ Δmⱼ(1 − 4φⱼ). This is exact for a uniform star.
+- **It keeps P1:** the maximum local fullness is 0.996 (M = 2) and 0.993 (M = 3).
+- **But it isn't consistent.** The model has no equation for the geometry outside the
+  matter, so the star comes straight back out through its own horizon after about 3.6 M
+  Planck times (about 10⁻⁵ s for a solar mass). That's part 4's excluded case (b).
+- **Verdict:** not viable on its own.
+
+**L3, the shell is a one-turn phase slip (FOLLOWS).** Across the shock, b jumps by about
+π, which is one full turn of the dance (u = 2b). The inner layers have gone through
+collapse, full and re-expansion; the outer layers haven't started. A conservation law's
+shock speed is [F]/[B], so it depends on how that turn is counted. (KNOWN: weak solutions
+need a rule to be unique.)
+
+| Rule | Inside the shell, the phase passes through | Consequence |
+|---|---|---|
+| **Winding** (count the turn; used in parts 5–6) | **full** (b = π/2) | A smooth shell would need (4π/3)R³ρ_max of mass: 300 times the star's mass at M = 3, and 10⁶¹ times for a real primordial hole. So the shell must be infinitely thin, and **P1 fails**. |
+| **Angle** (a full turn counts as no change) | **empty** (b = π) | A shell of finite thickness at φ ≤ 1 is possible: **P1 holds**. |
+
+- **So P1 forces the angle rule,** and part 5's M² lifetime, computed with winding, is
+  downgraded to OPEN.
+- One attempt at an angle-rule solver re-wrapped the stored phase. That broke conservation
+  (it injected hundreds of turns, even in empty space), so it was discarded and isn't used.
+
+**L4, the check from GR (KNOWN + FOLLOWS).** Outside r_s the law equals GR to 10⁻⁷⁷, so a
+thin shell of pure matter (rest mass μ = M, marginally bound) obeys the Israel junction
+condition, M = μ√(1 + Ṙ²) − Gμ²/2R. That gives Ṙ² = M/R + M²/4R²:
+
+| Shell radius | Speed |
+|---|---|
+| r_s | 0.75c |
+| 1.14 r_s | 0.70c |
+| 2 r_s | 0.52c |
+
+- The winding solution's drift (0.0063c at M = 3) is **110 times too slow**, and 10³¹ times
+  too slow for a real primordial hole. **The slow drift is an artifact of the winding
+  rule.**
+- **Once outside r_s, the matter leaves promptly.** The TeV flash (part 6) is the theory's
+  burst.
+- **Still open:** *when* the shell gets outside r_s, which is the lifetime. That needs a
+  solver that conserves mass and counts the turn as an angle.
 
 ## What is new, and what isn't
 
@@ -231,18 +288,18 @@ local-fullness law decides between them.
   2. measurement as *mutual* phase locking, which puts the Planck wall in locking rather
      than in light;
   3. degradation by time itself, with the two-step return to 0;
-  4. black holes as phase-advancing layers whose bounce escapes as a shock, with lifetime
-     ≈ 24√χ M² (the structure matches loop-quantum dust collapse; the theory's own route
-     to it is new).
+  4. black holes as phase-advancing layers whose bounce escapes as a one-turn phase slip.
+     The ceiling P1 forces that slip to be counted as an angle (passing through empty), and
+     GR then makes the released matter leave at about 0.7c. The lifetime is open again:
+     the winding-rule value 24√χM² matches loop-quantum dust collapse, but P1 rules that
+     rule out.
 
 ## Open problems (next work)
 
-1. **The local-fullness law (now the top priority).** Part 6 found that the law, as
-   written, caps only the *mean* fullness inside each radius. After the shock forms, the
-   local fullness exceeds 1, which breaks P1. The law has to cap local fullness too. It
-   will act like a pressure, and it decides whether the remnant shell drifts out (no burst)
-   or blows out (the TeV flash). It is also needed to confirm the part 5 lifetime, which was
-   computed with the mean-fullness law.
+1. **The lifetime under the angle rule (top priority).** This needs a collapse solver that
+   conserves mass and counts the shock's one-turn phase slip as an angle (passing through
+   empty), as P1 requires. It decides when the TeV flash happens, and so which primordial
+   black holes are bursting today.
 2. **Echoes and spin.** Does the shock or the cap reflect gravitational waves? The rotating
    version is needed to compare with real, spinning merger remnants.
 3. **Fix τ.** Nothing yet sets the degradation time. If the theory predicts it,
@@ -265,5 +322,6 @@ python src/fp_phase_lock.py    # results/fullness_phase/phase_lock.txt
 python src/fp_black_hole_exterior.py  # results/fullness_phase/black_hole_exterior.txt
 python src/fp_collapse_shock.py       # results/fullness_phase/collapse_shock.txt (about 4 min)
 python src/fp_burst.py                # results/fullness_phase/burst.txt (about 30 s)
+python src/fp_local_fullness.py       # results/fullness_phase/local_fullness.txt (about 10 s)
 python -m pytest tests/test_fullness_phase.py -q
 ```

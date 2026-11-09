@@ -6,11 +6,11 @@ B1  What the collapse leaves (part 5's solver, run past the lifetime T).
     The trapped region vanishes, nothing is left inside r_s, and ALL the mass sits in one
     shell just outside r_s that drifts outward at a pace fixed in units of T:
     position converged to ~0.1% over three grid resolutions; speed ~ 0.019/M (c, Planck M).
-    FOLLOWS: the shell is UNRESOLVED -- its local fullness exceeds 1 and grows as the grid
-    is refined.  The part-1 law caps the MEAN fullness inside each radius, not the local
-    density, so after the shock forms the dust model breaks postulate P1.
-    Completing P1 needs the law to act on LOCAL fullness too (it acts like a pressure):
-    OPEN, and it decides how fast the shell comes out.
+    The shell is UNRESOLVED (the mass rises 0 -> M across ~2 cells).  CORRECTION (part 7):
+    the "peak local fullness" printed below comes from one cell whose averaged phase sits
+    near pi/2 -- an ARTIFACT, retracted.  What stands: the exact solution is a zero-thickness
+    shell (unbounded local fullness), and part 7 shows its slow drift is an artifact of the
+    winding rule; GR outside r_s moves such a shell at ~0.7 c.
 
 B2  What it is made of.  A hole ending today has M_now (part 5) and must be primordial.
     It formed when the horizon mass was ~M: t_f = G M / c^3 (LIT, recalled: PBH mass is
@@ -94,15 +94,14 @@ def main():
         res[dR] = r
         for x in r:
             print(f"   dR = {dR:<6} t = {x['t']:.1f} T: front {x['front']:.4f} r_s; 80% of mass"
-                  f" in [{x['lo']:.4f}, {x['hi']:.4f}] r_s; m(<0.95 r_s) = {x['inside']:.3f} M;"
-                  f" peak local fullness {x['peak']:.1f}")
-    print("   (dR = 0.0125, run once in this project: front 1.1448 / 1.2594 r_s, peak 42 / 94.)")
+                  f" in [{x['lo']:.4f}, {x['hi']:.4f}] r_s; m(<0.95 r_s) = {x['inside']:.3f} M")
+    print("   (dR = 0.0125, run once in this project: front 1.1448 / 1.2594 r_s.)")
     r1, r2 = res[0.05], res[0.025]
     v = (r2[1]["front"] - r2[0]["front"]) * 2 * 3.0 / (0.5 * 24.1 * 9)
     print(f"   shell speed ~ {v:.4f} c at M = 3  ->  ~{v*3:.3f}/M c")
     print("   -> no horizon, nothing inside: a horizonless shell of pure matter, drifting out.")
-    print("   -> but its local fullness is far above 1 and rises with resolution: the dust law")
-    print("      breaks P1 inside the shock.  The law must also cap LOCAL fullness: OPEN.")
+    print("   -> CORRECTED in part 7: this slow drift is an artifact of the winding rule; GR")
+    print("      outside r_s moves a thin shell at ~0.7 c.")
 
     banner("B2  What a hole ending today is made of")
     import fp_collapse_shock as C
@@ -130,8 +129,8 @@ def main():
     print("   ~100 Mpc range multi-TeV photons survive (recalled: absorption on starlight)")
     print("   SIGNATURE: many multi-TeV air showers at the same nanosecond across the array;")
     print("   TeV neutrinos at the same moment.")
-    print("   In the dust model (no pressure) instead: no burst; the shell drifts out over")
-    print("   ~T per 0.2 r_s.  These are the two ends; the local-fullness law (B1) decides.")
+    print("   Part 7: once outside r_s the shell leaves at ~0.7 c, so this prompt flash is the")
+    print("   theory's burst; WHEN it happens (the lifetime) is open again.")
     return dict(res=res, M_now=M_now, kT=kT, ru=ru, rh=rh, load=load, d=d, e_ph=e_ph)
 
 

@@ -1,0 +1,37 @@
+
+==============================================================================
+L1  Correction: the v0.4 'local fullness 6-94' was an artifact
+==============================================================================
+   one cell holds phase b = 0.45 pi (average of ~pi and ~0) and a spurious mass 442 M
+   true profile: m(<0.95 r_s) = 0.0001 M; mass rises 0 -> M across 2 cells (unresolved)
+   -> RETRACTED: the numbers.  STANDS: the exact solution is a zero-thickness shell.
+
+==============================================================================
+L2  A local law: full matter repels (each layer weighted by 1 - 4 phi_local)
+==============================================================================
+   M = 2.0: max local fullness 0.9955;  horizon gone at t = 7.1 = 3.57 M;  surface ends at 10.6 r_s
+   M = 3.0: max local fullness 0.9934;  horizon gone at t = 10.9 = 3.63 M;  surface ends at 14.0 r_s
+   P1 holds, but the star re-emerges through its own horizon after ~3.6 M Planck
+   times (solar mass: ~1e-5 s) -- part 4's excluded case (b).  The model has no
+   equation for the geometry outside the matter, so this is not a consistent answer.
+
+==============================================================================
+L3  The shell is a one-turn phase slip; P1 decides how to count it
+==============================================================================
+   M = 3.0e+00 m_P: a smooth winding shell would need 3.0e+02 x the star's mass
+   M = 5.8e+29 m_P: a smooth winding shell would need 1.1e+61 x the star's mass
+   -> under winding the shell must be infinitely thin (P1 broken); under the angle
+      rule it passes through EMPTY and can be finite (P1 kept).  P1 forces angle.
+   -> part 5's M^2 lifetime used winding: downgraded to OPEN.
+
+==============================================================================
+L4  GR check: how fast a thin shell of pure matter moves outside r_s
+==============================================================================
+   R = 1.00 r_s:  Israel junction speed 0.750 c
+   R = 1.14 r_s:  Israel junction speed 0.698 c
+   R = 1.26 r_s:  Israel junction speed 0.660 c
+   R = 2.00 r_s:  Israel junction speed 0.515 c
+   winding drift at M = 3: 0.0063 c (110x slower); at a real primordial hole 3.3e-32 c
+   -> the slow drift is an artifact of the winding rule.  Outside r_s the matter
+      leaves at ~0.7 c: the prompt TeV flash (part 6) is the theory's burst.
+   OPEN: WHEN the shell gets outside r_s (the lifetime) needs an angle-rule solver.

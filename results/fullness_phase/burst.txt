@@ -3,15 +3,15 @@
 B1  What the collapse leaves (dust, part 5's law)
 ==============================================================================
    M = 3 m_P, three grid spacings:
-   dR = 0.05   t = 1.5 T: front 1.1375 r_s; 80% of mass in [1.1458, 1.1458] r_s; m(<0.95 r_s) = 0.000 M; peak local fullness 22.7
-   dR = 0.05   t = 2.0 T: front 1.2542 r_s; 80% of mass in [1.2625, 1.2625] r_s; m(<0.95 r_s) = 0.000 M; peak local fullness 20.9
-   dR = 0.025  t = 1.5 T: front 1.1438 r_s; 80% of mass in [1.1438, 1.1438] r_s; m(<0.95 r_s) = 0.000 M; peak local fullness 6.0
-   dR = 0.025  t = 2.0 T: front 1.2604 r_s; 80% of mass in [1.2604, 1.2604] r_s; m(<0.95 r_s) = 0.000 M; peak local fullness 32.3
-   (dR = 0.0125, run once in this project: front 1.1448 / 1.2594 r_s, peak 42 / 94.)
+   dR = 0.05   t = 1.5 T: front 1.1375 r_s; 80% of mass in [1.1458, 1.1458] r_s; m(<0.95 r_s) = 0.000 M
+   dR = 0.05   t = 2.0 T: front 1.2542 r_s; 80% of mass in [1.2625, 1.2625] r_s; m(<0.95 r_s) = 0.000 M
+   dR = 0.025  t = 1.5 T: front 1.1438 r_s; 80% of mass in [1.1438, 1.1438] r_s; m(<0.95 r_s) = 0.000 M
+   dR = 0.025  t = 2.0 T: front 1.2604 r_s; 80% of mass in [1.2604, 1.2604] r_s; m(<0.95 r_s) = 0.000 M
+   (dR = 0.0125, run once in this project: front 1.1448 / 1.2594 r_s.)
    shell speed ~ 0.0065 c at M = 3  ->  ~0.019/M c
    -> no horizon, nothing inside: a horizonless shell of pure matter, drifting out.
-   -> but its local fullness is far above 1 and rises with resolution: the dust law
-      breaks P1 inside the shock.  The law must also cap LOCAL fullness: OPEN.
+   -> CORRECTED in part 7: this slow drift is an artifact of the winding rule; GR
+      outside r_s moves a thin shell at ~0.7 c.
 
 ==============================================================================
 B2  What a hole ending today is made of
@@ -32,5 +32,5 @@ B3-B4  The burst (upper bound on photon energy)
    ~100 Mpc range multi-TeV photons survive (recalled: absorption on starlight)
    SIGNATURE: many multi-TeV air showers at the same nanosecond across the array;
    TeV neutrinos at the same moment.
-   In the dust model (no pressure) instead: no burst; the shell drifts out over
-   ~T per 0.2 r_s.  These are the two ends; the local-fullness law (B1) decides.
+   Part 7: once outside r_s the shell leaves at ~0.7 c, so this prompt flash is the
+   theory's burst; WHEN it happens (the lifetime) is open again.
