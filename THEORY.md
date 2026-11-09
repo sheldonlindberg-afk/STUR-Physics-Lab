@@ -1,4 +1,4 @@
-# The Make It Make Sense theory (MIMS): version 0.5
+# The Make It Make Sense theory (MIMS): version 0.6
 
 *Named by its author. Earlier working name: fullness-phase theory, which is why the scripts
 are `src/fp_*.py`. A new start, built from the user's postulates. The earlier STUR program and the
@@ -278,6 +278,44 @@ condition, M = μ√(1 + Ṙ²) − Gμ²/2R. That gives Ṙ² = M/R + M²/4R²:
 - **Still open:** *when* the shell gets outside r_s, which is the lifetime. That needs a
   solver that conserves mass and counts the turn as an angle.
 
+## Part 8: the mass-conserving, angle-rule collapse (v0.6)
+
+Script: `src/fp_shell_crossing.py`; output: `results/fullness_phase/shell_crossing.txt`.
+
+**The method.** Follow each mass layer individually and let layers pass through each
+other, since dust doesn't collide.
+- Mass is conserved exactly, and each layer's phase evolves continuously, so no jump
+  between neighbours is counted.
+- Each layer obeys the law with the mass inside it at that moment:
+  d²Rᵢ/dτ² = −(Gmᵢ/Rᵢ²)(1 − 4φᵢ). That's exact GR for dust away from the ceiling, and its
+  thin-shell limit is the Israel junction condition.
+
+**E1, the lifetime is proportional to M:**
+
+| Star | M = 2 | M = 4 | M = 8 | Solar mass |
+|---|---|---|---|---|
+| Uniform: T/M | 3.766 | 3.778 | 3.784 | 1.9×10⁻⁵ s |
+| Concentrated (ρ ∝ 1 − x²): T/M | 3.03 | 3.21 | 3.20 | 1.6×10⁻⁵ s |
+
+- **Converged:** going from 200 to 800 layers changes T by under 0.6%.
+- **What it implies:** observed black holes last billions of years, so under this rule the
+  bounce **can't re-emerge into our region of space**. It must open a new one beyond the
+  hole: a white hole into a new expanding region. LIT (recalled): Popławski (2010)
+  proposed bounces inside black holes opening new universes, using torsion, which is the
+  same teleparallel/torsion family as this theory. This fits the author's cyclic picture:
+  matter goes to full, bounces, and expands away towards 0.
+
+**E2, P1 fails again (FOLLOWS).**
+- In the uniform star the peak local fullness is exactly 1 at the bounce, so P1 is
+  saturated but not broken.
+- In the concentrated star, layers cross 457 to 2593 times, and the local fullness spikes
+  to 3.6×10⁴ to 7.5×10⁴. These are caustics, and they're unbounded in the continuum.
+- **Together with part 7, dust breaks P1 under either rule.** Winding gives a
+  zero-thickness shell; the angle rule gives caustics.
+- **So P1 requires pressure.** "Pure matter at 1" has to resist being compressed, and the
+  theory needs an equation of state p(φ). OPEN, and now the top priority. Real primordial
+  holes are radiation-era plasma (part 6, B2), which already has pressure p = ρc²/3.
+
 ## What is new, and what isn't
 
 - **Coincides with known physics:** the expansion law (loop quantum cosmology), the
@@ -296,10 +334,13 @@ condition, M = μ√(1 + Ṙ²) − Gμ²/2R. That gives Ṙ² = M/R + M²/4R²:
 
 ## Open problems (next work)
 
-1. **The lifetime under the angle rule (top priority).** This needs a collapse solver that
-   conserves mass and counts the shock's one-turn phase slip as an angle (passing through
-   empty), as P1 requires. It decides when the TeV flash happens, and so which primordial
-   black holes are bursting today.
+1. **An equation of state p(φ) (top priority).** Part 8 shows dust can't respect P1 under
+   either counting rule, so matter at the ceiling must resist compression. The natural
+   starting point is radiation (p = ρc²/3, which is what primordial holes are made of),
+   stiffening as φ → 1. Collapsing a fluid with p(φ) decides:
+   - whether the bounce re-emerges into our region (part 5 type, slow) or opens a new
+     region (part 8 type, about 3.5M);
+   - whether and when the TeV flash happens.
 2. **Echoes and spin.** Does the shock or the cap reflect gravitational waves? The rotating
    version is needed to compare with real, spinning merger remnants.
 3. **Fix τ.** Nothing yet sets the degradation time. If the theory predicts it,
@@ -323,5 +364,6 @@ python src/fp_black_hole_exterior.py  # results/fullness_phase/black_hole_exteri
 python src/fp_collapse_shock.py       # results/fullness_phase/collapse_shock.txt (about 4 min)
 python src/fp_burst.py                # results/fullness_phase/burst.txt (about 30 s)
 python src/fp_local_fullness.py       # results/fullness_phase/local_fullness.txt (about 10 s)
+python src/fp_shell_crossing.py       # results/fullness_phase/shell_crossing.txt (about 2 s)
 python -m pytest tests/test_fullness_phase.py -q
 ```

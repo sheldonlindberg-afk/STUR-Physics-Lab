@@ -97,3 +97,11 @@ def test_local_fullness():
     assert r["phmax"] <= 1.0 and abs(r["t_out"] / 2.0 - 3.57) < 0.1         # P1 kept, fast exit
     assert abs(L.smooth_winding_shell_ratio(3.0) - 32 * 3.141592653589793 / 3 * 9) < 1e-6
     assert abs(L.israel_speed(1.0) - 0.75) < 1e-12
+
+
+def test_shell_crossing():
+    import fp_shell_crossing as E
+    u = E.run(2.0, profile="uniform")
+    assert abs(u["T"] / 2.0 - 3.766) < 0.02 and abs(u["phmax"] - 1.0) < 0.01 and u["ncross"] == 0
+    c = E.run(2.0, profile="conc")
+    assert abs(c["T"] / 2.0 - 3.03) < 0.05 and c["phmax"] > 100 and c["ncross"] > 0

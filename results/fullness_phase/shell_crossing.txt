@@ -1,0 +1,20 @@
+
+==============================================================================
+E1-E2  Layers that pass through each other (mass-conserving, angle rule)
+==============================================================================
+   star            M (m_P)   lifetime T   T/M     max local fullness   steps with crossings
+   uniform           2.0        7.53    3.766               1.0         0
+   uniform           4.0       15.11    3.778               1.0         0
+   uniform           8.0       30.27    3.784               1.0         0
+   concentrated      2.0        6.06    3.028           65058.4         457
+   concentrated      4.0       12.86    3.214           75334.8         1007
+   concentrated      8.0       25.62    3.202           35715.1         2593
+   uniform : solar-mass lifetime 1.9e-05 s
+   conc    : solar-mass lifetime 1.6e-05 s
+   -> T is proportional to M, not M^2.  Observed black holes last billions of years,
+      so under this rule the bounce cannot re-emerge into OUR region: it must open a
+      new one beyond the hole (cf. Poplawski's torsion bounces, recalled).
+   -> uniform star: peak local fullness 1 at the bounce (P1 exactly saturated).
+   -> concentrated star: layers cross and the local fullness spikes (caustics,
+      unbounded in the continuum): P1 fails.  With part 7, dust breaks P1 under
+      either rule, so P1 requires pressure: the theory needs p(phi).  OPEN.
