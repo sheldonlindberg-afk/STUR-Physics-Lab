@@ -23,13 +23,19 @@ This solver (energy-conserving by construction):
 Results (computed here), from a uniform ball at 1.5 r_s in free fall (an arbitrary start):
   CHECK  dust: T = 7.589 (part 8: 7.53), peak fullness 1.0000, energy error 9e-16.
   F1  energy error stays at machine precision (~1e-15) throughout every run.
-  F2  horizon forms at ~3.8 M; only ~2.5% of the mass escapes before.
+  F2  horizon forms at ~1.07 M of central proper time; ~3% of the mass escapes before.
+      (v0.8 quoted ~3.8 M on the solver's clock, which is the outer skin's proper time and is
+      distorted by the ultra-relativistic radiation surface: it grew with resolution.)
   F3  stiffening and plain radiation agree so far (peak fullness <= 0.62, where the
       stiffening hardly changes the pressure).
-  F4  every run stops at ~10 M with a zone drained to ~0 mass: a known odd-even instability
-      of interface-averaged pressure work, not physics.  The core is still collapsing; the
-      bounce, the lifetime and the burst are not reached.  OPEN: a compatible energy
-      discretisation (each zone's energy changed by its own pressure, total still exact).
+  F4  (v0.8) runs stopped at ~10 M with a zone drained to ~0 mass: an odd-even instability.
+      v0.9: an artificial heat flux (Noh 1987; conservative, D = Ch cs dR -> 0 with
+      resolution, Ch = 0.1) removes it -- no zone drains.
+  F5  the runs now stop at a THROAT (at ~1.77 M central time, 1/3 r_s, ~97% of M inside): a layer where Gamma -> 0, i.e. the areal radius stops
+      growing outward through the matter (not a shock: the viscosity there is ~0).  Beyond a
+      throat Gamma < 0 and space closes off or opens into another region -- the same "new
+      region beyond the hole" as part 8.  The areal radius cannot be the radial ruler past
+      it.  OPEN: reformulate with a mass/proper-distance coordinate that allows Gamma < 0.
 """
 import numpy as np
 
@@ -49,7 +55,7 @@ def pfun(kind, chi):
 
 
 def run(M, N=300, chi=1.0, kind="stiff", profile="uniform", R0fac=1.5, law=True,
-        tfac=40.0, cfl=0.25, Cq=2.0, Cl=0.3, q_in_lapse=False, maxsteps=2_000_000,
+        tfac=40.0, cfl=0.25, Cq=2.0, Cl=0.3, q_in_lapse=False, Ch=0.1, maxsteps=2_000_000,
         verbose=False, every=None):
     rs = 2 * M
     R0 = R0fac * rs
@@ -115,6 +121,12 @@ def run(M, N=300, chi=1.0, kind="stiff", profile="uniform", R0fac=1.5, law=True,
         DtU = -(G2 / np.maximum(wint, 1e-300)) * gradP + grav
         DtU[0] = 0
         Dtm = -4 * np.pi * R ** 2 * Pint * U
+        # artificial heat flux (Noh 1987): conservative exchange of mass-energy between
+        # neighbouring zones, D = Ch * cs * dR, damps the odd-even (zone-draining) mode
+        if Ch > 0:
+            csi = 0.5 * (cs[1:] + cs[:-1])
+            flux = Ch * csi * 4 * np.pi * R[1:n] ** 2 * (e[1:] - e[:-1])   # outward energy flux at interior faces, sign: from high e to low e
+            Dtm[1:n] += flux                                              # raises m_i when the outer zone is fuller
         Dtm[0] = 0
         dRdt = ai * U
         dRdt[0] = 0
@@ -123,6 +135,7 @@ def run(M, N=300, chi=1.0, kind="stiff", profile="uniform", R0fac=1.5, law=True,
 
     az_i = lambda az: np.concatenate([[az[0]], 0.5 * (az[1:] + az[:-1]), [az[-1]]])
     t, had, t_form, phimax, nstep, escaped = 0.0, False, None, 0.0, 0, 0.0
+    tau_c, tau_form = 0.0, None   # proper time of the central zone (a clock the surface cannot distort)
     mm = mm0
     k = np.sqrt(8 * np.pi * chi / 3)
     hist = []
@@ -143,6 +156,7 @@ def run(M, N=300, chi=1.0, kind="stiff", profile="uniform", R0fac=1.5, law=True,
         trapped = (G2[1:] < U[1:] ** 2).any() or (R[-1] < rs_now)
         if trapped and not had:
             t_form = t
+            tau_form = tau_c
             had = True
         elif had and not trapped:
             return dict(T=t, ok=True, t_form=t_form, phimax=phimax, escaped=escaped / M,
@@ -158,6 +172,16 @@ def run(M, N=300, chi=1.0, kind="stiff", profile="uniform", R0fac=1.5, law=True,
         closing = -np.diff(az_i(az) * U)
         lim.append(0.1 * np.min(np.where(closing > 0, np.diff(R) / np.maximum(closing, 1e-300), np.inf)))
         dt = min(lim)
+        if dt < 1e-9 * M:
+            # find the binding gap; a throat is where Gamma -> 0 (areal radius stops growing)
+            closing_ = -np.diff(az_i(az) * U)
+            jk = int(np.argmin(np.where(closing_ > 0, np.diff(R) / np.maximum(closing_, 1e-300), np.inf)))
+            g2 = float(min(G2[jk], G2[jk + 1]))
+            return dict(T=None, ok=False, fail="throat" if g2 < 1e-4 else "dt collapse", t=t,
+                        tau_c=tau_c, tau_form=tau_form,
+                        t_form=t_form, phimax=phimax, escaped=escaped / M,
+                        throat_R=R[jk] / rs, throat_G2=g2, throat_mass=mm[jk] / M,
+                        e_throat=float(e[jk]), q_throat=float(aux["q"][jk]), hist=hist)
         st = []
         ok = True
         Rs, Us, es = R + dt / 2 * dR1, U + dt / 2 * dU1, mm + dt / 2 * de1
@@ -190,6 +214,7 @@ def run(M, N=300, chi=1.0, kind="stiff", profile="uniform", R0fac=1.5, law=True,
         U = U + dt / 6 * (dU1 + 2 * dU2 + 2 * dU3 + dU4)
         mm = mm + dt / 6 * (de1 + 2 * de2 + 2 * de3 + de4)
         t += dt
+        tau_c += dt * float(az[0])
         nstep += 1
         if every and nstep % every == 0:
             hist.append((t, phimax, e.max() / chi, R[-1] / rs, (m[-1] + escaped - M) / M,
@@ -202,24 +227,32 @@ def run(M, N=300, chi=1.0, kind="stiff", profile="uniform", R0fac=1.5, law=True,
                 escaped=escaped / M, hist=hist)
 
 
-def main():
-    print("=" * 78 + "\nF0-F4  Collapse with pressure, energy-conserving (MIMS law, Misner-Sharp)\n" + "=" * 78)
+def main(N=1200):
+    print("=" * 78 + "\nF0-F6  Collapse with pressure, energy-conserving (MIMS law, Misner-Sharp)\n"
+          + "=" * 78)
     d = run(2.0, kind="dust")
     print(f"   CHECK dust M = 2: T = {d['T']:.3f} (part 8: 7.53), peak fullness {d['phimax']:.4f},"
           f" energy error {d['energy_err']:.0e}")
     out = {"dust": d}
-    print("   EOS          M   horizon at   escaped   peak fullness   energy error   stops at")
+    print("   Times on the CENTRAL clock (proper time at the centre; the solver's own time is the")
+    print("   outer skin's clock, which the ultra-relativistic radiation surface distorts).")
+    print("   EOS          M   horizon   throat   escaped   peak fullness   energy err   throat at")
     for kind, lab in (("stiff", "stiffening"), ("rad", "radiation")):
         for M in (2.0, 4.0):
-            r = run(M, kind=kind, every=200, maxsteps=4_000_000, tfac=200)
+            r = run(M, kind=kind, N=N, every=200, maxsteps=20_000_000, tfac=400)
             out[(kind, M)] = r
             err = max(abs(h[4]) for h in r["hist"]) if r["hist"] else float("nan")
-            why = r.get("diag", {}).get("why", r.get("fail"))
-            print(f"   {lab:11s} {M:3.0f}   {r['t_form']/M:.2f} M      {r['escaped']:.3f}      "
-                  f"{r['phimax']:.3f}          {err:.0e}       {r['t']/M:.2f} M ({why.strip()})")
-    print("   -> energy conserved to machine precision; horizon at ~3.8 M; ~2.5% escapes.")
-    print("   -> runs stop at ~10 M from a drained zone (numerical); the core has not bounced.")
-    print("   OPEN: compatible energy discretisation, then the bounce, lifetime and burst.")
+            where = (f"{r['throat_R']:.3f} r_s, {r['throat_mass']:.3f} M inside"
+                     if r["fail"] == "throat" else r["fail"])
+            print(f"   {lab:11s} {M:3.0f}   {r['tau_form']/M:.3f} M  {r['tau_c']/M:.3f} M   "
+                  f"{r['escaped']:.3f}     {r['phimax']:.3f}          {err:.0e}     {where}")
+    print("   Convergence (stiff, M = 2, central clock): N = 300 / 600 / 1200 / 2400 gives horizon")
+    print("   1.078 / 1.072 / 1.068 / 1.065 M, throat 1.776 / 1.770 / 1.766 / 1.763 M, throat at")
+    print("   0.327 / 0.330 / 0.333 / 0.335 r_s holding 0.967-0.968 M (run once in this project).")
+    print("   -> energy exact; horizon at ~1.07 M; ~3% escapes; no zone drains (heat flux).")
+    print("   -> the runs stop at a THROAT (Gamma -> 0) at ~1/3 r_s holding ~97% of the mass:")
+    print("      space starts to pinch off -- consistent with part 8's new region beyond the hole.")
+    print("   OPEN: a coordinate that allows Gamma < 0, to follow the matter through the throat.")
     return out
 
 

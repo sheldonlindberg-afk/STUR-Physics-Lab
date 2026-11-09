@@ -1,4 +1,4 @@
-# The Make It Make Sense theory (MIMS): version 0.8
+# The Make It Make Sense theory (MIMS): version 0.9
 
 *Named by its author. Earlier working name: fullness-phase theory, which is why the scripts
 are `src/fp_*.py`. A new start, built from the user's postulates. The earlier STUR program and the
@@ -316,7 +316,7 @@ other, since dust doesn't collide.
   theory needs an equation of state p(φ). OPEN, and now the top priority. Real primordial
   holes are radiation-era plasma (part 6, B2), which already has pressure p = ρc²/3.
 
-## Part 9: collapse of matter that pushes back (v0.8, in progress)
+## Part 9: collapse of matter that pushes back (v0.9, in progress)
 
 Script: `src/fp_fluid_collapse.py`; output: `results/fullness_phase/fluid_collapse.txt`.
 
@@ -355,27 +355,56 @@ a spherical fluid in GR (KNOWN):
 
 The start is a uniform ball at 1.5 r_s in free fall, which is arbitrary.
 
-**Results:**
+**v0.9 additions:**
+- **An artificial heat flux** (Noh 1987). It exchanges mass-energy between neighbouring
+  zones, with D = 0.1·c_s·Δr, which vanishes as the grid is refined. It's conservative, so
+  energy stays exact, and it removes v0.8's zone-draining instability.
+- **Times measured on the central clock.** The solver's own time is the proper time of the
+  outermost zone. That's a radiation skin expanding into vacuum ever faster as the grid is
+  refined, so its clock is distorted and v0.8's times grew with resolution. The proper time
+  at the centre doesn't have this problem.
 
-| Run | Horizon forms | Escaped | Peak fullness | Energy error | Stops at |
-|---|---|---|---|---|---|
-| Check, dust M = 2 | 1.13 M | 0 | 1.0000 | 9×10⁻¹⁶ | T = 7.589 (part 8: 7.53) |
-| Stiffening, M = 2 | 3.82 M | 2.5% | 0.62 | 9×10⁻¹⁶ | 10.22 M |
-| Stiffening, M = 4 | 3.76 M | 2.5% | 0.19 | 9×10⁻¹⁶ | 10.08 M |
-| Radiation, M = 2 | 3.82 M | 2.5% | 0.62 | 9×10⁻¹⁶ | 10.22 M |
-| Radiation, M = 4 | 3.76 M | 2.5% | 0.19 | 9×10⁻¹⁶ | 10.08 M |
+**Results (1,200 zones; times on the central clock):**
 
-- **F1:** energy is conserved to machine precision throughout every run.
-- **F2:** the horizon forms at about 3.8 M, and only about 2.5% of the mass escapes before
-  it does.
-- **F3:** the stiffening and plain radiation agree so far. The peak fullness is at most
-  0.62, where the stiffening hardly changes the pressure.
-- **F4:** every run stops at about 10 M, when a zone is drained to almost no mass. That's a
-  known odd–even instability of interface-averaged pressure work, not physics. The core is
-  still collapsing, so the bounce, the lifetime and the burst aren't reached yet.
+| Run | Horizon forms | Stops at | Escaped | Peak fullness | Energy error | Where it stops |
+|---|---|---|---|---|---|---|
+| Check, dust M = 2 | | T = 7.589 (part 8: 7.53) | 0 | 1.0000 | 9×10⁻¹⁶ | bounce, horizon gone |
+| Stiffening, M = 2 | 1.068 M | 1.766 M | 2.9% | 0.58 | 9×10⁻¹⁶ | throat at 0.333 r_s, 0.968 M inside |
+| Stiffening, M = 4 | 1.052 M | 1.749 M | 2.8% | 0.17 | 9×10⁻¹⁶ | throat at 0.325 r_s, 0.968 M inside |
+| Radiation, M = 2 | 1.068 M | 1.770 M | 2.9% | 0.59 | 9×10⁻¹⁶ | throat at 0.333 r_s, 0.968 M inside |
+| Radiation, M = 4 | 1.052 M | 1.749 M | 2.8% | 0.17 | 9×10⁻¹⁶ | throat at 0.325 r_s, 0.968 M inside |
 
-**OPEN, top priority:** a compatible energy discretisation, where each zone's energy is
-changed by its own pressure and the total stays exact.
+**Convergence (stiffening, M = 2, central clock):**
+
+| Zones | Horizon forms | Throat forms | Throat at | Mass inside |
+|---|---|---|---|---|
+| 300 | 1.078 M | 1.776 M | 0.327 r_s | 0.967 M |
+| 600 | 1.072 M | 1.770 M | 0.330 r_s | 0.967 M |
+| 1,200 | 1.068 M | 1.766 M | 0.333 r_s | 0.968 M |
+| 2,400 | 1.065 M | 1.763 M | 0.335 r_s | 0.968 M |
+
+These agree within about 1%. Changing the heat-flux strength (0.05 to 0.2) changes the
+escaped share between 2.9% and 3.8%, and leaves the throat unchanged.
+
+- **F1:** energy is exact throughout.
+- **F2:** the horizon forms at about 1.07 M of central proper time, and about 3% of the
+  mass escapes before it does.
+- **F3:** the stiffening and plain radiation agree, since the peak fullness stays at or
+  below 0.59.
+- **F4:** no zone drains any more.
+- **F5, the throat (FOLLOWS, on the comoving slice):** at about 1.76 M, a layer at about
+  ⅓ r_s, holding about 97% of the mass, reaches Γ → 0. There the areal radius stops
+  growing outward through the matter. It isn't a shock: the viscosity there is about 0.
+  Beyond such a layer Γ < 0, and space either closes off or opens into another region.
+  That matches part 8's **new region beyond the hole**.
+  - *Caveat:* Γ = 0 is a statement about the slice that moves with the matter. Whether this
+    is a true minimal surface (a throat) or a maximal one (the equator of a closing
+    region), and whether that holds on every slicing, needs the next formulation.
+- **Still not reached:** the bounce, the lifetime and the burst. The areal radius can't
+  serve as the radial ruler past Γ = 0.
+
+**OPEN, top priority:** reformulate with a mass or proper-distance coordinate that allows
+Γ < 0, to follow the matter through the throat.
 
 ## What is new, and what isn't
 
@@ -395,11 +424,11 @@ changed by its own pressure and the total stays exact.
 
 ## Open problems (next work)
 
-1. **Carry the fluid collapse through to the bounce (top priority).** The equation of state
-   is chosen (part 9: radiation stiffening to the speed of light at full), and the solver
-   now conserves energy exactly and has shock viscosity. It stops at about 10 M from a
-   zone-draining instability. A compatible energy discretisation should fix that, and the
-   full run decides:
+1. **Follow the matter through the throat (top priority).** The part 9 solver now conserves
+   energy exactly, handles shocks, doesn't drain zones, and converges on the central clock.
+   It stops where Γ → 0: a throat at about ⅓ r_s holding about 97% of the mass, which
+   matches part 8's "new region". Going past it needs a mass or proper-distance radial
+   coordinate that allows Γ < 0. The full run decides:
    - whether the bounce re-emerges into our region or opens a new one;
    - the lifetime;
    - whether and when the TeV flash happens.

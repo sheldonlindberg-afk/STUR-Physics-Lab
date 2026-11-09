@@ -112,7 +112,11 @@ def test_fluid_collapse():
     d = F.run(2.0, kind="dust")
     assert abs(d["T"] - 7.589) < 0.01 and abs(d["phimax"] - 1) < 1e-3       # dust limit
     assert abs(d["energy_err"]) < 1e-12                                     # exact energy
-    r = F.run(2.0, kind="stiff", every=200, maxsteps=4_000_000, tfac=200)
-    assert max(abs(h[4]) for h in r["hist"]) < 1e-12                       # exact energy
-    assert abs(r["t_form"] / 2.0 - 3.82) < 0.05 and abs(r["escaped"] - 0.025) < 0.005
-    assert r["fail"] == "step failed" and abs(r["t"] / 2.0 - 10.22) < 0.1    # numerical stop
+    a = F.run(2.0, kind="stiff", N=300, every=200, maxsteps=6_000_000, tfac=400)
+    b = F.run(2.0, kind="stiff", N=600, every=200, maxsteps=6_000_000, tfac=400)
+    assert max(abs(h[4]) for h in a["hist"]) < 1e-12                       # exact energy
+    assert a["fail"] == b["fail"] == "throat"                               # stops at a throat
+    assert abs(a["tau_form"] / 2 - 1.078) < 0.01 and abs(b["tau_form"] / 2 - 1.072) < 0.01
+    assert abs(a["tau_c"] / b["tau_c"] - 1) < 0.01                          # central clock converges
+    assert abs(a["throat_R"] - 0.33) < 0.01 and abs(a["throat_mass"] - 0.967) < 0.005
+    assert 0.02 < a["escaped"] < 0.04

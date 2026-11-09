@@ -1,12 +1,18 @@
 ==============================================================================
-F0-F4  Collapse with pressure, energy-conserving (MIMS law, Misner-Sharp)
+F0-F6  Collapse with pressure, energy-conserving (MIMS law, Misner-Sharp)
 ==============================================================================
    CHECK dust M = 2: T = 7.589 (part 8: 7.53), peak fullness 1.0000, energy error 9e-16
-   EOS          M   horizon at   escaped   peak fullness   energy error   stops at
-   stiffening    2   3.82 M      0.025      0.617          9e-16       10.22 M (negmass)
-   stiffening    4   3.76 M      0.025      0.189          9e-16       10.08 M (negmass)
-   radiation     2   3.82 M      0.025      0.623          9e-16       10.22 M (negmass)
-   radiation     4   3.76 M      0.025      0.190          9e-16       10.08 M (negmass)
-   -> energy conserved to machine precision; horizon at ~3.8 M; ~2.5% escapes.
-   -> runs stop at ~10 M from a drained zone (numerical); the core has not bounced.
-   OPEN: compatible energy discretisation, then the bounce, lifetime and burst.
+   Times on the CENTRAL clock (proper time at the centre; the solver's own time is the
+   outer skin's clock, which the ultra-relativistic radiation surface distorts).
+   EOS          M   horizon   throat   escaped   peak fullness   energy err   throat at
+   stiffening    2   1.068 M  1.766 M   0.029     0.583          9e-16     0.333 r_s, 0.968 M inside
+   stiffening    4   1.052 M  1.749 M   0.028     0.173          9e-16     0.325 r_s, 0.968 M inside
+   radiation     2   1.068 M  1.770 M   0.029     0.589          9e-16     0.333 r_s, 0.968 M inside
+   radiation     4   1.052 M  1.749 M   0.028     0.173          9e-16     0.325 r_s, 0.968 M inside
+   Convergence (stiff, M = 2, central clock): N = 300 / 600 / 1200 / 2400 gives horizon
+   1.078 / 1.072 / 1.068 / 1.065 M, throat 1.776 / 1.770 / 1.766 / 1.763 M, throat at
+   0.327 / 0.330 / 0.333 / 0.335 r_s holding 0.967-0.968 M (run once in this project).
+   -> energy exact; horizon at ~1.07 M; ~3% escapes; no zone drains (heat flux).
+   -> the runs stop at a THROAT (Gamma -> 0) at ~1/3 r_s holding ~97% of the mass:
+      space starts to pinch off -- consistent with part 8's new region beyond the hole.
+   OPEN: a coordinate that allows Gamma < 0, to follow the matter through the throat.
