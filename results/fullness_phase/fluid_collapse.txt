@@ -1,12 +1,12 @@
 ==============================================================================
-F0-F3  Collapse with pressure (MIMS law, Misner-Sharp, RK4)
+F0-F4  Collapse with pressure, energy-conserving (MIMS law, Misner-Sharp)
 ==============================================================================
-   CHECK dust M = 2: T = 7.59 (part 8: 7.53), peak fullness 1.0000
-   EOS        M    horizon at   escaped   peak fullness   ends with
-   stiffening   2   3.14 M     0.394       0.717        shock at t = 17.37 (8.69 M), R = 0.30 r_s
-   stiffening   4   3.07 M     0.388       0.240        stop at t = 34.14 (8.53 M): non-finite step (layers crossing inside a sub-step)
-   radiation    2   3.14 M     0.394       7.671        stop at t = 17.41 (8.71 M): non-finite step (layers crossing inside a sub-step)
-   radiation    4   3.07 M     0.388       0.247        shock at t = 34.16 (8.54 M), R = 0.28 r_s
-   -> radiation pressure blows ~39% off; the stiffening holds the ceiling where plain
-      radiation does not; a shock forms at ~8.7 M before the core is full.
-   OPEN: shock capturing, to follow the bounce, the lifetime and the burst.
+   CHECK dust M = 2: T = 7.589 (part 8: 7.53), peak fullness 1.0000, energy error 9e-16
+   EOS          M   horizon at   escaped   peak fullness   energy error   stops at
+   stiffening    2   3.82 M      0.025      0.617          9e-16       10.22 M (negmass)
+   stiffening    4   3.76 M      0.025      0.189          9e-16       10.08 M (negmass)
+   radiation     2   3.82 M      0.025      0.623          9e-16       10.22 M (negmass)
+   radiation     4   3.76 M      0.025      0.190          9e-16       10.08 M (negmass)
+   -> energy conserved to machine precision; horizon at ~3.8 M; ~2.5% escapes.
+   -> runs stop at ~10 M from a drained zone (numerical); the core has not bounced.
+   OPEN: compatible energy discretisation, then the bounce, lifetime and burst.

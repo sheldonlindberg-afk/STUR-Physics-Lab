@@ -1,4 +1,4 @@
-# The Make It Make Sense theory (MIMS): version 0.7
+# The Make It Make Sense theory (MIMS): version 0.8
 
 *Named by its author. Earlier working name: fullness-phase theory, which is why the scripts
 are `src/fp_*.py`. A new start, built from the user's postulates. The earlier STUR program and the
@@ -316,51 +316,66 @@ other, since dust doesn't collide.
   theory needs an equation of state p(φ). OPEN, and now the top priority. Real primordial
   holes are radiation-era plasma (part 6, B2), which already has pressure p = ρc²/3.
 
-## Part 9: collapse of matter that pushes back (v0.7, in progress)
+## Part 9: collapse of matter that pushes back (v0.8, in progress)
 
 Script: `src/fp_fluid_collapse.py`; output: `results/fullness_phase/fluid_collapse.txt`.
 
+**CORRECTION.** The v0.7 solver for this part computed each zone's energy from its adiabat
+and never checked energy conservation. Measured afterwards, it **created about 37% extra
+energy** during the run (mass inside + escaped − M = +0.37 M). Its results are
+**retracted**:
+- 39% blown off;
+- the horizon at 3.1 M;
+- the shock at 8.7 M;
+- "the stiffening holds the ceiling where plain radiation doesn't".
+
 **The author's choice:** radiation that stiffens near full. In causal form:
 - the sound speed² is 1/3 + (2/3)φ² up to full, and 1 beyond;
-- that's ordinary radiation (p = ρc²/3) at low fullness, with sound reaching the speed of
-  light exactly at full;
+- that's ordinary radiation at low fullness, with sound reaching the speed of light exactly
+  at full;
 - pressure can't grow without limit, because past p = ρc² sound would travel faster than
   light.
 
 **Gravity with pressure (FOLLOWS).** For a uniform region, the law and energy conservation
-give exactly d²R/dτ² = −[(m + 4πR³p) − φ̄(4m + 8πR³p)]/R². With p = 0 that's part 8's law,
+give exactly d²R/dτ² = −[(m + 4πR³P) − φ̄(4m + 8πR³P)]/R². With p = 0 that's part 8's law,
 and with no ceiling it's GR.
 
-**The solver.** It uses that law layer by layer, inside the Misner–Sharp equations for a
-spherical fluid in GR (KNOWN):
-- the lapse (each layer's clock rate) comes from the pressure gradient;
-- Γ² = 1 + U² − 2m(1 − φ̄)/R is solved to convergence;
-- energy comes from each zone's adiabat;
-- time-stepping is fourth-order (RK4).
+**The solver (energy-conserving by construction).** It uses the Misner–Sharp equations for
+a spherical fluid in GR (KNOWN):
+- **the enclosed mass is evolved,** D_t m = −4πR²PU, and each zone's energy is its mass
+  difference over its volume. Pressure is zero at the surface, so total mass-energy is
+  conserved exactly;
+- Γ² = 1 + U² − 2m(1 − φ̄)/R, and the lapse comes from the pressure gradient;
+- artificial viscosity handles shocks, switching on only for compression faster than
+  uniform contraction;
+- time-stepping is fourth-order, with a kinematic limit so that no gap between layers
+  closes by more than 10% per step;
+- escaping outer zones are removed and counted, and a negligible outer zone is merged into
+  its neighbour.
 
-The start is a uniform ball at 1.5 r_s in free fall. That's an arbitrary starting point,
-not a model of how primordial holes form. Outer zones that escape are removed and counted;
-in spherical symmetry this can't affect the inside.
+The start is a uniform ball at 1.5 r_s in free fall, which is arbitrary.
 
 **Results:**
 
-| Run | Horizon forms | Escaped | Peak fullness | Ends with |
-|---|---|---|---|---|
-| Check, dust M = 2 | 1.13 M | 0 | 1.0000 | T = 7.59 (part 8: 7.53) |
-| Stiffening, M = 2 | 3.14 M | 39% | 0.72 | shock at 8.69 M, at 0.30 r_s |
-| Stiffening, M = 4 | about 3.1 M | 39% | 0.24 | step failure at 8.53 M |
-| Radiation, M = 2 | about 3.1 M | 39% | **7.7** | step failure at 8.71 M |
-| Radiation, M = 4 | 3.07 M | 39% | 0.25 | shock at 8.54 M, at 0.28 r_s |
+| Run | Horizon forms | Escaped | Peak fullness | Energy error | Stops at |
+|---|---|---|---|---|---|
+| Check, dust M = 2 | 1.13 M | 0 | 1.0000 | 9×10⁻¹⁶ | T = 7.589 (part 8: 7.53) |
+| Stiffening, M = 2 | 3.82 M | 2.5% | 0.62 | 9×10⁻¹⁶ | 10.22 M |
+| Stiffening, M = 4 | 3.76 M | 2.5% | 0.19 | 9×10⁻¹⁶ | 10.08 M |
+| Radiation, M = 2 | 3.82 M | 2.5% | 0.62 | 9×10⁻¹⁶ | 10.22 M |
+| Radiation, M = 4 | 3.76 M | 2.5% | 0.19 | 9×10⁻¹⁶ | 10.08 M |
 
-- **F1:** radiation pressure blows about 39% of the mass off before the horizon forms. The
-  fraction depends on the start.
-- **F2:** plain radiation overshoots the ceiling (7.7 times full at M = 2); the stiffening
-  holds it.
-- **F3:** at about 8.7 M, infalling outer layers form a **shock** near 0.3 r_s, before the
-  core reaches full. The step failures happen at the same moment, apparently that shock
-  caught inside a sub-step; that reading isn't confirmed. This solver only follows smooth
-  flow, so **the bounce, the lifetime and the burst need a shock-capturing method.** OPEN,
-  and now the top priority.
+- **F1:** energy is conserved to machine precision throughout every run.
+- **F2:** the horizon forms at about 3.8 M, and only about 2.5% of the mass escapes before
+  it does.
+- **F3:** the stiffening and plain radiation agree so far. The peak fullness is at most
+  0.62, where the stiffening hardly changes the pressure.
+- **F4:** every run stops at about 10 M, when a zone is drained to almost no mass. That's a
+  known odd–even instability of interface-averaged pressure work, not physics. The core is
+  still collapsing, so the bounce, the lifetime and the burst aren't reached yet.
+
+**OPEN, top priority:** a compatible energy discretisation, where each zone's energy is
+changed by its own pressure and the total stays exact.
 
 ## What is new, and what isn't
 
@@ -380,10 +395,11 @@ in spherical symmetry this can't affect the inside.
 
 ## Open problems (next work)
 
-1. **Shock capturing for the fluid collapse (top priority).** The equation of state is now
-   chosen (part 9: radiation stiffening to the speed of light at full). The fluid run
-   reaches a shock at about 8.7 M, before the core bounces. A shock-capturing scheme is
-   needed to follow it through. It decides:
+1. **Carry the fluid collapse through to the bounce (top priority).** The equation of state
+   is chosen (part 9: radiation stiffening to the speed of light at full), and the solver
+   now conserves energy exactly and has shock viscosity. It stops at about 10 M from a
+   zone-draining instability. A compatible energy discretisation should fix that, and the
+   full run decides:
    - whether the bounce re-emerges into our region or opens a new one;
    - the lifetime;
    - whether and when the TeV flash happens.
@@ -411,6 +427,6 @@ python src/fp_collapse_shock.py       # results/fullness_phase/collapse_shock.tx
 python src/fp_burst.py                # results/fullness_phase/burst.txt (about 30 s)
 python src/fp_local_fullness.py       # results/fullness_phase/local_fullness.txt (about 10 s)
 python src/fp_shell_crossing.py       # results/fullness_phase/shell_crossing.txt (about 2 s)
-python src/fp_fluid_collapse.py       # results/fullness_phase/fluid_collapse.txt (about 2 min)
+python src/fp_fluid_collapse.py       # results/fullness_phase/fluid_collapse.txt (about 10 s)
 python -m pytest tests/test_fullness_phase.py -q
 ```
