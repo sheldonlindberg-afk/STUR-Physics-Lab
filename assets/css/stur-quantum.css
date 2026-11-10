@@ -1,0 +1,13 @@
+/* "From the quantum level up" page. Builds on stur-roll-app.css and stur-resistance.css;
+   only the pieces those pages did not need live here. */
+
+/* Verdict cell in the two-diamond calculator */
+.readout b.ok { color: var(--accent); }
+.readout b.bad { color: var(--bad); }
+
+/* Long readout values (phases with units) stay on one line but may shrink */
+.readout b { overflow-wrap: anywhere; }
+@media (max-width: 620px) { .readout b { font-size: 16px; } }
+
+/* Hero equation: the long first row wraps cleanly on phones */
+.hero .eq .row span { min-width: 0; }

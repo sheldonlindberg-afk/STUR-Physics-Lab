@@ -2,9 +2,19 @@
 ==============================================================================
 D0  What is assumed
 ==============================================================================
-   Quantum mechanics: states, unitary evolution, the Born rule.
+   Quantum mechanics: states and unitary evolution, with tensor products.
+   Locality (no-signaling) and non-contextual probabilities (DB).
    Local quantum fields (N of them) with a short-distance spacing a.
-   NOT assumed: gravity, a metric, classical fields, collapse.
+   NOT assumed: the Born rule, gravity, a metric, classical fields, collapse.
+
+==============================================================================
+DB  The Born rule, derived (CHECK; full output in results/born/output.txt)
+==============================================================================
+   Envariance: |c0|^2 = 2/5 fine-grained into 5 equal branches (amplitudes 0.447214), so p0 = 0.400000 = |c0|^2
+   Additivity: only F(x) = x sums to 1 over every basis (x^1: 1.1e-15, x^2: 0.67)
+   No-signaling: Bob's P(+) shift from Alice's choice: x^1 2.2e-16, x^2 0.19
+   Frequencies: wrong-frequency weight at N = 10000: 2.0e-24
+   FOLLOWS: given A1-A3, probability = |amplitude|^2 is forced, not postulated.
 
 ==============================================================================
 D1  Vacuum entanglement obeys an area law (CHECK)
@@ -103,11 +113,11 @@ D7  Consequences, each computed from the equation
 ==============================================================================
 D8  What was put in, and what was not derived
 ==============================================================================
-   Put in: quantum mechanics with the Born rule; N local fields; the spacing a.
-   Computed: the area-law coefficient c_s, the Unruh/modular structure, the TEGR
+   Put in: unitary quantum mechanics; locality and non-contextuality; N local fields; the spacing a.
+   Computed: the Born rule (DB), the area-law coefficient c_s, the Unruh/modular structure, the TEGR
    identity, Schwarzschild and Newton, every number in D7.
    Taken from the literature, not recomputed: Jacobson's step D3.
-   Not derived: the value of G (only a^2/N is fixed by it), the Born rule, and the
-   number and kinds of fields (the Standard Model).
+   Not derived: the value of G (only a^2/N is fixed by it), and the number and kinds
+   of fields (the Standard Model).
    The one physical claim beyond textbook physics: D6 applies to gravity, i.e. gravity
    emerges COLLECTIVELY from the quantum level. Its test: (c) and (d).

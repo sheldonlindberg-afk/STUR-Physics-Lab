@@ -1,0 +1,62 @@
+
+==============================================================================
+B1  Envariance: from locality (A2) to equal, then |c|^2, probabilities (CHECK)
+==============================================================================
+   |psi> = (|0>|e0> + |1>|e1>)/sqrt2.  Swap on S changes the state by 1.414;
+   the counter-swap on E alone restores it to 0.0e+00. A phase on S, undone on E: 5.6e-17.
+   A2: acting on E cannot change S's probabilities. The swap on S exchanges p0 and p1,
+   yet E alone undoes it. So p0 = p1 = 1/2, and phases do not matter.
+   Unequal amplitudes, fine-grained by a unitary on E only:
+     m/M      |c0|^2    fine-grained amplitudes        swap residual   p0 (counting)
+     1/3   0.333333   all 0.577350-0.577350 (1/sqrt(M) = 0.577350)   0.0e+00        0.333333
+     2/5   0.400000   all 0.447214-0.447214 (1/sqrt(M) = 0.447214)   1.6e-16        0.400000
+     3/7   0.428571   all 0.377964-0.377964 (1/sqrt(M) = 0.377964)   7.9e-17        0.428571
+     5/8   0.625000   all 0.353553-0.353553 (1/sqrt(M) = 0.353553)   0.0e+00        0.625000
+   FOLLOWS: p0 = m/M = |c0|^2 for every rational value, and by continuity for all.
+   Any other rule disagrees with itself on the SAME state (coarse vs fine-grained):
+     p ~ |c|^1: coarse p0 = 0.4495, fine-grained p0 = 0.4000
+     p ~ |c|^4: coarse p0 = 0.3077, fine-grained p0 = 0.4000
+
+==============================================================================
+B2  Additivity (A3): probabilities of a complete set must add to 1 (CHECK, dim 3)
+==============================================================================
+   F(x) = x^0.5: largest |sum - 1| over 20,000 random states and bases = 7.32e-01
+   F(x) = x^0.9: largest |sum - 1| over 20,000 random states and bases = 1.16e-01
+   F(x) = x^1.0: largest |sum - 1| over 20,000 random states and bases = 1.78e-15
+   F(x) = x^1.1: largest |sum - 1| over 20,000 random states and bases = 1.04e-01
+   F(x) = x^2.0: largest |sum - 1| over 20,000 random states and bases = 6.67e-01
+   FOLLOWS: only F(x) = x is additive (for continuous F this is Cauchy's equation).
+   LIT: Gleason (1957): in dimension >= 3, EVERY non-contextual probability assignment
+   to measurement outcomes is p = Tr(rho P): the Born rule, mixed states included.
+
+==============================================================================
+B3  No-signaling (A2): any other rule is a faster-than-light telegraph (CHECK)
+==============================================================================
+   F(x) = x^0.5: largest change in Bob's P(+) when only Alice's setting changes = 1.00e-01
+   F(x) = x^0.9: largest change in Bob's P(+) when only Alice's setting changes = 2.60e-02
+   F(x) = x^1.0: largest change in Bob's P(+) when only Alice's setting changes = 3.33e-16
+   F(x) = x^1.1: largest change in Bob's P(+) when only Alice's setting changes = 2.76e-02
+   F(x) = x^2.0: largest change in Bob's P(+) when only Alice's setting changes = 2.34e-01
+   FOLLOWS: with |c|^2, Bob sees nothing of Alice's choice; with any other power he
+   does, instantly. This is the 'instant reaction, but no message' of MEASUREMENT.md T4:
+   the Born rule is exactly what makes the stretched-object picture safe.
+
+==============================================================================
+B4  Frequencies: the weight of the 'wrong-frequency' branches goes to zero (CHECK)
+==============================================================================
+   N =    10 repeats, |c0|^2 = 0.4: weight of branches with |f - 0.4| > 0.05 = 7.49e-01
+   N =   100 repeats, |c0|^2 = 0.4: weight of branches with |f - 0.4| > 0.05 = 3.11e-01
+   N =  1000 repeats, |c0|^2 = 0.4: weight of branches with |f - 0.4| > 0.05 = 1.24e-03
+   N = 10000 repeats, |c0|^2 = 0.4: weight of branches with |f - 0.4| > 0.05 = 2.01e-24
+   FOLLOWS: almost all of the state sits on branches where the observed frequency is
+   |c|^2. (This step reads small weight as negligible, so on its own it is not free of
+   the rule it derives; B1-B3 do not need that reading.)
+
+==============================================================================
+VERDICT
+==============================================================================
+   The Born rule is no longer an input. It follows from unitarity + locality (B1, B3)
+   or from unitarity + non-contextuality (B2, Gleason), and B4 shows the frequencies.
+   What remains assumed: A1-A3, and that outcomes are records (rho_ij of DERIVATION.md).
+   LIT caveat: envariance assumes that probabilities exist and depend only on the state;
+   that step is debated (Schlosshauer & Fine 2005). B2 and B3 do not rely on it.

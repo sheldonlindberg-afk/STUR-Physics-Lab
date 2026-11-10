@@ -30,7 +30,8 @@ In words:
 
 | Step | Result | How | Check |
 |---|---|---|---|
-| D0 | Start: quantum mechanics (with the Born rule) and N local quantum fields with spacing a | Assumed | — |
+| D0 | Start: unitary quantum mechanics, locality (no-signaling), non-contextual probabilities, and N local quantum fields with spacing a | Assumed | — |
+| DB | **The Born rule:** probability = \|amplitude\|² | Envariance (fine-graining gives p = m/M exactly); only F(x) = x is additive (10⁻¹⁵); any other power signals faster than light; wrong-frequency branches carry weight 2×10⁻²⁴ at N = 10⁴ ([BORN.md](BORN.md)) | CHECK |
 | D1 | The vacuum's entanglement across any surface obeys an area law: S = 0.3047 (R/a)² per field | Srednicki's method, R/a = 10.5–18.5, extrapolated | CHECK (LIT 0.30) |
 | D2 | The vacuum is thermal to every accelerated observer: K = 2π × boost energy, T = ħg/(2πck_B) | Lattice modular Hamiltonian: 0.99969, 0.99992, 0.99997 of 2π at L = 20, 40, 60 | CHECK |
 | D3 | Clausius (δQ = TδS) on every local horizon gives Einstein's equations, with 1/(4Għ) = entanglement per area | Jacobson 1995 | LIT, not recomputed |
@@ -64,14 +65,13 @@ In words:
 
 ## What was put in, and what was not derived (D8)
 
-- **Put in:** quantum mechanics with the Born rule; N local fields; the spacing a.
-- **Computed:** c_s, the Unruh/modular structure, the TEGR identity, Schwarzschild and
-  Newton, and every number in D7.
+- **Put in:** unitary quantum mechanics; locality and non-contextuality; N local fields; the spacing a.
+- **Computed:** the Born rule (DB), c_s, the Unruh/modular structure, the TEGR identity,
+  Schwarzschild and Newton, and every number in D7.
 - **From the literature:** Jacobson's step D3.
 - **Not derived:**
   - the value of G (the measured G fixes only a²/N: a = 0.31 ℓ_P for one field, 3.1 ℓ_P
     for a hundred);
-  - the Born rule;
   - the particle content (the Standard Model).
 - **The one physical claim beyond textbook physics:** D6 applies to gravity. That is,
   gravity emerges *collectively* from the quantum level, as phonons do in a crystal, and

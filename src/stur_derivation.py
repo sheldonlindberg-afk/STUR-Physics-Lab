@@ -5,6 +5,7 @@ The equation, derived from the quantum level up.
 Start: quantum mechanics and local quantum fields with a short-distance spacing a.
 Nothing else: no gravity, no classical fields, no curved spacetime, no collapse.
 
+  DB  The Born rule from unitarity + locality / non-contextuality.         CHECK (stur_born.py)
   D1  Vacuum entanglement across any surface obeys an area law.             CHECK
   D2  The vacuum's modular Hamiltonian is 2 pi x the local boost energy:
       every accelerated observer sees the Unruh temperature.                CHECK
@@ -30,6 +31,7 @@ import stur_tegr as T
 import stur_tegr_gr as F
 import stur_gravity_entanglement as ge
 import stur_emergent as K
+import stur_born as Bn
 
 G_SI, C, HBAR, KB = 6.67430e-11, 2.99792458e8, 1.054571817e-34, 1.380649e-23
 L_P = np.sqrt(HBAR * G_SI / C**3)
@@ -66,9 +68,21 @@ def G_from_entanglement(a, n_fields, c_s):
 
 def main():
     banner("D0  What is assumed")
-    print("   Quantum mechanics: states, unitary evolution, the Born rule.")
+    print("   Quantum mechanics: states and unitary evolution, with tensor products.")
+    print("   Locality (no-signaling) and non-contextual probabilities (DB).")
     print("   Local quantum fields (N of them) with a short-distance spacing a.")
-    print("   NOT assumed: gravity, a metric, classical fields, collapse.")
+    print("   NOT assumed: the Born rule, gravity, a metric, classical fields, collapse.")
+
+    banner("DB  The Born rule, derived (CHECK; full output in results/born/output.txt)")
+    nz, worst, p0, c2 = Bn.fine_grain(2, 5)
+    print(f"   Envariance: |c0|^2 = 2/5 fine-grained into 5 equal branches (amplitudes {nz.min():.6f}),"
+          f" so p0 = {p0:.6f} = |c0|^2")
+    print(f"   Additivity: only F(x) = x sums to 1 over every basis (x^1: {Bn.additivity_violation(1.0, trials=3000):.1e},"
+          f" x^2: {Bn.additivity_violation(2.0, trials=3000):.2f})")
+    print(f"   No-signaling: Bob's P(+) shift from Alice's choice: x^1 {Bn.signaling(1.0, 200):.1e},"
+          f" x^2 {Bn.signaling(2.0, 200):.2f}")
+    print(f"   Frequencies: wrong-frequency weight at N = 10000: {Bn.atypical_weight(10000, 0.4):.1e}")
+    print("   FOLLOWS: given A1-A3, probability = |amplitude|^2 is forced, not postulated.")
 
     banner("D1  Vacuum entanglement obeys an area law (CHECK)")
     c_s, pts = area_law_coefficient()
@@ -172,12 +186,12 @@ def main():
     print("       killing even ONE diamond's superposition in ~6 ms. (c) and (d) both test this.")
 
     banner("D8  What was put in, and what was not derived")
-    print("   Put in: quantum mechanics with the Born rule; N local fields; the spacing a.")
-    print("   Computed: the area-law coefficient c_s, the Unruh/modular structure, the TEGR")
+    print("   Put in: unitary quantum mechanics; locality and non-contextuality; N local fields; the spacing a.")
+    print("   Computed: the Born rule (DB), the area-law coefficient c_s, the Unruh/modular structure, the TEGR")
     print("   identity, Schwarzschild and Newton, every number in D7.")
     print("   Taken from the literature, not recomputed: Jacobson's step D3.")
-    print("   Not derived: the value of G (only a^2/N is fixed by it), the Born rule, and the")
-    print("   number and kinds of fields (the Standard Model).")
+    print("   Not derived: the value of G (only a^2/N is fixed by it), and the number and kinds")
+    print("   of fields (the Standard Model).")
     print("   The one physical claim beyond textbook physics: D6 applies to gravity, i.e. gravity")
     print("   emerges COLLECTIVELY from the quantum level. Its test: (c) and (d).")
 

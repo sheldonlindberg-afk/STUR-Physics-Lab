@@ -51,7 +51,9 @@ Sᵢ = S_matter[i] + S_EM[i] + (c⁴/16πG) ∫ eᵢ T[eᵢ] d⁴x,     G = π a
 
 Derived step by step from quantum fields, with gravity as TEGR torsion whose strength
 comes from vacuum entanglement. It gives the double slit (V = |⟨E₁|E₂⟩|), GR's classic
-tests, and a two-mass entanglement prediction. See [DERIVATION.md](DERIVATION.md),
+tests, and a two-mass entanglement prediction. The Born rule is derived too
+([BORN.md](BORN.md)). Web page: [quantum.html](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/quantum.html).
+See [DERIVATION.md](DERIVATION.md),
 then [MEASUREMENT.md](MEASUREMENT.md), [GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md),
 [TEGR.md](TEGR.md) and [EMERGENT.md](EMERGENT.md).
 
