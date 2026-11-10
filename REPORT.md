@@ -1,7 +1,7 @@
 # STUR and the search for a unifying equation: consolidated report
 
 *Status as of November 2026. Every number below is computed by a script in `src/` and
-pinned by `tests/` (90 tests, all passing). Detailed records are in the topic reports
+pinned by `tests/` (97 tests, all passing). Detailed records are in the topic reports
 linked from each section.*
 
 ## How the work was done
@@ -28,6 +28,11 @@ linked from each section.*
    and dark energy were not derived. Every mechanism tried either misses by 3–5%, only
    accommodates the data, or fails. There is a measurable trade-off: the structure that
    fixes the integers adds the free parameters that block the numbers.
+5. **Gravity: conditional, and not distinctive.** In the later measurement–gravity
+   work, gravity follows each branch (λ = 1) only if a statistical gravity is smeared at
+   the entanglement cutoff and is Markovian. λ = 1 is also perturbative quantum
+   gravity's prediction. The new result there is a shape-free one-particle bound on
+   Oppenheim's classical gravity, Γ·S_a ≥ (M²/4)I² (OPPENHEIM.md).
 
 ---
 
@@ -118,6 +123,8 @@ Q_d = −⅓**.
 3. **Two-loop Yukawa terms**, which were not included. They can't flip the one-loop
    margins of 4.6 and 6.1.
 
+**Standalone write-up:** [NOTE_331.md](NOTE_331.md).
+
 **Novelty:** N_g = N_c from 3-3-1 is KNOWN (Frampton; Pisano–Pleitez). Extending the
 chain to fix N_c itself, through N_c-dependent charges and Landau poles, is this
 project's step. Searches found no prior derivation, which is not proof there isn't one.
@@ -166,6 +173,12 @@ Errors caught by the checks and fixed, recorded for transparency:
 8. **Eichhorn–Held relation:** applied at M_Pl instead of at the transplanckian fixed
    point; withdrawn after reading the paper.
 9. **Smarr check:** circular (the user's correction).
+10. **Statistical-gravity heating:** the point-nucleus formula gave 10⁵⁶–10⁶⁰ W/kg at the
+    entanglement cutoff. Real nuclei are about 1 fm across, so the figure is 0.5 W/kg.
+    That is still 6×10¹⁰ times the Earth's heat flow (OPPENHEIM.md P4).
+11. **D6 overstated:** "gravity follows each branch" had been presented as derived
+    outright. It is derived only under R₀ = a and Markovian dynamics, and λ = 1 is also
+    perturbative quantum gravity's prediction (DERIVATION.md, COLLECTIVE.md).
 
 ## 8. Housekeeping
 
@@ -177,5 +190,5 @@ Errors caught by the checks and fixed, recorded for transparency:
   requirements; it's unproven until a fresh session starts on it.
 - **Reproduce:**
   1. `pip install -r requirements.txt pytest matplotlib`
-  2. `python -m pytest tests -q` (90 tests)
+  2. `python -m pytest tests -q` (97 tests)
   3. run any `src/*.py` to regenerate its file in `results/`.

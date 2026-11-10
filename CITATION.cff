@@ -7,10 +7,13 @@ abstract: >-
   including gravity's TEGR tetrad; interference is weighted by the record
   overlap and phases by the action difference. The Born rule is derived, G
   follows from vacuum entanglement, and general relativity's classic tests are
-  recovered. A statistical gravity at the entanglement cutoff would heat matter
-  at 1e60 W/kg, so gravity's field follows each branch: two diamonds held in
-  superposition become entangled with phase 2.19 rad. Every number is
-  reproduced by the scripts in src/.
+  recovered. A Markovian statistical gravity smeared at the entanglement cutoff
+  would heat matter 6e10 times faster than the Earth's heat flow, so under that
+  identification gravity's field follows each branch: two diamonds held in
+  superposition become entangled with phase 2.19 rad, as perturbative quantum
+  gravity also predicts. Oppenheim's classical gravity is bounded by a
+  shape-free one-particle inequality. Every number is reproduced by the
+  scripts in src/.
 authors:
   - family-names: Lindberg
     given-names: Sheldon

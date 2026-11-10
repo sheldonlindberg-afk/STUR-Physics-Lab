@@ -43,15 +43,15 @@ combined statement and the lattice tests are this project's.
 | A real EM charge "pulled into two places" | excluded: self-repulsion in flight, and a nearby surface erases the fringes | MEASUREMENT.md T5 |
 | Gravity's field: amplitude (λ = 1) vs one averaged field (λ = 0) | **open; measurable.** λ = 0 predicts zero entanglement. The best design at the published targets needs 565 runs; the binding gaps are mass in superposition (×4×10⁸) and vibration noise (×140 below LISA Pathfinder) | GRAVITY_ENTANGLEMENT.md |
 | Gravity is TEGR (torsion gauge field on flat spacetime) | GR falls out: Schwarzschild as the unique static solution, perihelion 42.98″, light bending 1.7512″, γ = 1, GPS +38.54 µs/day; the experiment's phases are TEGR's to 6×10⁻¹⁶ rad. Names STUR's A_μ on the gravity side (4 of 5 requirements) | TEGR.md |
-| Gravity as a consequence of the quantum level | G fixed by vacuum entanglement (cutoff 0.31 ℓ_P per field). Collective (phonon-like) emergence: field follows each branch, λ = 1 (lattice analog: 1/r law and entanglement exact). Statistical emergence would need at least Diósi–Penrose noise, which at the cutoff heats matter at 10⁶⁰ W/kg: so gravity is collective. One diamond kept for 3.24 s confirms it | EMERGENT.md, COLLECTIVE.md |
+| Gravity as a consequence of the quantum level | G fixed by vacuum entanglement (cutoff 0.31 ℓ_P per field). Collective (phonon-like) emergence: field follows each branch, λ = 1 (lattice analog: 1/r law and entanglement exact). Statistical emergence would need at least Diósi–Penrose noise, which at the cutoff heats matter at 0.5 W/kg (6×10¹⁰ × the Earth's heat flow): so gravity is collective, **if** the smearing is the cutoff and the dynamics Markovian. One diamond kept for 3.24 s tests the rest; Oppenheim's classical gravity is squeezed by the same diamond (Γ·S_a bound). λ = 1 is also perturbative quantum gravity's prediction | EMERGENT.md, COLLECTIVE.md, OPPENHEIM.md |
 | The equation from the quantum level up | ρᵢⱼ = ρᵢⱼ(0)⟨Eⱼ\|Eᵢ⟩e^{i(Sᵢ−Sⱼ)/ħ}, with gravity's TEGR action in Sᵢ and G from vacuum entanglement. Collective emergence of gravity (λ = 1) derived from D1–D3 (COLLECTIVE.md); predictions in PREDICTIONS.md | DERIVATION.md |
 
 ## The walls
 
 1. **Data wall.** Option A survives only in a corner at ξ ≈ Earth's radius:
    Γ ≈ 2×10⁻³ for 3 m × 4 s arms. Closing it needs the published LIGO
-   acceleration spectrum and geophysical bounds. This session's network blocks
-   `arxiv.org`, so the corner rests on an estimate. Even if it survived, its form
+   acceleration spectrum and geophysical bounds. `arxiv.org` is now reachable from the
+   project's environment, but the corner still rests on an estimate. Even if it survived, its form
    (Γ ∝ Δx²) is generic gravity-gradient noise, not STUR.
 2. **Compute wall.** The equal-weights test needs DMRG at large system size. It
    would only confirm Bisognano–Wichmann, which is already a theorem.

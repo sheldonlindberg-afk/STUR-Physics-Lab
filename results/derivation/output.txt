@@ -80,7 +80,9 @@ D6  A superposition: THE EQUATION
    gravity) keep a record of which branch happened. The phase = the difference
    in action, including the field's own action.
    The step 'each branch sources its own field' is what D0 implies for a field that
-   is made of the quantum level (collective emergence). Exact in the lattice analog:
+   is made of the quantum level (collective emergence). Against a statistical gravity it
+   is derived only on two conditions: the smearing is the cutoff a, and the dynamics are
+   Markovian (COLLECTIVE.md, OPPENHEIM.md). Exact in the lattice analog:
    [stur_emergent K2] entangling phase 0.6064 vs the emergent 1/r law 0.6046; record left in the medium 2.3e-06
 
 ==============================================================================
@@ -109,7 +111,8 @@ D7  Consequences, each computed from the equation
    (f) If gravity were only the AVERAGE of the quantum level (not D6): each branch
        would feel the mean field, S_i would factor, and (d) would give exactly zero
        entanglement. An average needs intrinsic collapse: Diosi-Penrose rate 170 /s,
-       killing even ONE diamond's superposition in ~6 ms. (c) and (d) both test this.
+       killing even ONE diamond's superposition in ~6 ms (any Markovian average smeared
+       over R0 < 0.1 um, Oppenheim's included). (c) and (d) both test this.
 
 ==============================================================================
 D8  What was put in, and what was not derived
@@ -120,5 +123,6 @@ D8  What was put in, and what was not derived
    Taken from the literature, not recomputed: Jacobson's step D3.
    Not derived: the value of G (only a^2/N is fixed by it), and the number and kinds
    of fields (the Standard Model).
-   The one physical claim beyond textbook physics: D6 applies to gravity, i.e. gravity
-   emerges COLLECTIVELY from the quantum level. Its test: (c) and (d).
+   D6 (gravity emerges COLLECTIVELY) is derived only under R0 = a and Markovian dynamics.
+   It is not distinctive: perturbative quantum gravity also predicts lambda = 1. (c) and (d)
+   would rule out classical gravity; only a null result there would be new physics.

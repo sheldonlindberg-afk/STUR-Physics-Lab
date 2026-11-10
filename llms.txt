@@ -10,14 +10,24 @@
 - Area law, Unruh/modular structure, Jacobson's Clausius step: G from entanglement.
 - TEGR: gravity as torsion; Schwarzschild unique; perihelion 42.98"/century, light
   bending 1.7512", gamma = 1, GPS +38.54 us/day.
-- Gravity's field follows each branch (COLLECTIVE.md): the least noise a statistical
-  gravity can carry is the Diosi-Penrose kernel; coarse-grained at the entanglement
-  cutoff it would heat matter at 1e56-1e60 W/kg.
+- Gravity's field follows each branch (COLLECTIVE.md), CONDITIONALLY: the least noise a
+  Markovian statistical gravity can carry is the Diosi-Penrose kernel; smeared at the
+  entanglement cutoff it would heat matter at ~0.5 W/kg (nucleus-size limited; the old
+  1e60 figure assumed point nuclei), 6e10 x the Earth's heat flow. Derived only under
+  R0 = a and Markovian dynamics. lambda = 1 is also perturbative quantum gravity's
+  prediction, so confirming it would not single this theory out.
+- Oppenheim's classical-quantum gravity (OPPENHEIM.md): its decoherence-diffusion
+  trade-off, minimised, is the Diosi-Penrose floor; one particle obeys the shape-free
+  bound Gamma * S_a >= (M^2/4) I^2.
 
 ## Predictions (PREDICTIONS.md)
 - Two diamonds entangle through gravity: delta phi = 2.19 rad, 565 runs (design A).
-- One 1.5e-14 kg diamond keeps full coherence for 3.24 s; any statistical gravity
-  leaves <= 1.3% (smearing <= 52 um, where Newton's law is tested).
+- One 1.5e-14 kg diamond keeps full coherence for 3.24 s; any Markovian statistical
+  gravity leaves <= 1.3% (smearing <= 52 um, where Newton's law is tested). If it stays
+  coherent, Oppenheim-type gravity must shake it with >= 1.3e-12 m s^-2/rtHz.
+- Both diamond tests need ~4e8 x today's largest superposed mass.
+- Standalone note (NOTE_331.md): in 3-3-1 models, perturbativity to the Planck scale
+  selects N_c = N_g = 3 and the 1/3 quark charges (conditional).
 - Visibility loss counts quanta: -ln V = 2 Var(dN) = 2<dN> coth(hbar w / 2 k_B T);
   one trapped ion, contrast 0.787 -> 0.111 from nbar = 0.1 to 5.
 
@@ -26,6 +36,8 @@
 - /DERIVATION.md, /PREDICTIONS.md, /COLLECTIVE.md
 - /src/stur_derivation.py — the whole chain
 - /src/stur_thermo_gravity.py — why gravity follows each branch
+- /src/stur_oppenheim.py — Oppenheim's trade-off and the one-particle bound
+- /NOTE_331.md — 3 colours = 3 generations from 3-3-1 running
 - /REPORT.md — development record
 
 ## Archived

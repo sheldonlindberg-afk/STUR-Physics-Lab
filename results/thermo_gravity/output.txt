@@ -21,13 +21,19 @@ Q2  The framework's only length: the entanglement cutoff a
 ==============================================================================
 Q3  The heating that noise would cause, per kilogram of any matter
 ==============================================================================
-   R0 = a (N = 1)      : 7.8e+60 W/kg
-   R0 = a (N = 1000)   : 2.5e+56 W/kg
-   R0 = 0.54 Angstrom  : 6.3e-15 W/kg   (the bound from radiation, LIT)
+   R0                  point nuclei        carbon nuclei of finite size (2.75 fm)
+   R0 = a (N = 1)      7.8e+60 W/kg       5.09e-01 W/kg
+   R0 = a (N = 1000)   2.5e+56 W/kg       5.09e-01 W/kg
+   R0 = 0.54 Angstrom  6.3e-15 W/kg       6.30e-15 W/kg
+   The point-nucleus figure (1e56-1e60 W/kg at R0 = a) ignores the nucleus's size. With
+   it, smearing at R0 = a gives 0.51 W/kg. At 0.54 Angstrom (the bound from radiation,
+   LIT) the two formulas agree.
    Required R0 / a (N = 1000): 3.4e+23
-   For scale: the Sun produces 1.9e-04 W/kg.
-   So gravity cannot be a statistical field coarse-grained at the framework's own
-   cutoff. Its field follows each branch: lambda = 1, and D6 follows from D1-D3.
+   For scale: the Earth's internal heat flow is 7.9e-12 W/kg (LIT recalled), so the
+   cutoff-smeared noise would heat matter 6e+10 times faster than anything observed.
+   So gravity cannot be a Markovian statistical field coarse-grained at the framework's own
+   cutoff. On those two conditions (R0 = a, Markovian) its field follows each branch:
+   lambda = 1, and D6 follows from D1-D3. With R0 put in by hand, Q4 applies.
 
 ==============================================================================
 Q4  Any statistical gravity with R0 put in by hand: the one-diamond prediction

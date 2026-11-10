@@ -83,8 +83,12 @@ experiment tests them.
 **K3′. Which one the theory picks.** Diósi–Penrose is not just one model of a
 statistical gravity: it is the least noise any Markovian statistical gravity can have
 (Tilloy & Diósi 2016; recomputed in [COLLECTIVE.md](COLLECTIVE.md)). Coarse-grained at
-the cutoff a of K1, that noise would heat every kilogram of matter by 10⁵⁶–10⁶⁰ W. So
-the theory's gravity is K2, the collective kind.
+the cutoff a of K1, that noise would heat every kilogram of matter by about 0.5 W,
+limited by the size of the nuclei. That is 6×10¹⁰ times the Earth's heat flow. (The
+earlier 10⁵⁶–10⁶⁰ W treated nuclei as points.) So the theory's gravity is K2, the
+collective kind, provided the smearing is a and the dynamics are Markovian. Neither is a
+theorem, and K2 is also perturbative quantum gravity's prediction
+([OPPENHEIM.md](OPPENHEIM.md)).
 
 ## K4. What the experiment measures
 

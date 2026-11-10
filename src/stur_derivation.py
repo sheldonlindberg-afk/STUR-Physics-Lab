@@ -14,7 +14,8 @@ Nothing else: no gravity, no classical fields, no curved spacetime, no collapse.
   D4  Those equations in Lagrangian form are TEGR (torsion on flat space).  CHECK
   D5  Their static solution: Schwarzschild; their weak limit: Newton.       CHECK
   D6  A superposition: each branch of the matter sources its own field
-      (collective emergence). This gives THE EQUATION.                     FOLLOWS (+ K2 analog)
+      (collective emergence). This gives THE EQUATION.     FOLLOWS under R0 = a and
+                                                           Markovian dynamics (+ K2 analog)
   D7  Consequences, computed from the equation: double slit, measurement,
       the electron's field, one diamond, two diamonds, the classical tests,
       and what changes if gravity is only an average.                      CHECK
@@ -142,7 +143,9 @@ def main():
     print("   gravity) keep a record of which branch happened. The phase = the difference")
     print("   in action, including the field's own action.")
     print("   The step 'each branch sources its own field' is what D0 implies for a field that")
-    print("   is made of the quantum level (collective emergence). Exact in the lattice analog:")
+    print("   is made of the quantum level (collective emergence). Against a statistical gravity it")
+    print("   is derived only on two conditions: the smearing is the cutoff a, and the dynamics are")
+    print("   Markovian (COLLECTIVE.md, OPPENHEIM.md). Exact in the lattice analog:")
     r = K.medium_evolution()
     print(f"   [stur_emergent K2] entangling phase {r['dphi']:.4f} vs the emergent 1/r law"
           f" {r['static']:.4f}; record left in the medium {1-r['record']:.1e}")
@@ -184,7 +187,8 @@ def main():
     print("       would feel the mean field, S_i would factor, and (d) would give exactly zero")
     print(f"       entanglement. An average needs intrinsic collapse: Diosi-Penrose rate"
           f" {K.dp_rate(m, ge.radius(m), 721e-6):.0f} /s,")
-    print("       killing even ONE diamond's superposition in ~6 ms. (c) and (d) both test this.")
+    print("       killing even ONE diamond's superposition in ~6 ms (any Markovian average smeared")
+    print("       over R0 < 0.1 um, Oppenheim's included). (c) and (d) both test this.")
 
     banner("D8  What was put in, and what was not derived")
     print("   Put in: unitary quantum mechanics; locality and non-contextuality; N local fields; the spacing a.")
@@ -193,8 +197,9 @@ def main():
     print("   Taken from the literature, not recomputed: Jacobson's step D3.")
     print("   Not derived: the value of G (only a^2/N is fixed by it), and the number and kinds")
     print("   of fields (the Standard Model).")
-    print("   The one physical claim beyond textbook physics: D6 applies to gravity, i.e. gravity")
-    print("   emerges COLLECTIVELY from the quantum level. Its test: (c) and (d).")
+    print("   D6 (gravity emerges COLLECTIVELY) is derived only under R0 = a and Markovian dynamics.")
+    print("   It is not distinctive: perturbative quantum gravity also predicts lambda = 1. (c) and (d)")
+    print("   would rule out classical gravity; only a null result there would be new physics.")
 
 
 if __name__ == "__main__":

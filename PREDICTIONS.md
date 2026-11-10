@@ -32,8 +32,18 @@ experiment to run, since it needs one diamond, not two. Source:
 `src/stur_thermo_gravity.py`.
 
 **3. Gravity heats nothing.** Ordinary matter receives no heating from gravitational
-noise. A statistical gravity at the theory's own cutoff would deliver 10⁵⁶–10⁶⁰ W/kg.
-Source: `src/stur_thermo_gravity.py`.
+noise. A Markovian statistical gravity smeared at the theory's own cutoff would deliver
+0.5 W/kg, limited by the size of the nuclei. That is 6×10¹⁰ times the Earth's heat flow.
+(An earlier version said 10⁵⁶–10⁶⁰ W/kg, a point-nucleus artefact.) Source:
+`src/stur_thermo_gravity.py`, `src/stur_oppenheim.py`.
+
+**3′. Classical (Oppenheim) gravity is squeezed by one particle.** The trade-off between
+decoherence and diffusion bounds one particle's decoherence rate Γ times its acceleration
+noise S_a: Γ·S_a ≥ (M²/4)I², for every allowed pair of kernels. Suppose a design-A
+diamond keeps its coherence within the experiment's 0.12 /s budget. Then a classical
+gravity must shake it with at least 1.3×10⁻¹² m s⁻²/√Hz, which is 10⁵ times the noise
+the experiment already requires. This holds for every source smearing up to 157 µm.
+Source: `src/stur_oppenheim.py`, [OPPENHEIM.md](OPPENHEIM.md).
 
 **4. Gravity keeps no record of a single mass.** Splitting a design-A diamond emits
 1.4×10⁻⁵⁹ gravitons, so gravity never reveals which branch happened. Source:
@@ -78,6 +88,25 @@ side of an entangled pair signal to the other. Source: `src/stur_born.py`,
 **9. A confining string's entanglement entropy stops growing while its modular energy
 grows with its length.** This can be measured in Rydberg-atom and trapped-ion
 simulators. Source: `src/stur_confinement.py`, `src/stur_z2_higgs.py`.
+
+## What a result would and would not show
+
+- **None of predictions 1–8 distinguishes this theory from standard physics.**
+  - Predictions 1–4 (λ = 1) are also what perturbative quantum gravity predicts. A
+    positive result rules out classical gravity (Diósi–Penrose, Tilloy–Diósi,
+    Oppenheim's continuous models). It doesn't confirm this framework over standard
+    physics. Only a null result would be new physics.
+  - Predictions 5–8 are general relativity and standard quantum mechanics.
+- **Prediction 7 is cheap and decisive against the original STUR postulate.** That
+  postulate predicts the opposite temperature dependence. Prediction 7 can't come out
+  in STUR's favour.
+- **The diamond experiments are far beyond current reach.** They need a mass in
+  superposition 4×10⁸ times the current record, and vibration noise about 140 times
+  below LISA Pathfinder ([GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md)).
+- **This project's own results, as distinct from synthesis of known physics:**
+  - the shape-free bound 3′;
+  - the exact identity −ln V = 2 Var(ΔN) behind 7;
+  - the conditional particle-physics result N_c = N_g = 3 ([NOTE_331.md](NOTE_331.md)).
 
 ## What sets the numbers
 

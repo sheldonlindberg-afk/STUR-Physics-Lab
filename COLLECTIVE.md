@@ -54,33 +54,39 @@ the vacuum's entanglement stops being counted. The measured G sets it:
 | 100 | 3.11 ℓ_P |
 | 1000 | 9.85 ℓ_P |
 
-The theory contains no other length. A statistical gravity built from it therefore has
-R₀ = a.
+The theory contains no other length, so a statistical gravity built from it has
+R₀ = a. **This is an identification, not a theorem.** A statistical gravity can
+put in a larger R₀ by hand. Section 4 treats that case.
 
 ## 3. That noise would heat every piece of matter
 
-The same kernel kicks every nucleus. Summed over the nuclei in a kilogram of any
-material, the heating is independent of composition:
+The same kernel kicks every nucleus. For point nuclei, summed over a kilogram of any
+material, the heating is P/mass = ħG/(4√π R₀³). That formula holds only for R₀ ≫ 1 fm.
+Real nuclei are about 10⁻¹⁵ m across, so below that size the nucleus's own size sets
+the smearing ([OPPENHEIM.md](OPPENHEIM.md) P4):
 
-```
-P / mass = ħG / (4√π R₀³)
-```
+| R₀ | Point nuclei | Real (finite) carbon nuclei |
+|---|---|---|
+| a, one field | 7.8×10⁶⁰ W/kg | **0.51 W/kg** |
+| a, 1000 fields | 2.5×10⁵⁶ W/kg | 0.51 W/kg |
+| 0.54 Å | 6.3×10⁻¹⁵ W/kg | 6.3×10⁻¹⁵ W/kg |
 
-| R₀ | Heating |
-|---|---|
-| a, one field | **7.8×10⁶⁰ W/kg** |
-| a, 1000 fields | 2.5×10⁵⁶ W/kg |
-| 0.54 Å | 6.3×10⁻¹⁵ W/kg |
-
-For scale, the Sun produces 1.9×10⁻⁴ W/kg. With R₀ = a, ordinary matter could not exist.
+An earlier version of this page quoted the point-nucleus column. The finite-nucleus figure
+is the right one, and it is still decisive. The Earth's internal heat flow is
+7.9×10⁻¹² W/kg (LIT, recalled), so with R₀ = a matter would be heated 6×10¹⁰ times
+faster than anything observed.
 Searches for the X-rays such heating would produce require R₀ ≥ 0.54 Å (Donadi et al.
 2021), which is 3.4×10²³ cutoff lengths.
 
-**So gravity is not an equation of state in the statistical sense.** Its field follows
-each branch of the matter that sources it (λ = 1). This is step D6 of the derivation,
-and it now follows from D1–D3 instead of being added to them. Jacobson's equation of
-state still holds, but for the collective field, as the equations of hydrodynamics
-hold for sound.
+**So gravity is not a statistical equation of state smeared at the theory's own
+cutoff.** On that identification, and for Markovian dynamics, its field follows each
+branch of the matter that sources it (λ = 1). This is step D6 of the derivation. It
+follows from D1–D3 on those two conditions, not unconditionally. Jacobson's equation of
+state still holds, but for the collective field, as the equations of hydrodynamics hold
+for sound.
+
+λ = 1 is also what perturbative quantum gravity predicts. The experiments below rule
+classical gravity in or out; they don't single out this theory.
 
 ## 4. What one diamond will show
 
@@ -112,8 +118,12 @@ For R₀ ≫ R the numerical rates agree with the closed form for Gaussian-smear
 ## Scope
 
 The argument covers classical fields coupled to quantum matter by Markovian (memoryless)
-dynamics. This is the class in which consistent models of classical gravity have been
-built, Diósi–Penrose and Tilloy–Diósi among them. The decoherence convention follows
+dynamics. That class includes Diósi–Penrose and Tilloy–Diósi, and Oppenheim's
+continuous classical–quantum gravity. Its decoherence–diffusion trade-off, minimized,
+gives the same Diósi–Penrose floor ([OPPENHEIM.md](OPPENHEIM.md) P2). Not covered:
+- non-Markovian classical gravity;
+- Oppenheim's discrete (jump) models with noise only where the mass is;
+- kernels tied to the Earth's background potential. The decoherence convention follows
 the rest of this repository: the rate for a split much larger than the body is
 (6/5)Gm²/ħR, and other conventions differ by a factor of 2, which leaves every
 conclusion above unchanged.
