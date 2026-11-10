@@ -2,8 +2,12 @@
 
 Reproduce: `python3 src/stur_gravity_entanglement.py` (under 1 s). The full output is
 in `results/gravity_entanglement/output.txt`, and `tests/test_gravity_entanglement.py`
-pins the numbers. Labels: KNOWN, FOLLOWS, LIT, PROPOSAL. Only Newtonian gravity
-(G m²/r) and ordinary electromagnetism are used. Nothing exotic.
+pins the numbers. Labels: KNOWN, FOLLOWS, LIT, PROPOSAL.
+
+Gravity here is **TEGR's torsion field** ([TEGR.md](TEGR.md)). At these masses and
+distances its phases are exactly the weak-field G m²/r used below. They are recomputed
+from the TEGR field energy in `src/stur_tegr_gr.py` (agreement 6×10⁻¹⁶ rad; the next
+order is 10⁻²⁴). Only TEGR and ordinary electromagnetism are used. Nothing exotic.
 
 This continues [MEASUREMENT.md](MEASUREMENT.md) §T5. For the electron, the charge
 and its field are in two places as an *amplitude*, not as e/2 + e/2. This report

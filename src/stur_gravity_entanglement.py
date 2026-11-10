@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """
 Gravity-induced entanglement (Bose et al., PRL 119, 240401 (2017); Marletto & Vedral,
-PRL 119, 240402 (2017)), modelled with ordinary Newtonian gravity only.
+PRL 119, 240402 (2017)). Gravity is TEGR's torsion field; at these scales its phases are
+the weak-field ones below, recomputed from the TEGR field energy in stur_tegr_gr.py
+(F3-F4, agreement 6e-16 rad; next order 1e-24).
 
 Two masses m, each put into a two-path superposition of size dx, held for a time tau.
 Only gravity acts between them. The question is the gravitational version of T5 in

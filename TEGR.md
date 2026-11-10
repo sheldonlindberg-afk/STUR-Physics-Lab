@@ -1,7 +1,13 @@
-# Gravity in TEGR: the same predictions, a gauge-field reading, and STUR's connection
+# Gravity is TEGR: GR falls out of it, and so do the experiment's inputs
 
-Reproduce: `python3 src/stur_tegr.py` (about 30 s, sympy). The full output is in
-`results/tegr/output.txt`, and `tests/test_tegr.py` pins the results. Labels: KNOWN,
+In this project, gravity is TEGR. GR is not an input: its field equations, its
+Schwarzschild solution and its classic tests are derived from TEGR below.
+
+Reproduce:
+- `python3 src/stur_tegr.py` (about 30 s, sympy). Output in `results/tegr/output.txt`;
+  pinned by `tests/test_tegr.py`.
+- `python3 src/stur_tegr_gr.py` (about 3 s). Output in `results/tegr/gr_output.txt`;
+  pinned by `tests/test_tegr_gr.py`. Labels: KNOWN,
 FOLLOWS, CHECK (computed here), LIT.
 
 ## What TEGR is (KNOWN)
@@ -108,19 +114,60 @@ For the electron, the decoherence in T5 needed a nearby *surface*. Gravity has n
 conductors, because there is no negative mass, so it has no analogue of that surface
 and can't be screened.
 
-## What TEGR changes
+## GR from TEGR (`src/stur_tegr_gr.py`)
 
-- **Predictions: nothing.** T = −R + B, so λ = 1 versus λ = 0, the phases, the noise
-  budget and the experimental design are all as in GRAVITY_ENTANGLEMENT.md.
-- **The reading changes.** Gravity becomes a gauge force field on flat spacetime with
-  the same structure as electromagnetism. The split-versus-amplitude question
-  becomes the *same* question for both fields:
+**F1. The black-hole solution, from TEGR's equations (CHECK).** For a static spherical
+tetrad e⁰ = e^A dt, e¹ = e^B dr, e² = r dθ, e³ = r sinθ dφ, the reduced TEGR Lagrangian is
+
+```
+e T / sinθ = 2 e^(A−B) [ 2r A′(e^B − 1) − (e^B − 1)² ]
+δ/δB :  2r A′ = e^(2B) − 1          (a constraint: B has no derivative)
+δ/δA :  2r B′ = 1 − e^(2B)
+⇒  e^(−2B) = 1 + C₁/r,   A = −B
+```
+
+The Newtonian limit (E2) fixes C₁ = −2GM/c². That gives e^(2A) = 1 − r_s/r and
+e^(2B) = 1/(1 − r_s/r), which is the Schwarzschild metric g = eᵀηe. It is the only
+static spherical solution, so Birkhoff's theorem falls out of TEGR's own equations.
+
+**F2. The classic tests, from the F1 tetrad only.** These are numerical geodesic
+integrals, not textbook formulas, and use no curvature anywhere.
+
+| Test | TEGR | Observed (LIT) |
+|---|---|---|
+| Mercury's perihelion | **42.98″/century** | 42.98″ (GR part of the observed 43.1 ± 0.5) |
+| Light bending at the solar limb | **1.7512″** | VLBI: γ = 0.99983 ± 0.00045 |
+| PPN γ (Shapiro delay) | **exactly 1** | Cassini: γ − 1 = (2.1 ± 2.3)×10⁻⁵ |
+| GPS clock, satellite vs ground | **+38.54 µs/day** (gravity alone +45.65) | design offset 38.6 |
+
+Newton accounts for half of the light bending, through the e^(2A) part. The other half
+is e^(2B), the Ψ = Φ result of E2, and Newton has no place for it.
+
+**F3. The diamonds' interaction from TEGR's field energy.** I integrated the torsion
+field energy (1/8πG)∫(∇Φ)² numerically over all space for two *finite* uniform
+diamonds, not point masses. The field term is +Gm²/d to within 2×10⁻¹⁵ at 181 µm, and
+to within 2×10⁻¹³ at d = 3R. So the total is −Gm²/d, and the shell theorem comes out
+of the field itself.
+
+**F4. The experiment's phases are TEGR's.** The four branch-pair phases recomputed
+from F3 agree with those in [GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md) to
+6×10⁻¹⁶ rad. The next TEGR order is Gm/(c²d) = 4×10⁻³⁸, and (v/c)² for the split is
+2×10⁻²⁴. So the whole experimental design and noise budget stand, now as TEGR
+results.
+
+## What this means
+
+- **TEGR is the base.** GR, Newton and the experiment's inputs are all derived from it
+  (E1, E2, F1–F4). Nothing curved is used anywhere.
+- **Gravity is a gauge force field on flat spacetime,** with the same structure as
+  electromagnetism. The split-versus-amplitude question is therefore the *same*
+  question for both fields:
   - EM already behaves as λ = 1.
   - TEGR's linear theory is an abelian gauge theory like EM, which makes λ = 1 the
-    structural expectation for gravity. That is an expectation, not a proof; the
-    experiment still decides.
-- **The field's own action** is part of the entangling phase (E4).
+    structural expectation. That is an expectation, not a proof; the experiment decides.
+- **The torsion field's own action** is part of the entangling phase (E4). So the
+  experiment tests whether the *torsion field* is in two places.
 - **STUR's A_μ has a name** on the gravity side (E5).
 
-Not used: f(T) and other modified teleparallel theories. They do change predictions,
+Not used: f(T) and other modified teleparallel theories. They change predictions,
 but they add new structure.
