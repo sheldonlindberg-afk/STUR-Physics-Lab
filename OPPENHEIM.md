@@ -229,8 +229,15 @@ Non-Markovian classical gravity is still not covered.
   - P5's choice of test functions and its split = R optimum. The kernel-free inequality
     itself is theirs.
 
-  A targeted search (NOVELTY.md) found no prior statement of P3 or of the heating floor.
-  That isn't proof of novelty.
+  **The INSPIRE search (NOVELTY.md §3) found the systematic version of this program.**
+  - Fabiano, Fujita, Matsumura & Carney 2026 classify all non-entangling Newtonian models
+    and derive the minimal noise each must inject.
+  - Angeli et al. 2025 bound the noise any classical gravity induces.
+  - Janse et al. 2024 compile the experimental force-noise bounds.
+  - Piccione 2026 studies how smearing sets the heating.
+
+  P2–P5 and the heating floor are worked examples within that literature, not new
+  results.
 - **What a positive result would not show.** A coherent, quiet diamond rules out CQ
   gravity, but it confirms λ = 1, and λ = 1 is also ordinary perturbative quantum
   gravity's prediction. It doesn't single out this theory.

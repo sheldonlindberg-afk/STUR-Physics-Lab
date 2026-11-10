@@ -114,7 +114,8 @@ simulators. Source: `src/stur_confinement.py`, `src/stur_z2_higgs.py`.
   superposition 4×10⁸ times the current record, and vibration noise about 57 times
   below LISA Pathfinder ([GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md)).
 - **This project's own results, as distinct from synthesis of known physics:**
-  - the shape-free bound 3′;
+  - (the bounds 3′ and 3″ are worked examples within a systematic literature: Fabiano et
+    al. 2026, Angeli et al. 2025; NOVELTY.md);
   - the exact identity −ln V = 2 Var(ΔN) behind 7;
   - the conditional particle-physics result N_c = N_g = 3 ([NOTE_331.md](NOTE_331.md)).
 

@@ -9,8 +9,8 @@ written up as a paper.
 - web search;
 - arXiv's own full-text search (arxiv.org/search), and reading the full papers from
   arXiv;
-- INSPIRE-HEP, the main particle-physics database, could not be queried: its host is
-  blocked in this environment.
+- INSPIRE-HEP, the main particle-physics database: blocked at first, then allowed in
+  the environment and queried through its API (section 3).
 
 ## 1. N_c = N_g = 3 from Planck-scale perturbativity in 3-3-1 (NOTE_331.md)
 
@@ -35,7 +35,7 @@ written up as a paper.
 **Not found:** any use of gauge-coupling running, Landau poles or Planck-scale
 perturbativity to fix N_c, in 3-3-1 or in the Standard Model with general N_c.
 
-**Assessment:** the step looks new, but narrowly. The family–colour link and
+**Assessment (before INSPIRE; section 3 has the update):** the step looks new, but narrowly. The family–colour link and
 general-N_c charges are well known, and N_c = 3 has been reached before by inputting
 three neutrino species. What this work adds is removing that input and selecting N_c by
 running instead. **The open check** is an INSPIRE search and an expert's reading, which
@@ -69,11 +69,56 @@ Full texts were read for 2203.01982, 2307.02557, 2402.17844, 2603.29230 and 2605
 
 None of these should be presented as a principal result.
 
+## 3. INSPIRE-HEP search (after the host was allowed)
+
+**3-3-1 and the number of colours:**
+- **Every paper citing the founding papers.** All 992 papers citing Frampton 1992
+  (recid 335407) or Pisano–Pleitez 1992 (recid 31937) were filtered:
+  - by title for colour/colours: 3 hits;
+  - by abstract for "number of colors/colours" or "color number": 4 hits;
+  - by "Landau pole": 9 hits.
+- **Every paper citing Frampton 1994:** 9 hits.
+- **Every paper citing Doff & Pisano 2000:** 4 hits.
+- **Abstract searches across all of INSPIRE** for "number of colors" with "Landau pole",
+  "number of generations" or "perturbativity": 1, 0 and 0 hits, none relevant.
+- **Full-text searches** for "number of colors/colours" + "Landau pole" + 3-3-1: 139 and
+  65 hits, all QCD reviews and lectures matching generic terms. "Arbitrary number of
+  colors" + "Landau pole": 11 hits, none relevant.
+
+**The closest prior work found by INSPIRE:**
+
+| Work | Content | Relation |
+|---|---|---|
+| Doff & Pisano 2000, *On the color simple group from chiral electroweak gauge groups*, [hep-ph/0011087](https://arxiv.org/abs/hep-ph/0011087) | Keeps n_c general in SU(n_c) × SU(m)_L × U(1)_N and derives N_generations = k·n_c, k = 1, 2, 3, … (their eq. 17), with an even-n_c branch | **Closest of all.** They don't impose asymptotic freedom to force k = 1, and they don't use running or Landau poles to choose n_c, so "why 3" stays open. Their even branch (N_g = 2n_c) matches our proof, which then excludes it by asymptotic freedom. |
+| Diaz, Martinez, Ochoa 2005, [hep-ph/0411263](https://arxiv.org/abs/hep-ph/0411263) | Arbitrary β and generation numbers | N_c = 3 |
+| Dias, Martinez, Pleitez 2005, [hep-ph/0407141](https://arxiv.org/abs/hep-ph/0407141); Martinez & Ochoa 2007 | Landau poles across 3-3-1 variants | N_c = 3 only |
+| Melle 2026 (thesis), [2610.26893](https://arxiv.org/abs/2610.26893) | Anomalies plus QCD asymptotic freedom fix three generations; the TeV Landau pole | Three colours as input |
+
+**Verdict on 3-3-1.**
+- Varying N_c in 3-3-1 is known (Doff–Pisano 2000), and so is the family–colour link.
+- Using asymptotic freedom to set k = 1 at general N_c, and then **running to the Planck
+  scale to select N_c = 3 among {3, 5, 7, …}**, was not found anywhere. It remains the
+  candidate new step, now with a precise predecessor to cite.
+
+**Classical–quantum gravity:** all 103 papers citing Oppenheim et al. 2022 were filtered
+for "Cauchy–Schwarz" (6), "acceleration noise" (5) and "levitated" + "trade-off" (4).
+
+| Work | Content | Relation |
+|---|---|---|
+| Fabiano, Fujita, Matsumura, Carney 2026, *Minimal noise in non-quantized gravity*, [2603.26075](https://arxiv.org/abs/2603.26075) | Classifies **all** non-entangling Newtonian models (Galilean invariant, Newtonian on average). Each must inject a quantifiable minimal noise; tested on Oppenheim's models | **Supersedes P2–P5 as a program** |
+| Angeli, Donadi, Di Bartolomeo, Gaona-Reyes 2025, [2501.13030](https://arxiv.org/abs/2501.13030) | A lower bound on the noise any classical gravity must induce; a torsion-pendulum protocol | Covers the heating and diffusion floor (P4) |
+| Janse et al. 2024, [2403.08912](https://arxiv.org/abs/2403.08912) | Experimental force-noise bounds on spacetime diffusion | The acceleration side of P3 |
+| Piccione 2026, [2602.19377](https://arxiv.org/abs/2602.19377) | Heating diverges without smearing; smearing profiles studied | Close to our finite-nucleus point |
+| Kryhin & Sudhir 2023, [2309.09105](https://arxiv.org/abs/2309.09105) | Irreducible fluctuations of classical gravity, tested by cross-correlations of source masses | Complementary |
+
+**Verdict on gravity:** P2–P5 and the heating floor are worked examples within an active,
+systematic literature. None should be claimed as new.
+
 ## What this changes
 
 - **The 3-3-1 selection remains the candidate result.** The note now cites the retrieved
   prior work and states precisely what is added: the generation count is not taken from
   experiment.
-- **The gravity side has no principal new result.** Its value is the corrected design
-  numbers, and P3 as a sharpening.
-- **Next:** an INSPIRE search and one expert reader for NOTE_331, before any submission.
+- **The gravity side has no new result** (section 3). Its value is internal: the corrected
+  design numbers, the derived gas rate, and worked examples.
+- **Next:** one expert reader for NOTE_331 before any submission.

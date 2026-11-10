@@ -59,11 +59,13 @@ Source: `src/god_eq_331_yukawa.py`, [NOTE_331.md](NOTE_331.md), front 7d of
    Oppenheim product bound (up to 100 µm) cover what the identification doesn't.
    Non-Markovian classical gravity is covered by neither.
 2. **λ = 1 isn't distinctive.** It is perturbative quantum gravity's prediction too. No
-   current prediction distinguishes this framework from standard physics. Its own
-   results are:
-   - the Oppenheim product bound;
+   current prediction distinguishes this framework from standard physics. Its candidate
+   new results are:
    - the identity −ln V = 2 Var(ΔN);
-   - the 3-3-1 selection.
+   - the 3-3-1 selection, the principal one.
+
+   The Oppenheim-type bounds are worked examples within an existing systematic
+   literature (NOVELTY.md).
 3. **G isn't predicted.** c_s = 0.3046 depends on the regulator, only a²/N is fixed, and
    gauge fields are unsettled (K4).
 4. **The Born rule's envariance route** assumes probabilities exist and depend only on the

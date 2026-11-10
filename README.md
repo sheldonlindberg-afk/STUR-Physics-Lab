@@ -72,7 +72,7 @@ depends on the lattice regularization, so the G formula doesn't predict G.
 - **The diamond experiments are far off.** They need 4×10⁸ times today's largest mass in
   superposition, and vibration noise about 57 times below LISA Pathfinder.
 - **This project's own results:**
-  - a mode-by-mode sharpening of Oppenheim et al.'s classical-gravity trade-off (P3, [OPPENHEIM.md](OPPENHEIM.md); incremental, see [NOVELTY.md](NOVELTY.md));
+  - none on the classical-gravity side: the bounds in [OPPENHEIM.md](OPPENHEIM.md) are worked examples within a systematic literature (Fabiano et al. 2026; Angeli et al. 2025; see [NOVELTY.md](NOVELTY.md));
   - the identity −ln V = 2 Var(ΔN);
   - a conditional particle-physics result: in 3-3-1 models, perturbativity to the
     Planck scale selects 3 colours = 3 generations ([NOTE_331.md](NOTE_331.md)). It is

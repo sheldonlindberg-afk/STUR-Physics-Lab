@@ -337,21 +337,26 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
     anomaly cancels only if N_c = N_l = 3");
   - quark and lepton representations and charge quantization for an arbitrary number of
     colours (Geng 2001, hep-ph/0101329);
+  - **the closest predecessor:** Doff & Pisano 2000, hep-ph/0011087. They keep n_c
+    general and find N_generations = k·n_c for any k ≥ 1 (their eq. 17). They don't
+    impose asymptotic freedom to force k = 1, and they don't use running to choose n_c;
+  - generation counting for arbitrary β (Diaz, Martinez, Ochoa 2005, hep-ph/0411263);
   - N_c odd from Witten's anomaly (in the SM; in 3-3-1 it follows from step 2, §2);
   - the charges' N_c dependence from anomaly cancellation (e.g. Bär–Wiese 2001 on
     π⁰ → γγ);
-  - the minimal model's low Landau pole (e.g. Barela 2023, arXiv:2305.05066; Morisi,
-    Perdonà, Ricciardi 2025, arXiv:2505.15785), and the β = 1/√3 model's high-energy
-    U(1) pole.
+  - the minimal model's low Landau pole (e.g. Dias, Martinez, Pleitez 2005,
+    hep-ph/0407141; Barela 2023, arXiv:2305.05066; Morisi, Perdonà, Ricciardi 2025,
+    arXiv:2505.15785), and the β = 1/√3 model's high-energy U(1) pole, all at N_c = 3.
 - **This note's step:** keep N_c general throughout (charges, anomalies, scalars, two-loop
   running, thresholds, the scalar sector), and **don't** take the number of generations
   or neutrinos from experiment. Planck-scale perturbativity then fixes N_c itself, and
   with it N_g and the ⅓ charges. Frampton's 1994 statement reaches N_c = 3 only by
   inputting N_l = 3; Pisano takes the Standard Model, with three colours, as the input.
-- **Novelty.** Targeted searches (web, and arXiv's own search) found no prior use of
-  coupling running or Landau poles to fix N_c, in 3-3-1 or in the Standard Model.
-  INSPIRE could not be queried from this environment. That isn't proof of novelty; an
-  expert in 3-3-1 phenomenology should be asked.
+- **Novelty.** Web, arXiv and INSPIRE searches found no prior use of asymptotic freedom
+  plus running to fix N_c, in 3-3-1 or in the Standard Model. The INSPIRE searches
+  covered every paper citing the founding 3-3-1 papers, Frampton 1994 and Doff–Pisano
+  2000 (NOVELTY.md). That isn't proof of novelty; an expert in 3-3-1 phenomenology should
+  still be asked.
 
 ## 6. How it will be tested
 
