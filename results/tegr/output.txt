@@ -1,0 +1,91 @@
+
+==============================================================================
+E1  Identity: T_scalar = -R + B, B a total divergence (CHECK)
+==============================================================================
+   T = -1.751134e-01   R = -1.981207e+00   T + R - B = -2.1e-168
+   T = -3.796014e-01   R = -3.305593e+00   T + R - B = +5.4e-166
+   T = +2.542015e-01   R = -2.161573e+00   T + R - B = -1.1e-165
+   FOLLOWS: e T and -e R differ by a divergence, so TEGR and GR have identical
+   field equations. Every prediction of GRAVITY_ENTANGLEMENT.md is unchanged.
+
+==============================================================================
+E2  Newton's law from the TEGR Lagrangian (CHECK, coefficients exact)
+==============================================================================
+   e^0 = e^Phi dt, e^i = e^-Psi dx^i:  (e T)_2 = 0 (grad Phi)^2 +4 grad Phi.grad Psi -2 (grad Psi)^2  (+ divergence)
+   Lagrangian L = -(e T)/(16 pi G) - rho Phi (sign fixed by attraction). Varying:
+     d/dPsi : laplacian(Psi) = laplacian(Phi)         ->  Psi = Phi
+     d/dPhi : laplacian(Psi) = 4 pi G rho             ->  Newton, coefficient 1
+   (check: with Psi = Phi, (e T)_2 = 2 (grad Phi)^2, so L = -(1/8 pi G)(grad Phi)^2 - rho Phi.)
+
+==============================================================================
+E3  Black-hole entropy from the TEGR action (CHECK)
+==============================================================================
+   Reference tetrad torsion scalar with this spin connection: 0  (must be 0)
+   R = 0, so the action is a boundary flux. e T^r / sin(theta) = -4*M*sqrt(r)/sqrt(-2*M + r) + 3*M + 2*r**(3/2)/sqrt(-2*M + r) - 2*r
+   Flux at infinity:          I_inf = 4*pi*M**2   (GR with Gibbons-Hawking + subtraction: beta M / 2 = 4 pi M^2)
+   Flux at the horizon tip:   I_tip = 4*pi*M**2
+   With the horizon regular (as GR assumes): S = beta M - I_inf = 4*pi*M**2 = A/4 (A = 16 pi M^2): True
+   FOLLOWS: the flux at infinity alone gives GR's answer, with no boundary term or
+   background subtraction added by hand. The diagonal frame does not rotate around
+   the Euclidean horizon, which is singular there and adds an equal flux at the tip.
+   No single flat frame is regular at both ends: a frame regular at the tip needs a
+   rotation k dtau, and then the flux at infinity diverges (CHECK in the tests).
+   So TEGR gives A/4 with the same input as GR (a smooth horizon), not with less.
+
+==============================================================================
+E4  The gravitational phase as a TEGR holonomy; the FIELD's own share
+==============================================================================
+   A mass on a worldline picks up phase -(m c / hbar) int e^0_mu dx^mu: the
+   holonomy of the translational potential B^0_0 = Phi / c^2 (KNOWN; COW 1975,
+   gravitational Aharonov-Bohm: Overstreet et al., Science 375, 226 (2022)).
+   Two diamonds (1.5e-14 kg, 181 um): matter part +1.658e-34 J, field part -8.288e-35 J, total L = +8.288e-35 J = G m^2 / r
+   FOLLOWS: the matter coupling alone would give 2 G m^2 / r; the gravitational FIELD's
+   own action gives -G m^2 / r, and the net is the familiar G m^2 / r. The field term
+   is not optional: without it the phase is doubled. For it to depend on the branch
+   pair, the field configuration itself must be in two places.
+   So in TEGR language: lambda = 1 means the torsion field is in two places, exactly
+   as the electron's EM field is (T5). lambda = 0 means one torsion field.
+
+==============================================================================
+E5  STUR open problem P2: is TEGR's translational potential the connection A_mu?
+==============================================================================
+   Candidate: A_mu = (m c / hbar) B^0_mu  (Phi_R = its holonomy around the two paths)
+   R1 holonomy of a gauge connection        YES  (translation gauge group, abelian at linear order)
+   R2 Gaussian noise                        YES  for the free linear field; noise ~ (l_P/L)^2 (P2: 2.6e-70)
+   R3 area law at the QCD scale             NO   massless -> perimeter law, same as EM (P2)
+   R4 horizon entropy A / 4 l_P^2           YES  E3, as in GR (smooth horizon assumed)
+   R5 couples to a neutral atom             YES  every mass; COW phase 1.58e8 rad in MAGIS (P2)
+   FOLLOWS: 4 of 5. It is the first candidate in P2 meeting R1, R4 and R5 at full
+   strength (the Levi-Civita spin connection couples to atoms only as a 1e-14 boost).
+   It fails R3 for the same reason EM does. With Gaussian noise in this A_mu, the
+   visibility formula V = exp(-1/2 <Phi_R^2>) is exactly Option A's model, whose
+   area-law version is excluded (OPTION_A.md); its standard (graviton) version is
+   too small to see. So TEGR names STUR's connection, and leaves the QCD end open.
+
+==============================================================================
+E6  Does gravity's own field record which path? (gravitational version of T5)
+==============================================================================
+   m = 1.5e-14 kg, dx = 721 um, ramps 1.58 s: radiated 5.8e-93 J, gravitons emitted 1.4e-59
+   m = 1.0e-14 kg, dx = 250 um, ramps 0.73 s: radiated 1.8e-93 J, gravitons emitted 1.9e-60
+   FOLLOWS: no graviton carries which-path information away, so the field does not
+   decohere the diamond (KNOWN in outline: Belenchia et al., PRD 98, 126009 (2018)).
+   The which-path record is the static (Coulomb-like) torsion field, bound to the
+   source, and it is undone when the paths recombine. For EM the decoherence in T5
+   needed a nearby SURFACE; gravity has no conductors (no negative mass), so it has
+   no analogue of that surface and cannot be screened.
+
+==============================================================================
+E7  What TEGR changes for the experiment
+==============================================================================
+   Predictions: nothing. T = -R + B (E1), so lambda = 1 vs lambda = 0, the phases,
+   the noise budget and the design (GRAVITY_ENTANGLEMENT.md) are all unchanged.
+   What it changes is the reading:
+    - gravity is a gauge FORCE field (torsion) on flat spacetime, the same structure
+      as electromagnetism. The split-vs-amplitude question becomes the SAME question
+      for both fields. EM answers lambda = 1 (T5); TEGR's linear theory is an abelian
+      gauge theory like EM, which makes lambda = 1 the structural expectation.
+      (Expectation, not proof: the experiment still decides.)
+    - the field's own action is part of the entangling phase (E4).
+    - STUR's A_mu gets a name (E5): 4 of 5 requirements met.
+   Not used: f(T) and other modified teleparallel theories, which DO change
+   predictions but add new structure.

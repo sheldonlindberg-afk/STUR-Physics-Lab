@@ -42,6 +42,7 @@ combined statement and the lattice tests are this project's.
 |---|---|---|
 | A real EM charge "pulled into two places" | excluded: self-repulsion in flight, and a nearby surface erases the fringes | MEASUREMENT.md T5 |
 | Gravity's field: amplitude (λ = 1) vs one averaged field (λ = 0) | **open; measurable.** λ = 0 predicts zero entanglement. The best design at the published targets needs 565 runs; the binding gaps are mass in superposition (×4×10⁸) and vibration noise (×140 below LISA Pathfinder) | GRAVITY_ENTANGLEMENT.md |
+| Gravity as a gauge force field (TEGR) | same predictions as GR; names STUR's A_μ on the gravity side (4 of 5 requirements); makes λ = 1 the structural expectation, as for EM | TEGR.md |
 
 ## The walls
 
