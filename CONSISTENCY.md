@@ -23,7 +23,7 @@ The archive is not checked.
 | K3 | GRAVITY_ENTANGLEMENT verdict | Called λ "a free parameter of known physics", while D6 claims λ = 1 | Reconciled. λ = 1 within the theory (CONDITIONAL), open experimentally, and not distinctive. Intermediate λ is marked a phenomenological scale, not a consistent dynamics |
 | K4 | DERIVATION D8 | The entanglement reading of G was silent on gauge fields | Added: gauge-field contact terms (Kabat 1995, recalled) make the identification unsettled beyond scalars and fermions |
 | K5 | Site D4 card | Residual 10⁻¹⁶⁸, against ≤ 10⁻¹⁶⁵ in the documents | Fixed |
-| K6 | README, PREDICTIONS, GRAVITY_ENTANGLEMENT, WALL | Vibration gap "~140×"; 1.7×10⁻¹⁵ / 1.3×10⁻¹⁷ = 131 | ~130× everywhere |
+| K6 | README, PREDICTIONS, GRAVITY_ENTANGLEMENT, WALL | Vibration gap "~140×"; 1.7×10⁻¹⁵ / 1.3×10⁻¹⁷ = 131 | ~130× everywhere (later ~57×, with the derived gas rate) |
 | K7 | PREDICTIONS item 2 | "Any statistical gravity" where the argument covers only Markovian ones | "Any Markovian statistical gravity" |
 | K8 | NOTE_331, REPORT §4 | Two-loop Yukawa terms were missing, and the boundary condition was unquantified | Front 7d computes both (below) |
 
@@ -56,7 +56,7 @@ Source: `src/god_eq_331_yukawa.py`, [NOTE_331.md](NOTE_331.md), front 7d of
 1. **D6 rests on an identification.** R₀ = a is natural in the framework, but it isn't
    forced. Jacobson's local horizons are coarse-grained on patches much larger than a,
    which would favour a larger R₀. The one-diamond test (R₀ up to 455 µm) and the
-   Oppenheim product bound (up to 157 µm) cover what the identification doesn't.
+   Oppenheim product bound (up to 100 µm) cover what the identification doesn't.
    Non-Markovian classical gravity is covered by neither.
 2. **λ = 1 isn't distinctive.** It is perturbative quantum gravity's prediction too. No
    current prediction distinguishes this framework from standard physics. Its own
@@ -86,8 +86,10 @@ Source: `src/god_eq_331_yukawa.py`, [NOTE_331.md](NOTE_331.md), front 7d of
      Γ·S_a ≥ (F_LR/M)²/8.
    - Discrete models are therefore testable, not excluded. Non-Markovian classical
      gravity remains uncovered: that is where the gravity thread's theory wall is.
-7. **Design A hinges on an order-of-magnitude gas-collision formula.** With helium as the
-   leftover gas, or a 10× worse vacuum, no design works.
+7. **The gas-collision rate is now derived, no longer estimated.** It is the collision
+   rate n⟨v⟩·2πR², with the hard-sphere cross-section checked by partial waves. The old
+   interpolation was 4.19× too high. Design A now needs 270 runs (was 565), and helium
+   as the leftover gas is no longer fatal. A 10× worse vacuum still is.
 
 ## Reproduce
 

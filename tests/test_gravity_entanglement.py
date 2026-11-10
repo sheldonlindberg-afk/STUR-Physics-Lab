@@ -51,7 +51,7 @@ def test_dephasing_floor_and_threshold():
 
 
 def test_backgrounds():
-    assert abs(g.gas_decoherence_rate(B["m"], 1e-15, 0.15) - 0.105) < 0.005
+    assert abs(g.gas_decoherence_rate(B["m"], 1e-15, 0.15) - 0.105 / 4.189) < 0.001
     gap = g.casimir_vs_gravity_gap(B["m"], B["dx"], B["tau"], "parallel")
     assert 170e-6 < gap < 190e-6
     assert g.self_gravity_shift(B["m"], B["dx"], B["tau"]) < 1e-16

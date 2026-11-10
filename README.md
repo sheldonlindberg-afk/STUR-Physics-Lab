@@ -70,7 +70,7 @@ depends on the lattice regularization, so the G formula doesn't predict G.
   predicts the same thing. The diamond experiments rule classical gravity in or out,
   Oppenheim's model included. Only a null result would be new physics.
 - **The diamond experiments are far off.** They need 4×10⁸ times today's largest mass in
-  superposition, and vibration noise about 130 times below LISA Pathfinder.
+  superposition, and vibration noise about 57 times below LISA Pathfinder.
 - **This project's own results:**
   - the shape-free one-particle bound on classical gravity ([OPPENHEIM.md](OPPENHEIM.md));
   - the identity −ln V = 2 Var(ΔN);
@@ -84,9 +84,9 @@ depends on the lattice regularization, so the G formula doesn't predict G.
 
 | Prediction | Number | Experiment |
 |---|---|---|
-| Two diamonds entangle through gravity alone (also perturbative quantum gravity's prediction) | Δφ = 2.19 rad; 565 runs (1.3 h) at the published targets, which need 4×10⁸ × today's largest superposed mass | Levitated-diamond interferometry ([GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md)) |
+| Two diamonds entangle through gravity alone (also perturbative quantum gravity's prediction) | Δφ = 2.19 rad; 270 runs (0.6 h) at the published targets, which need 4×10⁸ × today's largest superposed mass | Levitated-diamond interferometry ([GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md)) |
 | One diamond keeps its superposition | Full coherence for 3.24 s; any Markovian statistical gravity with smearing ≤ 52 µm leaves ≤ 1.3% | Single-diamond interferometry ([COLLECTIVE.md](COLLECTIVE.md)) |
-| Classical (Oppenheim) gravity is squeezed by one particle | Coherent at 0.12 /s ⇒ CQ acceleration noise ≥ 1.3×10⁻¹² m s⁻²/√Hz, 10⁵ × design A's requirement | Same diamond plus its accelerometry ([OPPENHEIM.md](OPPENHEIM.md)) |
+| Classical (Oppenheim) gravity is squeezed by one particle | Coherent at 0.12 /s ⇒ CQ acceleration noise ≥ 1.3×10⁻¹² m s⁻²/√Hz, 4×10⁴ × design A's requirement | Same diamond plus its accelerometry ([OPPENHEIM.md](OPPENHEIM.md)) |
 | Every CQ gravity, discrete ones included (kernel-free) | Coherent at 0.12 /s across a split of one radius ⇒ CQ acceleration noise ≥ 6.7×10⁻¹³ m s⁻²/√Hz | One diamond, small split ([OPPENHEIM.md](OPPENHEIM.md) P5) |
 | Gravity keeps no record of one mass | 1.4×10⁻⁵⁹ gravitons emitted per split | — ([TEGR.md](TEGR.md)) |
 | The classical limit is general relativity | Perihelion 42.98″/century, light bending 1.7512″, γ = 1, GPS +38.54 µs/day | Observed |

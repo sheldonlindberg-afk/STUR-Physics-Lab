@@ -90,7 +90,7 @@
         <div class="g-row"><span class="t">GR's classic tests from TEGR</span><span class="tag ok">computed</span><span class="c">Perihelion, light bending, Shapiro &gamma;, GPS</span></div>
         <div class="g-row"><span class="t">Double slit: V = |&langle;E<sub>1</sub>|E<sub>2</sub>&rangle;|</span><span class="tag known">known</span><span class="c">D&sup2; + V&sup2; = 1 at every detector strength</span></div>
         <div class="g-row"><span class="t">Gravity's field follows each branch</span><span class="tag">conditional</span><span class="c">Derived if a statistical gravity is smeared at the entanglement cutoff and is Markovian (0.5 W/kg heating); also standard quantum gravity's prediction</span></div>
-        <div class="g-row"><span class="t">Two diamonds entangle through gravity</span><span class="tag hyp">prediction</span><span class="c">&Delta;&phi; = 2.19 rad; 565 runs at the published targets</span></div>
+        <div class="g-row"><span class="t">Two diamonds entangle through gravity</span><span class="tag hyp">prediction</span><span class="c">&Delta;&phi; = 2.19 rad; 270 runs at the published targets</span></div>
       </div>
     </div>
   </div>
@@ -295,14 +295,14 @@
           <input id="lam-in" type="range" min="0" max="1" step="0.01" value="1">
         </div>
         <div class="ctrl">
-          <label for="gt-in"><span><span class="plain">Noise (gas, heat, vibration)</span><span class="tech">&gamma;&tau; per diamond</span></span><output id="gt-out">0.44</output></label>
-          <input id="gt-in" type="range" min="0" max="1.2" step="0.01" value="0.44" aria-describedby="gt-hint">
-          <p class="hint" id="gt-hint">0.44 is design A's gas collisions at 10<sup>&minus;15</sup> Pa.</p>
+          <label for="gt-in"><span><span class="plain">Noise (gas, heat, vibration)</span><span class="tech">&gamma;&tau; per diamond</span></span><output id="gt-out">0.11</output></label>
+          <input id="gt-in" type="range" min="0" max="1.2" step="0.01" value="0.11" aria-describedby="gt-hint">
+          <p class="hint" id="gt-hint">0.11 is design A's gas collisions at 10<sup>&minus;15</sup> Pa (derived collision rate).</p>
         </div>
         <div class="ctrl">
           <label>Presets</label>
           <div class="presets">
-            <button type="button" data-lam="1" data-gt="0.44">Design A</button>
+            <button type="button" data-lam="1" data-gt="0.11">Design A</button>
             <button type="button" data-lam="1" data-gt="0">No noise</button>
             <button type="button" data-lam="0" data-gt="0">Average gravity</button>
             <button type="button" data-lam="1" data-gt="1">10&times; worse vacuum</button>
@@ -321,15 +321,15 @@
             <thead><tr><th>Requirement</th><th>Needed</th><th>Today</th></tr></thead>
             <tbody>
               <tr><td>Mass in two places at once</td><td class="num">1.5&times;10<sup>&minus;14</sup> kg</td><td class="num">4&times;10<sup>&minus;23</sup> kg <span class="nd">(&times;4&times;10<sup>8</sup> short)</span></td></tr>
-              <tr><td>Vacuum</td><td class="num">&lt; 2&times;10<sup>&minus;15</sup> Pa</td><td class="num">cryogenic systems only</td></tr>
-              <tr><td>Spin coherence</td><td class="num">&gt; 2.1 s</td><td class="num">~1 s</td></tr>
-              <tr><td>Diamond's internal temperature</td><td class="num">&lt; 1.2 K</td><td class="num">heats under trapping light</td></tr>
-              <tr><td>Vibration noise</td><td class="num">&lt; 1.3&times;10<sup>&minus;17</sup> m s<sup>&minus;2</sup>/&radic;Hz</td><td class="num">1.7&times;10<sup>&minus;15</sup> <span class="nd">(LISA Pathfinder)</span></td></tr>
+              <tr><td>Vacuum</td><td class="num">&lt; 8&times;10<sup>&minus;15</sup> Pa</td><td class="num">cryogenic systems only</td></tr>
+              <tr><td>Spin coherence</td><td class="num">&gt; 1.4 s</td><td class="num">~1 s</td></tr>
+              <tr><td>Diamond's internal temperature</td><td class="num">&lt; 1.9 K</td><td class="num">heats under trapping light</td></tr>
+              <tr><td>Vibration noise</td><td class="num">&lt; 3.1&times;10<sup>&minus;17</sup> m s<sup>&minus;2</sup>/&radic;Hz</td><td class="num">1.7&times;10<sup>&minus;15</sup> <span class="nd">(LISA Pathfinder)</span></td></tr>
               <tr><td>Stray charge / dipoles</td><td class="num">exactly 0 / &lt; 4&times;10<sup>&minus;29</sup> C&middot;m</td><td class="num">zero charge demonstrated</td></tr>
             </tbody>
           </table>
         </div>
-        <p class="small muted" style="margin-top:8px">At the published targets the best design needs 565 runs (1.3 h). Noise can hide entanglement but never create it; stray electric forces could, which is why charge must be zero.</p>
+        <p class="small muted" style="margin-top:8px">At the published targets design A needs 270 runs (0.6 h), with the gas-collision rate derived rather than estimated. Noise can hide entanglement but never create it; stray electric forces could, which is why charge must be zero.</p>
       </div>
     </div>
   </section>

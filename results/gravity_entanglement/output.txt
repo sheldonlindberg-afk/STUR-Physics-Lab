@@ -44,9 +44,9 @@ G3  Dephasing: how quiet must the experiment be?
         0.30      -0.0000       +0.0044              never
         0.50      -0.0000       +0.0520              never
    Entanglement is gone at gamma*tau = 0.289  -> total dephasing rate < 0.116 /s per mass
-   Gas at P = 1e-15 Pa, T = 0.15 K: Gamma = 1.05e-01 /s, Gamma*tau = 2.62e-01
-   Gas at P = 1e-13 Pa, T = 0.15 K: Gamma = 1.05e+01 /s, Gamma*tau = 2.62e+01
-   Gas at P = 1e-10 Pa, T = 4.0 K: Gamma = 2.03e+03 /s, Gamma*tau = 5.07e+03
+   Gas at P = 1e-15 Pa, T = 0.15 K: Gamma = 2.50e-02 /s, Gamma*tau = 6.25e-02
+   Gas at P = 1e-13 Pa, T = 0.15 K: Gamma = 2.50e+00 /s, Gamma*tau = 6.25e+00
+   Gas at P = 1e-10 Pa, T = 4.0 K: Gamma = 4.84e+02 /s, Gamma*tau = 1.21e+03
    (Order-of-magnitude estimate, N2 assumed.) Even the LIT target of 1e-15 Pa and
    0.15 K (Bose et al.) uses most of the budget; blackbody emission and scattering,
    and trap noise, must fit in what is left.

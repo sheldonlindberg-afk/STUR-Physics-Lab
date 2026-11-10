@@ -151,10 +151,36 @@ def max_split(m, t_ramp, grad=B_GRAD):
 M_HE = 4.002602 * 1.66053907e-27
 
 
-def gas_rate(m, P, T, m_gas):
-    """Same LIT formula as stur_gravity_entanglement.gas_decoherence_rate, any gas."""
+GAS_MODEL = "kinetic"
+
+
+def gas_rate_interpolated(m, P, T, m_gas):
+    """LIT (Romero-Isart, PRA 84, 052121 (2011), eq. 27): gamma = lambda_th^2 Lambda, a Gaussian
+    interpolation of the long-wavelength coefficient into the saturated regime."""
     v = np.sqrt(3 * KB * T / m_gas)
     return 16 * np.pi * np.sqrt(2 * np.pi) / np.sqrt(3) * P * radius(m) ** 2 / (m_gas * v)
+
+
+def hard_sphere_sigma(kR):
+    """Exact quantum total cross-section of a hard sphere, in units of pi R^2 (partial waves)."""
+    from scipy.special import spherical_jn, spherical_yn
+    l = np.arange(0, int(kR + 40 * kR ** (1 / 3) + 50))
+    d = np.arctan2(spherical_jn(l, kR), spherical_yn(l, kR))
+    return 4 / kR**2 * np.sum((2 * l + 1) * np.sin(d) ** 2)
+
+
+def gas_rate_kinetic(m, P, T, m_gas):
+    """DERIVED. For a split much larger than the body and than the gas wavelength, every
+    collision resolves the branches, so the decoherence rate is the collision rate:
+        Gamma = n <v> sigma_tot,  n = P/kT,  <v> = sqrt(8kT/(pi m_gas)),  sigma_tot = 2 pi R^2
+    (the quantum hard-sphere cross-section for kR >> 1, checked by hard_sphere_sigma)."""
+    n = P / (KB * T)
+    vbar = np.sqrt(8 * KB * T / (np.pi * m_gas))
+    return n * vbar * 2 * np.pi * radius(m) ** 2
+
+
+def gas_rate(m, P, T, m_gas, model=None):
+    return (gas_rate_kinetic if (model or GAS_MODEL) == "kinetic" else gas_rate_interpolated)(m, P, T, m_gas)
 
 
 def gt_limit(dphi):
@@ -353,6 +379,36 @@ def main():
               f" acceleration {r['acc']:.1e}  (total {r['gt']:.3f}; limit at this dphi {gt_limit(r['dphi']):.3f})")
         print(f"      {r['runs']:.0f} runs -> {r['wall']/3600:.1f} h of running for 3 sigma")
 
+    global GAS_MODEL
+    banner("H5b  The gas-collision rate, derived (it decides design A)")
+    print("   For a split much larger than the body and than the gas wavelength, each collision resolves")
+    print("   the branches, so Gamma = n <v> sigma_tot. Exact quantum hard-sphere cross-section:")
+    print("      kR       sigma_tot / (pi R^2)")
+    for kR in (100, 1000, 3000):
+        print(f"      {kR:5d}    {hard_sphere_sigma(kR):.4f}")
+    for lab, mg in (("N2", g.M_N2), ("He", M_HE)):
+        kR = np.sqrt(2 * mg * KB * 0.15) / HBAR * radius(1.5e-14)
+        print(f"   {lab} at 0.15 K on a 1.007-um diamond: kR = {kR:.0f}, so sigma_tot = 2 pi R^2 (extinction paradox).")
+    ratio = gas_rate_interpolated(1.5e-14, 1e-15, 0.15, g.M_N2) / gas_rate_kinetic(1.5e-14, 1e-15, 0.15, g.M_N2)
+    print(f"   The interpolation used before (LIT: Romero-Isart 2011, eq. 27, gamma = lambda_th^2 Lambda) is")
+    print(f"   {ratio:.2f}x the derived collision rate. It extends the long-wavelength coefficient into the")
+    print("   saturated regime with a Gaussian, so it is an estimate. The derived rate is used above.")
+    GAS_MODEL = "interpolated"
+    old = {name.split()[0]: search(env) for name, env in scenarios}
+    GAS_MODEL = "kinetic"
+    print("   Scenario   interpolated gas rate          derived gas rate (above)")
+    for name, _ in scenarios:
+        k = name.split()[0]
+        fmt = lambda r: "no design works" if r is None else f"{r['runs']:.0f} runs, {r['wall']/3600:.1f} h"
+        print(f"   {k:8s}   {fmt(old[k]):28s}   {fmt(results[k])}")
+    oA = old["A"]
+    fixed = design_search(base_env, np.array([oA["m"]]), np.array([oA["dx"]]), np.array([oA["hold"]]),
+                          np.array([oA["ramp"]]), gap, table)
+    results["A_fixed"] = fixed
+    print(f"   Design A (1.5e-14 kg, 721 um, 3.24 s), the reference geometry used across the repository:")
+    print(f"      gas gamma*tau {oA['gas']:.3f} -> {fixed['gas']:.3f};  {oA['runs']:.0f} -> {fixed['runs']:.0f} runs"
+          f" ({fixed['wall']/3600:.1f} h; {MIN_RUNS} runs, 30 per setting, is the protocol minimum)")
+
     print("   Requirement envelope: each varied alone. Column 1: everything else at target A")
     print("   (1e-15 Pa N2). Column 2: everything else ideal (1e-17 Pa), the best case.")
     print("   Requirement                              others at target     others ideal")
@@ -408,7 +464,7 @@ def main():
             lam_lo = lam
             break
     print(f"   Zero net charge; dipole        < {pmax:.0e} C m, or a conducting shield")
-    print(f"   lambda reach of design A with 1e6 runs: lambda > {lam_lo:.2f} (dephasing floor, H5)")
+    print(f"   lambda reach of the best design with 1e6 runs: lambda > {lam_lo:.2f} (dephasing floor, H5)")
     rq = search({**base_env, "P": 1e-17})
     ph = np.array([[rq["dphi"] / 2, 0.0], [0.0, rq["dphi"] / 2]])
     W = g.witness_for(g.state(ph, rq["gt"]))
@@ -422,8 +478,12 @@ def main():
 
     banner("VERDICT")
     print("   1. Nothing in the physics forbids the test. At the published targets (N2) the best")
-    print(f"      design needs {rA['runs']:.0f} runs, {rA['wall']/3600:.1f} h, and settles lambda = 0 vs 1. It sits on")
-    print("      the edge: with helium as the leftover gas, or 10x worse vacuum, no design works.")
+    print(f"      design needs {rA['runs']:.0f} runs, {rA['wall']/3600:.1f} h, and settles lambda = 0 vs 1.")
+    he, dv = results["A'"], results["D"]
+    print("      Margin: " + ("on the edge: with helium as the leftover gas, or 10x worse vacuum, no design works."
+                     if he is None and dv is None else
+                     f"with helium as the leftover gas {'no design works' if he is None else f'{he[chr(114)+chr(117)+chr(110)+chr(115)]:.0f} runs'};"
+                     f" at 10x worse vacuum {'none' if dv is None else f'{dv[chr(119)+chr(97)+chr(108)+chr(108)]/3600:.0f} h'}."))
     print("   2. The split field (lambda = 0) predicts exactly zero gravitational entanglement.")
     print("      Noise cannot create entanglement, it can only hide it. EM interactions CAN create")
     print("      it, so charge must be zero and dipoles screened before a positive witness")

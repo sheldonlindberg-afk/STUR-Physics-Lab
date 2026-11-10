@@ -34,18 +34,18 @@ P3  One particle measured two ways: Gamma x S_a (STUR, shape-free)
    Uses only the trade-off: no assumption on how the noise acts back on the matter.
    R0 (m)       I (m/kg/s^2)   bound Gamma*S_a (m^2/s^4)   S_a if Gamma <= 0.12/s:
                                                          one-sided ASD (m s^-2/rtHz)  / requirement
-    0.00e+00    4.2440e+01     1.0132e-25                 1.299e-12                 1.0e+05
-    5.40e-11    4.2440e+01     1.0132e-25                 1.299e-12                 1.0e+05
-    1.00e-07    4.0115e+01     9.0520e-26                 1.228e-12                 9.4e+04
-    1.00e-06    7.9168e+00     3.5255e-27                 2.424e-13                 1.9e+04
-    1.00e-05    9.5631e-02     5.1443e-31                 2.928e-15                 2.3e+02
-    5.20e-05    3.6387e-03     7.4474e-34                 1.114e-16                 8.6e+00
+    0.00e+00    4.2440e+01     1.0132e-25                 1.299e-12                 4.2e+04
+    5.40e-11    4.2440e+01     1.0132e-25                 1.299e-12                 4.2e+04
+    1.00e-07    4.0115e+01     9.0520e-26                 1.228e-12                 4.0e+04
+    1.00e-06    7.9168e+00     3.5255e-27                 2.424e-13                 7.8e+03
+    1.00e-05    9.5631e-02     5.1443e-31                 2.928e-15                 9.4e+01
+    5.20e-05    3.6387e-03     7.4474e-34                 1.114e-16                 3.6e+00
    Check: for split >> R, I -> (2 sqrt2 G / pi^2 R^2) Int x f(x)^2 dx = 4.2440e+01
    (Int x f^2 dx = 9/4 for a uniform sphere); the full integral gives 4.2440e+01.
    Reading: if the diamond keeps coherence (Gamma within the 0.12 /s budget), a classical
    (CQ) gravity must shake it with at least the acceleration noise in the last columns.
    Design A already requires the noise to be lower than that, by the factor shown, for
-   every R0 up to 157 um, which covers all R0 the inverse-square law allows (52 um).
+   every R0 up to 100 um, which covers all R0 the inverse-square law allows (52 um).
    So a coherent, quiet design-A diamond excludes every continuous Markovian CQ gravity,
    whatever the kernel shapes, without the back-action step of P2. A uniform sphere is
    used for F(q); the nuclei only add to I, so the bound is conservative.
@@ -92,9 +92,9 @@ P5  Any classical-quantum gravity, any kernel, continuous or discrete (STUR)
    The pull is largest at split = R (0.46875 G M^2/R^2): the best test is a SMALL split.
    Design-A diamond, Gamma <= 0.12 /s:
      split         bound (m^2/s^4)   CQ acceleration noise needed (one-sided, m s^-2/rtHz)
-     R = 1.0 um    2.677e-26         6.68e-13   (5.1e+04 x design A's requirement)
-     2R            7.615e-27         3.56e-13   (2.7e+04 x design A's requirement)
-     721 um        4.636e-37         2.78e-18   (2.1e-01 x design A's requirement)
+     R = 1.0 um    2.677e-26         6.68e-13   (2.2e+04 x design A's requirement)
+     2R            7.615e-27         3.56e-13   (1.1e+04 x design A's requirement)
+     721 um        4.636e-37         2.78e-18   (9.0e-02 x design A's requirement)
    At 721 um the kernel-free bound is 5e-12 of the translation-invariant one (P3);
    at split = R it is 0.40 of P3 at the same split. So one diamond held coherent across about its radius,
    with its acceleration noise measured, tests every Markovian CQ gravity, discrete ones included.

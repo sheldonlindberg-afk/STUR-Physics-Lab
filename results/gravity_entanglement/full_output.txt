@@ -62,34 +62,62 @@ H4  The split itself: one electron spin has to open a whole diamond
 H5  Full design search (gap = Casimir-safe, every noise source on)
 ==============================================================================
    A  Bose target (1e-15 Pa N2, 0.15 K), no acceleration noise, unlimited spin coherence
-      m = 1.5e-14 kg, dx = 721 um, hold 0.08 s, ramps 2 x 1.58 s, dphi = 2.187 rad
-      dephasing gamma*tau: gas 0.439, blackbody 2.1e-05, acceleration 0.0e+00  (total 0.439; limit at this dphi 0.800)
-      565 runs -> 1.3 h of running for 3 sigma
+      m = 6.8e-14 kg, dx = 53 um, hold 0.47 s, ramps 2 x 0.89 s, dphi = 1.508 rad
+      dephasing gamma*tau: gas 0.202, blackbody 3.6e-07, acceleration 0.0e+00  (total 0.202; limit at this dphi 0.640)
+      270 runs -> 0.5 h of running for 3 sigma
    A' as A, but the leftover gas is helium (typical in a cryostat)
-      NO design works: entanglement cannot be certified at any mass, dx or time.
+      m = 2.2e-14 kg, dx = 279 um, hold 0.14 s, ramps 2 x 1.19 s, dphi = 1.845 rad
+      dephasing gamma*tau: gas 0.276, blackbody 3.5e-06, acceleration 0.0e+00  (total 0.276; limit at this dphi 0.730)
+      270 runs -> 0.6 h of running for 3 sigma
    B  A + spin coherence limited to 1.6 s
-      NO design works: entanglement cannot be certified at any mass, dx or time.
+      m = 1.5e-14 kg, dx = 137 um, hold 0.22 s, ramps 2 x 0.67 s, dphi = 0.236 rad
+      dephasing gamma*tau: gas 0.050, blackbody 3.6e-07, acceleration 0.0e+00  (total 0.050; limit at this dphi 0.117)
+      12570 runs -> 22.9 h of running for 3 sigma
    C  A + internal temperature 4 K
       NO design works: entanglement cannot be certified at any mass, dx or time.
    D  A + vacuum 1e-14 Pa
       NO design works: entanglement cannot be certified at any mass, dx or time.
    E  A + LISA Pathfinder acceleration noise
       NO design works: entanglement cannot be certified at any mass, dx or time.
+
+==============================================================================
+H5b  The gas-collision rate, derived (it decides design A)
+==============================================================================
+   For a split much larger than the body and than the gas wavelength, each collision resolves
+   the branches, so Gamma = n <v> sigma_tot. Exact quantum hard-sphere cross-section:
+      kR       sigma_tot / (pi R^2)
+        100    2.0909
+       1000    2.0199
+       3000    2.0096
+   N2 at 0.15 K on a 1.007-um diamond: kR = 4189, so sigma_tot = 2 pi R^2 (extinction paradox).
+   He at 0.15 K on a 1.007-um diamond: kR = 1584, so sigma_tot = 2 pi R^2 (extinction paradox).
+   The interpolation used before (LIT: Romero-Isart 2011, eq. 27, gamma = lambda_th^2 Lambda) is
+   4.19x the derived collision rate. It extends the long-wavelength coefficient into the
+   saturated regime with a Gaussian, so it is an estimate. The derived rate is used above.
+   Scenario   interpolated gas rate          derived gas rate (above)
+   A          565 runs, 1.3 h                270 runs, 0.5 h
+   A'         no design works                270 runs, 0.6 h
+   B          no design works                12570 runs, 22.9 h
+   C          no design works                no design works
+   D          no design works                no design works
+   E          no design works                no design works
+   Design A (1.5e-14 kg, 721 um, 3.24 s), the reference geometry used across the repository:
+      gas gamma*tau 0.439 -> 0.105;  565 -> 270 runs (0.6 h; 270 runs, 30 per setting, is the protocol minimum)
    Requirement envelope: each varied alone. Column 1: everything else at target A
    (1e-15 Pa N2). Column 2: everything else ideal (1e-17 Pa), the best case.
    Requirement                              others at target     others ideal
-   Internal temperature: highest (K)                 1.19             2.44
-   Spin coherence: shortest (s)                      2.07             0.80
-   Accel. noise: highest ASD (m/s^2/rtHz)         1.3e-17          4.4e-17
-   Vacuum, highest pressure (Pa), others ideal:  N2 1.8e-15,  He 6.9e-16
+   Internal temperature: highest (K)                 1.89             2.45
+   Spin coherence: shortest (s)                      1.38             0.80
+   Accel. noise: highest ASD (m/s^2/rtHz)         3.1e-17          4.6e-17
+   Vacuum, highest pressure (Pa), others ideal:  N2 7.6e-15,  He 2.9e-15
 
 ==============================================================================
 H6  EM forces that CAN fake entanglement (unlike noise, they are interactions)
 ==============================================================================
-   One electron charge on each diamond: Coulomb/gravity entangling phase = 1.6e+10
+   One electron charge on each diamond: Coulomb/gravity entangling phase = 7.4e+08
    -> both diamonds must carry EXACTLY zero net charge. LIT: levitated microspheres
       have been discharged to zero net charge (Moore, Rider & Gratta, PRL 113, 251801 (2014)).
-   Permanent electric dipole, worst orientation: < 4.5e-29 C m = 2.8e-04 e*um for EM < 10% of gravity
+   Permanent electric dipole, worst orientation: < 1.4e-28 C m = 8.7e-04 e*um for EM < 10% of gravity
    (Patch potentials and trapped charges in diamond typically give far larger dipoles;
     a conducting shield between the diamonds, LIT van de Kamp et al. PRA 102, 062807
     (2020), screens EM while leaving gravity untouched.)
@@ -101,28 +129,28 @@ H6  EM forces that CAN fake entanglement (unlike noise, they are interactions)
 H7  What comes out
 ==============================================================================
    Requirement                     Needed (computed above)     State of the art (LIT)
-   Mass in a spatial superposition 1.5e-14 kg                  4e-23 kg (Fein 2019): x4e+08
-   Superposition size              721 um
-   Vacuum                          < 2e-15 Pa (N2), < 7e-16 Pa (He)
-   Spin coherence                  > 2.1 s (best case 0.8 s)    ~1 s (NV, cryogenic, decoupled)
-   Internal temperature            < 1.19 K (best case 2.4 K)
-   Acceleration noise              < 1e-17 m/s^2/rtHz (best case 4e-17)   2e-15 (LISA Pathfinder): x139
-   Zero net charge; dipole        < 4e-29 C m, or a conducting shield
-   lambda reach of design A with 1e6 runs: lambda > 0.44 (dephasing floor, H5)
-   ... and at 1e-17 Pa: best design 270 runs (0.51 h), lambda reach 0.028
+   Mass in a spatial superposition 6.8e-14 kg                  4e-23 kg (Fein 2019): x2e+09
+   Superposition size              53 um
+   Vacuum                          < 8e-15 Pa (N2), < 3e-15 Pa (He)
+   Spin coherence                  > 1.4 s (best case 0.8 s)    ~1 s (NV, cryogenic, decoupled)
+   Internal temperature            < 1.89 K (best case 2.5 K)
+   Acceleration noise              < 3e-17 m/s^2/rtHz (best case 5e-17)   2e-15 (LISA Pathfinder): x57
+   Zero net charge; dipole        < 1e-28 C m, or a conducting shield
+   lambda reach of the best design with 1e6 runs: lambda > 0.28 (dephasing floor, H5)
+   ... and at 1e-17 Pa: best design 270 runs (0.51 h), lambda reach 0.017
 
 ==============================================================================
 VERDICT
 ==============================================================================
    1. Nothing in the physics forbids the test. At the published targets (N2) the best
-      design needs 565 runs, 1.3 h, and settles lambda = 0 vs 1. It sits on
-      the edge: with helium as the leftover gas, or 10x worse vacuum, no design works.
+      design needs 270 runs, 0.5 h, and settles lambda = 0 vs 1.
+      Margin: with helium as the leftover gas 270 runs; at 10x worse vacuum none.
    2. The split field (lambda = 0) predicts exactly zero gravitational entanglement.
       Noise cannot create entanglement, it can only hide it. EM interactions CAN create
       it, so charge must be zero and dipoles screened before a positive witness
       means gravity (H6).
-   3. What binds: mass in superposition (x4e+08 beyond today), vacuum,
-      acceleration noise (x139 below LISA Pathfinder), spin coherence
-      (> 2.1 s), internal temperature (< 1.19 K), all at once.
+   3. What binds: mass in superposition (x2e+09 beyond today), vacuum,
+      acceleration noise (x57 below LISA Pathfinder), spin coherence
+      (> 1.4 s), internal temperature (< 1.89 K), all at once.
    4. The question 'is gravity's field split, or in two places?' is open, and what
       stands between it and an answer is engineering, not theory.

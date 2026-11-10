@@ -46,14 +46,17 @@ def test_shared_numbers_match_their_computation():
     assert f"{(2 * B / O.GAMMA_BUDGET) ** 0.5:.1e}" == "1.3e-12"
     for n in ("README.md", "PREDICTIONS.md", "OPPENHEIM.md"):
         assert "1.3×10⁻¹²" in read(n), n
-    assert round(1.7e-15 / O.ASD_REQ, -1) == 130                     # LISA Pathfinder vs requirement
+    import stur_gravity_full as Fg
+    assert round(Fg.LPF_ASD / O.ASD_REQ) in (56, 57)               # LISA Pathfinder vs requirement
     for n in ("README.md", "PREDICTIONS.md", "GRAVITY_ENTANGLEMENT.md", "WALL.md"):
-        assert "140" not in read(n).split("LISA")[0][-200:] and "130" in read(n), n
+        assert "57" in read(n), n
+    assert Fg.GAS_MODEL == "kinetic"                                   # derived, not interpolated
     full = read("results/gravity_entanglement/full_output.txt")
     dphi = float(re.search(r"dphi = (\d+\.\d+) rad", full).group(1))
-    assert "565 runs" in full and f"{dphi:.2f}" == "2.19"
+    assert "565 -> 270 runs" in full and f"{dphi:.2f}" == "1.51"
     for n in ("README.md", "DERIVATION.md", "PREDICTIONS.md", "index.html"):
-        assert "565" in read(n) and "2.19" in read(n), n
+        assert "270 runs" in read(n) or "270 (0.6 h)" in read(n), n
+        assert "2.19" in read(n), n
     yuk = read("results/god_equation/331_yukawa.txt")
     assert "0.2663" in yuk and "0.0662 < s^2 < 0.0742" in yuk
     assert "0.266" in read("NOTE_331.md") and "0.066" in read("NOTE_331.md")

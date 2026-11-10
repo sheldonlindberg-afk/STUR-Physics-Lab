@@ -95,14 +95,14 @@ I → (2√2 G/π²R²)·(9/4) for a uniform sphere.
 **Design-A diamond** (R = 1.007 µm, split 721 µm), with Γ held to the experiment's own
 dephasing budget of 0.12 /s:
 
-| Source smearing R₀ | Γ·S_a ≥ (m²/s⁴) | Acceleration noise CQ gravity must produce (one-sided) | ÷ design-A requirement (1.3×10⁻¹⁷) |
+| Source smearing R₀ | Γ·S_a ≥ (m²/s⁴) | Acceleration noise CQ gravity must produce (one-sided) | ÷ the experiment's requirement (3.1×10⁻¹⁷) |
 |---|---|---|---|
-| local, or 0.54 Å | 1.01×10⁻²⁵ | 1.3×10⁻¹² m s⁻²/√Hz | 1.0×10⁵ |
-| 1 µm | 3.5×10⁻²⁷ | 2.4×10⁻¹³ | 1.9×10⁴ |
-| 10 µm | 5.1×10⁻³¹ | 2.9×10⁻¹⁵ | 2.3×10² |
-| 52 µm | 7.4×10⁻³⁴ | 1.1×10⁻¹⁶ | 8.6 |
+| local, or 0.54 Å | 1.01×10⁻²⁵ | 1.3×10⁻¹² m s⁻²/√Hz | 4.2×10⁴ |
+| 1 µm | 3.5×10⁻²⁷ | 2.4×10⁻¹³ | 7.8×10³ |
+| 10 µm | 5.1×10⁻³¹ | 2.9×10⁻¹⁵ | 94 |
+| 52 µm | 7.4×10⁻³⁴ | 1.1×10⁻¹⁶ | 3.6 |
 
-- The ratio stays above 1 up to R₀ = **157 µm**. That's three times beyond the largest
+- The ratio stays above 1 up to R₀ = **100 µm**. That's twice the largest
   smearing the inverse-square law allows (52 µm).
 - **The falsifiable number:** a design-A diamond that stays coherent within its budget,
   and whose own acceleration noise meets the design requirement, excludes **every**
@@ -200,7 +200,7 @@ Non-Markovian classical gravity is still not covered.
 | Gravity is … | Γ (one diamond, 721 µm) | Its own acceleration noise | Two diamonds entangle? |
 |---|---|---|---|
 | collective (this theory; also perturbative quantum gravity) | 0 | 0 | yes, Δφ = 2.19 rad |
-| continuous Markovian CQ (Oppenheim), any kernels, R₀ ≤ 157 µm | Γ·S_a ≥ bound above | ≥ 1.3×10⁻¹² m s⁻²/√Hz if Γ ≤ 0.12 /s | no |
+| continuous Markovian CQ (Oppenheim), any kernels, R₀ ≤ 100 µm | Γ·S_a ≥ bound above | ≥ 1.3×10⁻¹² m s⁻²/√Hz if Γ ≤ 0.12 /s | no |
 | the same, with matter feeling the noisy potential (P2) | ≥ 169.5 /s for R₀ ≲ 0.1 µm | — | no |
 
 **What is and isn't new.**

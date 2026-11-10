@@ -31,7 +31,7 @@ def test_joint_bound_value_and_limit():
     I = O.I_joint(O.D_A)
     assert abs(I / O.I_split_limit(O.R_A) - 1) < 2e-3
     assert abs(O.joint_bound(O.D_A) / 1.0132e-25 - 1) < 2e-3
-    assert 1.4e-4 < O.r0_where_bound_meets_requirement() < 1.7e-4
+    assert 0.95e-4 < O.r0_where_bound_meets_requirement() < 1.05e-4
 
 
 def test_joint_bound_holds_for_random_kernels_and_is_tight():

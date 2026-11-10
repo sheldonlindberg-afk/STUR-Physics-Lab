@@ -18,10 +18,12 @@ the entangling phase of their own torsion field.
 | Design | Mass | Split | Phase Δφ | Runs to a 3σ witness |
 |---|---|---|---|---|
 | Baseline (parallel) | 10⁻¹⁴ kg | 250 µm, 2.5 s | 0.594 rad | 433 |
-| Design A | 1.5×10⁻¹⁴ kg | 721 µm, 3.24 s | **2.19 rad** | **565 (1.3 h)** |
+| Design A | 1.5×10⁻¹⁴ kg | 721 µm, 3.24 s | **2.19 rad** | **270 (0.6 h)** |
 
-Requirements: vacuum below 1.8×10⁻¹⁵ Pa, internal temperature below 1.2 K, spin
-coherence above 2.1 s, acceleration noise below 1.3×10⁻¹⁷ m s⁻²/√Hz, zero net charge.
+Requirements, with the derived gas-collision rate: vacuum below 7.6×10⁻¹⁵ Pa (N₂),
+internal temperature below 1.9 K, spin coherence above 1.4 s, acceleration noise below
+3.1×10⁻¹⁷ m s⁻²/√Hz, zero net charge. The earlier interpolated rate was 4.19× higher,
+and gave 565 runs.
 Source: `src/stur_gravity_full.py`, [GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md).
 
 **2. One mass keeps its superposition.** A design-A diamond held in two places keeps
@@ -41,8 +43,9 @@ noise. A Markovian statistical gravity smeared at the theory's own cutoff would 
 decoherence and diffusion bounds one particle's decoherence rate Γ times its acceleration
 noise S_a: Γ·S_a ≥ (M²/4)I², for every allowed pair of kernels. Suppose a design-A
 diamond keeps its coherence within the experiment's 0.12 /s budget. Then a classical
-gravity must shake it with at least 1.3×10⁻¹² m s⁻²/√Hz, which is 10⁵ times the noise
-the experiment already requires. This holds for every source smearing up to 157 µm.
+gravity must shake it with at least 1.3×10⁻¹² m s⁻²/√Hz, which is 4×10⁴ times the
+noise the experiment already requires. This holds for every source smearing up to
+100 µm.
 Source: `src/stur_oppenheim.py`, [OPPENHEIM.md](OPPENHEIM.md).
 
 **3″. Every classical–quantum gravity, discrete models included, is squeezed by a small
@@ -108,7 +111,7 @@ simulators. Source: `src/stur_confinement.py`, `src/stur_z2_higgs.py`.
   postulate predicts the opposite temperature dependence. Prediction 7 can't come out
   in STUR's favour.
 - **The diamond experiments are far beyond current reach.** They need a mass in
-  superposition 4×10⁸ times the current record, and vibration noise about 130 times
+  superposition 4×10⁸ times the current record, and vibration noise about 57 times
   below LISA Pathfinder ([GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md)).
 - **This project's own results, as distinct from synthesis of known physics:**
   - the shape-free bound 3′;

@@ -105,7 +105,7 @@ D7  Consequences, each computed from the equation
    (d) TWO diamonds (1e-14 kg, 250 um splits, 200 um apart, 2.5 s): the action
        differences give an entangling phase 0.5938 rad; concurrence 0.2926, negativity 0.1463.
        Gravity alone entangles them. Noise budget and best design: GRAVITY_ENTANGLEMENT.md
-       (565 runs, 1.3 h at the published targets; mass in superposition x4e8 beyond today).
+       (design A: 270 runs, 0.6 h at the published targets, derived gas rate; mass x4e8 beyond today).
    (e) The classical limit (one branch, many particles): perihelion 42.98 arcsec/century,
        light bending 1.7512 arcsec, PPN gamma = 1, GPS +38.54 us/day.
    (f) If gravity were only the AVERAGE of the quantum level (not D6): each branch

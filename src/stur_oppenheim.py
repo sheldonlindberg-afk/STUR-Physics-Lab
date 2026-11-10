@@ -48,7 +48,7 @@ c_s = 0.3046
 
 M_A, R_A, D_A, T_A = 1.5e-14, 1.007e-6, 721e-6, 3.24       # design A (GRAVITY_ENTANGLEMENT)
 GAMMA_BUDGET = 0.12          # /s per diamond, total dephasing budget (GRAVITY_ENTANGLEMENT G3)
-ASD_REQ = 1.3e-17            # m s^-2 /sqrt(Hz), one-sided, design-A vibration requirement (H5)
+ASD_REQ = 3.1e-17            # m s^-2 /sqrt(Hz), one-sided: the vibration requirement (H5 envelope, derived gas rate)
 R0_DONADI = 0.54e-10         # LIT: Donadi et al., Nature Phys. 17, 74 (2021)
 L_ISL = 52e-6                # LIT recalled: Lee et al., PRL 124, 101101 (2020)
 EARTH_W_PER_KG = 47e12 / 5.972e24   # LIT recalled: ~47 TW of internal heat flow

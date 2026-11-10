@@ -87,7 +87,7 @@ see OPPENHEIM.md P4.)
 | (a) | **Double slit with a detector:** V = \|⟨E₁\|E₂⟩\|. No observer is needed, only a record | D² + V² = 1.000000 at every detector strength |
 | (b) | **The electron's own field** is in both branches. In free space it leaves no record. Near a surface, image charges record the path and the fringes fade | LIT: Sonnentag & Hasselbach 2007. A literally split charge is excluded (MEASUREMENT.md) |
 | (c) | **One mass, gravity's own record:** \|⟨E₁\|E₂⟩_grav\| = e^(−N/2) | N = 1.4×10⁻⁵⁹ gravitons: gravity keeps no record |
-| (d) | **Two masses:** the action difference alone entangles them | Baseline (10⁻¹⁴ kg, 2.5 s): 0.594 rad, concurrence 0.293. Best design A (1.5×10⁻¹⁴ kg): 2.19 rad, 565 runs, 1.3 h (GRAVITY_ENTANGLEMENT.md) |
+| (d) | **Two masses:** the action difference alone entangles them | Baseline (10⁻¹⁴ kg, 2.5 s): 0.594 rad, concurrence 0.293. Design A (1.5×10⁻¹⁴ kg): 2.19 rad, 270 runs, 0.6 h (GRAVITY_ENTANGLEMENT.md) |
 | (e) | **Classical limit** (one branch, many particles) | Perihelion 42.98″/century; light bending 1.7512″; γ = 1; GPS +38.54 µs/day |
 | (f) | **One mass keeps its superposition:** gravity adds no decoherence | A design-A diamond stays fully coherent for 3.24 s. A statistical gravity would leave ≤ 1.3% for any smearing allowed by Newton's law, and 10⁻²³⁹ at the radiation bound (COLLECTIVE.md) |
 | (g) | **Classical gravity's squeeze (Oppenheim):** one particle measured two ways | Γ·S_a ≥ (M²/4)I² for any kernels; a coherent, quiet design-A diamond needs CQ noise 10⁵× above its own requirement (OPPENHEIM.md) |

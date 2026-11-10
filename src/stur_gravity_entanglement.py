@@ -143,14 +143,15 @@ def runs_for_witness(W, rho, sigma=3.0):
     return float(np.ceil((sigma * sd1 / mean) ** 2))
 
 
-def gas_decoherence_rate(m, P, T):
-    """LIT (Romero-Isart, PRA 84, 052121 (2011); used by Bose et al.): the rate of
-    collisions that resolve the superposition, for dx much larger than the gas wavelength:
-        Gamma = (16 pi sqrt(2 pi) / sqrt(3)) P R^2 / (m_gas v),  v = sqrt(3 k_B T / m_gas).
-    Order-of-magnitude estimate (N2 assumed as the residual gas)."""
-    R = radius(m)
-    v = np.sqrt(3 * KB * T / M_N2)
-    return 16 * np.pi * np.sqrt(2 * np.pi) / np.sqrt(3) * P * R**2 / (M_N2 * v)
+def gas_decoherence_rate(m, P, T, m_gas=None):
+    """DERIVED (src/stur_gravity_full.py H5b): for dx much larger than the body and the gas
+    wavelength, every collision resolves the superposition, so the rate is the collision rate
+        Gamma = n <v> sigma_tot = (P/kT) sqrt(8kT/(pi m_gas)) 2 pi R^2
+    with the quantum hard-sphere cross-section 2 pi R^2 (kR ~ 4000 here). The interpolation
+    used before (LIT: Romero-Isart, PRA 84, 052121 (2011), eq. 27) gives 4.19x more.
+    N2 assumed as the residual gas."""
+    mg = M_N2 if m_gas is None else m_gas
+    return P / (KB * T) * np.sqrt(8 * KB * T / (np.pi * mg)) * 2 * np.pi * radius(m) ** 2
 
 
 def casimir_energy(m, r):

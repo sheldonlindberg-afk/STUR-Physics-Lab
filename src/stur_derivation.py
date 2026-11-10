@@ -176,7 +176,7 @@ def main():
     print(f"       differences give an entangling phase {dphi:.4f} rad; concurrence"
           f" {abs(np.sin(dphi/2)):.4f}, negativity {ge.negativity(rho):.4f}.")
     print("       Gravity alone entangles them. Noise budget and best design: GRAVITY_ENTANGLEMENT.md")
-    print("       (565 runs, 1.3 h at the published targets; mass in superposition x4e8 beyond today).")
+    print("       (design A: 270 runs, 0.6 h at the published targets, derived gas rate; mass x4e8 beyond today).")
     dp = F.perihelion_shift(F.GM_SUN, F.MERCURY_A, F.MERCURY_E) * (36525 / F.MERCURY_P) * 180 / np.pi * 3600
     defl = F.light_deflection(F.GM_SUN, F.R_SUN) * 180 / np.pi * 3600
     gps, _ = F.gps_offset_us_per_day()
