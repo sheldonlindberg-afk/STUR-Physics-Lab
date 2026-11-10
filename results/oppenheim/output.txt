@@ -76,3 +76,33 @@ P4  Small splits: the minimum heating of matter (FOLLOWS)
    So heating rules out local CQ gravity but cannot reach the R0 the radiation bound allows;
    for those, the deciding test is coherence at a large split (P2 and P3). Collective
    gravity (this theory, and perturbative quantum gravity): Gamma = 0, S_a = 0, no heating.
+
+==============================================================================
+P5  Any classical-quantum gravity, any kernel, continuous or discrete (STUR)
+==============================================================================
+   The trade-off (their eq. 29) is an operator inequality, D0 >= S_J^-1 / 4, for every CQ model
+   with Newtonian back-reaction on average, including jump models whose noise sits only where
+   mass is. Cauchy-Schwarz in the S_J inner product then gives, with no kernel assumed:
+        Gamma(split) * S_a  >=  (1/8) |<Delta m, w>|^2  =  (1/8) (F_LR / M)^2
+   F_LR is the Newtonian pull of one branch's mass on the other's. Checks: random matrices,
+   min ratio lhs/rhs = 150.593 (>= 1); saturating case = 1.000000.
+   Uniform spheres, F_LR / (G M^2/R^2):  split/R = 0.25, 0.5, 1, 1.5, 2, 5
+     closed form: 0.2150, 0.3613, 0.4688, 0.3926, 0.2500, 0.0400
+     Fourier    : 0.2150, 0.3613, 0.4688, 0.3926, 0.2500, 0.0400
+   The pull is largest at split = R (0.46875 G M^2/R^2): the best test is a SMALL split.
+   Design-A diamond, Gamma <= 0.12 /s:
+     split         bound (m^2/s^4)   CQ acceleration noise needed (one-sided, m s^-2/rtHz)
+     R = 1.0 um    2.677e-26         6.68e-13   (5.1e+04 x design A's requirement)
+     2R            7.615e-27         3.56e-13   (2.7e+04 x design A's requirement)
+     721 um        4.636e-37         2.78e-18   (2.1e-01 x design A's requirement)
+   At 721 um the kernel-free bound is 5e-12 of the translation-invariant one (P3);
+   at split = R it is 0.40 of P3 at the same split. So one diamond held coherent across about its radius,
+   with its acceleration noise measured, tests every Markovian CQ gravity, discrete ones included.
+   Diamond density, split = R, Gamma <= 0.1 /s:
+     mass (kg)    R (um)    acceleration noise CQ gravity must produce (one-sided)
+        1e-17     0.088    6.39e-14 m s^-2/rtHz
+        1e-15     0.408    2.97e-13 m s^-2/rtHz
+        1e-14     0.880    6.39e-13 m s^-2/rtHz
+        1e-12     4.083    2.97e-12 m s^-2/rtHz
+   For small splits (dx << R) the same bound becomes a heating floor of 2 pi G rho/(3 omega)
+   phonons/s, 1.6e-12 at 50 kHz: unmeasurable. The test needs a split of order R.

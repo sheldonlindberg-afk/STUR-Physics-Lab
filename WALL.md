@@ -86,6 +86,29 @@ The selection survives all of them. What is left is three walls:
    (non-random) map of the surviving scalar region would reshape the allowed corner. They
    can't restore N_c = 5, which fails in the gauge sector alone.
 
+## The gravity thread: where it stopped
+
+Computed:
+- the decoherence floor for every continuous, Markovian classical gravity (the
+  Tilloy–Diósi floor, which is also Oppenheim's trade-off once minimized);
+- the shape-free one-particle bound (P3);
+- the kernel-free bound Γ·S_a ≥ (F_LR/M)²/8, which covers every Markovian
+  classical–quantum gravity, discrete jump models included (P5);
+- the finite-nucleus heating, which corrects the old 10⁶⁰ W/kg to 0.5 W/kg.
+
+What is left:
+
+1. **Theory wall: non-Markovian classical gravity.** No positivity theorem plays the
+   role of the trade-off for classical fields with memory, so no bound of this kind can
+   be derived for them. It would take a new theorem.
+2. **Experiment wall.** Every decisive test needs a ~10⁻¹⁴ kg diamond held coherent
+   across about its own radius (P5) or across 721 µm (P3, two diamonds). That is 4×10⁸
+   times the largest mass yet put in superposition. Engineering decides; the theory
+   doesn't.
+3. **Distinctiveness wall.** A positive result confirms λ = 1, which perturbative
+   quantum gravity also predicts. Distinguishing this framework from standard physics
+   would need a new mechanism (an option D-type idea), not more computation.
+
 ## What would move it
 
 - **For the corner:** allow `arxiv.org` in the environment's network settings,

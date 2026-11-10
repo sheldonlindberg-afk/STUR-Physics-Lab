@@ -79,9 +79,13 @@ Source: `src/god_eq_331_yukawa.py`, [NOTE_331.md](NOTE_331.md), front 7d of
    selects 3-3-1, and nothing in the 3-3-1 chain uses the equation. They share a
    repository and a method, not a derivation. Presenting them as one theory would be
    inconsistent.
-6. **Scope of the classical-gravity bounds.** They cover continuous, Markovian,
-   translation-invariant models with Gaussian noise. Discrete (jump) models with noise
-   only where mass sits remain open, as Oppenheim et al. also find.
+6. **Scope of the classical-gravity bounds.**
+   - P3 covers continuous, translation-invariant models.
+   - P5 ([OPPENHEIM.md](OPPENHEIM.md)) is kernel-free. It covers every Markovian CQ
+     model, discrete (jump) ones included, for splits of order the particle's radius:
+     Γ·S_a ≥ (F_LR/M)²/8.
+   - Discrete models are therefore testable, not excluded. Non-Markovian classical
+     gravity remains uncovered: that is where the gravity thread's theory wall is.
 7. **Design A hinges on an order-of-magnitude gas-collision formula.** With helium as the
    leftover gas, or a 10× worse vacuum, no design works.
 
@@ -89,5 +93,5 @@ Source: `src/god_eq_331_yukawa.py`, [NOTE_331.md](NOTE_331.md), front 7d of
 
 ```bash
 python -m pytest tests/test_consistency.py -q     # the mechanical checks
-python -m pytest tests -q                         # everything (115 tests)
+python -m pytest tests -q                         # everything (116 tests)
 ```

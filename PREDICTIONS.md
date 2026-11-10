@@ -45,6 +45,13 @@ gravity must shake it with at least 1.3×10⁻¹² m s⁻²/√Hz, which is 10�
 the experiment already requires. This holds for every source smearing up to 157 µm.
 Source: `src/stur_oppenheim.py`, [OPPENHEIM.md](OPPENHEIM.md).
 
+**3″. Every classical–quantum gravity, discrete models included, is squeezed by a small
+split.** The operator form of the trade-off gives Γ·S_a ≥ (F_LR/M)²/8 with no kernel
+assumed, where F_LR is the pull between the branches. The pull is largest at a split of
+one radius. A design-A diamond coherent at 0.12 /s across 1 µm requires any classical
+gravity to shake it with at least 6.7×10⁻¹³ m s⁻²/√Hz. Source: `src/stur_oppenheim.py`
+P5.
+
 **4. Gravity keeps no record of a single mass.** Splitting a design-A diamond emits
 1.4×10⁻⁵⁹ gravitons, so gravity never reveals which branch happened. Source:
 `src/stur_tegr.py`, [TEGR.md](TEGR.md) E6.

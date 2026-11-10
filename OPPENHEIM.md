@@ -146,6 +146,55 @@ The radiation bound already demands R₀ ≥ 0.54 Å (LIT: Donadi et al. 2021).
 a 100 nm silica sphere in a 50 kHz trap is 3×10⁻¹² phonons/s, which is unmeasurable.
 For the R₀ still allowed, the deciding test is coherence at a large split (P2, P3).
 
+## P5. Any classical–quantum gravity, any kernel, continuous or discrete (STUR)
+
+P3 worked mode by mode, so it needed translation-invariant kernels. But Oppenheim et
+al.'s eq. (29) is an operator inequality. With the Newtonian back-reaction holding on
+average (D₁ = −½, local), its Schur complement gives
+
+```
+D₀ ⪰ S_J⁻¹ / 4        for every CQ model: continuous, or jumps with noise only where mass sits
+```
+
+Write Δm for the mass-density difference between the branches, and a_z = ∫w J for the
+particle's acceleration in terms of the random mass J. Cauchy–Schwarz in the S_J inner
+product then gives, **with no kernel assumed**:
+
+```
+Γ(split) · S_a  ≥  (1/8) |⟨Δm, w⟩|²  =  (1/8) (F_LR / M)²
+```
+
+F_LR is the ordinary Newtonian pull between the two branches' mass distributions. The
+inequality is checked on random matrices (always satisfied, and saturable to 10⁻⁶). For
+uniform spheres, F_LR from the Fourier integral matches the closed form
+GM²x(1 − 9x/16 + x³/32)/R² (x = split/R < 2) to 10⁻⁴. **It is largest at split = R,
+0.469 GM²/R².**
+
+**Design-A diamond, Γ ≤ 0.12 /s:**
+
+| Split | Bound (m²/s⁴) | Acceleration noise any CQ gravity must produce (one-sided) |
+|---|---|---|
+| R = 1.0 µm | 2.7×10⁻²⁶ | **6.7×10⁻¹³ m s⁻²/√Hz** |
+| 2R | 7.6×10⁻²⁷ | 3.6×10⁻¹³ |
+| 721 µm | 4.6×10⁻³⁷ | 2.8×10⁻¹⁸ |
+
+- **At a split of one radius,** the kernel-free bound is 0.40 of P3's at the same split.
+  At 721 µm it is 5×10⁻¹² of P3's.
+- **So the test that covers every Markovian CQ gravity, discrete models included, needs
+  only a small split:** hold a diamond coherent across about its own radius, and measure
+  its acceleration noise. The noise level needed is modest: 6×10⁻¹⁴ to 3×10⁻¹² m s⁻²/√Hz
+  for diamonds of 10⁻¹⁷ to 10⁻¹² kg at Γ ≤ 0.1 /s. The coherence is the hard part.
+- **At splits much smaller than R** the bound becomes a heating floor of 2πGρ/(3ω)
+  phonons/s, which is 1.6×10⁻¹² at 50 kHz and unmeasurable.
+
+**Assumptions:**
+- Oppenheim et al.'s (i) and (ii): Markovian, completely positive, and Newtonian on
+  average;
+- identifying the decoherence rate with the D₀ term (their eq. 43);
+- acceleration noise set by the second moment of J (their eq. 42).
+
+Non-Markovian classical gravity is still not covered.
+
 ## What this means for the theory
 
 | Gravity is … | Γ (one diamond, 721 µm) | Its own acceleration noise | Two diamonds entangle? |
@@ -169,8 +218,9 @@ For the R₀ still allowed, the deciding test is coherence at a large split (P2,
   gravity's prediction. It doesn't single out this theory.
 
 **Scope.**
-- The bound covers continuous Markovian models with translation-invariant Gaussian
-  kernels.
+- P3 covers continuous Markovian models with translation-invariant Gaussian kernels. P5
+  covers every Markovian CQ model, including the discrete ones below, but at a split of
+  order R rather than 721 µm.
 - It doesn't cover:
   - discrete (jump) CQ models whose noise sits only where the mass is (Oppenheim et al.'s
     eq. 46, which they find not yet ruled out);

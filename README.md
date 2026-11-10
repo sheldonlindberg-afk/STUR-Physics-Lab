@@ -87,6 +87,7 @@ depends on the lattice regularization, so the G formula doesn't predict G.
 | Two diamonds entangle through gravity alone (also perturbative quantum gravity's prediction) | Δφ = 2.19 rad; 565 runs (1.3 h) at the published targets, which need 4×10⁸ × today's largest superposed mass | Levitated-diamond interferometry ([GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md)) |
 | One diamond keeps its superposition | Full coherence for 3.24 s; any Markovian statistical gravity with smearing ≤ 52 µm leaves ≤ 1.3% | Single-diamond interferometry ([COLLECTIVE.md](COLLECTIVE.md)) |
 | Classical (Oppenheim) gravity is squeezed by one particle | Coherent at 0.12 /s ⇒ CQ acceleration noise ≥ 1.3×10⁻¹² m s⁻²/√Hz, 10⁵ × design A's requirement | Same diamond plus its accelerometry ([OPPENHEIM.md](OPPENHEIM.md)) |
+| Every CQ gravity, discrete ones included (kernel-free) | Coherent at 0.12 /s across a split of one radius ⇒ CQ acceleration noise ≥ 6.7×10⁻¹³ m s⁻²/√Hz | One diamond, small split ([OPPENHEIM.md](OPPENHEIM.md) P5) |
 | Gravity keeps no record of one mass | 1.4×10⁻⁵⁹ gravitons emitted per split | — ([TEGR.md](TEGR.md)) |
 | The classical limit is general relativity | Perihelion 42.98″/century, light bending 1.7512″, γ = 1, GPS +38.54 µs/day | Observed |
 | Visibility loss counts quanta, so heat destroys more of it | −ln V = 2 Var(ΔN); contrast 0.787 → 0.111 from n̄ = 0.1 to 5 | One trapped ion (`src/stur_lab_test.py`) |
@@ -102,7 +103,7 @@ python3 src/stur_derivation.py      # the whole chain, ~30 s
 python3 src/stur_thermo_gravity.py  # why gravity follows each branch, ~6 s
 python3 src/stur_gravity_full.py    # the two-diamond design search, ~15 s
 python3 src/stur_oppenheim.py       # classical (Oppenheim) gravity's trade-off, ~2 s
-python -m pytest tests -q           # every number pinned (115 tests)
+python -m pytest tests -q           # every number pinned (116 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on

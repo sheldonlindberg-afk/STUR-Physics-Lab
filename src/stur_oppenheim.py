@@ -29,6 +29,8 @@ P3  STUR (new number). Without P2's back-action step, using only the trade-off: 
           Gamma(dx) * S_a  >=  (M^2 / 4) I(dx)^2,
           I = Int d3q/(2pi)^3  (4 pi G / q^2) |F(q)|^2 |q_z| sqrt(1 - cos q_z dx)
     for every pair of kernels D0, S_J allowed by the trade-off (tight).
+P5  STUR. Kernel-free: Gamma * S_a >= (1/8)(F_LR/M)^2 for every CQ model, continuous or
+    discrete, from the operator form of the trade-off. Largest at split = radius.
 P4  FOLLOWS. Small splits: the same trade-off fixes a minimum centre-of-mass heating,
           d<p_z^2>/dt >= (4 pi / 3) hbar G M^2 Int rho_hat^2.
     For local coupling (g = 1), or smearing at the entanglement cutoff a, the nuclei set
@@ -220,6 +222,48 @@ DIAMOND = [(12, 1.0)]
 SILICA = [(28, 28 / 60), (16, 32 / 60)]
 
 
+# ------------------------------------------------- P5: kernel-free bound (any CQ model)
+def sphere_force_closed(d, R=R_A, M=M_A):
+    """Newtonian force between two uniform spheres (radius R, mass M) at centre distance d."""
+    if d >= 2 * R:
+        return G * M**2 / d**2
+    x = d / R
+    return G * M**2 / R**2 * x * (1 - 9 * x / 16 + x**3 / 32)
+
+
+def sphere_force_fourier(d, R=R_A, M=M_A, n=2_000_000):
+    """Same force from the Fourier integral, as a check."""
+    qmax = 400 / R
+    q = np.linspace(qmax / n, qmax, n)
+    k = q * d
+    g = np.where(k > 1e-4, (np.sin(k) - k * np.cos(k)) / np.maximum(k, 1e-300) ** 2, k / 3)
+    return 2 * G * M**2 / np.pi * np.trapezoid(q * sphere_ff(q * R) ** 2 * g, q)
+
+
+def general_bound(d, R=R_A, M=M_A):
+    """Gamma * S_a >= (1/8) |<Delta m, w>|^2 = (1/8) (F_LR / M)^2, any kernel."""
+    return (sphere_force_closed(d, R, M) / M) ** 2 / 8
+
+
+def operator_check(n=40, trials=200, seed=3):
+    """Finite-dimensional test of the operator inequality behind P5: for random S > 0,
+    D0 >= S^-1/4 and vectors dm, w: (1/2 dm.D0.dm)(w.S.w) >= |dm.w|^2 / 8, with equality
+    reachable (D0 = S^-1/4, w parallel to S^-1 dm)."""
+    rng = np.random.default_rng(seed)
+    worst = np.inf
+    for _ in range(trials):
+        A = rng.normal(size=(n, n)); S = A @ A.T + 0.1 * np.eye(n)
+        B = rng.normal(size=(n, n)) * rng.uniform(0, 1)
+        D0 = np.linalg.inv(S) / 4 + B @ B.T
+        dm, w = rng.normal(size=n), rng.normal(size=n)
+        lhs = 0.5 * dm @ D0 @ dm * (w @ S @ w)
+        worst = min(worst, lhs / ((dm @ w) ** 2 / 8))
+    A = rng.normal(size=(n, n)); S = A @ A.T + 0.1 * np.eye(n)
+    dm = rng.normal(size=n); w = np.linalg.solve(S, dm)
+    sat = 0.5 * dm @ (np.linalg.inv(S) / 4) @ dm * (w @ S @ w) / ((dm @ w) ** 2 / 8)
+    return worst, sat
+
+
 def main():
     banner("P1  The trade-off constant, checked on a qubit (CHECK)")
     print("   D0 * Dvar / (alpha^2/4)    min_z [rho00 rho11 - |rho01|^2] / (rho00 rho11)")
@@ -297,6 +341,44 @@ def main():
     print("   So heating rules out local CQ gravity but cannot reach the R0 the radiation bound allows;")
     print("   for those, the deciding test is coherence at a large split (P2 and P3). Collective")
     print("   gravity (this theory, and perturbative quantum gravity): Gamma = 0, S_a = 0, no heating.")
+    banner("P5  Any classical-quantum gravity, any kernel, continuous or discrete (STUR)")
+    worst, sat = operator_check()
+    print("   The trade-off (their eq. 29) is an operator inequality, D0 >= S_J^-1 / 4, for every CQ model")
+    print("   with Newtonian back-reaction on average, including jump models whose noise sits only where")
+    print("   mass is. Cauchy-Schwarz in the S_J inner product then gives, with no kernel assumed:")
+    print("        Gamma(split) * S_a  >=  (1/8) |<Delta m, w>|^2  =  (1/8) (F_LR / M)^2")
+    print("   F_LR is the Newtonian pull of one branch's mass on the other's. Checks: random matrices,")
+    print(f"   min ratio lhs/rhs = {worst:.3f} (>= 1); saturating case = {sat:.6f}.")
+    x = np.array([0.25, 0.5, 1.0, 1.5, 2.0, 5.0])
+    fc = [sphere_force_closed(xx * R_A) for xx in x]
+    ff = [sphere_force_fourier(xx * R_A) for xx in x]
+    print("   Uniform spheres, F_LR / (G M^2/R^2):  split/R = " + ", ".join(f"{a:g}" for a in x))
+    print("     closed form: " + ", ".join(f"{f_/(G*M_A**2/R_A**2):.4f}" for f_ in fc))
+    print("     Fourier    : " + ", ".join(f"{f_/(G*M_A**2/R_A**2):.4f}" for f_ in ff))
+    out["P5_fit"] = max(abs(a / b - 1) for a, b in zip(fc, ff))
+    print("   The pull is largest at split = R (0.46875 G M^2/R^2): the best test is a SMALL split.")
+    print("   Design-A diamond, Gamma <= 0.12 /s:")
+    print("     split         bound (m^2/s^4)   CQ acceleration noise needed (one-sided, m s^-2/rtHz)")
+    for lab, d in (("R = 1.0 um", R_A), ("2R", 2 * R_A), ("721 um", D_A)):
+        B = general_bound(d)
+        asd = np.sqrt(2 * B / GAMMA_BUDGET)
+        out[("P5", lab)] = (B, asd)
+        print(f"     {lab:10s}    {B:.3e}         {asd:.2e}   ({asd/ASD_REQ:.1e} x design A's requirement)")
+    rP3 = general_bound(R_A) / joint_bound(R_A)
+    out["P5_vs_P3_at_R"] = rP3
+    print(f"   At 721 um the kernel-free bound is {general_bound(D_A)/rows[0][2]:.0e} of the translation-invariant one (P3);")
+    print(f"   at split = R it is {rP3:.2f} of P3 at the same split. So one diamond held coherent across about its radius,")
+    print("   with its acceleration noise measured, tests every Markovian CQ gravity, discrete ones included.")
+    print("   Diamond density, split = R, Gamma <= 0.1 /s:")
+    print("     mass (kg)    R (um)    acceleration noise CQ gravity must produce (one-sided)")
+    rho_d = M_A / (4 / 3 * np.pi * R_A**3)
+    for Mx in (1e-17, 1e-15, 1e-14, 1e-12):
+        Rx = (3 * Mx / (4 * np.pi * rho_d)) ** (1 / 3)
+        asd = np.sqrt(2 * general_bound(Rx, Rx, Mx) / 0.1)
+        out[("P5m", Mx)] = asd
+        print(f"     {Mx:8.0e}    {Rx*1e6:6.3f}    {asd:.2e} m s^-2/rtHz")
+    print("   For small splits (dx << R) the same bound becomes a heating floor of 2 pi G rho/(3 omega)")
+    print(f"   phonons/s, {2*np.pi*G*rho_d/(3*OMEGA_NANO):.1e} at 50 kHz: unmeasurable. The test needs a split of order R.")
     return rows, out
 
 

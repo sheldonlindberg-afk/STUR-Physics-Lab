@@ -70,3 +70,13 @@ def test_reference_output_matches():
         O.main()
     ref = open(os.path.join(os.path.dirname(__file__), "..", "results", "oppenheim", "output.txt")).read()
     assert buf.getvalue() == ref
+
+
+def test_kernel_free_bound_any_cq_model():
+    worst, sat = O.operator_check(trials=60)
+    assert worst >= 1 - 1e-9 and abs(sat - 1) < 1e-9
+    for x in (0.5, 1.0, 1.5, 2.0, 5.0):
+        assert abs(O.sphere_force_closed(x * O.R_A) / O.sphere_force_fourier(x * O.R_A) - 1) < 1e-4
+    assert abs(O.sphere_force_closed(O.R_A) / (O.G * O.M_A**2 / O.R_A**2) - 0.46875) < 1e-12
+    asd = (2 * O.general_bound(O.R_A) / O.GAMMA_BUDGET) ** 0.5
+    assert abs(asd / 6.68e-13 - 1) < 5e-3
