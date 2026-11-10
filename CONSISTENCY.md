@@ -40,7 +40,7 @@ Source: `src/god_eq_331_yukawa.py`, [NOTE_331.md](NOTE_331.md), front 7d of
 |---|---|
 | Two-loop Yukawa terms | The coefficient formula reproduces the SM top's (17/10, 3/2, 2) exactly. With every Yukawa held constant (overstating it), poles rise by at most about 5×. No constant y_J ≤ 6 rescues N_c = 5. **Closed.** |
 | Boundary condition | It is the measured electroweak couplings at 4 TeV. β = +1/√3: N_c = 5 fails at every weak angle. β = −1/√3: N_c = 5 survives only for 0.066 < sin²θ_W < 0.074, about 3.4× below the measured 0.2504. At our angle, N_c = 5 would need α_em 1.33× (β = −1/√3) or 1.86× (β = +1/√3) weaker. **Quantified.** The selection takes the couplings as input and doesn't predict them. |
-| The narrow β = +1/√3 margin | The N_c = 3 pole sits 3.3× above M_Pl (5.1× with y_J = 1; 3.7–12.5× over 3-3-1 scales of 2–30 TeV). In the weak angle, N_c = 3 needs sin²θ_W(4 TeV) < 0.266, a margin of +0.016. **Still the tightest number.** One-loop threshold matching at the 3-3-1 scale is the next calculation. |
+| The narrow β = +1/√3 margin | One-loop threshold matching (front 7e) passes a matching-scale-independence check to 10⁻⁹. Across the heavy spectrum, the N_c = 3 pole sits ≥ 1.64× above M_Pl (≥ 2.23× with the Z′ above LHC limits), and N_c = 5 stays ≤ 3.8×10¹² GeV. The sin²θ_W margin is +0.010 to +0.035. **Survives; still the tightest number.** |
 
 ## Tensions that remain
 
@@ -73,5 +73,5 @@ Source: `src/god_eq_331_yukawa.py`, [NOTE_331.md](NOTE_331.md), front 7d of
 
 ```bash
 python -m pytest tests/test_consistency.py -q     # the mechanical checks
-python -m pytest tests -q                         # everything (106 tests)
+python -m pytest tests -q                         # everything (110 tests)
 ```

@@ -22,6 +22,7 @@ charges to Q_u = ⅔ and Q_d = −⅓.
 The result holds:
 - with exact charges and the full scalar content;
 - at two loops in the gauge couplings, including the two-loop Yukawa terms;
+- with one-loop threshold matching at the 3-3-1 scale, across the heavy spectrum;
 - for 3-3-1 breaking scales from 2 to 30 TeV;
 - in both phenomenologically viable variants (β = ±1/√3).
 
@@ -32,7 +33,8 @@ doesn't predict them. How much it depends on them differs between the two varian
 - **β = −1/√3:** wide margins in the couplings, but N_c = 5 survives in a narrow band of
   weak mixing angle about three times below ours.
 - **β = +1/√3:** N_c = 5 fails at every weak mixing angle, but N_c = 3 survives only for
-  sin²θ_W(4 TeV) < 0.266–0.272, against the measured 0.250.
+  sin²θ_W(4 TeV) below 0.261–0.285, against the measured 0.250. Its worst-case pole, with
+  thresholds, sits 1.6× above M_Pl, or 2.2× when the Z′ is above the LHC limits.
 
 The result is conditional on the 3-3-1 framework, which collider searches for its Z′ and
 bilepton gauge bosons decide, and on the perturbativity requirement.
@@ -150,6 +152,65 @@ The Planck scale is 1.2×10¹⁹ GeV.
   2–3 above M_Pl without Yukawas (3–5 with them). Yukawas can only widen this margin,
   because they only slow the growth of U(1)_X.
 
+## 3a. One-loop threshold matching at the 3-3-1 scale
+
+Source: `src/god_eq_331_threshold.py`, output `results/god_equation/331_threshold.txt`.
+
+**Method.** The breaking SU(3)_L × U(1)_X → SU(2)_L × U(1)_Y is matched at one loop in
+MS-bar (Weinberg 1980; Hall 1981):
+
+```
+1/α_low(μ) = 1/α_high(μ) − λ/(12π)
+λ = Σ_V t²(1 − 21 ln M_V/μ) + 8 Σ_Dirac t² ln M_F/μ + Σ_real scalars t² ln M_S/μ
+```
+
+For U(1)_Y, the high-energy side is the combination 1/α_X + β²/α_L.
+
+**The heavy spectrum, counted from the model:**
+- one complex SU(2) doublet of bilepton vectors (|Y| = ½), mass M_V;
+- the Z′, which carries no Standard Model charge (M_Z′ = 1.225 M_V);
+- N_c exotic quarks, plus N_c heavy leptons when β = +1/√3, all of mass r_J M_V. The same
+  Yukawa, y_J = r_J g_L/√2, enters at two loops.
+- nine heavy real scalars, after 4 form the light doublet and 5 are eaten: a second
+  doublet, a charged singlet, and 3 neutral fields, all of mass r_S M_V. Optionally the
+  second doublet is light, giving a two-Higgs-doublet model below M_V.
+
+**Check.** At one loop the N_c = 3 pole must not depend on the matching scale μ once the
+spectrum is fixed. Moving μ from M_V/3 to 3M_V changes ln(pole) by less than 10⁻⁹.
+Without thresholds it changes the pole by a factor of 2.6. So every sign and
+multiplicity in λ is right, and the heavy content is exactly 3-3-1 minus the Standard
+Model.
+
+N_c = 5 can't pass this check, and shouldn't. Below μ the running uses our three-colour
+Standard Model, which isn't 3-3-1 at N_c = 5 minus its heavy fields. That is the
+counterfactual boundary condition of §4 showing up directly. N_c = 5's pole moves by a
+factor of 1.5 with μ, and the scan below takes its most favourable μ.
+
+**Size.** With every heavy mass at μ, only the MS-bar vector constant survives
+(λ_Y = λ_2 = 1), and 1/α_X moves by +0.018 out of 83.8. Spreading the masses
+(r_J = 0.5–3, r_S = ⅓–3) moves 1/α_Y by −0.94 to +1.51 for β = +1/√3, and by −0.36 to
++0.58 for β = −1/√3. In effect, the heavy fields start running at their own masses.
+
+**Result** (two-loop running, Yukawas included; the scan covers r_J, r_S, M_V = 2–10 TeV,
+and the second doublet heavy or light):
+
+| | N_c = 3, worst case | N_c = 5, best case | Verdict |
+|---|---|---|---|
+| β = −1/√3 | 2.4×10²⁹ GeV (2×10¹⁰ M_Pl) | 7.2×10¹⁵ GeV | only N_c = 3 |
+| β = +1/√3 | 2.0×10¹⁹ GeV (**1.64 M_Pl**) | 3.8×10¹² GeV | only N_c = 3 |
+| β = +1/√3, M_V ≥ 4 TeV (Z′ ≥ 4.9 TeV) | 2.23 M_Pl | — | only N_c = 3 |
+
+- **The worst case for N_c = 3.** It is the lightest exotics (0.5 M_V), light scalars, a
+  light second doublet and M_V = 2 TeV. That spectrum puts the Z′ at 2.45 TeV, already
+  below the LHC limits.
+- **The sin²θ_W margin.** For β = +1/√3 it moves from +0.016 (tree level) to **+0.010 to
+  +0.035**, depending on the spectrum. Light exotics tighten it; heavy ones widen it.
+- **The scheme is under control.** At two loops, moving μ from M_V/2 to 2M_V changes the
+  pole by 1%.
+
+**Verdict:** the selection survives one-loop threshold matching across the spectrum
+scanned. In the narrow variant the worst allowed case sits a factor of 2 above M_Pl.
+
 ## 4. Conditions and caveats
 
 1. **The framework.** Everything assumes 3-3-1 with β = ±1/√3. If colliders exclude it,
@@ -176,10 +237,9 @@ The Planck scale is 1.2×10¹⁹ GeV.
    β = −1/√3 variant, a world whose TeV-scale weak angle were about three times smaller
    would also allow N_c = 5.
 
-   The β = +1/√3 margin in sin²θ_W is 0.016, large next to the measurement error (about
-   10⁻⁴). One-loop matching corrections at the 3-3-1 threshold were not computed; they
-   would have to shift the effective sin²θ_W by 0.016 to flip it. This is the tightest
-   number in the chain, and the next calculation to do.
+   The β = +1/√3 margin in sin²θ_W is 0.016 with tree-level matching, large next to the
+   measurement error (about 10⁻⁴). One-loop threshold matching is computed in §3a and
+   leaves it at +0.010 to +0.035.
 4. **Two-loop Yukawa terms are now included** (§2). They can't rescue N_c = 5, and they
    widen the N_c = 3 margins. The exotic Yukawas are unknown; the scan covers 0–2, and a
    constant 6 still fails. Not included: the running of the Yukawas themselves, which in
@@ -230,10 +290,11 @@ python3 src/god_eq_three_generations.py # step 2, minimal model; three_generatio
 python3 src/god_eq_su3L_running.py      # step 3; su3L_running.txt
 python3 src/god_eq_331_exact.py         # step 4, robustness, both variants; 331_exact.txt
 python3 src/god_eq_331_yukawa.py        # Yukawas, boundary condition, margins; 331_yukawa.txt
-python -m pytest tests/test_god_eq.py tests/test_331_yukawa.py -q
+python3 src/god_eq_331_threshold.py     # one-loop threshold matching (~75 s); 331_threshold.txt
+python -m pytest tests/test_god_eq.py tests/test_331_yukawa.py tests/test_331_threshold.py -q
 ```
 
-The full working record is fronts 5–7d and 11–12 of [GOD_EQUATION.md](GOD_EQUATION.md).
+The full working record is fronts 5–7e and 11–12 of [GOD_EQUATION.md](GOD_EQUATION.md).
 
 ## References (recalled, not link-checked)
 

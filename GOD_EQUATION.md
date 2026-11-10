@@ -448,6 +448,34 @@ g = 1 criterion, N_c = 3 fails with or without Yukawas.
 - The two variants are complementary. One has a wide N_c = 3 margin but a distant N_c = 5
   band; the other excludes N_c = 5 for every angle but has a narrow N_c = 3 margin.
 
+## Front 7e: one-loop threshold matching at the 3-3-1 scale
+
+Script: `src/god_eq_331_threshold.py`; output: `results/god_equation/331_threshold.txt`;
+tests: `tests/test_331_threshold.py`.
+
+**Method.** MS-bar one-loop matching (Weinberg; Hall), with the heavy spectrum counted
+from the model:
+- the bilepton doublet (Z′ = 1.225 M_V, no SM charge);
+- N_c exotic quarks, and for β = +1/√3 also N_c heavy leptons;
+- 9 heavy real scalars.
+
+**Check.** At one loop, with the spectrum fixed, the N_c = 3 pole is independent of the
+matching scale to 5×10⁻¹⁰ in its logarithm. Without thresholds it shifts by 2.6×.
+N_c = 5 can't pass this check: our three-colour SM is not its low-energy theory, which is
+the counterfactual boundary condition seen directly. Its most favourable matching scale
+is used.
+
+**Result.** Scanned over exotic masses 0.5–3 M_V, scalar masses ⅓–3 M_V, M_V = 2–10 TeV
+and one or two light doublets:
+- β = −1/√3: N_c = 3 at ≥ 2.4×10²⁹ GeV, against N_c = 5 at ≤ 7.2×10¹⁵.
+- β = +1/√3: N_c = 3 at ≥ 2.0×10¹⁹ GeV (1.64 M_Pl; 2.23 M_Pl with M_V ≥ 4 TeV), against
+  N_c = 5 at ≤ 3.8×10¹².
+- The sin²θ_W margin for β = +1/√3 is +0.010 to +0.035 (tree level +0.016).
+- At two loops, the residual dependence on the matching scale is 1%.
+
+**Verdict.** The selection survives one-loop thresholds. The narrow variant's worst
+case, a spectrum already disfavoured by the LHC, sits 1.6× above M_Pl.
+
 ## Front 8: masses, starting with Koide's formula
 
 Script: `src/god_eq_masses.py`; output: `results/god_equation/masses.txt`.

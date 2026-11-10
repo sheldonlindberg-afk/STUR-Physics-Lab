@@ -103,13 +103,17 @@ def yt_at(mu, loops=1):
     return float(sol.y[0, -1])
 
 
-def boundary(mu0, s2_override=None, aem_inv_override=None):
+def boundary(mu0, s2_override=None, aem_inv_override=None, lam=(0.0, 0.0, 0.0), n_light=1):
     """Couplings (1/alpha_X, 1/alpha_L, 1/alpha_3) at the 3-3-1 scale. With s2_override,
-    keep alpha_em(mu0) and alpha_s fixed and impose sin^2 theta_W(mu0) = s2_override."""
+    keep alpha_em(mu0) and alpha_s fixed and impose sin^2 theta_W(mu0) = s2_override.
+    lam = (lambda_Y, lambda_2, lambda_3): one-loop threshold corrections at mu0,
+    1/alpha_high = 1/alpha_low + lambda / (12 pi)  (src/god_eq_331_threshold.py).
+    n_light: number of Higgs doublets below mu0 (each adds 1/6 to b_Y and b_2)."""
     from stur_open_problems import alpha_s_run
     L0 = log(mu0 / MZ) / (2 * pi)
-    aY_inv = (1 - E.s2) * E.ainv - 41 / 6 * L0
-    a2_inv = E.s2 * E.ainv + 19 / 6 * L0
+    extra = (n_light - 1) / 6
+    aY_inv = (1 - E.s2) * E.ainv - (41 / 6 + extra) * L0
+    a2_inv = E.s2 * E.ainv + (19 / 6 - extra) * L0
     a3_inv = 1 / alpha_s_run(mu0)
     aem_inv = aY_inv + a2_inv
     s2_mu = a2_inv / aem_inv
@@ -121,17 +125,23 @@ def boundary(mu0, s2_override=None, aem_inv_override=None):
         a2_inv = s2_override * aem_inv
         aY_inv = aem_inv - a2_inv
         s2_mu = s2_override
+    aY_inv += lam[0] / (12 * pi)
+    a2_inv += lam[1] / (12 * pi)
+    a3_inv += lam[2] / (12 * pi)
     aX_inv = aY_inv - a2_inv / 3                 # 1/g_Y^2 = 1/g_X^2 + beta^2/g_L^2, beta^2 = 1/3
     return np.array([aX_inv, a2_inv, a3_inv]), s2_mu, aem_inv
 
 
-def blow_up(Nc, variant="-1/sqrt3", yt=0.0, yJ=0.0, mu0=MU331, gmax=4 * pi, s2=None, aem_inv=None):
+def blow_up(Nc, variant="-1/sqrt3", yt=0.0, yJ=0.0, mu0=MU331, gmax=4 * pi, s2=None, aem_inv=None,
+            lam=(0.0, 0.0, 0.0), n_light=1, loops=2):
     gs, ferm, scal, _ = E.MODELS[variant](Nc)
     a, b = E.coefficients(gs, ferm, scal)
     a = np.array([float(x) for x in a]); b = np.array([[float(x) for x in r] for r in b])
     ct, cJ = yukawas_331(Nc, variant)
     yuk = ct * yt**2 + cJ * yJ**2
-    ainv0, _, _ = boundary(mu0, s2, aem_inv)
+    ainv0, _, _ = boundary(mu0, s2, aem_inv, lam, n_light)
+    if loops == 1:
+        b, yuk = 0 * b, 0 * yuk
     if min(ainv0) <= 0:
         return mu0
     g0 = np.sqrt(4 * pi / ainv0)
