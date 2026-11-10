@@ -329,18 +329,29 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
 
 ## 5. What is known and what is new
 
-- **Known:**
+- **Known** (retrieved in the novelty search, NOVELTY.md):
   - N_g a multiple of N_c from 3-3-1 anomaly cancellation (Pisano–Pleitez 1992;
-    Frampton 1992);
+    Frampton 1992; Pisano 1996, hep-ph/9609358; Doff–Pisano 2000, hep-ph/0007306);
+  - with three light neutrinos as an input, N_c = 3 (Frampton 1994, hep-ph/9409331:
+    "taking … arbitrary numbers N_c of colors and N_l of light neutrinos we find this
+    anomaly cancels only if N_c = N_l = 3");
+  - quark and lepton representations and charge quantization for an arbitrary number of
+    colours (Geng 2001, hep-ph/0101329);
   - N_c odd from Witten's anomaly (in the SM; in 3-3-1 it follows from step 2, §2);
   - the charges' N_c dependence from anomaly cancellation (e.g. Bär–Wiese 2001 on
     π⁰ → γγ);
-  - the minimal model's low Landau pole, and the β = 1/√3 model's high-energy U(1) pole.
-- **This note's step:** keeping N_c general throughout (charges, anomalies, scalars, two-
-  loop running) and using Planck-scale perturbativity to fix N_c itself, and with it N_g
-  and the ⅓ charges.
-- **Novelty.** One literature search found no prior derivation of N_c by this route.
-  That isn't proof there isn't one.
+  - the minimal model's low Landau pole (e.g. Barela 2023, arXiv:2305.05066; Morisi,
+    Perdonà, Ricciardi 2025, arXiv:2505.15785), and the β = 1/√3 model's high-energy
+    U(1) pole.
+- **This note's step:** keep N_c general throughout (charges, anomalies, scalars, two-loop
+  running, thresholds, the scalar sector), and **don't** take the number of generations
+  or neutrinos from experiment. Planck-scale perturbativity then fixes N_c itself, and
+  with it N_g and the ⅓ charges. Frampton's 1994 statement reaches N_c = 3 only by
+  inputting N_l = 3; Pisano takes the Standard Model, with three colours, as the input.
+- **Novelty.** Targeted searches (web, and arXiv's own search) found no prior use of
+  coupling running or Landau poles to fix N_c, in 3-3-1 or in the Standard Model.
+  INSPIRE could not be queried from this environment. That isn't proof of novelty; an
+  expert in 3-3-1 phenomenology should be asked.
 
 ## 6. How it will be tested
 

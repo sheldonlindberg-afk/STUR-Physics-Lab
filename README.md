@@ -72,7 +72,7 @@ depends on the lattice regularization, so the G formula doesn't predict G.
 - **The diamond experiments are far off.** They need 4×10⁸ times today's largest mass in
   superposition, and vibration noise about 57 times below LISA Pathfinder.
 - **This project's own results:**
-  - the shape-free one-particle bound on classical gravity ([OPPENHEIM.md](OPPENHEIM.md));
+  - a mode-by-mode sharpening of Oppenheim et al.'s classical-gravity trade-off (P3, [OPPENHEIM.md](OPPENHEIM.md); incremental, see [NOVELTY.md](NOVELTY.md));
   - the identity −ln V = 2 Var(ΔN);
   - a conditional particle-physics result: in 3-3-1 models, perturbativity to the
     Planck scale selects 3 colours = 3 generations ([NOTE_331.md](NOTE_331.md)). It is
@@ -90,7 +90,7 @@ depends on the lattice regularization, so the G formula doesn't predict G.
 | Two diamonds entangle through gravity alone (also perturbative quantum gravity's prediction) | Δφ = 2.19 rad; 270 runs (0.6 h) at the published targets, which need 4×10⁸ × today's largest superposed mass | Levitated-diamond interferometry ([GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md)) |
 | One diamond keeps its superposition | Full coherence for 3.24 s; any Markovian statistical gravity with smearing ≤ 52 µm leaves ≤ 1.3% | Single-diamond interferometry ([COLLECTIVE.md](COLLECTIVE.md)) |
 | Classical (Oppenheim) gravity is squeezed by one particle | Coherent at 0.12 /s ⇒ CQ acceleration noise ≥ 1.3×10⁻¹² m s⁻²/√Hz, 4×10⁴ × design A's requirement | Same diamond plus its accelerometry ([OPPENHEIM.md](OPPENHEIM.md)) |
-| Every CQ gravity, discrete ones included (kernel-free) | Coherent at 0.12 /s across a split of one radius ⇒ CQ acceleration noise ≥ 6.7×10⁻¹³ m s⁻²/√Hz | One diamond, small split ([OPPENHEIM.md](OPPENHEIM.md) P5) |
+| Every CQ gravity, discrete ones included (Oppenheim et al.'s kernel-free trade-off, applied to a small split) | Coherent at 0.12 /s across a split of one radius ⇒ CQ acceleration noise ≥ 6.7×10⁻¹³ m s⁻²/√Hz | One diamond, small split ([OPPENHEIM.md](OPPENHEIM.md) P5) |
 | Gravity keeps no record of one mass | 1.4×10⁻⁵⁹ gravitons emitted per split | — ([TEGR.md](TEGR.md)) |
 | The classical limit is general relativity | Perihelion 42.98″/century, light bending 1.7512″, γ = 1, GPS +38.54 µs/day | Observed |
 | Visibility loss counts quanta, so heat destroys more of it | −ln V = 2 Var(ΔN); contrast 0.787 → 0.111 from n̄ = 0.1 to 5 | One trapped ion (`src/stur_lab_test.py`) |
@@ -123,6 +123,7 @@ OPPENHEIM.md              classical-quantum gravity's trade-off, and a one-parti
 NOTE_331.md               standalone note: 3 colours = 3 generations from 3-3-1 running
 CONSISTENCY.md            what was checked, what was fixed, and the tensions that remain
 RECHECK.md                derived now / failed and rechecked / cannot be derived, with reasons
+NOVELTY.md                literature search: what is new, what was already known
 BORN.md, MEASUREMENT.md, TEGR.md, GRAVITY_ENTANGLEMENT.md, EMERGENT.md
                           the supporting reports
 src/                      one script per report; outputs in results/

@@ -49,8 +49,8 @@ noise the experiment already requires. This holds for every source smearing up t
 Source: `src/stur_oppenheim.py`, [OPPENHEIM.md](OPPENHEIM.md).
 
 **3″. Every classical–quantum gravity, discrete models included, is squeezed by a small
-split.** The operator form of the trade-off gives Γ·S_a ≥ (F_LR/M)²/8 with no kernel
-assumed, where F_LR is the pull between the branches. The pull is largest at a split of
+split.** Oppenheim et al.'s kernel-free observational trade-off (their appendix B.4),
+applied with the body's force response as the test function, gives Γ·S_a ≥ (F_LR/M)²/8, where F_LR is the pull between the branches. The pull is largest at a split of
 one radius. A design-A diamond coherent at 0.12 /s across 1 µm requires any classical
 gravity to shake it with at least 6.7×10⁻¹³ m s⁻²/√Hz. Source: `src/stur_oppenheim.py`
 P5.

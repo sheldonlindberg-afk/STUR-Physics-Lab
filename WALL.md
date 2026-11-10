@@ -93,7 +93,8 @@ Computed:
   Tilloy–Diósi floor, which is also Oppenheim's trade-off once minimized);
 - the shape-free one-particle bound (P3);
 - the kernel-free bound Γ·S_a ≥ (F_LR/M)²/8, which covers every Markovian
-  classical–quantum gravity, discrete jump models included (P5);
+  classical–quantum gravity, discrete jump models included (P5). It applies Oppenheim et
+  al.'s own appendix-B trade-off, so it is not new as a principle;
 - the finite-nucleus heating, which corrects the old 10⁶⁰ W/kg to 0.5 W/kg.
 
 What is left:

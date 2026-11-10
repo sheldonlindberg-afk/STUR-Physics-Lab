@@ -146,7 +146,20 @@ The radiation bound already demands R₀ ≥ 0.54 Å (LIT: Donadi et al. 2021).
 a 100 nm silica sphere in a 50 kHz trap is 3×10⁻¹² phonons/s, which is unmeasurable.
 For the R₀ still allowed, the deciding test is coherence at a large split (P2, P3).
 
-## P5. Any classical–quantum gravity, any kernel, continuous or discrete (STUR)
+## P5. Any classical–quantum gravity, any kernel, continuous or discrete (an application of LIT)
+
+**Prior work, found in the novelty search (NOVELTY.md).** The kernel-free inequality
+below is not new. Oppenheim et al. derive a state-level ("observational") Cauchy–Schwarz
+trade-off with an arbitrary test function b(x), for any kernel, in their appendix B.3–B.4
+(eqs. 76–84). Their eq. 84, for example, bounds the potential-weighted diffusion by
+|⟨Φ⟩|²/(16G²λ). What this section adds is a choice of test functions:
+- the body's own force response, so that the diffusion side is the particle's measured
+  acceleration noise S_a;
+- the branch difference Δm, so that the decoherence side is the rate of a split;
+- the resulting dependence on the split, which is optimal at split = R, with numbers for
+  design A.
+
+That is an application, not a new bound.
 
 P3 worked mode by mode, so it needed translation-invariant kernels. But Oppenheim et
 al.'s eq. (29) is an operator inequality. With the Newtonian back-reaction holding on
@@ -208,11 +221,16 @@ Non-Markovian classical gravity is still not covered.
   noise acts back (Tilloy–Diósi 2016; Oppenheim et al.'s appendix D.2 notes that the DP
   kernel saturates it).
 - **This project's:**
-  - the shape-free one-particle product bound Γ·S_a ≥ (M²/4)I², and its numbers for
-    design A;
-  - the finite-nucleus heating floor, and the correction to COLLECTIVE.md.
+  - the mode-by-mode product bound Γ·S_a ≥ (M²/4)I² (P3). It applies the trade-off at
+    each wavenumber, which is stronger than Oppenheim et al.'s single state-level
+    Cauchy–Schwarz (their eqs. 80–84), and gives design-A numbers. It builds on their
+    appendix B and is a sharpening, not a new principle;
+  - the finite-nucleus heating floor, and the correction to COLLECTIVE.md;
+  - P5's choice of test functions and its split = R optimum. The kernel-free inequality
+    itself is theirs.
 
-  I didn't find either in the papers I read. That isn't proof of novelty.
+  A targeted search (NOVELTY.md) found no prior statement of P3 or of the heating floor.
+  That isn't proof of novelty.
 - **What a positive result would not show.** A coherent, quiet diamond rules out CQ
   gravity, but it confirms λ = 1, and λ = 1 is also ordinary perturbative quantum
   gravity's prediction. It doesn't single out this theory.
