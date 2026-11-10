@@ -80,16 +80,22 @@ The simplest DP (R₀ < 0.54 Å) is already excluded by the absence of the radia
 predicts (LIT: Donadi et al. 2021). Versions with larger R₀ survive, and this
 experiment tests them.
 
+**Note on K1.** Jacobson's argument in K1 is itself of this statistical kind: it gives
+Einstein's equation as an equation of state for ⟨T_μν⟩. So K1 supplies the value of G
+but doesn't choose between K2 and K3. That choice is what the experiment makes.
+
 ## K4. What the experiment measures, read the right way round
 
 | Gravity is … | Do two diamonds entangle? | Does one diamond keep its 3 s superposition? |
 |---|---|---|
 | collective (phonon-like) | **yes** (λ = 1) | **yes** |
-| statistical (average + noise) | **no** (λ = 0) | **no**: DP-type collapse in ~6 ms |
+| statistical (average + noise) | **no** (λ = 0) | **no** if the noise is Diósi–Penrose (collapse in ~6 ms); depends on the model otherwise |
 
-The right-hand column needs only **one** diamond. A single-diamond interferometer at
-design A's mass and split already tells the two apart, before any entanglement run.
-The two-diamond witness then confirms the collective reading.
+The right-hand column needs only **one** diamond, but it tests Diósi–Penrose, not
+λ = 0 in general. Other consistent classical-gravity models (LIT, recalled: Oppenheim's
+classical–quantum theory) trade decoherence against diffusion through a free
+parameter. A 3 s superposition that survives would exclude DP but not every λ = 0
+model. Only the two-diamond witness measures λ itself.
 
 ## What this means for the picture
 

@@ -6,9 +6,9 @@
 <meta name="theme-color" content="#07090d" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f6f8fa" media="(prefers-color-scheme: light)">
 <title>STUR Resistance Equation</title>
-<meta name="description" content="Resistance is one loop phase, Φ_R: its variance is entropy, its energy cost is set by temperature, and its ceiling is set by boundary area. One postulate, S_R = ½ k_B Φ_R², labelled as such; every number reproduced by stur_verify.py.">
+<meta name="description" content="Resistance is one loop phase, Φ_R: its variance is entropy, its energy cost is set by temperature, and its ceiling is set by boundary area. One postulate, S_R = ½ k_B Φ_R², labelled as such. Status: the postulate failed its computed tests and the Smarr check is circular (REPORT.md); this page is kept as the original record.">
 <meta property="og:title" content="STUR Resistance Equation: one loop phase, one postulate">
-<meta property="og:description" content="Visibility, entropy, energy and the holographic ceiling from one phase Φ_R. Reproduces Smarr's Mc² = 2TS and the Skyrme energies. Every step labelled known, postulate, follows or check.">
+<meta property="og:description" content="Visibility, entropy, energy and the holographic ceiling from one phase Φ_R. Reproduces Smarr's Mc² = 2TS and the Skyrme energies. Every step labelled known, postulate, follows or check. Kept as the record: the postulate later failed its computed tests.">
 <meta property="og:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/4.13.png">
 <meta property="og:url" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">
 <meta property="og:type" content="website">
@@ -56,6 +56,7 @@
 </header>
 
 <main id="main">
+  <div class="callout" role="note" style="margin-bottom:24px"><b>Status, November 2026: this page is the original derivation record, kept as it was apart from corrected labels.</b>The postulate S<sub>R</sub> = &frac12;k<sub>B</sub>&Phi;<sub>R</sub>&sup2; and its corollary E<sub>R</sub> = &frac12;k<sub>B</sub>T&Phi;<sub>R</sub>&sup2; failed their computed tests: standard decoherence theory gives the opposite temperature dependence. The Smarr check turned out to be circular. See <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/REPORT.md">REPORT.md</a> and <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/AUDIT.md">AUDIT.md</a>, and the current work on <a href="quantum.html">the quantum-level page</a>.</div>
   <!-- Hero -->
   <div class="hero" id="top">
     <div>
@@ -83,10 +84,10 @@
       <p class="eyebrow" style="margin-bottom:4px">Status at a glance</p>
       <div class="glance">
         <div class="g-row"><span class="t">Visibility = Gaussian Wilson loop</span><span class="tag known">known</span><span class="c">Monte Carlo agrees to 3 decimals</span></div>
-        <div class="g-row"><span class="t">S<sub>R</sub> = &frac12; k<sub>B</sub>&Phi;<sub>R</sub>&sup2;</span><span class="tag post">postulate</span><span class="c">Must be tested by experiment</span></div>
-        <div class="g-row"><span class="t">E<sub>R</sub> = &frac12; k<sub>B</sub>T&Phi;<sub>R</sub>&sup2;</span><span class="tag">follows</span><span class="c">Landauer's principle</span></div>
-        <div class="g-row"><span class="t">Ceiling reproduces black-hole entropy and Smarr's Mc&sup2; = 2TS</span><span class="tag ok">check passed</span><span class="c">E<sub>R</sub>/Mc&sup2; = 0.500000 for all masses tested</span></div>
-        <div class="g-row"><span class="t">&frac12;&Phi;<sub>R</sub>&sup2; = &sigma;(&mu;)A spans QCD to Planck</span><span class="tag hyp">hypothesis</span><span class="c">Running of &sigma;(&mu;) not yet derived</span></div>
+        <div class="g-row"><span class="t">S<sub>R</sub> = &frac12; k<sub>B</sub>&Phi;<sub>R</sub>&sup2;</span><span class="tag post">postulate: failed</span><span class="c">Matches no standard entropy (ASSUMPTIONS.md)</span></div>
+        <div class="g-row"><span class="t">E<sub>R</sub> = &frac12; k<sub>B</sub>T&Phi;<sub>R</sub>&sup2;</span><span class="tag post">failed</span><span class="c">Landauer covers erasure, not dephasing; wrong T-scaling</span></div>
+        <div class="g-row"><span class="t">Ceiling reproduces black-hole entropy and Smarr's Mc&sup2; = 2TS</span><span class="tag post">circular</span><span class="c">E<sub>R</sub>/Mc&sup2; = 0.500000 restates Smarr, which was built in</span></div>
+        <div class="g-row"><span class="t">&frac12;&Phi;<sub>R</sub>&sup2; = &sigma;(&mu;)A spans QCD to Planck</span><span class="tag post">failed</span><span class="c">The QCD and horizon areas are different kinds (CONFINEMENT.md)</span></div>
         <div class="g-row"><span class="t">A fold resists collapse at a definite size</span><span class="tag known">known</span><span class="c">Skyrme B=1: 1.2317 &times; 12&pi;&sup2;, literature 1.232</span></div>
       </div>
     </div>
@@ -138,7 +139,7 @@
         </div>
       </div>
       <div class="card step">
-        <span class="tag">follows</span> <span class="tag ok">check passed</span>
+        <span class="tag post">failed</span> <span class="tag post">circular check</span>
         <h3>Energy, ceiling, and the Smarr check</h3>
         <p class="plain">Recording information at a temperature costs energy (Landauer). No region can record more than a black hole of the same surface area (Bekenstein). Push the phase to that limit for a real black hole at its own Hawking temperature, and the energy comes out as exactly half the hole's mass-energy: a known exact law, reproduced without being put in.</p>
         <div class="tech">
@@ -332,7 +333,7 @@
     <h2 id="open-h">What the equation stands or falls on</h2>
     <p class="lede">In order of importance.</p>
     <div class="grid g2 open">
-      <div class="card kill"><h3>Test the postulate</h3><p class="small muted">S<sub>R</sub> = &frac12;k<sub>B</sub>&Phi;<sub>R</sub>&sup2; predicts &Phi;<sub>R</sub>&sup2; = 2E/(k<sub>B</sub>T): at fixed energy deposited, a <strong>colder interferometer loses more visibility</strong>. First check whether standard decoherence theory already predicts this scaling. If yes, the postulate is consistent but not new; if no, it is a falsifiable signature for atom interferometers (MAGIS-100, AION).</p></div>
+      <div class="card kill"><h3>Test the postulate</h3><p class="small muted">S<sub>R</sub> = &frac12;k<sub>B</sub>&Phi;<sub>R</sub>&sup2; predicts &Phi;<sub>R</sub>&sup2; = 2E/(k<sub>B</sub>T): at fixed energy deposited, a <strong>colder interferometer loses more visibility</strong>. First check whether standard decoherence theory already predicts this scaling. If yes, the postulate is consistent but not new; if no, it is a falsifiable signature for atom interferometers (MAGIS-100, AION).</p><p class="small muted"><strong>Done:</strong> standard theory predicts the opposite, so hotter loses more (ASSUMPTIONS.md). A one-ion experiment that would show it directly is in AUDIT.md.</p></div>
       <div class="card kill"><h3>Fix the connection A<sub>&mu;</sub></h3><p class="small muted">Spin connection, U(1), or a new field. Until it is fixed, &Phi;<sub>R</sub> has no definite value in any experiment.</p></div>
       <div class="card kill"><h3>Derive &sigma;(&mu;)</h3><p class="small muted">A flow equation carrying the QCD tension to the Planck tension across 38 orders of magnitude, with electromagnetism kept on the perimeter law in between.</p></div>
       <div class="card kill"><h3>Show the two areas are the same kind</h3><p class="small muted">The QCD area law uses loops in spacetime; the black-hole area is a horizon. AdS/CFT connects them, but our universe has positive &Lambda;, where holography is not established.</p></div>

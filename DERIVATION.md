@@ -32,12 +32,20 @@ In words:
 |---|---|---|---|
 | D0 | Start: unitary quantum mechanics, locality (no-signaling), non-contextual probabilities, and N local quantum fields with spacing a | Assumed | — |
 | DB | **The Born rule:** probability = \|amplitude\|² | Envariance (fine-graining gives p = m/M exactly); only F(x) = x is additive (10⁻¹⁵); any other power signals faster than light; wrong-frequency branches carry weight 2×10⁻²⁴ at N = 10⁴ ([BORN.md](BORN.md)) | CHECK |
-| D1 | The vacuum's entanglement across any surface obeys an area law: S = 0.3047 (R/a)² per field | Srednicki's method, R/a = 10.5–18.5, extrapolated | CHECK (LIT 0.30) |
+| D1 | The vacuum's entanglement across any surface obeys an area law: S = 0.3047 (R/a)² per field (0.3046 from the longer R/a = 10.5–26.5 run in UNIFICATION.md; the equation uses 0.3046) | Srednicki's method, R/a = 10.5–18.5, extrapolated | CHECK (LIT 0.30) |
 | D2 | The vacuum is thermal to every accelerated observer: K = 2π × boost energy, T = ħg/(2πck_B) | Lattice modular Hamiltonian: 0.99969, 0.99992, 0.99997 of 2π at L = 20, 40, 60 | CHECK |
 | D3 | Clausius (δQ = TδS) on every local horizon gives Einstein's equations, with 1/(4Għ) = entanglement per area | Jacobson 1995 | LIT, not recomputed |
-| D4 | The same equations from the TEGR action (c⁴/16πG)∫eT: gravity is torsion on flat spacetime | T = −R + divergence, residual 10⁻¹⁶⁸ | CHECK |
+| D4 | The same equations from the TEGR action (c⁴/16πG)∫eT: gravity is torsion on flat spacetime | T = −R + divergence, residual ≤ 10⁻¹⁶⁵ at random points | CHECK |
 | D5 | Static solution: Schwarzschild, uniquely. Weak field: Ψ = Φ, ∇²Φ = 4πGρ | TEGR field equations solved symbolically | CHECK |
-| D6 | In a superposition each branch sources its own field: the equation above | What D0 implies for a field made of the quantum level. Exact in the lattice analog: phase 0.6064 vs 1/r law 0.6046, record 2×10⁻⁶ | FOLLOWS + analog |
+| D6 | In a superposition each branch sources its own field: the equation above | Assumed for gravity: D3 does not imply it (see the caveat below). Exact in the lattice analog: phase 0.6064 vs 1/r law 0.6046, record 2×10⁻⁶ | **ASSUMED** + analog |
+
+**Caveat on D3 → D6.** Jacobson's argument gives Einstein's equation as an *equation
+of state*: a relation for the expectation value ⟨T_μν⟩, which is the semiclassical
+equation. On its own that is the mean-field picture (λ = 0, EMERGENT.md K3), and
+Jacobson himself read it as a reason not to quantize the metric. So D1–D3 supply the
+*value* of G but are silent on whether the field follows each branch. D6 (λ = 1) is
+therefore a separate assumption, not a consequence of D3. It is the one claim the
+experiment tests.
 
 ## What comes out of it (D7)
 
@@ -46,9 +54,9 @@ In words:
 | (a) | **Double slit with a detector:** V = \|⟨E₁\|E₂⟩\|. No observer is needed, only a record | D² + V² = 1.000000 at every detector strength |
 | (b) | **The electron's own field** is in both branches. In free space it leaves no record. Near a surface, image charges record the path and the fringes fade | LIT: Sonnentag & Hasselbach 2007. A literally split charge is excluded (MEASUREMENT.md) |
 | (c) | **One mass, gravity's own record:** \|⟨E₁\|E₂⟩_grav\| = e^(−N/2) | N = 1.4×10⁻⁵⁹ gravitons: gravity keeps no record |
-| (d) | **Two masses:** the action difference alone entangles them | 0.594 rad; concurrence 0.293. Best design: 565 runs, 1.3 h (GRAVITY_ENTANGLEMENT.md) |
+| (d) | **Two masses:** the action difference alone entangles them | Baseline (10⁻¹⁴ kg, 2.5 s): 0.594 rad, concurrence 0.293. Best design A (1.5×10⁻¹⁴ kg): 2.19 rad, 565 runs, 1.3 h (GRAVITY_ENTANGLEMENT.md) |
 | (e) | **Classical limit** (one branch, many particles) | Perihelion 42.98″/century; light bending 1.7512″; γ = 1; GPS +38.54 µs/day |
-| (f) | **If gravity were only an average** (not D6): no entanglement in (d), and intrinsic collapse is needed | Diósi–Penrose: 170 /s, so one diamond's superposition lasts ~6 ms instead of > 3 s |
+| (f) | **If gravity were only an average** (not D6): no entanglement in (d), and intrinsic collapse or noise is needed | If that noise is Diósi–Penrose: 170 /s, so one diamond's superposition lasts ~6 ms instead of > 3 s. Other λ = 0 models set the rate differently |
 
 ## How your three starting ideas sit in the equation
 
@@ -73,10 +81,12 @@ In words:
   - the value of G (the measured G fixes only a²/N: a = 0.31 ℓ_P for one field, 3.1 ℓ_P
     for a hundred);
   - the particle content (the Standard Model).
-- **The one physical claim beyond textbook physics:** D6 applies to gravity. That is,
-  gravity emerges *collectively* from the quantum level, as phonons do in a crystal, and
-  not as a statistical average. It is tested by (c) and (d), and (f) is what failure
-  would look like.
+- **The one assumption beyond D0–D5:** D6 applies to gravity. That is, gravity emerges
+  *collectively* from the quantum level, as phonons do in a crystal, and not as a
+  statistical average. It is tested by (d); (f) is one form failure could take.
+  λ = 1 is also what perturbative (effective-field-theory) quantum gravity predicts, so
+  a positive result would confirm D6 without singling out this framework. Only a null
+  result (λ = 0) would be new physics.
 - **Status:** every ingredient is published physics. The chain, the λ framing and the
   computed checks are this project's. The equation contains no adjustable parameter
   beyond the measured G.

@@ -43,8 +43,8 @@ combined statement and the lattice tests are this project's.
 | A real EM charge "pulled into two places" | excluded: self-repulsion in flight, and a nearby surface erases the fringes | MEASUREMENT.md T5 |
 | Gravity's field: amplitude (λ = 1) vs one averaged field (λ = 0) | **open; measurable.** λ = 0 predicts zero entanglement. The best design at the published targets needs 565 runs; the binding gaps are mass in superposition (×4×10⁸) and vibration noise (×140 below LISA Pathfinder) | GRAVITY_ENTANGLEMENT.md |
 | Gravity is TEGR (torsion gauge field on flat spacetime) | GR falls out: Schwarzschild as the unique static solution, perihelion 42.98″, light bending 1.7512″, γ = 1, GPS +38.54 µs/day; the experiment's phases are TEGR's to 6×10⁻¹⁶ rad. Names STUR's A_μ on the gravity side (4 of 5 requirements) | TEGR.md |
-| Gravity as a consequence of the quantum level | G fixed by vacuum entanglement (cutoff 0.31 ℓ_P per field). Collective (phonon-like) emergence: field follows each branch, λ = 1 (lattice analog: 1/r law and entanglement exact). Statistical emergence: λ = 0 plus collapse in ~6 ms for design A, testable with ONE diamond | EMERGENT.md |
-| The equation from the quantum level up | ρᵢⱼ = ρᵢⱼ(0)⟨Eⱼ\|Eᵢ⟩e^{i(Sᵢ−Sⱼ)/ħ}, with gravity's TEGR action in Sᵢ and G from vacuum entanglement. One claim beyond textbook physics (collective emergence of gravity); tested by one- and two-diamond interferometry | DERIVATION.md |
+| Gravity as a consequence of the quantum level | G fixed by vacuum entanglement (cutoff 0.31 ℓ_P per field). Collective (phonon-like) emergence: field follows each branch, λ = 1 (lattice analog: 1/r law and entanglement exact). Statistical emergence: λ = 0; under Diósi–Penrose also collapse in ~6 ms for design A, which ONE diamond tests (DP only, not every λ = 0 model) | EMERGENT.md |
+| The equation from the quantum level up | ρᵢⱼ = ρᵢⱼ(0)⟨Eⱼ\|Eᵢ⟩e^{i(Sᵢ−Sⱼ)/ħ}, with gravity's TEGR action in Sᵢ and G from vacuum entanglement. One assumption beyond D0–D5 (collective emergence of gravity, λ = 1), which is also what perturbative quantum gravity predicts; tested by two-diamond interferometry | DERIVATION.md |
 
 ## The walls
 

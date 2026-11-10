@@ -1,7 +1,7 @@
 # STUR and the search for a unifying equation: consolidated report
 
 *Status as of November 2026. Every number below is computed by a script in `src/` and
-pinned by `tests/` (43 tests, all passing). Detailed records are in the topic reports
+pinned by `tests/` (86 tests, all passing). Detailed records are in the topic reports
 linked from each section.*
 
 ## How the work was done
@@ -169,13 +169,13 @@ Errors caught by the checks and fixed, recorded for transparency:
 
 ## 8. Housekeeping
 
-- **Out-of-date public files.** The README badges, `index.html` and the PDF derivation
-  record still present the Smarr check as passed and the area-ceiling lines as following
-  from known physics. They predate this report and need correcting (not done here).
+- **Out-of-date public files.** Corrected in the [AUDIT.md](AUDIT.md) pass: the README,
+  a status banner and corrected labels on `index.html`, `llms.txt` and `CITATION.cff`.
+  The PDF derivation record is unchanged and is marked as superseded.
 - **Network.** A personal environment "STUR-Physics-Lab" was created during the work to
   allow `arxiv.org` and `ar5iv.labs.arxiv.org`. Its setup script installs the Python
   requirements; it's unproven until a fresh session starts on it.
 - **Reproduce:**
   1. `pip install -r requirements.txt pytest matplotlib`
-  2. `python -m pytest tests -q` (43 tests)
+  2. `python -m pytest tests -q` (86 tests)
   3. run any `src/*.py` to regenerate its file in `results/`.

@@ -4,10 +4,11 @@ title: "STUR Resistance Equation: Derivation Record"
 abstract: >-
   Resistance is one loop phase, Phi_R, whose variance is entropy, whose
   energy cost is set by temperature, and whose ceiling is set by boundary
-  area. One line is a STUR postulate, S_R = 1/2 k_B Phi_R^2; the rest is
-  established physics or follows from it. Saturating the holographic ceiling
-  at the Hawking temperature reproduces Smarr's relation Mc^2 = 2TS. Every
-  number is reproduced by src/stur_verify.py.
+  area. One line is a STUR postulate, S_R = 1/2 k_B Phi_R^2. The record
+  documents that the postulate and its corollary failed their computed tests
+  against standard decoherence theory, and that the Smarr consistency check
+  was circular. What survives is a synthesis of known physics (REPORT.md).
+  Every number is reproduced by the scripts in src/.
 authors:
   - family-names: Lindberg
     given-names: Sheldon

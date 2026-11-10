@@ -6,14 +6,16 @@
 > S_R = 1/2 k_B Phi_R^2; its energy cost is E_R = 1/2 k_B T Phi_R^2
 > (Landauer); its ceiling is Phi_R^2 <= A / (2 l_P^2) (Bekenstein).
 
-## Status of each claim
+## Status of each claim (November 2026; see REPORT.md and AUDIT.md)
 - Visibility as a Gaussian Wilson loop: known physics.
-- S_R = 1/2 k_B Phi_R^2: the single STUR postulate; untested.
-- E_R = 1/2 k_B T Phi_R^2: follows from the postulate plus Landauer.
+- S_R = 1/2 k_B Phi_R^2: the single STUR postulate; FAILED its computed tests
+  (matches no standard entropy; ASSUMPTIONS.md).
+- E_R = 1/2 k_B T Phi_R^2: FAILED. Landauer covers erasure, not dephasing; at fixed
+  energy, standard decoherence gives visibility loss rising with T, the postulate 1/T.
 - At the holographic ceiling and the Hawking temperature, E_R = Mc^2/2
-  (Smarr's Mc^2 = 2TS): consistency check, passed.
-- 1/2 Phi_R^2 = sigma(mu) A from QCD to Planck: hypothesis; the flow
-  d sigma / d ln mu = beta(sigma) is not derived.
+  (Smarr's Mc^2 = 2TS): CIRCULAR, it restates an identity that was built in.
+- 1/2 Phi_R^2 = sigma(mu) A from QCD to Planck: FAILED; the QCD area is modular
+  energy, the horizon area is entropy (CONFINEMENT.md).
 - Resistance to collapse: Skyrme/Derrick, known physics, reproduced
   numerically (B=1: 1.2317 x 12 pi^2; B=2: 1.2083).
 
@@ -24,8 +26,11 @@
 - Born rule: derived from unitarity + locality / non-contextuality (BORN.md).
 - GR's classic tests recomputed from the TEGR solution: perihelion 42.98"/century,
   light bending 1.7512", gamma = 1, GPS +38.54 us/day.
-- Open claim (hypothesis): gravity emerges collectively from the quantum level,
-  tested by two-diamond gravitational entanglement and single-diamond coherence.
+- Open claim (assumption D6): gravity emerges collectively from the quantum level
+  (lambda = 1). Jacobson's step does not imply it, and perturbative quantum gravity
+  predicts the same lambda = 1, so only a null result would be new. Tested by
+  two-diamond gravitational entanglement; single-diamond coherence tests
+  Diosi-Penrose specifically.
 
 ## Key files
 - /index.html — interactive site (plain/technical modes)
