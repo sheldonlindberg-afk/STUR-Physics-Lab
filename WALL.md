@@ -36,6 +36,13 @@ combined statement and the lattice tests are this project's.
 | **Option B:** a confining field coupled to atoms | confinement must be longer than the Hubble radius (√σ < 1.4×10⁻³³ eV). What's left is an ordinary fifth force (MICROSCOPE): Γ ≈ 10⁻⁵⁸ | `src/stur_walls.py` |
 | **Option C:** a scale-dependent horizon tension | ΔS = 4πcN is a constant (0.3 k_B per scalar); T_H unchanged; no observable | `src/stur_walls.py` |
 
+## The open route: is gravity's field split, or in two places?
+
+| Claim | Status | Where |
+|---|---|---|
+| A real EM charge "pulled into two places" | excluded: self-repulsion in flight, and a nearby surface erases the fringes | MEASUREMENT.md T5 |
+| Gravity's field: amplitude (λ = 1) vs one averaged field (λ = 0) | **open; measurable.** λ = 0 predicts zero entanglement. The best design at the published targets needs 565 runs; the binding gaps are mass in superposition (×4×10⁸) and vibration noise (×140 below LISA Pathfinder) | GRAVITY_ENTANGLEMENT.md |
+
 ## The walls
 
 1. **Data wall.** Option A survives only in a corner at ξ ≈ Earth's radius:

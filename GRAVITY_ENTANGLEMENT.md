@@ -110,6 +110,113 @@ known physics, that an experiment under construction can measure, and that is no
 already excluded. Results from either branch of this test go back into
 [WALL.md](WALL.md).
 
-Not modelled: blackbody decoherence, trap and acceleration noise, and the
-splitting and recombining stages (the branches are held at fixed distances for
-the full τ). Each of these makes the dephasing budget tighter, never looser.
+Everything this section left out is modelled in the next one.
+
+## The full model (`src/stur_gravity_full.py`)
+
+Reproduce: `python3 src/stur_gravity_full.py` (about 15 s). Output in
+`results/gravity_entanglement/full_output.txt`; `tests/test_gravity_full.py` pins it.
+New ASSUMPTION inputs: 5 s overhead per run; at least 30 runs per measurement setting;
+Im[(ε−1)/(ε+2)] = 0.01 for diamond (scanned over 10⁻³–10⁻¹); field gradient 10⁶ T/m (LIT, Bose et al.).
+
+**H0. The Casimir-safe gap is the same for every mass: 181 µm.** Casimir goes as
+R⁶/r⁷, and gravity as m²/r ∝ R⁶/r, so their ratio doesn't depend on the mass. Lighter
+diamonds can't be moved closer to make up for their weaker pull.
+
+**H1. Split and recombine.** Integrating the phase along real opening and closing
+paths *adds* entangling phase, because the branches are already partly open during
+the ramps: +18% for 0.5 s ramps. But it also adds time for every noise source to act.
+
+**H2. Heat radiation.** At 0.15 K the thermal wavelength is 15 mm, much larger than the
+superposition. Scattering of thermal photons is negligible (10⁻¹⁵ /s). What matters is
+the diamond's own thermal emission. With a third of the budget given to it, the
+diamond's **internal temperature must stay below about 1 K** (0.7–1.5 K over the Im K
+scan). The diamond can't be held by absorbed laser light for the whole sequence.
+
+**H3. Vibration (acceleration) noise.** A diamond in two places is an extremely
+sensitive accelerometer: 6×10¹⁶ rad per m/s².
+
+| Noise type | Phase that cuts entanglement to 10% | Acceleration noise allowed |
+|---|---|---|
+| Independent per diamond | 0.71 rad | 2.7×10⁻¹⁷ m s⁻²/√Hz |
+| Common to both | 1.32 rad | 5.0×10⁻¹⁷ m s⁻²/√Hz |
+
+LISA Pathfinder, the quietest free-falling test mass ever flown, reached 1.7×10⁻¹⁵
+(LIT). The requirement is 35–65× below that. Shared noise is tolerated better
+(it leaves the |01⟩–|10⟩ coherence intact), but it still has to be measured and
+subtracted, or cancelled by the design.
+
+**H4. The split itself.** A single electron spin (an NV centre) has to push the whole
+diamond apart. With a 10⁶ T/m gradient, a 10⁻¹⁴ kg diamond opens only 116 µm in a
+0.5 s ramp. Mass × separation is fixed by the ramp time, so heavier diamonds split
+less, and the whole sequence must fit inside the spin's coherence time.
+
+**H5. Full design search.** The search covers 25 masses × 25 separations × 25 hold
+times × 17 ramp times, with every noise source on. The gap is set by Casimir, and the
+split is limited by H4. Each design is scored by wall-clock time to a 3σ witness.
+
+| Scenario | Best design | Result |
+|---|---|---|
+| A: 10⁻¹⁵ Pa N₂, 0.15 K, no vibration, unlimited spin coherence | 1.5×10⁻¹⁴ kg, Δx = 721 µm, ramps 2×1.58 s, hold 0.08 s, Δφ = 2.19 rad | **565 runs, 1.3 h** |
+| A′: as A, leftover gas is helium | — | **no design works** |
+| B: A + spin coherence 1.6 s | — | no design works |
+| C: A + internal temperature 4 K | — | no design works |
+| D: A + 10⁻¹⁴ Pa | — | no design works |
+| E: A + LISA Pathfinder vibration | — | no design works |
+
+In design A, gas collisions use γτ = 0.44 of a 0.80 budget. Almost all of the
+entangling phase builds up during the ramps.
+
+**Requirements, each varied alone**
+
+| Requirement | Others at target (A) | Others ideal (10⁻¹⁷ Pa) |
+|---|---|---|
+| Internal temperature | < 1.19 K | < 2.4 K |
+| Spin coherence | > 2.1 s | > 0.8 s |
+| Vibration (acceleration noise) | < 1.3×10⁻¹⁷ m s⁻²/√Hz | < 4.4×10⁻¹⁷ |
+| Vacuum (others ideal) | N₂ < 1.8×10⁻¹⁵ Pa, He < 6.9×10⁻¹⁶ Pa | |
+
+**H6. EM forces that can fake a positive result.** Noise can't create entanglement;
+it can only hide it. But electromagnetic *interactions* between the diamonds can
+create it:
+
+- **Net charge:** one electron's worth of charge on each diamond gives an entangling
+  phase **1.6×10¹⁰× gravity's**. Both diamonds must carry exactly zero net charge.
+  Levitated microspheres have been discharged to zero (LIT: Moore, Rider & Gratta 2014).
+- **Permanent dipoles:** each must be < 4.5×10⁻²⁹ C·m (2.8×10⁻⁴ e·µm) to keep EM below
+  10% of gravity. Otherwise a conducting shield goes between the diamonds (LIT: van de
+  Kamp et al. 2020).
+- **Controls:** run with the shield in place, with deliberately charged diamonds, and
+  at several gaps. Gravity falls as 1/r and a dipole as 1/r³, so their dependence on
+  the gap tells them apart.
+
+## What comes out
+
+| Requirement | Needed | State of the art (LIT) |
+|---|---|---|
+| Mass in a spatial superposition | 1.5×10⁻¹⁴ kg | 4×10⁻²³ kg (Fein et al. 2019): **4×10⁸× short** |
+| Superposition size | 721 µm | |
+| Vacuum | < 2×10⁻¹⁵ Pa (N₂), < 7×10⁻¹⁶ Pa (He) | reached only in cryogenic systems |
+| Spin coherence | > 2.1 s | ~1 s (NV, cryogenic, with dynamical decoupling) |
+| Internal temperature | < 1.2 K | micro-diamonds heat up under trapping light |
+| Vibration (acceleration noise) | < 1.3×10⁻¹⁷ m s⁻²/√Hz | 1.7×10⁻¹⁵ (LISA Pathfinder): **~140× short** |
+| Charge / dipoles | exactly 0 / < 4×10⁻²⁹ C·m, or a shield | zero charge demonstrated |
+
+1. **Nothing in the physics forbids the test.** At the published targets, the best
+   design settles λ = 0 against λ = 1 in about 565 runs (1.3 h of running). But it sits
+   on the edge: with helium as the leftover gas, or a 10× worse vacuum, no design works.
+2. **λ = 0 (split field) predicts exactly zero gravitational entanglement.** A positive
+   witness can't come from noise. It could come from EM, which is why H6's controls
+   are part of the prediction.
+3. **How finely λ can be pinned down** is set by dephasing. With 10⁶ runs, design A
+   reaches λ > 0.44. At 10⁻¹⁷ Pa it reaches λ > 0.028.
+4. **What stands between the question and its answer is engineering, not theory.** The
+   requirements must all be met at once, and the largest gaps are the mass in
+   superposition (8½ orders of magnitude) and the vibration noise (about 2 orders).
+
+Caveats: the gas formula is an order-of-magnitude estimate, and the outcome of design
+A hinges on it. The mean-field (λ = 0) model is the Schrödinger–Newton picture.
+Without added noise, that picture is a nonlinear quantum theory with known
+consistency problems. Consistent classical-gravity models add extra decoherence,
+which would make λ = 0 even easier to tell apart from λ = 1. That extra decoherence
+isn't modelled here.

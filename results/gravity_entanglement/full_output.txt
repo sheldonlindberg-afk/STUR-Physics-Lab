@@ -1,0 +1,128 @@
+
+==============================================================================
+H0  Casimir-safe gap does not depend on the mass (parallel geometry)
+==============================================================================
+   m = 1e-16 kg: Casimir < 10% of gravity for gap > 181.2 um
+   m = 1e-15 kg: Casimir < 10% of gravity for gap > 181.2 um
+   m = 1e-14 kg: Casimir < 10% of gravity for gap > 181.2 um
+   m = 1e-13 kg: Casimir < 10% of gravity for gap > 181.2 um
+   m = 1e-12 kg: Casimir < 10% of gravity for gap > 181.2 um
+   FOLLOWS: Casimir ~ R^6 / r^7 and gravity ~ m^2 / r ~ R^6 / r, so their ratio is
+   mass-independent. Lighter diamonds cannot be brought closer to compensate.
+   Gap used below: 181.2 um.
+
+==============================================================================
+H1  Split and recombine stages (phases integrated along the trajectories)
+==============================================================================
+   ramp t_r (s)   total time (s)   dphi with ramps   hold-only dphi   ratio
+           0.00             2.50            0.7218           0.7218   1.000
+           0.25             3.00            0.7882           0.7218   1.092
+           0.50             3.50            0.8546           0.7218   1.184
+           1.00             4.50            0.9873           0.7218   1.368
+   FOLLOWS: the ramps ADD entangling phase (the branches are already partly open),
+   but they also add time in which every noise source acts.
+
+==============================================================================
+H2  Blackbody decoherence (LIT formulas; Im K is an ASSUMPTION, scanned)
+==============================================================================
+   Thermal wavelength at 0.15 K: 15.3 mm (>> dx: the dx^2 regime holds)
+   Rates at T_env = T_int = 0.15 K, dx = 250 um: scattering 8.2e-16 /s, emission (Im K = 0.01) 2.6e-07 /s
+   Budget given to blackbody (1/3 of total): 0.028 /s. Highest internal temperature:
+     Im K = 1e-03:  T_int < 1.51 K
+     Im K = 1e-02:  T_int < 1.03 K
+     Im K = 1e-01:  T_int < 0.70 K
+   FOLLOWS: scattering is negligible; emission from the diamond's own heat is what
+   counts. The diamond must stay near 1 K inside, which rules out trapping it with
+   absorbed laser light for the whole sequence (it must fly free or be held magnetically).
+
+==============================================================================
+H3  Acceleration noise: random phases shot to shot
+==============================================================================
+   Phase noise that cuts the entanglement to 10%: independent 0.710 rad, common 1.319 rad, anti-correlated 1.319 rad
+   Phase per unit acceleration, (m dx / hbar) tau = 5.93e+16 rad per m/s^2
+   Required acceleration noise (independent, white): ASD < 2.7e-17 m s^-2 /sqrt(Hz)
+   LIT LISA Pathfinder, best free-fall test mass ever: 1.74e-15 m s^-2 /sqrt(Hz)
+   -> 65 times quieter than LISA Pathfinder for independent noise;
+      if the noise is common to both diamonds: ASD < 5.0e-17 (35x).
+      Common noise is tolerated somewhat better (it leaves the |01>-|10> coherence
+      intact) but is still a random local phase on each diamond. The real cure is
+      to measure and subtract it, or to let it cancel inside each interferometer.
+
+==============================================================================
+H4  The split itself: one electron spin has to open a whole diamond
+==============================================================================
+   Field gradient 1e+06 T/m (LIT, Bose et al.): force mu_B dB/dz = 9.27e-18 N
+   m = 1e-15 kg: max dx in t_r = 0.5 s:  1159.3 um; t_r needed for 250 um: 0.23 s
+   m = 1e-14 kg: max dx in t_r = 0.5 s:   115.9 um; t_r needed for 250 um: 0.73 s
+   m = 1e-13 kg: max dx in t_r = 0.5 s:    11.6 um; t_r needed for 250 um: 2.32 s
+   FOLLOWS: m * dx is fixed by the ramp time. A heavier diamond splits less, and
+   the whole sequence (ramps + hold) must fit inside the NV spin's coherence time.
+
+==============================================================================
+H5  Full design search (gap = Casimir-safe, every noise source on)
+==============================================================================
+   A  Bose target (1e-15 Pa N2, 0.15 K), no acceleration noise, unlimited spin coherence
+      m = 1.5e-14 kg, dx = 721 um, hold 0.08 s, ramps 2 x 1.58 s, dphi = 2.187 rad
+      dephasing gamma*tau: gas 0.439, blackbody 2.1e-05, acceleration 0.0e+00  (total 0.439; limit at this dphi 0.800)
+      565 runs -> 1.3 h of running for 3 sigma
+   A' as A, but the leftover gas is helium (typical in a cryostat)
+      NO design works: entanglement cannot be certified at any mass, dx or time.
+   B  A + spin coherence limited to 1.6 s
+      NO design works: entanglement cannot be certified at any mass, dx or time.
+   C  A + internal temperature 4 K
+      NO design works: entanglement cannot be certified at any mass, dx or time.
+   D  A + vacuum 1e-14 Pa
+      NO design works: entanglement cannot be certified at any mass, dx or time.
+   E  A + LISA Pathfinder acceleration noise
+      NO design works: entanglement cannot be certified at any mass, dx or time.
+   Requirement envelope: each varied alone. Column 1: everything else at target A
+   (1e-15 Pa N2). Column 2: everything else ideal (1e-17 Pa), the best case.
+   Requirement                              others at target     others ideal
+   Internal temperature: highest (K)                 1.19             2.44
+   Spin coherence: shortest (s)                      2.07             0.80
+   Accel. noise: highest ASD (m/s^2/rtHz)         1.3e-17          4.4e-17
+   Vacuum, highest pressure (Pa), others ideal:  N2 1.8e-15,  He 6.9e-16
+
+==============================================================================
+H6  EM forces that CAN fake entanglement (unlike noise, they are interactions)
+==============================================================================
+   One electron charge on each diamond: Coulomb/gravity entangling phase = 1.6e+10
+   -> both diamonds must carry EXACTLY zero net charge. LIT: levitated microspheres
+      have been discharged to zero net charge (Moore, Rider & Gratta, PRL 113, 251801 (2014)).
+   Permanent electric dipole, worst orientation: < 4.5e-29 C m = 2.8e-04 e*um for EM < 10% of gravity
+   (Patch potentials and trapped charges in diamond typically give far larger dipoles;
+    a conducting shield between the diamonds, LIT van de Kamp et al. PRA 102, 062807
+    (2020), screens EM while leaving gravity untouched.)
+   -> A positive result means gravity only after charge = 0, dipoles bounded or
+      screened, and Casimir subtracted. Controls: run with the shield, with
+      deliberately charged diamonds, and at several gaps (gravity 1/r, dipole 1/r^3).
+
+==============================================================================
+H7  What comes out
+==============================================================================
+   Requirement                     Needed (computed above)     State of the art (LIT)
+   Mass in a spatial superposition 1.5e-14 kg                  4e-23 kg (Fein 2019): x4e+08
+   Superposition size              721 um
+   Vacuum                          < 2e-15 Pa (N2), < 7e-16 Pa (He)
+   Spin coherence                  > 2.1 s (best case 0.8 s)    ~1 s (NV, cryogenic, decoupled)
+   Internal temperature            < 1.19 K (best case 2.4 K)
+   Acceleration noise              < 1e-17 m/s^2/rtHz (best case 4e-17)   2e-15 (LISA Pathfinder): x139
+   Zero net charge; dipole        < 4e-29 C m, or a conducting shield
+   lambda reach of design A with 1e6 runs: lambda > 0.44 (dephasing floor, H5)
+   ... and at 1e-17 Pa: best design 270 runs (0.51 h), lambda reach 0.028
+
+==============================================================================
+VERDICT
+==============================================================================
+   1. Nothing in the physics forbids the test. At the published targets (N2) the best
+      design needs 565 runs, 1.3 h, and settles lambda = 0 vs 1. It sits on
+      the edge: with helium as the leftover gas, or 10x worse vacuum, no design works.
+   2. The split field (lambda = 0) predicts exactly zero gravitational entanglement.
+      Noise cannot create entanglement, it can only hide it. EM interactions CAN create
+      it, so charge must be zero and dipoles screened before a positive witness
+      means gravity (H6).
+   3. What binds: mass in superposition (x4e+08 beyond today), vacuum,
+      acceleration noise (x139 below LISA Pathfinder), spin coherence
+      (> 2.1 s), internal temperature (< 1.19 K), all at once.
+   4. The question 'is gravity's field split, or in two places?' is open, and what
+      stands between it and an answer is engineering, not theory.
