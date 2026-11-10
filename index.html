@@ -86,7 +86,7 @@
       <div class="glance">
         <div class="g-row"><span class="t">Born rule p = |c|&sup2;</span><span class="tag ok">derived</span><span class="c">Four routes agree: envariance, additivity, no-signaling, frequencies</span></div>
         <div class="g-row"><span class="t">Vacuum entanglement area law</span><span class="tag ok">computed</span><span class="c">S = 0.3046 (R/a)&sup2; per field (literature 0.30)</span></div>
-        <div class="g-row"><span class="t">Field equations from entanglement</span><span class="tag known">known</span><span class="c">Jacobson 1995, cited, not recomputed</span></div>
+        <div class="g-row"><span class="t">Field equations from entanglement</span><span class="tag ok">computed</span><span class="c">Jacobson 1995, each step re-derived symbolically</span></div>
         <div class="g-row"><span class="t">GR's classic tests from TEGR</span><span class="tag ok">computed</span><span class="c">Perihelion, light bending, Shapiro &gamma;, GPS</span></div>
         <div class="g-row"><span class="t">Double slit: V = |&langle;E<sub>1</sub>|E<sub>2</sub>&rangle;|</span><span class="tag known">known</span><span class="c">D&sup2; + V&sup2; = 1 at every detector strength</span></div>
         <div class="g-row"><span class="t">Gravity's field follows each branch</span><span class="tag">conditional</span><span class="c">Derived if a statistical gravity is smeared at the entanglement cutoff and is Markovian (0.5 W/kg heating); also standard quantum gravity's prediction</span></div>
@@ -153,7 +153,7 @@
         <span class="tag known">known physics</span>
         <h3>D3 &middot; Heat flow gives gravity</h3>
         <p class="plain">Require that heat crossing every such horizon obeys ordinary thermodynamics. The result is Einstein's equations, with gravity's strength set by the entanglement of step D1.</p>
-        <div class="tech"><div class="eq sm">&delta;Q = T&delta;S &nbsp;&rArr;&nbsp; G<sub>&mu;&nu;</sub> + &Lambda;g<sub>&mu;&nu;</sub> = 8&pi;G T<sub>&mu;&nu;</sub>/c&#8308;, &nbsp; 1/4G&#8463; = &eta;</div><p class="small">Jacobson 1995 (cited, not recomputed). The measured G fixes a&sup2;/N: a = 0.31 &#8467;<sub>P</sub> for one field, 3.1 &#8467;<sub>P</sub> for a hundred.</p></div>
+        <div class="tech"><div class="eq sm">&delta;Q = T&delta;S &nbsp;&rArr;&nbsp; G<sub>&mu;&nu;</sub> + &Lambda;g<sub>&mu;&nu;</sub> = 8&pi;G T<sub>&mu;&nu;</sub>/c&#8308;, &nbsp; 1/4G&#8463; = &eta;</div><p class="small">Jacobson 1995, re-derived symbolically (Raychaudhuri, the null-vector lemma, Bianchi): <code>src/stur_jacobson.py</code>. The measured G fixes a&sup2;/N: a = 0.31 &#8467;<sub>P</sub> for one field, 3.1 &#8467;<sub>P</sub> for a hundred.</p></div>
       </div>
       <div class="card step">
         <span class="tag ok">check passed</span>
@@ -375,7 +375,7 @@
       <div class="card"><h3>Computed here</h3><p class="small muted">The Born rule, the area-law coefficient, the vacuum's thermal structure, the TEGR identity, Schwarzschild and Newton, the classic tests, why gravity follows each branch (given R<sub>0</sub> = a, Markovian), Oppenheim's trade-off for one particle, the two-diamond design and its noise budget.</p></div>
       <div class="card kill"><h3>Not derived: the value of G</h3><p class="small muted">The measured G fixes only a&sup2;/N: a = 0.31 Planck lengths for one field, 3.1 for a hundred. The Planck length is where the counting stops, not where reality does.</p></div>
       <div class="card kill"><h3>Not derived: which particles exist</h3><p class="small muted">The number and kinds of fields (the Standard Model) are inputs.</p></div>
-      <div class="card kill"><h3>Cited, not recomputed</h3><p class="small muted">Jacobson's step from entanglement thermodynamics to the field equations (D3).</p></div>
+      <div class="card kill"><h3>Assumed, not derived</h3><p class="small muted">Jacobson's premise for D3: local equilibrium on every local horizon. His algebra is re-derived here.</p></div>
       <div class="card"><h3>What it predicts</h3><p class="small muted">Gravity's field follows each branch. One diamond of 1.5&times;10<sup>&minus;14</sup> kg keeps its superposition for 3.24 s, and two of them become entangled with phase 2.19 rad. Visibility loss counts the spread in quanta exchanged, so it grows with temperature at fixed energy deposited. Every prediction, with numbers: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/PREDICTIONS.md">PREDICTIONS.md</a>.</p></div>
     </div>
   </section>

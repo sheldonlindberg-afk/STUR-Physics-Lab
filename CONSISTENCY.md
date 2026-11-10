@@ -95,5 +95,5 @@ Source: `src/god_eq_331_yukawa.py`, [NOTE_331.md](NOTE_331.md), front 7d of
 
 ```bash
 python -m pytest tests/test_consistency.py -q     # the mechanical checks
-python -m pytest tests -q                         # everything (116 tests)
+python -m pytest tests -q                         # everything (120 tests)
 ```

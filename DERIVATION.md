@@ -34,7 +34,7 @@ In words:
 | DB | **The Born rule:** probability = \|amplitude\|² | Envariance (fine-graining gives p = m/M exactly); only F(x) = x is additive (10⁻¹⁵); any other power signals faster than light; wrong-frequency branches carry weight 2×10⁻²⁴ at N = 10⁴ ([BORN.md](BORN.md)) | CHECK |
 | D1 | The vacuum's entanglement across any surface obeys an area law: S = 0.3047 (R/a)² per field (0.3046 from the longer R/a = 10.5–26.5 run in UNIFICATION.md; the equation uses 0.3046) | Srednicki's method, R/a = 10.5–18.5, extrapolated | CHECK (LIT 0.30) |
 | D2 | The vacuum is thermal to every accelerated observer: K = 2π × boost energy, T = ħg/(2πck_B) | Lattice modular Hamiltonian: 0.99969, 0.99992, 0.99997 of 2π at L = 20, 40, 60 | CHECK |
-| D3 | Clausius (δQ = TδS) on every local horizon gives Einstein's equations, with 1/(4Għ) = entanglement per area | Jacobson 1995 | LIT, not recomputed |
+| D3 | Clausius (δQ = TδS) on every local horizon gives Einstein's equations, with 1/(4Għ) = entanglement per area | Jacobson 1995, re-derived step by step in `src/stur_jacobson.py`: Raychaudhuri (exact on FRW with general a(t)), the null-vector lemma X_kk = 0 ⇒ X ∝ g (one free parameter left), and the contracted Bianchi identity (exact on a general time-dependent spherical metric) | CHECK (premise assumed: local equilibrium on every local horizon) |
 | D4 | The same equations from the TEGR action (c⁴/16πG)∫eT: gravity is torsion on flat spacetime | T = −R + divergence, residual ≤ 10⁻¹⁶⁵ at random points | CHECK |
 | D5 | Static solution: Schwarzschild, uniquely. Weak field: Ψ = Φ, ∇²Φ = 4πGρ | TEGR field equations solved symbolically | CHECK |
 | D6 | In a superposition each branch sources its own field: the equation above | A Markovian statistical gravity coarse-grained at the cutoff a would heat matter at 0.5 W/kg, 6×10¹⁰ times the Earth's heat flow, so gravity is collective ([COLLECTIVE.md](COLLECTIVE.md), [OPPENHEIM.md](OPPENHEIM.md)). Lattice analog: phase 0.6064 vs 1/r law 0.6046, record 2×10⁻⁶ | **CONDITIONAL** (R₀ = a, Markovian) + analog |
@@ -112,7 +112,9 @@ see OPPENHEIM.md P4.)
 - **Put in:** unitary quantum mechanics; locality and non-contextuality; N local fields; the spacing a.
 - **Computed:** the Born rule (DB), c_s, the Unruh/modular structure, the TEGR identity,
   Schwarzschild and Newton, and every number in D7.
-- **From the literature:** Jacobson's step D3.
+- **Re-derived from the literature:** Jacobson's step D3 (`src/stur_jacobson.py`). Its
+  premise, local equilibrium on every local horizon with the area term as the only
+  entropy change, is assumed, not derived.
 - **Not derived:**
   - the value of G (the measured G fixes only a²/N: a = 0.31 ℓ_P for one field, 3.1 ℓ_P
     for a hundred);

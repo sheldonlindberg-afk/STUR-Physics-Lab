@@ -34,7 +34,7 @@ D2  The vacuum is thermal to every accelerated observer (CHECK)
    So an observer with acceleration g sees the vacuum at T = hbar g / (2 pi c k_B).
 
 ==============================================================================
-D3  Clausius on every local horizon gives the field equations (LIT: Jacobson 1995)
+D3  Clausius on every local horizon gives the field equations (Jacobson 1995; re-derived in stur_jacobson.py)
 ==============================================================================
    Every point has local Rindler horizons. Energy crossing one is heat: delta Q = T delta S,
    with T from D2 and S = eta x area from D1. Demanding this for all of them gives

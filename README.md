@@ -79,6 +79,9 @@ depends on the lattice regularization, so the G formula doesn't predict G.
     independent of the measurement–gravity equation: the two threads share a method, not
     a derivation.
 - **Open tensions,** and what was checked: [CONSISTENCY.md](CONSISTENCY.md).
+- **Derived now, rechecked, or underivable:** [RECHECK.md](RECHECK.md). Every failed
+  claim has been reconfirmed by independent code (15 of 15). The gas-collision rate and
+  Jacobson's step are now derived.
 
 ## What it predicts
 
@@ -103,7 +106,7 @@ python3 src/stur_derivation.py      # the whole chain, ~30 s
 python3 src/stur_thermo_gravity.py  # why gravity follows each branch, ~6 s
 python3 src/stur_gravity_full.py    # the two-diamond design search, ~15 s
 python3 src/stur_oppenheim.py       # classical (Oppenheim) gravity's trade-off, ~2 s
-python -m pytest tests -q           # every number pinned (116 tests)
+python -m pytest tests -q           # every number pinned (120 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on
@@ -119,6 +122,7 @@ COLLECTIVE.md             why gravity's field follows each branch (conditions st
 OPPENHEIM.md              classical-quantum gravity's trade-off, and a one-particle bound
 NOTE_331.md               standalone note: 3 colours = 3 generations from 3-3-1 running
 CONSISTENCY.md            what was checked, what was fixed, and the tensions that remain
+RECHECK.md                derived now / failed and rechecked / cannot be derived, with reasons
 BORN.md, MEASUREMENT.md, TEGR.md, GRAVITY_ENTANGLEMENT.md, EMERGENT.md
                           the supporting reports
 src/                      one script per report; outputs in results/

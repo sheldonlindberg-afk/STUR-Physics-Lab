@@ -1,0 +1,30 @@
+
+==============================================================================
+J1  Raychaudhuri, checked on flat FRW with a general a(t)
+==============================================================================
+   k.k = 0;  geodesic equation residuals: [0, 0, 0, 0]
+   R_ab k^a k^b = 2*(-a(t)*Derivative(a(t), (t, 2)) + Derivative(a(t), t)**2)/a(t)**4
+   d theta/d lambda + theta^2/2 + R_kk = 0
+
+==============================================================================
+J2  X_ab k^a k^b = 0 for all null k  =>  X_ab = f g_ab
+==============================================================================
+   free parameters left in X after imposing the condition: 1
+   X / X_11 - eta = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+
+==============================================================================
+J3  Clausius on a local Rindler horizon
+==============================================================================
+   T_kk / R_kk from delta Q = T delta S: eta*hbar/(2*pi)   (2 pi / hbar eta = 2*pi/(eta*hbar))
+   so R_ab - (2 pi / hbar eta) T_ab = f g_ab by J2, i.e. 8 pi G = 2 pi / (hbar eta),
+   G = 1 / (4 hbar eta).
+
+==============================================================================
+J4  Contracted Bianchi identity on ds^2 = -e^{2A(t,r)} dt^2 + e^{2B(t,r)} dr^2 + r^2 dOmega^2
+==============================================================================
+   nabla_a G^a_b = [0, 0, 0, 0]
+   With nabla_a T^a_b = 0, taking the divergence of R_ab - 8 pi G T_ab = f g_ab gives
+   (1/2) d_b R = d_b f, so f = R/2 + Lambda and  G_ab + Lambda g_ab = 8 pi G T_ab.
+   With eta = N c_s / (4 pi a^2) from D1:  G = pi a^2 c^3 / (N c_s hbar).  D3: CHECK.
+   Assumed, not derived: local equilibrium on every local horizon (Jacobson's premise),
+   and that the entropy change is the area term alone (no extra internal entropy).

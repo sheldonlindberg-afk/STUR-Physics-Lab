@@ -1,7 +1,7 @@
 # STUR and the search for a unifying equation: consolidated report
 
 *Status as of November 2026. Every number below is computed by a script in `src/` and
-pinned by `tests/` (116 tests, all passing). Detailed records are in the topic reports
+pinned by `tests/` (120 tests, all passing). Detailed records are in the topic reports
 linked from each section.*
 
 ## How the work was done
@@ -200,6 +200,10 @@ Errors caught by the checks and fixed, recorded for transparency:
 11. **D6 overstated:** "gravity follows each branch" had been presented as derived
     outright. It is derived only under R₀ = a and Markovian dynamics, and λ = 1 is also
     perturbative quantum gravity's prediction (DERIVATION.md, COLLECTIVE.md).
+12. **Gas-collision rate:** the interpolated formula was 4.19× too high; it is now derived
+    (RECHECK.md). Design A needs 270 runs, not 565.
+13. **Every failed claim rechecked** by independent code: 15 of 15 confirmed. Front 9's
+    one-loop Higgs bound is 133.1–134.3 GeV, depending on the top-mass matching.
 
 ## 8. Housekeeping
 
@@ -211,5 +215,5 @@ Errors caught by the checks and fixed, recorded for transparency:
   requirements; it's unproven until a fresh session starts on it.
 - **Reproduce:**
   1. `pip install -r requirements.txt pytest matplotlib`
-  2. `python -m pytest tests -q` (116 tests)
+  2. `python -m pytest tests -q` (120 tests)
   3. run any `src/*.py` to regenerate its file in `results/`.

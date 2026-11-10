@@ -10,7 +10,7 @@ sys.path.insert(0, os.path.join(ROOT, "src"))
 
 CURRENT = ["README.md", "DERIVATION.md", "PREDICTIONS.md", "COLLECTIVE.md", "OPPENHEIM.md",
            "EMERGENT.md", "GRAVITY_ENTANGLEMENT.md", "TEGR.md", "MEASUREMENT.md", "BORN.md",
-           "WALL.md", "NOTE_331.md", "REPORT.md", "CONSISTENCY.md", "index.html", "llms.txt", "CITATION.cff"]
+           "WALL.md", "NOTE_331.md", "REPORT.md", "CONSISTENCY.md", "RECHECK.md", "index.html", "llms.txt", "CITATION.cff"]
 
 
 def read(name):

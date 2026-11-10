@@ -10,7 +10,7 @@ Nothing else: no gravity, no classical fields, no curved spacetime, no collapse.
   D2  The vacuum's modular Hamiltonian is 2 pi x the local boost energy:
       every accelerated observer sees the Unruh temperature.                CHECK
   D3  Clausius on every local horizon (delta Q = T delta S, S from D1)
-      gives the gravitational field equations, with G fixed by D1.          LIT (Jacobson 1995)
+      gives the gravitational field equations, with G fixed by D1.          CHECK (stur_jacobson.py)
   D4  Those equations in Lagrangian form are TEGR (torsion on flat space).  CHECK
   D5  Their static solution: Schwarzschild; their weak limit: Newton.       CHECK
   D6  A superposition: each branch of the matter sources its own field
@@ -98,7 +98,7 @@ def main():
     print("   KNOWN (Bisognano-Wichmann): K = 2 pi x boost energy, exactly in the continuum.")
     print("   So an observer with acceleration g sees the vacuum at T = hbar g / (2 pi c k_B).")
 
-    banner("D3  Clausius on every local horizon gives the field equations (LIT: Jacobson 1995)")
+    banner("D3  Clausius on every local horizon gives the field equations (Jacobson 1995; re-derived in stur_jacobson.py)")
     print("   Every point has local Rindler horizons. Energy crossing one is heat: delta Q = T delta S,")
     print("   with T from D2 and S = eta x area from D1. Demanding this for all of them gives")
     print("   R_mu nu - 1/2 R g_mu nu + Lambda g_mu nu = (8 pi G / c^4) T_mu nu, with 1/(4 G hbar) = eta.")
