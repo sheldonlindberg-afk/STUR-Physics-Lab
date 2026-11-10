@@ -109,9 +109,16 @@ phase 11× smaller (0.053 rad at 3×10⁻¹⁵ kg).
 - **Electromagnetism** already behaves as λ = 1 (T5; Sonnentag & Hasselbach 2007).
 - **Gravity:** λ has not been measured.
 
-This is the first STUR quantity in this repository that is a free parameter of
-known physics, that an experiment under construction can measure, and that is not
-already excluded. Results from either branch of this test go back into
+λ is the one quantity here that an experiment under construction can measure and that
+existing data leave open.
+- **Within the theory,** λ = 1 is derived, CONDITIONALLY: it requires a statistical
+  gravity smeared at the entanglement cutoff, and Markovian dynamics
+  ([COLLECTIVE.md](COLLECTIVE.md)).
+- **It isn't distinctive.** λ = 1 is also what perturbative quantum gravity predicts, so
+  a positive witness rules out classical gravity without singling out this theory.
+- **Intermediate λ is a phenomenological scale, not a dynamics.** The interpolation
+  φ_ij(λ) doesn't define a consistent theory for 0 < λ < 1. It measures how much of the
+  entangling phase is present. Results from either branch of this test go back into
 [WALL.md](WALL.md).
 
 Everything this section left out is modelled in the next one.
@@ -203,7 +210,7 @@ create it:
 | Vacuum | < 2×10⁻¹⁵ Pa (N₂), < 7×10⁻¹⁶ Pa (He) | reached only in cryogenic systems |
 | Spin coherence | > 2.1 s | ~1 s (NV, cryogenic, with dynamical decoupling) |
 | Internal temperature | < 1.2 K | micro-diamonds heat up under trapping light |
-| Vibration (acceleration noise) | < 1.3×10⁻¹⁷ m s⁻²/√Hz | 1.7×10⁻¹⁵ (LISA Pathfinder): **~140× short** |
+| Vibration (acceleration noise) | < 1.3×10⁻¹⁷ m s⁻²/√Hz | 1.7×10⁻¹⁵ (LISA Pathfinder): **~130× short** |
 | Charge / dipoles | exactly 0 / < 4×10⁻²⁹ C·m, or a shield | zero charge demonstrated |
 
 1. **Nothing in the physics forbids the test.** At the published targets, the best

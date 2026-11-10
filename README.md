@@ -70,12 +70,15 @@ depends on the lattice regularization, so the G formula doesn't predict G.
   predicts the same thing. The diamond experiments rule classical gravity in or out,
   Oppenheim's model included. Only a null result would be new physics.
 - **The diamond experiments are far off.** They need 4×10⁸ times today's largest mass in
-  superposition, and vibration noise about 140 times below LISA Pathfinder.
+  superposition, and vibration noise about 130 times below LISA Pathfinder.
 - **This project's own results:**
   - the shape-free one-particle bound on classical gravity ([OPPENHEIM.md](OPPENHEIM.md));
   - the identity −ln V = 2 Var(ΔN);
   - a conditional particle-physics result: in 3-3-1 models, perturbativity to the
-    Planck scale selects 3 colours = 3 generations ([NOTE_331.md](NOTE_331.md)).
+    Planck scale selects 3 colours = 3 generations ([NOTE_331.md](NOTE_331.md)). It is
+    independent of the measurement–gravity equation: the two threads share a method, not
+    a derivation.
+- **Open tensions,** and what was checked: [CONSISTENCY.md](CONSISTENCY.md).
 
 ## What it predicts
 
@@ -99,7 +102,7 @@ python3 src/stur_derivation.py      # the whole chain, ~30 s
 python3 src/stur_thermo_gravity.py  # why gravity follows each branch, ~6 s
 python3 src/stur_gravity_full.py    # the two-diamond design search, ~15 s
 python3 src/stur_oppenheim.py       # classical (Oppenheim) gravity's trade-off, ~2 s
-python -m pytest tests -q           # every number pinned (97 tests)
+python -m pytest tests -q           # every number pinned (106 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on
@@ -114,6 +117,7 @@ PREDICTIONS.md            every prediction, with numbers and experiments
 COLLECTIVE.md             why gravity's field follows each branch (conditions stated)
 OPPENHEIM.md              classical-quantum gravity's trade-off, and a one-particle bound
 NOTE_331.md               standalone note: 3 colours = 3 generations from 3-3-1 running
+CONSISTENCY.md            what was checked, what was fixed, and the tensions that remain
 BORN.md, MEASUREMENT.md, TEGR.md, GRAVITY_ENTANGLEMENT.md, EMERGENT.md
                           the supporting reports
 src/                      one script per report; outputs in results/

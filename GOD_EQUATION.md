@@ -413,6 +413,41 @@ N_c = 7 fails in both variants (10⁸–10¹⁰ GeV).
 - **So in both viable 3-3-1 variants, perturbativity to the Planck scale leaves exactly
   N_c = N_g = 3.** The result is robust in one variant and narrow in the other.
 
+## Front 7d: the three weak spots (Yukawas, boundary condition, the narrow variant)
+
+Script: `src/god_eq_331_yukawa.py`; output: `results/god_equation/331_yukawa.txt`; tests:
+`tests/test_331_yukawa.py`.
+
+**Y1 (CHECK).** The two-loop Yukawa term reproduces the Standard Model top coefficients
+(17/10, 3/2, 2) exactly. The SM top Yukawa at 4 TeV is 0.83.
+
+**Y2. Yukawas held constant (overstating them):**
+- They raise every blow-up by at most a factor of about 5, for exotic Yukawas y_J = 0–2.
+- β = −1/√3: N_c = 3 goes from 3.0×10²⁹ to 1.2×10³⁰ GeV, and N_c = 5 from 1.3×10¹⁵ to
+  2.8×10¹⁵.
+- β = +1/√3: N_c = 3 goes from 4.0×10¹⁹ to 2.2×10²⁰, and N_c = 5 from 5.5×10¹¹ to 1.3×10¹².
+- No constant y_J ≤ 6 rescues N_c = 5.
+
+**Y3. The boundary condition.** Every N_c is run from our measured couplings.
+- **β = −1/√3:** N_c = 3 survives for sin²θ_W(4 TeV) < 0.449. N_c = 5 survives only in a
+  narrow band, 0.066–0.074, about 3.4× below the measured 0.2504.
+- **β = +1/√3:** N_c = 3 survives for sin²θ_W < 0.266. N_c = 5 survives for no weak angle.
+- **At our weak angle, N_c = 5 would need α_em weaker by 1.33× (β = −1/√3) or 1.86×
+  (β = +1/√3).**
+- So the selection is conditional on the measured electroweak couplings. It doesn't
+  predict them.
+
+**Y4. The narrow variant.** For β = +1/√3, the N_c = 3 pole sits 3.3× above M_Pl, or 5.1×
+with y_J = 1. Over 3-3-1 scales of 2–30 TeV it sits 3.7–12.5× above. Under the strict
+g = 1 criterion, N_c = 3 fails with or without Yukawas.
+
+**Verdict.**
+- The Yukawa gap is closed.
+- The boundary condition is now quantified: the result holds given our couplings, with a
+  sin²θ_W margin of +0.20 (β = −1/√3) and +0.016 (β = +1/√3).
+- The two variants are complementary. One has a wide N_c = 3 margin but a distant N_c = 5
+  band; the other excludes N_c = 5 for every angle but has a narrow N_c = 3 margin.
+
 ## Front 8: masses, starting with Koide's formula
 
 Script: `src/god_eq_masses.py`; output: `results/god_equation/masses.txt`.

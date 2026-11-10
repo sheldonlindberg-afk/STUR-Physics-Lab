@@ -104,6 +104,7 @@
       <div class="card"><span class="tag known">known physics</span><p>Established, published, independently tested.</p></div>
       <div class="card"><span class="tag ok">check / derived</span><p>Computed in this project's scripts, and matches.</p></div>
       <div class="card"><span class="tag">follows</span><p>Derived from the lines above it, with no new assumption.</p></div>
+      <div class="card"><span class="tag">conditional</span><p>Derived, but only under assumptions stated next to it.</p></div>
       <div class="card"><span class="tag hyp">prediction</span><p>A number an experiment will measure.</p></div>
     </div>
     <details>
@@ -158,13 +159,13 @@
         <span class="tag ok">check passed</span>
         <h3>D4&ndash;D5 &middot; Gravity as torsion (TEGR)</h3>
         <p class="plain">Those equations come from a force-field theory on flat space, with the same structure as electromagnetism. Its black-hole solution comes out uniquely, and its weak limit is Newton's law.</p>
-        <div class="tech"><div class="eq sm">S<sub>grav</sub> = (c&#8308;/16&pi;G) &int; e T d&#8308;x, &nbsp; T = &minus;R + &part;(&hellip;)</div><p class="small">Identity residual 10<sup>&minus;168</sup>; static solution e<sup>&minus;2B</sup> = 1 + C<sub>1</sub>/r, A = &minus;B (Birkhoff); weak field &Psi; = &Phi;, &nabla;&sup2;&Phi; = 4&pi;G&rho;.</p></div>
+        <div class="tech"><div class="eq sm">S<sub>grav</sub> = (c&#8308;/16&pi;G) &int; e T d&#8308;x, &nbsp; T = &minus;R + &part;(&hellip;)</div><p class="small">Identity residual &le; 10<sup>&minus;165</sup>; static solution e<sup>&minus;2B</sup> = 1 + C<sub>1</sub>/r, A = &minus;B (Birkhoff); weak field &Psi; = &Phi;, &nabla;&sup2;&Phi; = 4&pi;G&rho;.</p></div>
       </div>
       <div class="card step">
-        <span class="tag">follows</span>
+        <span class="tag">conditional</span>
         <h3>D6 &middot; Each branch has its own fields</h3>
         <p class="plain">In a superposition, each branch makes its own version of every field around it, gravity included. Whether two branches can still interfere depends on whether the fields kept a record. That is the equation at the top.</p>
-        <div class="tech"><div class="eq sm">|&Psi;&rangle; = &Sigma;<sub>i</sub> c<sub>i</sub> |i&rangle; |E<sub>i</sub>&rangle; e<sup>iS<sub>i</sub>/&#8463;</sup></div><p class="small">For a field made of the quantum level this is exact in a lattice model: entangling phase 0.6064 against the emergent 1/r law's 0.6046, with a record of 2&times;10<sup>&minus;6</sup> left behind. For gravity it is the <a href="#emergence">open claim</a>.</p></div>
+        <div class="tech"><div class="eq sm">|&Psi;&rangle; = &Sigma;<sub>i</sub> c<sub>i</sub> |i&rangle; |E<sub>i</sub>&rangle; e<sup>iS<sub>i</sub>/&#8463;</sup></div><p class="small">For a field made of the quantum level this is exact in a lattice model: entangling phase 0.6064 against the emergent 1/r law's 0.6046, with a record of 2&times;10<sup>&minus;6</sup> left behind. For gravity it is derived only if a statistical gravity would be smeared at the cutoff and be Markovian (<a href="#emergence">below</a>); it is also standard quantum gravity's prediction.</p></div>
       </div>
     </div>
   </section>

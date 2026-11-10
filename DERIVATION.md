@@ -37,7 +37,7 @@ In words:
 | D3 | Clausius (δQ = TδS) on every local horizon gives Einstein's equations, with 1/(4Għ) = entanglement per area | Jacobson 1995 | LIT, not recomputed |
 | D4 | The same equations from the TEGR action (c⁴/16πG)∫eT: gravity is torsion on flat spacetime | T = −R + divergence, residual ≤ 10⁻¹⁶⁵ at random points | CHECK |
 | D5 | Static solution: Schwarzschild, uniquely. Weak field: Ψ = Φ, ∇²Φ = 4πGρ | TEGR field equations solved symbolically | CHECK |
-| D6 | In a superposition each branch sources its own field: the equation above | A Markovian statistical gravity coarse-grained at the cutoff a would heat matter at 0.5 W/kg, 6×10¹⁰ times the Earth's heat flow, so gravity is collective ([COLLECTIVE.md](COLLECTIVE.md), [OPPENHEIM.md](OPPENHEIM.md)). Lattice analog: phase 0.6064 vs 1/r law 0.6046, record 2×10⁻⁶ | **FOLLOWS under R₀ = a, Markovian** (+ analog) |
+| D6 | In a superposition each branch sources its own field: the equation above | A Markovian statistical gravity coarse-grained at the cutoff a would heat matter at 0.5 W/kg, 6×10¹⁰ times the Earth's heat flow, so gravity is collective ([COLLECTIVE.md](COLLECTIVE.md), [OPPENHEIM.md](OPPENHEIM.md)). Lattice analog: phase 0.6064 vs 1/r law 0.6046, record 2×10⁻⁶ | **CONDITIONAL** (R₀ = a, Markovian) + analog |
 
 **When D6 follows from D1–D3, and when it doesn't.** Jacobson's step gives Einstein's
 equation as an equation of state, which is semiclassical. Taken by itself it points, if
@@ -62,7 +62,21 @@ The argument for D6 runs as follows:
   argument. One diamond tests it, for R₀ up to 455 µm (COLLECTIVE §4; OPPENHEIM P3).
 - Non-Markovian classical gravity is not covered at all.
 
-So D6 is derived **under R₀ = a and Markovian dynamics**, not unconditionally. (An
+So D6 is derived **under R₀ = a and Markovian dynamics**, not unconditionally. Its label is
+CONDITIONAL, not FOLLOWS.
+
+**How D3 and D6 fit together.** Jacobson's step (D3) is usually stated for the averaged
+stress energy ⟨T_μν⟩, which is the semiclassical form. With D6 it is applied inside each
+branch instead:
+- the vacuum's entanglement per area (D1) is the same in every branch;
+- so each branch's local horizons obey the same Clausius relation, with that branch's
+  own T_μν;
+- each branch then satisfies Einstein's equation with its own source, which is what the
+  equation's Sᵢ uses;
+- the averaged ⟨T_μν⟩ form is never used once branches are distinct.
+
+This is an interpretation of D3, not a recomputation, and it is consistent with D1–D5.
+It is also exactly where a statistical (λ = 0) reading would differ. (An
 earlier version quoted 10⁵⁶–10⁶⁰ W/kg for step 4. That figure treats nuclei as points;
 see OPPENHEIM.md P4.)
 
@@ -102,7 +116,12 @@ see OPPENHEIM.md P4.)
 - **Not derived:**
   - the value of G (the measured G fixes only a²/N: a = 0.31 ℓ_P for one field, 3.1 ℓ_P
     for a hundred);
-  - the particle content (the Standard Model).
+  - the particle content (the Standard Model);
+  - the entanglement reading of G for gauge fields. For gauge fields the area-law
+    coefficient includes a contact term that isn't entanglement of the field's physical
+    modes (Kabat 1995, LIT recalled). So G = πa²c³/(N c_s ħ) is cleanest for N scalars
+    or fermions. For the Standard Model's gauge fields, identifying 1/4Għ with
+    entanglement alone is not settled, and c_s depends on the regulator in any case.
 - **Gravity's character is derived, but only conditionally:** its field follows each
   branch (D6), because a Markovian statistical gravity smeared at the same cutoff that
   fixes G would heat ordinary matter 6×10¹⁰ times faster than observed. With a larger

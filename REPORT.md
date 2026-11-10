@@ -1,14 +1,18 @@
 # STUR and the search for a unifying equation: consolidated report
 
 *Status as of November 2026. Every number below is computed by a script in `src/` and
-pinned by `tests/` (97 tests, all passing). Detailed records are in the topic reports
+pinned by `tests/` (106 tests, all passing). Detailed records are in the topic reports
 linked from each section.*
 
 ## How the work was done
 
-- **Hostile-referee rules.** Every claim is labelled KNOWN (published and tested),
-  FOLLOWS (derived with no new assumption), CHECK (reproduces a known exact result),
-  STUR (a new claim) or LIT (a literature input).
+- **Hostile-referee rules.** Every claim is labelled with one of:
+  - KNOWN: published and tested;
+  - FOLLOWS: derived with no new assumption;
+  - CONDITIONAL: derived, but only under assumptions that are stated next to it;
+  - CHECK: reproduces a known exact result;
+  - STUR: a new claim;
+  - LIT: a literature input.
 - **Inputs.** LIT inputs are marked *retrieved* when read in this work, and *recalled*
   when quoted from memory.
 - **Numbers.** Every number is computed in code.
@@ -120,10 +124,18 @@ Q_d = −⅓**.
    bilepton gauge bosons, so collider searches decide it.
 2. **The assumption** of no Landau pole below the Planck scale. It's standard, not a
    theorem; a pole there would signal new physics, not inconsistency.
-3. **Two-loop Yukawa terms**, which were not included. They can't flip the one-loop
-   margins of 4.6 and 6.1.
+3. **The measured electroweak couplings at the TeV scale**, which are an input, not a
+   prediction (front 7d).
+   - β = +1/√3: N_c = 5 fails for every weak mixing angle, while N_c = 3 needs
+     sin²θ_W(4 TeV) < 0.266 (measured 0.250).
+   - β = −1/√3: N_c = 3 is safe up to 0.449, but N_c = 5 would survive in a narrow band
+     about three times below the measured angle.
+   - Two-loop Yukawa terms are now included. They can't rescue N_c = 5, even held
+     constant at 6.
 
-**Standalone write-up:** [NOTE_331.md](NOTE_331.md).
+**Standalone write-up:** [NOTE_331.md](NOTE_331.md). Its three weak spots (Yukawas, the
+boundary condition, the narrow variant) are computed in front 7d and summarized in
+[CONSISTENCY.md](CONSISTENCY.md).
 
 **Novelty:** N_g = N_c from 3-3-1 is KNOWN (Frampton; Pisano–Pleitez). Extending the
 chain to fix N_c itself, through N_c-dependent charges and Landau poles, is this
@@ -190,5 +202,5 @@ Errors caught by the checks and fixed, recorded for transparency:
   requirements; it's unproven until a fresh session starts on it.
 - **Reproduce:**
   1. `pip install -r requirements.txt pytest matplotlib`
-  2. `python -m pytest tests -q` (97 tests)
+  2. `python -m pytest tests -q` (106 tests)
   3. run any `src/*.py` to regenerate its file in `results/`.

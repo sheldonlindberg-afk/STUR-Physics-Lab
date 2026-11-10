@@ -25,8 +25,8 @@ coherence above 2.1 s, acceleration noise below 1.3×10⁻¹⁷ m s⁻²/√Hz, 
 Source: `src/stur_gravity_full.py`, [GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md).
 
 **2. One mass keeps its superposition.** A design-A diamond held in two places keeps
-its full coherence for 3.24 s: gravity adds no decoherence of its own. Any gravity that
-was a statistical average would leave at most 1.3% coherence (at 52 µm smearing, the
+its full coherence for 3.24 s: gravity adds no decoherence of its own. Any Markovian
+statistical gravity would leave at most 1.3% coherence (at 52 µm smearing, the
 largest Newton's law allows), and 10⁻²³⁹ at the radiation bound. This is the first
 experiment to run, since it needs one diamond, not two. Source:
 `src/stur_thermo_gravity.py`.
@@ -101,7 +101,7 @@ simulators. Source: `src/stur_confinement.py`, `src/stur_z2_higgs.py`.
   postulate predicts the opposite temperature dependence. Prediction 7 can't come out
   in STUR's favour.
 - **The diamond experiments are far beyond current reach.** They need a mass in
-  superposition 4×10⁸ times the current record, and vibration noise about 140 times
+  superposition 4×10⁸ times the current record, and vibration noise about 130 times
   below LISA Pathfinder ([GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md)).
 - **This project's own results, as distinct from synthesis of known physics:**
   - the shape-free bound 3′;
