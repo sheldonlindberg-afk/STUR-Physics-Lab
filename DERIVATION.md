@@ -32,12 +32,21 @@ In words:
 |---|---|---|---|
 | D0 | Start: unitary quantum mechanics, locality (no-signaling), non-contextual probabilities, and N local quantum fields with spacing a | Assumed | — |
 | DB | **The Born rule:** probability = \|amplitude\|² | Envariance (fine-graining gives p = m/M exactly); only F(x) = x is additive (10⁻¹⁵); any other power signals faster than light; wrong-frequency branches carry weight 2×10⁻²⁴ at N = 10⁴ ([BORN.md](BORN.md)) | CHECK |
-| D1 | The vacuum's entanglement across any surface obeys an area law: S = 0.3047 (R/a)² per field | Srednicki's method, R/a = 10.5–18.5, extrapolated | CHECK (LIT 0.30) |
+| D1 | The vacuum's entanglement across any surface obeys an area law: S = 0.3047 (R/a)² per field (0.3046 from the longer R/a = 10.5–26.5 run in UNIFICATION.md; the equation uses 0.3046) | Srednicki's method, R/a = 10.5–18.5, extrapolated | CHECK (LIT 0.30) |
 | D2 | The vacuum is thermal to every accelerated observer: K = 2π × boost energy, T = ħg/(2πck_B) | Lattice modular Hamiltonian: 0.99969, 0.99992, 0.99997 of 2π at L = 20, 40, 60 | CHECK |
 | D3 | Clausius (δQ = TδS) on every local horizon gives Einstein's equations, with 1/(4Għ) = entanglement per area | Jacobson 1995 | LIT, not recomputed |
-| D4 | The same equations from the TEGR action (c⁴/16πG)∫eT: gravity is torsion on flat spacetime | T = −R + divergence, residual 10⁻¹⁶⁸ | CHECK |
+| D4 | The same equations from the TEGR action (c⁴/16πG)∫eT: gravity is torsion on flat spacetime | T = −R + divergence, residual ≤ 10⁻¹⁶⁵ at random points | CHECK |
 | D5 | Static solution: Schwarzschild, uniquely. Weak field: Ψ = Φ, ∇²Φ = 4πGρ | TEGR field equations solved symbolically | CHECK |
-| D6 | In a superposition each branch sources its own field: the equation above | What D0 implies for a field made of the quantum level. Exact in the lattice analog: phase 0.6064 vs 1/r law 0.6046, record 2×10⁻⁶ | FOLLOWS + analog |
+| D6 | In a superposition each branch sources its own field: the equation above | A statistical gravity coarse-grained at the cutoff a would heat matter at 10⁶⁰ W/kg, so gravity is collective ([COLLECTIVE.md](COLLECTIVE.md)). Lattice analog: phase 0.6064 vs 1/r law 0.6046, record 2×10⁻⁶ | FOLLOWS + analog |
+
+**Why D6 follows from D1–D3.** Jacobson's step gives Einstein's equation as an
+equation of state. If gravity were an equation of state in the statistical sense, a
+classical average of the quantum level, it would have to carry noise in order to respond
+to quantum matter. The least noise allowed is the Diósi–Penrose kernel 4πG/ħq², smeared
+over the length at which the equation of state is coarse-grained. In D1–D3 that length
+is the cutoff a, and the noise would then heat every kilogram of matter by 10⁵⁶–10⁶⁰ W.
+So gravity's field is collective: it follows each branch of its sources, as sound
+follows the atoms of a crystal ([COLLECTIVE.md](COLLECTIVE.md)).
 
 ## What comes out of it (D7)
 
@@ -46,9 +55,9 @@ In words:
 | (a) | **Double slit with a detector:** V = \|⟨E₁\|E₂⟩\|. No observer is needed, only a record | D² + V² = 1.000000 at every detector strength |
 | (b) | **The electron's own field** is in both branches. In free space it leaves no record. Near a surface, image charges record the path and the fringes fade | LIT: Sonnentag & Hasselbach 2007. A literally split charge is excluded (MEASUREMENT.md) |
 | (c) | **One mass, gravity's own record:** \|⟨E₁\|E₂⟩_grav\| = e^(−N/2) | N = 1.4×10⁻⁵⁹ gravitons: gravity keeps no record |
-| (d) | **Two masses:** the action difference alone entangles them | 0.594 rad; concurrence 0.293. Best design: 565 runs, 1.3 h (GRAVITY_ENTANGLEMENT.md) |
+| (d) | **Two masses:** the action difference alone entangles them | Baseline (10⁻¹⁴ kg, 2.5 s): 0.594 rad, concurrence 0.293. Best design A (1.5×10⁻¹⁴ kg): 2.19 rad, 565 runs, 1.3 h (GRAVITY_ENTANGLEMENT.md) |
 | (e) | **Classical limit** (one branch, many particles) | Perihelion 42.98″/century; light bending 1.7512″; γ = 1; GPS +38.54 µs/day |
-| (f) | **If gravity were only an average** (not D6): no entanglement in (d), and intrinsic collapse is needed | Diósi–Penrose: 170 /s, so one diamond's superposition lasts ~6 ms instead of > 3 s |
+| (f) | **One mass keeps its superposition:** gravity adds no decoherence | A design-A diamond stays fully coherent for 3.24 s. A statistical gravity would leave ≤ 1.3% for any smearing allowed by Newton's law, and 10⁻²³⁹ at the radiation bound (COLLECTIVE.md) |
 
 ## How your three starting ideas sit in the equation
 
@@ -61,7 +70,8 @@ In words:
   and its fields, branch by branch, one object. It gives the full quantum correlations,
   and it cannot send signals.
 - **"Gravity is a consequence of the quantum level."** That is D1–D3: G comes from vacuum
-  entanglement. Gravity then joins the other fields in |Eᵢ⟩ (D6).
+  entanglement. Gravity then joins the other fields in |Eᵢ⟩ (D6), and it has to: an
+  averaged gravity would heat all matter (COLLECTIVE.md).
 
 ## What was put in, and what was not derived (D8)
 
@@ -73,10 +83,10 @@ In words:
   - the value of G (the measured G fixes only a²/N: a = 0.31 ℓ_P for one field, 3.1 ℓ_P
     for a hundred);
   - the particle content (the Standard Model).
-- **The one physical claim beyond textbook physics:** D6 applies to gravity. That is,
-  gravity emerges *collectively* from the quantum level, as phonons do in a crystal, and
-  not as a statistical average. It is tested by (c) and (d), and (f) is what failure
-  would look like.
-- **Status:** every ingredient is published physics. The chain, the λ framing and the
-  computed checks are this project's. The equation contains no adjustable parameter
-  beyond the measured G.
+- **Gravity's character is derived, not assumed:** its field follows each branch (D6),
+  because a statistical gravity built on the same cutoff that fixes G would destroy
+  ordinary matter. The experiments in (d) and (f) measure the consequences directly.
+- **Every ingredient is published physics.** The chain, the derivation of D6, the λ
+  framing and the computed checks are this project's. The equation contains no
+  adjustable parameter beyond the measured G. All predictions, with numbers:
+  [PREDICTIONS.md](PREDICTIONS.md).

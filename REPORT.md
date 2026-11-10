@@ -1,7 +1,7 @@
 # STUR and the search for a unifying equation: consolidated report
 
 *Status as of November 2026. Every number below is computed by a script in `src/` and
-pinned by `tests/` (43 tests, all passing). Detailed records are in the topic reports
+pinned by `tests/` (90 tests, all passing). Detailed records are in the topic reports
 linked from each section.*
 
 ## How the work was done
@@ -169,13 +169,13 @@ Errors caught by the checks and fixed, recorded for transparency:
 
 ## 8. Housekeeping
 
-- **Out-of-date public files.** The README badges, `index.html` and the PDF derivation
-  record still present the Smarr check as passed and the area-ceiling lines as following
-  from known physics. They predate this report and need correcting (not done here).
+- **Public files.** The home page is now the quantum-level-up theory; the original
+  resistance-equation page is in `archive/resistance-equation/`. The PDF derivation
+  record belongs to that original page.
 - **Network.** A personal environment "STUR-Physics-Lab" was created during the work to
   allow `arxiv.org` and `ar5iv.labs.arxiv.org`. Its setup script installs the Python
   requirements; it's unproven until a fresh session starts on it.
 - **Reproduce:**
   1. `pip install -r requirements.txt pytest matplotlib`
-  2. `python -m pytest tests -q` (43 tests)
+  2. `python -m pytest tests -q` (90 tests)
   3. run any `src/*.py` to regenerate its file in `results/`.

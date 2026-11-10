@@ -80,16 +80,22 @@ The simplest DP (R₀ < 0.54 Å) is already excluded by the absence of the radia
 predicts (LIT: Donadi et al. 2021). Versions with larger R₀ survive, and this
 experiment tests them.
 
-## K4. What the experiment measures, read the right way round
+**K3′. Which one the theory picks.** Diósi–Penrose is not just one model of a
+statistical gravity: it is the least noise any Markovian statistical gravity can have
+(Tilloy & Diósi 2016; recomputed in [COLLECTIVE.md](COLLECTIVE.md)). Coarse-grained at
+the cutoff a of K1, that noise would heat every kilogram of matter by 10⁵⁶–10⁶⁰ W. So
+the theory's gravity is K2, the collective kind.
 
-| Gravity is … | Do two diamonds entangle? | Does one diamond keep its 3 s superposition? |
+## K4. What the experiment measures
+
+| Gravity is … | Do two diamonds entangle? | Does one diamond keep its 3.24 s superposition? |
 |---|---|---|
-| collective (phonon-like) | **yes** (λ = 1) | **yes** |
-| statistical (average + noise) | **no** (λ = 0) | **no**: DP-type collapse in ~6 ms |
+| collective (phonon-like): this theory | **yes**, Δφ = 2.19 rad | **yes**, fully |
+| statistical, smeared over any R₀ ≤ 52 µm | no | no: at most 1.3% coherence left |
 
-The right-hand column needs only **one** diamond. A single-diamond interferometer at
-design A's mass and split already tells the two apart, before any entanglement run.
-The two-diamond witness then confirms the collective reading.
+The right-hand column needs only **one** diamond. A statistical gravity could keep
+90% coherence only with R₀ > 455 µm, which would soften Newton's law at distances where
+it has been measured. The two-diamond witness then measures the entangling phase.
 
 ## What this means for the picture
 
@@ -97,8 +103,8 @@ If all things, gravity included, are consequences of the quantum level, gravity
 doesn't need to be "quantized" as a separate step. A field that emerges from quantum
 constituents is automatically in two places when they are (K2). That is the λ = 1
 prediction, reached from the quantum side rather than imposed on gravity from
-outside. The one way out is for gravity to be a statistical average. That requires
-intrinsic collapse, which has its own, faster signature (K3).
+outside. The alternative, a statistical average, needs intrinsic noise, and at the
+theory's own scale that noise would destroy ordinary matter (K3′).
 
 **Limits of K2:** it is an analog. It shows that the mechanism (an emergent 1/r field
 following each branch) is generic and exact for a quantum medium. It doesn't show

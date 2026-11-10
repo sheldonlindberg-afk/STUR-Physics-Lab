@@ -1,13 +1,16 @@
 cff-version: 1.2.0
 message: "If you use this work, please cite it as below."
-title: "STUR Resistance Equation: Derivation Record"
+title: "STUR: Measurement and Gravity from the Quantum Level Up"
 abstract: >-
-  Resistance is one loop phase, Phi_R, whose variance is entropy, whose
-  energy cost is set by temperature, and whose ceiling is set by boundary
-  area. One line is a STUR postulate, S_R = 1/2 k_B Phi_R^2; the rest is
-  established physics or follows from it. Saturating the holographic ceiling
-  at the Hawking temperature reproduces Smarr's relation Mc^2 = 2TS. Every
-  number is reproduced by src/stur_verify.py.
+  One equation for the double slit, measurement and gravity, derived from
+  quantum fields. Branch i of a superposition carries its own field states,
+  including gravity's TEGR tetrad; interference is weighted by the record
+  overlap and phases by the action difference. The Born rule is derived, G
+  follows from vacuum entanglement, and general relativity's classic tests are
+  recovered. A statistical gravity at the entanglement cutoff would heat matter
+  at 1e60 W/kg, so gravity's field follows each branch: two diamonds held in
+  superposition become entangled with phase 2.19 rad. Every number is
+  reproduced by the scripts in src/.
 authors:
   - family-names: Lindberg
     given-names: Sheldon
@@ -16,10 +19,10 @@ license: CC0-1.0
 repository-code: "https://github.com/sheldonlindberg-afk/STUR-Physics-Lab"
 url: "https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/"
 keywords:
-  - holonomy
-  - Wilson loop
-  - fringe visibility
-  - holographic bound
-  - Smarr relation
-  - Skyrmion
-date-released: "2026-11-01"
+  - decoherence
+  - Born rule
+  - teleparallel gravity
+  - entanglement entropy
+  - gravity-induced entanglement
+  - Diosi-Penrose
+date-released: "2026-11-10"

@@ -1,0 +1,47 @@
+
+==============================================================================
+L1  Exact Fock-space check of the standard prediction (FOLLOWS)
+==============================================================================
+   nbar   |alpha|^2  -lnV (Fock)  2|a|^2(2nbar+1)  2Var(dN)   <dN>
+    0.0     0.02      0.040000       0.040000     0.040000   0.0200
+    0.0     0.10      0.200000       0.200000     0.200000   0.1000
+    0.0     0.50      1.000000       1.000000     1.000000   0.5000
+    0.1     0.02      0.048000       0.048000     0.048000   0.0200
+    0.1     0.10      0.240000       0.240000     0.240000   0.1000
+    0.1     0.50      1.200000       1.200000     1.200000   0.5000
+    1.0     0.02      0.120000       0.120000     0.120000   0.0200
+    1.0     0.10      0.600000       0.600000     0.600000   0.1000
+    1.0     0.50      3.000000       3.000000     3.000000   0.5000
+    5.0     0.02      0.440000       0.440000     0.440000   0.0200
+    5.0     0.10      2.200000       2.200000     2.200000   0.1000
+    5.0     0.50     11.000000      11.000000    11.000000   0.5000
+   largest relative deviation: 7.5e-11
+   So -ln V = 2 Var(dN) = 2 <dN> (2 nbar + 1): visibility loss counts the spread
+   of quanta exchanged, and grows with temperature at fixed energy deposited.
+
+==============================================================================
+L2  Standard QM vs STUR P2 at fixed energy deposited, <dN> = |alpha|^2 = 0.1
+==============================================================================
+   nbar    k_BT/hbar.omega   V standard   V under P2   ratio Gamma_std/Gamma_P2
+    0.05        0.328        0.8025       0.7375          0.723
+    0.10        0.417        0.7866       0.7868          1.001
+    0.50        0.910        0.6703       0.8960          3.641
+    1.00        1.443        0.5488       0.9330          8.656
+    2.00        2.466        0.3679       0.9603         24.663
+    5.00        5.485        0.1108       0.9819        120.666
+   10.00       10.492        0.0150       0.9905        440.666
+   Crossing (the only place they agree): hbar omega = 2.3994 k_B T  (nbar = 0.100)
+
+==============================================================================
+L3  The discriminator: sign of d ln Gamma / d ln T at fixed <dE>
+==============================================================================
+   nbar = 0.05:  standard +0.291   P2 -1.000
+   nbar = 0.50:  standard +0.824   P2 -1.000
+   nbar = 5.00:  standard +0.994   P2 -1.000
+   Two runs, nbar 0.1 -> 5, same kick |alpha|^2 = 0.1:
+     standard: -lnV 0.240 -> 2.200  (x9.17, contrast 0.787 -> 0.111)
+     P2:       -lnV 0.240 -> 0.018  (x0.076, contrast 0.787 -> 0.982)
+   nbar = 0.1 sits on the crossing, so both start from the same contrast. At nbar = 5
+   they differ by 0.87 in contrast, far above Ramsey-contrast errors
+   of a few per cent. Standard QM fixes the outcome in
+   advance, so this is a kill test for P2, not a test that could favour STUR.

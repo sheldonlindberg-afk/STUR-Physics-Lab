@@ -102,7 +102,8 @@ def main():
     print("   with T from D2 and S = eta x area from D1. Demanding this for all of them gives")
     print("   R_mu nu - 1/2 R g_mu nu + Lambda g_mu nu = (8 pi G / c^4) T_mu nu, with 1/(4 G hbar) = eta.")
     print("   (Not recomputed here; its quantum version is the first law delta S = delta<K>, which is")
-    print("    checked on the lattice in stur_unification.py U1, 0.9997.)")
+    print("    checked on the lattice in stur_unification.py U1: first-law slope ratio 0.99907,")
+    print("    local Clausius ratio 0.99969. That the field follows each branch: stur_thermo_gravity.py.)")
     a_needed = K.cutoff_for_G(1, c_s)
     print(f"   G = pi a^2 c^3 / (N c_s hbar). The measured G then fixes a^2/N: for N = 1,"
           f" a = {a_needed/L_P:.3f} l_P; for N = 100, a = {K.cutoff_for_G(100, c_s)/L_P:.2f} l_P.")
