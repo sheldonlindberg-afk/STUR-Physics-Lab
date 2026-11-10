@@ -41,7 +41,7 @@ D3  Clausius on every local horizon gives the field equations (LIT: Jacobson 199
    R_mu nu - 1/2 R g_mu nu + Lambda g_mu nu = (8 pi G / c^4) T_mu nu, with 1/(4 G hbar) = eta.
    (Not recomputed here; its quantum version is the first law delta S = delta<K>, which is
     checked on the lattice in stur_unification.py U1: first-law slope ratio 0.99907,
-    local Clausius ratio 0.99969. It fixes G but not whether the field follows each branch.)
+    local Clausius ratio 0.99969. That the field follows each branch: stur_thermo_gravity.py.)
    G = pi a^2 c^3 / (N c_s hbar). The measured G then fixes a^2/N: for N = 1, a = 0.311 l_P; for N = 100, a = 3.11 l_P.
    FOLLOWS: G is a property of the quantum vacuum: how much it is entangled per area.
    It is not predicted: only the combination a^2 / N is fixed, by the measured G.

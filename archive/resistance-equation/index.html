@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#07090d" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f8fa" media="(prefers-color-scheme: light)">
+<title>STUR Resistance Equation</title>
+<meta name="description" content="Resistance is one loop phase, Φ_R: its variance is entropy, its energy cost is set by temperature, and its ceiling is set by boundary area. One postulate, S_R = ½ k_B Φ_R², labelled as such. Status: the postulate failed its computed tests and the Smarr check is circular (REPORT.md); this page is kept as the original record.">
+<meta property="og:title" content="STUR Resistance Equation: one loop phase, one postulate">
+<meta property="og:description" content="Visibility, entropy, energy and the holographic ceiling from one phase Φ_R. Reproduces Smarr's Mc² = 2TS and the Skyrme energies. Every step labelled known, postulate, follows or check. Kept as the record: the postulate later failed its computed tests.">
+<meta property="og:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/4.13.png">
+<meta property="og:url" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/archive/resistance-equation/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<link rel="manifest" href="../../manifest.json">
+<link rel="icon" type="image/png" href="../../assets/4.13.png">
+<link rel="apple-touch-icon" href="../../assets/4.13.png">
+<link rel="stylesheet" href="../../assets/css/stur-roll-app.css">
+<link rel="stylesheet" href="../../assets/css/stur-resistance.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "name": "STUR Resistance Equation: Derivation Record",
+  "author": {"@type": "Person", "name": "Sheldon Lindberg"},
+  "datePublished": "2026-11-01",
+  "url": "https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/archive/resistance-equation/",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "isAccessibleForFree": true
+}
+</script>
+</head>
+<body data-mode="plain">
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <div class="top-inner">
+    <a class="brand" href="#top"><img src="../../assets/4.13.png" alt="" width="30" height="30">STUR</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#equation">Equation</a>
+      <a href="#derivation">Derivation</a>
+      <a href="#visibility">Visibility</a>
+      <a href="#ceiling">Ceiling</a>
+      <a href="#collapse">Collapse</a>
+      <a href="#cycle">Cycle</a>
+      <a href="#open">Open problems</a>
+      <a href="#reproduce">Reproduce</a>
+      <a href="../../index.html">Quantum level up</a>
+    </nav>
+    <div class="mode" role="group" aria-label="Reading level">
+      <button type="button" data-set-mode="plain" aria-pressed="true">Plain</button>
+      <button type="button" data-set-mode="tech" aria-pressed="false">Technical</button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <div class="callout info" role="note" style="margin-bottom:24px"><b>Archived record (November 2026)</b>This is the original resistance-equation page, kept for the record. The theory it led to is on the <a href="../../index.html">home page</a>; the steps between them are in <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/REPORT.md">REPORT.md</a>.</div>
+  <!-- Hero -->
+  <div class="hero" id="top">
+    <div>
+      <p class="eyebrow">Derivation record &middot; 1 Nov 2026</p>
+      <h1>Spacetime resists. The resistance is <span>one phase</span>.</h1>
+      <div class="eq" aria-label="The candidate resistance equation">
+        <div class="row"><span>&Phi;<sub>R</sub> = &#8750;<sub>C</sub> A<sub>&mu;</sub> dx<sup>&mu;</sup></span><span>&langle;W(C)&rangle; = e<sup>&minus;&frac12;&langle;&Phi;<sub>R</sub>&sup2;&rangle;</sup></span></div>
+        <div class="row"><span class="hl">S<sub>R</sub> = &frac12; k<sub>B</sub> &Phi;<sub>R</sub>&sup2;</span><span>E<sub>R</sub> = &frac12; k<sub>B</sub>T &Phi;<sub>R</sub>&sup2;</span></div>
+        <div class="row"><span>&frac12;&Phi;<sub>R</sub>&sup2; = &sigma;(&mu;) A &le; A / 4&#8467;<sub>P</sub>&sup2;</span></div>
+        <small>Highlighted: the one STUR postulate. Everything else is established physics or follows from it.</small>
+      </div>
+      <p class="lede plain">When a particle can take two paths, the paths interfere and make bright and dark fringes. If spacetime jostles the phase between the paths, the fringes wash out. STUR proposes that this washing-out is spacetime keeping a record, that the record costs energy, and that the most spacetime can ever record is the amount a black hole holds. Pushed to that limit, the equation lands exactly on a known black-hole law.</p>
+      <p class="lede tech">&Phi;<sub>R</sub> is the holonomy of a connection A<sub>&mu;</sub> around a loop C. Its variance sets fringe visibility (a Gaussian Wilson loop). The postulate identifies &minus;k<sub>B</sub> ln(V/V<sub>0</sub>) with entropy recorded by spacetime; Landauer then fixes the energy, and the Bekenstein bound fixes the ceiling. Saturating the ceiling at the Hawking temperature reproduces Smarr's Mc&sup2; = 2TS with nothing put in.</p>
+      <div class="cta">
+        <a class="btn primary" href="#visibility">Wash out the fringes &rarr;</a>
+        <a class="btn" href="../../docs/STUR_Resistance_Equation_Derivation_Record.pdf">Read the derivation (PDF)</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>1</b><span>new postulate, labelled as such</span></div>
+        <div class="stat"><b>0.500000</b><span>E<sub>R</sub>/Mc&sup2; at the ceiling, for every mass tested</span></div>
+        <div class="stat"><b>1.2317</b><span>one-fold energy &divide; 12&pi;&sup2;; literature 1.232</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <p class="eyebrow" style="margin-bottom:4px">Status at a glance</p>
+      <div class="glance">
+        <div class="g-row"><span class="t">Visibility = Gaussian Wilson loop</span><span class="tag known">known</span><span class="c">Monte Carlo agrees to 3 decimals</span></div>
+        <div class="g-row"><span class="t">S<sub>R</sub> = &frac12; k<sub>B</sub>&Phi;<sub>R</sub>&sup2;</span><span class="tag post">postulate: failed</span><span class="c">Matches no standard entropy (ASSUMPTIONS.md)</span></div>
+        <div class="g-row"><span class="t">E<sub>R</sub> = &frac12; k<sub>B</sub>T&Phi;<sub>R</sub>&sup2;</span><span class="tag post">failed</span><span class="c">Landauer covers erasure, not dephasing; wrong T-scaling</span></div>
+        <div class="g-row"><span class="t">Ceiling reproduces black-hole entropy and Smarr's Mc&sup2; = 2TS</span><span class="tag post">circular</span><span class="c">E<sub>R</sub>/Mc&sup2; = 0.500000 restates Smarr, which was built in</span></div>
+        <div class="g-row"><span class="t">&frac12;&Phi;<sub>R</sub>&sup2; = &sigma;(&mu;)A spans QCD to Planck</span><span class="tag post">failed</span><span class="c">The QCD and horizon areas are different kinds (CONFINEMENT.md)</span></div>
+        <div class="g-row"><span class="t">A fold resists collapse at a definite size</span><span class="tag known">known</span><span class="c">Skyrme B=1: 1.2317 &times; 12&pi;&sup2;, literature 1.232</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Equation / legend -->
+  <section id="equation" aria-labelledby="eq-h">
+    <p class="eyebrow">How to read it</p>
+    <h2 id="eq-h">Every step carries a label</h2>
+    <p class="lede">So a referee can see exactly where STUR adds something new, and where it only repeats physics that is already tested.</p>
+    <div class="legend">
+      <div class="card"><span class="tag known">known physics</span><p>Established, published, independently tested.</p></div>
+      <div class="card"><span class="tag post">STUR postulate</span><p>A new claim the theory makes. It stands or falls by experiment.</p></div>
+      <div class="card"><span class="tag">follows</span><p>Derived from the lines above it, with no new assumption.</p></div>
+      <div class="card"><span class="tag ok">consistency check</span><p>A place where the equation must reproduce a known exact result, and does or does not.</p></div>
+    </div>
+    <details>
+      <summary>The physical picture being formalised</summary>
+      <div class="body">
+        <p>All matter ends in black holes, which evaporate by Hawking radiation until the universe holds almost no energy and almost no information. That empty state is the condition for a universe-wide quantum tunneling event, with no parent vacuum. Spacetime resists that tunneling, and the resistance appears as quarks: folds of spacetime that hold a definite size and carry spin. Folds bind into larger structures, and the cycle repeats.</p>
+        <p>Two working axioms carry the picture into equations: the universe is <strong>holographic</strong> (a region's information lives on its boundary), and <strong>energy and information are interconvertible</strong> at a stated exchange rate.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- Derivation -->
+  <section id="derivation" aria-labelledby="der-h">
+    <p class="eyebrow">The derivation</p>
+    <h2 id="der-h">Six steps, one quantity</h2>
+    <p class="lede plain">Switch to <em>Technical</em> at the top for the full equations behind each step.</p>
+    <p class="lede tech">Condensed from the derivation record. Equation numbers and full arguments are in the <a href="../../docs/STUR_Resistance_Equation_Derivation_Record.pdf">PDF</a>.</p>
+    <div class="grid g2 steps">
+      <div class="card step">
+        <span class="tag known">known physics</span>
+        <h3>Resistance holonomy</h3>
+        <p class="plain">Send a particle around a closed loop and it comes back with a phase twist, &Phi;<sub>R</sub>. That twist equals the total field passing through the loop, so it is tied to an <em>area</em>, which is where holography enters later. A steady twist only shifts the fringes; only a <em>fluctuating</em> twist washes them out.</p>
+        <div class="tech">
+          <div class="eq sm">&Phi;<sub>R</sub> = &#8750;<sub>C</sub> A<sub>&mu;</sub>dx<sup>&mu;</sup> = &int;<sub>&Sigma;</sub> F<sub>&mu;&nu;</sub> d&Sigma;<sup>&mu;&nu;</sup> &nbsp;(&part;&Sigma; = C)</div>
+          <p class="small">A<sub>&mu;</sub> must be a connection, not a current, for the loop integral to be gauge invariant. For Gaussian fluctuations, V = V<sub>0</sub>|&langle;e<sup>i&Phi;<sub>R</sub></sup>&rangle;| = V<sub>0</sub>e<sup>&minus;&frac12;&langle;&Phi;<sub>R</sub>&sup2;&rangle;</sup>. <strong>Open choice:</strong> spin connection (spin &frac12;, torsion, TEGR), U(1), or a new field.</p>
+        </div>
+      </div>
+      <div class="card step">
+        <span class="tag post">STUR postulate</span>
+        <h3>Resistance entropy</h3>
+        <p class="plain">The single new claim: washed-out fringes are entropy that spacetime has recorded, exactly &frac12;k<sub>B</sub> per unit of squared phase spread. It is backed by the proven link between fringe loss and which-path information, but it goes further than that link does, so it has to be tested.</p>
+        <div class="tech">
+          <div class="eq sm">S<sub>R</sub> &equiv; &minus;k<sub>B</sub> ln(V/V<sub>0</sub>) = &frac12; k<sub>B</sub> &Phi;<sub>R</sub>&sup2;</div>
+          <p class="small">Support: Englert's duality V&sup2; + D&sup2; &le; 1. A referee will note that for ordinary decoherence by a known environment the entropy produced is not in general &minus;ln V; the postulate claims spacetime is a specific environment.</p>
+        </div>
+      </div>
+      <div class="card step">
+        <span class="tag post">failed</span> <span class="tag post">circular check</span>
+        <h3>Energy, ceiling, and the Smarr check</h3>
+        <p class="plain">Recording information at a temperature costs energy (Landauer). No region can record more than a black hole of the same surface area (Bekenstein). Push the phase to that limit for a real black hole at its own Hawking temperature, and the energy comes out as exactly half the hole's mass-energy: a known exact law, reproduced without being put in.</p>
+        <div class="tech">
+          <div class="eq sm">E<sub>R</sub> = &frac12; k<sub>B</sub>T &Phi;<sub>R</sub>&sup2;, &nbsp; &Phi;<sub>R</sub>&sup2; &le; A / 2&#8467;<sub>P</sub>&sup2;</div>
+          <div class="eq sm">E<sub>R</sub> = T<sub>H</sub>S<sub>BH</sub> = <span style="white-space:nowrap">(&#8463;c&sup3;/8&pi;GMk<sub>B</sub>)&middot;(4&pi;GM&sup2;k<sub>B</sub>/&#8463;c)</span> = &frac12;Mc&sup2;</div>
+          <p class="small">Equipartition form: &Phi;<sub>R</sub> acts as one thermal quadratic mode, matching Verlinde's E = &frac12;Nk<sub>B</sub>T. Smarr: Mc&sup2; = 2TS.</p>
+        </div>
+      </div>
+      <div class="card step">
+        <span class="tag known">known physics</span>
+        <h3>From quantum mechanics to field theory</h3>
+        <p class="plain">The same phase works for one particle and for a whole field. How the phase spread grows with the loop tells you which kind of force you have: growing with the loop's edge means charges fly free (electromagnetism); growing with its area means charges are trapped (quarks).</p>
+        <div class="tech">
+          <div class="eq sm">&langle;W(C)&rangle; = exp(&minus;&frac12;&langle;&Phi;<sub>R</sub>&sup2;&rangle;), &nbsp; &langle;&Phi;<sub>R</sub>&sup2;&rangle; = g&sup2;&#8750;<sub>C</sub>&#8750;<sub>C</sub> dx<sup>&mu;</sup>dy<sup>&nu;</sup> D<sub>&mu;&nu;</sub>(x&minus;y)</div>
+          <p class="small">Exact for a Gaussian (free) field. Perimeter law: free charges (EM). Area law &frac12;&langle;&Phi;<sub>R</sub>&sup2;&rangle; = &sigma;&middot;area: confinement (QCD), &sigma; the string tension.</p>
+        </div>
+      </div>
+      <div class="card step">
+        <span class="tag hyp">STUR hypothesis</span>
+        <h3>One area law from quarks to black holes</h3>
+        <p class="plain">Quark confinement and the black-hole limit have the same shape: a tension times an area. STUR claims they are one law whose tension changes with scale, by a factor of about 10<sup>38</sup>. The equation that carries one end to the other has not been derived yet.</p>
+        <div class="tech">
+          <div class="eq sm">&frac12;&Phi;<sub>R</sub>&sup2; = &sigma;(&mu;) A, &nbsp; d&sigma;/d ln &mu; = &beta;(&sigma;) <span class="small muted">(to be derived)</span></div>
+          <p class="small">The flow must keep electromagnetism on the perimeter law in between. In holographic language &mu; is bulk depth (holographic RG), so this is how &Phi;<sub>R</sub> changes with depth: where QFT meets gravity.</p>
+        </div>
+      </div>
+      <div class="card step">
+        <span class="tag known">known physics</span>
+        <h3>Resistance to collapse</h3>
+        <p class="plain">Ordinary lumps of field always shrink to nothing. Add one extra energy term that grows as the lump shrinks and the lump settles at a definite size. That term is a precise mathematical form of &ldquo;resistance to collapse&rdquo;, and STUR needs a version of it made from spacetime geometry.</p>
+        <div class="tech">
+          <div class="eq sm">E(&lambda;) = &lambda;E<sub>2</sub> + E<sub>4</sub>/&lambda;, &nbsp; &lambda;<sub>*</sub> = &radic;(E<sub>4</sub>/E<sub>2</sub>), &nbsp; E<sub>min</sub> = 2&radic;(E<sub>2</sub>E<sub>4</sub>)</div>
+          <p class="small">Derrick's theorem; E<sub>4</sub> is Skyrme's term. Quantised Skyrmions carry spin &frac12; for odd N<sub>c</sub> (Witten 1983); geons can too (Friedman&ndash;Sorkin 1980).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visibility interactive -->
+  <section id="visibility" aria-labelledby="vis-h">
+    <p class="eyebrow">Interactive &middot; Steps 1&ndash;3</p>
+    <h2 id="vis-h">Jostle the phase, watch the fringes fade</h2>
+    <p class="lede plain">Drag the slider to add random phase noise between the two paths. The fringes lose contrast, and under the STUR postulate the lost contrast is entropy spacetime has recorded. Run a Monte Carlo to check the formula yourself.</p>
+    <p class="lede tech">&Phi;<sub>R</sub> ~ N(0, s&sup2;). Plotted: I(x) &prop; 1 + V cos(kx) with V = e<sup>&minus;s&sup2;/2</sup>. The Monte Carlo estimates |&langle;e<sup>i&Phi;</sup>&rangle;| from samples drawn in your browser (seeded Box&ndash;Muller), as check 2 of <code>stur_verify.py</code> does with 2&times;10<sup>6</sup> samples.</p>
+    <div class="sim">
+      <div class="card">
+        <div class="ctrl">
+          <label for="sig-in"><span><span class="plain">Phase noise</span><span class="tech">spread s = &radic;&langle;&Phi;<sub>R</sub>&sup2;&rangle;</span></span><output id="sig-out">1.00 rad</output></label>
+          <input id="sig-in" type="range" min="0" max="3" step="0.01" value="1" aria-describedby="sig-hint">
+          <p class="hint" id="sig-hint"><span class="plain">Zero: perfect fringes. A fixed (non-random) twist would only slide the fringes sideways; it is the randomness that fades them.</span><span class="tech">A fixed phase gives |e<sup>i&phi;</sup>| = 1: fringes shift, visibility stays 1.</span></p>
+        </div>
+        <div class="ctrl">
+          <label>Presets</label>
+          <div class="presets">
+            <button type="button" data-sig="0">No noise</button>
+            <button type="button" data-sig="0.5">0.5 rad</button>
+            <button type="button" data-sig="1">1 rad</button>
+            <button type="button" data-sig="1.5">1.5 rad</button>
+            <button type="button" data-sig="2">2 rad</button>
+          </div>
+        </div>
+        <div class="mc-row">
+          <button type="button" class="btn" id="mc-btn">Run Monte Carlo (200,000 samples)</button>
+        </div>
+        <p class="small muted" id="mc-out" aria-live="polite" style="margin-top:10px"></p>
+      </div>
+      <div class="card">
+        <canvas class="fringes" id="fringes" role="img" aria-label="Interference fringes whose contrast falls as phase noise grows"></canvas>
+        <div class="readout" aria-live="polite">
+          <div><b id="r-v">&mdash;</b><span><span class="plain">fringe contrast V/V<sub>0</sub></span><span class="tech">e<sup>&minus;s&sup2;/2</sup></span></span></div>
+          <div><b id="r-s">&mdash;</b><span><span class="plain">entropy recorded</span><span class="tech">S<sub>R</sub>/k<sub>B</sub> = s&sup2;/2</span></span></div>
+          <div><b id="r-e">&mdash;</b><span><span class="plain">energy cost, in k<sub>B</sub>T</span><span class="tech">E<sub>R</sub>/k<sub>B</sub>T</span></span></div>
+          <div><b id="r-d">&mdash;</b><span><span class="plain">path info allowed</span><span class="tech">D<sub>max</sub> = &radic;(1 &minus; V&sup2;)</span></span></div>
+        </div>
+        <div class="callout"><b>Where the postulate lives</b>The contrast formula is established physics. Reading the lost contrast as <em>entropy recorded by spacetime</em>, and its energy cost, is the STUR postulate.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ceiling -->
+  <section id="ceiling" aria-labelledby="ceil-h">
+    <p class="eyebrow">Consistency check &middot; Steps 3 &amp; 5</p>
+    <h2 id="ceil-h">At the ceiling, the equation lands on Smarr's law</h2>
+    <p class="lede">Saturate &Phi;<sub>R</sub>&sup2; = A/2&#8467;<sub>P</sub>&sup2; for a Schwarzschild hole and set T to its Hawking temperature. The resistance entropy becomes the Bekenstein&ndash;Hawking entropy, and the energy becomes exactly half of Mc&sup2;, for every mass.</p>
+    <div class="grid g2">
+      <div>
+        <div class="table">
+          <table>
+            <thead><tr><th>Mass (M<sub>&#9737;</sub>)</th><th class="nc">&Phi;<sub>max</sub>&sup2;</th><th class="nc">S<sub>R</sub>/S<sub>BH</sub></th><th class="nc">E<sub>R</sub>/Mc&sup2;</th></tr></thead>
+            <tbody>
+              <tr><td class="num">10<sup>&minus;3</sup></td><td class="num">2.10&times;10<sup>71</sup></td><td class="num">1.000000000000</td><td class="num hl">0.500000000000</td></tr>
+              <tr><td class="num">1</td><td class="num">2.10&times;10<sup>77</sup></td><td class="num">1.000000000000</td><td class="num hl">0.500000000000</td></tr>
+              <tr><td class="num">4&times;10<sup>6</sup> <span class="nd">(Sgr A*)</span></td><td class="num">3.36&times;10<sup>90</sup></td><td class="num">1.000000000000</td><td class="num hl">0.500000000000</td></tr>
+              <tr><td class="num">10<sup>11</sup></td><td class="num">2.10&times;10<sup>99</sup></td><td class="num">1.000000000000</td><td class="num hl">0.500000000000</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small muted" style="margin-top:8px">CODATA 2018 constants; check 1 of <code>stur_verify.py</code>. Analytically E<sub>R</sub> = T<sub>H</sub>S<sub>BH</sub> = Mc&sup2;/2 for every M.</p>
+      </div>
+      <div class="card">
+        <h3>One tension, two ends <span class="tag hyp" style="vertical-align:middle;margin-left:6px">hypothesis</span></h3>
+        <p class="small muted">The QCD string tension and the holographic maximum are both &ldquo;tension &times; area&rdquo;. STUR claims one running &sigma;(&mu;) connects them.</p>
+        <div class="ladder" aria-hidden="true">
+          <div class="bar"></div>
+          <span class="lbl" style="left:6%">QCD</span><span class="pt" style="left:6%"></span>
+          <span class="lbl" style="left:94%">Planck</span><span class="pt" style="left:94%"></span>
+          <span class="q">d&sigma;/d ln &mu; = ?</span>
+        </div>
+        <div class="table" style="margin-top:22px">
+          <table>
+            <thead><tr><th>Scale</th><th>Tension <span class="nc">&sigma;</span></th><th class="nc">m<sup>&minus;2</sup></th></tr></thead>
+            <tbody>
+              <tr><td>QCD <span class="nd">confinement</span></td><td class="num">(0.44 GeV)&sup2; &asymp; 0.98 GeV/fm</td><td class="num">5.0&times;10<sup>30</sup></td></tr>
+              <tr><td>Planck <span class="nd">BH entropy</span></td><td class="num">1/(4&#8467;<sub>P</sub>&sup2;)</td><td class="num">9.6&times;10<sup>68</sup></td></tr>
+              <tr><td><strong>Ratio</strong></td><td></td><td class="num hl">1.9&times;10<sup>38</sup></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small muted" style="margin-top:8px">No curve is drawn between the ends on purpose: without a derived flow equation it would be decoration.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Collapse -->
+  <section id="collapse" aria-labelledby="col-h">
+    <p class="eyebrow">Known physics &middot; Step 6</p>
+    <h2 id="col-h">A fold that refuses to shrink</h2>
+    <p class="lede plain">Without the resistance term, a lump's energy keeps falling as it shrinks, so it collapses. With it, there is a valley: a size the lump settles at. The numbers come from relaxing the Skyrme model on a 4,000-point grid and match the published values.</p>
+    <p class="lede tech">Relaxed B=1 hedgehog (L-BFGS-B, analytic gradient, 4,000-point radial grid, R<sub>max</sub> = 20 in Skyrme units). Rescaling x &rarr; &lambda;x sends E<sub>2</sub> &rarr; &lambda;E<sub>2</sub>, E<sub>4</sub> &rarr; E<sub>4</sub>/&lambda;. At the minimum E<sub>2</sub> = 73.61, E<sub>4</sub> = 72.27: equal to grid error, as the virial theorem demands.</p>
+    <div class="grid g2">
+      <div class="card">
+        <svg class="plot" id="derrick" viewBox="0 0 520 320" role="img" aria-label="Energy versus lump size. With the resistance term the curve has a minimum near lambda equals 1; without it, energy falls to zero as the lump shrinks."></svg>
+        <div class="keyrow"><span><i style="background:var(--accent)"></i>with resistance term, &lambda;E<sub>2</sub> + E<sub>4</sub>/&lambda;</span><span><i style="background:var(--bad)"></i>without, &lambda;E<sub>2</sub></span><span><i style="background:var(--warn);height:8px;width:8px;border-radius:50%"></i>script values</span></div>
+      </div>
+      <div>
+        <div class="table">
+          <table>
+            <thead><tr><th>Configuration</th><th class="nc">E / (12&pi;&sup2;B)</th><th>Published</th></tr></thead>
+            <tbody>
+              <tr><td>One fold <span class="nd">B=1, exact hedgehog</span></td><td class="num hl">1.2317</td><td class="num">1.232</td></tr>
+              <tr><td>Two folds merged <span class="nd">B=2, rational map</span></td><td class="num hl">1.2083</td><td class="num">1.208</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout info"><b>Folds bind</b>Two merged folds have 5.55 units less energy than two separate ones (1.9%): combining makes them more tightly bound, as the STUR picture requires.</div>
+        <div class="callout"><b>STUR's task</b>Build a resistance term from spacetime geometry, not from a separate field, that does what E<sub>4</sub> does here. In holonomy terms, spin &frac12; means a 2&pi; loop returns the state multiplied by &minus;1.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cycle -->
+  <section id="cycle" aria-labelledby="cyc-h">
+    <p class="eyebrow">The cosmological cycle</p>
+    <h2 id="cyc-h">Slow, but finite</h2>
+    <p class="lede">Every black hole evaporates eventually. Accelerating expansion means matter ends in many separate holes rather than one, but each still evaporates, so the cycle only needs &ldquo;all black holes&rdquo;.</p>
+    <div class="grid g2">
+      <div>
+        <div class="table">
+          <table>
+            <thead><tr><th>Black hole</th><th>Evaporation time</th></tr></thead>
+            <tbody>
+              <tr><td>1 solar mass</td><td class="num">2.1&times;10<sup>67</sup> yr</td></tr>
+              <tr><td>Sgr A* (4&times;10<sup>6</sup> M<sub>&#9737;</sub>)</td><td class="num">1.3&times;10<sup>87</sup> yr</td></tr>
+              <tr><td>10<sup>11</sup> M<sub>&#9737;</sub> (largest known class)</td><td class="num">2.1&times;10<sup>100</sup> yr</td></tr>
+              <tr><td>All the observable universe's mass</td><td class="num">9.0&times;10<sup>135</sup> yr</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small muted" style="margin-top:8px">t = 5120&pi;G&sup2;M&sup3;/(&#8463;c&#8308;); check 4 of <code>stur_verify.py</code>.</p>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <span class="tag known">known (LQC)</span>
+          <h3>1 &middot; Matter collapse stops</h3>
+          <div class="eq sm">H&sup2; = (8&pi;G/3) &rho; (1 &minus; &rho;/&rho;<sub>c</sub>), &nbsp; &rho;<sub>c</sub> &asymp; 0.41&rho;<sub>Pl</sub></div>
+          <p class="small muted">The bracket halts collapse: the loop-quantum-cosmology template.</p>
+        </div>
+        <div class="card">
+          <span class="tag hyp">STUR hypothesis</span>
+          <h3>2 &middot; The tunneling event</h3>
+          <div class="eq sm">&Gamma;(&rho;) = &#119964; exp[&minus;(B<sub>0</sub> + R(&rho;))/&#8463;]</div>
+          <p class="small muted">R large while matter exists, finite as &rho; &rarr; 0. The Bekenstein bound links the two: as density falls, the ceiling on &Phi;<sub>R</sub>&sup2; falls with it, leaving a zero-information blank slate. Writing R(&rho;) and &rho;<sub>c</sub> in terms of &Phi;<sub>R</sub> is open.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Open problems -->
+  <section id="open" aria-labelledby="open-h">
+    <p class="eyebrow">Falsification targets</p>
+    <h2 id="open-h">What the equation stands or falls on</h2>
+    <p class="lede">In order of importance.</p>
+    <div class="grid g2 open">
+      <div class="card kill"><h3>Test the postulate</h3><p class="small muted">S<sub>R</sub> = &frac12;k<sub>B</sub>&Phi;<sub>R</sub>&sup2; predicts &Phi;<sub>R</sub>&sup2; = 2E/(k<sub>B</sub>T): at fixed energy deposited, a <strong>colder interferometer loses more visibility</strong>. First check whether standard decoherence theory already predicts this scaling. If yes, the postulate is consistent but not new; if no, it is a falsifiable signature for atom interferometers (MAGIS-100, AION).</p><p class="small muted"><strong>Done:</strong> standard theory predicts the opposite, so hotter loses more (ASSUMPTIONS.md). A one-ion experiment that shows it directly is in <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/PREDICTIONS.md">PREDICTIONS.md</a>.</p></div>
+      <div class="card kill"><h3>Fix the connection A<sub>&mu;</sub></h3><p class="small muted">Spin connection, U(1), or a new field. Until it is fixed, &Phi;<sub>R</sub> has no definite value in any experiment.</p></div>
+      <div class="card kill"><h3>Derive &sigma;(&mu;)</h3><p class="small muted">A flow equation carrying the QCD tension to the Planck tension across 38 orders of magnitude, with electromagnetism kept on the perimeter law in between.</p></div>
+      <div class="card kill"><h3>Show the two areas are the same kind</h3><p class="small muted">The QCD area law uses loops in spacetime; the black-hole area is a horizon. AdS/CFT connects them, but our universe has positive &Lambda;, where holography is not established.</p></div>
+      <div class="card kill"><h3>Quark quantum numbers</h3><p class="small muted">Field solitons give baryons. Getting quarks from spacetime folds requires 3 colours, charges &#8532; and &minus;&#8531;, three generations and confinement. No existing work does this.</p></div>
+      <div class="card kill"><h3>One quantity for bounce and barrier</h3><p class="small muted">Write R(&rho;) and &rho;<sub>c</sub> in terms of &Phi;<sub>R</sub>, so one quantity sets both the bounce and the tunneling barrier.</p></div>
+      <div class="card kill"><h3>Information paradox</h3><p class="small muted">If evaporation ends at zero information, STUR must say where black-hole information goes.</p></div>
+    </div>
+  </section>
+
+  <!-- Reproduce -->
+  <section id="reproduce" aria-labelledby="rep-h">
+    <p class="eyebrow">Reproduce</p>
+    <h2 id="rep-h">Every number on this page, from one script</h2>
+    <div class="grid g2">
+      <div>
+        <pre><code>git clone https://github.com/sheldonlindberg-afk/STUR-Physics-Lab
+cd STUR-Physics-Lab
+pip install -r requirements.txt
+python3 src/stur_verify.py      # ~20 s, numpy + scipy</code></pre>
+        <p class="small muted" style="margin-top:10px">CI reruns the script on every push and requires its output to match <code>results/stur_verify_output.txt</code> exactly.</p>
+        <details>
+          <summary>References</summary>
+          <div class="body">
+            <p class="small">Standard literature, cited from knowledge and not link-checked; verify page details before submission.</p>
+            <ul class="refs">
+              <li>Ashtekar, Pawlowski, Singh, &ldquo;Quantum nature of the big bang&rdquo;, PRL 96, 141301 (2006)</li>
+              <li>Battye, Sutcliffe, &ldquo;Symmetric Skyrmions&rdquo;, PRL 79, 363 (1997)</li>
+              <li>Bekenstein, &ldquo;Universal upper bound on the entropy-to-energy ratio for bounded systems&rdquo;, PRD 23, 287 (1981)</li>
+              <li>de Boer, Verlinde, Verlinde, &ldquo;On the holographic renormalization group&rdquo;, JHEP 08 (2000) 003</li>
+              <li>Derrick, &ldquo;Comments on nonlinear wave equations as models for elementary particles&rdquo;, J. Math. Phys. 5, 1252 (1964)</li>
+              <li>Englert, &ldquo;Fringe visibility and which-way information: an inequality&rdquo;, PRL 77, 2154 (1996)</li>
+              <li>Friedman, Sorkin, &ldquo;Spin &frac12; from gravity&rdquo;, PRL 44, 1100 (1980)</li>
+              <li>Hawking, &ldquo;Particle creation by black holes&rdquo;, Commun. Math. Phys. 43, 199 (1975)</li>
+              <li>Houghton, Manton, Sutcliffe, &ldquo;Rational maps, monopoles and Skyrmions&rdquo;, Nucl. Phys. B 510, 507 (1998)</li>
+              <li>Landauer, &ldquo;Irreversibility and heat generation in the computing process&rdquo;, IBM J. Res. Dev. 5, 183 (1961)</li>
+              <li>Maldacena, &ldquo;Wilson loops in large N field theories&rdquo;, PRL 80, 4859 (1998)</li>
+              <li>Penrose, <em>Cycles of Time</em> (Bodley Head, 2010)</li>
+              <li>Rovelli, Vidotto, &ldquo;Planck stars&rdquo;, Int. J. Mod. Phys. D 23, 1442026 (2014)</li>
+              <li>Ryu, Takayanagi, &ldquo;Holographic derivation of entanglement entropy from AdS/CFT&rdquo;, PRL 96, 181602 (2006)</li>
+              <li>Skyrme, &ldquo;A unified field theory of mesons and baryons&rdquo;, Nucl. Phys. 31, 556 (1962)</li>
+              <li>Smarr, &ldquo;Mass formula for Kerr black holes&rdquo;, PRL 30, 71 (1973)</li>
+              <li>Verlinde, &ldquo;On the origin of gravity and the laws of Newton&rdquo;, JHEP 04 (2011) 029</li>
+              <li>Vilenkin, &ldquo;Creation of universes from nothing&rdquo;, Phys. Lett. B 117, 25 (1982)</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+      <div class="dl">
+        <a class="card" href="../../index.html"><h3>From the quantum level up</h3><span class="small muted">Measurement and gravity in one equation: the Born rule derived, gravity as TEGR torsion, a two-diamond test</span></a>
+        <a class="card" href="../../docs/STUR_Resistance_Equation_Derivation_Record.pdf"><h3>Derivation record (PDF)</h3><span class="small muted">The full nine-page record, with status labels on every step</span></a>
+        <a class="card" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/src/stur_verify.py"><h3>stur_verify.py</h3><span class="small muted">Five checks: Smarr, phase noise, tensions, evaporation, Skyrme</span></a>
+        <a class="card" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/stur_verify_output.txt"><h3>Script output</h3><span class="small muted">The reference output CI compares against</span></a>
+        <a class="card" href="../stur-roll/index.html"><h3>Archive: STUR-ROLL</h3><span class="small muted">The previous site: cosmic birefringence |&beta;| = &alpha;/2, simulator and nine refinement rounds</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot">
+    <span>&copy; 2026 Sheldon Lindberg &middot; CC0 1.0 &middot; <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab">GitHub</a></span>
+    <span><a href="../stur-roll/index.html">Archive: STUR-ROLL</a> &middot; <a href="../v7-toe/index.html">STUR v7</a></span>
+  </div>
+</footer>
+
+<script src="../../assets/js/stur-resistance.js"></script>
+<script src="../../assets/js/stur-sw-register.js"></script>
+</body>
+</html>

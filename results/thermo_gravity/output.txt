@@ -1,0 +1,48 @@
+
+==============================================================================
+Q1  The minimum noise of a statistical gravity
+==============================================================================
+   q (1/m)     min over k of total kernel / (4 pi G / hbar q^2)    k at minimum / (GK/2hbar)
+      1e+02    1.000000000000                                     1.000000
+      1e+06    1.000000000000                                     1.000000
+      1e+10    1.000000000000                                     1.000000
+      1e+14    1.000000000000                                     1.000000
+   The minimum is the Diosi-Penrose kernel at every q (largest deviation 2.2e-16).
+   Design-A diamond, R0 -> 0: 169.49 /s   (closed form (Gm^2/hbar)(6/5R - 1/d) = 169.50 /s)
+
+==============================================================================
+Q2  The framework's only length: the entanglement cutoff a
+==============================================================================
+   N =     1 fields:  a =  0.31 l_P = 5.03e-36 m
+   N =    10 fields:  a =  0.98 l_P = 1.59e-35 m
+   N =   100 fields:  a =  3.11 l_P = 5.03e-35 m
+   N =  1000 fields:  a =  9.85 l_P = 1.59e-34 m
+
+==============================================================================
+Q3  The heating that noise would cause, per kilogram of any matter
+==============================================================================
+   R0 = a (N = 1)      : 7.8e+60 W/kg
+   R0 = a (N = 1000)   : 2.5e+56 W/kg
+   R0 = 0.54 Angstrom  : 6.3e-15 W/kg   (the bound from radiation, LIT)
+   Required R0 / a (N = 1000): 3.4e+23
+   For scale: the Sun produces 1.9e-04 W/kg.
+   So gravity cannot be a statistical field coarse-grained at the framework's own
+   cutoff. Its field follows each branch: lambda = 1, and D6 follows from D1-D3.
+
+==============================================================================
+Q4  Any statistical gravity with R0 put in by hand: the one-diamond prediction
+==============================================================================
+   R0            rate (/s)    survival exp(-rate x 3.24 s)
+    5.40e-11 m    1.695e+02   3.189e-239
+    1.00e-07 m    1.658e+02   5.373e-234
+    1.00e-06 m    7.294e+01   2.321e-103
+    1.00e-05 m    7.828e+00   9.649e-12
+    5.20e-05 m    1.347e+00   1.271e-02
+    2.00e-04 m    2.063e-01   5.125e-01
+    1.00e-03 m    3.349e-03   9.892e-01
+   check, R0 = 2e-04 m, Gaussian-point formula: 2.063e-01 /s
+   check, R0 = 1e-03 m, Gaussian-point formula: 3.349e-03 /s
+   To keep 90% coherence for 3.24 s, a statistical gravity needs R0 > 455 um.
+   Smearing the source of gravity over R0 softens Newton's law at separations ~R0;
+   the inverse-square law holds down to 52 um (LIT recalled). So a design-A
+   diamond that stays coherent for 3.24 s leaves no Markovian statistical gravity standing.

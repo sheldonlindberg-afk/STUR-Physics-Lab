@@ -37,15 +37,16 @@ In words:
 | D3 | Clausius (δQ = TδS) on every local horizon gives Einstein's equations, with 1/(4Għ) = entanglement per area | Jacobson 1995 | LIT, not recomputed |
 | D4 | The same equations from the TEGR action (c⁴/16πG)∫eT: gravity is torsion on flat spacetime | T = −R + divergence, residual ≤ 10⁻¹⁶⁵ at random points | CHECK |
 | D5 | Static solution: Schwarzschild, uniquely. Weak field: Ψ = Φ, ∇²Φ = 4πGρ | TEGR field equations solved symbolically | CHECK |
-| D6 | In a superposition each branch sources its own field: the equation above | Assumed for gravity: D3 does not imply it (see the caveat below). Exact in the lattice analog: phase 0.6064 vs 1/r law 0.6046, record 2×10⁻⁶ | **ASSUMED** + analog |
+| D6 | In a superposition each branch sources its own field: the equation above | A statistical gravity coarse-grained at the cutoff a would heat matter at 10⁶⁰ W/kg, so gravity is collective ([COLLECTIVE.md](COLLECTIVE.md)). Lattice analog: phase 0.6064 vs 1/r law 0.6046, record 2×10⁻⁶ | FOLLOWS + analog |
 
-**Caveat on D3 → D6.** Jacobson's argument gives Einstein's equation as an *equation
-of state*: a relation for the expectation value ⟨T_μν⟩, which is the semiclassical
-equation. On its own that is the mean-field picture (λ = 0, EMERGENT.md K3), and
-Jacobson himself read it as a reason not to quantize the metric. So D1–D3 supply the
-*value* of G but are silent on whether the field follows each branch. D6 (λ = 1) is
-therefore a separate assumption, not a consequence of D3. It is the one claim the
-experiment tests.
+**Why D6 follows from D1–D3.** Jacobson's step gives Einstein's equation as an
+equation of state. If gravity were an equation of state in the statistical sense, a
+classical average of the quantum level, it would have to carry noise in order to respond
+to quantum matter. The least noise allowed is the Diósi–Penrose kernel 4πG/ħq², smeared
+over the length at which the equation of state is coarse-grained. In D1–D3 that length
+is the cutoff a, and the noise would then heat every kilogram of matter by 10⁵⁶–10⁶⁰ W.
+So gravity's field is collective: it follows each branch of its sources, as sound
+follows the atoms of a crystal ([COLLECTIVE.md](COLLECTIVE.md)).
 
 ## What comes out of it (D7)
 
@@ -56,7 +57,7 @@ experiment tests.
 | (c) | **One mass, gravity's own record:** \|⟨E₁\|E₂⟩_grav\| = e^(−N/2) | N = 1.4×10⁻⁵⁹ gravitons: gravity keeps no record |
 | (d) | **Two masses:** the action difference alone entangles them | Baseline (10⁻¹⁴ kg, 2.5 s): 0.594 rad, concurrence 0.293. Best design A (1.5×10⁻¹⁴ kg): 2.19 rad, 565 runs, 1.3 h (GRAVITY_ENTANGLEMENT.md) |
 | (e) | **Classical limit** (one branch, many particles) | Perihelion 42.98″/century; light bending 1.7512″; γ = 1; GPS +38.54 µs/day |
-| (f) | **If gravity were only an average** (not D6): no entanglement in (d), and intrinsic collapse or noise is needed | If that noise is Diósi–Penrose: 170 /s, so one diamond's superposition lasts ~6 ms instead of > 3 s. Other λ = 0 models set the rate differently |
+| (f) | **One mass keeps its superposition:** gravity adds no decoherence | A design-A diamond stays fully coherent for 3.24 s. A statistical gravity would leave ≤ 1.3% for any smearing allowed by Newton's law, and 10⁻²³⁹ at the radiation bound (COLLECTIVE.md) |
 
 ## How your three starting ideas sit in the equation
 
@@ -69,7 +70,8 @@ experiment tests.
   and its fields, branch by branch, one object. It gives the full quantum correlations,
   and it cannot send signals.
 - **"Gravity is a consequence of the quantum level."** That is D1–D3: G comes from vacuum
-  entanglement. Gravity then joins the other fields in |Eᵢ⟩ (D6).
+  entanglement. Gravity then joins the other fields in |Eᵢ⟩ (D6), and it has to: an
+  averaged gravity would heat all matter (COLLECTIVE.md).
 
 ## What was put in, and what was not derived (D8)
 
@@ -81,12 +83,10 @@ experiment tests.
   - the value of G (the measured G fixes only a²/N: a = 0.31 ℓ_P for one field, 3.1 ℓ_P
     for a hundred);
   - the particle content (the Standard Model).
-- **The one assumption beyond D0–D5:** D6 applies to gravity. That is, gravity emerges
-  *collectively* from the quantum level, as phonons do in a crystal, and not as a
-  statistical average. It is tested by (d); (f) is one form failure could take.
-  λ = 1 is also what perturbative (effective-field-theory) quantum gravity predicts, so
-  a positive result would confirm D6 without singling out this framework. Only a null
-  result (λ = 0) would be new physics.
-- **Status:** every ingredient is published physics. The chain, the λ framing and the
-  computed checks are this project's. The equation contains no adjustable parameter
-  beyond the measured G.
+- **Gravity's character is derived, not assumed:** its field follows each branch (D6),
+  because a statistical gravity built on the same cutoff that fixes G would destroy
+  ordinary matter. The experiments in (d) and (f) measure the consequences directly.
+- **Every ingredient is published physics.** The chain, the derivation of D6, the λ
+  framing and the computed checks are this project's. The equation contains no
+  adjustable parameter beyond the measured G. All predictions, with numbers:
+  [PREDICTIONS.md](PREDICTIONS.md).

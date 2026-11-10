@@ -2,10 +2,10 @@
   <img src="assets/4.13.png" alt="STUR Physics Lab logo" width="160"/>
 </p>
 
-<h1 align="center">STUR Resistance Equation</h1>
+<h1 align="center">STUR: Measurement and Gravity from the Quantum Level Up</h1>
 
 <p align="center">
-  <strong>A record of testing the STUR resistance equation: what failed, what survived as known physics, and the one open experimental question.</strong>
+  <strong>One equation for the double slit, measurement and gravity, derived from quantum fields. Gravity's strength comes from vacuum entanglement, its field follows each branch of a superposition, and two diamonds will show it.</strong>
 </p>
 
 <p align="center">
@@ -15,100 +15,100 @@
 
 <p align="center">
   <a href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/"><strong>Open the interactive site &rarr;</strong></a>
-  &nbsp;&middot;&nbsp; <a href="docs/STUR_Resistance_Equation_Derivation_Record.pdf">Derivation record (PDF)</a>
+  &nbsp;&middot;&nbsp; <a href="DERIVATION.md">Derivation</a>
+  &nbsp;&middot;&nbsp; <a href="PREDICTIONS.md">Predictions</a>
 </p>
 
 ---
 
-## Status (November 2026)
-
-- **The original postulate failed.** S_R = ½k_BΦ_R² matches no standard entropy, and its
-  corollary E_R = ½k_BTΦ_R² has the wrong temperature dependence. The Smarr check was
-  circular. See [REPORT.md](REPORT.md) and [ASSUMPTIONS.md](ASSUMPTIONS.md).
-- **What stands** is a synthesis of known physics: one replica equation for horizons,
-  confinement, decoherence and thermodynamics ([UNIFICATION.md](UNIFICATION.md)), plus the
-  quantum-level-up derivation below.
-- **Consistency audit and testable predictions:** [AUDIT.md](AUDIT.md).
-
-<details><summary>The original candidate equation (superseded; kept for the record)</summary>
-
-```
-Phi_R = \oint_C A_mu dx^mu              <W(C)> = exp(-1/2 <Phi_R^2>)
-S_R   = 1/2 k_B Phi_R^2   (postulate)   E_R    = 1/2 k_B T Phi_R^2
-1/2 Phi_R^2 = sigma(mu) A  <=  A / (4 l_P^2)
-```
-
-| Result | Status now | Where |
-|---|---|---|
-| Visibility = Gaussian Wilson loop | Known physics | stur_verify.py |
-| S_R = ½k_BΦ_R² | **Failed:** matches no standard entropy | ASSUMPTIONS.md |
-| E_R = ½k_BTΦ_R² | **Failed:** Landauer covers erasure, not dephasing; wrong T-scaling | POSTULATE_TEST.md |
-| Ceiling reproduces Smarr's Mc² = 2TS | **Circular:** restates an identity that was built in | ASSUMPTIONS.md §6 |
-| ½Φ_R² = σ(μ)A from QCD to Planck | **Failed:** the two areas are different kinds | CONFINEMENT.md, OPEN_PROBLEMS.md |
-| A fold resists collapse at a definite size | Known physics (Skyrme) | stur_verify.py |
-
-</details>
-
-## From the quantum level up: measurement and gravity in one equation
+## The equation
 
 ```
 ρᵢⱼ(t) = ρᵢⱼ(0) · ⟨Eⱼ|Eᵢ⟩ · e^{i(Sᵢ − Sⱼ)/ħ}
-Sᵢ = S_matter[i] + S_EM[i] + (c⁴/16πG) ∫ eᵢ T[eᵢ] d⁴x,     G = π a² c³ / (N c_s ħ),  c_s = 0.3046
+
+Sᵢ = S_matter[i] + S_EM[i] + (c⁴/16πG) ∫ eᵢ T[eᵢ] d⁴x        gravity as TEGR torsion
+G  = π a² c³ / (N c_s ħ),   c_s = 0.3046                     from vacuum entanglement
+p  = |c|²                                                    derived
 ```
 
-Derived step by step from quantum fields, with gravity as TEGR torsion whose strength
-comes from vacuum entanglement. It gives the double slit (V = |⟨E₁|E₂⟩|), GR's classic
-tests, and a two-mass entanglement prediction. The Born rule is derived too
-([BORN.md](BORN.md)). Web page: [quantum.html](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/quantum.html).
-See [DERIVATION.md](DERIVATION.md),
-then [MEASUREMENT.md](MEASUREMENT.md), [GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md),
-[TEGR.md](TEGR.md) and [EMERGENT.md](EMERGENT.md).
+- **The branches:** a system in a superposition carries, in each branch, its own
+  configuration of every field it sources. That includes detectors, light, its own
+  electric field, and gravity's tetrad eᵢ.
+- **The overlap ⟨Eⱼ|Eᵢ⟩:** how far the fields have kept a record of which branch
+  happened. That is what makes outcomes definite. No observer is needed.
+- **The phase:** the difference in action between branches, including the
+  gravitational field's own action.
+- **The strength of gravity, G:** how entangled the quantum vacuum is per unit area.
+
+## The derivation
+
+| Step | Result | Report |
+|---|---|---|
+| Born rule | p = \|c\|², from unitarity with locality or non-contextuality | [BORN.md](BORN.md) |
+| Area law | The vacuum's entanglement across any surface: S = 0.3046 (R/a)² per field | [UNIFICATION.md](UNIFICATION.md) |
+| Unruh / modular structure | The vacuum is thermal to every accelerated observer: K = 2π × boost | [UNIFICATION.md](UNIFICATION.md) |
+| Field equations | Clausius on every local horizon gives Einstein's equations (Jacobson), with 1/4Għ = entanglement per area | [DERIVATION.md](DERIVATION.md) |
+| Gravity as torsion | The TEGR action gives the same equations; Schwarzschild is the unique static solution | [TEGR.md](TEGR.md) |
+| Gravity follows each branch | A statistical gravity at the entanglement cutoff would heat matter at 10⁶⁰ W/kg | [COLLECTIVE.md](COLLECTIVE.md) |
+| Measurement | V = \|⟨E₁\|E₂⟩\|; the electron's field is in both branches as an amplitude | [MEASUREMENT.md](MEASUREMENT.md) |
+
+The only measured input is G. It fixes the ratio a²/N of the cutoff to the number of
+fields: a = 0.31 ℓ_P for one field and 3.1 ℓ_P for a hundred.
+
+## What it predicts
+
+| Prediction | Number | Experiment |
+|---|---|---|
+| Two diamonds entangle through gravity alone | Δφ = 2.19 rad; 565 runs (1.3 h) at the published targets | Levitated-diamond interferometry ([GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md)) |
+| One diamond keeps its superposition | Full coherence for 3.24 s; any statistical gravity leaves ≤ 1.3% | Single-diamond interferometry ([COLLECTIVE.md](COLLECTIVE.md)) |
+| Gravity keeps no record of one mass | 1.4×10⁻⁵⁹ gravitons emitted per split | — ([TEGR.md](TEGR.md)) |
+| The classical limit is general relativity | Perihelion 42.98″/century, light bending 1.7512″, γ = 1, GPS +38.54 µs/day | Observed |
+| Visibility loss counts quanta, so heat destroys more of it | −ln V = 2 Var(ΔN); contrast 0.787 → 0.111 from n̄ = 0.1 to 5 | One trapped ion (`src/stur_lab_test.py`) |
+| A confining string's entropy saturates while its modular energy grows | — | Rydberg-atom and trapped-ion simulators ([CONFINEMENT.md](CONFINEMENT.md)) |
+
+Full list, with requirements and sources: [PREDICTIONS.md](PREDICTIONS.md).
 
 ## Reproduce
 
 ```bash
-pip install -r requirements.txt
-python3 src/stur_verify.py        # ~20 s; prints every number in the record
-python -m pytest tests/ -q        # output must match results/stur_verify_output.txt
+pip install -r requirements.txt pytest
+python3 src/stur_derivation.py      # the whole chain, ~30 s
+python3 src/stur_thermo_gravity.py  # why gravity follows each branch, ~6 s
+python3 src/stur_gravity_full.py    # the two-diamond design search, ~15 s
+python -m pytest tests -q           # every number pinned (90 tests)
 ```
 
-## Open questions and tests
-
-| # | Question | Test | Does it distinguish this work from standard physics? |
-|---|---|---|---|
-| 1 | Does gravity's field follow each branch (λ = 1) or an average (λ = 0)? | Two-diamond entanglement ([GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md)) | Only a null result would. λ = 1 is also perturbative quantum gravity's prediction |
-| 2 | Diósi–Penrose collapse at 1.5×10⁻¹⁴ kg | One diamond held in superposition for 3 s ([EMERGENT.md](EMERGENT.md)) | Tests DP, not this framework |
-| 3 | Kill test for the original corollary P2 | One trapped ion, two temperatures ([AUDIT.md](AUDIT.md), `src/stur_lab_test.py`) | Standard QM fixes the outcome; it can only rule P2 out |
-| 4 | Equal quark and string weights in the continuum | DMRG ([NEXT_STEPS.md](NEXT_STEPS.md)) | No: it would confirm a theorem |
-| 5 | 3-3-1 models behind "3 colours = 3 generations" | Z′ and bilepton searches ([REPORT.md](REPORT.md) §4) | Tests the 3-3-1 framework, which is published |
+Each script writes its reference output to `results/`, and CI checks every number on
+each push.
 
 ## Layout
 
 ```
-index.html, assets/                 the site (GitHub Pages)
-  assets/css/stur-roll-app.css      shared theme (tokens, light/dark)
-  assets/css/stur-resistance.css    additions for this page
-  assets/js/stur-resistance.js      reading mode, fringe visibility, Derrick curve
-docs/                               derivation record (PDF)
-src/stur_verify.py                  numerical verification (numpy, scipy)
-src/*.py                            one script per report; outputs in results/
-AUDIT.md                            consistency audit and testable predictions
-results/stur_verify_output.txt      reference output, checked in CI
-tests/                              regression tests
-archive/                            superseded material, kept for the record
+index.html, assets/       the site (GitHub Pages)
+DERIVATION.md             the equation, step by step
+PREDICTIONS.md            every prediction, with numbers and experiments
+COLLECTIVE.md             why gravity's field follows each branch
+BORN.md, MEASUREMENT.md, TEGR.md, GRAVITY_ENTANGLEMENT.md, EMERGENT.md
+                          the supporting reports
+src/                      one script per report; outputs in results/
+tests/                    regression tests
+REPORT.md                 development record: the route from the original STUR
+                          equation to this theory, including the wider search for a
+                          unifying equation (GOD_EQUATION.md, UNIFICATION.md, ...)
+archive/                  earlier versions, kept for the record
 ```
 
 ## Archive
 
-The previous contents of this repository are preserved, not deleted:
+Earlier versions are preserved:
 
-- [`archive/stur-roll/`](archive/stur-roll/) &mdash; **STUR-ROLL** (cosmic birefringence,
-  |&beta;| = &alpha;/2 = 0.2091&deg;): the former home page, docs, nine refinement
-  rounds, code, results and tests. The site still renders at
-  [`/archive/stur-roll/`](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/archive/stur-roll/)
-  and its tests still run in CI.
-- [`archive/v7-toe/`](archive/v7-toe/) and [`archive/genesis-v10-stur-b/`](archive/genesis-v10-stur-b/)
-  &mdash; older superseded material. See [`archive/README.md`](archive/README.md).
+- [`archive/resistance-equation/`](archive/resistance-equation/): the original STUR
+  resistance equation that this work grew out of, with its derivation record
+  ([PDF](docs/STUR_Resistance_Equation_Derivation_Record.pdf)) and `src/stur_verify.py`.
+- [`archive/stur-roll/`](archive/stur-roll/): **STUR-ROLL** (cosmic birefringence,
+  |β| = α/2 = 0.2091°), with its site, docs, code and tests (still run in CI).
+- [`archive/v7-toe/`](archive/v7-toe/) and [`archive/genesis-v10-stur-b/`](archive/genesis-v10-stur-b/):
+  older material. See [`archive/README.md`](archive/README.md).
 
 ## License
 

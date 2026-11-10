@@ -1,8 +1,16 @@
 # Archive: superseded material
 
 Everything here is kept for the record and is **not** the current claim of
-this repository. The current work is the STUR Resistance Equation; see the
-[top-level README](../README.md).
+this repository. The current work is measurement and gravity from the quantum
+level up; see the [top-level README](../README.md).
+
+## `resistance-equation/`: the STUR Resistance Equation (archived 2026-11-10)
+
+The former home page, moved with `git mv`. Only paths changed: links to `assets/`,
+`manifest.json` and `docs/` go up two levels. Its derivation record stays at
+`docs/STUR_Resistance_Equation_Derivation_Record.pdf`, and `src/stur_verify.py`
+still reproduces its numbers. The route from this equation to the current theory is
+in [REPORT.md](../REPORT.md).
 
 ## `stur-roll/`: STUR-ROLL (archived 2026-11-01)
 
