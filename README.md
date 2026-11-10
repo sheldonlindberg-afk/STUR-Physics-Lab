@@ -42,6 +42,19 @@ is established physics or follows from it.
 | &frac12;&Phi;_R&sup2; = &sigma;(&mu;)A spans QCD to Planck | STUR hypothesis | Running of &sigma;(&mu;) not yet derived |
 | A fold resists collapse at a definite size | Known physics (Skyrme) | B=1 energy 1.2317 &times; 12&pi;&sup2;, literature 1.232 |
 
+## From the quantum level up: measurement and gravity in one equation
+
+```
+ρᵢⱼ(t) = ρᵢⱼ(0) · ⟨Eⱼ|Eᵢ⟩ · e^{i(Sᵢ − Sⱼ)/ħ}
+Sᵢ = S_matter[i] + S_EM[i] + (c⁴/16πG) ∫ eᵢ T[eᵢ] d⁴x,     G = π a² c³ / (N c_s ħ),  c_s = 0.3046
+```
+
+Derived step by step from quantum fields, with gravity as TEGR torsion whose strength
+comes from vacuum entanglement. It gives the double slit (V = |⟨E₁|E₂⟩|), GR's classic
+tests, and a two-mass entanglement prediction. See [DERIVATION.md](DERIVATION.md),
+then [MEASUREMENT.md](MEASUREMENT.md), [GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md),
+[TEGR.md](TEGR.md) and [EMERGENT.md](EMERGENT.md).
+
 ## Reproduce
 
 ```bash
