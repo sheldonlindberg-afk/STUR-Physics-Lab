@@ -61,6 +61,31 @@ combined statement and the lattice tests are this project's.
    needs a **new idea**: structure that produces a measurable deviation and is
    not already excluded. That can't come from reorganizing what's here.
 
+## The 3-3-1 thread: where it stopped (fronts 7–7g)
+
+Every assumption of the N_c = N_g = 3 selection that can be computed has been computed:
+- the exact charges;
+- two-loop gauge running;
+- two-loop Yukawa terms;
+- one-loop threshold matching (checked by matching-scale independence to 10⁻⁹);
+- no-Yukawa bounds;
+- the cutoff window (7.2×10¹⁵ – 1.4×10¹⁹ GeV);
+- Witten's anomaly, now shown redundant;
+- the scalar sector's own consistency to M_Pl.
+
+The selection survives all of them. What is left is three walls:
+
+1. **Conceptual.** The selection takes the measured TeV-scale couplings as input. For
+   β = −1/√3, N_c = 5 survives in a narrow band of weak angle about three times below
+   ours. No computation inside the framework removes this. It would need a principle
+   fixing the couplings, and front 12 shows 3-3-1 has none (no gauge unification).
+2. **Data.** The framework predicts a Z′ at 1.225 M_V, bilepton gauge bosons, and, if it
+   is to stay consistent to M_Pl, exotic quarks below 1.4–1.8 M_V with the top's doublet
+   carrying most of the vev. Colliders decide.
+3. **Refinement only.** Two-loop quartic RGEs, one-loop Higgs matching and a full
+   (non-random) map of the surviving scalar region would reshape the allowed corner. They
+   can't restore N_c = 5, which fails in the gauge sector alone.
+
 ## What would move it
 
 - **For the corner:** allow `arxiv.org` in the environment's network settings,

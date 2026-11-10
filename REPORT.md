@@ -1,7 +1,7 @@
 # STUR and the search for a unifying equation: consolidated report
 
 *Status as of November 2026. Every number below is computed by a script in `src/` and
-pinned by `tests/` (110 tests, all passing). Detailed records are in the topic reports
+pinned by `tests/` (115 tests, all passing). Detailed records are in the topic reports
 linked from each section.*
 
 ## How the work was done
@@ -135,6 +135,12 @@ Q_d = −⅓**.
    - One-loop threshold matching at the 3-3-1 scale is now included (front 7e). Across
      the heavy spectrum the β = +1/√3 worst case sits 1.64× above M_Pl, and the
      sin²θ_W margin is +0.010 to +0.035.
+   - Witten's anomaly is redundant in 3-3-1 (front 7f).
+   - The selection holds with no Yukawas, and for any cutoff from 7.2×10¹⁵ to
+     1.4×10¹⁹ GeV.
+   - The scalar sector itself survives to M_Pl in a corner that requires exotic quarks
+     below 1.4–1.8 M_V (front 7g).
+   - The thread has reached its walls (WALL.md).
 
 **Standalone write-up:** [NOTE_331.md](NOTE_331.md). Its three weak spots (Yukawas, the
 boundary condition, the narrow variant) are computed in front 7d and summarized in
@@ -205,5 +211,5 @@ Errors caught by the checks and fixed, recorded for transparency:
   requirements; it's unproven until a fresh session starts on it.
 - **Reproduce:**
   1. `pip install -r requirements.txt pytest matplotlib`
-  2. `python -m pytest tests -q` (110 tests)
+  2. `python -m pytest tests -q` (115 tests)
   3. run any `src/*.py` to regenerate its file in `results/`.

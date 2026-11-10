@@ -476,6 +476,51 @@ and one or two light doublets:
 **Verdict.** The selection survives one-loop thresholds. The narrow variant's worst
 case, a spectrum already disfavoured by the LHC, sits 1.6× above M_Pl.
 
+## Front 7f: the remaining assumptions, closed
+
+Script: `src/god_eq_331_closure.py`; output: `results/god_equation/331_closure.txt`; tests:
+`tests/test_331_closure.py`.
+
+- **C1. Witten's anomaly is redundant in 3-3-1.**
+  - The SU(3)_L anomaly, N_g(1 + N_c) = 2nN_c, plus asymptotic freedom of colour,
+    11N_c > 6N_g, have only the solutions N_g = N_c with N_c odd. All 29 solutions up to
+    N_c = 60 are of this kind, and there is a two-line gcd proof.
+  - The SU(2) doublet count is then even automatically.
+  - The chain no longer needs a global-anomaly argument that the UV group SU(3)_L
+    (π₄ = 0) wouldn't itself impose.
+- **C2. No Yukawas at all** (a lower bound on the N_c = 3 pole for any Yukawa running):
+  the worst case is 1.53 M_Pl (β = +1/√3), or 2.09 M_Pl with M_V ≥ 4 TeV. The Yukawas'
+  running can't flip the verdict.
+- **C3. The cutoff window.** Any cutoff from 7.2×10¹⁵ to 1.4×10¹⁹ GeV selects N_c = 3
+  under both g = 4π and α = 1, with or without Yukawas, in both variants. The window
+  includes M_Pl, the reduced Planck mass and the grand-unification scale.
+
+## Front 7g: the scalar sector to the Planck scale
+
+Scripts: `src/rge_engine.py`, `src/god_eq_331_scalar.py`; output:
+`results/god_equation/331_scalar.txt`; tests: `tests/test_331_scalar.py`.
+
+**Method.** A general one-loop engine for quartics and Yukawas. It reproduces the SM's
+β_λ and β_yt exactly. Applied to 3-3-1 at N_c = 3:
+- 18 real scalars;
+- the 9-quartic basis, closed under the RGEs to 10⁻¹⁵ and gauge invariant to 10⁻¹⁶;
+- the top Yukawa, β/y = 5y_t² − 8g₃² − 4g_L² − …;
+- every exotic and heavy-lepton Yukawa, run separately so that the structures close;
+- two-loop gauge running.
+
+**Results.**
+- The SM alone crosses λ = 0 at 9×10⁷ GeV at one loop.
+- 3-3-1 survives (perturbative and bounded below to M_Pl) in a corner: 7% (β = −1/√3)
+  and 5% (β = +1/√3) of viable points under tight priors, none with O(1) quartics.
+- **The cost:** exotic Yukawas < 0.80 or 0.62 at 4 TeV (exact, from gauge + Yukawas
+  alone). That means exotic quarks below 1.79 or 1.40 M_V, the top's doublet carrying
+  c² ≥ 0.68, and quartics ≲ 0.37.
+- In the survivors, the extra scalars stabilize the SM's top-doublet direction.
+
+**Verdict.**
+- 3-3-1 at N_c = 3 passes its own perturbativity test.
+- That test turns into collider relations: exotic quarks lighter than about 1.1–1.5 M_Z′.
+
 ## Front 8: masses, starting with Koide's formula
 
 Script: `src/god_eq_masses.py`; output: `results/god_equation/masses.txt`.

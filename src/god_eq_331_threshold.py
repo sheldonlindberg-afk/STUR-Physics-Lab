@@ -97,12 +97,13 @@ def gL_at(mu):
 
 
 def pole(Nc, variant, MV=4e3, rJ=1.0, rS=1.0, n_light=1, mu=None, loops=2, s2=None,
-         thresholds=True, yt=None):
+         thresholds=True, yt=None, yukawas=True, gmax=4 * pi):
     mu = MV if mu is None else mu
-    yJ = rJ * gL_at(mu) / sqrt(2)
-    yt = Y.yt_at(mu) if yt is None else yt
+    yJ = rJ * gL_at(mu) / sqrt(2) if yukawas else 0.0
+    yt = (Y.yt_at(mu) if yt is None else yt) if yukawas else 0.0
     lam = lambdas(heavy_spectrum(Nc, variant, MV, rJ, rS, n_light), mu) if thresholds else (0, 0, 0)
-    return Y.blow_up(Nc, variant, yt, yJ, mu0=mu, s2=s2, lam=tuple(lam), n_light=n_light, loops=loops)
+    return Y.blow_up(Nc, variant, yt, yJ, mu0=mu, s2=s2, lam=tuple(lam), n_light=n_light, loops=loops,
+                     gmax=gmax)
 
 
 def s2_upper_thr(variant, **kw):
@@ -113,11 +114,11 @@ def s2_upper_thr(variant, **kw):
 GRID = dict(rJ=(0.5, 1.0, 2.0, 3.0), rS=(1 / 3, 1.0, 3.0), MV=(2e3, 4e3, 1e4), n_light=(1, 2))
 
 
-def scan(Nc, variant, MVs=None):
+def scan(Nc, variant, MVs=None, **kw):
     vals = []
     mus = (1.0,) if Nc == 3 else (1 / 3, 1.0, 3.0)     # N_c = 5: no consistent low theory, take the best mu
     for rJ, rS, MV, nl in product(GRID["rJ"], GRID["rS"], MVs or GRID["MV"], GRID["n_light"]):
-        p = max(pole(Nc, variant, MV, rJ, rS, nl, mu=k * MV) for k in mus)
+        p = max(pole(Nc, variant, MV, rJ, rS, nl, mu=k * MV, **kw) for k in mus)
         vals.append((p, rJ, rS, MV, nl))
     return min(vals), max(vals)
 

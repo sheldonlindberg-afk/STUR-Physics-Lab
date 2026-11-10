@@ -11,8 +11,9 @@ Pleitez; Frampton). We keep the number of colours N_c general, with every charge
 anomaly coefficient computed as a function of N_c, and add one requirement: no gauge
 coupling may become non-perturbative below the Planck scale. Then:
 
-- Witten's global SU(2) anomaly requires N_c to be odd.
-- The SU(3)_L anomaly plus asymptotic freedom of colour gives N_g = N_c.
+- The SU(3)_L anomaly plus asymptotic freedom of colour forces N_c to be odd and
+  N_g = N_c. Witten's global anomaly is then automatically satisfied; it is implied, not
+  needed.
 - SU(3)_L running excludes N_c ≥ 7.
 - U(1)_X running excludes N_c = 5.
 
@@ -70,10 +71,14 @@ For β = +1/√3: leptons −⅔, quark triplet Q_u − ⅔, anti-triplet Q_d + 
 
 ## 2. The chain
 
-**Step 1: N_c is odd (Witten).** Each generation contains N_c + 1 SU(2) doublets, so the
-global anomaly requires N_c + 1 to be even. A second, independent route gives the same
-condition: the spin–charge relation (−1)^F = exp(iπN_c(B − L)) is consistent for quarks
-and leptons only when N_c is odd.
+**Step 1: N_c is odd. It follows from step 2; Witten is not needed.** In the Standard
+Model, Witten's global SU(2) anomaly requires the N_c + 1 doublets per generation to be
+even. In 3-3-1, though, SU(2)_L sits inside SU(3)_L, and π₄(SU(3)) = 0, so the UV group
+imposes no global anomaly of its own. Step 2's equations already force N_c to be odd
+(proof below), and the doublet count N_g(1 + N_c) = 2nN_c then comes out even
+automatically. The spin–charge route, (−1)^F = exp(iπN_c(B − L)), gives the same
+condition, now as a consequence rather than an input (`src/god_eq_331_closure.py`, C1;
+all 29 solutions up to N_c = 60 checked).
 
 **Step 2: N_g = N_c (3-3-1 anomaly plus asymptotic freedom).**
 - SU(3)_L anomaly freedom requires equal numbers of triplets and anti-triplets:
@@ -83,6 +88,9 @@ and leptons only when N_c is odd.
   11N_c/3 − 2N_g > 0, which means k < 11/6. So **k = 1**.
 - For N_c = 3 this reproduces the standard assignment: two quark generations in the
   anti-triplet, one in the triplet.
+- **Even N_c is excluded by the same two conditions.** If N_c is even, gcd(N_c + 1, 2N_c)
+  = 1, so 2N_c must divide N_g. But 2N_c > 11N_c/6 violates asymptotic freedom. So
+  N_c is odd and N_g = N_c, with no further input.
 
 **Step 3: SU(3)_L excludes N_c ≥ 7.** With N_g = N_c there are N_c(1 + N_c) Weyl triplets.
 The one-loop coefficient b_L = 11 − N_c(1 + N_c)/3 − (scalars) is computed from
@@ -211,6 +219,75 @@ and the second doublet heavy or light):
 **Verdict:** the selection survives one-loop threshold matching across the spectrum
 scanned. In the narrow variant the worst allowed case sits a factor of 2 above M_Pl.
 
+## 3b. The cutoff and the criterion
+
+Source: `src/god_eq_331_closure.py`, output `results/god_equation/331_closure.txt`.
+
+The selection holds for any cutoff Λ with (best N_c = 5 pole) < Λ < (worst N_c = 3
+pole), taken over the whole front-7e spectrum:
+
+| Criterion | Yukawas | β = −1/√3 window (GeV) | β = +1/√3 window (GeV) |
+|---|---|---|---|
+| g = 4π | on | 7.2×10¹⁵ – 2.4×10²⁹ | 3.8×10¹² – 2.0×10¹⁹ |
+| g = 4π | off | 5.1×10¹⁵ – 2.1×10²⁹ | 2.6×10¹² – 1.9×10¹⁹ |
+| α = 1 | on | 5.6×10¹⁵ – 1.5×10²⁹ | 3.2×10¹² – 1.5×10¹⁹ |
+| α = 1 | off | 4.1×10¹⁵ – 1.2×10²⁹ | 2.2×10¹² – 1.4×10¹⁹ |
+
+**Any cutoff from 7.2×10¹⁵ to 1.4×10¹⁹ GeV works in every row.** That range includes
+the Planck mass, the reduced Planck mass (2.4×10¹⁸) and the usual grand-unification
+scale (2×10¹⁶). Only the strict g = 1 criterion fails (§3).
+
+## 3c. The scalar sector itself, to the Planck scale
+
+Source: `src/god_eq_331_scalar.py` and `src/rge_engine.py`, output
+`results/god_equation/331_scalar.txt`.
+
+**Why this matters.** The selection asks every coupling to stay perturbative to the
+Planck scale, so 3-3-1 at N_c = 3 must pass the same test in its scalar sector. If its
+quartics or Yukawas blew up, or its potential became unbounded below, it would exclude
+itself.
+
+**Method.**
+- The general one-loop quartic and Yukawa RGEs (Machacek–Vaughn; Luo–Wang–Xiao) are
+  implemented on the 18 real scalars. The engine reproduces the Standard Model's β_λ and
+  β_yt exactly.
+- The 9 quartics allowed by the model's discrete symmetry form a basis that is closed
+  under the RGEs (residual 10⁻¹⁵), and the potential is gauge invariant (10⁻¹⁶).
+- The top Yukawa and every exotic-quark and heavy-lepton Yukawa run separately; with
+  separate couplings the Yukawa structures close too.
+- The light-Higgs quartic is matched at 4 TeV to the SM value, λ_SM = 0.076, at tree
+  level in the decoupling limit.
+- Survival means: every |λ| < 4π, every Yukawa < √(4π), and the potential bounded below,
+  checked numerically at 8 scales up to M_Pl.
+
+**Results.**
+- The SM alone is not stable to M_Pl: at one loop λ_SM crosses zero at 9×10⁷ GeV (it is
+  metastable, as is known).
+- **3-3-1 at N_c = 3 survives in both variants**, in a corner of parameter space:
+  - 17 of 250 viable points (β = −1/√3) and 13 of 250 (β = +1/√3) survive under small
+    priors;
+  - none survive with O(1) quartics, which hit Landau poles near 30–40 TeV.
+- **In the survivors the extra scalars cure the SM instability:** the top-doublet quartic
+  stays positive at M_Pl.
+
+**What consistency to M_Pl requires (conditional predictions for colliders):**
+
+| | β = −1/√3 | β = +1/√3 |
+|---|---|---|
+| Exotic Yukawa at 4 TeV, gauge + Yukawas alone (exact at one loop) | < 0.80 | < 0.62 |
+| → exotic-quark mass | **< 1.79 M_V** | **< 1.40 M_V** |
+| Exotic Yukawa among full survivors | ≤ 0.57 | ≤ 0.53 |
+| Share of the electroweak vev in the top's doublet | c² ≥ 0.68 | c² ≥ 0.69 |
+| Quartics at 4 TeV | all ≲ 0.37 | all ≲ 0.35 |
+
+With M_Z′ = 1.225 M_V, the exotic quarks must lie below about 1.1–1.5 M_Z′. If colliders
+find them much heavier than the Z′, the selection's own perturbativity criterion fails.
+
+**Limits.**
+- The RGEs are one loop.
+- The light-Higgs matching is tree level.
+- The search is a random sampling, not a proof that the surviving region is the only one.
+
 ## 4. Conditions and caveats
 
 1. **The framework.** Everything assumes 3-3-1 with β = ±1/√3. If colliders exclude it,
@@ -240,12 +317,10 @@ scanned. In the narrow variant the worst allowed case sits a factor of 2 above M
    The β = +1/√3 margin in sin²θ_W is 0.016 with tree-level matching, large next to the
    measurement error (about 10⁻⁴). One-loop threshold matching is computed in §3a and
    leaves it at +0.010 to +0.035.
-4. **Two-loop Yukawa terms are now included** (§2). They can't rescue N_c = 5, and they
-   widen the N_c = 3 margins. The exotic Yukawas are unknown; the scan covers 0–2, and a
-   constant 6 still fails. Not included: the running of the Yukawas themselves, which in
-   3-3-1 depends on the scalar potential's 13 parameters. Constant Yukawas bound their
-   effect on N_c = 5 from above.
-5. **Minimality isn't explained.** Step 1 alone leaves {3, 5, 7, …}. Here the
+4. **Yukawas: closed.** Two-loop Yukawa terms are included (§2). The selection also
+   holds with **no Yukawas at all**, a lower bound for any Yukawa running: the β = +1/√3
+   worst case is then 1.53 M_Pl (§3b). The Yukawas' own running is computed in §3c.
+5. **Minimality isn't explained.** Steps 1–2 leave {3, 5, 7, …}. Here the
    perturbativity requirement does the selecting, not a principle of minimality.
 6. **No numbers follow.** The structure that fixes these integers adds about 11 scalar
    parameters beyond the Standard Model's 2. It also blocks gauge unification: SU(3)_C and
@@ -257,7 +332,7 @@ scanned. In the narrow variant the worst allowed case sits a factor of 2 above M
 - **Known:**
   - N_g a multiple of N_c from 3-3-1 anomaly cancellation (Pisano–Pleitez 1992;
     Frampton 1992);
-  - N_c odd from Witten's anomaly;
+  - N_c odd from Witten's anomaly (in the SM; in 3-3-1 it follows from step 2, §2);
   - the charges' N_c dependence from anomaly cancellation (e.g. Bär–Wiese 2001 on
     π⁰ → γγ);
   - the minimal model's low Landau pole, and the β = 1/√3 model's high-energy U(1) pole.
@@ -275,6 +350,13 @@ scanned. In the narrow variant the worst allowed case sits a factor of 2 above M
   - exotic quarks.
 
   LHC searches and future colliders will find or exclude them.
+- **Consistency to M_Pl adds relations (§3c):**
+  - exotic quarks lighter than 1.79 M_V (β = −1/√3) or 1.40 M_V (β = +1/√3);
+  - M_Z′ = 1.225 M_V;
+  - the top's doublet carrying at least about 70% of the electroweak vev squared.
+
+  A discovery that breaks these relations would break the selection, without excluding
+  3-3-1 itself.
 - **The minimal model is already excluded.** At one loop sin²θ_W reaches ¼ at 3.68 TeV,
   which forces its Z′ below about 3.7 TeV, while LHC dilepton searches exclude it below
   5 TeV.
@@ -291,15 +373,19 @@ python3 src/god_eq_su3L_running.py      # step 3; su3L_running.txt
 python3 src/god_eq_331_exact.py         # step 4, robustness, both variants; 331_exact.txt
 python3 src/god_eq_331_yukawa.py        # Yukawas, boundary condition, margins; 331_yukawa.txt
 python3 src/god_eq_331_threshold.py     # one-loop threshold matching (~75 s); 331_threshold.txt
-python -m pytest tests/test_god_eq.py tests/test_331_yukawa.py tests/test_331_threshold.py -q
+python3 src/god_eq_331_closure.py       # Witten redundant, no-Yukawa bound, cutoff window (~3 min)
+python3 src/god_eq_331_scalar.py        # the scalar sector to M_Pl (~4 min); 331_scalar.txt
+python -m pytest tests/test_god_eq.py tests/test_331_*.py -q
 ```
 
-The full working record is fronts 5–7e and 11–12 of [GOD_EQUATION.md](GOD_EQUATION.md).
+The full working record is fronts 5–7g and 11–12 of [GOD_EQUATION.md](GOD_EQUATION.md).
 
 ## References (recalled, not link-checked)
 
 - F. Pisano, V. Pleitez, Phys. Rev. D 46, 410 (1992).
 - P. H. Frampton, Phys. Rev. Lett. 69, 2889 (1992).
 - E. Witten, "An SU(2) anomaly", Phys. Lett. B 117, 324 (1982).
+- M. E. Machacek, M. T. Vaughn, Nucl. Phys. B 236, 221 (1984); B 249, 70 (1985) (Yukawa and
+  quartic β-functions); M.-x. Luo, H.-w. Wang, Y. Xiao, Phys. Rev. D 67, 065019 (2003).
 - M. E. Machacek, M. T. Vaughn, Nucl. Phys. B 222, 83 (1983) (two-loop gauge β-functions).
 - O. Bär, U.-J. Wiese, Nucl. Phys. B 609, 225 (2001).

@@ -1,0 +1,39 @@
+
+==============================================================================
+C1  Anomaly + asymptotic freedom alone: is Witten's anomaly needed?
+==============================================================================
+   All solutions with 2 <= N_c <= 60, N_g <= 400: 29
+   (N_c=3, N_g=3, n=2), (N_c=5, N_g=5, n=3), (N_c=7, N_g=7, n=4), (N_c=9, N_g=9, n=5), (N_c=11, N_g=11, n=6), (N_c=13, N_g=13, n=7), (N_c=15, N_g=15, n=8), (N_c=17, N_g=17, n=9), ...
+   Every solution has N_g = N_c with N_c odd: True
+   Proof: gcd(N_c, N_c + 1) = 1. If N_c is odd, gcd(N_c + 1, 2N_c) = 2, so N_c divides N_g;
+   asymptotic freedom (N_g < 11N_c/6) leaves N_g = N_c. If N_c is even, N_c + 1 is odd and
+   gcd(N_c + 1, 2N_c) = 1, so 2N_c divides N_g, and 2N_c > 11N_c/6 violates asymptotic freedom.
+   The SU(2) doublets number N_g + N_c N_g = 2 n N_c, always even, so Witten's anomaly is
+   automatically absent: it is implied, not used. Step 1 (and the spin-charge twist) is
+   redundant in 3-3-1, and the chain no longer leans on a global-anomaly argument that the
+   UV group SU(3)_L would not itself impose.
+   check gcds: N_c=2: 1, N_c=3: 2, N_c=4: 1, N_c=5: 2, N_c=6: 1, N_c=7: 2
+
+==============================================================================
+C2  Yukawas switched off entirely (a lower bound on the N_c = 3 pole for any Yukawa running)
+==============================================================================
+   beta = -1/sqrt3: worst N_c = 3 pole = 2.05e+29 GeV = 1.68e+10 M_Pl  (M_V >= 4 TeV: 1.8e+10 M_Pl)
+   beta = +1/sqrt3: worst N_c = 3 pole = 1.87e+19 GeV = 1.53 M_Pl  (M_V >= 4 TeV: 2.09 M_Pl)
+   So the selection does not depend on how the Yukawas run: it holds with none at all.
+
+==============================================================================
+C3  The window of cutoffs for which only N_c = 3 survives
+==============================================================================
+   Planck mass 1.22e+19 GeV; reduced Planck mass 2.44e+18 GeV.
+   criterion   Yukawas   beta       window (GeV): best N_c = 5 ... worst N_c = 3     M_Pl inside?  M_red inside?
+   g = 4 pi    on        -1/sqrt3   7.17e+15 ... 2.44e+29         yes           yes
+   g = 4 pi    on        +1/sqrt3   3.76e+12 ... 2.00e+19         yes           yes
+   g = 4 pi    off       -1/sqrt3   5.13e+15 ... 2.05e+29         yes           yes
+   g = 4 pi    off       +1/sqrt3   2.63e+12 ... 1.87e+19         yes           yes
+   alpha = 1   on        -1/sqrt3   5.64e+15 ... 1.47e+29         yes           yes
+   alpha = 1   on        +1/sqrt3   3.19e+12 ... 1.47e+19         yes           yes
+   alpha = 1   off       -1/sqrt3   4.05e+15 ... 1.24e+29         yes           yes
+   alpha = 1   off       +1/sqrt3   2.24e+12 ... 1.38e+19         yes           yes
+   Reading: the selection does not need the Planck scale exactly. Any cutoff inside the
+   intersection of the windows works, including the reduced Planck mass and the usual
+   grand-unification scale 2e16 GeV, wherever the window covers them.

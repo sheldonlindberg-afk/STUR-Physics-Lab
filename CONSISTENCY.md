@@ -42,6 +42,15 @@ Source: `src/god_eq_331_yukawa.py`, [NOTE_331.md](NOTE_331.md), front 7d of
 | Boundary condition | It is the measured electroweak couplings at 4 TeV. β = +1/√3: N_c = 5 fails at every weak angle. β = −1/√3: N_c = 5 survives only for 0.066 < sin²θ_W < 0.074, about 3.4× below the measured 0.2504. At our angle, N_c = 5 would need α_em 1.33× (β = −1/√3) or 1.86× (β = +1/√3) weaker. **Quantified.** The selection takes the couplings as input and doesn't predict them. |
 | The narrow β = +1/√3 margin | One-loop threshold matching (front 7e) passes a matching-scale-independence check to 10⁻⁹. Across the heavy spectrum, the N_c = 3 pole sits ≥ 1.64× above M_Pl (≥ 2.23× with the Z′ above LHC limits), and N_c = 5 stays ≤ 3.8×10¹² GeV. The sin²θ_W margin is +0.010 to +0.035. **Survives; still the tightest number.** |
 
+## Further closures (fronts 7f–7g)
+
+| Assumption | Result |
+|---|---|
+| Witten's anomaly (step 1) | Redundant in 3-3-1: the SU(3)_L anomaly plus asymptotic freedom alone force N_c odd and N_g = N_c |
+| The Yukawas' own running | Irrelevant to the verdict: the selection holds with no Yukawas at all (worst case 1.53 M_Pl) |
+| "The Planck scale" | Any cutoff from 7.2×10¹⁵ to 1.4×10¹⁹ GeV works, under g = 4π or α = 1 |
+| The scalar sector's own perturbativity | 3-3-1 at N_c = 3 survives to M_Pl, perturbative and bounded below, in a corner: exotic quarks < 1.79 M_V (β = −1/√3) or < 1.40 M_V (β = +1/√3), quartics ≲ 0.37, c² ≥ 0.68. The extra scalars cure the SM's instability there |
+
 ## Tensions that remain
 
 1. **D6 rests on an identification.** R₀ = a is natural in the framework, but it isn't
@@ -59,6 +68,13 @@ Source: `src/god_eq_331_yukawa.py`, [NOTE_331.md](NOTE_331.md), front 7d of
    gauge fields are unsettled (K4).
 4. **The Born rule's envariance route** assumes probabilities exist and depend only on the
    state (Schlosshauer–Fine). The additivity and no-signalling routes don't.
+4b. **The 3-3-1 selection now hits three walls.** Computation can't move them:
+   - *Conceptual:* it takes the measured TeV-scale couplings as input and can't predict
+     them. Any statement about other N_c needs a choice of their couplings.
+   - *Data:* the 3-3-1 framework (Z′ at 1.225 M_V, bileptons, exotic quarks below about
+     1.1–1.5 M_Z′) must be found or excluded at colliders.
+   - *Refinement:* two-loop quartic RGEs and one-loop Higgs matching would only reshape
+     the surviving corner.
 5. **The two threads are independent.** Nothing in the measurement–gravity equation
    selects 3-3-1, and nothing in the 3-3-1 chain uses the equation. They share a
    repository and a method, not a derivation. Presenting them as one theory would be
@@ -73,5 +89,5 @@ Source: `src/god_eq_331_yukawa.py`, [NOTE_331.md](NOTE_331.md), front 7d of
 
 ```bash
 python -m pytest tests/test_consistency.py -q     # the mechanical checks
-python -m pytest tests -q                         # everything (110 tests)
+python -m pytest tests -q                         # everything (115 tests)
 ```
