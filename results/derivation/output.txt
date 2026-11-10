@@ -1,0 +1,123 @@
+
+==============================================================================
+D0  What is assumed
+==============================================================================
+   Quantum mechanics: states and unitary evolution, with tensor products.
+   Locality (no-signaling) and non-contextual probabilities (DB).
+   Local quantum fields (N of them) with a short-distance spacing a.
+   NOT assumed: the Born rule, gravity, a metric, classical fields, collapse.
+
+==============================================================================
+DB  The Born rule, derived (CHECK; full output in results/born/output.txt)
+==============================================================================
+   Envariance: |c0|^2 = 2/5 fine-grained into 5 equal branches (amplitudes 0.447214), so p0 = 0.400000 = |c0|^2
+   Additivity: only F(x) = x sums to 1 over every basis (x^1: 1.1e-15, x^2: 0.67)
+   No-signaling: Bob's P(+) shift from Alice's choice: x^1 2.2e-16, x^2 0.19
+   Frequencies: wrong-frequency weight at N = 10000: 2.0e-24
+   FOLLOWS: given A1-A3, probability = |amplitude|^2 is forced, not postulated.
+
+==============================================================================
+D1  Vacuum entanglement obeys an area law (CHECK)
+==============================================================================
+   R/a =  10.5:  S / (R/a)^2 = 0.3022
+   R/a =  14.5:  S / (R/a)^2 = 0.3029
+   R/a =  18.5:  S / (R/a)^2 = 0.3033
+   Extrapolated: S = 0.3047 (R/a)^2 per field = 0.02425 A/a^2   (repository value 0.3046; LIT Srednicki 0.30)
+
+==============================================================================
+D2  The vacuum is thermal to every accelerated observer (CHECK)
+==============================================================================
+   Free-fermion block of 20 sites: modular slope / (2 pi x boost) = 0.99969
+   Free-fermion block of 40 sites: modular slope / (2 pi x boost) = 0.99992
+   Free-fermion block of 60 sites: modular slope / (2 pi x boost) = 0.99997
+   KNOWN (Bisognano-Wichmann): K = 2 pi x boost energy, exactly in the continuum.
+   So an observer with acceleration g sees the vacuum at T = hbar g / (2 pi c k_B).
+
+==============================================================================
+D3  Clausius on every local horizon gives the field equations (LIT: Jacobson 1995)
+==============================================================================
+   Every point has local Rindler horizons. Energy crossing one is heat: delta Q = T delta S,
+   with T from D2 and S = eta x area from D1. Demanding this for all of them gives
+   R_mu nu - 1/2 R g_mu nu + Lambda g_mu nu = (8 pi G / c^4) T_mu nu, with 1/(4 G hbar) = eta.
+   (Not recomputed here; its quantum version is the first law delta S = delta<K>, which is
+    checked on the lattice in stur_unification.py U1, 0.9997.)
+   G = pi a^2 c^3 / (N c_s hbar). The measured G then fixes a^2/N: for N = 1, a = 0.311 l_P; for N = 100, a = 3.11 l_P.
+   FOLLOWS: G is a property of the quantum vacuum: how much it is entangled per area.
+   It is not predicted: only the combination a^2 / N is fixed, by the measured G.
+
+==============================================================================
+D4  The same equations as a field theory: TEGR (CHECK)
+==============================================================================
+   T_torsion = -R + (divergence): residual -2.1e-168 at a random point, T = -0.1751, R = -1.9812
+   So the field equations of D3 come from the TEGR action
+        S_grav[e] = (c^4 / 16 pi G) int e T d^4x,
+   gravity as a torsion (gauge) field of the tetrad e on flat spacetime.
+
+==============================================================================
+D5  Its static solution and its weak limit (CHECK)
+==============================================================================
+   Static, spherical: e^(-2B) = 1 + C1/r, A = -B  (Eq(y(r), sqrt(C1 + r)/sqrt(r)))  -> Schwarzschild, unique
+   Weak field: (e T)_2 = 4 grad Phi.grad Psi -2 (grad Psi)^2  ->  Psi = Phi, laplacian Phi = 4 pi G rho
+
+==============================================================================
+D6  A superposition: THE EQUATION
+==============================================================================
+   Matter in a superposition of configurations i (paths, positions). From D0, the
+   fields are quantum too, and each branch i sources its own field configuration
+   (EM and the tetrad e_i). The joint state after a time t:
+
+        |Psi> = sum_i  c_i |i>_matter |E_i>_fields  exp( i S_i / hbar )
+
+        S_i = S_matter[i] + S_EM[i] + (c^4 / 16 pi G) int e_i T[e_i] d^4x
+        G   = pi a^2 c^3 / (N c_s hbar),   c_s = 0.3046   (D1-D3)
+
+   and what any measurement on the matter sees:
+
+        rho_ij(t) = rho_ij(0) <E_j|E_i>  exp( i (S_i - S_j) / hbar )
+
+   <E_j|E_i> = how far the fields (detectors, light, the electron's own field,
+   gravity) keep a record of which branch happened. The phase = the difference
+   in action, including the field's own action.
+   The step 'each branch sources its own field' is what D0 implies for a field that
+   is made of the quantum level (collective emergence). Exact in the lattice analog:
+   [stur_emergent K2] entangling phase 0.6064 vs the emergent 1/r law 0.6046; record left in the medium 2.3e-06
+
+==============================================================================
+D7  Consequences, each computed from the equation
+==============================================================================
+   (a) Double slit with a which-path detector: rho_12 ~ <E2|E1>, so V = |<E1|E2>|.
+       detector angle 0.00 pi: V = 1.0000, D = 0.0000, D^2 + V^2 = 1.000000
+       detector angle 0.17 pi: V = 0.8660, D = 0.5000, D^2 + V^2 = 1.000000
+       detector angle 0.33 pi: V = 0.5000, D = 0.8660, D^2 + V^2 = 1.000000
+       detector angle 0.50 pi: V = 0.0000, D = 1.0000, D^2 + V^2 = 1.000000
+       No observer needed: the record alone does it. 'Measurement creates the
+       outcome' is the statement <E1|E2> -> 0.
+   (b) The electron's own field: its Coulomb field is in both branches (E_i differ by
+       where the charge is). Free space: no lasting record, fringes stay. Near a
+       surface the image charges record the path: fringes fade (LIT: Sonnentag &
+       Hasselbach 2007). A literally split charge is excluded (MEASUREMENT.md T1, T5).
+   (c) ONE diamond, gravity's own record: |<E1|E2>_grav| = exp(-N/2), N = 1.4e-59 gravitons.
+       Gravity keeps no record: a single mass stays coherent unless something else
+       (gas, light, vibration) records it.
+   (d) TWO diamonds (1e-14 kg, 250 um splits, 200 um apart, 2.5 s): the action
+       differences give an entangling phase 0.5938 rad; concurrence 0.2926, negativity 0.1463.
+       Gravity alone entangles them. Noise budget and best design: GRAVITY_ENTANGLEMENT.md
+       (565 runs, 1.3 h at the published targets; mass in superposition x4e8 beyond today).
+   (e) The classical limit (one branch, many particles): perihelion 42.98 arcsec/century,
+       light bending 1.7512 arcsec, PPN gamma = 1, GPS +38.54 us/day.
+   (f) If gravity were only the AVERAGE of the quantum level (not D6): each branch
+       would feel the mean field, S_i would factor, and (d) would give exactly zero
+       entanglement. An average needs intrinsic collapse: Diosi-Penrose rate 170 /s,
+       killing even ONE diamond's superposition in ~6 ms. (c) and (d) both test this.
+
+==============================================================================
+D8  What was put in, and what was not derived
+==============================================================================
+   Put in: unitary quantum mechanics; locality and non-contextuality; N local fields; the spacing a.
+   Computed: the Born rule (DB), the area-law coefficient c_s, the Unruh/modular structure, the TEGR
+   identity, Schwarzschild and Newton, every number in D7.
+   Taken from the literature, not recomputed: Jacobson's step D3.
+   Not derived: the value of G (only a^2/N is fixed by it), and the number and kinds
+   of fields (the Standard Model).
+   The one physical claim beyond textbook physics: D6 applies to gravity, i.e. gravity
+   emerges COLLECTIVELY from the quantum level. Its test: (c) and (d).

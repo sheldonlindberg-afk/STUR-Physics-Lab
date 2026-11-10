@@ -1,0 +1,97 @@
+
+==============================================================================
+G1  Baseline (LIT: Bose et al. 2017): m = 1e-14 kg, dx = 250 um, gap = 200 um, tau = 2.5 s
+==============================================================================
+   Diamond radius R = 0.88 um
+   linear  : branch distances (um) [450. 700. 200. 450.]
+             phases (rad) [0.3516 0.226  0.7911 0.3516]
+             entangling phase dphi = -0.3139 rad, concurrence = 0.1563
+   parallel: branch distances (um) [200.  320.2 320.2 200. ]
+             phases (rad) [0.7911 0.4942 0.4942 0.7911]
+             entangling phase dphi = +0.5938 rad, concurrence = 0.2926
+
+==============================================================================
+G2  The two pictures of gravity's field, same masses, same geometry
+==============================================================================
+   lambda = 1: field in two places as an amplitude (standard quantum gravity at
+               Newtonian order). lambda = 0: one classical averaged field.
+   Witness W is designed for the lambda = 1 prediction and applied to each case.
+   lambda   dphi (rad)   concurrence   negativity   witness <W>   runs (3 sigma)
+   [linear]
+    1.00      -0.3139        0.1563       0.0782       -0.0782             1844
+    0.75      -0.2355        0.1175       0.0587       -0.0587             3292
+    0.50      -0.1570        0.0784       0.0392       -0.0392             7431
+    0.25      -0.0785        0.0392       0.0196       -0.0196            29782
+    0.00      +0.0000        0.0000       0.0000       +0.0000            never
+   [parallel]
+    1.00      +0.5938        0.2926       0.1463       -0.1463              433
+    0.75      +0.4454        0.2208       0.1104       -0.1104              790
+    0.50      +0.2969        0.1479       0.0740       -0.0740             1811
+    0.25      +0.1485        0.0742       0.0371       -0.0371             7324
+    0.00      +0.0000        0.0000       0.0000       -0.0000            never
+   FOLLOWS: the entangling phase is exactly lambda * dphi. With lambda = 0 every
+   phase is local and the state stays a product: no entanglement, ever.
+
+==============================================================================
+G3  Dephasing: how quiet must the experiment be?
+==============================================================================
+   gamma*tau   negativity   witness <W>   runs for 3 sigma
+        0.00       0.1463       -0.1463                433
+        0.01       0.1399       -0.1399                485
+        0.05       0.1154       -0.1154                771
+        0.10       0.0870       -0.0870               1463
+        0.20       0.0373       -0.0373               8842
+        0.30      -0.0000       +0.0044              never
+        0.50      -0.0000       +0.0520              never
+   Entanglement is gone at gamma*tau = 0.289  -> total dephasing rate < 0.116 /s per mass
+   Gas at P = 1e-15 Pa, T = 0.15 K: Gamma = 1.05e-01 /s, Gamma*tau = 2.62e-01
+   Gas at P = 1e-13 Pa, T = 0.15 K: Gamma = 1.05e+01 /s, Gamma*tau = 2.62e+01
+   Gas at P = 1e-10 Pa, T = 4.0 K: Gamma = 2.03e+03 /s, Gamma*tau = 5.07e+03
+   (Order-of-magnitude estimate, N2 assumed.) Even the LIT target of 1e-15 Pa and
+   0.15 K (Bose et al.) uses most of the budget; blackbody emission and scattering,
+   and trap noise, must fit in what is left.
+
+==============================================================================
+G4  The Casimir background (KNOWN EM between the two diamonds)
+==============================================================================
+   linear  : at gap 200 um, Casimir/gravity entangling phase = 5.8e-02; Casimir < 10% of gravity needs gap > 181 um
+   parallel: at gap 200 um, Casimir/gravity entangling phase = 6.0e-02; Casimir < 10% of gravity needs gap > 181 um
+   Casimir falls as 1/r^7 against gravity's 1/r, so a modest gap removes it, and
+   what remains is a known, calculable EM term to subtract.
+
+==============================================================================
+G5  Self-gravity of one split mass (the gravity version of T5)
+==============================================================================
+   Split-field picture: halves of one diamond attract across dx = 250 um.
+   Relative displacement after 2.5 s: 3.34e-17 m  (an atomic nucleus is ~1e-15 m)
+   FOLLOWS: unlike the electron's e/2 + e/2 repulsion in T5, a split mass's
+   self-pull is far too weak to see. So for gravity, the self-interaction route is
+   closed and the entanglement test is the only one.
+
+==============================================================================
+G6  What the experiment measures: lambda, and the scaling with mass
+==============================================================================
+   Smallest lambda told apart from 0 (split field) at 3 sigma, parallel geometry:
+   gamma*tau     1e4 runs   1e5 runs   1e6 runs   floor (infinite runs)
+        0.00      0.214      0.068      0.021        0.000
+        0.05      0.403      0.243      0.192        0.169
+        0.10      0.593      0.419      0.364        0.338
+   FOLLOWS: dephasing sets a hard floor. A weak entangling phase is erased
+   completely, so below the floor no number of runs helps.
+   mass (kg)   dphi parallel (rad)   at gap 200 um, dx 250 um, tau 2.5 s
+       1e-15               +0.0059
+       3e-15               +0.0534
+       1e-14               +0.5938
+       3e-14               +5.3444
+   dphi grows as m^2 tau: halving the mass needs four times the coherence time.
+
+==============================================================================
+VERDICT
+==============================================================================
+   The 'split field' picture (lambda = 0) makes a sharp prediction: NO gravitational
+   entanglement at any mass, gap or time. Standard quantum gravity at Newtonian order
+   (lambda = 1) predicts dphi = 0.59 rad for the parallel baseline: ~433 runs at 3 sigma.
+   The experiment measures lambda directly: a single number with no exotic physics,
+   only Newton's 1/r and the two pictures of what a field does when its source is in
+   two places. For EM, experiment already shows lambda = 1 behaviour (T5, Sonnentag & Hasselbach).
+   For gravity, nobody knows yet.

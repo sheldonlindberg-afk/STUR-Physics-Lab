@@ -1,0 +1,50 @@
+
+==============================================================================
+F1  TEGR field equations, static and spherically symmetric (CHECK)
+==============================================================================
+   Reduced Lagrangian e T / sin(theta) = 2*(2*r*exp(B(r))*Derivative(A(r), r) - 2*r*Derivative(A(r), r) - exp(2*B(r)) + 2*exp(B(r)) - 1)*exp(A(r) - B(r))
+   delta/delta A :  2*(-2*r*Derivative(B(r), r) - exp(2*B(r)) + 1)*exp(A(r) - B(r)) = 0
+   delta/delta B :  2*(2*r*Derivative(A(r), r) - exp(2*B(r)) + 1)*exp(A(r) - B(r)) = 0
+   B carries no derivative, so its equation is a constraint: A' = (exp(2*B(r)) - 1)/(2*r)
+   Then A's equation for y = e^-B:  2*(2*r*y(r)*Derivative(y(r), r) + y(r)**2 - 1)/y(r) = 0
+   General solution: Eq(y(r), sqrt(C1 + r)/sqrt(r))
+   So e^{-2B} = 1 + C1/r and A' = -B' (A = -B up to a constant clock rescaling).
+   The Newtonian limit (stur_tegr.py E2: e^{2A} = 1 + 2 Phi/c^2, Phi = -GM/r) fixes
+   C1 = -2GM/c^2 = -r_s.
+   FOLLOWS: e^{2A} = 1 - r_s/r, e^{2B} = 1/(1 - r_s/r). This IS the Schwarzschild
+   metric g = e^T eta e, and it is the only static spherical solution: Birkhoff's
+   theorem falls out of TEGR's own equations.
+
+==============================================================================
+F2  The classic tests, computed from the F1 tetrad only
+==============================================================================
+   Mercury perihelion (numerical orbit integral): 5.018664e-07 rad/orbit = 42.98 arcsec/century   (LIT: 42.98)
+   Light deflection at the solar limb (numerical ray integral): 1.7512 arcsec   (LIT VLBI: 1.7512, gamma = 0.99983 +- 0.00045)
+   PPN gamma from the tetrad expansion: gamma = 1   (LIT Cassini: gamma - 1 = (2.1e-05 +- 2.3e-05))
+   GPS satellite clock vs ground: +38.54 us/day  (gravity alone +45.65; LIT design offset 38.6)
+   FOLLOWS: every classic test of GR comes out of TEGR's torsion field, with no
+   curvature used anywhere. Newton's half of the light bending is the e^{2A}
+   part; the other half is e^{2B} (Psi = Phi in E2), which Newton has no place for.
+
+==============================================================================
+F3  The diamond-diamond interaction from TEGR's field energy (numerical)
+==============================================================================
+   d =   181.2 um (R = 1.007 um): field +8.287624e-35 J, matter -1.657525e-34 J, total -8.287624e-35 J;  field / (G m^2/d) - 1 = +2.0e-15
+   d =   721.0 um (R = 1.007 um): field +2.082826e-35 J, matter -4.165652e-35 J, total -2.082826e-35 J;  field / (G m^2/d) - 1 = -1.7e-15
+   d =    10.0 um (R = 1.007 um): field +1.501718e-33 J, matter -3.003435e-33 J, total -1.501717e-33 J;  field / (G m^2/d) - 1 = +2.2e-14
+   d =     3.0 um (R = 1.007 um): field +5.005725e-33 J, matter -1.001145e-32 J, total -5.005725e-33 J;  field / (G m^2/d) - 1 = -2.1e-13
+   (field: numerical integral over all space; matter: each sphere sits in the other's
+    exterior field.) FOLLOWS: the torsion field's energy between two finite diamonds
+   is exactly +G m^2/d, so the total is -G m^2/d (shell theorem from the field), down
+   to d = 3R. The point-mass phases used in GRAVITY_ENTANGLEMENT.md are TEGR's.
+
+==============================================================================
+F4  The experiment's branch phases, from TEGR
+==============================================================================
+   TEGR field-energy phases (rad): [0.791115 0.494206 0.494206 0.791115]
+   Phases used so far       (rad): [0.791115 0.494206 0.494206 0.791115]
+   Entangling phase: TEGR 0.59381870, used 0.59381870; largest difference 1.2e-15 rad
+   Next TEGR order (1PN): G m / (c^2 d) = 3.7e-38; (v/c)^2 for the split = 2.3e-24
+   FOLLOWS: at the experiment's scale TEGR, GR and Newton agree to 1e-24 or better.
+   The experiment tests the TEGR torsion field as a quantum field: lambda = 1 if it is
+   in two places, lambda = 0 if it is one averaged field.

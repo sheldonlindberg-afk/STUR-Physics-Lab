@@ -1,0 +1,67 @@
+
+==============================================================================
+K1  Newton's G as a consequence of vacuum entanglement (Jacobson + area law)
+==============================================================================
+   Area law per scalar field (stur_unification.py U3): S = 0.3046 (R/a)^2
+   N =    1 quantum fields: G comes out right if the cutoff a = 0.311 l_P
+   N =   10 quantum fields: G comes out right if the cutoff a = 0.985 l_P
+   N =  100 quantum fields: G comes out right if the cutoff a = 3.114 l_P
+   N = 1000 quantum fields: G comes out right if the cutoff a = 9.847 l_P
+   FOLLOWS: the strength of gravity is fixed by how much the quantum vacuum is
+   entangled, counted down to a cutoff of order the Planck length. On this reading
+   the Planck length is where the counting stops (where the numbers break down),
+   not where reality does: it is the spacing of whatever the quantum level is made of.
+
+==============================================================================
+K2  COLLECTIVE: a 1/r force that emerges from a quantum medium (ANALOG, exact)
+==============================================================================
+   Medium: a 3D lattice of coupled quantum oscillators (the 'quantum level').
+   Static response to a point source (81^3 lattice), potential relative to r = 12,
+   vs the 1/r law of Newton (and Coulomb):
+     r = 2: lattice 0.03625   (1/r - 1/12)/(4 pi) 0.03316   ratio 1.0932
+     r = 3: lattice 0.02090   (1/r - 1/12)/(4 pi) 0.01989   ratio 1.0507
+     r = 4: lattice 0.01365   (1/r - 1/12)/(4 pi) 0.01326   ratio 1.0290
+     r = 6: lattice 0.00672   (1/r - 1/12)/(4 pi) 0.00663   ratio 1.0138
+     r = 8: lattice 0.00335   (1/r - 1/12)/(4 pi) 0.00332   ratio 1.0092
+   Two probes, each in two places, coupled ONLY to the medium (14^3 lattice, all
+   2744 modes, exact):
+   switching                     entangling phase   static 1/r prediction   negativity   which-path record in medium
+   slow (adiabatic)                       +0.6064                +0.6046       0.1493   2.3e-06
+   sudden                                 +0.4979                +0.4838      -0.0000   3.1e-01
+   slow, MEAN-FIELD medium                +0.0000                +0.0000       0.0000   0.0e+00
+   FOLLOWS: a field that is a consequence of a quantum medium follows EACH branch
+   of its sources. The probes entangle through it, with the phase of the emergent
+   1/r law to 0.3% (lambda = 1). Slow switching leaves the medium in its vacuum: no
+   record, full entanglement. Sudden switching leaves phonons that carry which-path
+   information, and here that record is enough to destroy the entanglement (the
+   analogue of TEGR.md E6, where gravity's record is 1e-59 gravitons). Only by
+   replacing the medium with its average (mean field) does the entanglement vanish.
+   LIT: this is how trapped-ion quantum gates work: the ions' collective motion, a
+   field emerging from the ions themselves, entangles them (Molmer-Sorensen 1999).
+
+==============================================================================
+K3  STATISTICAL: gravity follows the AVERAGE of the quantum level (lambda = 0)
+==============================================================================
+   An average is only well defined if something produces it: intrinsic noise or
+   collapse. The parameter-free version is Diosi-Penrose (gravity-induced collapse).
+   Diamond 1.5e-14 kg, R = 1.007 um, split 250 um:  DP rate 169 /s  -> superposition lifetime 5.9 ms (x2 by convention)
+   Diamond 1.5e-14 kg, R = 1.007 um, split 721 um:  DP rate 170 /s  -> superposition lifetime 5.9 ms (x2 by convention)
+   Crystal lumpiness (nuclei smeared over R0 = 0.54 A, LIT bound): extra 4.2e-06 /s (negligible)
+   Design A needs 3.2 s of coherence. Under DP the superposition is gone ~500x sooner.
+   LIT: Donadi et al. 2021 excluded the simplest DP (R0 < 0.54 A) from the absence of
+   the radiation it predicts; versions with larger R0 survive and are tested here.
+
+==============================================================================
+K4  What the experiment measures, read the right way round
+==============================================================================
+   If gravity is a consequence of the quantum level, the question is WHICH kind:
+   gravity is ...                 two diamonds entangle?   ONE diamond keeps its 3 s superposition?
+   collective (phonon-like)       yes  (lambda = 1)        yes
+   statistical (average + noise)  no   (lambda = 0)        no: DP-type collapse in ~6 ms
+   FOLLOWS: the second column needs only ONE diamond. A single-diamond interferometer
+   at design A's mass and split already tells the two apart, before any entanglement
+   run. The two-diamond witness then confirms the collective reading.
+   Your picture (all things, gravity included, are consequences of the quantum level)
+   does not need gravity to be 'quantized' separately: a field that emerges from
+   quantum constituents is automatically in two places when they are (K2). That is
+   the lambda = 1 prediction, reached from the quantum side.

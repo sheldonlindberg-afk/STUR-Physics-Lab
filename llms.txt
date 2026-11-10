@@ -17,8 +17,20 @@
 - Resistance to collapse: Skyrme/Derrick, known physics, reproduced
   numerically (B=1: 1.2317 x 12 pi^2; B=2: 1.2083).
 
+## From the quantum level up (quantum.html, DERIVATION.md)
+- Equation: rho_ij(t) = rho_ij(0) <E_j|E_i> exp(i(S_i - S_j)/hbar), with gravity's
+  TEGR action (c^4/16 pi G) int e T d^4x in S_i and G = pi a^2 c^3 / (N c_s hbar),
+  c_s = 0.3046 (vacuum entanglement area law).
+- Born rule: derived from unitarity + locality / non-contextuality (BORN.md).
+- GR's classic tests recomputed from the TEGR solution: perihelion 42.98"/century,
+  light bending 1.7512", gamma = 1, GPS +38.54 us/day.
+- Open claim (hypothesis): gravity emerges collectively from the quantum level,
+  tested by two-diamond gravitational entanglement and single-diamond coherence.
+
 ## Key files
 - /index.html — interactive site (plain/technical modes)
+- /quantum.html — measurement and gravity from the quantum level up
+- /src/stur_derivation.py — the whole quantum-up chain
 - /docs/STUR_Resistance_Equation_Derivation_Record.pdf — the derivation record
 - /src/stur_verify.py — reproduces every number (numpy, scipy)
 - /results/stur_verify_output.txt — reference output
