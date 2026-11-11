@@ -18,23 +18,23 @@ The archive is not checked.
 
 | # | Where | Inconsistency | Fix |
 |---|---|---|---|
-| K1 | DERIVATION D6, the site, REPORT | D6 was labelled FOLLOWS ("no new assumption") while depending on R₀ = a and Markovian dynamics | New label **CONDITIONAL**, defined in REPORT and on the site; D6 carries it |
+| K1 | DERIVATION D6, the site | D6 was labelled FOLLOWS ("no new assumption") while depending on R₀ = a and Markovian dynamics | New label **CONDITIONAL**, defined on the site; D6 carries it |
 | K2 | DERIVATION D3 vs D6 | Jacobson's step is stated for ⟨T_μν⟩, the semiclassical form, while D6 has each branch source its own field. The two were never reconciled | Stated: D3 is applied inside each branch, with the same entanglement per area and that branch's own T_μν. Labelled an interpretation |
-| K3 | GRAVITY_ENTANGLEMENT verdict | Called λ "a free parameter of known physics", while D6 claims λ = 1 | Reconciled. λ = 1 within the theory (CONDITIONAL), open experimentally, and not distinctive. Intermediate λ is marked a phenomenological scale, not a consistent dynamics |
+| K3 | GRAVITY_ENTANGLEMENT verdict | Called λ "a free parameter of known physics", while D6 claims λ = 1 | Reconciled. λ = 1 within these notes (CONDITIONAL), open experimentally, and not distinctive. Intermediate λ is marked a phenomenological scale, not a consistent dynamics |
 | K4 | DERIVATION D8 | The entanglement reading of G was silent on gauge fields | Added: gauge-field contact terms (Kabat 1995, recalled) make the identification unsettled beyond scalars and fermions |
 | K5 | Site D4 card | Residual 10⁻¹⁶⁸, against ≤ 10⁻¹⁶⁵ in the documents | Fixed |
 | K6 | README, PREDICTIONS, GRAVITY_ENTANGLEMENT, WALL | Vibration gap "~140×"; 1.7×10⁻¹⁵ / 1.3×10⁻¹⁷ = 131 | ~130× everywhere (later ~57×, with the derived gas rate) |
 | K7 | PREDICTIONS item 2 | "Any statistical gravity" where the argument covers only Markovian ones | "Any Markovian statistical gravity" |
-| K8 | NOTE_331, REPORT §4 | Two-loop Yukawa terms were missing, and the boundary condition was unquantified | Front 7d computes both (below) |
+| K8 | NOTE_331 | Two-loop Yukawa terms were missing, and the boundary condition was unquantified | Front 7d computes both (below) |
 
 The previous pass fixed:
-- the point-nucleus heating, 10⁵⁶–10⁶⁰ → 0.5 W/kg ([OPPENHEIM.md](OPPENHEIM.md) P4);
+- the point-nucleus heating, 10⁵⁶–10⁶⁰ → 0.5 W/kg ([OPPENHEIM.md](../../OPPENHEIM.md) P4);
 - the unconditional D6 headline.
 
 ## The three weak spots of the 3-3-1 result, now computed
 
-Source: `src/god_eq_331_yukawa.py`, [NOTE_331.md](NOTE_331.md), front 7d of
-[GOD_EQUATION.md](GOD_EQUATION.md).
+Source: `src/m331_yukawa.py`, [NOTE_331.md](../../NOTE_331.md), front 7d of
+[UNIFYING_SEARCH.md](UNIFYING_SEARCH.md).
 
 | Weak spot | Result |
 |---|---|
@@ -83,7 +83,7 @@ Source: `src/god_eq_331_yukawa.py`, [NOTE_331.md](NOTE_331.md), front 7d of
    inconsistent.
 6. **Scope of the classical-gravity bounds.**
    - P3 covers continuous, translation-invariant models.
-   - P5 ([OPPENHEIM.md](OPPENHEIM.md)) applies Oppenheim et al.'s own kernel-free trade-off
+   - P5 ([OPPENHEIM.md](../../OPPENHEIM.md)) applies Oppenheim et al.'s own kernel-free trade-off
      (their appendix B.4). It covers every Markovian CQ
      model, discrete (jump) ones included, for splits of order the particle's radius:
      Γ·S_a ≥ (F_LR/M)²/8.

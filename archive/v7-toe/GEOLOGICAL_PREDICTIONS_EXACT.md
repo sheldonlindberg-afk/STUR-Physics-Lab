@@ -221,7 +221,7 @@ Until this reconciliation is published, the honest statement is:
 
 - `TRIANGLE_GENESIS_DERIVATION.md` — derivation of ω = 2π² and λ_chrono = e^{1/π}
 - `DERIVATION_CHAIN_INFINITY.md` §2.3b — first-principles derivation of ω
-- `scripts/Chronomagnetics.pdf` — original paper (Lindberg, Burkeen, Cyrek, Lockwood,
+- *Chronomagnetics* (co-authored paper; not redistributed here) — original paper (Lindberg, Burkeen, Cyrek, Lockwood,
   LaMarche, Beaubier) — Tables 3 and 4 require calibration disclosure
 - `scripts/chronomagnetics_closure.py` — numerical framework (PART 1, PART 4)
 

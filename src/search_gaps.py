@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-God-equation search, front 9: WHY the equation has not produced continuous parameters.
+Unifying-equation search, front 9: WHY the equation has not produced continuous parameters.
 
 So far every result is DISCRETE (N_c, N_g, charges in thirds, spin 1/2): anomalies and
 topology fix integers.  The Standard Model's 19 parameters are continuous.  The only

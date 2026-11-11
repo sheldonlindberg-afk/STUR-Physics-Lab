@@ -1,7 +1,10 @@
-# Gravity is TEGR: GR falls out of it, and so do the experiment's inputs
+# Gravity as torsion (TEGR): GR's equations and tests, recomputed
 
-In this project, gravity is TEGR. GR is not an input: its field equations, its
-Schwarzschild solution and its classic tests are derived from TEGR below.
+*Research notes, not peer reviewed. Labels mark what is established physics, what is computed here, and what holds only under stated assumptions.*
+
+These notes write gravity in its teleparallel form (TEGR), which is known to be
+equivalent to GR. As a check of that equivalence, GR's field equations, its
+Schwarzschild solution and its classic tests are recomputed from TEGR below.
 
 Reproduce:
 - `python3 src/stur_tegr.py` (about 30 s, sympy). Output in `results/tegr/output.txt`;
@@ -22,8 +25,8 @@ Møller 1961; Hayashi–Shirafuji 1979; Aldrovandi–Pereira 2013).
 - The Lagrangian is quadratic in torsion, as electromagnetism's is in F_μν:
   L = −e·T/(16πG) − ρΦ.
 
-This is the "no exotic physics" form of gravity: a force field like electromagnetism,
-with nothing curved and no wormholes.
+Written this way, gravity looks like a force field similar to electromagnetism, with
+nothing curved. It is the same physics as GR: every solution GR allows, TEGR allows too.
 
 ## Results
 
@@ -93,9 +96,10 @@ It meets 4 of 5. It is the first candidate in P2 that meets R1, R4 and R5 at ful
 strength. The Levi-Civita spin connection reaches atoms only as a 10⁻¹⁴ boost.
 
 With Gaussian noise in this A_μ, the visibility formula V = exp(−½⟨Φ_R²⟩) becomes exactly
-the [OPTION_A.md](OPTION_A.md) model. Its area-law version is excluded, and its
-standard graviton version is too small to see. **TEGR names STUR's connection on the
-gravity side; the QCD end stays open.**
+the "Option A" model of the archived working notes. Its area-law version is excluded, and its
+standard graviton version is too small to see. **On the gravity side, TEGR's translational potential is
+the best candidate found for STUR's A_μ; the QCD end stays open, and the original STUR
+claims still fail (archived working notes).**
 
 **E6. Does gravity's own field record which path?** This is the gravitational version
 of T5. I computed quadrupole radiation from one branch of the diamond, with a smooth
@@ -106,7 +110,7 @@ ramp and analytic derivatives:
 | 1.5×10⁻¹⁴ kg, 721 µm, ramps 1.58 s (design A) | 5.8×10⁻⁹³ J | 1.4×10⁻⁵⁹ |
 | 10⁻¹⁴ kg, 250 µm, ramps 0.73 s | 1.8×10⁻⁹³ J | 1.9×10⁻⁶⁰ |
 
-No graviton carries which-path information away. The only record is the static,
+Essentially no graviton carries which-path information away. The only record is the static,
 Coulomb-like torsion field bound to the source, and it is undone when the paths
 recombine (KNOWN in outline: Belenchia et al. 2018).
 
@@ -157,17 +161,19 @@ results.
 
 ## What this means
 
-- **TEGR is the base.** GR, Newton and the experiment's inputs are all derived from it
-  (E1, E2, F1–F4). Nothing curved is used anywhere.
-- **Gravity is a gauge force field on flat spacetime,** with the same structure as
-  electromagnetism. The split-versus-amplitude question is therefore the *same*
+- **TEGR reproduces GR.** GR's equations, Newton's law and the experiment's inputs are
+  all recomputed from it (E1, E2, F1–F4), without using curvature. This checks a known
+  equivalence; it is not a new result.
+- **In TEGR, gravity is written as a gauge force field on flat spacetime,** with a
+  structure similar to electromagnetism. The split-versus-amplitude question is therefore the *same*
   question for both fields:
   - EM already behaves as λ = 1.
   - TEGR's linear theory is an abelian gauge theory like EM, which makes λ = 1 the
     structural expectation. That is an expectation, not a proof; the experiment decides.
 - **The torsion field's own action** is part of the entangling phase (E4). So the
   experiment tests whether the *torsion field* is in two places.
-- **STUR's A_μ has a name** on the gravity side (E5).
+- **A candidate for STUR's A_μ** on the gravity side (E5), which doesn't rescue the
+  original STUR claims.
 
 Not used: f(T) and other modified teleparallel theories. They change predictions,
 but they add new structure.

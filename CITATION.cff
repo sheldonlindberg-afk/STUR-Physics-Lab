@@ -1,19 +1,20 @@
 cff-version: 1.2.0
 message: "If you use this work, please cite it as below."
-title: "STUR: Measurement and Gravity from the Quantum Level Up"
+title: "STUR Physics Lab: Gravity and the Quantum"
 abstract: >-
-  One equation for the double slit, measurement and gravity, derived from
-  quantum fields. Branch i of a superposition carries its own field states,
-  including gravity's TEGR tetrad; interference is weighted by the record
-  overlap and phases by the action difference. The Born rule is derived, G
-  follows from vacuum entanglement, and general relativity's classic tests are
-  recovered. A Markovian statistical gravity smeared at the entanglement cutoff
-  would heat matter 6e10 times faster than the Earth's heat flow, so under that
-  identification gravity's field follows each branch: two diamonds held in
-  superposition become entangled with phase 2.19 rad, as perturbative quantum
-  gravity also predicts. Oppenheim's classical gravity is bounded by a
-  shape-free one-particle inequality, a worked example within existing work
-  rather than a new result. Every number is reproduced by the
+  A science-education project and research notes, not peer reviewed. A
+  plain-language guide to teleparallel gravity (TEGR), the open question of
+  whether gravity is quantum, the entanglement of empty space and
+  decoherence, with established physics, worked examples and open questions
+  labelled separately. The research notes organise known physics
+  (decoherence, Born-rule arguments, Jacobson's thermodynamic argument, TEGR)
+  into one bookkeeping equation and recompute each piece in code, including
+  general relativity's classic tests and a worked two-diamond design
+  (phase 2.19 rad) for testing whether gravity is quantum, as perturbative
+  quantum gravity predicts. Bounds on classical-quantum gravity are worked
+  examples within existing literature rather than new results. A standalone
+  note argues that, in 3-3-1 models, Planck-scale perturbativity selects
+  three colours and three generations. Every number is reproduced by the
   scripts in src/.
 authors:
   - family-names: Lindberg
@@ -29,4 +30,5 @@ keywords:
   - entanglement entropy
   - gravity-induced entanglement
   - Diosi-Penrose
+  - science education
 date-released: "2026-11-10"

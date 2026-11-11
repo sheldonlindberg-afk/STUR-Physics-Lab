@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-God-equation search, front 12: gauge-coupling unification in 3-3-1 (N_c = N_g = 3).
+Unifying-equation search, front 12: gauge-coupling unification in 3-3-1 (N_c = N_g = 3).
 
 Embedding-independent test: SU(3)_C and SU(3)_L have the same (standard) normalisation, so
 in ANY unified group containing both they must meet: alpha_L^-1 = alpha_3^-1.  U(1)_X
 normalisation depends on the embedding and is only examined if they meet.
-Machinery: the calibrated two-loop gauge RGEs of god_eq_331_exact.py (reproduces all SM
+Machinery: the calibrated two-loop gauge RGEs of m331_exact.py (reproduces all SM
 coefficients exactly).  Matching at mu_331: g_L = g_2, 1/g_Y^2 = 1/g_X^2 + beta^2/g_L^2.
 Reference: the Standard Model 'near-miss triangle' (KNOWN): GUT-normalised couplings meet
 pairwise at three different scales.
@@ -17,7 +17,7 @@ import numpy as np
 from scipy.integrate import solve_ivp
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import god_eq_331_exact as E
+import m331_exact as E
 from stur_open_problems import alpha_s_run
 
 MZ, ainv, s2 = 91.1876, 127.95, 0.23122

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-God-equation search, front 4: ONE twist that gives both spin-1/2 and the thirds.
+Unifying-equation search, front 4: ONE twist that gives both spin-1/2 and the thirds.
 
 Question: is there a single gauge 'twist' g that acts on every field as (-1)^{2J}
 (-1 on fermions, +1 on bosons)?  If so, a fold carrying g gives statistics from charge

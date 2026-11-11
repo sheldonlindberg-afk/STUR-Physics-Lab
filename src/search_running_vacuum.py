@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-God-equation search, front 2: running vacuum - the bridge from our own unified equation.
+Unifying-equation search, front 2: running vacuum - the bridge from our own unified equation.
 
 R1 (FOLLOWS from U3, stur_unification.py): the horizon tension runs with the number of
    species, 1/(4G(mu)) = 1/(4G0) + c N mu^2  (c = 0.02424 per real scalar, Planck units).

@@ -1,15 +1,19 @@
-# Why gravity's field follows each branch
+# Does gravity's field follow each branch? An argument under stated assumptions
+
+*Research notes, not peer reviewed. Labels mark what is established physics, what is computed here, and what holds only under stated assumptions.*
 
 Reproduce: `python3 src/stur_thermo_gravity.py` (about 6 s). The full output is in
 `results/thermo_gravity/output.txt`, and `tests/test_thermo_gravity.py` pins it.
 
-Gravity's strength comes from vacuum entanglement (D1–D3 in
-[DERIVATION.md](DERIVATION.md)). Jacobson's step obtains Einstein's equation as an
+If Jacobson's argument holds, gravity's strength is tied to vacuum entanglement (D1–D3
+in [DERIVATION.md](DERIVATION.md)). Jacobson's step obtains Einstein's equation as an
 *equation of state*. That leaves a question: is gravity's field an equation of state
 in the literal sense, a classical average of the quantum level like temperature? Or
 is it a collective field that, like sound in a crystal, follows each branch of a
-superposition? This page answers it from the theory's own ingredients. The answer is
-the second, and it fixes what the diamond experiments will see.
+superposition? This page argues for the second, but only under two
+assumptions: the smearing is at the entanglement cutoff (R₀ = a), and the dynamics is
+Markovian. Without them, experiment decides. The systematic treatment of this question
+is in the literature (Fabiano et al. 2026; Angeli et al. 2025; NOVELTY.md).
 
 ## 1. A statistical gravity must jitter, and the least jitter is fixed by G
 
@@ -41,7 +45,7 @@ k_min(q) = (4πG / ħq²) · exp(−q²R₀²)
 For the design-A diamond (1.5×10⁻¹⁴ kg, radius 1.007 µm, split 721 µm) with R₀ → 0,
 the rate is (Gm²/ħ)(6/5R − 1/d) = **169.5 /s**.
 
-## 2. The theory's own smearing length is the entanglement cutoff
+## 2. The key assumption: the smearing length is the entanglement cutoff
 
 An equation of state is defined above the scale at which its microscopic degrees of
 freedom are counted. In D1–D3 that scale is the area-law cutoff a, the spacing at which
@@ -54,8 +58,8 @@ the vacuum's entanglement stops being counted. The measured G sets it:
 | 100 | 3.11 ℓ_P |
 | 1000 | 9.85 ℓ_P |
 
-The theory contains no other length, so a statistical gravity built from it has
-R₀ = a. **This is an identification, not a theorem.** A statistical gravity can
+D1–D3 contain no other length, which motivates assuming that a statistical gravity
+built from them has R₀ = a. **This is an assumption, not a theorem.** A statistical gravity can
 put in a larger R₀ by hand. Section 4 treats that case.
 
 ## 3. That noise would heat every piece of matter
@@ -78,20 +82,19 @@ faster than anything observed.
 Searches for the X-rays such heating would produce require R₀ ≥ 0.54 Å (Donadi et al.
 2021), which is 3.4×10²³ cutoff lengths.
 
-**So gravity is not a statistical equation of state smeared at the theory's own
-cutoff.** On that identification, and for Markovian dynamics, its field follows each
-branch of the matter that sources it (λ = 1). This is step D6 of the derivation. It
-follows from D1–D3 on those two conditions, not unconditionally. Jacobson's equation of
-state still holds, but for the collective field, as the equations of hydrodynamics hold
-for sound.
+**So a Markovian statistical gravity smeared at the cutoff is ruled out.** If both
+assumptions hold (R₀ = a, Markovian dynamics), gravity's field must instead follow each
+branch of the matter that sources it (λ = 1). This is step D6 of DERIVATION.md, and it
+holds only on those two conditions. Jacobson's equation of state would then hold for
+the collective field, as the equations of hydrodynamics hold for sound.
 
 λ = 1 is also what perturbative quantum gravity predicts. The experiments below rule
-classical gravity in or out; they don't single out this theory.
+classical gravity in or out; they don't single out these notes.
 
-## 4. What one diamond will show
+## 4. What one diamond would show
 
-A statistical gravity could survive only with an R₀ put in by hand, at least 10²³ times
-the theory's own scale. Even then it is pinned down. The decoherence of the design-A
+A statistical gravity escapes section 3 with an R₀ put in by hand, at least 10²³ times
+the cutoff. Even then it is pinned down. The decoherence of the design-A
 diamond over its 3.24 s sequence:
 
 | R₀ | Rate | Coherence left after 3.24 s |
@@ -103,7 +106,7 @@ diamond over its 3.24 s sequence:
 | 52 µm | 1.35 /s | 1.3% |
 | 200 µm | 0.206 /s | 51% |
 | 1 mm | 0.0033 /s | 99% |
-| **collective gravity** | **0** | **100%** |
+| **gravity follows each branch (λ = 1)** | **0** | **100%** |
 
 For R₀ ≫ R the numerical rates agree with the closed form for Gaussian-smeared points,
 (Gm²/ħ)[1/(√π R₀) − erf(d/2R₀)/d], to 10⁻³.

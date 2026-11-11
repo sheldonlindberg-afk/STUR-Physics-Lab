@@ -2,7 +2,7 @@
 
 Reproduce: `python3 src/stur_gravity_entanglement.py` (under 1 s). The full output is
 in `results/gravity_entanglement/output.txt`, and `tests/test_gravity_entanglement.py`
-pins the numbers. Labels: KNOWN, FOLLOWS, LIT, PROPOSAL.
+pins the numbers. Labels: KNOWN, FOLLOWS, LIT, PROPOSAL. Research notes, not peer reviewed.
 
 Gravity here is **TEGR's torsion field** ([TEGR.md](TEGR.md)). At these masses and
 distances its phases are exactly the weak-field G m²/r used below. They are recomputed
@@ -115,15 +115,14 @@ phase 11× smaller (0.053 rad at 3×10⁻¹⁵ kg).
 
 λ is the one quantity here that an experiment under construction can measure and that
 existing data leave open.
-- **Within the theory,** λ = 1 is derived, CONDITIONALLY: it requires a statistical
+- **In these notes,** λ = 1 is argued for CONDITIONALLY: it requires a statistical
   gravity smeared at the entanglement cutoff, and Markovian dynamics
   ([COLLECTIVE.md](COLLECTIVE.md)).
 - **It isn't distinctive.** λ = 1 is also what perturbative quantum gravity predicts, so
-  a positive witness rules out classical gravity without singling out this theory.
+  a positive witness rules out classical gravity without singling out these notes.
 - **Intermediate λ is a phenomenological scale, not a dynamics.** The interpolation
   φ_ij(λ) doesn't define a consistent theory for 0 < λ < 1. It measures how much of the
-  entangling phase is present. Results from either branch of this test go back into
-[WALL.md](WALL.md).
+  entangling phase is present.
 
 Everything this section left out is modelled in the next one.
 

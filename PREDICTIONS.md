@@ -1,6 +1,10 @@
-# Predictions
+# What experiments could check
 
-Each prediction below follows from the equation of [DERIVATION.md](DERIVATION.md):
+*Research notes, not peer reviewed. Labels mark what is established physics, what is computed here, and what holds only under stated assumptions.*
+
+Each item below is what the bookkeeping equation of [DERIVATION.md](DERIVATION.md) gives.
+Most are also what standard physics predicts. The gravity items assume gravity follows
+each branch, which is an open experimental question:
 
 ```
 ρᵢⱼ(t) = ρᵢⱼ(0) · ⟨Eⱼ|Eᵢ⟩ · e^{i(Sᵢ − Sⱼ)/ħ},
@@ -11,8 +15,9 @@ Every number is computed by the script named next to it and pinned by `tests/`.
 
 ## Gravity
 
-**1. Two masses become entangled through gravity alone.** Gravity's field follows each
-branch ([COLLECTIVE.md](COLLECTIVE.md)). Two diamonds, each held in two places, pick up
+**1. Two masses become entangled through gravity alone,** if gravity's field follows
+each branch, as perturbative quantum gravity predicts ([COLLECTIVE.md](COLLECTIVE.md)
+argues for it under stated assumptions). Two diamonds, each held in two places, pick up
 the entangling phase of their own torsion field.
 
 | Design | Mass | Split | Phase Δφ | Runs to a 3σ witness |
@@ -26,15 +31,16 @@ internal temperature below 1.9 K, spin coherence above 1.4 s, acceleration noise
 and gave 565 runs.
 Source: `src/stur_gravity_full.py`, [GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md).
 
-**2. One mass keeps its superposition.** A design-A diamond held in two places keeps
-its full coherence for 3.24 s: gravity adds no decoherence of its own. Any Markovian
+**2. One mass keeps its superposition,** if gravity follows each branch. A design-A
+diamond held in two places then keeps its full coherence for 3.24 s: gravity adds no
+decoherence of its own. Any Markovian
 statistical gravity would leave at most 1.3% coherence (at 52 µm smearing, the
 largest Newton's law allows), and 10⁻²³⁹ at the radiation bound. This is the first
 experiment to run, since it needs one diamond, not two. Source:
 `src/stur_thermo_gravity.py`.
 
-**3. Gravity heats nothing.** Ordinary matter receives no heating from gravitational
-noise. A Markovian statistical gravity smeared at the theory's own cutoff would deliver
+**3. No gravitational heating,** if gravity follows each branch. A Markovian statistical
+gravity smeared at the area-law cutoff (an assumption, COLLECTIVE.md §2) would deliver
 0.5 W/kg, limited by the size of the nuclei. That is 6×10¹⁰ times the Earth's heat flow.
 (An earlier version said 10⁵⁶–10⁶⁰ W/kg, a point-nucleus artefact.) Source:
 `src/stur_thermo_gravity.py`, `src/stur_oppenheim.py`.
@@ -56,12 +62,14 @@ gravity to shake it with at least 6.7×10⁻¹³ m s⁻²/√Hz. Source: `src/st
 P5.
 
 **4. Gravity keeps no record of a single mass.** Splitting a design-A diamond emits
-1.4×10⁻⁵⁹ gravitons, so gravity never reveals which branch happened. Source:
+1.4×10⁻⁵⁹ gravitons (a standard weak-field estimate), so gravity by itself keeps
+essentially no record of which branch happened. Source:
 `src/stur_tegr.py`, [TEGR.md](TEGR.md) E6.
 
-**5. The classical limit is general relativity.** From the TEGR solution:
+**5. The classical limit is general relativity** (established; TEGR is equivalent to GR).
+Recomputed from the TEGR solution:
 
-| Test | Prediction | Measured |
+| Test | TEGR (= GR) | Measured |
 |---|---|---|
 | Mercury's perihelion | 42.98″/century | 42.98″ |
 | Light bending at the solar limb | 1.7512″ | γ = 0.99983 ± 0.00045 |
@@ -84,7 +92,7 @@ state-dependent kick ±α on a motional mode at temperature T:
 −ln V = 2 Var(ΔN) = 2⟨ΔN⟩ coth(ħω / 2k_BT)
 ```
 
-At fixed energy deposited, the loss *grows* with temperature. One trapped ion shows it.
+At fixed energy deposited, the loss *grows* with temperature. One trapped ion could show it.
 With |α|² = 0.1, going from n̄ = 0.1 to n̄ = 5 lowers the spin contrast from 0.787 to
 **0.111**, and sideband spectroscopy before and after gives Var(ΔN) directly.
 Source: `src/stur_lab_test.py` (Fock space, to 7.5×10⁻¹¹).
@@ -101,10 +109,10 @@ simulators. Source: `src/stur_confinement.py`, `src/stur_z2_higgs.py`.
 
 ## What a result would and would not show
 
-- **None of predictions 1–8 distinguishes this theory from standard physics.**
+- **None of items 1–8 distinguishes these notes from standard physics.**
   - Predictions 1–4 (λ = 1) are also what perturbative quantum gravity predicts. A
     positive result rules out classical gravity (Diósi–Penrose, Tilloy–Diósi,
-    Oppenheim's continuous models). It doesn't confirm this framework over standard
+    Oppenheim's continuous models). It doesn't confirm these notes over standard
     physics. Only a null result would be new physics.
   - Predictions 5–8 are general relativity and standard quantum mechanics.
 - **Prediction 7 is cheap and decisive against the original STUR postulate.** That
@@ -113,10 +121,11 @@ simulators. Source: `src/stur_confinement.py`, `src/stur_z2_higgs.py`.
 - **The diamond experiments are far beyond current reach.** They need a mass in
   superposition 4×10⁸ times the current record, and vibration noise about 57 times
   below LISA Pathfinder ([GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md)).
-- **This project's own results, as distinct from synthesis of known physics:**
-  - (the bounds 3′ and 3″ are worked examples within a systematic literature: Fabiano et
-    al. 2026, Angeli et al. 2025; NOVELTY.md);
-  - the exact identity −ln V = 2 Var(ΔN) behind 7;
+- **What is this project's own, as distinct from known physics:**
+  - not the bounds 3′ and 3″, which are worked examples within a systematic literature
+    (Fabiano et al. 2026, Angeli et al. 2025; NOVELTY.md);
+  - the identity −ln V = 2 Var(ΔN) behind 7, as a worked example (its novelty hasn't
+    been checked);
   - the conditional particle-physics result N_c = N_g = 3 ([NOTE_331.md](NOTE_331.md)).
 
 ## What sets the numbers

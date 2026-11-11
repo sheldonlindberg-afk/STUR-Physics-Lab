@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-God-equation search, front 7: can SU(3)_L running remove N_c = 5 (and 7, 9, ...)?
+Unifying-equation search, front 7: can SU(3)_L running remove N_c = 5 (and 7, 9, ...)?
 
 With N_g = N_c (front 6), the SU(3)_L-charged left-handed fermions are
 N_g lepton triplets + N_g x N_c quark (anti)triplets = N_c (1 + N_c) Weyl triplets.

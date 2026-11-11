@@ -59,7 +59,7 @@ a solver not rebuilt here):
 | The value of G | G = πa²c³/(N c_s ħ) needs the cutoff a, which is a free input. The measured G fixes only a²/N. | DERIVATION D8 |
 | c_s = 0.3046 as a universal number | The area-law coefficient depends on the regulator (LIT, Srednicki 1993). Gauge fields add contact terms (Kabat 1995). | CONSISTENCY K4 |
 | The particle content | Only N_c = N_g = 3 and the ⅓ charges follow, conditionally, in 3-3-1. The gauge group and the representations are inputs. | NOTE_331 |
-| Masses, mixings, the Higgs mass, couplings, dark energy | Consistency conditions fix integers, not continuous numbers. Every mechanism tried misses by 3–5%, only accommodates, or fails. | GOD_EQUATION fronts 8–12, rechecked in X13–X15 |
+| Masses, mixings, the Higgs mass, couplings, dark energy | Consistency conditions fix integers, not continuous numbers. Every mechanism tried misses by 3–5%, only accommodates, or fails. | UNIFYING_SEARCH fronts 8–12, rechecked in X13–X15 |
 | Jacobson's premise (local equilibrium on every horizon) | It's the physical assumption the derivation starts from | `src/stur_jacobson.py` |
 | Non-Markovian classical gravity's behaviour | No positivity theorem constrains classical fields with memory | WALL.md |
 

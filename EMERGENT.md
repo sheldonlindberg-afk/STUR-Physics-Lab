@@ -1,4 +1,6 @@
-# Gravity as a consequence of the quantum level
+# Could gravity be a consequence of the quantum level? A lattice analogy
+
+*Research notes, not peer reviewed. Labels mark what is established physics, what is computed here, and what holds only under stated assumptions.*
 
 Reproduce: `python3 src/stur_emergent.py` (about 12 s). The full output is in
 `results/emergent/output.txt`, and `tests/test_emergent.py` pins the numbers.
@@ -8,19 +10,20 @@ gravity itself).
 ## The question, turned around
 
 The earlier reports asked whether gravity, acting on a quantum particle, behaves
-quantum-mechanically. That puts gravity outside, acting on the quantum world. The
-other way round: **everything, gravity included, is a consequence of what happens at
-the quantum level.** Then the question isn't "is gravity quantum?" but "*what kind*
+quantum-mechanically. That puts gravity outside, acting on the quantum world. This
+page explores the other way round, as a hypothesis: **suppose everything, gravity
+included, is a consequence of what happens at the quantum level.** Then the question isn't "is gravity quantum?" but "*what kind*
 of consequence is gravity?" Each answer makes a definite prediction for the
 diamond experiment.
 
-## K1. Newton's G from the quantum vacuum (KNOWN; coefficient computed earlier)
+## K1. Newton's G and the quantum vacuum (area law KNOWN; Jacobson's link a hypothesis)
 
 - The vacuum's entanglement entropy across any surface obeys an area law:
   S = 0.3046 (R/a)² per quantum field (`stur_unification.py` U3, Srednicki's method).
-- Jacobson (1995) showed that δS = δ⟨K⟩ on every local horizon *is* Einstein's
-  equation, with 1/(4Għ) equal to the entanglement per unit area. [TEGR.md](TEGR.md)
-  is the field theory that results.
+- Jacobson (1995) showed that, assuming local equilibrium, δS = δ⟨K⟩ on every local
+  horizon gives Einstein's equation, with 1/(4Għ) equal to the entanglement per unit
+  area. The premise is assumed, not established. [TEGR.md](TEGR.md) is one way to
+  write the resulting field theory.
 
 Matching the two fixes the cutoff a, the spacing at which the quantum level's
 entanglement stops being counted:
@@ -32,8 +35,9 @@ entanglement stops being counted:
 | 100 | 3.1 ℓ_P |
 | 1000 | 9.8 ℓ_P |
 
-On this reading the Planck length is where the counting stops, "where the numbers
-break down", and not where reality breaks down.
+On this reading (an interpretation, not a result) the Planck length is where the
+counting stops, "where the numbers break down", rather than where reality breaks down.
+The numbers also depend on the regulator, so they are illustrative.
 
 ## Two ways a field can be a consequence of a quantum medium
 
@@ -59,7 +63,7 @@ coupled quantum oscillators, standing in for "the quantum level".
   record. When they are moved suddenly, leftover phonons record which path was taken,
   and that destroys the entanglement. For gravity the corresponding record is 10⁻⁵⁹
   gravitons ([TEGR.md](TEGR.md) E6), so gravity is deep in the slow regime.
-- This isn't hypothetical: trapped-ion quantum gates entangle ions through their own
+- The mechanism itself is real and well understood: trapped-ion quantum gates entangle ions through their own
   collective motion, a field that emerges from the ions themselves (LIT:
   Mølmer–Sørensen 1999).
 
@@ -80,12 +84,12 @@ The simplest DP (R₀ < 0.54 Å) is already excluded by the absence of the radia
 predicts (LIT: Donadi et al. 2021). Versions with larger R₀ survive, and this
 experiment tests them.
 
-**K3′. Which one the theory picks.** Diósi–Penrose is not just one model of a
+**K3′. Which one the argument picks, and on what assumptions.** Diósi–Penrose is not just one model of a
 statistical gravity: it is the least noise any Markovian statistical gravity can have
 (Tilloy & Diósi 2016; recomputed in [COLLECTIVE.md](COLLECTIVE.md)). Coarse-grained at
 the cutoff a of K1, that noise would heat every kilogram of matter by about 0.5 W,
 limited by the size of the nuclei. That is 6×10¹⁰ times the Earth's heat flow. (The
-earlier 10⁵⁶–10⁶⁰ W treated nuclei as points.) So the theory's gravity is K2, the
+earlier 10⁵⁶–10⁶⁰ W treated nuclei as points.) So gravity would have to be K2, the
 collective kind, provided the smearing is a and the dynamics are Markovian. Neither is a
 theorem, and K2 is also perturbative quantum gravity's prediction
 ([OPPENHEIM.md](OPPENHEIM.md)).
@@ -94,7 +98,7 @@ theorem, and K2 is also perturbative quantum gravity's prediction
 
 | Gravity is … | Do two diamonds entangle? | Does one diamond keep its 3.24 s superposition? |
 |---|---|---|
-| collective (phonon-like): this theory | **yes**, Δφ = 2.19 rad | **yes**, fully |
+| collective (phonon-like), λ = 1; also perturbative quantum gravity | **yes**, Δφ = 2.19 rad | **yes**, fully |
 | statistical, smeared over any R₀ ≤ 52 µm | no | no: at most 1.3% coherence left |
 
 The right-hand column needs only **one** diamond. A statistical gravity could keep
@@ -103,12 +107,13 @@ it has been measured. The two-diamond witness then measures the entangling phase
 
 ## What this means for the picture
 
-If all things, gravity included, are consequences of the quantum level, gravity
-doesn't need to be "quantized" as a separate step. A field that emerges from quantum
-constituents is automatically in two places when they are (K2). That is the λ = 1
-prediction, reached from the quantum side rather than imposed on gravity from
-outside. The alternative, a statistical average, needs intrinsic noise, and at the
-theory's own scale that noise would destroy ordinary matter (K3′).
+If all things, gravity included, are consequences of the quantum level (the hypothesis
+explored here), gravity wouldn't need to be "quantized" as a separate step. In the
+analog, a field that emerges from quantum constituents is in two places when they are
+(K2). That is the λ = 1 expectation, reached from the quantum side rather than imposed
+on gravity from outside. The alternative, a statistical average, needs intrinsic noise;
+smeared at the area-law cutoff, with Markovian dynamics, that noise would heat ordinary
+matter far beyond what is observed (K3′).
 
 **Limits of K2:** it is an analog. It shows that the mechanism (an emergent 1/r field
 following each branch) is generic and exact for a quantum medium. It doesn't show

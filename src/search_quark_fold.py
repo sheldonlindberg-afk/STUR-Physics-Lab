@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-God-equation search, front 3: a quark as a folded, twisted area of spacetime.
+Unifying-equation search, front 3: a quark as a folded, twisted area of spacetime.
 
 THE FOLD EQUATION (STUR claim, built on KNOWN physics):
   A fold = a closed surface S threaded by flux Phi = oint_S B.dA ('the twist').

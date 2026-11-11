@@ -1,9 +1,12 @@
-# The Born rule, derived from the quantum level
+# The Born rule: four published arguments, reproduced
+
+*Research notes, not peer reviewed. Labels mark what is established physics, what is computed here, and what holds only under stated assumptions.* These arguments (Zurek, Gleason, no-signalling) are published and
+still debated: they replace the postulate with the assumptions below, not with nothing.
 
 Reproduce: `python3 src/stur_born.py` (about 10 s). The full output is in
-`results/born/output.txt`, and `tests/test_born.py` pins it. This replaces the one
-postulate that [DERIVATION.md](DERIVATION.md) D0 used to take as given:
-probability = |amplitude|².
+`results/born/output.txt`, and `tests/test_born.py` pins it. In these notes it
+replaces the postulate probability = |amplitude|² ([DERIVATION.md](DERIVATION.md) D0)
+with the assumptions A1–A3 below.
 
 ## What is assumed instead
 
@@ -80,9 +83,11 @@ don't need that step.
 
 ## Status
 
-- **The Born rule is no longer an input.** It follows from unitarity plus locality
-  (B1, B3), or from unitarity plus non-contextuality (B2). B4 shows the frequencies
-  that experiments see.
+- **Given A1–A3, the Born rule need not be a separate input.** As the published
+  arguments show, it follows from unitarity plus locality (B1, B3), or from unitarity
+  plus non-contextuality (B2). B4 shows the frequencies that experiments see. Whether
+  these assumptions are weaker than the rule itself is debated, so this is a
+  reproduction of known arguments, not a settled derivation.
 - **What remains assumed:** A1–A3, and that outcomes are records (the ⟨Eⱼ|Eᵢ⟩ of
   DERIVATION.md).
 - **LIT caveat:** envariance assumes that probabilities exist and depend only on the

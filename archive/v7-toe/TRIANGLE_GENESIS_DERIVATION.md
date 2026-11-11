@@ -248,7 +248,7 @@ to 0.085% when using the triangle value.
 - `BASE_THREEFOLD_UNIQUENESS.md` — energy minimization proof for N=3
 - `ALPHA_EFFECTIVE_DERIVATION.md` — two-loop α_eff = 1.480
 - `KAPPA_FIRST_PRINCIPLES_DERIVATION.md` — Mathieu eigenvalue κ = 2.430, σ = 0.862
-- `scripts/Chronomagnetics.pdf` — original triangle derivation (Lindberg et al.)
+- *Chronomagnetics* (co-authored paper; not redistributed here) — original triangle derivation (Lindberg et al.)
 
 ---
 

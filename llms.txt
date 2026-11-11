@@ -1,13 +1,19 @@
 # STUR Physics Lab — AI/LLM information
 
-> STUR: measurement and gravity from the quantum level up. One equation,
-> rho_ij(t) = rho_ij(0) <E_j|E_i> exp(i(S_i - S_j)/hbar), with gravity's TEGR action
-> (c^4/16 pi G) int e T d^4x in S_i and G = pi a^2 c^3 / (N c_s hbar), c_s = 0.3046
-> (vacuum entanglement area law). The Born rule is derived.
+> STUR Physics Lab: a science-education project and research notes (not peer
+> reviewed). The site is a plain-language guide to gravity as torsion (TEGR), the open
+> question of whether gravity is quantum, the entanglement of empty space, decoherence
+> and common quantum myths, with established physics, worked examples and open
+> questions labelled separately. The research notes write known physics as one
+> bookkeeping equation, rho_ij(t) = rho_ij(0) <E_j|E_i> exp(i(S_i - S_j)/hbar), with
+> gravity's TEGR action in S_i and Jacobson's hypothesis G = pi a^2 c^3 / (N c_s hbar),
+> c_s = 0.3046. It is a synthesis, not a new theory.
 
-## Derivation (DERIVATION.md)
-- Born rule from unitarity + locality / non-contextuality (BORN.md).
-- Area law, Unruh/modular structure, Jacobson's Clausius step: G from entanglement.
+## Research notes (DERIVATION.md)
+- Born rule: published arguments (Zurek, Gleason, no-signalling) reproduced; each
+  assumes locality or non-contextuality (BORN.md).
+- Area law, Unruh/modular structure (established), and Jacobson's Clausius step
+  (a hypothesis: assumes local equilibrium on every horizon).
 - TEGR: gravity as torsion; Schwarzschild unique; perihelion 42.98"/century, light
   bending 1.7512", gamma = 1, GPS +38.54 us/day.
 - Gravity's field follows each branch (COLLECTIVE.md), CONDITIONALLY: the least noise a
@@ -15,14 +21,14 @@
   entanglement cutoff it would heat matter at ~0.5 W/kg (nucleus-size limited; the old
   1e60 figure assumed point nuclei), 6e10 x the Earth's heat flow. Derived only under
   R0 = a and Markovian dynamics. lambda = 1 is also perturbative quantum gravity's
-  prediction, so confirming it would not single this theory out.
+  prediction, so confirming it would not single these notes out.
 - Oppenheim's classical-quantum gravity (OPPENHEIM.md): its decoherence-diffusion
   trade-off, minimised, is the Diosi-Penrose floor; one particle obeys the shape-free
   bound Gamma * S_a >= (M^2/4) I^2. These bounds are worked examples within an existing
   literature (Fabiano et al. 2026; Angeli et al. 2025), not new results (NOVELTY.md).
 
-## Predictions (PREDICTIONS.md)
-- Two diamonds entangle through gravity: delta phi = 2.19 rad, 270 runs, 0.6 h (design A; derived gas rate).
+## What experiments could check (PREDICTIONS.md)
+- If gravity is quantum, two diamonds entangle through gravity: delta phi = 2.19 rad, 270 runs, 0.6 h (design A; derived gas rate).
 - One 1.5e-14 kg diamond keeps full coherence for 3.24 s; any Markovian statistical
   gravity leaves <= 1.3% (smearing <= 52 um, where Newton's law is tested). If it stays
   coherent, Oppenheim-type gravity must shake it with >= 1.3e-12 m s^-2/rtHz.
@@ -33,18 +39,11 @@
   one trapped ion, contrast 0.787 -> 0.111 from nbar = 0.1 to 5.
 
 ## Key files
-- /index.html — plain-language home page: gravity as a twist (TEGR), gravity at the
-  quantum level, where G comes from, measurement without observers, common myths
-- /technical.html — the full technical record, with the interactive calculators
+- /index.html — plain-language guide: gravity as a twist (TEGR), is gravity quantum?,
+  gravity and entanglement (open idea), decoherence, common myths
+- /technical.html — research notes, with the interactive calculators
 - /DERIVATION.md, /PREDICTIONS.md, /COLLECTIVE.md
 - /src/stur_derivation.py — the whole chain
 - /src/stur_thermo_gravity.py — why gravity follows each branch
 - /src/stur_oppenheim.py — Oppenheim's trade-off and the one-particle bound
 - /NOTE_331.md — 3 colours = 3 generations from 3-3-1 running
-- /REPORT.md — development record
-
-## Archived
-- /archive/resistance-equation/ — the original STUR resistance equation and its PDF record.
-- /archive/stur-roll/ — STUR-ROLL (CMB birefringence |beta| = alpha/2).
-- /archive/v7-toe/ — STUR v7.0, superseded.
-- /archive/genesis-v10-stur-b/ — STUR-B, excluded.

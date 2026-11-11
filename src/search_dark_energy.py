@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-God-equation search, front 1: dark energy from holography (STUR's founding axiom).
+Unifying-equation search, front 1: dark energy from holography (STUR's founding axiom).
 
 KNOWN model (Li 2004, holographic dark energy, future event horizon L as IR cutoff):
     rho_de = 3 c^2 M_P^2 / L^2

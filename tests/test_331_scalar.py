@@ -1,12 +1,12 @@
-"""Pins src/rge_engine.py and src/god_eq_331_scalar.py: the 3-3-1 scalar sector to M_Pl."""
+"""Pins src/rge_engine.py and src/m331_scalar.py: the 3-3-1 scalar sector to M_Pl."""
 import os, sys
 from math import log, pi, sqrt
 import numpy as np
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 import rge_engine as R
-import god_eq_331_scalar as S
+import m331_scalar as S
 
-REF = os.path.join(os.path.dirname(__file__), "..", "results", "god_equation", "331_scalar.txt")
+REF = os.path.join(os.path.dirname(__file__), "..", "results", "unifying_search", "331_scalar.txt")
 
 
 def test_engine_reproduces_standard_model():

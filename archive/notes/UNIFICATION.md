@@ -1,5 +1,8 @@
 # Unification search, step 1: one equation across the surviving sectors
 
+*Research notes, not peer reviewed. "Unification" here means writing known physics in
+one expression; it is a synthesis, not new physics (WALL.md).*
+
 Reproduce: `python3 src/stur_unification.py` (about 30 s; needs numpy, scipy and
 mpmath). The full output is in `results/unification/output.txt`, and
 `tests/test_unification.py` pins the numbers.

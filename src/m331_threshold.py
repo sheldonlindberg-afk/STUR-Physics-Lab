@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-God-equation search, front 7e: one-loop threshold matching at the 3-3-1 scale.
+Unifying-equation search, front 7e: one-loop threshold matching at the 3-3-1 scale.
 
 Front 7d left one number open: in the beta = +1/sqrt3 variant, N_c = 3 reaches the Planck
 scale only if sin^2 theta_W(4 TeV) < 0.266, against the measured 0.250. The matching
@@ -43,8 +43,8 @@ import numpy as np
 from scipy.optimize import brentq
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import god_eq_331_exact as E
-import god_eq_331_yukawa as Y
+import m331_exact as E
+import m331_yukawa as Y
 
 M_PLANCK = E.M_PLANCK
 

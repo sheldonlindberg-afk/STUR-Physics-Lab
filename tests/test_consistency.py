@@ -10,7 +10,7 @@ sys.path.insert(0, os.path.join(ROOT, "src"))
 
 CURRENT = ["README.md", "DERIVATION.md", "PREDICTIONS.md", "COLLECTIVE.md", "OPPENHEIM.md",
            "EMERGENT.md", "GRAVITY_ENTANGLEMENT.md", "TEGR.md", "MEASUREMENT.md", "BORN.md",
-           "WALL.md", "NOTE_331.md", "REPORT.md", "CONSISTENCY.md", "RECHECK.md", "NOVELTY.md", "index.html", "technical.html", "llms.txt", "CITATION.cff"]
+           "NOTE_331.md", "NOVELTY.md", "index.html", "technical.html", "llms.txt", "CITATION.cff"]
 
 
 def read(name):
@@ -31,7 +31,7 @@ def test_d6_is_never_presented_as_unconditional():
                  "and it now follows from D1–D3 instead of being added to them"]
     hits = [(n, f) for n in CURRENT for f in forbidden if f in read(n)]
     assert not hits, hits
-    assert "CONDITIONAL" in read("DERIVATION.md") and "CONDITIONAL" in read("REPORT.md")
+    assert "CONDITIONAL" in read("DERIVATION.md")
     for n in ("README.md", "DERIVATION.md", "PREDICTIONS.md", "COLLECTIVE.md", "OPPENHEIM.md"):
         assert re.search(r"perturbative\s+(\(effective-field-theory\)\s+)?quantum\s+gravity", read(n), re.I), n
 
@@ -42,7 +42,7 @@ def test_gravity_bounds_never_claimed_as_new():
     hits = [(n, f) for n in CURRENT for f in forbidden if f in read(n)]
     assert not hits, hits
     assert "not new" in read("OPPENHEIM.md")
-    assert "not a new result" in read("REPORT.md") and "not new results" in read("llms.txt")
+    assert "not new results" in read("llms.txt")
 
 
 def test_shared_numbers_match_their_computation():
@@ -57,7 +57,7 @@ def test_shared_numbers_match_their_computation():
         assert "1.3×10⁻¹²" in read(n), n
     import stur_gravity_full as Fg
     assert round(Fg.LPF_ASD / O.ASD_REQ) in (56, 57)               # LISA Pathfinder vs requirement
-    for n in ("README.md", "PREDICTIONS.md", "GRAVITY_ENTANGLEMENT.md", "WALL.md"):
+    for n in ("README.md", "PREDICTIONS.md", "GRAVITY_ENTANGLEMENT.md"):
         assert "57" in read(n), n
     assert Fg.GAS_MODEL == "kinetic"                                   # derived, not interpolated
     full = read("results/gravity_entanglement/full_output.txt")
@@ -66,7 +66,7 @@ def test_shared_numbers_match_their_computation():
     for n in ("README.md", "DERIVATION.md", "PREDICTIONS.md", "index.html", "technical.html"):
         assert "270 runs" in read(n) or "270 (0.6 h)" in read(n), n
         assert "2.19" in read(n), n
-    yuk = read("results/god_equation/331_yukawa.txt")
+    yuk = read("results/unifying_search/331_yukawa.txt")
     assert "0.2663" in yuk and "0.0662 < s^2 < 0.0742" in yuk
     assert "0.266" in read("NOTE_331.md") and "0.066" in read("NOTE_331.md")
 
@@ -83,6 +83,6 @@ def test_document_links_resolve():
 def test_stated_test_count_is_current():
     count = sum(len(re.findall(r"^def test_", open(f).read(), re.M))
                 for f in glob.glob(os.path.join(ROOT, "tests", "test_*.py")))
-    for n in ("README.md", "REPORT.md"):
+    for n in ("README.md",):
         stated = {int(x) for x in re.findall(r"\((\d+) tests", read(n))}
         assert stated == {count}, (n, stated, count)

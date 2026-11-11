@@ -1,7 +1,8 @@
 # Three colours and three generations from perturbativity in 3-3-1 models
 
 *A standalone note. Sheldon Lindberg, STUR Physics Lab, November 2026. It can be read
-without the rest of this repository.*
+without the rest of this repository. Not peer reviewed; an expert reading is still
+needed.*
 
 ## Abstract
 
@@ -77,7 +78,7 @@ even. In 3-3-1, though, SU(2)_L sits inside SU(3)_L, and π₄(SU(3)) = 0, so th
 imposes no global anomaly of its own. Step 2's equations already force N_c to be odd
 (proof below), and the doublet count N_g(1 + N_c) = 2nN_c then comes out even
 automatically. The spin–charge route, (−1)^F = exp(iπN_c(B − L)), gives the same
-condition, now as a consequence rather than an input (`src/god_eq_331_closure.py`, C1;
+condition, now as a consequence rather than an input (`src/m331_closure.py`, C1;
 all 29 solutions up to N_c = 60 checked).
 
 **Step 2: N_g = N_c (3-3-1 anomaly plus asymptotic freedom).**
@@ -120,7 +121,7 @@ The Planck scale is 1.2×10¹⁹ GeV.
 - Both margins are set at one loop. Two-loop gauge terms move the blow-up scale by a
   factor of about 3.
 
-**Two-loop Yukawa terms** (`src/god_eq_331_yukawa.py`, Y1–Y2).
+**Two-loop Yukawa terms** (`src/m331_yukawa.py`, Y1–Y2).
 - **The formula.** A Yukawa y φψ₁ψ₂ adds −g³y² n_terms [C₂(ψ₁) + C₂(ψ₂)] / d(G) / (16π²)²
   to each gauge β-function. It reproduces the Standard Model top-quark coefficients
   (17/10, 3/2, 2) exactly.
@@ -162,7 +163,7 @@ The Planck scale is 1.2×10¹⁹ GeV.
 
 ## 3a. One-loop threshold matching at the 3-3-1 scale
 
-Source: `src/god_eq_331_threshold.py`, output `results/god_equation/331_threshold.txt`.
+Source: `src/m331_threshold.py`, output `results/unifying_search/331_threshold.txt`.
 
 **Method.** The breaking SU(3)_L × U(1)_X → SU(2)_L × U(1)_Y is matched at one loop in
 MS-bar (Weinberg 1980; Hall 1981):
@@ -221,7 +222,7 @@ scanned. In the narrow variant the worst allowed case sits a factor of 2 above M
 
 ## 3b. The cutoff and the criterion
 
-Source: `src/god_eq_331_closure.py`, output `results/god_equation/331_closure.txt`.
+Source: `src/m331_closure.py`, output `results/unifying_search/331_closure.txt`.
 
 The selection holds for any cutoff Λ with (best N_c = 5 pole) < Λ < (worst N_c = 3
 pole), taken over the whole front-7e spectrum:
@@ -239,8 +240,8 @@ scale (2×10¹⁶). Only the strict g = 1 criterion fails (§3).
 
 ## 3c. The scalar sector itself, to the Planck scale
 
-Source: `src/god_eq_331_scalar.py` and `src/rge_engine.py`, output
-`results/god_equation/331_scalar.txt`.
+Source: `src/m331_scalar.py` and `src/rge_engine.py`, output
+`results/unifying_search/331_scalar.txt`.
 
 **Why this matters.** The selection asks every coupling to stay perturbative to the
 Planck scale, so 3-3-1 at N_c = 3 must pass the same test in its scalar sector. If its
@@ -298,7 +299,7 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
 3. **The boundary condition: measured couplings are an input.** Every N_c is run from
    the couplings measured at 4 TeV: sin²θ_W = 0.2504, 1/α_em = 125.7 and α_s. In 3-3-1,
    1/α_X = (1 − 4s²/3)/α_em, so these fix the U(1)_X start. How far does the result lean
-   on them (`src/god_eq_331_yukawa.py`, Y3)?
+   on them (`src/m331_yukawa.py`, Y3)?
 
    | | β = −1/√3 | β = +1/√3 |
    |---|---|---|
@@ -383,18 +384,16 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
 
 ```bash
 pip install -r requirements.txt pytest
-python3 src/god_eq_why_three.py         # step 1, charges; results/god_equation/why_three.txt
-python3 src/god_eq_three_generations.py # step 2, minimal model; three_generations.txt
-python3 src/god_eq_su3L_running.py      # step 3; su3L_running.txt
-python3 src/god_eq_331_exact.py         # step 4, robustness, both variants; 331_exact.txt
-python3 src/god_eq_331_yukawa.py        # Yukawas, boundary condition, margins; 331_yukawa.txt
-python3 src/god_eq_331_threshold.py     # one-loop threshold matching (~75 s); 331_threshold.txt
-python3 src/god_eq_331_closure.py       # Witten redundant, no-Yukawa bound, cutoff window (~3 min)
-python3 src/god_eq_331_scalar.py        # the scalar sector to M_Pl (~4 min); 331_scalar.txt
-python -m pytest tests/test_god_eq.py tests/test_331_*.py -q
+python3 src/m331_why_three.py          # step 1, charges; results/unifying_search/why_three.txt
+python3 src/m331_three_generations.py  # step 2, minimal model; three_generations.txt
+python3 src/m331_su3L_running.py       # step 3; su3L_running.txt
+python3 src/m331_exact.py              # step 4, robustness, both variants; 331_exact.txt
+python3 src/m331_yukawa.py             # Yukawas, boundary condition, margins; 331_yukawa.txt
+python3 src/m331_threshold.py          # one-loop threshold matching (~75 s); 331_threshold.txt
+python3 src/m331_closure.py            # Witten redundant, no-Yukawa bound, cutoff window (~3 min)
+python3 src/m331_scalar.py             # the scalar sector to M_Pl (~4 min); 331_scalar.txt
+python -m pytest tests/test_unifying_search.py tests/test_331_*.py -q
 ```
-
-The full working record is fronts 5–7g and 11–12 of [GOD_EQUATION.md](GOD_EQUATION.md).
 
 ## References (recalled, not link-checked)
 

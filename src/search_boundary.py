@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-God-equation search, front 10: Planck-scale boundary conditions (asymptotic-safety
+Unifying-equation search, front 10: Planck-scale boundary conditions (asymptotic-safety
 gravity) as a source of CONTINUOUS parameters.
 
 A. Shaposhnikov-Wetterich (2010, KNOWN): gravity makes lambda irrelevant above the
@@ -10,7 +10,7 @@ B. Eichhorn-Held (2018, arXiv 1803.04027, KNOWN mechanism): one universal gravit
         beta_yt/y_t = beta_yb/y_b  =>  3 (y_t^2 - y_b^2) - g1^2 = 0   (g2, g3 terms cancel)
    i.e. y_t^2 - y_b^2 = g1^2/3 at mu*  ->  predicts m_t with no free gravity parameter.
 
-One-loop SM RGEs with y_t, y_b (tau neglected).  Inputs: as in god_eq_gaps.py plus
+One-loop SM RGEs with y_t, y_b (tau neglected).  Inputs: as in search_gaps.py plus
 y_b(m_t) ~ 0.0158 (m_b(m_t) ~ 2.75 GeV, recalled, approximate).  mu* scanned between the
 reduced Planck mass 2.435e18 GeV and M_P = 1.221e19 GeV.
 Calibration: one loop overestimates the stability bound (front 9: 133.1 GeV) relative to
@@ -25,7 +25,7 @@ from scipy.integrate import solve_ivp
 from scipy.optimize import brentq
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import god_eq_gaps as G
+import search_gaps as G
 from stur_open_problems import alpha_s_run
 
 YB_MT = 0.0158
