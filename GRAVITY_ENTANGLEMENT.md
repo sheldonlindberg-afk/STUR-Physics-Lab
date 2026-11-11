@@ -71,12 +71,16 @@ prediction; ⟨W⟩ < 0 proves entanglement.
 dephases it. The entanglement is gone entirely at γτ = 0.289, so the total dephasing
 rate must be below **0.12 /s per diamond**.
 
-- Gas collisions are an order-of-magnitude estimate, assuming nitrogen as the leftover gas.
-- At the published target of 10⁻¹⁵ Pa and 0.15 K, the collision rate is about 0.1 /s
-  (γτ ≈ 0.26). That uses most of the budget by itself.
-- At 10⁻¹³ Pa the collision rate is 100× too high.
-
-The vacuum is the hardest requirement in the experiment.
+- **Gas collisions, derived** (H5b). For a split much larger than the body and than the
+  gas wavelength, every collision resolves the branches, so the rate is the collision
+  rate, n⟨v⟩σ_tot. Here σ_tot = 2πR² is the exact quantum hard-sphere cross-section,
+  checked by partial waves (2.0096 πR² at kR = 3000; kR ≈ 4000 for N₂ at 0.15 K).
+- **The interpolation used before** (Romero-Isart 2011, eq. 27) gives 4.19× more. It
+  extends the long-wavelength coefficient into this regime with a Gaussian.
+- **At the published target** of 10⁻¹⁵ Pa (N₂) and 0.15 K, the collision rate is
+  0.025 /s (γτ = 0.06), a fifth of the budget.
+- At 10⁻¹³ Pa it is 20× too high. The vacuum is still a hard requirement, but no longer
+  the one that decides the design.
 
 **Electromagnetic background (G4).** The two neutral diamonds also attract through the
 Casimir–Polder force, which falls off as 1/r⁷. At a 200 µm gap, its entangling phase is
@@ -109,9 +113,16 @@ phase 11× smaller (0.053 rad at 3×10⁻¹⁵ kg).
 - **Electromagnetism** already behaves as λ = 1 (T5; Sonnentag & Hasselbach 2007).
 - **Gravity:** λ has not been measured.
 
-This is the first STUR quantity in this repository that is a free parameter of
-known physics, that an experiment under construction can measure, and that is not
-already excluded. Results from either branch of this test go back into
+λ is the one quantity here that an experiment under construction can measure and that
+existing data leave open.
+- **Within the theory,** λ = 1 is derived, CONDITIONALLY: it requires a statistical
+  gravity smeared at the entanglement cutoff, and Markovian dynamics
+  ([COLLECTIVE.md](COLLECTIVE.md)).
+- **It isn't distinctive.** λ = 1 is also what perturbative quantum gravity predicts, so
+  a positive witness rules out classical gravity without singling out this theory.
+- **Intermediate λ is a phenomenological scale, not a dynamics.** The interpolation
+  φ_ij(λ) doesn't define a consistent theory for 0 < λ < 1. It measures how much of the
+  entangling phase is present. Results from either branch of this test go back into
 [WALL.md](WALL.md).
 
 Everything this section left out is modelled in the next one.
@@ -161,31 +172,42 @@ split is limited by H4. Each design is scored by wall-clock time to a 3σ witnes
 
 | Scenario | Best design | Result |
 |---|---|---|
-| A: 10⁻¹⁵ Pa N₂, 0.15 K, no vibration, unlimited spin coherence | 1.5×10⁻¹⁴ kg, Δx = 721 µm, ramps 2×1.58 s, hold 0.08 s, Δφ = 2.19 rad | **565 runs, 1.3 h** |
-| A′: as A, leftover gas is helium | — | **no design works** |
-| B: A + spin coherence 1.6 s | — | no design works |
-| C: A + internal temperature 4 K | — | no design works |
-| D: A + 10⁻¹⁴ Pa | — | no design works |
-| E: A + LISA Pathfinder vibration | — | no design works |
+All with the derived gas rate (H5b). The previous, interpolated rate is shown for
+comparison.
 
-In design A, gas collisions use γτ = 0.44 of a 0.80 budget. Almost all of the
-entangling phase builds up during the ramps.
+| Scenario | Best design | Result | With the old interpolated rate |
+|---|---|---|---|
+| A: 10⁻¹⁵ Pa N₂, 0.15 K, no vibration, unlimited spin coherence | 6.8×10⁻¹⁴ kg, Δx = 53 µm, ramps 2×0.89 s, hold 0.47 s, Δφ = 1.51 rad | **270 runs, 0.5 h** | 565 runs, 1.3 h |
+| A′: as A, leftover gas is helium | 2.2×10⁻¹⁴ kg, Δx = 279 µm, Δφ = 1.85 rad | **270 runs, 0.6 h** | no design works |
+| B: A + spin coherence 1.6 s | 1.5×10⁻¹⁴ kg, Δx = 137 µm, Δφ = 0.24 rad | 12,570 runs, 22.9 h | no design works |
+| C: A + internal temperature 4 K | — | no design works | no design works |
+| D: A + 10⁻¹⁴ Pa | — | no design works | no design works |
+| E: A + LISA Pathfinder vibration | — | no design works | no design works |
+
+**Design A** (1.5×10⁻¹⁴ kg, Δx = 721 µm, 3.24 s) is the reference geometry used across
+the repository. With the derived gas rate its gas collisions use γτ = 0.105 (it was
+0.44), and it reaches a 3σ witness in **270 runs (0.6 h)**. That is the protocol minimum
+of 30 runs per setting, so gas no longer limits it. Almost all of its entangling phase
+builds up during the ramps.
+
+The fastest design (A, 53 µm) is heavier than design A, so it is 2×10⁹ times beyond
+today's largest superposed mass, against 4×10⁸ for design A.
 
 **Requirements, each varied alone**
 
 | Requirement | Others at target (A) | Others ideal (10⁻¹⁷ Pa) |
 |---|---|---|
-| Internal temperature | < 1.19 K | < 2.4 K |
-| Spin coherence | > 2.1 s | > 0.8 s |
-| Vibration (acceleration noise) | < 1.3×10⁻¹⁷ m s⁻²/√Hz | < 4.4×10⁻¹⁷ |
-| Vacuum (others ideal) | N₂ < 1.8×10⁻¹⁵ Pa, He < 6.9×10⁻¹⁶ Pa | |
+| Internal temperature | < 1.89 K (was 1.19) | < 2.45 K |
+| Spin coherence | > 1.38 s (was 2.1) | > 0.8 s |
+| Vibration (acceleration noise) | < 3.1×10⁻¹⁷ m s⁻²/√Hz (was 1.3×10⁻¹⁷) | < 4.6×10⁻¹⁷ |
+| Vacuum (others ideal) | N₂ < 7.6×10⁻¹⁵ Pa, He < 2.9×10⁻¹⁵ Pa (were 1.8×10⁻¹⁵, 6.9×10⁻¹⁶) | |
 
 **H6. EM forces that can fake a positive result.** Noise can't create entanglement;
 it can only hide it. But electromagnetic *interactions* between the diamonds can
 create it:
 
-- **Net charge:** one electron's worth of charge on each diamond gives an entangling
-  phase **1.6×10¹⁰× gravity's**. Both diamonds must carry exactly zero net charge.
+- **Net charge:** one electron's worth of charge on each design-A diamond gives an
+  entangling phase **1.6×10¹⁰× gravity's** (7×10⁸× for the fastest design). Both diamonds must carry exactly zero net charge.
   Levitated microspheres have been discharged to zero (LIT: Moore, Rider & Gratta 2014).
 - **Permanent dipoles:** each must be < 4.5×10⁻²⁹ C·m (2.8×10⁻⁴ e·µm) to keep EM below
   10% of gravity. Otherwise a conducting shield goes between the diamonds (LIT: van de
@@ -198,28 +220,30 @@ create it:
 
 | Requirement | Needed | State of the art (LIT) |
 |---|---|---|
-| Mass in a spatial superposition | 1.5×10⁻¹⁴ kg | 4×10⁻²³ kg (Fein et al. 2019): **4×10⁸× short** |
-| Superposition size | 721 µm | |
-| Vacuum | < 2×10⁻¹⁵ Pa (N₂), < 7×10⁻¹⁶ Pa (He) | reached only in cryogenic systems |
-| Spin coherence | > 2.1 s | ~1 s (NV, cryogenic, with dynamical decoupling) |
-| Internal temperature | < 1.2 K | micro-diamonds heat up under trapping light |
-| Vibration (acceleration noise) | < 1.3×10⁻¹⁷ m s⁻²/√Hz | 1.7×10⁻¹⁵ (LISA Pathfinder): **~140× short** |
+| Mass in a spatial superposition | 1.5×10⁻¹⁴ kg (design A) | 4×10⁻²³ kg (Fein et al. 2019): **4×10⁸× short** |
+| Superposition size | 721 µm (design A) | |
+| Vacuum | < 8×10⁻¹⁵ Pa (N₂), < 3×10⁻¹⁵ Pa (He) | reached only in cryogenic systems |
+| Spin coherence | > 1.4 s | ~1 s (NV, cryogenic, with dynamical decoupling) |
+| Internal temperature | < 1.9 K | micro-diamonds heat up under trapping light |
+| Vibration (acceleration noise) | < 3.1×10⁻¹⁷ m s⁻²/√Hz | 1.7×10⁻¹⁵ (LISA Pathfinder): **~57× short** |
 | Charge / dipoles | exactly 0 / < 4×10⁻²⁹ C·m, or a shield | zero charge demonstrated |
 
-1. **Nothing in the physics forbids the test.** At the published targets, the best
-   design settles λ = 0 against λ = 1 in about 565 runs (1.3 h of running). But it sits
-   on the edge: with helium as the leftover gas, or a 10× worse vacuum, no design works.
+1. **Nothing in the physics forbids the test.** At the published targets, design A
+   settles λ = 0 against λ = 1 in 270 runs (0.6 h), the protocol minimum. With the
+   derived gas rate there is now room: helium as the leftover gas still allows a design
+   (270 runs). A 10× worse vacuum still does not.
 2. **λ = 0 (split field) predicts exactly zero gravitational entanglement.** A positive
    witness can't come from noise. It could come from EM, which is why H6's controls
    are part of the prediction.
-3. **How finely λ can be pinned down** is set by dephasing. With 10⁶ runs, design A
-   reaches λ > 0.44. At 10⁻¹⁷ Pa it reaches λ > 0.028.
+3. **How finely λ can be pinned down** is set by dephasing. With 10⁶ runs, the fastest
+   design reaches λ > 0.28 (it was 0.44). At 10⁻¹⁷ Pa it reaches λ > 0.017.
 4. **What stands between the question and its answer is engineering, not theory.** The
    requirements must all be met at once, and the largest gaps are the mass in
-   superposition (8½ orders of magnitude) and the vibration noise (about 2 orders).
+   superposition (8½ orders of magnitude) and the vibration noise (about 1¾ orders).
 
-Caveats: the gas formula is an order-of-magnitude estimate, and the outcome of design
-A hinges on it. The mean-field (λ = 0) model is the Schrödinger–Newton picture.
+Caveats: the gas rate is now derived (H5b). It assumes hard-sphere collisions;
+van der Waals capture at 0.15 K reaches only a few nm beyond the surface, negligible
+next to R. The mean-field (λ = 0) model is the Schrödinger–Newton picture.
 Without added noise, that picture is a nonlinear quantum theory with known
 consistency problems. Consistent classical-gravity models add extra decoherence,
 which would make λ = 0 even easier to tell apart from λ = 1. That extra decoherence

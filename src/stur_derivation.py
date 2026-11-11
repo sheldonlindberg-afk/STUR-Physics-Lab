@@ -10,11 +10,12 @@ Nothing else: no gravity, no classical fields, no curved spacetime, no collapse.
   D2  The vacuum's modular Hamiltonian is 2 pi x the local boost energy:
       every accelerated observer sees the Unruh temperature.                CHECK
   D3  Clausius on every local horizon (delta Q = T delta S, S from D1)
-      gives the gravitational field equations, with G fixed by D1.          LIT (Jacobson 1995)
+      gives the gravitational field equations, with G fixed by D1.          CHECK (stur_jacobson.py)
   D4  Those equations in Lagrangian form are TEGR (torsion on flat space).  CHECK
   D5  Their static solution: Schwarzschild; their weak limit: Newton.       CHECK
   D6  A superposition: each branch of the matter sources its own field
-      (collective emergence). This gives THE EQUATION.                     FOLLOWS (+ K2 analog)
+      (collective emergence). This gives THE EQUATION.     FOLLOWS under R0 = a and
+                                                           Markovian dynamics (+ K2 analog)
   D7  Consequences, computed from the equation: double slit, measurement,
       the electron's field, one diamond, two diamonds, the classical tests,
       and what changes if gravity is only an average.                      CHECK
@@ -97,7 +98,7 @@ def main():
     print("   KNOWN (Bisognano-Wichmann): K = 2 pi x boost energy, exactly in the continuum.")
     print("   So an observer with acceleration g sees the vacuum at T = hbar g / (2 pi c k_B).")
 
-    banner("D3  Clausius on every local horizon gives the field equations (LIT: Jacobson 1995)")
+    banner("D3  Clausius on every local horizon gives the field equations (Jacobson 1995; re-derived in stur_jacobson.py)")
     print("   Every point has local Rindler horizons. Energy crossing one is heat: delta Q = T delta S,")
     print("   with T from D2 and S = eta x area from D1. Demanding this for all of them gives")
     print("   R_mu nu - 1/2 R g_mu nu + Lambda g_mu nu = (8 pi G / c^4) T_mu nu, with 1/(4 G hbar) = eta.")
@@ -142,7 +143,9 @@ def main():
     print("   gravity) keep a record of which branch happened. The phase = the difference")
     print("   in action, including the field's own action.")
     print("   The step 'each branch sources its own field' is what D0 implies for a field that")
-    print("   is made of the quantum level (collective emergence). Exact in the lattice analog:")
+    print("   is made of the quantum level (collective emergence). Against a statistical gravity it")
+    print("   is derived only on two conditions: the smearing is the cutoff a, and the dynamics are")
+    print("   Markovian (COLLECTIVE.md, OPPENHEIM.md). Exact in the lattice analog:")
     r = K.medium_evolution()
     print(f"   [stur_emergent K2] entangling phase {r['dphi']:.4f} vs the emergent 1/r law"
           f" {r['static']:.4f}; record left in the medium {1-r['record']:.1e}")
@@ -173,7 +176,7 @@ def main():
     print(f"       differences give an entangling phase {dphi:.4f} rad; concurrence"
           f" {abs(np.sin(dphi/2)):.4f}, negativity {ge.negativity(rho):.4f}.")
     print("       Gravity alone entangles them. Noise budget and best design: GRAVITY_ENTANGLEMENT.md")
-    print("       (565 runs, 1.3 h at the published targets; mass in superposition x4e8 beyond today).")
+    print("       (design A: 270 runs, 0.6 h at the published targets, derived gas rate; mass x4e8 beyond today).")
     dp = F.perihelion_shift(F.GM_SUN, F.MERCURY_A, F.MERCURY_E) * (36525 / F.MERCURY_P) * 180 / np.pi * 3600
     defl = F.light_deflection(F.GM_SUN, F.R_SUN) * 180 / np.pi * 3600
     gps, _ = F.gps_offset_us_per_day()
@@ -184,7 +187,8 @@ def main():
     print("       would feel the mean field, S_i would factor, and (d) would give exactly zero")
     print(f"       entanglement. An average needs intrinsic collapse: Diosi-Penrose rate"
           f" {K.dp_rate(m, ge.radius(m), 721e-6):.0f} /s,")
-    print("       killing even ONE diamond's superposition in ~6 ms. (c) and (d) both test this.")
+    print("       killing even ONE diamond's superposition in ~6 ms (any Markovian average smeared")
+    print("       over R0 < 0.1 um, Oppenheim's included). (c) and (d) both test this.")
 
     banner("D8  What was put in, and what was not derived")
     print("   Put in: unitary quantum mechanics; locality and non-contextuality; N local fields; the spacing a.")
@@ -193,8 +197,9 @@ def main():
     print("   Taken from the literature, not recomputed: Jacobson's step D3.")
     print("   Not derived: the value of G (only a^2/N is fixed by it), and the number and kinds")
     print("   of fields (the Standard Model).")
-    print("   The one physical claim beyond textbook physics: D6 applies to gravity, i.e. gravity")
-    print("   emerges COLLECTIVELY from the quantum level. Its test: (c) and (d).")
+    print("   D6 (gravity emerges COLLECTIVELY) is derived only under R0 = a and Markovian dynamics.")
+    print("   It is not distinctive: perturbative quantum gravity also predicts lambda = 1. (c) and (d)")
+    print("   would rule out classical gravity; only a null result there would be new physics.")
 
 
 if __name__ == "__main__":

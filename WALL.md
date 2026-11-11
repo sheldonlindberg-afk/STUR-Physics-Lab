@@ -41,17 +41,17 @@ combined statement and the lattice tests are this project's.
 | Claim | Status | Where |
 |---|---|---|
 | A real EM charge "pulled into two places" | excluded: self-repulsion in flight, and a nearby surface erases the fringes | MEASUREMENT.md T5 |
-| Gravity's field: amplitude (λ = 1) vs one averaged field (λ = 0) | **open; measurable.** λ = 0 predicts zero entanglement. The best design at the published targets needs 565 runs; the binding gaps are mass in superposition (×4×10⁸) and vibration noise (×140 below LISA Pathfinder) | GRAVITY_ENTANGLEMENT.md |
+| Gravity's field: amplitude (λ = 1) vs one averaged field (λ = 0) | **open; measurable.** λ = 0 predicts zero entanglement. Design A at the published targets needs 270 runs (derived gas rate); the binding gaps are mass in superposition (×4×10⁸) and vibration noise (×57 below LISA Pathfinder) | GRAVITY_ENTANGLEMENT.md |
 | Gravity is TEGR (torsion gauge field on flat spacetime) | GR falls out: Schwarzschild as the unique static solution, perihelion 42.98″, light bending 1.7512″, γ = 1, GPS +38.54 µs/day; the experiment's phases are TEGR's to 6×10⁻¹⁶ rad. Names STUR's A_μ on the gravity side (4 of 5 requirements) | TEGR.md |
-| Gravity as a consequence of the quantum level | G fixed by vacuum entanglement (cutoff 0.31 ℓ_P per field). Collective (phonon-like) emergence: field follows each branch, λ = 1 (lattice analog: 1/r law and entanglement exact). Statistical emergence would need at least Diósi–Penrose noise, which at the cutoff heats matter at 10⁶⁰ W/kg: so gravity is collective. One diamond kept for 3.24 s confirms it | EMERGENT.md, COLLECTIVE.md |
+| Gravity as a consequence of the quantum level | G fixed by vacuum entanglement (cutoff 0.31 ℓ_P per field). Collective (phonon-like) emergence: field follows each branch, λ = 1 (lattice analog: 1/r law and entanglement exact). Statistical emergence would need at least Diósi–Penrose noise, which at the cutoff heats matter at 0.5 W/kg (6×10¹⁰ × the Earth's heat flow): so gravity is collective, **if** the smearing is the cutoff and the dynamics Markovian. One diamond kept for 3.24 s tests the rest; Oppenheim's classical gravity is squeezed by the same diamond (Γ·S_a bound). λ = 1 is also perturbative quantum gravity's prediction | EMERGENT.md, COLLECTIVE.md, OPPENHEIM.md |
 | The equation from the quantum level up | ρᵢⱼ = ρᵢⱼ(0)⟨Eⱼ\|Eᵢ⟩e^{i(Sᵢ−Sⱼ)/ħ}, with gravity's TEGR action in Sᵢ and G from vacuum entanglement. Collective emergence of gravity (λ = 1) derived from D1–D3 (COLLECTIVE.md); predictions in PREDICTIONS.md | DERIVATION.md |
 
 ## The walls
 
 1. **Data wall.** Option A survives only in a corner at ξ ≈ Earth's radius:
    Γ ≈ 2×10⁻³ for 3 m × 4 s arms. Closing it needs the published LIGO
-   acceleration spectrum and geophysical bounds. This session's network blocks
-   `arxiv.org`, so the corner rests on an estimate. Even if it survived, its form
+   acceleration spectrum and geophysical bounds. `arxiv.org` is now reachable from the
+   project's environment, but the corner still rests on an estimate. Even if it survived, its form
    (Γ ∝ Δx²) is generic gravity-gradient noise, not STUR.
 2. **Compute wall.** The equal-weights test needs DMRG at large system size. It
    would only confirm Bisognano–Wichmann, which is already a theorem.
@@ -60,6 +60,55 @@ combined statement and the lattice tests are this project's.
    conflicts with existing experiments or has no observable. A new prediction
    needs a **new idea**: structure that produces a measurable deviation and is
    not already excluded. That can't come from reorganizing what's here.
+
+## The 3-3-1 thread: where it stopped (fronts 7–7g)
+
+Every assumption of the N_c = N_g = 3 selection that can be computed has been computed:
+- the exact charges;
+- two-loop gauge running;
+- two-loop Yukawa terms;
+- one-loop threshold matching (checked by matching-scale independence to 10⁻⁹);
+- no-Yukawa bounds;
+- the cutoff window (7.2×10¹⁵ – 1.4×10¹⁹ GeV);
+- Witten's anomaly, now shown redundant;
+- the scalar sector's own consistency to M_Pl.
+
+The selection survives all of them. What is left is three walls:
+
+1. **Conceptual.** The selection takes the measured TeV-scale couplings as input. For
+   β = −1/√3, N_c = 5 survives in a narrow band of weak angle about three times below
+   ours. No computation inside the framework removes this. It would need a principle
+   fixing the couplings, and front 12 shows 3-3-1 has none (no gauge unification).
+2. **Data.** The framework predicts a Z′ at 1.225 M_V, bilepton gauge bosons, and, if it
+   is to stay consistent to M_Pl, exotic quarks below 1.4–1.8 M_V with the top's doublet
+   carrying most of the vev. Colliders decide.
+3. **Refinement only.** Two-loop quartic RGEs, one-loop Higgs matching and a full
+   (non-random) map of the surviving scalar region would reshape the allowed corner. They
+   can't restore N_c = 5, which fails in the gauge sector alone.
+
+## The gravity thread: where it stopped
+
+Computed:
+- the decoherence floor for every continuous, Markovian classical gravity (the
+  Tilloy–Diósi floor, which is also Oppenheim's trade-off once minimized);
+- the shape-free one-particle bound (P3);
+- the kernel-free bound Γ·S_a ≥ (F_LR/M)²/8, which covers every Markovian
+  classical–quantum gravity, discrete jump models included (P5). It applies Oppenheim et
+  al.'s own appendix-B trade-off, so it is not new as a principle;
+- the finite-nucleus heating, which corrects the old 10⁶⁰ W/kg to 0.5 W/kg.
+
+What is left:
+
+1. **Theory wall: non-Markovian classical gravity.** No positivity theorem plays the
+   role of the trade-off for classical fields with memory, so no bound of this kind can
+   be derived for them. It would take a new theorem.
+2. **Experiment wall.** Every decisive test needs a ~10⁻¹⁴ kg diamond held coherent
+   across about its own radius (P5) or across 721 µm (P3, two diamonds). That is 4×10⁸
+   times the largest mass yet put in superposition. Engineering decides; the theory
+   doesn't.
+3. **Distinctiveness wall.** A positive result confirms λ = 1, which perturbative
+   quantum gravity also predicts. Distinguishing this framework from standard physics
+   would need a new mechanism (an option D-type idea), not more computation.
 
 ## What would move it
 

@@ -34,7 +34,7 @@ D2  The vacuum is thermal to every accelerated observer (CHECK)
    So an observer with acceleration g sees the vacuum at T = hbar g / (2 pi c k_B).
 
 ==============================================================================
-D3  Clausius on every local horizon gives the field equations (LIT: Jacobson 1995)
+D3  Clausius on every local horizon gives the field equations (Jacobson 1995; re-derived in stur_jacobson.py)
 ==============================================================================
    Every point has local Rindler horizons. Energy crossing one is heat: delta Q = T delta S,
    with T from D2 and S = eta x area from D1. Demanding this for all of them gives
@@ -80,7 +80,9 @@ D6  A superposition: THE EQUATION
    gravity) keep a record of which branch happened. The phase = the difference
    in action, including the field's own action.
    The step 'each branch sources its own field' is what D0 implies for a field that
-   is made of the quantum level (collective emergence). Exact in the lattice analog:
+   is made of the quantum level (collective emergence). Against a statistical gravity it
+   is derived only on two conditions: the smearing is the cutoff a, and the dynamics are
+   Markovian (COLLECTIVE.md, OPPENHEIM.md). Exact in the lattice analog:
    [stur_emergent K2] entangling phase 0.6064 vs the emergent 1/r law 0.6046; record left in the medium 2.3e-06
 
 ==============================================================================
@@ -103,13 +105,14 @@ D7  Consequences, each computed from the equation
    (d) TWO diamonds (1e-14 kg, 250 um splits, 200 um apart, 2.5 s): the action
        differences give an entangling phase 0.5938 rad; concurrence 0.2926, negativity 0.1463.
        Gravity alone entangles them. Noise budget and best design: GRAVITY_ENTANGLEMENT.md
-       (565 runs, 1.3 h at the published targets; mass in superposition x4e8 beyond today).
+       (design A: 270 runs, 0.6 h at the published targets, derived gas rate; mass x4e8 beyond today).
    (e) The classical limit (one branch, many particles): perihelion 42.98 arcsec/century,
        light bending 1.7512 arcsec, PPN gamma = 1, GPS +38.54 us/day.
    (f) If gravity were only the AVERAGE of the quantum level (not D6): each branch
        would feel the mean field, S_i would factor, and (d) would give exactly zero
        entanglement. An average needs intrinsic collapse: Diosi-Penrose rate 170 /s,
-       killing even ONE diamond's superposition in ~6 ms. (c) and (d) both test this.
+       killing even ONE diamond's superposition in ~6 ms (any Markovian average smeared
+       over R0 < 0.1 um, Oppenheim's included). (c) and (d) both test this.
 
 ==============================================================================
 D8  What was put in, and what was not derived
@@ -120,5 +123,6 @@ D8  What was put in, and what was not derived
    Taken from the literature, not recomputed: Jacobson's step D3.
    Not derived: the value of G (only a^2/N is fixed by it), and the number and kinds
    of fields (the Standard Model).
-   The one physical claim beyond textbook physics: D6 applies to gravity, i.e. gravity
-   emerges COLLECTIVELY from the quantum level. Its test: (c) and (d).
+   D6 (gravity emerges COLLECTIVELY) is derived only under R0 = a and Markovian dynamics.
+   It is not distinctive: perturbative quantum gravity also predicts lambda = 1. (c) and (d)
+   would rule out classical gravity; only a null result there would be new physics.

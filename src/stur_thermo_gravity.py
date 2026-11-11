@@ -25,12 +25,18 @@ Q2  What R0 is (STUR). An equation of state is defined only above the scale at w
     (N = 1000). The framework contains no other length.
 
 Q3  The consequence. The same noise heats every nucleus (FOLLOWS):
-          P / mass = hbar G / (4 sqrt(pi) R0^3)        (independent of composition)
-    At R0 = a this is ~10^60 W per kilogram. Ordinary matter could not exist. The
-    radiation such heating produces bounds R0 >= 0.54 Angstrom (LIT: Donadi et al.,
-    Nature Physics 17, 74 (2021)), which is 10^24 cutoff lengths. So within the
-    framework, gravity is not an equation of state of this kind: its field follows
-    each branch (lambda = 1). D6 follows.
+          P / mass = hbar G / (4 sqrt(pi) R0^3)        (point nuclei; R0 >> 1 fm)
+    Real nuclei are ~1e-15 m across, so for R0 below that the nucleus's own size sets
+    the smearing: P / mass = 2 pi hbar G Int rho_hat^2, with rho_hat the normalised
+    density of one nucleus smeared by R0 (src/stur_oppenheim.py P4). At R0 = a this is
+    0.5 W per kilogram, not the point-nucleus 1e60 (an earlier version of this script
+    quoted the latter). The Earth's internal heat flow is 7.9e-12 W/kg, so matter would
+    still be heated 6e10 times faster than anything observed, and the radiation such
+    heating produces bounds R0 >= 0.54 Angstrom (LIT: Donadi et al., Nature Physics 17,
+    74 (2021)), which is 10^24 cutoff lengths. So a statistical gravity smeared at the
+    framework's own cutoff is excluded, and within the framework, under that
+    identification (R0 = a) and for Markovian dynamics, its field follows each branch
+    (lambda = 1). D6 follows on those two conditions.
 
 Q4  The prediction that remains for any statistical gravity with an R0 put in by hand,
     for the design-A diamond (1.5e-14 kg, R = 1.007 um, split 721 um, 3.2 s), and the
@@ -73,7 +79,17 @@ def cutoff(N):
 
 
 def heating_per_kg(R0):
+    """Point nuclei smeared by a Gaussian R0 (valid for R0 >> 1 fm)."""
     return hbar * G / (4 * np.sqrt(np.pi) * R0**3)
+
+
+EARTH_W_PER_KG = 47e12 / 5.972e24   # LIT recalled: ~47 TW of internal heat flow
+
+
+def heating_per_kg_nuclei(R0, A=12):
+    """Carbon nuclei as uniform spheres of radius 1.2 A^(1/3) fm, smeared by R0."""
+    from stur_oppenheim import int_rho2_sphere, nuclear_radius
+    return 2 * np.pi * hbar * G * int_rho2_sphere(nuclear_radius(A), R0)
 
 
 def sphere_ff(x):
@@ -118,14 +134,19 @@ def main():
         print(f"   N = {N:5d} fields:  a = {cutoff(N)/lP:5.2f} l_P = {cutoff(N):.2e} m")
 
     banner("Q3  The heating that noise would cause, per kilogram of any matter")
-    print(f"   R0 = a (N = 1)      : {heating_per_kg(cutoff(1)):.1e} W/kg")
-    print(f"   R0 = a (N = 1000)   : {heating_per_kg(cutoff(1000)):.1e} W/kg")
-    print(f"   R0 = 0.54 Angstrom  : {heating_per_kg(R0_DONADI):.1e} W/kg   (the bound from radiation, LIT)")
+    print("   R0                  point nuclei        carbon nuclei of finite size (2.75 fm)")
+    for lab, R0 in (("a (N = 1)   ", cutoff(1)), ("a (N = 1000)", cutoff(1000)),
+                    ("0.54 Angstrom", R0_DONADI)):
+        print(f"   R0 = {lab:13s}  {heating_per_kg(R0):.1e} W/kg       {heating_per_kg_nuclei(R0):.2e} W/kg")
+    print("   The point-nucleus figure (1e56-1e60 W/kg at R0 = a) ignores the nucleus's size. With")
+    print(f"   it, smearing at R0 = a gives {heating_per_kg_nuclei(cutoff(1)):.2f} W/kg. At 0.54 Angstrom (the bound from radiation,")
+    print("   LIT) the two formulas agree.")
     print(f"   Required R0 / a (N = 1000): {R0_DONADI / cutoff(1000):.1e}")
-    sun = 3.828e26 / 1.989e30
-    print(f"   For scale: the Sun produces {sun:.1e} W/kg.")
-    print("   So gravity cannot be a statistical field coarse-grained at the framework's own")
-    print("   cutoff. Its field follows each branch: lambda = 1, and D6 follows from D1-D3.")
+    print(f"   For scale: the Earth's internal heat flow is {EARTH_W_PER_KG:.1e} W/kg (LIT recalled), so the")
+    print(f"   cutoff-smeared noise would heat matter {heating_per_kg_nuclei(cutoff(1))/EARTH_W_PER_KG:.0e} times faster than anything observed.")
+    print("   So gravity cannot be a Markovian statistical field coarse-grained at the framework's own")
+    print("   cutoff. On those two conditions (R0 = a, Markovian) its field follows each branch:")
+    print("   lambda = 1, and D6 follows from D1-D3. With R0 put in by hand, Q4 applies.")
 
     banner("Q4  Any statistical gravity with R0 put in by hand: the one-diamond prediction")
     print("   R0            rate (/s)    survival exp(-rate x 3.24 s)")

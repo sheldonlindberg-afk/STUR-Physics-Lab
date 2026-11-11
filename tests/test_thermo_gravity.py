@@ -24,6 +24,10 @@ def test_cutoff_heating_and_required_smearing():
     assert 1e60 < T.heating_per_kg(T.cutoff(1)) < 1e61
     assert 5e-15 < T.heating_per_kg(T.R0_DONADI) < 8e-15
     assert T.R0_DONADI / T.cutoff(1000) > 1e23
+    # finite nuclei: smearing at the cutoff gives ~0.5 W/kg, still >> the Earth's heat flow
+    assert 0.45 < T.heating_per_kg_nuclei(T.cutoff(1)) < 0.55
+    assert T.heating_per_kg_nuclei(T.cutoff(1)) / T.EARTH_W_PER_KG > 1e10
+    assert abs(T.heating_per_kg_nuclei(T.R0_DONADI) / T.heating_per_kg(T.R0_DONADI) - 1) < 1e-4
 
 
 def test_reference_output_matches():

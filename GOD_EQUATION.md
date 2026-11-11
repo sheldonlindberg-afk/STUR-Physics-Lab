@@ -413,6 +413,114 @@ N_c = 7 fails in both variants (10⁸–10¹⁰ GeV).
 - **So in both viable 3-3-1 variants, perturbativity to the Planck scale leaves exactly
   N_c = N_g = 3.** The result is robust in one variant and narrow in the other.
 
+## Front 7d: the three weak spots (Yukawas, boundary condition, the narrow variant)
+
+Script: `src/god_eq_331_yukawa.py`; output: `results/god_equation/331_yukawa.txt`; tests:
+`tests/test_331_yukawa.py`.
+
+**Y1 (CHECK).** The two-loop Yukawa term reproduces the Standard Model top coefficients
+(17/10, 3/2, 2) exactly. The SM top Yukawa at 4 TeV is 0.83.
+
+**Y2. Yukawas held constant (overstating them):**
+- They raise every blow-up by at most a factor of about 5, for exotic Yukawas y_J = 0–2.
+- β = −1/√3: N_c = 3 goes from 3.0×10²⁹ to 1.2×10³⁰ GeV, and N_c = 5 from 1.3×10¹⁵ to
+  2.8×10¹⁵.
+- β = +1/√3: N_c = 3 goes from 4.0×10¹⁹ to 2.2×10²⁰, and N_c = 5 from 5.5×10¹¹ to 1.3×10¹².
+- No constant y_J ≤ 6 rescues N_c = 5.
+
+**Y3. The boundary condition.** Every N_c is run from our measured couplings.
+- **β = −1/√3:** N_c = 3 survives for sin²θ_W(4 TeV) < 0.449. N_c = 5 survives only in a
+  narrow band, 0.066–0.074, about 3.4× below the measured 0.2504.
+- **β = +1/√3:** N_c = 3 survives for sin²θ_W < 0.266. N_c = 5 survives for no weak angle.
+- **At our weak angle, N_c = 5 would need α_em weaker by 1.33× (β = −1/√3) or 1.86×
+  (β = +1/√3).**
+- So the selection is conditional on the measured electroweak couplings. It doesn't
+  predict them.
+
+**Y4. The narrow variant.** For β = +1/√3, the N_c = 3 pole sits 3.3× above M_Pl, or 5.1×
+with y_J = 1. Over 3-3-1 scales of 2–30 TeV it sits 3.7–12.5× above. Under the strict
+g = 1 criterion, N_c = 3 fails with or without Yukawas.
+
+**Verdict.**
+- The Yukawa gap is closed.
+- The boundary condition is now quantified: the result holds given our couplings, with a
+  sin²θ_W margin of +0.20 (β = −1/√3) and +0.016 (β = +1/√3).
+- The two variants are complementary. One has a wide N_c = 3 margin but a distant N_c = 5
+  band; the other excludes N_c = 5 for every angle but has a narrow N_c = 3 margin.
+
+## Front 7e: one-loop threshold matching at the 3-3-1 scale
+
+Script: `src/god_eq_331_threshold.py`; output: `results/god_equation/331_threshold.txt`;
+tests: `tests/test_331_threshold.py`.
+
+**Method.** MS-bar one-loop matching (Weinberg; Hall), with the heavy spectrum counted
+from the model:
+- the bilepton doublet (Z′ = 1.225 M_V, no SM charge);
+- N_c exotic quarks, and for β = +1/√3 also N_c heavy leptons;
+- 9 heavy real scalars.
+
+**Check.** At one loop, with the spectrum fixed, the N_c = 3 pole is independent of the
+matching scale to 5×10⁻¹⁰ in its logarithm. Without thresholds it shifts by 2.6×.
+N_c = 5 can't pass this check: our three-colour SM is not its low-energy theory, which is
+the counterfactual boundary condition seen directly. Its most favourable matching scale
+is used.
+
+**Result.** Scanned over exotic masses 0.5–3 M_V, scalar masses ⅓–3 M_V, M_V = 2–10 TeV
+and one or two light doublets:
+- β = −1/√3: N_c = 3 at ≥ 2.4×10²⁹ GeV, against N_c = 5 at ≤ 7.2×10¹⁵.
+- β = +1/√3: N_c = 3 at ≥ 2.0×10¹⁹ GeV (1.64 M_Pl; 2.23 M_Pl with M_V ≥ 4 TeV), against
+  N_c = 5 at ≤ 3.8×10¹².
+- The sin²θ_W margin for β = +1/√3 is +0.010 to +0.035 (tree level +0.016).
+- At two loops, the residual dependence on the matching scale is 1%.
+
+**Verdict.** The selection survives one-loop thresholds. The narrow variant's worst
+case, a spectrum already disfavoured by the LHC, sits 1.6× above M_Pl.
+
+## Front 7f: the remaining assumptions, closed
+
+Script: `src/god_eq_331_closure.py`; output: `results/god_equation/331_closure.txt`; tests:
+`tests/test_331_closure.py`.
+
+- **C1. Witten's anomaly is redundant in 3-3-1.**
+  - The SU(3)_L anomaly, N_g(1 + N_c) = 2nN_c, plus asymptotic freedom of colour,
+    11N_c > 6N_g, have only the solutions N_g = N_c with N_c odd. All 29 solutions up to
+    N_c = 60 are of this kind, and there is a two-line gcd proof.
+  - The SU(2) doublet count is then even automatically.
+  - The chain no longer needs a global-anomaly argument that the UV group SU(3)_L
+    (π₄ = 0) wouldn't itself impose.
+- **C2. No Yukawas at all** (a lower bound on the N_c = 3 pole for any Yukawa running):
+  the worst case is 1.53 M_Pl (β = +1/√3), or 2.09 M_Pl with M_V ≥ 4 TeV. The Yukawas'
+  running can't flip the verdict.
+- **C3. The cutoff window.** Any cutoff from 7.2×10¹⁵ to 1.4×10¹⁹ GeV selects N_c = 3
+  under both g = 4π and α = 1, with or without Yukawas, in both variants. The window
+  includes M_Pl, the reduced Planck mass and the grand-unification scale.
+
+## Front 7g: the scalar sector to the Planck scale
+
+Scripts: `src/rge_engine.py`, `src/god_eq_331_scalar.py`; output:
+`results/god_equation/331_scalar.txt`; tests: `tests/test_331_scalar.py`.
+
+**Method.** A general one-loop engine for quartics and Yukawas. It reproduces the SM's
+β_λ and β_yt exactly. Applied to 3-3-1 at N_c = 3:
+- 18 real scalars;
+- the 9-quartic basis, closed under the RGEs to 10⁻¹⁵ and gauge invariant to 10⁻¹⁶;
+- the top Yukawa, β/y = 5y_t² − 8g₃² − 4g_L² − …;
+- every exotic and heavy-lepton Yukawa, run separately so that the structures close;
+- two-loop gauge running.
+
+**Results.**
+- The SM alone crosses λ = 0 at 9×10⁷ GeV at one loop.
+- 3-3-1 survives (perturbative and bounded below to M_Pl) in a corner: 7% (β = −1/√3)
+  and 5% (β = +1/√3) of viable points under tight priors, none with O(1) quartics.
+- **The cost:** exotic Yukawas < 0.80 or 0.62 at 4 TeV (exact, from gauge + Yukawas
+  alone). That means exotic quarks below 1.79 or 1.40 M_V, the top's doublet carrying
+  c² ≥ 0.68, and quartics ≲ 0.37.
+- In the survivors, the extra scalars stabilize the SM's top-doublet direction.
+
+**Verdict.**
+- 3-3-1 at N_c = 3 passes its own perturbativity test.
+- That test turns into collider relations: exotic quarks lighter than about 1.1–1.5 M_Z′.
+
 ## Front 8: masses, starting with Koide's formula
 
 Script: `src/god_eq_masses.py`; output: `results/god_equation/masses.txt`.
