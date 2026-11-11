@@ -135,9 +135,12 @@ NOVELTY.md                literature search: what is new, what was already known
 TEGR.md, MEASUREMENT.md, BORN.md, DERIVATION.md, GRAVITY_ENTANGLEMENT.md,
 OPPENHEIM.md, COLLECTIVE.md, EMERGENT.md, PREDICTIONS.md
                           the worked examples, one report each
-src/                      one script per report; outputs in results/
+src/                      one script per report
+results/                  reference output of each script, checked by the tests
+tools/                    Z′ recast helpers: HEPData fetch, parton luminosities, Pythia cross-check
 tests/                    regression tests
-index.html, technical.html  the website (GitHub Pages)
+index.html, technical.html  the website (GitHub Pages); quantum.html redirects old links home
+CITATION.cff              how to cite this repository
 ```
 
 Script names keep the `stur_` prefix of the project's former working title.
