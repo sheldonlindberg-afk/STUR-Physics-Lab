@@ -137,7 +137,7 @@ index.html, technical.html  the website (GitHub Pages)
 
 Script names keep the `stur_` prefix of the project's former working title.
 Earlier exploratory material, superseded by the work above, is preserved in git
-history at the tag `archive-2026-11`.
+history at commit [`d6baab6`](https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/tree/d6baab6).
 
 ## License
 
