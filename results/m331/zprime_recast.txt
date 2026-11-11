@@ -1,0 +1,73 @@
+
+==============================================================================
+Z1  Z' couplings from a direct diagonalisation (CHECK)
+==============================================================================
+   beta = +0.5774: closed form vs diagonalisation, max |diff| = 5.6e-17
+   beta = -0.5774: closed form vs diagonalisation, max |diff| = 5.6e-17
+   beta = -1/sqrt3, electron vector coupling: 0.013868 (g/c_W); KNOWN (1-4s^2)/(4 sqrt(3-4s^2)) = 0.013868
+   beta = -sqrt3: 1 - beta^2 t^2 = 0 at s^2 = 1/4, the minimal model's Landau pole.
+
+==============================================================================
+Z2  Widths of the ATLAS benchmarks (CHECK against the paper: 3%, 0.5%, 1.2%)
+==============================================================================
+   Z'_SSM : Gamma/M = 2.99%,  BR(ee) = 3.08%
+   Z'_psi : Gamma/M = 0.53%,  BR(ee) = 4.44%
+   Z'_chi : Gamma/M = 1.16%,  BR(ee) = 6.06%
+
+==============================================================================
+Z3  Method validation: predict ATLAS's Z'_psi and Z'_chi curves from Z'_SSM (CHECK)
+==============================================================================
+   psi  PDF4LHC21: Gamma/M = 0.53%  limit 4.53 TeV [ATLAS curve x digitised limit: 4.54; quoted 4.5]  pred/ATLAS - 1 at 3.0-5.0 TeV: -2% -2% -2% -2% -3%
+   psi  NNPDF3.1 : Gamma/M = 0.53%  limit 4.50 TeV [ATLAS curve x digitised limit: 4.54; quoted 4.5]  pred/ATLAS - 1 at 3.0-5.0 TeV: -3% -3% -5% -6% -10%
+   chi  PDF4LHC21: Gamma/M = 1.16%  limit 4.81 TeV [ATLAS curve x digitised limit: 4.79; quoted 4.8]  pred/ATLAS - 1 at 3.0-5.0 TeV: -6% -6% -5% -0% +4%
+   chi  NNPDF3.1 : Gamma/M = 1.16%  limit 4.96 TeV [ATLAS curve x digitised limit: 4.79; quoted 4.8]  pred/ATLAS - 1 at 3.0-5.0 TeV: -2% +2% +10% +26% +43%
+   SSM  PDF4LHC21: Gamma/M = 2.99%  limit 5.08 TeV [ATLAS curve x digitised limit: 5.08; quoted 5.1]  (identity)
+   SSM  NNPDF3.1 : Gamma/M = 2.99%  limit 5.08 TeV [ATLAS curve x digitised limit: 5.08; quoted 5.1]  (identity)
+
+==============================================================================
+Z4  The beta = +-1/sqrt3 Z': 95% CL lower mass limits, ATLAS 139 fb^-1 (this recast)
+==============================================================================
+   Assignment A: generations 1, 2 in anti-triplets, 3 in the triplet (the usual choice).
+   Assignment B: generation 1 in the triplet.
+   Decays: SM fermions only, or with every exotic fermion open (massless: the largest
+   width and smallest BR(ll)).  Couplings at sin^2 theta_W = 0.2504 (4 TeV) unless noted.
+
+   beta = +1/sqrt3
+   assignment  decays    s^2     PDF         Gamma/M   BR(ee)   obs limit  exp limit
+   A           SM        0.2504  PDF4LHC21     1.68%   6.58%    5.21 TeV   5.18 TeV
+   A           SM        0.2504  NNPDF3.1      1.68%   6.58%    5.16 TeV   5.13 TeV
+   A           SM        0.2312  PDF4LHC21     1.69%   6.33%    5.20 TeV   5.17 TeV
+   A           SM+exotic 0.2504  PDF4LHC21     3.27%   3.38%    4.89 TeV   4.85 TeV
+   A           SM+exotic 0.2504  NNPDF3.1      3.27%   3.38%    4.85 TeV   4.81 TeV
+   A           SM+exotic 0.2312  PDF4LHC21     3.42%   3.13%    4.86 TeV   4.82 TeV
+   B           SM        0.2504  PDF4LHC21     1.68%   6.58%    5.03 TeV   5.00 TeV
+   B           SM        0.2504  NNPDF3.1      1.68%   6.58%    4.98 TeV   4.96 TeV
+   B           SM        0.2312  PDF4LHC21     1.69%   6.33%    5.03 TeV   5.00 TeV
+   B           SM+exotic 0.2504  PDF4LHC21     3.27%   3.38%    4.70 TeV   4.67 TeV
+   B           SM+exotic 0.2504  NNPDF3.1      3.27%   3.38%    4.66 TeV   4.63 TeV
+   B           SM+exotic 0.2312  PDF4LHC21     3.42%   3.13%    4.68 TeV   4.65 TeV
+
+   beta = -1/sqrt3
+   assignment  decays    s^2     PDF         Gamma/M   BR(ee)   obs limit  exp limit
+   A           SM        0.2504  PDF4LHC21     1.15%   3.85%    4.79 TeV   4.75 TeV
+   A           SM        0.2504  NNPDF3.1      1.15%   3.85%    4.74 TeV   4.71 TeV
+   A           SM        0.2312  PDF4LHC21     1.19%   3.73%    4.79 TeV   4.75 TeV
+   A           SM+exotic 0.2504  PDF4LHC21     3.09%   1.43%    4.04 TeV   4.23 TeV
+   A           SM+exotic 0.2504  NNPDF3.1      3.09%   1.43%    4.02 TeV   4.20 TeV
+   A           SM+exotic 0.2312  PDF4LHC21     3.27%   1.36%    4.03 TeV   4.22 TeV
+   B           SM        0.2504  PDF4LHC21     1.15%   3.85%    4.96 TeV   4.93 TeV
+   B           SM        0.2504  NNPDF3.1      1.15%   3.85%    4.92 TeV   4.89 TeV
+   B           SM        0.2312  PDF4LHC21     1.19%   3.73%    4.95 TeV   4.92 TeV
+   B           SM+exotic 0.2504  PDF4LHC21     3.09%   1.43%    4.39 TeV   4.42 TeV
+   B           SM+exotic 0.2504  NNPDF3.1      3.09%   1.43%    4.34 TeV   4.39 TeV
+   B           SM+exotic 0.2312  PDF4LHC21     3.27%   1.36%    4.34 TeV   4.40 TeV
+
+==============================================================================
+Z5  Summary
+==============================================================================
+   beta = +1/sqrt3: M_Z' > 5.0-5.2 TeV (SM decays only); > 4.6-4.9 TeV with every exotic fermion open
+   beta = -1/sqrt3: M_Z' > 4.7-5.0 TeV (SM decays only); > 4.0-4.4 TeV with every exotic fermion open
+   Ranges cover the quark assignment, sin^2 theta_W scheme and PDF set.
+   Method check: the same procedure gives Z'_psi 4.50-4.53 TeV and Z'_chi 4.81-4.96 TeV, against ATLAS's 4.5 and 4.8 TeV.
+   Not included: Z-Z' mixing, interference with Drell-Yan, Z' -> bileptons and scalars
+   (which would add width and lower BR(ll) further), and NLO differences between models.

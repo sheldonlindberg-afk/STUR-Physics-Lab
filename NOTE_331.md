@@ -37,7 +37,8 @@ doesn't predict them. How much it depends on them differs between the two varian
   weak mixing angle about three times below ours.
 - **β = +1/√3:** N_c = 5 fails at every weak mixing angle, but N_c = 3 survives only for
   sin²θ_W(4 TeV) below 0.261–0.285, against the measured 0.250. Its worst-case pole, with
-  thresholds, sits 1.6× above M_Pl, or 2.2× when the Z′ is above the LHC limits.
+  thresholds, sits 1.6× above M_Pl over the full scan, or 2.2× once the Z′ obeys the LHC
+  dilepton limit (M_Z′ > 4.6 TeV, from our recast of the full Run-2 search, §6).
 
 The result is conditional on the 3-3-1 framework, which collider searches for its Z′ and
 bilepton gauge bosons decide, and on the perturbativity requirement.
@@ -211,6 +212,7 @@ and the second doublet heavy or light):
 | β = −1/√3 | 2.4×10²⁹ GeV (2×10¹⁰ M_Pl) | 7.2×10¹⁵ GeV | only N_c = 3 |
 | β = +1/√3 | 2.0×10¹⁹ GeV (**1.64 M_Pl**) | 3.8×10¹² GeV | only N_c = 3 |
 | β = +1/√3, M_V ≥ 4 TeV (Z′ ≥ 4.9 TeV) | 2.23 M_Pl | — | only N_c = 3 |
+| β = +1/√3, M_V ≥ 3.76 TeV (Z′ ≥ 4.6 TeV, LHC recast, §6) | 2.17 M_Pl | — | only N_c = 3 |
 
 - **The worst case for N_c = 3.** It is the lightest exotics (0.5 M_V), light scalars, a
   light second doublet and M_V = 2 TeV. That spectrum puts the Z′ at 2.45 TeV, already
@@ -365,13 +367,26 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
 ## 6. How it will be tested
 
 - **The β = ±1/√3 models predict:**
-  - a Z′, whose current dilepton limits depend on the variant and on its decays:
-    - β = −1/√3: M_Z′ > 4 TeV with Standard Model decays only (13 TeV, 36.1 fb⁻¹ recast:
-      Lindner, Platscher & Queiroz, Phys. Rept. 731, 1 (2018), arXiv:1610.06587), weakened
-      to 2.64 TeV with exotic decays open (de Jesus et al., PLB 809, 135689 (2020),
-      arXiv:2003.06440);
-    - β = +1/√3: M_Z′ ≳ 2.9 TeV from 8 TeV data (Salazar et al., JHEP 07 (2015) 096,
-      arXiv:1503.03519); no 13 TeV recast for this variant was found;
+  - a Z′. Our recast of the ATLAS 13 TeV, 139 fb⁻¹ dilepton search (PLB 796 (2019) 68,
+    arXiv:1903.06248; `src/m331_zprime_recast.py`) gives, at 95% CL:
+
+    | | SM decays only | every exotic fermion open |
+    |---|---|---|
+    | β = +1/√3 | M_Z′ > 5.0–5.2 TeV | M_Z′ > 4.6–4.9 TeV |
+    | β = −1/√3 | M_Z′ > 4.7–5.0 TeV | M_Z′ > 4.0–4.4 TeV |
+
+    The ranges cover which quark generation sits in the triplet, the sin²θ_W scheme and
+    the PDF set. Method: ATLAS's own fiducial Z′_SSM prediction is rescaled by the ratio of
+    Σ_q L_qq̄ (g_L² + g_R²) × BR(ℓℓ) between the models, so K-factors and acceptance cancel.
+    Validation: the same procedure reproduces ATLAS's Z′_ψ and Z′_χ limits (4.53 and
+    4.81 TeV against 4.5 and 4.8 TeV). The ATLAS curves were digitised from the paper's
+    vector figures (`tools/digitize_atlas_dilepton.py`), and the parton luminosities come
+    from PDF4LHC21 and NNPDF3.1 NNLO (`tools/parton_luminosities.py`). Earlier recasts used
+    less data: 4 TeV for β = −1/√3 with 36.1 fb⁻¹ (Lindner, Platscher & Queiroz, Phys.
+    Rept. 731, 1 (2018)), 2.64 TeV with exotic decays (de Jesus et al., PLB 809, 135689
+    (2020)), and about 2.9 TeV for β = +1/√3 with 8 TeV data (Salazar et al., JHEP 07 (2015)
+    096). Not included: Z-Z′ mixing, interference with Drell-Yan, and Z′ decays to bilepton
+    or scalar pairs;
   - doubly or singly charged bilepton gauge bosons;
   - exotic quarks.
 
@@ -409,11 +424,12 @@ python3 src/m331_yukawa.py             # Yukawas, boundary condition, margins; 3
 python3 src/m331_threshold.py          # one-loop threshold matching (~75 s); 331_threshold.txt
 python3 src/m331_closure.py            # Witten redundant, no-Yukawa bound, cutoff window (~3 min)
 python3 src/m331_scalar.py             # the scalar sector to M_Pl (~4 min); 331_scalar.txt
+python3 src/m331_zprime_recast.py      # the ATLAS 139 fb^-1 Z' recast (~1 s); zprime_recast.txt
 python -m pytest tests/test_331_*.py -q
 ```
 
 ## References
 
 Full bibliography, with DOIs and arXiv numbers checked against INSPIRE, in
-[paper/note331.pdf](paper/note331.pdf). The Z′ limits (§6) are quoted from the cited
-recasts and have not been re-derived here.
+[paper/note331.pdf](paper/note331.pdf). The β = ±1/√3 Z′ limits (§6) are this note's
+recast (paper Appendix A); the minimal-model limits are quoted from the cited papers.
