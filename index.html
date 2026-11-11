@@ -5,20 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#07090d" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f6f8fa" media="(prefers-color-scheme: light)">
-<title>Gravity from the Quantum Level Up</title>
-<meta name="description" content="Einstein's gravity told as a twist instead of a curve (teleparallel gravity, TEGR), and what it does at the quantum level: each branch of a superposition carries its own gravity field. Plain language first, the full derivation one click down, every number reproduced by open code.">
+<title>Gravity and the Quantum</title>
+<meta name="description" content="A plain-language science guide: Einstein's gravity told as a twist instead of a curve (teleparallel gravity), the open question of whether gravity is quantum, the idea that gravity is tied to the entanglement of empty space, and what measurement really does. Every claim is labelled established, worked example or open, and every number is reproduced by open code.">
 <meta property="og:site_name" content="STUR Physics Lab">
-<meta property="og:title" content="Gravity, from the quantum level up">
-<meta property="og:description" content="Einstein's gravity as a twist instead of a curve, and what gravity does to an object that is in two places at once. Plain language first; every number checked by open code.">
+<meta property="og:title" content="Gravity and the quantum, explained">
+<meta property="og:description" content="Einstein's gravity as a twist instead of a curve, and an open question in physics: what does gravity do to an object in two places at once? A plain-language guide that says what is established and what is still open.">
 <meta property="og:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Gravity, from the quantum level up: a flat grid of small arrow frames twisting near a central mass.">
+<meta property="og:image:alt" content="Gravity and the quantum, explained: a flat grid of small arrow frames twisting near a central mass.">
 <meta property="og:url" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Gravity, from the quantum level up">
-<meta name="twitter:description" content="Einstein's gravity as a twist instead of a curve, and what gravity does to an object in two places at once. Every number checked by open code.">
+<meta name="twitter:title" content="Gravity and the quantum, explained">
+<meta name="twitter:description" content="Einstein's gravity as a twist instead of a curve, and the open question of whether gravity is quantum. Established physics and open questions, clearly labelled.">
 <meta name="twitter:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/og-card.png">
 <link rel="canonical" href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">
 <link rel="manifest" href="manifest.json">
@@ -29,14 +29,15 @@
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
-  "name": "Gravity, from the quantum level up",
-  "description": "Teleparallel gravity (TEGR) explained in plain language, gravity's behaviour at the quantum level, and the measurement problem without mysticism. Every number is reproduced by open code.",
+  "name": "Gravity and the quantum, explained",
+  "description": "A plain-language guide to teleparallel gravity (TEGR), the open question of whether gravity is quantum, the entanglement of empty space, and decoherence. Established physics and open questions are labelled separately; every number is reproduced by open code.",
   "author": {"@type": "Person", "name": "Sheldon Lindberg"},
   "datePublished": "2026-11-11",
   "url": "https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/",
   "license": "https://creativecommons.org/publicdomain/zero/1.0/",
   "isAccessibleForFree": true,
-  "educationalLevel": ["beginner", "expert"]
+  "learningResourceType": "explainer",
+  "educationalLevel": ["beginner", "intermediate"]
 }
 </script>
 </head>
@@ -48,12 +49,12 @@
     <a class="brand" href="index.html"><img src="assets/4.13.png" alt="" width="28" height="28">STUR</a>
     <nav class="nav" aria-label="Sections">
       <a href="#twist">Gravity as twist</a>
-      <a href="#quantum">Quantum gravity</a>
-      <a href="#strength">Gravity's strength</a>
+      <a href="#quantum">Is gravity quantum?</a>
+      <a href="#strength">Entanglement</a>
       <a href="#measurement">Measurement</a>
       <a href="#myths">Myths</a>
       <a href="#status">How sure</a>
-      <a href="#deeper">Go deeper</a>
+      <a href="#deeper">Learn more</a>
     </nav>
   </div>
 </header>
@@ -62,14 +63,14 @@
 
   <!-- Hero -->
   <div class="hero">
-    <p class="eyebrow">STUR Physics Lab &middot; free to share (CC0)</p>
-    <h1>Gravity, <span>from the quantum level up</span>.</h1>
-    <p class="lede">Most people have heard that gravity is "curved space". Fewer know that Einstein's theory can be told another way, as a <strong>twist</strong> on perfectly flat space. Told that way, gravity looks like any other field in quantum physics, and you can ask a concrete question: <strong>what does gravity do to something that is in two places at once?</strong></p>
-    <p class="muted">Every section starts in plain language. If you want the equations, open the <b>Go deeper</b> box at the end of each one. Every number on this page is recomputed by open code and checked automatically.</p>
+    <p class="eyebrow">STUR Physics Lab &middot; a science-education project &middot; CC0</p>
+    <h1>Gravity and the quantum, <span>explained</span>.</h1>
+    <p class="lede">Most people have heard that gravity is "curved space". Fewer know that Einstein's theory can be written another way, as a <strong>twist</strong> on perfectly flat space. This guide explains that picture, then uses it to ask one of the big open questions in physics: <strong>what does gravity do to something that is in two places at once?</strong> Nobody knows yet, and experiments are being designed to find out.</p>
+    <p class="muted">Every section starts in plain language, with the equations in a <b>Go deeper</b> box at the end. Every claim carries a label: established physics, a worked example computed here, or an open question. The numbers are recomputed by open code and checked automatically.</p>
     <div class="facts">
-      <div class="fact"><b>42.98″</b><span>Mercury's orbit shift per century, from the twist picture alone. Observed: 42.98″.</span></div>
+      <div class="fact"><b>42.98″</b><span>Mercury's orbit shift per century, computed from the twist picture. Observed: 42.98″.</span></div>
       <div class="fact"><b>+38.54 µs</b><span>a day: how much faster GPS satellite clocks run. The system corrects for it.</span></div>
-      <div class="fact"><b>Each branch</b><span>An object in two places carries two versions of its gravity, and two diamonds could show it.</span></div>
+      <div class="fact"><b>Open</b><span>Is gravity quantum? Two tiny diamonds, each in two places at once, could tell. The experiment hasn't been done yet.</span></div>
     </div>
     <div class="cta">
       <a class="btn primary" href="#twist">Start with gravity as a twist &darr;</a>
@@ -84,8 +85,8 @@
     <div class="takeaway"><b>In one line:</b> space stays flat, every point carries its own rulers and clock, and gravity is how those rulers are twisted relative to their neighbours.</div>
     <div class="prose">
       <p><strong>The famous picture.</strong> In 1915 Einstein described gravity as the shape of spacetime. A mass bends it, and everything moving nearby follows the bends. That's the rubber-sheet picture most of us grew up with.</p>
-      <p><strong>The other picture.</strong> Einstein himself explored a second way in 1928, and physicists later showed it reproduces his theory exactly. It's called <em>teleparallel gravity</em>, or TEGR for short. In TEGR, space is never bent. Instead, every point in space carries its own little set of measuring sticks and a clock. Far from any mass, all those sets line up perfectly with one another. Near a mass, neighbouring sets stop lining up. That mismatch is called <em>torsion</em>, and it's what we feel as gravity.</p>
-      <p>Torsion behaves like a <strong>force field</strong>, much like the electric field around a charged object. It lives on a fixed, flat stage, and that is exactly the kind of field quantum physics already knows how to handle.</p>
+      <p><strong>The other picture.</strong> In 1928 Einstein explored a related idea he called "distant parallelism". Physicists later developed it into a theory that gives exactly the same predictions as his 1915 theory. It's called <em>teleparallel gravity</em>, or TEGR for short. In TEGR, space is never bent. Instead, every point in space carries its own little set of measuring sticks and a clock. Far from any mass, all those sets line up perfectly with one another. Near a mass, neighbouring sets stop lining up. That mismatch is called <em>torsion</em>, and it's what we feel as gravity.</p>
+      <p>Torsion behaves like a <strong>force field</strong> on a fixed, flat stage, much like the electric field around a charged object. That resemblance to the other forces is why some physicists find this picture a useful starting point for thinking about gravity and quantum physics together.</p>
     </div>
 
     <figure>
@@ -107,7 +108,7 @@
     </figure>
 
     <h3>Same answers as Einstein, to every decimal we can measure</h3>
-    <p class="prose muted">We solved gravity's equations in the twist form for the Sun and the Earth, then traced planets, light rays and clocks through the result. Curved space is used nowhere in that calculation.</p>
+    <p class="prose muted">As a check, we solved gravity's equations in the twist form for the Sun and the Earth, then traced planets, light rays and clocks through the result. Curved space is used nowhere in that calculation. These are textbook results; recomputing them shows the twist picture really is the same theory.</p>
     <div class="table-wrap">
       <table>
         <thead><tr><th>Test</th><th>Twist picture (computed)</th><th>Measured</th></tr></thead>
@@ -121,36 +122,36 @@
     </div>
     <p class="prose" style="margin-top:16px"><strong>A detail people find surprising:</strong> Newton's gravity predicts only <em>half</em> the bending of starlight. In the twist picture you can see where the other half comes from. The "time" rulers give Newton's half, and the "space" rulers give the rest, which Newton's theory has no place for.</p>
 
-    <h3>Why tell gravity this way?</h3>
+    <h3>Why learn gravity this way?</h3>
     <div class="grid g3">
-      <div class="card"><h3>It's a field, like the others</h3><p>Electricity, magnetism and the nuclear forces are all fields on a fixed stage. In TEGR, gravity becomes one more of them.</p></div>
-      <div class="card"><h3>It fits quantum physics</h3><p>Quantum physics asks what every field does when matter is in a superposition. With gravity as a field, the same question applies to it: section 2.</p></div>
+      <div class="card"><h3>It looks like the other forces</h3><p>Electricity, magnetism and the nuclear forces are all fields on a fixed stage. In TEGR, gravity is written the same way.</p></div>
+      <div class="card"><h3>A new view, not a fix</h3><p>Writing gravity this way doesn't by itself make it easier to combine with quantum physics. The deep problems of quantum gravity are still there.</p></div>
       <div class="card"><h3>Nothing is given up</h3><p>Black holes, orbits, light bending and GPS all come out exactly as in Einstein's curved picture. It's a different view of the same physics, not a rival theory.</p></div>
     </div>
 
     <details class="deeper">
       <summary>Go deeper: the TEGR equations <span>tetrad, Weitzenböck torsion, Schwarzschild</span></summary>
       <div class="body">
-        <p><span class="tag known">known physics</span> TEGR (Aldrovandi &amp; Pereira, <em>Teleparallel Gravity</em>, 2013). The dynamical field is the tetrad e<sup>a</sup><sub>μ</sub>, with g<sub>μν</sub> = η<sub>ab</sub> e<sup>a</sup><sub>μ</sub> e<sup>b</sup><sub>ν</sub>. The connection is the curvature-free Weitzenböck connection, so gravity is carried entirely by torsion:</p>
+        <p><span class="tag known">established</span> TEGR (Aldrovandi &amp; Pereira, <em>Teleparallel Gravity</em>, 2013). The dynamical field is the tetrad e<sup>a</sup><sub>μ</sub>, with g<sub>μν</sub> = η<sub>ab</sub> e<sup>a</sup><sub>μ</sub> e<sup>b</sup><sub>ν</sub>. The connection is the curvature-free Weitzenböck connection, so gravity is carried entirely by torsion:</p>
         <div class="eq">Γ<sup>ρ</sup><sub>μν</sub> = e<sub>a</sub><sup>ρ</sup> ∂<sub>μ</sub>e<sup>a</sup><sub>ν</sub>, &nbsp; T<sup>ρ</sup><sub>μν</sub> = Γ<sup>ρ</sup><sub>νμ</sub> − Γ<sup>ρ</sup><sub>μν</sub><br>S<sub>grav</sub> = (c⁴/16πG) ∫ e T d⁴x, &nbsp; T = −R + (divergence) <span class="c">&nbsp;// same field equations as GR</span></div>
-        <p><span class="tag checked">checked here</span> The identity T = −R + divergence, checked symbolically and then at random points: residual ≤ 10<sup>−165</sup>. For a static spherical tetrad e⁰ = e<sup>A</sup>dt, e¹ = e<sup>B</sup>dr, the TEGR field equations give 2rA′ = e<sup>2B</sup> − 1 and 2rB′ = 1 − e<sup>2B</sup>, hence Schwarzschild, uniquely (Birkhoff). The weak field gives Ψ = Φ and ∇²Φ = 4πGρ. The classic tests in the table are numerical geodesic integrals of that tetrad, not textbook formulas.</p>
-        <p class="src">Report: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/TEGR.md">TEGR.md</a> &middot; code: <code>src/stur_tegr.py</code>, <code>src/stur_tegr_gr.py</code> &middot; tests: <code>tests/test_tegr.py</code>, <code>tests/test_tegr_gr.py</code></p>
+        <p><span class="tag checked">worked example</span> The identity T = −R + divergence, checked symbolically and then at random points: residual ≤ 10<sup>−165</sup>. For a static spherical tetrad e⁰ = e<sup>A</sup>dt, e¹ = e<sup>B</sup>dr, the TEGR field equations give 2rA′ = e<sup>2B</sup> − 1 and 2rB′ = 1 − e<sup>2B</sup>, hence Schwarzschild, uniquely (Birkhoff). The weak field gives Ψ = Φ and ∇²Φ = 4πGρ. The classic tests in the table are numerical geodesic integrals of that tetrad, not textbook formulas.</p>
+        <p class="src">Notes: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/TEGR.md">TEGR.md</a> &middot; code: <code>src/stur_tegr.py</code>, <code>src/stur_tegr_gr.py</code> &middot; tests: <code>tests/test_tegr.py</code>, <code>tests/test_tegr_gr.py</code></p>
       </div>
     </details>
   </section>
 
   <!-- 2. Quantum gravity -->
   <section id="quantum" aria-labelledby="quantum-h">
-    <p class="eyebrow">2 &middot; Gravity at the quantum level</p>
+    <p class="eyebrow">2 &middot; An open question: is gravity quantum?</p>
     <h2 id="quantum-h">Where is the gravity of something in two places at once?</h2>
-    <div class="takeaway"><b>In one line:</b> each version of the object carries its own gravity field, just as it carries its own electric field.</div>
+    <div class="takeaway"><b>In one line:</b> nobody knows yet. Standard quantum theory suggests each version of the object carries its own gravity field; some physicists propose that gravity stays classical. Experiments are being designed to decide.</div>
     <div class="prose">
       <p>Quantum objects can be in a <em>superposition</em>: not here <em>or</em> there, but a combination of both, which physicists call two "branches". Atoms and large molecules have been put in superpositions in the lab.</p>
-      <p>So what does their gravity do? There are two possibilities:</p>
+      <p>So what does their gravity do? There are two broad possibilities:</p>
     </div>
     <div class="grid g2">
-      <div class="card"><h3>A. Gravity follows each branch</h3><p>Each version of the object has its own gravity field. Two such objects can then become <strong>entangled through gravity alone</strong>, linked in a way no ordinary force-at-a-distance could manage.</p><p class="small muted">This framework's answer, and also the answer of mainstream quantum gravity.</p></div>
-      <div class="card"><h3>B. Gravity is an average</h3><p>There is only one gravity field, pulling toward the object's "average" position. Then gravity can never entangle anything.</p><p class="small muted">The answer of "classical gravity" models, such as Oppenheim's.</p></div>
+      <div class="card"><h3>A. Gravity follows each branch</h3><p>Each version of the object has its own gravity field, just as it has its own electric field. Two such objects can then become <strong>entangled through gravity alone</strong>, linked in a way no classical force could produce.</p><p class="small muted">What you expect if gravity is quantum, as in standard (perturbative) quantum gravity.</p></div>
+      <div class="card"><h3>B. Gravity stays classical</h3><p>There is a single, non-quantum gravity field. Then gravity can never entangle anything.</p><p class="small muted">The idea behind "classical gravity" models, such as Oppenheim's.</p></div>
     </div>
 
     <figure>
@@ -181,69 +182,64 @@
           </g>
         </svg>
       </div>
-      <figcaption>The test proposed by Bose et al. and Marletto &amp; Vedral (2017). If gravity follows each branch, the four branch pairs pick up different phases and the diamonds become entangled. If gravity is an average, they never do.</figcaption>
+      <figcaption>The test proposed by Bose et al. and Marletto &amp; Vedral (2017). If gravity follows each branch, the four branch pairs pick up different phases and the diamonds become entangled. If gravity is classical, they never do.</figcaption>
     </figure>
 
-    <h3>Why gravity can't simply be an average</h3>
+    <h3>What it costs gravity to stay classical</h3>
     <div class="prose">
-      <p>An averaged gravity still has to respond to quantum matter, so it has to keep "checking" where the matter is. That checking makes it jitter, and the jitter shakes every atom it touches. Here's how big that shaking gets:</p>
-      <ul>
-        <li>Smear the jitter at the scale where this framework counts its building blocks (section 3), and it would heat <strong>every kilogram of matter by about 0.5 W</strong>.</li>
-        <li>That's <strong>6×10¹⁰ times</strong> the heat flowing out of the Earth's own interior. Nothing like it is observed.</li>
-        <li>So gravity follows each branch, like sound in a crystal follows each atom, rather than being an average like temperature.</li>
-      </ul>
-      <p><strong>And gravity doesn't collapse superpositions by itself.</strong> Splitting a tiny diamond into two places would send out about 10<sup>−59</sup> gravitons, so gravity keeps essentially no record of which branch happened. A single diamond should stay fully in its superposition, as far as gravity is concerned.</p>
+      <p>A classical gravity still has to respond to quantum matter. Work by Diósi, Tilloy and Oppenheim's group shows that this is possible only if gravity also adds a little random jitter. How much jitter is allowed is an active research question, and lab experiments are already putting limits on it.</p>
+      <p><span class="tag checked">worked example</span> These notes work through one case. If the jitter is smeared over a very small distance and has no memory, it would heat <strong>every kilogram of matter by about 0.5 W</strong>, 6×10¹⁰ times the heat flowing out of the Earth's interior. Nothing like that is observed. Change either assumption and the conclusion changes, so treat this as an illustration of how such models are tested, not as a proof that gravity is quantum.</p>
+      <p><strong>Gravity barely keeps records.</strong> On standard physics, splitting a tiny diamond into two places would send out about 10<sup>−59</sup> gravitons. So gravity by itself keeps essentially no record of which branch happened, and wouldn't destroy the superposition on its own.</p>
     </div>
 
-    <h3>The experiment that would show it</h3>
+    <h3>The experiment that could tell</h3>
     <div class="grid g3">
-      <div class="card"><h3>2.19 rad</h3><p>the gravitational phase two diamonds of 1.5×10<sup>−14</sup> kg would build up. That's enough to see entanglement clearly.</p></div>
-      <div class="card"><h3>270 runs</h3><p>about 0.6 hours of data, at the experiment's published targets, to see it.</p></div>
-      <div class="card"><h3>4×10⁸ ×</h3><p>heavier than anything put in superposition so far. This is the hard part, and it is decades of engineering away.</p></div>
+      <div class="card"><h3>2.19 rad</h3><p>the gravitational phase two diamonds of 1.5×10<sup>−14</sup> kg would build up in one design worked out here, if gravity follows each branch.</p></div>
+      <div class="card"><h3>270 runs</h3><p>about 0.6 hours of data, at the experiment's published targets, to see the entanglement.</p></div>
+      <div class="card"><h3>4×10⁸ ×</h3><p>heavier than anything put in superposition so far. This is the hard part, and it is likely decades of engineering away.</p></div>
     </div>
-    <p class="prose" style="margin-top:16px"><span class="tag cond">honest note</span> The argument against an averaged gravity rests on two stated assumptions: the jitter is smeared at the framework's own smallest scale, and it has no memory. Mainstream quantum gravity also predicts that gravity follows each branch. So if the diamonds entangle, that confirms gravity is quantum-like. If they <em>don't</em>, that would be the real surprise, and new physics.</p>
+    <p class="prose" style="margin-top:16px"><span class="tag cond">what it would mean</span> If the diamonds entangle, gravity can't be purely classical, which is what most physicists expect. If they <em>don't</em>, that would be a major surprise and new physics. Either way the experiment tests gravity itself, not the ideas on this site.</p>
 
     <details class="deeper">
       <summary>Go deeper: the branch equation and the noise floor <span>λ, Diósi–Penrose, design A</span></summary>
       <div class="body">
-        <p>Each branch i carries its own field state |E<sub>i</sub>⟩ (detectors, photons, its own Coulomb field and the tetrad e<sub>i</sub>), and its action S<sub>i</sub> includes gravity's TEGR action:</p>
+        <p>Each branch i carries its own field state |E<sub>i</sub>⟩ (detectors, photons, its own Coulomb field and the tetrad e<sub>i</sub>), and its action S<sub>i</sub> includes gravity's TEGR action. This is standard quantum bookkeeping written out for gravity; λ = 1 below means gravity follows each branch.</p>
         <div class="eq">|Ψ⟩ = Σ<sub>i</sub> c<sub>i</sub> |i⟩<sub>matter</sub> |E<sub>i</sub>⟩<sub>fields</sub> e<sup>iS<sub>i</sub>/ħ</sup><br>ρ<sub>ij</sub>(t) = ρ<sub>ij</sub>(0) · ⟨E<sub>j</sub>|E<sub>i</sub>⟩ · e<sup>i(S<sub>i</sub> − S<sub>j</sub>)/ħ</sup><br>S<sub>i</sub> = S<sub>matter</sub>[i] + S<sub>EM</sub>[i] + (c⁴/16πG) ∫ e<sub>i</sub> T[e<sub>i</sub>] d⁴x</div>
-        <p><span class="tag cond">conditional</span> A Markovian statistical gravity must carry noise; minimizing total decoherence over monitoring strength gives the Diósi–Penrose kernel 4πG/ħq² at every q (Tilloy–Diósi; Oppenheim's trade-off has the same floor). Smeared at R₀ = a, the entanglement cutoff, it heats matter at 0.5 W/kg, a figure set by the nucleus's finite size. That fixes λ = 1 (gravity follows each branch) <em>under R₀ = a and Markovian dynamics</em>. A larger R₀ put in by hand, or memory in the dynamics, escapes the argument. A single design-A diamond kept coherent for 3.24 s tests R₀ up to 455 µm.</p>
-        <p><span class="tag checked">checked here</span> Design A: m = 1.5×10<sup>−14</sup> kg, split 721 µm, Casimir-safe gap 181 µm, Δφ = 2.19 rad, 270 runs (gas-collision rate derived, not interpolated). Requirements include a vacuum below 8×10<sup>−15</sup> Pa, spin coherence above 1.4 s and vibration noise 57× below LISA Pathfinder.</p>
-        <p class="src">Reports: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/COLLECTIVE.md">COLLECTIVE.md</a>, <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/GRAVITY_ENTANGLEMENT.md">GRAVITY_ENTANGLEMENT.md</a>, <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/OPPENHEIM.md">OPPENHEIM.md</a> &middot; interactive two-diamond calculator: <a href="technical.html#experiment">technical record</a></p>
+        <p><span class="tag cond">under stated assumptions</span> A Markovian classical gravity must carry noise; minimizing total decoherence over monitoring strength gives the Diósi–Penrose kernel 4πG/ħq² at every q (Tilloy–Diósi; Oppenheim's trade-off has the same floor). Smeared at R₀ = a, the entanglement cutoff of section 3, it heats matter at 0.5 W/kg, a figure set by the nucleus's finite size. That excludes such models <em>under R₀ = a and Markovian dynamics</em>. A larger R₀, or memory in the dynamics, escapes the argument. Systematic treatments of this question are in Fabiano, Fujita, Matsumura &amp; Carney (2026) and Angeli et al. (2025); the calculation here is a worked example within that literature, not a new result.</p>
+        <p><span class="tag checked">worked example</span> Design A: m = 1.5×10<sup>−14</sup> kg, split 721 µm, Casimir-safe gap 181 µm, Δφ = 2.19 rad, 270 runs (gas-collision rate derived, not interpolated). Requirements include a vacuum below 8×10<sup>−15</sup> Pa, spin coherence above 1.4 s and vibration noise 57× below LISA Pathfinder.</p>
+        <p class="src">Notes: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/COLLECTIVE.md">COLLECTIVE.md</a>, <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/GRAVITY_ENTANGLEMENT.md">GRAVITY_ENTANGLEMENT.md</a>, <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/OPPENHEIM.md">OPPENHEIM.md</a> &middot; interactive two-diamond calculator: <a href="technical.html#experiment">research notes</a></p>
       </div>
     </details>
   </section>
 
   <!-- 3. Strength of gravity -->
   <section id="strength" aria-labelledby="strength-h">
-    <p class="eyebrow">3 &middot; Where gravity's strength comes from</p>
-    <h2 id="strength-h">Empty space isn't empty, and that sets gravity's strength</h2>
-    <div class="takeaway"><b>In one line:</b> empty space is quantum-entangled across every surface, and the amount of that entanglement per area sets how strong gravity is.</div>
+    <p class="eyebrow">3 &middot; A research idea: gravity and entanglement</p>
+    <h2 id="strength-h">Could gravity's strength come from the entanglement of empty space?</h2>
+    <div class="takeaway"><b>In one line:</b> empty space is entangled across every surface. A serious but unproven idea says Einstein's equations, and gravity's strength, follow from that entanglement.</div>
     <div class="prose">
-      <p>Quantum fields fill all of space, even a perfect vacuum. Draw any imaginary surface: the field on one side is <em>entangled</em> with the field on the other, by an amount that grows with the surface's area. We computed that amount directly.</p>
-      <p>In 1995 physicist Ted Jacobson showed something remarkable. Demand that ordinary heat-flow rules (thermodynamics) hold at every such surface, and <strong>Einstein's equations come out</strong>. Gravity's strength, Newton's constant G, is then fixed by how much entanglement there is per unit area. We rederived each step of his argument in code.</p>
-      <p>In this picture, gravity isn't added on top of quantum physics. It is what the quantum entanglement of empty space looks like on large scales.</p>
-      <p><span class="tag open">open</span> This explains <em>where</em> G comes from, but it doesn't predict G's <em>value</em>. Turned around, the measured G tells us how finely nature "counts" space: about a third of a Planck length per quantum field.</p>
+      <p><span class="tag known">established</span> Quantum fields fill all of space, even a perfect vacuum. Draw any imaginary surface: the field on one side is <em>entangled</em> with the field on the other, by an amount that grows with the surface's area. This "area law" is well known (Srednicki, 1993), and we recomputed it.</p>
+      <p><span class="tag open">open idea</span> In 1995 physicist Ted Jacobson showed something remarkable. <em>Assume</em> that ordinary heat-flow rules (thermodynamics) hold at every tiny horizon in spacetime, and <strong>Einstein's equations come out</strong>. Gravity's strength, Newton's constant G, is then tied to how much entanglement there is per unit area. We re-checked each step of his argument in code.</p>
+      <p>It's an influential idea, and it suggests gravity might not be a separate ingredient but something that emerges from quantum physics. But it rests on an assumption that hasn't been established, and physicists still debate it. It doesn't predict the value of G either: run backwards, the measured G only fixes a combination of unknowns.</p>
     </div>
     <details class="deeper">
       <summary>Go deeper: area law, Unruh, Jacobson <span>c<sub>s</sub> = 0.3046, G = πa²c³/(N c<sub>s</sub>ħ)</span></summary>
       <div class="body">
-        <p><span class="tag checked">checked here</span> Area law by Srednicki's method: S = 0.3046 (R/a)² per scalar field (literature 0.30). Modular Hamiltonian on a lattice: K = 2π × boost to 0.99997 at L = 60 (Bisognano–Wichmann), so an accelerated observer sees T = ħg/2πck<sub>B</sub>.</p>
+        <p><span class="tag checked">worked example</span> Area law by Srednicki's method: S = 0.3046 (R/a)² per scalar field (literature 0.30). Modular Hamiltonian on a lattice: K = 2π × boost to 0.99997 at L = 60 (Bisognano–Wichmann), so an accelerated observer sees T = ħg/2πck<sub>B</sub> (the Unruh effect).</p>
         <div class="eq">δQ = T δS on every local horizon &nbsp;⇒&nbsp; G<sub>μν</sub> + Λg<sub>μν</sub> = (8πG/c⁴) T<sub>μν</sub><br>1/(4Għ) = entanglement per area &nbsp;⇒&nbsp; G = π a² c³ / (N c<sub>s</sub> ħ), &nbsp; c<sub>s</sub> = 0.3046</div>
-        <p>Jacobson's step is derived symbolically: Raychaudhuri, the null-vector lemma and the contracted Bianchi identity. Its premise, local equilibrium on every local horizon, is assumed. The measured G fixes a²/N: a = 0.31 ℓ<sub>P</sub> for one field and 3.1 ℓ<sub>P</sub> for a hundred. Caveats: c<sub>s</sub> depends on the regulator, and for gauge fields the area-law coefficient includes contact terms (Kabat 1995), so the identification is cleanest for scalars and fermions.</p>
-        <p class="src">Reports: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/DERIVATION.md">DERIVATION.md</a>, <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/UNIFICATION.md">UNIFICATION.md</a>, <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/EMERGENT.md">EMERGENT.md</a> &middot; code: <code>src/stur_unification.py</code>, <code>src/stur_jacobson.py</code></p>
+        <p>Jacobson's algebra is re-derived symbolically: Raychaudhuri, the null-vector lemma and the contracted Bianchi identity. Its premise, local equilibrium on every local horizon, is assumed. The measured G fixes only a²/N, the cutoff a against the number of fields N. Caveats: c<sub>s</sub> depends on the regulator, and for gauge fields the area-law coefficient includes contact terms (Kabat 1995), so the identification is cleanest for scalars and fermions.</p>
+        <p class="src">Notes: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/DERIVATION.md">DERIVATION.md</a>, <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/UNIFICATION.md">UNIFICATION.md</a>, <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/EMERGENT.md">EMERGENT.md</a> &middot; code: <code>src/stur_unification.py</code>, <code>src/stur_jacobson.py</code></p>
       </div>
     </details>
   </section>
 
   <!-- 4. Measurement -->
   <section id="measurement" aria-labelledby="meas-h">
-    <p class="eyebrow">4 &middot; What measurement really is</p>
+    <p class="eyebrow">4 &middot; What measurement really does</p>
     <h2 id="meas-h">Records, not observers</h2>
-    <div class="takeaway"><b>In one line:</b> a quantum outcome becomes definite when the surroundings keep a record of it. Nobody has to look.</div>
+    <div class="takeaway"><b>In one line:</b> interference disappears when the surroundings keep a record of which path was taken. Nobody has to look.</div>
     <div class="prose">
-      <p>Send particles through two slits and you get stripes, an interference pattern. Put a detector at the slits and the stripes fade. The usual story says "observing changes reality". The physics is more down to earth: <strong>the stripes fade by exactly as much as the detector recorded which slit was used</strong>. The detector doesn't need to be read, switched on to a screen or noticed by anyone. A stray air molecule or photon carrying the information works just as well.</p>
+      <p>Send particles through two slits and you get stripes, an interference pattern. Put a detector at the slits and the stripes fade. The popular story says "observing changes reality". The physics is more down to earth: <strong>the stripes fade by exactly as much as the detector recorded which slit was used</strong>. The detector doesn't need to be read, switched on to a screen or noticed by anyone. A stray air molecule or photon carrying the information works just as well. Physicists call this <em>decoherence</em>.</p>
       <p>Try it. Slide the detector strength and watch the fringe contrast and the path information trade off. Their squares always add up to exactly 1.</p>
     </div>
     <div class="card" style="margin-top:12px">
@@ -262,18 +258,19 @@
         </div>
       </div>
     </div>
+    <p class="prose" style="margin-top:16px"><span class="tag open">still debated</span> Decoherence explains why interference vanishes and why big objects look classical. It doesn't, by itself, say why we see one particular outcome rather than another. That is the "measurement problem", and the different interpretations of quantum mechanics answer it differently.</p>
     <div class="grid g3" style="margin-top:16px">
-      <div class="card"><h3>Why probabilities are what they are</h3><p>Quantum chance follows one exact rule: probability = amplitude squared. Here it's derived rather than taken as given: it's the only rule that adds up to 1 and can't be used to send messages faster than light.</p></div>
-      <div class="card"><h3>The electron isn't split in half</h3><p>An electron's own electric field is in both branches, but as a possibility, not as half a charge in each. A literally split charge would bind hydrogen at 6.64 eV, against the measured 13.60 eV.</p></div>
-      <div class="card"><h3>A test you could run in a lab</h3><p>Fringe loss counts the spread in exchanged energy quanta, so heat destroys more of it. A single trapped ion's contrast should fall from 0.787 to 0.111 as its motion warms from 0.1 to 5 quanta.</p></div>
+      <div class="card"><h3>Why probabilities are what they are</h3><p>Quantum chance follows one exact rule: probability = amplitude squared (the Born rule). Well-known arguments by Gleason (1957) and Zurek (2005) show it's the only consistent rule, given some reasonable assumptions, such as no faster-than-light messages. Whether those assumptions are fully innocent is still debated.</p></div>
+      <div class="card"><h3>The electron isn't split in half</h3><p>An electron's own electric field is in both branches, but as a possibility, not as half a charge in each. A quick check: a literally split charge would bind hydrogen at 6.64 eV, against the measured 13.60 eV.</p></div>
+      <div class="card"><h3>A worked lab example</h3><p>Fringe loss counts the spread in exchanged energy quanta, so heat destroys more of it. For a single trapped ion, contrast falls from 0.787 to 0.111 as its motion warms from 0.1 to 5 quanta.</p></div>
     </div>
     <details class="deeper">
-      <summary>Go deeper: visibility, the Born rule and the ion test <span>V = |⟨E₁|E₂⟩|, −ln V = 2 Var(ΔN)</span></summary>
+      <summary>Go deeper: visibility, the Born rule and the ion example <span>V = |⟨E₁|E₂⟩|, −ln V = 2 Var(ΔN)</span></summary>
       <div class="body">
-        <p><span class="tag known">known physics</span> V = |⟨E₁|E₂⟩| and the complementarity D² + V² = 1 (Englert 1996). In the demo, ⟨E₁|E₂⟩ = cos θ, with θ running from 0° to 90° across the slider. <code>src/stur_measurement.py</code> T3 gives D² + V² = 1.000000 at every angle.</p>
-        <p><span class="tag checked">derived here</span> Born rule by four routes: envariance with fine-graining (Zurek), Gleason-type additivity (only F(x) = x is additive, to 10<sup>−15</sup>), no-signalling (every other power signals), and branch frequencies. Caveat: envariance assumes probabilities exist and depend only on the state (Schlosshauer &amp; Fine 2005). The additivity and no-signalling routes don't.</p>
-        <div class="eq">V = ⟨(−1)<sup>ΔN</sup>⟩, &nbsp; −ln V = 2 Var(ΔN) = 2⟨ΔN⟩ coth(ħω / 2k<sub>B</sub>T) <span class="c">// this project's identity</span></div>
-        <p class="src">Reports: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/MEASUREMENT.md">MEASUREMENT.md</a>, <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/BORN.md">BORN.md</a>, <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/PREDICTIONS.md">PREDICTIONS.md</a> &middot; code: <code>src/stur_born.py</code>, <code>src/stur_lab_test.py</code></p>
+        <p><span class="tag known">established</span> V = |⟨E₁|E₂⟩| and the complementarity D² + V² = 1 (Englert 1996). In the demo, ⟨E₁|E₂⟩ = cos θ, with θ running from 0° to 90° across the slider. <code>src/stur_measurement.py</code> T3 gives D² + V² = 1.000000 at every angle.</p>
+        <p><span class="tag checked">worked example</span> The Born rule by four published routes, each reproduced numerically: envariance with fine-graining (Zurek), Gleason-type additivity (only F(x) = x is additive, to 10<sup>−15</sup>), no-signalling (every other power signals), and branch frequencies. Caveat: envariance assumes probabilities exist and depend only on the state (Schlosshauer &amp; Fine 2005). The additivity and no-signalling routes don't, but they assume non-contextuality and locality.</p>
+        <div class="eq">V = ⟨(−1)<sup>ΔN</sup>⟩, &nbsp; −ln V = 2 Var(ΔN) = 2⟨ΔN⟩ coth(ħω / 2k<sub>B</sub>T) <span class="c">// for the displaced-oscillator example</span></div>
+        <p class="src">Notes: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/MEASUREMENT.md">MEASUREMENT.md</a>, <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/BORN.md">BORN.md</a>, <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/PREDICTIONS.md">PREDICTIONS.md</a> &middot; code: <code>src/stur_born.py</code>, <code>src/stur_lab_test.py</code></p>
       </div>
     </details>
   </section>
@@ -282,16 +279,16 @@
   <section id="myths" aria-labelledby="myths-h">
     <p class="eyebrow">Myths vs. physics</p>
     <h2 id="myths-h">What quantum physics does not say</h2>
-    <p class="lede">A lot of what circulates as "quantum" is mysticism with physics words attached. Here is what the physics on this page actually says.</p>
+    <p class="lede">A lot of what circulates as "quantum" is mysticism with physics words attached. Here is what mainstream physics actually says.</p>
     <div class="grid g2">
-      <div class="card myth"><div class="claim">Consciousness, or "the observer", creates reality.</div><div class="fix">Outcomes become definite when the surroundings record them. A photon or an air molecule is enough, and no mind is involved (section 4).</div></div>
-      <div class="card myth"><div class="claim">Entanglement lets you send messages instantly.</div><div class="fix">Entangled correlations appear at a distance, but they can't carry a message. The same rule that sets quantum probabilities forbids it (section 4).</div></div>
+      <div class="card myth"><div class="claim">Consciousness, or "the observer", creates reality.</div><div class="fix">Interference is lost whenever the surroundings record which path was taken. A photon or an air molecule is enough, and no mind is involved (section 4). Mainstream physics gives consciousness no special role.</div></div>
+      <div class="card myth"><div class="claim">Entanglement lets you send messages instantly.</div><div class="fix">Entangled correlations appear at a distance, but they can't carry a message. This "no-signalling" rule is built into quantum theory and confirmed by experiment.</div></div>
       <div class="card myth"><div class="claim">Your thoughts or intentions can change quantum outcomes.</div><div class="fix">The odds are fixed by amplitude squared, confirmed to many decimal places. No controlled experiment has found intention moving them.</div></div>
-      <div class="card myth"><div class="claim">An electron is a tiny ball, or a cloud of charge smeared out in space.</div><div class="fix">Neither. Its field is in each branch as a possibility. A charge literally spread out would give hydrogen the wrong energy, 6.64 eV instead of 13.60 eV.</div></div>
+      <div class="card myth"><div class="claim">An electron is a tiny ball, or a cloud of charge smeared out in space.</div><div class="fix">Neither picture works. Quantum theory describes it with amplitudes, not a ball or a literal cloud. A charge literally spread out would give hydrogen the wrong energy, 6.64 eV instead of 13.60 eV.</div></div>
       <div class="card myth"><div class="claim">"Quantum" healing, energy and wellness products.</div><div class="fix">Warm, large, wet objects like bodies are constantly recorded by their surroundings, so their quantum superpositions vanish almost instantly. "Quantum" on a label isn't physics.</div></div>
-      <div class="card myth"><div class="claim">Gravity and quantum physics can't be talked about together.</div><div class="fix">At lab scales they fit: gravity is a field, and each branch carries its own (sections 1–2). The genuinely hard problems are at far smaller scales, like black-hole interiors.</div></div>
-      <div class="card myth"><div class="claim">Einstein said space is curved, so a "twist" picture must be wrong.</div><div class="fix">They are two ways of writing the same theory. Einstein explored the twist version himself, and both give identical predictions (section 1).</div></div>
-      <div class="card myth"><div class="claim">Physicists just assume the quantum probability rule.</div><div class="fix">It can be derived. It's the only rule that is self-consistent and doesn't allow faster-than-light messages (section 4).</div></div>
+      <div class="card myth"><div class="claim">Physicists have no idea how gravity and quantum physics fit together.</div><div class="fix">At everyday energies physicists routinely calculate small quantum effects of gravity. What's untested is whether gravity really is quantum, which is what the diamond experiments aim to check (section 2). The hard open problems are at tiny scales, like black-hole interiors and the Big Bang.</div></div>
+      <div class="card myth"><div class="claim">Einstein said space is curved, so a "twist" picture must be wrong.</div><div class="fix">They are two ways of writing the same theory, with identical predictions. Einstein explored a closely related idea himself in 1928 (section 1).</div></div>
+      <div class="card myth"><div class="claim">The quantum probability rule is arbitrary.</div><div class="fix">It's tightly constrained. Gleason's theorem and related arguments show that, given reasonable assumptions, amplitude squared is the only consistent rule (section 4).</div></div>
     </div>
   </section>
 
@@ -299,49 +296,54 @@
   <section id="status" aria-labelledby="status-h">
     <p class="eyebrow">How sure is each piece?</p>
     <h2 id="status-h">Every claim carries a label</h2>
-    <p class="lede">Trust comes from saying exactly what is established, what is checked, and what is still open.</p>
-    <div class="grid g2">
-      <div class="card"><p><span class="tag known">known physics</span></p><p>Published and tested: gravity as torsion (TEGR, equivalent to Einstein's theory), records erasing interference, Jacobson's thermodynamic route to Einstein's equations.</p></div>
-      <div class="card"><p><span class="tag checked">checked here</span></p><p>Every number on this page is recomputed by about 50 open scripts and pinned by 121 automated tests that run on every change.</p></div>
-      <div class="card"><p><span class="tag cond">conditional</span></p><p>Gravity follows each branch: derived under two stated assumptions (section 2). Mainstream quantum gravity predicts the same.</p></div>
-      <div class="card"><p><span class="tag open">open</span></p><p>The two-diamond experiment hasn't been done. The value of G and the list of particles that exist are not derived; they are measured inputs.</p></div>
+    <p class="lede">Trust comes from saying exactly what is established, what is a worked example, and what is still open. This is an independent education project and has not been peer reviewed. Where it goes beyond textbook physics, it says so.</p>
+    <div class="grid g4">
+      <div class="card"><p><span class="tag known">established</span></p><p>Published and tested: gravity as torsion (TEGR, equivalent to Einstein's theory), records erasing interference (decoherence), the entanglement area law, the Unruh effect.</p></div>
+      <div class="card"><p><span class="tag checked">worked example</span></p><p>Calculations done here to illustrate or check known physics. The numbers on this page come from about 50 open scripts and are pinned by automated tests that run on every change.</p></div>
+      <div class="card"><p><span class="tag cond">under stated assumptions</span></p><p>The argument against one class of classical-gravity models (section 2). It holds only under the assumptions stated next to it.</p></div>
+      <div class="card"><p><span class="tag open">open</span></p><p>Whether gravity is quantum: the diamond experiments haven't been done. Whether gravity emerges from entanglement (section 3). Why we see one outcome (section 4).</p></div>
     </div>
   </section>
 
-  <!-- Share -->
-  <section id="share" aria-labelledby="share-h">
-    <p class="eyebrow">Share it</p>
-    <h2 id="share-h">Ready-to-post summaries</h2>
-    <p class="lede">Each one fits a single post on X and links straight to its section. Everything here is CC0: copy, remix and repost freely.</p>
-    <div class="grid g2" id="share-list"></div>
-  </section>
-
-  <!-- Deeper -->
+  <!-- Learn more -->
   <section id="deeper" aria-labelledby="deeper-h">
-    <p class="eyebrow">Go deeper</p>
-    <h2 id="deeper-h">For physicists, students and skeptics</h2>
-    <div class="grid g3">
-      <div class="card"><h3><a href="technical.html">The technical record</a></h3><p>The full step-by-step derivation, the Born-rule tables, and an interactive two-diamond entanglement calculator.</p></div>
-      <div class="card"><h3><a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/DERIVATION.md">The derivation</a></h3><p>From quantum fields to the equation, one labelled step at a time, with every assumption named.</p></div>
-      <div class="card"><h3><a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/PREDICTIONS.md">The predictions</a></h3><p>Every number an experiment could measure, with the requirements to measure it.</p></div>
-      <div class="card"><h3><a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/CONSISTENCY.md">Open tensions</a></h3><p>What was checked, what was fixed, and what is still unresolved.</p></div>
-      <div class="card"><h3><a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/NOTE_331.md">Three colours, three generations</a></h3><p>A separate particle-physics note: why "3" may be selected in 3-3-1 models.</p></div>
-      <div class="card"><h3><a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab">The code</a></h3><p>Every script, result and test. Found a mistake? Open an issue.</p></div>
-    </div>
-    <h3 style="margin-top:28px">Check it yourself</h3>
+    <p class="eyebrow">Learn more</p>
+    <h2 id="deeper-h">For students, teachers and the curious</h2>
+    <div class="grid g2">
+      <div class="card">
+        <h3>Further reading</h3>
+        <ul class="small">
+          <li>W. H. Zurek, "Decoherence and the transition from quantum to classical", <em>Physics Today</em> 44, 36 (1991)</li>
+          <li>R. Aldrovandi &amp; J. G. Pereira, <em>Teleparallel Gravity: An Introduction</em> (Springer, 2013)</li>
+          <li>S. Bose et al., and C. Marletto &amp; V. Vedral, the two-mass entanglement proposals, <em>Phys. Rev. Lett.</em> 119, 240401 and 240402 (2017)</li>
+          <li>J. Oppenheim et al., "Gravitationally induced decoherence vs space-time diffusion", <em>Nat. Commun.</em> (2023)</li>
+          <li>T. Jacobson, "Thermodynamics of spacetime: the Einstein equation of state", <em>Phys. Rev. Lett.</em> 75, 1260 (1995)</li>
+          <li>B.-G. Englert, "Fringe visibility and which-way information: an inequality", <em>Phys. Rev. Lett.</em> 77, 2154 (1996)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Check it yourself</h3>
+        <p class="small">Every number on this page comes from a script you can run.</p>
 <pre>git clone https://github.com/sheldonlindberg-afk/STUR-Physics-Lab
 cd STUR-Physics-Lab
 pip install -r requirements.txt pytest
-python3 src/stur_tegr_gr.py        # GR's classic tests from the twist picture
-python3 src/stur_derivation.py     # the whole chain, ~30 s
-python -m pytest tests -q          # every number pinned</pre>
+python3 src/stur_tegr_gr.py   # GR's classic tests, twist picture
+python -m pytest tests -q     # every number pinned</pre>
+      </div>
+    </div>
+    <div class="grid g4" style="margin-top:16px">
+      <div class="card"><h3><a href="technical.html">Research notes</a></h3><p>The author's working notes, with the Born-rule tables and an interactive two-diamond calculator. Not peer reviewed.</p></div>
+      <div class="card"><h3><a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/CONSISTENCY.md">Open tensions</a></h3><p>What was checked, what was corrected, and what is still unresolved.</p></div>
+      <div class="card"><h3><a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab">The code</a></h3><p>Every script, result and test. Found a mistake? Please open an issue.</p></div>
+      <div class="card"><h3><a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/NOTE_331.md">Three colours, three generations</a></h3><p>A separate particle-physics note on why "3" may be selected in one family of models. Conditional, and not peer reviewed.</p></div>
+    </div>
   </section>
 </main>
 
 <footer>
   <div class="foot">
-    <span>Sheldon Lindberg &middot; STUR Physics Lab &middot; CC0 1.0, free to share &middot; <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab">GitHub</a></span>
-    <span><a href="technical.html">Technical record</a> &middot; <a href="archive/resistance-equation/index.html">How it started: the resistance equation</a></span>
+    <span>Sheldon Lindberg &middot; STUR Physics Lab &middot; CC0 1.0 &middot; <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab">GitHub</a></span>
+    <span><a href="technical.html">Research notes</a> &middot; <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/issues">Report a mistake</a></span>
   </div>
 </footer>
 
@@ -434,35 +436,6 @@ python -m pytest tests -q          # every number pinned</pre>
   if (sl) { sl.addEventListener("input", draw); draw(); }
   if (window.matchMedia) window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", draw);
 
-  // Shareable posts.
-  var BASE = "https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/";
-  var posts = [
-    { id: "twist", text: "Einstein's gravity can be written two ways. Curved space is the famous one. The other keeps space flat and gives every point its own rulers and clock; gravity is how neighbouring rulers twist. Same predictions: Mercury's orbit, bending light, GPS." },
-    { id: "quantum", text: "Where is the gravity of something that's in two places at once? Each version carries its own gravity field. The alternative, an averaged gravity, would heat every kilogram of matter about 6×10¹⁰× faster than the Earth's own heat flow." },
-    { id: "measurement", text: "No, your mind doesn't collapse the wave function. Interference fades exactly as much as the surroundings record which path a particle took. A stray photon is enough; nobody has to look. Try the slider:" },
-    { id: "strength", text: "Gravity's strength may be written in the entanglement of empty space. Demand ordinary thermodynamics on every tiny horizon and Einstein's equations come out (Jacobson, 1995). Every number here is checked by open code." },
-    { id: "myths", text: "\"Quantum\" doesn't mean consciousness creates reality, instant messaging through entanglement, or quantum healing. Eight common myths, and what the physics actually says:" }
-  ];
-  var list = document.getElementById("share-list");
-  function copy(text, btn) {
-    function done() { var o = btn.textContent; btn.textContent = "Copied"; setTimeout(function () { btn.textContent = o; }, 1400); }
-    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback); else fallback();
-    function fallback() { var ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); done(); } catch (e) {} ta.remove(); }
-  }
-  if (list) posts.forEach(function (p) {
-    var url = BASE + "#" + p.id, full = p.text + " " + url;
-    var card = document.createElement("div"); card.className = "card share";
-    var q = document.createElement("blockquote"); q.textContent = p.text; card.appendChild(q);
-    var row = document.createElement("div"); row.className = "row";
-    var b = document.createElement("button"); b.className = "btn"; b.type = "button"; b.textContent = "Copy post";
-    b.addEventListener("click", function () { copy(full, b); }); row.appendChild(b);
-    var x = document.createElement("a"); x.className = "btn"; x.target = "_blank"; x.rel = "noopener";
-    x.href = "https://x.com/intent/post?text=" + encodeURIComponent(p.text) + "&url=" + encodeURIComponent(url); x.textContent = "Post on X"; row.appendChild(x);
-    var f = document.createElement("a"); f.className = "btn"; f.target = "_blank"; f.rel = "noopener";
-    f.href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url); f.textContent = "Share on Facebook"; row.appendChild(f);
-    var n = document.createElement("span"); n.className = "count"; n.textContent = (p.text.length + 24) + "/280"; row.appendChild(n);
-    card.appendChild(row); list.appendChild(card);
-  });
 })();
 </script>
 </body>
