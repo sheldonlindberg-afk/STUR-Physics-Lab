@@ -292,6 +292,14 @@
       <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/NOTE_331.md">Extended notes</a>
       <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/NOVELTY.md">Literature search</a>
     </div>
+    <h3 id="run331" style="margin-top:28px">Run the 3-3-1 selection yourself</h3>
+    <p class="prose">One Python file reproduces the whole chain: charges and anomalies for general N<sub>c</sub>, N<sub>g</sub> = N<sub>c</sub>, the Standard Model calibration, SU(3)<sub>L</sub> and two-loop U(1)<sub>X</sub> running with Yukawas, one-loop thresholds across the heavy spectrum, and the R-ratio check. It needs only the Python standard library, so it runs as pasted in any Python 3.8+ runner, notebook or AI assistant's code tool. It takes about 15 seconds and ends with 20 PASS/FAIL checks against the numbers pinned in this repository.</p>
+    <div class="cta">
+      <button class="btn primary" type="button" id="copy331" data-src="src/m331_standalone.py">Copy Python script</button>
+      <a class="btn" href="src/m331_standalone.py" download="m331_standalone.py">Download .py</a>
+      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/src/m331_standalone.py">View on GitHub</a>
+    </div>
+    <p class="src" id="copy331-status" role="status" aria-live="polite">Pasting into an AI assistant? Add “Run this and explain the results.” Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/m331/standalone.txt">results/m331/standalone.txt</a></p>
     <h3 style="margin-top:28px">Also here: classical–quantum gravity bounds</h3>
     <p class="prose muted">Worked examples within the Tilloy–Diósi and Oppenheim literature: the decoherence–diffusion trade-off minimized to the Diósi–Penrose floor, and the acceleration-noise floor that a coherent levitated diamond would imply for any classical–quantum gravity. These are not new results; see <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/OPPENHEIM.md">OPPENHEIM.md</a>.</p>
   </section>
@@ -470,6 +478,37 @@ jupyter lab notebooks/</pre>
     document.getElementById("sum-out").textContent = (V * V + D * D).toFixed(3);
   }
   if (sl) { sl.addEventListener("input", draw); draw(); }
+
+  // Copy the standalone 3-3-1 script to the clipboard.
+  var cp = document.getElementById("copy331"), cps = document.getElementById("copy331-status");
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+    return new Promise(function (ok, fail) {
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      var done = false;
+      try { done = document.execCommand("copy"); } catch (e) {}
+      document.body.removeChild(ta);
+      done ? ok() : fail(new Error("copy blocked"));
+    });
+  }
+  if (cp) cp.addEventListener("click", function () {
+    var label = cp.textContent;
+    cp.disabled = true; cp.textContent = "Copying…";
+    fetch(cp.getAttribute("data-src"), { cache: "no-cache" })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
+      .then(copyText)
+      .then(function () {
+        cp.textContent = "Copied ✓";
+        cps.textContent = "Copied. Paste it into any Python runner, or into an AI assistant with “Run this and explain the results.”";
+      })
+      .catch(function () {
+        cp.textContent = label;
+        cps.innerHTML = 'Couldn’t copy automatically. Use <a href="src/m331_standalone.py" download>Download .py</a>, or open it and copy all.';
+      })
+      .then(function () { setTimeout(function () { cp.textContent = label; cp.disabled = false; }, 2500); });
+  });
   if (window.matchMedia) window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", draw);
 
 })();

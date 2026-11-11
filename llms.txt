@@ -41,6 +41,9 @@
 
 ## Key files
 - /paper/note331.pdf — the 3-3-1 note (LaTeX source: /paper/note331.tex)
+- /src/m331_standalone.py — the 3-3-1 selection in one file, standard library only:
+  paste into any Python runner or AI code tool and run; it ends with 20 PASS/FAIL checks
+  (expected output: /results/m331/standalone.txt)
 - /notebooks/ — four study notebooks with exercises
 - /index.html — worked examples: TEGR, is gravity quantum?, gravity and entanglement,
   decoherence, the 3-3-1 note, misconceptions for teaching
