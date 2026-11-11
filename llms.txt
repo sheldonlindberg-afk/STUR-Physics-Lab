@@ -1,13 +1,14 @@
-# STUR Physics Lab — AI/LLM information
+# Gravity and the Quantum: Worked Examples — AI/LLM information
 
-> STUR Physics Lab: a science-education project and research notes (not peer
-> reviewed). The site is a plain-language guide to gravity as torsion (TEGR), the open
-> question of whether gravity is quantum, the entanglement of empty space, decoherence
-> and common quantum myths, with established physics, worked examples and open
-> questions labelled separately. The research notes write known physics as one
-> bookkeeping equation, rho_ij(t) = rho_ij(0) <E_j|E_i> exp(i(S_i - S_j)/hbar), with
-> gravity's TEGR action in S_i and Jacobson's hypothesis G = pi a^2 c^3 / (N c_s hbar),
-> c_s = 0.3046. It is a synthesis, not a new theory.
+> Reproducible worked examples at the gravity-quantum interface, for physics students
+> and physicists, plus one research note (independent work, not peer reviewed). Topics:
+> teleparallel gravity (TEGR) and GR's classic tests, decoherence and complementarity,
+> the entanglement area law, Jacobson's argument, and the Bose-Marletto-Vedral
+> two-mass experiment. The research note: in 3-3-1 models, Planck-scale perturbativity
+> selects N_c = N_g = 3 (conditional; paper/note331.pdf). The research notes collect
+> known physics as one bookkeeping equation, rho_ij(t) = rho_ij(0) <E_j|E_i>
+> exp(i(S_i - S_j)/hbar), with gravity's TEGR action in S_i. It is a synthesis, not a
+> new theory.
 
 ## Research notes (DERIVATION.md)
 - Born rule: published arguments (Zurek, Gleason, no-signalling) reproduced; each
@@ -39,11 +40,13 @@
   one trapped ion, contrast 0.787 -> 0.111 from nbar = 0.1 to 5.
 
 ## Key files
-- /index.html — plain-language guide: gravity as a twist (TEGR), is gravity quantum?,
-  gravity and entanglement (open idea), decoherence, common myths
+- /paper/note331.pdf — the 3-3-1 note (LaTeX source: /paper/note331.tex)
+- /notebooks/ — four study notebooks with exercises
+- /index.html — worked examples: TEGR, is gravity quantum?, gravity and entanglement,
+  decoherence, the 3-3-1 note, misconceptions for teaching
 - /technical.html — research notes, with the interactive calculators
-- /DERIVATION.md, /PREDICTIONS.md, /COLLECTIVE.md
+- /DERIVATION.md, /PREDICTIONS.md, /COLLECTIVE.md, /OPPENHEIM.md
 - /src/stur_derivation.py — the whole chain
-- /src/stur_thermo_gravity.py — why gravity follows each branch
+- /src/stur_thermo_gravity.py — why gravity follows each branch (conditional)
 - /src/stur_oppenheim.py — Oppenheim's trade-off and the one-particle bound
-- /NOTE_331.md — 3 colours = 3 generations from 3-3-1 running
+- /NOTE_331.md — the 3-3-1 note with extended detail

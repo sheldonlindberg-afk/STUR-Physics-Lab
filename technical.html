@@ -5,17 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#07090d" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f6f8fa" media="(prefers-color-scheme: light)">
-<title>STUR Research Notes</title>
+<title>Research Notes: Measurement and Gravity</title>
 <meta name="description" content="Research notes, not peer reviewed: known physics of measurement and gravity (decoherence, Born-rule arguments, Jacobson's thermodynamic argument, teleparallel gravity) organised into one bookkeeping equation and recomputed in code, with a worked two-diamond test of whether gravity is quantum. Every step labelled; every number reproduced by a script.">
-<meta property="og:title" content="STUR research notes: measurement and gravity, worked through in code">
+<meta property="og:title" content="Research notes: measurement and gravity, worked through in code">
 <meta property="og:description" content="Known physics of measurement and gravity, organised into one equation and recomputed in code: Born-rule arguments, gravity as TEGR torsion, Jacobson's argument, GR's classic tests and a worked two-diamond entanglement design. Not peer reviewed.">
-<meta property="og:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/4.13.png">
+<meta property="og:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/og-card.png">
 <meta property="og:url" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/technical.html">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
 <link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" href="assets/4.13.png">
-<link rel="apple-touch-icon" href="assets/4.13.png">
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<link rel="apple-touch-icon" href="assets/icons/icon-192.png">
 <link rel="stylesheet" href="assets/css/stur-roll-app.css">
 <link rel="stylesheet" href="assets/css/stur-resistance.css">
 <link rel="stylesheet" href="assets/css/stur-quantum.css">
@@ -23,7 +23,7 @@
 {
   "@context": "https://schema.org",
   "@type": "CreativeWork",
-  "name": "STUR research notes: measurement and gravity, worked through in code",
+  "name": "Research notes: measurement and gravity, worked through in code",
   "author": {"@type": "Person", "name": "Sheldon Lindberg"},
   "datePublished": "2026-11-10",
   "url": "https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/",
@@ -32,12 +32,12 @@
 }
 </script>
 </head>
-<body data-mode="plain">
+<body data-mode="tech">
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="top">
   <div class="top-inner">
-    <a class="brand" href="index.html"><img src="assets/4.13.png" alt="" width="30" height="30">STUR</a>
+    <a class="brand" href="index.html"><img src="assets/logo.svg" alt="" width="30" height="30">Gravity &amp; Quantum</a>
     <nav class="nav" aria-label="Sections">
       <a href="#equation">Equation</a>
       <a href="#chain">Derivation</a>
@@ -50,8 +50,8 @@
       <a href="#reproduce">Reproduce</a>
     </nav>
     <div class="mode" role="group" aria-label="Reading level">
-      <button type="button" data-set-mode="plain" aria-pressed="true">Plain</button>
-      <button type="button" data-set-mode="tech" aria-pressed="false">Technical</button>
+      <button type="button" data-set-mode="plain" aria-pressed="false">Plain</button>
+      <button type="button" data-set-mode="tech" aria-pressed="true">Technical</button>
     </div>
   </div>
 </header>
@@ -60,7 +60,7 @@
   <!-- Hero -->
   <div class="hero" id="top">
     <div>
-      <p class="eyebrow">Research notes &middot; not peer reviewed &middot; <a href="index.html">&larr; plain-language guide</a></p>
+      <p class="eyebrow">Research notes &middot; not peer reviewed &middot; <a href="index.html">&larr; worked examples</a></p>
       <h1>Measurement and gravity, <span>worked through in code</span>.</h1>
       <div class="eq" aria-label="The equation">
         <div class="row"><span>&rho;<sub>ij</sub>(t) = &rho;<sub>ij</sub>(0) &middot; &langle;E<sub>j</sub>|E<sub>i</sub>&rangle; &middot; e<sup>i(S<sub>i</sub> &minus; S<sub>j</sub>)/&#8463;</sup></span></div>
@@ -70,14 +70,14 @@
       </div>
       <p class="lede plain">These notes take known pieces of physics (decoherence, the Born-rule arguments of Gleason and Zurek, Jacobson's thermodynamic argument and teleparallel gravity) and write them as one bookkeeping equation, then recompute each piece in code. Each branch of a superposition carries its own version of the fields around it; whether branches can still interfere depends on whether those fields kept a record. Whether gravity also follows each branch is an open experimental question, and the notes work out what a two-diamond experiment would see.</p>
       <p class="small muted"><b>Status:</b> a synthesis of known physics with computed checks, not a new theory and not peer reviewed. Gravity following each branch (&lambda; = 1) is what standard (perturbative) quantum gravity predicts, so the diamond experiments test classical gravity, not these notes. <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab#where-this-stands">Where this stands</a>.</p>
-      <p class="lede tech">Branch i of the matter sources field states |E<sub>i</sub>&rangle; (detectors, photons, its own Coulomb field, the tetrad e<sub>i</sub>). Interference is weighted by the record overlap &langle;E<sub>j</sub>|E<sub>i</sub>&rangle;, phases by the action difference including the TEGR field action. G follows from the vacuum area law (Srednicki) and Jacobson's Clausius argument; the Born rule follows from envariance, additivity and no-signaling.</p>
+      <p class="lede tech">Branch i of the matter sources field states |E<sub>i</sub>&rangle; (detectors, photons, its own Coulomb field, the tetrad e<sub>i</sub>). Interference is weighted by the record overlap &langle;E<sub>j</sub>|E<sub>i</sub>&rangle;, phases by the action difference including the TEGR field action. Jacobson's hypothesis ties G to the vacuum area-law coefficient (Srednicki), assuming local equilibrium on every horizon; the Born rule is reproduced by envariance, additivity and no-signalling, each under its stated assumptions. Writing every channel in one place has a practical use: each decoherence source, gravity's own field included, enters as one factor of the record overlap, so they are tallied and compared on the same footing.</p>
       <div class="cta">
         <a class="btn primary" href="#slit">Watch a record erase the fringes &rarr;</a>
         <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/DERIVATION.md">Read the derivation</a>
       </div>
       <div class="stats">
         <div class="stat"><b>42.98&Prime;</b><span>Mercury's perihelion per century, from the TEGR solution alone</span></div>
-        <div class="stat"><b>0.3047</b><span>vacuum entanglement per area, which sets G</span></div>
+        <div class="stat"><b>0.3046</b><span>area-law coefficient c<sub>s</sub> of a free scalar (Srednicki: 0.30), which Jacobson's hypothesis ties to G</span></div>
         <div class="stat"><b>6&times;10<sup>10</sup></b><span>times the Earth's heat flow: one class of classical gravity, under the assumptions stated below</span></div>
       </div>
     </div>
@@ -252,7 +252,7 @@
           <div><b id="wp-s">&mdash;</b><span>D&sup2; + V&sup2;</span></div>
           <div><b>e</b><span><span class="plain">charge per detection: always whole</span><span class="tech">never e/2 per slit</span></span></div>
         </div>
-        <div class="callout"><b>The electron's own field</b>The electron's electric field is in both branches too. In empty space it leaves no lasting record, so fringes survive. Near a surface, image charges record the path and the fringes fade (Sonnentag &amp; Hasselbach 2007). A charge literally split in half is excluded: hydrogen would bind at 6.64 eV instead of 13.60 eV.</div>
+        <div class="callout"><b>The electron's own field</b>The electron's electric field is in both branches too. In empty space it leaves no lasting record, so fringes survive. Near a surface, image charges record the path and the fringes fade (Sonnentag &amp; Hasselbach 2007). A semiclassical self-interacting charge, the electromagnetic analogue of the Schrödinger–Newton equation, is excluded: hydrogen would bind at 6.64 eV instead of 13.60 eV.</div>
       </div>
     </div>
   </section>
@@ -452,7 +452,7 @@ python -m pytest tests/ -q       # every number pinned</code></pre>
 <footer>
   <div class="foot">
     <span>&copy; 2026 Sheldon Lindberg &middot; CC0 1.0 &middot; <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab">GitHub</a></span>
-    <span><a href="index.html">Plain-language guide</a> &middot; <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/issues">Report a mistake</a></span>
+    <span><a href="index.html">Worked examples</a> &middot; <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/issues">Report a mistake</a></span>
   </div>
 </footer>
 

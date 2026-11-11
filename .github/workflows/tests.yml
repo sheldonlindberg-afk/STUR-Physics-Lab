@@ -1,4 +1,4 @@
-name: Reproduce STUR
+name: Reproduce
 
 on:
   push:
@@ -17,12 +17,5 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt pytest
-      - name: Resistance equation (stur_verify.py output must match results/ exactly)
+      - name: Every number pinned
         run: python -m pytest tests/ -q
-      - name: Archived STUR-ROLL regression and physics tests
-        run: python -m pytest archive/stur-roll/tests/ -q
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-      - name: Archived STUR-ROLL web simulator matches the Python roll
-        run: node --test archive/stur-roll/tests/web_sim.test.mjs

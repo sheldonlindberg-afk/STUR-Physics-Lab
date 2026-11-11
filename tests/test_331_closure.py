@@ -3,7 +3,7 @@ import os, sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 import m331_closure as C
 
-REF = os.path.join(os.path.dirname(__file__), "..", "results", "unifying_search", "331_closure.txt")
+REF = os.path.join(os.path.dirname(__file__), "..", "results", "m331", "331_closure.txt")
 
 
 def test_anomaly_plus_asymptotic_freedom_force_odd_nc_and_ng_equals_nc():

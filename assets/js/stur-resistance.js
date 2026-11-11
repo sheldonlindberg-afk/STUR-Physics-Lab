@@ -1,17 +1,17 @@
-/* STUR Resistance Equation page: reading mode, fringe visibility, Derrick curve. */
+/* Research notes page: reading mode and fringe visibility. */
 (function () {
   "use strict";
   const $ = (id) => document.getElementById(id);
   const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 
-  // ---------- reading mode (plain / technical), shared key with the archived site ----------
+  // ---------- reading mode (plain / technical) ----------
   function setMode(mode) {
     document.body.dataset.mode = mode;
     document.querySelectorAll("[data-set-mode]").forEach((b) =>
       b.setAttribute("aria-pressed", String(b.dataset.setMode === mode)));
     try { localStorage.setItem("stur-mode", mode); } catch (e) { /* storage unavailable */ }
   }
-  let initial = "plain";
+  let initial = "tech";
   try { initial = localStorage.getItem("stur-mode") || initial; } catch (e) { /* ignore */ }
   const q = new URLSearchParams(location.search).get("mode");
   if (q === "plain" || q === "tech") initial = q;
@@ -119,50 +119,4 @@
     const ex = visibility(s);
     $("mc-out").innerHTML = `Monte Carlo V = <b class="mono">${mc.toFixed(4)}</b> &nbsp;vs&nbsp; e<sup>&minus;s&sup2;/2</sup> = <b class="mono">${ex.toFixed(4)}</b> &nbsp;(difference ${Math.abs(mc - ex).toFixed(4)}; statistical error &lesssim; ${(1 / Math.sqrt(n)).toFixed(4)})`;
   });
-
-  // ---------- Derrick curve (values from stur_verify.py check 5) ----------
-  const svg = $("derrick");
-  if (svg) {
-    const E2 = 73.61, E4 = 72.27;
-    const pts = [[0.25, 307.5], [0.4, 210.1], [0.6, 164.6], [0.8, 149.2], [1.0, 145.9], [1.25, 149.8], [1.6, 162.9], [2.0, 183.4], [2.5, 212.9], [3.0, 244.9]];
-    const W = 520, H = 320, L = 48, R = 16, T = 14, B = 40;
-    const xmax = 3.0, ymax = 320;
-    const X = (l) => L + (l / xmax) * (W - L - R);
-    const Y = (e) => H - B - (e / ymax) * (H - T - B);
-    const NS = "http://www.w3.org/2000/svg";
-    const el = (tag, attrs, text) => {
-      const n = document.createElementNS(NS, tag);
-      for (const k in attrs) n.setAttribute(k, attrs[k]);
-      if (text != null) n.textContent = text;
-      svg.appendChild(n);
-      return n;
-    };
-    [0, 100, 200, 300].forEach((e) => {
-      el("line", { class: "grid", x1: L, x2: W - R, y1: Y(e), y2: Y(e) });
-      el("text", { x: L - 8, y: Y(e) + 4, "text-anchor": "end" }, String(e));
-    });
-    [0, 0.5, 1, 1.5, 2, 2.5, 3].forEach((l) =>
-      el("text", { x: X(l), y: H - B + 18, "text-anchor": "middle" }, String(l)));
-    el("line", { class: "axis", x1: L, x2: W - R, y1: Y(0), y2: Y(0) });
-    el("line", { class: "axis", x1: L, x2: L, y1: T, y2: Y(0) });
-    el("text", { x: (L + W - R) / 2, y: H - 4, "text-anchor": "middle" }, "size scale λ  (← shrink   grow →)");
-    el("text", { x: 12, y: (T + H - B) / 2, "text-anchor": "middle", transform: `rotate(-90 12 ${(T + H - B) / 2})` }, "energy (Skyrme units)");
-    let dWith = "", dWithout = "";
-    for (let i = 0; i <= 200; i++) {
-      const l = 0.22 + (i / 200) * (xmax - 0.22);
-      const e = l * E2 + E4 / l;
-      dWith += (i ? "L" : "M") + X(l).toFixed(1) + " " + Y(Math.min(e, ymax)).toFixed(1);
-    }
-    for (let i = 0; i <= 50; i++) {
-      const l = (i / 50) * xmax;
-      dWithout += (i ? "L" : "M") + X(l).toFixed(1) + " " + Y(l * E2).toFixed(1);
-    }
-    el("path", { d: dWithout, fill: "none", stroke: css("--bad"), "stroke-width": 2.25, "stroke-dasharray": "6 5" });
-    el("path", { d: dWith, fill: "none", stroke: css("--accent"), "stroke-width": 2.5 });
-    pts.forEach(([l, e]) => el("circle", { cx: X(l), cy: Y(e), r: 3.5, fill: css("--warn") }));
-    const ls = Math.sqrt(E4 / E2), emin = 2 * Math.sqrt(E2 * E4);
-    el("line", { x1: X(ls), x2: X(ls), y1: Y(245), y2: Y(0), stroke: css("--faint"), "stroke-dasharray": "3 4" });
-    el("text", { x: X(ls), y: Y(255), "text-anchor": "middle" }, `λ* = ${ls.toFixed(3)},  E_min = ${emin.toFixed(1)}`);
-    el("text", { x: X(0.32), y: Y(6), style: "fill:" + css("--bad") }, "collapses → 0");
-  }
 })();

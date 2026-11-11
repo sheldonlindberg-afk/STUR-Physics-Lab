@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
-Unification search, step 1: does ONE known equation govern the sectors STUR wants
-to join?  Candidate (KNOWN pieces only):
+Does ONE known equation govern measurement, the vacuum and horizons?  Candidate (KNOWN pieces only):
 
     D(rho || sigma) = Delta<K_sigma> - Delta S >= 0,   K_sigma = -ln sigma      (U1)
     first law:  delta S = delta <K_sigma>  at first order                       (U1')
@@ -182,7 +181,7 @@ def U1_lattice():
           f"   ratio = {clausius/dK:.5f}")
     print("    -> the Unruh-weighted local energy IS the modular energy (lattice, 0.0x %),")
     print("       and by (b) its first-order change equals dS.")
-    print("    -> STUR's E = T S is the integrated, global-T caricature of THIS local law;")
+    print("    -> a global E = T S is the integrated, global-T caricature of THIS local law;")
     print("       the temperature is the local Unruh-type T_loc(x), not one global T.")
     return res, rows, clausius / dK, aS[0] / aK[0]
 

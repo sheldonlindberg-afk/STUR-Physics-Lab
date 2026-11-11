@@ -5,39 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#07090d" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f6f8fa" media="(prefers-color-scheme: light)">
-<title>Gravity and the Quantum</title>
-<meta name="description" content="A plain-language science guide: Einstein's gravity told as a twist instead of a curve (teleparallel gravity), the open question of whether gravity is quantum, the idea that gravity is tied to the entanglement of empty space, and what measurement really does. Every claim is labelled established, worked example or open, and every number is reproduced by open code.">
-<meta property="og:site_name" content="STUR Physics Lab">
-<meta property="og:title" content="Gravity and the quantum, explained">
-<meta property="og:description" content="Einstein's gravity as a twist instead of a curve, and an open question in physics: what does gravity do to an object in two places at once? A plain-language guide that says what is established and what is still open.">
+<title>Gravity and the Quantum: Worked Examples</title>
+<meta name="description" content="Reproducible worked examples at the gravity–quantum interface for physics students and physicists: teleparallel gravity (TEGR) and the classic tests of GR, decoherence and complementarity, the entanglement area law, and the Bose–Marletto–Vedral two-mass experiment, plus a research note on 3-3-1 models. Every number comes from open code pinned by tests.">
+<meta property="og:site_name" content="Gravity and the Quantum">
+<meta property="og:title" content="Gravity and the quantum, worked out">
+<meta property="og:description" content="Reproducible worked examples: teleparallel gravity and the classic tests of GR, decoherence, the area law, and gravity-mediated entanglement. Plus a research note: perturbativity in 3-3-1 models selects three colours and three generations.">
 <meta property="og:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Gravity and the quantum, explained: a flat grid of small arrow frames twisting near a central mass.">
+<meta property="og:image:alt" content="Gravity and the quantum, worked out: a flat grid of tetrad frames twisting near a central mass.">
 <meta property="og:url" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Gravity and the quantum, explained">
-<meta name="twitter:description" content="Einstein's gravity as a twist instead of a curve, and the open question of whether gravity is quantum. Established physics and open questions, clearly labelled.">
+<meta name="twitter:title" content="Gravity and the quantum, worked out">
+<meta name="twitter:description" content="Reproducible worked examples at the gravity–quantum interface, for physics students and physicists, plus a 3-3-1 research note.">
 <meta name="twitter:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/og-card.png">
 <link rel="canonical" href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">
 <link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" href="assets/4.13.png">
-<link rel="apple-touch-icon" href="assets/4.13.png">
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<link rel="apple-touch-icon" href="assets/icons/icon-192.png">
 <link rel="stylesheet" href="assets/css/stur-home.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
-  "name": "Gravity and the quantum, explained",
-  "description": "A plain-language guide to teleparallel gravity (TEGR), the open question of whether gravity is quantum, the entanglement of empty space, and decoherence. Established physics and open questions are labelled separately; every number is reproduced by open code.",
+  "name": "Gravity and the quantum, worked out",
+  "description": "Reproducible worked examples at the gravity–quantum interface: TEGR, decoherence, the entanglement area law and gravity-mediated entanglement, with notebooks and exercises, plus a 3-3-1 research note.",
   "author": {"@type": "Person", "name": "Sheldon Lindberg"},
   "datePublished": "2026-11-11",
   "url": "https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/",
   "license": "https://creativecommons.org/publicdomain/zero/1.0/",
   "isAccessibleForFree": true,
-  "learningResourceType": "explainer",
-  "educationalLevel": ["beginner", "intermediate"]
+  "learningResourceType": ["worked example", "exercise"],
+  "educationalLevel": ["undergraduate", "graduate"],
+  "audience": {"@type": "EducationalAudience", "educationalRole": ["student", "researcher"]}
 }
 </script>
 </head>
@@ -46,15 +47,15 @@
 
 <header class="top">
   <div class="top-inner">
-    <a class="brand" href="index.html"><img src="assets/4.13.png" alt="" width="28" height="28">STUR</a>
+    <a class="brand" href="index.html"><img src="assets/logo.svg" alt="" width="28" height="28">Gravity &amp; Quantum</a>
     <nav class="nav" aria-label="Sections">
-      <a href="#twist">Gravity as twist</a>
+      <a href="#twist">TEGR</a>
       <a href="#quantum">Is gravity quantum?</a>
       <a href="#strength">Entanglement</a>
       <a href="#measurement">Measurement</a>
-      <a href="#myths">Myths</a>
+      <a href="#research">Research note</a>
       <a href="#status">How sure</a>
-      <a href="#deeper">Learn more</a>
+      <a href="#deeper">Study</a>
     </nav>
   </div>
 </header>
@@ -63,24 +64,25 @@
 
   <!-- Hero -->
   <div class="hero">
-    <p class="eyebrow">STUR Physics Lab &middot; a science-education project &middot; CC0</p>
-    <h1>Gravity and the quantum, <span>explained</span>.</h1>
-    <p class="lede">Most people have heard that gravity is "curved space". Fewer know that Einstein's theory can be written another way, as a <strong>twist</strong> on perfectly flat space. This guide explains that picture, then uses it to ask one of the big open questions in physics: <strong>what does gravity do to something that is in two places at once?</strong> Nobody knows yet, and experiments are being designed to find out.</p>
-    <p class="muted">Every section starts in plain language, with the equations in a <b>Go deeper</b> box at the end. Every claim carries a label: established physics, a worked example computed here, or an open question. The numbers are recomputed by open code and checked automatically.</p>
+    <p class="eyebrow">Worked examples &middot; research note &middot; open code &middot; CC0</p>
+    <h1>Gravity and the quantum, <span>worked out</span>.</h1>
+    <p class="lede">Reproducible worked examples at the gravity–quantum interface: <strong>teleparallel gravity</strong> from the tetrad field equations to the classic tests of GR, <strong>decoherence</strong> and complementarity, the <strong>entanglement area law</strong> and the Unruh effect on a lattice, and a <strong>Bose–Marletto–Vedral</strong> two-diamond design with a full noise budget. Every number comes from a script and is pinned by a test that runs on every commit.</p>
+    <p class="muted">For physics students, each topic has a notebook with exercises (prerequisites: GR at the level of Carroll, graduate quantum mechanics). For researchers, there is one candidate original result: a note showing that Planck-scale perturbativity in 3-3-1 models selects N<sub>c</sub> = N<sub>g</sub> = 3. Independent work, not peer reviewed; each claim is labelled established, worked example, conditional or open.</p>
     <div class="facts">
-      <div class="fact"><b>42.98″</b><span>Mercury's orbit shift per century, computed from the twist picture. Observed: 42.98″.</span></div>
-      <div class="fact"><b>+38.54 µs</b><span>a day: how much faster GPS satellite clocks run. The system corrects for it.</span></div>
-      <div class="fact"><b>Open</b><span>Is gravity quantum? Two tiny diamonds, each in two places at once, could tell. The experiment hasn't been done yet.</span></div>
+      <div class="fact"><b>42.98″</b><span>Mercury's perihelion shift per century, from geodesics of the solution of the TEGR field equations. Curvature is never used.</span></div>
+      <div class="fact"><b>2.19 rad</b><span>the gravitational entangling phase in a two-diamond design worked out here: 270 runs at the published targets.</span></div>
+      <div class="fact"><b>N<sub>c</sub> = N<sub>g</sub> = 3</b><span>the only number of colours and generations in 3-3-1 models whose couplings stay perturbative to M<sub>Pl</sub>. Conditional, unreviewed.</span></div>
     </div>
     <div class="cta">
-      <a class="btn primary" href="#twist">Start with gravity as a twist &darr;</a>
-      <a class="btn" href="#myths">Jump to the myths</a>
+      <a class="btn primary" href="#twist">Start with TEGR &darr;</a>
+      <a class="btn" href="paper/note331.pdf">Read the 3-3-1 note (PDF)</a>
+      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/tree/main/notebooks">Notebooks</a>
     </div>
   </div>
 
   <!-- 1. TEGR -->
   <section id="twist" aria-labelledby="twist-h">
-    <p class="eyebrow">1 &middot; Gravity as a twist</p>
+    <p class="eyebrow">1 &middot; Teleparallel gravity</p>
     <h2 id="twist-h">The same gravity as Einstein's, told a different way</h2>
     <div class="takeaway"><b>In one line:</b> space stays flat, every point carries its own rulers and clock, and gravity is how those rulers are twisted relative to their neighbours.</div>
     <div class="prose">
@@ -120,7 +122,7 @@
         </tbody>
       </table>
     </div>
-    <p class="prose" style="margin-top:16px"><strong>A detail people find surprising:</strong> Newton's gravity predicts only <em>half</em> the bending of starlight. In the twist picture you can see where the other half comes from. The "time" rulers give Newton's half, and the "space" rulers give the rest, which Newton's theory has no place for.</p>
+    <p class="prose" style="margin-top:16px"><strong>Light bending, leg by leg:</strong> Newton's gravity predicts only <em>half</em> the bending of starlight. In the twist picture you can see where the other half comes from. The "time" rulers give Newton's half, and the "space" rulers give the rest, which Newton's theory has no place for.</p>
 
     <h3>Why learn gravity this way?</h3>
     <div class="grid g3">
@@ -134,7 +136,7 @@
       <div class="body">
         <p><span class="tag known">established</span> TEGR (Aldrovandi &amp; Pereira, <em>Teleparallel Gravity</em>, 2013). The dynamical field is the tetrad e<sup>a</sup><sub>μ</sub>, with g<sub>μν</sub> = η<sub>ab</sub> e<sup>a</sup><sub>μ</sub> e<sup>b</sup><sub>ν</sub>. The connection is the curvature-free Weitzenböck connection, so gravity is carried entirely by torsion:</p>
         <div class="eq">Γ<sup>ρ</sup><sub>μν</sub> = e<sub>a</sub><sup>ρ</sup> ∂<sub>μ</sub>e<sup>a</sup><sub>ν</sub>, &nbsp; T<sup>ρ</sup><sub>μν</sub> = Γ<sup>ρ</sup><sub>νμ</sub> − Γ<sup>ρ</sup><sub>μν</sub><br>S<sub>grav</sub> = (c⁴/16πG) ∫ e T d⁴x, &nbsp; T = −R + (divergence) <span class="c">&nbsp;// same field equations as GR</span></div>
-        <p><span class="tag checked">worked example</span> The identity T = −R + divergence, checked symbolically and then at random points: residual ≤ 10<sup>−165</sup>. For a static spherical tetrad e⁰ = e<sup>A</sup>dt, e¹ = e<sup>B</sup>dr, the TEGR field equations give 2rA′ = e<sup>2B</sup> − 1 and 2rB′ = 1 − e<sup>2B</sup>, hence Schwarzschild, uniquely (Birkhoff). The weak field gives Ψ = Φ and ∇²Φ = 4πGρ. The classic tests in the table are numerical geodesic integrals of that tetrad, not textbook formulas.</p>
+        <p><span class="tag checked">worked example</span> The identity T = −R + divergence, verified symbolically, then spot-checked at random points in 200-digit arithmetic, where it vanishes to working precision. For a static spherical tetrad e⁰ = e<sup>A</sup>dt, e¹ = e<sup>B</sup>dr, the TEGR field equations give 2rA′ = e<sup>2B</sup> − 1 and 2rB′ = 1 − e<sup>2B</sup>, hence Schwarzschild, uniquely (Birkhoff). The weak field gives Ψ = Φ and ∇²Φ = 4πGρ. The classic tests in the table are numerical geodesic integrals of that tetrad, not textbook formulas.</p>
         <p class="src">Notes: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/TEGR.md">TEGR.md</a> &middot; code: <code>src/stur_tegr.py</code>, <code>src/stur_tegr_gr.py</code> &middot; tests: <code>tests/test_tegr.py</code>, <code>tests/test_tegr_gr.py</code></p>
       </div>
     </details>
@@ -261,7 +263,7 @@
     <p class="prose" style="margin-top:16px"><span class="tag open">still debated</span> Decoherence explains why interference vanishes and why big objects look classical. It doesn't, by itself, say why we see one particular outcome rather than another. That is the "measurement problem", and the different interpretations of quantum mechanics answer it differently.</p>
     <div class="grid g3" style="margin-top:16px">
       <div class="card"><h3>Why probabilities are what they are</h3><p>Quantum chance follows one exact rule: probability = amplitude squared (the Born rule). Well-known arguments by Gleason (1957) and Zurek (2005) show it's the only consistent rule, given some reasonable assumptions, such as no faster-than-light messages. Whether those assumptions are fully innocent is still debated.</p></div>
-      <div class="card"><h3>The electron isn't split in half</h3><p>An electron's own electric field is in both branches, but as a possibility, not as half a charge in each. A quick check: a literally split charge would bind hydrogen at 6.64 eV, against the measured 13.60 eV.</p></div>
+      <div class="card"><h3>Branches, not split sources</h3><p>An electron's Coulomb field is entangled with its position branch by branch; it is not sourced by the mean charge density. The semiclassical alternative, the electromagnetic analogue of the Schrödinger–Newton equation, lets the electron repel itself and binds hydrogen at 6.64 eV, against the measured 13.60 eV. The gravitational version of this question is what the λ experiments test.</p></div>
       <div class="card"><h3>A worked lab example</h3><p>Fringe loss counts the spread in exchanged energy quanta, so heat destroys more of it. For a single trapped ion, contrast falls from 0.787 to 0.111 as its motion warms from 0.1 to 5 quanta.</p></div>
     </div>
     <details class="deeper">
@@ -275,16 +277,34 @@
     </details>
   </section>
 
+  <!-- Research -->
+  <section id="research" aria-labelledby="research-h">
+    <p class="eyebrow">For researchers</p>
+    <h2 id="research-h">Three colours and three generations from perturbativity in 3-3-1 models</h2>
+    <div class="takeaway"><b>Result (conditional):</b> keep N<sub>c</sub> general, take no generation or neutrino number from experiment, and require every gauge coupling to stay perturbative to the Planck scale. Only N<sub>c</sub> = N<sub>g</sub> = 3 survives, with quark charges ⅔ and −⅓.</div>
+    <div class="prose">
+      <p>The SU(3)<sub>L</sub> anomaly plus asymptotic freedom of colour force N<sub>c</sub> to be odd and N<sub>g</sub> = N<sub>c</sub>, which makes Witten's global anomaly automatic. SU(3)<sub>L</sub> running then excludes N<sub>c</sub> ≥ 7, and U(1)<sub>X</sub> running excludes N<sub>c</sub> = 5. The selection holds at two loops with Yukawa terms, with one-loop threshold matching across the heavy spectrum, for 3-3-1 scales of 2–30 TeV, and in both variants β = ±1/√3. It takes the measured electroweak couplings at the TeV scale as input; in the β = +1/√3 variant the N<sub>c</sub> = 3 margin is a factor of about 2 in the pole scale. Requiring the scalar sector to stay perturbative to M<sub>Pl</sub> bounds the exotic-quark masses below 1.4–1.8 times the bilepton mass.</p>
+      <p><span class="tag cond">conditional</span> on the 3-3-1 framework and on Planck-scale perturbativity. The closest prior work is Doff &amp; Pisano (2000), who find N<sub>g</sub> = k&middot;n<sub>c</sub> without fixing k or n<sub>c</sub>. An INSPIRE search found no earlier use of running to fix N<sub>c</sub>; comments from 3-3-1 experts are welcome.</p>
+    </div>
+    <div class="cta">
+      <a class="btn primary" href="paper/note331.pdf">PDF</a>
+      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/paper/note331.tex">LaTeX source</a>
+      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/NOTE_331.md">Extended notes</a>
+      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/NOVELTY.md">Literature search</a>
+    </div>
+    <h3 style="margin-top:28px">Also here: classical–quantum gravity bounds</h3>
+    <p class="prose muted">Worked examples within the Tilloy–Diósi and Oppenheim literature: the decoherence–diffusion trade-off minimized to the Diósi–Penrose floor, and the acceleration-noise floor that a coherent levitated diamond would imply for any classical–quantum gravity. These are not new results; see <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/OPPENHEIM.md">OPPENHEIM.md</a>.</p>
+  </section>
+
   <!-- Myths -->
   <section id="myths" aria-labelledby="myths-h">
-    <p class="eyebrow">Myths vs. physics</p>
-    <h2 id="myths-h">What quantum physics does not say</h2>
-    <p class="lede">A lot of what circulates as "quantum" is mysticism with physics words attached. Here is what mainstream physics actually says.</p>
+    <p class="eyebrow">For teaching</p>
+    <h2 id="myths-h">Common misconceptions, and the physics that answers them</h2>
+    <p class="lede">Misconceptions students bring to the classroom, each answered by a result worked out on this page.</p>
     <div class="grid g2">
       <div class="card myth"><div class="claim">Consciousness, or "the observer", creates reality.</div><div class="fix">Interference is lost whenever the surroundings record which path was taken. A photon or an air molecule is enough, and no mind is involved (section 4). Mainstream physics gives consciousness no special role.</div></div>
       <div class="card myth"><div class="claim">Entanglement lets you send messages instantly.</div><div class="fix">Entangled correlations appear at a distance, but they can't carry a message. This "no-signalling" rule is built into quantum theory and confirmed by experiment.</div></div>
       <div class="card myth"><div class="claim">Your thoughts or intentions can change quantum outcomes.</div><div class="fix">The odds are fixed by amplitude squared, confirmed to many decimal places. No controlled experiment has found intention moving them.</div></div>
-      <div class="card myth"><div class="claim">An electron is a tiny ball, or a cloud of charge smeared out in space.</div><div class="fix">Neither picture works. Quantum theory describes it with amplitudes, not a ball or a literal cloud. A charge literally spread out would give hydrogen the wrong energy, 6.64 eV instead of 13.60 eV.</div></div>
       <div class="card myth"><div class="claim">"Quantum" healing, energy and wellness products.</div><div class="fix">Warm, large, wet objects like bodies are constantly recorded by their surroundings, so their quantum superpositions vanish almost instantly. "Quantum" on a label isn't physics.</div></div>
       <div class="card myth"><div class="claim">Physicists have no idea how gravity and quantum physics fit together.</div><div class="fix">At everyday energies physicists routinely calculate small quantum effects of gravity. What's untested is whether gravity really is quantum, which is what the diamond experiments aim to check (section 2). The hard open problems are at tiny scales, like black-hole interiors and the Big Bang.</div></div>
       <div class="card myth"><div class="claim">Einstein said space is curved, so a "twist" picture must be wrong.</div><div class="fix">They are two ways of writing the same theory, with identical predictions. Einstein explored a closely related idea himself in 1928 (section 1).</div></div>
@@ -296,53 +316,69 @@
   <section id="status" aria-labelledby="status-h">
     <p class="eyebrow">How sure is each piece?</p>
     <h2 id="status-h">Every claim carries a label</h2>
-    <p class="lede">Trust comes from saying exactly what is established, what is a worked example, and what is still open. This is an independent education project and has not been peer reviewed. Where it goes beyond textbook physics, it says so.</p>
+    <p class="lede">Trust comes from saying exactly what is established, what is a worked example, and what is still open. This is independent work and has not been peer reviewed. Where it goes beyond textbook physics, it says so.</p>
     <div class="grid g4">
       <div class="card"><p><span class="tag known">established</span></p><p>Published and tested: gravity as torsion (TEGR, equivalent to Einstein's theory), records erasing interference (decoherence), the entanglement area law, the Unruh effect.</p></div>
-      <div class="card"><p><span class="tag checked">worked example</span></p><p>Calculations done here to illustrate or check known physics. The numbers on this page come from about 50 open scripts and are pinned by automated tests that run on every change.</p></div>
+      <div class="card"><p><span class="tag checked">worked example</span></p><p>Calculations done here to illustrate or check known physics. The numbers on this page come from 25 open scripts and are pinned by automated tests that run on every change.</p></div>
       <div class="card"><p><span class="tag cond">under stated assumptions</span></p><p>The argument against one class of classical-gravity models (section 2). It holds only under the assumptions stated next to it.</p></div>
       <div class="card"><p><span class="tag open">open</span></p><p>Whether gravity is quantum: the diamond experiments haven't been done. Whether gravity emerges from entanglement (section 3). Why we see one outcome (section 4).</p></div>
     </div>
   </section>
 
-  <!-- Learn more -->
+  <!-- Study -->
   <section id="deeper" aria-labelledby="deeper-h">
-    <p class="eyebrow">Learn more</p>
-    <h2 id="deeper-h">For students, teachers and the curious</h2>
+    <p class="eyebrow">Study</p>
+    <h2 id="deeper-h">Notebooks, exercises and reading</h2>
     <div class="grid g2">
+      <div class="card">
+        <h3><a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/tree/main/notebooks">Notebooks with exercises</a></h3>
+        <ol class="small">
+          <li><b>TEGR and the classic tests.</b> Tetrad field equations to Schwarzschild; perihelion, light bending, γ, GPS. <i>Prerequisite: Carroll ch. 1–5.</i></li>
+          <li><b>Complementarity and decoherence.</b> V² + D² = 1; a thermal environment, −ln V = 2 Var(ΔN). <i>Prerequisite: density matrices.</i></li>
+          <li><b>Gravity-mediated entanglement.</b> Branch phases, concurrence and gas decoherence in a two-diamond experiment. <i>Prerequisite: two-qubit entanglement.</i></li>
+          <li><b>The area law.</b> Srednicki's computation, S ≈ 0.30 (R/a)². <i>Prerequisite: Gaussian states.</i></li>
+        </ol>
+        <p class="small muted">Outputs are saved, so the notebooks read on GitHub; CI re-runs them on every commit.</p>
+      </div>
+      <div class="card">
+        <h3>Run it yourself</h3>
+<pre>git clone https://github.com/sheldonlindberg-afk/STUR-Physics-Lab
+cd STUR-Physics-Lab
+pip install -r requirements.txt pytest jupyter
+python3 src/stur_tegr_gr.py   # GR's classic tests from TEGR
+python -m pytest tests -q     # every number pinned
+jupyter lab notebooks/</pre>
+      </div>
+    </div>
+    <div class="grid g2" style="margin-top:16px">
       <div class="card">
         <h3>Further reading</h3>
         <ul class="small">
-          <li>W. H. Zurek, "Decoherence and the transition from quantum to classical", <em>Physics Today</em> 44, 36 (1991)</li>
           <li>R. Aldrovandi &amp; J. G. Pereira, <em>Teleparallel Gravity: An Introduction</em> (Springer, 2013)</li>
-          <li>S. Bose et al., and C. Marletto &amp; V. Vedral, the two-mass entanglement proposals, <em>Phys. Rev. Lett.</em> 119, 240401 and 240402 (2017)</li>
-          <li>J. Oppenheim et al., "Gravitationally induced decoherence vs space-time diffusion", <em>Nat. Commun.</em> (2023)</li>
-          <li>T. Jacobson, "Thermodynamics of spacetime: the Einstein equation of state", <em>Phys. Rev. Lett.</em> 75, 1260 (1995)</li>
+          <li>W. H. Zurek, "Decoherence, einselection, and the quantum origins of the classical", <em>Rev. Mod. Phys.</em> 75, 715 (2003)</li>
           <li>B.-G. Englert, "Fringe visibility and which-way information: an inequality", <em>Phys. Rev. Lett.</em> 77, 2154 (1996)</li>
+          <li>M. Srednicki, "Entropy and area", <em>Phys. Rev. Lett.</em> 71, 666 (1993)</li>
+          <li>T. Jacobson, "Thermodynamics of spacetime: the Einstein equation of state", <em>Phys. Rev. Lett.</em> 75, 1260 (1995)</li>
+          <li>S. Bose et al.; C. Marletto &amp; V. Vedral, <em>Phys. Rev. Lett.</em> 119, 240401 and 240402 (2017)</li>
+          <li>J. Oppenheim et al., "Gravitationally induced decoherence vs space-time diffusion", <em>Nat. Commun.</em> (2023)</li>
         </ul>
       </div>
       <div class="card">
-        <h3>Check it yourself</h3>
-        <p class="small">Every number on this page comes from a script you can run.</p>
-<pre>git clone https://github.com/sheldonlindberg-afk/STUR-Physics-Lab
-cd STUR-Physics-Lab
-pip install -r requirements.txt pytest
-python3 src/stur_tegr_gr.py   # GR's classic tests, twist picture
-python -m pytest tests -q     # every number pinned</pre>
+        <h3>More</h3>
+        <ul class="small">
+          <li><a href="technical.html">Research notes</a>: the derivation chain, Born-rule tables and an interactive two-diamond calculator.</li>
+          <li><a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/NOVELTY.md">Literature check</a>: what prior work already covers.</li>
+          <li><a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab">The code</a>: every script, result and test.</li>
+          <li><a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/issues">Report a mistake</a>: issues are welcome.</li>
+        </ul>
       </div>
-    </div>
-    <div class="grid g4" style="margin-top:16px">
-      <div class="card"><h3><a href="technical.html">Research notes</a></h3><p>The author's working notes, with the Born-rule tables and an interactive two-diamond calculator. Not peer reviewed.</p></div>
-      <div class="card"><h3><a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/NOVELTY.md">Literature check</a></h3><p>What prior work already covers, and what, if anything, is new here.</p></div>
-      <div class="card"><h3><a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab">The code</a></h3><p>Every script, result and test. Found a mistake? Please open an issue.</p></div>
-      <div class="card"><h3><a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/NOTE_331.md">Three colours, three generations</a></h3><p>A separate particle-physics note on why "3" may be selected in one family of models. Conditional, and not peer reviewed.</p></div>
     </div>
   </section>
 </main>
 
 <footer>
   <div class="foot">
-    <span>Sheldon Lindberg &middot; STUR Physics Lab &middot; CC0 1.0 &middot; <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab">GitHub</a></span>
+    <span>Sheldon Lindberg &middot; CC0 1.0 &middot; <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab">GitHub</a></span>
     <span><a href="technical.html">Research notes</a> &middot; <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/issues">Report a mistake</a></span>
   </div>
 </footer>

@@ -1,0 +1,351 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+
+\newcommand{\Nc}{N_c}
+\newcommand{\Ng}{N_g}
+\newcommand{\MPl}{M_{\mathrm{Pl}}}
+\newcommand{\sw}{\sin^2\theta_W}
+\newcommand{\GeV}{\,\mathrm{GeV}}
+\newcommand{\TeV}{\,\mathrm{TeV}}
+
+\title{Three colours and three generations from perturbativity\\in 3-3-1 models}
+\author{Sheldon Lindberg\\[2pt]\small Independent researcher\\[2pt]
+\small Code and data: \url{https://github.com/sheldonlindberg-afk/STUR-Physics-Lab}}
+\date{November 2026\\[4pt]\small Preprint, not peer reviewed}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+In $SU(3)_C\times SU(3)_L\times U(1)_X$ (``3-3-1'') gauge models, anomaly cancellation
+ties the number of fermion generations to the number of colours. We keep the number of
+colours $\Nc$ general throughout, with every charge and anomaly coefficient computed as
+a function of $\Nc$, and add a single requirement: no gauge coupling may become
+non-perturbative below the Planck scale. The $SU(3)_L$ anomaly together with asymptotic
+freedom of colour forces $\Nc$ to be odd and $\Ng=\Nc$, which makes Witten's global
+anomaly condition automatic. $SU(3)_L$ running then excludes $\Nc\ge 7$ and $U(1)_X$
+running excludes $\Nc=5$, so that $\Nc=\Ng=3$ is the only survivor, with quark charges
+$\tfrac23$ and $-\tfrac13$. The selection holds at two loops in the gauge couplings with
+two-loop Yukawa terms, with one-loop threshold matching across the heavy spectrum, for
+3-3-1 breaking scales from 2 to $30\TeV$, and in both variants $\beta=\pm1/\sqrt3$. It
+takes the measured electroweak couplings at the TeV scale as input and does not predict
+them; in the $\beta=+1/\sqrt3$ variant the $\Nc=3$ margin is a factor of about 2 in the
+pole scale. Requiring the scalar sector itself to remain perturbative and bounded below
+up to $\MPl$ then bounds the exotic-quark masses relative to the bilepton mass. All
+numbers are reproduced by open code with regression tests.
+\end{abstract}
+
+\section{Introduction}
+
+In 3-3-1 models~\cite{Pisano:1992bxx,Frampton:1992wt} the $SU(3)_L$ anomaly cancels
+only between generations, which links the number of generations to the number of
+colours: $\Ng$ must be a multiple of $\Nc$~\cite{Pisano:1996ht,Doff:2000pc,Doff:2000tx}.
+With the number of light neutrinos taken from experiment, Frampton noted that this
+singles out $\Nc=3$~\cite{Frampton:1994rt}. Here no generation or neutrino number is
+taken from experiment. We ask instead which $\Nc$ is compatible with all gauge couplings
+remaining perturbative up to the Planck scale, given the measured electroweak couplings
+at the TeV scale. The answer is $\Nc=\Ng=3$ only.
+
+Section~\ref{sec:setup} sets up the model for general $\Nc$. Section~\ref{sec:chain}
+gives the four-step selection; Sections~\ref{sec:robust}--\ref{sec:scalar} test its
+robustness, including one-loop threshold matching and the scalar sector. The
+conditions under which it holds are collected in Section~\ref{sec:caveats}, and
+Section~\ref{sec:prior} compares with prior work.
+
+\section{Setup for general $N_c$}\label{sec:setup}
+
+The electric charge is $Q=T_3+\beta T_8+X$. The two variants without low-scale Landau
+poles are $\beta=\pm1/\sqrt3$; the minimal $\beta=-\sqrt3$ model is excluded by LHC $Z'$
+limits (Section~\ref{sec:tests}). For colour group $SU(\Nc)$ we take $\Ng$ generations.
+Each has left-handed lepton triplets and quark triplets or anti-triplets, the third member
+of each quark multiplet being an exotic quark; $n$ of the $\Ng$ quark generations sit in
+the anti-triplet.
+
+Cancelling the perturbative anomalies, with the Yukawa couplings in place, gives
+\begin{equation}
+  Q_u=\frac{\Nc+1}{2\Nc},\qquad Q_d=\frac{1-\Nc}{2\Nc},
+\end{equation}
+which reduce to $\tfrac23$ and $-\tfrac13$ at $\Nc=3$. Every gauge anomaly ($X^3$,
+grav$^2X$, $SU(3)_L^2X$, $SU(\Nc)^2X$, $SU(3)_L^3$) then vanishes identically in $\Nc$,
+both in the Standard Model and in the full 3-3-1 content; this was checked in exact
+rational arithmetic for $\Nc=3,5,7$. Perturbative anomalies therefore fix the charges
+given $\Nc$, but not $\Nc$ itself.
+
+The $U(1)_X$ charges for $\beta=-1/\sqrt3$ are $X=Q_u-\tfrac13$ (quark triplet),
+$Q_d+\tfrac13$ (anti-triplet), $-\tfrac13$ (leptons), and $-\tfrac13,+\tfrac23,-\tfrac13$
+for the scalars $\eta,\rho,\chi$, fixed by the Yukawas and independent of $\Nc$. For
+$\beta=+1/\sqrt3$: leptons $-\tfrac23$, quark triplet $Q_u-\tfrac23$, anti-triplet
+$Q_d+\tfrac23$, scalars $\tfrac13,\tfrac13,-\tfrac23$.
+
+We require a non-abelian colour group, $\Nc\ge2$: for $\Nc=1$ there is no colour gauge
+field at all, and the asymptotic-freedom condition used below is vacuous.
+
+\section{The selection}\label{sec:chain}
+
+\paragraph{Step 1: $\Ng=\Nc$.}
+$SU(3)_L$ anomaly freedom requires equal numbers of triplets and anti-triplets,
+\begin{equation}\label{eq:anomaly}
+  \Ng(1+\Nc)=2n\Nc .
+\end{equation}
+For odd $\Nc$, $\gcd(\Nc,\Nc+1)=1$, so $\Nc\mid\Ng$ and $\Ng=k\Nc$. With three quark
+flavours per generation, asymptotic freedom of $SU(\Nc)$ requires
+$11\Nc/3-2\Ng>0$, i.e.\ $k<11/6$, so $k=1$. For even $\Nc$, $\gcd(\Nc+1,2\Nc)=1$, so
+$2\Nc\mid\Ng$; but $2\Nc>11\Nc/6$ violates asymptotic freedom. Hence $\Nc$ is odd and
+$\Ng=\Nc$, with no further input. At $\Nc=3$ this reproduces the standard assignment of
+two quark generations in the anti-triplet and one in the triplet.
+
+\paragraph{Step 2: Witten's anomaly is implied.}
+In the Standard Model, Witten's global $SU(2)$ anomaly~\cite{Witten:1982fp} requires an
+even number of doublets, $\Nc+1$ per generation. In 3-3-1, $SU(2)_L\subset SU(3)_L$ and
+$\pi_4(SU(3))=0$, so the UV group imposes no global anomaly of its own. Step~1 already
+forces $\Nc$ odd, and the doublet count $\Ng(1+\Nc)=2n\Nc$ is then even automatically.
+The spin--charge relation $(-1)^F=\exp(i\pi\Nc(B-L))$ gives the same condition as a
+consequence rather than an input (all 29 solutions of~\eqref{eq:anomaly} up to $\Nc=60$
+checked).
+
+\paragraph{Step 3: $SU(3)_L$ running excludes $N_c\ge7$.}
+With $\Ng=\Nc$ there are $\Nc(1+\Nc)$ Weyl triplets. The one-loop coefficient
+$b_L=11-\Nc(1+\Nc)/3-(\text{scalars})$, run from $1/\alpha_L(4\TeV)=31.5$, gives
+Table~\ref{tab:su3L}. Adding the minimal model's scalar sextet does not change the
+verdict.
+
+\begin{table}[h]\centering
+\begin{tabular}{ccl}
+\toprule
+$\Nc$ & $b_L$ (3 scalar triplets) & Landau pole \\
+\midrule
+3 & $+6.5$ & none (asymptotically free)\\
+5 & $+0.5$ & none\\
+7 & $-8.2$ & $1.3\times10^{14}\GeV$, below $\MPl$\\
+9 & $-19.5$ & $10^{8}\GeV$\\
+\bottomrule
+\end{tabular}
+\caption{One-loop $SU(3)_L$ running with $\Ng=\Nc$.}\label{tab:su3L}
+\end{table}
+
+\paragraph{Step 4: $U(1)_X$ running excludes $N_c=5$.}
+Two-loop gauge running from the 3-3-1 scale starts at $1/\alpha_X(4\TeV)=83.76$; we
+define ``blow-up'' as $g=4\pi$. The results are in Table~\ref{tab:x}; the Planck scale
+is $1.2\times10^{19}\GeV$. For $\beta=-1/\sqrt3$ a pole exactly at $\MPl$ needs
+$a_X=14.76$, so the one-loop margins are $+6.09$ for $\Nc=3$ and $-4.57$ for $\Nc=5$.
+Two-loop gauge terms move the blow-up scale by a factor of about 3.
+
+\begin{table}[h]\centering
+\begin{tabular}{cccc}
+\toprule
+$\Nc=\Ng$ & one-loop $a_X$ ($\beta=-1/\sqrt3$;\ $+1/\sqrt3$) & blow-up, $\beta=-1/\sqrt3$ & blow-up, $\beta=+1/\sqrt3$\\
+\midrule
+3 & $26/3=8.67$;\ $14.00$ & $\mathbf{3.0\times10^{29}\GeV}$ & $\mathbf{4.0\times10^{19}\GeV}$\\
+5 & $19.33$;\ $27.33$ & $1.3\times10^{15}\GeV$ & $5.5\times10^{11}\GeV$\\
+7 & $34.44$;\ $45.11$ & $9.7\times10^{9}\GeV$ & $3.1\times10^{8}\GeV$\\
+\bottomrule
+\end{tabular}
+\caption{Two-loop $U(1)_X$ blow-up scales.}\label{tab:x}
+\end{table}
+
+\paragraph{Two-loop Yukawa terms.}
+A Yukawa coupling $y\,\phi\psi_1\psi_2$ contributes
+$-g^3y^2\,n_{\text{terms}}\,[C_2(\psi_1)+C_2(\psi_2)]/d(G)/(16\pi^2)^2$ to each gauge
+$\beta$-function~\cite{Machacek:1983tz,Luo:2002ti}; this reproduces the Standard Model
+top-quark coefficients $(17/10,\,3/2,\,2)$ exactly. We include the top Yukawa
+($y_t=0.83$ at $4\TeV$) and one Yukawa $y_J$ for every exotic quark, and for every heavy
+lepton when $\beta=+1/\sqrt3$, held constant up to the blow-up. Real Yukawas decrease
+with energy, so this overstates their effect and makes the $\Nc=5$ exclusion
+conservative. Yukawas raise every pole by at most a factor of about 5
+(Table~\ref{tab:yuk}), and no constant $y_J\le6$ lifts $\Nc=5$ to the Planck scale.
+
+\begin{table}[h]\centering
+\begin{tabular}{ccc}
+\toprule
+$y_J$ & $\beta=-1/\sqrt3$: $\Nc=3$ / $\Nc=5$ & $\beta=+1/\sqrt3$: $\Nc=3$ / $\Nc=5$\\
+\midrule
+no Yukawas & $3.0\times10^{29}$ / $1.3\times10^{15}\GeV$ & $4.0\times10^{19}$ / $5.5\times10^{11}\GeV$\\
+0 (top only) & $3.4\times10^{29}$ / $1.3\times10^{15}$ & $4.2\times10^{19}$ / $5.6\times10^{11}$\\
+1 & $4.7\times10^{29}$ / $1.6\times10^{15}$ & $6.2\times10^{19}$ / $6.8\times10^{11}$\\
+2 & $1.2\times10^{30}$ / $2.8\times10^{15}$ & $2.2\times10^{20}$ / $1.3\times10^{12}$\\
+\bottomrule
+\end{tabular}
+\caption{Blow-up scales with two-loop Yukawa contributions.}\label{tab:yuk}
+\end{table}
+
+\section{Robustness}\label{sec:robust}
+
+The two-loop machinery reproduces the Standard Model one-loop coefficients
+$(41/10,-19/6,-7)$ and all nine two-loop coefficients exactly. Table~\ref{tab:robust}
+varies the 3-3-1 scale and the perturbativity criterion.
+
+\begin{table}[h]\centering\small
+\begin{tabular}{lll}
+\toprule
+Check & $\beta=-1/\sqrt3$: $\Nc=3$ vs $5$ & $\beta=+1/\sqrt3$: $\Nc=3$ vs $5$\\
+\midrule
+3-3-1 scale $2$--$30\TeV$ & $(2.7$--$3.7)\times10^{29}$ vs $(0.8$--$4.5)\times10^{15}$ & $(2.9$--$9.9)\times10^{19}$ vs $(3.3$--$24)\times10^{11}$\\
+criterion $\alpha=1$ & $1.8\times10^{29}$ vs $1.0\times10^{15}$ & $2.9\times10^{19}$ vs $4.7\times10^{11}$\\
+criterion $g=1$ (strict) & $5.3\times10^{25}$ vs $2.7\times10^{13}$ & $2.0\times10^{17}$ vs $3.6\times10^{10}$ ($\Nc=3$ fails)\\
+\bottomrule
+\end{tabular}
+\caption{Blow-up scales in GeV under variations.}\label{tab:robust}
+\end{table}
+
+For $\beta=-1/\sqrt3$, $\Nc=\Ng=3$ is selected under every criterion, with its blow-up
+6--10 orders of magnitude above $\MPl$ while $\Nc=5$ fails 4--6 orders below. For
+$\beta=+1/\sqrt3$, 3 is selected under the standard criteria, but its pole lies only a
+factor 2--3 above $\MPl$ without Yukawas (3--5 with them); under the strict $g=1$
+criterion, $\Nc=3$ fails as well.
+
+\section{One-loop threshold matching}\label{sec:threshold}
+
+The breaking $SU(3)_L\times U(1)_X\to SU(2)_L\times U(1)_Y$ is matched at one loop in
+$\overline{\text{MS}}$~\cite{Weinberg:1980wa,Hall:1980kf}:
+\begin{equation}
+\frac{1}{\alpha_{\text{low}}(\mu)}=\frac{1}{\alpha_{\text{high}}(\mu)}-\frac{\lambda}{12\pi},\quad
+\lambda=\sum_V t^2\Bigl(1-21\ln\frac{M_V}{\mu}\Bigr)+8\sum_{\text{Dirac}}t^2\ln\frac{M_F}{\mu}
++\sum_{\text{real scalars}}t^2\ln\frac{M_S}{\mu},
+\end{equation}
+with $1/\alpha_X+\beta^2/\alpha_L$ as the high-energy side for $U(1)_Y$. The heavy
+spectrum is: one complex $SU(2)$ doublet of bilepton vectors ($|Y|=\tfrac12$, mass
+$M_V$); the $Z'$ ($M_{Z'}=1.225\,M_V$); $\Nc$ exotic quarks (plus $\Nc$ heavy leptons for
+$\beta=+1/\sqrt3$) of mass $r_JM_V$, whose Yukawa $y_J=r_Jg_L/\sqrt2$ enters at two loops;
+and nine heavy real scalars of mass $r_SM_V$ (a second doublet, a charged singlet and three
+neutral fields), with the option of a light second doublet.
+
+As a check, at one loop the $\Nc=3$ pole must not depend on the matching scale once the
+spectrum is fixed: moving $\mu$ from $M_V/3$ to $3M_V$ changes $\ln(\text{pole})$ by less
+than $10^{-9}$, against a factor 2.6 without thresholds. $\Nc=5$ cannot pass this check,
+because the low-energy theory is the three-colour Standard Model; its pole moves by a
+factor 1.5 with $\mu$, and we take its most favourable $\mu$.
+
+Scanning $r_J=0.5$--$3$, $r_S=\tfrac13$--$3$, $M_V=2$--$10\TeV$ and a heavy or light
+second doublet (two-loop running, Yukawas included) gives Table~\ref{tab:thr}. The worst
+case for $\Nc=3$ (lightest exotics, light scalars, light second doublet, $M_V=2\TeV$) puts
+the $Z'$ at $2.45\TeV$, already below LHC limits. At two loops, moving $\mu$ from $M_V/2$
+to $2M_V$ changes the pole by 1\%.
+
+\begin{table}[h]\centering
+\begin{tabular}{lccc}
+\toprule
+& $\Nc=3$, worst case & $\Nc=5$, best case & verdict\\
+\midrule
+$\beta=-1/\sqrt3$ & $2.4\times10^{29}\GeV$ ($2\times10^{10}\MPl$) & $7.2\times10^{15}\GeV$ & only $\Nc=3$\\
+$\beta=+1/\sqrt3$ & $2.0\times10^{19}\GeV$ ($1.64\,\MPl$) & $3.8\times10^{12}\GeV$ & only $\Nc=3$\\
+$\beta=+1/\sqrt3$, $M_V\ge4\TeV$ & $2.23\,\MPl$ & --- & only $\Nc=3$\\
+\bottomrule
+\end{tabular}
+\caption{Selection with one-loop threshold matching over the scanned spectrum.}\label{tab:thr}
+\end{table}
+
+The selection holds for any cutoff $\Lambda$ between the best $\Nc=5$ pole and the worst
+$\Nc=3$ pole. Over all criteria ($g=4\pi$ or $\alpha=1$, with or without Yukawas), any
+$\Lambda$ from $7.2\times10^{15}$ to $1.4\times10^{19}\GeV$ works. This window contains
+$\MPl$, the reduced Planck mass and the conventional unification scale.
+
+\section{The scalar sector to the Planck scale}\label{sec:scalar}
+
+The selection requires every coupling of 3-3-1 at $\Nc=3$ to stay perturbative to $\MPl$,
+so the scalar sector must pass the same test. We implement the general one-loop quartic
+and Yukawa RGEs~\cite{Machacek:1983fi,Machacek:1984zw,Luo:2002ti} on the 18 real scalars;
+the engine reproduces the Standard Model $\beta_\lambda$ and $\beta_{y_t}$ exactly. The
+nine quartics allowed by the model's discrete symmetry close under the RGEs (residual
+$10^{-15}$), and the potential is gauge invariant to $10^{-16}$. The light-Higgs quartic is
+matched at $4\TeV$ to $\lambda_{\text{SM}}=0.076$ at tree level in the decoupling limit.
+Survival means every $|\lambda|<4\pi$, every Yukawa $<\sqrt{4\pi}$, and a potential
+bounded below, checked numerically at eight scales up to $\MPl$.
+
+3-3-1 at $\Nc=3$ survives in both variants, in a corner of parameter space: 17 of 250
+viable points ($\beta=-1/\sqrt3$) and 13 of 250 ($\beta=+1/\sqrt3$) under small priors,
+none with $O(1)$ quartics. In the survivors the extra scalars cure the Standard Model's
+metastability. Consistency to $\MPl$ then requires the exotic Yukawa at $4\TeV$ to be
+below 0.80 ($\beta=-1/\sqrt3$) or 0.62 ($\beta=+1/\sqrt3$), i.e.\ exotic-quark masses below
+$1.79\,M_V$ or $1.40\,M_V$; the top's doublet must carry $c^2\gtrsim0.68$ of the
+electroweak vev squared; and all quartics at $4\TeV$ must be $\lesssim0.37$. These
+statements are one-loop, with tree-level matching, and the search is a random sampling
+rather than a proof that the surviving region is unique.
+
+\section{Conditions and caveats}\label{sec:caveats}
+
+\begin{enumerate}
+\item \emph{The framework.} Everything assumes 3-3-1 with $\beta=\pm1/\sqrt3$.
+\item \emph{Perturbativity to the Planck scale} is a standard criterion, not a theorem. A
+pole below $\MPl$ signals new physics rather than an inconsistency.
+\item \emph{Measured couplings are input.} Every $\Nc$ is run from $\sw=0.2504$,
+$1/\alpha_{\text{em}}=125.7$ and $\alpha_s$ at $4\TeV$; in 3-3-1,
+$1/\alpha_X=(1-4s^2/3)/\alpha_{\text{em}}$. For $\beta=-1/\sqrt3$, $\Nc=3$ reaches $\MPl$
+for $\sw<0.449$, while $\Nc=5$ does so only for $0.066<\sw<0.074$, a factor 3.1--3.4
+below the measured value. For $\beta=+1/\sqrt3$, $\Nc=5$ fails at every weak angle, and
+$\Nc=3$ survives for $\sw<0.266$ (tree-level matching; $+0.010$ to $+0.035$ in margin with
+thresholds). The precise statement is therefore: \emph{given the measured electroweak
+couplings}, only $\Nc=3$ stays perturbative to $\MPl$.
+\item \emph{Minimality is not explained.} Steps 1--2 leave $\{3,5,7,\dots\}$; the running
+does the selecting.
+\item \emph{No numbers follow.} The structure adds about eleven scalar parameters beyond
+the Standard Model's two and blocks gauge unification ($SU(3)_C$ and $SU(3)_L$ never meet).
+\end{enumerate}
+
+\section{Relation to prior work}\label{sec:prior}
+
+That $\Ng$ is a multiple of $\Nc$ in 3-3-1 is known~\cite{Pisano:1992bxx,Frampton:1992wt,Pisano:1996ht,Doff:2000pc}.
+Frampton obtained $\Nc=3$ by inputting three light neutrinos~\cite{Frampton:1994rt}.
+Charge quantization for arbitrary $\Nc$ was discussed in~\cite{Geng:2000pf}, generation
+counting for arbitrary $\beta$ in~\cite{Diaz:2004fs}, and the $\Nc$-dependence of the
+charges in~\cite{Bar:2001qk}. The closest predecessor is Doff and Pisano~\cite{Doff:2000tx},
+who keep $n_c$ general and find $\Ng=k\,n_c$ for any $k\ge1$; they do not use asymptotic
+freedom to set $k=1$, nor running to choose $n_c$. Landau poles in 3-3-1 at $\Nc=3$ are
+studied in~\cite{Dias:2004dc,Barela:2023oyp,Morisi:2025svd}.
+
+The step taken here is to keep $\Nc$ general throughout (charges, anomalies, scalars,
+two-loop running, thresholds, scalar sector) without taking the number of generations or
+neutrinos from experiment. Searches of arXiv and INSPIRE, including every paper citing
+the founding 3-3-1 papers, Frampton~\cite{Frampton:1994rt} and Doff--Pisano~\cite{Doff:2000tx},
+found no prior use of asymptotic freedom plus running to fix $\Nc$. This is not proof of
+novelty, and comments from experts are welcome.
+
+\section{Experimental tests}\label{sec:tests}
+
+The $\beta=\pm1/\sqrt3$ models predict a $Z'$, singly or doubly charged bilepton gauge
+bosons and exotic quarks, which the LHC and future colliders will find or exclude.
+Consistency to $\MPl$ adds the relations of Section~\ref{sec:scalar}: exotic quarks
+lighter than $1.79\,M_V$ or $1.40\,M_V$, $M_{Z'}=1.225\,M_V$, and the top's doublet
+carrying $\gtrsim70\%$ of the electroweak vev squared. A discovery violating these would
+break the selection without excluding 3-3-1. In the minimal $\beta=-\sqrt3$ model, $\sw$
+reaches $\tfrac14$ at $3.68\TeV$ at one loop, forcing its $Z'$ below about $3.7\TeV$,
+in tension with LHC dilepton searches. The $Z'$ mass limits and the low-energy
+$R$-ratio check of $\Nc=3$ are quoted from memory of the literature and have not been
+re-derived here.
+
+\section*{Reproducibility}
+
+Each number above is produced by a script in \texttt{src/m331\_*.py}, with reference
+output in \texttt{results/m331/} and regression tests in \texttt{tests/test\_331\_*.py},
+run on every commit.
+
+\begin{thebibliography}{99}
+\bibitem{Pisano:1992bxx} F.~Pisano and V.~Pleitez, \emph{An SU(3)$\times$U(1) model for electroweak interactions}, Phys.\ Rev.\ D \textbf{46}, 410 (1992), \href{https://doi.org/10.1103/PhysRevD.46.410}{doi:10.1103/PhysRevD.46.410}, \href{https://arxiv.org/abs/hep-ph/9206242}{hep-ph/9206242}.
+\bibitem{Frampton:1992wt} P.~H.~Frampton, \emph{Chiral dilepton model and the flavor question}, Phys.\ Rev.\ Lett.\ \textbf{69}, 2889 (1992), \href{https://doi.org/10.1103/PhysRevLett.69.2889}{doi:10.1103/PhysRevLett.69.2889}.
+\bibitem{Pisano:1996ht} F.~Pisano, \emph{A simple solution for the flavor question}, Mod.\ Phys.\ Lett.\ A \textbf{11}, 2639 (1996), \href{https://doi.org/10.1142/S0217732396002630}{doi:10.1142/S0217732396002630}, \href{https://arxiv.org/abs/hep-ph/9609358}{hep-ph/9609358}.
+\bibitem{Doff:2000pc} A.~Doff and F.~Pisano, \emph{Minimal extended flavor groups, matter fields chiral representations, and the flavor question}, Mod.\ Phys.\ Lett.\ A \textbf{15}, 1471 (2000), \href{https://doi.org/10.1142/S021773230000178X}{doi:10.1142/S021773230000178X}, \href{https://arxiv.org/abs/hep-ph/0007306}{hep-ph/0007306}.
+\bibitem{Doff:2000tx} A.~Doff and F.~Pisano, \emph{On the color simple group from chiral electroweak gauge groups}, \href{https://arxiv.org/abs/hep-ph/0011087}{hep-ph/0011087} (2000).
+\bibitem{Frampton:1994rt} P.~H.~Frampton, \emph{The third family is different}, in Proc.\ PASCOS 94, p.~63, \href{https://arxiv.org/abs/hep-ph/9409331}{hep-ph/9409331}.
+\bibitem{Witten:1982fp} E.~Witten, \emph{An SU(2) anomaly}, Phys.\ Lett.\ B \textbf{117}, 324 (1982), \href{https://doi.org/10.1016/0370-2693(82)90728-6}{doi:10.1016/0370-2693(82)90728-6}.
+\bibitem{Machacek:1983tz} M.~E.~Machacek and M.~T.~Vaughn, \emph{Two-loop renormalization group equations in a general quantum field theory. 1. Wave function renormalization}, Nucl.\ Phys.\ B \textbf{222}, 83 (1983), \href{https://doi.org/10.1016/0550-3213(83)90610-7}{doi:10.1016/0550-3213(83)90610-7}.
+\bibitem{Machacek:1983fi} M.~E.~Machacek and M.~T.~Vaughn, \emph{\dots\ 2. Yukawa couplings}, Nucl.\ Phys.\ B \textbf{236}, 221 (1984), \href{https://doi.org/10.1016/0550-3213(84)90533-9}{doi:10.1016/0550-3213(84)90533-9}.
+\bibitem{Machacek:1984zw} M.~E.~Machacek and M.~T.~Vaughn, \emph{\dots\ 3. Scalar quartic couplings}, Nucl.\ Phys.\ B \textbf{249}, 70 (1985), \href{https://doi.org/10.1016/0550-3213(85)90040-9}{doi:10.1016/0550-3213(85)90040-9}.
+\bibitem{Luo:2002ti} M.-x.~Luo, H.-w.~Wang and Y.~Xiao, \emph{Two-loop renormalization group equations in general gauge field theories}, Phys.\ Rev.\ D \textbf{67}, 065019 (2003), \href{https://doi.org/10.1103/PhysRevD.67.065019}{doi:10.1103/PhysRevD.67.065019}, \href{https://arxiv.org/abs/hep-ph/0211440}{hep-ph/0211440}.
+\bibitem{Weinberg:1980wa} S.~Weinberg, \emph{Effective gauge theories}, Phys.\ Lett.\ B \textbf{91}, 51 (1980), \href{https://doi.org/10.1016/0370-2693(80)90660-7}{doi:10.1016/0370-2693(80)90660-7}.
+\bibitem{Hall:1980kf} L.~J.~Hall, \emph{Grand unification of effective gauge theories}, Nucl.\ Phys.\ B \textbf{178}, 75 (1981), \href{https://doi.org/10.1016/0550-3213(81)90498-3}{doi:10.1016/0550-3213(81)90498-3}.
+\bibitem{Geng:2000pf} C.~Q.~Geng, \emph{Anomaly, charge quantization and family}, in Proc.\ Int.\ Workshop on Nonperturbative Methods and Lattice QCD (2000), p.~294, \href{https://doi.org/10.1142/9789812811370_0030}{doi:10.1142/9789812811370\_0030}, \href{https://arxiv.org/abs/hep-ph/0101329}{hep-ph/0101329}.
+\bibitem{Diaz:2004fs} R.~A.~Diaz, R.~Martinez and F.~Ochoa, \emph{SU(3)$_c\times$SU(3)$_L\times$U(1)$_X$ models for $\beta$ arbitrary and families with mirror fermions}, Phys.\ Rev.\ D \textbf{72}, 035018 (2005), \href{https://doi.org/10.1103/PhysRevD.72.035018}{doi:10.1103/PhysRevD.72.035018}, \href{https://arxiv.org/abs/hep-ph/0411263}{hep-ph/0411263}.
+\bibitem{Bar:2001qk} O.~B\"ar and U.-J.~Wiese, \emph{Can one see the number of colors?}, Nucl.\ Phys.\ B \textbf{609}, 225 (2001), \href{https://doi.org/10.1016/S0550-3213(01)00288-7}{doi:10.1016/S0550-3213(01)00288-7}, \href{https://arxiv.org/abs/hep-ph/0105258}{hep-ph/0105258}.
+\bibitem{Dias:2004dc} A.~G.~Dias, R.~Martinez and V.~Pleitez, \emph{Concerning the Landau pole in 3-3-1 models}, Eur.\ Phys.\ J.\ C \textbf{39}, 101 (2005), \href{https://doi.org/10.1140/epjc/s2004-02083-0}{doi:10.1140/epjc/s2004-02083-0}, \href{https://arxiv.org/abs/hep-ph/0407141}{hep-ph/0407141}.
+\bibitem{Barela:2023oyp} M.~W.~Barela, \emph{On the 3-3-1 Landau pole}, Nucl.\ Phys.\ B \textbf{1000}, 116475 (2024), \href{https://doi.org/10.1016/j.nuclphysb.2024.116475}{doi:10.1016/j.nuclphysb.2024.116475}, \href{https://arxiv.org/abs/2305.05066}{arXiv:2305.05066}.
+\bibitem{Morisi:2025svd} S.~Morisi, G.~Ricciardi and G.~P.~Perdon\`a, \emph{Rescuing 331 bileptons from the Landau pole}, Phys.\ Rev.\ D \textbf{112}, 035041 (2025), \href{https://doi.org/10.1103/c7jb-lbsx}{doi:10.1103/c7jb-lbsx}, \href{https://arxiv.org/abs/2505.15785}{arXiv:2505.15785}.
+\end{thebibliography}
+
+\end{document}

@@ -170,7 +170,7 @@ def run_two_loop(Nc, mu0=4e3, loops=2, model=model_331, gmax=4 * pi):
     L0 = log(mu0 / MZ) / (2 * pi)
     aY_inv = (1 - s2) * ainv - 41 / 6 * L0
     a2_inv = s2 * ainv + 19 / 6 * L0
-    from stur_open_problems import alpha_s_run
+    from qcd_running import alpha_s_run
     a3_inv = 1 / alpha_s_run(mu0)
     aL_inv = a2_inv
     aX_inv = aY_inv - (1 / 3) * aL_inv                        # 1/g_Y^2 = 1/g_X^2 + beta^2/g_L^2

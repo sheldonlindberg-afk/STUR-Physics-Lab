@@ -4,7 +4,7 @@ from fractions import Fraction as F
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 import m331_yukawa as Y
 
-REF = os.path.join(os.path.dirname(__file__), "..", "results", "unifying_search", "331_yukawa.txt")
+REF = os.path.join(os.path.dirname(__file__), "..", "results", "m331", "331_yukawa.txt")
 
 
 def test_yukawa_coefficients_reproduce_sm_top():

@@ -81,7 +81,7 @@ def main():
     print("   -> works for EVERY N_c: the fold does not select 3.")
 
     banner("W6  Observables with anomaly-consistent charges")
-    from stur_open_problems import alpha_s_run
+    from qcd_running import alpha_s_run
     a_s = alpha_s_run(2.45)                                  # mid-point of the KEDR range (3 light flavours produced)
     print(f"   alpha_s(2.45 GeV) = {a_s:.3f} (2-loop, our running from alpha_s(M_Z) = 0.118)")
     print("   N_c   pi0->gg ~ N_c(Qu^2-Qd^2)    R(u,d,s)     R vs KEDR 2.225 +- 0.051")

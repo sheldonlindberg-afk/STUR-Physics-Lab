@@ -1,8 +1,9 @@
 # Three colours and three generations from perturbativity in 3-3-1 models
 
-*A standalone note. Sheldon Lindberg, STUR Physics Lab, November 2026. It can be read
-without the rest of this repository. Not peer reviewed; an expert reading is still
-needed.*
+*Sheldon Lindberg, November 2026. Preprint, not peer reviewed; comments from 3-3-1
+experts are welcome. **PDF: [paper/note331.pdf](paper/note331.pdf)** (LaTeX source
+[paper/note331.tex](paper/note331.tex)). This Markdown version carries the same content
+with more detail on each check.*
 
 ## Abstract
 
@@ -46,7 +47,8 @@ bilepton gauge bosons decide, and on the perturbativity requirement.
 The electric charge is Q = T₃ + βT₈ + X. The two variants without low-scale Landau poles
 are β = ±1/√3. The minimal β = −√3 model is excluded by LHC Z′ limits, as computed in §6.
 
-For colour group SU(N_c) we take N_g generations. Each generation has left-handed lepton
+For colour group SU(N_c) we take N_g generations, with N_c ≥ 2: for N_c = 1 there is
+no colour gauge field, and the asymptotic-freedom condition of step 2 is vacuous. Each generation has left-handed lepton
 triplets and quark triplets or anti-triplets, with the third member an exotic quark. n of
 the N_g quark generations sit in the anti-triplet.
 
@@ -163,7 +165,7 @@ The Planck scale is 1.2×10¹⁹ GeV.
 
 ## 3a. One-loop threshold matching at the 3-3-1 scale
 
-Source: `src/m331_threshold.py`, output `results/unifying_search/331_threshold.txt`.
+Source: `src/m331_threshold.py`, output `results/m331/331_threshold.txt`.
 
 **Method.** The breaking SU(3)_L × U(1)_X → SU(2)_L × U(1)_Y is matched at one loop in
 MS-bar (Weinberg 1980; Hall 1981):
@@ -222,10 +224,10 @@ scanned. In the narrow variant the worst allowed case sits a factor of 2 above M
 
 ## 3b. The cutoff and the criterion
 
-Source: `src/m331_closure.py`, output `results/unifying_search/331_closure.txt`.
+Source: `src/m331_closure.py`, output `results/m331/331_closure.txt`.
 
 The selection holds for any cutoff Λ with (best N_c = 5 pole) < Λ < (worst N_c = 3
-pole), taken over the whole front-7e spectrum:
+pole), taken over the whole spectrum scanned in §3a:
 
 | Criterion | Yukawas | β = −1/√3 window (GeV) | β = +1/√3 window (GeV) |
 |---|---|---|---|
@@ -241,7 +243,7 @@ scale (2×10¹⁶). Only the strict g = 1 criterion fails (§3).
 ## 3c. The scalar sector itself, to the Planck scale
 
 Source: `src/m331_scalar.py` and `src/rge_engine.py`, output
-`results/unifying_search/331_scalar.txt`.
+`results/m331/331_scalar.txt`.
 
 **Why this matters.** The selection asks every coupling to stay perturbative to the
 Planck scale, so 3-3-1 at N_c = 3 must pass the same test in its scalar sector. If its
@@ -346,7 +348,7 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
   - the charges' N_c dependence from anomaly cancellation (e.g. Bär–Wiese 2001 on
     π⁰ → γγ);
   - the minimal model's low Landau pole (e.g. Dias, Martinez, Pleitez 2005,
-    hep-ph/0407141; Barela 2023, arXiv:2305.05066; Morisi, Perdonà, Ricciardi 2025,
+    hep-ph/0407141; Barela 2024, arXiv:2305.05066; Morisi, Perdonà, Ricciardi 2025,
     arXiv:2505.15785), and the β = 1/√3 model's high-energy U(1) pole, all at N_c = 3.
 - **This note's step:** keep N_c general throughout (charges, anomalies, scalars, two-loop
   running, thresholds, the scalar sector), and **don't** take the number of generations
@@ -362,7 +364,7 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
 ## 6. How it will be tested
 
 - **The β = ±1/√3 models predict:**
-  - a Z′ above about 3.6–4.2 TeV (LIT, recalled);
+  - a Z′ above about 3.6–4.2 TeV (from the literature, not re-derived here);
   - doubly or singly charged bilepton gauge bosons;
   - exotic quarks.
 
@@ -378,13 +380,13 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
   which forces its Z′ below about 3.7 TeV, while LHC dilepton searches exclude it below
   5 TeV.
 - **An independent check of N_c = 3:** the R-ratio below charm. With N_c-dependent charges
-  it gives −1.0σ at N_c = 3, against −15σ at N_c = 2 and +33σ at N_c = 5 (KEDR, recalled).
+  it gives −1.0σ at N_c = 3, against −15σ at N_c = 2 and +33σ at N_c = 5 (KEDR data, quoted from memory, not re-derived here).
 
 ## 7. Reproduce
 
 ```bash
 pip install -r requirements.txt pytest
-python3 src/m331_why_three.py          # step 1, charges; results/unifying_search/why_three.txt
+python3 src/m331_why_three.py          # step 1, charges; results/m331/why_three.txt
 python3 src/m331_three_generations.py  # step 2, minimal model; three_generations.txt
 python3 src/m331_su3L_running.py       # step 3; su3L_running.txt
 python3 src/m331_exact.py              # step 4, robustness, both variants; 331_exact.txt
@@ -392,15 +394,11 @@ python3 src/m331_yukawa.py             # Yukawas, boundary condition, margins; 3
 python3 src/m331_threshold.py          # one-loop threshold matching (~75 s); 331_threshold.txt
 python3 src/m331_closure.py            # Witten redundant, no-Yukawa bound, cutoff window (~3 min)
 python3 src/m331_scalar.py             # the scalar sector to M_Pl (~4 min); 331_scalar.txt
-python -m pytest tests/test_unifying_search.py tests/test_331_*.py -q
+python -m pytest tests/test_331_*.py -q
 ```
 
-## References (recalled, not link-checked)
+## References
 
-- F. Pisano, V. Pleitez, Phys. Rev. D 46, 410 (1992).
-- P. H. Frampton, Phys. Rev. Lett. 69, 2889 (1992).
-- E. Witten, "An SU(2) anomaly", Phys. Lett. B 117, 324 (1982).
-- M. E. Machacek, M. T. Vaughn, Nucl. Phys. B 236, 221 (1984); B 249, 70 (1985) (Yukawa and
-  quartic β-functions); M.-x. Luo, H.-w. Wang, Y. Xiao, Phys. Rev. D 67, 065019 (2003).
-- M. E. Machacek, M. T. Vaughn, Nucl. Phys. B 222, 83 (1983) (two-loop gauge β-functions).
-- O. Bär, U.-J. Wiese, Nucl. Phys. B 609, 225 (2001).
+Full bibliography, with DOIs and arXiv numbers checked against INSPIRE, in
+[paper/note331.pdf](paper/note331.pdf). The Z′ mass limits (§6) and the KEDR R-ratio
+check are quoted from memory of the literature and have not been re-derived here.

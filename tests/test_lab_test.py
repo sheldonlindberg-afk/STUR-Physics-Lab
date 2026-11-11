@@ -1,4 +1,4 @@
-"""Pins src/stur_lab_test.py: the trapped-ion kill test for STUR's corollary P2."""
+"""Pins src/stur_lab_test.py: the trapped-ion test of -ln V = 2 Var(dN) against the ansatz P2."""
 import os, sys
 import numpy as np
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))

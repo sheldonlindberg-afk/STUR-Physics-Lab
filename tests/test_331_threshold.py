@@ -4,7 +4,7 @@ import numpy as np
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 import m331_threshold as T
 
-REF = os.path.join(os.path.dirname(__file__), "..", "results", "unifying_search", "331_threshold.txt")
+REF = os.path.join(os.path.dirname(__file__), "..", "results", "m331", "331_threshold.txt")
 
 
 def test_one_loop_matching_scale_independence():

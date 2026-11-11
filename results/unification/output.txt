@@ -39,7 +39,7 @@ U1  Free-fermion chain: one equation for horizon-type entanglement
     eps=0.025: sum dE/T_loc = +1.194272e-02   exact d<K> = +1.194645e-02   ratio = 0.99969
     -> the Unruh-weighted local energy IS the modular energy (lattice, 0.0x %),
        and by (b) its first-order change equals dS.
-    -> STUR's E = T S is the integrated, global-T caricature of THIS local law;
+    -> a global E = T S is the integrated, global-T caricature of THIS local law;
        the temperature is the local Unruh-type T_loc(x), not one global T.
 
 ==============================================================================
