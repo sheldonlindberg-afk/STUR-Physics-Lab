@@ -26,9 +26,12 @@ G4  Minimal 3-3-1 (beta = -sqrt3) vs data: the sin^2 theta_W = 1/4 wall
    mu =   5000.0 GeV:  sin^2 theta_W = 0.25159
    sin^2 theta_W reaches 1/4 at mu_* = 3.68 TeV (one loop, Standard Model content)
    The U(1)_X coupling g_X^2 ~ s^2/(1 - 4 s^2) diverges there (Landau pole), so every new
-   gauge boson of the minimal model must lie below mu_*.  LHC (LIT): Z' < 5 TeV excluded.
-   -> minimal 3-3-1 needs M_Z' < 3.7 TeV but data require M_Z' > 5 TeV: EXCLUDED
-      Two-loop and threshold effects were NOT computed; rescuing the model needs them to
-      raise mu_* by 36% (to 5 TeV).
+   gauge boson of the minimal model must lie below mu_*.
+   LHC 13 TeV dileptons (LIT, Nepomuceno-Meirose 2020): M_Z' > 3.7 TeV.
+   Cs atomic parity violation (LIT, Long et al. 2019): M_Z' >~ 4.2-5.4 TeV.
+   -> minimal 3-3-1 needs M_Z' < 3.7 TeV: at the LHC bound, and excluded by APV.
+      Two-loop and threshold effects were NOT computed; evading APV needs them to
+      raise mu_* by at least 14% (to 4.2 TeV).
    beta = +-1/sqrt3 variants have no such pole: the N_g = N_c result survives there,
-   with Z' > 3.6-4.2 TeV (LIT) - testable, not excluded.
+   with M_Z' > 2.6-4 TeV (beta = -1/sqrt3, LHC 13 TeV) and >~ 2.9 TeV (beta = +1/sqrt3,
+   8 TeV data) (LIT) - testable, not excluded.

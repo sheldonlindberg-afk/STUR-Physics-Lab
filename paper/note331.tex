@@ -63,8 +63,8 @@ Section~\ref{sec:prior} compares with prior work.
 \section{Setup for general $N_c$}\label{sec:setup}
 
 The electric charge is $Q=T_3+\beta T_8+X$. The two variants without low-scale Landau
-poles are $\beta=\pm1/\sqrt3$; the minimal $\beta=-\sqrt3$ model is excluded by LHC $Z'$
-limits (Section~\ref{sec:tests}). For colour group $SU(\Nc)$ we take $\Ng$ generations.
+poles are $\beta=\pm1/\sqrt3$; the minimal $\beta=-\sqrt3$ model is excluded by atomic
+parity violation and sits at the LHC $Z'$ bound (Section~\ref{sec:tests}). For colour group $SU(\Nc)$ we take $\Ng$ generations.
 Each has left-handed lepton triplets and quark triplets or anti-triplets, the third member
 of each quark multiplet being an exotic quark; $n$ of the $\Ng$ quark generations sit in
 the anti-triplet.
@@ -226,7 +226,8 @@ factor 1.5 with $\mu$, and we take its most favourable $\mu$.
 Scanning $r_J=0.5$--$3$, $r_S=\tfrac13$--$3$, $M_V=2$--$10\TeV$ and a heavy or light
 second doublet (two-loop running, Yukawas included) gives Table~\ref{tab:thr}. The worst
 case for $\Nc=3$ (lightest exotics, light scalars, light second doublet, $M_V=2\TeV$) puts
-the $Z'$ at $2.45\TeV$, already below LHC limits. At two loops, moving $\mu$ from $M_V/2$
+the $Z'$ at $2.45\TeV$, already below the conservative LHC limits of
+Section~\ref{sec:tests}. At two loops, moving $\mu$ from $M_V/2$
 to $2M_V$ changes the pole by 1\%.
 
 \begin{table}[h]\centering
@@ -311,14 +312,34 @@ novelty, and comments from experts are welcome.
 
 The $\beta=\pm1/\sqrt3$ models predict a $Z'$, singly or doubly charged bilepton gauge
 bosons and exotic quarks, which the LHC and future colliders will find or exclude.
+Current dilepton limits on the $Z'$ depend on the variant and on its decays. For
+$\beta=-1/\sqrt3$, a recast of $13\TeV$ ATLAS data (36.1\,fb$^{-1}$) gives
+$M_{Z'}>4\TeV$ if the $Z'$ decays only to Standard Model particles~\cite{Lindner:2016bgg};
+with decays into exotic quarks and heavy leptons open, the bound weakens to
+$2.64\TeV$~\cite{deJesus:2020ngn}. For $\beta=+1/\sqrt3$ the most recent dedicated recast we
+found uses $8\TeV$ data and gives $M_{Z'}\gtrsim2.9\TeV$~\cite{Salazar:2015gxa}; it is
+likely superseded by $13\TeV$ data, which we have not recast.
+
 Consistency to $\MPl$ adds the relations of Section~\ref{sec:scalar}: exotic quarks
 lighter than $1.79\,M_V$ or $1.40\,M_V$, $M_{Z'}=1.225\,M_V$, and the top's doublet
 carrying $\gtrsim70\%$ of the electroweak vev squared. A discovery violating these would
-break the selection without excluding 3-3-1. In the minimal $\beta=-\sqrt3$ model, $\sw$
-reaches $\tfrac14$ at $3.68\TeV$ at one loop, forcing its $Z'$ below about $3.7\TeV$,
-in tension with LHC dilepton searches. The $Z'$ mass limits and the low-energy
-$R$-ratio check of $\Nc=3$ are quoted from memory of the literature and have not been
-re-derived here.
+break the selection without excluding 3-3-1.
+
+In the minimal $\beta=-\sqrt3$ model, $\sw$ reaches $\tfrac14$ at $3.68\TeV$ at one loop,
+where $g_X$ has its Landau pole, so its $Z'$ must lie below about $3.7\TeV$. The LHC
+bound in this model is $M_{Z'}>3.7\TeV$ ($13\TeV$, 36.1\,fb$^{-1}$, exotic decays
+included)~\cite{Nepomuceno:2019eaz}, and atomic parity violation in caesium requires
+$M_{Z'}\gtrsim4.2$--$5.4\TeV$~\cite{Long:2018fud}. The minimal model is therefore excluded
+unless higher-order effects raise its pole by more than about 14\%.
+
+Finally, $\Nc$ can be checked directly at low energy. With the $\Nc$-dependent charges of
+Section~\ref{sec:setup} and the $O(\alpha_s)$ correction, $R=\sigma(e^+e^-\to
+\text{hadrons})/\sigma(e^+e^-\to\mu^+\mu^-)$ below charm is
+$\Nc(Q_u^2+2Q_d^2)(1+3C_F\alpha_s/4\pi)$, which is $2.173$ at $\Nc=3$. KEDR's weighted
+average over 1.84--3.05\,GeV is $R=2.225\pm0.020\pm0.047$~\cite{KEDR:2016hjj}, so $\Nc=3$
+agrees to $1.0\sigma$, while $\Nc=2$ and $5$ miss by $15\sigma$ and $33\sigma$. This check
+is independent of the running argument; it is of course not new, but it confirms that the
+$\Nc$-dependent charges reproduce the measured value.
 
 \section*{Reproducibility}
 
@@ -346,6 +367,12 @@ run on every commit.
 \bibitem{Dias:2004dc} A.~G.~Dias, R.~Martinez and V.~Pleitez, \emph{Concerning the Landau pole in 3-3-1 models}, Eur.\ Phys.\ J.\ C \textbf{39}, 101 (2005), \href{https://doi.org/10.1140/epjc/s2004-02083-0}{doi:10.1140/epjc/s2004-02083-0}, \href{https://arxiv.org/abs/hep-ph/0407141}{hep-ph/0407141}.
 \bibitem{Barela:2023oyp} M.~W.~Barela, \emph{On the 3-3-1 Landau pole}, Nucl.\ Phys.\ B \textbf{1000}, 116475 (2024), \href{https://doi.org/10.1016/j.nuclphysb.2024.116475}{doi:10.1016/j.nuclphysb.2024.116475}, \href{https://arxiv.org/abs/2305.05066}{arXiv:2305.05066}.
 \bibitem{Morisi:2025svd} S.~Morisi, G.~Ricciardi and G.~P.~Perdon\`a, \emph{Rescuing 331 bileptons from the Landau pole}, Phys.\ Rev.\ D \textbf{112}, 035041 (2025), \href{https://doi.org/10.1103/c7jb-lbsx}{doi:10.1103/c7jb-lbsx}, \href{https://arxiv.org/abs/2505.15785}{arXiv:2505.15785}.
+\bibitem{Lindner:2016bgg} M.~Lindner, M.~Platscher and F.~S.~Queiroz, \emph{A call for new physics: the muon anomalous magnetic moment and lepton flavor violation}, Phys.\ Rept.\ \textbf{731}, 1 (2018), \href{https://doi.org/10.1016/j.physrep.2017.12.001}{doi:10.1016/j.physrep.2017.12.001}, \href{https://arxiv.org/abs/1610.06587}{arXiv:1610.06587}.
+\bibitem{deJesus:2020ngn} \'A.~S.~de Jesus, S.~Kovalenko, F.~S.~Queiroz, C.~A.~de S.~Pires and Y.~S.~Villamizar, \emph{Dead or alive? Implications of the muon anomalous magnetic moment for 3-3-1 models}, Phys.\ Lett.\ B \textbf{809}, 135689 (2020), \href{https://doi.org/10.1016/j.physletb.2020.135689}{doi:10.1016/j.physletb.2020.135689}, \href{https://arxiv.org/abs/2003.06440}{arXiv:2003.06440}.
+\bibitem{Salazar:2015gxa} C.~Salazar, R.~H.~Benavides, W.~A.~Ponce and E.~Rojas, \emph{LHC constraints on 3-3-1 models}, JHEP \textbf{07}, 096 (2015), \href{https://doi.org/10.1007/JHEP07(2015)096}{doi:10.1007/JHEP07(2015)096}, \href{https://arxiv.org/abs/1503.03519}{arXiv:1503.03519}.
+\bibitem{Nepomuceno:2019eaz} A.~Nepomuceno and B.~Meirose, \emph{Limits on 331 vector bosons from LHC proton collision data}, Phys.\ Rev.\ D \textbf{101}, 035017 (2020), \href{https://doi.org/10.1103/PhysRevD.101.035017}{doi:10.1103/PhysRevD.101.035017}, \href{https://arxiv.org/abs/1911.12783}{arXiv:1911.12783}.
+\bibitem{Long:2018fud} H.~N.~Long, N.~V.~Hop, L.~T.~Hue and N.~T.~T.~Van, \emph{Constraining heavy neutral gauge boson $Z'$ in the 3-3-1 models by weak charge data of Cesium and proton}, Nucl.\ Phys.\ B \textbf{943}, 114629 (2019), \href{https://doi.org/10.1016/j.nuclphysb.2019.114629}{doi:10.1016/j.nuclphysb.2019.114629}, \href{https://arxiv.org/abs/1812.08669}{arXiv:1812.08669}.
+\bibitem{KEDR:2016hjj} V.~V.~Anashin \emph{et al.} (KEDR), \emph{Measurement of $R$ between 1.84 and 3.05 GeV at the KEDR detector}, Phys.\ Lett.\ B \textbf{770}, 174 (2017), \href{https://doi.org/10.1016/j.physletb.2017.04.073}{doi:10.1016/j.physletb.2017.04.073}, \href{https://arxiv.org/abs/1610.02827}{arXiv:1610.02827}.
 \end{thebibliography}
 
 \end{document}

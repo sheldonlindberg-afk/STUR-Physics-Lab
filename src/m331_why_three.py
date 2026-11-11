@@ -14,7 +14,8 @@ W5 The minimal fold of front 4 for general N_c: does it select a value?
 W6 Observables with anomaly-consistent, N_c-dependent charges:
    pi0 -> gamma gamma amplitude ~ N_c (Q_u^2 - Q_d^2);
    R = sigma(ee->hadrons)/sigma(ee->mu mu) below charm = N_c (Q_u^2 + 2 Q_d^2)(1 + 3 C_F alpha_s/4pi),
-   vs KEDR (LIT): R = 2.225 +- 0.051 averaged over 1.84-3.05 GeV.
+   vs KEDR: weighted average R = 2.225 +- 0.020 +- 0.047 over 1.84-3.05 GeV (Anashin et al.,
+   PLB 770, 174 (2017), arXiv:1610.02827; combined +- 0.051).
 """
 import os
 import sys

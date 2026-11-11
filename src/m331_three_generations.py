@@ -14,7 +14,13 @@ G4 Data for the MINIMAL model (beta = -sqrt3): it needs sin^2 theta_W(mu) < 1/4 
    3-3-1 scale.  Running the Standard Model couplings up (one loop) gives the scale
    mu_* where sin^2 theta_W reaches 1/4; the new gauge bosons must lie below it.
    Inputs (LIT, PDG, recalled): 1/alpha(M_Z) = 127.95, sin^2 theta_W(M_Z) = 0.23122 (MS-bar).
-   LHC (LIT, retrieved): minimal-model Z' below 5 TeV excluded; beta = +-1/sqrt3: Z' > 3.6-4.2 TeV.
+   Z' limits (LIT, sources checked):
+     minimal model: LHC 13 TeV dileptons M_Z' > 3.7 TeV (Nepomuceno & Meirose, PRD 101, 035017
+       (2020)); Cs atomic parity violation M_Z' >~ 4.2-5.4 TeV (Long et al., NPB 943, 114629 (2019)).
+     beta = -1/sqrt3: M_Z' > 4 TeV with Standard Model decays only (Lindner, Platscher & Queiroz,
+       Phys. Rept. 731, 1 (2018)); > 2.64 TeV with exotic decays open (de Jesus et al., PLB 809,
+       135689 (2020)).
+     beta = +1/sqrt3: M_Z' > ~2.9 TeV from 8 TeV data (Salazar et al., JHEP 07 (2015) 096).
 """
 from math import gcd, log, pi, exp
 from scipy.optimize import brentq
@@ -63,12 +69,15 @@ def main():
     mu_star = brentq(lambda m: sin2_running(m) - 0.25, 100, 1e6)
     print(f"   sin^2 theta_W reaches 1/4 at mu_* = {mu_star/1e3:.2f} TeV (one loop, Standard Model content)")
     print("   The U(1)_X coupling g_X^2 ~ s^2/(1 - 4 s^2) diverges there (Landau pole), so every new")
-    print("   gauge boson of the minimal model must lie below mu_*.  LHC (LIT): Z' < 5 TeV excluded.")
-    print(f"   -> minimal 3-3-1 needs M_Z' < {mu_star/1e3:.1f} TeV but data require M_Z' > 5 TeV: EXCLUDED")
-    print(f"      Two-loop and threshold effects were NOT computed; rescuing the model needs them to")
-    print(f"      raise mu_* by {5e3/mu_star*100-100:.0f}% (to 5 TeV).")
+    print("   gauge boson of the minimal model must lie below mu_*.")
+    print("   LHC 13 TeV dileptons (LIT, Nepomuceno-Meirose 2020): M_Z' > 3.7 TeV.")
+    print("   Cs atomic parity violation (LIT, Long et al. 2019): M_Z' >~ 4.2-5.4 TeV.")
+    print(f"   -> minimal 3-3-1 needs M_Z' < {mu_star/1e3:.1f} TeV: at the LHC bound, and excluded by APV.")
+    print(f"      Two-loop and threshold effects were NOT computed; evading APV needs them to")
+    print(f"      raise mu_* by at least {4.2e3/mu_star*100-100:.0f}% (to 4.2 TeV).")
     print("   beta = +-1/sqrt3 variants have no such pole: the N_g = N_c result survives there,")
-    print("   with Z' > 3.6-4.2 TeV (LIT) - testable, not excluded.")
+    print("   with M_Z' > 2.6-4 TeV (beta = -1/sqrt3, LHC 13 TeV) and >~ 2.9 TeV (beta = +1/sqrt3,")
+    print("   8 TeV data) (LIT) - testable, not excluded.")
     return mu_star
 
 

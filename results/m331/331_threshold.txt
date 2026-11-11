@@ -34,11 +34,11 @@ T3  Blow-up scale with one-loop thresholds and two-loop running, spectrum scanne
    beta = -1/sqrt3: N_c = 3 from 2.44e+29 to 9.71e+29 GeV  (lowest at r_J, r_S, M_V, n_light = 0.5, 0.33, 2e+03, 2)
                     N_c = 5 from 8.84e+14 to 7.17e+15 GeV
                     worst N_c = 3 / M_Pl = 2e+10;  best N_c = 5 / M_Pl = 5.9e-04  ->  only N_c = 3 survives
-                    with M_V >= 4 TeV (M_Z' >= 4.9 TeV, above the LHC limits quoted): worst N_c = 3 / M_Pl = 2.12e+10
+                    with M_V >= 4 TeV (M_Z' >= 4.9 TeV, above every current Z' limit): worst N_c = 3 / M_Pl = 2.12e+10
    beta = +1/sqrt3: N_c = 3 from 2.00e+19 to 2.52e+20 GeV  (lowest at r_J, r_S, M_V, n_light = 0.5, 0.33, 2e+03, 2)
                     N_c = 5 from 2.81e+11 to 3.76e+12 GeV
                     worst N_c = 3 / M_Pl = 1.64;  best N_c = 5 / M_Pl = 3.1e-07  ->  only N_c = 3 survives
-                    with M_V >= 4 TeV (M_Z' >= 4.9 TeV, above the LHC limits quoted): worst N_c = 3 / M_Pl = 2.23
+                    with M_V >= 4 TeV (M_Z' >= 4.9 TeV, above every current Z' limit): worst N_c = 3 / M_Pl = 2.23
 
 ==============================================================================
 T4  The narrow margin, recomputed (beta = +1/sqrt3, N_c = 3)

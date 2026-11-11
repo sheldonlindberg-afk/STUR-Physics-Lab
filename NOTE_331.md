@@ -45,7 +45,8 @@ bilepton gauge bosons decide, and on the perturbativity requirement.
 ## 1. Setup
 
 The electric charge is Q = T₃ + βT₈ + X. The two variants without low-scale Landau poles
-are β = ±1/√3. The minimal β = −√3 model is excluded by LHC Z′ limits, as computed in §6.
+are β = ±1/√3. The minimal β = −√3 model is excluded by atomic parity violation and sits at the LHC Z′
+bound (§6).
 
 For colour group SU(N_c) we take N_g generations, with N_c ≥ 2: for N_c = 1 there is
 no colour gauge field, and the asymptotic-freedom condition of step 2 is vacuous. Each generation has left-handed lepton
@@ -364,7 +365,13 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
 ## 6. How it will be tested
 
 - **The β = ±1/√3 models predict:**
-  - a Z′ above about 3.6–4.2 TeV (from the literature, not re-derived here);
+  - a Z′, whose current dilepton limits depend on the variant and on its decays:
+    - β = −1/√3: M_Z′ > 4 TeV with Standard Model decays only (13 TeV, 36.1 fb⁻¹ recast:
+      Lindner, Platscher & Queiroz, Phys. Rept. 731, 1 (2018), arXiv:1610.06587), weakened
+      to 2.64 TeV with exotic decays open (de Jesus et al., PLB 809, 135689 (2020),
+      arXiv:2003.06440);
+    - β = +1/√3: M_Z′ ≳ 2.9 TeV from 8 TeV data (Salazar et al., JHEP 07 (2015) 096,
+      arXiv:1503.03519); no 13 TeV recast for this variant was found;
   - doubly or singly charged bilepton gauge bosons;
   - exotic quarks.
 
@@ -376,11 +383,19 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
 
   A discovery that breaks these relations would break the selection, without excluding
   3-3-1 itself.
-- **The minimal model is already excluded.** At one loop sin²θ_W reaches ¼ at 3.68 TeV,
-  which forces its Z′ below about 3.7 TeV, while LHC dilepton searches exclude it below
-  5 TeV.
+- **The minimal model is excluded.** At one loop sin²θ_W reaches ¼ at 3.68 TeV, where
+  g_X has its Landau pole, so its Z′ must lie below about 3.7 TeV.
+  - The LHC bound is M_Z′ > 3.7 TeV (13 TeV, 36.1 fb⁻¹, exotic decays included;
+    Nepomuceno & Meirose, PRD 101, 035017 (2020), arXiv:1911.12783), right at that ceiling.
+  - Atomic parity violation in caesium requires M_Z′ ≳ 4.2–5.4 TeV (Long et al., NPB 943,
+    114629 (2019), arXiv:1812.08669).
+  - Higher-order effects would have to raise the pole by more than about 14% to evade the
+    parity-violation bound.
 - **An independent check of N_c = 3:** the R-ratio below charm. With N_c-dependent charges
-  it gives −1.0σ at N_c = 3, against −15σ at N_c = 2 and +33σ at N_c = 5 (KEDR data, quoted from memory, not re-derived here).
+  R(u,d,s) = N_c(Q_u² + 2Q_d²)(1 + 3C_Fα_s/4π) is 2.173 at N_c = 3 (`src/m331_why_three.py`,
+  W6). KEDR's weighted average over 1.84–3.05 GeV is R = 2.225 ± 0.020 ± 0.047 (Anashin
+  et al., PLB 770, 174 (2017), arXiv:1610.02827), so N_c = 3 agrees to −1.0σ, against
+  −15σ at N_c = 2 and +33σ at N_c = 5.
 
 ## 7. Reproduce
 
@@ -400,5 +415,5 @@ python -m pytest tests/test_331_*.py -q
 ## References
 
 Full bibliography, with DOIs and arXiv numbers checked against INSPIRE, in
-[paper/note331.pdf](paper/note331.pdf). The Z′ mass limits (§6) and the KEDR R-ratio
-check are quoted from memory of the literature and have not been re-derived here.
+[paper/note331.pdf](paper/note331.pdf). The Z′ limits (§6) are quoted from the cited
+recasts and have not been re-derived here.

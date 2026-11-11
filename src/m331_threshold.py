@@ -180,7 +180,7 @@ def main():
               f"  ->  {'only N_c = 3 survives' if lo3 > M_PLANCK > hi5 else 'VERDICT CHANGES'}")
         (lo3b, *_), _ = scan(3, v, MVs=(4e3, 1e4))
         out[(v, "3_lhc")] = lo3b
-        print(f"                    with M_V >= 4 TeV (M_Z' >= {1.225*4:.1f} TeV, above the LHC limits quoted): "
+        print(f"                    with M_V >= 4 TeV (M_Z' >= {1.225*4:.1f} TeV, above every current Z' limit): "
               f"worst N_c = 3 / M_Pl = {lo3b/M_PLANCK:.3g}")
 
     banner("T4  The narrow margin, recomputed (beta = +1/sqrt3, N_c = 3)")
