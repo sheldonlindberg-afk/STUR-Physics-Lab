@@ -63,7 +63,7 @@ The equation as written needs a field with five properties:
 | SU(3) colour | ✓ | ≈ (lattice) | ✓ | ✗ | ✗ |
 | Levi-Civita spin connection | ✓ | ✗ | ✗ | ✓ exactly, **but linear in Φ** (P4) | tiny |
 | Ashtekar–Barbero SU(2) | ✓ | ✗ | ✗ | ✓ only by fitting γ | ✗ |
-| TEGR translational potential B⁰_μ ([TEGR.md](TEGR.md)) | ✓ | ✓ (free field; tiny) | ✗ (perimeter law) | ✓ as in GR (smooth horizon) | ✓ (COW phase) |
+| TEGR translational potential B⁰_μ ([TEGR.md](../../TEGR.md)) | ✓ | ✓ (free field; tiny) | ✗ (perimeter law) | ✓ as in GR (smooth horizon) | ✓ (COW phase) |
 | New field | must be confining at 1 fm *and* couple to neutral atoms | | | | |
 
 **Verdict: no known connection meets R1–R5.** The QCD end needs a colour field

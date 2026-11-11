@@ -395,8 +395,6 @@ python3 src/m331_scalar.py             # the scalar sector to M_Pl (~4 min); 331
 python -m pytest tests/test_unifying_search.py tests/test_331_*.py -q
 ```
 
-The full working record is fronts 5–7g and 11–12 of [UNIFYING_SEARCH.md](UNIFYING_SEARCH.md).
-
 ## References (recalled, not link-checked)
 
 - F. Pisano, V. Pleitez, Phys. Rev. D 46, 410 (1992).

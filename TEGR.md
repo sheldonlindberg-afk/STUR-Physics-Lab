@@ -96,10 +96,10 @@ It meets 4 of 5. It is the first candidate in P2 that meets R1, R4 and R5 at ful
 strength. The Levi-Civita spin connection reaches atoms only as a 10⁻¹⁴ boost.
 
 With Gaussian noise in this A_μ, the visibility formula V = exp(−½⟨Φ_R²⟩) becomes exactly
-the [OPTION_A.md](OPTION_A.md) model. Its area-law version is excluded, and its
+the "Option A" model of the archived working notes. Its area-law version is excluded, and its
 standard graviton version is too small to see. **On the gravity side, TEGR's translational potential is
 the best candidate found for STUR's A_μ; the QCD end stays open, and the original STUR
-claims still fail (OPTION_A.md).**
+claims still fail (archived working notes).**
 
 **E6. Does gravity's own field record which path?** This is the gravitational version
 of T5. I computed quadrupole radiation from one branch of the diamond, with a smooth

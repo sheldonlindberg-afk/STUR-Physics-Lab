@@ -3,7 +3,7 @@
 The question turned around: gravity as a CONSEQUENCE of the quantum level, not a field
 that acts on quantum particles from outside.
 
-Already in the repository (KNOWN, computed in stur_unification.py U3 and UNIFICATION.md):
+Already in the repository (KNOWN, computed in stur_unification.py U3 and archive/notes/UNIFICATION.md):
   the vacuum's entanglement entropy obeys an area law, S = 0.3046 (R/a)^2 per scalar
   field, and Jacobson's argument (1995) turns delta S = delta<K> on every local horizon
   into Einstein's equations, with 1/(4 G hbar) = the entanglement entropy per area.

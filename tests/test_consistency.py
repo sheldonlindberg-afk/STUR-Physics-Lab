@@ -10,7 +10,7 @@ sys.path.insert(0, os.path.join(ROOT, "src"))
 
 CURRENT = ["README.md", "DERIVATION.md", "PREDICTIONS.md", "COLLECTIVE.md", "OPPENHEIM.md",
            "EMERGENT.md", "GRAVITY_ENTANGLEMENT.md", "TEGR.md", "MEASUREMENT.md", "BORN.md",
-           "WALL.md", "NOTE_331.md", "CONSISTENCY.md", "RECHECK.md", "NOVELTY.md", "index.html", "technical.html", "llms.txt", "CITATION.cff"]
+           "NOTE_331.md", "NOVELTY.md", "index.html", "technical.html", "llms.txt", "CITATION.cff"]
 
 
 def read(name):
@@ -57,7 +57,7 @@ def test_shared_numbers_match_their_computation():
         assert "1.3×10⁻¹²" in read(n), n
     import stur_gravity_full as Fg
     assert round(Fg.LPF_ASD / O.ASD_REQ) in (56, 57)               # LISA Pathfinder vs requirement
-    for n in ("README.md", "PREDICTIONS.md", "GRAVITY_ENTANGLEMENT.md", "WALL.md"):
+    for n in ("README.md", "PREDICTIONS.md", "GRAVITY_ENTANGLEMENT.md"):
         assert "57" in read(n), n
     assert Fg.GAS_MODEL == "kinetic"                                   # derived, not interpolated
     full = read("results/gravity_entanglement/full_output.txt")

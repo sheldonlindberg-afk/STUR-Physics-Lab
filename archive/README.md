@@ -1,5 +1,13 @@
 # Archive: superseded material
 
+## `notes/`: working notes
+
+The process records behind the current research notes: the tests of the original STUR
+postulate (POSTULATE_TEST, ASSUMPTIONS, OPEN_PROBLEMS, OPTION_A), the unification
+search (UNIFICATION, CONFINEMENT, Z2_GAUGE, NEXT_STEPS, UNIFYING_SEARCH, WALL), and the
+consistency and recheck logs (CONSISTENCY, RECHECK). Their scripts and tests still live
+in `src/` and `tests/` and run in CI.
+
 Everything here is kept for the record and is **not** the current claim of
 this repository. The current work is measurement and gravity from the quantum
 level up; see the [top-level README](../README.md).
@@ -9,8 +17,7 @@ level up; see the [top-level README](../README.md).
 The former home page, moved with `git mv`. Only paths changed: links to `assets/`,
 `manifest.json` and `docs/` go up two levels. Its derivation record stays at
 `docs/STUR_Resistance_Equation_Derivation_Record.pdf`, and `src/stur_verify.py`
-still reproduces its numbers. The route from this equation to the current theory is
-in [REPORT.md](../REPORT.md).
+still reproduces its numbers. 
 
 ## `stur-roll/`: STUR-ROLL (archived 2026-11-01)
 

@@ -5,23 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#4ade80">
 <title>Page Not Found | STUR</title>
-<script>
-  // Old STUR v7 pages moved to /archive/v7-toe/. Redirect those URLs there.
-  (function () {
-    var p = location.pathname, m = p.match(/^(\/STUR-Physics-Lab\/)(.*)$/i);
-    if (!m || /^archive\//i.test(m[2])) return;
-    var rest = m[2];
-    // STUR-ROLL docs, code and results moved to /archive/stur-roll/ on 2026-11-01.
-    if (/^(docs\/(?!STUR_Resistance)|src\/(checks\/|stur_final|alp_vs_stur)|results\/(?!stur_verify)|tests\/(test_stur_final|web_sim))/i.test(rest)) {
-      location.replace(m[1] + 'archive/stur-roll/' + rest + location.search + location.hash);
-      return;
-    }
-    if (/^scripts\//i.test(rest) || /^tests\//i.test(rest) ||
-        /^(about|mycitations|sitemap)\.html$/i.test(rest) || /\.md$/i.test(rest)) {
-      location.replace(m[1] + 'archive/v7-toe/' + rest + location.search + location.hash);
-    }
-  })();
-</script>
 <link rel="icon" type="image/png" href="/STUR-Physics-Lab/assets/4.13.png">
 <link rel="stylesheet" href="/STUR-Physics-Lab/assets/css/stur-core.css">
 <link rel="stylesheet" href="/STUR-Physics-Lab/assets/css/stur-glass.css">
@@ -44,11 +27,10 @@
   <div class="box">
     <img src="/STUR-Physics-Lab/assets/4.13.png" alt="STUR">
     <h1>Page not found</h1>
-    <p>The site now leads with the STUR Resistance Equation. The STUR-ROLL site and the STUR v7 pages live in the archive.</p>
+    <p>That page doesn't exist. The guide to gravity and the quantum is on the home page.</p>
     <div class="links">
-      <a class="primary" href="/STUR-Physics-Lab/">STUR home</a>
-      <a class="secondary" href="/STUR-Physics-Lab/archive/stur-roll/index.html">STUR-ROLL archive</a>
-      <a class="secondary" href="/STUR-Physics-Lab/archive/v7-toe/index.html">STUR v7 archive</a>
+      <a class="primary" href="/STUR-Physics-Lab/">Back to the guide</a>
+      <a class="secondary" href="/STUR-Physics-Lab/technical.html">Research notes</a>
     </div>
   </div>
 </body>

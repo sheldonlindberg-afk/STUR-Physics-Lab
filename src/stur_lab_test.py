@@ -14,14 +14,14 @@ Setup (KNOWN technique: spin-dependent kicks on a trapped ion, as in trapped-ion
 Predictions, at FIXED mean energy deposited <dE> = hbar omega |alpha|^2 (per branch):
   Standard quantum mechanics (FOLLOWS; checked here in Fock space):
       Gamma = -ln V = 2 |alpha|^2 (2 nbar + 1) = 2 (<dE>/hbar omega) coth(x/2)
-      Gamma = 2 Var(dN)                                  (the identity of ASSUMPTIONS.md 2)
+      Gamma = 2 Var(dN)                                  (the identity of archive/notes/ASSUMPTIONS.md 2)
   STUR corollary P2 (E = k_B T Gamma):
       Gamma = <dE> / k_B T = (<dE>/hbar omega) x
 
   The two have OPPOSITE temperature dependence at fixed <dE>:
       d ln Gamma / d ln T  =  x / sinh(x)  in [0, 1]   (standard: hotter loses MORE)
                            =  -1                        (P2: colder loses more)
-  They cross only at x = 2.3994 (the coincidence line of ASSUMPTIONS.md 3).
+  They cross only at x = 2.3994 (the coincidence line of archive/notes/ASSUMPTIONS.md 3).
   So two runs, at nbar = 0.1 and nbar = 5 with the same kick, settle the sign.
 """
 import numpy as np

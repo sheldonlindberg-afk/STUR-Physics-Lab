@@ -1,6 +1,6 @@
 > **Superseded.** This page records the choice offered after unification steps 4–5. The
 > work went on to options A–C (all excluded or unobservable, [WALL.md](WALL.md)) and then to
-> the current research notes ([README.md](README.md)). Kept for the record.
+> the current research notes ([README.md](../../README.md)). Kept for the record.
 
 # Unification search, steps 4–5: equal weights, and the room for a prediction
 

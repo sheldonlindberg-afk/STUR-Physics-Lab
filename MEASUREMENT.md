@@ -14,8 +14,7 @@ Labels: KNOWN, FOLLOWS, LIT (literature value used as input), PROPOSAL.
 | M2 | Before it is seen, an electron is not a probability cloud but a real EM "cloud", produced by the strong force. |
 | M3 | Entanglement isn't a separate thing: it is one particle stretched across spacetime. Act on one side and the other reacts instantly. |
 
-The aim was to see whether each proposal survives contact with known physics. Each
-is tested the way options A–C were tested in [WALL.md](WALL.md).
+The aim was to see whether each proposal survives contact with known physics and data.
 
 ## Verdict
 
@@ -137,9 +136,8 @@ standard picture, reached using EM alone.
 ## What this means for a new equation
 
 None of the ingredients yields a measurable difference from standard quantum
-mechanics. M2 conflicts with data; M1 and M3 restate known physics. The same wall
-as [WALL.md](WALL.md) §3 applies: a new equation needs a free parameter that
-changes some number.
+mechanics. M2 conflicts with data; M1 and M3 restate known physics. A new equation would
+need a free parameter that changes some measurable number.
 
 **The Planck scale.** The Planck scale is taken here as the place where the current
 equations (general relativity plus quantum field theory) stop giving finite,

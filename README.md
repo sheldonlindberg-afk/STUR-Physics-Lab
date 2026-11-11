@@ -69,8 +69,8 @@ This writes known physics in one place; it is not a new theory.
 | Step | Result | Status | Report |
 |---|---|---|---|
 | Born rule | p = \|c\|² | Published arguments (Zurek, Gleason, no-signalling) reproduced; each assumes locality or non-contextuality; still debated | [BORN.md](BORN.md) |
-| Area law | The vacuum's entanglement across any surface: S = 0.3046 (R/a)² per field | Established (Srednicki); recomputed | [UNIFICATION.md](UNIFICATION.md) |
-| Unruh / modular structure | The vacuum is thermal to every accelerated observer: K = 2π × boost | Established (Bisognano–Wichmann); checked on a lattice | [UNIFICATION.md](UNIFICATION.md) |
+| Area law | The vacuum's entanglement across any surface: S = 0.3046 (R/a)² per field | Established (Srednicki); recomputed | [DERIVATION.md](DERIVATION.md) |
+| Unruh / modular structure | The vacuum is thermal to every accelerated observer: K = 2π × boost | Established (Bisognano–Wichmann); checked on a lattice | [DERIVATION.md](DERIVATION.md) |
 | Field equations | Clausius on every local horizon gives Einstein's equations, with 1/4Għ = entanglement per area | Jacobson's hypothesis; algebra re-checked, premise assumed | [DERIVATION.md](DERIVATION.md) |
 | Gravity as torsion | The TEGR action gives the same equations; Schwarzschild is the unique static solution | Established; recomputed | [TEGR.md](TEGR.md) |
 | Gravity follows each branch | A Markovian statistical gravity smeared at the entanglement cutoff would heat matter at 0.5 W/kg, 6×10¹⁰ × the Earth's heat flow | Conditional: holds **only under R₀ = a and Markovian dynamics**. Experiment decides | [COLLECTIVE.md](COLLECTIVE.md) |
@@ -96,9 +96,6 @@ This writes known physics in one place; it is not a new theory.
   [OPPENHEIM.md](OPPENHEIM.md) are worked examples within a systematic literature
   (Fabiano et al. 2026; Angeli et al. 2025; see [NOVELTY.md](NOVELTY.md)). The trapped-ion
   identity −ln V = 2 Var(ΔN) is a worked example whose novelty hasn't been checked.
-- **Open tensions,** and what was checked: [CONSISTENCY.md](CONSISTENCY.md).
-- **Derived, rechecked, or underivable:** [RECHECK.md](RECHECK.md). Every failed
-  claim has been reconfirmed by independent code (15 of 15).
 
 ## What experiments could check
 
@@ -111,7 +108,7 @@ This writes known physics in one place; it is not a new theory.
 | Gravity keeps no record of one mass | 1.4×10⁻⁵⁹ gravitons emitted per split | — ([TEGR.md](TEGR.md)) |
 | The classical limit is general relativity | Perihelion 42.98″/century, light bending 1.7512″, γ = 1, GPS +38.54 µs/day | Observed |
 | Visibility loss counts quanta, so heat destroys more of it | −ln V = 2 Var(ΔN); contrast 0.787 → 0.111 from n̄ = 0.1 to 5 | One trapped ion (`src/stur_lab_test.py`) |
-| A confining string's entropy saturates while its modular energy grows | — | Rydberg-atom and trapped-ion simulators ([CONFINEMENT.md](CONFINEMENT.md)) |
+| A confining string's entropy saturates while its modular energy grows | — | Rydberg-atom and trapped-ion simulators (`src/stur_confinement.py`) |
 
 Full list, with requirements and sources: [PREDICTIONS.md](PREDICTIONS.md).
 
@@ -140,30 +137,12 @@ PREDICTIONS.md            every prediction, with numbers and experiments
 COLLECTIVE.md             why gravity's field follows each branch (conditions stated)
 OPPENHEIM.md              classical-quantum gravity's trade-off, and a one-particle bound
 NOTE_331.md               standalone note: 3 colours = 3 generations from 3-3-1 running
-CONSISTENCY.md            what was checked, what was fixed, and the tensions that remain
-RECHECK.md                derived now / failed and rechecked / cannot be derived, with reasons
 NOVELTY.md                literature search: what is new, what was already known
 BORN.md, MEASUREMENT.md, TEGR.md, GRAVITY_ENTANGLEMENT.md, EMERGENT.md
                           the supporting reports
 src/                      one script per report; outputs in results/
 tests/                    regression tests
-UNIFYING_SEARCH.md        the wider search for a unifying equation, with WALL.md,
-                          UNIFICATION.md and the tests of the original STUR equation
-archive/                  earlier versions, kept for the record
 ```
-
-## Archive
-
-Earlier, superseded versions are kept for the record. They are not maintained, and their
-claims are not endorsed by the current work:
-
-- [`archive/resistance-equation/`](archive/resistance-equation/): the original STUR
-  resistance equation that this work grew out of, with its derivation record
-  ([PDF](docs/STUR_Resistance_Equation_Derivation_Record.pdf)) and `src/stur_verify.py`.
-- [`archive/stur-roll/`](archive/stur-roll/): **STUR-ROLL** (cosmic birefringence,
-  |β| = α/2 = 0.2091°), with its site, docs, code and tests (still run in CI).
-- [`archive/v7-toe/`](archive/v7-toe/) and [`archive/genesis-v10-stur-b/`](archive/genesis-v10-stur-b/):
-  older material. See [`archive/README.md`](archive/README.md).
 
 ## License
 

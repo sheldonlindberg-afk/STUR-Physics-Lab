@@ -122,8 +122,7 @@ existing data leave open.
   a positive witness rules out classical gravity without singling out these notes.
 - **Intermediate λ is a phenomenological scale, not a dynamics.** The interpolation
   φ_ij(λ) doesn't define a consistent theory for 0 < λ < 1. It measures how much of the
-  entangling phase is present. Results from either branch of this test go back into
-[WALL.md](WALL.md).
+  entangling phase is present.
 
 Everything this section left out is modelled in the next one.
 

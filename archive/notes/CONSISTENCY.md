@@ -28,12 +28,12 @@ The archive is not checked.
 | K8 | NOTE_331 | Two-loop Yukawa terms were missing, and the boundary condition was unquantified | Front 7d computes both (below) |
 
 The previous pass fixed:
-- the point-nucleus heating, 10⁵⁶–10⁶⁰ → 0.5 W/kg ([OPPENHEIM.md](OPPENHEIM.md) P4);
+- the point-nucleus heating, 10⁵⁶–10⁶⁰ → 0.5 W/kg ([OPPENHEIM.md](../../OPPENHEIM.md) P4);
 - the unconditional D6 headline.
 
 ## The three weak spots of the 3-3-1 result, now computed
 
-Source: `src/m331_yukawa.py`, [NOTE_331.md](NOTE_331.md), front 7d of
+Source: `src/m331_yukawa.py`, [NOTE_331.md](../../NOTE_331.md), front 7d of
 [UNIFYING_SEARCH.md](UNIFYING_SEARCH.md).
 
 | Weak spot | Result |
@@ -83,7 +83,7 @@ Source: `src/m331_yukawa.py`, [NOTE_331.md](NOTE_331.md), front 7d of
    inconsistent.
 6. **Scope of the classical-gravity bounds.**
    - P3 covers continuous, translation-invariant models.
-   - P5 ([OPPENHEIM.md](OPPENHEIM.md)) applies Oppenheim et al.'s own kernel-free trade-off
+   - P5 ([OPPENHEIM.md](../../OPPENHEIM.md)) applies Oppenheim et al.'s own kernel-free trade-off
      (their appendix B.4). It covers every Markovian CQ
      model, discrete (jump) ones included, for splits of order the particle's radius:
      Γ·S_a ≥ (F_LR/M)²/8.
