@@ -28,7 +28,7 @@ P2  Matter feels the noisy potential: the total decoherence floor (FOLLOWS)
    the design-A diamond's 3.24 s coherence tests it for any smearing R0 below 455 um.
 
 ==============================================================================
-P3  One particle measured two ways: Gamma x S_a (STUR, shape-free)
+P3  One particle measured two ways: Gamma x S_a (worked example)
 ==============================================================================
    Design-A diamond, M = 1.5e-14 kg, R = 1.007 um, split 721 um.
    Uses only the trade-off: no assumption on how the noise acts back on the matter.
@@ -78,7 +78,7 @@ P4  Small splits: the minimum heating of matter (FOLLOWS)
    gravity (this theory, and perturbative quantum gravity): Gamma = 0, S_a = 0, no heating.
 
 ==============================================================================
-P5  Any classical-quantum gravity, any kernel, continuous or discrete (STUR)
+P5  Any classical-quantum gravity, any kernel, continuous or discrete (worked example)
 ==============================================================================
    The trade-off (their eq. 29) is an operator inequality, D0 >= S_J^-1 / 4, for every CQ model
    with Newtonian back-reaction on average, including jump models whose noise sits only where

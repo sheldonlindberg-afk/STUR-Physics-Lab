@@ -155,8 +155,8 @@ class Model:
                                [u[k] * u[m] for k in range(nu) for m in range(k, nu)]])
 
     def cached_fit(self):
-        """Load the fitted coefficients if cached (results/unifying_search/), else fit and save."""
-        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "results", "unifying_search",
+        """Load the fitted coefficients if cached (results/m331/), else fit and save."""
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "results", "m331",
                             f"331_scalar_coeffs_{'minus' if self.v[0] == '-' else 'plus'}.npz")
         if os.path.exists(path):
             z = np.load(path)

@@ -1,11 +1,13 @@
 <p align="center">
-  <img src="assets/4.13.png" alt="STUR Physics Lab logo" width="160"/>
+  <img src="assets/logo.svg" alt="" width="120"/>
 </p>
 
-<h1 align="center">STUR Physics Lab: Gravity and the Quantum</h1>
+<h1 align="center">Gravity and the Quantum: Worked Examples</h1>
 
 <p align="center">
-  <strong>A science-education project. A plain-language guide to gravity, quantum physics and measurement, plus the author's research notes. Established physics, worked examples and open questions are labelled separately, and every number is reproduced by open code. Independent work, not peer reviewed.</strong>
+  <strong>Reproducible worked examples at the gravity–quantum interface, for physics students and physicists, plus one research note.</strong><br>
+  Every number comes from a script in <code>src/</code> and is pinned by a test that runs on every commit.<br>
+  Independent work, not peer reviewed.
 </p>
 
 <p align="center">
@@ -14,113 +16,110 @@
 </p>
 
 <p align="center">
-  <a href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/"><strong>Open the guide &rarr;</strong></a>
+  <a href="paper/note331.pdf"><strong>3-3-1 note (PDF)</strong></a>
+  &nbsp;&middot;&nbsp; <a href="notebooks/">Notebooks</a>
+  &nbsp;&middot;&nbsp; <a href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">Website</a>
   &nbsp;&middot;&nbsp; <a href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/technical.html">Research notes</a>
-  &nbsp;&middot;&nbsp; <a href="NOTE_331.md">3-3-1 note</a>
 </p>
 
 ---
 
-## What's here
+## For researchers: three colours and three generations in 3-3-1 models
 
-- **The guide** ([site](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/), `index.html`). For
-  students, teachers and anyone curious:
-  - Einstein's gravity told as a twist instead of a curve (teleparallel gravity, TEGR),
-    with GR's classic tests recomputed;
-  - the open question of whether gravity is quantum, and the two-diamond experiment
-    that could decide it;
-  - the research idea that gravity is tied to the entanglement of empty space;
-  - decoherence: why records, not observers, erase interference;
-  - common quantum myths, and what mainstream physics actually says.
-- **Research notes** (`technical.html` and the `.md` reports below). Known physics of
-  measurement and gravity, organised into one bookkeeping equation and recomputed in
-  code. A synthesis, not a new theory.
-- **A standalone particle-physics note** ([NOTE_331.md](NOTE_331.md)): in 3-3-1 models,
-  requiring every coupling to stay perturbative to the Planck scale selects 3 colours =
-  3 generations. Conditional, and the one candidate original result here; an expert
-  reading is still needed ([NOVELTY.md](NOVELTY.md)).
+**[paper/note331.pdf](paper/note331.pdf)** (LaTeX: [paper/note331.tex](paper/note331.tex);
+extended notes: [NOTE_331.md](NOTE_331.md))
 
-## The bookkeeping equation (research notes)
+In SU(3)_C × SU(3)_L × U(1)_X models, keep the number of colours N_c general, take no
+generation or neutrino number from experiment, and require every gauge coupling to stay
+perturbative to the Planck scale.
+
+- The SU(3)_L anomaly plus asymptotic freedom of colour force N_c to be odd and N_g = N_c.
+  Witten's global anomaly then holds automatically.
+- SU(3)_L running excludes N_c ≥ 7.
+- U(1)_X running excludes N_c = 5.
+
+Only **N_c = N_g = 3** survives, with quark charges ⅔ and −⅓. The selection holds:
+- at two loops, including two-loop Yukawa terms;
+- with one-loop threshold matching across the heavy spectrum;
+- for 3-3-1 scales of 2–30 TeV;
+- in both variants β = ±1/√3.
+
+Requiring the scalar sector to stay perturbative to M_Pl then bounds the exotic quarks
+below 1.4–1.8 M_V.
+A recast of the ATLAS 13 TeV, 139 fb⁻¹ dilepton search puts the Z′ above 4.6–5.2 TeV for
+β = +1/√3 and 4.0–5.0 TeV for β = −1/√3, depending on its decays
+([`src/m331_zprime_recast.py`](src/m331_zprime_recast.py); validated against ATLAS's own
+Z′_ψ and Z′_χ limits, using the official HEPData tables, and reproduced independently with
+Pythia 8).
+
+**Conditions:**
+- the 3-3-1 framework;
+- Planck-scale perturbativity;
+- the measured TeV-scale electroweak couplings, which are an input, not a prediction.
+  In the β = +1/√3 variant the margin is a factor of about 2 in the pole scale.
+
+The closest prior work is Doff & Pisano (2000). The literature search is in
+[NOVELTY.md](NOVELTY.md). Comments from 3-3-1 experts are welcome; please
+[open an issue](https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/issues).
+
+## For students: notebooks with exercises
+
+| Notebook | What it works out | Prerequisites |
+|---|---|---|
+| [01 TEGR and the classic tests](notebooks/01_tegr_classic_tests.ipynb) | Tetrad field equations → Schwarzschild; perihelion 42.98″/century, light bending 1.7512″, γ = 1, GPS +38.54 µs/day, all from geodesic integrals | Carroll ch. 1–5 |
+| [02 Complementarity and decoherence](notebooks/02_complementarity_and_decoherence.ipynb) | Englert's V² + D² = 1; a thermal which-path environment, −ln V = 2 Var(ΔN) | Density matrices |
+| [03 Gravity-mediated entanglement](notebooks/03_gravity_mediated_entanglement.ipynb) | Bose–Marletto–Vedral branch phases, concurrence, gas decoherence | Two-qubit entanglement |
+| [04 The area law](notebooks/04_area_law.ipynb) | Srednicki's S ≈ 0.30 (R/a)² | Gaussian states |
+
+Outputs are saved, so the notebooks read on GitHub, and CI re-runs them on every commit.
+
+## The worked examples
+
+Each piece is labelled by status. **Established** means published and tested;
+**recomputed** means it is reproduced here in code; **conditional** means it holds only
+under stated assumptions.
+
+| Topic | Result | Status | Report |
+|---|---|---|---|
+| Teleparallel gravity | Schwarzschild is the unique static spherical solution of the TEGR field equations; GR's classic tests from its geodesics | Established; recomputed | [TEGR.md](TEGR.md) |
+| Which-path records | V = \|⟨E₁\|E₂⟩\|, D² + V² = 1 | Established (Englert 1996); recomputed | [MEASUREMENT.md](MEASUREMENT.md) |
+| Born rule | p = \|c\|² by envariance, Gleason-type additivity, no-signalling and branch frequencies | Published arguments reproduced; each assumes locality or non-contextuality | [BORN.md](BORN.md) |
+| Area law, Unruh | S = 0.3046 (R/a)² per scalar; K = 2π × boost on a lattice | Established (Srednicki; Bisognano–Wichmann); recomputed | [DERIVATION.md](DERIVATION.md) |
+| Jacobson's argument | Clausius on local horizons gives Einstein's equations, with 1/4Għ = entanglement per area | Hypothesis; algebra re-checked, premise assumed; relates G to unknowns, does not predict it | [DERIVATION.md](DERIVATION.md) |
+| Two-diamond (BMV) design | Δφ = 2.19 rad; 270 runs (0.6 h) at the published targets, which need 4×10⁸ × today's largest superposed mass and vibration noise 57× below LISA Pathfinder | Worked example | [GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md) |
+| Classical–quantum gravity | Oppenheim's decoherence–diffusion trade-off, minimized, is the Diósi–Penrose floor; a coherent diamond implies CQ acceleration noise ≥ 1.3×10⁻¹² m s⁻²/√Hz | Worked example within existing literature, not new | [OPPENHEIM.md](OPPENHEIM.md) |
+| Smeared Markovian classical gravity | At R₀ = a it heats matter at 0.5 W/kg, 6×10¹⁰ × the Earth's heat flow | Conditional: **only under R₀ = a and Markovian dynamics** | [COLLECTIVE.md](COLLECTIVE.md) |
+| Trapped-ion visibility | −ln V = 2 Var(ΔN); contrast 0.787 → 0.111 from n̄ = 0.1 to 5 | Worked example; novelty unchecked | [PREDICTIONS.md](PREDICTIONS.md) |
+
+The experimental consequences, with requirements and sources, are in
+[PREDICTIONS.md](PREDICTIONS.md). A positive two-diamond result (gravity follows each
+branch, λ = 1) is also what perturbative quantum gravity predicts, so it would rule out
+classical gravity, not single out anything here.
+
+### One equation for the bookkeeping
+
+The research notes ([DERIVATION.md](DERIVATION.md), [technical.html](technical.html))
+collect these pieces in one place:
 
 ```
 ρᵢⱼ(t) = ρᵢⱼ(0) · ⟨Eⱼ|Eᵢ⟩ · e^{i(Sᵢ − Sⱼ)/ħ}
-
-Sᵢ = S_matter[i] + S_EM[i] + (c⁴/16πG) ∫ eᵢ T[eᵢ] d⁴x        gravity as TEGR torsion
-G  = π a² c³ / (N c_s ħ),   c_s = 0.3046                     Jacobson's hypothesis
-p  = |c|²                                                    Born rule (Gleason, Zurek)
+Sᵢ = S_matter[i] + S_EM[i] + (c⁴/16πG) ∫ eᵢ T[eᵢ] d⁴x        gravity's TEGR action
 ```
 
-This writes known physics in one place; it is not a new theory.
-
-- **The branches:** a system in a superposition carries, in each branch, its own
-  configuration of every field it sources: detectors, light, its own electric field
-  and, if gravity is quantum, gravity's tetrad eᵢ.
-- **The overlap ⟨Eⱼ|Eᵢ⟩:** how far the fields have kept a record of which branch
-  happened. This is decoherence: it removes interference without any observer. Why one
-  outcome is seen is a question of interpretation that it leaves open.
-- **The phase:** the difference in action between branches, including the
-  gravitational field's own action.
-- **The G line:** Jacobson's (1995) argument ties G to vacuum entanglement per area,
-  assuming local equilibrium on every horizon. That premise is not established, and the
-  formula relates G to unknowns (a²/N); it doesn't predict G.
-
-## The steps, and their status
-
-| Step | Result | Status | Report |
-|---|---|---|---|
-| Born rule | p = \|c\|² | Published arguments (Zurek, Gleason, no-signalling) reproduced; each assumes locality or non-contextuality; still debated | [BORN.md](BORN.md) |
-| Area law | The vacuum's entanglement across any surface: S = 0.3046 (R/a)² per field | Established (Srednicki); recomputed | [DERIVATION.md](DERIVATION.md) |
-| Unruh / modular structure | The vacuum is thermal to every accelerated observer: K = 2π × boost | Established (Bisognano–Wichmann); checked on a lattice | [DERIVATION.md](DERIVATION.md) |
-| Field equations | Clausius on every local horizon gives Einstein's equations, with 1/4Għ = entanglement per area | Jacobson's hypothesis; algebra re-checked, premise assumed | [DERIVATION.md](DERIVATION.md) |
-| Gravity as torsion | The TEGR action gives the same equations; Schwarzschild is the unique static solution | Established; recomputed | [TEGR.md](TEGR.md) |
-| Gravity follows each branch | A Markovian statistical gravity smeared at the entanglement cutoff would heat matter at 0.5 W/kg, 6×10¹⁰ × the Earth's heat flow | Conditional: holds **only under R₀ = a and Markovian dynamics**. Experiment decides | [COLLECTIVE.md](COLLECTIVE.md) |
-| Classical gravity's trade-off | Oppenheim's decoherence–diffusion bound, minimized, is the Diósi–Penrose floor. One particle obeys Γ·S_a ≥ (M²/4)I² for any kernels | Worked example within existing literature, not new | [OPPENHEIM.md](OPPENHEIM.md) |
-| Measurement | V = \|⟨E₁\|E₂⟩\| | Established (Englert 1996); recomputed | [MEASUREMENT.md](MEASUREMENT.md) |
-
-## Where this stands
-
-- **A synthesis of known physics.** Every ingredient is published physics: decoherence,
-  the Born-rule arguments (Zurek, Gleason), Jacobson's thermodynamic gravity, and TEGR.
-  The combination and the computed checks are this project's.
-- **Whether gravity follows each branch (λ = 1) is open.** The argument here works only
-  under two stated assumptions: a statistical gravity smeared at the entanglement cutoff
-  (R₀ = a), with Markovian dynamics. With a larger R₀ or memory in the dynamics,
-  experiment decides ([COLLECTIVE.md](COLLECTIVE.md), [OPPENHEIM.md](OPPENHEIM.md)).
-- **Confirming λ = 1 wouldn't single out these notes.** Perturbative quantum gravity
-  predicts the same thing. The diamond experiments rule classical gravity in or out,
-  Oppenheim's model included.
-- **The diamond experiments are far off.** They need 4×10⁸ times today's largest mass in
-  superposition, and vibration noise about 57 times below LISA Pathfinder.
-- **What might be new:** only the 3-3-1 selection in [NOTE_331.md](NOTE_331.md), and it
-  is conditional and unreviewed. The classical-gravity bounds in
-  [OPPENHEIM.md](OPPENHEIM.md) are worked examples within a systematic literature
-  (Fabiano et al. 2026; Angeli et al. 2025; see [NOVELTY.md](NOVELTY.md)). The trapped-ion
-  identity −ln V = 2 Var(ΔN) is a worked example whose novelty hasn't been checked.
-
-## What experiments could check
-
-| Prediction | Number | Experiment |
-|---|---|---|
-| If gravity is quantum, two diamonds entangle through gravity alone (perturbative quantum gravity's prediction) | Δφ = 2.19 rad; 270 runs (0.6 h) at the published targets, which need 4×10⁸ × today's largest superposed mass | Levitated-diamond interferometry ([GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md)) |
-| If gravity follows each branch, one diamond keeps its superposition | Full coherence for 3.24 s; any Markovian statistical gravity with smearing ≤ 52 µm leaves ≤ 1.3% | Single-diamond interferometry ([COLLECTIVE.md](COLLECTIVE.md)) |
-| Classical (Oppenheim) gravity is squeezed by one particle | Coherent at 0.12 /s ⇒ CQ acceleration noise ≥ 1.3×10⁻¹² m s⁻²/√Hz, 4×10⁴ × design A's requirement | Same diamond plus its accelerometry ([OPPENHEIM.md](OPPENHEIM.md)) |
-| Every CQ gravity, discrete ones included (Oppenheim et al.'s kernel-free trade-off, applied to a small split) | Coherent at 0.12 /s across a split of one radius ⇒ CQ acceleration noise ≥ 6.7×10⁻¹³ m s⁻²/√Hz | One diamond, small split ([OPPENHEIM.md](OPPENHEIM.md) P5) |
-| Gravity keeps no record of one mass | 1.4×10⁻⁵⁹ gravitons emitted per split | — ([TEGR.md](TEGR.md)) |
-| The classical limit is general relativity | Perihelion 42.98″/century, light bending 1.7512″, γ = 1, GPS +38.54 µs/day | Observed |
-| Visibility loss counts quanta, so heat destroys more of it | −ln V = 2 Var(ΔN); contrast 0.787 → 0.111 from n̄ = 0.1 to 5 | One trapped ion (`src/stur_lab_test.py`) |
-| A confining string's entropy saturates while its modular energy grows | — | Rydberg-atom and trapped-ion simulators (`src/stur_confinement.py`) |
-
-Full list, with requirements and sources: [PREDICTIONS.md](PREDICTIONS.md).
+This is standard decoherence with branch-dependent phases; it is not a new theory. Its
+use is practical: every decoherence channel, gravity's own field included, enters as one
+factor of the record overlap ⟨Eⱼ|Eᵢ⟩, so the channels are tallied and compared on the
+same footing in one calculation.
 
 ## Reproduce
 
 ```bash
 pip install -r requirements.txt pytest
+python3 src/stur_tegr_gr.py         # GR's classic tests from TEGR, ~10 s
 python3 src/stur_derivation.py      # the whole chain, ~30 s
-python3 src/stur_thermo_gravity.py  # why gravity follows each branch, ~6 s
 python3 src/stur_gravity_full.py    # the two-diamond design search, ~15 s
-python3 src/stur_oppenheim.py       # classical (Oppenheim) gravity's trade-off, ~2 s
-python -m pytest tests -q           # every number pinned (121 tests)
+python3 src/m331_exact.py           # the 3-3-1 selection, both variants
+python -m pytest tests -q           # every number pinned (100 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on
@@ -129,20 +128,21 @@ each push.
 ## Layout
 
 ```
-index.html                the plain-language guide (GitHub Pages)
-technical.html            the research notes, with the interactive calculators
-assets/                   styles, scripts, icons and the social preview card
-DERIVATION.md             the equation, step by step
-PREDICTIONS.md            every prediction, with numbers and experiments
-COLLECTIVE.md             why gravity's field follows each branch (conditions stated)
-OPPENHEIM.md              classical-quantum gravity's trade-off, and a one-particle bound
-NOTE_331.md               standalone note: 3 colours = 3 generations from 3-3-1 running
+paper/                    the 3-3-1 note: PDF and LaTeX source
+notebooks/                study notebooks with exercises
+NOTE_331.md               the 3-3-1 note with extended detail on each check
 NOVELTY.md                literature search: what is new, what was already known
-BORN.md, MEASUREMENT.md, TEGR.md, GRAVITY_ENTANGLEMENT.md, EMERGENT.md
-                          the supporting reports
+TEGR.md, MEASUREMENT.md, BORN.md, DERIVATION.md, GRAVITY_ENTANGLEMENT.md,
+OPPENHEIM.md, COLLECTIVE.md, EMERGENT.md, PREDICTIONS.md
+                          the worked examples, one report each
 src/                      one script per report; outputs in results/
 tests/                    regression tests
+index.html, technical.html  the website (GitHub Pages)
 ```
+
+Script names keep the `stur_` prefix of the project's former working title.
+Earlier exploratory material, superseded by the work above, is preserved in git
+history at commit [`d6baab6`](https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/tree/d6baab6).
 
 ## License
 

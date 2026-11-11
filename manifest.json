@@ -1,7 +1,7 @@
 {
-  "name": "STUR Physics Lab",
-  "short_name": "STUR Lab",
-  "description": "Gravity and the quantum, explained: a plain-language science guide with every number reproduced by open code",
+  "name": "Gravity and the Quantum: Worked Examples",
+  "short_name": "Gravity & Quantum",
+  "description": "Reproducible worked examples at the gravity-quantum interface, for physics students and physicists",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#0a0a0f",

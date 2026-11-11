@@ -24,12 +24,12 @@ P2  FOLLOWS. Matter feels the noisy Phi through H_I = Int Phi m (their eq. 35). 
     total decoherence is then >= the Diosi-Penrose kernel at every q: the
     Tilloy-Diosi floor of src/stur_thermo_gravity.py Q1 is the minimised Oppenheim
     trade-off, so COLLECTIVE.md's argument covers Oppenheim's continuous class.
-P3  STUR (new number). Without P2's back-action step, using only the trade-off: one
+P3  CHECK (a worked example; not new, see NOVELTY.md). Without P2's back-action step, using only the trade-off: one
     particle, measured two ways, obeys a shape-free bound
           Gamma(dx) * S_a  >=  (M^2 / 4) I(dx)^2,
           I = Int d3q/(2pi)^3  (4 pi G / q^2) |F(q)|^2 |q_z| sqrt(1 - cos q_z dx)
     for every pair of kernels D0, S_J allowed by the trade-off (tight).
-P5  STUR. Kernel-free: Gamma * S_a >= (1/8)(F_LR/M)^2 for every CQ model, continuous or
+P5  CHECK (a worked example; not new, see NOVELTY.md). Kernel-free: Gamma * S_a >= (1/8)(F_LR/M)^2 for every CQ model, continuous or
     discrete, from the operator form of the trade-off. Largest at split = radius.
 P4  FOLLOWS. Small splits: the same trade-off fixes a minimum centre-of-mass heating,
           d<p_z^2>/dt >= (4 pi / 3) hbar G M^2 Int rho_hat^2.
@@ -287,7 +287,7 @@ def main():
     print("   translation-invariant CQ gravity in Oppenheim's class is covered by COLLECTIVE.md, and")
     print("   the design-A diamond's 3.24 s coherence tests it for any smearing R0 below 455 um.")
 
-    banner("P3  One particle measured two ways: Gamma x S_a (STUR, shape-free)")
+    banner("P3  One particle measured two ways: Gamma x S_a (worked example)")
     print(f"   Design-A diamond, M = {M_A:.1e} kg, R = {R_A*1e6:.3f} um, split {D_A*1e6:.0f} um.")
     print("   Uses only the trade-off: no assumption on how the noise acts back on the matter.")
     print("   R0 (m)       I (m/kg/s^2)   bound Gamma*S_a (m^2/s^4)   S_a if Gamma <= 0.12/s:")
@@ -341,7 +341,7 @@ def main():
     print("   So heating rules out local CQ gravity but cannot reach the R0 the radiation bound allows;")
     print("   for those, the deciding test is coherence at a large split (P2 and P3). Collective")
     print("   gravity (this theory, and perturbative quantum gravity): Gamma = 0, S_a = 0, no heating.")
-    banner("P5  Any classical-quantum gravity, any kernel, continuous or discrete (STUR)")
+    banner("P5  Any classical-quantum gravity, any kernel, continuous or discrete (worked example)")
     worst, sat = operator_check()
     print("   The trade-off (their eq. 29) is an operator inequality, D0 >= S_J^-1 / 4, for every CQ model")
     print("   with Newtonian back-reaction on average, including jump models whose noise sits only where")

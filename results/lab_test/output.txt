@@ -20,7 +20,7 @@ L1  Exact Fock-space check of the standard prediction (FOLLOWS)
    of quanta exchanged, and grows with temperature at fixed energy deposited.
 
 ==============================================================================
-L2  Standard QM vs STUR P2 at fixed energy deposited, <dN> = |alpha|^2 = 0.1
+L2  Standard QM vs the ansatz P2 at fixed energy deposited, <dN> = |alpha|^2 = 0.1
 ==============================================================================
    nbar    k_BT/hbar.omega   V standard   V under P2   ratio Gamma_std/Gamma_P2
     0.05        0.328        0.8025       0.7375          0.723
@@ -44,4 +44,4 @@ L3  The discriminator: sign of d ln Gamma / d ln T at fixed <dE>
    nbar = 0.1 sits on the crossing, so both start from the same contrast. At nbar = 5
    they differ by 0.87 in contrast, far above Ramsey-contrast errors
    of a few per cent. Standard QM fixes the outcome in
-   advance, so this is a kill test for P2, not a test that could favour STUR.
+   advance, so this is a test that can only exclude the ansatz P2.

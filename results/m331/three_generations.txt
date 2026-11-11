@@ -1,0 +1,37 @@
+
+==============================================================================
+G1+G2  Generations allowed by the SU(3)_L anomaly and QCD asymptotic freedom
+==============================================================================
+   N_c = 3:  anomaly-free N_g = [3, 6, 9, 12, 15, 18] ...   + asymptotic freedom: N_g = [3]
+   N_c = 5:  anomaly-free N_g = [5, 10, 15, 20, 25, 30] ...   + asymptotic freedom: N_g = [5]
+   N_c = 7:  anomaly-free N_g = [7, 14, 21, 28, 35] ...   + asymptotic freedom: N_g = [7]
+   -> N_g = N_c exactly: the generation number is LOCKED to the colour number.
+      With N_c = 3: n = 2 anti-triplet + 1 triplet quark generations (the standard assignment).
+
+==============================================================================
+G3  Combined with front 5
+==============================================================================
+   Witten / spin-charge twist: N_c odd.  3-3-1: N_g = N_c.  So the two 'threes' are one number;
+   the measured N_g = 3 (LIT, LEP: N_nu = 2.98 +- 0.01) and the R-ratio (front 5) agree on it.
+   Still open: why that one number is 3 rather than 5 or 7.
+
+==============================================================================
+G4  Minimal 3-3-1 (beta = -sqrt3) vs data: the sin^2 theta_W = 1/4 wall
+==============================================================================
+   mu =     91.2 GeV:  sin^2 theta_W = 0.23122
+   mu =   1000.0 GeV:  sin^2 theta_W = 0.24331
+   mu =   2000.0 GeV:  sin^2 theta_W = 0.24686
+   mu =   3000.0 GeV:  sin^2 theta_W = 0.24895
+   mu =   4000.0 GeV:  sin^2 theta_W = 0.25043
+   mu =   5000.0 GeV:  sin^2 theta_W = 0.25159
+   sin^2 theta_W reaches 1/4 at mu_* = 3.68 TeV (one loop, Standard Model content)
+   The U(1)_X coupling g_X^2 ~ s^2/(1 - 4 s^2) diverges there (Landau pole), so every new
+   gauge boson of the minimal model must lie below mu_*.
+   LHC 13 TeV dileptons (LIT, Nepomuceno-Meirose 2020): M_Z' > 3.7 TeV.
+   Cs atomic parity violation (LIT, Long et al. 2019): M_Z' >~ 4.2-5.4 TeV.
+   -> minimal 3-3-1 needs M_Z' < 3.7 TeV: at the LHC bound, and excluded by APV.
+      Two-loop and threshold effects were NOT computed; evading APV needs them to
+      raise mu_* by at least 14% (to 4.2 TeV).
+   beta = +-1/sqrt3 variants have no such pole: the N_g = N_c result survives there,
+   with M_Z' > 2.6-4 TeV (beta = -1/sqrt3, LHC 13 TeV) and >~ 2.9 TeV (beta = +1/sqrt3,
+   8 TeV data) (LIT) - testable, not excluded.

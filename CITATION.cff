@@ -1,21 +1,18 @@
 cff-version: 1.2.0
 message: "If you use this work, please cite it as below."
-title: "STUR Physics Lab: Gravity and the Quantum"
+title: "Gravity and the Quantum: Worked Examples"
 abstract: >-
-  A science-education project and research notes, not peer reviewed. A
-  plain-language guide to teleparallel gravity (TEGR), the open question of
-  whether gravity is quantum, the entanglement of empty space and
-  decoherence, with established physics, worked examples and open questions
-  labelled separately. The research notes organise known physics
-  (decoherence, Born-rule arguments, Jacobson's thermodynamic argument, TEGR)
-  into one bookkeeping equation and recompute each piece in code, including
-  general relativity's classic tests and a worked two-diamond design
-  (phase 2.19 rad) for testing whether gravity is quantum, as perturbative
-  quantum gravity predicts. Bounds on classical-quantum gravity are worked
-  examples within existing literature rather than new results. A standalone
-  note argues that, in 3-3-1 models, Planck-scale perturbativity selects
-  three colours and three generations. Every number is reproduced by the
-  scripts in src/.
+  Reproducible worked examples at the gravity-quantum interface, for physics
+  students and physicists, with study notebooks and exercises: teleparallel
+  gravity (TEGR) and general relativity's classic tests, decoherence and
+  complementarity, the entanglement area law, Jacobson's thermodynamic
+  argument, and a worked two-diamond design (phase 2.19 rad) for testing
+  whether gravity is quantum, as perturbative quantum gravity predicts.
+  Bounds on classical-quantum gravity are worked examples within existing
+  literature rather than new results. A research note argues that, in 3-3-1
+  models, Planck-scale perturbativity selects three colours and three
+  generations (conditional; not peer reviewed). Every number is reproduced
+  by the scripts in src/.
 authors:
   - family-names: Lindberg
     given-names: Sheldon
@@ -30,5 +27,6 @@ keywords:
   - entanglement entropy
   - gravity-induced entanglement
   - Diosi-Penrose
-  - science education
-date-released: "2026-11-10"
+  - 3-3-1 models
+  - physics education
+date-released: "2026-11-11"

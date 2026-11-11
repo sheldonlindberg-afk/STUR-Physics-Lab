@@ -2,7 +2,7 @@
 """
 Unification search, step 3b: Z2 gauge-Higgs model, heavy DYNAMICAL charges.
 
-Why: with static charges (stur_z2_gauge.py) the string state and the vacuum lie in
+Why: with static charges (an earlier static-charge version) the string state and the vacuum lie in
 different Gauss-law superselection sectors of region A, so D(string||vac) is
 infinite and <K> cannot be compared.  Making the quark a heavy dynamical particle
 puts both states in one Hilbert space.

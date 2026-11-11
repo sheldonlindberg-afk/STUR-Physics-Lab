@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 import rge_engine as R
 import m331_scalar as S
 
-REF = os.path.join(os.path.dirname(__file__), "..", "results", "unifying_search", "331_scalar.txt")
+REF = os.path.join(os.path.dirname(__file__), "..", "results", "m331", "331_scalar.txt")
 
 
 def test_engine_reproduces_standard_model():

@@ -1,8 +1,9 @@
 # Three colours and three generations from perturbativity in 3-3-1 models
 
-*A standalone note. Sheldon Lindberg, STUR Physics Lab, November 2026. It can be read
-without the rest of this repository. Not peer reviewed; an expert reading is still
-needed.*
+*Sheldon Lindberg, November 2026. Preprint, not peer reviewed; comments from 3-3-1
+experts are welcome. **PDF: [paper/note331.pdf](paper/note331.pdf)** (LaTeX source
+[paper/note331.tex](paper/note331.tex)). This Markdown version carries the same content
+with more detail on each check.*
 
 ## Abstract
 
@@ -36,7 +37,8 @@ doesn't predict them. How much it depends on them differs between the two varian
   weak mixing angle about three times below ours.
 - **β = +1/√3:** N_c = 5 fails at every weak mixing angle, but N_c = 3 survives only for
   sin²θ_W(4 TeV) below 0.261–0.285, against the measured 0.250. Its worst-case pole, with
-  thresholds, sits 1.6× above M_Pl, or 2.2× when the Z′ is above the LHC limits.
+  thresholds, sits 1.6× above M_Pl over the full scan, or 2.2× once the Z′ obeys the LHC
+  dilepton limit (M_Z′ > 4.6 TeV, from our recast of the full Run-2 search, §6).
 
 The result is conditional on the 3-3-1 framework, which collider searches for its Z′ and
 bilepton gauge bosons decide, and on the perturbativity requirement.
@@ -44,9 +46,11 @@ bilepton gauge bosons decide, and on the perturbativity requirement.
 ## 1. Setup
 
 The electric charge is Q = T₃ + βT₈ + X. The two variants without low-scale Landau poles
-are β = ±1/√3. The minimal β = −√3 model is excluded by LHC Z′ limits, as computed in §6.
+are β = ±1/√3. The minimal β = −√3 model is excluded by atomic parity violation and sits at the LHC Z′
+bound (§6).
 
-For colour group SU(N_c) we take N_g generations. Each generation has left-handed lepton
+For colour group SU(N_c) we take N_g generations, with N_c ≥ 2: for N_c = 1 there is
+no colour gauge field, and the asymptotic-freedom condition of step 2 is vacuous. Each generation has left-handed lepton
 triplets and quark triplets or anti-triplets, with the third member an exotic quark. n of
 the N_g quark generations sit in the anti-triplet.
 
@@ -163,7 +167,7 @@ The Planck scale is 1.2×10¹⁹ GeV.
 
 ## 3a. One-loop threshold matching at the 3-3-1 scale
 
-Source: `src/m331_threshold.py`, output `results/unifying_search/331_threshold.txt`.
+Source: `src/m331_threshold.py`, output `results/m331/331_threshold.txt`.
 
 **Method.** The breaking SU(3)_L × U(1)_X → SU(2)_L × U(1)_Y is matched at one loop in
 MS-bar (Weinberg 1980; Hall 1981):
@@ -208,6 +212,7 @@ and the second doublet heavy or light):
 | β = −1/√3 | 2.4×10²⁹ GeV (2×10¹⁰ M_Pl) | 7.2×10¹⁵ GeV | only N_c = 3 |
 | β = +1/√3 | 2.0×10¹⁹ GeV (**1.64 M_Pl**) | 3.8×10¹² GeV | only N_c = 3 |
 | β = +1/√3, M_V ≥ 4 TeV (Z′ ≥ 4.9 TeV) | 2.23 M_Pl | — | only N_c = 3 |
+| β = +1/√3, M_V ≥ 3.76 TeV (Z′ ≥ 4.6 TeV, LHC recast, §6) | 2.17 M_Pl | — | only N_c = 3 |
 
 - **The worst case for N_c = 3.** It is the lightest exotics (0.5 M_V), light scalars, a
   light second doublet and M_V = 2 TeV. That spectrum puts the Z′ at 2.45 TeV, already
@@ -222,10 +227,10 @@ scanned. In the narrow variant the worst allowed case sits a factor of 2 above M
 
 ## 3b. The cutoff and the criterion
 
-Source: `src/m331_closure.py`, output `results/unifying_search/331_closure.txt`.
+Source: `src/m331_closure.py`, output `results/m331/331_closure.txt`.
 
 The selection holds for any cutoff Λ with (best N_c = 5 pole) < Λ < (worst N_c = 3
-pole), taken over the whole front-7e spectrum:
+pole), taken over the whole spectrum scanned in §3a:
 
 | Criterion | Yukawas | β = −1/√3 window (GeV) | β = +1/√3 window (GeV) |
 |---|---|---|---|
@@ -241,7 +246,7 @@ scale (2×10¹⁶). Only the strict g = 1 criterion fails (§3).
 ## 3c. The scalar sector itself, to the Planck scale
 
 Source: `src/m331_scalar.py` and `src/rge_engine.py`, output
-`results/unifying_search/331_scalar.txt`.
+`results/m331/331_scalar.txt`.
 
 **Why this matters.** The selection asks every coupling to stay perturbative to the
 Planck scale, so 3-3-1 at N_c = 3 must pass the same test in its scalar sector. If its
@@ -346,7 +351,7 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
   - the charges' N_c dependence from anomaly cancellation (e.g. Bär–Wiese 2001 on
     π⁰ → γγ);
   - the minimal model's low Landau pole (e.g. Dias, Martinez, Pleitez 2005,
-    hep-ph/0407141; Barela 2023, arXiv:2305.05066; Morisi, Perdonà, Ricciardi 2025,
+    hep-ph/0407141; Barela 2024, arXiv:2305.05066; Morisi, Perdonà, Ricciardi 2025,
     arXiv:2505.15785), and the β = 1/√3 model's high-energy U(1) pole, all at N_c = 3.
 - **This note's step:** keep N_c general throughout (charges, anomalies, scalars, two-loop
   running, thresholds, the scalar sector), and **don't** take the number of generations
@@ -362,7 +367,29 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
 ## 6. How it will be tested
 
 - **The β = ±1/√3 models predict:**
-  - a Z′ above about 3.6–4.2 TeV (LIT, recalled);
+  - a Z′. Our recast of the ATLAS 13 TeV, 139 fb⁻¹ dilepton search (PLB 796 (2019) 68,
+    arXiv:1903.06248; `src/m331_zprime_recast.py`) gives, at 95% CL:
+
+    | | SM decays only | every exotic fermion open | every scalar open too |
+    |---|---|---|---|
+    | β = +1/√3 | M_Z′ > 5.0–5.2 TeV | M_Z′ > 4.6–4.9 TeV | M_Z′ > 4.6–4.8 TeV |
+    | β = −1/√3 | M_Z′ > 4.7–5.0 TeV | M_Z′ > 4.0–4.4 TeV | M_Z′ > 4.0–4.2 TeV |
+
+    The ranges cover which quark generation sits in the triplet, the sin²θ_W scheme and
+    the PDF set. Method: ATLAS's own fiducial Z′_SSM prediction is rescaled by the ratio of
+    Σ_q L_qq̄ (g_L² + g_R²) × BR(ℓℓ) between the models, so K-factors and acceptance cancel.
+    Validation: the same procedure reproduces ATLAS's Z′_ψ and Z′_χ limits (4.53 and
+    4.81 TeV against 4.5 and 4.8 TeV). Limits are the official HEPData tables
+    (doi:10.17182/hepdata.88425.v1, `tools/fetch_hepdata_dilepton.py`); parton luminosities
+    come from PDF4LHC21 and NNPDF3.1 NNLO (`tools/parton_luminosities.py`). An independent
+    reproduction with Pythia 8's own Z′ process (`tools/pythia_crosscheck.py`) agrees to
+    30–40 GeV. Earlier recasts used
+    less data: 4 TeV for β = −1/√3 with 36.1 fb⁻¹ (Lindner, Platscher & Queiroz, Phys.
+    Rept. 731, 1 (2018)), 2.64 TeV with exotic decays (de Jesus et al., PLB 809, 135689
+    (2020)), and about 2.9 TeV for β = +1/√3 with 8 TeV data (Salazar et al., JHEP 07 (2015)
+    096). Bilepton pairs are closed (M_Z′ = 1.225 M_V < 2 M_V). The 'every scalar open'
+    column bounds Z′ → scalars, W_L W_L and Zh. Interference with Drell-Yan changes σB by
+    −3% to +2% within ±10% of the peak (about 15 GeV), and Z-Z′ mixing by < 0.4%;
   - doubly or singly charged bilepton gauge bosons;
   - exotic quarks.
 
@@ -374,17 +401,25 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
 
   A discovery that breaks these relations would break the selection, without excluding
   3-3-1 itself.
-- **The minimal model is already excluded.** At one loop sin²θ_W reaches ¼ at 3.68 TeV,
-  which forces its Z′ below about 3.7 TeV, while LHC dilepton searches exclude it below
-  5 TeV.
+- **The minimal model is excluded.** At one loop sin²θ_W reaches ¼ at 3.68 TeV, where
+  g_X has its Landau pole, so its Z′ must lie below about 3.7 TeV.
+  - The LHC bound is M_Z′ > 3.7 TeV (13 TeV, 36.1 fb⁻¹, exotic decays included;
+    Nepomuceno & Meirose, PRD 101, 035017 (2020), arXiv:1911.12783), right at that ceiling.
+  - Atomic parity violation in caesium requires M_Z′ ≳ 4.2–5.4 TeV (Long et al., NPB 943,
+    114629 (2019), arXiv:1812.08669).
+  - Higher-order effects would have to raise the pole by more than about 14% to evade the
+    parity-violation bound.
 - **An independent check of N_c = 3:** the R-ratio below charm. With N_c-dependent charges
-  it gives −1.0σ at N_c = 3, against −15σ at N_c = 2 and +33σ at N_c = 5 (KEDR, recalled).
+  R(u,d,s) = N_c(Q_u² + 2Q_d²)(1 + 3C_Fα_s/4π) is 2.173 at N_c = 3 (`src/m331_why_three.py`,
+  W6). KEDR's weighted average over 1.84–3.05 GeV is R = 2.225 ± 0.020 ± 0.047 (Anashin
+  et al., PLB 770, 174 (2017), arXiv:1610.02827), so N_c = 3 agrees to −1.0σ, against
+  −15σ at N_c = 2 and +33σ at N_c = 5.
 
 ## 7. Reproduce
 
 ```bash
 pip install -r requirements.txt pytest
-python3 src/m331_why_three.py          # step 1, charges; results/unifying_search/why_three.txt
+python3 src/m331_why_three.py          # step 1, charges; results/m331/why_three.txt
 python3 src/m331_three_generations.py  # step 2, minimal model; three_generations.txt
 python3 src/m331_su3L_running.py       # step 3; su3L_running.txt
 python3 src/m331_exact.py              # step 4, robustness, both variants; 331_exact.txt
@@ -392,15 +427,12 @@ python3 src/m331_yukawa.py             # Yukawas, boundary condition, margins; 3
 python3 src/m331_threshold.py          # one-loop threshold matching (~75 s); 331_threshold.txt
 python3 src/m331_closure.py            # Witten redundant, no-Yukawa bound, cutoff window (~3 min)
 python3 src/m331_scalar.py             # the scalar sector to M_Pl (~4 min); 331_scalar.txt
-python -m pytest tests/test_unifying_search.py tests/test_331_*.py -q
+python3 src/m331_zprime_recast.py      # the ATLAS 139 fb^-1 Z' recast (~1 s); zprime_recast.txt
+python -m pytest tests/test_331_*.py -q
 ```
 
-## References (recalled, not link-checked)
+## References
 
-- F. Pisano, V. Pleitez, Phys. Rev. D 46, 410 (1992).
-- P. H. Frampton, Phys. Rev. Lett. 69, 2889 (1992).
-- E. Witten, "An SU(2) anomaly", Phys. Lett. B 117, 324 (1982).
-- M. E. Machacek, M. T. Vaughn, Nucl. Phys. B 236, 221 (1984); B 249, 70 (1985) (Yukawa and
-  quartic β-functions); M.-x. Luo, H.-w. Wang, Y. Xiao, Phys. Rev. D 67, 065019 (2003).
-- M. E. Machacek, M. T. Vaughn, Nucl. Phys. B 222, 83 (1983) (two-loop gauge β-functions).
-- O. Bär, U.-J. Wiese, Nucl. Phys. B 609, 225 (2001).
+Full bibliography, with DOIs and arXiv numbers checked against INSPIRE, in
+[paper/note331.pdf](paper/note331.pdf). The β = ±1/√3 Z′ limits (§6) are this note's
+recast (paper Appendix A); the minimal-model limits are quoted from the cited papers.

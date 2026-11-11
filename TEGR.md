@@ -81,25 +81,18 @@ be in two places.** In TEGR language, λ = 1 means the torsion field is in two p
 exactly as the electron's EM field is (T5 in [MEASUREMENT.md](MEASUREMENT.md)).
 λ = 0 means there is only one torsion field.
 
-**E5. STUR's open problem P2: which connection is A_μ?** Candidate:
-A_μ = (mc/ħ)B⁰_μ, the translational potential.
+**E5. The translational potential as an abelian gauge field.** Take
+A_μ = (mc/ħ)B⁰_μ, TEGR's translational potential.
 
-| Requirement | Met? | Why |
-|---|---|---|
-| R1: holonomy of a gauge connection | **yes** | translation gauge group; abelian at linear order |
-| R2: Gaussian noise | **yes** | free linear field; but noise ~ (ℓ_P/L)², 2.6×10⁻⁷⁰ at 1 m |
-| R3: area law at the QCD scale | **no** | massless, so it gives a perimeter law, like EM |
-| R4: horizon entropy A/4ℓ_P² | **yes** | E3, with a smooth horizon as in GR |
-| R5: couples to a neutral atom | **yes** | every mass; COW phase 1.58×10⁸ rad in MAGIS |
+- Its holonomy is a translation-gauge phase, abelian at linear order.
+- It couples to every mass: the COW phase is 1.58×10⁸ rad in MAGIS-100.
+- Being massless, its Wilson loops obey a perimeter law, as in electromagnetism.
+- Its vacuum noise scales as (ℓ_P/L)², 2.6×10⁻⁷⁰ at 1 m.
 
-It meets 4 of 5. It is the first candidate in P2 that meets R1, R4 and R5 at full
-strength. The Levi-Civita spin connection reaches atoms only as a 10⁻¹⁴ boost.
-
-With Gaussian noise in this A_μ, the visibility formula V = exp(−½⟨Φ_R²⟩) becomes exactly
-the "Option A" model of the archived working notes. Its area-law version is excluded, and its
-standard graviton version is too small to see. **On the gravity side, TEGR's translational potential is
-the best candidate found for STUR's A_μ; the QCD end stays open, and the original STUR
-claims still fail (archived working notes).**
+With Gaussian noise in this potential, V = exp(−½⟨Φ²⟩) is the standard graviton-bath
+decoherence, far too small to see. By contrast, the Levi-Civita spin connection reaches
+an atom only as a 10⁻¹⁴ boost, so in TEGR the translational potential is the natural
+place to put gravity's coupling to an interferometer phase.
 
 **E6. Does gravity's own field record which path?** This is the gravitational version
 of T5. I computed quadrupole radiation from one branch of the diamond, with a smooth
@@ -172,8 +165,8 @@ results.
     structural expectation. That is an expectation, not a proof; the experiment decides.
 - **The torsion field's own action** is part of the entangling phase (E4). So the
   experiment tests whether the *torsion field* is in two places.
-- **A candidate for STUR's A_μ** on the gravity side (E5), which doesn't rescue the
-  original STUR claims.
+- **The translational potential as an abelian gauge field** (E5): it couples to every
+  mass, and its vacuum noise is far too small to see.
 
 Not used: f(T) and other modified teleparallel theories. They change predictions,
 but they add new structure.

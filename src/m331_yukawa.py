@@ -81,7 +81,7 @@ def yukawas_331(Nc, variant):
 def yt_at(mu, loops=1):
     """SM top Yukawa run from m_t to mu (one loop, with gauge couplings; MSbar y_t(m_t) from
     the pole mass with the one-loop QCD conversion). LIT inputs recalled."""
-    from stur_open_problems import alpha_s_run
+    from qcd_running import alpha_s_run
     v = 246.22
     as_mt = alpha_s_run(MT_POLE)
     mt_ms = MT_POLE * (1 - 4 * as_mt / (3 * pi))
@@ -109,7 +109,7 @@ def boundary(mu0, s2_override=None, aem_inv_override=None, lam=(0.0, 0.0, 0.0), 
     lam = (lambda_Y, lambda_2, lambda_3): one-loop threshold corrections at mu0,
     1/alpha_high = 1/alpha_low + lambda / (12 pi)  (src/m331_threshold.py).
     n_light: number of Higgs doublets below mu0 (each adds 1/6 to b_Y and b_2)."""
-    from stur_open_problems import alpha_s_run
+    from qcd_running import alpha_s_run
     L0 = log(mu0 / MZ) / (2 * pi)
     extra = (n_light - 1) / 6
     aY_inv = (1 - E.s2) * E.ainv - (41 / 6 + extra) * L0

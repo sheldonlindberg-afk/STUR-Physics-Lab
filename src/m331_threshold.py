@@ -180,8 +180,14 @@ def main():
               f"  ->  {'only N_c = 3 survives' if lo3 > M_PLANCK > hi5 else 'VERDICT CHANGES'}")
         (lo3b, *_), _ = scan(3, v, MVs=(4e3, 1e4))
         out[(v, "3_lhc")] = lo3b
-        print(f"                    with M_V >= 4 TeV (M_Z' >= {1.225*4:.1f} TeV, above the LHC limits quoted): "
+        print(f"                    with M_V >= 4 TeV (M_Z' >= {1.225*4:.1f} TeV, above every current Z' limit): "
               f"worst N_c = 3 / M_Pl = {lo3b/M_PLANCK:.3g}")
+        # 13 TeV, 139 fb^-1 recast (src/m331_zprime_recast.py): most conservative bound, all exotics open
+        mz_lhc = {"+1/sqrt3": 4.6e3, "-1/sqrt3": 4.0e3}[v]
+        (lo3c, *_), _ = scan(3, v, MVs=(mz_lhc / 1.225, 1e4))
+        out[(v, "3_recast")] = lo3c
+        print(f"                    at the ATLAS 139 fb^-1 recast bound (M_Z' >= {mz_lhc/1e3:.1f} TeV, M_V >= "
+              f"{mz_lhc/1.225/1e3:.2f} TeV): worst N_c = 3 / M_Pl = {lo3c/M_PLANCK:.3g}")
 
     banner("T4  The narrow margin, recomputed (beta = +1/sqrt3, N_c = 3)")
     s_tree = Y.s2_upper(3, "+1/sqrt3")

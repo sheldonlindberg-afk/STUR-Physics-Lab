@@ -17,7 +17,7 @@ TEGR (KNOWN; Einstein 1928, Moller 1961, Hayashi-Shirafuji 1979, Aldrovandi-Pere
   E3  Black-hole entropy from the TEGR action: boundary flux at infinity gives A/4. CHECK.
   E4  The gravitational phase is a TEGR holonomy. The two-mass phase phi = G m^2 tau/(hbar r)
       comes out of field + matter bookkeeping: the FIELD's own action is branch-dependent.
-  E5  STUR open problem P2 (which connection is A_mu?): the translational potential as a
+  E5  The translational potential as an abelian gauge field: its holonomy as a
       candidate, scored on R1-R5.
   E6  Does gravity's own field record which path? Graviton emission during the split
       (the gravitational version of the surface decoherence in T5).
@@ -226,19 +226,17 @@ def main():
     print("   So in TEGR language: lambda = 1 means the torsion field is in two places, exactly")
     print("   as the electron's EM field is (T5). lambda = 0 means one torsion field.")
 
-    banner("E5  STUR open problem P2: is TEGR's translational potential the connection A_mu?")
+    banner("E5  TEGR's translational potential as an abelian gauge connection A_mu")
     print("   Candidate: A_mu = (m c / hbar) B^0_mu  (Phi_R = its holonomy around the two paths)")
     print("   R1 holonomy of a gauge connection        YES  (translation gauge group, abelian at linear order)")
     print("   R2 Gaussian noise                        YES  for the free linear field; noise ~ (l_P/L)^2 (P2: 2.6e-70)")
-    print("   R3 area law at the QCD scale             NO   massless -> perimeter law, same as EM (P2)")
+    print("   R3 Wilson-loop law                       perimeter (massless), same as EM")
     print("   R4 horizon entropy A / 4 l_P^2           YES  E3, as in GR (smooth horizon assumed)")
     print("   R5 couples to a neutral atom             YES  every mass; COW phase 1.58e8 rad in MAGIS (P2)")
-    print("   FOLLOWS: 4 of 5. It is the first candidate in P2 meeting R1, R4 and R5 at full")
+    print("   FOLLOWS: it meets R1, R4 and R5 at full strength")
     print("   strength (the Levi-Civita spin connection couples to atoms only as a 1e-14 boost).")
-    print("   It fails R3 for the same reason EM does. With Gaussian noise in this A_mu, the")
-    print("   visibility formula V = exp(-1/2 <Phi_R^2>) is exactly Option A's model, whose")
-    print("   area-law version is excluded (OPTION_A.md); its standard (graviton) version is")
-    print("   too small to see. So TEGR names STUR's connection, and leaves the QCD end open.")
+    print("   With Gaussian noise in this A_mu, V = exp(-1/2 <Phi_R^2>) is the standard")
+    print("   graviton-bath decoherence, far too small to see.")
 
     banner("E6  Does gravity's own field record which path? (gravitational version of T5)")
     for m_, dx, tr, th in [(1.5e-14, 721e-6, 1.58, 0.08), (1e-14, 250e-6, 0.73, 2.5)]:
@@ -262,7 +260,7 @@ def main():
     print("      gauge theory like EM, which makes lambda = 1 the structural expectation.")
     print("      (Expectation, not proof: the experiment still decides.)")
     print("    - the field's own action is part of the entangling phase (E4).")
-    print("    - STUR's A_mu gets a name (E5): 4 of 5 requirements met.")
+    print("    - the translational potential is an abelian gauge connection (E5).")
     print("   Not used: f(T) and other modified teleparallel theories, which DO change")
     print("   predictions but add new structure.")
 

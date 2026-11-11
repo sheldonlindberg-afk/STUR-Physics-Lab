@@ -19,7 +19,7 @@ Q1  The minimum noise (FOLLOWS; the result is LIT recalled, Tilloy & Diosi, PRD 
     over which the mass density that sources the field is smeared:
           k_min(q) = (4 pi G / hbar q^2) exp(-q^2 R0^2)
 
-Q2  What R0 is (STUR). An equation of state is defined only above the scale at which
+Q2  What R0 is (an assumption of this argument). An equation of state is defined only above the scale at which
     its microscopic degrees of freedom are counted. In D1-D3 that scale is the cutoff a
     of the area law: a = sqrt(N c_s / pi) l_P, from 0.31 l_P (N = 1) to 9.8 l_P
     (N = 1000). The framework contains no other length.

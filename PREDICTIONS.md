@@ -115,9 +115,6 @@ simulators. Source: `src/stur_confinement.py`, `src/stur_z2_higgs.py`.
     Oppenheim's continuous models). It doesn't confirm these notes over standard
     physics. Only a null result would be new physics.
   - Predictions 5–8 are general relativity and standard quantum mechanics.
-- **Prediction 7 is cheap and decisive against the original STUR postulate.** That
-  postulate predicts the opposite temperature dependence. Prediction 7 can't come out
-  in STUR's favour.
 - **The diamond experiments are far beyond current reach.** They need a mass in
   superposition 4×10⁸ times the current record, and vibration noise about 57 times
   below LISA Pathfinder ([GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md)).

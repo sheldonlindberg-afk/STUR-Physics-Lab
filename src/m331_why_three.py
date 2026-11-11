@@ -14,7 +14,8 @@ W5 The minimal fold of front 4 for general N_c: does it select a value?
 W6 Observables with anomaly-consistent, N_c-dependent charges:
    pi0 -> gamma gamma amplitude ~ N_c (Q_u^2 - Q_d^2);
    R = sigma(ee->hadrons)/sigma(ee->mu mu) below charm = N_c (Q_u^2 + 2 Q_d^2)(1 + 3 C_F alpha_s/4pi),
-   vs KEDR (LIT): R = 2.225 +- 0.051 averaged over 1.84-3.05 GeV.
+   vs KEDR: weighted average R = 2.225 +- 0.020 +- 0.047 over 1.84-3.05 GeV (Anashin et al.,
+   PLB 770, 174 (2017), arXiv:1610.02827; combined +- 0.051).
 """
 import os
 import sys
@@ -81,7 +82,7 @@ def main():
     print("   -> works for EVERY N_c: the fold does not select 3.")
 
     banner("W6  Observables with anomaly-consistent charges")
-    from stur_open_problems import alpha_s_run
+    from qcd_running import alpha_s_run
     a_s = alpha_s_run(2.45)                                  # mid-point of the KEDR range (3 light flavours produced)
     print(f"   alpha_s(2.45 GeV) = {a_s:.3f} (2-loop, our running from alpha_s(M_Z) = 0.118)")
     print("   N_c   pi0->gg ~ N_c(Qu^2-Qd^2)    R(u,d,s)     R vs KEDR 2.225 +- 0.051")

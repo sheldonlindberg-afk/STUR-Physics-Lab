@@ -1,0 +1,57 @@
+
+==============================================================================
+T1  CHECK: one loop, fixed spectrum, matching scale varied (must not matter)
+==============================================================================
+   mu / M_V:        1/3        1/2        1          2          3      spread in ln(pole)
+   beta = -1/sqrt3 N_c = 3: 1.074e+30  1.074e+30  1.074e+30  1.074e+30  1.074e+30   5.1e-10
+   beta = +1/sqrt3 N_c = 3: 1.195e+20  1.195e+20  1.195e+20  1.195e+20  1.195e+20   3.1e-10
+   The N_c = 3 pole is independent of mu to 5e-10 in its logarithm: every sign and
+   multiplicity in lambda is right, and the heavy content is exactly 3-3-1 minus the SM.
+   Without thresholds the same check fails: 5.05e+19 vs 1.32e+20 GeV.
+   N_c = 5 cannot pass it, and should not: below mu we run the real SM, with three colours,
+   which is not 3-3-1 at N_c = 5 minus its heavy fields. This is the counterfactual boundary
+   condition showing up directly: N_c = 5's pole moves by a factor 1.54 as mu goes
+   from M_V/3 to 3 M_V. T3 takes N_c = 5's most favourable mu.
+
+==============================================================================
+T2  The corrections at mu = M_V = 4 TeV (r_J = 1, r_S = 1, one light doublet)
+==============================================================================
+   M_Z'/M_V = 1.225 (from sin^2 theta_W = 0.2504); the Z' carries no SM charge.
+   beta = -1/sqrt3 N_c = 3: lambda_Y = +1.000, lambda_2 = +1.000, lambda_3 = +0.000;  shift in 1/alpha_X = +0.0177
+   beta = -1/sqrt3 N_c = 5: lambda_Y = +1.000, lambda_2 = +1.000, lambda_3 = +0.000;  shift in 1/alpha_X = +0.0177
+   beta = +1/sqrt3 N_c = 3: lambda_Y = +1.000, lambda_2 = +1.000, lambda_3 = +0.000;  shift in 1/alpha_X = +0.0177
+   beta = +1/sqrt3 N_c = 5: lambda_Y = +1.000, lambda_2 = +1.000, lambda_3 = +0.000;  shift in 1/alpha_X = +0.0177
+   With every heavy mass at mu, only the MS-bar vector constant survives: lambda_Y = lambda_2 = 1,
+   so 1/alpha_X moves by (1 - 1/3)/(12 pi) = +0.018, out of 83.8. The logs carry the rest.
+   beta = -1/sqrt3 N_c = 3, spectrum scanned: lambda_Y from -13.39 to +21.87  (1/alpha_Y moves -0.355 to +0.580)
+   beta = +1/sqrt3 N_c = 3, spectrum scanned: lambda_Y from -35.57 to +57.03  (1/alpha_Y moves -0.943 to +1.513)
+
+==============================================================================
+T3  Blow-up scale with one-loop thresholds and two-loop running, spectrum scanned
+==============================================================================
+   r_J = m_exotic/M_V in {0.5, 1, 2, 3} (y_J = r_J g_L/sqrt2, also used at two loops),
+   r_S = m_scalar/M_V in {1/3, 1, 3}, M_V in {2, 4, 10} TeV, second doublet heavy or light.
+   beta = -1/sqrt3: N_c = 3 from 2.44e+29 to 9.71e+29 GeV  (lowest at r_J, r_S, M_V, n_light = 0.5, 0.33, 2e+03, 2)
+                    N_c = 5 from 8.84e+14 to 7.17e+15 GeV
+                    worst N_c = 3 / M_Pl = 2e+10;  best N_c = 5 / M_Pl = 5.9e-04  ->  only N_c = 3 survives
+                    with M_V >= 4 TeV (M_Z' >= 4.9 TeV, above every current Z' limit): worst N_c = 3 / M_Pl = 2.12e+10
+                    at the ATLAS 139 fb^-1 recast bound (M_Z' >= 4.0 TeV, M_V >= 3.27 TeV): worst N_c = 3 / M_Pl = 2.08e+10
+   beta = +1/sqrt3: N_c = 3 from 2.00e+19 to 2.52e+20 GeV  (lowest at r_J, r_S, M_V, n_light = 0.5, 0.33, 2e+03, 2)
+                    N_c = 5 from 2.81e+11 to 3.76e+12 GeV
+                    worst N_c = 3 / M_Pl = 1.64;  best N_c = 5 / M_Pl = 3.1e-07  ->  only N_c = 3 survives
+                    with M_V >= 4 TeV (M_Z' >= 4.9 TeV, above every current Z' limit): worst N_c = 3 / M_Pl = 2.23
+                    at the ATLAS 139 fb^-1 recast bound (M_Z' >= 4.6 TeV, M_V >= 3.76 TeV): worst N_c = 3 / M_Pl = 2.17
+
+==============================================================================
+T4  The narrow margin, recomputed (beta = +1/sqrt3, N_c = 3)
+==============================================================================
+   Tree-level matching, no Yukawas (front 7d): N_c = 3 needs sin^2 theta_W(4 TeV) < 0.2663
+   one-loop thresholds, r_J = 0.5, r_S = 0.33, light doublets = 2:  s^2 < 0.2608   margin +0.0104
+   one-loop thresholds, r_J = 0.5, r_S = 1.00, light doublets = 1:  s^2 < 0.2619   margin +0.0115
+   one-loop thresholds, r_J = 1.0, r_S = 1.00, light doublets = 1:  s^2 < 0.2680   margin +0.0176
+   one-loop thresholds, r_J = 2.0, r_S = 1.00, light doublets = 1:  s^2 < 0.2764   margin +0.0260
+   one-loop thresholds, r_J = 3.0, r_S = 3.00, light doublets = 1:  s^2 < 0.2851   margin +0.0347
+   measured sin^2 theta_W(4 TeV) = 0.2504.  Margin range +0.0104 to +0.0347.
+   Residual matching-scale dependence at two loops (r_J = 1, r_S = 1), N_c = 3 pole / M_Pl:
+     beta = -1/sqrt3: mu = M_V/2, M_V, 2 M_V -> 3.01e+10, 3.02e+10, 3.03e+10
+     beta = +1/sqrt3: mu = M_V/2, M_V, 2 M_V -> 3.69, 3.72, 3.75

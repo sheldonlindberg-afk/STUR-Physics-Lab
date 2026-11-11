@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-The cheapest experiment that decides STUR's original corollary P2: one trapped ion.
+One trapped ion: visibility loss counts exchanged quanta, tested against an
+alternative ansatz with the opposite temperature dependence.
 
 Setup (KNOWN technique: spin-dependent kicks on a trapped ion, as in trapped-ion
 "Schrodinger cat" experiments, LIT recalled: Monroe et al., Science 272, 1131 (1996)):
@@ -14,14 +15,14 @@ Setup (KNOWN technique: spin-dependent kicks on a trapped ion, as in trapped-ion
 Predictions, at FIXED mean energy deposited <dE> = hbar omega |alpha|^2 (per branch):
   Standard quantum mechanics (FOLLOWS; checked here in Fock space):
       Gamma = -ln V = 2 |alpha|^2 (2 nbar + 1) = 2 (<dE>/hbar omega) coth(x/2)
-      Gamma = 2 Var(dN)                                  (the identity of archive/notes/ASSUMPTIONS.md 2)
-  STUR corollary P2 (E = k_B T Gamma):
+      Gamma = 2 Var(dN)                                  (the displaced-oscillator identity)
+  Alternative ansatz P2 (E = k_B T Gamma, from earlier working notes):
       Gamma = <dE> / k_B T = (<dE>/hbar omega) x
 
   The two have OPPOSITE temperature dependence at fixed <dE>:
       d ln Gamma / d ln T  =  x / sinh(x)  in [0, 1]   (standard: hotter loses MORE)
                            =  -1                        (P2: colder loses more)
-  They cross only at x = 2.3994 (the coincidence line of archive/notes/ASSUMPTIONS.md 3).
+  They cross only at x = 2.3994 (the coincidence line).
   So two runs, at nbar = 0.1 and nbar = 5 with the same kick, settle the sign.
 """
 import numpy as np
@@ -94,7 +95,7 @@ def main():
     print("   So -ln V = 2 Var(dN) = 2 <dN> (2 nbar + 1): visibility loss counts the spread")
     print("   of quanta exchanged, and grows with temperature at fixed energy deposited.")
 
-    banner("L2  Standard QM vs STUR P2 at fixed energy deposited, <dN> = |alpha|^2 = 0.1")
+    banner("L2  Standard QM vs the ansatz P2 at fixed energy deposited, <dN> = |alpha|^2 = 0.1")
     print("   nbar    k_BT/hbar.omega   V standard   V under P2   ratio Gamma_std/Gamma_P2")
     a2 = 0.1
     for nbar in (0.05, 0.1, 0.5, 1.0, 2.0, 5.0, 10.0):
@@ -120,7 +121,7 @@ def main():
     print("   nbar = 0.1 sits on the crossing, so both start from the same contrast. At nbar = 5")
     print(f"   they differ by {np.exp(-p2) - np.exp(-g2):.2f} in contrast, far above Ramsey-contrast errors")
     print("   of a few per cent. Standard QM fixes the outcome in")
-    print("   advance, so this is a kill test for P2, not a test that could favour STUR.")
+    print("   advance, so this is a test that can only exclude the ansatz P2.")
 
 
 if __name__ == "__main__":
