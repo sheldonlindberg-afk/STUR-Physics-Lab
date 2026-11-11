@@ -370,23 +370,26 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
   - a Z′. Our recast of the ATLAS 13 TeV, 139 fb⁻¹ dilepton search (PLB 796 (2019) 68,
     arXiv:1903.06248; `src/m331_zprime_recast.py`) gives, at 95% CL:
 
-    | | SM decays only | every exotic fermion open |
-    |---|---|---|
-    | β = +1/√3 | M_Z′ > 5.0–5.2 TeV | M_Z′ > 4.6–4.9 TeV |
-    | β = −1/√3 | M_Z′ > 4.7–5.0 TeV | M_Z′ > 4.0–4.4 TeV |
+    | | SM decays only | every exotic fermion open | every scalar open too |
+    |---|---|---|---|
+    | β = +1/√3 | M_Z′ > 5.0–5.2 TeV | M_Z′ > 4.6–4.9 TeV | M_Z′ > 4.6–4.8 TeV |
+    | β = −1/√3 | M_Z′ > 4.7–5.0 TeV | M_Z′ > 4.0–4.4 TeV | M_Z′ > 4.0–4.2 TeV |
 
     The ranges cover which quark generation sits in the triplet, the sin²θ_W scheme and
     the PDF set. Method: ATLAS's own fiducial Z′_SSM prediction is rescaled by the ratio of
     Σ_q L_qq̄ (g_L² + g_R²) × BR(ℓℓ) between the models, so K-factors and acceptance cancel.
     Validation: the same procedure reproduces ATLAS's Z′_ψ and Z′_χ limits (4.53 and
-    4.81 TeV against 4.5 and 4.8 TeV). The ATLAS curves were digitised from the paper's
-    vector figures (`tools/digitize_atlas_dilepton.py`), and the parton luminosities come
-    from PDF4LHC21 and NNPDF3.1 NNLO (`tools/parton_luminosities.py`). Earlier recasts used
+    4.81 TeV against 4.5 and 4.8 TeV). Limits are the official HEPData tables
+    (doi:10.17182/hepdata.88425.v1, `tools/fetch_hepdata_dilepton.py`); parton luminosities
+    come from PDF4LHC21 and NNPDF3.1 NNLO (`tools/parton_luminosities.py`). An independent
+    reproduction with Pythia 8's own Z′ process (`tools/pythia_crosscheck.py`) agrees to
+    30–40 GeV. Earlier recasts used
     less data: 4 TeV for β = −1/√3 with 36.1 fb⁻¹ (Lindner, Platscher & Queiroz, Phys.
     Rept. 731, 1 (2018)), 2.64 TeV with exotic decays (de Jesus et al., PLB 809, 135689
     (2020)), and about 2.9 TeV for β = +1/√3 with 8 TeV data (Salazar et al., JHEP 07 (2015)
-    096). Not included: Z-Z′ mixing, interference with Drell-Yan, and Z′ decays to bilepton
-    or scalar pairs;
+    096). Bilepton pairs are closed (M_Z′ = 1.225 M_V < 2 M_V). The 'every scalar open'
+    column bounds Z′ → scalars, W_L W_L and Zh. Interference with Drell-Yan changes σB by
+    −3% to +2% within ±10% of the peak (about 15 GeV), and Z-Z′ mixing by < 0.4%;
   - doubly or singly charged bilepton gauge bosons;
   - exotic quarks.
 

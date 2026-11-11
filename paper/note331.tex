@@ -323,11 +323,11 @@ most recent dedicated recast we found uses $8\TeV$ data and gives
 $M_{Z'}\gtrsim2.9\TeV$~\cite{Salazar:2015gxa}. Appendix~\ref{app:recast} recasts the ATLAS
 search with the full $139\,\text{fb}^{-1}$~\cite{ATLAS:2019erb}:
 \begin{equation*}
-\beta=+1/\sqrt3:\ M_{Z'}>5.0\text{--}5.2\TeV\ (4.6\text{--}4.9\TeV),\qquad
-\beta=-1/\sqrt3:\ M_{Z'}>4.7\text{--}5.0\TeV\ (4.0\text{--}4.4\TeV),
+\beta=+1/\sqrt3:\ M_{Z'}>5.0\text{--}5.2\TeV\ (4.6\TeV),\qquad
+\beta=-1/\sqrt3:\ M_{Z'}>4.7\text{--}5.0\TeV\ (4.0\TeV),
 \end{equation*}
-for decays to Standard Model fermions only (in brackets: with every exotic fermion open
-and massless). Since $M_V=M_{Z'}/1.225$, the bilepton gauge bosons then lie above about
+for decays to Standard Model fermions only (in brackets: the lowest value with every exotic
+fermion and every scalar-triplet component open and massless). Since $M_V=M_{Z'}/1.225$, the bilepton gauge bosons then lie above about
 $3.3$--$4.2\TeV$, and the bounds of Section~\ref{sec:scalar} allow exotic quarks up to
 $1.40$--$1.79\,M_V$, so they may or may not be light enough for the $Z'$ to decay into.
 
@@ -356,15 +356,18 @@ $\Nc$-dependent charges reproduce the measured value.
 \section{Recast of the ATLAS 139 fb$^{-1}$ dilepton search}\label{app:recast}
 
 ATLAS published 95\% CL upper limits on the fiducial $\sigma\times B(X\to\ell\ell)$, for one
-lepton flavour, for relative widths $\Gamma/M=0$--$10\%$, together with its own fiducial
-predictions for the benchmark $Z'_{\text{SSM}}$, $Z'_\psi$ and
-$Z'_\chi$~\cite{ATLAS:2019erb}. We digitised these curves from the vector figures of the
-paper (Fig.~3, combined $ee+\mu\mu$); the digitised limits reproduce the values quoted in
-the text (3.6 and 13.1\,fb at 250\,GeV, 0.014 and 0.018\,fb at 6\,TeV, for zero and 10\%
-width) to within 1--4\%.
+lepton flavour, for relative widths $\Gamma/M=0$--$10\%$~\cite{ATLAS:2019erb}. We use the
+official HEPData tables~\cite{HEPData:88425} for the observed and expected limits of the
+combined $ee+\mu\mu$ channel. The fiducial $Z'_{\text{SSM}}$ prediction is reconstructed
+from the tabulated ratio of the observed limit to the SSM cross-section; it crosses the
+3\%-width limit at 5.08\,TeV (published: 5.1\,TeV). The tables label the limits in pb, but
+their values are the femtobarn numbers quoted in the paper (3.6\,fb at 250\,GeV,
+0.014\,fb at 6\,TeV), and we use them in fb. ATLAS's $Z'_\psi$ and $Z'_\chi$ predictions are
+not tabulated; for the validation below we digitised them from the vector figures of the
+paper. The same digitisation of the limit curves reproduces the HEPData tables to a uniform
+$+2.7\%$ with at most 1.2\% scatter, and we correct the two model curves for that offset.
 
-\paragraph{Method.} In the narrow-width approximation, neglecting interference with
-Drell--Yan and $Z$--$Z'$ mixing as the ATLAS benchmarks do,
+\paragraph{Method.} In the narrow-width approximation,
 $\sigma B\propto\sum_q L_{q\bar q}(M)\,(g_{L,q}^2+g_{R,q}^2)\times B(\ell\ell)$. We take the
 ATLAS $Z'_{\text{SSM}}$ prediction and multiply it by the ratio of this quantity between
 the 3-3-1 $Z'$ and $Z'_{\text{SSM}}$. Higher-order QCD corrections and the fiducial
@@ -388,20 +391,36 @@ triplet. Couplings are evaluated with $s_W^2=0.2504$ ($4\TeV$) and, as a check, 
 
 \paragraph{Validation.} The procedure reproduces the benchmark widths (2.99, 0.53 and 1.16\%
 for SSM, $\psi$, $\chi$, against ATLAS's 3, 0.5 and 1.2\%). Applied to the $Z'_{\text{SSM}}$
-curve with the $E_6$ couplings, it reproduces ATLAS's own $Z'_\psi$ and $Z'_\chi$
-predictions to within 2--6\% between 3 and 5\,TeV with PDF4LHC21, and their mass limits:
-4.53 and 4.81\,TeV against the published 4.5 and 4.8\,TeV. With NNPDF3.1 the $\chi$ limit
-comes out at 4.96\,TeV; the difference traces to the large-$x$ antiquarks, where the two
-sets differ, so we use PDF4LHC21 as the baseline and quote the NNPDF3.1 spread. As an
-independent check, opening the exotic decays for $\beta=-1/\sqrt3$ reduces $B(\ell\ell)$
-to 37\% of its SM-only value, consistent with the reduction to 34\% found in
-Ref.~\cite{deJesus:2020ngn}.
+prediction with the $E_6$ couplings, it reproduces ATLAS's own $Z'_\psi$ and $Z'_\chi$
+predictions to within 3 and 4\% between 3 and 5\,TeV with PDF4LHC21, and their mass
+limits: 4.53 and 4.81\,TeV against the published 4.5 and 4.8\,TeV. With NNPDF3.1 the $\chi$
+limit comes out at 4.96\,TeV; the difference traces to the large-$x$ antiquarks, where the
+two sets differ, so we use PDF4LHC21 as the baseline and quote the NNPDF3.1 spread.
+Opening the exotic decays for $\beta=-1/\sqrt3$ reduces $B(\ell\ell)$ to 37\% of its
+SM-only value, consistent with the 34\% found independently in Ref.~\cite{deJesus:2020ngn}.
 
-\paragraph{Results.} Table~\ref{tab:recast} lists the observed limits. Over the quark
-assignment, the $s_W^2$ scheme and the PDF set, the limits move by about 0.2\,TeV; opening
-every exotic decay lowers them by 0.3--0.7\,TeV. Not included are $Z'$ decays to bilepton
-or scalar pairs, which would add width and lower the limits further, and differences in
-higher-order corrections between models.
+\paragraph{Independent reproduction.} We repeated the calculation with \textsc{Pythia}~8's
+own $Z'$ process~\cite{Bierlich:2022pfr} (\texttt{ffbar2gmZZprime}, $Z'$ alone), which
+shares only the couplings with the method above: its own LO PDF (NNPDF2.3), width
+calculation and full Breit--Wigner line shape. The ratio of $\sigma B(ee)$ to the SSM comes
+out 4--8\% lower, consistent with the LO PDF and with off-shell tails that favour the wider
+SSM. Taken through the same ATLAS limits it gives $M_{Z'}>5.16$ and $5.00\TeV$ for
+$\beta=+1/\sqrt3$ (assignments A, B) and $4.75\TeV$ for $\beta=-1/\sqrt3$ (A), within
+30--40\,GeV of Table~\ref{tab:recast}.
+
+\paragraph{Decays, interference and mixing.} The bilepton-pair channel is closed, since
+$M_{Z'}=1.225\,M_V<2M_V$, and the $Z'$ has no tree-level $W$--bilepton coupling (the $SU(3)$
+structure constants $f_{8ab}$ with $a\in\{1,2\}$ vanish). Scalar decays are bounded by
+treating every component of the three scalar triplets as a massless complex scalar, which
+overcounts heavy states and eaten Goldstones and, by the equivalence theorem, contains the
+$W_LW_L$ and $Zh$ channels opened by $Z$--$Z'$ mixing. This ``all open'' case lowers the
+limits by at most 0.2\,TeV beyond the exotic-fermion case. Interference with
+$\gamma/Z$ Drell--Yan, from the LO line shape, changes the signal within $\pm10\%$ of the
+peak by $-3.3$ to $+1.6\%$ ($\pm0.7\%$ within $\pm2\%$); the SSM benchmark has
+interference of the same sign and size ($-4.7\%$), so it largely cancels in the ratio. A
+3\% change in $\sigma B$ moves the limit by about 15\,GeV. A $Z$--$Z'$ mixing angle of
+$10^{-3}$, three times its natural size $M_Z^2/M_{Z'}^2$, changes $\sigma B$ by at most
+0.4\%. Not included are differences in higher-order corrections between models.
 
 \begin{table}[h]\centering
 \begin{tabular}{llccccc}
@@ -409,29 +428,34 @@ higher-order corrections between models.
 $\beta$ & assignment & decays & $\Gamma/M$ & $B(ee)$ & observed & expected\\
 \midrule
 $+1/\sqrt3$ & A & SM & 1.68\% & 6.58\% & 5.21\,TeV & 5.18\,TeV\\
-            & A & SM + exotic & 3.27\% & 3.38\% & 4.89\,TeV & 4.85\,TeV\\
+            & A & SM + exotic & 3.27\% & 3.38\% & 4.89\,TeV & 4.86\,TeV\\
+            & A & all open & 3.64\% & 3.04\% & 4.83\,TeV & 4.80\,TeV\\
             & B & SM & 1.68\% & 6.58\% & 5.03\,TeV & 5.00\,TeV\\
-            & B & SM + exotic & 3.27\% & 3.38\% & 4.70\,TeV & 4.67\,TeV\\
+            & B & SM + exotic & 3.27\% & 3.38\% & 4.71\,TeV & 4.67\,TeV\\
+            & B & all open & 3.64\% & 3.04\% & 4.64\,TeV & 4.61\,TeV\\
 \midrule
 $-1/\sqrt3$ & A & SM & 1.15\% & 3.85\% & 4.79\,TeV & 4.75\,TeV\\
-            & A & SM + exotic & 3.09\% & 1.43\% & 4.04\,TeV & 4.23\,TeV\\
+            & A & SM + exotic & 3.09\% & 1.43\% & 4.05\,TeV & 4.24\,TeV\\
+            & A & all open & 3.46\% & 1.28\% & 3.99\,TeV & 4.17\,TeV\\
             & B & SM & 1.15\% & 3.85\% & 4.96\,TeV & 4.93\,TeV\\
-            & B & SM + exotic & 3.09\% & 1.43\% & 4.39\,TeV & 4.42\,TeV\\
+            & B & SM + exotic & 3.09\% & 1.43\% & 4.39\,TeV & 4.43\,TeV\\
+            & B & all open & 3.46\% & 1.28\% & 4.19\,TeV & 4.37\,TeV\\
 \bottomrule
 \end{tabular}
 \caption{95\% CL lower limits on $M_{Z'}$ from the ATLAS $139\,\text{fb}^{-1}$ dilepton
-search (PDF4LHC21, $s_W^2=0.2504$). A: third quark generation in the triplet; B: first.
-``SM + exotic'': decays to the exotic quarks and heavy leptons open and kinematically
-unsuppressed.}\label{tab:recast}
+search (HEPData limits, PDF4LHC21, $s_W^2=0.2504$). A: third quark generation in the
+triplet; B: first. ``SM + exotic'': decays to the exotic quarks and heavy leptons open and
+massless; ``all open'': every scalar-triplet component as well. Over the $s_W^2$ scheme
+and the PDF set the limits move by up to 0.05\,TeV.}\label{tab:recast}
 \end{table}
 
 \section*{Reproducibility}
 
 Each number above is produced by a script in \texttt{src/m331\_*.py}, with reference
 output in \texttt{results/m331/} and regression tests in \texttt{tests/test\_331\_*.py},
-run on every commit. The recast is \texttt{src/m331\_zprime\_recast.py}; the digitised
-ATLAS curves and the parton luminosities it reads are produced by the scripts in
-\texttt{tools/}.
+run on every commit. The recast is \texttt{src/m331\_zprime\_recast.py}; the HEPData tables, the digitised
+$\psi$/$\chi$ curves, the parton luminosities and the \textsc{Pythia} cross-check it reads
+are produced by the scripts in \texttt{tools/}.
 
 \begin{thebibliography}{99}
 \bibitem{Pisano:1992bxx} F.~Pisano and V.~Pleitez, \emph{An SU(3)$\times$U(1) model for electroweak interactions}, Phys.\ Rev.\ D \textbf{46}, 410 (1992), \href{https://doi.org/10.1103/PhysRevD.46.410}{doi:10.1103/PhysRevD.46.410}, \href{https://arxiv.org/abs/hep-ph/9206242}{hep-ph/9206242}.
@@ -460,6 +484,8 @@ ATLAS curves and the parton luminosities it reads are produced by the scripts in
 \bibitem{Long:2018fud} H.~N.~Long, N.~V.~Hop, L.~T.~Hue and N.~T.~T.~Van, \emph{Constraining heavy neutral gauge boson $Z'$ in the 3-3-1 models by weak charge data of Cesium and proton}, Nucl.\ Phys.\ B \textbf{943}, 114629 (2019), \href{https://doi.org/10.1016/j.nuclphysb.2019.114629}{doi:10.1016/j.nuclphysb.2019.114629}, \href{https://arxiv.org/abs/1812.08669}{arXiv:1812.08669}.
 \bibitem{KEDR:2016hjj} V.~V.~Anashin \emph{et al.} (KEDR), \emph{Measurement of $R$ between 1.84 and 3.05 GeV at the KEDR detector}, Phys.\ Lett.\ B \textbf{770}, 174 (2017), \href{https://doi.org/10.1016/j.physletb.2017.04.073}{doi:10.1016/j.physletb.2017.04.073}, \href{https://arxiv.org/abs/1610.02827}{arXiv:1610.02827}.
 \bibitem{ATLAS:2019erb} ATLAS Collaboration, \emph{Search for high-mass dilepton resonances using 139\,fb$^{-1}$ of $pp$ collision data collected at $\sqrt{s}=13$\,TeV with the ATLAS detector}, Phys.\ Lett.\ B \textbf{796}, 68 (2019), \href{https://doi.org/10.1016/j.physletb.2019.07.016}{doi:10.1016/j.physletb.2019.07.016}, \href{https://arxiv.org/abs/1903.06248}{arXiv:1903.06248}.
+\bibitem{HEPData:88425} ATLAS Collaboration, HEPData record for Ref.~\cite{ATLAS:2019erb}, \href{https://doi.org/10.17182/hepdata.88425.v1}{doi:10.17182/hepdata.88425.v1}.
+\bibitem{Bierlich:2022pfr} C.~Bierlich \emph{et al.}, \emph{A comprehensive guide to the physics and usage of PYTHIA 8.3}, SciPost Phys.\ Codeb.\ \textbf{2022}, 8 (2022), \href{https://doi.org/10.21468/SciPostPhysCodeb.8}{doi:10.21468/SciPostPhysCodeb.8}, \href{https://arxiv.org/abs/2203.11601}{arXiv:2203.11601}.
 \end{thebibliography}
 
 \end{document}

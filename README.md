@@ -49,7 +49,8 @@ below 1.4–1.8 M_V.
 A recast of the ATLAS 13 TeV, 139 fb⁻¹ dilepton search puts the Z′ above 4.6–5.2 TeV for
 β = +1/√3 and 4.0–5.0 TeV for β = −1/√3, depending on its decays
 ([`src/m331_zprime_recast.py`](src/m331_zprime_recast.py); validated against ATLAS's own
-Z′_ψ and Z′_χ limits).
+Z′_ψ and Z′_χ limits, using the official HEPData tables, and reproduced independently with
+Pythia 8).
 
 **Conditions:**
 - the 3-3-1 framework;
@@ -118,7 +119,7 @@ python3 src/stur_tegr_gr.py         # GR's classic tests from TEGR, ~10 s
 python3 src/stur_derivation.py      # the whole chain, ~30 s
 python3 src/stur_gravity_full.py    # the two-diamond design search, ~15 s
 python3 src/m331_exact.py           # the 3-3-1 selection, both variants
-python -m pytest tests -q           # every number pinned (97 tests)
+python -m pytest tests -q           # every number pinned (100 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on

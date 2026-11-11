@@ -38,3 +38,23 @@ def test_beta_plus_limits():
     out = open(os.path.join(os.path.dirname(__file__), "..", "results", "m331", "zprime_recast.txt")).read()
     assert "beta = +1/sqrt3: M_Z' > 5.0-5.2 TeV (SM decays only); > 4.7-4.9 TeV" in out or \
            "beta = +1/sqrt3: M_Z' > 5.0-5.2 TeV (SM decays only); > 4.6-4.9 TeV" in out
+
+
+def test_hepdata_inputs_and_digitisation():
+    assert abs(Z.curve("obs_0.0", 250.0) - 3.573) < 0.01            # HEPData t4, zero width
+    assert abs(Z.DIG_OFFSET - 1) < 0.04                             # digitisation within 4%
+
+
+def test_omissions_are_small():
+    gens = Z.model_couplings("331", beta=1 / sqrt(3), first_gen_rep="3b", s2=Z.S2_TEV)
+    ex = tuple(Z.exotic_couplings(1 / sqrt(3), Z.S2_TEV)) + tuple(Z.scalar_couplings(1 / sqrt(3), Z.S2_TEV))
+    lo, width, *_ = Z.recast(gens, Z.S2_TEV, ex)
+    assert 4780 < lo < 4880 and width < 4.0                        # every scalar open too
+    g, *_ = Z.widths(Z.model_couplings("331", beta=1 / sqrt(3), s2=Z.S2_SSM), Z.S2_SSM)
+    r = Z.lineshape(Z.model_couplings("331", beta=1 / sqrt(3), s2=Z.S2_SSM), 5000.0, g)
+    assert abs(r[0.10]) < 0.05                                     # interference within +-10% M
+
+
+def test_pythia_reproduction():
+    for name, (lp, lm) in Z.Z8_pythia().items():
+        assert abs(lp - lm) < 60, name
