@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-God-equation search, front 6: why three generations?  (3-3-1 models)
+Unifying-equation search, front 6: why three generations?  (3-3-1 models)
 
 KNOWN framework (Pisano-Pleitez 1992, Frampton 1992): SU(3)_C x SU(3)_L x U(1)_X.
 Left-handed leptons: one SU(3)_L triplet per generation (N_g triplets).

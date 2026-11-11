@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-God-equation search, front 7g: does the 3-3-1 scalar sector itself survive to the Planck scale?
+Unifying-equation search, front 7g: does the 3-3-1 scalar sector itself survive to the Planck scale?
 
 The selection of N_c = 3 asks that the theory stay perturbative up to M_Pl, and so far
 only the gauge couplings were followed. If the scalar quartics or the Yukawas of
@@ -38,9 +38,9 @@ from scipy.optimize import minimize
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import rge_engine as R
-import god_eq_331_exact as E
-import god_eq_331_yukawa as Y
-import god_eq_331_threshold as T
+import m331_exact as E
+import m331_yukawa as Y
+import m331_threshold as T
 
 M_PLANCK = E.M_PLANCK
 MV = 4e3
@@ -155,8 +155,8 @@ class Model:
                                [u[k] * u[m] for k in range(nu) for m in range(k, nu)]])
 
     def cached_fit(self):
-        """Load the fitted coefficients if cached (results/god_equation/), else fit and save."""
-        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "results", "god_equation",
+        """Load the fitted coefficients if cached (results/unifying_search/), else fit and save."""
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "results", "unifying_search",
                             f"331_scalar_coeffs_{'minus' if self.v[0] == '-' else 'plus'}.npz")
         if os.path.exists(path):
             z = np.load(path)

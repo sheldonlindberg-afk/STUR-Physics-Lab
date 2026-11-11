@@ -1,4 +1,7 @@
-# The Born rule, derived from the quantum level
+# The Born rule: four published arguments, reproduced
+
+*Research notes, not peer reviewed. Labels mark what is established physics, what is computed here, and what holds only under stated assumptions.* These arguments (Zurek, Gleason, no-signalling) are published and
+still debated: they replace the postulate with the assumptions below, not with nothing.
 
 Reproduce: `python3 src/stur_born.py` (about 10 s). The full output is in
 `results/born/output.txt`, and `tests/test_born.py` pins it. This replaces the one

@@ -1,10 +1,10 @@
-"""Pins src/god_eq_331_threshold.py: one-loop threshold matching at the 3-3-1 scale."""
+"""Pins src/m331_threshold.py: one-loop threshold matching at the 3-3-1 scale."""
 import os, sys
 import numpy as np
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
-import god_eq_331_threshold as T
+import m331_threshold as T
 
-REF = os.path.join(os.path.dirname(__file__), "..", "results", "god_equation", "331_threshold.txt")
+REF = os.path.join(os.path.dirname(__file__), "..", "results", "unifying_search", "331_threshold.txt")
 
 
 def test_one_loop_matching_scale_independence():

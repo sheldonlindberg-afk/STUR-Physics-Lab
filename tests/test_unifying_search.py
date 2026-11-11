@@ -1,7 +1,7 @@
 """Pins front-1 result: holographic dark energy always has CPL wa > 0."""
 import os, sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
-import god_eq_dark_energy as D
+import search_dark_energy as D
 
 
 def test_hde_wa_positive_for_all_c():
@@ -11,7 +11,7 @@ def test_hde_wa_positive_for_all_c():
 
 
 def test_running_vacuum_quadrant_and_cmb_limit():
-    import god_eq_running_vacuum as R
+    import search_running_vacuum as R
     _, _, _, w0, wa = R.rvm_weff(0.01)
     assert w0 > -1 and wa < 0                         # DESI quadrant for nu > 0
     _, _, _, w0, wa = R.rvm_weff(4.8e-4)
@@ -20,14 +20,14 @@ def test_running_vacuum_quadrant_and_cmb_limit():
 
 def test_fold_spin_and_baryon_nogo():
     import itertools
-    import god_eq_quark_fold as F
+    import search_quark_fold as F
     assert abs(F.thomson_J(1.0) - 1 / (4 * 3.141592653589793)) < 1e-9
     assert not [c for c in itertools.product(range(-7, 8, 2), repeat=3) if sum(c) == 0]
 
 
 def test_spin_charge_twist():
     import numpy as np
-    import god_eq_spin_charge as S
+    import search_spin_charge as S
     assert S.mismatch(0, 0, 0, 3 * np.pi, S.FIELDS) < 1e-9       # exp(3 pi i (B-L)) = (-1)^2J
     assert S.mismatch(1, 0, 0, np.pi, S.FIELDS) < 1e-9           # colour centre + B-L pi
     sm = [f for f in S.FIELDS if f[0] != "S(B-L=2)"]
@@ -37,7 +37,7 @@ def test_spin_charge_twist():
 
 
 def test_why_three():
-    import god_eq_why_three as W
+    import m331_why_three as W
     import sympy as sp
     Qu, Qd, cub = W.charges(3)
     assert (Qu, Qd, cub) == (sp.Rational(2, 3), sp.Rational(-1, 3), 0)
@@ -46,7 +46,7 @@ def test_why_three():
 
 
 def test_three_generations():
-    import god_eq_three_generations as T
+    import m331_three_generations as T
     from scipy.optimize import brentq
     assert [r[0] for r in T.allowed_Ng(3) if r[2]] == [3]
     assert [r[0] for r in T.allowed_Ng(5) if r[2]] == [5]
@@ -55,7 +55,7 @@ def test_three_generations():
 
 
 def test_su3L_and_hypercharge_selection():
-    import god_eq_su3L_running as L
+    import m331_su3L_running as L
     assert L.landau(5)[1] is None and L.landau(7)[1] < L.M_PLANCK      # SU(3)_L cuts N_c >= 7
     from fractions import Fraction
     assert L.bY(3, False) == Fraction(-41, 6)                          # reproduces the SM
@@ -66,7 +66,7 @@ def test_331_exact_two_loop():
     import os, sys
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
     from fractions import Fraction as F
-    import god_eq_331_exact as E
+    import m331_exact as E
     a, b = E.sm_check()
     assert a == [F(41, 10), F(-19, 6), F(-7)]
     assert b == [[F(199, 50), F(27, 10), F(44, 5)], [F(9, 10), F(35, 6), F(12)], [F(11, 10), F(9, 2), F(-26)]]
@@ -78,14 +78,14 @@ def test_331_exact_two_loop():
 def test_331_plus_variant():
     import os, sys
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
-    import god_eq_331_exact as E
+    import m331_exact as E
     for Nc in (3, 5, 7):
         assert all(v == 0 for v in E.anomalies(Nc, E.model_331_plus).values())
     assert E.run_two_loop(3, model=E.model_331_plus)[0] > E.M_PLANCK > E.run_two_loop(5, model=E.model_331_plus)[0]
 
 
 def test_koide():
-    import god_eq_masses as K
+    import search_masses as K
     q = K.Q([K.me, K.mmu, K.mtau])
     assert abs(q - 2 / 3) < 1e-5
     M, A, d = K.brannen([K.me, K.mmu, K.mtau])
@@ -93,7 +93,7 @@ def test_koide():
 
 
 def test_higgs_stability_criterion_fails():
-    import god_eq_gaps as G
+    import search_gaps as G
     import numpy as np
     from math import log
     s = G.run(125.20)
@@ -102,7 +102,7 @@ def test_higgs_stability_criterion_fails():
 
 
 def test_planck_boundary_conditions():
-    import god_eq_boundary as B
+    import search_boundary as B
     from scipy.optimize import brentq
     mH = brentq(lambda m: B.lam_at(m, B.G.MT, 1.22089e19), 100, 200)
     assert 130 < mH < 136                         # one loop, before calibration
@@ -111,7 +111,7 @@ def test_planck_boundary_conditions():
 
 
 def test_331_higgs_threshold():
-    import god_eq_331_higgs as H
+    import m331_higgs as H
     import numpy as np
     from scipy.optimize import brentq
     y = H.state_at(125.20, H.MU331)
@@ -120,7 +120,7 @@ def test_331_higgs_threshold():
 
 
 def test_unification():
-    import god_eq_unification as U
+    import search_unification as U
     mu, ia = U.sm_triangle()
     c12, c23 = U.crossing(mu, ia[0], ia[1]), U.crossing(mu, ia[1], ia[2])
     assert 1e12 < c12 < 1e14 and 1e16 < c23 < 1e17           # known SM near-miss triangle

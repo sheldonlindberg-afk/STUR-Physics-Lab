@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-God-equation search, front 7f: closing the remaining assumptions of N_c = N_g = 3.
+Unifying-equation search, front 7f: closing the remaining assumptions of N_c = N_g = 3.
 
 C1  Is Witten's anomaly (step 1) needed? In 3-3-1, SU(2)_L sits inside SU(3)_L, and
     pi_4(SU(3)) = 0, so the UV theory has no global anomaly of its own. Enumerate every
@@ -17,7 +17,7 @@ import sys
 from math import gcd, pi, sqrt
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import god_eq_331_threshold as T
+import m331_threshold as T
 
 M_PLANCK = T.M_PLANCK
 M_RED = M_PLANCK / sqrt(8 * pi)

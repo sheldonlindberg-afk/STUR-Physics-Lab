@@ -2,7 +2,7 @@
 
 Reproduce: `python3 src/stur_gravity_entanglement.py` (under 1 s). The full output is
 in `results/gravity_entanglement/output.txt`, and `tests/test_gravity_entanglement.py`
-pins the numbers. Labels: KNOWN, FOLLOWS, LIT, PROPOSAL.
+pins the numbers. Labels: KNOWN, FOLLOWS, LIT, PROPOSAL. Research notes, not peer reviewed.
 
 Gravity here is **TEGR's torsion field** ([TEGR.md](TEGR.md)). At these masses and
 distances its phases are exactly the weak-field G m²/r used below. They are recomputed

@@ -1,11 +1,15 @@
-# The god-equation search: running log
+# The unifying-equation search: running log
+
+*An exploratory log, kept for the record and not peer reviewed. Most fronts failed and
+are recorded as failures. What survived is summarised in REPORT.md, and the one candidate
+result is written up in NOTE_331.md.*
 
 ## Ground rules (unchanged)
 
 Hostile referee throughout. Every claim is labelled KNOWN, FOLLOWS, STUR/NEW, CHECK or
 LIT; every number is computed in code; negative results are recorded plainly.
 
-## What "god equation" can mean
+## What "unifying equation" can mean
 
 - **Already exists:** the Standard Model plus general relativity, written as one
   path integral (the "Core Theory"). It describes every experiment on Earth. The
@@ -19,7 +23,7 @@ equation that makes a prediction data can decide.
 
 ## Front 1: dark energy from holography (STUR's founding axiom)
 
-Script: `src/god_eq_dark_energy.py`; output: `results/god_equation/dark_energy.txt`.
+Script: `src/search_dark_energy.py`; output: `results/unifying_search/dark_energy.txt`.
 
 **Candidate (KNOWN, Li 2004):** ρ_de = 3c²M_P²/L², with L the future event horizon.
 This is the holographic axiom applied to the whole universe, with one parameter c.
@@ -58,7 +62,7 @@ in the past and w > −1 today. Plain horizon holography gives the reverse.
 
 ## Front 2: running vacuum, the bridge from our own equation
 
-Script: `src/god_eq_running_vacuum.py`; output: `results/god_equation/running_vacuum.txt`.
+Script: `src/search_running_vacuum.py`; output: `results/unifying_search/running_vacuum.txt`.
 
 **R1: our equation's own bridge is dead (FOLLOWS).** The species running of the
 horizon tension (U3), evaluated at the cosmic scale μ = H, changes G by
@@ -98,7 +102,7 @@ depends on the supernova calibration.
 
 ## Front 3: a quark as a folded, twisted area of spacetime
 
-Script: `src/god_eq_quark_fold.py`; output: `results/god_equation/quark_fold.txt`.
+Script: `src/search_quark_fold.py`; output: `results/unifying_search/quark_fold.txt`.
 
 **The fold equation.** Take a closed surface (the fold) threaded by flux Φ (the twist),
 with a charge q bound to it. The field around them stores angular momentum
@@ -137,7 +141,7 @@ the size of the fold doesn't matter.
 
 ## Front 4: one twist that does both (spin ½ and the thirds)
 
-Script: `src/god_eq_spin_charge.py`; output: `results/god_equation/spin_charge.txt`.
+Script: `src/search_spin_charge.py`; output: `results/unifying_search/spin_charge.txt`.
 
 **Question.** Is there one gauge twist g that acts as (−1)^F (−1 on every fermion, +1
 on every boson)? A fold carrying g would then set statistics from charge.
@@ -187,7 +191,7 @@ string.
 
 ## Front 5: why three colours?
 
-Script: `src/god_eq_why_three.py`; output: `results/god_equation/why_three.txt`.
+Script: `src/m331_why_three.py`; output: `results/unifying_search/why_three.txt`.
 
 Each route is labelled **THEORY** (a theoretical selection) or **OBSERVATION**.
 
@@ -210,12 +214,12 @@ would itself shift with N_c, but that can't absorb a 15–33σ miss.
 - **Observation picks 3** (the R-ratio). Three is the *smallest* value theory allows,
   but nothing derived here forces minimality.
 - **This is a wall.** "Why 3 and not 5" has no theoretical answer in known physics or
-  in anything built here. A god equation would have to supply a principle that selects
+  in anything built here. A unifying equation would have to supply a principle that selects
   the minimal odd value, or fix N_c some other way.
 
 ## Front 6: why three generations? (3-3-1 models)
 
-Script: `src/god_eq_three_generations.py`; output: `results/god_equation/three_generations.txt`.
+Script: `src/m331_three_generations.py`; output: `results/unifying_search/three_generations.txt`.
 
 **Framework (KNOWN; Pisano–Pleitez, Frampton 1992).** The gauge group is
 SU(3)_C × SU(3)_L × U(1)_X: the weak SU(2) is enlarged to SU(3)_L, so each
@@ -266,7 +270,7 @@ one in the triplet.
 
 ## Front 7: running couplings select N_c = N_g = 3 (conditional)
 
-Script: `src/god_eq_su3L_running.py`; output: `results/god_equation/su3L_running.txt`.
+Script: `src/m331_su3L_running.py`; output: `results/unifying_search/su3L_running.txt`.
 
 **Assumption (labelled):** the theory stays perturbative, with no Landau pole, up to the
 Planck scale. This is a standard criterion, not a theorem.
@@ -325,7 +329,7 @@ would shift b by O(1). Neither is large enough to flip either verdict.
 
 ## Front 7b: firming up "N_c = N_g = 3": exact charges, full scalars, two loops
 
-Script: `src/god_eq_331_exact.py`; output: `results/god_equation/331_exact.txt`.
+Script: `src/m331_exact.py`; output: `results/unifying_search/331_exact.txt`.
 
 **Model.** The β = −1/√3 3-3-1 model, with N_g = N_c and quark charges from front 5. The
 exact U(1)_X charges come from Q = T3 + βT8 + X:
@@ -415,7 +419,7 @@ N_c = 7 fails in both variants (10⁸–10¹⁰ GeV).
 
 ## Front 7d: the three weak spots (Yukawas, boundary condition, the narrow variant)
 
-Script: `src/god_eq_331_yukawa.py`; output: `results/god_equation/331_yukawa.txt`; tests:
+Script: `src/m331_yukawa.py`; output: `results/unifying_search/331_yukawa.txt`; tests:
 `tests/test_331_yukawa.py`.
 
 **Y1 (CHECK).** The two-loop Yukawa term reproduces the Standard Model top coefficients
@@ -450,7 +454,7 @@ g = 1 criterion, N_c = 3 fails with or without Yukawas.
 
 ## Front 7e: one-loop threshold matching at the 3-3-1 scale
 
-Script: `src/god_eq_331_threshold.py`; output: `results/god_equation/331_threshold.txt`;
+Script: `src/m331_threshold.py`; output: `results/unifying_search/331_threshold.txt`;
 tests: `tests/test_331_threshold.py`.
 
 **Method.** MS-bar one-loop matching (Weinberg; Hall), with the heavy spectrum counted
@@ -478,7 +482,7 @@ case, a spectrum already disfavoured by the LHC, sits 1.6× above M_Pl.
 
 ## Front 7f: the remaining assumptions, closed
 
-Script: `src/god_eq_331_closure.py`; output: `results/god_equation/331_closure.txt`; tests:
+Script: `src/m331_closure.py`; output: `results/unifying_search/331_closure.txt`; tests:
 `tests/test_331_closure.py`.
 
 - **C1. Witten's anomaly is redundant in 3-3-1.**
@@ -497,8 +501,8 @@ Script: `src/god_eq_331_closure.py`; output: `results/god_equation/331_closure.t
 
 ## Front 7g: the scalar sector to the Planck scale
 
-Scripts: `src/rge_engine.py`, `src/god_eq_331_scalar.py`; output:
-`results/god_equation/331_scalar.txt`; tests: `tests/test_331_scalar.py`.
+Scripts: `src/rge_engine.py`, `src/m331_scalar.py`; output:
+`results/unifying_search/331_scalar.txt`; tests: `tests/test_331_scalar.py`.
 
 **Method.** A general one-loop engine for quartics and Yukawas. It reproduces the SM's
 β_λ and β_yt exactly. Applied to 3-3-1 at N_c = 3:
@@ -523,7 +527,7 @@ Scripts: `src/rge_engine.py`, `src/god_eq_331_scalar.py`; output:
 
 ## Front 8: masses, starting with Koide's formula
 
-Script: `src/god_eq_masses.py`; output: `results/god_equation/masses.txt`.
+Script: `src/search_masses.py`; output: `results/unifying_search/masses.txt`.
 
 **Koide's formula (KNOWN, 1982):** Q = (m_e + m_μ + m_τ)/(√m_e + √m_μ + √m_τ)² = 2/3.
 Inputs: m_τ = 1776.93 ± 0.09 MeV (PDG, retrieved); m_e and m_μ from CODATA (recalled).
@@ -573,7 +577,7 @@ phase, 3 gauge couplings, the Higgs mass and vacuum value, and θ_QCD. Neutrinos
 
 ### The test: can our one continuous-valued criterion fix a continuous parameter?
 
-Script: `src/god_eq_gaps.py`; output: `results/god_equation/gaps_higgs.txt`.
+Script: `src/search_gaps.py`; output: `results/unifying_search/gaps_higgs.txt`.
 
 The criterion is front 7's "consistent up to the Planck scale". Applied to the Higgs, it
 means the self-coupling must stay ≥ 0 up to the Planck scale (vacuum stability). The test
@@ -611,7 +615,7 @@ Planck scale.
 
 ## Front 10: Planck-scale boundary conditions (asymptotic-safety gravity)
 
-Script: `src/god_eq_boundary.py`; output: `results/god_equation/boundary.txt`.
+Script: `src/search_boundary.py`; output: `results/unifying_search/boundary.txt`.
 
 These are the cleanest known mechanisms that turn a condition at the Planck scale into a
 *number*. The transition scale μ* is scanned between the reduced Planck mass
@@ -658,7 +662,7 @@ f_y, which no lab here can supply.
 
 ## Front 11: does the 3-3-1 content that selects "3" also fix the Higgs mass?
 
-Script: `src/god_eq_331_higgs.py`; output: `results/god_equation/331_higgs.txt`.
+Script: `src/m331_higgs.py`; output: `results/unifying_search/331_higgs.txt`.
 
 **P1: parameter count.** The 3-3-1 scalar sector (three triplets) has **13** parameters,
 against the Standard Model's **2**:
@@ -701,7 +705,7 @@ continuous predictivity pull in opposite directions in this framework.
 
 ## Front 12: gauge-coupling unification in 3-3-1
 
-Script: `src/god_eq_unification.py`; output: `results/god_equation/unification.txt`.
+Script: `src/search_unification.py`; output: `results/unifying_search/unification.txt`.
 
 **Test (embedding-independent).** SU(3)_C and SU(3)_L share the standard normalization,
 so in *any* unified group containing both, their couplings must meet. The calculation

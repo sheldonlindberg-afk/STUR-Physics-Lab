@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-God-equation search, front 11: does the 3-3-1 content (which selects N_c = N_g = 3) also
+Unifying-equation search, front 11: does the 3-3-1 content (which selects N_c = N_g = 3) also
 fix the Higgs mass via the Planck boundary condition lambda(M_P) = 0?
 
 P1 Parameter count: the 3-3-1 scalar potential with three triplets (eta, rho, chi)
@@ -22,8 +22,8 @@ from scipy.integrate import solve_ivp
 from scipy.optimize import brentq
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import god_eq_boundary as B
-import god_eq_gaps as G
+import search_boundary as B
+import search_gaps as G
 
 MU331 = 4e3
 

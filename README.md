@@ -149,7 +149,7 @@ src/                      one script per report; outputs in results/
 tests/                    regression tests
 REPORT.md                 development record: the route from the original STUR
                           equation to these notes, including the wider search for a
-                          unifying equation (GOD_EQUATION.md, UNIFICATION.md, ...)
+                          unifying equation (UNIFYING_SEARCH.md, UNIFICATION.md, ...)
 archive/                  earlier versions, kept for the record
 ```
 

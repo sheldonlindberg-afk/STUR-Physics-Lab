@@ -1,15 +1,19 @@
-# Why gravity's field follows each branch
+# Does gravity's field follow each branch? An argument under stated assumptions
+
+*Research notes, not peer reviewed. Labels mark what is established physics, what is computed here, and what holds only under stated assumptions.*
 
 Reproduce: `python3 src/stur_thermo_gravity.py` (about 6 s). The full output is in
 `results/thermo_gravity/output.txt`, and `tests/test_thermo_gravity.py` pins it.
 
-Gravity's strength comes from vacuum entanglement (D1–D3 in
-[DERIVATION.md](DERIVATION.md)). Jacobson's step obtains Einstein's equation as an
+If Jacobson's argument holds, gravity's strength is tied to vacuum entanglement (D1–D3
+in [DERIVATION.md](DERIVATION.md)). Jacobson's step obtains Einstein's equation as an
 *equation of state*. That leaves a question: is gravity's field an equation of state
 in the literal sense, a classical average of the quantum level like temperature? Or
 is it a collective field that, like sound in a crystal, follows each branch of a
-superposition? This page answers it from the theory's own ingredients. The answer is
-the second, and it fixes what the diamond experiments will see.
+superposition? This page argues for the second, but only under two
+assumptions: the smearing is at the entanglement cutoff (R₀ = a), and the dynamics is
+Markovian. Without them, experiment decides. The systematic treatment of this question
+is in the literature (Fabiano et al. 2026; Angeli et al. 2025; NOVELTY.md).
 
 ## 1. A statistical gravity must jitter, and the least jitter is fixed by G
 

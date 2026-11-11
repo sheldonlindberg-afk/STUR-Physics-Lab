@@ -1,7 +1,10 @@
-# Gravity is TEGR: GR falls out of it, and so do the experiment's inputs
+# Gravity as torsion (TEGR): GR's equations and tests, recomputed
 
-In this project, gravity is TEGR. GR is not an input: its field equations, its
-Schwarzschild solution and its classic tests are derived from TEGR below.
+*Research notes, not peer reviewed. Labels mark what is established physics, what is computed here, and what holds only under stated assumptions.*
+
+These notes write gravity in its teleparallel form (TEGR), which is known to be
+equivalent to GR. As a check of that equivalence, GR's field equations, its
+Schwarzschild solution and its classic tests are recomputed from TEGR below.
 
 Reproduce:
 - `python3 src/stur_tegr.py` (about 30 s, sympy). Output in `results/tegr/output.txt`;

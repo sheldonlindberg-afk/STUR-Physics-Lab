@@ -1,4 +1,9 @@
-# The equation, from the quantum level up
+# The bookkeeping equation: known physics, step by step
+
+*Research notes, not peer reviewed. Labels mark what is established physics, what is computed here, and what holds only under stated assumptions.*
+
+This page writes known physics (decoherence, the Born-rule arguments, Jacobson's
+thermodynamic argument and TEGR) as one equation. It is a synthesis, not a new theory.
 
 Reproduce: `python3 src/stur_derivation.py` (about 30 s). The full output is in
 `results/derivation/output.txt`, and `tests/test_derivation.py` pins it. Every number
@@ -10,7 +15,7 @@ below is recomputed by that script from the modules it names.
 |Ψ⟩ = Σᵢ cᵢ |i⟩_matter |Eᵢ⟩_fields e^{iSᵢ/ħ}
 
 Sᵢ  = S_matter[i] + S_EM[i] + (c⁴/16πG) ∫ eᵢ T[eᵢ] d⁴x        (TEGR: gravity as torsion)
-G   = π a² c³ / (N c_s ħ),   c_s = 0.3046                     (from vacuum entanglement)
+G   = π a² c³ / (N c_s ħ),   c_s = 0.3046                     (Jacobson's hypothesis)
 
 ρᵢⱼ(t) = ρᵢⱼ(0) · ⟨Eⱼ|Eᵢ⟩ · e^{i(Sᵢ − Sⱼ)/ħ}
 ```
@@ -18,7 +23,7 @@ G   = π a² c³ / (N c_s ħ),   c_s = 0.3046                     (from vacuum e
 In words:
 - **The branches:** a system in a superposition carries, in each branch i, its own
   configuration of every field it sources. That includes detectors, light, its own
-  electric field, and gravity's tetrad eᵢ.
+  electric field and, if gravity is quantum, gravity's tetrad eᵢ.
 - **The overlap ⟨Eⱼ|Eᵢ⟩:** how far the fields keep a record of which branch happened.
   This is what makes outcomes definite.
 - **The phase:** the difference in action between branches, including the gravitational

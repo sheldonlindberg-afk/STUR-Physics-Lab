@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-God-equation search, front 7d: the three weak spots of 'N_c = N_g = 3' (NOTE_331.md).
+Unifying-equation search, front 7d: the three weak spots of 'N_c = N_g = 3' (NOTE_331.md).
 
 Y1  Two-loop Yukawa terms (CHECK + computed). For a Yukawa y phi psi1 psi2 whose
     invariant contraction has n_terms unit entries, the two-loop gauge beta function
@@ -29,7 +29,7 @@ from scipy.integrate import solve_ivp
 from scipy.optimize import brentq
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import god_eq_331_exact as E
+import m331_exact as E
 
 MZ, MT_POLE = 91.1876, 172.57
 M_PLANCK = E.M_PLANCK
@@ -107,7 +107,7 @@ def boundary(mu0, s2_override=None, aem_inv_override=None, lam=(0.0, 0.0, 0.0), 
     """Couplings (1/alpha_X, 1/alpha_L, 1/alpha_3) at the 3-3-1 scale. With s2_override,
     keep alpha_em(mu0) and alpha_s fixed and impose sin^2 theta_W(mu0) = s2_override.
     lam = (lambda_Y, lambda_2, lambda_3): one-loop threshold corrections at mu0,
-    1/alpha_high = 1/alpha_low + lambda / (12 pi)  (src/god_eq_331_threshold.py).
+    1/alpha_high = 1/alpha_low + lambda / (12 pi)  (src/m331_threshold.py).
     n_light: number of Higgs doublets below mu0 (each adds 1/6 to b_Y and b_2)."""
     from stur_open_problems import alpha_s_run
     L0 = log(mu0 / MZ) / (2 * pi)

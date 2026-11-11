@@ -1,4 +1,6 @@
-# Gravity as a consequence of the quantum level
+# Could gravity be a consequence of the quantum level? A lattice analogy
+
+*Research notes, not peer reviewed. Labels mark what is established physics, what is computed here, and what holds only under stated assumptions.*
 
 Reproduce: `python3 src/stur_emergent.py` (about 12 s). The full output is in
 `results/emergent/output.txt`, and `tests/test_emergent.py` pins the numbers.
@@ -8,9 +10,9 @@ gravity itself).
 ## The question, turned around
 
 The earlier reports asked whether gravity, acting on a quantum particle, behaves
-quantum-mechanically. That puts gravity outside, acting on the quantum world. The
-other way round: **everything, gravity included, is a consequence of what happens at
-the quantum level.** Then the question isn't "is gravity quantum?" but "*what kind*
+quantum-mechanically. That puts gravity outside, acting on the quantum world. This
+page explores the other way round, as a hypothesis: **suppose everything, gravity
+included, is a consequence of what happens at the quantum level.** Then the question isn't "is gravity quantum?" but "*what kind*
 of consequence is gravity?" Each answer makes a definite prediction for the
 diamond experiment.
 
@@ -18,8 +20,8 @@ diamond experiment.
 
 - The vacuum's entanglement entropy across any surface obeys an area law:
   S = 0.3046 (R/a)² per quantum field (`stur_unification.py` U3, Srednicki's method).
-- Jacobson (1995) showed that δS = δ⟨K⟩ on every local horizon *is* Einstein's
-  equation, with 1/(4Għ) equal to the entanglement per unit area. [TEGR.md](TEGR.md)
+- Jacobson (1995) showed that, assuming local equilibrium, δS = δ⟨K⟩ on every local
+  horizon gives Einstein's equation, with 1/(4Għ) equal to the entanglement per unit area. [TEGR.md](TEGR.md)
   is the field theory that results.
 
 Matching the two fixes the cutoff a, the spacing at which the quantum level's

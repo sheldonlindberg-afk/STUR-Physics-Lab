@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-God-equation search, front 7b: firming up 'N_c = N_g = 3' with exact charges and
+Unifying-equation search, front 7b: firming up 'N_c = N_g = 3' with exact charges and
 two-loop gauge running.
 
 Model: 3-3-1 with beta = -1/sqrt3 (Q = T3 + beta T8 + X), N_g = N_c generations, quark

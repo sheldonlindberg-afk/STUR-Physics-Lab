@@ -33,8 +33,8 @@ The previous pass fixed:
 
 ## The three weak spots of the 3-3-1 result, now computed
 
-Source: `src/god_eq_331_yukawa.py`, [NOTE_331.md](NOTE_331.md), front 7d of
-[GOD_EQUATION.md](GOD_EQUATION.md).
+Source: `src/m331_yukawa.py`, [NOTE_331.md](NOTE_331.md), front 7d of
+[UNIFYING_SEARCH.md](UNIFYING_SEARCH.md).
 
 | Weak spot | Result |
 |---|---|

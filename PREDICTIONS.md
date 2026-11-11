@@ -1,6 +1,10 @@
-# Predictions
+# What experiments could check
 
-Each prediction below follows from the equation of [DERIVATION.md](DERIVATION.md):
+*Research notes, not peer reviewed. Labels mark what is established physics, what is computed here, and what holds only under stated assumptions.*
+
+Each item below is what the bookkeeping equation of [DERIVATION.md](DERIVATION.md) gives.
+Most are also what standard physics predicts. The gravity items assume gravity follows
+each branch, which is an open experimental question:
 
 ```
 ρᵢⱼ(t) = ρᵢⱼ(0) · ⟨Eⱼ|Eᵢ⟩ · e^{i(Sᵢ − Sⱼ)/ħ},
@@ -11,8 +15,9 @@ Every number is computed by the script named next to it and pinned by `tests/`.
 
 ## Gravity
 
-**1. Two masses become entangled through gravity alone.** Gravity's field follows each
-branch ([COLLECTIVE.md](COLLECTIVE.md)). Two diamonds, each held in two places, pick up
+**1. Two masses become entangled through gravity alone,** if gravity's field follows
+each branch, as perturbative quantum gravity predicts ([COLLECTIVE.md](COLLECTIVE.md)
+argues for it under stated assumptions). Two diamonds, each held in two places, pick up
 the entangling phase of their own torsion field.
 
 | Design | Mass | Split | Phase Δφ | Runs to a 3σ witness |

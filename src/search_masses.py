@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-God-equation search, front 8: masses.  Start with the most precise unexplained mass
+Unifying-equation search, front 8: masses.  Start with the most precise unexplained mass
 relation, Koide's formula (KNOWN, Koide 1982):
 
     Q = (m_e + m_mu + m_tau) / (sqrt m_e + sqrt m_mu + sqrt m_tau)^2 = 2/3

@@ -12,8 +12,8 @@ Labels: KNOWN, FOLLOWS, LIT (literature value used as input), PROPOSAL.
 | M2 | Before it is seen, an electron is not a probability cloud but a real EM "cloud", produced by the strong force. |
 | M3 | Entanglement isn't a separate thing: it is one particle stretched across spacetime. Act on one side and the other reacts instantly. |
 
-The aim is a new equation for the double slit and quantum gravity. Before writing
-one, each ingredient is tested the way options A–C were tested in [WALL.md](WALL.md).
+The aim was to see whether each proposal survives contact with known physics. Each
+is tested the way options A–C were tested in [WALL.md](WALL.md).
 
 ## Verdict
 

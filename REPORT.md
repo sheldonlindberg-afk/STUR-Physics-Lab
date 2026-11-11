@@ -1,4 +1,7 @@
-# STUR and the search for a unifying equation: consolidated report
+# STUR and the search for a unifying equation: development record
+
+*Research notes, not peer reviewed. This is the record of how the work developed,
+failures included. For a plain-language introduction, see the guide (index.html).*
 
 *Status as of November 2026. Every number below is computed by a script in `src/` and
 pinned by `tests/` (121 tests, all passing). Detailed records are in the topic reports
@@ -81,9 +84,9 @@ tests are this project's. Literature searches found nothing identical, which is 
 of novelty. Open: whether quark and string get equal weights in a continuum-like limit.
 This was inconclusive at exact-diagonalization scale and needs DMRG.
 
-## 3. The god-equation search, front by front
+## 3. The unifying-equation search, front by front
 
-Details: GOD_EQUATION.md.
+Details: UNIFYING_SEARCH.md.
 
 | # | Question | Result |
 |---|---|---|

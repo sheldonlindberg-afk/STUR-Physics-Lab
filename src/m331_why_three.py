@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-God-equation search, front 5: why N_c = 3 colours?
+Unifying-equation search, front 5: why N_c = 3 colours?
 
 N_c sets the thirds (front 4), the Z3 twist and the three quarks in a baryon.
 Every route is checked for whether it is a THEORETICAL selection or an OBSERVATION.

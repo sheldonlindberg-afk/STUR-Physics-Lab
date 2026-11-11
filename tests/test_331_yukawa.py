@@ -1,10 +1,10 @@
-"""Pins src/god_eq_331_yukawa.py: the three weak spots of N_c = N_g = 3 (NOTE_331.md)."""
+"""Pins src/m331_yukawa.py: the three weak spots of N_c = N_g = 3 (NOTE_331.md)."""
 import os, sys
 from fractions import Fraction as F
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
-import god_eq_331_yukawa as Y
+import m331_yukawa as Y
 
-REF = os.path.join(os.path.dirname(__file__), "..", "results", "god_equation", "331_yukawa.txt")
+REF = os.path.join(os.path.dirname(__file__), "..", "results", "unifying_search", "331_yukawa.txt")
 
 
 def test_yukawa_coefficients_reproduce_sm_top():
