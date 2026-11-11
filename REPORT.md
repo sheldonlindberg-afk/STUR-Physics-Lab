@@ -1,7 +1,7 @@
 # STUR and the search for a unifying equation: consolidated report
 
 *Status as of November 2026. Every number below is computed by a script in `src/` and
-pinned by `tests/` (120 tests, all passing). Detailed records are in the topic reports
+pinned by `tests/` (121 tests, all passing). Detailed records are in the topic reports
 linked from each section.*
 
 ## How the work was done
@@ -35,8 +35,9 @@ linked from each section.*
 5. **Gravity: conditional, and not distinctive.** In the later measurement–gravity
    work, gravity follows each branch (λ = 1) only if a statistical gravity is smeared at
    the entanglement cutoff and is Markovian. λ = 1 is also perturbative quantum
-   gravity's prediction. The new result there is a shape-free one-particle bound on
-   Oppenheim's classical gravity, Γ·S_a ≥ (M²/4)I² (OPPENHEIM.md).
+   gravity's prediction. The shape-free one-particle bound on Oppenheim's classical
+   gravity, Γ·S_a ≥ (M²/4)I² (OPPENHEIM.md), is a worked example within an existing
+   literature, not a new result (NOVELTY.md §3).
 
 ---
 
@@ -215,5 +216,5 @@ Errors caught by the checks and fixed, recorded for transparency:
   requirements; it's unproven until a fresh session starts on it.
 - **Reproduce:**
   1. `pip install -r requirements.txt pytest matplotlib`
-  2. `python -m pytest tests -q` (120 tests)
+  2. `python -m pytest tests -q` (121 tests)
   3. run any `src/*.py` to regenerate its file in `results/`.

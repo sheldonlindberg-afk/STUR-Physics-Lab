@@ -70,7 +70,7 @@ For the design-A diamond (1.5×10⁻¹⁴ kg, split 721 µm), such a gravity dec
 ≥ 169.5 /s unless the source is smeared over R₀ > 455 µm. The inverse-square law holds
 down to 52 µm, which rules out that much smearing.
 
-## P3. One particle measured two ways: a shape-free bound (STUR)
+## P3. One particle measured two ways: a shape-free bound (a sharpening of LIT, not new)
 
 P2 needs one step beyond the trade-off itself: the noisy potential has to act back on
 the matter. To drop even that step, use only the trade-off together with the force the

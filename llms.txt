@@ -18,7 +18,8 @@
   prediction, so confirming it would not single this theory out.
 - Oppenheim's classical-quantum gravity (OPPENHEIM.md): its decoherence-diffusion
   trade-off, minimised, is the Diosi-Penrose floor; one particle obeys the shape-free
-  bound Gamma * S_a >= (M^2/4) I^2.
+  bound Gamma * S_a >= (M^2/4) I^2. These bounds are worked examples within an existing
+  literature (Fabiano et al. 2026; Angeli et al. 2025), not new results (NOVELTY.md).
 
 ## Predictions (PREDICTIONS.md)
 - Two diamonds entangle through gravity: delta phi = 2.19 rad, 270 runs, 0.6 h (design A; derived gas rate).
@@ -32,7 +33,9 @@
   one trapped ion, contrast 0.787 -> 0.111 from nbar = 0.1 to 5.
 
 ## Key files
-- /index.html — interactive site (plain/technical modes)
+- /index.html — plain-language home page: gravity as a twist (TEGR), gravity at the
+  quantum level, where G comes from, measurement without observers, common myths
+- /technical.html — the full technical record, with the interactive calculators
 - /DERIVATION.md, /PREDICTIONS.md, /COLLECTIVE.md
 - /src/stur_derivation.py — the whole chain
 - /src/stur_thermo_gravity.py — why gravity follows each branch

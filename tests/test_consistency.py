@@ -10,7 +10,7 @@ sys.path.insert(0, os.path.join(ROOT, "src"))
 
 CURRENT = ["README.md", "DERIVATION.md", "PREDICTIONS.md", "COLLECTIVE.md", "OPPENHEIM.md",
            "EMERGENT.md", "GRAVITY_ENTANGLEMENT.md", "TEGR.md", "MEASUREMENT.md", "BORN.md",
-           "WALL.md", "NOTE_331.md", "REPORT.md", "CONSISTENCY.md", "RECHECK.md", "NOVELTY.md", "index.html", "llms.txt", "CITATION.cff"]
+           "WALL.md", "NOTE_331.md", "REPORT.md", "CONSISTENCY.md", "RECHECK.md", "NOVELTY.md", "index.html", "technical.html", "llms.txt", "CITATION.cff"]
 
 
 def read(name):
@@ -36,6 +36,15 @@ def test_d6_is_never_presented_as_unconditional():
         assert re.search(r"perturbative\s+(\(effective-field-theory\)\s+)?quantum\s+gravity", read(n), re.I), n
 
 
+def test_gravity_bounds_never_claimed_as_new():
+    """NOVELTY.md §3: P2-P5 are worked examples within existing literature."""
+    forbidden = ["The new result there is a shape-free", "shape-free bound (STUR)"]
+    hits = [(n, f) for n in CURRENT for f in forbidden if f in read(n)]
+    assert not hits, hits
+    assert "not new" in read("OPPENHEIM.md")
+    assert "not a new result" in read("REPORT.md") and "not new results" in read("llms.txt")
+
+
 def test_shared_numbers_match_their_computation():
     import stur_oppenheim as O, stur_thermo_gravity as T
     h = T.heating_per_kg_nuclei(T.cutoff(1))
@@ -54,7 +63,7 @@ def test_shared_numbers_match_their_computation():
     full = read("results/gravity_entanglement/full_output.txt")
     dphi = float(re.search(r"dphi = (\d+\.\d+) rad", full).group(1))
     assert "565 -> 270 runs" in full and f"{dphi:.2f}" == "1.51"
-    for n in ("README.md", "DERIVATION.md", "PREDICTIONS.md", "index.html"):
+    for n in ("README.md", "DERIVATION.md", "PREDICTIONS.md", "index.html", "technical.html"):
         assert "270 runs" in read(n) or "270 (0.6 h)" in read(n), n
         assert "2.19" in read(n), n
     yuk = read("results/god_equation/331_yukawa.txt")
