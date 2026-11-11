@@ -58,6 +58,16 @@ Pythia 8).
 - the measured TeV-scale electroweak couplings, which are an input, not a prediction.
   In the β = +1/√3 variant the margin is a factor of about 2 in the pole scale.
 
+**Run it in one paste.** [`src/m331_standalone.py`](src/m331_standalone.py) reproduces the
+whole selection in a single file that uses only the Python standard library: charges and
+anomalies for general N_c, N_g = N_c, the Standard Model calibration, SU(3)_L and two-loop
+U(1)_X running with Yukawas, one-loop thresholds across the heavy spectrum, and the
+R-ratio cross-check. Copy it (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/#run331)
+has a one-click **Copy Python script** button; on GitHub use *Copy raw file*) and paste it
+into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 15 s
+and ends with 20 PASS/FAIL checks against the numbers pinned here
+([expected output](results/m331/standalone.txt)).
+
 The closest prior work is Doff & Pisano (2000). The literature search is in
 [NOVELTY.md](NOVELTY.md). Comments from 3-3-1 experts are welcome; please
 [open an issue](https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/issues).
@@ -119,7 +129,8 @@ python3 src/stur_tegr_gr.py         # GR's classic tests from TEGR, ~10 s
 python3 src/stur_derivation.py      # the whole chain, ~30 s
 python3 src/stur_gravity_full.py    # the two-diamond design search, ~15 s
 python3 src/m331_exact.py           # the 3-3-1 selection, both variants
-python -m pytest tests -q           # every number pinned (100 tests)
+python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
+python -m pytest tests -q           # every number pinned (104 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on
