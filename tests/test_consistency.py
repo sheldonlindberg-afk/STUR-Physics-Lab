@@ -10,7 +10,7 @@ sys.path.insert(0, os.path.join(ROOT, "src"))
 
 CURRENT = ["README.md", "DERIVATION.md", "PREDICTIONS.md", "COLLECTIVE.md", "OPPENHEIM.md",
            "EMERGENT.md", "GRAVITY_ENTANGLEMENT.md", "TEGR.md", "MEASUREMENT.md", "BORN.md",
-           "WALL.md", "NOTE_331.md", "REPORT.md", "CONSISTENCY.md", "RECHECK.md", "NOVELTY.md", "index.html", "llms.txt", "CITATION.cff"]
+           "WALL.md", "NOTE_331.md", "REPORT.md", "CONSISTENCY.md", "RECHECK.md", "NOVELTY.md", "index.html", "technical.html", "llms.txt", "CITATION.cff"]
 
 
 def read(name):
@@ -63,7 +63,7 @@ def test_shared_numbers_match_their_computation():
     full = read("results/gravity_entanglement/full_output.txt")
     dphi = float(re.search(r"dphi = (\d+\.\d+) rad", full).group(1))
     assert "565 -> 270 runs" in full and f"{dphi:.2f}" == "1.51"
-    for n in ("README.md", "DERIVATION.md", "PREDICTIONS.md", "index.html"):
+    for n in ("README.md", "DERIVATION.md", "PREDICTIONS.md", "index.html", "technical.html"):
         assert "270 runs" in read(n) or "270 (0.6 h)" in read(n), n
         assert "2.19" in read(n), n
     yuk = read("results/god_equation/331_yukawa.txt")

@@ -33,7 +33,9 @@
   one trapped ion, contrast 0.787 -> 0.111 from nbar = 0.1 to 5.
 
 ## Key files
-- /index.html — interactive site (plain/technical modes)
+- /index.html — plain-language home page: gravity as a twist (TEGR), gravity at the
+  quantum level, where G comes from, measurement without observers, common myths
+- /technical.html — the full technical record, with the interactive calculators
 - /DERIVATION.md, /PREDICTIONS.md, /COLLECTIVE.md
 - /src/stur_derivation.py — the whole chain
 - /src/stur_thermo_gravity.py — why gravity follows each branch

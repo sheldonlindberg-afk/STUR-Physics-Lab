@@ -115,7 +115,9 @@ each push.
 ## Layout
 
 ```
-index.html, assets/       the site (GitHub Pages)
+index.html                the plain-language home page (GitHub Pages), TEGR first
+technical.html            the full technical record, with the interactive calculators
+assets/                   styles, scripts, icons and the social preview card
 DERIVATION.md             the equation, step by step
 PREDICTIONS.md            every prediction, with numbers and experiments
 COLLECTIVE.md             why gravity's field follows each branch (conditions stated)

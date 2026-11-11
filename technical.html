@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#07090d" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f8fa" media="(prefers-color-scheme: light)">
+<title>STUR Technical Record</title>
+<meta name="description" content="One equation for the double slit, measurement and gravity, derived from quantum fields: the Born rule, gravity as TEGR torsion with G set by vacuum entanglement, GR's classic tests, and a two-diamond test of whether gravity emerges collectively. Every step labelled; every number reproduced by a script.">
+<meta property="og:title" content="From the quantum level up: measurement and gravity in one equation">
+<meta property="og:description" content="ρᵢⱼ = ρᵢⱼ(0)⟨Eⱼ|Eᵢ⟩e^{i(Sᵢ−Sⱼ)/ħ}, with the Born rule derived, gravity as TEGR torsion and G from vacuum entanglement. Reproduces Mercury's perihelion, light bending and GPS; predicts a two-diamond entanglement test.">
+<meta property="og:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/4.13.png">
+<meta property="og:url" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/technical.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/4.13.png">
+<link rel="apple-touch-icon" href="assets/4.13.png">
+<link rel="stylesheet" href="assets/css/stur-roll-app.css">
+<link rel="stylesheet" href="assets/css/stur-resistance.css">
+<link rel="stylesheet" href="assets/css/stur-quantum.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "name": "From the quantum level up: measurement and gravity in one equation",
+  "author": {"@type": "Person", "name": "Sheldon Lindberg"},
+  "datePublished": "2026-11-10",
+  "url": "https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "isAccessibleForFree": true
+}
+</script>
+</head>
+<body data-mode="plain">
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <div class="top-inner">
+    <a class="brand" href="index.html"><img src="assets/4.13.png" alt="" width="30" height="30">STUR</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#equation">Equation</a>
+      <a href="#chain">Derivation</a>
+      <a href="#born">Born rule</a>
+      <a href="#slit">Double slit</a>
+      <a href="#gravity">Gravity</a>
+      <a href="#experiment">Experiment</a>
+      <a href="#emergence">Why it follows</a>
+      <a href="#limits">Limits</a>
+      <a href="#reproduce">Reproduce</a>
+    </nav>
+    <div class="mode" role="group" aria-label="Reading level">
+      <button type="button" data-set-mode="plain" aria-pressed="true">Plain</button>
+      <button type="button" data-set-mode="tech" aria-pressed="false">Technical</button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <!-- Hero -->
+  <div class="hero" id="top">
+    <div>
+      <p class="eyebrow">Technical record &middot; 10 Nov 2026 &middot; <a href="index.html">&larr; plain-language home</a></p>
+      <h1>Measurement and gravity, <span>from the quantum level up</span>.</h1>
+      <div class="eq" aria-label="The equation">
+        <div class="row"><span>&rho;<sub>ij</sub>(t) = &rho;<sub>ij</sub>(0) &middot; &langle;E<sub>j</sub>|E<sub>i</sub>&rangle; &middot; e<sup>i(S<sub>i</sub> &minus; S<sub>j</sub>)/&#8463;</sup></span></div>
+        <div class="row"><span>S<sub>i</sub> = S<sub>matter</sub>[i] + S<sub>EM</sub>[i] + <span class="hl">(c&#8308;/16&pi;G) &int; e<sub>i</sub> T[e<sub>i</sub>] d&#8308;x</span></span></div>
+        <div class="row"><span>G = &pi;a&sup2;c&sup3; / (N c<sub>s</sub> &#8463;), &nbsp; c<sub>s</sub> = 0.3046</span><span>p = |c|&sup2; <span class="small muted">(derived)</span></span></div>
+        <small>Highlighted: gravity's own action, in TEGR form. Its strength G comes from how entangled the quantum vacuum is.</small>
+      </div>
+      <p class="lede plain">Start with nothing but quantum physics: no gravity, no classical world, no collapse. Each branch of a superposition carries its own version of every field around it, including gravity. Whether the branches can still interfere depends only on whether those fields kept a record. Gravity's strength comes out of how entangled empty space is. The same equation explains the double slit, gives back Einstein's tests of gravity, shows that gravity follows each branch if it is smeared at the theory's own cutoff, and predicts what two diamonds will do when only gravity connects them.</p>
+      <p class="small muted">Status: a synthesis of known physics with computed checks. Its gravity prediction (each branch, &lambda; = 1) is also what standard quantum gravity predicts, so the diamond experiments test classical gravity rather than this theory alone. <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab#where-this-stands">Where this stands</a>.</p>
+      <p class="lede tech">Branch i of the matter sources field states |E<sub>i</sub>&rangle; (detectors, photons, its own Coulomb field, the tetrad e<sub>i</sub>). Interference is weighted by the record overlap &langle;E<sub>j</sub>|E<sub>i</sub>&rangle;, phases by the action difference including the TEGR field action. G follows from the vacuum area law (Srednicki) and Jacobson's Clausius argument; the Born rule follows from envariance, additivity and no-signaling.</p>
+      <div class="cta">
+        <a class="btn primary" href="#slit">Watch a record erase the fringes &rarr;</a>
+        <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/DERIVATION.md">Read the derivation</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>42.98&Prime;</b><span>Mercury's perihelion per century, from the TEGR solution alone</span></div>
+        <div class="stat"><b>0.3047</b><span>vacuum entanglement per area, which sets G</span></div>
+        <div class="stat"><b>6&times;10<sup>10</sup></b><span>times the Earth's heat flow: what a statistical gravity smeared at the theory's cutoff would deliver</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <p class="eyebrow" style="margin-bottom:4px">The chain at a glance</p>
+      <div class="glance">
+        <div class="g-row"><span class="t">Born rule p = |c|&sup2;</span><span class="tag ok">derived</span><span class="c">Four routes agree: envariance, additivity, no-signaling, frequencies</span></div>
+        <div class="g-row"><span class="t">Vacuum entanglement area law</span><span class="tag ok">computed</span><span class="c">S = 0.3046 (R/a)&sup2; per field (literature 0.30)</span></div>
+        <div class="g-row"><span class="t">Field equations from entanglement</span><span class="tag ok">computed</span><span class="c">Jacobson 1995, each step re-derived symbolically</span></div>
+        <div class="g-row"><span class="t">GR's classic tests from TEGR</span><span class="tag ok">computed</span><span class="c">Perihelion, light bending, Shapiro &gamma;, GPS</span></div>
+        <div class="g-row"><span class="t">Double slit: V = |&langle;E<sub>1</sub>|E<sub>2</sub>&rangle;|</span><span class="tag known">known</span><span class="c">D&sup2; + V&sup2; = 1 at every detector strength</span></div>
+        <div class="g-row"><span class="t">Gravity's field follows each branch</span><span class="tag">conditional</span><span class="c">Derived if a statistical gravity is smeared at the entanglement cutoff and is Markovian (0.5 W/kg heating); also standard quantum gravity's prediction</span></div>
+        <div class="g-row"><span class="t">Two diamonds entangle through gravity</span><span class="tag hyp">prediction</span><span class="c">&Delta;&phi; = 2.19 rad; 270 runs at the published targets</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Equation / legend -->
+  <section id="equation" aria-labelledby="eq-h">
+    <p class="eyebrow">How to read it</p>
+    <h2 id="eq-h">Every step carries a label</h2>
+    <p class="lede">So it is clear which steps are established physics, which are computed here, and what the theory predicts.</p>
+    <div class="legend">
+      <div class="card"><span class="tag known">known physics</span><p>Established, published, independently tested.</p></div>
+      <div class="card"><span class="tag ok">check / derived</span><p>Computed in this project's scripts, and matches.</p></div>
+      <div class="card"><span class="tag">follows</span><p>Derived from the lines above it, with no new assumption.</p></div>
+      <div class="card"><span class="tag">conditional</span><p>Derived, but only under assumptions stated next to it.</p></div>
+      <div class="card"><span class="tag hyp">prediction</span><p>A number an experiment will measure.</p></div>
+    </div>
+    <details>
+      <summary>Where the starting ideas ended up</summary>
+      <div class="body">
+        <p><strong>&ldquo;Measuring creates what we see.&rdquo;</strong> That is the factor &langle;E<sub>j</sub>|E<sub>i</sub>&rangle; going to zero: a definite outcome appears once the surroundings hold a record, whether or not anyone looks.</p>
+        <p><strong>&ldquo;The electron is a real EM cloud.&rdquo;</strong> Its field really is in both branches. It is there as an amplitude, not as a charge split in half: a split charge would repel itself, and hydrogen and electron interferometers rule that out.</p>
+        <p><strong>&ldquo;Entanglement is one thing stretched across space.&rdquo;</strong> That is the joint state of matter and its fields, branch by branch. It gives the full quantum correlations and, because of the Born rule, it cannot carry a message.</p>
+        <p><strong>&ldquo;Gravity is a consequence of the quantum level.&rdquo;</strong> G comes from vacuum entanglement, and gravity then sits in |E<sub>i</sub>&rangle; with every other field.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- Chain -->
+  <section id="chain" aria-labelledby="chain-h">
+    <p class="eyebrow">The derivation</p>
+    <h2 id="chain-h">From quantum fields to the equation</h2>
+    <p class="lede plain">Switch to <em>Technical</em> at the top for the equations behind each step.</p>
+    <p class="lede tech">Every number is recomputed by <code>src/stur_derivation.py</code> from the modules named in each card.</p>
+    <div class="grid g2 steps">
+      <div class="card step">
+        <span class="tag">start</span>
+        <h3>D0 &middot; Only quantum physics</h3>
+        <p class="plain">States, how they change in time, and quantum fields made of tiny pieces a distance <em>a</em> apart. Nothing else: no gravity, no classical objects, no collapse, and no probability rule yet.</p>
+        <div class="tech"><p class="small">Unitary quantum mechanics with tensor products; locality (no-signaling); non-contextual probabilities; N local fields with cutoff a. Not assumed: the Born rule, a metric, collapse.</p></div>
+      </div>
+      <div class="card step">
+        <span class="tag ok">derived</span>
+        <h3>DB &middot; The Born rule</h3>
+        <p class="plain">Probabilities equal the squared size of the amplitude. That follows from the rest: any other rule would contradict itself, fail to add up to 1, or let you send messages faster than light.</p>
+        <div class="tech"><div class="eq sm">p<sub>k</sub> = |c<sub>k</sub>|&sup2; = Tr(&rho;P<sub>k</sub>)</div><p class="small">Envariance + fine-graining (Zurek); Gleason-type additivity; no-signaling selects the power 2. See <a href="#born">below</a>.</p></div>
+      </div>
+      <div class="card step">
+        <span class="tag ok">check passed</span>
+        <h3>D1 &middot; Empty space is entangled</h3>
+        <p class="plain">Draw any surface in empty space: the quantum field on one side is entangled with the other side, by an amount proportional to the surface's area.</p>
+        <div class="tech"><div class="eq sm">S = 0.3047 (R/a)&sup2; per field</div><p class="small">Srednicki's method, R/a = 10.5&ndash;18.5, extrapolated in 1/R (literature 0.30). <code>stur_unification.py</code></p></div>
+      </div>
+      <div class="card step">
+        <span class="tag ok">check passed</span>
+        <h3>D2 &middot; Empty space looks warm when you accelerate</h3>
+        <p class="plain">An accelerating observer sees the vacuum as a warm bath. That is a property of its entanglement, checked here on a lattice.</p>
+        <div class="tech"><div class="eq sm">K = 2&pi; &times; boost energy, &nbsp; T = &#8463;g / 2&pi;ck<sub>B</sub></div><p class="small">Lattice modular Hamiltonian: 0.99969, 0.99992, 0.99997 of 2&pi; at L = 20, 40, 60 (Bisognano&ndash;Wichmann).</p></div>
+      </div>
+      <div class="card step">
+        <span class="tag known">known physics</span>
+        <h3>D3 &middot; Heat flow gives gravity</h3>
+        <p class="plain">Require that heat crossing every such horizon obeys ordinary thermodynamics. The result is Einstein's equations, with gravity's strength set by the entanglement of step D1.</p>
+        <div class="tech"><div class="eq sm">&delta;Q = T&delta;S &nbsp;&rArr;&nbsp; G<sub>&mu;&nu;</sub> + &Lambda;g<sub>&mu;&nu;</sub> = 8&pi;G T<sub>&mu;&nu;</sub>/c&#8308;, &nbsp; 1/4G&#8463; = &eta;</div><p class="small">Jacobson 1995, re-derived symbolically (Raychaudhuri, the null-vector lemma, Bianchi): <code>src/stur_jacobson.py</code>. The measured G fixes a&sup2;/N: a = 0.31 &#8467;<sub>P</sub> for one field, 3.1 &#8467;<sub>P</sub> for a hundred.</p></div>
+      </div>
+      <div class="card step">
+        <span class="tag ok">check passed</span>
+        <h3>D4&ndash;D5 &middot; Gravity as torsion (TEGR)</h3>
+        <p class="plain">Those equations come from a force-field theory on flat space, with the same structure as electromagnetism. Its black-hole solution comes out uniquely, and its weak limit is Newton's law.</p>
+        <div class="tech"><div class="eq sm">S<sub>grav</sub> = (c&#8308;/16&pi;G) &int; e T d&#8308;x, &nbsp; T = &minus;R + &part;(&hellip;)</div><p class="small">Identity residual &le; 10<sup>&minus;165</sup>; static solution e<sup>&minus;2B</sup> = 1 + C<sub>1</sub>/r, A = &minus;B (Birkhoff); weak field &Psi; = &Phi;, &nabla;&sup2;&Phi; = 4&pi;G&rho;.</p></div>
+      </div>
+      <div class="card step">
+        <span class="tag">conditional</span>
+        <h3>D6 &middot; Each branch has its own fields</h3>
+        <p class="plain">In a superposition, each branch makes its own version of every field around it, gravity included. Whether two branches can still interfere depends on whether the fields kept a record. That is the equation at the top.</p>
+        <div class="tech"><div class="eq sm">|&Psi;&rangle; = &Sigma;<sub>i</sub> c<sub>i</sub> |i&rangle; |E<sub>i</sub>&rangle; e<sup>iS<sub>i</sub>/&#8463;</sup></div><p class="small">For a field made of the quantum level this is exact in a lattice model: entangling phase 0.6064 against the emergent 1/r law's 0.6046, with a record of 2&times;10<sup>&minus;6</sup> left behind. For gravity it is derived only if a statistical gravity would be smeared at the cutoff and be Markovian (<a href="#emergence">below</a>); it is also standard quantum gravity's prediction.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Born rule -->
+  <section id="born" aria-labelledby="born-h">
+    <p class="eyebrow">Derived &middot; Step DB</p>
+    <h2 id="born-h">Why probability is amplitude squared</h2>
+    <p class="lede plain">Quantum theory says the chance of an outcome is the square of its amplitude. Here that rule is not assumed. It is the only rule that is consistent, adds up to 1, and can't be used to send messages faster than light.</p>
+    <p class="lede tech">Assumed instead: A1 unitarity with tensor products, A2 locality (acting on E cannot change S's statistics), A3 non-contextuality. Computed by <code>src/stur_born.py</code>.</p>
+    <div class="grid g2">
+      <div class="card">
+        <h3>Envariance <span class="tag ok" style="vertical-align:middle;margin-left:6px">derived</span></h3>
+        <p class="small muted">With equal amplitudes, a swap on the system is undone by a swap on its surroundings alone, so the two outcomes must be equally likely. Unequal amplitudes split into equal pieces by acting on the surroundings only, and counting the pieces gives |c|&sup2;.</p>
+        <div class="table">
+          <table>
+            <thead><tr><th class="nc">|c<sub>0</sub>|&sup2;</th><th>Equal pieces</th><th class="nc">p<sub>0</sub> by counting</th></tr></thead>
+            <tbody>
+              <tr><td class="num">1/3</td><td class="num">3 &times; 0.577350</td><td class="num hl">0.333333</td></tr>
+              <tr><td class="num">2/5</td><td class="num">5 &times; 0.447214</td><td class="num hl">0.400000</td></tr>
+              <tr><td class="num">3/7</td><td class="num">7 &times; 0.377964</td><td class="num hl">0.428571</td></tr>
+              <tr><td class="num">5/8</td><td class="num">8 &times; 0.353553</td><td class="num hl">0.625000</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small muted" style="margin-top:8px">A rival rule disagrees with itself on the same state: for |c<sub>0</sub>|&sup2; = 2/5, p &prop; |c| gives 0.4495 before splitting and 0.4000 after.</p>
+      </div>
+      <div class="card">
+        <h3>Additivity and no-signaling <span class="tag ok" style="vertical-align:middle;margin-left:6px">derived</span></h3>
+        <p class="small muted">Try p = |c|<sup>2q</sup>. Two things can go wrong: the probabilities of a complete set fail to add to 1, or a distant choice changes local statistics.</p>
+        <div class="table">
+          <table>
+            <thead><tr><th>Rule</th><th class="nc">largest |&Sigma;p &minus; 1|</th><th>Distant signal</th></tr></thead>
+            <tbody>
+              <tr><td class="num">|c|<sup>1</sup></td><td class="num">0.73</td><td class="num">0.10</td></tr>
+              <tr><td class="num">|c|<sup>1.8</sup></td><td class="num">0.12</td><td class="num">0.026</td></tr>
+              <tr><td class="num hl">|c|&sup2;</td><td class="num hl">1.8&times;10<sup>&minus;15</sup></td><td class="num hl">3&times;10<sup>&minus;16</sup></td></tr>
+              <tr><td class="num">|c|<sup>2.2</sup></td><td class="num">0.10</td><td class="num">0.028</td></tr>
+              <tr><td class="num">|c|<sup>4</sup></td><td class="num">0.67</td><td class="num">0.23</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small muted" style="margin-top:8px">20,000 random states and bases in dimension 3; 400 random two-qubit states. Gleason (1957) proves the general case in dimension &ge; 3.</p>
+        <div class="callout info"><b>Why it matters for entanglement</b>An instant connection across space is allowed; a message is not. The Born rule is exactly the rule that keeps &ldquo;one object stretched across space&rdquo; from becoming a faster-than-light telegraph.</div>
+      </div>
+    </div>
+    <details>
+      <summary>Frequencies, and the remaining caveat</summary>
+      <div class="body">
+        <p>Repeat a measurement with |c<sub>0</sub>|&sup2; = 0.4 N times. The total weight of branches whose observed frequency is off by more than 0.05 is 0.75, 0.31, 1.2&times;10<sup>&minus;3</sup> and 2.0&times;10<sup>&minus;24</sup> for N = 10, 100, 1,000 and 10,000. This route reads small weight as negligible, so it is not free of the rule on its own; the routes above do not need it.</p>
+        <p>Envariance assumes that probabilities exist and depend only on the state; that step is debated (Schlosshauer &amp; Fine 2005). Additivity and no-signaling do not rely on it.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- Double slit interactive -->
+  <section id="slit" aria-labelledby="slit-h">
+    <p class="eyebrow">Interactive &middot; Consequence (a)</p>
+    <h2 id="slit-h">A record, not an observer, erases the fringes</h2>
+    <p class="lede plain">Put a detector at the slits. Turning up its strength makes it record more about which slit the particle used, and the fringes fade by exactly that much. Nobody needs to read the detector: the record alone does it.</p>
+    <p class="lede tech">Detector states |E<sub>1</sub>&rangle;, |E<sub>2</sub>&rangle; with &langle;E<sub>1</sub>|E<sub>2</sub>&rangle; = cos&theta;. Plotted: I(x) &prop; envelope &times; (1 + V cos kx), with V = |&langle;E<sub>1</sub>|E<sub>2</sub>&rangle;| and D = |sin&theta;|. The Python simulation (<code>stur_measurement.py</code> T3) gives D&sup2; + V&sup2; = 1.000000 at every angle.</p>
+    <div class="sim">
+      <div class="card">
+        <div class="ctrl">
+          <label for="wp-in"><span><span class="plain">Detector strength</span><span class="tech">detector rotation &theta;</span></span><output id="wp-out">0&deg;</output></label>
+          <input id="wp-in" type="range" min="0" max="90" step="1" value="0" aria-describedby="wp-hint">
+          <p class="hint" id="wp-hint"><span class="plain">0: no record, sharp fringes. 90: a perfect record, no fringes.</span><span class="tech">&theta; = 90&deg;: orthogonal records, &langle;E<sub>1</sub>|E<sub>2</sub>&rangle; = 0.</span></p>
+        </div>
+        <div class="ctrl">
+          <label>Presets</label>
+          <div class="presets">
+            <button type="button" data-wp="0">No detector</button>
+            <button type="button" data-wp="30">Weak</button>
+            <button type="button" data-wp="60">Strong</button>
+            <button type="button" data-wp="90">Perfect</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <canvas class="fringes" id="wp-fringes" role="img" aria-label="Interference fringes that fade as the which-path detector gets stronger"></canvas>
+        <div class="readout" aria-live="polite">
+          <div><b id="wp-v">&mdash;</b><span><span class="plain">fringe contrast</span><span class="tech">V = |&langle;E<sub>1</sub>|E<sub>2</sub>&rangle;|</span></span></div>
+          <div><b id="wp-d">&mdash;</b><span><span class="plain">path information</span><span class="tech">D</span></span></div>
+          <div><b id="wp-s">&mdash;</b><span>D&sup2; + V&sup2;</span></div>
+          <div><b>e</b><span><span class="plain">charge per detection: always whole</span><span class="tech">never e/2 per slit</span></span></div>
+        </div>
+        <div class="callout"><b>The electron's own field</b>The electron's electric field is in both branches too. In empty space it leaves no lasting record, so fringes survive. Near a surface, image charges record the path and the fringes fade (Sonnentag &amp; Hasselbach 2007). A charge literally split in half is excluded: hydrogen would bind at 6.64 eV instead of 13.60 eV.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gravity -->
+  <section id="gravity" aria-labelledby="grav-h">
+    <p class="eyebrow">Consistency check &middot; Consequence (e)</p>
+    <h2 id="grav-h">Einstein's tests, from the torsion field alone</h2>
+    <p class="lede plain">Solve gravity's field equations in TEGR form for the Sun and the Earth, then trace orbits and light rays through the result. No curved space is used anywhere. Every classic test comes out right.</p>
+    <p class="lede tech">Static spherical tetrad e<sup>0</sup> = e<sup>A</sup>dt, e<sup>1</sup> = e<sup>B</sup>dr: the TEGR equations give 2rA&prime; = e<sup>2B</sup> &minus; 1 and 2rB&prime; = 1 &minus; e<sup>2B</sup>, hence Schwarzschild. Tests are numerical geodesic integrals of that tetrad (<code>stur_tegr_gr.py</code>), not textbook formulas.</p>
+    <div class="grid g2">
+      <div class="table">
+        <table>
+          <thead><tr><th>Test</th><th>From TEGR</th><th>Observed</th></tr></thead>
+          <tbody>
+            <tr><td>Mercury's perihelion</td><td class="num hl">42.98&Prime; / century</td><td class="num">42.98&Prime;</td></tr>
+            <tr><td>Light bending at the Sun</td><td class="num hl">1.7512&Prime;</td><td class="num">VLBI &gamma; = 0.99983 &plusmn; 0.00045</td></tr>
+            <tr><td>Shapiro delay, PPN &gamma;</td><td class="num hl">exactly 1</td><td class="num">Cassini: 1 + (2.1 &plusmn; 2.3)&times;10<sup>&minus;5</sup></td></tr>
+            <tr><td>GPS clock gain</td><td class="num hl">+38.54 &micro;s / day</td><td class="num">38.6 (design)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="callout info"><b>Newton gets half the bending</b>The time part of the field gives Newton's half. The other half comes from the space part (&Psi; = &Phi;), which Newton's theory has no place for.</div>
+        <div class="callout"><b>Gravity keeps no record of a single mass</b>Splitting a 1.5&times;10<sup>&minus;14</sup> kg diamond into two places emits about 10<sup>&minus;59</sup> gravitons. Gravity alone never tells which branch happened, so it does not collapse a superposition.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experiment interactive -->
+  <section id="experiment" aria-labelledby="exp-h">
+    <p class="eyebrow">Interactive &middot; Consequence (d)</p>
+    <h2 id="exp-h">Two diamonds, each in two places, held only by gravity</h2>
+    <p class="lede plain">Put two tiny diamonds each in two places at once, a fraction of a millimetre apart, and let only their gravity act. If gravity follows each branch, the diamonds become entangled. If gravity is only an average, they never do. Slide &lambda; between the two and add noise to see when entanglement survives.</p>
+    <p class="lede tech">Parallel geometry, design A: m = 1.5&times;10<sup>&minus;14</sup> kg, &Delta;x = 721 &micro;m, Casimir-safe gap 181 &micro;m, ramps 2 &times; 1.58 s, hold 0.08 s: &Delta;&phi; = 2.187 rad at &lambda; = 1. The calculator builds the 4&times;4 branch state with dephasing e<sup>&minus;&gamma;&tau;</sup> per diamond and returns the negativity of its partial transpose, exactly.</p>
+    <div class="sim">
+      <div class="card">
+        <div class="ctrl">
+          <label for="lam-in"><span><span class="plain">How much gravity follows each branch</span><span class="tech">&lambda; (1: amplitude, 0: mean field)</span></span><output id="lam-out">1.00</output></label>
+          <input id="lam-in" type="range" min="0" max="1" step="0.01" value="1">
+        </div>
+        <div class="ctrl">
+          <label for="gt-in"><span><span class="plain">Noise (gas, heat, vibration)</span><span class="tech">&gamma;&tau; per diamond</span></span><output id="gt-out">0.11</output></label>
+          <input id="gt-in" type="range" min="0" max="1.2" step="0.01" value="0.11" aria-describedby="gt-hint">
+          <p class="hint" id="gt-hint">0.11 is design A's gas collisions at 10<sup>&minus;15</sup> Pa (derived collision rate).</p>
+        </div>
+        <div class="ctrl">
+          <label>Presets</label>
+          <div class="presets">
+            <button type="button" data-lam="1" data-gt="0.11">Design A</button>
+            <button type="button" data-lam="1" data-gt="0">No noise</button>
+            <button type="button" data-lam="0" data-gt="0">Average gravity</button>
+            <button type="button" data-lam="1" data-gt="1">10&times; worse vacuum</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="readout" aria-live="polite">
+          <div><b id="q-dphi">&mdash;</b><span><span class="plain">gravity's phase</span><span class="tech">&lambda;&Delta;&phi;</span></span></div>
+          <div><b id="q-conc">&mdash;</b><span><span class="plain">entanglement without noise</span><span class="tech">concurrence |sin(&lambda;&Delta;&phi;/2)|</span></span></div>
+          <div><b id="q-neg">&mdash;</b><span><span class="plain">entanglement with noise</span><span class="tech">negativity</span></span></div>
+          <div><b id="q-verdict">&mdash;</b><span>result</span></div>
+        </div>
+        <div class="table" style="margin-top:16px">
+          <table>
+            <thead><tr><th>Requirement</th><th>Needed</th><th>Today</th></tr></thead>
+            <tbody>
+              <tr><td>Mass in two places at once</td><td class="num">1.5&times;10<sup>&minus;14</sup> kg</td><td class="num">4&times;10<sup>&minus;23</sup> kg <span class="nd">(&times;4&times;10<sup>8</sup> short)</span></td></tr>
+              <tr><td>Vacuum</td><td class="num">&lt; 8&times;10<sup>&minus;15</sup> Pa</td><td class="num">cryogenic systems only</td></tr>
+              <tr><td>Spin coherence</td><td class="num">&gt; 1.4 s</td><td class="num">~1 s</td></tr>
+              <tr><td>Diamond's internal temperature</td><td class="num">&lt; 1.9 K</td><td class="num">heats under trapping light</td></tr>
+              <tr><td>Vibration noise</td><td class="num">&lt; 3.1&times;10<sup>&minus;17</sup> m s<sup>&minus;2</sup>/&radic;Hz</td><td class="num">1.7&times;10<sup>&minus;15</sup> <span class="nd">(LISA Pathfinder)</span></td></tr>
+              <tr><td>Stray charge / dipoles</td><td class="num">exactly 0 / &lt; 4&times;10<sup>&minus;29</sup> C&middot;m</td><td class="num">zero charge demonstrated</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small muted" style="margin-top:8px">At the published targets design A needs 270 runs (0.6 h), with the gas-collision rate derived rather than estimated. Noise can hide entanglement but never create it; stray electric forces could, which is why charge must be zero.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Emergence -->
+  <section id="emergence" aria-labelledby="em-h">
+    <p class="eyebrow">Why gravity follows each branch</p>
+    <h2 id="em-h">Gravity cannot be just an average</h2>
+    <p class="lede plain">A force can come out of a quantum medium in two ways: collectively, like sound in a crystal, or statistically, like temperature. The theory decides between them. A statistical gravity would have to jitter, and that jitter would cook every piece of matter in the universe.</p>
+    <p class="lede tech">A classical field sourced by quantum matter must carry noise. Minimising the total decoherence over the monitoring strength gives k(q) &ge; 4&pi;G/&#8463;q&sup2; at every q: the Di&oacute;si&ndash;Penrose kernel is the floor (Tilloy&ndash;Di&oacute;si). An equation of state is coarse-grained at the scale where its degrees of freedom are counted, here the cutoff a of the area law, so R<sub>0</sub> = a. Details: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/COLLECTIVE.md">COLLECTIVE.md</a>.</p>
+    <div class="grid g2">
+      <div class="card">
+        <span class="tag ok">collective, like sound in a crystal</span>
+        <h3>Gravity follows each branch</h3>
+        <p class="small muted">In a lattice of quantum oscillators a 1/r force emerges by itself (within 1% at 8 spacings). Two probes coupled only to that medium entangle, with the phase of the emergent 1/r law to 0.3%. Moved slowly, they leave no record behind; moved suddenly, leftover vibrations record the path and the entanglement dies. Trapped-ion quantum gates work this way.</p>
+      </div>
+      <div class="card">
+        <span class="tag post">statistical, like temperature</span>
+        <h3>Gravity follows the average</h3>
+        <p class="small muted">Then each branch feels the same averaged pull. To respond to quantum matter at all, such a field must jitter, and the least jitter allowed decoheres matter at the Di&oacute;si&ndash;Penrose rate. Coarse-grained at the theory's own cutoff, that jitter heats every kilogram of matter by about 0.5 W (the nuclei's own size caps it), 6&times;10<sup>10</sup> times the Earth's heat flow. Radiation searches already require the smearing to be at least 0.54 &Aring;, 10<sup>23</sup> times the cutoff. Oppenheim's classical gravity has the same floor (<a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/OPPENHEIM.md">OPPENHEIM.md</a>).</p>
+      </div>
+    </div>
+    <div class="table" style="margin-top:16px">
+      <table>
+        <thead><tr><th>Statistical gravity smeared over R<sub>0</sub></th><th>Design-A diamond decoheres at</th><th>Coherence left after 3.24 s</th></tr></thead>
+        <tbody>
+          <tr><td>0.54 &Aring; (the radiation bound)</td><td class="num">170 /s</td><td class="num">10<sup>&minus;239</sup></td></tr>
+          <tr><td>10 &micro;m</td><td class="num">7.8 /s</td><td class="num">10<sup>&minus;11</sup></td></tr>
+          <tr><td>52 &micro;m (Newton's law is tested down to here)</td><td class="num">1.35 /s</td><td class="num">1.3%</td></tr>
+          <tr><td>collective gravity (this theory)</td><td class="num hl">0</td><td class="num hl">100%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted" style="margin-top:8px">So one diamond held in two places for 3.24 s decides it for Markovian models: surviving needs R<sub>0</sub> &gt; 455 &micro;m, which would soften Newton's law at distances where it has been measured. The conclusion rests on the smearing being the cutoff and on memoryless dynamics; a coherent diamond would rule out classical gravity, but &lambda; = 1 is also what perturbative quantum gravity predicts.</p>
+  </section>
+
+  <!-- Limits -->
+  <section id="limits" aria-labelledby="lim-h">
+    <p class="eyebrow">What was put in</p>
+    <h2 id="lim-h">What is derived, and what is not</h2>
+    <div class="grid g2 open">
+      <div class="card"><h3>Put in</h3><p class="small muted">Unitary quantum mechanics with tensor products; locality and non-contextuality; N local quantum fields with a smallest spacing a.</p></div>
+      <div class="card"><h3>Computed here</h3><p class="small muted">The Born rule, the area-law coefficient, the vacuum's thermal structure, the TEGR identity, Schwarzschild and Newton, the classic tests, why gravity follows each branch (given R<sub>0</sub> = a, Markovian), Oppenheim's trade-off for one particle, the two-diamond design and its noise budget.</p></div>
+      <div class="card kill"><h3>Not derived: the value of G</h3><p class="small muted">The measured G fixes only a&sup2;/N: a = 0.31 Planck lengths for one field, 3.1 for a hundred. The Planck length is where the counting stops, not where reality does.</p></div>
+      <div class="card kill"><h3>Not derived: which particles exist</h3><p class="small muted">The number and kinds of fields (the Standard Model) are inputs.</p></div>
+      <div class="card kill"><h3>Assumed, not derived</h3><p class="small muted">Jacobson's premise for D3: local equilibrium on every local horizon. His algebra is re-derived here.</p></div>
+      <div class="card"><h3>What it predicts</h3><p class="small muted">Gravity's field follows each branch. One diamond of 1.5&times;10<sup>&minus;14</sup> kg keeps its superposition for 3.24 s, and two of them become entangled with phase 2.19 rad. Visibility loss counts the spread in quanta exchanged, so it grows with temperature at fixed energy deposited. Every prediction, with numbers: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/PREDICTIONS.md">PREDICTIONS.md</a>.</p></div>
+    </div>
+  </section>
+
+  <!-- Reproduce -->
+  <section id="reproduce" aria-labelledby="rep-h">
+    <p class="eyebrow">Reproduce</p>
+    <h2 id="rep-h">Every number on this page, from scripts</h2>
+    <div class="grid g2">
+      <div>
+        <pre><code>git clone https://github.com/sheldonlindberg-afk/STUR-Physics-Lab
+cd STUR-Physics-Lab
+pip install -r requirements.txt
+python3 src/stur_derivation.py   # the whole chain, ~30 s
+python3 src/stur_born.py         # the Born rule, ~10 s
+python3 src/stur_thermo_gravity.py  # why gravity follows each branch, ~6 s
+python3 src/stur_oppenheim.py    # classical gravity's trade-off, ~2 s
+python -m pytest tests/ -q       # every number pinned</code></pre>
+        <p class="small muted" style="margin-top:10px">CI reruns the tests on every push.</p>
+        <details>
+          <summary>References</summary>
+          <div class="body">
+            <p class="small">Standard literature, cited from knowledge and not link-checked; verify page details before submission.</p>
+            <ul class="refs">
+              <li>Aldrovandi, Pereira, <em>Teleparallel Gravity: An Introduction</em> (Springer, 2013)</li>
+              <li>Armano et al. (LISA Pathfinder), PRL 120, 061101 (2018)</li>
+              <li>Bancal et al., &ldquo;Quantum non-locality based on finite-speed causal influences leads to superluminal signalling&rdquo;, Nat. Phys. 8, 867 (2012)</li>
+              <li>Belenchia et al., &ldquo;Quantum superposition of massive objects and the quantization of gravity&rdquo;, PRD 98, 126009 (2018)</li>
+              <li>Bertotti, Iess, Tortora, &ldquo;A test of general relativity using radio links with the Cassini spacecraft&rdquo;, Nature 425, 374 (2003)</li>
+              <li>Bisognano, Wichmann, J. Math. Phys. 16, 985 (1975)</li>
+              <li>Bose et al., &ldquo;Spin entanglement witness for quantum gravity&rdquo;, PRL 119, 240401 (2017)</li>
+              <li>Chevalier, Paige, Kim, &ldquo;Witnessing the non-classical nature of gravity in the presence of unknown interactions&rdquo;, PRA 102, 022428 (2020)</li>
+              <li>Di&oacute;si, Phys. Lett. A 120, 377 (1987); Penrose, Gen. Rel. Grav. 28, 581 (1996)</li>
+              <li>Donadi et al., &ldquo;Underground test of gravity-related wave function collapse&rdquo;, Nat. Phys. 17, 74 (2021)</li>
+              <li>Englert, &ldquo;Fringe visibility and which-way information: an inequality&rdquo;, PRL 77, 2154 (1996)</li>
+              <li>Farhi, Goldstone, Gutmann, Ann. Phys. 192, 368 (1989)</li>
+              <li>Fein et al., &ldquo;Quantum superposition of molecules beyond 25 kDa&rdquo;, Nat. Phys. 15, 1242 (2019)</li>
+              <li>Gleason, J. Math. Mech. 6, 885 (1957)</li>
+              <li>Hartle, Am. J. Phys. 36, 704 (1968)</li>
+              <li>Hensen et al., Nature 526, 682 (2015)</li>
+              <li>Lee et al., &ldquo;New test of the gravitational 1/r&sup2; law at separations down to 52 &micro;m&rdquo;, PRL 124, 101101 (2020)</li>
+              <li>Jacobson, &ldquo;Thermodynamics of spacetime: the Einstein equation of state&rdquo;, PRL 75, 1260 (1995)</li>
+              <li>Kr&scaron;&scaron;&aacute;k, Pereira, &ldquo;Spin connection and renormalization of teleparallel action&rdquo;, EPJC 75, 519 (2015)</li>
+              <li>Marletto, Vedral, PRL 119, 240402 (2017)</li>
+              <li>M&oslash;lmer, S&oslash;rensen, PRL 82, 1835 (1999)</li>
+              <li>Romero-Isart, PRA 84, 052121 (2011)</li>
+              <li>Salart et al., Nature 454, 861 (2008)</li>
+              <li>Schlosshauer, Fine, Found. Phys. 35, 197 (2005)</li>
+              <li>Sonnentag, Hasselbach, &ldquo;Measurement of decoherence of electron waves and visualization of the quantum-classical transition&rdquo;, PRL 98, 200402 (2007)</li>
+              <li>Srednicki, &ldquo;Entropy and area&rdquo;, PRL 71, 666 (1993)</li>
+              <li>Tilloy, Di&oacute;si, &ldquo;Sourcing semiclassical gravity from spontaneously localized quantum matter&rdquo;, PRD 93, 024026 (2016)</li>
+              <li>Tonomura et al., Am. J. Phys. 57, 117 (1989)</li>
+              <li>van de Kamp et al., PRA 102, 062807 (2020)</li>
+              <li>Wootters, Zurek, PRD 19, 473 (1979)</li>
+              <li>Zurek, &ldquo;Probabilities from entanglement, Born's rule p<sub>k</sub> = |&psi;<sub>k</sub>|&sup2; from envariance&rdquo;, PRA 71, 052105 (2005)</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+      <div class="dl">
+        <a class="card" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/DERIVATION.md"><h3>DERIVATION.md</h3><span class="small muted">The chain, step by step, with every assumption listed</span></a>
+        <a class="card" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/BORN.md"><h3>BORN.md</h3><span class="small muted">The Born rule, four ways</span></a>
+        <a class="card" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/GRAVITY_ENTANGLEMENT.md"><h3>GRAVITY_ENTANGLEMENT.md</h3><span class="small muted">The two-diamond experiment, noise budget and design search</span></a>
+        <a class="card" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/TEGR.md"><h3>TEGR.md</h3><span class="small muted">Gravity as torsion: GR's equations and tests derived</span></a>
+        <a class="card" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/COLLECTIVE.md"><h3>COLLECTIVE.md</h3><span class="small muted">Why gravity's field follows each branch</span></a>
+        <a class="card" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/PREDICTIONS.md"><h3>PREDICTIONS.md</h3><span class="small muted">Every prediction, with numbers and the experiment that measures it</span></a>
+        <a class="card" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/EMERGENT.md"><h3>EMERGENT.md</h3><span class="small muted">Collective vs statistical gravity, the lattice model</span></a>
+        <a class="card" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/MEASUREMENT.md"><h3>MEASUREMENT.md</h3><span class="small muted">The double slit, the electron's field, Bell tests</span></a>
+        <a class="card" href="archive/resistance-equation/index.html"><h3>Archive: the resistance equation</h3><span class="small muted">The original page this work grew out of</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot">
+    <span>&copy; 2026 Sheldon Lindberg &middot; CC0 1.0 &middot; <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab">GitHub</a></span>
+    <span><a href="archive/resistance-equation/index.html">Archive: resistance equation</a> &middot; <a href="archive/stur-roll/index.html">Archive: STUR-ROLL</a></span>
+  </div>
+</footer>
+
+<script src="assets/js/stur-resistance.js"></script>
+<script src="assets/js/stur-quantum.js"></script>
+</body>
+</html>
