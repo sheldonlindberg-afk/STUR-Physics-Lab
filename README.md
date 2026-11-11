@@ -106,7 +106,7 @@ python3 src/stur_derivation.py      # the whole chain, ~30 s
 python3 src/stur_thermo_gravity.py  # why gravity follows each branch, ~6 s
 python3 src/stur_gravity_full.py    # the two-diamond design search, ~15 s
 python3 src/stur_oppenheim.py       # classical (Oppenheim) gravity's trade-off, ~2 s
-python -m pytest tests -q           # every number pinned (120 tests)
+python -m pytest tests -q           # every number pinned (121 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on

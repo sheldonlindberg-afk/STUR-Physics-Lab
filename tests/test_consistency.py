@@ -36,6 +36,15 @@ def test_d6_is_never_presented_as_unconditional():
         assert re.search(r"perturbative\s+(\(effective-field-theory\)\s+)?quantum\s+gravity", read(n), re.I), n
 
 
+def test_gravity_bounds_never_claimed_as_new():
+    """NOVELTY.md §3: P2-P5 are worked examples within existing literature."""
+    forbidden = ["The new result there is a shape-free", "shape-free bound (STUR)"]
+    hits = [(n, f) for n in CURRENT for f in forbidden if f in read(n)]
+    assert not hits, hits
+    assert "not new" in read("OPPENHEIM.md")
+    assert "not a new result" in read("REPORT.md") and "not new results" in read("llms.txt")
+
+
 def test_shared_numbers_match_their_computation():
     import stur_oppenheim as O, stur_thermo_gravity as T
     h = T.heating_per_kg_nuclei(T.cutoff(1))

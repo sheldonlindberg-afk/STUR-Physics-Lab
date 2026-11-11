@@ -18,7 +18,8 @@
   prediction, so confirming it would not single this theory out.
 - Oppenheim's classical-quantum gravity (OPPENHEIM.md): its decoherence-diffusion
   trade-off, minimised, is the Diosi-Penrose floor; one particle obeys the shape-free
-  bound Gamma * S_a >= (M^2/4) I^2.
+  bound Gamma * S_a >= (M^2/4) I^2. These bounds are worked examples within an existing
+  literature (Fabiano et al. 2026; Angeli et al. 2025), not new results (NOVELTY.md).
 
 ## Predictions (PREDICTIONS.md)
 - Two diamonds entangle through gravity: delta phi = 2.19 rad, 270 runs, 0.6 h (design A; derived gas rate).
