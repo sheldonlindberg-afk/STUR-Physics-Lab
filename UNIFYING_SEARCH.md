@@ -1,7 +1,7 @@
 # The unifying-equation search: running log
 
 *An exploratory log, kept for the record and not peer reviewed. Most fronts failed and
-are recorded as failures. What survived is summarised in REPORT.md, and the one candidate
+are recorded as failures. What survived is summarised in WALL.md, and the one candidate
 result is written up in NOTE_331.md.*
 
 ## Ground rules (unchanged)

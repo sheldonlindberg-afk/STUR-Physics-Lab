@@ -47,7 +47,6 @@
 - /src/stur_thermo_gravity.py — why gravity follows each branch
 - /src/stur_oppenheim.py — Oppenheim's trade-off and the one-particle bound
 - /NOTE_331.md — 3 colours = 3 generations from 3-3-1 running
-- /REPORT.md — development record
 
 ## Archived
 - /archive/resistance-equation/ — the original STUR resistance equation and its PDF record.

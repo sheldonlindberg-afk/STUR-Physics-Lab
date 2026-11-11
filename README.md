@@ -147,9 +147,8 @@ BORN.md, MEASUREMENT.md, TEGR.md, GRAVITY_ENTANGLEMENT.md, EMERGENT.md
                           the supporting reports
 src/                      one script per report; outputs in results/
 tests/                    regression tests
-REPORT.md                 development record: the route from the original STUR
-                          equation to these notes, including the wider search for a
-                          unifying equation (UNIFYING_SEARCH.md, UNIFICATION.md, ...)
+UNIFYING_SEARCH.md        the wider search for a unifying equation, with WALL.md,
+                          UNIFICATION.md and the tests of the original STUR equation
 archive/                  earlier versions, kept for the record
 ```
 
