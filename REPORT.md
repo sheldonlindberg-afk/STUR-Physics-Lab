@@ -211,9 +211,10 @@ Errors caught by the checks and fixed, recorded for transparency:
 
 ## 8. Housekeeping
 
-- **Public files.** The home page is now the quantum-level-up theory; the original
-  resistance-equation page is in `archive/resistance-equation/`. The PDF derivation
-  record belongs to that original page.
+- **Public files.** The home page is a plain-language science guide, and
+  `technical.html` holds these research notes. Superseded material, including the
+  original resistance-equation page, is in `archive/`, with third-party papers and data
+  removed. The PDF derivation record belongs to the original page.
 - **Network.** A personal environment "STUR-Physics-Lab" was created during the work to
   allow `arxiv.org` and `ar5iv.labs.arxiv.org`. Its setup script installs the Python
   requirements; it's unproven until a fresh session starts on it.

@@ -4,7 +4,7 @@ Every route has now been pushed until it stopped. This page records what stands,
 what failed, and why each remaining route is blocked. Each line points to the
 code and report that support it.
 
-## What stands (known physics, unified in one equation)
+## What stands (known physics, written as one equation)
 
 **ln Zₙ = (1 − n) · A_H/4Għ − n · σ · A_swept + …**
 
@@ -104,8 +104,8 @@ What is left:
    be derived for them. It would take a new theorem.
 2. **Experiment wall.** Every decisive test needs a ~10⁻¹⁴ kg diamond held coherent
    across about its own radius (P5) or across 721 µm (P3, two diamonds). That is 4×10⁸
-   times the largest mass yet put in superposition. Engineering decides; the theory
-   doesn't.
+   times the largest mass yet put in superposition. Engineering decides; these notes
+   don't.
 3. **Distinctiveness wall.** A positive result confirms λ = 1, which perturbative
    quantum gravity also predicts. Distinguishing this framework from standard physics
    would need a new mechanism (an option D-type idea), not more computation.

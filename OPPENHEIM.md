@@ -1,13 +1,16 @@
-# Oppenheim's classical gravity, and what one levitated particle decides
+# Oppenheim's classical gravity, and what one levitated particle could decide
+
+*Research notes, not peer reviewed. Labels mark what is established physics, what is computed here, and what holds only under stated assumptions.*
 
 Reproduce: `python3 src/stur_oppenheim.py` (about 2 s). The full output is in
 `results/oppenheim/output.txt`, and `tests/test_oppenheim.py` pins it. Labels: KNOWN,
-FOLLOWS, CHECK, LIT, STUR (a result of this project).
+FOLLOWS, CHECK, LIT. What, if anything, is this project's own is listed under "What is
+and isn't new" below: none of it is a new result.
 
 ## Why this page exists
 
-[COLLECTIVE.md](COLLECTIVE.md) argues that gravity's field follows each branch because a
-*statistical* gravity would carry noise. That argument left two gaps:
+[COLLECTIVE.md](COLLECTIVE.md) argues, under two stated assumptions, that gravity's field
+follows each branch because a *statistical* gravity would carry noise. That argument left two gaps:
 
 1. **The strongest current alternative was never addressed.** Oppenheim's
    postquantum classical gravity keeps the metric classical, couples it to quantum matter
@@ -208,11 +211,11 @@ GM²x(1 − 9x/16 + x³/32)/R² (x = split/R < 2) to 10⁻⁴. **It is largest a
 
 Non-Markovian classical gravity is still not covered.
 
-## What this means for the theory
+## What this means
 
 | Gravity is … | Γ (one diamond, 721 µm) | Its own acceleration noise | Two diamonds entangle? |
 |---|---|---|---|
-| collective (this theory; also perturbative quantum gravity) | 0 | 0 | yes, Δφ = 2.19 rad |
+| follows each branch (λ = 1; perturbative quantum gravity's prediction) | 0 | 0 | yes, Δφ = 2.19 rad |
 | continuous Markovian CQ (Oppenheim), any kernels, R₀ ≤ 100 µm | Γ·S_a ≥ bound above | ≥ 1.3×10⁻¹² m s⁻²/√Hz if Γ ≤ 0.12 /s | no |
 | the same, with matter feeling the noisy potential (P2) | ≥ 169.5 /s for R₀ ≲ 0.1 µm | — | no |
 
@@ -240,7 +243,7 @@ Non-Markovian classical gravity is still not covered.
   results.
 - **What a positive result would not show.** A coherent, quiet diamond rules out CQ
   gravity, but it confirms λ = 1, and λ = 1 is also ordinary perturbative quantum
-  gravity's prediction. It doesn't single out this theory.
+  gravity's prediction. It doesn't single out these notes.
 
 **Scope.**
 - P3 covers continuous Markovian models with translation-invariant Gaussian kernels. P5

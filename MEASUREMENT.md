@@ -1,5 +1,7 @@
 # Measurement, the double slit, and entanglement: three proposals, tested
 
+*Research notes, not peer reviewed. Labels mark what is established physics, what is computed here, and what holds only under stated assumptions.*
+
 Reproduce: `python3 src/stur_measurement.py` (about 3 s). The full output is in
 `results/measurement/output.txt`, and `tests/test_measurement.py` pins the numbers.
 Labels: KNOWN, FOLLOWS, LIT (literature value used as input), PROPOSAL.
@@ -19,7 +21,7 @@ is tested the way options A–C were tested in [WALL.md](WALL.md).
 
 | # | Result | Status |
 |---|---|---|
-| M1 | Measurement creates the **definite outcome** (which path, where the dot lands), not the electron. The electron's mass and charge are already there at the slits. | **Partly right, reworded.** The equation is KNOWN: V = \|⟨E₁\|E₂⟩\| |
+| M1 | A record (decoherence) removes the **interference between outcomes** (which path, where the dot lands); it doesn't create the electron, whose mass and charge are already there at the slits. Why one outcome is seen is left to interpretation. | **Partly right, reworded.** The equation is KNOWN: V = \|⟨E₁\|E₂⟩\| |
 | M2a | A real charge cloud repels itself. Hydrogen solved with that self-repulsion binds by 6.64 eV; measured: 13.60 eV. | **Excluded** (factor 2) |
 | M2c | Restated as "one EM charge pulled into two places": the halves (e/2 each) repel in flight, a kick 0.4–0.7× the interferometer's own deflection; and a nearby surface would not wash out the fringes, but it does (Sonnentag & Hasselbach 2007). | **Excluded** |
 | M2b | The cloud exists, at the right size and energy, in positronium (e⁺e⁻), which contains no quarks or gluons. | **Excluded** |
@@ -71,8 +73,9 @@ sent one at a time do build fringes (LIT: Tonomura 1989; Bach et al. 2013), with
 spacing set by λ = h/p = 5.355 pm at 50 keV. That formula contains the electron's
 mass, so what passes the slits already carries m_e and e.
 
-**What M1 gets right:** a definite path does not exist until a record of it
-exists. Stated that way, it is already the content of the equation above.
+**What M1 gets right:** interference between the paths is lost once a record of the
+path exists. Stated that way, it is already the content of the equation above. Whether
+a definite path "exists" before then is a question of interpretation.
 
 ## T4. Entanglement as one stretched object (M3)
 

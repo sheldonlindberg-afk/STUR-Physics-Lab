@@ -1,7 +1,8 @@
 # Three colours and three generations from perturbativity in 3-3-1 models
 
 *A standalone note. Sheldon Lindberg, STUR Physics Lab, November 2026. It can be read
-without the rest of this repository.*
+without the rest of this repository. Not peer reviewed; an expert reading is still
+needed.*
 
 ## Abstract
 
