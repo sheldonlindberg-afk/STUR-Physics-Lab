@@ -170,10 +170,14 @@ The question is well defined and current, and Girelli and collaborators point at
 themselves. So it's likely to be on someone's list already. Anyone taking it up should
 write to that group (Girelli, Zwikel, Wieland) first.
 
-The classical part is within reach of this repository's code: the corner symplectic
-potential of TEGR at a bifurcation surface, compared with the metric one. E3 and E3b
-already compute the same torsion flux, e T^r, at the horizon tip. The quantum part,
-quantizing the corner frames and computing the entropy, is research-level.
+The classical part is within reach of this repository's code, and has been started:
+[TEGR.md](TEGR.md), "Where the entropy sits" (`src/stur_tegr_corner.py`, K1–K5). With the
+static frame, TEGR's Noether charge vanishes at the bifurcation surface and the corner
+term carries all of the Wald entropy. With frames winding around the Euclidean time
+circle, the tip term is (A/4)(1 + k/κ). So the frame decides where the entropy is booked.
+Still open classically: the first-law variation of the Lorentz (frame) sector at the
+bifurcation surface. The quantum part, quantizing the corner frames and computing the
+entropy, is research-level.
 
 ## What this suggests
 
@@ -190,9 +194,9 @@ In order of size:
 3. **Research-level: 4D teleparallel edge modes and entanglement entropy (sections 5–6).**
    The search is done. The open question: does TEGR's flat connection supply the
    edge-mode reference frames at a bifurcate horizon, and does their quantization give
-   A/4 (compare Varrin 2026, metric variables)? A classical first step is TEGR's corner
-   symplectic potential at the bifurcation surface. Contact the Girelli–Zwikel–Wieland
-   group before investing in it.
+   A/4 (compare Varrin 2026, metric variables)? The classical first step is started
+   (TEGR.md K1–K5); the first-law variation of the frame sector is next. Contact the
+   Girelli–Zwikel–Wieland group before investing further.
 
 Not recommended: a new version of quantum mechanics. Nothing in this search suggests
 TEGR needs one; every quantum TEGR approach found uses standard quantum theory and asks

@@ -24,19 +24,8 @@ def test_schwarzschild_flux():
     assert sp.simplify(8 * sp.pi * M**2 - I_inf - sp.Rational(1, 4) * 16 * sp.pi * M**2) == 0
 
 
-def test_tip_regular_frame_diverges_at_infinity():
-    tau, r, th, ph, M, k = sp.symbols("tau r theta phi M k", positive=True)
-    f = 1 - 2 * M / r
-    E = sp.diag(sp.sqrt(f), 1 / sp.sqrt(f), r, r * sp.sin(th))
-    n = 4
-    w = [[[0] * n for _ in range(n)] for _ in range(n)]
-    w[2][1][2], w[1][2][2] = 1, -1
-    w[3][1][3], w[1][3][3] = sp.sin(th), -sp.sin(th)
-    w[3][2][3], w[2][3][3] = sp.cos(th), -sp.cos(th)
-    w[0][1][0], w[1][0][0] = k, -k
-    Ts, B, g, ginv, e = T.torsion_parts(E, [tau, r, th, ph], sp.eye(4), w, simp=True)
-    tail = sp.limit(sp.simplify(e * Ts / sp.sin(th)).diff(k), r, sp.oo)
-    assert sp.simplify(tail + 4 * M) == 0     # constant integrand -> divergent radial integral
+# The tip-regular frame check moved to tests/test_tegr_corner.py: the connection used here
+# before (static reference + k d tau) was not flat. See stur_tegr_corner K5.
 
 
 def test_field_bookkeeping_and_gravitons():

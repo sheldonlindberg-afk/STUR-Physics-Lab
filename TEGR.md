@@ -59,10 +59,11 @@ flat spin connection of the same tetrad at M = 0 (Krššák–Pereira 2015).
 With the horizon smooth, as GR assumes, S = βM − I_∞ = 4πM² = **A/4**.
 
 The tip flux comes from a frame that doesn't rotate around the Euclidean horizon,
-and is singular there. A frame that is regular at the tip needs a rotation k dτ, and
-then the flux at infinity diverges (the integrand tends to −4kM; checked in the tests).
-No single flat frame is regular at both ends. **TEGR gets A/4 with the same input as
-GR (a smooth horizon), not with less.**
+and is singular there. A frame that is regular at the tip winds around the time circle
+at rate k = −κ, and then the flux at infinity diverges. In the family of flat frames
+winding at rate k, only k = 0 is finite at infinity and only k = −κ is regular at the
+tip (K5 below, which replaces an earlier check that used a connection that wasn't
+flat). **TEGR gets A/4 with the same input as GR (a smooth horizon), not with less.**
 
 This is a recomputation of a known result. Kuntz, Paci and Zanusso
 ([2410.04510](https://arxiv.org/abs/2410.04510)) obtain the black-hole thermodynamics from
@@ -176,6 +177,70 @@ from F3 agree with those in [GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md) t
 6×10⁻¹⁶ rad. The next TEGR order is Gm/(c²d) = 4×10⁻³⁸, and (v/c)² for the split is
 2×10⁻²⁴. So the whole experimental design and noise budget stand, now as TEGR
 results.
+
+## Where the entropy sits: Noether charges and the frame (`src/stur_tegr_corner.py`)
+
+TEGR's Lagrangian is GR's plus a total derivative, so the two theories have the same bulk
+but their Noether charges differ by a corner term (Iyer and Wald 1994; for formulations of
+gravity in general, Freidel, Geiller and Pranzetti,
+[2006.12527](https://arxiv.org/abs/2006.12527)). This section computes both for static
+metrics −f dt² + dr²/f + r²dΩ², with any f. Every flat connection is built as
+ω = Λ⁻¹dΛ, and its curvature is checked to vanish. All of it is a check of known physics
+except where marked open.
+
+**K1. TEGR's Noether charge (CHECK).** For ξ = ∂_t, computed directly from
+L = −eT/16π with no superpotential convention assumed:
+
+  Q_TEGR(r) = r(√f − f) = N·E_BY,
+
+the lapse N = √f times the Brown–York quasilocal energy E_BY = r(1 − √f). The TEGR
+momentum Π₀^{tr} integrates to E_BY itself. Q_TEGR tends to M, the ADM mass, at infinity
+(as Hammad et al., [1912.08811](https://arxiv.org/abs/1912.08811), find) and to **0 at the
+horizon**. This matches Maluf's TEGR gravitational energy, which is E_BY.
+
+**K2. GR's Iyer–Wald charge (CHECK).** Q_GR(r) = r²f′/4. That is Komar's M/2 at
+infinity and κA/8π at the bifurcation surface, so the Wald entropy (2π/κ)Q_GR is A/4,
+for Schwarzschild and Reissner–Nordström.
+
+**K3. The difference is the corner term (CHECK).** Q_GR − Q_TEGR equals ι_ξα exactly,
+where α^μ = e T^μ/8π is TEGR's boundary term and the corner term is the torsion flux of
+E3b. The two routes (the Noether charge from L_TEGR, and GR's charge plus the corner term)
+agree identically in f. At the bifurcation surface the corner term is all of κA/8π.
+**With the static frame, TEGR's Noether charge carries none of the Wald entropy; the
+corner term carries all of it.**
+
+**K4. The frame regular at the bifurcation surface (CHECK).** Boost the frame along the
+Killing flow, Λ = Λ_A B(κt). The connection is flat, and:
+- the diffeomorphism charge is unchanged, r(√f − f); κ drops out;
+- ξ is a symmetry only together with a compensating local boost λ = ι_ξω, and that
+  adds a volume term κ r (1/√f − 1) per unit radius. This vanishes as the region shrinks
+  to the horizon and grows linearly at infinity, where the frame keeps boosting.
+
+**Open:** whether the first-law variation of this Lorentz sector carries κ δS at the
+bifurcation surface. That needs the full covariant phase space of TEGR with the
+connection's variation and is not done here.
+
+**K5. Euclidean: the frame winding around the time circle (CHECK).**
+Λ = Λ_A R(kτ), with k = 0 the frame of E3:
+
+| Winding rate | Tip term | Flux at infinity |
+|---|---|---|
+| any k | (A/4)(1 + k/κ) | diverges unless k = 0 |
+| k = 0 (non-rotating, E3) | A/4 | M, finite: I = βM/2 |
+| k = −κ (regular at the tip) | 0 | diverges |
+
+The earlier version of this check added k dτ to the static reference connection. That
+connection has four nonzero curvature components, so it isn't TEGR's. K5 replaces it, and
+E3's conclusion survives.
+
+**What this shows.** The bulk theories are identical, but *where the entropy is booked*
+depends on the flat connection, i.e. on the frame. For the static frame it sits entirely
+in the corner term. For the frame regular at the Euclidean tip it leaves the tip, and the
+frame pays at infinity instead. That the frame carries corner data in TEGR is the
+edge-mode reading of Girelli, Qiu and Zwikel ([2412.14258](https://arxiv.org/abs/2412.14258))
+at null infinity; K3–K5 are the corresponding classical facts at a horizon. Whether
+quantizing that frame gives A/4 as entanglement entropy is the open question in
+[QUANTUM_TEGR.md](QUANTUM_TEGR.md), section 6.
 
 ## What this means
 

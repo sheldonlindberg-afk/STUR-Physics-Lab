@@ -127,12 +127,13 @@ same footing in one calculation.
 ```bash
 pip install -r requirements.txt pytest
 python3 src/stur_tegr_gr.py         # GR's classic tests from TEGR, ~10 s
+python3 src/stur_tegr_corner.py     # TEGR vs GR Noether charges: where the entropy sits, ~10 s
 python3 src/stur_tegr3d.py          # 3D: Ponzano-Regge 6j asymptotics and the 2-3 move, ~3 s
 python3 src/stur_derivation.py      # the whole chain, ~30 s
 python3 src/stur_gravity_full.py    # the two-diamond design search, ~15 s
 python3 src/m331_exact.py           # the 3-3-1 selection, both variants
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
-python -m pytest tests -q           # every number pinned (110 tests)
+python -m pytest tests -q           # every number pinned (113 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on
