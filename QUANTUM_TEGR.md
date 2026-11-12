@@ -123,8 +123,7 @@ teleparallel question would be whether TEGR's surface term
   work in first-order (tetrad) variables without using the word "teleparallel". A
   full-text search under first-order terms (tetrad, coframe, Holst action) is needed.
   Done in section 6, which narrows this gap.
-- This is a research-level problem in quantum field theory. It needs an expert
-  collaborator, or at least an expert reader.
+- This is a research-level problem in quantum field theory.
 
 ## 6. Full-text and first-order search (follow-up to section 5)
 
@@ -167,8 +166,7 @@ teleparallel question would be whether TEGR's surface term
   same logarithm?
 
 The question is well defined and current, and Girelli and collaborators point at it
-themselves. So it's likely to be on someone's list already. Anyone taking it up should
-write to that group (Girelli, Zwikel, Wieland) first.
+themselves in their conclusion.
 
 The classical part is within reach of this repository's code, and has been started:
 [TEGR.md](TEGR.md), "Where the entropy sits" (`src/stur_tegr_corner.py`, K1–K5). With the
@@ -197,8 +195,7 @@ In order of size:
    The search is done. The open question: does TEGR's flat connection supply the
    edge-mode reference frames at a bifurcate horizon, and does their quantization give
    A/4 (compare Varrin 2026, metric variables)? The classical part is done
-   (TEGR.md K1–K6): the frame changes where the entropy is booked, but not the first law. Contact the
-   Girelli–Zwikel–Wieland group before investing further.
+   (TEGR.md K1–K6): the frame changes where the entropy is booked, but not the first law.
 
 Not recommended: a new version of quantum mechanics. Nothing in this search suggests
 TEGR needs one; every quantum TEGR approach found uses standard quantum theory and asks

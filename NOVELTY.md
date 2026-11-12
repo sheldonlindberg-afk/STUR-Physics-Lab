@@ -38,8 +38,8 @@ perturbativity to fix N_c, in 3-3-1 or in the Standard Model with general N_c.
 **Assessment (before INSPIRE; section 3 has the update):** the step looks new, but narrowly. The family–colour link and
 general-N_c charges are well known, and N_c = 3 has been reached before by inputting
 three neutrino species. What this work adds is removing that input and selecting N_c by
-running instead. **The open check** is an INSPIRE search and an expert's reading, which
-this environment can't provide.
+running instead. **The open check** was an INSPIRE search, which this environment couldn't
+reach at first.
 
 ## 2. Bounds on classical–quantum gravity (OPPENHEIM.md)
 
@@ -121,4 +121,3 @@ systematic literature. None should be claimed as new.
   experiment.
 - **The gravity side has no new result** (section 3). Its value is internal: the corrected
   design numbers, the derived gas rate, and worked examples.
-- **Next:** one expert reader for NOTE_331 before any submission.
