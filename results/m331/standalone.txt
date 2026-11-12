@@ -103,7 +103,9 @@ VERDICT
    with quark charges 2/3 and -1/3.
    Conditional on the 3-3-1 framework, Planck-scale perturbativity, and the measured
    TeV-scale electroweak couplings (an input, not a prediction). In the beta = +1/sqrt3
-   variant the N_c = 3 margin is about a factor of 2 in the pole scale.
+   variant the N_c = 3 margin is narrow: the g = 4 pi poles above are two-loop numbers;
+   at three loops (src/m331_three_loop.py) N_c = 3 stays perturbative to M_Pl over the
+   whole spectrum for any criterion alpha >= 0.64.
 
-   Checks passed: 20/20   (14 s)
+   Checks passed: 20/20   (11 s)
    ALL CHECKS PASS

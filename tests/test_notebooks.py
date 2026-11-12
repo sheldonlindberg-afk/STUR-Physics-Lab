@@ -19,7 +19,7 @@ def run(name):
 
 
 def test_every_notebook_is_listed():
-    assert len(glob.glob(os.path.join(NB, "*.ipynb"))) == 4
+    assert len(glob.glob(os.path.join(NB, "*.ipynb"))) == 5
 
 
 def test_tegr_notebook():
@@ -38,3 +38,9 @@ def test_bmv_notebook():
 
 def test_area_law_notebook():
     assert "fitted slope c_s = 0.30" in run("04_area_law.ipynb")
+
+
+def test_teleparallel_3d_notebook():
+    out = run("05_teleparallel_3d_quantum.ipynb")
+    assert out.count("T + R - B = 0  (exact)") == 2
+    assert "exact +3.982143e-04" in out and "40 random spin sets" in out

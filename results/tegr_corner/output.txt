@@ -1,0 +1,69 @@
+
+==============================================================================
+K1  TEGR Noether charge for xi = d_t, from L_TEGR directly (CHECK)
+==============================================================================
+   Static frame, any f:   Q_TEGR(r) = r*(sqrt(f(r)) - f(r))
+   TEGR momentum:         oint Pi_0^(tr) = r*(1 - sqrt(f(r)))   (Brown-York energy r(1 - sqrt f))
+   So Q_TEGR = N E_BY with lapse N = sqrt f. KNOWN: Maluf's TEGR energy is E_BY.
+   Reissner-Nordstrom: Q_TEGR(oo) = r_m/2 + r_p/2 = M: True   (ADM mass);   Q_TEGR(r+) = 0
+
+==============================================================================
+K2  GR's Iyer-Wald charge (CHECK)
+==============================================================================
+   Q_GR(r) = r**2*Derivative(f(r), r)/4
+   RN: Q_GR(oo) = r_m/4 + r_p/4  (Komar's M/2);   Q_GR(r+) = -r_m/4 + r_p/4 = kappa A / 8 pi: True
+   Wald entropy (2 pi / kappa) Q_GR(r+) = pi*r_p**2 = A/4: True
+
+==============================================================================
+K3  The difference is the corner term iota_xi alpha (CHECK)
+==============================================================================
+   Corner term from alpha = (1/8 pi) e T^mu (E3b flux): r*(r*Derivative(f(r), r) - 4*sqrt(f(r)) + 4*f(r))/4
+   Q_GR - Q_TEGR - corner = 0  (two independent routes agree)
+   At the bifurcation surface the corner term is -r_m/4 + r_p/4 = kappa A / 8 pi: True
+   FOLLOWS: with the static frame, TEGR's Noether charge vanishes at the bifurcation
+   surface and the whole Wald entropy is in the corner term. The bulk theories are
+   the same; where the entropy is booked is not.
+
+==============================================================================
+K4  The frame regular at the bifurcation surface (Lorentzian boost, CHECK)
+==============================================================================
+   omega = (Lambda_A B(kappa t))^-1 d(...): flat = True
+   Diffeomorphism charge: r*(sqrt(f(r)) - f(r))  (unchanged; kappa drops out)
+   Compensating boost lambda = iota_xi omega (01 component kappa); its current, per
+   unit radius: -kappa*r + kappa*r/sqrt(f(r))
+   This is integrable at the horizon (it vanishes as the region shrinks to it) and
+   grows linearly at infinity, where the boosted frame keeps boosting.
+   OPEN: whether the first-law variation of this Lorentz sector carries kappa dS
+   at the bifurcation surface is not computed here.
+
+==============================================================================
+K5  Euclidean: the frame winding around the time circle (CHECK)
+==============================================================================
+   omega = (Lambda_A R(k tau))^-1 d(...); k = 0 is the E3 frame. Flat = True
+   Schwarzschild tip term / (A/4) = 4*M*k + 1  (kappa = 1/4M: = 1 + k/kappa)
+   Flux at infinity: k = 0 -> M (E3: I = beta M / 2);  tip-regular k = -1/(4*M) = -kappa -> oo
+   The earlier E3 test connection (static reference + k d tau) has curvature 4 components != 0, e.g. R^0_2(tau,theta) = -k: not flat, so not TEGR. Replaced by this check.
+   FOLLOWS: A/4 sits at the tip for the non-rotating frame, and nowhere at the tip
+   for the regular frame, which then pays at infinity. The frame (the flat
+   connection) decides where the entropy is booked: edge-mode-type data.
+
+==============================================================================
+K6  The first law: h(r) = oint (delta Q + Theta^r), Reissner-Nordstrom (CHECK)
+==============================================================================
+   delta = dM d/dM + dq d/dq; Theta_TEGR from the TEGR momentum, Theta_GR Iyer-Wald.
+   Gravity, TEGR static frame:  h = dM - dq*q/r
+   Gravity, TEGR boosted frame: h = dM - dq*q/r
+   Gravity, GR:                 h = dM - dq*q/r
+   TEGR - GR = 0 (static), 0 (boosted): identical in r, off the vacuum family
+   Maxwell: h = dq*q/r;   gravity + Maxwell: h = dM at every r
+   Horizon: gravity h(r+) - T dS = 0;  Maxwell h(r+) = dq*q/(M + sqrt(M**2 - q**2)) = Phi dq (Phi = q/r+)
+   So dM - T dS - Phi dq = 0: the first law, in both theories.
+   The split. GR: delta Q = dM/2 - dq*q/r, Theta^r = dM/2  (finite at r+)
+   TEGR: delta Q = h_grav (2 - 1/sqrt f), Theta^r = h_grav (1/sqrt f - 1)  (residuals 0, 0):
+   each diverges at the horizon; only the sum is finite.
+   Caveat: with xi = d_t fixed, the dM perturbation in static coordinates is not
+   smooth at the bifurcation surface (kappa changes), so in neither theory does the
+   charge alone equal T dS there (GR's delta Q(r+) = dM/2 at q = 0). Only h(r+) is
+   gauge-invariant, and it is T dS + Phi dq.
+   FOLLOWS: the frame (Lorentz) sector adds nothing to the first law. It moves terms
+   between the Noether charge and the symplectic flux, and that is all.

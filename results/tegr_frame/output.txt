@@ -1,0 +1,76 @@
+
+==============================================================================
+Q1  The frame is pure gauge in the bulk of linearized TEGR (CHECK)
+==============================================================================
+   Fields with nonzero E-L derivative of L(s + a) - L(s): none
+   Control, E-L of L(s) w.r.t. s_00 nonzero: True
+   KNOWN: TEGR is locally Lorentz invariant up to a boundary term.
+
+==============================================================================
+Q2  The frame's part of the symplectic current is a corner term (CHECK)
+==============================================================================
+   Off-shell divergence of the frame part of omega vanishes: True
+   Covariant fit d_nu W^{mu nu} = omega_frame^mu, W antisymmetric in mu nu and in 1 <-> 2:
+      B^{mn} tr B'     c1 + 1/(16*pi)
+      B^{nm} tr B'     free
+      B^{ma} B'^n_a    -3/(64*pi)
+      B^{am} B'_a^n    1/(64*pi)
+      B^{ma} B'_a^n    -c5 + 1/(32*pi)
+      B^{am} B'^n_a    free
+   The free parameters multiply structures that coincide after antisymmetrizing,
+   so W is unique.
+
+==============================================================================
+Q3  On the plane t = const, x = 0: what the frame is conjugate to (CHECK)
+==============================================================================
+   s-s part of W^(tx): 0
+   8 pi x coefficient of d1 a01: -Cs22(t, x, y, z) - Cs33(t, x, y, z)
+   8 pi x coefficient of d1 a02: Ca12(t, x, y, z) + Cs12(t, x, y, z)
+   8 pi x coefficient of d1 a03: Ca13(t, x, y, z) + Cs13(t, x, y, z)
+   8 pi x coefficient of d1 a12: -Ca02(t, x, y, z) - Cs02(t, x, y, z)
+   8 pi x coefficient of d1 a13: -Ca03(t, x, y, z) - Cs03(t, x, y, z)
+   8 pi x coefficient of d1 a23: 0
+   a_01 = -eta (normal boost rapidity); s_22 + s_33 = delta sqrt(sigma) (area density).
+   So W^(tx) contains (1/8 pi) d eta ^ d sqrt(sigma): the frame's normal boost is
+   conjugate to area / 8 pi G (Carlip and Teitelboim, gr-qc/9312002, in metric
+   variables). The in-surface rotation a_23 pairs with nothing: still gauge.
+
+==============================================================================
+Q4  Same coefficient from the nonlinear Euclidean action (stur_tegr_corner K5)
+==============================================================================
+   Tip-term shift per unit area per unit frame angle: 1/(8*pi) = 1/(8 pi)
+
+==============================================================================
+Q5  Exact, nonlinear: the frame's corner form is Kirillov-Kostant (CHECK)
+==============================================================================
+   SO(2,1) frame field: |omega - div W| = 6.3e-35,  control |omega + div W| = 0.0744,  |omega| = 0.0372
+   SO(3,1) frame field: |omega - div W| = 8.4e-35,  control |omega + div W| = 0.226,  |omega| = 0.113
+   W^{mu nu} = (1/8 pi) [Lambda^-1 d1 Lambda, Lambda^-1 d2 Lambda]^{mu nu}, flat metric, finite frames.
+
+==============================================================================
+Q6  The corner charges close into the Lorentz algebra (CHECK)
+==============================================================================
+   Omega(delta_X, d) = d G_X:          worst error 1.6e-30
+   Omega(delta_X, delta_Y) = G_[X,Y]:  worst error 4.3e-42 over all 36 pairs
+   Stabilizer of the orbit point (generators with no partner): J[(0, 1), (2, 3)]
+   so(3,1) = sl(2,C) closes exactly. sl(2,R) = so(2,1) subalgebras: {J01, J0A, J1A}.
+   This sl(2,R) mixes the normal with a tangent direction; Varrin's acts on the normal
+   plane. They share only the boost J01, the area pair of Q3.
+
+==============================================================================
+Q7  What this quantizes to (KNOWN: Varrin 2610.37750, eqs. 4.14, 4.20)
+==============================================================================
+   A = 100: group SL(2,R) 2 ln mu = 1.376;  semigroup SL+(2,R) = 24.9894;  A/4 = 25.0
+   A = 1000: group SL(2,R) 2 ln mu = 5.981;  semigroup SL+(2,R) = 254.595;  A/4 = 250.0
+   The group measure gives ln A; only the causal semigroup gives A/4. For Lorentz boosts
+   the causal condition is automatic, so TEGR's frame alone does not give A/4. The
+   exponential needs the normal-plane edge modes, which the frame does not supply.
+
+==============================================================================
+Q8  Any metric: the orbit is through the dual area bivector (CHECK)
+==============================================================================
+   Arbitrary curved background, finite SO(3,1) frame: |omega - div W| = 2.0e-34, control 0.228, |omega| = 0.114
+   W^{mu nu} = (sqrt(-g)/8 pi) [E^-1 d1 E, E^-1 d2 E]^mu_rho g^{rho nu}
+   W^(tx) = (1/16 pi) N_ab [th1, th2]^ab with N = star Sigma_S: |N - star Sigma| = 2.2e-61
+   Casimirs: |N.N + 2 sigma| = 6.2e-61 (radius = area density),  |N.star N| = 4.9e-63 (simple)
+   So the frame's corner phase space is the Lorentz orbit through star Sigma_S / 8 pi G.

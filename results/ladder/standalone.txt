@@ -1,0 +1,89 @@
+
+==============================================================================
+RUNG 1  3-3-1 -> Standard Model -> electromagnetism (gauge-boson mass matrix)
+==============================================================================
+   beta = -1/sqrt3
+     triplet X = -1/3 : Q = 0 in components [1, 3]; vev w in component 3
+     triplet X = 2/3  : Q = 0 in components [2]; vev v1 in component 2
+     triplet X = -1/3 : Q = 0 in components [1, 3]; vev v2 in component 1
+   [PASS] -1/sqrt3: the 9x9 mass matrix has exactly one zero eigenvalue (8 massive bosons)
+   [PASS] -1/sqrt3: the massless state is the gauge field of Q = T3 + beta T8 + X
+   [PASS] -1/sqrt3: after step 1 alone, 4 massless states; Y = beta T8 + X is massless and 1/g_Y^2 = beta^2/g^2 + 1/g_X^2 (the matching condition)
+   [PASS] -1/sqrt3: M_W^2 = g^2 v^2/4 and bilepton masses g^2 (w^2 + v_i^2)/4
+   [PASS] -1/sqrt3: M_Z^2 -> (g^2 + g_Y^2) v^2/4 and M_Z'^2 -> (g^2 + beta^2 g_X^2) w^2/3 (to O(v^2/w^2))
+   [PASS] -1/sqrt3: M_Z'/M_V = sqrt(4/3 (1 + beta^2 t_X^2)), t_X^2 = s2/(1 - (1+beta^2) s2) (derived)
+   [PASS] -1/sqrt3: rho = M_W^2/(M_Z^2 cos^2 theta_W) >= 1, with rho - 1 ~ (v/w)^2 (Z-Z' mixing)
+   [PASS] -1/sqrt3: every SU(2)_L doublet has charges (Q_u, Q_d) = ((N_c+1)/2N_c, (1-N_c)/2N_c) or (0, -1), for N_c = 3, 5, 7
+     1/e^2 = (1 + beta^2)/g^2 + 1/g_X^2; rho - 1 = 5.215e-04 at v/w = 0.061
+   beta = +1/sqrt3
+     triplet X = 1/3  : Q = 0 in components [2, 3]; vev w in component 3
+     triplet X = 1/3  : Q = 0 in components [2, 3]; vev v1 in component 2
+     triplet X = -2/3 : Q = 0 in components [1]; vev v2 in component 1
+   [PASS] +1/sqrt3: the 9x9 mass matrix has exactly one zero eigenvalue (8 massive bosons)
+   [PASS] +1/sqrt3: the massless state is the gauge field of Q = T3 + beta T8 + X
+   [PASS] +1/sqrt3: after step 1 alone, 4 massless states; Y = beta T8 + X is massless and 1/g_Y^2 = beta^2/g^2 + 1/g_X^2 (the matching condition)
+   [PASS] +1/sqrt3: M_W^2 = g^2 v^2/4 and bilepton masses g^2 (w^2 + v_i^2)/4
+   [PASS] +1/sqrt3: M_Z^2 -> (g^2 + g_Y^2) v^2/4 and M_Z'^2 -> (g^2 + beta^2 g_X^2) w^2/3 (to O(v^2/w^2))
+   [PASS] +1/sqrt3: M_Z'/M_V = sqrt(4/3 (1 + beta^2 t_X^2)), t_X^2 = s2/(1 - (1+beta^2) s2) (derived)
+   [PASS] +1/sqrt3: rho = M_W^2/(M_Z^2 cos^2 theta_W) >= 1, with rho - 1 ~ (v/w)^2 (Z-Z' mixing)
+   [PASS] +1/sqrt3: every SU(2)_L doublet has charges (Q_u, Q_d) = ((N_c+1)/2N_c, (1-N_c)/2N_c) or (0, -1), for N_c = 3, 5, 7
+     1/e^2 = (1 + beta^2)/g^2 + 1/g_X^2; rho - 1 = 1.362e-03 at v/w = 0.061
+   v = (sqrt2 G_F)^(-1/2) = 246.22 GeV; tree-level M_Z = 91.51 GeV vs measured 91.1876 (+0.35%, the radiative correction, not derived)
+   [PASS] v = 246.22 GeV from G_F, and tree-level M_Z within 0.5% of the measurement
+
+==============================================================================
+RUNG 2  The strong force: chiral symmetry breaking (MODEL: linear sigma model)
+==============================================================================
+   [PASS] massless quarks: the vacuum breaks O(4) -> O(3), leaving exactly 3 Goldstone pions (6 - 3)
+   [PASS] quark masses: m_pi^2 = H/<sigma>, f_pi = <sigma>, so m_pi^2 f_pi^2 = H f_pi (the GMOR form)
+   GMOR: m_pi = sqrt((m_u + m_d)|<qbar q>|)/f_pi = 127.6 MeV; measured 135.0 MeV (-5.5%, higher-order chiral terms)
+   [PASS] GMOR with measured quark masses, f_pi and the lattice condensate: m_pi = 127.6 MeV (within 8% of 135)
+   [PASS] exchange of a mass-m particle: V = e^(-m r)/(4 pi r) solves (lap - m^2) V = 0 with unit flux (the Fourier transform of 1/(q^2 + m^2): the Yukawa potential)
+   Range of the nuclear force 1/m_pi = 1.414 fm
+   [PASS] one-pion exchange: (s1.q)(s2.q) = (q^2/3)[s1.s2 + S12]: central and tensor nuclear forces, and range 1.414 fm
+   Goldberger-Treiman: g_piNN = g_A M_N / f_pi = 13.01; empirical about 13.1
+   [PASS] Goldberger-Treiman from chiral symmetry: g_piNN = 13.01, within 2% of the empirical value
+
+==============================================================================
+RUNG 3  Electromagnetism, the experiment's background: Casimir-Polder
+==============================================================================
+   [PASS] dielectric sphere, from Laplace's equation: alpha/(4 pi eps0) = K R^3, K = (eps-1)/(eps+2)
+   [PASS] dipole Green tensor at imaginary frequency solves (lap - xi^2/c^2) G = 0, and Tr G.G = 2 e^(-2u)(3 + 6u + 5u^2 + 2u^3 + u^4)/r^6
+   [PASS] the fluctuation integral int_0^oo e^(-2u)(3 + 6u + 5u^2 + 2u^3 + u^4) du = 23/4 exactly, so U = -(23/4 pi) hbar c alpha1 alpha2 / r^7 (Casimir-Polder)
+   m = 1.5e-14 kg (R = 1.01 um), r = 200 um: Casimir -1.753e-36 J, gravity -7.509e-35 J, ratio 2.33e-02
+   [PASS] at 200 um Casimir is 2.3% of gravity, and both scale as R^6, so the safe gap is mass-independent
+
+==============================================================================
+RUNG 4  Gravity to the diamond experiment (linearized GR, one-graviton exchange)
+==============================================================================
+   [PASS] linearized GR, point mass: h_00 = h_ii = 2GM/r, so Phi = -GM/r and PPN gamma = 1
+   [PASS] one-graviton exchange: T2.P.T1 = m1 m2 / 2, U(q) = -4 pi G m1 m2/q^2 -> U(r) = -G m1 m2 / r (rung 2's transform at m = 0)
+   [PASS] a photon couples twice as strongly as a static mass of the same energy: light bends 4GM/(c^2 b)
+   Casimir-safe gap 181.16 um; design A: m = 1.4678e-14 kg, dx = 720.8 um, hold 0.0824 s, ramps 2 x 1.5811 s
+   Entangling phase Delta phi = phi_LL + phi_RR - phi_LR - phi_RL = 2.1868 rad
+   [PASS] design A's entangling phase from the graviton-exchange potential: 2.19 rad
+
+==============================================================================
+RUNG 5  Gravity as a broken gauge theory: MacDowell-Mansouri (an equivalent REFORMULATION)
+==============================================================================
+   [PASS] so(4,1) = so(3,1) + 4 translations, [P_a, P_b] ~ J_ab / l^2; the de Sitter vector V = l e_4 leaves the 6 Lorentz generators unbroken and breaks 4 (the tetrad: D V^a = e^a)
+   [PASS] on a real spacetime (Schwarzschild-de Sitter): the spin connection is torsion-free, F^ab = R^ab - e^a^e^b / l^2 and F^a4 = T^a/l = 0
+   [PASS] the vacuum: de Sitter space of radius l is the flat SO(4,1) connection, F = 0, so Lambda = 3/l^2
+   [PASS] field equations: the Ricci contraction of F vanishes for Schwarzschild-de Sitter (G + Lambda g = 0, Lambda = 3/l^2) and not for Schwarzschild without Lambda
+   eps R^e^e = 2.000000 e R;  eps e^e^e^e = 24.000000 e;  Ricci scalar 0.244898 (12/l^2 = 0.244898)
+   [PASS] the action eps F^F = Euler + (2s/l^2) 2 e R + (1/l^4) 24 e gives e (R - 2 Lambda) with Lambda = 3/l^2; 1/(16 pi G) fixes N = -3/(64 pi G Lambda)
+   Measured Lambda: l = sqrt(3/Lambda) = 1.647e+26 m; MacDowell-Mansouri coupling 3/(G Lambda) = 1.04e+122 (Planck units)
+   [PASS] the measured Lambda gives l = 1.65e26 m and a coupling of 1e122: the cosmological-constant problem
+
+==============================================================================
+VERDICT
+==============================================================================
+   3-3-1 breaks to the Standard Model and then to electromagnetism: the photon, hypercharge,
+   W, Z and Z' follow from the vacuum values. Chiral symmetry breaking gives the pions and the
+   nuclear force. Electromagnetism, never broken, leaves the Casimir-Polder background between
+   the diamonds. Gravity sits beside the chain: one-graviton exchange gives Newton's law and the
+   experiment's 2.19 rad phase, and MacDowell-Mansouri writes GR + Lambda as SO(4,1) broken
+   to Lorentz. Inputs are measured; gravity's unification with the other forces is not derived.
+
+   Checks passed: 37/37   (0 s)
+   ALL CHECKS PASS

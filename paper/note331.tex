@@ -37,8 +37,9 @@ $\tfrac23$ and $-\tfrac13$. The selection holds at two loops in the gauge coupli
 two-loop Yukawa terms, with one-loop threshold matching across the heavy spectrum, for
 3-3-1 breaking scales from 2 to $30\TeV$, and in both variants $\beta=\pm1/\sqrt3$. It
 takes the measured electroweak couplings at the TeV scale as input and does not predict
-them; in the $\beta=+1/\sqrt3$ variant the $\Nc=3$ margin is a factor of about 2 in the
-pole scale. Requiring the scalar sector itself to remain perturbative and bounded below
+them; in the $\beta=+1/\sqrt3$ variant the $\Nc=3$ margin is narrow: over the whole
+spectrum scanned, $\Nc=3$ stays perturbative to $\MPl$ for any criterion $\alpha\ge0.64$
+at three loops in the gauge couplings. Requiring the scalar sector itself to remain perturbative and bounded below
 up to $\MPl$ then bounds the exotic-quark masses relative to the bilepton mass. All
 numbers are reproduced by open code with regression tests.
 \end{abstract}
@@ -251,6 +252,18 @@ $\Nc=3$ pole. Over all criteria ($g=4\pi$ or $\alpha=1$, with or without Yukawas
 $\Lambda$ from $7.2\times10^{15}$ to $1.4\times10^{19}\GeV$ works. This window contains
 $\MPl$, the reduced Planck mass and the conventional unification scale.
 
+\paragraph{Three loops and the criterion.} Adding the three-loop gauge and matter terms of
+the general $\overline{\text{MS}}$ result~\cite{Poole:2019kcm} (validated by reproducing
+the Standard Model three-loop gauge $\beta$-functions~\cite{Mihaila:2012fm} exactly)
+shows that $g=4\pi$ lies outside the convergent region: for $U(1)_X$ the three-loop term
+equals the two-loop one at $\alpha_X\simeq1$ and is 25 times the one-loop term at
+$g_X=4\pi$. The $g=4\pi$ entries of Table~\ref{tab:thr} are therefore not stable under
+higher orders. With controlled criteria, three loops raise the relevant scales by
+0.5--6\%: $\Nc=5$ stays excluded by 4--8 orders of magnitude, and for $\beta=+1/\sqrt3$
+the worst case over the scan reaches $\MPl$ for any $\alpha\ge0.64$ ($1.28\,\MPl$ at
+$\alpha=1$). At $\alpha\approx0.64$ the three-loop term is already 0.6--0.7 of the
+two-loop one, so the narrow variant's conclusion sits at the edge of perturbative control.
+
 \section{The scalar sector to the Planck scale}\label{sec:scalar}
 
 The selection requires every coupling of 3-3-1 at $\Nc=3$ to stay perturbative to $\MPl$,
@@ -302,7 +315,11 @@ counting for arbitrary $\beta$ in~\cite{Diaz:2004fs}, and the $\Nc$-dependence o
 charges in~\cite{Bar:2001qk}. The closest predecessor is Doff and Pisano~\cite{Doff:2000tx},
 who keep $n_c$ general and find $\Ng=k\,n_c$ for any $k\ge1$; they do not use asymptotic
 freedom to set $k=1$, nor running to choose $n_c$. Landau poles in 3-3-1 at $\Nc=3$ are
-studied in~\cite{Dias:2004dc,Barela:2023oyp,Morisi:2025svd}.
+studied in~\cite{Dias:2004dc,Barela:2023oyp,Morisi:2025svd}. In a different setting,
+requiring complete asymptotic freedom of chiral gauge theories with scalars selects
+specific numbers of colours and families~\cite{Cacciapaglia:2026}; the criterion here is
+instead perturbativity up to the Planck scale, in 3-3-1, with the measured couplings as
+input.
 
 The step taken here is to keep $\Nc$ general throughout (charges, anomalies, scalars,
 two-loop running, thresholds, scalar sector) without taking the number of generations or
@@ -477,6 +494,9 @@ are produced by the scripts in \texttt{tools/}.
 \bibitem{Dias:2004dc} A.~G.~Dias, R.~Martinez and V.~Pleitez, \emph{Concerning the Landau pole in 3-3-1 models}, Eur.\ Phys.\ J.\ C \textbf{39}, 101 (2005), \href{https://doi.org/10.1140/epjc/s2004-02083-0}{doi:10.1140/epjc/s2004-02083-0}, \href{https://arxiv.org/abs/hep-ph/0407141}{hep-ph/0407141}.
 \bibitem{Barela:2023oyp} M.~W.~Barela, \emph{On the 3-3-1 Landau pole}, Nucl.\ Phys.\ B \textbf{1000}, 116475 (2024), \href{https://doi.org/10.1016/j.nuclphysb.2024.116475}{doi:10.1016/j.nuclphysb.2024.116475}, \href{https://arxiv.org/abs/2305.05066}{arXiv:2305.05066}.
 \bibitem{Morisi:2025svd} S.~Morisi, G.~Ricciardi and G.~P.~Perdon\`a, \emph{Rescuing 331 bileptons from the Landau pole}, Phys.\ Rev.\ D \textbf{112}, 035041 (2025), \href{https://doi.org/10.1103/c7jb-lbsx}{doi:10.1103/c7jb-lbsx}, \href{https://arxiv.org/abs/2505.15785}{arXiv:2505.15785}.
+\bibitem{Cacciapaglia:2026} G.~Cacciapaglia, F.~Sannino and S.~Wagner, \emph{Completely asymptotically free chiral theories with scalars}, Phys.\ Rev.\ D \textbf{114}, 075020 (2026), \href{https://doi.org/10.1103/mbrx-d3fg}{doi:10.1103/mbrx-d3fg}, \href{https://arxiv.org/abs/2605.08294}{arXiv:2605.08294}.
+\bibitem{Poole:2019kcm} C.~Poole and A.~E.~Thomsen, \emph{Constraints on 3- and 4-loop $\beta$-functions in a general four-dimensional quantum field theory}, JHEP \textbf{09}, 055 (2019), \href{https://arxiv.org/abs/1906.04625}{arXiv:1906.04625}.
+\bibitem{Mihaila:2012fm} L.~N.~Mihaila, J.~Salomon and M.~Steinhauser, \emph{Gauge coupling beta functions in the Standard Model to three loops}, Phys.\ Rev.\ Lett.\ \textbf{108}, 151602 (2012), \href{https://arxiv.org/abs/1201.5868}{arXiv:1201.5868}.
 \bibitem{Lindner:2016bgg} M.~Lindner, M.~Platscher and F.~S.~Queiroz, \emph{A call for new physics: the muon anomalous magnetic moment and lepton flavor violation}, Phys.\ Rept.\ \textbf{731}, 1 (2018), \href{https://doi.org/10.1016/j.physrep.2017.12.001}{doi:10.1016/j.physrep.2017.12.001}, \href{https://arxiv.org/abs/1610.06587}{arXiv:1610.06587}.
 \bibitem{deJesus:2020ngn} \'A.~S.~de Jesus, S.~Kovalenko, F.~S.~Queiroz, C.~A.~de S.~Pires and Y.~S.~Villamizar, \emph{Dead or alive? Implications of the muon anomalous magnetic moment for 3-3-1 models}, Phys.\ Lett.\ B \textbf{809}, 135689 (2020), \href{https://doi.org/10.1016/j.physletb.2020.135689}{doi:10.1016/j.physletb.2020.135689}, \href{https://arxiv.org/abs/2003.06440}{arXiv:2003.06440}.
 \bibitem{Salazar:2015gxa} C.~Salazar, R.~H.~Benavides, W.~A.~Ponce and E.~Rojas, \emph{LHC constraints on 3-3-1 models}, JHEP \textbf{07}, 096 (2015), \href{https://doi.org/10.1007/JHEP07(2015)096}{doi:10.1007/JHEP07(2015)096}, \href{https://arxiv.org/abs/1503.03519}{arXiv:1503.03519}.

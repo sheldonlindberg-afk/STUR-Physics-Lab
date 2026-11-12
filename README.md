@@ -39,7 +39,8 @@ perturbative to the Planck scale.
 - U(1)_X running excludes N_c = 5.
 
 Only **N_c = N_g = 3** survives, with quark charges ⅔ and −⅓. The selection holds:
-- at two loops, including two-loop Yukawa terms;
+- at two loops, including two-loop Yukawa terms, and at three loops in the gauge and
+  matter sector;
 - with one-loop threshold matching across the heavy spectrum;
 - for 3-3-1 scales of 2–30 TeV;
 - in both variants β = ±1/√3.
@@ -56,7 +57,9 @@ Pythia 8).
 - the 3-3-1 framework;
 - Planck-scale perturbativity;
 - the measured TeV-scale electroweak couplings, which are an input, not a prediction.
-  In the β = +1/√3 variant the margin is a factor of about 2 in the pole scale.
+  In the β = +1/√3 variant the margin is narrow: N_c = 3 stays perturbative to M_Pl over
+  the whole spectrum scanned for any criterion α ≥ 0.64 (three loops), with a factor 1.28
+  to spare at α = 1.
 
 **Run it in one paste.** [`src/m331_standalone.py`](src/m331_standalone.py) reproduces the
 whole selection in a single file that uses only the Python standard library: charges and
@@ -72,6 +75,46 @@ The closest prior work is Doff & Pisano (2000). The literature search is in
 [NOVELTY.md](NOVELTY.md). Comments from 3-3-1 experts are welcome; please
 [open an issue](https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/issues).
 
+## For researchers: the frame in teleparallel gravity and black-hole entropy
+
+**[NOTE_TEGR.md](NOTE_TEGR.md)** (literature map: [QUANTUM_TEGR.md](QUANTUM_TEGR.md))
+
+Teleparallel gravity (TEGR) equals GR up to a boundary term, plus one extra variable, the
+local Lorentz frame. The note asks whether that frame contributes to black-hole entropy.
+
+- **Classically, it changes where the entropy is booked, not the first law.** TEGR's
+  Noether charge vanishes at the bifurcation surface, and the Wald entropy sits in the
+  corner term instead. δM = TδS + ΦδQ comes out as in GR for every frame.
+- **The frame's corner phase space is a Lorentz orbit through the dual area bivector over
+  8πG,** for any metric. Its charges close into so(3,1), and its normal boost is conjugate
+  to area/8πG.
+- **Quantized, it gives a group-dependent logarithm** (1, 5 or 9 × ln a), not the area law
+  and not Sen's universal 77/45. So the frame must be gauge in the measure, and TEGR's
+  black-hole entropy is GR's.
+
+All of it is computed by `src/stur_tegr_corner.py`, `src/stur_tegr_frame.py` and
+`src/stur_tegr_logs.py`, and pinned by tests.
+
+## For students: the symmetry-breaking ladder
+
+**[SYMMETRY_LADDER.md](SYMMETRY_LADDER.md)** follows the forces down in energy, from the 3-3-1
+scale to the two diamonds, with every step derived and checked in code:
+- 3-3-1 → Standard Model → electromagnetism: the photon, the hypercharge matching and the
+  W, Z, Z′ masses, from the gauge-boson mass matrix;
+- chiral symmetry breaking: pions, the GMOR relation and the nuclear force;
+- the Casimir–Polder force between the diamonds, from electrostatics and the dipole field;
+- one-graviton exchange: Newton's law and the experiment's 2.19 rad phase;
+- gravity as a broken de Sitter gauge theory (MacDowell–Mansouri), a reformulation of GR.
+
+Gravity is not part of the gauge chain; the page says where each derivation stops.
+
+**Run it in one paste.** [`src/ladder_standalone.py`](src/ladder_standalone.py) reproduces all
+five rungs in a single file that uses only the Python standard library. Copy it (the
+[website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/#runladder) has a one-click
+**Copy Python script** button) and paste it into any Python 3.8+ runner, notebook or AI
+assistant's code tool. It runs in a few seconds and ends with 37 PASS/FAIL checks
+([expected output](results/ladder/standalone.txt)).
+
 ## For students: notebooks with exercises
 
 | Notebook | What it works out | Prerequisites |
@@ -80,6 +123,7 @@ The closest prior work is Doff & Pisano (2000). The literature search is in
 | [02 Complementarity and decoherence](notebooks/02_complementarity_and_decoherence.ipynb) | Englert's V² + D² = 1; a thermal which-path environment, −ln V = 2 Var(ΔN) | Density matrices |
 | [03 Gravity-mediated entanglement](notebooks/03_gravity_mediated_entanglement.ipynb) | Bose–Marletto–Vedral branch phases, concurrence, gas decoherence | Two-qubit entanglement |
 | [04 The area law](notebooks/04_area_law.ipynb) | Srednicki's S ≈ 0.30 (R/a)² | Gaussian states |
+| [05 Teleparallel gravity in 3D](notebooks/05_teleparallel_3d_quantum.ipynb) | 3D quantum gravity (Ponzano–Regge): exact 6j symbols, their Regge-action limit, the 2–3 move | Notebook 01; SU(2) recoupling |
 
 Outputs are saved, so the notebooks read on GitHub, and CI re-runs them on every commit.
 
@@ -126,11 +170,19 @@ same footing in one calculation.
 ```bash
 pip install -r requirements.txt pytest
 python3 src/stur_tegr_gr.py         # GR's classic tests from TEGR, ~10 s
+python3 src/stur_tegr_corner.py     # TEGR vs GR Noether charges and the first law, ~60 s
+python3 src/stur_tegr_frame.py      # the frame at a corner: boost conjugate to area/8piG; Lorentz closure, ~15 s
+python3 src/stur_tegr_logs.py       # frame edge logs vs Sen's universal log correction, ~1 s
+python3 src/stur_tegr3d.py          # 3D: Ponzano-Regge 6j asymptotics and the 2-3 move, ~3 s
 python3 src/stur_derivation.py      # the whole chain, ~30 s
 python3 src/stur_gravity_full.py    # the two-diamond design search, ~15 s
 python3 src/m331_exact.py           # the 3-3-1 selection, both variants
+python3 src/m331_three_loop.py       # three-loop gauge running and the criterion, ~70 s
+python3 src/ladder_standalone.py     # the whole ladder, one file, no dependencies, ~1 s
+python3 src/m331_breaking.py         # the ladder, rungs 1-5: also chiral_breaking, casimir_diamonds,
+                                    # graviton_exchange, macdowell_mansouri (each a few seconds)
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
-python -m pytest tests -q           # every number pinned (104 tests)
+python -m pytest tests -q           # every number pinned (138 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on
@@ -143,6 +195,9 @@ paper/                    the 3-3-1 note: PDF and LaTeX source
 notebooks/                study notebooks with exercises
 NOTE_331.md               the 3-3-1 note with extended detail on each check
 NOVELTY.md                literature search: what is new, what was already known
+NOTE_TEGR.md              the frame in teleparallel gravity and black-hole entropy
+SYMMETRY_LADDER.md        symmetry breaking from 3-3-1 to the diamond experiment, derived
+QUANTUM_TEGR.md           literature map for quantum teleparallel gravity
 TEGR.md, MEASUREMENT.md, BORN.md, DERIVATION.md, GRAVITY_ENTANGLEMENT.md,
 OPPENHEIM.md, COLLECTIVE.md, EMERGENT.md, PREDICTIONS.md
                           the worked examples, one report each

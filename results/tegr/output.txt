@@ -28,9 +28,26 @@ E3  Black-hole entropy from the TEGR action (CHECK)
    FOLLOWS: the flux at infinity alone gives GR's answer, with no boundary term or
    background subtraction added by hand. The diagonal frame does not rotate around
    the Euclidean horizon, which is singular there and adds an equal flux at the tip.
-   No single flat frame is regular at both ends: a frame regular at the tip needs a
-   rotation k dtau, and then the flux at infinity diverges (CHECK in the tests).
+   A flat frame regular at the tip winds at rate k = -kappa, and then the flux at
+   infinity diverges; among frames winding at rate k, only k = 0 is finite there
+   (CHECK: stur_tegr_corner K5).
    So TEGR gives A/4 with the same input as GR (a smooth horizon), not with less.
+   LIT: the same result, and its charged and Lambda != 0 versions, is in Kuntz, Paci,
+   Zanusso, arXiv:2410.04510, and Beltran Jimenez, Koivisto, arXiv:2412.13946.
+
+==============================================================================
+E3b Charged black hole (Reissner-Nordstrom) and the horizon term (CHECK)
+==============================================================================
+   Any static f(r): e T^r / sin(theta) = r*(-r*Derivative(f(r), r) + 4*sqrt(f(r)) - 4*f(r))/2
+   RN flux at infinity minus M: 0  (the Q^2 terms fall off)
+   I_grav from infinity = -pi*r_p**2*(r_m + r_p)/(r_m - r_p)   = beta M / 2: True  (GR needs Gibbons-Hawking + subtraction)
+   I_Maxwell = -beta Q Phi / 2 (same action in TEGR and GR; Gibbons-Hawking 1977)
+   S = beta (M - Q Phi) - I = pi*r_p**2   = A/4 = pi r+^2: True
+   Horizon tip, any f with f(r+) = 0: flux = -fp*r**2/2  (fp = f'(r+) = 4 pi / beta)
+   so the tip term is beta r+^2 f'(r+) / 4 = pi*r_p**2 = A/4 for EVERY static horizon.
+   KNOWN: the horizon term of the Euclidean action carries the entropy (Banados,
+   Teitelboim, Zanelli 1994); in TEGR it is the torsion flux at the tip. Beltran
+   Jimenez and Koivisto (2412.13946) build a horizon-only prescription on it.
 
 ==============================================================================
 E4  The gravitational phase as a TEGR holonomy; the FIELD's own share

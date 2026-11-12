@@ -1,0 +1,38 @@
+
+==============================================================================
+U1  The TEGR identity in 3D: T = -R + B (CHECK)
+==============================================================================
+   T = -3.462077e-04   R = -1.312633e-01   T + R - B = 0  (exact)
+   T = +1.161642e-02   R = -2.270642e-02   T + R - B = 0  (exact)
+   FOLLOWS: as in 4D, 3D TEGR and 3D GR differ by a boundary term.
+
+==============================================================================
+U2  Exact 6j symbols (Racah's formula)
+==============================================================================
+   Worst difference from sympy.physics.wigner over 30 cases: 1.4e-17
+   {1 1 1; 1 1 1} = +0.1666666667   (exact: 1/6)
+
+==============================================================================
+U3  Ponzano-Regge asymptotics: the 6j symbol knows the Regge action (CHECK)
+==============================================================================
+   j = [10, 12, 14, 12, 10, 12]:  exact +8.198113e-04   asymptotic +9.439265e-04   |diff|/envelope 1.0e-02
+   j = [25, 30, 35, 30, 25, 30]:  exact +3.064688e-03   asymptotic +3.068248e-03   |diff|/envelope 1.1e-03
+   j = [50, 60, 70, 60, 50, 60]:  exact +1.112741e-03   asymptotic +1.113109e-03   |diff|/envelope 3.3e-04
+   j = [100, 120, 140, 120, 100, 120]:  exact +3.982143e-04   asymptotic +3.981997e-04   |diff|/envelope 3.7e-05
+   j = [200, 240, 280, 240, 200, 240]:  exact +1.320819e-04   asymptotic +1.320532e-04   |diff|/envelope 2.0e-04
+   RMS |diff|/envelope over 49 spins near k = 20: 8.2e-04
+   KNOWN (Ponzano-Regge 1968; proved by Roberts 1999): the phase is the Regge
+   action sum (j + 1/2) theta of a flat tetrahedron, so the large-spin limit of the
+   quantum amplitude is classical 3D gravity.
+
+==============================================================================
+U4  Triangulation independence: the 2-3 move and orthogonality (CHECK)
+==============================================================================
+   Biedenharn-Elliott identity, 40 random spin sets: worst |LHS - RHS| = 1.4e-17
+   Orthogonality for (a, b, c, d) = (1, 3/2, 1, 3/2), p in ['1/2', '3/2', '5/2']: max |M - 1| = 2.2e-16
+   KNOWN: the 2-3 move leaves the Ponzano-Regge amplitude unchanged, so it does not
+   depend on how space is cut into tetrahedra. That is the quantum statement that
+   3D gravity has no local degrees of freedom. The Ponzano-Regge model is the
+   amplitude of the standard loop quantization; Delcamp, Freidel and Girelli
+   (1803.03246) construct the dual, flat-first (teleparallel) quantization of the
+   same BF theory. This notebook does not reproduce their construction.

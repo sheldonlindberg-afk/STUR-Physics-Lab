@@ -1,0 +1,33 @@
+
+==============================================================================
+Benchmarks (LIT)
+==============================================================================
+   Sen C_local, pure gravity: 212/45 = 212/45; singlet ensemble: 77/45 = 77/45
+   Sen, SU(2) loop quantum gravity, same ensemble: -2
+   David-Mukherjee, graviton edge sectors (flat sphere, log R/eps): -16/3
+
+==============================================================================
+L1-L2  Edge-counting logarithms, converted to Sen's ensemble (CHECK)
+==============================================================================
+   Edge term 2 <ln mu>, SO(1,1)  : 0.0 x ln a
+   Edge term 2 <ln mu>, SL(2,R)  : 4.0 x ln a
+   Edge term 2 <ln mu>, SL(2,C)  : 8.0 x ln a
+   Edge term 2 <ln mu>, semigroup: 4.0 x ln a
+   Shannon term at a fixed mass window (exact): +1 x ln a
+
+==============================================================================
+L3  Coefficient of ln a, all in Sen's singlet ensemble
+==============================================================================
+   Sen, pure gravity (universal)                                  +1.7111
+   Sen, gravity + photon (the massless fields at BH scales)       +1.4222
+   SU(2) loop quantum gravity (Sen sec. 4)                        -2.0000
+   Edge counting, SO(1,1) boost only (spherical reduction)        +1.0000
+   Edge counting, SL(2,R) (Q7)                                    +5.0000
+   Edge counting, SL(2,C) simple series (frame's full orbit)      +9.0000
+   Edge counting, causal semigroup (Varrin)                       +5.0000
+   Edge counting gives 1, 5 or 9 depending on the group; Sen's universal value is
+   77/45 = 1.711 for pure gravity, 64/45 = 1.422 with the photon, and depends on the
+   massless fields. None of the edge countings does. The frame's log is not it.
+   FOLLOWS: Sen's coefficient comes from one-loop bulk determinants and zero modes,
+   the same in TEGR and GR. It stays the same only if the frame is gauge in the
+   measure; counting the frame's orbit states as physical would add to it.

@@ -38,8 +38,8 @@ perturbativity to fix N_c, in 3-3-1 or in the Standard Model with general N_c.
 **Assessment (before INSPIRE; section 3 has the update):** the step looks new, but narrowly. The family–colour link and
 general-N_c charges are well known, and N_c = 3 has been reached before by inputting
 three neutrino species. What this work adds is removing that input and selecting N_c by
-running instead. **The open check** is an INSPIRE search and an expert's reading, which
-this environment can't provide.
+running instead. **The open check** was an INSPIRE search, which this environment couldn't
+reach at first.
 
 ## 2. Bounds on classical–quantum gravity (OPPENHEIM.md)
 
@@ -114,6 +114,40 @@ for "Cauchy–Schwarz" (6), "acceleration noise" (5) and "levitated" + "trade-of
 **Verdict on gravity:** P2–P5 and the heating floor are worked examples within an active,
 systematic literature. None should be claimed as new.
 
+## 4. Refresh, 12 November 2026 (3-3-1)
+
+The 3-3-1 query families of sections 1 and 3 were rerun, with emphasis on 2025–2026.
+
+**Queries:**
+- INSPIRE abstracts: 3-3-1/331 with "number of colors/colours/generations/families"
+  (5 hits); 3-3-1 with "Landau pole" since 2025 (0); "number of colors" with "Landau
+  pole", perturbativity or asymptotic freedom since 2024 (1); "three generations/families"
+  with "Landau pole" since 2024 (0); "number of colors" with "Planck scale" or "Landau
+  pole" since 2025 (2, unrelated); "why three generations" since 2025 (1, unrelated).
+- INSPIRE full text: 3-3-1 + number of colours + Landau pole, since 2025: 1 hit, a dark
+  matter paper matching generic words.
+- Every paper citing Doff–Pisano 2000 (hep-ph/0011087): 4, unchanged. Every paper citing
+  Frampton 1994 (hep-ph/9409331): 9, unchanged. Papers citing Doff–Pisano,
+  hep-ph/0007306: 29, the newest from 2024.
+- arXiv's own abstract search ("3-3-1" with colors and Landau; "number of colors" with
+  "Landau pole"; 331 with "number of colours"; "number of generations" with "Landau
+  pole"): nothing relevant. The arXiv API host is blocked in this environment; the
+  arxiv.org search page was used instead.
+- Web search: nothing from 2026 on selecting the number of colours by running.
+
+**Not in the earlier record (retrieved):**
+
+| Work | Content | Relation |
+|---|---|---|
+| Corianò and Melle 2024, *The 331 model: addressing the fermion families problem within horizontal anomalies cancellation*, Entropy, [2404.05821](https://arxiv.org/abs/2404.05821) | Review: anomaly cancellation across generations makes the number of families three; the model's RGEs | Three colours as input. Same group as Melle 2026 (section 3) |
+| Huitu, Koivunen, Kärkkäinen, Mondal 2024, *On the family discrimination in 331-model*, [2409.13013](https://arxiv.org/abs/2409.13013) | Which generation sits in the different representation; flavour constraints, β = −1/√3 | Phenomenology at N_c = 3 |
+| Cacciapaglia, Sannino, Wagner 2026, *Completely asymptotically free chiral theories with scalars*, Phys. Rev. D, [2605.08294](https://arxiv.org/abs/2605.08294) | Requiring all couplings to be asymptotically free in generalized Georgi–Glashow and Bars–Yankielowicz theories selects specific numbers of colours and families | **A methodological cousin:** ultraviolet behaviour of the couplings selecting the number of colours. A different setting (chiral GUT-like theories, complete asymptotic freedom), not 3-3-1, and not Planck-scale perturbativity with measured couplings. To be cited |
+
+**Verdict:** unchanged. No work found uses running to the Planck scale to select
+N_c = 3 in 3-3-1. Cacciapaglia–Sannino–Wagner show that the general idea, ultraviolet
+consistency selecting N_c, is in active use in another setting, and NOTE_331 should cite
+it as such.
+
 ## What this changes
 
 - **The 3-3-1 selection remains the candidate result.** The note now cites the retrieved
@@ -121,4 +155,3 @@ systematic literature. None should be claimed as new.
   experiment.
 - **The gravity side has no new result** (section 3). Its value is internal: the corrected
   design numbers, the derived gas rate, and worked examples.
-- **Next:** one expert reader for NOTE_331 before any submission.
