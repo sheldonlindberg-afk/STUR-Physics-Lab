@@ -6,7 +6,7 @@ This page records which script feeds which, and which physical quantities each o
 
 ## Summary
 
-- **41 scripts** in `src/`, in 6 topics; **55 imports** between them, 22 of them across topics. 11 scripts import nothing from the others and nothing imports them.
+- **42 scripts** in `src/`, in 6 topics; **57 imports** between them, 22 of them across topics. 11 scripts import nothing from the others and nothing imports them.
 - **52 catalogued quantities** (37 measured inputs, 15 derived in the repository), found as 162 literals in the source.
 - **43 quantities are typed in more than one script**; 14 of them are shared by more than one topic.
 - **2 copies differ from their source for a stated reason**; **0 differ without one (drift).**
@@ -46,6 +46,7 @@ flowchart LR
   subgraph diamond["Diamond experiment"]
     stur_gravity_entanglement
     stur_gravity_full
+    short_range_gravity
   end
   subgraph classical["Classical and emergent gravity"]
     stur_oppenheim
@@ -105,6 +106,8 @@ flowchart LR
   m331_why_three --> qcd_running
   m331_yukawa --> m331_exact
   m331_yukawa --> qcd_running
+  short_range_gravity --> stur_gravity_entanglement
+  short_range_gravity --> stur_gravity_full
   stur_derivation --> stur_born
   stur_derivation --> stur_emergent
   stur_derivation --> stur_gravity_entanglement
@@ -194,6 +197,7 @@ flowchart LR
 |---|---|---|
 | [`stur_gravity_entanglement`](src/stur_gravity_entanglement.py) | — | Gravity-induced entanglement (Bose et al., PRL 119, 240401 (2017); Marletto & Vedral, PRL 119, 240402 (2017)) |
 | [`stur_gravity_full`](src/stur_gravity_full.py) | `stur_gravity_entanglement` | Gravity-induced entanglement, modelled to the end: everything stur_gravity_entanglement.py left out, then a full design search |
+| [`short_range_gravity`](src/short_range_gravity.py) | `stur_gravity_entanglement`, `stur_gravity_full` | Short-range gravity with the two-diamond experiment: how far design A could test Newton's 1/r law, against a Yukawa modification V(r) = -G m |
 
 **Classical and emergent gravity**
 

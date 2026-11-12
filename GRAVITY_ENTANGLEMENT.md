@@ -219,6 +219,43 @@ create it:
   at several gaps. Gravity falls as 1/r and a dipole as 1/r³, so their dependence on
   the gap tells them apart.
 
+**H7. Short-range gravity (`src/short_range_gravity.py`).** Could design A also test
+Newton's 1/r law? Write the potential as V = −Gm₁m₂/r · (1 + α e^(−r/λ)) and integrate it
+along design A's branch trajectories.
+
+- **The phase is linear in α:** Δφ = Δφ_N (1 + α k(λ)). Two uniform spheres multiply the
+  Yukawa term by Φ(R/λ)², with Φ(x) = 3(x cosh x − sinh x)/x³, derived from the Yukawa shell
+  theorem. For design A's R = 1 µm that is a point mass to < 0.1% (CHECK).
+- **k(λ) falls as e^(−gap/λ) below the 181 µm gap:** 4×10⁻³ at 30 µm, 0.25 at 100 µm, 0.53
+  at the gap, and → 1 for λ ≫ gap, where α is just a rescaling of G (CHECK).
+- **Statistics:** with the phase read out to 1/√N (ideal readout, MODEL), 10⁴ runs (9 h)
+  give α = 8.6×10⁻³ at the gap at 1σ (CHECK).
+- **Systematics:** two things enter exactly like α. Casimir–Polder is 7.2% of gravity's
+  phase along these trajectories; its coefficient goes as R⁶, so a 1% error in the radius
+  is a 6% error in Casimir. The mass enters as m², so its fractional error counts twice.
+  Taking the ratio of the phases at gaps d and 2d removes the mass but needs more runs
+  (CHECK; MODEL for the error budgets).
+
+| α = 1 excluded at 95% CL for λ above | 10⁴ runs | 10⁶ runs |
+|---|---|---|
+| Torsion balance (LIT: Lee et al., PRL 124, 101101 (2020)) | 38.6 µm | |
+| Absolute phase, no systematics | 34.6 µm | 23.9 µm |
+| Casimir to 1%, mass to 0.1% | 35.2 µm | 30.2 µm |
+| Casimir to 3%, mass to 0.3% | 38.6 µm | 37.0 µm |
+| Casimir to 10%, mass to 1% | 49.6 µm | 49.3 µm |
+| Gap ratio d/2d, Casimir exact / to 10% | 50.0 / 50.8 µm | 30.2 / 38.2 µm |
+
+**What follows (FOLLOWS).** At gravitational strength, the diamonds could edge past the
+torsion balance:
+- by about 10% in λ with 10⁴ runs, and only with Casimir to about 1% and the mass to
+  about 0.1%;
+- by 20–40% with 10⁶ runs (a month). They can't go much further:
+- the gap is set at 181 µm by Casimir and doesn't shrink with the mass (H0);
+- so e^(−gap/λ) caps the reach, and a heavier diamond raises Δφ_N, not that exponential.
+
+The experiment's unique result is still the entanglement witness, not a test of the
+1/r law.
+
 ## What comes out
 
 | Requirement | Needed | State of the art (LIT) |

@@ -40,7 +40,7 @@ TOPICS = {
                         "qcd_running", "rge_engine"],
     "Symmetry ladder": ["m331_breaking", "chiral_breaking", "casimir_diamonds", "graviton_exchange",
                         "macdowell_mansouri", "ladder_links", "ladder_standalone"],
-    "Diamond experiment": ["stur_gravity_entanglement", "stur_gravity_full"],
+    "Diamond experiment": ["stur_gravity_entanglement", "stur_gravity_full", "short_range_gravity"],
     "Classical and emergent gravity": ["stur_oppenheim", "stur_thermo_gravity", "stur_emergent", "stur_jacobson"],
     "Teleparallel gravity": ["stur_tegr", "stur_tegr_gr", "stur_tegr3d", "stur_tegr_corner", "stur_tegr_frame",
                              "stur_tegr_logs"],

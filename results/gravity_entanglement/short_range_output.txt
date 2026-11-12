@@ -1,0 +1,73 @@
+
+==============================================================================
+Y1  Finite size: the Yukawa sphere form factor
+==============================================================================
+   shell of radius s acts as a point x sinh(s/l)/(s/l): True
+   Phi(x) = 3 (x cosh x - sinh x) / x^3: True;  Phi(0) = 1
+   design A: R = 0.999 um; Phi^2 - 1 at lambda = 20 um: 5.0e-04
+
+==============================================================================
+Y2  The phase: dphi = dphi_N (1 + alpha k(lambda))
+==============================================================================
+   dphi_N = 2.1868 rad (src/stur_gravity_full.py: 2.1868)
+   lambda =     20.0 um   k = 2.049e-04
+   lambda =     30.0 um   k = 4.080e-03
+   lambda =     38.6 um   k = 1.537e-02
+   lambda =     50.0 um   k = 4.390e-02
+   lambda =    100.0 um   k = 2.523e-01
+   lambda =    181.2 um   k = 5.313e-01
+   lambda =    300.0 um   k = 7.375e-01
+   lambda =   1000.0 um   k = 9.597e-01
+   lambda =  10000.0 um   k = 9.995e-01
+
+==============================================================================
+Y3  Statistical reach (1 sigma), delta phi = 1/sqrt(N) (MODEL: ideal readout)
+==============================================================================
+    lambda (um)    N = 1e4    N = 1e6
+           20.0   2.23e+01   2.23e+00
+           30.0   1.12e+00   1.12e-01
+           38.6   2.97e-01   2.97e-02
+           50.0   1.04e-01   1.04e-02
+          100.0   1.81e-02   1.81e-03
+          181.2   8.61e-03   8.61e-04
+          300.0   6.20e-03   6.20e-04
+         1000.0   4.76e-03   4.76e-04
+        10000.0   4.58e-03   4.58e-04
+   alpha = 1 at 1 sigma for lambda > 30.6 um, N = 1e+04 (9 h of runs)
+   alpha = 1 at 1 sigma for lambda > 22.0 um, N = 1e+06 (901 h of runs)
+
+==============================================================================
+Y4  Systematic floors, 1 sigma (MODEL: f = 10% on Casimir, e = 1% on the mass)
+==============================================================================
+   Casimir/gravity phase = +0.072;  hbar c / k T at 0.15 K = 1.5 cm (so the T = 0 formula holds)
+    lambda (um)    Casimir       mass    k (gap ratio d, 2d)
+           20.0   3.50e+01   9.76e+01              2.049e-04
+           30.0   1.76e+00   4.90e+00              4.065e-03
+           38.6   4.67e-01   1.30e+00              1.516e-02
+           50.0   1.63e-01   4.56e-01              4.217e-02
+          100.0   2.84e-02   7.93e-02              1.932e-01
+          181.2   1.35e-02   3.76e-02              2.633e-01
+          300.0   9.73e-03   2.71e-02              2.133e-01
+         1000.0   7.47e-03   2.08e-02              4.786e-02
+        10000.0   7.18e-03   2.00e-02              6.945e-04
+
+==============================================================================
+Y5  |alpha| = 1 at 95% CL, against Lee et al., PRL 124, 101101 (2020)
+==============================================================================
+   torsion balance: excluded for lambda < 38.6 um
+   N = 1e+04 runs:
+      absolute phase, Casimir to   0%, mass to  0.0%:  34.6 um  (shorter)
+      absolute phase, Casimir to   1%, mass to  0.1%:  35.2 um  (shorter)
+      absolute phase, Casimir to   3%, mass to  0.3%:  38.6 um  (not shorter)
+      absolute phase, Casimir to  10%, mass to  1.0%:  49.6 um  (not shorter)
+      gap ratio d/2d, Casimir to   0%               :  50.0 um  (not shorter)
+      gap ratio d/2d, Casimir to  10%               :  50.8 um  (not shorter)
+   N = 1e+06 runs:
+      absolute phase, Casimir to   0%, mass to  0.0%:  23.9 um  (shorter)
+      absolute phase, Casimir to   1%, mass to  0.1%:  30.2 um  (shorter)
+      absolute phase, Casimir to   3%, mass to  0.3%:  37.0 um  (shorter)
+      absolute phase, Casimir to  10%, mass to  1.0%:  49.3 um  (not shorter)
+      gap ratio d/2d, Casimir to   0%               :  30.2 um  (shorter)
+      gap ratio d/2d, Casimir to  10%               :  38.2 um  (shorter)
+   The gap is fixed by Casimir and does not shrink with the mass, so exp(-gap/lambda)
+   caps the reach; a heavier diamond raises dphi_N but not that exponential.
