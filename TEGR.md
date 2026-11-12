@@ -64,6 +64,31 @@ then the flux at infinity diverges (the integrand tends to −4kM; checked in th
 No single flat frame is regular at both ends. **TEGR gets A/4 with the same input as
 GR (a smooth horizon), not with less.**
 
+This is a recomputation of a known result. Kuntz, Paci and Zanusso
+([2410.04510](https://arxiv.org/abs/2410.04510)) obtain the black-hole thermodynamics from
+the teleparallel Euclidean action. Beltrán Jiménez and Koivisto
+([2412.13946](https://arxiv.org/abs/2412.13946)) do so without subtractions, for charged
+black holes and with a cosmological constant.
+
+**E3b. The charged black hole, and what the tip term is (CHECK).** For any static
+metric f dτ² + dr²/f + r²dΩ², with the same tetrad and reference connection, the flux is
+
+  e T^r / sin θ = r (4√f − 4f − r f′) / 2.
+
+| | Result |
+|---|---|
+| Reissner–Nordström, flux at infinity | M: the Q² terms fall off, so I_grav = βM/2 with no subtraction, as for Schwarzschild |
+| Maxwell action (the same in TEGR and GR; Gibbons–Hawking 1977, taken as input) | −βQΦ/2 |
+| Entropy, S = β(M − QΦ) − I | π r₊² = **A/4** |
+| Horizon tip, any f with f(r₊) = 0 | the flux is −r₊² f′(r₊)/2, so the tip term is β r₊² f′(r₊)/4 = π r₊² = **A/4 for every static horizon** |
+
+For Schwarzschild the two ends happen to give the same value, 4πM², because there
+βM/2 = A/4. The charged case separates them: **the flux at infinity gives the action and
+the flux at the tip gives the entropy.** That is the known statement that the horizon
+term of the Euclidean action carries the entropy (Bañados, Teitelboim and Zanelli 1994).
+In TEGR it appears as the torsion flux at the tip of the non-rotating frame. Beltrán
+Jiménez and Koivisto's horizon-only prescription is built on this term.
+
 **E4. The gravitational phase is a TEGR holonomy, and the field carries part of it.**
 A mass picks up phase −(mc/ħ)∫e⁰_μdx^μ, the holonomy of B⁰₀ = Φ/c². This is
 measured in the COW experiment (1975) and in the gravitational Aharonov–Bohm effect

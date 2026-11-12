@@ -44,3 +44,13 @@ def test_field_bookkeeping_and_gravitons():
     assert abs(mat + 2 * fld) < 1e-25 and abs(tot - T.G_SI) < 1e-20
     E, N = T.graviton_count(1.5e-14, 721e-6, 1.58, 0.08)
     assert abs(E / 5.78e-93 - 1) < 0.01 and N < 1e-58
+
+
+def test_reissner_nordstrom_and_horizon_term():
+    rn = T.reissner_nordstrom_tegr()
+    assert rn["flux_inf"] == 0                                         # Q^2 terms fall off
+    assert sp.simplify(rn["I_inf"] - rn["beta_M_half"]) == 0           # beta M / 2, no subtraction
+    assert sp.simplify(rn["S"] - rn["area_quarter"]) == 0              # S = A/4 = pi r+^2
+    assert sp.simplify(rn["I_tip"] - rn["area_quarter"]) == 0          # horizon term = A/4
+    fp, r = sp.Symbol("fp"), sp.Symbol("r", positive=True)
+    assert sp.simplify(rn["tip_general"] + fp * r**2 / 2) == 0         # any f with f(r+) = 0

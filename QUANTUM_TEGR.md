@@ -69,8 +69,10 @@ This is a hard, long-standing problem; it isn't a realistic first project.
 
 **Assessment:** black-hole entropy and the partition function in TEGR are known and
 agree with GR, for several prescriptions. E3 in `src/stur_tegr.py` is a recomputation of
-this, and [TEGR.md](TEGR.md) should cite 2410.04510 and 2412.13946 for it. Nothing new is
-left here at the semiclassical level.
+this. [TEGR.md](TEGR.md) now cites 2410.04510 and 2412.13946 for it, and E3b extends the
+check to Reissner–Nordström: the flux at infinity gives βM/2 and the flux at the horizon
+tip gives A/4 for every static horizon. Nothing new is left here at the semiclassical
+level.
 
 ## 4. Modified teleparallel theories (f(T)) and their degrees of freedom
 
@@ -127,10 +129,9 @@ teleparallel question would be whether TEGR's surface term
 
 In order of size:
 
-1. **Small, now: cite the literature for E3 and extend it (section 3).** Add 2410.04510
-   and 2412.13946 to [TEGR.md](TEGR.md). Optionally extend E3 to the charged (Reissner–
-   Nordström) black hole and the horizon-only prescription of 2412.13946, as a worked
-   example. This is recomputation, not new physics, but it makes the TEGR page complete.
+1. **Done: cite the literature for E3 and extend it (section 3).** TEGR.md cites
+   2410.04510 and 2412.13946, and E3b (`src/stur_tegr.py`, pinned in `tests/test_tegr.py`)
+   adds the Reissner–Nordström case and the horizon term. Recomputation, not new physics.
 2. **Medium: a worked example in 2+1D.** The dual loop quantization of 3D gravity
    (section 1) is the one place quantum teleparallel gravity is developed and testable.
    Reproducing a known 3D result in code would be a good study notebook.

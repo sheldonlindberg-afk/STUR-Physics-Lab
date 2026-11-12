@@ -154,6 +154,47 @@ def schwarzschild_tegr_action():
     return sp.simplify(Tref), flux, I_inf, I_tip, M
 
 
+def static_flux_general():
+    """The same diagonal tetrad and reference spin connection for any static
+    ds^2 = f dtau^2 + dr^2/f + r^2 dOmega^2. Returns (flux(r) = e T^r / sin theta, f, r)."""
+    tau, r, th, ph = sp.symbols("tau r theta phi", positive=True)
+    X = [tau, r, th, ph]
+    f = sp.Function("f")(r)
+    E = sp.diag(sp.sqrt(f), 1 / sp.sqrt(f), r, r * sp.sin(th))
+    n = 4
+    w = [[[0] * n for _ in range(n)] for _ in range(n)]
+    w[2][1][2], w[1][2][2] = 1, -1
+    w[3][1][3], w[1][3][3] = sp.sin(th), -sp.sin(th)
+    w[3][2][3], w[2][3][3] = sp.cos(th), -sp.cos(th)
+    T, B, g, ginv, e = torsion_parts(E, X, sp.eye(4), w, simp=True)
+    return sp.simplify(e * torsion_parts.last_vector[1] / sp.sin(th)), f, r
+
+
+def reissner_nordstrom_tegr():
+    """E3b. Euclidean Reissner-Nordstrom, G = 1, f = (1 - r+/r)(1 - r-/r), M = (r+ + r-)/2,
+    Q^2 = r+ r-, beta = 4 pi r+^2 / (r+ - r-), Phi = Q / r+. The trace of the Maxwell stress
+    vanishes, so R = 0 and the gravitational TEGR action is again a pure boundary flux.
+    The Maxwell action is the same in TEGR and GR; its Euclidean value at fixed potential,
+    -beta Q Phi / 2, is taken from Gibbons-Hawking (1977), not computed here.
+    Returns a dict of exact results."""
+    flux, fF, r = static_flux_general()
+    rp, rm = sp.symbols("r_p r_m", positive=True)
+    M, Q2 = (rp + rm) / 2, rp * rm
+    fRN = (1 - rp / r) * (1 - rm / r)
+    beta = 4 * sp.pi * rp**2 / (rp - rm)
+    fl = sp.simplify(flux.subs(fF, fRN).doit())
+    pref = beta / 2                                     # beta * 4 pi * 2 / (16 pi)
+    I_inf = sp.simplify(pref * sp.limit(fl, r, sp.oo))
+    # horizon tip: f(r+) = 0, so the flux there is -r+^2 f'(r+)/2 for ANY f
+    tip_general = sp.simplify(flux.subs(sp.Derivative(fF, r), sp.Symbol("fp")).subs(fF, 0))
+    I_tip = sp.simplify(-pref * fl.subs(r, rp))
+    I_em = -beta * Q2 / (2 * rp)                         # -beta Q Phi / 2
+    S = sp.simplify(beta * (M - Q2 / rp) - (I_inf + I_em))
+    return {"flux_inf": sp.simplify(sp.limit(fl, r, sp.oo) - M), "I_inf": I_inf,
+            "beta_M_half": sp.simplify(beta * M / 2), "tip_general": tip_general,
+            "I_tip": I_tip, "S": S, "area_quarter": sp.pi * rp**2, "flux": flux}
+
+
 # --------------------------------------------------------------------------- E4
 def two_mass_bookkeeping(m1, m2, r):
     """Newtonian limit of TEGR (E2): L = -(1/8 pi G)(grad Phi)^2 - rho Phi.
@@ -210,6 +251,23 @@ def main():
     print("   No single flat frame is regular at both ends: a frame regular at the tip needs a")
     print("   rotation k dtau, and then the flux at infinity diverges (CHECK in the tests).")
     print("   So TEGR gives A/4 with the same input as GR (a smooth horizon), not with less.")
+    print("   LIT: the same result, and its charged and Lambda != 0 versions, is in Kuntz, Paci,")
+    print("   Zanusso, arXiv:2410.04510, and Beltran Jimenez, Koivisto, arXiv:2412.13946.")
+
+    banner("E3b Charged black hole (Reissner-Nordstrom) and the horizon term (CHECK)")
+    rn = reissner_nordstrom_tegr()
+    print(f"   Any static f(r): e T^r / sin(theta) = {rn['flux']}")
+    print(f"   RN flux at infinity minus M: {rn['flux_inf']}  (the Q^2 terms fall off)")
+    print(f"   I_grav from infinity = {rn['I_inf']}   = beta M / 2: "
+          f"{sp.simplify(rn['I_inf'] - rn['beta_M_half']) == 0}  (GR needs Gibbons-Hawking + subtraction)")
+    print("   I_Maxwell = -beta Q Phi / 2 (same action in TEGR and GR; Gibbons-Hawking 1977)")
+    print(f"   S = beta (M - Q Phi) - I = {rn['S']}   = A/4 = pi r+^2: "
+          f"{sp.simplify(rn['S'] - rn['area_quarter']) == 0}")
+    print(f"   Horizon tip, any f with f(r+) = 0: flux = {rn['tip_general']}  (fp = f'(r+) = 4 pi / beta)")
+    print(f"   so the tip term is beta r+^2 f'(r+) / 4 = {rn['I_tip']} = A/4 for EVERY static horizon.")
+    print("   KNOWN: the horizon term of the Euclidean action carries the entropy (Banados,")
+    print("   Teitelboim, Zanelli 1994); in TEGR it is the torsion flux at the tip. Beltran")
+    print("   Jimenez and Koivisto (2412.13946) build a horizon-only prescription on it.")
 
     banner("E4  The gravitational phase as a TEGR holonomy; the FIELD's own share")
     print("   A mass on a worldline picks up phase -(m c / hbar) int e^0_mu dx^mu: the")
