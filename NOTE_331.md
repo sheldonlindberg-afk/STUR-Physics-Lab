@@ -24,7 +24,8 @@ charges to Q_u = ⅔ and Q_d = −⅓.
 
 The result holds:
 - with exact charges and the full scalar content;
-- at two loops in the gauge couplings, including the two-loop Yukawa terms;
+- at two loops in the gauge couplings, including the two-loop Yukawa terms, and at three
+  loops in the gauge and matter sector (§3d);
 - with one-loop threshold matching at the 3-3-1 scale, across the heavy spectrum;
 - for 3-3-1 breaking scales from 2 to 30 TeV;
 - in both phenomenologically viable variants (β = ±1/√3).
@@ -36,9 +37,11 @@ doesn't predict them. How much it depends on them differs between the two varian
 - **β = −1/√3:** wide margins in the couplings, but N_c = 5 survives in a narrow band of
   weak mixing angle about three times below ours.
 - **β = +1/√3:** N_c = 5 fails at every weak mixing angle, but N_c = 3 survives only for
-  sin²θ_W(4 TeV) below 0.261–0.285, against the measured 0.250. Its worst-case pole, with
-  thresholds, sits 1.6× above M_Pl over the full scan, or 2.2× once the Z′ obeys the LHC
-  dilepton limit (M_Z′ > 4.6 TeV, from our recast of the full Run-2 search, §6).
+  sin²θ_W(4 TeV) below 0.261–0.285, against the measured 0.250. Over the full threshold
+  scan, its worst case stays perturbative to M_Pl for any criterion α ≥ 0.64 (three loops,
+  §3d); at α = 1 it reaches M_Pl with a factor 1.28 to spare. The two-loop figures at
+  g = 4π (1.6×, or 2.2× with the LHC Z′ limit, §3a) are read where the perturbative series
+  has broken down and are not robust (§3d).
 
 The result is conditional on the 3-3-1 framework, which collider searches for its Z′ and
 bilepton gauge bosons decide, and on the perturbativity requirement.
@@ -223,7 +226,9 @@ and the second doublet heavy or light):
   pole by 1%.
 
 **Verdict:** the selection survives one-loop threshold matching across the spectrum
-scanned. In the narrow variant the worst allowed case sits a factor of 2 above M_Pl.
+scanned. In the narrow variant the worst allowed case sits a factor of 2 above M_Pl at
+g = 4π; §3d shows that criterion is outside the convergent region and restates the margin
+with controlled criteria (worst case 1.28 M_Pl at α = 1, three loops).
 
 ## 3b. The cutoff and the criterion
 
@@ -241,7 +246,70 @@ pole), taken over the whole spectrum scanned in §3a:
 
 **Any cutoff from 7.2×10¹⁵ to 1.4×10¹⁹ GeV works in every row.** That range includes
 the Planck mass, the reduced Planck mass (2.4×10¹⁸) and the usual grand-unification
-scale (2×10¹⁶). Only the strict g = 1 criterion fails (§3).
+scale (2×10¹⁶). Only the strict g = 1 criterion fails (§3). Of these rows, only α = 1
+lies where the loop expansion still converges (§3d).
+
+## 3d. Three-loop gauge running and the criterion
+
+Source: `src/m331_three_loop.py`, output `results/m331/three_loop.txt`.
+
+The three-loop gauge β-functions are taken from the general MS-bar result of Poole and
+Thomsen (JHEP 09 (2019) 055, arXiv:1906.04625, eq. A.9). The gauge and matter terms are
+included; three-loop Yukawa and quartic terms are not. The case without Yukawas, used as
+the conservative bound in §3b, is complete at this order.
+
+**Validation (exact rational arithmetic):**
+- the same code's two-loop terms reproduce this note's two-loop coefficients exactly (SM
+  and both variants, N_c = 3 and 5);
+- its three-loop terms reproduce the Standard Model three-loop gauge β-functions of
+  Mihaila, Salomon and Steinhauser (PRL 108 (2012) 151602), all gauge terms, n_G = 1–4.
+
+**Convergence.** For U(1)_X in the β = +1/√3, N_c = 3 model (one-loop coefficient 14,
+three-loop self coefficient −690), the three-loop term is:
+- 3% of the two-loop term at g_X = 1, and 28% at g_X = 2;
+- 71% at g_X = 3, and equal to it at g_X ≈ √(4π), i.e. α_X = 1;
+- 25 times the **one-loop** term at g_X = 4π.
+
+So the g = 4π criterion lies outside the region where the series converges. The two-loop
+truncation blows up there; the three-loop truncation instead develops a spurious fixed
+point, and never reaches 4π, even for N_c = 5. Numbers read off at g = 4π are not stable
+under higher orders.
+
+**Controlled criteria.** The scale where the largest coupling reaches g_crit, at two and
+three loops (M_V = 4 TeV, Yukawas and thresholds on):
+
+| | g_crit = 1.5 | 2 | 3 | √(4π) |
+|---|---|---|---|---|
+| β = +1/√3, N_c = 3 (M_Pl) | 0.388 → 0.391 | 1.12 → 1.14 | 2.33 → 2.43 | 2.73 → 2.89 |
+| β = +1/√3, N_c = 5 (M_Pl) | 1.5×10⁻⁸, unchanged | 2.6×10⁻⁸ | 3.7 → 3.9×10⁻⁸ | 4.1 → 4.3×10⁻⁸ |
+| β = −1/√3, N_c = 3 (M_Pl) | 7.7×10⁸ | 4.3×10⁹ | 1.4 → 1.5×10¹⁰ | 1.8 → 1.9×10¹⁰ |
+| β = −1/√3, N_c = 5 (M_Pl) | 2.2×10⁻⁵ | 4.7×10⁻⁵ | 8.0 → 8.2×10⁻⁵ | 9.0 → 9.3×10⁻⁵ |
+
+Three loops move these scales up by 0.5–6%.
+
+**The narrow variant, worst case over the §3a scan** (β = +1/√3, N_c = 3; the worst point
+is the same everywhere: lightest exotics, light scalars, a light second doublet, M_V = 2 TeV):
+
+| g_crit (α) | two loops | three loops |
+|---|---|---|
+| 2.0 (0.32) | 0.50 M_Pl | 0.50 M_Pl |
+| 2.5 (0.50) | 0.80 M_Pl | 0.82 M_Pl |
+| 3.0 (0.72) | 1.03 M_Pl | 1.07 M_Pl |
+| √(4π) (1.00) | 1.21 M_Pl | **1.28 M_Pl** |
+
+The worst case stays perturbative to M_Pl for **g_crit ≥ 2.85 (α ≥ 0.64) at three loops**,
+and 2.93 (α ≥ 0.68) at two. At α = 1, the largest sin²θ_W(M_V) for which N_c = 3 reaches
+M_Pl at the reference spectrum moves from 0.2639 to 0.2647 (measured 0.250).
+
+**Verdict.**
+- Three loops slightly widen the margins; N_c = 5 stays excluded by 4–8 orders of
+  magnitude, and β = −1/√3 keeps its wide margins.
+- For β = +1/√3, the statement that is stable under higher orders is: **N_c = 3 stays
+  perturbative to M_Pl, over the whole spectrum scanned, for any criterion α ≥ 0.64**.
+  The two-loop g = 4π figures (1.64 M_Pl, 2.17 M_Pl) should not be relied on.
+- At α ≈ 0.64 the three-loop term is already about 0.6–0.7 of the two-loop term, so the
+  narrow variant's conclusion sits at the edge of perturbative control. That is a real
+  limitation of this variant, not of the calculation.
 
 ## 3c. The scalar sector itself, to the Planck scale
 

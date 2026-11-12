@@ -39,7 +39,8 @@ perturbative to the Planck scale.
 - U(1)_X running excludes N_c = 5.
 
 Only **N_c = N_g = 3** survives, with quark charges ⅔ and −⅓. The selection holds:
-- at two loops, including two-loop Yukawa terms;
+- at two loops, including two-loop Yukawa terms, and at three loops in the gauge and
+  matter sector;
 - with one-loop threshold matching across the heavy spectrum;
 - for 3-3-1 scales of 2–30 TeV;
 - in both variants β = ±1/√3.
@@ -56,7 +57,9 @@ Pythia 8).
 - the 3-3-1 framework;
 - Planck-scale perturbativity;
 - the measured TeV-scale electroweak couplings, which are an input, not a prediction.
-  In the β = +1/√3 variant the margin is a factor of about 2 in the pole scale.
+  In the β = +1/√3 variant the margin is narrow: N_c = 3 stays perturbative to M_Pl over
+  the whole spectrum scanned for any criterion α ≥ 0.64 (three loops), with a factor 1.28
+  to spare at α = 1.
 
 **Run it in one paste.** [`src/m331_standalone.py`](src/m331_standalone.py) reproduces the
 whole selection in a single file that uses only the Python standard library: charges and
@@ -154,8 +157,9 @@ python3 src/stur_tegr3d.py          # 3D: Ponzano-Regge 6j asymptotics and the 2
 python3 src/stur_derivation.py      # the whole chain, ~30 s
 python3 src/stur_gravity_full.py    # the two-diamond design search, ~15 s
 python3 src/m331_exact.py           # the 3-3-1 selection, both variants
+python3 src/m331_three_loop.py       # three-loop gauge running and the criterion, ~70 s
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
-python -m pytest tests -q           # every number pinned (123 tests)
+python -m pytest tests -q           # every number pinned (127 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on

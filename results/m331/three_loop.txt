@@ -1,0 +1,48 @@
+
+==============================================================================
+V1-V2  Validation of the three-loop implementation (CHECK, exact arithmetic)
+==============================================================================
+   V1 two-loop terms vs m331_exact.coefficients (SM, both variants, N_c = 3, 5): max |diff| = 0
+   V2 three-loop gauge terms vs Mihaila-Salomon-Steinhauser SM (n_G = 1-4): max |diff| = 0
+
+==============================================================================
+C1  Convergence of the U(1)_X beta function (beta = +1/sqrt3, N_c = 3)
+==============================================================================
+   g_X =  1.000: 1-loop  +14.000  2-loop   +0.313  3-loop    -0.011   |3/2| =   0.03   |3/1| =   0.00
+   g_X =  2.000: 1-loop  +14.000  2-loop   +0.786  3-loop    -0.218   |3/2| =   0.28   |3/1| =   0.02
+   g_X =  3.000: 1-loop  +14.000  2-loop   +1.574  3-loop    -1.116   |3/2| =   0.71   |3/1| =   0.08
+   g_X =  3.545: 1-loop  +14.000  2-loop   +2.136  3-loop    -2.179   |3/2| =   1.02   |3/1| =   0.16
+   g_X =  5.000: 1-loop  +14.000  2-loop   +4.096  3-loop    -8.637   |3/2| =   2.11   |3/1| =   0.62
+   g_X = 12.566: 1-loop  +14.000  2-loop  +25.044  3-loop  -344.847   |3/2| =  13.77   |3/1| =  24.63
+
+==============================================================================
+C2  The g = 4 pi criterion is outside the convergent region
+==============================================================================
+   beta = +1/sqrt3, N_c = 3: reaches g = 4 pi at 2 loops at 4.54e+19 GeV; at 3 loops never (below 1e45 GeV)
+   beta = +1/sqrt3, N_c = 5: reaches g = 4 pi at 2 loops at 5.84e+11 GeV; at 3 loops never (below 1e45 GeV)
+   Even N_c = 5, excluded by eight orders of magnitude at any controlled criterion,
+   never reaches 4 pi at three loops: the truncated series has a spurious fixed point.
+
+==============================================================================
+C3  Controlled criteria: scale where the largest coupling reaches g_crit (M_V = 4 TeV)
+==============================================================================
+   beta = +1/sqrt3 N_c = 3 (M_Pl units, 2 -> 3 loops): g=1.50: 0.388 -> 0.391;  g=2.00: 1.12 -> 1.14;  g=3.00: 2.33 -> 2.43;  g=3.54: 2.73 -> 2.89
+   beta = +1/sqrt3 N_c = 5 (M_Pl units, 2 -> 3 loops): g=1.50: 1.49e-08 -> 1.49e-08;  g=2.00: 2.57e-08 -> 2.59e-08;  g=3.00: 3.74e-08 -> 3.85e-08;  g=3.54: 4.06e-08 -> 4.25e-08
+   beta = -1/sqrt3 N_c = 3 (M_Pl units, 2 -> 3 loops): g=1.50: 7.66e+08 -> 7.67e+08;  g=2.00: 4.26e+09 -> 4.31e+09;  g=3.00: 1.4e+10 -> 1.45e+10;  g=3.54: 1.82e+10 -> 1.91e+10
+   beta = -1/sqrt3 N_c = 5 (M_Pl units, 2 -> 3 loops): g=1.50: 2.17e-05 -> 2.16e-05;  g=2.00: 4.68e-05 -> 4.68e-05;  g=3.00: 8.01e-05 -> 8.16e-05;  g=3.54: 9.01e-05 -> 9.3e-05
+
+==============================================================================
+C4  beta = +1/sqrt3, N_c = 3: worst case over the threshold scan vs the criterion
+==============================================================================
+   g_crit = 2.000 (alpha = 0.32): 2-loop 0.495 M_Pl, 3-loop 0.502 M_Pl   (worst at r_J=0.5, r_S=0.333, M_V=2000, n_light=2)
+   g_crit = 2.500 (alpha = 0.50): 2-loop 0.799 M_Pl, 3-loop 0.820 M_Pl   (worst at r_J=0.5, r_S=0.333, M_V=2000, n_light=2)
+   g_crit = 3.000 (alpha = 0.72): 2-loop 1.030 M_Pl, 3-loop 1.070 M_Pl   (worst at r_J=0.5, r_S=0.333, M_V=2000, n_light=2)
+   g_crit = 3.545 (alpha = 1.00): 2-loop 1.206 M_Pl, 3-loop 1.276 M_Pl   (worst at r_J=0.5, r_S=0.333, M_V=2000, n_light=2)
+   2-loop: the worst case reaches M_Pl for g_crit >= 2.926 (alpha >= 0.681)
+   3-loop: the worst case reaches M_Pl for g_crit >= 2.845 (alpha >= 0.644)
+
+==============================================================================
+C5  Largest sin^2 theta_W(M_V) for N_c = 3 to reach M_Pl (beta = +1/sqrt3, reference spectrum)
+==============================================================================
+   alpha = 1: 2-loop 0.2639, 3-loop 0.2647  (measured 0.250)
+   g = 3   : 2-loop 0.2618, 3-loop 0.2623  (measured 0.250)
