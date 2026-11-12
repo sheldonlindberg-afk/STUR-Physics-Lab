@@ -12,7 +12,7 @@ import stur_gravity_entanglement as GE
 
 
 def test_imports_only_the_standard_library():
-    allowed = {"fractions", "itertools", "math", "random", "time"}
+    allowed = {"fractions", "itertools", "math", "random", "textwrap", "time"}
     mods = set()
     for node in ast.walk(ast.parse(open(PATH).read())):
         if isinstance(node, ast.Import):
@@ -49,3 +49,13 @@ def test_runs_isolated_and_every_check_passes():
     ref = open(os.path.join(os.path.dirname(__file__), "..", "results", "ladder", "standalone.txt")).read()
     assert "Checks passed: 44/44" in ref and "ALL CHECKS PASS" in ref
     assert "Checks passed: 44/44" in out
+
+
+def test_exit_status_is_nonzero_when_a_check_fails():
+    ok = subprocess.run([sys.executable, "-I", "-S", PATH], capture_output=True, timeout=300)
+    assert ok.returncode == 0
+    code = open(PATH).read().replace("ok = abs(gpinn / G_PINN_EMP - 1) < 0.02", "ok = False")
+    code = code.replace("abs(gpinn / G_PINN_EMP - 1) < 0.02, \"data\"", "False, \"data\"")
+    assert code != open(PATH).read()
+    bad = subprocess.run([sys.executable, "-I", "-S", "-c", code], capture_output=True, text=True, timeout=300)
+    assert bad.returncode == 1 and "SOME CHECKS FAILED" in bad.stdout

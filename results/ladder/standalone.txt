@@ -2,96 +2,140 @@
 ==============================================================================
 RUNG 1  3-3-1 -> Standard Model -> electromagnetism (gauge-boson mass matrix)
 ==============================================================================
+   In plain words: one larger force splits, in two steps, into the weak force and
+   electromagnetism. The checks confirm that exactly one force carrier stays massless (the
+   photon, which carries light) and that the W and Z particles get the right masses.
+
    beta = -1/sqrt3
      triplet X = -1/3 : Q = 0 in components [1, 3]; vev w in component 3
      triplet X = 2/3  : Q = 0 in components [2]; vev v1 in component 2
      triplet X = -1/3 : Q = 0 in components [1, 3]; vev v2 in component 1
-   [PASS] -1/sqrt3: the 9x9 mass matrix has exactly one zero eigenvalue (8 massive bosons)
-   [PASS] -1/sqrt3: the massless state is the gauge field of Q = T3 + beta T8 + X
-   [PASS] -1/sqrt3: after step 1 alone, 4 massless states; Y = beta T8 + X is massless and 1/g_Y^2 = beta^2/g^2 + 1/g_X^2 (the matching condition)
-   [PASS] -1/sqrt3: M_W^2 = g^2 v^2/4 and bilepton masses g^2 (w^2 + v_i^2)/4
-   [PASS] -1/sqrt3: M_Z^2 -> (g^2 + g_Y^2) v^2/4 and M_Z'^2 -> (g^2 + beta^2 g_X^2) w^2/3 (to O(v^2/w^2))
-   [PASS] -1/sqrt3: M_Z'/M_V = sqrt(4/3 (1 + beta^2 t_X^2)), t_X^2 = s2/(1 - (1+beta^2) s2) (derived)
-   [PASS] -1/sqrt3: rho = M_W^2/(M_Z^2 cos^2 theta_W) >= 1, with rho - 1 ~ (v/w)^2 (Z-Z' mixing)
-   [PASS] -1/sqrt3: every SU(2)_L doublet has charges (Q_u, Q_d) = ((N_c+1)/2N_c, (1-N_c)/2N_c) or (0, -1), for N_c = 3, 5, 7
+   [PASS] [math]          -1/sqrt3: the 9x9 mass matrix has exactly one zero eigenvalue (8 massive bosons)
+   [PASS] [math]          -1/sqrt3: the massless state is the gauge field of Q = T3 + beta T8 + X
+   [PASS] [math]          -1/sqrt3: after step 1 alone, 4 massless states; Y = beta T8 + X is massless and 1/g_Y^2 = beta^2/g^2 + 1/g_X^2 (the matching condition)
+   [PASS] [math]          -1/sqrt3: M_W^2 = g^2 v^2/4 and bilepton masses g^2 (w^2 + v_i^2)/4
+   [PASS] [math]          -1/sqrt3: M_Z^2 -> (g^2 + g_Y^2) v^2/4 and M_Z'^2 -> (g^2 + beta^2 g_X^2) w^2/3 (to O(v^2/w^2))
+   [PASS] [math]          -1/sqrt3: M_Z'/M_V = sqrt(4/3 (1 + beta^2 t_X^2)), t_X^2 = s2/(1 - (1+beta^2) s2) (derived)
+   [PASS] [math]          -1/sqrt3: rho = M_W^2/(M_Z^2 cos^2 theta_W) >= 1, with rho - 1 ~ (v/w)^2 (Z-Z' mixing)
+   [PASS] [math]          -1/sqrt3: every SU(2)_L doublet has charges (Q_u, Q_d) = ((N_c+1)/2N_c, (1-N_c)/2N_c) or (0, -1), for N_c = 3, 5, 7
      1/e^2 = (1 + beta^2)/g^2 + 1/g_X^2; rho - 1 = 5.215e-04 at v/w = 0.061
    beta = +1/sqrt3
      triplet X = 1/3  : Q = 0 in components [2, 3]; vev w in component 3
      triplet X = 1/3  : Q = 0 in components [2, 3]; vev v1 in component 2
      triplet X = -2/3 : Q = 0 in components [1]; vev v2 in component 1
-   [PASS] +1/sqrt3: the 9x9 mass matrix has exactly one zero eigenvalue (8 massive bosons)
-   [PASS] +1/sqrt3: the massless state is the gauge field of Q = T3 + beta T8 + X
-   [PASS] +1/sqrt3: after step 1 alone, 4 massless states; Y = beta T8 + X is massless and 1/g_Y^2 = beta^2/g^2 + 1/g_X^2 (the matching condition)
-   [PASS] +1/sqrt3: M_W^2 = g^2 v^2/4 and bilepton masses g^2 (w^2 + v_i^2)/4
-   [PASS] +1/sqrt3: M_Z^2 -> (g^2 + g_Y^2) v^2/4 and M_Z'^2 -> (g^2 + beta^2 g_X^2) w^2/3 (to O(v^2/w^2))
-   [PASS] +1/sqrt3: M_Z'/M_V = sqrt(4/3 (1 + beta^2 t_X^2)), t_X^2 = s2/(1 - (1+beta^2) s2) (derived)
-   [PASS] +1/sqrt3: rho = M_W^2/(M_Z^2 cos^2 theta_W) >= 1, with rho - 1 ~ (v/w)^2 (Z-Z' mixing)
-   [PASS] +1/sqrt3: every SU(2)_L doublet has charges (Q_u, Q_d) = ((N_c+1)/2N_c, (1-N_c)/2N_c) or (0, -1), for N_c = 3, 5, 7
+   [PASS] [math]          +1/sqrt3: the 9x9 mass matrix has exactly one zero eigenvalue (8 massive bosons)
+   [PASS] [math]          +1/sqrt3: the massless state is the gauge field of Q = T3 + beta T8 + X
+   [PASS] [math]          +1/sqrt3: after step 1 alone, 4 massless states; Y = beta T8 + X is massless and 1/g_Y^2 = beta^2/g^2 + 1/g_X^2 (the matching condition)
+   [PASS] [math]          +1/sqrt3: M_W^2 = g^2 v^2/4 and bilepton masses g^2 (w^2 + v_i^2)/4
+   [PASS] [math]          +1/sqrt3: M_Z^2 -> (g^2 + g_Y^2) v^2/4 and M_Z'^2 -> (g^2 + beta^2 g_X^2) w^2/3 (to O(v^2/w^2))
+   [PASS] [math]          +1/sqrt3: M_Z'/M_V = sqrt(4/3 (1 + beta^2 t_X^2)), t_X^2 = s2/(1 - (1+beta^2) s2) (derived)
+   [PASS] [math]          +1/sqrt3: rho = M_W^2/(M_Z^2 cos^2 theta_W) >= 1, with rho - 1 ~ (v/w)^2 (Z-Z' mixing)
+   [PASS] [math]          +1/sqrt3: every SU(2)_L doublet has charges (Q_u, Q_d) = ((N_c+1)/2N_c, (1-N_c)/2N_c) or (0, -1), for N_c = 3, 5, 7
      1/e^2 = (1 + beta^2)/g^2 + 1/g_X^2; rho - 1 = 1.362e-03 at v/w = 0.061
    v = (sqrt2 G_F)^(-1/2) = 246.22 GeV; tree-level M_Z = 91.51 GeV vs measured 91.1876 (+0.35%, the radiative correction, not derived)
-   [PASS] v = 246.22 GeV from G_F, and tree-level M_Z within 0.5% of the measurement
+   [PASS] [data]          v = 246.22 GeV from G_F, and tree-level M_Z within 0.5% of the measurement
+          got M_Z = 91.51 GeV vs 91.1876 GeV (+0.35%). Tolerance 0.5%: this is tree level,
+          and the loop corrections it omits are each of order alpha/pi = 0.25%
 
 ==============================================================================
 RUNG 2  The strong force: chiral symmetry breaking (MODEL: linear sigma model)
 ==============================================================================
-   [PASS] massless quarks: the vacuum breaks O(4) -> O(3), leaving exactly 3 Goldstone pions (6 - 3)
-   [PASS] quark masses: m_pi^2 = H/<sigma>, f_pi = <sigma>, so m_pi^2 f_pi^2 = H f_pi (the GMOR form)
+   In plain words: when a symmetry of the strong force breaks, light particles called
+   pions appear. Exchanging pions between protons and neutrons is what holds atomic nuclei
+   together. Some checks here use a simplified stand-in for the strong force, and they are
+   marked [model].
+
+   [PASS] [math] [model]  massless quarks: the vacuum breaks O(4) -> O(3), leaving exactly 3 Goldstone pions (6 - 3)
+   [PASS] [math] [model]  quark masses: m_pi^2 = H/<sigma>, f_pi = <sigma>, so m_pi^2 f_pi^2 = H f_pi (the GMOR form)
    GMOR: m_pi = sqrt((m_u + m_d)|<qbar q>|)/f_pi = 127.6 MeV; measured 135.0 MeV (-5.5%, higher-order chiral terms)
-   [PASS] GMOR with measured quark masses, f_pi and the lattice condensate: m_pi = 127.6 MeV (within 8% of 135)
-   [PASS] exchange of a mass-m particle: V = e^(-m r)/(4 pi r) solves (lap - m^2) V = 0 with unit flux (the Fourier transform of 1/(q^2 + m^2): the Yukawa potential)
+   [PASS] [data]          GMOR with measured quark masses, f_pi and the lattice condensate: m_pi = 127.6 MeV (within 8% of 135)
+          got 127.6 +- 3.6 MeV (inputs, 2.9%) vs 135.0 MeV. Tolerance 8%: GMOR is leading
+          order, and the next-order chiral terms (not computed here) are expected at
+          several percent
+   [PASS] [math]          exchange of a mass-m particle: V = e^(-m r)/(4 pi r) solves (lap - m^2) V = 0 with unit flux (the Fourier transform of 1/(q^2 + m^2): the Yukawa potential)
    Range of the nuclear force 1/m_pi = 1.414 fm
-   [PASS] one-pion exchange: (s1.q)(s2.q) = (q^2/3)[s1.s2 + S12]: central and tensor nuclear forces, and range 1.414 fm
-   Goldberger-Treiman: g_piNN = g_A M_N / f_pi = 13.01; empirical about 13.1
-   [PASS] Goldberger-Treiman from chiral symmetry: g_piNN = 13.01, within 2% of the empirical value
+   [PASS] [math]          one-pion exchange: (s1.q)(s2.q) = (q^2/3)[s1.s2 + S12]: central and tensor nuclear forces, and range 1.414 fm
+   Goldberger-Treiman: g_piNN = g_A M_N / f_pi = 13.01; empirical 13.1 +- 0.1
+   [PASS] [data]          Goldberger-Treiman from chiral symmetry: g_piNN = 13.01, within 2% of the empirical value
+          got 13.01 vs 13.1 +- 0.1 (-0.7%). Tolerance 2%: the Goldberger-Treiman
+          discrepancy is a next-order chiral correction, of order (m_pi/4 pi f_pi)^2 =
+          1.5%
 
 ==============================================================================
 RUNG 3  Electromagnetism, the experiment's background: Casimir-Polder
 ==============================================================================
-   [PASS] dielectric sphere, from Laplace's equation: alpha/(4 pi eps0) = K R^3, K = (eps-1)/(eps+2)
-   [PASS] dipole Green tensor at imaginary frequency solves (lap - xi^2/c^2) G = 0, and Tr G.G = 2 e^(-2u)(3 + 6u + 5u^2 + 2u^3 + u^4)/r^6
-   [PASS] the fluctuation integral int_0^oo e^(-2u)(3 + 6u + 5u^2 + 2u^3 + u^4) du = 23/4 exactly, so U = -(23/4 pi) hbar c alpha1 alpha2 / r^7 (Casimir-Polder)
+   In plain words: two electrically neutral diamonds still attract slightly, through
+   quantum fluctuations of the electromagnetic field. The experiment must keep this pull
+   well below gravity, which sets how close the diamonds may come.
+
+   [PASS] [math]          dielectric sphere, from Laplace's equation: alpha/(4 pi eps0) = K R^3, K = (eps-1)/(eps+2)
+   [PASS] [math]          dipole Green tensor at imaginary frequency solves (lap - xi^2/c^2) G = 0, and Tr G.G = 2 e^(-2u)(3 + 6u + 5u^2 + 2u^3 + u^4)/r^6
+   [PASS] [math]          the fluctuation integral int_0^oo e^(-2u)(3 + 6u + 5u^2 + 2u^3 + u^4) du = 23/4 exactly, so U = -(23/4 pi) hbar c alpha1 alpha2 / r^7 (Casimir-Polder)
    design A, m = 1.468e-14 kg (R = 1.00 um), r = 200 um: Casimir -1.679e-36 J, gravity -7.190e-35 J, ratio 2.33e-02
-   [PASS] at 200 um Casimir is 2.3% of gravity, and both scale as R^6, so the safe gap is mass-independent
+   [PASS] [pinned]        at 200 um Casimir is 2.3% of gravity, and both scale as R^6, so the safe gap is mass-independent
+          got 2.3348e-02, pinned 2.335e-2 +- 2e-4
 
 ==============================================================================
 RUNG 4  Gravity to the diamond experiment (linearized GR, one-graviton exchange)
 ==============================================================================
-   [PASS] linearized GR, point mass: h_00 = h_ii = 2GM/r, so Phi = -GM/r and PPN gamma = 1
-   [PASS] one-graviton exchange: T2.P.T1 = m1 m2 / 2, U(q) = -4 pi G m1 m2/q^2 -> U(r) = -G m1 m2 / r (rung 2's transform at m = 0)
-   [PASS] a photon couples twice as strongly as a static mass of the same energy: light bends 4GM/(c^2 b)
+   In plain words: treating gravity as the exchange of gravitons reproduces Newton's law
+   and gives the quantum phase, 2.19 radians, that the two-diamond experiment would
+   measure.
+
+   [PASS] [math]          linearized GR, point mass: h_00 = h_ii = 2GM/r, so Phi = -GM/r and PPN gamma = 1
+   [PASS] [math]          one-graviton exchange: T2.P.T1 = m1 m2 / 2, U(q) = -4 pi G m1 m2/q^2 -> U(r) = -G m1 m2 / r (rung 2's transform at m = 0)
+   [PASS] [math]          a photon couples twice as strongly as a static mass of the same energy: light bends 4GM/(c^2 b)
    Casimir-safe gap 181.16 um; design A: m = 1.4678e-14 kg, dx = 720.8 um, hold 0.0824 s, ramps 2 x 1.5811 s
    Entangling phase Delta phi = phi_LL + phi_RR - phi_LR - phi_RL = 2.1868 rad
-   [PASS] design A's entangling phase from the graviton-exchange potential: 2.19 rad
+   [PASS] [pinned]        design A's entangling phase from the graviton-exchange potential: 2.19 rad
+          got 2.1868 rad and gap 181.16 um, pinned 2.1868 rad and 181.16 um
 
 ==============================================================================
 RUNG 5  Gravity as a broken gauge theory: MacDowell-Mansouri (an equivalent REFORMULATION)
 ==============================================================================
-   [PASS] so(4,1) = so(3,1) + 4 translations, [P_a, P_b] ~ J_ab / l^2; the de Sitter vector V = l e_4 leaves the 6 Lorentz generators unbroken and breaks 4 (the tetrad: D V^a = e^a)
-   [PASS] on a real spacetime (Schwarzschild-de Sitter): the spin connection is torsion-free, F^ab = R^ab - e^a^e^b / l^2 and F^a4 = T^a/l = 0
-   [PASS] the vacuum: de Sitter space of radius l is the flat SO(4,1) connection, F = 0, so Lambda = 3/l^2
-   [PASS] field equations: the Ricci contraction of F vanishes for Schwarzschild-de Sitter (G + Lambda g = 0, Lambda = 3/l^2) and not for Schwarzschild without Lambda
+   In plain words: Einstein's gravity can be rewritten in the same broken-symmetry
+   language as the other forces. This is a rewriting, not a new theory. Fed the measured
+   dark energy, it lands on a famous open puzzle: why that number is about 10^122 times
+   smaller than natural.
+
+   [PASS] [math]          so(4,1) = so(3,1) + 4 translations, [P_a, P_b] ~ J_ab / l^2; the de Sitter vector V = l e_4 leaves the 6 Lorentz generators unbroken and breaks 4 (the tetrad: D V^a = e^a)
+   [PASS] [math]          on a real spacetime (Schwarzschild-de Sitter): the spin connection is torsion-free, F^ab = R^ab - e^a^e^b / l^2 and F^a4 = T^a/l = 0
+   [PASS] [math]          the vacuum: de Sitter space of radius l is the flat SO(4,1) connection, F = 0, so Lambda = 3/l^2
+   [PASS] [math]          field equations: the Ricci contraction of F vanishes for Schwarzschild-de Sitter (G + Lambda g = 0, Lambda = 3/l^2) and not for Schwarzschild without Lambda
    eps R^e^e = 2.000000 e R;  eps e^e^e^e = 24.000000 e;  Ricci scalar 0.244898 (12/l^2 = 0.244898)
-   [PASS] the action eps F^F = Euler + (2s/l^2) 2 e R + (1/l^4) 24 e gives e (R - 2 Lambda) with Lambda = 3/l^2; 1/(16 pi G) fixes N = -3/(64 pi G Lambda)
+   [PASS] [math]          the action eps F^F = Euler + (2s/l^2) 2 e R + (1/l^4) 24 e gives e (R - 2 Lambda) with Lambda = 3/l^2; 1/(16 pi G) fixes N = -3/(64 pi G Lambda)
    Measured Lambda: l = sqrt(3/Lambda) = 1.647e+26 m; MacDowell-Mansouri coupling 3/(G Lambda) = 1.04e+122 (Planck units)
-   [PASS] the measured Lambda gives l = 1.65e26 m and a coupling of 1e122: the cosmological-constant problem
+   [PASS] [pinned]        the measured Lambda gives l = 1.65e26 m and a coupling of 1e122: the cosmological-constant problem
+          got l = 1.6473e+26 m and 1.039e+122, pinned 1.647e26 m and 1.04e122
 
 ==============================================================================
 LINKS  Where one rung's output is another rung's input
 ==============================================================================
-   [PASS] neutral matter is an anomaly: q_p + q_e = [SU(3)_L]^2 U(1)_X / N_g and q_n + Q_nu = q_p + q_e, for any beta, N_c, X (200 exact random cases)
-   [PASS] rung 1's charges: q_p = 1, q_n = 0, q_e = -1, Q_nu = 0 exactly, both variants, N_c = 3, 5, 7
+   In plain words: places where one rung's result is needed by another. For example, the
+   diamond experiment needs matter to be electrically neutral to extreme precision, and
+   rung 1 explains why it is exactly neutral.
+
+   [PASS] [math]          neutral matter is an anomaly: q_p + q_e = [SU(3)_L]^2 U(1)_X / N_g and q_n + Q_nu = q_p + q_e, for any beta, N_c, X (200 exact random cases)
+   [PASS] [math]          rung 1's charges: q_p = 1, q_n = 0, q_e = -1, Q_nu = 0 exactly, both variants, N_c = 3, 5, 7
    Design A (8.839e+12 nucleons): one stray electron each = 1.60e+10 x gravity's phase;
    Coulomb < 10% of gravity needs < 2.82e-19 e per nucleon, for any diamond size
    Measured: |q_p + q_e|, |q_n| < 1e-21 e -> margin 282; that residual totals 8.8e-09 e per diamond, below one electron, so discharging cannot reach it
-   [PASS] design A: one electron = 1.6e10 x gravity (as H6); neutrality needed to 2.8e-19 e per nucleon
-   [PASS] measured neutrality (1e-21 e) clears it by 280x; rung 1 makes it exact
-   [PASS] pi0 -> gamma gamma: N_c (Q_u^2 - Q_d^2) = 1 for every N_c with rung 1's charges
+   [PASS] [pinned]        design A: one electron = 1.6e10 x gravity (as H6); neutrality needed to 2.8e-19 e per nucleon
+          got 1.604e+10 and 2.824e-19 e, pinned 1.60e10 and 2.82e-19 e
+   [PASS] [data]          measured neutrality (1e-21 e) clears it by 280x; rung 1 makes it exact
+          got margin 282. Passes because the measured bound is tighter than the
+          requirement (margin > 1); the value 280 is also pinned
+   [PASS] [math]          pi0 -> gamma gamma: N_c (Q_u^2 - Q_d^2) = 1 for every N_c with rung 1's charges
    sum |M|^2 = 0.500 A^2 m^4 -> Gamma = A^2 m^3/(64 pi) = 7.785 eV  (PrimEx-I+II 7.802 +- 0.117 eV, -0.1 sigma)
    With the charges held at 2/3, -1/3 the width would scale as (N_c/3)^2; with rung 1's it
    cannot select N_c, the R-ratio does (src/m331_why_three.py W6).
-   [PASS] pi0 width from rung 1's charges and rung 2's f_pi: 7.79 eV, within 0.5 sigma of PrimEx
+   [PASS] [data]          pi0 width from rung 1's charges and rung 2's f_pi: 7.79 eV, within 2 sigma of PrimEx
+          got 7.785 eV vs 7.802 +- 0.117 eV (-0.1 sigma). Tolerance 2 sigma, the usual
+          standard. This is leading order (the anomaly alone); next-order corrections of a
+          few percent are not included
    M_Pl = sqrt(hbar c / G) from rung 4's G = 1.220890e+19 GeV: the cutoff the 3-3-1 selection runs to
-   [PASS] the 3-3-1 cutoff is rung 4's gravity: sqrt(hbar c / G) = 1.22089e19 GeV
+   [PASS] [pinned]        the 3-3-1 cutoff is rung 4's gravity: sqrt(hbar c / G) = 1.22089e19 GeV
+          got 1.220890e+19 GeV, pinned 1.22089e19 GeV
 
 ==============================================================================
 VERDICT
@@ -104,7 +148,9 @@ VERDICT
    to Lorentz. Three links run across the rungs: rung 1's anomalies make matter neutral, which
    the diamond experiment needs to 2.8e-19 e per nucleon; its charges with rung 2's f_pi give
    the measured pi0 -> gamma gamma width; and the 3-3-1 cutoff, M_Pl, is rung 4's G. Inputs
-   are measured; gravity's unification with the other forces is not derived.
+   are measured; gravity's unification with the other forces is not derived. Rung 2's
+   pion counting uses the linear sigma model, a stand-in for QCD, and rung 5 rewrites GR
+   rather than going beyond it.
 
-   Checks passed: 44/44   (0 s)
+   Checks passed: 44/44   (34 math, 5 data, 5 pinned; 0.03 s)
    ALL CHECKS PASS
