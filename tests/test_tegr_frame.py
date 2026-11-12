@@ -47,3 +47,10 @@ def test_corner_charges_close_into_lorentz():
 def test_group_measure_gives_log_semigroup_gives_quarter_area():
     s_group, s_semi, quarter = F.plancherel_entropy(1000)
     assert s_group < 10 and abs(s_semi - quarter) < 0.02 * quarter
+
+
+def test_curved_background_orbit_through_dual_area_bivector():
+    import mpmath as mp
+    w, c, sz, dN, cas1, cas2 = F.curved_check()
+    assert w < mp.mpf("1e-30") and c > mp.mpf("1e-3") and sz > mp.mpf("1e-3")
+    assert dN < mp.mpf("1e-50") and cas1 < mp.mpf("1e-50") and cas2 < mp.mpf("1e-50")

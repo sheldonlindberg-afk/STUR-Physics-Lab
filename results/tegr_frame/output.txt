@@ -65,3 +65,12 @@ Q7  What this quantizes to (KNOWN: Varrin 2610.37750, eqs. 4.14, 4.20)
    The group measure gives ln A; only the causal semigroup gives A/4. For Lorentz boosts
    the causal condition is automatic, so TEGR's frame alone does not give A/4. The
    exponential needs the normal-plane edge modes, which the frame does not supply.
+
+==============================================================================
+Q8  Any metric: the orbit is through the dual area bivector (CHECK)
+==============================================================================
+   Arbitrary curved background, finite SO(3,1) frame: |omega - div W| = 2.0e-34, control 0.228, |omega| = 0.114
+   W^{mu nu} = (sqrt(-g)/8 pi) [E^-1 d1 E, E^-1 d2 E]^mu_rho g^{rho nu}
+   W^(tx) = (1/16 pi) N_ab [th1, th2]^ab with N = star Sigma_S: |N - star Sigma| = 2.2e-61
+   Casimirs: |N.N + 2 sigma| = 6.2e-61 (radius = area density),  |N.star N| = 4.9e-63 (simple)
+   So the frame's corner phase space is the Lorentz orbit through star Sigma_S / 8 pi G.

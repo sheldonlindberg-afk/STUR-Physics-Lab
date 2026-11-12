@@ -268,10 +268,32 @@ density of states that gives A/4. In Varrin's construction that comes from the
 normal-plane maps beyond boosts, which are diffeomorphism edge modes and are the same in
 TEGR and GR. So, at this level, quantizing the frame adds a logarithm, not the area law.
 
+### Any metric (Q8)
+
+Q8 repeats Q5 on an arbitrary curved background tetrad ē, with a finite frame on top,
+E = Λ(x)·ē. The background is deliberately not a solution, because the identity holds off
+shell. The frame part of the symplectic current is ∂_νW^{μν} with
+
+  W^{μν} = (√−g/8π)[E⁻¹δ₁E, E⁻¹δ₂E]^μ_ρ g^{ρν}
+
+(to 10⁻³⁴; control at order 0.1). On the surface t, x = const this is
+W^{tx} = (1/16π) N_ab [θ₁, θ₂]^{ab}, and:
+- **N = ⋆Σ_S** (to 10⁻⁶¹): N is the Hodge dual of the surface's area bivector,
+  Σ^{ab} = e^a_y e^b_z − e^a_z e^b_y;
+- **N·N = −2σ** (σ the determinant of the surface metric), so the orbit's radius is the
+  area density;
+- **N·⋆N = 0**: the bivector is simple.
+
+So, for any metric, **the frame's corner phase space is the Lorentz coadjoint orbit through
+⋆Σ_S/8πG**. This also settles the linear-order caveat about the orbit's radius. The
+simplicity condition is the one imposed by hand in spin-foam models (B = ⋆(e∧e)); here
+it comes out of the frame's corner form. In representation terms, simple orbits through a
+boost correspond to the principal series of SL(2,ℂ) with one label fixed by the area and
+the other zero.
+
 **Caveats:**
-- Q5–Q6 are for the pure-frame sector (flat metric). Q3 shows the metric enters at linear
-  order through the area density and the shift-type components. That the orbit radius
-  is the area density is shown at linear order only.
+- Q5, Q6 and Q8 vary the frame with the metric fixed. Joint variations of frame and
+  metric are covered only at linear order (Q3).
 - Q7 uses Varrin's construction and its normalization. Other quantizations of the orbit
   (other regularizations, or including discrete series) were not examined.
 - Not examined either: the behaviour of W under linearized diffeomorphisms at the corner,

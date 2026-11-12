@@ -47,6 +47,16 @@ T_{rho mu nu} = d_mu B_{rho nu} - d_nu B_{rho mu}. G = 1.
       k sinh(2 pi k), which gives A/4, needs the causal semigroup SL+(2,R) of normal-plane
       maps. For Lorentz boosts the causal condition is automatic (in null coordinates a
       boost is diag(e^eta, e^-eta)), so TEGR's frame does not supply it.
+  Q8  Any metric. For E = Lambda(x) ebar(x), with ebar an arbitrary curved tetrad (not
+      a solution: the identity is off shell) and finite frames Lambda, the frame part of
+      the symplectic current is d_nu W^{mu nu} with
+          W^{mu nu} = (sqrt(-g) / 8 pi) [E^-1 d1 E, E^-1 d2 E]^mu_rho g^{rho nu}.
+      On the surface t, x = const, W^{tx} = (1/16 pi) N_ab [theta_1, theta_2]^{ab} with
+      N = star Sigma_S, the Hodge dual of the surface's area bivector
+      Sigma^{ab} = e^a_y e^b_z - e^a_z e^b_y. Its Casimirs: N.N = -2 sigma (sigma the
+      determinant of the surface metric) and N.(star N) = 0 (simple). So the frame's
+      corner phase space is the Lorentz coadjoint orbit through star Sigma_S / 8 pi G:
+      radius the area density, second Casimir zero. (CHECK, 60 digits)
 Labels: KNOWN, CHECK (computed here).
 """
 import itertools
@@ -365,6 +375,108 @@ def plancherel_entropy(area):
     return (2 * mp.log(k * mp.tanh(mp.pi * k)), 2 * mp.log(k * mp.sinh(2 * mp.pi * k)), mp.mpf(area) / 4)
 
 
+def _eps4(p):
+    if len(set(p)) < 4:
+        return 0
+    sgn = 1
+    for i in range(4):
+        for j in range(i + 1, 4):
+            if p[i] > p[j]:
+                sgn = -sgn
+    return sgn
+
+
+def curved_check(points=2, seed=23, dps=60):
+    """Q8: (max |omega - div W|, control, max |omega|, |N - star Sigma|, |N.N + 2 sigma|,
+    |N.star N|) for a finite SO(3,1) frame on an arbitrary curved background tetrad."""
+    mp.mp.dps = dps
+    h = mp.mpf("1e-14")
+    rng = random.Random(seed)
+    E_ = _mp_eta()
+    Lam = _random_frame(6, rng)
+    cb = [[[mp.mpf(rng.randint(-9, 9)) / 40 for _ in range(5)] for _ in range(4)] for _ in range(4)]
+
+    def ebar(x):
+        M = mp.matrix(4, 4)
+        for a in range(4):
+            for m in range(4):
+                c = cb[a][m]
+                M[a, m] = (1 if a == m else 0) + c[0] + sum(c[1 + i] * x[i] * (1 + x[(i + 1) % 4] / 3) for i in range(4))
+        return M
+
+    def E(x, e1=0, e2=0):
+        return Lam(x, e1, e2) * ebar(x)
+
+    def lag(Em, P):
+        n = N4
+        Einv, g = Em ** -1, Em.T * E_ * Em
+        gi, e = g ** -1, mp.det(Em)
+        T = [[[sum(Einv[r, a] * (P[a][w][m] - P[a][m][w]) for a in range(n)) for w in range(n)] for m in range(n)]
+             for r in range(n)]
+        TL = [[[sum(g[r, q] * T[q][m][w] for q in range(n)) for w in range(n)] for m in range(n)] for r in range(n)]
+        Tup = [[[sum(gi[m, a] * gi[w, b] * T[r][a][b] for a in range(n) for b in range(n)) for w in range(n)]
+                for m in range(n)] for r in range(n)]
+        s1 = sum(Tup[r][m][w] * TL[r][m][w] for r, m, w in itertools.product(range(n), repeat=3))
+        s2 = sum(Tup[r][m][w] * TL[w][m][r] for r, m, w in itertools.product(range(n), repeat=3))
+        V = [sum(T[r][r][m] for r in range(n)) for m in range(n)]
+        s3 = sum(V[m] * sum(gi[m, k] * V[k] for k in range(n)) for m in range(n))
+        return -e * (s1 / 4 + s2 / 2 - s3) / (16 * mp.pi)
+
+    def mom(Em, P):
+        out = [[[0] * N4 for _ in range(N4)] for _ in range(N4)]
+        for a, w, m in itertools.product(range(N4), repeat=3):
+            Pp = [[[P[i][j][k] for k in range(N4)] for j in range(N4)] for i in range(N4)]
+            Pm = [[[P[i][j][k] for k in range(N4)] for j in range(N4)] for i in range(N4)]
+            Pp[a][w][m] += 1
+            Pm[a][w][m] -= 1
+            out[m][a][w] = (lag(Em, Pp) - lag(Em, Pm)) / 2
+        return out
+
+    def theta(x, e1, e2, which):
+        Em = E(x, e1, e2)
+        dE = [_cd(lambda s, m=m: E([x[k] + (s if k == m else 0) for k in range(4)], e1, e2), h) for m in range(4)]
+        P = [[[dE[m][a, w] for m in range(4)] for w in range(4)] for a in range(4)]
+        Pm = mom(Em, P)
+        dEe = _cd(lambda s: E(x, e1 + s, e2) if which == 1 else E(x, e1, e2 + s), h)
+        return mp.matrix([sum(Pm[mu][a][w] * dEe[a, w] for a in range(4) for w in range(4)) for mu in range(4)])
+
+    def W(x):
+        Em = E(x)
+        Einv, g = Em ** -1, Em.T * E_ * Em
+        t1 = Einv * _cd(lambda s: E(x, s, 0), h)
+        t2 = Einv * _cd(lambda s: E(x, 0, s), h)
+        return mp.sqrt(-mp.det(g)) * (t1 * t2 - t2 * t1) * g ** -1 / (8 * mp.pi)
+
+    worst = ctrl = size = mp.mpf(0)
+    for _ in range(points):
+        x = [mp.mpf(rng.randint(-20, 20)) / 23 for _ in range(4)]
+        om = _cd(lambda s: theta(x, s, 0, 2), h) - _cd(lambda s: theta(x, 0, s, 1), h)
+        div = mp.matrix(4, 1)
+        for nu in range(4):
+            div += _cd(lambda s, nu=nu: W([x[k] + (s if k == nu else 0) for k in range(4)])[:, nu], h)
+        worst, ctrl, size = max(worst, mp.norm(om - div)), max(ctrl, mp.norm(om + div)), max(size, mp.norm(om))
+    # the bivector at one point
+    Em = E(x)
+    Einv, g = Em ** -1, Em.T * E_ * Em
+    sqg = mp.sqrt(-mp.det(g))
+    N = mp.matrix(4, 4)
+    Sig = mp.matrix(4, 4)
+    for a in range(4):
+        for b in range(4):
+            N[a, b] = sqg * (Einv[0, a] * Einv[1, b] - Einv[0, b] * Einv[1, a])
+            Sig[a, b] = Em[a, 2] * Em[b, 3] - Em[a, 3] * Em[b, 2]
+    star = mp.matrix(4, 4)
+    for a in range(4):
+        for b in range(4):
+            star[a, b] = sum(_eps4([a, b, c, d]) * Sig[c, d] for c in range(4) for d in range(4)) / 2
+    Nup = E_ * N * E_
+    NN = sum(N[a, b] * Nup[a, b] for a in range(4) for b in range(4))
+    sigma = g[2, 2] * g[3, 3] - g[2, 3] ** 2
+    NsN = sum(N[a, b] * sum(_eps4([a, b, c, d]) * Nup[c, d] for c in range(4) for d in range(4)) / 2
+              for a in range(4) for b in range(4))
+    return worst, ctrl, size, mp.norm(N - star), abs(NN + 2 * sigma), abs(NsN)
+
+
 # --------------------------------------------------------------------------- main
 def main():
     banner("Q1  The frame is pure gauge in the bulk of linearized TEGR (CHECK)")
@@ -418,6 +530,16 @@ def main():
     print("   The group measure gives ln A; only the causal semigroup gives A/4. For Lorentz boosts")
     print("   the causal condition is automatic, so TEGR's frame alone does not give A/4. The")
     print("   exponential needs the normal-plane edge modes, which the frame does not supply.")
+
+    banner("Q8  Any metric: the orbit is through the dual area bivector (CHECK)")
+    w, c, sz, dN, cas1, cas2 = curved_check()
+    print(f"   Arbitrary curved background, finite SO(3,1) frame: |omega - div W| = {mp.nstr(w, 2)},"
+          f" control {mp.nstr(c, 3)}, |omega| = {mp.nstr(sz, 3)}")
+    print("   W^{mu nu} = (sqrt(-g)/8 pi) [E^-1 d1 E, E^-1 d2 E]^mu_rho g^{rho nu}")
+    print(f"   W^(tx) = (1/16 pi) N_ab [th1, th2]^ab with N = star Sigma_S: |N - star Sigma| = {mp.nstr(dN, 2)}")
+    print(f"   Casimirs: |N.N + 2 sigma| = {mp.nstr(cas1, 2)} (radius = area density),"
+          f"  |N.star N| = {mp.nstr(cas2, 2)} (simple)")
+    print("   So the frame's corner phase space is the Lorentz orbit through star Sigma_S / 8 pi G.")
 
 
 if __name__ == "__main__":
