@@ -46,3 +46,24 @@ K5  Euclidean: the frame winding around the time circle (CHECK)
    FOLLOWS: A/4 sits at the tip for the non-rotating frame, and nowhere at the tip
    for the regular frame, which then pays at infinity. The frame (the flat
    connection) decides where the entropy is booked: edge-mode-type data.
+
+==============================================================================
+K6  The first law: h(r) = oint (delta Q + Theta^r), Reissner-Nordstrom (CHECK)
+==============================================================================
+   delta = dM d/dM + dq d/dq; Theta_TEGR from the TEGR momentum, Theta_GR Iyer-Wald.
+   Gravity, TEGR static frame:  h = dM - dq*q/r
+   Gravity, TEGR boosted frame: h = dM - dq*q/r
+   Gravity, GR:                 h = dM - dq*q/r
+   TEGR - GR = 0 (static), 0 (boosted): identical in r, off the vacuum family
+   Maxwell: h = dq*q/r;   gravity + Maxwell: h = dM at every r
+   Horizon: gravity h(r+) - T dS = 0;  Maxwell h(r+) = dq*q/(M + sqrt(M**2 - q**2)) = Phi dq (Phi = q/r+)
+   So dM - T dS - Phi dq = 0: the first law, in both theories.
+   The split. GR: delta Q = dM/2 - dq*q/r, Theta^r = dM/2  (finite at r+)
+   TEGR: delta Q = h_grav (2 - 1/sqrt f), Theta^r = h_grav (1/sqrt f - 1)  (residuals 0, 0):
+   each diverges at the horizon; only the sum is finite.
+   Caveat: with xi = d_t fixed, the dM perturbation in static coordinates is not
+   smooth at the bifurcation surface (kappa changes), so in neither theory does the
+   charge alone equal T dS there (GR's delta Q(r+) = dM/2 at q = 0). Only h(r+) is
+   gauge-invariant, and it is T dS + Phi dq.
+   FOLLOWS: the frame (Lorentz) sector adds nothing to the first law. It moves terms
+   between the Noether charge and the symplectic flux, and that is all.

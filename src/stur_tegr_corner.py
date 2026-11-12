@@ -34,6 +34,19 @@ curvature is checked to vanish.
       (it is finite, M, only for k = 0).
       The connection in the earlier E3 test (k d tau added to the static reference) is NOT
       flat; this replaces it. (CHECK)
+  K6  The first law. h(r) = oint (delta Q^{tr} + Theta^r), the Hamiltonian variation on
+      a sphere, for Reissner-Nordstrom with M and q varied independently. Theta_TEGR is
+      computed from the TEGR momentum, Theta^r = Pi_a^{r nu} delta e^a_nu; Theta_GR and
+      Q_GR from the Iyer-Wald formulas; Maxwell's terms are added to both.
+        - h_TEGR = h_GR for the gravitational part, identically in r and off the vacuum
+          family, in the static frame and in the boosted frame: the frame drops out. This
+          is the identity delta(iota_xi alpha) - iota_xi(delta alpha) = 0.
+        - Gravity + Maxwell: h = dM at every r. At the horizon, gravity gives T dS and
+          Maxwell Phi dQ: dM = T dS + Phi dQ in both theories.
+        - The split differs. GR: finite at the horizon. TEGR: delta Q and Theta each
+          diverge there as -+ h_grav / sqrt f; only their sum is finite.
+      FOLLOWS: the frame (Lorentz) sector adds nothing to the first law; it only moves
+      terms between the Noether charge and the symplectic flux. (CHECK)
 Labels: KNOWN, CHECK (computed here).
 """
 import sympy as sp
@@ -228,6 +241,91 @@ def winding_tip_term(res):
     return {"ratio": ratio, "regular_k": k_reg, "flux_inf_k0": inf0, "flux_inf_regular": infk, "M": M}
 
 
+# --------------------------------------------------------------------------- K6
+_M, _q, _dM, _dq = sp.symbols("M q dM dq", real=True)
+
+
+def _var(expr):
+    """The perturbation delta = dM d/dM + dq d/dq."""
+    return _dM * sp.diff(expr, _M) + _dq * sp.diff(expr, _q)
+
+
+def _rn_f():
+    return 1 - 2 * _M / r + _q**2 / r**2
+
+
+def first_law_tegr(frame="static"):
+    """(delta Q, Theta^r) on the sphere for TEGR, Reissner-Nordstrom, xi = d_t."""
+    f = _rn_f()
+    if frame == "static":
+        w = pure_gauge(spherical_rotation())
+    else:
+        w = at_t0(pure_gauge(spherical_rotation() * boost(sp.Symbol("kappa", positive=True))))
+    E = static_tetrad(f)
+    P = momentum(E, sp.diag(-1, 1, 1, 1), w, pairs=((0, 1), (1, 0), (1, 2), (1, 3)))
+    Q = sphere(sum(P[(0, 1)][a] * E[a, 0] for a in range(N4)))
+    dE = _var(E)
+    Th = sphere(sum(P[(1, v)][a] * dE[a, v] for a in range(N4) for v in (0, 2, 3)))  # Pi^{rr} = 0
+    return sp.simplify(_var(Q)), sp.simplify(Th)
+
+
+def first_law_gr():
+    """(delta Q, Theta^r) for GR: Theta^mu = sqrt(-g)/16 pi (nabla_nu h^{mu nu} - nabla^mu h)."""
+    f = _rn_f()
+    g = sp.diag(-f, 1 / f, r**2, r**2 * sp.sin(th)**2)
+    gi, dg = g.inv(), _var(g)
+    sq = sp.sqrt(-g.det())
+    Gam = [[[sum(gi[a, d] * (sp.diff(g[d, b], X[c]) + sp.diff(g[d, c], X[b]) - sp.diff(g[b, c], X[d]))
+                 for d in range(N4)) / 2 for c in range(N4)] for b in range(N4)] for a in range(N4)]
+    hup = gi * dg * gi
+    htr = sum(gi[a, b] * dg[a, b] for a in range(N4) for b in range(N4))
+    divh = sum(sp.diff(hup[1, v], X[v]) + sum(Gam[1][v][l] * hup[l, v] + Gam[v][v][l] * hup[1, l]
+                                             for l in range(N4)) for v in range(N4))
+    Th = sphere(sq * (divh - sum(gi[1, v] * sp.diff(htr, X[v]) for v in range(N4))) / (16 * sp.pi))
+    xl = [g[m, 0] for m in range(N4)]
+    cov = [[sp.diff(xl[v], X[m]) - sum(Gam[l][m][v] * xl[l] for l in range(N4)) for v in range(N4)]
+           for m in range(N4)]
+    up = lambda a, b: sum(gi[a, c] * gi[b, d] * cov[c][d] for c in range(N4) for d in range(N4))
+    Q = sphere(sq * (up(1, 0) - up(0, 1)) / (16 * sp.pi))
+    return sp.simplify(_var(Q)), sp.simplify(Th)
+
+
+def first_law_maxwell():
+    """(delta Q, Theta^r) for L = -(1/16 pi) sqrt(-g) F^2, A = -(q/r) dt (A_t(oo) = 0)."""
+    f = _rn_f()
+    sq = r**2 * sp.sin(th)
+    At = -_q / r
+    Ftr = -sp.diff(At, r)
+    Fup_tr = (-1 / f) * f * Ftr                                       # g^tt g^rr F_tr
+    Th = sphere(-sq * (-Fup_tr) * _var(At) / (4 * sp.pi))            # F^{rt} delta A_t
+    Q = sphere(-sq * Fup_tr * At / (4 * sp.pi))
+    return sp.simplify(_var(Q)), sp.simplify(Th)
+
+
+def first_law():
+    """All K6 results as exact expressions."""
+    tq, tt = first_law_tegr("static")
+    bq, bt = first_law_tegr("boosted")
+    gq, gt = first_law_gr()
+    mq, mt = first_law_maxwell()
+    rp = _M + sp.sqrt(_M**2 - _q**2)
+    rm = _M - sp.sqrt(_M**2 - _q**2)
+    kappa = (rp - rm) / (2 * rp**2)
+    TdS = kappa / (2 * sp.pi) * _var(sp.pi * rp**2)
+    h_grav = sp.simplify(gq + gt)
+    f = _rn_f()
+    return {"tegr": (tq, tt), "boosted": (bq, bt), "gr": (gq, gt), "maxwell": (mq, mt),
+            "h_tegr": sp.simplify(tq + tt), "h_boosted": sp.simplify(bq + bt), "h_gr": h_grav,
+            "h_total": sp.simplify(h_grav + mq + mt),
+            "tegr_minus_gr": sp.simplify(tq + tt - h_grav), "boost_minus_gr": sp.simplify(bq + bt - h_grav),
+            "grav_hor_minus_TdS": sp.simplify(h_grav.subs(r, rp) - TdS),
+            "maxwell_hor": sp.simplify((mq + mt).subs(r, rp)), "Phi": _q / rp,
+            "first_law": sp.simplify(_dM - TdS - _q / rp * _dq),
+            "tegr_dQ_form": sp.simplify(tq - h_grav * (2 - 1 / sp.sqrt(f))),
+            "tegr_Th_form": sp.simplify(tt - h_grav * (1 / sp.sqrt(f) - 1)),
+            "symbols": (_M, _q, _dM, _dq)}
+
+
 # --------------------------------------------------------------------------- main
 def main():
     banner("K1  TEGR Noether charge for xi = d_t, from L_TEGR directly (CHECK)")
@@ -279,6 +377,30 @@ def main():
     print("   FOLLOWS: A/4 sits at the tip for the non-rotating frame, and nowhere at the tip")
     print("   for the regular frame, which then pays at infinity. The frame (the flat")
     print("   connection) decides where the entropy is booked: edge-mode-type data.")
+
+    banner("K6  The first law: h(r) = oint (delta Q + Theta^r), Reissner-Nordstrom (CHECK)")
+    fl = first_law()
+    print("   delta = dM d/dM + dq d/dq; Theta_TEGR from the TEGR momentum, Theta_GR Iyer-Wald.")
+    print(f"   Gravity, TEGR static frame:  h = {fl['h_tegr']}")
+    print(f"   Gravity, TEGR boosted frame: h = {fl['h_boosted']}")
+    print(f"   Gravity, GR:                 h = {fl['h_gr']}")
+    print(f"   TEGR - GR = {fl['tegr_minus_gr']} (static), {fl['boost_minus_gr']} (boosted): identical in r,"
+          " off the vacuum family")
+    print(f"   Maxwell: h = {sp.simplify(sum(fl['maxwell']))};   gravity + Maxwell: h = {fl['h_total']} at every r")
+    print(f"   Horizon: gravity h(r+) - T dS = {fl['grav_hor_minus_TdS']};  Maxwell h(r+) = {fl['maxwell_hor']}"
+          " = Phi dq (Phi = q/r+)")
+    print(f"   So dM - T dS - Phi dq = {fl['first_law']}: the first law, in both theories.")
+    gq, gt = fl["gr"]
+    print(f"   The split. GR: delta Q = {gq}, Theta^r = {gt}  (finite at r+)")
+    print(f"   TEGR: delta Q = h_grav (2 - 1/sqrt f), Theta^r = h_grav (1/sqrt f - 1)"
+          f"  (residuals {fl['tegr_dQ_form']}, {fl['tegr_Th_form']}):")
+    print("   each diverges at the horizon; only the sum is finite.")
+    print("   Caveat: with xi = d_t fixed, the dM perturbation in static coordinates is not")
+    print("   smooth at the bifurcation surface (kappa changes), so in neither theory does the")
+    print("   charge alone equal T dS there (GR's delta Q(r+) = dM/2 at q = 0). Only h(r+) is")
+    print("   gauge-invariant, and it is T dS + Phi dq.")
+    print("   FOLLOWS: the frame (Lorentz) sector adds nothing to the first law. It moves terms")
+    print("   between the Noether charge and the symplectic flux, and that is all.")
 
 
 if __name__ == "__main__":

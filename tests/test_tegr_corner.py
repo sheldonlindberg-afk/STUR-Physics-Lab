@@ -44,3 +44,16 @@ def test_euclidean_winding_replaces_nonflat_e3_test():
     assert sp.simplify(tip["ratio"] - (1 + 4 * M * k)) == 0               # (A/4)(1 + k/kappa)
     assert tip["regular_k"] == [-1 / (4 * M)]
     assert tip["flux_inf_k0"] == M and tip["flux_inf_regular"] == sp.oo
+
+
+def test_first_law_tegr_equals_gr_and_frame_drops_out():
+    fl = C.first_law()
+    M, q, dM, dq = fl["symbols"]
+    assert sp.simplify(fl["h_gr"] - (dM - q * dq / r)) == 0
+    assert fl["tegr_minus_gr"] == 0 and fl["boost_minus_gr"] == 0     # frame drops out
+    assert fl["h_total"] == dM                                          # gravity + Maxwell
+    assert fl["grav_hor_minus_TdS"] == 0 and fl["first_law"] == 0      # dM = T dS + Phi dq
+    assert sp.simplify(fl["maxwell_hor"] - fl["Phi"] * dq) == 0
+    assert fl["tegr_dQ_form"] == 0 and fl["tegr_Th_form"] == 0          # the TEGR split
+    gq, gt = fl["gr"]
+    assert sp.simplify(gt - dM / 2) == 0

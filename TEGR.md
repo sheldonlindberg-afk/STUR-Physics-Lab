@@ -216,9 +216,7 @@ Killing flow, Λ = Λ_A B(κt). The connection is flat, and:
   adds a volume term κ r (1/√f − 1) per unit radius. This vanishes as the region shrinks
   to the horizon and grows linearly at infinity, where the frame keeps boosting.
 
-**Open:** whether the first-law variation of this Lorentz sector carries κ δS at the
-bifurcation surface. That needs the full covariant phase space of TEGR with the
-connection's variation and is not done here.
+Whether this Lorentz sector carries κ δS in the first law is answered by K6: it doesn't.
 
 **K5. Euclidean: the frame winding around the time circle (CHECK).**
 Λ = Λ_A R(kτ), with k = 0 the frame of E3:
@@ -233,13 +231,40 @@ The earlier version of this check added k dτ to the static reference connection
 connection has four nonzero curvature components, so it isn't TEGR's. K5 replaces it, and
 E3's conclusion survives.
 
+**K6. The first law (CHECK).** The Hamiltonian variation on a sphere of radius r is
+h(r) = ∮(δQ^{tr} + Θ^r). Here δ varies M and the charge q independently, for
+Reissner–Nordström. TEGR's symplectic potential is computed from its own momentum,
+Θ^r = Π_a^{rν} δe^a_ν. GR's Θ and Q come from the Iyer–Wald formulas, and Maxwell's
+terms are added to both theories.
+
+| | Result |
+|---|---|
+| Gravity, TEGR (static frame), TEGR (boosted frame), GR | h = δM − q δq/r in all three, identical at every r. The frame drops out |
+| Gravity + Maxwell | h = δM at every r |
+| At the horizon | gravity gives TδS = κδA/8π, Maxwell gives Φ δq (Φ = q/r₊): **δM = TδS + Φ δQ**, in both theories |
+| The split, GR | δQ = δM/2 − q δq/r, Θ^r = δM/2: finite at the horizon |
+| The split, TEGR | δQ = h(2 − 1/√f), Θ^r = h(1/√f − 1): each diverges at the horizon, and only the sum is finite |
+
+Why the frame drops out: L_TEGR = L_GR + dα gives Θ_TEGR = Θ_GR + δα and
+Q_TEGR = Q_GR + ι_ξα, so the difference in h is δ(ι_ξα) − ι_ξ(δα) = 0. TEGR's
+symplectic current equals GR's, so the frame contributes no bulk term either. The
+computation confirms this without assuming it, because Θ_TEGR and Q_TEGR are computed
+from the TEGR Lagrangian directly.
+
+A caveat. With ξ = ∂_t held fixed, the δM perturbation in static coordinates isn't smooth
+at the bifurcation surface, because κ changes. So in neither theory does the charge alone
+equal TδS there: GR's δQ(r₊) is δM/2 at q = 0, not δM. Only h(r₊) is invariant, and it is
+TδS + Φ δq.
+
 **What this shows.** The bulk theories are identical, but *where the entropy is booked*
 depends on the flat connection, i.e. on the frame. For the static frame it sits entirely
 in the corner term. For the frame regular at the Euclidean tip it leaves the tip, and the
 frame pays at infinity instead. That the frame carries corner data in TEGR is the
 edge-mode reading of Girelli, Qiu and Zwikel ([2412.14258](https://arxiv.org/abs/2412.14258))
-at null infinity; K3–K5 are the corresponding classical facts at a horizon. Whether
-quantizing that frame gives A/4 as entanglement entropy is the open question in
+at null infinity; K3–K5 are the corresponding classical facts at a horizon. The first
+law (K6) is the same in both theories and doesn't see the frame, so classically the frame
+changes the bookkeeping, not the thermodynamics. Whether quantizing that frame gives A/4
+as entanglement entropy is the open question in
 [QUANTUM_TEGR.md](QUANTUM_TEGR.md), section 6.
 
 ## What this means

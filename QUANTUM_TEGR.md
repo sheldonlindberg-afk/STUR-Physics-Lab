@@ -175,8 +175,10 @@ The classical part is within reach of this repository's code, and has been start
 static frame, TEGR's Noether charge vanishes at the bifurcation surface and the corner
 term carries all of the Wald entropy. With frames winding around the Euclidean time
 circle, the tip term is (A/4)(1 + k/κ). So the frame decides where the entropy is booked.
-Still open classically: the first-law variation of the Lorentz (frame) sector at the
-bifurcation surface. The quantum part, quantizing the corner frames and computing the
+Classically, the first law is now done too (K6). It is the same in TEGR and GR, the frame
+drops out of it, and the frame only moves terms between the Noether charge and the
+symplectic flux. So any role for the frame in the entropy has to come from quantizing it,
+not from classical thermodynamics. The quantum part, quantizing the corner frames and computing the
 entropy, is research-level.
 
 ## What this suggests
@@ -194,8 +196,8 @@ In order of size:
 3. **Research-level: 4D teleparallel edge modes and entanglement entropy (sections 5–6).**
    The search is done. The open question: does TEGR's flat connection supply the
    edge-mode reference frames at a bifurcate horizon, and does their quantization give
-   A/4 (compare Varrin 2026, metric variables)? The classical first step is started
-   (TEGR.md K1–K5); the first-law variation of the frame sector is next. Contact the
+   A/4 (compare Varrin 2026, metric variables)? The classical part is done
+   (TEGR.md K1–K6): the frame changes where the entropy is booked, but not the first law. Contact the
    Girelli–Zwikel–Wieland group before investing further.
 
 Not recommended: a new version of quantum mechanics. Nothing in this search suggests
