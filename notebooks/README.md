@@ -1,6 +1,6 @@
 # Study notebooks
 
-Four worked examples at the gravity–quantum interface, each with a short derivation,
+Five worked examples at the gravity–quantum interface, each with a short derivation,
 code that calls the tested functions in `src/`, and exercises. The outputs are saved in
 the notebooks, so they read on GitHub without running anything.
 
@@ -10,6 +10,7 @@ the notebooks, so they read on GitHub without running anything.
 | [02_complementarity_and_decoherence](02_complementarity_and_decoherence.ipynb) | Englert's V² + D² = 1; a thermal environment, −ln V = 2 Var(ΔN) | Density matrices; coherent and thermal states |
 | [03_gravity_mediated_entanglement](03_gravity_mediated_entanglement.ipynb) | The Bose–Marletto–Vedral two-mass experiment: branch phases, concurrence, gas decoherence | Two-qubit entanglement measures |
 | [04_area_law](04_area_law.ipynb) | Srednicki's area law, S ≈ 0.30 (R/a)² | Gaussian states, symplectic eigenvalues |
+| [05_teleparallel_3d_quantum](05_teleparallel_3d_quantum.ipynb) | Teleparallel gravity in 3D; the Ponzano–Regge amplitude: 6j symbols, their Regge-action limit, triangulation independence | Notebook 01; SU(2) recoupling |
 
 ```bash
 pip install -r requirements.txt jupyter

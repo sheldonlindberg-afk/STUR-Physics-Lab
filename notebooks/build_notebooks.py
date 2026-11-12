@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Generate and execute the study notebooks. Run from the repository root:
-    python3 notebooks/build_notebooks.py
+    python3 notebooks/build_notebooks.py               # all
+    python3 notebooks/build_notebooks.py 05_...ipynb   # only the named ones
 """
 import os
 import nbformat as nbf
@@ -182,8 +183,80 @@ print(f"fitted slope c_s = {c:.3f}  (Srednicki: 0.30; the repository's converged
 ])
 
 
-def main():
+BOOKS["05_teleparallel_3d_quantum.ipynb"] = nb([
+("md", r"""# 5. Teleparallel gravity in 3D and the Ponzano–Regge amplitude
+
+**Prerequisites:** notebook 1; SU(2) recoupling (Clebsch–Gordan and 6j symbols) at the
+level of a quantum-mechanics course. **References:** G. Ponzano and T. Regge (1968);
+J. Roberts, Geom. Topol. 3, 21 (1999); C. Delcamp, L. Freidel and F. Girelli,
+[arXiv:1803.03246](https://arxiv.org/abs/1803.03246); and, for context,
+[QUANTUM_TEGR.md](../QUANTUM_TEGR.md).
+
+Quantum gravity is solved in one case: three spacetime dimensions. 3D Euclidean gravity
+is a BF theory, $S=\frac{1}{16\pi G}\int \mathrm{tr}(e\wedge F(\omega))$, with two
+equations of motion:
+
+- **flatness**, $F(\omega)=0$;
+- **zero torsion**, $d_\omega e=0$.
+
+It has no local degrees of freedom. The standard loop quantization imposes the torsion
+(Gauss) constraint first and flatness last. The *dual* quantization imposes flatness
+first, $\omega$ pure gauge, so gravity is carried by the triad and its torsion: the
+teleparallel choice. Every result in this notebook is known. The aim is to compute them,
+not to add to them."""),
+("code", SETUP + "\nfrom fractions import Fraction as F\nimport stur_tegr3d as U"),
+("md", r"""## The TEGR identity holds in 3D
+As in 4D, $\mathbb{T}=-R+B$ with $B$ a total divergence, so 3D TEGR and 3D GR differ by a
+boundary term. With a rational tetrad the check is exact:"""),
+("code", """for d, T, R in U.identity_3d():
+    print(f"T = {T:+.6e}   R = {R:+.6e}   T + R - B = {d}  (exact)")"""),
+("md", r"""## The amplitude: 6j symbols
+The Ponzano–Regge model cuts space into tetrahedra, labels each edge with a spin $j$ (its
+length is $j+\tfrac12$ in Planck units) and assigns each tetrahedron a Wigner 6j symbol.
+`U.sixj` computes it exactly from Racah's formula."""),
+("code", """print("{1 1 1; 1 1 1} =", U.sixj(1, 1, 1, 1, 1, 1), "(exact 1/6)")
+print("worst difference from sympy over 30 cases:", U.check_against_sympy())"""),
+("md", r"""## The classical limit is the Regge action
+For large spins,
+$$\begin{Bmatrix} j_1 & j_2 & j_3\\ j_4 & j_5 & j_6\end{Bmatrix}\approx
+\frac{1}{\sqrt{12\pi V}}\cos\Big(\sum_e (j_e+\tfrac12)\,\theta_e+\frac{\pi}{4}\Big),$$
+with $V$ the volume and $\theta_e$ the exterior dihedral angles of the tetrahedron.
+$\sum_e l_e\theta_e$ is the Regge action, discrete 3D gravity. So the quantum amplitude
+oscillates with the classical action, as a WKB wavefunction does."""),
+("code", """for k, ex, a, err in U.pr_scan():
+    js = [k * b for b in (5, 6, 7, 6, 5, 6)]
+    print(f"j = {js}: exact {ex:+.6e}  asymptotic {a:+.6e}  |diff|/envelope {err:.1e}")"""),
+("md", r"""## No local degrees of freedom: the 2–3 move
+Two tetrahedra glued on a face can be re-cut into three sharing an edge. The amplitude is
+unchanged because of the Biedenharn–Elliott identity, so it does not depend on the
+triangulation. This is the quantum form of "3D gravity has no local degrees of
+freedom". Orthogonality of the 6j symbols does the same for the 1–4 move, up to a
+divergent factor that has to be regularized."""),
+("code", """worst, hits = U.be_check()
+print(f"Biedenharn-Elliott: {hits} random spin sets, worst |LHS - RHS| = {worst:.1e}")
+ps, M = U.orthogonality(1, F(3, 2), 1, F(3, 2))
+print("orthogonality matrix:\\n", np.round(M, 12))"""),
+("md", r"""## Exercises
+1. **Schläfli's identity.** Show numerically, with `U.tetrahedron`, that
+   $\sum_e l_e\, d\theta_e=0$ under a small change of edge lengths. Use it to prove that
+   $\partial S_{\rm Regge}/\partial l_e=\theta_e$: the Regge equations say the deficit
+   angles vanish, i.e. space is flat.
+2. **Non-Euclidean tetrahedra.** Find admissible spins for which `U.tetrahedron` returns
+   `None` (no Euclidean tetrahedron exists). Show that the 6j symbol there decays
+   exponentially with $k$ instead of oscillating. This is tunnelling.
+3. **Two orderings.** Delcamp, Freidel and Girelli (1803.03246) impose flatness first.
+   Read their section on the dual vacuum. What plays the role of the spin-network basis,
+   and what replaces the SU(2) holonomy as the basic variable?
+4. **What doesn't carry over.** In 3D both quantizations describe a theory without local
+   degrees of freedom. Explain why that makes 3D a poor guide to whether TEGR and GR
+   differ as quantum theories in 4D, where gravitons propagate."""),
+])
+
+
+def main(names=None):
     for name, book in BOOKS.items():
+        if names and name not in names:
+            continue
         path = os.path.join(HERE, name)
         NotebookClient(book, timeout=900, kernel_name="python3",
                        resources={"metadata": {"path": HERE}}).execute()
@@ -192,4 +265,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    main(sys.argv[1:] or None)          # e.g. python3 notebooks/build_notebooks.py 05_teleparallel_3d_quantum.ipynb

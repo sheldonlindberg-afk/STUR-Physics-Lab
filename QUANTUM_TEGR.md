@@ -132,9 +132,11 @@ In order of size:
 1. **Done: cite the literature for E3 and extend it (section 3).** TEGR.md cites
    2410.04510 and 2412.13946, and E3b (`src/stur_tegr.py`, pinned in `tests/test_tegr.py`)
    adds the Reissner–Nordström case and the horizon term. Recomputation, not new physics.
-2. **Medium: a worked example in 2+1D.** The dual loop quantization of 3D gravity
-   (section 1) is the one place quantum teleparallel gravity is developed and testable.
-   Reproducing a known 3D result in code would be a good study notebook.
+2. **Done in part: a worked example in 2+1D.** Notebook
+   [05](notebooks/05_teleparallel_3d_quantum.ipynb) and `src/stur_tegr3d.py` reproduce the
+   3D TEGR identity, the Ponzano–Regge asymptotics and the 2–3 move. They do not
+   reproduce the dual (flat-first) construction itself; that is the natural next step
+   for the notebook (its exercise 3).
 3. **Research-level: 4D teleparallel edge modes and entanglement entropy (section 5).**
    The only gap found. It needs the first-order full-text search first, and then expert
    input.

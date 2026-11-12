@@ -80,6 +80,7 @@ The closest prior work is Doff & Pisano (2000). The literature search is in
 | [02 Complementarity and decoherence](notebooks/02_complementarity_and_decoherence.ipynb) | Englert's V² + D² = 1; a thermal which-path environment, −ln V = 2 Var(ΔN) | Density matrices |
 | [03 Gravity-mediated entanglement](notebooks/03_gravity_mediated_entanglement.ipynb) | Bose–Marletto–Vedral branch phases, concurrence, gas decoherence | Two-qubit entanglement |
 | [04 The area law](notebooks/04_area_law.ipynb) | Srednicki's S ≈ 0.30 (R/a)² | Gaussian states |
+| [05 Teleparallel gravity in 3D](notebooks/05_teleparallel_3d_quantum.ipynb) | 3D quantum gravity (Ponzano–Regge): exact 6j symbols, their Regge-action limit, the 2–3 move | Notebook 01; SU(2) recoupling |
 
 Outputs are saved, so the notebooks read on GitHub, and CI re-runs them on every commit.
 
@@ -126,11 +127,12 @@ same footing in one calculation.
 ```bash
 pip install -r requirements.txt pytest
 python3 src/stur_tegr_gr.py         # GR's classic tests from TEGR, ~10 s
+python3 src/stur_tegr3d.py          # 3D: Ponzano-Regge 6j asymptotics and the 2-3 move, ~3 s
 python3 src/stur_derivation.py      # the whole chain, ~30 s
 python3 src/stur_gravity_full.py    # the two-diamond design search, ~15 s
 python3 src/m331_exact.py           # the 3-3-1 selection, both variants
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
-python -m pytest tests -q           # every number pinned (104 tests)
+python -m pytest tests -q           # every number pinned (110 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on
