@@ -81,8 +81,8 @@ COND_13 = 0.272               # GeV, |<qbar q>|^(1/3), lattice (FLAG), MS-bar 2 
 COND_13_ERR = 0.005           # GeV, FLAG 2024 (N_f = 2+1)
 M_PI0, M_PIC = 0.1349768, 0.13957039
 G_A, M_N = 1.2754, 0.9389187  # nucleon axial coupling; average nucleon mass (GeV)
-G_PINN_EMP = 13.1             # empirical pi-N coupling: g^2/4pi = 13.7 +- 0.2 from pi-N scattering
-G_PINN_ERR = 0.1              # (e.g. Baru et al., Nucl. Phys. A 872, 69 (2011)), so g = 13.1 +- 0.1
+G_PINN_EMP = 13.1             # charged pi-N coupling: g_c^2/4pi = 13.69 +- 0.12 +- 0.15 (GMO sum rule;
+G_PINN_ERR = 0.1              # Baru et al., Nucl. Phys. A 872, 69 (2011), eq. 9.13), so g = 13.12 +- 0.09
 HBARC_GEV_FM = 0.1973269804
 G_NEWTON = 6.67430e-11        # m^3 kg^-1 s^-2
 HBAR = 1.054571817e-34        # J s
