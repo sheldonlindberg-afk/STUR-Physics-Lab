@@ -40,6 +40,10 @@
   one trapped ion, contrast 0.787 -> 0.111 from nbar = 0.1 to 5.
 
 ## Key files
+- /NOTE_TEGR.md — technical note: TEGR's frame and black-hole entropy. Classically it
+  moves the Wald entropy into the corner term but leaves the first law as GR's; its
+  corner phase space is a Lorentz orbit through the dual area bivector / 8 pi G;
+  quantized it gives a group-dependent log, not A/4 or Sen's 77/45, so it is gauge.
 - /paper/note331.pdf — the 3-3-1 note (LaTeX source: /paper/note331.tex)
 - /src/m331_standalone.py — the 3-3-1 selection in one file, standard library only:
   paste into any Python runner or AI code tool and run; it ends with 20 PASS/FAIL checks

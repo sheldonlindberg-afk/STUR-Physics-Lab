@@ -72,6 +72,26 @@ The closest prior work is Doff & Pisano (2000). The literature search is in
 [NOVELTY.md](NOVELTY.md). Comments from 3-3-1 experts are welcome; please
 [open an issue](https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/issues).
 
+## For researchers: the frame in teleparallel gravity and black-hole entropy
+
+**[NOTE_TEGR.md](NOTE_TEGR.md)** (literature map: [QUANTUM_TEGR.md](QUANTUM_TEGR.md))
+
+Teleparallel gravity (TEGR) equals GR up to a boundary term, plus one extra variable, the
+local Lorentz frame. The note asks whether that frame contributes to black-hole entropy.
+
+- **Classically, it changes where the entropy is booked, not the first law.** TEGR's
+  Noether charge vanishes at the bifurcation surface, and the Wald entropy sits in the
+  corner term instead. δM = TδS + ΦδQ comes out as in GR for every frame.
+- **The frame's corner phase space is a Lorentz orbit through the dual area bivector over
+  8πG,** for any metric. Its charges close into so(3,1), and its normal boost is conjugate
+  to area/8πG.
+- **Quantized, it gives a group-dependent logarithm** (1, 5 or 9 × ln a), not the area law
+  and not Sen's universal 77/45. So the frame must be gauge in the measure, and TEGR's
+  black-hole entropy is GR's.
+
+All of it is computed by `src/stur_tegr_corner.py`, `src/stur_tegr_frame.py` and
+`src/stur_tegr_logs.py`, and pinned by tests.
+
 ## For students: notebooks with exercises
 
 | Notebook | What it works out | Prerequisites |
@@ -148,6 +168,8 @@ paper/                    the 3-3-1 note: PDF and LaTeX source
 notebooks/                study notebooks with exercises
 NOTE_331.md               the 3-3-1 note with extended detail on each check
 NOVELTY.md                literature search: what is new, what was already known
+NOTE_TEGR.md              the frame in teleparallel gravity and black-hole entropy
+QUANTUM_TEGR.md           literature map for quantum teleparallel gravity
 TEGR.md, MEASUREMENT.md, BORN.md, DERIVATION.md, GRAVITY_ENTANGLEMENT.md,
 OPPENHEIM.md, COLLECTIVE.md, EMERGENT.md, PREDICTIONS.md
                           the worked examples, one report each
