@@ -299,6 +299,66 @@ the other zero.
 - Not examined either: the behaviour of W under linearized diffeomorphisms at the corner,
   and the full nonlinear corner form with a curved metric.
 
+## 8. The logarithmic correction (`src/stur_tegr_logs.py`)
+
+Quantized as a group, the frame adds a logarithm to the entropy (section 7, Q7). Is it
+the physical one? Logarithmic corrections are universal. They come from the one-loop
+determinants of the massless fields and from zero modes, so they don't depend on the
+ultraviolet completion. Sen computes them for Schwarzschild in D = 4
+([1205.0971](https://arxiv.org/abs/1205.0971), JHEP 04 (2013) 156).
+
+**Benchmarks, quoted from the sources:**
+- **Sen, eq. (1.2) and (1.5).** In the ensemble of rotation-singlet states per unit
+  mass, ΔS = (C_local − 3) ln a, with
+  C_local = (2n_S − 26n_V + 7n_F − (233/2)n_{3/2} + 424)/90. For pure gravity that is
+  (77/45) ln a.
+- **Sen, section 4.** SU(2) loop quantum gravity gives −2 ln a in the same ensemble.
+- **Varrin, eqs. (4.20)–(4.24).** The edge term is 2⟨ln μ(k)⟩, with k ∝ A.
+- **David and Mukherjee** ([2201.06043](https://arxiv.org/abs/2201.06043)). The graviton's
+  edge sectors across a sphere in flat space give −16/3. This is a flat-space entanglement
+  benchmark, not a black-hole ensemble.
+
+**Computed here.** Varrin-type edge counting for each group the frame could be quantized
+with, converted to Sen's ensemble. Converting from area-labelled to mass-labelled counting
+adds +1·ln a: k = M², so the width in k at a fixed mass window is 2M δM. This is the same
+conversion Sen uses for loop quantum gravity.
+
+| Coefficient of ln a, Sen's singlet ensemble | Value |
+|---|---|
+| Sen, pure gravity (universal) | 77/45 = **1.711** |
+| Sen, gravity + photon (the massless fields at black-hole scales) | 64/45 = **1.422** |
+| SU(2) loop quantum gravity (Sen, section 4) | −2 |
+| Edge counting, SO(1,1): the normal boost alone (spherical reduction) | 1 |
+| Edge counting, SL(2,ℝ) ≅ so(2,1) (Q7) | 5 |
+| Edge counting, SL(2,ℂ) ≅ so(3,1), simple principal series: the frame's full orbit (Q8) | 9 |
+| Edge counting, Varrin's causal semigroup SL⁺(2,ℝ) | 5 |
+
+The SL(2,ℂ) Plancherel density, ∝ (n² + ρ²) and so ∝ ρ² for the simple series, is the
+Gelfand–Naimark result, quoted from memory rather than from a source retrieved here.
+
+**What this shows.**
+- The frame's logarithm depends on which group it is quantized with (1, 5 or 9). None of
+  these equals the universal value.
+- None of them depends on the matter content, which Sen's coefficient must, through the
+  trace anomaly.
+- So the frame's edge logarithm is construction-dependent and is not the physical log
+  correction.
+- Sen's coefficient comes from one-loop bulk determinants and zero modes, which are the
+  same in TEGR and GR because they differ only by a boundary term. It stays the same in
+  TEGR **provided the frame is treated as gauge in the path-integral measure**, i.e. its
+  local Lorentz volume is divided out. Counting the frame's orbit states as physical would
+  add to the universal coefficient, putting TEGR in conflict with a result that, in the
+  extremal cases, matches microscopic string-theory counting (Sen's abstract).
+
+**Conclusion.** Quantum mechanically, as classically (K6), the frame is bookkeeping. It
+can't change the area law or the universal log, so TEGR's black-hole entropy is GR's.
+
+**Caveats:**
+- Varrin's construction is spherically reduced. Mapping it onto Sen's 4D singlet ensemble
+  is a heuristic comparison, not a derivation in that ensemble.
+- A first-principles test would compute TEGR's Euclidean one-loop partition function
+  with the frame's measure written out explicitly.
+
 ## What this suggests
 
 In order of size:
@@ -319,7 +379,9 @@ In order of size:
    The quantum part has started (section 7). The frame's normal boost is conjugate to
    area/8πG, and the frame's corner charges close exactly into the Lorentz algebra (a
    Kirillov–Kostant orbit). Quantized as a group, that gives ln A, not A/4: the area law
-   needs the normal-plane edge modes, which are the same in TEGR and GR.
+   needs the normal-plane edge modes, which are the same in TEGR and GR. Its logarithm is
+   not the universal one either (section 8), so the frame must be gauge in the measure.
+   TEGR's black-hole entropy is GR's.
 
 Not recommended: a new version of quantum mechanics. Nothing in this search suggests
 TEGR needs one; every quantum TEGR approach found uses standard quantum theory and asks
