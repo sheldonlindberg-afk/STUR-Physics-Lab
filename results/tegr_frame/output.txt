@@ -1,0 +1,41 @@
+
+==============================================================================
+Q1  The frame is pure gauge in the bulk of linearized TEGR (CHECK)
+==============================================================================
+   Fields with nonzero E-L derivative of L(s + a) - L(s): none
+   Control, E-L of L(s) w.r.t. s_00 nonzero: True
+   KNOWN: TEGR is locally Lorentz invariant up to a boundary term.
+
+==============================================================================
+Q2  The frame's part of the symplectic current is a corner term (CHECK)
+==============================================================================
+   Off-shell divergence of the frame part of omega vanishes: True
+   Covariant fit d_nu W^{mu nu} = omega_frame^mu, W antisymmetric in mu nu and in 1 <-> 2:
+      B^{mn} tr B'     c1 + 1/(16*pi)
+      B^{nm} tr B'     free
+      B^{ma} B'^n_a    -3/(64*pi)
+      B^{am} B'_a^n    1/(64*pi)
+      B^{ma} B'_a^n    -c5 + 1/(32*pi)
+      B^{am} B'^n_a    free
+   The free parameters multiply structures that coincide after antisymmetrizing,
+   so W is unique.
+
+==============================================================================
+Q3  On the plane t = const, x = 0: what the frame is conjugate to (CHECK)
+==============================================================================
+   s-s part of W^(tx): 0
+   8 pi x coefficient of d1 a01: -Cs22(t, x, y, z) - Cs33(t, x, y, z)
+   8 pi x coefficient of d1 a02: Ca12(t, x, y, z) + Cs12(t, x, y, z)
+   8 pi x coefficient of d1 a03: Ca13(t, x, y, z) + Cs13(t, x, y, z)
+   8 pi x coefficient of d1 a12: -Ca02(t, x, y, z) - Cs02(t, x, y, z)
+   8 pi x coefficient of d1 a13: -Ca03(t, x, y, z) - Cs03(t, x, y, z)
+   8 pi x coefficient of d1 a23: 0
+   a_01 = -eta (normal boost rapidity); s_22 + s_33 = delta sqrt(sigma) (area density).
+   So W^(tx) contains (1/8 pi) d eta ^ d sqrt(sigma): the frame's normal boost is
+   conjugate to area / 8 pi G (Carlip and Teitelboim, gr-qc/9312002, in metric
+   variables). The in-surface rotation a_23 pairs with nothing: still gauge.
+
+==============================================================================
+Q4  Same coefficient from the nonlinear Euclidean action (stur_tegr_corner K5)
+==============================================================================
+   Tip-term shift per unit area per unit frame angle: 1/(8*pi) = 1/(8 pi)

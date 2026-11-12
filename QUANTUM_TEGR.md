@@ -179,6 +179,58 @@ symplectic flux. So any role for the frame in the entropy has to come from quant
 not from classical thermodynamics. The quantum part, quantizing the corner frames and computing the
 entropy, is research-level.
 
+## 7. Quantizing the frame: first step (`src/stur_tegr_frame.py`)
+
+Classically the frame changes where the entropy is booked but not the first law
+(TEGR.md K1–K6). So if the frame has a role in the entropy, it has to show up when it is
+quantized. Before that, one needs the frame's classical phase space at an entangling
+surface: what it is canonically conjugate to. That is computed here at linear order
+around flat space, in the Weitzenböck gauge (ω = 0). The tetrad perturbation is split as
+B = s + a: the symmetric part s is the metric perturbation (h = 2s), and the
+antisymmetric part a is the linearized frame, a local Lorentz rotation.
+
+| Step | Result | Status |
+|---|---|---|
+| Q1 | L(s + a) − L(s) has identically vanishing Euler–Lagrange derivatives (with a control that doesn't). The frame is pure gauge in the bulk | KNOWN; CHECK |
+| Q2 | The frame's part of the symplectic current is divergence-free off shell, and equals ∂_νW^{μν} for a unique covariant corner 2-form W, bilinear in the two variations. W has no metric–metric part | CHECK |
+| Q3 | On the plane t = const, x = 0: W^{tx} = (1/8π)[−δa₀₁∧δ(s₂₂ + s₃₃) + δa₀₂∧δB₁₂ + δa₀₃∧δB₁₃ − δa₁₂∧δB₀₂ − δa₁₃∧δB₀₃] | CHECK |
+| Q4 | K5's nonlinear Euclidean result, re-expressed per unit area and per unit frame angle, has the same coefficient, 1/8π | consistency |
+
+**Reading Q3.**
+- a₀₁ = −η, where η is the rapidity of the frame's boost normal to the surface, and
+  s₂₂ + s₃₃ = δ√σ is the linearized area density. So the corner form contains
+  **(1/8πG)∫δη∧δ√σ: the frame's normal boost is canonically conjugate to area/8πG.**
+  This is the pair Carlip and Teitelboim found in the metric Euclidean action, with the
+  opening angle at the horizon in place of η ([gr-qc/9312002](https://arxiv.org/abs/gr-qc/9312002),
+  CQG 12, 1699, 1995). It is also the pair Varrin quantizes to get the Bekenstein–Hawking
+  entropy ([2610.37750](https://arxiv.org/abs/2610.37750)). In the metric formulation the
+  angle has to be added as an extended-phase-space variable (Donnelly–Freidel). **In
+  TEGR it is already there, as the frame.**
+- The boosts and rotations that mix the normal with the tangent directions (a₀ᵢ, a₁ᵢ)
+  pair with off-diagonal tetrad components.
+- The rotation within the surface, a₂₃, pairs with nothing. It stays pure gauge even at
+  the corner.
+
+**Status.** The area–boost pairing is known in metric variables (Carlip–Teitelboim) and
+in tetrad variables, where the area acts as a boost generator (Freidel and Perez,
+[1507.02573](https://arxiv.org/abs/1507.02573); Freidel–Geiller–Pranzetti Part II). A
+search of INSPIRE (teleparallel with Carlip–Teitelboim, with area and boost, and with
+opening angle) found no statement of it for TEGR's frame. As before, not finding it
+doesn't mean it hasn't been done.
+
+**What this means for the quantum question.** At linear order, quantizing TEGR's frame
+at an entangling surface means quantizing the pair (η, √σ/8πG) at each point of the
+surface, plus the mixed modes. That is the structure from which Varrin obtains A/4 as
+entanglement entropy. So the next step is concrete: check whether TEGR's corner algebra,
+including the mixed modes, closes into the sl(2, ℝ) structure that Varrin's
+construction uses, and whether the frame's boost is restricted the way his causal frames
+are.
+
+**Not done here:**
+- the behaviour of W under linearized diffeomorphisms, which also act at the corner;
+- the nonlinear corner form;
+- any quantization.
+
 ## What this suggests
 
 In order of size:
@@ -196,6 +248,8 @@ In order of size:
    edge-mode reference frames at a bifurcate horizon, and does their quantization give
    A/4 (compare Varrin 2026, metric variables)? The classical part is done
    (TEGR.md K1–K6): the frame changes where the entropy is booked, but not the first law.
+   The quantum part has started (section 7): at linear order the frame's normal boost
+   is conjugate to area/8πG, the Carlip–Teitelboim pair. Next: the corner algebra.
 
 Not recommended: a new version of quantum mechanics. Nothing in this search suggests
 TEGR needs one; every quantum TEGR approach found uses standard quantum theory and asks
