@@ -201,10 +201,12 @@ def c3_tensor(Nc, variant):
 
 
 def blow_up(Nc, variant, yt=0.0, yJ=0.0, mu0=Y.MU331, gmax=4 * pi, s2=None, lam=(0.0, 0.0, 0.0),
-            n_light=1, loops=3, yuk=None):
+            n_light=1, loops=3, yuk=None, grav=None, mu_max=1e45):
     """As m331_yukawa.blow_up (same boundary, two-loop and Yukawa terms), plus the
     three-loop gauge and matter terms when loops = 3. yuk: an explicit two-loop Yukawa
-    vector, overriding the one built from yt and yJ (used by m331_margin.py)."""
+    vector, overriding the one built from yt and yJ (used by m331_margin.py).
+    grav: optional f_g(mu), adding -f_g(mu) g_i to every gauge beta function (the
+    universal gravity term, src/m331_gravity_fixed_point.py); None leaves it out."""
     gs, ferm, scal, _ = E.MODELS[variant](Nc)
     a, b = E.coefficients(gs, ferm, scal)
     a = np.array([float(x) for x in a])
@@ -222,23 +224,25 @@ def blow_up(Nc, variant, yt=0.0, yJ=0.0, mu0=Y.MU331, gmax=4 * pi, s2=None, lam=
     def rhs(t, g):
         g2 = g**2
         three = np.array([g2 @ c3[i] @ g2 for i in range(3)])     # sum_{j<=k} c_ijk g_j^2 g_k^2
-        return g**3 / (16 * pi**2) * (a + (b @ g2 - yuk) / (16 * pi**2) + three / (2 * (16 * pi**2) ** 2))
+        out = g**3 / (16 * pi**2) * (a + (b @ g2 - yuk) / (16 * pi**2) + three / (2 * (16 * pi**2) ** 2))
+        return out if grav is None else out - grav(mu0 * np.exp(t)) * g
 
     def ev(t, g):
         return gmax - max(g)
     ev.terminal = True
-    sol = solve_ivp(rhs, [0, log(1e45 / mu0)], g0, events=ev, rtol=1e-9, atol=1e-12, max_step=0.5)
-    return mu0 * np.exp(sol.t_events[0][0]) if sol.t_events[0].size else 1e45
+    sol = solve_ivp(rhs, [0, log(mu_max / mu0)], g0, events=ev, rtol=1e-9, atol=1e-12, max_step=0.5)
+    return mu0 * np.exp(sol.t_events[0][0]) if sol.t_events[0].size else mu_max
 
 
 def pole(Nc, variant, MV=4e3, rJ=1.0, rS=1.0, n_light=1, mu=None, loops=3, s2=None,
-         thresholds=True, yukawas=True, gmax=4 * pi):
-    """As m331_threshold.pole, with loops = 3 available."""
+         thresholds=True, yukawas=True, gmax=4 * pi, grav=None, mu_max=1e45):
+    """As m331_threshold.pole, with loops = 3 available (and the optional gravity term)."""
     mu = MV if mu is None else mu
     yJ = rJ * T.gL_at(mu) / sqrt(2) if yukawas else 0.0
     yt = Y.yt_at(mu) if yukawas else 0.0
     lam = T.lambdas(T.heavy_spectrum(Nc, variant, MV, rJ, rS, n_light), mu) if thresholds else (0, 0, 0)
-    return blow_up(Nc, variant, yt, yJ, mu0=mu, s2=s2, lam=tuple(lam), n_light=n_light, loops=loops, gmax=gmax)
+    return blow_up(Nc, variant, yt, yJ, mu0=mu, s2=s2, lam=tuple(lam), n_light=n_light, loops=loops, gmax=gmax,
+                   grav=grav, mu_max=mu_max)
 
 
 def worst_case(loops, gmax, yukawas=True, MVs=None):

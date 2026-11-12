@@ -451,6 +451,47 @@ cover:
 Either changes the reach, not the RG condition. A future lepton or 100 TeV collider would
 settle it.
 
+## 3g. Above the Planck scale: asymptotically safe gravity
+
+Source: `src/m331_gravity_fixed_point.py`, output `results/m331/331_gravity_fixed_point.txt`.
+
+The selection stops at M_Pl. What happens above it? This section takes the
+asymptotic-safety estimate as a **MODEL**: above the Planck scale, gravity adds the same
+term −f_g g to every gauge β-function (Eichhorn and Versteegen, JHEP 01 (2018) 030;
+Eichhorn, Held and Wetterich, PLB 782 (2018) 198). Here f_g = f*/(1 + G* M_Pl²/μ²): it
+switches on as the dimensionless Newton coupling reaches its fixed point G*. Both f* and G*
+depend on the regulator, and neither is computed here. The running below the transition
+is the selection's own: three loops, Yukawas, thresholds, the α = 1 criterion.
+
+- **Only g_X can be predicted (G1).** With b > 0, β = bg³/16π² − fg has a fixed point
+  g*² = 16π²f/b. Its slope is +2f, so it is irrelevant: the coupling there is predicted.
+  For N_c = 3, b_X = 14 or 26/3, while SU(3)_L (−13/2) and colour (−5) are asymptotically
+  free. UV completion then asks g_X ≤ g_X* at the transition.
+- **The f* that puts the measured couplings on the fixed-point trajectory (G2):**
+
+  | G* | β = +1/√3 | β = −1/√3 | SM hypercharge, same profile |
+  |---|---|---|---|
+  | 0.5 | 0.246 | 0.0200 | 0.0097 |
+  | 1 | 0.293 | 0.0203 | 0.0098 |
+  | 2 | 0.359 | 0.0206 | 0.0099 |
+
+  β = −1/√3 needs about **2×** the gravity contribution the Standard Model's hypercharge
+  needs; β = +1/√3 needs about **30×**, because its g_X is already near its pole at M_Pl.
+- **The selection is unchanged (G3).** The N_c = 5 and 7 poles sit at 3×10⁸–10¹⁵ GeV, where
+  f_g is suppressed by (μ/M_Pl)² to below 10⁻⁷. Even the largest f* the criterion allows
+  (b_X/4π) moves them by less than 10⁻⁶.
+- **The heavy-lepton condition stands (G4).** With light heavy leptons, N_c = 3 fails at
+  0.61 M_Pl, before the transition. Gravity rescues it only with g_X* at 80–98% of √(4π),
+  the edge of the criterion (f* ≥ 0.72 at G* = 0.5, ≥ 1.07 at G* = 1), and not at all at
+  G* = 2.
+
+**What this gives (FOLLOWS).** One irrelevant coupling and one unknown f* give no
+prediction from the gauge sector alone. It becomes a test once an FRG computation for 3-3-1
+matter fixes f* and G*. A value near the Standard Model's benchmark would favour
+β = −1/√3 and disfavour β = +1/√3. Not included: the gravity terms in the Yukawa and
+quartic β-functions, which drive the Standard Model's Higgs-mass prediction from
+asymptotic safety.
+
 ## 3c. The scalar sector itself, to the Planck scale
 
 Source: `src/m331_scalar.py` and `src/rge_engine.py`, output
@@ -647,6 +688,7 @@ python3 src/m331_scalar.py             # the scalar sector to M_Pl (~4 min); 331
 python3 src/m331_zprime_recast.py      # the ATLAS 139 fb^-1 Z' recast (~1 s); zprime_recast.txt
 python3 src/m331_margin.py             # the beta = +1/sqrt3 margin vs mass floors (~50 s); margin.txt
 python3 src/m331_heavy_lepton.py       # heavy leptons vs LHC, HL-LHC (~5 s); heavy_lepton.txt
+python3 src/m331_gravity_fixed_point.py  # gravity above M_Pl, asymptotic safety (~70 s); 331_gravity_fixed_point.txt
 python -m pytest tests/test_331_*.py -q
 ```
 

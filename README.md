@@ -197,13 +197,14 @@ python3 src/m331_exact.py           # the 3-3-1 selection, both variants
 python3 src/m331_three_loop.py       # three-loop gauge running and the criterion, ~70 s
 python3 src/m331_margin.py           # the beta = +1/sqrt3 margin against mass floors, ~50 s
 python3 src/m331_heavy_lepton.py     # its heavy leptons vs the LHC and HL-LHC, ~5 s
+python3 src/m331_gravity_fixed_point.py  # gravity above M_Pl (asymptotic safety) and the 3-3-1 couplings, ~70 s
 python3 src/ladder_standalone.py     # the whole ladder, one file, no dependencies, ~1 s
 python3 src/m331_breaking.py         # the ladder, rungs 1-5: also chiral_breaking, casimir_diamonds,
                                     # graviton_exchange, macdowell_mansouri (each a few seconds)
 python3 src/ladder_links.py          # links across the rungs: neutral matter, pi0 -> gamma gamma, M_Pl, ~2 s
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
 python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (174 tests)
+python -m pytest tests -q           # every number pinned (180 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on

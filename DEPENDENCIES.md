@@ -6,7 +6,7 @@ This page records which script feeds which, and which physical quantities each o
 
 ## Summary
 
-- **42 scripts** in `src/`, in 6 topics; **57 imports** between them, 22 of them across topics. 11 scripts import nothing from the others and nothing imports them.
+- **43 scripts** in `src/`, in 6 topics; **61 imports** between them, 22 of them across topics. 11 scripts import nothing from the others and nothing imports them.
 - **52 catalogued quantities** (37 measured inputs, 15 derived in the repository), found as 162 literals in the source.
 - **43 quantities are typed in more than one script**; 14 of them are shared by more than one topic.
 - **2 copies differ from their source for a stated reason**; **0 differ without one (drift).**
@@ -30,6 +30,7 @@ flowchart LR
     m331_margin
     m331_zprime_recast
     m331_heavy_lepton
+    m331_gravity_fixed_point
     m331_standalone
     qcd_running
     rge_engine
@@ -87,6 +88,10 @@ flowchart LR
   m331_breaking --> m331_exact
   m331_closure --> m331_threshold
   m331_exact --> qcd_running
+  m331_gravity_fixed_point --> m331_exact
+  m331_gravity_fixed_point --> m331_margin
+  m331_gravity_fixed_point --> m331_three_loop
+  m331_gravity_fixed_point --> m331_yukawa
   m331_heavy_lepton --> m331_margin
   m331_heavy_lepton --> m331_zprime_recast
   m331_margin --> m331_exact
@@ -175,6 +180,7 @@ flowchart LR
 | [`m331_margin`](src/m331_margin.py) | `m331_exact`, `m331_three_loop`, `m331_threshold`, `m331_yukawa`, `qcd_running` | The narrow beta = +1/sqrt3 margin, tightened (NOTE_331.md, section 3e) |
 | [`m331_zprime_recast`](src/m331_zprime_recast.py) | — | Recast of the ATLAS 13 TeV, 139 fb^-1 dilepton search for the Z' of the beta = +-1/sqrt3 3-3-1 models |
 | [`m331_heavy_lepton`](src/m331_heavy_lepton.py) | `m331_margin`, `m331_zprime_recast` | The heavy charged leptons of the beta = +1/sqrt3 model against the LHC (NOTE_331.md, section 3f) |
+| [`m331_gravity_fixed_point`](src/m331_gravity_fixed_point.py) | `m331_exact`, `m331_margin`, `m331_three_loop`, `m331_yukawa` | Gravity above the Planck scale and the 3-3-1 gauge couplings: the asymptotic-safety estimate (NOTE_331.md asks every coupling to stay pertur |
 | [`m331_standalone`](src/m331_standalone.py) | — | Three colours and three generations from perturbativity in 3-3-1 models |
 | [`qcd_running`](src/qcd_running.py) | — | Two-loop MS-bar running of the strong coupling, used by the 3-3-1 scripts. |
 | [`rge_engine`](src/rge_engine.py) | — | General one-loop RGEs for quartic and Yukawa couplings (real scalars, two-component fermions) |
