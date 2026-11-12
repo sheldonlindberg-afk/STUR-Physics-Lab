@@ -205,12 +205,14 @@ def main():
     print("   field emerging from the ions themselves, entangles them (Molmer-Sorensen 1999).")
 
     banner("K3  STATISTICAL: gravity follows the AVERAGE of the quantum level (lambda = 0)")
-    m, R = 1.5e-14, ge.radius(1.5e-14)
+    import stur_gravity_full as GF
+    A = GF.design_a()
+    m, R = A["m"], A["R"]                                   # design A
     print("   An average is only well defined if something produces it: intrinsic noise or")
     print("   collapse. The parameter-free version is Diosi-Penrose (gravity-induced collapse).")
-    for d in (250e-6, 721e-6):
+    for d in (250e-6, A["dx"]):
         Gm = dp_rate(m, R, d)
-        print(f"   Diamond 1.5e-14 kg, R = {R*1e6:.3f} um, split {d*1e6:.0f} um:  DP rate {Gm:.0f} /s"
+        print(f"   Diamond {m:.3e} kg, R = {R*1e6:.3f} um, split {d*1e6:.0f} um:  DP rate {Gm:.0f} /s"
               f"  -> superposition lifetime {1e3/Gm:.1f} ms (x2 by convention)")
     print(f"   Crystal lumpiness (nuclei smeared over R0 = {DONADI_R0*1e10:.2f} A, LIT bound): extra"
           f" {dp_crystal_extra(m):.1e} /s (negligible)")

@@ -426,12 +426,12 @@ def rung3():
     I = sum(F(c) * F(factorial(n), 2 ** (n + 1)) for n, c in enumerate(coeffs))
     check("the fluctuation integral int_0^oo e^(-2u)(3 + 6u + 5u^2 + 2u^3 + u^4) du = 23/4 exactly,"
           " so U = -(23/4 pi) hbar c alpha1 alpha2 / r^7 (Casimir-Polder)", I == F(23, 4))
-    m, rr = 1.5e-14, 200e-6
+    m, rr = geomspace(1e-16, 1e-12, 25)[13], 200e-6          # design A's mass (rung 4)
     R = diamond_radius(m)
     K = (EPS_DIAMOND - 1) / (EPS_DIAMOND + 2)
     Uc = -float(I) / pi * HBAR * C_LIGHT * (K * R**3) ** 2 / rr**7
     Ug = -G_NEWTON * m * m / rr
-    print(f"   m = 1.5e-14 kg (R = {R * 1e6:.2f} um), r = 200 um: Casimir {Uc:.3e} J, gravity {Ug:.3e} J, ratio {Uc / Ug:.2e}")
+    print(f"   design A, m = {m:.3e} kg (R = {R * 1e6:.2f} um), r = 200 um: Casimir {Uc:.3e} J, gravity {Ug:.3e} J, ratio {Uc / Ug:.2e}")
     check("at 200 um Casimir is 2.3% of gravity, and both scale as R^6, so the safe gap is mass-independent",
           abs(Uc / Ug - 2.335e-2) < 2e-4)
 

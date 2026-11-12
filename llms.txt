@@ -31,7 +31,7 @@
 ## What experiments could check (PREDICTIONS.md)
 - If gravity is quantum, two diamonds entangle through gravity: delta phi = 2.19 rad, 270 runs, 0.6 h (design A; derived gas rate).
 - One 1.5e-14 kg diamond keeps full coherence for 3.24 s; any Markovian statistical
-  gravity leaves <= 1.3% (smearing <= 52 um, where Newton's law is tested). If it stays
+  gravity leaves <= 1.5% (smearing <= 52 um, where Newton's law is tested). If it stays
   coherent, Oppenheim-type gravity must shake it with >= 1.3e-12 m s^-2/rtHz.
 - Both diamond tests need ~4e8 x today's largest superposed mass.
 - Standalone note (NOTE_331.md): in 3-3-1 models, perturbativity to the Planck scale

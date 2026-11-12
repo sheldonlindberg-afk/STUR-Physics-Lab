@@ -6,10 +6,10 @@ This page records which script feeds which, and which physical quantities each o
 
 ## Summary
 
-- **41 scripts** in `src/`, in 6 topics; **48 imports** between them, 15 of them across topics. 11 scripts import nothing from the others and nothing imports them.
-- **52 catalogued quantities** (37 measured inputs, 15 derived in the repository), found as 193 literals in the source.
-- **49 quantities are typed in more than one script**; 18 of them are shared by more than one topic.
-- **16 copies differ from their source for a stated reason**; **0 differ without one (drift).**
+- **41 scripts** in `src/`, in 6 topics; **55 imports** between them, 22 of them across topics. 11 scripts import nothing from the others and nothing imports them.
+- **52 catalogued quantities** (37 measured inputs, 15 derived in the repository), found as 162 literals in the source.
+- **43 quantities are typed in more than one script**; 14 of them are shared by more than one topic.
+- **2 copies differ from their source for a stated reason**; **0 differ without one (drift).**
 
 ## Imports
 
@@ -71,6 +71,7 @@ flowchart LR
     stur_lab_test
   end
   casimir_diamonds --> stur_gravity_entanglement
+  casimir_diamonds --> stur_gravity_full
   graviton_exchange --> chiral_breaking
   graviton_exchange --> stur_gravity_entanglement
   graviton_exchange --> stur_gravity_full
@@ -107,16 +108,22 @@ flowchart LR
   stur_derivation --> stur_born
   stur_derivation --> stur_emergent
   stur_derivation --> stur_gravity_entanglement
+  stur_derivation --> stur_gravity_full
   stur_derivation --> stur_measurement
   stur_derivation --> stur_tegr
   stur_derivation --> stur_tegr_gr
   stur_derivation --> stur_unification
   stur_emergent --> stur_gravity_entanglement
+  stur_emergent --> stur_gravity_full
   stur_gravity_full --> stur_gravity_entanglement
+  stur_oppenheim --> stur_gravity_full
+  stur_tegr --> stur_gravity_full
   stur_tegr3d --> stur_tegr
   stur_tegr_corner --> stur_tegr
   stur_tegr_gr --> stur_gravity_entanglement
+  stur_tegr_gr --> stur_gravity_full
   stur_tegr_gr --> stur_tegr
+  stur_thermo_gravity --> stur_gravity_full
   stur_thermo_gravity --> stur_oppenheim
 ```
 
@@ -125,8 +132,9 @@ flowchart LR
 | From | To | Names used |
 |---|---|---|
 | `casimir_diamonds` (Symmetry ladder) | `stur_gravity_entanglement` (Diamond experiment) | `C`, `EPS_DIAMOND`, `G`, `HBAR`, `casimir_energy`, `radius` |
-| `graviton_exchange` (Symmetry ladder) | `stur_gravity_entanglement` (Diamond experiment) | `BASE`, `G`, `HBAR`, `casimir_vs_gravity_gap` |
-| `graviton_exchange` (Symmetry ladder) | `stur_gravity_full` (Diamond experiment) | `ramp_profile`, `trajectory_dphi` |
+| `casimir_diamonds` (Symmetry ladder) | `stur_gravity_full` (Diamond experiment) | `design_a` |
+| `graviton_exchange` (Symmetry ladder) | `stur_gravity_entanglement` (Diamond experiment) | `G`, `HBAR` |
+| `graviton_exchange` (Symmetry ladder) | `stur_gravity_full` (Diamond experiment) | `design_a`, `ramp_profile`, `trajectory_dphi` |
 | `ladder_links` (Symmetry ladder) | `m331_exact` (3-3-1 selection) | `M_PLANCK` |
 | `ladder_links` (Symmetry ladder) | `m331_margin` (3-3-1 selection) | `ALPHA1`, `FLOORS`, `pole` |
 | `ladder_links` (Symmetry ladder) | `m331_three_loop` (3-3-1 selection) | `pole` |
@@ -135,10 +143,16 @@ flowchart LR
 | `m331_breaking` (Symmetry ladder) | `m331_exact` (3-3-1 selection) | `MODELS` |
 | `stur_derivation` (Measurement, entropy, foundations) | `stur_emergent` (Classical and emergent gravity) | `cutoff_for_G`, `dp_rate`, `medium_evolution` |
 | `stur_derivation` (Measurement, entropy, foundations) | `stur_gravity_entanglement` (Diamond experiment) | `BASE`, `branch_distances`, `negativity`, `radius`, `state` |
+| `stur_derivation` (Measurement, entropy, foundations) | `stur_gravity_full` (Diamond experiment) | `design_a` |
 | `stur_derivation` (Measurement, entropy, foundations) | `stur_tegr` (Teleparallel gravity) | `grad_form`, `graviton_count`, `identity_check`, `newtonian_lagrangian` |
 | `stur_derivation` (Measurement, entropy, foundations) | `stur_tegr_gr` (Teleparallel gravity) | `GM_SUN`, `MERCURY_A`, `MERCURY_E`, `MERCURY_P`, `R_SUN`, `gps_offset_us_per_day`, `interaction_energy_tegr`, `light_deflection`, `perihelion_shift`, `ppn_gamma`, `solve_spherical` |
-| `stur_emergent` (Classical and emergent gravity) | `stur_gravity_entanglement` (Diamond experiment) | `negativity`, `radius` |
+| `stur_emergent` (Classical and emergent gravity) | `stur_gravity_entanglement` (Diamond experiment) | `negativity` |
+| `stur_emergent` (Classical and emergent gravity) | `stur_gravity_full` (Diamond experiment) | `design_a` |
+| `stur_oppenheim` (Classical and emergent gravity) | `stur_gravity_full` (Diamond experiment) | `design_a` |
+| `stur_tegr` (Teleparallel gravity) | `stur_gravity_full` (Diamond experiment) | `design_a` |
 | `stur_tegr_gr` (Teleparallel gravity) | `stur_gravity_entanglement` (Diamond experiment) | `BASE`, `branch_distances`, `entangling_phase`, `phases`, `radius` |
+| `stur_tegr_gr` (Teleparallel gravity) | `stur_gravity_full` (Diamond experiment) | `design_a` |
+| `stur_thermo_gravity` (Classical and emergent gravity) | `stur_gravity_full` (Diamond experiment) | `design_a` |
 
 ### By topic
 
@@ -168,7 +182,7 @@ flowchart LR
 |---|---|---|
 | [`m331_breaking`](src/m331_breaking.py) | `m331_exact` | Symmetry breaking in 3-3-1, derived: SU(3)_L x U(1)_X -> SU(2)_L x U(1)_Y -> U(1)_em |
 | [`chiral_breaking`](src/chiral_breaking.py) | — | The strong-force rung of the symmetry-breaking ladder (SYMMETRY_LADDER.md): chiral symmetry breaking, pions, and the nuclear force |
-| [`casimir_diamonds`](src/casimir_diamonds.py) | `stur_gravity_entanglement` | The electromagnetic rung of the ladder (SYMMETRY_LADDER.md): why electromagnetism is the background in the diamond experiment, and its stren |
+| [`casimir_diamonds`](src/casimir_diamonds.py) | `stur_gravity_entanglement`, `stur_gravity_full` | The electromagnetic rung of the ladder (SYMMETRY_LADDER.md): why electromagnetism is the background in the diamond experiment, and its stren |
 | [`graviton_exchange`](src/graviton_exchange.py) | `chiral_breaking`, `stur_gravity_entanglement`, `stur_gravity_full` | The gravity rung of the ladder (SYMMETRY_LADDER.md): from linearized GR to the entangling phase of the two-diamond experiment |
 | [`macdowell_mansouri`](src/macdowell_mansouri.py) | — | The gravity rung as a broken gauge theory: MacDowell-Mansouri (1977) and Stelle-West (1980) |
 | [`ladder_links`](src/ladder_links.py) | `chiral_breaking`, `graviton_exchange`, `m331_breaking`, `m331_exact`, `m331_margin`, `m331_three_loop`, `m331_why_three`, `stur_gravity_entanglement` | Links between the rungs of the symmetry-breaking ladder (SYMMETRY_LADDER.md): places where one rung's output is another rung's input, checke |
@@ -185,17 +199,17 @@ flowchart LR
 
 | Script | Imports | What it is |
 |---|---|---|
-| [`stur_oppenheim`](src/stur_oppenheim.py) | — | Oppenheim's classical gravity: the decoherence-diffusion trade-off, and what one levitated particle can decide |
-| [`stur_thermo_gravity`](src/stur_thermo_gravity.py) | `stur_oppenheim` | Gravity as an equation of state: the noise it must carry, and what that noise predicts |
-| [`stur_emergent`](src/stur_emergent.py) | `stur_gravity_entanglement` | The question turned around: gravity as a CONSEQUENCE of the quantum level, not a field that acts on quantum particles from outside |
+| [`stur_oppenheim`](src/stur_oppenheim.py) | `stur_gravity_full` | Oppenheim's classical gravity: the decoherence-diffusion trade-off, and what one levitated particle can decide |
+| [`stur_thermo_gravity`](src/stur_thermo_gravity.py) | `stur_gravity_full`, `stur_oppenheim` | Gravity as an equation of state: the noise it must carry, and what that noise predicts |
+| [`stur_emergent`](src/stur_emergent.py) | `stur_gravity_entanglement`, `stur_gravity_full` | The question turned around: gravity as a CONSEQUENCE of the quantum level, not a field that acts on quantum particles from outside |
 | [`stur_jacobson`](src/stur_jacobson.py) | — | D3 re-derived: Einstein's equation from the Clausius relation on local horizons (Jacobson, PRL 75, 1260 (1995)), each step checked symbolica |
 
 **Teleparallel gravity**
 
 | Script | Imports | What it is |
 |---|---|---|
-| [`stur_tegr`](src/stur_tegr.py) | — | Gravity in TEGR (the Teleparallel Equivalent of General Relativity), applied to the double slit / gravity-entanglement chain of MEASUREMENT. |
-| [`stur_tegr_gr`](src/stur_tegr_gr.py) | `stur_gravity_entanglement`, `stur_tegr` | TEGR as the base theory: GR's results derived from it, and the gravity-entanglement experiment's inputs computed from TEGR's torsion field |
+| [`stur_tegr`](src/stur_tegr.py) | `stur_gravity_full` | Gravity in TEGR (the Teleparallel Equivalent of General Relativity), applied to the double slit / gravity-entanglement chain of MEASUREMENT. |
+| [`stur_tegr_gr`](src/stur_tegr_gr.py) | `stur_gravity_entanglement`, `stur_gravity_full`, `stur_tegr` | TEGR as the base theory: GR's results derived from it, and the gravity-entanglement experiment's inputs computed from TEGR's torsion field |
 | [`stur_tegr3d`](src/stur_tegr3d.py) | `stur_tegr` | Teleparallel gravity in three dimensions, and the quantum amplitude it shares with loop quantum gravity there (worked example; every result  |
 | [`stur_tegr_corner`](src/stur_tegr_corner.py) | `stur_tegr` | Where the entropy sits in TEGR: Noether charges, the corner term and the frame |
 | [`stur_tegr_frame`](src/stur_tegr_frame.py) | — | The frame as a corner degree of freedom: linearized TEGR's corner symplectic form |
@@ -205,7 +219,7 @@ flowchart LR
 
 | Script | Imports | What it is |
 |---|---|---|
-| [`stur_derivation`](src/stur_derivation.py) | `stur_born`, `stur_emergent`, `stur_gravity_entanglement`, `stur_measurement`, `stur_tegr`, `stur_tegr_gr`, `stur_unification` | The equation, derived from the quantum level up |
+| [`stur_derivation`](src/stur_derivation.py) | `stur_born`, `stur_emergent`, `stur_gravity_entanglement`, `stur_gravity_full`, `stur_measurement`, `stur_tegr`, `stur_tegr_gr`, `stur_unification` | The equation, derived from the quantum level up |
 | [`stur_born`](src/stur_born.py) | — | The Born rule, derived from the quantum level instead of assumed |
 | [`stur_measurement`](src/stur_measurement.py) | — | Measurement, the double slit, and entanglement: three proposed mechanisms, tested |
 | [`stur_unification`](src/stur_unification.py) | — | Does ONE known equation govern measurement, the vacuum and horizons? Candidate (KNOWN pieces only): D(rho \|\| sigma) = Delta<K_sigma> - Delta |
@@ -221,17 +235,13 @@ Each row is one quantity typed into scripts of more than one topic. Where it is 
 |---|---|---|---|---|
 | Newton's G (m³ kg⁻¹ s⁻²) | input | Classical and emergent gravity, Diamond experiment, Measurement, entropy, foundations, Symmetry ladder, Teleparallel gravity | `ladder_links`, `ladder_standalone`, `stur_derivation`, `stur_emergent`, `stur_gravity_entanglement`, `stur_oppenheim`, `stur_tegr`, `stur_tegr_gr`, `stur_thermo_gravity` | gravity's only input; it also fixes M_Pl, the 3-3-1 cutoff |
 | c (m/s) | input | Classical and emergent gravity, Diamond experiment, Measurement, entropy, foundations, Symmetry ladder, Teleparallel gravity | `ladder_standalone`, `stur_derivation`, `stur_emergent`, `stur_gravity_entanglement`, `stur_measurement`, `stur_oppenheim`, `stur_tegr`, `stur_tegr_gr`, `stur_thermo_gravity` | exact by definition, so copies cannot drift |
-| design A: mass (kg) | derived | Classical and emergent gravity, Diamond experiment, Measurement, entropy, foundations, Symmetry ladder, Teleparallel gravity | `casimir_diamonds`, `ladder_standalone`, `stur_derivation`, `stur_emergent`, `stur_gravity_full`, `stur_oppenheim`, `stur_tegr`, `stur_tegr_gr`, `stur_thermo_gravity` | design A is found by the design search, then retyped, rounded, across four topics |
 | ħ (J s) | input | Classical and emergent gravity, Diamond experiment, Measurement, entropy, foundations, Symmetry ladder, Teleparallel gravity | `ladder_standalone`, `stur_derivation`, `stur_emergent`, `stur_gravity_entanglement`, `stur_oppenheim`, `stur_tegr`, `stur_tegr_gr`, `stur_thermo_gravity` | exact by definition, so copies cannot drift |
 | 1/4πε₀ (N m² C⁻²) | input | Diamond experiment, Measurement, entropy, foundations, Symmetry ladder | `ladder_links`, `ladder_standalone`, `stur_gravity_full`, `stur_measurement` |  |
 | atomic mass unit (kg) | input | Classical and emergent gravity, Diamond experiment, Symmetry ladder | `ladder_links`, `ladder_standalone`, `stur_emergent`, `stur_gravity_entanglement`, `stur_gravity_full`, `stur_oppenheim`, `stur_thermo_gravity` |  |
-| design A: branch separation Δx (m) | derived | Classical and emergent gravity, Measurement, entropy, foundations, Teleparallel gravity | `stur_derivation`, `stur_emergent`, `stur_oppenheim`, `stur_tegr`, `stur_tegr_gr`, `stur_thermo_gravity` |  |
 | e (C) | input | Diamond experiment, Measurement, entropy, foundations, Symmetry ladder | `ladder_links`, `ladder_standalone`, `stur_gravity_full`, `stur_measurement` | exact by definition, so copies cannot drift |
 | 1/α(M_Z), MS-bar | input | 3-3-1 selection, Symmetry ladder | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zprime_recast` | with sin²θ_W(M_Z) it fixes the U(1)_X start of every 3-3-1 run |
 | M_Z (GeV) | input | 3-3-1 selection, Symmetry ladder | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_yukawa`, `m331_zprime_recast`, `qcd_running` |  |
 | Planck mass √(ħc/G) (GeV) | derived | 3-3-1 selection, Symmetry ladder | `ladder_standalone`, `m331_exact`, `m331_standalone`, `m331_su3L_running` | the 3-3-1 selection's cutoff. It is typed as a number in the 3-3-1 scripts; it is √(ħc/G), the G the diamond experiment uses |
-| design A: ramp time (s) | derived | Measurement, entropy, foundations, Teleparallel gravity | `stur_derivation`, `stur_tegr`, `stur_tegr_gr` |  |
-| design A: total time (s) | derived | Classical and emergent gravity, Measurement, entropy, foundations | `stur_oppenheim`, `stur_thermo_gravity`, `stur_z2_higgs` |  |
 | diamond density (kg/m³) | input | Diamond experiment, Symmetry ladder | `ladder_standalone`, `stur_gravity_entanglement` |  |
 | diamond permittivity | input | Diamond experiment, Symmetry ladder | `ladder_standalone`, `stur_gravity_entanglement` |  |
 | electroweak vev (√2 G_F)^(−1/2) (GeV) | derived | 3-3-1 selection, Symmetry ladder | `ladder_standalone`, `m331_standalone`, `m331_yukawa` | derived in rung 1 and retyped in the 3-3-1 Yukawa scripts |
@@ -257,21 +267,26 @@ Values computed in one script and retyped in others instead of imported. Each co
 | M_Z′/M_V = √(4/3 (1 + β² t_X²)) at 4 TeV | src/m331_breaking.py B4, evaluated at sin²θ_W(4 TeV) | 1.22492 | `m331_heavy_lepton:274` 1.225 (rounded); `m331_margin:49` 1.225 (rounded); `m331_standalone:576` 1.225 (rounded); `m331_standalone:592` 1.225 (rounded); `m331_threshold:183` 1.225 (rounded); `m331_threshold:187` 1.225 (rounded); `m331_threshold:190` 1.225 (rounded) |
 | SU(2) coupling g at M_Z, √(4πα)/sinθ_W | from 1/α(M_Z) and sin²θ_W(M_Z) (this tool) | 0.651734 | `ladder_standalone:231` 0.652 (rounded); `m331_breaking:237` 0.652 (rounded); `m331_breaking:245` 0.652 (rounded) |
 | area-law coefficient S/(R/a)² per scalar | src/stur_unification.py U3 (results/unification/output.txt) | 0.3046 | `stur_emergent:35` 0.3046 (exact); `stur_oppenheim:47` 0.3046 (exact); `stur_thermo_gravity:51` 0.3046 (exact) |
-| design A: mass (kg) | src/stur_gravity_full.py design search (via graviton_exchange.branch_phases) | 1.467799e-14 | `casimir_diamonds:91` 1.500000e-14 (variant); `ladder_standalone:429` 1.500000e-14 (variant); `stur_derivation:164` 1.500000e-14 (variant); `stur_derivation:185` 1.500000e-14 (variant); `stur_emergent:208` 1.500000e-14 (variant); `stur_gravity_full:390` 1.500000e-14 (variant); `stur_gravity_full:392` 1.500000e-14 (variant); `stur_oppenheim:49` 1.500000e-14 (variant); `stur_tegr:277` 1.500000e-14 (variant); `stur_tegr:301` 1.500000e-14 (variant); `stur_tegr_gr:214` 1.500000e-14 (variant); `stur_thermo_gravity:54` 1.500000e-14 (variant) |
-| design A: diamond radius (m) | (3m/4πρ)^(1/3) with design A's mass and ρ_diamond | 9.994406e-7 | `stur_oppenheim:49` 1.007000e-6 (variant); `stur_thermo_gravity:54` 1.007000e-6 (variant) |
-| design A: branch separation Δx (m) | src/stur_gravity_full.py design search | 7.208434e-4 | `stur_derivation:164` 7.210000e-4 (rounded); `stur_derivation:189` 7.210000e-4 (rounded); `stur_emergent:211` 7.210000e-4 (rounded); `stur_oppenheim:49` 7.210000e-4 (rounded); `stur_tegr:301` 7.210000e-4 (rounded); `stur_tegr_gr:216` 7.210000e-4 (rounded); `stur_tegr_gr:237` 7.210000e-4 (rounded); `stur_thermo_gravity:54` 7.210000e-4 (rounded) |
-| Casimir-safe gap (m) | src/stur_gravity_entanglement.py (Casimir < 10% of gravity) | 1.811609e-4 | `stur_tegr:277` 1.812000e-4 (rounded); `stur_tegr_gr:216` 1.812000e-4 (rounded) |
-| design A: ramp time (s) | src/stur_gravity_full.py design search | 1.58114 | `stur_derivation:164` 1.58 (rounded); `stur_tegr:301` 1.58 (rounded); `stur_tegr_gr:237` 1.58 (rounded) |
-| design A: total time (s) | src/stur_gravity_full.py design search | 3.24466 | `stur_oppenheim:49` 3.24 (rounded); `stur_thermo_gravity:54` 3.24 (rounded); `stur_z2_higgs:91` 3.25 (rounded); `stur_z2_higgs:165` 3.25 (rounded) |
 | design A: entangling phase Δφ (rad) | src/graviton_exchange.py N4 | 2.18681 | `ladder_standalone:516` 2.1868 (rounded) |
+
+## Values with one source
+
+These are imported from their source by every script that uses them; a typed-in copy fails `tests/test_dependency_map.py`.
+
+| Quantity | Value | Source | Typed-in copies |
+|---|---|---|---|
+| design A: mass (kg) | 1.467799e-14 | src/stur_gravity_full.py design_a() | none |
+| design A: diamond radius (m) | 9.994406e-7 | src/stur_gravity_full.py design_a() | none |
+| design A: branch separation Δx (m) | 7.208434e-4 | src/stur_gravity_full.py design_a() | none |
+| Casimir-safe gap (m) | 1.811609e-4 | src/stur_gravity_full.py design_a() (Casimir < 10% of gravity) | none |
+| design A: ramp time (s) | 1.58114 | src/stur_gravity_full.py design_a() | none |
+| design A: total time (s) | 3.24466 | src/stur_gravity_full.py design_a() | none |
 
 ## Copies that differ from the source
 
 | Quantity | Source value | Copy | Where | Status | Reason and effect |
 |---|---|---|---|---|---|
 | top-quark mass (GeV) | 172.57 | 172.69 | `m331_standalone:63`, `qcd_running:7` | variant | PDG 2022 value, used only as the α_s flavour threshold (qcd_running and its copy in m331_standalone); α_s(4 TeV) moves by +6.6e-06 if it is changed to 172.57 |
-| design A: mass (kg) | 1.467799e-14 | 1.500000e-14 | `casimir_diamonds:91`, `ladder_standalone:429`, `stur_derivation:164`, `stur_derivation:185`, `stur_emergent:208`, `stur_gravity_full:390`, `stur_gravity_full:392`, `stur_oppenheim:49`, `stur_tegr:277`, `stur_tegr:301`, `stur_tegr_gr:214`, `stur_thermo_gravity:54` | variant | design A rounded to 1.5e-14 kg (2.2% above 1.468e-14): anything ∝ m² is +4.4% off |
-| design A: diamond radius (m) | 9.994406e-7 | 1.007000e-6 | `stur_oppenheim:49`, `stur_thermo_gravity:54` | variant | the radius of the rounded 1.5e-14 kg mass; 0.7% above design A's 9.9944e-07 m |
 
 *Rounded* copies (within the quantity's stated precision) are listed in the full table below, not here.
 
@@ -323,12 +338,12 @@ Values computed in one script and retyped in others instead of imported. Each co
 | Diósi–Penrose smearing bound R₀ (m) | input | 5.400000e-11 | Donadi et al. 2021 | `stur_emergent`, `stur_oppenheim`, `stur_thermo_gravity` |
 | short-range gravity test length (m) | input | 5.200000e-5 | Lee et al. 2020 | `stur_oppenheim`, `stur_thermo_gravity` |
 | area-law coefficient S/(R/a)² per scalar | derived | 0.3046 | src/stur_unification.py U3 (results/unification/output.txt) | `stur_emergent`, `stur_oppenheim`, `stur_thermo_gravity` |
-| design A: mass (kg) | derived | 1.467799e-14 | src/stur_gravity_full.py design search (via graviton_exchange.branch_phases) | `casimir_diamonds` (variant), `ladder_standalone` (variant), `stur_derivation` (variant), `stur_emergent` (variant), `stur_gravity_full` (variant), `stur_oppenheim` (variant), `stur_tegr` (variant), `stur_tegr_gr` (variant), `stur_thermo_gravity` (variant) |
-| design A: diamond radius (m) | derived | 9.994406e-7 | (3m/4πρ)^(1/3) with design A's mass and ρ_diamond | `stur_oppenheim` (variant), `stur_thermo_gravity` (variant) |
-| design A: branch separation Δx (m) | derived | 7.208434e-4 | src/stur_gravity_full.py design search | `stur_derivation` (rounded), `stur_emergent` (rounded), `stur_oppenheim` (rounded), `stur_tegr` (rounded), `stur_tegr_gr` (rounded), `stur_thermo_gravity` (rounded) |
-| Casimir-safe gap (m) | derived | 1.811609e-4 | src/stur_gravity_entanglement.py (Casimir < 10% of gravity) | `stur_tegr` (rounded), `stur_tegr_gr` (rounded) |
-| design A: ramp time (s) | derived | 1.58114 | src/stur_gravity_full.py design search | `stur_derivation` (rounded), `stur_tegr` (rounded), `stur_tegr_gr` (rounded) |
-| design A: total time (s) | derived | 3.24466 | src/stur_gravity_full.py design search | `stur_oppenheim` (rounded), `stur_thermo_gravity` (rounded), `stur_z2_higgs` (rounded) |
+| design A: mass (kg) | derived | 1.467799e-14 | src/stur_gravity_full.py design_a() | — |
+| design A: diamond radius (m) | derived | 9.994406e-7 | src/stur_gravity_full.py design_a() | — |
+| design A: branch separation Δx (m) | derived | 7.208434e-4 | src/stur_gravity_full.py design_a() | — |
+| Casimir-safe gap (m) | derived | 1.811609e-4 | src/stur_gravity_full.py design_a() (Casimir < 10% of gravity) | — |
+| design A: ramp time (s) | derived | 1.58114 | src/stur_gravity_full.py design_a() | — |
+| design A: total time (s) | derived | 3.24466 | src/stur_gravity_full.py design_a() | — |
 | design A: entangling phase Δφ (rad) | derived | 2.18681 | src/graviton_exchange.py N4 | `ladder_standalone` (rounded) |
 | \|q_p + q_e\| bound (e) | input | 1.000000e-21 | Bressi et al. 2011 | `ladder_links`, `ladder_standalone` |
 

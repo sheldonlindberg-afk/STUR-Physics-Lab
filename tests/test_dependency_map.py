@@ -25,13 +25,21 @@ def test_derived_values_match_their_sources():
     assert abs(vals["v"] - 246.22) < 0.01
     assert abs(vals["MZp_MV"] - 1.225) < 1e-3 and abs(vals["s2TeV"] - 0.2504) < 1e-4
     assert abs(vals["A_m"] / 1.4678e-14 - 1) < 1e-4 and abs(vals["A_dphi"] - 2.1868) < 1e-4
+    assert abs(vals["A_R"] / 0.99944e-6 - 1) < 1e-4
     assert vals["c_s"] == 0.3046
 
 
 def test_every_catalogued_quantity_is_found():
     info, vals, rows, missing, stale = BUILT
-    unused = [k for k, r in rows.items() if not r]
+    unused = [k for k, r in rows.items() if not r and not D.Q[k].get("single_source")]
     assert not unused, unused
+
+
+def test_single_source_values_are_never_typed_in():
+    """Design A is imported from stur_gravity_full.design_a() everywhere."""
+    info, vals, rows, missing, stale = BUILT
+    copies = [(k, o["module"], o["line"]) for k, r in rows.items() if D.Q[k].get("single_source") for o in r]
+    assert not copies, copies
 
 
 def test_page_is_current():

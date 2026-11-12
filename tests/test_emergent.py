@@ -27,7 +27,8 @@ def test_collective_medium_entangles_mean_field_does_not():
 
 
 def test_dp_rate():
-    m = 1.5e-14
-    R = K.ge.radius(m)
-    assert abs(K.dp_rate(m, R, 721e-6) - 170) < 2
+    import stur_gravity_full as GF
+    A = GF.design_a()
+    m, R = A["m"], A["R"]
+    assert abs(K.dp_rate(m, R, A["dx"]) - 164) < 1
     assert K.dp_crystal_extra(m) < 1e-4

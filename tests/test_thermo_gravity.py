@@ -14,7 +14,7 @@ def test_minimum_is_diosi_penrose_kernel():
 
 def test_diamond_rate_limits():
     exact = T.G * T.M_A**2 / T.hbar * (6 / (5 * T.R_A) - 1 / T.D_A)
-    assert abs(T.rate(0.0) / exact - 1) < 1e-3 and abs(exact - 169.5) < 0.1
+    assert abs(T.rate(0.0) / exact - 1) < 1e-3 and abs(exact - 163.5) < 0.1
     for R0 in (2e-4, 1e-3):
         assert abs(T.rate(R0) / T.rate_point_gauss(R0) - 1) < 1e-3
 

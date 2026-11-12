@@ -66,8 +66,8 @@ def _ew_at(mu):
 
 def _design_a():
     import graviton_exchange as GX
-    dphi, _, _, (m, dx, gap, hold, ramp) = GX.branch_phases()
-    return dict(m=m, dx=dx, gap=gap, hold=hold, ramp=ramp, total=hold + 2 * ramp, dphi=dphi)
+    import stur_gravity_full as GF
+    return dict(GF.design_a(), dphi=GX.branch_phases()[0])
 
 
 def _c_area():
@@ -76,7 +76,7 @@ def _c_area():
 
 
 def _diamond_radius():
-    return (3 * cached("A", _design_a)["m"] / (4 * math.pi * 3510.0)) ** (1 / 3)
+    return cached("A", _design_a)["R"]
 
 
 def _mt_threshold_effect():
@@ -177,30 +177,29 @@ q("LISL", "short-range gravity test length (m)", 52e-6, "input", "Lee et al. 202
 q("c_s", "area-law coefficient S/(R/a)² per scalar", lambda: _c_area(), "derived",
   "src/stur_unification.py U3 (results/unification/output.txt)", match=2e-3,
   note="computed once and retyped in the classical/emergent-gravity scripts")
+# Design A: every script imports it from stur_gravity_full.design_a(); single_source means a
+# typed-in copy anywhere is a failure (tests/test_dependency_map.py). match is wide enough to
+# catch the old rounded copies (1.5e-14 kg, 1.007 um, 721 um, 1.58 s, 3.24 s).
 q("A_m", "design A: mass (kg)", lambda: cached("A", _design_a)["m"], "derived",
-  "src/stur_gravity_full.py design search (via graviton_exchange.branch_phases)", match=0.03, same=1e-3,
-  variants={1.5e-14: "design A rounded to 1.5e-14 kg (2.2% above 1.468e-14): anything ∝ m² "
-                     "is {A_m2:+.1%} off"},
-  note="design A is found by the design search, then retyped, rounded, across four topics")
+  "src/stur_gravity_full.py design_a()", match=0.03, same=1e-3, single_source=True, short=True)
 q("A_R", "design A: diamond radius (m)", lambda: _diamond_radius(), "derived",
-  "(3m/4πρ)^(1/3) with design A's mass and ρ_diamond", match=0.02, same=1e-3,
-  variants={1.007e-6: "the radius of the rounded 1.5e-14 kg mass; 0.7% above design A's {A_R:.4e} m"})
+  "src/stur_gravity_full.py design_a()", match=0.02, same=1e-3, single_source=True)
 q("A_dx", "design A: branch separation Δx (m)", lambda: cached("A", _design_a)["dx"], "derived",
-  "src/stur_gravity_full.py design search", match=2e-3, same=5e-4)
+  "src/stur_gravity_full.py design_a()", match=2e-3, same=5e-4, single_source=True)
 q("A_gap", "Casimir-safe gap (m)", lambda: cached("A", _design_a)["gap"], "derived",
-  "src/stur_gravity_entanglement.py (Casimir < 10% of gravity)", match=2e-3, same=5e-4,
-  skip=[("ladder_standalone", "abs(gap - 181.16e-6)")])
+  "src/stur_gravity_full.py design_a() (Casimir < 10% of gravity)", match=2e-3, same=5e-4,
+  single_source=True, skip=[("ladder_standalone", "abs(gap - 181.16e-6)")])
 q("A_ramp", "design A: ramp time (s)", lambda: cached("A", _design_a)["ramp"], "derived",
-  "src/stur_gravity_full.py design search", match=2e-3, same=1e-3)
+  "src/stur_gravity_full.py design_a()", match=2e-3, same=1e-3, single_source=True)
 q("A_total", "design A: total time (s)", lambda: cached("A", _design_a)["total"], "derived",
-  "src/stur_gravity_full.py design search", match=3e-3, same=2e-3)
+  "src/stur_gravity_full.py design_a()", match=3e-3, same=2e-3, single_source=True,
+  skip=[("stur_z2_higgs", "cut = 3.25")])
 q("A_dphi", "design A: entangling phase Δφ (rad)", lambda: cached("A", _design_a)["dphi"], "derived",
   "src/graviton_exchange.py N4", match=1e-3, same=1e-4)
 q("pe", "\\|q_p + q_e\\| bound (e)", 1e-21, "input", "Bressi et al. 2011", match=1e-6, short=True,
   skip=[("ladder_links", "Q_N_MEAS[0] / 1e-21"), ("ladder_links", "Q_N_MEAS[1] / 1e-21")])
 
-FMT = dict(mt_eff=lambda: _mt_threshold_effect(), A_R=lambda: _diamond_radius(),
-           A_m2=lambda: (1.5e-14 / cached("A", _design_a)["m"]) ** 2 - 1)
+FMT = dict(mt_eff=lambda: _mt_threshold_effect())
 
 # numbers that recur but are not physical quantities: numerical tolerances, grid bounds,
 # step sizes, and the baseline design of stur_gravity_entanglement.BASE
@@ -450,6 +449,19 @@ def report(info, vals, rows, missing, stale):
             continue
         cp = "; ".join(f"`{o['module']}:{o['line']}` {fmt(o['value'])} ({o['status']})" for o in r)
         w(f"| {Q[k]['label']} | {Q[k]['origin']} | {fmt(vals[k])} | {cp} |")
+    w("")
+
+    single = [k for k in Q if Q[k].get("single_source")]
+    w("## Values with one source")
+    w("")
+    w("These are imported from their source by every script that uses them; a typed-in copy "
+      "fails `tests/test_dependency_map.py`.")
+    w("")
+    w("| Quantity | Value | Source | Typed-in copies |")
+    w("|---|---|---|---|")
+    for k in single:
+        cp = "; ".join(f"`{o['module']}:{o['line']}`" for o in rows[k]) or "none"
+        w(f"| {Q[k]['label']} | {fmt(vals[k])} | {Q[k]['origin']} | {cp} |")
     w("")
 
     w("## Copies that differ from the source")

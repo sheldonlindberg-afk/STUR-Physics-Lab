@@ -99,7 +99,7 @@ D7  Consequences, each computed from the equation
        where the charge is). Free space: no lasting record, fringes stay. Near a
        surface the image charges record the path: fringes fade (LIT: Sonnentag &
        Hasselbach 2007). A literally split charge is excluded (MEASUREMENT.md T1, T5).
-   (c) ONE diamond, gravity's own record: |<E1|E2>_grav| = exp(-N/2), N = 1.4e-59 gravitons.
+   (c) ONE diamond, gravity's own record: |<E1|E2>_grav| = exp(-N/2), N = 1.3e-59 gravitons.
        Gravity keeps no record: a single mass stays coherent unless something else
        (gas, light, vibration) records it.
    (d) TWO diamonds (1e-14 kg, 250 um splits, 200 um apart, 2.5 s): the action
@@ -110,7 +110,7 @@ D7  Consequences, each computed from the equation
        light bending 1.7512 arcsec, PPN gamma = 1, GPS +38.54 us/day.
    (f) If gravity were only the AVERAGE of the quantum level (not D6): each branch
        would feel the mean field, S_i would factor, and (d) would give exactly zero
-       entanglement. An average needs intrinsic collapse: Diosi-Penrose rate 170 /s,
+       entanglement. An average needs intrinsic collapse: Diosi-Penrose rate 164 /s,
        killing even ONE diamond's superposition in ~6 ms (any Markovian average smeared
        over R0 < 0.1 um, Oppenheim's included). (c) and (d) both test this.
 

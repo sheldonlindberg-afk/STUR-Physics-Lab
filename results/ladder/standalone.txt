@@ -50,7 +50,7 @@ RUNG 3  Electromagnetism, the experiment's background: Casimir-Polder
    [PASS] dielectric sphere, from Laplace's equation: alpha/(4 pi eps0) = K R^3, K = (eps-1)/(eps+2)
    [PASS] dipole Green tensor at imaginary frequency solves (lap - xi^2/c^2) G = 0, and Tr G.G = 2 e^(-2u)(3 + 6u + 5u^2 + 2u^3 + u^4)/r^6
    [PASS] the fluctuation integral int_0^oo e^(-2u)(3 + 6u + 5u^2 + 2u^3 + u^4) du = 23/4 exactly, so U = -(23/4 pi) hbar c alpha1 alpha2 / r^7 (Casimir-Polder)
-   m = 1.5e-14 kg (R = 1.01 um), r = 200 um: Casimir -1.753e-36 J, gravity -7.509e-35 J, ratio 2.33e-02
+   design A, m = 1.468e-14 kg (R = 1.00 um), r = 200 um: Casimir -1.679e-36 J, gravity -7.190e-35 J, ratio 2.33e-02
    [PASS] at 200 um Casimir is 2.3% of gravity, and both scale as R^6, so the safe gap is mass-independent
 
 ==============================================================================

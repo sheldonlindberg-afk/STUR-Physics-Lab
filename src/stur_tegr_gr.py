@@ -211,9 +211,10 @@ def main():
     print("   part; the other half is e^{2B} (Psi = Phi in E2), which Newton has no place for.")
 
     banner("F3  The diamond-diamond interaction from TEGR's field energy (numerical)")
-    m = 1.5e-14
-    R = ge.radius(m)
-    for d in (181.2e-6, 721e-6, 10e-6, 3e-6):
+    import stur_gravity_full as GF
+    A = GF.design_a()
+    m, R = A["m"], A["R"]                                    # design A
+    for d in (A["gap"], A["dx"], 10e-6, 3e-6):
         fld, mat, tot = interaction_energy_tegr(m, R, d)
         print(f"   d = {d*1e6:7.1f} um (R = {R*1e6:.3f} um): field {fld:+.6e} J, matter {mat:+.6e} J,"
               f" total {tot:+.6e} J;  field / (G m^2/d) - 1 = {fld/(G*m*m/d) - 1:+.1e}")
@@ -234,7 +235,9 @@ def main():
     print(f"   Entangling phase: TEGR {ge.entangling_phase(ph_tegr):.8f}, used {ge.entangling_phase(ph_old):.8f};"
           f" largest difference {np.max(np.abs(ph_tegr - ph_old)):.1e} rad")
     pn = G * b["m"] / (C**2 * b["gap"])
-    v = 721e-6 / 1.58
+    import stur_gravity_full as GF
+    A = GF.design_a()
+    v = A["dx"] / A["ramp"]
     print(f"   Next TEGR order (1PN): G m / (c^2 d) = {pn:.1e}; (v/c)^2 for the split = {(v/C)**2:.1e}")
     print("   FOLLOWS: at the experiment's scale TEGR, GR and Newton agree to 1e-24 or better.")
     print("   The experiment tests the TEGR torsion field as a quantum field: lambda = 1 if it is")

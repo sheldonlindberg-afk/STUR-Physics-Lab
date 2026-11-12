@@ -55,7 +55,7 @@ E4  The gravitational phase as a TEGR holonomy; the FIELD's own share
    A mass on a worldline picks up phase -(m c / hbar) int e^0_mu dx^mu: the
    holonomy of the translational potential B^0_0 = Phi / c^2 (KNOWN; COW 1975,
    gravitational Aharonov-Bohm: Overstreet et al., Science 375, 226 (2022)).
-   Two diamonds (1.5e-14 kg, 181 um): matter part +1.658e-34 J, field part -8.288e-35 J, total L = +8.288e-35 J = G m^2 / r
+   Two diamonds (1.468e-14 kg, 181 um): matter part +1.587e-34 J, field part -7.937e-35 J, total L = +7.937e-35 J = G m^2 / r
    FOLLOWS: the matter coupling alone would give 2 G m^2 / r; the gravitational FIELD's
    own action gives -G m^2 / r, and the net is the familiar G m^2 / r. The field term
    is not optional: without it the phase is doubled. For it to depend on the branch
@@ -80,8 +80,8 @@ E5  TEGR's translational potential as an abelian gauge connection A_mu
 ==============================================================================
 E6  Does gravity's own field record which path? (gravitational version of T5)
 ==============================================================================
-   m = 1.5e-14 kg, dx = 721 um, ramps 1.58 s: radiated 5.8e-93 J, gravitons emitted 1.4e-59
-   m = 1.0e-14 kg, dx = 250 um, ramps 0.73 s: radiated 1.8e-93 J, gravitons emitted 1.9e-60
+   m = 1.47e-14 kg, dx = 721 um, ramps 1.58 s: radiated 5.5e-93 J, gravitons emitted 1.3e-59
+   m = 1.00e-14 kg, dx = 250 um, ramps 0.73 s: radiated 1.8e-93 J, gravitons emitted 1.9e-60
    FOLLOWS: no graviton carries which-path information away, so the field does not
    decohere the diamond (KNOWN in outline: Belenchia et al., PRD 98, 126009 (2018)).
    The which-path record is the static (Coulomb-like) torsion field, bound to the

@@ -44,9 +44,9 @@ K3  STATISTICAL: gravity follows the AVERAGE of the quantum level (lambda = 0)
 ==============================================================================
    An average is only well defined if something produces it: intrinsic noise or
    collapse. The parameter-free version is Diosi-Penrose (gravity-induced collapse).
-   Diamond 1.5e-14 kg, R = 1.007 um, split 250 um:  DP rate 169 /s  -> superposition lifetime 5.9 ms (x2 by convention)
-   Diamond 1.5e-14 kg, R = 1.007 um, split 721 um:  DP rate 170 /s  -> superposition lifetime 5.9 ms (x2 by convention)
-   Crystal lumpiness (nuclei smeared over R0 = 0.54 A, LIT bound): extra 4.2e-06 /s (negligible)
+   Diamond 1.468e-14 kg, R = 0.999 um, split 250 um:  DP rate 163 /s  -> superposition lifetime 6.1 ms (x2 by convention)
+   Diamond 1.468e-14 kg, R = 0.999 um, split 721 um:  DP rate 164 /s  -> superposition lifetime 6.1 ms (x2 by convention)
+   Crystal lumpiness (nuclei smeared over R0 = 0.54 A, LIT bound): extra 4.1e-06 /s (negligible)
    Design A needs 3.2 s of coherence. Under DP the superposition is gone ~500x sooner.
    LIT: Donadi et al. 2021 excluded the simplest DP (R0 < 0.54 A) from the absence of
    the radiation it predicts; versions with larger R0 survive and are tested here.

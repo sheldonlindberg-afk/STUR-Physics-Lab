@@ -102,12 +102,8 @@ def branch_phases(n=4001):
     src/stur_gravity_full.trajectory_dphi."""
     import stur_gravity_entanglement as GE
     import stur_gravity_full as GF
-    # design A is a point of the design-search grids of src/stur_gravity_full.py (H5)
-    m = float(np.geomspace(1e-16, 1e-12, 25)[13])                          # 1.468e-14 kg
-    dx = float(np.geomspace(10e-6, 3e-3, 25)[18])                          # 720.8 um
-    hold = float(np.geomspace(0.05, 20, 25)[2])                            # 0.0824 s
-    ramp = float(np.geomspace(0.05, 5, 17)[12])                            # 1.581 s
-    gap = GE.casimir_vs_gravity_gap(GE.BASE["m"], GE.BASE["dx"], GE.BASE["tau"], "parallel")   # 181.2 um
+    A = GF.design_a()                       # 1.468e-14 kg, 720.8 um, hold 0.0824 s, ramps 1.581 s, gap 181.2 um
+    m, dx, hold, ramp, gap = A["m"], A["dx"], A["hold"], A["ramp"], A["gap"]
     t = np.linspace(0, hold + 2 * ramp, n)
     y = 0.5 * dx * GF.ramp_profile(t, hold, ramp)                         # each branch at +-y
     r_same = np.full_like(t, gap)                                         # (L,L) and (R,R)

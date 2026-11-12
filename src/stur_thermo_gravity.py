@@ -51,7 +51,9 @@ lP = np.sqrt(hbar * G / c**3)
 c_s = 0.3046
 u = 1.66053906660e-27
 
-M_A, R_A, D_A, T_A = 1.5e-14, 1.007e-6, 721e-6, 3.24
+import stur_gravity_full as GF
+_A = GF.design_a()
+M_A, R_A, D_A, T_A = _A["m"], _A["R"], _A["dx"], _A["total"]   # design A, from src/stur_gravity_full.py
 R0_DONADI = 0.54e-10          # LIT: Donadi et al. 2021
 L_ISL = 52e-6                 # LIT recalled: Lee et al., PRL 124, 101101 (2020)
 

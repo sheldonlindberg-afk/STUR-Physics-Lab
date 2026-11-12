@@ -37,6 +37,36 @@ NV_T2_BEST = 1.6        # s     LIT: NV ensemble T2 with dynamical decoupling at
                         #       1.6 s used as an optimistic round value, scanned below
 
 
+# The design-search grids (H5) and design A. Design A is the best design of scenario A on these
+# grids with the interpolated gas rate used before H5b; it is kept as the repository's reference
+# geometry (with the derived rate the optimum moves to 6.8e-14 kg, 53 um, and design A needs
+# 270 runs instead of 565). design_a() is the single source for every script that uses it;
+# main() and tests/test_gravity_full.py check that the search still returns exactly this point.
+MASSES = np.geomspace(1e-16, 1e-12, 25)
+DXS = np.geomspace(10e-6, 3e-3, 25)
+HOLDS = np.geomspace(0.05, 20, 25)
+RAMPS = np.geomspace(0.05, 5, 17)
+DESIGN_A_INDEX = (13, 18, 2, 12)                     # (mass, dx, hold, ramp) on the grids above
+
+
+# scenario A of the H5 search: the Bose et al. targets, no acceleration noise, unlimited spin coherence
+BASE_ENV = dict(P=1e-15, T_env=0.15, T_int=0.15, im_K=0.01, asd=0.0, T2=1e9, m_gas=g.M_N2)
+
+
+def casimir_safe_gap():
+    """H0: the gap where Casimir's entangling phase is 10% of gravity's (mass-independent)."""
+    return g.casimir_vs_gravity_gap(g.BASE["m"], g.BASE["dx"], g.BASE["tau"], "parallel")
+
+
+def design_a():
+    """Design A (H5, scenario A, interpolated gas rate): mass, branch separation, hold and ramp
+    times, total time, the Casimir-safe gap and the diamond's radius."""
+    i, j, k, l = DESIGN_A_INDEX
+    m, dx, hold, ramp = float(MASSES[i]), float(DXS[j]), float(HOLDS[k]), float(RAMPS[l])
+    return dict(m=m, dx=dx, hold=hold, ramp=ramp, total=hold + 2 * ramp, gap=casimir_safe_gap(),
+                R=float(radius(m)))
+
+
 def banner(s):
     print("\n" + "=" * 78 + "\n" + s + "\n" + "=" * 78)
 
@@ -348,15 +378,12 @@ def main():
     dphi_grid = np.linspace(0, np.pi, 241)
     gt_grid = np.linspace(0, 0.8, 161)
     table = (dphi_grid, gt_grid, runs_table(dphi_grid, gt_grid))
-    masses = np.geomspace(1e-16, 1e-12, 25)
-    dxs = np.geomspace(10e-6, 3e-3, 25)
-    holds = np.geomspace(0.05, 20, 25)
-    ramps = np.geomspace(0.05, 5, 17)
+    masses, dxs, holds, ramps = MASSES, DXS, HOLDS, RAMPS
 
     def search(env):
         return design_search(env, masses, dxs, holds, ramps, gap, table)
 
-    base_env = dict(P=1e-15, T_env=0.15, T_int=0.15, im_K=0.01, asd=0.0, T2=1e9, m_gas=g.M_N2)
+    base_env = BASE_ENV
     scenarios = [
         ("A  Bose target (1e-15 Pa N2, 0.15 K), no acceleration noise, unlimited spin coherence", base_env),
         ("A' as A, but the leftover gas is helium (typical in a cryostat)", {**base_env, "m_gas": M_HE}),
@@ -386,10 +413,12 @@ def main():
     print("      kR       sigma_tot / (pi R^2)")
     for kR in (100, 1000, 3000):
         print(f"      {kR:5d}    {hard_sphere_sigma(kR):.4f}")
+    A = design_a()
     for lab, mg in (("N2", g.M_N2), ("He", M_HE)):
-        kR = np.sqrt(2 * mg * KB * 0.15) / HBAR * radius(1.5e-14)
-        print(f"   {lab} at 0.15 K on a 1.007-um diamond: kR = {kR:.0f}, so sigma_tot = 2 pi R^2 (extinction paradox).")
-    ratio = gas_rate_interpolated(1.5e-14, 1e-15, 0.15, g.M_N2) / gas_rate_kinetic(1.5e-14, 1e-15, 0.15, g.M_N2)
+        kR = np.sqrt(2 * mg * KB * 0.15) / HBAR * A["R"]
+        print(f"   {lab} at 0.15 K on design A's {A['R'] * 1e6:.3f}-um diamond: kR = {kR:.0f},"
+              " so sigma_tot = 2 pi R^2 (extinction paradox).")
+    ratio = gas_rate_interpolated(A["m"], 1e-15, 0.15, g.M_N2) / gas_rate_kinetic(A["m"], 1e-15, 0.15, g.M_N2)
     print(f"   The interpolation used before (LIT: Romero-Isart 2011, eq. 27, gamma = lambda_th^2 Lambda) is")
     print(f"   {ratio:.2f}x the derived collision rate. It extends the long-wavelength coefficient into the")
     print("   saturated regime with a Gaussian, so it is an estimate. The derived rate is used above.")
@@ -402,10 +431,13 @@ def main():
         fmt = lambda r: "no design works" if r is None else f"{r['runs']:.0f} runs, {r['wall']/3600:.1f} h"
         print(f"   {k:8s}   {fmt(old[k]):28s}   {fmt(results[k])}")
     oA = old["A"]
+    A = design_a()
+    assert (oA["m"], oA["dx"], oA["hold"], oA["ramp"]) == (A["m"], A["dx"], A["hold"], A["ramp"])
     fixed = design_search(base_env, np.array([oA["m"]]), np.array([oA["dx"]]), np.array([oA["hold"]]),
                           np.array([oA["ramp"]]), gap, table)
     results["A_fixed"] = fixed
-    print(f"   Design A (1.5e-14 kg, 721 um, 3.24 s), the reference geometry used across the repository:")
+    print(f"   Design A ({A['m']:.3e} kg, {A['dx'] * 1e6:.0f} um, {A['total']:.2f} s), the reference geometry"
+          " used across the repository:")
     print(f"      gas gamma*tau {oA['gas']:.3f} -> {fixed['gas']:.3f};  {oA['runs']:.0f} -> {fixed['runs']:.0f} runs"
           f" ({fixed['wall']/3600:.1f} h; {MIN_RUNS} runs, 30 per setting, is the protocol minimum)")
 

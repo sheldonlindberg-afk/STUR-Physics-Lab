@@ -40,9 +40,10 @@ def test_split_force():
 
 
 def test_em_fakes():
-    assert f.em_entangling_ratio(1.5e-14, 721e-6, GAP, 3.24, q=f.E_CH) > 1e10
-    p = f.max_dipole(1.5e-14, 721e-6, GAP, 3.24)
-    assert abs(f.em_entangling_ratio(1.5e-14, 721e-6, GAP, 3.24, p=p) - 0.1) < 1e-3
+    A = f.design_a()
+    assert f.em_entangling_ratio(A["m"], A["dx"], GAP, A["total"], q=f.E_CH) > 1e10
+    p = f.max_dipole(A["m"], A["dx"], GAP, A["total"])
+    assert abs(f.em_entangling_ratio(A["m"], A["dx"], GAP, A["total"], p=p) - 0.1) < 1e-3
 
 
 def test_coarse_design_search():
@@ -56,3 +57,19 @@ def test_coarse_design_search():
     assert f.design_search({**env, "P": 1e-14}, *args) is None
     assert f.design_search({**env, "asd": f.LPF_ASD}, *args) is None
     assert f.design_search({**env, "P": 1e-17}, *args)["runs"] >= f.MIN_RUNS
+
+
+def test_design_a_is_the_search_result():
+    """design_a() is the single source of design A: the H5 search for scenario A with the
+    interpolated gas rate (design A's definition) must land on it."""
+    dphi_grid, gt_grid = np.linspace(0, np.pi, 241), np.linspace(0, 0.8, 161)
+    table = (dphi_grid, gt_grid, f.runs_table(dphi_grid, gt_grid))
+    A = f.design_a()
+    saved, f.GAS_MODEL = f.GAS_MODEL, "interpolated"
+    try:
+        r = f.design_search(f.BASE_ENV, f.MASSES, f.DXS, f.HOLDS, f.RAMPS, A["gap"], table)
+    finally:
+        f.GAS_MODEL = saved
+    assert (r["m"], r["dx"], r["hold"], r["ramp"]) == (A["m"], A["dx"], A["hold"], A["ramp"])
+    assert abs(A["m"] / 1.4678e-14 - 1) < 1e-4 and abs(A["gap"] * 1e6 - 181.16) < 0.01
+    assert abs(A["R"] - g.radius(A["m"])) == 0 and abs(A["total"] - 3.2447) < 1e-3

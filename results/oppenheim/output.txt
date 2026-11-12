@@ -30,22 +30,22 @@ P2  Matter feels the noisy potential: the total decoherence floor (FOLLOWS)
 ==============================================================================
 P3  One particle measured two ways: Gamma x S_a (worked example)
 ==============================================================================
-   Design-A diamond, M = 1.5e-14 kg, R = 1.007 um, split 721 um.
+   Design-A diamond, M = 1.468e-14 kg, R = 0.999 um, split 721 um.
    Uses only the trade-off: no assumption on how the noise acts back on the matter.
    R0 (m)       I (m/kg/s^2)   bound Gamma*S_a (m^2/s^4)   S_a if Gamma <= 0.12/s:
                                                          one-sided ASD (m s^-2/rtHz)  / requirement
-    0.00e+00    4.2440e+01     1.0132e-25                 1.299e-12                 4.2e+04
-    5.40e-11    4.2440e+01     1.0132e-25                 1.299e-12                 4.2e+04
-    1.00e-07    4.0115e+01     9.0520e-26                 1.228e-12                 4.0e+04
-    1.00e-06    7.9168e+00     3.5255e-27                 2.424e-13                 7.8e+03
-    1.00e-05    9.5631e-02     5.1443e-31                 2.928e-15                 9.4e+01
-    5.20e-05    3.6387e-03     7.4474e-34                 1.114e-16                 3.6e+00
-   Check: for split >> R, I -> (2 sqrt2 G / pi^2 R^2) Int x f(x)^2 dx = 4.2440e+01
-   (Int x f^2 dx = 9/4 for a uniform sphere); the full integral gives 4.2440e+01.
+    0.00e+00    4.3085e+01     9.9981e-26                 1.291e-12                 4.2e+04
+    5.40e-11    4.3085e+01     9.9981e-26                 1.291e-12                 4.2e+04
+    1.00e-07    4.0695e+01     8.9199e-26                 1.219e-12                 3.9e+04
+    1.00e-06    7.9377e+00     3.3936e-27                 2.378e-13                 7.7e+03
+    1.00e-05    9.5634e-02     4.9261e-31                 2.865e-15                 9.2e+01
+    5.20e-05    3.6387e-03     7.1312e-34                 1.090e-16                 3.5e+00
+   Check: for split >> R, I -> (2 sqrt2 G / pi^2 R^2) Int x f(x)^2 dx = 4.3084e+01
+   (Int x f^2 dx = 9/4 for a uniform sphere); the full integral gives 4.3085e+01.
    Reading: if the diamond keeps coherence (Gamma within the 0.12 /s budget), a classical
    (CQ) gravity must shake it with at least the acceleration noise in the last columns.
    Design A already requires the noise to be lower than that, by the factor shown, for
-   every R0 up to 100 um, which covers all R0 the inverse-square law allows (52 um).
+   every R0 up to 99 um, which covers all R0 the inverse-square law allows (52 um).
    So a coherent, quiet design-A diamond excludes every continuous Markovian CQ gravity,
    whatever the kernel shapes, without the back-action step of P2. A uniform sphere is
    used for F(q); the nuclei only add to I, so the bound is conservative.
@@ -68,9 +68,9 @@ P4  Small splits: the minimum heating of matter (FOLLOWS)
    Centre-of-mass heating floor, in phonons/s (trap 50 kHz, ASSUMPTION):
    R0 (m)       100-nm silica (1.15e-18 kg)    design-A diamond (at the same trap)
     0.00e+00    1.021e+02                      1.021e+02
-    5.40e-11    3.254e-12                      2.824e-12
-    1.00e-09    9.454e-13                      1.561e-12
-    1.00e-08    6.564e-13                      1.552e-12
+    5.40e-11    3.254e-12                      2.826e-12
+    1.00e-09    9.454e-13                      1.562e-12
+    1.00e-08    6.564e-13                      1.553e-12
    Local coupling: ~102 phonons/s, the same for both bodies (the rate does not depend on mass).
    At R0 = 0.54 Angstrom: 3.3e-12 phonons/s, far below any measured heating.
    So heating rules out local CQ gravity but cannot reach the R0 the radiation bound allows;
@@ -92,17 +92,17 @@ P5  Any classical-quantum gravity, any kernel, continuous or discrete (worked ex
    The pull is largest at split = R (0.46875 G M^2/R^2): the best test is a SMALL split.
    Design-A diamond, Gamma <= 0.12 /s:
      split         bound (m^2/s^4)   CQ acceleration noise needed (one-sided, m s^-2/rtHz)
-     R = 1.0 um    2.677e-26         6.68e-13   (2.2e+04 x design A's requirement)
-     2R            7.615e-27         3.56e-13   (1.1e+04 x design A's requirement)
-     721 um        4.636e-37         2.78e-18   (9.0e-02 x design A's requirement)
-   At 721 um the kernel-free bound is 5e-12 of the translation-invariant one (P3);
+     R = 1.0 um    2.642e-26         6.64e-13   (2.1e+04 x design A's requirement)
+     2R            7.515e-27         3.54e-13   (1.1e+04 x design A's requirement)
+     721 um        4.443e-37         2.72e-18   (8.8e-02 x design A's requirement)
+   At 721 um the kernel-free bound is 4e-12 of the translation-invariant one (P3);
    at split = R it is 0.40 of P3 at the same split. So one diamond held coherent across about its radius,
    with its acceleration noise measured, tests every Markovian CQ gravity, discrete ones included.
    Diamond density, split = R, Gamma <= 0.1 /s:
      mass (kg)    R (um)    acceleration noise CQ gravity must produce (one-sided)
-        1e-17     0.088    6.39e-14 m s^-2/rtHz
+        1e-17     0.088    6.40e-14 m s^-2/rtHz
         1e-15     0.408    2.97e-13 m s^-2/rtHz
-        1e-14     0.880    6.39e-13 m s^-2/rtHz
-        1e-12     4.083    2.97e-12 m s^-2/rtHz
+        1e-14     0.879    6.40e-13 m s^-2/rtHz
+        1e-12     4.082    2.97e-12 m s^-2/rtHz
    For small splits (dx << R) the same bound becomes a heating floor of 2 pi G rho/(3 omega)
    phonons/s, 1.6e-12 at 50 kHz: unmeasurable. The test needs a split of order R.
