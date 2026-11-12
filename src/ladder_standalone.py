@@ -7,7 +7,19 @@ HOW TO RUN
     Paste this whole file into any Python 3.8+ runner (a terminal, an online
     interpreter, Jupyter, Pyodide, or an AI assistant's code tool) and run it.
     No packages to install: it uses only the Python standard library.
-    It runs in a few seconds.
+    It runs in about a second. It exits with status 1 if any check fails, so scripts and
+    CI can rely on the exit code as well as the printed verdict.
+
+READING THE CHECKS
+    Every check is tagged with what it tests:
+      [math]    an identity or derivation, verified by exact or numerical computation;
+                no measurement is involved, so it can only fail if the algebra is wrong.
+      [data]    a computed value against a measurement. The tolerance and the reason
+                for it are printed on the next line.
+      [pinned]  a number this repository derives (for example the experiment's 2.19 rad
+                phase), checked against the value pinned in the repository. It catches
+                changes; it is not, by itself, evidence that the physics is right.
+    [model] marks a check made inside a simplified stand-in model, not the full theory.
 
 FOR AI ASSISTANTS
     Execute the file as-is and report the printed results. Every rung ends with
@@ -35,7 +47,7 @@ WHAT IT COMPUTES
               pi0 -> gamma gamma (rung 1 -> 2): rung 1's charges and rung 2's f_pi give the
               measured width. The Planck mass (rung 4 -> 1): the 3-3-1 selection's cutoff is
               sqrt(hbar c / G), with the G of the diamond experiment.
-    Inputs are measured values (PDG, FLAG, CODATA, Planck 2018). What is not derived, by
+    Inputs are measured values (PDG 2024, FLAG 2024, CODATA 2018, Planck 2018). What is not derived, by
     anyone: why the inputs have their values, and how gravity unifies with the others.
 
 SOURCE
@@ -49,21 +61,28 @@ from fractions import Fraction as F
 from itertools import permutations
 from math import cos, exp, factorial, pi, sin, sqrt
 import random
+import textwrap
 import time
 
 # ----------------------------------------------------------------------------------------
 # Inputs (PDG 2024, FLAG 2024, CODATA 2018, Planck 2018)
+# CODATA 2018 is kept to match the rest of the repository. CODATA 2022 changes alpha,
+# 1/(4 pi eps0) and the atomic mass unit only in the 9th-10th digit (G, hbar, c, e are
+# unchanged), which moves no printed result.
 # ----------------------------------------------------------------------------------------
 G_F = 1.1663788e-5            # GeV^-2, Fermi constant
 MZ_MEAS = 91.1876             # GeV
 ALPHA_MZ_INV = 127.951        # 1/alpha_em(M_Z), MS-bar
 S2_MZ = 0.23122               # sin^2 theta_W(M_Z), MS-bar
 MU_PLUS_MD = 2.16e-3 + 4.70e-3   # GeV, m_u + m_d, MS-bar 2 GeV
+MU_PLUS_MD_ERR = sqrt(0.07e-3**2 + 0.07e-3**2)   # GeV, PDG 2024: m_u, m_d each +- 0.07 MeV
 F_PI = 0.1302 / sqrt(2)       # GeV, f_pi = 92.1 MeV
 COND_13 = 0.272               # GeV, |<qbar q>|^(1/3), lattice (FLAG), MS-bar 2 GeV
+COND_13_ERR = 0.005           # GeV, FLAG 2024 (N_f = 2+1)
 M_PI0, M_PIC = 0.1349768, 0.13957039
 G_A, M_N = 1.2754, 0.9389187  # nucleon axial coupling; average nucleon mass (GeV)
-G_PINN_EMP = 13.1             # empirical pi-N coupling (approximate)
+G_PINN_EMP = 13.1             # charged pi-N coupling: g_c^2/4pi = 13.69 +- 0.12 +- 0.15 (GMO sum rule;
+G_PINN_ERR = 0.1              # Baru et al., Nucl. Phys. A 872, 69 (2011), eq. 9.13), so g = 13.12 +- 0.09
 HBARC_GEV_FM = 0.1973269804
 G_NEWTON = 6.67430e-11        # m^3 kg^-1 s^-2
 HBAR = 1.054571817e-34        # J s
@@ -74,15 +93,27 @@ LAMBDA_SI = 1.1056e-52        # m^-2, cosmological constant (Planck 2018)
 L_PLANCK = 1.616255e-35       # m
 
 CHECKS = []
+KINDS = ("math", "data", "pinned")
 
 
 def banner(s):
     print("\n" + "=" * 78 + "\n" + s + "\n" + "=" * 78)
 
 
-def check(label, ok):
-    CHECKS.append((label, bool(ok)))
-    print(f"   [{'PASS' if ok else 'FAIL'}] {label}")
+def plain(text):
+    """A plain-language summary of a rung, for readers who are not specialists."""
+    print(textwrap.fill("In plain words: " + text, 90, initial_indent="   ", subsequent_indent="   ") + "\n")
+
+
+def check(label, ok, kind="math", note=None, model=False):
+    """Record one check. kind: 'math', 'data' or 'pinned' (see READING THE CHECKS).
+    note: what was compared and why the tolerance is what it is, printed under the check."""
+    assert kind in KINDS
+    CHECKS.append((label, bool(ok), kind))
+    tag = f"[{kind}]" + (" [model]" if model else "")
+    print(f"   [{'PASS' if ok else 'FAIL'}] {tag:15s} {label}")
+    if note:
+        print(textwrap.fill(note, 90, initial_indent=" " * 10, subsequent_indent=" " * 10))
 
 
 # ----------------------------------------------------------------------------------------
@@ -228,6 +259,7 @@ def mass_matrix(variant, g, gX, w, v1, v2):
 
 def rung1():
     banner("RUNG 1  3-3-1 -> Standard Model -> electromagnetism (gauge-boson mass matrix)")
+    plain("one larger force splits, in two steps, into the weak force and electromagnetism. The checks confirm that exactly one force carrier stays massless (the photon, which carries light) and that the W and Z particles get the right masses.")
     g, gX, w = 0.652, 0.79, 4000.0
     for variant in ("-1/sqrt3", "+1/sqrt3"):
         beta = BETA[variant]
@@ -294,7 +326,10 @@ def rung1():
     mz = sqrt(pi / ALPHA_MZ_INV / (sqrt(2) * G_F) / (S2_MZ * (1 - S2_MZ)))
     print(f"   v = (sqrt2 G_F)^(-1/2) = {v:.2f} GeV; tree-level M_Z = {mz:.2f} GeV vs measured {MZ_MEAS}"
           f" ({100 * (mz / MZ_MEAS - 1):+.2f}%, the radiative correction, not derived)")
-    check("v = 246.22 GeV from G_F, and tree-level M_Z within 0.5% of the measurement", abs(v - 246.22) < 0.01 and abs(mz / MZ_MEAS - 1) < 0.005)
+    check("v = 246.22 GeV from G_F, and tree-level M_Z within 0.5% of the measurement",
+          abs(v - 246.22) < 0.01 and abs(mz / MZ_MEAS - 1) < 0.005, "data",
+          f"got M_Z = {mz:.2f} GeV vs {MZ_MEAS} GeV ({100 * (mz / MZ_MEAS - 1):+.2f}%). Tolerance 0.5%: this is tree"
+          " level, and the loop corrections it omits are each of order alpha/pi = 0.25%")
 
 
 # ----------------------------------------------------------------------------------------
@@ -329,24 +364,29 @@ def kron(A, B):
 
 def rung2():
     banner("RUNG 2  The strong force: chiral symmetry breaking (MODEL: linear sigma model)")
+    plain("when a symmetry of the strong force breaks, light particles called pions appear. Exchanging pions between protons and neutrons is what holds atomic nuclei together. Some checks here use a simplified stand-in for the strong force, and they are marked [model].")
     lam, v = 2.0, 1.0
     Hm = hessian(lambda p: sigma_potential(lam, v, 0.0, p), [v, 0, 0, 0])
     ev = jacobi_eigenvalues(Hm)
     nz = sum(abs(x) < 1e-6 for x in ev)
     check("massless quarks: the vacuum breaks O(4) -> O(3), leaving exactly 3 Goldstone pions (6 - 3)",
-          nz == 3 and abs(ev[-1] - 2 * lam * v * v) < 1e-4)
+          nz == 3 and abs(ev[-1] - 2 * lam * v * v) < 1e-4, model=True)
     H = 0.05
     s0 = v
     for _ in range(60):                                    # vacuum: lam s0 (s0^2 - v^2) = H
         s0 -= (lam * s0 * (s0 * s0 - v * v) - H) / (lam * (3 * s0 * s0 - v * v))
     mpi2 = hessian(lambda p: sigma_potential(lam, v, H, p), [s0, 0, 0, 0])[1][1]
     check("quark masses: m_pi^2 = H/<sigma>, f_pi = <sigma>, so m_pi^2 f_pi^2 = H f_pi (the GMOR form)",
-          abs(mpi2 - H / s0) < 1e-6)
+          abs(mpi2 - H / s0) < 1e-6, model=True)
     mpi = sqrt(MU_PLUS_MD * COND_13**3) / F_PI
     print(f"   GMOR: m_pi = sqrt((m_u + m_d)|<qbar q>|)/f_pi = {mpi * 1e3:.1f} MeV;"
           f" measured {M_PI0 * 1e3:.1f} MeV ({100 * (mpi / M_PI0 - 1):+.1f}%, higher-order chiral terms)")
+    dmpi = 0.5 * sqrt((MU_PLUS_MD_ERR / MU_PLUS_MD) ** 2 + (3 * COND_13_ERR / COND_13) ** 2)
     check("GMOR with measured quark masses, f_pi and the lattice condensate: m_pi = 127.6 MeV (within 8% of 135)",
-          abs(mpi - 0.1276) < 1e-3 and abs(mpi / M_PI0 - 1) < 0.08)
+          abs(mpi - 0.1276) < 1e-3 and abs(mpi / M_PI0 - 1) < 0.08, "data",
+          f"got {mpi * 1e3:.1f} +- {dmpi * mpi * 1e3:.1f} MeV (inputs, {100 * dmpi:.1f}%) vs {M_PI0 * 1e3:.1f} MeV."
+          " Tolerance 8%: GMOR is leading order, and the next-order chiral terms (not computed here)"
+          " are expected at several percent")
     m = 1.3
     V = lambda r: exp(-m * r) / (4 * pi * r)
     rs = [0.3, 0.9, 2.1]
@@ -372,8 +412,13 @@ def rung2():
     check("one-pion exchange: (s1.q)(s2.q) = (q^2/3)[s1.s2 + S12]: central and tensor nuclear forces, and range 1.414 fm",
           max(abs(lhs[a][b] - rhs[a][b]) for a in range(4) for b in range(4)) < 1e-12 and abs(rng - 1.414) < 1e-3)
     gpinn = G_A * M_N / F_PI
-    print(f"   Goldberger-Treiman: g_piNN = g_A M_N / f_pi = {gpinn:.2f}; empirical about {G_PINN_EMP}")
-    check("Goldberger-Treiman from chiral symmetry: g_piNN = 13.01, within 2% of the empirical value", abs(gpinn / G_PINN_EMP - 1) < 0.02)
+    print(f"   Goldberger-Treiman: g_piNN = g_A M_N / f_pi = {gpinn:.2f}; empirical {G_PINN_EMP} +- {G_PINN_ERR}")
+    eps_chi = (M_PIC / (4 * pi * F_PI)) ** 2
+    check("Goldberger-Treiman from chiral symmetry: g_piNN = 13.01, within 2% of the empirical value",
+          abs(gpinn / G_PINN_EMP - 1) < 0.02, "data",
+          f"got {gpinn:.2f} vs {G_PINN_EMP} +- {G_PINN_ERR} ({100 * (gpinn / G_PINN_EMP - 1):+.1f}%). Tolerance 2%:"
+          f" the Goldberger-Treiman discrepancy is a next-order chiral correction, of order"
+          f" (m_pi/4 pi f_pi)^2 = {100 * eps_chi:.1f}%")
 
 
 # ----------------------------------------------------------------------------------------
@@ -393,6 +438,7 @@ def green(x, y, z, k):
 
 def rung3():
     banner("RUNG 3  Electromagnetism, the experiment's background: Casimir-Polder")
+    plain("two electrically neutral diamonds still attract slightly, through quantum fluctuations of the electromagnetic field. The experiment must keep this pull well below gravity, which sets how close the diamonds may come.")
     eps = F(57, 10)
     # inside A r cos(th), outside -E0 r cos(th) + B cos(th)/r^2 (R = E0 = 1): continuity and eps-flux
     # A = -1 + B ; eps A = -1 - 2B  ->  B = (eps - 1)/(eps + 2)
@@ -433,7 +479,7 @@ def rung3():
     Ug = -G_NEWTON * m * m / rr
     print(f"   design A, m = {m:.3e} kg (R = {R * 1e6:.2f} um), r = 200 um: Casimir {Uc:.3e} J, gravity {Ug:.3e} J, ratio {Uc / Ug:.2e}")
     check("at 200 um Casimir is 2.3% of gravity, and both scale as R^6, so the safe gap is mass-independent",
-          abs(Uc / Ug - 2.335e-2) < 2e-4)
+          abs(Uc / Ug - 2.335e-2) < 2e-4, "pinned", f"got {Uc / Ug:.4e}, pinned 2.335e-2 +- 2e-4")
 
 
 # ----------------------------------------------------------------------------------------
@@ -483,6 +529,7 @@ def casimir_safe_gap():
 
 def rung4():
     banner("RUNG 4  Gravity to the diamond experiment (linearized GR, one-graviton exchange)")
+    plain("treating gravity as the exchange of gravitons reproduces Newton's law and gives the quantum phase, 2.19 radians, that the two-diamond experiment would measure.")
     hbar00 = F(4)                                          # in units of GM/r
     trace = ETA4[0] * hbar00
     h00 = hbar00 - F(ETA4[0]) * trace / 2
@@ -513,7 +560,8 @@ def rung4():
           f" hold {hold:.4f} s, ramps 2 x {ramp:.4f} s")
     print(f"   Entangling phase Delta phi = phi_LL + phi_RR - phi_LR - phi_RL = {dphi:.4f} rad")
     check("design A's entangling phase from the graviton-exchange potential: 2.19 rad",
-          abs(dphi - 2.1868) < 1e-3 and abs(gap - 181.16e-6) < 0.1e-6)
+          abs(dphi - 2.1868) < 1e-3 and abs(gap - 181.16e-6) < 0.1e-6, "pinned",
+          f"got {dphi:.4f} rad and gap {gap * 1e6:.2f} um, pinned 2.1868 rad and 181.16 um")
 
 
 # ----------------------------------------------------------------------------------------
@@ -594,6 +642,7 @@ def wedge(X, Y):
 
 def rung5():
     banner("RUNG 5  Gravity as a broken gauge theory: MacDowell-Mansouri (an equivalent REFORMULATION)")
+    plain("Einstein's gravity can be rewritten in the same broken-symmetry language as the other forces. This is a rewriting, not a new theory. Fed the measured dark energy, it lands on a famous open puzzle: why that number is about 10^122 times smaller than natural.")
     P = [J(a, 4) for a in range(4)]                        # translations, l = 1
     alg = all(comm(P[a], P[b]) == [[-ETA5[4] * x for x in row] for row in J(a, b)] for a in range(4) for b in range(4))
     V = [0, 0, 0, 0, 1]
@@ -665,7 +714,8 @@ def rung5():
     coup = 3 / (L_PLANCK**2 * LAMBDA_SI)
     print(f"   Measured Lambda: l = sqrt(3/Lambda) = {ell:.3e} m; MacDowell-Mansouri coupling 3/(G Lambda) = {coup:.2e} (Planck units)")
     check("the measured Lambda gives l = 1.65e26 m and a coupling of 1e122: the cosmological-constant problem",
-          abs(ell / 1.647e26 - 1) < 1e-3 and abs(coup / 1.04e122 - 1) < 0.01)
+          abs(ell / 1.647e26 - 1) < 1e-3 and abs(coup / 1.04e122 - 1) < 0.01, "pinned",
+          f"got l = {ell:.4e} m and {coup:.3e}, pinned 1.647e26 m and 1.04e122")
 
 
 # ----------------------------------------------------------------------------------------
@@ -697,6 +747,7 @@ def parity(p):
 
 def links():
     banner("LINKS  Where one rung's output is another rung's input")
+    plain("places where one rung's result is needed by another. For example, the diamond experiment needs matter to be electrically neutral to extreme precision, and rung 1 explains why it is exactly neutral.")
     # L1a: q_p + q_e is the [SU(3)_L]^2 U(1)_X anomaly, for any beta, N_c and X charges.
     # b = beta/(2 sqrt3) enters linearly, so exact random rationals test the identity.
     rng, ok = random.Random(331), True
@@ -733,9 +784,12 @@ def links():
     print(f"   Measured: |q_p + q_e|, |q_n| < 1e-21 e -> margin {margin:.0f}; that residual totals"
           f" {EPS_PE_BOUND * nucleons:.1e} e per diamond, below one electron, so discharging cannot reach it")
     check("design A: one electron = 1.6e10 x gravity (as H6); neutrality needed to 2.8e-19 e per nucleon",
-          abs(one_e / 1.60e10 - 1) < 0.01 and abs(delta_max / 2.82e-19 - 1) < 2e-3)
+          abs(one_e / 1.60e10 - 1) < 0.01 and abs(delta_max / 2.82e-19 - 1) < 2e-3, "pinned",
+          f"got {one_e:.3e} and {delta_max:.3e} e, pinned 1.60e10 and 2.82e-19 e")
     check("measured neutrality (1e-21 e) clears it by 280x; rung 1 makes it exact",
-          270 < margin < 290)
+          margin > 1 and 270 < margin < 290, "data",
+          f"got margin {margin:.0f}. Passes because the measured bound is tighter than the requirement"
+          " (margin > 1); the value 280 is also pinned")
     # L2: pi0 -> gamma gamma
     factors = [Nc * (F(Nc + 1, 2 * Nc) ** 2 - F(1 - Nc, 2 * Nc) ** 2) for Nc in range(1, 12)]
     check("pi0 -> gamma gamma: N_c (Q_u^2 - Q_d^2) = 1 for every N_c with rung 1's charges", set(factors) == {1})
@@ -755,13 +809,16 @@ def links():
           f"  (PrimEx-I+II {GAMMA_PI0[0]} +- {GAMMA_PI0[1]:.3f} eV, {pull:+.1f} sigma)")
     print("   With the charges held at 2/3, -1/3 the width would scale as (N_c/3)^2; with rung 1's it")
     print("   cannot select N_c, the R-ratio does (src/m331_why_three.py W6).")
-    check("pi0 width from rung 1's charges and rung 2's f_pi: 7.79 eV, within 0.5 sigma of PrimEx",
-          abs(msq - 0.5) < 1e-12 and abs(width - 7.785) < 2e-3 and abs(pull) < 0.5)
+    check("pi0 width from rung 1's charges and rung 2's f_pi: 7.79 eV, within 2 sigma of PrimEx",
+          abs(msq - 0.5) < 1e-12 and abs(width - 7.785) < 2e-3 and abs(pull) < 2, "data",
+          f"got {width:.3f} eV vs {GAMMA_PI0[0]} +- {GAMMA_PI0[1]:.3f} eV ({pull:+.1f} sigma). Tolerance 2 sigma,"
+          " the usual standard. This is leading order (the anomaly alone); next-order"
+          " corrections of a few percent are not included")
     # L3: the 3-3-1 selection's cutoff is sqrt(hbar c / G), with rung 4's G
     mpl = sqrt(HBAR * C_LIGHT / G_NEWTON) * C_LIGHT**2 / E_CH / 1e9
     print(f"   M_Pl = sqrt(hbar c / G) from rung 4's G = {mpl:.6e} GeV: the cutoff the 3-3-1 selection runs to")
     check("the 3-3-1 cutoff is rung 4's gravity: sqrt(hbar c / G) = 1.22089e19 GeV",
-          abs(mpl / 1.22089e19 - 1) < 1e-6)
+          abs(mpl / 1.22089e19 - 1) < 1e-6, "pinned", f"got {mpl:.6e} GeV, pinned 1.22089e19 GeV")
 
 
 def main():
@@ -769,7 +826,7 @@ def main():
     for rung in (rung1, rung2, rung3, rung4, rung5, links):
         rung()
     banner("VERDICT")
-    n_ok = sum(ok for _, ok in CHECKS)
+    n_ok = sum(ok for _, ok, _ in CHECKS)
     print("   3-3-1 breaks to the Standard Model and then to electromagnetism: the photon, hypercharge,")
     print("   W, Z and Z' follow from the vacuum values. Chiral symmetry breaking gives the pions and the")
     print("   nuclear force. Electromagnetism, never broken, leaves the Casimir-Polder background between")
@@ -778,9 +835,12 @@ def main():
     print("   to Lorentz. Three links run across the rungs: rung 1's anomalies make matter neutral, which")
     print("   the diamond experiment needs to 2.8e-19 e per nucleon; its charges with rung 2's f_pi give")
     print("   the measured pi0 -> gamma gamma width; and the 3-3-1 cutoff, M_Pl, is rung 4's G. Inputs")
-    print("   are measured; gravity's unification with the other forces is not derived.")
-    print(f"\n   Checks passed: {n_ok}/{len(CHECKS)}   ({time.time() - t0:.0f} s)")
-    for label, ok in CHECKS:
+    print("   are measured; gravity's unification with the other forces is not derived. Rung 2's")
+    print("   pion counting uses the linear sigma model, a stand-in for QCD, and rung 5 rewrites GR")
+    print("   rather than going beyond it.")
+    by_kind = ", ".join(f"{sum(k == kind for _, _, k in CHECKS)} {kind}" for kind in KINDS)
+    print(f"\n   Checks passed: {n_ok}/{len(CHECKS)}   ({by_kind}; {time.time() - t0:.2f} s)")
+    for label, ok, _ in CHECKS:
         if not ok:
             print(f"   FAILED: {label}")
     print("   ALL CHECKS PASS" if n_ok == len(CHECKS) else "   SOME CHECKS FAILED")
@@ -788,4 +848,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if not main():
+        raise SystemExit(1)       # a non-zero exit status, so CI and scripts see the failure

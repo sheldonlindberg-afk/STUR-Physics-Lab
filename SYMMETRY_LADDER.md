@@ -216,7 +216,10 @@ selection is run to (link 3).
 
 **In one paste:** [`src/ladder_standalone.py`](src/ladder_standalone.py) reproduces all five
 rungs and all three links with only the Python standard library (44 PASS/FAIL checks; expected output
-[results/ladder/standalone.txt](results/ladder/standalone.txt)). The website has a
+[results/ladder/standalone.txt](results/ladder/standalone.txt)). Each check is tagged math
+(34: identities verified by computation), data (5: against measurements, each printing its
+tolerance and why) or pinned (5: this repository's own derived numbers); checks inside the
+linear sigma model are also tagged model. It exits with status 1 if any check fails. The website has a
 **Copy Python script** button for it.
 
 ```bash

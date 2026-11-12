@@ -54,7 +54,7 @@
   pi0 -> gamma gamma from rung 1's charges and rung 2's f_pi, 7.79 eV vs PrimEx 7.80; the
   3-3-1 cutoff M_Pl = sqrt(hbar c/G) with the diamond experiment's G.
 - /src/ladder_standalone.py — the whole ladder in one file, standard library only: paste
-  into any Python runner or AI code tool; 44 PASS/FAIL checks
+  into any Python runner or AI code tool; 44 PASS/FAIL checks, tagged math / data / pinned
   (expected output: /results/ladder/standalone.txt)
 - /src/m331_standalone.py — the 3-3-1 selection in one file, standard library only:
   paste into any Python runner or AI code tool and run; it ends with 23 PASS/FAIL checks
