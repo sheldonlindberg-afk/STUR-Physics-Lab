@@ -120,9 +120,9 @@ q("u", "atomic mass unit (kg)", 1.66053906660e-27, "input", "CODATA 2018")
 q("hbarc", "ħc (GeV fm)", 0.1973269804, "input", "CODATA 2018")
 q("M_Pl", "Planck mass √(ħc/G) (GeV)", lambda: math.sqrt(hbar * c0 / G0) * c0**2 / eC / 1e9, "derived",
   "√(ħc/G) from G, ħ, c (this tool)", match=1e-3,
+  checked_by="src/ladder_links.py L3 (SYMMETRY_LADDER.md, link 3)",
   note="the 3-3-1 selection's cutoff. It is typed as a number in the 3-3-1 scripts; it is "
-       "√(ħc/G), the G the diamond experiment uses, so the two halves share one input "
-       "without importing it from one place")
+       "√(ħc/G), the G the diamond experiment uses")
 q("l_Pl", "Planck length √(ħG/c³) (m)", lambda: math.sqrt(hbar * G0 / c0**3), "derived",
   "√(ħG/c³) from G, ħ, c (this tool)")
 q("Lambda", "cosmological constant Λ (m⁻²)", 1.1056e-52, "input", "Planck 2018")
@@ -433,8 +433,9 @@ def report(info, vals, rows, missing, stale):
         topics = sorted({TOPIC_OF.get(m) for m in ms})
         w(f"- **{Q[k]['label']} = {fmt(vals[k])}**, typed as a number in "
           f"{', '.join(f'`{m}`' for m in ms) or 'no script'} ({', '.join(t for t in topics if t) or '—'}). "
-          "It follows from G, ħ and c, which the gravity scripts type separately; nothing checks "
-          "that the two agree except this page.")
+          "It follows from G, ħ and c, which the gravity scripts type separately; "
+          + (f"{Q[k]['checked_by']} checks that the two agree." if Q[k].get("checked_by")
+             else "nothing checks that the two agree except this page."))
     w("")
 
     w("## Derived values typed by hand")

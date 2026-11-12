@@ -45,6 +45,25 @@ L2  pi0 -> gamma gamma: rung 1 -> rung 2. The neutral pion of rung 2 decays thro
       as anomaly cancellation demands. With the charges held at 2/3 and -1/3 instead, the width
       would scale as (N_c/3)^2. With anomaly-fixed charges it cannot select N_c; the R-ratio
       can (src/m331_why_three.py W6). (FOLLOWS)
+L3  The Planck mass: rung 4 -> rung 1. The 3-3-1 selection asks every coupling to stay
+    perturbative up to M_Pl, and its scripts type M_Pl as a number. It is sqrt(hbar c / G):
+    the same G that gives the diamonds' 2.19 rad phase (DEPENDENCIES.md found the shared input).
+  L3a M_Pl from rung 4's G, hbar and c (src/stur_gravity_entanglement.py, the values
+      src/graviton_exchange.py uses) equals the cutoff of src/m331_exact.py to 1e-6. (CHECK)
+  L3b How much the selection leans on G. M_Pl scales as G^(-1/2), so with G -> x G the
+      selection holds while (M_Pl / pole_3)^2 < x < (M_Pl / pole_5)^2. At the reference
+      spectrum (M_V = 4 TeV, Yukawas and thresholds on, alpha = 1, three loops,
+      src/m331_three_loop.py): beta = +1/sqrt3 holds for 0.12 < x < 5e14, beta = -1/sqrt3 for
+      3e-21 < x < 1e8. G is measured to 2.2e-5 (CODATA 2018). The narrow side is
+      beta = +1/sqrt3: with G 8.4x weaker, M_Pl would rise above N_c = 3's pole and exclude
+      it. (CHECK)
+  L3c At the mass floors with light heavy leptons (NOTE_331.md section 3e), N_c = 3 fails at
+      the measured G (0.61 M_Pl); it would pass only if G were 2.7x stronger. The heavy-lepton
+      condition is the statement there; this only restates it in terms of G. (CHECK)
+  L3d What it assumes: G measured at laboratory and solar-system distances is used at
+      10^19 GeV, i.e. gravity's strength does not run in between. In perturbative quantum
+      gravity the corrections are of order (E/M_Pl)^2; many hidden light species would lower
+      the effective cutoff, which this check does not cover. (FOLLOWS)
 Labels: CHECK, FOLLOWS, KNOWN, LIT.
 """
 import math
@@ -184,6 +203,30 @@ def pi0_width():
     return G, (G - meas) / err, CB.F_PI, fixed
 
 
+# ---------------------------------------------------------------------------------- L3
+def planck_mass():
+    """L3a: sqrt(hbar c / G) in GeV from rung 4's constants, against the 3-3-1 cutoff."""
+    import stur_gravity_entanglement as GE
+    import m331_exact as E
+    mpl = math.sqrt(GE.HBAR * GE.C / GE.G) * GE.C**2 / E_CH / 1e9
+    return mpl, E.M_PLANCK, (GE.G, GE.HBAR, GE.C)
+
+
+def g_window():
+    """L3b-c: the factor x (G -> x G) over which the selection survives, from the poles in
+    units of the measured M_Pl."""
+    import m331_three_loop as T3
+    import m331_margin as M
+    mpl = planck_mass()[1]
+    out = {}
+    for v in ("+1/sqrt3", "-1/sqrt3"):
+        p3 = T3.pole(3, v, MV=4e3, gmax=M.ALPHA1) / mpl
+        p5 = T3.pole(5, v, MV=4e3, gmax=M.ALPHA1) / mpl
+        out[v] = (p3, p5, 1 / p3**2, 1 / p5**2)
+    floor = M.pole(**M.FLOORS, loops=3, gmax=M.ALPHA1) / mpl
+    return out, floor, 1 / floor**2
+
+
 def main():
     banner("L1a  Neutral matter is an anomaly condition (CHECK, symbolic; any beta, N_c, X)")
     d1, d2, same = neutrality_identity()
@@ -237,6 +280,25 @@ def main():
         f"N_c = {k}: {v:.2f} eV" for k, v in fixed.items()))
     print("   -> the width tests that charges and colours come together as anomaly cancellation")
     print("      demands. It cannot select N_c; the R-ratio does (src/m331_why_three.py W6).")
+
+    banner("L3a  The Planck mass: the 3-3-1 cutoff from rung 4's G (CHECK)")
+    mpl, mpl331, (G, hb, c) = planck_mass()
+    print(f"   rung 4 (src/stur_gravity_entanglement.py): G = {G:.5e}, hbar = {hb:.9e}, c = {c:.0f}")
+    print(f"   sqrt(hbar c / G) = {mpl:.6e} GeV;  src/m331_exact.py M_PLANCK = {mpl331:.6e} GeV"
+          f"  (ratio - 1 = {mpl / mpl331 - 1:+.1e})")
+
+    banner("L3b-c  How far G could move before the selection changes (alpha = 1, three loops)")
+    out, floor, x_floor = g_window()
+    print("   G -> x G moves M_Pl by x^(-1/2); the selection holds for (M_Pl/pole_3)^2 < x < (M_Pl/pole_5)^2")
+    for v, (p3, p5, lo, hi) in out.items():
+        print(f"   beta = {v:8s} reference spectrum: N_c = 3 pole {p3:.3g} M_Pl, N_c = 5 pole {p5:.2g} M_Pl"
+              f"  ->  {lo:.2g} < x < {hi:.2g}")
+    print(f"   G is measured to 2.2e-5 (CODATA 2018). The narrow side: beta = +1/sqrt3 with G"
+          f" {1 / out['+1/sqrt3'][2]:.1f}x weaker.")
+    print(f"   at the mass floors with light heavy leptons (NOTE_331.md 3e): N_c = 3 pole {floor:.2f} M_Pl,"
+          f" so it would need G {x_floor:.1f}x stronger")
+    print("   -> the selection's cutoff and the diamonds' signal share one measured G. The selection")
+    print("      assumes G does not run between the laboratory and 10^19 GeV.")
 
 
 if __name__ == "__main__":

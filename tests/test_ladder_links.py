@@ -51,6 +51,17 @@ def test_pi0_width_against_primex():
     assert abs(fixed[5] / G - 25 / 9) < 1e-12
 
 
+def test_planck_mass_is_rung4s_gravity():
+    mpl, mpl331, _ = LL.planck_mass()
+    assert abs(mpl / mpl331 - 1) < 1e-6
+    out, floor, x_floor = LL.g_window()
+    p3, p5, lo, hi = out["+1/sqrt3"]
+    assert abs(p3 - 2.89) < 0.01 and 3.9e-8 < p5 < 4.5e-8 and abs(1 / lo - 8.4) < 0.1
+    p3m, p5m, lom, him = out["-1/sqrt3"]
+    assert 1.8e10 < p3m < 2.0e10 and 9.0e-5 < p5m < 9.6e-5
+    assert abs(floor - 0.61) < 0.01 and abs(x_floor - 2.7) < 0.05
+
+
 def test_reference_output_matches():
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):

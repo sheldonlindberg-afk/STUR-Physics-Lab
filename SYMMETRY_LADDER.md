@@ -126,8 +126,9 @@ GR + Λ, and no unification with the other forces.
 
 ## Links between the rungs (`src/ladder_links.py`)
 
-The rungs above are separate derivations. In two places one rung's output is another
-rung's input, and the link can be checked against a measurement.
+The rungs above are separate derivations. In three places one rung's output is another
+rung's input, and the link can be checked against a measurement or against the other rung's
+code.
 
 ### Link 1: neutral matter, from rung 1 to rung 4
 
@@ -171,6 +172,23 @@ demands. It links rung 1's charges to rung 2's pion, but it isn't an independent
 N_c = 3. The agreement at the 0.1σ level is partly luck: the next-order chiral corrections
 are a few percent.
 
+### Link 3: the Planck mass, from rung 4 to rung 1
+
+The 3-3-1 selection asks every gauge coupling to stay perturbative up to the Planck mass,
+and its scripts type M_Pl = 1.22089×10¹⁹ GeV as a number. That number is √(ħc/G), with the
+same G that gives rung 4's 2.19 rad phase. The two halves of the repository shared this
+input without either importing it from the other; [DEPENDENCIES.md](DEPENDENCIES.md) found it.
+
+| | Result | Status |
+|---|---|---|
+| L3a | √(ħc/G), from rung 4's G, ħ and c, **equals the 3-3-1 cutoff** to 1×10⁻⁷ | CHECK |
+| L3b | M_Pl scales as G^(−1/2). If G were x times its measured value, the selection would hold for (M_Pl/pole₃)² < x < (M_Pl/pole₅)². At the reference spectrum (M_V = 4 TeV, Yukawas and thresholds on, α = 1, three loops; NOTE_331.md §3d) that is **0.12 < x < 5×10¹⁴ for β = +1/√3** and 3×10⁻²¹ < x < 1×10⁸ for β = −1/√3. G is measured to 2.2×10⁻⁵ (CODATA 2018). The narrow side: with G 8.4× weaker, M_Pl would rise above N_c = 3's pole and exclude it | CHECK |
+| L3c | At the mass floors with light heavy leptons (NOTE_331.md §3e), N_c = 3's pole is 0.61 M_Pl, so it fails at the measured G; it would pass only if G were 2.7× stronger. This restates the heavy-lepton condition in terms of G; it adds nothing to it | CHECK |
+| L3d | The check uses G, measured at laboratory and solar-system distances, at 10¹⁹ GeV. That assumes gravity's strength doesn't run in between. In perturbative quantum gravity the corrections are of order (E/M_Pl)². Many hidden light species would lower the effective cutoff, which this doesn't cover | FOLLOWS |
+
+So the selection's cutoff and the diamonds' signal rest on one measured number. The
+selection is insensitive to it, by about an order of magnitude in G on its narrow side.
+
 **Finding more links.** [DEPENDENCIES.md](DEPENDENCIES.md) maps which script feeds which and
 where each physical constant is typed. It lists the quantities that more than one part of the
 repository uses without importing them from one place; those are the candidates for the next
@@ -191,12 +209,13 @@ The two chains meet in the apparatus. Gravity is the signal: the entangling phas
 the design must suppress: the Casimir–Polder force, which sets the 181 µm gap. Electric
 charge is the other way it would enter, and rung 1's anomalies keep it out: they make
 matter neutral (link 1). Within the gauge chain, rung 1's charges and rung 2's pion meet in
-π⁰ → γγ (link 2).
+π⁰ → γγ (link 2). And gravity's G, beside the chain, sets the scale the chain's 3-3-1
+selection is run to (link 3).
 
 ## Reproduce
 
 **In one paste:** [`src/ladder_standalone.py`](src/ladder_standalone.py) reproduces all five
-rungs and both links with only the Python standard library (43 PASS/FAIL checks; expected output
+rungs and all three links with only the Python standard library (44 PASS/FAIL checks; expected output
 [results/ladder/standalone.txt](results/ladder/standalone.txt)). The website has a
 **Copy Python script** button for it.
 
@@ -207,7 +226,7 @@ python3 src/chiral_breaking.py     # rung 2, ~1 s
 python3 src/casimir_diamonds.py    # rung 3, ~2 s
 python3 src/graviton_exchange.py   # rung 4, ~1 s
 python3 src/macdowell_mansouri.py  # rung 5, ~3 s
-python3 src/ladder_links.py        # links 1-2: neutral matter, pi0 -> gamma gamma, ~1 s
+python3 src/ladder_links.py        # links 1-3: neutral matter, pi0 -> gamma gamma, M_Pl, ~2 s
 python -m pytest tests/test_331_breaking.py tests/test_ladder.py tests/test_ladder_links.py -q
 ```
 

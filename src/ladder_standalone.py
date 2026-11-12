@@ -33,7 +33,8 @@ WHAT IT COMPUTES
       Links   Where one rung feeds another. Neutral matter (rung 1 -> 4): q_p + q_e is an
               anomaly of rung 1, and the experiment needs it below 2.8e-19 e per nucleon.
               pi0 -> gamma gamma (rung 1 -> 2): rung 1's charges and rung 2's f_pi give the
-              measured width.
+              measured width. The Planck mass (rung 4 -> 1): the 3-3-1 selection's cutoff is
+              sqrt(hbar c / G), with the G of the diamond experiment.
     Inputs are measured values (PDG, FLAG, CODATA, Planck 2018). What is not derived, by
     anyone: why the inputs have their values, and how gravity unifies with the others.
 
@@ -756,6 +757,11 @@ def links():
     print("   cannot select N_c, the R-ratio does (src/m331_why_three.py W6).")
     check("pi0 width from rung 1's charges and rung 2's f_pi: 7.79 eV, within 0.5 sigma of PrimEx",
           abs(msq - 0.5) < 1e-12 and abs(width - 7.785) < 2e-3 and abs(pull) < 0.5)
+    # L3: the 3-3-1 selection's cutoff is sqrt(hbar c / G), with rung 4's G
+    mpl = sqrt(HBAR * C_LIGHT / G_NEWTON) * C_LIGHT**2 / E_CH / 1e9
+    print(f"   M_Pl = sqrt(hbar c / G) from rung 4's G = {mpl:.6e} GeV: the cutoff the 3-3-1 selection runs to")
+    check("the 3-3-1 cutoff is rung 4's gravity: sqrt(hbar c / G) = 1.22089e19 GeV",
+          abs(mpl / 1.22089e19 - 1) < 1e-6)
 
 
 def main():
@@ -769,10 +775,10 @@ def main():
     print("   nuclear force. Electromagnetism, never broken, leaves the Casimir-Polder background between")
     print("   the diamonds. Gravity sits beside the chain: one-graviton exchange gives Newton's law and the")
     print("   experiment's 2.19 rad phase, and MacDowell-Mansouri writes GR + Lambda as SO(4,1) broken")
-    print("   to Lorentz. Two links run across the rungs: rung 1's anomalies make matter neutral, which")
-    print("   the diamond experiment needs to 2.8e-19 e per nucleon, and its charges with rung 2's f_pi")
-    print("   give the measured pi0 -> gamma gamma width. Inputs are measured; gravity's unification")
-    print("   with the other forces is not derived.")
+    print("   to Lorentz. Three links run across the rungs: rung 1's anomalies make matter neutral, which")
+    print("   the diamond experiment needs to 2.8e-19 e per nucleon; its charges with rung 2's f_pi give")
+    print("   the measured pi0 -> gamma gamma width; and the 3-3-1 cutoff, M_Pl, is rung 4's G. Inputs")
+    print("   are measured; gravity's unification with the other forces is not derived.")
     print(f"\n   Checks passed: {n_ok}/{len(CHECKS)}   ({time.time() - t0:.0f} s)")
     for label, ok in CHECKS:
         if not ok:

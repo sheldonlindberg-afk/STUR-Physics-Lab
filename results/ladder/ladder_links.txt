@@ -53,3 +53,20 @@ L2c-d  Against PrimEx (rung 2's f_pi, alpha(0); LIT anomaly coefficient)
    with the charges held at 2/3, -1/3 instead: N_c = 3: 7.79 eV,  N_c = 5: 21.63 eV,  N_c = 7: 42.39 eV
    -> the width tests that charges and colours come together as anomaly cancellation
       demands. It cannot select N_c; the R-ratio does (src/m331_why_three.py W6).
+
+==============================================================================
+L3a  The Planck mass: the 3-3-1 cutoff from rung 4's G (CHECK)
+==============================================================================
+   rung 4 (src/stur_gravity_entanglement.py): G = 6.67430e-11, hbar = 1.054571817e-34, c = 299792458
+   sqrt(hbar c / G) = 1.220890e+19 GeV;  src/m331_exact.py M_PLANCK = 1.220890e+19 GeV  (ratio - 1 = +1.1e-07)
+
+==============================================================================
+L3b-c  How far G could move before the selection changes (alpha = 1, three loops)
+==============================================================================
+   G -> x G moves M_Pl by x^(-1/2); the selection holds for (M_Pl/pole_3)^2 < x < (M_Pl/pole_5)^2
+   beta = +1/sqrt3 reference spectrum: N_c = 3 pole 2.89 M_Pl, N_c = 5 pole 4.2e-08 M_Pl  ->  0.12 < x < 5.5e+14
+   beta = -1/sqrt3 reference spectrum: N_c = 3 pole 1.91e+10 M_Pl, N_c = 5 pole 9.3e-05 M_Pl  ->  2.7e-21 < x < 1.2e+08
+   G is measured to 2.2e-5 (CODATA 2018). The narrow side: beta = +1/sqrt3 with G 8.4x weaker.
+   at the mass floors with light heavy leptons (NOTE_331.md 3e): N_c = 3 pole 0.61 M_Pl, so it would need G 2.7x stronger
+   -> the selection's cutoff and the diamonds' signal share one measured G. The selection
+      assumes G does not run between the laboratory and 10^19 GeV.

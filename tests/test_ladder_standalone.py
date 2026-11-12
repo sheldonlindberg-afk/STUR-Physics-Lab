@@ -47,5 +47,5 @@ def test_runs_isolated_and_every_check_passes():
     out = subprocess.run([sys.executable, "-I", "-S", PATH], capture_output=True, text=True, timeout=300).stdout
     assert "ALL CHECKS PASS" in out and "FAIL" not in out
     ref = open(os.path.join(os.path.dirname(__file__), "..", "results", "ladder", "standalone.txt")).read()
-    assert "Checks passed: 43/43" in ref and "ALL CHECKS PASS" in ref
-    assert "Checks passed: 43/43" in out
+    assert "Checks passed: 44/44" in ref and "ALL CHECKS PASS" in ref
+    assert "Checks passed: 44/44" in out

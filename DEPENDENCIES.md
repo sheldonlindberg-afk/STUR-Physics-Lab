@@ -6,9 +6,9 @@ This page records which script feeds which, and which physical quantities each o
 
 ## Summary
 
-- **41 scripts** in `src/`, in 6 topics; **44 imports** between them, 11 of them across topics. 11 scripts import nothing from the others and nothing imports them.
-- **52 catalogued quantities** (37 measured inputs, 15 derived in the repository), found as 192 literals in the source.
-- **49 quantities are typed in more than one script**; 17 of them are shared by more than one topic.
+- **41 scripts** in `src/`, in 6 topics; **48 imports** between them, 15 of them across topics. 11 scripts import nothing from the others and nothing imports them.
+- **52 catalogued quantities** (37 measured inputs, 15 derived in the repository), found as 193 literals in the source.
+- **49 quantities are typed in more than one script**; 18 of them are shared by more than one topic.
 - **16 copies differ from their source for a stated reason**; **0 differ without one (drift).**
 
 ## Imports
@@ -77,7 +77,11 @@ flowchart LR
   ladder_links --> chiral_breaking
   ladder_links --> graviton_exchange
   ladder_links --> m331_breaking
+  ladder_links --> m331_exact
+  ladder_links --> m331_margin
+  ladder_links --> m331_three_loop
   ladder_links --> m331_why_three
+  ladder_links --> stur_gravity_entanglement
   m331_breaking --> m331_exact
   m331_closure --> m331_threshold
   m331_exact --> qcd_running
@@ -123,7 +127,11 @@ flowchart LR
 | `casimir_diamonds` (Symmetry ladder) | `stur_gravity_entanglement` (Diamond experiment) | `C`, `EPS_DIAMOND`, `G`, `HBAR`, `casimir_energy`, `radius` |
 | `graviton_exchange` (Symmetry ladder) | `stur_gravity_entanglement` (Diamond experiment) | `BASE`, `G`, `HBAR`, `casimir_vs_gravity_gap` |
 | `graviton_exchange` (Symmetry ladder) | `stur_gravity_full` (Diamond experiment) | `ramp_profile`, `trajectory_dphi` |
+| `ladder_links` (Symmetry ladder) | `m331_exact` (3-3-1 selection) | `M_PLANCK` |
+| `ladder_links` (Symmetry ladder) | `m331_margin` (3-3-1 selection) | `ALPHA1`, `FLOORS`, `pole` |
+| `ladder_links` (Symmetry ladder) | `m331_three_loop` (3-3-1 selection) | `pole` |
 | `ladder_links` (Symmetry ladder) | `m331_why_three` (3-3-1 selection) | `charges` |
+| `ladder_links` (Symmetry ladder) | `stur_gravity_entanglement` (Diamond experiment) | `C`, `G`, `HBAR` |
 | `m331_breaking` (Symmetry ladder) | `m331_exact` (3-3-1 selection) | `MODELS` |
 | `stur_derivation` (Measurement, entropy, foundations) | `stur_emergent` (Classical and emergent gravity) | `cutoff_for_G`, `dp_rate`, `medium_evolution` |
 | `stur_derivation` (Measurement, entropy, foundations) | `stur_gravity_entanglement` (Diamond experiment) | `BASE`, `branch_distances`, `negativity`, `radius`, `state` |
@@ -163,7 +171,7 @@ flowchart LR
 | [`casimir_diamonds`](src/casimir_diamonds.py) | `stur_gravity_entanglement` | The electromagnetic rung of the ladder (SYMMETRY_LADDER.md): why electromagnetism is the background in the diamond experiment, and its stren |
 | [`graviton_exchange`](src/graviton_exchange.py) | `chiral_breaking`, `stur_gravity_entanglement`, `stur_gravity_full` | The gravity rung of the ladder (SYMMETRY_LADDER.md): from linearized GR to the entangling phase of the two-diamond experiment |
 | [`macdowell_mansouri`](src/macdowell_mansouri.py) | — | The gravity rung as a broken gauge theory: MacDowell-Mansouri (1977) and Stelle-West (1980) |
-| [`ladder_links`](src/ladder_links.py) | `chiral_breaking`, `graviton_exchange`, `m331_breaking`, `m331_why_three` | Links between the rungs of the symmetry-breaking ladder (SYMMETRY_LADDER.md): places where one rung's output is another rung's input, checke |
+| [`ladder_links`](src/ladder_links.py) | `chiral_breaking`, `graviton_exchange`, `m331_breaking`, `m331_exact`, `m331_margin`, `m331_three_loop`, `m331_why_three`, `stur_gravity_entanglement` | Links between the rungs of the symmetry-breaking ladder (SYMMETRY_LADDER.md): places where one rung's output is another rung's input, checke |
 | [`ladder_standalone`](src/ladder_standalone.py) | — | The symmetry-breaking ladder, from 3-3-1 to the two-diamond gravity experiment |
 
 **Diamond experiment**
@@ -221,6 +229,7 @@ Each row is one quantity typed into scripts of more than one topic. Where it is 
 | e (C) | input | Diamond experiment, Measurement, entropy, foundations, Symmetry ladder | `ladder_links`, `ladder_standalone`, `stur_gravity_full`, `stur_measurement` | exact by definition, so copies cannot drift |
 | 1/α(M_Z), MS-bar | input | 3-3-1 selection, Symmetry ladder | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zprime_recast` | with sin²θ_W(M_Z) it fixes the U(1)_X start of every 3-3-1 run |
 | M_Z (GeV) | input | 3-3-1 selection, Symmetry ladder | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_yukawa`, `m331_zprime_recast`, `qcd_running` |  |
+| Planck mass √(ħc/G) (GeV) | derived | 3-3-1 selection, Symmetry ladder | `ladder_standalone`, `m331_exact`, `m331_standalone`, `m331_su3L_running` | the 3-3-1 selection's cutoff. It is typed as a number in the 3-3-1 scripts; it is √(ħc/G), the G the diamond experiment uses |
 | design A: ramp time (s) | derived | Measurement, entropy, foundations, Teleparallel gravity | `stur_derivation`, `stur_tegr`, `stur_tegr_gr` |  |
 | design A: total time (s) | derived | Classical and emergent gravity, Measurement, entropy, foundations | `stur_oppenheim`, `stur_thermo_gravity`, `stur_z2_higgs` |  |
 | diamond density (kg/m³) | input | Diamond experiment, Symmetry ladder | `ladder_standalone`, `stur_gravity_entanglement` |  |
@@ -231,7 +240,7 @@ Each row is one quantity typed into scripts of more than one topic. Where it is 
 
 **Links through a formula.** Some quantities share inputs without sharing a number:
 
-- **Planck mass √(ħc/G) (GeV) = 1.220890e19**, typed as a number in `m331_exact`, `m331_standalone`, `m331_su3L_running` (3-3-1 selection). It follows from G, ħ and c, which the gravity scripts type separately; nothing checks that the two agree except this page.
+- **Planck mass √(ħc/G) (GeV) = 1.220890e19**, typed as a number in `ladder_standalone`, `m331_exact`, `m331_standalone`, `m331_su3L_running` (3-3-1 selection, Symmetry ladder). It follows from G, ħ and c, which the gravity scripts type separately; src/ladder_links.py L3 (SYMMETRY_LADDER.md, link 3) checks that the two agree.
 - **Planck length √(ħG/c³) (m) = 1.616255e-35**, typed as a number in `ladder_standalone`, `macdowell_mansouri` (Symmetry ladder). It follows from G, ħ and c, which the gravity scripts type separately; nothing checks that the two agree except this page.
 
 ## Derived values typed by hand
@@ -240,28 +249,28 @@ Values computed in one script and retyped in others instead of imported. Each co
 
 | Quantity | Source | Value | Copies |
 |---|---|---|---|
-| Planck mass √(ħc/G) (GeV) | √(ħc/G) from G, ħ, c (this tool) | 1.220890e19 | `m331_exact:28` 1.220890e19 (rounded); `m331_standalone:66` 1.220890e19 (rounded); `m331_su3L_running:19` 1.220890e19 (rounded) |
-| Planck length √(ħG/c³) (m) | √(ħG/c³) from G, ħ, c (this tool) | 1.616255e-35 | `ladder_standalone:73` 1.616255e-35 (rounded); `macdowell_mansouri:266` 1.616255e-35 (rounded) |
-| electroweak vev (√2 G_F)^(−1/2) (GeV) | src/m331_breaking.py B7 | 246.22 | `ladder_standalone:296` 246.22 (rounded); `m331_standalone:65` 246.22 (rounded); `m331_yukawa:85` 246.22 (rounded) |
+| Planck mass √(ħc/G) (GeV) | √(ħc/G) from G, ħ, c (this tool) | 1.220890e19 | `ladder_standalone:764` 1.220890e19 (rounded); `m331_exact:28` 1.220890e19 (rounded); `m331_standalone:66` 1.220890e19 (rounded); `m331_su3L_running:19` 1.220890e19 (rounded) |
+| Planck length √(ħG/c³) (m) | √(ħG/c³) from G, ħ, c (this tool) | 1.616255e-35 | `ladder_standalone:74` 1.616255e-35 (rounded); `macdowell_mansouri:266` 1.616255e-35 (rounded) |
+| electroweak vev (√2 G_F)^(−1/2) (GeV) | src/m331_breaking.py B7 | 246.22 | `ladder_standalone:297` 246.22 (rounded); `m331_standalone:65` 246.22 (rounded); `m331_yukawa:85` 246.22 (rounded) |
 | sin²θ_W(4 TeV) | one-loop SM running from M_Z (m331_exact.run_two_loop) | 0.250433 | `m331_zprime_recast:68` 0.2504 (rounded) |
 | 1/α(4 TeV) | one-loop SM running from M_Z (m331_exact.run_two_loop) | 125.743 | `m331_zprime_recast:69` 125.7 (rounded) |
 | M_Z′/M_V = √(4/3 (1 + β² t_X²)) at 4 TeV | src/m331_breaking.py B4, evaluated at sin²θ_W(4 TeV) | 1.22492 | `m331_heavy_lepton:274` 1.225 (rounded); `m331_margin:49` 1.225 (rounded); `m331_standalone:576` 1.225 (rounded); `m331_standalone:592` 1.225 (rounded); `m331_threshold:183` 1.225 (rounded); `m331_threshold:187` 1.225 (rounded); `m331_threshold:190` 1.225 (rounded) |
-| SU(2) coupling g at M_Z, √(4πα)/sinθ_W | from 1/α(M_Z) and sin²θ_W(M_Z) (this tool) | 0.651734 | `ladder_standalone:230` 0.652 (rounded); `m331_breaking:237` 0.652 (rounded); `m331_breaking:245` 0.652 (rounded) |
+| SU(2) coupling g at M_Z, √(4πα)/sinθ_W | from 1/α(M_Z) and sin²θ_W(M_Z) (this tool) | 0.651734 | `ladder_standalone:231` 0.652 (rounded); `m331_breaking:237` 0.652 (rounded); `m331_breaking:245` 0.652 (rounded) |
 | area-law coefficient S/(R/a)² per scalar | src/stur_unification.py U3 (results/unification/output.txt) | 0.3046 | `stur_emergent:35` 0.3046 (exact); `stur_oppenheim:47` 0.3046 (exact); `stur_thermo_gravity:51` 0.3046 (exact) |
-| design A: mass (kg) | src/stur_gravity_full.py design search (via graviton_exchange.branch_phases) | 1.467799e-14 | `casimir_diamonds:91` 1.500000e-14 (variant); `ladder_standalone:428` 1.500000e-14 (variant); `stur_derivation:164` 1.500000e-14 (variant); `stur_derivation:185` 1.500000e-14 (variant); `stur_emergent:208` 1.500000e-14 (variant); `stur_gravity_full:390` 1.500000e-14 (variant); `stur_gravity_full:392` 1.500000e-14 (variant); `stur_oppenheim:49` 1.500000e-14 (variant); `stur_tegr:277` 1.500000e-14 (variant); `stur_tegr:301` 1.500000e-14 (variant); `stur_tegr_gr:214` 1.500000e-14 (variant); `stur_thermo_gravity:54` 1.500000e-14 (variant) |
+| design A: mass (kg) | src/stur_gravity_full.py design search (via graviton_exchange.branch_phases) | 1.467799e-14 | `casimir_diamonds:91` 1.500000e-14 (variant); `ladder_standalone:429` 1.500000e-14 (variant); `stur_derivation:164` 1.500000e-14 (variant); `stur_derivation:185` 1.500000e-14 (variant); `stur_emergent:208` 1.500000e-14 (variant); `stur_gravity_full:390` 1.500000e-14 (variant); `stur_gravity_full:392` 1.500000e-14 (variant); `stur_oppenheim:49` 1.500000e-14 (variant); `stur_tegr:277` 1.500000e-14 (variant); `stur_tegr:301` 1.500000e-14 (variant); `stur_tegr_gr:214` 1.500000e-14 (variant); `stur_thermo_gravity:54` 1.500000e-14 (variant) |
 | design A: diamond radius (m) | (3m/4πρ)^(1/3) with design A's mass and ρ_diamond | 9.994406e-7 | `stur_oppenheim:49` 1.007000e-6 (variant); `stur_thermo_gravity:54` 1.007000e-6 (variant) |
 | design A: branch separation Δx (m) | src/stur_gravity_full.py design search | 7.208434e-4 | `stur_derivation:164` 7.210000e-4 (rounded); `stur_derivation:189` 7.210000e-4 (rounded); `stur_emergent:211` 7.210000e-4 (rounded); `stur_oppenheim:49` 7.210000e-4 (rounded); `stur_tegr:301` 7.210000e-4 (rounded); `stur_tegr_gr:216` 7.210000e-4 (rounded); `stur_tegr_gr:237` 7.210000e-4 (rounded); `stur_thermo_gravity:54` 7.210000e-4 (rounded) |
 | Casimir-safe gap (m) | src/stur_gravity_entanglement.py (Casimir < 10% of gravity) | 1.811609e-4 | `stur_tegr:277` 1.812000e-4 (rounded); `stur_tegr_gr:216` 1.812000e-4 (rounded) |
 | design A: ramp time (s) | src/stur_gravity_full.py design search | 1.58114 | `stur_derivation:164` 1.58 (rounded); `stur_tegr:301` 1.58 (rounded); `stur_tegr_gr:237` 1.58 (rounded) |
 | design A: total time (s) | src/stur_gravity_full.py design search | 3.24466 | `stur_oppenheim:49` 3.24 (rounded); `stur_thermo_gravity:54` 3.24 (rounded); `stur_z2_higgs:91` 3.25 (rounded); `stur_z2_higgs:165` 3.25 (rounded) |
-| design A: entangling phase Δφ (rad) | src/graviton_exchange.py N4 | 2.18681 | `ladder_standalone:515` 2.1868 (rounded) |
+| design A: entangling phase Δφ (rad) | src/graviton_exchange.py N4 | 2.18681 | `ladder_standalone:516` 2.1868 (rounded) |
 
 ## Copies that differ from the source
 
 | Quantity | Source value | Copy | Where | Status | Reason and effect |
 |---|---|---|---|---|---|
 | top-quark mass (GeV) | 172.57 | 172.69 | `m331_standalone:63`, `qcd_running:7` | variant | PDG 2022 value, used only as the α_s flavour threshold (qcd_running and its copy in m331_standalone); α_s(4 TeV) moves by +6.6e-06 if it is changed to 172.57 |
-| design A: mass (kg) | 1.467799e-14 | 1.500000e-14 | `casimir_diamonds:91`, `ladder_standalone:428`, `stur_derivation:164`, `stur_derivation:185`, `stur_emergent:208`, `stur_gravity_full:390`, `stur_gravity_full:392`, `stur_oppenheim:49`, `stur_tegr:277`, `stur_tegr:301`, `stur_tegr_gr:214`, `stur_thermo_gravity:54` | variant | design A rounded to 1.5e-14 kg (2.2% above 1.468e-14): anything ∝ m² is +4.4% off |
+| design A: mass (kg) | 1.467799e-14 | 1.500000e-14 | `casimir_diamonds:91`, `ladder_standalone:429`, `stur_derivation:164`, `stur_derivation:185`, `stur_emergent:208`, `stur_gravity_full:390`, `stur_gravity_full:392`, `stur_oppenheim:49`, `stur_tegr:277`, `stur_tegr:301`, `stur_tegr_gr:214`, `stur_thermo_gravity:54` | variant | design A rounded to 1.5e-14 kg (2.2% above 1.468e-14): anything ∝ m² is +4.4% off |
 | design A: diamond radius (m) | 9.994406e-7 | 1.007000e-6 | `stur_oppenheim:49`, `stur_thermo_gravity:54` | variant | the radius of the rounded 1.5e-14 kg mass; 0.7% above design A's 9.9944e-07 m |
 
 *Rounded* copies (within the quantity's stated precision) are listed in the full table below, not here.
@@ -278,7 +287,7 @@ Values computed in one script and retyped in others instead of imported. Each co
 | 1/4πε₀ (N m² C⁻²) | input | 8.987552e9 | CODATA 2018 | `ladder_links`, `ladder_standalone`, `stur_gravity_full`, `stur_measurement` |
 | atomic mass unit (kg) | input | 1.660539e-27 | CODATA 2018 | `ladder_links`, `ladder_standalone`, `stur_emergent` (rounded), `stur_gravity_entanglement` (rounded), `stur_gravity_full` (rounded), `stur_oppenheim`, `stur_thermo_gravity` |
 | ħc (GeV fm) | input | 0.197327 | CODATA 2018 | `chiral_breaking`, `ladder_standalone` |
-| Planck mass √(ħc/G) (GeV) | derived | 1.220890e19 | √(ħc/G) from G, ħ, c (this tool) | `m331_exact` (rounded), `m331_standalone` (rounded), `m331_su3L_running` (rounded) |
+| Planck mass √(ħc/G) (GeV) | derived | 1.220890e19 | √(ħc/G) from G, ħ, c (this tool) | `ladder_standalone` (rounded), `m331_exact` (rounded), `m331_standalone` (rounded), `m331_su3L_running` (rounded) |
 | Planck length √(ħG/c³) (m) | derived | 1.616255e-35 | √(ħG/c³) from G, ħ, c (this tool) | `ladder_standalone` (rounded), `macdowell_mansouri` (rounded) |
 | cosmological constant Λ (m⁻²) | input | 1.105600e-52 | Planck 2018 | `ladder_standalone`, `macdowell_mansouri` |
 | 1/α(0) | input | 137.036 | CODATA 2018 | `ladder_links`, `ladder_standalone` |
