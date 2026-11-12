@@ -644,7 +644,13 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
     (2020)), and about 2.9 TeV for β = +1/√3 with 8 TeV data (Salazar et al., JHEP 07 (2015)
     096). Bilepton pairs are closed (M_Z′ = 1.225 M_V < 2 M_V). The 'every scalar open'
     column bounds Z′ → scalars, W_L W_L and Zh. Interference with Drell-Yan changes σB by
-    −3% to +2% within ±10% of the peak (about 15 GeV), and Z-Z′ mixing by < 0.4%;
+    −3% to +2% within ±10% of the peak (about 15 GeV), and Z-Z′ mixing by < 0.4%.
+    Electroweak precision is weaker. The tree-level Z–Z′ mixing gives
+    ρ − 1 = (v/w)²(sin²a − sin²a₀)², with tan a = v₂/v₁ and sin²a₀ = 0.35 (β = +1/√3) or
+    0.65 (β = −1/√3). So it vanishes at one ratio of the vacuum values. The global fit's
+    ρ₀ = 1.00039 ± 0.00019 (Erler, arXiv:1908.07346) gives w > 5.8 TeV at most. The LHC
+    gives w > 11.9 and 10.3 TeV for every a (`src/m331_rho_bound.py`; SYMMETRY_LADDER.md,
+    rung 1);
   - doubly or singly charged bilepton gauge bosons;
   - exotic quarks;
   - for β = +1/√3, three heavy charged leptons, vector-like SU(2) singlets. The selection
@@ -689,6 +695,7 @@ python3 src/m331_zprime_recast.py      # the ATLAS 139 fb^-1 Z' recast (~1 s); z
 python3 src/m331_margin.py             # the beta = +1/sqrt3 margin vs mass floors (~50 s); margin.txt
 python3 src/m331_heavy_lepton.py       # heavy leptons vs LHC, HL-LHC (~5 s); heavy_lepton.txt
 python3 src/m331_gravity_fixed_point.py  # gravity above M_Pl, asymptotic safety (~70 s); 331_gravity_fixed_point.txt
+python3 src/m331_rho_bound.py          # rho from Z-Z' mixing vs the global fit and the LHC (~7 s); 331_rho_bound.txt
 python -m pytest tests/test_331_*.py -q
 ```
 

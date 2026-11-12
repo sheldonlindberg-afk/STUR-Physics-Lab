@@ -53,6 +53,21 @@ M²_AB = g_A g_B Σ_φ ⟨φ⟩†{t_A, t_B}⟨φ⟩, for both variants.
 | B6 | Every fermion's charge from Q, component by component, for N_c = 3, 5 and 7. Anti-triplets carry −T*. Every SU(2)_L doublet is (Q_u, Q_d) or (0, −1), with Q_u = (N_c + 1)/2N_c and Q_d = (1 − N_c)/2N_c | CHECK |
 | B7 | v = 246.22 GeV from G_F. The tree-level M_Z = 91.51 GeV, against the measured 91.19: the +0.35% is the known radiative correction, not derived here | CHECK |
 
+**After the Standard Model's loops (`src/m331_rho_bound.py`).** B7's +0.35% is known
+Standard Model physics, not a test of 3-3-1. What the global fit leaves after the Standard
+Model's loops is ρ₀ = 1.00039 ± 0.00019 (LIT: Erler, arXiv:1908.07346; a fit from before
+the 2022–2024 W-mass measurements). That residual is where B5's mixing would show.
+
+| | Result | Status |
+|---|---|---|
+| R1 | B5's coefficient is a perfect square: **ρ − 1 = (v/w)²(sin²a − sin²a₀)²**, tan a = v₂/v₁, with sin²a₀ = (3 − 2x)/2(3 + x) for β = +1/√3 and (3 + 4x)/2(3 + x) for β = −1/√3, x = g_X²/g². The two add to 1. So the mixing vanishes at one ratio of the vacuum values | CHECK |
+| R2 | sin²a₀ = 0.350 and 0.650 (s² at M_Z); 0.333 and 0.667 at 4 TeV | CHECK |
+| R3 | ρ₀ − 1 < 7.6×10⁻⁴ (95% CL) gives **w > 5.8 TeV at most**, and nothing at a = a₀. The LHC Z′ recast gives w > 11.9 TeV (β = +1/√3) and 10.3 TeV (β = −1/√3) for every a: ρ is weaker by a factor of about 2 | CHECK; LIT ρ₀ |
+| R4 | The 2σ excess in ρ₀ would need w < 8.1 TeV. At the LHC bound, the mixing gives at most 47% (β = +1/√3) or 62% (β = −1/√3) of it, leaving 1.1σ or 0.8σ | CHECK |
+
+One-loop 3-3-1 contributions to T are suppressed by α/4π next to the tree term and aren't
+computed; S and U aren't used.
+
 ## Rung 2: the strong force (`src/chiral_breaking.py`)
 
 **What breaks.** Colour stays unbroken. What breaks is the approximate chiral symmetry of
@@ -225,6 +240,7 @@ linear sigma model are also tagged model. It exits with status 1 if any check fa
 ```bash
 python3 src/ladder_standalone.py   # everything below, one file, ~1 s
 python3 src/m331_breaking.py       # rung 1, ~7 s
+python3 src/m331_rho_bound.py      # rung 1 against the global fit's rho_0 and the LHC, ~7 s
 python3 src/chiral_breaking.py     # rung 2, ~1 s
 python3 src/casimir_diamonds.py    # rung 3, ~2 s
 python3 src/graviton_exchange.py   # rung 4, ~1 s

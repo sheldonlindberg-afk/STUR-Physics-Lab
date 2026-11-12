@@ -6,7 +6,7 @@ This page records which script feeds which, and which physical quantities each o
 
 ## Summary
 
-- **43 scripts** in `src/`, in 6 topics; **61 imports** between them, 22 of them across topics. 11 scripts import nothing from the others and nothing imports them.
+- **44 scripts** in `src/`, in 6 topics; **64 imports** between them, 24 of them across topics. 11 scripts import nothing from the others and nothing imports them.
 - **52 catalogued quantities** (37 measured inputs, 15 derived in the repository), found as 162 literals in the source.
 - **43 quantities are typed in more than one script**; 14 of them are shared by more than one topic.
 - **2 copies differ from their source for a stated reason**; **0 differ without one (drift).**
@@ -43,6 +43,7 @@ flowchart LR
     macdowell_mansouri
     ladder_links
     ladder_standalone
+    m331_rho_bound
   end
   subgraph diamond["Diamond experiment"]
     stur_gravity_entanglement
@@ -99,6 +100,9 @@ flowchart LR
   m331_margin --> m331_threshold
   m331_margin --> m331_yukawa
   m331_margin --> qcd_running
+  m331_rho_bound --> m331_breaking
+  m331_rho_bound --> m331_threshold
+  m331_rho_bound --> m331_yukawa
   m331_scalar --> m331_exact
   m331_scalar --> m331_threshold
   m331_scalar --> m331_yukawa
@@ -149,6 +153,8 @@ flowchart LR
 | `ladder_links` (Symmetry ladder) | `m331_why_three` (3-3-1 selection) | `charges` |
 | `ladder_links` (Symmetry ladder) | `stur_gravity_entanglement` (Diamond experiment) | `C`, `G`, `HBAR` |
 | `m331_breaking` (Symmetry ladder) | `m331_exact` (3-3-1 selection) | `MODELS` |
+| `m331_rho_bound` (Symmetry ladder) | `m331_threshold` (3-3-1 selection) | `gL_at`, `mzp_over_mv` |
+| `m331_rho_bound` (Symmetry ladder) | `m331_yukawa` (3-3-1 selection) | `boundary` |
 | `stur_derivation` (Measurement, entropy, foundations) | `stur_emergent` (Classical and emergent gravity) | `cutoff_for_G`, `dp_rate`, `medium_evolution` |
 | `stur_derivation` (Measurement, entropy, foundations) | `stur_gravity_entanglement` (Diamond experiment) | `BASE`, `branch_distances`, `negativity`, `radius`, `state` |
 | `stur_derivation` (Measurement, entropy, foundations) | `stur_gravity_full` (Diamond experiment) | `design_a` |
@@ -196,6 +202,7 @@ flowchart LR
 | [`macdowell_mansouri`](src/macdowell_mansouri.py) | — | The gravity rung as a broken gauge theory: MacDowell-Mansouri (1977) and Stelle-West (1980) |
 | [`ladder_links`](src/ladder_links.py) | `chiral_breaking`, `graviton_exchange`, `m331_breaking`, `m331_exact`, `m331_margin`, `m331_three_loop`, `m331_why_three`, `stur_gravity_entanglement` | Links between the rungs of the symmetry-breaking ladder (SYMMETRY_LADDER.md): places where one rung's output is another rung's input, checke |
 | [`ladder_standalone`](src/ladder_standalone.py) | — | The symmetry-breaking ladder, from 3-3-1 to the two-diamond gravity experiment |
+| [`m331_rho_bound`](src/m331_rho_bound.py) | `m331_breaking`, `m331_threshold`, `m331_yukawa` | The rho parameter and the 3-3-1 scale: what electroweak precision says about w, from the tree-level Z-Z' mixing of rung 1 (src/m331_breaking |
 
 **Diamond experiment**
 
@@ -361,4 +368,6 @@ These are imported from their source by every script that uses them; a typed-in 
 
 Literals with at least three significant digits that appear in two or more scripts and match no catalogued quantity. Most are grid points or example values; any that is a physical quantity belongs in the catalogue.
 
-None.
+| Value | Scripts |
+|---|---|
+| 1.96 | `m331_rho_bound`, `short_range_gravity` |
