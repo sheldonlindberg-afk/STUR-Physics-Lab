@@ -48,10 +48,20 @@ def test_running_matches_the_repository():
     assert abs(S.pole(3, "+1/sqrt3", **worst) / T.pole(3, "+1/sqrt3", **worst) - 1) < 2e-3
 
 
+def test_mass_floor_section_matches_the_repository():
+    # S6b (split spectrum, alpha = 1, two loops) against src/m331_margin.py
+    import m331_margin as M
+    f = S.FLOORS
+    for mE in (100.0, 684.0):
+        mine = S.pole_split(3, f["MV"], f["mJ"], mE, f["mS"], f["n_light"])
+        ref = M.pole(MV=f["MV"], mJ=f["mJ"], mE=mE, mS=f["mS"], n_light=f["n_light"], loops=2)
+        assert abs(mine / ref - 1) < 3e-3
+
+
 def test_runs_isolated_and_every_check_passes():
     code = open(PATH).read().replace("FULL_SCAN = True", "FULL_SCAN = False", 1)
     out = subprocess.run([sys.executable, "-I", "-S", "-c", code], capture_output=True, text=True,
                          timeout=300).stdout
     assert "ALL CHECKS PASS" in out and "FAIL" not in out
     ref = open(os.path.join(os.path.dirname(__file__), "..", "results", "m331", "standalone.txt")).read()
-    assert "Checks passed: 20/20" in ref and "ALL CHECKS PASS" in ref
+    assert "Checks passed: 23/23" in ref and "ALL CHECKS PASS" in ref

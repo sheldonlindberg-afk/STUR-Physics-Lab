@@ -29,18 +29,21 @@ WHAT IT COMPUTES
       S4  SU(3)_L one-loop running excludes N_c >= 7.
       S5  U(1)_X two-loop running excludes N_c = 5, in both variants, with Yukawas.
       S6  One-loop threshold matching at the 3-3-1 scale, scanning the heavy spectrum.
+      S6b The beta = +1/sqrt3 variant against mass floors at alpha = 1: a condition on
+          the heavy-lepton mass.
       S7  Cross-check with data: R = sigma(ee -> hadrons)/sigma(ee -> mu mu) vs KEDR.
 
     Result (conditional on the 3-3-1 framework, Planck-scale perturbativity, and the
     measured electroweak couplings at the TeV scale used as input): only N_c = N_g = 3
-    survives, with quark charges 2/3 and -1/3.
+    survives, with quark charges 2/3 and -1/3. In the beta = +1/sqrt3 variant this also
+    needs the three heavy charged leptons heavy enough (S6b).
 
 SOURCE
     Repository: https://github.com/sheldonlindberg-afk/STUR-Physics-Lab
     Note:       paper/note331.pdf  (extended notes: NOTE_331.md)
     This file condenses src/m331_exact.py, m331_three_generations.py, m331_closure.py,
-    m331_su3L_running.py, m331_yukawa.py, m331_threshold.py, m331_why_three.py and
-    qcd_running.py; tests/test_331_standalone.py checks that it agrees with them.
+    m331_su3L_running.py, m331_yukawa.py, m331_threshold.py, m331_margin.py,
+    m331_why_three.py and qcd_running.py; tests/test_331_standalone.py checks that it agrees with them.
     Independent work, not peer reviewed. License: CC0 1.0 (public domain).
 """
 from fractions import Fraction as F
@@ -350,14 +353,17 @@ def boundary(mu0, lam=(0.0, 0.0, 0.0), n_light=1, s2=None):
 
 
 def blow_up(Nc, variant, yt=0.0, yJ=0.0, mu0=MU331, gmax=4 * pi, lam=(0.0, 0.0, 0.0),
-            n_light=1, loops=2, s2=None):
-    """Scale (GeV) where the first gauge coupling reaches gmax; 1e45 if none below 1e45 GeV."""
+            n_light=1, loops=2, s2=None, yuk=None):
+    """Scale (GeV) where the first gauge coupling reaches gmax; 1e45 if none below 1e45 GeV.
+    yuk: an explicit two-loop Yukawa vector, overriding the one built from yt and yJ (S6b)."""
     gs, ferm, scal, _ = model(Nc, variant)
     a, b = coefficients(gs, ferm, scal)
     a = [float(x) for x in a]
     b = [[float(x) for x in r] for r in b] if loops == 2 else [[0.0] * 3 for _ in range(3)]
     ct, cJ = yukawas_331(Nc, variant)
-    yuk = [ct[i] * yt**2 + cJ[i] * yJ**2 if loops == 2 else 0.0 for i in range(3)]
+    if yuk is None:
+        yuk = [ct[i] * yt**2 + cJ[i] * yJ**2 for i in range(3)]
+    yuk = [x if loops == 2 else 0.0 for x in yuk]
     ainv0 = boundary(mu0, lam, n_light, s2)
     if min(ainv0) <= 0:
         return mu0
@@ -577,6 +583,59 @@ def s6():
 
 
 # ----------------------------------------------------------------------------------------
+# S6b  The narrow variant (beta = +1/sqrt3) against physical mass floors
+# ----------------------------------------------------------------------------------------
+# The worst case of S6 sits on the corner of its grid, and the grid ties the heavy charged
+# leptons E to the exotic quarks (one r_J). Here every mass runs on its own, against
+# experimental floors, with the controlled criterion alpha = 1 (g = sqrt(4 pi)) instead of
+# g = 4 pi, where the loop expansion has already broken down (NOTE_331.md, section 3d).
+FLOORS = dict(MV=4.6e3 / 1.225, mJ=1.3e3, mE=100.0, mS=100.0, n_light=2)   # GeV
+G_ALPHA1 = sqrt(4 * pi)
+
+
+def pole_split(Nc, MV, mJ, mE, mS, n_light=2, gmax=G_ALPHA1):
+    """Blow-up scale for beta = +1/sqrt3 with the exotic quarks (m_J), heavy leptons (m_E)
+    and heavy scalars (m_S) at their own masses; each Yukawa set by its own mass."""
+    v = "+1/sqrt3"
+    out = []
+    for kind, tY, t2, t3, M in heavy_spectrum(Nc, v, MV, 1.0, 1.0, n_light):
+        if kind == "F":
+            M = mJ if t3 > 0 else mE                       # quarks carry colour; leptons do not
+        elif kind == "S":
+            M = mS
+        out.append((kind, tY, t2, t3, M))
+    gs = model(Nc, v)[0]
+    ct, cJ = yukawas_331(Nc, v)
+    lep = [Nc * float(x) for x in yukawa_coeff(gs, ((None, 3, 1), F(-2, 3)), ((None, 1, 1), F(1)), 3)]
+    cq = [x - l for x, l in zip(cJ, lep)]                  # exotic quarks alone
+    gL = sqrt(4 * pi / boundary(MV)[1])
+    yJ2, yE2 = (mJ * gL / (sqrt(2) * MV)) ** 2, (mE * gL / (sqrt(2) * MV)) ** 2
+    yt2 = yt_at(MV) ** 2
+    yuk = [ct[i] * yt2 + cq[i] * yJ2 + lep[i] * yE2 for i in range(3)]
+    return blow_up(Nc, v, mu0=MV, gmax=gmax, lam=lambdas(out, MV), n_light=n_light, yuk=yuk)
+
+
+def s6b():
+    banner("S6b The narrow variant (beta = +1/sqrt3) against mass floors, criterion alpha = 1")
+    f = FLOORS
+    print(f"   Floors: M_V >= {f['MV'] / 1e3:.3f} TeV (Z' >= 4.6 TeV), exotic quarks m_J >= 1.3 TeV,")
+    print("   heavy charged leptons m_E >= 0.1 TeV (LEP), heavy scalars >= 0.1 TeV. Two loops.")
+    p3 = pole_split(3, **f) / M_PLANCK
+    p5 = pole_split(5, **f) / M_PLANCK
+    print(f"   all masses at the floors: N_c = 3 pole = {p3:.3f} M_Pl;  N_c = 5 pole = {p5:.1e} M_Pl")
+    g = lambda lm: log(pole_split(3, f["MV"], f["mJ"], exp(lm), f["mS"], f["n_light"]) / M_PLANCK)
+    m_star = exp(bisect(g, log(100.0), log(3000.0), tol=1e-4))
+    print(f"   N_c = 3 reaches M_Pl only if m_E >= {m_star:.0f} GeV (two loops; the repository's three-loop")
+    print("   value is 561 +- 113 GeV, src/m331_margin.py). With three E the condition is on their")
+    print("   geometric mean. Run 2 allows that mean down to ~0.24 TeV, so the LHC has not tested it;")
+    print("   the HL-LHC reaches about the threshold (src/m331_heavy_lepton.py).")
+    check("beta = +1/sqrt3, light heavy leptons: N_c = 3 falls below M_Pl at alpha = 1 (0.579 M_Pl)",
+          p3 < 1 and close(p3, 0.579, 0.01))
+    check("beta = +1/sqrt3: N_c = 5 stays excluded at the same floors", p5 < 1e-6)
+    check("beta = +1/sqrt3: N_c = 3 needs m_E >= 684 GeV at two loops", close(m_star, 684.0, 0.01))
+
+
+# ----------------------------------------------------------------------------------------
 # S7  Cross-check with data: the R-ratio
 # ----------------------------------------------------------------------------------------
 def s7():
@@ -596,7 +655,7 @@ def s7():
 
 def main():
     t0 = time.time()
-    for section in (s1, s2, s3, s4, s5, s6, s7):
+    for section in (s1, s2, s3, s4, s5, s6, s6b, s7):
         section()
     banner("VERDICT")
     n_ok = sum(ok for _, ok in CHECKS)
@@ -605,10 +664,11 @@ def main():
     print("   running excludes N_c = 5. Only N_c = N_g = 3 stays perturbative to the Planck scale,")
     print("   with quark charges 2/3 and -1/3.")
     print("   Conditional on the 3-3-1 framework, Planck-scale perturbativity, and the measured")
-    print("   TeV-scale electroweak couplings (an input, not a prediction). In the beta = +1/sqrt3")
-    print("   variant the N_c = 3 margin is narrow: the g = 4 pi poles above are two-loop numbers;")
-    print("   at three loops (src/m331_three_loop.py) N_c = 3 stays perturbative to M_Pl over the")
-    print("   whole spectrum for any criterion alpha >= 0.64.")
+    print("   TeV-scale electroweak couplings (an input, not a prediction). In the beta = -1/sqrt3")
+    print("   variant the margins are wide. In the beta = +1/sqrt3 variant the selection is a")
+    print("   condition, not a margin: N_c = 3 reaches M_Pl at alpha = 1 only if the three heavy")
+    print("   charged leptons are heavy enough (geometric mean >= 561 +- 113 GeV at three loops,")
+    print("   S6b at two loops). The LHC has not tested this; the HL-LHC reaches about the threshold.")
     print(f"\n   Checks passed: {n_ok}/{len(CHECKS)}   ({time.time() - t0:.0f} s)")
     for label, ok in CHECKS:
         if not ok:

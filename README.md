@@ -71,11 +71,11 @@ Pythia 8).
 **Run it in one paste.** [`src/m331_standalone.py`](src/m331_standalone.py) reproduces the
 whole selection in a single file that uses only the Python standard library: charges and
 anomalies for general N_c, N_g = N_c, the Standard Model calibration, SU(3)_L and two-loop
-U(1)_X running with Yukawas, one-loop thresholds across the heavy spectrum, and the
-R-ratio cross-check. Copy it (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/#run331)
+U(1)_X running with Yukawas, one-loop thresholds across the heavy spectrum, the
+β = +1/√3 heavy-lepton condition against mass floors, and the R-ratio cross-check. Copy it (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/#run331)
 has a one-click **Copy Python script** button; on GitHub use *Copy raw file*) and paste it
 into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 15 s
-and ends with 20 PASS/FAIL checks against the numbers pinned here
+and ends with 23 PASS/FAIL checks against the numbers pinned here
 ([expected output](results/m331/standalone.txt)).
 
 The closest prior work is Doff & Pisano (2000). The literature search is in
@@ -191,7 +191,7 @@ python3 src/ladder_standalone.py     # the whole ladder, one file, no dependenci
 python3 src/m331_breaking.py         # the ladder, rungs 1-5: also chiral_breaking, casimir_diamonds,
                                     # graviton_exchange, macdowell_mansouri (each a few seconds)
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
-python -m pytest tests -q           # every number pinned (149 tests)
+python -m pytest tests -q           # every number pinned (150 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on

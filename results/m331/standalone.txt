@@ -84,6 +84,20 @@ S6  One-loop threshold matching at the 3-3-1 scale, two-loop running, Yukawas on
    [PASS] beta = +1/sqrt3 threshold margin: sin^2 theta_W < 0.2608
 
 ==============================================================================
+S6b The narrow variant (beta = +1/sqrt3) against mass floors, criterion alpha = 1
+==============================================================================
+   Floors: M_V >= 3.755 TeV (Z' >= 4.6 TeV), exotic quarks m_J >= 1.3 TeV,
+   heavy charged leptons m_E >= 0.1 TeV (LEP), heavy scalars >= 0.1 TeV. Two loops.
+   all masses at the floors: N_c = 3 pole = 0.579 M_Pl;  N_c = 5 pole = 1.0e-08 M_Pl
+   N_c = 3 reaches M_Pl only if m_E >= 684 GeV (two loops; the repository's three-loop
+   value is 561 +- 113 GeV, src/m331_margin.py). With three E the condition is on their
+   geometric mean. Run 2 allows that mean down to ~0.24 TeV, so the LHC has not tested it;
+   the HL-LHC reaches about the threshold (src/m331_heavy_lepton.py).
+   [PASS] beta = +1/sqrt3, light heavy leptons: N_c = 3 falls below M_Pl at alpha = 1 (0.579 M_Pl)
+   [PASS] beta = +1/sqrt3: N_c = 5 stays excluded at the same floors
+   [PASS] beta = +1/sqrt3: N_c = 3 needs m_E >= 684 GeV at two loops
+
+==============================================================================
 S7  Data cross-check: R(e+e- -> hadrons) below charm vs KEDR 2.225 +- 0.051
 ==============================================================================
    alpha_s(2.45 GeV) = 0.272.  R = N_c (Q_u^2 + 2 Q_d^2)(1 + 3 C_F alpha_s / 4 pi)
@@ -102,10 +116,11 @@ VERDICT
    running excludes N_c = 5. Only N_c = N_g = 3 stays perturbative to the Planck scale,
    with quark charges 2/3 and -1/3.
    Conditional on the 3-3-1 framework, Planck-scale perturbativity, and the measured
-   TeV-scale electroweak couplings (an input, not a prediction). In the beta = +1/sqrt3
-   variant the N_c = 3 margin is narrow: the g = 4 pi poles above are two-loop numbers;
-   at three loops (src/m331_three_loop.py) N_c = 3 stays perturbative to M_Pl over the
-   whole spectrum for any criterion alpha >= 0.64.
+   TeV-scale electroweak couplings (an input, not a prediction). In the beta = -1/sqrt3
+   variant the margins are wide. In the beta = +1/sqrt3 variant the selection is a
+   condition, not a margin: N_c = 3 reaches M_Pl at alpha = 1 only if the three heavy
+   charged leptons are heavy enough (geometric mean >= 561 +- 113 GeV at three loops,
+   S6b at two loops). The LHC has not tested this; the HL-LHC reaches about the threshold.
 
-   Checks passed: 20/20   (11 s)
+   Checks passed: 23/23   (14 s)
    ALL CHECKS PASS

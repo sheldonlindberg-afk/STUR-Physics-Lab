@@ -54,7 +54,7 @@
   into any Python runner or AI code tool; 37 PASS/FAIL checks
   (expected output: /results/ladder/standalone.txt)
 - /src/m331_standalone.py — the 3-3-1 selection in one file, standard library only:
-  paste into any Python runner or AI code tool and run; it ends with 20 PASS/FAIL checks
+  paste into any Python runner or AI code tool and run; it ends with 23 PASS/FAIL checks
   (expected output: /results/m331/standalone.txt)
 - /notebooks/ — five study notebooks with exercises
 - /index.html — worked examples: TEGR, is gravity quantum?, gravity and entanglement,
