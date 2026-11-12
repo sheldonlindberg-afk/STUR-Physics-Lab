@@ -95,6 +95,19 @@ local Lorentz frame. The note asks whether that frame contributes to black-hole 
 All of it is computed by `src/stur_tegr_corner.py`, `src/stur_tegr_frame.py` and
 `src/stur_tegr_logs.py`, and pinned by tests.
 
+## For students: the symmetry-breaking ladder
+
+**[SYMMETRY_LADDER.md](SYMMETRY_LADDER.md)** follows the forces down in energy, from the 3-3-1
+scale to the two diamonds, with every step derived and checked in code:
+- 3-3-1 → Standard Model → electromagnetism: the photon, the hypercharge matching and the
+  W, Z, Z′ masses, from the gauge-boson mass matrix;
+- chiral symmetry breaking: pions, the GMOR relation and the nuclear force;
+- the Casimir–Polder force between the diamonds, from electrostatics and the dipole field;
+- one-graviton exchange: Newton's law and the experiment's 2.19 rad phase;
+- gravity as a broken de Sitter gauge theory (MacDowell–Mansouri), a reformulation of GR.
+
+Gravity is not part of the gauge chain; the page says where each derivation stops.
+
 ## For students: notebooks with exercises
 
 | Notebook | What it works out | Prerequisites |
@@ -158,8 +171,10 @@ python3 src/stur_derivation.py      # the whole chain, ~30 s
 python3 src/stur_gravity_full.py    # the two-diamond design search, ~15 s
 python3 src/m331_exact.py           # the 3-3-1 selection, both variants
 python3 src/m331_three_loop.py       # three-loop gauge running and the criterion, ~70 s
+python3 src/m331_breaking.py         # the ladder, rungs 1-5: also chiral_breaking, casimir_diamonds,
+                                    # graviton_exchange, macdowell_mansouri (each a few seconds)
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
-python -m pytest tests -q           # every number pinned (127 tests)
+python -m pytest tests -q           # every number pinned (135 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on
@@ -173,6 +188,7 @@ notebooks/                study notebooks with exercises
 NOTE_331.md               the 3-3-1 note with extended detail on each check
 NOVELTY.md                literature search: what is new, what was already known
 NOTE_TEGR.md              the frame in teleparallel gravity and black-hole entropy
+SYMMETRY_LADDER.md        symmetry breaking from 3-3-1 to the diamond experiment, derived
 QUANTUM_TEGR.md           literature map for quantum teleparallel gravity
 TEGR.md, MEASUREMENT.md, BORN.md, DERIVATION.md, GRAVITY_ENTANGLEMENT.md,
 OPPENHEIM.md, COLLECTIVE.md, EMERGENT.md, PREDICTIONS.md

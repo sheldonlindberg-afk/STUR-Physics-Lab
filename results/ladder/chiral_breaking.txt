@@ -1,0 +1,32 @@
+
+==============================================================================
+S1  Goldstone counting in the chiral limit (MODEL: linear sigma model)
+==============================================================================
+   Vacuum sigma = v is stationary: gradient [0, 0, 0, 0]
+   Hessian eigenvalues {2*lambda*v**2: 1, 0: 3}: 3 zero modes = dim O(4) - dim O(3) = 6 - 3 (the pions)
+
+==============================================================================
+S2  Explicit breaking by quark masses: the GMOR relation (MODEL, symbolic)
+==============================================================================
+   Vacuum condition: -H + lambda*s0*(s0**2 - v**2) = 0
+   m_pi^2 - H/<sigma> = 0   (so m_pi^2 f_pi^2 = H f_pi, f_pi = <sigma>)
+   m_sigma^2 = lambda*(3*s0**2 - v**2)
+   QCD: H f_pi = (m_u + m_d) |<qbar q>|  ->  m_pi^2 f_pi^2 = (m_u + m_d)|<qbar q>|  (GMOR)
+
+==============================================================================
+S3  GMOR with measured inputs (LIT: PDG quark masses and f_pi; FLAG condensate)
+==============================================================================
+   (m_u + m_d)|<qbar q>| = 1.3805e-04 GeV^4, f_pi = 92.1 MeV
+   m_pi (GMOR) = 127.6 MeV;  measured pi0 135.0, pi+ 139.6 MeV  (-5.5%: higher-order chiral terms, not derived here)
+
+==============================================================================
+S4  The nuclear force: one-pion exchange (CHECK)
+==============================================================================
+   FT[1/(q^2 + m^2)] = exp(-m*r)/(4*pi*r)   (the Yukawa potential)
+   Range 1/m_pi = hbar c / m_pi = 1.414 fm
+   (s1.q)(s2.q) = (q^2/3)[s1.s2 + S12(q)] with Pauli matrices: True  -> central + tensor force
+
+==============================================================================
+S5  The pion-nucleon coupling from chiral symmetry (Goldberger-Treiman)
+==============================================================================
+   g_piNN = g_A M_N / f_pi = 13.01;  empirical about 13.1 (-0.7%, the known Goldberger-Treiman discrepancy)

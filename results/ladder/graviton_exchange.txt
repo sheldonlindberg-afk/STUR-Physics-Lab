@@ -1,0 +1,29 @@
+
+==============================================================================
+N1  Linearized GR for a point mass (CHECK, symbolic)
+==============================================================================
+   hbar_00 = 4*G*M/r;  h_00 = 2*G*M/r,  h_ij = 2*G*M/r delta_ij
+   Newtonian potential Phi = -G*M/r;  PPN gamma = h_ii / h_00 = 1
+
+==============================================================================
+N2-N3  One-graviton exchange (CHECK)
+==============================================================================
+   T2.P.T1 for two static masses = m1*m2/2
+   U(q) = -4*pi*G*m1*m2/q**2;  U(r) = -G*m1*m2/r  (Newton's law)
+   Photon vs a static mass of the same energy: coupling ratio 2 -> light bends twice as much as a Newtonian particle (4GM/c^2 b)
+
+==============================================================================
+N4  The entangling phase of design A, from the graviton-exchange potential (CHECK)
+==============================================================================
+   design A: m = 1.4678e-14 kg, dx = 720.8 um, gap = 181.16 um, hold 0.0824 s, ramps 2 x 1.5811 s
+   branch distances during the hold: same-side 181 um, cross 743.3 um
+   Delta phi = 2.1868 rad (time integral of the N2 potential); src/stur_gravity_full.trajectory_dphi 2.1868 rad
+
+==============================================================================
+N5  What a positive diamond result would establish (FOLLOWS)
+==============================================================================
+   - The phase needs the field sourced by each branch to act on each branch: gravity's
+     field in superposition. Under the experiment's assumptions (locality, LOCC), a
+     classical field cannot entangle, so a positive result rules out classical gravity.
+   - It is what linearized quantum gravity (N2, a graviton field) predicts; it does
+     not test the Planck scale, distinguish GR from TEGR, or link gravity to 3-3-1.

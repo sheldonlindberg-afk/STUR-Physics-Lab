@@ -1,0 +1,41 @@
+
+==============================================================================
+M1  so(4,1) -> so(3,1): the algebra and the breaking (CHECK)
+==============================================================================
+   [P_a, P_b] = -eta_44 J_ab / l^2 for all a, b: True
+   Stabilizer of V = (0,0,0,0,l): 6 generators J_ab with a, b < 4: [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)]
+   Broken: 4 generators [(0, 4), (1, 4), (2, 4), (3, 4)] (the 'translations')
+   In the gauge V = l e_4, D V^a = l A^a_4 = e^a: the tetrad is the broken direction.
+
+==============================================================================
+M2  The curvature splits into Riemann + (e ^ e)/l^2 + torsion/l (CHECK)
+==============================================================================
+   F^ab - R^ab = s (e^a ^ e^b)/l^2 with s = {-1}  (all components consistent: True)
+   F^a4 = 0 (Levi-Civita: no torsion): True
+   Ricci scalar from R^ab minus from the metric: 0
+
+==============================================================================
+M3  The vacuum: de Sitter space of radius l is the flat SO(4,1) connection (CHECK)
+==============================================================================
+   F = 0 identically for f = 1 - r^2/l^2: True  ->  Lambda = 3/l^2
+
+==============================================================================
+M4  The MacDowell-Mansouri action (CHECK)
+==============================================================================
+   eps R^e^e = c_R e R with c_R = 2;  eps e^e^e^e = c_V e with c_V = 24
+   eps F^F = eps R^R + (2s/l^2) c_R e R + (s^2/l^4) c_V e  ->  e (R - 2 Lambda) with Lambda = 3/l**2
+   Normalization for 1/(16 pi G): N = -l**2/(64*pi*G) = -3/(64*pi*G*Lambda)
+   Euler density eps R^R = 4*(f(r)*Derivative(f(r), (r, 2)) + Derivative(f(r), r)**2 - Derivative(f(r), (r, 2)))*sin(theta)
+   = sin(theta) d/dr[4*f(r)*Derivative(f(r), r) - 4*Derivative(f(r), r)]: True  (a total derivative; KNOWN in general: the Chern-Gauss-Bonnet density)
+
+==============================================================================
+M5  Schwarzschild-de Sitter solves G + Lambda g = 0 with Lambda = 3/l^2 (CHECK)
+==============================================================================
+   G_munu + (3/l^2) g_munu = 0: True
+
+==============================================================================
+M6  Numbers (LIT: Lambda from Planck 2018, G from CODATA)
+==============================================================================
+   l = sqrt(3/Lambda) = 1.647e+26 m = 17.4 billion light years
+   MacDowell-Mansouri coupling 3/(G Lambda) in Planck units = 3/(l_P^2 Lambda) = 1.04e+122
+   REFORMULATION: the same predictions as GR + Lambda; it does not unify gravity with 3-3-1.

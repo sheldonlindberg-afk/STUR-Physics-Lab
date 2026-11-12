@@ -1,0 +1,26 @@
+
+==============================================================================
+P1  Polarizability of a dielectric sphere, from electrostatics (CHECK)
+==============================================================================
+   alpha / (4 pi eps0) = R**3*(epsilon - 1)/(epsilon + 2);  minus K R^3 with K = (eps-1)/(eps+2): 0
+
+==============================================================================
+P2  The dipole Green tensor at imaginary frequency (CHECK)
+==============================================================================
+   (nabla^2 - xi^2/c^2) G = 0 off the source: max residual 0.0e-162
+   div G = 0 off the source: max residual 0.0e-164
+   Tr G.G - 2 e^(-2u)(3 + 6u + 5u^2 + 2u^3 + u^4)/r^6 = 0
+
+==============================================================================
+P3  The Casimir-Polder coefficient (CHECK, exact)
+==============================================================================
+   int_0^oo e^(-2u)(3 + 6u + 5u^2 + 2u^3 + u^4) du = 23/4
+   U = -(23/(4*pi)) hbar c alpha1 alpha2 / r^7 = -(23/(4 pi)) hbar c alpha1 alpha2 / r^7
+
+==============================================================================
+P4  In the diamond experiment
+==============================================================================
+   m = 1.5e-14 kg (R = 1.01 um), r = 200 um: derived U = -1.7531e-36 J, src/stur_gravity_entanglement.py -1.7531e-36 J (ratio 1.000000000000)
+   Gravity at the same r: -7.5086e-35 J; Casimir/gravity = 2.335e-02
+   Casimir ~ R^6/r^7 and gravity ~ R^6/r, so the safe gap does not depend on the mass:
+   181 um is where Casimir's entangling phase is 10% of gravity's (src/stur_gravity_full.py, H0).
