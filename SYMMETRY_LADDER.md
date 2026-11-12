@@ -171,6 +171,11 @@ demands. It links rung 1's charges to rung 2's pion, but it isn't an independent
 N_c = 3. The agreement at the 0.1σ level is partly luck: the next-order chiral corrections
 are a few percent.
 
+**Finding more links.** [DEPENDENCIES.md](DEPENDENCIES.md) maps which script feeds which and
+where each physical constant is typed. It lists the quantities that more than one part of the
+repository uses without importing them from one place; those are the candidates for the next
+link.
+
 ## How the rungs fit together
 
 | Energy | What breaks | What is left below |
