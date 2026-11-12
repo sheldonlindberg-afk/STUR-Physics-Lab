@@ -183,7 +183,7 @@ comparison.
 | D: A + 10⁻¹⁴ Pa | — | no design works | no design works |
 | E: A + LISA Pathfinder vibration | — | no design works | no design works |
 
-**Design A** (1.5×10⁻¹⁴ kg, Δx = 721 µm, 3.24 s) is the reference geometry used across
+**Design A** (1.47×10⁻¹⁴ kg, Δx = 721 µm, 3.24 s) is the reference geometry used across
 the repository. With the derived gas rate its gas collisions use γτ = 0.105 (it was
 0.44), and it reaches a 3σ witness in **270 runs (0.6 h)**. That is the protocol minimum
 of 30 runs per setting, so gas no longer limits it. Almost all of its entangling phase
@@ -208,6 +208,10 @@ create it:
 - **Net charge:** one electron's worth of charge on each design-A diamond gives an
   entangling phase **1.6×10¹⁰× gravity's** (7×10⁸× for the fastest design). Both diamonds must carry exactly zero net charge.
   Levitated microspheres have been discharged to zero (LIT: Moore, Rider & Gratta 2014).
+  Discharging removes whole electrons, not a fractional charge per atom. That residual must
+  stay below 2.8×10⁻¹⁹ e per nucleon, for any diamond size; the measured limit is 10⁻²¹ e,
+  and anomaly cancellation makes it exactly zero
+  ([SYMMETRY_LADDER.md, link 1](SYMMETRY_LADDER.md#link-1-neutral-matter-from-rung-1-to-rung-4)).
 - **Permanent dipoles:** each must be < 4.5×10⁻²⁹ C·m (2.8×10⁻⁴ e·µm) to keep EM below
   10% of gravity. Otherwise a conducting shield goes between the diamonds (LIT: van de
   Kamp et al. 2020).
@@ -219,7 +223,7 @@ create it:
 
 | Requirement | Needed | State of the art (LIT) |
 |---|---|---|
-| Mass in a spatial superposition | 1.5×10⁻¹⁴ kg (design A) | 4×10⁻²³ kg (Fein et al. 2019): **4×10⁸× short** |
+| Mass in a spatial superposition | 1.47×10⁻¹⁴ kg (design A) | 4×10⁻²³ kg (Fein et al. 2019): **4×10⁸× short** |
 | Superposition size | 721 µm (design A) | |
 | Vacuum | < 8×10⁻¹⁵ Pa (N₂), < 3×10⁻¹⁵ Pa (He) | reached only in cryogenic systems |
 | Spin coherence | > 1.4 s | ~1 s (NV, cryogenic, with dynamical decoupling) |

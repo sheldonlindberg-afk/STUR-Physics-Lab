@@ -33,6 +33,7 @@ import stur_tegr_gr as F
 import stur_gravity_entanglement as ge
 import stur_emergent as K
 import stur_born as Bn
+import stur_gravity_full as GF
 
 G_SI, C, HBAR, KB = 6.67430e-11, 2.99792458e8, 1.054571817e-34, 1.380649e-23
 L_P = np.sqrt(HBAR * G_SI / C**3)
@@ -161,7 +162,8 @@ def main():
     print("       where the charge is). Free space: no lasting record, fringes stay. Near a")
     print("       surface the image charges record the path: fringes fade (LIT: Sonnentag &")
     print("       Hasselbach 2007). A literally split charge is excluded (MEASUREMENT.md T1, T5).")
-    E_, Ng = T.graviton_count(1.5e-14, 721e-6, 1.58, 0.08)
+    A = GF.design_a()
+    E_, Ng = T.graviton_count(A["m"], A["dx"], A["ramp"], A["hold"])
     print(f"   (c) ONE diamond, gravity's own record: |<E1|E2>_grav| = exp(-N/2), N = {Ng:.1e} gravitons.")
     print("       Gravity keeps no record: a single mass stays coherent unless something else")
     print("       (gas, light, vibration) records it.")
@@ -182,11 +184,11 @@ def main():
     gps, _ = F.gps_offset_us_per_day()
     print(f"   (e) The classical limit (one branch, many particles): perihelion {dp:.2f} arcsec/century,")
     print(f"       light bending {defl:.4f} arcsec, PPN gamma = {F.ppn_gamma()}, GPS {gps:+.2f} us/day.")
-    m = 1.5e-14
+    m = A["m"]
     print("   (f) If gravity were only the AVERAGE of the quantum level (not D6): each branch")
     print("       would feel the mean field, S_i would factor, and (d) would give exactly zero")
     print(f"       entanglement. An average needs intrinsic collapse: Diosi-Penrose rate"
-          f" {K.dp_rate(m, ge.radius(m), 721e-6):.0f} /s,")
+          f" {K.dp_rate(m, ge.radius(m), A['dx']):.0f} /s,")
     print("       killing even ONE diamond's superposition in ~6 ms (any Markovian average smeared")
     print("       over R0 < 0.1 um, Oppenheim's included). (c) and (d) both test this.")
 

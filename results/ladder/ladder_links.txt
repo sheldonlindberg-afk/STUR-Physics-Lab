@@ -1,0 +1,72 @@
+
+==============================================================================
+L1a  Neutral matter is an anomaly condition (CHECK, symbolic; any beta, N_c, X)
+==============================================================================
+   u, d charges agree between triplet and anti-triplet when X_a = X_t + beta/sqrt3: True
+   3-3-1:  (q_p + q_e) - [SU(3)_L]^2 U(1)_X / N_g = 0;   (q_n + Q_nu) - (q_p + q_e) = 0
+   SM:     (q_p + q_e) - [SU(2)_L]^2 U(1)_Y = (q_p + q_e) - (N_c Y_Q + Y_L) = 0;   (q_n + Q_nu) - (q_p + q_e) = 0
+   -> the hydrogen atom is neutral exactly when the mixed SU(3)_L (or SU(2)_L) anomaly
+      cancels, for any N_c; then q_n = -Q_nu (beta decay), and Q_nu = 0 in rung 1 (L1b).
+
+==============================================================================
+L1b  Rung 1's charges (src/m331_breaking.py B6): matter is exactly neutral
+==============================================================================
+   beta = -1/sqrt3 N_c = 3:  q_p = 1, q_n = 0, q_e = -1, Q_nu = 0  -> q_p + q_e = 0
+   beta = -1/sqrt3 N_c = 5:  q_p = 1, q_n = 0, q_e = -1, Q_nu = 0  -> q_p + q_e = 0
+   beta = -1/sqrt3 N_c = 7:  q_p = 1, q_n = 0, q_e = -1, Q_nu = 0  -> q_p + q_e = 0
+   beta = +1/sqrt3 N_c = 3:  q_p = 1, q_n = 0, q_e = -1, Q_nu = 0  -> q_p + q_e = 0
+   beta = +1/sqrt3 N_c = 5:  q_p = 1, q_n = 0, q_e = -1, Q_nu = 0  -> q_p + q_e = 0
+   beta = +1/sqrt3 N_c = 7:  q_p = 1, q_n = 0, q_e = -1, Q_nu = 0  -> q_p + q_e = 0
+   -> neutral matter holds for every N_c: like pi0 -> gamma gamma, it does not select 3.
+
+==============================================================================
+L1c-d  How neutral the diamonds must be (design A, src/graviton_exchange.py N4)
+==============================================================================
+   design A: m = 1.4678e-14 kg = 8.839e+12 nucleons; gravity's phase 2.1868 rad
+   Coulomb and gravity are both 1/r on the same trajectories: phase ratio = -k Q^2 / (G m^2)
+   one stray electron on each diamond: 1.60e+10 x gravity  (src/stur_gravity_full.py H6: 1.6e10)
+   Coulomb < 10% of gravity: net charge < 2.50e-06 e per diamond,
+     i.e. < 2.82e-19 e per nucleon = sqrt(0.1 G/k) u/e = 2.82e-19 e for any diamond size
+   LIT: |q_p + q_e| < 1e-21 e (Bressi et al. 2011), same for q_n; q_n = (-0.4 +- 1.1)e-21 e (Baumann et al. 1988)
+   residual per nucleon at those bounds: <= 1.0e-21 e -> margin 282; Coulomb/gravity <= 1.3e-06
+   that residual totals <= 8.8e-09 e per diamond: less than one electron,
+   so discharging cannot reach it. The experiment needs charge quantized at the atomic level;
+   measurement gives it to 1e-21, rung 1's anomaly cancellation gives it exactly.
+
+==============================================================================
+L2a  pi0 -> gamma gamma: the anomaly factor with rung 1's charges (CHECK)
+==============================================================================
+   N_c = 1: 1,  N_c = 2: 1,  N_c = 3: 1,  N_c = 4: 1,  N_c = 5: 1,  N_c = 7: 1;  general N_c: 1
+   (src/m331_why_three.py W2 and src/m331_breaking.py B6 give the same Q_u, Q_d: True)
+
+==============================================================================
+L2b  The width from the anomaly amplitude (CHECK, symbolic)
+==============================================================================
+   sum over polarizations |A eps(e1, e2, k1, k2)|^2 = A**2*m**4/2
+   Gamma = (1/2) |p| / (8 pi m^2) x sum |M|^2 = A**2*m**3/(64*pi)
+
+==============================================================================
+L2c-d  Against PrimEx (rung 2's f_pi, alpha(0); LIT anomaly coefficient)
+==============================================================================
+   A = alpha N_c (Q_u^2 - Q_d^2) / (pi f_pi), f_pi = 92.07 MeV (src/chiral_breaking.py)
+   Gamma(pi0 -> gamma gamma) = 7.785 eV;  PrimEx-I+II 7.802 +- 0.117 eV  (-0.1 sigma)
+   with the charges held at 2/3, -1/3 instead: N_c = 3: 7.79 eV,  N_c = 5: 21.63 eV,  N_c = 7: 42.39 eV
+   -> the width tests that charges and colours come together as anomaly cancellation
+      demands. It cannot select N_c; the R-ratio does (src/m331_why_three.py W6).
+
+==============================================================================
+L3a  The Planck mass: the 3-3-1 cutoff from rung 4's G (CHECK)
+==============================================================================
+   rung 4 (src/stur_gravity_entanglement.py): G = 6.67430e-11, hbar = 1.054571817e-34, c = 299792458
+   sqrt(hbar c / G) = 1.220890e+19 GeV;  src/m331_exact.py M_PLANCK = 1.220890e+19 GeV  (ratio - 1 = +1.1e-07)
+
+==============================================================================
+L3b-c  How far G could move before the selection changes (alpha = 1, three loops)
+==============================================================================
+   G -> x G moves M_Pl by x^(-1/2); the selection holds for (M_Pl/pole_3)^2 < x < (M_Pl/pole_5)^2
+   beta = +1/sqrt3 reference spectrum: N_c = 3 pole 2.89 M_Pl, N_c = 5 pole 4.2e-08 M_Pl  ->  0.12 < x < 5.5e+14
+   beta = -1/sqrt3 reference spectrum: N_c = 3 pole 1.91e+10 M_Pl, N_c = 5 pole 9.3e-05 M_Pl  ->  2.7e-21 < x < 1.2e+08
+   G is measured to 2.2e-5 (CODATA 2018). The narrow side: beta = +1/sqrt3 with G 8.4x weaker.
+   at the mass floors with light heavy leptons (NOTE_331.md 3e): N_c = 3 pole 0.61 M_Pl, so it would need G 2.7x stronger
+   -> the selection's cutoff and the diamonds' signal share one measured G. The selection
+      assumes G does not run between the laboratory and 10^19 GeV.

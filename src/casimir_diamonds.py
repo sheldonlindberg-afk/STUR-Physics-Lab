@@ -87,8 +87,8 @@ def casimir_coefficient():
 
 def compare_with_experiment_code():
     import stur_gravity_entanglement as GE
-    import numpy as np
-    m, r = 1.5e-14, 200e-6
+    import stur_gravity_full as GF
+    m, r = GF.design_a()["m"], 200e-6                                   # design A's mass
     R = GE.radius(m)
     K = (GE.EPS_DIAMOND - 1) / (GE.EPS_DIAMOND + 2)
     coef = float(casimir_coefficient())
@@ -116,7 +116,8 @@ def main():
 
     banner("P4  In the diamond experiment")
     mine, theirs, grav, R = compare_with_experiment_code()
-    print(f"   m = 1.5e-14 kg (R = {R * 1e6:.2f} um), r = 200 um: derived U = {mine:.4e} J,"
+    import stur_gravity_full as GF
+    print(f"   design A, m = {GF.design_a()['m']:.3e} kg (R = {R * 1e6:.2f} um), r = 200 um: derived U = {mine:.4e} J,"
           f" src/stur_gravity_entanglement.py {theirs:.4e} J (ratio {mine / theirs:.12f})")
     print(f"   Gravity at the same r: {grav:.4e} J; Casimir/gravity = {mine / grav:.3e}")
     print("   Casimir ~ R^6/r^7 and gravity ~ R^6/r, so the safe gap does not depend on the mass:")

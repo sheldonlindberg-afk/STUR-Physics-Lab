@@ -8,7 +8,7 @@ Q1  The minimum noise of a statistical gravity
       1e+10    1.000000000000                                     1.000000
       1e+14    1.000000000000                                     1.000000
    The minimum is the Diosi-Penrose kernel at every q (largest deviation 2.2e-16).
-   Design-A diamond, R0 -> 0: 169.49 /s   (closed form (Gm^2/hbar)(6/5R - 1/d) = 169.50 /s)
+   Design-A diamond, R0 -> 0: 163.52 /s   (closed form (Gm^2/hbar)(6/5R - 1/d) = 163.53 /s)
 
 ==============================================================================
 Q2  The framework's only length: the entanglement cutoff a
@@ -39,16 +39,16 @@ Q3  The heating that noise would cause, per kilogram of any matter
 Q4  Any statistical gravity with R0 put in by hand: the one-diamond prediction
 ==============================================================================
    R0            rate (/s)    survival exp(-rate x 3.24 s)
-    5.40e-11 m    1.695e+02   3.189e-239
-    1.00e-07 m    1.658e+02   5.373e-234
-    1.00e-06 m    7.294e+01   2.321e-103
-    1.00e-05 m    7.828e+00   9.649e-12
-    5.20e-05 m    1.347e+00   1.271e-02
-    2.00e-04 m    2.063e-01   5.125e-01
-    1.00e-03 m    3.349e-03   9.892e-01
-   check, R0 = 2e-04 m, Gaussian-point formula: 2.063e-01 /s
-   check, R0 = 1e-03 m, Gaussian-point formula: 3.349e-03 /s
-   To keep 90% coherence for 3.24 s, a statistical gravity needs R0 > 455 um.
+    5.40e-11 m    1.635e+02   3.746e-231
+    1.00e-07 m    1.599e+02   4.956e-226
+    1.00e-06 m    6.993e+01   2.851e-99
+    1.00e-05 m    7.496e+00   2.736e-11
+    5.20e-05 m    1.290e+00   1.520e-02
+    2.00e-04 m    1.975e-01   5.268e-01
+    1.00e-03 m    3.205e-03   9.897e-01
+   check, R0 = 2e-04 m, Gaussian-point formula: 1.975e-01 /s
+   check, R0 = 1e-03 m, Gaussian-point formula: 3.205e-03 /s
+   To keep 90% coherence for 3.24 s, a statistical gravity needs R0 > 448 um.
    Smearing the source of gravity over R0 softens Newton's law at separations ~R0;
    the inverse-square law holds down to 52 um (LIT recalled). So a design-A
    diamond that stays coherent for 3.24 s leaves no Markovian statistical gravity standing.

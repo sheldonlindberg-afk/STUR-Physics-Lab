@@ -65,7 +65,7 @@ steps:
 
 **What escapes the argument.**
 - A statistical gravity with a larger R₀ put in by hand survives it. One diamond would
-  test that, for R₀ up to 455 µm (COLLECTIVE §4; OPPENHEIM P3).
+  test that, for R₀ up to 448 µm (COLLECTIVE §4; OPPENHEIM P3).
 - Non-Markovian classical gravity is not covered at all.
 - The systematic treatment of classical gravity's minimal noise is in the literature
   (Fabiano et al. 2026; Angeli et al. 2025; see [NOVELTY.md](NOVELTY.md)). The
@@ -95,10 +95,10 @@ are worked examples; (d) and (f) assume gravity follows each branch.
 |---|---|---|
 | (a) | **Double slit with a detector:** V = \|⟨E₁\|E₂⟩\|. No observer is needed, only a record | D² + V² = 1.000000 at every detector strength |
 | (b) | **The electron's own field** is in both branches. In free space it leaves no record. Near a surface, image charges record the path and the fringes fade | LIT: Sonnentag & Hasselbach 2007. A literally split charge is excluded (MEASUREMENT.md) |
-| (c) | **One mass, gravity's own record:** \|⟨E₁\|E₂⟩_grav\| = e^(−N/2) | N = 1.4×10⁻⁵⁹ gravitons: gravity keeps essentially no record |
+| (c) | **One mass, gravity's own record:** \|⟨E₁\|E₂⟩_grav\| = e^(−N/2) | N = 1.3×10⁻⁵⁹ gravitons: gravity keeps essentially no record |
 | (d) | **Two masses:** if gravity follows each branch, the action difference alone entangles them | Baseline (10⁻¹⁴ kg, 2.5 s): 0.594 rad, concurrence 0.293. Design A (1.5×10⁻¹⁴ kg): 2.19 rad, 270 runs, 0.6 h (GRAVITY_ENTANGLEMENT.md) |
 | (e) | **Classical limit** (one branch, many particles) | Perihelion 42.98″/century; light bending 1.7512″; γ = 1; GPS +38.54 µs/day |
-| (f) | **One mass keeps its superposition** if gravity follows each branch | A design-A diamond stays fully coherent for 3.24 s. A Markovian statistical gravity would leave ≤ 1.3% for any smearing allowed by Newton's law, and 10⁻²³⁹ at the radiation bound (COLLECTIVE.md) |
+| (f) | **One mass keeps its superposition** if gravity follows each branch | A design-A diamond stays fully coherent for 3.24 s. A Markovian statistical gravity would leave ≤ 1.5% for any smearing allowed by Newton's law, and 10⁻²³¹ at the radiation bound (COLLECTIVE.md) |
 | (g) | **Classical gravity's squeeze (Oppenheim):** one particle measured two ways | Γ·S_a ≥ (M²/4)I² for any kernels; a coherent, quiet design-A diamond needs CQ noise 10⁵× above its own requirement (OPPENHEIM.md). A worked example, not a new result |
 
 ## Where the starting ideas ended up

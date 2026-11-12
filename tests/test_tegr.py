@@ -31,8 +31,10 @@ def test_schwarzschild_flux():
 def test_field_bookkeeping_and_gravitons():
     fld, mat, tot = T.two_mass_bookkeeping(1.0, 1.0, 1.0)
     assert abs(mat + 2 * fld) < 1e-25 and abs(tot - T.G_SI) < 1e-20
-    E, N = T.graviton_count(1.5e-14, 721e-6, 1.58, 0.08)
-    assert abs(E / 5.78e-93 - 1) < 0.01 and N < 1e-58
+    import stur_gravity_full as GF
+    A = GF.design_a()
+    E, N = T.graviton_count(A["m"], A["dx"], A["ramp"], A["hold"])
+    assert abs(E / 5.5e-93 - 1) < 0.01 and abs(N / 1.3e-59 - 1) < 0.05
 
 
 def test_reissner_nordstrom_and_horizon_term():

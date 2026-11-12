@@ -69,8 +69,8 @@ Tilloy–Diósi minimum of `src/stur_thermo_gravity.py` Q1.
 
 **So Oppenheim's continuous class is inside COLLECTIVE.md's argument.** This holds for
 models that are continuous, Markovian and translation-invariant, with Gaussian noise.
-For the design-A diamond (1.5×10⁻¹⁴ kg, split 721 µm), such a gravity decoheres it at
-≥ 169.5 /s unless the source is smeared over R₀ > 455 µm. The inverse-square law holds
+For the design-A diamond (1.47×10⁻¹⁴ kg, split 721 µm), such a gravity decoheres it at
+≥ 163.5 /s unless the source is smeared over R₀ > 448 µm. The inverse-square law holds
 down to 52 µm, which rules out that much smearing.
 
 ## P3. One particle measured two ways: a shape-free bound (a sharpening of LIT, not new)
@@ -95,17 +95,17 @@ beat it (tests). It doesn't depend on the kernels' shapes, ranges or anisotropy.
 the smearing g(q) of the source enters. For a split much larger than the body,
 I → (2√2 G/π²R²)·(9/4) for a uniform sphere.
 
-**Design-A diamond** (R = 1.007 µm, split 721 µm), with Γ held to the experiment's own
+**Design-A diamond** (R = 0.999 µm, split 721 µm), with Γ held to the experiment's own
 dephasing budget of 0.12 /s:
 
 | Source smearing R₀ | Γ·S_a ≥ (m²/s⁴) | Acceleration noise CQ gravity must produce (one-sided) | ÷ the experiment's requirement (3.1×10⁻¹⁷) |
 |---|---|---|---|
-| local, or 0.54 Å | 1.01×10⁻²⁵ | 1.3×10⁻¹² m s⁻²/√Hz | 4.2×10⁴ |
-| 1 µm | 3.5×10⁻²⁷ | 2.4×10⁻¹³ | 7.8×10³ |
-| 10 µm | 5.1×10⁻³¹ | 2.9×10⁻¹⁵ | 94 |
-| 52 µm | 7.4×10⁻³⁴ | 1.1×10⁻¹⁶ | 3.6 |
+| local, or 0.54 Å | 1.00×10⁻²⁵ | 1.3×10⁻¹² m s⁻²/√Hz | 4.2×10⁴ |
+| 1 µm | 3.4×10⁻²⁷ | 2.4×10⁻¹³ | 7.7×10³ |
+| 10 µm | 4.9×10⁻³¹ | 2.9×10⁻¹⁵ | 92 |
+| 52 µm | 7.1×10⁻³⁴ | 1.1×10⁻¹⁶ | 3.5 |
 
-- The ratio stays above 1 up to R₀ = **100 µm**. That's twice the largest
+- The ratio stays above 1 up to R₀ = **99 µm**. That's twice the largest
   smearing the inverse-square law allows (52 µm).
 - **The falsifiable number:** a design-A diamond that stays coherent within its budget,
   and whose own acceleration noise meets the design requirement, excludes **every**
@@ -190,12 +190,12 @@ GM²x(1 − 9x/16 + x³/32)/R² (x = split/R < 2) to 10⁻⁴. **It is largest a
 
 | Split | Bound (m²/s⁴) | Acceleration noise any CQ gravity must produce (one-sided) |
 |---|---|---|
-| R = 1.0 µm | 2.7×10⁻²⁶ | **6.7×10⁻¹³ m s⁻²/√Hz** |
-| 2R | 7.6×10⁻²⁷ | 3.6×10⁻¹³ |
-| 721 µm | 4.6×10⁻³⁷ | 2.8×10⁻¹⁸ |
+| R = 1.0 µm | 2.6×10⁻²⁶ | **6.6×10⁻¹³ m s⁻²/√Hz** |
+| 2R | 7.5×10⁻²⁷ | 3.5×10⁻¹³ |
+| 721 µm | 4.4×10⁻³⁷ | 2.7×10⁻¹⁸ |
 
 - **At a split of one radius,** the kernel-free bound is 0.40 of P3's at the same split.
-  At 721 µm it is 5×10⁻¹² of P3's.
+  At 721 µm it is 4×10⁻¹² of P3's.
 - **So the test that covers every Markovian CQ gravity, discrete models included, needs
   only a small split:** hold a diamond coherent across about its own radius, and measure
   its acceleration noise. The noise level needed is modest: 6×10⁻¹⁴ to 3×10⁻¹² m s⁻²/√Hz
@@ -216,8 +216,8 @@ Non-Markovian classical gravity is still not covered.
 | Gravity is … | Γ (one diamond, 721 µm) | Its own acceleration noise | Two diamonds entangle? |
 |---|---|---|---|
 | follows each branch (λ = 1; perturbative quantum gravity's prediction) | 0 | 0 | yes, Δφ = 2.19 rad |
-| continuous Markovian CQ (Oppenheim), any kernels, R₀ ≤ 100 µm | Γ·S_a ≥ bound above | ≥ 1.3×10⁻¹² m s⁻²/√Hz if Γ ≤ 0.12 /s | no |
-| the same, with matter feeling the noisy potential (P2) | ≥ 169.5 /s for R₀ ≲ 0.1 µm | — | no |
+| continuous Markovian CQ (Oppenheim), any kernels, R₀ ≤ 99 µm | Γ·S_a ≥ bound above | ≥ 1.3×10⁻¹² m s⁻²/√Hz if Γ ≤ 0.12 /s | no |
+| the same, with matter feeling the noisy potential (P2) | ≥ 163.5 /s for R₀ ≲ 0.1 µm | — | no |
 
 **What is and isn't new.**
 - **Known physics:** the trade-off (Oppenheim et al.); its Diósi–Penrose floor once the

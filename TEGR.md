@@ -126,7 +126,7 @@ ramp and analytic derivatives:
 
 | Design | Radiated energy | Gravitons emitted |
 |---|---|---|
-| 1.5×10⁻¹⁴ kg, 721 µm, ramps 1.58 s (design A) | 5.8×10⁻⁹³ J | 1.4×10⁻⁵⁹ |
+| 1.47×10⁻¹⁴ kg, 721 µm, ramps 1.58 s (design A) | 5.5×10⁻⁹³ J | 1.3×10⁻⁵⁹ |
 | 10⁻¹⁴ kg, 250 µm, ramps 0.73 s | 1.8×10⁻⁹³ J | 1.9×10⁻⁶⁰ |
 
 Essentially no graviton carries which-path information away. The only record is the static,

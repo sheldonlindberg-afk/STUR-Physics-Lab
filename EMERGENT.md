@@ -72,10 +72,10 @@ quantum level, which is λ = 0. An average is only well defined if something pro
 it: intrinsic noise or collapse. The parameter-free version is Diósi–Penrose
 gravity-induced collapse:
 
-| Diamond (1.5×10⁻¹⁴ kg, R = 1.007 µm) | DP collapse rate | Superposition lifetime |
+| Diamond (1.47×10⁻¹⁴ kg, R = 0.999 µm) | DP collapse rate | Superposition lifetime |
 |---|---|---|
-| split 250 µm | 169 /s | 5.9 ms |
-| split 721 µm (design A) | 170 /s | 5.9 ms |
+| split 250 µm | 163 /s | 6.1 ms |
+| split 721 µm (design A) | 164 /s | 6.1 ms |
 
 The lifetime is uncertain by a factor of 2, depending on the convention used.
 Lumpiness of the crystal (nuclei smeared over R₀ ≥ 0.54 Å) adds only 4×10⁻⁶ /s. Design
@@ -99,10 +99,10 @@ theorem, and K2 is also perturbative quantum gravity's prediction
 | Gravity is … | Do two diamonds entangle? | Does one diamond keep its 3.24 s superposition? |
 |---|---|---|
 | collective (phonon-like), λ = 1; also perturbative quantum gravity | **yes**, Δφ = 2.19 rad | **yes**, fully |
-| statistical, smeared over any R₀ ≤ 52 µm | no | no: at most 1.3% coherence left |
+| statistical, smeared over any R₀ ≤ 52 µm | no | no: at most 1.5% coherence left |
 
 The right-hand column needs only **one** diamond. A statistical gravity could keep
-90% coherence only with R₀ > 455 µm, which would soften Newton's law at distances where
+90% coherence only with R₀ > 448 µm, which would soften Newton's law at distances where
 it has been measured. The two-diamond witness then measures the entangling phase.
 
 ## What this means for the picture

@@ -29,9 +29,10 @@ def test_classic_tests():
 
 
 def test_field_energy_shell_theorem():
-    m = 1.5e-14
-    R = ge.radius(m)
-    for d in (181.2e-6, 3e-6):
+    import stur_gravity_full as GF
+    A = GF.design_a()
+    m, R = A["m"], A["R"]
+    for d in (A["gap"], 3e-6):
         fld, mat, tot = F.interaction_energy_tegr(m, R, d)
         assert abs(fld / (F.G * m * m / d) - 1) < 1e-7
         assert abs(tot / (-F.G * m * m / d) - 1) < 1e-7

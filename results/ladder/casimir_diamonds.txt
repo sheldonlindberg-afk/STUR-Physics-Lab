@@ -20,7 +20,7 @@ P3  The Casimir-Polder coefficient (CHECK, exact)
 ==============================================================================
 P4  In the diamond experiment
 ==============================================================================
-   m = 1.5e-14 kg (R = 1.01 um), r = 200 um: derived U = -1.7531e-36 J, src/stur_gravity_entanglement.py -1.7531e-36 J (ratio 1.000000000000)
-   Gravity at the same r: -7.5086e-35 J; Casimir/gravity = 2.335e-02
+   design A, m = 1.468e-14 kg (R = 1.00 um), r = 200 um: derived U = -1.6787e-36 J, src/stur_gravity_entanglement.py -1.6787e-36 J (ratio 1.000000000000)
+   Gravity at the same r: -7.1897e-35 J; Casimir/gravity = 2.335e-02
    Casimir ~ R^6/r^7 and gravity ~ R^6/r, so the safe gap does not depend on the mass:
    181 um is where Casimir's entangling phase is 10% of gravity's (src/stur_gravity_full.py, H0).

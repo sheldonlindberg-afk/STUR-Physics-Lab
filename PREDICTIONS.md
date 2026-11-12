@@ -23,7 +23,7 @@ the entangling phase of their own torsion field.
 | Design | Mass | Split | Phase Δφ | Runs to a 3σ witness |
 |---|---|---|---|---|
 | Baseline (parallel) | 10⁻¹⁴ kg | 250 µm, 2.5 s | 0.594 rad | 433 |
-| Design A | 1.5×10⁻¹⁴ kg | 721 µm, 3.24 s | **2.19 rad** | **270 (0.6 h)** |
+| Design A | 1.47×10⁻¹⁴ kg | 721 µm, 3.24 s | **2.19 rad** | **270 (0.6 h)** |
 
 Requirements, with the derived gas-collision rate: vacuum below 7.6×10⁻¹⁵ Pa (N₂),
 internal temperature below 1.9 K, spin coherence above 1.4 s, acceleration noise below
@@ -34,8 +34,8 @@ Source: `src/stur_gravity_full.py`, [GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEME
 **2. One mass keeps its superposition,** if gravity follows each branch. A design-A
 diamond held in two places then keeps its full coherence for 3.24 s: gravity adds no
 decoherence of its own. Any Markovian
-statistical gravity would leave at most 1.3% coherence (at 52 µm smearing, the
-largest Newton's law allows), and 10⁻²³⁹ at the radiation bound. This is the first
+statistical gravity would leave at most 1.5% coherence (at 52 µm smearing, the
+largest Newton's law allows), and 10⁻²³¹ at the radiation bound. This is the first
 experiment to run, since it needs one diamond, not two. Source:
 `src/stur_thermo_gravity.py`.
 
@@ -51,18 +51,18 @@ noise S_a: Γ·S_a ≥ (M²/4)I², for every allowed pair of kernels. Suppose a 
 diamond keeps its coherence within the experiment's 0.12 /s budget. Then a classical
 gravity must shake it with at least 1.3×10⁻¹² m s⁻²/√Hz, which is 4×10⁴ times the
 noise the experiment already requires. This holds for every source smearing up to
-100 µm.
+99 µm.
 Source: `src/stur_oppenheim.py`, [OPPENHEIM.md](OPPENHEIM.md).
 
 **3″. Every classical–quantum gravity, discrete models included, is squeezed by a small
 split.** Oppenheim et al.'s kernel-free observational trade-off (their appendix B.4),
 applied with the body's force response as the test function, gives Γ·S_a ≥ (F_LR/M)²/8, where F_LR is the pull between the branches. The pull is largest at a split of
 one radius. A design-A diamond coherent at 0.12 /s across 1 µm requires any classical
-gravity to shake it with at least 6.7×10⁻¹³ m s⁻²/√Hz. Source: `src/stur_oppenheim.py`
+gravity to shake it with at least 6.6×10⁻¹³ m s⁻²/√Hz. Source: `src/stur_oppenheim.py`
 P5.
 
 **4. Gravity keeps no record of a single mass.** Splitting a design-A diamond emits
-1.4×10⁻⁵⁹ gravitons (a standard weak-field estimate), so gravity by itself keeps
+1.3×10⁻⁵⁹ gravitons (a standard weak-field estimate), so gravity by itself keeps
 essentially no record of which branch happened. Source:
 `src/stur_tegr.py`, [TEGR.md](TEGR.md) E6.
 

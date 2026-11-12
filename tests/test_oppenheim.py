@@ -30,7 +30,7 @@ def test_h_abs_exact():
 def test_joint_bound_value_and_limit():
     I = O.I_joint(O.D_A)
     assert abs(I / O.I_split_limit(O.R_A) - 1) < 2e-3
-    assert abs(O.joint_bound(O.D_A) / 1.0132e-25 - 1) < 2e-3
+    assert abs(O.joint_bound(O.D_A) / 9.998e-26 - 1) < 2e-3
     assert 0.95e-4 < O.r0_where_bound_meets_requirement() < 1.05e-4
 
 
@@ -79,4 +79,4 @@ def test_kernel_free_bound_any_cq_model():
         assert abs(O.sphere_force_closed(x * O.R_A) / O.sphere_force_fourier(x * O.R_A) - 1) < 1e-4
     assert abs(O.sphere_force_closed(O.R_A) / (O.G * O.M_A**2 / O.R_A**2) - 0.46875) < 1e-12
     asd = (2 * O.general_bound(O.R_A) / O.GAMMA_BUDGET) ** 0.5
-    assert abs(asd / 6.68e-13 - 1) < 5e-3
+    assert abs(asd / 6.636e-13 - 1) < 5e-3

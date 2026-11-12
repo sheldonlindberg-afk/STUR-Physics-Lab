@@ -29,10 +29,10 @@ F2  The classic tests, computed from the F1 tetrad only
 ==============================================================================
 F3  The diamond-diamond interaction from TEGR's field energy (numerical)
 ==============================================================================
-   d =   181.2 um (R = 1.007 um): field +8.287624e-35 J, matter -1.657525e-34 J, total -8.287624e-35 J;  field / (G m^2/d) - 1 = +2.0e-15
-   d =   721.0 um (R = 1.007 um): field +2.082826e-35 J, matter -4.165652e-35 J, total -2.082826e-35 J;  field / (G m^2/d) - 1 = -1.7e-15
-   d =    10.0 um (R = 1.007 um): field +1.501718e-33 J, matter -3.003435e-33 J, total -1.501717e-33 J;  field / (G m^2/d) - 1 = +2.2e-14
-   d =     3.0 um (R = 1.007 um): field +5.005725e-33 J, matter -1.001145e-32 J, total -5.005725e-33 J;  field / (G m^2/d) - 1 = -2.1e-13
+   d =   181.2 um (R = 0.999 um): field +7.937332e-35 J, matter -1.587466e-34 J, total -7.937332e-35 J;  field / (G m^2/d) - 1 = +2.2e-15
+   d =   720.8 um (R = 0.999 um): field +1.994794e-35 J, matter -3.989589e-35 J, total -1.994794e-35 J;  field / (G m^2/d) - 1 = -1.6e-15
+   d =    10.0 um (R = 0.999 um): field +1.437934e-33 J, matter -2.875869e-33 J, total -1.437934e-33 J;  field / (G m^2/d) - 1 = +2.2e-14
+   d =     3.0 um (R = 0.999 um): field +4.793114e-33 J, matter -9.586229e-33 J, total -4.793114e-33 J;  field / (G m^2/d) - 1 = -2.0e-13
    (field: numerical integral over all space; matter: each sphere sits in the other's
     exterior field.) FOLLOWS: the torsion field's energy between two finite diamonds
    is exactly +G m^2/d, so the total is -G m^2/d (shell theorem from the field), down

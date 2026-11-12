@@ -20,7 +20,8 @@ broken gauge theory too, in an equivalent reformulation of GR.
 - the light-quark masses, f_π, g_A and the nucleon mass;
 - the quark condensate (lattice QCD, FLAG);
 - the permittivity of diamond;
-- G and the cosmological constant Λ.
+- G and the cosmological constant Λ;
+- for the links: α(0), and the measured limits on q_p + q_e and q_n.
 
 The 3-3-1 scale w is not known. It is bounded below by the LHC Z′ search.
 
@@ -123,6 +124,76 @@ GR + Λ, and no unification with the other forces.
 | M5 | Schwarzschild–de Sitter satisfies G_μν + Λg_μν = 0 with Λ = 3/ℓ² | CHECK |
 | M6 | The measured Λ gives ℓ = 1.65×10²⁶ m (17 billion light years). The dimensionless coupling 3/(GΛ) is about **10¹²²** in Planck units: the cosmological-constant problem, in this language | CHECK; LIT inputs |
 
+## Links between the rungs (`src/ladder_links.py`)
+
+The rungs above are separate derivations. In three places one rung's output is another
+rung's input, and the link can be checked against a measurement or against the other rung's
+code.
+
+### Link 1: neutral matter, from rung 1 to rung 4
+
+**Why rung 4 needs it.** Coulomb and gravity both fall as 1/r and act along the same branch
+trajectories. So their entangling phases are in the exact ratio −kQ²/(Gm²), where Q is each
+diamond's net charge. For Coulomb to stay below 10% of gravity, a diamond may carry at most
+2.5×10⁻⁶ e. One stray electron gives 1.6×10¹⁰ times gravity's phase (H6 in
+[GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md)), so the diamonds must be discharged.
+Discharging removes whole electrons, but it can't remove a fractional charge per atom. That
+residual is set by q_p + q_e and q_n.
+
+| | Result | Status |
+|---|---|---|
+| L1a | For any β, any N_c and any U(1)_X charges of the lepton and quark triplets: **q_p + q_e equals the [SU(3)_L]²U(1)_X anomaly coefficient divided by N_g**, identically. Here the proton is the N_c-quark baryon, with (N_c + 1)/2 u and (N_c − 1)/2 d quarks. The identity uses two facts: u and d carry the same charges in the triplet and the anti-triplet, and the SU(3)_L³ count gives N_g(1 + N_c) = 2nN_c. In the Standard Model the same holds with [SU(2)_L]²U(1)_Y: q_p + q_e = N_cY_Q + Y_L. Also q_n + Q_ν = q_p + q_e identically, which is charge conservation in n → p e ν̄ | CHECK (symbolic); KNOWN in substance: charge quantization from anomalies (Geng–Marshak; Babu–Mohapatra 1989); in 3-3-1, de S. Pires and Ravinez, PRD 58, 035008 (1998) |
+| L1b | With rung 1's charges (B6): q_p = 1, q_n = 0, q_e = −1 and Q_ν = 0 exactly, in both variants, for N_c = 3, 5 and 7. **Neutral matter doesn't select N_c**, just as π⁰ → γγ doesn't (link 2) | CHECK |
+| L1c | Design A's requirement: **a residual below 2.8×10⁻¹⁹ e per nucleon**, which is √(0.1 G/k) u/e. It doesn't depend on the diamond's size, because the mass and the nucleon count scale together, as the Casimir-safe gap doesn't depend on the mass | CHECK |
+| L1d | Measured: \|q_p + q_e\| < 1×10⁻²¹ e, and the same limit for q_n (Bressi et al., PRA 83, 052101 (2011)). Separately, q_n = (−0.4 ± 1.1)×10⁻²¹ e (Baumann et al., PRD 37, 3107 (1988)). **The margin is 280×.** At the bound, the residual totals 9×10⁻⁹ e per design-A diamond, less than one electron, so no discharging could compensate it. Rung 1 makes the residual exactly zero | CHECK; LIT bounds |
+
+**What this does and doesn't say.** The experiment needs electric charge quantized at the
+atomic level. Measurement gives that to 10⁻²¹ e, and anomaly cancellation gives it exactly,
+in the Standard Model and in 3-3-1 alike. The Q_ν = 0 part is rung 1's charge assignment.
+In 3-3-1 it is fixed by the remaining anomalies together with the Yukawas (de S. Pires and
+Ravinez), which this page doesn't re-derive. Nothing here favours 3-3-1 over the Standard
+Model.
+
+### Link 2: π⁰ → γγ, from rung 1 to rung 2
+
+The neutral pion of rung 2 decays to two photons through the chiral anomaly. The amplitude
+is A = (α/πf_π) N_c(Q_u² − Q_d²) (LIT: Adler; Bell and Jackiw 1969; the anomaly
+coefficient is quoted, not derived).
+
+| | Result | Status |
+|---|---|---|
+| L2a | With rung 1's anomaly-fixed charges, **N_c(Q_u² − Q_d²) = 1 for every N_c**. Both derivations of the charges agree: [`src/m331_why_three.py`](src/m331_why_three.py) W2 and rung 1's B6 | CHECK |
+| L2b | From M = A ε^{μνρσ} ε₁_μ ε₂_ν k₁_ρ k₂_σ: the sum over photon polarizations is A²m⁴/2, and two-body phase space with identical photons gives **Γ = A²m³/64π** | CHECK (symbolic) |
+| L2c | With rung 2's f_π = 92.07 MeV and α(0): **Γ = 7.785 eV**, against the PrimEx-I+II average 7.802 ± 0.117 eV (Larin et al., Science 368, 506 (2020)), −0.1σ | CHECK; LIT |
+| L2d | With the charges held at ⅔ and −⅓ instead, the width would scale as (N_c/3)²: 21.6 eV at N_c = 5. **With anomaly-fixed charges the width can't select N_c.** The R-ratio can ([`src/m331_why_three.py`](src/m331_why_three.py) W6) | FOLLOWS |
+
+The width checks that charges and colours come together the way anomaly cancellation
+demands. It links rung 1's charges to rung 2's pion, but it isn't an independent test of
+N_c = 3. The agreement at the 0.1σ level is partly luck: the next-order chiral corrections
+are a few percent.
+
+### Link 3: the Planck mass, from rung 4 to rung 1
+
+The 3-3-1 selection asks every gauge coupling to stay perturbative up to the Planck mass,
+and its scripts type M_Pl = 1.22089×10¹⁹ GeV as a number. That number is √(ħc/G), with the
+same G that gives rung 4's 2.19 rad phase. The two halves of the repository shared this
+input without either importing it from the other; [DEPENDENCIES.md](DEPENDENCIES.md) found it.
+
+| | Result | Status |
+|---|---|---|
+| L3a | √(ħc/G), from rung 4's G, ħ and c, **equals the 3-3-1 cutoff** to 1×10⁻⁷ | CHECK |
+| L3b | M_Pl scales as G^(−1/2). If G were x times its measured value, the selection would hold for (M_Pl/pole₃)² < x < (M_Pl/pole₅)². At the reference spectrum (M_V = 4 TeV, Yukawas and thresholds on, α = 1, three loops; NOTE_331.md §3d) that is **0.12 < x < 5×10¹⁴ for β = +1/√3** and 3×10⁻²¹ < x < 1×10⁸ for β = −1/√3. G is measured to 2.2×10⁻⁵ (CODATA 2018). The narrow side: with G 8.4× weaker, M_Pl would rise above N_c = 3's pole and exclude it | CHECK |
+| L3c | At the mass floors with light heavy leptons (NOTE_331.md §3e), N_c = 3's pole is 0.61 M_Pl, so it fails at the measured G; it would pass only if G were 2.7× stronger. This restates the heavy-lepton condition in terms of G; it adds nothing to it | CHECK |
+| L3d | The check uses G, measured at laboratory and solar-system distances, at 10¹⁹ GeV. That assumes gravity's strength doesn't run in between. In perturbative quantum gravity the corrections are of order (E/M_Pl)². Many hidden light species would lower the effective cutoff, which this doesn't cover | FOLLOWS |
+
+So the selection's cutoff and the diamonds' signal rest on one measured number. The
+selection is insensitive to it, by about an order of magnitude in G on its narrow side.
+
+**Finding more links.** [DEPENDENCIES.md](DEPENDENCIES.md) maps which script feeds which and
+where each physical constant is typed. It lists the quantities that more than one part of the
+repository uses without importing them from one place; those are the candidates for the next
+link.
+
 ## How the rungs fit together
 
 | Energy | What breaks | What is left below |
@@ -135,12 +206,16 @@ GR + Λ, and no unification with the other forces.
 
 The two chains meet in the apparatus. Gravity is the signal: the entangling phase,
 2.19 rad. Electromagnetism, the last unbroken force of the gauge chain, is the background
-the design must suppress: the Casimir–Polder force, which sets the 181 µm gap.
+the design must suppress: the Casimir–Polder force, which sets the 181 µm gap. Electric
+charge is the other way it would enter, and rung 1's anomalies keep it out: they make
+matter neutral (link 1). Within the gauge chain, rung 1's charges and rung 2's pion meet in
+π⁰ → γγ (link 2). And gravity's G, beside the chain, sets the scale the chain's 3-3-1
+selection is run to (link 3).
 
 ## Reproduce
 
 **In one paste:** [`src/ladder_standalone.py`](src/ladder_standalone.py) reproduces all five
-rungs with only the Python standard library (37 PASS/FAIL checks; expected output
+rungs and all three links with only the Python standard library (44 PASS/FAIL checks; expected output
 [results/ladder/standalone.txt](results/ladder/standalone.txt)). The website has a
 **Copy Python script** button for it.
 
@@ -151,7 +226,8 @@ python3 src/chiral_breaking.py     # rung 2, ~1 s
 python3 src/casimir_diamonds.py    # rung 3, ~2 s
 python3 src/graviton_exchange.py   # rung 4, ~1 s
 python3 src/macdowell_mansouri.py  # rung 5, ~3 s
-python -m pytest tests/test_331_breaking.py tests/test_ladder.py -q
+python3 src/ladder_links.py        # links 1-3: neutral matter, pi0 -> gamma gamma, M_Pl, ~2 s
+python -m pytest tests/test_331_breaking.py tests/test_ladder.py tests/test_ladder_links.py -q
 ```
 
 ## References
@@ -160,6 +236,14 @@ python -m pytest tests/test_331_breaking.py tests/test_ladder.py -q
 - M. Gell-Mann and M. Lévy, Nuovo Cim. 16 (1960) 705 (linear sigma model);
   M. Gell-Mann, R. J. Oakes and B. Renner, Phys. Rev. 175 (1968) 2195 (GMOR).
 - H. B. G. Casimir and D. Polder, Phys. Rev. 73 (1948) 360.
+- S. L. Adler, Phys. Rev. 177 (1969) 2426; J. S. Bell and R. Jackiw, Nuovo Cim. A 60 (1969) 47
+  (the chiral anomaly).
+- I. Larin et al. (PrimEx-II), Science 368 (2020) 506 (π⁰ → γγ).
+- G. Bressi et al., PRA 83 (2011) 052101; J. Baumann et al., PRD 37 (1988) 3107 (neutrality
+  of matter).
+- C. Q. Geng and R. E. Marshak, PRD 39 (1989) 693; K. S. Babu and R. N. Mohapatra, PRL 63
+  (1989) 938; C. A. de S. Pires and O. P. Ravinez, PRD 58 (1998) 035008 (charge
+  quantization from anomalies).
 - S. W. MacDowell and F. Mansouri, PRL 38 (1977) 739; K. S. Stelle and P. C. West, PRD 21
   (1980) 1466.
 - Inputs: PDG 2024 (couplings, masses, G_F, f_π, g_A); FLAG 2024 (condensate);

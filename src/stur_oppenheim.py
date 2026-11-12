@@ -46,7 +46,9 @@ u_amu = 1.66053906660e-27
 lP = np.sqrt(hbar * G / c**3)
 c_s = 0.3046
 
-M_A, R_A, D_A, T_A = 1.5e-14, 1.007e-6, 721e-6, 3.24       # design A (GRAVITY_ENTANGLEMENT)
+import stur_gravity_full as GF
+_A = GF.design_a()
+M_A, R_A, D_A, T_A = _A["m"], _A["R"], _A["dx"], _A["total"]   # design A, from src/stur_gravity_full.py
 GAMMA_BUDGET = 0.12          # /s per diamond, total dephasing budget (GRAVITY_ENTANGLEMENT G3)
 ASD_REQ = 3.1e-17            # m s^-2 /sqrt(Hz), one-sided: the vibration requirement (H5 envelope, derived gas rate)
 R0_DONADI = 0.54e-10         # LIT: Donadi et al., Nature Phys. 17, 74 (2021)
@@ -288,7 +290,7 @@ def main():
     print("   the design-A diamond's 3.24 s coherence tests it for any smearing R0 below 455 um.")
 
     banner("P3  One particle measured two ways: Gamma x S_a (worked example)")
-    print(f"   Design-A diamond, M = {M_A:.1e} kg, R = {R_A*1e6:.3f} um, split {D_A*1e6:.0f} um.")
+    print(f"   Design-A diamond, M = {M_A:.3e} kg, R = {R_A*1e6:.3f} um, split {D_A*1e6:.0f} um.")
     print("   Uses only the trade-off: no assumption on how the noise acts back on the matter.")
     print("   R0 (m)       I (m/kg/s^2)   bound Gamma*S_a (m^2/s^4)   S_a if Gamma <= 0.12/s:")
     print("                                                         one-sided ASD (m s^-2/rtHz)  / requirement")

@@ -274,9 +274,11 @@ def main():
     print("   A mass on a worldline picks up phase -(m c / hbar) int e^0_mu dx^mu: the")
     print("   holonomy of the translational potential B^0_0 = Phi / c^2 (KNOWN; COW 1975,")
     print("   gravitational Aharonov-Bohm: Overstreet et al., Science 375, 226 (2022)).")
-    m, r = 1.5e-14, 181.2e-6
+    import stur_gravity_full as GF
+    A = GF.design_a()
+    m, r = A["m"], A["gap"]                                  # design A at the Casimir-safe gap
     fld, mat, tot = two_mass_bookkeeping(m, m, r)
-    print(f"   Two diamonds (1.5e-14 kg, 181 um): matter part {mat:+.3e} J, field part"
+    print(f"   Two diamonds ({m:.3e} kg, {r * 1e6:.0f} um): matter part {mat:+.3e} J, field part"
           f" {fld:+.3e} J, total L = {tot:+.3e} J = G m^2 / r")
     print("   FOLLOWS: the matter coupling alone would give 2 G m^2 / r; the gravitational FIELD's")
     print("   own action gives -G m^2 / r, and the net is the familiar G m^2 / r. The field term")
@@ -298,9 +300,11 @@ def main():
     print("   graviton-bath decoherence, far too small to see.")
 
     banner("E6  Does gravity's own field record which path? (gravitational version of T5)")
-    for m_, dx, tr, th in [(1.5e-14, 721e-6, 1.58, 0.08), (1e-14, 250e-6, 0.73, 2.5)]:
+    import stur_gravity_full as GF
+    A = GF.design_a()
+    for m_, dx, tr, th in [(A["m"], A["dx"], A["ramp"], A["hold"]), (1e-14, 250e-6, 0.73, 2.5)]:
         E, N = graviton_count(m_, dx, tr, th)
-        print(f"   m = {m_:.1e} kg, dx = {dx*1e6:.0f} um, ramps {tr} s: radiated {E:.1e} J,"
+        print(f"   m = {m_:.2e} kg, dx = {dx*1e6:.0f} um, ramps {tr:.2f} s: radiated {E:.1e} J,"
               f" gravitons emitted {N:.1e}")
     print("   FOLLOWS: no graviton carries which-path information away, so the field does not")
     print("   decohere the diamond (KNOWN in outline: Belenchia et al., PRD 98, 126009 (2018)).")

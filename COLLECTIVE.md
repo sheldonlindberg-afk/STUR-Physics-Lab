@@ -42,8 +42,8 @@ density that sources the field is smeared:
 k_min(q) = (4πG / ħq²) · exp(−q²R₀²)
 ```
 
-For the design-A diamond (1.5×10⁻¹⁴ kg, radius 1.007 µm, split 721 µm) with R₀ → 0,
-the rate is (Gm²/ħ)(6/5R − 1/d) = **169.5 /s**.
+For the design-A diamond (1.47×10⁻¹⁴ kg, radius 0.999 µm, split 721 µm) with R₀ → 0,
+the rate is (Gm²/ħ)(6/5R − 1/d) = **163.5 /s**.
 
 ## 2. The key assumption: the smearing length is the entanglement cutoff
 
@@ -99,19 +99,19 @@ diamond over its 3.24 s sequence:
 
 | R₀ | Rate | Coherence left after 3.24 s |
 |---|---|---|
-| 0.54 Å | 169.5 /s | 3×10⁻²³⁹ |
-| 0.1 µm | 165.8 /s | 5×10⁻²³⁴ |
-| 1 µm | 72.9 /s | 2×10⁻¹⁰³ |
-| 10 µm | 7.83 /s | 1×10⁻¹¹ |
-| 52 µm | 1.35 /s | 1.3% |
-| 200 µm | 0.206 /s | 51% |
-| 1 mm | 0.0033 /s | 99% |
+| 0.54 Å | 163.5 /s | 4×10⁻²³¹ |
+| 0.1 µm | 159.9 /s | 5×10⁻²²⁶ |
+| 1 µm | 69.9 /s | 3×10⁻⁹⁹ |
+| 10 µm | 7.50 /s | 3×10⁻¹¹ |
+| 52 µm | 1.29 /s | 1.5% |
+| 200 µm | 0.198 /s | 53% |
+| 1 mm | 0.0032 /s | 99% |
 | **gravity follows each branch (λ = 1)** | **0** | **100%** |
 
 For R₀ ≫ R the numerical rates agree with the closed form for Gaussian-smeared points,
 (Gm²/ħ)[1/(√π R₀) − erf(d/2R₀)/d], to 10⁻³.
 
-- To keep 90% coherence, a statistical gravity needs **R₀ > 455 µm**.
+- To keep 90% coherence, a statistical gravity needs **R₀ > 448 µm**.
 - Smearing the source of gravity over R₀ softens Newton's law at separations comparable
   to R₀. The inverse-square law has been verified down to 52 µm (Lee et al. 2020).
 - So a design-A diamond that stays coherent for 3.24 s leaves no Markovian statistical

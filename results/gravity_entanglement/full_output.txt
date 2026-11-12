@@ -89,8 +89,8 @@ H5b  The gas-collision rate, derived (it decides design A)
         100    2.0909
        1000    2.0199
        3000    2.0096
-   N2 at 0.15 K on a 1.007-um diamond: kR = 4189, so sigma_tot = 2 pi R^2 (extinction paradox).
-   He at 0.15 K on a 1.007-um diamond: kR = 1584, so sigma_tot = 2 pi R^2 (extinction paradox).
+   N2 at 0.15 K on design A's 0.999-um diamond: kR = 4159, so sigma_tot = 2 pi R^2 (extinction paradox).
+   He at 0.15 K on design A's 0.999-um diamond: kR = 1572, so sigma_tot = 2 pi R^2 (extinction paradox).
    The interpolation used before (LIT: Romero-Isart 2011, eq. 27, gamma = lambda_th^2 Lambda) is
    4.19x the derived collision rate. It extends the long-wavelength coefficient into the
    saturated regime with a Gaussian, so it is an estimate. The derived rate is used above.
@@ -101,7 +101,7 @@ H5b  The gas-collision rate, derived (it decides design A)
    C          no design works                no design works
    D          no design works                no design works
    E          no design works                no design works
-   Design A (1.5e-14 kg, 721 um, 3.24 s), the reference geometry used across the repository:
+   Design A (1.468e-14 kg, 721 um, 3.24 s), the reference geometry used across the repository:
       gas gamma*tau 0.439 -> 0.105;  565 -> 270 runs (0.6 h; 270 runs, 30 per setting, is the protocol minimum)
    Requirement envelope: each varied alone. Column 1: everything else at target A
    (1e-15 Pa N2). Column 2: everything else ideal (1e-17 Pa), the best case.
