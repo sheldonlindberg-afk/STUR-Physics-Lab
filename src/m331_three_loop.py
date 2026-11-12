@@ -201,15 +201,16 @@ def c3_tensor(Nc, variant):
 
 
 def blow_up(Nc, variant, yt=0.0, yJ=0.0, mu0=Y.MU331, gmax=4 * pi, s2=None, lam=(0.0, 0.0, 0.0),
-            n_light=1, loops=3):
+            n_light=1, loops=3, yuk=None):
     """As m331_yukawa.blow_up (same boundary, two-loop and Yukawa terms), plus the
-    three-loop gauge and matter terms when loops = 3."""
+    three-loop gauge and matter terms when loops = 3. yuk: an explicit two-loop Yukawa
+    vector, overriding the one built from yt and yJ (used by m331_margin.py)."""
     gs, ferm, scal, _ = E.MODELS[variant](Nc)
     a, b = E.coefficients(gs, ferm, scal)
     a = np.array([float(x) for x in a])
     b = np.array([[float(x) for x in r] for r in b])
     ct, cJ = Y.yukawas_331(Nc, variant)
-    yuk = ct * yt**2 + cJ * yJ**2
+    yuk = ct * yt**2 + cJ * yJ**2 if yuk is None else np.asarray(yuk, float)
     c3 = c3_tensor(Nc, variant) if loops == 3 else np.zeros((3, 3, 3))
     if loops == 1:
         b, yuk = 0 * b, 0 * yuk

@@ -37,9 +37,9 @@ $\tfrac23$ and $-\tfrac13$. The selection holds at two loops in the gauge coupli
 two-loop Yukawa terms, with one-loop threshold matching across the heavy spectrum, for
 3-3-1 breaking scales from 2 to $30\TeV$, and in both variants $\beta=\pm1/\sqrt3$. It
 takes the measured electroweak couplings at the TeV scale as input and does not predict
-them; in the $\beta=+1/\sqrt3$ variant the $\Nc=3$ margin is narrow: over the whole
-spectrum scanned, $\Nc=3$ stays perturbative to $\MPl$ for any criterion $\alpha\ge0.64$
-at three loops in the gauge couplings. Requiring the scalar sector itself to remain perturbative and bounded below
+them; in the $\beta=+1/\sqrt3$ variant it is conditional on the spectrum: at $\alpha=1$
+and three loops in the gauge couplings, $\Nc=3$ reaches $\MPl$ only if the heavy charged
+leptons are heavier than $0.56\pm0.11\TeV$ with the bileptons at their LHC bound. Requiring the scalar sector itself to remain perturbative and bounded below
 up to $\MPl$ then bounds the exotic-quark masses relative to the bilepton mass. All
 numbers are reproduced by open code with regression tests.
 \end{abstract}
@@ -233,7 +233,7 @@ conservative limit from our recast of the full Run-2 dilepton search
 $\beta=-1/\sqrt3$, restricts the scan to $M_V\ge3.76$ and $3.27\TeV$ respectively. At two
 loops, moving $\mu$ from $M_V/2$ to $2M_V$ changes the pole by 1\%.
 
-\begin{table}[h]\centering
+\begin{table}[h]\centering\small
 \begin{tabular}{lccc}
 \toprule
 & $\Nc=3$, worst case & $\Nc=5$, best case & verdict\\
@@ -244,7 +244,10 @@ $\beta=+1/\sqrt3$, $M_{Z'}\ge4.6\TeV$ (LHC) & $2.17\,\MPl$ & --- & only $\Nc=3$\
 \bottomrule
 \end{tabular}
 \caption{Selection with one-loop threshold matching over the scanned spectrum. The last
-row restricts the scan to the dilepton bound of Appendix~\ref{app:recast}.}\label{tab:thr}
+row restricts the scan to the dilepton bound of Appendix~\ref{app:recast}. The
+$g=4\pi$ entries are not robust, and the $\beta=+1/\sqrt3$ rows hold only on this grid:
+against physical mass floors that variant is conditional on the heavy-lepton mass (end of
+this section).}\label{tab:thr}
 \end{table}
 
 The selection holds for any cutoff $\Lambda$ between the best $\Nc=5$ pole and the worst
@@ -263,6 +266,30 @@ higher orders. With controlled criteria, three loops raise the relevant scales b
 the worst case over the scan reaches $\MPl$ for any $\alpha\ge0.64$ ($1.28\,\MPl$ at
 $\alpha=1$). At $\alpha\approx0.64$ the three-loop term is already 0.6--0.7 of the
 two-loop one, so the narrow variant's conclusion sits at the edge of perturbative control.
+
+\paragraph{The narrow margin against mass floors.} That worst case lies on the corner of
+the threshold grid ($r_J=0.5$), and the grid ties the heavy charged leptons $E$ to the
+exotic quarks. Running $m_J$, $m_E$, the heavy scalars and $M_V$ independently, with
+floors $M_V\ge3.755\TeV$ ($Z'\ge4.6\TeV$, Sec.~\ref{sec:tests}), $m_J\ge1.3\TeV$ (the low
+end of the ATLAS vector-like-quark pair limits) and $m_E,m_S\ge0.1\TeV$, the $\Nc=3$ pole at
+$\alpha=1$ falls to $0.61\,\MPl$ (three loops). The scalars barely matter
+($d\ln\Lambda/d\ln m_S=0.02$); the exotic fermions do ($0.30$ for $m_J$, $0.28$ for $m_E$).
+$\Nc=3$ reaches $\MPl$ only for $m_E\ge0.56\pm0.11\TeV$ at $M_V=3.755\TeV$, rising to $0.96$
+and $1.74\TeV$ at $M_V=10$ and $30\TeV$; the uncertainty is dominated by the truncation
+(the two- to three-loop shift), with the measured inputs contributing about 1\%. $\Nc=5$
+stays excluded at the same floors. In the $\beta=+1/\sqrt3$ variant the selection is
+therefore a condition on the heavy-lepton mass, inside the region the LHC has not
+excluded; the $\beta=-1/\sqrt3$ variant has no heavy leptons and keeps its wide margins.
+
+The heavy leptons are vector-like $SU(2)_L$ singlets ($Y=-1$) that mix with the ordinary
+leptons, the benchmark of the LHC searches. Since the threshold depends on
+$\sum_i\ln m_{E_i}$, the condition is on their geometric mean. Recasting the ATLAS (e, $\mu$
+partners, $140\,\text{fb}^{-1}$) and CMS ($\tau$ partners, $138\,\text{fb}^{-1}$) singlet
+searches, with the $3$-$3$-$1$ $Z'$ included (validated against Pythia~8 to 1\% and
+reproducing ATLAS's own 320 and 400\,GeV), Run~2 allows a geometric mean down to
+$0.24\TeV$: the condition is untested. The HL-LHC reaches $0.63$--$0.78\TeV$, while a null
+$Z'$ search there raises the requirement to $0.62\TeV$, so the HL-LHC reaches the
+threshold without clearing it, and not at all if the $E$ mix mainly with $\tau$.
 
 \section{The scalar sector to the Planck scale}\label{sec:scalar}
 
@@ -299,7 +326,8 @@ for $\sw<0.449$, while $\Nc=5$ does so only for $0.066<\sw<0.074$, a factor 3.1-
 below the measured value. For $\beta=+1/\sqrt3$, $\Nc=5$ fails at every weak angle, and
 $\Nc=3$ survives for $\sw<0.266$ (tree-level matching; $+0.010$ to $+0.035$ in margin with
 thresholds). The precise statement is therefore: \emph{given the measured electroweak
-couplings}, only $\Nc=3$ stays perturbative to $\MPl$.
+couplings}, only $\Nc=3$ stays perturbative to $\MPl$; for $\beta=+1/\sqrt3$ this also
+needs the heavy charged leptons above $0.56\pm0.11\TeV$ (geometric mean; Sec.~\ref{sec:threshold}).
 \item \emph{Minimality is not explained.} Steps 1--2 leave $\{3,5,7,\dots\}$; the running
 does the selecting.
 \item \emph{No numbers follow.} The structure adds about eleven scalar parameters beyond
