@@ -1,0 +1,54 @@
+
+==============================================================================
+M1  The section 3a grid corner is not a bound (alpha = 1, three loops, M_V = 2 TeV)
+==============================================================================
+   r_J = 0.5 (m_J = m_E = 1.0 TeV), r_S = 1/3, light 2nd doublet: pole = 1.276 M_Pl
+   r_J = 0.4 (m_J = m_E = 0.8 TeV), r_S = 1/3, light 2nd doublet: pole = 1.115 M_Pl
+   r_J = 0.3 (m_J = m_E = 0.6 TeV), r_S = 1/3, light 2nd doublet: pole = 0.941 M_Pl
+   The 1.28 M_Pl of section 3d is the value at the grid's corner, not a minimum. The
+   margin is set by the lightest allowed exotics, so it is stated against mass floors.
+
+==============================================================================
+M2  Which masses matter: d ln(pole)/d ln(mass) at the floors, M_V = 3.755 TeV
+==============================================================================
+   M_V (vectors)         : -0.160
+   m_J (exotic quarks)   : +0.297
+   m_E (heavy leptons)   : +0.284
+   m_S (heavy scalars)   : +0.024
+   second doublet heavy instead of light: ln(pole) shifts by +0.001
+   Heavier exotic fermions raise the pole; the scalars barely matter. A heavier M_V at
+   fixed fermion masses lowers it: the light fermions then run longer below M_V.
+
+==============================================================================
+M3  Worst case over the allowed spectrum (beta = +1/sqrt3, N_c = 3, alpha = 1)
+==============================================================================
+   floors: M_V >= 3.755 TeV (Z' >= 4.6 TeV), m_J >= 1.3 TeV, m_E >= 0.1 TeV, m_S >= 0.1 TeV; M_V up to 30 TeV
+   three loops, Yukawas    : 0.445 M_Pl   (at M_V = 30.0 TeV, floor multiples m_J, m_E, m_S = 1, 1, 1, n_light = 2)
+   three loops, no Yukawas : 0.429 M_Pl   (at M_V = 30.0 TeV, floor multiples m_J, m_E, m_S = 1, 1, 1, n_light = 2)
+   two loops, Yukawas      : 0.420 M_Pl   (at M_V = 30.0 TeV, floor multiples m_J, m_E, m_S = 1, 1, 1, n_light = 2)
+   at M_V = 3.755 TeV, all other masses at their floors: 0.612 M_Pl
+   With light heavy leptons, N_c = 3 does NOT reach M_Pl in this variant. Heavier M_V
+   at fixed fermion masses makes it worse: the light fermions run longer below M_V.
+
+==============================================================================
+M4  The condition: how heavy the heavy leptons must be (alpha = 1, three loops)
+==============================================================================
+   M_V =  3.755 TeV: N_c = 3 reaches M_Pl iff m_E >= 0.561 TeV (m_J = 1.3 TeV);  with m_J = m_E tied: m >= 0.858 TeV
+   M_V = 10.000 TeV: N_c = 3 reaches M_Pl iff m_E >= 0.963 TeV (m_J = 1.3 TeV);  with m_J = m_E tied: m >= 1.120 TeV
+   M_V = 30.000 TeV: N_c = 3 reaches M_Pl iff m_E >= 1.740 TeV (m_J = 1.3 TeV);  with m_J = m_E tied: m >= 1.503 TeV
+   m_E = 0.1 TeV at the floors needs g_crit = 6.10 (alpha = 2.96), outside the convergent region (section 3d)
+   m_E = 0.3 TeV at the floors needs g_crit = 4.47 (alpha = 1.59), outside the convergent region (section 3d)
+   N_c = 5 at the same floors: 1.1e-08 M_Pl (still excluded)
+
+==============================================================================
+M5  Error budget on the threshold m_E* (M_V = 3.755 TeV, m_J = 1.3 TeV, alpha = 1, three loops)
+==============================================================================
+   m_E* = 561 GeV;  d ln(pole)/d ln(m_E) there = 0.286
+   sin^2 theta_W(M_Z) +- 0.00004     :  1.06% of m_E*
+   1/alpha(M_Z) +- 0.01              :  1.08% of m_E*
+   alpha_s(M_Z) +- 0.0009            :  0.30% of m_E*
+   m_t +- 0.29 GeV                   :  0.06% of m_E*
+   matching scale M_V/2 - 2 M_V      :  3.63% of m_E*
+   next order (2 -> 3 loop shift)    : 19.83% of m_E*
+   combined in quadrature: 20.2%  ->  m_E* = 561 +- 113 GeV
+   Yukawas off (complete at three loops): m_E* +19.0%  ->  668 GeV

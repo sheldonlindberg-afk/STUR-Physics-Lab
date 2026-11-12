@@ -37,11 +37,15 @@ doesn't predict them. How much it depends on them differs between the two varian
 - **β = −1/√3:** wide margins in the couplings, but N_c = 5 survives in a narrow band of
   weak mixing angle about three times below ours.
 - **β = +1/√3:** N_c = 5 fails at every weak mixing angle, but N_c = 3 survives only for
-  sin²θ_W(4 TeV) below 0.261–0.285, against the measured 0.250. Over the full threshold
-  scan, its worst case stays perturbative to M_Pl for any criterion α ≥ 0.64 (three loops,
-  §3d); at α = 1 it reaches M_Pl with a factor 1.28 to spare. The two-loop figures at
-  g = 4π (1.6×, or 2.2× with the LHC Z′ limit, §3a) are read where the perturbative series
-  has broken down and are not robust (§3d).
+  sin²θ_W(4 TeV) below 0.261–0.285, against the measured 0.250. On the threshold grid
+  of §3a its worst case reaches M_Pl for any criterion α ≥ 0.64 (three loops, §3d), but
+  that worst case sits on the grid's edge. Against physical mass floors (§3e), **N_c = 3
+  reaches M_Pl at α = 1 only if the heavy charged leptons are heavier than about 0.56 TeV**
+  (±0.11 TeV, with M_V at its LHC bound; 0.96 TeV at M_V = 10 TeV). Lighter heavy leptons,
+  which the LHC still allows, push N_c = 3 below M_Pl as well. In this variant the
+  selection is conditional on that mass. The two-loop figures at g = 4π (1.6×, or 2.2×
+  with the LHC Z′ limit, §3a) are read where the perturbative series has broken down and
+  are not robust (§3d).
 
 The result is conditional on the 3-3-1 framework, which collider searches for its Z′ and
 bilepton gauge bosons decide, and on the perturbativity requirement.
@@ -228,7 +232,8 @@ and the second doublet heavy or light):
 **Verdict:** the selection survives one-loop threshold matching across the spectrum
 scanned. In the narrow variant the worst allowed case sits a factor of 2 above M_Pl at
 g = 4π; §3d shows that criterion is outside the convergent region and restates the margin
-with controlled criteria (worst case 1.28 M_Pl at α = 1, three loops).
+with controlled criteria (worst case 1.28 M_Pl at α = 1, three loops, on this grid). §3e
+shows the grid's edge is not a bound and replaces it with mass floors.
 
 ## 3b. The cutoff and the criterion
 
@@ -310,6 +315,68 @@ M_Pl at the reference spectrum moves from 0.2639 to 0.2647 (measured 0.250).
 - At α ≈ 0.64 the three-loop term is already about 0.6–0.7 of the two-loop term, so the
   narrow variant's conclusion sits at the edge of perturbative control. That is a real
   limitation of this variant, not of the calculation.
+- This statement holds on the §3a grid (r_J ≥ 0.5, heavy leptons tied to the exotic
+  quarks). §3e shows it does not survive light heavy leptons.
+
+## 3e. The narrow margin against mass floors
+
+Source: `src/m331_margin.py`, output `results/m331/margin.txt`.
+
+**The grid edge is not a bound.** The worst case of §3a–3d sits on the corner of the
+threshold grid (r_J = 0.5, r_S = ⅓, M_V = 2 TeV). One step past it the pole keeps falling:
+at M_V = 2 TeV it is 1.28 M_Pl at r_J = 0.5, 1.12 at 0.4 and **0.94 M_Pl at 0.3**
+(α = 1, three loops). So the margin is set by how light the exotics may be, and has to be
+stated against experimental floors, not against a grid.
+
+**Split spectrum.** §3a ties the heavy charged leptons E to the exotic quarks J (one r_J).
+Their direct limits differ by a factor of about four, so here m_J, m_E, the heavy scalars
+m_S and M_V run independently, each Yukawa set by its own mass. The sensitivities at the
+floors, d ln(pole)/d ln(mass), are +0.30 (m_J), +0.28 (m_E), +0.02 (m_S) and −0.16 (M_V
+at fixed fermion masses: the light fermions then run longer below M_V). The scalars
+barely matter; the exotic fermions do.
+
+**Floors** (approximate): M_V ≥ 3.755 TeV (Z′ ≥ 4.6 TeV, §6); m_J ≥ 1.3 TeV, the low end
+of the ATLAS 139 fb⁻¹ vector-like-quark pair limits (1.3–1.6 TeV, depending on decays);
+m_E ≥ 0.1 TeV and m_S ≥ 0.1 TeV (LEP). E is an SU(2) singlet; LHC limits on singlet
+vector-like leptons are about 0.3–0.4 TeV for e and μ partners and weaker for τ, and
+depend on how E mixes, so they are not used.
+
+**Result** (β = +1/√3, N_c = 3, α = 1):
+
+| | pole |
+|---|---|
+| all masses at the floors, M_V = 3.755 TeV, three loops | **0.61 M_Pl** |
+| worst over M_V = 3.755–30 TeV, three loops | 0.45 M_Pl (at 30 TeV) |
+| same, three loops without Yukawas | 0.43 M_Pl |
+| same, two loops | 0.42 M_Pl |
+
+With light heavy leptons, N_c = 3 does not reach M_Pl in this variant. It would need
+g_crit = 6.1 (α ≈ 3) at m_E = 0.1 TeV, or 4.5 (α ≈ 1.6) at 0.3 TeV: both outside the
+convergent region (§3d). N_c = 5 stays excluded at the same floors (10⁻⁸ M_Pl).
+
+**The condition that replaces the margin.** N_c = 3 reaches M_Pl at α = 1 iff
+
+| M_V | m_E (m_J = 1.3 TeV) | m_J = m_E tied |
+|---|---|---|
+| 3.755 TeV | ≥ 0.56 TeV | ≥ 0.86 TeV |
+| 10 TeV | ≥ 0.96 TeV | ≥ 1.12 TeV |
+| 30 TeV | ≥ 1.74 TeV | ≥ 1.50 TeV |
+
+**Error budget on the threshold m_E\* = 561 GeV** (M_V = 3.755 TeV, m_J = 1.3 TeV):
+sin²θ_W(M_Z) 1.1%, 1/α(M_Z) 1.1%, α_s 0.3%, m_t 0.1%, matching scale M_V/2–2M_V 3.6%,
+next order (the two- to three-loop shift) 19.8%. In quadrature, **m_E\* = 561 ± 113 GeV**.
+Without Yukawas (complete at three loops) it is 668 GeV. The truncation dominates, as
+expected at α = 1; the measured inputs are irrelevant at this level.
+
+**Check.** At one loop, three Dirac leptons with Y = 1 running from 0.1 TeV to 3.755 TeV
+lower 1/α_X(M_V) by 1.6 more than at m_E = 1.3 TeV. With b_X = 14 this moves the pole
+down by a factor of e^{−0.72} ≈ 0.49, from 1.27 to about 0.62 M_Pl. The code gives 0.61.
+
+**Verdict.** In the β = +1/√3 variant the selection of N_c = 3 is not a margin; it is a
+condition on the spectrum. If this variant is perturbative to M_Pl with three colours,
+its heavy charged leptons must lie above about 0.6 TeV (more if M_V is heavier), which is
+partly inside the region the LHC has not yet excluded. In the β = −1/√3 variant there are
+no heavy leptons and the margins stay wide.
 
 ## 3c. The scalar sector itself, to the Planck scale
 
@@ -393,7 +460,8 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
    leaves it at +0.010 to +0.035.
 4. **Yukawas: closed.** Two-loop Yukawa terms are included (§2). The selection also
    holds with **no Yukawas at all**, a lower bound for any Yukawa running: the β = +1/√3
-   worst case is then 1.53 M_Pl (§3b). The Yukawas' own running is computed in §3c.
+   worst case is then 1.53 M_Pl (§3b). That figure is on the §3a grid; against mass floors the β = +1/√3
+   case is conditional on the heavy-lepton mass (§3e). The Yukawas' own running is computed in §3c.
 5. **Minimality isn't explained.** Steps 1–2 leave {3, 5, 7, …}. Here the
    perturbativity requirement does the selecting, not a principle of minimality.
 6. **No numbers follow.** The structure that fixes these integers adds about 11 scalar

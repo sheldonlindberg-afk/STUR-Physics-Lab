@@ -43,7 +43,8 @@ Only **N_c = N_g = 3** survives, with quark charges ⅔ and −⅓. The selectio
   matter sector;
 - with one-loop threshold matching across the heavy spectrum;
 - for 3-3-1 scales of 2–30 TeV;
-- in both variants β = ±1/√3.
+- in both variants β = ±1/√3 (for β = +1/√3, only if its heavy charged leptons are above
+  about 0.6 TeV; see below).
 
 Requiring the scalar sector to stay perturbative to M_Pl then bounds the exotic quarks
 below 1.4–1.8 M_V.
@@ -57,9 +58,11 @@ Pythia 8).
 - the 3-3-1 framework;
 - Planck-scale perturbativity;
 - the measured TeV-scale electroweak couplings, which are an input, not a prediction.
-  In the β = +1/√3 variant the margin is narrow: N_c = 3 stays perturbative to M_Pl over
-  the whole spectrum scanned for any criterion α ≥ 0.64 (three loops), with a factor 1.28
-  to spare at α = 1.
+  In the β = +1/√3 variant there is no comfortable margin. At α = 1 (three loops), N_c = 3
+  reaches M_Pl only if the heavy charged leptons are heavier than 0.56 ± 0.11 TeV with M_V
+  at its LHC bound (0.96 TeV at M_V = 10 TeV). Lighter ones are not yet excluded by the
+  LHC, and they push N_c = 3 below M_Pl too
+  ([`src/m331_margin.py`](src/m331_margin.py); [NOTE_331.md §3e](NOTE_331.md)).
 
 **Run it in one paste.** [`src/m331_standalone.py`](src/m331_standalone.py) reproduces the
 whole selection in a single file that uses only the Python standard library: charges and
@@ -178,11 +181,12 @@ python3 src/stur_derivation.py      # the whole chain, ~30 s
 python3 src/stur_gravity_full.py    # the two-diamond design search, ~15 s
 python3 src/m331_exact.py           # the 3-3-1 selection, both variants
 python3 src/m331_three_loop.py       # three-loop gauge running and the criterion, ~70 s
+python3 src/m331_margin.py           # the beta = +1/sqrt3 margin against mass floors, ~50 s
 python3 src/ladder_standalone.py     # the whole ladder, one file, no dependencies, ~1 s
 python3 src/m331_breaking.py         # the ladder, rungs 1-5: also chiral_breaking, casimir_diamonds,
                                     # graviton_exchange, macdowell_mansouri (each a few seconds)
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
-python -m pytest tests -q           # every number pinned (138 tests)
+python -m pytest tests -q           # every number pinned (143 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on

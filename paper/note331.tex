@@ -37,9 +37,9 @@ $\tfrac23$ and $-\tfrac13$. The selection holds at two loops in the gauge coupli
 two-loop Yukawa terms, with one-loop threshold matching across the heavy spectrum, for
 3-3-1 breaking scales from 2 to $30\TeV$, and in both variants $\beta=\pm1/\sqrt3$. It
 takes the measured electroweak couplings at the TeV scale as input and does not predict
-them; in the $\beta=+1/\sqrt3$ variant the $\Nc=3$ margin is narrow: over the whole
-spectrum scanned, $\Nc=3$ stays perturbative to $\MPl$ for any criterion $\alpha\ge0.64$
-at three loops in the gauge couplings. Requiring the scalar sector itself to remain perturbative and bounded below
+them; in the $\beta=+1/\sqrt3$ variant it is conditional on the spectrum: at $\alpha=1$
+and three loops in the gauge couplings, $\Nc=3$ reaches $\MPl$ only if the heavy charged
+leptons are heavier than $0.56\pm0.11\TeV$ with the bileptons at their LHC bound. Requiring the scalar sector itself to remain perturbative and bounded below
 up to $\MPl$ then bounds the exotic-quark masses relative to the bilepton mass. All
 numbers are reproduced by open code with regression tests.
 \end{abstract}
@@ -263,6 +263,20 @@ higher orders. With controlled criteria, three loops raise the relevant scales b
 the worst case over the scan reaches $\MPl$ for any $\alpha\ge0.64$ ($1.28\,\MPl$ at
 $\alpha=1$). At $\alpha\approx0.64$ the three-loop term is already 0.6--0.7 of the
 two-loop one, so the narrow variant's conclusion sits at the edge of perturbative control.
+
+\paragraph{The narrow margin against mass floors.} That worst case lies on the corner of
+the threshold grid ($r_J=0.5$), and the grid ties the heavy charged leptons $E$ to the
+exotic quarks. Running $m_J$, $m_E$, the heavy scalars and $M_V$ independently, with
+floors $M_V\ge3.755\TeV$ ($Z'\ge4.6\TeV$, Sec.~\ref{sec:tests}), $m_J\ge1.3\TeV$ (the low
+end of the ATLAS vector-like-quark pair limits) and $m_E,m_S\ge0.1\TeV$, the $\Nc=3$ pole at
+$\alpha=1$ falls to $0.61\,\MPl$ (three loops). The scalars barely matter
+($d\ln\Lambda/d\ln m_S=0.02$); the exotic fermions do ($0.30$ for $m_J$, $0.28$ for $m_E$).
+$\Nc=3$ reaches $\MPl$ only for $m_E\ge0.56\pm0.11\TeV$ at $M_V=3.755\TeV$, rising to $0.96$
+and $1.74\TeV$ at $M_V=10$ and $30\TeV$; the uncertainty is dominated by the truncation
+(the two- to three-loop shift), with the measured inputs contributing about 1\%. $\Nc=5$
+stays excluded at the same floors. In the $\beta=+1/\sqrt3$ variant the selection is
+therefore a condition on the heavy-lepton mass, partly inside the region the LHC has not
+excluded; the $\beta=-1/\sqrt3$ variant has no heavy leptons and keeps its wide margins.
 
 \section{The scalar sector to the Planck scale}\label{sec:scalar}
 
