@@ -63,6 +63,10 @@ Pythia 8).
   at its LHC bound (0.96 TeV at M_V = 10 TeV). Lighter ones are not yet excluded by the
   LHC, and they push N_c = 3 below M_Pl too
   ([`src/m331_margin.py`](src/m331_margin.py); [NOTE_331.md §3e](NOTE_331.md)).
+  The condition is on the three leptons' geometric-mean mass. Run 2 allows it down to
+  0.24 TeV, so the LHC has not tested it. The HL-LHC reaches it only about at the threshold
+  ([`src/m331_heavy_lepton.py`](src/m331_heavy_lepton.py), cross-checked against Pythia 8
+  and reproducing ATLAS's own singlet limits; [NOTE_331.md §3f](NOTE_331.md)).
 
 **Run it in one paste.** [`src/m331_standalone.py`](src/m331_standalone.py) reproduces the
 whole selection in a single file that uses only the Python standard library: charges and
@@ -182,11 +186,12 @@ python3 src/stur_gravity_full.py    # the two-diamond design search, ~15 s
 python3 src/m331_exact.py           # the 3-3-1 selection, both variants
 python3 src/m331_three_loop.py       # three-loop gauge running and the criterion, ~70 s
 python3 src/m331_margin.py           # the beta = +1/sqrt3 margin against mass floors, ~50 s
+python3 src/m331_heavy_lepton.py     # its heavy leptons vs the LHC and HL-LHC, ~5 s
 python3 src/ladder_standalone.py     # the whole ladder, one file, no dependencies, ~1 s
 python3 src/m331_breaking.py         # the ladder, rungs 1-5: also chiral_breaking, casimir_diamonds,
                                     # graviton_exchange, macdowell_mansouri (each a few seconds)
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
-python -m pytest tests -q           # every number pinned (143 tests)
+python -m pytest tests -q           # every number pinned (149 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on

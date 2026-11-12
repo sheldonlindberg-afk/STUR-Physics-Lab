@@ -43,7 +43,8 @@ doesn't predict them. How much it depends on them differs between the two varian
   reaches M_Pl at α = 1 only if the heavy charged leptons are heavier than about 0.56 TeV**
   (±0.11 TeV, with M_V at its LHC bound; 0.96 TeV at M_V = 10 TeV). Lighter heavy leptons,
   which the LHC still allows, push N_c = 3 below M_Pl as well. In this variant the
-  selection is conditional on that mass. The two-loop figures at g = 4π (1.6×, or 2.2×
+  selection is conditional on that mass. The LHC has not tested the condition yet; the
+  HL-LHC reaches it about at the threshold (§3f). The two-loop figures at g = 4π (1.6×, or 2.2×
   with the LHC Z′ limit, §3a) are read where the perturbative series has broken down and
   are not robust (§3d).
 
@@ -375,8 +376,80 @@ down by a factor of e^{−0.72} ≈ 0.49, from 1.27 to about 0.62 M_Pl. The code
 **Verdict.** In the β = +1/√3 variant the selection of N_c = 3 is not a margin; it is a
 condition on the spectrum. If this variant is perturbative to M_Pl with three colours,
 its heavy charged leptons must lie above about 0.6 TeV (more if M_V is heavier), which is
-partly inside the region the LHC has not yet excluded. In the β = −1/√3 variant there are
+inside the region the LHC has not yet excluded (§3f). In the β = −1/√3 variant there are
 no heavy leptons and the margins stay wide.
+
+## 3f. The heavy leptons against the LHC
+
+Source: `src/m331_heavy_lepton.py`, output `results/m331/heavy_lepton.txt`. Data:
+`tools/fetch_hepdata_vll.py`; luminosities `tools/vll_luminosities.py`; Pythia check
+`tools/vll_pythia_crosscheck.py`.
+
+**What E is at the LHC.** E is the third member of the lepton triplet (ν, e, E⁻), and E^c
+is an SU(3)_L singlet. Both chiralities are SU(2)_L singlets with Y = Q = −1, so below M_V
+E is a vector-like singlet lepton, the benchmark the LHC searches use. E^c and e^c carry
+the same charges, so E mixes with the ordinary leptons through the allowed Yukawas and
+decays promptly to Wν, Zℓ and hℓ. Which search applies depends on the flavour it mixes
+with. There are three E, one per generation.
+
+**Cross section.** q q̄ → γ*/Z/Z′ → E⁺E⁻ at LO with full interference, helicity amplitudes
+for a massive final state, NNPDF3.1 luxQED.
+- The partonic result reproduces QED, (4πα²/3ŝ) β(3 − β²)/2, to 10⁻¹².
+- Against Pythia 8 (ffbar2gmZZprime, full γ*/Z/Z′, the same 3-3-1 couplings set by hand,
+  the τ′ in its doublet mode) it agrees to 0.2–1.3% at five points, on and off the Z′
+  peak. Pythia must be run with `Zprime:universality = off`: by default it copies the
+  electron's Z′ couplings onto the τ′.
+- The 3-3-1 Z′ (4.6 TeV) interferes constructively: +1% at 300 GeV, +2% at 400 GeV, +6%
+  at 600 GeV, +16% at 800 GeV.
+- ATLAS's singlet curve is 22% below our LO at 150 GeV and 19% above at 800 GeV; we don't
+  reproduce its normalisation and use only the model ratio, as in the Z′ recast (§6).
+
+**Run-2 limits on the 3-3-1 E** (each search assumes the singlet benchmark's branching
+ratios):
+
+| E mixes with | search | excluded (observed) | expected |
+|---|---|---|---|
+| e | ATLAS, 140 fb⁻¹ (arXiv:2411.07143) | 150–321 GeV | 150–302 GeV |
+| μ | same | 150–404 GeV | 150–335 GeV |
+| τ | CMS, 138 fb⁻¹ (arXiv:2202.08676) | 122–164 GeV (K = 1); 117–192 GeV (K = 1.2) | none; 126–162 GeV |
+
+Check: for e and μ this reproduces ATLAS's own 320 and 400 GeV (the Z′ adds 1% there).
+For τ, CMS quotes 125–150 GeV. Below 150 GeV (e, μ) or outside the window (τ), LEP's
+~0.1 TeV applies, so a τ-mixed E is allowed down to about 100 GeV.
+
+**The condition is on the geometric mean.** The threshold correction depends on
+Σᵢ ln(m_Eᵢ/μ), so three non-degenerate E act like three degenerate ones at
+(m_E1 m_E2 m_E3)^{1/3}: (320, 400, 100) GeV gives a pole of 0.7795 M_Pl, and 234 GeV for
+all three gives 0.7794 M_Pl. With each E mixing with one flavour, the lightest set Run 2
+allows is (321, 404, 100) GeV, a geometric mean of **235 GeV**. If all three mix with τ,
+it is 100 GeV. The selection needs 561 ± 113 GeV (§3e). **The LHC has not tested the
+condition.**
+
+**HL-LHC** (3 ab⁻¹, 13 TeV cross sections; 14 TeV would help). Expected limits are scaled
+by √(L₀/L) (background-limited) and by L₀/L (background-free), the two ends:
+
+| | e | μ | τ | geometric mean |
+|---|---|---|---|---|
+| √L scaling | 735 GeV | 748 GeV | 455 GeV | 630 GeV |
+| L scaling | > 800 GeV | > 800 GeV | 734 GeV | > 777 GeV |
+
+(">" means beyond the last published mass point.) The τ-mixed E is the weakest link.
+
+**The target moves too.** With no Z′ at the HL-LHC, the same recast and √L scaling put
+the Z′ floor at 5.50 TeV (Run 2 expected: 4.80 TeV), so M_V ≥ 4.49 TeV and
+m_E\* = **621 GeV** (733 GeV without Yukawas; ±20% truncation).
+
+**Verdict.** The HL-LHC reaches the threshold but doesn't clear it. Its conservative
+geometric-mean reach (630 GeV) sits at the central m_E\*, and covers the uncertainty
+band only with the optimistic scaling, and only if each E mixes with a different flavour.
+If the E mix mainly with τ, the HL-LHC cannot decide. Two things the recast does not
+cover:
+- extra decays E → ℓ + light neutral scalar when the scalars are below m_E, which would
+  dilute the multilepton signal;
+- non-diagonal flavour mixing.
+
+Either changes the reach, not the RG condition. A future lepton or 100 TeV collider would
+settle it.
 
 ## 3c. The scalar sector itself, to the Planck scale
 
@@ -532,7 +605,10 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
     column bounds Z′ → scalars, W_L W_L and Zh. Interference with Drell-Yan changes σB by
     −3% to +2% within ±10% of the peak (about 15 GeV), and Z-Z′ mixing by < 0.4%;
   - doubly or singly charged bilepton gauge bosons;
-  - exotic quarks.
+  - exotic quarks;
+  - for β = +1/√3, three heavy charged leptons, vector-like SU(2) singlets. The selection
+    needs their geometric-mean mass above 0.56 ± 0.11 TeV (0.62 TeV if the HL-LHC sees no
+    Z′). Run 2 allows down to 0.24 TeV, and the HL-LHC reaches about 0.63–0.78 TeV (§3f).
 
   LHC searches and future colliders will find or exclude them.
 - **Consistency to M_Pl adds relations (§3c):**
@@ -569,6 +645,8 @@ python3 src/m331_threshold.py          # one-loop threshold matching (~75 s); 33
 python3 src/m331_closure.py            # Witten redundant, no-Yukawa bound, cutoff window (~3 min)
 python3 src/m331_scalar.py             # the scalar sector to M_Pl (~4 min); 331_scalar.txt
 python3 src/m331_zprime_recast.py      # the ATLAS 139 fb^-1 Z' recast (~1 s); zprime_recast.txt
+python3 src/m331_margin.py             # the beta = +1/sqrt3 margin vs mass floors (~50 s); margin.txt
+python3 src/m331_heavy_lepton.py       # heavy leptons vs LHC, HL-LHC (~5 s); heavy_lepton.txt
 python -m pytest tests/test_331_*.py -q
 ```
 

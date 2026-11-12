@@ -65,10 +65,10 @@ def yukawa_vectors(Nc=3):
 
 def spectrum(Nc, MV, mJ, mE, mS, n_light):
     """m331_threshold.heavy_spectrum with the exotic quarks and heavy leptons split."""
-    out = []
+    out, mEs = [], list(np.broadcast_to(np.asarray(mE, float), (Nc,)))   # one m_E or one per E
     for kind, tY, t2, t3, M in T.heavy_spectrum(Nc, VAR, MV, 1.0, 1.0, n_light):
         if kind == "F":
-            M = mJ if t3 > 0 else mE                 # quarks carry colour; leptons do not
+            M = mJ if t3 > 0 else mEs.pop(0)         # quarks carry colour; leptons do not
         elif kind == "S":
             M = mS
         out.append((kind, tY, t2, t3, M))
@@ -82,8 +82,9 @@ def pole(MV=4e3, mJ=4e3, mE=4e3, mS=4e3, n_light=1, Nc=3, loops=3, gmax=ALPHA1, 
     if yukawas:
         gL = T.gL_at(mu)
         ct, cq, cl = yukawa_vectors(Nc)
-        yJ, yE = sqrt(2) * mJ * gL / (2 * MV), sqrt(2) * mE * gL / (2 * MV)
-        yuk = ct * Y.yt_at(mu) ** 2 + cq * yJ**2 + cl * yE**2
+        yJ = sqrt(2) * mJ * gL / (2 * MV)
+        yE2 = float(np.mean((sqrt(2) * np.asarray(mE, float) * gL / (2 * MV)) ** 2))
+        yuk = ct * Y.yt_at(mu) ** 2 + cq * yJ**2 + cl * yE2
     else:
         yuk = np.zeros(3)
     return L.blow_up(Nc, VAR, mu0=mu, gmax=gmax, s2=s2, lam=tuple(lam), n_light=n_light, loops=loops, yuk=yuk)
