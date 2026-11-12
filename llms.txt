@@ -49,9 +49,11 @@
   3-3-1 -> SM -> U(1)_em from the gauge-boson mass matrix; chiral breaking (sigma model),
   pions, GMOR, the nuclear force; Casimir-Polder between the diamonds; one-graviton exchange
   and the 2.19 rad phase; MacDowell-Mansouri (GR + Lambda as SO(4,1) -> SO(3,1), a
-  reformulation). Gravity is not part of the gauge chain.
+  reformulation). Gravity is not part of the gauge chain. Links across the rungs: q_p + q_e
+  is the mixed anomaly, which the diamond experiment needs below 2.8e-19 e per nucleon;
+  pi0 -> gamma gamma from rung 1's charges and rung 2's f_pi, 7.79 eV vs PrimEx 7.80.
 - /src/ladder_standalone.py — the whole ladder in one file, standard library only: paste
-  into any Python runner or AI code tool; 37 PASS/FAIL checks
+  into any Python runner or AI code tool; 43 PASS/FAIL checks
   (expected output: /results/ladder/standalone.txt)
 - /src/m331_standalone.py — the 3-3-1 selection in one file, standard library only:
   paste into any Python runner or AI code tool and run; it ends with 23 PASS/FAIL checks

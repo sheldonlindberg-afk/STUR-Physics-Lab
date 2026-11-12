@@ -76,6 +76,22 @@ RUNG 5  Gravity as a broken gauge theory: MacDowell-Mansouri (an equivalent REFO
    [PASS] the measured Lambda gives l = 1.65e26 m and a coupling of 1e122: the cosmological-constant problem
 
 ==============================================================================
+LINKS  Where one rung's output is another rung's input
+==============================================================================
+   [PASS] neutral matter is an anomaly: q_p + q_e = [SU(3)_L]^2 U(1)_X / N_g and q_n + Q_nu = q_p + q_e, for any beta, N_c, X (200 exact random cases)
+   [PASS] rung 1's charges: q_p = 1, q_n = 0, q_e = -1, Q_nu = 0 exactly, both variants, N_c = 3, 5, 7
+   Design A (8.839e+12 nucleons): one stray electron each = 1.60e+10 x gravity's phase;
+   Coulomb < 10% of gravity needs < 2.82e-19 e per nucleon, for any diamond size
+   Measured: |q_p + q_e|, |q_n| < 1e-21 e -> margin 282; that residual totals 8.8e-09 e per diamond, below one electron, so discharging cannot reach it
+   [PASS] design A: one electron = 1.6e10 x gravity (as H6); neutrality needed to 2.8e-19 e per nucleon
+   [PASS] measured neutrality (1e-21 e) clears it by 280x; rung 1 makes it exact
+   [PASS] pi0 -> gamma gamma: N_c (Q_u^2 - Q_d^2) = 1 for every N_c with rung 1's charges
+   sum |M|^2 = 0.500 A^2 m^4 -> Gamma = A^2 m^3/(64 pi) = 7.785 eV  (PrimEx-I+II 7.802 +- 0.117 eV, -0.1 sigma)
+   With the charges held at 2/3, -1/3 the width would scale as (N_c/3)^2; with rung 1's it
+   cannot select N_c, the R-ratio does (src/m331_why_three.py W6).
+   [PASS] pi0 width from rung 1's charges and rung 2's f_pi: 7.79 eV, within 0.5 sigma of PrimEx
+
+==============================================================================
 VERDICT
 ==============================================================================
    3-3-1 breaks to the Standard Model and then to electromagnetism: the photon, hypercharge,
@@ -83,7 +99,10 @@ VERDICT
    nuclear force. Electromagnetism, never broken, leaves the Casimir-Polder background between
    the diamonds. Gravity sits beside the chain: one-graviton exchange gives Newton's law and the
    experiment's 2.19 rad phase, and MacDowell-Mansouri writes GR + Lambda as SO(4,1) broken
-   to Lorentz. Inputs are measured; gravity's unification with the other forces is not derived.
+   to Lorentz. Two links run across the rungs: rung 1's anomalies make matter neutral, which
+   the diamond experiment needs to 2.8e-19 e per nucleon, and its charges with rung 2's f_pi
+   give the measured pi0 -> gamma gamma width. Inputs are measured; gravity's unification
+   with the other forces is not derived.
 
-   Checks passed: 37/37   (0 s)
+   Checks passed: 43/43   (0 s)
    ALL CHECKS PASS

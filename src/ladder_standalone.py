@@ -30,6 +30,10 @@ WHAT IT COMPUTES
               law, light's factor 2), and the 2.19 rad entangling phase of design A.
       Rung 5  Gravity as a broken gauge theory: MacDowell-Mansouri (1977), de Sitter
               SO(4,1) broken to Lorentz SO(3,1): an equivalent REFORMULATION of GR + Lambda.
+      Links   Where one rung feeds another. Neutral matter (rung 1 -> 4): q_p + q_e is an
+              anomaly of rung 1, and the experiment needs it below 2.8e-19 e per nucleon.
+              pi0 -> gamma gamma (rung 1 -> 2): rung 1's charges and rung 2's f_pi give the
+              measured width.
     Inputs are measured values (PDG, FLAG, CODATA, Planck 2018). What is not derived, by
     anyone: why the inputs have their values, and how gravity unifies with the others.
 
@@ -37,7 +41,7 @@ SOURCE
     Repository: https://github.com/sheldonlindberg-afk/STUR-Physics-Lab
     Notes:      SYMMETRY_LADDER.md
     This file condenses src/m331_breaking.py, chiral_breaking.py, casimir_diamonds.py,
-    graviton_exchange.py and macdowell_mansouri.py; tests/test_ladder_standalone.py checks
+    graviton_exchange.py, macdowell_mansouri.py and ladder_links.py; tests/test_ladder_standalone.py checks
     that it agrees with them. Independent work, not peer reviewed. License: CC0 1.0.
 """
 from fractions import Fraction as F
@@ -663,9 +667,100 @@ def rung5():
           abs(ell / 1.647e26 - 1) < 1e-3 and abs(coup / 1.04e122 - 1) < 0.01)
 
 
+# ----------------------------------------------------------------------------------------
+# LINKS between the rungs (src/ladder_links.py)
+# ----------------------------------------------------------------------------------------
+U_AMU = 1.66053906660e-27     # kg; carbon-12: 12 u for 12 nucleons
+K_COUL = 8.9875517923e9       # 1/(4 pi eps0)
+E_CH = 1.602176634e-19        # C
+ALPHA_0 = 1 / 137.035999084   # alpha at q^2 = 0 (real photons)
+EPS_PE_BOUND = 1e-21          # |q_p + q_e|/e, Bressi et al., PRA 83, 052101 (2011); same for q_n
+GAMMA_PI0 = (7.802, sqrt(0.052**2 + 0.105**2))   # eV, PrimEx-I+II, Larin et al., Science 368, 506 (2020)
+
+
+def baryons(Qu, Qd, Nc):
+    """The N_c-quark proton ((N_c+1)/2 u, (N_c-1)/2 d) and neutron (the reverse)."""
+    up, dn = F(Nc + 1, 2), F(Nc - 1, 2)
+    return up * Qu + dn * Qd, dn * Qu + up * Qd
+
+
+def parity(p):
+    p, s = list(p), 1
+    for i in range(len(p)):
+        while p[i] != i:
+            j = p[i]
+            p[i], p[j] = p[j], p[i]
+            s = -s
+    return s
+
+
+def links():
+    banner("LINKS  Where one rung's output is another rung's input")
+    # L1a: q_p + q_e is the [SU(3)_L]^2 U(1)_X anomaly, for any beta, N_c and X charges.
+    # b = beta/(2 sqrt3) enters linearly, so exact random rationals test the identity.
+    rng, ok = random.Random(331), True
+    for _ in range(200):
+        Nc = rng.choice((3, 5, 7, 9, 11))
+        b, XL, Xt = (F(rng.randint(-60, 60), rng.randint(1, 30)) for _ in range(3))
+        Xa = Xt + 2 * b                                   # u, d the same in triplet and anti-triplet
+        Qu, Qd = F(1, 2) + b + Xt, F(-1, 2) + b + Xt
+        ok &= (F(1, 2) - b + Xa, F(-1, 2) - b + Xa) == (Qu, Qd)
+        Qnu, Qe = F(1, 2) + b + XL, F(-1, 2) + b + XL
+        Ng, n = Nc, F(Nc * (1 + Nc), 2 * Nc)              # SU(3)_L^3: N_g(1 + N_c) = 2 n N_c
+        anomaly = Ng * XL + Nc * ((Ng - n) * Xt + n * Xa)
+        qp, qn = baryons(Qu, Qd, Nc)
+        ok &= qp + Qe == anomaly / Ng and qn + Qnu == qp + Qe
+    check("neutral matter is an anomaly: q_p + q_e = [SU(3)_L]^2 U(1)_X / N_g and q_n + Q_nu = q_p + q_e,"
+          " for any beta, N_c, X (200 exact random cases)", ok)
+    # L1b: rung 1's charges
+    ok = True
+    for variant in ("-1/sqrt3", "+1/sqrt3"):
+        for Nc in (3, 5, 7):
+            ferm, _, Qu, Qd = model(Nc, variant)
+            lep = triplet_charges(ferm[0][3], variant)
+            qp, qn = baryons(Qu, Qd, Nc)
+            ok &= (qp, qn, lep[1], lep[0]) == (1, 0, -1, 0)
+    check("rung 1's charges: q_p = 1, q_n = 0, q_e = -1, Q_nu = 0 exactly, both variants, N_c = 3, 5, 7", ok)
+    # L1c-d: design A
+    m = geomspace(1e-16, 1e-12, 25)[13]
+    nucleons = m / U_AMU
+    one_e = K_COUL * E_CH**2 / (G_NEWTON * m * m)        # same 1/r, same trajectories: exact ratio
+    delta_max = sqrt(0.1 * G_NEWTON / K_COUL) * m / E_CH / nucleons
+    margin = delta_max / EPS_PE_BOUND
+    print(f"   Design A ({nucleons:.3e} nucleons): one stray electron each = {one_e:.2e} x gravity's phase;")
+    print(f"   Coulomb < 10% of gravity needs < {delta_max:.2e} e per nucleon, for any diamond size")
+    print(f"   Measured: |q_p + q_e|, |q_n| < 1e-21 e -> margin {margin:.0f}; that residual totals"
+          f" {EPS_PE_BOUND * nucleons:.1e} e per diamond, below one electron, so discharging cannot reach it")
+    check("design A: one electron = 1.6e10 x gravity (as H6); neutrality needed to 2.8e-19 e per nucleon",
+          abs(one_e / 1.60e10 - 1) < 0.01 and abs(delta_max / 2.82e-19 - 1) < 2e-3)
+    check("measured neutrality (1e-21 e) clears it by 280x; rung 1 makes it exact",
+          270 < margin < 290)
+    # L2: pi0 -> gamma gamma
+    factors = [Nc * (F(Nc + 1, 2 * Nc) ** 2 - F(1 - Nc, 2 * Nc) ** 2) for Nc in range(1, 12)]
+    check("pi0 -> gamma gamma: N_c (Q_u^2 - Q_d^2) = 1 for every N_c with rung 1's charges", set(factors) == {1})
+    mpi = 1.0                                             # |M|^2 in units of A^2 m^4
+    k1, k2 = (mpi / 2, 0, 0, mpi / 2), (mpi / 2, 0, 0, -mpi / 2)
+    low = lambda v: (v[0], -v[1], -v[2], -v[3])
+    msq = 0.0
+    for e1 in ((0, 1, 0, 0), (0, 0, 1, 0)):
+        for e2 in ((0, 1, 0, 0), (0, 0, 1, 0)):
+            vs = (low(e1), low(e2), low(k1), low(k2))
+            M = sum(parity(p) * vs[0][p[0]] * vs[1][p[1]] * vs[2][p[2]] * vs[3][p[3]] for p in permutations(range(4)))
+            msq += M * M
+    A = ALPHA_0 / (pi * F_PI)
+    width = 0.5 * (M_PI0 / 2) / (8 * pi * M_PI0**2) * msq * A**2 * M_PI0**4 * 1e9    # eV
+    pull = (width - GAMMA_PI0[0]) / GAMMA_PI0[1]
+    print(f"   sum |M|^2 = {msq:.3f} A^2 m^4 -> Gamma = A^2 m^3/(64 pi) = {width:.3f} eV"
+          f"  (PrimEx-I+II {GAMMA_PI0[0]} +- {GAMMA_PI0[1]:.3f} eV, {pull:+.1f} sigma)")
+    print("   With the charges held at 2/3, -1/3 the width would scale as (N_c/3)^2; with rung 1's it")
+    print("   cannot select N_c, the R-ratio does (src/m331_why_three.py W6).")
+    check("pi0 width from rung 1's charges and rung 2's f_pi: 7.79 eV, within 0.5 sigma of PrimEx",
+          abs(msq - 0.5) < 1e-12 and abs(width - 7.785) < 2e-3 and abs(pull) < 0.5)
+
+
 def main():
     t0 = time.time()
-    for rung in (rung1, rung2, rung3, rung4, rung5):
+    for rung in (rung1, rung2, rung3, rung4, rung5, links):
         rung()
     banner("VERDICT")
     n_ok = sum(ok for _, ok in CHECKS)
@@ -674,7 +769,10 @@ def main():
     print("   nuclear force. Electromagnetism, never broken, leaves the Casimir-Polder background between")
     print("   the diamonds. Gravity sits beside the chain: one-graviton exchange gives Newton's law and the")
     print("   experiment's 2.19 rad phase, and MacDowell-Mansouri writes GR + Lambda as SO(4,1) broken")
-    print("   to Lorentz. Inputs are measured; gravity's unification with the other forces is not derived.")
+    print("   to Lorentz. Two links run across the rungs: rung 1's anomalies make matter neutral, which")
+    print("   the diamond experiment needs to 2.8e-19 e per nucleon, and its charges with rung 2's f_pi")
+    print("   give the measured pi0 -> gamma gamma width. Inputs are measured; gravity's unification")
+    print("   with the other forces is not derived.")
     print(f"\n   Checks passed: {n_ok}/{len(CHECKS)}   ({time.time() - t0:.0f} s)")
     for label, ok in CHECKS:
         if not ok:

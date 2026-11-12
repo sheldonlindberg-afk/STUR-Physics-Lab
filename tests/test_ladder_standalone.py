@@ -34,8 +34,18 @@ def test_agrees_with_the_repository():
     assert abs(mine_dphi - 2.1868) < 1e-3
 
 
+def test_links_agree_with_the_repository():
+    import ladder_links as LL
+    assert (S.U_AMU, S.K_COUL, S.E_CH, S.ALPHA_0) == (LL.U_AMU, LL.K_COUL, LL.E_CH, LL.ALPHA_0)
+    assert S.EPS_PE_BOUND == LL.EPS_PE_BOUND
+    assert all(abs(x - y) < 1e-12 for x, y in zip(S.GAMMA_PI0, LL.GAMMA_PI0_MEAS))
+    import chiral_breaking as CB
+    assert S.F_PI == CB.F_PI and S.M_PI0 == CB.M_PI0
+
+
 def test_runs_isolated_and_every_check_passes():
     out = subprocess.run([sys.executable, "-I", "-S", PATH], capture_output=True, text=True, timeout=300).stdout
     assert "ALL CHECKS PASS" in out and "FAIL" not in out
     ref = open(os.path.join(os.path.dirname(__file__), "..", "results", "ladder", "standalone.txt")).read()
-    assert "Checks passed: 37/37" in ref and "ALL CHECKS PASS" in ref
+    assert "Checks passed: 43/43" in ref and "ALL CHECKS PASS" in ref
+    assert "Checks passed: 43/43" in out

@@ -208,6 +208,10 @@ create it:
 - **Net charge:** one electron's worth of charge on each design-A diamond gives an
   entangling phase **1.6×10¹⁰× gravity's** (7×10⁸× for the fastest design). Both diamonds must carry exactly zero net charge.
   Levitated microspheres have been discharged to zero (LIT: Moore, Rider & Gratta 2014).
+  Discharging removes whole electrons, not a fractional charge per atom. That residual must
+  stay below 2.8×10⁻¹⁹ e per nucleon, for any diamond size; the measured limit is 10⁻²¹ e,
+  and anomaly cancellation makes it exactly zero
+  ([SYMMETRY_LADDER.md, link 1](SYMMETRY_LADDER.md#link-1-neutral-matter-from-rung-1-to-rung-4)).
 - **Permanent dipoles:** each must be < 4.5×10⁻²⁹ C·m (2.8×10⁻⁴ e·µm) to keep EM below
   10% of gravity. Otherwise a conducting shield goes between the diamonds (LIT: van de
   Kamp et al. 2020).
