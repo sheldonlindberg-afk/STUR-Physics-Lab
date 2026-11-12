@@ -45,6 +45,14 @@
   corner phase space is a Lorentz orbit through the dual area bivector / 8 pi G;
   quantized it gives a group-dependent log, not A/4 or Sen's 77/45, so it is gauge.
 - /paper/note331.pdf — the 3-3-1 note (LaTeX source: /paper/note331.tex)
+- /SYMMETRY_LADDER.md — the symmetry-breaking ladder from 3-3-1 to the diamond experiment:
+  3-3-1 -> SM -> U(1)_em from the gauge-boson mass matrix; chiral breaking (sigma model),
+  pions, GMOR, the nuclear force; Casimir-Polder between the diamonds; one-graviton exchange
+  and the 2.19 rad phase; MacDowell-Mansouri (GR + Lambda as SO(4,1) -> SO(3,1), a
+  reformulation). Gravity is not part of the gauge chain.
+- /src/ladder_standalone.py — the whole ladder in one file, standard library only: paste
+  into any Python runner or AI code tool; 37 PASS/FAIL checks
+  (expected output: /results/ladder/standalone.txt)
 - /src/m331_standalone.py — the 3-3-1 selection in one file, standard library only:
   paste into any Python runner or AI code tool and run; it ends with 20 PASS/FAIL checks
   (expected output: /results/m331/standalone.txt)

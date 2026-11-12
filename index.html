@@ -54,6 +54,7 @@
       <a href="#strength">Entanglement</a>
       <a href="#measurement">Measurement</a>
       <a href="#research">Research note</a>
+      <a href="#ladder">Ladder</a>
       <a href="#status">How sure</a>
       <a href="#deeper">Study</a>
     </nav>
@@ -295,13 +296,35 @@
     <h3 id="run331" style="margin-top:28px">Run the 3-3-1 selection yourself</h3>
     <p class="prose">One Python file reproduces the whole chain: charges and anomalies for general N<sub>c</sub>, N<sub>g</sub> = N<sub>c</sub>, the Standard Model calibration, SU(3)<sub>L</sub> and two-loop U(1)<sub>X</sub> running with Yukawas, one-loop thresholds across the heavy spectrum, and the R-ratio check. It needs only the Python standard library, so it runs as pasted in any Python 3.8+ runner, notebook or AI assistant's code tool. It takes about 15 seconds and ends with 20 PASS/FAIL checks against the numbers pinned in this repository.</p>
     <div class="cta">
-      <button class="btn primary" type="button" id="copy331" data-src="src/m331_standalone.py">Copy Python script</button>
+      <button class="btn primary copy-script" type="button" id="copy331" data-src="src/m331_standalone.py" data-status="copy331-status">Copy Python script</button>
       <a class="btn" href="src/m331_standalone.py" download="m331_standalone.py">Download .py</a>
       <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/src/m331_standalone.py">View on GitHub</a>
     </div>
     <p class="src" id="copy331-status" role="status" aria-live="polite">Pasting into an AI assistant? Add “Run this and explain the results.” Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/m331/standalone.txt">results/m331/standalone.txt</a></p>
     <h3 style="margin-top:28px">Also here: classical–quantum gravity bounds</h3>
     <p class="prose muted">Worked examples within the Tilloy–Diósi and Oppenheim literature: the decoherence–diffusion trade-off minimized to the Diósi–Penrose floor, and the acceleration-noise floor that a coherent levitated diamond would imply for any classical–quantum gravity. These are not new results; see <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/OPPENHEIM.md">OPPENHEIM.md</a>.</p>
+  </section>
+
+  <!-- Ladder -->
+  <section id="ladder" aria-labelledby="ladder-h">
+    <p class="eyebrow">For students</p>
+    <h2 id="ladder-h">The symmetry-breaking ladder: from 3-3-1 to the diamond experiment</h2>
+    <div class="takeaway"><b>What it shows:</b> the forces don't turn into one another. At each threshold a symmetry breaks and the forces separate, down to the two that act between the diamonds: gravity, the signal, and electromagnetism, the background. Every step is derived and checked in code.</div>
+    <div class="prose">
+      <p><b>3-3-1 → Standard Model → electromagnetism.</b> From the scalar vacuum values, the gauge-boson mass matrix gives one massless photon with charge Q = T<sub>3</sub> + βT<sub>8</sub> + X, the hypercharge matching condition, and the W, Z, Z′ and bilepton masses. <b>The strong force.</b> Colour is never broken; chiral symmetry is, in the linear sigma model (a model of QCD's low-energy structure): three pions, the Gell-Mann–Oakes–Renner relation (m<sub>π</sub> = 127.6 MeV against 135.0), and the nuclear force as one-pion exchange with range 1.41 fm. <b>Electromagnetism</b> stays unbroken, so between neutral diamonds what remains is the Casimir–Polder force, derived here from electrostatics and the dipole field.</p>
+      <p><b>Gravity</b> is not part of the chain; it sits beside it, with Newton's G as its own input. One-graviton exchange gives Newton's law, twice the coupling for light, and the experiment's 2.19 rad entangling phase. MacDowell–Mansouri (1977) writes general relativity with a cosmological constant as a de Sitter gauge theory broken to Lorentz: an equivalent reformulation, not a unification. Inputs are measured values; why they take those values, and how gravity unifies with the other forces, is not derived.</p>
+    </div>
+    <div class="cta">
+      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/SYMMETRY_LADDER.md">Read the ladder</a>
+    </div>
+    <h3 id="runladder" style="margin-top:28px">Run the ladder yourself</h3>
+    <p class="prose">One Python file reproduces all five rungs with only the Python standard library, so it runs as pasted in any Python 3.8+ runner, notebook or AI assistant's code tool. It takes a few seconds and ends with 37 PASS/FAIL checks against the numbers pinned in this repository.</p>
+    <div class="cta">
+      <button class="btn primary copy-script" type="button" id="copyladder" data-src="src/ladder_standalone.py" data-status="copyladder-status">Copy Python script</button>
+      <a class="btn" href="src/ladder_standalone.py" download="ladder_standalone.py">Download .py</a>
+      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/src/ladder_standalone.py">View on GitHub</a>
+    </div>
+    <p class="src" id="copyladder-status" role="status" aria-live="polite">Pasting into an AI assistant? Add “Run this and explain the results.” Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/ladder/standalone.txt">results/ladder/standalone.txt</a></p>
   </section>
 
   <!-- Myths -->
@@ -479,8 +502,7 @@ jupyter lab notebooks/</pre>
   }
   if (sl) { sl.addEventListener("input", draw); draw(); }
 
-  // Copy the standalone 3-3-1 script to the clipboard.
-  var cp = document.getElementById("copy331"), cps = document.getElementById("copy331-status");
+  // Copy a standalone script (3-3-1 selection, symmetry-breaking ladder) to the clipboard.
   function copyText(text) {
     if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
     return new Promise(function (ok, fail) {
@@ -493,21 +515,25 @@ jupyter lab notebooks/</pre>
       done ? ok() : fail(new Error("copy blocked"));
     });
   }
-  if (cp) cp.addEventListener("click", function () {
-    var label = cp.textContent;
-    cp.disabled = true; cp.textContent = "Copying…";
-    fetch(cp.getAttribute("data-src"), { cache: "no-cache" })
-      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
-      .then(copyText)
-      .then(function () {
-        cp.textContent = "Copied ✓";
-        cps.textContent = "Copied. Paste it into any Python runner, or into an AI assistant with “Run this and explain the results.”";
-      })
-      .catch(function () {
-        cp.textContent = label;
-        cps.innerHTML = 'Couldn’t copy automatically. Use <a href="src/m331_standalone.py" download>Download .py</a>, or open it and copy all.';
-      })
-      .then(function () { setTimeout(function () { cp.textContent = label; cp.disabled = false; }, 2500); });
+  Array.prototype.forEach.call(document.querySelectorAll(".copy-script"), function (cp) {
+    var cps = document.getElementById(cp.getAttribute("data-status"));
+    var src = cp.getAttribute("data-src");
+    cp.addEventListener("click", function () {
+      var label = cp.textContent;
+      cp.disabled = true; cp.textContent = "Copying…";
+      fetch(src, { cache: "no-cache" })
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
+        .then(copyText)
+        .then(function () {
+          cp.textContent = "Copied ✓";
+          if (cps) cps.textContent = "Copied. Paste it into any Python runner, or into an AI assistant with “Run this and explain the results.”";
+        })
+        .catch(function () {
+          cp.textContent = label;
+          if (cps) cps.innerHTML = 'Couldn’t copy automatically. Use <a href="' + src + '" download>Download .py</a>, or open it and copy all.';
+        })
+        .then(function () { setTimeout(function () { cp.textContent = label; cp.disabled = false; }, 2500); });
+    });
   });
   if (window.matchMedia) window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", draw);
 

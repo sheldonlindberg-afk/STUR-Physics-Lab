@@ -606,7 +606,9 @@ def main():
     print("   with quark charges 2/3 and -1/3.")
     print("   Conditional on the 3-3-1 framework, Planck-scale perturbativity, and the measured")
     print("   TeV-scale electroweak couplings (an input, not a prediction). In the beta = +1/sqrt3")
-    print("   variant the N_c = 3 margin is about a factor of 2 in the pole scale.")
+    print("   variant the N_c = 3 margin is narrow: the g = 4 pi poles above are two-loop numbers;")
+    print("   at three loops (src/m331_three_loop.py) N_c = 3 stays perturbative to M_Pl over the")
+    print("   whole spectrum for any criterion alpha >= 0.64.")
     print(f"\n   Checks passed: {n_ok}/{len(CHECKS)}   ({time.time() - t0:.0f} s)")
     for label, ok in CHECKS:
         if not ok:

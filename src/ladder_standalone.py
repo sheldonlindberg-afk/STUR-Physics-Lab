@@ -1,0 +1,687 @@
+#!/usr/bin/env python3
+"""
+The symmetry-breaking ladder, from 3-3-1 to the two-diamond gravity experiment.
+A single-file, standard-library-only reproduction of SYMMETRY_LADDER.md.
+
+HOW TO RUN
+    Paste this whole file into any Python 3.8+ runner (a terminal, an online
+    interpreter, Jupyter, Pyodide, or an AI assistant's code tool) and run it.
+    No packages to install: it uses only the Python standard library.
+    It runs in a few seconds.
+
+FOR AI ASSISTANTS
+    Execute the file as-is and report the printed results. Every rung ends with
+    PASS/FAIL checks against the numbers pinned in the source repository, and the last
+    lines give the overall verdict. Explain the physics from the section headers and the
+    comments; do not change the inputs unless the user asks to.
+
+WHAT IT COMPUTES
+    The forces followed down in energy. At each threshold a symmetry breaks and the forces
+    separate; gravity is not part of the chain and sits beside it at every scale.
+      Rung 1  3-3-1 -> Standard Model -> electromagnetism: the gauge-boson mass matrix from
+              the scalar vacuum values; the photon, hypercharge, W, Z, Z', bileptons, rho,
+              and every fermion's electric charge for any number of colours.
+      Rung 2  The strong force: chiral symmetry breaking in the linear sigma model (a
+              MODEL of QCD's low-energy structure): pions, the GMOR relation, the Yukawa
+              form and tensor structure of the nuclear force, Goldberger-Treiman.
+      Rung 3  Electromagnetism, the experiment's background: the Casimir-Polder force
+              between the diamonds, from electrostatics and the dipole field.
+      Rung 4  Gravity to the experiment: linearized GR, one-graviton exchange (Newton's
+              law, light's factor 2), and the 2.19 rad entangling phase of design A.
+      Rung 5  Gravity as a broken gauge theory: MacDowell-Mansouri (1977), de Sitter
+              SO(4,1) broken to Lorentz SO(3,1): an equivalent REFORMULATION of GR + Lambda.
+    Inputs are measured values (PDG, FLAG, CODATA, Planck 2018). What is not derived, by
+    anyone: why the inputs have their values, and how gravity unifies with the others.
+
+SOURCE
+    Repository: https://github.com/sheldonlindberg-afk/STUR-Physics-Lab
+    Notes:      SYMMETRY_LADDER.md
+    This file condenses src/m331_breaking.py, chiral_breaking.py, casimir_diamonds.py,
+    graviton_exchange.py and macdowell_mansouri.py; tests/test_ladder_standalone.py checks
+    that it agrees with them. Independent work, not peer reviewed. License: CC0 1.0.
+"""
+from fractions import Fraction as F
+from itertools import permutations
+from math import cos, exp, factorial, pi, sin, sqrt
+import random
+import time
+
+# ----------------------------------------------------------------------------------------
+# Inputs (PDG 2024, FLAG 2024, CODATA 2018, Planck 2018)
+# ----------------------------------------------------------------------------------------
+G_F = 1.1663788e-5            # GeV^-2, Fermi constant
+MZ_MEAS = 91.1876             # GeV
+ALPHA_MZ_INV = 127.951        # 1/alpha_em(M_Z), MS-bar
+S2_MZ = 0.23122               # sin^2 theta_W(M_Z), MS-bar
+MU_PLUS_MD = 2.16e-3 + 4.70e-3   # GeV, m_u + m_d, MS-bar 2 GeV
+F_PI = 0.1302 / sqrt(2)       # GeV, f_pi = 92.1 MeV
+COND_13 = 0.272               # GeV, |<qbar q>|^(1/3), lattice (FLAG), MS-bar 2 GeV
+M_PI0, M_PIC = 0.1349768, 0.13957039
+G_A, M_N = 1.2754, 0.9389187  # nucleon axial coupling; average nucleon mass (GeV)
+G_PINN_EMP = 13.1             # empirical pi-N coupling (approximate)
+HBARC_GEV_FM = 0.1973269804
+G_NEWTON = 6.67430e-11        # m^3 kg^-1 s^-2
+HBAR = 1.054571817e-34        # J s
+C_LIGHT = 2.99792458e8        # m/s
+EPS_DIAMOND = 5.7             # static permittivity of diamond
+RHO_DIAMOND = 3510.0          # kg/m^3
+LAMBDA_SI = 1.1056e-52        # m^-2, cosmological constant (Planck 2018)
+L_PLANCK = 1.616255e-35       # m
+
+CHECKS = []
+
+
+def banner(s):
+    print("\n" + "=" * 78 + "\n" + s + "\n" + "=" * 78)
+
+
+def check(label, ok):
+    CHECKS.append((label, bool(ok)))
+    print(f"   [{'PASS' if ok else 'FAIL'}] {label}")
+
+
+# ----------------------------------------------------------------------------------------
+# Small linear algebra (lists of lists)
+# ----------------------------------------------------------------------------------------
+def zeros(n, m=None):
+    return [[0] * (m or n) for _ in range(n)]
+
+
+def eye(n):
+    return [[1 if i == j else 0 for j in range(n)] for i in range(n)]
+
+
+def mat_mul(A, B):
+    return [[sum(A[i][k] * B[k][j] for k in range(len(B))) for j in range(len(B[0]))] for i in range(len(A))]
+
+
+def mat_add(A, B, s=1):
+    return [[A[i][j] + s * B[i][j] for j in range(len(A[0]))] for i in range(len(A))]
+
+
+def mat_scale(A, s):
+    return [[s * x for x in row] for row in A]
+
+
+def comm(A, B):
+    return mat_add(mat_mul(A, B), mat_mul(B, A), -1)
+
+
+def mat_vec(A, v):
+    return [sum(A[i][k] * v[k] for k in range(len(v))) for i in range(len(A))]
+
+
+def jacobi_eigenvalues(A, tol=1e-14, sweeps=100):
+    """Eigenvalues of a real symmetric matrix by cyclic Jacobi rotations."""
+    a = [row[:] for row in A]
+    n = len(a)
+    for _ in range(sweeps):
+        off = sum(a[i][j] ** 2 for i in range(n) for j in range(n) if i != j)
+        if off < tol**2 * (1 + sum(a[i][i] ** 2 for i in range(n))):
+            break
+        for p in range(n):
+            for q in range(p + 1, n):
+                if abs(a[p][q]) < 1e-300:
+                    continue
+                th = (a[q][q] - a[p][p]) / (2 * a[p][q])
+                t = (1 if th >= 0 else -1) / (abs(th) + sqrt(th * th + 1))
+                c = 1 / sqrt(t * t + 1)
+                s = t * c
+                for k in range(n):
+                    akp, akq = a[k][p], a[k][q]
+                    a[k][p], a[k][q] = c * akp - s * akq, s * akp + c * akq
+                for k in range(n):
+                    apk, aqk = a[p][k], a[q][k]
+                    a[p][k], a[q][k] = c * apk - s * aqk, s * apk + c * aqk
+    return sorted(a[i][i] for i in range(n))
+
+
+# ----------------------------------------------------------------------------------------
+# RUNG 1: 3-3-1 -> Standard Model -> electromagnetism
+# ----------------------------------------------------------------------------------------
+def gell_mann_halves():
+    """T^a = lambda^a / 2 as 3x3 complex matrices."""
+    l = [zeros(3) for _ in range(8)]
+    l[0][0][1] = l[0][1][0] = 1
+    l[1][0][1], l[1][1][0] = -1j, 1j
+    l[2][0][0], l[2][1][1] = 1, -1
+    l[3][0][2] = l[3][2][0] = 1
+    l[4][0][2], l[4][2][0] = -1j, 1j
+    l[5][1][2] = l[5][2][1] = 1
+    l[6][1][2], l[6][2][1] = -1j, 1j
+    l[7] = [[1 / sqrt(3), 0, 0], [0, 1 / sqrt(3), 0], [0, 0, -2 / sqrt(3)]]
+    return [mat_scale(m, 0.5) for m in l]
+
+
+T8_TIMES_BETA = {"-1/sqrt3": (F(-1, 6), F(-1, 6), F(1, 3)), "+1/sqrt3": (F(1, 6), F(1, 6), F(-1, 3))}
+T3_DIAG = (F(1, 2), F(-1, 2), F(0))
+BETA = {"-1/sqrt3": -1 / sqrt(3), "+1/sqrt3": 1 / sqrt(3)}
+
+
+def model(Nc, variant):
+    """Fermions (multiplicity, SU(3)_L dim, colour dim, X, is_antitriplet) and the scalar
+    triplets' X charges, as in src/m331_exact.py."""
+    Qu, Qd = F(Nc + 1, 2 * Nc), F(1 - Nc, 2 * Nc)
+    Ng, nA = Nc, (1 + Nc) // 2
+    if variant == "-1/sqrt3":
+        Xt, Xa = Qu - F(1, 3), Qd + F(1, 3)
+        ferm = [(Ng, 3, 1, F(-1, 3), False), (Ng, 1, 1, F(1), False),
+                (Ng - nA, 3, Nc, Xt, False), (nA, 3, Nc, Xa, True),
+                (Ng, 1, Nc, -Qu, False), (Ng, 1, Nc, -Qd, False),
+                (Ng - nA, 1, Nc, -Qu, False), (nA, 1, Nc, -Qd, False)]
+        scal = [F(-1, 3), F(2, 3), F(-1, 3)]
+    else:
+        Xt, Xa = Qu - F(2, 3), Qd + F(2, 3)
+        ferm = [(Ng, 3, 1, F(-2, 3), False), (Ng, 1, 1, F(1), False), (Ng, 1, 1, F(1), False),
+                (Ng - nA, 3, Nc, Xt, False), (nA, 3, Nc, Xa, True),
+                (Ng, 1, Nc, -Qu, False), (Ng, 1, Nc, -Qd, False),
+                (Ng - nA, 1, Nc, -Qd, False), (nA, 1, Nc, -Qu, False)]
+        scal = [F(1, 3), F(1, 3), F(-2, 3)]
+    return ferm, scal, Qu, Qd
+
+
+def triplet_charges(X, variant, anti=False):
+    b = T8_TIMES_BETA[variant]
+    sgn = -1 if anti else 1
+    return [sgn * (T3_DIAG[k] + b[k]) + X for k in range(3)]
+
+
+def vev_layout(variant):
+    """Each scalar triplet's neutral components (exact), and where its vev sits: the first
+    triplet neutral in component 3 takes w; the others take v1, v2."""
+    _, scal, _, _ = model(3, variant)
+    out, chi_done = [], False
+    for X in scal:
+        q = triplet_charges(X, variant)
+        neutral = [k for k in range(3) if q[k] == 0]
+        if 2 in neutral and not chi_done:
+            out.append((X, 2, "w", neutral))
+            chi_done = True
+        else:
+            out.append((X, [k for k in neutral if k != 2][0], None, neutral))
+    names = iter(("v1", "v2"))
+    return [(X, k, n if n else next(names), neu) for X, k, n, neu in out]
+
+
+def mass_matrix(variant, g, gX, w, v1, v2):
+    T = gell_mann_halves()
+    vals = {"w": w, "v1": v1, "v2": v2}
+    cs = [g] * 8 + [gX]
+    M = zeros(9)
+    for X, k, name, _ in vev_layout(variant):
+        phi = [0, 0, 0]
+        phi[k] = vals[name] / sqrt(2)
+        gens = T + [mat_scale(eye(3), float(X))]
+        for A in range(9):
+            for B in range(9):
+                anti = mat_add(mat_mul(gens[A], gens[B]), mat_mul(gens[B], gens[A]))
+                val = sum(phi[i].conjugate() * anti[i][j] * phi[j] if isinstance(phi[i], complex) else phi[i] * anti[i][j] * phi[j]
+                          for i in range(3) for j in range(3))
+                M[A][B] += cs[A] * cs[B] * complex(val).real
+    return M
+
+
+def rung1():
+    banner("RUNG 1  3-3-1 -> Standard Model -> electromagnetism (gauge-boson mass matrix)")
+    g, gX, w = 0.652, 0.79, 4000.0
+    for variant in ("-1/sqrt3", "+1/sqrt3"):
+        beta = BETA[variant]
+        print(f"   beta = {variant}")
+        lay = vev_layout(variant)
+        for X, k, name, neu in lay:
+            print(f"     triplet X = {str(X):5s}: Q = 0 in components {[c + 1 for c in neu]}; vev {name} in component {k + 1}")
+        v1, v2 = 150.0, 190.0
+        M = mass_matrix(variant, g, gX, w, v1, v2)
+        ev = jacobi_eigenvalues(M)
+        scale = max(abs(x) for x in ev)
+        nzero = sum(abs(x) < 1e-12 * scale for x in ev)
+        check(f"{variant}: the 9x9 mass matrix has exactly one zero eigenvalue (8 massive bosons)", nzero == 1)
+        nQ = [0, 0, 1 / g, 0, 0, 0, 0, beta / g, 1 / gX]
+        res = max(abs(x) for x in mat_vec(M, nQ))
+        check(f"{variant}: the massless state is the gauge field of Q = T3 + beta T8 + X", res < 1e-9 * scale)
+        einv2 = sum(x * x for x in nQ)
+        M0 = mass_matrix(variant, g, gX, w, 0.0, 0.0)
+        ev0 = jacobi_eigenvalues(M0)
+        nzero0 = sum(abs(x) < 1e-12 * max(abs(y) for y in ev0) for x in ev0)
+        nY = [0] * 7 + [beta / g, 1 / gX]
+        gYinv2 = sum(x * x for x in nY)
+        check(f"{variant}: after step 1 alone, 4 massless states; Y = beta T8 + X is massless and "
+              f"1/g_Y^2 = beta^2/g^2 + 1/g_X^2 (the matching condition)",
+              nzero0 == 4 and max(abs(x) for x in mat_vec(M0, nY)) < 1e-9 * max(ev0)
+              and abs(einv2 - (1 / g**2 + gYinv2)) < 1e-12)
+        gY2 = 1 / gYinv2
+        v2s = v1 * v1 + v2 * v2
+        mw2 = (M[0][0] + M[1][1]) / 2
+        check(f"{variant}: M_W^2 = g^2 v^2/4 and bilepton masses g^2 (w^2 + v_i^2)/4",
+              abs(mw2 / (g * g * v2s / 4) - 1) < 1e-12
+              and all(abs(x / y - 1) < 1e-12 for x, y in zip(sorted([M[3][3], M[5][5]]),
+                                                            sorted(g * g * (w * w + v * v) / 4 for v in (v1, v2)))))
+        neutral = [[M[i][j] for j in (2, 7, 8)] for i in (2, 7, 8)]
+        nev = jacobi_eigenvalues(neutral)
+        lamZ, lamZp = nev[1], nev[2]
+        eps = (v2s / w**2)
+        check(f"{variant}: M_Z^2 -> (g^2 + g_Y^2) v^2/4 and M_Z'^2 -> (g^2 + beta^2 g_X^2) w^2/3 (to O(v^2/w^2))",
+              abs(lamZ / ((g * g + gY2) * v2s / 4) - 1) < 5 * eps and abs(lamZp / ((g * g + beta**2 * gX**2) * w**2 / 3) - 1) < 5 * eps)
+        s2 = 0.23
+        tX2 = s2 / (1 - (1 + beta**2) * s2)
+        gx_s2 = sqrt(s2 * g * g / (1 - s2 - beta**2 * s2))
+        ratio2 = ((g * g + beta**2 * gx_s2**2) / 3) / (g * g / 4)
+        check(f"{variant}: M_Z'/M_V = sqrt(4/3 (1 + beta^2 t_X^2)), t_X^2 = s2/(1 - (1+beta^2) s2) (derived)",
+              abs(ratio2 - 4 / 3 * (1 + beta**2 * tX2)) < 1e-12)
+        cw2 = g * g / (g * g + gY2)
+        rho = mw2 / (lamZ * cw2)
+        M2 = mass_matrix(variant, g, gX, 2 * w, v1, v2)
+        nev2 = jacobi_eigenvalues([[M2[i][j] for j in (2, 7, 8)] for i in (2, 7, 8)])
+        rho2 = (M2[0][0] + M2[1][1]) / 2 / (nev2[1] * cw2)
+        check(f"{variant}: rho = M_W^2/(M_Z^2 cos^2 theta_W) >= 1, with rho - 1 ~ (v/w)^2 (Z-Z' mixing)",
+              rho > 1 and 3.9 < (rho - 1) / (rho2 - 1) < 4.1)
+        ok = True
+        for Nc in (3, 5, 7):
+            ferm, _, Qu, Qd = model(Nc, variant)
+            for mult, dL, dC, X, anti in ferm:
+                if dL == 3:
+                    q = triplet_charges(X, variant, anti)
+                    ok &= set(q[:2]) == ({F(0), F(-1)} if dC == 1 else {Qu, Qd})
+        check(f"{variant}: every SU(2)_L doublet has charges (Q_u, Q_d) = ((N_c+1)/2N_c, (1-N_c)/2N_c) "
+              "or (0, -1), for N_c = 3, 5, 7", ok)
+        print(f"     1/e^2 = (1 + beta^2)/g^2 + 1/g_X^2; rho - 1 = {rho - 1:.3e} at v/w = {sqrt(v2s) / w:.3f}")
+    v = (sqrt(2) * G_F) ** -0.5
+    mz = sqrt(pi / ALPHA_MZ_INV / (sqrt(2) * G_F) / (S2_MZ * (1 - S2_MZ)))
+    print(f"   v = (sqrt2 G_F)^(-1/2) = {v:.2f} GeV; tree-level M_Z = {mz:.2f} GeV vs measured {MZ_MEAS}"
+          f" ({100 * (mz / MZ_MEAS - 1):+.2f}%, the radiative correction, not derived)")
+    check("v = 246.22 GeV from G_F, and tree-level M_Z within 0.5% of the measurement", abs(v - 246.22) < 0.01 and abs(mz / MZ_MEAS - 1) < 0.005)
+
+
+# ----------------------------------------------------------------------------------------
+# RUNG 2: the strong force (linear sigma model: a MODEL)
+# ----------------------------------------------------------------------------------------
+def sigma_potential(lam, v, H, phi):
+    p2 = sum(x * x for x in phi)
+    return lam / 4 * (p2 - v * v) ** 2 - H * phi[0]
+
+
+def hessian(fun, x, h=1e-4):
+    n = len(x)
+    Hm = zeros(n)
+    for i in range(n):
+        for j in range(n):
+            def f(di, dj):
+                y = list(x)
+                y[i] += di
+                y[j] += dj
+                return fun(y)
+            Hm[i][j] = (f(h, h) - f(h, -h) - f(-h, h) + f(-h, -h)) / (4 * h * h)
+    return Hm
+
+
+def pauli():
+    return [[[0, 1], [1, 0]], [[0, -1j], [1j, 0]], [[1, 0], [0, -1]]]
+
+
+def kron(A, B):
+    return [[A[i // 2][j // 2] * B[i % 2][j % 2] for j in range(4)] for i in range(4)]
+
+
+def rung2():
+    banner("RUNG 2  The strong force: chiral symmetry breaking (MODEL: linear sigma model)")
+    lam, v = 2.0, 1.0
+    Hm = hessian(lambda p: sigma_potential(lam, v, 0.0, p), [v, 0, 0, 0])
+    ev = jacobi_eigenvalues(Hm)
+    nz = sum(abs(x) < 1e-6 for x in ev)
+    check("massless quarks: the vacuum breaks O(4) -> O(3), leaving exactly 3 Goldstone pions (6 - 3)",
+          nz == 3 and abs(ev[-1] - 2 * lam * v * v) < 1e-4)
+    H = 0.05
+    s0 = v
+    for _ in range(60):                                    # vacuum: lam s0 (s0^2 - v^2) = H
+        s0 -= (lam * s0 * (s0 * s0 - v * v) - H) / (lam * (3 * s0 * s0 - v * v))
+    mpi2 = hessian(lambda p: sigma_potential(lam, v, H, p), [s0, 0, 0, 0])[1][1]
+    check("quark masses: m_pi^2 = H/<sigma>, f_pi = <sigma>, so m_pi^2 f_pi^2 = H f_pi (the GMOR form)",
+          abs(mpi2 - H / s0) < 1e-6)
+    mpi = sqrt(MU_PLUS_MD * COND_13**3) / F_PI
+    print(f"   GMOR: m_pi = sqrt((m_u + m_d)|<qbar q>|)/f_pi = {mpi * 1e3:.1f} MeV;"
+          f" measured {M_PI0 * 1e3:.1f} MeV ({100 * (mpi / M_PI0 - 1):+.1f}%, higher-order chiral terms)")
+    check("GMOR with measured quark masses, f_pi and the lattice condensate: m_pi = 127.6 MeV (within 8% of 135)",
+          abs(mpi - 0.1276) < 1e-3 and abs(mpi / M_PI0 - 1) < 0.08)
+    m = 1.3
+    V = lambda r: exp(-m * r) / (4 * pi * r)
+    rs = [0.3, 0.9, 2.1]
+    hh = 1e-4
+    lap = [(V(r + hh) * (r + hh) - 2 * V(r) * r + V(r - hh) * (r - hh)) / (hh * hh) / r for r in rs]
+    flux = -4 * pi * (1e-4) ** 2 * (V(1e-4 + 1e-7) - V(1e-4 - 1e-7)) / 2e-7
+    check("exchange of a mass-m particle: V = e^(-m r)/(4 pi r) solves (lap - m^2) V = 0 with unit flux"
+          " (the Fourier transform of 1/(q^2 + m^2): the Yukawa potential)",
+          max(abs(lp - m * m * V(r)) / (m * m * V(r)) for lp, r in zip(lap, rs)) < 1e-5 and abs(flux - 1) < 1e-3)
+    rng = HBARC_GEV_FM / M_PIC
+    print(f"   Range of the nuclear force 1/m_pi = {rng:.3f} fm")
+    S = pauli()
+    rnd = random.Random(3)
+    q = [rnd.uniform(-2, 2) for _ in range(3)]
+    q2 = sum(x * x for x in q)
+    sq = [[sum(q[i] * S[i][a][b] for i in range(3)) for b in range(2)] for a in range(2)]
+    qh = [x / sqrt(q2) for x in q]
+    sqh = [[sum(qh[i] * S[i][a][b] for i in range(3)) for b in range(2)] for a in range(2)]
+    s1s2 = [[sum(kron(S[i], S[i])[a][b] for i in range(3)) for b in range(4)] for a in range(4)]
+    S12 = mat_add(mat_scale(kron(sqh, sqh), 3), s1s2, -1)
+    lhs = kron(sq, sq)
+    rhs = mat_scale(mat_add(s1s2, S12), q2 / 3)
+    check("one-pion exchange: (s1.q)(s2.q) = (q^2/3)[s1.s2 + S12]: central and tensor nuclear forces, and range 1.414 fm",
+          max(abs(lhs[a][b] - rhs[a][b]) for a in range(4) for b in range(4)) < 1e-12 and abs(rng - 1.414) < 1e-3)
+    gpinn = G_A * M_N / F_PI
+    print(f"   Goldberger-Treiman: g_piNN = g_A M_N / f_pi = {gpinn:.2f}; empirical about {G_PINN_EMP}")
+    check("Goldberger-Treiman from chiral symmetry: g_piNN = 13.01, within 2% of the empirical value", abs(gpinn / G_PINN_EMP - 1) < 0.02)
+
+
+# ----------------------------------------------------------------------------------------
+# RUNG 3: Casimir-Polder between the diamonds
+# ----------------------------------------------------------------------------------------
+def diamond_radius(m):
+    return (3 * m / (4 * pi * RHO_DIAMOND)) ** (1 / 3)
+
+
+def green(x, y, z, k):
+    r = sqrt(x * x + y * y + z * z)
+    u = k * r
+    X = (x, y, z)
+    return [[exp(-u) / r**3 * ((1 + u + u * u) * (i == j) - (3 + 3 * u + u * u) * X[i] * X[j] / r**2)
+             for j in range(3)] for i in range(3)]
+
+
+def rung3():
+    banner("RUNG 3  Electromagnetism, the experiment's background: Casimir-Polder")
+    eps = F(57, 10)
+    # inside A r cos(th), outside -E0 r cos(th) + B cos(th)/r^2 (R = E0 = 1): continuity and eps-flux
+    # A = -1 + B ; eps A = -1 - 2B  ->  B = (eps - 1)/(eps + 2)
+    B = (eps - 1) / (eps + 2)
+    A = -1 + B
+    check("dielectric sphere, from Laplace's equation: alpha/(4 pi eps0) = K R^3, K = (eps-1)/(eps+2)",
+          eps * A == -1 - 2 * B and B == (eps - 1) / (eps + 2))
+    pt, k, h = (0.37, -0.29, 0.41), 1.7, 1e-3
+    Gc = green(*pt, k)
+    worst = 0.0
+    def lap_fd(i, j, hs):
+        tot = 0.0
+        for d in range(3):
+            p1, p2 = list(pt), list(pt)
+            p1[d] += hs
+            p2[d] -= hs
+            tot += (green(*p1, k)[i][j] - 2 * Gc[i][j] + green(*p2, k)[i][j]) / (hs * hs)
+        return tot
+    scale = max(abs(Gc[i][j]) for i in range(3) for j in range(3))
+    for i in range(3):
+        for j in range(3):
+            lap = (4 * lap_fd(i, j, h / 2) - lap_fd(i, j, h)) / 3        # Richardson: O(h^4)
+            worst = max(worst, abs(lap - k * k * Gc[i][j]) / (k * k * scale))
+    r = sqrt(sum(x * x for x in pt))
+    u = k * r
+    tr = sum(Gc[i][j] * Gc[j][i] for i in range(3) for j in range(3))
+    target = 2 * exp(-2 * u) * (3 + 6 * u + 5 * u**2 + 2 * u**3 + u**4) / r**6
+    check("dipole Green tensor at imaginary frequency solves (lap - xi^2/c^2) G = 0, and "
+          "Tr G.G = 2 e^(-2u)(3 + 6u + 5u^2 + 2u^3 + u^4)/r^6", worst < 1e-6 and abs(tr / target - 1) < 1e-12)
+    coeffs = (3, 6, 5, 2, 1)
+    I = sum(F(c) * F(factorial(n), 2 ** (n + 1)) for n, c in enumerate(coeffs))
+    check("the fluctuation integral int_0^oo e^(-2u)(3 + 6u + 5u^2 + 2u^3 + u^4) du = 23/4 exactly,"
+          " so U = -(23/4 pi) hbar c alpha1 alpha2 / r^7 (Casimir-Polder)", I == F(23, 4))
+    m, rr = 1.5e-14, 200e-6
+    R = diamond_radius(m)
+    K = (EPS_DIAMOND - 1) / (EPS_DIAMOND + 2)
+    Uc = -float(I) / pi * HBAR * C_LIGHT * (K * R**3) ** 2 / rr**7
+    Ug = -G_NEWTON * m * m / rr
+    print(f"   m = 1.5e-14 kg (R = {R * 1e6:.2f} um), r = 200 um: Casimir {Uc:.3e} J, gravity {Ug:.3e} J, ratio {Uc / Ug:.2e}")
+    check("at 200 um Casimir is 2.3% of gravity, and both scale as R^6, so the safe gap is mass-independent",
+          abs(Uc / Ug - 2.335e-2) < 2e-4)
+
+
+# ----------------------------------------------------------------------------------------
+# RUNG 4: gravity to the experiment
+# ----------------------------------------------------------------------------------------
+ETA4 = (-1, 1, 1, 1)
+
+
+def tpt(T1, T2):
+    """T2.P.T1 with P = (eta eta + eta eta - eta eta)/2 (diagonal T's, exact)."""
+    full = sum(F(ETA4[a] ** 2) * T1[a] * T2[a] for a in range(4))
+    tr = lambda T: sum(ETA4[a] * T[a] for a in range(4))
+    return (2 * full - tr(T1) * tr(T2)) / 2
+
+
+def ramp_profile(t, hold, ramp):
+    def up(x):
+        x = min(max(x, 0.0), 1.0)
+        return 2 * x * x if x < 0.5 else 1 - 2 * (1 - x) ** 2
+    total = hold + 2 * ramp
+    if t < ramp:
+        return up(t / ramp)
+    if t > ramp + hold:
+        return up((total - t) / ramp)
+    return 1.0
+
+
+def geomspace(a, b, n):
+    return [a * (b / a) ** (k / (n - 1)) for k in range(n)]
+
+
+def casimir_safe_gap():
+    """Smallest gap where Casimir's entangling phase is <= 10% of gravity's (parallel geometry,
+    the repository's baseline m = 1e-14 kg, dx = 250 um, tau = 2.5 s)."""
+    m, dx, tau = 1e-14, 250e-6, 2.5
+    R = diamond_radius(m)
+    K = (EPS_DIAMOND - 1) / (EPS_DIAMOND + 2)
+    for gap in geomspace(1e-6, 1e-3, 4000):
+        r = [[gap, sqrt(gap * gap + dx * dx)], [sqrt(gap * gap + dx * dx), gap]]
+        ent = lambda f: f(r[0][0]) + f(r[1][1]) - f(r[0][1]) - f(r[1][0])
+        grav = ent(lambda x: G_NEWTON * m * m * tau / (HBAR * x))
+        cas = ent(lambda x: (23 * HBAR * C_LIGHT / (4 * pi)) * R**6 / x**7 * K**2 * tau / HBAR)
+        if abs(cas) <= 0.1 * abs(grav):
+            return gap
+    return float("nan")
+
+
+def rung4():
+    banner("RUNG 4  Gravity to the diamond experiment (linearized GR, one-graviton exchange)")
+    hbar00 = F(4)                                          # in units of GM/r
+    trace = ETA4[0] * hbar00
+    h00 = hbar00 - F(ETA4[0]) * trace / 2
+    hii = 0 - F(ETA4[1]) * trace / 2
+    check("linearized GR, point mass: h_00 = h_ii = 2GM/r, so Phi = -GM/r and PPN gamma = 1",
+          h00 == 2 and hii == 2 and -h00 / 2 == -1 and hii / h00 == 1)
+    T1, T2, Tph = (F(1), 0, 0, 0), (F(1), 0, 0, 0), (F(1), 0, 0, F(1))
+    check("one-graviton exchange: T2.P.T1 = m1 m2 / 2, U(q) = -4 pi G m1 m2/q^2 -> U(r) = -G m1 m2 / r"
+          " (rung 2's transform at m = 0)", tpt(T1, T2) == F(1, 2))
+    check("a photon couples twice as strongly as a static mass of the same energy: light bends 4GM/(c^2 b)",
+          tpt(T1, Tph) / tpt(T1, T2) == 2)
+    m = geomspace(1e-16, 1e-12, 25)[13]
+    dx = geomspace(10e-6, 3e-3, 25)[18]
+    hold = geomspace(0.05, 20, 25)[2]
+    ramp = geomspace(0.05, 5, 17)[12]
+    gap = casimir_safe_gap()
+    n = 4001
+    total = hold + 2 * ramp
+    ts = [total * i / (n - 1) for i in range(n)]
+    integrand = []
+    for t in ts:
+        y = 0.5 * dx * ramp_profile(t, hold, ramp)
+        integrand.append(2 * (1 / gap - 1 / sqrt(gap * gap + (2 * y) ** 2)))
+    dt = total / (n - 1)
+    integral = dt * (sum(integrand) - 0.5 * (integrand[0] + integrand[-1]))
+    dphi = G_NEWTON * m * m / HBAR * integral
+    print(f"   Casimir-safe gap {gap * 1e6:.2f} um; design A: m = {m:.4e} kg, dx = {dx * 1e6:.1f} um,"
+          f" hold {hold:.4f} s, ramps 2 x {ramp:.4f} s")
+    print(f"   Entangling phase Delta phi = phi_LL + phi_RR - phi_LR - phi_RL = {dphi:.4f} rad")
+    check("design A's entangling phase from the graviton-exchange potential: 2.19 rad",
+          abs(dphi - 2.1868) < 1e-3 and abs(gap - 181.16e-6) < 0.1e-6)
+
+
+# ----------------------------------------------------------------------------------------
+# RUNG 5: MacDowell-Mansouri, SO(4,1) -> SO(3,1)
+# ----------------------------------------------------------------------------------------
+ETA5 = (-1, 1, 1, 1, 1)
+
+
+def J(A, B):
+    return [[(1 if C == A else 0) * (ETA5[B] if D == B else 0) - (1 if C == B else 0) * (ETA5[A] if D == A else 0)
+             for D in range(5)] for C in range(5)]
+
+
+def tetrad_and_spin(x, f, fp):
+    """Static spherical metric -f dt^2 + dr^2/f + r^2 dOmega^2: tetrad e^a_mu and the
+    Levi-Civita spin connection omega^a_{b mu} (checked torsion-free below)."""
+    t, r, th, ph = x
+    sf = sqrt(f(r))
+    E = [[sf, 0, 0, 0], [0, 1 / sf, 0, 0], [0, 0, r, 0], [0, 0, 0, r * sin(th)]]
+    w = [[[0.0] * 4 for _ in range(4)] for _ in range(4)]   # w[a][b][mu]
+    w[0][1][0] = w[1][0][0] = fp(r) / 2
+    w[2][1][2], w[1][2][2] = sf, -sf
+    w[3][1][3], w[1][3][3] = sf * sin(th), -sf * sin(th)
+    w[3][2][3], w[2][3][3] = cos(th), -cos(th)
+    return E, w
+
+
+def connection(x, f, fp, l, with_e=True):
+    E, w = tetrad_and_spin(x, f, fp)
+    As = []
+    for mu in range(4):
+        A = [[0.0] * 5 for _ in range(5)]
+        for a in range(4):
+            for b in range(4):
+                A[a][b] = w[a][b][mu]
+        if with_e:
+            for a in range(4):
+                Ja4 = J(a, 4)
+                for C in range(5):
+                    for D in range(5):
+                        A[C][D] += E[a][mu] / l * Ja4[C][D]
+        As.append(A)
+    return As
+
+
+def curvature(x, f, fp, l, with_e=True, h=1e-5):
+    A0 = connection(x, f, fp, l, with_e)
+    dA = []
+    for m in range(4):
+        xp, xm = list(x), list(x)
+        xp[m] += h
+        xm[m] -= h
+        Ap, Am = connection(xp, f, fp, l, with_e), connection(xm, f, fp, l, with_e)
+        dA.append([mat_scale(mat_add(Ap[n], Am[n], -1), 1 / (2 * h)) for n in range(4)])
+    return [[mat_add(mat_add(dA[m][n], dA[n][m], -1), comm(A0[m], A0[n])) for n in range(4)] for m in range(4)]
+
+
+def eps4(p):
+    if len(set(p)) < 4:
+        return 0
+    s = 1
+    for i in range(4):
+        for j in range(i + 1, 4):
+            if p[i] > p[j]:
+                s = -s
+    return s
+
+
+def wedge(X, Y):
+    """eps_abcd X^ab ^ Y^cd, coefficient of dt dr dth dph."""
+    tot = 0.0
+    for a, b, c, d in permutations(range(4)):
+        ea = eps4([a, b, c, d])
+        for m, n, p, q in permutations(range(4)):
+            tot += ea * eps4([m, n, p, q]) * X[a][b][m][n] * Y[c][d][p][q]
+    return tot / 4
+
+
+def rung5():
+    banner("RUNG 5  Gravity as a broken gauge theory: MacDowell-Mansouri (an equivalent REFORMULATION)")
+    P = [J(a, 4) for a in range(4)]                        # translations, l = 1
+    alg = all(comm(P[a], P[b]) == [[-ETA5[4] * x for x in row] for row in J(a, b)] for a in range(4) for b in range(4))
+    V = [0, 0, 0, 0, 1]
+    gens = [(A, B) for A in range(5) for B in range(A + 1, 5)]
+    stab = [(A, B) for A, B in gens if mat_vec(J(A, B), V) == [0] * 5]
+    check("so(4,1) = so(3,1) + 4 translations, [P_a, P_b] ~ J_ab / l^2; the de Sitter vector V = l e_4"
+          " leaves the 6 Lorentz generators unbroken and breaks 4 (the tetrad: D V^a = e^a)",
+          alg and len(stab) == 6 and all(B < 4 for _, B in stab))
+    M_, l = 0.3, 7.0
+    f_sds = lambda r: 1 - 2 * M_ / r - r * r / l**2
+    fp_sds = lambda r: 2 * M_ / r**2 - 2 * r / l**2
+    x = [0.2, 2.3, 1.1, 0.4]
+    E, w = tetrad_and_spin(x, f_sds, fp_sds)
+    hh = 1e-6
+    tors = 0.0                                             # de^a + w^a_b e^b = 0
+    for a in range(4):
+        for m in range(4):
+            for n in range(m + 1, 4):
+                def e_at(mu, nu):
+                    xp, xm = list(x), list(x)
+                    xp[mu] += hh
+                    xm[mu] -= hh
+                    return (tetrad_and_spin(xp, f_sds, fp_sds)[0][a][nu] - tetrad_and_spin(xm, f_sds, fp_sds)[0][a][nu]) / (2 * hh)
+                de = e_at(m, n) - e_at(n, m)
+                we = sum(w[a][b][m] * E[b][n] - w[a][b][n] * E[b][m] for b in range(4))
+                tors = max(tors, abs(de + we))
+    Fm = curvature(x, f_sds, fp_sds, l, True)
+    Rm = curvature(x, f_sds, fp_sds, l, False)
+    split, torsion_block = 0.0, 0.0
+    for m in range(4):
+        for n in range(4):
+            for a in range(4):
+                for b in range(4):
+                    ee = (E[a][m] * E[b][n] - E[a][n] * E[b][m]) * ETA4[b]
+                    split = max(split, abs(Fm[m][n][a][b] - Rm[m][n][a][b] + ee / l**2))
+                torsion_block = max(torsion_block, abs(Fm[m][n][a][4]))
+    check("on a real spacetime (Schwarzschild-de Sitter): the spin connection is torsion-free, "
+          "F^ab = R^ab - e^a^e^b / l^2 and F^a4 = T^a/l = 0", tors < 1e-7 and split < 1e-7 and torsion_block < 1e-7)
+    f_ds = lambda r: 1 - r * r / l**2
+    fp_ds = lambda r: -2 * r / l**2
+    Fds = curvature(x, f_ds, fp_ds, l, True)
+    check("the vacuum: de Sitter space of radius l is the flat SO(4,1) connection, F = 0, so Lambda = 3/l^2",
+          max(abs(Fds[m][n][i][j]) for m in range(4) for n in range(4) for i in range(5) for j in range(5)) < 1e-7)
+    Einv = [[0.0] * 4 for _ in range(4)]                   # e_a^mu (diagonal tetrad)
+    for a in range(4):
+        Einv[a][a] = 1 / E[a][a]
+    ricF = max(abs(sum(Fm[m][n][a][b] * ETA4[b] * Einv[b][n] for b in range(4) for n in range(4)))
+               for a in range(4) for m in range(4))
+    f_s = lambda r: 1 - 2 * M_ / r
+    fp_s = lambda r: 2 * M_ / r**2
+    Fs = curvature(x, f_s, fp_s, l, True)
+    Es, _ = tetrad_and_spin(x, f_s, fp_s)
+    ricFs = max(abs(sum(Fs[m][n][a][b] * ETA4[b] / Es[b][n] for b in range(4) for n in range(4) if Es[b][n] != 0))
+                for a in range(4) for m in range(4))
+    check("field equations: the Ricci contraction of F vanishes for Schwarzschild-de Sitter (G + Lambda g = 0,"
+          " Lambda = 3/l^2) and not for Schwarzschild without Lambda", ricF < 1e-6 and ricFs > 1e-3)
+    Rup = [[[[Rm[m][n][a][b] * ETA4[b] for n in range(4)] for m in range(4)] for b in range(4)] for a in range(4)]
+    EE = [[[[E[a][m] * E[b][n] - E[a][n] * E[b][m] for n in range(4)] for m in range(4)] for b in range(4)] for a in range(4)]
+    e_det = E[0][0] * E[1][1] * E[2][2] * E[3][3]
+    Rs = sum(Rm[m][n][a][b] * ETA4[b] * Einv[a][m] * Einv[b][n] for m in range(4) for n in range(4) for a in range(4) for b in range(4))
+    cR = wedge(Rup, EE) / (e_det * Rs)
+    cV = wedge(EE, EE) / e_det
+    s = -1
+    Lam = -(s**2 * cV) / (2 * (2 * s) * cR)                 # in units of 1/l^2
+    print(f"   eps R^e^e = {cR:.6f} e R;  eps e^e^e^e = {cV:.6f} e;  Ricci scalar {Rs:.6f} (12/l^2 = {12 / l**2:.6f})")
+    check("the action eps F^F = Euler + (2s/l^2) 2 e R + (1/l^4) 24 e gives e (R - 2 Lambda) with Lambda = 3/l^2;"
+          " 1/(16 pi G) fixes N = -3/(64 pi G Lambda)", abs(cR - 2) < 1e-6 and abs(cV - 24) < 1e-9 and abs(Lam - 3) < 1e-6)
+    ell = sqrt(3 / LAMBDA_SI)
+    coup = 3 / (L_PLANCK**2 * LAMBDA_SI)
+    print(f"   Measured Lambda: l = sqrt(3/Lambda) = {ell:.3e} m; MacDowell-Mansouri coupling 3/(G Lambda) = {coup:.2e} (Planck units)")
+    check("the measured Lambda gives l = 1.65e26 m and a coupling of 1e122: the cosmological-constant problem",
+          abs(ell / 1.647e26 - 1) < 1e-3 and abs(coup / 1.04e122 - 1) < 0.01)
+
+
+def main():
+    t0 = time.time()
+    for rung in (rung1, rung2, rung3, rung4, rung5):
+        rung()
+    banner("VERDICT")
+    n_ok = sum(ok for _, ok in CHECKS)
+    print("   3-3-1 breaks to the Standard Model and then to electromagnetism: the photon, hypercharge,")
+    print("   W, Z and Z' follow from the vacuum values. Chiral symmetry breaking gives the pions and the")
+    print("   nuclear force. Electromagnetism, never broken, leaves the Casimir-Polder background between")
+    print("   the diamonds. Gravity sits beside the chain: one-graviton exchange gives Newton's law and the")
+    print("   experiment's 2.19 rad phase, and MacDowell-Mansouri writes GR + Lambda as SO(4,1) broken")
+    print("   to Lorentz. Inputs are measured; gravity's unification with the other forces is not derived.")
+    print(f"\n   Checks passed: {n_ok}/{len(CHECKS)}   ({time.time() - t0:.0f} s)")
+    for label, ok in CHECKS:
+        if not ok:
+            print(f"   FAILED: {label}")
+    print("   ALL CHECKS PASS" if n_ok == len(CHECKS) else "   SOME CHECKS FAILED")
+    return n_ok == len(CHECKS)
+
+
+if __name__ == "__main__":
+    main()

@@ -108,6 +108,13 @@ scale to the two diamonds, with every step derived and checked in code:
 
 Gravity is not part of the gauge chain; the page says where each derivation stops.
 
+**Run it in one paste.** [`src/ladder_standalone.py`](src/ladder_standalone.py) reproduces all
+five rungs in a single file that uses only the Python standard library. Copy it (the
+[website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/#runladder) has a one-click
+**Copy Python script** button) and paste it into any Python 3.8+ runner, notebook or AI
+assistant's code tool. It runs in a few seconds and ends with 37 PASS/FAIL checks
+([expected output](results/ladder/standalone.txt)).
+
 ## For students: notebooks with exercises
 
 | Notebook | What it works out | Prerequisites |
@@ -171,10 +178,11 @@ python3 src/stur_derivation.py      # the whole chain, ~30 s
 python3 src/stur_gravity_full.py    # the two-diamond design search, ~15 s
 python3 src/m331_exact.py           # the 3-3-1 selection, both variants
 python3 src/m331_three_loop.py       # three-loop gauge running and the criterion, ~70 s
+python3 src/ladder_standalone.py     # the whole ladder, one file, no dependencies, ~1 s
 python3 src/m331_breaking.py         # the ladder, rungs 1-5: also chiral_breaking, casimir_diamonds,
                                     # graviton_exchange, macdowell_mansouri (each a few seconds)
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
-python -m pytest tests -q           # every number pinned (135 tests)
+python -m pytest tests -q           # every number pinned (138 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on

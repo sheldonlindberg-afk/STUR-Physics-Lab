@@ -139,7 +139,13 @@ the design must suppress: the Casimir–Polder force, which sets the 181 µm gap
 
 ## Reproduce
 
+**In one paste:** [`src/ladder_standalone.py`](src/ladder_standalone.py) reproduces all five
+rungs with only the Python standard library (37 PASS/FAIL checks; expected output
+[results/ladder/standalone.txt](results/ladder/standalone.txt)). The website has a
+**Copy Python script** button for it.
+
 ```bash
+python3 src/ladder_standalone.py   # everything below, one file, ~1 s
 python3 src/m331_breaking.py       # rung 1, ~7 s
 python3 src/chiral_breaking.py     # rung 2, ~1 s
 python3 src/casimir_diamonds.py    # rung 3, ~2 s
