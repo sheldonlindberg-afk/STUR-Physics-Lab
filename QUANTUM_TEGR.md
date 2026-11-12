@@ -122,8 +122,58 @@ teleparallel question would be whether TEGR's surface term
 - "Not found" in abstracts doesn't mean not done. Gravitational edge-mode papers often
   work in first-order (tetrad) variables without using the word "teleparallel". A
   full-text search under first-order terms (tetrad, coframe, Holst action) is needed.
+  Done in section 6, which narrows this gap.
 - This is a research-level problem in quantum field theory. It needs an expert
   collaborator, or at least an expert reader.
+
+## 6. Full-text and first-order search (follow-up to section 5)
+
+**Queries (INSPIRE):**
+- abstracts: "edge modes" + (tetrad, coframe, first-order, Holst or Einstein–Cartan):
+  21 hits, 5 on gravity;
+- abstracts: torsion + "entanglement entropy": 7 hits, none on TEGR;
+- full text: teleparallel + "entanglement entropy": 61 hits. Most are cosmology papers
+  that mention both words; the relevant ones are listed below;
+- full text: Weitzenböck + "entanglement entropy": 2 hits;
+- every paper citing Freidel–Geiller–Pranzetti Part I that mentions teleparallel,
+  Weitzenböck or entanglement entropy in its abstract: 15 hits;
+- every paper citing Girelli–Qiu–Zwikel: 1 hit.
+
+**Full texts read:** Freidel–Geiller–Pranzetti Parts I and II (searched for
+"teleparallel" and "Weitzenböck"), and Girelli–Qiu–Zwikel.
+
+**What exists:**
+
+| Work | Content | Relation to the gap |
+|---|---|---|
+| Freidel, Geiller, Pranzetti, *Edge modes of gravity* I and II, [2006.12527](https://arxiv.org/abs/2006.12527), [2007.03563](https://arxiv.org/abs/2007.03563) | Formulations of gravity, metric and tetrad, share the bulk symplectic structure but differ at the corner, and so give inequivalent representations of the corner symmetry algebra. The tetrad formulation adds local Lorentz charges | **The framework the question belongs to.** Their texts don't mention teleparallel gravity or the Weitzenböck connection (INSPIRE's full-text hit on "teleparallel" for these papers is spurious) |
+| Langenscheidt and Oriti, [2408.01809](https://arxiv.org/abs/2408.01809); Langenscheidt, [2505.16026](https://arxiv.org/abs/2505.16026) | Edge modes and corner charges of 4D tetrad gravity from tetrad-shift symmetries; a Poincaré-like corner algebra | Tetrad (Einstein–Cartan) variables, not teleparallel |
+| Girelli, Qiu, Zwikel, *Teleparallel gravity at null infinity*, [2412.14258](https://arxiv.org/abs/2412.14258) (PRD 2025), full text read | In TEGR the BMS Goldstone modes, which the metric formulation must add by hand, sit in the flat (Weitzenböck) connection. They read them as edge modes. Their conclusion: teleparallel gravity "could offer a promising framework for encoding a degenerate vacuum beyond the case of null infinity" | **Closest prior work.** Teleparallel edge modes, but at null infinity, with no entanglement entropy |
+| Girelli, Osumanu, Wieland, [2101.05347](https://arxiv.org/abs/2101.05347); Dupuis, Girelli, Hrytseniak, Wieland, [2603.12100](https://arxiv.org/abs/2603.12100) (PRD 2026) | Boundary terms as canonical transformations; a non-Abelian teleparallel formulation; corner terms and charges across formulations, teleparallel included | Corner structure of teleparallel-type formulations; no entropy |
+| Koivisto, [2209.14959](https://arxiv.org/abs/2209.14959) | Covariant phase space with boundaries | *Symmetric* teleparallel (STEGR), not TEGR |
+| Hammad et al., [1912.08811](https://arxiv.org/abs/1912.08811) | Wald entropy in TEGR from the Noether charge; it comes out as a volume integral | Black-hole entropy, not entanglement entropy |
+| Geiller and Jai-akson, [1912.06025](https://arxiv.org/abs/1912.06025); Mukherjee, [2310.14690](https://arxiv.org/abs/2310.14690) | Edge-mode boundary actions and their contribution to entanglement entropy | General framework (Maxwell, metric gravity) |
+| Ciambelli, Kowalski-Glikman, Varrin, [2507.16800](https://arxiv.org/abs/2507.16800); Varrin, [2610.37750](https://arxiv.org/abs/2610.37750) (2026) | Entanglement entropy of quantum corner states (2D, JT). Then: edge modes of Schwarzschild as **dynamical reference frames**; quantizing them gives the Bekenstein–Hawking entropy as entanglement entropy between the two exteriors, plus a logarithm | **The metric-variable version of the computation.** Not teleparallel |
+| Solodukhin, *Newton constant, contact terms and entropy*, [1502.03758](https://arxiv.org/abs/1502.03758) | Contact terms of interaction mediators (vectors, gravitons) in entanglement entropy and the renormalized G | Background for Jacobson's identification (DERIVATION.md); mentions the Weitzenböck connection in passing |
+
+**Assessment.** The gap is narrower than section 5 suggested, and sharper:
+- Varrin (2026) gets A/4 as entanglement entropy from edge modes treated as quantum
+  reference frames, in metric variables.
+- Girelli, Qiu and Zwikel (2024) show that in TEGR the flat connection *is* such a
+  reference-frame field, and that it carries edge-mode data, at null infinity.
+- **Not found: anyone putting these together at a finite entangling surface or a
+  bifurcate horizon.** In TEGR, does the flat connection supply the edge-mode frames
+  that the metric formulation has to add, and does quantizing them give A/4 plus the
+  same logarithm?
+
+The question is well defined and current, and Girelli and collaborators point at it
+themselves. So it's likely to be on someone's list already. Anyone taking it up should
+write to that group (Girelli, Zwikel, Wieland) first.
+
+The classical part is within reach of this repository's code: the corner symplectic
+potential of TEGR at a bifurcation surface, compared with the metric one. E3 and E3b
+already compute the same torsion flux, e T^r, at the horizon tip. The quantum part,
+quantizing the corner frames and computing the entropy, is research-level.
 
 ## What this suggests
 
@@ -137,9 +187,12 @@ In order of size:
    3D TEGR identity, the Ponzano–Regge asymptotics and the 2–3 move. They do not
    reproduce the dual (flat-first) construction itself; that is the natural next step
    for the notebook (its exercise 3).
-3. **Research-level: 4D teleparallel edge modes and entanglement entropy (section 5).**
-   The only gap found. It needs the first-order full-text search first, and then expert
-   input.
+3. **Research-level: 4D teleparallel edge modes and entanglement entropy (sections 5–6).**
+   The search is done. The open question: does TEGR's flat connection supply the
+   edge-mode reference frames at a bifurcate horizon, and does their quantization give
+   A/4 (compare Varrin 2026, metric variables)? A classical first step is TEGR's corner
+   symplectic potential at the bifurcation surface. Contact the Girelli–Zwikel–Wieland
+   group before investing in it.
 
 Not recommended: a new version of quantum mechanics. Nothing in this search suggests
 TEGR needs one; every quantum TEGR approach found uses standard quantum theory and asks
