@@ -226,10 +226,56 @@ including the mixed modes, closes into the sl(2, ℝ) structure that Varrin's
 construction uses, and whether the frame's boost is restricted the way his causal frames
 are.
 
-**Not done here:**
-- the behaviour of W under linearized diffeomorphisms, which also act at the corner;
-- the nonlinear corner form;
-- any quantization.
+### The closure (Q5–Q7)
+
+The linear frame–frame block of Q3, (1/8π)(δa₀₂∧δa₁₂ + δa₀₃∧δa₁₃), is the component along
+the normal boost of the Lorentz commutator [ε₁, ε₂]. That is the shape of a
+Kirillov–Kostant form, the canonical symplectic form on a coadjoint orbit. Q5–Q6 test
+this beyond linear order.
+
+| Step | Result | Status |
+|---|---|---|
+| Q5 | Flat metric, finite frame fields e = Λ(x), for SO(2,1) frames from three arbitrary functions and SO(3,1) frames from six: the exact symplectic current is ∂_νW^{μν} with **W^{μν} = (1/8π)[Λ⁻¹δ₁Λ, Λ⁻¹δ₂Λ]^{μν}**. Agreement 10⁻³⁴ (60-digit arithmetic, finite differences); the opposite sign fails at order 1 | CHECK |
+| Q6 | The corner charges G_X = (1/8π)(Λ⁻¹XΛ)^{tx} generate the frame rotations (δG_X = Ω(δ_X, ·), to 10⁻³⁰). They **close exactly into the Lorentz algebra**, {G_X, G_Y} = G_[X,Y] (to 10⁻⁴², all 36 pairs). The stabilizer is {J₀₁, J₂₃}: the normal boost and the rotation within the surface, the two modes with no frame partner in Q3 | CHECK |
+| Q7 | What the orbit quantizes to, and what entropy that gives | KNOWN representation theory |
+
+**What closes, and into what.**
+- In the pure-frame sector the corner phase space of TEGR's frame is a coadjoint orbit of
+  the Lorentz group SO(3,1), through (1/8πG)·K_normal per unit area. Its charges form
+  so(3,1) ≅ sl(2,ℂ). This matches the sl(2,ℂ) corner Lorentz charges that
+  Freidel–Geiller–Pranzetti find in tetrad gravity (Part II).
+- It contains sl(2,ℝ) ≅ so(2,1) subalgebras {K_normal, K_A, J_normal,A}, one for each
+  tangent direction A.
+- **This sl(2,ℝ) is not Varrin's.** His acts on the normal plane, i.e. normal-plane
+  linear maps from the diffeomorphism edge modes, which include shears. The two share only
+  the normal boost, the area pair of Q3.
+
+**What it quantizes to (Q7).**
+- A coadjoint orbit through a boost quantizes to principal-series representations, with
+  the label fixed by the area.
+- Varrin (eq. 4.14) gives the group Plancherel density for SL(2,ℝ): k tanh(πk), which
+  grows linearly. Two powers of it give an edge entropy of order ln A, not A/4.
+- Only the causal **semigroup** SL⁺(2,ℝ), with density k sinh(2πk) (his eq. 4.20), gives
+  A/4. At A = 1000 (Planck units) that is 254.6 against A/4 = 250, the difference being
+  his logarithmic terms; the group gives 6.0.
+- His causal condition requires positive entries in null coordinates. **For Lorentz boosts
+  it holds automatically**: a boost is diag(e^η, e^{−η}) there. So it imposes nothing on
+  TEGR's frame.
+
+**Conclusion of this step.** TEGR's frame supplies the boost–area pair, and its corner
+charges close into the Lorentz algebra. On its own it does not supply the exponential
+density of states that gives A/4. In Varrin's construction that comes from the
+normal-plane maps beyond boosts, which are diffeomorphism edge modes and are the same in
+TEGR and GR. So, at this level, quantizing the frame adds a logarithm, not the area law.
+
+**Caveats:**
+- Q5–Q6 are for the pure-frame sector (flat metric). Q3 shows the metric enters at linear
+  order through the area density and the shift-type components. That the orbit radius
+  is the area density is shown at linear order only.
+- Q7 uses Varrin's construction and its normalization. Other quantizations of the orbit
+  (other regularizations, or including discrete series) were not examined.
+- Not examined either: the behaviour of W under linearized diffeomorphisms at the corner,
+  and the full nonlinear corner form with a curved metric.
 
 ## What this suggests
 
@@ -248,8 +294,10 @@ In order of size:
    edge-mode reference frames at a bifurcate horizon, and does their quantization give
    A/4 (compare Varrin 2026, metric variables)? The classical part is done
    (TEGR.md K1–K6): the frame changes where the entropy is booked, but not the first law.
-   The quantum part has started (section 7): at linear order the frame's normal boost
-   is conjugate to area/8πG, the Carlip–Teitelboim pair. Next: the corner algebra.
+   The quantum part has started (section 7). The frame's normal boost is conjugate to
+   area/8πG, and the frame's corner charges close exactly into the Lorentz algebra (a
+   Kirillov–Kostant orbit). Quantized as a group, that gives ln A, not A/4: the area law
+   needs the normal-plane edge modes, which are the same in TEGR and GR.
 
 Not recommended: a new version of quantum mechanics. Nothing in this search suggests
 TEGR needs one; every quantum TEGR approach found uses standard quantum theory and asks

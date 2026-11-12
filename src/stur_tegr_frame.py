@@ -28,8 +28,31 @@ T_{rho mu nu} = d_mu B_{rho nu} - d_nu B_{rho mu}. G = 1.
   Q4  Cross-check with stur_tegr_corner K5 (nonlinear, Euclidean): the frame winding at
       rate k shifts the tip term by (A/4)(k/kappa) = (A/8 pi) x (k beta), i.e. A/8 pi times
       the frame's total rotation angle, the same coefficient. (CHECK)
+  Q5  Exact, nonlinear, pure-frame sector (flat metric, e = Lambda(x), Lambda a finite
+      SO(2,1) or SO(3,1) frame field): the symplectic current is omega^mu = d_nu W^{mu nu}
+      with W^{mu nu} = (1/8 pi) [theta_1, theta_2]^{mu nu}, theta = Lambda^-1 d Lambda.
+      Checked numerically at 60 digits (finite differences, error ~1e-34). So the corner
+      form is the Kirillov-Kostant form of the Lorentz group at (1/8 pi G) K_normal per unit
+      area. (CHECK)
+  Q6  Hence the corner charges of frame rotations, G_X = (1/8 pi) (Lambda^-1 X Lambda)^{tx},
+      satisfy d G_X = Omega(delta_X, .) and close exactly: {G_X, G_Y} = Omega(delta_X,
+      delta_Y) = G_[X,Y], the Lorentz algebra so(3,1) = sl(2,C). Its sl(2,R) = so(2,1) subalgebras are
+      {K_normal, K_A, J_normal-A} for each tangent direction A. The orbit has dimension 4;
+      the stabilizer is {K_normal, J_surface}, the two modes Q3 found without a frame
+      partner. (CHECK)
+  Q7  Consequence for the entropy (KNOWN representation theory; Varrin arXiv:2610.37750,
+      eq. 4.14 and 4.20): an orbit through a boost quantizes to principal-series
+      representations labelled by the area. The group Plancherel density grows only
+      polynomially (k tanh(pi k) for SL(2,R)), giving ln A, not A/4. The exponential
+      k sinh(2 pi k), which gives A/4, needs the causal semigroup SL+(2,R) of normal-plane
+      maps. For Lorentz boosts the causal condition is automatic (in null coordinates a
+      boost is diag(e^eta, e^-eta)), so TEGR's frame does not supply it.
 Labels: KNOWN, CHECK (computed here).
 """
+import itertools
+import random
+
+import mpmath as mp
 import sympy as sp
 
 X = sp.symbols("t x y z", real=True)
@@ -182,6 +205,166 @@ def k5_coefficient():
     return sp.simplify(sp.Rational(1, 4) * (k / kappa) / (k * beta))
 
 
+# --------------------------------------------------------------------------- Q5-Q7
+_GENS = [(0, 1, True), (0, 2, True), (1, 2, False), (0, 3, True), (1, 3, False), (2, 3, False)]
+
+
+def _mp_rot(i, j, ang, is_boost):
+    M = mp.eye(4)
+    if is_boost:
+        M[i, i] = M[j, j] = mp.cosh(ang)
+        M[i, j] = M[j, i] = mp.sinh(ang)
+    else:
+        M[i, i] = M[j, j] = mp.cos(ang)
+        M[i, j], M[j, i] = -mp.sin(ang), mp.sin(ang)
+    return M
+
+
+def _mp_eta():
+    return mp.diag(ETA)
+
+
+def _random_frame(ngen, rng):
+    """A finite Lorentz frame field Lambda(x; e1, e2) built from ngen generators, with
+    random quadratic polynomials for the angles and for the two variations."""
+    def rpoly():
+        c = [mp.mpf(rng.randint(-9, 9)) / 17 for _ in range(15)]
+
+        def f(x):
+            out, k = c[0] + sum(c[1 + i] * x[i] for i in range(4)), 5
+            for i in range(4):
+                for j in range(i, 4):
+                    if k < 15:
+                        out += c[k] * x[i] * x[j]
+                        k += 1
+            return out
+        return f
+    gens = _GENS[:ngen]
+    q, u, v = ([rpoly() for _ in gens] for _ in range(3))
+
+    def Lam(x, e1=0, e2=0):
+        M = mp.eye(4)
+        for (i, j, b), qq, uu, vv in zip(gens, q, u, v):
+            M = M * _mp_rot(i, j, qq(x) / 3 + e1 * uu(x) + e2 * vv(x), b)
+        return M
+    return Lam
+
+
+def _cd(f, h):
+    """4th-order central difference of s -> f(s) at 0."""
+    return (-f(2 * h) + 8 * f(h) - 8 * f(-h) + f(-2 * h)) / (12 * h)
+
+
+def _mp_lag(Linv, P):
+    n = N4
+    Tl = [[[sum(Linv[r, a] * (P[a][w][m] - P[a][m][w]) for a in range(n)) for w in range(n)] for m in range(n)]
+          for r in range(n)]
+    s1 = s2 = 0
+    for r, m, w in itertools.product(range(n), repeat=3):
+        up = ETA[m] * ETA[w] * Tl[r][m][w]
+        s1 += up * ETA[r] * Tl[r][m][w]
+        s2 += up * ETA[w] * Tl[w][m][r]
+    V = [sum(Tl[r][r][m] for r in range(n)) for m in range(n)]
+    return -(s1 / 4 + s2 / 2 - sum(ETA[m] * V[m] ** 2 for m in range(n))) / (16 * mp.pi)
+
+
+def _mp_momentum(Linv, P):
+    """Gradient of the quadratic form: exact by central difference with step 1."""
+    out = [[[0] * N4 for _ in range(N4)] for _ in range(N4)]
+    for a, w, m in itertools.product(range(N4), repeat=3):
+        Pp = [[[P[i][j][k] for k in range(N4)] for j in range(N4)] for i in range(N4)]
+        Pm = [[[P[i][j][k] for k in range(N4)] for j in range(N4)] for i in range(N4)]
+        Pp[a][w][m] += 1
+        Pm[a][w][m] -= 1
+        out[m][a][w] = (_mp_lag(Linv, Pp) - _mp_lag(Linv, Pm)) / 2
+    return out
+
+
+def kks_exact_check(ngen=6, points=2, seed=11, dps=60):
+    """Q5: max |omega - div W|, max |omega + div W| (control), max |omega| over points."""
+    mp.mp.dps = dps
+    h = mp.mpf("1e-14")
+    rng = random.Random(seed)
+    Lam = _random_frame(ngen, rng)
+    E = _mp_eta()
+
+    def theta(x, e1, e2, which):
+        L = Lam(x, e1, e2)
+        Linv = E * L.T * E
+        dL = [_cd(lambda s, m=m: Lam([x[k] + (s if k == m else 0) for k in range(4)], e1, e2), h) for m in range(4)]
+        P = [[[dL[m][a, w] for m in range(4)] for w in range(4)] for a in range(4)]
+        Pm = _mp_momentum(Linv, P)
+        dLe = _cd(lambda s: Lam(x, e1 + s, e2) if which == 1 else Lam(x, e1, e2 + s), h)
+        return mp.matrix([sum(Pm[mu][a][w] * dLe[a, w] for a in range(4) for w in range(4)) for mu in range(4)])
+
+    def W(x):
+        L = Lam(x)
+        Linv = E * L.T * E
+        t1 = Linv * _cd(lambda s: Lam(x, s, 0), h)
+        t2 = Linv * _cd(lambda s: Lam(x, 0, s), h)
+        return (t1 * t2 - t2 * t1) * E / (8 * mp.pi)
+
+    worst = ctrl = size = mp.mpf(0)
+    for _ in range(points):
+        x = [mp.mpf(rng.randint(-20, 20)) / 23 for _ in range(4)]
+        om = _cd(lambda s: theta(x, s, 0, 2), h) - _cd(lambda s: theta(x, 0, s, 1), h)
+        div = mp.matrix(4, 1)
+        for nu in range(4):
+            div += _cd(lambda s, nu=nu: W([x[k] + (s if k == nu else 0) for k in range(4)])[:, nu], h)
+        worst = max(worst, mp.norm(om - div))
+        ctrl = max(ctrl, mp.norm(om + div))
+        size = max(size, mp.norm(om))
+    return worst, ctrl, size
+
+
+def lorentz_generator(i, j):
+    """J_ij in the frame representation, (J_ij)^a_b = delta^a_i eta_jb - delta^a_j eta_ib."""
+    M = mp.matrix(4, 4)
+    M[i, j] += ETA[j]
+    M[j, i] -= ETA[i]
+    return M
+
+
+def charge_closure_check(seed=5, dps=40):
+    """Q6: at a random finite frame Lambda, with Omega(d1, d2) = (1/8 pi)[th1, th2]^{tx}
+    (th = Lambda^-1 dLambda) and G_X = (1/8 pi)(Lambda^-1 X Lambda eta)^{tx}:
+    worst |Omega(delta_X, d) - d G_X| over random d, and worst
+    |Omega(delta_X, delta_Y) - G_[X,Y]| over all generator pairs."""
+    mp.mp.dps = dps
+    rng = random.Random(seed)
+    E = _mp_eta()
+    Lam = mp.eye(4)
+    for (i, j, b) in _GENS:
+        Lam = Lam * _mp_rot(i, j, mp.mpf(rng.randint(-9, 9)) / 7, b)
+    Linv = E * Lam.T * E
+    tx = lambda M: (M * E)[0, 1] / (8 * mp.pi)
+    Omega = lambda dA, dB: tx((Linv * dA) * (Linv * dB) - (Linv * dB) * (Linv * dA))
+    G = lambda Xg, L: tx((E * L.T * E) * Xg * L)
+    gens = [lorentz_generator(i, j) for (i, j, b) in _GENS]
+    ham = mp.mpf(0)
+    for Xg in gens:
+        for _ in range(3):
+            Y = sum((mp.mpf(rng.randint(-9, 9)) / 11 * g for g in gens), mp.matrix(4, 4))
+            dLam = Y * Lam                                                  # a random variation
+            dG = _cd(lambda s: G(Xg, Lam + s * dLam), mp.mpf("1e-12"))
+            ham = max(ham, abs(Omega(Xg * Lam, dLam) - dG))
+    alg = mp.mpf(0)
+    for A, B in itertools.product(gens, repeat=2):
+        alg = max(alg, abs(Omega(A * Lam, B * Lam) - G(A * B - B * A, Lam)))
+    # stabilizer at the identity: generators X with Omega(delta_X, .) = 0
+    stab = [(i, j) for (i, j, b), Xg in zip(_GENS, gens)
+            if all(abs(tx(Xg * Yg - Yg * Xg)) < mp.mpf("1e-30") for Yg in gens)]
+    return ham, alg, stab
+
+
+def plancherel_entropy(area):
+    """Q7: leading edge entropy, two powers of the Plancherel density at k = A / 16 pi
+    (Varrin: 2 Phi_h = A / 8 pi G, k = Phi_h): group SL(2,R), mu = k tanh(pi k); semigroup
+    SL+(2,R), mu = k sinh(2 pi k). Returns (S_group, S_semigroup, A/4)."""
+    k = mp.mpf(area) / (16 * mp.pi)
+    return (2 * mp.log(k * mp.tanh(mp.pi * k)), 2 * mp.log(k * mp.sinh(2 * mp.pi * k)), mp.mpf(area) / 4)
+
+
 # --------------------------------------------------------------------------- main
 def main():
     banner("Q1  The frame is pure gauge in the bulk of linearized TEGR (CHECK)")
@@ -211,6 +394,30 @@ def main():
 
     banner("Q4  Same coefficient from the nonlinear Euclidean action (stur_tegr_corner K5)")
     print(f"   Tip-term shift per unit area per unit frame angle: {k5_coefficient()} = 1/(8 pi)")
+
+    banner("Q5  Exact, nonlinear: the frame's corner form is Kirillov-Kostant (CHECK)")
+    for ng, label in ((3, "SO(2,1)"), (6, "SO(3,1)")):
+        w, c, sz = kks_exact_check(ngen=ng)
+        print(f"   {label} frame field: |omega - div W| = {mp.nstr(w, 2)},  control |omega + div W| ="
+              f" {mp.nstr(c, 3)},  |omega| = {mp.nstr(sz, 3)}")
+    print("   W^{mu nu} = (1/8 pi) [Lambda^-1 d1 Lambda, Lambda^-1 d2 Lambda]^{mu nu}, flat metric, finite frames.")
+
+    banner("Q6  The corner charges close into the Lorentz algebra (CHECK)")
+    ham, alg, stab = charge_closure_check()
+    print(f"   Omega(delta_X, d) = d G_X:          worst error {mp.nstr(ham, 2)}")
+    print(f"   Omega(delta_X, delta_Y) = G_[X,Y]:  worst error {mp.nstr(alg, 2)} over all 36 pairs")
+    print(f"   Stabilizer of the orbit point (generators with no partner): J{stab}")
+    print("   so(3,1) = sl(2,C) closes exactly. sl(2,R) = so(2,1) subalgebras: {J01, J0A, J1A}.")
+    print("   This sl(2,R) mixes the normal with a tangent direction; Varrin's acts on the normal")
+    print("   plane. They share only the boost J01, the area pair of Q3.")
+
+    banner("Q7  What this quantizes to (KNOWN: Varrin 2610.37750, eqs. 4.14, 4.20)")
+    for A in (100, 1000):
+        sg, ss, q4 = plancherel_entropy(A)
+        print(f"   A = {A}: group SL(2,R) 2 ln mu = {mp.nstr(sg, 4)};  semigroup SL+(2,R) = {mp.nstr(ss, 6)};  A/4 = {q4}")
+    print("   The group measure gives ln A; only the causal semigroup gives A/4. For Lorentz boosts")
+    print("   the causal condition is automatic, so TEGR's frame alone does not give A/4. The")
+    print("   exponential needs the normal-plane edge modes, which the frame does not supply.")
 
 
 if __name__ == "__main__":

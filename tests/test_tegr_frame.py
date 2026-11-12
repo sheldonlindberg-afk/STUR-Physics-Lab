@@ -28,3 +28,22 @@ def test_corner_form_pairs_boost_with_area():
 
 def test_k5_gives_the_same_coefficient():
     assert sp.simplify(F.k5_coefficient() - 1 / (8 * sp.pi)) == 0
+
+
+def test_exact_corner_form_is_kirillov_kostant():
+    import mpmath as mp
+    for ng in (3, 6):
+        worst, ctrl, size = F.kks_exact_check(ngen=ng)
+        assert worst < mp.mpf("1e-30") and ctrl > mp.mpf("1e-3") and size > mp.mpf("1e-3")
+
+
+def test_corner_charges_close_into_lorentz():
+    import mpmath as mp
+    ham, alg, stab = F.charge_closure_check()
+    assert ham < mp.mpf("1e-25") and alg < mp.mpf("1e-30")
+    assert stab == [(0, 1), (2, 3)]                       # normal boost, in-surface rotation
+
+
+def test_group_measure_gives_log_semigroup_gives_quarter_area():
+    s_group, s_semi, quarter = F.plancherel_entropy(1000)
+    assert s_group < 10 and abs(s_semi - quarter) < 0.02 * quarter

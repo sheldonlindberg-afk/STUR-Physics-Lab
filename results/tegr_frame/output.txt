@@ -39,3 +39,29 @@ Q3  On the plane t = const, x = 0: what the frame is conjugate to (CHECK)
 Q4  Same coefficient from the nonlinear Euclidean action (stur_tegr_corner K5)
 ==============================================================================
    Tip-term shift per unit area per unit frame angle: 1/(8*pi) = 1/(8 pi)
+
+==============================================================================
+Q5  Exact, nonlinear: the frame's corner form is Kirillov-Kostant (CHECK)
+==============================================================================
+   SO(2,1) frame field: |omega - div W| = 6.3e-35,  control |omega + div W| = 0.0744,  |omega| = 0.0372
+   SO(3,1) frame field: |omega - div W| = 8.4e-35,  control |omega + div W| = 0.226,  |omega| = 0.113
+   W^{mu nu} = (1/8 pi) [Lambda^-1 d1 Lambda, Lambda^-1 d2 Lambda]^{mu nu}, flat metric, finite frames.
+
+==============================================================================
+Q6  The corner charges close into the Lorentz algebra (CHECK)
+==============================================================================
+   Omega(delta_X, d) = d G_X:          worst error 1.6e-30
+   Omega(delta_X, delta_Y) = G_[X,Y]:  worst error 4.3e-42 over all 36 pairs
+   Stabilizer of the orbit point (generators with no partner): J[(0, 1), (2, 3)]
+   so(3,1) = sl(2,C) closes exactly. sl(2,R) = so(2,1) subalgebras: {J01, J0A, J1A}.
+   This sl(2,R) mixes the normal with a tangent direction; Varrin's acts on the normal
+   plane. They share only the boost J01, the area pair of Q3.
+
+==============================================================================
+Q7  What this quantizes to (KNOWN: Varrin 2610.37750, eqs. 4.14, 4.20)
+==============================================================================
+   A = 100: group SL(2,R) 2 ln mu = 1.376;  semigroup SL+(2,R) = 24.9894;  A/4 = 25.0
+   A = 1000: group SL(2,R) 2 ln mu = 5.981;  semigroup SL+(2,R) = 254.595;  A/4 = 250.0
+   The group measure gives ln A; only the causal semigroup gives A/4. For Lorentz boosts
+   the causal condition is automatic, so TEGR's frame alone does not give A/4. The
+   exponential needs the normal-plane edge modes, which the frame does not supply.
