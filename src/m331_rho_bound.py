@@ -30,12 +30,27 @@ R4  The 2 sigma excess. rho_0 - 1 = 3.9e-4 asks for w < 8.1 TeV at the most favo
     a. At the LHC bound, the 3-3-1 tree-level mixing gives at most rho - 1 = 1.8e-4
     (+1/sqrt3) or 2.4e-4 (-1/sqrt3), 47% (62%) of the central excess: 3-3-1 at the LHC
     bound can reduce the tension to 1.1 sigma (0.8 sigma), not remove it. (CHECK)
-R5  What is left out (FOLLOWS). One-loop 3-3-1 contributions to T (the bilepton doublet's
-    mass splitting, of order M_W^2 in M^2) are suppressed by alpha/4pi next to the tree
-    term and are not computed; S and U, and the Z' couplings to fermions at the Z pole, are
-    not used. With a newer rho_0, the R3 and R4 numbers move but the comparison with the
-    LHC does not reverse unless the rho_0 upper limit tightens by a factor of 3-4
-    (w goes as its inverse square root).
+R5  What is left out (FOLLOWS). This is rho alone, at tree level; it is not a full
+    electroweak-precision bound on 3-3-1.
+      - The Z-pole couplings. Z-Z' mixing also shifts the Z's couplings to fermions, by an
+        angle of order (v/w)^2: the same order as rho - 1, and at tree level. A fit to the
+        Z-pole observables (widths, asymmetries, sin^2 theta_eff) is the standard
+        electroweak test of a Z' and the leading omission here. It could tighten the bound
+        on w by an O(1) factor; whether it reaches the LHC's is not computed.
+      - One-loop T from the gauge bosons. The bilepton doublet is split by order M_W^2, so
+        its contribution is ~ (g^2/16pi^2)(M_W^2/M_V^2): a loop factor below the tree term.
+        The exotic quarks and heavy leptons are SU(2) singlets and contribute little.
+      - One-loop T from the scalars. The two electroweak triplets hold a second Higgs
+        doublet, whose mass splittings come from the quartics lambda: its contribution goes
+        as lambda^2/16pi^2, not small near the perturbativity edge of NOTE_331.md section
+        3c. With heavy scalars as light as the 0.1 TeV floor of section 3e it is not
+        suppressed by v/w at all; rho then constrains the scalar spectrum, not w. It can
+        have either sign, so it can lift the cancellation at a = a0 (R3) or offset the tree
+        term (R4).
+      - S and U are not used.
+    So R3 and R4 hold for the tree-level mixing with heavy, weakly coupled scalars. A newer
+    rho_0 moves the numbers; on rho alone the LHC stays ahead unless the upper limit
+    tightens by a factor of 3-4 (w goes as its inverse square root).
 Labels: CHECK, LIT, FOLLOWS.
 """
 import math

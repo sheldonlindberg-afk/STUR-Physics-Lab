@@ -65,8 +65,21 @@ the 2022–2024 W-mass measurements). That residual is where B5's mixing would s
 | R3 | ρ₀ − 1 < 7.6×10⁻⁴ (95% CL) gives **w > 5.8 TeV at most**, and nothing at a = a₀. The LHC Z′ recast gives w > 11.9 TeV (β = +1/√3) and 10.3 TeV (β = −1/√3) for every a: ρ is weaker by a factor of about 2 | CHECK; LIT ρ₀ |
 | R4 | The 2σ excess in ρ₀ would need w < 8.1 TeV. At the LHC bound, the mixing gives at most 47% (β = +1/√3) or 62% (β = −1/√3) of it, leaving 1.1σ or 0.8σ | CHECK |
 
-One-loop 3-3-1 contributions to T are suppressed by α/4π next to the tree term and aren't
-computed; S and U aren't used.
+**What this leaves out.** This is ρ alone, at tree level, not a full electroweak-precision
+bound:
+- **The Z-pole couplings** (the leading omission). The mixing also shifts the Z's couplings
+  to fermions, at the same order (v/w)². A fit to the Z-pole observables could tighten the
+  bound on w by an O(1) factor; whether it reaches the LHC's isn't computed.
+- **One-loop T from the bilepton gauge bosons:** about (g²/16π²)(M_W²/M_V²), a loop factor
+  below the tree term. The exotic fermions are SU(2) singlets and contribute little.
+- **One-loop T from the scalars:** not loop-suppressed in the same way. The second Higgs
+  doublet's splittings come from the quartics, so its contribution goes as λ²/16π². With
+  heavy scalars near the 0.1 TeV floor of NOTE_331.md §3e it isn't suppressed by v/w at
+  all, and ρ then constrains the scalar spectrum, not w. Its sign is free, so it can lift
+  R3's cancellation at a = a₀ or offset R4's tree term.
+- **S and U** aren't used.
+
+So R3 and R4 hold for the tree-level mixing with heavy, weakly coupled scalars.
 
 ## Rung 2: the strong force (`src/chiral_breaking.py`)
 

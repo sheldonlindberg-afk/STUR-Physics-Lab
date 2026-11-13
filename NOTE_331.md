@@ -645,12 +645,15 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
     096). Bilepton pairs are closed (M_Z′ = 1.225 M_V < 2 M_V). The 'every scalar open'
     column bounds Z′ → scalars, W_L W_L and Zh. Interference with Drell-Yan changes σB by
     −3% to +2% within ±10% of the peak (about 15 GeV), and Z-Z′ mixing by < 0.4%.
-    Electroweak precision is weaker. The tree-level Z–Z′ mixing gives
+    The ρ parameter alone is weaker. The tree-level Z–Z′ mixing gives
     ρ − 1 = (v/w)²(sin²a − sin²a₀)², with tan a = v₂/v₁ and sin²a₀ = 0.35 (β = +1/√3) or
     0.65 (β = −1/√3). So it vanishes at one ratio of the vacuum values. The global fit's
     ρ₀ = 1.00039 ± 0.00019 (Erler, arXiv:1908.07346) gives w > 5.8 TeV at most. The LHC
     gives w > 11.9 and 10.3 TeV for every a (`src/m331_rho_bound.py`; SYMMETRY_LADDER.md,
-    rung 1);
+    rung 1). This is not yet a full electroweak-precision bound. The mixing shifts the Z's
+    fermion couplings at the same order, and a Z-pole fit could tighten w by an O(1)
+    factor; that isn't computed. Scalar loops in T go as λ²/16π², and for light heavy
+    scalars they aren't suppressed by v/w at all;
   - doubly or singly charged bilepton gauge bosons;
   - exotic quarks;
   - for β = +1/√3, three heavy charged leptons, vector-like SU(2) singlets. The selection
