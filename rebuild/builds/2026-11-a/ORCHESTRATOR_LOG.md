@@ -32,7 +32,8 @@ verifier and auditor can weigh the results. Builders never see this file.
 | chiral | pass | 1/1 | 5/5 | 9c717e7 |
 | casimir | pass | 1/1 | 6/6 | 84c09f7 |
 | graviton | pass | 2/2 (rung 2 -> 4, rung 3 -> 4) | 5/5 | 8289cae |
-| desitter | pass | (none; rung 6 calls it) | 6/6 | (this commit) |
+| desitter | pass | (none; rung 6 calls it) | 6/6 | b8e7f2a |
+| blackholes | pass | 3/3 (rung 5 -> 6 twice, toolkit) | 19/19 | (this commit) |
 
 ## Notes per stage
 
@@ -51,3 +52,12 @@ verifier and auditor can weigh the results. Builders never see this file.
   R^ab when the tetrad is diagonal, and the Lorentz block of the split residual is nearly an
   identity. Auditor: strengthen both (e.g. an off-diagonal tetrad, and R^ab checked against the
   metric's curvature).
+- **blackholes:** the photon sphere (3M), b_c = sqrt(27) M, the ISCO (6M, L^2 = 12, E^2 = 8/9) and the
+  Nariai mass (4.2689e52 kg) were all found numerically, and the closed forms appear only in the
+  self-check. The Kerr first law and Smarr come out as exact Fraction(0). EHT pulls: M87* -0.40,
+  Sgr A* +0.16. GW250114: A_f/A_i = 1.71 (ringdown M_f = 66.7, chi = 0.746). The 220 mode
+  predicted from the full-signal remnant has pulls +0.33 and +0.59.
+  **Partly not blind:** the formula kappa = |f'|/2 was visible in the blind checks (leak 3). The
+  Nariai closed form was removed before this build (66e64f7).
+  Spec gaps for build b: the damping-rate unit (s^-1, labelled "Hz"), the pull convention for
+  Sgr A*, and the Kerr q = 0 limit of Omega dJ.

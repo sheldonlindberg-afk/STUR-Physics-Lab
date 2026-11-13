@@ -91,3 +91,33 @@
 5. **ell_from_lambda** uses the exact Fraction coefficients (from levi_civita contractions alone) rather than
    the finite-difference geometric ones, so it is exact (sensitivity tier requires 1e-12); action_coefficients
    is the geometric route and agrees to ~1e-15.
+
+## blackholes
+
+1. **Kerr first law with irrational a.** a = sqrt(pq) is not rational, so Omega and J are never formed.
+   Only the quoted BCH S, T, Omega, J enter, through the exact rational combinations
+   T dS = (T pi) d(S/pi), Omega J = a^2 M/(p^2 + a^2) and Omega dJ = (Omega/2J) d(J^2) = d(J^2)/(2M(p^2+a^2)),
+   with directional derivatives along (dp, dq) by toolkit.exact_derivative. At q = 0 (Schwarzschild) along dq,
+   dJ itself diverges but Omega dJ has the finite limit this formula gives; I take that limit as the meaning
+   of the residual there (the blind check's q = 0 cases).
+2. **Nariai degenerate point.** sds_horizons returns None when max f <= 0, including the exact Nariai
+   double root (no static region). The bound is strict: horizons exist iff 27 M^2 < l^2.
+3. **kappa_from_spin_connection needs fp.** desitter.spin_connection takes (f, fp). I pass fp as the exact
+   derivative of the postulated rational f (toolkit.exact_derivative at Fraction(r), Fraction(M), Fraction(l)),
+   not a hand-typed f'. The Killing route (killing_kappa) uses finite differences of f only, as SPEC requires.
+4. **killing_kappa theta.** The metric is built at theta = pi/3 (generic); kappa is theta independent.
+5. **Euclidean ratio endpoint.** After r = rh + u^2 the integrand is smooth and even in u but 0/0 at u = 0
+   with f only; its endpoint value is extrapolated from two interior samples, (4g(du) - g(2du))/3. n = 401 samples.
+6. **ISCO definition.** "The L^2 at which circular orbits first exist" = min over r > r_ph of
+   L^2(r) = -f'/(f/r^2)' (V' linear in L^2), exact derivatives at Fraction(r). r_isco is polished with an
+   exact symmetric difference (eta = 1e-6, bias ~1e-12 relative). E^2 = V(r_isco; L^2).
+7. **Kerr area route.** r+ is solved by bisection of r^2 - 2r + chi^2 (horizons p, q with p + q = 2M, pq = a^2)
+   and A = 4 pi (r+^2 + a^2) = 4 S_BCH; SPEC's 8 pi M^2 (1 + sqrt(1 - chi^2)) is the identity check.
+   Marked derived; it leans on the horizon-area formula 4 pi (r+^2 + a^2) (equivalently the quoted S = A/4).
+8. **Self-check conventions.** "Pull" = (prediction - measured)/sigma_meas with sigma on the side facing
+   the prediction; the M87* theta_g also shows the prediction's own 1-sigma from the stellar mass error.
+   Sgr A*: "average of VLTI and Keck" is taken as the mean of the two theta_g = GM/(c^2 D) values (not
+   mean mass over mean distance; these differ slightly). GW250114: initial area uses central component
+   masses at chi = 0; final area uses invert_220 of the central (F220, G220) at z = GW_Z[0]; the self-check
+   also prints the range of A_final over the 1-sigma (f, gamma) box (a crude spread, not a posterior).
+9. **qnm units.** The damping rate omega/(2Q) is in s^-1 (contract says "Hz"); the frequency is omega/(2 pi).
