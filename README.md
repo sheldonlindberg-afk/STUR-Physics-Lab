@@ -102,6 +102,14 @@ local Lorentz frame. The note asks whether that frame contributes to black-hole 
 All of it is computed by `src/stur_tegr_corner.py`, `src/stur_tegr_frame.py` and
 `src/stur_tegr_logs.py`, and pinned by tests.
 
+## The forces in one chain
+
+**[FORCE_CHAIN.md](FORCE_CHAIN.md)** runs the forces as one simulation (`src/force_chain.py`,
+about 3 s): unification, the photon, weak to strong, the strong force, electromagnetism and
+gravity in the lab, gravity as a broken gauge theory, and black holes, which evaporate back
+through every force to the Planck mass the chain started from. Each stage uses earlier
+stages' outputs, and each measured input is marked where it enters.
+
 ## For students: the symmetry-breaking ladder
 
 **[SYMMETRY_LADDER.md](SYMMETRY_LADDER.md)** follows the forces down in energy, from the 3-3-1
@@ -215,7 +223,7 @@ python3 src/m331_breaking.py         # the ladder, rungs 1-6: also chiral_breaki
 python3 src/ladder_links.py          # links across the rungs: neutral matter, pi0 -> gamma gamma, M_Pl, ~2 s
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
 python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (212 tests)
+python -m pytest tests -q           # every number pinned (217 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on
@@ -229,6 +237,7 @@ notebooks/                study notebooks with exercises
 NOTE_331.md               the 3-3-1 note with extended detail on each check
 NOVELTY.md                literature search: what is new, what was already known
 NOTE_TEGR.md              the frame in teleparallel gravity and black-hole entropy
+FORCE_CHAIN.md            the forces as one chain, from 3-3-1 into black holes and back
 SYMMETRY_LADDER.md        symmetry breaking from 3-3-1 to the diamond experiment, derived
 DEPENDENCIES.md           generated map: which script feeds which, and every shared constant
 QUANTUM_TEGR.md           literature map for quantum teleparallel gravity

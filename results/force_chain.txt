@@ -1,0 +1,113 @@
+
+==============================================================================
+1  Unification: SU(3)_C x SU(3)_L x U(1)_X -> Standard Model -> electromagnetism
+==============================================================================
+   anomaly-fixed quark charges at N_c = 3: Q_u = 2/3, Q_d = -1/3;  q_p + q_e = 0 exactly
+   Planck mass from the measured G: 1.22089e+19 GeV
+   Landau poles (beta = +1/sqrt3, alpha = 1, three loops): N_c = 3 at 2.86 M_Pl, N_c = 5 at 4.2e-08 M_Pl -> N_c = 3 selected: True
+
+==============================================================================
+2  Electroweak to the photon: one coupling from M_Z to zero momentum
+==============================================================================
+   leptons' running at one loop 314.191e-4 (computed); hadrons 0.02783 (measured)
+   1/alpha(0) = 127.93 / (1 - 0.066450) = 137.035999  (CODATA 137.035999)
+
+==============================================================================
+3  Weak to strong: G_F and the pion's weak decay give the pion decay constant
+==============================================================================
+   f_pi = 130.57 MeV (lattice, not used: 130.2 +- 1.2)
+
+==============================================================================
+4  The strong force: chiral symmetry breaking, pions, nucleons
+==============================================================================
+   pi0 -> gamma gamma with stage 1's charges, stage 2's alpha, stage 3's f_pi: 7.742 eV (PrimEx 7.802 +- 0.117)
+   pion mass at O(p^4) with F = f_pi/sqrt2/1.062: 132.3 MeV (measured 135.0)
+   electromagnetic splitting from stage 2's alpha (rho + a1 saturation): 1604 MeV^2 (measured 1261)
+   one-pion exchange range: 1.414 fm
+   the nucleon's mass: QCD field energy +91.45%;  u, d quark masses +4.53%;  s quark mass +4.82%;  electrons +0.03%;  nuclear binding -0.82%
+
+==============================================================================
+5  Electromagnetism in the lab: the background the diamonds must suppress
+==============================================================================
+   matter is neutral (stage 1): q_p + q_e = 0; with stage 2's alpha the experiment needs < 2.82e-19 e per nucleon
+   Casimir-Polder is 10% of gravity at a gap of 181.2 um
+
+==============================================================================
+6  Gravity in the lab: one-graviton exchange between design A's diamonds
+==============================================================================
+   m = 1.468e-14 kg, gap 181.2 um (stage 5): entangling phase 2.187 rad
+   the mass is 91% QCD field energy (stage 4); with massless u, d quarks the phase would be 1.99 rad
+
+==============================================================================
+7  Gravity as a broken de Sitter gauge theory: SO(4,1) -> SO(3,1)
+==============================================================================
+   l = sqrt(3/Lambda) = 1.647e+26 m; coupling 3/(G Lambda) in Planck units 1.04e+122
+   the Lambda term cancels in the entangling combination: 0; stage 6's 2.187 rad changes at order 2e-59
+   its field equations are solved by Schwarzschild-de Sitter, f = 1 - 2GM/(c^2 r) - r^2/l^2: True
+
+==============================================================================
+8  Black holes: the strong field, and evaporation back through every force
+==============================================================================
+   surface gravity from stage 7's spin connection: omega^0_1t - f'/2 = 0
+   Hawking temperature of Sgr A* from stage 7's f(r), measured Lambda: 1.435946e-14 K (Lambda = 0: 1.435946e-14 K; the measured Lambda changes it by -2.4e-32)
+   the diamond is 6.7e-07 Planck masses: too light to be a semiclassical black hole
+   EHT: M87* +0.35 sigma, Sgr A* -0.16 sigma;  GW250114 area 237372 -> 406548 km^2 (it grew, as Hawking's area law requires)
+   a shrinking hole's temperature, coldest first:
+      the diamond experiment's cryostat (stage 6)          T =  1.29e-14 GeV,  3.36e+54 s left, f =  1.02
+      the CMB: above this mass a hole absorbs more         T =  2.35e-13 GeV,  5.60e+50 s left, f =  1.02
+      electrons (the charges of stages 1 and 5)            T =  1.28e-04 GeV,  2.23e+24 s left, f =  1.58
+      muons                                                T =  2.64e-02 GeV,  1.63e+17 s left, f =  2.15
+      pions (stage 4's Goldstone bosons)                   T =  3.49e-02 GeV,  5.84e+16 s left, f =  2.95
+      QCD crossover: stage 4's condensate melts            T =  1.57e-01 GeV,  2.29e+14 s left, f =  8.22
+      W and Z with their Goldstones (stage 1)              T =  2.01e+01 GeV,  6.76e+07 s left, f = 12.97
+      top quark                                            T =  4.31e+01 GeV,  6.00e+06 s left, f = 15.33
+      electroweak crossover (stage 1's breaking)           T =  1.60e+02 GeV,  1.18e+05 s left, f = 15.33
+      3-3-1 content (stage 1)                              T =  9.39e+02 GeV,  3.37e+02 s left, f = 26.49
+      the Planck mass (stage 1's cutoff): semiclassics ends T =  4.86e+17 GeV,  2.43e-42 s left, f = 26.49
+   -> it ends at stage 1's Planck mass, T = 4.8578e+17 GeV = M_Pl/8 pi (4.8578e+17 GeV)
+
+==============================================================================
+Hand-offs: each value, the stage that produced it, the stages that used it
+==============================================================================
+   G                      stage 1  ->  stage 5, stage 6, stage 7, stage 8
+   Q_u                    stage 1  ->  stage 4
+   Q_d                    stage 1  ->  stage 4
+   q_p + q_e              stage 1  ->  stage 5
+   M_Pl                   stage 1  ->  stage 8
+   1/alpha-hat(M_Z)       stage 1  ->  stage 2
+   G_F                    stage 1  ->  stage 3
+   N_c                    stage 1  ->  stage 4
+   M_V floor              stage 1  ->  stage 8
+   alpha(0)               stage 2  ->  stage 4, stage 5
+   f_pi                   stage 3  ->  stage 4
+   pi0 width              stage 4  ->  (final)
+   m_pi O(p^4)            stage 4  ->  (final)
+   mass budget            stage 4  ->  stage 6
+   neutrality needed      stage 5  ->  (final)
+   gap                    stage 5  ->  stage 6
+   phase                  stage 6  ->  stage 7
+   diamond mass           stage 6  ->  stage 8
+   cryostat T             stage 6  ->  stage 8
+   l                      stage 7  ->  stage 8
+   f(r)                   stage 7  ->  stage 8
+   Sgr A* T_H             stage 8  ->  (final)
+   end temperature        stage 8  ->  (final)
+
+==============================================================================
+Measured inputs, where they enter
+==============================================================================
+   stage 1: G (CODATA 2018)
+   stage 1: 1/alpha-hat(M_Z) (PDG 2024 (MS-bar))
+   stage 1: G_F (PDG 2024)
+   stage 1: M_V floor (LHC Z' recast (src/m331_zprime_recast.py))
+   stage 2: Delta alpha_had (PDG 2024 electroweak review)
+   stage 3: Gamma(pi -> mu nu) (PDG 2024 (with delta_pi, |V_ud|))
+   stage 4: FLAG constants (m_ud, Sigma, F_pi/F, lbar_3) and sigma terms (FLAG 2024, FLAG 19/21)
+   stage 4: m_rho, m_a1 (PDG 2024)
+   stage 5: diamond permittivity (tabulated (AUDIT.md))
+   stage 6: cryostat T (src/stur_gravity_full.py BASE_ENV (design))
+   stage 7: Lambda (Planck 2018 with BAO)
+
+   Not derived anywhere in the chain: the values of these inputs, why the scales are
+   so far apart, and gravity's unification with the gauge forces (stage 7 is an
+   equivalent rewriting of general relativity, not a derivation from stage 1).

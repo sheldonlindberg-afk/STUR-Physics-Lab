@@ -5,6 +5,11 @@ and pinned by a test. Labels: **CHECK** (computed here), **MODEL** (a stated mod
 physics), **REFORMULATION** (an equivalent rewriting), **LIT** (a measured input or a
 quoted result).*
 
+**The same physics as one chain, without rungs:** [FORCE_CHAIN.md](FORCE_CHAIN.md) and
+`src/force_chain.py` run eight stages in order, each using earlier stages' outputs, from 3-3-1
+through the diamond experiment into black holes and back. This page is the step-by-step
+derivation behind it.
+
 This page follows the forces down in energy, from the 3-3-1 scale to the two diamonds of
 [GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md). At each rung it states what breaks,
 how, what follows, and what is derived. The forces don't turn into one another: at each

@@ -541,10 +541,10 @@ def f_331(variant):
     return f, weyl, n_gauge, n_scal
 
 
-def f_of_T(T, variant="+1/sqrt3", rule=4.0):
+def f_of_T(T, variant="+1/sqrt3", rule=4.0, mv=MV_FLOOR):
     """L7b-c: f at Hawking temperature T (GeV): species switch on at T >= m / rule; pions
     become quarks and gluons at T_QCD; above M_V / rule the unbroken 3-3-1 content."""
-    if T >= MV_FLOOR / rule:
+    if T >= mv / rule:
         return f_331(variant)[0]
     on = lambda m: T >= m / rule
     f = 2 * W_S1 + 6 * W_HALF_N + 2 * W_S2                          # photon, neutrinos, graviton
@@ -575,7 +575,7 @@ def m_star():
     return math.exp(lm)
 
 
-def lifetime_s(M_kg, variant="+1/sqrt3", n=4000):
+def lifetime_s(M_kg, variant="+1/sqrt3", n=4000, mv=MV_FLOOR):
     """Remaining lifetime from mass M: int_0^M M'^2 dM' / (alpha f(M')), in grams, with f
     taken at each step's Hawking temperature (log grid down to the Planck mass)."""
     import numpy as np
@@ -583,29 +583,31 @@ def lifetime_s(M_kg, variant="+1/sqrt3", n=4000):
     m_pl_kg = math.sqrt(HBAR_SI * C_SI / G_NEWTON)
     Mg = M_kg * 1e3
     xs = np.geomspace(m_pl_kg * 1e3, Mg, n)
-    fs = np.array([f_of_T(hawking_T_gev(x / 1e3), variant) for x in xs])
+    fs = np.array([f_of_T(hawking_T_gev(x / 1e3), variant, mv=mv) for x in xs])
     integ = xs**2 / (ALPHA_EVAP * fs)
     tail = (m_pl_kg * 1e3) ** 3 / (3 * ALPHA_EVAP * fs[0])
     return float(np.trapezoid(integ, xs) + tail)
 
 
-def evaporation_thresholds(variant="+1/sqrt3"):
-    """L7c: (label, T_H in GeV, M in kg, remaining lifetime in s, f just above)."""
+LABELS_LADDER = ("the diamond experiment's cryostat, 0.15 K", "CMB: absorbs more than it emits above this mass",
+                 "electrons (rung 3's charges)", "muons", "pions (rung 2's Goldstone bosons)",
+                 "QCD crossover: rung 2's condensate melts; quarks and gluons",
+                 "W and Z, with the Higgs mechanism's Goldstones", "top quark",
+                 "electroweak crossover (rung 1's breaking)", "3-3-1 content (rung 1's start)",
+                 "Planck mass: link 3's cutoff, semiclassics ends")
+
+
+def evaporation_thresholds(variant="+1/sqrt3", t_cryo=T_CRYO, mv=MV_FLOOR, m_pl_gev=None, labels=LABELS_LADDER):
+    """L7c: (label, T_H in GeV, M in kg, remaining lifetime in s, f just above). The cryostat
+    temperature (K), the 3-3-1 scale and the Planck mass (GeV) can be handed in."""
     kT = lambda T_K: KB_SI * T_K / GEV_J
-    m_pl_kg = math.sqrt(HBAR_SI * C_SI / G_NEWTON)
-    pts = [("the diamond experiment's cryostat, 0.15 K", kT(T_CRYO)),
-           ("CMB: absorbs more than it emits above this mass", kT(T_CMB)),
-           ("electrons (rung 3's charges)", M_EL / 4), ("muons", M_MU / 4),
-           ("pions (rung 2's Goldstone bosons)", M_PIC_GEV / 4),
-           ("QCD crossover: rung 2's condensate melts; quarks and gluons", T_QCD),
-           ("W and Z, with the Higgs mechanism's Goldstones", M_W / 4),
-           ("top quark", M_T / 4), ("electroweak crossover (rung 1's breaking)", T_EW),
-           ("3-3-1 content (rung 1's start)", MV_FLOOR / 4),
-           ("Planck mass: link 3's cutoff, semiclassics ends", hawking_T_gev(m_pl_kg))]
+    m_pl_kg = math.sqrt(HBAR_SI * C_SI / G_NEWTON) if m_pl_gev is None else m_pl_gev * GEV_J / C_SI**2
+    Ts = [kT(t_cryo), kT(T_CMB), M_EL / 4, M_MU / 4, M_PIC_GEV / 4, T_QCD, M_W / 4, M_T / 4, T_EW,
+          mv / 4, hawking_T_gev(m_pl_kg)]
     out = []
-    for lab, T in pts:
+    for lab, T in zip(labels, Ts):
         M = mass_at_T(T)
-        out.append((lab, T, M, lifetime_s(M, variant), f_of_T(T * 1.0001, variant)))
+        out.append((lab, T, M, lifetime_s(M, variant, mv=mv), f_of_T(T * 1.0001, variant, mv=mv)))
     return out
 
 
