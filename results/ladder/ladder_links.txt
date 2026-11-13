@@ -144,6 +144,18 @@ L9c  One coupling at two scales: alpha-hat(M_Z) -> alpha(0) (CHECK; LIT)
    1/alpha-hat(M_Z) = 127.93 (rung 1), Delta alpha-hat = 0.066450:  1/alpha(0) = 137.035999; CODATA 137.035999084
 
 ==============================================================================
+L10a-b  Rung 5's solution in the lab: Newton plus a background that can't entangle (CHECK)
+==============================================================================
+   Phi = -(c^2/2)(1 - f) for Schwarzschild-de Sitter, minus (-GM/r - Lambda c^2 r^2/6): 0
+   nabla^2 Phi + Lambda c^2 away from the mass: 0
+   entangling combination of the Lambda term, any branch positions: 0
+
+==============================================================================
+L10c-d  What is left of Lambda at the diamonds (FOLLOWS, order of magnitude)
+==============================================================================
+   l = sqrt(3/Lambda) = 1.647e+26 m; farthest branch distance 743 um; (r/l)^2 = 2.0e-59
+
+==============================================================================
 L3a  The Planck mass: the 3-3-1 cutoff from rung 4's G (CHECK)
 ==============================================================================
    rung 4 (src/stur_gravity_entanglement.py): G = 6.67430e-11, hbar = 1.054571817e-34, c = 299792458

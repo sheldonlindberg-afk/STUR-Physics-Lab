@@ -168,6 +168,23 @@ L9  One electromagnetic coupling from rung 1 to rung 3: alpha-hat(M_Z) run down 
       137.035999, CODATA's 137.035999084. The coupling rung 1 breaks with and the one rung 3's
       charges and photons use (L2's pi0 width, L8c's pion splitting, L1's Coulomb law) are
       one coupling at two scales. (CHECK; LIT)
+L10 The broken de Sitter gauge theory back to the lab: rung 5 -> rung 4.
+  L10a The weak field of rung 5's solution. MacDowell-Mansouri's field equations give
+      Schwarzschild-de Sitter, f = 1 - 2GM/(c^2 r) - r^2/l^2 with Lambda = 3/l^2
+      (src/macdowell_mansouri.py M3-M5). Its Newtonian potential, Phi = -(c^2/2)(1 - f) =
+      -GM/r - Lambda c^2 r^2 / 6, solves nabla^2 Phi = 4 pi G rho - Lambda c^2: Newton's law
+      of rung 4 plus a uniform background. (CHECK, symbolic)
+  L10b The background can't entangle. For two masses the Lambda term is a sum of one-body
+      energies, -(Lambda c^2/6)(m_A |x_A|^2 + m_B |x_B|^2), so it cancels identically in the
+      entangling combination phi_00 + phi_11 - phi_01 - phi_10; the 1/r term is what is left,
+      with the same G. Rung 5's extra constant doesn't touch rung 4's 2.19 rad. (CHECK,
+      symbolic)
+  L10c What can: a mass-mass correction of relative order (r/l)^2 = Lambda r^2 / 3 from the
+      de Sitter propagator. At design A's farthest branch distance it is 2e-59. Its
+      coefficient is not computed here; the order is the statement. (FOLLOWS, order of
+      magnitude)
+  L10d The same G and Lambda: rung 5's coupling 3/(G Lambda) is formed from rung 4's G and
+      the measured Lambda, and its l = sqrt(3/Lambda) = 1.65e26 m. (CHECK)
 Labels: CHECK, FOLLOWS, KNOWN, LIT, MODEL (L3f's gravity term; L7c's switch-on rule; L8c's resonance saturation).
 """
 import functools
@@ -409,6 +426,45 @@ def alpha0_from_mz():
     """L9c: 1/alpha(0) from rung 1's MS-bar 1/alpha-hat(M_Z)."""
     d = DALPHA_LEP_3LOOP + DALPHA_HAD[0] + DALPHA_CONV
     return AINV_MZ_MSBAR / (1 - d), d
+
+
+# ---------------------------------------------------------------------------------- L10
+LAMBDA_SI = 1.1056e-52                    # m^-2, as in src/macdowell_mansouri.py and src/black_holes.py
+
+
+def weak_field_of_sds():
+    """L10a: Phi from Schwarzschild-de Sitter's f, and the Poisson equation it solves away
+    from the source (nabla^2 Phi = -Lambda c^2 there; the point mass gives 4 pi G rho)."""
+    import sympy as sp
+    r, Gs, M, c, l = sp.symbols("r G M c l", positive=True)
+    f = 1 - 2 * Gs * M / (c**2 * r) - r**2 / l**2
+    Phi = sp.simplify(-(c**2 / 2) * (1 - f))
+    Lam = 3 / l**2
+    lap = sp.simplify(sp.diff(r**2 * sp.diff(Phi, r), r) / r**2)
+    return sp.simplify(Phi - (-Gs * M / r - Lam * c**2 * r**2 / 6)), sp.simplify(lap + Lam * c**2)
+
+
+def lambda_cancels_in_entangling_phase():
+    """L10b: branch energies U_ij = -G m^2 / |x_Ai - x_Bj| - (Lambda c^2/6) m (|x_Ai|^2 + |x_Bj|^2);
+    the entangling combination of the Lambda part is identically zero."""
+    import sympy as sp
+    m, Gs, c, Lam = sp.symbols("m G c Lambda", positive=True)
+    xa = sp.symbols("xa0 xa1", real=True)
+    xb = sp.symbols("xb0 xb1", real=True)
+    ya = sp.symbols("ya0 ya1", real=True)
+    yb = sp.symbols("yb0 yb1", real=True)
+    bg = lambda i, j: -(Lam * c**2 / 6) * m * (xa[i] ** 2 + ya[i] ** 2 + xb[j] ** 2 + yb[j] ** 2)
+    ent = bg(0, 0) + bg(1, 1) - bg(0, 1) - bg(1, 0)
+    return sp.simplify(ent)
+
+
+def lambda_correction_size():
+    """L10c-d: (r/l)^2 at design A's farthest branch distance, and l."""
+    import graviton_exchange as GX
+    _, _, _, (m, dx, gap, hold, ramp) = GX.branch_phases()
+    r_far = math.hypot(gap, dx)
+    l = math.sqrt(3 / LAMBDA_SI)
+    return (r_far / l) ** 2, l, r_far
 
 
 # ---------------------------------------------------------------------------------- L6
@@ -743,6 +799,16 @@ def main():
     a0, d = alpha0_from_mz()
     print(f"   1/alpha-hat(M_Z) = {AINV_MZ_MSBAR} (rung 1), Delta alpha-hat = {d:.6f}:  1/alpha(0) = {a0:.6f};"
           f" CODATA {1 / ALPHA_0:.9f}")
+
+    banner("L10a-b  Rung 5's solution in the lab: Newton plus a background that can't entangle (CHECK)")
+    d_phi, d_lap = weak_field_of_sds()
+    print(f"   Phi = -(c^2/2)(1 - f) for Schwarzschild-de Sitter, minus (-GM/r - Lambda c^2 r^2/6): {d_phi}")
+    print(f"   nabla^2 Phi + Lambda c^2 away from the mass: {d_lap}")
+    print(f"   entangling combination of the Lambda term, any branch positions: {lambda_cancels_in_entangling_phase()}")
+
+    banner("L10c-d  What is left of Lambda at the diamonds (FOLLOWS, order of magnitude)")
+    rel, l, rf = lambda_correction_size()
+    print(f"   l = sqrt(3/Lambda) = {l:.3e} m; farthest branch distance {rf * 1e6:.0f} um; (r/l)^2 = {rel:.1e}")
 
     banner("L3a  The Planck mass: the 3-3-1 cutoff from rung 4's G (CHECK)")
     mpl, mpl331, (G, hb, c) = planck_mass()

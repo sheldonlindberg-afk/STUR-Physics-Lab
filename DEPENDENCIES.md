@@ -7,7 +7,7 @@ This page records which script feeds which, and which physical quantities each o
 ## Summary
 
 - **46 scripts** in `src/`, in 6 topics; **71 imports** between them, 28 of them across topics. 10 scripts import nothing from the others and nothing imports them.
-- **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 189 literals in the source.
+- **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 190 literals in the source.
 - **44 quantities are typed in more than one script**; 17 of them are shared by more than one topic.
 - **2 copies differ from their source for a stated reason**; **0 differ without one (drift).**
 
@@ -340,7 +340,7 @@ These are imported from their source by every script that uses them; a typed-in 
 | ħc (GeV fm) | input | 0.197327 | CODATA 2018 | `chiral_breaking`, `ladder_standalone` |
 | Planck mass √(ħc/G) (GeV) | derived | 1.220890e19 | √(ħc/G) from G, ħ, c (this tool) | `black_holes` (rounded), `ladder_standalone` (rounded), `m331_exact` (rounded), `m331_standalone` (rounded), `m331_su3L_running` (rounded) |
 | Planck length √(ħG/c³) (m) | derived | 1.616255e-35 | √(ħG/c³) from G, ħ, c (this tool) | `black_holes` (rounded), `ladder_standalone` (rounded), `macdowell_mansouri` (rounded) |
-| cosmological constant Λ (m⁻²) | input | 1.105600e-52 | Planck 2018 +BAO, 3H₀²Ω_Λ/c² | `black_holes`, `ladder_standalone`, `macdowell_mansouri` |
+| cosmological constant Λ (m⁻²) | input | 1.105600e-52 | Planck 2018 +BAO, 3H₀²Ω_Λ/c² | `black_holes`, `ladder_links`, `ladder_standalone`, `macdowell_mansouri` |
 | 1/α(0) | input | 137.036 | CODATA 2018 | `ladder_links`, `ladder_standalone` |
 | 1/α(M_Z), MS-bar | input | 127.93 | PDG 2024 | `ladder_links`, `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zpole`, `m331_zprime_recast` |
 | sin²θ_W(M_Z), MS-bar | input | 0.23129 | PDG 2024 | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zpole` (variant), `m331_zprime_recast` (variant) |

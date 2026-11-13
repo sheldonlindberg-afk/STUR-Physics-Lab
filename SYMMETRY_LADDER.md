@@ -352,6 +352,15 @@ splitting use α(0). This link shows they are one coupling at two scales.
 | L9b | The hadrons' part needs the R-ratio at all energies. The repository's KEDR data (1.84–3.05 GeV) gives 1.74×10⁻³, **6.3%** of Δα_had = 0.02783(6) (PDG 2024), which enters as an input | CHECK; LIT |
 | L9c | Closure: α(0) = α̂(M_Z)(1 − Δα̂), with Δα̂ = Δα_lep + Δα_had + 0.007122 (the MS-bar to on-shell conversion, PDG 2024 eq. 10.13). From rung 1's 1/α̂(M_Z) = 127.930: **1/α(0) = 137.035999**, CODATA's 137.035999084 | CHECK; LIT |
 
+### Link 10: the broken de Sitter gauge theory back to the lab, from rung 5 to rung 4 (`src/ladder_links.py` L10)
+
+| | Result | Status |
+|---|---|---|
+| L10a | Rung 5's field equations give Schwarzschild–de Sitter (M5). Its Newtonian potential, Φ = −(c²/2)(1 − f), is **−GM/r − Λc²r²/6**, solving ∇²Φ = 4πGρ − Λc²: rung 4's Newton law plus a uniform background | CHECK, symbolic |
+| L10b | **The background can't entangle.** For two masses the Λ term is a sum of one-body energies, so it cancels identically in the entangling combination φ₀₀ + φ₁₁ − φ₀₁ − φ₁₀; the 1/r term, with the same G, is all that is left | CHECK, symbolic |
+| L10c | What can is a mass–mass correction from the de Sitter propagator, of relative order (r/l)² = Λr²/3: **2×10⁻⁵⁹** at design A's farthest branch distance. The coefficient isn't computed; the order is the statement | FOLLOWS |
+| L10d | Rung 5's l = √(3/Λ) = 1.65×10²⁶ m and coupling 3/(GΛ) are built from rung 4's G and the measured Λ | CHECK |
+
 ## How the rungs fit together
 
 | Energy | What breaks | What is left below |

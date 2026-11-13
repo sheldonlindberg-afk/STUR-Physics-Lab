@@ -130,6 +130,13 @@ def test_one_coupling_from_mz_to_zero():
     assert abs(a0 - 1 / LL.ALPHA_0) < 1e-5
 
 
+def test_de_sitter_gauge_theory_in_the_lab():
+    assert LL.weak_field_of_sds() == (0, 0)
+    assert LL.lambda_cancels_in_entangling_phase() == 0
+    rel, l, rf = LL.lambda_correction_size()
+    assert abs(l / 1.647e26 - 1) < 1e-3 and abs(rel / 2.04e-59 - 1) < 0.01
+
+
 def test_reference_output_matches():
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
