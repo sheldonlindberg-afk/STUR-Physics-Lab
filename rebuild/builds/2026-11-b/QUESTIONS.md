@@ -22,3 +22,24 @@ No missing inputs; nothing quoted. Points where SPEC.md / contract.py are silent
    (TypeError) rather than silently made inexact. A constant f (returns a plain number) gives Fraction(0).
 8. **`levi_civita` on non-permutations:** any input that is not a bijection of 0..n-1 (repeated *or*
    out-of-range index) returns 0; the contract only mentions repeats.
+
+## Stage `gauge331`
+
+No missing inputs; nothing quoted. Ambiguities and the choice made:
+
+1. **Antitriplet component order.** SPEC says the antitriplet's first two charges are (Q_u, Q_d) "in some
+   order". Since -T3 reverses the doublet, the order is (Q_d, Q_u); X_a = Q_u - 1/2 + b.
+2. **Lepton X_L.** SPEC states X_L (-1/3, -2/3). The code derives it from "electron = T3 = -1/2 member with
+   charge -1" (X_L = -1/2 - b) and `__main__` shows it equals the stated values; the stated values are not typed in.
+3. **`quark_charges` for even N_c.** n_A = (1+N_c)/2 is not an integer; the function still returns the rational
+   continuation (N_c+1)/(2N_c), (1-N_c)/(2N_c) rather than raising. Only odd N_c is physical.
+4. **`doublet_charge_pairs` at N_c = 1.** N_g - n_A = 0 triplet quark families; multiplets with zero multiplicity
+   are skipped (the returned set is unchanged, as antitriplets give the same pair).
+5. **Sign/phase of the covariant derivative.** Not specified; irrelevant, since M2 is quadratic in g_A T_A.
+6. **`neutral_masses` selection.** Returns the two largest eigenvalues of the 3x3 block (the photon's zero is
+   dropped by position, not by a threshold). For w/v >~ 1e4 the light eigenvalue from the Jacobi solver loses
+   relative accuracy ~ eps * (w/v)^2 (seen as 4e-9 at w = 4e6); the closed form (T, P) in `__main__` does not.
+7. **G_F matching.** G_F/sqrt2 = g^2/(8 M_W^2) is used as the tree-level definition of G_F, not derived from a
+   muon-decay amplitude; tagged `derived` on that basis since the contract fixes the formula.
+8. **`photon_direction` normalization.** Unnormalized, chosen so that sum_A n_A g_A T_A = Q exactly
+   (n_3 = 1/g, n_8 = beta/g, n_9 = 1/g_X); then |n|^2 = 1/e^2.
