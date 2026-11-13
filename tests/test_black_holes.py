@@ -5,13 +5,15 @@ import black_holes as BH
 
 
 def test_surface_gravity_and_euclidean_period():
+    assert BH.surface_gravity_from_killing() == 0
     assert BH.surface_gravity_from_spin_connection() == 0
     assert BH.euclidean_ratio() == 0
-    out = BH.euclidean_checks()
-    for rh, k, smooth, cone in out.values():
-        assert abs(smooth - 1) < 1e-5 and abs(cone - 1.1) < 1e-5
+    out, wrong = BH.euclidean_checks()
+    for rh, k, kf, smooth in out.values():
+        assert abs(k / kf - 1) < 1e-5 and abs(smooth - 1) < 1e-5
     kb, kc = out["black hole"][1], out["cosmological"][1]
     assert abs(kb / kc - 1) > 0.5                       # two horizons, two temperatures
+    assert abs(wrong - 1) > 0.1                         # Schwarzschild's period leaves a cone in SdS
 
 
 def test_thermodynamics_exact():
@@ -36,10 +38,11 @@ def test_geodesics():
 
 def test_eht_shadows():
     out = BH.eht()
-    p87, _, _, z87, gas = out["M87*"]
-    pS, _, _, zS, _ = out["Sgr A*"]
+    p87, t87, z87, (gas, zgas) = out["M87*"]
+    pS, tS, zS, _ = out["Sgr A*"]
     assert abs(p87 - 37.8) < 0.1 and abs(pS - 52.3) < 0.1
-    assert abs(z87) < 2 and abs(zS) < 2 and gas < 21
+    assert abs(t87 - 3.64) < 0.01 and abs(tS - 5.03) < 0.01
+    assert abs(z87) < 2 and abs(zS) < 2 and zgas > 3
 
 
 def test_gw250114():
