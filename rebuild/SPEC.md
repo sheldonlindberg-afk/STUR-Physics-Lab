@@ -1,8 +1,8 @@
 # Rebuild specification: postulates and conventions, without answers
 
 *For the builder. This page states what to **assume** at each stage and the conventions that
-make independent builds comparable. It deliberately gives no results: no eigenvalues, no
-2.19 rad, no 23/4. You derive them. The export signatures are in
+make independent builds comparable. It deliberately gives no results: no eigenvalues, no phases, no exact integrals, no
+masses. You derive them. The export signatures are in
 [`contract.py`](contract.py), and the only source of numbers is [`inputs.py`](inputs.py).*
 
 ## 0. Layers

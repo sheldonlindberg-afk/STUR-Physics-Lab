@@ -38,3 +38,21 @@
    (W3, W8, B) block, which decouples exactly from W1,2,4..7 for these vev patterns.
 6. The scalar X charges are SPEC postulates written as small Fractions in the code (selected by the
    sign of b); no measured number is used in this stage (G_F, alpha, s^2 are function arguments).
+
+## casimir
+
+1. **Gravity potential inside `casimir_safe_gap`.** contract lists casimir's dependencies as toolkit
+   only, so the gravity phase here uses U_g = -G m^2/r directly (inputs.G_NEWTON at call time). It is
+   identical to -4 pi G m^2 chiral.yukawa(r, 0) (the ladder's rung 2 -> 4 derivation, which is done
+   and connection-checked in stage graviton) and to the blind check's form. Not imported from
+   chiral to keep within the declared dependency list.
+2. **"Casimir phase <= fraction x gravity phase"** is read with absolute values of both entangling
+   phases (both are positive in the parallel geometry since both potentials are attractive and
+   monotone). The ratio is proved strictly decreasing in the gap (geometric-sum identity, see
+   DERIVATION_casimir.md section 6), so "smallest gap" = the unique root.
+3. **Both diamonds equal**: same m, R = diamond_radius(m), K = sphere_K(inputs.EPS_DIAMOND) (float eps
+   gives a float K by the same exact elimination). Static alpha for all xi, as SPEC says.
+4. **cp_energy units**: R in m, K dimensionless, r in m, returns J; alpha_i = K_i R_i^3 (the
+   4 pi eps0 is absorbed by P3's convention). Only the fluctuation formula is quoted; the
+   reduction to -(hbar c/pi) I K1 K2 R1^3 R2^3/r^7 and I itself are derived.
+5. **sphere_K for int eps** is promoted to Fraction (exact); float eps stays float.
