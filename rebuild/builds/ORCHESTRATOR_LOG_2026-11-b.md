@@ -18,7 +18,9 @@ desitter update, with no information about build a. Framework state at the start
 | casimir | pass | 1/1 | 6/6 | dfea68b |
 | graviton | pass | 2/2 | 5/5 | 0fc07e4 |
 | desitter | pass | (none; rung 6 calls it) | 10/10 | 30c7655 |
-| blackholes | pass | 3/3 | 21/21 | (this commit) |
+| blackholes | pass | 3/3 | 21/21 | 76a5e96 |
+| links | pass | 3/3 | 8/8 | (this commit) |
+| **all stages** | **pass** | **15/15** | **76/76** | |
 
 ## Notes per stage
 
@@ -52,3 +54,14 @@ desitter update, with no information about build a. Framework state at the start
   GW250114 220-mode pulls +0.33 and +0.59, all the same as build a.
   For the verifier: `killing_kappa` returns the value at the sample point, not extrapolated (same SPEC
   reading as build a?); the `kerr_*` provenance labels (C2); `euclidean_cone_ratio` uses 200 trapezoid nodes.
+- **links (fully blind):** neutrality 2.8243652699e-19 e per nucleon; pi0 width 7.785499435771721 eV
+  (-0.14 sigma); M_Pl = 1.2208901282e19 GeV; k_B T_H(M_Pl) = 4.857767471917444e17 GeV, all as build a.
+  pi0 widths tagged quoted, the rest derived.
+
+## P3: cross-build
+
+`python3 rebuild/harness.py rebuild/builds/2026-11-a --mode verifier --compare rebuild/builds/2026-11-b`:
+**crossbuild 18/18, RESULT: ALL GATES PASS.** Every probe agrees to 1e-8, the new `ricci_scalar` probe
+included. Against the reference adapter build b gives 17/18, the one failure being F1
+(`chiral.sigma_model_vacuum`, 1.03e-6), the same as build a: two independent builds agree with each
+other and disagree with the reference in the same place, by the same amount.

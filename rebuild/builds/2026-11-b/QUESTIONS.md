@@ -193,3 +193,25 @@ No missing inputs. Quoted (all on the stage's list): `qnm_220`, `invert_220` (Be
    roles, the pull's denominator changes (no export is affected).
 10. **Self-check, area theorem.** Component spins are not in `inputs`; the final area is compared with the
     largest possible initial area (both components non-spinning).
+
+## Stage `links`
+
+No missing inputs. Quoted: only the pi0 anomaly amplitude (allowed). Ambiguities and the choice made:
+
+1. **`neutrality_per_nucleon`: what carries the charge.** The SPEC gives the ratio k Q^2/(G m^2) only.
+   Resolved: both diamonds carry the same net charge Q; vacuum Coulomb law (no EPS_DIAMOND factor; induced
+   dipoles are rung 3's background); nucleon count = m / inputs.U_AMU; the result is |Q|/(e N) at
+   Coulomb = GAP_FRACTION x gravity, i.e. (u/e) sqrt(F G/k). If the charges were meant unequal, or the count to
+   use inputs.M_N, the number changes by an O(1) factor.
+2. **`g_window` when p3 <= p5.** The contract assumes pole_5 < pole_3. Resolved: always return
+   ((mpl/p3)^2, (mpl/p5)^2) unclipped; lo >= hi then signals an empty window. p3, p5 and mpl must share units
+   (GeV with inputs.POLES_331).
+3. **`pi0_width_eV` units and conventions.** fpi and mpi in GeV, result x 1e9 to eV; f_pi is the ~92 MeV
+   convention (inputs.F_PI); the amplitude multiplies eps^{mu nu rho sigma} e1*_mu k1_nu e2*_rho k2_sigma with
+   no extra factor; identical-photon factor 1/2 included. Result: Gamma = A^2 m^3/(64 pi). Provenance is
+   declared `quoted` (amplitude), with the polarization sum and phase space derived.
+4. **`planck_mass_GeV` conversion.** J -> GeV uses inputs.E_CH (read at call time) for any (G, hbar, c).
+5. **`matter_charges` X_L.** Taken from the SPEC's stated values (-1/3, -2/3), not solved from Q_e = -1, so
+   q_e = -1 is a test of them. "Reverse" for the neutron = ((Nc-1)/2 u, (Nc+1)/2 d). Returned order
+   (q_p, q_n, q_e, Q_nu) with the neutrino = component 1, the electron = component 2.
+6. **`schwarzschild_radius`.** Mass in kg, radius in metres, 2 G m/c^2 with inputs.G_NEWTON, C_LIGHT.
