@@ -121,7 +121,8 @@ scale to the two diamonds, with every step derived and checked in code:
   nucleon; the measured limit, 10⁻²¹ e, is 280× tighter. **π⁰ → γγ:** rung 1's charges and the measured f_π
   give 7.79 eV, against PrimEx's 7.80 ± 0.12 eV, for any N_c. **The Planck mass:** the 3-3-1
   selection's cutoff is √(ħc/G) with the diamond experiment's G; the selection would survive
-  G 8.4× weaker or 10¹⁴× stronger. **Black holes:** the diamond's Schwarzschild radius is a
+  G 8.4× weaker or 10¹⁴× stronger at the reference spectrum, and G 1.6× weaker at the
+  worst point of the threshold scan. **Black holes:** the diamond's Schwarzschild radius is a
   millionth of the Planck length, and a Planck-mass black hole has k_BT = M_Pl c²/8π.
 
 Gravity is not part of the gauge chain; the page says where each derivation stops.
@@ -211,7 +212,7 @@ python3 src/m331_breaking.py         # the ladder, rungs 1-6: also chiral_breaki
 python3 src/ladder_links.py          # links across the rungs: neutral matter, pi0 -> gamma gamma, M_Pl, ~2 s
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
 python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (201 tests)
+python -m pytest tests -q           # every number pinned (203 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on

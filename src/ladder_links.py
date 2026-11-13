@@ -64,11 +64,26 @@ L3  The Planck mass: rung 4 -> rung 1. The 3-3-1 selection asks every coupling t
       10^19 GeV, i.e. gravity's strength does not run in between. In perturbative quantum
       gravity the corrections are of order (E/M_Pl)^2; many hidden light species would lower
       the effective cutoff, which this check does not cover. (FOLLOWS)
-Labels: CHECK, FOLLOWS, KNOWN, LIT.
+  L3e The window over the heavy spectrum. L3b uses one reference spectrum. Over the
+      threshold scan of NOTE_331.md section 3a (r_J, r_S, M_V, light doublets: 72 points,
+      src/m331_threshold.py GRID), beta = +1/sqrt3's N_c = 3 pole runs from 1.28 to 16 M_Pl,
+      so the lower edge of the window runs from x = 0.004 to 0.61. At the scan's worst point
+      (M_V = 2 TeV, r_J = 0.5, r_S = 1/3, two light doublets) the selection fails for G only
+      1.6x weaker. The upper edge (N_c = 5) and beta = -1/sqrt3 stay many orders of magnitude
+      away. So L3b's 8.4x is the reference spectrum's margin, not the model's. (CHECK)
+  L3f Gravity's own term in the gauge running at M_Pl (src/m331_gravity_fixed_point.py). With
+      the gravity contribution set to the strength that keeps the Standard Model's
+      hypercharge finite (f* = 0.0098 at G* = 1, the benchmark of G2 there), the reference
+      pole moves from 2.89 to 2.98 M_Pl and the worst-case pole from 1.28 to 1.29 M_Pl: 3%
+      or less, against the factor of 13 that the spectrum spans. The threshold spectrum, not
+      gravity's running, sets how close the edge comes. (CHECK, given that model)
+Labels: CHECK, FOLLOWS, KNOWN, LIT, MODEL (L3f's gravity term).
 """
+import functools
 import math
 import os
 import sys
+from itertools import product
 
 import sympy as sp
 
@@ -227,6 +242,45 @@ def g_window():
     return out, floor, 1 / floor**2
 
 
+@functools.lru_cache(maxsize=None)
+def g_window_scan():
+    """L3e: the N_c = 3 and N_c = 5 poles (units of M_Pl) over the threshold scan grid,
+    as (min, max, spectrum at min, spectrum at max) per (variant, N_c), and the window edges
+    that follow: x from 1 / max(p3)^2 to 1 / min(p3)^2 on the low side."""
+    import m331_three_loop as T3
+    import m331_threshold as T
+    import m331_margin as M
+    mpl = planck_mass()[1]
+    grid = list(product(T.GRID["rJ"], T.GRID["rS"], T.GRID["MV"], T.GRID["n_light"]))
+    out = {}
+    for v in ("+1/sqrt3", "-1/sqrt3"):
+        for Nc in (3, 5):
+            vals = [(T3.pole(Nc, v, MV, rJ, rS, nl, gmax=M.ALPHA1) / mpl, (rJ, rS, MV, nl))
+                    for rJ, rS, MV, nl in grid]
+            lo, hi = min(vals), max(vals)
+            out[v, Nc] = (lo[0], hi[0], lo[1], hi[1])
+    return out, len(grid)
+
+
+@functools.lru_cache(maxsize=None)
+def gravity_shift():
+    """L3f: beta = +1/sqrt3, N_c = 3 poles (units of M_Pl) with and without the
+    asymptotic-safety gravity term at the Standard Model hypercharge's separatrix f*
+    (G* = 1), at the reference spectrum and at the scan's worst point."""
+    import m331_three_loop as T3
+    import m331_margin as M
+    import m331_gravity_fixed_point as GFP
+    mpl = planck_mass()[1]
+    f_sm = GFP.f_separatrix_sm(1.0)
+    grav = GFP.f_profile(f_sm, 1.0)
+    rows = {}
+    for lab, spec in (("reference", dict(MV=4e3)), ("worst", T3.WORST)):
+        p0 = T3.pole(3, "+1/sqrt3", gmax=M.ALPHA1, **spec) / mpl
+        pg = T3.pole(3, "+1/sqrt3", gmax=M.ALPHA1, grav=grav, **spec) / mpl
+        rows[lab] = (p0, pg)
+    return f_sm, rows
+
+
 def main():
     banner("L1a  Neutral matter is an anomaly condition (CHECK, symbolic; any beta, N_c, X)")
     d1, d2, same = neutrality_identity()
@@ -299,6 +353,27 @@ def main():
           f" so it would need G {x_floor:.1f}x stronger")
     print("   -> the selection's cutoff and the diamonds' signal share one measured G. The selection")
     print("      assumes G does not run between the laboratory and 10^19 GeV.")
+
+    banner("L3e  The same window over the threshold scan (NOTE_331.md 3a; alpha = 1, three loops)")
+    scan, n = g_window_scan()
+    print(f"   {n} spectra: r_J, r_S, M_V, light doublets (src/m331_threshold.py GRID)")
+    for v in ("+1/sqrt3", "-1/sqrt3"):
+        p3lo, p3hi, s3lo, _ = scan[v, 3]
+        p5lo, p5hi, _, _ = scan[v, 5]
+        print(f"   beta = {v:8s} N_c = 3 pole {p3lo:.3g} - {p3hi:.3g} M_Pl, N_c = 5 pole {p5lo:.2g} - {p5hi:.2g} M_Pl")
+        print(f"      lower edge {1 / p3hi**2:.2g} - {1 / p3lo**2:.2g},  upper edge {1 / p5hi**2:.2g} - {1 / p5lo**2:.2g}")
+    p3lo, _, (rJ, rS, MV, nl), _ = scan["+1/sqrt3", 3]
+    print(f"   worst point (beta = +1/sqrt3): r_J = {rJ}, r_S = {rS:.3g}, M_V = {MV:.0f} GeV, {nl} light doublets:")
+    print(f"      the selection fails for G {p3lo**2:.2f}x weaker (reference spectrum: {out['+1/sqrt3'][0]**2:.1f}x)")
+
+    banner("L3f  Gravity's term in the gauge running (src/m331_gravity_fixed_point.py; MODEL)")
+    f_sm, rows = gravity_shift()
+    print(f"   f* = {f_sm:.4f}, G* = 1: the strength that keeps the SM hypercharge finite (G2 there)")
+    for lab, (p0, pg) in rows.items():
+        print(f"   beta = +1/sqrt3, N_c = 3, {lab:9s} spectrum: pole {p0:.3f} -> {pg:.3f} M_Pl  ({pg / p0 - 1:+.1%})")
+    spread = scan["+1/sqrt3", 3][1] / scan["+1/sqrt3", 3][0]
+    print(f"   -> a few percent, against the factor {spread:.0f} the threshold spectrum spans: the heavy")
+    print("      spectrum, not gravity's running, sets how close N_c = 3's pole comes to M_Pl.")
 
 
 if __name__ == "__main__":

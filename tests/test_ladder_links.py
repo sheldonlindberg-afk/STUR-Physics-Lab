@@ -1,5 +1,6 @@
 """Pins src/ladder_links.py: the links between the ladder's rungs (SYMMETRY_LADDER.md).
-L1, neutral matter (rung 1 -> rung 4); L2, pi0 -> gamma gamma (rung 1 -> rung 2)."""
+L1, neutral matter (rung 1 -> rung 4); L2, pi0 -> gamma gamma (rung 1 -> rung 2);
+L3, the Planck mass (rung 4 -> rung 1), at the reference spectrum and over the threshold scan."""
 import contextlib, io, os, sys
 import sympy as sp
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
@@ -60,6 +61,29 @@ def test_planck_mass_is_rung4s_gravity():
     p3m, p5m, lom, him = out["-1/sqrt3"]
     assert 1.8e10 < p3m < 2.0e10 and 9.0e-5 < p5m < 9.6e-5
     assert abs(floor - 0.61) < 0.01 and abs(x_floor - 2.7) < 0.05
+
+
+def test_g_window_over_the_threshold_scan():
+    scan, n = LL.g_window_scan()
+    assert n == 72
+    p3lo, p3hi, s_lo, s_hi = scan["+1/sqrt3", 3]
+    assert abs(p3lo - 1.276) < 0.005 and abs(p3hi - 16.0) < 0.1
+    assert s_lo == (0.5, 1 / 3, 2000.0, 2) and s_hi == (3.0, 3.0, 10000.0, 1)
+    assert abs(1 / p3lo**2 - 0.614) < 0.005            # L3e: G 1.63x weaker excludes N_c = 3
+    # the reference spectrum lies inside the scan, and every spectrum keeps the selection
+    ref = LL.g_window()[0]
+    for v in ("+1/sqrt3", "-1/sqrt3"):
+        assert scan[v, 3][0] <= ref[v][0] <= scan[v, 3][1] and scan[v, 3][0] > 1
+        assert scan[v, 5][0] <= ref[v][1] <= scan[v, 5][1] and scan[v, 5][1] < 1
+
+
+def test_gravity_term_shifts_the_pole_by_percent():
+    f_sm, rows = LL.gravity_shift()
+    assert abs(f_sm - 0.0098) < 2e-4
+    p0, pg = rows["reference"]
+    assert abs(p0 - 2.893) < 0.005 and abs(pg / p0 - 1.029) < 0.003
+    p0, pg = rows["worst"]
+    assert abs(p0 - 1.276) < 0.005 and 1.0 < pg / p0 < 1.02
 
 
 def test_reference_output_matches():
