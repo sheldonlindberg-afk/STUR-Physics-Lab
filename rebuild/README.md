@@ -15,6 +15,7 @@ whether each step is right.
 | [oracle.py](oracle.py) | verifier only | differential comparison with the reference, plus pinned numbers |
 | [cleanroom.py](cleanroom.py) | orchestrator | exports a directory the builder can work in without seeing answers |
 | [prompts/](prompts) | each role | builder, verifier, auditor |
+| [HANDOFF.md](HANDOFF.md) | next orchestrator | status of build 2026-11-a and what to do before build b (contains answers: never copy it into a clean room) |
 | `_selftest/` | CI only | the reference wrapped to the contract, to prove the harness passes correct builds |
 | `builds/<id>/` | output | one AI build: stage modules, derivation notes, findings, ledger, audit |
 

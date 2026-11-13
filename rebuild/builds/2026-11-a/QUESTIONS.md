@@ -121,3 +121,28 @@
    masses at chi = 0; final area uses invert_220 of the central (F220, G220) at z = GW_Z[0]; the self-check
    also prints the range of A_final over the 1-sigma (f, gamma) box (a crude spread, not a posterior).
 9. **qnm units.** The damping rate omega/(2Q) is in s^-1 (contract says "Hz"); the frequency is omega/(2 pi).
+
+## links
+
+1. **X_L in matter_charges** is taken as SPEC section 2's postulated values (-1/3 for beta = -1/sqrt3,
+   -2/3 for beta = +1/sqrt3) as Fractions keyed on the variant string, not re-derived from Q_e = -1; the
+   self-check confirms they equal -1/2 - b (b read off gauge331.triplet_charges(0, variant)), so q_e = -1
+   is an output here. An unknown variant raises ValueError.
+2. **qp_qe_minus_anomaly** raises ValueError for even or non-positive N_c (n = (1+N_c)/2 must be an
+   integer family count). The algebraic identity itself would hold for any N_c. It works from SPEC 8's
+   b, X_L, X_t directly (no variant string), so it does not call gauge331.
+3. **Neutrality**: "Coulomb below GAP_FRACTION x gravity" is read as |phi_C| <= f |phi_grav| for two
+   identical diamonds, each with net charge eps e (m/u). Nucleon count is m/inputs.U_AMU (binding energy
+   and n-p mass difference ignored, as SPEC's "m/u" prescribes). The sign of the Coulomb phase (repulsive,
+   opposite to gravity) is irrelevant to the bound. Result in units of e per nucleon.
+4. **pi0 amplitude normalization**: the quoted A is taken as the coefficient of
+   eps^{mu nu rho sigma} e1*_mu e2*_nu k1_rho k2_sigma in the invariant amplitude (relativistic
+   normalization), giving Gamma = A^2 m^3/(64 pi). f_pi is the ~92 MeV convention of inputs.F_PI.
+   alpha = ALPHA_0 (real photons). Output in eV from GeV inputs (x 1e9).
+5. **G window**: "N_c = 3 survives" = its Landau pole lies above the cutoff M_Pl(G); "N_c = 5 doesn't" =
+   its pole lies below. Window (lo, hi) = ((mpl/p3)^2, (mpl/p5)^2), open interval. The poles are taken as
+   fixed while G varies (they are quoted at the reference spectrum; any G dependence of the RG running is
+   ignored, as SPEC states only M_Pl -> x^-1/2 M_Pl).
+6. **Unit conversion**: 1 GeV = 1e9 * inputs.E_CH J (the giga prefix, not a measured number).
+7. **Schwarzschild radius** r_s = 2Gm/c^2 is labelled derived (zero of the SPEC 6/7 metric function with
+   G, c restored); it is a one-line definition.

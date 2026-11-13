@@ -33,7 +33,9 @@ verifier and auditor can weigh the results. Builders never see this file.
 | casimir | pass | 1/1 | 6/6 | 84c09f7 |
 | graviton | pass | 2/2 (rung 2 -> 4, rung 3 -> 4) | 5/5 | 8289cae |
 | desitter | pass | (none; rung 6 calls it) | 6/6 | b8e7f2a |
-| blackholes | pass | 3/3 (rung 5 -> 6 twice, toolkit) | 18/18 | (this commit) |
+| blackholes | pass | 3/3 (rung 5 -> 6 twice, toolkit) | 18/18 | eb57db1 |
+| links | pass | 3/3 (rung 1 -> links twice, rung 6 -> link 3) | 8/8 | (this commit) |
+| **all stages** | **pass** | **15/15** | **55/55** | |
 
 ## Notes per stage
 
@@ -61,3 +63,15 @@ verifier and auditor can weigh the results. Builders never see this file.
   Nariai closed form was removed before this build (66e64f7).
   Spec gaps for build b: the damping-rate unit (s^-1, labelled "Hz"), the pull convention for
   Sgr A*, and the Kerr q = 0 limit of Omega dJ.
+- **links:** neutrality needed is 2.8244e-19 e per nucleon (282x margin over the measured bound);
+  the pi0 width is 7.7855 eV (-0.14 sigma from PrimEx); M_Pl = 1.22089e19 GeV; the G windows are
+  0.122 to 5.6e14 (+1/sqrt3) and 2.8e-21 to 1.2e8 (-1/sqrt3); r_s = 2.180e-41 m = 1.349e-6 l_P;
+  k_B T_H(M_Pl) = M_Pl c^2/(8 pi). **Blind:** the two closed forms that would have leaked
+  (k_B T = M_Pl/8 pi and the G-window formula) were removed in e4cae14, before this builder started.
+
+## First findings (for the verifier to confirm and classify)
+
+| # | Check | Observation | Provisional class |
+|---|---|---|---|
+| F1 | crossbuild probe `chiral.sigma_model_vacuum(1.7, 0.9, 0.03)` against the reference adapter | differs by 1.03e-6 relative. The exact answer is m_pi^2 = H/sigma0: **the build is right to 1.4e-12, the reference is off by 1.0e-6** (its plain central-difference Hessian, h = 1e-4) | N; the reference is the less precise side. Not a physics error: every published number is unaffected. Fix (owner's call): Richardson in `src/ladder_standalone.py`'s rung 2 Hessian |
+| F2 | provenance ledger | 57 derived, 0 input, 7 quoted; every quoted export is on its stage's allowed list | for the auditor to check each claim against the code |
