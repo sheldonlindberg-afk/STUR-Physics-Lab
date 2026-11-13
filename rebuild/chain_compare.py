@@ -35,15 +35,18 @@ KNOWN = {
     "alpha(0): chain's running vs the build's input": (
         0.0, 1e-9, "the chain runs 1/alpha-hat(M_Z) down to q = 0 (Delta alpha_had input); the build reads "
                    "inputs.ALPHA_0 (CODATA). They agree to the precision of the running's inputs"),
-    "f_pi: chain's G_F + pi -> mu nu vs the build's input": (
-        2.5e-3, 3.2e-3, "the chain derives f_pi = 130.57 MeV from G_F and Gamma(pi -> mu nu) (stage 3); "
-                        "the build reads inputs.F_PI = 130.2/sqrt2 MeV (the PDG/lattice value). "
-                        "Open: SPEC must choose one route"),
+    "f_pi: chain's stage 3 vs the build's weak.fpi_from_pion_decay": (
+        0.0, 1e-9, "the same route (G_F and Gamma(pi -> mu nu)); hbar in GeV s from HBAR/E_CH vs src's constant"),
     "pi0 width: chain vs the build's pi0_width_from_rungs": (
-        5.0e-3, 6.0e-3, "entirely the f_pi row above (width ~ 1/f_pi^2, so twice its difference); "
-                        "with the chain's arguments the two widths agree (the same-arguments row)"),
+        0.0, 2e-9, "the same f_pi route; the chain's alpha(0) is its running, the build's is inputs.ALPHA_0"),
     "m_pi O(p^4): chain vs the build's chpt_mpi on its own inputs": (
-        0.0, 4e-3, "the f_pi row again, through F = f_pi/(F_pi/F)"),
+        2.5e-3, 3.0e-3, "chiral's O(p^4) headline still takes the lattice inputs.F_PI = 130.2/sqrt2 MeV; the chain "
+                        "uses its derived f_pi = 130.57 MeV, through F = f_pi/(F_pi/F)"),
+    "+1/sqrt3 Landau pole, N_c = 3: the build's one loop vs the chain's three loops": (
+        0.50, 0.56, "one loop, no thresholds or Yukawas (stage running) vs the chain's three loops with the "
+                    "reference spectrum's thresholds and Yukawas (src/m331_three_loop.py)"),
+    "+1/sqrt3 Landau pole, N_c = 5: the build's one loop vs the chain's three loops": (
+        0.38, 0.44, "as for N_c = 3"),
     "neutrality: chain vs the build's neutrality_per_nucleon": (
         0.0, 1e-9, "the chain writes k e^2 = alpha(0) hbar c with its derived alpha(0); the build uses "
                    "inputs.K_COUL and E_CH"),
@@ -77,6 +80,8 @@ def chain_values():
     v["_lambda"] = ll.LAMBDA_SI
     v["_flag"] = (cb.M_UD_FLAG[0], cb.SIGMA_CUBE_ROOT, cb.FPI_OVER_F[0], cb.LBAR3[0])
     v["_sgra_kg"] = bh.SGRA_VLTI[0] * bh.GM_SUN / v["G"]
+    t3, mg = importlib.import_module("m331_three_loop"), importlib.import_module("m331_margin")
+    v["_poles"] = tuple(t3.pole(n, "+1/sqrt3", MV=4e3, gmax=mg.ALPHA1) for n in (3, 5))   # as force_chain stage 1
     return v
 
 
@@ -86,8 +91,8 @@ def compare(build_dir, chain=None):
     mods, errors = harness.load_build(build_dir, contract.STAGES)
     if errors:
         raise RuntimeError(f"build does not load: {errors}")
-    G8, Ch, Cs, Gr, D, B, Lk = (mods[k] for k in ("gauge331", "chiral", "casimir", "graviton", "desitter",
-                                                    "blackholes", "links"))
+    G8, Ch, Cs, Gr, D, B, R, W, Lk = (mods[k] for k in ("gauge331", "chiral", "casimir", "graviton", "desitter",
+                                                          "blackholes", "running", "weak", "links"))
     import inputs as I
     rows = []
 
@@ -112,7 +117,14 @@ def compare(build_dir, chain=None):
     same("Planck mass from the chain's G", c["M_Pl"], Lk.planck_mass_GeV(c["G"], I.HBAR, I.C_LIGHT))
     # stage 2 and 3: the build reads these as inputs
     own("alpha(0): chain's running vs the build's input", c["alpha(0)"], I.ALPHA_0)
-    own("f_pi: chain's G_F + pi -> mu nu vs the build's input", c["f_pi"], I.F_PI * math.sqrt(2))
+    own("f_pi: chain's stage 3 vs the build's weak.fpi_from_pion_decay", c["f_pi"], W.fpi_from_pion_decay())
+    q3, q5 = c["_poles"]
+    b3, b5 = R.landau_pole(3, "+1/sqrt3"), R.landau_pole(5, "+1/sqrt3")
+    own("+1/sqrt3 Landau pole, N_c = 3: the build's one loop vs the chain's three loops", q3, b3)
+    own("+1/sqrt3 Landau pole, N_c = 5: the build's one loop vs the chain's three loops", q5, b5)
+    rows.append(("N_c = 3 selected against M_Pl: the build's one loop agrees with the chain's three loops",
+                 "own route", float(q5 < c["M_Pl"] < q3), float(b5 < c["M_Pl"] < b3), 0.0,
+                 (q5 < c["M_Pl"] < q3) and (b5 < c["M_Pl"] < b3), "pole_5 < M_Pl < pole_3 on both sides"))
     # stage 4: the strong force
     F = c["f_pi"] / math.sqrt(2)
     same("pi0 width with the chain's alpha(0), f_pi and charges", c["pi0 width"],
