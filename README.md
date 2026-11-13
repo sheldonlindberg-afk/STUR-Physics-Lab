@@ -112,20 +112,25 @@ scale to the two diamonds, with every step derived and checked in code:
 - the Casimir–Polder force between the diamonds, from electrostatics and the dipole field;
 - one-graviton exchange: Newton's law and the experiment's 2.19 rad phase;
 - gravity as a broken de Sitter gauge theory (MacDowell–Mansouri), a reformulation of GR;
-- three links across the rungs. **Neutral matter:** q_p + q_e is exactly the 3-3-1 (or
+- black holes, gravity's strong-field end rather than a symmetry breaking: the Hawking
+  temperature fixed by the smoothness of Euclidean time, the first law in exact fractions,
+  the largest black hole the measured Λ allows, and the EHT shadows of M87* and Sgr A* and
+  GW250114's area increase against the data (Hawking radiation itself is unmeasured);
+- five links across the rungs. **Neutral matter:** q_p + q_e is exactly the 3-3-1 (or
   Standard Model) mixed anomaly, and the diamond experiment needs it below 2.8×10⁻¹⁹ e per
   nucleon; the measured limit, 10⁻²¹ e, is 280× tighter. **π⁰ → γγ:** rung 1's charges and the measured f_π
   give 7.79 eV, against PrimEx's 7.80 ± 0.12 eV, for any N_c. **The Planck mass:** the 3-3-1
   selection's cutoff is √(ħc/G) with the diamond experiment's G; the selection would survive
-  G 8.4× weaker or 10¹⁴× stronger.
+  G 8.4× weaker or 10¹⁴× stronger. **Black holes:** the diamond's Schwarzschild radius is a
+  millionth of the Planck length, and a Planck-mass black hole has k_BT = M_Pl c²/8π.
 
 Gravity is not part of the gauge chain; the page says where each derivation stops.
 
 **Run it in one paste.** [`src/ladder_standalone.py`](src/ladder_standalone.py) reproduces all
-five rungs and all three links in a single file that uses only the Python standard library. Copy it (the
+six rungs and all five links in a single file that uses only the Python standard library. Copy it (the
 [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/#runladder) has a one-click
 **Copy Python script** button) and paste it into any Python 3.8+ runner, notebook or AI
-assistant's code tool. It runs in about a second and ends with 45 PASS/FAIL checks
+assistant's code tool. It runs in about a second and ends with 58 PASS/FAIL checks
 ([expected output](results/ladder/standalone.txt)). Each check is tagged **math** (an identity
 verified by computation), **data** (against a measurement, with the tolerance and its reason
 printed) or **pinned** (a number this repository derives, guarding against changes), and the
@@ -201,12 +206,12 @@ python3 src/m331_gravity_fixed_point.py  # gravity above M_Pl (asymptotic safety
 python3 src/ladder_standalone.py     # the whole ladder, one file, no dependencies, ~1 s
 python3 src/m331_rho_bound.py        # rho from 3-3-1 Z-Z' mixing vs the global fit and the LHC, ~7 s
 python3 src/m331_zpole.py            # the LEP/SLD Z-pole fit of the mixing, validated on E6 Z', ~30 s
-python3 src/m331_breaking.py         # the ladder, rungs 1-5: also chiral_breaking, casimir_diamonds,
-                                    # graviton_exchange, macdowell_mansouri (each a few seconds)
+python3 src/m331_breaking.py         # the ladder, rungs 1-6: also chiral_breaking, casimir_diamonds,
+                                    # graviton_exchange, macdowell_mansouri, black_holes (each a few seconds)
 python3 src/ladder_links.py          # links across the rungs: neutral matter, pi0 -> gamma gamma, M_Pl, ~2 s
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
 python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (193 tests)
+python -m pytest tests -q           # every number pinned (201 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on

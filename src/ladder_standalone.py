@@ -42,6 +42,13 @@ WHAT IT COMPUTES
               law, light's factor 2), and the 2.19 rad entangling phase of design A.
       Rung 5  Gravity as a broken gauge theory: MacDowell-Mansouri (1977), de Sitter
               SO(4,1) broken to Lorentz SO(3,1): an equivalent REFORMULATION of GR + Lambda.
+      Rung 6  Black holes: not a symmetry breaking, but gravity's strong-field end, and the
+              first formula with hbar, G, c and k_B together. Surface gravity from rung 5's
+              spin connection; the temperature fixed by the smoothness of Euclidean time;
+              the first law and Smarr in exact fractions; Schwarzschild-de Sitter's two
+              horizons and the Nariai limit with the measured Lambda; photon sphere, shadow
+              and ISCO; the EHT shadows of M87* and Sgr A*; GW250114's area increase and
+              ringdown. Hawking radiation itself is not measured.
       Links   Where one rung feeds another. Neutral matter (rung 1 -> 4): q_p + q_e is an
               anomaly of rung 1, and the experiment needs it below 2.8e-19 e per nucleon.
               pi0 -> gamma gamma (rung 1 -> 2): rung 1's charges and rung 2's f_pi give the
@@ -49,14 +56,18 @@ WHAT IT COMPUTES
               The Planck mass (rung 4 -> 1): the 3-3-1 selection's cutoff is sqrt(hbar c / G),
               with the G of the diamond experiment; the selection holds for G down to 8.4x
               weaker (Landau poles from src/m331_three_loop.py, carried as numbers).
-    Inputs are measured values (PDG 2024, FLAG 2024, CODATA 2018, Planck 2018). What is not derived, by
+              Black holes (rung 6 -> 4 and link 3): the diamond's Schwarzschild radius is a
+              millionth of the Planck length; a Planck-mass black hole has k_B T = M_Pl/8 pi.
+    Inputs are measured values (PDG 2024, FLAG 2024, CODATA 2018, Planck 2018; for rung 6 the EHT,
+    stellar dynamics and LVK). What is not derived, by
     anyone: why the inputs have their values, and how gravity unifies with the others.
 
 SOURCE
     Repository: https://github.com/sheldonlindberg-afk/STUR-Physics-Lab
     Notes:      SYMMETRY_LADDER.md
     This file condenses src/m331_breaking.py, chiral_breaking.py, casimir_diamonds.py,
-    graviton_exchange.py, macdowell_mansouri.py and ladder_links.py; tests/test_ladder_standalone.py checks
+    graviton_exchange.py, macdowell_mansouri.py, black_holes.py and ladder_links.py;
+    tests/test_ladder_standalone.py checks
     that it agrees with them. Independent work, not peer reviewed. License: CC0 1.0.
 """
 from fractions import Fraction as F
@@ -728,6 +739,253 @@ def rung5():
 
 
 # ----------------------------------------------------------------------------------------
+# RUNG 6: black holes, the strong-field end of gravity's column (src/black_holes.py)
+# ----------------------------------------------------------------------------------------
+K_B = 1.380649e-23            # J/K
+GM_SUN = 1.32712440018e20     # m^3 s^-2 (IAU)
+PARSEC = 3.0856775814913673e16
+UAS = pi / (180 * 3600e6)     # one micro-arcsecond in radians
+# EHT ring diameters (uas, 68%): M87* (EHT 2019, ApJL 875, L1), Sgr A* (EHT 2022, ApJL 930, L12)
+RING_M87, RING_SGRA = (42.0, 3.0), (51.8, 2.3)
+# Masses and distances measured without the EHT. M87*: stellar dynamics (Gebhardt et al.,
+# ApJ 729, 119 (2011)), (6.6 +- 0.4)e9 Msun at an assumed 17.9 Mpc; M/D does not depend on
+# the distance assumed. Sgr A*: stellar orbits, GRAVITY 2022 and Keck 2019 (Msun, pc).
+M87_STARS = (6.6e9, 0.4e9, 17.9e6)
+SGRA_VLTI, SGRA_KECK = (4.297e6, 8277.0), (3.975e6, 7935.0)
+RING_SYST = 0.05              # ring vs shadow edge, and the Kerr spread with spin: 5% at 1 sigma
+# GW250114 (LVK, PRL 135, 111403 (2025)): component masses (Msun, +-90%), spin bound,
+# full-signal remnant, redshift; the ringdown-only 220 fit (redshifted f, damping rate, Hz).
+GW_M1, GW_M2, GW_CHI_MAX = (33.6, 0.8, 1.2), (32.2, 1.3, 0.8), 0.26
+GW_MF, GW_CHIF, GW_Z = 62.7, 0.68, (0.09, 0.01)
+F220, G220 = (247.0, 6.0, 6.0), (221.0, 32.0, 39.0)
+BCW_220 = (1.5251, -1.1568, 0.1292, 0.7000, 1.4187, -0.4990)   # Berti, Cardoso, Will (2006)
+
+
+class Dual:
+    """a + b eps with eps^2 = 0, over exact Fractions: exact derivatives of rational functions."""
+    def __init__(self, a, b=0):
+        self.a, self.b = F(a), F(b)
+
+    def _w(self, o):
+        return o if isinstance(o, Dual) else Dual(o)
+
+    def __add__(self, o):
+        o = self._w(o)
+        return Dual(self.a + o.a, self.b + o.b)
+    __radd__ = __add__
+
+    def __sub__(self, o):
+        o = self._w(o)
+        return Dual(self.a - o.a, self.b - o.b)
+
+    def __rsub__(self, o):
+        return self._w(o) - self
+
+    def __mul__(self, o):
+        o = self._w(o)
+        return Dual(self.a * o.a, self.a * o.b + self.b * o.a)
+    __rmul__ = __mul__
+
+    def __truediv__(self, o):
+        o = self._w(o)
+        return Dual(self.a / o.a, (self.b * o.a - self.a * o.b) / (o.a * o.a))
+
+
+def kerr_first_law(p, q):
+    """Kerr in its horizon radii r+ = p, r- = q (G = c = 1): M = (p+q)/2, a^2 = pq,
+    S = pi (p^2 + a^2), T = (p - q)/(4 pi (p^2 + a^2)), Omega = a/(p^2 + a^2), J = M a
+    (horizon quantities LIT: Bardeen-Carter-Hawking 1973). pi cancels in T dS and T S, and
+    Omega dJ = (a^2 dM + M d(a^2)/2)/(p^2 + a^2) needs only a^2, so everything is rational.
+    p, q are Duals; returns dM - T dS - Omega dJ (the eps part) and M - 2TS - 2 Omega J."""
+    m, a2 = (p + q) / 2, p * q
+    s_pi = p * p + a2                                        # S / pi
+    t_pi = (p - q).a / (4 * s_pi.a)                          # pi T
+    first = m.b - t_pi * s_pi.b - (a2.a * m.b + m.a * a2.b / 2) / s_pi.a
+    smarr = m.a - 2 * t_pi * s_pi.a - 2 * m.a * a2.a / s_pi.a
+    return first, smarr
+
+
+def sds_horizons(M_, l):
+    """Black-hole and cosmological horizons of f = 1 - 2M/r - r^2/l^2, by bisection."""
+    Fn = lambda x: x - 2 * M_ - x**3 / l**2
+    rm = l / sqrt(3)
+    def bis(a, b):
+        for _ in range(200):
+            m = (a + b) / 2
+            a, b = (m, b) if (Fn(a) > 0) == (Fn(m) > 0) else (a, m)
+        return (a + b) / 2
+    return (bis(2 * M_, rm), bis(rm, l)) if Fn(rm) > 0 else None
+
+
+def euclidean_cone(f, fp, rh, beta, eps):
+    """Circumference over 2 pi x proper radius of the Euclidean (tau, r) circle at r_h + eps,
+    for a tau-period beta: 1 if the plane is smooth there, otherwise a cone.
+    rho = int dr/sqrt(f), with r = r_h + u^2 so the integrand is finite (Simpson)."""
+    n, U = 200, sqrt(eps)
+    h = U / n
+    g = lambda u: 2 * u / sqrt(abs(f(rh + u * u))) if u > 0 else 2 / sqrt(abs(fp(rh)))
+    rho = h / 3 * sum((1 if k in (0, n) else 4 if k % 2 else 2) * g(k * h) for k in range(n + 1))
+    return beta * sqrt(abs(f(rh + eps))) / (2 * pi * rho)
+
+
+def golden_max(fn, a, b, it=200):
+    g = (sqrt(5) - 1) / 2
+    for _ in range(it):
+        c, d = b - g * (b - a), a + g * (b - a)
+        a, b = (a, d) if fn(c) > fn(d) else (c, b)
+    return (a + b) / 2
+
+
+def shadow_uas(m_sun, d_pc):
+    """Schwarzschild shadow diameter 2 sqrt(27) GM/(c^2 D), micro-arcseconds."""
+    return 2 * sqrt(27) * m_sun * GM_SUN / C_LIGHT**2 / (d_pc * PARSEC) / UAS
+
+
+def kerr_area_km2(m_sun, chi):
+    rg = m_sun * GM_SUN / C_LIGHT**2 / 1e3
+    return 8 * pi * rg * rg * (1 + sqrt(1 - chi * chi))
+
+
+def qnm_220(m_det_sun, chi):
+    f1, f2, f3, q1, q2, q3 = BCW_220
+    omega = (f1 + f2 * (1 - chi) ** f3) / (m_det_sun * GM_SUN / C_LIGHT**3)
+    return omega / (2 * pi), omega / (2 * (q1 + q2 * (1 - chi) ** q3))
+
+
+def invert_220(freq, damp, z):
+    """Remnant mass (source frame) and spin from the 220 frequency and damping rate alone."""
+    f1, f2, f3, q1, q2, q3 = BCW_220
+    chi = 1 - ((pi * freq / damp - q1) / q2) ** (1 / q3)
+    m_det = (f1 + f2 * (1 - chi) ** f3) / (2 * pi * freq * GM_SUN / C_LIGHT**3)
+    return m_det / (1 + z), chi
+
+
+def hawking_K(m_kg):
+    return HBAR * C_LIGHT**3 / (8 * pi * G_NEWTON * m_kg * K_B)
+
+
+def rung6():
+    banner("RUNG 6  Black holes: the strong-field end of gravity's column (not a symmetry breaking)")
+    plain("a black hole is not a place where a symmetry breaks, so this is not a new step down the chain. It is gravity at its strongest, and the first formula here that needs quantum physics, gravity, relativity and heat at once: the Hawking temperature. The geometry fixes that temperature, and telescopes and gravitational waves test the geometry. Hawking radiation itself has never been measured.")
+    # H1: kappa from rung 5's spin connection, on both Schwarzschild-de Sitter horizons
+    M_, l = 1.0, 9.0                                       # 27 M^2/l^2 = 1/3
+    f = lambda r: 1 - 2 * M_ / r - r * r / l**2
+    fp = lambda r: 2 * M_ / r**2 - 2 * r / l**2
+    rb, rc = sds_horizons(M_, l)
+    # the tetrad is singular on the horizon itself, so take the limit from the static side
+    kap = []
+    for rh, side in ((rb, 1), (rc, -1)):
+        _, w = tetrad_and_spin([0.0, rh + side * 1e-9, 1.0, 0.0], f, fp)
+        kap.append(abs(w[0][1][0]))                       # omega^0_(1 t) = f'/2
+    _, w = tetrad_and_spin([0.0, 2.0 + 1e-9, 1.0, 0.0], lambda r: 1 - 2 / r, lambda r: 2 / r**2)
+    print(f"   SdS (M = 1, l = 9): horizons r_b = {rb:.6f}, r_c = {rc:.6f}; kappa = |omega^0_(1t)| ="
+          f" {kap[0]:.6f}, {kap[1]:.6f}. Schwarzschild: kappa = {w[0][1][0]:.9f} = 1/(4M)")
+    check("horizon f(r_h) = 0 and surface gravity kappa = f'(r_h)/2, read off rung 5's spin connection"
+          " omega^0_(1t); T_H = hbar c kappa/(2 pi k_B), and kappa = 1/(4M) for Schwarzschild",
+          abs(f(rb)) < 1e-12 and abs(f(rc)) < 1e-12 and abs(kap[0] - fp(rb) / 2) < 1e-8
+          and abs(kap[1] + fp(rc) / 2) < 1e-8 and abs(w[0][1][0] - 0.25) < 1e-8)
+    # H2: the Euclidean section is smooth only for tau-period 2 pi / kappa
+    ratios = [euclidean_cone(f, fp, rh, 2 * pi / k, 1e-7 * rh) for rh, k in zip((rb, rc), kap)]
+    cones = [euclidean_cone(f, fp, rh, 1.1 * 2 * pi / k, 1e-7 * rh) for rh, k in zip((rb, rc), kap)]
+    print(f"   circumference/(2 pi rho) near each horizon: {ratios[0]:.7f}, {ratios[1]:.7f} for beta = 2 pi/kappa;"
+          f" {cones[0]:.4f}, {cones[1]:.4f} for beta 10% longer (a cone)")
+    check("Euclidean time: the (tau, r) plane is smooth at a horizon only if tau has period 2 pi/kappa, so"
+          " T = kappa/2 pi is fixed by the geometry; the two SdS horizons need different periods",
+          all(abs(x - 1) < 1e-5 for x in ratios) and all(abs(x - 1.1) < 1e-5 for x in cones)
+          and abs(kap[0] / kap[1] - 1) > 0.5)
+    # H3: first law and Smarr, exact (Kerr; q = 0 is Schwarzschild: dM = T dS, M = 2TS)
+    rng, ok = random.Random(6), True
+    for k in range(60):
+        p = F(rng.randint(1, 400), rng.randint(1, 40))
+        q = F(0) if k < 10 else p * F(rng.randint(0, 99), 100)
+        for dp, dq in ((1, 0), (0, 1)):
+            first, smarr = kerr_first_law(Dual(p, dp), Dual(q, dq))
+            ok &= first == 0 and smarr == 0
+    check("black-hole thermodynamics with S = A/4 l_P^2, in exact fractions: dM = T dS + Omega dJ and"
+          " M = 2TS + 2 Omega J for Kerr; dM = T dS and M = 2TS for Schwarzschild (60 random horizons)", ok)
+    # H4: Nariai limit, exactly and as a limit of the two temperatures
+    Mq = F(5, 7)
+    fN = lambda r: 1 - 2 * Mq / r - r * r / (27 * Mq * Mq)
+    fpN = lambda r: 2 * Mq / r**2 - 2 * r / (27 * Mq * Mq)
+    exact = fN(3 * Mq) == 0 and fpN(3 * Mq) == 0 and 9 * Mq * Mq * (F(3) / (27 * Mq * Mq)) == 1
+    lim = []
+    for x in (0.9, 0.99, 0.9999):
+        lx = sqrt(27 / x)
+        b, c = sds_horizons(1.0, lx)
+        lim.append((b, c, (2 / b**2 - 2 * b / lx**2) / 2, -(2 / c**2 - 2 * c / lx**2) / 2))
+    print("   27M^2/l^2 -> 1: " + "; ".join(f"r = {b:.3f}, {c:.3f}, kappa = {kb:.4f}, {kc:.4f}" for b, c, kb, kc in lim))
+    check("Schwarzschild-de Sitter: the two horizons and their temperatures merge at the Nariai limit,"
+          " f = f' = 0 at r = 3M when 9 G^2 M^2 Lambda = c^4 (exact); beyond it there is no static region",
+          exact and abs(lim[-1][0] - 3) < 0.02 and abs(lim[-1][1] - 3) < 0.02 and lim[-1][2] < 0.002
+          and lim[-1][3] < 0.002 and sds_horizons(1.0, sqrt(27 / 1.01)) is None)
+    m_n = C_LIGHT**2 / (3 * G_NEWTON * sqrt(LAMBDA_SI))
+    print(f"   rung 5's measured Lambda: the largest black hole is M = c^2/(3 G sqrt(Lambda)) = {m_n:.3e} kg"
+          f" = {m_n * G_NEWTON / GM_SUN:.2e} M_sun, horizon at 1/sqrt(Lambda) = {1 / sqrt(LAMBDA_SI):.2e} m")
+    check("with rung 5's Lambda, the largest black hole the universe allows: 4.27e52 kg = 2.1e22 solar masses",
+          abs(m_n / 4.269e52 - 1) < 1e-3, "pinned", f"got {m_n:.4e} kg, pinned 4.269e52 kg")
+    # H5: geodesics from the effective potentials (M = 1), found numerically
+    rph = golden_max(lambda r: (1 - 2 / r) / r**2, 2.01, 20)
+    bc = 1 / sqrt((1 - 2 / rph) / rph**2)
+    check("photons: the potential f/r^2 peaks at the photon sphere r = 3GM/c^2; the critical impact"
+          " parameter, the shadow radius seen from far away, is sqrt(27) GM/c^2",
+          abs(rph - 3) < 1e-7 and abs(bc - sqrt(27)) < 1e-10)
+    dV = lambda r, L2: 2 / r**2 * (1 + L2 / r**2) - (1 - 2 / r) * 2 * L2 / r**3
+    # Circular orbits exist where dV/dr = 0; they exist iff min_r dV/dr <= 0. Bisect on L^2.
+    min_dV = lambda L2: golden_max(lambda r: -dV(r, L2), 4, 9)      # the dip of dV/dr near 6M
+    lo, hi = 10.0, 14.0
+    for _ in range(60):
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if dV(min_dV(mid), mid) > 0 else (lo, mid)
+    r_isco = min_dV(hi)                                    # where the two orbits merge
+    E2 = (1 - 2 / r_isco) * (1 + hi / r_isco**2)
+    print(f"   photon sphere r = {rph:.8f} M, shadow radius {bc:.8f} M; ISCO r = {r_isco:.5f} M,"
+          f" L^2 = {hi:.6f} M^2, E^2 = {E2:.6f}")
+    check("massive particles: circular orbits exist for L^2 >= 12 (GM/c)^2; at that minimum the stable and"
+          " unstable orbits merge at the innermost stable circular orbit, r = 6GM/c^2, with E^2 = 8/9",
+          abs(hi - 12) < 1e-6 and abs(r_isco - 6) < 1e-3 and abs(E2 - 8 / 9) < 1e-6)
+    # H6: Event Horizon Telescope
+    p87 = shadow_uas(M87_STARS[0], M87_STARS[2])
+    s87 = sqrt((RING_M87[1] / RING_M87[0]) ** 2 + (M87_STARS[1] / M87_STARS[0]) ** 2 + RING_SYST**2)
+    z87 = (RING_M87[0] / p87 - 1) / s87
+    check("M87*: shadow 2 sqrt(27) GM/(c^2 D) from the stellar-dynamics mass is 37.8 uas; EHT ring 42 +- 3 uas",
+          abs(z87) < 2, "data",
+          f"got {p87:.1f} uas, {z87:+.2f} sigma. Tolerance 2 sigma of {100 * s87:.1f}%: the ring's error (7%), the mass"
+          " (6%; the distance cancels in M/D) and 5% for the ring sitting outside the shadow and the Kerr spread"
+          f" with spin. The gas-dynamics mass (3.5e9) would give {shadow_uas(3.5e9, M87_STARS[2]):.0f} uas, excluded")
+    pv, pk = shadow_uas(*SGRA_VLTI), shadow_uas(*SGRA_KECK)
+    pS = (pv + pk) / 2
+    sS = sqrt((RING_SGRA[1] / RING_SGRA[0]) ** 2 + ((pv - pk) / pS) ** 2 + RING_SYST**2)
+    zS = (RING_SGRA[0] / pS - 1) / sS
+    check("Sgr A*: shadow from the stellar-orbit mass and distance is 52.3 uas; EHT ring 51.8 +- 2.3 uas",
+          abs(zS) < 2, "data",
+          f"got {pS:.1f} uas (GRAVITY {pv:.1f}, Keck {pk:.1f}), {zS:+.2f} sigma. Tolerance 2 sigma of {100 * sS:.1f}%:"
+          " the ring (4%), the GRAVITY-Keck spread in M/D (4%), and 5% for ring vs shadow as for M87*")
+    # H7: GW250114. The final area comes from the ringdown alone, not the full-signal fit,
+    # which assumes GR and obeys the area law by construction.
+    z, dz = GW_Z
+    a_i = kerr_area_km2(GW_M1[0], 0) + kerr_area_km2(GW_M2[0], 0)
+    a_i_max = kerr_area_km2(GW_M1[0] + GW_M1[2], 0) + kerr_area_km2(GW_M2[0] + GW_M2[2], 0)
+    mf, chif = invert_220(F220[0], G220[0], z)
+    a_f = kerr_area_km2(mf, chif)
+    a_f_min = min(kerr_area_km2(*invert_220(fq, gq, zq)) for fq in (F220[0] - F220[1], F220[0] + F220[2])
+                  for gq in (G220[0] - G220[1], G220[0] + G220[2]) for zq in (z - dz, z + dz))
+    print(f"   GW250114 ringdown alone: M_f = {mf:.1f} M_sun, chi_f = {chif:.2f}. Areas (A = 8 pi (GM/c^2)^2 (1 +"
+          f" sqrt(1 - chi^2))): initial {a_i:,.0f} km^2, final {a_f:,.0f} km^2")
+    check("GW250114, Hawking's area law: final area 4.1e5 km^2 > initial 2.4e5 km^2, from the published"
+          " masses and the ringdown-only fit", a_f_min > a_i_max, "data",
+          f"least favourable corners of the published 90% ranges: initial {a_i_max:,.0f} km^2 (spins 0, which"
+          f" maximizes it), final {a_f_min:,.0f} km^2. The collaboration's own analysis puts the increase at 4.4 sigma")
+    f220, g220 = qnm_220((1 + z) * GW_MF, GW_CHIF)
+    check("GW250114: the full-signal remnant predicts a 220 mode at 249 Hz, damping 244 Hz; the ringdown"
+          " alone measures 247 +- 6 Hz and 221 (-32 +39) Hz",
+          abs(f220 - F220[0]) < 2 * F220[1] and G220[0] - 2 * G220[1] < g220 < G220[0] + 2 * G220[2], "data",
+          f"got {f220:.1f} Hz and {g220:.0f} Hz. Tolerance: twice the published 90% intervals; the fit formula is"
+          " good to a few per cent, and z = 0.09 +- 0.01 moves f by 1%")
+    print(f"   Hawking temperature of the remnant: {hawking_K(GW_MF * GM_SUN / G_NEWTON):.1e} K, far below the"
+          " 2.7 K microwave background: unmeasured")
+
+
+# ----------------------------------------------------------------------------------------
 # LINKS between the rungs (src/ladder_links.py)
 # ----------------------------------------------------------------------------------------
 U_AMU = 1.66053906660e-27     # kg; carbon-12: 12 u for 12 nucleons
@@ -845,11 +1103,26 @@ def links():
           all(lo < 1 < hi for lo, hi in win.values()) and abs(1 / win["+1/sqrt3"][0] / 8.37 - 1) < 0.01,
           "pinned", f"got windows {', '.join(f'{lo:.3g}-{hi:.2g}' for lo, hi in win.values())},"
           " pinned 0.12 (8.4x weaker) as the narrow side. The poles come from src/m331_three_loop.py")
+    # L4: rung 6 -> rung 4. Design A's diamond as a black hole.
+    rs = 2 * G_NEWTON * m / C_LIGHT**2
+    print(f"   Design A's diamond ({m:.3e} kg): Schwarzschild radius 2Gm/c^2 = {rs:.2e} m = {rs / L_PLANCK:.2e} l_P,"
+          f" {rs / diamond_radius(m):.0e} of its own radius")
+    check("design A's diamond has a Schwarzschild radius of 2.2e-41 m, a millionth of the Planck length:"
+          " the experiment's gravity is that weak", abs(rs / 2.180e-41 - 1) < 1e-3 and abs(rs / L_PLANCK / 1.349e-6 - 1) < 1e-3,
+          "pinned", f"got {rs:.4e} m = {rs / L_PLANCK:.4e} l_P, pinned 2.180e-41 m and 1.349e-6 l_P")
+    # L5: rung 6 -> link 3. A black hole of one Planck mass.
+    m_pl = sqrt(HBAR * C_LIGHT / G_NEWTON)
+    kT = K_B * hawking_K(m_pl) / E_CH / 1e9
+    rs_pl = 2 * G_NEWTON * m_pl / C_LIGHT**2 / sqrt(HBAR * G_NEWTON / C_LIGHT**3)
+    print(f"   A black hole of one Planck mass: k_B T_H = {kT:.3e} GeV = M_Pl c^2 / 8 pi; radius {rs_pl:.4f} l_P."
+          " At that size the semiclassical formula is no longer trusted")
+    check("a black hole of one Planck mass has k_B T_H = M_Pl c^2/(8 pi) = 4.86e17 GeV, 1/(8 pi) of the"
+          " 3-3-1 cutoff, and a radius of 2 Planck lengths", abs(kT * 8 * pi / mpl - 1) < 1e-12 and abs(rs_pl - 2) < 1e-12)
 
 
 def main():
     t0 = time.time()
-    for rung in (rung1, rung2, rung3, rung4, rung5, links):
+    for rung in (rung1, rung2, rung3, rung4, rung5, rung6, links):
         rung()
     banner("VERDICT")
     n_ok = sum(ok for _, ok, _ in CHECKS)
@@ -858,7 +1131,10 @@ def main():
     print("   nuclear force. Electromagnetism, never broken, leaves the Casimir-Polder background between")
     print("   the diamonds. Gravity sits beside the chain: one-graviton exchange gives Newton's law and the")
     print("   experiment's 2.19 rad phase, and MacDowell-Mansouri writes GR + Lambda as SO(4,1) broken")
-    print("   to Lorentz. Three links run across the rungs: rung 1's anomalies make matter neutral, which")
+    print("   to Lorentz. Black holes are gravity's strong-field end: the geometry fixes their temperature,")
+    print("   and the EHT shadows and GW250114's area increase test that geometry; Hawking radiation itself")
+    print("   is unmeasured, and whether information is lost is open.")
+    print("   Three links run across the gauge chain and gravity: rung 1's anomalies make matter neutral, which")
     print("   the diamond experiment needs to 2.8e-19 e per nucleon; its charges with rung 2's f_pi give")
     print("   the measured pi0 -> gamma gamma width; and the 3-3-1 cutoff, M_Pl, is rung 4's G, which")
     print("   the selection needs within a factor 8.4 (it is measured to 2e-5). Inputs")
