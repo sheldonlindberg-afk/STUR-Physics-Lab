@@ -169,4 +169,4 @@ python -m pytest tests/test_tegr.py tests/test_tegr_corner.py tests/test_tegr_fr
 - L. Varrin, *Black hole entropy from entangled quantum reference frames*,
   [2610.37750](https://arxiv.org/abs/2610.37750).
 - J. R. David and J. Mukherjee, *Entanglement entropy of gravitational edge modes*,
-  JHEP 08 (2022), [2201.06043](https://arxiv.org/abs/2201.06043).
+  JHEP 08 (2022) 065, [2201.06043](https://arxiv.org/abs/2201.06043).

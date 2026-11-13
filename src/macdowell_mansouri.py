@@ -262,7 +262,8 @@ def main():
     print(f"   G_munu + (3/l^2) g_munu = 0: {sp.simplify(Gt + 3 / l**2 * gS) == sp.zeros(4, 4)}")
 
     banner("M6  Numbers (LIT: Lambda from Planck 2018, G from CODATA)")
-    Lam_si = 1.1056e-52          # m^-2
+    Lam_si = 1.1056e-52          # m^-2: Planck 2018 with BAO, 3 H0^2 Omega_L / c^2 (H0 = 67.66, Omega_L = 0.6889);
+                                 # Planck's own quoted Lambda, without BAO, is 1.089e-52 (see AUDIT.md)
     lP2 = 1.616255e-35 ** 2
     ell = math.sqrt(3 / Lam_si)
     print(f"   l = sqrt(3/Lambda) = {ell:.3e} m = {ell / 9.4607e15 / 1e9:.1f} billion light years")

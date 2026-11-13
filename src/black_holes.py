@@ -77,10 +77,11 @@ HBAR = 1.054571817e-34        # J s
 C = 2.99792458e8              # m/s
 KB = 1.380649e-23             # J/K
 E_CH = 1.602176634e-19        # C
-GM_SUN = 1.32712440018e20     # m^3 s^-2 (IAU)
+GM_SUN = 1.3271244e20         # m^3 s^-2, IAU 2015 nominal (Resolution B3; Prsa et al., arXiv:1510.07674)
 PC = 3.0856775814913673e16    # m
 UAS = math.pi / (180 * 3600e6)  # one micro-arcsecond in radians
-LAMBDA_SI = 1.1056e-52        # m^-2 (Planck 2018)
+LAMBDA_SI = 1.1056e-52        # m^-2, Planck 2018 (TT,TE,EE+lowE+lensing+BAO): 3 H0^2 Omega_L / c^2 with H0 = 67.66, Omega_L = 0.6889
+#   (A&A 641, A6 (2020), Table 2). Planck quotes Lambda = (4.24 +- 0.11)e-66 eV^2 = 1.089e-52 m^-2 without BAO.
 L_PLANCK = 1.616255e-35       # m
 M_PLANCK_GEV = 1.220890e19    # GeV, the 3-3-1 cutoff (src/m331_exact.py)
 
@@ -92,7 +93,7 @@ RING_SGRA, RING_SGRA_ERR = 51.8, 2.3
 # M87*: EHT 2019 Paper VI, ApJL 875, L6). alpha = 42/3.8 = 11.1 and 51.8/4.8 = 10.8, against
 # the Schwarzschild shadow's 2 sqrt(27) = 10.4: the ring sits 4-6% outside the shadow.
 THETA_G_M87 = (3.8, 0.4, 0.4)                    # micro-arcseconds
-THETA_G_SGRA = (4.8, 0.7, 0.4)
+THETA_G_SGRA = (4.8, 0.7, 1.4)                   # EHT 2022 Paper I, Table 1: 4.8 +1.4 -0.7
 # Masses and distances measured without the EHT.
 # M87*: stellar dynamics, Gebhardt et al., ApJ 729, 119 (2011): (6.6 +- 0.4) e9 Msun at an
 # assumed 17.9 Mpc. A dynamical mass scales with the assumed distance, so M/D does not
@@ -100,10 +101,10 @@ THETA_G_SGRA = (4.8, 0.7, 0.4)
 M87_MASS, M87_MASS_ERR, M87_DIST = 6.6e9, 0.4e9, 17.9e6
 M87_GAS_MASS = 3.5e9
 # Sgr A*: stellar orbits. GRAVITY, A&A 657, L12 (2022): 4.297e6 Msun, 8277 pc.
-# Keck, Do et al., Science 365, 664 (2019): 3.975e6 Msun, 7935 pc. Their M/D differ by 3.5%,
+# Keck, Do et al., Science 365, 664 (2019), Table 1: 3.975e6 Msun, R0 = 7.959 kpc. Their M/D differ by 3.9%,
 # more than either error, so the spread is taken as the uncertainty.
 SGRA_VLTI = (4.297e6, 8277.0)
-SGRA_KECK = (3.975e6, 7935.0)
+SGRA_KECK = (3.975e6, 7959.0)
 
 # GW250114, LVK, PRL 135, 111403 (2025), arXiv:2509.08054 (NRSur7dq4, 90% intervals).
 GW_M1, GW_M1_LO, GW_M1_HI = 33.6, 0.8, 1.2       # Msun, source frame

@@ -7,7 +7,7 @@ This page records which script feeds which, and which physical quantities each o
 ## Summary
 
 - **46 scripts** in `src/`, in 6 topics; **71 imports** between them, 28 of them across topics. 10 scripts import nothing from the others and nothing imports them.
-- **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 177 literals in the source.
+- **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 179 literals in the source.
 - **44 quantities are typed in more than one script**; 15 of them are shared by more than one topic.
 - **3 copies differ from their source for a stated reason**; **0 differ without one (drift).**
 
@@ -292,15 +292,15 @@ Values computed in one script and retyped in others instead of imported. Each co
 
 | Quantity | Source | Value | Copies |
 |---|---|---|---|
-| Planck mass √(ħc/G) (GeV) | √(ħc/G) from G, ħ, c (this tool) | 1.220890e19 | `black_holes:85` 1.220890e19 (rounded); `ladder_standalone:1160` 1.220890e19 (rounded); `m331_exact:28` 1.220890e19 (rounded); `m331_standalone:66` 1.220890e19 (rounded); `m331_su3L_running:19` 1.220890e19 (rounded) |
-| Planck length √(ħG/c³) (m) | √(ħG/c³) from G, ħ, c (this tool) | 1.616255e-35 | `black_holes:84` 1.616255e-35 (rounded); `ladder_standalone:114` 1.616255e-35 (rounded); `macdowell_mansouri:266` 1.616255e-35 (rounded) |
-| electroweak vev (√2 G_F)^(−1/2) (GeV) | src/m331_breaking.py B7 | 246.22 | `ladder_standalone:362` 246.22 (rounded); `m331_standalone:65` 246.22 (rounded); `m331_yukawa:85` 246.22 (rounded) |
+| Planck mass √(ħc/G) (GeV) | √(ħc/G) from G, ħ, c (this tool) | 1.220890e19 | `black_holes:86` 1.220890e19 (rounded); `ladder_standalone:1161` 1.220890e19 (rounded); `m331_exact:28` 1.220890e19 (rounded); `m331_standalone:66` 1.220890e19 (rounded); `m331_su3L_running:19` 1.220890e19 (rounded) |
+| Planck length √(ħG/c³) (m) | √(ħG/c³) from G, ħ, c (this tool) | 1.616255e-35 | `black_holes:85` 1.616255e-35 (rounded); `ladder_standalone:115` 1.616255e-35 (rounded); `macdowell_mansouri:267` 1.616255e-35 (rounded) |
+| electroweak vev (√2 G_F)^(−1/2) (GeV) | src/m331_breaking.py B7 | 246.22 | `ladder_standalone:363` 246.22 (rounded); `m331_standalone:65` 246.22 (rounded); `m331_yukawa:86` 246.22 (rounded) |
 | sin²θ_W(4 TeV) | one-loop SM running from M_Z (m331_exact.run_two_loop) | 0.250433 | `m331_zprime_recast:68` 0.2504 (rounded) |
 | 1/α(4 TeV) | one-loop SM running from M_Z (m331_exact.run_two_loop) | 125.743 | `m331_zprime_recast:69` 125.7 (rounded) |
-| M_Z′/M_V = √(4/3 (1 + β² t_X²)) at 4 TeV | src/m331_breaking.py B4, evaluated at sin²θ_W(4 TeV) | 1.22492 | `m331_heavy_lepton:274` 1.225 (rounded); `m331_margin:49` 1.225 (rounded); `m331_standalone:576` 1.225 (rounded); `m331_standalone:592` 1.225 (rounded); `m331_threshold:183` 1.225 (rounded); `m331_threshold:187` 1.225 (rounded); `m331_threshold:190` 1.225 (rounded) |
-| SU(2) coupling g at M_Z, √(4πα)/sinθ_W | from 1/α(M_Z) and sin²θ_W(M_Z) (this tool) | 0.651734 | `ladder_standalone:293` 0.652 (rounded); `m331_breaking:237` 0.652 (rounded); `m331_breaking:245` 0.652 (rounded) |
-| area-law coefficient S/(R/a)² per scalar | src/stur_unification.py U3 (results/unification/output.txt) | 0.3046 | `stur_emergent:35` 0.3046 (exact); `stur_oppenheim:47` 0.3046 (exact); `stur_thermo_gravity:51` 0.3046 (exact) |
-| design A: entangling phase Δφ (rad) | src/graviton_exchange.py N4 | 2.18681 | `ladder_standalone:615` 2.1868 (rounded) |
+| M_Z′/M_V = √(4/3 (1 + β² t_X²)) at 4 TeV | src/m331_breaking.py B4, evaluated at sin²θ_W(4 TeV) | 1.22492 | `m331_heavy_lepton:274` 1.225 (rounded); `m331_margin:49` 1.225 (rounded); `m331_standalone:576` 1.225 (rounded); `m331_standalone:592` 1.225 (rounded); `m331_threshold:184` 1.225 (rounded); `m331_threshold:188` 1.225 (rounded); `m331_threshold:191` 1.225 (rounded) |
+| SU(2) coupling g at M_Z, √(4πα)/sinθ_W | from 1/α(M_Z) and sin²θ_W(M_Z) (this tool) | 0.651734 | `ladder_standalone:294` 0.652 (rounded); `m331_breaking:237` 0.652 (rounded); `m331_breaking:245` 0.652 (rounded) |
+| area-law coefficient S/(R/a)² per scalar | src/stur_unification.py U3 (results/unification/output.txt) | 0.3046 | `stur_emergent:35` 0.3046 (exact); `stur_oppenheim:47` 0.3046 (exact); `stur_thermo_gravity:54` 0.3046 (exact) |
+| design A: entangling phase Δφ (rad) | src/graviton_exchange.py N4 | 2.18681 | `ladder_standalone:616` 2.1868 (rounded) |
 
 ## Values with one source
 
@@ -338,7 +338,7 @@ These are imported from their source by every script that uses them; a typed-in 
 | ħc (GeV fm) | input | 0.197327 | CODATA 2018 | `chiral_breaking`, `ladder_standalone` |
 | Planck mass √(ħc/G) (GeV) | derived | 1.220890e19 | √(ħc/G) from G, ħ, c (this tool) | `black_holes` (rounded), `ladder_standalone` (rounded), `m331_exact` (rounded), `m331_standalone` (rounded), `m331_su3L_running` (rounded) |
 | Planck length √(ħG/c³) (m) | derived | 1.616255e-35 | √(ħG/c³) from G, ħ, c (this tool) | `black_holes` (rounded), `ladder_standalone` (rounded), `macdowell_mansouri` (rounded) |
-| cosmological constant Λ (m⁻²) | input | 1.105600e-52 | Planck 2018 | `black_holes`, `ladder_standalone`, `macdowell_mansouri` |
+| cosmological constant Λ (m⁻²) | input | 1.105600e-52 | Planck 2018 +BAO, 3H₀²Ω_Λ/c² | `black_holes`, `ladder_standalone`, `macdowell_mansouri` |
 | 1/α(0) | input | 137.036 | CODATA 2018 | `ladder_links`, `ladder_standalone` |
 | 1/α(M_Z), MS-bar | input | 127.951 | PDG 2024 | `ladder_standalone`, `m331_breaking`, `m331_exact` (rounded), `m331_heavy_lepton` (rounded), `m331_margin` (rounded), `m331_standalone` (rounded), `m331_su3L_running` (rounded), `m331_three_generations` (rounded), `m331_zpole` (rounded), `m331_zprime_recast` (rounded) |
 | sin²θ_W(M_Z), MS-bar | input | 0.23122 | PDG 2024 | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zpole` (variant), `m331_zprime_recast` (rounded) |
@@ -346,7 +346,7 @@ These are imported from their source by every script that uses them; a typed-in 
 | Γ_Z (GeV) | input | 2.4952 | PDG 2024 | `m331_heavy_lepton`, `m331_zprime_recast` |
 | G_F (GeV⁻²) | input | 1.166379e-5 | PDG 2024 | `ladder_standalone`, `m331_breaking` |
 | electroweak vev (√2 G_F)^(−1/2) (GeV) | derived | 246.22 | src/m331_breaking.py B7 | `ladder_standalone` (rounded), `m331_standalone` (rounded), `m331_yukawa` (rounded) |
-| α_s(M_Z) | input | 0.118 | PDG 2024 | `m331_margin`, `m331_standalone`, `qcd_running` |
+| α_s(M_Z) | input | 0.118 | PDG 2024 | `m331_margin`, `m331_scalar`, `m331_standalone`, `qcd_running` |
 | top-quark mass (GeV) | input | 172.57 | PDG 2024 | `m331_margin`, `m331_scalar`, `m331_standalone` (exact, variant), `m331_yukawa`, `qcd_running` (variant) |
 | sin²θ_W(4 TeV) | derived | 0.250433 | one-loop SM running from M_Z (m331_exact.run_two_loop) | `m331_zprime_recast` (rounded) |
 | 1/α(4 TeV) | derived | 125.743 | one-loop SM running from M_Z (m331_exact.run_two_loop) | `m331_zprime_recast` (rounded) |
@@ -356,7 +356,7 @@ These are imported from their source by every script that uses them; a typed-in 
 | m_π± (GeV) | input | 0.13957 | PDG 2024 | `chiral_breaking`, `ladder_standalone` |
 | nucleon g_A | input | 1.2754 | PDG 2024 | `chiral_breaking`, `ladder_standalone` |
 | average nucleon mass (GeV) | input | 0.938919 | PDG 2024 | `chiral_breaking`, `ladder_standalone` |
-| \|⟨q̄q⟩\|^(1/3) (GeV) | input | 0.272 | FLAG 2024 | `chiral_breaking`, `ladder_standalone` |
+| \|⟨q̄q⟩\|^(1/3) (GeV) | input | 0.272 | FLAG 19 (restated in FLAG 21) | `chiral_breaking`, `ladder_standalone` |
 | m_u, m_d (GeV) | input | 0.00216 | PDG 2024 | `chiral_breaking`, `ladder_standalone` |
 | m_c (GeV), MS-bar, α_s threshold | input | 1.27 | PDG 2024 | `m331_standalone`, `qcd_running` |
 | m_b (GeV), MS-bar, α_s threshold | input | 4.18 | PDG 2024 | `m331_standalone`, `qcd_running` |
@@ -366,10 +366,10 @@ These are imported from their source by every script that uses them; a typed-in 
 | R-ratio comparison scale (GeV), KEDR range midpoint | input | 2.45 | this repository's choice | `m331_standalone`, `m331_why_three` |
 | Γ(π⁰ → γγ), PrimEx-I+II (eV) | input | 7.802 | Larin et al. 2020 | `ladder_links`, `ladder_standalone` |
 | PrimEx-I+II systematic error (eV) | input | 0.105 | Larin et al. 2020 | `ladder_links`, `ladder_standalone` |
-| diamond permittivity | input | 5.7 | LIT | `ladder_standalone`, `stur_gravity_entanglement` |
-| diamond density (kg/m³) | input | 3510 | LIT | `ladder_standalone`, `stur_gravity_entanglement` |
+| diamond permittivity | input | 5.7 | tabulated; primary source not retrieved | `ladder_standalone`, `stur_gravity_entanglement` |
+| diamond density (kg/m³) | input | 3510 | LIT (3515 from a = 3.5667 Å) | `ladder_standalone`, `stur_gravity_entanglement` |
 | Earth mass (kg) | input | 5.972000e24 | LIT | `stur_oppenheim`, `stur_thermo_gravity` |
-| GM☉ (m³ s⁻²) | input | 1.327124e20 | IAU | `black_holes`, `ladder_standalone`, `stur_tegr_gr` |
+| GM☉ (m³ s⁻²) | input | 1.327124e20 | IAU 2015 nominal | `black_holes`, `ladder_standalone`, `stur_tegr_gr` |
 | Diósi–Penrose smearing bound R₀ (m) | input | 5.400000e-11 | Donadi et al. 2021 | `stur_emergent`, `stur_oppenheim`, `stur_thermo_gravity` |
 | short-range gravity test length (m) | input | 5.200000e-5 | Lee et al. 2020 | `stur_oppenheim`, `stur_thermo_gravity` |
 | area-law coefficient S/(R/a)² per scalar | derived | 0.3046 | src/stur_unification.py U3 (results/unification/output.txt) | `stur_emergent`, `stur_oppenheim`, `stur_thermo_gravity` |
@@ -405,9 +405,10 @@ Literals with at least three significant digits that appear in two or more scrip
 | 33.6 | `black_holes`, `ladder_standalone` |
 | 51.8 | `black_holes`, `ladder_standalone` |
 | 62.7 | `black_holes`, `ladder_standalone` |
+| 80.3692 | `m331_breaking`, `m331_scalar` |
 | 221 | `black_holes`, `ladder_standalone` |
 | 247 | `black_holes`, `ladder_standalone` |
-| 7935 | `black_holes`, `ladder_standalone` |
+| 7959 | `black_holes`, `ladder_standalone` |
 | 8277 | `black_holes`, `ladder_standalone` |
 | 3.975000e6 | `black_holes`, `ladder_standalone` |
 | 4.297000e6 | `black_holes`, `ladder_standalone` |

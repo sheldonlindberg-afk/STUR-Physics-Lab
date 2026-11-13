@@ -7,14 +7,17 @@ Read literally, gravity would then be a statistical, classical field sourced by 
 quantum matter (lambda = 0). A classical field that responds to quantum matter without
 breaking quantum mechanics has to carry noise, and that noise decoheres matter.
 
-Q1  The minimum noise (FOLLOWS; the result is LIT recalled, Tilloy & Diosi, PRD 93,
+Q1  The minimum noise (FOLLOWS; LIT: Tilloy & Diosi, PRD 93,
     024026 (2016)). Matter's mass density m(x) is continuously monitored with strength
     k(q). The record has noise 1/(4k), so the potential inferred from it,
     Phi = -G K * m with K(q) = 4 pi / q^2, has noise S_Phi = G^2 K^2 / (4k). That
     noisy potential dephases matter as well. The total decoherence kernel is
           k(q) + S_Phi(q) / hbar^2  =  k + G^2 K^2 / (4 hbar^2 k)  >=  G K / hbar
     with equality at one k. The bound holds at every wavenumber, and its minimum is the
-    Diosi-Penrose kernel 4 pi G / (hbar q^2). So every Markovian statistical gravity
+    Diosi-Penrose kernel 4 pi G / (hbar q^2). (Tilloy and Diosi, eqs. (41)-(42): the minimum
+    is at kappa = 2, where back-action doubles the original DP decoherence. Whether this
+    kernel is the original DP rate or the doubled one depends on the normalization of the
+    decoherence term; not resolved here, see AUDIT.md.) So every Markovian statistical gravity
     decoheres at least as fast as Diosi-Penrose. The only freedom is R0, the length
     over which the mass density that sources the field is smeared:
           k_min(q) = (4 pi G / hbar q^2) exp(-q^2 R0^2)
@@ -55,7 +58,7 @@ import stur_gravity_full as GF
 _A = GF.design_a()
 M_A, R_A, D_A, T_A = _A["m"], _A["R"], _A["dx"], _A["total"]   # design A, from src/stur_gravity_full.py
 R0_DONADI = 0.54e-10          # LIT: Donadi et al. 2021
-L_ISL = 52e-6                 # LIT recalled: Lee et al., PRL 124, 101101 (2020)
+L_ISL = 52e-6                 # LIT: Lee et al., PRL 124, 101101 (2020): tested down to 52 um
 
 
 def banner(s):
@@ -85,7 +88,7 @@ def heating_per_kg(R0):
     return hbar * G / (4 * np.sqrt(np.pi) * R0**3)
 
 
-EARTH_W_PER_KG = 47e12 / 5.972e24   # LIT recalled: ~47 TW of internal heat flow
+EARTH_W_PER_KG = 47e12 / 5.972e24   # LIT: 47 +- 2 TW (Davies & Davies, Solid Earth 1, 5 (2010)); M = GM_E/G (IAU)
 
 
 def heating_per_kg_nuclei(R0, A=12):
@@ -144,7 +147,7 @@ def main():
     print(f"   it, smearing at R0 = a gives {heating_per_kg_nuclei(cutoff(1)):.2f} W/kg. At 0.54 Angstrom (the bound from radiation,")
     print("   LIT) the two formulas agree.")
     print(f"   Required R0 / a (N = 1000): {R0_DONADI / cutoff(1000):.1e}")
-    print(f"   For scale: the Earth's internal heat flow is {EARTH_W_PER_KG:.1e} W/kg (LIT recalled), so the")
+    print(f"   For scale: the Earth's internal heat flow is {EARTH_W_PER_KG:.1e} W/kg (LIT), so the")
     print(f"   cutoff-smeared noise would heat matter {heating_per_kg_nuclei(cutoff(1))/EARTH_W_PER_KG:.0e} times faster than anything observed.")
     print("   So gravity cannot be a Markovian statistical field coarse-grained at the framework's own")
     print("   cutoff. On those two conditions (R0 = a, Markovian) its field follows each branch:")
@@ -160,7 +163,7 @@ def main():
     R_need = brentq(lambda r: rate(r) * T_A - 0.1, 1e-6, 1e-1)
     print(f"   To keep 90% coherence for 3.24 s, a statistical gravity needs R0 > {R_need*1e6:.0f} um.")
     print(f"   Smearing the source of gravity over R0 softens Newton's law at separations ~R0;")
-    print(f"   the inverse-square law holds down to {L_ISL*1e6:.0f} um (LIT recalled). So a design-A")
+    print(f"   the inverse-square law holds down to {L_ISL*1e6:.0f} um (LIT). So a design-A")
     print("   diamond that stays coherent for 3.24 s leaves no Markovian statistical gravity standing.")
     return R_need
 

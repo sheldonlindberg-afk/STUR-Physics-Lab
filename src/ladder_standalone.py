@@ -110,7 +110,8 @@ HBAR = 1.054571817e-34        # J s
 C_LIGHT = 2.99792458e8        # m/s
 EPS_DIAMOND = 5.7             # static permittivity of diamond
 RHO_DIAMOND = 3510.0          # kg/m^3
-LAMBDA_SI = 1.1056e-52        # m^-2, cosmological constant (Planck 2018)
+LAMBDA_SI = 1.1056e-52        # m^-2, Planck 2018 (TT,TE,EE+lowE+lensing+BAO): 3 H0^2 Omega_L / c^2 with H0 = 67.66, Omega_L = 0.6889
+#   (A&A 641, A6 (2020), Table 2). Planck quotes Lambda = (4.24 +- 0.11)e-66 eV^2 = 1.089e-52 m^-2 without BAO.
 L_PLANCK = 1.616255e-35       # m
 # Landau poles of the 3-3-1 running in GeV (N_c = 3, N_c = 5), at the reference spectrum:
 # M_V = 4 TeV, Yukawas and thresholds on, alpha = 1, three loops. Computed by
@@ -774,7 +775,7 @@ def rung5():
 # RUNG 6: black holes, the strong-field end of gravity's column (src/black_holes.py)
 # ----------------------------------------------------------------------------------------
 K_B = 1.380649e-23            # J/K
-GM_SUN = 1.32712440018e20     # m^3 s^-2 (IAU)
+GM_SUN = 1.3271244e20         # m^3 s^-2, IAU 2015 nominal (Resolution B3; Prsa et al., arXiv:1510.07674)
 PARSEC = 3.0856775814913673e16
 UAS = pi / (180 * 3600e6)     # one micro-arcsecond in radians
 # EHT ring diameters (uas, 68%): M87* (EHT 2019, ApJL 875, L1), Sgr A* (EHT 2022, ApJL 930, L12)
@@ -782,12 +783,12 @@ RING_M87, RING_SGRA = (42.0, 3.0), (51.8, 2.3)
 # The EHT's theta_g = GM/(c^2 D) (uas; value, error below, error above), from the ring with
 # alpha = d/theta_g calibrated on GRMHD images, the calibration's spread included (same
 # papers; M87*: Paper VI, ApJL 875, L6). alpha = 11.1 and 10.8, against the shadow's 10.4.
-THETA_G_M87, THETA_G_SGRA = (3.8, 0.4, 0.4), (4.8, 0.7, 0.4)
+THETA_G_M87, THETA_G_SGRA = (3.8, 0.4, 0.4), (4.8, 0.7, 1.4)   # EHT 2019 Paper VI; EHT 2022 Paper I, Table 1
 # Masses and distances measured without the EHT. M87*: stellar dynamics (Gebhardt et al.,
 # ApJ 729, 119 (2011)), (6.6 +- 0.4)e9 Msun at an assumed 17.9 Mpc; M/D does not depend on
 # the distance assumed. Sgr A*: stellar orbits, GRAVITY 2022 and Keck 2019 (Msun, pc).
 M87_STARS = (6.6e9, 0.4e9, 17.9e6)
-SGRA_VLTI, SGRA_KECK = (4.297e6, 8277.0), (3.975e6, 7935.0)
+SGRA_VLTI, SGRA_KECK = (4.297e6, 8277.0), (3.975e6, 7959.0)   # Keck: Do et al. 2019, Table 1, R0 = 7.959 kpc
 # GW250114 (LVK, PRL 135, 111403 (2025)): component masses (Msun, +-90%), full-signal
 # remnant, redshift; the ringdown-only 220 fit (redshifted f, damping rate, Hz). The spin
 # bound chi_1,2 <= 0.26 is not needed: spin 0 gives the largest initial area.
@@ -1023,8 +1024,8 @@ def rung6():
     pv, pk = shadow_uas(*SGRA_VLTI), shadow_uas(*SGRA_KECK)
     pS = (pv + pk) / 2
     zS = theta_g_pull(pS / k, abs(pv - pk) / pS, THETA_G_SGRA)
-    check("Sgr A*: theta_g from the stellar-orbit mass and distance is 5.03 uas (shadow 52.3 uas); the EHT's,"
-          " from its 51.8 +- 2.3 uas ring, is 4.8 (-0.7 +0.4) uas", abs(zS) < 2, "data",
+    check("Sgr A*: theta_g from the stellar-orbit mass and distance is 5.03 uas (shadow 52.2 uas); the EHT's,"
+          " from its 51.8 +- 2.3 uas ring, is 4.8 (-0.7 +1.4) uas", abs(zS) < 2, "data",
           f"got {pS / k:.2f} uas (GRAVITY {pv / k:.2f}, Keck {pk / k:.2f}), {zS:+.2f} sigma. Tolerance 2 sigma: the EHT's"
           f" upper error (alpha = {RING_SGRA[0] / THETA_G_SGRA[0]:.1f}, calibration included) and the GRAVITY-Keck"
           " spread in M/D (4%)")

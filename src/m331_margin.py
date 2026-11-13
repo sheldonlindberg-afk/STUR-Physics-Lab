@@ -176,7 +176,8 @@ class _inputs:
             Y.MT_POLE = self.old
 
 
-# PDG 2024 central values and 1 sigma (LIT recalled; centrals as used throughout the repo)
+# 1 sigma from PDG 2024 (checked: s2 4e-5, 1/alpha 0.008 (rounded up to 0.01), alpha_s 9e-4, m_t 0.29);
+# centrals as used throughout the repo, which for s2 and 1/alpha are older PDG editions (AUDIT.md)
 INPUTS = {"s2": (0.23122, 0.00004), "ainv": (127.95, 0.01), "as": (0.1180, 0.0009), "mt": (172.57, 0.29)}
 
 

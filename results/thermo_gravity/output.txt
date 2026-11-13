@@ -29,7 +29,7 @@ Q3  The heating that noise would cause, per kilogram of any matter
    it, smearing at R0 = a gives 0.51 W/kg. At 0.54 Angstrom (the bound from radiation,
    LIT) the two formulas agree.
    Required R0 / a (N = 1000): 3.4e+23
-   For scale: the Earth's internal heat flow is 7.9e-12 W/kg (LIT recalled), so the
+   For scale: the Earth's internal heat flow is 7.9e-12 W/kg (LIT), so the
    cutoff-smeared noise would heat matter 6e+10 times faster than anything observed.
    So gravity cannot be a Markovian statistical field coarse-grained at the framework's own
    cutoff. On those two conditions (R0 = a, Markovian) its field follows each branch:
@@ -50,5 +50,5 @@ Q4  Any statistical gravity with R0 put in by hand: the one-diamond prediction
    check, R0 = 1e-03 m, Gaussian-point formula: 3.205e-03 /s
    To keep 90% coherence for 3.24 s, a statistical gravity needs R0 > 448 um.
    Smearing the source of gravity over R0 softens Newton's law at separations ~R0;
-   the inverse-square law holds down to 52 um (LIT recalled). So a design-A
+   the inverse-square law holds down to 52 um (LIT). So a design-A
    diamond that stays coherent for 3.24 s leaves no Markovian statistical gravity standing.

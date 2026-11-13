@@ -4,7 +4,7 @@ One trapped ion: visibility loss counts exchanged quanta, tested against an
 alternative ansatz with the opposite temperature dependence.
 
 Setup (KNOWN technique: spin-dependent kicks on a trapped ion, as in trapped-ion
-"Schrodinger cat" experiments, LIT recalled: Monroe et al., Science 272, 1131 (1996)):
+"Schrodinger cat" experiments, LIT: Monroe et al., Science 272, 1131 (1996)):
   - one motional mode of frequency omega, prepared thermal with mean phonon number nbar
     (temperature T: nbar = 1/(exp(x) - 1), x = hbar omega / k_B T);
   - a spin superposition (|up> + |down>)/sqrt2, then a spin-dependent kick that displaces

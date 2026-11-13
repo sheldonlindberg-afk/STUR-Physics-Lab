@@ -125,7 +125,7 @@ q("M_Pl", "Planck mass √(ħc/G) (GeV)", lambda: math.sqrt(hbar * c0 / G0) * c0
        "√(ħc/G), the G the diamond experiment uses")
 q("l_Pl", "Planck length √(ħG/c³) (m)", lambda: math.sqrt(hbar * G0 / c0**3), "derived",
   "√(ħG/c³) from G, ħ, c (this tool)")
-q("Lambda", "cosmological constant Λ (m⁻²)", 1.1056e-52, "input", "Planck 2018")
+q("Lambda", "cosmological constant Λ (m⁻²)", 1.1056e-52, "input", "Planck 2018 +BAO, 3H₀²Ω_Λ/c²")
 q("ainv0", "1/α(0)", 137.035999084, "input", "CODATA 2018", match=1e-6)
 q("ainvMZ", "1/α(M_Z), MS-bar", 127.951, "input", "PDG 2024",
   note="with sin²θ_W(M_Z) it fixes the U(1)_X start of every 3-3-1 run")
@@ -157,7 +157,7 @@ q("mpi0", "m_π⁰ (GeV)", 0.1349768, "input", "PDG 2024", match=1e-5)
 q("mpic", "m_π± (GeV)", 0.13957039, "input", "PDG 2024", match=1e-5)
 q("gA", "nucleon g_A", 1.2754, "input", "PDG 2024", match=1e-4)
 q("MN", "average nucleon mass (GeV)", 0.9389187, "input", "PDG 2024", match=1e-4)
-q("cond", "\\|⟨q̄q⟩\\|^(1/3) (GeV)", 0.272, "input", "FLAG 2024", match=1e-4,
+q("cond", "\\|⟨q̄q⟩\\|^(1/3) (GeV)", 0.272, "input", "FLAG 19 (restated in FLAG 21)", match=1e-4,
   skip=[("m331_standalone", "alpha_s(2.45")])
 q("mumd", "m_u, m_d (GeV)", 2.16e-3, "input", "PDG 2024", match=1e-4)
 q("mc_mb", "m_c (GeV), MS-bar, α_s threshold", 1.27, "input", "PDG 2024", match=1e-6)
@@ -170,11 +170,11 @@ q("KEDRmu", "R-ratio comparison scale (GeV), KEDR range midpoint", 2.45, "input"
   match=1e-6)
 q("Gpi0", "Γ(π⁰ → γγ), PrimEx-I+II (eV)", 7.802, "input", "Larin et al. 2020", match=1e-6)
 q("Gpi0sys", "PrimEx-I+II systematic error (eV)", 0.105, "input", "Larin et al. 2020", match=1e-6)
-q("epsD", "diamond permittivity", 5.7, "input", "LIT", match=1e-6, short=True,
+q("epsD", "diamond permittivity", 5.7, "input", "tabulated; primary source not retrieved", match=1e-6, short=True,
   skip=[("m331_", ""), ("stur_tegr", ""), ("stur_born", "")])
-q("rhoD", "diamond density (kg/m³)", 3510.0, "input", "LIT", match=1e-6)
+q("rhoD", "diamond density (kg/m³)", 3510.0, "input", "LIT (3515 from a = 3.5667 Å)", match=1e-6)
 q("mE", "Earth mass (kg)", 5.972e24, "input", "LIT", match=1e-3)
-q("GMsun", "GM☉ (m³ s⁻²)", 1.32712440018e20, "input", "IAU", match=1e-6,
+q("GMsun", "GM☉ (m³ s⁻²)", 1.3271244e20, "input", "IAU 2015 nominal", match=1e-6,
   note="the Sun's mass scale: TEGR's solar-system tests and the black-hole rung's EHT and LVK masses")
 q("R0", "Diósi–Penrose smearing bound R₀ (m)", 0.54e-10, "input", "Donadi et al. 2021", match=1e-3, short=True)
 q("LISL", "short-range gravity test length (m)", 52e-6, "input", "Lee et al. 2020", match=1e-3, short=True)

@@ -259,8 +259,15 @@ def light_higgs_quartic(l, m, c2):
 
 
 def sm_running(mu_end, n=400):
-    """One-loop SM from m_t (MS-bar inputs recalled: Buttazzo et al. 2013) to mu_end."""
-    g1, g2, g3, yt, lam = 0.3583, 0.6477, 1.1666, 0.9369, 0.12604
+    """One-loop SM from m_t to mu_end. MS-bar couplings at mu = M_t from the NNLO interpolating
+    formulas of Buttazzo et al., JHEP 12 (2013) 089, arXiv:1307.3536, eqs. (55)-(60), evaluated
+    at the PDG 2024 inputs M_t = 172.57, M_h = 125.20, M_W = 80.3692 GeV, alpha_s = 0.1180."""
+    Mt, Mh, MW, a3 = 172.57, 125.20, 80.3692, 0.1180
+    lam = 0.12604 + 0.00206 * (Mh - 125.15) - 0.00004 * (Mt - 173.34)
+    yt = 0.93690 + 0.00556 * (Mt - 173.34) - 0.00042 * (a3 - 0.1184) / 0.0007
+    g3 = 1.1666 + 0.00314 * (a3 - 0.1184) / 0.0007 - 0.00046 * (Mt - 173.34)
+    g2 = 0.64779 + 0.00004 * (Mt - 173.34) + 0.00011 * (MW - 80.384) / 0.014
+    g1 = 0.35830 + 0.00011 * (Mt - 173.34) - 0.00020 * (MW - 80.384) / 0.014
 
     def rhs(t, s):
         g1, g2, g3, yt, lam = s
@@ -400,9 +407,10 @@ def main(n_samples=250, seed=11):
     i0 = np.argmax(lam < 0)
     mu0 = 172.57 * np.exp(ts[i0]) if lam.min() < 0 else None
     res["sm_cross"] = mu0
-    print(f"   lambda(m_t) = 0.1260 -> lambda(4 TeV) = {sol.sol(log(MV/172.57))[4]:.4f}; one-loop lambda turns negative at"
+    print(f"   lambda(m_t) = {sol.y[4][0]:.4f} -> lambda(4 TeV) = {sol.sol(log(MV/172.57))[4]:.4f}; one-loop lambda turns negative at"
           f" {mu0:.1e} GeV;  lambda(M_Pl) = {lam[-1]:+.3f}")
-    print("   (LIT recalled: at NNLO the crossing is ~1e10-1e11 GeV and the SM is metastable, not unstable.)")
+    print("   (LIT: at NNLO lambda crosses zero at about 1e10 GeV and the SM vacuum is metastable;")
+    print("    Buttazzo et al., JHEP 12 (2013) 089, section 4.)")
     lam_sm = float(sol.sol(log(MV / 172.57))[4])
     yt_sm = float(sol.sol(log(MV / 172.57))[3])
 

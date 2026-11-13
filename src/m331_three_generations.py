@@ -13,7 +13,8 @@ G3 Combine with front 5 (N_c odd).
 G4 Data for the MINIMAL model (beta = -sqrt3): it needs sin^2 theta_W(mu) < 1/4 at the
    3-3-1 scale.  Running the Standard Model couplings up (one loop) gives the scale
    mu_* where sin^2 theta_W reaches 1/4; the new gauge bosons must lie below it.
-   Inputs (LIT, PDG, recalled): 1/alpha(M_Z) = 127.95, sin^2 theta_W(M_Z) = 0.23122 (MS-bar).
+   Inputs (LIT): 1/alpha(M_Z) = 127.95, sin^2 theta_W(M_Z) = 0.23122 (MS-bar). These are the PDG 2022 and
+   PDG 2018 values; PDG 2024 has 127.930 and 0.23129 (see AUDIT.md).
    Z' limits (LIT, sources checked):
      minimal model: LHC 13 TeV dileptons M_Z' > 3.7 TeV (Nepomuceno & Meirose, PRD 101, 035017
        (2020)); Cs atomic parity violation M_Z' >~ 4.2-5.4 TeV (Long et al., NPB 943, 114629 (2019)).

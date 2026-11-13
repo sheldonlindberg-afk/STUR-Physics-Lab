@@ -74,7 +74,7 @@ SIGMA_CUBE_ROOT = 0.272             # GeV, |<qbar q>|^(1/3), N_f = 2+1, MS-bar 2
 M_PI0, M_PIC = 0.1349768, 0.13957039
 G_A = 1.2754                        # nucleon axial coupling
 M_N = 0.9389187                     # GeV, average nucleon mass
-G_PINN_EMP = 13.1                   # empirical pi-N coupling, g^2/4pi ~ 13.7 (LIT, approximate)
+G_PINN_EMP = 13.1                   # g_c^2/4pi = 13.69 +- 0.12 +- 0.15 (Baru et al., NPA 872, 69 (2011), eq. 9.13)
 HBARC = 0.1973269804                # GeV fm
 # Lattice inputs, N_f = 2+1, all checked against the FLAG sources:
 #  m_ud: FLAG 2024 (arXiv:2411.04268), table "tab:mudms", MS-bar at 2 GeV.

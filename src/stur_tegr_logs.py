@@ -28,7 +28,8 @@ Computed here (CHECK):
         SO(1,1), the normal boost alone (spherical reduction): flat measure, mu = 1;
         SL(2,R) = so(2,1) (Q7): mu = k tanh(pi k)  (Varrin eq. 4.14);
         SL(2,C) = so(3,1), simple principal series (n = 0, rho): mu ~ rho^2
-          (Gelfand-Naimark Plancherel density (n^2 + rho^2), quoted from memory);
+          (Gelfand-Naimark Plancherel density (n^2 + rho^2): dm = |mu + i lambda|^2 dmu dlambda,
+           LIT: arXiv:2403.17180, section on the classical complex case);
         and, for comparison, Varrin's causal semigroup SL+(2,R): mu = k sinh(2 pi k).
       Coefficient of ln a fitted from A = 1e4 to 1e8, after removing any area term.
   L2  Conversion to Sen's ensemble (exact): k = A / 16 pi = M^2, so at a fixed mass window

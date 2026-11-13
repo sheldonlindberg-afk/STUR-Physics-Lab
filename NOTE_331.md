@@ -510,16 +510,16 @@ itself.
   under the RGEs (residual 10⁻¹⁵), and the potential is gauge invariant (10⁻¹⁶).
 - The top Yukawa and every exotic-quark and heavy-lepton Yukawa run separately; with
   separate couplings the Yukawa structures close too.
-- The light-Higgs quartic is matched at 4 TeV to the SM value, λ_SM = 0.076, at tree
+- The light-Higgs quartic is matched at 4 TeV to the SM value, λ_SM = 0.077, at tree
   level in the decoupling limit.
 - Survival means: every |λ| < 4π, every Yukawa < √(4π), and the potential bounded below,
   checked numerically at 8 scales up to M_Pl.
 
 **Results.**
-- The SM alone is not stable to M_Pl: at one loop λ_SM crosses zero at 9×10⁷ GeV (it is
+- The SM alone is not stable to M_Pl: at one loop λ_SM crosses zero at 2×10⁸ GeV (it is
   metastable, as is known).
 - **3-3-1 at N_c = 3 survives in both variants**, in a corner of parameter space:
-  - 17 of 250 viable points (β = −1/√3) and 13 of 250 (β = +1/√3) survive under small
+  - 17 of 250 viable points (β = −1/√3) and 18 of 250 (β = +1/√3) survive under the tightest
     priors;
   - none survive with O(1) quartics, which hit Landau poles near 30–40 TeV.
 - **In the survivors the extra scalars cure the SM instability:** the top-doublet quartic
@@ -531,9 +531,9 @@ itself.
 |---|---|---|
 | Exotic Yukawa at 4 TeV, gauge + Yukawas alone (exact at one loop) | < 0.80 | < 0.62 |
 | → exotic-quark mass | **< 1.79 M_V** | **< 1.40 M_V** |
-| Exotic Yukawa among full survivors | ≤ 0.57 | ≤ 0.53 |
-| Share of the electroweak vev in the top's doublet | c² ≥ 0.68 | c² ≥ 0.69 |
-| Quartics at 4 TeV | all ≲ 0.37 | all ≲ 0.35 |
+| Exotic Yukawa among full survivors | ≤ 0.44 | ≤ 0.53 |
+| Share of the electroweak vev in the top's doublet | c² ≥ 0.66 | c² ≥ 0.68 |
+| Quartics at 4 TeV | all ≲ 0.38 | all ≲ 0.37 |
 
 With M_Z′ = 1.225 M_V, the exotic quarks must lie below about 1.1–1.5 M_Z′. If colliders
 find them much heavier than the Z′, the selection's own perturbativity criterion fails.

@@ -143,8 +143,8 @@ RUNG 6  Black holes: the strong-field end of gravity's column (not a symmetry br
           which holds the ring (7%) and its GRMHD calibration alpha = 11.1 against the
           Schwarzschild shadow's 10.4, and the mass (6%; the distance cancels in M/D). The
           gas-dynamics mass (3.5e9) would give 1.93 uas, +4.7 sigma, excluded
-   [PASS] [data]          Sgr A*: theta_g from the stellar-orbit mass and distance is 5.03 uas (shadow 52.3 uas); the EHT's, from its 51.8 +- 2.3 uas ring, is 4.8 (-0.7 +0.4) uas
-          got 5.03 uas (GRAVITY 5.12, Keck 4.94), -0.53 sigma. Tolerance 2 sigma: the
+   [PASS] [data]          Sgr A*: theta_g from the stellar-orbit mass and distance is 5.03 uas (shadow 52.2 uas); the EHT's, from its 51.8 +- 2.3 uas ring, is 4.8 (-0.7 +1.4) uas
+          got 5.03 uas (GRAVITY 5.12, Keck 4.93), -0.16 sigma. Tolerance 2 sigma: the
           EHT's upper error (alpha = 10.8, calibration included) and the GRAVITY-Keck
           spread in M/D (4%)
    GW250114 ringdown alone: M_f = 66.7 M_sun, chi_f = 0.75. Areas (A = 8 pi (GM/c^2)^2 (1 + sqrt(1 - chi^2))): initial 237,372 km^2, final 406,548 km^2
@@ -230,5 +230,5 @@ VERDICT
    pion counting uses the linear sigma model, a stand-in for QCD, and rung 5 rewrites GR
    rather than going beyond it.
 
-   Checks passed: 60/60   (41 math, 10 data, 9 pinned; 0.04 s)
+   Checks passed: 60/60   (41 math, 10 data, 9 pinned; 0.06 s)
    ALL CHECKS PASS

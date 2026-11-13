@@ -134,7 +134,7 @@ The project began from four informal ideas. Here is what known physics says abou
   - the particle content (the Standard Model);
   - the entanglement reading of G for gauge fields. For gauge fields the area-law
     coefficient includes a contact term that isn't entanglement of the field's physical
-    modes (Kabat 1995, LIT recalled). So G = πa²c³/(N c_s ħ) is cleanest for N scalars
+    modes (Kabat, Nucl. Phys. B 453, 281 (1995), [hep-th/9503016](https://arxiv.org/abs/hep-th/9503016)). So G = πa²c³/(N c_s ħ) is cleanest for N scalars
     or fermions. For the Standard Model's gauge fields, identifying 1/4Għ with
     entanglement alone is not settled, and c_s depends on the regulator in any case.
 - **Whether gravity follows each branch is open.** The argument here (D6) holds only if a

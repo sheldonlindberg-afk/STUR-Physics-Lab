@@ -43,7 +43,7 @@ over imaginary frequencies, Casimir and Polder 1948).
       the 181 um gap, at any T. Ideal diamond has zero Born effective charges (LIT: Lawler and
       Shirley, arXiv:cond-mat/0407541), and its one-phonon infrared absorption at the Raman
       frequency, 1332 cm^-1 = 2.5e14 rad/s, is forbidden (LIT: Shiryaev et al., Meteorit.
-      Planet. Sci. (2022), doi:10.1111/maps.13791); two-phonon bands lie above it. So the
+      Planet. Sci. 57, 730 (2022), doi:10.1111/maps.13791); two-phonon bands lie above it. So the
       lowest lattice absorption is 15x above the highest frequency that matters, for
       defect-free diamond. (CHECK, exact; LIT)
   P6  The Casimir-safe gap at finite temperature, the field in equilibrium with the walls at

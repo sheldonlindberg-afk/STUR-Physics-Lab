@@ -27,7 +27,7 @@ the entangling phase of their own torsion field.
 
 Requirements, with the derived gas-collision rate: vacuum below 7.6×10⁻¹⁵ Pa (N₂),
 internal temperature below 1.9 K, spin coherence above 1.4 s, acceleration noise below
-3.1×10⁻¹⁷ m s⁻²/√Hz, zero net charge. The earlier interpolated rate was 4.19× higher,
+3.1×10⁻¹⁷ m s⁻²/√Hz, zero net charge. The earlier interpolated rate was 4.19× higher (4.55× with the mean speed that Romero-Isart's eq. 27 specifies),
 and gave 565 runs.
 Source: `src/stur_gravity_full.py`, [GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md).
 

@@ -18,21 +18,22 @@ S1  CHECKS
 ==============================================================================
 S2  The Standard Model alone
 ==============================================================================
-   lambda(m_t) = 0.1260 -> lambda(4 TeV) = 0.0759; one-loop lambda turns negative at 9.2e+07 GeV;  lambda(M_Pl) = -0.034
-   (LIT recalled: at NNLO the crossing is ~1e10-1e11 GeV and the SM is metastable, not unstable.)
+   lambda(m_t) = 0.1262 -> lambda(4 TeV) = 0.0772; one-loop lambda turns negative at 2.3e+08 GeV;  lambda(M_Pl) = -0.029
+   (LIT: at NNLO lambda crosses zero at about 1e10 GeV and the SM vacuum is metastable;
+    Buttazzo et al., JHEP 12 (2013) 089, section 4.)
 
 ==============================================================================
 S3  Gauge + Yukawas alone: the largest exotic Yukawa (exact at one loop)
 ==============================================================================
    beta = -1/sqrt3, top-doublet vev fraction c^2 = 0.9: y_J(4 TeV) < 0.801  ->  m_exotic < 1.79 M_V
-   beta = -1/sqrt3, top-doublet vev fraction c^2 = 0.5: y_J(4 TeV) < 0.790  ->  m_exotic < 1.77 M_V
+   beta = -1/sqrt3, top-doublet vev fraction c^2 = 0.5: y_J(4 TeV) < 0.791  ->  m_exotic < 1.77 M_V
    beta = +1/sqrt3, top-doublet vev fraction c^2 = 0.9: y_J(4 TeV) < 0.624  ->  m_exotic < 1.40 M_V
    beta = +1/sqrt3, top-doublet vev fraction c^2 = 0.5: y_J(4 TeV) < 0.621  ->  m_exotic < 1.39 M_V
 
 ==============================================================================
 S4  The full scalar sector from 4 TeV to the Planck scale (N_c = 3)
 ==============================================================================
-   matched at M_V = 4 TeV: lambda_SM = 0.0759, y_t(SM) = 0.8166; tan(beta) free (c^2 in [0.1, 0.9]);
+   matched at M_V = 4 TeV: lambda_SM = 0.0772, y_t(SM) = 0.8129; tan(beta) free (c^2 in [0.1, 0.9]);
    the top-doublet quartic is solved from lambda_SM; the vacuum must be bounded below at 4 TeV.
    Survive = every quartic |l| < 4 pi, every Yukawa < sqrt(4 pi) and the potential bounded below,
    checked at 8 scales up to M_Pl.
@@ -40,16 +41,16 @@ S4  The full scalar sector from 4 TeV to the Planck scale (N_c = 3)
    prior 'small': l_i in (0.01, 0.4), l_ij in (-0.3, 0.6), l'_ij in (-0.4, 0.4), y_J in (0.1, 0.8)
    prior 'tight': l_i in (0.005, 0.25), l_ij in (-0.15, 0.4), l'_ij in (-0.3, 0.3), y_J in (0.05, 0.6)
    beta = -1/sqrt3 wide :  60 viable; perturbative   0; perturbative and stable   0 (0%); failures at 4e+04 GeV (median)
-   beta = -1/sqrt3 small: 250 viable; perturbative   8; perturbative and stable   5 (2%); failures at 9e+10 GeV (median)
-   beta = -1/sqrt3 tight: 250 viable; perturbative  81; perturbative and stable  17 (7%); failures at 3e+15 GeV (median)
-        survivors: y_J(4 TeV) up to 0.57; c^2 from 0.68 to 0.90; largest |l(4 TeV)| 0.37; top-doublet quartic at M_Pl >= +0.031
-        example: c^2 = 0.87, y_t = 0.873, y_J = 0.285
-          at 4 TeV : l1=+0.098 l2=+0.123 l3=+0.166 l12=+0.281 l13=+0.159 l23=+0.049 l'12=+0.095 l'13=+0.057 l'23=-0.283
-          at M_Pl  : l1=+0.273 l2=+0.474 l3=+0.925 l12=+0.874 l13=+0.874 l23=+0.610 l'12=+0.168 l'13=+0.123 l'23=-0.169
-   beta = +1/sqrt3 wide :  60 viable; perturbative   0; perturbative and stable   0 (0%); failures at 3e+04 GeV (median)
-   beta = +1/sqrt3 small: 250 viable; perturbative   9; perturbative and stable   1 (0%); failures at 3e+10 GeV (median)
-   beta = +1/sqrt3 tight: 250 viable; perturbative  59; perturbative and stable  13 (5%); failures at 9e+14 GeV (median)
-        survivors: y_J(4 TeV) up to 0.53; c^2 from 0.69 to 0.90; largest |l(4 TeV)| 0.35; top-doublet quartic at M_Pl >= +0.162
-        example: c^2 = 0.84, y_t = 0.893, y_J = 0.166
-          at 4 TeV : l1=+0.158 l2=+0.159 l3=+0.130 l12=+0.128 l13=+0.210 l23=+0.184 l'12=+0.143 l'13=-0.040 l'23=-0.278
-          at M_Pl  : l1=+0.887 l2=+0.966 l3=+0.342 l12=+1.377 l13=+0.991 l23=+0.992 l'12=+0.331 l'13=-0.095 l'23=-0.289
+   beta = -1/sqrt3 small: 250 viable; perturbative  11; perturbative and stable   4 (2%); failures at 1e+11 GeV (median)
+   beta = -1/sqrt3 tight: 250 viable; perturbative  95; perturbative and stable  17 (7%); failures at 1e+15 GeV (median)
+        survivors: y_J(4 TeV) up to 0.44; c^2 from 0.66 to 0.88; largest |l(4 TeV)| 0.38; top-doublet quartic at M_Pl >= +0.024
+        example: c^2 = 0.77, y_t = 0.929, y_J = 0.441
+          at 4 TeV : l1=+0.178 l2=+0.193 l3=+0.130 l12=-0.085 l13=+0.137 l23=+0.012 l'12=+0.123 l'13=-0.018 l'23=-0.226
+          at M_Pl  : l1=+0.062 l2=+0.393 l3=+0.446 l12=-0.038 l13=+0.456 l23=+0.022 l'12=+0.107 l'13=-0.103 l'23=-0.127
+   beta = +1/sqrt3 wide :  60 viable; perturbative   0; perturbative and stable   0 (0%); failures at 4e+04 GeV (median)
+   beta = +1/sqrt3 small: 250 viable; perturbative   7; perturbative and stable   1 (0%); failures at 3e+10 GeV (median)
+   beta = +1/sqrt3 tight: 250 viable; perturbative  60; perturbative and stable  18 (7%); failures at 6e+14 GeV (median)
+        survivors: y_J(4 TeV) up to 0.53; c^2 from 0.68 to 0.90; largest |l(4 TeV)| 0.37; top-doublet quartic at M_Pl >= +0.162
+        example: c^2 = 0.69, y_t = 0.976, y_J = 0.433
+          at 4 TeV : l1=+0.101 l2=+0.059 l3=+0.186 l12=+0.184 l13=+0.017 l23=+0.030 l'12=-0.244 l'13=-0.076 l'23=+0.292
+          at M_Pl  : l1=+0.147 l2=+0.202 l3=+0.162 l12=+0.333 l13=+0.196 l23=+0.316 l'12=-0.141 l'13=-0.092 l'23=+0.386

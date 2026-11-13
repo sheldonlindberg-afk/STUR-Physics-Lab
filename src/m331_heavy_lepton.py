@@ -213,7 +213,7 @@ def geometric_mean_check():
     return trip, gm, p3, p1
 
 
-LEP = 100.0                            # LEP2 limit on heavy charged leptons, GeV (approximate)
+LEP = 100.0                            # heavy charged lepton L -> nu W: m > 100.8 GeV (PDG 2024), rounded
 MSTAR = (561.0, 113.0)                 # section 3e: m_E* at M_V = 3.755 TeV, alpha = 1, three loops
 
 
