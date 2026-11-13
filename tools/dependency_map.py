@@ -39,7 +39,7 @@ TOPICS = {
                         "m331_margin", "m331_zprime_recast", "m331_heavy_lepton", "m331_gravity_fixed_point", "m331_standalone",
                         "qcd_running", "rge_engine"],
     "Symmetry ladder": ["m331_breaking", "chiral_breaking", "casimir_diamonds", "graviton_exchange",
-                        "macdowell_mansouri", "ladder_links", "ladder_standalone", "m331_rho_bound", "m331_zpole"],
+                        "macdowell_mansouri", "black_holes", "ladder_links", "ladder_standalone", "m331_rho_bound", "m331_zpole"],
     "Diamond experiment": ["stur_gravity_entanglement", "stur_gravity_full", "short_range_gravity"],
     "Classical and emergent gravity": ["stur_oppenheim", "stur_thermo_gravity", "stur_emergent", "stur_jacobson"],
     "Teleparallel gravity": ["stur_tegr", "stur_tegr_gr", "stur_tegr3d", "stur_tegr_corner", "stur_tegr_frame",
@@ -174,6 +174,8 @@ q("epsD", "diamond permittivity", 5.7, "input", "LIT", match=1e-6, short=True,
   skip=[("m331_", ""), ("stur_tegr", ""), ("stur_born", "")])
 q("rhoD", "diamond density (kg/m³)", 3510.0, "input", "LIT", match=1e-6)
 q("mE", "Earth mass (kg)", 5.972e24, "input", "LIT", match=1e-3)
+q("GMsun", "GM☉ (m³ s⁻²)", 1.32712440018e20, "input", "IAU", match=1e-6,
+  note="the Sun's mass scale: TEGR's solar-system tests and the black-hole rung's EHT and LVK masses")
 q("R0", "Diósi–Penrose smearing bound R₀ (m)", 0.54e-10, "input", "Donadi et al. 2021", match=1e-3, short=True)
 q("LISL", "short-range gravity test length (m)", 52e-6, "input", "Lee et al. 2020", match=1e-3, short=True)
 q("c_s", "area-law coefficient S/(R/a)² per scalar", lambda: _c_area(), "derived",

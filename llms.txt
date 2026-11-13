@@ -52,9 +52,12 @@
   reformulation). Gravity is not part of the gauge chain. Links across the rungs: q_p + q_e
   is the mixed anomaly, which the diamond experiment needs below 2.8e-19 e per nucleon;
   pi0 -> gamma gamma from rung 1's charges and the measured f_pi, 7.79 eV vs PrimEx 7.80; the
-  3-3-1 cutoff M_Pl = sqrt(hbar c/G) with the diamond experiment's G.
+  3-3-1 cutoff M_Pl = sqrt(hbar c/G) with the diamond experiment's G. Rung 6, black holes
+  (gravity's strong-field end, not a symmetry breaking): T_H from Euclidean periodicity, the
+  first law, the Nariai limit with the measured Lambda, photon sphere/shadow/ISCO, EHT
+  shadows of M87* and Sgr A*, GW250114's area increase; Hawking radiation unmeasured.
 - /src/ladder_standalone.py — the whole ladder in one file, standard library only: paste
-  into any Python runner or AI code tool; 45 PASS/FAIL checks, tagged math / data / pinned
+  into any Python runner or AI code tool; 58 PASS/FAIL checks, tagged math / data / pinned
   (expected output: /results/ladder/standalone.txt)
 - /src/m331_standalone.py — the 3-3-1 selection in one file, standard library only:
   paste into any Python runner or AI code tool and run; it ends with 23 PASS/FAIL checks

@@ -10,7 +10,9 @@ This page follows the forces down in energy, from the 3-3-1 scale to the two dia
 how, what follows, and what is derived. The forces don't turn into one another: at each
 threshold a symmetry breaks and the forces separate. Gravity is not part of the chain. It
 sits beside it at every scale, with Newton's G as its own input. Its rung is written as a
-broken gauge theory too, in an equivalent reformulation of GR.
+broken gauge theory too, in an equivalent reformulation of GR. Rung 6, black holes, is not
+a symmetry breaking and does not extend the chain: it is the strong-field end of gravity's
+column, and the first place ħ, G, c and k_B appear in one formula.
 
 ## What is an input and what is derived
 
@@ -21,6 +23,9 @@ broken gauge theory too, in an equivalent reformulation of GR.
 - the quark condensate (lattice QCD, FLAG);
 - the permittivity of diamond;
 - G and the cosmological constant Λ;
+- for rung 6: black-hole masses and distances measured without the EHT (stellar dynamics
+  and stellar orbits), the EHT ring diameters, and GW250114's published masses, spins and
+  ringdown fit;
 - for the links: α(0), and the measured limits on q_p + q_e and q_n.
 
 The 3-3-1 scale w is not known. It is bounded below by the LHC Z′ search.
@@ -169,9 +174,35 @@ GR + Λ, and no unification with the other forces.
 | M5 | Schwarzschild–de Sitter satisfies G_μν + Λg_μν = 0 with Λ = 3/ℓ² | CHECK |
 | M6 | The measured Λ gives ℓ = 1.65×10²⁶ m (17 billion light years). The dimensionless coupling 3/(GΛ) is about **10¹²²** in Planck units: the cosmological-constant problem, in this language | CHECK; LIT inputs |
 
+## Rung 6: black holes, the strong-field end of gravity (`src/black_holes.py`)
+
+**What this rung is, and isn't.** Nothing breaks at a black hole, so this rung is not a
+step down the chain. It is gravity's column at its strong-field end, and it reuses rung 5's
+static spherical tetrad, spin connection and Einstein tensor. It is also the first formula
+on the ladder that needs ħ, G, c and k_B together: T_H = ħc³/(8πGMk_B).
+
+| | Result | Status |
+|---|---|---|
+| H1 | On any static spherical metric, rung 5's spin connection has **ω⁰₁ₜ = f′/2**. At a horizon, f(r_h) = 0, this is the surface gravity κ. Schwarzschild: r_h = 2GM/c², κ = 1/4M. T_H = ħcκ/(2πk_B), with κ in 1/m | CHECK; the Hawking formula is LIT (Hawking 1975) |
+| H2 | **The Euclidean check.** With t = −iτ, the proper distance ρ from the horizon satisfies d√f/dρ = f′/2 exactly, so near r_h the (τ, r) plane is dρ² + κ²ρ²dτ². It is smooth only if τ has period **2π/κ**; any other period leaves a cone. So the temperature is fixed by the geometry, not put in. Symbolic for any f; numerically on both Schwarzschild–de Sitter horizons, where a period 10% too long gives a circumference ratio of 1.100 instead of 1 | CHECK |
+| H3 | With S = A/4ℓ_P²: Schwarzschild **dM = T dS** and **M = 2TS** (Smarr). Kerr, written in its two horizon radii so every quantity is rational: **dM = T dS + Ω dJ** and **M = 2TS + 2ΩJ**, in exact fractions on 60 random horizons (the standalone script) and symbolically (here). Reissner–Nordström, with κ derived from its f: dM = T dS + Φ dQ, M = 2TS + ΦQ | CHECK; Kerr's T, Ω are LIT (Bardeen, Carter and Hawking 1973) |
+| H4 | Schwarzschild–de Sitter has a black-hole and a cosmological horizon with **different temperatures**, so no single Euclidean period is smooth at both. They merge where f = f′ = 0: r = 3GM/c² and **9G²M²Λ = c⁴** (the Nariai limit), and both κ go to zero. Beyond it there is no static region. With rung 5's measured Λ: the largest black hole the universe allows has **M = c²/(3G√Λ) = 4.27×10⁵² kg = 2.1×10²² M☉**, horizon at 1/√Λ = 9.5×10²⁵ m | CHECK; LIT Λ |
+| H5 | From the effective potentials: **photon sphere 3GM/c²**; critical impact parameter, the shadow's radius seen from far away, **√27 GM/c²**; circular orbits need L² ≥ 12(GM/c)², and at that minimum the stable and unstable orbits merge at the **ISCO, 6GM/c²**, with E² = 8/9. The standalone script finds these numerically, without the closed forms | CHECK |
+| H6 | **Event Horizon Telescope.** Shadow diameter 2√27 GM/(c²D) from masses measured without the EHT. M87*, stellar dynamics (Gebhardt et al. 2011; M/D doesn't depend on the distance assumed): **37.8 μas against a ring of 42 ± 3 μas, +1.0σ**. Sgr A*, stellar orbits (GRAVITY 2022, Keck 2019): **52.3 μas against 51.8 ± 2.3 μas, −0.1σ**. The tolerance adds the ring's error, the mass's error, and 5% for the bright ring sitting outside the shadow edge and the spread of Kerr shadows with spin. M87*'s gas-dynamics mass would give 20 μas and is excluded | CHECK; LIT data |
+| H7 | **GW250114 and Hawking's area law.** Kerr area 8π(GM/c²)²(1 + √(1−χ²)). Initial: the published component masses, 33.6 and 32.2 M☉, give **237,000 km²** (spins 0; any spin up to the 0.26 bound makes it smaller). Final: inverting the ringdown-only fit of the 220 mode (247 Hz, damping 221 Hz, z = 0.09) gives M_f = 66.7 M☉, χ_f = 0.75 and **407,000 km²**. The full-signal remnant (62.7 M☉, 0.68) is not used for the area, because that fit assumes GR and obeys the area law by construction. At the least favourable corners of the published 90% ranges, 252,000 km² initial against 341,000 km² final, the area still grows. The collaboration's own posterior puts the increase at 4.4σ (arXiv v1) | CHECK; LIT data |
+| H8 | The full-signal remnant predicts the 220 mode with the Berti–Cardoso–Will fit: **249 Hz and damping 244 Hz**, against the ringdown's 247 ± 6 Hz and 221 (−32, +39) Hz. Inspiral-plus-merger and ringdown describe the same Kerr black hole | CHECK; LIT data |
+
+**Not measured, and labelled so.** *Hawking radiation* is under stated assumptions: quantum
+fields on a fixed classical background. For GW250114's remnant T_H = 1×10⁻⁹ K, far below the
+2.7 K microwave background, so it absorbs more than it radiates; no black hole's radiation
+has been seen. *Whether information is lost* in black-hole evaporation is open. Anything
+that needs quantum gravity, including what happens at a Planck-mass black hole (link 5), is
+outside what this page computes. H3's entropy is the Bekenstein–Hawking formula; what it
+counts is not derived here (see [TEGR.md](TEGR.md) for the corner-charge attempt).
+
 ## Links between the rungs (`src/ladder_links.py`)
 
-The rungs above are separate derivations. In three places one rung's output is another
+The rungs above are separate derivations. In five places one rung's output is another
 rung's input, and the link can be checked against a measurement or against the other rung's
 code.
 
@@ -239,6 +270,22 @@ where each physical constant is typed. It lists the quantities that more than on
 repository uses without importing them from one place; those are the candidates for the next
 link.
 
+### Link 4: the diamond as a black hole, from rung 6 to rung 4 (`src/black_holes.py`)
+
+Design A's diamond, 1.468×10⁻¹⁴ kg, has a Schwarzschild radius 2Gm/c² = **2.18×10⁻⁴¹ m**:
+1.35×10⁻⁶ of the Planck length, and 2×10⁻³⁵ of its own radius. That is how weak the gravity
+in the experiment is, and why its 2.19 rad phase needs seconds of coherence. Status: CHECK
+(pinned).
+
+### Link 5: a Planck-mass black hole, from rung 6 to link 3 (`src/black_holes.py`)
+
+A black hole of one Planck mass has k_BT_H = M_Pl c²/8π = **4.86×10¹⁷ GeV**, 1/(8π) of the
+cutoff the 3-3-1 selection runs to, and a horizon of 2ℓ_P. So link 3's cutoff has a physical
+picture: the scale where a black hole is as small as the Planck length and as hot as the
+Planck energy over 8π. The Hawking formula is semiclassical, and at this size it is used
+past where it is trusted, so the number is an order of magnitude, not a prediction.
+Status: CHECK for the identity; the physics there needs quantum gravity.
+
 ## How the rungs fit together
 
 | Energy | What breaks | What is left below |
@@ -248,6 +295,7 @@ link.
 | ~1 GeV | chiral SU(2)_L × SU(2)_R → SU(2)_V (rung 2); colour stays unbroken and confines | pions, nucleons, the nuclear force |
 | below | nothing: U(1)_em stays unbroken (rung 3) | two long-range forces, electromagnetism and gravity |
 | every scale | gravity, with G as its own input (rungs 4–5) | the signal in the diamond experiment |
+| strong field | nothing breaks: gravity's column at horizons (rung 6) | black holes, tested by the EHT and LIGO |
 
 The two chains meet in the apparatus. Gravity is the signal: the entangling phase,
 2.19 rad. Electromagnetism, the last unbroken force of the gauge chain, is the background
@@ -255,15 +303,18 @@ the design must suppress: the Casimir–Polder force, which sets the 181 µm gap
 charge is the other way it would enter, and rung 1's anomalies keep it out: they make
 matter neutral (link 1). Within the gauge chain, rung 1's charges and rung 2's pion meet in
 π⁰ → γγ (link 2). And gravity's G, beside the chain, sets the scale the chain's 3-3-1
-selection is run to (link 3).
+selection is run to (link 3). At the far end of gravity's column, black holes use the same
+geometry as rung 5: its Λ caps their size, its spin connection gives their temperature,
+and a Planck-mass one sits at link 3's cutoff (link 5). The diamond is the opposite
+extreme: its Schwarzschild radius is a millionth of the Planck length (link 4).
 
 ## Reproduce
 
-**In one paste:** [`src/ladder_standalone.py`](src/ladder_standalone.py) reproduces all five
-rungs and all three links with only the Python standard library (45 PASS/FAIL checks; expected output
+**In one paste:** [`src/ladder_standalone.py`](src/ladder_standalone.py) reproduces all six
+rungs and all five links with only the Python standard library (58 PASS/FAIL checks; expected output
 [results/ladder/standalone.txt](results/ladder/standalone.txt)). Each check is tagged math
-(34: identities verified by computation), data (5: against measurements, each printing its
-tolerance and why) or pinned (6: this repository's own derived numbers); checks inside the
+(41: identities verified by computation), data (9: against measurements, each printing its
+tolerance and why) or pinned (8: this repository's own derived numbers); checks inside the
 linear sigma model are also tagged model. It exits with status 1 if any check fails. The website has a
 **Copy Python script** button for it.
 
@@ -276,8 +327,9 @@ python3 src/chiral_breaking.py     # rung 2, ~1 s
 python3 src/casimir_diamonds.py    # rung 3, ~2 s
 python3 src/graviton_exchange.py   # rung 4, ~1 s
 python3 src/macdowell_mansouri.py  # rung 5, ~3 s
+python3 src/black_holes.py         # rung 6 and links 4-5, ~3 s
 python3 src/ladder_links.py        # links 1-3: neutral matter, pi0 -> gamma gamma, M_Pl, ~2 s
-python -m pytest tests/test_331_breaking.py tests/test_ladder.py tests/test_ladder_links.py -q
+python -m pytest tests/test_331_breaking.py tests/test_ladder.py tests/test_ladder_links.py tests/test_black_holes.py -q
 ```
 
 ## References
@@ -296,5 +348,16 @@ python -m pytest tests/test_331_breaking.py tests/test_ladder.py tests/test_ladd
   quantization from anomalies).
 - S. W. MacDowell and F. Mansouri, PRL 38 (1977) 739; K. S. Stelle and P. C. West, PRD 21
   (1980) 1466.
+- S. W. Hawking, Commun. Math. Phys. 43 (1975) 199 (black-hole radiation); J. M. Bardeen,
+  B. Carter and S. W. Hawking, Commun. Math. Phys. 31 (1973) 161 (the four laws);
+  G. W. Gibbons and S. W. Hawking, PRD 15 (1977) 2738 (the de Sitter horizon's temperature)
+  and 2752 (Euclidean periodicity); H. Nariai, Sci. Rep. Tohoku Univ. 35 (1951) 62.
+- E. Berti, V. Cardoso and C. M. Will, PRD 73 (2006) 064030 (quasinormal-mode fits).
+- Event Horizon Telescope Collaboration, ApJL 875 (2019) L1 (M87*); ApJL 930 (2022) L12
+  (Sgr A*). K. Gebhardt et al., ApJ 729 (2011) 119; J. L. Walsh et al., ApJ 770 (2013) 86
+  (M87* masses). GRAVITY Collaboration, A&A 657 (2022) L12; T. Do et al., Science 365 (2019)
+  664 (Sgr A* mass and distance).
+- LIGO, Virgo and KAGRA Collaborations, "GW250114: testing Hawking's area law and the Kerr
+  nature of black holes", PRL 135 (2025) 111403, arXiv:2509.08054.
 - Inputs: PDG 2024 (couplings, masses, G_F, f_π, g_A); FLAG 2024 (condensate);
   Planck 2018 (Λ); CODATA (G).

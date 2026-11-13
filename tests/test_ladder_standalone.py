@@ -43,6 +43,22 @@ def test_links_agree_with_the_repository():
     assert S.F_PI == CB.F_PI and S.M_PI0 == CB.M_PI0
 
 
+def test_black_hole_rung_agrees_with_the_repository():
+    import black_holes as BH
+    assert (S.K_B, S.GM_SUN, S.PARSEC, S.UAS, S.RING_SYST, S.BCW_220) == (BH.KB, BH.GM_SUN, BH.PC, BH.UAS, BH.RING_SYST, BH.BCW_220)
+    assert S.RING_M87 == (BH.RING_M87, BH.RING_M87_ERR) and S.RING_SGRA == (BH.RING_SGRA, BH.RING_SGRA_ERR)
+    assert S.M87_STARS == (BH.M87_MASS, BH.M87_MASS_ERR, BH.M87_DIST)
+    assert (S.SGRA_VLTI, S.SGRA_KECK) == (BH.SGRA_VLTI, BH.SGRA_KECK)
+    assert S.GW_M1 == (BH.GW_M1, BH.GW_M1_LO, BH.GW_M1_HI) and S.GW_M2 == (BH.GW_M2, BH.GW_M2_LO, BH.GW_M2_HI)
+    assert (S.GW_MF, S.GW_CHIF, S.GW_Z) == (BH.GW_MF, BH.GW_CHIF, (BH.GW_Z, BH.GW_Z_ERR))
+    assert S.F220 == (BH.F220, BH.F220_ERR, BH.F220_ERR) and S.G220 == (BH.G220, BH.G220_LO, BH.G220_HI)
+    assert S.shadow_uas(*S.SGRA_VLTI) == BH.shadow_diameter_uas(*BH.SGRA_VLTI)
+    assert S.invert_220(247.0, 221.0, 0.09) == BH.invert_220(247.0, 221.0, 0.09)
+    assert S.qnm_220(68.0, 0.7) == BH.qnm_220(68.0, 0.7)
+    a_i, a_f, *_ = BH.area_law()
+    assert abs(S.kerr_area_km2(S.GW_M1[0], 0) + S.kerr_area_km2(S.GW_M2[0], 0) - a_i) < 1e-6
+
+
 def test_planck_window_poles_agree_with_the_three_loop_running():
     import ladder_links as LL
     import m331_exact as E
@@ -56,8 +72,8 @@ def test_runs_isolated_and_every_check_passes():
     out = subprocess.run([sys.executable, "-I", "-S", PATH], capture_output=True, text=True, timeout=300).stdout
     assert "ALL CHECKS PASS" in out and "FAIL" not in out
     ref = open(os.path.join(os.path.dirname(__file__), "..", "results", "ladder", "standalone.txt")).read()
-    assert "Checks passed: 45/45" in ref and "ALL CHECKS PASS" in ref
-    assert "Checks passed: 45/45" in out
+    assert "Checks passed: 58/58" in ref and "ALL CHECKS PASS" in ref
+    assert "Checks passed: 58/58" in out
 
 
 def test_exit_status_is_nonzero_when_a_check_fails():
