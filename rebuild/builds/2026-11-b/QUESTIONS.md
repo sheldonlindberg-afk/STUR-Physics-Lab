@@ -118,3 +118,34 @@ No missing inputs; nothing quoted. Ambiguities and the choice made:
 7. **`point_mass_metric` units.** "GM/(c^2 r)" with h_mn having lower indices and signature (-,+,+,+), so
    g_00 = -1 + h00 GM/(c^2 r); the sign convention h00 > 0 follows from eta_00 = -1 and is what the blind check
    expects.
+
+## Stage `desitter`
+
+No missing inputs; nothing quoted. Ambiguities and the choice made:
+
+1. **`mm_coupling` normalization.** The contract defines it as l^2/lP^2 and that is what is returned
+   (= 3/(Lambda lP^2)). The coefficient N of the action N int eps F^F that reproduces Einstein-Hilbert is
+   N = -l^2/(64 pi G) (hbar = c = 1), i.e. -(1/(64 pi)) l^2/lP^2 (DERIVATION section 7); the factor
+   -1/(64 pi) is NOT included in the export.
+2. **Meaning of Lambda.** SPEC section 6 does not state the Einstein equation with a cosmological constant.
+   Lambda is taken as the constant in the Einstein-Hilbert form e(R - 2 Lambda), to which the
+   MacDowell-Mansouri action reduces with Lambda = 3/l^2; hence l = sqrt(3/Lambda). Cross-check: R = 12/l^2
+   = 4 Lambda. This standard definition is the one assumption beyond the SPEC.
+3. **Units and normalization of the residuals.** `curvature_split_residual` and `ds_curvature_max` return
+   maxima over COORDINATE components (mu, nu), not frame components, in G = c = 1; F^{a4} is the coefficient
+   of J_a4, i.e. T^a/l (it includes the 1/l). `ds_curvature_max` takes the max over all 5x5 matrix entries of
+   F_{mu nu} (the matrix entry [a][b] is F^a_b; |F^a_b| = |F^{ab}|).
+4. **How the residual is a real test.** F = dA + [A, A] is built from 5x5 matrices with a NUMERICAL derivative
+   (5-point stencil, h = 1e-3, relative in r, halved until the stencil stays in f > 0), while R^{ab} uses the
+   ANALYTIC derivatives of omega (needs f''). The residual is therefore stencil noise (~1e-12), not identically
+   zero. A point closer to a horizon than the stencil can resolve gives a larger residual.
+5. **`unbroken_generators`** lists the basis generators J_AB that annihilate V, as the contract says; it does not
+   compute the full stabilizer subalgebra (linear combinations) for a V off the coordinate axes. Zero test:
+   |J V| <= 1e-12 max|V|. Returns (A, B) in lexicographic order.
+6. **`spin_connection` domain.** f(r) <= 0 raises ValueError (the diagonal tetrad is real only in the static
+   region). Entries are floats; f and fp are callables of r.
+7. **`action_coefficients` where R = 0.** cR = (eps R e e)/(e R) is undefined for a Ricci-flat geometry
+   (l -> infinity); on SdS R = 12/l^2 > 0. Not guarded.
+8. **Sign conventions.** F_{mu nu} = d_mu A_nu - d_nu A_mu + [A_mu, A_nu]; a 2-form is (1/2) R_{mu nu} dx^mu ^
+   dx^nu. With eps_0123 = +1 and the component read on dt^dr^dtheta^dphi, (cR, cV) come out positive; the
+   tetrad determinant e = r^2 sin(theta) is used with its sign (no absolute value).

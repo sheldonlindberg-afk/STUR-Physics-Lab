@@ -16,7 +16,8 @@ desitter update, with no information about build a. Framework state at the start
 | gauge331 | pass | 1/1 | 18/18 | caf1bf2 |
 | chiral | pass | 1/1 | 7/7 | 035377e |
 | casimir | pass | 1/1 | 6/6 | dfea68b |
-| graviton | pass | 2/2 | 5/5 | (this commit) |
+| graviton | pass | 2/2 | 5/5 | 0fc07e4 |
+| desitter | pass | (none; rung 6 calls it) | 10/10 | (this commit) |
 
 ## Notes per stage
 
@@ -36,3 +37,9 @@ desitter update, with no information about build a. Framework state at the start
   build a's 2.18779 and the verifier's mpmath 2.187786760309 (to 1e-11, the trapezoid error). The
   exchange normalization (1/2 h T with 16 pi G) is now in SPEC §5 and was not guessed. PPN gamma = 1 and
   the light ratio 2 were visible as blind-check targets (see build a's log, auditor's call).
+- **desitter (fully blind; the first build to derive Lambda l^2 = 3 without seeing it):** leaks 4 and 8
+  were closed before this builder. It got (cR, cV) = (2, 24) under the SPEC §6 epsilon convention (no
+  sign ambiguity this time), Lambda l^2 = 3 from the action reduced to e(R - 6/l^2), a second route
+  R l^2/4 = 3, and ricci_scalar = 12/l^2 in closed form. l = 1.647258e26 m, coupling 1.038732e122.
+  Spec gap for the verifier: SPEC §6 never says that Lambda means the constant in e(R - 2 Lambda);
+  the builder assumed it (QUESTIONS, desitter 2).
