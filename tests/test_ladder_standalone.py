@@ -43,12 +43,21 @@ def test_links_agree_with_the_repository():
     assert S.F_PI == CB.F_PI and S.M_PI0 == CB.M_PI0
 
 
+def test_planck_window_poles_agree_with_the_three_loop_running():
+    import ladder_links as LL
+    import m331_exact as E
+    window = LL.g_window()[0]
+    for v, (p3, p5) in S.POLES_331.items():
+        assert abs(p3 / (window[v][0] * E.M_PLANCK) - 1) < 1e-4
+        assert abs(p5 / (window[v][1] * E.M_PLANCK) - 1) < 1e-4
+
+
 def test_runs_isolated_and_every_check_passes():
     out = subprocess.run([sys.executable, "-I", "-S", PATH], capture_output=True, text=True, timeout=300).stdout
     assert "ALL CHECKS PASS" in out and "FAIL" not in out
     ref = open(os.path.join(os.path.dirname(__file__), "..", "results", "ladder", "standalone.txt")).read()
-    assert "Checks passed: 44/44" in ref and "ALL CHECKS PASS" in ref
-    assert "Checks passed: 44/44" in out
+    assert "Checks passed: 45/45" in ref and "ALL CHECKS PASS" in ref
+    assert "Checks passed: 45/45" in out
 
 
 def test_exit_status_is_nonzero_when_a_check_fails():

@@ -209,7 +209,7 @@ coefficient is quoted, not derived).
 |---|---|---|
 | L2a | With rung 1's anomaly-fixed charges, **N_c(Q_u² − Q_d²) = 1 for every N_c**. Both derivations of the charges agree: [`src/m331_why_three.py`](src/m331_why_three.py) W2 and rung 1's B6 | CHECK |
 | L2b | From M = A ε^{μνρσ} ε₁_μ ε₂_ν k₁_ρ k₂_σ: the sum over photon polarizations is A²m⁴/2, and two-body phase space with identical photons gives **Γ = A²m³/64π** | CHECK (symbolic) |
-| L2c | With rung 2's f_π = 92.07 MeV and α(0): **Γ = 7.785 eV**, against the PrimEx-I+II average 7.802 ± 0.117 eV (Larin et al., Science 368, 506 (2020)), −0.1σ | CHECK; LIT |
+| L2c | With f_π = 92.07 MeV (a measured input that rung 2 uses, not one it derives) and α(0): **Γ = 7.785 eV**, against the PrimEx-I+II average 7.802 ± 0.117 eV (Larin et al., Science 368, 506 (2020)), −0.1σ | CHECK; LIT |
 | L2d | With the charges held at ⅔ and −⅓ instead, the width would scale as (N_c/3)²: 21.6 eV at N_c = 5. **With anomaly-fixed charges the width can't select N_c.** The R-ratio can ([`src/m331_why_three.py`](src/m331_why_three.py) W6) | FOLLOWS |
 
 The width checks that charges and colours come together the way anomaly cancellation
@@ -260,10 +260,10 @@ selection is run to (link 3).
 ## Reproduce
 
 **In one paste:** [`src/ladder_standalone.py`](src/ladder_standalone.py) reproduces all five
-rungs and all three links with only the Python standard library (44 PASS/FAIL checks; expected output
+rungs and all three links with only the Python standard library (45 PASS/FAIL checks; expected output
 [results/ladder/standalone.txt](results/ladder/standalone.txt)). Each check is tagged math
 (34: identities verified by computation), data (5: against measurements, each printing its
-tolerance and why) or pinned (5: this repository's own derived numbers); checks inside the
+tolerance and why) or pinned (6: this repository's own derived numbers); checks inside the
 linear sigma model are also tagged model. It exits with status 1 if any check fails. The website has a
 **Copy Python script** button for it.
 

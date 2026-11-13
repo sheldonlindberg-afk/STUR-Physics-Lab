@@ -45,8 +45,10 @@ WHAT IT COMPUTES
       Links   Where one rung feeds another. Neutral matter (rung 1 -> 4): q_p + q_e is an
               anomaly of rung 1, and the experiment needs it below 2.8e-19 e per nucleon.
               pi0 -> gamma gamma (rung 1 -> 2): rung 1's charges and rung 2's f_pi give the
-              measured width. The Planck mass (rung 4 -> 1): the 3-3-1 selection's cutoff is
-              sqrt(hbar c / G), with the G of the diamond experiment.
+              measured width (f_pi is a measured input; the test is the anomaly normalization).
+              The Planck mass (rung 4 -> 1): the 3-3-1 selection's cutoff is sqrt(hbar c / G),
+              with the G of the diamond experiment; the selection holds for G down to 8.4x
+              weaker (Landau poles from src/m331_three_loop.py, carried as numbers).
     Inputs are measured values (PDG 2024, FLAG 2024, CODATA 2018, Planck 2018). What is not derived, by
     anyone: why the inputs have their values, and how gravity unifies with the others.
 
@@ -91,6 +93,11 @@ EPS_DIAMOND = 5.7             # static permittivity of diamond
 RHO_DIAMOND = 3510.0          # kg/m^3
 LAMBDA_SI = 1.1056e-52        # m^-2, cosmological constant (Planck 2018)
 L_PLANCK = 1.616255e-35       # m
+# Landau poles of the 3-3-1 running in GeV (N_c = 3, N_c = 5), at the reference spectrum:
+# M_V = 4 TeV, Yukawas and thresholds on, alpha = 1, three loops. Computed by
+# src/m331_three_loop.py (too heavy to repeat here); tests/test_ladder_standalone.py checks
+# them against that module. They are the repository's numbers, so their check is pinned.
+POLES_331 = {"+1/sqrt3": (3.53147e19, 5.18629e11), "-1/sqrt3": (2.33273e29, 1.13517e15)}
 
 CHECKS = []
 KINDS = ("math", "data", "pinned")
@@ -261,6 +268,8 @@ def rung1():
     banner("RUNG 1  3-3-1 -> Standard Model -> electromagnetism (gauge-boson mass matrix)")
     plain("one larger force splits, in two steps, into the weak force and electromagnetism. The checks confirm that exactly one force carrier stays massless (the photon, which carries light) and that the W and Z particles get the right masses.")
     g, gX, w = 0.652, 0.79, 4000.0
+    print(f"   Example values g = {g}, g_X = {gX}, w = {w / 1e3:.0f} TeV, v1, v2 = 150, 190 GeV: the checks below are")
+    print("   identities that hold for any values, so no Z' or bilepton mass is predicted here.")
     for variant in ("-1/sqrt3", "+1/sqrt3"):
         beta = BETA[variant]
         print(f"   beta = {variant}")
@@ -783,13 +792,14 @@ def links():
     print(f"   Coulomb < 10% of gravity needs < {delta_max:.2e} e per nucleon, for any diamond size")
     print(f"   Measured: |q_p + q_e|, |q_n| < 1e-21 e -> margin {margin:.0f}; that residual totals"
           f" {EPS_PE_BOUND * nucleons:.1e} e per diamond, below one electron, so discharging cannot reach it")
-    check("design A: one electron = 1.6e10 x gravity (as H6); neutrality needed to 2.8e-19 e per nucleon",
-          abs(one_e / 1.60e10 - 1) < 0.01 and abs(delta_max / 2.82e-19 - 1) < 2e-3, "pinned",
-          f"got {one_e:.3e} and {delta_max:.3e} e, pinned 1.60e10 and 2.82e-19 e")
-    check("measured neutrality (1e-21 e) clears it by 280x; rung 1 makes it exact",
-          margin > 1 and 270 < margin < 290, "data",
-          f"got margin {margin:.0f}. Passes because the measured bound is tighter than the requirement"
-          " (margin > 1); the value 280 is also pinned")
+    check("design A: one electron = 1.6e10 x gravity (as H6); neutrality needed to 2.8e-19 e per nucleon,"
+          " a margin of 282 over the measured bound",
+          abs(one_e / 1.60e10 - 1) < 0.01 and abs(delta_max / 2.82e-19 - 1) < 2e-3 and abs(margin / 282 - 1) < 2e-3,
+          "pinned", f"got {one_e:.3e}, {delta_max:.3e} e and {margin:.1f}, pinned 1.60e10, 2.82e-19 e and 282")
+    check("measured neutrality (1e-21 e) is tighter than design A needs; rung 1 makes it exact",
+          margin > 1, "data",
+          f"got margin {margin:.0f}. Passes if the measured bound is tighter than the requirement"
+          " (margin > 1), nothing more; the value is pinned in the check above")
     # L2: pi0 -> gamma gamma
     factors = [Nc * (F(Nc + 1, 2 * Nc) ** 2 - F(1 - Nc, 2 * Nc) ** 2) for Nc in range(1, 12)]
     check("pi0 -> gamma gamma: N_c (Q_u^2 - Q_d^2) = 1 for every N_c with rung 1's charges", set(factors) == {1})
@@ -807,9 +817,11 @@ def links():
     pull = (width - GAMMA_PI0[0]) / GAMMA_PI0[1]
     print(f"   sum |M|^2 = {msq:.3f} A^2 m^4 -> Gamma = A^2 m^3/(64 pi) = {width:.3f} eV"
           f"  (PrimEx-I+II {GAMMA_PI0[0]} +- {GAMMA_PI0[1]:.3f} eV, {pull:+.1f} sigma)")
+    print(f"   f_pi = {F_PI * 1e3:.2f} MeV is a measured input (PDG), not derived by rung 2. What the match tests")
+    print("   is the anomaly normalization N_c (Q_u^2 - Q_d^2) = 1 that rung 1's charges give.")
     print("   With the charges held at 2/3, -1/3 the width would scale as (N_c/3)^2; with rung 1's it")
     print("   cannot select N_c, the R-ratio does (src/m331_why_three.py W6).")
-    check("pi0 width from rung 1's charges and rung 2's f_pi: 7.79 eV, within 2 sigma of PrimEx",
+    check("pi0 width from rung 1's charges and the measured f_pi: 7.79 eV, within 2 sigma of PrimEx",
           abs(msq - 0.5) < 1e-12 and abs(width - 7.785) < 2e-3 and abs(pull) < 2, "data",
           f"got {width:.3f} eV vs {GAMMA_PI0[0]} +- {GAMMA_PI0[1]:.3f} eV ({pull:+.1f} sigma). Tolerance 2 sigma,"
           " the usual standard. This is leading order (the anomaly alone); next-order"
@@ -819,6 +831,20 @@ def links():
     print(f"   M_Pl = sqrt(hbar c / G) from rung 4's G = {mpl:.6e} GeV: the cutoff the 3-3-1 selection runs to")
     check("the 3-3-1 cutoff is rung 4's gravity: sqrt(hbar c / G) = 1.22089e19 GeV",
           abs(mpl / 1.22089e19 - 1) < 1e-6, "pinned", f"got {mpl:.6e} GeV, pinned 1.22089e19 GeV")
+    # L3b: what the selection needs from G. It keeps N_c = 3 and excludes N_c = 5 while
+    # pole_5 < M_Pl < pole_3. G -> x G moves M_Pl by x^(-1/2), so it holds for
+    # (M_Pl/pole_3)^2 < x < (M_Pl/pole_5)^2, with M_Pl from rung 4's G.
+    win = {}
+    for v, (p3, p5) in POLES_331.items():
+        win[v] = ((mpl / p3) ** 2, (mpl / p5) ** 2)
+        print(f"   beta = {v:8s}: N_c = 3 pole {p3 / mpl:.3g} M_Pl, N_c = 5 pole {p5 / mpl:.2g} M_Pl"
+              f" -> holds for {win[v][0]:.2g} < G/G_meas < {win[v][1]:.2g}")
+    print("   G is measured to 2.2e-5 (CODATA 2018). The assumption: G does not run between the")
+    print("   laboratory and 10^19 GeV (corrections ~ (E/M_Pl)^2; many hidden light species would break it).")
+    check("with rung 4's G the 3-3-1 selection keeps N_c = 3 and excludes N_c = 5; it would fail for G 8.4x weaker",
+          all(lo < 1 < hi for lo, hi in win.values()) and abs(1 / win["+1/sqrt3"][0] / 8.37 - 1) < 0.01,
+          "pinned", f"got windows {', '.join(f'{lo:.3g}-{hi:.2g}' for lo, hi in win.values())},"
+          " pinned 0.12 (8.4x weaker) as the narrow side. The poles come from src/m331_three_loop.py")
 
 
 def main():
@@ -834,7 +860,8 @@ def main():
     print("   experiment's 2.19 rad phase, and MacDowell-Mansouri writes GR + Lambda as SO(4,1) broken")
     print("   to Lorentz. Three links run across the rungs: rung 1's anomalies make matter neutral, which")
     print("   the diamond experiment needs to 2.8e-19 e per nucleon; its charges with rung 2's f_pi give")
-    print("   the measured pi0 -> gamma gamma width; and the 3-3-1 cutoff, M_Pl, is rung 4's G. Inputs")
+    print("   the measured pi0 -> gamma gamma width; and the 3-3-1 cutoff, M_Pl, is rung 4's G, which")
+    print("   the selection needs within a factor 8.4 (it is measured to 2e-5). Inputs")
     print("   are measured; gravity's unification with the other forces is not derived. Rung 2's")
     print("   pion counting uses the linear sigma model, a stand-in for QCD, and rung 5 rewrites GR")
     print("   rather than going beyond it.")

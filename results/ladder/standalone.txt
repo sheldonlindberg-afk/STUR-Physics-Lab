@@ -6,6 +6,8 @@ RUNG 1  3-3-1 -> Standard Model -> electromagnetism (gauge-boson mass matrix)
    electromagnetism. The checks confirm that exactly one force carrier stays massless (the
    photon, which carries light) and that the W and Z particles get the right masses.
 
+   Example values g = 0.652, g_X = 0.79, w = 4 TeV, v1, v2 = 150, 190 GeV: the checks below are
+   identities that hold for any values, so no Z' or bilepton mass is predicted here.
    beta = -1/sqrt3
      triplet X = -1/3 : Q = 0 in components [1, 3]; vev w in component 3
      triplet X = 2/3  : Q = 0 in components [2]; vev v1 in component 2
@@ -120,22 +122,31 @@ LINKS  Where one rung's output is another rung's input
    Design A (8.839e+12 nucleons): one stray electron each = 1.60e+10 x gravity's phase;
    Coulomb < 10% of gravity needs < 2.82e-19 e per nucleon, for any diamond size
    Measured: |q_p + q_e|, |q_n| < 1e-21 e -> margin 282; that residual totals 8.8e-09 e per diamond, below one electron, so discharging cannot reach it
-   [PASS] [pinned]        design A: one electron = 1.6e10 x gravity (as H6); neutrality needed to 2.8e-19 e per nucleon
-          got 1.604e+10 and 2.824e-19 e, pinned 1.60e10 and 2.82e-19 e
-   [PASS] [data]          measured neutrality (1e-21 e) clears it by 280x; rung 1 makes it exact
-          got margin 282. Passes because the measured bound is tighter than the
-          requirement (margin > 1); the value 280 is also pinned
+   [PASS] [pinned]        design A: one electron = 1.6e10 x gravity (as H6); neutrality needed to 2.8e-19 e per nucleon, a margin of 282 over the measured bound
+          got 1.604e+10, 2.824e-19 e and 282.4, pinned 1.60e10, 2.82e-19 e and 282
+   [PASS] [data]          measured neutrality (1e-21 e) is tighter than design A needs; rung 1 makes it exact
+          got margin 282. Passes if the measured bound is tighter than the requirement
+          (margin > 1), nothing more; the value is pinned in the check above
    [PASS] [math]          pi0 -> gamma gamma: N_c (Q_u^2 - Q_d^2) = 1 for every N_c with rung 1's charges
    sum |M|^2 = 0.500 A^2 m^4 -> Gamma = A^2 m^3/(64 pi) = 7.785 eV  (PrimEx-I+II 7.802 +- 0.117 eV, -0.1 sigma)
+   f_pi = 92.07 MeV is a measured input (PDG), not derived by rung 2. What the match tests
+   is the anomaly normalization N_c (Q_u^2 - Q_d^2) = 1 that rung 1's charges give.
    With the charges held at 2/3, -1/3 the width would scale as (N_c/3)^2; with rung 1's it
    cannot select N_c, the R-ratio does (src/m331_why_three.py W6).
-   [PASS] [data]          pi0 width from rung 1's charges and rung 2's f_pi: 7.79 eV, within 2 sigma of PrimEx
+   [PASS] [data]          pi0 width from rung 1's charges and the measured f_pi: 7.79 eV, within 2 sigma of PrimEx
           got 7.785 eV vs 7.802 +- 0.117 eV (-0.1 sigma). Tolerance 2 sigma, the usual
           standard. This is leading order (the anomaly alone); next-order corrections of a
           few percent are not included
    M_Pl = sqrt(hbar c / G) from rung 4's G = 1.220890e+19 GeV: the cutoff the 3-3-1 selection runs to
    [PASS] [pinned]        the 3-3-1 cutoff is rung 4's gravity: sqrt(hbar c / G) = 1.22089e19 GeV
           got 1.220890e+19 GeV, pinned 1.22089e19 GeV
+   beta = +1/sqrt3: N_c = 3 pole 2.89 M_Pl, N_c = 5 pole 4.2e-08 M_Pl -> holds for 0.12 < G/G_meas < 5.5e+14
+   beta = -1/sqrt3: N_c = 3 pole 1.91e+10 M_Pl, N_c = 5 pole 9.3e-05 M_Pl -> holds for 2.7e-21 < G/G_meas < 1.2e+08
+   G is measured to 2.2e-5 (CODATA 2018). The assumption: G does not run between the
+   laboratory and 10^19 GeV (corrections ~ (E/M_Pl)^2; many hidden light species would break it).
+   [PASS] [pinned]        with rung 4's G the 3-3-1 selection keeps N_c = 3 and excludes N_c = 5; it would fail for G 8.4x weaker
+          got windows 0.12-5.5e+14, 2.74e-21-1.2e+08, pinned 0.12 (8.4x weaker) as the
+          narrow side. The poles come from src/m331_three_loop.py
 
 ==============================================================================
 VERDICT
@@ -147,10 +158,11 @@ VERDICT
    experiment's 2.19 rad phase, and MacDowell-Mansouri writes GR + Lambda as SO(4,1) broken
    to Lorentz. Three links run across the rungs: rung 1's anomalies make matter neutral, which
    the diamond experiment needs to 2.8e-19 e per nucleon; its charges with rung 2's f_pi give
-   the measured pi0 -> gamma gamma width; and the 3-3-1 cutoff, M_Pl, is rung 4's G. Inputs
+   the measured pi0 -> gamma gamma width; and the 3-3-1 cutoff, M_Pl, is rung 4's G, which
+   the selection needs within a factor 8.4 (it is measured to 2e-5). Inputs
    are measured; gravity's unification with the other forces is not derived. Rung 2's
    pion counting uses the linear sigma model, a stand-in for QCD, and rung 5 rewrites GR
    rather than going beyond it.
 
-   Checks passed: 44/44   (34 math, 5 data, 5 pinned; 0.03 s)
+   Checks passed: 45/45   (34 math, 5 data, 6 pinned; 0.05 s)
    ALL CHECKS PASS
