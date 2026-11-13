@@ -273,6 +273,14 @@ def action_coefficients(M, l, x):
     return L.wedge(Rup, EE) / (e_det * Rs), L.wedge(EE, EE) / e_det
 
 
+def ricci_scalar(M, l, x):
+    f, fp = _sds(M, l)
+    E, _ = L.tetrad_and_spin(x, f, fp)
+    Rm = L.curvature(x, f, fp, l, False)
+    return sum(Rm[m][n][a][b] * L.ETA4[b] / (E[a][m] * E[b][n]) for m in range(4) for n in range(4)
+               for a in range(4) for b in range(4) if a == m and b == n)
+
+
 def ell_from_lambda(Lam):
     return sqrt(3 / Lam)
 

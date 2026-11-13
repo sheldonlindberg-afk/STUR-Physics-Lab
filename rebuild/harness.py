@@ -337,6 +337,7 @@ PROBES = [
     ("graviton", "entangling_phase", (inputs.DESIGN_A_MASS, inputs.DESIGN_A_DX, inputs.DESIGN_A_HOLD,
                                       inputs.DESIGN_A_RAMP, 2.0e-4)),
     ("desitter", "action_coefficients", (0.2, 5.0, [0.0, 1.9, 0.8, 0.3])),
+    ("desitter", "ricci_scalar", (0.2, 5.0, [0.0, 1.9, 0.8, 0.3])),
     ("blackholes", "sds_horizons", (1.0, 7.0)),
     ("blackholes", "isco", ()),
     ("blackholes", "kerr_first_law", (Fraction(7, 2), Fraction(3, 5), 1, 1)),

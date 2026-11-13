@@ -14,6 +14,7 @@ verifier and auditor can weigh the results. Builders never see this file.
 
 | 6 | The closed form **m_pi^2 = H/<sigma>** for `sigma_model_vacuum` | blind/checks.py (chiral `gmor_form`) | the chiral builder | the orchestrator, in the post-build grep | yes, after build a (blind check is now the Goldstone limit, m_pi^2 linear in H; the closed form is an oracle check) |
 | 7 | The **Nariai bound l = sqrt(27) M**, as the sample `sds_horizons(1.0, sqrt(27 / 1.01))` | blind/checks.py (blackholes `horizons`) | the blackholes builder | the orchestrator, in the post-build grep | yes, after build a (the sample is now l = 5) |
+| 8 | **Lambda l^2 = 3** again, in the contract's docstring for `mm_coupling` ("3/(lP^2 Lam)") | contract.py | every builder from desitter on (build a), and build b's toolkit and gauge331 builders | the orchestrator, while adding C1 | yes, before build b's desitter (now "l^2/lP^2, l = ell_from_lambda(Lam)") |
 
 **Post-build grep (before build b).** Every builder-visible file (SPEC.md, contract.py, inputs.py,
 harness.py, blind/, prompts/builder.md, README.md) was grepped for each number and closed form in
@@ -92,3 +93,15 @@ by root-finding, but the bound was visible.
 |---|---|---|---|
 | F1 | crossbuild probe `chiral.sigma_model_vacuum(1.7, 0.9, 0.03)` against the reference adapter | differs by 1.03e-6 relative. The exact answer is m_pi^2 = H/sigma0: **the build is right to 1.4e-12, the reference is off by 1.0e-6** (its plain central-difference Hessian, h = 1e-4) | N; the reference is the less precise side. Not a physics error: every published number is unaffected. Fix (owner's call): Richardson in `src/ladder_standalone.py`'s rung 2 Hessian |
 | F2 | provenance ledger | 57 derived, 0 input, 7 quoted; every quoted export is on its stage's allowed list | for the auditor to check each claim against the code |
+
+## After P2 (verifier) on build a
+
+- **Findings:** B 0, R 0, C 2, N 4 (FINDINGS.md). The verifier's write to FINDINGS.md was blocked by
+  the tool layer; the orchestrator wrote it from the verifier's report, with the owner's approval.
+- **C1, owner approved:** the export `desitter.ricci_scalar(M, l, x)` is added to the contract (SPEC §6
+  says what it contracts, not its value). Blind check: it must equal the contraction of
+  d omega + omega^omega built by finite differences of the build's own `spin_connection`, and scale as
+  1/length^2. Oracle: 12/l^2 at three points. New probe and mutant. Build a's desitter lacks the
+  export, so a fresh builder adds it to build a's desitter (class C rule: rebuild the affected stage
+  in both builds). Its room held only build a's stages up to desitter.
+- **C2, owner deferred** to the auditor.

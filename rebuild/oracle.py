@@ -194,6 +194,9 @@ def desitter(m, L):
         return [("so(4,1) generators equal reference", ok, ""),
                 ("tetrad and spin connection equal reference (index convention included)", sc < 1e-12, f"diff {sc:.1e}"),
                 _cmp("eps R^e^e = 2 e R", cR, 2.0, 1e-6), _cmp("eps e^e^e^e = 24 e", cV, 24.0, 1e-9),
+                *[_cmp(f"Ricci scalar of SdS = 12/l^2 (M {M_}, l {l_})", D.ricci_scalar(M_, l_, p_), 12 / l_**2, 1e-7)
+                  for M_, l_, p_ in ((0.3, 7.0, [0.2, 2.3, 1.1, 0.4]), (0.0, 4.0, [0.0, 1.7, 0.5, 2.0]),
+                                     (0.1, 11.0, [0.0, 3.1, 0.7, 1.2]))],
                 _cmp("Lambda l^2 = 3", 1.7e-52 * D.ell_from_lambda(1.7e-52) ** 2, 3.0, 1e-12),
                 _cmp("measured Lambda: l = 1.647e26 m (pinned)", D.ell_from_lambda(L.LAMBDA_SI), 1.647e26, 1e-3),
                 _cmp("MacDowell-Mansouri coupling 1.04e122 (pinned)", D.mm_coupling(L.LAMBDA_SI, L.L_PLANCK), 1.04e122, 1e-2)]

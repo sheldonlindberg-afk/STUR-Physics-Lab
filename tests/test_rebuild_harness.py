@@ -256,3 +256,18 @@ def test_wrong_pion_mass_needs_the_oracle(tmp_path):
     rep = harness.run(d, mode="verifier", lint=False)
     fails = [l for l, ok, _ in rep["stages"]["chiral"]["oracle"] if not ok]
     assert len(fails) == 2 and all(l.startswith("m_pi^2 = H/<sigma>") for l in fails)
+
+
+def test_wrong_curvature_is_caught(tmp_path):
+    # C1 of build 2026-11-a: cR = 2 is an epsilon identity and can't see R^ab. A curvature with the
+    # omega ^ omega term dropped (R = d omega only) must now fail.
+    d = _mutant(tmp_path, "desitter", """
+        import _ref as _r
+        def ricci_scalar(M, l, x):
+            f, fp = _r._sds(M, l)
+            return _r.ricci_scalar(M, l, x) - 2 * (1 - f(x[1])) / x[1] ** 2     # wrong: angular omega^omega terms dropped
+    """)
+    rep = harness.run(d, mode="verifier", lint=False)
+    assert [l for l, ok, _ in rep["stages"]["desitter"]["blind"] if not ok] == \
+        ["ricci_scalar is the contraction of d omega + omega ^ omega; R ~ 1/length^2"]
+    assert all(not ok for l, ok, _ in rep["stages"]["desitter"]["oracle"] if l.startswith("Ricci scalar"))

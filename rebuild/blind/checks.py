@@ -474,7 +474,40 @@ def desitter(m):
         anti = max(abs(w[a][b][mu] * eta[a] + w[b][a][mu] * eta[b]) for a in range(4) for b in range(4) for mu in range(4))
         return worst < 1e-7 and anti < 1e-12, f"torsion {worst:.1e}; omega_ab antisymmetric {anti:.1e}"
 
-    return run_safely([("spin connection is torsion-free and metric (omega_ab = -omega_ba)", torsion),
+    def ricci_two_routes():
+        # property, not value: ricci_scalar must equal the contraction of R = d omega + omega ^ omega,
+        # built here by finite differences of the build's own spin_connection; and R ~ 1/length^2
+        eta = (-1, 1, 1, 1)
+        worst = 0.0
+        for M, l, p in ((0.3, 7.0, x), (0.1, 11.0, [0.0, 3.1, 0.7, 1.2])):
+            f = lambda r, M=M, l=l: 1 - 2 * M / r - r * r / l**2
+            fp = lambda r, M=M, l=l: 2 * M / r**2 - 2 * r / l**2
+            E, w = D.spin_connection(p, f, fp)
+            h = 1e-5
+            dw = []
+            for mu in range(4):
+                pp, pm = list(p), list(p)
+                pp[mu] += h
+                pm[mu] -= h
+                wp, wm = D.spin_connection(pp, f, fp)[1], D.spin_connection(pm, f, fp)[1]
+                dw.append([[[(wp[a][b][nu] - wm[a][b][nu]) / (2 * h) for nu in range(4)] for b in range(4)] for a in range(4)])
+            inv = [[0.0] * 4 for _ in range(4)]                  # E_a^mu: the inverse of the (diagonal) tetrad
+            for a in range(4):
+                inv[a][a] = 1 / E[a][a]
+            R = 0.0
+            for a in range(4):
+                for b in range(4):
+                    for mu in range(4):
+                        for nu in range(4):
+                            Rab = dw[mu][a][b][nu] - dw[nu][a][b][mu] + sum(
+                                w[a][c][mu] * w[c][b][nu] - w[a][c][nu] * w[c][b][mu] for c in range(4))
+                            R += Rab * inv[a][mu] * inv[b][nu] * eta[b]
+            worst = max(worst, abs(D.ricci_scalar(M, l, p) - R) / max(abs(R), 1e-300))
+        s1, s2 = D.ricci_scalar(0.3, 7.0, x), D.ricci_scalar(0.6, 14.0, [2 * y if i == 1 else y for i, y in enumerate(x)])
+        return worst < 1e-6 and _rel(s1 / s2, 4) < 1e-6, f"ricci_scalar vs d omega + omega^omega: {worst:.1e}; scaling {s1 / s2:.6f}"
+
+    return run_safely([("ricci_scalar is the contraction of d omega + omega ^ omega; R ~ 1/length^2", ricci_two_routes),
+                       ("spin connection is torsion-free and metric (omega_ab = -omega_ba)", torsion),
                        ("so(4,1) translations close on Lorentz", algebra),
                        ("de Sitter vector leaves 6 Lorentz generators", breaking),
                        ("F = R - e^e/l^2 and torsion-free on SdS", split),

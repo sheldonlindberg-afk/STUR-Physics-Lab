@@ -118,7 +118,9 @@ STAGES = [
             "ds_curvature_max": "ds_curvature_max(l, x) -> float: max |F| for de Sitter space of radius l at x.",
             "action_coefficients": "action_coefficients(M, l, x) -> (cR, cV): eps R^e^e = cR e R and eps e^e^e^e = cV e.",
             "ell_from_lambda": "ell_from_lambda(Lam) -> m: de Sitter radius for cosmological constant Lam (m^-2).",
-            "mm_coupling": "mm_coupling(Lam, lP) -> float: the dimensionless MacDowell-Mansouri coupling 3/(lP^2 Lam).",
+            "mm_coupling": "mm_coupling(Lam, lP) -> float: the dimensionless MacDowell-Mansouri coupling l^2/lP^2, l = ell_from_lambda(Lam).",
+            "ricci_scalar": "ricci_scalar(M, l, x) -> float: E_a^mu E_b^nu R^ab_{mu nu} on Schwarzschild-de Sitter at"
+                            " x = (t, r, theta, phi), from the same curvature R^ab that action_coefficients contracts.",
         },
     },
     {

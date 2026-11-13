@@ -138,6 +138,10 @@ with v/w.
 **Conventions.** The Lorentz symbol with lowered indices has ε₀₁₂₃ = +1 (the plain permutation
 symbol, `toolkit.levi_civita`). The coordinate density has ε̃^{0123} = +1, i.e. a 4-form's
 component is read on dt∧dr∧dθ∧dφ. `action_coefficients` uses both.
+- **`ricci_scalar`** contracts the curvature 2-form R^{ab} = dω^{ab} + ω^a_c∧ω^{cb} that your
+  `action_coefficients` uses, as E_a^μ E_b^ν R^{ab}_{μν} (indices raised with η). It is
+  exported so the curvature itself can be checked: the coefficient cR alone can't detect a
+  wrong R^{ab}.
 - **`spin_connection`** returns the tetrad and ω^a_{bμ}, with a raised and b lowered by η
   (so ω^0_1 = ω^1_0 for the boost). It is exported because rung 6 uses it.
 
