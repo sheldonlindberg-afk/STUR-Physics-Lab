@@ -390,6 +390,10 @@ extreme: its Schwarzschild radius is a millionth of the Planck length (link 4).
 
 ## Reproduce
 
+**To rebuild it yourself from an empty file:** [FIRST_PRINCIPLES.md](FIRST_PRINCIPLES.md) gives the
+build order, the postulates, each derivation step and the check that proves it, and lists
+which results are still quoted rather than derived.
+
 **In one paste:** [`src/ladder_standalone.py`](src/ladder_standalone.py) reproduces all six
 rungs and all five links with only the Python standard library (58 PASS/FAIL checks; expected output
 [results/ladder/standalone.txt](results/ladder/standalone.txt)). Each check is tagged math

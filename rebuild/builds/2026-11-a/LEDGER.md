@@ -1,0 +1,70 @@
+# Provenance ledger: 2026-11-a
+
+57 derived, 0 input, 7 quoted
+
+| Stage | Export | Kind | Note |
+|---|---|---|---|
+| toolkit | `eigvalsh` | derived | cyclic Jacobi rotations, t = sgn(tau)/(|tau|+sqrt(1+tau^2)), tau = cot 2theta = (a_qq-a_pp)/(2a_pq), Rutishauser updates; off(A)^2 drops by 2a_pq^2 per rotation; negligibility test relative to local diagonal; backward stable, errors O(n eps ||A||) |
+| toolkit | `hessian` | derived | central differences from 4th-order Taylor expansion: H_ii = (f+ - 2f0 + f-)/h^2, H_ij = (f++ - f+- - f-+ + f--)/(4h^2), odd orders cancel, error O(h^2), symmetric |
+| toolkit | `exact_derivative` | derived | forward-mode dual numbers a + b e, e^2 = 0, over Fraction: ring operations encode sum/product/quotient rules, so f(x+e) = f(x) + f'(x) e exactly |
+| toolkit | `bisect` | derived | intermediate value theorem; halve the sign-change bracket; width (b-a)/2^k, stops when the bracket is two adjacent doubles |
+| toolkit | `golden_max` | derived | golden-section search, r = (sqrt5-1)/2 solves r^2 + r - 1 = 0 so one interior point is reused; unimodality keeps the maximizer in the bracket; width (b-a) r^k |
+| toolkit | `trapezoid` | derived | integral of the piecewise-linear interpolant, dx[y0/2 + y1 + ... + yn/2], Euler-Maclaurin error O(dx^2); fsum for the sum |
+| toolkit | `levi_civita` | derived | 0 on repeated/out-of-range index, else sign = (-1)^(n - number of cycles), each L-cycle being L-1 transpositions |
+| gauge331 | `triplet_charges` | derived | Q = T3 + b diag(1,1,-2) + X, b = beta/(2 sqrt3) exact rational parsed from the variant; antitriplet -t^* flips T3, T8 (real diagonal) |
+| gauge331 | `quark_charges` | derived | [SU(3)_L]^2 U(1)_X anomaly N_g X_L + N_c[(N_g-n_A)X_t + n_A X_a] affine in Q_u, X_L from Q_e = -1, X_t, X_a from (Q_u, Q_d) = first two components; solved exactly with toolkit.exact_derivative; b cancels: Q_u = (N_c+1)/(2N_c) |
+| gauge331 | `doublet_charge_pairs` | derived | first two charges of lepton triplets (X_L), quark triplets (X_t) and antitriplets (X_a = X_t + 2b) via triplet_charges and quark_charges |
+| gauge331 | `mass_matrix` | derived | |D<phi>|^2 = (1/2) g_A g_B <phi>^dag{t_A,t_B}<phi> V^A V^B with Gell-Mann t_A, t_9 = X; vev components = the Q = 0 ones found from triplet_charges (w: first triplet neutral in comp 3; others: neutral comp other than 3, v1 then v2) |
+| gauge331 | `photon_direction` | derived | massless direction n_A = q_A/g_A, q = (T3: 1, T8: beta, X: 1) so sum g_A n_A t_A = Q; M n = 0 because Q<phi> = 0 for every vev |
+| gauge331 | `inv_e2` | derived | canonical A = n_hat.V couples Q/|n|, so 1/e^2 = |n|^2 = (1+beta^2)/g^2 + 1/gX^2 |
+| gauge331 | `neutral_masses` | derived | toolkit.eigvalsh of the (W3, W8, B) block, which decouples because diagonal x off-diagonal generators vanish on the diagonal; photon zero mode dropped |
+| gauge331 | `vev_from_GF` | derived | G_F/sqrt2 = g^2/(8 M_W^2), M_W^2 = g^2 v^2/4 (mass_matrix) => v = (sqrt2 G_F)^(-1/2) |
+| gauge331 | `mz_tree` | derived | e = g s_W, e^2 = 4 pi alpha, M_W^2 = g^2 v^2/4, M_Z = M_W/c_W => M_Z^2 = pi alpha/(sqrt2 G_F s^2 (1-s^2)) (SPEC convention) |
+| chiral | `goldstone_count` | derived | true vacuum by toolkit.bisect on dV/drho = lam rho(rho^2 - v^2) along a ray; Richardson-extrapolated toolkit.hessian of V (exact for a quartic), toolkit.eigvalsh; zero modes |e| <= 1e-9 max|e| (closed form: 2 lam v^2 once, 0 x3 = dim O(4)/O(3)); minimum checked |
+| chiral | `sigma_model_vacuum` | derived | sigma0 from toolkit.bisect on lam s(s^2 - v^2) - H on [v, v + (H/lam)^(1/3)]; m_pi^2 = mean of the 3 lowest eigenvalues of the Richardson Hessian at (sigma0, 0, 0, 0); equals H/sigma0 by the vacuum condition |
+| chiral | `gmor_mpi` | derived | sigma model m_pi^2 = H/<sigma> with <sigma> = f_pi, H f_pi = (m_u + m_d) cond13^3: m_pi = sqrt(mq_sum cond13^3)/fpi |
+| chiral | `chpt_mpi` | quoted | Gasser & Leutwyler, Ann. Phys. 158 (1984) 142, FLAG conventions: M_pi^2 = M^2[1 - M^2 lbar3/(32 pi^2 F^2)], M^2 = 2 mhat Sigma/F^2, F = fpi/(F_pi/F), Sigma = cond13^3 |
+| chiral | `yukawa` | derived | inverse Fourier transform of 1/(q^2 + m^2) by residues: e^{-mr}/(4 pi r); (lap - m^2)V = 0 for r > 0 and flux -4 pi r^2 V' -> 1 gives -delta^3 |
+| chiral | `tensor_identity_residual` | derived | explicit 4x4 Kronecker products s1 = sigma x 1, s2 = 1 x sigma of the Pauli matrices; max |(s1.q)(s2.q) - (q^2/3)(s1.s2 + S12)| |
+| chiral | `goldberger_treiman` | derived | PCAC: q^mu <N|A_mu|N> = [2 M_N G_A + q^2 G_P] ubar g5 u; chiral-limit pion pole in G_P with residue -2 f_pi g_piNN gives g_piNN = g_A M_N / f_pi (sigma model with nucleons: g_A = 1, g = M_N/f_pi) |
+| casimir | `sphere_K` | derived | Laplace: Phi_in = -B r cos, Phi_out = -E0 r cos + A cos/r^2; continuity and eps d_r Phi at R give a + b = 1, 2a - eps b = -1 (a = A/E0R^3, b = B/E0), solved by exact Gaussian elimination; K = a. Checked against bound-charge route (eps-1) b/3 |
+| casimir | `green_tensor` | derived | G_ij = (k^2 delta_ij - d_i d_j) e^{-kr}/r, which solves (lap - k^2)G = 0 for r > 0; the polynomials (1+u+u^2), (3+3u+u^2) are produced symbolically by term-by-term differentiation of e^{-kr} k^p r^q monomials (_green_polys) |
+| casimir | `cp_integral` | derived | Tr G.G r^6 e^{2u} from the polynomial matrix a delta - b n n, n = (2,3,6)/7 exact; int u^n e^{-2u} = n!/2^{n+1} (parts); summed term by term in Fractions |
+| casimir | `cp_energy` | quoted | Casimir & Polder, Phys. Rev. 73 (1948) 360: U = -(hbar/2pi) int dxi a1 a2 Tr G.G, a = K R^3 (units 4 pi eps0); with xi = c u/r this is -(hbar c/pi) cp_integral() K1 K2 R1^3 R2^3 / r^7 |
+| casimir | `diamond_radius` | derived | m = rho (4/3) pi R^3, rho = inputs.RHO_DIAMOND at call time |
+| casimir | `casimir_safe_gap` | derived | phase = (tau/hbar)[-2U(g) + 2U(sqrt(g^2+dx^2))] for U = cp_energy (K from sphere_K(inputs.EPS_DIAMOND), R from diamond_radius) and U = -G m^2/r; ratio strictly decreasing (geometric sum), tau- and m-free; unique root by toolkit.bisect on ln ratio - ln fraction in [g0, 7^(1/6) g0] |
+| graviton | `point_mass_metric` | derived | static Poisson lap hbar00 = -16 pi G M delta^3 solved with lap(1/4 pi r) = -delta^3 -> hbar00 = 4 GM/r; trace reversal h = hbar - eta hbar/2 with Fraction eta gives h00 = hii = 2 GM/(c^2 r); gamma = hii/h00 = 1 |
+| graviton | `tpt` | derived | P = (eta eta + eta eta - eta eta)/2 contracted with diagonal T's (indices lowered by eta): sum_mu a_mu b_mu - tr(T1) tr(T2)/2, tr = -T00 + sum Tii; mass-mass 1/2, mass-photon 1 |
+| graviton | `ramp_profile` | derived | SPEC 5 profile: up(t/ramp), 1, up((T-t)/ramp); up(x) = 2x^2 | 1 - 2(1-x)^2 with x clamped to [0, 1]; C^1, time-symmetric s(T-t) = s(t) |
+| graviton | `entangling_phase` | derived | Delta phi = phi_LL + phi_RR - phi_LR - phi_RL (invariant under local phase shifts phi_ij -> phi_ij + a_i + b_j), phi_ij = -(1/hbar) int U(d_ij) dt, U(r) = -8 pi G tpt(T_m, T_m) m^2 chiral.yukawa(r, 0) = -4 pi G m^2/(4 pi r) (inverse FT of the one-graviton amplitude -8 pi G tpt/q^2); parallel geometry d_LR = sqrt(gap^2 + (dx s)^2); toolkit.trapezoid on n samples |
+| graviton | `design_phase` | derived | entangling_phase(inputs.DESIGN_A_*) at casimir.casimir_safe_gap(inputs.GAP_BASELINE_MASS, _DX, _TAU, GAP_FRACTION), all read at call time |
+| desitter | `so41_generator` | derived | (J_AB)^C_D = delta^C_A eta_BD - delta^C_B eta_AD built entrywise as a 5x5 matrix; [P_a, P_b] = -J_ab checked by matrix commutators |
+| desitter | `spin_connection` | derived | Cartan de^a = -omega^a_b ^ e^b on the diagonal tetrad: omega^0_1 = f'/2 dt, omega^2_1 = sqrt f dth, omega^3_1 = sqrt f sin th dph, omega^3_2 = cos th dph, the rest by omega_ab = -omega_ba; torsion proved ~0 by finite differences |
+| desitter | `unbroken_generators` | derived | computes J_AB V for every A < B and keeps those with J_AB V = 0 (stabilizer of V; so(3,1) for V = e_4) |
+| desitter | `curvature_split_residual` | derived | A = omega^a_b block + e/l column/row from so41_generator; F = dA + [A, A] by central differences + matrix commutators; R from omega alone; max |F^ab - R^ab + e^a^e^b/l^2|, |F^a4| (= torsion/l) |
+| desitter | `ds_curvature_max` | derived | same F with f = 1 - r^2/l^2: R^ab = e^a^e^b/l^2 so F = 0 (flat connection) |
+| desitter | `action_coefficients` | derived | literal wedge contractions eps_abcd eps~^{mu nu rho sig} R^ab_{mu nu} e^c_rho e^d_sig / 2 and eps eps~ e e e e (toolkit.levi_civita), divided by e R and e; exact values 2 and 24 from the epsilon identities |
+| desitter | `ell_from_lambda` | derived | eps F^F = Euler - (2 cR/l^2) e (R - cV/(2 cR l^2)) vs e (R - 2 Lambda): Lambda = cV/(4 cR l^2) with exact cR, cV from levi_civita -> l = sqrt(3/Lambda) |
+| desitter | `mm_coupling` | derived | l^2/lP^2 with l from ell_from_lambda, = cV/(4 cR lP^2 Lambda) = 3/(lP^2 Lambda) |
+| blackholes | `sds_horizons` | derived | f = 1 - 2M/r - r^2/l^2 is concave (f'' < 0), negative at 2M and for r >= l: maximum r* = toolkit.golden_max(f, 2M, l); None if f(r*) <= 0, else toolkit.bisect on [2M, r*] and [r*, l]; checked by Vieta on r^3 - l^2 r + 2Ml^2 |
+| blackholes | `killing_kappa` | derived | metric diag(-f, 1/f, r^2, r^2 sin^2) from f only; d g by central differences (step h); Christoffels; nabla_mu xi_nu = d_mu g_{nu t} - Gamma^l_{mu nu} g_{l t}; kappa = sqrt(-(1/2) nabla xi . nabla xi) (= |f'|/2 by hand) |
+| blackholes | `kappa_from_spin_connection` | derived | desitter.spin_connection at r_b(1+1e-9), r_c(1-1e-9) from sds_horizons, fp = toolkit.exact_derivative of the rational f; kappa = |w[0][1][0]| = |omega^0_{1t}| since K = -2 (omega^0_{1t})^2 |
+| blackholes | `euclidean_cone_ratio` | derived | tau = it: f dtau^2 + dr^2/f; C = beta sqrt f(rh+eps); rho = Int dr/sqrt f with r = rh + u^2 -> Int 2u du/sqrt f (smooth even integrand, endpoint by (4g(du) - g(2du))/3), toolkit.trapezoid; ratio C/(2 pi rho) -> beta kappa/(2 pi) |
+| blackholes | `kerr_first_law` | derived | quoted BCH S, T, Omega, J only, with pi factored out (S/pi, T pi) and Omega dJ = d(J^2)/(2M(p^2+a^2)), Omega J = a^2 M/(p^2+a^2) (a^2 = pq rational); directional derivatives along (dp, dq) by toolkit.exact_derivative; exact Fractions |
+| blackholes | `nariai_mass_kg` | derived | f = f' = 0: with r = x l, M = mu l, f' = 0 gives mu = x^3, then 1 - 3x^2 = 0 solved by toolkit.bisect; M = mu l, l = desitter.ell_from_lambda(Lam); kg = M c^2/G (closed form c^2/(3 G sqrt Lam)) |
+| blackholes | `photon_sphere` | derived | maximum of V = f/r^2 (M = 1) by toolkit.golden_max, polished as the root of the exact V' (toolkit.exact_derivative + bisect); b_c = 1/sqrt(V_max) |
+| blackholes | `isco` | derived | V' = f' + L^2 (f/r^2)' is linear in L^2: L^2(r) = -f'/(f/r^2)' (exact derivatives); circular orbits first exist at min L^2(r), found by toolkit.golden_max on (r_ph, 20 r_ph) and polished by bisect on an exact symmetric difference; E^2 = f(1 + L^2/r^2) |
+| blackholes | `shadow_uas` | derived | diameter 2 b_c GM/(c^2 D) with b_c from photon_sphere(), GM = m GM_SUN, D = d PARSEC, radians to micro-arcseconds |
+| blackholes | `kerr_area_km2` | derived | r+ = toolkit.bisect root of r^2 - 2r + chi^2 (horizons p, q with p+q = 2M, pq = a^2); A = 4 pi (r+^2 + a^2) (G M/c^2)^2 = 4 S_BCH; equals 8 pi M^2 (1 + sqrt(1-chi^2)) |
+| blackholes | `qnm_220` | quoted | Berti, Cardoso & Will, PRD 73, 064030 (2006) fit M omega = f1 + f2 (1-chi)^f3, Q = q1 + q2 (1-chi)^q3 (inputs.BCW_220); f = omega/2pi, damping omega/(2Q), M = m GM_SUN/c^3 |
+| blackholes | `invert_220` | quoted | Berti-Cardoso-Will 2006 fit inverted algebraically: Q = pi f/damp -> 1 - chi = ((Q-q1)/q2)^(1/q3), then M_det = (M omega)/omega, source mass M_det/(1+z) |
+| blackholes | `hawking_K` | quoted | Hawking, Commun. Math. Phys. 43, 199 (1975): T_H = hbar c^3/(8 pi G M k_B); = hbar kappa/(2 pi c k_B) with kappa = c^4/(4GM), cf. euclidean_cone_ratio |
+| links | `qp_qe_minus_anomaly` | derived | SPEC 8 charges: q_p + q_e = (N_c+1) b + N_c X_t + X_L and anomaly = N_c X_L + N_c^2 X_t + N_c(1+N_c) b (2n = 1+N_c) = N_g (q_p + q_e); evaluated exactly from the definitions, difference is 0 |
+| links | `neutrality_per_nucleon` | derived | Coulomb and gravity both c/r on the same trajectories, phases in ratio k Q^2/(G m^2) <= GAP_FRACTION with Q = eps e m/u => eps = (u/e) sqrt(f G/k), size independent |
+| links | `pi0_width_eV` | quoted | anomaly amplitude A = alpha N_c (Q_u^2 - Q_d^2)/(pi f_pi) quoted (Adler 1969; Bell-Jackiw 1969); polarization sum done explicitly with toolkit.levi_civita and real transverse polarizations (= m^4/2), two-body phase space p/(4 pi m) = 1/(8 pi) and identical-photon 1/2 derived: Gamma = A^2 m^3/(64 pi) |
+| links | `planck_mass_GeV` | derived | SPEC 8 definition M_Pl = sqrt(hbar c/G), times c^2, / (1e9 e) to GeV |
+| links | `g_window` | derived | M_Pl(xG) = x^(-1/2) M_Pl; p5 < M_Pl(xG) < p3 <=> (mpl/p3)^2 < x < (mpl/p5)^2 |
+| links | `schwarzschild_radius` | derived | zero of f = 1 - 2GM/(c^2 r): r_s = 2 G m / c^2 |
+| links | `matter_charges` | derived | q_p, q_n from gauge331.quark_charges (rung 1, anomaly-derived) with proton ((N_c+1)/2 u, (N_c-1)/2 d); q_e, Q_nu = components 2, 1 of gauge331.triplet_charges(X_L, variant), X_L per SPEC 2 |
+| links | `pi0_width_from_rungs` | quoted | pi0_width_eV (quoted ABJ amplitude) at N_c = 3 with rung 1's gauge331.quark_charges(3) and inputs.ALPHA_0, F_PI, M_PI0 |
+| links | `planck_bh_kT_GeV` | derived | blackholes.hawking_K (rung 6) at m = planck_mass_GeV * 1e9 e/c^2, times k_B, in GeV; = M_Pl c^2/(8 pi) |
