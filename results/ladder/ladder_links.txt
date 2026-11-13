@@ -55,6 +55,29 @@ L2c-d  Against PrimEx (rung 2's f_pi, alpha(0); LIT anomaly coefficient)
       demands. It cannot select N_c; the R-ratio does (src/m331_why_three.py W6).
 
 ==============================================================================
+L6a  The diamond's mass: carbon-12 from its constituents (CHECK; CODATA 2018)
+==============================================================================
+   6 m_p + 6 m_n + 6 m_e - 12 u = 92.162 MeV (7.680 MeV per nucleon): the binding of the nucleus
+   (residual strong force minus Coulomb), plus the electrons' keV-level atomic binding
+
+==============================================================================
+L6b-c  Where it comes from (Feynman-Hellmann; LIT: FLAG 2024 sigma terms)
+==============================================================================
+   N_f = 2+1   : sigma_piN = 42.2 MeV, sigma_s = 44.9 MeV  (sum of parts = 1.000000000)
+      QCD field energy +91.45%;  u, d quark masses +4.53%;  s quark mass +4.82%;  electrons +0.03%;  nuclear binding -0.82%
+   N_f = 2+1+1 : sigma_piN = 60.9 MeV, sigma_s = 41.0 MeV  (sum of parts = 1.000000000)
+      QCD field energy +89.86%;  u, d quark masses +6.54%;  s quark mass +4.40%;  electrons +0.03%;  nuclear binding -0.82%
+   -> design A's diamond weighs what QCD's field energy weighs; the Higgs-generated masses
+      are under a tenth of it
+
+==============================================================================
+L6d  What the gravity experiment inherits (FOLLOWS, first order in the sigma terms)
+==============================================================================
+   design A's phase 2.187 rad goes as m^2 at fixed geometry and time
+   N_f = 2+1   : massless u, d: 1.99 rad;  massless quarks and electrons: 1.80 rad
+   N_f = 2+1+1 : massless u, d: 1.91 rad;  massless quarks and electrons: 1.73 rad
+
+==============================================================================
 L3a  The Planck mass: the 3-3-1 cutoff from rung 4's G (CHECK)
 ==============================================================================
    rung 4 (src/stur_gravity_entanglement.py): G = 6.67430e-11, hbar = 1.054571817e-34, c = 299792458

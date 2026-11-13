@@ -392,6 +392,7 @@ Literals with at least three significant digits that appear in two or more scrip
 | 0.1292 | `black_holes`, `ladder_standalone` |
 | 0.499 | `black_holes`, `ladder_standalone` |
 | -0.499 | `black_holes`, `ladder_standalone` |
+| 0.510999 | `ladder_links`, `stur_measurement` |
 | 0.9999 | `black_holes`, `ladder_standalone` |
 | 1.01 | `ladder_standalone`, `stur_oppenheim` |
 | 1.062 | `chiral_breaking`, `ladder_standalone` |

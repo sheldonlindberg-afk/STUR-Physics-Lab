@@ -301,6 +301,21 @@ Planck energy over 8π. The Hawking formula is semiclassical, and at this size i
 past where it is trusted, so the number is an order of magnitude, not a prediction.
 Status: CHECK for the identity; the physics there needs quantum gravity.
 
+### Link 6: the diamond's mass, from rung 2 to rung 4 (`src/ladder_links.py` L6)
+
+The mass in rung 4's phase is the diamond's, and almost all of it is QCD.
+
+| | Result | Status |
+|---|---|---|
+| L6a | Carbon-12 from its constituents: 6m_p + 6m_n + 6m_e − 12u = **92.162 MeV**, 7.680 MeV per nucleon (CODATA 2018; exact, since 12 u is the atom's mass by definition). This is the nuclear binding: the residual strong force, which rung 2's one-pion exchange describes at long range, minus the protons' Coulomb repulsion | CHECK; LIT |
+| L6b | Each nucleon, by the Feynman–Hellmann theorem: the light-quark masses contribute σ_πN = 42.2(2.4) MeV and the strange quark σ_s = 44.9(6.4) MeV (FLAG 2024, N_f = 2+1; the N_f = 2+1+1 averages, 60.9(6.5) and 41.0(8.8) MeV, are carried as the spread). The rest is gluon field energy and quark motion | CHECK; LIT |
+| L6c | Design A's diamond is **91% QCD field energy**, 4.5% u and d quark masses, 4.8% strange-quark mass, 0.03% electrons, −0.8% nuclear binding (N_f = 2+1+1: 90%, 6.5%, 4.4%) | CHECK |
+| L6d | The phase goes as m². With massless u and d quarks (first order in σ_πN) the same diamonds give **1.99 rad** instead of 2.19; with every quark and the electron massless, 1.80 rad. The entanglement does not need the Higgs mechanism's light-fermion masses: what the experiment weighs is QCD | FOLLOWS, first order |
+
+Heavy quarks enter the nucleon mass through the trace anomaly and are counted with QCD here.
+The first-order counterfactual ignores how the binding and the strange-quark term would
+themselves change.
+
 ## How the rungs fit together
 
 | Energy | What breaks | What is left below |

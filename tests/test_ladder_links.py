@@ -86,6 +86,18 @@ def test_gravity_term_shifts_the_pole_by_percent():
     assert abs(p0 - 1.262) < 0.005 and 1.0 < pg / p0 < 1.02
 
 
+def test_diamond_mass_is_mostly_qcd():
+    B, b = LL.carbon12_binding()
+    assert abs(B - 92.162) < 1e-3 and abs(b - 7.680) < 1e-3
+    f, tot = LL.mass_budget("2+1")
+    assert abs(tot - 1) < 1e-12
+    assert abs(f["QCD field energy"] - 0.9145) < 5e-4 and abs(f["u, d quark masses"] - 0.0453) < 2e-4
+    assert abs(f["s quark mass"] - 0.0482) < 2e-4 and abs(f["electrons"] - 2.74e-4) < 1e-5
+    phi, out = LL.phase_without_masses()
+    pl, pn = out["2+1"]
+    assert abs(pl / phi - (1 - f["u, d quark masses"]) ** 2) < 1e-12 and abs(pl - 1.99) < 0.01 and abs(pn - 1.80) < 0.01
+
+
 def test_reference_output_matches():
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):

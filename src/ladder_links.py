@@ -77,6 +77,26 @@ L3  The Planck mass: rung 4 -> rung 1. The 3-3-1 selection asks every coupling t
       pole moves from 2.86 to 2.94 M_Pl and the worst-case pole from 1.26 to 1.27 M_Pl: 3%
       or less, against the factor of 13 that the spectrum spans. The threshold spectrum, not
       gravity's running, sets how close the edge comes. (CHECK, given that model)
+L6  The diamond's mass: rung 2 -> rung 4. The mass that sources design A's phase is almost
+    entirely QCD binding energy, not Higgs-generated mass.
+  L6a Carbon-12: 6 m_p + 6 m_n + 6 m_e - 12 u = 92.16 MeV, the binding of the nucleus (and,
+      at the keV level, of the electrons), exact from CODATA 2018 because 12 u is the mass
+      of the atom by definition. It is the residual strong force minus the protons' Coulomb
+      repulsion. (CHECK; LIT)
+  L6b Each nucleon, by the Feynman-Hellmann theorem (FLAG 2024 eq. fheq1): the light-quark
+      masses contribute sigma_piN = m_ud <N|ubar u + dbar d|N> and the strange quark
+      sigma_s; N_f = 2+1 lattice averages 42.2(2.4) and 44.9(6.4) MeV (FLAG 2024; the
+      N_f = 2+1+1 averages, 60.9(6.5) and 41.0(8.8), are carried as the systematic spread).
+      The rest of M_N is gluon field energy and quark motion. The electron's mass is all
+      Higgs. Heavy-quark contributions to M_N (through the trace anomaly) are counted with
+      QCD here. (CHECK; LIT)
+  L6c Design A's diamond: 91% QCD field energy, 9.3% the Higgs-generated quark masses
+      (4.5% u, d; 4.8% s), 0.03% electrons, -0.8% nuclear binding. (CHECK)
+  L6d What rung 4 inherits: the phase goes as m^2, so with massless u and d quarks (first
+      order in sigma_piN, strange quark kept) the same diamonds would give 1.99 rad instead
+      of 2.19, and with every quark and the electron massless 1.80 rad. The entanglement
+      survives a world without the Higgs mechanism's light-fermion masses; what the
+      experiment weighs is QCD. (FOLLOWS, first order)
 Labels: CHECK, FOLLOWS, KNOWN, LIT, MODEL (L3f's gravity term).
 """
 import functools
@@ -97,6 +117,10 @@ U_AMU = 1.66053906660e-27           # kg; carbon-12 has exactly 12 u for 12 nucl
 ALPHA_0 = 1 / 137.035999084         # fine-structure constant at q^2 = 0 (real photons)
 EPS_PE_BOUND = 1e-21                # |q_p + q_e| / e, Bressi et al. 2011 (same limit for q_n)
 Q_N_MEAS = (-0.4e-21, 1.1e-21)      # q_n / e, Baumann et al. 1988
+# CODATA 2018 mass-energies (MeV) and FLAG 2024 nucleon sigma terms (MeV, value, error)
+M_P_MEV, M_N0_MEV, M_E_MEV, U_MEV = 938.27208816, 939.56542052, 0.51099895000, 931.49410242
+SIGMA_PIN = {"2+1": (42.2, 2.4), "2+1+1": (60.9, 6.5)}
+SIGMA_S = {"2+1": (44.9, 6.4), "2+1+1": (41.0, 8.8)}
 GAMMA_PI0_MEAS = (7.802, math.hypot(0.052, 0.105))   # eV, PrimEx-I+II (Larin et al. 2020)
 FRAC = 0.1                          # "below 10% of gravity", as for the Casimir gap
 
@@ -218,6 +242,39 @@ def pi0_width():
     return G, (G - meas) / err, CB.F_PI, fixed
 
 
+# ---------------------------------------------------------------------------------- L6
+def carbon12_binding():
+    """L6a: B = 6 m_p + 6 m_n + 6 m_e - 12 u, in MeV, and per nucleon."""
+    B = 6 * M_P_MEV + 6 * M_N0_MEV + 6 * M_E_MEV - 12 * U_MEV
+    return B, B / 12
+
+
+def mass_budget(flavours="2+1"):
+    """L6b-c: fractions of a carbon-12 atom's mass (the diamond's, per atom): QCD field energy,
+    light- and strange-quark masses (Feynman-Hellmann sigma terms), electrons, binding."""
+    s_l, s_s = SIGMA_PIN[flavours][0], SIGMA_S[flavours][0]
+    B, _ = carbon12_binding()
+    total = 12 * U_MEV
+    parts = {"QCD field energy": 6 * (M_P_MEV - s_l - s_s) + 6 * (M_N0_MEV - s_l - s_s),
+             "u, d quark masses": 12 * s_l, "s quark mass": 12 * s_s,
+             "electrons": 6 * M_E_MEV, "nuclear binding": -B}
+    return {k: v / total for k, v in parts.items()}, sum(parts.values()) / total
+
+
+def phase_without_masses():
+    """L6d: design A's phase with the light quarks massless (first order: each nucleon loses
+    sigma_piN), and with all quark masses and the electron's removed; phase ~ m^2."""
+    c = coulomb_vs_gravity()
+    phi = c["dphi_grav"]
+    out = {}
+    for fl in ("2+1", "2+1+1"):
+        f, _ = mass_budget(fl)
+        light = 1 - f["u, d quark masses"]
+        none = 1 - f["u, d quark masses"] - f["s quark mass"] - f["electrons"]
+        out[fl] = (phi * light**2, phi * none**2)
+    return phi, out
+
+
 # ---------------------------------------------------------------------------------- L3
 def planck_mass():
     """L3a: sqrt(hbar c / G) in GeV from rung 4's constants, against the 3-3-1 cutoff."""
@@ -334,6 +391,25 @@ def main():
         f"N_c = {k}: {v:.2f} eV" for k, v in fixed.items()))
     print("   -> the width tests that charges and colours come together as anomaly cancellation")
     print("      demands. It cannot select N_c; the R-ratio does (src/m331_why_three.py W6).")
+
+    banner("L6a  The diamond's mass: carbon-12 from its constituents (CHECK; CODATA 2018)")
+    B, b = carbon12_binding()
+    print(f"   6 m_p + 6 m_n + 6 m_e - 12 u = {B:.3f} MeV ({b:.3f} MeV per nucleon): the binding of the nucleus")
+    print("   (residual strong force minus Coulomb), plus the electrons' keV-level atomic binding")
+
+    banner("L6b-c  Where it comes from (Feynman-Hellmann; LIT: FLAG 2024 sigma terms)")
+    for fl in ("2+1", "2+1+1"):
+        f, tot = mass_budget(fl)
+        print(f"   N_f = {fl:6s}: sigma_piN = {SIGMA_PIN[fl][0]} MeV, sigma_s = {SIGMA_S[fl][0]} MeV  (sum of parts = {tot:.9f})")
+        print("      " + ";  ".join(f"{k} {100 * v:+.2f}%" for k, v in f.items()))
+    print("   -> design A's diamond weighs what QCD's field energy weighs; the Higgs-generated masses")
+    print("      are under a tenth of it")
+
+    banner("L6d  What the gravity experiment inherits (FOLLOWS, first order in the sigma terms)")
+    phi, out = phase_without_masses()
+    print(f"   design A's phase {phi:.3f} rad goes as m^2 at fixed geometry and time")
+    for fl, (pl, pn) in out.items():
+        print(f"   N_f = {fl:6s}: massless u, d: {pl:.2f} rad;  massless quarks and electrons: {pn:.2f} rad")
 
     banner("L3a  The Planck mass: the 3-3-1 cutoff from rung 4's G (CHECK)")
     mpl, mpl331, (G, hb, c) = planck_mass()
