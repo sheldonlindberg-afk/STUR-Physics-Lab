@@ -53,6 +53,51 @@ M²_AB = g_A g_B Σ_φ ⟨φ⟩†{t_A, t_B}⟨φ⟩, for both variants.
 | B6 | Every fermion's charge from Q, component by component, for N_c = 3, 5 and 7. Anti-triplets carry −T*. Every SU(2)_L doublet is (Q_u, Q_d) or (0, −1), with Q_u = (N_c + 1)/2N_c and Q_d = (1 − N_c)/2N_c | CHECK |
 | B7 | v = 246.22 GeV from G_F. The tree-level M_Z = 91.51 GeV, against the measured 91.19: the +0.35% is the known radiative correction, not derived here | CHECK |
 
+**After the Standard Model's loops (`src/m331_rho_bound.py`).** B7's +0.35% is known
+Standard Model physics, not a test of 3-3-1. What the global fit leaves after the Standard
+Model's loops is ρ₀ = 1.00039 ± 0.00019 (LIT: Erler, arXiv:1908.07346; a fit from before
+the 2022–2024 W-mass measurements). That residual is where B5's mixing would show.
+
+| | Result | Status |
+|---|---|---|
+| R1 | B5's coefficient is a perfect square: **ρ − 1 = (v/w)²(sin²a − sin²a₀)²**, tan a = v₂/v₁, with sin²a₀ = (3 − 2x)/2(3 + x) for β = +1/√3 and (3 + 4x)/2(3 + x) for β = −1/√3, x = g_X²/g². The two add to 1. So the mixing vanishes at one ratio of the vacuum values | CHECK |
+| R2 | sin²a₀ = 0.350 and 0.650 (s² at M_Z); 0.333 and 0.667 at 4 TeV | CHECK |
+| R3 | ρ₀ − 1 < 7.6×10⁻⁴ (95% CL) gives **w > 5.8 TeV at most**, and nothing at a = a₀. The LHC Z′ recast gives w > 11.9 TeV (β = +1/√3) and 10.3 TeV (β = −1/√3) for every a: ρ is weaker by a factor of about 2 | CHECK; LIT ρ₀ |
+| R4 | The 2σ excess in ρ₀ would need w < 8.1 TeV. At the LHC bound, the mixing gives at most 47% (β = +1/√3) or 62% (β = −1/√3) of it, leaving 1.1σ or 0.8σ | CHECK |
+
+**What this leaves out.** This is ρ alone, at tree level, not a full electroweak-precision
+bound:
+- **The Z-pole couplings.** The mixing also shifts the Z's couplings to fermions, at the
+  same order (v/w)². That fit is below.
+- **One-loop T from the bilepton gauge bosons:** about (g²/16π²)(M_W²/M_V²), a loop factor
+  below the tree term. The exotic fermions are SU(2) singlets and contribute little.
+- **One-loop T from the scalars:** not loop-suppressed in the same way. The second Higgs
+  doublet's splittings come from the quartics, so its contribution goes as λ²/16π². With
+  heavy scalars near the 0.1 TeV floor of NOTE_331.md §3e it isn't suppressed by v/w at
+  all, and ρ then constrains the scalar spectrum, not w. Its sign is free, so it can lift
+  R3's cancellation at a = a₀ or offset R4's tree term.
+- **S and U** aren't used.
+
+So R3 and R4 hold for the tree-level mixing with heavy, weakly coupled scalars.
+
+**The Z-pole fit (`src/m331_zpole.py`).** Both effects of the mixing, ρ and the shifted Z
+couplings, fitted to 14 LEP/SLD Z-pole observables at tree level, linear around the
+Standard Model.
+- Measurements and correlations: LEP/SLD, Phys. Rept. 427 (2006) 257 (LIT).
+- SM predictions: Gfitter, Eur. Phys. J. C 78 (2018) 675 (LIT).
+- The inputs, each with its table: [`results/m331/zpole/zpole_inputs.json`](results/m331/zpole/zpole_inputs.json).
+
+| | Result | Status |
+|---|---|---|
+| Z1 | χ²_SM = 14.2 for 14 observables; A⁰,b_FB (−2.3σ) gives 4.6 of it | CHECK; LIT |
+| Z2 | **Validation** against Erler, Langacker, Munir and Rojas, JHEP 08 (2009) 017, 95% CL sin θ_ZZ′: Z′_χ here [−0.0015, +0.0008], theirs [−0.0016, +0.0006]; Z′_ψ here [−0.0022, +0.0008], theirs [−0.0018, +0.0009]. Asymmetry reproduced, edges within 0.0004, widths within 12% (about 6% in w); their fit has more data | CHECK; LIT |
+| Z3 | θ = (v/w)(sin²a₀ − sin²a) M_Z/M_Z′, against exact diagonalization of rung 1's mass matrix to < 0.5%. The same a₀ cancels θ and ρ − 1 together | CHECK |
+| Z4 | **w > 7.5 TeV (β = +1/√3) and 7.6 TeV (β = −1/√3)** for every a and every choice of the odd quark generation (6.0 and 6.4 TeV without A⁰,b_FB). Stronger than ρ alone (5.8 TeV), below the LHC's 11.9 and 10.3 TeV by 1.6× and 1.4× in w. Near a = a₀ the Z pole gives almost nothing | CHECK; MODEL |
+| Z4 | No significant preference for mixing: χ² improves by at most 1.0 (2.9 without A⁰,b_FB) for two extra parameters | CHECK |
+
+Not included: loop contributions to T (above), correlated SM parametric errors (treated as
+independent), M_W, low-energy parity violation and flavour-changing Z′ couplings.
+
 ## Rung 2: the strong force (`src/chiral_breaking.py`)
 
 **What breaks.** Colour stays unbroken. What breaks is the approximate chiral symmetry of
@@ -184,7 +229,7 @@ input without either importing it from the other; [DEPENDENCIES.md](DEPENDENCIES
 | L3a | √(ħc/G), from rung 4's G, ħ and c, **equals the 3-3-1 cutoff** to 1×10⁻⁷ | CHECK |
 | L3b | M_Pl scales as G^(−1/2). If G were x times its measured value, the selection would hold for (M_Pl/pole₃)² < x < (M_Pl/pole₅)². At the reference spectrum (M_V = 4 TeV, Yukawas and thresholds on, α = 1, three loops; NOTE_331.md §3d) that is **0.12 < x < 5×10¹⁴ for β = +1/√3** and 3×10⁻²¹ < x < 1×10⁸ for β = −1/√3. G is measured to 2.2×10⁻⁵ (CODATA 2018). The narrow side: with G 8.4× weaker, M_Pl would rise above N_c = 3's pole and exclude it | CHECK |
 | L3c | At the mass floors with light heavy leptons (NOTE_331.md §3e), N_c = 3's pole is 0.61 M_Pl, so it fails at the measured G; it would pass only if G were 2.7× stronger. This restates the heavy-lepton condition in terms of G; it adds nothing to it | CHECK |
-| L3d | The check uses G, measured at laboratory and solar-system distances, at 10¹⁹ GeV. That assumes gravity's strength doesn't run in between. In perturbative quantum gravity the corrections are of order (E/M_Pl)². Many hidden light species would lower the effective cutoff, which this doesn't cover | FOLLOWS |
+| L3d | The check uses G, measured at laboratory and solar-system distances, at 10¹⁹ GeV. That assumes gravity's strength doesn't run in between. In perturbative quantum gravity the corrections are of order (E/M_Pl)². Many hidden light species would lower the effective cutoff, which this doesn't cover. Above M_Pl, an asymptotically safe gravity term leaves the selection unchanged ([NOTE_331.md](NOTE_331.md) §3g) | FOLLOWS |
 
 So the selection's cutoff and the diamonds' signal rest on one measured number. The
 selection is insensitive to it, by about an order of magnitude in G on its narrow side.
@@ -225,6 +270,8 @@ linear sigma model are also tagged model. It exits with status 1 if any check fa
 ```bash
 python3 src/ladder_standalone.py   # everything below, one file, ~1 s
 python3 src/m331_breaking.py       # rung 1, ~7 s
+python3 src/m331_rho_bound.py      # rung 1 against the global fit's rho_0 and the LHC, ~7 s
+python3 src/m331_zpole.py          # rung 1 against the LEP/SLD Z pole, validated on E6 Z', ~30 s
 python3 src/chiral_breaking.py     # rung 2, ~1 s
 python3 src/casimir_diamonds.py    # rung 3, ~2 s
 python3 src/graviton_exchange.py   # rung 4, ~1 s

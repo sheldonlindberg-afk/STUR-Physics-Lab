@@ -76,7 +76,7 @@ def spectrum(Nc, MV, mJ, mE, mS, n_light):
 
 
 def pole(MV=4e3, mJ=4e3, mE=4e3, mS=4e3, n_light=1, Nc=3, loops=3, gmax=ALPHA1, mu=None,
-         yukawas=True, s2=None):
+         yukawas=True, s2=None, grav=None, mu_max=1e45):
     mu = MV if mu is None else mu
     lam = T.lambdas(spectrum(Nc, MV, mJ, mE, mS, n_light), mu)
     if yukawas:
@@ -87,7 +87,8 @@ def pole(MV=4e3, mJ=4e3, mE=4e3, mS=4e3, n_light=1, Nc=3, loops=3, gmax=ALPHA1, 
         yuk = ct * Y.yt_at(mu) ** 2 + cq * yJ**2 + cl * yE2
     else:
         yuk = np.zeros(3)
-    return L.blow_up(Nc, VAR, mu0=mu, gmax=gmax, s2=s2, lam=tuple(lam), n_light=n_light, loops=loops, yuk=yuk)
+    return L.blow_up(Nc, VAR, mu0=mu, gmax=gmax, s2=s2, lam=tuple(lam), n_light=n_light, loops=loops, yuk=yuk,
+                     grav=grav, mu_max=mu_max)
 
 
 def rel(**kw):

@@ -1,0 +1,44 @@
+{
+  "_sources": {
+    "measured": "ALEPH, DELPHI, L3, OPAL, SLD, LEP EWWG, SLD EW and Heavy Flavour groups, Precision Electroweak Measurements on the Z Resonance, Phys. Rept. 427 (2006) 257, arXiv:hep-ex/0509008: Table 2.13 (lineshape, lepton universality) and Tables 5.10-5.11 (heavy flavour, 14-parameter fit). A_l (LEP, SLD), sin2theta_eff (Q_FB, Tevatron): Gfitter Table 1 and its footnote.",
+    "sm": "J. Haller et al. (Gfitter), Update of the global electroweak fit and constraints on two-Higgs-doublet models, Eur. Phys. J. C 78 (2018) 675, arXiv:1803.01853, Table 1, fourth column (full fit).",
+    "note": "The heavy-flavour correlations are the 6x6 block of the 14-parameter matrix (Table 5.11). The M_Z row of Table 2.13 is dropped: M_Z is an input here; its correlations with the others are at most 0.055."
+  },
+  "observables": {
+    "GammaZ":     {"meas": [2.4952, 0.0023],   "sm": [2.4947, 0.0014],   "unit": "GeV"},
+    "sigma_had":  {"meas": [41.540, 0.037],    "sm": [41.484, 0.015],    "unit": "nb"},
+    "R_l":        {"meas": [20.767, 0.025],    "sm": [20.742, 0.017]},
+    "AFB_l":      {"meas": [0.0171, 0.0010],   "sm": [0.01620, 0.0001]},
+    "A_l_LEP":    {"meas": [0.1465, 0.0033],   "sm": [0.1470, 0.0005]},
+    "A_l_SLD":    {"meas": [0.1513, 0.0021],   "sm": [0.1470, 0.0005]},
+    "s2eff_QFB":  {"meas": [0.2324, 0.0012],   "sm": [0.23153, 0.00006]},
+    "s2eff_Tevt": {"meas": [0.23148, 0.00033], "sm": [0.23153, 0.00006]},
+    "R_b":        {"meas": [0.21629, 0.00066], "sm": [0.21582, 0.00011]},
+    "R_c":        {"meas": [0.1721, 0.0030],   "sm": [0.17224, 0.00008]},
+    "AFB_b":      {"meas": [0.0992, 0.0016],   "sm": [0.1030, 0.0003]},
+    "AFB_c":      {"meas": [0.0707, 0.0035],   "sm": [0.0736, 0.0003]},
+    "A_b":        {"meas": [0.923, 0.020],     "sm": [0.93475, 0.00004]},
+    "A_c":        {"meas": [0.670, 0.027],     "sm": [0.6679, 0.00021]}
+  },
+  "correlations": {
+    "lineshape": {"order": ["GammaZ", "sigma_had", "R_l", "AFB_l"],
+                  "matrix": [[1.000, -0.297, 0.004, 0.003],
+                             [-0.297, 1.000, 0.183, 0.006],
+                             [0.004, 0.183, 1.000, -0.056],
+                             [0.003, 0.006, -0.056, 1.000]]},
+    "heavy_flavour": {"order": ["R_b", "R_c", "AFB_b", "AFB_c", "A_b", "A_c"],
+                      "matrix": [[1.00, -0.18, -0.10, 0.07, -0.08, 0.04],
+                                 [-0.18, 1.00, 0.04, -0.06, 0.04, -0.06],
+                                 [-0.10, 0.04, 1.00, 0.15, 0.06, 0.01],
+                                 [0.07, -0.06, 0.15, 1.00, -0.02, 0.04],
+                                 [-0.08, 0.04, 0.06, -0.02, 1.00, 0.11],
+                                 [0.04, -0.06, 0.01, 0.04, 0.11, 1.00]]}
+  },
+  "alpha_s": 0.1194,
+  "validation": {
+    "_source": "J. Erler, P. Langacker, S. Munir and E. Rojas, Improved Constraints on Z' Bosons from Electroweak Precision Data, JHEP 08 (2009) 017, arXiv:0906.2435, Tables 4 (rho_0 = 1) and 5 (rho_0 free): 95% CL range of sin theta_ZZ'. Their fit also uses low-energy data, M_W, and floats M_H, alpha_s.",
+    "chi_rho1": [-0.0016, 0.0006],
+    "psi_rho1": [-0.0018, 0.0009],
+    "psi_rhofree": [-0.0018, 0.0010]
+  }
+}

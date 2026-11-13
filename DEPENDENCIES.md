@@ -6,10 +6,10 @@ This page records which script feeds which, and which physical quantities each o
 
 ## Summary
 
-- **41 scripts** in `src/`, in 6 topics; **55 imports** between them, 22 of them across topics. 11 scripts import nothing from the others and nothing imports them.
-- **52 catalogued quantities** (37 measured inputs, 15 derived in the repository), found as 162 literals in the source.
+- **45 scripts** in `src/`, in 6 topics; **67 imports** between them, 25 of them across topics. 11 scripts import nothing from the others and nothing imports them.
+- **52 catalogued quantities** (37 measured inputs, 15 derived in the repository), found as 164 literals in the source.
 - **43 quantities are typed in more than one script**; 14 of them are shared by more than one topic.
-- **2 copies differ from their source for a stated reason**; **0 differ without one (drift).**
+- **3 copies differ from their source for a stated reason**; **0 differ without one (drift).**
 
 ## Imports
 
@@ -30,6 +30,7 @@ flowchart LR
     m331_margin
     m331_zprime_recast
     m331_heavy_lepton
+    m331_gravity_fixed_point
     m331_standalone
     qcd_running
     rge_engine
@@ -42,10 +43,13 @@ flowchart LR
     macdowell_mansouri
     ladder_links
     ladder_standalone
+    m331_rho_bound
+    m331_zpole
   end
   subgraph diamond["Diamond experiment"]
     stur_gravity_entanglement
     stur_gravity_full
+    short_range_gravity
   end
   subgraph classical["Classical and emergent gravity"]
     stur_oppenheim
@@ -86,6 +90,10 @@ flowchart LR
   m331_breaking --> m331_exact
   m331_closure --> m331_threshold
   m331_exact --> qcd_running
+  m331_gravity_fixed_point --> m331_exact
+  m331_gravity_fixed_point --> m331_margin
+  m331_gravity_fixed_point --> m331_three_loop
+  m331_gravity_fixed_point --> m331_yukawa
   m331_heavy_lepton --> m331_margin
   m331_heavy_lepton --> m331_zprime_recast
   m331_margin --> m331_exact
@@ -93,6 +101,9 @@ flowchart LR
   m331_margin --> m331_threshold
   m331_margin --> m331_yukawa
   m331_margin --> qcd_running
+  m331_rho_bound --> m331_breaking
+  m331_rho_bound --> m331_threshold
+  m331_rho_bound --> m331_yukawa
   m331_scalar --> m331_exact
   m331_scalar --> m331_threshold
   m331_scalar --> m331_yukawa
@@ -105,6 +116,11 @@ flowchart LR
   m331_why_three --> qcd_running
   m331_yukawa --> m331_exact
   m331_yukawa --> qcd_running
+  m331_zpole --> m331_breaking
+  m331_zpole --> m331_rho_bound
+  m331_zpole --> m331_zprime_recast
+  short_range_gravity --> stur_gravity_entanglement
+  short_range_gravity --> stur_gravity_full
   stur_derivation --> stur_born
   stur_derivation --> stur_emergent
   stur_derivation --> stur_gravity_entanglement
@@ -141,6 +157,9 @@ flowchart LR
 | `ladder_links` (Symmetry ladder) | `m331_why_three` (3-3-1 selection) | `charges` |
 | `ladder_links` (Symmetry ladder) | `stur_gravity_entanglement` (Diamond experiment) | `C`, `G`, `HBAR` |
 | `m331_breaking` (Symmetry ladder) | `m331_exact` (3-3-1 selection) | `MODELS` |
+| `m331_rho_bound` (Symmetry ladder) | `m331_threshold` (3-3-1 selection) | `gL_at`, `mzp_over_mv` |
+| `m331_rho_bound` (Symmetry ladder) | `m331_yukawa` (3-3-1 selection) | `boundary` |
+| `m331_zpole` (Symmetry ladder) | `m331_zprime_recast` (3-3-1 selection) | `g331`, `gE6`, `t8` |
 | `stur_derivation` (Measurement, entropy, foundations) | `stur_emergent` (Classical and emergent gravity) | `cutoff_for_G`, `dp_rate`, `medium_evolution` |
 | `stur_derivation` (Measurement, entropy, foundations) | `stur_gravity_entanglement` (Diamond experiment) | `BASE`, `branch_distances`, `negativity`, `radius`, `state` |
 | `stur_derivation` (Measurement, entropy, foundations) | `stur_gravity_full` (Diamond experiment) | `design_a` |
@@ -172,6 +191,7 @@ flowchart LR
 | [`m331_margin`](src/m331_margin.py) | `m331_exact`, `m331_three_loop`, `m331_threshold`, `m331_yukawa`, `qcd_running` | The narrow beta = +1/sqrt3 margin, tightened (NOTE_331.md, section 3e) |
 | [`m331_zprime_recast`](src/m331_zprime_recast.py) | — | Recast of the ATLAS 13 TeV, 139 fb^-1 dilepton search for the Z' of the beta = +-1/sqrt3 3-3-1 models |
 | [`m331_heavy_lepton`](src/m331_heavy_lepton.py) | `m331_margin`, `m331_zprime_recast` | The heavy charged leptons of the beta = +1/sqrt3 model against the LHC (NOTE_331.md, section 3f) |
+| [`m331_gravity_fixed_point`](src/m331_gravity_fixed_point.py) | `m331_exact`, `m331_margin`, `m331_three_loop`, `m331_yukawa` | Gravity above the Planck scale and the 3-3-1 gauge couplings: the asymptotic-safety estimate (NOTE_331.md asks every coupling to stay pertur |
 | [`m331_standalone`](src/m331_standalone.py) | — | Three colours and three generations from perturbativity in 3-3-1 models |
 | [`qcd_running`](src/qcd_running.py) | — | Two-loop MS-bar running of the strong coupling, used by the 3-3-1 scripts. |
 | [`rge_engine`](src/rge_engine.py) | — | General one-loop RGEs for quartic and Yukawa couplings (real scalars, two-component fermions) |
@@ -187,6 +207,8 @@ flowchart LR
 | [`macdowell_mansouri`](src/macdowell_mansouri.py) | — | The gravity rung as a broken gauge theory: MacDowell-Mansouri (1977) and Stelle-West (1980) |
 | [`ladder_links`](src/ladder_links.py) | `chiral_breaking`, `graviton_exchange`, `m331_breaking`, `m331_exact`, `m331_margin`, `m331_three_loop`, `m331_why_three`, `stur_gravity_entanglement` | Links between the rungs of the symmetry-breaking ladder (SYMMETRY_LADDER.md): places where one rung's output is another rung's input, checke |
 | [`ladder_standalone`](src/ladder_standalone.py) | — | The symmetry-breaking ladder, from 3-3-1 to the two-diamond gravity experiment |
+| [`m331_rho_bound`](src/m331_rho_bound.py) | `m331_breaking`, `m331_threshold`, `m331_yukawa` | The rho parameter and the 3-3-1 scale: what electroweak precision says about w, from the tree-level Z-Z' mixing of rung 1 (src/m331_breaking |
+| [`m331_zpole`](src/m331_zpole.py) | `m331_breaking`, `m331_rho_bound`, `m331_zprime_recast` | The Z-pole observables and the 3-3-1 scale: the full tree-level electroweak-precision test of Z-Z' mixing, validated on the E6 Z' bosons, ag |
 
 **Diamond experiment**
 
@@ -194,6 +216,7 @@ flowchart LR
 |---|---|---|
 | [`stur_gravity_entanglement`](src/stur_gravity_entanglement.py) | — | Gravity-induced entanglement (Bose et al., PRL 119, 240401 (2017); Marletto & Vedral, PRL 119, 240402 (2017)) |
 | [`stur_gravity_full`](src/stur_gravity_full.py) | `stur_gravity_entanglement` | Gravity-induced entanglement, modelled to the end: everything stur_gravity_entanglement.py left out, then a full design search |
+| [`short_range_gravity`](src/short_range_gravity.py) | `stur_gravity_entanglement`, `stur_gravity_full` | Short-range gravity with the two-diamond experiment: how far design A could test Newton's 1/r law, against a Yukawa modification V(r) = -G m |
 
 **Classical and emergent gravity**
 
@@ -239,14 +262,14 @@ Each row is one quantity typed into scripts of more than one topic. Where it is 
 | 1/4πε₀ (N m² C⁻²) | input | Diamond experiment, Measurement, entropy, foundations, Symmetry ladder | `ladder_links`, `ladder_standalone`, `stur_gravity_full`, `stur_measurement` |  |
 | atomic mass unit (kg) | input | Classical and emergent gravity, Diamond experiment, Symmetry ladder | `ladder_links`, `ladder_standalone`, `stur_emergent`, `stur_gravity_entanglement`, `stur_gravity_full`, `stur_oppenheim`, `stur_thermo_gravity` |  |
 | e (C) | input | Diamond experiment, Measurement, entropy, foundations, Symmetry ladder | `ladder_links`, `ladder_standalone`, `stur_gravity_full`, `stur_measurement` | exact by definition, so copies cannot drift |
-| 1/α(M_Z), MS-bar | input | 3-3-1 selection, Symmetry ladder | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zprime_recast` | with sin²θ_W(M_Z) it fixes the U(1)_X start of every 3-3-1 run |
+| 1/α(M_Z), MS-bar | input | 3-3-1 selection, Symmetry ladder | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zpole`, `m331_zprime_recast` | with sin²θ_W(M_Z) it fixes the U(1)_X start of every 3-3-1 run |
 | M_Z (GeV) | input | 3-3-1 selection, Symmetry ladder | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_yukawa`, `m331_zprime_recast`, `qcd_running` |  |
 | Planck mass √(ħc/G) (GeV) | derived | 3-3-1 selection, Symmetry ladder | `ladder_standalone`, `m331_exact`, `m331_standalone`, `m331_su3L_running` | the 3-3-1 selection's cutoff. It is typed as a number in the 3-3-1 scripts; it is √(ħc/G), the G the diamond experiment uses |
 | diamond density (kg/m³) | input | Diamond experiment, Symmetry ladder | `ladder_standalone`, `stur_gravity_entanglement` |  |
 | diamond permittivity | input | Diamond experiment, Symmetry ladder | `ladder_standalone`, `stur_gravity_entanglement` |  |
 | electroweak vev (√2 G_F)^(−1/2) (GeV) | derived | 3-3-1 selection, Symmetry ladder | `ladder_standalone`, `m331_standalone`, `m331_yukawa` | derived in rung 1 and retyped in the 3-3-1 Yukawa scripts |
 | k_B (J/K) | input | Diamond experiment, Measurement, entropy, foundations | `stur_derivation`, `stur_gravity_entanglement` | exact by definition, so copies cannot drift |
-| sin²θ_W(M_Z), MS-bar | input | 3-3-1 selection, Symmetry ladder | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zprime_recast` |  |
+| sin²θ_W(M_Z), MS-bar | input | 3-3-1 selection, Symmetry ladder | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zpole`, `m331_zprime_recast` |  |
 
 **Links through a formula.** Some quantities share inputs without sharing a number:
 
@@ -286,6 +309,7 @@ These are imported from their source by every script that uses them; a typed-in 
 
 | Quantity | Source value | Copy | Where | Status | Reason and effect |
 |---|---|---|---|---|---|
+| sin²θ_W(M_Z), MS-bar | 0.23122 | 0.23153 | `m331_zpole:78` | variant | sin²θ_eff (leptonic), the Gfitter SM value: the base of the tree-level Z couplings in m331_zpole, a different quantity from the MS-bar angle |
 | top-quark mass (GeV) | 172.57 | 172.69 | `m331_standalone:63`, `qcd_running:7` | variant | PDG 2022 value, used only as the α_s flavour threshold (qcd_running and its copy in m331_standalone); α_s(4 TeV) moves by +6.6e-06 if it is changed to 172.57 |
 
 *Rounded* copies (within the quantity's stated precision) are listed in the full table below, not here.
@@ -306,8 +330,8 @@ These are imported from their source by every script that uses them; a typed-in 
 | Planck length √(ħG/c³) (m) | derived | 1.616255e-35 | √(ħG/c³) from G, ħ, c (this tool) | `ladder_standalone` (rounded), `macdowell_mansouri` (rounded) |
 | cosmological constant Λ (m⁻²) | input | 1.105600e-52 | Planck 2018 | `ladder_standalone`, `macdowell_mansouri` |
 | 1/α(0) | input | 137.036 | CODATA 2018 | `ladder_links`, `ladder_standalone` |
-| 1/α(M_Z), MS-bar | input | 127.951 | PDG 2024 | `ladder_standalone`, `m331_breaking`, `m331_exact` (rounded), `m331_heavy_lepton` (rounded), `m331_margin` (rounded), `m331_standalone` (rounded), `m331_su3L_running` (rounded), `m331_three_generations` (rounded), `m331_zprime_recast` (rounded) |
-| sin²θ_W(M_Z), MS-bar | input | 0.23122 | PDG 2024 | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zprime_recast` (rounded) |
+| 1/α(M_Z), MS-bar | input | 127.951 | PDG 2024 | `ladder_standalone`, `m331_breaking`, `m331_exact` (rounded), `m331_heavy_lepton` (rounded), `m331_margin` (rounded), `m331_standalone` (rounded), `m331_su3L_running` (rounded), `m331_three_generations` (rounded), `m331_zpole` (rounded), `m331_zprime_recast` (rounded) |
+| sin²θ_W(M_Z), MS-bar | input | 0.23122 | PDG 2024 | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zpole` (variant), `m331_zprime_recast` (rounded) |
 | M_Z (GeV) | input | 91.1876 | PDG 2024 | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_yukawa`, `m331_zprime_recast`, `qcd_running` |
 | Γ_Z (GeV) | input | 2.4952 | PDG 2024 | `m331_heavy_lepton`, `m331_zprime_recast` |
 | G_F (GeV⁻²) | input | 1.166379e-5 | PDG 2024 | `ladder_standalone`, `m331_breaking` |
@@ -351,4 +375,6 @@ These are imported from their source by every script that uses them; a typed-in 
 
 Literals with at least three significant digits that appear in two or more scripts and match no catalogued quantity. Most are grid points or example values; any that is a physical quantity belongs in the catalogue.
 
-None.
+| Value | Scripts |
+|---|---|
+| 1.96 | `m331_rho_bound`, `short_range_gravity` |

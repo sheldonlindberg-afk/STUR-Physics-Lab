@@ -451,6 +451,47 @@ cover:
 Either changes the reach, not the RG condition. A future lepton or 100 TeV collider would
 settle it.
 
+## 3g. Above the Planck scale: asymptotically safe gravity
+
+Source: `src/m331_gravity_fixed_point.py`, output `results/m331/331_gravity_fixed_point.txt`.
+
+The selection stops at M_Pl. What happens above it? This section takes the
+asymptotic-safety estimate as a **MODEL**: above the Planck scale, gravity adds the same
+term −f_g g to every gauge β-function (Eichhorn and Versteegen, JHEP 01 (2018) 030;
+Eichhorn, Held and Wetterich, PLB 782 (2018) 198). Here f_g = f*/(1 + G* M_Pl²/μ²): it
+switches on as the dimensionless Newton coupling reaches its fixed point G*. Both f* and G*
+depend on the regulator, and neither is computed here. The running below the transition
+is the selection's own: three loops, Yukawas, thresholds, the α = 1 criterion.
+
+- **Only g_X can be predicted (G1).** With b > 0, β = bg³/16π² − fg has a fixed point
+  g*² = 16π²f/b. Its slope is +2f, so it is irrelevant: the coupling there is predicted.
+  For N_c = 3, b_X = 14 or 26/3, while SU(3)_L (−13/2) and colour (−5) are asymptotically
+  free. UV completion then asks g_X ≤ g_X* at the transition.
+- **The f* that puts the measured couplings on the fixed-point trajectory (G2):**
+
+  | G* | β = +1/√3 | β = −1/√3 | SM hypercharge, same profile |
+  |---|---|---|---|
+  | 0.5 | 0.246 | 0.0200 | 0.0097 |
+  | 1 | 0.293 | 0.0203 | 0.0098 |
+  | 2 | 0.359 | 0.0206 | 0.0099 |
+
+  β = −1/√3 needs about **2×** the gravity contribution the Standard Model's hypercharge
+  needs; β = +1/√3 needs about **30×**, because its g_X is already near its pole at M_Pl.
+- **The selection is unchanged (G3).** The N_c = 5 and 7 poles sit at 3×10⁸–10¹⁵ GeV, where
+  f_g is suppressed by (μ/M_Pl)² to below 10⁻⁷. Even the largest f* the criterion allows
+  (b_X/4π) moves them by less than 10⁻⁶.
+- **The heavy-lepton condition stands (G4).** With light heavy leptons, N_c = 3 fails at
+  0.61 M_Pl, before the transition. Gravity rescues it only with g_X* at 80–98% of √(4π),
+  the edge of the criterion (f* ≥ 0.72 at G* = 0.5, ≥ 1.07 at G* = 1), and not at all at
+  G* = 2.
+
+**What this gives (FOLLOWS).** One irrelevant coupling and one unknown f* give no
+prediction from the gauge sector alone. It becomes a test once an FRG computation for 3-3-1
+matter fixes f* and G*. A value near the Standard Model's benchmark would favour
+β = −1/√3 and disfavour β = +1/√3. Not included: the gravity terms in the Yukawa and
+quartic β-functions, which drive the Standard Model's Higgs-mass prediction from
+asymptotic safety.
+
 ## 3c. The scalar sector itself, to the Planck scale
 
 Source: `src/m331_scalar.py` and `src/rge_engine.py`, output
@@ -603,7 +644,19 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
     (2020)), and about 2.9 TeV for β = +1/√3 with 8 TeV data (Salazar et al., JHEP 07 (2015)
     096). Bilepton pairs are closed (M_Z′ = 1.225 M_V < 2 M_V). The 'every scalar open'
     column bounds Z′ → scalars, W_L W_L and Zh. Interference with Drell-Yan changes σB by
-    −3% to +2% within ±10% of the peak (about 15 GeV), and Z-Z′ mixing by < 0.4%;
+    −3% to +2% within ±10% of the peak (about 15 GeV), and Z-Z′ mixing by < 0.4%.
+    The ρ parameter alone is weaker. The tree-level Z–Z′ mixing gives
+    ρ − 1 = (v/w)²(sin²a − sin²a₀)², with tan a = v₂/v₁ and sin²a₀ = 0.35 (β = +1/√3) or
+    0.65 (β = −1/√3). So it vanishes at one ratio of the vacuum values. The global fit's
+    ρ₀ = 1.00039 ± 0.00019 (Erler, arXiv:1908.07346) gives w > 5.8 TeV at most. The LHC
+    gives w > 11.9 and 10.3 TeV for every a (`src/m331_rho_bound.py`; SYMMETRY_LADDER.md,
+    rung 1). The mixing also shifts the Z's fermion couplings at the same order. A tree-level
+    fit to 14 LEP/SLD Z-pole observables (`src/m331_zpole.py`) gives w > 7.5 TeV
+    (β = +1/√3) and 7.6 TeV (β = −1/√3) for every a and every choice of the odd quark
+    generation. Its method reproduces Erler et al.'s Z′_χ and Z′_ψ mixing bounds (JHEP 08
+    (2009) 017) to within 0.0004. That is stronger than ρ alone, but still 1.4–1.6× below
+    the LHC in w. Scalar loops in T go as λ²/16π², and for light heavy scalars they aren't
+    suppressed by v/w at all;
   - doubly or singly charged bilepton gauge bosons;
   - exotic quarks;
   - for β = +1/√3, three heavy charged leptons, vector-like SU(2) singlets. The selection
@@ -647,6 +700,9 @@ python3 src/m331_scalar.py             # the scalar sector to M_Pl (~4 min); 331
 python3 src/m331_zprime_recast.py      # the ATLAS 139 fb^-1 Z' recast (~1 s); zprime_recast.txt
 python3 src/m331_margin.py             # the beta = +1/sqrt3 margin vs mass floors (~50 s); margin.txt
 python3 src/m331_heavy_lepton.py       # heavy leptons vs LHC, HL-LHC (~5 s); heavy_lepton.txt
+python3 src/m331_gravity_fixed_point.py  # gravity above M_Pl, asymptotic safety (~70 s); 331_gravity_fixed_point.txt
+python3 src/m331_rho_bound.py          # rho from Z-Z' mixing vs the global fit and the LHC (~7 s); 331_rho_bound.txt
+python3 src/m331_zpole.py              # Z-pole fit of the mixing, validated on E6 Z' (~30 s); 331_zpole.txt
 python -m pytest tests/test_331_*.py -q
 ```
 

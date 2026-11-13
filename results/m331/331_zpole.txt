@@ -1,0 +1,37 @@
+
+==============================================================================
+Z1  SM baseline (LIT: LEP/SLD measurements, Gfitter SM predictions)
+==============================================================================
+   chi^2_SM = 14.2 for 14 observables;  without A0,b_FB: 9.6 for 13
+   pulls: GammaZ +0.2, sigma_had +1.4, R_l +0.8, AFB_l +0.9, A_l_LEP -0.1, A_l_SLD +2.0, s2eff_QFB +0.7, s2eff_Tevt -0.1, R_b +0.7, R_c -0.0, AFB_b -2.3, AFB_c -0.8, A_b -0.6, A_c +0.1
+
+==============================================================================
+Z2  Validation: E6 Z'_chi, Z'_psi against Erler et al. 2009 (95% CL, sin theta_ZZ')
+==============================================================================
+   Z'_chi, rho_0 = 1: here [-0.0015, +0.0008],  theirs [-0.0016, +0.0006]
+   Z'_psi, rho_0 = 1: here [-0.0022, +0.0008],  theirs [-0.0018, +0.0009]
+   Z'_psi, rho_0 free: here [-0.0022, +0.0008],  theirs [-0.0018, +0.0010]
+
+==============================================================================
+Z3  3-3-1 mixing: leading order against exact diagonalization (v/w = 0.04)
+==============================================================================
+   beta = +1/sqrt3, a = 0.2: theta +4.6513e-04 (formula +4.6316e-04),  rho - 1 1.5385e-04 (1.5365e-04)
+   beta = +1/sqrt3, a = 0.7: theta -9.8536e-05 (formula -9.8137e-05),  rho - 1 6.9050e-06 (6.8980e-06)
+   beta = +1/sqrt3, a = 1.3: theta -8.6882e-04 (formula -8.6552e-04),  rho - 1 5.3725e-04 (5.3655e-04)
+   beta = -1/sqrt3, a = 0.2: theta +9.1695e-04 (formula +9.1347e-04),  rho - 1 5.9846e-04 (5.9765e-04)
+   beta = -1/sqrt3, a = 0.7: theta +3.5358e-04 (formula +3.5217e-04),  rho - 1 8.8923e-05 (8.8832e-05)
+   beta = -1/sqrt3, a = 1.3: theta -4.1696e-04 (formula -4.1521e-04),  rho - 1 1.2364e-04 (1.2348e-04)
+
+==============================================================================
+Z4  Lower bound on w (95% CL) from the Z pole, worst over a; LHC for comparison
+==============================================================================
+   beta = +1/sqrt3, all       : worst 7.5 TeV (odd gen 1: 7.5, odd gen 2: 7.5, odd gen 3: 7.3);  LHC 11.9 TeV
+   beta = +1/sqrt3, no A0,b_FB: worst 6.0 TeV (odd gen 1: 6.0, odd gen 2: 6.0, odd gen 3: 5.7);  LHC 11.9 TeV
+      best 3-3-1 point (all): chi^2 lower by 0.5 at w = 2.2 TeV, sin^2 a = 0.375, odd gen 3
+      best 3-3-1 point (no A0,b_FB): chi^2 lower by 2.9 at w = 6.2 TeV, sin^2 a = 0.775, odd gen 3
+      vs sin^2 a (odd gen 3): 0.00: 5.1, 0.12: 4.3, 0.25: 2.9, 0.38: 1.1, 0.50: 2.9, 0.62: 4.1, 0.75: 5.2, 0.88: 6.2, 1.00: 7.3 TeV
+   beta = -1/sqrt3, all       : worst 7.6 TeV (odd gen 1: 7.6, odd gen 2: 7.6, odd gen 3: 7.5);  LHC 10.3 TeV
+   beta = -1/sqrt3, no A0,b_FB: worst 6.4 TeV (odd gen 1: 6.4, odd gen 2: 6.4, odd gen 3: 6.2);  LHC 10.3 TeV
+      best 3-3-1 point (all): chi^2 lower by 1.0 at w = 3.9 TeV, sin^2 a = 0.800, odd gen 3
+      best 3-3-1 point (no A0,b_FB): chi^2 lower by 2.1 at w = 5.2 TeV, sin^2 a = 1.000, odd gen 3
+      vs sin^2 a (odd gen 3): 0.00: 7.5, 0.12: 6.6, 0.25: 5.7, 0.38: 4.7, 0.50: 3.5, 0.62: 1.4, 0.75: 1.9, 0.88: 2.9, 1.00: 3.8 TeV

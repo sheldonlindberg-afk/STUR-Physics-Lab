@@ -1,0 +1,34 @@
+
+==============================================================================
+G1  Fixed points with the gravity term (CHECK, symbolic)
+==============================================================================
+   beta = b g^3/16pi^2 - f g:  g*^2 = 16*pi**2*f/b,  slope at g* = 2*f,  at 0 = -f
+   u = 1/g^2 solves u' = 2 f u - 2b/16pi^2 with u = u* + (u0 - u*) e^(2ft): True
+   beta = +1/sqrt3, N_c = 3: b_X = 14, b_L = -13/2, b_C = -5  ->  only g_X is predicted
+   beta = -1/sqrt3, N_c = 3: b_X = 26/3, b_L = -13/2, b_C = -5  ->  only g_X is predicted
+
+==============================================================================
+G2  f* that puts the measured couplings on the fixed-point trajectory (MODEL)
+==============================================================================
+      G*     +1/sqrt3     -1/sqrt3     SM g_Y
+     0.5       0.2461       0.0200     0.0097
+     1.0       0.2929       0.0203     0.0098
+     2.0       0.3592       0.0206     0.0099
+   ratio to the SM at G* = 1: +1/sqrt3 29.9, -1/sqrt3 2.07
+
+==============================================================================
+G3  The excluded N_c stay excluded (largest allowed f*, G* = 0.5)
+==============================================================================
+   beta = +1/sqrt3: f*_max = b_X / 4pi = 1.114
+   beta = -1/sqrt3: f*_max = b_X / 4pi = 0.690
+   beta = +1/sqrt3, N_c = 5: pole 5.186e+11 GeV without gravity, 5.186e+11 GeV with (f_g there ~ 4e-15)
+   beta = +1/sqrt3, N_c = 7: pole 2.966e+08 GeV without gravity, 2.966e+08 GeV with (f_g there ~ 1e-21)
+   beta = -1/sqrt3, N_c = 5: pole 1.135e+15 GeV without gravity, 1.135e+15 GeV with (f_g there ~ 1e-08)
+   beta = -1/sqrt3, N_c = 7: pole 9.033e+09 GeV without gravity, 9.033e+09 GeV with (f_g there ~ 8e-19)
+
+==============================================================================
+G4  Light heavy leptons (NOTE_331.md 3e: N_c = 3 fails at 0.61 M_Pl)
+==============================================================================
+   G* = 0.5: rescued for f* >= 0.723
+   G* = 1.0: rescued for f* >= 1.066
+   G* = 2.0: no f* <= 1.11 rescues it

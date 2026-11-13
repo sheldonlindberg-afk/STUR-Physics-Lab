@@ -1,0 +1,29 @@
+
+==============================================================================
+R1  rho - 1 = (v/w)^2 (sin^2 a - sin^2 a0)^2  (CHECK, symbolic, from B5)
+==============================================================================
+   beta = +1/sqrt3: sin^2 a0 = (3 - 2*x)/(2*x + 6);  B5 coefficient = closed form: True
+   beta = -1/sqrt3: sin^2 a0 = (4*x + 3)/(2*x + 6);  B5 coefficient = closed form: True
+   sum of the two sin^2 a0 = 1
+   vevs (X charge, component, vev) per triplet: +1/sqrt3: [(1/3, 2, w, [1, 2]), (1/3, 1, v_1, [1, 2]), (-2/3, 0, v_2, [0])]; -1/sqrt3: [(-1/3, 2, w, [0, 2]), (2/3, 1, v_1, [1]), (-1/3, 0, v_2, [0, 2])]
+
+==============================================================================
+R2  Where the mixing vanishes
+==============================================================================
+   beta = +1/sqrt3: sin^2 a0 = 0.350 (s2 at M_Z), 0.333 (s2 at 4 TeV);  tan a0 = 0.733
+   beta = -1/sqrt3: sin^2 a0 = 0.650 (s2 at M_Z), 0.667 (s2 at 4 TeV);  tan a0 = 1.364
+
+==============================================================================
+R3  The bound on w (LIT: rho_0 = 1.00039 +- 0.00019, Erler 2019)
+==============================================================================
+   v = 246.22 GeV;  rho_0 - 1 < 7.62e-04 at 95% CL
+   beta = +1/sqrt3: rho: w > 5.80 TeV at most (a = 0 or pi/2), none at a = a0;  LHC Z' > 4.6 TeV: M_V > 3.76 TeV, w > 11.88 TeV;  ratio 2.0
+   beta = -1/sqrt3: rho: w > 5.80 TeV at most (a = 0 or pi/2), none at a = a0;  LHC Z' > 4.0 TeV: M_V > 3.27 TeV, w > 10.32 TeV;  ratio 1.8
+   beta = +1/sqrt3, w bound from rho vs sin^2 a: 0.00: 3.12, 0.25: 0.89, 0.50: 1.34, 0.75: 3.57, 1.00: 5.80 TeV
+   beta = -1/sqrt3, w bound from rho vs sin^2 a: 0.00: 5.80, 0.25: 3.57, 0.50: 1.34, 0.75: 0.89, 1.00: 3.12 TeV
+
+==============================================================================
+R4  Can 3-3-1 explain the 2 sigma excess in rho_0?
+==============================================================================
+   beta = +1/sqrt3: central value needs w < 8.1 TeV; at the LHC bound rho - 1 <= 1.82e-04 (47% of the excess), leaving 1.1 sigma
+   beta = -1/sqrt3: central value needs w < 8.1 TeV; at the LHC bound rho - 1 <= 2.41e-04 (62% of the excess), leaving 0.8 sigma
