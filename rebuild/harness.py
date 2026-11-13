@@ -249,8 +249,10 @@ def tier_sensitivity(name, m):
         out.append(_sens("entangling phase ~ 1/hbar", hb))
     elif name == "desitter":
         D = m["desitter"]
-        out.append(_sens("ell is sqrt(3/Lambda)-shaped, not a constant",
-                         lambda: (_rel(D.ell_from_lambda(3.0), 1.0) < 1e-12, f"ell(3) = {D.ell_from_lambda(3.0)}")))
+        def ell_scaling():
+            a, b = D.ell_from_lambda(1e-52), D.ell_from_lambda(4e-52)
+            return _rel(a / b, 2) < 1e-12, f"ell(L)/ell(4L) = {a / b}"
+        out.append(_sens("ell ~ Lambda^-1/2, not a constant", ell_scaling))
     elif name == "blackholes":
         B = m["blackholes"]
         def nar():

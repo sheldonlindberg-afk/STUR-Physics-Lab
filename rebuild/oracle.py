@@ -83,7 +83,30 @@ def gauge331(m, L):
                     ok &= list(G.triplet_charges(X, var)) == L.triplet_charges(X, var)
                     ok &= list(G.triplet_charges(X, var, True)) == L.triplet_charges(X, var, True)
             return [(f"{var}: charges equal reference exactly", ok, "")]
-        out += _run([("mm", mm), ("charges", charges)])
+        def closed(var=var):
+            # closed-form derivation results, moved here from the blind checks (leak 3, build 2026-11-a)
+            g, gX, w, v1, v2 = 0.652, 0.79, 4000.0, 150.0, 190.0
+            beta = (-1 if var.startswith("-") else 1) / sqrt(3)
+            n = G.photon_direction(var, g, gX)
+            want = [0, 0, 1 / g, 0, 0, 0, 0, beta / g, 1 / gX]
+            cos = abs(sum(a * b for a, b in zip(n, want))) / (sqrt(sum(x * x for x in n)) * sqrt(sum(x * x for x in want)))
+            M = G.mass_matrix(var, g, gX, w, v1, v2)
+            v2s = v1 * v1 + v2 * v2
+            mw2 = (M[0][0] + M[1][1]) / 2
+            MZ2, MZp2 = G.neutral_masses(var, g, gX, w, v1, v2)
+            gY2 = 1 / (beta**2 / g**2 + 1 / gX**2)
+            eps = v2s / w**2
+            cw2 = g * g / (g * g + gY2)
+            rho = lambda W: (lambda A: (A[0][0] + A[1][1]) / 2)(G.mass_matrix(var, g, gX, W, v1, v2)) / \
+                (G.neutral_masses(var, g, gX, W, v1, v2)[0] * cw2)
+            r1, r2 = rho(w), rho(2 * w)
+            return [(f"{var}: photon along Q = T3 + beta T8 + X", abs(cos - 1) < 1e-12, f"cos {cos}"),
+                    _cmp(f"{var}: 1/e^2 = (1 + beta^2)/g^2 + 1/gX^2", G.inv_e2(var, g, gX), (1 + beta**2) / g**2 + 1 / gX**2, 1e-12),
+                    _cmp(f"{var}: M_W^2 = g^2 v^2/4", mw2, g * g * v2s / 4, 1e-12),
+                    _cmp(f"{var}: M_Z^2 = (g^2 + gY^2) v^2/4 at leading order", MZ2, (g * g + gY2) * v2s / 4, 5 * eps),
+                    _cmp(f"{var}: M_Z'^2 = (g^2 + beta^2 gX^2) w^2/3 at leading order", MZp2, (g * g + beta**2 * gX**2) * w * w / 3, 5 * eps),
+                    (f"{var}: rho >= 1 and rho - 1 ~ (v/w)^2", r1 > 1 and 3.9 < (r1 - 1) / (r2 - 1) < 4.1, f"rho - 1 = {r1 - 1:.3e}")]
+        out += _run([("mm", mm), ("charges", charges), ("closed", closed)])
 
     def data():
         v = G.vev_from_GF(L.G_F)
@@ -107,6 +130,9 @@ def chiral(m, L):
                       -1 / ((__import__("math").log(C.yukawa(1.01, L.M_PIC / L.HBARC_GEV_FM) * 1.01)
                              - __import__("math").log(C.yukawa(1.0, L.M_PIC / L.HBARC_GEV_FM) * 1.0)) / 0.01),
                       L.HBARC_GEV_FM / L.M_PIC, 1e-9))
+        for lam, v, H in ((2.0, 1.0, 0.05), (1.0, 2.0, 0.01)):
+            s0, mpi2 = C.sigma_model_vacuum(lam, v, H)
+            r.append(_cmp(f"m_pi^2 = H/<sigma> at the vacuum (lambda {lam}, v {v}, H {H})", mpi2, H / s0, 1e-5))
         r.append(_cmp("Goldberger-Treiman g_piNN = 13.01", C.goldberger_treiman(L.G_A, L.M_N, L.F_PI), L.G_A * L.M_N / L.F_PI, 1e-12))
         r.append(_cmp("Yukawa normalization", C.yukawa(0.7, 1.3), __import__("math").exp(-1.3 * 0.7) / (4 * pi * 0.7), 1e-12))
         return r
@@ -168,6 +194,7 @@ def desitter(m, L):
         return [("so(4,1) generators equal reference", ok, ""),
                 ("tetrad and spin connection equal reference (index convention included)", sc < 1e-12, f"diff {sc:.1e}"),
                 _cmp("eps R^e^e = 2 e R", cR, 2.0, 1e-6), _cmp("eps e^e^e^e = 24 e", cV, 24.0, 1e-9),
+                _cmp("Lambda l^2 = 3", 1.7e-52 * D.ell_from_lambda(1.7e-52) ** 2, 3.0, 1e-12),
                 _cmp("measured Lambda: l = 1.647e26 m (pinned)", D.ell_from_lambda(L.LAMBDA_SI), 1.647e26, 1e-3),
                 _cmp("MacDowell-Mansouri coupling 1.04e122 (pinned)", D.mm_coupling(L.LAMBDA_SI, L.L_PLANCK), 1.04e122, 1e-2)]
     return _run([("vals", vals)])
@@ -183,6 +210,11 @@ def blackholes(m, L):
         kb, kc = B.kappa_from_spin_connection(1.0, 9.0)
         fp = lambda x: 2 / x**2 - 2 * x / 81
         r += [_cmp("kappa_b from rung 5 = f'(r_b)/2", kb, fp(Rb) / 2, 1e-7), _cmp("kappa_c from rung 5", kc, -fp(Rc) / 2, 1e-7)]
+        f9 = lambda x: 1 - 2 / x - x * x / 81
+        r += [_cmp("Killing kappa_b = f'(r_b)/2", B.killing_kappa(f9, Rb * (1 + 1e-6), 1e-8 * Rb), fp(Rb) / 2, 1e-5),
+              _cmp("Killing kappa_c = -f'(r_c)/2", B.killing_kappa(f9, Rc * (1 - 1e-6), 1e-8 * Rc), -fp(Rc) / 2, 1e-5),
+              _cmp("Euclidean section smooth at period 2 pi/(f'/2)",
+                   B.euclidean_cone_ratio(f9, Rb, 2 * pi / (fp(Rb) / 2), 1e-7 * Rb), 1.0, 1e-5)]
         r.append(_cmp("Schwarzschild kappa = 1/4M", B.killing_kappa(lambda x: 1 - 2 / x, 2.0 + 2e-6, 2e-8), 0.25, 1e-5))
         rp, bc = B.photon_sphere()
         r += [_cmp("photon sphere 3M", rp, 3.0, 1e-7), _cmp("shadow radius sqrt(27) M", bc, sqrt(27), 1e-10)]

@@ -198,3 +198,61 @@ def test_every_connection_is_exercised(reference_report):
 def test_lint_rejects_from_stage_import(tmp_path):
     res = _lint(tmp_path, "graviton", "from toolkit import trapezoid\n")
     assert not res["imports: standard library, inputs, earlier stages only"][0]
+
+
+# Leaks 3 and 4 of build 2026-11-a: closed forms moved from the blind checks to the oracle.
+# Each mutant below has the right properties (passes the builder gate) and the wrong closed form.
+def test_wrong_charge_normalization_needs_the_oracle(tmp_path):
+    d = _mutant(tmp_path, "gauge331", """
+        _ie2 = inv_e2
+        def inv_e2(variant, g, gX):
+            return 1.01 * _ie2(variant, g, gX)    # still homogeneous, still above 1/g^2 and 1/gX^2
+    """)
+    assert harness.run(d, mode="builder", lint=False)["ok"]
+    rep = harness.run(d, mode="verifier", lint=False)
+    fails = [l for l, ok, _ in rep["stages"]["gauge331"]["oracle"] if not ok]
+    assert fails == ["-1/sqrt3: 1/e^2 = (1 + beta^2)/g^2 + 1/gX^2", "+1/sqrt3: 1/e^2 = (1 + beta^2)/g^2 + 1/gX^2"]
+
+
+def test_wrong_kappa_normalization_needs_the_oracle(tmp_path):
+    # kappa doubled everywhere, and the Euclidean ratio redefined to match: self-consistent, wrong
+    d = _mutant(tmp_path, "blackholes", """
+        _kk, _ks, _ec = killing_kappa, kappa_from_spin_connection, euclidean_cone_ratio
+        def killing_kappa(f, r0, h):
+            return 2 * _kk(f, r0, h)
+        def kappa_from_spin_connection(M, l):
+            return tuple(2 * k for k in _ks(M, l))
+        def euclidean_cone_ratio(f, rh, beta, eps):
+            return _ec(f, rh, 2 * beta, eps)
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert [l for l, ok, _ in rep["stages"]["blackholes"]["blind"] if not ok] == []
+    rep = harness.run(d, mode="verifier", lint=False)
+    fails = {l for l, ok, _ in rep["stages"]["blackholes"]["oracle"] if not ok}
+    assert {"Killing kappa_b = f'(r_b)/2", "Killing kappa_c = -f'(r_c)/2", "Euclidean section smooth at period 2 pi/(f'/2)"} <= fails
+
+
+def test_wrong_lambda_relation_needs_the_oracle(tmp_path):
+    d = _mutant(tmp_path, "desitter", """
+        def ell_from_lambda(Lam):
+            return (2 / Lam) ** 0.5               # the right scaling, the wrong coefficient
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert [l for l, ok, _ in rep["stages"]["desitter"]["sensitivity"] if not ok] == []
+    rep = harness.run(d, mode="verifier", lint=False)
+    fails = [l for l, ok, _ in rep["stages"]["desitter"]["oracle"] if not ok]
+    assert "Lambda l^2 = 3" in fails
+
+
+def test_wrong_pion_mass_needs_the_oracle(tmp_path):
+    d = _mutant(tmp_path, "chiral", """
+        _sv = sigma_model_vacuum
+        def sigma_model_vacuum(lam, v, H):
+            s0, m2 = _sv(lam, v, H)
+            return s0, 1.01 * m2                  # still positive and linear in H
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert [l for l, ok, _ in rep["stages"]["chiral"]["blind"] if not ok] == []
+    rep = harness.run(d, mode="verifier", lint=False)
+    fails = [l for l, ok, _ in rep["stages"]["chiral"]["oracle"] if not ok]
+    assert len(fails) == 2 and all(l.startswith("m_pi^2 = H/<sigma>") for l in fails)
