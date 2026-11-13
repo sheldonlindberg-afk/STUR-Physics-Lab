@@ -14,7 +14,8 @@ desitter update, with no information about build a. Framework state at the start
 |---|---|---|---|---|
 | toolkit | pass | (none needed) | 1/1 | 1f2b8ea |
 | gauge331 | pass | 1/1 | 18/18 | caf1bf2 |
-| chiral | pass | 1/1 | 7/7 | (this commit) |
+| chiral | pass | 1/1 | 7/7 | 035377e |
+| casimir | pass | 1/1 | 6/6 | (this commit) |
 
 ## Notes per stage
 
@@ -25,3 +26,8 @@ desitter update, with no information about build a. Framework state at the start
   its own analytic Hessian (the blind check no longer shows that form; leak 6 was closed first).
   The Hessian route is in its self-check. The a/b probe should agree to rounding; both differ from the
   reference's 1e-6 (F1).
+- **casimir (fully blind):** 23/4 computed by exact polynomial algebra, with a trapezoid route; safe gap
+  1.811072783e-4 m by `toolkit.bisect` on a derived bracket. Neither 23/4 nor the gap was visible to
+  this builder (leaks 1 and 2 were closed before build b). `cp_energy` is tagged quoted (the CP formula),
+  the r^-7 reduction derived. Spec gap noted: SPEC §4 doesn't state the gravity potential used in the
+  safe-gap ratio (the builder used -G m^2/r, as the blind check does).

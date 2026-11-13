@@ -67,3 +67,29 @@ No missing inputs. `chpt_mpi` is quoted (allowed); everything else is derived. A
    dominance and smoothness of g_A(q^2) are PCAC assumptions; the overall sign convention is not tracked (modulus only).
 9. **Lint note:** the self-check could not use m = 1.3 as a test mass because 1.3 coincides with an entry of
    inputs.py (GW_M2 error); 1.5 is used instead. No effect on exports.
+
+## Stage `casimir`
+
+No missing inputs. `cp_energy` rests on the quoted fluctuation formula (allowed); everything else is derived.
+Ambiguities and the choice made:
+
+1. **Gravity in the safe-gap criterion.** SPEC section 4 says "gravity phase" without giving the potential, and
+   this stage may not import `graviton` (a later stage). Resolved: U_G = -G m^2/r (inputs.G_NEWTON) is assumed
+   here; it is derived from graviton exchange only in stage `graviton`. blind/checks.py uses the same form.
+2. **"Smallest gap".** The phase ratio is C/(G m^2) sum_{j=0..6} gap^-(6-j) d^-j, strictly decreasing in the gap,
+   so the safe set is [g*, oo) and the smallest safe gap is the unique root. The bracket is derived
+   (g0 < g* < 7^(1/6) g0, g0 = (C/(fraction G m^2))^(1/6)), widened by 1e-9 relative; bisection runs to float
+   resolution. The ratio is evaluated in the factored form (no cancellation), not from differences of energies.
+3. **Geometric validity not enforced.** gap >= 2R (no overlap) and gap >> R (point dipoles, retarded regime,
+   constant alpha) are not imposed; for an extreme `fraction` the returned root could be unphysical. At the
+   baseline gap/R is about 206.
+4. **tau.** Cancels identically; accepted and required positive, otherwise unused. m <= 0, tau <= 0 or
+   fraction <= 0 raise ValueError.
+5. **`sphere_K` types.** float eps -> float; anything else (int, Fraction) is converted with Fraction(eps) and
+   returns a Fraction. eps = -2 (no static solution) raises ZeroDivisionError.
+6. **`green_tensor` at r = 0** raises ValueError; entries are floats. Sign convention as SPEC states
+   (G = (k^2 delta - dd) e^(-kr)/r; at k = 0, (delta - 3nn)/r^3).
+7. **`cp_integral` normalization.** Taken literally from the contract: int (1/2) r^6 Tr[G.G] du, so that
+   U = -(hbar c/pi) I alpha1 alpha2/r^7.
+8. **Lint note:** the self-check's sample count is written 4 * 10 ** 4 because integer literals above 10000 are
+   rejected. No effect on exports.
