@@ -15,7 +15,8 @@ desitter update, with no information about build a. Framework state at the start
 | toolkit | pass | (none needed) | 1/1 | 1f2b8ea |
 | gauge331 | pass | 1/1 | 18/18 | caf1bf2 |
 | chiral | pass | 1/1 | 7/7 | 035377e |
-| casimir | pass | 1/1 | 6/6 | (this commit) |
+| casimir | pass | 1/1 | 6/6 | dfea68b |
+| graviton | pass | 2/2 | 5/5 | (this commit) |
 
 ## Notes per stage
 
@@ -31,3 +32,7 @@ desitter update, with no information about build a. Framework state at the start
   this builder (leaks 1 and 2 were closed before build b). `cp_energy` is tagged quoted (the CP formula),
   the r^-7 reduction derived. Spec gap noted: SPEC §4 doesn't state the gravity potential used in the
   safe-gap ratio (the builder used -G m^2/r, as the blind check does).
+- **graviton (fully blind):** design_phase = 2.187786760330193 rad at its own Casimir root, the same as
+  build a's 2.18779 and the verifier's mpmath 2.187786760309 (to 1e-11, the trapezoid error). The
+  exchange normalization (1/2 h T with 16 pi G) is now in SPEC §5 and was not guessed. PPN gamma = 1 and
+  the light ratio 2 were visible as blind-check targets (see build a's log, auditor's call).

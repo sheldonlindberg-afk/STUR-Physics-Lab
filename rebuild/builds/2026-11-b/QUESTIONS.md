@@ -93,3 +93,28 @@ Ambiguities and the choice made:
    U = -(hbar c/pi) I alpha1 alpha2/r^7.
 8. **Lint note:** the self-check's sample count is written 4 * 10 ** 4 because integer literals above 10000 are
    rejected. No effect on exports.
+
+## Stage `graviton`
+
+No missing inputs; nothing quoted. Ambiguities and the choice made:
+
+1. **Units of the stress tensors in the exchange.** SPEC gives the amplitude only as "proportional to T2.P.T1".
+   The normalization is derived as U = -(1/2)(16 pi G)(T2.P.T1) yukawa(r, 0) (coupling h T/2 times the field
+   equation's source strength). The code uses unit rest-frame tensors (1,0,0,0) times m1 m2, i.e. c cancels
+   analytically (T^00 = m c^2, G -> G/c^4) and inputs.C_LIGHT is never read. Motion corrections O(v^2/c^2) to
+   the stress tensors (v ~ 1e-3 m/s) and retardation are dropped: the potential is the static one.
+2. **`ramp_profile` with ramp = 0.** SPEC's formula divides by ramp. Resolved as the limit: s = 1 on [0, T],
+   0 outside. For ramp > 0, t outside [0, T] gives 0 through the clamp.
+3. **`ramp_profile` boundaries.** "t < ramp" uses the opening branch, ramp <= t <= ramp + hold returns exactly 1,
+   later t the closing branch; the pieces agree at the joints, so the choice of closed/open ends is immaterial.
+4. **Return type of `ramp_profile`.** Returns int 0/1 at exact endpoints and in the hold, float elsewhere
+   (contract says "float in [0, 1]"; values compare equal).
+5. **Trapezoid sampling.** t_i = T i/(n-1), i = 0..n-1, spacing T/(n-1); the hold/ramp joints are generally not
+   on the grid. The integrand is assembled as [-2U(gap) + 2U(d_cross)] per sample (energies in J), integrated
+   by toolkit.trapezoid and divided by hbar at the end. A build that factors G m^2/hbar out of the sum
+   differs at the 1e-15 relative level. Trapezoid error at n = 4001 for design A is ~1e-11 relative (vs Simpson).
+6. **`tpt` with non-Fraction entries.** Ints are promoted to Fraction (result Fraction); floats pass through and
+   give a float. The contract only specifies Fractions.
+7. **`point_mass_metric` units.** "GM/(c^2 r)" with h_mn having lower indices and signature (-,+,+,+), so
+   g_00 = -1 + h00 GM/(c^2 r); the sign convention h00 > 0 follows from eta_00 = -1 and is what the blind check
+   expects.
