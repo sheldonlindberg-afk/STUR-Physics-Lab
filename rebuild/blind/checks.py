@@ -597,9 +597,13 @@ def links(m):
         return ok and _rel(w2 / w1, 4) < 1e-12 and _rel(w3 / w1, (5 / 3) ** 2) < 1e-12, "N_c(Q_u^2 - Q_d^2) = 1; ~ alpha^2 N_c^2"
 
     def mpl():
+        # property, not formula: at the window's edges M_Pl(x G) equals the poles
         a, b = Lk.planck_mass_GeV(6.6e-11, 1e-34, 3e8), Lk.planck_mass_GeV(4 * 6.6e-11, 1e-34, 3e8)
-        lo, hi = Lk.g_window(4e19, 5e11, 1.2e19)
-        return _rel(a / b, 2) < 1e-12 and lo < 1 < hi and _rel(lo, (1.2 / 4) ** 2) < 1e-12, "M_Pl ~ G^-1/2, window edges"
+        lo, hi = Lk.g_window(4e19, 5e11, a)
+        e1 = Lk.planck_mass_GeV(lo * 6.6e-11, 1e-34, 3e8) / 4e19
+        e2 = Lk.planck_mass_GeV(hi * 6.6e-11, 1e-34, 3e8) / 5e11
+        return _rel(a / b, 2) < 1e-12 and lo < hi and abs(e1 - 1) < 1e-12 and abs(e2 - 1) < 1e-12, \
+            "M_Pl ~ G^-1/2; M_Pl(x G) hits each pole at the window's edges"
 
     def rs():
         return _rel(Lk.schwarzschild_radius(2.0) / Lk.schwarzschild_radius(1.0), 2) < 1e-12, "linear in m"
@@ -616,14 +620,16 @@ def links(m):
         return _rel(a, b) < 1e-12, f"{a:.4f} eV"
 
     def planck_bh():
+        # property, not formula: it must be rung 6's temperature at link 3's mass, and scale as 1/M
         import inputs
         kT = Lk.planck_bh_kT_GeV()
-        mpl = Lk.planck_mass_GeV(inputs.G_NEWTON, inputs.HBAR, inputs.C_LIGHT)
-        return _rel(kT * 8 * pi, mpl) < 1e-12, "k_B T_H = M_Pl c^2 / 8 pi exactly"
+        mpl_kg = Lk.planck_mass_GeV(inputs.G_NEWTON, inputs.HBAR, inputs.C_LIGHT) * 1e9 * inputs.E_CH / inputs.C_LIGHT**2
+        want = inputs.K_B * m["blackholes"].hawking_K(mpl_kg) / inputs.E_CH / 1e9
+        return _rel(kT, want) < 1e-12 and kT > 0, f"k_B T_H(M_Pl) = {kT:.4e} GeV"
 
     return run_safely([("rung 1's charges make matter neutral", matter),
                        ("pi0 width from rung 1's charges", pi0_rungs),
-                       ("Planck-mass black hole: k_B T = M_Pl/8 pi", planck_bh),
+                       ("Planck-mass black hole: rung 6's temperature at link 3's mass", planck_bh),
                        ("neutral matter is an anomaly identity", anomaly),
                        ("neutrality requirement independent of size", neutral_size_free),
                        ("pi0: anomaly factor 1 for all N_c, width scaling", pi0),

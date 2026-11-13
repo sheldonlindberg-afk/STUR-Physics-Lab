@@ -33,7 +33,7 @@ verifier and auditor can weigh the results. Builders never see this file.
 | casimir | pass | 1/1 | 6/6 | 84c09f7 |
 | graviton | pass | 2/2 (rung 2 -> 4, rung 3 -> 4) | 5/5 | 8289cae |
 | desitter | pass | (none; rung 6 calls it) | 6/6 | b8e7f2a |
-| blackholes | pass | 3/3 (rung 5 -> 6 twice, toolkit) | 19/19 | (this commit) |
+| blackholes | pass | 3/3 (rung 5 -> 6 twice, toolkit) | 18/18 | (this commit) |
 
 ## Notes per stage
 
