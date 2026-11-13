@@ -73,3 +73,21 @@
 5. **Equal masses.** entangling_phase(m, ...) uses m1 = m2 = m; branch separation 2y = dx s(t), so dx
    is the full branch separation during the hold (consistent with casimir's d_LR = sqrt(gap^2 + dx^2)).
 6. design_phase uses the default n = 4001 (as the blind check's comparison does).
+
+## desitter
+
+1. **Epsilon sign convention for (cR, cV).** The contract does not fix the sign of eps_abcd. I take the
+   plain permutation symbol (toolkit.levi_civita) for the LOWERED Lorentz symbol, eps_{0123} = +1, and
+   eps~^{0123} = +1 for the coordinate density (4-form component on dt^dr^dth^dph). This gives
+   (cR, cV) = (2, 24). The opposite convention (eps^{0123} = +1, lowered with eta) flips both to (-2, -24);
+   the ratio cV/(4 cR) = 3 = Lambda l^2 is convention independent. Flagged for the cross-build comparison.
+2. **"e R" normalization.** e = det(e^a_mu) (positive for the diagonal tetrad), R = R^{ab}_{mu nu} E_a^mu E_b^nu.
+   cR is the ratio of the two literal contractions at the given geometry (numerically 2 to ~1e-15).
+3. **so(4,1) components of F.** F = sum_{A<B} F^{AB} J_AB (equivalently (1/2) F^{AB} J_AB over all A, B), so
+   F^{ab} = F^a_c eta^{cb} (Lorentz block) and F^{a4} = (F)^a_4. With this normalization F^{a4} = T^a/l
+   exactly as SPEC states.
+4. **mm_coupling** is returned as the positive ratio l^2/lP^2 = 3/(lP^2 Lambda) per the contract; the MM
+   prefactor N itself is -l^2/(32 pi G cR) (sign set by the overall action sign), not exported.
+5. **ell_from_lambda** uses the exact Fraction coefficients (from levi_civita contractions alone) rather than
+   the finite-difference geometric ones, so it is exact (sensitivity tier requires 1e-12); action_coefficients
+   is the geometric route and agrees to ~1e-15.

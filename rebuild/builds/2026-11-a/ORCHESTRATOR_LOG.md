@@ -9,6 +9,7 @@ verifier and auditor can weigh the results. Builders never see this file.
 |---|---|---|---|---|---|
 | 1 | The exact fluctuation integral **23/4** and the entangling phase **2.19 rad** | SPEC.md line 5 ("no 2.19 rad, no 23/4") | the builders of toolkit, gauge331, chiral and casimir | the orchestrator, after the casimir builder reported leak 2 | yes, before graviton was built |
 | 2 | A probe gap of **1.81e-4 m** (the Casimir-safe gap, to 3 digits) | harness.py, the crossbuild PROBES | the casimir builder, who reported it and says it didn't use it | the casimir builder | yes, before graviton was built (probe now 2.0e-4 m) |
+| 4 | The relation **l = sqrt(3/Lambda)** (the result of rung 5's action) | harness.py sensitivity tier: `ell_from_lambda(3.0) == 1` | the desitter builder, who flagged it; it derived Lambda l^2 = 3 from exact eps contractions, (cR, cV) = (2, 24) | the desitter builder | no: open for build b (test the scaling l ~ Lambda^-1/2 instead) |
 | 3 | **Closed forms** that are themselves derivation results: M_W², the leading-order M_Z² and M_Z'², 1/e² = \|n\|², the photon direction, and κ = \|f′\|/2 | blind/checks.py, which builders may read | the gauge331 builder (and the later blackholes builder) | the orchestrator | no: open for build b (move these comparisons into the oracle and keep only identities and limits in the blind checks) |
 
 **How much this weakens the results:**
@@ -30,7 +31,8 @@ verifier and auditor can weigh the results. Builders never see this file.
 | gauge331 | pass | 1/1 | 6/6 | 790b163 |
 | chiral | pass | 1/1 | 5/5 | 9c717e7 |
 | casimir | pass | 1/1 | 6/6 | 84c09f7 |
-| graviton | pass | 2/2 (rung 2 -> 4, rung 3 -> 4) | 5/5 | (this commit) |
+| graviton | pass | 2/2 (rung 2 -> 4, rung 3 -> 4) | 5/5 | 8289cae |
+| desitter | pass | (none; rung 6 calls it) | 6/6 | (this commit) |
 
 ## Notes per stage
 
@@ -41,3 +43,11 @@ verifier and auditor can weigh the results. Builders never see this file.
   limit, with ∫up² = 23/60 exactly, and showed Δφ is the only phase combination invariant under
   local branch phase shifts. Spec gap to close for build b: the ½hT matter coupling that
   normalizes "amplitude ∝ T·P·T" is not written in SPEC §5 (QUESTIONS, graviton 3).
+- **desitter:** l = 1.6473e26 m and coupling 1.0387e122 from the measured Lambda. (cR, cV) = (2, 24)
+  exactly, from literal eps contractions. **Not fully blind for Lambda l^2 = 3** (leak 4).
+  Spec gap for build b: the eps sign convention (eps_0123 = +1 and eps^0123 = +1) is not fixed,
+  so a second build could get (-2, -24) and fail the cross-build probe on sign alone. The
+  builder also notes two checks that are weak by construction: cR = 2 is insensitive to a wrong
+  R^ab when the tetrad is diagonal, and the Lorentz block of the split residual is nearly an
+  identity. Auditor: strengthen both (e.g. an off-diagonal tetrad, and R^ab checked against the
+  metric's curvature).
