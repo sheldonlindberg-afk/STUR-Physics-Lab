@@ -59,8 +59,8 @@ Pythia 8).
 - Planck-scale perturbativity;
 - the measured TeV-scale electroweak couplings, which are an input, not a prediction.
   In the β = +1/√3 variant there is no comfortable margin. At α = 1 (three loops), N_c = 3
-  reaches M_Pl only if the heavy charged leptons are heavier than 0.56 ± 0.11 TeV with M_V
-  at its LHC bound (0.96 TeV at M_V = 10 TeV). Lighter ones are not yet excluded by the
+  reaches M_Pl only if the heavy charged leptons are heavier than 0.58 ± 0.12 TeV with M_V
+  at its LHC bound (1.00 TeV at M_V = 10 TeV). Lighter ones are not yet excluded by the
   LHC, and they push N_c = 3 below M_Pl too
   ([`src/m331_margin.py`](src/m331_margin.py); [NOTE_331.md §3e](NOTE_331.md)).
   The condition is on the three leptons' geometric-mean mass. Run 2 allows it down to
@@ -124,7 +124,7 @@ scale to the two diamonds, with every step derived and checked in code:
   nucleon; the measured limit, 10⁻²¹ e, is 280× tighter. **π⁰ → γγ:** rung 1's charges and the measured f_π
   give 7.79 eV, against PrimEx's 7.80 ± 0.12 eV, for any N_c. **The Planck mass:** the 3-3-1
   selection's cutoff is √(ħc/G) with the diamond experiment's G; the selection would survive
-  G 8.4× weaker or 10¹⁴× stronger at the reference spectrum, and G 1.6× weaker at the
+  G 8.2× weaker or 10¹⁴× stronger at the reference spectrum, and G 1.6× weaker at the
   worst point of the threshold scan. **Black holes:** the diamond's Schwarzschild radius is a
   millionth of the Planck length, and a Planck-mass black hole has k_BT = M_Pl c²/8π.
 

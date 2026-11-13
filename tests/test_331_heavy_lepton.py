@@ -41,4 +41,4 @@ def test_hl_lhc():
     res = H.hl_reach()
     assert abs(res["e"][0][0] - 735) < 10 and abs(res["tau"][0][0] - 455) < 10
     mz, MV, a, b = H.hl_threshold()
-    assert abs(mz - 5500) < 20 and abs(a - 621) < 8
+    assert abs(mz - 5500) < 20 and abs(a - 646) < 8

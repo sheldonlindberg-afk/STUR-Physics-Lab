@@ -18,7 +18,7 @@ def test_one_loop_matching_scale_independence():
 def test_heavy_content_and_constants():
     for v in ("-1/sqrt3", "+1/sqrt3"):
         assert np.allclose(T.lambdas(T.heavy_spectrum(3, v, 4e3), 4e3), [1, 1, 0])   # MS-bar vector constant
-    assert abs(T.mzp_over_mv(0.2504) - 1.225) < 1e-3
+    assert abs(T.mzp_over_mv(0.2505) - 1.225) < 1e-3
 
 
 def test_verdict_at_the_worst_spectrum():
@@ -33,4 +33,4 @@ def test_margin_and_reference_output():
     u = T.s2_upper_thr("+1/sqrt3", MV=4e3, rJ=0.5, rS=1 / 3, n_light=2)
     assert abs(u - 0.2608) < 5e-4
     ref = open(REF).read()
-    assert "Margin range +0.0104 to +0.0347" in ref and "only N_c = 3 survives" in ref
+    assert "Margin range +0.0102 to +0.0345" in ref and "only N_c = 3 survives" in ref

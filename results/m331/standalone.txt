@@ -50,52 +50,52 @@ S4  SU(3)_L one-loop running (g_L = g_2 at 4 TeV)  =>  N_c >= 7 excluded
 ==============================================================================
 S5  U(1)_X two-loop running from 4 TeV: where does a coupling reach g = 4 pi?
 ==============================================================================
-   1/alpha_X(4 TeV) = 83.76;  Planck scale = 1.22e+19 GeV
+   1/alpha_X(4 TeV) = 83.73;  Planck scale = 1.22e+19 GeV
    SM top Yukawa at 4 TeV: y_t = 0.827
    beta = -1/sqrt3
-     N_c = N_g = 3: a = ( 8.67, -6.50,  -5.00)  blow-up 2.95e+29 GeV (no Yukawas), 4.65e+29 GeV (y_t, y_J = 1)  -> above Planck
-     N_c = N_g = 5: a = (19.33, -0.50,  -8.33)  blow-up 1.29e+15 GeV (no Yukawas), 1.60e+15 GeV (y_t, y_J = 1)  -> BELOW Planck
-     N_c = N_g = 7: a = (34.44,  8.17, -11.67)  blow-up 9.73e+09 GeV (no Yukawas), 1.10e+10 GeV (y_t, y_J = 1)  -> BELOW Planck
+     N_c = N_g = 3: a = ( 8.67, -6.50,  -5.00)  blow-up 2.90e+29 GeV (no Yukawas), 4.56e+29 GeV (y_t, y_J = 1)  -> above Planck
+     N_c = N_g = 5: a = (19.33, -0.50,  -8.33)  blow-up 1.28e+15 GeV (no Yukawas), 1.59e+15 GeV (y_t, y_J = 1)  -> BELOW Planck
+     N_c = N_g = 7: a = (34.44,  8.17, -11.67)  blow-up 9.69e+09 GeV (no Yukawas), 1.10e+10 GeV (y_t, y_J = 1)  -> BELOW Planck
    beta = +1/sqrt3
-     N_c = N_g = 3: a = (14.00, -6.50,  -5.00)  blow-up 3.98e+19 GeV (no Yukawas), 6.21e+19 GeV (y_t, y_J = 1)  -> above Planck
-     N_c = N_g = 5: a = (27.33, -0.50,  -8.33)  blow-up 5.50e+11 GeV (no Yukawas), 6.82e+11 GeV (y_t, y_J = 1)  -> BELOW Planck
-     N_c = N_g = 7: a = (45.11,  8.17, -11.67)  blow-up 3.06e+08 GeV (no Yukawas), 3.46e+08 GeV (y_t, y_J = 1)  -> BELOW Planck
-   beta = +1/sqrt3 margin: N_c = 3 reaches M_Pl for sin^2 theta_W(4 TeV) < 0.2663 (measured 0.2504)
+     N_c = N_g = 3: a = (14.00, -6.50,  -5.00)  blow-up 3.93e+19 GeV (no Yukawas), 6.14e+19 GeV (y_t, y_J = 1)  -> above Planck
+     N_c = N_g = 5: a = (27.33, -0.50,  -8.33)  blow-up 5.47e+11 GeV (no Yukawas), 6.78e+11 GeV (y_t, y_J = 1)  -> BELOW Planck
+     N_c = N_g = 7: a = (45.11,  8.17, -11.67)  blow-up 3.05e+08 GeV (no Yukawas), 3.45e+08 GeV (y_t, y_J = 1)  -> BELOW Planck
+   beta = +1/sqrt3 margin: N_c = 3 reaches M_Pl for sin^2 theta_W(4 TeV) < 0.2662 (measured 0.2505)
    [PASS] y_t(4 TeV) = 0.827
    [PASS] two-loop blow-ups for N_c = 3, 5, 7, both variants, with and without Yukawas, match
    [PASS] only N_c = 3 reaches the Planck scale (both variants)
-   [PASS] beta = +1/sqrt3 tree-level margin: sin^2 theta_W < 0.2663
+   [PASS] beta = +1/sqrt3 tree-level margin: sin^2 theta_W < 0.2662
 
 ==============================================================================
 S6  One-loop threshold matching at the 3-3-1 scale, two-loop running, Yukawas on
 ==============================================================================
    Check: at one loop the N_c = 3 pole must not depend on the matching scale mu.
-   spread in ln(pole) for mu = M_V/3 ... 3 M_V: 1.7e-13
+   spread in ln(pole) for mu = M_V/3 ... 3 M_V: 2.7e-13
    [PASS] thresholds make the one-loop pole independent of the matching scale
    Scanning 72 spectra per variant: r_J = m_exotic/M_V in {0.5, 1, 2, 3}, r_S in {1/3, 1, 3},
    M_V in {2, 4, 10} TeV, second doublet heavy or light (N_c = 5 at its best mu of M_V/3, M_V, 3 M_V).
-   beta = -1/sqrt3: worst N_c = 3 pole = 2.44e+29 GeV = 2e+10 M_Pl;  best N_c = 5 pole = 7.17e+15 GeV
+   beta = -1/sqrt3: worst N_c = 3 pole = 2.39e+29 GeV = 1.96e+10 M_Pl;  best N_c = 5 pole = 7.11e+15 GeV
    [PASS] beta = -1/sqrt3: worst N_c = 3 > M_Pl > best N_c = 5, values match the repository
-   beta = +1/sqrt3: worst N_c = 3 pole = 2.00e+19 GeV = 1.64 M_Pl;  best N_c = 5 pole = 3.76e+12 GeV
+   beta = +1/sqrt3: worst N_c = 3 pole = 1.98e+19 GeV = 1.62 M_Pl;  best N_c = 5 pole = 3.73e+12 GeV
    [PASS] beta = +1/sqrt3: worst N_c = 3 > M_Pl > best N_c = 5, values match the repository
-   beta = +1/sqrt3 at the LHC Z' bound (M_Z' >= 4.6 TeV, M_V >= 3.76 TeV), worst spectrum: 2.17 M_Pl
-   beta = +1/sqrt3, worst spectrum: N_c = 3 needs sin^2 theta_W(4 TeV) < 0.2608 (measured 0.2504)
-   [PASS] beta = +1/sqrt3 at the LHC bound: 2.17 M_Pl
-   [PASS] beta = +1/sqrt3 threshold margin: sin^2 theta_W < 0.2608
+   beta = +1/sqrt3 at the LHC Z' bound (M_Z' >= 4.6 TeV, M_V >= 3.76 TeV), worst spectrum: 2.14 M_Pl
+   beta = +1/sqrt3, worst spectrum: N_c = 3 needs sin^2 theta_W(4 TeV) < 0.2607 (measured 0.2505)
+   [PASS] beta = +1/sqrt3 at the LHC bound: 2.14 M_Pl
+   [PASS] beta = +1/sqrt3 threshold margin: sin^2 theta_W < 0.2607
 
 ==============================================================================
 S6b The narrow variant (beta = +1/sqrt3) against mass floors, criterion alpha = 1
 ==============================================================================
    Floors: M_V >= 3.755 TeV (Z' >= 4.6 TeV), exotic quarks m_J >= 1.3 TeV,
    heavy charged leptons m_E >= 0.1 TeV (LEP), heavy scalars >= 0.1 TeV. Two loops.
-   all masses at the floors: N_c = 3 pole = 0.579 M_Pl;  N_c = 5 pole = 1.0e-08 M_Pl
-   N_c = 3 reaches M_Pl only if m_E >= 684 GeV (two loops; the repository's three-loop
-   value is 561 +- 113 GeV, src/m331_margin.py). With three E the condition is on their
+   all masses at the floors: N_c = 3 pole = 0.572 M_Pl;  N_c = 5 pole = 1.0e-08 M_Pl
+   N_c = 3 reaches M_Pl only if m_E >= 712 GeV (two loops; the repository's three-loop
+   value is 584 +- 118 GeV, src/m331_margin.py). With three E the condition is on their
    geometric mean. Run 2 allows that mean down to ~0.24 TeV, so the LHC has not tested it;
    the HL-LHC reaches about the threshold (src/m331_heavy_lepton.py).
-   [PASS] beta = +1/sqrt3, light heavy leptons: N_c = 3 falls below M_Pl at alpha = 1 (0.579 M_Pl)
+   [PASS] beta = +1/sqrt3, light heavy leptons: N_c = 3 falls below M_Pl at alpha = 1 (0.572 M_Pl)
    [PASS] beta = +1/sqrt3: N_c = 5 stays excluded at the same floors
-   [PASS] beta = +1/sqrt3: N_c = 3 needs m_E >= 684 GeV at two loops
+   [PASS] beta = +1/sqrt3: N_c = 3 needs m_E >= 712 GeV at two loops
 
 ==============================================================================
 S7  Data cross-check: R(e+e- -> hadrons) below charm vs KEDR 2.225 +- 0.051
@@ -119,8 +119,8 @@ VERDICT
    TeV-scale electroweak couplings (an input, not a prediction). In the beta = -1/sqrt3
    variant the margins are wide. In the beta = +1/sqrt3 variant the selection is a
    condition, not a margin: N_c = 3 reaches M_Pl at alpha = 1 only if the three heavy
-   charged leptons are heavy enough (geometric mean >= 561 +- 113 GeV at three loops,
+   charged leptons are heavy enough (geometric mean >= 584 +- 118 GeV at three loops,
    S6b at two loops). The LHC has not tested this; the HL-LHC reaches about the threshold.
 
-   Checks passed: 23/23   (14 s)
+   Checks passed: 23/23   (11 s)
    ALL CHECKS PASS

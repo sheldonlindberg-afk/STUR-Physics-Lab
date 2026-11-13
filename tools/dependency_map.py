@@ -127,22 +127,19 @@ q("l_Pl", "Planck length √(ħG/c³) (m)", lambda: math.sqrt(hbar * G0 / c0**3)
   "√(ħG/c³) from G, ħ, c (this tool)")
 q("Lambda", "cosmological constant Λ (m⁻²)", 1.1056e-52, "input", "Planck 2018 +BAO, 3H₀²Ω_Λ/c²")
 q("ainv0", "1/α(0)", 137.035999084, "input", "CODATA 2018", match=1e-6)
-q("ainvMZ", "1/α(M_Z), MS-bar", 127.951, "input", "PDG 2024",
+q("ainvMZ", "1/α(M_Z), MS-bar", 127.930, "input", "PDG 2024",
   note="with sin²θ_W(M_Z) it fixes the U(1)_X start of every 3-3-1 run")
-q("s2MZ", "sin²θ_W(M_Z), MS-bar", 0.23122, "input", "PDG 2024",
+q("s2MZ", "sin²θ_W(M_Z), MS-bar", 0.23129, "input", "PDG 2024",
   variants={0.2312: "ATLAS's Z′_SSM convention, quoted as ATLAS uses it (m331_zprime_recast)",
             0.23153: "sin²θ_eff (leptonic), the Gfitter SM value: the base of the tree-level Z couplings "
                      "in m331_zpole, a different quantity from the MS-bar angle"})
-q("MZ", "M_Z (GeV)", 91.1876, "input", "PDG 2024", match=1e-4)
-q("GZ", "Γ_Z (GeV)", 2.4952, "input", "PDG 2024")
+q("MZ", "M_Z (GeV)", 91.1880, "input", "PDG 2024", match=1e-4)
+q("GZ", "Γ_Z (GeV)", 2.4955, "input", "PDG 2024")
 q("GF", "G_F (GeV⁻²)", 1.1663788e-5, "input", "PDG 2024")
 q("v", "electroweak vev (√2 G_F)^(−1/2) (GeV)", lambda: (math.sqrt(2) * 1.1663788e-5) ** -0.5, "derived",
   "src/m331_breaking.py B7", note="derived in rung 1 and retyped in the 3-3-1 Yukawa scripts")
 q("as", "α_s(M_Z)", 0.1180, "input", "PDG 2024", match=1e-4)
-q("mt", "top-quark mass (GeV)", 172.57, "input", "PDG 2024", match=1e-3,
-  variants={172.69: "PDG 2022 value, used only as the α_s flavour threshold (qcd_running and its "
-                    "copy in m331_standalone); α_s(4 TeV) moves by {mt_eff:+.1e} if it is changed to "
-                    "172.57"})
+q("mt", "top-quark mass (GeV)", 172.57, "input", "PDG 2024", match=1e-3)
 q("s2TeV", "sin²θ_W(4 TeV)", lambda: cached("ew", lambda: _ew_at(4e3))[0], "derived",
   "one-loop SM running from M_Z (m331_exact.run_two_loop)", match=2e-3)
 q("ainvTeV", "1/α(4 TeV)", lambda: cached("ew", lambda: _ew_at(4e3))[1], "derived",
@@ -162,7 +159,7 @@ q("cond", "\\|⟨q̄q⟩\\|^(1/3) (GeV)", 0.272, "input", "FLAG 19 (restated in 
 q("mumd", "m_u, m_d (GeV)", 2.16e-3, "input", "PDG 2024", match=1e-4)
 q("mc_mb", "m_c (GeV), MS-bar, α_s threshold", 1.27, "input", "PDG 2024", match=1e-6)
 q("mb", "m_b (GeV), MS-bar, α_s threshold", 4.18, "input", "PDG 2024", match=1e-6)
-q("g2MZ", "SU(2) coupling g at M_Z, √(4πα)/sinθ_W", lambda: math.sqrt(4 * math.pi / 127.951 / 0.23122), "derived",
+q("g2MZ", "SU(2) coupling g at M_Z, √(4πα)/sinθ_W", lambda: math.sqrt(4 * math.pi / 127.930 / 0.23129), "derived",
   "from 1/α(M_Z) and sin²θ_W(M_Z) (this tool)", match=2e-3, same=1e-3)
 q("gpiNN", "empirical g_πNN (approximate)", 13.1, "input", "LIT", match=1e-6)
 q("KEDR", "R-ratio below charm, KEDR (1.84–3.05 GeV)", 2.225, "input", "Anashin et al. 2017", match=1e-6)

@@ -20,15 +20,15 @@ Z2  Widths of the ATLAS benchmarks (CHECK against the paper: 3%, 0.5%, 1.2%)
 ==============================================================================
    Z'_SSM : Gamma/M = 2.99%,  BR(ee) = 3.08%
    Z'_psi : Gamma/M = 0.53%,  BR(ee) = 4.44%
-   Z'_chi : Gamma/M = 1.16%,  BR(ee) = 6.06%
+   Z'_chi : Gamma/M = 1.17%,  BR(ee) = 6.06%
 
 ==============================================================================
 Z3  Method validation: predict ATLAS's Z'_psi and Z'_chi curves from Z'_SSM (CHECK)
 ==============================================================================
    psi  PDF4LHC21: Gamma/M = 0.53%  limit 4.53 TeV [ATLAS curve x HEPData limit: 4.54; quoted 4.5]  pred/ATLAS - 1 at 3.0-5.0 TeV: +0% +0% -1% -1% -3%
    psi  NNPDF3.1 : Gamma/M = 0.53%  limit 4.51 TeV [ATLAS curve x HEPData limit: 4.54; quoted 4.5]  pred/ATLAS - 1 at 3.0-5.0 TeV: -1% -1% -4% -6% -10%
-   chi  PDF4LHC21: Gamma/M = 1.16%  limit 4.81 TeV [ATLAS curve x HEPData limit: 4.79; quoted 4.8]  pred/ATLAS - 1 at 3.0-5.0 TeV: -4% -4% -4% +1% +4%
-   chi  NNPDF3.1 : Gamma/M = 1.16%  limit 4.96 TeV [ATLAS curve x HEPData limit: 4.79; quoted 4.8]  pred/ATLAS - 1 at 3.0-5.0 TeV: +1% +4% +11% +27% +43%
+   chi  PDF4LHC21: Gamma/M = 1.17%  limit 4.81 TeV [ATLAS curve x HEPData limit: 4.79; quoted 4.8]  pred/ATLAS - 1 at 3.0-5.0 TeV: -4% -4% -4% +1% +4%
+   chi  NNPDF3.1 : Gamma/M = 1.17%  limit 4.96 TeV [ATLAS curve x HEPData limit: 4.79; quoted 4.8]  pred/ATLAS - 1 at 3.0-5.0 TeV: +1% +4% +11% +27% +43%
    SSM  PDF4LHC21: Gamma/M = 2.99%  limit 5.08 TeV [ATLAS curve x HEPData limit: 5.08; quoted 5.1]  (identity)
    SSM  NNPDF3.1 : Gamma/M = 2.99%  limit 5.08 TeV [ATLAS curve x HEPData limit: 5.08; quoted 5.1]  (identity)
 
@@ -40,48 +40,48 @@ Z4  The beta = +-1/sqrt3 Z': 95% CL lower mass limits, ATLAS 139 fb^-1 (this rec
    Decays: SM fermions only; SM+exotic: every exotic fermion open and massless;
    everything: also every scalar-triplet component massless (an overcounting upper bound on
    the width, including W_L W_L and Z h). Bilepton pairs are closed: M_Z' = 1.225 M_V < 2 M_V.
-   Couplings at sin^2 theta_W = 0.2504 (4 TeV) unless noted.
+   Couplings at sin^2 theta_W = 0.2505 (4 TeV) unless noted.
 
    beta = +1/sqrt3
    assignment  decays    s^2     PDF         Gamma/M   BR(ee)   obs limit  exp limit
-   A           SM        0.2504  PDF4LHC21     1.68%   6.58%    5.21 TeV   5.18 TeV
-   A           SM        0.2504  NNPDF3.1      1.68%   6.58%    5.16 TeV   5.13 TeV
+   A           SM        0.2505  PDF4LHC21     1.68%   6.59%    5.21 TeV   5.18 TeV
+   A           SM        0.2505  NNPDF3.1      1.68%   6.59%    5.16 TeV   5.13 TeV
    A           SM        0.2312  PDF4LHC21     1.69%   6.33%    5.20 TeV   5.17 TeV
-   A           SM+exotic 0.2504  PDF4LHC21     3.27%   3.38%    4.89 TeV   4.86 TeV
-   A           SM+exotic 0.2504  NNPDF3.1      3.27%   3.38%    4.85 TeV   4.81 TeV
+   A           SM+exotic 0.2505  PDF4LHC21     3.27%   3.39%    4.89 TeV   4.86 TeV
+   A           SM+exotic 0.2505  NNPDF3.1      3.27%   3.39%    4.85 TeV   4.81 TeV
    A           SM+exotic 0.2312  PDF4LHC21     3.42%   3.13%    4.86 TeV   4.82 TeV
-   A           everything 0.2504  PDF4LHC21     3.64%   3.04%    4.83 TeV   4.80 TeV
-   A           everything 0.2504  NNPDF3.1      3.64%   3.04%    4.79 TeV   4.76 TeV
+   A           everything 0.2505  PDF4LHC21     3.64%   3.04%    4.83 TeV   4.80 TeV
+   A           everything 0.2505  NNPDF3.1      3.64%   3.04%    4.79 TeV   4.76 TeV
    A           everything 0.2312  PDF4LHC21     3.82%   2.81%    4.79 TeV   4.76 TeV
-   B           SM        0.2504  PDF4LHC21     1.68%   6.58%    5.03 TeV   5.00 TeV
-   B           SM        0.2504  NNPDF3.1      1.68%   6.58%    4.98 TeV   4.96 TeV
+   B           SM        0.2505  PDF4LHC21     1.68%   6.59%    5.03 TeV   5.00 TeV
+   B           SM        0.2505  NNPDF3.1      1.68%   6.59%    4.98 TeV   4.96 TeV
    B           SM        0.2312  PDF4LHC21     1.69%   6.33%    5.03 TeV   5.00 TeV
-   B           SM+exotic 0.2504  PDF4LHC21     3.27%   3.38%    4.71 TeV   4.67 TeV
-   B           SM+exotic 0.2504  NNPDF3.1      3.27%   3.38%    4.66 TeV   4.63 TeV
+   B           SM+exotic 0.2505  PDF4LHC21     3.27%   3.39%    4.71 TeV   4.67 TeV
+   B           SM+exotic 0.2505  NNPDF3.1      3.27%   3.39%    4.66 TeV   4.63 TeV
    B           SM+exotic 0.2312  PDF4LHC21     3.42%   3.13%    4.68 TeV   4.65 TeV
-   B           everything 0.2504  PDF4LHC21     3.64%   3.04%    4.64 TeV   4.61 TeV
-   B           everything 0.2504  NNPDF3.1      3.64%   3.04%    4.60 TeV   4.58 TeV
+   B           everything 0.2505  PDF4LHC21     3.64%   3.04%    4.64 TeV   4.61 TeV
+   B           everything 0.2505  NNPDF3.1      3.64%   3.04%    4.60 TeV   4.58 TeV
    B           everything 0.2312  PDF4LHC21     3.82%   2.81%    4.62 TeV   4.59 TeV
 
    beta = -1/sqrt3
    assignment  decays    s^2     PDF         Gamma/M   BR(ee)   obs limit  exp limit
-   A           SM        0.2504  PDF4LHC21     1.15%   3.85%    4.79 TeV   4.75 TeV
-   A           SM        0.2504  NNPDF3.1      1.15%   3.85%    4.75 TeV   4.71 TeV
+   A           SM        0.2505  PDF4LHC21     1.15%   3.85%    4.79 TeV   4.75 TeV
+   A           SM        0.2505  NNPDF3.1      1.15%   3.85%    4.75 TeV   4.71 TeV
    A           SM        0.2312  PDF4LHC21     1.19%   3.73%    4.79 TeV   4.76 TeV
-   A           SM+exotic 0.2504  PDF4LHC21     3.09%   1.43%    4.05 TeV   4.24 TeV
-   A           SM+exotic 0.2504  NNPDF3.1      3.09%   1.43%    4.03 TeV   4.21 TeV
+   A           SM+exotic 0.2505  PDF4LHC21     3.09%   1.43%    4.05 TeV   4.24 TeV
+   A           SM+exotic 0.2505  NNPDF3.1      3.09%   1.43%    4.03 TeV   4.21 TeV
    A           SM+exotic 0.2312  PDF4LHC21     3.27%   1.36%    4.04 TeV   4.23 TeV
-   A           everything 0.2504  PDF4LHC21     3.46%   1.28%    3.99 TeV   4.17 TeV
-   A           everything 0.2504  NNPDF3.1      3.46%   1.28%    3.98 TeV   4.15 TeV
+   A           everything 0.2505  PDF4LHC21     3.46%   1.28%    3.99 TeV   4.17 TeV
+   A           everything 0.2505  NNPDF3.1      3.46%   1.28%    3.98 TeV   4.15 TeV
    A           everything 0.2312  PDF4LHC21     3.67%   1.21%    3.98 TeV   4.16 TeV
-   B           SM        0.2504  PDF4LHC21     1.15%   3.85%    4.96 TeV   4.93 TeV
-   B           SM        0.2504  NNPDF3.1      1.15%   3.85%    4.93 TeV   4.89 TeV
+   B           SM        0.2505  PDF4LHC21     1.15%   3.85%    4.96 TeV   4.93 TeV
+   B           SM        0.2505  NNPDF3.1      1.15%   3.85%    4.93 TeV   4.89 TeV
    B           SM        0.2312  PDF4LHC21     1.19%   3.73%    4.96 TeV   4.92 TeV
-   B           SM+exotic 0.2504  PDF4LHC21     3.09%   1.43%    4.39 TeV   4.43 TeV
-   B           SM+exotic 0.2504  NNPDF3.1      3.09%   1.43%    4.36 TeV   4.40 TeV
+   B           SM+exotic 0.2505  PDF4LHC21     3.09%   1.43%    4.39 TeV   4.43 TeV
+   B           SM+exotic 0.2505  NNPDF3.1      3.09%   1.43%    4.36 TeV   4.40 TeV
    B           SM+exotic 0.2312  PDF4LHC21     3.27%   1.36%    4.36 TeV   4.40 TeV
-   B           everything 0.2504  PDF4LHC21     3.46%   1.28%    4.19 TeV   4.37 TeV
-   B           everything 0.2504  NNPDF3.1      3.46%   1.28%    4.16 TeV   4.34 TeV
+   B           everything 0.2505  PDF4LHC21     3.46%   1.28%    4.19 TeV   4.37 TeV
+   B           everything 0.2505  NNPDF3.1      3.46%   1.28%    4.16 TeV   4.34 TeV
    B           everything 0.2312  PDF4LHC21     3.67%   1.21%    4.16 TeV   4.34 TeV
 
 ==============================================================================
@@ -90,7 +90,7 @@ Z6  Interference with Drell-Yan (LO line shape, PDF4LHC21)
    (full - (gamma + Z) - Z' alone) / Z' alone, integrated over |m - M| < window:
    model                      M       +-2% M     +-5% M    +-10% M
    beta = +1/sqrt3, A       4.5 TeV     -0.4%     -1.3%     -3.0%
-   beta = +1/sqrt3, A       5.0 TeV     -0.5%     -1.5%     -3.3%
+   beta = +1/sqrt3, A       5.0 TeV     -0.5%     -1.5%     -3.4%
    beta = +1/sqrt3, B       4.5 TeV     +0.2%     +0.6%     +1.5%
    beta = +1/sqrt3, B       5.0 TeV     +0.2%     +0.7%     +1.6%
    beta = -1/sqrt3, A       4.5 TeV     -0.3%     -0.8%     -1.8%

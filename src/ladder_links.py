@@ -53,9 +53,9 @@ L3  The Planck mass: rung 4 -> rung 1. The 3-3-1 selection asks every coupling t
   L3b How much the selection leans on G. M_Pl scales as G^(-1/2), so with G -> x G the
       selection holds while (M_Pl / pole_3)^2 < x < (M_Pl / pole_5)^2. At the reference
       spectrum (M_V = 4 TeV, Yukawas and thresholds on, alpha = 1, three loops,
-      src/m331_three_loop.py): beta = +1/sqrt3 holds for 0.12 < x < 5e14, beta = -1/sqrt3 for
+      src/m331_three_loop.py): beta = +1/sqrt3 holds for 0.12 < x < 6e14, beta = -1/sqrt3 for
       3e-21 < x < 1e8. G is measured to 2.2e-5 (CODATA 2018). The narrow side is
-      beta = +1/sqrt3: with G 8.4x weaker, M_Pl would rise above N_c = 3's pole and exclude
+      beta = +1/sqrt3: with G 8.2x weaker, M_Pl would rise above N_c = 3's pole and exclude
       it. (CHECK)
   L3c At the mass floors with light heavy leptons (NOTE_331.md section 3e), N_c = 3 fails at
       the measured G (0.61 M_Pl); it would pass only if G were 2.7x stronger. The heavy-lepton
@@ -66,15 +66,15 @@ L3  The Planck mass: rung 4 -> rung 1. The 3-3-1 selection asks every coupling t
       the effective cutoff, which this check does not cover. (FOLLOWS)
   L3e The window over the heavy spectrum. L3b uses one reference spectrum. Over the
       threshold scan of NOTE_331.md section 3a (r_J, r_S, M_V, light doublets: 72 points,
-      src/m331_threshold.py GRID), beta = +1/sqrt3's N_c = 3 pole runs from 1.28 to 16 M_Pl,
-      so the lower edge of the window runs from x = 0.004 to 0.61. At the scan's worst point
+      src/m331_threshold.py GRID), beta = +1/sqrt3's N_c = 3 pole runs from 1.26 to 16 M_Pl,
+      so the lower edge of the window runs from x = 0.004 to 0.63. At the scan's worst point
       (M_V = 2 TeV, r_J = 0.5, r_S = 1/3, two light doublets) the selection fails for G only
       1.6x weaker. The upper edge (N_c = 5) and beta = -1/sqrt3 stay many orders of magnitude
-      away. So L3b's 8.4x is the reference spectrum's margin, not the model's. (CHECK)
+      away. So L3b's 8.2x is the reference spectrum's margin, not the model's. (CHECK)
   L3f Gravity's own term in the gauge running at M_Pl (src/m331_gravity_fixed_point.py). With
       the gravity contribution set to the strength that keeps the Standard Model's
       hypercharge finite (f* = 0.0098 at G* = 1, the benchmark of G2 there), the reference
-      pole moves from 2.89 to 2.98 M_Pl and the worst-case pole from 1.28 to 1.29 M_Pl: 3%
+      pole moves from 2.86 to 2.94 M_Pl and the worst-case pole from 1.26 to 1.27 M_Pl: 3%
       or less, against the factor of 13 that the spectrum spans. The threshold spectrum, not
       gravity's running, sets how close the edge comes. (CHECK, given that model)
 Labels: CHECK, FOLLOWS, KNOWN, LIT, MODEL (L3f's gravity term).

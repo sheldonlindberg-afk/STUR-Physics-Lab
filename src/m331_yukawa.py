@@ -31,7 +31,7 @@ from scipy.optimize import brentq
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import m331_exact as E
 
-MZ, MT_POLE = 91.1876, 172.57
+MZ, MT_POLE = 91.1880, 172.57
 M_PLANCK = E.M_PLANCK
 MU331 = 4e3
 

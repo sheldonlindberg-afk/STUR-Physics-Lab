@@ -24,7 +24,7 @@ from math import log, pi, sqrt
 import numpy as np
 from scipy.integrate import solve_ivp
 
-MZ, ainv, s2 = 91.1876, 127.95, 0.23122
+MZ, ainv, s2 = 91.1880, 127.930, 0.23129      # PDG 2024 (MS-bar)
 M_PLANCK = 1.22089e19
 
 

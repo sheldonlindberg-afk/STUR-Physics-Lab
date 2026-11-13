@@ -36,16 +36,21 @@ value kept, attribution corrected; **open** = a discrepancy recorded but not cha
 | f_π | 130.2 MeV | 130.2(1.2), decay-constant review eq. (72.14) | ok (a lattice average) |
 | heavy charged lepton floor | 100 GeV | > 100.8 GeV (L → νW) | ok (rounded) |
 | exotic-quark floor | 1.3 TeV, "1.3–1.6 TeV" | t′ 1280–1350, b′ 1350–1570, T₅/₃ 1460 GeV | ok (the low end is 1.28) |
-| **sin²θ̂_W(M_Z)** | **0.23122** | **0.23129(4)** | **open**: 0.23122 is PDG 2018 |
-| **1/α̂⁽⁵⁾(M_Z)** | **127.951 (127.95)** | **127.930(8)** | **open**: 127.951 is PDG 2022 |
-| **M_Z** | **91.1876** | **91.1880(20)** | **open**: 91.1876 is PDG 2022 and earlier |
-| **Γ_Z (labelled PDG 2024)** | **2.4952** | **2.4955(23)** | **open**: 2.4952 is LEP/SLD 2005, as `m331_zpole` correctly says |
+| **sin²θ̂_W(M_Z)** | **0.23122** | **0.23129(4)** | **fixed**: 0.23122 was PDG 2018 |
+| **1/α̂⁽⁵⁾(M_Z)** | **127.951 (127.95)** | **127.930(8)** | **fixed**: 127.951 was PDG 2022 |
+| **M_Z** | **91.1876** | **91.1880(20)** | **fixed**: 91.1876 was PDG 2022 and earlier |
+| **Γ_Z (labelled PDG 2024)** | **2.4952** | **2.4955(23)** | **fixed** where labelled PDG; the Z-pole fit keeps LEP/SLD's 2.4952 as measured |
 
-The four open rows are labelled "PDG 2024" in the code but come from older editions. The
-3-3-1 results depend on them: moving to PDG 2024 shifts the β = +1/√3 reference pole from
-2.893 to 2.859 M_Pl and the worst case from 1.276 to 1.262 M_Pl (about 1%). No conclusion
-changes, but most pinned 3-3-1 numbers change in the third digit. Left for the author to
-decide between relabelling and updating.
+The four rows were labelled "PDG 2024" in the code but came from older editions. They are
+now the PDG 2024 values everywhere (and the α_s flavour threshold uses m_t = 172.57, not
+PDG 2022's 172.69). Every 3-3-1 output was regenerated. The shifts are about 1% in the
+poles and do not change any conclusion: the β = +1/√3 reference pole goes from 2.893 to
+2.859 M_Pl (the G window's narrow side from 8.4× to 8.2×), the worst case over the scan
+from 1.276 to 1.262 M_Pl (1.63× to 1.59×), the heavy-lepton threshold from m_E* = 561 ± 113
+to 584 ± 118 GeV (HL-LHC case 621 → 646 GeV), and the one-loop point where sin²θ_W reaches
+¼ in the minimal model from 3.68 to 3.63 TeV. NOTE_331.md, the paper source, the site and
+the tests carry the new numbers. paper/note331.pdf was not rebuilt (no TeX in this
+environment).
 
 ## Lattice inputs (FLAG, read from the arXiv TeX sources)
 

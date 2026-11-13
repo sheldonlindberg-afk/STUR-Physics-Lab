@@ -56,11 +56,11 @@ FULL_SCAN = True          # S6: scan the whole heavy spectrum (False: only its t
 # ----------------------------------------------------------------------------------------
 # Inputs (PDG; MS-bar at M_Z)
 # ----------------------------------------------------------------------------------------
-MZ = 91.1876              # GeV
-AINV_MZ = 127.95          # 1/alpha_em(M_Z)
-S2_MZ = 0.23122           # sin^2 theta_W(M_Z)
+MZ = 91.1880              # GeV, PDG 2024
+AINV_MZ = 127.930         # 1/alpha_em(M_Z), PDG 2024
+S2_MZ = 0.23129           # sin^2 theta_W(M_Z), PDG 2024
 ALPHA_S_MZ = 0.1180
-QUARK_THRESHOLDS = (1.27, 4.18, 172.69)    # m_c, m_b, m_t for alpha_s flavour matching
+QUARK_THRESHOLDS = (1.27, 4.18, 172.57)    # m_c, m_b, m_t for alpha_s flavour matching
 MT_POLE = 172.57
 V_EW = 246.22
 M_PLANCK = 1.22089e19     # GeV
@@ -504,7 +504,7 @@ def s5():
           all(rows_ok))
     check("only N_c = 3 reaches the Planck scale (both variants)",
           all(blow_up(3, v) > M_PLANCK > blow_up(5, v) for v in VARIANTS))
-    check("beta = +1/sqrt3 tree-level margin: sin^2 theta_W < 0.2663", abs(s_up - 0.2663) < 5e-4)
+    check("beta = +1/sqrt3 tree-level margin: sin^2 theta_W < 0.2662", abs(s_up - 0.2662) < 5e-4)
 
 
 # ----------------------------------------------------------------------------------------
@@ -577,9 +577,9 @@ def s6():
     print(f"   beta = +1/sqrt3 at the LHC Z' bound (M_Z' >= 4.6 TeV, M_V >= 3.76 TeV), worst spectrum:"
           f" {p_lhc / M_PLANCK:.3g} M_Pl")
     u = bisect(lambda x: log(pole(3, "+1/sqrt3", 4e3, 0.5, 1 / 3, 2, s2=x) / M_PLANCK), 0.15, 0.70)
-    print(f"   beta = +1/sqrt3, worst spectrum: N_c = 3 needs sin^2 theta_W(4 TeV) < {u:.4f} (measured 0.2504)")
-    check("beta = +1/sqrt3 at the LHC bound: 2.17 M_Pl", close(p_lhc / M_PLANCK, 2.17))
-    check("beta = +1/sqrt3 threshold margin: sin^2 theta_W < 0.2608", abs(u - 0.2608) < 5e-4)
+    print(f"   beta = +1/sqrt3, worst spectrum: N_c = 3 needs sin^2 theta_W(4 TeV) < {u:.4f} (measured 0.2505)")
+    check("beta = +1/sqrt3 at the LHC bound: 2.14 M_Pl", close(p_lhc / M_PLANCK, 2.14))
+    check("beta = +1/sqrt3 threshold margin: sin^2 theta_W < 0.2607", abs(u - 0.2607) < 5e-4)
 
 
 # ----------------------------------------------------------------------------------------
@@ -626,13 +626,13 @@ def s6b():
     g = lambda lm: log(pole_split(3, f["MV"], f["mJ"], exp(lm), f["mS"], f["n_light"]) / M_PLANCK)
     m_star = exp(bisect(g, log(100.0), log(3000.0), tol=1e-4))
     print(f"   N_c = 3 reaches M_Pl only if m_E >= {m_star:.0f} GeV (two loops; the repository's three-loop")
-    print("   value is 561 +- 113 GeV, src/m331_margin.py). With three E the condition is on their")
+    print("   value is 584 +- 118 GeV, src/m331_margin.py). With three E the condition is on their")
     print("   geometric mean. Run 2 allows that mean down to ~0.24 TeV, so the LHC has not tested it;")
     print("   the HL-LHC reaches about the threshold (src/m331_heavy_lepton.py).")
-    check("beta = +1/sqrt3, light heavy leptons: N_c = 3 falls below M_Pl at alpha = 1 (0.579 M_Pl)",
-          p3 < 1 and close(p3, 0.579, 0.01))
+    check("beta = +1/sqrt3, light heavy leptons: N_c = 3 falls below M_Pl at alpha = 1 (0.572 M_Pl)",
+          p3 < 1 and close(p3, 0.572, 0.01))
     check("beta = +1/sqrt3: N_c = 5 stays excluded at the same floors", p5 < 1e-6)
-    check("beta = +1/sqrt3: N_c = 3 needs m_E >= 684 GeV at two loops", close(m_star, 684.0, 0.01))
+    check("beta = +1/sqrt3: N_c = 3 needs m_E >= 712 GeV at two loops", close(m_star, 712.0, 0.01))
 
 
 # ----------------------------------------------------------------------------------------
@@ -667,7 +667,7 @@ def main():
     print("   TeV-scale electroweak couplings (an input, not a prediction). In the beta = -1/sqrt3")
     print("   variant the margins are wide. In the beta = +1/sqrt3 variant the selection is a")
     print("   condition, not a margin: N_c = 3 reaches M_Pl at alpha = 1 only if the three heavy")
-    print("   charged leptons are heavy enough (geometric mean >= 561 +- 113 GeV at three loops,")
+    print("   charged leptons are heavy enough (geometric mean >= 584 +- 118 GeV at three loops,")
     print("   S6b at two loops). The LHC has not tested this; the HL-LHC reaches about the threshold.")
     print(f"\n   Checks passed: {n_ok}/{len(CHECKS)}   ({time.time() - t0:.0f} s)")
     for label, ok in CHECKS:

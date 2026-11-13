@@ -18,8 +18,8 @@ R1  rho - 1 = (v/w)^2 (sin^2 a - sin^2 a0)^2 exactly at leading order in v/w, wi
     mixing vanishes at one ratio of the two electroweak vacuum values. The two values add
     to 1: the variants are mirror images under v1 <-> v2 (in B0's labelling the vevs sit
     in different triplets). (CHECK, symbolic)
-R2  Numbers. With s2 at M_Z (0.23122): sin^2 a0 = 0.350 (+1/sqrt3) and 0.650 (-1/sqrt3);
-    with s2 at 4 TeV (0.2504): 0.333 and 0.667. (CHECK)
+R2  Numbers. With s2 at M_Z (0.23129): sin^2 a0 = 0.350 (+1/sqrt3) and 0.650 (-1/sqrt3);
+    with s2 at 4 TeV (0.2505): 0.333 and 0.667. (CHECK)
 R3  The bound. rho_0 - 1 < 7.6e-4 (95% CL, two-sided) gives
         w > v |sin^2 a - sin^2 a0| / sqrt(7.6e-4),
     at most 5.8 TeV (at a = 0 or pi/2, whichever is farther from a0), and no bound at
@@ -97,7 +97,7 @@ def x_of(s2):
 
 
 def s2_tev():
-    """sin^2 theta_W at 4 TeV from the selection's own boundary (0.2504)."""
+    """sin^2 theta_W at 4 TeV from the selection's own boundary (0.2505)."""
     import m331_yukawa as Y
     ainv = Y.boundary(MV_REF)[0]
     aY_inv = ainv[0] + ainv[1] / 3                 # 1/g_Y^2 = 1/g_X^2 + (1/3)/g_L^2

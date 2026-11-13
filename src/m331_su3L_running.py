@@ -15,7 +15,7 @@ mu_331 = 4 TeV with g_2 from one-loop Standard Model running (front 6 inputs).
 """
 from math import log, pi, exp
 
-MZ, ainv, s2 = 91.1876, 127.95, 0.23122
+MZ, ainv, s2 = 91.1880, 127.930, 0.23129      # PDG 2024 (MS-bar)
 M_PLANCK = 1.22089e19
 
 

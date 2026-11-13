@@ -56,7 +56,7 @@ WHAT IT COMPUTES
               pi0 -> gamma gamma (rung 1 -> 2): rung 1's charges and rung 2's f_pi give the
               measured width (f_pi is a measured input; the test is the anomaly normalization).
               The Planck mass (rung 4 -> 1): the 3-3-1 selection's cutoff is sqrt(hbar c / G),
-              with the G of the diamond experiment; the selection holds for G down to 8.4x
+              with the G of the diamond experiment; the selection holds for G down to 8.2x
               weaker at the reference spectrum, 1.6x weaker at the worst point of the
               threshold scan (Landau poles from src/m331_three_loop.py, carried as numbers).
               Black holes (rung 6 -> 4 and link 3): the diamond's Schwarzschild radius is a
@@ -87,9 +87,9 @@ import time
 # unchanged), which moves no printed result.
 # ----------------------------------------------------------------------------------------
 G_F = 1.1663788e-5            # GeV^-2, Fermi constant
-MZ_MEAS = 91.1876             # GeV
-ALPHA_MZ_INV = 127.951        # 1/alpha_em(M_Z), MS-bar
-S2_MZ = 0.23122               # sin^2 theta_W(M_Z), MS-bar
+MZ_MEAS = 91.1880             # GeV, PDG 2024
+ALPHA_MZ_INV = 127.930        # 1/alpha_em(M_Z), MS-bar, PDG 2024
+S2_MZ = 0.23129               # sin^2 theta_W(M_Z), MS-bar, PDG 2024
 MU_PLUS_MD = 2.16e-3 + 4.70e-3   # GeV, m_u + m_d, MS-bar 2 GeV
 MU_PLUS_MD_ERR = sqrt(0.07e-3**2 + 0.07e-3**2)   # GeV, PDG 2024: m_u, m_d each +- 0.07 MeV
 F_PI = 0.1302 / sqrt(2)       # GeV, f_pi = 92.1 MeV
@@ -117,11 +117,11 @@ L_PLANCK = 1.616255e-35       # m
 # M_V = 4 TeV, Yukawas and thresholds on, alpha = 1, three loops. Computed by
 # src/m331_three_loop.py (too heavy to repeat here); tests/test_ladder_standalone.py checks
 # them against that module. They are the repository's numbers, so their check is pinned.
-POLES_331 = {"+1/sqrt3": (3.53147e19, 5.18629e11), "-1/sqrt3": (2.33273e29, 1.13517e15)}
+POLES_331 = {"+1/sqrt3": (3.49103e19, 5.15600e11), "-1/sqrt3": (2.28969e29, 1.12580e15)}
 # The same poles over the 72-point threshold scan of NOTE_331.md 3a (r_J, r_S, M_V, light
 # doublets): the lowest N_c = 3 pole and the highest N_c = 5 pole, i.e. the narrowest window.
 # Computed by src/ladder_links.py L3e; tests/test_ladder_standalone.py checks them against it.
-POLES_331_SCAN = {"+1/sqrt3": (1.55807e19, 2.70740e12), "-1/sqrt3": (1.54193e29, 4.29258e15)}
+POLES_331_SCAN = {"+1/sqrt3": (1.54027e19, 2.69119e12), "-1/sqrt3": (1.51351e29, 4.25661e15)}
 
 CHECKS = []
 KINDS = ("math", "data", "pinned")
@@ -1169,10 +1169,10 @@ def links():
               f" -> holds for {win[v][0]:.2g} < G/G_meas < {win[v][1]:.2g}")
     print("   G is measured to 2.2e-5 (CODATA 2018). The assumption: G does not run between the")
     print("   laboratory and 10^19 GeV (corrections ~ (E/M_Pl)^2; many hidden light species would break it).")
-    check("with rung 4's G the 3-3-1 selection keeps N_c = 3 and excludes N_c = 5; it would fail for G 8.4x weaker",
-          all(lo < 1 < hi for lo, hi in win.values()) and abs(1 / win["+1/sqrt3"][0] / 8.37 - 1) < 0.01,
+    check("with rung 4's G the 3-3-1 selection keeps N_c = 3 and excludes N_c = 5; it would fail for G 8.2x weaker",
+          all(lo < 1 < hi for lo, hi in win.values()) and abs(1 / win["+1/sqrt3"][0] / 8.18 - 1) < 0.01,
           "pinned", f"got windows {', '.join(f'{lo:.3g}-{hi:.2g}' for lo, hi in win.values())},"
-          " pinned 0.12 (8.4x weaker) as the narrow side. The poles come from src/m331_three_loop.py")
+          " pinned 0.12 (8.2x weaker) as the narrow side. The poles come from src/m331_three_loop.py")
     # L3e: the reference spectrum is one point. Over the threshold scan the window narrows.
     wscan = {}
     for v, (p3, p5) in POLES_331_SCAN.items():
@@ -1180,10 +1180,10 @@ def links():
         print(f"   beta = {v:8s}, worst over the threshold scan: N_c = 3 pole {p3 / mpl:.3g} M_Pl, N_c = 5 pole"
               f" {p5 / mpl:.2g} M_Pl -> holds for {wscan[v][0]:.2g} < G/G_meas < {wscan[v][1]:.2g}")
     check("over the threshold scan the selection still holds at the measured G, but would fail for G 1.6x weaker",
-          all(lo < 1 < hi for lo, hi in wscan.values()) and abs(1 / wscan["+1/sqrt3"][0] / 1.629 - 1) < 0.01,
+          all(lo < 1 < hi for lo, hi in wscan.values()) and abs(1 / wscan["+1/sqrt3"][0] / 1.592 - 1) < 0.01,
           "pinned", f"got windows {', '.join(f'{lo:.3g}-{hi:.2g}' for lo, hi in wscan.values())},"
-          " pinned 0.61 (1.6x weaker) as the narrow side, at M_V = 2 TeV, r_J = 0.5, r_S = 1/3 and two light"
-          " doublets. The 8.4x above is the reference spectrum's margin, not the model's. Gravity's own term in the"
+          " pinned 0.63 (1.6x weaker) as the narrow side, at M_V = 2 TeV, r_J = 0.5, r_S = 1/3 and two light"
+          " doublets. The 8.2x above is the reference spectrum's margin, not the model's. Gravity's own term in the"
           " running moves these poles by 3% or less (src/ladder_links.py L3f)")
     # L4: rung 6 -> rung 4. Design A's diamond as a black hole.
     rs = 2 * G_NEWTON * m / C_LIGHT**2

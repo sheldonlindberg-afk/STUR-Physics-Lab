@@ -64,9 +64,9 @@ L3a  The Planck mass: the 3-3-1 cutoff from rung 4's G (CHECK)
 L3b-c  How far G could move before the selection changes (alpha = 1, three loops)
 ==============================================================================
    G -> x G moves M_Pl by x^(-1/2); the selection holds for (M_Pl/pole_3)^2 < x < (M_Pl/pole_5)^2
-   beta = +1/sqrt3 reference spectrum: N_c = 3 pole 2.89 M_Pl, N_c = 5 pole 4.2e-08 M_Pl  ->  0.12 < x < 5.5e+14
-   beta = -1/sqrt3 reference spectrum: N_c = 3 pole 1.91e+10 M_Pl, N_c = 5 pole 9.3e-05 M_Pl  ->  2.7e-21 < x < 1.2e+08
-   G is measured to 2.2e-5 (CODATA 2018). The narrow side: beta = +1/sqrt3 with G 8.4x weaker.
+   beta = +1/sqrt3 reference spectrum: N_c = 3 pole 2.86 M_Pl, N_c = 5 pole 4.2e-08 M_Pl  ->  0.12 < x < 5.6e+14
+   beta = -1/sqrt3 reference spectrum: N_c = 3 pole 1.88e+10 M_Pl, N_c = 5 pole 9.2e-05 M_Pl  ->  2.8e-21 < x < 1.2e+08
+   G is measured to 2.2e-5 (CODATA 2018). The narrow side: beta = +1/sqrt3 with G 8.2x weaker.
    at the mass floors with light heavy leptons (NOTE_331.md 3e): N_c = 3 pole 0.61 M_Pl, so it would need G 2.7x stronger
    -> the selection's cutoff and the diamonds' signal share one measured G. The selection
       assumes G does not run between the laboratory and 10^19 GeV.
@@ -75,18 +75,18 @@ L3b-c  How far G could move before the selection changes (alpha = 1, three loops
 L3e  The same window over the threshold scan (NOTE_331.md 3a; alpha = 1, three loops)
 ==============================================================================
    72 spectra: r_J, r_S, M_V, light doublets (src/m331_threshold.py GRID)
-   beta = +1/sqrt3 N_c = 3 pole 1.28 - 16 M_Pl, N_c = 5 pole 1.6e-08 - 2.2e-07 M_Pl
-      lower edge 0.0039 - 0.61,  upper edge 2e+13 - 3.8e+15
-   beta = -1/sqrt3 N_c = 3 pole 1.26e+10 - 5.03e+10 M_Pl, N_c = 5 pole 4.2e-05 - 0.00035 M_Pl
-      lower edge 4e-22 - 6.3e-21,  upper edge 8.1e+06 - 5.5e+08
+   beta = +1/sqrt3 N_c = 3 pole 1.26 - 15.8 M_Pl, N_c = 5 pole 1.6e-08 - 2.2e-07 M_Pl
+      lower edge 0.004 - 0.63,  upper edge 2.1e+13 - 3.9e+15
+   beta = -1/sqrt3 N_c = 3 pole 1.24e+10 - 4.93e+10 M_Pl, N_c = 5 pole 4.2e-05 - 0.00035 M_Pl
+      lower edge 4.1e-22 - 6.5e-21,  upper edge 8.2e+06 - 5.6e+08
    worst point (beta = +1/sqrt3): r_J = 0.5, r_S = 0.333, M_V = 2000 GeV, 2 light doublets:
-      the selection fails for G 1.63x weaker (reference spectrum: 8.4x)
+      the selection fails for G 1.59x weaker (reference spectrum: 8.2x)
 
 ==============================================================================
 L3f  Gravity's term in the gauge running (src/m331_gravity_fixed_point.py; MODEL)
 ==============================================================================
    f* = 0.0098, G* = 1: the strength that keeps the SM hypercharge finite (G2 there)
-   beta = +1/sqrt3, N_c = 3, reference spectrum: pole 2.893 -> 2.977 M_Pl  (+2.9%)
-   beta = +1/sqrt3, N_c = 3, worst     spectrum: pole 1.276 -> 1.289 M_Pl  (+1.0%)
+   beta = +1/sqrt3, N_c = 3, reference spectrum: pole 2.859 -> 2.942 M_Pl  (+2.9%)
+   beta = +1/sqrt3, N_c = 3, worst     spectrum: pole 1.262 -> 1.274 M_Pl  (+1.0%)
    -> a few percent, against the factor 13 the threshold spectrum spans: the heavy
       spectrum, not gravity's running, sets how close N_c = 3's pole comes to M_Pl.

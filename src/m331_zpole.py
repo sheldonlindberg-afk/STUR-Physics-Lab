@@ -233,7 +233,7 @@ def e6_ranges():
 # --------------------------------------------------------------------------- Z3: 3-3-1 mixing
 def lagrangian_couplings(variant, s2=S2):
     beta = float(B.beta_value(variant))
-    e = math.sqrt(4 * math.pi / 127.95)
+    e = math.sqrt(4 * math.pi / 127.930)
     g, gY = e / math.sqrt(s2), e / math.sqrt(1 - s2)
     gX = 1 / math.sqrt(1 / gY**2 - beta**2 / g**2)
     return beta, g, gY, gX

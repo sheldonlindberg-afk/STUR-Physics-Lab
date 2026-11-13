@@ -50,7 +50,7 @@ S4  The full scalar sector from 4 TeV to the Planck scale (N_c = 3)
    beta = +1/sqrt3 wide :  60 viable; perturbative   0; perturbative and stable   0 (0%); failures at 4e+04 GeV (median)
    beta = +1/sqrt3 small: 250 viable; perturbative   7; perturbative and stable   1 (0%); failures at 3e+10 GeV (median)
    beta = +1/sqrt3 tight: 250 viable; perturbative  60; perturbative and stable  18 (7%); failures at 6e+14 GeV (median)
-        survivors: y_J(4 TeV) up to 0.53; c^2 from 0.68 to 0.90; largest |l(4 TeV)| 0.37; top-doublet quartic at M_Pl >= +0.162
+        survivors: y_J(4 TeV) up to 0.53; c^2 from 0.68 to 0.90; largest |l(4 TeV)| 0.37; top-doublet quartic at M_Pl >= +0.163
         example: c^2 = 0.69, y_t = 0.976, y_J = 0.433
           at 4 TeV : l1=+0.101 l2=+0.059 l3=+0.186 l12=+0.184 l13=+0.017 l23=+0.030 l'12=-0.244 l'13=-0.076 l'23=+0.292
-          at M_Pl  : l1=+0.147 l2=+0.202 l3=+0.162 l12=+0.333 l13=+0.196 l23=+0.316 l'12=-0.141 l'13=-0.092 l'23=+0.386
+          at M_Pl  : l1=+0.147 l2=+0.202 l3=+0.163 l12=+0.333 l13=+0.197 l23=+0.317 l'12=-0.141 l'13=-0.092 l'23=+0.385

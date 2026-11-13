@@ -9,7 +9,7 @@ This page records which script feeds which, and which physical quantities each o
 - **46 scripts** in `src/`, in 6 topics; **71 imports** between them, 28 of them across topics. 10 scripts import nothing from the others and nothing imports them.
 - **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 179 literals in the source.
 - **44 quantities are typed in more than one script**; 15 of them are shared by more than one topic.
-- **3 copies differ from their source for a stated reason**; **0 differ without one (drift).**
+- **2 copies differ from their source for a stated reason**; **0 differ without one (drift).**
 
 ## Imports
 
@@ -295,10 +295,10 @@ Values computed in one script and retyped in others instead of imported. Each co
 | Planck mass √(ħc/G) (GeV) | √(ħc/G) from G, ħ, c (this tool) | 1.220890e19 | `black_holes:86` 1.220890e19 (rounded); `ladder_standalone:1161` 1.220890e19 (rounded); `m331_exact:28` 1.220890e19 (rounded); `m331_standalone:66` 1.220890e19 (rounded); `m331_su3L_running:19` 1.220890e19 (rounded) |
 | Planck length √(ħG/c³) (m) | √(ħG/c³) from G, ħ, c (this tool) | 1.616255e-35 | `black_holes:85` 1.616255e-35 (rounded); `ladder_standalone:115` 1.616255e-35 (rounded); `macdowell_mansouri:267` 1.616255e-35 (rounded) |
 | electroweak vev (√2 G_F)^(−1/2) (GeV) | src/m331_breaking.py B7 | 246.22 | `ladder_standalone:363` 246.22 (rounded); `m331_standalone:65` 246.22 (rounded); `m331_yukawa:86` 246.22 (rounded) |
-| sin²θ_W(4 TeV) | one-loop SM running from M_Z (m331_exact.run_two_loop) | 0.250433 | `m331_zprime_recast:68` 0.2504 (rounded) |
-| 1/α(4 TeV) | one-loop SM running from M_Z (m331_exact.run_two_loop) | 125.743 | `m331_zprime_recast:69` 125.7 (rounded) |
-| M_Z′/M_V = √(4/3 (1 + β² t_X²)) at 4 TeV | src/m331_breaking.py B4, evaluated at sin²θ_W(4 TeV) | 1.22492 | `m331_heavy_lepton:274` 1.225 (rounded); `m331_margin:49` 1.225 (rounded); `m331_standalone:576` 1.225 (rounded); `m331_standalone:592` 1.225 (rounded); `m331_threshold:184` 1.225 (rounded); `m331_threshold:188` 1.225 (rounded); `m331_threshold:191` 1.225 (rounded) |
-| SU(2) coupling g at M_Z, √(4πα)/sinθ_W | from 1/α(M_Z) and sin²θ_W(M_Z) (this tool) | 0.651734 | `ladder_standalone:294` 0.652 (rounded); `m331_breaking:237` 0.652 (rounded); `m331_breaking:245` 0.652 (rounded) |
+| sin²θ_W(4 TeV) | one-loop SM running from M_Z (m331_exact.run_two_loop) | 0.250507 | `m331_zprime_recast:68` 0.2505 (rounded) |
+| 1/α(4 TeV) | one-loop SM running from M_Z (m331_exact.run_two_loop) | 125.723 | `m331_zprime_recast:69` 125.7 (rounded) |
+| M_Z′/M_V = √(4/3 (1 + β² t_X²)) at 4 TeV | src/m331_breaking.py B4, evaluated at sin²θ_W(4 TeV) | 1.22495 | `m331_heavy_lepton:274` 1.225 (rounded); `m331_margin:49` 1.225 (rounded); `m331_standalone:576` 1.225 (rounded); `m331_standalone:592` 1.225 (rounded); `m331_threshold:184` 1.225 (rounded); `m331_threshold:188` 1.225 (rounded); `m331_threshold:191` 1.225 (rounded) |
+| SU(2) coupling g at M_Z, √(4πα)/sinθ_W | from 1/α(M_Z) and sin²θ_W(M_Z) (this tool) | 0.651689 | `ladder_standalone:294` 0.652 (rounded); `m331_breaking:237` 0.652 (rounded); `m331_breaking:245` 0.652 (rounded) |
 | area-law coefficient S/(R/a)² per scalar | src/stur_unification.py U3 (results/unification/output.txt) | 0.3046 | `stur_emergent:35` 0.3046 (exact); `stur_oppenheim:47` 0.3046 (exact); `stur_thermo_gravity:54` 0.3046 (exact) |
 | design A: entangling phase Δφ (rad) | src/graviton_exchange.py N4 | 2.18681 | `ladder_standalone:616` 2.1868 (rounded) |
 
@@ -319,8 +319,8 @@ These are imported from their source by every script that uses them; a typed-in 
 
 | Quantity | Source value | Copy | Where | Status | Reason and effect |
 |---|---|---|---|---|---|
-| sin²θ_W(M_Z), MS-bar | 0.23122 | 0.23153 | `m331_zpole:78` | variant | sin²θ_eff (leptonic), the Gfitter SM value: the base of the tree-level Z couplings in m331_zpole, a different quantity from the MS-bar angle |
-| top-quark mass (GeV) | 172.57 | 172.69 | `m331_standalone:63`, `qcd_running:7` | variant | PDG 2022 value, used only as the α_s flavour threshold (qcd_running and its copy in m331_standalone); α_s(4 TeV) moves by +6.6e-06 if it is changed to 172.57 |
+| sin²θ_W(M_Z), MS-bar | 0.23129 | 0.23153 | `m331_zpole:78` | variant | sin²θ_eff (leptonic), the Gfitter SM value: the base of the tree-level Z couplings in m331_zpole, a different quantity from the MS-bar angle |
+| sin²θ_W(M_Z), MS-bar | 0.23129 | 0.2312 | `m331_zprime_recast:67` | variant | ATLAS's Z′_SSM convention, quoted as ATLAS uses it (m331_zprime_recast) |
 
 *Rounded* copies (within the quantity's stated precision) are listed in the full table below, not here.
 
@@ -340,17 +340,17 @@ These are imported from their source by every script that uses them; a typed-in 
 | Planck length √(ħG/c³) (m) | derived | 1.616255e-35 | √(ħG/c³) from G, ħ, c (this tool) | `black_holes` (rounded), `ladder_standalone` (rounded), `macdowell_mansouri` (rounded) |
 | cosmological constant Λ (m⁻²) | input | 1.105600e-52 | Planck 2018 +BAO, 3H₀²Ω_Λ/c² | `black_holes`, `ladder_standalone`, `macdowell_mansouri` |
 | 1/α(0) | input | 137.036 | CODATA 2018 | `ladder_links`, `ladder_standalone` |
-| 1/α(M_Z), MS-bar | input | 127.951 | PDG 2024 | `ladder_standalone`, `m331_breaking`, `m331_exact` (rounded), `m331_heavy_lepton` (rounded), `m331_margin` (rounded), `m331_standalone` (rounded), `m331_su3L_running` (rounded), `m331_three_generations` (rounded), `m331_zpole` (rounded), `m331_zprime_recast` (rounded) |
-| sin²θ_W(M_Z), MS-bar | input | 0.23122 | PDG 2024 | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zpole` (variant), `m331_zprime_recast` (rounded) |
-| M_Z (GeV) | input | 91.1876 | PDG 2024 | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_yukawa`, `m331_zprime_recast`, `qcd_running` |
-| Γ_Z (GeV) | input | 2.4952 | PDG 2024 | `m331_heavy_lepton`, `m331_zprime_recast` |
+| 1/α(M_Z), MS-bar | input | 127.93 | PDG 2024 | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zpole`, `m331_zprime_recast` |
+| sin²θ_W(M_Z), MS-bar | input | 0.23129 | PDG 2024 | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zpole` (variant), `m331_zprime_recast` (variant) |
+| M_Z (GeV) | input | 91.188 | PDG 2024 | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_yukawa`, `m331_zprime_recast`, `qcd_running` |
+| Γ_Z (GeV) | input | 2.4955 | PDG 2024 | `m331_heavy_lepton`, `m331_zprime_recast` |
 | G_F (GeV⁻²) | input | 1.166379e-5 | PDG 2024 | `ladder_standalone`, `m331_breaking` |
 | electroweak vev (√2 G_F)^(−1/2) (GeV) | derived | 246.22 | src/m331_breaking.py B7 | `ladder_standalone` (rounded), `m331_standalone` (rounded), `m331_yukawa` (rounded) |
 | α_s(M_Z) | input | 0.118 | PDG 2024 | `m331_margin`, `m331_scalar`, `m331_standalone`, `qcd_running` |
-| top-quark mass (GeV) | input | 172.57 | PDG 2024 | `m331_margin`, `m331_scalar`, `m331_standalone` (exact, variant), `m331_yukawa`, `qcd_running` (variant) |
-| sin²θ_W(4 TeV) | derived | 0.250433 | one-loop SM running from M_Z (m331_exact.run_two_loop) | `m331_zprime_recast` (rounded) |
-| 1/α(4 TeV) | derived | 125.743 | one-loop SM running from M_Z (m331_exact.run_two_loop) | `m331_zprime_recast` (rounded) |
-| M_Z′/M_V = √(4/3 (1 + β² t_X²)) at 4 TeV | derived | 1.22492 | src/m331_breaking.py B4, evaluated at sin²θ_W(4 TeV) | `m331_heavy_lepton` (rounded), `m331_margin` (rounded), `m331_standalone` (rounded), `m331_threshold` (rounded) |
+| top-quark mass (GeV) | input | 172.57 | PDG 2024 | `m331_margin`, `m331_scalar`, `m331_standalone`, `m331_yukawa`, `qcd_running` |
+| sin²θ_W(4 TeV) | derived | 0.250507 | one-loop SM running from M_Z (m331_exact.run_two_loop) | `m331_zprime_recast` (rounded) |
+| 1/α(4 TeV) | derived | 125.723 | one-loop SM running from M_Z (m331_exact.run_two_loop) | `m331_zprime_recast` (rounded) |
+| M_Z′/M_V = √(4/3 (1 + β² t_X²)) at 4 TeV | derived | 1.22495 | src/m331_breaking.py B4, evaluated at sin²θ_W(4 TeV) | `m331_heavy_lepton` (rounded), `m331_margin` (rounded), `m331_standalone` (rounded), `m331_threshold` (rounded) |
 | f_π, √2 convention (GeV) | input | 0.1302 | PDG 2024 | `chiral_breaking`, `ladder_standalone` |
 | m_π⁰ (GeV) | input | 0.134977 | PDG 2024 | `chiral_breaking`, `ladder_standalone` |
 | m_π± (GeV) | input | 0.13957 | PDG 2024 | `chiral_breaking`, `ladder_standalone` |
@@ -360,7 +360,7 @@ These are imported from their source by every script that uses them; a typed-in 
 | m_u, m_d (GeV) | input | 0.00216 | PDG 2024 | `chiral_breaking`, `ladder_standalone` |
 | m_c (GeV), MS-bar, α_s threshold | input | 1.27 | PDG 2024 | `m331_standalone`, `qcd_running` |
 | m_b (GeV), MS-bar, α_s threshold | input | 4.18 | PDG 2024 | `m331_standalone`, `qcd_running` |
-| SU(2) coupling g at M_Z, √(4πα)/sinθ_W | derived | 0.651734 | from 1/α(M_Z) and sin²θ_W(M_Z) (this tool) | `ladder_standalone` (rounded), `m331_breaking` (rounded) |
+| SU(2) coupling g at M_Z, √(4πα)/sinθ_W | derived | 0.651689 | from 1/α(M_Z) and sin²θ_W(M_Z) (this tool) | `ladder_standalone` (rounded), `m331_breaking` (rounded) |
 | empirical g_πNN (approximate) | input | 13.1 | LIT | `chiral_breaking`, `ladder_standalone` |
 | R-ratio below charm, KEDR (1.84–3.05 GeV) | input | 2.225 | Anashin et al. 2017 | `m331_standalone`, `m331_why_three` |
 | R-ratio comparison scale (GeV), KEDR range midpoint | input | 2.45 | this repository's choice | `m331_standalone`, `m331_why_three` |

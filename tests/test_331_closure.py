@@ -16,7 +16,7 @@ def test_selection_without_any_yukawa_at_the_worst_spectrum():
     p = C.T.pole(3, "+1/sqrt3", MV=2e3, rJ=0.5, rS=1 / 3, n_light=2, yukawas=False)
     assert 1.4 < p / C.M_PLANCK < 1.7
     ref = open(REF).read()
-    for line in ("g = 4 pi    on        +1/sqrt3   3.76e+12 ... 2.00e+19",
-                 "alpha = 1   off       +1/sqrt3   2.24e+12 ... 1.38e+19"):
+    for line in ("g = 4 pi    on        +1/sqrt3   3.73e+12 ... 1.98e+19",
+                 "alpha = 1   off       +1/sqrt3   2.23e+12 ... 1.36e+19"):
         assert line in ref
     assert "NO" not in ref.split("C3")[1]

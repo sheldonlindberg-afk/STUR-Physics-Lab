@@ -19,24 +19,24 @@ E2  CHECK: all gauge anomalies vanish for general N_c (exact charges)
 ==============================================================================
 E3  Two-loop gauge running from 4 TeV: where does a coupling reach g = 4 pi?
 ==============================================================================
-   N_c = N_g = 3, 1-loop: a = (8.67, -6.50, -5.00)  1/alpha_X(4 TeV) = 83.76  ->  blow-up at 8.9e+29 GeV  above Planck
-   N_c = N_g = 3, 2-loop: a = (8.67, -6.50, -5.00)  1/alpha_X(4 TeV) = 83.76  ->  blow-up at 3.0e+29 GeV  above Planck
-   N_c = N_g = 5, 1-loop: a = (19.33, -0.50, -8.33)  1/alpha_X(4 TeV) = 83.76  ->  blow-up at 2.6e+15 GeV  BELOW Planck
-   N_c = N_g = 5, 2-loop: a = (19.33, -0.50, -8.33)  1/alpha_X(4 TeV) = 83.76  ->  blow-up at 1.3e+15 GeV  BELOW Planck
-   N_c = N_g = 7, 1-loop: a = (34.44, 8.17, -11.67)  1/alpha_X(4 TeV) = 83.76  ->  blow-up at 1.7e+10 GeV  BELOW Planck
-   N_c = N_g = 7, 2-loop: a = (34.44, 8.17, -11.67)  1/alpha_X(4 TeV) = 83.76  ->  blow-up at 9.7e+09 GeV  BELOW Planck
+   N_c = N_g = 3, 1-loop: a = (8.67, -6.50, -5.00)  1/alpha_X(4 TeV) = 83.73  ->  blow-up at 8.7e+29 GeV  above Planck
+   N_c = N_g = 3, 2-loop: a = (8.67, -6.50, -5.00)  1/alpha_X(4 TeV) = 83.73  ->  blow-up at 2.9e+29 GeV  above Planck
+   N_c = N_g = 5, 1-loop: a = (19.33, -0.50, -8.33)  1/alpha_X(4 TeV) = 83.73  ->  blow-up at 2.6e+15 GeV  BELOW Planck
+   N_c = N_g = 5, 2-loop: a = (19.33, -0.50, -8.33)  1/alpha_X(4 TeV) = 83.73  ->  blow-up at 1.3e+15 GeV  BELOW Planck
+   N_c = N_g = 7, 1-loop: a = (34.44, 8.17, -11.67)  1/alpha_X(4 TeV) = 83.73  ->  blow-up at 1.7e+10 GeV  BELOW Planck
+   N_c = N_g = 7, 2-loop: a = (34.44, 8.17, -11.67)  1/alpha_X(4 TeV) = 83.73  ->  blow-up at 9.7e+09 GeV  BELOW Planck
 
    one-loop U(1)_X coefficient that puts the pole exactly at the Planck scale: 14.76
    N_c = 3: a_X = 8.67  ->  margin +6.09
-   N_c = 5: a_X = 19.33  ->  margin -4.57
+   N_c = 5: a_X = 19.33  ->  margin -4.58
    (charges and scalar content exact; two-loop Yukawa terms NOT included - they enter only
     at two loops, while the verdict is already set at one loop with margins of 4.6 and 6.1)
 
    3-3-1 scale dependence (two-loop):
-     mu_331 =     2 TeV:  N_c = 3 -> 2.7e+29   N_c = 5 -> 8.4e+14
-     mu_331 =     4 TeV:  N_c = 3 -> 3.0e+29   N_c = 5 -> 1.3e+15
-     mu_331 =    10 TeV:  N_c = 3 -> 3.3e+29   N_c = 5 -> 2.3e+15
-     mu_331 =    30 TeV:  N_c = 3 -> 3.7e+29   N_c = 5 -> 4.5e+15
+     mu_331 =     2 TeV:  N_c = 3 -> 2.7e+29   N_c = 5 -> 8.3e+14
+     mu_331 =     4 TeV:  N_c = 3 -> 2.9e+29   N_c = 5 -> 1.3e+15
+     mu_331 =    10 TeV:  N_c = 3 -> 3.2e+29   N_c = 5 -> 2.3e+15
+     mu_331 =    30 TeV:  N_c = 3 -> 3.6e+29   N_c = 5 -> 4.4e+15
 
 ==============================================================================
 E4  The other viable variant: beta = +1/sqrt3 (exact charges, two loops)
@@ -44,16 +44,16 @@ E4  The other viable variant: beta = +1/sqrt3 (exact charges, two loops)
    N_c = 3 anomalies: X^3 = 0, grav^2 X = 0, SU3L^2 X = 0, SUNc^2 X = 0, SU3L^3 (3 - 3bar) = 0
    N_c = 5 anomalies: X^3 = 0, grav^2 X = 0, SU3L^2 X = 0, SUNc^2 X = 0, SU3L^3 (3 - 3bar) = 0
    N_c = 7 anomalies: X^3 = 0, grav^2 X = 0, SU3L^2 X = 0, SUNc^2 X = 0, SU3L^3 (3 - 3bar) = 0
-   N_c = N_g = 3: a = (14.00, -6.50, -5.00)  ->  blow-up at 4.0e+19 GeV  above Planck
+   N_c = N_g = 3: a = (14.00, -6.50, -5.00)  ->  blow-up at 3.9e+19 GeV  above Planck
    N_c = N_g = 5: a = (27.33, -0.50, -8.33)  ->  blow-up at 5.5e+11 GeV  BELOW Planck
-   N_c = N_g = 7: a = (45.11, 8.17, -11.67)  ->  blow-up at 3.1e+08 GeV  BELOW Planck
+   N_c = N_g = 7: a = (45.11, 8.17, -11.67)  ->  blow-up at 3.0e+08 GeV  BELOW Planck
    criterion for 'non-perturbative' (blow-up scale, GeV; Planck = 1.2e19):
-     beta = -1/sqrt3 g = 4 pi               N_c = 3: 3.0e+29   N_c = 5: 1.3e+15
-     beta = -1/sqrt3 alpha = 1              N_c = 3: 1.8e+29   N_c = 5: 1.0e+15
-     beta = -1/sqrt3 g = 1 (alpha = 0.08)   N_c = 3: 5.3e+25   N_c = 5: 2.7e+13
-     beta = +1/sqrt3 g = 4 pi               N_c = 3: 4.0e+19   N_c = 5: 5.5e+11
-     beta = +1/sqrt3 alpha = 1              N_c = 3: 2.9e+19   N_c = 5: 4.7e+11
-     beta = +1/sqrt3 g = 1 (alpha = 0.08)   N_c = 3: 2.0e+17   N_c = 5: 3.6e+10
+     beta = -1/sqrt3 g = 4 pi               N_c = 3: 2.9e+29   N_c = 5: 1.3e+15
+     beta = -1/sqrt3 alpha = 1              N_c = 3: 1.7e+29   N_c = 5: 1.0e+15
+     beta = -1/sqrt3 g = 1 (alpha = 0.08)   N_c = 3: 5.2e+25   N_c = 5: 2.7e+13
+     beta = +1/sqrt3 g = 4 pi               N_c = 3: 3.9e+19   N_c = 5: 5.5e+11
+     beta = +1/sqrt3 alpha = 1              N_c = 3: 2.9e+19   N_c = 5: 4.6e+11
+     beta = +1/sqrt3 g = 1 (alpha = 0.08)   N_c = 3: 1.9e+17   N_c = 5: 3.6e+10
      mu_331 =     2 TeV:  N_c = 3 -> 2.9e+19   N_c = 5 -> 3.3e+11
      mu_331 =    10 TeV:  N_c = 3 -> 6.0e+19   N_c = 5 -> 1.1e+12
-     mu_331 =    30 TeV:  N_c = 3 -> 9.9e+19   N_c = 5 -> 2.4e+12
+     mu_331 =    30 TeV:  N_c = 3 -> 9.8e+19   N_c = 5 -> 2.4e+12

@@ -17,8 +17,8 @@ C1  Anomaly + asymptotic freedom alone: is Witten's anomaly needed?
 ==============================================================================
 C2  Yukawas switched off entirely (a lower bound on the N_c = 3 pole for any Yukawa running)
 ==============================================================================
-   beta = -1/sqrt3: worst N_c = 3 pole = 2.05e+29 GeV = 1.68e+10 M_Pl  (M_V >= 4 TeV: 1.8e+10 M_Pl)
-   beta = +1/sqrt3: worst N_c = 3 pole = 1.87e+19 GeV = 1.53 M_Pl  (M_V >= 4 TeV: 2.09 M_Pl)
+   beta = -1/sqrt3: worst N_c = 3 pole = 2.01e+29 GeV = 1.65e+10 M_Pl  (M_V >= 4 TeV: 1.77e+10 M_Pl)
+   beta = +1/sqrt3: worst N_c = 3 pole = 1.85e+19 GeV = 1.52 M_Pl  (M_V >= 4 TeV: 2.07 M_Pl)
    So the selection does not depend on how the Yukawas run: it holds with none at all.
 
 ==============================================================================
@@ -26,14 +26,14 @@ C3  The window of cutoffs for which only N_c = 3 survives
 ==============================================================================
    Planck mass 1.22e+19 GeV; reduced Planck mass 2.44e+18 GeV.
    criterion   Yukawas   beta       window (GeV): best N_c = 5 ... worst N_c = 3     M_Pl inside?  M_red inside?
-   g = 4 pi    on        -1/sqrt3   7.17e+15 ... 2.44e+29         yes           yes
-   g = 4 pi    on        +1/sqrt3   3.76e+12 ... 2.00e+19         yes           yes
-   g = 4 pi    off       -1/sqrt3   5.13e+15 ... 2.05e+29         yes           yes
-   g = 4 pi    off       +1/sqrt3   2.63e+12 ... 1.87e+19         yes           yes
-   alpha = 1   on        -1/sqrt3   5.64e+15 ... 1.47e+29         yes           yes
-   alpha = 1   on        +1/sqrt3   3.19e+12 ... 1.47e+19         yes           yes
-   alpha = 1   off       -1/sqrt3   4.05e+15 ... 1.24e+29         yes           yes
-   alpha = 1   off       +1/sqrt3   2.24e+12 ... 1.38e+19         yes           yes
+   g = 4 pi    on        -1/sqrt3   7.11e+15 ... 2.39e+29         yes           yes
+   g = 4 pi    on        +1/sqrt3   3.73e+12 ... 1.98e+19         yes           yes
+   g = 4 pi    off       -1/sqrt3   5.09e+15 ... 2.01e+29         yes           yes
+   g = 4 pi    off       +1/sqrt3   2.62e+12 ... 1.85e+19         yes           yes
+   alpha = 1   on        -1/sqrt3   5.59e+15 ... 1.44e+29         yes           yes
+   alpha = 1   on        +1/sqrt3   3.17e+12 ... 1.46e+19         yes           yes
+   alpha = 1   off       -1/sqrt3   4.01e+15 ... 1.21e+29         yes           yes
+   alpha = 1   off       +1/sqrt3   2.23e+12 ... 1.36e+19         yes           yes
    Reading: the selection does not need the Planck scale exactly. Any cutoff inside the
    intersection of the windows works, including the reduced Planck mass and the usual
    grand-unification scale 2e16 GeV, wherever the window covers them.

@@ -35,5 +35,5 @@ def test_alpha_em_needed_and_reference_output():
     yt = Y.yt_at(4e3)
     assert 1.30 < Y.aem_inv_to_rescue(5, "-1/sqrt3", yt, 1.0) / 125.74 < 1.36
     ref = open(REF).read()
-    assert "N_c = 5 reaches Planck only for 0.0662 < s^2 < 0.0742" in ref
+    assert "N_c = 5 reaches Planck only for 0.0662 < s^2 < 0.0740" in ref
     assert "exact: True" in ref

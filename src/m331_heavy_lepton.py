@@ -3,7 +3,7 @@
 The heavy charged leptons of the beta = +1/sqrt3 model against the LHC (NOTE_331.md, section 3f).
 
 Section 3e found that in this variant N_c = 3 reaches M_Pl at alpha = 1 only if the heavy
-charged leptons E are heavy enough (m_E >= 0.56 +- 0.11 TeV with M_V at its LHC bound).
+charged leptons E are heavy enough (m_E >= 0.58 +- 0.12 TeV with M_V at its LHC bound).
 This module asks what the LHC already says about E, and what the HL-LHC can say.
 
 E is the third member of the lepton triplet (nu, e, E^-), with E^c an SU(3)_L singlet: both
@@ -31,7 +31,7 @@ H5  The RG condition is on the geometric mean. The threshold correction depends 
     sum_i ln(m_Ei / mu), so three non-degenerate E act like three degenerate ones at
     (m_E1 m_E2 m_E3)^(1/3) (checked against the full running). With each E mixing with one
     flavour, the lightest spectrum the LHC allows has a geometric mean of ~0.23 TeV, below
-    the 0.56 TeV the selection needs: the LHC has not tested the condition.
+    the 0.58 TeV the selection needs: the LHC has not tested the condition.
 H6  HL-LHC (3 ab^-1, 13 TeV cross sections; 14 TeV would help further): expected limits
     scaled by sqrt(L0/L) (background-limited) and by L0/L (background-free), the two ends.
 H7  The condition itself moves: with no Z' at the HL-LHC the Z' floor (same recast, same
@@ -54,10 +54,10 @@ LUMI = json.load(open(os.path.join(DATA, "lumi_dy_13TeV.json")))
 HEP = json.load(open(os.path.join(DATA, "hepdata_vll.json")))
 SETS = {"NNPDF3.1": "NNPDF31_nnlo_as_0118_luxqed_0000.dat", "PDF4LHC21": "PDF4LHC21_mc_0000.dat"}
 
-S2_MZ = 0.23122                        # MS-bar at M_Z (Z couplings)
+S2_MZ = 0.23129                        # MS-bar at M_Z (Z couplings), PDG 2024
 AEM_MZ = 0.00781751                    # Pythia's alpha_em(M_Z), used for the Pythia comparison
-AEM = 1 / 127.95                       # as in the rest of the repo
-MZ, GZ = 91.1876, 2.4952
+AEM = 1 / 127.930                      # PDG 2024, as in the rest of the repo
+MZ, GZ = 91.1880, 2.4955                # PDG 2024
 BETA = 1 / sqrt(3)
 SQRTS = 13000.0
 GEV2_TO_FB = 0.3894e12                 # (hbar c)^2 in GeV^2 fb
@@ -214,7 +214,7 @@ def geometric_mean_check():
 
 
 LEP = 100.0                            # heavy charged lepton L -> nu W: m > 100.8 GeV (PDG 2024), rounded
-MSTAR = (561.0, 113.0)                 # section 3e: m_E* at M_V = 3.755 TeV, alpha = 1, three loops
+MSTAR = (584.0, 118.0)                 # section 3e: m_E* at M_V = 3.755 TeV, alpha = 1, three loops
 
 
 def geo(xs):

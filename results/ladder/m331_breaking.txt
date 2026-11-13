@@ -71,5 +71,5 @@ beta = +1/sqrt3
 B7  Numbers (tree level; measured inputs: G_F, alpha(M_Z), sin^2 theta_W(M_Z))
 ==============================================================================
    v = (sqrt2 G_F)^(-1/2) = 246.22 GeV
-   M_Z (tree) = sqrt(pi alpha / (sqrt2 G_F s^2 c^2)) = 91.51 GeV, measured 91.1876 GeV (+0.35%: the radiative correction, not derived here)
-   beta = +1/sqrt3: M_Z'/M_V = 1.2173; at the LHC bound M_Z' = 4.6 TeV, M_V = 3.78 TeV
+   M_Z (tree) = sqrt(pi alpha / (sqrt2 G_F s^2 c^2)) = 91.51 GeV, measured 91.188 GeV (+0.35%: the radiative correction, not derived here)
+   beta = +1/sqrt3: M_Z'/M_V = 1.2174; at the LHC bound M_Z' = 4.6 TeV, M_V = 3.78 TeV

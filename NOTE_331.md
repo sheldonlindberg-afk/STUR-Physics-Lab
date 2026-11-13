@@ -38,10 +38,10 @@ doesn't predict them. How much it depends on them differs between the two varian
   weak mixing angle about three times below ours.
 - **β = +1/√3:** N_c = 5 fails at every weak mixing angle, but N_c = 3 survives only for
   sin²θ_W(4 TeV) below 0.261–0.285, against the measured 0.250. On the threshold grid
-  of §3a its worst case reaches M_Pl for any criterion α ≥ 0.64 (three loops, §3d), but
+  of §3a its worst case reaches M_Pl for any criterion α ≥ 0.66 (three loops, §3d), but
   that worst case sits on the grid's edge. Against physical mass floors (§3e), **N_c = 3
-  reaches M_Pl at α = 1 only if the heavy charged leptons are heavier than about 0.56 TeV**
-  (±0.11 TeV, with M_V at its LHC bound; 0.96 TeV at M_V = 10 TeV). Lighter heavy leptons,
+  reaches M_Pl at α = 1 only if the heavy charged leptons are heavier than about 0.58 TeV**
+  (±0.12 TeV, with M_V at its LHC bound; 1.00 TeV at M_V = 10 TeV). Lighter heavy leptons,
   which the LHC still allows, push N_c = 3 below M_Pl as well. In this variant the
   selection is conditional on that mass. The LHC has not tested the condition yet; the
   HL-LHC reaches it about at the threshold (§3f). The two-loop figures at g = 4π (1.6×, or 2.2×
@@ -119,13 +119,13 @@ The one-loop coefficient b_L = 11 − N_c(1 + N_c)/3 − (scalars) is computed f
 Adding the minimal model's scalar sextet leaves the verdict unchanged.
 
 **Step 4: U(1)_X excludes N_c = 5.** Two-loop gauge running from the 3-3-1 scale,
-starting at 1/α_X(4 TeV) = 83.76. "Blow-up" means g = 4π.
+starting at 1/α_X(4 TeV) = 83.73. "Blow-up" means g = 4π.
 
 | N_c = N_g | one-loop a_X | Blow-up, β = −1/√3 | Blow-up, β = +1/√3 |
 |---|---|---|---|
-| 3 | 26/3 = 8.67 (β = −1/√3); 14.00 (β = +1/√3) | **3.0×10²⁹ GeV** | **4.0×10¹⁹ GeV** |
+| 3 | 26/3 = 8.67 (β = −1/√3); 14.00 (β = +1/√3) | **2.9×10²⁹ GeV** | **3.9×10¹⁹ GeV** |
 | 5 | 19.33; 27.33 | 1.3×10¹⁵ GeV | 5.5×10¹¹ GeV |
-| 7 | 34.44; 45.11 | 9.7×10⁹ GeV | 3.1×10⁸ GeV |
+| 7 | 34.44; 45.11 | 9.7×10⁹ GeV | 3.0×10⁸ GeV |
 
 The Planck scale is 1.2×10¹⁹ GeV.
 - For β = −1/√3, a pole exactly at M_Pl needs a_X = 14.76. The margins are +6.09 for
@@ -145,10 +145,10 @@ The Planck scale is 1.2×10¹⁹ GeV.
 
 | y_J | β = −1/√3: N_c = 3 / N_c = 5 | β = +1/√3: N_c = 3 / N_c = 5 |
 |---|---|---|
-| none (no Yukawas at all) | 3.0×10²⁹ / 1.3×10¹⁵ GeV | 4.0×10¹⁹ / 5.5×10¹¹ GeV |
-| 0 (top only) | 3.4×10²⁹ / 1.3×10¹⁵ | 4.2×10¹⁹ / 5.6×10¹¹ |
-| 1 | 4.7×10²⁹ / 1.6×10¹⁵ | 6.2×10¹⁹ / 6.8×10¹¹ |
-| 2 | 1.2×10³⁰ / 2.8×10¹⁵ | 2.2×10²⁰ / 1.3×10¹² |
+| none (no Yukawas at all) | 2.9×10²⁹ / 1.3×10¹⁵ GeV | 3.9×10¹⁹ / 5.5×10¹¹ GeV |
+| 0 (top only) | 3.4×10²⁹ / 1.3×10¹⁵ | 4.1×10¹⁹ / 5.6×10¹¹ |
+| 1 | 4.6×10²⁹ / 1.6×10¹⁵ | 6.1×10¹⁹ / 6.8×10¹¹ |
+| 2 | 1.2×10³⁰ / 2.7×10¹⁵ | 2.2×10²⁰ / 1.3×10¹² |
 
 - Yukawas raise every pole by at most a factor of about 5.
 - No constant y_J up to 6 lifts N_c = 5 to the Planck scale. (√(4π) = 3.5 is already the
@@ -159,11 +159,11 @@ The Planck scale is 1.2×10¹⁹ GeV.
 | Check | Result |
 |---|---|
 | Two-loop machinery, calibrated on the Standard Model | reproduces (41/10, −19/6, −7) and all nine two-loop coefficients exactly |
-| 3-3-1 scale 2–30 TeV (β = −1/√3) | N_c = 3: (2.7–3.7)×10²⁹ GeV; N_c = 5: (0.8–4.5)×10¹⁵ GeV |
-| 3-3-1 scale 2–30 TeV (β = +1/√3) | N_c = 3: (2.9–9.9)×10¹⁹ GeV; N_c = 5: (3.3–24)×10¹¹ GeV |
-| Criterion α = 1 instead of g = 4π | β = −1/√3: 1.8×10²⁹ vs 1.0×10¹⁵; β = +1/√3: 2.9×10¹⁹ vs 4.7×10¹¹ |
-| Criterion g = 1 (α = 0.08, very strict) | β = −1/√3: 5.3×10²⁵ vs 2.7×10¹³ (selects 3). β = +1/√3: 2.0×10¹⁷ vs 3.6×10¹⁰, so **N_c = 3 also fails**, with or without Yukawas |
-| Two-loop Yukawas (top + all exotics at y_J = 1) | β = −1/√3: 4.7×10²⁹ vs 1.6×10¹⁵; β = +1/√3: 6.2×10¹⁹ vs 6.8×10¹¹ |
+| 3-3-1 scale 2–30 TeV (β = −1/√3) | N_c = 3: (2.7–3.6)×10²⁹ GeV; N_c = 5: (0.8–4.4)×10¹⁵ GeV |
+| 3-3-1 scale 2–30 TeV (β = +1/√3) | N_c = 3: (2.9–9.8)×10¹⁹ GeV; N_c = 5: (3.3–24)×10¹¹ GeV |
+| Criterion α = 1 instead of g = 4π | β = −1/√3: 1.7×10²⁹ vs 1.0×10¹⁵; β = +1/√3: 2.9×10¹⁹ vs 4.6×10¹¹ |
+| Criterion g = 1 (α = 0.08, very strict) | β = −1/√3: 5.2×10²⁵ vs 2.7×10¹³ (selects 3). β = +1/√3: 1.9×10¹⁷ vs 3.6×10¹⁰, so **N_c = 3 also fails**, with or without Yukawas |
+| Two-loop Yukawas (top + all exotics at y_J = 1) | β = −1/√3: 4.6×10²⁹ vs 1.6×10¹⁵; β = +1/√3: 6.1×10¹⁹ vs 6.8×10¹¹ |
 | β = +1/√3, N_c = 3 pole ÷ M_Pl (g = 4π) | 3.3 with no Yukawas; 5.1 with y_J = 1; 3.7–12.5 for 3-3-1 scales of 2–30 TeV |
 
 **Verdict.**
@@ -218,9 +218,9 @@ and the second doublet heavy or light):
 | | N_c = 3, worst case | N_c = 5, best case | Verdict |
 |---|---|---|---|
 | β = −1/√3 | 2.4×10²⁹ GeV (2×10¹⁰ M_Pl) | 7.2×10¹⁵ GeV | only N_c = 3 |
-| β = +1/√3 | 2.0×10¹⁹ GeV (**1.64 M_Pl**) | 3.8×10¹² GeV | only N_c = 3 |
-| β = +1/√3, M_V ≥ 4 TeV (Z′ ≥ 4.9 TeV) | 2.23 M_Pl | — | only N_c = 3 |
-| β = +1/√3, M_V ≥ 3.76 TeV (Z′ ≥ 4.6 TeV, LHC recast, §6) | 2.17 M_Pl | — | only N_c = 3 |
+| β = +1/√3 | 2.0×10¹⁹ GeV (**1.62 M_Pl**) | 3.7×10¹² GeV | only N_c = 3 |
+| β = +1/√3, M_V ≥ 4 TeV (Z′ ≥ 4.9 TeV) | 2.20 M_Pl | — | only N_c = 3 |
+| β = +1/√3, M_V ≥ 3.76 TeV (Z′ ≥ 4.6 TeV, LHC recast, §6) | 2.14 M_Pl | — | only N_c = 3 |
 
 - **The worst case for N_c = 3.** It is the lightest exotics (0.5 M_V), light scalars, a
   light second doublet and M_V = 2 TeV. That spectrum puts the Z′ at 2.45 TeV, already
@@ -233,7 +233,7 @@ and the second doublet heavy or light):
 **Verdict:** the selection survives one-loop threshold matching across the spectrum
 scanned. In the narrow variant the worst allowed case sits a factor of 2 above M_Pl at
 g = 4π; §3d shows that criterion is outside the convergent region and restates the margin
-with controlled criteria (worst case 1.28 M_Pl at α = 1, three loops, on this grid). §3e
+with controlled criteria (worst case 1.26 M_Pl at α = 1, three loops, on this grid). §3e
 shows the grid's edge is not a bound and replaces it with mass floors.
 
 ## 3b. The cutoff and the criterion
@@ -245,10 +245,10 @@ pole), taken over the whole spectrum scanned in §3a:
 
 | Criterion | Yukawas | β = −1/√3 window (GeV) | β = +1/√3 window (GeV) |
 |---|---|---|---|
-| g = 4π | on | 7.2×10¹⁵ – 2.4×10²⁹ | 3.8×10¹² – 2.0×10¹⁹ |
-| g = 4π | off | 5.1×10¹⁵ – 2.1×10²⁹ | 2.6×10¹² – 1.9×10¹⁹ |
-| α = 1 | on | 5.6×10¹⁵ – 1.5×10²⁹ | 3.2×10¹² – 1.5×10¹⁹ |
-| α = 1 | off | 4.1×10¹⁵ – 1.2×10²⁹ | 2.2×10¹² – 1.4×10¹⁹ |
+| g = 4π | on | 7.1×10¹⁵ – 2.4×10²⁹ | 3.7×10¹² – 2.0×10¹⁹ |
+| g = 4π | off | 5.1×10¹⁵ – 2.0×10²⁹ | 2.6×10¹² – 1.9×10¹⁹ |
+| α = 1 | on | 5.6×10¹⁵ – 1.4×10²⁹ | 3.2×10¹² – 1.5×10¹⁹ |
+| α = 1 | off | 4.0×10¹⁵ – 1.2×10²⁹ | 2.2×10¹² – 1.4×10¹⁹ |
 
 **Any cutoff from 7.2×10¹⁵ to 1.4×10¹⁹ GeV works in every row.** That range includes
 the Planck mass, the reduced Planck mass (2.4×10¹⁸) and the usual grand-unification
@@ -286,10 +286,10 @@ three loops (M_V = 4 TeV, Yukawas and thresholds on):
 
 | | g_crit = 1.5 | 2 | 3 | √(4π) |
 |---|---|---|---|---|
-| β = +1/√3, N_c = 3 (M_Pl) | 0.388 → 0.391 | 1.12 → 1.14 | 2.33 → 2.43 | 2.73 → 2.89 |
-| β = +1/√3, N_c = 5 (M_Pl) | 1.5×10⁻⁸, unchanged | 2.6×10⁻⁸ | 3.7 → 3.9×10⁻⁸ | 4.1 → 4.3×10⁻⁸ |
-| β = −1/√3, N_c = 3 (M_Pl) | 7.7×10⁸ | 4.3×10⁹ | 1.4 → 1.5×10¹⁰ | 1.8 → 1.9×10¹⁰ |
-| β = −1/√3, N_c = 5 (M_Pl) | 2.2×10⁻⁵ | 4.7×10⁻⁵ | 8.0 → 8.2×10⁻⁵ | 9.0 → 9.3×10⁻⁵ |
+| β = +1/√3, N_c = 3 (M_Pl) | 0.384 → 0.386 | 1.11 → 1.12 | 2.30 → 2.40 | 2.70 → 2.86 |
+| β = +1/√3, N_c = 5 (M_Pl) | 1.5×10⁻⁸, unchanged | 2.6×10⁻⁸ | 3.7 → 3.8×10⁻⁸ | 4.0 → 4.2×10⁻⁸ |
+| β = −1/√3, N_c = 3 (M_Pl) | 7.5×10⁸ | 4.2×10⁹ | 1.4×10¹⁰ | 1.8 → 1.9×10¹⁰ |
+| β = −1/√3, N_c = 5 (M_Pl) | 2.1×10⁻⁵ | 4.6×10⁻⁵ | 7.9 → 8.1×10⁻⁵ | 8.9 → 9.2×10⁻⁵ |
 
 Three loops move these scales up by 0.5–6%.
 
@@ -298,22 +298,22 @@ is the same everywhere: lightest exotics, light scalars, a light second doublet,
 
 | g_crit (α) | two loops | three loops |
 |---|---|---|
-| 2.0 (0.32) | 0.50 M_Pl | 0.50 M_Pl |
-| 2.5 (0.50) | 0.80 M_Pl | 0.82 M_Pl |
-| 3.0 (0.72) | 1.03 M_Pl | 1.07 M_Pl |
-| √(4π) (1.00) | 1.21 M_Pl | **1.28 M_Pl** |
+| 2.0 (0.32) | 0.49 M_Pl | 0.50 M_Pl |
+| 2.5 (0.50) | 0.79 M_Pl | 0.81 M_Pl |
+| 3.0 (0.72) | 1.02 M_Pl | 1.06 M_Pl |
+| √(4π) (1.00) | 1.19 M_Pl | **1.26 M_Pl** |
 
-The worst case stays perturbative to M_Pl for **g_crit ≥ 2.85 (α ≥ 0.64) at three loops**,
-and 2.93 (α ≥ 0.68) at two. At α = 1, the largest sin²θ_W(M_V) for which N_c = 3 reaches
-M_Pl at the reference spectrum moves from 0.2639 to 0.2647 (measured 0.250).
+The worst case stays perturbative to M_Pl for **g_crit ≥ 2.87 (α ≥ 0.66) at three loops**,
+and 2.95 (α ≥ 0.69) at two. At α = 1, the largest sin²θ_W(M_V) for which N_c = 3 reaches
+M_Pl at the reference spectrum moves from 0.2638 to 0.2646 (measured 0.250).
 
 **Verdict.**
 - Three loops slightly widen the margins; N_c = 5 stays excluded by 4–8 orders of
   magnitude, and β = −1/√3 keeps its wide margins.
 - For β = +1/√3, the statement that is stable under higher orders is: **N_c = 3 stays
-  perturbative to M_Pl, over the whole spectrum scanned, for any criterion α ≥ 0.64**.
-  The two-loop g = 4π figures (1.64 M_Pl, 2.17 M_Pl) should not be relied on.
-- At α ≈ 0.64 the three-loop term is already about 0.6–0.7 of the two-loop term, so the
+  perturbative to M_Pl, over the whole spectrum scanned, for any criterion α ≥ 0.66**.
+  The two-loop g = 4π figures (1.62 M_Pl, 2.14 M_Pl) should not be relied on.
+- At α ≈ 0.66 the three-loop term is already about 0.6–0.7 of the two-loop term, so the
   narrow variant's conclusion sits at the edge of perturbative control. That is a real
   limitation of this variant, not of the calculation.
 - This statement holds on the §3a grid (r_J ≥ 0.5, heavy leptons tied to the exotic
@@ -325,7 +325,7 @@ Source: `src/m331_margin.py`, output `results/m331/margin.txt`.
 
 **The grid edge is not a bound.** The worst case of §3a–3d sits on the corner of the
 threshold grid (r_J = 0.5, r_S = ⅓, M_V = 2 TeV). One step past it the pole keeps falling:
-at M_V = 2 TeV it is 1.28 M_Pl at r_J = 0.5, 1.12 at 0.4 and **0.94 M_Pl at 0.3**
+at M_V = 2 TeV it is 1.26 M_Pl at r_J = 0.5, 1.10 at 0.4 and **0.93 M_Pl at 0.3**
 (α = 1, three loops). So the margin is set by how light the exotics may be, and has to be
 stated against experimental floors, not against a grid.
 
@@ -347,9 +347,9 @@ depend on how E mixes, so they are not used.
 | | pole |
 |---|---|
 | all masses at the floors, M_V = 3.755 TeV, three loops | **0.61 M_Pl** |
-| worst over M_V = 3.755–30 TeV, three loops | 0.45 M_Pl (at 30 TeV) |
-| same, three loops without Yukawas | 0.43 M_Pl |
-| same, two loops | 0.42 M_Pl |
+| worst over M_V = 3.755–30 TeV, three loops | 0.44 M_Pl (at 30 TeV) |
+| same, three loops without Yukawas | 0.42 M_Pl |
+| same, two loops | 0.415 M_Pl |
 
 With light heavy leptons, N_c = 3 does not reach M_Pl in this variant. It would need
 g_crit = 6.1 (α ≈ 3) at m_E = 0.1 TeV, or 4.5 (α ≈ 1.6) at 0.3 TeV: both outside the
@@ -359,19 +359,19 @@ convergent region (§3d). N_c = 5 stays excluded at the same floors (10⁻⁸ M_
 
 | M_V | m_E (m_J = 1.3 TeV) | m_J = m_E tied |
 |---|---|---|
-| 3.755 TeV | ≥ 0.56 TeV | ≥ 0.86 TeV |
-| 10 TeV | ≥ 0.96 TeV | ≥ 1.12 TeV |
-| 30 TeV | ≥ 1.74 TeV | ≥ 1.50 TeV |
+| 3.755 TeV | ≥ 0.58 TeV | ≥ 0.88 TeV |
+| 10 TeV | ≥ 1.00 TeV | ≥ 1.14 TeV |
+| 30 TeV | ≥ 1.81 TeV | ≥ 1.53 TeV |
 
-**Error budget on the threshold m_E\* = 561 GeV** (M_V = 3.755 TeV, m_J = 1.3 TeV):
-sin²θ_W(M_Z) 1.1%, 1/α(M_Z) 1.1%, α_s 0.3%, m_t 0.1%, matching scale M_V/2–2M_V 3.6%,
-next order (the two- to three-loop shift) 19.8%. In quadrature, **m_E\* = 561 ± 113 GeV**.
-Without Yukawas (complete at three loops) it is 668 GeV. The truncation dominates, as
+**Error budget on the threshold m_E\* = 584 GeV** (M_V = 3.755 TeV, m_J = 1.3 TeV):
+sin²θ_W(M_Z) 1.1%, 1/α(M_Z) 0.9%, α_s 0.3%, m_t 0.1%, matching scale M_V/2–2M_V 3.6%,
+next order (the two- to three-loop shift) 19.8%. In quadrature, **m_E\* = 584 ± 118 GeV**.
+Without Yukawas (complete at three loops) it is 695 GeV. The truncation dominates, as
 expected at α = 1; the measured inputs are irrelevant at this level.
 
 **Check.** At one loop, three Dirac leptons with Y = 1 running from 0.1 TeV to 3.755 TeV
 lower 1/α_X(M_V) by 1.6 more than at m_E = 1.3 TeV. With b_X = 14 this moves the pole
-down by a factor of e^{−0.72} ≈ 0.49, from 1.27 to about 0.62 M_Pl. The code gives 0.61.
+down by a factor of e^{−0.72} ≈ 0.49, from 1.26 to about 0.62 M_Pl. The code gives 0.61.
 
 **Verdict.** In the β = +1/√3 variant the selection of N_c = 3 is not a margin; it is a
 condition on the spectrum. If this variant is perturbative to M_Pl with three colours,
@@ -411,7 +411,7 @@ ratios):
 |---|---|---|---|
 | e | ATLAS, 140 fb⁻¹ (arXiv:2411.07143) | 150–321 GeV | 150–302 GeV |
 | μ | same | 150–404 GeV | 150–335 GeV |
-| τ | CMS, 138 fb⁻¹ (arXiv:2202.08676) | 122–164 GeV (K = 1); 117–192 GeV (K = 1.2) | none; 126–162 GeV |
+| τ | CMS, 138 fb⁻¹ (arXiv:2202.08676) | 122–164 GeV (K = 1); 117–192 GeV (K = 1.2) | none; 126–163 GeV |
 
 Check: for e and μ this reproduces ATLAS's own 320 and 400 GeV (the Z′ adds 1% there).
 For τ, CMS quotes 125–150 GeV. Below 150 GeV (e, μ) or outside the window (τ), LEP's
@@ -419,10 +419,10 @@ For τ, CMS quotes 125–150 GeV. Below 150 GeV (e, μ) or outside the window (�
 
 **The condition is on the geometric mean.** The threshold correction depends on
 Σᵢ ln(m_Eᵢ/μ), so three non-degenerate E act like three degenerate ones at
-(m_E1 m_E2 m_E3)^{1/3}: (320, 400, 100) GeV gives a pole of 0.7795 M_Pl, and 234 GeV for
-all three gives 0.7794 M_Pl. With each E mixing with one flavour, the lightest set Run 2
+(m_E1 m_E2 m_E3)^{1/3}: (320, 400, 100) GeV gives a pole of 0.7706 M_Pl, and 234 GeV for
+all three gives 0.7705 M_Pl. With each E mixing with one flavour, the lightest set Run 2
 allows is (321, 404, 100) GeV, a geometric mean of **235 GeV**. If all three mix with τ,
-it is 100 GeV. The selection needs 561 ± 113 GeV (§3e). **The LHC has not tested the
+it is 100 GeV. The selection needs 584 ± 118 GeV (§3e). **The LHC has not tested the
 condition.**
 
 **HL-LHC** (3 ab⁻¹, 13 TeV cross sections; 14 TeV would help). Expected limits are scaled
@@ -437,7 +437,7 @@ by √(L₀/L) (background-limited) and by L₀/L (background-free), the two end
 
 **The target moves too.** With no Z′ at the HL-LHC, the same recast and √L scaling put
 the Z′ floor at 5.50 TeV (Run 2 expected: 4.80 TeV), so M_V ≥ 4.49 TeV and
-m_E\* = **621 GeV** (733 GeV without Yukawas; ±20% truncation).
+m_E\* = **646 GeV** (763 GeV without Yukawas; ±20% truncation).
 
 **Verdict.** The HL-LHC reaches the threshold but doesn't clear it. Its conservative
 geometric-mean reach (630 GeV) sits at the central m_E\*, and covers the uncertainty
@@ -471,9 +471,9 @@ is the selection's own: three loops, Yukawas, thresholds, the α = 1 criterion.
 
   | G* | β = +1/√3 | β = −1/√3 | SM hypercharge, same profile |
   |---|---|---|---|
-  | 0.5 | 0.246 | 0.0200 | 0.0097 |
-  | 1 | 0.293 | 0.0203 | 0.0098 |
-  | 2 | 0.359 | 0.0206 | 0.0099 |
+  | 0.5 | 0.247 | 0.0200 | 0.0097 |
+  | 1 | 0.295 | 0.0203 | 0.0098 |
+  | 2 | 0.362 | 0.0206 | 0.0099 |
 
   β = −1/√3 needs about **2×** the gravity contribution the Standard Model's hypercharge
   needs; β = +1/√3 needs about **30×**, because its g_X is already near its pole at M_Pl.
@@ -481,8 +481,8 @@ is the selection's own: three loops, Yukawas, thresholds, the α = 1 criterion.
   f_g is suppressed by (μ/M_Pl)² to below 10⁻⁷. Even the largest f* the criterion allows
   (b_X/4π) moves them by less than 10⁻⁶.
 - **The heavy-lepton condition stands (G4).** With light heavy leptons, N_c = 3 fails at
-  0.61 M_Pl, before the transition. Gravity rescues it only with g_X* at 80–98% of √(4π),
-  the edge of the criterion (f* ≥ 0.72 at G* = 0.5, ≥ 1.07 at G* = 1), and not at all at
+  0.61 M_Pl, before the transition. Gravity rescues it only with g_X* at 81–98.5% of √(4π),
+  the edge of the criterion (f* ≥ 0.73 at G* = 0.5, ≥ 1.08 at G* = 1), and not at all at
   G* = 2.
 
 **What this gives (FOLLOWS).** One irrelevant coupling and one unknown f* give no
@@ -551,7 +551,7 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
    below M_Pl signals new physics, not an inconsistency. Drop the requirement and the
    selection drops too.
 3. **The boundary condition: measured couplings are an input.** Every N_c is run from
-   the couplings measured at 4 TeV: sin²θ_W = 0.2504, 1/α_em = 125.7 and α_s. In 3-3-1,
+   the couplings measured at 4 TeV: sin²θ_W = 0.2505, 1/α_em = 125.7 and α_s. In 3-3-1,
    1/α_X = (1 − 4s²/3)/α_em, so these fix the U(1)_X start. How far does the result lean
    on them (`src/m331_yukawa.py`, Y3)?
 
@@ -574,7 +574,7 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
    leaves it at +0.010 to +0.035.
 4. **Yukawas: closed.** Two-loop Yukawa terms are included (§2). The selection also
    holds with **no Yukawas at all**, a lower bound for any Yukawa running: the β = +1/√3
-   worst case is then 1.53 M_Pl (§3b). That figure is on the §3a grid; against mass floors the β = +1/√3
+   worst case is then 1.52 M_Pl (§3b). That figure is on the §3a grid; against mass floors the β = +1/√3
    case is conditional on the heavy-lepton mass (§3e). The Yukawas' own running is computed in §3c.
 5. **Minimality isn't explained.** Steps 1–2 leave {3, 5, 7, …}. Here the
    perturbativity requirement does the selecting, not a principle of minimality.
@@ -660,7 +660,7 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
   - doubly or singly charged bilepton gauge bosons;
   - exotic quarks;
   - for β = +1/√3, three heavy charged leptons, vector-like SU(2) singlets. The selection
-    needs their geometric-mean mass above 0.56 ± 0.11 TeV (0.62 TeV if the HL-LHC sees no
+    needs their geometric-mean mass above 0.58 ± 0.12 TeV (0.65 TeV if the HL-LHC sees no
     Z′). Run 2 allows down to 0.24 TeV, and the HL-LHC reaches about 0.63–0.78 TeV (§3f).
 
   LHC searches and future colliders will find or exclude them.
@@ -671,13 +671,13 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
 
   A discovery that breaks these relations would break the selection, without excluding
   3-3-1 itself.
-- **The minimal model is excluded.** At one loop sin²θ_W reaches ¼ at 3.68 TeV, where
-  g_X has its Landau pole, so its Z′ must lie below about 3.7 TeV.
+- **The minimal model is excluded.** At one loop sin²θ_W reaches ¼ at 3.63 TeV, where
+  g_X has its Landau pole, so its Z′ must lie below about 3.6 TeV.
   - The LHC bound is M_Z′ > 3.7 TeV (13 TeV, 36.1 fb⁻¹, exotic decays included;
     Nepomuceno & Meirose, PRD 101, 035017 (2020), arXiv:1911.12783), right at that ceiling.
   - Atomic parity violation in caesium requires M_Z′ ≳ 4.2–5.4 TeV (Long et al., NPB 943,
     114629 (2019), arXiv:1812.08669).
-  - Higher-order effects would have to raise the pole by more than about 14% to evade the
+  - Higher-order effects would have to raise the pole by more than about 16% to evade the
     parity-violation bound.
 - **An independent check of N_c = 3:** the R-ratio below charm. With N_c-dependent charges
   R(u,d,s) = N_c(Q_u² + 2Q_d²)(1 + 3C_Fα_s/4π) is 2.173 at N_c = 3 (`src/m331_why_three.py`,
