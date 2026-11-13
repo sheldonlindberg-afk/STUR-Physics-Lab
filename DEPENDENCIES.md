@@ -288,8 +288,8 @@ Values computed in one script and retyped in others instead of imported. Each co
 
 | Quantity | Source | Value | Copies |
 |---|---|---|---|
-| Planck mass √(ħc/G) (GeV) | √(ħc/G) from G, ħ, c (this tool) | 1.220890e19 | `black_holes:72` 1.220890e19 (rounded); `ladder_standalone:1091` 1.220890e19 (rounded); `m331_exact:28` 1.220890e19 (rounded); `m331_standalone:66` 1.220890e19 (rounded); `m331_su3L_running:19` 1.220890e19 (rounded) |
-| Planck length √(ħG/c³) (m) | √(ħG/c³) from G, ħ, c (this tool) | 1.616255e-35 | `black_holes:71` 1.616255e-35 (rounded); `ladder_standalone:106` 1.616255e-35 (rounded); `macdowell_mansouri:266` 1.616255e-35 (rounded) |
+| Planck mass √(ħc/G) (GeV) | √(ħc/G) from G, ħ, c (this tool) | 1.220890e19 | `black_holes:80` 1.220890e19 (rounded); `ladder_standalone:1119` 1.220890e19 (rounded); `m331_exact:28` 1.220890e19 (rounded); `m331_standalone:66` 1.220890e19 (rounded); `m331_su3L_running:19` 1.220890e19 (rounded) |
+| Planck length √(ħG/c³) (m) | √(ħG/c³) from G, ħ, c (this tool) | 1.616255e-35 | `black_holes:79` 1.616255e-35 (rounded); `ladder_standalone:106` 1.616255e-35 (rounded); `macdowell_mansouri:266` 1.616255e-35 (rounded) |
 | electroweak vev (√2 G_F)^(−1/2) (GeV) | src/m331_breaking.py B7 | 246.22 | `ladder_standalone:350` 246.22 (rounded); `m331_standalone:65` 246.22 (rounded); `m331_yukawa:85` 246.22 (rounded) |
 | sin²θ_W(4 TeV) | one-loop SM running from M_Z (m331_exact.run_two_loop) | 0.250433 | `m331_zprime_recast:68` 0.2504 (rounded) |
 | 1/α(4 TeV) | one-loop SM running from M_Z (m331_exact.run_two_loop) | 125.743 | `m331_zprime_recast:69` 125.7 (rounded) |
