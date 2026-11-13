@@ -27,9 +27,10 @@ desitter update, with no information about build a. Framework state at the start
 - **gauge331:** the builder's report was lost in a container restart; its files and QUESTIONS.md
   survived and the gate was re-run by the orchestrator. `photon_direction` is the closed form
   (1/g, beta/g, 1/gX) after a short derivation, as in build a, so the a/b agreement on it is weak evidence.
-- **chiral:** `sigma_model_vacuum` finds sigma0 by `toolkit.bisect` and returns m_pi^2 = H/sigma0 from
-  its own analytic Hessian (the blind check no longer shows that form; leak 6 was closed first).
-  The Hessian route is in its self-check. The a/b probe should agree to rounding; both differ from the
+- **chiral:** `sigma_model_vacuum` finds sigma0 by `toolkit.bisect` and returns m_pi^2 = H/sigma0
+  directly, by the stationarity identity derived in its notes (the blind check no longer shows that form;
+  leak 6 was closed first). The Hessian appears only in the derivation and the self-check, so its
+  PROVENANCE note "from the Hessian" overstates the code (verifier C7). *Corrected after P2.* The a/b probe should agree to rounding; both differ from the
   reference's 1e-6 (F1).
 - **casimir (fully blind):** 23/4 computed by exact polynomial algebra, with a trapezoid route; safe gap
   1.811072783e-4 m by `toolkit.bisect` on a derived bracket. Neither 23/4 nor the gap was visible to
