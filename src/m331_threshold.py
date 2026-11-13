@@ -7,7 +7,8 @@ scale only if sin^2 theta_W(4 TeV) < 0.266, against the measured 0.250. The matc
 SU(3)_L x U(1)_X -> SU(2)_L x U(1)_Y had been done at tree level. Here it is done at one
 loop.
 
-Matching (MS-bar; LIT recalled: Weinberg, PLB 91, 51 (1980); Hall, NPB 178, 75 (1981)):
+Matching (MS-bar; LIT: Weinberg, PLB 91, 51 (1980); Hall, NPB 178, 75 (1981); references checked,
+formula not compared with their text, but T1 below checks its scale independence):
     1/alpha_low(mu) = 1/alpha_high(mu) - lambda(mu) / (12 pi)
     lambda = sum_V t^2 (1 - 21 ln(M_V/mu)) + 8 sum_Dirac t^2 ln(M_F/mu)
              + sum_real-scalars t^2 ln(M_S/mu)

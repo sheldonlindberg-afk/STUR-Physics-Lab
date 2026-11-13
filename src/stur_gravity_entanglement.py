@@ -148,7 +148,8 @@ def gas_decoherence_rate(m, P, T, m_gas=None):
     wavelength, every collision resolves the superposition, so the rate is the collision rate
         Gamma = n <v> sigma_tot = (P/kT) sqrt(8kT/(pi m_gas)) 2 pi R^2
     with the quantum hard-sphere cross-section 2 pi R^2 (kR ~ 4000 here). The interpolation
-    used before (LIT: Romero-Isart, PRA 84, 052121 (2011), eq. 27) gives 4.19x more.
+    used before (LIT: Romero-Isart, PRA 84, 052121 (2011), eq. 27, with the rms speed
+    where the paper has the mean speed; with the paper's v-bar it would be 4.55x) gives 4.19x more.
     N2 assumed as the residual gas."""
     mg = M_N2 if m_gas is None else m_gas
     return P / (KB * T) * np.sqrt(8 * KB * T / (np.pi * mg)) * 2 * np.pi * radius(m) ** 2

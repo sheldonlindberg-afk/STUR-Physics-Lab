@@ -5,9 +5,9 @@ import m331_margin as M
 
 
 def test_split_reproduces_tied_scan():
-    # m_J = m_E = r_J M_V, m_S = r_S M_V reproduces the section 3d worst case (1.276 M_Pl)
+    # m_J = m_E = r_J M_V, m_S = r_S M_V reproduces the section 3d worst case (1.262 M_Pl)
     r = M.rel(MV=2e3, mJ=1e3, mE=1e3, mS=2e3 / 3, n_light=2)
-    assert abs(r - 1.276) < 0.002
+    assert abs(r - 1.262) < 0.002
 
 
 def test_grid_corner_is_not_a_bound():
@@ -16,12 +16,12 @@ def test_grid_corner_is_not_a_bound():
 
 
 def test_light_heavy_leptons_fail():
-    assert abs(M.rel(**M.FLOORS) - 0.612) < 0.005
+    assert abs(M.rel(**M.FLOORS) - 0.605) < 0.005
 
 
 def test_heavy_lepton_threshold():
-    assert abs(M.mE_critical() - 561) < 5
-    assert abs(M.mE_critical(MV=30e3) - 1740) < 15
+    assert abs(M.mE_critical() - 584) < 5
+    assert abs(M.mE_critical(MV=30e3) - 1812) < 15
 
 
 def test_nc5_still_excluded_at_floors():

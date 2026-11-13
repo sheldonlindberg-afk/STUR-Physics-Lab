@@ -20,7 +20,7 @@ def test_convergence_breaks_down_before_4pi():
 
 
 def test_narrow_variant_margin_three_loop():
-    assert abs(L.g_crit_min(3) - 2.845) < 0.01 and abs(L.g_crit_min(2) - 2.926) < 0.01
+    assert abs(L.g_crit_min(3) - 2.870) < 0.01 and abs(L.g_crit_min(2) - 2.954) < 0.01
     assert abs(L.s2_upper(3, sqrt(4 * pi)) - 0.2647) < 0.001
 
 

@@ -6,7 +6,7 @@ L1  SU(3)_L one-loop coefficient with N_g = N_c generations
    N_c   N_g   triplets   b_L (3 triplets)   Landau pole        b_L (+sextet)   Landau pole
      1     1          2             9.833   none (AF)                  9.000   none (AF)
      3     3         12             6.500   none (AF)                  5.667   none (AF)
-     5     5         30             0.500   none (AF)                 -0.333   2.5e+261 GeV
+     5     5         30             0.500   none (AF)                 -0.333   2.7e+261 GeV
      7     7         56            -8.167   1.3e+14 GeV               -9.000   1.4e+13 GeV
      9     9         90           -19.500   1.0e+08 GeV              -20.333   6.7e+07 GeV
    Planck scale = 1.22e+19 GeV
@@ -24,7 +24,7 @@ L2  Which odd N_c survive perturbativity up to the Planck scale?
 L3  How far is 5 from the edge?
 ==============================================================================
    N_c = 5         : b_L = +0.500  pole: none
-   N_c = 5 + sextet: b_L = -0.333  pole: 2.5e+261 GeV (log10 = 261)
+   N_c = 5 + sextet: b_L = -0.333  pole: 2.7e+261 GeV (log10 = 261)
    One extra complex scalar triplet costs 1/6 in b_L; with 3 triplets, N_c = 5 loses
    asymptotic freedom after 3 more scalar triplets, but its pole would still sit far
    beyond the Planck scale.  Two-loop terms were NOT computed.
@@ -37,7 +37,7 @@ L4  Hypercharge-equivalent Landau pole (ESTIMATE, see bY docstring)
    N_c = N_g = 3, with exotic quarks:  b_Y =   -9.50   pole ~ 4.7e+30 GeV   above Planck
    N_c = N_g = 5, no   exotic quarks:  b_Y =  -14.17   pole ~ 5.7e+21 GeV   above Planck
    N_c = N_g = 5, with exotic quarks:  b_Y =  -22.17   pole ~ 1.6e+15 GeV   BELOW Planck
-   N_c = N_g = 7, no   exotic quarks:  b_Y =  -24.17   pole ~ 1.8e+14 GeV   BELOW Planck
+   N_c = N_g = 7, no   exotic quarks:  b_Y =  -24.17   pole ~ 1.7e+14 GeV   BELOW Planck
    N_c = N_g = 7, with exotic quarks:  b_Y =  -40.17   pole ~ 1.0e+10 GeV   BELOW Planck
    critical |b_Y| for a pole exactly at the Planck scale: 16.61
    N_c = 3 with exotics: |b_Y| = 9.50  ->  margin to flip the verdict = +7.11

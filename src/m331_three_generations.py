@@ -13,7 +13,7 @@ G3 Combine with front 5 (N_c odd).
 G4 Data for the MINIMAL model (beta = -sqrt3): it needs sin^2 theta_W(mu) < 1/4 at the
    3-3-1 scale.  Running the Standard Model couplings up (one loop) gives the scale
    mu_* where sin^2 theta_W reaches 1/4; the new gauge bosons must lie below it.
-   Inputs (LIT, PDG, recalled): 1/alpha(M_Z) = 127.95, sin^2 theta_W(M_Z) = 0.23122 (MS-bar).
+   Inputs (LIT, PDG 2024): 1/alpha(M_Z) = 127.930, sin^2 theta_W(M_Z) = 0.23129 (MS-bar).
    Z' limits (LIT, sources checked):
      minimal model: LHC 13 TeV dileptons M_Z' > 3.7 TeV (Nepomuceno & Meirose, PRD 101, 035017
        (2020)); Cs atomic parity violation M_Z' >~ 4.2-5.4 TeV (Long et al., NPB 943, 114629 (2019)).
@@ -40,7 +40,7 @@ def allowed_Ng(Nc, Ng_max=40):
     return out
 
 
-def sin2_running(mu, MZ=91.1876, ainv=127.95, s2=0.23122):
+def sin2_running(mu, MZ=91.1880, ainv=127.930, s2=0.23129):
     """One-loop SM running of g' and g (non-GUT normalisation): b_Y = 41/6, b_2 = -19/6."""
     aY, a2 = (1 - s2) * ainv, s2 * ainv               # 1/alpha_Y, 1/alpha_2 at M_Z
     L = log(mu / MZ) / (2 * pi)
@@ -64,7 +64,7 @@ def main():
     print("   Still open: why that one number is 3 rather than 5 or 7.")
 
     banner("G4  Minimal 3-3-1 (beta = -sqrt3) vs data: the sin^2 theta_W = 1/4 wall")
-    for mu in [91.1876, 1e3, 2e3, 3e3, 4e3, 5e3]:
+    for mu in [91.1880, 1e3, 2e3, 3e3, 4e3, 5e3]:
         print(f"   mu = {mu:8.1f} GeV:  sin^2 theta_W = {sin2_running(mu):.5f}")
     mu_star = brentq(lambda m: sin2_running(m) - 0.25, 100, 1e6)
     print(f"   sin^2 theta_W reaches 1/4 at mu_* = {mu_star/1e3:.2f} TeV (one loop, Standard Model content)")

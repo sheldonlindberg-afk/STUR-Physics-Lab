@@ -65,8 +65,8 @@ SETS = {"PDF4LHC21": "PDF4LHC21_mc_0000.dat", "NNPDF3.1": "NNPDF31_nnlo_as_0118_
 WIDTHS = [0.0, 0.5, 1.2, 3.0, 6.0, 10.0]          # per cent, as published by ATLAS
 
 S2_SSM = 0.2312                                     # LIT: ATLAS SSM = SM Z couplings, MS-bar at M_Z
-S2_TEV = 0.2504                                     # sin^2 theta_W at 4 TeV, as in NOTE_331.md
-INV_ALPHA = {S2_SSM: 127.95, S2_TEV: 125.7}         # alpha in the same scheme
+S2_TEV = 0.2505                                     # sin^2 theta_W at 4 TeV (PDG 2024 inputs, one-loop running)
+INV_ALPHA = {S2_SSM: 127.930, S2_TEV: 125.7}         # alpha in the same scheme
 
 
 def banner(s):
@@ -297,7 +297,7 @@ def Z4_recast():
     print("   Decays: SM fermions only; SM+exotic: every exotic fermion open and massless;")
     print("   everything: also every scalar-triplet component massless (an overcounting upper bound on")
     print("   the width, including W_L W_L and Z h). Bilepton pairs are closed: M_Z' = 1.225 M_V < 2 M_V.")
-    print("   Couplings at sin^2 theta_W = 0.2504 (4 TeV) unless noted.")
+    print("   Couplings at sin^2 theta_W = 0.2505 (4 TeV) unless noted.")
     rows = {}
     for beta, bname in ((+1 / sqrt(3), "+1/sqrt3"), (-1 / sqrt(3), "-1/sqrt3")):
         print(f"\n   beta = {bname}")
@@ -328,7 +328,7 @@ def lineshape(gens, M, gamma_rel, pdfset="PDF4LHC21", windows=(0.02, 0.05, 0.10)
     all couplings in units of g/c_W. Returns, per window |m - M| < w M, the change from
     interference, (full - (gamma + Z) - Z'only) / Z'only."""
     s2 = S2_SSM; sw, cw = sqrt(s2), sqrt(1 - s2)
-    MZ, GZ = 91.1876, 2.4952
+    MZ, GZ = 91.1880, 2.4955
     Qs = {"u": 2 / 3, "d": -1 / 3, "e": -1.0}
     T3 = {"u": 0.5, "d": -0.5, "e": -0.5}
     ms = np.linspace(0.5 * M, 1.5 * M, 20001)

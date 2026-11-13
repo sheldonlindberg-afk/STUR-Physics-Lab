@@ -2,7 +2,7 @@
 """
 The narrow beta = +1/sqrt3 margin, tightened (NOTE_331.md, section 3e).
 
-Section 3d gives the worst case for N_c = 3 at alpha = 1 (three loops) as 1.28 M_Pl. That
+Section 3d gives the worst case for N_c = 3 at alpha = 1 (three loops) as 1.26 M_Pl. That
 number is the minimum over a fixed grid (r_J >= 0.5, r_S >= 1/3, M_V >= 2 TeV), and the
 minimum sits on the grid's corner. This module replaces the grid edges with physical
 floors and puts an error budget on the result.
@@ -176,8 +176,8 @@ class _inputs:
             Y.MT_POLE = self.old
 
 
-# PDG 2024 central values and 1 sigma (LIT recalled; centrals as used throughout the repo)
-INPUTS = {"s2": (0.23122, 0.00004), "ainv": (127.95, 0.01), "as": (0.1180, 0.0009), "mt": (172.57, 0.29)}
+# PDG 2024 central values and 1 sigma (checked against the PDG 2024 tables; AUDIT.md)
+INPUTS = {"s2": (0.23129, 0.00004), "ainv": (127.930, 0.008), "as": (0.1180, 0.0009), "mt": (172.57, 0.29)}
 
 
 def error_budget():
@@ -205,7 +205,7 @@ def main():
     banner("M1  The section 3a grid corner is not a bound (alpha = 1, three loops, M_V = 2 TeV)")
     for rJ, r in grid_edge():
         print(f"   r_J = {rJ:.1f} (m_J = m_E = {rJ * 2:.1f} TeV), r_S = 1/3, light 2nd doublet: pole = {r:.3f} M_Pl")
-    print("   The 1.28 M_Pl of section 3d is the value at the grid's corner, not a minimum. The")
+    print("   The 1.26 M_Pl of section 3d is the value at the grid's corner, not a minimum. The")
     print("   margin is set by the lightest allowed exotics, so it is stated against mass floors.")
 
     banner("M2  Which masses matter: d ln(pole)/d ln(mass) at the floors, M_V = 3.755 TeV")
@@ -244,7 +244,7 @@ def main():
     banner("M5  Error budget on the threshold m_E* (M_V = 3.755 TeV, m_J = 1.3 TeV, alpha = 1, three loops)")
     mE0, slope, b = error_budget()
     print(f"   m_E* = {mE0:.0f} GeV;  d ln(pole)/d ln(m_E) there = {slope:.3f}")
-    for k, lab in (("s2", "sin^2 theta_W(M_Z) +- 0.00004"), ("ainv", "1/alpha(M_Z) +- 0.01"),
+    for k, lab in (("s2", "sin^2 theta_W(M_Z) +- 0.00004"), ("ainv", "1/alpha(M_Z) +- 0.008"),
                    ("as", "alpha_s(M_Z) +- 0.0009"), ("mt", "m_t +- 0.29 GeV"),
                    ("mu", "matching scale M_V/2 - 2 M_V"), ("truncation", "next order (2 -> 3 loop shift)")):
         print(f"   {lab:34s}: {100 * b[k]:5.2f}% of m_E*")

@@ -4,7 +4,7 @@ import numpy as np
 from scipy.integrate import solve_ivp
 
 
-def alpha_s_run(mu_to, mu0=91.1876, a0=0.1180, thresholds=(1.27, 4.18, 172.69)):
+def alpha_s_run(mu_to, mu0=91.1880, a0=0.1180, thresholds=(1.27, 4.18, 172.57)):
     """2-loop MSbar running with continuous matching at the quark masses."""
     def nf(mu):
         return 3 + sum(mu > m for m in thresholds)

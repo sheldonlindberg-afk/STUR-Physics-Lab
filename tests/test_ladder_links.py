@@ -1,5 +1,6 @@
 """Pins src/ladder_links.py: the links between the ladder's rungs (SYMMETRY_LADDER.md).
-L1, neutral matter (rung 1 -> rung 4); L2, pi0 -> gamma gamma (rung 1 -> rung 2)."""
+L1, neutral matter (rung 1 -> rung 4); L2, pi0 -> gamma gamma (rung 1 -> rung 2);
+L3, the Planck mass (rung 4 -> rung 1), at the reference spectrum and over the threshold scan."""
 import contextlib, io, os, sys
 import sympy as sp
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
@@ -56,10 +57,84 @@ def test_planck_mass_is_rung4s_gravity():
     assert abs(mpl / mpl331 - 1) < 1e-6
     out, floor, x_floor = LL.g_window()
     p3, p5, lo, hi = out["+1/sqrt3"]
-    assert abs(p3 - 2.89) < 0.01 and 3.9e-8 < p5 < 4.5e-8 and abs(1 / lo - 8.4) < 0.1
+    assert abs(p3 - 2.86) < 0.01 and 3.9e-8 < p5 < 4.5e-8 and abs(1 / lo - 8.2) < 0.1
     p3m, p5m, lom, him = out["-1/sqrt3"]
     assert 1.8e10 < p3m < 2.0e10 and 9.0e-5 < p5m < 9.6e-5
-    assert abs(floor - 0.61) < 0.01 and abs(x_floor - 2.7) < 0.05
+    assert abs(floor - 0.605) < 0.01 and abs(x_floor - 2.73) < 0.05
+
+
+def test_g_window_over_the_threshold_scan():
+    scan, n = LL.g_window_scan()
+    assert n == 72
+    p3lo, p3hi, s_lo, s_hi = scan["+1/sqrt3", 3]
+    assert abs(p3lo - 1.262) < 0.005 and abs(p3hi - 16.0) < 0.2
+    assert s_lo == (0.5, 1 / 3, 2000.0, 2) and s_hi == (3.0, 3.0, 10000.0, 1)
+    assert abs(1 / p3lo**2 - 0.628) < 0.005            # L3e: G 1.59x weaker excludes N_c = 3
+    # the reference spectrum lies inside the scan, and every spectrum keeps the selection
+    ref = LL.g_window()[0]
+    for v in ("+1/sqrt3", "-1/sqrt3"):
+        assert scan[v, 3][0] <= ref[v][0] <= scan[v, 3][1] and scan[v, 3][0] > 1
+        assert scan[v, 5][0] <= ref[v][1] <= scan[v, 5][1] and scan[v, 5][1] < 1
+
+
+def test_gravity_term_shifts_the_pole_by_percent():
+    f_sm, rows = LL.gravity_shift()
+    assert abs(f_sm - 0.0098) < 2e-4
+    p0, pg = rows["reference"]
+    assert abs(p0 - 2.859) < 0.005 and abs(pg / p0 - 1.029) < 0.003
+    p0, pg = rows["worst"]
+    assert abs(p0 - 1.262) < 0.005 and 1.0 < pg / p0 < 1.02
+
+
+def test_diamond_mass_is_mostly_qcd():
+    B, b = LL.carbon12_binding()
+    assert abs(B - 92.162) < 1e-3 and abs(b - 7.680) < 1e-3
+    f, tot = LL.mass_budget("2+1")
+    assert abs(tot - 1) < 1e-12
+    assert abs(f["QCD field energy"] - 0.9145) < 5e-4 and abs(f["u, d quark masses"] - 0.0453) < 2e-4
+    assert abs(f["s quark mass"] - 0.0482) < 2e-4 and abs(f["electrons"] - 2.74e-4) < 1e-5
+    phi, out = LL.phase_without_masses()
+    pl, pn = out["2+1"]
+    assert abs(pl / phi - (1 - f["u, d quark masses"]) ** 2) < 1e-12 and abs(pl - 1.99) < 0.01 and abs(pn - 1.80) < 0.01
+
+
+def test_evaporation_counts_the_particles():
+    assert abs(LL.hawking_T_gev(1e7) - 1057.26) < 0.05
+    assert abs(LL.f_of_T(1e-15) - 1.016) < 1e-9
+    assert abs(LL.f_of_T(500.0) - 15.332) < 1e-9 and abs(LL.f_standard_model_unbroken() - 15.332) < 1e-9
+    assert abs(LL.f_331("-1/sqrt3")[0] - 25.664) < 1e-6 and abs(LL.f_331("+1/sqrt3")[0] - 26.486) < 1e-6
+    assert LL.f_331("-1/sqrt3")[1:] == (66, 17, 18) and LL.f_331("+1/sqrt3")[1] == 69
+    assert abs((1e10) ** 3 / (3 * LL.ALPHA_EVAP * 15.35) - 406.66) < 0.05
+    ms = LL.m_star()
+    assert abs(ms / 5.11e11 - 1) < 0.01 and abs(LL.hawking_T_gev(ms) * 1e3 - 20.7) < 0.2
+    rows = LL.evaporation_thresholds()
+    Ts = [T for _, T, _, _, _ in rows]
+    assert Ts == sorted(Ts) and abs(rows[1][2] / 4.50e22 - 1) < 0.01
+
+
+def test_pion_from_the_weak_and_em_forces():
+    fV, f, ferr = LL.fpi_from_weak()
+    assert abs(fV * 1e3 - 127.13) < 0.01 and abs(f * 1e3 - 130.57) < 0.01 and abs(ferr * 1e3 - 0.14) < 0.01
+    G, pull, m4 = LL.rung2_with_weak_fpi()
+    assert abs(G - 7.742) < 2e-3 and abs(pull + 0.51) < 0.02 and abs(m4 * 1e3 - 132.3) < 0.2
+    resid, num, (lo, hi), meas, dm, dm_meas = LL.dgmly()
+    assert resid == 0 and abs(num - 1604) < 1 and abs(meas - 1261.2) < 0.1 and lo < num < hi
+
+
+def test_one_coupling_from_mz_to_zero():
+    num, clo = LL.dalpha_lep_one_loop()
+    assert abs(num / clo - 1) < 1e-7 and abs(clo / LL.DALPHA_LEP_1LOOP_LIT - 1) < 1e-4
+    w, frac = LL.dalpha_kedr_window()
+    assert abs(w - 1.7425e-3) < 1e-6 and abs(frac - 0.0626) < 1e-3
+    a0, d = LL.alpha0_from_mz()
+    assert abs(a0 - 1 / LL.ALPHA_0) < 1e-5
+
+
+def test_de_sitter_gauge_theory_in_the_lab():
+    assert LL.weak_field_of_sds() == (0, 0)
+    assert LL.lambda_cancels_in_entangling_phase() == 0
+    rel, l, rf = LL.lambda_correction_size()
+    assert abs(l / 1.647e26 - 1) < 1e-3 and abs(rel / 2.04e-59 - 1) < 0.01
 
 
 def test_reference_output_matches():

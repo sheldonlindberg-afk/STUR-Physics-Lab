@@ -33,7 +33,7 @@ YEAR = 3.156e7
 MIN_RUNS = 9 * 30       # ASSUMPTION: at least 30 runs in each of the 9 local settings
 LPF_ASD = 1.74e-15      # m s^-2 / sqrt(Hz)   LIT: LISA Pathfinder (Armano et al., PRL 120, 061101 (2018))
 MAX_MASS_SUPERPOSED = 25000 * 1.66053907e-27   # LIT: Fein et al., Nat. Phys. 15, 1242 (2019)
-NV_T2_BEST = 1.6        # s     LIT: NV ensemble T2 with dynamical decoupling at 77 K (Bar-Gill 2013: ~0.6 s);
+NV_T2_BEST = 1.6        # s     LIT: NV ensemble T2 with dynamical decoupling at 77 K (Bar-Gill et al., Nat. Commun. 4, 1743 (2013): T2 ~ 0.5 s);
                         #       1.6 s used as an optimistic round value, scanned below
 
 
@@ -186,7 +186,11 @@ GAS_MODEL = "kinetic"
 
 def gas_rate_interpolated(m, P, T, m_gas):
     """LIT (Romero-Isart, PRA 84, 052121 (2011), eq. 27): gamma = lambda_th^2 Lambda, a Gaussian
-    interpolation of the long-wavelength coefficient into the saturated regime."""
+    interpolation of the long-wavelength coefficient into the saturated regime. v here is the
+    rms speed sqrt(3kT/m); the paper's v-bar is the mean speed sqrt(8kT/(pi m)), which would make
+    this rate 8.5% higher (4.55x the derived rate instead of 4.19x). Design A was found with this
+    version and is kept as the repository's reference geometry (AUDIT.md); the derived rate,
+    gas_rate_kinetic, is what the conclusions use."""
     v = np.sqrt(3 * KB * T / m_gas)
     return 16 * np.pi * np.sqrt(2 * np.pi) / np.sqrt(3) * P * radius(m) ** 2 / (m_gas * v)
 

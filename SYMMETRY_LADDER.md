@@ -5,6 +5,11 @@ and pinned by a test. Labels: **CHECK** (computed here), **MODEL** (a stated mod
 physics), **REFORMULATION** (an equivalent rewriting), **LIT** (a measured input or a
 quoted result).*
 
+**The same physics as one chain, without rungs:** [FORCE_CHAIN.md](FORCE_CHAIN.md) and
+`src/force_chain.py` run eight stages in order, each using earlier stages' outputs, from 3-3-1
+through the diamond experiment into black holes and back. This page is the step-by-step
+derivation behind it.
+
 This page follows the forces down in energy, from the 3-3-1 scale to the two diamonds of
 [GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md). At each rung it states what breaks,
 how, what follows, and what is derived. The forces don't turn into one another: at each
@@ -110,15 +115,23 @@ the light quarks, SU(2)_L × SU(2)_R → SU(2)_V, through the quark condensate �
 pions are its near-Goldstone bosons, and their exchange is the long-range nuclear force.
 The derivation uses the linear sigma model (Gell-Mann and Lévy 1960), the minimal model
 with this breaking pattern. It is a **MODEL** of QCD's low-energy structure, not QCD
-itself.
+itself. S6–S8 then compute the pion mass in chiral perturbation theory, QCD's own
+low-energy effective theory, at O(p⁴), so that number no longer rests on the model.
 
 | | Result | Status |
 |---|---|---|
 | S1 | With massless quarks: exactly **3 zero modes**, dim O(4) − dim O(3) = 6 − 3: the pions | MODEL; CHECK |
 | S2 | With quark masses: m_π² = H/⟨σ⟩ and f_π = ⟨σ⟩, so **m_π² f_π² = (m_u + m_d)\|⟨q̄q⟩\|** (Gell-Mann–Oakes–Renner) | MODEL; CHECK |
-| S3 | With measured m_u + m_d, f_π and the lattice condensate: m_π = **127.6 MeV**, against 135.0. The −5.5% is the higher-order chiral terms, not derived here | CHECK; LIT inputs |
+| S3 | With measured m_u + m_d, f_π and the lattice condensate: m_π = **127.6 MeV**, against 135.0. This is leading order with the physical f_π standing in for the chiral-limit F; S7 corrects it | CHECK; LIT inputs |
 | S4 | Exchanging a particle of mass m gives V(q) ∝ 1/(q² + m²), whose Fourier transform is **e^(−mr)/(4πr)** (derived symbolically). The range is 1/m_π = **1.414 fm**. The spin structure (σ₁·q)(σ₂·q) = (q²/3)[σ₁·σ₂ + S₁₂] gives the central and **tensor** nuclear forces | CHECK |
 | S5 | Goldberger–Treiman: g_πNN = g_A M_N/f_π = **13.01**, against about 13.1 empirically (−0.7%, the known discrepancy; the empirical value is quoted approximately) | CHECK |
+| S6 | Chiral perturbation theory (Weinberg, Physica A 96 (1979) 327; Gasser–Leutwyler, Ann. Phys. 158 (1984) 142). Its O(p²) Lagrangian (F²/4)Tr(∂U∂U†) + (F²M²/4)Tr(U + U†) is fixed by the symmetry. The one-loop mass comes from Wick-contracting its quartic terms (the tadpole): **M_π² = M²(1 + Δ/2F²)**. It's derived in two parametrizations of U, which split the loop differently between wave function and mass but agree on the physical mass. The tadpole in dimensional regularization is Δ = (M²/16π²)[ln(M²/μ²) − 1/ε̄ − 1], also derived. So M_π² = M²[1 − (M²/32π²F²) ℓ̄₃], the NLO term of FLAG 19's eq. (MF) | CHECK, symbolic |
+| S7 | S3 at O(p⁴), with consistent leading order M² = 2m̂Σ/F² and N_f = 2+1 lattice inputs: m̂ = 3.364(41) MeV (FLAG 2024, arXiv:2411.04268), and Σ^(1/3) = 272(5) MeV, F_π/F = 1.062(7), ℓ̄₃ = 3.07(64) (the FLAG 19 averages, restated unchanged in FLAG 21, arXiv:2111.09849; FLAG 2024 omits the low-energy constants). The result is **m_π = 132.6 ± 3.8 MeV against 135.0** (−0.6σ), with the error mostly from the condensate. The O(p⁴) term is −2.3% of M². Most of S3's −5.5% came from using f_π for F, not from the loop | CHECK; LIT inputs |
+| S8 | F_π/F = 1 + (M²/16π²F²) ℓ̄₄ (FLAG 19 eq. (MF)) = 1.061 with FLAG's ℓ̄₄ = 4.02(45), against FLAG's 1.062(7). This is a consistency check of the lattice inputs, not an independent test (same fits) | CHECK; LIT formula |
+
+S1–S5 remain the linear sigma model. Its σ is not QCD's broad f₀(500), and chiral
+perturbation theory has no σ field. The pion mass is now a result of QCD's own effective
+theory, carrying the lattice inputs' uncertainty rather than the model's caveat.
 
 **Where the derivation stops.** Deriving the proton mass and nuclear binding needs lattice
 QCD and nuclear many-body theory. They are not derived here.
@@ -135,6 +148,9 @@ Casimir–Polder force.
 | P2 | The dipole Green tensor at imaginary frequency satisfies the wave equation and is transverse off the source; **Tr G·G = 2e^(−2u)(3 + 6u + 5u² + 2u³ + u⁴)/r⁶** | CHECK |
 | P3 | The Casimir–Polder fluctuation formula U = −(ħ/2π)∫dξ α₁α₂ Tr G·G (LIT: Casimir and Polder 1948, the one quantum step quoted, not derived). For constant α, the integral is exactly **23/4**, so **U = −(23/4π) ħc α₁α₂/r⁷** | CHECK; LIT formula |
 | P4 | This is the formula the experiment code had quoted as known; it agrees to 12 digits. At 200 µm, Casimir/gravity = 2.3×10⁻². Casimir ∝ R⁶/r⁷ and gravity ∝ R⁶/r, so the safe gap doesn't depend on the mass: 181 µm | CHECK |
+| P5 | At temperature T the frequency integral becomes the Matsubara sum. With constant α it is exact in closed form: **U_T = U₀ η(τ)**, τ = 2πk_BTr/ħc, with **η = 1 + (22/21735)τ⁶ + …** at small τ and η → 6τ/23 (U_T → −3k_BTα₁α₂/r⁶) at large τ. It agrees to machine precision with Boyer's far-zone result (PRA 11, 1650 (1975)) in the form of Passante and Spagnolo, PRA 76, 042112 (2007), eq. (11), including the τ⁶ term. The regimes are those of Goedecke and Wood, PRA 60, 2577 (1999). Constant α: only ξ up to ~10c/r = 1.7×10¹³ rad/s matter at the gap. Ideal diamond has zero Born effective charges (Lawler and Shirley, arXiv:cond-mat/0407541), and its one-phonon absorption at 1332 cm⁻¹ (2.5×10¹⁴ rad/s) is forbidden (Shiryaev et al., Meteorit. Planet. Sci. 57, 730 (2022)). So its lowest lattice absorption is 15× above the frequencies that matter | CHECK, exact; LIT |
+| P6 | The safe gap at finite temperature. At the design's 0.15 K it moves by 1×10⁻¹¹, and at 4.2 K by 0.2%. It grows by 6% at 10 K and by 1.7× (to 0.31 mm) at 77 K. Thermal corrections don't tighten the gap at the design's temperature. With design A's own branch separation (721 µm, not the 250 µm H0 used) the gap would be 164 µm, so 181 µm is conservative | CHECK |
+| P7 | Electric dipoles against H6's bound at design A, **p < 2.8×10⁻⁴ e·µm**. *Measured:* levitated silica microspheres carry permanent dipoles of typically ~100 e·µm, roughly mass-independent (Afek et al., PRA 104, 053512 (2021)). That is 3.6×10⁵× the bound, and still 3×10³× after the ×120 cancellation they demonstrate. *Model:* random patches of rms V and size l ≪ R give a dipole of **√(12π) ε₀ R l V** per axis (checked by Monte Carlo), so the bound needs **V l < 8.3×10⁻¹³ V m**. Patches measured on gold (V_rms 15–28 mV; scales 30–100 nm and 300–1000 nm; Garrett, Somers and Munday, J. Phys.: Condens. Matter 27, 214012 (2015)) exceed it 500–5000×. Diamond has not been measured. Afek et al. note that a conducting shield "would not necessarily eliminate such forces due to the dipole-shield interaction", so H6's remedy is not established for dipoles. **Dipole control at the 10⁻⁴ e·µm level is an open requirement of the design** | LIT; MODEL |
 
 ## Rung 4: gravity to the diamond experiment (`src/graviton_exchange.py`)
 
@@ -188,7 +204,7 @@ on the ladder that needs ħ, G, c and k_B together: T_H = ħc³/(8πGMk_B).
 | H3 | With S = A/4ℓ_P²: Schwarzschild **dM = T dS** and **M = 2TS** (Smarr). Kerr, written in its two horizon radii so every quantity is rational: **dM = T dS + Ω dJ** and **M = 2TS + 2ΩJ**, in exact fractions on 60 random horizons (the standalone script) and symbolically (here). Reissner–Nordström, with κ derived from its f: dM = T dS + Φ dQ, M = 2TS + ΦQ | CHECK; Kerr's T, Ω are LIT (Bardeen, Carter and Hawking 1973) |
 | H4 | Schwarzschild–de Sitter has a black-hole and a cosmological horizon with **different temperatures**, so no single Euclidean period is smooth at both. They merge where f = f′ = 0: r = 3GM/c² and **9G²M²Λ = c⁴** (the Nariai limit), and both κ go to zero. Beyond it there is no static region. With rung 5's measured Λ: the largest black hole the universe allows has **M = c²/(3G√Λ) = 4.27×10⁵² kg = 2.1×10²² M☉**, horizon at 1/√Λ = 9.5×10²⁵ m | CHECK; LIT Λ |
 | H5 | From the effective potentials: **photon sphere 3GM/c²**; critical impact parameter, the shadow's radius seen from far away, **√27 GM/c²**; circular orbits need L² ≥ 12(GM/c)², and at that minimum the stable and unstable orbits merge at the **ISCO, 6GM/c²**, with E² = 8/9. The standalone script finds these numerically, without the closed forms | CHECK |
-| H6 | **Event Horizon Telescope.** The EHT measures a bright ring, not the shadow, and converts its diameter to θ_g = GM/(c²D) with α = d/θ_g calibrated on GRMHD images; the calibration's spread over spin, inclination and emission is in its error bar. So the ring-to-shadow offset is applied as a correction with the EHT's own uncertainty, and the comparison is θ_g, from masses and distances measured without the EHT. M87*, stellar dynamics (Gebhardt et al. 2011; M/D doesn't depend on the distance assumed): **θ_g = 3.64 μas against the EHT's 3.8 ± 0.4 μas, +0.4σ** (shadow 2√27 θ_g = 37.8 μas; ring 42 ± 3 μas, so α = 11.1 against the Schwarzschild shadow's 10.4; EHT 2019, ApJL 875, L1 and L6). Sgr A*, stellar orbits (GRAVITY 2022, Keck 2019): **5.03 μas against 4.8 (−0.7 +0.4) μas, −0.5σ** (shadow 52.3 μas; ring 51.8 ± 2.3 μas, α = 10.8; EHT 2022, ApJL 930, L12). Each pull uses the EHT's error on the side facing the prediction. M87*'s gas-dynamics mass would give θ_g = 1.93 μas, 4.7σ off, and is excluded | CHECK; LIT data |
+| H6 | **Event Horizon Telescope.** The EHT measures a bright ring, not the shadow, and converts its diameter to θ_g = GM/(c²D) with α = d/θ_g calibrated on GRMHD images; the calibration's spread over spin, inclination and emission is in its error bar. So the ring-to-shadow offset is applied as a correction with the EHT's own uncertainty, and the comparison is θ_g, from masses and distances measured without the EHT. M87*, stellar dynamics (Gebhardt et al. 2011; M/D doesn't depend on the distance assumed): **θ_g = 3.64 μas against the EHT's 3.8 ± 0.4 μas, +0.4σ** (shadow 2√27 θ_g = 37.8 μas; ring 42 ± 3 μas, so α = 11.1 against the Schwarzschild shadow's 10.4; EHT 2019, ApJL 875, L1 and L6). Sgr A*, stellar orbits (GRAVITY 2022, Keck 2019): **5.03 μas against 4.8 (−0.7 +1.4) μas, −0.2σ** (shadow 52.2 μas; ring 51.8 ± 2.3 μas, α = 10.8; EHT 2022, ApJL 930, L12). Each pull uses the EHT's error on the side facing the prediction. M87*'s gas-dynamics mass would give θ_g = 1.93 μas, 4.7σ off, and is excluded | CHECK; LIT data |
 | H7 | **GW250114 and Hawking's area law.** Kerr area 8π(GM/c²)²(1 + √(1−χ²)). Initial: the published component masses, 33.6 and 32.2 M☉, give **237,000 km²** (spins 0, which maximizes it, so the published spin bound χ ≤ 0.26 is not needed). Final: inverting the ringdown-only fit of the 220 mode (247 Hz, damping 221 Hz, z = 0.09) gives M_f = 66.7 M☉, χ_f = 0.75 and **407,000 km²**. The full-signal remnant (62.7 M☉, 0.68) is not used for the area, because that fit assumes GR and obeys the area law by construction. At the least favourable corners of the published 90% ranges, 252,000 km² initial against 341,000 km² final, the area still grows. That is a heuristic, not a bound: the area need not be monotonic in (f, γ), so its minimum over the ranges need not sit at a corner. The collaboration finds A_f > A_i at > 4σ at all analysis points (arXiv:2509.08054) | CHECK; LIT data |
 | H8 | The full-signal remnant predicts the 220 mode with the Berti–Cardoso–Will fit: **249 Hz and damping 244 Hz**, against the ringdown's 247 ± 6 Hz and 221 (−32, +39) Hz. Inspiral-plus-merger and ringdown describe the same Kerr black hole | CHECK; LIT data |
 
@@ -258,12 +274,16 @@ input without either importing it from the other; [DEPENDENCIES.md](DEPENDENCIES
 | | Result | Status |
 |---|---|---|
 | L3a | √(ħc/G), from rung 4's G, ħ and c, **equals the 3-3-1 cutoff** to 1×10⁻⁷ | CHECK |
-| L3b | M_Pl scales as G^(−1/2). If G were x times its measured value, the selection would hold for (M_Pl/pole₃)² < x < (M_Pl/pole₅)². At the reference spectrum (M_V = 4 TeV, Yukawas and thresholds on, α = 1, three loops; NOTE_331.md §3d) that is **0.12 < x < 5×10¹⁴ for β = +1/√3** and 3×10⁻²¹ < x < 1×10⁸ for β = −1/√3. G is measured to 2.2×10⁻⁵ (CODATA 2018). The narrow side: with G 8.4× weaker, M_Pl would rise above N_c = 3's pole and exclude it | CHECK |
+| L3b | M_Pl scales as G^(−1/2). If G were x times its measured value, the selection would hold for (M_Pl/pole₃)² < x < (M_Pl/pole₅)². At the reference spectrum (M_V = 4 TeV, Yukawas and thresholds on, α = 1, three loops; NOTE_331.md §3d) that is **0.12 < x < 6×10¹⁴ for β = +1/√3** and 3×10⁻²¹ < x < 1×10⁸ for β = −1/√3. G is measured to 2.2×10⁻⁵ (CODATA 2018). The narrow side: with G 8.2× weaker, M_Pl would rise above N_c = 3's pole and exclude it | CHECK |
 | L3c | At the mass floors with light heavy leptons (NOTE_331.md §3e), N_c = 3's pole is 0.61 M_Pl, so it fails at the measured G; it would pass only if G were 2.7× stronger. This restates the heavy-lepton condition in terms of G; it adds nothing to it | CHECK |
 | L3d | The check uses G, measured at laboratory and solar-system distances, at 10¹⁹ GeV. That assumes gravity's strength doesn't run in between. In perturbative quantum gravity the corrections are of order (E/M_Pl)². Many hidden light species would lower the effective cutoff, which this doesn't cover. Above M_Pl, an asymptotically safe gravity term leaves the selection unchanged ([NOTE_331.md](NOTE_331.md) §3g) | FOLLOWS |
+| L3e | L3b uses one spectrum. Over the 72-point threshold scan of [NOTE_331.md](NOTE_331.md) §3a (r_J, r_S, M_V, light doublets), β = +1/√3's N_c = 3 pole runs from **1.26 to 16 M_Pl**, so the lower edge runs from x = 0.004 to **0.63**. At the scan's worst point (M_V = 2 TeV, r_J = 0.5, r_S = 1/3, two light doublets) the selection fails for G only **1.6× weaker**. The N_c = 5 edge and β = −1/√3 stay many orders of magnitude away. So 8.2× is the reference spectrum's margin, not the model's | CHECK |
+| L3f | Gravity's own term in the gauge running (src/m331_gravity_fixed_point.py). At the strength that keeps the Standard Model's hypercharge finite (f* = 0.0098, G* = 1), the reference pole moves from 2.86 to 2.94 M_Pl and the worst-case pole from 1.26 to 1.27 M_Pl: 3% or less, against the factor of 13 the spectrum spans. The heavy spectrum, not gravity's running, sets how close the edge comes | CHECK, given the model |
 
-So the selection's cutoff and the diamonds' signal rest on one measured number. The
-selection is insensitive to it, by about an order of magnitude in G on its narrow side.
+So the selection's cutoff and the diamonds' signal rest on one measured number. On its
+narrow side the selection tolerates G about 8× weaker at the reference spectrum, but only
+1.6× weaker at the worst spectrum the scan allows. That is still far outside G's 2×10⁻⁵
+measurement error, and the uncertainty in the edge comes from the heavy spectrum, not from G.
 
 **Finding more links.** [DEPENDENCIES.md](DEPENDENCIES.md) maps which script feeds which and
 where each physical constant is typed. It lists the quantities that more than one part of the
@@ -285,6 +305,66 @@ picture: the scale where a black hole is as small as the Planck length and as ho
 Planck energy over 8π. The Hawking formula is semiclassical, and at this size it is used
 past where it is trusted, so the number is an order of magnitude, not a prediction.
 Status: CHECK for the identity; the physics there needs quantum gravity.
+
+### Link 6: the diamond's mass, from rung 2 to rung 4 (`src/ladder_links.py` L6)
+
+The mass in rung 4's phase is the diamond's, and almost all of it is QCD.
+
+| | Result | Status |
+|---|---|---|
+| L6a | Carbon-12 from its constituents: 6m_p + 6m_n + 6m_e − 12u = **92.162 MeV**, 7.680 MeV per nucleon (CODATA 2018; exact, since 12 u is the atom's mass by definition). This is the nuclear binding: the residual strong force, which rung 2's one-pion exchange describes at long range, minus the protons' Coulomb repulsion | CHECK; LIT |
+| L6b | Each nucleon, by the Feynman–Hellmann theorem: the light-quark masses contribute σ_πN = 42.2(2.4) MeV and the strange quark σ_s = 44.9(6.4) MeV (FLAG 2024, N_f = 2+1; the N_f = 2+1+1 averages, 60.9(6.5) and 41.0(8.8) MeV, are carried as the spread). The rest is gluon field energy and quark motion | CHECK; LIT |
+| L6c | Design A's diamond is **91% QCD field energy**, 4.5% u and d quark masses, 4.8% strange-quark mass, 0.03% electrons, −0.8% nuclear binding (N_f = 2+1+1: 90%, 6.5%, 4.4%) | CHECK |
+| L6d | The phase goes as m². With massless u and d quarks (first order in σ_πN) the same diamonds give **1.99 rad** instead of 2.19; with every quark and the electron massless, 1.80 rad. The entanglement does not need the Higgs mechanism's light-fermion masses: what the experiment weighs is QCD | FOLLOWS, first order |
+
+Heavy quarks enter the nucleon mass through the trace anomaly and are counted with QCD here.
+The first-order counterfactual ignores how the binding and the strange-quark term would
+themselves change.
+
+### Link 7: a black hole evaporating back through the forces, from rung 6 to rungs 3, 2, 1 (`src/ladder_links.py` L7)
+
+Design A's diamond can't be the black hole: at 1.5×10⁻¹⁴ kg it is a millionth of the Planck
+mass, below any semiclassical hole. An evaporating hole is the way back down the ladder: it
+heats as it shrinks, T_H = ħc³/(8πGMk_B), and emits every species lighter than T_H.
+
+| | Result | Status |
+|---|---|---|
+| L7a | Mass loss dM/dt = −5.34×10²⁵ f(M)/M² g³/s, f a weighted count of emitted degrees of freedom: 0.267 (spin 0), 0.147 and 0.142 (neutral and charged spin ½), 0.060 (spin 1), 0.007 (spin 2) (Carr, Kohri, Sendouda and Yokoyama, Rept. Prog. Phys. 84, 116902 (2021)). T_H at 10¹⁰ g is 1.057 TeV, their 1.06 | CHECK; LIT |
+| L7b | **Rung 1's particle content sets f.** Massless species only: f = 1.016. All Standard Model species: **f = 15.33**, against their 15.35, and only if the W and Z longitudinal modes, the Goldstones the Higgs mechanism gives them, count as scalars; unbroken counting gives 15.33 too. Above the 3-3-1 scale, from `src/m331_exact.py`'s field content (17 gauge bosons, 18 real scalars, 66 or 69 Weyl fermions): f = 25.7 (β = −1/√3) or 26.5 (β = +1/√3) | CHECK |
+| L7c | The thresholds a shrinking hole crosses, coldest first (each species switches on at T_H = m/4; quarks and gluons replace pions at the QCD crossover, 156.5 MeV, HotQCD 2019): the diamond experiment's 0.15 K (8.2×10²³ kg); the CMB (2.72548 K, Fixsen 2009; 4.5×10²² kg); electrons (8×10¹³ kg); pions, rung 2's Goldstones (3×10¹¹ kg); **the QCD crossover, where rung 2's condensate melts** (6.8×10¹⁰ kg, 7 million years left); W and Z (5×10⁸ kg); **the electroweak crossover, 159.5 GeV (D'Onofrio and Rummukainen 2016), where rung 1's breaking undoes** (6.6×10⁷ kg, 33 hours left); the 3-3-1 content (1.1×10⁷ kg, 5.6 minutes left); and the Planck mass, link 3's cutoff, where semiclassics ends | CHECK, given the model |
+| L7d | Checks: 10¹⁰ g lives 406.7 s at f = 15.35 (theirs 407 s); the hole that lives the age of the universe (13.787 Gyr, Planck 2018) is **5.11×10¹⁴ g at T_H = 20.7 MeV**, theirs 5.1×10¹⁴ g at 21 MeV | CHECK |
+
+The switch-on rule is a model; real emission turns on smoothly over a factor of a few in T_H.
+That the radiated species change at the crossovers doesn't mean the vacuum around the hole is
+restored there; Hawking radiation is not a bath in equilibrium.
+
+### Link 8: the pion from the weak and electromagnetic forces, from rung 1 to rung 2 (`src/ladder_links.py` L8)
+
+| | Result | Status |
+|---|---|---|
+| L8a | **f_π from rung 1's G_F.** Γ(π⁺ → μ⁺ν) = G_F² f_π² m_μ² m_π (1 − m_μ²/m_π²)² \|V_ud\|²/8π × (1 + δ_π), with the measured rate 3.8408×10⁷ s⁻¹ and δ_π = 0.0176(21) (PDG 2024 review of leptonic meson decays, eqs. 72.1–72.4) and \|V_ud\| = 0.97367(32) (PDG 2024 CKM review): f_π\|V_ud\| = 127.13 MeV (theirs 127.13 ± 0.13) and **f_π = 130.57 ± 0.14 MeV**, against the lattice 130.2(1.2) MeV rung 2 takes as input (+0.3σ) | CHECK; LIT |
+| L8b | With that f_π: Γ(π⁰ → γγ) = 7.742 eV (PrimEx 7.802 ± 0.117, −0.5σ), and the O(p⁴) pion mass is 132.3 MeV | CHECK |
+| L8c | **Rung 1's photon splits rung 2's pions.** The DGMLY sum rule (Das, Guralnik, Mathur, Low and Young, PRL 18, 759 (1967); eq. 2.3 of Shintani et al., arXiv:0710.0691), saturated by the ρ and a₁ with Weinberg's two sum rules, gives, derived symbolically, m²_π⁺ − m²_π⁰ = (3α/4π) m_ρ²m_a₁²/(m_a₁² − m_ρ²) ln(m_a₁²/m_ρ²), independent of f_π. With PDG 2024 masses: **1604 MeV²** (5.84 MeV), against the measured 1261.2 MeV² (4.59 MeV). The 27% excess is lowest-resonance saturation; the lattice evaluation of the same sum rule gives 1024(100) MeV² | CHECK; MODEL |
+
+### Link 9: one electromagnetic coupling, from rung 1 to rung 3 (`src/ladder_links.py` L9)
+
+Rung 1 breaks with α̂(M_Z); rung 3's charges, L1's Coulomb law, L2's π⁰ width and L8's pion
+splitting use α(0). This link shows they are one coupling at two scales.
+
+| | Result | Status |
+|---|---|---|
+| L9a | The leptons' vacuum polarization at one loop, from the Feynman-parameter integral, numerically and in closed form: **314.191×10⁻⁴**, against 314.190×10⁻⁴ (Steinhauser, PLB 429, 158 (1998), Table 1; 314.977×10⁻⁴ through three loops) | CHECK |
+| L9b | The hadrons' part needs the R-ratio at all energies. The repository's KEDR data (1.84–3.05 GeV) gives 1.74×10⁻³, **6.3%** of Δα_had = 0.02783(6) (PDG 2024), which enters as an input | CHECK; LIT |
+| L9c | Closure: α(0) = α̂(M_Z)(1 − Δα̂), with Δα̂ = Δα_lep + Δα_had + 0.007122 (the MS-bar to on-shell conversion, PDG 2024 eq. 10.13). From rung 1's 1/α̂(M_Z) = 127.930: **1/α(0) = 137.035999**, CODATA's 137.035999084 | CHECK; LIT |
+
+### Link 10: the broken de Sitter gauge theory back to the lab, from rung 5 to rung 4 (`src/ladder_links.py` L10)
+
+| | Result | Status |
+|---|---|---|
+| L10a | Rung 5's field equations give Schwarzschild–de Sitter (M5). Its Newtonian potential, Φ = −(c²/2)(1 − f), is **−GM/r − Λc²r²/6**, solving ∇²Φ = 4πGρ − Λc²: rung 4's Newton law plus a uniform background | CHECK, symbolic |
+| L10b | **The background can't entangle.** For two masses the Λ term is a sum of one-body energies, so it cancels identically in the entangling combination φ₀₀ + φ₁₁ − φ₀₁ − φ₁₀; the 1/r term, with the same G, is all that is left | CHECK, symbolic |
+| L10c | What can is a mass–mass correction from the de Sitter propagator, of relative order (r/l)² = Λr²/3: **2×10⁻⁵⁹** at design A's farthest branch distance. The coefficient isn't computed; the order is the statement | FOLLOWS |
+| L10d | Rung 5's l = √(3/Λ) = 1.65×10²⁶ m and coupling 3/(GΛ) are built from rung 4's G and the measured Λ | CHECK |
 
 ## How the rungs fit together
 
@@ -324,7 +404,7 @@ python3 src/m331_breaking.py       # rung 1, ~7 s
 python3 src/m331_rho_bound.py      # rung 1 against the global fit's rho_0 and the LHC, ~7 s
 python3 src/m331_zpole.py          # rung 1 against the LEP/SLD Z pole, validated on E6 Z', ~30 s
 python3 src/chiral_breaking.py     # rung 2, ~1 s
-python3 src/casimir_diamonds.py    # rung 3, ~2 s
+python3 src/casimir_diamonds.py    # rung 3, ~15 s
 python3 src/graviton_exchange.py   # rung 4, ~1 s
 python3 src/macdowell_mansouri.py  # rung 5, ~3 s
 python3 src/black_holes.py         # rung 6 and links 4-5, ~3 s

@@ -77,7 +77,7 @@ the smearing ([OPPENHEIM.md](OPPENHEIM.md) P4):
 
 An earlier version of this page quoted the point-nucleus column. The finite-nucleus figure
 is the right one, and it is still decisive. The Earth's internal heat flow is
-7.9×10⁻¹² W/kg (LIT, recalled), so with R₀ = a matter would be heated 6×10¹⁰ times
+7.9×10⁻¹² W/kg (47 ± 2 TW; LIT: Davies and Davies, Solid Earth 1, 5 (2010)), so with R₀ = a matter would be heated 6×10¹⁰ times
 faster than anything observed.
 Searches for the X-rays such heating would produce require R₀ ≥ 0.54 Å (Donadi et al.
 2021), which is 3.4×10²³ cutoff lengths.

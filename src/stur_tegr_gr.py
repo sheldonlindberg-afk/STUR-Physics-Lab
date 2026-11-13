@@ -25,13 +25,14 @@ import stur_tegr as T
 import stur_gravity_entanglement as ge
 
 G, C, HBAR = 6.67430e-11, 2.99792458e8, 1.054571817e-34
-GM_SUN, R_SUN = 1.32712440018e20, 6.957e8           # LIT (IAU)
+GM_SUN, R_SUN = 1.3271244e20, 6.957e8               # LIT: IAU 2015 nominal values (arXiv:1510.07674)
 GM_EARTH, R_EARTH = 3.986004418e14, 6.378137e6      # LIT (WGS-84, equatorial)
 R_GPS = 26_561.75e3                                 # LIT: GPS orbit radius
 MERCURY_A, MERCURY_E, MERCURY_P = 5.7909050e10, 0.205630, 87.9691   # LIT; period in days
 OBS_PERIHELION = 42.98                              # LIT: arcsec/century (GR part; obs. 43.1 +- 0.5)
-OBS_DEFLECTION = 1.7512                             # LIT: VLBI, gamma = 0.99983 +- 0.00045
-CASSINI_GAMMA = (2.1e-5, 2.3e-5)                    # LIT: Bertotti, Iess & Tortora 2003: gamma - 1
+OBS_DEFLECTION = 1.7512                             # GR limb value 4GM/(c^2 R); VLBI gamma = 0.99983 +- 0.00045
+                                                    #   (LIT: Shapiro et al., PRL 92, 121101 (2004))
+CASSINI_GAMMA = (2.1e-5, 2.3e-5)                    # LIT: Bertotti, Iess & Tortora, Nature 425, 374 (2003): gamma - 1
 GPS_OBS = 38.6                                      # LIT: microseconds per day, design offset
 
 

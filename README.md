@@ -59,8 +59,8 @@ Pythia 8).
 - Planck-scale perturbativity;
 - the measured TeV-scale electroweak couplings, which are an input, not a prediction.
   In the β = +1/√3 variant there is no comfortable margin. At α = 1 (three loops), N_c = 3
-  reaches M_Pl only if the heavy charged leptons are heavier than 0.56 ± 0.11 TeV with M_V
-  at its LHC bound (0.96 TeV at M_V = 10 TeV). Lighter ones are not yet excluded by the
+  reaches M_Pl only if the heavy charged leptons are heavier than 0.58 ± 0.12 TeV with M_V
+  at its LHC bound (1.00 TeV at M_V = 10 TeV). Lighter ones are not yet excluded by the
   LHC, and they push N_c = 3 below M_Pl too
   ([`src/m331_margin.py`](src/m331_margin.py); [NOTE_331.md §3e](NOTE_331.md)).
   The condition is on the three leptons' geometric-mean mass. Run 2 allows it down to
@@ -102,14 +102,25 @@ local Lorentz frame. The note asks whether that frame contributes to black-hole 
 All of it is computed by `src/stur_tegr_corner.py`, `src/stur_tegr_frame.py` and
 `src/stur_tegr_logs.py`, and pinned by tests.
 
+## The forces in one chain
+
+**[FORCE_CHAIN.md](FORCE_CHAIN.md)** runs the forces as one simulation (`src/force_chain.py`,
+about 3 s): unification, the photon, weak to strong, the strong force, electromagnetism and
+gravity in the lab, gravity as a broken gauge theory, and black holes, which evaporate back
+through every force to the Planck mass the chain started from. Each stage uses earlier
+stages' outputs, and each measured input is marked where it enters.
+
 ## For students: the symmetry-breaking ladder
 
 **[SYMMETRY_LADDER.md](SYMMETRY_LADDER.md)** follows the forces down in energy, from the 3-3-1
 scale to the two diamonds, with every step derived and checked in code:
 - 3-3-1 → Standard Model → electromagnetism: the photon, the hypercharge matching and the
   W, Z, Z′ masses, from the gauge-boson mass matrix;
-- chiral symmetry breaking: pions, the GMOR relation and the nuclear force;
-- the Casimir–Polder force between the diamonds, from electrostatics and the dipole field;
+- chiral symmetry breaking: pions, the GMOR relation and the nuclear force, and the pion
+  mass at O(p⁴) in chiral perturbation theory (132.6 ± 3.8 MeV against 135.0);
+- the Casimir–Polder force between the diamonds, from electrostatics and the dipole field,
+  at finite temperature (negligible at the design's 0.15 K), and the electric dipoles that
+  exceed the design's bound by orders of magnitude (measured on silica, modelled for patches);
 - one-graviton exchange: Newton's law and the experiment's 2.19 rad phase;
 - gravity as a broken de Sitter gauge theory (MacDowell–Mansouri), a reformulation of GR;
 - black holes, gravity's strong-field end rather than a symmetry breaking: the Hawking
@@ -121,14 +132,15 @@ scale to the two diamonds, with every step derived and checked in code:
   nucleon; the measured limit, 10⁻²¹ e, is 280× tighter. **π⁰ → γγ:** rung 1's charges and the measured f_π
   give 7.79 eV, against PrimEx's 7.80 ± 0.12 eV, for any N_c. **The Planck mass:** the 3-3-1
   selection's cutoff is √(ħc/G) with the diamond experiment's G; the selection would survive
-  G 8.4× weaker or 10¹⁴× stronger. **Black holes:** the diamond's Schwarzschild radius is a
+  G 8.2× weaker or 10¹⁴× stronger at the reference spectrum, and G 1.6× weaker at the
+  worst point of the threshold scan. **Black holes:** the diamond's Schwarzschild radius is a
   millionth of the Planck length, and a Planck-mass black hole has k_BT = M_Pl c²/8π.
 
 Gravity is not part of the gauge chain; the page says where each derivation stops.
 
 **Run it in one paste.** [`src/ladder_standalone.py`](src/ladder_standalone.py) reproduces all
 six rungs and all five links in a single file that uses only the Python standard library. Copy it (the
-[website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/#runladder) has a one-click
+[website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/#runchain) has a one-click
 **Copy Python script** button) and paste it into any Python 3.8+ runner, notebook or AI
 assistant's code tool. It runs in about a second and ends with 58 PASS/FAIL checks
 ([expected output](results/ladder/standalone.txt)). Each check is tagged **math** (an identity
@@ -211,7 +223,7 @@ python3 src/m331_breaking.py         # the ladder, rungs 1-6: also chiral_breaki
 python3 src/ladder_links.py          # links across the rungs: neutral matter, pi0 -> gamma gamma, M_Pl, ~2 s
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
 python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (201 tests)
+python -m pytest tests -q           # every number pinned (217 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on
@@ -225,6 +237,7 @@ notebooks/                study notebooks with exercises
 NOTE_331.md               the 3-3-1 note with extended detail on each check
 NOVELTY.md                literature search: what is new, what was already known
 NOTE_TEGR.md              the frame in teleparallel gravity and black-hole entropy
+FORCE_CHAIN.md            the forces as one chain, from 3-3-1 into black holes and back
 SYMMETRY_LADDER.md        symmetry breaking from 3-3-1 to the diamond experiment, derived
 DEPENDENCIES.md           generated map: which script feeds which, and every shared constant
 QUANTUM_TEGR.md           literature map for quantum teleparallel gravity

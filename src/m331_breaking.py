@@ -34,7 +34,7 @@ Setup (both variants beta = +-1/sqrt3, the scalar X charges of src/m331_exact.py
       the exotics as the model states. (CHECK)
   B7  Numbers. v = (sqrt2 G_F)^(-1/2) = 246.22 GeV from the measured Fermi constant; then
       the tree-level M_Z from alpha(M_Z), sin^2 theta_W(M_Z) and G_F, against the measured
-      91.1876 GeV (the 0.3% difference is the known radiative correction, not derived
+      91.1880 GeV (the 0.3% difference is the known radiative correction, not derived
       here); M_Z' and M_V for w set by the LHC bound. (CHECK)
 Labels: CHECK (computed here), LIT (measured inputs: PDG).
 """
@@ -52,10 +52,10 @@ SQ3 = sp.sqrt(3)
 
 # measured inputs (PDG 2024)
 G_F = 1.1663788e-5          # GeV^-2
-MZ_MEAS = 91.1876           # GeV
+MZ_MEAS = 91.1880           # GeV, PDG 2024
 MW_MEAS = 80.3692           # GeV (PDG 2024 average)
-ALPHA_MZ_INV = 127.951      # alpha(M_Z) MS-bar, inverse
-S2_MZ = 0.23122             # sin^2 theta_W(M_Z) MS-bar
+ALPHA_MZ_INV = 127.930      # alpha(M_Z) MS-bar, inverse, PDG 2024
+S2_MZ = 0.23129             # sin^2 theta_W(M_Z) MS-bar, PDG 2024
 
 
 def banner(s):

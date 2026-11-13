@@ -60,7 +60,7 @@ P4  Small splits: the minimum heating of matter (FOLLOWS)
    already ~1e-15 m across (diamond 0.51 W/kg). The point-nucleus formula
    hbar G / (4 sqrt(pi) R0^3) of src/stur_thermo_gravity.py Q3 holds only for R0 >> 1 fm;
    its 1e60 W/kg at R0 = a is an artefact of point nuclei. The real figure is ~0.5 W/kg.
-   Earth's internal heat flow is 7.9e-12 W/kg (LIT recalled): local continuous CQ
+   Earth's internal heat flow is 7.9e-12 W/kg (LIT): local continuous CQ
    gravity is excluded by a factor 4e+10. It needs a smearing R0; the radiation bound
    already demands R0 >= 0.54 Angstrom (consistent with Oppenheim et al.'s own remark that
    continuous models with noise everywhere are ruled out).

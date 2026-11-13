@@ -49,7 +49,7 @@ H5  Geodesics (CHECK)
 H6  Event Horizon Telescope: theta_g = GM/(c^2 D) against the EHT's (CHECK against LIT)
 ==============================================================================
    M87*  : shadow 37.8 uas (ring 42.0 +- 3.0); theta_g 3.64 uas against the EHT's 3.8 -0.4 +0.4: +0.35 sigma
-   Sgr A*: shadow 52.3 uas (ring 51.8 +- 2.3); theta_g 5.03 uas against the EHT's 4.8 -0.7 +0.4: -0.53 sigma
+   Sgr A*: shadow 52.2 uas (ring 51.8 +- 2.3); theta_g 5.03 uas against the EHT's 4.8 -0.7 +1.4: -0.16 sigma
    (M87* with the gas-dynamics mass instead: theta_g 1.93 uas, +4.7 sigma, excluded)
 
 ==============================================================================

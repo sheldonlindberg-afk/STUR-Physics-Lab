@@ -17,7 +17,7 @@ S2  Explicit breaking by quark masses: the GMOR relation (MODEL, symbolic)
 S3  GMOR with measured inputs (LIT: PDG quark masses and f_pi; FLAG condensate)
 ==============================================================================
    (m_u + m_d)|<qbar q>| = 1.3805e-04 GeV^4, f_pi = 92.1 MeV
-   m_pi (GMOR) = 127.6 MeV;  measured pi0 135.0, pi+ 139.6 MeV  (-5.5%: higher-order chiral terms, not derived here)
+   m_pi (GMOR) = 127.6 MeV;  measured pi0 135.0, pi+ 139.6 MeV  (-5.5%: leading order with f_pi for F; S7 does O(p^4))
 
 ==============================================================================
 S4  The nuclear force: one-pion exchange (CHECK)
@@ -30,3 +30,28 @@ S4  The nuclear force: one-pion exchange (CHECK)
 S5  The pion-nucleon coupling from chiral symmetry (Goldberger-Treiman)
 ==============================================================================
    g_piNN = g_A M_N / f_pi = 13.01;  empirical about 13.1 (-0.7%, the known Goldberger-Treiman discrepancy)
+
+==============================================================================
+S6  Chiral perturbation theory: the one-loop pion mass (CHECK, symbolic)
+==============================================================================
+   U exponential : L2 quadratic part is the free pion (residual 0); tadpole gives Z-term -Delta/(3*F**2), mass term Delta*M**2/(12*F**2) -> M_pi^2/M^2 - 1 = Delta/(2*F**2)
+   U sigma-model : L2 quadratic part is the free pion (residual 0); tadpole gives Z-term Delta/(2*F**2), mass term -3*Delta*M**2/(4*F**2) -> M_pi^2/M^2 - 1 = Delta/(2*F**2)
+   tadpole at d = 4 - 2 eps: pole -M**2/(16*pi**2) / eps, finite part M**2*(log(M**2/mu**2) - 1)/(16*pi**2)
+   finite part - (M^2/16 pi^2)(ln(M^2/mu^2) - 1) = 0
+   -> M_pi^2 = M^2 [1 + (M^2/32 pi^2 F^2) ln(M^2/mu^2) + 2 l_3^r M^2/F^2] = M^2 [1 - (M^2/32 pi^2 F^2) lbar_3]
+
+==============================================================================
+S7  The pion mass at O(p^4) with lattice inputs (LIT: FLAG 2024 m_ud; FLAG 19/21 LECs; N_f = 2+1)
+==============================================================================
+   m_ud = 3.364 MeV, Sigma^(1/3) = 272 MeV, F = f_pi / 1.062 = 86.69 MeV, lbar_3 = 3.07
+   leading order M = sqrt(2 m_ud Sigma)/F = 134.2 MeV;  O(p^4) term -(M^2/32 pi^2 F^2) lbar_3 = -0.0233
+   m_pi = 132.6 +- 3.8 MeV;  measured pi0 135.0 MeV  (-1.7%, -0.6 sigma)
+   uncertainty from: m_ud 0.79 MeV, Sigma^(1/3) 3.58 MeV, F_pi/F 0.83 MeV, lbar_3 0.33 MeV
+   from S3 to here: S3 127.6 MeV; F in place of f_pi 135.5; FLAG's m_ud in place of PDG's 134.2; O(p^4) 132.6 MeV
+   -> most of S3's -5.5% was f_pi used where the chiral-limit F belongs, not the loop.
+
+==============================================================================
+S8  f_pi at O(p^4) (LIT: FLAG 19 eq. (MF); FLAG 19/21 lbar_4)
+==============================================================================
+   F_pi / F = 1 + (M^2/16 pi^2 F^2) lbar_4 = 1.0610; FLAG 1.062 +- 0.007 (the same lattice fits: consistency, not a test)
+   -> the pion mass is an O(p^4) result of QCD's effective theory; S1-S5 keep the model's caveat.

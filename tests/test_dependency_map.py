@@ -23,7 +23,7 @@ def test_derived_values_match_their_sources():
     info, vals, rows, missing, stale = BUILT
     assert abs(vals["M_Pl"] / 1.22089e19 - 1) < 1e-5            # sqrt(hbar c / G) = the 3-3-1 cutoff
     assert abs(vals["v"] - 246.22) < 0.01
-    assert abs(vals["MZp_MV"] - 1.225) < 1e-3 and abs(vals["s2TeV"] - 0.2504) < 1e-4
+    assert abs(vals["MZp_MV"] - 1.225) < 1e-3 and abs(vals["s2TeV"] - 0.2505) < 1e-4
     assert abs(vals["A_m"] / 1.4678e-14 - 1) < 1e-4 and abs(vals["A_dphi"] - 2.1868) < 1e-4
     assert abs(vals["A_R"] / 0.99944e-6 - 1) < 1e-4
     assert vals["c_s"] == 0.3046

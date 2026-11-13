@@ -53,9 +53,9 @@ L3  The Planck mass: rung 4 -> rung 1. The 3-3-1 selection asks every coupling t
   L3b How much the selection leans on G. M_Pl scales as G^(-1/2), so with G -> x G the
       selection holds while (M_Pl / pole_3)^2 < x < (M_Pl / pole_5)^2. At the reference
       spectrum (M_V = 4 TeV, Yukawas and thresholds on, alpha = 1, three loops,
-      src/m331_three_loop.py): beta = +1/sqrt3 holds for 0.12 < x < 5e14, beta = -1/sqrt3 for
+      src/m331_three_loop.py): beta = +1/sqrt3 holds for 0.12 < x < 6e14, beta = -1/sqrt3 for
       3e-21 < x < 1e8. G is measured to 2.2e-5 (CODATA 2018). The narrow side is
-      beta = +1/sqrt3: with G 8.4x weaker, M_Pl would rise above N_c = 3's pole and exclude
+      beta = +1/sqrt3: with G 8.2x weaker, M_Pl would rise above N_c = 3's pole and exclude
       it. (CHECK)
   L3c At the mass floors with light heavy leptons (NOTE_331.md section 3e), N_c = 3 fails at
       the measured G (0.61 M_Pl); it would pass only if G were 2.7x stronger. The heavy-lepton
@@ -64,11 +64,134 @@ L3  The Planck mass: rung 4 -> rung 1. The 3-3-1 selection asks every coupling t
       10^19 GeV, i.e. gravity's strength does not run in between. In perturbative quantum
       gravity the corrections are of order (E/M_Pl)^2; many hidden light species would lower
       the effective cutoff, which this check does not cover. (FOLLOWS)
-Labels: CHECK, FOLLOWS, KNOWN, LIT.
+  L3e The window over the heavy spectrum. L3b uses one reference spectrum. Over the
+      threshold scan of NOTE_331.md section 3a (r_J, r_S, M_V, light doublets: 72 points,
+      src/m331_threshold.py GRID), beta = +1/sqrt3's N_c = 3 pole runs from 1.26 to 16 M_Pl,
+      so the lower edge of the window runs from x = 0.004 to 0.63. At the scan's worst point
+      (M_V = 2 TeV, r_J = 0.5, r_S = 1/3, two light doublets) the selection fails for G only
+      1.6x weaker. The upper edge (N_c = 5) and beta = -1/sqrt3 stay many orders of magnitude
+      away. So L3b's 8.2x is the reference spectrum's margin, not the model's. (CHECK)
+  L3f Gravity's own term in the gauge running at M_Pl (src/m331_gravity_fixed_point.py). With
+      the gravity contribution set to the strength that keeps the Standard Model's
+      hypercharge finite (f* = 0.0098 at G* = 1, the benchmark of G2 there), the reference
+      pole moves from 2.86 to 2.94 M_Pl and the worst-case pole from 1.26 to 1.27 M_Pl: 3%
+      or less, against the factor of 13 that the spectrum spans. The threshold spectrum, not
+      gravity's running, sets how close the edge comes. (CHECK, given that model)
+L6  The diamond's mass: rung 2 -> rung 4. The mass that sources design A's phase is almost
+    entirely QCD binding energy, not Higgs-generated mass.
+  L6a Carbon-12: 6 m_p + 6 m_n + 6 m_e - 12 u = 92.16 MeV, the binding of the nucleus (and,
+      at the keV level, of the electrons), exact from CODATA 2018 because 12 u is the mass
+      of the atom by definition. It is the residual strong force minus the protons' Coulomb
+      repulsion. (CHECK; LIT)
+  L6b Each nucleon, by the Feynman-Hellmann theorem (FLAG 2024 eq. fheq1): the light-quark
+      masses contribute sigma_piN = m_ud <N|ubar u + dbar d|N> and the strange quark
+      sigma_s; N_f = 2+1 lattice averages 42.2(2.4) and 44.9(6.4) MeV (FLAG 2024; the
+      N_f = 2+1+1 averages, 60.9(6.5) and 41.0(8.8), are carried as the systematic spread).
+      The rest of M_N is gluon field energy and quark motion. The electron's mass is all
+      Higgs. Heavy-quark contributions to M_N (through the trace anomaly) are counted with
+      QCD here. (CHECK; LIT)
+  L6c Design A's diamond: 91% QCD field energy, 9.3% the Higgs-generated quark masses
+      (4.5% u, d; 4.8% s), 0.03% electrons, -0.8% nuclear binding. (CHECK)
+  L6d What rung 4 inherits: the phase goes as m^2, so with massless u and d quarks (first
+      order in sigma_piN, strange quark kept) the same diamonds would give 1.99 rad instead
+      of 2.19, and with every quark and the electron massless 1.80 rad. The entanglement
+      survives a world without the Higgs mechanism's light-fermion masses; what the
+      experiment weighs is QCD. (FOLLOWS, first order)
+L7  A black hole evaporating back through the forces: rung 6 -> rungs 3, 2, 1 and link 3.
+    (Design A's diamond itself cannot be the hole: at 1.5e-14 kg it is 1e-6 of the Planck
+    mass, below any semiclassical black hole.) An evaporating hole heats up as it shrinks,
+    T_H = hbar c^3 / (8 pi G M k_B), and its emission grows with the species lighter than T_H.
+  L7a Mass loss (LIT: Carr, Kohri, Sendouda and Yokoyama, Rept. Prog. Phys. 84, 116902
+      (2021), arXiv:2002.12778, eqs. (11)-(13)): dM/dt = -5.34e25 f(M) / M^2 g^3/s, f a sum
+      over emitted degrees of freedom with weights 0.267 (spin 0), 0.147 (neutral 1/2),
+      0.142 (charged 1/2), 0.060 (1), 0.007 (2). T_H at 1e10 g is 1.058 TeV from the
+      formula above, their 1.06 TeV. (CHECK)
+  L7b Rung 1's particle content gives f. Below every mass: photons, neutrinos and gravitons,
+      f = 1.016 (their "unity"). Every Standard Model species: f = 15.33, against their
+      15.35, and only if the W and Z longitudinal modes, the Goldstones the Higgs mechanism
+      gives them, count as scalars. The same count in the unbroken phase (12 gauge bosons,
+      4 Higgs scalars) gives 15.33 identically. Above the 3-3-1 scale, from the 3-3-1 field
+      content of src/m331_exact.py (17 gauge bosons, 18 real scalars, 66 or 69 Weyl
+      fermions): f = 25.7 (beta = -1/sqrt3) or 26.5 (+1/sqrt3). (CHECK)
+  L7c The thresholds a shrinking hole crosses (MODEL: a species switches on when T_H reaches
+      a quarter of its mass, the mean emitted energy being about 4-6 T_H per Carr et al.;
+      quarks and gluons replace pions at the QCD crossover, 156.5(1.5) MeV, LIT: HotQCD,
+      PLB 795, 15 (2019); the electroweak crossover is 159.5(1.5) GeV, LIT: D'Onofrio and
+      Rummukainen, PRD 93, 025003 (2016)): the diamond experiment's 0.15 K (8.2e23 kg);
+      the CMB (2.72548 K, LIT: Fixsen, ApJ 707, 916 (2009)) at 4.5e22 kg, above which a hole
+      absorbs more than it emits; electrons (rung 3's charges); pions (rung 2's Goldstones);
+      the QCD crossover, where rung 2's condensate melts and quarks and gluons are emitted; the
+      W, Z and Higgs, and the electroweak crossover (rung 1's breaking); the 3-3-1 scale
+      (rung 1's start); and the Planck mass (link 3's cutoff), where the semiclassical
+      description ends. Remaining lifetimes at each crossing are integrated with f(T). (CHECK,
+      given the model)
+  L7d Checks against Carr et al.: 407 s for 1e10 g at f = 15.35, here 406.7 s; the hole
+      whose lifetime is the age of the universe (13.787 Gyr, LIT: Planck 2018 with BAO),
+      their M* = 5.1e14 g at T_H = 21 MeV, here 5.11e14 g at 20.7 MeV with f(T) integrated.
+      (CHECK)
+L8  The pion from the weak and electromagnetic forces: rung 1 -> rung 2.
+  L8a f_pi from rung 1's G_F. The pi+ -> mu+ nu rate, Gamma = G_F^2 f_pi^2 m_mu^2 m_pi
+      (1 - m_mu^2/m_pi^2)^2 |V_ud|^2 / 8 pi (1 + delta_pi) (LIT: PDG 2024 review of leptonic
+      decays of charged pseudoscalar mesons, eqs. 72.1, 72.3-72.4: delta_pi = 0.0176(21),
+      Gamma = 3.8408(7)e7 /s from the 26.033 ns lifetime and 99.98770% branching fraction),
+      with |V_ud| = 0.97367(32) (PDG 2024 CKM review, eq. 12.7), gives f_pi |V_ud| =
+      127.13 MeV (theirs 127.13 +- 0.13) and f_pi = 130.57 MeV (theirs 130.56), against the
+      lattice 130.2(1.2) MeV rung 2 takes as input: +0.3 sigma. (CHECK; LIT)
+  L8b What rung 2 inherits: with that f_pi, Gamma(pi0 -> gamma gamma) = 7.742 eV (PrimEx
+      7.802 +- 0.117, -0.5 sigma), and the O(p^4) pion mass of src/chiral_breaking.py S7 is
+      132.3 MeV. (CHECK)
+  L8c Rung 1's photon splits rung 2's pions. The DGMLY sum rule (Das, Guralnik, Mathur, Low
+      and Young, PRL 18, 759 (1967); in the form of Shintani et al., PoS LATTICE2007, 134,
+      arXiv:0710.0691, eq. 2.3), exact in the chiral limit:
+          m_pi+^2 - m_pi0^2 = -(3 alpha / 4 pi f_pi^2) int dQ^2 Q^2 Pi_V-A(Q^2).
+      Saturating Pi_V-A with the rho and a1 and imposing Weinberg's two sum rules (both
+      consequences of chiral symmetry breaking), derived here symbolically:
+          m_pi+^2 - m_pi0^2 = (3 alpha / 4 pi) m_rho^2 m_a1^2 / (m_a1^2 - m_rho^2) ln(m_a1^2/m_rho^2),
+      independent of f_pi. With PDG 2024's m_rho = 775.26 and m_a1 = 1230(40) MeV: 1604 MeV^2
+      (5.84 MeV), against the measured 1261.2 MeV^2 (4.59 MeV): +27%, the size of
+      lowest-resonance saturation (the lattice evaluation of the same sum rule by Shintani et
+      al. gives 1024(100) MeV^2). The sign and the scale come from rung 1's alpha and rung
+      2's breaking; the 27% is the model. (CHECK; MODEL)
+L9  One electromagnetic coupling from rung 1 to rung 3: alpha-hat(M_Z) run down to alpha(0).
+  L9a The leptons' vacuum polarization at one loop, from the Feynman-parameter integral
+      Delta alpha = (2 alpha / pi) int_0^1 dx x(1-x) ln|1 - x(1-x) M_Z^2 / m_l^2|, done here
+      numerically and in closed form for e, mu, tau: 314.191e-4, against 314.190e-4 at one
+      loop (LIT: Steinhauser, PLB 429, 158 (1998), Table 1; through three loops 314.977e-4).
+      (CHECK)
+  L9b The hadrons' part can't be computed from the repository's data: the KEDR R-ratio
+      (1.84-3.05 GeV, src/m331_why_three.py) gives 1.74e-3 of the dispersion integral
+      Delta alpha_had = (alpha M_Z^2 / 3 pi) int ds R(s) / (s (M_Z^2 - s)), 6.3% of the
+      total 0.02783(6) (LIT: PDG 2024 electroweak review, after eq. 10.12). (CHECK; LIT)
+  L9c Closure: alpha(0) = alpha-hat(M_Z) (1 - Delta alpha-hat), with Delta alpha-hat =
+      Delta alpha_lep + Delta alpha_had + 0.007122 (the MS-bar minus on-shell difference,
+      PDG 2024 eq. 10.13). From rung 1's 1/alpha-hat(M_Z) = 127.930: 1/alpha(0) =
+      137.035999, CODATA's 137.035999084. The coupling rung 1 breaks with and the one rung 3's
+      charges and photons use (L2's pi0 width, L8c's pion splitting, L1's Coulomb law) are
+      one coupling at two scales. (CHECK; LIT)
+L10 The broken de Sitter gauge theory back to the lab: rung 5 -> rung 4.
+  L10a The weak field of rung 5's solution. MacDowell-Mansouri's field equations give
+      Schwarzschild-de Sitter, f = 1 - 2GM/(c^2 r) - r^2/l^2 with Lambda = 3/l^2
+      (src/macdowell_mansouri.py M3-M5). Its Newtonian potential, Phi = -(c^2/2)(1 - f) =
+      -GM/r - Lambda c^2 r^2 / 6, solves nabla^2 Phi = 4 pi G rho - Lambda c^2: Newton's law
+      of rung 4 plus a uniform background. (CHECK, symbolic)
+  L10b The background can't entangle. For two masses the Lambda term is a sum of one-body
+      energies, -(Lambda c^2/6)(m_A |x_A|^2 + m_B |x_B|^2), so it cancels identically in the
+      entangling combination phi_00 + phi_11 - phi_01 - phi_10; the 1/r term is what is left,
+      with the same G. Rung 5's extra constant doesn't touch rung 4's 2.19 rad. (CHECK,
+      symbolic)
+  L10c What can: a mass-mass correction of relative order (r/l)^2 = Lambda r^2 / 3 from the
+      de Sitter propagator. At design A's farthest branch distance it is 2e-59. Its
+      coefficient is not computed here; the order is the statement. (FOLLOWS, order of
+      magnitude)
+  L10d The same G and Lambda: rung 5's coupling 3/(G Lambda) is formed from rung 4's G and
+      the measured Lambda, and its l = sqrt(3/Lambda) = 1.65e26 m. (CHECK)
+Labels: CHECK, FOLLOWS, KNOWN, LIT, MODEL (L3f's gravity term; L7c's switch-on rule; L8c's resonance saturation).
 """
+import functools
 import math
 import os
 import sys
+from itertools import product
 
 import sympy as sp
 
@@ -82,6 +205,10 @@ U_AMU = 1.66053906660e-27           # kg; carbon-12 has exactly 12 u for 12 nucl
 ALPHA_0 = 1 / 137.035999084         # fine-structure constant at q^2 = 0 (real photons)
 EPS_PE_BOUND = 1e-21                # |q_p + q_e| / e, Bressi et al. 2011 (same limit for q_n)
 Q_N_MEAS = (-0.4e-21, 1.1e-21)      # q_n / e, Baumann et al. 1988
+# CODATA 2018 mass-energies (MeV) and FLAG 2024 nucleon sigma terms (MeV, value, error)
+M_P_MEV, M_N0_MEV, M_E_MEV, U_MEV = 938.27208816, 939.56542052, 0.51099895000, 931.49410242
+SIGMA_PIN = {"2+1": (42.2, 2.4), "2+1+1": (60.9, 6.5)}
+SIGMA_S = {"2+1": (44.9, 6.4), "2+1+1": (41.0, 8.8)}
 GAMMA_PI0_MEAS = (7.802, math.hypot(0.052, 0.105))   # eV, PrimEx-I+II (Larin et al. 2020)
 FRAC = 0.1                          # "below 10% of gravity", as for the Casimir gap
 
@@ -203,6 +330,287 @@ def pi0_width():
     return G, (G - meas) / err, CB.F_PI, fixed
 
 
+# ---------------------------------------------------------------------------------- L8
+GAMMA_PI_MUNU = 3.8408e7                  # /s, PDG 2024 leptonic-decays review (radiation inclusive)
+DELTA_PI = (0.0176, 0.0021)               # PDG 2024, eq. 72.4
+V_UD = (0.97367, 0.00032)                 # PDG 2024 CKM review, eq. 12.7
+G_F_GEV = 1.1663788e-5                    # GeV^-2, PDG 2024
+HBAR_GEV_S = 6.582119569e-25              # GeV s, CODATA 2018 (exact)
+M_RHO, M_A1 = (0.77526, 0.00023), (1.230, 0.040)   # GeV, PDG 2024 Breit-Wigner masses
+DM2_LATTICE = (1024.0, 100.0)             # MeV^2, Shintani et al. (JLQCD), PoS LATTICE2007 134
+
+
+def fpi_from_weak():
+    """L8a: f_pi (GeV, the 130 MeV convention) from Gamma(pi -> mu nu), G_F and |V_ud|;
+    returns f_pi |V_ud|, f_pi and its error from delta_pi and V_ud in quadrature."""
+    g0 = GAMMA_PI_MUNU * HBAR_GEV_S / (1 + DELTA_PI[0])
+    mpi, mmu = M_PIC_GEV, M_MU
+    fV = math.sqrt(8 * math.pi * g0 / (G_F_GEV**2 * mmu**2 * mpi * (1 - mmu**2 / mpi**2) ** 2))
+    f = fV / V_UD[0]
+    err = f * math.hypot(0.5 * DELTA_PI[1] / (1 + DELTA_PI[0]), V_UD[1] / V_UD[0])
+    return fV, f, err
+
+
+def rung2_with_weak_fpi():
+    """L8b: the pi0 width and the O(p^4) pion mass with f_pi from L8a instead of the lattice."""
+    import chiral_breaking as CB
+    fV, f, _ = fpi_from_weak()
+    F_new = f / math.sqrt(2)
+    G, _, F_old, _ = pi0_width()
+    G_new = G * (F_old / F_new) ** 2
+    meas, err = GAMMA_PI0_MEAS
+    old = CB.F_PI
+    try:
+        CB.F_PI = F_new
+        m4 = CB.chpt_numbers()["mpi"]
+    finally:
+        CB.F_PI = old
+    return G_new, (G_new - meas) / err, m4
+
+
+def dgmly():
+    """L8c: resonance-saturated DGMLY. Pi_V = F_V^2/(Q^2 + m_V^2), Pi_A = F_A^2/(Q^2 + m_A^2)
+    + f^2/Q^2; Weinberg I: F_V^2 - F_A^2 = f^2, II: F_V^2 m_V^2 = F_A^2 m_A^2. Returns the
+    closed form (symbolic), its f-independence, and the numbers in MeV^2 and MeV."""
+    import sympy as sp
+    Q2, mV, mA, f = sp.symbols("Q2 m_V m_A f", positive=True)
+    FV2, FA2 = sp.symbols("F_V2 F_A2", positive=True)
+    sol = sp.solve([sp.Eq(FV2 - FA2, f**2), sp.Eq(FV2 * mV**2, FA2 * mA**2)], [FV2, FA2], dict=True)[0]
+    pi_va = (FV2 / (Q2 + mV**2) - FA2 / (Q2 + mA**2) - f**2 / Q2).subs(sol)
+    alpha = sp.Symbol("alpha", positive=True)
+    integral = sp.integrate(sp.simplify(Q2 * pi_va), (Q2, 0, sp.oo))
+    dm2 = sp.simplify(-3 * alpha / (4 * sp.pi * f**2) * integral)
+    target = 3 * alpha / (4 * sp.pi) * mV**2 * mA**2 / (mA**2 - mV**2) * sp.log(mA**2 / mV**2)
+    resid = sp.simplify(sp.expand_log(dm2 - target, force=True))
+    num = float(target.subs({alpha: ALPHA_0, mV: M_RHO[0], mA: M_A1[0]})) * 1e6
+    lo = float(target.subs({alpha: ALPHA_0, mV: M_RHO[0], mA: M_A1[0] - M_A1[1]})) * 1e6
+    hi = float(target.subs({alpha: ALPHA_0, mV: M_RHO[0], mA: M_A1[0] + M_A1[1]})) * 1e6
+    meas = (M_PIC_GEV**2 - M_PI0_GEV**2) * 1e6
+    dm = num / ((M_PIC_GEV + M_PI0_GEV) * 1e3)
+    return resid, num, (lo, hi), meas, dm, (M_PIC_GEV - M_PI0_GEV) * 1e3
+
+
+# ---------------------------------------------------------------------------------- L9
+AINV_MZ_MSBAR = 127.930                   # PDG 2024, 1/alpha-hat^(5)(M_Z)
+DALPHA_HAD = (0.02783, 0.00006)           # PDG 2024 electroweak review, on-shell, 5 flavours
+DALPHA_CONV = 0.007122                    # PDG 2024 eq. 10.13: Delta alpha-hat - Delta alpha
+DALPHA_LEP_3LOOP = 314.97686e-4           # Steinhauser, PLB 429, 158 (1998), Table 1
+DALPHA_LEP_1LOOP_LIT = 314.19007e-4       # same table, one loop
+R_KEDR = 2.225                            # Anashin et al., PLB 770, 174 (2017), 1.84-3.05 GeV
+
+
+def dalpha_lep_one_loop():
+    """L9a: one-loop leptonic Delta alpha(M_Z^2), from the Feynman-parameter integral
+    (numerical) and from its closed form, summed over e, mu, tau."""
+    from scipy.integrate import quad
+    s = M_Z**2
+    num = clo = 0.0
+    for m in (M_EL, M_MU, M_TAU):
+        f = lambda x: x * (1 - x) * math.log(abs(1 - x * (1 - x) * s / m**2))
+        x0 = 0.5 * (1 - math.sqrt(1 - 4 * m**2 / s))                # the log's zero
+        num += 2 * ALPHA_0 / math.pi * (quad(f, 0, x0, limit=200)[0] + quad(f, x0, 1 - x0, limit=200)[0]
+                                        + quad(f, 1 - x0, 1, limit=200)[0])
+        b = math.sqrt(1 - 4 * m**2 / s)
+        clo += ALPHA_0 / (3 * math.pi) * (-8 / 3 + b * b + 0.5 * b * (3 - b * b) * math.log((1 + b) / (1 - b)))
+    return num, clo
+
+
+def dalpha_kedr_window():
+    """L9b: the KEDR window's share of Delta alpha_had (constant R over 1.84-3.05 GeV)."""
+    s, s1, s2 = M_Z**2, 1.84**2, 3.05**2
+    w = ALPHA_0 / (3 * math.pi) * R_KEDR * (math.log(s2 / s1) - math.log((s - s2) / (s - s1)))
+    return w, w / DALPHA_HAD[0]
+
+
+def alpha0_from_mz():
+    """L9c: 1/alpha(0) from rung 1's MS-bar 1/alpha-hat(M_Z)."""
+    d = DALPHA_LEP_3LOOP + DALPHA_HAD[0] + DALPHA_CONV
+    return AINV_MZ_MSBAR / (1 - d), d
+
+
+# ---------------------------------------------------------------------------------- L10
+LAMBDA_SI = 1.1056e-52                    # m^-2, as in src/macdowell_mansouri.py and src/black_holes.py
+
+
+def weak_field_of_sds():
+    """L10a: Phi from Schwarzschild-de Sitter's f, and the Poisson equation it solves away
+    from the source (nabla^2 Phi = -Lambda c^2 there; the point mass gives 4 pi G rho)."""
+    import sympy as sp
+    r, Gs, M, c, l = sp.symbols("r G M c l", positive=True)
+    f = 1 - 2 * Gs * M / (c**2 * r) - r**2 / l**2
+    Phi = sp.simplify(-(c**2 / 2) * (1 - f))
+    Lam = 3 / l**2
+    lap = sp.simplify(sp.diff(r**2 * sp.diff(Phi, r), r) / r**2)
+    return sp.simplify(Phi - (-Gs * M / r - Lam * c**2 * r**2 / 6)), sp.simplify(lap + Lam * c**2)
+
+
+def lambda_cancels_in_entangling_phase():
+    """L10b: branch energies U_ij = -G m^2 / |x_Ai - x_Bj| - (Lambda c^2/6) m (|x_Ai|^2 + |x_Bj|^2);
+    the entangling combination of the Lambda part is identically zero."""
+    import sympy as sp
+    m, Gs, c, Lam = sp.symbols("m G c Lambda", positive=True)
+    xa = sp.symbols("xa0 xa1", real=True)
+    xb = sp.symbols("xb0 xb1", real=True)
+    ya = sp.symbols("ya0 ya1", real=True)
+    yb = sp.symbols("yb0 yb1", real=True)
+    bg = lambda i, j: -(Lam * c**2 / 6) * m * (xa[i] ** 2 + ya[i] ** 2 + xb[j] ** 2 + yb[j] ** 2)
+    ent = bg(0, 0) + bg(1, 1) - bg(0, 1) - bg(1, 0)
+    return sp.simplify(ent)
+
+
+def lambda_correction_size():
+    """L10c-d: (r/l)^2 at design A's farthest branch distance, and l."""
+    import graviton_exchange as GX
+    _, _, _, (m, dx, gap, hold, ramp) = GX.branch_phases()
+    r_far = math.hypot(gap, dx)
+    l = math.sqrt(3 / LAMBDA_SI)
+    return (r_far / l) ** 2, l, r_far
+
+
+# ---------------------------------------------------------------------------------- L6
+def carbon12_binding():
+    """L6a: B = 6 m_p + 6 m_n + 6 m_e - 12 u, in MeV, and per nucleon."""
+    B = 6 * M_P_MEV + 6 * M_N0_MEV + 6 * M_E_MEV - 12 * U_MEV
+    return B, B / 12
+
+
+def mass_budget(flavours="2+1"):
+    """L6b-c: fractions of a carbon-12 atom's mass (the diamond's, per atom): QCD field energy,
+    light- and strange-quark masses (Feynman-Hellmann sigma terms), electrons, binding."""
+    s_l, s_s = SIGMA_PIN[flavours][0], SIGMA_S[flavours][0]
+    B, _ = carbon12_binding()
+    total = 12 * U_MEV
+    parts = {"QCD field energy": 6 * (M_P_MEV - s_l - s_s) + 6 * (M_N0_MEV - s_l - s_s),
+             "u, d quark masses": 12 * s_l, "s quark mass": 12 * s_s,
+             "electrons": 6 * M_E_MEV, "nuclear binding": -B}
+    return {k: v / total for k, v in parts.items()}, sum(parts.values()) / total
+
+
+def phase_without_masses():
+    """L6d: design A's phase with the light quarks massless (first order: each nucleon loses
+    sigma_piN), and with all quark masses and the electron's removed; phase ~ m^2."""
+    c = coulomb_vs_gravity()
+    phi = c["dphi_grav"]
+    out = {}
+    for fl in ("2+1", "2+1+1"):
+        f, _ = mass_budget(fl)
+        light = 1 - f["u, d quark masses"]
+        none = 1 - f["u, d quark masses"] - f["s quark mass"] - f["electrons"]
+        out[fl] = (phi * light**2, phi * none**2)
+    return phi, out
+
+
+# ---------------------------------------------------------------------------------- L7
+HBAR_SI, C_SI, KB_SI = 1.054571817e-34, 2.99792458e8, 1.380649e-23
+GEV_J = 1e9 * E_CH
+ALPHA_EVAP = 5.34e25                      # g^3 / s (Carr et al. 2021, eq. 12)
+W_S0, W_HALF_N, W_HALF_C, W_S1, W_S2 = 0.267, 0.147, 0.142, 0.060, 0.007
+T_QCD, T_EW = 0.1565, 159.5               # GeV: HotQCD 2019; D'Onofrio and Rummukainen 2016
+T_CMB, T_CRYO = 2.72548, 0.15             # K: Fixsen 2009; src/stur_gravity_full.py BASE_ENV
+MV_FLOOR = 3755.1                         # GeV, the bilepton mass floor (src/m331_margin.py)
+# PDG 2024 masses, GeV
+M_EL, M_MU, M_TAU = 0.51099895e-3, 0.1056583755, 1.77693
+M_PIC_GEV, M_PI0_GEV = 0.13957039, 0.1349768
+M_C, M_B, M_T = 1.2730, 4.183, 172.57
+M_W, M_Z, M_H = 80.3692, 91.1880, 125.20
+
+
+def hawking_T_gev(M_kg):
+    return HBAR_SI * C_SI**3 / (8 * math.pi * G_NEWTON * M_kg * KB_SI) * KB_SI / GEV_J
+
+
+def mass_at_T(T_gev):
+    """Black-hole mass (kg) with Hawking temperature T (GeV)."""
+    return HBAR_SI * C_SI**3 / (8 * math.pi * G_NEWTON * KB_SI * (T_gev * GEV_J / KB_SI))
+
+
+@functools.lru_cache(maxsize=None)
+def f_331(variant):
+    """L7b: f in the unbroken 3-3-1 phase from src/m331_exact.py's field content (N_c = 3)."""
+    import m331_exact as E
+    import m331_breaking as B
+    gs, ferm, scal, _ = E.MODELS[variant](3)
+    weyl = sum(m * d[1] * d[2] for m, d, q in ferm)
+    rows, ok, _ = B.charges(variant, 3)
+    lep = [q for kind, _, q in rows if kind == "lepton triplet"][0]
+    neutral = 3 * sum(1 for q in lep if q == 0)                      # per generation, Weyl
+    n_gauge = 8 + 8 + 1
+    n_scal = sum(m * 2 * d[1] * d[2] for m, d, q in scal)           # complex triplets -> real
+    f = (2 * n_gauge * W_S1 + n_scal * W_S0 + 2 * neutral * W_HALF_N + 2 * (weyl - neutral) * W_HALF_C
+         + 2 * W_S2)
+    return f, weyl, n_gauge, n_scal
+
+
+def f_of_T(T, variant="+1/sqrt3", rule=4.0, mv=MV_FLOOR):
+    """L7b-c: f at Hawking temperature T (GeV): species switch on at T >= m / rule; pions
+    become quarks and gluons at T_QCD; above M_V / rule the unbroken 3-3-1 content."""
+    if T >= mv / rule:
+        return f_331(variant)[0]
+    on = lambda m: T >= m / rule
+    f = 2 * W_S1 + 6 * W_HALF_N + 2 * W_S2                          # photon, neutrinos, graviton
+    f += sum(4 * W_HALF_C for m in (M_EL, M_MU, M_TAU) if on(m))
+    if T < T_QCD:
+        f += sum(W_S0 * n for m, n in ((M_PIC_GEV, 2), (M_PI0_GEV, 1)) if on(m))
+    else:
+        f += 3 * 12 * W_HALF_C + 16 * W_S1                          # u, d, s and gluons
+        f += sum(12 * W_HALF_C for m in (M_C, M_B, M_T) if on(m))
+    f += sum(n * (2 * W_S1 + W_S0) for m, n in ((M_W, 2), (M_Z, 1)) if on(m))
+    f += W_S0 if on(M_H) else 0.0
+    return f
+
+
+def f_standard_model_unbroken():
+    """L7b check: the same count with unbroken SU(3) x SU(2) x U(1): 12 gauge bosons, 4 real
+    Higgs scalars, 45 Weyl fermions (6 of them neutrinos)."""
+    return 2 * 12 * W_S1 + 4 * W_S0 + 2 * 3 * W_HALF_N + 2 * 42 * W_HALF_C + 2 * W_S2
+
+
+AGE_S = 13.787e9 * 365.25 * 86400        # s, Planck 2018 (TT,TE,EE+lowE+lensing+BAO)
+
+
+def m_star():
+    """L7d: the mass (kg) whose remaining lifetime is the age of the universe."""
+    from scipy.optimize import brentq
+    lm = brentq(lambda x: math.log(lifetime_s(math.exp(x)) / AGE_S), math.log(1e10), math.log(1e13), xtol=1e-8)
+    return math.exp(lm)
+
+
+def lifetime_s(M_kg, variant="+1/sqrt3", n=4000, mv=MV_FLOOR):
+    """Remaining lifetime from mass M: int_0^M M'^2 dM' / (alpha f(M')), in grams, with f
+    taken at each step's Hawking temperature (log grid down to the Planck mass)."""
+    import numpy as np
+    from m331_exact import M_PLANCK
+    m_pl_kg = math.sqrt(HBAR_SI * C_SI / G_NEWTON)
+    Mg = M_kg * 1e3
+    xs = np.geomspace(m_pl_kg * 1e3, Mg, n)
+    fs = np.array([f_of_T(hawking_T_gev(x / 1e3), variant, mv=mv) for x in xs])
+    integ = xs**2 / (ALPHA_EVAP * fs)
+    tail = (m_pl_kg * 1e3) ** 3 / (3 * ALPHA_EVAP * fs[0])
+    return float(np.trapezoid(integ, xs) + tail)
+
+
+LABELS_LADDER = ("the diamond experiment's cryostat, 0.15 K", "CMB: absorbs more than it emits above this mass",
+                 "electrons (rung 3's charges)", "muons", "pions (rung 2's Goldstone bosons)",
+                 "QCD crossover: rung 2's condensate melts; quarks and gluons",
+                 "W and Z, with the Higgs mechanism's Goldstones", "top quark",
+                 "electroweak crossover (rung 1's breaking)", "3-3-1 content (rung 1's start)",
+                 "Planck mass: link 3's cutoff, semiclassics ends")
+
+
+def evaporation_thresholds(variant="+1/sqrt3", t_cryo=T_CRYO, mv=MV_FLOOR, m_pl_gev=None, labels=LABELS_LADDER):
+    """L7c: (label, T_H in GeV, M in kg, remaining lifetime in s, f just above). The cryostat
+    temperature (K), the 3-3-1 scale and the Planck mass (GeV) can be handed in."""
+    kT = lambda T_K: KB_SI * T_K / GEV_J
+    m_pl_kg = math.sqrt(HBAR_SI * C_SI / G_NEWTON) if m_pl_gev is None else m_pl_gev * GEV_J / C_SI**2
+    Ts = [kT(t_cryo), kT(T_CMB), M_EL / 4, M_MU / 4, M_PIC_GEV / 4, T_QCD, M_W / 4, M_T / 4, T_EW,
+          mv / 4, hawking_T_gev(m_pl_kg)]
+    out = []
+    for lab, T in zip(labels, Ts):
+        M = mass_at_T(T)
+        out.append((lab, T, M, lifetime_s(M, variant, mv=mv), f_of_T(T * 1.0001, variant, mv=mv)))
+    return out
+
+
 # ---------------------------------------------------------------------------------- L3
 def planck_mass():
     """L3a: sqrt(hbar c / G) in GeV from rung 4's constants, against the 3-3-1 cutoff."""
@@ -225,6 +633,45 @@ def g_window():
         out[v] = (p3, p5, 1 / p3**2, 1 / p5**2)
     floor = M.pole(**M.FLOORS, loops=3, gmax=M.ALPHA1) / mpl
     return out, floor, 1 / floor**2
+
+
+@functools.lru_cache(maxsize=None)
+def g_window_scan():
+    """L3e: the N_c = 3 and N_c = 5 poles (units of M_Pl) over the threshold scan grid,
+    as (min, max, spectrum at min, spectrum at max) per (variant, N_c), and the window edges
+    that follow: x from 1 / max(p3)^2 to 1 / min(p3)^2 on the low side."""
+    import m331_three_loop as T3
+    import m331_threshold as T
+    import m331_margin as M
+    mpl = planck_mass()[1]
+    grid = list(product(T.GRID["rJ"], T.GRID["rS"], T.GRID["MV"], T.GRID["n_light"]))
+    out = {}
+    for v in ("+1/sqrt3", "-1/sqrt3"):
+        for Nc in (3, 5):
+            vals = [(T3.pole(Nc, v, MV, rJ, rS, nl, gmax=M.ALPHA1) / mpl, (rJ, rS, MV, nl))
+                    for rJ, rS, MV, nl in grid]
+            lo, hi = min(vals), max(vals)
+            out[v, Nc] = (lo[0], hi[0], lo[1], hi[1])
+    return out, len(grid)
+
+
+@functools.lru_cache(maxsize=None)
+def gravity_shift():
+    """L3f: beta = +1/sqrt3, N_c = 3 poles (units of M_Pl) with and without the
+    asymptotic-safety gravity term at the Standard Model hypercharge's separatrix f*
+    (G* = 1), at the reference spectrum and at the scan's worst point."""
+    import m331_three_loop as T3
+    import m331_margin as M
+    import m331_gravity_fixed_point as GFP
+    mpl = planck_mass()[1]
+    f_sm = GFP.f_separatrix_sm(1.0)
+    grav = GFP.f_profile(f_sm, 1.0)
+    rows = {}
+    for lab, spec in (("reference", dict(MV=4e3)), ("worst", T3.WORST)):
+        p0 = T3.pole(3, "+1/sqrt3", gmax=M.ALPHA1, **spec) / mpl
+        pg = T3.pole(3, "+1/sqrt3", gmax=M.ALPHA1, grav=grav, **spec) / mpl
+        rows[lab] = (p0, pg)
+    return f_sm, rows
 
 
 def main():
@@ -281,6 +728,90 @@ def main():
     print("   -> the width tests that charges and colours come together as anomaly cancellation")
     print("      demands. It cannot select N_c; the R-ratio does (src/m331_why_three.py W6).")
 
+    banner("L6a  The diamond's mass: carbon-12 from its constituents (CHECK; CODATA 2018)")
+    B, b = carbon12_binding()
+    print(f"   6 m_p + 6 m_n + 6 m_e - 12 u = {B:.3f} MeV ({b:.3f} MeV per nucleon): the binding of the nucleus")
+    print("   (residual strong force minus Coulomb), plus the electrons' keV-level atomic binding")
+
+    banner("L6b-c  Where it comes from (Feynman-Hellmann; LIT: FLAG 2024 sigma terms)")
+    for fl in ("2+1", "2+1+1"):
+        f, tot = mass_budget(fl)
+        print(f"   N_f = {fl:6s}: sigma_piN = {SIGMA_PIN[fl][0]} MeV, sigma_s = {SIGMA_S[fl][0]} MeV  (sum of parts = {tot:.9f})")
+        print("      " + ";  ".join(f"{k} {100 * v:+.2f}%" for k, v in f.items()))
+    print("   -> design A's diamond weighs what QCD's field energy weighs; the Higgs-generated masses")
+    print("      are under a tenth of it")
+
+    banner("L6d  What the gravity experiment inherits (FOLLOWS, first order in the sigma terms)")
+    phi, out = phase_without_masses()
+    print(f"   design A's phase {phi:.3f} rad goes as m^2 at fixed geometry and time")
+    for fl, (pl, pn) in out.items():
+        print(f"   N_f = {fl:6s}: massless u, d: {pl:.2f} rad;  massless quarks and electrons: {pn:.2f} rad")
+
+    banner("L7a-b  An evaporating black hole: the emission counts rung 1's particles (CHECK; LIT)")
+    print(f"   T_H at 1e10 g = {hawking_T_gev(1e7):.1f} GeV (Carr et al. eq. 11: 1.06 TeV)")
+    print(f"   f below every mass (photons, neutrinos, gravitons): {f_of_T(1e-15):.3f}")
+    print(f"   f, every Standard Model species (W, Z longitudinal modes as scalars): {f_of_T(500.0):.3f};"
+          f" unbroken counting {f_standard_model_unbroken():.3f}; Carr et al. 15.35")
+    for v in ("-1/sqrt3", "+1/sqrt3"):
+        f, weyl, ng, ns = f_331(v)
+        print(f"   f, unbroken 3-3-1 (beta = {v}): {f:.2f}  ({ng} gauge bosons, {ns} real scalars, {weyl} Weyl fermions)")
+
+    banner("L7c  The thresholds a shrinking hole crosses (beta = +1/sqrt3; MODEL switch-on at m/4)")
+    print("   threshold                                                      T_H (GeV)    M (kg)      left (s)    f above")
+    for lab, T, M, tau, f in evaporation_thresholds():
+        print(f"   {lab:62s} {T:9.3e}  {M:9.3e}  {tau:9.3e}  {f:6.2f}")
+    print("   -> from the cryostat's temperature to the Planck mass, the hole's own temperature")
+    print("      passes every scale the forces separate at, in reverse order.")
+
+    banner("L7d  Checks against Carr et al. (CHECK)")
+    print(f"   1e10 g at f = 15.35: lifetime {(1e10) ** 3 / (3 * ALPHA_EVAP * 15.35):.1f} s (theirs 407 s)")
+    ms = m_star()
+    print(f"   lifetime = 13.787 Gyr at M* = {ms * 1e3:.3e} g, T_H = {hawking_T_gev(ms) * 1e3:.1f} MeV"
+          " (theirs 5.1e14 g, 21 MeV)")
+
+    banner("L8a  f_pi from rung 1's G_F and the measured pi -> mu nu rate (CHECK; LIT: PDG 2024)")
+    fV, f, ferr = fpi_from_weak()
+    print(f"   f_pi |V_ud| = {fV * 1e3:.2f} MeV (PDG review: 127.13 +- 0.13);  |V_ud| = {V_UD[0]}:"
+          f" f_pi = {f * 1e3:.2f} +- {ferr * 1e3:.2f} MeV")
+    print(f"   rung 2's lattice input: 130.2 +- 1.2 MeV;  difference {(f * 1e3 - 130.2) / 1.2:+.1f} sigma")
+
+    banner("L8b  What rung 2 inherits from it (CHECK)")
+    Gn, pull, m4 = rung2_with_weak_fpi()
+    print(f"   Gamma(pi0 -> gamma gamma) = {Gn:.3f} eV ({pull:+.1f} sigma against PrimEx);"
+          f"  O(p^4) m_pi = {m4 * 1e3:.1f} MeV")
+
+    banner("L8c  Rung 1's photon splits rung 2's pions: the DGMLY sum rule (CHECK; MODEL saturation)")
+    resid, num, (lo, hi), meas, dm, dm_meas = dgmly()
+    print(f"   rho + a1 saturation with Weinberg's sum rules: closed form residual {resid} (f_pi drops out)")
+    print(f"   m_pi+^2 - m_pi0^2 = {num:.0f} MeV^2 ({lo:.0f}-{hi:.0f} over m_a1 +- 40 MeV), {dm:.2f} MeV;"
+          f" measured {meas:.1f} MeV^2, {dm_meas:.2f} MeV")
+    print(f"   lowest-resonance saturation is {100 * (num / meas - 1):+.0f}%; the lattice evaluation of the same"
+          f" sum rule: {DM2_LATTICE[0]:.0f} +- {DM2_LATTICE[1]:.0f} MeV^2")
+
+    banner("L9a  The leptons' running of alpha, from the vacuum-polarization integral (CHECK)")
+    num, clo = dalpha_lep_one_loop()
+    print(f"   one loop, e + mu + tau: integral {num * 1e4:.5f}e-4, closed form {clo * 1e4:.5f}e-4;"
+          f" Steinhauser {DALPHA_LEP_1LOOP_LIT * 1e4:.5f}e-4 (three loops {DALPHA_LEP_3LOOP * 1e4:.5f}e-4)")
+
+    banner("L9b  The hadrons' running: what the repository's own R-ratio data covers (CHECK; LIT)")
+    w, frac = dalpha_kedr_window()
+    print(f"   KEDR window (R = {R_KEDR}, 1.84-3.05 GeV): {w:.3e} of Delta alpha_had = {DALPHA_HAD[0]} (PDG), {100 * frac:.1f}%")
+
+    banner("L9c  One coupling at two scales: alpha-hat(M_Z) -> alpha(0) (CHECK; LIT)")
+    a0, d = alpha0_from_mz()
+    print(f"   1/alpha-hat(M_Z) = {AINV_MZ_MSBAR} (rung 1), Delta alpha-hat = {d:.6f}:  1/alpha(0) = {a0:.6f};"
+          f" CODATA {1 / ALPHA_0:.9f}")
+
+    banner("L10a-b  Rung 5's solution in the lab: Newton plus a background that can't entangle (CHECK)")
+    d_phi, d_lap = weak_field_of_sds()
+    print(f"   Phi = -(c^2/2)(1 - f) for Schwarzschild-de Sitter, minus (-GM/r - Lambda c^2 r^2/6): {d_phi}")
+    print(f"   nabla^2 Phi + Lambda c^2 away from the mass: {d_lap}")
+    print(f"   entangling combination of the Lambda term, any branch positions: {lambda_cancels_in_entangling_phase()}")
+
+    banner("L10c-d  What is left of Lambda at the diamonds (FOLLOWS, order of magnitude)")
+    rel, l, rf = lambda_correction_size()
+    print(f"   l = sqrt(3/Lambda) = {l:.3e} m; farthest branch distance {rf * 1e6:.0f} um; (r/l)^2 = {rel:.1e}")
+
     banner("L3a  The Planck mass: the 3-3-1 cutoff from rung 4's G (CHECK)")
     mpl, mpl331, (G, hb, c) = planck_mass()
     print(f"   rung 4 (src/stur_gravity_entanglement.py): G = {G:.5e}, hbar = {hb:.9e}, c = {c:.0f}")
@@ -299,6 +830,27 @@ def main():
           f" so it would need G {x_floor:.1f}x stronger")
     print("   -> the selection's cutoff and the diamonds' signal share one measured G. The selection")
     print("      assumes G does not run between the laboratory and 10^19 GeV.")
+
+    banner("L3e  The same window over the threshold scan (NOTE_331.md 3a; alpha = 1, three loops)")
+    scan, n = g_window_scan()
+    print(f"   {n} spectra: r_J, r_S, M_V, light doublets (src/m331_threshold.py GRID)")
+    for v in ("+1/sqrt3", "-1/sqrt3"):
+        p3lo, p3hi, s3lo, _ = scan[v, 3]
+        p5lo, p5hi, _, _ = scan[v, 5]
+        print(f"   beta = {v:8s} N_c = 3 pole {p3lo:.3g} - {p3hi:.3g} M_Pl, N_c = 5 pole {p5lo:.2g} - {p5hi:.2g} M_Pl")
+        print(f"      lower edge {1 / p3hi**2:.2g} - {1 / p3lo**2:.2g},  upper edge {1 / p5hi**2:.2g} - {1 / p5lo**2:.2g}")
+    p3lo, _, (rJ, rS, MV, nl), _ = scan["+1/sqrt3", 3]
+    print(f"   worst point (beta = +1/sqrt3): r_J = {rJ}, r_S = {rS:.3g}, M_V = {MV:.0f} GeV, {nl} light doublets:")
+    print(f"      the selection fails for G {p3lo**2:.2f}x weaker (reference spectrum: {out['+1/sqrt3'][0]**2:.1f}x)")
+
+    banner("L3f  Gravity's term in the gauge running (src/m331_gravity_fixed_point.py; MODEL)")
+    f_sm, rows = gravity_shift()
+    print(f"   f* = {f_sm:.4f}, G* = 1: the strength that keeps the SM hypercharge finite (G2 there)")
+    for lab, (p0, pg) in rows.items():
+        print(f"   beta = +1/sqrt3, N_c = 3, {lab:9s} spectrum: pole {p0:.3f} -> {pg:.3f} M_Pl  ({pg / p0 - 1:+.1%})")
+    spread = scan["+1/sqrt3", 3][1] / scan["+1/sqrt3", 3][0]
+    print(f"   -> a few percent, against the factor {spread:.0f} the threshold spectrum spans: the heavy")
+    print("      spectrum, not gravity's running, sets how close N_c = 3's pole comes to M_Pl.")
 
 
 if __name__ == "__main__":

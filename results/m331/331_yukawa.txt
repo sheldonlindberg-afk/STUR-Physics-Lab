@@ -16,39 +16,39 @@ Y2  Blow-up scale (GeV, g = 4 pi) with Yukawas held constant (overstates their e
    Planck = 1.2e19 GeV.  y_t at its 4-TeV value; exotic Yukawas y_J scanned.
    beta = -1/sqrt3
      y_J      N_c = 3        N_c = 5        N_c = 7
-      0.0      3.42e+29       1.34e+15       9.88e+09
-      0.5      3.69e+29       1.40e+15       1.02e+10
-      1.0      4.65e+29       1.60e+15       1.10e+10
-      1.5      6.85e+29       2.00e+15       1.27e+10
-      2.0      1.19e+30       2.76e+15       1.55e+10
-     (no Yukawas at all: N_c = 3 -> 2.95e+29, N_c = 5 -> 1.29e+15; front 7b/7c)
+      0.0      3.36e+29       1.33e+15       9.83e+09
+      0.5      3.63e+29       1.39e+15       1.01e+10
+      1.0      4.56e+29       1.59e+15       1.10e+10
+      1.5      6.72e+29       1.99e+15       1.26e+10
+      2.0      1.16e+30       2.74e+15       1.54e+10
+     (no Yukawas at all: N_c = 3 -> 2.90e+29, N_c = 5 -> 1.28e+15; front 7b/7c)
      Constant exotic Yukawa needed to lift N_c = 5 to the Planck scale: > 6  (sqrt(4 pi) = 3.54 is the edge of perturbativity)
    beta = +1/sqrt3
      y_J      N_c = 3        N_c = 5        N_c = 7
-      0.0      4.16e+19       5.59e+11       3.08e+08
-      0.5      4.60e+19       5.87e+11       3.17e+08
-      1.0      6.21e+19       6.82e+11       3.46e+08
-      1.5      1.04e+20       8.81e+11       4.03e+08
-      2.0      2.18e+20       1.27e+12       5.00e+08
-     (no Yukawas at all: N_c = 3 -> 3.98e+19, N_c = 5 -> 5.50e+11; front 7b/7c)
+      0.0      4.11e+19       5.55e+11       3.07e+08
+      0.5      4.54e+19       5.84e+11       3.16e+08
+      1.0      6.14e+19       6.78e+11       3.45e+08
+      1.5      1.03e+20       8.76e+11       4.01e+08
+      2.0      2.15e+20       1.27e+12       4.98e+08
+     (no Yukawas at all: N_c = 3 -> 3.93e+19, N_c = 5 -> 5.47e+11; front 7b/7c)
      Constant exotic Yukawa needed to lift N_c = 5 to the Planck scale: > 6  (sqrt(4 pi) = 3.54 is the edge of perturbativity)
 
 ==============================================================================
 Y3  The boundary condition: which measured inputs the selection depends on
 ==============================================================================
-   At 4 TeV (SM running from M_Z): sin^2 theta_W = 0.2504, 1/alpha_em = 125.74,
-   so 1/alpha_X = (1 - 4 s^2/3)/alpha_em = 83.76.
+   At 4 TeV (SM running from M_Z): sin^2 theta_W = 0.2505, 1/alpha_em = 125.72,
+   so 1/alpha_X = (1 - 4 s^2/3)/alpha_em = 83.73.
    All N_c are run from these measured couplings: the selection is conditional on them.
    Which s^2(4 TeV) would let each N_c reach the Planck scale (alpha_em, alpha_s fixed)?
    (a) Vary sin^2 theta_W(4 TeV) freely, keeping alpha_em and alpha_s at their measured values:
-   beta = -1/sqrt3 no Yukawas  : N_c = 3 reaches Planck for every s^2 < 0.4490 (measured 0.2504, margin +0.1986)
-        N_c = 5 reaches Planck only for 0.0662 < s^2 < 0.0742 (at best 1.5e+19 GeV): 3.4x below the measured value
-   beta = -1/sqrt3 y_t, y_J = 1: N_c = 3 reaches Planck for every s^2 < 0.4512 (measured 0.2504, margin +0.2008)
-        N_c = 5 reaches Planck only for 0.0637 < s^2 < 0.0810 (at best 2.2e+19 GeV): 3.1x below the measured value
-   beta = +1/sqrt3 no Yukawas  : N_c = 3 reaches Planck for every s^2 < 0.2663 (measured 0.2504, margin +0.0159)
+   beta = -1/sqrt3 no Yukawas  : N_c = 3 reaches Planck for every s^2 < 0.4489 (measured 0.2505, margin +0.1984)
+        N_c = 5 reaches Planck only for 0.0662 < s^2 < 0.0740 (at best 1.5e+19 GeV): 3.4x below the measured value
+   beta = -1/sqrt3 y_t, y_J = 1: N_c = 3 reaches Planck for every s^2 < 0.4512 (measured 0.2505, margin +0.2007)
+        N_c = 5 reaches Planck only for 0.0637 < s^2 < 0.0809 (at best 2.2e+19 GeV): 3.1x below the measured value
+   beta = +1/sqrt3 no Yukawas  : N_c = 3 reaches Planck for every s^2 < 0.2662 (measured 0.2505, margin +0.0157)
         N_c = 5 fails for every s^2 (at best 4.9e+14 GeV, at s^2 = 0.060)
-   beta = +1/sqrt3 y_t, y_J = 1: N_c = 3 reaches Planck for every s^2 < 0.2720 (measured 0.2504, margin +0.0216)
-        N_c = 5 fails for every s^2 (at best 7.0e+14 GeV, at s^2 = 0.058)
+   beta = +1/sqrt3 y_t, y_J = 1: N_c = 3 reaches Planck for every s^2 < 0.2720 (measured 0.2505, margin +0.0215)
+        N_c = 5 fails for every s^2 (at best 6.9e+14 GeV, at s^2 = 0.058)
    Lowering s^2 relieves U(1)_X but makes SU(3)_L stronger, so N_c = 5 has at most a
    narrow band, far from the measured angle (beta = -1/sqrt3) or none at all (+1/sqrt3).
    (b) At the measured weak angle, what would rescue N_c = 5: a weaker electromagnetism.
@@ -64,8 +64,8 @@ Y4  The narrow beta = +1/sqrt3 margin, all effects included
 ==============================================================================
    N_c = 3 blow-up / M_Pl, beta = +1/sqrt3:
      criterion       no Yukawas    y_t only    y_t + y_J = 1   (mu_331 = 2 / 4 / 30 TeV, y_t + y_J = 1)
-     g = 4 pi            3.26          3.41         5.09        3.73 / 5.09 / 12.49
-     alpha = 1           2.40          2.51         3.73        2.73 / 3.73 / 9.15
+     g = 4 pi            3.22          3.37         5.03        3.69 / 5.03 / 12.34
+     alpha = 1           2.37          2.48         3.69        2.70 / 3.69 / 9.05
      g = 1               0.02          0.02         0.02        0.00 / 0.02 / 0.06
    Yukawas raise the N_c = 3 pole (they only slow the U(1)_X growth), so the margin can only
    widen from the no-Yukawa value; with y_t alone the top Yukawa's real decrease with energy

@@ -34,9 +34,9 @@ RUNG 1  3-3-1 -> Standard Model -> electromagnetism (gauge-boson mass matrix)
    [PASS] [math]          +1/sqrt3: rho = M_W^2/(M_Z^2 cos^2 theta_W) >= 1, with rho - 1 ~ (v/w)^2 (Z-Z' mixing)
    [PASS] [math]          +1/sqrt3: every SU(2)_L doublet has charges (Q_u, Q_d) = ((N_c+1)/2N_c, (1-N_c)/2N_c) or (0, -1), for N_c = 3, 5, 7
      1/e^2 = (1 + beta^2)/g^2 + 1/g_X^2; rho - 1 = 1.362e-03 at v/w = 0.061
-   v = (sqrt2 G_F)^(-1/2) = 246.22 GeV; tree-level M_Z = 91.51 GeV vs measured 91.1876 (+0.35%, the radiative correction, not derived)
+   v = (sqrt2 G_F)^(-1/2) = 246.22 GeV; tree-level M_Z = 91.51 GeV vs measured 91.188 (+0.35%, the radiative correction, not derived)
    [PASS] [data]          v = 246.22 GeV from G_F, and tree-level M_Z within 0.5% of the measurement
-          got M_Z = 91.51 GeV vs 91.1876 GeV (+0.35%). Tolerance 0.5%: this is tree level,
+          got M_Z = 91.51 GeV vs 91.188 GeV (+0.35%). Tolerance 0.5%: this is tree level,
           and the loop corrections it omits are each of order alpha/pi = 0.25%
 
 ==============================================================================
@@ -52,8 +52,14 @@ RUNG 2  The strong force: chiral symmetry breaking (MODEL: linear sigma model)
    GMOR: m_pi = sqrt((m_u + m_d)|<qbar q>|)/f_pi = 127.6 MeV; measured 135.0 MeV (-5.5%, higher-order chiral terms)
    [PASS] [data]          GMOR with measured quark masses, f_pi and the lattice condensate: m_pi = 127.6 MeV (within 8% of 135)
           got 127.6 +- 3.6 MeV (inputs, 2.9%) vs 135.0 MeV. Tolerance 8%: GMOR is leading
-          order, and the next-order chiral terms (not computed here) are expected at
-          several percent
+          order with f_pi standing in for the chiral-limit F; the next check does it at
+          O(p^4)
+   O(p^4) chiral perturbation theory, FLAG inputs: m_pi = 132.6 +- 3.8 MeV
+   [PASS] [data]          the pion mass at O(p^4) in chiral perturbation theory: 132.6 MeV, within 2 sigma of 135.0
+          got 132.6 +- 3.8 MeV vs 135.0 MeV (-0.6 sigma). Not the sigma model: QCD's
+          effective theory, whose one-loop chiral log src/chiral_breaking.py S6 derives in
+          two parametrizations; lbar_3, F_pi/F and the condensate are FLAG 19/21 averages,
+          m_ud is FLAG 2024's. The uncertainty is mostly the condensate
    [PASS] [math]          exchange of a mass-m particle: V = e^(-m r)/(4 pi r) solves (lap - m^2) V = 0 with unit flux (the Fourier transform of 1/(q^2 + m^2): the Yukawa potential)
    Range of the nuclear force 1/m_pi = 1.414 fm
    [PASS] [math]          one-pion exchange: (s1.q)(s2.q) = (q^2/3)[s1.s2 + S12]: central and tensor nuclear forces, and range 1.414 fm
@@ -137,8 +143,8 @@ RUNG 6  Black holes: the strong-field end of gravity's column (not a symmetry br
           which holds the ring (7%) and its GRMHD calibration alpha = 11.1 against the
           Schwarzschild shadow's 10.4, and the mass (6%; the distance cancels in M/D). The
           gas-dynamics mass (3.5e9) would give 1.93 uas, +4.7 sigma, excluded
-   [PASS] [data]          Sgr A*: theta_g from the stellar-orbit mass and distance is 5.03 uas (shadow 52.3 uas); the EHT's, from its 51.8 +- 2.3 uas ring, is 4.8 (-0.7 +0.4) uas
-          got 5.03 uas (GRAVITY 5.12, Keck 4.94), -0.53 sigma. Tolerance 2 sigma: the
+   [PASS] [data]          Sgr A*: theta_g from the stellar-orbit mass and distance is 5.03 uas (shadow 52.2 uas); the EHT's, from its 51.8 +- 2.3 uas ring, is 4.8 (-0.7 +1.4) uas
+          got 5.03 uas (GRAVITY 5.12, Keck 4.93), -0.16 sigma. Tolerance 2 sigma: the
           EHT's upper error (alpha = 10.8, calibration included) and the GRAVITY-Keck
           spread in M/D (4%)
    GW250114 ringdown alone: M_f = 66.7 M_sun, chi_f = 0.75. Areas (A = 8 pi (GM/c^2)^2 (1 + sqrt(1 - chi^2))): initial 237,372 km^2, final 406,548 km^2
@@ -182,13 +188,20 @@ LINKS  Where one rung's output is another rung's input
    M_Pl = sqrt(hbar c / G) from rung 4's G = 1.220890e+19 GeV: the cutoff the 3-3-1 selection runs to
    [PASS] [pinned]        the 3-3-1 cutoff is rung 4's gravity: sqrt(hbar c / G) = 1.22089e19 GeV
           got 1.220890e+19 GeV, pinned 1.22089e19 GeV
-   beta = +1/sqrt3: N_c = 3 pole 2.89 M_Pl, N_c = 5 pole 4.2e-08 M_Pl -> holds for 0.12 < G/G_meas < 5.5e+14
-   beta = -1/sqrt3: N_c = 3 pole 1.91e+10 M_Pl, N_c = 5 pole 9.3e-05 M_Pl -> holds for 2.7e-21 < G/G_meas < 1.2e+08
+   beta = +1/sqrt3: N_c = 3 pole 2.86 M_Pl, N_c = 5 pole 4.2e-08 M_Pl -> holds for 0.12 < G/G_meas < 5.6e+14
+   beta = -1/sqrt3: N_c = 3 pole 1.88e+10 M_Pl, N_c = 5 pole 9.2e-05 M_Pl -> holds for 2.8e-21 < G/G_meas < 1.2e+08
    G is measured to 2.2e-5 (CODATA 2018). The assumption: G does not run between the
    laboratory and 10^19 GeV (corrections ~ (E/M_Pl)^2; many hidden light species would break it).
-   [PASS] [pinned]        with rung 4's G the 3-3-1 selection keeps N_c = 3 and excludes N_c = 5; it would fail for G 8.4x weaker
-          got windows 0.12-5.5e+14, 2.74e-21-1.2e+08, pinned 0.12 (8.4x weaker) as the
+   [PASS] [pinned]        with rung 4's G the 3-3-1 selection keeps N_c = 3 and excludes N_c = 5; it would fail for G 8.2x weaker
+          got windows 0.122-5.6e+14, 2.84e-21-1.2e+08, pinned 0.12 (8.2x weaker) as the
           narrow side. The poles come from src/m331_three_loop.py
+   beta = +1/sqrt3, worst over the threshold scan: N_c = 3 pole 1.26 M_Pl, N_c = 5 pole 2.2e-07 M_Pl -> holds for 0.63 < G/G_meas < 2.1e+13
+   beta = -1/sqrt3, worst over the threshold scan: N_c = 3 pole 1.24e+10 M_Pl, N_c = 5 pole 0.00035 M_Pl -> holds for 6.5e-21 < G/G_meas < 8.2e+06
+   [PASS] [pinned]        over the threshold scan the selection still holds at the measured G, but would fail for G 1.6x weaker
+          got windows 0.628-2.1e+13, 6.51e-21-8.2e+06, pinned 0.63 (1.6x weaker) as the
+          narrow side, at M_V = 2 TeV, r_J = 0.5, r_S = 1/3 and two light doublets. The
+          8.2x above is the reference spectrum's margin, not the model's. Gravity's own
+          term in the running moves these poles by 3% or less (src/ladder_links.py L3f)
    Design A's diamond (1.468e-14 kg): Schwarzschild radius 2Gm/c^2 = 2.18e-41 m = 1.35e-06 l_P, 2e-35 of its own radius
    [PASS] [pinned]        design A's diamond has a Schwarzschild radius of 2.2e-41 m, a millionth of the Planck length: the experiment's gravity is that weak
           got 2.1800e-41 m = 1.3488e-06 l_P, pinned 2.180e-41 m and 1.349e-6 l_P
@@ -217,5 +230,5 @@ VERDICT
    pion counting uses the linear sigma model, a stand-in for QCD, and rung 5 rewrites GR
    rather than going beyond it.
 
-   Checks passed: 58/58   (41 math, 9 data, 8 pinned; 0.05 s)
+   Checks passed: 60/60   (41 math, 10 data, 9 pinned; 0.04 s)
    ALL CHECKS PASS

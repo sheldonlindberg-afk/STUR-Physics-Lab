@@ -52,8 +52,8 @@ M_A, R_A, D_A, T_A = _A["m"], _A["R"], _A["dx"], _A["total"]   # design A, from 
 GAMMA_BUDGET = 0.12          # /s per diamond, total dephasing budget (GRAVITY_ENTANGLEMENT G3)
 ASD_REQ = 3.1e-17            # m s^-2 /sqrt(Hz), one-sided: the vibration requirement (H5 envelope, derived gas rate)
 R0_DONADI = 0.54e-10         # LIT: Donadi et al., Nature Phys. 17, 74 (2021)
-L_ISL = 52e-6                # LIT recalled: Lee et al., PRL 124, 101101 (2020)
-EARTH_W_PER_KG = 47e12 / 5.972e24   # LIT recalled: ~47 TW of internal heat flow
+L_ISL = 52e-6                # LIT: Lee et al., PRL 124, 101101 (2020): tested down to 52 um
+EARTH_W_PER_KG = 47e12 / 5.972e24   # LIT: 47 +- 2 TW (Davies & Davies, Solid Earth 1, 5 (2010)); M = GM_E/G (IAU)
 
 # a 100-nm-diameter silica nanosphere, a femtogram particle as in cryogenic levitation
 # (LIT: Tebbenjohanns et al., arXiv:2103.03853); trap frequency is an ASSUMPTION.
@@ -322,7 +322,7 @@ def main():
     print(f"   already ~1e-15 m across (diamond {internal_heating_per_kg(DIAMOND, a1):.2f} W/kg). The point-nucleus formula")
     print("   hbar G / (4 sqrt(pi) R0^3) of src/stur_thermo_gravity.py Q3 holds only for R0 >> 1 fm;")
     print("   its 1e60 W/kg at R0 = a is an artefact of point nuclei. The real figure is ~0.5 W/kg.")
-    print(f"   Earth's internal heat flow is {EARTH_W_PER_KG:.1e} W/kg (LIT recalled): local continuous CQ")
+    print(f"   Earth's internal heat flow is {EARTH_W_PER_KG:.1e} W/kg (LIT): local continuous CQ")
     print(f"   gravity is excluded by a factor {internal_heating_per_kg(SILICA)/EARTH_W_PER_KG:.0e}. It needs a smearing R0; the radiation bound")
     print(f"   already demands R0 >= 0.54 Angstrom (consistent with Oppenheim et al.'s own remark that")
     print("   continuous models with noise everywhere are ruled out).")

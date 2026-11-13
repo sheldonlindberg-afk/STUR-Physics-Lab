@@ -67,7 +67,7 @@ def test_shared_numbers_match_their_computation():
         assert "270 runs" in read(n) or "270 (0.6 h)" in read(n), n
         assert "2.19" in read(n), n
     yuk = read("results/m331/331_yukawa.txt")
-    assert "0.2663" in yuk and "0.0662 < s^2 < 0.0742" in yuk
+    assert "0.2662" in yuk and "0.0662 < s^2 < 0.0740" in yuk
     assert "0.266" in read("NOTE_331.md") and "0.066" in read("NOTE_331.md")
 
 

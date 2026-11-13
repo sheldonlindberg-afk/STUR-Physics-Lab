@@ -129,7 +129,7 @@ Applied to each nucleus, which is a uniform sphere of radius 1.2 A^⅓ fm:
 |---|---|
 | Diamond | 0.51 W/kg |
 | Silica | 0.31 W/kg |
-| The Earth's internal heat flow (LIT, recalled) | 7.9×10⁻¹² W/kg |
+| The Earth's internal heat flow, 47 ± 2 TW (LIT: Davies and Davies, Solid Earth 1, 5 (2010)) | 7.9×10⁻¹² W/kg |
 
 **Local continuous CQ gravity is excluded by a factor of 4×10¹⁰.** This agrees with
 Oppenheim et al.'s own remark that continuous models with noise everywhere are ruled out.
@@ -254,5 +254,5 @@ Non-Markovian classical gravity is still not covered.
     eq. 46, which they find not yet ruled out);
   - kernels tied to the Earth's background potential;
   - non-Markovian classical gravity.
-- The Earth's heat-flow figure is recalled, not retrieved.
+- The Earth's heat-flow figure is Davies and Davies (2010), 47 ± 2 TW, checked against their abstract.
 - The 50 kHz trap frequency is an assumption.

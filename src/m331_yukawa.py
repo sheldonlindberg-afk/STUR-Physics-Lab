@@ -5,7 +5,7 @@ Unifying-equation search, front 7d: the three weak spots of 'N_c = N_g = 3' (NOT
 Y1  Two-loop Yukawa terms (CHECK + computed). For a Yukawa y phi psi1 psi2 whose
     invariant contraction has n_terms unit entries, the two-loop gauge beta function
     gets  -g_i^3/(16 pi^2)^2 * y^2 * n_terms * [C2_i(psi1) + C2_i(psi2)] / d(G_i)
-    (d = 1 and C2 = X^2 for U(1); Machacek-Vaughn, LIT recalled). Calibrated on the
+    (d = 1 and C2 = X^2 for U(1); Machacek-Vaughn, NPB 236, 221 (1984)). Calibrated on the
     Standard Model top quark: (17/10, 3/2, 2), GUT-normalised.
 Y2  The verdict with Yukawas held CONSTANT up to the blow-up. Real Yukawas fall with
     energy (QCD), so a constant y overstates how much they slow the U(1)_X growth: the
@@ -31,7 +31,7 @@ from scipy.optimize import brentq
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import m331_exact as E
 
-MZ, MT_POLE = 91.1876, 172.57
+MZ, MT_POLE = 91.1880, 172.57
 M_PLANCK = E.M_PLANCK
 MU331 = 4e3
 
@@ -80,7 +80,8 @@ def yukawas_331(Nc, variant):
 
 def yt_at(mu, loops=1):
     """SM top Yukawa run from m_t to mu (one loop, with gauge couplings; MSbar y_t(m_t) from
-    the pole mass with the one-loop QCD conversion). LIT inputs recalled."""
+    the pole mass with the one-loop QCD conversion). Inputs: m_t = 172.57 GeV, alpha_s(M_Z) =
+    0.1180 (PDG 2024, checked)."""
     from qcd_running import alpha_s_run
     v = 246.22
     as_mt = alpha_s_run(MT_POLE)

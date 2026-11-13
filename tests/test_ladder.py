@@ -24,6 +24,19 @@ def test_chiral_breaking():
     assert abs(g - 13.01) < 0.01
 
 
+def test_chpt_one_loop_pion_mass():
+    for param in ("exponential", "sigma-model"):
+        free, z, m, shift, (F, Dl) = CB.chpt_mass_shift(param)
+        assert free == 0 and sp.simplify(shift - Dl / (2 * F**2)) == 0
+    M, mu = sp.symbols("M mu", positive=True)
+    pole, finite, resid = CB.tadpole()
+    assert sp.simplify(pole + M**2 / (16 * sp.pi**2)) == 0 and resid == 0
+    n = CB.chpt_numbers()
+    assert abs(n["mpi"] - 0.1326) < 3e-4 and abs(n["err"] - 0.0038) < 3e-4
+    assert abs(n["mpi"] - CB.M_PI0) < n["err"] and abs(n["corr"] - 0.0233) < 3e-4
+    assert abs(n["fpi_over_F"] - CB.FPI_OVER_F[0]) < CB.FPI_OVER_F[1]
+
+
 def test_casimir_polder_derived():
     a, resid = CP.sphere_polarizability()
     assert resid == 0
@@ -32,6 +45,31 @@ def test_casimir_polder_derived():
     assert CP.frequency_integral() == sp.Rational(23, 4)
     mine, theirs, grav, R = CP.compare_with_experiment_code()
     assert abs(mine / theirs - 1) < 1e-12
+
+
+def test_casimir_polder_finite_temperature():
+    e, t, ser, hi = CP.matsubara_eta()
+    assert sp.simplify(ser - (1 + sp.Rational(22, 21735) * t**6)) == 0 and hi == sp.Rational(6, 23)
+    for tv in (0.2, 0.5, 2.0, 20.0):
+        assert abs(float(CP.eta(tv)) / CP.eta_direct(tv) - 1) < 1e-11
+    gaps, dxB, dxA = CP.thermal_gaps()
+    import stur_gravity_full as GF
+    g0 = gaps[0.0][0]
+    assert abs(g0 / GF.casimir_safe_gap() - 1) < 2e-3                  # H0's grid value
+    assert abs(gaps[0.15][0] / g0 - 1) < 1e-9 and abs(gaps[4.2][0] / g0 - 1.0019) < 5e-4
+    assert abs(gaps[77.0][0] / g0 - 1.715) < 0.01
+    assert all(gA < gB for gB, gA in gaps.values())                    # design A's dx: smaller gap
+
+
+def test_patch_potentials_need_a_shield():
+    A, pmax, Vl, rows, (p_eum, over, over_c) = CP.patch_budget()
+    assert abs(p_eum / 2.8e-4 - 1) < 0.01 and abs(over / 3.57e5 - 1) < 0.01 and abs(over_c / 2.97e3 - 1) < 0.01
+    assert abs(Vl / 8.26e-13 - 1) < 0.01
+    assert abs(CP.patch_dipole_mc(A["R"], A["R"] / 10, 1.0) / CP.patch_dipole(A["R"], A["R"] / 10, 1.0) - 1) < 0.1
+    l, Vmax, p, ratio, gneed = rows[1]                                   # 0.1 um patches at 15 mV
+    assert abs(Vmax / 8.26e-6 - 1) < 0.01 and abs(ratio / 1816 - 1) < 0.01 and gneed > 0.1
+    worst, c6, c0 = CP.boyer_check()                                    # Boyer / Passante-Spagnolo eq. (11)
+    assert worst < 1e-12 and c0 == sp.Rational(-23, 2) and c6 == sp.Rational(-11, 945)
 
 
 def test_graviton_exchange():

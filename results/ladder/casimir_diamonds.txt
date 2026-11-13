@@ -24,3 +24,46 @@ P4  In the diamond experiment
    Gravity at the same r: -7.1897e-35 J; Casimir/gravity = 2.335e-02
    Casimir ~ R^6/r^7 and gravity ~ R^6/r, so the safe gap does not depend on the mass:
    181 um is where Casimir's entangling phase is 10% of gravity's (src/stur_gravity_full.py, H0).
+
+==============================================================================
+P5  Finite temperature: the Matsubara sum in closed form (CHECK, exact)
+==============================================================================
+   U_T = U_0 eta(tau), tau = 2 pi k_B T r / (hbar c); eta = (2/23) tau sum'_n f(n tau)
+   small tau: eta = 22*tau**6/21735 + 1 + O(tau^8)
+   large tau: eta / tau -> 6/23  (U_T -> -3 k_B T alpha1 alpha2 / r^6, the n = 0 term)
+   tau = 0.2: closed form 1.000000063179, term-by-term sum 1.000000063179
+   tau = 0.5: closed form 1.000013554106, term-by-term sum 1.000013554106
+   tau = 2.0: closed form 1.010249578289, term-by-term sum 1.010249578289
+   tau = 20.0: closed form 5.217391304350, term-by-term sum 5.217391304350
+   Boyer / Passante-Spagnolo eq. (11): max |W / (U_0 eta) - 1| = 2.2e-16; series of W a R^7: -23/2 + (-11/945) tau^6 = -(23/2)(1 + (22/21735) tau^6)
+   frequencies that matter: xi < ~10 c/r = 1.7e+13 rad/s at 181 um; diamond's lowest lattice absorption (Raman, 1332 cm^-1, IR-forbidden) 2.5e+14 rad/s: 15x above
+
+==============================================================================
+P6  The Casimir-safe gap at finite temperature (10% of gravity's entangling phase)
+==============================================================================
+   T (K)    gap, dx = 250 um (as H0)   gap, dx = 721 um (design A)   tau at the far branch
+     0.00       181.11 um                  163.62 um                  0
+     0.15       181.11 um                  163.62 um                  0.127
+     1.00       181.11 um                  163.62 um                  0.847
+     4.20       181.45 um                  163.86 um                  3.56
+    10.00       192.79 um                  170.84 um                  8.66
+    77.00       310.68 um                  262.67 um                  84.3
+   (T = 0 by root-finding: 181.11 um; H0's grid gives 181.16 um.)
+   at the design's 0.15 K the gap moves by +1.4e-11: the T = 0 formula holds there.
+   at 4.2 K it is +0.19%, at 77 K 1.72x the T = 0 gap:
+   up to a helium bath the T = 0 gap stands; at 10 K it grows by 6%.
+
+==============================================================================
+P7  Electric dipoles against H6's bound at design A (LIT measurements; MODEL for patches)
+==============================================================================
+   H6 bound: p < 4.49e-29 C m = 2.8e-04 e um
+   measured, silica microspheres (Afek et al. 2021): ~100 e um = 3.6e+05x the bound; after their x120 cancellation 3.0e+03x
+   p_rms = sqrt(12 pi) eps0 R l V per axis (l << R); Monte Carlo at l = R/10: 0.968 of the formula
+   H6 bound at design A (R = 1.00 um, gap 181 um): p < 4.49e-29 C m, so V l < 8.26e-13 V m
+   patches of  30 nm: V_rms must be < 27.5 uV;  at 15 mV, p = 545x the bound, unshielded gap needed 0.15 m
+   patches of 100 nm: V_rms must be <  8.3 uV;  at 15 mV, p = 1816x the bound, unshielded gap needed 0.5 m
+   patches of 300 nm: V_rms must be <  2.8 uV;  at 15 mV, p = 5447x the bound, unshielded gap needed 1.5 m
+   (patches: gold, ambient, Garrett, Somers and Munday 2015; diamond not measured)
+   -> dipoles exceed the bound by orders of magnitude, measured or modelled. A conducting shield
+      does not necessarily remove dipole forces (Afek et al. 2021): dipole control at the
+      1e-4 e um level is an open requirement of the design.

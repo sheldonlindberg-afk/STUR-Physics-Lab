@@ -35,7 +35,9 @@ WHAT IT COMPUTES
               and every fermion's electric charge for any number of colours.
       Rung 2  The strong force: chiral symmetry breaking in the linear sigma model (a
               MODEL of QCD's low-energy structure): pions, the GMOR relation, the Yukawa
-              form and tensor structure of the nuclear force, Goldberger-Treiman.
+              form and tensor structure of the nuclear force, Goldberger-Treiman; and the
+              pion mass at O(p^4) in chiral perturbation theory, QCD's own effective
+              theory, with lattice low-energy constants (derived in src/chiral_breaking.py).
       Rung 3  Electromagnetism, the experiment's background: the Casimir-Polder force
               between the diamonds, from electrostatics and the dipole field.
       Rung 4  Gravity to the experiment: linearized GR, one-graviton exchange (Newton's
@@ -54,8 +56,9 @@ WHAT IT COMPUTES
               pi0 -> gamma gamma (rung 1 -> 2): rung 1's charges and rung 2's f_pi give the
               measured width (f_pi is a measured input; the test is the anomaly normalization).
               The Planck mass (rung 4 -> 1): the 3-3-1 selection's cutoff is sqrt(hbar c / G),
-              with the G of the diamond experiment; the selection holds for G down to 8.4x
-              weaker (Landau poles from src/m331_three_loop.py, carried as numbers).
+              with the G of the diamond experiment; the selection holds for G down to 8.2x
+              weaker at the reference spectrum, 1.6x weaker at the worst point of the
+              threshold scan (Landau poles from src/m331_three_loop.py, carried as numbers).
               Black holes (rung 6 -> 4 and link 3): the diamond's Schwarzschild radius is a
               millionth of the Planck length; a Planck-mass black hole has k_B T = M_Pl/8 pi.
     Inputs are measured values (PDG 2024, FLAG 2024, CODATA 2018, Planck 2018; for rung 6 the EHT,
@@ -84,15 +87,20 @@ import time
 # unchanged), which moves no printed result.
 # ----------------------------------------------------------------------------------------
 G_F = 1.1663788e-5            # GeV^-2, Fermi constant
-MZ_MEAS = 91.1876             # GeV
-ALPHA_MZ_INV = 127.951        # 1/alpha_em(M_Z), MS-bar
-S2_MZ = 0.23122               # sin^2 theta_W(M_Z), MS-bar
+MZ_MEAS = 91.1880             # GeV, PDG 2024
+ALPHA_MZ_INV = 127.930        # 1/alpha_em(M_Z), MS-bar, PDG 2024
+S2_MZ = 0.23129               # sin^2 theta_W(M_Z), MS-bar, PDG 2024
 MU_PLUS_MD = 2.16e-3 + 4.70e-3   # GeV, m_u + m_d, MS-bar 2 GeV
 MU_PLUS_MD_ERR = sqrt(0.07e-3**2 + 0.07e-3**2)   # GeV, PDG 2024: m_u, m_d each +- 0.07 MeV
 F_PI = 0.1302 / sqrt(2)       # GeV, f_pi = 92.1 MeV
 COND_13 = 0.272               # GeV, |<qbar q>|^(1/3), lattice (FLAG), MS-bar 2 GeV
-COND_13_ERR = 0.005           # GeV, FLAG 2024 (N_f = 2+1)
+COND_13_ERR = 0.005           # GeV, FLAG 19 average (N_f = 2+1), restated in FLAG 21; FLAG 2024 omits LECs
 M_PI0, M_PIC = 0.1349768, 0.13957039
+# N_f = 2+1 lattice inputs for the O(p^4) pion mass (src/chiral_breaking.py S7): m_ud from
+# FLAG 2024 (arXiv:2411.04268); F_pi/F and lbar_3 the FLAG 19 averages restated in FLAG 21
+M_UD_FLAG, M_UD_FLAG_ERR = 3.364e-3, 0.041e-3   # GeV, (m_u + m_d)/2, MS-bar 2 GeV
+FPI_OVER_F, FPI_OVER_F_ERR = 1.062, 0.007
+LBAR3, LBAR3_ERR = 3.07, 0.64
 G_A, M_N = 1.2754, 0.9389187  # nucleon axial coupling; average nucleon mass (GeV)
 G_PINN_EMP = 13.1             # charged pi-N coupling: g_c^2/4pi = 13.69 +- 0.12 +- 0.15 (GMO sum rule;
 G_PINN_ERR = 0.1              # Baru et al., Nucl. Phys. A 872, 69 (2011), eq. 9.13), so g = 13.12 +- 0.09
@@ -102,13 +110,18 @@ HBAR = 1.054571817e-34        # J s
 C_LIGHT = 2.99792458e8        # m/s
 EPS_DIAMOND = 5.7             # static permittivity of diamond
 RHO_DIAMOND = 3510.0          # kg/m^3
-LAMBDA_SI = 1.1056e-52        # m^-2, cosmological constant (Planck 2018)
+LAMBDA_SI = 1.1056e-52        # m^-2, Planck 2018 (TT,TE,EE+lowE+lensing+BAO): 3 H0^2 Omega_L / c^2 with H0 = 67.66, Omega_L = 0.6889
+#   (A&A 641, A6 (2020), Table 2). Planck quotes Lambda = (4.24 +- 0.11)e-66 eV^2 = 1.089e-52 m^-2 without BAO.
 L_PLANCK = 1.616255e-35       # m
 # Landau poles of the 3-3-1 running in GeV (N_c = 3, N_c = 5), at the reference spectrum:
 # M_V = 4 TeV, Yukawas and thresholds on, alpha = 1, three loops. Computed by
 # src/m331_three_loop.py (too heavy to repeat here); tests/test_ladder_standalone.py checks
 # them against that module. They are the repository's numbers, so their check is pinned.
-POLES_331 = {"+1/sqrt3": (3.53147e19, 5.18629e11), "-1/sqrt3": (2.33273e29, 1.13517e15)}
+POLES_331 = {"+1/sqrt3": (3.49103e19, 5.15600e11), "-1/sqrt3": (2.28969e29, 1.12580e15)}
+# The same poles over the 72-point threshold scan of NOTE_331.md 3a (r_J, r_S, M_V, light
+# doublets): the lowest N_c = 3 pole and the highest N_c = 5 pole, i.e. the narrowest window.
+# Computed by src/ladder_links.py L3e; tests/test_ladder_standalone.py checks them against it.
+POLES_331_SCAN = {"+1/sqrt3": (1.54027e19, 2.69119e12), "-1/sqrt3": (1.51351e29, 4.25661e15)}
 
 CHECKS = []
 KINDS = ("math", "data", "pinned")
@@ -405,8 +418,28 @@ def rung2():
     check("GMOR with measured quark masses, f_pi and the lattice condensate: m_pi = 127.6 MeV (within 8% of 135)",
           abs(mpi - 0.1276) < 1e-3 and abs(mpi / M_PI0 - 1) < 0.08, "data",
           f"got {mpi * 1e3:.1f} +- {dmpi * mpi * 1e3:.1f} MeV (inputs, {100 * dmpi:.1f}%) vs {M_PI0 * 1e3:.1f} MeV."
-          " Tolerance 8%: GMOR is leading order, and the next-order chiral terms (not computed here)"
-          " are expected at several percent")
+          " Tolerance 8%: GMOR is leading order with f_pi standing in for the chiral-limit F; the next check"
+          " does it at O(p^4)")
+    # chiral perturbation theory at O(p^4): M^2 = 2 m_ud Sigma / F^2, M_pi^2 = M^2 [1 - M^2 lbar_3 / (32 pi^2 F^2)]
+    def mpi4(mud, c13, r, l3):
+        Fc = F_PI / r
+        M2 = 2 * mud * c13**3 / Fc**2
+        return sqrt(M2 * (1 - M2 / (32 * pi * pi * Fc * Fc) * l3))
+    c4 = [M_UD_FLAG, COND_13, FPI_OVER_F, LBAR3]
+    m4 = mpi4(*c4)
+    dm4 = 0.0
+    for i, e in enumerate((M_UD_FLAG_ERR, COND_13_ERR, FPI_OVER_F_ERR, LBAR3_ERR)):
+        up = list(c4)
+        up[i] += e
+        dm4 += (mpi4(*up) - m4) ** 2
+    dm4 = sqrt(dm4)
+    print(f"   O(p^4) chiral perturbation theory, FLAG inputs: m_pi = {m4 * 1e3:.1f} +- {dm4 * 1e3:.1f} MeV")
+    check("the pion mass at O(p^4) in chiral perturbation theory: 132.6 MeV, within 2 sigma of 135.0",
+          abs(m4 - 0.1326) < 1e-3 and abs(m4 - M_PI0) < 2 * dm4, "data",
+          f"got {m4 * 1e3:.1f} +- {dm4 * 1e3:.1f} MeV vs {M_PI0 * 1e3:.1f} MeV ({(m4 - M_PI0) / dm4:+.1f} sigma)."
+          " Not the sigma model: QCD's effective theory, whose one-loop chiral log src/chiral_breaking.py S6"
+          " derives in two parametrizations; lbar_3, F_pi/F and the condensate are FLAG 19/21 averages, m_ud is FLAG 2024's."
+          " The uncertainty is mostly the condensate")
     m = 1.3
     V = lambda r: exp(-m * r) / (4 * pi * r)
     rs = [0.3, 0.9, 2.1]
@@ -742,7 +775,7 @@ def rung5():
 # RUNG 6: black holes, the strong-field end of gravity's column (src/black_holes.py)
 # ----------------------------------------------------------------------------------------
 K_B = 1.380649e-23            # J/K
-GM_SUN = 1.32712440018e20     # m^3 s^-2 (IAU)
+GM_SUN = 1.3271244e20         # m^3 s^-2, IAU 2015 nominal (Resolution B3; Prsa et al., arXiv:1510.07674)
 PARSEC = 3.0856775814913673e16
 UAS = pi / (180 * 3600e6)     # one micro-arcsecond in radians
 # EHT ring diameters (uas, 68%): M87* (EHT 2019, ApJL 875, L1), Sgr A* (EHT 2022, ApJL 930, L12)
@@ -750,12 +783,12 @@ RING_M87, RING_SGRA = (42.0, 3.0), (51.8, 2.3)
 # The EHT's theta_g = GM/(c^2 D) (uas; value, error below, error above), from the ring with
 # alpha = d/theta_g calibrated on GRMHD images, the calibration's spread included (same
 # papers; M87*: Paper VI, ApJL 875, L6). alpha = 11.1 and 10.8, against the shadow's 10.4.
-THETA_G_M87, THETA_G_SGRA = (3.8, 0.4, 0.4), (4.8, 0.7, 0.4)
+THETA_G_M87, THETA_G_SGRA = (3.8, 0.4, 0.4), (4.8, 0.7, 1.4)   # EHT 2019 Paper VI; EHT 2022 Paper I, Table 1
 # Masses and distances measured without the EHT. M87*: stellar dynamics (Gebhardt et al.,
 # ApJ 729, 119 (2011)), (6.6 +- 0.4)e9 Msun at an assumed 17.9 Mpc; M/D does not depend on
 # the distance assumed. Sgr A*: stellar orbits, GRAVITY 2022 and Keck 2019 (Msun, pc).
 M87_STARS = (6.6e9, 0.4e9, 17.9e6)
-SGRA_VLTI, SGRA_KECK = (4.297e6, 8277.0), (3.975e6, 7935.0)
+SGRA_VLTI, SGRA_KECK = (4.297e6, 8277.0), (3.975e6, 7959.0)   # Keck: Do et al. 2019, Table 1, R0 = 7.959 kpc
 # GW250114 (LVK, PRL 135, 111403 (2025)): component masses (Msun, +-90%), full-signal
 # remnant, redshift; the ringdown-only 220 fit (redshifted f, damping rate, Hz). The spin
 # bound chi_1,2 <= 0.26 is not needed: spin 0 gives the largest initial area.
@@ -991,8 +1024,8 @@ def rung6():
     pv, pk = shadow_uas(*SGRA_VLTI), shadow_uas(*SGRA_KECK)
     pS = (pv + pk) / 2
     zS = theta_g_pull(pS / k, abs(pv - pk) / pS, THETA_G_SGRA)
-    check("Sgr A*: theta_g from the stellar-orbit mass and distance is 5.03 uas (shadow 52.3 uas); the EHT's,"
-          " from its 51.8 +- 2.3 uas ring, is 4.8 (-0.7 +0.4) uas", abs(zS) < 2, "data",
+    check("Sgr A*: theta_g from the stellar-orbit mass and distance is 5.03 uas (shadow 52.2 uas); the EHT's,"
+          " from its 51.8 +- 2.3 uas ring, is 4.8 (-0.7 +1.4) uas", abs(zS) < 2, "data",
           f"got {pS / k:.2f} uas (GRAVITY {pv / k:.2f}, Keck {pk / k:.2f}), {zS:+.2f} sigma. Tolerance 2 sigma: the EHT's"
           f" upper error (alpha = {RING_SGRA[0] / THETA_G_SGRA[0]:.1f}, calibration included) and the GRAVITY-Keck"
           " spread in M/D (4%)")
@@ -1136,10 +1169,22 @@ def links():
               f" -> holds for {win[v][0]:.2g} < G/G_meas < {win[v][1]:.2g}")
     print("   G is measured to 2.2e-5 (CODATA 2018). The assumption: G does not run between the")
     print("   laboratory and 10^19 GeV (corrections ~ (E/M_Pl)^2; many hidden light species would break it).")
-    check("with rung 4's G the 3-3-1 selection keeps N_c = 3 and excludes N_c = 5; it would fail for G 8.4x weaker",
-          all(lo < 1 < hi for lo, hi in win.values()) and abs(1 / win["+1/sqrt3"][0] / 8.37 - 1) < 0.01,
+    check("with rung 4's G the 3-3-1 selection keeps N_c = 3 and excludes N_c = 5; it would fail for G 8.2x weaker",
+          all(lo < 1 < hi for lo, hi in win.values()) and abs(1 / win["+1/sqrt3"][0] / 8.18 - 1) < 0.01,
           "pinned", f"got windows {', '.join(f'{lo:.3g}-{hi:.2g}' for lo, hi in win.values())},"
-          " pinned 0.12 (8.4x weaker) as the narrow side. The poles come from src/m331_three_loop.py")
+          " pinned 0.12 (8.2x weaker) as the narrow side. The poles come from src/m331_three_loop.py")
+    # L3e: the reference spectrum is one point. Over the threshold scan the window narrows.
+    wscan = {}
+    for v, (p3, p5) in POLES_331_SCAN.items():
+        wscan[v] = ((mpl / p3) ** 2, (mpl / p5) ** 2)
+        print(f"   beta = {v:8s}, worst over the threshold scan: N_c = 3 pole {p3 / mpl:.3g} M_Pl, N_c = 5 pole"
+              f" {p5 / mpl:.2g} M_Pl -> holds for {wscan[v][0]:.2g} < G/G_meas < {wscan[v][1]:.2g}")
+    check("over the threshold scan the selection still holds at the measured G, but would fail for G 1.6x weaker",
+          all(lo < 1 < hi for lo, hi in wscan.values()) and abs(1 / wscan["+1/sqrt3"][0] / 1.592 - 1) < 0.01,
+          "pinned", f"got windows {', '.join(f'{lo:.3g}-{hi:.2g}' for lo, hi in wscan.values())},"
+          " pinned 0.63 (1.6x weaker) as the narrow side, at M_V = 2 TeV, r_J = 0.5, r_S = 1/3 and two light"
+          " doublets. The 8.2x above is the reference spectrum's margin, not the model's. Gravity's own term in the"
+          " running moves these poles by 3% or less (src/ladder_links.py L3f)")
     # L4: rung 6 -> rung 4. Design A's diamond as a black hole.
     rs = 2 * G_NEWTON * m / C_LIGHT**2
     print(f"   Design A's diamond ({m:.3e} kg): Schwarzschild radius 2Gm/c^2 = {rs:.2e} m = {rs / L_PLANCK:.2e} l_P,"

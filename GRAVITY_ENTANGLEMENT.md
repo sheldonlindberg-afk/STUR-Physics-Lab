@@ -75,7 +75,7 @@ rate must be below **0.12 /s per diamond**.
   gas wavelength, every collision resolves the branches, so the rate is the collision
   rate, n⟨v⟩σ_tot. Here σ_tot = 2πR² is the exact quantum hard-sphere cross-section,
   checked by partial waves (2.0096 πR² at kR = 3000; kR ≈ 4000 for N₂ at 0.15 K).
-- **The interpolation used before** (Romero-Isart 2011, eq. 27) gives 4.19× more. It
+- **The interpolation used before** (Romero-Isart 2011, eq. 27, evaluated with the rms speed; the paper's mean speed would give 4.55×) gives 4.19× more. It
   extends the long-wavelength coefficient into this regime with a Gaussian.
 - **At the published target** of 10⁻¹⁵ Pa (N₂) and 0.15 K, the collision rate is
   0.025 /s (γτ = 0.06), a fifth of the budget.

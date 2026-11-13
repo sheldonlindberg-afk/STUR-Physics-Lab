@@ -2,7 +2,8 @@
 """
 General one-loop RGEs for quartic and Yukawa couplings (real scalars, two-component fermions).
 
-LIT recalled: Machacek & Vaughn, NPB 222, 83; 236, 221; 249, 70 (1983-85); Luo, Wang, Xiao,
+LIT (references checked against INSPIRE; the coefficients are validated against the SM in
+src/m331_three_loop.py V1-V2): Machacek & Vaughn, NPB 222, 83; 236, 221; 249, 70 (1983-85); Luo, Wang, Xiao,
 PRD 67, 065019 (2003). With kappa = 1/2 (Weyl fermions), Theta^A = g_A theta^A:
 
   (4pi)^2 beta(lambda_abcd) = Lambda2 - 8 kappa H + 3 A + LambdaY - 3 LambdaS

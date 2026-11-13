@@ -55,6 +55,107 @@ L2c-d  Against PrimEx (rung 2's f_pi, alpha(0); LIT anomaly coefficient)
       demands. It cannot select N_c; the R-ratio does (src/m331_why_three.py W6).
 
 ==============================================================================
+L6a  The diamond's mass: carbon-12 from its constituents (CHECK; CODATA 2018)
+==============================================================================
+   6 m_p + 6 m_n + 6 m_e - 12 u = 92.162 MeV (7.680 MeV per nucleon): the binding of the nucleus
+   (residual strong force minus Coulomb), plus the electrons' keV-level atomic binding
+
+==============================================================================
+L6b-c  Where it comes from (Feynman-Hellmann; LIT: FLAG 2024 sigma terms)
+==============================================================================
+   N_f = 2+1   : sigma_piN = 42.2 MeV, sigma_s = 44.9 MeV  (sum of parts = 1.000000000)
+      QCD field energy +91.45%;  u, d quark masses +4.53%;  s quark mass +4.82%;  electrons +0.03%;  nuclear binding -0.82%
+   N_f = 2+1+1 : sigma_piN = 60.9 MeV, sigma_s = 41.0 MeV  (sum of parts = 1.000000000)
+      QCD field energy +89.86%;  u, d quark masses +6.54%;  s quark mass +4.40%;  electrons +0.03%;  nuclear binding -0.82%
+   -> design A's diamond weighs what QCD's field energy weighs; the Higgs-generated masses
+      are under a tenth of it
+
+==============================================================================
+L6d  What the gravity experiment inherits (FOLLOWS, first order in the sigma terms)
+==============================================================================
+   design A's phase 2.187 rad goes as m^2 at fixed geometry and time
+   N_f = 2+1   : massless u, d: 1.99 rad;  massless quarks and electrons: 1.80 rad
+   N_f = 2+1+1 : massless u, d: 1.91 rad;  massless quarks and electrons: 1.73 rad
+
+==============================================================================
+L7a-b  An evaporating black hole: the emission counts rung 1's particles (CHECK; LIT)
+==============================================================================
+   T_H at 1e10 g = 1057.3 GeV (Carr et al. eq. 11: 1.06 TeV)
+   f below every mass (photons, neutrinos, gravitons): 1.016
+   f, every Standard Model species (W, Z longitudinal modes as scalars): 15.332; unbroken counting 15.332; Carr et al. 15.35
+   f, unbroken 3-3-1 (beta = -1/sqrt3): 25.66  (17 gauge bosons, 18 real scalars, 66 Weyl fermions)
+   f, unbroken 3-3-1 (beta = +1/sqrt3): 26.49  (17 gauge bosons, 18 real scalars, 69 Weyl fermions)
+
+==============================================================================
+L7c  The thresholds a shrinking hole crosses (beta = +1/sqrt3; MODEL switch-on at m/4)
+==============================================================================
+   threshold                                                      T_H (GeV)    M (kg)      left (s)    f above
+   the diamond experiment's cryostat, 0.15 K                      1.293e-14  8.179e+23  3.362e+54    1.02
+   CMB: absorbs more than it emits above this mass                2.349e-13  4.502e+22  5.605e+50    1.02
+   electrons (rung 3's charges)                                   1.277e-04  8.276e+13  2.234e+24    1.58
+   muons                                                          2.641e-02  4.003e+11  1.631e+17    2.15
+   pions (rung 2's Goldstone bosons)                              3.489e-02  3.030e+11  5.839e+16    2.95
+   QCD crossover: rung 2's condensate melts; quarks and gluons    1.565e-01  6.756e+10  2.287e+14    8.22
+   W and Z, with the Higgs mechanism's Goldstones                 2.009e+01  5.262e+08  6.762e+07   12.97
+   top quark                                                      4.314e+01  2.451e+08  6.002e+06   15.33
+   electroweak crossover (rung 1's breaking)                      1.595e+02  6.629e+07  1.183e+05   15.33
+   3-3-1 content (rung 1's start)                                 9.388e+02  1.126e+07  3.367e+02   26.49
+   Planck mass: link 3's cutoff, semiclassics ends                4.858e+17  2.176e-08  2.430e-42   26.49
+   -> from the cryostat's temperature to the Planck mass, the hole's own temperature
+      passes every scale the forces separate at, in reverse order.
+
+==============================================================================
+L7d  Checks against Carr et al. (CHECK)
+==============================================================================
+   1e10 g at f = 15.35: lifetime 406.7 s (theirs 407 s)
+   lifetime = 13.787 Gyr at M* = 5.111e+14 g, T_H = 20.7 MeV (theirs 5.1e14 g, 21 MeV)
+
+==============================================================================
+L8a  f_pi from rung 1's G_F and the measured pi -> mu nu rate (CHECK; LIT: PDG 2024)
+==============================================================================
+   f_pi |V_ud| = 127.13 MeV (PDG review: 127.13 +- 0.13);  |V_ud| = 0.97367: f_pi = 130.57 +- 0.14 MeV
+   rung 2's lattice input: 130.2 +- 1.2 MeV;  difference +0.3 sigma
+
+==============================================================================
+L8b  What rung 2 inherits from it (CHECK)
+==============================================================================
+   Gamma(pi0 -> gamma gamma) = 7.742 eV (-0.5 sigma against PrimEx);  O(p^4) m_pi = 132.3 MeV
+
+==============================================================================
+L8c  Rung 1's photon splits rung 2's pions: the DGMLY sum rule (CHECK; MODEL saturation)
+==============================================================================
+   rho + a1 saturation with Weinberg's sum rules: closed form residual 0 (f_pi drops out)
+   m_pi+^2 - m_pi0^2 = 1604 MeV^2 (1559-1648 over m_a1 +- 40 MeV), 5.84 MeV; measured 1261.2 MeV^2, 4.59 MeV
+   lowest-resonance saturation is +27%; the lattice evaluation of the same sum rule: 1024 +- 100 MeV^2
+
+==============================================================================
+L9a  The leptons' running of alpha, from the vacuum-polarization integral (CHECK)
+==============================================================================
+   one loop, e + mu + tau: integral 314.19112e-4, closed form 314.19111e-4; Steinhauser 314.19007e-4 (three loops 314.97686e-4)
+
+==============================================================================
+L9b  The hadrons' running: what the repository's own R-ratio data covers (CHECK; LIT)
+==============================================================================
+   KEDR window (R = 2.225, 1.84-3.05 GeV): 1.743e-03 of Delta alpha_had = 0.02783 (PDG), 6.3%
+
+==============================================================================
+L9c  One coupling at two scales: alpha-hat(M_Z) -> alpha(0) (CHECK; LIT)
+==============================================================================
+   1/alpha-hat(M_Z) = 127.93 (rung 1), Delta alpha-hat = 0.066450:  1/alpha(0) = 137.035999; CODATA 137.035999084
+
+==============================================================================
+L10a-b  Rung 5's solution in the lab: Newton plus a background that can't entangle (CHECK)
+==============================================================================
+   Phi = -(c^2/2)(1 - f) for Schwarzschild-de Sitter, minus (-GM/r - Lambda c^2 r^2/6): 0
+   nabla^2 Phi + Lambda c^2 away from the mass: 0
+   entangling combination of the Lambda term, any branch positions: 0
+
+==============================================================================
+L10c-d  What is left of Lambda at the diamonds (FOLLOWS, order of magnitude)
+==============================================================================
+   l = sqrt(3/Lambda) = 1.647e+26 m; farthest branch distance 743 um; (r/l)^2 = 2.0e-59
+
+==============================================================================
 L3a  The Planck mass: the 3-3-1 cutoff from rung 4's G (CHECK)
 ==============================================================================
    rung 4 (src/stur_gravity_entanglement.py): G = 6.67430e-11, hbar = 1.054571817e-34, c = 299792458
@@ -64,9 +165,29 @@ L3a  The Planck mass: the 3-3-1 cutoff from rung 4's G (CHECK)
 L3b-c  How far G could move before the selection changes (alpha = 1, three loops)
 ==============================================================================
    G -> x G moves M_Pl by x^(-1/2); the selection holds for (M_Pl/pole_3)^2 < x < (M_Pl/pole_5)^2
-   beta = +1/sqrt3 reference spectrum: N_c = 3 pole 2.89 M_Pl, N_c = 5 pole 4.2e-08 M_Pl  ->  0.12 < x < 5.5e+14
-   beta = -1/sqrt3 reference spectrum: N_c = 3 pole 1.91e+10 M_Pl, N_c = 5 pole 9.3e-05 M_Pl  ->  2.7e-21 < x < 1.2e+08
-   G is measured to 2.2e-5 (CODATA 2018). The narrow side: beta = +1/sqrt3 with G 8.4x weaker.
+   beta = +1/sqrt3 reference spectrum: N_c = 3 pole 2.86 M_Pl, N_c = 5 pole 4.2e-08 M_Pl  ->  0.12 < x < 5.6e+14
+   beta = -1/sqrt3 reference spectrum: N_c = 3 pole 1.88e+10 M_Pl, N_c = 5 pole 9.2e-05 M_Pl  ->  2.8e-21 < x < 1.2e+08
+   G is measured to 2.2e-5 (CODATA 2018). The narrow side: beta = +1/sqrt3 with G 8.2x weaker.
    at the mass floors with light heavy leptons (NOTE_331.md 3e): N_c = 3 pole 0.61 M_Pl, so it would need G 2.7x stronger
    -> the selection's cutoff and the diamonds' signal share one measured G. The selection
       assumes G does not run between the laboratory and 10^19 GeV.
+
+==============================================================================
+L3e  The same window over the threshold scan (NOTE_331.md 3a; alpha = 1, three loops)
+==============================================================================
+   72 spectra: r_J, r_S, M_V, light doublets (src/m331_threshold.py GRID)
+   beta = +1/sqrt3 N_c = 3 pole 1.26 - 15.8 M_Pl, N_c = 5 pole 1.6e-08 - 2.2e-07 M_Pl
+      lower edge 0.004 - 0.63,  upper edge 2.1e+13 - 3.9e+15
+   beta = -1/sqrt3 N_c = 3 pole 1.24e+10 - 4.93e+10 M_Pl, N_c = 5 pole 4.2e-05 - 0.00035 M_Pl
+      lower edge 4.1e-22 - 6.5e-21,  upper edge 8.2e+06 - 5.6e+08
+   worst point (beta = +1/sqrt3): r_J = 0.5, r_S = 0.333, M_V = 2000 GeV, 2 light doublets:
+      the selection fails for G 1.59x weaker (reference spectrum: 8.2x)
+
+==============================================================================
+L3f  Gravity's term in the gauge running (src/m331_gravity_fixed_point.py; MODEL)
+==============================================================================
+   f* = 0.0098, G* = 1: the strength that keeps the SM hypercharge finite (G2 there)
+   beta = +1/sqrt3, N_c = 3, reference spectrum: pole 2.859 -> 2.942 M_Pl  (+2.9%)
+   beta = +1/sqrt3, N_c = 3, worst     spectrum: pole 1.262 -> 1.274 M_Pl  (+1.0%)
+   -> a few percent, against the factor 13 the threshold spectrum spans: the heavy
+      spectrum, not gravity's running, sets how close N_c = 3's pole comes to M_Pl.

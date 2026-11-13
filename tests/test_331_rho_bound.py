@@ -26,7 +26,7 @@ def test_closed_form_matches_exact_diagonalization():
 
 def test_where_the_mixing_vanishes():
     assert abs(R.sin2_a0("+1/sqrt3") - 0.3496) < 1e-4 and abs(R.sin2_a0("-1/sqrt3") - 0.6504) < 1e-4
-    assert abs(R.s2_tev() - 0.2504) < 1e-4
+    assert abs(R.s2_tev() - 0.2505) < 1e-4
     assert abs(R.sin2_a0("+1/sqrt3", R.s2_tev()) - 0.333) < 1e-3
 
 

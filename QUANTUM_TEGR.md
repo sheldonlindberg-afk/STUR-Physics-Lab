@@ -334,7 +334,7 @@ conversion Sen uses for loop quantum gravity.
 | Edge counting, Varrin's causal semigroup SL⁺(2,ℝ) | 5 |
 
 The SL(2,ℂ) Plancherel density, ∝ (n² + ρ²) and so ∝ ρ² for the simple series, is the
-Gelfand–Naimark result, quoted from memory rather than from a source retrieved here.
+Gelfand–Naimark result; the density |μ + iλ|² is checked against [2403.17180](https://arxiv.org/abs/2403.17180).
 
 **What this shows.**
 - The frame's logarithm depends on which group it is quantized with (1, 5 or 9). None of

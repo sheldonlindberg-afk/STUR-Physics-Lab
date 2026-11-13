@@ -26,12 +26,12 @@ G1  Fixed points (CHECK, symbolic). At one loop with constant f, beta = b g^3/16
 G2  The value of f* that puts the measured couplings exactly on the fixed-point trajectory
     (the separatrix: just above it every coupling stays finite to arbitrarily high scales;
     just below, U(1)_X hits a pole). Reference spectrum M_V = 4 TeV, alpha = 1 criterion:
-        G* = 0.5 / 1 / 2:  beta = +1/sqrt3: f* = 0.246 / 0.293 / 0.359
+        G* = 0.5 / 1 / 2:  beta = +1/sqrt3: f* = 0.247 / 0.295 / 0.362
                            beta = -1/sqrt3: f* = 0.0200 / 0.0203 / 0.0206
     With the same profile, the Standard Model's hypercharge (one loop, b_Y = 41/6) needs
     f* = 0.0097-0.0099: the benchmark the published estimates of f_g aim at. So beta =
     -1/sqrt3 needs about twice the SM's gravity contribution, beta = +1/sqrt3 about 30
-    times, because its g_X is already close to its pole at M_Pl (2.89 M_Pl at alpha = 1).
+    times, because its g_X is already close to its pole at M_Pl (2.86 M_Pl at alpha = 1).
     (CHECK, given the model)
 G3  The selection is unchanged. f* can be at most b_X/4pi (1.11 and 0.69) for g_X* to stay
     below sqrt(4 pi), the selection's own criterion. At that maximum and G* = 0.5, the
@@ -39,8 +39,8 @@ G3  The selection is unchanged. f* can be at most b_X/4pi (1.11 and 0.69) for g_
     suppressed by (mu/M_Pl)^2 to below 1e-7. Gravity above M_Pl cannot rescue the
     excluded N_c. (CHECK, given the model)
 G4  Light heavy leptons (NOTE_331.md section 3e): there N_c = 3 fails at 0.61 M_Pl, before
-    the transition. Gravity rescues it only with f* >= 0.72 (G* = 0.5) or 1.07 (G* = 1),
-    that is with g_X* at 80-98% of sqrt(4 pi), the edge of the criterion, and for no
+    the transition. Gravity rescues it only with f* >= 0.73 (G* = 0.5) or 1.08 (G* = 1),
+    that is with g_X* at 81-98.5% of sqrt(4 pi), the edge of the criterion, and for no
     allowed f* at G* = 2. The heavy-lepton condition stands. (CHECK, given
     the model)
 G5  What this does and does not give (FOLLOWS). One irrelevant coupling (g_X) and one
