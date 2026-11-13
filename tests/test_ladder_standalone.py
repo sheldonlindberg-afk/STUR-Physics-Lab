@@ -45,7 +45,8 @@ def test_links_agree_with_the_repository():
 
 def test_black_hole_rung_agrees_with_the_repository():
     import black_holes as BH
-    assert (S.K_B, S.GM_SUN, S.PARSEC, S.UAS, S.RING_SYST, S.BCW_220) == (BH.KB, BH.GM_SUN, BH.PC, BH.UAS, BH.RING_SYST, BH.BCW_220)
+    assert (S.K_B, S.GM_SUN, S.PARSEC, S.UAS, S.BCW_220) == (BH.KB, BH.GM_SUN, BH.PC, BH.UAS, BH.BCW_220)
+    assert (S.THETA_G_M87, S.THETA_G_SGRA) == (BH.THETA_G_M87, BH.THETA_G_SGRA)
     assert S.RING_M87 == (BH.RING_M87, BH.RING_M87_ERR) and S.RING_SGRA == (BH.RING_SGRA, BH.RING_SGRA_ERR)
     assert S.M87_STARS == (BH.M87_MASS, BH.M87_MASS_ERR, BH.M87_DIST)
     assert (S.SGRA_VLTI, S.SGRA_KECK) == (BH.SGRA_VLTI, BH.SGRA_KECK)

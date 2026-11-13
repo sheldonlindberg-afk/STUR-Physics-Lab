@@ -38,10 +38,11 @@ def test_geodesics():
 
 def test_eht_shadows():
     out = BH.eht()
-    p87, _, _, z87, gas = out["M87*"]
-    pS, _, _, zS, _ = out["Sgr A*"]
+    p87, t87, z87, (gas, zgas) = out["M87*"]
+    pS, tS, zS, _ = out["Sgr A*"]
     assert abs(p87 - 37.8) < 0.1 and abs(pS - 52.3) < 0.1
-    assert abs(z87) < 2 and abs(zS) < 2 and gas < 21
+    assert abs(t87 - 3.64) < 0.01 and abs(tS - 5.03) < 0.01
+    assert abs(z87) < 2 and abs(zS) < 2 and zgas > 3
 
 
 def test_gw250114():

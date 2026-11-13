@@ -132,16 +132,15 @@ RUNG 6  Black holes: the strong-field end of gravity's column (not a symmetry br
    [PASS] [math]          photons: the potential f/r^2 peaks at the photon sphere r = 3GM/c^2; the critical impact parameter, the shadow radius seen from far away, is sqrt(27) GM/c^2
    photon sphere r = 3.00000001 M, shadow radius 5.19615242 M; ISCO r = 6.00000 M, L^2 = 12.000000 M^2, E^2 = 0.888889
    [PASS] [math]          massive particles: circular orbits exist for L^2 >= 12 (GM/c)^2; at that minimum the stable and unstable orbits merge at the innermost stable circular orbit, r = 6GM/c^2, with E^2 = 8/9
-   [PASS] [data]          M87*: shadow 2 sqrt(27) GM/(c^2 D) from the stellar-dynamics mass is 37.8 uas; EHT ring 42 +- 3 uas
-          got 37.8 uas, +1.04 sigma. Tolerance 2 sigma of 10.6%: the ring's error (7%),
-          the mass (6%; the distance cancels in M/D) and 5% for the ring sitting outside
-          the shadow and the Kerr spread with spin (sized by the EHT's calibration, ring =
-          11 theta_g against the shadow's 2 sqrt(27) = 10.4). The gas-dynamics mass
-          (3.5e9) would give 20 uas, excluded
-   [PASS] [data]          Sgr A*: shadow from the stellar-orbit mass and distance is 52.3 uas; EHT ring 51.8 +- 2.3 uas
-          got 52.3 uas (GRAVITY 53.3, Keck 51.4), -0.13 sigma. Tolerance 2 sigma of 7.6%:
-          the ring (4%), the GRAVITY-Keck spread in M/D (4%), and 5% for ring vs shadow as
-          for M87*
+   [PASS] [data]          M87*: theta_g = GM/(c^2 D) from the stellar-dynamics mass is 3.64 uas (shadow 37.8 uas); the EHT's, from its 42 +- 3 uas ring, is 3.8 +- 0.4 uas
+          got 3.64 uas, +0.35 sigma (shadow 37.8 uas). Tolerance 2 sigma: the EHT's error,
+          which holds the ring (7%) and its GRMHD calibration alpha = 11.1 against the
+          Schwarzschild shadow's 10.4, and the mass (6%; the distance cancels in M/D). The
+          gas-dynamics mass (3.5e9) would give 1.93 uas, +4.7 sigma, excluded
+   [PASS] [data]          Sgr A*: theta_g from the stellar-orbit mass and distance is 5.03 uas (shadow 52.3 uas); the EHT's, from its 51.8 +- 2.3 uas ring, is 4.8 (-0.7 +0.4) uas
+          got 5.03 uas (GRAVITY 5.12, Keck 4.94), -0.53 sigma. Tolerance 2 sigma: the
+          EHT's upper error (alpha = 10.8, calibration included) and the GRAVITY-Keck
+          spread in M/D (4%)
    GW250114 ringdown alone: M_f = 66.7 M_sun, chi_f = 0.75. Areas (A = 8 pi (GM/c^2)^2 (1 + sqrt(1 - chi^2))): initial 237,372 km^2, final 406,548 km^2
    [PASS] [data]          GW250114, Hawking's area law: final area 4.1e5 km^2 > initial 2.4e5 km^2, from the published masses and the ringdown-only fit
           least favourable corners of the published 90% ranges: initial 252,084 km^2
@@ -218,5 +217,5 @@ VERDICT
    pion counting uses the linear sigma model, a stand-in for QCD, and rung 5 rewrites GR
    rather than going beyond it.
 
-   Checks passed: 58/58   (41 math, 9 data, 8 pinned; 0.04 s)
+   Checks passed: 58/58   (41 math, 9 data, 8 pinned; 0.05 s)
    ALL CHECKS PASS

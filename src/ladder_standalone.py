@@ -747,15 +747,15 @@ PARSEC = 3.0856775814913673e16
 UAS = pi / (180 * 3600e6)     # one micro-arcsecond in radians
 # EHT ring diameters (uas, 68%): M87* (EHT 2019, ApJL 875, L1), Sgr A* (EHT 2022, ApJL 930, L12)
 RING_M87, RING_SGRA = (42.0, 3.0), (51.8, 2.3)
+# The EHT's theta_g = GM/(c^2 D) (uas; value, error below, error above), from the ring with
+# alpha = d/theta_g calibrated on GRMHD images, the calibration's spread included (same
+# papers; M87*: Paper VI, ApJL 875, L6). alpha = 11.1 and 10.8, against the shadow's 10.4.
+THETA_G_M87, THETA_G_SGRA = (3.8, 0.4, 0.4), (4.8, 0.7, 0.4)
 # Masses and distances measured without the EHT. M87*: stellar dynamics (Gebhardt et al.,
 # ApJ 729, 119 (2011)), (6.6 +- 0.4)e9 Msun at an assumed 17.9 Mpc; M/D does not depend on
 # the distance assumed. Sgr A*: stellar orbits, GRAVITY 2022 and Keck 2019 (Msun, pc).
 M87_STARS = (6.6e9, 0.4e9, 17.9e6)
 SGRA_VLTI, SGRA_KECK = (4.297e6, 8277.0), (3.975e6, 7935.0)
-# Ring vs shadow edge, and the Kerr spread with spin: 5% at 1 sigma. Its size: the EHT
-# calibrates ring diameter = alpha theta_g with alpha ~ 11 on GRMHD images (EHT 2019, ApJL
-# 875, L6), against the shadow's 2 sqrt(27) ~ 10.4, a 6% offset (an uncertainty here).
-RING_SYST = 0.05
 # GW250114 (LVK, PRL 135, 111403 (2025)): component masses (Msun, +-90%), full-signal
 # remnant, redshift; the ringdown-only 220 fit (redshifted f, damping rate, Hz). The spin
 # bound chi_1,2 <= 0.26 is not needed: spin 0 gives the largest initial area.
@@ -864,6 +864,12 @@ def shadow_uas(m_sun, d_pc):
     return 2 * sqrt(27) * m_sun * GM_SUN / C_LIGHT**2 / (d_pc * PARSEC) / UAS
 
 
+def theta_g_pull(pred, pred_rel_err, meas):
+    """(measured - predicted)/sigma, with the measured error on the side facing the prediction."""
+    val, lo, hi = meas
+    return (val - pred) / sqrt((hi if pred > val else lo) ** 2 + (pred * pred_rel_err) ** 2)
+
+
 def kerr_area_km2(m_sun, chi):
     rg = m_sun * GM_SUN / C_LIGHT**2 / 1e3
     return 8 * pi * rg * rg * (1 + sqrt(1 - chi * chi))
@@ -969,24 +975,27 @@ def rung6():
     check("massive particles: circular orbits exist for L^2 >= 12 (GM/c)^2; at that minimum the stable and"
           " unstable orbits merge at the innermost stable circular orbit, r = 6GM/c^2, with E^2 = 8/9",
           abs(hi - 12) < 1e-6 and abs(r_isco - 6) < 1e-3 and abs(E2 - 8 / 9) < 1e-6)
-    # H6: Event Horizon Telescope
+    # H6: Event Horizon Telescope. The EHT measures a ring, not the shadow, and converts it to
+    # theta_g = GM/(c^2 D) with a GRMHD-calibrated alpha = ring/theta_g; that conversion is the
+    # ring-to-shadow correction, and its spread is in the EHT's error. Compare theta_g.
+    k = 2 * sqrt(27)                                       # shadow diameter / theta_g
     p87 = shadow_uas(M87_STARS[0], M87_STARS[2])
-    s87 = sqrt((RING_M87[1] / RING_M87[0]) ** 2 + (M87_STARS[1] / M87_STARS[0]) ** 2 + RING_SYST**2)
-    z87 = (RING_M87[0] / p87 - 1) / s87
-    check("M87*: shadow 2 sqrt(27) GM/(c^2 D) from the stellar-dynamics mass is 37.8 uas; EHT ring 42 +- 3 uas",
-          abs(z87) < 2, "data",
-          f"got {p87:.1f} uas, {z87:+.2f} sigma. Tolerance 2 sigma of {100 * s87:.1f}%: the ring's error (7%), the mass"
-          " (6%; the distance cancels in M/D) and 5% for the ring sitting outside the shadow and the Kerr spread"
-          " with spin (sized by the EHT's calibration, ring = 11 theta_g against the shadow's 2 sqrt(27) = 10.4)."
-          f" The gas-dynamics mass (3.5e9) would give {shadow_uas(3.5e9, M87_STARS[2]):.0f} uas, excluded")
+    z87 = theta_g_pull(p87 / k, M87_STARS[1] / M87_STARS[0], THETA_G_M87)
+    gas = shadow_uas(3.5e9, M87_STARS[2]) / k
+    check("M87*: theta_g = GM/(c^2 D) from the stellar-dynamics mass is 3.64 uas (shadow 37.8 uas); the EHT's,"
+          " from its 42 +- 3 uas ring, is 3.8 +- 0.4 uas", abs(z87) < 2, "data",
+          f"got {p87 / k:.2f} uas, {z87:+.2f} sigma (shadow {p87:.1f} uas). Tolerance 2 sigma: the EHT's error, which"
+          f" holds the ring (7%) and its GRMHD calibration alpha = {RING_M87[0] / THETA_G_M87[0]:.1f} against the"
+          " Schwarzschild shadow's 10.4, and the mass (6%; the distance cancels in M/D). The gas-dynamics mass"
+          f" (3.5e9) would give {gas:.2f} uas, {theta_g_pull(gas, 0, THETA_G_M87):+.1f} sigma, excluded")
     pv, pk = shadow_uas(*SGRA_VLTI), shadow_uas(*SGRA_KECK)
     pS = (pv + pk) / 2
-    sS = sqrt((RING_SGRA[1] / RING_SGRA[0]) ** 2 + ((pv - pk) / pS) ** 2 + RING_SYST**2)
-    zS = (RING_SGRA[0] / pS - 1) / sS
-    check("Sgr A*: shadow from the stellar-orbit mass and distance is 52.3 uas; EHT ring 51.8 +- 2.3 uas",
-          abs(zS) < 2, "data",
-          f"got {pS:.1f} uas (GRAVITY {pv:.1f}, Keck {pk:.1f}), {zS:+.2f} sigma. Tolerance 2 sigma of {100 * sS:.1f}%:"
-          " the ring (4%), the GRAVITY-Keck spread in M/D (4%), and 5% for ring vs shadow as for M87*")
+    zS = theta_g_pull(pS / k, abs(pv - pk) / pS, THETA_G_SGRA)
+    check("Sgr A*: theta_g from the stellar-orbit mass and distance is 5.03 uas (shadow 52.3 uas); the EHT's,"
+          " from its 51.8 +- 2.3 uas ring, is 4.8 (-0.7 +0.4) uas", abs(zS) < 2, "data",
+          f"got {pS / k:.2f} uas (GRAVITY {pv / k:.2f}, Keck {pk / k:.2f}), {zS:+.2f} sigma. Tolerance 2 sigma: the EHT's"
+          f" upper error (alpha = {RING_SGRA[0] / THETA_G_SGRA[0]:.1f}, calibration included) and the GRAVITY-Keck"
+          " spread in M/D (4%)")
     # H7: GW250114. The final area comes from the ringdown alone, not the full-signal fit,
     # which assumes GR and obeys the area law by construction.
     z, dz = GW_Z

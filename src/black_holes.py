@@ -37,11 +37,16 @@ Units: G = c = 1 in the symbolic checks; SI in the numbers.
   H5  Geodesics, from the effective potentials: photon sphere 3M, critical impact parameter
       (the shadow radius seen from far away) sqrt(27) M, innermost stable circular orbit 6M
       with L^2 = 12 M^2 and E = sqrt(8/9). (CHECK)
-  H6  Event Horizon Telescope: the predicted shadow diameters of M87* and Sgr A*, from
-      masses and distances measured without the EHT, against the measured ring diameters.
+  H6  Event Horizon Telescope: theta_g = GM/(c^2 D) of M87* and Sgr A*, from masses and
+      distances measured without the EHT, against the EHT's theta_g. The EHT measures a ring,
+      not the shadow; it converts ring diameter to theta_g with alpha = d/theta_g calibrated on
+      GRMHD images, whose spread (spin, inclination, emission) is in its error bar. So the
+      ring-to-shadow offset is applied as a correction with a sourced uncertainty, not as an
+      allowance of our own. The Schwarzschild shadow 2 sqrt(27) theta_g is printed too.
       (CHECK against LIT data)
   H7  GW250114, Hawking's area law. Initial area: the published component masses, any spin
-      (spin 0 gives the largest initial area, so the published spin bound is not needed). Final: the mass and spin from the ringdown-only 220 fit, inverted; the
+      (spin 0 gives the largest initial area, so the published spin bound is not needed).
+      Final: the mass and spin from the ringdown-only 220 fit, inverted; the
       full-signal remnant is not used, because it assumes GR and obeys the area law by
       construction. The final area exceeds the initial one even at the least favourable
       corners of the published ranges (a heuristic, not a bound: the area need not be
@@ -82,6 +87,12 @@ M_PLANCK_GEV = 1.220890e19    # GeV, the 3-3-1 cutoff (src/m331_exact.py)
 # EHT ring diameters (68%): M87*: EHT 2019, ApJL 875, L1; Sgr A*: EHT 2022, ApJL 930, L12.
 RING_M87, RING_M87_ERR = 42.0, 3.0               # micro-arcseconds
 RING_SGRA, RING_SGRA_ERR = 51.8, 2.3
+# The EHT's theta_g = GM/(c^2 D) (68%; value, error below, error above), from the ring with
+# the GRMHD-calibrated alpha = d/theta_g, the calibration's spread included (same papers;
+# M87*: EHT 2019 Paper VI, ApJL 875, L6). alpha = 42/3.8 = 11.1 and 51.8/4.8 = 10.8, against
+# the Schwarzschild shadow's 2 sqrt(27) = 10.4: the ring sits 4-6% outside the shadow.
+THETA_G_M87 = (3.8, 0.4, 0.4)                    # micro-arcseconds
+THETA_G_SGRA = (4.8, 0.7, 0.4)
 # Masses and distances measured without the EHT.
 # M87*: stellar dynamics, Gebhardt et al., ApJ 729, 119 (2011): (6.6 +- 0.4) e9 Msun at an
 # assumed 17.9 Mpc. A dynamical mass scales with the assumed distance, so M/D does not
@@ -93,12 +104,6 @@ M87_GAS_MASS = 3.5e9
 # more than either error, so the spread is taken as the uncertainty.
 SGRA_VLTI = (4.297e6, 8277.0)
 SGRA_KECK = (3.975e6, 7935.0)
-# How far the bright ring can sit from the shadow edge, and the Kerr spread of the shadow
-# with spin and inclination (at most about 7%, all toward smaller): taken as 5% at 1 sigma.
-# Its size comes from the EHT's own calibration on GRMHD images, ring diameter = alpha
-# theta_g with alpha ~ 11 (EHT 2019, ApJL 875, L6), against the shadow's 2 sqrt(27) ~ 10.4:
-# a 6% offset, treated here as an uncertainty, not a correction.
-RING_SYST = 0.05
 
 # GW250114, LVK, PRL 135, 111403 (2025), arXiv:2509.08054 (NRSur7dq4, 90% intervals).
 GW_M1, GW_M1_LO, GW_M1_HI = 33.6, 0.8, 1.2       # Msun, source frame
@@ -304,17 +309,28 @@ def shadow_diameter_uas(m_sun, d_pc):
     return 2 * math.sqrt(27) * m_sun * GM_SUN / C**2 / (d_pc * PC) / UAS
 
 
+def theta_g_uas(m_sun, d_pc):
+    """theta_g = GM / (c^2 D) in micro-arcseconds."""
+    return shadow_diameter_uas(m_sun, d_pc) / (2 * math.sqrt(27))
+
+
+def theta_g_pull(pred, pred_rel_err, meas):
+    """(measured - predicted) / sigma, using the measured error on the side facing the prediction."""
+    val, lo, hi = meas
+    s_meas = hi if pred > val else lo
+    return (val - pred) / math.sqrt(s_meas**2 + (pred * pred_rel_err) ** 2)
+
+
 def eht():
+    """Per source: (shadow diameter, predicted theta_g, pull against the EHT's theta_g, extra)."""
     out = {}
-    p = shadow_diameter_uas(M87_MASS, M87_DIST)
-    s_pred = M87_MASS_ERR / M87_MASS
-    sig = math.sqrt((RING_M87_ERR / RING_M87) ** 2 + s_pred**2 + RING_SYST**2)
-    out["M87*"] = (p, RING_M87, RING_M87_ERR, (RING_M87 / p - 1) / sig, shadow_diameter_uas(M87_GAS_MASS, M87_DIST))
-    pv, pk = shadow_diameter_uas(*SGRA_VLTI), shadow_diameter_uas(*SGRA_KECK)
-    p = (pv + pk) / 2
-    s_pred = abs(pv - pk) / p
-    sig = math.sqrt((RING_SGRA_ERR / RING_SGRA) ** 2 + s_pred**2 + RING_SYST**2)
-    out["Sgr A*"] = (p, RING_SGRA, RING_SGRA_ERR, (RING_SGRA / p - 1) / sig, (pv, pk))
+    t = theta_g_uas(M87_MASS, M87_DIST)
+    gas = theta_g_uas(M87_GAS_MASS, M87_DIST)
+    out["M87*"] = (shadow_diameter_uas(M87_MASS, M87_DIST), t,
+                   theta_g_pull(t, M87_MASS_ERR / M87_MASS, THETA_G_M87), (gas, theta_g_pull(gas, 0, THETA_G_M87)))
+    tv, tk = theta_g_uas(*SGRA_VLTI), theta_g_uas(*SGRA_KECK)
+    t = (tv + tk) / 2
+    out["Sgr A*"] = (2 * math.sqrt(27) * t, t, theta_g_pull(t, abs(tv - tk) / t, THETA_G_SGRA), (tv, tk))
     return out
 
 
@@ -418,10 +434,14 @@ def main():
     print(f"   photon sphere r = {r_ph}; shadow radius b_c = {b_c} = sqrt(27) M")
     print(f"   ISCO r = {r_isco}, L^2 = {L2i}, E^2 = {E2}; V'' on circular orbits = {stab}")
 
-    banner("H6  Event Horizon Telescope: shadow against ring (CHECK against LIT)")
-    for name, (p, meas, err, pull, extra) in eht().items():
-        print(f"   {name:6s}: predicted shadow {p:.1f} uas, measured ring {meas} +- {err} uas: {pull:+.2f} sigma")
-    print(f"   (M87* with the gas-dynamics mass instead: {eht()['M87*'][4]:.1f} uas, excluded)")
+    banner("H6  Event Horizon Telescope: theta_g = GM/(c^2 D) against the EHT's (CHECK against LIT)")
+    res = eht()
+    for name, (p, t, pull, _), ring, tg in (("M87*", res["M87*"], (RING_M87, RING_M87_ERR), THETA_G_M87),
+                                            ("Sgr A*", res["Sgr A*"], (RING_SGRA, RING_SGRA_ERR), THETA_G_SGRA)):
+        print(f"   {name:6s}: shadow {p:.1f} uas (ring {ring[0]} +- {ring[1]}); theta_g {t:.2f} uas against the"
+              f" EHT's {tg[0]} -{tg[1]} +{tg[2]}: {pull:+.2f} sigma")
+    gas, gpull = res["M87*"][3]
+    print(f"   (M87* with the gas-dynamics mass instead: theta_g {gas:.2f} uas, {gpull:+.1f} sigma, excluded)")
 
     banner("H7-H8  GW250114: Hawking's area law, and the 220 mode (CHECK against LIT)")
     a_i, a_f, a_i_max, a_f_min, (mf, chif) = area_law()

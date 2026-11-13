@@ -46,11 +46,11 @@ H5  Geodesics (CHECK)
    ISCO r = 6*M, L^2 = 12*M**2, E^2 = 8/9; V'' on circular orbits = 2*M*(-6*M + r)/(r**3*(-3*M + r))
 
 ==============================================================================
-H6  Event Horizon Telescope: shadow against ring (CHECK against LIT)
+H6  Event Horizon Telescope: theta_g = GM/(c^2 D) against the EHT's (CHECK against LIT)
 ==============================================================================
-   M87*  : predicted shadow 37.8 uas, measured ring 42.0 +- 3.0 uas: +1.04 sigma
-   Sgr A*: predicted shadow 52.3 uas, measured ring 51.8 +- 2.3 uas: -0.13 sigma
-   (M87* with the gas-dynamics mass instead: 20.1 uas, excluded)
+   M87*  : shadow 37.8 uas (ring 42.0 +- 3.0); theta_g 3.64 uas against the EHT's 3.8 -0.4 +0.4: +0.35 sigma
+   Sgr A*: shadow 52.3 uas (ring 51.8 +- 2.3); theta_g 5.03 uas against the EHT's 4.8 -0.7 +0.4: -0.53 sigma
+   (M87* with the gas-dynamics mass instead: theta_g 1.93 uas, +4.7 sigma, excluded)
 
 ==============================================================================
 H7-H8  GW250114: Hawking's area law, and the 220 mode (CHECK against LIT)
