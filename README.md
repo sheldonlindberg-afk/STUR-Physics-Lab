@@ -114,7 +114,7 @@ scale to the two diamonds, with every step derived and checked in code:
 - gravity as a broken de Sitter gauge theory (MacDowell–Mansouri), a reformulation of GR;
 - three links across the rungs. **Neutral matter:** q_p + q_e is exactly the 3-3-1 (or
   Standard Model) mixed anomaly, and the diamond experiment needs it below 2.8×10⁻¹⁹ e per
-  nucleon; the measured limit, 10⁻²¹ e, is 280× tighter. **π⁰ → γγ:** rung 1's charges and rung 2's f_π
+  nucleon; the measured limit, 10⁻²¹ e, is 280× tighter. **π⁰ → γγ:** rung 1's charges and the measured f_π
   give 7.79 eV, against PrimEx's 7.80 ± 0.12 eV, for any N_c. **The Planck mass:** the 3-3-1
   selection's cutoff is √(ħc/G) with the diamond experiment's G; the selection would survive
   G 8.4× weaker or 10¹⁴× stronger.
@@ -125,7 +125,7 @@ Gravity is not part of the gauge chain; the page says where each derivation stop
 five rungs and all three links in a single file that uses only the Python standard library. Copy it (the
 [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/#runladder) has a one-click
 **Copy Python script** button) and paste it into any Python 3.8+ runner, notebook or AI
-assistant's code tool. It runs in about a second and ends with 44 PASS/FAIL checks
+assistant's code tool. It runs in about a second and ends with 45 PASS/FAIL checks
 ([expected output](results/ladder/standalone.txt)). Each check is tagged **math** (an identity
 verified by computation), **data** (against a measurement, with the tolerance and its reason
 printed) or **pinned** (a number this repository derives, guarding against changes), and the
@@ -206,7 +206,7 @@ python3 src/m331_breaking.py         # the ladder, rungs 1-5: also chiral_breaki
 python3 src/ladder_links.py          # links across the rungs: neutral matter, pi0 -> gamma gamma, M_Pl, ~2 s
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
 python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (192 tests)
+python -m pytest tests -q           # every number pinned (193 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on
