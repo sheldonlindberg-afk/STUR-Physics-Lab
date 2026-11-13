@@ -7,8 +7,8 @@ This page records which script feeds which, and which physical quantities each o
 ## Summary
 
 - **46 scripts** in `src/`, in 6 topics; **71 imports** between them, 28 of them across topics. 10 scripts import nothing from the others and nothing imports them.
-- **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 179 literals in the source.
-- **44 quantities are typed in more than one script**; 15 of them are shared by more than one topic.
+- **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 186 literals in the source.
+- **44 quantities are typed in more than one script**; 16 of them are shared by more than one topic.
 - **2 copies differ from their source for a stated reason**; **0 differ without one (drift).**
 
 ## Imports
@@ -157,7 +157,7 @@ flowchart LR
 | `casimir_diamonds` (Symmetry ladder) | `stur_gravity_full` (Diamond experiment) | `design_a`, `em_entangling_ratio`, `max_dipole` |
 | `graviton_exchange` (Symmetry ladder) | `stur_gravity_entanglement` (Diamond experiment) | `G`, `HBAR` |
 | `graviton_exchange` (Symmetry ladder) | `stur_gravity_full` (Diamond experiment) | `design_a`, `ramp_profile`, `trajectory_dphi` |
-| `ladder_links` (Symmetry ladder) | `m331_exact` (3-3-1 selection) | `M_PLANCK` |
+| `ladder_links` (Symmetry ladder) | `m331_exact` (3-3-1 selection) | `MODELS`, `M_PLANCK` |
 | `ladder_links` (Symmetry ladder) | `m331_gravity_fixed_point` (3-3-1 selection) | `f_profile`, `f_separatrix_sm` |
 | `ladder_links` (Symmetry ladder) | `m331_margin` (3-3-1 selection) | `ALPHA1`, `FLOORS`, `pole` |
 | `ladder_links` (Symmetry ladder) | `m331_three_loop` (3-3-1 selection) | `WORST`, `pole` |
@@ -266,20 +266,21 @@ Each row is one quantity typed into scripts of more than one topic. Where it is 
 | Quantity | Kind | Topics | Scripts | What it connects |
 |---|---|---|---|---|
 | Newton's G (m³ kg⁻¹ s⁻²) | input | Classical and emergent gravity, Diamond experiment, Measurement, entropy, foundations, Symmetry ladder, Teleparallel gravity | `black_holes`, `ladder_links`, `ladder_standalone`, `stur_derivation`, `stur_emergent`, `stur_gravity_entanglement`, `stur_oppenheim`, `stur_tegr`, `stur_tegr_gr`, `stur_thermo_gravity` | gravity's only input; it also fixes M_Pl, the 3-3-1 cutoff |
-| c (m/s) | input | Classical and emergent gravity, Diamond experiment, Measurement, entropy, foundations, Symmetry ladder, Teleparallel gravity | `black_holes`, `ladder_standalone`, `stur_derivation`, `stur_emergent`, `stur_gravity_entanglement`, `stur_measurement`, `stur_oppenheim`, `stur_tegr`, `stur_tegr_gr`, `stur_thermo_gravity` | exact by definition, so copies cannot drift |
-| ħ (J s) | input | Classical and emergent gravity, Diamond experiment, Measurement, entropy, foundations, Symmetry ladder, Teleparallel gravity | `black_holes`, `ladder_standalone`, `stur_derivation`, `stur_emergent`, `stur_gravity_entanglement`, `stur_oppenheim`, `stur_tegr`, `stur_tegr_gr`, `stur_thermo_gravity` | exact by definition, so copies cannot drift |
+| c (m/s) | input | Classical and emergent gravity, Diamond experiment, Measurement, entropy, foundations, Symmetry ladder, Teleparallel gravity | `black_holes`, `ladder_links`, `ladder_standalone`, `stur_derivation`, `stur_emergent`, `stur_gravity_entanglement`, `stur_measurement`, `stur_oppenheim`, `stur_tegr`, `stur_tegr_gr`, `stur_thermo_gravity` | exact by definition, so copies cannot drift |
+| ħ (J s) | input | Classical and emergent gravity, Diamond experiment, Measurement, entropy, foundations, Symmetry ladder, Teleparallel gravity | `black_holes`, `ladder_links`, `ladder_standalone`, `stur_derivation`, `stur_emergent`, `stur_gravity_entanglement`, `stur_oppenheim`, `stur_tegr`, `stur_tegr_gr`, `stur_thermo_gravity` | exact by definition, so copies cannot drift |
 | 1/4πε₀ (N m² C⁻²) | input | Diamond experiment, Measurement, entropy, foundations, Symmetry ladder | `ladder_links`, `ladder_standalone`, `stur_gravity_full`, `stur_measurement` |  |
 | atomic mass unit (kg) | input | Classical and emergent gravity, Diamond experiment, Symmetry ladder | `ladder_links`, `ladder_standalone`, `stur_emergent`, `stur_gravity_entanglement`, `stur_gravity_full`, `stur_oppenheim`, `stur_thermo_gravity` |  |
 | e (C) | input | Diamond experiment, Measurement, entropy, foundations, Symmetry ladder | `black_holes`, `casimir_diamonds`, `ladder_links`, `ladder_standalone`, `stur_gravity_full`, `stur_measurement` | exact by definition, so copies cannot drift |
-| k_B (J/K) | input | Diamond experiment, Measurement, entropy, foundations, Symmetry ladder | `black_holes`, `ladder_standalone`, `stur_derivation`, `stur_gravity_entanglement` | exact by definition, so copies cannot drift |
+| k_B (J/K) | input | Diamond experiment, Measurement, entropy, foundations, Symmetry ladder | `black_holes`, `ladder_links`, `ladder_standalone`, `stur_derivation`, `stur_gravity_entanglement` | exact by definition, so copies cannot drift |
 | 1/α(M_Z), MS-bar | input | 3-3-1 selection, Symmetry ladder | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zpole`, `m331_zprime_recast` | with sin²θ_W(M_Z) it fixes the U(1)_X start of every 3-3-1 run |
 | GM☉ (m³ s⁻²) | input | Symmetry ladder, Teleparallel gravity | `black_holes`, `ladder_standalone`, `stur_tegr_gr` | the Sun's mass scale: TEGR's solar-system tests and the black-hole rung's EHT and LVK masses |
-| M_Z (GeV) | input | 3-3-1 selection, Symmetry ladder | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_yukawa`, `m331_zprime_recast`, `qcd_running` |  |
+| M_Z (GeV) | input | 3-3-1 selection, Symmetry ladder | `ladder_links`, `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_yukawa`, `m331_zprime_recast`, `qcd_running` |  |
 | Planck mass √(ħc/G) (GeV) | derived | 3-3-1 selection, Symmetry ladder | `black_holes`, `ladder_standalone`, `m331_exact`, `m331_standalone`, `m331_su3L_running` | the 3-3-1 selection's cutoff. It is typed as a number in the 3-3-1 scripts; it is √(ħc/G), the G the diamond experiment uses |
 | diamond density (kg/m³) | input | Diamond experiment, Symmetry ladder | `ladder_standalone`, `stur_gravity_entanglement` |  |
 | diamond permittivity | input | Diamond experiment, Symmetry ladder | `ladder_standalone`, `stur_gravity_entanglement` |  |
 | electroweak vev (√2 G_F)^(−1/2) (GeV) | derived | 3-3-1 selection, Symmetry ladder | `ladder_standalone`, `m331_standalone`, `m331_yukawa` | derived in rung 1 and retyped in the 3-3-1 Yukawa scripts |
 | sin²θ_W(M_Z), MS-bar | input | 3-3-1 selection, Symmetry ladder | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zpole`, `m331_zprime_recast` |  |
+| top-quark mass (GeV) | input | 3-3-1 selection, Symmetry ladder | `ladder_links`, `m331_margin`, `m331_scalar`, `m331_standalone`, `m331_yukawa`, `qcd_running` |  |
 
 **Links through a formula.** Some quantities share inputs without sharing a number:
 
@@ -329,9 +330,9 @@ These are imported from their source by every script that uses them; a typed-in 
 | Quantity | Kind | Value | Origin | Typed in |
 |---|---|---|---|---|
 | Newton's G (m³ kg⁻¹ s⁻²) | input | 6.674300e-11 | CODATA 2018 | `black_holes`, `ladder_links`, `ladder_standalone`, `stur_derivation`, `stur_emergent`, `stur_gravity_entanglement`, `stur_oppenheim`, `stur_tegr`, `stur_tegr_gr`, `stur_thermo_gravity` |
-| ħ (J s) | input | 1.054572e-34 | SI exact | `black_holes`, `ladder_standalone`, `stur_derivation`, `stur_emergent`, `stur_gravity_entanglement`, `stur_oppenheim`, `stur_tegr`, `stur_tegr_gr`, `stur_thermo_gravity` |
-| c (m/s) | input | 2.997925e8 | SI exact | `black_holes`, `ladder_standalone`, `stur_derivation`, `stur_emergent`, `stur_gravity_entanglement`, `stur_measurement`, `stur_oppenheim`, `stur_tegr`, `stur_tegr_gr`, `stur_thermo_gravity` |
-| k_B (J/K) | input | 1.380649e-23 | SI exact | `black_holes`, `ladder_standalone`, `stur_derivation`, `stur_gravity_entanglement` |
+| ħ (J s) | input | 1.054572e-34 | SI exact | `black_holes`, `ladder_links`, `ladder_standalone`, `stur_derivation`, `stur_emergent`, `stur_gravity_entanglement`, `stur_oppenheim`, `stur_tegr`, `stur_tegr_gr`, `stur_thermo_gravity` |
+| c (m/s) | input | 2.997925e8 | SI exact | `black_holes`, `ladder_links`, `ladder_standalone`, `stur_derivation`, `stur_emergent`, `stur_gravity_entanglement`, `stur_measurement`, `stur_oppenheim`, `stur_tegr`, `stur_tegr_gr`, `stur_thermo_gravity` |
+| k_B (J/K) | input | 1.380649e-23 | SI exact | `black_holes`, `ladder_links`, `ladder_standalone`, `stur_derivation`, `stur_gravity_entanglement` |
 | e (C) | input | 1.602177e-19 | SI exact | `black_holes`, `casimir_diamonds`, `ladder_links`, `ladder_standalone`, `stur_gravity_full`, `stur_measurement` |
 | 1/4πε₀ (N m² C⁻²) | input | 8.987552e9 | CODATA 2018 | `ladder_links`, `ladder_standalone`, `stur_gravity_full`, `stur_measurement` |
 | atomic mass unit (kg) | input | 1.660539e-27 | CODATA 2018 | `ladder_links`, `ladder_standalone`, `stur_emergent` (rounded), `stur_gravity_entanglement` (rounded), `stur_gravity_full` (rounded), `stur_oppenheim`, `stur_thermo_gravity` |
@@ -342,18 +343,18 @@ These are imported from their source by every script that uses them; a typed-in 
 | 1/α(0) | input | 137.036 | CODATA 2018 | `ladder_links`, `ladder_standalone` |
 | 1/α(M_Z), MS-bar | input | 127.93 | PDG 2024 | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zpole`, `m331_zprime_recast` |
 | sin²θ_W(M_Z), MS-bar | input | 0.23129 | PDG 2024 | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zpole` (variant), `m331_zprime_recast` (variant) |
-| M_Z (GeV) | input | 91.188 | PDG 2024 | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_yukawa`, `m331_zprime_recast`, `qcd_running` |
+| M_Z (GeV) | input | 91.188 | PDG 2024 | `ladder_links`, `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_yukawa`, `m331_zprime_recast`, `qcd_running` |
 | Γ_Z (GeV) | input | 2.4955 | PDG 2024 | `m331_heavy_lepton`, `m331_zprime_recast` |
 | G_F (GeV⁻²) | input | 1.166379e-5 | PDG 2024 | `ladder_standalone`, `m331_breaking` |
 | electroweak vev (√2 G_F)^(−1/2) (GeV) | derived | 246.22 | src/m331_breaking.py B7 | `ladder_standalone` (rounded), `m331_standalone` (rounded), `m331_yukawa` (rounded) |
 | α_s(M_Z) | input | 0.118 | PDG 2024 | `m331_margin`, `m331_scalar`, `m331_standalone`, `qcd_running` |
-| top-quark mass (GeV) | input | 172.57 | PDG 2024 | `m331_margin`, `m331_scalar`, `m331_standalone`, `m331_yukawa`, `qcd_running` |
+| top-quark mass (GeV) | input | 172.57 | PDG 2024 | `ladder_links`, `m331_margin`, `m331_scalar`, `m331_standalone`, `m331_yukawa`, `qcd_running` |
 | sin²θ_W(4 TeV) | derived | 0.250507 | one-loop SM running from M_Z (m331_exact.run_two_loop) | `m331_zprime_recast` (rounded) |
 | 1/α(4 TeV) | derived | 125.723 | one-loop SM running from M_Z (m331_exact.run_two_loop) | `m331_zprime_recast` (rounded) |
 | M_Z′/M_V = √(4/3 (1 + β² t_X²)) at 4 TeV | derived | 1.22495 | src/m331_breaking.py B4, evaluated at sin²θ_W(4 TeV) | `m331_heavy_lepton` (rounded), `m331_margin` (rounded), `m331_standalone` (rounded), `m331_threshold` (rounded) |
 | f_π, √2 convention (GeV) | input | 0.1302 | PDG 2024 | `chiral_breaking`, `ladder_standalone` |
-| m_π⁰ (GeV) | input | 0.134977 | PDG 2024 | `chiral_breaking`, `ladder_standalone` |
-| m_π± (GeV) | input | 0.13957 | PDG 2024 | `chiral_breaking`, `ladder_standalone` |
+| m_π⁰ (GeV) | input | 0.134977 | PDG 2024 | `chiral_breaking`, `ladder_links`, `ladder_standalone` |
+| m_π± (GeV) | input | 0.13957 | PDG 2024 | `chiral_breaking`, `ladder_links`, `ladder_standalone` |
 | nucleon g_A | input | 1.2754 | PDG 2024 | `chiral_breaking`, `ladder_standalone` |
 | average nucleon mass (GeV) | input | 0.938919 | PDG 2024 | `chiral_breaking`, `ladder_standalone` |
 | \|⟨q̄q⟩\|^(1/3) (GeV) | input | 0.272 | FLAG 19 (restated in FLAG 21) | `chiral_breaking`, `ladder_standalone` |
@@ -406,7 +407,8 @@ Literals with at least three significant digits that appear in two or more scrip
 | 33.6 | `black_holes`, `ladder_standalone` |
 | 51.8 | `black_holes`, `ladder_standalone` |
 | 62.7 | `black_holes`, `ladder_standalone` |
-| 80.3692 | `m331_breaking`, `m331_scalar` |
+| 80.3692 | `ladder_links`, `m331_breaking`, `m331_scalar` |
+| 125.2 | `ladder_links`, `m331_scalar` |
 | 221 | `black_holes`, `ladder_standalone` |
 | 247 | `black_holes`, `ladder_standalone` |
 | 7959 | `black_holes`, `ladder_standalone` |

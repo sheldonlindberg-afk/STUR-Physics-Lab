@@ -316,6 +316,23 @@ Heavy quarks enter the nucleon mass through the trace anomaly and are counted wi
 The first-order counterfactual ignores how the binding and the strange-quark term would
 themselves change.
 
+### Link 7: a black hole evaporating back through the forces, from rung 6 to rungs 3, 2, 1 (`src/ladder_links.py` L7)
+
+Design A's diamond can't be the black hole: at 1.5×10⁻¹⁴ kg it is a millionth of the Planck
+mass, below any semiclassical hole. An evaporating hole is the way back down the ladder: it
+heats as it shrinks, T_H = ħc³/(8πGMk_B), and emits every species lighter than T_H.
+
+| | Result | Status |
+|---|---|---|
+| L7a | Mass loss dM/dt = −5.34×10²⁵ f(M)/M² g³/s, f a weighted count of emitted degrees of freedom: 0.267 (spin 0), 0.147 and 0.142 (neutral and charged spin ½), 0.060 (spin 1), 0.007 (spin 2) (Carr, Kohri, Sendouda and Yokoyama, Rept. Prog. Phys. 84, 116902 (2021)). T_H at 10¹⁰ g is 1.057 TeV, their 1.06 | CHECK; LIT |
+| L7b | **Rung 1's particle content sets f.** Massless species only: f = 1.016. All Standard Model species: **f = 15.33**, against their 15.35, and only if the W and Z longitudinal modes, the Goldstones the Higgs mechanism gives them, count as scalars; unbroken counting gives 15.33 too. Above the 3-3-1 scale, from `src/m331_exact.py`'s field content (17 gauge bosons, 18 real scalars, 66 or 69 Weyl fermions): f = 25.7 (β = −1/√3) or 26.5 (β = +1/√3) | CHECK |
+| L7c | The thresholds a shrinking hole crosses, coldest first (each species switches on at T_H = m/4; quarks and gluons replace pions at the QCD crossover, 156.5 MeV, HotQCD 2019): the diamond experiment's 0.15 K (8.2×10²³ kg); the CMB (2.72548 K, Fixsen 2009; 4.5×10²² kg); electrons (8×10¹³ kg); pions, rung 2's Goldstones (3×10¹¹ kg); **the QCD crossover, where rung 2's condensate melts** (6.8×10¹⁰ kg, 7 million years left); W and Z (5×10⁸ kg); **the electroweak crossover, 159.5 GeV (D'Onofrio and Rummukainen 2016), where rung 1's breaking undoes** (6.6×10⁷ kg, 33 hours left); the 3-3-1 content (1.1×10⁷ kg, 5.6 minutes left); and the Planck mass, link 3's cutoff, where semiclassics ends | CHECK, given the model |
+| L7d | Checks: 10¹⁰ g lives 406.7 s at f = 15.35 (theirs 407 s); the hole that lives the age of the universe (13.787 Gyr, Planck 2018) is **5.11×10¹⁴ g at T_H = 20.7 MeV**, theirs 5.1×10¹⁴ g at 21 MeV | CHECK |
+
+The switch-on rule is a model; real emission turns on smoothly over a factor of a few in T_H.
+That the radiated species change at the crossovers doesn't mean the vacuum around the hole is
+restored there; Hawking radiation is not a bath in equilibrium.
+
 ## How the rungs fit together
 
 | Energy | What breaks | What is left below |

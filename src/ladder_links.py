@@ -97,7 +97,39 @@ L6  The diamond's mass: rung 2 -> rung 4. The mass that sources design A's phase
       of 2.19, and with every quark and the electron massless 1.80 rad. The entanglement
       survives a world without the Higgs mechanism's light-fermion masses; what the
       experiment weighs is QCD. (FOLLOWS, first order)
-Labels: CHECK, FOLLOWS, KNOWN, LIT, MODEL (L3f's gravity term).
+L7  A black hole evaporating back through the forces: rung 6 -> rungs 3, 2, 1 and link 3.
+    (Design A's diamond itself cannot be the hole: at 1.5e-14 kg it is 1e-6 of the Planck
+    mass, below any semiclassical black hole.) An evaporating hole heats up as it shrinks,
+    T_H = hbar c^3 / (8 pi G M k_B), and its emission grows with the species lighter than T_H.
+  L7a Mass loss (LIT: Carr, Kohri, Sendouda and Yokoyama, Rept. Prog. Phys. 84, 116902
+      (2021), arXiv:2002.12778, eqs. (11)-(13)): dM/dt = -5.34e25 f(M) / M^2 g^3/s, f a sum
+      over emitted degrees of freedom with weights 0.267 (spin 0), 0.147 (neutral 1/2),
+      0.142 (charged 1/2), 0.060 (1), 0.007 (2). T_H at 1e10 g is 1.058 TeV from the
+      formula above, their 1.06 TeV. (CHECK)
+  L7b Rung 1's particle content gives f. Below every mass: photons, neutrinos and gravitons,
+      f = 1.016 (their "unity"). Every Standard Model species: f = 15.33, against their
+      15.35, and only if the W and Z longitudinal modes, the Goldstones the Higgs mechanism
+      gives them, count as scalars. The same count in the unbroken phase (12 gauge bosons,
+      4 Higgs scalars) gives 15.33 identically. Above the 3-3-1 scale, from the 3-3-1 field
+      content of src/m331_exact.py (17 gauge bosons, 18 real scalars, 66 or 69 Weyl
+      fermions): f = 25.7 (beta = -1/sqrt3) or 26.5 (+1/sqrt3). (CHECK)
+  L7c The thresholds a shrinking hole crosses (MODEL: a species switches on when T_H reaches
+      a quarter of its mass, the mean emitted energy being about 4-6 T_H per Carr et al.;
+      quarks and gluons replace pions at the QCD crossover, 156.5(1.5) MeV, LIT: HotQCD,
+      PLB 795, 15 (2019); the electroweak crossover is 159.5(1.5) GeV, LIT: D'Onofrio and
+      Rummukainen, PRD 93, 025003 (2016)): the diamond experiment's 0.15 K (8.2e23 kg);
+      the CMB (2.72548 K, LIT: Fixsen, ApJ 707, 916 (2009)) at 4.5e22 kg, above which a hole
+      absorbs more than it emits; electrons (rung 3's charges); pions (rung 2's Goldstones);
+      the QCD crossover, where rung 2's condensate melts and quarks and gluons are emitted; the
+      W, Z and Higgs, and the electroweak crossover (rung 1's breaking); the 3-3-1 scale
+      (rung 1's start); and the Planck mass (link 3's cutoff), where the semiclassical
+      description ends. Remaining lifetimes at each crossing are integrated with f(T). (CHECK,
+      given the model)
+  L7d Checks against Carr et al.: 407 s for 1e10 g at f = 15.35, here 406.7 s; the hole
+      whose lifetime is the age of the universe (13.787 Gyr, LIT: Planck 2018 with BAO),
+      their M* = 5.1e14 g at T_H = 21 MeV, here 5.11e14 g at 20.7 MeV with f(T) integrated.
+      (CHECK)
+Labels: CHECK, FOLLOWS, KNOWN, LIT, MODEL (L3f's gravity term; L7c's switch-on rule).
 """
 import functools
 import math
@@ -275,6 +307,115 @@ def phase_without_masses():
     return phi, out
 
 
+# ---------------------------------------------------------------------------------- L7
+HBAR_SI, C_SI, KB_SI = 1.054571817e-34, 2.99792458e8, 1.380649e-23
+GEV_J = 1e9 * E_CH
+ALPHA_EVAP = 5.34e25                      # g^3 / s (Carr et al. 2021, eq. 12)
+W_S0, W_HALF_N, W_HALF_C, W_S1, W_S2 = 0.267, 0.147, 0.142, 0.060, 0.007
+T_QCD, T_EW = 0.1565, 159.5               # GeV: HotQCD 2019; D'Onofrio and Rummukainen 2016
+T_CMB, T_CRYO = 2.72548, 0.15             # K: Fixsen 2009; src/stur_gravity_full.py BASE_ENV
+MV_FLOOR = 3755.1                         # GeV, the bilepton mass floor (src/m331_margin.py)
+# PDG 2024 masses, GeV
+M_EL, M_MU, M_TAU = 0.51099895e-3, 0.1056583755, 1.77693
+M_PIC_GEV, M_PI0_GEV = 0.13957039, 0.1349768
+M_C, M_B, M_T = 1.2730, 4.183, 172.57
+M_W, M_Z, M_H = 80.3692, 91.1880, 125.20
+
+
+def hawking_T_gev(M_kg):
+    return HBAR_SI * C_SI**3 / (8 * math.pi * G_NEWTON * M_kg * KB_SI) * KB_SI / GEV_J
+
+
+def mass_at_T(T_gev):
+    """Black-hole mass (kg) with Hawking temperature T (GeV)."""
+    return HBAR_SI * C_SI**3 / (8 * math.pi * G_NEWTON * KB_SI * (T_gev * GEV_J / KB_SI))
+
+
+@functools.lru_cache(maxsize=None)
+def f_331(variant):
+    """L7b: f in the unbroken 3-3-1 phase from src/m331_exact.py's field content (N_c = 3)."""
+    import m331_exact as E
+    import m331_breaking as B
+    gs, ferm, scal, _ = E.MODELS[variant](3)
+    weyl = sum(m * d[1] * d[2] for m, d, q in ferm)
+    rows, ok, _ = B.charges(variant, 3)
+    lep = [q for kind, _, q in rows if kind == "lepton triplet"][0]
+    neutral = 3 * sum(1 for q in lep if q == 0)                      # per generation, Weyl
+    n_gauge = 8 + 8 + 1
+    n_scal = sum(m * 2 * d[1] * d[2] for m, d, q in scal)           # complex triplets -> real
+    f = (2 * n_gauge * W_S1 + n_scal * W_S0 + 2 * neutral * W_HALF_N + 2 * (weyl - neutral) * W_HALF_C
+         + 2 * W_S2)
+    return f, weyl, n_gauge, n_scal
+
+
+def f_of_T(T, variant="+1/sqrt3", rule=4.0):
+    """L7b-c: f at Hawking temperature T (GeV): species switch on at T >= m / rule; pions
+    become quarks and gluons at T_QCD; above M_V / rule the unbroken 3-3-1 content."""
+    if T >= MV_FLOOR / rule:
+        return f_331(variant)[0]
+    on = lambda m: T >= m / rule
+    f = 2 * W_S1 + 6 * W_HALF_N + 2 * W_S2                          # photon, neutrinos, graviton
+    f += sum(4 * W_HALF_C for m in (M_EL, M_MU, M_TAU) if on(m))
+    if T < T_QCD:
+        f += sum(W_S0 * n for m, n in ((M_PIC_GEV, 2), (M_PI0_GEV, 1)) if on(m))
+    else:
+        f += 3 * 12 * W_HALF_C + 16 * W_S1                          # u, d, s and gluons
+        f += sum(12 * W_HALF_C for m in (M_C, M_B, M_T) if on(m))
+    f += sum(n * (2 * W_S1 + W_S0) for m, n in ((M_W, 2), (M_Z, 1)) if on(m))
+    f += W_S0 if on(M_H) else 0.0
+    return f
+
+
+def f_standard_model_unbroken():
+    """L7b check: the same count with unbroken SU(3) x SU(2) x U(1): 12 gauge bosons, 4 real
+    Higgs scalars, 45 Weyl fermions (6 of them neutrinos)."""
+    return 2 * 12 * W_S1 + 4 * W_S0 + 2 * 3 * W_HALF_N + 2 * 42 * W_HALF_C + 2 * W_S2
+
+
+AGE_S = 13.787e9 * 365.25 * 86400        # s, Planck 2018 (TT,TE,EE+lowE+lensing+BAO)
+
+
+def m_star():
+    """L7d: the mass (kg) whose remaining lifetime is the age of the universe."""
+    from scipy.optimize import brentq
+    lm = brentq(lambda x: math.log(lifetime_s(math.exp(x)) / AGE_S), math.log(1e10), math.log(1e13), xtol=1e-8)
+    return math.exp(lm)
+
+
+def lifetime_s(M_kg, variant="+1/sqrt3", n=4000):
+    """Remaining lifetime from mass M: int_0^M M'^2 dM' / (alpha f(M')), in grams, with f
+    taken at each step's Hawking temperature (log grid down to the Planck mass)."""
+    import numpy as np
+    from m331_exact import M_PLANCK
+    m_pl_kg = math.sqrt(HBAR_SI * C_SI / G_NEWTON)
+    Mg = M_kg * 1e3
+    xs = np.geomspace(m_pl_kg * 1e3, Mg, n)
+    fs = np.array([f_of_T(hawking_T_gev(x / 1e3), variant) for x in xs])
+    integ = xs**2 / (ALPHA_EVAP * fs)
+    tail = (m_pl_kg * 1e3) ** 3 / (3 * ALPHA_EVAP * fs[0])
+    return float(np.trapezoid(integ, xs) + tail)
+
+
+def evaporation_thresholds(variant="+1/sqrt3"):
+    """L7c: (label, T_H in GeV, M in kg, remaining lifetime in s, f just above)."""
+    kT = lambda T_K: KB_SI * T_K / GEV_J
+    m_pl_kg = math.sqrt(HBAR_SI * C_SI / G_NEWTON)
+    pts = [("the diamond experiment's cryostat, 0.15 K", kT(T_CRYO)),
+           ("CMB: absorbs more than it emits above this mass", kT(T_CMB)),
+           ("electrons (rung 3's charges)", M_EL / 4), ("muons", M_MU / 4),
+           ("pions (rung 2's Goldstone bosons)", M_PIC_GEV / 4),
+           ("QCD crossover: rung 2's condensate melts; quarks and gluons", T_QCD),
+           ("W and Z, with the Higgs mechanism's Goldstones", M_W / 4),
+           ("top quark", M_T / 4), ("electroweak crossover (rung 1's breaking)", T_EW),
+           ("3-3-1 content (rung 1's start)", MV_FLOOR / 4),
+           ("Planck mass: link 3's cutoff, semiclassics ends", hawking_T_gev(m_pl_kg))]
+    out = []
+    for lab, T in pts:
+        M = mass_at_T(T)
+        out.append((lab, T, M, lifetime_s(M, variant), f_of_T(T * 1.0001, variant)))
+    return out
+
+
 # ---------------------------------------------------------------------------------- L3
 def planck_mass():
     """L3a: sqrt(hbar c / G) in GeV from rung 4's constants, against the 3-3-1 cutoff."""
@@ -410,6 +551,28 @@ def main():
     print(f"   design A's phase {phi:.3f} rad goes as m^2 at fixed geometry and time")
     for fl, (pl, pn) in out.items():
         print(f"   N_f = {fl:6s}: massless u, d: {pl:.2f} rad;  massless quarks and electrons: {pn:.2f} rad")
+
+    banner("L7a-b  An evaporating black hole: the emission counts rung 1's particles (CHECK; LIT)")
+    print(f"   T_H at 1e10 g = {hawking_T_gev(1e7):.1f} GeV (Carr et al. eq. 11: 1.06 TeV)")
+    print(f"   f below every mass (photons, neutrinos, gravitons): {f_of_T(1e-15):.3f}")
+    print(f"   f, every Standard Model species (W, Z longitudinal modes as scalars): {f_of_T(500.0):.3f};"
+          f" unbroken counting {f_standard_model_unbroken():.3f}; Carr et al. 15.35")
+    for v in ("-1/sqrt3", "+1/sqrt3"):
+        f, weyl, ng, ns = f_331(v)
+        print(f"   f, unbroken 3-3-1 (beta = {v}): {f:.2f}  ({ng} gauge bosons, {ns} real scalars, {weyl} Weyl fermions)")
+
+    banner("L7c  The thresholds a shrinking hole crosses (beta = +1/sqrt3; MODEL switch-on at m/4)")
+    print("   threshold                                                      T_H (GeV)    M (kg)      left (s)    f above")
+    for lab, T, M, tau, f in evaporation_thresholds():
+        print(f"   {lab:62s} {T:9.3e}  {M:9.3e}  {tau:9.3e}  {f:6.2f}")
+    print("   -> from the cryostat's temperature to the Planck mass, the hole's own temperature")
+    print("      passes every scale the forces separate at, in reverse order.")
+
+    banner("L7d  Checks against Carr et al. (CHECK)")
+    print(f"   1e10 g at f = 15.35: lifetime {(1e10) ** 3 / (3 * ALPHA_EVAP * 15.35):.1f} s (theirs 407 s)")
+    ms = m_star()
+    print(f"   lifetime = 13.787 Gyr at M* = {ms * 1e3:.3e} g, T_H = {hawking_T_gev(ms) * 1e3:.1f} MeV"
+          " (theirs 5.1e14 g, 21 MeV)")
 
     banner("L3a  The Planck mass: the 3-3-1 cutoff from rung 4's G (CHECK)")
     mpl, mpl331, (G, hb, c) = planck_mass()

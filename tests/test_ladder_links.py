@@ -98,6 +98,20 @@ def test_diamond_mass_is_mostly_qcd():
     assert abs(pl / phi - (1 - f["u, d quark masses"]) ** 2) < 1e-12 and abs(pl - 1.99) < 0.01 and abs(pn - 1.80) < 0.01
 
 
+def test_evaporation_counts_the_particles():
+    assert abs(LL.hawking_T_gev(1e7) - 1057.26) < 0.05
+    assert abs(LL.f_of_T(1e-15) - 1.016) < 1e-9
+    assert abs(LL.f_of_T(500.0) - 15.332) < 1e-9 and abs(LL.f_standard_model_unbroken() - 15.332) < 1e-9
+    assert abs(LL.f_331("-1/sqrt3")[0] - 25.664) < 1e-6 and abs(LL.f_331("+1/sqrt3")[0] - 26.486) < 1e-6
+    assert LL.f_331("-1/sqrt3")[1:] == (66, 17, 18) and LL.f_331("+1/sqrt3")[1] == 69
+    assert abs((1e10) ** 3 / (3 * LL.ALPHA_EVAP * 15.35) - 406.66) < 0.05
+    ms = LL.m_star()
+    assert abs(ms / 5.11e11 - 1) < 0.01 and abs(LL.hawking_T_gev(ms) * 1e3 - 20.7) < 0.2
+    rows = LL.evaporation_thresholds()
+    Ts = [T for _, T, _, _, _ in rows]
+    assert Ts == sorted(Ts) and abs(rows[1][2] / 4.50e22 - 1) < 0.01
+
+
 def test_reference_output_matches():
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
