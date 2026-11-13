@@ -650,10 +650,13 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
     0.65 (β = −1/√3). So it vanishes at one ratio of the vacuum values. The global fit's
     ρ₀ = 1.00039 ± 0.00019 (Erler, arXiv:1908.07346) gives w > 5.8 TeV at most. The LHC
     gives w > 11.9 and 10.3 TeV for every a (`src/m331_rho_bound.py`; SYMMETRY_LADDER.md,
-    rung 1). This is not yet a full electroweak-precision bound. The mixing shifts the Z's
-    fermion couplings at the same order, and a Z-pole fit could tighten w by an O(1)
-    factor; that isn't computed. Scalar loops in T go as λ²/16π², and for light heavy
-    scalars they aren't suppressed by v/w at all;
+    rung 1). The mixing also shifts the Z's fermion couplings at the same order. A tree-level
+    fit to 14 LEP/SLD Z-pole observables (`src/m331_zpole.py`) gives w > 7.5 TeV
+    (β = +1/√3) and 7.6 TeV (β = −1/√3) for every a and every choice of the odd quark
+    generation. Its method reproduces Erler et al.'s Z′_χ and Z′_ψ mixing bounds (JHEP 08
+    (2009) 017) to within 0.0004. That is stronger than ρ alone, but still 1.4–1.6× below
+    the LHC in w. Scalar loops in T go as λ²/16π², and for light heavy scalars they aren't
+    suppressed by v/w at all;
   - doubly or singly charged bilepton gauge bosons;
   - exotic quarks;
   - for β = +1/√3, three heavy charged leptons, vector-like SU(2) singlets. The selection
@@ -699,6 +702,7 @@ python3 src/m331_margin.py             # the beta = +1/sqrt3 margin vs mass floo
 python3 src/m331_heavy_lepton.py       # heavy leptons vs LHC, HL-LHC (~5 s); heavy_lepton.txt
 python3 src/m331_gravity_fixed_point.py  # gravity above M_Pl, asymptotic safety (~70 s); 331_gravity_fixed_point.txt
 python3 src/m331_rho_bound.py          # rho from Z-Z' mixing vs the global fit and the LHC (~7 s); 331_rho_bound.txt
+python3 src/m331_zpole.py              # Z-pole fit of the mixing, validated on E6 Z' (~30 s); 331_zpole.txt
 python -m pytest tests/test_331_*.py -q
 ```
 

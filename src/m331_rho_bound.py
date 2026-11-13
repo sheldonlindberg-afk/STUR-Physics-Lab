@@ -33,10 +33,9 @@ R4  The 2 sigma excess. rho_0 - 1 = 3.9e-4 asks for w < 8.1 TeV at the most favo
 R5  What is left out (FOLLOWS). This is rho alone, at tree level; it is not a full
     electroweak-precision bound on 3-3-1.
       - The Z-pole couplings. Z-Z' mixing also shifts the Z's couplings to fermions, by an
-        angle of order (v/w)^2: the same order as rho - 1, and at tree level. A fit to the
-        Z-pole observables (widths, asymmetries, sin^2 theta_eff) is the standard
-        electroweak test of a Z' and the leading omission here. It could tighten the bound
-        on w by an O(1) factor; whether it reaches the LHC's is not computed.
+        angle of order (v/w)^2: the same order as rho - 1, and at tree level. The fit to the
+        Z-pole observables is src/m331_zpole.py: w > 7.5 TeV (+1/sqrt3) and 7.6 TeV
+        (-1/sqrt3) for every a, stronger than rho alone but still below the LHC.
       - One-loop T from the gauge bosons. The bilepton doublet is split by order M_W^2, so
         its contribution is ~ (g^2/16pi^2)(M_W^2/M_V^2): a loop factor below the tree term.
         The exotic quarks and heavy leptons are SU(2) singlets and contribute little.

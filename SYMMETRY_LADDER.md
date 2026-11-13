@@ -67,9 +67,8 @@ the 2022–2024 W-mass measurements). That residual is where B5's mixing would s
 
 **What this leaves out.** This is ρ alone, at tree level, not a full electroweak-precision
 bound:
-- **The Z-pole couplings** (the leading omission). The mixing also shifts the Z's couplings
-  to fermions, at the same order (v/w)². A fit to the Z-pole observables could tighten the
-  bound on w by an O(1) factor; whether it reaches the LHC's isn't computed.
+- **The Z-pole couplings.** The mixing also shifts the Z's couplings to fermions, at the
+  same order (v/w)². That fit is below.
 - **One-loop T from the bilepton gauge bosons:** about (g²/16π²)(M_W²/M_V²), a loop factor
   below the tree term. The exotic fermions are SU(2) singlets and contribute little.
 - **One-loop T from the scalars:** not loop-suppressed in the same way. The second Higgs
@@ -80,6 +79,24 @@ bound:
 - **S and U** aren't used.
 
 So R3 and R4 hold for the tree-level mixing with heavy, weakly coupled scalars.
+
+**The Z-pole fit (`src/m331_zpole.py`).** Both effects of the mixing, ρ and the shifted Z
+couplings, fitted to 14 LEP/SLD Z-pole observables at tree level, linear around the
+Standard Model.
+- Measurements and correlations: LEP/SLD, Phys. Rept. 427 (2006) 257 (LIT).
+- SM predictions: Gfitter, Eur. Phys. J. C 78 (2018) 675 (LIT).
+- The inputs, each with its table: [`results/m331/zpole/zpole_inputs.json`](results/m331/zpole/zpole_inputs.json).
+
+| | Result | Status |
+|---|---|---|
+| Z1 | χ²_SM = 14.2 for 14 observables; A⁰,b_FB (−2.3σ) gives 4.6 of it | CHECK; LIT |
+| Z2 | **Validation** against Erler, Langacker, Munir and Rojas, JHEP 08 (2009) 017, 95% CL sin θ_ZZ′: Z′_χ here [−0.0015, +0.0008], theirs [−0.0016, +0.0006]; Z′_ψ here [−0.0022, +0.0008], theirs [−0.0018, +0.0009]. Asymmetry reproduced, edges within 0.0004, widths within 12% (about 6% in w); their fit has more data | CHECK; LIT |
+| Z3 | θ = (v/w)(sin²a₀ − sin²a) M_Z/M_Z′, against exact diagonalization of rung 1's mass matrix to < 0.5%. The same a₀ cancels θ and ρ − 1 together | CHECK |
+| Z4 | **w > 7.5 TeV (β = +1/√3) and 7.6 TeV (β = −1/√3)** for every a and every choice of the odd quark generation (6.0 and 6.4 TeV without A⁰,b_FB). Stronger than ρ alone (5.8 TeV), below the LHC's 11.9 and 10.3 TeV by 1.6× and 1.4× in w. Near a = a₀ the Z pole gives almost nothing | CHECK; MODEL |
+| Z4 | No significant preference for mixing: χ² improves by at most 1.0 (2.9 without A⁰,b_FB) for two extra parameters | CHECK |
+
+Not included: loop contributions to T (above), correlated SM parametric errors (treated as
+independent), M_W, low-energy parity violation and flavour-changing Z′ couplings.
 
 ## Rung 2: the strong force (`src/chiral_breaking.py`)
 
@@ -254,6 +271,7 @@ linear sigma model are also tagged model. It exits with status 1 if any check fa
 python3 src/ladder_standalone.py   # everything below, one file, ~1 s
 python3 src/m331_breaking.py       # rung 1, ~7 s
 python3 src/m331_rho_bound.py      # rung 1 against the global fit's rho_0 and the LHC, ~7 s
+python3 src/m331_zpole.py          # rung 1 against the LEP/SLD Z pole, validated on E6 Z', ~30 s
 python3 src/chiral_breaking.py     # rung 2, ~1 s
 python3 src/casimir_diamonds.py    # rung 3, ~2 s
 python3 src/graviton_exchange.py   # rung 4, ~1 s

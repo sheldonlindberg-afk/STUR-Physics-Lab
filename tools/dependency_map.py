@@ -39,7 +39,7 @@ TOPICS = {
                         "m331_margin", "m331_zprime_recast", "m331_heavy_lepton", "m331_gravity_fixed_point", "m331_standalone",
                         "qcd_running", "rge_engine"],
     "Symmetry ladder": ["m331_breaking", "chiral_breaking", "casimir_diamonds", "graviton_exchange",
-                        "macdowell_mansouri", "ladder_links", "ladder_standalone", "m331_rho_bound"],
+                        "macdowell_mansouri", "ladder_links", "ladder_standalone", "m331_rho_bound", "m331_zpole"],
     "Diamond experiment": ["stur_gravity_entanglement", "stur_gravity_full", "short_range_gravity"],
     "Classical and emergent gravity": ["stur_oppenheim", "stur_thermo_gravity", "stur_emergent", "stur_jacobson"],
     "Teleparallel gravity": ["stur_tegr", "stur_tegr_gr", "stur_tegr3d", "stur_tegr_corner", "stur_tegr_frame",
@@ -130,7 +130,9 @@ q("ainv0", "1/α(0)", 137.035999084, "input", "CODATA 2018", match=1e-6)
 q("ainvMZ", "1/α(M_Z), MS-bar", 127.951, "input", "PDG 2024",
   note="with sin²θ_W(M_Z) it fixes the U(1)_X start of every 3-3-1 run")
 q("s2MZ", "sin²θ_W(M_Z), MS-bar", 0.23122, "input", "PDG 2024",
-  variants={0.2312: "ATLAS's Z′_SSM convention, quoted as ATLAS uses it (m331_zprime_recast)"})
+  variants={0.2312: "ATLAS's Z′_SSM convention, quoted as ATLAS uses it (m331_zprime_recast)",
+            0.23153: "sin²θ_eff (leptonic), the Gfitter SM value: the base of the tree-level Z couplings "
+                     "in m331_zpole, a different quantity from the MS-bar angle"})
 q("MZ", "M_Z (GeV)", 91.1876, "input", "PDG 2024", match=1e-4)
 q("GZ", "Γ_Z (GeV)", 2.4952, "input", "PDG 2024")
 q("GF", "G_F (GeV⁻²)", 1.1663788e-5, "input", "PDG 2024")
