@@ -109,7 +109,9 @@ scale to the two diamonds, with every step derived and checked in code:
 - 3-3-1 → Standard Model → electromagnetism: the photon, the hypercharge matching and the
   W, Z, Z′ masses, from the gauge-boson mass matrix;
 - chiral symmetry breaking: pions, the GMOR relation and the nuclear force;
-- the Casimir–Polder force between the diamonds, from electrostatics and the dipole field;
+- the Casimir–Polder force between the diamonds, from electrostatics and the dipole field,
+  at finite temperature (negligible at the design's 0.15 K), and the patch-potential dipoles
+  that make a conducting shield necessary;
 - one-graviton exchange: Newton's law and the experiment's 2.19 rad phase;
 - gravity as a broken de Sitter gauge theory (MacDowell–Mansouri), a reformulation of GR;
 - black holes, gravity's strong-field end rather than a symmetry breaking: the Hawking
@@ -212,7 +214,7 @@ python3 src/m331_breaking.py         # the ladder, rungs 1-6: also chiral_breaki
 python3 src/ladder_links.py          # links across the rungs: neutral matter, pi0 -> gamma gamma, M_Pl, ~2 s
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
 python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (204 tests)
+python -m pytest tests -q           # every number pinned (206 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on

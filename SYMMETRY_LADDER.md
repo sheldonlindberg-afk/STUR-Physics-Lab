@@ -135,6 +135,9 @@ Casimir–Polder force.
 | P2 | The dipole Green tensor at imaginary frequency satisfies the wave equation and is transverse off the source; **Tr G·G = 2e^(−2u)(3 + 6u + 5u² + 2u³ + u⁴)/r⁶** | CHECK |
 | P3 | The Casimir–Polder fluctuation formula U = −(ħ/2π)∫dξ α₁α₂ Tr G·G (LIT: Casimir and Polder 1948, the one quantum step quoted, not derived). For constant α, the integral is exactly **23/4**, so **U = −(23/4π) ħc α₁α₂/r⁷** | CHECK; LIT formula |
 | P4 | This is the formula the experiment code had quoted as known; it agrees to 12 digits. At 200 µm, Casimir/gravity = 2.3×10⁻². Casimir ∝ R⁶/r⁷ and gravity ∝ R⁶/r, so the safe gap doesn't depend on the mass: 181 µm | CHECK |
+| P5 | At temperature T the frequency integral becomes the Matsubara sum (LIT: Lifshitz). With constant α it is exact in closed form: **U_T = U₀ η(τ)**, τ = 2πk_BTr/ħc, with **η = 1 + (22/21735)τ⁶ + …** at small τ and η → 6τ/23 (U_T → −3k_BTα₁α₂/r⁶) at large τ. Constant α holds at every Matsubara frequency: diamond is non-polar, and its electronic gap is far above ξ₁ | CHECK, exact |
+| P6 | The safe gap at finite temperature. At the design's 0.15 K it moves by 1×10⁻¹¹, and at 4.2 K by 0.2%. It grows by 6% at 10 K and by 1.7× (to 0.31 mm) at 77 K. Thermal corrections don't tighten the gap at the design's temperature. With design A's own branch separation (721 µm, not the 250 µm H0 used) the gap would be 164 µm, so 181 µm is conservative | CHECK |
+| P7 | Patch potentials, modelled as random patches of rms V and size l ≪ R: a dipole of rms **√(12π) ε₀ R l V** per axis (checked by Monte Carlo). Under H6's dipole bound at design A, **V l < 8.3×10⁻¹³ V m**, that is 8 µV for 100 nm patches. That is three orders of magnitude below the tens of mV measured on metal films (LIT: Garcia-Sanchez et al. 2012); diamond's own values are not known. At 10 mV, no practical gap helps (~0.3 m). This puts a number on H6's conclusion: a conducting shield is required | MODEL |
 
 ## Rung 4: gravity to the diamond experiment (`src/graviton_exchange.py`)
 
@@ -328,7 +331,7 @@ python3 src/m331_breaking.py       # rung 1, ~7 s
 python3 src/m331_rho_bound.py      # rung 1 against the global fit's rho_0 and the LHC, ~7 s
 python3 src/m331_zpole.py          # rung 1 against the LEP/SLD Z pole, validated on E6 Z', ~30 s
 python3 src/chiral_breaking.py     # rung 2, ~1 s
-python3 src/casimir_diamonds.py    # rung 3, ~2 s
+python3 src/casimir_diamonds.py    # rung 3, ~15 s
 python3 src/graviton_exchange.py   # rung 4, ~1 s
 python3 src/macdowell_mansouri.py  # rung 5, ~3 s
 python3 src/black_holes.py         # rung 6 and links 4-5, ~3 s

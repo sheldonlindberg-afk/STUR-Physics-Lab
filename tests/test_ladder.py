@@ -34,6 +34,28 @@ def test_casimir_polder_derived():
     assert abs(mine / theirs - 1) < 1e-12
 
 
+def test_casimir_polder_finite_temperature():
+    e, t, ser, hi = CP.matsubara_eta()
+    assert sp.simplify(ser - (1 + sp.Rational(22, 21735) * t**6)) == 0 and hi == sp.Rational(6, 23)
+    for tv in (0.2, 0.5, 2.0, 20.0):
+        assert abs(float(CP.eta(tv)) / CP.eta_direct(tv) - 1) < 1e-11
+    gaps, dxB, dxA = CP.thermal_gaps()
+    import stur_gravity_full as GF
+    g0 = gaps[0.0][0]
+    assert abs(g0 / GF.casimir_safe_gap() - 1) < 2e-3                  # H0's grid value
+    assert abs(gaps[0.15][0] / g0 - 1) < 1e-9 and abs(gaps[4.2][0] / g0 - 1.0019) < 5e-4
+    assert abs(gaps[77.0][0] / g0 - 1.715) < 0.01
+    assert all(gA < gB for gB, gA in gaps.values())                    # design A's dx: smaller gap
+
+
+def test_patch_potentials_need_a_shield():
+    A, pmax, Vl, rows = CP.patch_budget()
+    assert abs(Vl / 8.26e-13 - 1) < 0.01
+    assert abs(CP.patch_dipole_mc(A["R"], A["R"] / 10, 1.0) / CP.patch_dipole(A["R"], A["R"] / 10, 1.0) - 1) < 0.1
+    l, Vmax, p, ratio, gneed = rows[1]                                   # 0.1 um patches at 10 mV
+    assert abs(Vmax / 8.26e-6 - 1) < 0.01 and abs(ratio / 1211 - 1) < 0.01 and gneed > 0.1
+
+
 def test_graviton_exchange():
     hb, h, Phi, gamma = GX.linearized_point_mass()
     G, M, r = sp.symbols("G M r", positive=True)
