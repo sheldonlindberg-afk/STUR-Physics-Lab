@@ -17,7 +17,8 @@ desitter update, with no information about build a. Framework state at the start
 | chiral | pass | 1/1 | 7/7 | 035377e |
 | casimir | pass | 1/1 | 6/6 | dfea68b |
 | graviton | pass | 2/2 | 5/5 | 0fc07e4 |
-| desitter | pass | (none; rung 6 calls it) | 10/10 | (this commit) |
+| desitter | pass | (none; rung 6 calls it) | 10/10 | 30c7655 |
+| blackholes | pass | 3/3 | 21/21 | (this commit) |
 
 ## Notes per stage
 
@@ -43,3 +44,11 @@ desitter update, with no information about build a. Framework state at the start
   R l^2/4 = 3, and ricci_scalar = 12/l^2 in closed form. l = 1.647258e26 m, coupling 1.038732e122.
   Spec gap for the verifier: SPEC §6 never says that Lambda means the constant in e(R - 2 Lambda);
   the builder assumed it (QUESTIONS, desitter 2).
+- **blackholes (fully blind; leaks 3, 5 and 7 closed before it):** the first builder hit an API rate
+  limit before writing anything, and a fresh one was started. Photon sphere 3M, b_c = sqrt(27) M and the
+  ISCO (6, 12, 8/9) were found numerically, golden-section search polished by bisection on exact
+  derivatives. The Nariai mass G M/c^2 = l/sqrt(27) was derived analytically from f = f' = 0 (no longer
+  visible in the blind checks). Kerr first law and Smarr are exactly 0. EHT pulls -0.40 and +0.16;
+  GW250114 220-mode pulls +0.33 and +0.59, all the same as build a.
+  For the verifier: `killing_kappa` returns the value at the sample point, not extrapolated (same SPEC
+  reading as build a?); the `kerr_*` provenance labels (C2); `euclidean_cone_ratio` uses 200 trapezoid nodes.

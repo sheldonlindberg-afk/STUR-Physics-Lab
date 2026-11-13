@@ -149,3 +149,47 @@ No missing inputs; nothing quoted. Ambiguities and the choice made:
 8. **Sign conventions.** F_{mu nu} = d_mu A_nu - d_nu A_mu + [A_mu, A_nu]; a 2-form is (1/2) R_{mu nu} dx^mu ^
    dx^nu. With eps_0123 = +1 and the component read on dt^dr^dtheta^dphi, (cR, cV) come out positive; the
    tetrad determinant e = r^2 sin(theta) is used with its sign (no absolute value).
+
+## Stage `blackholes`
+
+No missing inputs. Quoted (all on the stage's list): `qnm_220`, `invert_220` (Berti-Cardoso-Will 2006 fit),
+`hawking_K`. Ambiguities and the choice made:
+
+1. **`killing_kappa` is evaluated at r0, not extrapolated to the horizon.** The scalar -(nabla xi)^2/2 is
+   regular through the horizon and equals f'(r0)^2/4 at the sample radius; the function returns its square
+   root at r0 (for Schwarzschild M/r0^2, i.e. (1/4M)(1 + d)^-2 at r0 = 2M(1 + d)). It therefore differs from
+   the horizon value by O(d). `h` is the step of the central difference of the metric in r; the theta
+   difference uses a fixed step 1e-6 at theta = 1 rad (these components do not enter kappa).
+2. **`kerr_first_law`: status of S, T, Omega, J.** SPEC section 7 lists them as quoted (Bardeen-Carter-Hawking)
+   but the export is not on `quoted_allowed`. Resolved: PROVENANCE says `derived`, meaning the *identities*
+   (first law, Smarr) are derived from the SPEC's formulas; the formulas themselves are postulates, not
+   re-derived from the Kerr metric (which is not in the SPEC). pi and a = sqrt(pq) cancel exactly:
+   T dS = (p - q) d(p^2 + pq)/(4 (p^2 + pq)), Omega dJ = d(J^2)/(2 M (p^2 + pq)); the latter is the finite
+   limit at q = 0. (dp, dq) is a direction: the residual is linear in it. Differentials are taken by
+   `toolkit.exact_derivative`.
+3. **`kerr_area_km2`: same status.** The formula is stated by the SPEC; it is shown to follow from the SPEC's
+   Kerr data (A = 4S = 4 pi (p^2 + a^2) = 8 pi M r_+). That A = 4S (hbar = G = 1) and the Kerr metric's
+   horizon 2-geometry are standard but not in the SPEC. |chi| > 1 raises ValueError.
+4. **`sds_horizons` edge cases.** Returns None when the maximum of f is negative; if it is exactly 0.0 in
+   floating point the double root (r0, r0) is returned; M <= 0 or l <= 0 raises ValueError (pure de Sitter,
+   M = 0, has only r_c = l and is not handled).
+5. **`euclidean_cone_ratio`.** eps may be negative (cosmological horizon; the static side is r < r_c). The
+   proper radius uses a 200-node trapezoid rule in u, r = rh + eps u^2; accuracy ~1e-7 for eps << rh, ~2e-6
+   for eps ~ rh/4. `rh` is taken on trust (not re-solved); f <= 0 inside the interval raises ValueError.
+6. **`photon_sphere`, `isco`: "numerically".** Golden-section search finds a smooth extremum only to
+   ~1e-8 relative, at the crossbuild tolerance. Resolved: photon sphere = `toolkit.golden_max`, then polished by
+   `toolkit.bisect` on the exact slope (`toolkit.exact_derivative`); ISCO = `toolkit.bisect` on the exact
+   symmetric difference of L^2(r) = -f'/(f/r^2)' (h = 1e-9, exact Fractions). No closed form is used in the
+   code; the closed forms (3, sqrt 27; 6, 12, 8/9) appear only in the self-check. `isco` returns
+   E2 = E^2 (energy per unit mass squared) and L2 = L^2 in units of M^2.
+7. **`qnm_220` / `invert_220` units and frames.** The mass in `qnm_220` is the detector-frame mass;
+   frequency = omega/(2 pi) in Hz, damping = omega/(2Q) in 1/s; `invert_220` takes them in the same units and
+   returns M_det/(1 + z). The inversion is algebraic (chi = 1 - ((Q - q1)/q2)^(1/q3)); a Q outside the fit's
+   range raises ValueError. Error tuples in `inputs` (F220, G220, THETA_G_*) are read as (value, lower, upper).
+8. **`shadow_uas`.** Uses inputs.GM_SUN and inputs.PARSEC; radian -> microarcsecond = (180/pi) 3600 1e6.
+9. **Self-check, Sgr A\*.** "The measured theta_g is the mean of the two theta_g values" is read as: the
+   stellar-dynamics theta_g compared with the EHT's THETA_G_SGRA is (theta_g(VLTI) + theta_g(Keck))/2, and the
+   pull is (that - EHT)/sigma_EHT with the EHT error on the side facing it. If the SPEC meant the opposite
+   roles, the pull's denominator changes (no export is affected).
+10. **Self-check, area theorem.** Component spins are not in `inputs`; the final area is compared with the
+    largest possible initial area (both components non-spinning).
