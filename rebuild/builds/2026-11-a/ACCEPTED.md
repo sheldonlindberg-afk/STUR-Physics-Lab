@@ -13,7 +13,7 @@ on every push.
 | C1: `desitter.ricci_scalar` added (framework 6c4477e, build 728aafc) | 728aafc |
 | P2 findings | caf1bf2 |
 | P4 audit; audit checks landed | 05539b1 |
-| C3/C5/C6 SPEC; M5 provenance rule (framework) | (the commit before e479380) |
+| C3/C5/C6 SPEC; M5 provenance rule (framework) | 59dd9e9 |
 | M5 provenance notes; all gates pass | e479380 |
 | Acceptance | this commit |
 
