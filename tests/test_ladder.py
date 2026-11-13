@@ -24,6 +24,19 @@ def test_chiral_breaking():
     assert abs(g - 13.01) < 0.01
 
 
+def test_chpt_one_loop_pion_mass():
+    for param in ("exponential", "sigma-model"):
+        free, z, m, shift, (F, Dl) = CB.chpt_mass_shift(param)
+        assert free == 0 and sp.simplify(shift - Dl / (2 * F**2)) == 0
+    M, mu = sp.symbols("M mu", positive=True)
+    pole, finite, resid = CB.tadpole()
+    assert sp.simplify(pole + M**2 / (16 * sp.pi**2)) == 0 and resid == 0
+    n = CB.chpt_numbers()
+    assert abs(n["mpi"] - 0.1335) < 3e-4 and abs(n["err"] - 0.0038) < 3e-4
+    assert abs(n["mpi"] - CB.M_PI0) < n["err"] and abs(n["corr"] - 0.0236) < 3e-4
+    assert abs(n["fpi_over_F"] - CB.FPI_OVER_F[0]) < CB.FPI_OVER_F[1]
+
+
 def test_casimir_polder_derived():
     a, resid = CP.sphere_polarizability()
     assert resid == 0

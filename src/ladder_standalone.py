@@ -35,7 +35,9 @@ WHAT IT COMPUTES
               and every fermion's electric charge for any number of colours.
       Rung 2  The strong force: chiral symmetry breaking in the linear sigma model (a
               MODEL of QCD's low-energy structure): pions, the GMOR relation, the Yukawa
-              form and tensor structure of the nuclear force, Goldberger-Treiman.
+              form and tensor structure of the nuclear force, Goldberger-Treiman; and the
+              pion mass at O(p^4) in chiral perturbation theory, QCD's own effective
+              theory, with lattice low-energy constants (derived in src/chiral_breaking.py).
       Rung 3  Electromagnetism, the experiment's background: the Casimir-Polder force
               between the diamonds, from electrostatics and the dipole field.
       Rung 4  Gravity to the experiment: linearized GR, one-graviton exchange (Newton's
@@ -94,6 +96,10 @@ F_PI = 0.1302 / sqrt(2)       # GeV, f_pi = 92.1 MeV
 COND_13 = 0.272               # GeV, |<qbar q>|^(1/3), lattice (FLAG), MS-bar 2 GeV
 COND_13_ERR = 0.005           # GeV, FLAG 2024 (N_f = 2+1)
 M_PI0, M_PIC = 0.1349768, 0.13957039
+# FLAG (N_f = 2+1): m_ud, F_pi/F, lbar_3, for the O(p^4) pion mass (src/chiral_breaking.py S7)
+M_UD_FLAG, M_UD_FLAG_ERR = 3.410e-3, 0.043e-3   # GeV, (m_u + m_d)/2, MS-bar 2 GeV
+FPI_OVER_F, FPI_OVER_F_ERR = 1.062, 0.007
+LBAR3, LBAR3_ERR = 3.07, 0.64
 G_A, M_N = 1.2754, 0.9389187  # nucleon axial coupling; average nucleon mass (GeV)
 G_PINN_EMP = 13.1             # charged pi-N coupling: g_c^2/4pi = 13.69 +- 0.12 +- 0.15 (GMO sum rule;
 G_PINN_ERR = 0.1              # Baru et al., Nucl. Phys. A 872, 69 (2011), eq. 9.13), so g = 13.12 +- 0.09
@@ -410,8 +416,28 @@ def rung2():
     check("GMOR with measured quark masses, f_pi and the lattice condensate: m_pi = 127.6 MeV (within 8% of 135)",
           abs(mpi - 0.1276) < 1e-3 and abs(mpi / M_PI0 - 1) < 0.08, "data",
           f"got {mpi * 1e3:.1f} +- {dmpi * mpi * 1e3:.1f} MeV (inputs, {100 * dmpi:.1f}%) vs {M_PI0 * 1e3:.1f} MeV."
-          " Tolerance 8%: GMOR is leading order, and the next-order chiral terms (not computed here)"
-          " are expected at several percent")
+          " Tolerance 8%: GMOR is leading order with f_pi standing in for the chiral-limit F; the next check"
+          " does it at O(p^4)")
+    # chiral perturbation theory at O(p^4): M^2 = 2 m_ud Sigma / F^2, M_pi^2 = M^2 [1 - M^2 lbar_3 / (32 pi^2 F^2)]
+    def mpi4(mud, c13, r, l3):
+        Fc = F_PI / r
+        M2 = 2 * mud * c13**3 / Fc**2
+        return sqrt(M2 * (1 - M2 / (32 * pi * pi * Fc * Fc) * l3))
+    c4 = [M_UD_FLAG, COND_13, FPI_OVER_F, LBAR3]
+    m4 = mpi4(*c4)
+    dm4 = 0.0
+    for i, e in enumerate((M_UD_FLAG_ERR, COND_13_ERR, FPI_OVER_F_ERR, LBAR3_ERR)):
+        up = list(c4)
+        up[i] += e
+        dm4 += (mpi4(*up) - m4) ** 2
+    dm4 = sqrt(dm4)
+    print(f"   O(p^4) chiral perturbation theory, FLAG inputs: m_pi = {m4 * 1e3:.1f} +- {dm4 * 1e3:.1f} MeV")
+    check("the pion mass at O(p^4) in chiral perturbation theory: 133.5 MeV, within 2 sigma of 135.0",
+          abs(m4 - 0.1335) < 1e-3 and abs(m4 - M_PI0) < 2 * dm4, "data",
+          f"got {m4 * 1e3:.1f} +- {dm4 * 1e3:.1f} MeV vs {M_PI0 * 1e3:.1f} MeV ({(m4 - M_PI0) / dm4:+.1f} sigma)."
+          " Not the sigma model: QCD's effective theory, whose one-loop chiral log src/chiral_breaking.py S6"
+          " derives in two parametrizations; lbar_3, F_pi/F, m_ud and the condensate are lattice inputs (FLAG)."
+          " The uncertainty is mostly the condensate")
     m = 1.3
     V = lambda r: exp(-m * r) / (4 * pi * r)
     rs = [0.3, 0.9, 2.1]

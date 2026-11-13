@@ -19,8 +19,9 @@ It is a MODEL of QCD's low-energy structure, not QCD itself.
       QCD identification H f_pi = (m_u + m_d)|<qbar q>| is the Gell-Mann-Oakes-Renner
       relation. (CHECK, symbolic)
   S3  GMOR with measured inputs: m_u + m_d (PDG, MS-bar 2 GeV), f_pi (PDG), the condensate
-      (lattice, FLAG; LIT). The predicted m_pi against the measured one; the difference is
-      the higher-order chiral correction, not derived here. (CHECK)
+      (lattice, FLAG; LIT). The predicted m_pi against the measured one. This is leading
+      order with the physical f_pi standing in for the chiral-limit F; S7 does it at O(p^4).
+      (CHECK)
   S4  The nuclear force. Exchange of a particle of mass m gives V(q) ~ -1/(q^2 + m^2); its
       Fourier transform is the Yukawa potential e^{-m r}/(4 pi r), with range 1/m_pi = 1.41 fm
       (derived symbolically). The one-pion-exchange potential's spin-isospin structure,
@@ -28,7 +29,35 @@ It is a MODEL of QCD's low-energy structure, not QCD itself.
   S5  The coupling: chiral symmetry gives the Goldberger-Treiman relation
       g_piNN = g_A M_N / f_pi; with measured g_A, M_N, f_pi, against the empirical g_piNN
       from pi-N and N-N scattering. (CHECK)
-Labels: MODEL (linear sigma model), CHECK, LIT (measured or lattice inputs).
+  S6  Beyond the model: chiral perturbation theory (Weinberg 1979; Gasser and Leutwyler
+      1984), the effective theory of QCD itself at low energy. At O(p^2) its Lagrangian is
+      fixed by the symmetry: L2 = (F^2/4) Tr(d U d U^+) + (F^2 M^2/4) Tr(U + U^+), F and
+      M^2 = 2 B m_hat the pion decay constant and mass in the chiral limit. The O(p^4) mass is
+      its one loop, the tadpole: Wick-contracting the quartic terms (<pi_a pi_b> = delta_ab
+      Delta, <d pi_a . d pi_b> = delta_ab M^2 Delta in dimensional regularization) gives
+      M_pi^2 = M^2 (1 + Delta / 2F^2), derived here in two parametrizations of U (exponential
+      and sigma-model). They split the loop differently between wave function and mass, and
+      agree on the physical mass, as they must. The tadpole itself, from Gamma(1 - d/2) at
+      d = 4 - 2 eps: Delta = (M^2/16 pi^2)[ln(M^2/mu^2) - 1/eps_bar - 1]. Its log is the
+      chiral log, M_pi^2 = M^2 [1 + (M^2/32 pi^2 F^2) ln(M^2/mu^2) + ...]; the O(p^4)
+      constant l_3 absorbs the pole and the scale: M_pi^2 = M^2 [1 - (M^2/32 pi^2 F^2) lbar_3].
+      (CHECK, symbolic)
+  S7  S3 at O(p^4). S3 used the physical f_pi with the chiral-limit condensate; the
+      consistent leading order uses F: M^2 = (m_u + m_d) Sigma / F^2. With FLAG's lattice
+      inputs (N_f = 2+1: m_ud, Sigma^(1/3), F_pi/F and lbar_3; LIT), m_pi = 133.5 +- 3.8 MeV
+      against 135.0 (-1.1%, -0.4 sigma; the condensate dominates the error). The O(p^4) term
+      itself is -2.4% of M^2: the SU(2) chiral series converges well. Most of S3's -5.5% was
+      f_pi used for F (6%), not the loop. (CHECK; LIT)
+  S8  f_pi at O(p^4): F_pi = F [1 + (M^2/16 pi^2 F^2) lbar_4] (LIT, Gasser and Leutwyler).
+      With FLAG's lbar_4, F_pi/F = 1.062, FLAG's own 1.062(7): a consistency check of the
+      lattice inputs used in S7, not an independent test, since both come from the same fits.
+      (CHECK; LIT)
+  What changes: S1-S5 remain the linear sigma model (MODEL): the breaking pattern, GMOR's
+  form, the one-pion exchange. The pion mass is now an O(p^4) result of QCD's own effective
+  theory, with lattice low-energy constants, and no longer carries the model's caveat. The
+  sigma resonance of the model is not QCD's broad f_0(500); ChPT has no sigma field.
+Labels: MODEL (linear sigma model, S1-S5), CHECK, LIT (measured or lattice inputs; the
+GL O(p^4) formula for F_pi).
 """
 import math
 
@@ -43,6 +72,12 @@ G_A = 1.2754                        # nucleon axial coupling
 M_N = 0.9389187                     # GeV, average nucleon mass
 G_PINN_EMP = 13.1                   # empirical pi-N coupling, g^2/4pi ~ 13.7 (LIT, approximate)
 HBARC = 0.1973269804                # GeV fm
+# FLAG review (N_f = 2+1 averages; MS-bar at 2 GeV for the mass and the condensate)
+M_UD_FLAG = (3.410e-3, 0.043e-3)    # GeV, m_ud = (m_u + m_d)/2
+SIGMA_ERR = 0.005                   # GeV, on Sigma^(1/3) = 272 MeV (chiral limit, SU(2))
+FPI_OVER_F = (1.062, 0.007)
+LBAR3 = (3.07, 0.64)
+LBAR4 = (4.02, 0.45)
 
 
 def banner(s):
@@ -126,6 +161,81 @@ def goldberger_treiman():
     return g, G_PINN_EMP
 
 
+# ------------------------------------------------------------------ S6-S8: ChPT at O(p^4)
+def chpt_lagrangian(param):
+    """L2 = (F^2/4) Tr(dU dU^+) + (F^2 M^2/4) Tr(U + U^+), expanded to fourth order in the pion
+    fields p_a. D_a stands for d_mu pi_a; every term carries the two derivatives contracted with
+    each other, so commuting symbols D_a represent them. Returns (quadratic, quartic) parts."""
+    F, M, eps = sp.symbols("F M epsilon", positive=True)
+    p = sp.symbols("p1:4", real=True)
+    D = sp.symbols("D1:4", real=True)
+    tau = [sp.Matrix([[0, 1], [1, 0]]), sp.Matrix([[0, -sp.I], [sp.I, 0]]), sp.Matrix([[1, 0], [0, -1]])]
+    A = sum((p[a] * tau[a] for a in range(3)), sp.zeros(2)) * eps / F
+    dA = sum((D[a] * tau[a] for a in range(3)), sp.zeros(2)) * eps / F
+    if param == "exponential":                                   # U = exp(i tau.pi / F)
+        U = sum(((sp.I * A) ** n / sp.factorial(n) for n in range(5)), sp.zeros(2))
+        dU = sp.zeros(2)
+        for n in range(1, 5):
+            for k in range(n):
+                dU += sp.I**n / sp.factorial(n) * A**k * dA * A ** (n - 1 - k)
+    else:                                                        # U = (sigma + i tau.pi)/F
+        pi2 = sum(x**2 for x in p) * eps**2
+        pdp = sum(p[a] * D[a] for a in range(3)) * eps**2
+        sig = F * (1 - pi2 / (2 * F**2) - pi2**2 / (8 * F**4))   # sqrt(F^2 - pi^2) to O(pi^4)
+        dsig = -pdp / F * (1 + pi2 / (2 * F**2))                 # -(pi.dpi)/sigma
+        U = sig / F * sp.eye(2) + sp.I * A
+        dU = dsig / F * sp.eye(2) + sp.I * dA
+    L = F**2 / 4 * (dU * dU.conjugate().T).trace() + F**2 * M**2 / 4 * (U + U.conjugate().T).trace()
+    L = sp.expand(sp.series(sp.expand(L), eps, 0, 5).removeO())
+    return sp.expand(L.coeff(eps, 2)), sp.expand(L.coeff(eps, 4)), (F, M, p, D)
+
+
+def chpt_mass_shift(param):
+    """S6: contract one pair of fields in the quartic terms (the tadpole), read off the
+    wave-function and mass terms, and return M_pi^2 / M^2 - 1 to first order in Delta."""
+    L2, L4, (F, M, p, D) = chpt_lagrangian(param)
+    Dl = sp.Symbol("Delta")
+    contr = sp.expand(sum(Dl / 2 * sp.diff(L4, p[a], 2) + M**2 * Dl / 2 * sp.diff(L4, D[a], 2) for a in range(3)))
+    z, m = contr.coeff(D[0], 2), contr.coeff(p[0], 2)            # L_eff = (1/2)(1 + 2z) D^2 - (1/2)(M^2 - 2m) pi^2
+    free = sp.simplify(L2 - sum(D[a]**2 / 2 - M**2 * p[a]**2 / 2 for a in range(3)))
+    shift = sp.simplify(sp.series((M**2 - 2 * m) / (1 + 2 * z) / M**2, Dl, 0, 2).removeO() - 1)
+    return free, sp.simplify(z), sp.simplify(m), shift, (F, Dl)
+
+
+def tadpole():
+    """S6: Delta = int d^dk_E/(2 pi)^d 1/(k^2 + M^2) = M^(d-2) Gamma(1 - d/2)/(4 pi)^(d/2) at
+    d = 4 - 2 eps, with the MS-bar scale mu_bar^2 = 4 pi e^(-gamma) mu^2; the finite part."""
+    e, M, mu = sp.symbols("epsilon M mu", positive=True)
+    d = 4 - 2 * e
+    expr = M ** (d - 2) * sp.gamma(1 - d / 2) / (4 * sp.pi) ** (d / 2) * (mu**2 * sp.exp(sp.EulerGamma) / (4 * sp.pi)) ** e
+    ser = sp.expand(sp.series(expr, e, 0, 1).removeO())
+    pole = sp.simplify(ser.coeff(e, -1))
+    finite = sp.simplify(sp.expand_log(ser.coeff(e, 0), force=True))
+    target = M**2 / (16 * sp.pi**2) * (sp.log(M**2) - sp.log(mu**2) - 1)
+    return pole, finite, sp.simplify(sp.expand_log(finite - target, force=True))
+
+
+def chpt_numbers():
+    """S7-S8: M^2 = (m_u + m_d) Sigma / F^2, then the O(p^4) mass with lbar_3 and F_pi/F with
+    lbar_4; the uncertainty from the FLAG inputs in quadrature."""
+    def mpi(mud, sig3, r, l3):
+        Fc = F_PI / r
+        M2 = 2 * mud * sig3**3 / Fc**2
+        x = M2 / (32 * math.pi**2 * Fc**2)
+        return math.sqrt(M2 * (1 - x * l3)), math.sqrt(M2), x * l3, M2, Fc
+    c = (M_UD_FLAG[0], SIGMA_CUBE_ROOT, FPI_OVER_F[0], LBAR3[0])
+    m, M, corr, M2, Fc = mpi(*c)
+    errs = {}
+    for i, (name, err) in enumerate((("m_ud", M_UD_FLAG[1]), ("Sigma^(1/3)", SIGMA_ERR),
+                                     ("F_pi/F", FPI_OVER_F[1]), ("lbar_3", LBAR3[1]))):
+        up = list(c)
+        up[i] += err
+        errs[name] = mpi(*up)[0] - m
+    dm = math.sqrt(sum(v**2 for v in errs.values()))
+    ratio = 1 + M2 / (16 * math.pi**2 * Fc**2) * LBAR4[0]
+    return dict(mpi=m, M=M, corr=corr, err=dm, errs=errs, F=Fc, fpi_over_F=ratio)
+
+
 def main():
     banner("S1  Goldstone counting in the chiral limit (MODEL: linear sigma model)")
     grad, zeros, evs = goldstone_count()
@@ -143,7 +253,7 @@ def main():
     mpi, num, fpi = gmor_numbers()
     print(f"   (m_u + m_d)|<qbar q>| = {num:.4e} GeV^4, f_pi = {fpi * 1e3:.1f} MeV")
     print(f"   m_pi (GMOR) = {mpi * 1e3:.1f} MeV;  measured pi0 {M_PI0 * 1e3:.1f}, pi+ {M_PIC * 1e3:.1f} MeV"
-          f"  ({100 * (mpi / M_PI0 - 1):+.1f}%: higher-order chiral terms, not derived here)")
+          f"  ({100 * (mpi / M_PI0 - 1):+.1f}%: leading order with f_pi for F; S7 does O(p^4))")
 
     banner("S4  The nuclear force: one-pion exchange (CHECK)")
     V, rng = yukawa()
@@ -156,6 +266,37 @@ def main():
     g, emp = goldberger_treiman()
     print(f"   g_piNN = g_A M_N / f_pi = {g:.2f};  empirical about {emp} ({100 * (g / emp - 1):+.1f}%,"
           " the known Goldberger-Treiman discrepancy)")
+
+    banner("S6  Chiral perturbation theory: the one-loop pion mass (CHECK, symbolic)")
+    for param in ("exponential", "sigma-model"):
+        free, z, m, shift, _ = chpt_mass_shift(param)
+        print(f"   U {param:12s}: L2 quadratic part is the free pion (residual {free});"
+              f" tadpole gives Z-term {z}, mass term {m} -> M_pi^2/M^2 - 1 = {shift}")
+    pole, finite, resid = tadpole()
+    print(f"   tadpole at d = 4 - 2 eps: pole {pole} / eps, finite part {finite}")
+    print(f"   finite part - (M^2/16 pi^2)(ln(M^2/mu^2) - 1) = {resid}")
+    print("   -> M_pi^2 = M^2 [1 + (M^2/32 pi^2 F^2) ln(M^2/mu^2) + 2 l_3^r M^2/F^2]"
+          " = M^2 [1 - (M^2/32 pi^2 F^2) lbar_3]")
+
+    banner("S7  The pion mass at O(p^4) with lattice inputs (LIT: FLAG, N_f = 2+1)")
+    n = chpt_numbers()
+    print(f"   m_ud = {M_UD_FLAG[0] * 1e3:.3f} MeV, Sigma^(1/3) = {SIGMA_CUBE_ROOT * 1e3:.0f} MeV,"
+          f" F = f_pi / {FPI_OVER_F[0]} = {n['F'] * 1e3:.2f} MeV, lbar_3 = {LBAR3[0]}")
+    print(f"   leading order M = sqrt(2 m_ud Sigma)/F = {n['M'] * 1e3:.1f} MeV;"
+          f"  O(p^4) term -(M^2/32 pi^2 F^2) lbar_3 = {-n['corr']:+.4f}")
+    print(f"   m_pi = {n['mpi'] * 1e3:.1f} +- {n['err'] * 1e3:.1f} MeV;  measured pi0 {M_PI0 * 1e3:.1f} MeV"
+          f"  ({100 * (n['mpi'] / M_PI0 - 1):+.1f}%, {(n['mpi'] - M_PI0) / n['err']:+.1f} sigma)")
+    print("   uncertainty from: " + ", ".join(f"{k} {abs(v) * 1e3:.2f} MeV" for k, v in n["errs"].items()))
+    m3 = gmor_numbers()[0]
+    stepF = m3 * FPI_OVER_F[0]
+    print(f"   from S3 to here: S3 {m3 * 1e3:.1f} MeV; F in place of f_pi {stepF * 1e3:.1f};"
+          f" FLAG's m_ud in place of PDG's {n['M'] * 1e3:.1f}; O(p^4) {n['mpi'] * 1e3:.1f} MeV")
+    print("   -> most of S3's -5.5% was f_pi used where the chiral-limit F belongs, not the loop.")
+
+    banner("S8  f_pi at O(p^4) (LIT: Gasser-Leutwyler formula; FLAG lbar_4)")
+    print(f"   F_pi / F = 1 + (M^2/16 pi^2 F^2) lbar_4 = {n['fpi_over_F']:.4f};"
+          f" FLAG {FPI_OVER_F[0]} +- {FPI_OVER_F[1]} (the same lattice fits: consistency, not a test)")
+    print("   -> the pion mass is an O(p^4) result of QCD's effective theory; S1-S5 keep the model's caveat.")
 
 
 if __name__ == "__main__":

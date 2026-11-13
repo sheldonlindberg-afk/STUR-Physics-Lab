@@ -110,15 +110,23 @@ the light quarks, SU(2)_L × SU(2)_R → SU(2)_V, through the quark condensate �
 pions are its near-Goldstone bosons, and their exchange is the long-range nuclear force.
 The derivation uses the linear sigma model (Gell-Mann and Lévy 1960), the minimal model
 with this breaking pattern. It is a **MODEL** of QCD's low-energy structure, not QCD
-itself.
+itself. S6–S8 then compute the pion mass in chiral perturbation theory, QCD's own
+low-energy effective theory, at O(p⁴), so that number no longer rests on the model.
 
 | | Result | Status |
 |---|---|---|
 | S1 | With massless quarks: exactly **3 zero modes**, dim O(4) − dim O(3) = 6 − 3: the pions | MODEL; CHECK |
 | S2 | With quark masses: m_π² = H/⟨σ⟩ and f_π = ⟨σ⟩, so **m_π² f_π² = (m_u + m_d)\|⟨q̄q⟩\|** (Gell-Mann–Oakes–Renner) | MODEL; CHECK |
-| S3 | With measured m_u + m_d, f_π and the lattice condensate: m_π = **127.6 MeV**, against 135.0. The −5.5% is the higher-order chiral terms, not derived here | CHECK; LIT inputs |
+| S3 | With measured m_u + m_d, f_π and the lattice condensate: m_π = **127.6 MeV**, against 135.0. This is leading order with the physical f_π standing in for the chiral-limit F; S7 corrects it | CHECK; LIT inputs |
 | S4 | Exchanging a particle of mass m gives V(q) ∝ 1/(q² + m²), whose Fourier transform is **e^(−mr)/(4πr)** (derived symbolically). The range is 1/m_π = **1.414 fm**. The spin structure (σ₁·q)(σ₂·q) = (q²/3)[σ₁·σ₂ + S₁₂] gives the central and **tensor** nuclear forces | CHECK |
 | S5 | Goldberger–Treiman: g_πNN = g_A M_N/f_π = **13.01**, against about 13.1 empirically (−0.7%, the known discrepancy; the empirical value is quoted approximately) | CHECK |
+| S6 | Chiral perturbation theory (Weinberg 1979; Gasser–Leutwyler 1984). Its O(p²) Lagrangian (F²/4)Tr(∂U∂U†) + (F²M²/4)Tr(U + U†) is fixed by the symmetry. The one-loop mass comes from Wick-contracting its quartic terms (the tadpole): **M_π² = M²(1 + Δ/2F²)**. It's derived in two parametrizations of U, which split the loop differently between wave function and mass but agree on the physical mass. The tadpole in dimensional regularization is Δ = (M²/16π²)[ln(M²/μ²) − 1/ε̄ − 1], also derived. So M_π² = M²[1 − (M²/32π²F²) ℓ̄₃] | CHECK, symbolic |
+| S7 | S3 at O(p⁴), with consistent leading order M² = 2m̂Σ/F² and FLAG's lattice inputs (N_f = 2+1: m̂, Σ^(1/3), F_π/F, ℓ̄₃). The result is **m_π = 133.5 ± 3.8 MeV against 135.0** (−0.4σ), with the error mostly from the condensate. The O(p⁴) term is −2.4% of M². Most of S3's −5.5% came from using f_π for F, not from the loop | CHECK; LIT inputs |
+| S8 | F_π/F = 1 + (M²/16π²F²) ℓ̄₄ = 1.062 with FLAG's ℓ̄₄, against FLAG's 1.062(7). This is a consistency check of the lattice inputs, not an independent test (same fits) | CHECK; LIT formula |
+
+S1–S5 remain the linear sigma model. Its σ is not QCD's broad f₀(500), and chiral
+perturbation theory has no σ field. The pion mass is now a result of QCD's own effective
+theory, carrying the lattice inputs' uncertainty rather than the model's caveat.
 
 **Where the derivation stops.** Deriving the proton mass and nuclear binding needs lattice
 QCD and nuclear many-body theory. They are not derived here.

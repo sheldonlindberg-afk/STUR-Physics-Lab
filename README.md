@@ -108,7 +108,8 @@ All of it is computed by `src/stur_tegr_corner.py`, `src/stur_tegr_frame.py` and
 scale to the two diamonds, with every step derived and checked in code:
 - 3-3-1 → Standard Model → electromagnetism: the photon, the hypercharge matching and the
   W, Z, Z′ masses, from the gauge-boson mass matrix;
-- chiral symmetry breaking: pions, the GMOR relation and the nuclear force;
+- chiral symmetry breaking: pions, the GMOR relation and the nuclear force, and the pion
+  mass at O(p⁴) in chiral perturbation theory (133.5 ± 3.8 MeV against 135.0);
 - the Casimir–Polder force between the diamonds, from electrostatics and the dipole field,
   at finite temperature (negligible at the design's 0.15 K), and the patch-potential dipoles
   that make a conducting shield necessary;
@@ -214,7 +215,7 @@ python3 src/m331_breaking.py         # the ladder, rungs 1-6: also chiral_breaki
 python3 src/ladder_links.py          # links across the rungs: neutral matter, pi0 -> gamma gamma, M_Pl, ~2 s
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
 python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (206 tests)
+python -m pytest tests -q           # every number pinned (207 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on
