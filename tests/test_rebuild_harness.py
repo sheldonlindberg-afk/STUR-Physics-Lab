@@ -347,3 +347,17 @@ def test_point_mass_metric_normalization_is_caught_blind(tmp_path):
     rep = harness.run(d, mode="builder", lint=False)
     assert [l for l, ok, _ in rep["stages"]["graviton"]["blind"] if not ok] == \
         ["point-mass metric = 16 pi G Y P.tau (field equation and tpt agree)"]
+
+
+def test_hidden_quoted_dependency_is_caught(tmp_path):
+    # C2 of build 2026-11-a: 'derived' on top of a quoted export, without saying so
+    d = _mutant(tmp_path, "links", """
+        import inputs as _i
+        import blackholes
+        def planck_bh_kT_GeV():
+            mpl = planck_mass_GeV(_i.G_NEWTON, _i.HBAR, _i.C_LIGHT)
+            return _i.K_B * blackholes.hawking_K(mpl * 1e9 * _i.E_CH / _i.C_LIGHT**2) / _i.E_CH / 1e9
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert [l for l, ok, _ in rep["stages"]["links"]["contract"] if not ok] == \
+        ["PROVENANCE[planck_bh_kT_GeV] names its quoted dependencies"]

@@ -13,6 +13,10 @@ Every quantity you produce is exactly one of the following:
 - **quoted**: a published formula used without derivation. This is allowed only where the
   stage lists it, and you must name the source in `PROVENANCE`.
 
+An export labelled **derived** that rests on a quoted export (by calling it, through another
+export, or through a private helper of a quoted export) must say so: its note names each quoted
+export it rests on, together with the word "quoted". The harness checks this.
+
 If you can't derive something and it isn't on the stage's quoted list, **stop and report it**.
 Don't type the number in. The harness lint fails any literal with more than three
 significant digits.
@@ -105,7 +109,8 @@ with v/w.
   d_LR = d_RL = √(gap² + dx²). The entangling phase of a potential U is
   (τ/ħ)[−U(d_LL) − U(d_RR) + U(d_LR) + U(d_RL)]. The safe gap is the smallest gap at which
   |Casimir phase| ≤ fraction × |gravity phase|. Find it as a root to relative precision
-  1e−6 or better, not on a coarse grid.
+  1e−6 or better, not on a coarse grid. The gravity phase uses U_G = −Gm²/r with
+  `inputs.G_NEWTON` (rung 4 derives this potential; rung 3 assumes it).
 
 ## 5. graviton: gravity to the experiment
 
@@ -134,6 +139,9 @@ with v/w.
   the torsion de + ω∧e = 0 numerically.
 - Schwarzschild–de Sitter: f = 1 − 2M/r − r²/ℓ². De Sitter: f = 1 − r²/ℓ².
 - The MacDowell–Mansouri action N∫ε_abcd F^{ab}∧F^{cd}.
+- Λ is the cosmological constant of the Einstein–Hilbert action (1/16πG)∫e(R − 2Λ), i.e.
+  G_μν + Λg_μν = 0. `ell_from_lambda` is the ℓ for which the MacDowell–Mansouri action
+  reduces to that form.
 
 **Conventions.** The Lorentz symbol with lowered indices has ε₀₁₂₃ = +1 (the plain permutation
 symbol, `toolkit.levi_civita`). The coordinate density has ε̃^{0123} = +1, i.e. a 4-form's
@@ -183,7 +191,9 @@ component is read on dt∧dr∧dθ∧dφ. `action_coefficients` uses both.
   - N_g = N_c, with n = (1+N_c)/2 antitriplet families;
   - anomaly = N_g X_L + N_c[(N_g − n)X_t + n X_a].
 - **Neutrality.** Coulomb and gravity both go as 1/r on the same trajectories, so their
-  phases are in the ratio kQ²/(Gm²). Divide by the nucleon count m/u.
+  phases are in the ratio kQ²/(Gm²). Divide by the nucleon count m/u. Both diamonds carry the
+  same net charge Q = εe(m/u), u = `inputs.U_AMU`; the Coulomb potential is the vacuum kQ²/r,
+  k = `inputs.K_COUL`; the bound is |φ_C| ≤ GAP_FRACTION·|φ_G|.
 - **Quoted (allowed):** the anomaly amplitude A = (α/πf_π)N_c(Q_u² − Q_d²) for π⁰ → γγ.
   Derive the polarization sum and the two-body phase space yourself.
 - M_Pl = √(ħc/G). If G → xG, M_Pl → x^(−1/2)M_Pl.

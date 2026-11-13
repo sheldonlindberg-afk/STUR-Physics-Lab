@@ -109,6 +109,68 @@ def tier_contract(stage, mod):
     return out
 
 
+def _quoted_deps(build_dir, mods):
+    """{(module, function): set of quoted exports it reaches}: by calls written as <stage>.<fn>(...) or to a
+    same-module function, followed through every stage module of the build (C2 of build 2026-11-a)."""
+    stage_mods = [s["module"] for s in contract.STAGES]
+    quoted = {(s["module"], n) for s in contract.STAGES for n, v in getattr(mods.get(s["module"]), "PROVENANCE", {}).items()
+              if isinstance(v, tuple) and v and v[0] == "quoted"}
+    calls = {}
+    for mod in stage_mods:
+        path = os.path.join(build_dir, mod + ".py")
+        if mod not in mods or not os.path.exists(path):
+            continue
+        tree = ast.parse(open(path, encoding="utf-8").read())
+        funcs = {n.name: n for n in tree.body if isinstance(n, ast.FunctionDef)}
+        for name, node in funcs.items():
+            out = set()
+            for c in ast.walk(node):
+                if isinstance(c, ast.Call):
+                    f = c.func
+                    if isinstance(f, ast.Attribute) and isinstance(f.value, ast.Name) and f.value.id in stage_mods:
+                        out.add((f.value.id, f.attr))
+                    elif isinstance(f, ast.Name) and f.id in funcs:
+                        out.add((mod, f.id))
+            calls[(mod, name)] = out
+    # a private helper that a quoted export calls carries the quoted formula too (a build must not dodge the
+    # rule by calling _cp_coefficient instead of cp_energy); it is reported under the quoted export's name
+    owner = {}
+    frontier = [(q, q) for q in quoted]
+    while frontier:
+        q, k = frontier.pop()
+        for c in calls.get(k, ()):
+            if c[0] == q[0] and c[1].startswith("_") and c not in owner:
+                owner[c] = q
+                frontier.append((q, c))
+    deps = {k: {owner.get(c, c) for c in v if c in quoted or c in owner} for k, v in calls.items()}
+    changed = True
+    while changed:                                   # fixed point: a call to a function that reaches a quoted one
+        changed = False
+        for k, v in calls.items():
+            if k in quoted or k in owner:
+                continue
+            new = set().union(*(deps.get(c, set()) for c in v)) | deps[k]
+            if new != deps[k]:
+                deps[k], changed = new, True
+    return deps
+
+
+def tier_provenance_deps(stage, build_dir, mods):
+    """C2: an export whose value depends on a quoted export is labelled quoted, or its note names the quoted
+    formula it rests on (the word 'quoted' and the export)."""
+    deps = _quoted_deps(build_dir, mods)
+    prov = getattr(mods.get(stage["module"]), "PROVENANCE", {})
+    out = []
+    for n in stage["exports"]:
+        kind, note = prov.get(n, ("?", ""))
+        d = sorted(f"{m}.{f}" for m, f in deps.get((stage["module"], n), set()) if (m, f) != (stage["module"], n))
+        if kind == "derived" and d:
+            ok = "quoted" in note.lower() and all(x.split(".")[1] in note for x in d)
+            out.append((f"PROVENANCE[{n}] names its quoted dependencies", ok,
+                        "" if ok else f"derived, but rests on quoted {d}: say so in the note, or label it quoted"))
+    return out
+
+
 # ------------------------------------------------------------------------------------------
 # tier 2: lint
 # ------------------------------------------------------------------------------------------
@@ -410,7 +472,7 @@ def run(build_dir, mode="builder", upto=None, compare=None, lint=True, modules=N
             blocked = name
             continue
         mod = mods[s["module"]]
-        rec["contract"] = tier_contract(s, mod)
+        rec["contract"] = tier_contract(s, mod) + tier_provenance_deps(s, build_dir, mods)
         if lint:
             rec["lint"] = tier_lint(s, os.path.join(build_dir, s["module"] + ".py"))
         if all(ok for _, ok, _ in rec["contract"]):
