@@ -5,13 +5,15 @@ import black_holes as BH
 
 
 def test_surface_gravity_and_euclidean_period():
+    assert BH.surface_gravity_from_killing() == 0
     assert BH.surface_gravity_from_spin_connection() == 0
     assert BH.euclidean_ratio() == 0
-    out = BH.euclidean_checks()
-    for rh, k, smooth, cone in out.values():
-        assert abs(smooth - 1) < 1e-5 and abs(cone - 1.1) < 1e-5
+    out, wrong = BH.euclidean_checks()
+    for rh, k, kf, smooth in out.values():
+        assert abs(k / kf - 1) < 1e-5 and abs(smooth - 1) < 1e-5
     kb, kc = out["black hole"][1], out["cosmological"][1]
     assert abs(kb / kc - 1) > 0.5                       # two horizons, two temperatures
+    assert abs(wrong - 1) > 0.1                         # Schwarzschild's period leaves a cone in SdS
 
 
 def test_thermodynamics_exact():

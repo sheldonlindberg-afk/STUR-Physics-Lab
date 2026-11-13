@@ -752,10 +752,14 @@ RING_M87, RING_SGRA = (42.0, 3.0), (51.8, 2.3)
 # the distance assumed. Sgr A*: stellar orbits, GRAVITY 2022 and Keck 2019 (Msun, pc).
 M87_STARS = (6.6e9, 0.4e9, 17.9e6)
 SGRA_VLTI, SGRA_KECK = (4.297e6, 8277.0), (3.975e6, 7935.0)
-RING_SYST = 0.05              # ring vs shadow edge, and the Kerr spread with spin: 5% at 1 sigma
-# GW250114 (LVK, PRL 135, 111403 (2025)): component masses (Msun, +-90%), spin bound,
-# full-signal remnant, redshift; the ringdown-only 220 fit (redshifted f, damping rate, Hz).
-GW_M1, GW_M2, GW_CHI_MAX = (33.6, 0.8, 1.2), (32.2, 1.3, 0.8), 0.26
+# Ring vs shadow edge, and the Kerr spread with spin: 5% at 1 sigma. Its size: the EHT
+# calibrates ring diameter = alpha theta_g with alpha ~ 11 on GRMHD images (EHT 2019, ApJL
+# 875, L6), against the shadow's 2 sqrt(27) ~ 10.4, a 6% offset (an uncertainty here).
+RING_SYST = 0.05
+# GW250114 (LVK, PRL 135, 111403 (2025)): component masses (Msun, +-90%), full-signal
+# remnant, redshift; the ringdown-only 220 fit (redshifted f, damping rate, Hz). The spin
+# bound chi_1,2 <= 0.26 is not needed: spin 0 gives the largest initial area.
+GW_M1, GW_M2 = (33.6, 0.8, 1.2), (32.2, 1.3, 0.8)
 GW_MF, GW_CHIF, GW_Z = 62.7, 0.68, (0.09, 0.01)
 F220, G220 = (247.0, 6.0, 6.0), (221.0, 32.0, 39.0)
 BCW_220 = (1.5251, -1.1568, 0.1292, 0.7000, 1.4187, -0.4990)   # Berti, Cardoso, Will (2006)
@@ -817,14 +821,33 @@ def sds_horizons(M_, l):
     return (bis(2 * M_, rm), bis(rm, l)) if Fn(rm) > 0 else None
 
 
-def euclidean_cone(f, fp, rh, beta, eps):
+def killing_kappa(f, r0, h):
+    """Surface gravity from the Killing vector xi = d/dt: kappa^2 = -1/2 (nabla_mu xi_nu)
+    (nabla^mu xi^nu), at radius r0. The Christoffel symbols come from central differences
+    of the metric diag(-f, 1/f, r^2, r^2 sin^2 th) alone: f, never f', and not the tetrad."""
+    x0 = [0.0, r0, 1.0, 0.0]
+    gfun = lambda x: [-f(x[1]), 1 / f(x[1]), x[1] ** 2, (x[1] * sin(x[2])) ** 2]
+    g0, dg = gfun(x0), []                                        # dg[c][a] = d_c g_aa
+    for c in range(4):
+        xp, xm = list(x0), list(x0)
+        xp[c] += h
+        xm[c] -= h
+        gp, gm = gfun(xp), gfun(xm)
+        dg.append([(gp[a] - gm[a]) / (2 * h) for a in range(4)])
+    def gam(a, b, c):                                            # Gamma^a_bc, diagonal metric
+        return ((dg[b][a] if a == c else 0) + (dg[c][a] if a == b else 0) - (dg[a][b] if b == c else 0)) / (2 * g0[a])
+    D = [[(dg[m][0] if n == 0 else 0) - gam(0, m, n) * g0[0] for n in range(4)] for m in range(4)]
+    return sqrt(-sum(D[m][n] ** 2 / (g0[m] * g0[n]) for m in range(4) for n in range(4)) / 2)
+
+
+def euclidean_cone(f, rh, beta, eps):
     """Circumference over 2 pi x proper radius of the Euclidean (tau, r) circle at r_h + eps,
     for a tau-period beta: 1 if the plane is smooth there, otherwise a cone.
-    rho = int dr/sqrt(f), with r = r_h + u^2 so the integrand is finite (Simpson)."""
-    n, U = 200, sqrt(eps)
-    h = U / n
-    g = lambda u: 2 * u / sqrt(abs(f(rh + u * u))) if u > 0 else 2 / sqrt(abs(fp(rh)))
-    rho = h / 3 * sum((1 if k in (0, n) else 4 if k % 2 else 2) * g(k * h) for k in range(n + 1))
+    rho = int dr/sqrt(f), with r = r_h + u^2 so the integrand is finite; the midpoint rule
+    never evaluates the endpoint, so this uses f only."""
+    n = 400
+    h, s = sqrt(abs(eps)) / n, (1 if eps > 0 else -1)
+    rho = h * sum(2 * u / sqrt(abs(f(rh + s * u * u))) for u in ((k + 0.5) * h for k in range(n)))
     return beta * sqrt(abs(f(rh + eps))) / (2 * pi * rho)
 
 
@@ -867,32 +890,35 @@ def hawking_K(m_kg):
 def rung6():
     banner("RUNG 6  Black holes: the strong-field end of gravity's column (not a symmetry breaking)")
     plain("a black hole is not a place where a symmetry breaks, so this is not a new step down the chain. It is gravity at its strongest, and the first formula here that needs quantum physics, gravity, relativity and heat at once: the Hawking temperature. The geometry fixes that temperature, and telescopes and gravitational waves test the geometry. Hawking radiation itself has never been measured.")
-    # H1: kappa from rung 5's spin connection, on both Schwarzschild-de Sitter horizons
+    # H1: kappa from the Killing vector d/dt, on both Schwarzschild-de Sitter horizons. The
+    # Christoffels come from the metric (f only); f'/2 is computed only to compare. The
+    # invariant is evaluated just on the static side of each horizon (offset 1e-6 r_h).
     M_, l = 1.0, 9.0                                       # 27 M^2/l^2 = 1/3
     f = lambda r: 1 - 2 * M_ / r - r * r / l**2
     fp = lambda r: 2 * M_ / r**2 - 2 * r / l**2
     rb, rc = sds_horizons(M_, l)
-    # the tetrad is singular on the horizon itself, so take the limit from the static side
-    kap = []
-    for rh, side in ((rb, 1), (rc, -1)):
-        _, w = tetrad_and_spin([0.0, rh + side * 1e-9, 1.0, 0.0], f, fp)
-        kap.append(abs(w[0][1][0]))                       # omega^0_(1 t) = f'/2
-    _, w = tetrad_and_spin([0.0, 2.0 + 1e-9, 1.0, 0.0], lambda r: 1 - 2 / r, lambda r: 2 / r**2)
-    print(f"   SdS (M = 1, l = 9): horizons r_b = {rb:.6f}, r_c = {rc:.6f}; kappa = |omega^0_(1t)| ="
-          f" {kap[0]:.6f}, {kap[1]:.6f}. Schwarzschild: kappa = {w[0][1][0]:.9f} = 1/(4M)")
-    check("horizon f(r_h) = 0 and surface gravity kappa = f'(r_h)/2, read off rung 5's spin connection"
-          " omega^0_(1t); T_H = hbar c kappa/(2 pi k_B), and kappa = 1/(4M) for Schwarzschild",
-          abs(f(rb)) < 1e-12 and abs(f(rc)) < 1e-12 and abs(kap[0] - fp(rb) / 2) < 1e-8
-          and abs(kap[1] + fp(rc) / 2) < 1e-8 and abs(w[0][1][0] - 0.25) < 1e-8)
-    # H2: the Euclidean section is smooth only for tau-period 2 pi / kappa
-    ratios = [euclidean_cone(f, fp, rh, 2 * pi / k, 1e-7 * rh) for rh, k in zip((rb, rc), kap)]
-    cones = [euclidean_cone(f, fp, rh, 1.1 * 2 * pi / k, 1e-7 * rh) for rh, k in zip((rb, rc), kap)]
+    kap = [killing_kappa(f, rh + side * 1e-6 * rh, 1e-8 * rh) for rh, side in ((rb, 1), (rc, -1))]
+    k_schw = killing_kappa(lambda r: 1 - 2 / r, 2.0 + 2e-6, 2e-8)
+    # cross-check: rung 5's spin connection (validated there by its torsion-free check)
+    _, w = tetrad_and_spin([0.0, rb + 1e-9, 1.0, 0.0], f, fp)
+    print(f"   SdS (M = 1, l = 9): horizons r_b = {rb:.6f}, r_c = {rc:.6f}; Killing kappa = {kap[0]:.6f}, {kap[1]:.6f}"
+          f" (|f'|/2 = {fp(rb) / 2:.6f}, {-fp(rc) / 2:.6f}; rung 5's omega^0_(1t) = {w[0][1][0]:.6f})."
+          f" Schwarzschild: kappa = {k_schw:.7f} = 1/(4M)")
+    check("horizon f(r_h) = 0 and surface gravity from the Killing vector d/dt, kappa^2 = -(nabla xi)^2/2,"
+          " equal to |f'(r_h)|/2 on both SdS horizons and 1/(4M) for Schwarzschild; T_H = hbar c kappa/(2 pi k_B)",
+          abs(f(rb)) < 1e-12 and abs(f(rc)) < 1e-12 and abs(kap[0] / (fp(rb) / 2) - 1) < 1e-5
+          and abs(kap[1] / (-fp(rc) / 2) - 1) < 1e-5 and abs(k_schw / 0.25 - 1) < 1e-5)
+    # H2: the Euclidean section is smooth only for tau-period 2 pi / kappa. rho comes from f
+    # alone. The ratio is linear in the period, so a period 10% off would prove nothing; the
+    # discriminating case is a period from a different f: Schwarzschild's 8 pi M, ignoring Lambda.
+    ratios = [euclidean_cone(f, rh, 2 * pi / k, s * 1e-7 * rh) for rh, k, s in zip((rb, rc), kap, (1, -1))]
+    wrong = euclidean_cone(f, rb, 8 * pi * M_, 1e-7 * rb)
     print(f"   circumference/(2 pi rho) near each horizon: {ratios[0]:.7f}, {ratios[1]:.7f} for beta = 2 pi/kappa;"
-          f" {cones[0]:.4f}, {cones[1]:.4f} for beta 10% longer (a cone)")
+          f" {wrong:.4f} at the SdS black-hole horizon for Schwarzschild's period 8 pi M (a cone)")
     check("Euclidean time: the (tau, r) plane is smooth at a horizon only if tau has period 2 pi/kappa, so"
-          " T = kappa/2 pi is fixed by the geometry; the two SdS horizons need different periods",
-          all(abs(x - 1) < 1e-5 for x in ratios) and all(abs(x - 1.1) < 1e-5 for x in cones)
-          and abs(kap[0] / kap[1] - 1) > 0.5)
+          " T = kappa/2 pi is fixed by the geometry; the two SdS horizons need different periods, and"
+          " Schwarzschild's period leaves a cone in SdS",
+          all(abs(x - 1) < 1e-5 for x in ratios) and abs(kap[0] / kap[1] - 1) > 0.5 and abs(wrong - 1) > 0.1)
     # H3: first law and Smarr, exact (Kerr; q = 0 is Schwarzschild: dM = T dS, M = 2TS)
     rng, ok = random.Random(6), True
     for k in range(60):
@@ -951,7 +977,8 @@ def rung6():
           abs(z87) < 2, "data",
           f"got {p87:.1f} uas, {z87:+.2f} sigma. Tolerance 2 sigma of {100 * s87:.1f}%: the ring's error (7%), the mass"
           " (6%; the distance cancels in M/D) and 5% for the ring sitting outside the shadow and the Kerr spread"
-          f" with spin. The gas-dynamics mass (3.5e9) would give {shadow_uas(3.5e9, M87_STARS[2]):.0f} uas, excluded")
+          " with spin (sized by the EHT's calibration, ring = 11 theta_g against the shadow's 2 sqrt(27) = 10.4)."
+          f" The gas-dynamics mass (3.5e9) would give {shadow_uas(3.5e9, M87_STARS[2]):.0f} uas, excluded")
     pv, pk = shadow_uas(*SGRA_VLTI), shadow_uas(*SGRA_KECK)
     pS = (pv + pk) / 2
     sS = sqrt((RING_SGRA[1] / RING_SGRA[0]) ** 2 + ((pv - pk) / pS) ** 2 + RING_SYST**2)
@@ -974,7 +1001,8 @@ def rung6():
     check("GW250114, Hawking's area law: final area 4.1e5 km^2 > initial 2.4e5 km^2, from the published"
           " masses and the ringdown-only fit", a_f_min > a_i_max, "data",
           f"least favourable corners of the published 90% ranges: initial {a_i_max:,.0f} km^2 (spins 0, which"
-          f" maximizes it), final {a_f_min:,.0f} km^2. The collaboration's own analysis puts the increase at 4.4 sigma")
+          f" maximizes it), final {a_f_min:,.0f} km^2; a heuristic, not a bound, as the area need not be monotonic"
+          " in (f, gamma). The collaboration finds A_f > A_i at > 4 sigma at all analysis points (arXiv:2509.08054)")
     f220, g220 = qnm_220((1 + z) * GW_MF, GW_CHIF)
     check("GW250114: the full-signal remnant predicts a 220 mode at 249 Hz, damping 244 Hz; the ringdown"
           " alone measures 247 +- 6 Hz and 221 (-32 +39) Hz",
@@ -1134,10 +1162,13 @@ def main():
     print("   to Lorentz. Black holes are gravity's strong-field end: the geometry fixes their temperature,")
     print("   and the EHT shadows and GW250114's area increase test that geometry; Hawking radiation itself")
     print("   is unmeasured, and whether information is lost is open.")
-    print("   Three links run across the gauge chain and gravity: rung 1's anomalies make matter neutral, which")
+    print("   Five links run across the gauge chain and gravity: rung 1's anomalies make matter neutral, which")
     print("   the diamond experiment needs to 2.8e-19 e per nucleon; its charges with rung 2's f_pi give")
-    print("   the measured pi0 -> gamma gamma width; and the 3-3-1 cutoff, M_Pl, is rung 4's G, which")
-    print("   the selection needs within a factor 8.4 (it is measured to 2e-5). Inputs")
+    print("   the measured pi0 -> gamma gamma width; the 3-3-1 cutoff, M_Pl, is rung 4's G, which")
+    print("   the selection needs within a factor 8.4 (it is measured to 2e-5); rung 6 puts the diamond's")
+    print("   Schwarzschild radius at a millionth of the Planck length; and a black hole of one Planck")
+    print("   mass has k_B T_H = M_Pl c^2/8 pi, 1/(8 pi) of the 3-3-1 cutoff, where the formula is no")
+    print("   longer trusted. Inputs")
     print("   are measured; gravity's unification with the other forces is not derived. Rung 2's")
     print("   pion counting uses the linear sigma model, a stand-in for QCD, and rung 5 rewrites GR")
     print("   rather than going beyond it.")

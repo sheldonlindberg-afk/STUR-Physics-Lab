@@ -1,16 +1,18 @@
 
 ==============================================================================
-H1  Horizon and surface gravity, from rung 5's spin connection (CHECK)
+H1  Horizon and surface gravity, from the Killing vector d/dt (CHECK)
 ==============================================================================
-   omega^0_(1 t) - f'/2 = 0  (any static spherical f)
-   kappa = f'(r_h)/2; Schwarzschild: r_h = 2M, kappa = 1/(4M), T_H = hbar c^3/(8 pi G M k_B)
+   -1/2 (nabla xi)^2 - f'^2/4 = 0  (Christoffels of any static spherical f)
+   cross-check, rung 5's spin connection: omega^0_(1 t) - f'/2 = 0
+   kappa = |f'(r_h)|/2; Schwarzschild: r_h = 2M, kappa = 1/(4M), T_H = hbar c^3/(8 pi G M k_B)
 
 ==============================================================================
 H2  The Euclidean check: smooth only for tau-period 2 pi / kappa (CHECK)
 ==============================================================================
    d sqrt(f) / d rho - f'/2 = 0  ->  circumference/(2 pi rho) -> beta kappa / 2 pi
-   SdS (M = 1, l = 9), black hole   horizon r = 2.117159, kappa = 0.196959: ratio 0.99999975 with beta = 2 pi/kappa; 1.100000 with beta 10% longer (a cone)
-   SdS (M = 1, l = 9), cosmological horizon r = 7.752676, kappa = 0.079074: ratio 0.99999992 with beta = 2 pi/kappa; 1.100000 with beta 10% longer (a cone)
+   SdS (M = 1, l = 9), black hole   horizon r = 2.117159: Killing kappa = 0.196958 (|f'|/2 = 0.196959); ratio 1.0000010 with beta = 2 pi/kappa
+   SdS (M = 1, l = 9), cosmological horizon r = 7.752676: Killing kappa = 0.079074 (|f'|/2 = 0.079074); ratio 1.0000028 with beta = 2 pi/kappa
+   beta = 8 pi M, Schwarzschild's period, at the SdS black-hole horizon: ratio 0.7878 (a cone)
 
 ==============================================================================
 H3  Thermodynamics, S = A/4 (CHECK; Kerr horizon quantities LIT)
@@ -55,7 +57,8 @@ H7-H8  GW250114: Hawking's area law, and the 220 mode (CHECK against LIT)
 ==============================================================================
    ringdown alone: M_f = 66.7 Msun, chi_f = 0.75 (full-signal fit: 62.7, 0.68)
    initial area 237,372 km^2 (spins 0; smaller for any spin), final 406,548 km^2
-   least favourable corners of the 90% ranges: initial 252,084, final 341,081 km^2
+   least favourable corners of the 90% ranges: initial 252,084, final 341,081 km^2 (a heuristic, not a bound)
+   LVK: A_f > A_i at > 4 sigma at all analysis points (arXiv:2509.08054)
    220 mode from (1+z) M_f, chi_f: f = 249.0 +- 5.1 Hz (measured 247.0 +- 6.0), damping 244 +- 5 Hz (measured 221.0 -32.0 +39.0)
    Hawking temperature of the remnant: 9.84e-10 K (unmeasured)
 
