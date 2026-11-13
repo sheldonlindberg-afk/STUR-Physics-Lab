@@ -56,3 +56,20 @@
    4 pi eps0 is absorbed by P3's convention). Only the fluctuation formula is quoted; the
    reduction to -(hbar c/pi) I K1 K2 R1^3 R2^3/r^7 and I itself are derived.
 5. **sphere_K for int eps** is promoted to Fraction (exact); float eps stays float.
+
+## graviton
+
+1. **Clamp in the profile.** SPEC's "up(x) ... (clamped to [0, 1])" is applied to the argument x
+   before up (and therefore also bounds the output). Without clamping x, up(x < 0) = 2x^2 > 0 would
+   re-open the branches for t > T or t < 0. Inside [0, T] the two readings agree.
+2. **Hold boundaries.** s = 1 for ramp <= t <= ramp + hold (closed interval); up is continuous there
+   (up(1) = 1), so the choice does not affect values.
+3. **Matter coupling normalization.** SPEC gives the amplitude only "proportional to" T2.P.T1. The
+   absolute normalization U(q) = -8 pi G T2.P.T1/q^2 is fixed by P1 (the field equation with 16 pi G)
+   and the standard coupling (1/2) h_{mu nu} T^{mu nu}; with tpt = 1/2 for static masses this gives
+   -4 pi G m1 m2/q^2, i.e. U = -4 pi G m1 m2 chiral.yukawa(r, 0), the SPEC connection. It is cross-checked
+   by the position-space route U = -(1/2) m2 c^2 h00.
+4. **Photon stress tensor** taken as T^00 = T^33 = E (null dust along z), as the blind check's (1,0,0,1).
+5. **Equal masses.** entangling_phase(m, ...) uses m1 = m2 = m; branch separation 2y = dx s(t), so dx
+   is the full branch separation during the hold (consistent with casimir's d_LR = sqrt(gap^2 + dx^2)).
+6. design_phase uses the default n = 4001 (as the blind check's comparison does).

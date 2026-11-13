@@ -29,4 +29,15 @@ verifier and auditor can weigh the results. Builders never see this file.
 | toolkit | pass | (none needed) | 1/1 | c8946ac |
 | gauge331 | pass | 1/1 | 6/6 | 790b163 |
 | chiral | pass | 1/1 | 5/5 | 9c717e7 |
-| casimir | pass | 1/1 | 6/6 | (this commit) |
+| casimir | pass | 1/1 | 6/6 | 84c09f7 |
+| graviton | pass | 2/2 (rung 2 -> 4, rung 3 -> 4) | 5/5 | (this commit) |
+
+## Notes per stage
+
+- **graviton (first fully blind stage after the leak fixes):** design_phase = 2.18779 rad at the
+  build's own Casimir root, 181.107 µm. The reference's 2.1868 rad is computed at its grid point,
+  181.16 µm, and the build reproduces it there to within 5e-4. The 0.045% difference is the
+  reference's grid choice (class N), not physics. The builder also derived the small-separation
+  limit, with ∫up² = 23/60 exactly, and showed Δφ is the only phase combination invariant under
+  local branch phase shifts. Spec gap to close for build b: the ½hT matter coupling that
+  normalizes "amplitude ∝ T·P·T" is not written in SPEC §5 (QUESTIONS, graviton 3).
