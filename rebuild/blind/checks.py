@@ -544,10 +544,18 @@ def blackholes(m):
         return _rel(kb, Kb) < 1e-5 and _rel(kc, Kc) < 1e-5, f"spin connection {kb:.6f}, {kc:.6f}; Killing {Kb:.6f}, {Kc:.6f}"
 
     def nariai_vs_ell():
+        # property, not formula: at the returned mass the two horizons must merge (f = f' = 0
+        # at one radius) for the de Sitter radius rung 5 gives
         D = m["desitter"]
         import inputs
-        r = B.nariai_mass_kg(2e-52) * 3 * inputs.G_NEWTON / (inputs.C_LIGHT**2 * D.ell_from_lambda(2e-52))
-        return _rel(r, 1 / sqrt(3)) < 1e-12, "M = c^2 l /(3 sqrt3 G): f = f' = 0 at r = 3GM/c^2 with Lambda = 3/l^2"
+        Lam = 2e-52
+        M = B.nariai_mass_kg(Lam) * inputs.G_NEWTON / inputs.C_LIGHT**2       # geometric units (m)
+        l = D.ell_from_lambda(Lam)
+        f = lambda r: 1 - 2 * M / r - r * r / l**2
+        fp = lambda r: 2 * M / r**2 - 2 * r / l**2
+        r0 = m["toolkit"].bisect(fp, M, l)                                     # where f' = 0
+        return abs(f(r0)) < 1e-9 and B.sds_horizons(M, l * (1 + 1e-6)) is not None and \
+            B.sds_horizons(M, l * (1 - 1e-6)) is None, f"f at f' = 0: {f(r0):.1e}; horizons exist just below the bound only"
 
     return run_safely([("kappa from rung 5's spin connection equals the Killing kappa", kappa_rung5),
                        ("largest black hole from rung 5's de Sitter radius", nariai_vs_ell),
