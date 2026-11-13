@@ -1,6 +1,6 @@
 # Provenance ledger: 2026-11-a
 
-57 derived, 0 input, 7 quoted
+58 derived, 0 input, 7 quoted
 
 | Stage | Export | Kind | Note |
 |---|---|---|---|
@@ -46,6 +46,7 @@
 | desitter | `action_coefficients` | derived | literal wedge contractions eps_abcd eps~^{mu nu rho sig} R^ab_{mu nu} e^c_rho e^d_sig / 2 and eps eps~ e e e e (toolkit.levi_civita), divided by e R and e; exact values 2 and 24 from the epsilon identities |
 | desitter | `ell_from_lambda` | derived | eps F^F = Euler - (2 cR/l^2) e (R - cV/(2 cR l^2)) vs e (R - 2 Lambda): Lambda = cV/(4 cR l^2) with exact cR, cV from levi_civita -> l = sqrt(3/Lambda) |
 | desitter | `mm_coupling` | derived | l^2/lP^2 with l from ell_from_lambda, = cV/(4 cR lP^2 Lambda) = 3/(lP^2 Lambda) |
+| desitter | `ricci_scalar` | derived | E_a^mu E_b^nu R^ab_{mu nu} with R^ab = d omega + omega^omega from _riemann_up, the same curvature action_coefficients contracts; closed form -f'' - 4f'/r + 2(1-f)/r^2 = 12/l^2 on SdS; second route: coordinate Christoffels of the metric (self-check) |
 | blackholes | `sds_horizons` | derived | f = 1 - 2M/r - r^2/l^2 is concave (f'' < 0), negative at 2M and for r >= l: maximum r* = toolkit.golden_max(f, 2M, l); None if f(r*) <= 0, else toolkit.bisect on [2M, r*] and [r*, l]; checked by Vieta on r^3 - l^2 r + 2Ml^2 |
 | blackholes | `killing_kappa` | derived | metric diag(-f, 1/f, r^2, r^2 sin^2) from f only; d g by central differences (step h); Christoffels; nabla_mu xi_nu = d_mu g_{nu t} - Gamma^l_{mu nu} g_{l t}; kappa = sqrt(-(1/2) nabla xi . nabla xi) (= |f'|/2 by hand) |
 | blackholes | `kappa_from_spin_connection` | derived | desitter.spin_connection at r_b(1+1e-9), r_c(1-1e-9) from sds_horizons, fp = toolkit.exact_derivative of the rational f; kappa = |w[0][1][0]| = |omega^0_{1t}| since K = -2 (omega^0_{1t})^2 |

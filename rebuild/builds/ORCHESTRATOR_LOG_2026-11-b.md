@@ -66,3 +66,12 @@ desitter update, with no information about build a. Framework state at the start
 included. Against the reference adapter build b gives 17/18, the one failure being F1
 (`chiral.sigma_model_vacuum`, 1.03e-6), the same as build a: two independent builds agree with each
 other and disagree with the reference in the same place, by the same amount.
+
+## P2 and P4
+
+- **P2 (verifier):** B 0, R 0, C 7, N 7 (FINDINGS.md).
+- **P4 (auditor, both builds):** HIGH none open; 6 MEDIUM, 9 LOW (2026-11-a/AUDIT.md). The orchestrator
+  landed the checks that need no contract change (M2, M4, L1 and part of M1).
+- **M6 transcript check (orchestrator):** all nine build-b builder transcripts were scanned. Every
+  session ran on one model, and no tool call read a path outside the room (no build a, src/, oracle
+  or web). Build b's blindness claims stand.

@@ -9,7 +9,7 @@ Each stage function takes {module_name: module} for the build and returns a list
 """
 import random
 from fractions import Fraction as F
-from math import isfinite, pi, sqrt
+from math import isfinite, pi, sin, sqrt
 
 
 def _rel(a, b):
@@ -339,9 +339,18 @@ def casimir(m):
 def graviton(m):
     Gr = m["graviton"]
 
-    def ppn():
+    def metric_from_propagator():
+        # two routes, no value: SPEC 5's field equation and trace reversal make the point-mass metric the
+        # propagator numerator acting on the source, h_mn = 16 pi G Y(r) P_mnrs tau^rs, Y = chiral.yukawa(r, 0);
+        # in units GM/(c^2 r): h00 = 16 pi r Y tpt(rest, e00), hii = 16 pi r Y tpt(rest, e11)
         h00, hii = Gr.point_mass_metric()
-        return isinstance(h00, F) and hii == h00 and h00 > 0, f"h00 = {h00}, hii = {hii} (gamma = hii/h00)"
+        r = 0.37
+        Y = m["chiral"].yukawa(r, 0.0)
+        rest = (F(1), 0, 0, 0)
+        w00 = 16 * pi * r * Y * float(Gr.tpt(rest, (F(1), 0, 0, 0)))
+        wii = 16 * pi * r * Y * float(Gr.tpt(rest, (0, F(1), 0, 0)))
+        ok = isinstance(h00, F) and isinstance(hii, F) and _rel(float(h00), w00) < 1e-12 and _rel(float(hii), wii) < 1e-12
+        return ok, f"point_mass_metric vs 16 pi r Y P.tau: rel diff {_rel(float(h00), w00):.1e}, {_rel(float(hii), wii):.1e}"
 
     def light():
         T, Tph = (F(1), 0, 0, 0), (F(1), 0, 0, F(1))
@@ -407,7 +416,7 @@ def graviton(m):
 
     return run_safely([("design phase = entangling phase at casimir's safe gap, and responds to it", design),
                        ("the exchange potential is 1/r (Newton) along the branches", newton_from_yukawa),
-                       ("linearized point mass: PPN gamma = 1", ppn),
+                       ("point-mass metric = 16 pi G Y P.tau (field equation and tpt agree)", metric_from_propagator),
                        ("light couples twice as strongly", light),
                        ("graviton contraction symmetric", symmetric),
                        ("branch profile shape", profile),
@@ -506,7 +515,84 @@ def desitter(m):
         s1, s2 = D.ricci_scalar(0.3, 7.0, x), D.ricci_scalar(0.6, 14.0, [2 * y if i == 1 else y for i, y in enumerate(x)])
         return worst < 1e-6 and _rel(s1 / s2, 4) < 1e-6, f"ricci_scalar vs d omega + omega^omega: {worst:.1e}; scaling {s1 / s2:.6f}"
 
-    return run_safely([("ricci_scalar is the contraction of d omega + omega ^ omega; R ~ 1/length^2", ricci_two_routes),
+    def tetrad_metric():
+        # a definition, not a result: the tetrad must reproduce the contract's metric
+        # -f dt^2 + dr^2/f + r^2 dOmega^2, at random points and for random f
+        rng = random.Random(41)
+        eta = (-1, 1, 1, 1)
+        worst = 0.0
+        for _ in range(4):
+            M, l = rng.uniform(0.05, 0.4), rng.uniform(6.0, 12.0)
+            p = [rng.uniform(-1, 1), rng.uniform(1.5, 3.0), rng.uniform(0.3, 2.8), rng.uniform(0, 6)]
+            f = lambda r, M=M, l=l: 1 - 2 * M / r - r * r / l**2
+            fp = lambda r, M=M, l=l: 2 * M / r**2 - 2 * r / l**2
+            E, _ = D.spin_connection(p, f, fp)
+            r, th = p[1], p[2]
+            want = (-f(r), 1 / f(r), r * r, (r * sin(th)) ** 2)
+            for mu in range(4):
+                for nu in range(4):
+                    g = sum(eta[a] * E[a][mu] * E[a][nu] for a in range(4))
+                    worst = max(worst, abs(g - (want[mu] if mu == nu else 0.0)) / max(1.0, abs(want[mu])))
+        return worst < 1e-12, f"max |e^T eta e - g| = {worst:.1e} at 4 random points"
+
+    def flat_from_primitives():
+        # property, not value: A = 1/2 omega^ab J_ab + e^a J_a4/l is built HERE from the build's own
+        # spin_connection and so41_generator (not from its ds_curvature_max, which a stub returning 0
+        # would pass); de Sitter must give F = dA + [A, A] = 0 at random points, every 5x5 component
+        # (all of R^ab and the torsion). The same A with the wrong l in the e-term must not be flat.
+        rng = random.Random(42)
+        eta = (-1, 1, 1, 1, 1)
+        J = {(a, b): D.so41_generator(a, b) for a in range(5) for b in range(5)}
+
+        def gauge(p, l, lc):
+            f = lambda r: 1 - r * r / l**2
+            fp = lambda r: -2 * r / l**2
+            E, w = D.spin_connection(p, f, fp)
+            out = []
+            for mu in range(4):
+                A = [[0.0] * 5 for _ in range(5)]
+                for a in range(4):
+                    terms = [(0.5 * w[a][b][mu] * eta[b], J[(a, b)]) for b in range(4)] + [(E[a][mu] / lc, J[(a, 4)])]
+                    for c, G in terms:
+                        if c:
+                            for i in range(5):
+                                for j in range(5):
+                                    A[i][j] += c * G[i][j]
+                out.append(A)
+            return out
+
+        def fmax(p, l, lc, h=1e-3):
+            A0 = gauge(p, l, lc)
+            dA = []
+            for mu in range(4):
+                pts = []
+                for k in (-2, -1, 1, 2):
+                    q = list(p)
+                    q[mu] += k * h
+                    pts.append(gauge(q, l, lc))
+                m2, m1, p1, p2 = pts
+                dA.append([[[(m2[nu][i][j] - 8 * m1[nu][i][j] + 8 * p1[nu][i][j] - p2[nu][i][j]) / (12 * h)
+                             for j in range(5)] for i in range(5)] for nu in range(4)])
+            worst = 0.0
+            for mu in range(4):
+                for nu in range(4):
+                    for i in range(5):
+                        for j in range(5):
+                            c = sum(A0[mu][i][k] * A0[nu][k][j] - A0[nu][i][k] * A0[mu][k][j] for k in range(5))
+                            worst = max(worst, abs(dA[mu][nu][i][j] - dA[nu][mu][i][j] + c))
+            return worst * l * l                        # in units of the curvature scale 1/l^2
+
+        worst, sane = 0.0, float("inf")
+        for _ in range(3):
+            l = rng.uniform(5.0, 12.0)
+            p = [rng.uniform(-1, 1), rng.uniform(0.2, 0.6) * l, rng.uniform(0.3, 2.8), rng.uniform(0, 6)]
+            worst = max(worst, fmax(p, l, l))
+            sane = min(sane, fmax(p, l, 1.2 * l))
+        return worst < 1e-7 and sane > 1e-2, f"de Sitter l^2 max|F| = {worst:.1e}; with l_conn = 1.2 l: {sane:.2e}"
+
+    return run_safely([("tetrad reproduces -f dt^2 + dr^2/f + r^2 dOmega^2 at random points", tetrad_metric),
+                       ("de Sitter F = 0 built from the build's spin_connection and so41_generator", flat_from_primitives),
+                       ("ricci_scalar is the contraction of d omega + omega ^ omega; R ~ 1/length^2", ricci_two_routes),
                        ("spin connection is torsion-free and metric (omega_ab = -omega_ba)", torsion),
                        ("so(4,1) translations close on Lorentz", algebra),
                        ("de Sitter vector leaves 6 Lorentz generators", breaking),
@@ -643,6 +729,14 @@ def links(m):
         w3 = Lk.pi0_width_eV(0.0073, 0.092, 0.135, 5, F(2, 3), F(-1, 3))
         return ok and _rel(w2 / w1, 4) < 1e-12 and _rel(w3 / w1, (5 / 3) ** 2) < 1e-12, "N_c(Q_u^2 - Q_d^2) = 1; ~ alpha^2 N_c^2"
 
+    def pi0_dimensions():
+        # dimensional analysis, not a formula: the quoted A ~ 1/f_pi has dimension 1/mass and a width is a
+        # mass, so Gamma = (pure number) A^2 m^3: ~ m^3 at fixed A, ~ 1/f_pi^2 at fixed m, ~ m at fixed m/f_pi
+        w = lambda fpi, mpi: Lk.pi0_width_eV(0.0073, fpi, mpi, 3, F(2, 3), F(-1, 3))
+        a, b, c, d = w(0.092, 0.135), w(0.092, 0.27), w(0.184, 0.135), w(0.276, 0.405)
+        return _rel(b / a, 8) < 1e-12 and _rel(c / a, 0.25) < 1e-12 and _rel(d / a, 3) < 1e-12, \
+            f"m x2: {b / a:.6f}; f x2: {c / a:.6f}; both x3: {d / a:.6f}"
+
     def mpl():
         # property, not formula: at the window's edges M_Pl(x G) equals the poles
         a, b = Lk.planck_mass_GeV(6.6e-11, 1e-34, 3e8), Lk.planck_mass_GeV(4 * 6.6e-11, 1e-34, 3e8)
@@ -680,6 +774,7 @@ def links(m):
                        ("neutral matter is an anomaly identity", anomaly),
                        ("neutrality requirement independent of size", neutral_size_free),
                        ("pi0: anomaly factor 1 for all N_c, width scaling", pi0),
+                       ("pi0 width ~ A^2 m^3 (dimensional analysis)", pi0_dimensions),
                        ("Planck mass scaling and G window", mpl),
                        ("Schwarzschild radius linear in mass", rs)])
 

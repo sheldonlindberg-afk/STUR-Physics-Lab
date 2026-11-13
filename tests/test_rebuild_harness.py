@@ -271,3 +271,79 @@ def test_wrong_curvature_is_caught(tmp_path):
     assert [l for l, ok, _ in rep["stages"]["desitter"]["blind"] if not ok] == \
         ["ricci_scalar is the contraction of d omega + omega ^ omega; R ~ 1/length^2"]
     assert all(not ok for l, ok, _ in rep["stages"]["desitter"]["oracle"] if l.startswith("Ricci scalar"))
+
+
+# Audit of builds 2026-11-a and 2026-11-b (AUDIT.md): each mutant below passed every tier before
+# the audit's checks, and must now fail.
+_WRONG_TETRAD = """
+    import math as _m
+    def spin_connection(x, f, fp):
+        t, r, th, ph = x
+        sf = _m.sqrt(f(r))
+        E = [[0.0] * 4 for _ in range(4)]
+        E[0][0], E[1][1], E[2][2], E[3][3] = sf, 1 / sf, r, {E33}
+        w = [[[0.0] * 4 for _ in range(4)] for _ in range(4)]
+        w[0][1][0] = w[1][0][0] = fp(r) / 2
+        w[2][1][2], w[1][2][2] = sf, -sf
+        w[3][1][3], w[1][3][3] = {W31}, -({W31})
+        w[3][2][3] = {W32}
+        w[2][3][3] = -w[3][2][3]
+        return E, w
+    def ricci_scalar(M, l, x, h=1e-5):              # made consistent with the wrong omega, so ricci_two_routes passes
+        f = lambda r: 1 - 2 * M / r - r * r / l**2
+        fp = lambda r: 2 * M / r**2 - 2 * r / l**2
+        E, w = spin_connection(x, f, fp)
+        dw = []
+        for mu in range(4):
+            p, q = list(x), list(x)
+            p[mu] += h
+            q[mu] -= h
+            a, b = spin_connection(p, f, fp)[1], spin_connection(q, f, fp)[1]
+            dw.append([[[(a[i][j][n] - b[i][j][n]) / (2 * h) for n in range(4)] for j in range(4)] for i in range(4)])
+        return sum((dw[a][a][b][b] - dw[b][a][b][a] + sum(w[a][c][a] * w[c][b][b] - w[a][c][b] * w[c][b][a] for c in range(4)))
+                   / (E[a][a] * E[b][b]) * (-1 if b == 0 else 1) for a in range(4) for b in range(4))
+"""
+
+
+def test_wrong_tetrad_is_caught_by_blind_checks(tmp_path):
+    # e^3 = r dphi instead of r sin(theta) dphi, with omega torsion-free FOR THAT tetrad and ricci_scalar
+    # consistent with it: the torsion and ricci_two_routes checks pass; the metric and flatness checks don't
+    d = _mutant(tmp_path, "desitter", _WRONG_TETRAD.format(E33="r", W31="sf", W32="0.0"))
+    rep = harness.run(d, mode="builder", lint=False)
+    fails = [l for l, ok, _ in rep["stages"]["desitter"]["blind"] if not ok]
+    assert "tetrad reproduces -f dt^2 + dr^2/f + r^2 dOmega^2 at random points" in fails
+    assert "de Sitter F = 0 built from the build's spin_connection and so41_generator" in fails
+    assert "spin connection is torsion-free and metric (omega_ab = -omega_ba)" not in fails
+
+
+def test_omega_tuned_to_the_torsion_point_is_caught(tmp_path):
+    # omega^3_2 = cos(1.1): right at the torsion check's theta, wrong d/dtheta (a branch on the test's argument)
+    d = _mutant(tmp_path, "desitter", _WRONG_TETRAD.format(E33="r * _m.sin(th)", W31="sf * _m.sin(th)", W32="_m.cos(1.1)"))
+    rep = harness.run(d, mode="builder", lint=False)
+    assert [l for l, ok, _ in rep["stages"]["desitter"]["blind"] if not ok] == \
+        ["de Sitter F = 0 built from the build's spin_connection and so41_generator"]
+
+
+def test_pi0_mass_dependence_is_caught(tmp_path):
+    # right at the physical pion mass (so the oracle's 7.785 eV passes), wrong power of m
+    d = _mutant(tmp_path, "links", """
+        import inputs as _i
+        _w0 = pi0_width_eV
+        def pi0_width_eV(alpha, fpi, mpi, Nc, Qu, Qd):
+            return _w0(alpha, fpi, mpi, Nc, Qu, Qd) * mpi / _i.M_PI0
+    """)
+    rep = harness.run(d, mode="verifier", lint=False)
+    assert all(ok for _, ok, _ in rep["stages"]["links"]["oracle"])
+    assert [l for l, ok, _ in rep["stages"]["links"]["blind"] if not ok] == ["pi0 width ~ A^2 m^3 (dimensional analysis)"]
+
+
+def test_point_mass_metric_normalization_is_caught_blind(tmp_path):
+    # gamma = 1 but the wrong normalization: the old PPN check passed it, only the oracle saw it
+    d = _mutant(tmp_path, "graviton", """
+        from fractions import Fraction as _F
+        def point_mass_metric():
+            return _F(1), _F(1)
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert [l for l, ok, _ in rep["stages"]["graviton"]["blind"] if not ok] == \
+        ["point-mass metric = 16 pi G Y P.tau (field equation and tpt agree)"]

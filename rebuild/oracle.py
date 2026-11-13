@@ -190,9 +190,18 @@ def desitter(m, L):
         (E1, w1), (E2, w2) = D.spin_connection(xs, f, fp), L.tetrad_and_spin(xs, f, fp)
         sc = max(abs(E1[a][m] - E2[a][m]) for a in range(4) for m in range(4)) + \
             max(abs(w1[a][b][m] - w2[a][b][m]) for a in range(4) for b in range(4) for m in range(4))
+        rng = random.Random(23)
+        for _ in range(4):
+            M_, l_ = rng.uniform(0.05, 0.4), rng.uniform(6.0, 12.0)
+            p_ = [rng.uniform(-1, 1), rng.uniform(1.5, 3.0), rng.uniform(0.3, 2.8), rng.uniform(0, 6)]
+            f_ = lambda r, M_=M_, l_=l_: 1 - 2 * M_ / r - r * r / l_**2
+            fp_ = lambda r, M_=M_, l_=l_: 2 * M_ / r**2 - 2 * r / l_**2
+            (Ea, wa), (Eb, wb) = D.spin_connection(p_, f_, fp_), L.tetrad_and_spin(p_, f_, fp_)
+            sc = max(sc, max(abs(Ea[a][m] - Eb[a][m]) for a in range(4) for m in range(4)) +
+                     max(abs(wa[a][b][m] - wb[a][b][m]) for a in range(4) for b in range(4) for m in range(4)))
         cR, cV = D.action_coefficients(0.3, 7.0, [0.2, 2.3, 1.1, 0.4])
         return [("so(4,1) generators equal reference", ok, ""),
-                ("tetrad and spin connection equal reference (index convention included)", sc < 1e-12, f"diff {sc:.1e}"),
+                ("tetrad and spin connection equal reference at 5 points (index convention included)", sc < 1e-12, f"diff {sc:.1e}"),
                 _cmp("eps R^e^e = 2 e R", cR, 2.0, 1e-6), _cmp("eps e^e^e^e = 24 e", cV, 24.0, 1e-9),
                 *[_cmp(f"Ricci scalar of SdS = 12/l^2 (M {M_}, l {l_})", D.ricci_scalar(M_, l_, p_), 12 / l_**2, 1e-7)
                   for M_, l_, p_ in ((0.3, 7.0, [0.2, 2.3, 1.1, 0.4]), (0.0, 4.0, [0.0, 1.7, 0.5, 2.0]),
