@@ -754,11 +754,25 @@ def links(m):
         return ok, "q_p = 1, q_n = 0, q_e = -1, Q_nu = 0 from rung 1, both variants, N_c = 3, 5, 7"
 
     def pi0_rungs():
+        # rung 1's charges and stage weak's f_pi (in pi0_width_eV's convention, f/sqrt2), not the input F_PI
         import inputs
         Qu, Qd = G.quark_charges(3)
         a = Lk.pi0_width_from_rungs()
-        b = Lk.pi0_width_eV(inputs.ALPHA_0, inputs.F_PI, inputs.M_PI0, 3, Qu, Qd)
+        f = m["weak"].fpi_from_pion_decay() / sqrt(2)
+        b = Lk.pi0_width_eV(inputs.ALPHA_0, f, inputs.M_PI0, 3, Qu, Qd)
         return _rel(a, b) < 1e-12, f"{a:.4f} eV"
+
+    def g_window_rungs():
+        # the G window from the poles stage running derives, and link 3's Planck mass
+        import inputs
+        R = m["running"]
+        mpl = Lk.planck_mass_GeV(inputs.G_NEWTON, inputs.HBAR, inputs.C_LIGHT)
+        worst = 0.0
+        for var in ("-1/sqrt3", "+1/sqrt3"):
+            got = Lk.g_window_from_rungs(var)
+            want = Lk.g_window(R.landau_pole(3, var), R.landau_pole(5, var), mpl)
+            worst = max(worst, _rel(got[0], want[0]), _rel(got[1], want[1]))
+        return worst < 1e-12, f"g_window_from_rungs vs g_window(running poles): {worst:.1e}"
 
     def planck_bh():
         # property, not formula: it must be rung 6's temperature at link 3's mass, and scale as 1/M
@@ -769,7 +783,8 @@ def links(m):
         return _rel(kT, want) < 1e-12 and kT > 0, f"k_B T_H(M_Pl) = {kT:.4e} GeV"
 
     return run_safely([("rung 1's charges make matter neutral", matter),
-                       ("pi0 width from rung 1's charges", pi0_rungs),
+                       ("pi0 width from rung 1's charges and stage weak's f_pi", pi0_rungs),
+                       ("G window from the one-loop poles of stage running", g_window_rungs),
                        ("Planck-mass black hole: rung 6's temperature at link 3's mass", planck_bh),
                        ("neutral matter is an anomaly identity", anomaly),
                        ("neutrality requirement independent of size", neutral_size_free),
@@ -779,5 +794,113 @@ def links(m):
                        ("Schwarzschild radius linear in mass", rs)])
 
 
+def running(m):
+    R, G = m["running"], m["gauge331"]
+    import inputs
+    from math import log
+
+    def exact():
+        bY, b2 = R.sm_coefficients()
+        ok = isinstance(bY, F) and isinstance(b2, F)
+        rows = []
+        for var in ("-1/sqrt3", "+1/sqrt3"):
+            bs = [R.b_331(Nc, var) for Nc in (1, 3, 5, 7)]
+            ok &= all(isinstance(x, F) for b in bs for x in b)
+            # a U(1) with charged matter is never asymptotically free, and more colours means more
+            # charged matter (N_g = N_c generations of N_c-coloured quarks)
+            ok &= all(b[0] > 0 for b in bs) and all(bs[i][0] < bs[i + 1][0] for i in range(3))
+            rows.append(var)
+        return ok, "exact Fractions; b_X > 0 and increasing with N_c, both variants"
+
+    def sm_two_routes():
+        # SPEC 9's boundary at M_Z, straight lines in ln mu, slopes -b/(2 pi) with sm_coefficients' b
+        s2, ainv, mz = inputs.S2_MZ, inputs.ALPHA_MZ_INV, inputs.MZ_MEAS
+        y0, w0 = R.couplings_at(mz)
+        ok = _rel(y0, (1 - s2) * ainv) < 1e-12 and _rel(w0, s2 * ainv) < 1e-12
+        bY, b2 = (float(b) for b in R.sm_coefficients())
+        worst = 0.0
+        for mu in (300.0, 4000.0, 7.7e4):
+            y, w = R.couplings_at(mu)
+            t = log(mu / mz) / (2 * pi)
+            worst = max(worst, abs(y - (y0 - bY * t)), abs(w - (w0 - b2 * t)))
+        return ok and worst < 1e-9, f"boundary at M_Z; deviation from the b-slopes {worst:.1e}"
+
+    def matching():
+        # g_L = g_2, and rung 1's 1/e^2 at (g_L, g_X) equals the Standard Model's at the same scale
+        worst = 0.0
+        for var in ("-1/sqrt3", "+1/sqrt3"):
+            for mu in (2000.0, 4000.0, 3.0e4):
+                aX, aL = R.matching_331(mu, var)
+                aY, a2 = R.couplings_at(mu)
+                gL, gX = sqrt(4 * pi / aL), sqrt(4 * pi / aX)
+                worst = max(worst, _rel(aL, a2), _rel(4 * pi * G.inv_e2(var, gL, gX), aY + a2))
+        return worst < 1e-12, f"matching through gauge331.inv_e2: {worst:.1e}"
+
+    def pole():
+        # at the returned scale the matched U(1)_X coupling, run at one loop with b_X, reaches alpha_X = 1;
+        # poles lie above the 3-3-1 scale and fall as N_c grows
+        mu0 = inputs.MU_331
+        worst, order = 0.0, True
+        for var in ("-1/sqrt3", "+1/sqrt3"):
+            ps = []
+            for Nc in (3, 5):
+                p = R.landau_pole(Nc, var)
+                aX0 = R.matching_331(mu0, var)[0]
+                bX = float(R.b_331(Nc, var)[0])
+                worst = max(worst, abs(aX0 - bX / (2 * pi) * log(p / mu0) - 1))
+                ps.append(p)
+            order &= mu0 < ps[1] < ps[0]
+        return worst < 1e-9 and order, f"1/alpha_X at the pole - 1 = {worst:.1e}; above MU_331, lower for N_c = 5"
+
+    return run_safely([("one-loop coefficients exact; b_X > 0 and grows with N_c", exact),
+                       ("Standard Model running: SPEC's boundary and the b-slopes", sm_two_routes),
+                       ("matching keeps g_L = g_2 and rung 1's photon coupling", matching),
+                       ("landau_pole is where the matched alpha_X runs to 1", pole)])
+
+
+def weak(m):
+    W = m["weak"]
+    import inputs
+    w = W.pion_decay_width
+    args = (0.13, 1.17e-5, 0.97, 0.106, 0.14)
+
+    def scaling():
+        a = w(*args)
+        ok = a > 0
+        ok &= _rel(w(2 * args[0], *args[1:]) / a, 4) < 1e-12
+        ok &= _rel(w(args[0], 2 * args[1], *args[2:]) / a, 4) < 1e-12
+        ok &= _rel(w(*args[:2], 0.5 * args[2], *args[3:]) / a, 0.25) < 1e-12
+        return ok, "width ~ f_pi^2 G_F^2 |V_ud|^2"
+
+    def dimensions():
+        # [G_F] = mass^-2, [f_pi] = mass: every mass scaled by k (G_F by k^-2) scales the width by k
+        k = 3.0
+        a = w(*args)
+        b = w(k * args[0], args[1] / k**2, args[2], k * args[3], k * args[4])
+        return _rel(b / a, k) < 1e-12, f"width ratio {b / a:.6f} for masses x {k}"
+
+    def helicity():
+        # a massless lepton can't be emitted (V - A makes it left-handed, the spin-0 pion needs the other
+        # helicity), and the phase space closes as m_l -> m_pi
+        mpi = args[4]
+        small = [w(args[0], args[1], args[2], x * mpi, mpi) for x in (1e-4, 2e-4)]
+        near = w(args[0], args[1], args[2], (1 - 1e-6) * mpi, mpi)
+        mid = w(args[0], args[1], args[2], 0.5 * mpi, mpi)
+        return 3.99 < small[1] / small[0] < 4.01 and near < 1e-6 * mid and w(args[0], args[1], args[2], 0.0, mpi) == 0, \
+            f"width ~ m_l^2 for light leptons; closes at m_l -> m_pi"
+
+    def roundtrip():
+        hbar_gev_s = inputs.HBAR / (inputs.E_CH * 1e9)
+        f = W.fpi_from_pion_decay()
+        g = w(f, inputs.G_F, inputs.V_UD, inputs.M_MU, inputs.M_PIC) * (1 + inputs.DELTA_PI) / hbar_gev_s
+        return f > 0 and _rel(g, inputs.GAMMA_PI_MUNU) < 1e-12, f"width at the returned f_pi / measured: {g / inputs.GAMMA_PI_MUNU:.12f}"
+
+    return run_safely([("width ~ f_pi^2 G_F^2 |V_ud|^2", scaling),
+                       ("width has the dimension of a mass", dimensions),
+                       ("helicity suppression and phase-space closure", helicity),
+                       ("f_pi reproduces the measured width", roundtrip)])
+
+
 BY_STAGE = {"toolkit": toolkit, "gauge331": gauge331, "chiral": chiral, "casimir": casimir,
-            "graviton": graviton, "desitter": desitter, "blackholes": blackholes, "links": links}
+            "graviton": graviton, "desitter": desitter, "blackholes": blackholes, "running": running,
+            "weak": weak, "links": links}

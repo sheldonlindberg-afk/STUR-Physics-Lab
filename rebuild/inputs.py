@@ -14,11 +14,18 @@ MZ_MEAS = 91.1880             # GeV
 ALPHA_MZ_INV = 127.930        # 1/alpha_em(M_Z), MS-bar
 S2_MZ = 0.23129               # sin^2 theta_W(M_Z), MS-bar
 ALPHA_0 = 1 / 137.035999084   # alpha at q^2 = 0 (CODATA 2018)
+MU_331 = 4.0e3                # GeV, the 3-3-1 breaking scale M_V of the reference spectrum (a choice, not a measurement)
+
+# --- the charged pion's weak decay (PDG 2024) ------------------------------------------------
+GAMMA_PI_MUNU = 3.8408e7      # s^-1, Gamma(pi+ -> mu+ nu), radiation inclusive (PDG 2024 leptonic-decays review)
+DELTA_PI = 0.0176             # the radiative correction: Gamma = Gamma_tree (1 + DELTA_PI) (PDG 2024, eq. 72.4)
+V_UD = 0.97367                # |V_ud| (PDG 2024 CKM review, eq. 12.7)
+M_MU = 0.1056583755           # GeV, muon mass
 
 # --- strong sector (PDG 2024, FLAG) -------------------------------------------------------
 MU_PLUS_MD = 2.16e-3 + 4.70e-3        # GeV, m_u + m_d, MS-bar 2 GeV
 MU_PLUS_MD_ERR = (0.07e-3**2 + 0.07e-3**2) ** 0.5
-F_PI = 0.1302 / 2 ** 0.5              # GeV, f_pi = 92.07 MeV
+F_PI = 0.1302 / 2 ** 0.5              # GeV, f_pi = 92.07 MeV (the lattice value; the ladder derives its own, stage weak)
 COND_13 = 0.272                       # GeV, |<qbar q>|^(1/3), FLAG 19 (N_f = 2+1)
 COND_13_ERR = 0.005
 M_PI0, M_PIC = 0.1349768, 0.13957039  # GeV
@@ -74,5 +81,6 @@ EPS_PE_BOUND = 1e-21          # |q_p + q_e|/e, Bressi et al. 2011
 
 # --- quoted results from heavier repository code (layer: QUOTED) -----------------------------
 # 3-3-1 Landau poles in GeV (N_c = 3, N_c = 5) at the reference spectrum, three loops,
-# from src/m331_three_loop.py. A build may use them only as quoted inputs.
+# from src/m331_three_loop.py. A build may use them only as quoted inputs. The ladder derives
+# its own at one loop (stage running); these stay as the precise values for g_window.
 POLES_331 = {"+1/sqrt3": (3.49103e19, 5.15600e11), "-1/sqrt3": (2.28969e29, 1.12580e15)}

@@ -334,6 +334,31 @@ def tier_sensitivity(name, m):
             return _rel(b / a, 3) < 1e-12, "shadow ~ GM_sun"
         out += [_sens("Nariai mass reads G", nar), _sens("Hawking temperature reads hbar, k_B", hk),
                 _sens("shadow reads GM_SUN", sh)]
+    elif name == "running":
+        R = m["running"]
+        def ainv():
+            a = R.landau_pole(3, "+1/sqrt3")
+            with mutated(ALPHA_MZ_INV=1.01 * inputs.ALPHA_MZ_INV):
+                b = R.landau_pole(3, "+1/sqrt3")
+            with mutated(MU_331=2 * inputs.MU_331):
+                c = R.landau_pole(3, "+1/sqrt3")
+            return b > a and _rel(c, a) > 1e-3, "pole moves with 1/alpha(M_Z) and with the 3-3-1 scale"
+        def s2():
+            a = R.couplings_at(1e3)
+            with mutated(S2_MZ=0.25):
+                b = R.couplings_at(1e3)
+            return _rel(a[1], b[1]) > 1e-3, "couplings read S2_MZ"
+        out += [_sens("Landau pole reads ALPHA_MZ_INV and MU_331", ainv), _sens("running reads S2_MZ", s2)]
+    elif name == "weak":
+        W = m["weak"]
+        def gf():
+            a = W.fpi_from_pion_decay()
+            with mutated(G_F=2 * inputs.G_F):
+                b = W.fpi_from_pion_decay()
+            with mutated(GAMMA_PI_MUNU=4 * inputs.GAMMA_PI_MUNU):
+                c = W.fpi_from_pion_decay()
+            return _rel(a / b, 2) < 1e-12 and _rel(c / a, 2) < 1e-12, "f_pi ~ sqrt(Gamma)/G_F"
+        out.append(_sens("f_pi reads G_F and the measured width", gf))
     elif name == "links":
         Lk = m["links"]
         def neu():
@@ -408,6 +433,12 @@ PROBES = [
     ("blackholes", "kappa_from_spin_connection", (1.0, 9.0)),
     ("links", "matter_charges", (5, "+1/sqrt3")),
     ("links", "planck_bh_kT_GeV", ()),
+    ("running", "b_331", (5, "+1/sqrt3")),
+    ("running", "matching_331", (4000.0, "-1/sqrt3")),
+    ("running", "landau_pole", (3, "+1/sqrt3")),
+    ("weak", "pion_decay_width", (0.13, 1.17e-5, 0.97, 0.106, 0.14)),
+    ("weak", "fpi_from_pion_decay", ()),
+    ("links", "g_window_from_rungs", ("-1/sqrt3",)),
 ]
 
 

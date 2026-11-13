@@ -201,3 +201,52 @@ component is read on dt∧dr∧dθ∧dφ. `action_coefficients` uses both.
   is the reverse. The electron and neutrino are the lepton triplet's components 2 and 1,
   with X_L as in §2.
 - **`planck_bh_kT_GeV`:** m = M_Pl in kg, then k_B T_H in GeV.
+- **`pi0_width_from_rungs`:** rung 1's charges at N_c = 3, `inputs.ALPHA_0`, `inputs.M_PI0`,
+  and the f_π that stage `weak` derives (§10), converted to the convention of `pi0_width_eV`:
+  f_π(≈92 MeV) = f_π(≈130 MeV)/√2.
+- **`g_window_from_rungs`:** the G window of `g_window` with the poles that stage `running`
+  derives (§9) for N_c = 3 and 5, and M_Pl from the inputs' G, ħ and c.
+
+## 9. running: the 3-3-1 couplings to the Planck scale
+
+**Postulates.**
+- One-loop running. For a gauge group with coupling g and α = g²/4π,
+  dα⁻¹/d ln μ = −b/(2π), with
+  b = −(11/3) C₂(G) + (2/3) Σ_Weyl T(R) + (1/3) Σ_complex scalars T(R),
+  where C₂(G) is the adjoint Casimir (N for SU(N), 0 for U(1)) and T(R) the index of a
+  multiplet (½ for an SU(N) fundamental), multiplied by the dimension of the multiplet under
+  every other group factor. For a U(1) with charge q, T(R) → q² per component.
+- **Below the 3-3-1 scale** the theory is the Standard Model: 3 colours, 3 generations, one
+  Higgs doublet, U(1)_Y with Q = T₃ + Y. Per generation, as left-handed Weyl fields: the
+  quark doublet (Y = 1/6, 3 colours), u^c (Y = −2/3) and d^c (Y = 1/3) (3 colours each), the
+  lepton doublet (Y = −1/2) and e^c (Y = 1). The Higgs doublet has Y = 1/2. At M_Z
+  (`inputs.MZ_MEAS`): 1/α_Y = (1 − s²)/α̂ and 1/α₂ = s²/α̂, with 1/α̂ = `inputs.ALPHA_MZ_INV`
+  and s² = `inputs.S2_MZ`.
+- **Above the 3-3-1 scale** the theory is SU(3)_C × SU(3)_L × U(1)_X with N_c colours, the
+  content of §2, and these SU(3)_L singlets, all left-handed Weyl fields: each electrically
+  charged fermion component of a triplet or antitriplet has one singlet partner of the
+  opposite charge, with X equal to that opposite charge (neutral components have none). The
+  three scalar triplets of §2 are complex. Derive every charge from §2 (rung 1's
+  `triplet_charges`, `quark_charges`); don't assume them.
+- **Matching at μ** (no threshold corrections): SU(2)_L ⊂ SU(3)_L, so g_L(μ) = g₂(μ); and the
+  photon coupling is continuous, so rung 1's 1/e² (`gauge331.inv_e2` at g_L and g_X) equals the
+  Standard Model's 1/e² = (1/α_Y + 1/α₂)/4π at μ. Solve that for g_X.
+- **`landau_pole`:** start at μ₀ = `inputs.MU_331`, run U(1)_X at one loop with `b_331`, and
+  return the μ at which α_X = 1 (the perturbative limit of the reference's three-loop
+  computation). The SU(3)_L and colour couplings don't enter at one loop.
+
+## 10. weak: the pion decay constant from G_F
+
+**Postulates.**
+- The charged-current interaction below M_W, with g_μν = diag(−1, 1, 1, 1) and
+  γ₅ = iγ⁰γ¹γ²γ³:
+  L = −(G_F/√2) V_ud [ū γ^α(1 − γ₅) d] [ℓ̄ γ_α(1 − γ₅) ν_ℓ] + h.c., the V − A product of the
+  quark and lepton currents.
+- The pion's coupling to the axial current: ⟨0| ū γ^α γ₅ d |π⁻(p)⟩ = i f_π p^α, which fixes
+  the ≈130 MeV convention for f_π; the vector current doesn't contribute (parity).
+- Relativistic normalization of states, ⟨p|p′⟩ = 2E (2π)³ δ³(p − p′); the neutrino is massless
+  and left-handed; sum over the lepton's spin.
+- The measured width includes radiation: Γ_measured = Γ_tree (1 + `inputs.DELTA_PI`).
+  Convert s⁻¹ to GeV with ħ = `inputs.HBAR`/(`inputs.E_CH` × 10⁹) GeV s.
+- **`pion_decay_width`** is Γ_tree for given arguments; **`fpi_from_pion_decay`** inverts it at
+  the measured width, using `pion_decay_width` itself.

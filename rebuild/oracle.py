@@ -254,16 +254,100 @@ def links(m, L):
         mA = L.geomspace(1e-16, 1e-12, 25)[13]
         mpl = Lk.planck_mass_GeV(L.G_NEWTON, L.HBAR, L.C_LIGHT)
         lo, _ = Lk.g_window(*L.POLES_331["+1/sqrt3"], mpl)
-        return [_cmp("neutrality needed: 2.82e-19 e per nucleon (pinned)", Lk.neutrality_per_nucleon(mA), 2.82e-19, 2e-3),
+        T3, M_ = _src("m331_three_loop"), _src("m331_margin")
+        gw = []
+        for var in ("-1/sqrt3", "+1/sqrt3"):
+            p3 = T3.pole(3, var, MV=4e3, loops=1, thresholds=False, yukawas=False, gmax=M_.ALPHA1)
+            p5 = T3.pole(5, var, MV=4e3, loops=1, thresholds=False, yukawas=False, gmax=M_.ALPHA1)
+            got, want = Lk.g_window_from_rungs(var), ((mpl / p3) ** 2, (mpl / p5) ** 2)
+            gw.append(_cmp(f"{var}: G window from the one-loop poles", got[0], want[0], 1e-5))
+            gw[-1] = (gw[-1][0], gw[-1][1] and _rel(got[1], want[1]) < 1e-5, gw[-1][2])
+        return gw + [_cmp("neutrality needed: 2.82e-19 e per nucleon (pinned)", Lk.neutrality_per_nucleon(mA), 2.82e-19, 2e-3),
                 _cmp("pi0 width 7.785 eV", Lk.pi0_width_eV(L.ALPHA_0, L.F_PI, L.M_PI0, 3, F(2, 3), F(-1, 3)), 7.785, 3e-4),
                 _cmp("Planck mass 1.22089e19 GeV (pinned)", mpl, 1.22089e19, 1e-6),
                 _cmp("G window lower edge: fails for G 8.18x weaker (pinned)", 1 / lo, 8.18, 1e-2),
                 _cmp("design A Schwarzschild radius 2.180e-41 m (pinned)", Lk.schwarzschild_radius(mA), 2.180e-41, 1e-3),
-                _cmp("pi0 width from rung 1's charges 7.785 eV", Lk.pi0_width_from_rungs(), 7.785, 3e-4),
+                _cmp("pi0 width from rung 1's charges and the weak decay's f_pi: 7.7417 eV (force chain)",
+                     Lk.pi0_width_from_rungs(), 7.74175, 1e-5),
                 _cmp("Planck-mass black hole k_B T = 4.86e17 GeV", Lk.planck_bh_kT_GeV(), 1.22089e19 / (8 * pi), 1e-6),
                 ("rung 1's matter charges (1, 0, -1, 0)", tuple(Lk.matter_charges(3, "+1/sqrt3")) == (1, 0, -1, 0), "")]
     return _run([("vals", vals)])
 
 
+def _src(name):
+    """A src/ module by name (verifier only): the 3-3-1 running and the weak decay live there."""
+    import sys
+    d = os.path.join(HERE, "..", "src")
+    if d not in sys.path:
+        sys.path.insert(0, d)
+    return importlib.import_module(name)
+
+
+def running(m, L):
+    R = m["running"]
+
+    def coeffs():
+        E = _src("m331_exact")
+        out = [("SM one-loop coefficients (b_Y, b_2) = (41/6, -19/6)", tuple(R.sm_coefficients()) == (F(41, 6), F(-19, 6)),
+                f"{R.sm_coefficients()}")]
+        for var in ("-1/sqrt3", "+1/sqrt3"):
+            bad = []
+            for Nc in (1, 3, 5, 7):
+                a, _ = E.coefficients(*E.MODELS[var](Nc)[:3])
+                if tuple(R.b_331(Nc, var)) != (a[0], a[1]):
+                    bad.append((Nc, R.b_331(Nc, var), (a[0], a[1])))
+            out.append((f"{var}: b_331 equals src's field content (N_c = 1, 3, 5, 7)", not bad, f"{bad}" if bad else "exact"))
+        return out
+
+    def boundary():
+        from math import log
+        out = []
+        s2, ainv, mz = L.S2_MZ, L.ALPHA_MZ_INV, 91.188
+        t = log(4e3 / mz) / (2 * pi)
+        aY, a2 = (1 - s2) * ainv - 41 / 6 * t, s2 * ainv + 19 / 6 * t
+        y, w = R.couplings_at(4e3)
+        out += [_cmp("1/alpha_Y(4 TeV), one loop", y, aY, 1e-12), _cmp("1/alpha_2(4 TeV), one loop", w, a2, 1e-12)]
+        for var in ("-1/sqrt3", "+1/sqrt3"):
+            out.append(_cmp(f"{var}: 1/alpha_X(4 TeV) = 1/alpha_Y - beta^2/alpha_2", R.matching_331(4e3, var)[0], aY - a2 / 3, 1e-12))
+        return out
+
+    def poles():
+        T3, M = _src("m331_three_loop"), _src("m331_margin")
+        out = []
+        mpl = 1.22089e19
+        for var in ("-1/sqrt3", "+1/sqrt3"):
+            p3, p5 = R.landau_pole(3, var), R.landau_pole(5, var)
+            for Nc, p in ((3, p3), (5, p5)):
+                ref = T3.pole(Nc, var, MV=4e3, loops=1, thresholds=False, yukawas=False, gmax=M.ALPHA1)
+                out.append(_cmp(f"{var}: one-loop pole, N_c = {Nc}, equals src's one-loop running", p, ref, 1e-6,
+                                "src integrates the same one-loop equation numerically"))
+            out.append((f"{var}: the one-loop poles select N_c = 3 (pole_5 < M_Pl < pole_3)", p5 < mpl < p3,
+                        f"pole_3 = {p3:.3e}, pole_5 = {p5:.3e} GeV"))
+            q3, q5 = L.POLES_331[var] if hasattr(L, "POLES_331") else __import__("inputs").POLES_331[var]
+            out.append((f"{var}: one loop within a factor 1.3-2.1 of three loops (pinned)",
+                        1.3 < p3 / q3 < 2.1 and 1.3 < p5 / q5 < 2.1, f"{p3 / q3:.3f}, {p5 / q5:.3f}"))
+        return out
+    return _run([("coeffs", coeffs), ("boundary", boundary), ("poles", poles)])
+
+
+def weak(m, L):
+    W = m["weak"]
+
+    def vals():
+        LL = _src("ladder_links")
+        rng = random.Random(91)
+        worst = 0.0
+        for _ in range(5):
+            f, GF, V, ml, mp = rng.uniform(0.05, 0.2), rng.uniform(5e-6, 2e-5), rng.uniform(0.9, 1), rng.uniform(0.01, 0.1), 0.14
+            want = GF**2 * V**2 * f**2 * ml**2 * mp * (1 - ml**2 / mp**2) ** 2 / (8 * pi)
+            worst = max(worst, abs(W.pion_decay_width(f, GF, V, ml, mp) / want - 1))
+        return [("pion_decay_width = G_F^2 |V_ud|^2 f^2 m_l^2 m_pi (1 - m_l^2/m_pi^2)^2 / 8 pi (5 random points)",
+                 worst < 1e-12, f"max rel diff {worst:.1e}"),
+                _cmp("f_pi from G_F and pi -> mu nu = 130.57 MeV (src/ladder_links.fpi_from_weak, force chain stage 3)",
+                     W.fpi_from_pion_decay(), LL.fpi_from_weak()[1], 1e-8, "hbar in GeV s from HBAR/E_CH vs src's constant")]
+    return _run([("vals", vals)])
+
+
 BY_STAGE = {"toolkit": toolkit, "gauge331": gauge331, "chiral": chiral, "casimir": casimir,
-            "graviton": graviton, "desitter": desitter, "blackholes": blackholes, "links": links}
+            "graviton": graviton, "desitter": desitter, "blackholes": blackholes, "running": running,
+            "weak": weak, "links": links}
