@@ -46,18 +46,23 @@ Hessian, forward-mode dual numbers over `fractions.Fraction` (for `exact_derivat
 bisection, golden-section search, the trapezoid rule and permutation parity. Every later
 stage must use these, not ad hoc copies.
 
+**Conventions.** The Hessian's step h is absolute and the same in every coordinate. A caller
+whose coordinates are far from O(1) scales h itself.
+
 ## 2. gauge331: 3-3-1 → SM → electromagnetism
 
 **Postulates.**
 - Gauge group SU(3)_L × U(1)_X with couplings g and g_X. Generators t_a = λ_a/2 (standard
   Gell-Mann matrices, λ_8 = diag(1,1,−2)/√3), and X·𝟙 for U(1)_X.
 - Charge Q = T₃ + βT₈ + X, β = −1/√3 (`"-1/sqrt3"`) or +1/√3 (`"+1/sqrt3"`). An
-  antitriplet carries generators −t_a*.
+  antitriplet carries generators −t_a*. The X passed to `triplet_charges(X, variant, anti=True)`
+  is the antitriplet's own U(1)_X charge (it is not conjugated; only the SU(3) part flips).
 - **Scalars:** three triplets with X charges (−1/3, 2/3, −1/3) for β = −1/√3, and
   (1/3, 1/3, −2/3) for β = +1/√3. A vev may sit only in a component with Q = 0. The first
   triplet that is neutral in component 3 takes w; each other triplet takes its remaining
   neutral component, with v₁ then v₂ in order. Derive which components are neutral; don't
-  assume it.
+  assume it. "Remaining" means *other than component 3*: a triplet that is not the w triplet,
+  but is neutral both in component 3 and in another component, takes the other one.
 - **Fermions** for N_c colours: N_g = N_c generations. Of the quark families, n_A = (1+N_c)/2
   are antitriplets and N_g − n_A are triplets. Lepton triplets have X_L = −1/3 (β = −1/√3) or
   −2/3 (β = +1/√3). The quark-triplet X is fixed so that its first two components are
@@ -107,10 +112,11 @@ with v/w.
 **Postulates.**
 - Linearized GR: g = η + h, η = diag(−1,1,1,1), h̄ = h − ½ηh, □h̄_μν = −16πG T_μν.
 - One-graviton exchange: the amplitude is ∝ T₂^μν P_μνρσ T₁^ρσ, with
-  P = ½(η_μρη_νσ + η_μση_νρ − η_μνη_ρσ).
+  P = ½(η_μρη_νσ + η_μση_νρ − η_μνη_ρσ). Matter couples through ½h_μνT^μν; together with the
+  field equation above, this fixes the normalization of the exchange.
 - **Branch profile.** y(t) = (dx/2)·s(t), with s = up(t/ramp) for t < ramp, 1 during the
   hold, and up((T − t)/ramp) after ramp + hold, where T = hold + 2·ramp and
-  up(x) = 2x² for x < ½, else 1 − 2(1−x)² (clamped to [0, 1]).
+  up(x) = 2x² for x < ½, else 1 − 2(1−x)², where x is clamped to [0, 1] before up is applied.
 - **Phase.** Parallel geometry as in §4, but with time-dependent separation 2y(t):
   Δφ = (Gm²/ħ)∫₀^T 2[1/gap − 1/√(gap² + (2y)²)] dt, by the trapezoid rule on n samples.
   Derive the 1/r potential from the exchange postulate (via `chiral.yukawa` at m = 0);
@@ -128,6 +134,10 @@ with v/w.
   the torsion de + ω∧e = 0 numerically.
 - Schwarzschild–de Sitter: f = 1 − 2M/r − r²/ℓ². De Sitter: f = 1 − r²/ℓ².
 - The MacDowell–Mansouri action N∫ε_abcd F^{ab}∧F^{cd}.
+
+**Conventions.** The Lorentz symbol with lowered indices has ε₀₁₂₃ = +1 (the plain permutation
+symbol, `toolkit.levi_civita`). The coordinate density has ε̃^{0123} = +1, i.e. a 4-form's
+component is read on dt∧dr∧dθ∧dφ. `action_coefficients` uses both.
 - **`spin_connection`** returns the tetrad and ω^a_{bμ}, with a raised and b lowered by η
   (so ω^0_1 = ω^1_0 for the boost). It is exported because rung 6 uses it.
 
@@ -146,6 +156,15 @@ with v/w.
   Q = q₁ + q₂(1−χ)^q₃ with damping rate ω/(2Q); and T_H = ħc³/(8πGMk_B) as a radiation
   temperature.
 - Kerr area A = 8π(GM/c²)²(1 + √(1−χ²)). The shadow diameter is 2b_c GM/(c²D).
+
+**Conventions.**
+- The QNM damping rate ω/(2Q) is in s⁻¹ (the contract's "Hz" for it means s⁻¹); the frequency
+  is ω/(2π) in Hz.
+- In `kerr_first_law`, at q = 0 (Schwarzschild) along dq, dJ itself diverges; the residual
+  uses the finite limit of Ω dJ there.
+- In the self-check, a pull is (prediction − measured)/σ_measured, with σ taken on the side
+  facing the prediction. For Sgr A*, the measured θ_g is the mean of the two θ_g = GM/(c²D)
+  values (VLTI and Keck), not mean mass over mean distance.
 - **`kappa_from_spin_connection`:** evaluate rung 5's ω⁰₁ₜ just on the static side of each
   SdS horizon (r_b(1 + 10⁻⁹), r_c(1 − 10⁻⁹)); κ = |ω⁰₁ₜ|. This is a second route to the
   Killing κ.

@@ -140,7 +140,7 @@ STAGES = [
             "isco": "isco() -> (r, L2, E2): innermost stable circular orbit, M = 1, numerically.",
             "shadow_uas": "shadow_uas(m_sun, d_pc) -> uas: Schwarzschild shadow diameter.",
             "kerr_area_km2": "kerr_area_km2(m_sun, chi) -> km^2: horizon area.",
-            "qnm_220": "qnm_220(m_det_sun, chi) -> (f Hz, damping rate Hz) from inputs.BCW_220.",
+            "qnm_220": "qnm_220(m_det_sun, chi) -> (f Hz, damping rate s^-1) from inputs.BCW_220.",
             "invert_220": "invert_220(f, damp, z) -> (source-frame M_sun, chi) from the 220 mode.",
             "hawking_K": "hawking_K(m_kg) -> K: Hawking temperature.",
         },
