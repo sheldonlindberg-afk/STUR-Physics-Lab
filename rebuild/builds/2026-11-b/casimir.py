@@ -27,7 +27,10 @@ PROVENANCE = {
     "casimir_safe_gap": ("derived", "unique root (toolkit.bisect, derived bracket g0 < g < 7^(1/6) g0) of"
                                     " phi_Casimir/phi_gravity = fraction, parallel geometry; ratio ="
                                     " C/(G m^2) sum_j g^-(6-j) d^-j, strictly decreasing in g; gravity taken as"
-                                    " -G m^2/r (section 6)"),
+                                    " -G m^2/r (section 6). Rests on the quoted cp_energy: the Casimir strength"
+                                    " C is the coefficient of the quoted Casimir-Polder formula (the same"
+                                    " _cp_coefficient that cp_energy returns over r^7); the root-finding and"
+                                    " the geometry are derived, the Casimir energy itself is not"),
 }
 
 # The SPEC section 4 Green-tensor polynomials, lowest power first: A = 1 + u + u^2, B = 3 + 3u + u^2.

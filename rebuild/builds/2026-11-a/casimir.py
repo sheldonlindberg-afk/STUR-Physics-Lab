@@ -21,7 +21,8 @@ PROVENANCE = {
                             " a = K R^3 (units 4 pi eps0); with xi = c u/r this is"
                             " -(hbar c/pi) cp_integral() K1 K2 R1^3 R2^3 / r^7"),
     "diamond_radius": ("derived", "m = rho (4/3) pi R^3, rho = inputs.RHO_DIAMOND at call time"),
-    "casimir_safe_gap": ("derived", "phase = (tau/hbar)[-2U(g) + 2U(sqrt(g^2+dx^2))] for U = cp_energy (K from"
+    "casimir_safe_gap": ("derived", "phase = (tau/hbar)[-2U(g) + 2U(sqrt(g^2+dx^2))] for U = cp_energy (rests on the quoted"
+                                    " Casimir-Polder formula cp_energy; K from"
                                     " sphere_K(inputs.EPS_DIAMOND), R from diamond_radius) and U = -G m^2/r;"
                                     " ratio strictly decreasing (geometric sum), tau- and m-free; unique root"
                                     " by toolkit.bisect on ln ratio - ln fraction in [g0, 7^(1/6) g0]"),

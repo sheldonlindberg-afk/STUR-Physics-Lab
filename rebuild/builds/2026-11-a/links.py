@@ -33,7 +33,8 @@ PROVENANCE = {
     "pi0_width_from_rungs": ("quoted", "pi0_width_eV (quoted ABJ amplitude) at N_c = 3 with rung 1's"
                                        " gauge331.quark_charges(3) and inputs.ALPHA_0, F_PI, M_PI0"),
     "planck_bh_kT_GeV": ("derived", "blackholes.hawking_K (rung 6) at m = planck_mass_GeV * 1e9 e/c^2, times"
-                                    " k_B, in GeV; = M_Pl c^2/(8 pi)"),
+                                    " k_B, in GeV; = M_Pl c^2/(8 pi); rests on the quoted Hawking temperature"
+                                    " hawking_K, evaluated at the Planck mass"),
 }
 
 

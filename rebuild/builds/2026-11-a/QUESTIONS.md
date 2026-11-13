@@ -155,3 +155,18 @@
    already divided by, so it is positive (12/l^2) for de Sitter. No other export changed.
 2. **Closed form.** On SdS the result is exactly 12/l^2 for every M and point (Schwarzschild part
    Ricci-flat); the export still computes it numerically from R^ab (finite differences), as the contract asks.
+
+## provenance notes (M5 rule)
+
+SPEC.md §0 provenance rule: a derived export resting on a quoted one names it and says "quoted".
+Only PROVENANCE note strings changed; no code, value or kind changed (all three remain derived:
+each computes its own result and only uses the quoted formula as an input).
+
+1. **casimir.casimir_safe_gap**: "... for U = cp_energy (K from ..." ->
+   "... for U = cp_energy (rests on the quoted Casimir-Polder formula cp_energy; K from ...".
+2. **graviton.design_phase**: "... GAP_FRACTION), all read at call time" ->
+   "... GAP_FRACTION), all read at call time; the gap rests on the quoted Casimir-Polder potential
+   casimir.cp_energy, used there to set the safe gap; the phase itself is Newtonian".
+3. **links.planck_bh_kT_GeV**: "... k_B, in GeV; = M_Pl c^2/(8 pi)" ->
+   "... k_B, in GeV; = M_Pl c^2/(8 pi); rests on the quoted Hawking temperature hawking_K,
+   evaluated at the Planck mass".

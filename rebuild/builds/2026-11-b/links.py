@@ -39,7 +39,9 @@ PROVENANCE = {
                                        " inputs.ALPHA_0, F_PI, M_PI0 with N_c = 3 and the charges derived by"
                                        " gauge331.quark_charges(3) (section 8)"),
     "planck_bh_kT_GeV": ("derived", "k_B blackholes.hawking_K(m) at m = planck_mass_GeV(inputs G, hbar, c)"
-                                    " converted to kg, expressed in GeV; equals M_Pl c^2/(8 pi) (section 9)"),
+                                    " converted to kg, expressed in GeV; equals M_Pl c^2/(8 pi) (section 9)."
+                                    " Rests on the quoted blackholes.hawking_K (Hawking 1975 temperature"
+                                    " formula): only the Planck mass and the unit conversion are derived here"),
 }
 
 _GEV_IN_EV = 10 ** 9

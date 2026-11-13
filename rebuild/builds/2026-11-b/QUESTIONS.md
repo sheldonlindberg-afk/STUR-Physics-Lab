@@ -215,3 +215,17 @@ No missing inputs. Quoted: only the pi0 anomaly amplitude (allowed). Ambiguities
    q_e = -1 is a test of them. "Reverse" for the neutron = ((Nc-1)/2 u, (Nc+1)/2 d). Returned order
    (q_p, q_n, q_e, Q_nu) with the neutrino = component 1, the electron = component 2.
 6. **`schwarzschild_radius`.** Mass in kg, radius in metres, 2 G m/c^2 with inputs.G_NEWTON, C_LIGHT.
+
+## Provenance notes (M5 rule)
+
+SPEC section 0 (last paragraph): a `derived` export that rests on a quoted export names it, with the word
+"quoted". Three notes were extended (note text only; no code, value or provenance kind changed; all three
+stay `derived`, none is on a `quoted_allowed` list):
+
+1. **`casimir.casimir_safe_gap`** rests on the quoted `cp_energy`: the Casimir strength C in the phase ratio is
+   the coefficient of the quoted Casimir-Polder formula (the private `_cp_coefficient` that `cp_energy` divides
+   by r^7). The root-finding and the geometry are derived.
+2. **`graviton.design_phase`** rests on the quoted `casimir.cp_energy` through `casimir.casimir_safe_gap` (the
+   gap at which the phase is evaluated). The gravitational phase at a given gap is derived.
+3. **`links.planck_bh_kT_GeV`** rests on the quoted `blackholes.hawking_K` (Hawking 1975). Only the Planck mass
+   and the unit conversion are derived here.

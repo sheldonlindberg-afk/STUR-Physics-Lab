@@ -27,7 +27,10 @@ PROVENANCE = {
                                     " (1/hbar) int [-2U(gap) + 2U(sqrt(gap^2 + (2y)^2))] dt by toolkit.trapezoid on"
                                     " n samples (sections 3, 5)"),
     "design_phase": ("derived", "entangling_phase at inputs.DESIGN_A_* and the gap from casimir.casimir_safe_gap"
-                                " for inputs.GAP_BASELINE_*, GAP_FRACTION (section 6)"),
+                                " for inputs.GAP_BASELINE_*, GAP_FRACTION (section 6). The gap rests on the"
+                                " quoted casimir.cp_energy (Casimir-Polder formula, through"
+                                " casimir.casimir_safe_gap), so the phase inherits it; the gravitational"
+                                " phase at a given gap is derived"),
 }
 
 # ------------------------------------------------------------------------------------------
