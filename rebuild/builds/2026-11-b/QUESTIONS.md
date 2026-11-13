@@ -43,3 +43,27 @@ No missing inputs; nothing quoted. Ambiguities and the choice made:
    muon-decay amplitude; tagged `derived` on that basis since the contract fixes the formula.
 8. **`photon_direction` normalization.** Unnormalized, chosen so that sum_A n_A g_A T_A = Q exactly
    (n_3 = 1/g, n_8 = beta/g, n_9 = 1/g_X); then |n|^2 = 1/e^2.
+
+## Stage `chiral`
+
+No missing inputs. `chpt_mpi` is quoted (allowed); everything else is derived. Ambiguities and the choice made:
+
+1. **`goldstone_count` zero threshold.** "Zero mode" of a numerical Hessian needs a tolerance. Resolved: step
+   h = 1e-4 v (caller scales h, SPEC section 1), count |e| < 1e-6 max|e|; the stencil's truncation error on the
+   quartic is lam h^2/2, i.e. 2.5e-9 of the sigma mass^2. Needs lam > 0, v > 0 (v = 0 has no broken symmetry and
+   the scaled step would vanish).
+2. **Which vacuum direction.** SPEC names phi = (sigma, pi) but not the vacuum; O(4) makes all equivalent, taken
+   as (v, 0, 0, 0).
+3. **`sigma_model_vacuum` returns m_pi^2 = H/sigma0**, not lam (sigma0^2 - v^2). Identical at the exact root
+   (stationarity), but H/sigma0 has no cancellation at small H; builds using the other form may differ at
+   ~1e-16/(H/(lam v^3)) relative. sigma0 is the bisection root (bracket midpoint at float resolution).
+4. **Sign of H.** For H < 0 the vacuum is returned at sigma0 < 0 (reflection), m_pi^2 unchanged; for H = 0,
+   (v, 0). SPEC only considers H > 0.
+5. **GMOR "f_pi = <sigma>".** Used exactly (m_pi^2 = H/sigma0 is exact in the model), so `gmor_mpi` =
+   sqrt(mq_sum cond13^3)/f_pi with physical f_pi; no chiral-limit correction.
+6. **`chpt_mpi` when the bracket is negative:** raises ValueError (no clipping).
+7. **`tensor_identity_residual` at q = 0:** qhat undefined; returns 0.0 (both sides vanish).
+8. **Goldberger-Treiman provenance:** tagged `derived` (PCAC pole argument, DERIVATION section 7). The pion-pole
+   dominance and smoothness of g_A(q^2) are PCAC assumptions; the overall sign convention is not tracked (modulus only).
+9. **Lint note:** the self-check could not use m = 1.3 as a test mass because 1.3 coincides with an entry of
+   inputs.py (GW_M2 error); 1.5 is used instead. No effect on exports.
