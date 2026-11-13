@@ -140,7 +140,7 @@ Gravity is not part of the gauge chain; the page says where each derivation stop
 
 **Run it in one paste.** [`src/ladder_standalone.py`](src/ladder_standalone.py) reproduces all
 six rungs and all five links in a single file that uses only the Python standard library. Copy it (the
-[website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/#runladder) has a one-click
+[website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/#runchain) has a one-click
 **Copy Python script** button) and paste it into any Python 3.8+ runner, notebook or AI
 assistant's code tool. It runs in about a second and ends with 58 PASS/FAIL checks
 ([expected output](results/ladder/standalone.txt)). Each check is tagged **math** (an identity
