@@ -341,6 +341,17 @@ restored there; Hawking radiation is not a bath in equilibrium.
 | L8b | With that f_π: Γ(π⁰ → γγ) = 7.742 eV (PrimEx 7.802 ± 0.117, −0.5σ), and the O(p⁴) pion mass is 132.3 MeV | CHECK |
 | L8c | **Rung 1's photon splits rung 2's pions.** The DGMLY sum rule (Das, Guralnik, Mathur, Low and Young, PRL 18, 759 (1967); eq. 2.3 of Shintani et al., arXiv:0710.0691), saturated by the ρ and a₁ with Weinberg's two sum rules, gives, derived symbolically, m²_π⁺ − m²_π⁰ = (3α/4π) m_ρ²m_a₁²/(m_a₁² − m_ρ²) ln(m_a₁²/m_ρ²), independent of f_π. With PDG 2024 masses: **1604 MeV²** (5.84 MeV), against the measured 1261.2 MeV² (4.59 MeV). The 27% excess is lowest-resonance saturation; the lattice evaluation of the same sum rule gives 1024(100) MeV² | CHECK; MODEL |
 
+### Link 9: one electromagnetic coupling, from rung 1 to rung 3 (`src/ladder_links.py` L9)
+
+Rung 1 breaks with α̂(M_Z); rung 3's charges, L1's Coulomb law, L2's π⁰ width and L8's pion
+splitting use α(0). This link shows they are one coupling at two scales.
+
+| | Result | Status |
+|---|---|---|
+| L9a | The leptons' vacuum polarization at one loop, from the Feynman-parameter integral, numerically and in closed form: **314.191×10⁻⁴**, against 314.190×10⁻⁴ (Steinhauser, PLB 429, 158 (1998), Table 1; 314.977×10⁻⁴ through three loops) | CHECK |
+| L9b | The hadrons' part needs the R-ratio at all energies. The repository's KEDR data (1.84–3.05 GeV) gives 1.74×10⁻³, **6.3%** of Δα_had = 0.02783(6) (PDG 2024), which enters as an input | CHECK; LIT |
+| L9c | Closure: α(0) = α̂(M_Z)(1 − Δα̂), with Δα̂ = Δα_lep + Δα_had + 0.007122 (the MS-bar to on-shell conversion, PDG 2024 eq. 10.13). From rung 1's 1/α̂(M_Z) = 127.930: **1/α(0) = 137.035999**, CODATA's 137.035999084 | CHECK; LIT |
+
 ## How the rungs fit together
 
 | Energy | What breaks | What is left below |

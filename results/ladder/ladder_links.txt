@@ -129,6 +129,21 @@ L8c  Rung 1's photon splits rung 2's pions: the DGMLY sum rule (CHECK; MODEL sat
    lowest-resonance saturation is +27%; the lattice evaluation of the same sum rule: 1024 +- 100 MeV^2
 
 ==============================================================================
+L9a  The leptons' running of alpha, from the vacuum-polarization integral (CHECK)
+==============================================================================
+   one loop, e + mu + tau: integral 314.19112e-4, closed form 314.19111e-4; Steinhauser 314.19007e-4 (three loops 314.97686e-4)
+
+==============================================================================
+L9b  The hadrons' running: what the repository's own R-ratio data covers (CHECK; LIT)
+==============================================================================
+   KEDR window (R = 2.225, 1.84-3.05 GeV): 1.743e-03 of Delta alpha_had = 0.02783 (PDG), 6.3%
+
+==============================================================================
+L9c  One coupling at two scales: alpha-hat(M_Z) -> alpha(0) (CHECK; LIT)
+==============================================================================
+   1/alpha-hat(M_Z) = 127.93 (rung 1), Delta alpha-hat = 0.066450:  1/alpha(0) = 137.035999; CODATA 137.035999084
+
+==============================================================================
 L3a  The Planck mass: the 3-3-1 cutoff from rung 4's G (CHECK)
 ==============================================================================
    rung 4 (src/stur_gravity_entanglement.py): G = 6.67430e-11, hbar = 1.054571817e-34, c = 299792458

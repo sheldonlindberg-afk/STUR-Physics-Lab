@@ -152,6 +152,22 @@ L8  The pion from the weak and electromagnetic forces: rung 1 -> rung 2.
       lowest-resonance saturation (the lattice evaluation of the same sum rule by Shintani et
       al. gives 1024(100) MeV^2). The sign and the scale come from rung 1's alpha and rung
       2's breaking; the 27% is the model. (CHECK; MODEL)
+L9  One electromagnetic coupling from rung 1 to rung 3: alpha-hat(M_Z) run down to alpha(0).
+  L9a The leptons' vacuum polarization at one loop, from the Feynman-parameter integral
+      Delta alpha = (2 alpha / pi) int_0^1 dx x(1-x) ln|1 - x(1-x) M_Z^2 / m_l^2|, done here
+      numerically and in closed form for e, mu, tau: 314.191e-4, against 314.190e-4 at one
+      loop (LIT: Steinhauser, PLB 429, 158 (1998), Table 1; through three loops 314.977e-4).
+      (CHECK)
+  L9b The hadrons' part can't be computed from the repository's data: the KEDR R-ratio
+      (1.84-3.05 GeV, src/m331_why_three.py) gives 1.74e-3 of the dispersion integral
+      Delta alpha_had = (alpha M_Z^2 / 3 pi) int ds R(s) / (s (M_Z^2 - s)), 6.3% of the
+      total 0.02783(6) (LIT: PDG 2024 electroweak review, after eq. 10.12). (CHECK; LIT)
+  L9c Closure: alpha(0) = alpha-hat(M_Z) (1 - Delta alpha-hat), with Delta alpha-hat =
+      Delta alpha_lep + Delta alpha_had + 0.007122 (the MS-bar minus on-shell difference,
+      PDG 2024 eq. 10.13). From rung 1's 1/alpha-hat(M_Z) = 127.930: 1/alpha(0) =
+      137.035999, CODATA's 137.035999084. The coupling rung 1 breaks with and the one rung 3's
+      charges and photons use (L2's pi0 width, L8c's pion splitting, L1's Coulomb law) are
+      one coupling at two scales. (CHECK; LIT)
 Labels: CHECK, FOLLOWS, KNOWN, LIT, MODEL (L3f's gravity term; L7c's switch-on rule; L8c's resonance saturation).
 """
 import functools
@@ -355,6 +371,44 @@ def dgmly():
     meas = (M_PIC_GEV**2 - M_PI0_GEV**2) * 1e6
     dm = num / ((M_PIC_GEV + M_PI0_GEV) * 1e3)
     return resid, num, (lo, hi), meas, dm, (M_PIC_GEV - M_PI0_GEV) * 1e3
+
+
+# ---------------------------------------------------------------------------------- L9
+AINV_MZ_MSBAR = 127.930                   # PDG 2024, 1/alpha-hat^(5)(M_Z)
+DALPHA_HAD = (0.02783, 0.00006)           # PDG 2024 electroweak review, on-shell, 5 flavours
+DALPHA_CONV = 0.007122                    # PDG 2024 eq. 10.13: Delta alpha-hat - Delta alpha
+DALPHA_LEP_3LOOP = 314.97686e-4           # Steinhauser, PLB 429, 158 (1998), Table 1
+DALPHA_LEP_1LOOP_LIT = 314.19007e-4       # same table, one loop
+R_KEDR = 2.225                            # Anashin et al., PLB 770, 174 (2017), 1.84-3.05 GeV
+
+
+def dalpha_lep_one_loop():
+    """L9a: one-loop leptonic Delta alpha(M_Z^2), from the Feynman-parameter integral
+    (numerical) and from its closed form, summed over e, mu, tau."""
+    from scipy.integrate import quad
+    s = M_Z**2
+    num = clo = 0.0
+    for m in (M_EL, M_MU, M_TAU):
+        f = lambda x: x * (1 - x) * math.log(abs(1 - x * (1 - x) * s / m**2))
+        x0 = 0.5 * (1 - math.sqrt(1 - 4 * m**2 / s))                # the log's zero
+        num += 2 * ALPHA_0 / math.pi * (quad(f, 0, x0, limit=200)[0] + quad(f, x0, 1 - x0, limit=200)[0]
+                                        + quad(f, 1 - x0, 1, limit=200)[0])
+        b = math.sqrt(1 - 4 * m**2 / s)
+        clo += ALPHA_0 / (3 * math.pi) * (-8 / 3 + b * b + 0.5 * b * (3 - b * b) * math.log((1 + b) / (1 - b)))
+    return num, clo
+
+
+def dalpha_kedr_window():
+    """L9b: the KEDR window's share of Delta alpha_had (constant R over 1.84-3.05 GeV)."""
+    s, s1, s2 = M_Z**2, 1.84**2, 3.05**2
+    w = ALPHA_0 / (3 * math.pi) * R_KEDR * (math.log(s2 / s1) - math.log((s - s2) / (s - s1)))
+    return w, w / DALPHA_HAD[0]
+
+
+def alpha0_from_mz():
+    """L9c: 1/alpha(0) from rung 1's MS-bar 1/alpha-hat(M_Z)."""
+    d = DALPHA_LEP_3LOOP + DALPHA_HAD[0] + DALPHA_CONV
+    return AINV_MZ_MSBAR / (1 - d), d
 
 
 # ---------------------------------------------------------------------------------- L6
@@ -675,6 +729,20 @@ def main():
           f" measured {meas:.1f} MeV^2, {dm_meas:.2f} MeV")
     print(f"   lowest-resonance saturation is {100 * (num / meas - 1):+.0f}%; the lattice evaluation of the same"
           f" sum rule: {DM2_LATTICE[0]:.0f} +- {DM2_LATTICE[1]:.0f} MeV^2")
+
+    banner("L9a  The leptons' running of alpha, from the vacuum-polarization integral (CHECK)")
+    num, clo = dalpha_lep_one_loop()
+    print(f"   one loop, e + mu + tau: integral {num * 1e4:.5f}e-4, closed form {clo * 1e4:.5f}e-4;"
+          f" Steinhauser {DALPHA_LEP_1LOOP_LIT * 1e4:.5f}e-4 (three loops {DALPHA_LEP_3LOOP * 1e4:.5f}e-4)")
+
+    banner("L9b  The hadrons' running: what the repository's own R-ratio data covers (CHECK; LIT)")
+    w, frac = dalpha_kedr_window()
+    print(f"   KEDR window (R = {R_KEDR}, 1.84-3.05 GeV): {w:.3e} of Delta alpha_had = {DALPHA_HAD[0]} (PDG), {100 * frac:.1f}%")
+
+    banner("L9c  One coupling at two scales: alpha-hat(M_Z) -> alpha(0) (CHECK; LIT)")
+    a0, d = alpha0_from_mz()
+    print(f"   1/alpha-hat(M_Z) = {AINV_MZ_MSBAR} (rung 1), Delta alpha-hat = {d:.6f}:  1/alpha(0) = {a0:.6f};"
+          f" CODATA {1 / ALPHA_0:.9f}")
 
     banner("L3a  The Planck mass: the 3-3-1 cutoff from rung 4's G (CHECK)")
     mpl, mpl331, (G, hb, c) = planck_mass()

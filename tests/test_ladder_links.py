@@ -121,6 +121,15 @@ def test_pion_from_the_weak_and_em_forces():
     assert resid == 0 and abs(num - 1604) < 1 and abs(meas - 1261.2) < 0.1 and lo < num < hi
 
 
+def test_one_coupling_from_mz_to_zero():
+    num, clo = LL.dalpha_lep_one_loop()
+    assert abs(num / clo - 1) < 1e-7 and abs(clo / LL.DALPHA_LEP_1LOOP_LIT - 1) < 1e-4
+    w, frac = LL.dalpha_kedr_window()
+    assert abs(w - 1.7425e-3) < 1e-6 and abs(frac - 0.0626) < 1e-3
+    a0, d = LL.alpha0_from_mz()
+    assert abs(a0 - 1 / LL.ALPHA_0) < 1e-5
+
+
 def test_reference_output_matches():
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
