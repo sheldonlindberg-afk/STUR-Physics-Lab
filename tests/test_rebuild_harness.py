@@ -103,7 +103,7 @@ def test_oracle_catches_what_blind_checks_cannot(tmp_path):
     assert harness.run(d, mode="builder", lint=False)["ok"]
     rep = harness.run(d, mode="verifier", lint=False)
     fails = [l for l, ok, _ in rep["stages"]["links"]["oracle"] if not ok]
-    assert fails == ["pi0 width 7.785 eV"]
+    assert fails == ["pi0 width 7.785 eV", "pi0 width from rung 1's charges 7.785 eV"]
 
 
 def test_quoted_provenance_where_derivation_required(tmp_path):
@@ -169,3 +169,32 @@ def test_accepted_builds_stay_green(build_id):
     environment or the reference shows up in CI."""
     rep = harness.run(os.path.join(REBUILD, "builds", build_id), mode="verifier")
     assert rep["ok"], harness.summarize(rep)
+
+
+def test_disconnected_rung_is_caught(tmp_path):
+    # Rung 4 recomputes 1/r privately instead of using rung 2's exchange transform: right
+    # numbers, no connection. Only the connections tier sees it.
+    d = _mutant(tmp_path, "graviton", """
+        import inputs as _i
+        from math import sqrt as _sq
+        def entangling_phase(m, dx, hold, ramp, gap, n=4001):
+            total = hold + 2 * ramp
+            ys = [2 * (1 / gap - 1 / _sq(gap * gap + (dx * ramp_profile(total * i / (n - 1), hold, ramp)) ** 2))
+                  for i in range(n)]
+            return _i.G_NEWTON * m * m / _i.HBAR * total / (n - 1) * (sum(ys) - (ys[0] + ys[-1]) / 2)
+    """)
+    rep = harness.run(d, mode="verifier", lint=False)
+    g = rep["stages"]["graviton"]
+    assert all(ok for _, ok, _ in g["blind"]) and all(ok for _, ok, _ in g["oracle"])     # numbers are right
+    assert [l for l, ok, _ in g["connections"] if not ok] == \
+        ["L-2to4: graviton.entangling_phase uses chiral.yukawa, toolkit.trapezoid"]
+
+
+def test_every_connection_is_exercised(reference_report):
+    seen = {l.split(":")[0] for rec in reference_report["stages"].values() for l, _, _ in rec.get("connections", [])}
+    assert seen == {c["id"] for c in contract.CONNECTIONS}
+
+
+def test_lint_rejects_from_stage_import(tmp_path):
+    res = _lint(tmp_path, "graviton", "from toolkit import trapezoid\n")
+    assert not res["imports: standard library, inputs, earlier stages only"][0]

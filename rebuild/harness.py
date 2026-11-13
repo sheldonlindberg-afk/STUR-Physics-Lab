@@ -5,13 +5,15 @@
     python3 rebuild/harness.py rebuild/builds/<id> --mode verifier    # adds the oracle
     python3 rebuild/harness.py rebuild/builds/<a> --compare rebuild/builds/<b>   # two independent builds
 
-Tiers, in order, stage by stage (a stage that fails tiers 1-4 blocks every later stage):
+Tiers, in order, stage by stage (a stage that fails tiers 1-4b blocks every later stage):
   1 contract     every export exists and is callable; PROVENANCE is complete and honest
   2 lint         standard library + inputs + earlier stages only; no file access, no exec;
                  no literal that looks like a measured or derived number
   3 blind        rebuild/blind/checks.py: identities, limits, two-route consistency, scaling
   4 sensitivity  mutate inputs.py values and require each output to move as physics says
                  (catches answers typed in or cached at import time)
+  4b connections every link in contract.CONNECTIONS is a real call: the downstream rung
+                 must use the upstream rung's function, not a private recomputation
   5 oracle       (verifier mode) differential comparison with src/ladder_standalone.py
   6 crossbuild   (with --compare) two independent builds must agree on a probe set
 
@@ -155,6 +157,9 @@ def tier_lint(stage, path):
                 if top == "rebuild" and nm in ("rebuild", "rebuild.inputs"):
                     continue
                 bad_imp.append(f"{nm} (line {node.lineno})")
+            if isinstance(node, ast.ImportFrom) and (node.module or "").split(".")[0] in earlier:
+                bad_imp.append(f"'from {node.module} import ...' at line {node.lineno}: use 'import {node.module}' and"
+                               f" call {node.module}.<function>() so the connections tier can see the call")
             if isinstance(node, ast.ImportFrom) and (node.module or "").split(".")[-1] == "inputs":
                 bad_imp.append(f"'from inputs import ...' at line {node.lineno}: use 'import inputs' and read"
                                " inputs.NAME inside functions, so the sensitivity tier can mutate them")
@@ -284,6 +289,39 @@ def tier_sensitivity(name, m):
 
 
 # ------------------------------------------------------------------------------------------
+# tier 5: connections (the rungs must actually use each other)
+# ------------------------------------------------------------------------------------------
+def tier_connections(name, mods):
+    out = []
+    for c in contract.CONNECTIONS:
+        dstage, dfn, args = c["down"]
+        if dstage != name:
+            continue
+        label = f"{c['id']}: {dstage}.{dfn} uses " + ", ".join(f"{u}.{f}" for u, f in c["up"])
+        calls, saved = {}, []
+        try:
+            for ust, ufn in c["up"]:
+                mod = mods[contract.stage(ust)["module"]]
+                orig = getattr(mod, ufn)
+                key = f"{ust}.{ufn}"
+                calls[key] = 0
+                def spy(*a, _orig=orig, _key=key, **k):
+                    calls[_key] += 1
+                    return _orig(*a, **k)
+                saved.append((mod, ufn, orig))
+                setattr(mod, ufn, spy)
+            getattr(mods[contract.stage(dstage)["module"]], dfn)(*args)
+            unused = [k for k, n in calls.items() if n == 0]
+            out.append((label, not unused, f"never called: {unused} ({c['why']})" if unused else c["why"]))
+        except Exception as e:
+            out.append((label, False, f"raised {type(e).__name__}: {e}"))
+        finally:
+            for mod, ufn, orig in saved:
+                setattr(mod, ufn, orig)
+    return out
+
+
+# ------------------------------------------------------------------------------------------
 # tier 6: crossbuild probes
 # ------------------------------------------------------------------------------------------
 PROBES = [
@@ -301,6 +339,10 @@ PROBES = [
     ("blackholes", "isco", ()),
     ("blackholes", "kerr_first_law", (Fraction(7, 2), Fraction(3, 5), 1, 1)),
     ("links", "pi0_width_eV", (inputs.ALPHA_0, inputs.F_PI, inputs.M_PI0, 3, Fraction(2, 3), Fraction(-1, 3))),
+    ("graviton", "design_phase", ()),
+    ("blackholes", "kappa_from_spin_connection", (1.0, 9.0)),
+    ("links", "matter_charges", (5, "+1/sqrt3")),
+    ("links", "planck_bh_kT_GeV", ()),
 ]
 
 
@@ -371,10 +413,11 @@ def run(build_dir, mode="builder", upto=None, compare=None, lint=True, modules=N
         if all(ok for _, ok, _ in rec["contract"]):
             rec["blind"] = blind_checks.BY_STAGE[name](mods)
             rec["sensitivity"] = tier_sensitivity(name, mods)
+            rec["connections"] = tier_connections(name, mods)
             if reference is not None:
                 import oracle
                 rec["oracle"] = oracle.BY_STAGE[name](mods, reference)
-        gate = [r for t in ("contract", "lint", "blind", "sensitivity") for r in rec.get(t, [])]
+        gate = [r for t in ("contract", "lint", "blind", "sensitivity", "connections") for r in rec.get(t, [])]
         rec["status"] = "pass" if all(ok for _, ok, _ in gate) and all(ok for _, ok, _ in rec.get("oracle", [])) else "fail"
         if not all(ok for _, ok, _ in gate):
             blocked = name
@@ -411,7 +454,7 @@ def summarize(report):
         lines.append(f"\n[{rec.get('status', '?').upper():>4}] {name}")
         if "load" in rec:
             lines.append(f"       load: {rec['load']}")
-        for tier in ("contract", "lint", "blind", "sensitivity", "oracle"):
+        for tier in ("contract", "lint", "blind", "sensitivity", "connections", "oracle"):
             res = rec.get(tier)
             if not res:
                 continue

@@ -365,7 +365,35 @@ def graviton(m):
             inputs.G_NEWTON = old
         return _rel(b / a, 3) < 1e-12, "phase ~ G, read from inputs at call time (not cached)"
 
-    return run_safely([("linearized point mass: PPN gamma = 1", ppn),
+    def design():
+        import inputs
+        gap = m["casimir"].casimir_safe_gap(inputs.GAP_BASELINE_MASS, inputs.GAP_BASELINE_DX,
+                                            inputs.GAP_BASELINE_TAU, inputs.GAP_FRACTION)
+        a = Gr.design_phase()
+        b = Gr.entangling_phase(inputs.DESIGN_A_MASS, inputs.DESIGN_A_DX, inputs.DESIGN_A_HOLD, inputs.DESIGN_A_RAMP, gap)
+        old = inputs.EPS_DIAMOND
+        try:
+            inputs.EPS_DIAMOND = 3.0                  # weaker Casimir -> smaller gap -> larger phase
+            c = Gr.design_phase()
+        finally:
+            inputs.EPS_DIAMOND = old
+        return _rel(a, b) < 1e-12 and c > a, f"design phase {a:.5g} at casimir's gap; with eps = 3: {c:.5g}"
+
+    def newton_from_yukawa():
+        # the phase must be the m = 0 exchange potential: compare with an explicit 1/r integral
+        import inputs
+        args = (1e-14, 5e-4, 0.1, 1.0, 2e-4)
+        total, n = 0.1 + 2.0, 4001
+        ys = []
+        for i in range(n):
+            y = 0.5 * 5e-4 * Gr.ramp_profile(total * i / (n - 1), 0.1, 1.0)
+            ys.append(2 * (1 / 2e-4 - 1 / sqrt(4e-8 + 4 * y * y)))
+        want = inputs.G_NEWTON * 1e-28 / inputs.HBAR * total / (n - 1) * (sum(ys) - (ys[0] + ys[-1]) / 2)
+        return _rel(Gr.entangling_phase(*args), want) < 1e-9, "phase = (G m^2/hbar) int [1/d] dt for 1/r"
+
+    return run_safely([("design phase = entangling phase at casimir's safe gap, and responds to it", design),
+                       ("the exchange potential is 1/r (Newton) along the branches", newton_from_yukawa),
+                       ("linearized point mass: PPN gamma = 1", ppn),
                        ("light couples twice as strongly", light),
                        ("graviton contraction symmetric", symmetric),
                        ("branch profile shape", profile),
@@ -413,7 +441,27 @@ def desitter(m):
         c, d = D.mm_coupling(1e-52, 1e-35), D.mm_coupling(2e-52, 1e-35)
         return _rel(a / b, 2) < 1e-12 and _rel(c / d, 2) < 1e-12, "l ~ Lambda^-1/2, coupling ~ 1/Lambda"
 
-    return run_safely([("so(4,1) translations close on Lorentz", algebra),
+    def torsion():
+        f = lambda r: 1 - 0.6 / r - r * r / 49
+        fp = lambda r: 0.6 / r**2 - 2 * r / 49
+        E, w = D.spin_connection(x, f, fp)
+        h, worst = 1e-6, 0.0
+        for a in range(4):
+            for mu in range(4):
+                for nu in range(mu + 1, 4):
+                    def de(p, q):
+                        xp, xm = list(x), list(x)
+                        xp[p] += h
+                        xm[p] -= h
+                        return (D.spin_connection(xp, f, fp)[0][a][q] - D.spin_connection(xm, f, fp)[0][a][q]) / (2 * h)
+                    we = sum(w[a][b][mu] * E[b][nu] - w[a][b][nu] * E[b][mu] for b in range(4))
+                    worst = max(worst, abs(de(mu, nu) - de(nu, mu) + we))
+        eta = (-1, 1, 1, 1)
+        anti = max(abs(w[a][b][mu] * eta[a] + w[b][a][mu] * eta[b]) for a in range(4) for b in range(4) for mu in range(4))
+        return worst < 1e-7 and anti < 1e-12, f"torsion {worst:.1e}; omega_ab antisymmetric {anti:.1e}"
+
+    return run_safely([("spin connection is torsion-free and metric (omega_ab = -omega_ba)", torsion),
+                       ("so(4,1) translations close on Lorentz", algebra),
                        ("de Sitter vector leaves 6 Lorentz generators", breaking),
                        ("F = R - e^e/l^2 and torsion-free on SdS", split),
                        ("de Sitter vacuum F = 0", vacuum),
@@ -487,7 +535,23 @@ def blackholes(m):
         mm, chi = B.invert_220(f, g, 0.1)
         return _rel(mm * 1.1, 70.0) < 1e-9 and abs(chi - 0.7) < 1e-9, f"round trip M {mm * 1.1}, chi {chi}"
 
-    return run_safely([("SdS horizons and the Nariai bound", horizons),
+    def kappa_rung5():
+        f = lambda r: 1 - 2 / r - r * r / 81
+        rb, rc = B.sds_horizons(1.0, 9.0)
+        kb, kc = B.kappa_from_spin_connection(1.0, 9.0)
+        Kb = B.killing_kappa(f, rb * (1 + 1e-6), 1e-8 * rb)
+        Kc = B.killing_kappa(f, rc * (1 - 1e-6), 1e-8 * rc)
+        return _rel(kb, Kb) < 1e-5 and _rel(kc, Kc) < 1e-5, f"spin connection {kb:.6f}, {kc:.6f}; Killing {Kb:.6f}, {Kc:.6f}"
+
+    def nariai_vs_ell():
+        D = m["desitter"]
+        import inputs
+        r = B.nariai_mass_kg(2e-52) * 3 * inputs.G_NEWTON / (inputs.C_LIGHT**2 * D.ell_from_lambda(2e-52))
+        return _rel(r, 1 / sqrt(3)) < 1e-12, "M = c^2 l /(3 sqrt3 G): f = f' = 0 at r = 3GM/c^2 with Lambda = 3/l^2"
+
+    return run_safely([("kappa from rung 5's spin connection equals the Killing kappa", kappa_rung5),
+                       ("largest black hole from rung 5's de Sitter radius", nariai_vs_ell),
+                       ("SdS horizons and the Nariai bound", horizons),
                        ("Killing kappa = |f'|/2 on both horizons (from f only)", kappa_two_routes),
                        ("Euclidean section smooth only for period 2 pi/kappa", euclid),
                        ("Kerr first law and Smarr, exact", first_law),
@@ -532,7 +596,27 @@ def links(m):
     def rs():
         return _rel(Lk.schwarzschild_radius(2.0) / Lk.schwarzschild_radius(1.0), 2) < 1e-12, "linear in m"
 
-    return run_safely([("neutral matter is an anomaly identity", anomaly),
+    def matter():
+        ok = all(tuple(Lk.matter_charges(Nc, v)) == (1, 0, -1, 0) for Nc in (3, 5, 7) for v in ("-1/sqrt3", "+1/sqrt3"))
+        return ok, "q_p = 1, q_n = 0, q_e = -1, Q_nu = 0 from rung 1, both variants, N_c = 3, 5, 7"
+
+    def pi0_rungs():
+        import inputs
+        Qu, Qd = G.quark_charges(3)
+        a = Lk.pi0_width_from_rungs()
+        b = Lk.pi0_width_eV(inputs.ALPHA_0, inputs.F_PI, inputs.M_PI0, 3, Qu, Qd)
+        return _rel(a, b) < 1e-12, f"{a:.4f} eV"
+
+    def planck_bh():
+        import inputs
+        kT = Lk.planck_bh_kT_GeV()
+        mpl = Lk.planck_mass_GeV(inputs.G_NEWTON, inputs.HBAR, inputs.C_LIGHT)
+        return _rel(kT * 8 * pi, mpl) < 1e-12, "k_B T_H = M_Pl c^2 / 8 pi exactly"
+
+    return run_safely([("rung 1's charges make matter neutral", matter),
+                       ("pi0 width from rung 1's charges", pi0_rungs),
+                       ("Planck-mass black hole: k_B T = M_Pl/8 pi", planck_bh),
+                       ("neutral matter is an anomaly identity", anomaly),
                        ("neutrality requirement independent of size", neutral_size_free),
                        ("pi0: anomaly factor 1 for all N_c, width scaling", pi0),
                        ("Planck mass scaling and G window", mpl),

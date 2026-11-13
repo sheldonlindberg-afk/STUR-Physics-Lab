@@ -150,6 +150,8 @@ def graviton(m, L):
         hold, ramp = L.geomspace(0.05, 20, 25)[2], L.geomspace(0.05, 5, 17)[12]
         r.append(_cmp("design A entangling phase = 2.1868 rad (pinned), at the reference gap",
                       Gr.entangling_phase(mA, dx, hold, ramp, gap), 2.1868, 5e-4))
+        r.append(_cmp("design_phase at the build's own Casimir root: within the reference grid's 0.17% of 2.1868",
+                      Gr.design_phase(), 2.1868, 3e-3, "the reference picks the first point of a 4000-point log grid"))
         return r
     return _run([("vals", vals)])
 
@@ -158,8 +160,13 @@ def desitter(m, L):
     D = m["desitter"]
     def vals():
         ok = all(D.so41_generator(A, B) == L.J(A, B) for A in range(5) for B in range(5))
+        xs, f, fp = [0.2, 2.3, 1.1, 0.4], (lambda r: 1 - 0.6 / r - r * r / 49), (lambda r: 0.6 / r**2 - 2 * r / 49)
+        (E1, w1), (E2, w2) = D.spin_connection(xs, f, fp), L.tetrad_and_spin(xs, f, fp)
+        sc = max(abs(E1[a][m] - E2[a][m]) for a in range(4) for m in range(4)) + \
+            max(abs(w1[a][b][m] - w2[a][b][m]) for a in range(4) for b in range(4) for m in range(4))
         cR, cV = D.action_coefficients(0.3, 7.0, [0.2, 2.3, 1.1, 0.4])
         return [("so(4,1) generators equal reference", ok, ""),
+                ("tetrad and spin connection equal reference (index convention included)", sc < 1e-12, f"diff {sc:.1e}"),
                 _cmp("eps R^e^e = 2 e R", cR, 2.0, 1e-6), _cmp("eps e^e^e^e = 24 e", cV, 24.0, 1e-9),
                 _cmp("measured Lambda: l = 1.647e26 m (pinned)", D.ell_from_lambda(L.LAMBDA_SI), 1.647e26, 1e-3),
                 _cmp("MacDowell-Mansouri coupling 1.04e122 (pinned)", D.mm_coupling(L.LAMBDA_SI, L.L_PLANCK), 1.04e122, 1e-2)]
@@ -173,6 +180,9 @@ def blackholes(m, L):
         rb, rc = B.sds_horizons(1.0, 9.0)
         Rb, Rc = L.sds_horizons(1.0, 9.0)
         r += [_cmp("SdS black-hole horizon", rb, Rb, 1e-12), _cmp("SdS cosmological horizon", rc, Rc, 1e-12)]
+        kb, kc = B.kappa_from_spin_connection(1.0, 9.0)
+        fp = lambda x: 2 / x**2 - 2 * x / 81
+        r += [_cmp("kappa_b from rung 5 = f'(r_b)/2", kb, fp(Rb) / 2, 1e-7), _cmp("kappa_c from rung 5", kc, -fp(Rc) / 2, 1e-7)]
         r.append(_cmp("Schwarzschild kappa = 1/4M", B.killing_kappa(lambda x: 1 - 2 / x, 2.0 + 2e-6, 2e-8), 0.25, 1e-5))
         rp, bc = B.photon_sphere()
         r += [_cmp("photon sphere 3M", rp, 3.0, 1e-7), _cmp("shadow radius sqrt(27) M", bc, sqrt(27), 1e-10)]
@@ -204,7 +214,10 @@ def links(m, L):
                 _cmp("pi0 width 7.785 eV", Lk.pi0_width_eV(L.ALPHA_0, L.F_PI, L.M_PI0, 3, F(2, 3), F(-1, 3)), 7.785, 3e-4),
                 _cmp("Planck mass 1.22089e19 GeV (pinned)", mpl, 1.22089e19, 1e-6),
                 _cmp("G window lower edge: fails for G 8.18x weaker (pinned)", 1 / lo, 8.18, 1e-2),
-                _cmp("design A Schwarzschild radius 2.180e-41 m (pinned)", Lk.schwarzschild_radius(mA), 2.180e-41, 1e-3)]
+                _cmp("design A Schwarzschild radius 2.180e-41 m (pinned)", Lk.schwarzschild_radius(mA), 2.180e-41, 1e-3),
+                _cmp("pi0 width from rung 1's charges 7.785 eV", Lk.pi0_width_from_rungs(), 7.785, 3e-4),
+                _cmp("Planck-mass black hole k_B T = 4.86e17 GeV", Lk.planck_bh_kT_GeV(), 1.22089e19 / (8 * pi), 1e-6),
+                ("rung 1's matter charges (1, 0, -1, 0)", tuple(Lk.matter_charges(3, "+1/sqrt3")) == (1, 0, -1, 0), "")]
     return _run([("vals", vals)])
 
 

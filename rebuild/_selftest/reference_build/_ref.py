@@ -9,6 +9,7 @@ so the harness's sensitivity tier (which mutates inputs) sees the response it sh
 """
 import importlib.util
 import os
+import sys
 from fractions import Fraction as F
 from math import exp, pi, sqrt
 from itertools import permutations
@@ -20,6 +21,11 @@ _P = os.path.join(os.path.dirname(os.path.abspath(inputs.__file__)), "..", "src"
 _spec = importlib.util.spec_from_file_location("_ladder_ref_for_selftest", _P)
 L = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(L)
+
+
+def _m(stage):
+    """The loaded stage module, so connected calls go through it (and the harness's spies)."""
+    return sys.modules[stage]
 
 
 def sync():
@@ -97,7 +103,7 @@ def inv_e2(variant, g, gX):
 
 def neutral_masses(variant, g, gX, w, v1, v2):
     M = L.mass_matrix(variant, g, gX, w, v1, v2)
-    ev = L.jacobi_eigenvalues([[M[i][j] for j in (2, 7, 8)] for i in (2, 7, 8)])
+    ev = _m("toolkit").eigvalsh([[M[i][j] for j in (2, 7, 8)] for i in (2, 7, 8)])
     return ev[1], ev[2]
 
 
@@ -111,7 +117,8 @@ def mz_tree(G_F, alpha_inv, s2):
 
 # --- chiral -------------------------------------------------------------------------------
 def goldstone_count(lam, v):
-    ev = L.jacobi_eigenvalues(L.hessian(lambda p: L.sigma_potential(lam, v, 0.0, p), [v, 0, 0, 0]))
+    t = _m("toolkit")
+    ev = t.eigvalsh(t.hessian(lambda p: L.sigma_potential(lam, v, 0.0, p), [v, 0, 0, 0]))
     return sum(abs(x) < 1e-6 * max(1, abs(ev[-1])) for x in ev)
 
 
@@ -181,7 +188,7 @@ def casimir_safe_gap(m, dx, tau, fraction):
         gr = 2 * inputs.G_NEWTON * m * m * (1 / gap - 1 / d)
         cs = 2 * (-cp_energy(R, R, K, K, gap) + cp_energy(R, R, K, K, d))
         return abs(cs) - fraction * abs(gr)
-    return bisect(excess, 1e-6, 1e-3, 200)
+    return _m("toolkit").bisect(excess, 1e-6, 1e-3, 200)
 
 
 # --- graviton -----------------------------------------------------------------------------
@@ -201,16 +208,28 @@ def ramp_profile(t, hold, ramp):
 
 def entangling_phase(m, dx, hold, ramp, gap, n=4001):
     total = hold + 2 * ramp
+    inv_r = lambda r: 4 * pi * _m("chiral").yukawa(r, 0.0)        # rung 2's transform at m = 0
     ys = []
     for i in range(n):
         y = 0.5 * dx * L.ramp_profile(total * i / (n - 1), hold, ramp)
-        ys.append(2 * (1 / gap - 1 / sqrt(gap * gap + (2 * y) ** 2)))
-    return inputs.G_NEWTON * m * m / inputs.HBAR * trapezoid(ys, total / (n - 1))
+        ys.append(2 * (inv_r(gap) - inv_r(sqrt(gap * gap + (2 * y) ** 2))))
+    return inputs.G_NEWTON * m * m / inputs.HBAR * _m("toolkit").trapezoid(ys, total / (n - 1))
+
+
+def design_phase():
+    gap = _m("casimir").casimir_safe_gap(inputs.GAP_BASELINE_MASS, inputs.GAP_BASELINE_DX,
+                                         inputs.GAP_BASELINE_TAU, inputs.GAP_FRACTION)
+    return _m("graviton").entangling_phase(inputs.DESIGN_A_MASS, inputs.DESIGN_A_DX, inputs.DESIGN_A_HOLD,
+                                           inputs.DESIGN_A_RAMP, gap)
 
 
 # --- desitter -----------------------------------------------------------------------------
 def so41_generator(A, B):
     return L.J(A, B)
+
+
+def spin_connection(x, f, fp):
+    return L.tetrad_and_spin(x, f, fp)
 
 
 def unbroken_generators(V):
@@ -280,11 +299,18 @@ def kerr_first_law(p, q, dp, dq):
 
 
 def nariai_mass_kg(Lam):
-    return inputs.C_LIGHT**2 / (3 * inputs.G_NEWTON * sqrt(Lam))
+    return inputs.C_LIGHT**2 * _m("desitter").ell_from_lambda(Lam) / (3 * sqrt(3) * inputs.G_NEWTON)
+
+
+def kappa_from_spin_connection(M, l):
+    f, fp = _sds(M, l)
+    rb, rc = _m("blackholes").sds_horizons(M, l)
+    sc = _m("desitter").spin_connection
+    return tuple(abs(sc([0.0, r, 1.0, 0.0], f, fp)[1][0][1][0]) for r in (rb * (1 + 1e-9), rc * (1 - 1e-9)))
 
 
 def photon_sphere():
-    r = L.golden_max(lambda x: (1 - 2 / x) / x**2, 2.01, 20)
+    r = _m("toolkit").golden_max(lambda x: (1 - 2 / x) / x**2, 2.01, 20)
     return r, 1 / sqrt((1 - 2 / r) / r**2)
 
 
@@ -354,3 +380,23 @@ def g_window(p3, p5, mpl):
 
 def schwarzschild_radius(m):
     return 2 * inputs.G_NEWTON * m / inputs.C_LIGHT**2
+
+
+def matter_charges(Nc, variant):
+    g = _m("gauge331")
+    Qu, Qd = g.quark_charges(Nc)
+    XL = L.model(Nc, variant)[0][0][3]
+    lep = g.triplet_charges(XL, variant)
+    qp, qn = L.baryons(Qu, Qd, Nc)
+    return qp, qn, lep[1], lep[0]
+
+
+def pi0_width_from_rungs():
+    Qu, Qd = _m("gauge331").quark_charges(3)
+    return _m("links").pi0_width_eV(inputs.ALPHA_0, inputs.F_PI, inputs.M_PI0, 3, Qu, Qd)
+
+
+def planck_bh_kT_GeV():
+    mpl = _m("links").planck_mass_GeV(inputs.G_NEWTON, inputs.HBAR, inputs.C_LIGHT)
+    m_kg = mpl * 1e9 * inputs.E_CH / inputs.C_LIGHT**2
+    return inputs.K_B * _m("blackholes").hawking_K(m_kg) / inputs.E_CH / 1e9

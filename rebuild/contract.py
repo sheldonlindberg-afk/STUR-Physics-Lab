@@ -98,6 +98,8 @@ STAGES = [
             "ramp_profile": "ramp_profile(t, hold, ramp) -> float in [0, 1]: the branch-opening profile of SPEC.md.",
             "entangling_phase": "entangling_phase(m, dx, hold, ramp, gap, n=4001) -> rad: Delta phi = phi_LL + phi_RR -"
                                 " phi_LR - phi_RL, parallel geometry, trapezoid rule on n samples.",
+            "design_phase": "design_phase() -> rad: design A's phase (inputs.DESIGN_A_*) at the Casimir-safe gap that"
+                            " casimir.casimir_safe_gap gives for the baseline (inputs.GAP_BASELINE_*, GAP_FRACTION).",
         },
     },
     {
@@ -107,6 +109,9 @@ STAGES = [
         "quoted_allowed": [],
         "exports": {
             "so41_generator": "so41_generator(A, B) -> 5x5: (J_AB)^C_D = delta^C_A eta_BD - delta^C_B eta_AD, eta = diag(-1,1,1,1,1).",
+            "spin_connection": "spin_connection(x, f, fp) -> (E, w): for -f dt^2 + dr^2/f + r^2 dOmega^2 at x = (t, r, th, ph),"
+                               " the diagonal tetrad E[a][mu] and the Levi-Civita spin connection w[a][b][mu] ="
+                               " omega^a_{b mu} (a up, b down), so that de^a + omega^a_b ^ e^b = 0.",
             "unbroken_generators": "unbroken_generators(V) -> list of (A, B), A < B: generators J_AB with J_AB V = 0.",
             "curvature_split_residual": "curvature_split_residual(M, l, x) -> float: on Schwarzschild-de Sitter at the point"
                                         " x = (t, r, theta, phi), max of |F^ab - R^ab + e^a^e^b/l^2| and |F^a4|.",
@@ -124,6 +129,8 @@ STAGES = [
         "exports": {
             "sds_horizons": "sds_horizons(M, l) -> (r_b, r_c) or None: horizons of f = 1 - 2M/r - r^2/l^2 (G = c = 1).",
             "killing_kappa": "killing_kappa(f, r0, h) -> float: surface gravity from kappa^2 = -(nabla xi)^2/2, metric from f only.",
+            "kappa_from_spin_connection": "kappa_from_spin_connection(M, l) -> (kappa_b, kappa_c): surface gravity on both"
+                                          " SdS horizons as |omega^0_{1 t}| from desitter.spin_connection (rung 5).",
             "euclidean_cone_ratio": "euclidean_cone_ratio(f, rh, beta, eps) -> float: circumference/(2 pi proper radius)"
                                     " of the Euclidean (tau, r) circle at r_h + eps, tau-period beta.",
             "kerr_first_law": "kerr_first_law(p, q, dp, dq) -> (first, smarr) Fractions: dM - T dS - Omega dJ along"
@@ -141,8 +148,8 @@ STAGES = [
     {
         "name": "links",
         "module": "links",
-        "depends": ["toolkit", "gauge331", "chiral", "graviton", "blackholes"],
-        "quoted_allowed": ["pi0_width_eV"],
+        "depends": ["toolkit", "gauge331", "chiral", "casimir", "graviton", "desitter", "blackholes"],
+        "quoted_allowed": ["pi0_width_eV", "pi0_width_from_rungs"],
         "exports": {
             "qp_qe_minus_anomaly": "qp_qe_minus_anomaly(Nc, b, XL, Xt) -> Fraction: (q_p + q_e) - [SU(3)_L]^2 U(1)_X / N_g"
                                    " for b = beta/(2 sqrt3), lepton-triplet X = XL, quark-triplet X = Xt (SPEC.md).",
@@ -152,11 +159,53 @@ STAGES = [
             "planck_mass_GeV": "planck_mass_GeV(G, hbar, c) -> GeV: sqrt(hbar c / G) c^2.",
             "g_window": "g_window(p3, p5, mpl) -> (lo, hi): range of G/G_meas for which pole_5 < M_Pl(G) < pole_3.",
             "schwarzschild_radius": "schwarzschild_radius(m) -> m.",
+            "matter_charges": "matter_charges(Nc, variant) -> (q_p, q_n, q_e, Q_nu) Fractions, from rung 1's"
+                              " gauge331.quark_charges and the lepton triplet's gauge331.triplet_charges.",
+            "pi0_width_from_rungs": "pi0_width_from_rungs() -> eV: pi0 -> gamma gamma with rung 1's charges at N_c = 3"
+                                    " and inputs.ALPHA_0, F_PI, M_PI0.",
+            "planck_bh_kT_GeV": "planck_bh_kT_GeV() -> GeV: k_B T_H of a black hole of one Planck mass, from"
+                                " blackholes.hawking_K and planck_mass_GeV.",
         },
     },
 ]
 
 STAGE_NAMES = [s["name"] for s in STAGES]
+
+# Connections: where one rung's output must actually be USED by another, not recomputed.
+# The harness wraps each upstream function in a spy, calls the downstream one, and fails
+# if the upstream was never called. So a stage must reach upstream code as
+# `import <stage>` and `<stage>.<function>(...)` at call time (never `from <stage> import`).
+# Arguments are fixed probes; the check is about the call, not the value.
+CONNECTIONS = [
+    {"id": "T-gauge", "down": ("gauge331", "neutral_masses", ("-1/sqrt3", 0.652, 0.79, 4000.0, 150.0, 190.0)),
+     "up": [("toolkit", "eigvalsh")], "why": "masses are eigenvalues: use the shared, validated solver"},
+    {"id": "T-chiral", "down": ("chiral", "goldstone_count", (2.0, 1.0)),
+     "up": [("toolkit", "hessian"), ("toolkit", "eigvalsh")], "why": "Goldstones are the Hessian's zero modes"},
+    {"id": "T-casimir", "down": ("casimir", "casimir_safe_gap", (1e-14, 250e-6, 2.5, 0.1)),
+     "up": [("toolkit", "bisect")], "why": "the safe gap is a root"},
+    {"id": "L-2to4", "down": ("graviton", "entangling_phase", (1e-14, 5e-4, 0.1, 1.0, 2e-4)),
+     "up": [("chiral", "yukawa"), ("toolkit", "trapezoid")],
+     "why": "rung 2 -> 4: Newton's 1/r is rung 2's exchange transform at m = 0"},
+    {"id": "L-3to4", "down": ("graviton", "design_phase", ()),
+     "up": [("casimir", "casimir_safe_gap"), ("graviton", "entangling_phase")],
+     "why": "rung 3 -> 4: electromagnetism's background sets the gap gravity's phase is computed at"},
+    {"id": "L-5to6a", "down": ("blackholes", "nariai_mass_kg", (1e-52,)),
+     "up": [("desitter", "ell_from_lambda")], "why": "rung 5 -> 6: the de Sitter radius caps black-hole size"},
+    {"id": "L-5to6b", "down": ("blackholes", "kappa_from_spin_connection", (1.0, 9.0)),
+     "up": [("desitter", "spin_connection"), ("blackholes", "sds_horizons")],
+     "why": "rung 5 -> 6: the temperature is read off rung 5's spin connection"},
+    {"id": "T-bh", "down": ("blackholes", "photon_sphere", ()),
+     "up": [("toolkit", "golden_max")], "why": "the photon sphere is the potential's maximum"},
+    {"id": "L1", "down": ("links", "matter_charges", (3, "-1/sqrt3")),
+     "up": [("gauge331", "quark_charges"), ("gauge331", "triplet_charges")],
+     "why": "link 1: neutral matter uses rung 1's charges"},
+    {"id": "L2", "down": ("links", "pi0_width_from_rungs", ()),
+     "up": [("gauge331", "quark_charges"), ("links", "pi0_width_eV")],
+     "why": "link 2: pi0 -> gamma gamma uses rung 1's charges"},
+    {"id": "L5", "down": ("links", "planck_bh_kT_GeV", ()),
+     "up": [("blackholes", "hawking_K"), ("links", "planck_mass_GeV")],
+     "why": "link 5: rung 6's temperature at link 3's cutoff"},
+]
 
 
 def stage(name):

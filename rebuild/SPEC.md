@@ -17,6 +17,28 @@ If you can't derive something and it isn't on the stage's quoted list, **stop an
 Don't type the number in. The harness lint fails any literal with more than three
 significant digits.
 
+## Connections between stages
+
+The rungs are one computation, not separate ones. Where `contract.CONNECTIONS` says a
+downstream function uses an upstream one, it must **call** it, as
+`import <stage>` … `<stage>.<function>(...)`, at call time. Never use
+`from <stage> import`, and never use a private re-derivation. The harness spies on these
+calls. The ones that carry physics:
+
+- **Rung 2 → 4.** Gravity's static potential is the massless limit of rung 2's exchange
+  transform: U(r) = −4πG m₁m₂ · `chiral.yukawa(r, 0)`.
+- **Rung 3 → 4.** Design A's phase is evaluated at the gap that `casimir.casimir_safe_gap`
+  returns for the baseline in `inputs.GAP_BASELINE_*`.
+- **Rung 5 → 6.** The largest black hole comes from rung 5's de Sitter radius
+  (`desitter.ell_from_lambda`). The surface gravity can also be read from rung 5's spin
+  connection: κ = |ω⁰₁ₜ| at the horizon.
+- **Rung 1 → links.** The proton, neutron, electron and neutrino charges, and the π⁰ width,
+  use `gauge331.quark_charges` and `gauge331.triplet_charges`.
+- **Rung 6 → link 3.** The temperature of a Planck-mass black hole uses
+  `blackholes.hawking_K` at `links.planck_mass_GeV`'s mass.
+- **The toolkit.** Every eigenvalue, Hessian, root, maximum and time integral listed there
+  goes through `toolkit`.
+
 ## 1. toolkit
 
 Standard library only. Implement and self-test: a Jacobi eigenvalue solver, a central-difference
@@ -91,7 +113,10 @@ with v/w.
   up(x) = 2x² for x < ½, else 1 − 2(1−x)² (clamped to [0, 1]).
 - **Phase.** Parallel geometry as in §4, but with time-dependent separation 2y(t):
   Δφ = (Gm²/ħ)∫₀^T 2[1/gap − 1/√(gap² + (2y)²)] dt, by the trapezoid rule on n samples.
-  Derive the 1/r potential from the exchange postulate; don't assume Newton.
+  Derive the 1/r potential from the exchange postulate (via `chiral.yukawa` at m = 0);
+  don't assume Newton.
+- **`design_phase`:** the phase for `inputs.DESIGN_A_*` at
+  `casimir.casimir_safe_gap(GAP_BASELINE_MASS, GAP_BASELINE_DX, GAP_BASELINE_TAU, GAP_FRACTION)`.
 
 ## 6. desitter: gravity as a broken SO(4,1) gauge theory
 
@@ -103,6 +128,8 @@ with v/w.
   the torsion de + ω∧e = 0 numerically.
 - Schwarzschild–de Sitter: f = 1 − 2M/r − r²/ℓ². De Sitter: f = 1 − r²/ℓ².
 - The MacDowell–Mansouri action N∫ε_abcd F^{ab}∧F^{cd}.
+- **`spin_connection`** returns the tetrad and ω^a_{bμ}, with a raised and b lowered by η
+  (so ω^0_1 = ω^1_0 for the boost). It is exported because rung 6 uses it.
 
 ## 7. blackholes
 
@@ -119,6 +146,9 @@ with v/w.
   Q = q₁ + q₂(1−χ)^q₃ with damping rate ω/(2Q); and T_H = ħc³/(8πGMk_B) as a radiation
   temperature.
 - Kerr area A = 8π(GM/c²)²(1 + √(1−χ²)). The shadow diameter is 2b_c GM/(c²D).
+- **`kappa_from_spin_connection`:** evaluate rung 5's ω⁰₁ₜ just on the static side of each
+  SdS horizon (r_b(1 + 10⁻⁹), r_c(1 − 10⁻⁹)); κ = |ω⁰₁ₜ|. This is a second route to the
+  Killing κ.
 
 ## 8. links
 
@@ -134,3 +164,7 @@ with v/w.
 - **Quoted (allowed):** the anomaly amplitude A = (α/πf_π)N_c(Q_u² − Q_d²) for π⁰ → γγ.
   Derive the polarization sum and the two-body phase space yourself.
 - M_Pl = √(ħc/G). If G → xG, M_Pl → x^(−1/2)M_Pl.
+- **`matter_charges`:** the N_c-quark proton is ((N_c+1)/2 u, (N_c−1)/2 d) and the neutron
+  is the reverse. The electron and neutrino are the lepton triplet's components 2 and 1,
+  with X_L as in §2.
+- **`planck_bh_kT_GeV`:** m = M_Pl in kg, then k_B T_H in GeV.
