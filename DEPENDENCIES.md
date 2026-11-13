@@ -292,15 +292,15 @@ Values computed in one script and retyped in others instead of imported. Each co
 
 | Quantity | Source | Value | Copies |
 |---|---|---|---|
-| Planck mass √(ħc/G) (GeV) | √(ħc/G) from G, ħ, c (this tool) | 1.220890e19 | `black_holes:85` 1.220890e19 (rounded); `ladder_standalone:1128` 1.220890e19 (rounded); `m331_exact:28` 1.220890e19 (rounded); `m331_standalone:66` 1.220890e19 (rounded); `m331_su3L_running:19` 1.220890e19 (rounded) |
-| Planck length √(ħG/c³) (m) | √(ħG/c³) from G, ħ, c (this tool) | 1.616255e-35 | `black_holes:84` 1.616255e-35 (rounded); `ladder_standalone:106` 1.616255e-35 (rounded); `macdowell_mansouri:266` 1.616255e-35 (rounded) |
-| electroweak vev (√2 G_F)^(−1/2) (GeV) | src/m331_breaking.py B7 | 246.22 | `ladder_standalone:350` 246.22 (rounded); `m331_standalone:65` 246.22 (rounded); `m331_yukawa:85` 246.22 (rounded) |
+| Planck mass √(ħc/G) (GeV) | √(ħc/G) from G, ħ, c (this tool) | 1.220890e19 | `black_holes:85` 1.220890e19 (rounded); `ladder_standalone:1133` 1.220890e19 (rounded); `m331_exact:28` 1.220890e19 (rounded); `m331_standalone:66` 1.220890e19 (rounded); `m331_su3L_running:19` 1.220890e19 (rounded) |
+| Planck length √(ħG/c³) (m) | √(ħG/c³) from G, ħ, c (this tool) | 1.616255e-35 | `black_holes:84` 1.616255e-35 (rounded); `ladder_standalone:107` 1.616255e-35 (rounded); `macdowell_mansouri:266` 1.616255e-35 (rounded) |
+| electroweak vev (√2 G_F)^(−1/2) (GeV) | src/m331_breaking.py B7 | 246.22 | `ladder_standalone:355` 246.22 (rounded); `m331_standalone:65` 246.22 (rounded); `m331_yukawa:85` 246.22 (rounded) |
 | sin²θ_W(4 TeV) | one-loop SM running from M_Z (m331_exact.run_two_loop) | 0.250433 | `m331_zprime_recast:68` 0.2504 (rounded) |
 | 1/α(4 TeV) | one-loop SM running from M_Z (m331_exact.run_two_loop) | 125.743 | `m331_zprime_recast:69` 125.7 (rounded) |
 | M_Z′/M_V = √(4/3 (1 + β² t_X²)) at 4 TeV | src/m331_breaking.py B4, evaluated at sin²θ_W(4 TeV) | 1.22492 | `m331_heavy_lepton:274` 1.225 (rounded); `m331_margin:49` 1.225 (rounded); `m331_standalone:576` 1.225 (rounded); `m331_standalone:592` 1.225 (rounded); `m331_threshold:183` 1.225 (rounded); `m331_threshold:187` 1.225 (rounded); `m331_threshold:190` 1.225 (rounded) |
-| SU(2) coupling g at M_Z, √(4πα)/sinθ_W | from 1/α(M_Z) and sin²θ_W(M_Z) (this tool) | 0.651734 | `ladder_standalone:281` 0.652 (rounded); `m331_breaking:237` 0.652 (rounded); `m331_breaking:245` 0.652 (rounded) |
+| SU(2) coupling g at M_Z, √(4πα)/sinθ_W | from 1/α(M_Z) and sin²θ_W(M_Z) (this tool) | 0.651734 | `ladder_standalone:286` 0.652 (rounded); `m331_breaking:237` 0.652 (rounded); `m331_breaking:245` 0.652 (rounded) |
 | area-law coefficient S/(R/a)² per scalar | src/stur_unification.py U3 (results/unification/output.txt) | 0.3046 | `stur_emergent:35` 0.3046 (exact); `stur_oppenheim:47` 0.3046 (exact); `stur_thermo_gravity:51` 0.3046 (exact) |
-| design A: entangling phase Δφ (rad) | src/graviton_exchange.py N4 | 2.18681 | `ladder_standalone:583` 2.1868 (rounded) |
+| design A: entangling phase Δφ (rad) | src/graviton_exchange.py N4 | 2.18681 | `ladder_standalone:588` 2.1868 (rounded) |
 
 ## Values with one source
 

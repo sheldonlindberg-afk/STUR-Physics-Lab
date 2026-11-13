@@ -69,12 +69,21 @@ def test_planck_window_poles_agree_with_the_three_loop_running():
         assert abs(p5 / (window[v][1] * E.M_PLANCK) - 1) < 1e-4
 
 
+def test_planck_window_scan_poles_agree_with_the_threshold_scan():
+    import ladder_links as LL
+    import m331_exact as E
+    scan = LL.g_window_scan()[0]
+    for v, (p3, p5) in S.POLES_331_SCAN.items():
+        assert abs(p3 / (scan[v, 3][0] * E.M_PLANCK) - 1) < 1e-4
+        assert abs(p5 / (scan[v, 5][1] * E.M_PLANCK) - 1) < 1e-4
+
+
 def test_runs_isolated_and_every_check_passes():
     out = subprocess.run([sys.executable, "-I", "-S", PATH], capture_output=True, text=True, timeout=300).stdout
     assert "ALL CHECKS PASS" in out and "FAIL" not in out
     ref = open(os.path.join(os.path.dirname(__file__), "..", "results", "ladder", "standalone.txt")).read()
-    assert "Checks passed: 58/58" in ref and "ALL CHECKS PASS" in ref
-    assert "Checks passed: 58/58" in out
+    assert "Checks passed: 59/59" in ref and "ALL CHECKS PASS" in ref
+    assert "Checks passed: 59/59" in out
 
 
 def test_exit_status_is_nonzero_when_a_check_fails():
