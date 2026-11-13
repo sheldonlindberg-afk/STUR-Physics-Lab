@@ -105,3 +105,7 @@ by root-finding, but the bound was visible.
   export, so a fresh builder adds it to build a's desitter (class C rule: rebuild the affected stage
   in both builds). Its room held only build a's stages up to desitter.
 - **C2, owner deferred** to the auditor.
+- **desitter + ricci_scalar (build a):** builder gate pass; verifier mode ALL GATES PASS, desitter oracle
+  10/10. Computed from the module's existing R^ab, with a coordinate-Christoffel second route. **Not
+  blind for 12/l^2:** the builder could read build a's own DERIVATION_desitter.md, which states
+  Lambda l^2 = 3 (leak 4 era). Build b's ricci_scalar is the blind one.

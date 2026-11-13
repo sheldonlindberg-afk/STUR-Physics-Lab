@@ -156,3 +156,37 @@ Schwarzschild (f = 1 - 2M/r, l only in the connection), i.e. F's Ricci part enco
 Einstein equation with Lambda = 3/l^2. Scaling: ell ~ Lam^{-1/2}, coupling ~ 1/Lam.
 
 Nothing in this stage was quoted or looked up.
+
+---------------------------------------------------------------------------------------------------
+## 8. ricci_scalar(M, l, x)
+
+Definition (SPEC section 6): R = E_a^mu E_b^nu R^{ab}_{mu nu}, with R^{ab} = d omega^{ab} + omega^a_c ^ omega^{cb}
+the Lorentz curvature 2-form and indices raised with eta. Implementation: exactly the objects
+action_coefficients already uses, with no new derivation of the curvature:
+- f, f' of SdS from `_sds(M, l)`; tetrad and omega from `spin_connection`;
+- R^{ab}_{mu nu} from `_riemann_up` (d omega by central differences of `spin_connection`, plus omega^omega,
+  then the second index raised with eta^{cb});
+- the contraction `_ricci_scalar` with the inverse diagonal tetrad E_a^mu = 1/e^a_mu (the same function
+  action_coefficients divides by). So a wrong R^{ab} would show up here directly.
+
+Closed form. From omega of section 3, Cartan's second equation gives the only independent components
+(orthonormal frame, R^{ab}_{cd} = R^{ab}_{mu nu} E_c^mu E_d^nu):
+  R^{01}_{01} = -f''/2,
+  R^{02}_{02} = R^{03}_{03} = -f'/(2r),
+  R^{12}_{12} = R^{13}_{13} = -f'/(2r),
+  R^{23}_{23} = (1 - f)/r^2.
+(e.g. R^0_1 = d(f'/2 dt) = (f''/2) dr^dt = -(f''/2) e^0^e^1, and R^0_1 = R^{01} since eta^{11} = 1, so
+R^{01}_{01} = -f''/2; R^2_3 = d(-cos th dph) + omega^2_1^omega^1_3 = (sin th - f sin th) dth^dph = ((1-f)/r^2) e^2^e^3.)
+R = sum_{a,b} R^{ab}_{ab} = 2 sum_{a<b} R^{ab}_{ab} = -f'' - 4f'/r + 2(1 - f)/r^2.
+For f = 1 - 2M/r - r^2/l^2: f' = 2M/r^2 - 2r/l^2, f'' = -4M/r^3 - 2/l^2, so
+  -f'' = 4M/r^3 + 2/l^2,  -4f'/r = -8M/r^3 + 8/l^2,  2(1-f)/r^2 = 4M/r^3 + 2/l^2,
+  R = 12/l^2, independent of M, r, theta (the Schwarzschild part is Ricci-flat; Ric = (3/l^2) g).
+Consistent with section 7: R = 4 Lambda with Lambda = 3/l^2. Sign: positive for de Sitter in this
+convention (R^{ab} = +e^a^e^b/l^2 for the maximally symmetric space, F^{ab} = 0).
+Scaling: R ~ 1/length^2, so (M, l, r) -> 2(M, l, r) divides R by 4.
+
+Second route (printed under __main__, `_ricci_scalar_coordinate`): no tetrad, no spin connection.
+Coordinate Christoffels Gamma^k_{ij} = (1/2) g^{kk}(d_i g_kj + d_j g_ki - d_k g_ij) of the diagonal metric by
+central differences, R_ij = d_k Gamma^k_ij - d_j Gamma^k_ik + Gamma^k_kp Gamma^p_ij - Gamma^k_jp Gamma^p_ik,
+R = g^{ii} R_ii. Self-check output (M, l) = (0.3, 7), (0.1, 4), (0, 5): tetrad route, coordinate route
+(~1e-8 finite-difference agreement), the f-formula above and 12/l^2 all agree; scaling ratio 4.

@@ -146,3 +146,12 @@
 6. **Unit conversion**: 1 GeV = 1e9 * inputs.E_CH J (the giga prefix, not a measured number).
 7. **Schwarzschild radius** r_s = 2Gm/c^2 is labelled derived (zero of the SPEC 6/7 metric function with
    G, c restored); it is a one-line definition.
+
+## desitter (ricci_scalar)
+
+1. **Index placement in the contraction.** SPEC writes E_a^mu E_b^nu R^{ab}_{mu nu}; this is read as the
+   plain sum with R^{ab} (both up, second raised with eta^{cb} from R^a_b) and the inverse tetrad E_a^mu,
+   i.e. R = sum_{ab} R^{ab}_{ab} in the orthonormal frame. This is the same contraction action_coefficients
+   already divided by, so it is positive (12/l^2) for de Sitter. No other export changed.
+2. **Closed form.** On SdS the result is exactly 12/l^2 for every M and point (Schwarzschild part
+   Ricci-flat); the export still computes it numerically from R^ab (finite differences), as the contract asks.
