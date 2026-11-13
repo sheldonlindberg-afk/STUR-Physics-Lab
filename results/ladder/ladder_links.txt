@@ -111,6 +111,24 @@ L7d  Checks against Carr et al. (CHECK)
    lifetime = 13.787 Gyr at M* = 5.111e+14 g, T_H = 20.7 MeV (theirs 5.1e14 g, 21 MeV)
 
 ==============================================================================
+L8a  f_pi from rung 1's G_F and the measured pi -> mu nu rate (CHECK; LIT: PDG 2024)
+==============================================================================
+   f_pi |V_ud| = 127.13 MeV (PDG review: 127.13 +- 0.13);  |V_ud| = 0.97367: f_pi = 130.57 +- 0.14 MeV
+   rung 2's lattice input: 130.2 +- 1.2 MeV;  difference +0.3 sigma
+
+==============================================================================
+L8b  What rung 2 inherits from it (CHECK)
+==============================================================================
+   Gamma(pi0 -> gamma gamma) = 7.742 eV (-0.5 sigma against PrimEx);  O(p^4) m_pi = 132.3 MeV
+
+==============================================================================
+L8c  Rung 1's photon splits rung 2's pions: the DGMLY sum rule (CHECK; MODEL saturation)
+==============================================================================
+   rho + a1 saturation with Weinberg's sum rules: closed form residual 0 (f_pi drops out)
+   m_pi+^2 - m_pi0^2 = 1604 MeV^2 (1559-1648 over m_a1 +- 40 MeV), 5.84 MeV; measured 1261.2 MeV^2, 4.59 MeV
+   lowest-resonance saturation is +27%; the lattice evaluation of the same sum rule: 1024 +- 100 MeV^2
+
+==============================================================================
 L3a  The Planck mass: the 3-3-1 cutoff from rung 4's G (CHECK)
 ==============================================================================
    rung 4 (src/stur_gravity_entanglement.py): G = 6.67430e-11, hbar = 1.054571817e-34, c = 299792458

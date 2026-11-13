@@ -129,7 +129,30 @@ L7  A black hole evaporating back through the forces: rung 6 -> rungs 3, 2, 1 an
       whose lifetime is the age of the universe (13.787 Gyr, LIT: Planck 2018 with BAO),
       their M* = 5.1e14 g at T_H = 21 MeV, here 5.11e14 g at 20.7 MeV with f(T) integrated.
       (CHECK)
-Labels: CHECK, FOLLOWS, KNOWN, LIT, MODEL (L3f's gravity term; L7c's switch-on rule).
+L8  The pion from the weak and electromagnetic forces: rung 1 -> rung 2.
+  L8a f_pi from rung 1's G_F. The pi+ -> mu+ nu rate, Gamma = G_F^2 f_pi^2 m_mu^2 m_pi
+      (1 - m_mu^2/m_pi^2)^2 |V_ud|^2 / 8 pi (1 + delta_pi) (LIT: PDG 2024 review of leptonic
+      decays of charged pseudoscalar mesons, eqs. 72.1, 72.3-72.4: delta_pi = 0.0176(21),
+      Gamma = 3.8408(7)e7 /s from the 26.033 ns lifetime and 99.98770% branching fraction),
+      with |V_ud| = 0.97367(32) (PDG 2024 CKM review, eq. 12.7), gives f_pi |V_ud| =
+      127.13 MeV (theirs 127.13 +- 0.13) and f_pi = 130.57 MeV (theirs 130.56), against the
+      lattice 130.2(1.2) MeV rung 2 takes as input: +0.3 sigma. (CHECK; LIT)
+  L8b What rung 2 inherits: with that f_pi, Gamma(pi0 -> gamma gamma) = 7.742 eV (PrimEx
+      7.802 +- 0.117, -0.5 sigma), and the O(p^4) pion mass of src/chiral_breaking.py S7 is
+      132.3 MeV. (CHECK)
+  L8c Rung 1's photon splits rung 2's pions. The DGMLY sum rule (Das, Guralnik, Mathur, Low
+      and Young, PRL 18, 759 (1967); in the form of Shintani et al., PoS LATTICE2007, 134,
+      arXiv:0710.0691, eq. 2.3), exact in the chiral limit:
+          m_pi+^2 - m_pi0^2 = -(3 alpha / 4 pi f_pi^2) int dQ^2 Q^2 Pi_V-A(Q^2).
+      Saturating Pi_V-A with the rho and a1 and imposing Weinberg's two sum rules (both
+      consequences of chiral symmetry breaking), derived here symbolically:
+          m_pi+^2 - m_pi0^2 = (3 alpha / 4 pi) m_rho^2 m_a1^2 / (m_a1^2 - m_rho^2) ln(m_a1^2/m_rho^2),
+      independent of f_pi. With PDG 2024's m_rho = 775.26 and m_a1 = 1230(40) MeV: 1604 MeV^2
+      (5.84 MeV), against the measured 1261.2 MeV^2 (4.59 MeV): +27%, the size of
+      lowest-resonance saturation (the lattice evaluation of the same sum rule by Shintani et
+      al. gives 1024(100) MeV^2). The sign and the scale come from rung 1's alpha and rung
+      2's breaking; the 27% is the model. (CHECK; MODEL)
+Labels: CHECK, FOLLOWS, KNOWN, LIT, MODEL (L3f's gravity term; L7c's switch-on rule; L8c's resonance saturation).
 """
 import functools
 import math
@@ -272,6 +295,66 @@ def pi0_width():
     meas, err = GAMMA_PI0_MEAS
     fixed = {Nc: G * (Nc / 3) ** 2 for Nc in (3, 5, 7)}         # L2d: charges held at 2/3, -1/3
     return G, (G - meas) / err, CB.F_PI, fixed
+
+
+# ---------------------------------------------------------------------------------- L8
+GAMMA_PI_MUNU = 3.8408e7                  # /s, PDG 2024 leptonic-decays review (radiation inclusive)
+DELTA_PI = (0.0176, 0.0021)               # PDG 2024, eq. 72.4
+V_UD = (0.97367, 0.00032)                 # PDG 2024 CKM review, eq. 12.7
+G_F_GEV = 1.1663788e-5                    # GeV^-2, PDG 2024
+HBAR_GEV_S = 6.582119569e-25              # GeV s, CODATA 2018 (exact)
+M_RHO, M_A1 = (0.77526, 0.00023), (1.230, 0.040)   # GeV, PDG 2024 Breit-Wigner masses
+DM2_LATTICE = (1024.0, 100.0)             # MeV^2, Shintani et al. (JLQCD), PoS LATTICE2007 134
+
+
+def fpi_from_weak():
+    """L8a: f_pi (GeV, the 130 MeV convention) from Gamma(pi -> mu nu), G_F and |V_ud|;
+    returns f_pi |V_ud|, f_pi and its error from delta_pi and V_ud in quadrature."""
+    g0 = GAMMA_PI_MUNU * HBAR_GEV_S / (1 + DELTA_PI[0])
+    mpi, mmu = M_PIC_GEV, M_MU
+    fV = math.sqrt(8 * math.pi * g0 / (G_F_GEV**2 * mmu**2 * mpi * (1 - mmu**2 / mpi**2) ** 2))
+    f = fV / V_UD[0]
+    err = f * math.hypot(0.5 * DELTA_PI[1] / (1 + DELTA_PI[0]), V_UD[1] / V_UD[0])
+    return fV, f, err
+
+
+def rung2_with_weak_fpi():
+    """L8b: the pi0 width and the O(p^4) pion mass with f_pi from L8a instead of the lattice."""
+    import chiral_breaking as CB
+    fV, f, _ = fpi_from_weak()
+    F_new = f / math.sqrt(2)
+    G, _, F_old, _ = pi0_width()
+    G_new = G * (F_old / F_new) ** 2
+    meas, err = GAMMA_PI0_MEAS
+    old = CB.F_PI
+    try:
+        CB.F_PI = F_new
+        m4 = CB.chpt_numbers()["mpi"]
+    finally:
+        CB.F_PI = old
+    return G_new, (G_new - meas) / err, m4
+
+
+def dgmly():
+    """L8c: resonance-saturated DGMLY. Pi_V = F_V^2/(Q^2 + m_V^2), Pi_A = F_A^2/(Q^2 + m_A^2)
+    + f^2/Q^2; Weinberg I: F_V^2 - F_A^2 = f^2, II: F_V^2 m_V^2 = F_A^2 m_A^2. Returns the
+    closed form (symbolic), its f-independence, and the numbers in MeV^2 and MeV."""
+    import sympy as sp
+    Q2, mV, mA, f = sp.symbols("Q2 m_V m_A f", positive=True)
+    FV2, FA2 = sp.symbols("F_V2 F_A2", positive=True)
+    sol = sp.solve([sp.Eq(FV2 - FA2, f**2), sp.Eq(FV2 * mV**2, FA2 * mA**2)], [FV2, FA2], dict=True)[0]
+    pi_va = (FV2 / (Q2 + mV**2) - FA2 / (Q2 + mA**2) - f**2 / Q2).subs(sol)
+    alpha = sp.Symbol("alpha", positive=True)
+    integral = sp.integrate(sp.simplify(Q2 * pi_va), (Q2, 0, sp.oo))
+    dm2 = sp.simplify(-3 * alpha / (4 * sp.pi * f**2) * integral)
+    target = 3 * alpha / (4 * sp.pi) * mV**2 * mA**2 / (mA**2 - mV**2) * sp.log(mA**2 / mV**2)
+    resid = sp.simplify(sp.expand_log(dm2 - target, force=True))
+    num = float(target.subs({alpha: ALPHA_0, mV: M_RHO[0], mA: M_A1[0]})) * 1e6
+    lo = float(target.subs({alpha: ALPHA_0, mV: M_RHO[0], mA: M_A1[0] - M_A1[1]})) * 1e6
+    hi = float(target.subs({alpha: ALPHA_0, mV: M_RHO[0], mA: M_A1[0] + M_A1[1]})) * 1e6
+    meas = (M_PIC_GEV**2 - M_PI0_GEV**2) * 1e6
+    dm = num / ((M_PIC_GEV + M_PI0_GEV) * 1e3)
+    return resid, num, (lo, hi), meas, dm, (M_PIC_GEV - M_PI0_GEV) * 1e3
 
 
 # ---------------------------------------------------------------------------------- L6
@@ -573,6 +656,25 @@ def main():
     ms = m_star()
     print(f"   lifetime = 13.787 Gyr at M* = {ms * 1e3:.3e} g, T_H = {hawking_T_gev(ms) * 1e3:.1f} MeV"
           " (theirs 5.1e14 g, 21 MeV)")
+
+    banner("L8a  f_pi from rung 1's G_F and the measured pi -> mu nu rate (CHECK; LIT: PDG 2024)")
+    fV, f, ferr = fpi_from_weak()
+    print(f"   f_pi |V_ud| = {fV * 1e3:.2f} MeV (PDG review: 127.13 +- 0.13);  |V_ud| = {V_UD[0]}:"
+          f" f_pi = {f * 1e3:.2f} +- {ferr * 1e3:.2f} MeV")
+    print(f"   rung 2's lattice input: 130.2 +- 1.2 MeV;  difference {(f * 1e3 - 130.2) / 1.2:+.1f} sigma")
+
+    banner("L8b  What rung 2 inherits from it (CHECK)")
+    Gn, pull, m4 = rung2_with_weak_fpi()
+    print(f"   Gamma(pi0 -> gamma gamma) = {Gn:.3f} eV ({pull:+.1f} sigma against PrimEx);"
+          f"  O(p^4) m_pi = {m4 * 1e3:.1f} MeV")
+
+    banner("L8c  Rung 1's photon splits rung 2's pions: the DGMLY sum rule (CHECK; MODEL saturation)")
+    resid, num, (lo, hi), meas, dm, dm_meas = dgmly()
+    print(f"   rho + a1 saturation with Weinberg's sum rules: closed form residual {resid} (f_pi drops out)")
+    print(f"   m_pi+^2 - m_pi0^2 = {num:.0f} MeV^2 ({lo:.0f}-{hi:.0f} over m_a1 +- 40 MeV), {dm:.2f} MeV;"
+          f" measured {meas:.1f} MeV^2, {dm_meas:.2f} MeV")
+    print(f"   lowest-resonance saturation is {100 * (num / meas - 1):+.0f}%; the lattice evaluation of the same"
+          f" sum rule: {DM2_LATTICE[0]:.0f} +- {DM2_LATTICE[1]:.0f} MeV^2")
 
     banner("L3a  The Planck mass: the 3-3-1 cutoff from rung 4's G (CHECK)")
     mpl, mpl331, (G, hb, c) = planck_mass()

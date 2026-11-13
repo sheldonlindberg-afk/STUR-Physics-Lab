@@ -112,6 +112,15 @@ def test_evaporation_counts_the_particles():
     assert Ts == sorted(Ts) and abs(rows[1][2] / 4.50e22 - 1) < 0.01
 
 
+def test_pion_from_the_weak_and_em_forces():
+    fV, f, ferr = LL.fpi_from_weak()
+    assert abs(fV * 1e3 - 127.13) < 0.01 and abs(f * 1e3 - 130.57) < 0.01 and abs(ferr * 1e3 - 0.14) < 0.01
+    G, pull, m4 = LL.rung2_with_weak_fpi()
+    assert abs(G - 7.742) < 2e-3 and abs(pull + 0.51) < 0.02 and abs(m4 * 1e3 - 132.3) < 0.2
+    resid, num, (lo, hi), meas, dm, dm_meas = LL.dgmly()
+    assert resid == 0 and abs(num - 1604) < 1 and abs(meas - 1261.2) < 0.1 and lo < num < hi
+
+
 def test_reference_output_matches():
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):

@@ -7,7 +7,7 @@ This page records which script feeds which, and which physical quantities each o
 ## Summary
 
 - **46 scripts** in `src/`, in 6 topics; **71 imports** between them, 28 of them across topics. 10 scripts import nothing from the others and nothing imports them.
-- **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 186 literals in the source.
+- **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 187 literals in the source.
 - **44 quantities are typed in more than one script**; 16 of them are shared by more than one topic.
 - **2 copies differ from their source for a stated reason**; **0 differ without one (drift).**
 
@@ -345,7 +345,7 @@ These are imported from their source by every script that uses them; a typed-in 
 | sin²θ_W(M_Z), MS-bar | input | 0.23129 | PDG 2024 | `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zpole` (variant), `m331_zprime_recast` (variant) |
 | M_Z (GeV) | input | 91.188 | PDG 2024 | `ladder_links`, `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_yukawa`, `m331_zprime_recast`, `qcd_running` |
 | Γ_Z (GeV) | input | 2.4955 | PDG 2024 | `m331_heavy_lepton`, `m331_zprime_recast` |
-| G_F (GeV⁻²) | input | 1.166379e-5 | PDG 2024 | `ladder_standalone`, `m331_breaking` |
+| G_F (GeV⁻²) | input | 1.166379e-5 | PDG 2024 | `ladder_links`, `ladder_standalone`, `m331_breaking` |
 | electroweak vev (√2 G_F)^(−1/2) (GeV) | derived | 246.22 | src/m331_breaking.py B7 | `ladder_standalone` (rounded), `m331_standalone` (rounded), `m331_yukawa` (rounded) |
 | α_s(M_Z) | input | 0.118 | PDG 2024 | `m331_margin`, `m331_scalar`, `m331_standalone`, `qcd_running` |
 | top-quark mass (GeV) | input | 172.57 | PDG 2024 | `ladder_links`, `m331_margin`, `m331_scalar`, `m331_standalone`, `m331_yukawa`, `qcd_running` |

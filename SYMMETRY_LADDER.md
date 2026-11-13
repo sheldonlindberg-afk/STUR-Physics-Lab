@@ -333,6 +333,14 @@ The switch-on rule is a model; real emission turns on smoothly over a factor of 
 That the radiated species change at the crossovers doesn't mean the vacuum around the hole is
 restored there; Hawking radiation is not a bath in equilibrium.
 
+### Link 8: the pion from the weak and electromagnetic forces, from rung 1 to rung 2 (`src/ladder_links.py` L8)
+
+| | Result | Status |
+|---|---|---|
+| L8a | **f_π from rung 1's G_F.** Γ(π⁺ → μ⁺ν) = G_F² f_π² m_μ² m_π (1 − m_μ²/m_π²)² \|V_ud\|²/8π × (1 + δ_π), with the measured rate 3.8408×10⁷ s⁻¹ and δ_π = 0.0176(21) (PDG 2024 review of leptonic meson decays, eqs. 72.1–72.4) and \|V_ud\| = 0.97367(32) (PDG 2024 CKM review): f_π\|V_ud\| = 127.13 MeV (theirs 127.13 ± 0.13) and **f_π = 130.57 ± 0.14 MeV**, against the lattice 130.2(1.2) MeV rung 2 takes as input (+0.3σ) | CHECK; LIT |
+| L8b | With that f_π: Γ(π⁰ → γγ) = 7.742 eV (PrimEx 7.802 ± 0.117, −0.5σ), and the O(p⁴) pion mass is 132.3 MeV | CHECK |
+| L8c | **Rung 1's photon splits rung 2's pions.** The DGMLY sum rule (Das, Guralnik, Mathur, Low and Young, PRL 18, 759 (1967); eq. 2.3 of Shintani et al., arXiv:0710.0691), saturated by the ρ and a₁ with Weinberg's two sum rules, gives, derived symbolically, m²_π⁺ − m²_π⁰ = (3α/4π) m_ρ²m_a₁²/(m_a₁² − m_ρ²) ln(m_a₁²/m_ρ²), independent of f_π. With PDG 2024 masses: **1604 MeV²** (5.84 MeV), against the measured 1261.2 MeV² (4.59 MeV). The 27% excess is lowest-resonance saturation; the lattice evaluation of the same sum rule gives 1024(100) MeV² | CHECK; MODEL |
+
 ## How the rungs fit together
 
 | Energy | What breaks | What is left below |
