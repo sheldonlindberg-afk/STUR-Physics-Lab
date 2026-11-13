@@ -35,7 +35,8 @@ P5  Finite temperature: the Matsubara sum in closed form (CHECK, exact)
    tau = 0.5: closed form 1.000013554106, term-by-term sum 1.000013554106
    tau = 2.0: closed form 1.010249578289, term-by-term sum 1.010249578289
    tau = 20.0: closed form 5.217391304350, term-by-term sum 5.217391304350
-   xi_1 = 2 pi k_B T / hbar: 1.2e+11 rad/s at 0.15 K, 6.3e+13 at 77 K; diamond's eps is static far above that
+   Boyer / Passante-Spagnolo eq. (11): max |W / (U_0 eta) - 1| = 2.2e-16; series of W a R^7: -23/2 + (-11/945) tau^6 = -(23/2)(1 + (22/21735) tau^6)
+   frequencies that matter: xi < ~10 c/r = 1.7e+13 rad/s at 181 um; diamond's lowest lattice absorption (Raman, 1332 cm^-1, IR-forbidden) 2.5e+14 rad/s: 15x above
 
 ==============================================================================
 P6  The Casimir-safe gap at finite temperature (10% of gravity's entangling phase)
@@ -53,12 +54,16 @@ P6  The Casimir-safe gap at finite temperature (10% of gravity's entangling phas
    up to a helium bath the T = 0 gap stands; at 10 K it grows by 6%.
 
 ==============================================================================
-P7  Patch potentials as a permanent dipole (MODEL), against H6's bound at design A
+P7  Electric dipoles against H6's bound at design A (LIT measurements; MODEL for patches)
 ==============================================================================
+   H6 bound: p < 4.49e-29 C m = 2.8e-04 e um
+   measured, silica microspheres (Afek et al. 2021): ~100 e um = 3.6e+05x the bound; after their x120 cancellation 3.0e+03x
    p_rms = sqrt(12 pi) eps0 R l V per axis (l << R); Monte Carlo at l = R/10: 0.968 of the formula
    H6 bound at design A (R = 1.00 um, gap 181 um): p < 4.49e-29 C m, so V l < 8.26e-13 V m
-   patches of  30 nm: V_rms must be < 27.5 uV;  at 10 mV, p = 363x the bound, unshielded gap needed 0.1 m
-   patches of 100 nm: V_rms must be <  8.3 uV;  at 10 mV, p = 1211x the bound, unshielded gap needed 0.33 m
-   patches of 300 nm: V_rms must be <  2.8 uV;  at 10 mV, p = 3632x the bound, unshielded gap needed 1 m
-   -> patch potentials of the size measured on metals exceed the bound by orders of magnitude.
-      H6's conclusion stands, now quantified: a conducting shield, or microvolt patch control.
+   patches of  30 nm: V_rms must be < 27.5 uV;  at 15 mV, p = 545x the bound, unshielded gap needed 0.15 m
+   patches of 100 nm: V_rms must be <  8.3 uV;  at 15 mV, p = 1816x the bound, unshielded gap needed 0.5 m
+   patches of 300 nm: V_rms must be <  2.8 uV;  at 15 mV, p = 5447x the bound, unshielded gap needed 1.5 m
+   (patches: gold, ambient, Garrett, Somers and Munday 2015; diamond not measured)
+   -> dipoles exceed the bound by orders of magnitude, measured or modelled. A conducting shield
+      does not necessarily remove dipole forces (Afek et al. 2021): dipole control at the
+      1e-4 e um level is an open requirement of the design.

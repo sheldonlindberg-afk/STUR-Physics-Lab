@@ -32,8 +32,8 @@ def test_chpt_one_loop_pion_mass():
     pole, finite, resid = CB.tadpole()
     assert sp.simplify(pole + M**2 / (16 * sp.pi**2)) == 0 and resid == 0
     n = CB.chpt_numbers()
-    assert abs(n["mpi"] - 0.1335) < 3e-4 and abs(n["err"] - 0.0038) < 3e-4
-    assert abs(n["mpi"] - CB.M_PI0) < n["err"] and abs(n["corr"] - 0.0236) < 3e-4
+    assert abs(n["mpi"] - 0.1326) < 3e-4 and abs(n["err"] - 0.0038) < 3e-4
+    assert abs(n["mpi"] - CB.M_PI0) < n["err"] and abs(n["corr"] - 0.0233) < 3e-4
     assert abs(n["fpi_over_F"] - CB.FPI_OVER_F[0]) < CB.FPI_OVER_F[1]
 
 
@@ -62,11 +62,14 @@ def test_casimir_polder_finite_temperature():
 
 
 def test_patch_potentials_need_a_shield():
-    A, pmax, Vl, rows = CP.patch_budget()
+    A, pmax, Vl, rows, (p_eum, over, over_c) = CP.patch_budget()
+    assert abs(p_eum / 2.8e-4 - 1) < 0.01 and abs(over / 3.57e5 - 1) < 0.01 and abs(over_c / 2.97e3 - 1) < 0.01
     assert abs(Vl / 8.26e-13 - 1) < 0.01
     assert abs(CP.patch_dipole_mc(A["R"], A["R"] / 10, 1.0) / CP.patch_dipole(A["R"], A["R"] / 10, 1.0) - 1) < 0.1
-    l, Vmax, p, ratio, gneed = rows[1]                                   # 0.1 um patches at 10 mV
-    assert abs(Vmax / 8.26e-6 - 1) < 0.01 and abs(ratio / 1211 - 1) < 0.01 and gneed > 0.1
+    l, Vmax, p, ratio, gneed = rows[1]                                   # 0.1 um patches at 15 mV
+    assert abs(Vmax / 8.26e-6 - 1) < 0.01 and abs(ratio / 1816 - 1) < 0.01 and gneed > 0.1
+    worst, c6, c0 = CP.boyer_check()                                    # Boyer / Passante-Spagnolo eq. (11)
+    assert worst < 1e-12 and c0 == sp.Rational(-23, 2) and c6 == sp.Rational(-11, 945)
 
 
 def test_graviton_exchange():

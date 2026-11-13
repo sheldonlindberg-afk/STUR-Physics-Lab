@@ -109,10 +109,10 @@ scale to the two diamonds, with every step derived and checked in code:
 - 3-3-1 → Standard Model → electromagnetism: the photon, the hypercharge matching and the
   W, Z, Z′ masses, from the gauge-boson mass matrix;
 - chiral symmetry breaking: pions, the GMOR relation and the nuclear force, and the pion
-  mass at O(p⁴) in chiral perturbation theory (133.5 ± 3.8 MeV against 135.0);
+  mass at O(p⁴) in chiral perturbation theory (132.6 ± 3.8 MeV against 135.0);
 - the Casimir–Polder force between the diamonds, from electrostatics and the dipole field,
-  at finite temperature (negligible at the design's 0.15 K), and the patch-potential dipoles
-  that make a conducting shield necessary;
+  at finite temperature (negligible at the design's 0.15 K), and the electric dipoles that
+  exceed the design's bound by orders of magnitude (measured on silica, modelled for patches);
 - one-graviton exchange: Newton's law and the experiment's 2.19 rad phase;
 - gravity as a broken de Sitter gauge theory (MacDowell–Mansouri), a reformulation of GR;
 - black holes, gravity's strong-field end rather than a symmetry breaking: the Hawking

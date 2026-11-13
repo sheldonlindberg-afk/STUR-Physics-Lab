@@ -29,8 +29,9 @@ It is a MODEL of QCD's low-energy structure, not QCD itself.
   S5  The coupling: chiral symmetry gives the Goldberger-Treiman relation
       g_piNN = g_A M_N / f_pi; with measured g_A, M_N, f_pi, against the empirical g_piNN
       from pi-N and N-N scattering. (CHECK)
-  S6  Beyond the model: chiral perturbation theory (Weinberg 1979; Gasser and Leutwyler
-      1984), the effective theory of QCD itself at low energy. At O(p^2) its Lagrangian is
+  S6  Beyond the model: chiral perturbation theory (Weinberg, Physica A 96 (1979) 327;
+      Gasser and Leutwyler, Ann. Phys. 158 (1984) 142), the effective theory of QCD itself
+      at low energy. At O(p^2) its Lagrangian is
       fixed by the symmetry: L2 = (F^2/4) Tr(d U d U^+) + (F^2 M^2/4) Tr(U + U^+), F and
       M^2 = 2 B m_hat the pion decay constant and mass in the chiral limit. The O(p^4) mass is
       its one loop, the tadpole: Wick-contracting the quartic terms (<pi_a pi_b> = delta_ab
@@ -40,15 +41,17 @@ It is a MODEL of QCD's low-energy structure, not QCD itself.
       agree on the physical mass, as they must. The tadpole itself, from Gamma(1 - d/2) at
       d = 4 - 2 eps: Delta = (M^2/16 pi^2)[ln(M^2/mu^2) - 1/eps_bar - 1]. Its log is the
       chiral log, M_pi^2 = M^2 [1 + (M^2/32 pi^2 F^2) ln(M^2/mu^2) + ...]; the O(p^4)
-      constant l_3 absorbs the pole and the scale: M_pi^2 = M^2 [1 - (M^2/32 pi^2 F^2) lbar_3].
-      (CHECK, symbolic)
+      constant l_3 absorbs the pole and the scale: M_pi^2 = M^2 [1 - (M^2/32 pi^2 F^2) lbar_3],
+      the NLO term of FLAG 19 eq. (MF) (from Colangelo, Gasser and Leutwyler, Nucl. Phys.
+      B603 (2001) 125). (CHECK, symbolic)
   S7  S3 at O(p^4). S3 used the physical f_pi with the chiral-limit condensate; the
       consistent leading order uses F: M^2 = (m_u + m_d) Sigma / F^2. With FLAG's lattice
-      inputs (N_f = 2+1: m_ud, Sigma^(1/3), F_pi/F and lbar_3; LIT), m_pi = 133.5 +- 3.8 MeV
-      against 135.0 (-1.1%, -0.4 sigma; the condensate dominates the error). The O(p^4) term
-      itself is -2.4% of M^2: the SU(2) chiral series converges well. Most of S3's -5.5% was
-      f_pi used for F (6%), not the loop. (CHECK; LIT)
-  S8  f_pi at O(p^4): F_pi = F [1 + (M^2/16 pi^2 F^2) lbar_4] (LIT, Gasser and Leutwyler).
+      inputs (N_f = 2+1: m_ud, Sigma^(1/3), F_pi/F and lbar_3; LIT), m_pi = 132.6 +- 3.8 MeV
+      against 135.0 (-1.7%, -0.6 sigma; the condensate dominates the error). The O(p^4) term
+      itself is -2.3% of M^2: the SU(2) chiral series converges well. Most of S3's -5.5% was
+      f_pi used for F (6%), not the loop. f_pi itself is S3's PDG input, 92.07 MeV; FLAG 19
+      quotes 92.2(1) MeV, a 0.1% difference in m_pi. (CHECK; LIT)
+  S8  f_pi at O(p^4): F_pi = F [1 + (M^2/16 pi^2 F^2) lbar_4] (LIT: FLAG 19 eq. (MF), NLO).
       With FLAG's lbar_4, F_pi/F = 1.062, FLAG's own 1.062(7): a consistency check of the
       lattice inputs used in S7, not an independent test, since both come from the same fits.
       (CHECK; LIT)
@@ -57,13 +60,14 @@ It is a MODEL of QCD's low-energy structure, not QCD itself.
   theory, with lattice low-energy constants, and no longer carries the model's caveat. The
   sigma resonance of the model is not QCD's broad f_0(500); ChPT has no sigma field.
 Labels: MODEL (linear sigma model, S1-S5), CHECK, LIT (measured or lattice inputs; the
-GL O(p^4) formula for F_pi).
+O(p^4) formula for F_pi, FLAG 19 eq. (MF)). Every LIT number is from the source named
+beside it.
 """
 import math
 
 import sympy as sp
 
-# measured inputs (PDG 2024; FLAG 2024 for the condensate)
+# measured inputs (PDG 2024; the condensate is the FLAG 19 average, restated in FLAG 21)
 MU_PLUS_MD = 2.16e-3 + 4.70e-3      # GeV, MS-bar at 2 GeV
 F_PI = 0.1302 / math.sqrt(2)        # GeV (f_pi = 130.2 MeV in the sqrt2 convention -> 92.1 MeV)
 SIGMA_CUBE_ROOT = 0.272             # GeV, |<qbar q>|^(1/3), N_f = 2+1, MS-bar 2 GeV (FLAG)
@@ -72,9 +76,14 @@ G_A = 1.2754                        # nucleon axial coupling
 M_N = 0.9389187                     # GeV, average nucleon mass
 G_PINN_EMP = 13.1                   # empirical pi-N coupling, g^2/4pi ~ 13.7 (LIT, approximate)
 HBARC = 0.1973269804                # GeV fm
-# FLAG review (N_f = 2+1 averages; MS-bar at 2 GeV for the mass and the condensate)
-M_UD_FLAG = (3.410e-3, 0.043e-3)    # GeV, m_ud = (m_u + m_d)/2
-SIGMA_ERR = 0.005                   # GeV, on Sigma^(1/3) = 272 MeV (chiral limit, SU(2))
+# Lattice inputs, N_f = 2+1, all checked against the FLAG sources:
+#  m_ud: FLAG 2024 (arXiv:2411.04268), table "tab:mudms", MS-bar at 2 GeV.
+#  Sigma^(1/3), F_pi/F, lbar_3, lbar_4: the FLAG 19 averages (Eur. Phys. J. C 80 (2020) 113),
+#  restated unchanged in FLAG 21 (arXiv:2111.09849, section "SU2_averages"). FLAG 2024 omits
+#  the LEC chapter, so these are the latest FLAG averages. Sigma is MS-bar at 2 GeV, SU(2)
+#  chiral limit; the lbar_i are defined at the physical pion mass.
+M_UD_FLAG = (3.364e-3, 0.041e-3)    # GeV, m_ud = (m_u + m_d)/2
+SIGMA_ERR = 0.005                   # GeV, on Sigma^(1/3) = 272(5) MeV
 FPI_OVER_F = (1.062, 0.007)
 LBAR3 = (3.07, 0.64)
 LBAR4 = (4.02, 0.45)
@@ -278,7 +287,7 @@ def main():
     print("   -> M_pi^2 = M^2 [1 + (M^2/32 pi^2 F^2) ln(M^2/mu^2) + 2 l_3^r M^2/F^2]"
           " = M^2 [1 - (M^2/32 pi^2 F^2) lbar_3]")
 
-    banner("S7  The pion mass at O(p^4) with lattice inputs (LIT: FLAG, N_f = 2+1)")
+    banner("S7  The pion mass at O(p^4) with lattice inputs (LIT: FLAG 2024 m_ud; FLAG 19/21 LECs; N_f = 2+1)")
     n = chpt_numbers()
     print(f"   m_ud = {M_UD_FLAG[0] * 1e3:.3f} MeV, Sigma^(1/3) = {SIGMA_CUBE_ROOT * 1e3:.0f} MeV,"
           f" F = f_pi / {FPI_OVER_F[0]} = {n['F'] * 1e3:.2f} MeV, lbar_3 = {LBAR3[0]}")
@@ -293,7 +302,7 @@ def main():
           f" FLAG's m_ud in place of PDG's {n['M'] * 1e3:.1f}; O(p^4) {n['mpi'] * 1e3:.1f} MeV")
     print("   -> most of S3's -5.5% was f_pi used where the chiral-limit F belongs, not the loop.")
 
-    banner("S8  f_pi at O(p^4) (LIT: Gasser-Leutwyler formula; FLAG lbar_4)")
+    banner("S8  f_pi at O(p^4) (LIT: FLAG 19 eq. (MF); FLAG 19/21 lbar_4)")
     print(f"   F_pi / F = 1 + (M^2/16 pi^2 F^2) lbar_4 = {n['fpi_over_F']:.4f};"
           f" FLAG {FPI_OVER_F[0]} +- {FPI_OVER_F[1]} (the same lattice fits: consistency, not a test)")
     print("   -> the pion mass is an O(p^4) result of QCD's effective theory; S1-S5 keep the model's caveat.")

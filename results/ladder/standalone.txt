@@ -54,12 +54,12 @@ RUNG 2  The strong force: chiral symmetry breaking (MODEL: linear sigma model)
           got 127.6 +- 3.6 MeV (inputs, 2.9%) vs 135.0 MeV. Tolerance 8%: GMOR is leading
           order with f_pi standing in for the chiral-limit F; the next check does it at
           O(p^4)
-   O(p^4) chiral perturbation theory, FLAG inputs: m_pi = 133.5 +- 3.8 MeV
-   [PASS] [data]          the pion mass at O(p^4) in chiral perturbation theory: 133.5 MeV, within 2 sigma of 135.0
-          got 133.5 +- 3.8 MeV vs 135.0 MeV (-0.4 sigma). Not the sigma model: QCD's
+   O(p^4) chiral perturbation theory, FLAG inputs: m_pi = 132.6 +- 3.8 MeV
+   [PASS] [data]          the pion mass at O(p^4) in chiral perturbation theory: 132.6 MeV, within 2 sigma of 135.0
+          got 132.6 +- 3.8 MeV vs 135.0 MeV (-0.6 sigma). Not the sigma model: QCD's
           effective theory, whose one-loop chiral log src/chiral_breaking.py S6 derives in
-          two parametrizations; lbar_3, F_pi/F, m_ud and the condensate are lattice inputs
-          (FLAG). The uncertainty is mostly the condensate
+          two parametrizations; lbar_3, F_pi/F and the condensate are FLAG 19/21 averages,
+          m_ud is FLAG 2024's. The uncertainty is mostly the condensate
    [PASS] [math]          exchange of a mass-m particle: V = e^(-m r)/(4 pi r) solves (lap - m^2) V = 0 with unit flux (the Fourier transform of 1/(q^2 + m^2): the Yukawa potential)
    Range of the nuclear force 1/m_pi = 1.414 fm
    [PASS] [math]          one-pion exchange: (s1.q)(s2.q) = (q^2/3)[s1.s2 + S12]: central and tensor nuclear forces, and range 1.414 fm
@@ -230,5 +230,5 @@ VERDICT
    pion counting uses the linear sigma model, a stand-in for QCD, and rung 5 rewrites GR
    rather than going beyond it.
 
-   Checks passed: 60/60   (41 math, 10 data, 9 pinned; 0.06 s)
+   Checks passed: 60/60   (41 math, 10 data, 9 pinned; 0.04 s)
    ALL CHECKS PASS

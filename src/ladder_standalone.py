@@ -94,10 +94,11 @@ MU_PLUS_MD = 2.16e-3 + 4.70e-3   # GeV, m_u + m_d, MS-bar 2 GeV
 MU_PLUS_MD_ERR = sqrt(0.07e-3**2 + 0.07e-3**2)   # GeV, PDG 2024: m_u, m_d each +- 0.07 MeV
 F_PI = 0.1302 / sqrt(2)       # GeV, f_pi = 92.1 MeV
 COND_13 = 0.272               # GeV, |<qbar q>|^(1/3), lattice (FLAG), MS-bar 2 GeV
-COND_13_ERR = 0.005           # GeV, FLAG 2024 (N_f = 2+1)
+COND_13_ERR = 0.005           # GeV, FLAG 19 average (N_f = 2+1), restated in FLAG 21; FLAG 2024 omits LECs
 M_PI0, M_PIC = 0.1349768, 0.13957039
-# FLAG (N_f = 2+1): m_ud, F_pi/F, lbar_3, for the O(p^4) pion mass (src/chiral_breaking.py S7)
-M_UD_FLAG, M_UD_FLAG_ERR = 3.410e-3, 0.043e-3   # GeV, (m_u + m_d)/2, MS-bar 2 GeV
+# N_f = 2+1 lattice inputs for the O(p^4) pion mass (src/chiral_breaking.py S7): m_ud from
+# FLAG 2024 (arXiv:2411.04268); F_pi/F and lbar_3 the FLAG 19 averages restated in FLAG 21
+M_UD_FLAG, M_UD_FLAG_ERR = 3.364e-3, 0.041e-3   # GeV, (m_u + m_d)/2, MS-bar 2 GeV
 FPI_OVER_F, FPI_OVER_F_ERR = 1.062, 0.007
 LBAR3, LBAR3_ERR = 3.07, 0.64
 G_A, M_N = 1.2754, 0.9389187  # nucleon axial coupling; average nucleon mass (GeV)
@@ -432,11 +433,11 @@ def rung2():
         dm4 += (mpi4(*up) - m4) ** 2
     dm4 = sqrt(dm4)
     print(f"   O(p^4) chiral perturbation theory, FLAG inputs: m_pi = {m4 * 1e3:.1f} +- {dm4 * 1e3:.1f} MeV")
-    check("the pion mass at O(p^4) in chiral perturbation theory: 133.5 MeV, within 2 sigma of 135.0",
-          abs(m4 - 0.1335) < 1e-3 and abs(m4 - M_PI0) < 2 * dm4, "data",
+    check("the pion mass at O(p^4) in chiral perturbation theory: 132.6 MeV, within 2 sigma of 135.0",
+          abs(m4 - 0.1326) < 1e-3 and abs(m4 - M_PI0) < 2 * dm4, "data",
           f"got {m4 * 1e3:.1f} +- {dm4 * 1e3:.1f} MeV vs {M_PI0 * 1e3:.1f} MeV ({(m4 - M_PI0) / dm4:+.1f} sigma)."
           " Not the sigma model: QCD's effective theory, whose one-loop chiral log src/chiral_breaking.py S6"
-          " derives in two parametrizations; lbar_3, F_pi/F, m_ud and the condensate are lattice inputs (FLAG)."
+          " derives in two parametrizations; lbar_3, F_pi/F and the condensate are FLAG 19/21 averages, m_ud is FLAG 2024's."
           " The uncertainty is mostly the condensate")
     m = 1.3
     V = lambda r: exp(-m * r) / (4 * pi * r)
