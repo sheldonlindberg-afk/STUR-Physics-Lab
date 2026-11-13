@@ -1,5 +1,8 @@
 # Building the symmetry ladder from first principles
 
+*To have an AI do this rebuild blind, with gates a program checks, see
+[rebuild/PROTOCOL.md](rebuild/PROTOCOL.md).*
+
 *How to write [`src/ladder_standalone.py`](src/ladder_standalone.py) from an empty file:
 what to postulate, what to measure, what to derive, in what order, and how each step proves
 itself before the next one uses it. Companion to [SYMMETRY_LADDER.md](SYMMETRY_LADDER.md),
