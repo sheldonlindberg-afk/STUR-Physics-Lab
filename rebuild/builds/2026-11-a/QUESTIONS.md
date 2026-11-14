@@ -146,3 +146,79 @@
 6. **Unit conversion**: 1 GeV = 1e9 * inputs.E_CH J (the giga prefix, not a measured number).
 7. **Schwarzschild radius** r_s = 2Gm/c^2 is labelled derived (zero of the SPEC 6/7 metric function with
    G, c restored); it is a one-line definition.
+
+## desitter (ricci_scalar)
+
+1. **Index placement in the contraction.** SPEC writes E_a^mu E_b^nu R^{ab}_{mu nu}; this is read as the
+   plain sum with R^{ab} (both up, second raised with eta^{cb} from R^a_b) and the inverse tetrad E_a^mu,
+   i.e. R = sum_{ab} R^{ab}_{ab} in the orthonormal frame. This is the same contraction action_coefficients
+   already divided by, so it is positive (12/l^2) for de Sitter. No other export changed.
+2. **Closed form.** On SdS the result is exactly 12/l^2 for every M and point (Schwarzschild part
+   Ricci-flat); the export still computes it numerically from R^ab (finite differences), as the contract asks.
+
+## provenance notes (M5 rule)
+
+SPEC.md §0 provenance rule: a derived export resting on a quoted one names it and says "quoted".
+Only PROVENANCE note strings changed; no code, value or kind changed (all three remain derived:
+each computes its own result and only uses the quoted formula as an input).
+
+1. **casimir.casimir_safe_gap**: "... for U = cp_energy (K from ..." ->
+   "... for U = cp_energy (rests on the quoted Casimir-Polder formula cp_energy; K from ...".
+2. **graviton.design_phase**: "... GAP_FRACTION), all read at call time" ->
+   "... GAP_FRACTION), all read at call time; the gap rests on the quoted Casimir-Polder potential
+   casimir.cp_energy, used there to set the safe gap; the phase itself is Newtonian".
+3. **links.planck_bh_kT_GeV**: "... k_B, in GeV; = M_Pl c^2/(8 pi)" ->
+   "... k_B, in GeV; = M_Pl c^2/(8 pi); rests on the quoted Hawking temperature hawking_K,
+   evaluated at the Planck mass".
+
+## running
+
+1. **Singlet-partner colour.** "Each electrically charged fermion component ... has one singlet partner"
+   is read per colour: a quark component carries N_c singlet partners (an SU(3)_C (anti)triplet singlet
+   under SU(3)_L), with X = -Q. A lepton component has one. Because a neutral component would add
+   Q^2 = 0, b_X does not depend on how the "neutral components have none" rule is applied.
+2. **X_L derived, checked against SPEC 2.** X_L comes from Q_e = -1 in component 2 of
+   gauge331.triplet_charges. The code asserts it equals SPEC 2's listed -1/3 or -2/3, and that the neutrino
+   (component 1) is neutral.
+3. **Antitriplet X.** Of the two X values that put Q_u or Q_d in component 1, the code keeps the one whose
+   first two charges form {Q_u, Q_d}. That gives X_a = X_t + 2b, with component 1 = Q_d and component 2 = Q_u.
+4. **Scalar X charges** are SPEC 2 postulates, typed as Fractions and picked by the sign of b, which is
+   read off gauge331.triplet_charges(0, variant). gauge331's private _scalar_X is not called.
+5. **Matching for g_X** never assumes inv_e2's form. It solves gauge331.inv_e2(g_L, u^-1/2) = target by
+   a two-point affine solve in u = 1/g_X^2, then checks the residual. For both variants beta^2 = 1/3, so
+   matching_331 gives the same numbers for both variants. The variants differ only through b_X.
+6. **Landau pole** uses the closed-form inversion of the one-loop line (no numerical root). toolkit.bisect
+   in ln mu is the second route in __main__. "alpha_X = 1" means 1/alpha_X = 1 exactly. SM running is
+   applied for any mu, with no thresholds below MU_331.
+
+## weak
+
+1. **Below threshold.** `pion_decay_width` returns 0.0 for m_l >= m_pi (decay kinematically closed);
+   the closed form would otherwise give a spurious positive value from (m_pi^2 - m_l^2)^2. At m_l = 0 the
+   formula itself gives exactly 0 (helicity suppression).
+2. **Dirac conventions in the mostly-plus metric.** SPEC fixes g and gamma5 but not the Clifford sign or
+   spin sums; I used {gamma^m, gamma^n} = -2 g^{mn}, (-pslash + m)u = 0, sum u ubar = -pslash + m,
+   sum v vbar = -pslash - m (Weyl basis, beta = gamma^0). |M|^2 is convention independent; the explicit
+   4x4 matrix route in weak.py __main__ confirms the trace 4(m_pi^2 - m_l^2) in these conventions.
+3. **Inversion.** fpi_from_pion_decay uses the exact f^2 scaling: f = sqrt(Gamma_tree / pion_decay_width(1, ...)),
+   rather than a numerical root; toolkit.bisect agrees to all printed digits (second route only).
+4. **Charge conjugation.** The measured width is for pi+ -> mu+ nu; the contract's function is for pi- -> l- nubar.
+   They are equal (CP), and the tree-level formula is identical; no distinction made.
+
+## chiral and links (derived f_pi, one-loop G window)
+
+1. **f_pi convention.** Stage weak returns the ~130 MeV convention; `chpt_mpi_from_rungs` and
+   `pi0_width_from_rungs` divide by sqrt2 (SPEC 3 and 8 say so explicitly), giving 92.325 MeV vs
+   inputs.F_PI = 92.065 MeV. Only these two exports changed; `gmor_mpi`, `goldberger_treiman`, the GMOR
+   and GT self-checks, and the harness probe of `pi0_width_eV` still use inputs.F_PI as before.
+2. **Provenance.** `chpt_mpi_from_rungs` and `pi0_width_from_rungs` are tagged quoted (both are on their
+   stage's quoted_allowed list and both evaluate a quoted formula); their notes name the quoted export and
+   state that f_pi is stage weak's derived value. `g_window_from_rungs` is derived: running.landau_pole,
+   g_window and planck_mass_GeV are all derived and reach no quoted export.
+3. **Measured G vs the one-loop window.** g_window_from_rungs does not test or enforce lo < hi or
+   lo < 1 < hi; it returns the two edges as g_window does. With the current inputs the one-loop window
+   is non-empty and contains x = 1 for both variants (printed in links.py __main__).
+4. **Second-route f_pi.** The second routes re-derive f_pi by toolkit.bisect on weak.pion_decay_width on
+   the bracket [0.01, 1] GeV (a plain bracket, not a physical number); they recompute Gamma_tree from
+   the inputs the same way stage weak does, so they test the inversion, not the radiative-correction
+   convention.

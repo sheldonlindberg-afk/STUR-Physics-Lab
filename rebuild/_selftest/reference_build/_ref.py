@@ -11,7 +11,7 @@ import importlib.util
 import os
 import sys
 from fractions import Fraction as F
-from math import exp, pi, sqrt
+from math import exp, log, pi, sqrt
 from itertools import permutations
 
 import inputs
@@ -137,6 +137,11 @@ def chpt_mpi(m_ud, cond13, fpi_over_F, lbar3, fpi):
     Fc = fpi / fpi_over_F
     M2 = 2 * m_ud * cond13**3 / Fc**2
     return sqrt(M2 * (1 - M2 / (32 * pi * pi * Fc * Fc) * lbar3))
+
+
+def chpt_mpi_from_rungs():
+    f = _m("weak").fpi_from_pion_decay() / sqrt(2)
+    return _m("chiral").chpt_mpi(inputs.M_UD_FLAG, inputs.COND_13, inputs.FPI_OVER_F, inputs.LBAR3, f)
 
 
 def yukawa(r, m):
@@ -273,6 +278,14 @@ def action_coefficients(M, l, x):
     return L.wedge(Rup, EE) / (e_det * Rs), L.wedge(EE, EE) / e_det
 
 
+def ricci_scalar(M, l, x):
+    f, fp = _sds(M, l)
+    E, _ = L.tetrad_and_spin(x, f, fp)
+    Rm = L.curvature(x, f, fp, l, False)
+    return sum(Rm[m][n][a][b] * L.ETA4[b] / (E[a][m] * E[b][n]) for m in range(4) for n in range(4)
+               for a in range(4) for b in range(4) if a == m and b == n)
+
+
 def ell_from_lambda(Lam):
     return sqrt(3 / Lam)
 
@@ -350,6 +363,70 @@ def hawking_K(m_kg):
     return L.hawking_K(m_kg)
 
 
+# --- running (one loop), from src/m331_exact.py's field content --------------------------
+_SRC = os.path.join(os.path.dirname(os.path.abspath(inputs.__file__)), "..", "src")
+_espec = importlib.util.spec_from_file_location("_m331_exact_for_selftest", os.path.join(_SRC, "m331_exact.py"))
+E = importlib.util.module_from_spec(_espec)
+_espec.loader.exec_module(E)
+
+
+def sm_coefficients():
+    a, _ = E.coefficients(*_sm_content())
+    return a[0], a[1]
+
+
+def _sm_content():
+    gs = [E.Group("Y"), E.Group("SU2", 2), E.Group("SU3", 3)]
+    ferm = []
+    for _ in range(3):
+        ferm += [(1, (None, 2, 3), F(1, 6)), (1, (None, 1, 3), F(-2, 3)), (1, (None, 1, 3), F(1, 3)),
+                 (1, (None, 2, 1), F(-1, 2)), (1, (None, 1, 1), F(1))]
+    return gs, ferm, [(1, (None, 2, 1), F(1, 2))]
+
+
+def b_331(Nc, variant):
+    gs, ferm, scal, (Xt, Xa, Qu, Qd, Ng, nA) = E.MODELS[variant](Nc)
+    g = _m("gauge331")                                       # rung 1's charges must agree with src's content
+    assert tuple(g.quark_charges(Nc)) == (Qu, Qd)
+    assert list(g.triplet_charges(Xt, variant))[:2] == [Qu, Qd]
+    a, _ = E.coefficients(gs, ferm, scal)
+    return a[0], a[1]
+
+
+def couplings_at(mu):
+    L0 = log(mu / inputs.MZ_MEAS) / (2 * pi)
+    bY, b2 = _m("running").sm_coefficients()
+    s2, ainv = inputs.S2_MZ, inputs.ALPHA_MZ_INV
+    return (1 - s2) * ainv - float(bY) * L0, s2 * ainv - float(b2) * L0
+
+
+def matching_331(mu, variant):
+    aY, a2 = _m("running").couplings_at(mu)
+    gL = sqrt(4 * pi / a2)
+    ie2 = (aY + a2) / (4 * pi)
+    c0 = _m("gauge331").inv_e2(variant, gL, 1e150)          # the g_X -> infinity part of 1/e^2
+    return 4 * pi * (ie2 - c0), a2
+
+
+def landau_pole(Nc, variant):
+    r = _m("running")
+    aX0 = r.matching_331(inputs.MU_331, variant)[0]
+    bX = float(r.b_331(Nc, variant)[0])
+    return inputs.MU_331 * exp(2 * pi * (aX0 - 1) / bX)
+
+
+# --- weak -----------------------------------------------------------------------------------
+def pion_decay_width(fpi, GF, Vud, m_l, m_pi):
+    return GF**2 * Vud**2 * fpi**2 * m_l**2 * m_pi * (1 - m_l**2 / m_pi**2) ** 2 / (8 * pi)
+
+
+def fpi_from_pion_decay():
+    hbar_gev_s = inputs.HBAR / (inputs.E_CH * 1e9)
+    g0 = inputs.GAMMA_PI_MUNU * hbar_gev_s / (1 + inputs.DELTA_PI)
+    w1 = _m("weak").pion_decay_width(1.0, inputs.G_F, inputs.V_UD, inputs.M_MU, inputs.M_PIC)
+    return sqrt(g0 / w1)
+
+
 # --- links --------------------------------------------------------------------------------
 def qp_qe_minus_anomaly(Nc, b, XL, Xt):
     Xa = Xt + 2 * b
@@ -393,7 +470,14 @@ def matter_charges(Nc, variant):
 
 def pi0_width_from_rungs():
     Qu, Qd = _m("gauge331").quark_charges(3)
-    return _m("links").pi0_width_eV(inputs.ALPHA_0, inputs.F_PI, inputs.M_PI0, 3, Qu, Qd)
+    f = _m("weak").fpi_from_pion_decay() / sqrt(2)
+    return _m("links").pi0_width_eV(inputs.ALPHA_0, f, inputs.M_PI0, 3, Qu, Qd)
+
+
+def g_window_from_rungs(variant):
+    r, lk = _m("running"), _m("links")
+    mpl = lk.planck_mass_GeV(inputs.G_NEWTON, inputs.HBAR, inputs.C_LIGHT)
+    return lk.g_window(r.landau_pole(3, variant), r.landau_pole(5, variant), mpl)
 
 
 def planck_bh_kT_GeV():

@@ -13,6 +13,10 @@ Every quantity you produce is exactly one of the following:
 - **quoted**: a published formula used without derivation. This is allowed only where the
   stage lists it, and you must name the source in `PROVENANCE`.
 
+An export labelled **derived** that rests on a quoted export (by calling it, through another
+export, or through a private helper of a quoted export) must say so: its note names each quoted
+export it rests on, together with the word "quoted". The harness checks this.
+
 If you can't derive something and it isn't on the stage's quoted list, **stop and report it**.
 Don't type the number in. The harness lint fails any literal with more than three
 significant digits.
@@ -46,18 +50,23 @@ Hessian, forward-mode dual numbers over `fractions.Fraction` (for `exact_derivat
 bisection, golden-section search, the trapezoid rule and permutation parity. Every later
 stage must use these, not ad hoc copies.
 
+**Conventions.** The Hessian's step h is absolute and the same in every coordinate. A caller
+whose coordinates are far from O(1) scales h itself.
+
 ## 2. gauge331: 3-3-1 → SM → electromagnetism
 
 **Postulates.**
 - Gauge group SU(3)_L × U(1)_X with couplings g and g_X. Generators t_a = λ_a/2 (standard
   Gell-Mann matrices, λ_8 = diag(1,1,−2)/√3), and X·𝟙 for U(1)_X.
 - Charge Q = T₃ + βT₈ + X, β = −1/√3 (`"-1/sqrt3"`) or +1/√3 (`"+1/sqrt3"`). An
-  antitriplet carries generators −t_a*.
+  antitriplet carries generators −t_a*. The X passed to `triplet_charges(X, variant, anti=True)`
+  is the antitriplet's own U(1)_X charge (it is not conjugated; only the SU(3) part flips).
 - **Scalars:** three triplets with X charges (−1/3, 2/3, −1/3) for β = −1/√3, and
   (1/3, 1/3, −2/3) for β = +1/√3. A vev may sit only in a component with Q = 0. The first
   triplet that is neutral in component 3 takes w; each other triplet takes its remaining
   neutral component, with v₁ then v₂ in order. Derive which components are neutral; don't
-  assume it.
+  assume it. "Remaining" means *other than component 3*: a triplet that is not the w triplet,
+  but is neutral both in component 3 and in another component, takes the other one.
 - **Fermions** for N_c colours: N_g = N_c generations. Of the quark families, n_A = (1+N_c)/2
   are antitriplets and N_g − n_A are triplets. Lepton triplets have X_L = −1/3 (β = −1/√3) or
   −2/3 (β = +1/√3). The quark-triplet X is fixed so that its first two components are
@@ -84,6 +93,9 @@ with v/w.
   so that the Fourier transform has unit strength, i.e. (∇² − m²)V = −δ³.
 - Pauli matrices for spin; S₁₂ = 3(σ₁·q̂)(σ₂·q̂) − σ₁·σ₂.
 - Goldberger–Treiman: g_πNN = g_A M_N / f_π (state this as derived from PCAC, or tag it quoted).
+- **`chpt_mpi_from_rungs`:** `chpt_mpi` with the FLAG inputs and the f_π that stage `weak`
+  derives (§10), converted to the ≈92 MeV convention, f_π/√2. It evaluates the quoted O(p⁴)
+  formula, so it is quoted too.
 
 ## 4. casimir: the electromagnetic background
 
@@ -100,17 +112,19 @@ with v/w.
   d_LR = d_RL = √(gap² + dx²). The entangling phase of a potential U is
   (τ/ħ)[−U(d_LL) − U(d_RR) + U(d_LR) + U(d_RL)]. The safe gap is the smallest gap at which
   |Casimir phase| ≤ fraction × |gravity phase|. Find it as a root to relative precision
-  1e−6 or better, not on a coarse grid.
+  1e−6 or better, not on a coarse grid. The gravity phase uses U_G = −Gm²/r with
+  `inputs.G_NEWTON` (rung 4 derives this potential; rung 3 assumes it).
 
 ## 5. graviton: gravity to the experiment
 
 **Postulates.**
 - Linearized GR: g = η + h, η = diag(−1,1,1,1), h̄ = h − ½ηh, □h̄_μν = −16πG T_μν.
 - One-graviton exchange: the amplitude is ∝ T₂^μν P_μνρσ T₁^ρσ, with
-  P = ½(η_μρη_νσ + η_μση_νρ − η_μνη_ρσ).
+  P = ½(η_μρη_νσ + η_μση_νρ − η_μνη_ρσ). Matter couples through ½h_μνT^μν; together with the
+  field equation above, this fixes the normalization of the exchange.
 - **Branch profile.** y(t) = (dx/2)·s(t), with s = up(t/ramp) for t < ramp, 1 during the
   hold, and up((T − t)/ramp) after ramp + hold, where T = hold + 2·ramp and
-  up(x) = 2x² for x < ½, else 1 − 2(1−x)² (clamped to [0, 1]).
+  up(x) = 2x² for x < ½, else 1 − 2(1−x)², where x is clamped to [0, 1] before up is applied.
 - **Phase.** Parallel geometry as in §4, but with time-dependent separation 2y(t):
   Δφ = (Gm²/ħ)∫₀^T 2[1/gap − 1/√(gap² + (2y)²)] dt, by the trapezoid rule on n samples.
   Derive the 1/r potential from the exchange postulate (via `chiral.yukawa` at m = 0);
@@ -128,6 +142,17 @@ with v/w.
   the torsion de + ω∧e = 0 numerically.
 - Schwarzschild–de Sitter: f = 1 − 2M/r − r²/ℓ². De Sitter: f = 1 − r²/ℓ².
 - The MacDowell–Mansouri action N∫ε_abcd F^{ab}∧F^{cd}.
+- Λ is the cosmological constant of the Einstein–Hilbert action (1/16πG)∫e(R − 2Λ), i.e.
+  G_μν + Λg_μν = 0. `ell_from_lambda` is the ℓ for which the MacDowell–Mansouri action
+  reduces to that form.
+
+**Conventions.** The Lorentz symbol with lowered indices has ε₀₁₂₃ = +1 (the plain permutation
+symbol, `toolkit.levi_civita`). The coordinate density has ε̃^{0123} = +1, i.e. a 4-form's
+component is read on dt∧dr∧dθ∧dφ. `action_coefficients` uses both.
+- **`ricci_scalar`** contracts the curvature 2-form R^{ab} = dω^{ab} + ω^a_c∧ω^{cb} that your
+  `action_coefficients` uses, as E_a^μ E_b^ν R^{ab}_{μν} (indices raised with η). It is
+  exported so the curvature itself can be checked: the coefficient cR alone can't detect a
+  wrong R^{ab}.
 - **`spin_connection`** returns the tetrad and ω^a_{bμ}, with a raised and b lowered by η
   (so ω^0_1 = ω^1_0 for the boost). It is exported because rung 6 uses it.
 
@@ -146,6 +171,15 @@ with v/w.
   Q = q₁ + q₂(1−χ)^q₃ with damping rate ω/(2Q); and T_H = ħc³/(8πGMk_B) as a radiation
   temperature.
 - Kerr area A = 8π(GM/c²)²(1 + √(1−χ²)). The shadow diameter is 2b_c GM/(c²D).
+
+**Conventions.**
+- The QNM damping rate ω/(2Q) is in s⁻¹ (the contract's "Hz" for it means s⁻¹); the frequency
+  is ω/(2π) in Hz.
+- In `kerr_first_law`, at q = 0 (Schwarzschild) along dq, dJ itself diverges; the residual
+  uses the finite limit of Ω dJ there.
+- In the self-check, a pull is (prediction − measured)/σ_measured, with σ taken on the side
+  facing the prediction. For Sgr A*, the measured θ_g is the mean of the two θ_g = GM/(c²D)
+  values (VLTI and Keck), not mean mass over mean distance.
 - **`kappa_from_spin_connection`:** evaluate rung 5's ω⁰₁ₜ just on the static side of each
   SdS horizon (r_b(1 + 10⁻⁹), r_c(1 − 10⁻⁹)); κ = |ω⁰₁ₜ|. This is a second route to the
   Killing κ.
@@ -160,7 +194,9 @@ with v/w.
   - N_g = N_c, with n = (1+N_c)/2 antitriplet families;
   - anomaly = N_g X_L + N_c[(N_g − n)X_t + n X_a].
 - **Neutrality.** Coulomb and gravity both go as 1/r on the same trajectories, so their
-  phases are in the ratio kQ²/(Gm²). Divide by the nucleon count m/u.
+  phases are in the ratio kQ²/(Gm²). Divide by the nucleon count m/u. Both diamonds carry the
+  same net charge Q = εe(m/u), u = `inputs.U_AMU`; the Coulomb potential is the vacuum kQ²/r,
+  k = `inputs.K_COUL`; the bound is |φ_C| ≤ GAP_FRACTION·|φ_G|.
 - **Quoted (allowed):** the anomaly amplitude A = (α/πf_π)N_c(Q_u² − Q_d²) for π⁰ → γγ.
   Derive the polarization sum and the two-body phase space yourself.
 - M_Pl = √(ħc/G). If G → xG, M_Pl → x^(−1/2)M_Pl.
@@ -168,3 +204,56 @@ with v/w.
   is the reverse. The electron and neutrino are the lepton triplet's components 2 and 1,
   with X_L as in §2.
 - **`planck_bh_kT_GeV`:** m = M_Pl in kg, then k_B T_H in GeV.
+- **`pi0_width_from_rungs`:** rung 1's charges at N_c = 3, `inputs.ALPHA_0`, `inputs.M_PI0`,
+  and the f_π that stage `weak` derives (§10), converted to the convention of `pi0_width_eV`:
+  f_π(≈92 MeV) = f_π(≈130 MeV)/√2.
+- **`g_window_from_rungs`:** the G window of `g_window` with the poles that stage `running`
+  derives (§9) for N_c = 3 and 5, and M_Pl from the inputs' G, ħ and c.
+
+## 9. running: the 3-3-1 couplings to the Planck scale
+
+**Postulates.**
+- One-loop running. For a gauge group with coupling g and α = g²/4π,
+  dα⁻¹/d ln μ = −b/(2π), with
+  b = −(11/3) C₂(G) + (2/3) Σ_Weyl T(R) + (1/3) Σ_complex scalars T(R),
+  where C₂(G) is the adjoint Casimir (N for SU(N), 0 for U(1)) and T(R) the index of a
+  multiplet (½ for an SU(N) fundamental), multiplied by the dimension of the multiplet under
+  every other group factor. For a U(1) with charge q, T(R) → q² per component.
+- **Below the 3-3-1 scale** the theory is the Standard Model: 3 colours, 3 generations, one
+  Higgs doublet, U(1)_Y with Q = T₃ + Y. Per generation, as left-handed Weyl fields: the
+  quark doublet (Y = 1/6, 3 colours), u^c (Y = −2/3) and d^c (Y = 1/3) (3 colours each), the
+  lepton doublet (Y = −1/2) and e^c (Y = 1). The Higgs doublet has Y = 1/2. At M_Z
+  (`inputs.MZ_MEAS`): 1/α_Y = (1 − s²)/α̂ and 1/α₂ = s²/α̂, with 1/α̂ = `inputs.ALPHA_MZ_INV`
+  and s² = `inputs.S2_MZ`. This Standard Model is the same for every N_c: below the 3-3-1
+  scale the theory always has 3 colours and 3 generations, also when `b_331` or
+  `landau_pole` is asked for N_c = 5. N_c enters only above the 3-3-1 scale.
+- **Above the 3-3-1 scale** the theory is SU(3)_C × SU(3)_L × U(1)_X with N_c colours, the
+  content of §2, and these SU(3)_L singlets, all left-handed Weyl fields: each electrically
+  charged fermion component of a triplet or antitriplet has one singlet partner of the
+  opposite charge, with X equal to that opposite charge (neutral components have none).
+  "One" means one per copy of the multiplet: a quark component's partner carries the same
+  N_c colours as the quark, and each family has its own partners. The
+  three scalar triplets of §2 are complex. Derive every charge from §2 (rung 1's
+  `triplet_charges`, `quark_charges`); don't assume them.
+- **Matching at μ** (no threshold corrections): SU(2)_L ⊂ SU(3)_L, so g_L(μ) = g₂(μ); and the
+  photon coupling is continuous, so rung 1's 1/e² (`gauge331.inv_e2` at g_L and g_X) equals the
+  Standard Model's 1/e² = (1/α_Y + 1/α₂)/4π at μ. Solve that for g_X.
+- **`landau_pole`:** start at μ₀ = `inputs.MU_331`, run U(1)_X at one loop with `b_331`, and
+  return the μ at which α_X = 1 (the perturbative limit of the reference's three-loop
+  computation). The SU(3)_L and colour couplings don't enter at one loop.
+
+## 10. weak: the pion decay constant from G_F
+
+**Postulates.**
+- The charged-current interaction below M_W, with g_μν = diag(−1, 1, 1, 1) and
+  γ₅ = iγ⁰γ¹γ²γ³:
+  L = −(G_F/√2) V_ud [ū γ^α(1 − γ₅) d] [ℓ̄ γ_α(1 − γ₅) ν_ℓ] + h.c., the V − A product of the
+  quark and lepton currents.
+- The pion's coupling to the axial current: ⟨0| ū γ^α γ₅ d |π⁻(p)⟩ = i f_π p^α, which fixes
+  the ≈130 MeV convention for f_π; the vector current doesn't contribute (parity).
+- Relativistic normalization of states, ⟨p|p′⟩ = 2E (2π)³ δ³(p − p′); the neutrino is massless
+  and left-handed; sum over the lepton's spin.
+- The measured width includes radiation: Γ_measured = Γ_tree (1 + `inputs.DELTA_PI`).
+  Convert s⁻¹ to GeV with ħ = `inputs.HBAR`/(`inputs.E_CH` × 10⁹) GeV s.
+- **`pion_decay_width`** is Γ_tree for given arguments; **`fpi_from_pion_decay`** inverts it at
+  the measured width, using `pion_decay_width` itself.

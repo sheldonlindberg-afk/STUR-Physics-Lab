@@ -56,15 +56,29 @@ STAGES = [
         },
     },
     {
+        "name": "weak",
+        "module": "weak",
+        "depends": ["toolkit"],
+        "quoted_allowed": [],
+        "exports": {
+            "pion_decay_width": "pion_decay_width(fpi, GF, Vud, m_l, m_pi) -> GeV: tree-level width of pi- -> l- nubar for"
+                                " the V-A interaction of SPEC section 10; fpi in the ~130 MeV convention, all in GeV.",
+            "fpi_from_pion_decay": "fpi_from_pion_decay() -> GeV: f_pi (~130 MeV convention) from the measured"
+                                   " inputs.GAMMA_PI_MUNU, with inputs.DELTA_PI, V_UD, G_F, M_MU, M_PIC.",
+        },
+    },
+    {
         "name": "chiral",
         "module": "chiral",
-        "depends": ["toolkit"],
-        "quoted_allowed": ["chpt_mpi"],
+        "depends": ["toolkit", "weak"],
+        "quoted_allowed": ["chpt_mpi", "chpt_mpi_from_rungs"],
         "exports": {
             "goldstone_count": "goldstone_count(lam, v) -> int: zero modes of the O(4) sigma model at its vacuum, H = 0.",
             "sigma_model_vacuum": "sigma_model_vacuum(lam, v, H) -> (sigma0, mpi2): vacuum and pion mass^2 with explicit breaking H.",
             "gmor_mpi": "gmor_mpi(mq_sum, cond13, fpi) -> GeV: leading-order pion mass from GMOR.",
             "chpt_mpi": "chpt_mpi(m_ud, cond13, fpi_over_F, lbar3, fpi) -> GeV: O(p^4) ChPT pion mass (FLAG conventions).",
+            "chpt_mpi_from_rungs": "chpt_mpi_from_rungs() -> GeV: chpt_mpi at inputs.M_UD_FLAG, COND_13, FPI_OVER_F, LBAR3"
+                                   " and the f_pi stage weak derives (in the ~92 MeV convention, f/sqrt2).",
             "yukawa": "yukawa(r, m) -> float: the potential whose Fourier transform is 1/(q^2 + m^2), unit normalized.",
             "tensor_identity_residual": "tensor_identity_residual(q) -> float: max |(s1.q)(s2.q) - (q^2/3)(s1.s2 + S12)| over"
                                         " the 4x4 spin matrix, q a 3-vector.",
@@ -118,7 +132,9 @@ STAGES = [
             "ds_curvature_max": "ds_curvature_max(l, x) -> float: max |F| for de Sitter space of radius l at x.",
             "action_coefficients": "action_coefficients(M, l, x) -> (cR, cV): eps R^e^e = cR e R and eps e^e^e^e = cV e.",
             "ell_from_lambda": "ell_from_lambda(Lam) -> m: de Sitter radius for cosmological constant Lam (m^-2).",
-            "mm_coupling": "mm_coupling(Lam, lP) -> float: the dimensionless MacDowell-Mansouri coupling 3/(lP^2 Lam).",
+            "mm_coupling": "mm_coupling(Lam, lP) -> float: the dimensionless MacDowell-Mansouri coupling l^2/lP^2, l = ell_from_lambda(Lam).",
+            "ricci_scalar": "ricci_scalar(M, l, x) -> float: E_a^mu E_b^nu R^ab_{mu nu} on Schwarzschild-de Sitter at"
+                            " x = (t, r, theta, phi), from the same curvature R^ab that action_coefficients contracts.",
         },
     },
     {
@@ -140,15 +156,35 @@ STAGES = [
             "isco": "isco() -> (r, L2, E2): innermost stable circular orbit, M = 1, numerically.",
             "shadow_uas": "shadow_uas(m_sun, d_pc) -> uas: Schwarzschild shadow diameter.",
             "kerr_area_km2": "kerr_area_km2(m_sun, chi) -> km^2: horizon area.",
-            "qnm_220": "qnm_220(m_det_sun, chi) -> (f Hz, damping rate Hz) from inputs.BCW_220.",
+            "qnm_220": "qnm_220(m_det_sun, chi) -> (f Hz, damping rate s^-1) from inputs.BCW_220.",
             "invert_220": "invert_220(f, damp, z) -> (source-frame M_sun, chi) from the 220 mode.",
             "hawking_K": "hawking_K(m_kg) -> K: Hawking temperature.",
         },
     },
     {
+        "name": "running",
+        "module": "running",
+        "depends": ["toolkit", "gauge331"],
+        "quoted_allowed": [],
+        "exports": {
+            "sm_coefficients": "sm_coefficients() -> (b_Y, b_2) Fractions: one-loop coefficients, d(1/alpha_i)/d ln mu ="
+                               " -b_i/(2 pi), of the Standard Model's U(1)_Y (Q = T3 + Y) and SU(2)_L below the 3-3-1"
+                               " scale: 3 colours, 3 generations, one Higgs doublet (SPEC section 9).",
+            "b_331": "b_331(Nc, variant) -> (b_X, b_L) Fractions: the same for U(1)_X (charge X as in SPEC section 2) and"
+                     " SU(3)_L above the 3-3-1 scale, with N_g = N_c generations and the field content of SPEC"
+                     " sections 2 and 9.",
+            "couplings_at": "couplings_at(mu) -> (1/alpha_Y, 1/alpha_2): the Standard Model couplings at mu GeV, one loop,"
+                            " from inputs.MZ_MEAS, ALPHA_MZ_INV, S2_MZ.",
+            "matching_331": "matching_331(mu, variant) -> (1/alpha_X, 1/alpha_L): the 3-3-1 couplings at mu, matched to"
+                            " couplings_at(mu) as SPEC section 9 states.",
+            "landau_pole": "landau_pole(Nc, variant) -> GeV: the scale above inputs.MU_331 at which alpha_X reaches 1,"
+                           " at one loop, starting from matching_331(inputs.MU_331, variant).",
+        },
+    },
+    {
         "name": "links",
         "module": "links",
-        "depends": ["toolkit", "gauge331", "chiral", "casimir", "graviton", "desitter", "blackholes"],
+        "depends": ["toolkit", "gauge331", "chiral", "casimir", "graviton", "desitter", "blackholes", "running", "weak"],
         "quoted_allowed": ["pi0_width_eV", "pi0_width_from_rungs"],
         "exports": {
             "qp_qe_minus_anomaly": "qp_qe_minus_anomaly(Nc, b, XL, Xt) -> Fraction: (q_p + q_e) - [SU(3)_L]^2 U(1)_X / N_g"
@@ -161,8 +197,12 @@ STAGES = [
             "schwarzschild_radius": "schwarzschild_radius(m) -> m.",
             "matter_charges": "matter_charges(Nc, variant) -> (q_p, q_n, q_e, Q_nu) Fractions, from rung 1's"
                               " gauge331.quark_charges and the lepton triplet's gauge331.triplet_charges.",
-            "pi0_width_from_rungs": "pi0_width_from_rungs() -> eV: pi0 -> gamma gamma with rung 1's charges at N_c = 3"
-                                    " and inputs.ALPHA_0, F_PI, M_PI0.",
+            "pi0_width_from_rungs": "pi0_width_from_rungs() -> eV: pi0 -> gamma gamma with rung 1's charges at N_c = 3,"
+                                    " weak.fpi_from_pion_decay() (in the ~92 MeV convention, f/sqrt2), inputs.ALPHA_0"
+                                    " and M_PI0.",
+            "g_window_from_rungs": "g_window_from_rungs(variant) -> (lo, hi): g_window with the one-loop poles"
+                                   " running.landau_pole(3, variant) and (5, variant), and planck_mass_GeV of the"
+                                   " inputs' G, hbar, c.",
             "planck_bh_kT_GeV": "planck_bh_kT_GeV() -> GeV: k_B T_H of a black hole of one Planck mass, from"
                                 " blackholes.hawking_K and planck_mass_GeV.",
         },
@@ -200,8 +240,24 @@ CONNECTIONS = [
      "up": [("gauge331", "quark_charges"), ("gauge331", "triplet_charges")],
      "why": "link 1: neutral matter uses rung 1's charges"},
     {"id": "L2", "down": ("links", "pi0_width_from_rungs", ()),
-     "up": [("gauge331", "quark_charges"), ("links", "pi0_width_eV")],
-     "why": "link 2: pi0 -> gamma gamma uses rung 1's charges"},
+     "up": [("gauge331", "quark_charges"), ("links", "pi0_width_eV"), ("weak", "fpi_from_pion_decay")],
+     "why": "link 2: pi0 -> gamma gamma uses rung 1's charges and the weak decay's f_pi"},
+    {"id": "C-fpi", "down": ("chiral", "chpt_mpi_from_rungs", ()),
+     "up": [("weak", "fpi_from_pion_decay"), ("chiral", "chpt_mpi")],
+     "why": "the strong force's pion mass uses the f_pi the weak decay gives"},
+    {"id": "R-content", "down": ("running", "b_331", (5, "+1/sqrt3")),
+     "up": [("gauge331", "triplet_charges"), ("gauge331", "quark_charges")],
+     "why": "the running counts rung 1's multiplets: their charges come from rung 1"},
+    {"id": "R-match", "down": ("running", "matching_331", (4000.0, "-1/sqrt3")),
+     "up": [("running", "couplings_at"), ("gauge331", "inv_e2")],
+     "why": "matching keeps the photon coupling continuous: rung 1's 1/e^2"},
+    {"id": "R-pole", "down": ("running", "landau_pole", (3, "+1/sqrt3")),
+     "up": [("running", "matching_331"), ("running", "b_331")], "why": "the pole is where the matched coupling runs to 1"},
+    {"id": "W-fpi", "down": ("weak", "fpi_from_pion_decay", ()),
+     "up": [("weak", "pion_decay_width")], "why": "f_pi is read off the decay width, not a separate formula"},
+    {"id": "L6", "down": ("links", "g_window_from_rungs", ("+1/sqrt3",)),
+     "up": [("running", "landau_pole"), ("links", "g_window"), ("links", "planck_mass_GeV")],
+     "why": "link 6: the G window from the poles the ladder itself derives"},
     {"id": "L5", "down": ("links", "planck_bh_kT_GeV", ()),
      "up": [("blackholes", "hawking_K"), ("links", "planck_mass_GeV")],
      "why": "link 5: rung 6's temperature at link 3's cutoff"},

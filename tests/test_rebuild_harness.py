@@ -103,7 +103,7 @@ def test_oracle_catches_what_blind_checks_cannot(tmp_path):
     assert harness.run(d, mode="builder", lint=False)["ok"]
     rep = harness.run(d, mode="verifier", lint=False)
     fails = [l for l, ok, _ in rep["stages"]["links"]["oracle"] if not ok]
-    assert fails == ["pi0 width 7.785 eV", "pi0 width from rung 1's charges 7.785 eV"]
+    assert fails == ["pi0 width 7.785 eV", "pi0 width from rung 1's charges and the weak decay's f_pi: 7.7417 eV (force chain)"]
 
 
 def test_quoted_provenance_where_derivation_required(tmp_path):
@@ -198,3 +198,250 @@ def test_every_connection_is_exercised(reference_report):
 def test_lint_rejects_from_stage_import(tmp_path):
     res = _lint(tmp_path, "graviton", "from toolkit import trapezoid\n")
     assert not res["imports: standard library, inputs, earlier stages only"][0]
+
+
+# Leaks 3 and 4 of build 2026-11-a: closed forms moved from the blind checks to the oracle.
+# Each mutant below has the right properties (passes the builder gate) and the wrong closed form.
+def test_wrong_charge_normalization_needs_the_oracle(tmp_path):
+    d = _mutant(tmp_path, "gauge331", """
+        _ie2 = inv_e2
+        def inv_e2(variant, g, gX):
+            return 1.01 * _ie2(variant, g, gX)    # still homogeneous, still above 1/g^2 and 1/gX^2
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert rep["stages"]["gauge331"]["status"] == "pass"     # rung 1's own tier can't see it
+    # downstream, stage running's matching (through inv_e2) does: the rungs check each other
+    assert [l for l, ok, _ in rep["stages"]["running"]["blind"] if not ok] == \
+        ["matching keeps g_L = g_2 and rung 1's photon coupling"]
+    rep = harness.run(d, mode="verifier", lint=False)
+    fails = [l for l, ok, _ in rep["stages"]["gauge331"]["oracle"] if not ok]
+    assert fails == ["-1/sqrt3: 1/e^2 = (1 + beta^2)/g^2 + 1/gX^2", "+1/sqrt3: 1/e^2 = (1 + beta^2)/g^2 + 1/gX^2"]
+
+
+def test_wrong_kappa_normalization_needs_the_oracle(tmp_path):
+    # kappa doubled everywhere, and the Euclidean ratio redefined to match: self-consistent, wrong
+    d = _mutant(tmp_path, "blackholes", """
+        _kk, _ks, _ec = killing_kappa, kappa_from_spin_connection, euclidean_cone_ratio
+        def killing_kappa(f, r0, h):
+            return 2 * _kk(f, r0, h)
+        def kappa_from_spin_connection(M, l):
+            return tuple(2 * k for k in _ks(M, l))
+        def euclidean_cone_ratio(f, rh, beta, eps):
+            return _ec(f, rh, 2 * beta, eps)
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert [l for l, ok, _ in rep["stages"]["blackholes"]["blind"] if not ok] == []
+    rep = harness.run(d, mode="verifier", lint=False)
+    fails = {l for l, ok, _ in rep["stages"]["blackholes"]["oracle"] if not ok}
+    assert {"Killing kappa_b = f'(r_b)/2", "Killing kappa_c = -f'(r_c)/2", "Euclidean section smooth at period 2 pi/(f'/2)"} <= fails
+
+
+def test_wrong_lambda_relation_needs_the_oracle(tmp_path):
+    d = _mutant(tmp_path, "desitter", """
+        def ell_from_lambda(Lam):
+            return (2 / Lam) ** 0.5               # the right scaling, the wrong coefficient
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert [l for l, ok, _ in rep["stages"]["desitter"]["sensitivity"] if not ok] == []
+    rep = harness.run(d, mode="verifier", lint=False)
+    fails = [l for l, ok, _ in rep["stages"]["desitter"]["oracle"] if not ok]
+    assert "Lambda l^2 = 3" in fails
+
+
+def test_wrong_pion_mass_needs_the_oracle(tmp_path):
+    d = _mutant(tmp_path, "chiral", """
+        _sv = sigma_model_vacuum
+        def sigma_model_vacuum(lam, v, H):
+            s0, m2 = _sv(lam, v, H)
+            return s0, 1.01 * m2                  # still positive and linear in H
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert [l for l, ok, _ in rep["stages"]["chiral"]["blind"] if not ok] == []
+    rep = harness.run(d, mode="verifier", lint=False)
+    fails = [l for l, ok, _ in rep["stages"]["chiral"]["oracle"] if not ok]
+    assert len(fails) == 2 and all(l.startswith("m_pi^2 = H/<sigma>") for l in fails)
+
+
+def test_wrong_curvature_is_caught(tmp_path):
+    # C1 of build 2026-11-a: cR = 2 is an epsilon identity and can't see R^ab. A curvature with the
+    # omega ^ omega term dropped (R = d omega only) must now fail.
+    d = _mutant(tmp_path, "desitter", """
+        import _ref as _r
+        def ricci_scalar(M, l, x):
+            f, fp = _r._sds(M, l)
+            return _r.ricci_scalar(M, l, x) - 2 * (1 - f(x[1])) / x[1] ** 2     # wrong: angular omega^omega terms dropped
+    """)
+    rep = harness.run(d, mode="verifier", lint=False)
+    assert [l for l, ok, _ in rep["stages"]["desitter"]["blind"] if not ok] == \
+        ["ricci_scalar is the contraction of d omega + omega ^ omega; R ~ 1/length^2"]
+    assert all(not ok for l, ok, _ in rep["stages"]["desitter"]["oracle"] if l.startswith("Ricci scalar"))
+
+
+# Audit of builds 2026-11-a and 2026-11-b (AUDIT.md): each mutant below passed every tier before
+# the audit's checks, and must now fail.
+_WRONG_TETRAD = """
+    import math as _m
+    def spin_connection(x, f, fp):
+        t, r, th, ph = x
+        sf = _m.sqrt(f(r))
+        E = [[0.0] * 4 for _ in range(4)]
+        E[0][0], E[1][1], E[2][2], E[3][3] = sf, 1 / sf, r, {E33}
+        w = [[[0.0] * 4 for _ in range(4)] for _ in range(4)]
+        w[0][1][0] = w[1][0][0] = fp(r) / 2
+        w[2][1][2], w[1][2][2] = sf, -sf
+        w[3][1][3], w[1][3][3] = {W31}, -({W31})
+        w[3][2][3] = {W32}
+        w[2][3][3] = -w[3][2][3]
+        return E, w
+    def ricci_scalar(M, l, x, h=1e-5):              # made consistent with the wrong omega, so ricci_two_routes passes
+        f = lambda r: 1 - 2 * M / r - r * r / l**2
+        fp = lambda r: 2 * M / r**2 - 2 * r / l**2
+        E, w = spin_connection(x, f, fp)
+        dw = []
+        for mu in range(4):
+            p, q = list(x), list(x)
+            p[mu] += h
+            q[mu] -= h
+            a, b = spin_connection(p, f, fp)[1], spin_connection(q, f, fp)[1]
+            dw.append([[[(a[i][j][n] - b[i][j][n]) / (2 * h) for n in range(4)] for j in range(4)] for i in range(4)])
+        return sum((dw[a][a][b][b] - dw[b][a][b][a] + sum(w[a][c][a] * w[c][b][b] - w[a][c][b] * w[c][b][a] for c in range(4)))
+                   / (E[a][a] * E[b][b]) * (-1 if b == 0 else 1) for a in range(4) for b in range(4))
+"""
+
+
+def test_wrong_tetrad_is_caught_by_blind_checks(tmp_path):
+    # e^3 = r dphi instead of r sin(theta) dphi, with omega torsion-free FOR THAT tetrad and ricci_scalar
+    # consistent with it: the torsion and ricci_two_routes checks pass; the metric and flatness checks don't
+    d = _mutant(tmp_path, "desitter", _WRONG_TETRAD.format(E33="r", W31="sf", W32="0.0"))
+    rep = harness.run(d, mode="builder", lint=False)
+    fails = [l for l, ok, _ in rep["stages"]["desitter"]["blind"] if not ok]
+    assert "tetrad reproduces -f dt^2 + dr^2/f + r^2 dOmega^2 at random points" in fails
+    assert "de Sitter F = 0 built from the build's spin_connection and so41_generator" in fails
+    assert "spin connection is torsion-free and metric (omega_ab = -omega_ba)" not in fails
+
+
+def test_omega_tuned_to_the_torsion_point_is_caught(tmp_path):
+    # omega^3_2 = cos(1.1): right at the torsion check's theta, wrong d/dtheta (a branch on the test's argument)
+    d = _mutant(tmp_path, "desitter", _WRONG_TETRAD.format(E33="r * _m.sin(th)", W31="sf * _m.sin(th)", W32="_m.cos(1.1)"))
+    rep = harness.run(d, mode="builder", lint=False)
+    assert [l for l, ok, _ in rep["stages"]["desitter"]["blind"] if not ok] == \
+        ["de Sitter F = 0 built from the build's spin_connection and so41_generator"]
+
+
+def test_pi0_mass_dependence_is_caught(tmp_path):
+    # right at the physical pion mass (so the oracle's 7.785 eV passes), wrong power of m
+    d = _mutant(tmp_path, "links", """
+        import inputs as _i
+        _w0 = pi0_width_eV
+        def pi0_width_eV(alpha, fpi, mpi, Nc, Qu, Qd):
+            return _w0(alpha, fpi, mpi, Nc, Qu, Qd) * mpi / _i.M_PI0
+    """)
+    rep = harness.run(d, mode="verifier", lint=False)
+    assert all(ok for _, ok, _ in rep["stages"]["links"]["oracle"])
+    assert [l for l, ok, _ in rep["stages"]["links"]["blind"] if not ok] == ["pi0 width ~ A^2 m^3 (dimensional analysis)"]
+
+
+def test_point_mass_metric_normalization_is_caught_blind(tmp_path):
+    # gamma = 1 but the wrong normalization: the old PPN check passed it, only the oracle saw it
+    d = _mutant(tmp_path, "graviton", """
+        from fractions import Fraction as _F
+        def point_mass_metric():
+            return _F(1), _F(1)
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert [l for l, ok, _ in rep["stages"]["graviton"]["blind"] if not ok] == \
+        ["point-mass metric = 16 pi G Y P.tau (field equation and tpt agree)"]
+
+
+def test_hidden_quoted_dependency_is_caught(tmp_path):
+    # C2 of build 2026-11-a: 'derived' on top of a quoted export, without saying so
+    d = _mutant(tmp_path, "links", """
+        import inputs as _i
+        import blackholes
+        def planck_bh_kT_GeV():
+            mpl = planck_mass_GeV(_i.G_NEWTON, _i.HBAR, _i.C_LIGHT)
+            return _i.K_B * blackholes.hawking_K(mpl * 1e9 * _i.E_CH / _i.C_LIGHT**2) / _i.E_CH / 1e9
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert [l for l, ok, _ in rep["stages"]["links"]["contract"] if not ok] == \
+        ["PROVENANCE[planck_bh_kT_GeV] names its quoted dependencies"]
+
+
+# Stages running (one-loop 3-3-1 Landau poles) and weak (f_pi from G_F): each mutant is a plausible
+# wrong implementation that must fail.
+def test_wrong_field_content_needs_the_oracle(tmp_path):
+    # b_X 10% low (a forgotten singlet, say): still exact, positive and growing with N_c, and the pole
+    # is still where that b_X runs to 1, so every blind check passes
+    d = _mutant(tmp_path, "running", """
+        from fractions import Fraction as _F
+        _b = b_331
+        def b_331(Nc, variant):
+            bX, bL = _b(Nc, variant)
+            return bX * _F(9, 10), bL
+    """)
+    rep = harness.run(d, mode="verifier", lint=False)
+    assert [l for l, ok, _ in rep["stages"]["running"]["blind"] if not ok] == []
+    fails = [l for l, ok, _ in rep["stages"]["running"]["oracle"] if not ok]
+    assert "+1/sqrt3: b_331 equals src's field content (N_c = 1, 3, 5, 7)" in fails
+    assert "+1/sqrt3: one-loop pole, N_c = 3, equals src's one-loop running" in fails
+
+
+def test_wrong_matching_is_caught_blind(tmp_path):
+    # beta^2 = 1 in the matching instead of rung 1's photon coupling
+    d = _mutant(tmp_path, "running", """
+        def matching_331(mu, variant):
+            aY, a2 = couplings_at(mu)
+            return aY - a2, a2
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert "matching keeps g_L = g_2 and rung 1's photon coupling" in \
+        [l for l, ok, _ in rep["stages"]["running"]["blind"] if not ok]
+
+
+def test_missing_helicity_suppression_is_caught_blind(tmp_path):
+    d = _mutant(tmp_path, "weak", """
+        from math import pi as _pi
+        def pion_decay_width(fpi, GF, Vud, m_l, m_pi):
+            return GF**2 * Vud**2 * fpi**2 * m_pi**3 * (1 - m_l**2 / m_pi**2) ** 2 / (8 * _pi)
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert [l for l, ok, _ in rep["stages"]["weak"]["blind"] if not ok] == ["helicity suppression and phase-space closure"]
+
+
+def test_wrong_width_normalization_needs_the_oracle(tmp_path):
+    # twice the width: every property and the round trip still hold (f_pi is read off the same formula)
+    d = _mutant(tmp_path, "weak", """
+        _w = pion_decay_width
+        def pion_decay_width(*a):
+            return 2 * _w(*a)
+    """)
+    rep = harness.run(d, mode="verifier", lint=False)
+    assert [l for l, ok, _ in rep["stages"]["weak"]["blind"] if not ok] == []
+    assert len([l for l, ok, _ in rep["stages"]["weak"]["oracle"] if not ok]) == 2
+
+
+def test_pi0_with_the_input_fpi_is_caught(tmp_path):
+    d = _mutant(tmp_path, "links", """
+        import inputs as _i
+        import gauge331 as _g
+        import weak as _wk
+        def pi0_width_from_rungs():
+            _wk.fpi_from_pion_decay()                 # called, but its value thrown away for the input F_PI
+            Qu, Qd = _g.quark_charges(3)
+            return pi0_width_eV(_i.ALPHA_0, _i.F_PI, _i.M_PI0, 3, Qu, Qd)
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert [l for l, ok, _ in rep["stages"]["links"]["blind"] if not ok] == \
+        ["pi0 width from rung 1's charges and stage weak's f_pi"]
+
+
+def test_chpt_with_the_input_fpi_is_caught(tmp_path):
+    d = _mutant(tmp_path, "chiral", """
+        import inputs as _i
+        import weak as _wk
+        def chpt_mpi_from_rungs():
+            _wk.fpi_from_pion_decay()                 # called, but the lattice input used instead
+            return chpt_mpi(_i.M_UD_FLAG, _i.COND_13, _i.FPI_OVER_F, _i.LBAR3, _i.F_PI)
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert [l for l, ok, _ in rep["stages"]["chiral"]["blind"] if not ok] == ["O(p^4) pion mass with stage weak's f_pi"]

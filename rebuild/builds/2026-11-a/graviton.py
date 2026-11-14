@@ -26,7 +26,9 @@ PROVENANCE = {
                                     " (inverse FT of the one-graviton amplitude -8 pi G tpt/q^2); parallel"
                                     " geometry d_LR = sqrt(gap^2 + (dx s)^2); toolkit.trapezoid on n samples"),
     "design_phase": ("derived", "entangling_phase(inputs.DESIGN_A_*) at casimir.casimir_safe_gap(inputs."
-                                "GAP_BASELINE_MASS, _DX, _TAU, GAP_FRACTION), all read at call time"),
+                                "GAP_BASELINE_MASS, _DX, _TAU, GAP_FRACTION), all read at call time; the gap"
+                                " rests on the quoted Casimir-Polder potential casimir.cp_energy, used there"
+                                " to set the safe gap; the phase itself is Newtonian"),
 }
 
 ETA = (-1, 1, 1, 1)          # diagonal of the Minkowski metric (signature postulate, SPEC 5)

@@ -109,6 +109,68 @@ def tier_contract(stage, mod):
     return out
 
 
+def _quoted_deps(build_dir, mods):
+    """{(module, function): set of quoted exports it reaches}: by calls written as <stage>.<fn>(...) or to a
+    same-module function, followed through every stage module of the build (C2 of build 2026-11-a)."""
+    stage_mods = [s["module"] for s in contract.STAGES]
+    quoted = {(s["module"], n) for s in contract.STAGES for n, v in getattr(mods.get(s["module"]), "PROVENANCE", {}).items()
+              if isinstance(v, tuple) and v and v[0] == "quoted"}
+    calls = {}
+    for mod in stage_mods:
+        path = os.path.join(build_dir, mod + ".py")
+        if mod not in mods or not os.path.exists(path):
+            continue
+        tree = ast.parse(open(path, encoding="utf-8").read())
+        funcs = {n.name: n for n in tree.body if isinstance(n, ast.FunctionDef)}
+        for name, node in funcs.items():
+            out = set()
+            for c in ast.walk(node):
+                if isinstance(c, ast.Call):
+                    f = c.func
+                    if isinstance(f, ast.Attribute) and isinstance(f.value, ast.Name) and f.value.id in stage_mods:
+                        out.add((f.value.id, f.attr))
+                    elif isinstance(f, ast.Name) and f.id in funcs:
+                        out.add((mod, f.id))
+            calls[(mod, name)] = out
+    # a private helper that a quoted export calls carries the quoted formula too (a build must not dodge the
+    # rule by calling _cp_coefficient instead of cp_energy); it is reported under the quoted export's name
+    owner = {}
+    frontier = [(q, q) for q in quoted]
+    while frontier:
+        q, k = frontier.pop()
+        for c in calls.get(k, ()):
+            if c[0] == q[0] and c[1].startswith("_") and c not in owner:
+                owner[c] = q
+                frontier.append((q, c))
+    deps = {k: {owner.get(c, c) for c in v if c in quoted or c in owner} for k, v in calls.items()}
+    changed = True
+    while changed:                                   # fixed point: a call to a function that reaches a quoted one
+        changed = False
+        for k, v in calls.items():
+            if k in quoted or k in owner:
+                continue
+            new = set().union(*(deps.get(c, set()) for c in v)) | deps[k]
+            if new != deps[k]:
+                deps[k], changed = new, True
+    return deps
+
+
+def tier_provenance_deps(stage, build_dir, mods):
+    """C2: an export whose value depends on a quoted export is labelled quoted, or its note names the quoted
+    formula it rests on (the word 'quoted' and the export)."""
+    deps = _quoted_deps(build_dir, mods)
+    prov = getattr(mods.get(stage["module"]), "PROVENANCE", {})
+    out = []
+    for n in stage["exports"]:
+        kind, note = prov.get(n, ("?", ""))
+        d = sorted(f"{m}.{f}" for m, f in deps.get((stage["module"], n), set()) if (m, f) != (stage["module"], n))
+        if kind == "derived" and d:
+            ok = "quoted" in note.lower() and all(x.split(".")[1] in note for x in d)
+            out.append((f"PROVENANCE[{n}] names its quoted dependencies", ok,
+                        "" if ok else f"derived, but rests on quoted {d}: say so in the note, or label it quoted"))
+    return out
+
+
 # ------------------------------------------------------------------------------------------
 # tier 2: lint
 # ------------------------------------------------------------------------------------------
@@ -249,8 +311,10 @@ def tier_sensitivity(name, m):
         out.append(_sens("entangling phase ~ 1/hbar", hb))
     elif name == "desitter":
         D = m["desitter"]
-        out.append(_sens("ell is sqrt(3/Lambda)-shaped, not a constant",
-                         lambda: (_rel(D.ell_from_lambda(3.0), 1.0) < 1e-12, f"ell(3) = {D.ell_from_lambda(3.0)}")))
+        def ell_scaling():
+            a, b = D.ell_from_lambda(1e-52), D.ell_from_lambda(4e-52)
+            return _rel(a / b, 2) < 1e-12, f"ell(L)/ell(4L) = {a / b}"
+        out.append(_sens("ell ~ Lambda^-1/2, not a constant", ell_scaling))
     elif name == "blackholes":
         B = m["blackholes"]
         def nar():
@@ -270,6 +334,31 @@ def tier_sensitivity(name, m):
             return _rel(b / a, 3) < 1e-12, "shadow ~ GM_sun"
         out += [_sens("Nariai mass reads G", nar), _sens("Hawking temperature reads hbar, k_B", hk),
                 _sens("shadow reads GM_SUN", sh)]
+    elif name == "running":
+        R = m["running"]
+        def ainv():
+            a = R.landau_pole(3, "+1/sqrt3")
+            with mutated(ALPHA_MZ_INV=1.01 * inputs.ALPHA_MZ_INV):
+                b = R.landau_pole(3, "+1/sqrt3")
+            with mutated(MU_331=2 * inputs.MU_331):
+                c = R.landau_pole(3, "+1/sqrt3")
+            return b > a and _rel(c, a) > 1e-3, "pole moves with 1/alpha(M_Z) and with the 3-3-1 scale"
+        def s2():
+            a = R.couplings_at(1e3)
+            with mutated(S2_MZ=0.25):
+                b = R.couplings_at(1e3)
+            return _rel(a[1], b[1]) > 1e-3, "couplings read S2_MZ"
+        out += [_sens("Landau pole reads ALPHA_MZ_INV and MU_331", ainv), _sens("running reads S2_MZ", s2)]
+    elif name == "weak":
+        W = m["weak"]
+        def gf():
+            a = W.fpi_from_pion_decay()
+            with mutated(G_F=2 * inputs.G_F):
+                b = W.fpi_from_pion_decay()
+            with mutated(GAMMA_PI_MUNU=4 * inputs.GAMMA_PI_MUNU):
+                c = W.fpi_from_pion_decay()
+            return _rel(a / b, 2) < 1e-12 and _rel(c / a, 2) < 1e-12, "f_pi ~ sqrt(Gamma)/G_F"
+        out.append(_sens("f_pi reads G_F and the measured width", gf))
     elif name == "links":
         Lk = m["links"]
         def neu():
@@ -335,6 +424,7 @@ PROBES = [
     ("graviton", "entangling_phase", (inputs.DESIGN_A_MASS, inputs.DESIGN_A_DX, inputs.DESIGN_A_HOLD,
                                       inputs.DESIGN_A_RAMP, 2.0e-4)),
     ("desitter", "action_coefficients", (0.2, 5.0, [0.0, 1.9, 0.8, 0.3])),
+    ("desitter", "ricci_scalar", (0.2, 5.0, [0.0, 1.9, 0.8, 0.3])),
     ("blackholes", "sds_horizons", (1.0, 7.0)),
     ("blackholes", "isco", ()),
     ("blackholes", "kerr_first_law", (Fraction(7, 2), Fraction(3, 5), 1, 1)),
@@ -343,6 +433,13 @@ PROBES = [
     ("blackholes", "kappa_from_spin_connection", (1.0, 9.0)),
     ("links", "matter_charges", (5, "+1/sqrt3")),
     ("links", "planck_bh_kT_GeV", ()),
+    ("running", "b_331", (5, "+1/sqrt3")),
+    ("running", "matching_331", (4000.0, "-1/sqrt3")),
+    ("running", "landau_pole", (3, "+1/sqrt3")),
+    ("weak", "pion_decay_width", (0.13, 1.17e-5, 0.97, 0.106, 0.14)),
+    ("weak", "fpi_from_pion_decay", ()),
+    ("chiral", "chpt_mpi_from_rungs", ()),
+    ("links", "g_window_from_rungs", ("-1/sqrt3",)),
 ]
 
 
@@ -407,7 +504,7 @@ def run(build_dir, mode="builder", upto=None, compare=None, lint=True, modules=N
             blocked = name
             continue
         mod = mods[s["module"]]
-        rec["contract"] = tier_contract(s, mod)
+        rec["contract"] = tier_contract(s, mod) + tier_provenance_deps(s, build_dir, mods)
         if lint:
             rec["lint"] = tier_lint(s, os.path.join(build_dir, s["module"] + ".py"))
         if all(ok for _, ok, _ in rec["contract"]):

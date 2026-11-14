@@ -1,7 +1,8 @@
 """links: where one rung feeds another (SPEC.md section 8 and "Connections between stages").
 
 Derivations and second routes: DERIVATION_links.md. Exact charges are fractions.Fraction.
-Upstream rungs are reached only as gauge331.<fn>, blackholes.<fn>, toolkit.<fn> at call time.
+Upstream rungs are reached only as gauge331.<fn>, blackholes.<fn>, weak.<fn>, running.<fn>, toolkit.<fn>
+at call time.
 """
 import itertools
 import math
@@ -11,6 +12,8 @@ import inputs
 import toolkit
 import gauge331
 import blackholes
+import running
+import weak
 import graviton  # self-check second route only (rung 4's entangling phase)
 
 PROVENANCE = {
@@ -31,9 +34,15 @@ PROVENANCE = {
                                   " ((N_c+1)/2 u, (N_c-1)/2 d); q_e, Q_nu = components 2, 1 of"
                                   " gauge331.triplet_charges(X_L, variant), X_L per SPEC 2"),
     "pi0_width_from_rungs": ("quoted", "pi0_width_eV (quoted ABJ amplitude) at N_c = 3 with rung 1's"
-                                       " gauge331.quark_charges(3) and inputs.ALPHA_0, F_PI, M_PI0"),
+                                       " gauge331.quark_charges(3), inputs.ALPHA_0, M_PI0 and f_pi ="
+                                       " weak.fpi_from_pion_decay() / sqrt2 (stage weak's derived f_pi,"
+                                       " ~130 MeV convention converted to ~92 MeV); not inputs.F_PI"),
+    "g_window_from_rungs": ("derived", "g_window(p3, p5, mpl) with p3, p5 = running.landau_pole(3, variant),"
+                                       " running.landau_pole(5, variant) (stage running's one-loop poles) and"
+                                       " mpl = planck_mass_GeV(inputs.G_NEWTON, HBAR, C_LIGHT)"),
     "planck_bh_kT_GeV": ("derived", "blackholes.hawking_K (rung 6) at m = planck_mass_GeV * 1e9 e/c^2, times"
-                                    " k_B, in GeV; = M_Pl c^2/(8 pi)"),
+                                    " k_B, in GeV; = M_Pl c^2/(8 pi); rests on the quoted Hawking temperature"
+                                    " hawking_K, evaluated at the Planck mass"),
 }
 
 
@@ -146,7 +155,8 @@ def pi0_width_eV(alpha, fpi, mpi, Nc, Qu, Qd):
 
 def pi0_width_from_rungs():
     Qu, Qd = gauge331.quark_charges(3)
-    return pi0_width_eV(inputs.ALPHA_0, inputs.F_PI, inputs.M_PI0, 3, Qu, Qd)
+    fpi = weak.fpi_from_pion_decay() / math.sqrt(2)          # ~130 MeV convention -> ~92 MeV
+    return pi0_width_eV(inputs.ALPHA_0, fpi, inputs.M_PI0, 3, Qu, Qd)
 
 
 # ------------------------------------------------------------------------------------------
@@ -159,6 +169,13 @@ def planck_mass_GeV(G, hbar, c):
 
 def g_window(p3, p5, mpl):
     return (mpl / p3) ** 2, (mpl / p5) ** 2
+
+
+def g_window_from_rungs(variant):
+    p3 = running.landau_pole(3, variant)
+    p5 = running.landau_pole(5, variant)
+    mpl = planck_mass_GeV(inputs.G_NEWTON, inputs.HBAR, inputs.C_LIGHT)
+    return g_window(p3, p5, mpl)
 
 
 def schwarzschild_radius(m):
@@ -257,10 +274,20 @@ if __name__ == "__main__":
           f" numerical {phs_num * 8 * math.pi:.12f}")
     w = pi0_width_from_rungs()
     Qu, Qd = gauge331.quark_charges(3)
-    A = inputs.ALPHA_0 / (math.pi * inputs.F_PI) * 3 * float(Qu * Qu - Qd * Qd)
+    # second route for the derived f_pi: toolkit.bisect on weak.pion_decay_width at the measured tree width
+    # (not weak.fpi_from_pion_decay), then the closed form A^2 m^3/(64 pi)
+    g_tree = inputs.GAMMA_PI_MUNU * inputs.HBAR / _gev_J() / (1 + inputs.DELTA_PI)
+    f130 = toolkit.bisect(lambda f: weak.pion_decay_width(f, inputs.G_F, inputs.V_UD, inputs.M_MU, inputs.M_PIC)
+                          - g_tree, 0.01, 1.0)
+    f92 = f130 / math.sqrt(2)
+    A = inputs.ALPHA_0 / (math.pi * f92) * 3 * float(Qu * Qu - Qd * Qd)
     closed = A * A * M ** 3 / (64 * math.pi) * 1e9
+    w_input = pi0_width_eV(inputs.ALPHA_0, inputs.F_PI, M, 3, Qu, Qd)
     pull = (w - inputs.GAMMA_PI0) / inputs.GAMMA_PI0_ERR
-    print(f"  Gamma(pi0 -> gg) = {w:.6f} eV (closed form {closed:.6f}); N_c(Q_u^2-Q_d^2) = {3 * (Qu * Qu - Qd * Qd)}")
+    print(f"  f_pi(weak) = {weak.fpi_from_pion_decay() * 1e3:.4f} MeV (~130), /sqrt2 = {f92 * 1e3:.4f} MeV"
+          f" (bisected route); input F_PI = {inputs.F_PI * 1e3:.4f} MeV")
+    print(f"  Gamma(pi0 -> gg) = {w:.6f} eV (route 2, closed form at bisected f_pi: {closed:.6f}, rel diff"
+          f" {abs(closed / w - 1):.1e}); N_c(Q_u^2-Q_d^2) = {3 * (Qu * Qu - Qd * Qd)}; with input F_PI {w_input:.6f} eV")
     print(f"  measured {inputs.GAMMA_PI0} +- {inputs.GAMMA_PI0_ERR:.4f} eV: pull = {pull:+.3f} sigma")
 
     print("== 6/7. Planck mass and the G window")
@@ -277,6 +304,21 @@ if __name__ == "__main__":
                                                                           inputs.C_LIGHT) / p5), -120.0, 120.0))
         print(f"  {v}: poles (N_c=3, 5) = ({p3:.5e}, {p5:.5e}) GeV; G/G_meas in ({lo:.6e}, {hi:.6e});"
               f" bisection ({lo2:.6e}, {hi2:.6e}); measured G inside: {lo < 1 < hi}")
+    print("  one-loop poles of stage running (g_window_from_rungs):")
+    for v in ("+1/sqrt3", "-1/sqrt3"):
+        lo, hi = g_window_from_rungs(v)
+        p3, p5 = running.landau_pole(3, v), running.landau_pole(5, v)
+        # second route: solve M_Pl(x G) = pole for log x by toolkit.bisect, M_Pl from planck_mass_GeV at x G
+        G0 = inputs.G_NEWTON
+        def edge(pole):
+            return math.exp(toolkit.bisect(lambda lx: math.log(planck_mass_GeV(math.exp(lx) * G0, inputs.HBAR,
+                                                                               inputs.C_LIGHT) / pole), -150.0, 150.0))
+        lo2, hi2 = edge(p3), edge(p5)
+        q3, q5 = inputs.POLES_331[v]
+        print(f"  {v}: one-loop poles (N_c=3, 5) = ({p3:.5e}, {p5:.5e}) GeV (three-loop quoted {q3:.5e},"
+              f" {q5:.5e}); G/G_meas in ({lo:.6e}, {hi:.6e}); bisection ({lo2:.6e}, {hi2:.6e}),"
+              f" rel diff {max(abs(lo2 / lo - 1), abs(hi2 / hi - 1)):.1e}; non-empty {lo < hi};"
+              f" measured G inside: {lo < 1 < hi}")
 
     print("== 8. Schwarzschild radius of the diamond")
     rs = schwarzschild_radius(m)

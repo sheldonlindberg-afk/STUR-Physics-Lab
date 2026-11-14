@@ -20,7 +20,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ALLOWED = ["SPEC.md", "contract.py", "inputs.py", "harness.py", "blind", os.path.join("prompts", "builder.md")]
-FORBIDDEN_IN_ROOM = ["oracle.py", "_selftest", "src", "tests", "results"]
+FORBIDDEN_IN_ROOM = ["oracle.py", "chain_compare.py", "_selftest", "src", "tests", "results"]
 
 
 def export(dest, build_id):

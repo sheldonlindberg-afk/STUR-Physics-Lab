@@ -28,6 +28,9 @@ PROVENANCE = {
     "ell_from_lambda": ("derived", "eps F^F = Euler - (2 cR/l^2) e (R - cV/(2 cR l^2)) vs e (R - 2 Lambda):"
                                    " Lambda = cV/(4 cR l^2) with exact cR, cV from levi_civita -> l = sqrt(3/Lambda)"),
     "mm_coupling": ("derived", "l^2/lP^2 with l from ell_from_lambda, = cV/(4 cR lP^2 Lambda) = 3/(lP^2 Lambda)"),
+    "ricci_scalar": ("derived", "E_a^mu E_b^nu R^ab_{mu nu} with R^ab = d omega + omega^omega from _riemann_up, the same"
+                                " curvature action_coefficients contracts; closed form -f'' - 4f'/r + 2(1-f)/r^2 ="
+                                " 12/l^2 on SdS; second route: coordinate Christoffels of the metric (self-check)"),
 }
 
 _N = 5
@@ -255,6 +258,57 @@ def mm_coupling(Lam, lP):
     return ell_from_lambda(Lam) ** 2 / lP ** 2
 
 
+# ------------------------------------------------------------------------------------------ curvature scalar
+def ricci_scalar(M, l, x):
+    """E_a^mu E_b^nu R^ab_{mu nu} on SdS at x, from the R^ab (= d omega + omega^omega) that action_coefficients uses."""
+    f, fp = _sds(M, l)
+    E, _ = spin_connection(x, f, fp)
+    return _ricci_scalar(_riemann_up(x, f, fp), E)
+
+
+def _ricci_scalar_coordinate(M, l, x, h=1e-4):
+    """Second route (self-check only): R = g^{mu nu} R_{mu nu} from coordinate Christoffels of the metric
+    -f dt^2 + dr^2/f + r^2 dOmega^2, no tetrad and no spin connection. Derivatives by central differences."""
+    f, _ = _sds(M, l)
+
+    def g(y):
+        r, th = y[1], y[2]
+        return [-f(r), 1 / f(r), r * r, (r * math.sin(th)) ** 2]          # diagonal
+
+    def gamma(y):
+        gd = g(y)
+        dg = []
+        for mu in range(4):
+            yp, ym = list(y), list(y)
+            yp[mu] += h
+            ym[mu] -= h
+            dg.append([(a - b) / (2 * h) for a, b in zip(g(yp), g(ym))])  # dg[mu][diag index]
+
+        def dgm(s, a, b):  # d_s g_ab for diagonal g
+            return dg[s][a] if a == b else 0.0
+        return [[[0.5 / gd[k] * (dgm(i, k, j) + dgm(j, k, i) - dgm(k, i, j))
+                  for j in range(4)] for i in range(4)] for k in range(4)]   # Gamma^k_{ij}
+
+    G = gamma(x)
+    dG = []
+    for s in range(4):
+        yp, ym = list(x), list(x)
+        yp[s] += h
+        ym[s] -= h
+        dG.append(_sub(gamma(yp), gamma(ym), 1 / (2 * h)))              # dG[s][k][i][j]
+    gd = g(x)
+    R = 0.0
+    for i in range(4):
+        for j in range(4):
+            if i != j:
+                continue
+            Rij = sum(dG[k][k][i][j] - dG[j][k][i][k]
+                      + sum(G[k][k][p] * G[p][i][j] - G[k][j][p] * G[p][i][k] for p in range(4))
+                      for k in range(4))
+            R += Rij / gd[i]
+    return R
+
+
 # ------------------------------------------------------------------------------------------ self-check
 if __name__ == "__main__":
     x = [0.2, 2.3, 1.1, 0.4]
@@ -318,3 +372,14 @@ if __name__ == "__main__":
     print("Lambda l^2 from de Sitter R = 4 Lambda:", _ricci_scalar(_riemann_up(x, fd, fdp), Ed) * l ** 2 / 4)
     print("ell_from_lambda(LAMBDA_SI) [m]:", ell_from_lambda(inputs.LAMBDA_SI))
     print("mm_coupling(LAMBDA_SI, L_PLANCK):", mm_coupling(inputs.LAMBDA_SI, inputs.L_PLANCK))
+
+    # ricci_scalar: three routes
+    for MM, ll, p in ((0.3, 7.0, x), (0.1, 4.0, [0.0, 1.7, 0.5, 2.0]), (0.0, 5.0, x)):
+        ff, ffp = _sds(MM, ll)
+        r = p[1]
+        fpp = -4 * MM / r ** 3 - 2 / ll ** 2                                  # f'' of SdS, by hand
+        closed_f = -fpp - 4 * ffp(r) / r + 2 * (1 - ff(r)) / r ** 2
+        print(f"ricci_scalar(M={MM}, l={ll}): tetrad {ricci_scalar(MM, ll, p):.10f}; coordinate Christoffels"
+              f" {_ricci_scalar_coordinate(MM, ll, p):.8f}; -f''-4f'/r+2(1-f)/r^2 = {closed_f:.10f};"
+              f" 12/l^2 = {12 / ll ** 2:.10f}")
+    print("ricci_scalar scaling (M, l, r) -> 2x:", ricci_scalar(0.3, 7.0, x) / ricci_scalar(0.6, 14.0, [0.2, 4.6, 1.1, 0.4]))

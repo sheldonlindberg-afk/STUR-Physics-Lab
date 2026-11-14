@@ -9,8 +9,26 @@ verifier and auditor can weigh the results. Builders never see this file.
 |---|---|---|---|---|---|
 | 1 | The exact fluctuation integral **23/4** and the entangling phase **2.19 rad** | SPEC.md line 5 ("no 2.19 rad, no 23/4") | the builders of toolkit, gauge331, chiral and casimir | the orchestrator, after the casimir builder reported leak 2 | yes, before graviton was built |
 | 2 | A probe gap of **1.81e-4 m** (the Casimir-safe gap, to 3 digits) | harness.py, the crossbuild PROBES | the casimir builder, who reported it and says it didn't use it | the casimir builder | yes, before graviton was built (probe now 2.0e-4 m) |
-| 4 | The relation **l = sqrt(3/Lambda)** (the result of rung 5's action) | harness.py sensitivity tier: `ell_from_lambda(3.0) == 1` | the desitter builder, who flagged it; it derived Lambda l^2 = 3 from exact eps contractions, (cR, cV) = (2, 24) | the desitter builder | no: open for build b (test the scaling l ~ Lambda^-1/2 instead) |
-| 3 | **Closed forms** that are themselves derivation results: M_W², the leading-order M_Z² and M_Z'², 1/e² = \|n\|², the photon direction, and κ = \|f′\|/2 | blind/checks.py, which builders may read | the gauge331 builder (and the later blackholes builder) | the orchestrator | no: open for build b (move these comparisons into the oracle and keep only identities and limits in the blind checks) |
+| 4 | The relation **l = sqrt(3/Lambda)** (the result of rung 5's action) | harness.py sensitivity tier: `ell_from_lambda(3.0) == 1` | the desitter builder, who flagged it; it derived Lambda l^2 = 3 from exact eps contractions, (cR, cV) = (2, 24) | the desitter builder | yes, after build a (the sensitivity tier tests l(L)/l(4L) = 2; Lambda l^2 = 3 is now an oracle check) |
+| 3 | **Closed forms** that are themselves derivation results: M_W², the leading-order M_Z² and M_Z'², 1/e² = \|n\|², the photon direction, and κ = \|f′\|/2 | blind/checks.py, which builders may read | the gauge331 builder (and the later blackholes builder) | the orchestrator | yes, after build a (moved to oracle.py; the blind checks now test neutrality, masslessness for random vevs, homogeneity, eigenvalue consistency, v and w scaling, κ ~ 1/M and the Euclidean period at the build's own κ) |
+
+| 6 | The closed form **m_pi^2 = H/<sigma>** for `sigma_model_vacuum` | blind/checks.py (chiral `gmor_form`) | the chiral builder | the orchestrator, in the post-build grep | yes, after build a (blind check is now the Goldstone limit, m_pi^2 linear in H; the closed form is an oracle check) |
+| 7 | The **Nariai bound l = sqrt(27) M**, as the sample `sds_horizons(1.0, sqrt(27 / 1.01))` | blind/checks.py (blackholes `horizons`) | the blackholes builder | the orchestrator, in the post-build grep | yes, after build a (the sample is now l = 5) |
+| 8 | **Lambda l^2 = 3** again, in the contract's docstring for `mm_coupling` ("3/(lP^2 Lam)") | contract.py | every builder from desitter on (build a), and build b's toolkit and gauge331 builders | the orchestrator, while adding C1 | yes, before build b's desitter (now "l^2/lP^2, l = ell_from_lambda(Lam)") |
+
+**Post-build grep (before build b).** Every builder-visible file (SPEC.md, contract.py, inputs.py,
+harness.py, blind/, prompts/builder.md, README.md) was grepped for each number and closed form in
+oracle.py: 246.2, 91.5, 127.6, 132.6, 1.414, 13.01, 23/4, 2.335, 181., 1.81, 2.18, 2.19, 1.647,
+1.04e122, 1.0387, 4.26, sqrt(27, 8/9, 2.82, 7.78, 1.2208, 8.18, 2.180, 4.86, 47/77, f'/2,
+sqrt(3/, 1/4M, 1 + beta, w^2/3, v^2/4, 8 pi, (2, 24), H/s0, 23/60, ell(3). The only hits left are
+`1/(8 pi)` (the m = 0 Yukawa at r = 2, which SPEC's normalization fixes). The blind checks were
+then read in full. Left for the auditor to judge: graviton's "light couples twice as strongly"
+(ratio 2) and "PPN gamma = 1" are textbook results stated as checks; chiral's
+"N_c(Q_u^2 - Q_d^2) = 1" follows algebraically from SPEC §2's two charge conditions.
+**Effect on build a:** F1 stands: build a's `sigma_model_vacuum` computes m_pi^2 from a
+Richardson-extrapolated `toolkit.hessian` (chiral.py, `_richardson_hessian`) and compares with H/s0
+only in its self-test; the Nariai mass was found
+by root-finding, but the bound was visible.
 
 **How much this weakens the results:**
 - casimir's 23/4 was computed from a symbolically constructed Tr G·G, the polynomial coefficients
@@ -75,3 +93,19 @@ verifier and auditor can weigh the results. Builders never see this file.
 |---|---|---|---|
 | F1 | crossbuild probe `chiral.sigma_model_vacuum(1.7, 0.9, 0.03)` against the reference adapter | differs by 1.03e-6 relative. The exact answer is m_pi^2 = H/sigma0: **the build is right to 1.4e-12, the reference is off by 1.0e-6** (its plain central-difference Hessian, h = 1e-4) | N; the reference is the less precise side. Not a physics error: every published number is unaffected. Fix (owner's call): Richardson in `src/ladder_standalone.py`'s rung 2 Hessian |
 | F2 | provenance ledger | 57 derived, 0 input, 7 quoted; every quoted export is on its stage's allowed list | for the auditor to check each claim against the code |
+
+## After P2 (verifier) on build a
+
+- **Findings:** B 0, R 0, C 2, N 4 (FINDINGS.md). The verifier's write to FINDINGS.md was blocked by
+  the tool layer; the orchestrator wrote it from the verifier's report, with the owner's approval.
+- **C1, owner approved:** the export `desitter.ricci_scalar(M, l, x)` is added to the contract (SPEC §6
+  says what it contracts, not its value). Blind check: it must equal the contraction of
+  d omega + omega^omega built by finite differences of the build's own `spin_connection`, and scale as
+  1/length^2. Oracle: 12/l^2 at three points. New probe and mutant. Build a's desitter lacks the
+  export, so a fresh builder adds it to build a's desitter (class C rule: rebuild the affected stage
+  in both builds). Its room held only build a's stages up to desitter.
+- **C2, owner deferred** to the auditor.
+- **desitter + ricci_scalar (build a):** builder gate pass; verifier mode ALL GATES PASS, desitter oracle
+  10/10. Computed from the module's existing R^ab, with a coordinate-Christoffel second route. **Not
+  blind for 12/l^2:** the builder could read build a's own DERIVATION_desitter.md, which states
+  Lambda l^2 = 3 (leak 4 era). Build b's ricci_scalar is the blind one.

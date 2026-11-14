@@ -9,7 +9,7 @@ Each stage function takes {module_name: module} for the build and returns a list
 """
 import random
 from fractions import Fraction as F
-from math import isfinite, pi, sqrt
+from math import isfinite, pi, sin, sqrt
 
 
 def _rel(a, b):
@@ -106,14 +106,22 @@ def gauge331(m):
             return nz == 1 and res < 1e-9 * sc, f"{nz} zero eigenvalues, |M n| = {res:.2e}"
 
         def photon_form(var=var):
+            # properties only: the photon is neutral (it lies in the Cartan directions 2, 7, 8),
+            # it is massless for ANY vevs, and e is homogeneous of degree 1 in the couplings
+            # and weaker than either coupling alone
             n = G.photon_direction(var, g, gX)
             nn = sqrt(sum(x * x for x in n))
-            want = [0, 0, 1 / g, 0, 0, 0, 0, beta[var] / g, 1 / gX]
-            wn = sqrt(sum(x * x for x in want))
-            cos = abs(sum(a * b for a, b in zip(n, want))) / (nn * wn)
+            off = max(abs(n[k]) for k in (0, 1, 3, 4, 5, 6)) / nn
+            rng = random.Random(5)
+            worst = 0.0
+            for _ in range(3):
+                M = G.mass_matrix(var, g, gX, rng.uniform(500, 9000), rng.uniform(10, 200), rng.uniform(10, 200))
+                sc = max(abs(M[i][j]) for i in range(9) for j in range(9))
+                worst = max(worst, max(abs(sum(M[i][k] * n[k] for k in range(9))) for i in range(9)) / (sc * nn))
             ie2 = G.inv_e2(var, g, gX)
-            return abs(cos - 1) < 1e-12 and _rel(ie2, (1 + beta[var] ** 2) / g**2 + 1 / gX**2) < 1e-12, \
-                f"cos to Q direction {cos}, 1/e^2 {ie2}"
+            hom = _rel(G.inv_e2(var, 2 * g, 2 * gX), ie2 / 4)
+            return off < 1e-12 and worst < 1e-12 and hom < 1e-12 and ie2 > 1 / g**2 and ie2 > 1 / gX**2, \
+                f"charged components {off:.1e}, |M n| on random vevs {worst:.1e}, homogeneity {hom:.1e}"
 
         def step1(var=var):
             M0 = G.mass_matrix(var, g, gX, w, 0.0, 0.0)
@@ -122,25 +130,28 @@ def gauge331(m):
             return nz == 4, f"{nz} massless states with v = 0 (SU(2) x U(1)_Y needs 4)"
 
         def masses(var=var):
+            # properties only: neutral_masses are eigenvalues of mass_matrix; the W mass does not
+            # depend on w and scales as v^2; M_Z decouples from w and M_Z' grows as w^2
             M = G.mass_matrix(var, g, gX, w, v1, v2)
-            v2s = v1 * v1 + v2 * v2
-            mw2 = (M[0][0] + M[1][1]) / 2
-            ok = _rel(mw2, g * g * v2s / 4) < 1e-12
+            ev = t.eigvalsh(M)
             MZ2, MZp2 = G.neutral_masses(var, g, gX, w, v1, v2)
-            gY2 = 1 / (beta[var] ** 2 / g**2 + 1 / gX**2)
-            eps = v2s / w**2
-            ok &= _rel(MZ2, (g * g + gY2) * v2s / 4) < 5 * eps
-            ok &= _rel(MZp2, (g * g + beta[var] ** 2 * gX**2) * w * w / 3) < 5 * eps
-            return ok, f"M_W^2 {mw2:.4g}, M_Z^2 {MZ2:.4g}, M_Z'^2 {MZp2:.4g}"
+            sc = max(abs(x) for x in ev)
+            ok = all(min(abs(x - y) for x in ev) < 1e-9 * sc for y in (MZ2, MZp2)) and 0 < MZ2 < MZp2
+            mw = lambda W, a, b: (lambda A: (A[0][0] + A[1][1]) / 2)(G.mass_matrix(var, g, gX, W, a, b))
+            ok &= _rel(mw(2 * w, v1, v2), mw(w, v1, v2)) < 1e-12 and _rel(mw(w, 2 * v1, 2 * v2), 4 * mw(w, v1, v2)) < 1e-12
+            z = [G.neutral_masses(var, g, gX, W, v1, v2) for W in (w, 2 * w, 4 * w)]
+            eps = (v1 * v1 + v2 * v2) / w**2
+            ok &= _rel(z[1][0], z[2][0]) < 5 * eps and _rel(z[1][1], 4 * z[0][1]) < 5 * eps and _rel(z[2][1], 4 * z[1][1]) < 5 * eps
+            return ok, f"M_Z^2 {MZ2:.4g}, M_Z'^2 {MZp2:.4g}; scaling in w and v"
 
         def rho_scaling(var=var):
-            gY2 = 1 / (beta[var] ** 2 / g**2 + 1 / gX**2)
-            cw2 = g * g / (g * g + gY2)
-            def rho(W):
+            # M_W^2/M_Z^2 approaches its w -> infinity value from above, with corrections ~ (v/w)^2
+            def r(W):
                 M = G.mass_matrix(var, g, gX, W, v1, v2)
-                return (M[0][0] + M[1][1]) / 2 / (G.neutral_masses(var, g, gX, W, v1, v2)[0] * cw2)
-            r1, r2 = rho(w), rho(2 * w)
-            return r1 > 1 and 3.9 < (r1 - 1) / (r2 - 1) < 4.1, f"rho - 1 = {r1 - 1:.3e}, ratio on doubling w {(r1 - 1) / (r2 - 1):.3f}"
+                return (M[0][0] + M[1][1]) / 2 / G.neutral_masses(var, g, gX, W, v1, v2)[0]
+            r1, r2, r4 = r(w), r(2 * w), r(4 * w)
+            q = (r1 - r2) / (r2 - r4)
+            return r1 > r2 > r4 and 3.9 < q < 4.1, f"M_W^2/M_Z^2 decreasing in w, successive-difference ratio {q:.3f}"
 
         def doublets(var=var):
             ok, bad = True, []
@@ -153,10 +164,10 @@ def gauge331(m):
             return ok, f"{bad}" if bad else "leptons (0, -1), quarks (Q_u, Q_d) for N_c = 3, 5, 7"
 
         checks += [(f"{var}: exactly one massless boson, along photon_direction", zero_mode),
-                   (f"{var}: photon direction is Q's and 1/e^2 = |n|^2", photon_form),
+                   (f"{var}: photon is neutral, massless for any vevs; e homogeneous", photon_form),
                    (f"{var}: four massless states after step 1", step1),
-                   (f"{var}: W, Z, Z' masses at leading order in v/w", masses),
-                   (f"{var}: rho >= 1 and rho - 1 ~ (v/w)^2", rho_scaling),
+                   (f"{var}: W, Z, Z' masses are eigenvalues with the right v and w scaling", masses),
+                   (f"{var}: M_W^2/M_Z^2 falls to its limit as (v/w)^2", rho_scaling),
                    (f"{var}: doublet charges for N_c = 3, 5, 7", doublets)]
 
     def charges():
@@ -201,8 +212,11 @@ def chiral(m):
         ok = True
         for lam, v, H in ((2.0, 1.0, 0.05), (1.0, 2.0, 0.01)):
             s0, mpi2 = C.sigma_model_vacuum(lam, v, H)
-            ok &= abs(lam * s0 * (s0 * s0 - v * v) - H) < 1e-10 and _rel(mpi2, H / s0) < 1e-5
-        return ok, "m_pi^2 = H/<sigma> at the true vacuum"
+            ok &= abs(lam * s0 * (s0 * s0 - v * v) - H) < 1e-10 and mpi2 > 0
+            # Goldstone limit: m_pi^2 vanishes linearly as the explicit breaking H goes to 0
+            a, b = C.sigma_model_vacuum(lam, v, 1e-2 * H)[1], C.sigma_model_vacuum(lam, v, 2e-2 * H)[1]
+            ok &= _rel(b / a, 2) < 1e-3
+        return ok, "true vacuum; m_pi^2 > 0 and linear in H as H -> 0"
 
     def gmor_scaling():
         a, b = C.gmor_mpi(1e-3, 0.3, 0.09), C.gmor_mpi(4e-3, 0.3, 0.09)
@@ -236,18 +250,27 @@ def chiral(m):
         worst = max(C.tensor_identity_residual([rng.uniform(-2, 2) for _ in range(3)]) for _ in range(5))
         return worst < 1e-12, f"residual {worst:.1e}"
 
+    def chpt_rungs():
+        # the O(p^4) pion mass with stage weak's f_pi (f/sqrt2), not the input F_PI
+        import inputs
+        f = m["weak"].fpi_from_pion_decay() / sqrt(2)
+        a = C.chpt_mpi_from_rungs()
+        b = C.chpt_mpi(inputs.M_UD_FLAG, inputs.COND_13, inputs.FPI_OVER_F, inputs.LBAR3, f)
+        return _rel(a, b) < 1e-12, f"{a * 1e3:.3f} MeV"
+
     def gt():
         a, b = C.goldberger_treiman(1.27, 0.94, 0.092), C.goldberger_treiman(2 * 1.27, 0.94, 0.092)
         return _rel(b / a, 2) < 1e-12, "linear in g_A"
 
     return run_safely([("O(4) -> O(3): three Goldstone pions", gold),
-                       ("sigma model: m_pi^2 = H/<sigma>", gmor_form),
+                       ("sigma model: vacuum, and m_pi^2 linear in H (Goldstone limit)", gmor_form),
                        ("GMOR scaling", gmor_scaling),
                        ("ChPT reduces to leading order at lbar3 = 0", chpt_limit),
                        ("Yukawa solves (lap - m^2)V = -delta with unit flux", yuk),
                        ("Yukawa at m = 0 is Coulomb/Newton", newton_limit),
                        ("one-pion-exchange tensor identity", tens),
-                       ("Goldberger-Treiman scaling", gt)])
+                       ("Goldberger-Treiman scaling", gt),
+                       ("O(p^4) pion mass with stage weak's f_pi", chpt_rungs)])
 
 
 # ------------------------------------------------------------------------------------------
@@ -325,9 +348,18 @@ def casimir(m):
 def graviton(m):
     Gr = m["graviton"]
 
-    def ppn():
+    def metric_from_propagator():
+        # two routes, no value: SPEC 5's field equation and trace reversal make the point-mass metric the
+        # propagator numerator acting on the source, h_mn = 16 pi G Y(r) P_mnrs tau^rs, Y = chiral.yukawa(r, 0);
+        # in units GM/(c^2 r): h00 = 16 pi r Y tpt(rest, e00), hii = 16 pi r Y tpt(rest, e11)
         h00, hii = Gr.point_mass_metric()
-        return isinstance(h00, F) and hii == h00 and h00 > 0, f"h00 = {h00}, hii = {hii} (gamma = hii/h00)"
+        r = 0.37
+        Y = m["chiral"].yukawa(r, 0.0)
+        rest = (F(1), 0, 0, 0)
+        w00 = 16 * pi * r * Y * float(Gr.tpt(rest, (F(1), 0, 0, 0)))
+        wii = 16 * pi * r * Y * float(Gr.tpt(rest, (0, F(1), 0, 0)))
+        ok = isinstance(h00, F) and isinstance(hii, F) and _rel(float(h00), w00) < 1e-12 and _rel(float(hii), wii) < 1e-12
+        return ok, f"point_mass_metric vs 16 pi r Y P.tau: rel diff {_rel(float(h00), w00):.1e}, {_rel(float(hii), wii):.1e}"
 
     def light():
         T, Tph = (F(1), 0, 0, 0), (F(1), 0, 0, F(1))
@@ -393,7 +425,7 @@ def graviton(m):
 
     return run_safely([("design phase = entangling phase at casimir's safe gap, and responds to it", design),
                        ("the exchange potential is 1/r (Newton) along the branches", newton_from_yukawa),
-                       ("linearized point mass: PPN gamma = 1", ppn),
+                       ("point-mass metric = 16 pi G Y P.tau (field equation and tpt agree)", metric_from_propagator),
                        ("light couples twice as strongly", light),
                        ("graviton contraction symmetric", symmetric),
                        ("branch profile shape", profile),
@@ -460,7 +492,117 @@ def desitter(m):
         anti = max(abs(w[a][b][mu] * eta[a] + w[b][a][mu] * eta[b]) for a in range(4) for b in range(4) for mu in range(4))
         return worst < 1e-7 and anti < 1e-12, f"torsion {worst:.1e}; omega_ab antisymmetric {anti:.1e}"
 
-    return run_safely([("spin connection is torsion-free and metric (omega_ab = -omega_ba)", torsion),
+    def ricci_two_routes():
+        # property, not value: ricci_scalar must equal the contraction of R = d omega + omega ^ omega,
+        # built here by finite differences of the build's own spin_connection; and R ~ 1/length^2
+        eta = (-1, 1, 1, 1)
+        worst = 0.0
+        for M, l, p in ((0.3, 7.0, x), (0.1, 11.0, [0.0, 3.1, 0.7, 1.2])):
+            f = lambda r, M=M, l=l: 1 - 2 * M / r - r * r / l**2
+            fp = lambda r, M=M, l=l: 2 * M / r**2 - 2 * r / l**2
+            E, w = D.spin_connection(p, f, fp)
+            h = 1e-5
+            dw = []
+            for mu in range(4):
+                pp, pm = list(p), list(p)
+                pp[mu] += h
+                pm[mu] -= h
+                wp, wm = D.spin_connection(pp, f, fp)[1], D.spin_connection(pm, f, fp)[1]
+                dw.append([[[(wp[a][b][nu] - wm[a][b][nu]) / (2 * h) for nu in range(4)] for b in range(4)] for a in range(4)])
+            inv = [[0.0] * 4 for _ in range(4)]                  # E_a^mu: the inverse of the (diagonal) tetrad
+            for a in range(4):
+                inv[a][a] = 1 / E[a][a]
+            R = 0.0
+            for a in range(4):
+                for b in range(4):
+                    for mu in range(4):
+                        for nu in range(4):
+                            Rab = dw[mu][a][b][nu] - dw[nu][a][b][mu] + sum(
+                                w[a][c][mu] * w[c][b][nu] - w[a][c][nu] * w[c][b][mu] for c in range(4))
+                            R += Rab * inv[a][mu] * inv[b][nu] * eta[b]
+            worst = max(worst, abs(D.ricci_scalar(M, l, p) - R) / max(abs(R), 1e-300))
+        s1, s2 = D.ricci_scalar(0.3, 7.0, x), D.ricci_scalar(0.6, 14.0, [2 * y if i == 1 else y for i, y in enumerate(x)])
+        return worst < 1e-6 and _rel(s1 / s2, 4) < 1e-6, f"ricci_scalar vs d omega + omega^omega: {worst:.1e}; scaling {s1 / s2:.6f}"
+
+    def tetrad_metric():
+        # a definition, not a result: the tetrad must reproduce the contract's metric
+        # -f dt^2 + dr^2/f + r^2 dOmega^2, at random points and for random f
+        rng = random.Random(41)
+        eta = (-1, 1, 1, 1)
+        worst = 0.0
+        for _ in range(4):
+            M, l = rng.uniform(0.05, 0.4), rng.uniform(6.0, 12.0)
+            p = [rng.uniform(-1, 1), rng.uniform(1.5, 3.0), rng.uniform(0.3, 2.8), rng.uniform(0, 6)]
+            f = lambda r, M=M, l=l: 1 - 2 * M / r - r * r / l**2
+            fp = lambda r, M=M, l=l: 2 * M / r**2 - 2 * r / l**2
+            E, _ = D.spin_connection(p, f, fp)
+            r, th = p[1], p[2]
+            want = (-f(r), 1 / f(r), r * r, (r * sin(th)) ** 2)
+            for mu in range(4):
+                for nu in range(4):
+                    g = sum(eta[a] * E[a][mu] * E[a][nu] for a in range(4))
+                    worst = max(worst, abs(g - (want[mu] if mu == nu else 0.0)) / max(1.0, abs(want[mu])))
+        return worst < 1e-12, f"max |e^T eta e - g| = {worst:.1e} at 4 random points"
+
+    def flat_from_primitives():
+        # property, not value: A = 1/2 omega^ab J_ab + e^a J_a4/l is built HERE from the build's own
+        # spin_connection and so41_generator (not from its ds_curvature_max, which a stub returning 0
+        # would pass); de Sitter must give F = dA + [A, A] = 0 at random points, every 5x5 component
+        # (all of R^ab and the torsion). The same A with the wrong l in the e-term must not be flat.
+        rng = random.Random(42)
+        eta = (-1, 1, 1, 1, 1)
+        J = {(a, b): D.so41_generator(a, b) for a in range(5) for b in range(5)}
+
+        def gauge(p, l, lc):
+            f = lambda r: 1 - r * r / l**2
+            fp = lambda r: -2 * r / l**2
+            E, w = D.spin_connection(p, f, fp)
+            out = []
+            for mu in range(4):
+                A = [[0.0] * 5 for _ in range(5)]
+                for a in range(4):
+                    terms = [(0.5 * w[a][b][mu] * eta[b], J[(a, b)]) for b in range(4)] + [(E[a][mu] / lc, J[(a, 4)])]
+                    for c, G in terms:
+                        if c:
+                            for i in range(5):
+                                for j in range(5):
+                                    A[i][j] += c * G[i][j]
+                out.append(A)
+            return out
+
+        def fmax(p, l, lc, h=1e-3):
+            A0 = gauge(p, l, lc)
+            dA = []
+            for mu in range(4):
+                pts = []
+                for k in (-2, -1, 1, 2):
+                    q = list(p)
+                    q[mu] += k * h
+                    pts.append(gauge(q, l, lc))
+                m2, m1, p1, p2 = pts
+                dA.append([[[(m2[nu][i][j] - 8 * m1[nu][i][j] + 8 * p1[nu][i][j] - p2[nu][i][j]) / (12 * h)
+                             for j in range(5)] for i in range(5)] for nu in range(4)])
+            worst = 0.0
+            for mu in range(4):
+                for nu in range(4):
+                    for i in range(5):
+                        for j in range(5):
+                            c = sum(A0[mu][i][k] * A0[nu][k][j] - A0[nu][i][k] * A0[mu][k][j] for k in range(5))
+                            worst = max(worst, abs(dA[mu][nu][i][j] - dA[nu][mu][i][j] + c))
+            return worst * l * l                        # in units of the curvature scale 1/l^2
+
+        worst, sane = 0.0, float("inf")
+        for _ in range(3):
+            l = rng.uniform(5.0, 12.0)
+            p = [rng.uniform(-1, 1), rng.uniform(0.2, 0.6) * l, rng.uniform(0.3, 2.8), rng.uniform(0, 6)]
+            worst = max(worst, fmax(p, l, l))
+            sane = min(sane, fmax(p, l, 1.2 * l))
+        return worst < 1e-7 and sane > 1e-2, f"de Sitter l^2 max|F| = {worst:.1e}; with l_conn = 1.2 l: {sane:.2e}"
+
+    return run_safely([("tetrad reproduces -f dt^2 + dr^2/f + r^2 dOmega^2 at random points", tetrad_metric),
+                       ("de Sitter F = 0 built from the build's spin_connection and so41_generator", flat_from_primitives),
+                       ("ricci_scalar is the contraction of d omega + omega ^ omega; R ~ 1/length^2", ricci_two_routes),
+                       ("spin connection is torsion-free and metric (omega_ab = -omega_ba)", torsion),
                        ("so(4,1) translations close on Lorentz", algebra),
                        ("de Sitter vector leaves 6 Lorentz generators", breaking),
                        ("F = R - e^e/l^2 and torsion-free on SdS", split),
@@ -476,25 +618,25 @@ def blackholes(m):
     def horizons():
         rb, rc = B.sds_horizons(1.0, 9.0)
         f = lambda r: 1 - 2 / r - r * r / 81
-        none = B.sds_horizons(1.0, sqrt(27 / 1.01))
+        none = B.sds_horizons(1.0, 5.0)
         return abs(f(rb)) < 1e-12 and abs(f(rc)) < 1e-12 and 2 < rb < rc and none is None, f"{rb}, {rc}; beyond Nariai {none}"
 
-    def kappa_two_routes():
-        l = 9.0
-        f = lambda r: 1 - 2 / r - r * r / l**2
-        fp = lambda r: 2 / r**2 - 2 * r / l**2
-        rb, rc = B.sds_horizons(1.0, l)
-        kb = B.killing_kappa(f, rb * (1 + 1e-6), 1e-8 * rb)
-        kc = B.killing_kappa(f, rc * (1 - 1e-6), 1e-8 * rc)
-        return _rel(kb, fp(rb) / 2) < 1e-5 and _rel(kc, -fp(rc) / 2) < 1e-5, f"Killing {kb:.6f}, {kc:.6f}"
+    def kappa_scaling():
+        # properties only: kappa is positive, scales as 1/M for Schwarzschild, and does not
+        # depend on where the near-horizon sample is taken
+        k = lambda M, d: B.killing_kappa(lambda r: 1 - 2 * M / r, 2 * M * (1 + d), 1e-8 * M)
+        k1, k2, k1b = k(1.0, 1e-6), k(3.0, 1e-6), k(1.0, 1e-5)
+        return k1 > 0 and _rel(k1 / k2, 3) < 1e-5 and _rel(k1, k1b) < 1e-4, f"kappa(M=1) {k1:.6f}, ratio to M=3 {k1 / k2:.6f}"
 
     def euclid():
+        # the Euclidean section is smooth at the period 2 pi/kappa, kappa being the build's own
+        # Killing kappa, and conical at any other period
         l = 9.0
         f = lambda r: 1 - 2 / r - r * r / l**2
-        fp = lambda r: 2 / r**2 - 2 * r / l**2
         rb, _ = B.sds_horizons(1.0, l)
-        good = B.euclidean_cone_ratio(f, rb, 2 * pi / (fp(rb) / 2), 1e-7 * rb)
-        bad = B.euclidean_cone_ratio(f, rb, 8 * pi, 1e-7 * rb)
+        kb = B.killing_kappa(f, rb * (1 + 1e-6), 1e-8 * rb)
+        good = B.euclidean_cone_ratio(f, rb, 2 * pi / kb, 1e-7 * rb)
+        bad = B.euclidean_cone_ratio(f, rb, 1.3 * 2 * pi / kb, 1e-7 * rb)
         return abs(good - 1) < 1e-5 and abs(bad - 1) > 0.1, f"smooth {good:.7f}; wrong period {bad:.4f}"
 
     def first_law():
@@ -560,8 +702,8 @@ def blackholes(m):
     return run_safely([("kappa from rung 5's spin connection equals the Killing kappa", kappa_rung5),
                        ("largest black hole from rung 5's de Sitter radius", nariai_vs_ell),
                        ("SdS horizons and the Nariai bound", horizons),
-                       ("Killing kappa = |f'|/2 on both horizons (from f only)", kappa_two_routes),
-                       ("Euclidean section smooth only for period 2 pi/kappa", euclid),
+                       ("Killing kappa > 0, ~ 1/M, independent of the sample point", kappa_scaling),
+                       ("Euclidean section smooth at period 2 pi/kappa (own kappa) only", euclid),
                        ("Kerr first law and Smarr, exact", first_law),
                        ("first-law residual is exact", first_law_detects),
                        ("photon sphere and ISCO consistency", orbits),
@@ -596,6 +738,14 @@ def links(m):
         w3 = Lk.pi0_width_eV(0.0073, 0.092, 0.135, 5, F(2, 3), F(-1, 3))
         return ok and _rel(w2 / w1, 4) < 1e-12 and _rel(w3 / w1, (5 / 3) ** 2) < 1e-12, "N_c(Q_u^2 - Q_d^2) = 1; ~ alpha^2 N_c^2"
 
+    def pi0_dimensions():
+        # dimensional analysis, not a formula: the quoted A ~ 1/f_pi has dimension 1/mass and a width is a
+        # mass, so Gamma = (pure number) A^2 m^3: ~ m^3 at fixed A, ~ 1/f_pi^2 at fixed m, ~ m at fixed m/f_pi
+        w = lambda fpi, mpi: Lk.pi0_width_eV(0.0073, fpi, mpi, 3, F(2, 3), F(-1, 3))
+        a, b, c, d = w(0.092, 0.135), w(0.092, 0.27), w(0.184, 0.135), w(0.276, 0.405)
+        return _rel(b / a, 8) < 1e-12 and _rel(c / a, 0.25) < 1e-12 and _rel(d / a, 3) < 1e-12, \
+            f"m x2: {b / a:.6f}; f x2: {c / a:.6f}; both x3: {d / a:.6f}"
+
     def mpl():
         # property, not formula: at the window's edges M_Pl(x G) equals the poles
         a, b = Lk.planck_mass_GeV(6.6e-11, 1e-34, 3e8), Lk.planck_mass_GeV(4 * 6.6e-11, 1e-34, 3e8)
@@ -613,11 +763,25 @@ def links(m):
         return ok, "q_p = 1, q_n = 0, q_e = -1, Q_nu = 0 from rung 1, both variants, N_c = 3, 5, 7"
 
     def pi0_rungs():
+        # rung 1's charges and stage weak's f_pi (in pi0_width_eV's convention, f/sqrt2), not the input F_PI
         import inputs
         Qu, Qd = G.quark_charges(3)
         a = Lk.pi0_width_from_rungs()
-        b = Lk.pi0_width_eV(inputs.ALPHA_0, inputs.F_PI, inputs.M_PI0, 3, Qu, Qd)
+        f = m["weak"].fpi_from_pion_decay() / sqrt(2)
+        b = Lk.pi0_width_eV(inputs.ALPHA_0, f, inputs.M_PI0, 3, Qu, Qd)
         return _rel(a, b) < 1e-12, f"{a:.4f} eV"
+
+    def g_window_rungs():
+        # the G window from the poles stage running derives, and link 3's Planck mass
+        import inputs
+        R = m["running"]
+        mpl = Lk.planck_mass_GeV(inputs.G_NEWTON, inputs.HBAR, inputs.C_LIGHT)
+        worst = 0.0
+        for var in ("-1/sqrt3", "+1/sqrt3"):
+            got = Lk.g_window_from_rungs(var)
+            want = Lk.g_window(R.landau_pole(3, var), R.landau_pole(5, var), mpl)
+            worst = max(worst, _rel(got[0], want[0]), _rel(got[1], want[1]))
+        return worst < 1e-12, f"g_window_from_rungs vs g_window(running poles): {worst:.1e}"
 
     def planck_bh():
         # property, not formula: it must be rung 6's temperature at link 3's mass, and scale as 1/M
@@ -628,14 +792,124 @@ def links(m):
         return _rel(kT, want) < 1e-12 and kT > 0, f"k_B T_H(M_Pl) = {kT:.4e} GeV"
 
     return run_safely([("rung 1's charges make matter neutral", matter),
-                       ("pi0 width from rung 1's charges", pi0_rungs),
+                       ("pi0 width from rung 1's charges and stage weak's f_pi", pi0_rungs),
+                       ("G window from the one-loop poles of stage running", g_window_rungs),
                        ("Planck-mass black hole: rung 6's temperature at link 3's mass", planck_bh),
                        ("neutral matter is an anomaly identity", anomaly),
                        ("neutrality requirement independent of size", neutral_size_free),
                        ("pi0: anomaly factor 1 for all N_c, width scaling", pi0),
+                       ("pi0 width ~ A^2 m^3 (dimensional analysis)", pi0_dimensions),
                        ("Planck mass scaling and G window", mpl),
                        ("Schwarzschild radius linear in mass", rs)])
 
 
+def running(m):
+    R, G = m["running"], m["gauge331"]
+    import inputs
+    from math import log
+
+    def exact():
+        bY, b2 = R.sm_coefficients()
+        ok = isinstance(bY, F) and isinstance(b2, F)
+        rows = []
+        for var in ("-1/sqrt3", "+1/sqrt3"):
+            bs = [R.b_331(Nc, var) for Nc in (1, 3, 5, 7)]
+            ok &= all(isinstance(x, F) for b in bs for x in b)
+            # a U(1) with charged matter is never asymptotically free, and more colours means more
+            # charged matter (N_g = N_c generations of N_c-coloured quarks)
+            ok &= all(b[0] > 0 for b in bs) and all(bs[i][0] < bs[i + 1][0] for i in range(3))
+            rows.append(var)
+        return ok, "exact Fractions; b_X > 0 and increasing with N_c, both variants"
+
+    def sm_two_routes():
+        # SPEC 9's boundary at M_Z, straight lines in ln mu, slopes -b/(2 pi) with sm_coefficients' b
+        s2, ainv, mz = inputs.S2_MZ, inputs.ALPHA_MZ_INV, inputs.MZ_MEAS
+        y0, w0 = R.couplings_at(mz)
+        ok = _rel(y0, (1 - s2) * ainv) < 1e-12 and _rel(w0, s2 * ainv) < 1e-12
+        bY, b2 = (float(b) for b in R.sm_coefficients())
+        worst = 0.0
+        for mu in (300.0, 4000.0, 7.7e4):
+            y, w = R.couplings_at(mu)
+            t = log(mu / mz) / (2 * pi)
+            worst = max(worst, abs(y - (y0 - bY * t)), abs(w - (w0 - b2 * t)))
+        return ok and worst < 1e-9, f"boundary at M_Z; deviation from the b-slopes {worst:.1e}"
+
+    def matching():
+        # g_L = g_2, and rung 1's 1/e^2 at (g_L, g_X) equals the Standard Model's at the same scale
+        worst = 0.0
+        for var in ("-1/sqrt3", "+1/sqrt3"):
+            for mu in (2000.0, 4000.0, 3.0e4):
+                aX, aL = R.matching_331(mu, var)
+                aY, a2 = R.couplings_at(mu)
+                gL, gX = sqrt(4 * pi / aL), sqrt(4 * pi / aX)
+                worst = max(worst, _rel(aL, a2), _rel(4 * pi * G.inv_e2(var, gL, gX), aY + a2))
+        return worst < 1e-12, f"matching through gauge331.inv_e2: {worst:.1e}"
+
+    def pole():
+        # at the returned scale the matched U(1)_X coupling, run at one loop with b_X, reaches alpha_X = 1;
+        # poles lie above the 3-3-1 scale and fall as N_c grows
+        mu0 = inputs.MU_331
+        worst, order = 0.0, True
+        for var in ("-1/sqrt3", "+1/sqrt3"):
+            ps = []
+            for Nc in (3, 5):
+                p = R.landau_pole(Nc, var)
+                aX0 = R.matching_331(mu0, var)[0]
+                bX = float(R.b_331(Nc, var)[0])
+                worst = max(worst, abs(aX0 - bX / (2 * pi) * log(p / mu0) - 1))
+                ps.append(p)
+            order &= mu0 < ps[1] < ps[0]
+        return worst < 1e-9 and order, f"1/alpha_X at the pole - 1 = {worst:.1e}; above MU_331, lower for N_c = 5"
+
+    return run_safely([("one-loop coefficients exact; b_X > 0 and grows with N_c", exact),
+                       ("Standard Model running: SPEC's boundary and the b-slopes", sm_two_routes),
+                       ("matching keeps g_L = g_2 and rung 1's photon coupling", matching),
+                       ("landau_pole is where the matched alpha_X runs to 1", pole)])
+
+
+def weak(m):
+    W = m["weak"]
+    import inputs
+    w = W.pion_decay_width
+    args = (0.13, 1.17e-5, 0.97, 0.106, 0.14)
+
+    def scaling():
+        a = w(*args)
+        ok = a > 0
+        ok &= _rel(w(2 * args[0], *args[1:]) / a, 4) < 1e-12
+        ok &= _rel(w(args[0], 2 * args[1], *args[2:]) / a, 4) < 1e-12
+        ok &= _rel(w(*args[:2], 0.5 * args[2], *args[3:]) / a, 0.25) < 1e-12
+        return ok, "width ~ f_pi^2 G_F^2 |V_ud|^2"
+
+    def dimensions():
+        # [G_F] = mass^-2, [f_pi] = mass: every mass scaled by k (G_F by k^-2) scales the width by k
+        k = 3.0
+        a = w(*args)
+        b = w(k * args[0], args[1] / k**2, args[2], k * args[3], k * args[4])
+        return _rel(b / a, k) < 1e-12, f"width ratio {b / a:.6f} for masses x {k}"
+
+    def helicity():
+        # a massless lepton can't be emitted (V - A makes it left-handed, the spin-0 pion needs the other
+        # helicity), and the phase space closes as m_l -> m_pi
+        mpi = args[4]
+        small = [w(args[0], args[1], args[2], x * mpi, mpi) for x in (1e-4, 2e-4)]
+        near = w(args[0], args[1], args[2], (1 - 1e-6) * mpi, mpi)
+        mid = w(args[0], args[1], args[2], 0.5 * mpi, mpi)
+        return 3.99 < small[1] / small[0] < 4.01 and near < 1e-6 * mid and w(args[0], args[1], args[2], 0.0, mpi) == 0, \
+            f"width ~ m_l^2 for light leptons; closes at m_l -> m_pi"
+
+    def roundtrip():
+        hbar_gev_s = inputs.HBAR / (inputs.E_CH * 1e9)
+        f = W.fpi_from_pion_decay()
+        g = w(f, inputs.G_F, inputs.V_UD, inputs.M_MU, inputs.M_PIC) * (1 + inputs.DELTA_PI) / hbar_gev_s
+        return f > 0 and _rel(g, inputs.GAMMA_PI_MUNU) < 1e-12, f"width at the returned f_pi / measured: {g / inputs.GAMMA_PI_MUNU:.12f}"
+
+    return run_safely([("width ~ f_pi^2 G_F^2 |V_ud|^2", scaling),
+                       ("width has the dimension of a mass", dimensions),
+                       ("helicity suppression and phase-space closure", helicity),
+                       ("f_pi reproduces the measured width", roundtrip)])
+
+
 BY_STAGE = {"toolkit": toolkit, "gauge331": gauge331, "chiral": chiral, "casimir": casimir,
-            "graviton": graviton, "desitter": desitter, "blackholes": blackholes, "links": links}
+            "graviton": graviton, "desitter": desitter, "blackholes": blackholes, "running": running,
+            "weak": weak, "links": links}
