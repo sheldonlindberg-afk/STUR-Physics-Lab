@@ -170,3 +170,23 @@ each computes its own result and only uses the quoted formula as an input).
 3. **links.planck_bh_kT_GeV**: "... k_B, in GeV; = M_Pl c^2/(8 pi)" ->
    "... k_B, in GeV; = M_Pl c^2/(8 pi); rests on the quoted Hawking temperature hawking_K,
    evaluated at the Planck mass".
+
+## running
+
+1. **Singlet-partner colour.** "Each electrically charged fermion component ... has one singlet partner"
+   is read per colour: a quark component carries N_c singlet partners (an SU(3)_C (anti)triplet singlet
+   under SU(3)_L), with X = -Q. A lepton component has one. Because a neutral component would add
+   Q^2 = 0, b_X does not depend on how the "neutral components have none" rule is applied.
+2. **X_L derived, checked against SPEC 2.** X_L comes from Q_e = -1 in component 2 of
+   gauge331.triplet_charges. The code asserts it equals SPEC 2's listed -1/3 or -2/3, and that the neutrino
+   (component 1) is neutral.
+3. **Antitriplet X.** Of the two X values that put Q_u or Q_d in component 1, the code keeps the one whose
+   first two charges form {Q_u, Q_d}. That gives X_a = X_t + 2b, with component 1 = Q_d and component 2 = Q_u.
+4. **Scalar X charges** are SPEC 2 postulates, typed as Fractions and picked by the sign of b, which is
+   read off gauge331.triplet_charges(0, variant). gauge331's private _scalar_X is not called.
+5. **Matching for g_X** never assumes inv_e2's form. It solves gauge331.inv_e2(g_L, u^-1/2) = target by
+   a two-point affine solve in u = 1/g_X^2, then checks the residual. For both variants beta^2 = 1/3, so
+   matching_331 gives the same numbers for both variants. The variants differ only through b_X.
+6. **Landau pole** uses the closed-form inversion of the one-loop line (no numerical root). toolkit.bisect
+   in ln mu is the second route in __main__. "alpha_X = 1" means 1/alpha_X = 1 exactly. SM running is
+   applied for any mu, with no thresholds below MU_331.
