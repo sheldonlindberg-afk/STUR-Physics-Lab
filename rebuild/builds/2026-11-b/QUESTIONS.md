@@ -251,3 +251,19 @@ Interpretation points and how they were resolved (DERIVATION_running.md section 
    exp(2 pi/b_X) higher. It raises ValueError if alpha_X >= 1 already at MU_331.
 6. **`matching_331` raises ValueError** when the matching has no real g_X (1/alpha_Y <= beta^2/alpha_2).
 7. **Even N_c** gives a non-integer number of antitriplet families; not rejected, b stays an exact Fraction.
+
+## Stage `weak` (SPEC section 10)
+
+Nothing could not be derived; nothing is quoted. Interpretation points (DERIVATION_weak.md sections 0, 7):
+
+1. **Clifford-algebra sign.** SPEC fixes g = diag(-1,1,1,1) and gamma_5 = i g0 g1 g2 g3 but not the sign of
+   {gamma^mu, gamma^nu}. Chosen: {gamma, gamma} = -2 g (Hermitian gamma^0, (p-slash + m) u = 0). The other choice
+   is gamma -> i gamma, leaves gamma_5 and |M|^2 unchanged; the width does not depend on it.
+2. **Closed channel.** `pion_decay_width` returns 0.0 for m_l >= m_pi (and m_pi <= 0) instead of raising or
+   continuing the formula above threshold.
+3. **Neutrino spin sum.** "Massless and left-handed": the (1 - gamma_5) projector already keeps the single
+   antineutrino helicity, so the sum over both v spinor labels carries no extra 1/2.
+4. **Inversion.** `fpi_from_pion_decay` uses the exact f^2 homogeneity of `pion_decay_width` (one call at
+   f0 = 1 GeV, then a square root), not a root-finder; bisection is the self-check. Positive root returned.
+5. **Unit conversion** as SPEC states: hbar = HBAR/(E_CH x 1e9) GeV s; the 1e9 (eV per GeV) is the only
+   literal. The measured width is the pi+ one, used for pi- (CPT).
