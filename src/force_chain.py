@@ -40,6 +40,12 @@ in which they hand results to each other.
      scale above, from stage 6's cryostat to stage 1's Planck mass, and its emission counts
      stage 1's particles.
 
+Two back ends. By default every stage calls the repository's own derivations (src/). With
+run(build=<directory>) or --build <directory>, each hand-off that a blind rebuild of the ladder
+(rebuild/builds/<id>/, see rebuild/PROTOCOL.md) derives comes from that build instead, called
+with the chain's own earlier hand-offs; tests/test_force_chain_backends.py checks that both back
+ends give the same chain. What no build derives yet stays on src/ and is named in BUILD_GAPS.
+
 Labels as in the modules called. Independent work, not peer reviewed.
 """
 import math
@@ -50,6 +56,27 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 LEDGER = []          # (name, value, produced_in, [used_in, ...])
 INPUTS = []          # (stage, name, value, source)
+BUILD = None         # None: src/ back end. Otherwise the loaded stage modules of a rebuild
+BUILD_GAPS = ("M_V floor (LHC recast)", "the electromagnetic pion splitting", "the nucleon's mass budget",
+              "the symbolic Schwarzschild-de Sitter check and f(r)", "Lambda's shift of Sgr A*'s temperature",
+              "the EHT and GW250114 comparisons", "the evaporation thresholds below the Planck mass")
+
+
+class _Build:
+    """A rebuild's stage modules, and its inputs module for feeding the chain's hand-offs in."""
+
+    def __init__(self, build_dir):
+        rb = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "rebuild")
+        if rb not in sys.path:
+            sys.path.insert(0, rb)
+        import contract
+        import harness
+        import inputs
+        mods, errors = harness.load_build(build_dir, contract.STAGES)
+        if errors:
+            raise RuntimeError(f"build does not load: {errors}")
+        self.__dict__.update(mods)
+        self.inputs, self.given, self.dir = inputs, harness.mutated, build_dir
 
 
 def banner(s):
@@ -86,16 +113,25 @@ def unification():
     ainv = measured(st, "1/alpha-hat(M_Z)", 127.930, "PDG 2024 (MS-bar)")
     GF = measured(st, "G_F", 1.1663788e-5, "PDG 2024")
     MV = measured(st, "M_V floor", 3755.1, "LHC Z' recast (src/m331_zprime_recast.py)")
-    rows, ok, (Qu, Qd) = B.charges("+1/sqrt3", 3)
-    qp, qn, qe, qnu, _ = LL.rung1_matter_charges()[("+1/sqrt3", 3)]
     hbar, c, e = 1.054571817e-34, 2.99792458e8, 1.602176634e-19
-    mpl = math.sqrt(hbar * c / G) * c**2 / e / 1e9
-    p3 = T3.pole(3, "+1/sqrt3", MV=4e3, gmax=M.ALPHA1)
-    p5 = T3.pole(5, "+1/sqrt3", MV=4e3, gmax=M.ALPHA1)
+    loops = "three loops"
+    if BUILD:
+        Qu, Qd = BUILD.gauge331.quark_charges(3)
+        qp, qn, qe, qnu = BUILD.links.matter_charges(3, "+1/sqrt3")
+        mpl = BUILD.links.planck_mass_GeV(G, hbar, c)
+        with BUILD.given(ALPHA_MZ_INV=ainv):
+            p3, p5 = (BUILD.running.landau_pole(n, "+1/sqrt3") for n in (3, 5))
+        loops = "one loop"
+    else:
+        rows, ok, (Qu, Qd) = B.charges("+1/sqrt3", 3)
+        qp, qn, qe, qnu, _ = LL.rung1_matter_charges()[("+1/sqrt3", 3)]
+        mpl = math.sqrt(hbar * c / G) * c**2 / e / 1e9
+        p3 = T3.pole(3, "+1/sqrt3", MV=4e3, gmax=M.ALPHA1)
+        p5 = T3.pole(5, "+1/sqrt3", MV=4e3, gmax=M.ALPHA1)
     banner("1  Unification: SU(3)_C x SU(3)_L x U(1)_X -> Standard Model -> electromagnetism")
     print(f"   anomaly-fixed quark charges at N_c = 3: Q_u = {Qu}, Q_d = {Qd};  q_p + q_e = {qp + qe} exactly")
     print(f"   Planck mass from the measured G: {mpl:.5e} GeV")
-    print(f"   Landau poles (beta = +1/sqrt3, alpha = 1, three loops): N_c = 3 at {p3 / mpl:.2f} M_Pl,"
+    print(f"   Landau poles (beta = +1/sqrt3, alpha = 1, {loops}): N_c = 3 at {p3 / mpl:.2f} M_Pl,"
           f" N_c = 5 at {p5 / mpl:.1e} M_Pl -> N_c = 3 selected: {p5 < mpl < p3}")
     for k, v in (("G", G), ("Q_u", Qu), ("Q_d", Qd), ("q_p + q_e", qp + qe), ("M_Pl", mpl),
                  ("1/alpha-hat(M_Z)", ainv), ("G_F", GF), ("N_c", 3), ("M_V floor", MV)):
@@ -108,9 +144,15 @@ def electroweak_to_photon():
     import ladder_links as LL
     ainv = use(st, "1/alpha-hat(M_Z)")
     measured(st, "Delta alpha_had", LL.DALPHA_HAD[0], "PDG 2024 electroweak review")
-    d = LL.DALPHA_LEP_3LOOP + LL.DALPHA_HAD[0] + LL.DALPHA_CONV
-    a0inv = ainv / (1 - d)
-    num, _ = LL.dalpha_lep_one_loop()
+    if BUILD:
+        with BUILD.given(ALPHA_MZ_INV=ainv):
+            a0inv = BUILD.photon.alpha0_inv()
+            num = BUILD.photon.dalpha_lep() / a0inv
+        d = 1 - ainv / a0inv
+    else:
+        d = LL.DALPHA_LEP_3LOOP + LL.DALPHA_HAD[0] + LL.DALPHA_CONV
+        a0inv = ainv / (1 - d)
+        num, _ = LL.dalpha_lep_one_loop()
     banner("2  Electroweak to the photon: one coupling from M_Z to zero momentum")
     print(f"   leptons' running at one loop {num * 1e4:.3f}e-4 (computed); hadrons {LL.DALPHA_HAD[0]} (measured)")
     print(f"   1/alpha(0) = {ainv} / (1 - {d:.6f}) = {a0inv:.6f}  (CODATA 137.035999)")
@@ -126,6 +168,9 @@ def weak_to_strong():
     g0 = LL.GAMMA_PI_MUNU * LL.HBAR_GEV_S / (1 + LL.DELTA_PI[0])
     mpi, mmu = LL.M_PIC_GEV, LL.M_MU
     f = math.sqrt(8 * math.pi * g0 / (GF**2 * mmu**2 * mpi * (1 - mmu**2 / mpi**2) ** 2)) / LL.V_UD[0]
+    if BUILD:
+        with BUILD.given(G_F=GF):
+            f = BUILD.weak.fpi_from_pion_decay()
     banner("3  Weak to strong: G_F and the pion's weak decay give the pion decay constant")
     print(f"   f_pi = {f * 1e3:.2f} MeV (lattice, not used: 130.2 +- 1.2)")
     produce(st, "f_pi", f)
@@ -147,6 +192,10 @@ def strong_force():
     Fc = F / CB.FPI_OVER_F[0]
     M2 = 2 * CB.M_UD_FLAG[0] * CB.SIGMA_CUBE_ROOT**3 / Fc**2
     mpi4 = math.sqrt(M2 * (1 - M2 / (32 * math.pi**2 * Fc**2) * CB.LBAR3[0]))
+    if BUILD:
+        I = BUILD.inputs
+        width = BUILD.links.pi0_width_eV(a0, F, I.M_PI0, Nc, Qu, Qd)
+        mpi4 = BUILD.chiral.chpt_mpi(I.M_UD_FLAG, I.COND_13, I.FPI_OVER_F, I.LBAR3, F)
     ma, mr = LL.M_A1[0], LL.M_RHO[0]
     dm2 = 3 * a0 / (4 * math.pi) * mr**2 * ma**2 / (ma**2 - mr**2) * math.log(ma**2 / mr**2) * 1e6
     budget, _ = LL.mass_budget("2+1")
@@ -172,8 +221,16 @@ def electromagnetism_in_the_lab():
     neutral = use(st, "q_p + q_e")
     measured(st, "diamond permittivity", 5.7, "tabulated (AUDIT.md)")
     hbar, c, u = 1.054571817e-34, 2.99792458e8, 1.66053906660e-27
-    delta = math.sqrt(0.1 * G * u**2 / (a0 * hbar * c))
-    gap = GF.casimir_safe_gap()
+    if BUILD:
+        I = BUILD.inputs
+        # the build writes Coulomb's law with k e^2; that is alpha hbar c, so stage 2's alpha enters here
+        with BUILD.given(G_NEWTON=G, K_COUL=a0 * hbar * c / I.E_CH**2):
+            delta = BUILD.links.neutrality_per_nucleon(I.DESIGN_A_MASS)
+            gap = BUILD.casimir.casimir_safe_gap(I.GAP_BASELINE_MASS, I.GAP_BASELINE_DX, I.GAP_BASELINE_TAU,
+                                                 I.GAP_FRACTION)
+    else:
+        delta = math.sqrt(0.1 * G * u**2 / (a0 * hbar * c))
+        gap = GF.casimir_safe_gap()
     banner("5  Electromagnetism in the lab: the background the diamonds must suppress")
     print(f"   matter is neutral (stage 1): q_p + q_e = {neutral}; with stage 2's alpha the experiment needs"
           f" < {delta:.2e} e per nucleon")
@@ -191,8 +248,14 @@ def gravity_in_the_lab():
     gap = use(st, "gap")
     budget = use(st, "mass budget")
     assert G == GE.G
-    phi, _, _, (m, dx, g_used, hold, ramp) = GX.branch_phases()
-    assert abs(g_used / gap - 1) < 1e-12
+    if BUILD:
+        I = BUILD.inputs
+        m = I.DESIGN_A_MASS
+        with BUILD.given(G_NEWTON=G):
+            phi = BUILD.graviton.entangling_phase(m, I.DESIGN_A_DX, I.DESIGN_A_HOLD, I.DESIGN_A_RAMP, gap)
+    else:
+        phi, _, _, (m, dx, g_used, hold, ramp) = GX.branch_phases()
+        assert abs(g_used / gap - 1) < 1e-12
     light = phi * (1 - budget["u, d quark masses"]) ** 2
     banner("6  Gravity in the lab: one-graviton exchange between design A's diamonds")
     print(f"   m = {m:.3e} kg, gap {gap * 1e6:.1f} um (stage 5): entangling phase {phi:.3f} rad")
@@ -212,7 +275,7 @@ def gravity_as_gauge_theory():
     G = use(st, "G")
     phi = use(st, "phase")
     Lam = measured(st, "Lambda", LL.LAMBDA_SI, "Planck 2018 with BAO")
-    l = math.sqrt(3 / Lam)
+    l = BUILD.desitter.ell_from_lambda(Lam) if BUILD else math.sqrt(3 / Lam)
     lp2 = 1.054571817e-34 * G / 2.99792458e8**3
     rel, _, _ = LL.lambda_correction_size()
     # the gauge theory's field equations, G_munu + (3/l^2) g_munu = 0, solved by Schwarzschild-de
@@ -282,6 +345,18 @@ def black_holes():
     for lab, T, M, tau, f in rows:
         print(f"      {lab:52s} T = {T:9.2e} GeV, {tau:9.2e} s left, f = {f:5.2f}")
     last_T = rows[-1][1]
+    if BUILD:
+        # the build's Hawking temperature (Lambda's shift, dT above, is far below double precision), its
+        # surface gravity from the spin connection, and its Planck-mass end point
+        with BUILD.given(G_NEWTON=G):
+            T_sds = BUILD.blackholes.hawking_K(M_kg)
+            last_T = BUILD.links.planck_bh_kT_GeV()
+        kb_, kc_ = BUILD.blackholes.kappa_from_spin_connection(1.0, 9.0)
+        rb_, rc_ = BUILD.blackholes.sds_horizons(1.0, 9.0)
+        fp = lambda r: 2.0 / r**2 - 2 * r / 81.0
+        print(f"   [build] spin-connection surface gravity at M = 1, l = 9: {kb_:.12f}, {kc_:.12f}"
+              f" (|f'|/2: {abs(fp(rb_)) / 2:.12f}, {abs(fp(rc_)) / 2:.12f}); Sgr A* T_H {T_sds:.6e} K;"
+              f" end point {last_T:.4e} GeV")
     print(f"   -> it ends at stage 1's Planck mass, T = {last_T:.4e} GeV = M_Pl/8 pi ({mpl / (8 * math.pi):.4e} GeV)")
     produce(st, "Sgr A* T_H", T_sds)
     produce(st, "end temperature", last_T)
@@ -291,16 +366,25 @@ STAGES = (unification, electroweak_to_photon, weak_to_strong, strong_force,
           electromagnetism_in_the_lab, gravity_in_the_lab, gravity_as_gauge_theory, black_holes)
 
 
-def run():
+def run(build=None):
+    """Run the chain. build: a rebuild's directory, to take every hand-off it derives from that build."""
+    global BUILD
     LEDGER.clear()
     INPUTS.clear()
-    for s in STAGES:
-        s()
+    BUILD = _Build(build) if build else None
+    try:
+        for s in STAGES:
+            s()
+    finally:
+        BUILD = None
     return LEDGER, INPUTS
 
 
-def main():
-    run()
+def main(build=None):
+    run(build)
+    if build:
+        banner(f"Back end: the blind rebuild in {os.path.relpath(build)}")
+        print("   Still from src/, because no build derives them yet: " + "; ".join(BUILD_GAPS) + ".")
     banner("Hand-offs: each value, the stage that produced it, the stages that used it")
     for name, _, made, used in LEDGER:
         print(f"   {name:22s} stage {made}  ->  " + (", ".join(f"stage {u}" for u in used) if used else "(final)"))
@@ -313,4 +397,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[sys.argv.index("--build") + 1] if "--build" in sys.argv else None)
