@@ -224,11 +224,15 @@ component is read on dt∧dr∧dθ∧dφ. `action_coefficients` uses both.
   quark doublet (Y = 1/6, 3 colours), u^c (Y = −2/3) and d^c (Y = 1/3) (3 colours each), the
   lepton doublet (Y = −1/2) and e^c (Y = 1). The Higgs doublet has Y = 1/2. At M_Z
   (`inputs.MZ_MEAS`): 1/α_Y = (1 − s²)/α̂ and 1/α₂ = s²/α̂, with 1/α̂ = `inputs.ALPHA_MZ_INV`
-  and s² = `inputs.S2_MZ`.
+  and s² = `inputs.S2_MZ`. This Standard Model is the same for every N_c: below the 3-3-1
+  scale the theory always has 3 colours and 3 generations, also when `b_331` or
+  `landau_pole` is asked for N_c = 5. N_c enters only above the 3-3-1 scale.
 - **Above the 3-3-1 scale** the theory is SU(3)_C × SU(3)_L × U(1)_X with N_c colours, the
   content of §2, and these SU(3)_L singlets, all left-handed Weyl fields: each electrically
   charged fermion component of a triplet or antitriplet has one singlet partner of the
-  opposite charge, with X equal to that opposite charge (neutral components have none). The
+  opposite charge, with X equal to that opposite charge (neutral components have none).
+  "One" means one per copy of the multiplet: a quark component's partner carries the same
+  N_c colours as the quark, and each family has its own partners. The
   three scalar triplets of §2 are complex. Derive every charge from §2 (rung 1's
   `triplet_charges`, `quark_charges`); don't assume them.
 - **Matching at μ** (no threshold corrections): SU(2)_L ⊂ SU(3)_L, so g_L(μ) = g₂(μ); and the
