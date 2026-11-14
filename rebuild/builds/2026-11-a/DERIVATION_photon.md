@@ -91,6 +91,20 @@ d/dw ln|1 - x(1-w^2)/4| = 2w/(w^2 - B), B = 1 - 4/x = 1 - 4m^2/s:
 
 Equivalently, with y = 4m^2/s: (1/3pi)[-5/3 - y + (1 + y/2) beta ln|(1+beta)/(1-beta)|].
 
+### 1d'. Large |x|: evaluating the logarithm without cancellation (fix after the strengthened slope check)
+The closed form is exact, but its naive evaluation is not: for |x| >> 1, B = 1 - 4/x is within 4/|x| of 1,
+so beta -> 1 and the floating-point difference 1 - beta carries a relative rounding error ~ 1e-16 |x|/2.
+At x = 1e12..1e14 that is 1e-5..1e-3 in the argument of the log, i.e. an absolute error of that size in
+Dalpha/alpha (the first implementation's slope over 1e12..1e14 was off by 1.8e-4; the electron at M_Z has
+x ~ 3e10, where the error was ~1e-7 relative in its term). The cure is algebraic, not numerical:
+
+    1 - beta^2 = 1 - B = 4/x   =>   |1 - beta| = (4/|x|)/(1 + beta)     (both for x < 0, beta > 1, and x > 4, beta < 1)
+    =>  ln|(1 + beta)/(1 - beta)| = ln( (1 + beta)^2 |x| / 4 ),
+
+which has no subtraction of nearly equal numbers. It is the same function; the code now uses this form for
+all B >= 0. Limit check: beta -> 1 gives ln|x|, the asymptote of 1f. (B itself still rounds to 1 for huge
+|x|, which is harmless: the result's sensitivity to B is O(1), so the error is O(1e-16).)
+
 ### 1e. Small |x|: series (used for |x| < 1/2, where 1d cancels O(1) terms to O(x))
 ln(1 - t x) = -Sum_{n>=1} t^n x^n/n and Int_0^1 [u(1-u)]^{n+1} du = B(n+2, n+2) = ((n+1)!)^2/(2n+3)!:
 
@@ -120,6 +134,8 @@ sides; slope in ln|s| is 1/(3 pi) = (4/3)/(4 pi), SPEC 9's b = (2/3)(2 Weyl fiel
    a smooth integrand for x < 4 (spacelike and below threshold), evaluated with toolkit.trapezoid.
    Check at small x: Int = 2/5, giving -x/(15 pi), the same as 1e.
 3. **Series vs closed form** in the overlap 1/2 <= |x| < 4 (two different evaluations of (*)).
+5. **Slope at very large |x|** (1e8..1e10, 1e12..1e14, 1e18..1e20, both signs) against 1/(3 pi): the
+   deviation must fall like the true O(1/x) correction, not grow with x.
 4. **Asymptote** (1/3pi)(ln(s/m^2) - 5/3) at s = M_Z^2 for each lepton (corrections O(m^2/s)).
 
 ## 2. `dalpha_lep()` = one-loop Dalpha_lep(M_Z^2)/alpha

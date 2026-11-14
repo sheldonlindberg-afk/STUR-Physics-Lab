@@ -38,10 +38,20 @@ python3 rebuild/chain_compare.py rebuild/builds/2026-11-a rebuild/builds/2026-11
 **The force chain and the rebuild.** `chain_compare.py` compares the force chain's hand-offs with
 an accepted build in two ways. With the chain's own arguments, the build must agree to rounding.
 On its own inputs, the build must agree, or differ only for a recorded cause within a recorded
-band. Both accepted builds agree on all 22 overlaps. Since stages `weak` and `running` were added,
-f_π, the π⁰ width and the O(p⁴) pion mass agree with the chain to about 1e-9, because both now
-derive f_π from G_F. Two recorded causes remain:
+band. Both accepted builds agree on all 23 overlaps. Since stages `weak` and `running` were added,
+f_π and the O(p⁴) pion mass agree with the chain to about 1e-9, because both now derive f_π from G_F.
+Since stage `photon` was added the builds also derive α(0), from 1/α̂(M_Z), and the π⁰ width reads no
+input α. Three recorded causes remain:
+- α(0) differs by 1.1e-7 (and the π⁰ width by twice that): the build computes the leptons' one-loop
+  Δα(M_Z²) itself and adds the quoted higher loops; the chain takes the three-loop total from the
+  literature;
 - the one-loop Landau poles (stage `running`) are 1.4 to 2 times the chain's three-loop poles, and
   give the same N_c = 3 selection;
 - the chain inherits src's grid-point safe gap, 181.16 µm (2.1868 rad), while the rebuild bisects
   to the root, 181.107 µm (2.1878 rad). See FINDINGS N3.
+
+**The force chain on a rebuild.** `python3 src/force_chain.py --build rebuild/builds/<id>` runs the
+chain with every hand-off the build derives taken from the build, fed with the chain's own earlier
+hand-offs. `tests/test_force_chain_backends.py` requires the same hand-off graph and the same values
+(within the recorded bands above) on both back ends. What no build derives yet stays on `src/` and
+is listed in `force_chain.BUILD_GAPS`.

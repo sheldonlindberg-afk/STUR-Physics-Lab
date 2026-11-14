@@ -243,3 +243,7 @@ each computes its own result and only uses the quoted formula as an input).
    under `__main__` in links.py was NOT changed: its "closed form" second route and the "with input F_PI"
    line still use inputs.ALPHA_0, so the printed rel diff between the two routes is now ~2e-7 (twice the
    relative difference of the two alphas) instead of rounding error.
+7. **photon, accuracy at |s| >> m^2 (fixed).** The first photon.py evaluated ln|(1+beta)/(1-beta)| with the
+   floating-point difference 1 - beta, which loses ~1e-16 |s|/m^2 relative accuracy; it now uses the identical
+   ln((1+beta)^2 |s|/(4 m^2)). The derivation (closed form) was right; its numerical evaluation was not.
+   alpha0_inv() moved by +6.2e-8 (137.0360138894 -> 137.0360139509), from the electron term of dalpha_lep.

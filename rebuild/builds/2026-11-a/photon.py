@@ -16,7 +16,9 @@ PROVENANCE = {
                                        " [2/eps - ... - ln(Delta/mu^2)], Delta = m^2 - u(1-u)s; on-shell subtraction"
                                        " leaves (2/pi) Int_0^1 u(1-u) ln|1 - u(1-u)s/m^2| du (sign: screening);"
                                        " integrated by parts to (1/pi)[-8/9 + B/3 + beta(3-B)/6 ln|(1+beta)/(1-beta)|],"
-                                       " B = 1 - 4m^2/s = beta^2 (arctan branch for B < 0); power series for |s| < m^2/2"),
+                                       " B = 1 - 4m^2/s = beta^2 (arctan branch for B < 0), the log evaluated as"
+                                       " ln((1+beta)^2 |s|/4m^2) so no digits are lost at |s| >> m^2;"
+                                       " power series for |s| < m^2/2"),
     "dalpha_lep": ("derived", "sum over e, mu, tau of Q^2 vacuum_polarization(MZ_MEAS^2, m_l); Q = component 2 of"
                               " gauge331.triplet_charges(X_L = -1/3, '-1/sqrt3') (rung 1), Q^2 = 1"),
     "alpha0_inv": ("derived", "SPEC 11 relation 1/alphahat = (1 - a L - C)/a is linear in 1/a:"
@@ -47,7 +49,8 @@ def _closed(x):
         beta = math.sqrt(B)
         if beta == 0:
             return -8.0 / (9 * math.pi)                    # the finite threshold limit
-        log = math.log(abs((1 + beta) / (1 - beta)))
+        # |1 - beta| = |1 - B|/(1 + beta) = (4/|x|)/(1 + beta): no cancellation when beta -> 1 (|x| >> 1)
+        log = math.log((1 + beta) ** 2 * abs(x) / 4)
         return (-8.0 / 9 + B / 3 + beta * (3 - B) / 6 * log) / math.pi
     b = math.sqrt(-B)
     return (-8.0 / 9 + B / 3 + b * (3 - B) / 3 * math.atan(1 / b)) / math.pi
@@ -127,9 +130,15 @@ if __name__ == "__main__":
         print(f"  x = {x:5.1f}: series {_series(x):+.15e}, closed {_closed(x):+.15e}")
     print("== leading term -x/(15 pi) and the asymptote (ln|x| - 5/3)/(3 pi)")
     print(f"  x = -1e-4: {vacuum_polarization(-1e-4, 1.0):.9e} vs {1e-4 / (15 * math.pi):.9e}")
-    for x in (-1e10, 1e10):
+    for x in (-1e10, 1e10, -1e14, 1e14, -1e20, 1e20):
         print(f"  x = {x:g}: {vacuum_polarization(x, 1.0):.12f} vs {(math.log(abs(x)) - 5.0 / 3) / (3 * math.pi):.12f}")
 
+    want = 1 / (3 * math.pi)
+    for lo in (1e8, 1e12, 1e18):
+        sl = [(vacuum_polarization(sg * 100 * lo, 1.0) - vacuum_polarization(sg * lo, 1.0)) / math.log(100) / want - 1
+              for sg in (-1, 1)]
+        print(f"  slope in ln|x| over [{lo:g}, {100 * lo:g}] / (1/3pi) - 1: spacelike {sl[0]:+.2e}, timelike {sl[1]:+.2e}"
+              f" (expected O(1/x): {6 / lo:.1e})")
     print("== dalpha_lep")
     s = inputs.MZ_MEAS ** 2
     q = _lepton_charge()

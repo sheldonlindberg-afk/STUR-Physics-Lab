@@ -39,7 +39,8 @@ KNOWN = {
     "f_pi: chain's stage 3 vs the build's weak.fpi_from_pion_decay": (
         0.0, 1e-9, "the same route (G_F and Gamma(pi -> mu nu)); hbar in GeV s from HBAR/E_CH vs src's constant"),
     "pi0 width: chain vs the build's pi0_width_from_rungs": (
-        0.0, 2e-9, "the same f_pi route; the chain's alpha(0) is its running, the build's is inputs.ALPHA_0"),
+        1.8e-7, 2.6e-7, "the same f_pi route; alpha(0) squared, and the build's alpha(0) differs from the chain's by "
+                        "1.08e-7 (the alpha(0) row above)"),
     "m_pi O(p^4): chain vs the build's chpt_mpi_from_rungs": (
         0.0, 1e-9, "the same f_pi route (stage weak), through F = f_pi/(F_pi/F)"),
     "+1/sqrt3 Landau pole, N_c = 3: the build's one loop vs the chain's three loops": (
