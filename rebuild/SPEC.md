@@ -204,9 +204,9 @@ component is read on dt∧dr∧dθ∧dφ. `action_coefficients` uses both.
   is the reverse. The electron and neutrino are the lepton triplet's components 2 and 1,
   with X_L as in §2.
 - **`planck_bh_kT_GeV`:** m = M_Pl in kg, then k_B T_H in GeV.
-- **`pi0_width_from_rungs`:** rung 1's charges at N_c = 3, `inputs.ALPHA_0`, `inputs.M_PI0`,
-  and the f_π that stage `weak` derives (§10), converted to the convention of `pi0_width_eV`:
-  f_π(≈92 MeV) = f_π(≈130 MeV)/√2.
+- **`pi0_width_from_rungs`:** rung 1's charges at N_c = 3, `inputs.M_PI0`, the f_π that stage
+  `weak` derives (§10), converted to the convention of `pi0_width_eV`:
+  f_π(≈92 MeV) = f_π(≈130 MeV)/√2, and α = 1/`photon.alpha0_inv()` (§11), not `inputs.ALPHA_0`.
 - **`g_window_from_rungs`:** the G window of `g_window` with the poles that stage `running`
   derives (§9) for N_c = 3 and 5, and M_Pl from the inputs' G, ħ and c.
 
@@ -257,3 +257,27 @@ component is read on dt∧dr∧dθ∧dφ. `action_coefficients` uses both.
   Convert s⁻¹ to GeV with ħ = `inputs.HBAR`/(`inputs.E_CH` × 10⁹) GeV s.
 - **`pion_decay_width`** is Γ_tree for given arguments; **`fpi_from_pion_decay`** inverts it at
   the measured width, using `pion_decay_width` itself.
+
+## 11. photon: the electromagnetic coupling from M_Z to zero momentum
+
+**Postulates.**
+- QED for a Dirac fermion ψ of mass m and charge Q (in units of e > 0, α = e²/4π):
+  L = ψ̄(iγ^μ∂_μ − m)ψ − eQ ψ̄γ^μψ A_μ − ¼F_μνF^μν.
+- The photon's one-loop self-energy is transverse, Π^μν(q) = (q²g^μν − q^μq^ν) Π(q²). Renormalize
+  on shell: Π̂(s) = Π(s) − Π(0), so that α is the coupling measured at q² = 0.
+- The effective coupling at s = q² is α(s) = α/(1 − Δα(s)), where Δα(s) is minus the real part
+  of Π̂(s) summed over the fermions, with the overall sign fixed by: charge is screened, so
+  Δα(s) > 0 for spacelike s (s < 0 with the timelike-positive convention used here).
+- **`vacuum_polarization(s, m)`** is Δα(s)/α for one fermion with Q = 1. Derive it from the
+  loop (any regulator); it must be finite and regulator independent. It can depend only on s/m².
+- **Leptons.** e, μ, τ with `inputs.M_E`, `inputs.M_MU`, `inputs.M_TAU`. Their charge is the
+  lepton triplet's component 2 (§2, as in §8's `matter_charges`), from rung 1.
+- **From M_Z to q = 0** (quoted relation, PDG electroweak review): the MS-bar coupling at M_Z,
+  1/α̂ = `inputs.ALPHA_MZ_INV`, and the coupling at q = 0 are related by
+  1/α̂ = (1 − Δα̂)/α(0), with
+  Δα̂ = Δα_lep(M_Z²) + `inputs.DALPHA_HAD` + `inputs.DALPHA_CONV`.
+  The hadronic part is measured (it is a dispersion integral over e⁺e⁻ → hadrons data and can't
+  be computed in perturbation theory). `DALPHA_CONV` converts on-shell to MS-bar and is quoted.
+- Δα_lep(M_Z²) = α(0) × `dalpha_lep()` at one loop, plus `inputs.DALPHA_LEP_HIGHER` (the quoted
+  two- and three-loop terms) when `higher` is true. The one-loop term is proportional to the
+  unknown α(0): solve the relation for α(0). Do not read `inputs.ALPHA_0` anywhere in this stage.

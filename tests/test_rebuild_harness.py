@@ -103,7 +103,7 @@ def test_oracle_catches_what_blind_checks_cannot(tmp_path):
     assert harness.run(d, mode="builder", lint=False)["ok"]
     rep = harness.run(d, mode="verifier", lint=False)
     fails = [l for l, ok, _ in rep["stages"]["links"]["oracle"] if not ok]
-    assert fails == ["pi0 width 7.785 eV", "pi0 width from rung 1's charges and the weak decay's f_pi: 7.7417 eV (force chain)"]
+    assert fails == ["pi0 width 7.785 eV", "pi0 width from rung 1's charges, the weak decay's f_pi and the derived alpha(0): 7.7417 eV (force chain)"]
 
 
 def test_quoted_provenance_where_derivation_required(tmp_path):
@@ -437,7 +437,7 @@ def test_pi0_with_the_input_fpi_is_caught(tmp_path):
     """)
     rep = harness.run(d, mode="builder", lint=False)
     assert [l for l, ok, _ in rep["stages"]["links"]["blind"] if not ok] == \
-        ["pi0 width from rung 1's charges and stage weak's f_pi"]
+        ["pi0 width from rung 1's charges, stage weak's f_pi and stage photon's alpha(0)"]
 
 
 def test_chpt_with_the_input_fpi_is_caught(tmp_path):
@@ -625,10 +625,12 @@ def test_links_hand_offs_with_cached_inputs_are_caught(tmp_path):
         import gauge331 as _g
         import running as _r
         import weak as _wk
-        _AL, _GN = _i.ALPHA_0, _i.G_NEWTON
+        import photon as _ph
+        _AL, _GN = 1 / _ph.alpha0_inv(), _i.G_NEWTON
         _P = {v: (_r.landau_pole(3, v), _r.landau_pole(5, v)) for v in ("-1/sqrt3", "+1/sqrt3")}
         def pi0_width_from_rungs():
             Qu, Qd = _g.quark_charges(3)
+            _ph.alpha0_inv()
             return pi0_width_eV(_AL, _wk.fpi_from_pion_decay() / 2 ** 0.5, _i.M_PI0, 3, Qu, Qd)
         def g_window_from_rungs(variant):
             _r.landau_pole(3, variant)
@@ -637,7 +639,7 @@ def test_links_hand_offs_with_cached_inputs_are_caught(tmp_path):
     rep = harness.run(d, mode="verifier", lint=False)
     assert _fails(rep, "links", "blind") == [] and _fails(rep, "links", "oracle") == []
     assert _fails(rep, "links", "connections") == []
-    assert _fails(rep, "links", "sensitivity") == [_moved("links", "pi0 width from rung 1's charges and stage weak's f_pi"),
+    assert _fails(rep, "links", "sensitivity") == [_moved("links", "pi0 width from rung 1's charges, stage weak's f_pi and stage photon's alpha(0)"),
                                                    _moved("links", "G window from the one-loop poles of stage running")]
 
 
@@ -670,3 +672,89 @@ def test_report_json_has_real_booleans(tmp_path):
     for rec in rep["stages"].values():
         for tier in ("contract", "blind", "sensitivity", "connections", "oracle"):
             assert all(isinstance(ok, bool) for _, ok, _ in rec.get(tier, []))
+
+
+# ------------------------------------------------------------------------------------------
+# Stage photon (alpha(0) run down from M_Z): each mutant is a plausible wrong build.
+_PH_REL = "alpha0_inv solves SPEC 11's relation, with and without the higher-loop term"
+_PH_ANCHOR = "1/alpha(0) within 3e-4 of the measured inputs.ALPHA_0"
+_PH_SLOPE = "high-energy slope is SPEC 9's one-loop coefficient; timelike = spacelike there"
+_PI0_RUNGS = "pi0 width from rung 1's charges, stage weak's f_pi and stage photon's alpha(0)"
+
+
+def test_half_the_vacuum_polarization_is_caught_blind(tmp_path):
+    # one Weyl fermion instead of a Dirac fermion: a factor 2 in the loop
+    d = _mutant(tmp_path, "photon", """
+        _vp = vacuum_polarization
+        def vacuum_polarization(s, m):
+            return 0.5 * _vp(s, m)
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert _fails(rep, "photon", "blind") == [_PH_SLOPE, _PH_ANCHOR]
+
+
+def test_vacuum_polarization_wrong_below_threshold_needs_the_oracle(tmp_path):
+    # the above-threshold closed form continued wrongly into 1 < s/m^2 < 4: no blind property sees it
+    d = _mutant(tmp_path, "photon", """
+        _vp = vacuum_polarization
+        def vacuum_polarization(s, m):
+            return _vp(s, m) * (1.1 if 1 < s / m**2 < 4 else 1)
+    """)
+    rep = harness.run(d, mode="verifier", lint=False)
+    assert _fails(rep, "photon", "blind") == []
+    assert len(_fails(rep, "photon", "oracle")) == 1
+
+
+def test_alpha0_read_from_the_input_is_caught(tmp_path):
+    d = _mutant(tmp_path, "photon", """
+        import inputs as _i
+        def alpha0_inv(higher=True):
+            dalpha_lep()                              # the spy is satisfied, the measured value returned
+            return 1 / _i.ALPHA_0
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert _fails(rep, "photon", "connections") == []
+    assert _fails(rep, "photon", "blind") == [_PH_REL]
+
+
+def test_alpha0_ignoring_the_higher_flag_is_caught(tmp_path):
+    d = _mutant(tmp_path, "photon", """
+        _a0 = alpha0_inv
+        def alpha0_inv(higher=True):
+            return _a0(True)
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert _fails(rep, "photon", "blind") == [_PH_REL]
+
+
+def test_photon_with_a_cached_mass_is_caught(tmp_path):
+    d = _mutant(tmp_path, "photon", """
+        import inputs as _i
+        _MT = _i.M_TAU
+        def dalpha_lep():
+            import gauge331 as _g
+            from fractions import Fraction as _F
+            q = float(_g.triplet_charges(_F(-1, 3), "-1/sqrt3")[1])
+            return sum(q * q * vacuum_polarization(_i.MZ_MEAS**2, ml) for ml in (_i.M_E, _i.M_MU, _MT))
+    """)
+    rep = harness.run(d, mode="verifier", lint=False)
+    assert _fails(rep, "photon", "blind") == [] and _fails(rep, "photon", "oracle") == []
+    assert _fails(rep, "photon", "sensitivity") == \
+        ["alpha0_inv reads ALPHA_MZ_INV, DALPHA_HAD and the lepton masses",
+         _moved("photon", "dalpha_lep sums vacuum_polarization with rung 1's lepton charge")]
+
+
+def test_pi0_with_the_input_alpha_is_caught(tmp_path):
+    d = _mutant(tmp_path, "links", """
+        import inputs as _i
+        import gauge331 as _g
+        import weak as _wk
+        import photon as _ph
+        def pi0_width_from_rungs():
+            _ph.alpha0_inv()                          # called, but the measured alpha(0) used
+            Qu, Qd = _g.quark_charges(3)
+            return pi0_width_eV(_i.ALPHA_0, _wk.fpi_from_pion_decay() / 2 ** 0.5, _i.M_PI0, 3, Qu, Qd)
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert _fails(rep, "links", "connections") == []
+    assert _fails(rep, "links", "blind") == [_PI0_RUNGS]

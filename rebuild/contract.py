@@ -182,9 +182,28 @@ STAGES = [
         },
     },
     {
+        "name": "photon",
+        "module": "photon",
+        "depends": ["toolkit", "gauge331"],
+        "quoted_allowed": [],
+        "exports": {
+            "vacuum_polarization": "vacuum_polarization(s, m) -> float: one-loop Delta alpha(s)/alpha of ONE Dirac fermion of"
+                                   " mass m (GeV) and unit charge: minus the real part of its renormalized photon"
+                                   " self-energy, zero at s = 0 (SPEC section 11). s in GeV^2: s > 0 timelike, s < 0"
+                                   " spacelike; s = 4 m^2 excluded.",
+            "dalpha_lep": "dalpha_lep() -> float: the leptons' one-loop Delta alpha(M_Z^2)/alpha: the sum over e, mu, tau of"
+                          " Q^2 vacuum_polarization(inputs.MZ_MEAS^2, m), with inputs.M_E, M_MU, M_TAU and the charged"
+                          " lepton's Q from rung 1 (gauge331.triplet_charges of the lepton triplet).",
+            "alpha0_inv": "alpha0_inv(higher=True) -> float: 1/alpha at q^2 = 0, solved from inputs.ALPHA_MZ_INV by the"
+                          " relation of SPEC section 11, with dalpha_lep(), inputs.DALPHA_HAD and DALPHA_CONV, and"
+                          " (only if higher) inputs.DALPHA_LEP_HIGHER. It never reads inputs.ALPHA_0.",
+        },
+    },
+    {
         "name": "links",
         "module": "links",
-        "depends": ["toolkit", "gauge331", "chiral", "casimir", "graviton", "desitter", "blackholes", "running", "weak"],
+        "depends": ["toolkit", "gauge331", "chiral", "casimir", "graviton", "desitter", "blackholes", "running", "weak",
+                    "photon"],
         "quoted_allowed": ["pi0_width_eV", "pi0_width_from_rungs"],
         "exports": {
             "qp_qe_minus_anomaly": "qp_qe_minus_anomaly(Nc, b, XL, Xt) -> Fraction: (q_p + q_e) - [SU(3)_L]^2 U(1)_X / N_g"
@@ -198,8 +217,8 @@ STAGES = [
             "matter_charges": "matter_charges(Nc, variant) -> (q_p, q_n, q_e, Q_nu) Fractions, from rung 1's"
                               " gauge331.quark_charges and the lepton triplet's gauge331.triplet_charges.",
             "pi0_width_from_rungs": "pi0_width_from_rungs() -> eV: pi0 -> gamma gamma with rung 1's charges at N_c = 3,"
-                                    " weak.fpi_from_pion_decay() (in the ~92 MeV convention, f/sqrt2), inputs.ALPHA_0"
-                                    " and M_PI0.",
+                                    " weak.fpi_from_pion_decay() (in the ~92 MeV convention, f/sqrt2), alpha ="
+                                    " 1/photon.alpha0_inv() and inputs.M_PI0. It reads no input alpha.",
             "g_window_from_rungs": "g_window_from_rungs(variant) -> (lo, hi): g_window with the one-loop poles"
                                    " running.landau_pole(3, variant) and (5, variant), and planck_mass_GeV of the"
                                    " inputs' G, hbar, c.",
@@ -240,8 +259,14 @@ CONNECTIONS = [
      "up": [("gauge331", "quark_charges"), ("gauge331", "triplet_charges")],
      "why": "link 1: neutral matter uses rung 1's charges"},
     {"id": "L2", "down": ("links", "pi0_width_from_rungs", ()),
-     "up": [("gauge331", "quark_charges"), ("links", "pi0_width_eV"), ("weak", "fpi_from_pion_decay")],
-     "why": "link 2: pi0 -> gamma gamma uses rung 1's charges and the weak decay's f_pi"},
+     "up": [("gauge331", "quark_charges"), ("links", "pi0_width_eV"), ("weak", "fpi_from_pion_decay"),
+            ("photon", "alpha0_inv")],
+     "why": "link 2: pi0 -> gamma gamma uses rung 1's charges, the weak decay's f_pi and the alpha(0) run down from M_Z"},
+    {"id": "P-lep", "down": ("photon", "dalpha_lep", ()),
+     "up": [("photon", "vacuum_polarization"), ("gauge331", "triplet_charges")],
+     "why": "the leptons' loop uses the one-fermion function and rung 1's lepton charge"},
+    {"id": "P-alpha", "down": ("photon", "alpha0_inv", ()),
+     "up": [("photon", "dalpha_lep")], "why": "alpha(0) uses the lepton loop the stage computes, not a typed number"},
     {"id": "C-fpi", "down": ("chiral", "chpt_mpi_from_rungs", ()),
      "up": [("weak", "fpi_from_pion_decay"), ("chiral", "chpt_mpi")],
      "why": "the strong force's pion mass uses the f_pi the weak decay gives"},

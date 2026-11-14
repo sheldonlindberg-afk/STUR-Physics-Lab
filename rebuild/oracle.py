@@ -272,7 +272,7 @@ def links(m, L):
                 _cmp("Planck mass 1.22089e19 GeV (pinned)", mpl, 1.22089e19, 1e-6),
                 _cmp("G window lower edge: fails for G 8.18x weaker (pinned)", 1 / lo, 8.18, 1e-2),
                 _cmp("design A Schwarzschild radius 2.180e-41 m (pinned)", Lk.schwarzschild_radius(mA), 2.180e-41, 1e-3),
-                _cmp("pi0 width from rung 1's charges and the weak decay's f_pi: 7.7417 eV (force chain)",
+                _cmp("pi0 width from rung 1's charges, the weak decay's f_pi and the derived alpha(0): 7.7417 eV (force chain)",
                      Lk.pi0_width_from_rungs(), 7.74175, 1e-5),
                 _cmp("Planck-mass black hole k_B T = 4.86e17 GeV", Lk.planck_bh_kT_GeV(), 1.22089e19 / (8 * pi), 1e-6),
                 ("rung 1's matter charges (1, 0, -1, 0)", tuple(Lk.matter_charges(3, "+1/sqrt3")) == (1, 0, -1, 0), "")]
@@ -358,6 +358,39 @@ def weak(m, L):
     return _run([("vals", vals)])
 
 
+def photon(m, L):
+    P = m["photon"]
+
+    def vals():
+        from scipy.integrate import quad
+        from math import log
+        LL = _src("ladder_links")
+        rng = random.Random(137)
+        worst = 0.0
+        for i in range(30):
+            mm = rng.uniform(0.05, 3)
+            x = (-10 ** rng.uniform(-1, 5), rng.uniform(0.1, 3.8), 10 ** rng.uniform(0.7, 6))[i % 3]   # s/m^2
+            f = lambda t: t * (1 - t) * log(abs(1 - t * (1 - t) * x))
+            pts = None
+            if x > 4:
+                t0 = 0.5 * (1 - sqrt(1 - 4 / x))
+                pts = [t0, 1 - t0]
+            want = 2 / pi * quad(f, 0, 1, points=pts, limit=400, epsabs=1e-13, epsrel=1e-13)[0]
+            worst = max(worst, abs(P.vacuum_polarization(x * mm * mm, mm) - want) / abs(want))
+        return [("vacuum_polarization = (2/pi) int x(1-x) ln|1 - x(1-x) s/m^2| (30 random points, three regions)",
+                 worst < 1e-8, f"max rel diff {worst:.1e}"),
+                _cmp("leptons' one-loop Delta alpha(M_Z^2) = src/ladder_links.dalpha_lep_one_loop (closed form)",
+                     P.dalpha_lep() * LL.ALPHA_0, LL.dalpha_lep_one_loop()[1], 1e-10),
+                _cmp("leptons' one-loop Delta alpha(M_Z^2) = 314.19007e-4 (Steinhauser 1998)",
+                     P.dalpha_lep() * LL.ALPHA_0, LL.DALPHA_LEP_1LOOP_LIT, 1e-5, "masses and M_Z of 1998 vs today's"),
+                _cmp("1/alpha(0) = 137.035999 (src/ladder_links.alpha0_from_mz, force chain stage 2)",
+                     P.alpha0_inv(), LL.alpha0_from_mz()[0], 3e-7,
+                     "the build's own one-loop leptons + the quoted higher loops vs src's quoted three-loop total"),
+                _cmp("1/alpha(0) = CODATA", P.alpha0_inv(), 1 / LL.ALPHA_0, 3e-7),
+                _cmp("1/alpha(0) with one-loop leptons only: 137.02484 (pinned)", P.alpha0_inv(False), 137.02484, 1e-7)]
+    return _run([("vals", vals)])
+
+
 BY_STAGE = {"toolkit": toolkit, "gauge331": gauge331, "chiral": chiral, "casimir": casimir,
             "graviton": graviton, "desitter": desitter, "blackholes": blackholes, "running": running,
-            "weak": weak, "links": links}
+            "weak": weak, "photon": photon, "links": links}

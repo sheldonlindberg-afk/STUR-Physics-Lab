@@ -359,6 +359,18 @@ def tier_sensitivity(name, m):
                 c = W.fpi_from_pion_decay()
             return _rel(a / b, 2) < 1e-12 and _rel(c / a, 2) < 1e-12, "f_pi ~ sqrt(Gamma)/G_F"
         out.append(_sens("f_pi reads G_F and the measured width", gf))
+    elif name == "photon":
+        P = m["photon"]
+        def reads():
+            a = P.alpha0_inv()
+            with mutated(ALPHA_MZ_INV=1.01 * inputs.ALPHA_MZ_INV):
+                b = P.alpha0_inv()
+            with mutated(DALPHA_HAD=2 * inputs.DALPHA_HAD):
+                c = P.alpha0_inv()
+            with mutated(M_TAU=10 * inputs.M_TAU):
+                d = P.alpha0_inv()
+            return b > a and c > a and d < a and _rel(d, a) > 1e-5, "1/alpha(0) moves with 1/alpha-hat(M_Z), the hadrons and m_tau"
+        out.append(_sens("alpha0_inv reads ALPHA_MZ_INV, DALPHA_HAD and the lepton masses", reads))
     elif name == "links":
         Lk = m["links"]
         def neu():
@@ -391,10 +403,13 @@ PERTURBED = {
     "chiral": (dict(G_F=1.2, GAMMA_PI_MUNU=0.7, DELTA_PI=2.0, V_UD=0.9, M_MU=0.9, M_PIC=1.1, HBAR=1.3, E_CH=0.8,
                     M_UD_FLAG=1.1, COND_13=0.95, FPI_OVER_F=1.02, LBAR3=1.2),
                ["O(p^4) pion mass with stage weak's f_pi"]),
+    "photon": (dict(MZ_MEAS=1.1, ALPHA_MZ_INV=1.02, M_E=1.3, M_MU=0.9, M_TAU=1.2, DALPHA_HAD=1.1, DALPHA_CONV=0.8, DALPHA_LEP_HIGHER=1.5),
+               ["dalpha_lep sums vacuum_polarization with rung 1's lepton charge",
+                "alpha0_inv solves SPEC 11's relation, with and without the higher-loop term"]),
     "links": (dict(G_F=1.2, GAMMA_PI_MUNU=0.7, DELTA_PI=2.0, V_UD=0.9, M_MU=0.9, M_PIC=1.1, HBAR=1.3, E_CH=0.8,
-                   ALPHA_0=1.1, M_PI0=0.9, G_NEWTON=1.7, C_LIGHT=1.1, MZ_MEAS=1.1, ALPHA_MZ_INV=1.02, S2_MZ=1.03,
-                   MU_331=2.5),
-              ["pi0 width from rung 1's charges and stage weak's f_pi",
+                   M_PI0=0.9, G_NEWTON=1.7, C_LIGHT=1.1, MZ_MEAS=1.1, ALPHA_MZ_INV=1.02, S2_MZ=1.03,
+                   MU_331=2.5, M_E=1.3, M_TAU=1.2, DALPHA_HAD=1.1, DALPHA_CONV=0.8, DALPHA_LEP_HIGHER=1.5),
+              ["pi0 width from rung 1's charges, stage weak's f_pi and stage photon's alpha(0)",
                "G window from the one-loop poles of stage running"]),
 }
 
@@ -474,6 +489,12 @@ PROBES = [
     ("weak", "pion_decay_width", (0.13, 1.17e-5, 0.97, 0.106, 0.14)),
     ("weak", "fpi_from_pion_decay", ()),
     ("chiral", "chpt_mpi_from_rungs", ()),
+    ("photon", "vacuum_polarization", (-7.0, 0.3)),
+    ("photon", "vacuum_polarization", (2.0, 0.9)),
+    ("photon", "dalpha_lep", ()),
+    ("photon", "alpha0_inv", ()),
+    ("photon", "alpha0_inv", (False,)),
+    ("links", "pi0_width_from_rungs", ()),
     ("links", "g_window_from_rungs", ("-1/sqrt3",)),
 ]
 

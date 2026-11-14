@@ -9,7 +9,7 @@ Each stage function takes {module_name: module} for the build and returns a list
 """
 import random
 from fractions import Fraction as F
-from math import isfinite, pi, sin, sqrt
+from math import isfinite, log, pi, sin, sqrt
 
 
 def _rel(a, b):
@@ -763,12 +763,13 @@ def links(m):
         return ok, "q_p = 1, q_n = 0, q_e = -1, Q_nu = 0 from rung 1, both variants, N_c = 3, 5, 7"
 
     def pi0_rungs():
-        # rung 1's charges and stage weak's f_pi (in pi0_width_eV's convention, f/sqrt2), not the input F_PI
+        # rung 1's charges, stage weak's f_pi (in pi0_width_eV's convention, f/sqrt2) and stage photon's
+        # alpha(0): neither the input F_PI nor the input ALPHA_0
         import inputs
         Qu, Qd = G.quark_charges(3)
         a = Lk.pi0_width_from_rungs()
         f = m["weak"].fpi_from_pion_decay() / sqrt(2)
-        b = Lk.pi0_width_eV(inputs.ALPHA_0, f, inputs.M_PI0, 3, Qu, Qd)
+        b = Lk.pi0_width_eV(1 / m["photon"].alpha0_inv(), f, inputs.M_PI0, 3, Qu, Qd)
         return _rel(a, b) < 1e-12, f"{a:.4f} eV"
 
     def g_window_rungs():
@@ -792,7 +793,7 @@ def links(m):
         return _rel(kT, want) < 1e-12 and kT > 0, f"k_B T_H(M_Pl) = {kT:.4e} GeV"
 
     return run_safely([("rung 1's charges make matter neutral", matter),
-                       ("pi0 width from rung 1's charges and stage weak's f_pi", pi0_rungs),
+                       ("pi0 width from rung 1's charges, stage weak's f_pi and stage photon's alpha(0)", pi0_rungs),
                        ("G window from the one-loop poles of stage running", g_window_rungs),
                        ("Planck-mass black hole: rung 6's temperature at link 3's mass", planck_bh),
                        ("neutral matter is an anomaly identity", anomaly),
@@ -938,6 +939,77 @@ def weak(m):
                        ("f_pi reproduces the measured width", roundtrip)])
 
 
+def photon(m):
+    P, G = m["photon"], m["gauge331"]
+    import inputs
+    vp = P.vacuum_polarization
+
+    def scale_free():
+        rng = random.Random(137)
+        worst = 0.0
+        for _ in range(40):
+            mm, k = rng.uniform(0.01, 5), rng.uniform(0.2, 30)
+            x = rng.choice((-1, 1)) * 10 ** rng.uniform(-2, 6)
+            if abs(x - 4) < 0.5:
+                x += 1.0
+            a, b = vp(x * mm * mm, mm), vp(x * (k * mm) ** 2, k * mm)
+            worst = max(worst, abs(a - b) / max(abs(a), 1e-9))
+        return worst < 1e-8, f"depends only on s/m^2 (40 random points, both signs of s): {worst:.1e}"
+
+    def low_energy():
+        # renormalized at q = 0: it vanishes there, linearly in s, with opposite signs on the two sides;
+        # screening makes the spacelike side positive
+        a1, a2, b1 = vp(-0.01, 1.0), vp(-0.02, 1.0), vp(0.01, 1.0)
+        ok = a1 > 0 and b1 < 0 and 1.9 < a2 / a1 < 2.1 and abs(a1 + b1) < 0.02 * a1 and abs(vp(-1e-3, 1.0)) < 1e-3
+        return ok, f"vp(-0.01 m^2) = {a1:.3e}, vp(+0.01 m^2) = {b1:.3e}, ratio at double s {a2 / a1:.4f}"
+
+    def screening():
+        xs = [vp(-10.0 ** k, 1.0) for k in range(-2, 9)]
+        return all(b > a > 0 for a, b in zip(xs, xs[1:])), "spacelike: positive and growing with -s (1e-2..1e8 m^2)"
+
+    def slope():
+        # SPEC 9's one-loop coefficient for a U(1): b = (2/3) sum over Weyl fields of q^2; a Dirac fermion of unit
+        # charge is two Weyl fields, b = 4/3, and d(1/alpha)/d ln mu = -b/2pi is d(Delta alpha/alpha)/d ln|s| = b/4pi
+        want = F(4, 3) / (4 * pi)
+        worst = 0.0
+        for sign in (-1, 1):
+            got = (vp(sign * 1e10, 1.0) - vp(sign * 1e8, 1.0)) / log(100)
+            worst = max(worst, abs(got / want - 1))
+        gap = abs(vp(1e8, 1.0) - vp(-1e8, 1.0))
+        return worst < 1e-6 and gap < 1e-6, f"slope in ln|s| at |s| >> m^2 vs b/4pi: {worst:.1e}; timelike - spacelike: {gap:.1e}"
+
+    def leptons():
+        q = G.triplet_charges(F(-1, 3), "-1/sqrt3")[1]
+        s = inputs.MZ_MEAS ** 2
+        want = sum(float(q) ** 2 * vp(s, ml) for ml in (inputs.M_E, inputs.M_MU, inputs.M_TAU))
+        got = P.dalpha_lep()
+        return q == -1 and _rel(got, want) < 1e-12 and got > 0, f"dalpha_lep = {got:.6f}"
+
+    def relation():
+        # SPEC 11's relation holds at the returned alpha(0), with and without the quoted higher-loop term
+        worst = 0.0
+        for higher in (True, False):
+            a0 = 1 / P.alpha0_inv(higher)
+            d = a0 * P.dalpha_lep() + inputs.DALPHA_HAD + inputs.DALPHA_CONV + (inputs.DALPHA_LEP_HIGHER if higher else 0.0)
+            worst = max(worst, _rel((1 - d) / a0, inputs.ALPHA_MZ_INV))
+        ok = worst < 1e-12 and P.alpha0_inv(True) > P.alpha0_inv(False) > inputs.ALPHA_MZ_INV
+        return ok, f"1/alpha-hat(M_Z) rebuilt from the returned alpha(0): {worst:.1e}"
+
+    def anchor():
+        # [data], no new number: inputs.ALPHA_0 is the measured alpha at q = 0. DALPHA_HAD_ERR alone moves
+        # 1/alpha(0) by 6e-5 of itself, so the derived value must land within 3e-4 (five times that)
+        got = P.alpha0_inv()
+        return _rel(got, 1 / inputs.ALPHA_0) < 3e-4, f"1/alpha(0) derived / measured = {got * inputs.ALPHA_0:.6f}"
+
+    return run_safely([("vacuum polarization depends only on s/m^2", scale_free),
+                       ("vanishes linearly at s = 0, positive on the spacelike side", low_energy),
+                       ("spacelike screening is monotonic", screening),
+                       ("high-energy slope is SPEC 9's one-loop coefficient; timelike = spacelike there", slope),
+                       ("dalpha_lep sums vacuum_polarization with rung 1's lepton charge", leptons),
+                       ("alpha0_inv solves SPEC 11's relation, with and without the higher-loop term", relation),
+                       ("1/alpha(0) within 3e-4 of the measured inputs.ALPHA_0", anchor)])
+
+
 BY_STAGE = {"toolkit": toolkit, "gauge331": gauge331, "chiral": chiral, "casimir": casimir,
             "graviton": graviton, "desitter": desitter, "blackholes": blackholes, "running": running,
-            "weak": weak, "links": links}
+            "weak": weak, "photon": photon, "links": links}

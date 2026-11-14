@@ -427,6 +427,30 @@ def fpi_from_pion_decay():
     return sqrt(g0 / w1)
 
 
+# --- photon ---------------------------------------------------------------------------------
+def vacuum_polarization(s, m):
+    """Closed form of (2/pi) int_0^1 x(1-x) ln|1 - x(1-x) s/m^2| dx in its three regions (the oracle
+    checks it against that integral, and src's dalpha_lep_one_loop uses the same closed form above threshold)."""
+    from math import atan
+    r = 4 * m * m / s
+    if r < 0 or r < 1:                                       # spacelike, or timelike above threshold
+        b = sqrt(1 - r)
+        return (-F(8, 3) + b * b + 0.5 * b * (3 - b * b) * log(abs((1 + b) / (1 - b)))) / (3 * pi)
+    g = sqrt(r - 1)                                          # timelike below threshold
+    return (-F(8, 3) - g * g + g * (3 + g * g) * atan(1 / g)) / (3 * pi)
+
+
+def dalpha_lep():
+    q = _m("gauge331").triplet_charges(F(-1, 3), "-1/sqrt3")[1]
+    vp = _m("photon").vacuum_polarization
+    return sum(float(q) ** 2 * vp(inputs.MZ_MEAS**2, ml) for ml in (inputs.M_E, inputs.M_MU, inputs.M_TAU))
+
+
+def alpha0_inv(higher=True):
+    rest = inputs.DALPHA_HAD + inputs.DALPHA_CONV + (inputs.DALPHA_LEP_HIGHER if higher else 0.0)
+    return (inputs.ALPHA_MZ_INV + _m("photon").dalpha_lep()) / (1 - rest)
+
+
 # --- links --------------------------------------------------------------------------------
 def qp_qe_minus_anomaly(Nc, b, XL, Xt):
     Xa = Xt + 2 * b
@@ -471,7 +495,7 @@ def matter_charges(Nc, variant):
 def pi0_width_from_rungs():
     Qu, Qd = _m("gauge331").quark_charges(3)
     f = _m("weak").fpi_from_pion_decay() / sqrt(2)
-    return _m("links").pi0_width_eV(inputs.ALPHA_0, f, inputs.M_PI0, 3, Qu, Qd)
+    return _m("links").pi0_width_eV(1 / _m("photon").alpha0_inv(), f, inputs.M_PI0, 3, Qu, Qd)
 
 
 def g_window_from_rungs(variant):

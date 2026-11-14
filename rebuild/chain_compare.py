@@ -32,9 +32,10 @@ import harness   # noqa: E402
 
 # own-route differences with a known cause: label -> (lowest, highest relative difference, reason)
 KNOWN = {
-    "alpha(0): chain's running vs the build's input": (
-        0.0, 1e-9, "the chain runs 1/alpha-hat(M_Z) down to q = 0 (Delta alpha_had input); the build reads "
-                   "inputs.ALPHA_0 (CODATA). They agree to the precision of the running's inputs"),
+    "alpha(0): chain's running vs the build's photon.alpha0_inv": (
+        9e-8, 1.3e-7, "the same relation and inputs; the chain takes the leptons' three-loop Delta alpha from the "
+                      "literature (Steinhauser 1998), the build computes the one-loop part itself with today's masses "
+                      "and M_Z (1.04e-7 larger in Delta alpha) and adds the quoted higher loops"),
     "f_pi: chain's stage 3 vs the build's weak.fpi_from_pion_decay": (
         0.0, 1e-9, "the same route (G_F and Gamma(pi -> mu nu)); hbar in GeV s from HBAR/E_CH vs src's constant"),
     "pi0 width: chain vs the build's pi0_width_from_rungs": (
@@ -76,6 +77,7 @@ def chain_values():
     v = {name: value for name, value, _, _ in ledger}
     v["_design"] = (float(m), float(dx), float(hold), float(ramp), float(gap))
     v["_m_pi0"] = ll.M_PI0_GEV
+    v["_dalpha_rest"] = ll.DALPHA_LEP_3LOOP + ll.DALPHA_HAD[0] + ll.DALPHA_CONV
     v["_lambda"] = ll.LAMBDA_SI
     v["_flag"] = (cb.M_UD_FLAG[0], cb.SIGMA_CUBE_ROOT, cb.FPI_OVER_F[0], cb.LBAR3[0])
     v["_sgra_kg"] = bh.SGRA_VLTI[0] * bh.GM_SUN / v["G"]
@@ -90,8 +92,8 @@ def compare(build_dir, chain=None):
     mods, errors = harness.load_build(build_dir, contract.STAGES)
     if errors:
         raise RuntimeError(f"build does not load: {errors}")
-    G8, Ch, Cs, Gr, D, B, R, W, Lk = (mods[k] for k in ("gauge331", "chiral", "casimir", "graviton", "desitter",
-                                                          "blackholes", "running", "weak", "links"))
+    G8, Ch, Cs, Gr, D, B, R, W, Ph, Lk = (mods[k] for k in ("gauge331", "chiral", "casimir", "graviton", "desitter",
+                                                              "blackholes", "running", "weak", "photon", "links"))
     import inputs as I
     rows = []
 
@@ -114,8 +116,11 @@ def compare(build_dir, chain=None):
     qp, qn, qe, qnu = Lk.matter_charges(3, "+1/sqrt3")
     exact("q_p + q_e (beta = +1/sqrt3)", c["q_p + q_e"], qp + qe)
     same("Planck mass from the chain's G", c["M_Pl"], Lk.planck_mass_GeV(c["G"], I.HBAR, I.C_LIGHT))
-    # stage 2 and 3: the build reads these as inputs
-    own("alpha(0): chain's running vs the build's input", c["alpha(0)"], I.ALPHA_0)
+    # stages 2 and 3: the build derives both
+    own("alpha(0): chain's running vs the build's photon.alpha0_inv", c["alpha(0)"], 1 / Ph.alpha0_inv())
+    same("alpha(0) with the chain's own lepton loops in place of the build's", c["alpha(0)"],
+         (1 - c["_dalpha_rest"]) / I.ALPHA_MZ_INV, rtol=1e-12,
+         note="SPEC 11's relation at the chain's Delta alpha: 1/alpha(0) = 1/alpha-hat / (1 - Delta)")
     own("f_pi: chain's stage 3 vs the build's weak.fpi_from_pion_decay", c["f_pi"], W.fpi_from_pion_decay())
     q3, q5 = c["_poles"]
     b3, b5 = R.landau_pole(3, "+1/sqrt3"), R.landau_pole(5, "+1/sqrt3")

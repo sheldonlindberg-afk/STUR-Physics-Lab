@@ -16,6 +16,15 @@ S2_MZ = 0.23129               # sin^2 theta_W(M_Z), MS-bar
 ALPHA_0 = 1 / 137.035999084   # alpha at q^2 = 0 (CODATA 2018)
 MU_331 = 4.0e3                # GeV, the 3-3-1 breaking scale M_V of the reference spectrum (a choice, not a measurement)
 
+# --- the photon's coupling from M_Z to q = 0 (stage photon) ---------------------------------
+M_E, M_TAU = 0.51099895e-3, 1.77693   # GeV, electron and tau masses (PDG 2024); the muon's is M_MU below
+DALPHA_HAD = 0.02783          # hadronic Delta alpha^(5)(M_Z^2), from e+e- -> hadrons data (PDG 2024 electroweak review)
+DALPHA_HAD_ERR = 0.00006
+# layer QUOTED: two published numbers stage photon uses without deriving them
+DALPHA_CONV = 0.007122        # Delta alpha-hat(M_Z) - Delta alpha(M_Z^2): MS-bar vs on-shell (PDG 2024, eq. 10.13)
+DALPHA_LEP_HIGHER = 0.78679e-4      # leptonic Delta alpha(M_Z^2) beyond one loop: the two- and three-loop terms
+#                               (Steinhauser, PLB 429, 158 (1998), Table 1)
+
 # --- the charged pion's weak decay (PDG 2024) ------------------------------------------------
 GAMMA_PI_MUNU = 3.8408e7      # s^-1, Gamma(pi+ -> mu+ nu), radiation inclusive (PDG 2024 leptonic-decays review)
 DELTA_PI = 0.0176             # the radiative correction: Gamma = Gamma_tree (1 + DELTA_PI) (PDG 2024, eq. 72.4)
