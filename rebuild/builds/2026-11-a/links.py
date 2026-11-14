@@ -34,7 +34,8 @@ PROVENANCE = {
                                   " ((N_c+1)/2 u, (N_c-1)/2 d); q_e, Q_nu = components 2, 1 of"
                                   " gauge331.triplet_charges(X_L, variant), X_L per SPEC 2"),
     "pi0_width_from_rungs": ("quoted", "pi0_width_eV (quoted ABJ amplitude) at N_c = 3 with rung 1's"
-                                       " gauge331.quark_charges(3), inputs.ALPHA_0, M_PI0 and f_pi ="
+                                       " gauge331.quark_charges(3), alpha = 1/photon.alpha0_inv() (stage photon's"
+                                       " alpha(0) solved from alphahat(M_Z); no input alpha), inputs.M_PI0 and f_pi ="
                                        " weak.fpi_from_pion_decay() / sqrt2 (stage weak's derived f_pi,"
                                        " ~130 MeV convention converted to ~92 MeV); not inputs.F_PI"),
     "g_window_from_rungs": ("derived", "g_window(p3, p5, mpl) with p3, p5 = running.landau_pole(3, variant),"
@@ -156,7 +157,9 @@ def pi0_width_eV(alpha, fpi, mpi, Nc, Qu, Qd):
 def pi0_width_from_rungs():
     Qu, Qd = gauge331.quark_charges(3)
     fpi = weak.fpi_from_pion_decay() / math.sqrt(2)          # ~130 MeV convention -> ~92 MeV
-    return pi0_width_eV(inputs.ALPHA_0, fpi, inputs.M_PI0, 3, Qu, Qd)
+    import photon                                            # stage photon (SPEC 11), called at call time
+    alpha = 1 / photon.alpha0_inv()
+    return pi0_width_eV(alpha, fpi, inputs.M_PI0, 3, Qu, Qd)
 
 
 # ------------------------------------------------------------------------------------------

@@ -222,3 +222,24 @@ each computes its own result and only uses the quoted formula as an input).
    the bracket [0.01, 1] GeV (a plain bracket, not a physical number); they recompute Gamma_tree from
    the inputs the same way stage weak does, so they test the inversion, not the radiative-correction
    convention.
+
+## photon (SPEC 11) and the links update
+
+1. **Sign of Pi.** SPEC 11 says Delta alpha is "minus the real part of Pihat". With the insertion defined as
+   i Pi^{mu nu} = i (q^2 g - q q) Pi (propagator ~ 1/(q^2 (1 - Pi))), my loop gives alpha(s) = alpha/(1 - Pihat),
+   i.e. Delta alpha = +Re Pihat; with the opposite sign convention for Pi it is minus. SPEC fixes the overall
+   sign by screening (Delta alpha > 0 for s < 0), which is what I implemented:
+   Delta alpha/alpha = (2/pi) Int_0^1 u(1-u) ln|1 - u(1-u)s/m^2| du. No ambiguity in the number.
+2. **s = 4m^2** is "excluded" by the contract. The closed form has the finite limit -8/(9 pi) there and the
+   function returns it instead of raising. m <= 0 raises ValueError; s = 0 returns exactly 0.
+3. **Lepton charge.** `dalpha_lep` calls gauge331.triplet_charges(-1/3, "-1/sqrt3")[1] (SPEC 2's X_L for that
+   variant); the "+1/sqrt3" variant with X_L = -2/3 gives the same -1 (printed in the self-check).
+4. **Provenance.** alpha0_inv is tagged derived (quoted_allowed is empty for the stage) although the relation
+   and DALPHA_CONV, DALPHA_LEP_HIGHER are quoted *inputs*; the note says so.
+5. **Small |s|/m^2.** For |s| < m^2/2 the power series of the same integral is used instead of the closed form
+   (which cancels O(1) terms); the two agree to ~1e-15 in the overlap.
+6. **links.pi0_width_from_rungs** now uses 1/photon.alpha0_inv() (imported inside the function, since the
+   instruction was to change only that function, its note and its derivation paragraph). The self-check
+   under `__main__` in links.py was NOT changed: its "closed form" second route and the "with input F_PI"
+   line still use inputs.ALPHA_0, so the printed rel diff between the two routes is now ~2e-7 (twice the
+   relative difference of the two alphas) instead of rounding error.

@@ -166,7 +166,9 @@ with 1/(8 pi); (c) the closed form A^2 m^3/(64 pi).
 ## 5. pi0_width_from_rungs() -> eV   [rung 1 -> 2]
 
 **Postulates.** Section 4 with N_c = 3, (Q_u, Q_d) = gauge331.quark_charges(3) (rung 1),
-alpha = inputs.ALPHA_0 (on-shell photons, q^2 = 0), m = inputs.M_PI0, and the f_pi that stage
+alpha = 1/photon.alpha0_inv() (on-shell photons, q^2 = 0: the alpha(0) that stage photon solves from
+alphahat(M_Z), SPEC section 11, called at call time; inputs.ALPHA_0 is no longer read by this export),
+m = inputs.M_PI0, and the f_pi that stage
 weak derives (SPEC section 10):
 
     f_pi = weak.fpi_from_pion_decay() / sqrt2.

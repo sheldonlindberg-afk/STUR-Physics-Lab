@@ -1,6 +1,6 @@
 # Provenance ledger: 2026-11-a
 
-66 derived, 0 input, 8 quoted
+69 derived, 0 input, 8 quoted
 
 | Stage | Export | Kind | Note |
 |---|---|---|---|
@@ -68,6 +68,9 @@
 | running | `couplings_at` | derived | 1/alpha_i(mu) = 1/alpha_i(M_Z) - b_i/(2 pi) ln(mu/M_Z) with b_i = sm_coefficients and boundary 1/alpha_Y = (1-s^2)/alpha, 1/alpha_2 = s^2/alpha (inputs) |
 | running | `matching_331` | derived | 1/alpha_L = 1/alpha_2; 1/alpha_X from gauge331.inv_e2(g_L, g_X) = (1/alpha_Y + 1/alpha_2)/(4 pi), solved for u = 1/g_X^2 (inv_e2 affine in u, two-point solve); closed form 1/alpha_Y - beta^2/alpha_2 |
 | running | `landau_pole` | derived | 1/alpha_X(mu) = 1/alpha_X(mu0) - b_X/(2 pi) ln(mu/mu0) = 1 with mu0 = MU_331, matching_331 and b_331: mu = mu0 exp(2 pi (1/alpha_X0 - 1)/b_X) |
+| photon | `vacuum_polarization` | derived | one-loop fermion loop in dim. reg.: transverse, Pi = -(2 alpha/pi) Int u(1-u) [2/eps - ... - ln(Delta/mu^2)], Delta = m^2 - u(1-u)s; on-shell subtraction leaves (2/pi) Int_0^1 u(1-u) ln|1 - u(1-u)s/m^2| du (sign: screening); integrated by parts to (1/pi)[-8/9 + B/3 + beta(3-B)/6 ln|(1+beta)/(1-beta)|], B = 1 - 4m^2/s = beta^2 (arctan branch for B < 0); power series for |s| < m^2/2 |
+| photon | `dalpha_lep` | derived | sum over e, mu, tau of Q^2 vacuum_polarization(MZ_MEAS^2, m_l); Q = component 2 of gauge331.triplet_charges(X_L = -1/3, '-1/sqrt3') (rung 1), Q^2 = 1 |
+| photon | `alpha0_inv` | derived | SPEC 11 relation 1/alphahat = (1 - a L - C)/a is linear in 1/a: 1/a = (ALPHA_MZ_INV + dalpha_lep())/(1 - C), C = DALPHA_HAD + DALPHA_CONV (+ DALPHA_LEP_HIGHER if higher); the relation and the inputs DALPHA_CONV, DALPHA_LEP_HIGHER are quoted inputs (PDG; Steinhauser 1998), DALPHA_HAD is measured |
 | links | `qp_qe_minus_anomaly` | derived | SPEC 8 charges: q_p + q_e = (N_c+1) b + N_c X_t + X_L and anomaly = N_c X_L + N_c^2 X_t + N_c(1+N_c) b (2n = 1+N_c) = N_g (q_p + q_e); evaluated exactly from the definitions, difference is 0 |
 | links | `neutrality_per_nucleon` | derived | Coulomb and gravity both c/r on the same trajectories, phases in ratio k Q^2/(G m^2) <= GAP_FRACTION with Q = eps e m/u => eps = (u/e) sqrt(f G/k), size independent |
 | links | `pi0_width_eV` | quoted | anomaly amplitude A = alpha N_c (Q_u^2 - Q_d^2)/(pi f_pi) quoted (Adler 1969; Bell-Jackiw 1969); polarization sum done explicitly with toolkit.levi_civita and real transverse polarizations (= m^4/2), two-body phase space p/(4 pi m) = 1/(8 pi) and identical-photon 1/2 derived: Gamma = A^2 m^3/(64 pi) |
@@ -75,6 +78,6 @@
 | links | `g_window` | derived | M_Pl(xG) = x^(-1/2) M_Pl; p5 < M_Pl(xG) < p3 <=> (mpl/p3)^2 < x < (mpl/p5)^2 |
 | links | `schwarzschild_radius` | derived | zero of f = 1 - 2GM/(c^2 r): r_s = 2 G m / c^2 |
 | links | `matter_charges` | derived | q_p, q_n from gauge331.quark_charges (rung 1, anomaly-derived) with proton ((N_c+1)/2 u, (N_c-1)/2 d); q_e, Q_nu = components 2, 1 of gauge331.triplet_charges(X_L, variant), X_L per SPEC 2 |
-| links | `pi0_width_from_rungs` | quoted | pi0_width_eV (quoted ABJ amplitude) at N_c = 3 with rung 1's gauge331.quark_charges(3), inputs.ALPHA_0, M_PI0 and f_pi = weak.fpi_from_pion_decay() / sqrt2 (stage weak's derived f_pi, ~130 MeV convention converted to ~92 MeV); not inputs.F_PI |
+| links | `pi0_width_from_rungs` | quoted | pi0_width_eV (quoted ABJ amplitude) at N_c = 3 with rung 1's gauge331.quark_charges(3), alpha = 1/photon.alpha0_inv() (stage photon's alpha(0) solved from alphahat(M_Z); no input alpha), inputs.M_PI0 and f_pi = weak.fpi_from_pion_decay() / sqrt2 (stage weak's derived f_pi, ~130 MeV convention converted to ~92 MeV); not inputs.F_PI |
 | links | `g_window_from_rungs` | derived | g_window(p3, p5, mpl) with p3, p5 = running.landau_pole(3, variant), running.landau_pole(5, variant) (stage running's one-loop poles) and mpl = planck_mass_GeV(inputs.G_NEWTON, HBAR, C_LIGHT) |
 | links | `planck_bh_kT_GeV` | derived | blackholes.hawking_K (rung 6) at m = planck_mass_GeV * 1e9 e/c^2, times k_B, in GeV; = M_Pl c^2/(8 pi); rests on the quoted Hawking temperature hawking_K, evaluated at the Planck mass |
