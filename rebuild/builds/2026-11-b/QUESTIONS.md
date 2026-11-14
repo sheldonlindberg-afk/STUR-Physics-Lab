@@ -229,3 +229,25 @@ stay `derived`, none is on a `quoted_allowed` list):
    gap at which the phase is evaluated). The gravitational phase at a given gap is derived.
 3. **`links.planck_bh_kT_GeV`** rests on the quoted `blackholes.hawking_K` (Hawking 1975). Only the Planck mass
    and the unit conversion are derived here.
+
+## Stage `running` (SPEC section 9)
+
+Nothing could not be derived; nothing is quoted (`inputs.POLES_331` is not used by this stage).
+Interpretation points and how they were resolved (DERIVATION_running.md section 6):
+
+1. **Colour multiplicity of the singlet partners.** "Each electrically charged fermion component ... has one
+   singlet partner": resolved as one partner per component per copy of the multiplet, so a quark component's
+   partner comes in N_c colours and once per family (like u^c, d^c). Supported by the exact anomaly sums
+   ([SU(3)_C]^2 U(1)_X, gravitational, [U(1)_X]^3), which vanish only with this counting.
+2. **Scalars.** Only the three complex scalar triplets of section 2, colour singlets, no singlet partners.
+   Their X charges are section 2's postulates, entered as exact thirds.
+3. **Lepton X.** Solved from the electron charge -1 (T3 = -1/2 component) with `gauge331.triplet_charges`, not
+   copied from the SPEC's (-1/3, -2/3); the two agree exactly. The antitriplet's first two components come out
+   as (Q_d, Q_u) (the only consistent order).
+4. **The theory below MU_331 is always the 3-colour, 3-generation Standard Model**, also for
+   `landau_pole(5, variant)`: `couplings_at` takes no N_c. So 1/alpha_X(MU_331) is N_c- and variant-independent
+   (1/alpha_X = 1/alpha_Y - beta^2/alpha_2, beta^2 = 1/3), and N_c and the variant enter only through b_X.
+5. **`landau_pole` is the scale of alpha_X = 1** (SPEC's definition), not of 1/alpha_X = 0, which is a factor
+   exp(2 pi/b_X) higher. It raises ValueError if alpha_X >= 1 already at MU_331.
+6. **`matching_331` raises ValueError** when the matching has no real g_X (1/alpha_Y <= beta^2/alpha_2).
+7. **Even N_c** gives a non-integer number of antitriplet families; not rejected, b stays an exact Fraction.
