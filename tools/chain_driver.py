@@ -445,8 +445,8 @@ def _sm_run(s, mu0, mu1, n=4000):
 
 def _b13_at_mt(mt, mh):
     """MS-bar (g_Y, g_2, g_3, y_t, lambda) at mu = M_t: Buttazzo et al., eqs. (55)-(60)."""
-    mt0, mh0, a0, da, mw0, dmw = inputs.B13_REF
-    c, x, a, w = inputs.B13_AT_MT, mt - mt0, (inputs.ALPHA_S_MZ - a0) / da, (inputs.M_W - mw0) / dmw
+    mt0, mh0, a0, da, mw0, dmw = inputs.b13_ref
+    c, x, a, w = inputs.b13_at_mt, mt - mt0, (inputs.ALPHA_S_MZ - a0) / da, (inputs.M_W - mw0) / dmw
     return [c["gY"][0] + c["gY"][1] * x + c["gY"][2] * w, c["g2"][0] + c["g2"][1] * x + c["g2"][2] * w,
             c["g3"][0] + c["g3"][1] * a + c["g3"][2] * x, c["yt"][0] + c["yt"][1] * x + c["yt"][2] * a,
             c["lam"][0] + c["lam"][1] * (mh - mh0) + c["lam"][2] * x]
@@ -454,8 +454,8 @@ def _b13_at_mt(mt, mh):
 
 def _b13_at_planck(mt, mh):
     """(g_Y, g_2, g_3, y_t, lambda) at M_Pl: Buttazzo et al., eq. (61). Their g_1 is GUT-normalised."""
-    mt0, mh0, a0, da, mw0, dmw = inputs.B13_REF
-    c, x, a, w = inputs.B13_AT_MPL, mt - mt0, (inputs.ALPHA_S_MZ - a0) / da, (inputs.M_W - mw0) / dmw
+    mt0, mh0, a0, da, mw0, dmw = inputs.b13_ref
+    c, x, a, w = inputs.b13_at_mpl, mt - mt0, (inputs.ALPHA_S_MZ - a0) / da, (inputs.M_W - mw0) / dmw
     return [math.sqrt(3 / 5) * (c["g1"][0] + c["g1"][1] * x + c["g1"][2] * w), c["g2"], c["g3"][0] + c["g3"][1] * a,
             c["yt"][0] + c["yt"][1] * x + c["yt"][2] * a,
             c["lam"][0] + c["lam"][1] * x + c["lam"][2] * a + c["lam"][3] * (mh - mh0)]
@@ -463,8 +463,8 @@ def _b13_at_planck(mt, mh):
 
 def _mh_zero_quartic(mt):
     """M_h at which eq. (61e)'s lambda(M_Pl) vanishes."""
-    mt0, mh0, a0, da, _, _ = inputs.B13_REF
-    c = inputs.B13_AT_MPL["lam"]
+    mt0, mh0, a0, da, _, _ = inputs.b13_ref
+    c = inputs.b13_at_mpl["lam"]
     return mh0 - (c[0] + c[1] * (mt - mt0) + c[2] * (inputs.ALPHA_S_MZ - a0) / da) / c[3]
 
 
@@ -504,12 +504,12 @@ def why_these_inputs():
 
     # the Higgs and top masses from conditions at the Planck mass of step 1
     print("\n   The Higgs mass, if the quartic coupling vanishes at step 1's Planck mass (asymptotic safety):")
-    m0, t0, dt, kt, a0, da, ka, sw_err = inputs.SW10_MMIN
+    m0, t0, dt, kt, a0, da, ka, sw_err = inputs.sw10_mmin
     sw = m0 + (mt - t0) / dt * kt - (a_s - a0) / da * ka
     b61 = _mh_zero_quartic(mt)
     check("two published NNLO formulas agree on that Higgs mass to 0.1 GeV (Shaposhnikov-Wetterich eq. 12, Buttazzo et"
           " al. eq. 61e)", abs(sw - b61) < 0.1, f"{sw:.2f} vs {b61:.2f} GeV")
-    beyond("conj", "Higgs mass from lambda(M_Pl) = 0", sw, mh, math.hypot(sw_err, kt / dt * inputs.M_T_ERR), "GeV",
+    beyond("conj", "Higgs mass from lambda(M_Pl) = 0", sw, mh, math.hypot(sw_err, kt / dt * inputs.M_T_ERR_MEV / 1e3), "GeV",
            "asymptotically safe gravity, no new scale below M_Pl")
     start = _b13_at_mt(mt, mh)
     top = _sm_run(start, mt, mpl)
@@ -521,15 +521,15 @@ def why_these_inputs():
     x = mt
     for _ in range(60):
         gY, g2, _, _, _ = _b13_at_planck(x, mh)
-        c = inputs.B13_AT_MPL["yt"]
-        x = inputs.B13_REF[0] + (_yt_flat(gY, g2) - c[0] - c[2] * (a_s - inputs.B13_REF[2]) / inputs.B13_REF[3]) / c[1]
+        c = inputs.b13_at_mpl["yt"]
+        x = inputs.b13_ref[0] + (_yt_flat(gY, g2) - c[0] - c[2] * (a_s - inputs.b13_ref[2]) / inputs.b13_ref[3]) / c[1]
     mt_n, mh_n = x, _mh_zero_quartic(x)
     sol = _b13_at_planck(mt_n, mh_n)
     check("that solution has lambda = 0 and beta_lambda = 0 at M_Pl", abs(sol[4]) < 1e-12 and abs(_sm_beta(sol)[4]) < 1e-12)
     down = _sm_run([top[0], top[1], top[2], _yt_flat(top[0], top[1]), 0.0], mpl, mt)
-    c = inputs.B13_AT_MT
-    mt_1 = inputs.B13_REF[0] + (down[3] - c["yt"][0] - c["yt"][2] * (a_s - inputs.B13_REF[2]) / inputs.B13_REF[3]) / c["yt"][1]
-    mh_1 = inputs.B13_REF[1] + (down[4] - c["lam"][0] - c["lam"][2] * (mt - inputs.B13_REF[0])) / c["lam"][1]
+    c = inputs.b13_at_mt
+    mt_1 = inputs.b13_ref[0] + (down[3] - c["yt"][0] - c["yt"][2] * (a_s - inputs.b13_ref[2]) / inputs.b13_ref[3]) / c["yt"][1]
+    mh_1 = inputs.b13_ref[1] + (down[4] - c["lam"][0] - c["lam"][2] * (mt - inputs.b13_ref[0])) / c["lam"][1]
     print("   Adding beta_lambda(M_Pl) = 0 fixes the top mass too, from the gauge couplings alone (this file's combination):")
     beyond("conj", "top mass, NNLO couplings at M_Pl", mt_n, mt, None, "GeV", "lambda = beta_lambda = 0 at M_Pl")
     beyond("conj", "Higgs mass, NNLO couplings at M_Pl", mh_n, mh, None, "GeV", "lambda = beta_lambda = 0 at M_Pl")
@@ -537,11 +537,11 @@ def why_these_inputs():
     beyond("conj", "Higgs mass, one loop throughout", mh_1, mh, None, "GeV", "lambda = beta_lambda = 0 at M_Pl")
     info("the two methods differ by", f"{mt_n - mt_1:.1f} GeV (top) and {mh_n - mh_1:.1f} GeV (Higgs): the size of the"
          " method's error")
-    beyond("conj", "top mass from asymptotic safety (quoted, Eichhorn-Held)", inputs.EH17_MT, mt, None, "GeV",
+    beyond("conj", "top mass from asymptotic safety (quoted, Eichhorn-Held)", inputs.eh17_mt, mt, None, "GeV",
            "asymptotically safe gravity")
-    tmax, terr = inputs.B13_MT_MAX
+    tmax, terr = inputs.b13_mt_max
     info("read the other way (Buttazzo et al. eq. 66)", f"the measured Higgs mass needs M_t < {tmax} +- {terr} GeV;"
-         f" measured {mt}: {(mt - tmax) / math.hypot(terr, inputs.M_T_ERR):+.1f} sigma")
+         f" measured {mt}: {(mt - tmax) / math.hypot(terr, inputs.M_T_ERR_MEV / 1e3):+.1f} sigma")
     y_hi = [_sm_run([top[0], top[1], top[2], y0, 0.0], mpl, mt)[3] for y0 in (1.0, math.sqrt(4 * math.pi))]
     info("the top's infrared quasi-fixed point", f"y_t(M_Pl) from 1 to {math.sqrt(4 * math.pi):.2f} runs to y_t(M_t) ="
          f" {y_hi[0]:.3f} to {y_hi[1]:.3f}, {100 * (y_hi[0] / start[3] - 1):.0f}% to {100 * (y_hi[1] / start[3] - 1):.0f}%"
