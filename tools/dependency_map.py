@@ -37,7 +37,7 @@ TOPICS = {
     "3-3-1 selection": ["m331_why_three", "m331_three_generations", "m331_su3L_running", "m331_exact",
                         "m331_yukawa", "m331_threshold", "m331_closure", "m331_scalar", "m331_three_loop",
                         "m331_margin", "m331_zprime_recast", "m331_heavy_lepton", "m331_gravity_fixed_point", "m331_standalone",
-                        "why_parameters",
+                        "why_parameters", "z3_orbifold_engine", "z3_orbifold_audit",
                         "qcd_running", "rge_engine"],
     "Symmetry ladder": ["m331_breaking", "chiral_breaking", "casimir_diamonds", "graviton_exchange",
                         "macdowell_mansouri", "black_holes", "ladder_links", "ladder_standalone", "m331_rho_bound", "m331_zpole",
@@ -144,7 +144,9 @@ q("v", "electroweak vev (√2 G_F)^(−1/2) (GeV)", lambda: (math.sqrt(2) * 1.16
 q("as", "α_s(M_Z)", 0.1180, "input", "PDG 2024", match=1e-4)
 q("mt", "top-quark mass (GeV)", 172.57, "input", "PDG 2024", match=1e-3)
 q("s2TeV", "sin²θ_W(4 TeV)", lambda: cached("ew", lambda: _ew_at(4e3))[0], "derived",
-  "one-loop SM running from M_Z (m331_exact.run_two_loop)", match=2e-3)
+  "one-loop SM running from M_Z (m331_exact.run_two_loop)", match=2e-3,
+  variants={0.2504: "the Z3 orbifold engine's typed input, kept as proposed (Z3_ORBIFOLD.md, Z7); "
+                    "0.0001 below the derived value, and the selection does not depend on it"})
 q("ainvTeV", "1/α(4 TeV)", lambda: cached("ew", lambda: _ew_at(4e3))[1], "derived",
   "one-loop SM running from M_Z (m331_exact.run_two_loop)", match=1e-3, same=5e-4)
 q("MZp_MV", "M_Z′/M_V = √(4/3 (1 + β² t_X²)) at 4 TeV", lambda: math.sqrt(

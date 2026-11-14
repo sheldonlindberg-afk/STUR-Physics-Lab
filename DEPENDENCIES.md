@@ -6,10 +6,10 @@ This page records which script feeds which, and which physical quantities each o
 
 ## Summary
 
-- **50 scripts** in `src/`, in 6 topics; **87 imports** between them, 34 of them across topics. 12 scripts import nothing from the others and nothing imports them.
-- **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 269 literals in the source.
-- **44 quantities are typed in more than one script**; 18 of them are shared by more than one topic.
-- **2 copies differ from their source for a stated reason**; **0 differ without one (drift).**
+- **52 scripts** in `src/`, in 6 topics; **90 imports** between them, 34 of them across topics. 12 scripts import nothing from the others and nothing imports them.
+- **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 275 literals in the source.
+- **46 quantities are typed in more than one script**; 18 of them are shared by more than one topic.
+- **4 copies differ from their source for a stated reason**; **0 differ without one (drift).**
 
 ## Imports
 
@@ -33,6 +33,8 @@ flowchart LR
     m331_gravity_fixed_point
     m331_standalone
     why_parameters
+    z3_orbifold_engine
+    z3_orbifold_audit
     qcd_running
     rge_engine
   end
@@ -166,6 +168,9 @@ flowchart LR
   why_parameters --> m331_scalar
   why_parameters --> m331_threshold
   why_parameters --> m331_yukawa
+  z3_orbifold_audit --> m331_exact
+  z3_orbifold_audit --> why_parameters
+  z3_orbifold_audit --> z3_orbifold_engine
 ```
 
 ### Across topics
@@ -228,6 +233,8 @@ flowchart LR
 | [`m331_gravity_fixed_point`](src/m331_gravity_fixed_point.py) | `m331_exact`, `m331_margin`, `m331_three_loop`, `m331_yukawa` | Gravity above the Planck scale and the 3-3-1 gauge couplings: the asymptotic-safety estimate (NOTE_331.md asks every coupling to stay pertur |
 | [`m331_standalone`](src/m331_standalone.py) | — | Three colours and three generations from perturbativity in 3-3-1 models |
 | [`why_parameters`](src/why_parameters.py) | `ladder_links`, `m331_exact`, `m331_rho_bound`, `m331_scalar`, `m331_threshold`, `m331_yukawa` | Why do the Standard Model's 19 parameters have their values? What can be said, and tested |
+| [`z3_orbifold_engine`](src/z3_orbifold_engine.py) | — | First-Principles Z3 Orbifold Engine v3 -------------------------------------- Bulk Dirac masses are now dynamical: they are derived from the |
+| [`z3_orbifold_audit`](src/z3_orbifold_audit.py) | `m331_exact`, `why_parameters`, `z3_orbifold_engine` | The Z3 orbifold engine against the Standard Model's 19 parameters: an audit |
 | [`qcd_running`](src/qcd_running.py) | — | Two-loop MS-bar running of the strong coupling, used by the 3-3-1 scripts. |
 | [`rge_engine`](src/rge_engine.py) | — | General one-loop RGEs for quartic and Yukawa couplings (real scalars, two-component fermions) |
 
@@ -305,7 +312,7 @@ Each row is one quantity typed into scripts of more than one topic. Where it is 
 | 1/α(M_Z), MS-bar | input | 3-3-1 selection, Symmetry ladder | `chain_first_principles`, `first_principles_standalone`, `force_chain`, `ladder_links`, `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zpole`, `m331_zprime_recast` | with sin²θ_W(M_Z) it fixes the U(1)_X start of every 3-3-1 run |
 | GM☉ (m³ s⁻²) | input | Symmetry ladder, Teleparallel gravity | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone`, `stur_tegr_gr` | the Sun's mass scale: TEGR's solar-system tests and the black-hole rung's EHT and LVK masses |
 | M_Z (GeV) | input | 3-3-1 selection, Symmetry ladder | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_yukawa`, `m331_zprime_recast`, `qcd_running` |  |
-| Planck mass √(ħc/G) (GeV) | derived | 3-3-1 selection, Symmetry ladder | `black_holes`, `ladder_standalone`, `m331_exact`, `m331_standalone`, `m331_su3L_running` | the 3-3-1 selection's cutoff. It is typed as a number in the 3-3-1 scripts; it is √(ħc/G), the G the diamond experiment uses |
+| Planck mass √(ħc/G) (GeV) | derived | 3-3-1 selection, Symmetry ladder | `black_holes`, `ladder_standalone`, `m331_exact`, `m331_standalone`, `m331_su3L_running`, `z3_orbifold_audit`, `z3_orbifold_engine` | the 3-3-1 selection's cutoff. It is typed as a number in the 3-3-1 scripts; it is √(ħc/G), the G the diamond experiment uses |
 | R-ratio below charm, KEDR (1.84–3.05 GeV) | input | 3-3-1 selection, Symmetry ladder | `ladder_links`, `m331_standalone`, `m331_why_three` |  |
 | diamond density (kg/m³) | input | Diamond experiment, Symmetry ladder | `chain_first_principles`, `first_principles_standalone`, `ladder_standalone`, `stur_gravity_entanglement` |  |
 | diamond permittivity | input | Diamond experiment, Symmetry ladder | `chain_first_principles`, `first_principles_standalone`, `force_chain`, `ladder_standalone`, `stur_gravity_entanglement` |  |
@@ -316,7 +323,7 @@ Each row is one quantity typed into scripts of more than one topic. Where it is 
 
 **Links through a formula.** Some quantities share inputs without sharing a number:
 
-- **Planck mass √(ħc/G) (GeV) = 1.220890e19**, typed as a number in `black_holes`, `ladder_standalone`, `m331_exact`, `m331_standalone`, `m331_su3L_running` (3-3-1 selection, Symmetry ladder). It follows from G, ħ and c, which the gravity scripts type separately; src/ladder_links.py L3 (SYMMETRY_LADDER.md, link 3) checks that the two agree.
+- **Planck mass √(ħc/G) (GeV) = 1.220890e19**, typed as a number in `black_holes`, `ladder_standalone`, `m331_exact`, `m331_standalone`, `m331_su3L_running`, `z3_orbifold_audit`, `z3_orbifold_engine` (3-3-1 selection, Symmetry ladder). It follows from G, ħ and c, which the gravity scripts type separately; src/ladder_links.py L3 (SYMMETRY_LADDER.md, link 3) checks that the two agree.
 - **Planck length √(ħG/c³) (m) = 1.616255e-35**, typed as a number in `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone`, `macdowell_mansouri` (Symmetry ladder). It follows from G, ħ and c, which the gravity scripts type separately; nothing checks that the two agree except this page.
 
 ## Derived values typed by hand
@@ -325,11 +332,11 @@ Values computed in one script and retyped in others instead of imported. Each co
 
 | Quantity | Source | Value | Copies |
 |---|---|---|---|
-| Planck mass √(ħc/G) (GeV) | √(ħc/G) from G, ħ, c (this tool) | 1.220890e19 | `black_holes:86` 1.220890e19 (rounded); `ladder_standalone:1161` 1.220890e19 (rounded); `m331_exact:28` 1.220890e19 (rounded); `m331_standalone:66` 1.220890e19 (rounded); `m331_su3L_running:19` 1.220890e19 (rounded) |
+| Planck mass √(ħc/G) (GeV) | √(ħc/G) from G, ħ, c (this tool) | 1.220890e19 | `black_holes:86` 1.220890e19 (rounded); `ladder_standalone:1161` 1.220890e19 (rounded); `m331_exact:28` 1.220890e19 (rounded); `m331_standalone:66` 1.220890e19 (rounded); `m331_su3L_running:19` 1.220890e19 (rounded); `z3_orbifold_audit:280` 1.220900e19 (rounded); `z3_orbifold_engine:161` 1.220900e19 (rounded) |
 | Planck length √(ħG/c³) (m) | √(ħG/c³) from G, ħ, c (this tool) | 1.616255e-35 | `black_holes:85` 1.616255e-35 (rounded); `chain_first_principles:119` 1.616255e-35 (rounded); `first_principles_standalone:97` 1.616255e-35 (rounded); `ladder_standalone:115` 1.616255e-35 (rounded); `macdowell_mansouri:267` 1.616255e-35 (rounded) |
 | electroweak vev (√2 G_F)^(−1/2) (GeV) | src/m331_breaking.py B7 | 246.22 | `ladder_standalone:363` 246.22 (rounded); `m331_standalone:65` 246.22 (rounded); `m331_yukawa:86` 246.22 (rounded) |
-| sin²θ_W(4 TeV) | one-loop SM running from M_Z (m331_exact.run_two_loop) | 0.250507 | `m331_zprime_recast:68` 0.2505 (rounded) |
-| 1/α(4 TeV) | one-loop SM running from M_Z (m331_exact.run_two_loop) | 125.723 | `m331_zprime_recast:69` 125.7 (rounded) |
+| sin²θ_W(4 TeV) | one-loop SM running from M_Z (m331_exact.run_two_loop) | 0.250507 | `m331_zprime_recast:68` 0.2505 (rounded); `z3_orbifold_audit:278` 0.2504 (variant); `z3_orbifold_engine:164` 0.2504 (variant) |
+| 1/α(4 TeV) | one-loop SM running from M_Z (m331_exact.run_two_loop) | 125.723 | `m331_zprime_recast:69` 125.7 (rounded); `z3_orbifold_audit:278` 125.7 (rounded); `z3_orbifold_engine:163` 125.7 (rounded) |
 | M_Z′/M_V = √(4/3 (1 + β² t_X²)) at 4 TeV | src/m331_breaking.py B4, evaluated at sin²θ_W(4 TeV) | 1.22495 | `m331_heavy_lepton:274` 1.225 (rounded); `m331_margin:49` 1.225 (rounded); `m331_standalone:576` 1.225 (rounded); `m331_standalone:592` 1.225 (rounded); `m331_threshold:184` 1.225 (rounded); `m331_threshold:188` 1.225 (rounded); `m331_threshold:191` 1.225 (rounded) |
 | SU(2) coupling g at M_Z, √(4πα)/sinθ_W | from 1/α(M_Z) and sin²θ_W(M_Z) (this tool) | 0.651689 | `ladder_standalone:294` 0.652 (rounded); `m331_breaking:237` 0.652 (rounded); `m331_breaking:245` 0.652 (rounded) |
 | area-law coefficient S/(R/a)² per scalar | src/stur_unification.py U3 (results/unification/output.txt) | 0.3046 | `stur_emergent:35` 0.3046 (exact); `stur_oppenheim:47` 0.3046 (exact); `stur_thermo_gravity:54` 0.3046 (exact) |
@@ -354,6 +361,7 @@ These are imported from their source by every script that uses them; a typed-in 
 |---|---|---|---|---|---|
 | sin²θ_W(M_Z), MS-bar | 0.23129 | 0.23153 | `m331_zpole:78` | variant | sin²θ_eff (leptonic), the Gfitter SM value: the base of the tree-level Z couplings in m331_zpole, a different quantity from the MS-bar angle |
 | sin²θ_W(M_Z), MS-bar | 0.23129 | 0.2312 | `m331_zprime_recast:67` | variant | ATLAS's Z′_SSM convention, quoted as ATLAS uses it (m331_zprime_recast) |
+| sin²θ_W(4 TeV) | 0.250507 | 0.2504 | `z3_orbifold_audit:278`, `z3_orbifold_engine:164` | variant | the Z3 orbifold engine's typed input, kept as proposed (Z3_ORBIFOLD.md, Z7); 0.0001 below the derived value, and the selection does not depend on it |
 
 *Rounded* copies (within the quantity's stated precision) are listed in the full table below, not here.
 
@@ -369,7 +377,7 @@ These are imported from their source by every script that uses them; a typed-in 
 | 1/4πε₀ (N m² C⁻²) | input | 8.987552e9 | CODATA 2018 | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone`, `stur_gravity_full`, `stur_measurement` |
 | atomic mass unit (kg) | input | 1.660539e-27 | CODATA 2018 | `chain_first_principles`, `first_principles_standalone`, `force_chain`, `ladder_links`, `ladder_standalone`, `stur_emergent` (rounded), `stur_gravity_entanglement` (rounded), `stur_gravity_full` (rounded), `stur_oppenheim`, `stur_thermo_gravity` |
 | ħc (GeV fm) | input | 0.197327 | CODATA 2018 | `chain_first_principles`, `chiral_breaking`, `first_principles_standalone`, `ladder_standalone` |
-| Planck mass √(ħc/G) (GeV) | derived | 1.220890e19 | √(ħc/G) from G, ħ, c (this tool) | `black_holes` (rounded), `ladder_standalone` (rounded), `m331_exact` (rounded), `m331_standalone` (rounded), `m331_su3L_running` (rounded) |
+| Planck mass √(ħc/G) (GeV) | derived | 1.220890e19 | √(ħc/G) from G, ħ, c (this tool) | `black_holes` (rounded), `ladder_standalone` (rounded), `m331_exact` (rounded), `m331_standalone` (rounded), `m331_su3L_running` (rounded), `z3_orbifold_audit` (rounded), `z3_orbifold_engine` (rounded) |
 | Planck length √(ħG/c³) (m) | derived | 1.616255e-35 | √(ħG/c³) from G, ħ, c (this tool) | `black_holes` (rounded), `chain_first_principles` (rounded), `first_principles_standalone` (rounded), `ladder_standalone` (rounded), `macdowell_mansouri` (rounded) |
 | cosmological constant Λ (m⁻²) | input | 1.105600e-52 | Planck 2018 +BAO, 3H₀²Ω_Λ/c² | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone`, `macdowell_mansouri` |
 | 1/α(0) | input | 137.036 | CODATA 2018 | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone` |
@@ -381,8 +389,8 @@ These are imported from their source by every script that uses them; a typed-in 
 | electroweak vev (√2 G_F)^(−1/2) (GeV) | derived | 246.22 | src/m331_breaking.py B7 | `ladder_standalone` (rounded), `m331_standalone` (rounded), `m331_yukawa` (rounded) |
 | α_s(M_Z) | input | 0.118 | PDG 2024 | `chain_first_principles`, `first_principles_standalone`, `m331_margin`, `m331_scalar`, `m331_standalone`, `qcd_running`, `why_parameters` |
 | top-quark mass (GeV) | input | 172.57 | PDG 2024 | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `m331_margin`, `m331_scalar`, `m331_standalone`, `m331_yukawa`, `qcd_running` |
-| sin²θ_W(4 TeV) | derived | 0.250507 | one-loop SM running from M_Z (m331_exact.run_two_loop) | `m331_zprime_recast` (rounded) |
-| 1/α(4 TeV) | derived | 125.723 | one-loop SM running from M_Z (m331_exact.run_two_loop) | `m331_zprime_recast` (rounded) |
+| sin²θ_W(4 TeV) | derived | 0.250507 | one-loop SM running from M_Z (m331_exact.run_two_loop) | `m331_zprime_recast` (rounded), `z3_orbifold_audit` (variant), `z3_orbifold_engine` (variant) |
+| 1/α(4 TeV) | derived | 125.723 | one-loop SM running from M_Z (m331_exact.run_two_loop) | `m331_zprime_recast` (rounded), `z3_orbifold_audit` (rounded), `z3_orbifold_engine` (rounded) |
 | M_Z′/M_V = √(4/3 (1 + β² t_X²)) at 4 TeV | derived | 1.22495 | src/m331_breaking.py B4, evaluated at sin²θ_W(4 TeV) | `m331_heavy_lepton` (rounded), `m331_margin` (rounded), `m331_standalone` (rounded), `m331_threshold` (rounded) |
 | f_π, √2 convention (GeV) | input | 0.1302 | PDG 2024 | `chain_first_principles`, `chiral_breaking`, `first_principles_standalone`, `ladder_standalone` |
 | m_π⁰ (GeV) | input | 0.134977 | PDG 2024 | `chain_first_principles`, `chiral_breaking`, `first_principles_standalone`, `ladder_links`, `ladder_standalone` |
@@ -459,7 +467,9 @@ Literals with at least three significant digits that appear in two or more scrip
 | 0.9999 | `black_holes`, `ladder_standalone` |
 | 1.00039 | `chain_first_principles`, `first_principles_standalone`, `m331_rho_bound` |
 | 1.01 | `ladder_standalone`, `stur_oppenheim` |
+| 1.05 | `m331_margin`, `z3_orbifold_audit`, `z3_orbifold_engine` |
 | 1.062 | `chain_first_principles`, `chiral_breaking`, `first_principles_standalone`, `ladder_standalone` |
+| 1.15 | `z3_orbifold_audit`, `z3_orbifold_engine` |
 | 1.1568 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
 | -1.1568 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
 | 1.1666 | `chain_first_principles`, `first_principles_standalone`, `m331_scalar`, `why_parameters` |
@@ -479,6 +489,8 @@ Literals with at least three significant digits that appear in two or more scrip
 | 125.2 | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `m331_scalar` |
 | 126.3 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
 | 129.6 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
+| 136 | `z3_orbifold_audit`, `z3_orbifold_engine` |
+| -136 | `z3_orbifold_audit`, `z3_orbifold_engine` |
 | 171 | `chain_first_principles`, `first_principles_standalone` |
 | 171.2 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
 | 171.53 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |

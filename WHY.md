@@ -226,6 +226,9 @@ the CKM matrix's four (Buras et al. [15], abstract and eqs. (53)–(56)).
 - **What has no handle at all.** v, the four lightest quark masses, m_e and m_μ, α_QED,
   and three of the four CKM parameters.
 
+A first attempt at such a unification, from a Z3 orbifold geometry, is run and checked
+against this ledger in [Z3_ORBIFOLD.md](Z3_ORBIFOLD.md).
+
 ## Limits
 
 - Everything in W1–W3 is one loop for this repository's own running. The published NNLO
