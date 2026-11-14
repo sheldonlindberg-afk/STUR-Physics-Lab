@@ -1,11 +1,13 @@
 """chiral: the strong force (SPEC.md section 3).
 
 Derivations and second routes: DERIVATION_chiral.md. Numerics via toolkit only.
+Stage weak's f_pi is reached only as weak.fpi_from_pion_decay() at call time.
 """
 import math
 
 import inputs
 import toolkit
+import weak
 
 PROVENANCE = {
     "goldstone_count": ("derived", "true vacuum by toolkit.bisect on dV/drho = lam rho(rho^2 - v^2) along a ray;"
@@ -19,6 +21,10 @@ PROVENANCE = {
                             " m_pi = sqrt(mq_sum cond13^3)/fpi"),
     "chpt_mpi": ("quoted", "Gasser & Leutwyler, Ann. Phys. 158 (1984) 142, FLAG conventions: M_pi^2 = M^2[1 -"
                            " M^2 lbar3/(32 pi^2 F^2)], M^2 = 2 mhat Sigma/F^2, F = fpi/(F_pi/F), Sigma = cond13^3"),
+    "chpt_mpi_from_rungs": ("quoted", "chpt_mpi (quoted Gasser-Leutwyler O(p^4) formula, FLAG conventions) at"
+                                      " inputs.M_UD_FLAG, COND_13, FPI_OVER_F, LBAR3 and f_pi ="
+                                      " weak.fpi_from_pion_decay() / sqrt2 (stage weak's derived f_pi, ~130 MeV"
+                                      " convention, converted to ~92 MeV)"),
     "yukawa": ("derived", "inverse Fourier transform of 1/(q^2 + m^2) by residues: e^{-mr}/(4 pi r);"
                           " (lap - m^2)V = 0 for r > 0 and flux -4 pi r^2 V' -> 1 gives -delta^3"),
     "tensor_identity_residual": ("derived", "explicit 4x4 Kronecker products s1 = sigma x 1, s2 = 1 x sigma of the"
@@ -119,6 +125,12 @@ def chpt_mpi(m_ud, cond13, fpi_over_F, lbar3, fpi):
     if x >= 1:
         raise ValueError("O(p^4) correction >= 1: outside the chiral expansion")
     return math.sqrt(M2 * (1 - x))
+
+
+def chpt_mpi_from_rungs():
+    """O(p^4) pion mass (GeV) with stage weak's f_pi in the ~92 MeV convention, f/sqrt2."""
+    fpi = weak.fpi_from_pion_decay() / math.sqrt(2)
+    return chpt_mpi(inputs.M_UD_FLAG, inputs.COND_13, inputs.FPI_OVER_F, inputs.LBAR3, fpi)
 
 
 # ------------------------------------------------------------------------------------------
@@ -254,6 +266,22 @@ if __name__ == "__main__":
     print(f" O(p^4) m_pi = {m4 * 1e3:.2f} +- {d4 * 1e3:.2f} MeV (finite-difference propagation"
           f" {d4_fd * 1e3:.2f})   (M_PI0 = {inputs.M_PI0 * 1e3:.4f} MeV, pull"
           f" {(m4 - inputs.M_PI0) / d4:+.2f} sigma)")
+
+    print("== 4b. O(p^4) ChPT with stage weak's f_pi ==")
+    m_r = chpt_mpi_from_rungs()
+    # second route: f_pi by toolkit.bisect on weak.pion_decay_width (not weak.fpi_from_pion_decay), then the
+    # O(p^4) formula written out in expanded form, M_pi^2 = M^2 - M^4 lbar3/(32 pi^2 F^2)
+    g_tree = inputs.GAMMA_PI_MUNU * inputs.HBAR / (inputs.E_CH * 1e9) / (1 + inputs.DELTA_PI)
+    f130 = toolkit.bisect(lambda f: weak.pion_decay_width(f, inputs.G_F, inputs.V_UD, inputs.M_MU, inputs.M_PIC)
+                          - g_tree, 0.01, 1.0)
+    F2 = (f130 / math.sqrt(2) / inputs.FPI_OVER_F) ** 2
+    M2b = 2 * inputs.M_UD_FLAG * inputs.COND_13 ** 3 / F2
+    m_r2 = math.sqrt(M2b - M2b * M2b * inputs.LBAR3 / (32 * math.pi ** 2 * F2))
+    print(f" f_pi(weak) = {weak.fpi_from_pion_decay() * 1e3:.4f} MeV (~130 conv.), /sqrt2 ="
+          f" {weak.fpi_from_pion_decay() / math.sqrt(2) * 1e3:.4f} MeV; input F_PI = {inputs.F_PI * 1e3:.4f} MeV")
+    print(f" chpt_mpi_from_rungs = {m_r * 1e3:.4f} MeV; route 2 (bisected f_pi, expanded formula)"
+          f" {m_r2 * 1e3:.4f} MeV, rel diff {abs(m_r2 / m_r - 1):.1e}; with input F_PI {m4 * 1e3:.4f} MeV;"
+          f" M_PI0 {inputs.M_PI0 * 1e3:.4f}, M_PIC {inputs.M_PIC * 1e3:.4f} MeV")
 
     print("== 5. Yukawa ==")
     for m in (0.7, 2.0):

@@ -204,3 +204,21 @@ each computes its own result and only uses the quoted formula as an input).
    rather than a numerical root; toolkit.bisect agrees to all printed digits (second route only).
 4. **Charge conjugation.** The measured width is for pi+ -> mu+ nu; the contract's function is for pi- -> l- nubar.
    They are equal (CP), and the tree-level formula is identical; no distinction made.
+
+## chiral and links (derived f_pi, one-loop G window)
+
+1. **f_pi convention.** Stage weak returns the ~130 MeV convention; `chpt_mpi_from_rungs` and
+   `pi0_width_from_rungs` divide by sqrt2 (SPEC 3 and 8 say so explicitly), giving 92.325 MeV vs
+   inputs.F_PI = 92.065 MeV. Only these two exports changed; `gmor_mpi`, `goldberger_treiman`, the GMOR
+   and GT self-checks, and the harness probe of `pi0_width_eV` still use inputs.F_PI as before.
+2. **Provenance.** `chpt_mpi_from_rungs` and `pi0_width_from_rungs` are tagged quoted (both are on their
+   stage's quoted_allowed list and both evaluate a quoted formula); their notes name the quoted export and
+   state that f_pi is stage weak's derived value. `g_window_from_rungs` is derived: running.landau_pole,
+   g_window and planck_mass_GeV are all derived and reach no quoted export.
+3. **Measured G vs the one-loop window.** g_window_from_rungs does not test or enforce lo < hi or
+   lo < 1 < hi; it returns the two edges as g_window does. With the current inputs the one-loop window
+   is non-empty and contains x = 1 for both variants (printed in links.py __main__).
+4. **Second-route f_pi.** The second routes re-derive f_pi by toolkit.bisect on weak.pion_decay_width on
+   the bracket [0.01, 1] GeV (a plain bracket, not a physical number); they recompute Gamma_tree from
+   the inputs the same way stage weak does, so they test the inversion, not the radiative-correction
+   convention.

@@ -6,6 +6,8 @@ measured constant is read as `inputs.NAME` at call time. Upstream results are re
 `gauge331.quark_charges`, `gauge331.triplet_charges`, `blackholes.hawking_K` (and, in the
 self-check only, `graviton.entangling_phase`, `graviton.ramp_profile`, `toolkit.bisect`,
 `toolkit.trapezoid`); `toolkit.levi_civita` builds the epsilon tensor of the pi0 amplitude.
+Stage weak's f_pi (`weak.fpi_from_pion_decay`, section 5) and stage running's one-loop poles
+(`running.landau_pole`, section 7b) are likewise called at call time.
 
 Units: SI inside, GeV / eV at the edges via 1 GeV = 1e9 * inputs.E_CH J (the 1e9 is the
 definition of the giga prefix, not a measured number).
@@ -164,9 +166,25 @@ with 1/(8 pi); (c) the closed form A^2 m^3/(64 pi).
 ## 5. pi0_width_from_rungs() -> eV   [rung 1 -> 2]
 
 **Postulates.** Section 4 with N_c = 3, (Q_u, Q_d) = gauge331.quark_charges(3) (rung 1),
-alpha = inputs.ALPHA_0 (on-shell photons, q^2 = 0), f_pi = inputs.F_PI, m = inputs.M_PI0.
-Returns pi0_width_eV(...) of those. Second route: the closed form with N_c(Q_u^2 - Q_d^2) = 1;
-pull against inputs.GAMMA_PI0 +- GAMMA_PI0_ERR printed in the self-check.
+alpha = inputs.ALPHA_0 (on-shell photons, q^2 = 0), m = inputs.M_PI0, and the f_pi that stage
+weak derives (SPEC section 10):
+
+    f_pi = weak.fpi_from_pion_decay() / sqrt2.
+
+**What changed.** f_pi was the input `inputs.F_PI` (the lattice value); it is now the ladder's
+own, from the pi -> mu nu width. Stage weak returns the ~130 MeV convention
+(<0|ubar gamma^a gamma5 d|pi^-> = i f p^a, charged current); pi0_width_eV's amplitude
+A = alpha N_c(Q_u^2 - Q_d^2)/(pi f_pi) uses the ~92 MeV (isospin-current) convention, and
+ubar gamma gamma5 d = A^1 + i A^2 with pi^- = (pi^1 + i pi^2)/sqrt2 gives f(130) = sqrt2 f(92).
+Still tagged quoted: it evaluates the quoted ABJ amplitude through pi0_width_eV.
+Returns pi0_width_eV(...) of those.
+
+**Second route** (self-check). f_pi is found independently by `toolkit.bisect` on
+`weak.pion_decay_width(f, ...) - Gamma_tree` (Gamma_tree = GAMMA_PI_MUNU hbar/(1 + DELTA_PI)),
+divided by sqrt2, and the width is evaluated from the closed form A^2 m^3/(64 pi) with
+N_c(Q_u^2 - Q_d^2) = 1. The self-check also prints the width with inputs.F_PI (the derived f_pi is
+~0.3% larger, so the width is ~0.6% smaller, Gamma ~ 1/f_pi^2) and the pull against
+inputs.GAMMA_PI0 +- GAMMA_PI0_ERR.
 
 ---------------------------------------------------------------------------------------------------
 ## 6. planck_mass_GeV(G, hbar, c) -> GeV   [rung 4's G -> rung 1's cutoff]
@@ -188,6 +206,25 @@ x > (mpl/p3)^2 and x < (mpl/p5)^2, so lo = (mpl/p3)^2, hi = (mpl/p5)^2 (non-empt
 At the edges M_Pl(lo G) = p3, M_Pl(hi G) = p5 exactly.
 **Second route.** Solve M_Pl(x G) = pole for log x with toolkit.bisect, using planck_mass_GeV
 itself at x G (self-check).
+
+## 7b. g_window_from_rungs(variant) -> (lo, hi)   [stage running -> link 3]
+
+**What is new.** Section 7's window used the quoted three-loop poles (inputs.POLES_331). This
+export uses the poles the ladder derives itself, at one loop:
+
+    p3 = running.landau_pole(3, variant),   p5 = running.landau_pole(5, variant),
+    mpl = planck_mass_GeV(inputs.G_NEWTON, inputs.HBAR, inputs.C_LIGHT),
+    (lo, hi) = g_window(p3, p5, mpl) = ((mpl/p3)^2, (mpl/p5)^2).
+
+All three pieces are derived (stage running: one-loop b_X from rung 1's content, matched to the
+SM at MU_331; section 6; section 7), so the export is derived. No quoted export is reached.
+
+**Second route** (self-check). For each pole, solve M_Pl(x G) = pole for ln x with
+`toolkit.bisect`, using `planck_mass_GeV` at x G itself (not the x^(-1/2) scaling), and compare
+with (lo, hi). The self-check also prints the one-loop poles next to the quoted three-loop ones:
+the one-loop poles are higher (1.5-2x for N_c = 3, 1.4-1.7x for N_c = 5, depending on the variant),
+so both edges of the window move down in G by a factor of about 2 to 4, and the measured G (x = 1)
+stays inside it for both variants.
 
 ## 8. schwarzschild_radius(m) -> m   [rung 6 -> rung 4's diamond]
 

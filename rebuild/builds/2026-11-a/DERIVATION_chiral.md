@@ -8,7 +8,8 @@ Postulates used (SPEC.md section 3 unless stated):
 - (P4) boson exchange gives V(q) proportional to 1/(q^2 + m^2), normalized by (lap - m^2) V = -delta^3;
 - (P5) Pauli matrices for spin; S12 = 3 (s1.qhat)(s2.qhat) - s1.s2;
 - (P6) Goldberger-Treiman g_piNN = g_A M_N / f_pi, derived below from PCAC (pion-pole dominance).
-SPEC.md section 0: only `chpt_mpi` may be quoted; everything else here is derived.
+SPEC.md section 0: only `chpt_mpi` and `chpt_mpi_from_rungs` (which evaluates it) are quoted;
+everything else here is derived.
 Numerics use toolkit (hessian, eigvalsh, bisect, trapezoid) only.
 
 Units: sigma-model functions are in arbitrary consistent units; GMOR/ChPT in GeV (inputs.py).
@@ -119,6 +120,38 @@ d ln x = d ln M^2 + 2 d ln r + d ln lbar3:
 
 Cross-checked by central finite differences in the self-check. For GMOR (3) similarly
 d m_pi/m_pi = (1/2) sqrt((d mq/mq)^2 + (3 dc/c)^2).
+
+---
+
+## 4b. `chpt_mpi_from_rungs()`  (QUOTED: evaluates P3)  [stage weak -> chiral]
+
+**What changed.** The O(p^4) pion mass is now also evaluated with the f_pi the ladder itself
+derives from the charged pion's weak decay (SPEC section 10), instead of the lattice input
+`inputs.F_PI`. `chpt_mpi` itself is unchanged.
+
+**Definition.**
+
+    f_pi(~130 MeV) = weak.fpi_from_pion_decay()          (called at call time, `import weak`)
+    f_pi(~92 MeV)  = f_pi(~130 MeV) / sqrt2               (the convention chpt_mpi and inputs.F_PI use)
+    chpt_mpi_from_rungs() = chpt_mpi(inputs.M_UD_FLAG, inputs.COND_13, inputs.FPI_OVER_F,
+                                     inputs.LBAR3, f_pi(~92 MeV)).
+
+The sqrt2: stage weak's <0|ubar gamma^a gamma5 d|pi^-> = i f p^a normalizes to the charged
+current (u, d), while the sigma model's f_pi = <sigma> normalizes to the isospin current
+A^a = qbar gamma gamma5 (tau^a/2) q; ubar gamma gamma5 d = A^1 + i A^2 and pi^- = (pi^1 + i pi^2)/sqrt2
+give f(130) = sqrt2 f(92).
+
+**Provenance.** It evaluates the quoted Gasser-Leutwyler formula, so it is tagged quoted (on the
+stage's quoted_allowed list). The f_pi it uses is derived (stage weak, tree-level V-A width
+inverted at the radiation-corrected measured width); M_UD_FLAG, COND_13, FPI_OVER_F, LBAR3 are inputs.
+
+**Second route** (printed in `__main__`, section 4b). f_pi is found independently by
+`toolkit.bisect` on `weak.pion_decay_width(f, ...) - Gamma_tree` (not via
+`weak.fpi_from_pion_decay`'s exact f^2 inversion), with
+Gamma_tree = GAMMA_PI_MUNU * HBAR/(E_CH 1e9) / (1 + DELTA_PI); then the O(p^4) formula is written
+out in expanded form M_pi^2 = M^2 - M^4 lbar3/(32 pi^2 F^2), F = f/sqrt2/(F_pi/F). The two agree to
+rounding. The self-check also prints the value with the input F_PI for comparison: the derived
+f_pi(92) is about 0.3% above F_PI, which lowers M_pi by about 0.35 MeV (M_pi ~ 1/F at leading order).
 
 ---
 
