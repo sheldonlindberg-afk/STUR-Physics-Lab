@@ -190,3 +190,17 @@ each computes its own result and only uses the quoted formula as an input).
 6. **Landau pole** uses the closed-form inversion of the one-loop line (no numerical root). toolkit.bisect
    in ln mu is the second route in __main__. "alpha_X = 1" means 1/alpha_X = 1 exactly. SM running is
    applied for any mu, with no thresholds below MU_331.
+
+## weak
+
+1. **Below threshold.** `pion_decay_width` returns 0.0 for m_l >= m_pi (decay kinematically closed);
+   the closed form would otherwise give a spurious positive value from (m_pi^2 - m_l^2)^2. At m_l = 0 the
+   formula itself gives exactly 0 (helicity suppression).
+2. **Dirac conventions in the mostly-plus metric.** SPEC fixes g and gamma5 but not the Clifford sign or
+   spin sums; I used {gamma^m, gamma^n} = -2 g^{mn}, (-pslash + m)u = 0, sum u ubar = -pslash + m,
+   sum v vbar = -pslash - m (Weyl basis, beta = gamma^0). |M|^2 is convention independent; the explicit
+   4x4 matrix route in weak.py __main__ confirms the trace 4(m_pi^2 - m_l^2) in these conventions.
+3. **Inversion.** fpi_from_pion_decay uses the exact f^2 scaling: f = sqrt(Gamma_tree / pion_decay_width(1, ...)),
+   rather than a numerical root; toolkit.bisect agrees to all printed digits (second route only).
+4. **Charge conjugation.** The measured width is for pi+ -> mu+ nu; the contract's function is for pi- -> l- nubar.
+   They are equal (CP), and the tree-level formula is identical; no distinction made.
