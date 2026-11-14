@@ -197,10 +197,28 @@ Xt = Q_u - 1/2 - b; and rung 1's anomaly cancels, so q_p + q_e = 0. Checked for 
 
 ## 8. `pi0_width_from_rungs()`: eV
 
-(Q_u, Q_d) = `gauge331.quark_charges(3)`; return `pi0_width_eV(inputs.ALPHA_0, inputs.F_PI, inputs.M_PI0, 3,
-Q_u, Q_d)` (connection L2: both calls are real). Quoted amplitude -> provenance `quoted`.
-**Second route:** since Nc (Qu^2 - Qd^2) = 1, Gamma = alpha^2 m^3/(64 pi^3 f_pi^2) with no charges at all;
-and rung 1's charges at Nc = 5, 7 must give the same width.
+*Changed with the contract (SPEC section 8; connection L2): the decay constant is now the one stage `weak`
+derives, not the lattice input `inputs.F_PI`. links now depends on `weak`.*
+
+(Q_u, Q_d) = `gauge331.quark_charges(3)`; f_92 = `weak.fpi_from_pion_decay()`/sqrt2; return
+`pi0_width_eV(inputs.ALPHA_0, f_92, inputs.M_PI0, 3, Q_u, Q_d)`. All three calls are real (the harness spies
+on them). Quoted amplitude -> provenance `quoted`.
+
+**The sqrt2.** Stage weak's f is defined by <0| ubar gamma^alpha gamma_5 d |pi-> = i f p^alpha (~130 MeV).
+The anomaly amplitude A = (alpha/(pi f_pi)) N_c (Q_u^2 - Q_d^2) of section 3 is written with the isospin
+normalization <0|A^3|pi0> = i F p (~92 MeV). The charged current is A^1 - i A^2 and pi- = (pi^1 + i pi^2)/sqrt2,
+so f = sqrt2 F: the f_pi passed to `pi0_width_eV` is f/sqrt2. (Isospin is assumed: the constant measured in
+the charged pion's decay is used for the neutral pion.)
+
+**Second route** (printed by `__main__`): without calling `weak`, `gauge331` or `pi0_width_eV`. Since
+Nc (Qu^2 - Qd^2) = 1 and f_92^2 = f^2/2,
+
+    Gamma = alpha^2 m^3 / (32 pi^3 f^2),
+    f^2 = 8 pi m_pi^3 Gamma_tree / (GF V_ud m_mu (m_pi^2 - m_mu^2))^2,  Gamma_tree = hbar GAMMA_PI_MUNU/(1 + DELTA_PI)
+
+(the width formula of DERIVATION_weak inverted by hand, m_pi = M_PIC there, m = M_PI0 in Gamma). Also: rung 1's
+charges at Nc = 5, 7 must give the same width; and the ratio to the old value (input F_PI) must equal
+(F_PI/f_92)^2, since Gamma ~ 1/f^2.
 
 ---------------------------------------------------------------------------------------------------------
 
@@ -216,3 +234,32 @@ k_B T_H = hbar c^3/(8 pi G) sqrt(G/(hbar c)) = sqrt(hbar c^5/G)/(8 pi) = M_Pl c^
 
 **Second route.** planck_mass_GeV(...)/(8 pi) without calling rung 6; and the 1/M law: the temperature at
 2 M_Pl is half.
+
+---------------------------------------------------------------------------------------------------------
+
+## 10. `g_window_from_rungs(variant)`: (lo, hi), dimensionless x = G/G_meas
+
+*New with the contract (SPEC section 8, last bullet; connection L6). links now depends on `running`.*
+
+**What changed.** `g_window` (section 5) was so far only evaluated at the quoted three-loop poles
+`inputs.POLES_331`. Stage `running` derives the poles at one loop, so the window can be built from the ladder
+alone:
+
+    p3 = running.landau_pole(3, variant),   p5 = running.landau_pole(5, variant),
+    mpl = planck_mass_GeV(inputs.G_NEWTON, inputs.HBAR, inputs.C_LIGHT),
+    return g_window(p3, p5, mpl) = ((mpl/p3)^2, (mpl/p5)^2).                    (10.1)
+
+All three functions are called at call time. Nothing quoted enters (`landau_pole` is derived, `POLES_331` is
+not read), so the provenance is `derived`. `g_window` and every other export are unchanged. Errors of
+`landau_pole` (unknown variant, no pole above MU_331) propagate; the window is not clipped (section 5).
+
+**Second route** (printed by `__main__`). (a) Without `landau_pole` and `g_window`: the one-loop solution
+1/alpha_X(mu) = 1/alpha_X(mu0) - b_X ln(mu/mu0)/(2 pi) reaches 1 at ln(p/mu0) = 2 pi (1/alpha_X(mu0) - 1)/b_X,
+and x = (mpl/p)^2, so each edge is, in logarithms,
+
+    ln x = 2 [ ln(mpl/mu0) - 2 pi (1/alpha_X(mu0) - 1)/b_X ],                   (10.2)
+
+with 1/alpha_X(mu0) = `running.matching_331(MU_331, variant)[0]` and b_X = `running.b_331(Nc, variant)[0]`
+(Nc = 3 for lo, 5 for hi). (b) Root-finding as in section 5: `toolkit.bisect` on planck_mass_GeV(10^t G) = pole.
+Also printed for comparison (not a check): the window at the quoted three-loop poles and the ratio of one-loop
+to three-loop poles; the one-loop window is a perturbative estimate of the three-loop one, not equal to it.

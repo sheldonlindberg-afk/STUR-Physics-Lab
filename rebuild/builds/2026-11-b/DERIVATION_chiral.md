@@ -142,6 +142,49 @@ ValueError rather than return a complex or clipped number.
 
 ---------------------------------------------------------------------------------------------------------------
 
+## 4a. `chpt_mpi_from_rungs()`: the O(p^4) pion mass at the weak decay's f_pi. QUOTED
+
+*Added with the contract change (SPEC section 3, last bullet; connection C-fpi). Chiral now depends on stage
+`weak`.*
+
+**What changed.** Until now the only f_pi available to this stage was the lattice input `inputs.F_PI`. Stage
+`weak` derives f_pi from the measured pi -> mu nu width (SPEC section 10), so the ladder can feed its own
+decay constant into the strong-force pion mass:
+
+    chpt_mpi_from_rungs() = chpt_mpi(inputs.M_UD_FLAG, inputs.COND_13, inputs.FPI_OVER_F, inputs.LBAR3, f_92),
+    f_92 = weak.fpi_from_pion_decay() / sqrt2.                                          (4a.1)
+
+Both calls are made at call time as `weak.fpi_from_pion_decay()` and `chpt_mpi(...)` (the harness spies on
+them). No other export changes; `chpt_mpi` itself still takes f_pi as an argument.
+
+**The sqrt2.** Stage weak defines f by <0| ubar gamma^alpha gamma_5 d |pi-(p)> = i f p^alpha (the ~130 MeV
+convention). The current ubar gamma gamma_5 d = A^1 - i A^2 in terms of the isospin currents
+A^a = qbar gamma gamma_5 (tau^a/2) q, and pi- = (pi^1 + i pi^2)/sqrt2, so with <0|A^a|pi^b> = i F delta^ab p,
+<0|A^1 - i A^2|pi-> = i F p (1 + 1)/sqrt2 = i sqrt2 F p. Hence f = sqrt2 F. The sigma model's f_pi = <sigma>
+(section 3) is F: the Noether axial current of the O(4) model is A^a = sigma d pi^a - pi^a d sigma ->
+<sigma> d pi^a. So the f_pi of `gmor_mpi`, `chpt_mpi` and `goldberger_treiman` is f/sqrt2 (~92 MeV), as the
+SPEC states.
+
+**Provenance.** `quoted`: it evaluates the quoted O(p^4) formula of section 4 (allowed for this export in
+contract.py). What is derived upstream is only the decay constant that enters it.
+
+**Second route** (printed by `__main__`, section "4a"). Neither `weak` nor `chpt_mpi` is called:
+(a) f_pi from the width formula of DERIVATION_weak solved by hand,
+
+    Gamma_tree = GF^2 V_ud^2 f^2 m_mu^2 (m_pi^2 - m_mu^2)^2 / (8 pi m_pi^3)
+    =>  f^2 = 8 pi m_pi^3 Gamma_tree / (GF V_ud m_mu (m_pi^2 - m_mu^2))^2,
+    Gamma_tree = hbar GAMMA_PI_MUNU / (1 + DELTA_PI);
+
+(b) the quoted formula rewritten directly in f (F = f/(sqrt2 r), r = F_pi/F):
+
+    M^2 = 4 m_ud Sigma r^2 / f^2,     M_pi^2 = M^2 [1 - M^2 lbar3 r^2 / (16 pi^2 f^2)].
+
+The two agree with (4a.1) to rounding. Also printed: the result with the input F_PI, and the check that the
+ratio of the two follows the leading-order scaling M_pi ~ 1/f (ratio of the decay constants) up to the small
+O(p^4) term.
+
+---------------------------------------------------------------------------------------------------------------
+
 ## 5. `yukawa(r, m)`: the exchange potential
 
 **Postulate.** Exchange of a boson of mass m gives Vtilde(q) = 1/(q^2 + m^2) with unit strength, i.e.
@@ -239,4 +282,6 @@ smoothness of g_A(q^2) between 0 and m_pi^2 are PCAC assumptions, not theorems.
 ## Not derived
 
 - `chpt_mpi`: the O(p^4) coefficient (section 4), quoted as the SPEC permits.
+- `chpt_mpi_from_rungs`: the same quoted formula at the f_pi of stage `weak` (section 4a), quoted as the SPEC
+  permits.
 - Nothing else. No number is taken from outside `inputs.py`.

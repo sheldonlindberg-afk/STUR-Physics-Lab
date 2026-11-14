@@ -267,3 +267,33 @@ Nothing could not be derived; nothing is quoted. Interpretation points (DERIVATI
    f0 = 1 GeV, then a square root), not a root-finder; bisection is the self-check. Positive root returned.
 5. **Unit conversion** as SPEC states: hbar = HBAR/(E_CH x 1e9) GeV s; the 1e9 (eV per GeV) is the only
    literal. The measured width is the pi+ one, used for pi- (CPT).
+
+## chiral and links (derived f_pi, one-loop G window)
+
+Nothing could not be derived; no new quoted formula. `chpt_mpi_from_rungs` and `pi0_width_from_rungs` are
+labelled `quoted` (they evaluate the quoted O(p^4) and anomaly formulas; both are on the quoted_allowed
+lists); `g_window_from_rungs` is `derived` and rests on no quoted export. Interpretation points:
+
+1. **sqrt2 conversion.** f(~92 MeV) = `weak.fpi_from_pion_decay()`/sqrt2 as SPEC sections 3 and 8 state; the
+   DERIVATION sections (chiral 4a, links 8) justify it from the current normalizations. The conversion is a
+   private one-line helper in each stage (`_fpi_92_from_weak`); links does not call chiral's private helper.
+2. **Isospin.** The f_pi derived from the charged pion's decay (with M_PIC inside stage weak) is used for the
+   neutral pion's width (with M_PI0) and for the isospin-symmetric ChPT mass. The SPEC asks for exactly this;
+   isospin-breaking in f_pi is not modelled.
+3. **FPI_OVER_F with the derived f_pi.** `inputs.FPI_OVER_F` is a lattice ratio; `chpt_mpi_from_rungs` applies
+   it to the weak-decay f_pi (F = f_92/(F_pi/F)), as the SPEC's "chpt_mpi with the FLAG inputs" says.
+4. **Only the two `_from_rungs` exports use the derived f_pi.** `gmor_mpi`, `chpt_mpi`, `goldberger_treiman`
+   and `pi0_width_eV` still take f_pi as an argument, and the older `__main__` printouts of chiral (GMOR,
+   ChPT section 4, Goldberger-Treiman) still evaluate them at `inputs.F_PI`; "do not change any other export's
+   behaviour" was read as leaving those as they are. The new printouts show both values side by side.
+5. **`g_window_from_rungs` and the N_c = 5 pole.** It takes `running.landau_pole(5, variant)` as that stage
+   defines it (the theory below MU_331 is the 3-colour Standard Model also for N_c = 5; pole = alpha_X = 1).
+   A ValueError from `landau_pole` propagates; the window is returned unclipped, like `g_window`.
+6. **One loop versus three loops.** The one-loop window differs from the one at the quoted three-loop
+   `inputs.POLES_331` (the one-loop poles are higher by a factor of about 1.4 to 2 in the printout); both
+   contain G_meas for both variants. `g_window_from_rungs` never reads POLES_331; the existing `__main__`
+   `g_window` printout at POLES_331 is kept for comparison.
+7. **Second routes use the closed-form width inversion** (f^2 = 8 pi m^3 Gamma/(GF V m_l (m^2 - m_l^2))^2),
+   typed independently in chiral.py and links.py under the self-check section, so that they do not call
+   stage weak. This duplicates physics of stage weak on purpose, only under `__main__`.
+

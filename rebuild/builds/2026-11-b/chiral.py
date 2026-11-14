@@ -1,13 +1,15 @@
 """Stage `chiral` (build 2026-11-b): the strong force at low energy.
 
-Linear sigma model, GMOR, one-pion exchange. Everything is derived from SPEC.md section 3 except `chpt_mpi`,
-which is quoted (allowed). Derivations and second routes: DERIVATION_chiral.md (same directory); section
+Linear sigma model, GMOR, one-pion exchange. Everything is derived from SPEC.md section 3 except `chpt_mpi`
+and `chpt_mpi_from_rungs` (the same formula at the f_pi stage `weak` derives), which are quoted (allowed).
+Derivations and second routes: DERIVATION_chiral.md (same directory); section
 numbers are cited below.
 """
 import math
 
 import inputs
 import toolkit
+import weak
 
 PROVENANCE = {
     "goldstone_count": ("derived", "zero eigenvalues (toolkit.eigvalsh) of the numerical Hessian (toolkit.hessian) of"
@@ -21,6 +23,10 @@ PROVENANCE = {
     "chpt_mpi": ("quoted", "O(p^4) SU(2) chiral perturbation theory, Gasser and Leutwyler, Annals Phys. 158 (1984)"
                            " 142, FLAG conventions: M_pi^2 = M^2 [1 - M^2 lbar3/(32 pi^2 F^2)], M^2 = 2 m_ud"
                            " cond13^3/F^2, F = f_pi/(F_pi/F); not derived here (section 4)"),
+    "chpt_mpi_from_rungs": ("quoted", "chpt_mpi (quoted O(p^4) formula, Gasser and Leutwyler 1984, FLAG conventions)"
+                                      " at inputs.M_UD_FLAG, COND_13, FPI_OVER_F, LBAR3 and f_pi ="
+                                      " weak.fpi_from_pion_decay()/sqrt2: the derived ~130 MeV decay constant in"
+                                      " the ~92 MeV convention of the sigma model (section 4a)"),
     "yukawa": ("derived", "Fourier transform of 1/(q^2 + m^2) by the residue at q = i m: e^(-m r)/(4 pi r), the"
                           " solution of (lap - m^2) V = -delta^3 with unit flux (section 5)"),
     "tensor_identity_residual": ("derived", "explicit 4x4 Kronecker products of Pauli matrices; both sides built"
@@ -88,6 +94,16 @@ def chpt_mpi(m_ud, cond13, fpi_over_F, lbar3, fpi):
     if mpi2 < 0:
         raise ValueError("chpt_mpi: the O(p^4) correction exceeds the leading order")
     return math.sqrt(mpi2)
+
+
+def _fpi_92_from_weak():
+    """Stage weak's f_pi (<0|A|pi> = i f p, ~130 MeV) in the sigma-model convention f/sqrt2 (~92 MeV)."""
+    return weak.fpi_from_pion_decay() / math.sqrt(2)
+
+
+def chpt_mpi_from_rungs():
+    """chpt_mpi (GeV, quoted formula) at the FLAG inputs and the f_pi that the pion's weak decay gives."""
+    return chpt_mpi(inputs.M_UD_FLAG, inputs.COND_13, inputs.FPI_OVER_F, inputs.LBAR3, _fpi_92_from_weak())
 
 
 # ------------------------------------------------------------------------------------------
@@ -179,6 +195,24 @@ def _yukawa_proper_time(r, m, n=6001, tmin=-40.0, tmax=60.0):
     return toolkit.trapezoid(ys, dt)
 
 
+def _fpi_130_closed_form():
+    """Second route to stage weak's f_pi, without calling it: the width formula solved for f by hand,
+    f^2 = 8 pi m_pi^3 Gamma_tree / (GF^2 V^2 m_l^2 (m_pi^2 - m_l^2)^2)."""
+    hbar_gev_s = inputs.HBAR / (inputs.E_CH * 10 ** 9)
+    gamma_tree = inputs.GAMMA_PI_MUNU * hbar_gev_s / (1 + inputs.DELTA_PI)
+    m, ml = inputs.M_PIC, inputs.M_MU
+    f2 = 8 * math.pi * m ** 3 * gamma_tree / ((inputs.G_F * inputs.V_UD * ml * (m * m - ml * ml)) ** 2)
+    return math.sqrt(f2)
+
+
+def _chpt_mpi_expanded(f130):
+    """Second route to chpt_mpi_from_rungs: the quoted formula written out in the ~130 MeV decay constant,
+    M^2 = 4 m_ud Sigma r^2/f^2 and M_pi^2 = M^2 [1 - M^2 lbar3 r^2/(16 pi^2 f^2)], r = F_pi/F; no call to chpt_mpi."""
+    r2 = inputs.FPI_OVER_F ** 2
+    M2 = 4 * inputs.M_UD_FLAG * inputs.COND_13 ** 3 * r2 / f130 ** 2
+    return math.sqrt(M2 * (1 - M2 * inputs.LBAR3 * r2 / (16 * math.pi ** 2 * f130 ** 2)))
+
+
 if __name__ == "__main__":
     print("== 1. Goldstone count ==")
     for lam, v in ((2.0, 1.0), (0.7, 3.0)):
@@ -218,6 +252,19 @@ if __name__ == "__main__":
     print(f" chpt_mpi = {full:.6f} GeV; LO (lbar3 = 0) {lo:.6f}; gmor_mpi(2 m_ud, cond13, F) ="
           f" {gmor_mpi(2 * inputs.M_UD_FLAG, inputs.COND_13, F):.6f}")
     print(f"   expansion parameter {x:.5f}; first-order M(1 - x/2) = {lo * (1 - x / 2):.6f}")
+
+    print("== 4a. ChPT O(p^4) at the weak decay's f_pi (quoted formula) ==")
+    f130 = weak.fpi_from_pion_decay()
+    f130_closed = _fpi_130_closed_form()
+    rung = chpt_mpi_from_rungs()
+    print(f" f_pi from stage weak: {f130!r} GeV (130 convention) -> {_fpi_92_from_weak()!r} GeV (92 convention);"
+          f" input F_PI {inputs.F_PI!r}")
+    print(f" chpt_mpi_from_rungs = {rung!r} GeV")
+    print(f"   second route (closed-form f_pi {f130_closed!r}, formula expanded in f_130): "
+          f"{_chpt_mpi_expanded(f130_closed)!r} GeV")
+    print(f"   with the input F_PI instead: {full!r} GeV; ratio {rung / full!r};"
+          f" leading-order scaling F_PI/f_92 = {inputs.F_PI / _fpi_92_from_weak()!r}")
+    print(f"   measured pi0 {inputs.M_PI0}, pi+- {inputs.M_PIC}")
 
     print("== 5. Yukawa ==")
     for r, m in ((0.3, 1.5), (2.1, 1.5), (2.0, 0.0), (1.0, 0.0)):

@@ -75,3 +75,16 @@ other and disagree with the reference in the same place, by the same amount.
 - **M6 transcript check (orchestrator):** all nine build-b builder transcripts were scanned. Every
   session ran on one model, and no tool call read a path outside the room (no build a, src/, oracle
   or web). Build b's blindness claims stand.
+
+## New rungs (2026-11-14): running, weak; chiral and links on the derived f_pi
+
+| Stage | Builder gate | Oracle | Commit |
+|---|---|---|---|
+| running | pass (old order) | 15/15 | (running commit) |
+| weak | pass | 2/2 | (weak commit) |
+| chiral + links update | pass | all | (this commit) |
+
+Both `running` builders stopped on the account's usage limit and were resumed after it reset; nothing
+was lost. Both read SPEC §9's two ambiguities (singlet partners per copy; the 3-colour SM below the
+3-3-1 scale for every N_c) the same way as `src`; SPEC now states both. Crossbuild a/b 25/25; force
+chain 22/22.

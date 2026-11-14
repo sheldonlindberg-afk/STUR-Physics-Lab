@@ -38,12 +38,10 @@ python3 rebuild/chain_compare.py rebuild/builds/2026-11-a rebuild/builds/2026-11
 **The force chain and the rebuild.** `chain_compare.py` compares the force chain's hand-offs with
 an accepted build in two ways. With the chain's own arguments, the build must agree to rounding.
 On its own inputs, the build must agree, or differ only for a recorded cause within a recorded
-band. Both accepted builds agree on all 19 overlaps: 11 same-argument comparisons to ≤ 6e-16, and
-8 own-route comparisons. Two causes explain every own-route difference:
-- the chain derives f_π = 130.57 MeV from G_F and Γ(π→μν), while the rebuild reads 130.2 MeV.
-  This moves the π⁰ width from 7.742 to 7.785 eV. It is still open, because SPEC must choose a route;
+band. Both accepted builds agree on all 22 overlaps. Since stages `weak` and `running` were added,
+f_π, the π⁰ width and the O(p⁴) pion mass agree with the chain to about 1e-9, because both now
+derive f_π from G_F. Two recorded causes remain:
+- the one-loop Landau poles (stage `running`) are 1.4 to 2 times the chain's three-loop poles, and
+  give the same N_c = 3 selection;
 - the chain inherits src's grid-point safe gap, 181.16 µm (2.1868 rad), while the rebuild bisects
   to the root, 181.107 µm (2.1878 rad). See FINDINGS N3.
-
-In Claude Code, `/rebuild-ladder` runs the protocol
-([.claude/skills/rebuild-ladder/SKILL.md](../.claude/skills/rebuild-ladder/SKILL.md)).
