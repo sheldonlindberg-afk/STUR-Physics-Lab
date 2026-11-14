@@ -382,7 +382,7 @@ def test_wrong_field_content_needs_the_oracle(tmp_path):
     rep = harness.run(d, mode="verifier", lint=False)
     assert [l for l, ok, _ in rep["stages"]["running"]["blind"] if not ok] == []
     fails = [l for l, ok, _ in rep["stages"]["running"]["oracle"] if not ok]
-    assert "+1/sqrt3: b_331 equals src's field content (N_c = 1, 3, 5, 7)" in fails
+    assert "+1/sqrt3: b_331 equals src's field content (N_c = 1, 3, 5, 7, 9, 11)" in fails
     assert "+1/sqrt3: one-loop pole, N_c = 3, equals src's one-loop running" in fails
 
 
@@ -405,18 +405,23 @@ def test_missing_helicity_suppression_is_caught_blind(tmp_path):
             return GF**2 * Vud**2 * fpi**2 * m_pi**3 * (1 - m_l**2 / m_pi**2) ** 2 / (8 * _pi)
     """)
     rep = harness.run(d, mode="builder", lint=False)
-    assert [l for l, ok, _ in rep["stages"]["weak"]["blind"] if not ok] == ["helicity suppression and phase-space closure"]
+    assert [l for l, ok, _ in rep["stages"]["weak"]["blind"] if not ok] == \
+        [_FPI_ANCHOR, "helicity suppression and phase-space closure"]
 
 
-def test_wrong_width_normalization_needs_the_oracle(tmp_path):
-    # twice the width: every property and the round trip still hold (f_pi is read off the same formula)
+_FPI_ANCHOR = "f_pi/sqrt2 within 2% of the lattice inputs.F_PI (convention and normalization)"
+
+
+def test_wrong_width_normalization_is_caught_blind(tmp_path):
+    # twice the width: every scaling law and the round trip still hold (f_pi is read off the same formula).
+    # Before the P4 addendum only the oracle saw it; now f_pi misses the lattice value by 1/sqrt2.
     d = _mutant(tmp_path, "weak", """
         _w = pion_decay_width
         def pion_decay_width(*a):
             return 2 * _w(*a)
     """)
     rep = harness.run(d, mode="verifier", lint=False)
-    assert [l for l, ok, _ in rep["stages"]["weak"]["blind"] if not ok] == []
+    assert [l for l, ok, _ in rep["stages"]["weak"]["blind"] if not ok] == [_FPI_ANCHOR]
     assert len([l for l, ok, _ in rep["stages"]["weak"]["oracle"] if not ok]) == 2
 
 
@@ -445,3 +450,223 @@ def test_chpt_with_the_input_fpi_is_caught(tmp_path):
     """)
     rep = harness.run(d, mode="builder", lint=False)
     assert [l for l, ok, _ in rep["stages"]["chiral"]["blind"] if not ok] == ["O(p^4) pion mass with stage weak's f_pi"]
+
+
+# ------------------------------------------------------------------------------------------
+# P4 addendum (2026-11-14): mutants of stages weak and running, and of the derived-f_pi hand-off, that
+# passed the builder gate (some of them every tier) before the checks named here were added.
+ACCEPTED = [os.path.join(REBUILD, "builds", b) for b in ("2026-11-a", "2026-11-b")]
+
+
+def _fails(rep, stage, tier):
+    return [l for l, ok, _ in rep["stages"][stage].get(tier, []) if not ok]
+
+
+def _moved(stage, label):
+    assert label in harness.PERTURBED[stage][1]
+    return f"with its inputs moved: {label}"
+
+
+@pytest.mark.parametrize("build", ACCEPTED)
+def test_accepted_builds_pass_the_addendum_checks(build):
+    if not os.path.isdir(build):
+        pytest.skip("build not present")
+    rep = harness.run(build, mode="verifier")
+    assert rep["ok"], harness.summarize(rep)
+    for stage in harness.PERTURBED:
+        assert len([1 for l, _, _ in rep["stages"][stage]["sensitivity"] if l.startswith("with its inputs moved")]) == \
+            len(harness.PERTURBED[stage][1])
+
+
+def test_fpi_in_the_92_MeV_convention_is_caught_blind(tmp_path):
+    # the width written with F = f/sqrt2 (so 4 pi instead of 8 pi): fpi_from_pion_decay returns ~92 MeV
+    d = _mutant(tmp_path, "weak", """
+        _w = pion_decay_width
+        def pion_decay_width(f, *a):
+            return _w(f * 2 ** 0.5, *a)
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert _fails(rep, "weak", "blind") == [_FPI_ANCHOR]
+
+
+def test_inputs_cached_or_typed_in_fpi_are_caught(tmp_path):
+    # DELTA_PI typed as a Fraction (the lint sees two small integers and passes it on the accepted builds) and V_UD read at import: right at the
+    # published inputs, so the round trip and the oracle passed
+    d = _mutant(tmp_path, "weak", """
+        import math as _m, inputs as _i
+        from fractions import Fraction as _F
+        _V = _i.V_UD
+        def fpi_from_pion_decay():
+            g = _i.GAMMA_PI_MUNU * _i.HBAR / (_i.E_CH * 1e9) / (1 + float(_F(176, 10000)))
+            return _m.sqrt(g / pion_decay_width(1.0, _i.G_F, _V, _i.M_MU, _i.M_PIC))
+    """)
+    rep = harness.run(d, mode="verifier", lint=False)
+    assert _fails(rep, "weak", "blind") == [] and _fails(rep, "weak", "oracle") == []
+    assert _fails(rep, "weak", "sensitivity") == [_moved("weak", "f_pi reproduces the measured width")]
+
+
+def test_width_wrong_outside_the_old_oracle_range_is_caught(tmp_path):
+    # right for 0.07 < m_l/m_pi < 0.72 at m_pi = 0.14, the only region the oracle sampled
+    d = _mutant(tmp_path, "weak", """
+        _w = pion_decay_width
+        def pion_decay_width(f, GF, Vud, ml, mp):
+            return _w(f, GF, Vud, ml, mp) * (1.5 if 0.001 < ml / mp < 0.05 else 1)
+    """)
+    rep = harness.run(d, mode="verifier", lint=False)
+    assert _fails(rep, "weak", "blind") == []
+    assert len(_fails(rep, "weak", "oracle")) == 1
+
+
+def test_bL_errors_are_caught_blind(tmp_path):
+    # b_L with the adjoint Casimir of SU(2), and a b_L that depends on the variant: b_X untouched, so the
+    # old blind checks (which never looked at b_L) passed both
+    d = _mutant(tmp_path, "running", """
+        from fractions import Fraction as _F
+        _b = b_331
+        def b_331(Nc, variant):
+            bX, bL = _b(Nc, variant)
+            return bX, bL + _F(11, 3)
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert _fails(rep, "running", "blind") == ["b_L(N_c = 3) and b_2 share their fermion sum (decoupling)"]
+    d = _mutant(tmp_path / "v", "running", """
+        from fractions import Fraction as _F
+        _b = b_331
+        def b_331(Nc, variant):
+            bX, bL = _b(Nc, variant)
+            return bX, bL + (_F(1, 6) if variant.startswith("+") else 0)
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert _fails(rep, "running", "blind") == ["b_L is the same in both variants",
+                                               "b_L(N_c = 3) and b_2 share their fermion sum (decoupling)"]
+
+
+def test_sm_without_the_higgs_is_caught_blind(tmp_path):
+    d = _mutant(tmp_path, "running", """
+        from fractions import Fraction as _F
+        _sm = sm_coefficients
+        def sm_coefficients():
+            y, w = _sm()
+            return y - _F(1, 6), w - _F(1, 6)
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert _fails(rep, "running", "blind") == ["b_L(N_c = 3) and b_2 share their fermion sum (decoupling)"]
+
+
+def test_pole_tuned_to_the_tested_colours_is_caught(tmp_path):
+    # a branch on an untested argument: N_c = 7 was probed by no tier
+    d = _mutant(tmp_path, "running", """
+        _lp = landau_pole
+        def landau_pole(Nc, variant):
+            return _lp(Nc, variant) * (2 if Nc == 7 else 1)
+    """)
+    rep = harness.run(d, mode="verifier", lint=False)
+    assert _fails(rep, "running", "blind") == ["landau_pole is where the matched alpha_X runs to 1"]
+    assert len(_fails(rep, "running", "oracle")) == 2
+
+
+def test_bX_wrong_beyond_the_tested_colours_is_caught_by_the_oracle(tmp_path):
+    d = _mutant(tmp_path, "running", """
+        from fractions import Fraction as _F
+        _b = b_331
+        def b_331(Nc, variant):
+            bX, bL = _b(Nc, variant)
+            return (bX * _F(9, 10) if Nc >= 9 else bX), bL
+    """)
+    rep = harness.run(d, mode="verifier", lint=False)
+    assert len(_fails(rep, "running", "oracle")) == 2
+
+
+def test_pole_with_a_typed_scale_and_cached_MZ_are_caught(tmp_path):
+    # the 3-3-1 scale typed as 4e3 in the pole's prefactor (one significant digit: the lint allows it; the
+    # matching still reads MU_331, so the old sensitivity check saw the pole move), and M_Z read at import
+    d = _mutant(tmp_path, "running", """
+        import math as _m, inputs as _i
+        def landau_pole(Nc, variant):
+            a = matching_331(_i.MU_331, variant)[0]
+            return 4e3 * _m.exp(2 * _m.pi * (a - 1) / float(b_331(Nc, variant)[0]))
+    """)
+    rep = harness.run(d, mode="verifier", lint=False)
+    assert _fails(rep, "running", "blind") == [] and _fails(rep, "running", "oracle") == []
+    assert _fails(rep, "running", "sensitivity") == [_moved("running", "landau_pole is where the matched alpha_X runs to 1")]
+    d = _mutant(tmp_path / "mz", "running", """
+        import math as _m, inputs as _i
+        _MZ = _i.MZ_MEAS
+        def couplings_at(mu):
+            bY, b2 = sm_coefficients()
+            t = _m.log(mu / _MZ) / (2 * _m.pi)
+            return (1 - _i.S2_MZ) * _i.ALPHA_MZ_INV - float(bY) * t, _i.S2_MZ * _i.ALPHA_MZ_INV - float(b2) * t
+    """)
+    rep = harness.run(d, mode="verifier", lint=False)
+    assert _fails(rep, "running", "blind") == [] and _fails(rep, "running", "oracle") == []
+    assert _fails(rep, "running", "sensitivity") == \
+        [_moved("running", "Standard Model running: SPEC's boundary and the b-slopes")]
+
+
+def test_derived_fpi_cached_at_import_downstream_is_caught(tmp_path):
+    # chiral keeps stage weak's f_pi from import time, and still calls weak (the spy is satisfied)
+    d = _mutant(tmp_path, "chiral", """
+        import inputs as _i
+        import weak as _wk
+        _F92 = _wk.fpi_from_pion_decay() / 2 ** 0.5
+        def chpt_mpi_from_rungs():
+            _wk.fpi_from_pion_decay()
+            return chpt_mpi(_i.M_UD_FLAG, _i.COND_13, _i.FPI_OVER_F, _i.LBAR3, _F92)
+    """)
+    rep = harness.run(d, mode="verifier", lint=False)
+    assert _fails(rep, "chiral", "blind") == [] and _fails(rep, "chiral", "oracle") == []
+    assert _fails(rep, "chiral", "connections") == []
+    assert _fails(rep, "chiral", "sensitivity") == [_moved("chiral", "O(p^4) pion mass with stage weak's f_pi")]
+
+
+def test_links_hand_offs_with_cached_inputs_are_caught(tmp_path):
+    d = _mutant(tmp_path, "links", """
+        import inputs as _i
+        import gauge331 as _g
+        import running as _r
+        import weak as _wk
+        _AL, _GN = _i.ALPHA_0, _i.G_NEWTON
+        _P = {v: (_r.landau_pole(3, v), _r.landau_pole(5, v)) for v in ("-1/sqrt3", "+1/sqrt3")}
+        def pi0_width_from_rungs():
+            Qu, Qd = _g.quark_charges(3)
+            return pi0_width_eV(_AL, _wk.fpi_from_pion_decay() / 2 ** 0.5, _i.M_PI0, 3, Qu, Qd)
+        def g_window_from_rungs(variant):
+            _r.landau_pole(3, variant)
+            return g_window(*_P[variant], planck_mass_GeV(_GN, _i.HBAR, _i.C_LIGHT))
+    """)
+    rep = harness.run(d, mode="verifier", lint=False)
+    assert _fails(rep, "links", "blind") == [] and _fails(rep, "links", "oracle") == []
+    assert _fails(rep, "links", "connections") == []
+    assert _fails(rep, "links", "sensitivity") == [_moved("links", "pi0 width from rung 1's charges and stage weak's f_pi"),
+                                                   _moved("links", "G window from the one-loop poles of stage running")]
+
+
+def test_window_from_the_quoted_poles_is_caught(tmp_path):
+    # g_window_from_rungs calls running.landau_pole (the spy is satisfied) and returns the three-loop window
+    d = _mutant(tmp_path, "links", """
+        import inputs as _i
+        import running as _r
+        def g_window_from_rungs(variant):
+            _r.landau_pole(3, variant); _r.landau_pole(5, variant)
+            q3, q5 = _i.POLES_331[variant]
+            return g_window(q3, q5, planck_mass_GeV(_i.G_NEWTON, _i.HBAR, _i.C_LIGHT))
+    """)
+    rep = harness.run(d, mode="verifier", lint=False)
+    assert _fails(rep, "links", "connections") == []
+    assert _fails(rep, "links", "blind") == ["G window from the one-loop poles of stage running"]
+    assert len(_fails(rep, "links", "oracle")) == 2
+
+
+def test_report_json_has_real_booleans(tmp_path):
+    # the oracle compares with numpy floats; a numpy.bool_ was written to the report as the string "False"
+    import json
+    d = _mutant(tmp_path, "links", """
+        import inputs as _i
+        def g_window_from_rungs(variant):
+            q3, q5 = _i.POLES_331[variant]
+            return g_window(q3, q5, planck_mass_GeV(_i.G_NEWTON, _i.HBAR, _i.C_LIGHT))
+    """)
+    rep = json.loads(json.dumps(harness.run(d, mode="verifier", lint=False), default=str))
+    for rec in rep["stages"].values():
+        for tier in ("contract", "blind", "sensitivity", "connections", "oracle"):
+            assert all(isinstance(ok, bool) for _, ok, _ in rec.get(tier, []))

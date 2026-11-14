@@ -100,3 +100,123 @@ oracle changes, without numbers.
 None. F1: sympy shows imprecision at `src/ladder_standalone.py:386`, not an error in the physics. N3:
 mpmath shows the pins describe the grid point at `src/ladder_standalone.py:573`. N2: the adapter's
 search tolerance.
+
+## Addendum 2026-11-14: weak, running, and the derived f_pi (P2)
+
+Scope: the stages `weak` and `running`, `chiral.chpt_mpi_from_rungs`, `links.pi0_width_from_rungs`
+and `links.g_window_from_rungs`. Verified at commit 8cb2f5f by a separate verifier session.
+
+### Runs
+
+| Command | Result |
+|---|---|
+| `python3 rebuild/harness.py rebuild/builds/2026-11-b --mode verifier --ledger` | exit 0, `ALL GATES PASS`, 10 stages; weak oracle 2/2, running oracle 15/15, chiral 8/8, links 10/10; LEDGER.md unchanged (66 derived, 0 input, 8 quoted) |
+| `... 2026-11-a --mode verifier --compare rebuild/builds/2026-11-b` | `crossbuild 25/25` |
+| `python3 rebuild/chain_compare.py rebuild/builds/2026-11-b` | 22/22 overlaps agree |
+| `pytest tests/test_rebuild_harness.py tests/test_chain_vs_rebuild.py tests/test_force_chain.py` | 51 passed |
+| mutant: build a's `b_331` with b_X × 11/10 and × 9/10 (copies in the verifier's scratch directory) | builder gate for `running` **passes** (blind 4/4); verifier mode fails 7 and 9 oracle checks |
+
+There is no oracle failure to triage. The findings below come from the third route and from
+passes that are not independent evidence.
+
+### Third route
+
+Script: [`rebuild/verify/third_route_weak_running.py`](../../verify/third_route_weak_running.py)
+(with `third_route_compare.py` beside it; `cleanroom.py` does not export that directory). It imports sympy, mpmath and `rebuild/inputs.py` only; nothing from
+`src/` or the builds. What it does:
+
+- **Width:** spin sum of |ū p̸(1−γ₅)v|² with sympy's Dirac matrices in the (+,−,−,−) metric (the
+  builds use (−,+,+,+)), without the Dirac-equation shortcut, times the two-body phase space. The
+  difference from G_F²V²f²m_l²m_π(1−m_l²/m_π²)²/8π simplifies to 0.
+- **Coefficients:** C₂(G) from structure constants of explicit generators; Q_u, Q_d and every X
+  solved in sympy from Q_e = −1, Q_u − Q_d = 1 and the [SU(3)_L]²U(1)_X anomaly; Tr X², Tr t_a t_a
+  and the colour index summed over the full field list, in exact rationals.
+- **Matching:** (1/g, β/g, 1/g_X) is a null vector of the 9×9 gauge mass matrix built from the three
+  scalar triplets with a vev in every neutral component, so 1/e² = (1+β²)/g_L² + 1/g_X² and
+  1/α_X = 1/α_Y − 1/(3α₂) for both variants.
+- **Poles:** the closed form μ₀ exp(2π(1/α_X(μ₀) − 1)/b_X) at 40 digits, and an RK4 integration of
+  dg/dt = b g³/16π² to g² = 4π (agrees to 3e-11 to 1e-9).
+
+| Quantity | Third route | Build a | Build b | src | Rel. diff a / b / src |
+|---|---|---|---|---|---|
+| f_π (GeV) | 0.1305673867958 | 0.1305673867958 | 0.1305673867958 | 0.1305673868307 | 2e-16 / 2e-16 / 2.7e-10 |
+| π⁰ → γγ width (eV) | 7.741747842662 | 7.741747842662 | 7.741747842662 | 7.741747838517 | 2e-16 / 2e-16 / 5.4e-10 |
+| O(p⁴) m_π (GeV) | 0.1322937502541 | 0.1322937502541 | 0.1322937502541 | 0.1322937502204 | 2e-16 / 2e-16 / 2.6e-10 |
+| (b_Y, b_2), Standard Model | (41/6, −19/6) | same | same | same | exact |
+| b_X, β = −1/√3, N_c = 1, 3, 5, 7, 9 | 22/9, 26/3, 58/3, 310/9, 54 | same | same | same | exact |
+| b_X, β = +1/√3, N_c = 1, 3, 5, 7, 9 | 46/9, 14, 82/3, 406/9, 202/3 | same | same | same | exact |
+| b_L, N_c = 1, 3, 5, 7, 9 (both variants) | −59/6, −13/2, −1/2, 49/6, 39/2 | same | same | same | exact |
+| b_colour, N_c = 1, 3, 5, 7, 9 | −11/3, −5, −25/3, −35/3, −15 | not exported | not exported | same | exact |
+| 1/α_X(4 TeV), both variants | 83.73067915954 | 83.73067915954 | 83.73067915954 | (oracle's formula, same) | 2e-16 / 0 / n/a |
+| pole, −1/√3, N_c = 3 (GeV) | 4.470102320411e29 | 4.470102320411e29 | 4.470102320411e29 | 4.470102323237e29 | 9e-15 / 5e-15 / 6.3e-10 |
+| pole, −1/√3, N_c = 5 (GeV) | 1.900487709629e15 | 1.900487709629e15 | 1.900487709629e15 | 1.900487721366e15 | 5e-15 / 2e-15 / 6.2e-9 |
+| pole, +1/√3, N_c = 3 (GeV) | 5.335458672202e19 | 5.335458672202e19 | 5.335458672202e19 | 5.335458698767e19 | 6e-15 / 1e-15 / 5.0e-9 |
+| pole, +1/√3, N_c = 5 (GeV) | 7.265467765571e11 | 7.265467765571e11 | 7.265467765571e11 | 7.265467793774e11 | 4e-15 / 3e-16 / 3.9e-9 |
+| pole, N_c = 1 and 7, both variants | 9.015e95, 1.4326e10; 5.900e47, 4.0402e8 | same to 7e-14 | same to 1e-14 | not run | |
+| G window, −1/√3 (lo, hi) | (7.459646300603e-22, 4.126891334166e7) | same to 2e-14 | same to 9e-15 | (7.459646291e-22, 4.126891283e7) | src 1.3e-9, 1.2e-8 |
+| G window, +1/√3 (lo, hi) | (0.05236120636051, 2.82374843825e14) | same to 1e-14 | same to 2e-15 | (0.0523612058391, 2.823748416e14) | src 1.0e-8, 7.8e-9 |
+
+Closed forms found by the third route: b_X = (5N_c² + 8N_c + 9)/9 for β = −1/√3 and
+(5N_c² + 20N_c + 21)/9 for β = +1/√3 (fitted at N_c = 1, 3, 5, 7; hold at 9 and 11);
+b_L = −21/2 + N_c(N_c+1)/3. One-loop over quoted three-loop poles: 1.952 and 1.688 (−1/√3),
+1.528 and 1.409 (+1/√3). M_Pl = 1.22089013e19 GeV.
+
+### Findings (this addendum)
+
+| # | Check | Class | Evidence | Action |
+|---|---|---|---|---|
+| X-N1 | oracle "f_pi from G_F and pi -> mu nu" (rtol 1e-8), and through it the π⁰ width and O(p⁴) mass | **N** | Build and third route agree to 2e-16; `src/ladder_links.py:338` differs by 2.7e-10 because it types ħ = 6.582119569e-25 GeV s, while the build forms `HBAR/E_CH` from the 10-digit CODATA ħ. The exact SI value is 6.58211956951e-25, 3.1e-10 above the build's and 3.9e-11 above src's. The effect is 5.4e-10 on the width and 2.6e-10 on the mass. | None. Tolerances 1e-8 and 1e-5 are adequate. |
+| X-N2 | oracle "one-loop pole equals src's one-loop running" (rtol 1e-6) and "G window from the one-loop poles" (1e-5) | **N** (the reference is the less precise side) | src integrates dg/dt numerically (`solve_ivp`, rtol 1e-9) and is 6e-10 to 6.2e-9 above the closed form; the builds match the 40-digit closed form to 7e-14 or better. | None needed. The oracle could compare with the closed form at 1e-12. |
+| X-C1 | SPEC §9 singlet counting ("one per copy of the multiplet", fixed in de2fce7 after both builders chose it) | **C**, closed; **not** a shared mistake | The reading is forced by gauge-anomaly cancellation. With it, X³, grav²X, [SU(3)_L]²X, [SU(N_c)]²X, [SU(3)_L]³ and [SU(N_c)]³ all vanish for N_c = 1…9, both variants. Colourless singlets give b_X = 50/9 (−) and 94/9 (+) at N_c = 3 and leave X³, grav²X, [SU(N_c)]²X and [SU(N_c)]³ non-zero. Singlets not repeated per family give 6 and 28/3 and are also anomalous. src's `m331_exact.MODELS` has the same content. Neutral singlets carry X = 0, so "neutral components have none" cannot change any b. | None. SPEC could add the reason: "this is the counting for which the gauge anomalies cancel". |
+| X-C2 | SPEC §9 "the Standard Model below the 3-3-1 scale is the 3-colour one for every N_c" (same commit) | **C** (convention; build, reference and SPEC agree) | It is a choice about a counterfactual. If the N_c = 5 pole were instead matched from a 5-colour, 5-generation Standard Model with the same M_Z boundary (b_Y = 85/6, b_2 = 17/6), it would be 6.70e14 GeV instead of 1.90e15 (−1/√3) and 3.47e11 instead of 7.27e11 (+1/√3). The N_c = 3 selection is unchanged. | None. The reading is stated in SPEC; quote the N_c = 5 poles as holding under it. |
+| X-C3 | `landau_pole`: "α_X = 1" and the N_c = 3 selection | **C** (SPEC-fixed criterion; a result that is true but narrow for +1/√3) | The scale where 1/α_X = 0 is 2.06×, 1.38× (−1/√3) and 1.57×, 1.26× (+1/√3) higher; the selection survives. For +1/√3 the one-loop N_c = 3 pole is only 4.37 × M_Pl (2.86 × at three loops): a b_X 4.1% larger (14.58 instead of 14) puts it at M_Pl. For −1/√3 the margin is 68% in b_X. | Owner: wherever the one-loop N_c = 3 selection is quoted for +1/√3, state the margin. |
+| X-C4 | blind check "one-loop coefficients exact; b_X > 0 and grows with N_c" | **C** (test gap; the oracle covers it) | b_X scaled by 11/10 or 9/10 passes the whole builder gate for `running`: the blind tier tests only type, sign and monotonicity, and the pole check uses the build's own b_X. Verifier mode catches both (exact comparison with src's content, poles, and for × 11/10 the +1/√3 selection). | Auditor: add a blind check that fixes the value without stating it, e.g. b_X + β²(b_L + 11) equals the hypercharge sum (2/3)ΣY² + (1/3)ΣY² over the same content with Y = Q − T₃ from rung 1; and keep a b_X-scaling mutant in `tests/test_rebuild_harness.py`. |
+| X-C5 | f_π: the radiative correction, and the digits quoted | **C** (SPEC-fixed route; all three agree) | SPEC §10, both builds and src use Γ_measured = Γ_tree(1 + 0.0176) with the same G_F, V_ud, masses and width, so the oracle pass confirms the formula and inversion, not the correction. Without the correction f_π would be 131.711 MeV (+0.876%). The inputs' errors (δ ± 0.0021, V_ud ± 0.00032) give ±0.135 and ±0.043 MeV, so 130.5674 MeV is reproducible to 2.7e-10 but physically 130.57 ± 0.14 MeV; likewise the π⁰ width is 7.742 ± 0.017 eV. src returns this error; the builds' export does not. | None for the builds. Quote f_π with its error where it is used as a physical result. |
+
+### Independence of the two builds on the new stages
+
+- **Same SPEC-fixed route:** the master formula for b, the field content and singlet counting, the
+  matching 1/α_X = 1/α_Y − β²/α₂ (both solve rung 1's `inv_e2`, which hard-codes the closed form, as
+  noted earlier), the closed-form pole, the V−A amplitude with the Dirac-equation reduction, the
+  trace, and the inversion by f² scaling. f_π is bit-identical in a and b for that reason. The
+  three `_from_rungs` exports are compositions of existing exports.
+- **Independent:** the code that enumerates the content (a: per-triplet loop with a closed-form
+  check in N_c; b: a field list, a closed form and the anomaly sums); the antitriplet-X solve; the
+  second routes (a: explicit 4×4 trace and Gaussian-smeared phase space, bisection for the pole;
+  b: explicit spinors and a numerical phase-space integral, RK4 in α, log-form window edges).
+- The third route above is independent of both and of src in all of these.
+
+### Answers asked of this verification
+
+- **Could a b_X wrong by about 10% pass?** The blind tier: yes (X-C4, shown by mutants). The
+  oracle: no; it compares b_331 exactly for N_c = 1, 3, 5, 7 against src's field content, and the
+  third route confirms that content exactly.
+- **Is the shared singlet-counting reading correct?** Yes, physically: it is the anomaly-free one
+  (X-C1). It was a SPEC gap (class C), now closed, not a shared mistake.
+- **ACCEPTED.md addendum numbers:** all confirmed. f_π = 130.5674 MeV (130.56739); src to 2.7e-10
+  ("3e-10" is right as a rounding); π⁰ width 7.7417 eV (7.78550 with the lattice input); O(p⁴) mass
+  132.29 MeV (132.294; 132.649 with the lattice input); poles 5.335e19 and 7.265e11 GeV (+1/√3),
+  4.470e29 and 1.900e15 GeV (−1/√3); ratios to three loops 1.41 to 1.95. Not wrong, but stated
+  without qualification: the digits of f_π (X-C5) and the +1/√3 selection margin (X-C3).
+
+### Not verified here
+
+- The PDG text behind `GAMMA_PI_MUNU`, `DELTA_PI` and `V_UD` (values taken from `rebuild/inputs.py`;
+  no network access was used). The verifier's recollection that PDG quotes f_π|V_ud| ≈ 127.13 MeV
+  matches the third route's 127.130 MeV but was not checked against the source.
+- The quoted three-loop `POLES_331` were not recomputed; only the ratios to them.
+- No comparison with published 3-3-1 β coefficients; the check is the explicit trace computation.
+
+### Updated class counts
+
+This addendum: B 0, R 0, C 5, N 2.
+
+| | B | R | C | N |
+|---|---|---|---|---|
+| Earlier stages | 0 | 0 | 7 | 7 |
+| This addendum | 0 | 0 | 5 | 2 |
+| **Total** | **0** | **0** | **12** | **9** |
+
+No class R finding: on every quantity of the extension the reference agrees with the third route
+exactly (coefficients) or to 6.2e-9 or better (numbers), and where it differs it is the less
+precise side (X-N2). No class B finding, so there is no feedback to the builders.

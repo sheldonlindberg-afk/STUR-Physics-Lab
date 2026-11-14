@@ -821,6 +821,24 @@ def running(m):
             rows.append(var)
         return ok, "exact Fractions; b_X > 0 and increasing with N_c, both variants"
 
+    def bl_variants():
+        # SU(3)_L sees only how many (anti)triplets there are, and SPEC 2's two variants have the same
+        # multiplets with different X: b_L can't depend on the variant (P4 addendum, mutant R15)
+        ok = all(R.b_331(Nc, "-1/sqrt3")[1] == R.b_331(Nc, "+1/sqrt3")[1] for Nc in (1, 3, 5, 7, 9))
+        return ok, "b_L(N_c, -1/sqrt3) == b_L(N_c, +1/sqrt3) for N_c = 1..9"
+
+    def bl_decoupling():
+        # two routes, no value: at N_c = 3 every fermion triplet or antitriplet of SU(3)_L holds exactly one
+        # SU(2)_L doublet of the Standard Model (index 1/2 either way), so the fermion sums of b_L and b_2 are
+        # equal. What differs is SPEC 9's own formula: the gauge term, -(11/3)(C2 = 3) against -(11/3)(C2 = 2),
+        # and the scalars, three complex triplets against one complex doublet (1/3 x 1/2 each).
+        gauge = -F(11, 3) * (3 - 2)
+        scalars = F(1, 3) * F(1, 2) * (3 - 1)
+        ok = True
+        for var in ("-1/sqrt3", "+1/sqrt3"):
+            ok &= R.b_331(3, var)[1] - R.sm_coefficients()[1] == gauge + scalars
+        return ok, "b_L(N_c = 3) - b_2 = the gauge and scalar terms of SPEC 9's formula; the fermion sums cancel"
+
     def sm_two_routes():
         # SPEC 9's boundary at M_Z, straight lines in ln mu, slopes -b/(2 pi) with sm_coefficients' b
         s2, ainv, mz = inputs.S2_MZ, inputs.ALPHA_MZ_INV, inputs.MZ_MEAS
@@ -852,19 +870,21 @@ def running(m):
         worst, order = 0.0, True
         for var in ("-1/sqrt3", "+1/sqrt3"):
             ps = []
-            for Nc in (3, 5):
+            for Nc in (3, 5, 7, 9):
                 p = R.landau_pole(Nc, var)
                 aX0 = R.matching_331(mu0, var)[0]
                 bX = float(R.b_331(Nc, var)[0])
                 worst = max(worst, abs(aX0 - bX / (2 * pi) * log(p / mu0) - 1))
                 ps.append(p)
-            order &= mu0 < ps[1] < ps[0]
-        return worst < 1e-9 and order, f"1/alpha_X at the pole - 1 = {worst:.1e}; above MU_331, lower for N_c = 5"
+            order &= mu0 < ps[3] < ps[2] < ps[1] < ps[0]
+        return worst < 1e-9 and order, f"1/alpha_X at the pole - 1 = {worst:.1e}; above MU_331, falling with N_c (3, 5, 7, 9)"
 
     return run_safely([("one-loop coefficients exact; b_X > 0 and grows with N_c", exact),
                        ("Standard Model running: SPEC's boundary and the b-slopes", sm_two_routes),
                        ("matching keeps g_L = g_2 and rung 1's photon coupling", matching),
-                       ("landau_pole is where the matched alpha_X runs to 1", pole)])
+                       ("landau_pole is where the matched alpha_X runs to 1", pole),
+                       ("b_L is the same in both variants", bl_variants),
+                       ("b_L(N_c = 3) and b_2 share their fermion sum (decoupling)", bl_decoupling)])
 
 
 def weak(m):
@@ -904,7 +924,15 @@ def weak(m):
         g = w(f, inputs.G_F, inputs.V_UD, inputs.M_MU, inputs.M_PIC) * (1 + inputs.DELTA_PI) / hbar_gev_s
         return f > 0 and _rel(g, inputs.GAMMA_PI_MUNU) < 1e-12, f"width at the returned f_pi / measured: {g / inputs.GAMMA_PI_MUNU:.12f}"
 
-    return run_safely([("width ~ f_pi^2 G_F^2 |V_ud|^2", scaling),
+    def convention():
+        # [data], no new number: inputs.F_PI is the lattice decay constant in the ~92 MeV convention, and SPEC 8
+        # fixes f(~92) = f(~130)/sqrt2. The weak decay's f_pi must land within 2% of it; a width normalized a
+        # factor 2 off, or the other f_pi convention, misses by 40% (P4 addendum, mutants W01, W02, W07, W08)
+        f = W.fpi_from_pion_decay() / sqrt(2)
+        return _rel(f, inputs.F_PI) < 0.02, f"f_pi/sqrt2 over the lattice inputs.F_PI: {f / inputs.F_PI:.4f}"
+
+    return run_safely([("f_pi/sqrt2 within 2% of the lattice inputs.F_PI (convention and normalization)", convention),
+                       ("width ~ f_pi^2 G_F^2 |V_ud|^2", scaling),
                        ("width has the dimension of a mass", dimensions),
                        ("helicity suppression and phase-space closure", helicity),
                        ("f_pi reproduces the measured width", roundtrip)])
