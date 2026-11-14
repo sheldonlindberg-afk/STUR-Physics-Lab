@@ -200,9 +200,18 @@ Xt = Q_u - 1/2 - b; and rung 1's anomaly cancels, so q_p + q_e = 0. Checked for 
 *Changed with the contract (SPEC section 8; connection L2): the decay constant is now the one stage `weak`
 derives, not the lattice input `inputs.F_PI`. links now depends on `weak`.*
 
-(Q_u, Q_d) = `gauge331.quark_charges(3)`; f_92 = `weak.fpi_from_pion_decay()`/sqrt2; return
-`pi0_width_eV(inputs.ALPHA_0, f_92, inputs.M_PI0, 3, Q_u, Q_d)`. All three calls are real (the harness spies
-on them). Quoted amplitude -> provenance `quoted`.
+*Changed again with the contract (SPEC sections 8 and 11; connection L2): alpha is now 1/`photon.alpha0_inv()`,
+the q^2 = 0 coupling that stage `photon` obtains from 1/alpha-hat(M_Z) (lepton loop derived there, hadronic and
+conversion terms quoted there), not `inputs.ALPHA_0`. links now depends on `photon`. The photons of
+pi0 -> gamma gamma are on shell (q^2 = 0), so alpha(0) is the right coupling for the amplitude.*
+
+(Q_u, Q_d) = `gauge331.quark_charges(3)`; f_92 = `weak.fpi_from_pion_decay()`/sqrt2; alpha =
+1/`photon.alpha0_inv()` (default `higher=True`), called at call time; return
+`pi0_width_eV(alpha, f_92, inputs.M_PI0, 3, Q_u, Q_d)`. No input alpha is read. All four calls are real (the
+harness spies on them). Quoted amplitude -> provenance `quoted`. Since Gamma ~ alpha^2, the width moves by
+twice the relative difference between the derived 1/alpha(0) and the measured one (about 1e-7; the `__main__`
+second route below, which is unchanged and still evaluates the closed form at `inputs.ALPHA_0`, therefore
+agrees with the export to about 2e-7 rather than to rounding).
 
 **The sqrt2.** Stage weak's f is defined by <0| ubar gamma^alpha gamma_5 d |pi-> = i f p^alpha (~130 MeV).
 The anomaly amplitude A = (alpha/(pi f_pi)) N_c (Q_u^2 - Q_d^2) of section 3 is written with the isospin

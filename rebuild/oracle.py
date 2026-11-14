@@ -358,6 +358,17 @@ def weak(m, L):
     return _run([("vals", vals)])
 
 
+def _lep30(L):
+    import mpmath as mp
+    import inputs as I
+    with mp.workdps(30):
+        s, tot = mp.mpf(repr(I.MZ_MEAS)) ** 2, mp.mpf(0)
+        for ml in (I.M_E, I.M_MU, I.M_TAU):
+            b = mp.sqrt(1 - 4 * mp.mpf(repr(ml)) ** 2 / s)
+            tot += (-mp.mpf(8) / 3 + b * b + b * (3 - b * b) / 2 * mp.log((1 + b) / (1 - b))) / (3 * mp.pi)
+        return float(tot)
+
+
 def photon(m, L):
     P = m["photon"]
 
@@ -379,8 +390,11 @@ def photon(m, L):
             worst = max(worst, abs(P.vacuum_polarization(x * mm * mm, mm) - want) / abs(want))
         return [("vacuum_polarization = (2/pi) int x(1-x) ln|1 - x(1-x) s/m^2| (30 random points, three regions)",
                  worst < 1e-8, f"max rel diff {worst:.1e}"),
-                _cmp("leptons' one-loop Delta alpha(M_Z^2) = src/ladder_links.dalpha_lep_one_loop (closed form)",
-                     P.dalpha_lep() * LL.ALPHA_0, LL.dalpha_lep_one_loop()[1], 1e-10),
+                _cmp("leptons' one-loop Delta alpha(M_Z^2) at 30 digits (mpmath, the closed form)",
+                     P.dalpha_lep(), _lep30(L), 1e-12),
+                _cmp("leptons' one-loop Delta alpha(M_Z^2) = src/ladder_links.dalpha_lep_one_loop (its numerical integral)",
+                     P.dalpha_lep() * LL.ALPHA_0, LL.dalpha_lep_one_loop()[0], 1e-9,
+                     "src's closed form, [1], is 1.4e-8 low: ln((1+b)/(1-b)) cancels for the electron (FINDINGS P-N1)"),
                 _cmp("leptons' one-loop Delta alpha(M_Z^2) = 314.19007e-4 (Steinhauser 1998)",
                      P.dalpha_lep() * LL.ALPHA_0, LL.DALPHA_LEP_1LOOP_LIT, 1e-5, "masses and M_Z of 1998 vs today's"),
                 _cmp("1/alpha(0) = 137.035999 (src/ladder_links.alpha0_from_mz, force chain stage 2)",

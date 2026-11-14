@@ -297,3 +297,33 @@ lists); `g_window_from_rungs` is `derived` and rests on no quoted export. Interp
    typed independently in chiral.py and links.py under the self-check section, so that they do not call
    stage weak. This duplicates physics of stage weak on purpose, only under `__main__`.
 
+
+## photon (new stage) and links (alpha from stage photon)
+
+Nothing could not be derived; no export is labelled `quoted` (the stage's quoted_allowed list is empty). The
+measured/quoted DALPHA_HAD, DALPHA_CONV, DALPHA_LEP_HIGHER and the M_Z -> 0 relation enter `alpha0_inv` as
+inputs, as its PROVENANCE note says. Interpretation points:
+
+1. **Sign of Pi.** SPEC 11 says Delta alpha is "minus the real part of Pi-hat". With i Pi^{mu nu} defined as
+   the sum of 1PI insertions (the convention in which my loop is computed, DERIVATION_photon 1.1-1.2) the
+   resummed propagator gives alpha(s) = alpha/(1 - Re Pi-hat), i.e. Delta alpha = +Re Pi-hat. The SPEC's
+   "minus" belongs to the opposite overall sign convention for Pi^{mu nu}. I used the SPEC's own tie-breaker
+   ("the overall sign fixed by: charge is screened, Delta alpha > 0 for spacelike s"), which is unambiguous.
+2. **Real part above threshold.** For s > 4m^2 the export returns the real part (ln|...|, principal value in
+   the dispersion form); the imaginary part -(1/3) beta(3 - beta^2)/2 is not exported.
+3. **Lepton charge variant.** `dalpha_lep` takes the charged lepton's Q from
+   `gauge331.triplet_charges(X_L, "-1/sqrt3")[1]` with X_L = -1/3 (SPEC 2). The other variant (X_L = -2/3,
+   "+1/sqrt3") gives the same Fraction -1 (printed by `__main__`); the contract's function has no variant
+   argument, so one had to be chosen.
+4. **"Solve the relation for alpha(0)".** The relation is linear in 1/alpha(0), so it is solved in closed form,
+   1/alpha(0) = (ALPHA_MZ_INV + dalpha_lep)/(1 - H); `toolkit.bisect` on the unsolved relation is the second
+   route under `__main__`, not the export. `higher` only adds DALPHA_LEP_HIGHER to H.
+5. **Small |s|/m^2.** For |s| <= m^2 the export sums the exact-rational Taylor series (coefficients as
+   Fractions) instead of the closed form, which cancels there; both agree at the junction to 1e-15.
+6. **links.** Only `pi0_width_from_rungs`, its PROVENANCE note, the paragraph in DERIVATION_links section 8 and
+   the necessary `import photon` line were changed. The `__main__` printouts of links.py were left as they
+   were: its second route for the width still evaluates alpha^2 m^3/(32 pi^3 f^2) at `inputs.ALPHA_0`, so it
+   now agrees with the export to 2e-7 (twice the relative difference between the derived and the measured
+   alpha(0)) rather than to rounding. That printout should be moved to 1/photon.alpha0_inv() if the caller
+   allows edits outside the function.
+7. **Harness side effect.** `harness.py` writes `reports/2026-11-b-builder.json` in the clean room; not mine.

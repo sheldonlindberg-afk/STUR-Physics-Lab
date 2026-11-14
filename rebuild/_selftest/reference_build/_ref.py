@@ -434,8 +434,8 @@ def vacuum_polarization(s, m):
     from math import atan
     r = 4 * m * m / s
     if r < 0 or r < 1:                                       # spacelike, or timelike above threshold
-        b = sqrt(1 - r)
-        return (-F(8, 3) + b * b + 0.5 * b * (3 - b * b) * log(abs((1 + b) / (1 - b)))) / (3 * pi)
+        b = sqrt(1 - r)                                      # (1+b)/|1-b| = (1+b)^2/|r|: no cancellation for m^2 << |s|
+        return (-F(8, 3) + b * b + 0.5 * b * (3 - b * b) * log((1 + b) ** 2 / abs(r))) / (3 * pi)
     g = sqrt(r - 1)                                          # timelike below threshold
     return (-F(8, 3) - g * g + g * (3 + g * g) * atan(1 / g)) / (3 * pi)
 

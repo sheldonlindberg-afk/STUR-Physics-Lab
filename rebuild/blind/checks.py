@@ -976,7 +976,12 @@ def photon(m):
             got = (vp(sign * 1e10, 1.0) - vp(sign * 1e8, 1.0)) / log(100)
             worst = max(worst, abs(got / want - 1))
         gap = abs(vp(1e8, 1.0) - vp(-1e8, 1.0))
-        return worst < 1e-6 and gap < 1e-6, f"slope in ln|s| at |s| >> m^2 vs b/4pi: {worst:.1e}; timelike - spacelike: {gap:.1e}"
+        # the electron at M_Z has s/m^2 ~ 3e10: the same slope must survive far above that without losing digits
+        far = 0.0
+        for sign in (-1, 1):
+            far = max(far, abs((vp(sign * 1e14, 1.0) - vp(sign * 1e12, 1.0)) / log(100) / want - 1))
+        return worst < 1e-6 and gap < 1e-6 and far < 1e-9, \
+            f"slope in ln|s| at |s| >> m^2 vs b/4pi: {worst:.1e} (1e8..1e10), {far:.1e} (1e12..1e14); timelike - spacelike: {gap:.1e}"
 
     def leptons():
         q = G.triplet_charges(F(-1, 3), "-1/sqrt3")[1]

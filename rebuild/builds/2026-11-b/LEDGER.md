@@ -1,6 +1,6 @@
 # Provenance ledger: 2026-11-b
 
-66 derived, 0 input, 8 quoted
+69 derived, 0 input, 8 quoted
 
 | Stage | Export | Kind | Note |
 |---|---|---|---|
@@ -68,6 +68,9 @@
 | running | `couplings_at` | derived | exact one-loop solution 1/alpha_i(mu) = 1/alpha_i(M_Z) - b_i ln(mu/M_Z)/(2 pi) with SPEC's boundary values at inputs.MZ_MEAS and b_i from sm_coefficients (section 3) |
 | running | `matching_331` | derived | 1/alpha_L = 1/alpha_2; g_X solved from gauge331.inv_e2(g_L, g_X) = (1/alpha_Y + 1/alpha_2)/(4 pi), using that inv_e2 is affine in 1/g_X^2 (slope and intercept measured from two calls) (section 4) |
 | running | `landau_pole` | derived | mu0 exp(2 pi (1/alpha_X(mu0) - 1)/b_X): the one-loop solution run from matching_331(inputs.MU_331) with b_331's b_X to alpha_X = 1 (section 5) |
+| photon | `vacuum_polarization` | derived | one fermion loop from the QED Feynman rules in dimensional regularization: trace, Feynman parameter, Wick rotation give a transverse Pi^{mu nu} with Pi(q^2) - Pi(0) = (2 alpha/pi) int_0^1 dx x(1-x) ln(1 - x(1-x) s/m^2); the pole, gamma_E and mu cancel in the subtraction. Sign from the resummed propagator (screening for s < 0). Real part integrated in closed form by parts and polynomial division (eq. 1.4); exact-rational Taylor series (eq. 1.5) for |s| <= m^2. Checked against the regulator-free dispersion integral over the tree-level cut R(s) (eq. 1.7) |
+| photon | `dalpha_lep` | derived | each vertex carries Q, so the loop scales as Q^2: sum over e, mu, tau of Q^2 vacuum_polarization(MZ_MEAS^2, m_l), Q = component 2 of gauge331.triplet_charges(X_L, variant) with the SPEC section 2 lepton X_L (eq. 2.1) |
+| photon | `alpha0_inv` | derived | SPEC section 11's relation 1/alpha-hat = (1 - alpha0 L - H)/alpha0 is linear in 1/alpha0: 1/alpha0 = (ALPHA_MZ_INV + L)/(1 - H), L = dalpha_lep(), H = DALPHA_HAD + DALPHA_CONV (+ DALPHA_LEP_HIGHER if higher), the quoted/measured terms being read from inputs (eq. 3.1); checked by bisection on the unsolved relation |
 | links | `qp_qe_minus_anomaly` | derived | q_p + q_e and anomaly/N_g are each evaluated in exact Fractions from the SPEC section 8 charge assignments and subtracted; both reduce to Nc (b + Xt) + b + XL, so the difference is identically 0 (section 1) |
 | links | `neutrality_per_nucleon` | derived | Coulomb and gravity are both strength/r on the same trajectories, so the phase ratio is k Q^2/(G m^2) <= GAP_FRACTION; Q_max = m sqrt(F G/k), divided by e and by the nucleon count m/u (section 2) |
 | links | `pi0_width_eV` | quoted | anomaly amplitude A = (alpha/(pi f_pi)) Nc (Qu^2 - Qd^2) quoted (SPEC section 8; Adler, Bell-Jackiw). Derived here: the polarization sum m^4/2 (explicit transverse polarizations with toolkit.levi_civita), the massless two-body phase space 1/(8 pi) and the identical-photon factor 1/2, giving A^2 m^3/(64 pi) (section 3) |
@@ -75,6 +78,6 @@
 | links | `g_window` | derived | M_Pl(xG) = mpl x^(-1/2) inverted at each pole: lo = (mpl/p3)^2, hi = (mpl/p5)^2 (section 5) |
 | links | `schwarzschild_radius` | derived | zero of f = 1 - 2M/r with the geometric mass M = G m/c^2 fixed by the Newtonian limit: r_s = 2 G m/c^2 (section 6) |
 | links | `matter_charges` | derived | gauge331.quark_charges(Nc) weighted by the Nc-quark proton ((Nc+1)/2 u, (Nc-1)/2 d) and neutron (reversed); electron and neutrino are components 2 and 1 of gauge331.triplet_charges(X_L, variant) with the SPEC's X_L (section 7) |
-| links | `pi0_width_from_rungs` | quoted | pi0_width_eV (quoted anomaly amplitude; Adler, Bell-Jackiw) at inputs.ALPHA_0, M_PI0 with N_c = 3, the charges derived by gauge331.quark_charges(3) and f_pi = weak.fpi_from_pion_decay()/sqrt2, the decay constant derived from the pion's weak decay, in the ~92 MeV convention (section 8) |
+| links | `pi0_width_from_rungs` | quoted | pi0_width_eV (quoted anomaly amplitude; Adler, Bell-Jackiw) at alpha = 1/photon.alpha0_inv() (the q = 0 coupling stage photon runs down from M_Z; no input alpha is read), inputs.M_PI0 with N_c = 3, the charges derived by gauge331.quark_charges(3) and f_pi = weak.fpi_from_pion_decay()/sqrt2, the decay constant derived from the pion's weak decay, in the ~92 MeV convention (section 8) |
 | links | `g_window_from_rungs` | derived | g_window (section 5) at the one-loop poles running.landau_pole(3, variant) and running.landau_pole(5, variant) and mpl = planck_mass_GeV(inputs G_NEWTON, HBAR, C_LIGHT) (section 10) |
 | links | `planck_bh_kT_GeV` | derived | k_B blackholes.hawking_K(m) at m = planck_mass_GeV(inputs G, hbar, c) converted to kg, expressed in GeV; equals M_Pl c^2/(8 pi) (section 9). Rests on the quoted blackholes.hawking_K (Hawking 1975 temperature formula): only the Planck mass and the unit conversion are derived here |

@@ -758,3 +758,21 @@ def test_pi0_with_the_input_alpha_is_caught(tmp_path):
     rep = harness.run(d, mode="builder", lint=False)
     assert _fails(rep, "links", "connections") == []
     assert _fails(rep, "links", "blind") == [_PI0_RUNGS]
+
+
+def test_vacuum_polarization_that_cancels_for_light_fermions_is_caught_blind(tmp_path):
+    # the textbook form ln((1+b)/(1-b)) loses digits when m^2 << s (1.4e-8 on the leptons at M_Z): build a's
+    # first photon stage and src's closed form both had it; build b did not, and the cross-build showed it
+    d = _mutant(tmp_path, "photon", """
+        from math import log as _log, pi as _pi, sqrt as _sqrt
+        _vp0 = vacuum_polarization
+        def vacuum_polarization(s, m):
+            r = 4 * m * m / s
+            if r >= 1:
+                return _vp0(s, m)
+            b = _sqrt(1 - r)
+            return (-8 / 3 + b * b + 0.5 * b * (3 - b * b) * _log(abs((1 + b) / (1 - b)))) / (3 * _pi)
+    """)
+    rep = harness.run(d, mode="verifier", lint=False)
+    assert _fails(rep, "photon", "blind") == [_PH_SLOPE]
+    assert len(_fails(rep, "photon", "oracle")) == 2

@@ -13,6 +13,7 @@ import chiral
 import blackholes
 import running
 import weak
+import photon
 
 PROVENANCE = {
     "qp_qe_minus_anomaly": ("derived", "q_p + q_e and anomaly/N_g are each evaluated in exact Fractions from"
@@ -38,10 +39,11 @@ PROVENANCE = {
                                   " and 1 of gauge331.triplet_charges(X_L, variant) with the SPEC's X_L"
                                   " (section 7)"),
     "pi0_width_from_rungs": ("quoted", "pi0_width_eV (quoted anomaly amplitude; Adler, Bell-Jackiw) at"
-                                       " inputs.ALPHA_0, M_PI0 with N_c = 3, the charges derived by"
-                                       " gauge331.quark_charges(3) and f_pi = weak.fpi_from_pion_decay()/sqrt2,"
-                                       " the decay constant derived from the pion's weak decay, in the ~92 MeV"
-                                       " convention (section 8)"),
+                                       " alpha = 1/photon.alpha0_inv() (the q = 0 coupling stage photon runs"
+                                       " down from M_Z; no input alpha is read), inputs.M_PI0 with N_c = 3, the"
+                                       " charges derived by gauge331.quark_charges(3) and f_pi ="
+                                       " weak.fpi_from_pion_decay()/sqrt2, the decay constant derived from the"
+                                       " pion's weak decay, in the ~92 MeV convention (section 8)"),
     "g_window_from_rungs": ("derived", "g_window (section 5) at the one-loop poles running.landau_pole(3, variant)"
                                        " and running.landau_pole(5, variant) and mpl = planck_mass_GeV(inputs"
                                        " G_NEWTON, HBAR, C_LIGHT) (section 10)"),
@@ -155,7 +157,8 @@ def pi0_width_eV(alpha, fpi, mpi, Nc, Qu, Qd):
 def pi0_width_from_rungs():
     Nc = 3
     Qu, Qd = gauge331.quark_charges(Nc)
-    return pi0_width_eV(inputs.ALPHA_0, _fpi_92_from_weak(), inputs.M_PI0, Nc, Qu, Qd)
+    alpha = 1 / photon.alpha0_inv()
+    return pi0_width_eV(alpha, _fpi_92_from_weak(), inputs.M_PI0, Nc, Qu, Qd)
 
 
 def _fpi_92_from_weak():
