@@ -438,6 +438,7 @@ PROBES = [
     ("running", "landau_pole", (3, "+1/sqrt3")),
     ("weak", "pion_decay_width", (0.13, 1.17e-5, 0.97, 0.106, 0.14)),
     ("weak", "fpi_from_pion_decay", ()),
+    ("chiral", "chpt_mpi_from_rungs", ()),
     ("links", "g_window_from_rungs", ("-1/sqrt3",)),
 ]
 

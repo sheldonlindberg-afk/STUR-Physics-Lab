@@ -139,6 +139,11 @@ def chpt_mpi(m_ud, cond13, fpi_over_F, lbar3, fpi):
     return sqrt(M2 * (1 - M2 / (32 * pi * pi * Fc * Fc) * lbar3))
 
 
+def chpt_mpi_from_rungs():
+    f = _m("weak").fpi_from_pion_decay() / sqrt(2)
+    return _m("chiral").chpt_mpi(inputs.M_UD_FLAG, inputs.COND_13, inputs.FPI_OVER_F, inputs.LBAR3, f)
+
+
 def yukawa(r, m):
     return exp(-m * r) / (4 * pi * r)
 

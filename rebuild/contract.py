@@ -56,15 +56,29 @@ STAGES = [
         },
     },
     {
+        "name": "weak",
+        "module": "weak",
+        "depends": ["toolkit"],
+        "quoted_allowed": [],
+        "exports": {
+            "pion_decay_width": "pion_decay_width(fpi, GF, Vud, m_l, m_pi) -> GeV: tree-level width of pi- -> l- nubar for"
+                                " the V-A interaction of SPEC section 10; fpi in the ~130 MeV convention, all in GeV.",
+            "fpi_from_pion_decay": "fpi_from_pion_decay() -> GeV: f_pi (~130 MeV convention) from the measured"
+                                   " inputs.GAMMA_PI_MUNU, with inputs.DELTA_PI, V_UD, G_F, M_MU, M_PIC.",
+        },
+    },
+    {
         "name": "chiral",
         "module": "chiral",
-        "depends": ["toolkit"],
-        "quoted_allowed": ["chpt_mpi"],
+        "depends": ["toolkit", "weak"],
+        "quoted_allowed": ["chpt_mpi", "chpt_mpi_from_rungs"],
         "exports": {
             "goldstone_count": "goldstone_count(lam, v) -> int: zero modes of the O(4) sigma model at its vacuum, H = 0.",
             "sigma_model_vacuum": "sigma_model_vacuum(lam, v, H) -> (sigma0, mpi2): vacuum and pion mass^2 with explicit breaking H.",
             "gmor_mpi": "gmor_mpi(mq_sum, cond13, fpi) -> GeV: leading-order pion mass from GMOR.",
             "chpt_mpi": "chpt_mpi(m_ud, cond13, fpi_over_F, lbar3, fpi) -> GeV: O(p^4) ChPT pion mass (FLAG conventions).",
+            "chpt_mpi_from_rungs": "chpt_mpi_from_rungs() -> GeV: chpt_mpi at inputs.M_UD_FLAG, COND_13, FPI_OVER_F, LBAR3"
+                                   " and the f_pi stage weak derives (in the ~92 MeV convention, f/sqrt2).",
             "yukawa": "yukawa(r, m) -> float: the potential whose Fourier transform is 1/(q^2 + m^2), unit normalized.",
             "tensor_identity_residual": "tensor_identity_residual(q) -> float: max |(s1.q)(s2.q) - (q^2/3)(s1.s2 + S12)| over"
                                         " the 4x4 spin matrix, q a 3-vector.",
@@ -168,18 +182,6 @@ STAGES = [
         },
     },
     {
-        "name": "weak",
-        "module": "weak",
-        "depends": ["toolkit"],
-        "quoted_allowed": [],
-        "exports": {
-            "pion_decay_width": "pion_decay_width(fpi, GF, Vud, m_l, m_pi) -> GeV: tree-level width of pi- -> l- nubar for"
-                                " the V-A interaction of SPEC section 10; fpi in the ~130 MeV convention, all in GeV.",
-            "fpi_from_pion_decay": "fpi_from_pion_decay() -> GeV: f_pi (~130 MeV convention) from the measured"
-                                   " inputs.GAMMA_PI_MUNU, with inputs.DELTA_PI, V_UD, G_F, M_MU, M_PIC.",
-        },
-    },
-    {
         "name": "links",
         "module": "links",
         "depends": ["toolkit", "gauge331", "chiral", "casimir", "graviton", "desitter", "blackholes", "running", "weak"],
@@ -240,6 +242,9 @@ CONNECTIONS = [
     {"id": "L2", "down": ("links", "pi0_width_from_rungs", ()),
      "up": [("gauge331", "quark_charges"), ("links", "pi0_width_eV"), ("weak", "fpi_from_pion_decay")],
      "why": "link 2: pi0 -> gamma gamma uses rung 1's charges and the weak decay's f_pi"},
+    {"id": "C-fpi", "down": ("chiral", "chpt_mpi_from_rungs", ()),
+     "up": [("weak", "fpi_from_pion_decay"), ("chiral", "chpt_mpi")],
+     "why": "the strong force's pion mass uses the f_pi the weak decay gives"},
     {"id": "R-content", "down": ("running", "b_331", (5, "+1/sqrt3")),
      "up": [("gauge331", "triplet_charges"), ("gauge331", "quark_charges")],
      "why": "the running counts rung 1's multiplets: their charges come from rung 1"},

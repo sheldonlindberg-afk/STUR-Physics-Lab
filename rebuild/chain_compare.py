@@ -39,9 +39,8 @@ KNOWN = {
         0.0, 1e-9, "the same route (G_F and Gamma(pi -> mu nu)); hbar in GeV s from HBAR/E_CH vs src's constant"),
     "pi0 width: chain vs the build's pi0_width_from_rungs": (
         0.0, 2e-9, "the same f_pi route; the chain's alpha(0) is its running, the build's is inputs.ALPHA_0"),
-    "m_pi O(p^4): chain vs the build's chpt_mpi on its own inputs": (
-        2.5e-3, 3.0e-3, "chiral's O(p^4) headline still takes the lattice inputs.F_PI = 130.2/sqrt2 MeV; the chain "
-                        "uses its derived f_pi = 130.57 MeV, through F = f_pi/(F_pi/F)"),
+    "m_pi O(p^4): chain vs the build's chpt_mpi_from_rungs": (
+        0.0, 1e-9, "the same f_pi route (stage weak), through F = f_pi/(F_pi/F)"),
     "+1/sqrt3 Landau pole, N_c = 3: the build's one loop vs the chain's three loops": (
         0.50, 0.56, "one loop, no thresholds or Yukawas (stage running) vs the chain's three loops with the "
                     "reference spectrum's thresholds and Yukawas (src/m331_three_loop.py)"),
@@ -132,8 +131,7 @@ def compare(build_dir, chain=None):
     own("pi0 width: chain vs the build's pi0_width_from_rungs", c["pi0 width"], Lk.pi0_width_from_rungs())
     mq, cond, ratio, lbar = c["_flag"]
     same("O(p^4) pion mass with the chain's f_pi", c["m_pi O(p^4)"], Ch.chpt_mpi(mq, cond, ratio, lbar, F))
-    own("m_pi O(p^4): chain vs the build's chpt_mpi on its own inputs", c["m_pi O(p^4)"],
-        Ch.chpt_mpi(I.M_UD_FLAG, I.COND_13, I.FPI_OVER_F, I.LBAR3, I.F_PI))
+    own("m_pi O(p^4): chain vs the build's chpt_mpi_from_rungs", c["m_pi O(p^4)"], Ch.chpt_mpi_from_rungs())
     # stage 5: the lab's electromagnetism
     own("neutrality: chain vs the build's neutrality_per_nucleon", c["neutrality needed"],
         Lk.neutrality_per_nucleon(c["diamond mass"]))

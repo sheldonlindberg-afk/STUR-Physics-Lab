@@ -133,6 +133,11 @@ def chiral(m, L):
         for lam, v, H in ((2.0, 1.0, 0.05), (1.0, 2.0, 0.01)):
             s0, mpi2 = C.sigma_model_vacuum(lam, v, H)
             r.append(_cmp(f"m_pi^2 = H/<sigma> at the vacuum (lambda {lam}, v {v}, H {H})", mpi2, H / s0, 1e-5))
+        LL = _src("ladder_links")
+        Fw = LL.fpi_from_weak()[1] / sqrt(2) / L.FPI_OVER_F
+        M2w = 2 * L.M_UD_FLAG * L.COND_13**3 / Fw**2
+        r.append(_cmp("O(p^4) pion mass from the weak decay's f_pi: 132.29 MeV (force chain stage 4)", C.chpt_mpi_from_rungs(),
+                      sqrt(M2w * (1 - M2w / (32 * pi * pi * Fw * Fw) * L.LBAR3)), 1e-8))
         r.append(_cmp("Goldberger-Treiman g_piNN = 13.01", C.goldberger_treiman(L.G_A, L.M_N, L.F_PI), L.G_A * L.M_N / L.F_PI, 1e-12))
         r.append(_cmp("Yukawa normalization", C.yukawa(0.7, 1.3), __import__("math").exp(-1.3 * 0.7) / (4 * pi * 0.7), 1e-12))
         return r

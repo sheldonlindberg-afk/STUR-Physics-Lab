@@ -433,3 +433,15 @@ def test_pi0_with_the_input_fpi_is_caught(tmp_path):
     rep = harness.run(d, mode="builder", lint=False)
     assert [l for l, ok, _ in rep["stages"]["links"]["blind"] if not ok] == \
         ["pi0 width from rung 1's charges and stage weak's f_pi"]
+
+
+def test_chpt_with_the_input_fpi_is_caught(tmp_path):
+    d = _mutant(tmp_path, "chiral", """
+        import inputs as _i
+        import weak as _wk
+        def chpt_mpi_from_rungs():
+            _wk.fpi_from_pion_decay()                 # called, but the lattice input used instead
+            return chpt_mpi(_i.M_UD_FLAG, _i.COND_13, _i.FPI_OVER_F, _i.LBAR3, _i.F_PI)
+    """)
+    rep = harness.run(d, mode="builder", lint=False)
+    assert [l for l, ok, _ in rep["stages"]["chiral"]["blind"] if not ok] == ["O(p^4) pion mass with stage weak's f_pi"]

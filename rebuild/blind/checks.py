@@ -250,6 +250,14 @@ def chiral(m):
         worst = max(C.tensor_identity_residual([rng.uniform(-2, 2) for _ in range(3)]) for _ in range(5))
         return worst < 1e-12, f"residual {worst:.1e}"
 
+    def chpt_rungs():
+        # the O(p^4) pion mass with stage weak's f_pi (f/sqrt2), not the input F_PI
+        import inputs
+        f = m["weak"].fpi_from_pion_decay() / sqrt(2)
+        a = C.chpt_mpi_from_rungs()
+        b = C.chpt_mpi(inputs.M_UD_FLAG, inputs.COND_13, inputs.FPI_OVER_F, inputs.LBAR3, f)
+        return _rel(a, b) < 1e-12, f"{a * 1e3:.3f} MeV"
+
     def gt():
         a, b = C.goldberger_treiman(1.27, 0.94, 0.092), C.goldberger_treiman(2 * 1.27, 0.94, 0.092)
         return _rel(b / a, 2) < 1e-12, "linear in g_A"
@@ -261,7 +269,8 @@ def chiral(m):
                        ("Yukawa solves (lap - m^2)V = -delta with unit flux", yuk),
                        ("Yukawa at m = 0 is Coulomb/Newton", newton_limit),
                        ("one-pion-exchange tensor identity", tens),
-                       ("Goldberger-Treiman scaling", gt)])
+                       ("Goldberger-Treiman scaling", gt),
+                       ("O(p^4) pion mass with stage weak's f_pi", chpt_rungs)])
 
 
 # ------------------------------------------------------------------------------------------

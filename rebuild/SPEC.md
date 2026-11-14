@@ -93,6 +93,9 @@ with v/w.
   so that the Fourier transform has unit strength, i.e. (∇² − m²)V = −δ³.
 - Pauli matrices for spin; S₁₂ = 3(σ₁·q̂)(σ₂·q̂) − σ₁·σ₂.
 - Goldberger–Treiman: g_πNN = g_A M_N / f_π (state this as derived from PCAC, or tag it quoted).
+- **`chpt_mpi_from_rungs`:** `chpt_mpi` with the FLAG inputs and the f_π that stage `weak`
+  derives (§10), converted to the ≈92 MeV convention, f_π/√2. It evaluates the quoted O(p⁴)
+  formula, so it is quoted too.
 
 ## 4. casimir: the electromagnetic background
 
