@@ -110,6 +110,11 @@ gravity in the lab, gravity as a broken gauge theory, and black holes, which eva
 through every force to the Planck mass the chain started from. Each stage uses earlier
 stages' outputs, and each measured input is marked where it enters.
 
+`src/chain_first_principles.py` is the same chain as one copy-paste file (standard library only,
+about 1 s), built on the blind first-principles rebuild: derived values replace outside numbers
+wherever a stage derives them, and all eight comparisons with measurements are within 2σ.
+`src/first_principles_standalone.py` is that rebuild's ten stages alone.
+
 ## For students: the symmetry-breaking ladder
 
 **[SYMMETRY_LADDER.md](SYMMETRY_LADDER.md)** follows the forces down in energy, from the 3-3-1
@@ -223,7 +228,7 @@ python3 src/m331_breaking.py         # the ladder, rungs 1-6: also chiral_breaki
 python3 src/ladder_links.py          # links across the rungs: neutral matter, pi0 -> gamma gamma, M_Pl, ~2 s
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
 python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (233 tests)
+python -m pytest tests -q           # every number pinned (273 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on
