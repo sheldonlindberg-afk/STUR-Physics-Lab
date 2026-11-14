@@ -113,6 +113,11 @@ stages' outputs, and each measured input is marked where it enters.
 `src/chain_first_principles.py` is the same chain as one copy-paste file (standard library only,
 about 1 s), built on the blind first-principles rebuild: derived values replace outside numbers
 wherever a stage derives them, and all eight comparisons with measurements are within 2σ.
+Its ninth step asks why the measured inputs have their values: **[WHY.md](WHY.md)** sorts the
+Standard Model's 19 parameters by what is known (11 unexplained, 3 related by established
+physics, 2 empirical regularities, 3 conjectured), tests each published explanation against
+data, and works out what the 3-3-1 structure does and does not give for quark flavour. None of
+the 19 is derived.
 `src/first_principles_standalone.py` is that rebuild's ten stages alone.
 
 ## For students: the symmetry-breaking ladder
@@ -227,8 +232,9 @@ python3 src/m331_breaking.py         # the ladder, rungs 1-6: also chiral_breaki
                                     # graviton_exchange, macdowell_mansouri, black_holes (each a few seconds)
 python3 src/ladder_links.py          # links across the rungs: neutral matter, pi0 -> gamma gamma, M_Pl, ~2 s
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
+python3 src/why_parameters.py        # the 19 parameters: explanations tested, 3-3-1 flavour, ~3 s
 python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (273 tests)
+python -m pytest tests -q           # every number pinned (287 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on
@@ -243,6 +249,7 @@ NOTE_331.md               the 3-3-1 note with extended detail on each check
 NOVELTY.md                literature search: what is new, what was already known
 NOTE_TEGR.md              the frame in teleparallel gravity and black-hole entropy
 FORCE_CHAIN.md            the forces as one chain, from 3-3-1 into black holes and back
+WHY.md                    why these inputs? the 19 parameters, explanations tested, sources
 SYMMETRY_LADDER.md        symmetry breaking from 3-3-1 to the diamond experiment, derived
 FIRST_PRINCIPLES.md       how to rebuild the ladder from first principles
 rebuild/                  protocol and harness for a blind AI rebuild of the ladder

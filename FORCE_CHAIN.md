@@ -88,7 +88,7 @@ number is used, and every result that has a measurement is then compared with it
 | GW250114's ringdown frequency and damping rate | +0.33σ, +0.59σ |
 
 All eight are within 2σ (χ² = 3.76; they are not independent, since several share f_π), and
-all 28 identity and hand-off checks pass. Three limits apply:
+all 38 identity and hand-off checks pass. Three limits apply:
 
 - **The measured inputs stay measured.** G, the couplings at M_Z, G_F, the pion's decay rate,
   the lattice constants and Λ are not derived by any stage. The 3-3-1 scale and the ratio of
@@ -98,6 +98,14 @@ all 28 identity and hand-off checks pass. Three limits apply:
 - **Three parts of the chain above have no blind stage**: running α down to zero momentum
   (α(0) is an input here), the nucleon's mass budget with the pion's electromagnetic
   splitting, and the species-by-species evaporation sequence.
+
+**Step 9: why these inputs?** The merged simulation ends with a ninth step that is different
+in kind. It is not from the blind build. It asks why the measured inputs have their values:
+the Standard Model's 19 parameters, the published attempts to explain them, and quark flavour
+in 3-3-1, restated with the standard library from [`src/why_parameters.py`](src/why_parameters.py).
+Its comparisons are tagged `[conj]` (rests on a named conjecture) or `[emp]` (an empirical
+regularity) and stay outside the fit and the verdict; ten of the 38 checks are its identities.
+The explanation, results and sources are in [WHY.md](WHY.md).
 
 [`src/first_principles_standalone.py`](src/first_principles_standalone.py) is the ten stages
 alone, without the chain: 74 functions, 66 derived in the build and 8 quoted, each printed

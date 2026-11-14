@@ -1,0 +1,125 @@
+
+==============================================================================
+W0  The ledger: 19 parameters (LIT: Kronfeld, arXiv:1007.1444, section 5)
+==============================================================================
+   alpha_s                  RELATION   input 0.1180                 fixes the proton's mass scale exponentially (W4); value unexplained
+   alpha_QED                MEASURED   input 1/127.930 at M_Z       g_X at a gravity fixed point (NOTE_331.md, G1) is a MODEL
+   alpha_W (sin^2 theta_W)  RELATION   input 0.23129                3-3-1 bounds it below 3/4 (W5); value unexplained
+   v (electroweak scale)    MEASURED   from the measured G_F        none
+   lambda (Higgs mass)      CONJECTURE input 125.20 GeV             lambda(M_Pl) = 0 gives 128.7 GeV (W1); zero quartics fail in 3-3-1 (W2)
+   m_t                      CONJECTURE input 172.57 GeV             with beta_lambda(M_Pl) = 0: 170-174 GeV (W1); asymptotic safety 171 GeV (W3)
+   m_b                      RELATION   input (threshold)            3-3-1: y_b = y_t at one vev ratio, a new parameter (W9)
+   m_c                      MEASURED   input (threshold)            none
+   m_s                      MEASURED   not used before this script  none; enters W7
+   m_d                      MEASURED   input                        none; enters W7
+   m_u                      MEASURED   input                        none; m_u = 0 is excluded (W6)
+   m_tau                    EMPIRICAL  input                        Koide's relation fixes one of the three lepton masses (W8)
+   m_mu                     MEASURED   input                        none
+   m_e                      MEASURED   input                        none
+   theta_12 (Cabibbo)       EMPIRICAL  only |V_ud| is used          arctan sqrt(m_d/m_s), 2.8% low, 5 sigma (W7)
+   theta_23                 MEASURED   not used                     none; 3-3-1's row structure alone gives the wrong pattern (W9)
+   theta_13                 MEASURED   not used                     none; as theta_23
+   delta_CKM                MEASURED   not used                     none
+   theta-bar                CONJECTURE not used                     Peccei-Quinn symmetry in 3-3-1 (W6); needs an axion
+
+==============================================================================
+W1  The Higgs mass from lambda(M_Pl) = 0 (CONJECTURE: asymptotic safety, no new scale)
+==============================================================================
+   inputs: M_t = 172.57 +- 0.29 GeV, alpha_s = 0.118; measured M_H = 125.2 GeV
+   Shaposhnikov-Wetterich eq. (12):          128.7 GeV (theory +- 2.2)
+   Buttazzo et al. eq. (61e), lambda(M_Pl)=0: 128.7 GeV
+   Buttazzo et al. eq. (64), stability:       128.3 GeV
+   prediction - measurement = +3.5 GeV = +2.8%; error 2.3 GeV; pull +1.5 sigma
+   read the other way, eq. (66): M_t < 171.53 +- 0.42 GeV; measured 172.57: +2.0 sigma
+   one-loop cross-check (CHECK): lambda(M_t) = 0.1458 -> M_H = 134.7 GeV; one loop is +6.1 GeV from NNLO
+   measured couplings at M_Pl, one loop: lambda = -0.0294 (NNLO, eq. 61e: -0.0101)
+   two conditions, lambda(M_Pl) = 0 and beta_lambda(M_Pl) = 0, solved for M_t and M_H together:
+     NNLO couplings at M_Pl (eq. 61): y_t(M_Pl) = 0.3885 -> M_t = 174.3 GeV (+1.0%), M_H = 132.6 GeV (+5.9%)
+     one loop throughout:             y_t(M_t) = 0.9165 -> M_t = 169.6 GeV (-1.7%), M_H = 128.6 GeV (+2.7%)
+     the spread between the two lines is the size of the method's error
+
+==============================================================================
+W2  The same condition with the 3-3-1 scalars (MODEL, one loop, M_V = 4 TeV)
+==============================================================================
+   all nine quartics zero at M_Pl, run down to M_V; c^2 = top-doublet vev fraction
+   beta = -1/sqrt3, c^2 = 0.5, y_J = 0.1: unbounded; self-quartic of the triplet without a large Yukawa = -0.203
+   beta = -1/sqrt3, c^2 = 0.5, y_J = 0.3: unbounded; self-quartic of the triplet without a large Yukawa = -0.203
+   beta = -1/sqrt3, c^2 = 0.5, y_J = 0.5: unbounded; self-quartic of the triplet without a large Yukawa = -0.202
+   beta = -1/sqrt3, c^2 = 0.9, y_J = 0.1: unbounded; self-quartic of the triplet without a large Yukawa = -0.205
+   beta = -1/sqrt3, c^2 = 0.9, y_J = 0.3: unbounded; self-quartic of the triplet without a large Yukawa = -0.205
+   beta = -1/sqrt3, c^2 = 0.9, y_J = 0.5: unbounded; self-quartic of the triplet without a large Yukawa = -0.204
+   beta = +1/sqrt3, c^2 = 0.5, y_J = 0.1: unbounded; self-quartic of the triplet without a large Yukawa = -0.163
+   beta = +1/sqrt3, c^2 = 0.5, y_J = 0.3: unbounded; self-quartic of the triplet without a large Yukawa = -0.159
+   beta = +1/sqrt3, c^2 = 0.5, y_J = 0.5: unbounded; self-quartic of the triplet without a large Yukawa = -0.150
+   beta = +1/sqrt3, c^2 = 0.9, y_J = 0.1: diverges; a quartic passes 4 pi at 3.6e+08 GeV, above M_V
+   beta = +1/sqrt3, c^2 = 0.9, y_J = 0.3: diverges; a quartic passes 4 pi at 2.6e+08 GeV, above M_V
+   beta = +1/sqrt3, c^2 = 0.9, y_J = 0.5: diverges; a quartic passes 4 pi at 8.7e+07 GeV, above M_V
+   A negative self-quartic l_i (Phi_i+ Phi_i)^2 makes the potential unbounded below along Phi_i.
+
+==============================================================================
+W3  The top mass
+==============================================================================
+   y_t(M_Pl) = 1.00 -> y_t(M_t) = 1.192  (+28% against the measured 0.9329)
+   y_t(M_Pl) = 2.00 -> y_t(M_t) = 1.250  (+34% against the measured 0.9329)
+   y_t(M_Pl) = 3.00 -> y_t(M_t) = 1.262  (+35% against the measured 0.9329)
+   y_t(M_Pl) = 3.54 -> y_t(M_t) = 1.265  (+36% against the measured 0.9329)
+   quasi-fixed point (RELATION): y_t(M_t) <= 1.265; a factor 3.5 in y_t(M_Pl) is focused to 6.1%
+   asymptotic safety (CONJECTURE; LIT Eichhorn-Held): M_t,pole ~ 171 GeV; measured 172.57 +- 0.29 (-0.9%; no error is quoted)
+
+==============================================================================
+W4  The strong coupling and the proton's mass scale (RELATION)
+==============================================================================
+   alpha_3(M_Pl) = 0.0189 = 1/52.9 (LIT: Buttazzo et al. eq. 61c)
+   one loop, six flavours: Lambda = M_Pl exp(-2 pi/(7 alpha_3)) = 0.028 GeV = 2.3e-21 M_Pl
+   d ln Lambda / d ln alpha_3 = 47.5; with g_3(M_Pl) 10% larger, Lambda = 107 GeV
+
+==============================================================================
+W5  The weak mixing angle in 3-3-1 (RELATION: a bound)
+==============================================================================
+   sin^2 theta_W < 1/(1 + beta^2) = 3/4 for beta = +-1/sqrt3; measured 0.23129 at M_Z
+   (the same formula gives 1/4 for beta = sqrt3, a variant this repository does not use)
+
+==============================================================================
+W6  The strong CP angle (CONJECTURE: Peccei-Quinn in 3-3-1; LIT Dias et al.)
+==============================================================================
+   27 components of the 7 Yukawa terms and of eta rho chi phi: all invariant: True
+   colour anomaly, sum over quarks of (q_R - q_L): 2 X_d  (u and d alone: 0); for N_c = 5, 7: 2, 2
+   non-zero, so theta-bar can be rotated away; the price is an axion, which is not observed
+
+==============================================================================
+W7  The Cabibbo angle (EMPIRICAL: Gatto-Sartori-Tonin)
+==============================================================================
+   arctan sqrt(m_d/m_s) = 0.2206 +- 0.0011  (m_d = 4.7 +- 0.04, m_s = 93.5 +- 0.5 MeV)
+   theta_12 = arcsin(0.22501) = 0.2270 +- 0.0007;  difference -2.8%, -5.0 sigma
+   (LIT, Antusch et al. eq. 4.11, from running Yukawas: 0.2205 +- 0.0012; 'the uncertainty
+    intervals only overlap at the 3 sigma level')
+
+==============================================================================
+W8  The charged-lepton masses (EMPIRICAL: Koide)
+==============================================================================
+   K = 0.6666645;  K/(2/3) - 1 = -3.3e-06
+   K = 2/3 exactly needs m_tau = 1776.97 MeV; measured 1776.93 MeV (+2.2e-05)
+
+==============================================================================
+W9  Quark flavour in 3-3-1 (beta = -1/sqrt3; LIT Dias et al. eq. 6, Antusch et al. eq. 2.4)
+==============================================================================
+   F1  up-type mass rows (v_rho, v_rho, v_eta); down-type rows (v_eta, v_eta, v_rho): the triplet
+       family's up quark and the antitriplet families' down quarks take the same vev
+   F2  y_t = y_b at tan b = v_eta/v_rho = 59.3; the 3-3-1 Yukawas there:
+       y_t = 9.67e-01, y_b = 9.67e-01, y_c = 2.11e-01, y_s = 3.06e-04, y_u = 4.18e-04, y_d = 1.54e-05
+       largest/smallest Yukawa: 1.37e+05 in the Standard Model, 6.28e+04 here; y_c/y_t = 0.22
+       tan b is a new parameter: it is traded for m_b/m_t, not derived
+   F3  random O(1) Yukawas, tan b = 1.0: median |V_tb| = 0.54, |V_us| = 0.54, |V_cb| = 0.54; |V_tb| > 0.9 in 3.6% of draws
+   F3  random O(1) Yukawas, tan b = 59.3: median |V_tb| = 0.01, |V_us| = 0.71, |V_cb| = 0.71; |V_tb| > 0.9 in 0.0% of draws
+       measured: |V_tb| = 0.999, |V_us| = 0.225, |V_cb| = 0.042 (PDG 2024 CKM review, eq. 12.27)
+   F4  tan b = 1.0: rho - 1 = 1.29e-05 at w = 10.3 TeV (the LHC bound); global fit rho_0 - 1 = 3.90e-04 +- 1.9e-04: -2.0 sigma
+   F4  tan b = 59.3: rho - 1 = 6.94e-05 at w = 10.3 TeV (the LHC bound); global fit rho_0 - 1 = 3.90e-04 +- 1.9e-04: -1.7 sigma
+   F5  (LIT Buras et al.) the third family's different Z' coupling makes the left-handed rotations
+       physical: four new mixing parameters, and flavour change at tree level through the Z'
+
+==============================================================================
+W10 The tally
+==============================================================================
+   MEASURED: 11, RELATION: 3, EMPIRICAL: 2, CONJECTURE: 3  (of 19)
+   No parameter's value is derived. Established physics gives relations for 3; 2 have a numerical regularity;
+   3 have a conjectured explanation; 11 have none.
