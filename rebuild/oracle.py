@@ -297,11 +297,11 @@ def running(m, L):
                 f"{R.sm_coefficients()}")]
         for var in ("-1/sqrt3", "+1/sqrt3"):
             bad = []
-            for Nc in (1, 3, 5, 7):
+            for Nc in (1, 3, 5, 7, 9, 11):
                 a, _ = E.coefficients(*E.MODELS[var](Nc)[:3])
                 if tuple(R.b_331(Nc, var)) != (a[0], a[1]):
                     bad.append((Nc, R.b_331(Nc, var), (a[0], a[1])))
-            out.append((f"{var}: b_331 equals src's field content (N_c = 1, 3, 5, 7)", not bad, f"{bad}" if bad else "exact"))
+            out.append((f"{var}: b_331 equals src's field content (N_c = 1, 3, 5, 7, 9, 11)", not bad, f"{bad}" if bad else "exact"))
         return out
 
     def boundary():
@@ -326,6 +326,8 @@ def running(m, L):
                 ref = T3.pole(Nc, var, MV=4e3, loops=1, thresholds=False, yukawas=False, gmax=M.ALPHA1)
                 out.append(_cmp(f"{var}: one-loop pole, N_c = {Nc}, equals src's one-loop running", p, ref, 1e-6,
                                 "src integrates the same one-loop equation numerically"))
+            ref7 = T3.pole(7, var, MV=4e3, loops=1, thresholds=False, yukawas=False, gmax=M.ALPHA1)
+            out.append(_cmp(f"{var}: one-loop pole, N_c = 7, equals src's one-loop running", R.landau_pole(7, var), ref7, 1e-6))
             out.append((f"{var}: the one-loop poles select N_c = 3 (pole_5 < M_Pl < pole_3)", p5 < mpl < p3,
                         f"pole_3 = {p3:.3e}, pole_5 = {p5:.3e} GeV"))
             q3, q5 = L.POLES_331[var] if hasattr(L, "POLES_331") else __import__("inputs").POLES_331[var]
@@ -342,11 +344,14 @@ def weak(m, L):
         LL = _src("ladder_links")
         rng = random.Random(91)
         worst = 0.0
-        for _ in range(5):
+        for i in range(25):
             f, GF, V, ml, mp = rng.uniform(0.05, 0.2), rng.uniform(5e-6, 2e-5), rng.uniform(0.9, 1), rng.uniform(0.01, 0.1), 0.14
+            if i >= 5:                    # any pion mass, and m_l/m_pi from 1e-4 to 0.999 (P4 addendum, mutant W15)
+                mp = rng.uniform(0.05, 2.0)
+                ml = mp * (10 ** rng.uniform(-4, -0.3) if i % 2 else rng.uniform(0.5, 0.999))
             want = GF**2 * V**2 * f**2 * ml**2 * mp * (1 - ml**2 / mp**2) ** 2 / (8 * pi)
             worst = max(worst, abs(W.pion_decay_width(f, GF, V, ml, mp) / want - 1))
-        return [("pion_decay_width = G_F^2 |V_ud|^2 f^2 m_l^2 m_pi (1 - m_l^2/m_pi^2)^2 / 8 pi (5 random points)",
+        return [("pion_decay_width = G_F^2 |V_ud|^2 f^2 m_l^2 m_pi (1 - m_l^2/m_pi^2)^2 / 8 pi (25 random points)",
                  worst < 1e-12, f"max rel diff {worst:.1e}"),
                 _cmp("f_pi from G_F and pi -> mu nu = 130.57 MeV (src/ladder_links.fpi_from_weak, force chain stage 3)",
                      W.fpi_from_pion_decay(), LL.fpi_from_weak()[1], 1e-8, "hbar in GeV s from HBAR/E_CH vs src's constant")]

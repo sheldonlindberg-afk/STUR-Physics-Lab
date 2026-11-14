@@ -377,6 +377,41 @@ def tier_sensitivity(name, m):
     return out
 
 
+# P4 addendum (2026-11-14): the two-route blind checks of the new rungs compare an export with a recomputation
+# from inputs.py AT ITS PUBLISHED VALUES, so an input read once at import, or typed in a way the lint can't
+# see (Fraction(176, 10000)), passed them and the oracle. Each listed check must also hold with every input
+# it reads moved. The factors keep every quantity physical (m_mu < m_pi, 1/alpha_X > 1 at the 3-3-1 scale).
+PERTURBED = {
+    "running": (dict(MZ_MEAS=1.1, ALPHA_MZ_INV=1.02, S2_MZ=1.03, MU_331=2.5),
+                ["Standard Model running: SPEC's boundary and the b-slopes",
+                 "matching keeps g_L = g_2 and rung 1's photon coupling",
+                 "landau_pole is where the matched alpha_X runs to 1"]),
+    "weak": (dict(G_F=1.2, GAMMA_PI_MUNU=0.7, DELTA_PI=2.0, V_UD=0.9, M_MU=0.9, M_PIC=1.1, HBAR=1.3, E_CH=0.8),
+             ["f_pi reproduces the measured width"]),
+    "chiral": (dict(G_F=1.2, GAMMA_PI_MUNU=0.7, DELTA_PI=2.0, V_UD=0.9, M_MU=0.9, M_PIC=1.1, HBAR=1.3, E_CH=0.8,
+                    M_UD_FLAG=1.1, COND_13=0.95, FPI_OVER_F=1.02, LBAR3=1.2),
+               ["O(p^4) pion mass with stage weak's f_pi"]),
+    "links": (dict(G_F=1.2, GAMMA_PI_MUNU=0.7, DELTA_PI=2.0, V_UD=0.9, M_MU=0.9, M_PIC=1.1, HBAR=1.3, E_CH=0.8,
+                   ALPHA_0=1.1, M_PI0=0.9, G_NEWTON=1.7, C_LIGHT=1.1, MZ_MEAS=1.1, ALPHA_MZ_INV=1.02, S2_MZ=1.03,
+                   MU_331=2.5),
+              ["pi0 width from rung 1's charges and stage weak's f_pi",
+               "G window from the one-loop poles of stage running"]),
+}
+
+
+def tier_perturbed(name, m):
+    if name not in PERTURBED:
+        return []
+    factors, labels = PERTURBED[name]
+    with mutated(**{k: f * getattr(inputs, k) for k, f in factors.items()}):
+        res = {l: (ok, d) for l, ok, d in blind_checks.BY_STAGE[name](m)}
+    out = []
+    for l in labels:
+        ok, d = res.get(l, (False, "blind check not found"))
+        out.append((f"with its inputs moved: {l}", bool(ok), f"{d}  [moved: {', '.join(sorted(factors))}]"))
+    return out
+
+
 # ------------------------------------------------------------------------------------------
 # tier 5: connections (the rungs must actually use each other)
 # ------------------------------------------------------------------------------------------
@@ -509,11 +544,13 @@ def run(build_dir, mode="builder", upto=None, compare=None, lint=True, modules=N
             rec["lint"] = tier_lint(s, os.path.join(build_dir, s["module"] + ".py"))
         if all(ok for _, ok, _ in rec["contract"]):
             rec["blind"] = blind_checks.BY_STAGE[name](mods)
-            rec["sensitivity"] = tier_sensitivity(name, mods)
+            rec["sensitivity"] = tier_sensitivity(name, mods) + tier_perturbed(name, mods)
             rec["connections"] = tier_connections(name, mods)
             if reference is not None:
                 import oracle
-                rec["oracle"] = oracle.BY_STAGE[name](mods, reference)
+                # plain bools: a numpy.bool_ (the reference returns numpy floats) is written to the JSON
+                # report as the string "False", which reads as true (P4 addendum, L13)
+                rec["oracle"] = [(l, bool(ok), d) for l, ok, d in oracle.BY_STAGE[name](mods, reference)]
         gate = [r for t in ("contract", "lint", "blind", "sensitivity", "connections") for r in rec.get(t, [])]
         rec["status"] = "pass" if all(ok for _, ok, _ in gate) and all(ok for _, ok, _ in rec.get("oracle", [])) else "fail"
         if not all(ok for _, ok, _ in gate):
