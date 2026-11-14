@@ -59,6 +59,11 @@
 - /src/ladder_standalone.py — the whole ladder in one file, standard library only: paste
   into any Python runner or AI code tool; 58 PASS/FAIL checks, tagged math / data / pinned
   (expected output: /results/ladder/standalone.txt)
+- /src/chain_first_principles.py — the force chain on the blind first-principles rebuild, in one
+  file, standard library only; derived values replace outside numbers and each result is compared
+  with its measurement (expected output: /results/chain_first_principles.txt)
+- /src/first_principles_standalone.py — that rebuild's ten stages alone, each function callable
+  (expected output: /results/first_principles_standalone.txt)
 - /src/m331_standalone.py — the 3-3-1 selection in one file, standard library only:
   paste into any Python runner or AI code tool and run; it ends with 23 PASS/FAIL checks
   (expected output: /results/m331/standalone.txt)
