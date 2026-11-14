@@ -94,15 +94,58 @@
    [info]       on the way it passes the 3-3-1 scale: M_V = 4000 GeV < 4.86e+17 GeV: True
 
 ======================================================================================
+9  Why these inputs? The 19 parameters, the attempts to explain them, and 3-3-1 flavour
+======================================================================================
+   Not from the blind build. Established physics stops at 'measured' and 'relation'; [conj] and [emp]
+   rows go beyond it and are outside the fit. Sources and the full calculation: WHY.md, src/why_parameters.py.
+
+   The Higgs mass, if the quartic coupling vanishes at step 1's Planck mass (asymptotic safety):
+   [math] PASS  two published NNLO formulas agree on that Higgs mass to 0.1 GeV (Shaposhnikov-Wetterich eq. 12, Buttazzo et al. eq. 61e)  (128.67 vs 128.68 GeV)
+   [conj] Higgs mass from lambda(M_Pl) = 0: 128.675 GeV against the measured 125.2 GeV (+2.8%, +1.5 sigma)
+   [math] PASS  the one-loop running integrates there and back to its start
+   [info]       the measured couplings at M_Pl: lambda = -0.0294 at one loop, -0.0101 at NNLO (eq. 61e); y_t = 0.402; alpha_3 = 1/52.5
+   [math] PASS  that solution has lambda = 0 and beta_lambda = 0 at M_Pl
+   Adding beta_lambda(M_Pl) = 0 fixes the top mass too, from the gauge couplings alone (this file's combination):
+   [conj] top mass, NNLO couplings at M_Pl: 174.271 GeV against the measured 172.57 GeV (+0.99%)
+   [conj] Higgs mass, NNLO couplings at M_Pl: 132.555 GeV against the measured 125.2 GeV (+5.9%)
+   [conj] top mass, one loop throughout: 169.631 GeV against the measured 172.57 GeV (-1.7%)
+   [conj] Higgs mass, one loop throughout: 128.562 GeV against the measured 125.2 GeV (+2.7%)
+   [info]       the two methods differ by: 4.6 GeV (top) and 4.0 GeV (Higgs): the size of the method's error
+   [conj] top mass from asymptotic safety (quoted, Eichhorn-Held): 171 GeV against the measured 172.57 GeV (-0.91%)
+   [info]       read the other way (Buttazzo et al. eq. 66): the measured Higgs mass needs M_t < 171.53 +- 0.42 GeV; measured 172.57: +2.0 sigma
+   [info]       the top's infrared quasi-fixed point: y_t(M_Pl) from 1 to 3.54 runs to y_t(M_t) = 1.192 to 1.265, 28% to 36% above the measured value: an upper bound, not the value
+   [info]       the proton's mass scale: alpha_3(M_Pl) = 1/52.9 gives, at one loop with six flavours, M_Pl exp(-2 pi/(7 alpha_3)) = 0.028 GeV = 2.3e-21 M_Pl; d ln/d ln alpha_3 = 47.5. The ratio is explained; the coupling's value is not
+   [math] PASS  3-3-1 bounds sin^2 theta_W below 3/4 (beta = -1/sqrt3): the photon's coupling at g_X -> infinity  (limit 0.750000, measured 0.23129)
+   [math] PASS  3-3-1 bounds sin^2 theta_W below 3/4 (beta = +1/sqrt3): the photon's coupling at g_X -> infinity  (limit 0.750000, measured 0.23129)
+   [math] PASS  the 3-3-1 Yukawa terms and eta rho chi phi are invariant under the published Peccei-Quinn charges  (27 components)
+   [math] PASS  its colour anomaly is not zero, for step 1's N_c and for 5 and 7 colours: theta-bar can be rotated away  (2 X_d)
+   [info]       the price: an axion, which has not been observed [conj]
+   [emp] Cabibbo angle from arctan sqrt(m_d/m_s) (Gatto-Sartori-Tonin): 0.220557 rad against the measured 0.226953 rad (-2.8%, -5.0 sigma)
+   [math] PASS  the tau mass that solves Koide's relation gives K = 2/3
+   [emp] tau mass from Koide's relation K = 2/3: 1776.97 MeV against the measured 1776.93 MeV (+0.0022%, +0.4 sigma)
+   [info]       Koide's K with the measured masses: 0.6666645 = 2/3 x (1 -3.3e-06)
+
+   Quark flavour in 3-3-1 (beta = -1/sqrt3): one family is a triplet, two are antitriplets, so the up-type
+   masses come from (v_rho, v_rho, v_eta) by family and the down-type from (v_eta, v_eta, v_rho).
+   [math] PASS  at tan b = y_t/y_b the top and bottom Yukawas are equal  (tan b = 59.3)
+   Yukawas there: y_t = 9.67e-01, y_b = 9.67e-01, y_c = 2.11e-01, y_s = 3.06e-04, y_u = 4.18e-04, y_d = 1.54e-05
+   [info]       largest/smallest quark Yukawa: 1.37e+05 in the Standard Model, 6.28e+04 here: the triplet family's two are equal, the antitriplet families' four are 0.21 and below. tan b is a new parameter, traded for m_b/m_t
+   [math] PASS  rho - 1 from step 1's mass matrix equals (v/w)^2 (sin^2 a - sin^2 a0)^2, for tan a = 1 and tan a = tan b  (tan a = 1.0: 0.0226 vs 0.0226 (v/w)^2; tan a = 59.3: 0.1221 vs 0.1220 (v/w)^2)
+   [info]       so flavour's vev ratio feeds the Z mass: rho - 1 = 5.4 times its value at v1 = v2 (step 1's choice); the global fit has rho_0 - 1 = 3.90e-04 +- 1.9e-04
+   With random O(1) Yukawas this row structure pairs the top with the lightest down quark (median |V_tb| = 0.01
+   at this tan b; src/why_parameters.py F3, not standard library): the measured mixing needs a hierarchy in the
+   Yukawas themselves. And zero quartics at M_Pl leave the 3-3-1 potential unbounded below (its W2).
+
+======================================================================================
 Hand-offs: each value, the step that produced it, the steps that used it
 ======================================================================================
    G                    step 1  ->  step 5, step 6, step 7, step 8
    Q_u                  step 1  ->  step 4
    Q_d                  step 1  ->  step 4
-   N_c                  step 1  ->  step 4
+   N_c                  step 1  ->  step 4, step 9
    q_p + q_e            step 1  ->  step 5
-   M_Pl                 step 1  ->  step 8
-   G_F                  step 1  ->  step 3
+   M_Pl                 step 1  ->  step 8, step 9
+   G_F                  step 1  ->  step 3, step 9
    M_V                  step 1  ->  step 8
    alpha(0)             step 2  ->  step 4
    f_pi                 step 3  ->  step 4
@@ -115,6 +158,7 @@ Hand-offs: each value, the step that produced it, the steps that used it
    l                    step 7  ->  step 8
    Sgr A* T_H           step 8  ->  (final)
    end temperature      step 8  ->  (final)
+   tan b                step 9  ->  (final)
 
 ======================================================================================
 What the chain no longer takes from outside
@@ -134,6 +178,30 @@ What the chain no longer takes from outside
    the pion's decay rate, its radiative correction and |V_ud|; the lattice constants; g_A and the
    nucleon and pion masses; Lambda; diamond's permittivity and density; the astronomical data.
    Chosen, not measured: the 3-3-1 scale MU_331, the ratio v1/v2, the diamond design.
+
+======================================================================================
+Beyond the measured inputs (step 9): conjectures and regularities, outside the fit
+======================================================================================
+   [conj]   +2.78%  +1.5 sigma   Higgs mass from lambda(M_Pl) = 0
+                               assumes: asymptotically safe gravity, no new scale below M_Pl
+   [conj]   +0.99%               top mass, NNLO couplings at M_Pl
+                               assumes: lambda = beta_lambda = 0 at M_Pl
+   [conj]   +5.87%               Higgs mass, NNLO couplings at M_Pl
+                               assumes: lambda = beta_lambda = 0 at M_Pl
+   [conj]   -1.70%               top mass, one loop throughout
+                               assumes: lambda = beta_lambda = 0 at M_Pl
+   [conj]   +2.69%               Higgs mass, one loop throughout
+                               assumes: lambda = beta_lambda = 0 at M_Pl
+   [conj]   -0.91%               top mass from asymptotic safety (quoted, Eichhorn-Held)
+                               assumes: asymptotically safe gravity
+   [emp]   -2.82%  -5.0 sigma   Cabibbo angle from arctan sqrt(m_d/m_s) (Gatto-Sartori-Tonin)
+                               assumes: no derivation
+   [emp]   +0.00%  +0.4 sigma   tau mass from Koide's relation K = 2/3
+                               assumes: no derivation; holds for pole masses only
+
+   Of the Standard Model's 19 parameters none is derived. Step 9 and WHY.md sort them: 11 measured with no
+   explanation, 3 related to other inputs by established physics, 2 with an empirical regularity, 3 with a
+   conjectured explanation.
 
 ======================================================================================
 The fit: every derived value that has a measurement
@@ -156,8 +224,9 @@ The fit: every derived value that has a measurement
                   derived 244.071, measured 221 +- 39; from the derived Kerr remnant (the mode formula is a quoted fit)
 
    chi^2 = 3.76 for 8 comparisons (not independent: several share f_pi); largest |pull| = 1.30
-   [math] checks: 28/28 pass
+   [math] checks: 38/38 pass
 
    VERDICT: every hand-off checks, and every derived value is within 2 sigma of its measurement.
    This tests the chain's wiring and its derived numbers. It does not test the measured inputs,
    and step 1's tree-level M_Z is outside this verdict because the chain has no loop corrections.
+   Step 9's [conj] and [emp] rows are outside it too: they test explanations, not the chain.

@@ -90,6 +90,6 @@ def test_every_step_after_the_first_uses_an_earlier_one():
         C.LEDGER.clear(), C.CHECKS.clear(), C.FIT.clear(), C.REPLACED.clear()
         C.run()
     used_by = {u for _, _, _, used in C.LEDGER for u in used}
-    assert used_by == set(range(3, 9)), used_by      # step 2 produces alpha(0) and takes nothing
+    assert used_by == set(range(3, 10)), used_by     # step 2 produces alpha(0) and takes nothing
     assert all(made < u for _, _, made, used in C.LEDGER for u in used)
     assert len(C.FIT) >= 8 and max(abs(row[4]) for row in C.FIT) <= 2

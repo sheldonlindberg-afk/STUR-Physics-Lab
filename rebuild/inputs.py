@@ -76,6 +76,41 @@ GW_MF, GW_CHIF, GW_Z = 62.7, 0.68, (0.09, 0.01)
 F220, G220 = (247.0, 6.0, 6.0), (221.0, 32.0, 39.0)   # ringdown-only 220 fit (Hz)
 BCW_220 = (1.5251, -1.1568, 0.1292, 0.7000, 1.4187, -0.4990)   # Berti-Cardoso-Will 2006 fit
 
+# --- the Standard Model's other parameters (the chain's step 9; PDG 2024) ---------------------
+M_T = 172.57                  # GeV, top pole mass
+M_T_ERR_MEV = 290             # MeV, its error (in MeV: 0.29 would collide with an ordinary number in a build)
+M_H = 125.20                  # GeV, Higgs mass (+- 0.11)
+M_W = 80.3692                 # GeV
+ALPHA_S_MZ = 0.1180           # strong coupling at M_Z
+M_E, M_TAU, M_TAU_ERR = 0.51099895e-3, 1.77693, 0.00009   # GeV, charged-lepton pole masses
+M_D_2GEV, M_S_2GEV = (4.70e-3, 0.04e-3), (93.5e-3, 0.5e-3)   # GeV, MS-bar at 2 GeV (value, error)
+S12_CKM = (0.22501, 0.00068)  # sin(theta_12), PDG 2024 CKM review, eq. (12.28)
+# MS-bar quark Yukawa couplings at M_Z from the PDG 2024 inputs: Antusch, Hinze, Saad, arXiv:2510.01312, eq. (2.4)
+YUKAWA_MZ = {"u": 7.04e-6, "c": 3.56e-3, "t": 0.967, "d": 1.54e-5, "s": 3.06e-4, "b": 1.630e-2}
+RHO_0 = (1.00039, 0.00019)    # the global fit's rho parameter beyond the Standard Model, Erler, arXiv:1908.07346
+
+# --- quoted formulas for step 9 (layer: QUOTED) -----------------------------------------------
+# Lower-case names: these are coefficients of published formulas, not measured values. The build
+# lint (rebuild/harness.py) guards the upper-case measured inputs against being typed into a build;
+# small formula coefficients such as 1.5 would collide with ordinary numbers there.
+# Buttazzo et al., JHEP 12 (2013) 089, arXiv:1307.3536. Reference point: M_t, M_h, alpha_s and its
+# unit, M_W and its unit.
+b13_ref = (173.34, 125.15, 0.1184, 0.0007, 80.384, 0.014)
+# eqs. (55)-(60): MS-bar couplings at mu = M_t. lambda: (value, per GeV of M_h, per GeV of M_t);
+# y_t and g_3: (value, per GeV of M_t or per unit of alpha_s as marked); g_2, g_Y: (value, per GeV of M_t, per unit of M_W).
+b13_at_mt = {"lam": (0.12604, 0.00206, -0.00004), "yt": (0.93690, 0.00556, -0.00042),
+             "g3": (1.1666, 0.00314, -0.00046), "g2": (0.64779, 0.00004, 0.00011), "gY": (0.35830, 0.00011, -0.00020)}
+# eq. (61): couplings at M_Pl. g1 (GUT-normalised): (value, per GeV of M_t, per unit of M_W); g3: (value, per unit of
+# alpha_s); yt: (value, per GeV of M_t, per unit of alpha_s); lam: (value, per GeV of M_t, per unit of alpha_s, per GeV of M_h).
+b13_at_mpl = {"g1": (0.6154, 0.0003, -0.0006), "g2": 0.5055, "g3": (0.4873, 0.0002),
+              "yt": (0.3825, 0.0051, -0.0021), "lam": (-0.0143, -0.0066, 0.0018, 0.0029)}
+b13_stability = (129.6, 2.0, 0.5)     # eq. (64): M_h > 129.6 + 2.0 (M_t - 173.34) - 0.5 (alpha_s - 0.1184)/0.0007 GeV
+b13_mt_max = (171.53, 0.42)           # eq. (66): M_t < 171.53 +- 0.42 GeV
+# Shaposhnikov and Wetterich, Phys. Lett. B 683, 196 (2010), arXiv:0912.0208, eq. (12):
+# m_min = 126.3 + (m_t - 171.2)/2.1 * 4.1 - (alpha_s - 0.1176)/0.002 * 1.5 GeV, theory error 2.2 GeV
+sw10_mmin = (126.3, 171.2, 2.1, 4.1, 0.1176, 0.002, 1.5, 2.2)
+eh17_mt = 171.0               # GeV, top pole mass from asymptotic safety, Eichhorn and Held, arXiv:1707.01107 (abstract)
+
 # --- link bounds ----------------------------------------------------------------------------
 EPS_PE_BOUND = 1e-21          # |q_p + q_e|/e, Bressi et al. 2011
 

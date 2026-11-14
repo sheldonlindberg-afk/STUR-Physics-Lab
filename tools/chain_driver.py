@@ -10,7 +10,7 @@ WHAT IT IS
     The repository's force chain (src/force_chain.py) follows the forces from the 3-3-1 gauge
     theory down to the two-diamond gravity experiment and on into black holes. That script
     calls the repository's own derivation modules. This file runs the same chain on a
-    different footing: every formula in it comes from blind build <BUILD_ID>, which was
+    different footing: every formula in steps 1 to 8 comes from blind build <BUILD_ID>, which was
     written stage by stage by AI sessions that saw only the postulates (rebuild/SPEC.md), the
     function signatures and the measured inputs, never the repository's code or its answers
     (rebuild/PROTOCOL.md). Those ten stage modules are embedded below, unchanged.
@@ -19,10 +19,16 @@ WHAT IT IS
       1. MEASURED INPUTS. The only numbers typed in. Each names its source.
       2. STAGES. The blind build: toolkit, gauge331, weak, chiral, casimir, graviton,
          desitter, blackholes, running, links.
-      3. THE CHAIN. Eight steps. Each takes values that earlier steps returned and hands new
+      3. THE CHAIN. Nine steps. Each takes values that earlier steps returned and hands new
          ones on. Wherever the chain could take a number from outside, and a stage derives
          it, the derived number is used. Then every result that has a measurement is
          compared with it (the fit).
+         Step 9 is different in kind. It asks why the measured inputs have their values:
+         the Standard Model's 19 parameters, the published attempts to explain them, and
+         what the 3-3-1 structure adds for quark flavour. Its formulas are not from the
+         blind build. They are the repository's src/why_parameters.py restated with the
+         standard library, with every source named (WHY.md). Its comparisons are tagged
+         [conj] or [emp] and stay outside the fit and the verdict.
 
 READING THE OUTPUT
     [math]   an identity or a hand-off, checked by computation. It can fail only if the
@@ -31,11 +37,16 @@ READING THE OUTPUT
              (derived - measured) / uncertainty. |pull| <= 2 is printed as "fits".
     [info]   a derived value with nothing measured to compare it with yet (a prediction),
              or a comparison whose uncertainty this file can't compute.
+    [conj]   step 9 only: a value that follows under a named, unproven conjecture, against
+             its measurement. Not part of the fit.
+    [emp]    step 9 only: an empirical regularity with no accepted derivation, against its
+             measurement. Not part of the fit.
 
 WHAT IT DOES NOT SHOW
     The measured inputs stay measured: G, the couplings at M_Z, G_F, the pion's decay rate,
     the lattice constants, Lambda, diamond's permittivity. No stage derives them, and the
-    chain doesn't explain why they have the values they have. The 3-3-1 scale and the
+    chain doesn't derive the values they have: step 9 tests the published explanations and
+    finds none that is established. The 3-3-1 scale and the
     ratio of the two electroweak vacuum values are choices, marked where they enter.
     Agreement with data tests the postulates only as well as these inputs allow.
 
@@ -51,6 +62,7 @@ LEDGER = []      # [name, value, step that produced it, [steps that used it]]
 CHECKS = []      # (tag, label, ok)
 FIT = []         # (label, derived, measured, sigma, pull, what was derived)
 REPLACED = []    # (parameter, value text, where it came from)
+BEYOND = []      # step 9: (tag, label, value, measured, pull or None, what it assumes)
 
 
 def banner(s):
@@ -94,6 +106,16 @@ def fit(label, pred, meas, unit, uses, extra_sigma=0.0):
 
 def rel(a, b):
     return abs(a - b) / max(abs(b), 1e-300)
+
+
+def beyond(tag, label, value, meas, sigma, unit, assumes):
+    """Step 9: record and print one comparison that rests on a conjecture ("conj") or on an empirical
+    regularity ("emp"). It is not added to the fit."""
+    p = (value - meas) / sigma if sigma else None
+    BEYOND.append((tag, label, value, meas, p, assumes))
+    print(f"   [{tag}] {label}: {value:.6g} {unit} against the measured {meas:.6g} {unit} ({100 * (value / meas - 1):+.2g}%"
+          + (f", {p:+.1f} sigma)" if sigma else ")"))
+    return p
 
 
 # ---------------------------------------------------------------------------------- step 1
@@ -395,6 +417,211 @@ def black_holes():
     give(st, "end temperature", kT)
 
 
+# ---------------------------------------------------------------------------------- step 9
+# Not from the blind build: src/why_parameters.py restated with the standard library. Sources in WHY.md.
+def _sm_beta(s):
+    """One-loop Standard Model beta functions for (g_Y, g_2, g_3, y_t, lambda), d/d ln mu. The quartic's is
+    Shaposhnikov and Wetterich, arXiv:0912.0208, eq. (8)."""
+    g1, g2, g3, yt, lam = s
+    k = 1 / (16 * math.pi ** 2)
+    return [k * 41 / 6 * g1 ** 3, -k * 19 / 6 * g2 ** 3, -k * 7 * g3 ** 3,
+            k * yt * (4.5 * yt ** 2 - 8 * g3 ** 2 - 9 / 4 * g2 ** 2 - 17 / 12 * g1 ** 2),
+            k * (24 * lam ** 2 - 6 * yt ** 4 + 12 * lam * yt ** 2 - 3 * lam * (3 * g2 ** 2 + g1 ** 2)
+                 + 3 / 8 * (2 * g2 ** 4 + (g2 ** 2 + g1 ** 2) ** 2))]
+
+
+def _sm_run(s, mu0, mu1, n=4000):
+    """Fourth-order Runge-Kutta in ln mu from mu0 to mu1."""
+    h = math.log(mu1 / mu0) / n
+    s = list(s)
+    for _ in range(n):
+        k1 = _sm_beta(s)
+        k2 = _sm_beta([a + h / 2 * b for a, b in zip(s, k1)])
+        k3 = _sm_beta([a + h / 2 * b for a, b in zip(s, k2)])
+        k4 = _sm_beta([a + h * b for a, b in zip(s, k3)])
+        s = [a + h / 6 * (p + 2 * q + 2 * r + t) for a, p, q, r, t in zip(s, k1, k2, k3, k4)]
+    return s
+
+
+def _b13_at_mt(mt, mh):
+    """MS-bar (g_Y, g_2, g_3, y_t, lambda) at mu = M_t: Buttazzo et al., eqs. (55)-(60)."""
+    mt0, mh0, a0, da, mw0, dmw = inputs.b13_ref
+    c, x, a, w = inputs.b13_at_mt, mt - mt0, (inputs.ALPHA_S_MZ - a0) / da, (inputs.M_W - mw0) / dmw
+    return [c["gY"][0] + c["gY"][1] * x + c["gY"][2] * w, c["g2"][0] + c["g2"][1] * x + c["g2"][2] * w,
+            c["g3"][0] + c["g3"][1] * a + c["g3"][2] * x, c["yt"][0] + c["yt"][1] * x + c["yt"][2] * a,
+            c["lam"][0] + c["lam"][1] * (mh - mh0) + c["lam"][2] * x]
+
+
+def _b13_at_planck(mt, mh):
+    """(g_Y, g_2, g_3, y_t, lambda) at M_Pl: Buttazzo et al., eq. (61). Their g_1 is GUT-normalised."""
+    mt0, mh0, a0, da, mw0, dmw = inputs.b13_ref
+    c, x, a, w = inputs.b13_at_mpl, mt - mt0, (inputs.ALPHA_S_MZ - a0) / da, (inputs.M_W - mw0) / dmw
+    return [math.sqrt(3 / 5) * (c["g1"][0] + c["g1"][1] * x + c["g1"][2] * w), c["g2"], c["g3"][0] + c["g3"][1] * a,
+            c["yt"][0] + c["yt"][1] * x + c["yt"][2] * a,
+            c["lam"][0] + c["lam"][1] * x + c["lam"][2] * a + c["lam"][3] * (mh - mh0)]
+
+
+def _mh_zero_quartic(mt):
+    """M_h at which eq. (61e)'s lambda(M_Pl) vanishes."""
+    mt0, mh0, a0, da, _, _ = inputs.b13_ref
+    c = inputs.b13_at_mpl["lam"]
+    return mh0 - (c[0] + c[1] * (mt - mt0) + c[2] * (inputs.ALPHA_S_MZ - a0) / da) / c[3]
+
+
+def _yt_flat(gY, g2):
+    """The top Yukawa at which beta_lambda = 0 when lambda = 0 (from _sm_beta)."""
+    return ((2 * g2 ** 4 + (g2 ** 2 + gY ** 2) ** 2) / 16) ** 0.25
+
+
+def _pq_check(n_c):
+    """Peccei-Quinn charges of Dias, de S. Pires and Rodrigues da Silva, arXiv:hep-ph/0309058, eqs. (14)-(18), in
+    units of X_d. Returns the net charge of every component of the Yukawa terms of their eq. (6) and of
+    eta rho chi phi, and the colour anomaly, sum over quarks of (q_R - q_L), for N_g = N_c families of which
+    (N_c + 1)/2 are antitriplets."""
+    one, zero = Fraction(1), Fraction(0)
+    q = {"uL": one, "uR": -one, "dL": -one, "dR": one, "u'L": one, "u'R": -one, "d'L": -one, "d'R": one,
+         "eL": -one, "eR": one, "nuL": one, "nuRc": one, "phi": -2 * one}
+    q["Q3"], q["Qi"], q["f"] = (q["uL"], q["dL"], q["u'L"]), (q["dL"], q["uL"], q["d'L"]), (q["nuL"], q["eL"], q["nuRc"])
+    q["chi"], q["eta"], q["rho"] = (2 * one, zero, 2 * one), (2 * one, zero, 2 * one), (zero, -2 * one, zero)
+    yukawas = [("Q3", "u'R", "chi", 1), ("Qi", "d'R", "chi", -1), ("Q3", "uR", "eta", 1), ("Qi", "dR", "eta", -1),
+               ("Q3", "dR", "rho", 1), ("Qi", "uR", "rho", -1), ("f", "eR", "rho", 1)]
+    terms = [-q[L][k] + q[R] + sign * q[sc][k] for L, R, sc, sign in yukawas for k in range(3)]
+    terms += [q["eta"][a] + q["rho"][b] + q["chi"][c] + q["phi"]
+              for a in range(3) for b in range(3) for c in range(3) if len({a, b, c}) == 3]
+    n_anti = (n_c + 1) // 2
+    count = {"u": n_c, "d": n_c, "u'": n_c - n_anti, "d'": n_anti}
+    return terms, sum(n * (q[f + "R"] - q[f + "L"]) for f, n in count.items())
+
+
+def why_these_inputs():
+    st = 9
+    banner("9  Why these inputs? The 19 parameters, the attempts to explain them, and 3-3-1 flavour")
+    print("   Not from the blind build. Established physics stops at 'measured' and 'relation'; [conj] and [emp]")
+    print("   rows go beyond it and are outside the fit. Sources and the full calculation: WHY.md, src/why_parameters.py.")
+    mpl, Nc = take(st, "M_Pl"), take(st, "N_c")
+    v = gauge331.vev_from_GF(take(st, "G_F"))
+    mt, mh, a_s = inputs.M_T, inputs.M_H, inputs.ALPHA_S_MZ
+
+    # the Higgs and top masses from conditions at the Planck mass of step 1
+    print("\n   The Higgs mass, if the quartic coupling vanishes at step 1's Planck mass (asymptotic safety):")
+    m0, t0, dt, kt, a0, da, ka, sw_err = inputs.sw10_mmin
+    sw = m0 + (mt - t0) / dt * kt - (a_s - a0) / da * ka
+    b61 = _mh_zero_quartic(mt)
+    check("two published NNLO formulas agree on that Higgs mass to 0.1 GeV (Shaposhnikov-Wetterich eq. 12, Buttazzo et"
+          " al. eq. 61e)", abs(sw - b61) < 0.1, f"{sw:.2f} vs {b61:.2f} GeV")
+    beyond("conj", "Higgs mass from lambda(M_Pl) = 0", sw, mh, math.hypot(sw_err, kt / dt * inputs.M_T_ERR_MEV / 1e3), "GeV",
+           "asymptotically safe gravity, no new scale below M_Pl")
+    start = _b13_at_mt(mt, mh)
+    top = _sm_run(start, mt, mpl)
+    back = _sm_run(top, mpl, mt)
+    check("the one-loop running integrates there and back to its start", max(rel(a, b) for a, b in zip(back, start)) < 1e-9)
+    info("the measured couplings at M_Pl", f"lambda = {top[4]:+.4f} at one loop, {_b13_at_planck(mt, mh)[4]:+.4f} at NNLO"
+         f" (eq. 61e); y_t = {top[3]:.3f}; alpha_3 = 1/{4 * math.pi / top[2] ** 2:.1f}")
+    # two conditions: lambda = 0 and beta_lambda = 0 at M_Pl fix both masses from the gauge couplings
+    x = mt
+    for _ in range(60):
+        gY, g2, _, _, _ = _b13_at_planck(x, mh)
+        c = inputs.b13_at_mpl["yt"]
+        x = inputs.b13_ref[0] + (_yt_flat(gY, g2) - c[0] - c[2] * (a_s - inputs.b13_ref[2]) / inputs.b13_ref[3]) / c[1]
+    mt_n, mh_n = x, _mh_zero_quartic(x)
+    sol = _b13_at_planck(mt_n, mh_n)
+    check("that solution has lambda = 0 and beta_lambda = 0 at M_Pl", abs(sol[4]) < 1e-12 and abs(_sm_beta(sol)[4]) < 1e-12)
+    down = _sm_run([top[0], top[1], top[2], _yt_flat(top[0], top[1]), 0.0], mpl, mt)
+    c = inputs.b13_at_mt
+    mt_1 = inputs.b13_ref[0] + (down[3] - c["yt"][0] - c["yt"][2] * (a_s - inputs.b13_ref[2]) / inputs.b13_ref[3]) / c["yt"][1]
+    mh_1 = inputs.b13_ref[1] + (down[4] - c["lam"][0] - c["lam"][2] * (mt - inputs.b13_ref[0])) / c["lam"][1]
+    print("   Adding beta_lambda(M_Pl) = 0 fixes the top mass too, from the gauge couplings alone (this file's combination):")
+    beyond("conj", "top mass, NNLO couplings at M_Pl", mt_n, mt, None, "GeV", "lambda = beta_lambda = 0 at M_Pl")
+    beyond("conj", "Higgs mass, NNLO couplings at M_Pl", mh_n, mh, None, "GeV", "lambda = beta_lambda = 0 at M_Pl")
+    beyond("conj", "top mass, one loop throughout", mt_1, mt, None, "GeV", "lambda = beta_lambda = 0 at M_Pl")
+    beyond("conj", "Higgs mass, one loop throughout", mh_1, mh, None, "GeV", "lambda = beta_lambda = 0 at M_Pl")
+    info("the two methods differ by", f"{mt_n - mt_1:.1f} GeV (top) and {mh_n - mh_1:.1f} GeV (Higgs): the size of the"
+         " method's error")
+    beyond("conj", "top mass from asymptotic safety (quoted, Eichhorn-Held)", inputs.eh17_mt, mt, None, "GeV",
+           "asymptotically safe gravity")
+    tmax, terr = inputs.b13_mt_max
+    info("read the other way (Buttazzo et al. eq. 66)", f"the measured Higgs mass needs M_t < {tmax} +- {terr} GeV;"
+         f" measured {mt}: {(mt - tmax) / math.hypot(terr, inputs.M_T_ERR_MEV / 1e3):+.1f} sigma")
+    y_hi = [_sm_run([top[0], top[1], top[2], y0, 0.0], mpl, mt)[3] for y0 in (1.0, math.sqrt(4 * math.pi))]
+    info("the top's infrared quasi-fixed point", f"y_t(M_Pl) from 1 to {math.sqrt(4 * math.pi):.2f} runs to y_t(M_t) ="
+         f" {y_hi[0]:.3f} to {y_hi[1]:.3f}, {100 * (y_hi[0] / start[3] - 1):.0f}% to {100 * (y_hi[1] / start[3] - 1):.0f}%"
+         " above the measured value: an upper bound, not the value")
+
+    # the strong coupling: a relation
+    a3 = _b13_at_planck(mt, mh)[2] ** 2 / (4 * math.pi)
+    lam_qcd = mpl * math.exp(-2 * math.pi / (7 * a3))
+    info("the proton's mass scale", f"alpha_3(M_Pl) = 1/{1 / a3:.1f} gives, at one loop with six flavours, M_Pl"
+         f" exp(-2 pi/(7 alpha_3)) = {lam_qcd:.3f} GeV = {lam_qcd / mpl:.1e} M_Pl; d ln/d ln alpha_3 = {2 * math.pi / (7 * a3):.1f}."
+         " The ratio is explained; the coupling's value is not")
+
+    # the weak mixing angle: a bound from step 1's matching
+    g = math.sqrt(4 * math.pi / inputs.ALPHA_MZ_INV / inputs.S2_MZ)
+    for var in gauge331.VARIANTS:
+        lim = 1 / (gauge331.inv_e2(var, g, 1e9) * g * g)
+        check(f"3-3-1 bounds sin^2 theta_W below 3/4 (beta = {var}): the photon's coupling at g_X -> infinity",
+              rel(lim, 0.75) < 1e-9 and inputs.S2_MZ < lim, f"limit {lim:.6f}, measured {inputs.S2_MZ}")
+
+    # the strong CP angle: Peccei-Quinn in 3-3-1
+    terms, anomaly = _pq_check(Nc)
+    check("the 3-3-1 Yukawa terms and eta rho chi phi are invariant under the published Peccei-Quinn charges",
+          len(terms) == 27 and all(t == 0 for t in terms), f"{len(terms)} components")
+    check("its colour anomaly is not zero, for step 1's N_c and for 5 and 7 colours: theta-bar can be rotated away",
+          anomaly == 2 and _pq_check(5)[1] == 2 and _pq_check(7)[1] == 2, f"{anomaly} X_d")
+    info("the price", "an axion, which has not been observed [conj]")
+
+    # two empirical regularities
+    (md, dmd), (ms, dms), (s12, ds12) = inputs.M_D_2GEV, inputs.M_S_2GEV, inputs.S12_CKM
+    r = md / ms
+    th, t12 = math.atan(math.sqrt(r)), math.asin(s12)
+    dth = 0.5 * math.sqrt(r) / (1 + r) * math.hypot(dmd / md, dms / ms)
+    beyond("emp", "Cabibbo angle from arctan sqrt(m_d/m_s) (Gatto-Sartori-Tonin)", th, t12,
+           math.hypot(dth, ds12 / math.sqrt(1 - s12 ** 2)), "rad", "no derivation")
+    me, mmu, mtau = inputs.M_E, inputs.M_MU, inputs.M_TAU
+    koide = (me + mmu + mtau) / (math.sqrt(me) + math.sqrt(mmu) + math.sqrt(mtau)) ** 2
+    ssum, psum = math.sqrt(me) + math.sqrt(mmu), me + mmu
+    mtau_k = (2 * ssum + math.sqrt(6 * ssum ** 2 - 3 * psum)) ** 2
+    check("the tau mass that solves Koide's relation gives K = 2/3", rel((psum + mtau_k) / (ssum + math.sqrt(mtau_k)) ** 2, 2 / 3) < 1e-12)
+    beyond("emp", "tau mass from Koide's relation K = 2/3", 1e3 * mtau_k, 1e3 * mtau, 1e3 * inputs.M_TAU_ERR, "MeV",
+           "no derivation; holds for pole masses only")
+    info("Koide's K with the measured masses", f"{koide:.7f} = 2/3 x (1 {koide / (2 / 3) - 1:+.1e})")
+
+    # quark flavour in 3-3-1
+    print("\n   Quark flavour in 3-3-1 (beta = -1/sqrt3): one family is a triplet, two are antitriplets, so the up-type")
+    print("   masses come from (v_rho, v_rho, v_eta) by family and the down-type from (v_eta, v_eta, v_rho).")
+    yk = inputs.YUKAWA_MZ
+    tb = yk["t"] / yk["b"]
+    sb, cb = tb / math.sqrt(1 + tb * tb), 1 / math.sqrt(1 + tb * tb)
+    y331 = {qk: yk[qk] / (sb if qk in "tds" else cb) for qk in yk}
+    check("at tan b = y_t/y_b the top and bottom Yukawas are equal", rel(y331["t"], y331["b"]) < 1e-12, f"tan b = {tb:.1f}")
+    print("   Yukawas there: " + ", ".join(f"y_{qk} = {y331[qk]:.2e}" for qk in "tbcsud"))
+    info("largest/smallest quark Yukawa", f"{max(yk.values()) / min(yk.values()):.2e} in the Standard Model,"
+         f" {max(y331.values()) / min(y331.values()):.2e} here: the triplet family's two are equal, the antitriplet"
+         f" families' four are {y331['c']:.2f} and below. tan b is a new parameter, traded for m_b/m_t")
+    # the same ratio moves the Z mass: rho from step 1's mass matrix
+    var = "-1/sqrt3"
+    gX = toolkit.bisect(lambda z: gauge331.inv_e2(var, g, z) - inputs.ALPHA_MZ_INV / (4 * math.pi), 1e-3, 50.0)
+    w = 30 * v
+    xr = gX * gX / (g * g)
+    s2a0 = (3 + 4 * xr) / (2 * (3 + xr))
+    mz_inf = gauge331.mz_tree(inputs.G_F, inputs.ALPHA_MZ_INV, inputs.S2_MZ) ** 2      # the w -> infinity limit (step 1)
+    rows = []
+    for t in (1.0, tb):
+        v1, v2 = v / math.sqrt(1 + t * t), v * t / math.sqrt(1 + t * t)          # v1 in rho, v2 in eta
+        rho = mz_inf / gauge331.neutral_masses(var, g, gX, w, v1, v2)[0] - 1
+        closed = (v / w) ** 2 * (t * t / (1 + t * t) - s2a0) ** 2
+        rows.append((t, rho, closed))
+    check("rho - 1 from step 1's mass matrix equals (v/w)^2 (sin^2 a - sin^2 a0)^2, for tan a = 1 and tan a = tan b",
+          all(rel(rho, closed) < 5 * (v / w) ** 2 for _, rho, closed in rows),
+          "; ".join(f"tan a = {t:.1f}: {rho * (w / v) ** 2:.4f} vs {closed * (w / v) ** 2:.4f} (v/w)^2" for t, rho, closed in rows))
+    r0, dr0 = inputs.RHO_0
+    info("so flavour's vev ratio feeds the Z mass", f"rho - 1 = {rows[1][2] / rows[0][2]:.1f} times its value at v1 = v2"
+         f" (step 1's choice); the global fit has rho_0 - 1 = {r0 - 1:.2e} +- {dr0:.1e}")
+    print("   With random O(1) Yukawas this row structure pairs the top with the lightest down quark (median |V_tb| = 0.01")
+    print("   at this tan b; src/why_parameters.py F3, not standard library): the measured mixing needs a hierarchy in the")
+    print("   Yukawas themselves. And zero quartics at M_Pl leave the 3-3-1 potential unbounded below (its W2).")
+    give(st, "tan b", tb)
+
+
 # ---------------------------------------------------------------------------------- summary
 def summary():
     banner("Hand-offs: each value, the step that produced it, the steps that used it")
@@ -408,6 +635,14 @@ def summary():
     print("   the pion's decay rate, its radiative correction and |V_ud|; the lattice constants; g_A and the")
     print("   nucleon and pion masses; Lambda; diamond's permittivity and density; the astronomical data.")
     print("   Chosen, not measured: the 3-3-1 scale MU_331, the ratio v1/v2, the diamond design.")
+
+    banner("Beyond the measured inputs (step 9): conjectures and regularities, outside the fit")
+    for tag, label, value, meas, p, assumes in BEYOND:
+        print(f"   [{tag}] {100 * (value / meas - 1):+7.2f}%" + (f" {p:+5.1f} sigma" if p is not None else "            ")
+              + f"   {label}\n                               assumes: {assumes}")
+    print("\n   Of the Standard Model's 19 parameters none is derived. Step 9 and WHY.md sort them: 11 measured with no")
+    print("   explanation, 3 related to other inputs by established physics, 2 with an empirical regularity, 3 with a")
+    print("   conjectured explanation.")
 
     banner("The fit: every derived value that has a measurement")
     chi2 = 0.0
@@ -427,11 +662,13 @@ def summary():
                               "NOT ALL PASS: " + "; ".join(bad_math + [row[0] for row in FIT if abs(row[4]) > 2])))
     print("   This tests the chain's wiring and its derived numbers. It does not test the measured inputs,")
     print("   and step 1's tree-level M_Z is outside this verdict because the chain has no loop corrections.")
+    print("   Step 9's [conj] and [emp] rows are outside it too: they test explanations, not the chain.")
     return 0 if fits and not bad_math else 1
 
 
 def run():
-    for step in (unification, photon, weak_to_strong, strong, lab_electromagnetism, lab_gravity, gauge_gravity, black_holes):
+    for step in (unification, photon, weak_to_strong, strong, lab_electromagnetism, lab_gravity, gauge_gravity, black_holes,
+                 why_these_inputs):
         step()
     return summary()
 
