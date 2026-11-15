@@ -185,9 +185,9 @@ def check_three_loop_sm():
 
 
 # --------------------------------------------------------------------------- running
-def c3_tensor(Nc, variant):
+def c3_tensor(Nc, variant, Ng=None):
     """B3_i(g) = sum_{j<=k} c[i][j][k] g_j g_k, extracted exactly from the quadratic form."""
-    gs, ferm, scal, _ = E.MODELS[variant](Nc)
+    gs, ferm, scal, _ = E.MODELS[variant](Nc, Ng)
     e = [[F(int(a == b)) for b in range(3)] for a in range(3)]
     c = np.zeros((3, 3, 3))
     diag = [B3(gs, ferm, scal, e[j]) for j in range(3)]

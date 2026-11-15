@@ -245,7 +245,8 @@ The Planck scale is 1.2×10¹⁹ GeV.
 | Check | Result |
 |---|---|
 | Two-loop machinery, calibrated on the Standard Model | reproduces (41/10, −19/6, −7) and all nine two-loop coefficients exactly |
-| Second derivation from explicit generator matrices (`src/m331_matrix_check.py`) | every one- and two-loop gauge coefficient and every two-loop Yukawa coefficient, both variants, N_c = 3, 5, 7 and (2, 4), agrees to 10⁻¹³; each Yukawa matrix is gauge invariant with a scalar the model has. No tabulated index, Casimir or dimension is used. It shares the general two-loop formula; it is not a comparison with an external package (PyR@TE, SARAH), which remains to be done |
+| Second derivation from explicit generator matrices (`src/m331_matrix_check.py`) | every one- and two-loop gauge coefficient and every two-loop Yukawa coefficient, both variants, N_c = 3, 5, 7 and (2, 4), agrees to 10⁻¹³; each Yukawa matrix is gauge invariant with a scalar the model has. No tabulated index, Casimir or dimension is used. It shares the general two-loop formula |
+| Comparison with an external package, PyR@TE 3 (arXiv:2007.12700; `tools/pyrate_crosscheck.py`, output `results/m331/pyrate/`) | PyR@TE, given the models as model files, checks each Lagrangian for gauge invariance and returns the gauge β-functions. For both variants and (N_c, N_g) = (3, 3), (5, 5), (2, 4), all 3 one-loop, 9 two-loop, the top, exotic-quark and heavy-lepton Yukawa coefficients, and all 18 three-loop gauge coefficients agree **exactly** with this note's. At three loops PyR@TE uses the same source formula (Poole–Thomsen), so that part checks the implementation, not the formula |
 | 3-3-1 scale 2–30 TeV (β = −1/√3) | N_c = 3: (2.7–3.6)×10²⁹ GeV; N_c = 5: (0.8–4.4)×10¹⁵ GeV |
 | 3-3-1 scale 2–30 TeV (β = +1/√3) | N_c = 3: (2.9–9.8)×10¹⁹ GeV; N_c = 5: (3.3–24)×10¹¹ GeV |
 | Criterion α = 1 instead of g = 4π | β = −1/√3: 1.7×10²⁹ vs 1.0×10¹⁵; β = +1/√3: 2.9×10¹⁹ vs 4.6×10¹¹ |

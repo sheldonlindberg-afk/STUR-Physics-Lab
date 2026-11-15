@@ -29,6 +29,7 @@ of known physics; this is the only part that claims something new. Not peer revi
 |---|---|---|
 | Charges, anomalies, N_g = N_c, the colour conditions, the flipped model's relation | [m331_exact.py](../src/m331_exact.py) (core: [m331_core.py](../src/m331_core.py)) | [331_exact.txt](../results/m331/331_exact.txt) |
 | The β-function coefficients a second time, from explicit matrices | [m331_matrix_check.py](../src/m331_matrix_check.py) | [331_matrix_check.txt](../results/m331/331_matrix_check.txt) |
+| The same coefficients from an external package, PyR@TE 3: exact agreement to three loops | [tools/pyrate_crosscheck.py](../tools/pyrate_crosscheck.py) | [pyrate_crosscheck.json](../results/m331/pyrate/pyrate_crosscheck.json) |
 | Two-loop Yukawa terms, dependence on the measured couplings | [m331_yukawa.py](../src/m331_yukawa.py) | [331_yukawa.txt](../results/m331/331_yukawa.txt) |
 | The selection as a map of coupling space | [m331_coupling_map.py](../src/m331_coupling_map.py) | [331_coupling_map.txt](../results/m331/331_coupling_map.txt) |
 | One-loop threshold matching over the heavy spectrum | [m331_threshold.py](../src/m331_threshold.py) | [331_threshold.txt](../results/m331/331_threshold.txt) |
@@ -42,8 +43,6 @@ Tests: `python -m pytest tests/test_331_*.py -q`.
 
 ## Known limits
 
-- The β-function coefficients are derived twice inside this repository, but have not been
-  compared with an external package (PyR@TE or SARAH).
 - The heavy-lepton threshold carries a 20% truncation error. Three-loop Yukawa terms and
   two-loop threshold matching would be needed to reduce it; neither is computed.
 - The flipped 3-3-1 model and values of β other than ±1/√3 are outside the claim.

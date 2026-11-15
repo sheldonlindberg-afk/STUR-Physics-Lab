@@ -25,9 +25,8 @@ M3  The top, exotic-quark and heavy-lepton Yukawa matrices are gauge invariant w
 
 What this is and is not. It is a second derivation of every group-theory input: each
 index, Casimir, multiplicity and dimension is recomputed from matrices. It shares the
-general two-loop formula with m331_exact; that formula's normalisation is fixed by M1. It is
-not a comparison with an external package such as PyR@TE or SARAH, which would be a
-further, stronger check.
+general two-loop formula with m331_exact; that formula's normalisation is fixed by M1. The
+comparison with an external package, PyR@TE 3, is tools/pyrate_crosscheck.py.
 """
 import os
 import sys

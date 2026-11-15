@@ -259,8 +259,14 @@ every one- and two-loop gauge coefficient and every two-loop Yukawa coefficient 
 recomputed from explicit generator matrices of $U(1)_X\times SU(3)_L\times SU(\Nc)$ on
 each multiplet, with each Yukawa matrix checked to be gauge invariant; for both variants,
 $\Nc=3,5,7$ and $(2,4)$, the two routes agree to $10^{-13}$. This checks every group-theory
-input but shares the general two-loop formula~\cite{Machacek:1983tz}; a comparison with an
-external package remains to be done. Table~\ref{tab:robust}
+input but shares the general two-loop formula~\cite{Machacek:1983tz}. As an external check,
+the models were given to the package PyR@TE~3~\cite{Sartore:2020gou}, which verifies the
+gauge invariance of each Lagrangian and derives the $\beta$-functions independently. For
+both variants and $(\Nc,\Ng)=(3,3)$, $(5,5)$ and $(2,4)$, every one- and two-loop gauge
+coefficient, the top, exotic-quark and heavy-lepton Yukawa coefficients, and every
+three-loop gauge coefficient agree exactly with ours (at three loops PyR@TE implements the
+same general result~\cite{Poole:2019kcm}, so that part checks the implementation).
+Table~\ref{tab:robust}
 varies the 3-3-1 scale and the perturbativity criterion.
 
 \begin{table}[h]\centering\small
@@ -628,6 +634,8 @@ are produced by the scripts in \texttt{tools/}.
 \bibitem{Fonseca:2016tbn} R.~M.~Fonseca and M.~Hirsch, \emph{A flipped 331 model}, JHEP \textbf{08} (2016) 003, \href{https://doi.org/10.1007/JHEP08(2016)003}{doi:10.1007/JHEP08(2016)003}, \href{https://arxiv.org/abs/1606.01109}{arXiv:1606.01109}.
 
 \bibitem{Cacciapaglia:2026} G.~Cacciapaglia, F.~Sannino and S.~Wagner, \emph{Completely asymptotically free chiral theories with scalars}, Phys.\ Rev.\ D \textbf{114}, 075020 (2026), \href{https://doi.org/10.1103/mbrx-d3fg}{doi:10.1103/mbrx-d3fg}, \href{https://arxiv.org/abs/2605.08294}{arXiv:2605.08294}.
+\bibitem{Sartore:2020gou} L.~Sartore and I.~Schienbein, \emph{PyR@TE 3}, \href{https://arxiv.org/abs/2007.12700}{arXiv:2007.12700}.
+
 \bibitem{Poole:2019kcm} C.~Poole and A.~E.~Thomsen, \emph{Constraints on 3- and 4-loop $\beta$-functions in a general four-dimensional quantum field theory}, JHEP \textbf{09}, 055 (2019), \href{https://arxiv.org/abs/1906.04625}{arXiv:1906.04625}.
 \bibitem{Mihaila:2012fm} L.~N.~Mihaila, J.~Salomon and M.~Steinhauser, \emph{Gauge coupling beta functions in the Standard Model to three loops}, Phys.\ Rev.\ Lett.\ \textbf{108}, 151602 (2012), \href{https://arxiv.org/abs/1201.5868}{arXiv:1201.5868}.
 \bibitem{Lindner:2016bgg} M.~Lindner, M.~Platscher and F.~S.~Queiroz, \emph{A call for new physics: the muon anomalous magnetic moment and lepton flavor violation}, Phys.\ Rept.\ \textbf{731}, 1 (2018), \href{https://doi.org/10.1016/j.physrep.2017.12.001}{doi:10.1016/j.physrep.2017.12.001}, \href{https://arxiv.org/abs/1610.06587}{arXiv:1610.06587}.

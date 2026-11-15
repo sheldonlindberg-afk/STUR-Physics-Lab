@@ -57,8 +57,10 @@ only **N_c = N_g = 3** survives, with quark charges ⅔ and −⅓. The selectio
 - in both variants β = ±1/√3 (for β = +1/√3, only if its heavy charged leptons are above
   about 0.65 TeV; see below).
 
-Every β-function coefficient is derived twice: from tabulated group invariants, and from
-explicit generator matrices ([`src/m331_matrix_check.py`](src/m331_matrix_check.py)).
+Every β-function coefficient is derived twice here, from tabulated group invariants and from
+explicit generator matrices ([`src/m331_matrix_check.py`](src/m331_matrix_check.py)), and
+agrees exactly, to three loops, with the external package PyR@TE 3
+([`tools/pyrate_crosscheck.py`](tools/pyrate_crosscheck.py)).
 
 Requiring the scalar sector to stay perturbative to M_Pl then bounds the exotic quarks
 below 1.4–1.8 M_V.
@@ -256,7 +258,7 @@ python3 src/ladder_links.py          # links across the rungs: neutral matter, p
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
 python3 src/why_parameters.py        # the 19 parameters: explanations tested, 3-3-1 flavour, ~3 s
 python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (303 tests)
+python -m pytest tests -q           # every number pinned (308 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on
