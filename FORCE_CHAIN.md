@@ -6,7 +6,7 @@ evaporate back up through every force. Each stage is a function that takes value
 stages returned and returns new ones. A ledger records every hand-off, and
 [`tests/test_force_chain.py`](tests/test_force_chain.py) checks that each stage after the
 first uses an earlier stage's output and that nothing is retyped in between. Output:
-[`results/force_chain.txt`](results/force_chain.txt); about 3 s.
+[`results/force_chain.txt`](results/force_chain.txt); about 4 s.
 
 ```bash
 python3 src/force_chain.py
@@ -24,6 +24,48 @@ python3 src/force_chain.py
 | 6 Gravity in the lab | One-graviton exchange: design A's entangling phase, **2.187 rad**; 1.99 rad without the u and d quarks' masses | G, gap, mass budget | phase, mass, cryostat temperature | the cryostat temperature (a design choice) |
 | 7 Gravity as a broken gauge theory | SO(4,1) → SO(3,1) (MacDowell–Mansouri): l = 1.65×10²⁶ m, coupling 10¹²²; the Λ term cancels in the entangling phase; the field equations give Schwarzschild–de Sitter | G, phase | l, f(r) | Λ |
 | 8 Black holes | Surface gravity from the gauge theory's spin connection; Sgr A*'s Hawking temperature from stage 7's f(r) (Λ changes it by 2×10⁻³²); the EHT shadows and GW250114's area law; then an evaporating hole's temperature passes the cryostat, the CMB, electrons, pions, the QCD crossover, the W and Z, the electroweak crossover, the 3-3-1 scale, and ends at stage 1's Planck mass | l, f(r), G, M_Pl, M_V, cryostat temperature, mass | — | EHT, stellar-orbit and LVK data (in `src/black_holes.py`) |
+
+## Branches: where the chain meets a measurement it did not use
+
+Four branches leave the chain ([`src/chain_branches.py`](src/chain_branches.py); output
+[`results/branches/output.txt`](results/branches/output.txt)). Each takes values the chain
+already carries, adds the inputs named, and ends at a number that has been measured. They
+are numbered by the stage they follow, and the ledger records their hand-offs like any other.
+
+| Branch | Takes from the chain | Result | Measured | Inputs entering here |
+|---|---|---|---|---|
+| 2a The W mass | G_F (stage 1), α(0) (stage 2) | Tree level 80.94 GeV; with stage 2's running of α 79.96; with the top quark's loop **80.47 GeV** | 80.369 ± 0.013 GeV | M_Z, m_t |
+| 3a The neutron lifetime | G_F (stage 1), \|V_ud\| (stage 3) | Phase space computed from m_n − m_p; tree level 913 s; with the quoted radiative corrections **880.6 ± 1.6 s** | 878.4 ± 0.5 s | g_A, m_n − m_p, the radiative corrections |
+| 4a Primordial helium | M_Pl (stage 1), α(0) (stage 2), the lifetime (3a) | 16.0% neutrons at weak freeze-out, 12.0% left when deuterium burns at 71 keV: **Y_p = 0.241** | 0.245 ± 0.003 | baryon density, deuteron binding, two nuclear cross sections |
+| 7a When matter collapses | M_Pl and G (stage 1) | M_Pl³/m_n² = 1.85 M☉. Electrons hold up 3.098/μ_e² of it (**1.456 M☉** for carbon); free neutrons in general relativity 0.384 of it (**0.710 M☉**) | heaviest neutron star 2.08 ± 0.07 M☉ | the Sun's GM, nucleon masses |
+
+What each one connects:
+
+- **2a** closes most of a gap the chain already admitted: its tree-level electroweak masses
+  miss by far more than the measurement's error. Stage 2's running of α alone overshoots
+  (−0.5%); the top quark's loop brings it back to +0.13%. The remaining bosonic and
+  two-loop terms are not computed, so the comparison is printed, not claimed.
+- **3a** is the weak force acting on the strong force's bound state. The only strong-force
+  input is g_A; the error is dominated by it, and the result sits 1.3σ above the measurement.
+- **4a** needs all four forces. Gravity (stage 1's Planck mass) sets how fast the universe
+  expands; the weak force (3a's lifetime) sets when neutrons stop converting and how fast
+  they decay; the strong force (the deuteron's binding) sets when deuterium survives; and
+  electromagnetism (stage 2's α) sets the barrier it must cross to burn. With G 10% larger
+  the helium fraction would be 0.249.
+- **7a** joins the two ends of the chain. The same G that stage 6's diamonds measure, and
+  the nucleon mass that stage 4 traces to QCD field energy, fix the mass at which matter can
+  no longer hold itself up: two pure numbers, both integrated here, times M_Pl³/m_N². The
+  heaviest neutron star measured is 2.9 times the free-neutron limit, so stage 4's nuclear
+  force, not Pauli pressure, carries it. Stage 8's black holes are 45 times above the limit.
+
+Two of these carry a model, named where it enters. Branch 2a keeps only the two leading
+pieces of the electroweak correction. Branch 4a uses a minimal reaction network: n + p ↔ D + γ
+and D + D, with every fusion taken to end in helium-4. It leaves twice the measured
+deuterium, because it has no D + p → ³He, and its helium moves by less than 0.002 when
+either nuclear cross section is doubled or halved. Full nucleosynthesis codes give 0.247.
+
+The branches are not part of the first-principles file below: that file is assembled from
+the blind rebuild, which has no stages for them.
 
 ## What closes and what doesn't
 

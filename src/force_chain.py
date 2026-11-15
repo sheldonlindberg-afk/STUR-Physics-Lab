@@ -40,6 +40,18 @@ in which they hand results to each other.
      scale above, from stage 6's cryostat to stage 1's Planck mass, and its emission counts
      stage 1's particles.
 
+Four branches leave the chain where its values meet a measurement it did not use
+(src/chain_branches.py). They are numbered by the stage they follow:
+  2a The W mass, from stage 1's G_F and stage 2's alpha: the running of alpha and the top
+     quark's loop bring the tree-level value to 0.13% of the measurement. In: M_Z, m_t, M_W.
+  3a The neutron lifetime, from stage 1's G_F and stage 3's |V_ud|. In: g_A, the neutron-proton
+     mass difference, the quoted radiative corrections.
+  4a Primordial helium, from stage 1's G (through M_Pl), stage 2's alpha and 3a's lifetime:
+     all four forces in one number. In: the baryon density, the deuteron's binding energy,
+     two nuclear cross sections.
+  7a The masses at which cold matter collapses, from stage 1's Planck mass and the nucleon
+     mass: two pure numbers times M_Pl^3/m_N^2. Stage 8's black holes lie above them.
+
 Labels as in the modules called. Independent work, not peer reviewed.
 """
 import math
@@ -68,6 +80,11 @@ def use(stage, name):
                 row[3].append(stage)
             return row[1]
     raise KeyError(name)
+
+
+def order(stage):
+    """Position in the chain: stages are 1..8, branches '2a', '3a', ... follow their stage."""
+    return (stage, "") if isinstance(stage, int) else (int(stage[:-1]), stage[-1])
 
 
 def measured(stage, name, value, source):
@@ -129,6 +146,7 @@ def weak_to_strong():
     banner("3  Weak to strong: G_F and the pion's weak decay give the pion decay constant")
     print(f"   f_pi = {f * 1e3:.2f} MeV (lattice, not used: 130.2 +- 1.2)")
     produce(st, "f_pi", f)
+    produce(st, "|V_ud|", LL.V_UD[0])
 
 
 # ------------------------------------------------------------------------------- stage 4
@@ -243,6 +261,7 @@ def black_holes():
     G = use(st, "G")
     m = use(st, "diamond mass")
     mpl = use(st, "M_Pl")
+    m_ov = use(st, "neutron-star limit (free neutrons)")
     t_cryo = use(st, "cryostat T")
     mv = use(st, "M_V floor")
     resid = BH.surface_gravity_from_spin_connection()
@@ -278,6 +297,8 @@ def black_holes():
           " too light to be a semiclassical black hole")
     print(f"   EHT: M87* {e['M87*'][2]:+.2f} sigma, Sgr A* {e['Sgr A*'][2]:+.2f} sigma;"
           f"  GW250114 area {a_i:.0f} -> {a_f:.0f} km^2 (it grew, as Hawking's area law requires)")
+    print(f"   GW250114's holes, {BH.GW_M1:.1f} and {BH.GW_M2:.1f} solar masses, are {BH.GW_M2 / m_ov:.0f} to"
+          f" {BH.GW_M1 / m_ov:.0f} times branch 7a's free-neutron limit: nothing could hold them up")
     print("   a shrinking hole's temperature, coldest first:")
     for lab, T, M, tau, f in rows:
         print(f"      {lab:52s} T = {T:9.2e} GeV, {tau:9.2e} s left, f = {f:5.2f}")
@@ -287,14 +308,88 @@ def black_holes():
     produce(st, "end temperature", last_T)
 
 
+# ------------------------------------------------------------------------------ branches
+def w_mass():
+    st = "2a"
+    import chain_branches as CB
+    import ladder_links as LL
+    GF, a0 = use(st, "G_F"), use(st, "alpha(0)")
+    measured(st, "M_Z, m_t", (LL.M_Z, CB.M_TOP), "PDG 2024")
+    measured(st, "M_W", CB.M_W_MEAS[0], "PDG 2024 (compared, not used)")
+    w = CB.w_mass(a0, GF)
+    banner("2a The W mass: what stage 2's running of alpha, and the top quark, do to it")
+    for k, lab in (("tree", "tree level with stage 2's alpha(0)"), ("running", "with alpha run to M_Z (stage 2)"),
+                   ("top", "with the top quark's loop"), ("top + QCD", "and its QCD correction")):
+        print(f"   {lab:36s}: {w[k]:.3f} GeV  ({100 * (w[k] / CB.M_W_MEAS[0] - 1):+.2f}%)")
+    print(f"   measured {CB.M_W_MEAS[0]} +- {CB.M_W_MEAS[1]} GeV; the remaining bosonic loops are not computed")
+    produce(st, "M_W", w["top + QCD"])
+
+
+def neutron_lifetime():
+    st = "3a"
+    import chain_branches as CB
+    GF, Vud = use(st, "G_F"), use(st, "|V_ud|")
+    measured(st, "g_A", CB.G_A[0], "PDG 2024")
+    measured(st, "m_n - m_p", CB.DM_NP, "CODATA 2018")
+    measured(st, "radiative corrections to neutron decay", CB.MS_CONSTANT[0], "Marciano and Sirlin 2006")
+    measured(st, "neutron lifetime", CB.TAU_N_MEAS[0], "PDG 2024 (compared, not used)")
+    tree, tau, err = CB.neutron_lifetime(GF, Vud)
+    banner("3a The neutron lifetime: the weak force acting on the strong force's nucleon")
+    print(f"   phase space from m_n - m_p, computed: f = {CB.phase_space():.4f};  tree level {tree:.1f} s")
+    print(f"   with the quoted radiative corrections: {tau:.1f} +- {err:.1f} s"
+          f"  (measured {CB.TAU_N_MEAS[0]} +- {CB.TAU_N_MEAS[1]} s)")
+    produce(st, "neutron lifetime", tau)
+
+
+def primordial_helium():
+    st = "4a"
+    import chain_branches as CB
+    tau, mpl, a0 = use(st, "neutron lifetime"), use(st, "M_Pl"), use(st, "alpha(0)")
+    measured(st, "baryon-to-photon ratio", CB.ETA10[0] * 1e-10, "PDG 2024 (Planck)")
+    measured(st, "deuteron binding, n + p and D + D cross sections", CB.B_DEUTERON, "nuclear data (AUDIT.md)")
+    measured(st, "Y_p", CB.YP_MEAS[0], "PDG 2024 (compared, not used)")
+    h = CB.helium(tau, mpl, a0)
+    banner("4a Primordial helium: gravity's clock, the weak rates, the deuteron, the Coulomb barrier")
+    print(f"   gravity (stage 1's M_Pl) sets the expansion: {h['t(T = 1 MeV)']:.2f} s at 1 MeV,"
+          f" {h['t(T = 0.1 MeV)']:.0f} s at 0.1 MeV")
+    print(f"   the weak rates, normalised to 3a's lifetime, freeze out with {100 * h['X_n at freeze-out']:.1f}% neutrons")
+    print(f"   deuterium survives and burns through stage 2's Coulomb barrier at {h['T at half helium'] * 1e3:.0f} keV,"
+          f" {h['t at half helium']:.0f} s; by then {100 * h['X_n when helium forms']:.1f}% neutrons are left")
+    print(f"   helium mass fraction Y_p = {h['Y_p']:.4f}  (measured {CB.YP_MEAS[0]} +- {CB.YP_MEAS[1]});"
+          " a minimal network, see chain_branches.py")
+    produce(st, "Y_p", h["Y_p"])
+
+
+def collapse():
+    st = "7a"
+    import black_holes as BH
+    import chain_branches as CB
+    mpl, G = use(st, "M_Pl"), use(st, "G")
+    measured(st, "solar mass parameter, nucleon masses", BH.GM_SUN, "IAU 2015; CODATA 2018")
+    measured(st, "heaviest neutron star", CB.M_NS_MEAS[0], "PSR J0740+6620 (compared, not used)")
+    s = CB.collapse_limits(mpl, G, BH.GM_SUN)
+    banner("7a When matter collapses: stage 1's Planck mass and the nucleon's mass")
+    print(f"   M_Pl^3 / m_n^2 = {s['M_Pl^3/m_n^2']:.3f} solar masses, {s['nucleons']:.1e} nucleons")
+    print(f"   electrons' Pauli pressure (Chandrasekhar): {s['Chandrasekhar number']:.3f}/mu_e^2 of it ="
+          f" {s['M_Ch']:.3f} solar masses for carbon, the diamonds' element")
+    print(f"   free neutrons in general relativity (Oppenheimer-Volkoff): {s['OV number']:.4f} of it ="
+          f" {s['M_OV']:.3f} solar masses")
+    print(f"   heaviest neutron star measured: {CB.M_NS_MEAS[0]} +- {CB.M_NS_MEAS[1]} solar masses,"
+          f" {CB.M_NS_MEAS[0] / s['M_OV']:.1f} times that: stage 4's nuclear force, not Pauli pressure, carries it")
+    produce(st, "Chandrasekhar mass", s["M_Ch"])
+    produce(st, "neutron-star limit (free neutrons)", s["M_OV"])
+
+
 STAGES = (unification, electroweak_to_photon, weak_to_strong, strong_force,
           electromagnetism_in_the_lab, gravity_in_the_lab, gravity_as_gauge_theory, black_holes)
+BRANCHES = {"2a": w_mass, "3a": neutron_lifetime, "4a": primordial_helium, "7a": collapse}
 
 
 def run():
     LEDGER.clear()
     INPUTS.clear()
-    for s in STAGES:
+    todo = [(i + 1, s) for i, s in enumerate(STAGES)] + list(BRANCHES.items())
+    for _, s in sorted(todo, key=lambda x: order(x[0])):
         s()
     return LEDGER, INPUTS
 
@@ -303,10 +398,10 @@ def main():
     run()
     banner("Hand-offs: each value, the stage that produced it, the stages that used it")
     for name, _, made, used in LEDGER:
-        print(f"   {name:22s} stage {made}  ->  " + (", ".join(f"stage {u}" for u in used) if used else "(final)"))
+        print(f"   {name:34s} {made!s:>2}  ->  " + (", ".join(str(u) for u in used) if used else "(final)"))
     banner("Measured inputs, where they enter")
     for st, name, _, src in INPUTS:
-        print(f"   stage {st}: {name} ({src})")
+        print(f"   {st!s:>2}: {name} ({src})")
     print("\n   Not derived anywhere in the chain: the values of these inputs, why the scales are")
     print("   so far apart, and gravity's unification with the gauge forces (stage 7 is an")
     print("   equivalent rewriting of general relativity, not a derivation from stage 1).")

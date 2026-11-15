@@ -107,6 +107,24 @@ environment); it has since been rebuilt from the current source.
 | Mercury's perihelion, observed | 43.1 ± 0.5″/cy | Will's review says 43″/cy | unverified (the uncertainty) |
 | Mercury's orbit, GPS orbit and 38.6 µs/day | | JPL and Ashby not reachable | unverified |
 
+## The force chain's branches (`src/chain_branches.py`), checked 2026-11-15
+
+| Quantity | Repo | Source | Status |
+|---|---|---|---|
+| Neutron mean life | 878.4 ± 0.5 s | PDG 2024 neutron listing: 878.4 ± 0.5 s (S = 1.8) | ok |
+| Primordial helium Y_p | 0.245 ± 0.003 | PDG 2024 BBN review, eq. (24.3), read from the review's text | ok |
+| Primordial D/H | (25.47 ± 0.29)×10⁻⁶ | same review, eq. (24.2) | ok |
+| Baryon-to-photon ratio | η₁₀ = 6.104 ± 0.058 | same review: Planck TT, TE, EE + lowE + lensing | ok |
+| \|V_ud\| | 0.97367 ± 0.00032 | PDG 2024 CKM review, eq. (12.7), read from the review's text | ok |
+| Heaviest neutron star | 2.08 ± 0.07 M☉ | PSR J0740+6620, Fonseca et al., ApJL 915, L12 (2021): 2.08 (+0.07, −0.07) at 68.3% | ok (from the abstract) |
+| τ_n (1 + 3g_A²) \|V_ud\|² | 4908.7 ± 1.9 s | Marciano and Sirlin, PRL 96, 032002 (2006), as quoted in arXiv:1301.1854 | ok, from a secondary quotation. Later radiative-correction calculations lower the lifetime by about 1 s; the PDG 2024 CKM review gives no formula to compare |
+| M_W, M_Z, m_t, g_A, nucleon and electron masses | as elsewhere in the repo | rows above | ok |
+| Deuteron binding energy | 2.224566 MeV | not retrieved | unverified (recalled) |
+| Thermal n + p → D + γ cross section | 0.3326 b at 2200 m/s | not retrieved | unverified (recalled); Y_p moves by 0.0001 when it is raised 30% |
+| D + D S-factors | 55 keV b per branch, taken constant | not retrieved | unverified (recalled, approximate); Y_p moves by 0.002 when doubled or halved |
+| Lane–Emden n = 3 constants | 6.89685, 2.01824 | computed in the code; the tabulated values are recalled | computed; n = 1 checked against its exact solution |
+| Oppenheimer–Volkoff 1939 | 0.71 M☉, 9.6 km | not retrieved | unverified (recalled); the code gives 0.710 M☉ and 9.2 km |
+
 ## Theory results quoted
 
 | Claim | Source | Status |

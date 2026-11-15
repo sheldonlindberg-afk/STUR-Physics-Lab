@@ -127,10 +127,16 @@ All of it is computed by `src/stur_tegr_corner.py`, `src/stur_tegr_frame.py` and
 ## The forces in one chain
 
 **[FORCE_CHAIN.md](FORCE_CHAIN.md)** runs the forces as one simulation (`src/force_chain.py`,
-about 3 s): unification, the photon, weak to strong, the strong force, electromagnetism and
+about 4 s): unification, the photon, weak to strong, the strong force, electromagnetism and
 gravity in the lab, gravity as a broken gauge theory, and black holes, which evaporate back
 through every force to the Planck mass the chain started from. Each stage uses earlier
 stages' outputs, and each measured input is marked where it enters.
+
+Four branches leave the chain where its values meet a measurement it did not use
+(`src/chain_branches.py`): the W mass from the running of α and the top quark (80.47 GeV
+against 80.37); the neutron lifetime (880.6 ± 1.6 s against 878.4 ± 0.5); primordial helium,
+which needs all four forces (0.241 against 0.245 ± 0.003); and the masses at which cold
+matter collapses, two pure numbers times M_Pl³/m_N² (1.456 and 0.710 M☉).
 
 `src/chain_first_principles.py` is the same chain as one copy-paste file (standard library only,
 about 1 s), built on the blind first-principles rebuild: derived values replace outside numbers
@@ -249,6 +255,8 @@ python3 src/m331_matrix_check.py     # the beta-function coefficients again, fro
 python3 src/m331_coupling_map.py     # the selection as a map of coupling space, ~2.5 min
 python3 src/m331_heavy_lepton.py     # its heavy leptons vs the LHC and HL-LHC, ~5 s
 python3 src/m331_gravity_fixed_point.py  # gravity above M_Pl (asymptotic safety) and the 3-3-1 couplings, ~70 s
+python3 src/force_chain.py           # the forces in one chain, with its four branches, ~4 s
+python3 src/chain_branches.py        # the branches alone: W mass, neutron lifetime, helium, collapse, ~12 s
 python3 src/ladder_standalone.py     # the whole ladder, one file, no dependencies, ~1 s
 python3 src/m331_rho_bound.py        # rho from 3-3-1 Z-Z' mixing vs the global fit and the LHC, ~7 s
 python3 src/m331_zpole.py            # the LEP/SLD Z-pole fit of the mixing, validated on E6 Z', ~30 s
@@ -258,7 +266,7 @@ python3 src/ladder_links.py          # links across the rungs: neutral matter, p
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
 python3 src/why_parameters.py        # the 19 parameters: explanations tested, 3-3-1 flavour, ~3 s
 python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (308 tests)
+python -m pytest tests -q           # every number pinned (315 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on

@@ -13,9 +13,24 @@
    1/alpha(0) = 127.93 / (1 - 0.066450) = 137.035999  (CODATA 137.035999)
 
 ==============================================================================
+2a The W mass: what stage 2's running of alpha, and the top quark, do to it
+==============================================================================
+   tree level with stage 2's alpha(0)  : 80.939 GeV  (+0.71%)
+   with alpha run to M_Z (stage 2)     : 79.961 GeV  (-0.51%)
+   with the top quark's loop           : 80.531 GeV  (+0.20%)
+   and its QCD correction              : 80.474 GeV  (+0.13%)
+   measured 80.3692 +- 0.0133 GeV; the remaining bosonic loops are not computed
+
+==============================================================================
 3  Weak to strong: G_F and the pion's weak decay give the pion decay constant
 ==============================================================================
    f_pi = 130.57 MeV (lattice, not used: 130.2 +- 1.2)
+
+==============================================================================
+3a The neutron lifetime: the weak force acting on the strong force's nucleon
+==============================================================================
+   phase space from m_n - m_p, computed: f = 1.6917;  tree level 913.2 s
+   with the quoted radiative corrections: 880.6 +- 1.6 s  (measured 878.4 +- 0.5 s)
 
 ==============================================================================
 4  The strong force: chiral symmetry breaking, pions, nucleons
@@ -25,6 +40,14 @@
    electromagnetic splitting from stage 2's alpha (rho + a1 saturation): 1604 MeV^2 (measured 1261)
    one-pion exchange range: 1.414 fm
    the nucleon's mass: QCD field energy +91.45%;  u, d quark masses +4.53%;  s quark mass +4.82%;  electrons +0.03%;  nuclear binding -0.82%
+
+==============================================================================
+4a Primordial helium: gravity's clock, the weak rates, the deuteron, the Coulomb barrier
+==============================================================================
+   gravity (stage 1's M_Pl) sets the expansion: 0.75 s at 1 MeV, 119 s at 0.1 MeV
+   the weak rates, normalised to 3a's lifetime, freeze out with 16.0% neutrons
+   deuterium survives and burns through stage 2's Coulomb barrier at 71 keV, 255 s; by then 12.0% neutrons are left
+   helium mass fraction Y_p = 0.2409  (measured 0.245 +- 0.003); a minimal network, see chain_branches.py
 
 ==============================================================================
 5  Electromagnetism in the lab: the background the diamonds must suppress
@@ -46,12 +69,21 @@
    its field equations are solved by Schwarzschild-de Sitter, f = 1 - 2GM/(c^2 r) - r^2/l^2: True
 
 ==============================================================================
+7a When matter collapses: stage 1's Planck mass and the nucleon's mass
+==============================================================================
+   M_Pl^3 / m_n^2 = 1.848 solar masses, 2.2e+57 nucleons
+   electrons' Pauli pressure (Chandrasekhar): 3.098/mu_e^2 of it = 1.456 solar masses for carbon, the diamonds' element
+   free neutrons in general relativity (Oppenheimer-Volkoff): 0.3843 of it = 0.710 solar masses
+   heaviest neutron star measured: 2.08 +- 0.07 solar masses, 2.9 times that: stage 4's nuclear force, not Pauli pressure, carries it
+
+==============================================================================
 8  Black holes: the strong field, and evaporation back through every force
 ==============================================================================
    surface gravity from stage 7's spin connection: omega^0_1t - f'/2 = 0
    Hawking temperature of Sgr A* from stage 7's f(r), measured Lambda: 1.435946e-14 K (Lambda = 0: 1.435946e-14 K; the measured Lambda changes it by -2.4e-32)
    the diamond is 6.7e-07 Planck masses: too light to be a semiclassical black hole
    EHT: M87* +0.35 sigma, Sgr A* -0.16 sigma;  GW250114 area 237372 -> 406548 km^2 (it grew, as Hawking's area law requires)
+   GW250114's holes, 33.6 and 32.2 solar masses, are 45 to 47 times branch 7a's free-neutron limit: nothing could hold them up
    a shrinking hole's temperature, coldest first:
       the diamond experiment's cryostat (stage 6)          T =  1.29e-14 GeV,  3.36e+54 s left, f =  1.02
       the CMB: above this mass a hole absorbs more         T =  2.35e-13 GeV,  5.60e+50 s left, f =  1.02
@@ -69,44 +101,61 @@
 ==============================================================================
 Hand-offs: each value, the stage that produced it, the stages that used it
 ==============================================================================
-   G                      stage 1  ->  stage 5, stage 6, stage 7, stage 8
-   Q_u                    stage 1  ->  stage 4
-   Q_d                    stage 1  ->  stage 4
-   q_p + q_e              stage 1  ->  stage 5
-   M_Pl                   stage 1  ->  stage 8
-   1/alpha-hat(M_Z)       stage 1  ->  stage 2
-   G_F                    stage 1  ->  stage 3
-   N_c                    stage 1  ->  stage 4
-   M_V floor              stage 1  ->  stage 8
-   alpha(0)               stage 2  ->  stage 4, stage 5
-   f_pi                   stage 3  ->  stage 4
-   pi0 width              stage 4  ->  (final)
-   m_pi O(p^4)            stage 4  ->  (final)
-   mass budget            stage 4  ->  stage 6
-   neutrality needed      stage 5  ->  (final)
-   gap                    stage 5  ->  stage 6
-   phase                  stage 6  ->  stage 7
-   diamond mass           stage 6  ->  stage 8
-   cryostat T             stage 6  ->  stage 8
-   l                      stage 7  ->  stage 8
-   f(r)                   stage 7  ->  stage 8
-   Sgr A* T_H             stage 8  ->  (final)
-   end temperature        stage 8  ->  (final)
+   G                                   1  ->  5, 6, 7, 7a, 8
+   Q_u                                 1  ->  4
+   Q_d                                 1  ->  4
+   q_p + q_e                           1  ->  5
+   M_Pl                                1  ->  4a, 7a, 8
+   1/alpha-hat(M_Z)                    1  ->  2
+   G_F                                 1  ->  2a, 3, 3a
+   N_c                                 1  ->  4
+   M_V floor                           1  ->  8
+   alpha(0)                            2  ->  2a, 4, 4a, 5
+   M_W                                2a  ->  (final)
+   f_pi                                3  ->  4
+   |V_ud|                              3  ->  3a
+   neutron lifetime                   3a  ->  4a
+   pi0 width                           4  ->  (final)
+   m_pi O(p^4)                         4  ->  (final)
+   mass budget                         4  ->  6
+   Y_p                                4a  ->  (final)
+   neutrality needed                   5  ->  (final)
+   gap                                 5  ->  6
+   phase                               6  ->  7
+   diamond mass                        6  ->  8
+   cryostat T                          6  ->  8
+   l                                   7  ->  8
+   f(r)                                7  ->  8
+   Chandrasekhar mass                 7a  ->  (final)
+   neutron-star limit (free neutrons) 7a  ->  8
+   Sgr A* T_H                          8  ->  (final)
+   end temperature                     8  ->  (final)
 
 ==============================================================================
 Measured inputs, where they enter
 ==============================================================================
-   stage 1: G (CODATA 2018)
-   stage 1: 1/alpha-hat(M_Z) (PDG 2024 (MS-bar))
-   stage 1: G_F (PDG 2024)
-   stage 1: M_V floor (LHC Z' recast (src/m331_zprime_recast.py))
-   stage 2: Delta alpha_had (PDG 2024 electroweak review)
-   stage 3: Gamma(pi -> mu nu) (PDG 2024 (with delta_pi, |V_ud|))
-   stage 4: FLAG constants (m_ud, Sigma, F_pi/F, lbar_3) and sigma terms (FLAG 2024, FLAG 19/21)
-   stage 4: m_rho, m_a1 (PDG 2024)
-   stage 5: diamond permittivity (tabulated (AUDIT.md))
-   stage 6: cryostat T (src/stur_gravity_full.py BASE_ENV (design))
-   stage 7: Lambda (Planck 2018 with BAO)
+    1: G (CODATA 2018)
+    1: 1/alpha-hat(M_Z) (PDG 2024 (MS-bar))
+    1: G_F (PDG 2024)
+    1: M_V floor (LHC Z' recast (src/m331_zprime_recast.py))
+    2: Delta alpha_had (PDG 2024 electroweak review)
+   2a: M_Z, m_t (PDG 2024)
+   2a: M_W (PDG 2024 (compared, not used))
+    3: Gamma(pi -> mu nu) (PDG 2024 (with delta_pi, |V_ud|))
+   3a: g_A (PDG 2024)
+   3a: m_n - m_p (CODATA 2018)
+   3a: radiative corrections to neutron decay (Marciano and Sirlin 2006)
+   3a: neutron lifetime (PDG 2024 (compared, not used))
+    4: FLAG constants (m_ud, Sigma, F_pi/F, lbar_3) and sigma terms (FLAG 2024, FLAG 19/21)
+    4: m_rho, m_a1 (PDG 2024)
+   4a: baryon-to-photon ratio (PDG 2024 (Planck))
+   4a: deuteron binding, n + p and D + D cross sections (nuclear data (AUDIT.md))
+   4a: Y_p (PDG 2024 (compared, not used))
+    5: diamond permittivity (tabulated (AUDIT.md))
+    6: cryostat T (src/stur_gravity_full.py BASE_ENV (design))
+    7: Lambda (Planck 2018 with BAO)
+   7a: solar mass parameter, nucleon masses (IAU 2015; CODATA 2018)
+   7a: heaviest neutron star (PSR J0740+6620 (compared, not used))
 
    Not derived anywhere in the chain: the values of these inputs, why the scales are
    so far apart, and gravity's unification with the gauge forces (stage 7 is an

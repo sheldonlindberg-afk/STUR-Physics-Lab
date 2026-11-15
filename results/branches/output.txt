@@ -1,0 +1,44 @@
+
+==============================================================================
+B1  The W mass from G_F, M_Z and alpha: what the running of alpha and the top quark do
+==============================================================================
+   Delta alpha (zero momentum -> M_Z) = 0.05933;  Delta rho (top) = 0.00933, x 0.902 with QCD
+   tree level, alpha(0)        : M_W = 80.939 GeV  (+0.71%)
+   with alpha run to M_Z       : M_W = 79.961 GeV  (-0.51%)
+   with the top quark's loop   : M_W = 80.531 GeV  (+0.20%)
+   and its QCD correction      : M_W = 80.474 GeV  (+0.13%)
+   measured: 80.3692 +- 0.0133 GeV. The two leading corrections leave +0.13%;
+   the remaining bosonic and two-loop terms are not computed (MODEL).
+
+==============================================================================
+B2  The neutron lifetime from G_F, |V_ud| and g_A
+==============================================================================
+   phase space f = 1.6361 (no Coulomb), 1.6917 with the Fermi function
+   tree level with that f: 913.2 s;  with the quoted radiative corrections: 880.6 +- 1.6 s
+   measured: 878.4 +- 0.5 s  (pull +1.3 sigma)
+
+==============================================================================
+B3  Primordial helium: all four forces in one number
+==============================================================================
+   expansion (gravity): t = 0.75 s at 1 MeV, 119 s at 0.1 MeV; T_nu/T -> 0.7138 ((4/11)^(1/3) = 0.7138)
+   weak freeze-out: neutron fraction 0.1602 if neutrons did not decay
+   deuterium survives and burns at T = 71 keV, t = 255 s, when the neutron fraction has decayed to 0.1203
+   Y_p = 0.2409  (measured 0.245 +- 0.003);  baryons conserved to 9e-14
+   D/H left over = 5.3e-05 (measured 2.55e-05): the minimal network leaves twice the
+   measured deuterium, since it has no D + p -> 3He. Helium is insensitive to that:
+      D + D S-factor x 2    : Y_p = 0.2427
+      D + D S-factor / 2    : Y_p = 0.2390
+      n + p capture x 1.3   : Y_p = 0.2410
+      baryon density + 10%  : Y_p = 0.2417
+      lifetime + 5 s        : Y_p = 0.2419
+   and to the force that sets the clock: with G 10% larger, Y_p = 0.2493
+
+==============================================================================
+B4  When matter collapses: two pure numbers times M_Pl^3 / m_N^2
+==============================================================================
+   M_Pl^3 / m_n^2 = 1.848 solar masses = 2.19e+57 nucleons
+   Lane-Emden n = 3: xi_1 = 6.89685, omega = 2.01824 (tabulated 6.89685, 2.01824)
+   Chandrasekhar: 3.0980 / mu_e^2  ->  1.456 solar masses for carbon (mu_e = 2), such as the diamonds
+   Oppenheimer-Volkoff, free neutrons: 0.3843  ->  0.710 solar masses, R = 9.2 km (1939: 0.71, 9.6 km)
+   heaviest neutron star measured: 2.08 +- 0.07 solar masses = 2.9 x the free-neutron limit: the nuclear force's repulsion carries the rest
+   GW250114's black holes, 33.6 and 32.2 solar masses, are above every such limit

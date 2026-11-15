@@ -42,7 +42,7 @@ TOPICS = {
                         "qcd_running", "rge_engine"],
     "Symmetry ladder": ["m331_breaking", "chiral_breaking", "casimir_diamonds", "graviton_exchange",
                         "macdowell_mansouri", "black_holes", "ladder_links", "ladder_standalone", "m331_rho_bound", "m331_zpole",
-                        "force_chain", "chain_first_principles",
+                        "force_chain", "chain_branches", "chain_first_principles",
                         "first_principles_standalone"],
     "Diamond experiment": ["stur_gravity_entanglement", "stur_gravity_full", "short_range_gravity"],
     "Classical and emergent gravity": ["stur_oppenheim", "stur_thermo_gravity", "stur_emergent", "stur_jacobson"],
