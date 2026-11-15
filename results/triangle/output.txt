@@ -1,0 +1,113 @@
+
+================================================================================================
+G1  SU(6) on the triangle: the twist diag(1,1,1,w,w,w) leaves 3-3-1 (CHECK)
+================================================================================================
+   surviving generators: 17 = 8 + 8 + 1
+   eigenvalue multiplicities (6, 0, 0): 35 generators   (SU(6))
+   eigenvalue multiplicities (3, 3, 0): 17 generators   <- SU(3) x SU(3) x U(1)
+   eigenvalue multiplicities (4, 1, 1): 17 generators   (SU(4) x U(1)^2)
+   eigenvalue multiplicities (2, 2, 2): 11 generators   (SU(2)^3 x U(1)^2)
+   SU(6) representation holding each left-handed fermion of the beta = -1/sqrt3 model:
+      3 x (colour 1, SU(3)_L 3, X = -1/3)   in 6bar
+      3 x (colour 1, SU(3)_L 1, X =    1)   in 20
+      1 x (colour 3, SU(3)_L 3, X =  1/3)   in 20
+      2 x (colour 3, SU(3)_L 3, X =    0)   in 15
+      3 x (colour 3, SU(3)_L 1, X = -2/3)   in 15
+      3 x (colour 3, SU(3)_L 1, X =  1/3)   in 6bar
+      1 x (colour 3, SU(3)_L 1, X = -2/3)   in 15
+      2 x (colour 3, SU(3)_L 1, X =  1/3)   in 6bar
+   (LIT: 3-3-1 inside SU(6): Deppisch, Hati, Patra, Sarkar and Valle, arXiv:1608.05334.)
+
+================================================================================================
+G2  The couplings where SU(6) is restored (CHECK)
+================================================================================================
+   g_3 = g_L,  g_X^2/g^2 = 3/4,  sin^2 theta_W = 3/8
+
+================================================================================================
+G3  Minimal 3-3-1 content: the strong coupling predicted from the electroweak pair (FAILS)
+================================================================================================
+   at mu_331 = 4000 GeV: (3/4)/alpha_X = 62.80, 1/alpha_L = 31.49, 1/alpha_3 = 12.88
+   minimal content                 1 loop: M_c = 1.49e+10 GeV, 1/alpha_U = 47.1, alpha_s(M_Z) = 0.0326 (measured 0.118)
+   minimal content                 2 loop: M_c = 1.37e+10 GeV, 1/alpha_U = 47.1, alpha_s(M_Z) = 0.0325 (measured 0.118)
+   plus the orbifold's own scalar  1 loop: M_c = 8.50e+09 GeV, 1/alpha_U = 45.4, alpha_s(M_Z) = 0.0327 (measured 0.118)
+   plus the orbifold's own scalar  2 loop: M_c = 7.61e+09 GeV, 1/alpha_U = 45.2, alpha_s(M_Z) = 0.0326 (measured 0.118)
+   minimal content, mu_331 = 1e+05 GeV, 2 loop: M_c = 3.66e+10 GeV, alpha_s(M_Z) = 0.0354
+   minimal content, mu_331 = 1e+08 GeV, 2 loop: M_c = 3.01e+11 GeV, alpha_s(M_Z) = 0.0440
+   minimal content, mu_331 = 1e+11 GeV, 2 loop: M_c = 2.48e+12 GeV, alpha_s(M_Z) = 0.0581
+
+================================================================================================
+G4  Extra matter at mu_331 that would make the three couplings meet (FIT)
+================================================================================================
+   22 candidate multiplets from the SU(6) representations 6, 15, 20, 21, 35; up to 4 at once
+   passing the one-loop screen with the proton safe: 5; surviving at two loops: 4; within 0.003 of the measured alpha_s(M_Z) at two loops: 0
+   1 x real scalar (8,1) X=0, 3 x Weyl fermion (1,8) X=0
+      alpha_s(M_Z) = 0.1087 (1 loop), 0.1331 (2 loop; measured 0.118); M_c = 1.9e+16 GeV, 1/alpha_U = 32.1, proton lifetime ~ 4e+36 yr
+   3 x Weyl fermion (1,8) X=0
+      alpha_s(M_Z) = 0.1436 (1 loop), 0.2078 (2 loop; measured 0.118); M_c = 1.9e+16 GeV, 1/alpha_U = 32.1, proton lifetime ~ 4e+36 yr
+   1 x scalar (3,3) X=1/3, 3 x Weyl fermion (1,8) X=0
+      alpha_s(M_Z) = 0.1609 (1 loop), 0.2674 (2 loop; measured 0.118); M_c = 7.5e+16 GeV, 1/alpha_U = 29.2, proton lifetime ~ 8e+38 yr
+   1 x scalar (1,3) X=1/3, 3 x Weyl fermion (1,8) X=0
+      alpha_s(M_Z) = 0.1677 (1 loop), 0.2737 (2 loop; measured 0.118); M_c = 2.9e+16 GeV, 1/alpha_U = 31.2, proton lifetime ~ 2e+37 yr
+   the first set with the three octet fermions at their own mass M_8, fixed by alpha_s(M_Z) (one input, one number):
+      M_8 = 7.08e+03 GeV  ->  M_c = 1.11e+16 GeV, 1/alpha_U = 32.7, proton lifetime ~ 5e+35 yr
+   proton-lifetime limit used: 2.4e+34 yr; the estimate M_c^4/(alpha_U^2 m_p^5) is good to an order of magnitude.
+   Two-loop gauge terms only; Yukawa terms and threshold corrections at M_c are not included.
+
+================================================================================================
+T1  Zero modes on the triangle and their Z_3 charges (CHECK)
+================================================================================================
+   flux  2: (1, 0, 1) modes with eigenvalue (1, w, w^2);  rotation, translation, reflection unitary to 6e-15
+   flux  4: (1, 2, 1) modes with eigenvalue (1, w, w^2);  rotation, translation, reflection unitary to 5e-15
+   flux  6: (3, 2, 1) modes with eigenvalue (1, w, w^2);  rotation, translation, reflection unitary to 8e-15
+   flux  8: (3, 2, 3) modes with eigenvalue (1, w, w^2);  rotation, translation, reflection unitary to 2e-14
+   flux 10: (3, 4, 3) modes with eigenvalue (1, w, w^2);  rotation, translation, reflection unitary to 6e-15
+   flux 12: (5, 4, 3) modes with eigenvalue (1, w, w^2);  rotation, translation, reflection unitary to 1e-14
+   three generations = the invariant modes of flux 6; corner-translation charges [0, 1, 2]
+   Higgs = the 5 invariant modes of flux 12; charges [0, 1, 1, 2, 2]
+
+================================================================================================
+T2  The fully symmetric Higgs (FAILS)
+================================================================================================
+   unique invariant direction, reflection eigenvalue +1: masses 1 : 0.7937 : 0.7937   (2^(-1/3) = 0.7937)
+   measured (Yukawas at M_Z): up 1 : 3.68e-03 : 7.28e-06;  down 1 : 1.88e-02 : 9.45e-04
+
+================================================================================================
+T3  A Higgs concentrated at a point gives one massive generation (CHECK)
+================================================================================================
+   at a generic point: masses 1 : 2.9e-15 : 1.8e-15;  |Y - L(p) L(p)^T| = 1e-14
+
+================================================================================================
+T4  The Higgs potential on the triangle (FAILS)
+================================================================================================
+   quartic alone: minimum B = 1.1596 (one vortex per cell on this lattice: 1.1596); masses 1 : 1.000 : 1e-07
+   corner-concentrated Higgs: B = 6.0000, sum m^4 = 12.005; stable only below xi_c = 0.4998
+   fermion loops at xi = 0.50 xi_c: effective quartic +0.682 (corner: +3.000); masses 1 : 1.000 : 0.266
+   fermion loops at xi = 0.90 xi_c: effective quartic +0.059 (corner: +0.600); masses 1 : 0.888 : 0.536
+   fermion loops at xi = 0.99 xi_c: effective quartic -0.122 (corner: +0.060); masses 1 : 0.671 : 0.037   <- unbounded below
+
+================================================================================================
+T5  A light Higgs from unequal corners (MODEL; strengths are a FIT; mixing FAILS)
+================================================================================================
+   Higgs at a corner: |H|^2 = 13.8564 (flux/area = 13.8564);  overlap of two corner states g = 0.00212
+   fermion corner states: overlap = 0.07973
+   corner strengths [1, 1, 1]: masses 1 : 7.94e-01 : 7.94e-01;  next Higgs modes at 0.994, 0.994 of the lightest
+   corner strengths [1, 0.9, 0.5]: masses 1 : 1.90e-02 : 2.13e-03;  next Higgs modes at 0.900, 0.500 of the lightest
+   corner strengths [1, 0.5, 0.25]: masses 1 : 2.11e-03 : 6.98e-04;  next Higgs modes at 0.500, 0.250 of the lightest
+   fitted to the mass ratios (residual 1e-09): up [1.0, 0.63612, 0.00345], down [1.0, 0.89908, 0.30696]
+   predicted |V_us| = 0.0038 (measured 0.22501), |V_cb| = 0.0012 (measured 0.04183), |V_tb| = 1.00000 (0.999118)
+
+================================================================================================
+T6  The triangle form sqrt(m_k) = a (1 + r cos(theta + 2 pi k/3)) (EMPIRICAL)
+================================================================================================
+   charged leptons (pole masses)  r/sqrt2 = 1.00000,  theta = 0.22222
+   up quarks (Yukawas at M_Z)     r/sqrt2 = 1.28952,  theta = 0.05181
+   down quarks (Yukawas at M_Z)   r/sqrt2 = 1.11506,  theta = 0.10013
+   Koide's ratio for the leptons (src/why_parameters.py): 0.666664 (2/3 = 0.666667); 2/9 = 0.22222
+
+================================================================================================
+Summary
+================================================================================================
+   Follows from the geometry: the 3-3-1 gauge group and charges; three generations; one heavy generation
+   when the Higgs sits at a corner; a mixing matrix close to the identity.
+   Fails: unification with minimal content; any symmetric Higgs potential (no hierarchy); the size of the mixing.
+   Fitted, not predicted: the extra matter for unification; the corner strengths. None of the 19 is derived.

@@ -225,6 +225,10 @@ the CKM matrix's four (Buras et al. [15], abstract and eqs. (53)–(56)).
   F2's split; bounds on the four new mixing parameters from meson mixing.
 - **What has no handle at all.** v, the four lightest quark masses, m_e and m_μ, α_QED,
   and three of the four CKM parameters.
+- **A geometric attempt.** [TRIANGLE.md](TRIANGLE.md) tries to get the 3-3-1 group, three
+  generations and the parameters from one fixed geometry. The group, the charges and the
+  number of generations follow; the couplings, masses and mixing do not. The tally above is
+  unchanged.
 
 ## Limits
 

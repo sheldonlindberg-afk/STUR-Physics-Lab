@@ -6,7 +6,7 @@ This page records which script feeds which, and which physical quantities each o
 
 ## Summary
 
-- **50 scripts** in `src/`, in 6 topics; **87 imports** between them, 34 of them across topics. 12 scripts import nothing from the others and nothing imports them.
+- **51 scripts** in `src/`, in 6 topics; **90 imports** between them, 35 of them across topics. 11 scripts import nothing from the others and nothing imports them.
 - **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 269 literals in the source.
 - **44 quantities are typed in more than one script**; 18 of them are shared by more than one topic.
 - **2 copies differ from their source for a stated reason**; **0 differ without one (drift).**
@@ -33,6 +33,7 @@ flowchart LR
     m331_gravity_fixed_point
     m331_standalone
     why_parameters
+    triangle_orbifold
     qcd_running
     rge_engine
   end
@@ -160,6 +161,9 @@ flowchart LR
   stur_tegr_gr --> stur_tegr
   stur_thermo_gravity --> stur_gravity_full
   stur_thermo_gravity --> stur_oppenheim
+  triangle_orbifold --> ladder_links
+  triangle_orbifold --> m331_standalone
+  triangle_orbifold --> why_parameters
   why_parameters --> ladder_links
   why_parameters --> m331_exact
   why_parameters --> m331_rho_bound
@@ -204,6 +208,7 @@ flowchart LR
 | `stur_tegr_gr` (Teleparallel gravity) | `stur_gravity_entanglement` (Diamond experiment) | `BASE`, `branch_distances`, `entangling_phase`, `phases`, `radius` |
 | `stur_tegr_gr` (Teleparallel gravity) | `stur_gravity_full` (Diamond experiment) | `design_a` |
 | `stur_thermo_gravity` (Classical and emergent gravity) | `stur_gravity_full` (Diamond experiment) | `design_a` |
+| `triangle_orbifold` (3-3-1 selection) | `ladder_links` (Symmetry ladder) | `HBAR_GEV_S`, `M_EL`, `M_MU`, `M_TAU` |
 | `why_parameters` (3-3-1 selection) | `ladder_links` (Symmetry ladder) | `M_EL`, `M_H`, `M_MU`, `M_T`, `M_TAU`, `M_W` |
 | `why_parameters` (3-3-1 selection) | `m331_rho_bound` (Symmetry ladder) | `RHO0`, `RHO0_ERR`, `sin2_a0`, `v_ew`, `w_from_zprime` |
 
@@ -228,6 +233,7 @@ flowchart LR
 | [`m331_gravity_fixed_point`](src/m331_gravity_fixed_point.py) | `m331_exact`, `m331_margin`, `m331_three_loop`, `m331_yukawa` | Gravity above the Planck scale and the 3-3-1 gauge couplings: the asymptotic-safety estimate (NOTE_331.md asks every coupling to stay pertur |
 | [`m331_standalone`](src/m331_standalone.py) | — | Three colours and three generations from perturbativity in 3-3-1 models |
 | [`why_parameters`](src/why_parameters.py) | `ladder_links`, `m331_exact`, `m331_rho_bound`, `m331_scalar`, `m331_threshold`, `m331_yukawa` | Why do the Standard Model's 19 parameters have their values? What can be said, and tested |
+| [`triangle_orbifold`](src/triangle_orbifold.py) | `ladder_links`, `m331_standalone`, `why_parameters` | 3-3-1 from geometry: SU(6) on the triangle T^2/Z_3, and what it gives of the 19 parameters |
 | [`qcd_running`](src/qcd_running.py) | — | Two-loop MS-bar running of the strong coupling, used by the 3-3-1 scripts. |
 | [`rge_engine`](src/rge_engine.py) | — | General one-loop RGEs for quartic and Yukawa couplings (real scalars, two-component fermions) |
 
@@ -491,6 +497,7 @@ Literals with at least three significant digits that appear in two or more scrip
 | 3.975000e6 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
 | 4.297000e6 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
 | 1.790000e7 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
+| 3.156000e7 | `stur_gravity_full`, `triangle_orbifold` |
 | 3.840800e7 | `chain_first_principles`, `first_principles_standalone`, `ladder_links` |
 | 5.156000e11 | `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
 | 1.125800e15 | `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |

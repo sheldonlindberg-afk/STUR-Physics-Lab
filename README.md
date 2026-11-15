@@ -118,6 +118,10 @@ Standard Model's 19 parameters by what is known (11 unexplained, 3 related by es
 physics, 2 empirical regularities, 3 conjectured), tests each published explanation against
 data, and works out what the 3-3-1 structure does and does not give for quark flavour. None of
 the 19 is derived.
+**[TRIANGLE.md](TRIANGLE.md)** then attempts it from one geometry, an SU(6) gauge theory on a
+triangle with three corners: the 3-3-1 group, its charges and three generations follow, but
+unification fails with the minimal content, no symmetric Higgs potential gives the mass
+hierarchy, and the mixing angles come out 30 to 60 times too small. Every failure is kept.
 `src/first_principles_standalone.py` is that rebuild's ten stages alone.
 
 ## For students: the symmetry-breaking ladder
@@ -233,8 +237,9 @@ python3 src/m331_breaking.py         # the ladder, rungs 1-6: also chiral_breaki
 python3 src/ladder_links.py          # links across the rungs: neutral matter, pi0 -> gamma gamma, M_Pl, ~2 s
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
 python3 src/why_parameters.py        # the 19 parameters: explanations tested, 3-3-1 flavour, ~3 s
+python3 src/triangle_orbifold.py     # 3-3-1 from SU(6) on a triangle: unification and flavour, tested, ~10 s
 python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (287 tests)
+python -m pytest tests -q           # every number pinned (302 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on
@@ -250,6 +255,7 @@ NOVELTY.md                literature search: what is new, what was already known
 NOTE_TEGR.md              the frame in teleparallel gravity and black-hole entropy
 FORCE_CHAIN.md            the forces as one chain, from 3-3-1 into black holes and back
 WHY.md                    why these inputs? the 19 parameters, explanations tested, sources
+TRIANGLE.md               an attempt to get 3-3-1 and the parameters from one geometry; what fails
 SYMMETRY_LADDER.md        symmetry breaking from 3-3-1 to the diamond experiment, derived
 FIRST_PRINCIPLES.md       how to rebuild the ladder from first principles
 rebuild/                  protocol and harness for a blind AI rebuild of the ladder

@@ -129,3 +129,18 @@ resolved against INSPIRE or Crossref by journal, volume and page, and its first 
 title compared with the repo's text; every arXiv number (95) was resolved against INSPIRE. All match. Corrections: Shiryaev et al.
 gains its volume and pages (57, 730); David et al. its JHEP page (065); `NOVELTY.md` dates
 Barela's paper 2023 where its publication is NPB 1000 (2024).
+
+## Triangle note (TRIANGLE.md), checked 2026-11-15
+
+Titles, authors and journal references read from the arXiv abstract pages.
+
+| Claim | Source | Status |
+|---|---|---|
+| 3-3-1 embeds in SU(6) | Deppisch, Hati, Patra, Sarkar, Valle, arXiv:1608.05334 | ok (title and abstract; the paper's multiplet assignments were not compared with the script's) |
+| Zero modes and Yukawa overlaps in magnetic flux | Cremades, Ibáñez, Marchesano, JHEP 05 (2004) 079, arXiv:hep-th/0404229 | reference ok; the wavefunction is validated numerically in the code (orthonormality, unitary symmetries), not compared with the text |
+| Zero modes on magnetised orbifolds | Abe, Kobayashi, Ohki, JHEP 09 (2008) 043, arXiv:0806.4748 | reference ok; mode counts recomputed, not compared with the paper's tables |
+| τ/B(p → e⁺π⁰) > 2.4×10³⁴ yr | Super-Kamiokande, Phys. Rev. D 102, 112011 (2020), arXiv:2010.16098, abstract | ok |
+| History of Koide's formula | Rivero and Gsponer, arXiv:hep-ph/0505220 | reference ok; the value θ = 2/9 is computed in the script and not attributed |
+| Proton mass 0.93827208816 GeV | already in this audit (nucleon mass row) | ok |
+| Triangular vortex lattice, ∫\|ψ\|⁴ ratio 1.1596 | computed in the script from one flux quantum per cell | no source used |
+
