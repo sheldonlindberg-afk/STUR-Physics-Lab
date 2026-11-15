@@ -25,6 +25,35 @@ S2  SU(3)_L anomaly + asymptotic freedom of colour  =>  N_c odd, N_g = N_c
    [PASS] gcd(N_c + 1, 2 N_c) = 2 for odd, 1 for even N_c
 
 ==============================================================================
+S2b Is asymptotic freedom of colour needed?  The selection without it
+==============================================================================
+   Drop asymptotic freedom and run every solution of the SU(3)_L anomaly to M_Pl
+   (two loops, no Yukawas, 4 TeV). a_3 = -11 N_c/3 + 2 N_g is colour's one-loop coefficient.
+   beta = -1/sqrt3
+     N_c = 3, N_g =  3: a_X =  8.67, a_3 = -5.00  blow-up 2.90e+29 GeV  -> above Planck
+     N_c = 2, N_g =  4: a_X =  9.33, a_3 = +0.67  blow-up 1.02e+27 GeV  -> above Planck
+     N_c = 3, N_g =  6: a_X = 16.67, a_3 = +1.00  blow-up 6.51e+15 GeV  -> BELOW Planck
+     N_c = 4, N_g =  8: a_X = 26.22, a_3 = +1.33  blow-up 1.52e+11 GeV  -> BELOW Planck
+     N_c = 2, N_g =  8: a_X = 18.00, a_3 = +8.67  blow-up 4.15e+06 GeV  -> BELOW Planck
+     N_c = 5, N_g = 10: a_X = 38.00, a_3 = +1.67  blow-up 6.04e+08 GeV  -> BELOW Planck
+   beta = +1/sqrt3
+     N_c = 3, N_g =  3: a_X = 14.00, a_3 = -5.00  blow-up 3.93e+19 GeV  -> above Planck
+     N_c = 2, N_g =  4: a_X = 17.33, a_3 = +0.67  blow-up 3.05e+16 GeV  -> BELOW Planck
+     N_c = 3, N_g =  6: a_X = 27.33, a_3 = +1.00  blow-up 5.16e+11 GeV  -> BELOW Planck
+     N_c = 4, N_g =  8: a_X = 39.56, a_3 = +1.33  blow-up 1.44e+09 GeV  -> BELOW Planck
+     N_c = 2, N_g =  8: a_X = 34.00, a_3 = +8.67  blow-up 4.13e+06 GeV  -> BELOW Planck
+     N_c = 5, N_g = 10: a_X = 54.00, a_3 = +1.67  blow-up 4.27e+07 GeV  -> BELOW Planck
+   Survivors among all 24 solutions with N_c <= 9, N_g <= 4 N_c:
+     beta = -1/sqrt3: (N_c, N_g) = [(2, 4), (3, 3)]
+     beta = +1/sqrt3: (N_c, N_g) = [(3, 3)]
+   -> For beta = +1/sqrt3, running alone selects (3, 3). For beta = -1/sqrt3, (2, 4) also
+      reaches M_Pl: its colour group is not asymptotically free, but its pole is far above
+      M_Pl. Asymptotic freedom of colour is an independent condition, needed only for (2, 4).
+   [PASS] N_g = 2 N_c is excluded by running alone for N_c = 3, 4, 5 (both variants)
+   [PASS] beta = -1/sqrt3: (N_c, N_g) = (2, 4) reaches M_Pl (1.0e27 GeV) without asymptotic freedom
+   [PASS] without asymptotic freedom the survivors are (3, 3) and, for beta = -1/sqrt3 only, (2, 4)
+
+==============================================================================
 S3  Calibration: the general machinery reproduces the Standard Model
 ==============================================================================
    one-loop a = ['41/10', '-19/6', '-7']
@@ -115,12 +144,15 @@ VERDICT
    freedom force N_c odd with N_g = N_c; SU(3)_L running excludes N_c >= 7 and U(1)_X
    running excludes N_c = 5. Only N_c = N_g = 3 stays perturbative to the Planck scale,
    with quark charges 2/3 and -1/3.
-   Conditional on the 3-3-1 framework, Planck-scale perturbativity, and the measured
-   TeV-scale electroweak couplings (an input, not a prediction). In the beta = -1/sqrt3
+   Asymptotic freedom of colour is an independent condition: without it, N_c = 2 with
+   N_g = 4 also reaches the Planck scale for beta = -1/sqrt3 (S2b).
+   Conditional on the 3-3-1 framework, asymptotic freedom of colour, Planck-scale
+   perturbativity, and the measured TeV-scale electroweak couplings (an input, not a
+   prediction). In the beta = -1/sqrt3
    variant the margins are wide. In the beta = +1/sqrt3 variant the selection is a
    condition, not a margin: N_c = 3 reaches M_Pl at alpha = 1 only if the three heavy
    charged leptons are heavy enough (geometric mean >= 584 +- 118 GeV at three loops,
    S6b at two loops). The LHC has not tested this; the HL-LHC reaches about the threshold.
 
-   Checks passed: 23/23   (11 s)
+   Checks passed: 26/26   (15 s)
    ALL CHECKS PASS

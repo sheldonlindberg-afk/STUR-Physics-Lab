@@ -49,3 +49,19 @@ def test_331_plus_variant():
     for Nc in (3, 5, 7):
         assert all(v == 0 for v in E.anomalies(Nc, E.model_331_plus).values())
     assert E.run_two_loop(3, model=E.model_331_plus)[0] > E.M_PLANCK > E.run_two_loop(5, model=E.model_331_plus)[0]
+
+
+def test_selection_without_asymptotic_freedom():
+    """NOTE_331.md section 2: asymptotic freedom of colour is an independent condition."""
+    import pytest
+    import m331_exact as E
+    assert len(E.anomaly_solutions()) == 24
+    assert E.survivors() == {"-1/sqrt3": [(2, 4), (3, 3)], "+1/sqrt3": [(3, 3)]}
+    assert E.survivors(gmax=(4 * 3.141592653589793) ** 0.5) == E.survivors()
+    for Ng in (4, 8):
+        assert all(v == 0 for m in E.MODELS.values() for v in E.anomalies(2, m, Ng).values())
+    mp, a, _, _ = E.run_two_loop(2, Ng=4)
+    assert a[2] > 0 and abs(mp / 1.02e27 - 1) < 0.03            # not asymptotically free, yet above M_Pl
+    assert E.run_two_loop(2, Ng=4, model=E.model_331_plus)[0] < E.M_PLANCK
+    with pytest.raises(ValueError):
+        E.model_331(3, 4)                                       # SU(3)_L anomaly does not cancel

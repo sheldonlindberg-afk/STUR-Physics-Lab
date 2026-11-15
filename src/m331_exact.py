@@ -114,9 +114,18 @@ def sm_check():
     return a, b
 
 
-def model_331(Nc):
+def _generations(Nc, Ng):
+    """N_g (default N_c) and the number n of anti-triplet quark generations that cancels
+    the SU(3)_L anomaly, N_g (1 + N_c) = 2 n N_c."""
+    Ng = Nc if Ng is None else Ng
+    if (Ng * (1 + Nc)) % (2 * Nc):
+        raise ValueError(f"N_c = {Nc}, N_g = {Ng}: the SU(3)_L anomaly does not cancel")
+    return Ng, Ng * (1 + Nc) // (2 * Nc)
+
+
+def model_331(Nc, Ng=None):
     Qu, Qd = F(Nc + 1, 2 * Nc), F(1 - Nc, 2 * Nc)
-    Ng, nA = Nc, (1 + Nc) // 2
+    Ng, nA = _generations(Nc, Ng)
     Xt, Xa = Qu - F(1, 3), Qd + F(1, 3)
     gs = [Group("X"), Group("SU3L", 3), Group("SUNc", Nc)]
     ferm = [(Ng, (None, 3, 1), F(-1, 3)), (Ng, (None, 1, 1), F(1)),
@@ -127,12 +136,12 @@ def model_331(Nc):
     return gs, ferm, scal, (Xt, Xa, Qu, Qd, Ng, nA)
 
 
-def model_331_plus(Nc):
+def model_331_plus(Nc, Ng=None):
     """beta = +1/sqrt3: Q = T3 + T8/sqrt3 + X.  Leptons (nu, e, E-) triplets X = -2/3 with
     heavy charged lepton E; quark triplet (u, d, J) X = Q_u - 2/3 (J d-like); anti-triplet
     (d, -u, J') X = Q_d + 2/3 (J' u-like).  Scalars from the Yukawas: X = 1/3, 1/3, -2/3."""
     Qu, Qd = F(Nc + 1, 2 * Nc), F(1 - Nc, 2 * Nc)
-    Ng, nA = Nc, (1 + Nc) // 2
+    Ng, nA = _generations(Nc, Ng)
     Xt, Xa = Qu - F(2, 3), Qd + F(2, 3)
     gs = [Group("X"), Group("SU3L", 3), Group("SUNc", Nc)]
     ferm = [(Ng, (None, 3, 1), F(-2, 3)), (Ng, (None, 1, 1), F(1)), (Ng, (None, 1, 1), F(1)),
@@ -146,8 +155,8 @@ def model_331_plus(Nc):
 MODELS = {"-1/sqrt3": model_331, "+1/sqrt3": model_331_plus}
 
 
-def anomalies(Nc, model=model_331):
-    gs, ferm, scal, (Xt, Xa, Qu, Qd, Ng, nA) = model(Nc)
+def anomalies(Nc, model=model_331, Ng=None):
+    gs, ferm, scal, (Xt, Xa, Qu, Qd, Ng, nA) = model(Nc, Ng)
     def dim(d):
         p = 1
         for x in d[1:]:
@@ -163,8 +172,8 @@ def anomalies(Nc, model=model_331):
     return A
 
 
-def run_two_loop(Nc, mu0=4e3, loops=2, model=model_331, gmax=4 * pi):
-    gs, ferm, scal, _ = model(Nc)
+def run_two_loop(Nc, mu0=4e3, loops=2, model=model_331, gmax=4 * pi, Ng=None):
+    gs, ferm, scal, _ = model(Nc, Ng)
     a, b = coefficients(gs, ferm, scal)
     a = np.array([float(x) for x in a]); b = np.array([[float(x) for x in r] for r in b])
     L0 = log(mu0 / MZ) / (2 * pi)
@@ -251,8 +260,57 @@ def variant_plus():
               f"{'none' if res[1] is None else f'{res[1]:.1e}'}")
 
 
+def anomaly_solutions(Nc_max=9, k_max=4):
+    """Every (N_c, N_g) with 2 <= N_c <= Nc_max, N_g <= k_max N_c that cancels the SU(3)_L
+    anomaly, N_g (1 + N_c) = 2 n N_c. Asymptotic freedom of colour is NOT imposed."""
+    return [(Nc, Ng) for Nc in range(2, Nc_max + 1) for Ng in range(1, k_max * Nc + 1)
+            if (Ng * (1 + Nc)) % (2 * Nc) == 0]
+
+
+def survivors(gmax=4 * pi, mus=(2e3, 4e3, 1e4, 3e4), loops=2):
+    """Anomaly solutions whose couplings all stay below gmax up to M_Pl, for every 3-3-1
+    scale in mus, without requiring asymptotic freedom of colour. {variant: [(N_c, N_g)]}."""
+    out = {}
+    for name, m in MODELS.items():
+        out[name] = []
+        for Nc, Ng in anomaly_solutions():
+            poles = [run_two_loop(Nc, mu0=mu, model=m, gmax=gmax, Ng=Ng, loops=loops)[0] for mu in mus]
+            if all(p is None or p > M_PLANCK for p in poles):
+                out[name].append((Nc, Ng))
+    return out
+
+
+def without_asymptotic_freedom():
+    banner("E5  Is asymptotic freedom of colour needed?  The selection without it")
+    print("   The SU(3)_L anomaly alone allows N_g = k N_c (N_c odd) and N_g = 2 k N_c (N_c even).")
+    print("   Colour's one-loop coefficient is a_3 = -11 N_c/3 + 2 N_g; asymptotic freedom (a_3 < 0)")
+    print("   is what cuts these to N_g = N_c. Here it is dropped, and every solution is run to")
+    print("   M_Pl (two loops, no Yukawas, 4 TeV, the measured couplings as for every N_c):")
+    for name, m in MODELS.items():
+        print(f"   beta = {name}")
+        for Nc, Ng in [(3, 3), (2, 4), (3, 6), (4, 8), (2, 8), (5, 10)]:
+            assert all(v == 0 for v in anomalies(Nc, m, Ng).values())
+            mp, a, b, _ = run_two_loop(Nc, model=m, Ng=Ng)
+            m1 = run_two_loop(Nc, model=m, Ng=Ng, gmax=sqrt(4 * pi))[0]
+            print(f"     N_c = {Nc}, N_g = {Ng:2d}: a = ({a[0]:5.2f}, {a[1]:5.2f}, {a[2]:5.2f})  blow-up "
+                  f"{mp:.1e} GeV (g = 4 pi), {m1:.1e} (alpha = 1)  "
+                  f"{'above' if mp > M_PLANCK else 'BELOW'} Planck")
+    print("   All anomaly solutions with N_c <= 9, N_g <= 4 N_c that reach M_Pl for 3-3-1 scales of")
+    print("   2-30 TeV, asymptotic freedom not imposed:")
+    for crit, gm in [("g = 4 pi", 4 * pi), ("alpha = 1", sqrt(4 * pi))]:
+        for name, sv in survivors(gm).items():
+            print(f"     beta = {name:8s} {crit:10s} (N_c, N_g) = {sv}")
+    mp, a, _, _ = run_two_loop(2, Ng=4)
+    print(f"   -> beta = +1/sqrt3: running alone leaves only (3, 3). beta = -1/sqrt3: (2, 4) also")
+    print(f"      reaches M_Pl. Its colour group is not asymptotically free (a_3 = {a[2]:+.2f}), but its")
+    print("      pole lies far above M_Pl. Asymptotic freedom of colour is therefore an independent")
+    print("      condition of the selection; it is needed only to remove (N_c, N_g) = (2, 4).")
+    print("      Every other N_g > N_c is already excluded by the running (U(1)_X, or colour itself).")
+
+
 if __name__ == "__main__":
     import sys, os
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     main()
     variant_plus()
+    without_asymptotic_freedom()

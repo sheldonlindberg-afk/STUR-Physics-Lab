@@ -35,7 +35,8 @@
   coherent, Oppenheim-type gravity must shake it with >= 1.3e-12 m s^-2/rtHz.
 - Both diamond tests need ~4e8 x today's largest superposed mass.
 - Standalone note (NOTE_331.md): in 3-3-1 models, perturbativity to the Planck scale
-  selects N_c = N_g = 3 and the 1/3 quark charges (conditional).
+  selects N_c = N_g = 3 and the 1/3 quark charges (conditional; asymptotic freedom of
+  colour is a separate condition, needed to exclude N_c = 2, N_g = 4 for beta = -1/sqrt3).
 - Visibility loss counts quanta: -ln V = 2 Var(dN) = 2<dN> coth(hbar w / 2 k_B T);
   one trapped ion, contrast 0.787 -> 0.111 from nbar = 0.1 to 5.
 
@@ -69,7 +70,7 @@
 - /src/first_principles_standalone.py — that rebuild's ten stages alone, each function callable
   (expected output: /results/first_principles_standalone.txt)
 - /src/m331_standalone.py — the 3-3-1 selection in one file, standard library only:
-  paste into any Python runner or AI code tool and run; it ends with 23 PASS/FAIL checks
+  paste into any Python runner or AI code tool and run; it ends with 26 PASS/FAIL checks
   (expected output: /results/m331/standalone.txt)
 - /notebooks/ — five study notebooks with exercises
 - /index.html — worked examples: TEGR, is gravity quantum?, gravity and entanglement,

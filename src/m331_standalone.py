@@ -25,6 +25,8 @@ WHAT IT COMPUTES
 
       S1  Charges for general N_c from anomaly cancellation; all gauge anomalies vanish.
       S2  SU(3)_L anomaly + asymptotic freedom of colour  =>  N_c odd and N_g = N_c.
+      S2b Is asymptotic freedom needed? Without it, running alone leaves (N_c, N_g) = (3, 3)
+          and, for beta = -1/sqrt3 only, (2, 4). It is an independent condition.
       S3  Calibration: the two-loop machinery reproduces the Standard Model coefficients.
       S4  SU(3)_L one-loop running excludes N_c >= 7.
       S5  U(1)_X two-loop running excludes N_c = 5, in both variants, with Yukawas.
@@ -33,8 +35,9 @@ WHAT IT COMPUTES
           the heavy-lepton mass.
       S7  Cross-check with data: R = sigma(ee -> hadrons)/sigma(ee -> mu mu) vs KEDR.
 
-    Result (conditional on the 3-3-1 framework, Planck-scale perturbativity, and the
-    measured electroweak couplings at the TeV scale used as input): only N_c = N_g = 3
+    Result (conditional on the 3-3-1 framework, asymptotic freedom of colour, Planck-scale
+    perturbativity, and the measured electroweak couplings at the TeV scale used as input):
+    only N_c = N_g = 3
     survives, with quark charges 2/3 and -1/3. In the beta = +1/sqrt3 variant this also
     needs the three heavy charged leptons heavy enough (S6b).
 
@@ -252,9 +255,10 @@ def charges(Nc):
     return F(Nc + 1, 2 * Nc), F(1 - Nc, 2 * Nc)
 
 
-def model(Nc, variant):
+def model(Nc, variant, Ng=None):
     Qu, Qd = charges(Nc)
-    Ng, nA = Nc, (1 + Nc) // 2               # N_g = N_c (S2); n anti-triplet generations
+    Ng = Nc if Ng is None else Ng            # N_g = N_c (S2) unless given (S2b)
+    nA = Ng * (1 + Nc) // (2 * Nc)           # n anti-triplet generations: N_g (1 + N_c) = 2 n N_c
     gs = [Group("X"), Group("SU3L", 3), Group("SUNc", Nc)]
     if variant == "-1/sqrt3":
         # leptons (nu, e, N) X = -1/3; quark triplet (u, d, T) X = Q_u - 1/3;
@@ -278,8 +282,8 @@ def model(Nc, variant):
     return gs, ferm, scal, (Xt, Xa, Qu, Qd, Ng, nA)
 
 
-def anomalies(Nc, variant):
-    gs, ferm, scal, (Xt, Xa, Qu, Qd, Ng, nA) = model(Nc, variant)
+def anomalies(Nc, variant, Ng=None):
+    gs, ferm, scal, (Xt, Xa, Qu, Qd, Ng, nA) = model(Nc, variant, Ng)
     dim = lambda d: d[1] * d[2]
     return {
         "X^3": sum(m * dim(d) * q**3 for m, d, q in ferm),
@@ -353,10 +357,11 @@ def boundary(mu0, lam=(0.0, 0.0, 0.0), n_light=1, s2=None):
 
 
 def blow_up(Nc, variant, yt=0.0, yJ=0.0, mu0=MU331, gmax=4 * pi, lam=(0.0, 0.0, 0.0),
-            n_light=1, loops=2, s2=None, yuk=None):
+            n_light=1, loops=2, s2=None, yuk=None, Ng=None):
     """Scale (GeV) where the first gauge coupling reaches gmax; 1e45 if none below 1e45 GeV.
-    yuk: an explicit two-loop Yukawa vector, overriding the one built from yt and yJ (S6b)."""
-    gs, ferm, scal, _ = model(Nc, variant)
+    yuk: an explicit two-loop Yukawa vector, overriding the one built from yt and yJ (S6b).
+    Ng: number of generations if not N_c (S2b; gauge running only, no Yukawas)."""
+    gs, ferm, scal, _ = model(Nc, variant, Ng)
     a, b = coefficients(gs, ferm, scal)
     a = [float(x) for x in a]
     b = [[float(x) for x in r] for r in b] if loops == 2 else [[0.0] * 3 for _ in range(3)]
@@ -425,6 +430,39 @@ def s2():
           len(sol) == 29 and all(a == b and a % 2 == 1 for a, b, c in sol))
     check("gcd(N_c + 1, 2 N_c) = 2 for odd, 1 for even N_c",
           all(gcd(k + 1, 2 * k) == (2 if k % 2 else 1) for k in range(2, 60)))
+
+
+# ----------------------------------------------------------------------------------------
+# S2b  Is asymptotic freedom of colour needed?
+# ----------------------------------------------------------------------------------------
+def s2b():
+    banner("S2b Is asymptotic freedom of colour needed?  The selection without it")
+    print("   Drop asymptotic freedom and run every solution of the SU(3)_L anomaly to M_Pl")
+    print("   (two loops, no Yukawas, 4 TeV). a_3 = -11 N_c/3 + 2 N_g is colour's one-loop coefficient.")
+    cases = [(3, 3), (2, 4), (3, 6), (4, 8), (2, 8), (5, 10)]
+    p = {}
+    for v in VARIANTS:
+        print(f"   beta = {v}")
+        for Nc, Ng in cases:
+            assert all(x == 0 for x in anomalies(Nc, v, Ng).values())
+            a, _ = coefficients(*model(Nc, v, Ng)[:3])
+            p[v, Nc, Ng] = blow_up(Nc, v, Ng=Ng)
+            print(f"     N_c = {Nc}, N_g = {Ng:2d}: a_X = {float(a[0]):5.2f}, a_3 = {float(a[2]):+5.2f}"
+                  f"  blow-up {fmt(p[v, Nc, Ng])}  -> {'above' if p[v, Nc, Ng] > M_PLANCK else 'BELOW'} Planck")
+    sols = [(Nc, Ng) for Nc in range(2, 10) for Ng in range(1, 4 * Nc + 1) if (Ng * (1 + Nc)) % (2 * Nc) == 0]
+    surv = {v: [(Nc, Ng) for Nc, Ng in sols if blow_up(Nc, v, Ng=Ng) > M_PLANCK] for v in VARIANTS}
+    print(f"   Survivors among all {len(sols)} solutions with N_c <= 9, N_g <= 4 N_c:")
+    for v in VARIANTS:
+        print(f"     beta = {v}: (N_c, N_g) = {surv[v]}")
+    print("   -> For beta = +1/sqrt3, running alone selects (3, 3). For beta = -1/sqrt3, (2, 4) also")
+    print("      reaches M_Pl: its colour group is not asymptotically free, but its pole is far above")
+    print("      M_Pl. Asymptotic freedom of colour is an independent condition, needed only for (2, 4).")
+    check("N_g = 2 N_c is excluded by running alone for N_c = 3, 4, 5 (both variants)",
+          all(p[v, Nc, 2 * Nc] < M_PLANCK for v in VARIANTS for Nc in (3, 4, 5)))
+    check("beta = -1/sqrt3: (N_c, N_g) = (2, 4) reaches M_Pl (1.0e27 GeV) without asymptotic freedom",
+          close(p["-1/sqrt3", 2, 4], 1.02e27))
+    check("without asymptotic freedom the survivors are (3, 3) and, for beta = -1/sqrt3 only, (2, 4)",
+          surv == {"-1/sqrt3": [(2, 4), (3, 3)], "+1/sqrt3": [(3, 3)]})
 
 
 # ----------------------------------------------------------------------------------------
@@ -655,7 +693,7 @@ def s7():
 
 def main():
     t0 = time.time()
-    for section in (s1, s2, s3, s4, s5, s6, s6b, s7):
+    for section in (s1, s2, s2b, s3, s4, s5, s6, s6b, s7):
         section()
     banner("VERDICT")
     n_ok = sum(ok for _, ok in CHECKS)
@@ -663,8 +701,11 @@ def main():
     print("   freedom force N_c odd with N_g = N_c; SU(3)_L running excludes N_c >= 7 and U(1)_X")
     print("   running excludes N_c = 5. Only N_c = N_g = 3 stays perturbative to the Planck scale,")
     print("   with quark charges 2/3 and -1/3.")
-    print("   Conditional on the 3-3-1 framework, Planck-scale perturbativity, and the measured")
-    print("   TeV-scale electroweak couplings (an input, not a prediction). In the beta = -1/sqrt3")
+    print("   Asymptotic freedom of colour is an independent condition: without it, N_c = 2 with")
+    print("   N_g = 4 also reaches the Planck scale for beta = -1/sqrt3 (S2b).")
+    print("   Conditional on the 3-3-1 framework, asymptotic freedom of colour, Planck-scale")
+    print("   perturbativity, and the measured TeV-scale electroweak couplings (an input, not a")
+    print("   prediction). In the beta = -1/sqrt3")
     print("   variant the margins are wide. In the beta = +1/sqrt3 variant the selection is a")
     print("   condition, not a margin: N_c = 3 reaches M_Pl at alpha = 1 only if the three heavy")
     print("   charged leptons are heavy enough (geometric mean >= 584 +- 118 GeV at three loops,")

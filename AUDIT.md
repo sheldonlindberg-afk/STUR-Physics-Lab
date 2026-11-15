@@ -49,8 +49,8 @@ poles and do not change any conclusion: the β = +1/√3 reference pole goes fro
 from 1.276 to 1.262 M_Pl (1.63× to 1.59×), the heavy-lepton threshold from m_E* = 561 ± 113
 to 584 ± 118 GeV (HL-LHC case 621 → 646 GeV), and the one-loop point where sin²θ_W reaches
 ¼ in the minimal model from 3.68 to 3.63 TeV. NOTE_331.md, the paper source, the site and
-the tests carry the new numbers. paper/note331.pdf was not rebuilt (no TeX in this
-environment).
+the tests carry the new numbers. paper/note331.pdf was not rebuilt at the time (no TeX in that
+environment); it has since been rebuilt from the current source.
 
 ## Lattice inputs (FLAG, read from the arXiv TeX sources)
 

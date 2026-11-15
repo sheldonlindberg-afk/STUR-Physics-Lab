@@ -15,7 +15,9 @@ coupling may become non-perturbative below the Planck scale. Then:
 
 - The SU(3)_L anomaly plus asymptotic freedom of colour forces N_c to be odd and
   N_g = N_c. Witten's global anomaly is then automatically satisfied; it is implied, not
-  needed.
+  needed. Asymptotic freedom is an independent condition, not a consequence of
+  Planck-scale perturbativity: without it, (N_c, N_g) = (2, 4) also reaches M_Pl for
+  β = −1/√3 (§2, step 2).
 - SU(3)_L running excludes N_c ≥ 7.
 - U(1)_X running excludes N_c = 5.
 
@@ -104,6 +106,34 @@ all 29 solutions up to N_c = 60 checked).
 - **Even N_c is excluded by the same two conditions.** If N_c is even, gcd(N_c + 1, 2N_c)
   = 1, so 2N_c must divide N_g. But 2N_c > 11N_c/6 violates asymptotic freedom. So
   N_c is odd and N_g = N_c, with no further input.
+- **Asymptotic freedom is an independent condition** (`src/m331_exact.py`, E5; output
+  `results/m331/331_exact.txt`). Planck-scale perturbativity does not imply it: a colour
+  group with a small positive one-loop coefficient has its pole far above M_Pl. So we
+  dropped it and ran every solution of the SU(3)_L anomaly with N_c ≤ 9 and N_g ≤ 4N_c
+  (24 of them) to M_Pl, at two loops without Yukawas, from the same measured couplings:
+
+  | (N_c, N_g) | colour a₃ = −11N_c/3 + 2N_g | Blow-up, β = −1/√3 | Blow-up, β = +1/√3 |
+  |---|---|---|---|
+  | (3, 3) | −5 | 2.9×10²⁹ GeV | 3.9×10¹⁹ GeV |
+  | (2, 4) | +⅔ | **1.0×10²⁷ GeV, above M_Pl** | 3.0×10¹⁶ GeV |
+  | (3, 6) | +1 | 6.5×10¹⁵ GeV | 5.2×10¹¹ GeV |
+  | (4, 8) | +4/3 | 1.5×10¹¹ GeV | 1.4×10⁹ GeV |
+  | (2, 8) | +26/3 | 4.1×10⁶ GeV (colour) | 4.1×10⁶ GeV (colour) |
+  | (5, 10) | +5/3 | 6.0×10⁸ GeV | 4.3×10⁷ GeV |
+
+  The survivors, for 3-3-1 scales of 2–30 TeV and for both criteria (g = 4π, α = 1), are
+  (3, 3) and, **for β = −1/√3 only, (2, 4)**. In that model colour is not asymptotically
+  free, yet every coupling stays perturbative to M_Pl. All its gauge anomalies cancel, and
+  its 24 colour doublets satisfy Witten's condition for SU(2) colour. Two consequences:
+  - For β = +1/√3, the running alone selects N_c = N_g = 3; asymptotic freedom is not
+    needed.
+  - For β = −1/√3, asymptotic freedom of colour is needed, and only to remove (2, 4).
+    Every other N_g > N_c is excluded by the running (U(1)_X, or colour itself for
+    (2, 8)).
+
+  The (2, 4) run uses the measured α_s as the SU(2)-colour coupling at 4 TeV, the same
+  counterfactual boundary condition as for N_c = 5 (§4). Yukawas and thresholds were not
+  added; they move poles by factors of a few, against a margin of 10⁸.
 
 **Step 3: SU(3)_L excludes N_c ≥ 7.** With N_g = N_c there are N_c(1 + N_c) Weyl triplets.
 The one-loop coefficient b_L = 11 − N_c(1 + N_c)/3 − (scalars) is computed from
@@ -547,10 +577,14 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
 
 1. **The framework.** Everything assumes 3-3-1 with β = ±1/√3. If colliders exclude it,
    the result goes with it.
-2. **Perturbativity to the Planck scale** is a standard criterion, not a theorem. A pole
+2. **Asymptotic freedom of colour** is a separate assumption. Perturbativity to M_Pl
+   doesn't imply it, and for β = −1/√3 the selection needs it: without it,
+   (N_c, N_g) = (2, 4) survives as well (§2, step 2). Physically it stands for a colour
+   force that confines. For β = +1/√3 it can be dropped.
+3. **Perturbativity to the Planck scale** is a standard criterion, not a theorem. A pole
    below M_Pl signals new physics, not an inconsistency. Drop the requirement and the
    selection drops too.
-3. **The boundary condition: measured couplings are an input.** Every N_c is run from
+4. **The boundary condition: measured couplings are an input.** Every N_c is run from
    the couplings measured at 4 TeV: sin²θ_W = 0.2505, 1/α_em = 125.7 and α_s. In 3-3-1,
    1/α_X = (1 − 4s²/3)/α_em, so these fix the U(1)_X start. How far does the result lean
    on them (`src/m331_yukawa.py`, Y3)?
@@ -572,13 +606,13 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
    The β = +1/√3 margin in sin²θ_W is 0.016 with tree-level matching, large next to the
    measurement error (about 10⁻⁴). One-loop threshold matching is computed in §3a and
    leaves it at +0.010 to +0.035.
-4. **Yukawas: closed.** Two-loop Yukawa terms are included (§2). The selection also
+5. **Yukawas: closed.** Two-loop Yukawa terms are included (§2). The selection also
    holds with **no Yukawas at all**, a lower bound for any Yukawa running: the β = +1/√3
    worst case is then 1.52 M_Pl (§3b). That figure is on the §3a grid; against mass floors the β = +1/√3
    case is conditional on the heavy-lepton mass (§3e). The Yukawas' own running is computed in §3c.
-5. **Minimality isn't explained.** Steps 1–2 leave {3, 5, 7, …}. Here the
+6. **Minimality isn't explained.** Steps 1–2 leave {3, 5, 7, …}. Here the
    perturbativity requirement does the selecting, not a principle of minimality.
-6. **No numbers follow.** The structure that fixes these integers adds about 11 scalar
+7. **No numbers follow.** The structure that fixes these integers adds about 11 scalar
    parameters beyond the Standard Model's 2. It also blocks gauge unification: SU(3)_C and
    SU(3)_L never meet, and the gap grows from 18.6 to 27.3 in 1/α. Masses and couplings
    stay inputs.
