@@ -6,7 +6,7 @@ evaporate back up through every force. Each stage is a function that takes value
 stages returned and returns new ones. A ledger records every hand-off, and
 [`tests/test_force_chain.py`](tests/test_force_chain.py) checks that each stage after the
 first uses an earlier stage's output and that nothing is retyped in between. Output:
-[`results/force_chain.txt`](results/force_chain.txt); about 4 s.
+[`results/force_chain.txt`](results/force_chain.txt); about 7 s.
 
 ```bash
 python3 src/force_chain.py
@@ -27,7 +27,7 @@ python3 src/force_chain.py
 
 ## Branches: where the chain meets a measurement it did not use
 
-Four branches leave the chain ([`src/chain_branches.py`](src/chain_branches.py); output
+Seven branches leave the chain ([`src/chain_branches.py`](src/chain_branches.py); output
 [`results/branches/output.txt`](results/branches/output.txt)). Each takes values the chain
 already carries, adds the inputs named, and ends at a number that has been measured. They
 are numbered by the stage they follow, and the ledger records their hand-offs like any other.
@@ -35,8 +35,11 @@ are numbered by the stage they follow, and the ledger records their hand-offs li
 | Branch | Takes from the chain | Result | Measured | Inputs entering here |
 |---|---|---|---|---|
 | 2a The W mass | G_F (stage 1), α(0) (stage 2) | Tree level 80.94 GeV; with stage 2's running of α 79.96; with the top quark's loop **80.47 GeV** | 80.369 ± 0.013 GeV | M_Z, m_t |
+| 2b The electron's magnetic moment | α(0) (stage 2) | The measured moment, inverted through the five-loop QED series: **1/α = 137.035999166** | published 137.035999166(15); stage 2 has 137.035999 | the series' coefficients, a_e |
+| 2c The weak mixing angle at zero momentum | the running of α by sector (stage 2) | Leptons pull it toward ¼, quarks toward 21/44: 0.23129 at M_Z → **0.23873** | 0.2382 ± 0.0011 at 157 MeV (Qweak); full calculation 0.23873 ± 0.00005 | sin²θ_W(M_Z) |
 | 3a The neutron lifetime | G_F (stage 1), \|V_ud\| (stage 3) | Phase space computed from m_n − m_p; tree level 913 s; with the quoted radiative corrections **880.6 ± 1.6 s** | 878.4 ± 0.5 s | g_A, m_n − m_p, the radiative corrections |
 | 4a Primordial helium | M_Pl (stage 1), α(0) (stage 2), the lifetime (3a) | 16.0% neutrons at weak freeze-out, 12.0% left when deuterium burns at 71 keV: **Y_p = 0.241** | 0.245 ± 0.003 | baryon density, deuteron binding, two nuclear cross sections |
+| 4b The neutron–proton mass difference | G_F, \|V_ud\|, M_Pl, α(0), the lifetime (3a), Y_p (4a) | Not derived: lattice QCD + QED gives 2.52 − 1.00 = 1.51 ± 0.28 MeV. Computed: **dY_p/dδ = −0.61 per MeV**; at the lattice's central value the lifetime would be 332 s and Y_p 0.117 | 1.2933 MeV | the lattice result |
 | 7a When matter collapses | M_Pl and G (stage 1) | M_Pl³/m_n² = 1.85 M☉. Electrons hold up 3.098/μ_e² of it (**1.456 M☉** for carbon); free neutrons in general relativity 0.384 of it (**0.710 M☉**) | heaviest neutron star 2.08 ± 0.07 M☉ | the Sun's GM, nucleon masses |
 
 What each one connects:
@@ -44,7 +47,20 @@ What each one connects:
 - **2a** closes most of a gap the chain already admitted: its tree-level electroweak masses
   miss by far more than the measurement's error. Stage 2's running of α alone overshoots
   (−0.5%); the top quark's loop brings it back to +0.13%. The remaining bosonic and
-  two-loop terms are not computed, so the comparison is printed, not claimed.
+  two-loop terms are not computed, so the comparison is printed, not claimed. With the
+  complete correction quoted from the PDG (Δr = 0.03685) the same relation gives 80.355 GeV.
+- **2b** shows where the chain's α comes from. It is a return trip, not a test: the
+  α̂(M_Z) that stage 1 takes as input was itself obtained from α(0), and α(0) is measured
+  best by the electron's magnetic moment. The branch inverts that measurement through the
+  QED series and recovers the published value to all its digits. Coming down from M_Z,
+  stage 2 can only fix 1/α to ± 0.009, because of the hadronic input; the electron's moment
+  is 600,000 times more precise.
+- **2c** uses stage 2's loops a second time. The fermion loops that make α run also mix
+  the photon with the Z, so the weak mixing angle runs: each sector pulls it toward
+  λ = Σ N_c Q T₃ / (2 Σ N_c Q²), which is ¼ for leptons, 21/44 for five quarks and ⅜ for
+  all fermions together, the unified value. The one-loop result lands on the full
+  calculation and within 0.5σ of the measurement, which sees the 3.2% rise at 6σ. The
+  model: one loop, the hadronic mixing weighted by quark charges, the W loop left out.
 - **3a** is the weak force acting on the strong force's bound state. The only strong-force
   input is g_A; the error is dominated by it, and the result sits 1.3σ above the measurement.
 - **4a** needs all four forces. Gravity (stage 1's Planck mass) sets how fast the universe
@@ -52,14 +68,22 @@ What each one connects:
   they decay; the strong force (the deuteron's binding) sets when deuterium survives; and
   electromagnetism (stage 2's α) sets the barrier it must cross to burn. With G 10% larger
   the helium fraction would be 0.249.
+- **4b** is the one input 3a and 4a both lean on hardest. The chain does not derive it:
+  lattice QCD + QED finds that the down quark's extra mass makes the neutron 2.5 MeV
+  heavier and electromagnetism makes the proton 1.0 MeV heavier, leaving 1.5 ± 0.3 MeV.
+  What the branch computes is the leverage. A 1% change in the difference changes the
+  lifetime by 6.7% and the helium fraction by 0.008, so the measured helium fixes it to
+  ± 5 keV where the lattice reaches ± 280 keV. With electromagnetism alone the proton
+  would be the heavier particle and hydrogen would not be stable.
 - **7a** joins the two ends of the chain. The same G that stage 6's diamonds measure, and
   the nucleon mass that stage 4 traces to QCD field energy, fix the mass at which matter can
   no longer hold itself up: two pure numbers, both integrated here, times M_Pl³/m_N². The
   heaviest neutron star measured is 2.9 times the free-neutron limit, so stage 4's nuclear
   force, not Pauli pressure, carries it. Stage 8's black holes are 45 times above the limit.
 
-Two of these carry a model, named where it enters. Branch 2a keeps only the two leading
-pieces of the electroweak correction. Branch 4a uses a minimal reaction network: n + p ↔ D + γ
+Three of these carry a model, named where it enters. Branch 2a keeps only the two leading
+pieces of the electroweak correction, and branch 2c only the one-loop fermion terms. Branch
+4a uses a minimal reaction network: n + p ↔ D + γ
 and D + D, with every fusion taken to end in helium-4. It leaves twice the measured
 deuterium, because it has no D + p → ³He, and its helium moves by less than 0.002 when
 either nuclear cross section is doubled or halved. Full nucleosynthesis codes give 0.247.

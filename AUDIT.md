@@ -119,9 +119,17 @@ environment); it has since been rebuilt from the current source.
 | Heaviest neutron star | 2.08 ± 0.07 M☉ | PSR J0740+6620, Fonseca et al., ApJL 915, L12 (2021): 2.08 (+0.07, −0.07) at 68.3% | ok (from the abstract) |
 | τ_n (1 + 3g_A²) \|V_ud\|² | 4908.7 ± 1.9 s | Marciano and Sirlin, PRL 96, 032002 (2006), as quoted in arXiv:1301.1854 | ok, from a secondary quotation. Later radiative-correction calculations lower the lifetime by about 1 s; the PDG 2024 CKM review gives no formula to compare |
 | M_W, M_Z, m_t, g_A, nucleon and electron masses | as elsewhere in the repo | rows above | ok |
-| Deuteron binding energy | 2.224566 MeV | not retrieved | unverified (recalled) |
-| Thermal n + p → D + γ cross section | 0.3326 b at 2200 m/s | not retrieved | unverified (recalled); Y_p moves by 0.0001 when it is raised 30% |
-| D + D S-factors | 55 keV b per branch, taken constant | not retrieved | unverified (recalled, approximate); Y_p moves by 0.002 when doubled or halved |
+| Deuteron binding energy | 2.224566 MeV | literature values found: 2.224575(9), 2.22463 MeV | ok to 10⁻⁵; the last digits are recalled |
+| Thermal n + p → D + γ cross section | 0.3326 b at 2200 m/s | 332.6 ± 0.7 mb (Mughabghab, INDC(NDS)-440; TUNL evaluation) | ok |
+| D + D S-factors | 50.8 and 51.0 keV b, taken constant | S(0) of D(D,p)T and D(D,n)³He, Viviani et al., arXiv:2207.01433 (from the abstract) | ok for S(0); holding it constant in energy is the model. Y_p moves by 0.002 when doubled or halved |
+| Complete Δr | 0.03685 | PDG 2024 electroweak review, below eq. (10.23), read from the review's text | ok |
+| Electron anomaly a_e | 1159652180.59(13)×10⁻¹² | Fan et al., PRL 130, 071801 (2023) | ok |
+| 1/α from a_e | 137.035999166(15) | same paper | ok |
+| QED series for a_e | C₃ = 1.181241456587, C₄ = −1.9122457649, C₅ = 6.737; other terms 4.47×10⁻¹² | not retrieved | recalled; validated by reproducing the published 1/α from the measured a_e to all digits |
+| sin²θ_W(0), MS-bar | 0.23873 ± 0.00005 | PDG 2024 electroweak review, Table 10.2 | ok |
+| sin²θ_W at 157 MeV | 0.2382 ± 0.0011 | same review (Qweak, Nature 557, 207 (2018)) | ok |
+| m_n − m_p from lattice QCD + QED | 1.51(16)(23); QCD 2.52(17)(24); QED −1.00(07)(14) MeV | Borsanyi et al., Science 347, 1452 (2015), arXiv:1406.4088, its table, read from the paper's text | ok |
+| m_u, m_d | 2.20 ± 0.07, 4.69 ± 0.05 MeV | PDG 2024 quark-mass review, eqs. (60.7)–(60.8) | ok |
 | Lane–Emden n = 3 constants | 6.89685, 2.01824 | computed in the code; the tabulated values are recalled | computed; n = 1 checked against its exact solution |
 | Oppenheimer–Volkoff 1939 | 0.71 M☉, 9.6 km | not retrieved | unverified (recalled); the code gives 0.710 M☉ and 9.2 km |
 

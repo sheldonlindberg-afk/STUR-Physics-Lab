@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Branches of the force chain (FORCE_CHAIN.md): four places where values the chain already
+Branches of the force chain (FORCE_CHAIN.md): seven places where values the chain already
 carries meet a measurement the chain did not use. src/force_chain.py calls these functions
 with its own values; run on its own, this file uses the same inputs and prints each branch.
 
@@ -33,6 +33,21 @@ B4  When matter collapses. A cold star is held up by the Pauli pressure of its f
     both integrated here. The heaviest neutron star measured is three times the second
     number: the strong force's repulsion, not Pauli pressure, holds neutron stars up.
 
+B5  The electron's magnetic moment. The chain's alpha(0) comes down from M_Z and carries the
+    hadronic input's error. The electron's anomaly a_e = (g - 2)/2 is a power series in
+    alpha/pi with known coefficients (LIT: the QED series to five loops, plus small
+    mass-dependent, hadronic and weak terms), so the measured a_e gives alpha directly.
+    CHECK: inverting the series reproduces the published 1/alpha = 137.035999166(15).
+B6  The weak mixing angle at low energy. The same fermion loops that run alpha (stage 2)
+    mix the photon with the Z, so the weak mixing angle runs too:
+        s^2(0) = s^2(M_Z) + sum over sectors (lambda - s^2) Delta alpha,
+        lambda = sum N_c Q T_3 / (2 sum N_c Q^2) = 1/4 for leptons, 21/44 for five quarks.
+    MODEL: one loop, the hadronic mixing weighted by the quark charges, the W loop left out.
+B7  The neutron-proton mass difference. It is not derived: lattice QCD + QED gets it from the
+    up-down mass difference and the electromagnetic self-energy (LIT). What is computed is
+    what it controls: 3a's lifetime through the phase space, and 4a's helium through the
+    freeze-out and the lifetime. Helium pins it far more tightly than the lattice does.
+
 Labels: CHECK = computed here; LIT = quoted with its source; MODEL = named where it enters.
 Independent work, not peer reviewed.
 """
@@ -64,8 +79,21 @@ YP_MEAS = (0.245, 0.003)                        # PDG 2024 BBN review, eq. 24.3
 DH_MEAS = (25.47e-6, 0.29e-6)                   # PDG 2024 BBN review, eq. 24.2
 B_DEUTERON = 2.224566                           # MeV, deuteron binding energy
 SIGMA_NP_THERMAL = (0.3326e-24, 2.2e5)          # cm^2 at 2200 m/s = 2.2e5 cm/s: thermal n + p -> D + gamma (1/v law)
-S_DD = 2 * 0.055e-24                            # MeV cm^2: D(D,n)3He + D(D,p)T astrophysical S-factors, ~55 keV b each
+S_DD = (0.0508 + 0.0510) * 1e-24                # MeV cm^2: S(0) of D(D,p)T and D(D,n)3He, 50.8 and 51.0 keV b
+#                                                 (Viviani et al., arXiv:2207.01433), held constant in energy
 M_NS_MEAS = (2.08, 0.07)                        # solar masses, PSR J0740+6620 (Fonseca et al., ApJL 915, L12 (2021))
+DR_FULL = 0.03685                               # PDG 2024 electroweak review: the complete Delta r
+A_E_MEAS = (1159652180.59e-12, 0.13e-12)        # Fan et al., PRL 130, 071801 (2023)
+AINV_FROM_AE = (137.035999166, 0.000000015)     # the same paper: 1/alpha from a_e and the QED series
+# QED series for a_e in powers of alpha/pi: one loop (Schwinger), two loops (exact, computed in a_e), then
+# three, four and five loops; and the mass-dependent QED, hadronic and weak terms
+A_E_C3, A_E_C4, A_E_C5 = 1.181241456587, -1.9122457649, 6.737
+A_E_REST = 2.7475e-12 + 1.693e-12 + 0.03053e-12
+S2_MZ = (0.23129, 0.00004)                      # PDG 2024, MS-bar
+S2_ZERO_PDG = (0.23873, 0.00005)                # PDG 2024 electroweak review, Table 10.2: full calculation
+S2_QWEAK = (0.2382, 0.0011)                     # PDG 2024 (Qweak, Nature 557, 207 (2018)), at 157 MeV
+DM_NP_LATTICE = {"total": (1.51, 0.28), "QCD": (2.52, 0.29), "QED": (-1.00, 0.16)}   # Borsanyi et al., Science 347, 1452 (2015)
+M_U_D = ((2.20, 0.07), (4.69, 0.05))            # MeV, MS-bar at 2 GeV, PDG 2024 quark-mass review eqs. 60.7-60.8
 
 
 def banner(s):
@@ -96,7 +124,8 @@ def w_mass(alpha0, GF, MZ=LL.M_Z, mt=M_TOP, dalpha=None, alpha_s=None):
     drho = 3 * GF * mt**2 / (8 * math.sqrt(2) * math.pi**2)
     qcd = 1 - 2 * alpha_s / (3 * math.pi) * (1 + math.pi**2 / 3)
     return {"tree": solve(0.0)[0], "running": solve(dalpha)[0], "top": with_top(drho),
-            "top + QCD": with_top(drho * qcd), "Delta alpha": dalpha, "Delta rho": drho, "QCD factor": qcd}
+            "top + QCD": with_top(drho * qcd), "Delta alpha": dalpha, "Delta rho": drho, "QCD factor": qcd,
+            "full": solve(DR_FULL)[0]}
 
 
 # ------------------------------------------------------------------------------ B2
@@ -277,6 +306,57 @@ def collapse_limits(mpl_gev, G, gm_sun, m_u_kg=LL.U_AMU, m_n_mev=LL.M_N0_MEV):
             "nucleons": (mpl_kg / m_n_kg) ** 3}
 
 
+# ------------------------------------------------------------------------------ B5
+def a_e(ainv):
+    """The electron's anomaly from 1/alpha: the QED series plus the small non-QED terms."""
+    x = 1 / (ainv * math.pi)
+    z3 = 1.2020569031595942
+    c2 = 197 / 144 + math.pi**2 / 12 + 3 * z3 / 4 - math.pi**2 / 2 * math.log(2)     # Petermann, Sommerfield 1957
+    return 0.5 * x + c2 * x**2 + A_E_C3 * x**3 + A_E_C4 * x**4 + A_E_C5 * x**5 + A_E_REST
+
+
+def alpha_from_a_e(ae=A_E_MEAS[0]):
+    """1/alpha that reproduces a measured anomaly (bisection on the series)."""
+    lo, hi = 136.0, 138.0
+    for _ in range(100):
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if a_e(mid) > ae else (lo, mid)
+    return (lo + hi) / 2
+
+
+# ------------------------------------------------------------------------------ B6
+def mixing_lambda(fermions):
+    """lambda = sum N_c Q T_3 / (2 sum N_c Q^2) for a set of (N_c, Q, T_3): the value s^2 would
+    run to if only these fermions' loops acted."""
+    return sum(n * q * t for n, q, t in fermions) / (2 * sum(n * q * q for n, q, t in fermions))
+
+
+LEPTONS = [(1, -1.0, -0.5)] * 3
+QUARKS5 = [(3, 2 / 3, 0.5)] * 2 + [(3, -1 / 3, -0.5)] * 3            # u, c and d, s, b
+
+
+def weak_angle_at_zero(dalpha_lep, dalpha_had, s2_mz=S2_MZ[0]):
+    """MS-bar sin^2 theta_W at zero momentum from its value at M_Z and the running of alpha
+    in each sector. Returns (s^2(0), lepton shift, hadron shift)."""
+    lep = (mixing_lambda(LEPTONS) - s2_mz) * dalpha_lep
+    had = (mixing_lambda(QUARKS5) - s2_mz) * dalpha_had
+    return s2_mz + lep + had, lep, had
+
+
+# ------------------------------------------------------------------------------ B7
+def splitting_consequences(GF, Vud, mpl_gev, alpha0, deltas):
+    """For each neutron-proton mass difference (MeV): (phase space, lifetime in s, Y_p). The
+    radiative corrections are taken unchanged, so the lifetime scales as 1/f(delta)."""
+    _, tau0, _ = neutron_lifetime(GF, Vud)
+    f0 = phase_space()
+    out = []
+    for d in deltas:
+        f = phase_space(Q=d)
+        tau = tau0 * f0 / f
+        out.append((d, f, tau, helium(tau, mpl_gev, alpha0, Q=d)["Y_p"]))
+    return out
+
+
 def main():
     import black_holes as BH
     G = LL.G_NEWTON
@@ -293,6 +373,7 @@ def main():
     print(f"   measured: {M_W_MEAS[0]} +- {M_W_MEAS[1]} GeV. The two leading corrections leave"
           f" {100 * (w['top + QCD'] / M_W_MEAS[0] - 1):+.2f}%;")
     print("   the remaining bosonic and two-loop terms are not computed (MODEL).")
+    print(f"   LIT check: with the PDG's complete Delta r = {DR_FULL} the same relation gives {w['full']:.3f} GeV.")
 
     banner("B2  The neutron lifetime from G_F, |V_ud| and g_A")
     tree, tau, err = neutron_lifetime(LL.G_F_GEV, LL.V_UD[0])
@@ -330,6 +411,43 @@ def main():
     print(f"   heaviest neutron star measured: {M_NS_MEAS[0]} +- {M_NS_MEAS[1]} solar masses ="
           f" {M_NS_MEAS[0] / s['M_OV']:.1f} x the free-neutron limit: the nuclear force's repulsion carries the rest")
     print(f"   GW250114's black holes, {BH.GW_M1:.1f} and {BH.GW_M2:.1f} solar masses, are above every such limit")
+
+    banner("B5  The electron's magnetic moment and alpha")
+    d = LL.DALPHA_LEP_3LOOP + LL.DALPHA_HAD[0] + LL.DALPHA_CONV
+    chain = LL.AINV_MZ_MSBAR / (1 - d)
+    err = chain * LL.DALPHA_HAD[1] / (1 - d)
+    print(f"   the chain's route, down from M_Z: 1/alpha(0) = {chain:.4f} +- {err:.4f} (the hadronic input's error)")
+    print(f"   a_e from that alpha: {a_e(chain):.8f} +- {a_e(chain) * err / chain:.8f};  measured {A_E_MEAS[0]:.14f}")
+    inv = alpha_from_a_e()
+    print(f"   the measured a_e inverted through the QED series: 1/alpha = {inv:.9f}"
+          f"  (published {AINV_FROM_AE[0]} +- {AINV_FROM_AE[1]})")
+    print(f"   they differ by {abs(chain - inv):.1e}, far inside the chain's error; the electron's moment is"
+          f" {err / AINV_FROM_AE[1]:.0e} times more precise")
+    print("   This is a return trip, not an independent test: the alpha-hat(M_Z) that stage 1 takes as input")
+    print("   was itself obtained from alpha(0). What the branch shows is where the chain's alpha comes from.")
+
+    banner("B6  The weak mixing angle at low energy, from the loops that run alpha")
+    s0, lep, had = weak_angle_at_zero(LL.DALPHA_LEP_3LOOP, LL.DALPHA_HAD[0])
+    print(f"   lambda = {mixing_lambda(LEPTONS):.4f} (leptons), {mixing_lambda(QUARKS5):.4f} = 21/44 (five quarks),"
+          f" {mixing_lambda(LEPTONS + QUARKS5 + [(3, 2 / 3, 0.5)]):.4f} = 3/8 (all fermions)")
+    print(f"   sin^2 theta_W(M_Z) = {S2_MZ[0]};  leptons {lep:+.5f}, hadrons {had:+.5f}  ->  sin^2 theta_W(0) = {s0:.5f}")
+    print(f"   full calculation (PDG): {S2_ZERO_PDG[0]} +- {S2_ZERO_PDG[1]};  measured at 157 MeV (Qweak):"
+          f" {S2_QWEAK[0]} +- {S2_QWEAK[1]}  (pull {(s0 - S2_QWEAK[0]) / S2_QWEAK[1]:+.1f} sigma)")
+    print(f"   the angle rises by {100 * (s0 / S2_MZ[0] - 1):.1f}% between M_Z and zero; the measurement sees the rise at"
+          f" {(S2_QWEAK[0] - S2_MZ[0]) / S2_QWEAK[1]:.1f} sigma")
+
+    banner("B7  The neutron-proton mass difference: quoted, and what it controls")
+    (mu, _), (md, _) = M_U_D
+    L = DM_NP_LATTICE
+    print(f"   m_d - m_u = {md - mu:.2f} MeV (lattice averages);  lattice QCD + QED: {L['QCD'][0]} (quark masses)"
+          f" {L['QED'][0]:+} (electromagnetism) = {L['total'][0]} +- {L['total'][1]} MeV;  measured {DM_NP:.4f}")
+    rows = splitting_consequences(LL.G_F_GEV, LL.V_UD[0], mpl, a0, (DM_NP, 1.01 * DM_NP, L["total"][0]))
+    for dlt, f, t_, y in rows:
+        print(f"   delta = {dlt:.4f} MeV: phase space {f:.3f}, lifetime {t_:6.1f} s, Y_p = {y:.4f}")
+    slope = (rows[1][3] - rows[0][3]) / (0.01 * DM_NP)
+    print(f"   dY_p/d delta = {slope:+.3f} per MeV: the measured helium (+- {YP_MEAS[1]}) fixes delta to"
+          f" +- {abs(YP_MEAS[1] / slope) * 1e3:.0f} keV, the lattice to +- {L['total'][1] * 1e3:.0f} keV")
+    print(f"   with electromagnetism alone ({L['QED'][0]} MeV) the proton would be the heavier one and hydrogen would decay")
 
 
 if __name__ == "__main__":

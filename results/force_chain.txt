@@ -22,6 +22,19 @@
    measured 80.3692 +- 0.0133 GeV; the remaining bosonic loops are not computed
 
 ==============================================================================
+2b The electron's magnetic moment: where stage 2's alpha comes from
+==============================================================================
+   a_e from stage 2's alpha through the QED series: 0.001159652  (measured 0.00115965218059)
+   the measured a_e, inverted: 1/alpha = 137.035999166  (published 137.035999166); stage 2 has 137.035999
+   a return trip, not a test: stage 1's alpha-hat(M_Z) was obtained from alpha(0) in the first place
+
+==============================================================================
+2c The weak mixing angle at zero momentum: stage 2's loops also mix the photon with the Z
+==============================================================================
+   leptons pull it toward 1/4 (+0.00059), quarks toward 21/44 (+0.00685): 0.23129 at M_Z  ->  0.23873 at zero
+   full calculation 0.23873 +- 5e-05;  measured 0.2382 +- 0.0011
+
+==============================================================================
 3  Weak to strong: G_F and the pion's weak decay give the pion decay constant
 ==============================================================================
    f_pi = 130.57 MeV (lattice, not used: 130.2 +- 1.2)
@@ -46,8 +59,16 @@
 ==============================================================================
    gravity (stage 1's M_Pl) sets the expansion: 0.75 s at 1 MeV, 119 s at 0.1 MeV
    the weak rates, normalised to 3a's lifetime, freeze out with 16.0% neutrons
-   deuterium survives and burns through stage 2's Coulomb barrier at 71 keV, 255 s; by then 12.0% neutrons are left
-   helium mass fraction Y_p = 0.2409  (measured 0.245 +- 0.003); a minimal network, see chain_branches.py
+   deuterium survives and burns through stage 2's Coulomb barrier at 71 keV, 256 s; by then 12.0% neutrons are left
+   helium mass fraction Y_p = 0.2407  (measured 0.245 +- 0.003); a minimal network, see chain_branches.py
+
+==============================================================================
+4b The neutron-proton mass difference: what 3a's lifetime and 4a's helium owe to it
+==============================================================================
+   lattice QCD + QED: 2.52 MeV from m_d - m_u, -1.0 MeV from electromagnetism: 1.51 +- 0.28 MeV  (measured 1.2933); not derived here
+   at the measured value: lifetime 880.6 s (3a), Y_p = 0.2407 (4a)
+   at the lattice's central value: lifetime 332 s, Y_p = 0.117
+   dY_p/d delta = -0.61 per MeV: the measured helium fixes it to +- 5 keV
 
 ==============================================================================
 5  Electromagnetism in the lab: the background the diamonds must suppress
@@ -105,20 +126,24 @@ Hand-offs: each value, the stage that produced it, the stages that used it
    Q_u                                 1  ->  4
    Q_d                                 1  ->  4
    q_p + q_e                           1  ->  5
-   M_Pl                                1  ->  4a, 7a, 8
+   M_Pl                                1  ->  4a, 4b, 7a, 8
    1/alpha-hat(M_Z)                    1  ->  2
-   G_F                                 1  ->  2a, 3, 3a
+   G_F                                 1  ->  2a, 3, 3a, 4b
    N_c                                 1  ->  4
    M_V floor                           1  ->  8
-   alpha(0)                            2  ->  2a, 4, 4a, 5
+   alpha(0)                            2  ->  2a, 2b, 4, 4a, 4b, 5
+   Delta alpha (leptons, hadrons)      2  ->  2a, 2c
    M_W                                2a  ->  (final)
+   1/alpha from a_e                   2b  ->  (final)
+   sin^2 theta_W(0)                   2c  ->  (final)
    f_pi                                3  ->  4
-   |V_ud|                              3  ->  3a
-   neutron lifetime                   3a  ->  4a
+   |V_ud|                              3  ->  3a, 4b
+   neutron lifetime                   3a  ->  4a, 4b
    pi0 width                           4  ->  (final)
    m_pi O(p^4)                         4  ->  (final)
    mass budget                         4  ->  6
-   Y_p                                4a  ->  (final)
+   Y_p                                4a  ->  4b
+   helium's sensitivity to m_n - m_p  4b  ->  (final)
    neutrality needed                   5  ->  (final)
    gap                                 5  ->  6
    phase                               6  ->  7
@@ -141,6 +166,10 @@ Measured inputs, where they enter
     2: Delta alpha_had (PDG 2024 electroweak review)
    2a: M_Z, m_t (PDG 2024)
    2a: M_W (PDG 2024 (compared, not used))
+   2b: QED series coefficients (three to five loops, hadronic and weak terms (AUDIT.md))
+   2b: a_e (Fan et al. 2023)
+   2c: sin^2 theta_W(M_Z) (PDG 2024 (MS-bar))
+   2c: sin^2 theta_W at 157 MeV (Qweak via PDG 2024 (compared, not used))
     3: Gamma(pi -> mu nu) (PDG 2024 (with delta_pi, |V_ud|))
    3a: g_A (PDG 2024)
    3a: m_n - m_p (CODATA 2018)
@@ -151,6 +180,7 @@ Measured inputs, where they enter
    4a: baryon-to-photon ratio (PDG 2024 (Planck))
    4a: deuteron binding, n + p and D + D cross sections (nuclear data (AUDIT.md))
    4a: Y_p (PDG 2024 (compared, not used))
+   4b: lattice m_n - m_p and its QCD and QED parts (Borsanyi et al. 2015)
     5: diamond permittivity (tabulated (AUDIT.md))
     6: cryostat T (src/stur_gravity_full.py BASE_ENV (design))
     7: Lambda (Planck 2018 with BAO)
