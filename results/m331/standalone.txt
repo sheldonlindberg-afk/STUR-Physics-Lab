@@ -49,6 +49,13 @@ S2b Is asymptotic freedom of colour needed?  The selection without it
    -> For beta = +1/sqrt3, running alone selects (3, 3). For beta = -1/sqrt3, (2, 4) also
       reaches M_Pl: its colour group is not asymptotically free, but its pole is far above
       M_Pl. Asymptotic freedom of colour is an independent condition, needed only for (2, 4).
+   The same cut from an observation. A baryon is N_c quarks: spin N_c/2 mod 1, charge
+   (1 - N_c)/2 + k. Baryons are fermions of integer charge only for odd N_c:
+     N_c = 2: charges -1/2, 1/2, 3/2
+     N_c = 3: charges -1, 0, 1, 2
+   Among odd N_c >= 3 the running alone leaves (3, 3); asymptotic freedom then follows.
+   [PASS] baryon charges are integers iff N_c is odd (N_c = 2..9)
+   [PASS] among odd N_c >= 3, without asymptotic freedom, only (3, 3) survives (both variants)
    [PASS] N_g = 2 N_c is excluded by running alone for N_c = 3, 4, 5 (both variants)
    [PASS] beta = -1/sqrt3: (N_c, N_g) = (2, 4) reaches M_Pl (1.0e27 GeV) without asymptotic freedom
    [PASS] without asymptotic freedom the survivors are (3, 3) and, for beta = -1/sqrt3 only, (2, 4)
@@ -119,7 +126,8 @@ S6b The narrow variant (beta = +1/sqrt3) against mass floors, criterion alpha = 
    heavy charged leptons m_E >= 0.1 TeV (LEP), heavy scalars >= 0.1 TeV. Two loops.
    all masses at the floors: N_c = 3 pole = 0.572 M_Pl;  N_c = 5 pole = 1.0e-08 M_Pl
    N_c = 3 reaches M_Pl only if m_E >= 712 GeV (two loops; the repository's three-loop
-   value is 584 +- 118 GeV, src/m331_margin.py). With three E the condition is on their
+   value, with the Yukawas run rather than held constant, is 649 +- 132 GeV,
+   src/m331_margin.py). With three E the condition is on their
    geometric mean. Run 2 allows that mean down to ~0.24 TeV, so the LHC has not tested it;
    the HL-LHC reaches about the threshold (src/m331_heavy_lepton.py).
    [PASS] beta = +1/sqrt3, light heavy leptons: N_c = 3 falls below M_Pl at alpha = 1 (0.572 M_Pl)
@@ -151,8 +159,8 @@ VERDICT
    prediction). In the beta = -1/sqrt3
    variant the margins are wide. In the beta = +1/sqrt3 variant the selection is a
    condition, not a margin: N_c = 3 reaches M_Pl at alpha = 1 only if the three heavy
-   charged leptons are heavy enough (geometric mean >= 584 +- 118 GeV at three loops,
+   charged leptons are heavy enough (geometric mean >= 649 +- 132 GeV at three loops,
    S6b at two loops). The LHC has not tested this; the HL-LHC reaches about the threshold.
 
-   Checks passed: 26/26   (15 s)
+   Checks passed: 28/28   (16 s)
    ALL CHECKS PASS

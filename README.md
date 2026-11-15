@@ -27,27 +27,38 @@
 ## For researchers: three colours and three generations in 3-3-1 models
 
 **[paper/note331.pdf](paper/note331.pdf)** (LaTeX: [paper/note331.tex](paper/note331.tex);
-extended notes: [NOTE_331.md](NOTE_331.md))
+extended notes: [NOTE_331.md](NOTE_331.md); the note's own page: [paper/README.md](paper/README.md))
 
 In SU(3)_C × SU(3)_L × U(1)_X models, keep the number of colours N_c general, take no
 generation or neutrino number from experiment, and require every gauge coupling to stay
 perturbative to the Planck scale.
 
-- The SU(3)_L anomaly plus asymptotic freedom of colour force N_c to be odd and N_g = N_c.
-  Witten's global anomaly then holds automatically.
-  Asymptotic freedom is an independent condition here, not a consequence of the running:
-  without it, N_c = 2 with N_g = 4 also stays perturbative to the Planck scale for
-  β = −1/√3. Every other N_g > N_c is excluded by the running alone.
-- SU(3)_L running excludes N_c ≥ 7.
-- U(1)_X running excludes N_c = 5.
+Exact (algebra, no measured input):
+- Anomaly cancellation fixes the quark charges for every N_c, and the SU(3)_L anomaly makes
+  N_g a multiple of N_c (N_c odd) or 2N_c (N_c even).
+- Baryons are fermions with integer charge if and only if N_c is odd.
 
-Only **N_c = N_g = 3** survives, with quark charges ⅔ and −⅓. The selection holds:
+Numerical (running from the measured couplings):
+- SU(3)_L running excludes N_c ≥ 7, and U(1)_X running excludes N_c = 5.
+- Every N_g > N_c is excluded too, except N_c = 2 with N_g = 4 for β = −1/√3. A colourless
+  N_c = 1 also passes.
+- In coupling space the regions are nested: wherever any odd N_c ≥ 3 survives, N_c = 3
+  does. No choice of couplings selects 5 or 7 instead
+  ([`src/m331_coupling_map.py`](src/m331_coupling_map.py)).
+
+So one input about colour is needed. As an observation: a colour force exists and baryons
+are fermions of integer charge (N_c odd, at least 3). Asymptotic freedom of colour then
+follows. As an axiom instead: colour is non-abelian and asymptotically free. Either way,
+only **N_c = N_g = 3** survives, with quark charges ⅔ and −⅓. The selection holds:
 - at two loops, including two-loop Yukawa terms, and at three loops in the gauge and
   matter sector;
 - with one-loop threshold matching across the heavy spectrum;
 - for 3-3-1 scales of 2–30 TeV;
 - in both variants β = ±1/√3 (for β = +1/√3, only if its heavy charged leptons are above
-  about 0.6 TeV; see below).
+  about 0.65 TeV; see below).
+
+Every β-function coefficient is derived twice: from tabulated group invariants, and from
+explicit generator matrices ([`src/m331_matrix_check.py`](src/m331_matrix_check.py)).
 
 Requiring the scalar sector to stay perturbative to M_Pl then bounds the exotic quarks
 below 1.4–1.8 M_V.
@@ -59,14 +70,17 @@ Pythia 8).
 
 **Conditions:**
 - the 3-3-1 framework;
-- a non-abelian, asymptotically free colour group. Asymptotic freedom is needed only to
-  exclude N_c = 2, N_g = 4 for β = −1/√3; a colourless N_c = 1 would also pass the
-  running ([NOTE_331.md §2](NOTE_331.md));
+- the framework's scope: β = ±1/√3 with leptons in triplets. The flipped 3-3-1 model, with a
+  lepton sextet, has a different anomaly relation and is not covered
+  ([NOTE_331.md §1](NOTE_331.md));
+- one input about colour, as above: baryons like ours (N_c odd, at least 3), or a
+  non-abelian, asymptotically free colour group ([NOTE_331.md §2](NOTE_331.md));
 - Planck-scale perturbativity;
 - the measured TeV-scale electroweak couplings, which are an input, not a prediction.
   In the β = +1/√3 variant there is no comfortable margin. At α = 1 (three loops), N_c = 3
-  reaches M_Pl only if the heavy charged leptons are heavier than 0.58 ± 0.12 TeV with M_V
-  at its LHC bound (1.00 TeV at M_V = 10 TeV). Lighter ones are not yet excluded by the
+  reaches M_Pl only if the heavy charged leptons are heavier than 0.65 ± 0.13 TeV with M_V
+  at its LHC bound (1.09 TeV at M_V = 10 TeV; Yukawa couplings run with the gauge couplings).
+  A stricter criterion asks for more: about 3 TeV at α = 0.5. Lighter ones are not yet excluded by the
   LHC, and they push N_c = 3 below M_Pl too
   ([`src/m331_margin.py`](src/m331_margin.py); [NOTE_331.md §3e](NOTE_331.md)).
   The condition is on the three leptons' geometric-mean mass. Run 2 allows it down to
@@ -81,7 +95,7 @@ U(1)_X running with Yukawas, one-loop thresholds across the heavy spectrum, the
 β = +1/√3 heavy-lepton condition against mass floors, and the R-ratio cross-check. Copy it (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/#run331)
 has a one-click **Copy Python script** button; on GitHub use *Copy raw file*) and paste it
 into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 15 s
-and ends with 26 PASS/FAIL checks against the numbers pinned here
+and ends with 28 PASS/FAIL checks against the numbers pinned here
 ([expected output](results/m331/standalone.txt)).
 
 The closest prior work is Doff & Pisano (2000). The literature search is in
@@ -228,7 +242,9 @@ python3 src/stur_gravity_full.py    # the two-diamond design search, ~15 s
 python3 src/short_range_gravity.py  # design A against a Yukawa term in Newton's law, ~4 s
 python3 src/m331_exact.py           # the 3-3-1 selection, both variants
 python3 src/m331_three_loop.py       # three-loop gauge running and the criterion, ~70 s
-python3 src/m331_margin.py           # the beta = +1/sqrt3 margin against mass floors, ~50 s
+python3 src/m331_margin.py           # the beta = +1/sqrt3 margin against mass floors, ~2 min
+python3 src/m331_matrix_check.py     # the beta-function coefficients again, from explicit matrices, ~2 s
+python3 src/m331_coupling_map.py     # the selection as a map of coupling space, ~2.5 min
 python3 src/m331_heavy_lepton.py     # its heavy leptons vs the LHC and HL-LHC, ~5 s
 python3 src/m331_gravity_fixed_point.py  # gravity above M_Pl (asymptotic safety) and the 3-3-1 couplings, ~70 s
 python3 src/ladder_standalone.py     # the whole ladder, one file, no dependencies, ~1 s
@@ -240,7 +256,7 @@ python3 src/ladder_links.py          # links across the rungs: neutral matter, p
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
 python3 src/why_parameters.py        # the 19 parameters: explanations tested, 3-3-1 flavour, ~3 s
 python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (289 tests)
+python -m pytest tests -q           # every number pinned (303 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on
@@ -249,7 +265,7 @@ each push.
 ## Layout
 
 ```
-paper/                    the 3-3-1 note: PDF and LaTeX source
+paper/                    the 3-3-1 note: PDF, LaTeX source, and its own README (start there)
 notebooks/                study notebooks with exercises
 NOTE_331.md               the 3-3-1 note with extended detail on each check
 NOVELTY.md                literature search: what is new, what was already known

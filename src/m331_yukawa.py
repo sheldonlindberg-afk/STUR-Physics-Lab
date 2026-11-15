@@ -40,16 +40,7 @@ def banner(s):
     print("\n" + "=" * 78 + "\n" + s + "\n" + "=" * 78)
 
 
-def yukawa_coeff(groups, psi1, psi2, n_terms):
-    """psi = (dims tuple, U(1) charge). Returns the per-y^2 coefficient for each group."""
-    out = []
-    for i, g in enumerate(groups):
-        dG = 1 if g.N is None else g.N**2 - 1
-        s = 0
-        for dims, q in (psi1, psi2):
-            s += q**2 if g.N is None else g.C2(dims[i])
-        out.append(F(n_terms) * s / dG)
-    return out
+from m331_core import yukawa_coeff                              # noqa: E402,F401
 
 
 def sm_top_check():
@@ -58,11 +49,11 @@ def sm_top_check():
     return [c[0] * F(3, 5), c[1], c[2]]
 
 
-def yukawas_331(Nc, variant):
+def yukawas_331(Nc, variant, Ng=None):
     """Coefficient vectors (top, one exotic quark) for 3-3-1 at colour number N_c.
     Top: the up quark of a triplet generation. Exotics: one per generation, each
     coupling its quark (anti-)triplet to its exotic singlet; contraction 3 x N_c."""
-    gs, ferm, scal, (Xt, Xa, Qu, Qd, Ng, nA) = E.MODELS[variant](Nc)
+    gs, ferm, scal, (Xt, Xa, Qu, Qd, Ng, nA) = E.MODELS[variant](Nc, Ng)
     nt = 3 * Nc
     top = yukawa_coeff(gs, ((None, 3, Nc), Xt), ((None, 1, Nc), -Qu), nt)
     if variant == "-1/sqrt3":       # triplet exotic T (charge Q_u), anti-triplet exotic D (Q_d)
@@ -134,11 +125,11 @@ def boundary(mu0, s2_override=None, aem_inv_override=None, lam=(0.0, 0.0, 0.0), 
 
 
 def blow_up(Nc, variant="-1/sqrt3", yt=0.0, yJ=0.0, mu0=MU331, gmax=4 * pi, s2=None, aem_inv=None,
-            lam=(0.0, 0.0, 0.0), n_light=1, loops=2):
-    gs, ferm, scal, _ = E.MODELS[variant](Nc)
+            lam=(0.0, 0.0, 0.0), n_light=1, loops=2, Ng=None):
+    gs, ferm, scal, _ = E.MODELS[variant](Nc, Ng)
     a, b = E.coefficients(gs, ferm, scal)
     a = np.array([float(x) for x in a]); b = np.array([[float(x) for x in r] for r in b])
-    ct, cJ = yukawas_331(Nc, variant)
+    ct, cJ = yukawas_331(Nc, variant, Ng)
     yuk = ct * yt**2 + cJ * yJ**2
     ainv0, _, _ = boundary(mu0, s2, aem_inv, lam, n_light)
     if loops == 1:

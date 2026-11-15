@@ -20,7 +20,9 @@ def test_light_heavy_leptons_fail():
 
 
 def test_heavy_lepton_threshold():
-    assert abs(M.mE_critical() - 584) < 5
+    assert abs(M.mE_critical() - 584) < 5                       # Yukawas held constant
+    assert abs(M.mE_critical(yukawas="running") - 649) < 5      # the quoted threshold
+    assert abs(M.mE_critical(yukawas=False) - 695) < 5
     assert abs(M.mE_critical(MV=30e3) - 1812) < 15
 
 

@@ -32,70 +32,11 @@ def banner(s):
     print("\n" + "=" * 78 + "\n" + s + "\n" + "=" * 78)
 
 
-class Group:
-    def __init__(self, name, N=None):        # N=None -> U(1)
-        self.name, self.N = name, N
-
-    def CA(self):
-        return 0 if self.N is None else self.N
-
-    def T(self, d):                          # Dynkin index of irrep of dimension d
-        if self.N is None or d == 1:
-            return 0
-        if d == self.N:
-            return F(1, 2)
-        if self.N == 3 and d == 6:
-            return F(5, 2)
-        raise ValueError(d)
-
-    def C2(self, d, charge=None):
-        if self.N is None:
-            return charge**2
-        if d == 1:
-            return 0
-        if d == self.N:
-            return F(self.N**2 - 1, 2 * self.N)
-        raise ValueError(d)
-
-
-def coefficients(groups, fermions, scalars, kappa=F(1, 2), sigma=F(2)):
-    # sigma = 2 (complex scalar = 2 real d.o.f.) is FIXED by the SM two-loop check (E1)
-    """fermions/scalars: list of (multiplicity, dims tuple (None for U(1)), U(1) charge or None).
-    Returns one-loop a_i and two-loop b_ij for d g_i/dt = g_i^3/(16pi^2) [a_i + sum_j b_ij g_j^2/(16pi^2)]."""
-    n = len(groups)
-
-    def S(i, mult, dims, q):
-        g = groups[i]
-        other = 1
-        for j, d in enumerate(dims):
-            if j != i and d is not None:
-                other *= d
-        if g.N is None:
-            return mult * other * q**2
-        return mult * other * g.T(dims[i])
-
-    def C(j, dims, q):
-        g = groups[j]
-        return g.C2(dims[j], q) if g.N is not None else q**2
-
-    a = [F(0)] * n
-    b = [[F(0)] * n for _ in range(n)]
-    for i, g in enumerate(groups):
-        a[i] = -F(11, 3) * g.CA()
-        b[i][i] = -F(34, 3) * g.CA()**2
-        for mult, dims, q in fermions:
-            s = S(i, mult, dims, q)
-            a[i] += F(4, 3) * kappa * s
-            b[i][i] += kappa * F(20, 3) * g.CA() * s
-            for j in range(n):
-                b[i][j] += kappa * 4 * s * C(j, dims, q)
-        for mult, dims, q in scalars:
-            s = S(i, mult, dims, q)
-            a[i] += F(1, 3) * s
-            b[i][i] += sigma * F(1, 3) * g.CA() * s
-            for j in range(n):
-                b[i][j] += sigma * 2 * s * C(j, dims, q)
-    return a, b
+# Group invariants, the general coefficients and the 3-3-1 field content live in m331_core.py
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
+import m331_core as _core
+from m331_core import Group, coefficients                      # noqa: E402,F401
 
 
 def sm_check():
@@ -114,65 +55,28 @@ def sm_check():
     return a, b
 
 
-def _generations(Nc, Ng):
-    """N_g (default N_c) and the number n of anti-triplet quark generations that cancels
-    the SU(3)_L anomaly, N_g (1 + N_c) = 2 n N_c."""
-    Ng = Nc if Ng is None else Ng
-    if (Ng * (1 + Nc)) % (2 * Nc):
-        raise ValueError(f"N_c = {Nc}, N_g = {Ng}: the SU(3)_L anomaly does not cancel")
-    return Ng, Ng * (1 + Nc) // (2 * Nc)
-
-
 def model_331(Nc, Ng=None):
-    Qu, Qd = F(Nc + 1, 2 * Nc), F(1 - Nc, 2 * Nc)
-    Ng, nA = _generations(Nc, Ng)
-    Xt, Xa = Qu - F(1, 3), Qd + F(1, 3)
-    gs = [Group("X"), Group("SU3L", 3), Group("SUNc", Nc)]
-    ferm = [(Ng, (None, 3, 1), F(-1, 3)), (Ng, (None, 1, 1), F(1)),
-            (Ng - nA, (None, 3, Nc), Xt), (nA, (None, 3, Nc), Xa)]
-    ferm += [(Ng, (None, 1, Nc), -Qu), (Ng, (None, 1, Nc), -Qd),
-             (Ng - nA, (None, 1, Nc), -Qu), (nA, (None, 1, Nc), -Qd)]
-    scal = [(1, (None, 3, 1), F(-1, 3)), (1, (None, 3, 1), F(2, 3)), (1, (None, 3, 1), F(-1, 3))]
-    return gs, ferm, scal, (Xt, Xa, Qu, Qd, Ng, nA)
+    """beta = -1/sqrt3 (m331_core.model): (groups, fermions, scalars, (Xt, Xa, Qu, Qd, Ng, nA))."""
+    return _core.model(Nc, "-1/sqrt3", Ng)
 
 
 def model_331_plus(Nc, Ng=None):
-    """beta = +1/sqrt3: Q = T3 + T8/sqrt3 + X.  Leptons (nu, e, E-) triplets X = -2/3 with
-    heavy charged lepton E; quark triplet (u, d, J) X = Q_u - 2/3 (J d-like); anti-triplet
-    (d, -u, J') X = Q_d + 2/3 (J' u-like).  Scalars from the Yukawas: X = 1/3, 1/3, -2/3."""
-    Qu, Qd = F(Nc + 1, 2 * Nc), F(1 - Nc, 2 * Nc)
-    Ng, nA = _generations(Nc, Ng)
-    Xt, Xa = Qu - F(2, 3), Qd + F(2, 3)
-    gs = [Group("X"), Group("SU3L", 3), Group("SUNc", Nc)]
-    ferm = [(Ng, (None, 3, 1), F(-2, 3)), (Ng, (None, 1, 1), F(1)), (Ng, (None, 1, 1), F(1)),
-            (Ng - nA, (None, 3, Nc), Xt), (nA, (None, 3, Nc), Xa)]
-    ferm += [(Ng, (None, 1, Nc), -Qu), (Ng, (None, 1, Nc), -Qd),
-             (Ng - nA, (None, 1, Nc), -Qd), (nA, (None, 1, Nc), -Qu)]
-    scal = [(1, (None, 3, 1), F(1, 3)), (1, (None, 3, 1), F(1, 3)), (1, (None, 3, 1), F(-2, 3))]
-    return gs, ferm, scal, (Xt, Xa, Qu, Qd, Ng, nA)
+    """beta = +1/sqrt3: leptons (nu, e, E-) with a heavy charged lepton E (m331_core.model)."""
+    return _core.model(Nc, "+1/sqrt3", Ng)
 
 
 MODELS = {"-1/sqrt3": model_331, "+1/sqrt3": model_331_plus}
+_VARIANT = {model_331: "-1/sqrt3", model_331_plus: "+1/sqrt3"}
 
 
 def anomalies(Nc, model=model_331, Ng=None):
-    gs, ferm, scal, (Xt, Xa, Qu, Qd, Ng, nA) = model(Nc, Ng)
-    def dim(d):
-        p = 1
-        for x in d[1:]:
-            p *= x
-        return p
-    A = {}
-    A["X^3"] = sum(m * dim(d) * q**3 for m, d, q in ferm)
-    A["grav^2 X"] = sum(m * dim(d) * q for m, d, q in ferm)
-    A["SU3L^2 X"] = sum(m * d[2] * q for m, d, q in ferm if d[1] == 3)
-    A["SUNc^2 X"] = sum(m * d[1] * q for m, d, q in ferm if d[2] == Nc and Nc > 1)
-    trip = Ng + Nc * (Ng - nA)
-    A["SU3L^3 (3 - 3bar)"] = F(trip - Nc * nA)
+    A = _core.anomalies(Nc, _VARIANT[model], Ng)
+    A["SU3L^3 (3 - 3bar)"] = A.pop("SU3L^3")
     return A
 
 
-def run_two_loop(Nc, mu0=4e3, loops=2, model=model_331, gmax=4 * pi, Ng=None):
+def run_two_loop(Nc, mu0=4e3, loops=2, model=model_331, gmax=4 * pi, Ng=None, ainv0=None, rtol=1e-9):
+    """ainv0: (1/alpha_X, 1/alpha_L, 1/alpha_3) at mu0, replacing the measured couplings."""
     gs, ferm, scal, _ = model(Nc, Ng)
     a, b = coefficients(gs, ferm, scal)
     a = np.array([float(x) for x in a]); b = np.array([[float(x) for x in r] for r in b])
@@ -183,7 +87,11 @@ def run_two_loop(Nc, mu0=4e3, loops=2, model=model_331, gmax=4 * pi, Ng=None):
     a3_inv = 1 / alpha_s_run(mu0)
     aL_inv = a2_inv
     aX_inv = aY_inv - (1 / 3) * aL_inv                        # 1/g_Y^2 = 1/g_X^2 + beta^2/g_L^2
+    if ainv0 is not None:
+        aX_inv, aL_inv, a3_inv = ainv0
     g0 = np.sqrt(4 * pi / np.array([aX_inv, aL_inv, a3_inv]))
+    if max(g0) >= gmax:
+        return mu0, a, b, aX_inv
 
     def rhs(t, g):
         two = (b @ (g**2)) / (16 * pi**2) if loops == 2 else 0
@@ -193,7 +101,7 @@ def run_two_loop(Nc, mu0=4e3, loops=2, model=model_331, gmax=4 * pi, Ng=None):
         return gmax - max(g)                                   # default g = 4 pi: non-perturbative
     blow.terminal = True
     tmax = log(1e40 / mu0)
-    sol = solve_ivp(rhs, [0, tmax], g0, events=blow, rtol=1e-9, atol=1e-12, max_step=0.5)
+    sol = solve_ivp(rhs, [0, tmax], g0, events=blow, rtol=rtol, atol=1e-12, max_step=0.5)
     if sol.t_events[0].size:
         return mu0 * np.exp(sol.t_events[0][0]), a, b, aX_inv
     return None, a, b, aX_inv
@@ -280,10 +188,39 @@ def survivors(gmax=4 * pi, mus=(2e3, 4e3, 1e4, 3e4), loops=2):
     return out
 
 
+def baryon(Nc):
+    """The baryons of SU(N_c) colour, N_c quarks each: (is a fermion, the electric charges
+    k Q_u + (N_c - k) Q_d for k = 0..N_c). The charges are (1 - N_c)/2 + k: integers
+    for odd N_c, half-integers for even N_c."""
+    Qu, Qd = F(Nc + 1, 2 * Nc), F(1 - Nc, 2 * Nc)
+    return Nc % 2 == 1, [k * Qu + (Nc - k) * Qd for k in range(Nc + 1)]
+
+
+def aX_per_generation(Nc, variant="-1/sqrt3"):
+    """Exact increase of the one-loop U(1)_X coefficient per added generation at fixed N_c
+    (N_g -> N_g + 2 N_c for even N_c, + N_c for odd, divided by the step): always positive,
+    so more generations only bring the U(1)_X pole down."""
+    m = MODELS[variant]
+    step = Nc if Nc % 2 else 2 * Nc
+    a1 = coefficients(*m(Nc, step)[:3])[0][0]
+    a2 = coefficients(*m(Nc, 2 * step)[:3])[0][0]
+    return (a2 - a1) / step
+
+
+def flipped_anomaly(Nc, Ng, n6):
+    """SU(3)_L^3 anomaly of a 'flipped' 3-3-1 assignment (Fonseca and Hirsch, JHEP 08 (2016)
+    003) for general N_c: every quark generation in the anti-triplet (N_c each), n6 lepton
+    generations in the sextet (A(6) = 7 A(3)) and N_g - n6 in the triplet. It vanishes iff
+    N_g (N_c - 1) = 6 n6; at N_c = 3 that is N_g = 3 n6. A different relation from
+    N_g (1 + N_c) = 2 n N_c: the selection of this note does not cover these models."""
+    return -Nc * Ng + 7 * n6 + (Ng - n6)
+
+
 def colourless(Ng, variant="-1/sqrt3", mu0=4e3):
     """N_c = 1: no colour group, Q_u = 1, Q_d = 0, and the SU(3)_L anomaly puts every 'quark'
     generation in the anti-triplet (n = N_g, any N_g). Returns the exact one-loop
-    (a_X, a_L) and the one-loop U(1)_X pole in GeV."""
+    (a_X, a_L) and the one-loop U(1)_X pole in GeV. Built by hand here as a cross-check of
+    MODELS[variant](1, Ng), which run_two_loop and m331_threshold use for the two-loop runs."""
     s = 1 if variant == "-1/sqrt3" else 2                 # leptons X = -s/3, anti-triplet X = +s/3
     ferm = [(Ng, (None, 3), F(-s, 3)), (Ng, (None, 1), F(1)),
             (Ng, (None, 3), F(s, 3)), (Ng, (None, 1), F(-1))]      # the Q = 0 singlets do not run
@@ -292,6 +229,7 @@ def colourless(Ng, variant="-1/sqrt3", mu0=4e3):
     assert sum(m * d[1] * q**3 for m, d, q in ferm) == 0 and sum(m * d[1] * q for m, d, q in ferm) == 0
     X = (F(-1, 3), F(2, 3), F(-1, 3)) if s == 1 else (F(1, 3), F(1, 3), F(-2, 3))
     a, _ = coefficients([Group("X"), Group("SU3L", 3)], ferm, [(1, (None, 3), x) for x in X])
+    assert (a[0], a[1]) == tuple(coefficients(*MODELS[variant](1, Ng)[:3])[0][:2])
     aX_inv = run_two_loop(3, mu0=mu0)[3]
     return a[0], a[1], mu0 * np.exp(2 * pi * aX_inv / float(a[0]))
 
@@ -322,6 +260,18 @@ def without_asymptotic_freedom():
     print("      pole lies far above M_Pl. Asymptotic freedom of colour is therefore an independent")
     print("      condition of the selection; it is needed only to remove (N_c, N_g) = (2, 4).")
     print("      Every other N_g > N_c is already excluded by the running (U(1)_X, or colour itself).")
+    print("   The physical route to the same cut. A baryon is N_c quarks, so its spin is N_c/2 mod 1")
+    print("   and its charge is (1 - N_c)/2 + k:")
+    for Nc in (2, 3, 4, 5):
+        fermion, q = baryon(Nc)
+        print(f"     N_c = {Nc}: baryons are {'fermions' if fermion else 'bosons  '} with charges "
+              + ", ".join(str(x) for x in q))
+    odd = {name: [s for s in sv if s[0] % 2 == 1] for name, sv in survivors().items()}
+    print("   Fermionic, integer-charged baryons need N_c odd. Among odd N_c >= 3 the survivors are")
+    print(f"     {odd}")
+    print("   with asymptotic freedom not imposed: it then follows (a_3 = -5 at N_c = N_g = 3).")
+    print("   Beyond the scanned range more generations only lower the pole: d a_X / d N_g = "
+          + ", ".join(f"{aX_per_generation(3, n)} (beta = {n})" for n in MODELS) + " at N_c = 3.")
     print("   N_c = 1 (no colour group at all; any N_g cancels the anomalies), one loop:")
     for name in MODELS:
         ok = [Ng for Ng in range(1, 13) if colourless(Ng, name)[2] > M_PLANCK]

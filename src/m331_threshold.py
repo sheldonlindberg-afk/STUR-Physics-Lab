@@ -54,16 +54,16 @@ def banner(s):
     print("\n" + "=" * 78 + "\n" + s + "\n" + "=" * 78)
 
 
-def heavy_spectrum(Nc, variant, MV, rJ=1.0, rS=1.0, n_light=1):
+def heavy_spectrum(Nc, variant, MV, rJ=1.0, rS=1.0, n_light=1, Ng=None):
     """List of (kind, tY^2, t2^2, t3^2, mass). kind in {'V', 'F', 'S'}."""
-    _, _, _, (Xt, Xa, Qu, Qd, Ng, nA) = E.MODELS[variant](Nc)
+    _, _, _, (Xt, Xa, Qu, Qd, Ng, nA) = E.MODELS[variant](Nc, Ng)
     out = [("V", 1.0, 1.0, 0.0, MV)]                          # bilepton doublet (4 real)
     if variant == "-1/sqrt3":
         exotics = [Qu] * (Ng - nA) + [Qd] * nA                  # T (u-like), D (d-like)
     else:
         exotics = [Qd] * (Ng - nA) + [Qu] * nA                  # J (d-like), J' (u-like)
     for Q in exotics:
-        out.append(("F", float(Nc * Q**2), 0.0, 0.5, rJ * MV))
+        out.append(("F", float(Nc * Q**2), 0.0, 0.5 if Nc > 1 else 0.0, rJ * MV))
     if variant == "+1/sqrt3":
         out += [("F", 1.0, 0.0, 0.0, rJ * MV)] * Ng           # heavy charged leptons E
     if n_light == 1:
@@ -98,13 +98,24 @@ def gL_at(mu):
 
 
 def pole(Nc, variant, MV=4e3, rJ=1.0, rS=1.0, n_light=1, mu=None, loops=2, s2=None,
-         thresholds=True, yt=None, yukawas=True, gmax=4 * pi):
+         thresholds=True, yt=None, yukawas=True, gmax=4 * pi, Ng=None):
     mu = MV if mu is None else mu
     yJ = rJ * gL_at(mu) / sqrt(2) if yukawas else 0.0
     yt = (Y.yt_at(mu) if yt is None else yt) if yukawas else 0.0
-    lam = lambdas(heavy_spectrum(Nc, variant, MV, rJ, rS, n_light), mu) if thresholds else (0, 0, 0)
+    lam = lambdas(heavy_spectrum(Nc, variant, MV, rJ, rS, n_light, Ng), mu) if thresholds else (0, 0, 0)
     return Y.blow_up(Nc, variant, yt, yJ, mu0=mu, s2=s2, lam=tuple(lam), n_light=n_light, loops=loops,
-                     gmax=gmax)
+                     gmax=gmax, Ng=Ng)
+
+
+def full_range(Nc, Ng, variant, gmax=4 * pi):
+    """(lowest, highest) pole in GeV for (N_c, N_g) over the whole threshold scan (GRID) and
+    the matching scales M_V/3, M_V, 3 M_V: two loops, Yukawas and thresholds on. Used for the
+    models the selection excludes by its colour conditions (NOTE_331.md, section 2)."""
+    from itertools import product
+    vals = [pole(Nc, variant, MV, rJ, rS, nl, mu=k * MV, gmax=gmax, Ng=Ng)
+            for rJ, rS, MV, nl in product(GRID["rJ"], GRID["rS"], GRID["MV"], GRID["n_light"])
+            for k in (1 / 3, 1.0, 3.0)]
+    return min(vals), max(vals)
 
 
 def s2_upper_thr(variant, **kw):
@@ -206,6 +217,19 @@ def main():
         ps = [pole(3, v, 4e3, 1.0, 1.0, 1, mu=4e3 * k) / M_PLANCK for k in (0.5, 1, 2)]
         out[(v, "mu")] = ps
         print(f"     beta = {v:8s}: mu = M_V/2, M_V, 2 M_V -> " + ", ".join(f"{p:.3g}" for p in ps))
+
+    banner("T5  The models removed by the colour conditions, at full strength (NOTE_331 section 2)")
+    print("   Lowest and highest pole over the whole scan and mu = M_V/3, M_V, 3 M_V (two loops,")
+    print("   Yukawas and thresholds on), in units of M_Pl ('none' = no pole below 1e45 GeV):")
+    cases = {"-1/sqrt3": [(2, 4), (1, 7), (1, 8)], "+1/sqrt3": [(2, 4), (1, 3), (1, 4)]}
+    for v, cs in cases.items():
+        for Nc, Ng in cs:
+            lo, hi = (x / M_PLANCK for x in full_range(Nc, Ng, v))
+            out[(v, Nc, Ng)] = (lo, hi)
+            verdict = "reaches M_Pl everywhere" if lo > 1 else ("fails everywhere" if hi < 1 else "marginal")
+            print(f"     beta = {v:8s} (N_c, N_g) = ({Nc}, {Ng}): {lo:9.3g} to {hi:9.3g}   {verdict}")
+    print("   So without the colour conditions the running also allows (2, 4) for beta = -1/sqrt3, and a")
+    print("   colourless N_c = 1 with N_g <= 7 (beta = -1/sqrt3) or <= 3 (beta = +1/sqrt3).")
     return out
 
 

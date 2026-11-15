@@ -6,7 +6,7 @@ This page records which script feeds which, and which physical quantities each o
 
 ## Summary
 
-- **50 scripts** in `src/`, in 6 topics; **87 imports** between them, 34 of them across topics. 12 scripts import nothing from the others and nothing imports them.
+- **53 scripts** in `src/`, in 6 topics; **94 imports** between them, 34 of them across topics. 12 scripts import nothing from the others and nothing imports them.
 - **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 269 literals in the source.
 - **44 quantities are typed in more than one script**; 18 of them are shared by more than one topic.
 - **2 copies differ from their source for a stated reason**; **0 differ without one (drift).**
@@ -32,6 +32,9 @@ flowchart LR
     m331_heavy_lepton
     m331_gravity_fixed_point
     m331_standalone
+    m331_core
+    m331_matrix_check
+    m331_coupling_map
     why_parameters
     qcd_running
     rge_engine
@@ -108,6 +111,9 @@ flowchart LR
   ladder_links --> stur_gravity_entanglement
   m331_breaking --> m331_exact
   m331_closure --> m331_threshold
+  m331_coupling_map --> m331_exact
+  m331_coupling_map --> qcd_running
+  m331_exact --> m331_core
   m331_exact --> qcd_running
   m331_gravity_fixed_point --> m331_exact
   m331_gravity_fixed_point --> m331_margin
@@ -116,10 +122,13 @@ flowchart LR
   m331_heavy_lepton --> m331_margin
   m331_heavy_lepton --> m331_zprime_recast
   m331_margin --> m331_exact
+  m331_margin --> m331_scalar
   m331_margin --> m331_three_loop
   m331_margin --> m331_threshold
   m331_margin --> m331_yukawa
   m331_margin --> qcd_running
+  m331_matrix_check --> m331_exact
+  m331_matrix_check --> m331_yukawa
   m331_rho_bound --> m331_breaking
   m331_rho_bound --> m331_threshold
   m331_rho_bound --> m331_yukawa
@@ -133,6 +142,7 @@ flowchart LR
   m331_threshold --> m331_exact
   m331_threshold --> m331_yukawa
   m331_why_three --> qcd_running
+  m331_yukawa --> m331_core
   m331_yukawa --> m331_exact
   m331_yukawa --> qcd_running
   m331_zpole --> m331_breaking
@@ -216,17 +226,20 @@ flowchart LR
 | [`m331_why_three`](src/m331_why_three.py) | `qcd_running` | Unifying-equation search, front 5: why N_c = 3 colours? N_c sets the thirds (front 4), the Z3 twist and the three quarks in a baryon |
 | [`m331_three_generations`](src/m331_three_generations.py) | — | Unifying-equation search, front 6: why three generations? (3-3-1 models) KNOWN framework (Pisano-Pleitez 1992, Frampton 1992): SU(3)_C x SU( |
 | [`m331_su3L_running`](src/m331_su3L_running.py) | — | Unifying-equation search, front 7: can SU(3)_L running remove N_c = 5 (and 7, 9, ...)? With N_g = N_c (front 6), the SU(3)_L-charged left-ha |
-| [`m331_exact`](src/m331_exact.py) | `qcd_running` | Unifying-equation search, front 7b: firming up 'N_c = N_g = 3' with exact charges and two-loop gauge running |
-| [`m331_yukawa`](src/m331_yukawa.py) | `m331_exact`, `qcd_running` | Unifying-equation search, front 7d: the three weak spots of 'N_c = N_g = 3' (NOTE_331.md) |
+| [`m331_exact`](src/m331_exact.py) | `m331_core`, `qcd_running` | Unifying-equation search, front 7b: firming up 'N_c = N_g = 3' with exact charges and two-loop gauge running |
+| [`m331_yukawa`](src/m331_yukawa.py) | `m331_core`, `m331_exact`, `qcd_running` | Unifying-equation search, front 7d: the three weak spots of 'N_c = N_g = 3' (NOTE_331.md) |
 | [`m331_threshold`](src/m331_threshold.py) | `m331_exact`, `m331_yukawa` | Unifying-equation search, front 7e: one-loop threshold matching at the 3-3-1 scale |
 | [`m331_closure`](src/m331_closure.py) | `m331_threshold` | Unifying-equation search, front 7f: closing the remaining assumptions of N_c = N_g = 3 |
 | [`m331_scalar`](src/m331_scalar.py) | `m331_exact`, `m331_threshold`, `m331_yukawa`, `rge_engine` | Unifying-equation search, front 7g: does the 3-3-1 scalar sector itself survive to the Planck scale? The selection of N_c = 3 asks that the  |
 | [`m331_three_loop`](src/m331_three_loop.py) | `m331_exact`, `m331_threshold`, `m331_yukawa` | Three-loop gauge running for the 3-3-1 selection (NOTE_331.md, section 3d) |
-| [`m331_margin`](src/m331_margin.py) | `m331_exact`, `m331_three_loop`, `m331_threshold`, `m331_yukawa`, `qcd_running` | The narrow beta = +1/sqrt3 margin, tightened (NOTE_331.md, section 3e) |
+| [`m331_margin`](src/m331_margin.py) | `m331_exact`, `m331_scalar`, `m331_three_loop`, `m331_threshold`, `m331_yukawa`, `qcd_running` | The narrow beta = +1/sqrt3 margin, tightened (NOTE_331.md, section 3e) |
 | [`m331_zprime_recast`](src/m331_zprime_recast.py) | — | Recast of the ATLAS 13 TeV, 139 fb^-1 dilepton search for the Z' of the beta = +-1/sqrt3 3-3-1 models |
 | [`m331_heavy_lepton`](src/m331_heavy_lepton.py) | `m331_margin`, `m331_zprime_recast` | The heavy charged leptons of the beta = +1/sqrt3 model against the LHC (NOTE_331.md, section 3f) |
 | [`m331_gravity_fixed_point`](src/m331_gravity_fixed_point.py) | `m331_exact`, `m331_margin`, `m331_three_loop`, `m331_yukawa` | Gravity above the Planck scale and the 3-3-1 gauge couplings: the asymptotic-safety estimate (NOTE_331.md asks every coupling to stay pertur |
 | [`m331_standalone`](src/m331_standalone.py) | — | Three colours and three generations from asymptotic freedom and Planck-scale perturbativity in 3-3-1 models |
+| [`m331_core`](src/m331_core.py) | — | The shared core of the 3-3-1 selection (NOTE_331.md): group invariants, the general one- and two-loop gauge beta-function coefficients, the  |
+| [`m331_matrix_check`](src/m331_matrix_check.py) | `m331_exact`, `m331_yukawa` | An independent route to the 3-3-1 gauge beta-function coefficients (NOTE_331.md, section 3) |
+| [`m331_coupling_map`](src/m331_coupling_map.py) | `m331_exact`, `qcd_running` | The 3-3-1 selection without the measured couplings: a map of coupling space (NOTE_331.md, section 4a) |
 | [`why_parameters`](src/why_parameters.py) | `ladder_links`, `m331_exact`, `m331_rho_bound`, `m331_scalar`, `m331_threshold`, `m331_yukawa` | Why do the Standard Model's 19 parameters have their values? What can be said, and tested |
 | [`qcd_running`](src/qcd_running.py) | — | Two-loop MS-bar running of the strong coupling, used by the 3-3-1 scripts. |
 | [`rge_engine`](src/rge_engine.py) | — | General one-loop RGEs for quartic and Yukawa couplings (real scalars, two-component fermions) |
@@ -325,12 +338,12 @@ Values computed in one script and retyped in others instead of imported. Each co
 
 | Quantity | Source | Value | Copies |
 |---|---|---|---|
-| Planck mass √(ħc/G) (GeV) | √(ħc/G) from G, ħ, c (this tool) | 1.220890e19 | `black_holes:86` 1.220890e19 (rounded); `ladder_standalone:1161` 1.220890e19 (rounded); `m331_exact:28` 1.220890e19 (rounded); `m331_standalone:70` 1.220890e19 (rounded); `m331_su3L_running:19` 1.220890e19 (rounded) |
+| Planck mass √(ħc/G) (GeV) | √(ħc/G) from G, ħ, c (this tool) | 1.220890e19 | `black_holes:86` 1.220890e19 (rounded); `ladder_standalone:1161` 1.220890e19 (rounded); `m331_exact:28` 1.220890e19 (rounded); `m331_standalone:71` 1.220890e19 (rounded); `m331_su3L_running:19` 1.220890e19 (rounded) |
 | Planck length √(ħG/c³) (m) | √(ħG/c³) from G, ħ, c (this tool) | 1.616255e-35 | `black_holes:85` 1.616255e-35 (rounded); `chain_first_principles:119` 1.616255e-35 (rounded); `first_principles_standalone:97` 1.616255e-35 (rounded); `ladder_standalone:115` 1.616255e-35 (rounded); `macdowell_mansouri:267` 1.616255e-35 (rounded) |
-| electroweak vev (√2 G_F)^(−1/2) (GeV) | src/m331_breaking.py B7 | 246.22 | `ladder_standalone:363` 246.22 (rounded); `m331_standalone:69` 246.22 (rounded); `m331_yukawa:86` 246.22 (rounded) |
+| electroweak vev (√2 G_F)^(−1/2) (GeV) | src/m331_breaking.py B7 | 246.22 | `ladder_standalone:363` 246.22 (rounded); `m331_standalone:70` 246.22 (rounded); `m331_yukawa:77` 246.22 (rounded) |
 | sin²θ_W(4 TeV) | one-loop SM running from M_Z (m331_exact.run_two_loop) | 0.250507 | `m331_zprime_recast:68` 0.2505 (rounded) |
 | 1/α(4 TeV) | one-loop SM running from M_Z (m331_exact.run_two_loop) | 125.723 | `m331_zprime_recast:69` 125.7 (rounded) |
-| M_Z′/M_V = √(4/3 (1 + β² t_X²)) at 4 TeV | src/m331_breaking.py B4, evaluated at sin²θ_W(4 TeV) | 1.22495 | `m331_heavy_lepton:274` 1.225 (rounded); `m331_margin:49` 1.225 (rounded); `m331_standalone:615` 1.225 (rounded); `m331_standalone:631` 1.225 (rounded); `m331_threshold:184` 1.225 (rounded); `m331_threshold:188` 1.225 (rounded); `m331_threshold:191` 1.225 (rounded) |
+| M_Z′/M_V = √(4/3 (1 + β² t_X²)) at 4 TeV | src/m331_breaking.py B4, evaluated at sin²θ_W(4 TeV) | 1.22495 | `m331_heavy_lepton:274` 1.225 (rounded); `m331_margin:54` 1.225 (rounded); `m331_standalone:629` 1.225 (rounded); `m331_standalone:645` 1.225 (rounded); `m331_threshold:195` 1.225 (rounded); `m331_threshold:199` 1.225 (rounded); `m331_threshold:202` 1.225 (rounded) |
 | SU(2) coupling g at M_Z, √(4πα)/sinθ_W | from 1/α(M_Z) and sin²θ_W(M_Z) (this tool) | 0.651689 | `ladder_standalone:294` 0.652 (rounded); `m331_breaking:237` 0.652 (rounded); `m331_breaking:245` 0.652 (rounded) |
 | area-law coefficient S/(R/a)² per scalar | src/stur_unification.py U3 (results/unification/output.txt) | 0.3046 | `stur_emergent:35` 0.3046 (exact); `stur_oppenheim:47` 0.3046 (exact); `stur_thermo_gravity:54` 0.3046 (exact) |
 | design A: entangling phase Δφ (rad) | src/graviton_exchange.py N4 | 2.18681 | `ladder_standalone:616` 2.1868 (rounded) |

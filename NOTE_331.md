@@ -11,15 +11,35 @@ In SU(3)_C × SU(3)_L × U(1)_X ("3-3-1") gauge models, anomaly cancellation alr
 the number of fermion generations to the number of colours. This is known (Pisano and
 Pleitez; Frampton). We keep the number of colours N_c general, with every charge and
 anomaly coefficient computed as a function of N_c, and add one requirement: no gauge
-coupling may become non-perturbative below the Planck scale. Then:
+coupling may become non-perturbative below the Planck scale.
 
-- The SU(3)_L anomaly plus asymptotic freedom of colour forces N_c to be odd and
-  N_g = N_c. Witten's global anomaly is then automatically satisfied; it is implied, not
-  needed. Asymptotic freedom is an independent condition, not a consequence of
-  Planck-scale perturbativity: without it, (N_c, N_g) = (2, 4) also reaches M_Pl for
-  β = −1/√3 (§2, step 2).
-- SU(3)_L running excludes N_c ≥ 7.
-- U(1)_X running excludes N_c = 5.
+**Exact results** (algebra, checked in rational arithmetic; no running, no measured input):
+
+- Anomaly cancellation fixes the quark charges for any N_c: Q_u = (N_c + 1)/2N_c,
+  Q_d = (1 − N_c)/2N_c. Every gauge anomaly then vanishes identically in N_c.
+- The SU(3)_L anomaly requires N_g(1 + N_c) = 2nN_c, so N_g is a multiple of N_c (odd
+  N_c) or of 2N_c (even N_c).
+- A baryon of N_c quarks has spin N_c/2 mod 1 and charge (1 − N_c)/2 + k. Baryons are
+  fermions with integer charge if and only if N_c is odd.
+- For odd N_c, Witten's global anomaly is satisfied automatically.
+- Colour is asymptotically free if and only if N_g < 11N_c/6, which with the anomaly
+  relation means N_g = N_c and N_c odd.
+
+**Numerical results** (running from the measured couplings; conditional, §4):
+
+- SU(3)_L running excludes N_c ≥ 7, and U(1)_X running excludes N_c = 5.
+- Every N_g > N_c is excluded by the running too, with one exception: (N_c, N_g) = (2, 4)
+  reaches M_Pl for β = −1/√3. A colourless N_c = 1 also passes.
+- In coupling space the regions are nested: wherever any odd N_c ≥ 3 is perturbative to
+  M_Pl, N_c = 3 is too (§4a). No choice of couplings selects 5 or 7 instead of 3.
+
+**The colour condition** can be stated in two ways, and either closes the argument (§2):
+
+- *As an observation:* hadrons exist as we see them, bound by a colour force (N_c ≥ 2) and
+  with baryons that are fermions of integer charge (N_c odd). Then the running alone
+  leaves N_c = N_g = 3, and asymptotic freedom is a result, not an assumption.
+- *As an axiom:* colour is non-abelian and asymptotically free. Then N_c is odd and
+  N_g = N_c, and the running removes 5 and above.
 
 **The only survivor is N_c = N_g = 3**, and anomaly cancellation then fixes the quark
 charges to Q_u = ⅔ and Q_d = −⅓.
@@ -42,8 +62,8 @@ doesn't predict them. How much it depends on them differs between the two varian
   sin²θ_W(4 TeV) below 0.261–0.285, against the measured 0.250. On the threshold grid
   of §3a its worst case reaches M_Pl for any criterion α ≥ 0.66 (three loops, §3d), but
   that worst case sits on the grid's edge. Against physical mass floors (§3e), **N_c = 3
-  reaches M_Pl at α = 1 only if the heavy charged leptons are heavier than about 0.58 TeV**
-  (±0.12 TeV, with M_V at its LHC bound; 1.00 TeV at M_V = 10 TeV). Lighter heavy leptons,
+  reaches M_Pl at α = 1 only if the heavy charged leptons are heavier than about 0.65 TeV**
+  (±0.13 TeV, with M_V at its LHC bound; 1.09 TeV at M_V = 10 TeV). Lighter heavy leptons,
   which the LHC still allows, push N_c = 3 below M_Pl as well. In this variant the
   selection is conditional on that mass. The LHC has not tested the condition yet; the
   HL-LHC reaches it about at the threshold (§3f). The two-loop figures at g = 4π (1.6×, or 2.2×
@@ -58,6 +78,19 @@ bilepton gauge bosons decide, and on the perturbativity requirement.
 The electric charge is Q = T₃ + βT₈ + X. The two variants without low-scale Landau poles
 are β = ±1/√3. The minimal β = −√3 model is excluded by atomic parity violation and sits at the LHC Z′
 bound (§6).
+
+**Which models the claim covers.** One lepton triplet per generation, quark generations in
+triplets or anti-triplets, three scalar triplets, and β = ±1/√3. Two kinds of model are
+outside it:
+- *Other β.* β = ±√3 has the low Landau pole of §6. Other values give the exotic fermions
+  charges that are not multiples of ⅓ or 1; they are not studied here.
+- *The flipped model* (Fonseca and Hirsch, JHEP 08 (2016) 003, arXiv:1606.01109). There
+  every quark generation sits in the same representation and the leptons differ: one
+  generation in an SU(3)_L sextet, the others in triplets. Since A(6) = 7A(3), the
+  SU(3)_L anomaly for general N_c reads N_g(N_c − 1) = 6n₆, with n₆ sextet generations.
+  That is N_g = 3n₆ at N_c = 3, but it does not tie N_g to N_c: (N_c, N_g, n₆) = (4, 2, 1),
+  (5, 3, 2) and (7, 1, 1) solve it too (`src/m331_exact.py`, `flipped_anomaly`). The
+  selection below has not been carried out for it and does not apply to it.
 
 For colour group SU(N_c) we take N_g generations, with N_c ≥ 2: for N_c = 1 there is
 no colour gauge field, and the asymptotic-freedom condition of step 2 is vacuous. This is
@@ -133,13 +166,29 @@ all 29 solutions up to N_c = 60 checked).
     (2, 8)).
 
   The (2, 4) run uses the measured α_s as the SU(2)-colour coupling at 4 TeV, the same
-  counterfactual boundary condition as for N_c = 5 (§4). Yukawas and thresholds were not
-  added; they move poles by factors of a few, against a margin of 10⁸.
+  counterfactual boundary condition as for N_c = 5 (§4). With Yukawas and one-loop
+  thresholds added, over the whole spectrum scan of §3a, its pole lies between 360 and
+  8×10⁸ M_Pl for β = −1/√3 and between 0.001 and 0.017 M_Pl for β = +1/√3
+  (`src/m331_threshold.py`, T5). The conclusion does not move.
+- **The physical route: baryons.** The axiom can be replaced by an observation. A baryon
+  is a colour singlet of N_c quarks, so its spin is N_c/2 mod 1 and, with the charges of
+  §1, its electric charge is (1 − N_c)/2 + k for k up-type quarks. For even N_c every
+  baryon is a boson with half-integer charge: at N_c = 2 the charges are −½, ½ and 3/2,
+  and there is no neutron, no proton and no neutral atom. For odd N_c baryons are
+  fermions with integer charge (−1, 0, 1, 2 at N_c = 3). Requiring baryons like ours
+  therefore means N_c odd, which removes (2, 4). Among odd N_c ≥ 3, with asymptotic
+  freedom **not** imposed, the running leaves only (3, 3) in both variants, and asymptotic
+  freedom then follows (a₃ = −5). Beyond the scanned range more generations only lower
+  the pole: the one-loop U(1)_X coefficient grows by 8/3 (β = −1/√3) or 40/9 (β = +1/√3)
+  per generation at N_c = 3, and is positive for every N_c (`src/m331_exact.py`, E5).
 - **N_c = 1 is excluded by assumption, not by the running.** With no colour group, the
   charges are Q_u = 1 and Q_d = 0, every generation's colourless "quarks" sit in the
   anti-triplet, and any N_g cancels the anomalies. At one loop a_X = 22/9 for N_g = 1
   (β = −1/√3), and N_g = 1–7 reach M_Pl; for β = +1/√3, N_g = 1–3 do
-  (N_g = 3 has a_X = 14, the same as N_c = N_g = 3). So the requirement N_c ≥ 2 of §1, a
+  (N_g = 3 has a_X = 14, the same as N_c = N_g = 3). At two loops with Yukawas and
+  thresholds, over the whole scan, N_g = 7 (β = −1/√3) reaches 19–138 M_Pl and N_g = 8 is
+  marginal (0.15–1.4 M_Pl); for β = +1/√3, N_g = 3 reaches 1.8–24 M_Pl and N_g = 4 fails
+  (`src/m331_threshold.py`, T5). So the requirement N_c ≥ 2 of §1, a
   non-abelian colour group, is load-bearing in both variants (`src/m331_exact.py`, E5).
 
 **Step 3: SU(3)_L excludes N_c ≥ 7.** With N_g = N_c there are N_c(1 + N_c) Weyl triplets.
@@ -196,6 +245,7 @@ The Planck scale is 1.2×10¹⁹ GeV.
 | Check | Result |
 |---|---|
 | Two-loop machinery, calibrated on the Standard Model | reproduces (41/10, −19/6, −7) and all nine two-loop coefficients exactly |
+| Second derivation from explicit generator matrices (`src/m331_matrix_check.py`) | every one- and two-loop gauge coefficient and every two-loop Yukawa coefficient, both variants, N_c = 3, 5, 7 and (2, 4), agrees to 10⁻¹³; each Yukawa matrix is gauge invariant with a scalar the model has. No tabulated index, Casimir or dimension is used. It shares the general two-loop formula; it is not a comparison with an external package (PyR@TE, SARAH), which remains to be done |
 | 3-3-1 scale 2–30 TeV (β = −1/√3) | N_c = 3: (2.7–3.6)×10²⁹ GeV; N_c = 5: (0.8–4.4)×10¹⁵ GeV |
 | 3-3-1 scale 2–30 TeV (β = +1/√3) | N_c = 3: (2.9–9.8)×10¹⁹ GeV; N_c = 5: (3.3–24)×10¹¹ GeV |
 | Criterion α = 1 instead of g = 4π | β = −1/√3: 1.7×10²⁹ vs 1.0×10¹⁵; β = +1/√3: 2.9×10¹⁹ vs 4.6×10¹¹ |
@@ -392,19 +442,42 @@ With light heavy leptons, N_c = 3 does not reach M_Pl in this variant. It would 
 g_crit = 6.1 (α ≈ 3) at m_E = 0.1 TeV, or 4.5 (α ≈ 1.6) at 0.3 TeV: both outside the
 convergent region (§3d). N_c = 5 stays excluded at the same floors (10⁻⁸ M_Pl).
 
-**The condition that replaces the margin.** N_c = 3 reaches M_Pl at α = 1 iff
+**The condition that replaces the margin.** The numbers above hold the Yukawas constant
+up to the pole, which overstates their effect; with no Yukawas at all the effect is
+understated. For the threshold itself the Yukawas (top, exotic quarks, heavy leptons) are
+therefore **run at one loop together with the gauge couplings**, with the general engine of
+§3c. N_c = 3 reaches M_Pl at α = 1 iff
 
 | M_V | m_E (m_J = 1.3 TeV) | m_J = m_E tied |
 |---|---|---|
-| 3.755 TeV | ≥ 0.58 TeV | ≥ 0.88 TeV |
-| 10 TeV | ≥ 1.00 TeV | ≥ 1.14 TeV |
-| 30 TeV | ≥ 1.81 TeV | ≥ 1.53 TeV |
+| 3.755 TeV | ≥ 0.65 TeV | ≥ 0.92 TeV |
+| 10 TeV | ≥ 1.09 TeV | ≥ 1.19 TeV |
+| 30 TeV | ≥ 1.95 TeV | ≥ 1.59 TeV |
 
-**Error budget on the threshold m_E\* = 584 GeV** (M_V = 3.755 TeV, m_J = 1.3 TeV):
-sin²θ_W(M_Z) 1.1%, 1/α(M_Z) 0.9%, α_s 0.3%, m_t 0.1%, matching scale M_V/2–2M_V 3.6%,
-next order (the two- to three-loop shift) 19.8%. In quadrature, **m_E\* = 584 ± 118 GeV**.
-Without Yukawas (complete at three loops) it is 695 GeV. The truncation dominates, as
-expected at α = 1; the measured inputs are irrelevant at this level.
+With constant Yukawas the first column is 0.58, 1.00 and 1.81 TeV; with none, 0.70 TeV at
+M_V = 3.755 TeV. Running them puts the threshold between the two, at **649 GeV**, and
+removes that 19% bracket from the result.
+
+**Error budget on the threshold m_E\* = 649 GeV** (M_V = 3.755 TeV, m_J = 1.3 TeV):
+sin²θ_W(M_Z) 1.1%, 1/α(M_Z) 0.9%, α_s 0.3%, m_t below 0.1%, matching scale M_V/2–2M_V
+4.6%, next order (the two- to three-loop shift) 19.8%. In quadrature,
+**m_E\* = 649 ± 132 GeV**. The truncation dominates, as expected at α = 1; the measured
+inputs are irrelevant at this level. Reducing it would need the three-loop Yukawa and
+quartic terms and two-loop threshold matching, which are not computed here.
+
+**The condition against the criterion.** The truncation is large because α = 1 is the edge
+of the convergent region (§3d). A stricter criterion is better controlled and asks for
+heavier leptons (running Yukawas, M_V = 3.755 TeV, m_J = 1.3 TeV):
+
+| criterion α | m_E\*, two loops | m_E\*, three loops | shift |
+|---|---|---|---|
+| 1.00 | 791 GeV | 649 GeV | 22% |
+| 0.84 | 1028 GeV | 873 GeV | 18% |
+| 0.72 | 1370 GeV | 1197 GeV | 14% |
+| 0.50 | 3149 GeV | 2911 GeV | 8% |
+
+So the condition is a curve, not a number: about 0.65 TeV if couplings up to α = 1 are
+accepted, about 3 TeV if they must stay below α = 0.5.
 
 **Check.** At one loop, three Dirac leptons with Y = 1 running from 0.1 TeV to 3.755 TeV
 lower 1/α_X(M_V) by 1.6 more than at m_E = 1.3 TeV. With b_X = 14 this moves the pole
@@ -459,7 +532,7 @@ For τ, CMS quotes 125–150 GeV. Below 150 GeV (e, μ) or outside the window (�
 (m_E1 m_E2 m_E3)^{1/3}: (320, 400, 100) GeV gives a pole of 0.7706 M_Pl, and 234 GeV for
 all three gives 0.7705 M_Pl. With each E mixing with one flavour, the lightest set Run 2
 allows is (321, 404, 100) GeV, a geometric mean of **235 GeV**. If all three mix with τ,
-it is 100 GeV. The selection needs 584 ± 118 GeV (§3e). **The LHC has not tested the
+it is 100 GeV. The selection needs 649 ± 132 GeV (§3e). **The LHC has not tested the
 condition.**
 
 **HL-LHC** (3 ab⁻¹, 13 TeV cross sections; 14 TeV would help). Expected limits are scaled
@@ -474,10 +547,11 @@ by √(L₀/L) (background-limited) and by L₀/L (background-free), the two end
 
 **The target moves too.** With no Z′ at the HL-LHC, the same recast and √L scaling put
 the Z′ floor at 5.50 TeV (Run 2 expected: 4.80 TeV), so M_V ≥ 4.49 TeV and
-m_E\* = **646 GeV** (763 GeV without Yukawas; ±20% truncation).
+m_E\* = **714 GeV** (763 GeV without Yukawas; ±20% truncation).
 
 **Verdict.** The HL-LHC reaches the threshold but doesn't clear it. Its conservative
-geometric-mean reach (630 GeV) sits at the central m_E\*, and covers the uncertainty
+geometric-mean reach (630 GeV) sits just below the central m_E\* (649 GeV, or 714 GeV if
+it sees no Z′), and covers the uncertainty
 band only with the optimistic scaling, and only if each E mixes with a different flavour.
 If the E mix mainly with τ, the HL-LHC cannot decide. Two things the recast does not
 cover:
@@ -584,13 +658,19 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
 
 1. **The framework.** Everything assumes 3-3-1 with β = ±1/√3. If colliders exclude it,
    the result goes with it.
-2. **Asymptotic freedom of colour** is a separate assumption. Perturbativity to M_Pl
-   doesn't imply it, and for β = −1/√3 the selection needs it: without it,
-   (N_c, N_g) = (2, 4) survives as well (§2, step 2). Physically it stands for a colour
-   force that confines. For β = +1/√3 it can be dropped, but a colour group must still
-   exist: with N_c = 1 and up to 7 generations (3 for β = +1/√3) every coupling also
-   reaches M_Pl. The full statement is: among 3-3-1 models with an asymptotically free,
-   non-abelian colour group, only N_c = N_g = 3 is perturbative to M_Pl.
+2. **The colour condition** is a separate input; perturbativity to M_Pl doesn't imply
+   it. Without it the running also allows (N_c, N_g) = (2, 4) for β = −1/√3, and a
+   colourless N_c = 1 with up to 7 generations (3 for β = +1/√3) (§2, step 2). It can be
+   stated as an observation or as an axiom:
+   - *Observation:* a colour force exists (N_c ≥ 2) and baryons are fermions of integer
+     charge (N_c odd). Then: among 3-3-1 models with N_c odd and at least 3, only
+     N_c = N_g = 3 is perturbative to M_Pl, and its colour is asymptotically free as a
+     consequence.
+   - *Axiom:* colour is non-abelian and asymptotically free. Then N_c is odd, N_g = N_c,
+     and only N_c = 3 is perturbative to M_Pl.
+
+   The observation is the weaker input: it is a fact about hadrons, not a property
+   demanded of the theory.
 3. **Perturbativity to the Planck scale** is a standard criterion, not a theorem. A pole
    below M_Pl signals new physics, not an inconsistency. Drop the requirement and the
    selection drops too.
@@ -627,6 +707,39 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
    SU(3)_L never meet, and the gap grows from 18.6 to 27.3 in 1/α. Masses and couplings
    stay inputs.
 
+## 4a. The selection as a map of coupling space
+
+Source: `src/m331_coupling_map.py`, output `results/m331/331_coupling_map.txt`.
+
+Caveat 4 is that every N_c is run from couplings measured in our three-colour world. Here
+that boundary condition is dropped. The couplings at 4 TeV are free: sin²θ_W anywhere in
+(0, ¾), the range where α_X is positive, and 1/α_em from 20 to 400. Each model is run at
+two loops (no Yukawas) from every point of a 24 × 24 grid.
+
+| | β = −1/√3 | β = +1/√3 |
+|---|---|---|
+| Share of the box where N_c = 3 reaches M_Pl | 40% | 26% |
+| N_c = 5 | 17% | 10% |
+| N_c = 7 | 2% | 0.3% |
+| N_c = 9, and (3, 6) | none | none |
+| (2, 4), not asymptotically free | 38% | 21% |
+| Share of N_c = 3's region where it is the only odd N_c ≥ 3 | 59% | 64% |
+
+- **The regions are nested.** At every grid point where N_c = 5, 7, 9 or (3, 6) reaches
+  M_Pl, N_c = 3 does too. So no choice of couplings selects a larger odd N_c instead of 3;
+  larger N_c only ever survives alongside it. This holds with α_s halved or doubled and
+  with the α = 1 criterion.
+- **Where N_c = 5 gets through.** Only at weak electromagnetic coupling, 1/α_em above
+  about 160 at the 3-3-1 scale, against the measured 125.7. That is the same statement as
+  §4, caveat 4, now for the whole plane.
+- **The measured point** lies in the region where N_c = 3 is alone, for both variants; for
+  β = +1/√3 it is close to the edge, as §3e shows.
+
+The shares depend on the box, which is a convention. The nesting does not. What this
+replaces: instead of "given our couplings, only N_c = 3", the statement is "for any
+couplings, N_c = 3 is the last odd N_c to fail, and in about 60% of the couplings it
+allows it is the only one".
+
 ## 5. What is known and what is new
 
 - **Known** (retrieved in the novelty search, NOVELTY.md):
@@ -657,6 +770,9 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
   or neutrinos from experiment. Planck-scale perturbativity then fixes N_c itself, and
   with it N_g and the ⅓ charges. Frampton's 1994 statement reaches N_c = 3 only by
   inputting N_l = 3; Pisano takes the Standard Model, with three colours, as the input.
+  - the flipped 3-3-1 model, with all quark generations in one representation and a
+    lepton sextet (Fonseca and Hirsch 2016, arXiv:1606.01109). Its anomaly relation is
+    different and it is outside this note's claim (§1).
 - **Novelty.** Web, arXiv and INSPIRE searches found no prior use of asymptotic freedom
   plus running to fix N_c, in 3-3-1 or in the Standard Model. The INSPIRE searches
   covered every paper citing the founding 3-3-1 papers, Frampton 1994 and Doff–Pisano
@@ -704,7 +820,7 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
   - doubly or singly charged bilepton gauge bosons;
   - exotic quarks;
   - for β = +1/√3, three heavy charged leptons, vector-like SU(2) singlets. The selection
-    needs their geometric-mean mass above 0.58 ± 0.12 TeV (0.65 TeV if the HL-LHC sees no
+    needs their geometric-mean mass above 0.65 ± 0.13 TeV (0.71 TeV if the HL-LHC sees no
     Z′). Run 2 allows down to 0.24 TeV, and the HL-LHC reaches about 0.63–0.78 TeV (§3f).
 
   LHC searches and future colliders will find or exclude them.
@@ -736,13 +852,15 @@ pip install -r requirements.txt pytest
 python3 src/m331_why_three.py          # step 1, charges; results/m331/why_three.txt
 python3 src/m331_three_generations.py  # step 2, minimal model; three_generations.txt
 python3 src/m331_su3L_running.py       # step 3; su3L_running.txt
-python3 src/m331_exact.py              # step 4, robustness, both variants; 331_exact.txt
+python3 src/m331_exact.py              # step 4, robustness, both variants, the colour conditions; 331_exact.txt
+python3 src/m331_matrix_check.py       # the same coefficients from explicit generator matrices (~2 s)
+python3 src/m331_coupling_map.py       # the selection as a map of coupling space (~2.5 min); 331_coupling_map.txt
 python3 src/m331_yukawa.py             # Yukawas, boundary condition, margins; 331_yukawa.txt
-python3 src/m331_threshold.py          # one-loop threshold matching (~75 s); 331_threshold.txt
+python3 src/m331_threshold.py          # one-loop threshold matching (~4 min); 331_threshold.txt
 python3 src/m331_closure.py            # Witten redundant, no-Yukawa bound, cutoff window (~3 min)
 python3 src/m331_scalar.py             # the scalar sector to M_Pl (~4 min); 331_scalar.txt
 python3 src/m331_zprime_recast.py      # the ATLAS 139 fb^-1 Z' recast (~1 s); zprime_recast.txt
-python3 src/m331_margin.py             # the beta = +1/sqrt3 margin vs mass floors (~50 s); margin.txt
+python3 src/m331_margin.py             # the beta = +1/sqrt3 margin vs mass floors (~2 min); margin.txt
 python3 src/m331_heavy_lepton.py       # heavy leptons vs LHC, HL-LHC (~5 s); heavy_lepton.txt
 python3 src/m331_gravity_fixed_point.py  # gravity above M_Pl, asymptotic safety (~70 s); 331_gravity_fixed_point.txt
 python3 src/m331_rho_bound.py          # rho from Z-Z' mixing vs the global fit and the LHC (~7 s); 331_rho_bound.txt

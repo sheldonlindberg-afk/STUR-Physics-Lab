@@ -3,7 +3,7 @@
 The heavy charged leptons of the beta = +1/sqrt3 model against the LHC (NOTE_331.md, section 3f).
 
 Section 3e found that in this variant N_c = 3 reaches M_Pl at alpha = 1 only if the heavy
-charged leptons E are heavy enough (m_E >= 0.58 +- 0.12 TeV with M_V at its LHC bound).
+charged leptons E are heavy enough (m_E >= 0.65 +- 0.13 TeV with M_V at its LHC bound).
 This module asks what the LHC already says about E, and what the HL-LHC can say.
 
 E is the third member of the lepton triplet (nu, e, E^-), with E^c an SU(3)_L singlet: both
@@ -31,7 +31,7 @@ H5  The RG condition is on the geometric mean. The threshold correction depends 
     sum_i ln(m_Ei / mu), so three non-degenerate E act like three degenerate ones at
     (m_E1 m_E2 m_E3)^(1/3) (checked against the full running). With each E mixing with one
     flavour, the lightest spectrum the LHC allows has a geometric mean of ~0.23 TeV, below
-    the 0.58 TeV the selection needs: the LHC has not tested the condition.
+    the 0.65 TeV the selection needs: the LHC has not tested the condition.
 H6  HL-LHC (3 ab^-1, 13 TeV cross sections; 14 TeV would help further): expected limits
     scaled by sqrt(L0/L) (background-limited) and by L0/L (background-free), the two ends.
 H7  The condition itself moves: with no Z' at the HL-LHC the Z' floor (same recast, same
@@ -214,7 +214,7 @@ def geometric_mean_check():
 
 
 LEP = 100.0                            # heavy charged lepton L -> nu W: m > 100.8 GeV (PDG 2024), rounded
-MSTAR = (584.0, 118.0)                 # section 3e: m_E* at M_V = 3.755 TeV, alpha = 1, three loops
+MSTAR = (649.0, 132.0)                 # section 3e: m_E* at M_V = 3.755 TeV, alpha = 1, three loops, running Yukawas
 
 
 def geo(xs):
@@ -272,7 +272,7 @@ def hl_threshold():
     import m331_margin as M
     mz = zprime_reach(sqrt(139.0 / 3000))
     MV = mz / 1.225
-    return mz, MV, M.mE_critical(MV=MV), M.mE_critical(MV=MV, yukawas=False)
+    return mz, MV, M.mE_critical(MV=MV, yukawas="running"), M.mE_critical(MV=MV, yukawas=False)
 
 
 def main():

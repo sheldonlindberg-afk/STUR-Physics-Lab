@@ -25,9 +25,14 @@ M3  The worst case over the allowed spectrum: M_V = 3.755-30 TeV (Z' >= 4.6 TeV,
 M4  The condition that replaces the margin: the heavy-lepton mass m_E* above which N_c = 3
     reaches M_Pl at alpha = 1, as a function of M_V; and the criterion a light-lepton
     spectrum would need (outside the convergent region).
+    The threshold is quoted with the Yukawas RUNNING at one loop with the gauge couplings
+    (the general engine of m331_scalar.py). Held constant they overstate their effect and
+    give a lower m_E*; dropped, a higher one. Running them settles the value between the two.
 M5  Error budget on m_E*: measured inputs (PDG 1 sigma), matching scale
-    mu = M_V/2 to 2 M_V, truncation (two- to three-loop shift as the size of the next
-    order), and the Yukawa sector (the case without Yukawas is complete at three loops).
+    mu = M_V/2 to 2 M_V, and truncation (two- to three-loop shift as the size of the next
+    order). Not included at three loops: Yukawa and quartic terms; matching is one loop.
+M6  The condition as a function of the criterion: m_E*(alpha_crit) at two and three loops.
+    The truncation error shrinks as the criterion moves into the convergent region.
 """
 import os
 import sys
@@ -75,10 +80,34 @@ def spectrum(Nc, MV, mJ, mE, mS, n_light):
     return out
 
 
+_YRUN = {}
+
+
+def yukawa_running():
+    """One-loop Yukawa beta functions of the beta = +1/sqrt3 model (N_c = 3) from the general
+    engine of m331_scalar.py: (cy, cg) for the couplings (y_t, y_J3, y_Ja, y_E)."""
+    if not _YRUN:
+        import m331_scalar as S
+        m = S.Model(VAR)
+        m.cached_fit()
+        _YRUN["c"] = (m.cy, m.gauge_yukawa_coeffs())
+    return _YRUN["c"]
+
+
 def pole(MV=4e3, mJ=4e3, mE=4e3, mS=4e3, n_light=1, Nc=3, loops=3, gmax=ALPHA1, mu=None,
          yukawas=True, s2=None, grav=None, mu_max=1e45):
+    """yukawas: True holds them constant to the pole (the reference of sections 3a-3e);
+    "running" runs them at one loop with the gauge couplings (N_c = 3); False drops them."""
     mu = MV if mu is None else mu
     lam = T.lambdas(spectrum(Nc, MV, mJ, mE, mS, n_light), mu)
+    if yukawas == "running":
+        assert Nc == 3
+        gL = T.gL_at(mu)
+        yJ = sqrt(2) * mJ * gL / (2 * MV)
+        yE = sqrt(float(np.mean((sqrt(2) * np.asarray(mE, float) * gL / (2 * MV)) ** 2)))
+        cy, cg = yukawa_running()
+        return L.blow_up(Nc, VAR, mu0=mu, gmax=gmax, s2=s2, lam=tuple(lam), n_light=n_light, loops=loops,
+                         grav=grav, mu_max=mu_max, yrun=([Y.yt_at(mu), yJ, yJ, yE], cy, cg))
     if yukawas:
         gL = T.gL_at(mu)
         ct, cq, cl = yukawa_vectors(Nc)
@@ -137,7 +166,8 @@ def mE_critical(MV=MV_LHC, mJ=FLOORS["mJ"], tied=False, gmax=ALPHA1, yukawas=Tru
     def f(m):
         kw = dict(FLOORS, MV=MV, mE=m, mJ=m if tied else mJ)
         return log(pole(**kw, gmax=gmax, yukawas=yukawas, loops=loops) / M_PLANCK)
-    return brentq(f, 30.0, 3e4, xtol=0.5)
+    # with running Yukawas a very heavy lepton has a Yukawa Landau pole below M_Pl: stay below y_E ~ 0.5
+    return brentq(f, 30.0, min(8e3, 1.1 * MV) if yukawas == "running" else 8e3, xtol=0.5)
 
 
 def g_needed(mE):
@@ -180,12 +210,18 @@ class _inputs:
 INPUTS = {"s2": (0.23129, 0.00004), "ainv": (127.930, 0.008), "as": (0.1180, 0.0009), "mt": (172.57, 0.29)}
 
 
-def error_budget():
+def criterion_curve(gs=(5 / 2, 3.0, 13 / 4, ALPHA1)):
+    """M6: [(g_crit, m_E* at two loops, at three loops)] with running Yukawas."""
+    return [(g, mE_critical(gmax=g, yukawas="running", loops=2), mE_critical(gmax=g, yukawas="running"))
+            for g in gs]
+
+
+def error_budget(yukawas="running"):
     """M5: the uncertainty on the M4 threshold m_E* (M_V and m_J at their floors, alpha = 1,
-    three loops). Each source shifts ln(pole) at m_E*; dividing by d ln(pole)/d ln(m_E)
-    converts that into a shift of m_E*."""
-    mE0 = mE_critical()
-    pt = dict(FLOORS, mE=mE0)
+    three loops, running Yukawas). Each source shifts ln(pole) at m_E*; dividing by
+    d ln(pole)/d ln(m_E) converts that into a shift of m_E*."""
+    mE0 = mE_critical(yukawas=yukawas)
+    pt = dict(FLOORS, mE=mE0, yukawas=yukawas)
     p0 = pole(**pt)
     slope = (log(pole(**dict(pt, mE=mE0 * 1.05))) - log(p0)) / log(1.05)
     out = {}
@@ -198,6 +234,7 @@ def error_budget():
     out["mu"] = max(abs(log(pole(**pt, mu=k * pt["MV"]) / p0)) for k in (0.5, 2.0)) / slope
     out["truncation"] = abs(log(pole(**pt, loops=2) / p0)) / slope
     out["yukawas_off"] = mE_critical(yukawas=False) / mE0 - 1
+    out["yukawas_constant"] = mE_critical(yukawas=True) / mE0 - 1
     return mE0, slope, out
 
 
@@ -230,18 +267,20 @@ def main():
     print("   at fixed fermion masses makes it worse: the light fermions run longer below M_V.")
 
     banner("M4  The condition: how heavy the heavy leptons must be (alpha = 1, three loops)")
+    print("   Yukawas running at one loop with the gauge couplings (constant Yukawas in brackets):")
     for MV in (MV_LHC, 10e3, 30e3):
-        a = mE_critical(MV=MV)
-        b = mE_critical(MV=MV, tied=True)
-        print(f"   M_V = {MV / 1e3:6.3f} TeV: N_c = 3 reaches M_Pl iff m_E >= {a / 1e3:.3f} TeV (m_J = 1.3 TeV);"
-              f"  with m_J = m_E tied: m >= {b / 1e3:.3f} TeV")
+        a, a0 = mE_critical(MV=MV, yukawas="running"), mE_critical(MV=MV)
+        b, b0 = mE_critical(MV=MV, tied=True, yukawas="running"), mE_critical(MV=MV, tied=True)
+        print(f"   M_V = {MV / 1e3:6.3f} TeV: N_c = 3 reaches M_Pl iff m_E >= {a / 1e3:.3f} TeV [{a0 / 1e3:.3f}]"
+              f" (m_J = 1.3 TeV);  with m_J = m_E tied: m >= {b / 1e3:.3f} TeV [{b0 / 1e3:.3f}]")
     for mE in (100.0, 300.0):
         g = g_needed(mE)
         print(f"   m_E = {mE / 1e3:.1f} TeV at the floors needs g_crit = {g:.2f} (alpha = {g * g / (4 * pi):.2f}),"
               f" outside the convergent region (section 3d)")
     print(f"   N_c = 5 at the same floors: {rel(Nc=5, **FLOORS):.1e} M_Pl (still excluded)")
 
-    banner("M5  Error budget on the threshold m_E* (M_V = 3.755 TeV, m_J = 1.3 TeV, alpha = 1, three loops)")
+    banner("M5  Error budget on the threshold m_E* (M_V = 3.755 TeV, m_J = 1.3 TeV, alpha = 1, three loops,\n"
+           "    running Yukawas)")
     mE0, slope, b = error_budget()
     print(f"   m_E* = {mE0:.0f} GeV;  d ln(pole)/d ln(m_E) there = {slope:.3f}")
     for k, lab in (("s2", "sin^2 theta_W(M_Z) +- 0.00004"), ("ainv", "1/alpha(M_Z) +- 0.008"),
@@ -250,8 +289,18 @@ def main():
         print(f"   {lab:34s}: {100 * b[k]:5.2f}% of m_E*")
     quad = sqrt(sum(b[k] ** 2 for k in ("s2", "ainv", "as", "mt", "mu", "truncation")))
     print(f"   combined in quadrature: {100 * quad:.1f}%  ->  m_E* = {mE0:.0f} +- {mE0 * quad:.0f} GeV")
-    print(f"   Yukawas off (complete at three loops): m_E* {100 * b['yukawas_off']:+.1f}%"
-          f"  ->  {mE0 * (1 + b['yukawas_off']):.0f} GeV")
+    print(f"   Bracket from the Yukawa treatment, now resolved: constant {mE0 * (1 + b['yukawas_constant']):.0f} GeV"
+          f" ({100 * b['yukawas_constant']:+.1f}%), none {mE0 * (1 + b['yukawas_off']):.0f} GeV"
+          f" ({100 * b['yukawas_off']:+.1f}%)")
+    print("   Not included: three-loop Yukawa and quartic terms, and two-loop threshold matching.")
+    print("   They are of the size of the truncation entry, which they would be needed to reduce.")
+
+    banner("M6  The condition against the criterion: m_E* (GeV) at two and three loops, running Yukawas")
+    for g, m2, m3 in criterion_curve():
+        print(f"   g_crit = {g:.3f} (alpha = {g * g / (4 * pi):.2f}): m_E* = {m2:5.0f} -> {m3:5.0f} GeV"
+              f"   (two- to three-loop shift {100 * abs(m2 / m3 - 1):.0f}%)")
+    print("   A stricter criterion needs heavier leptons. The loop shift falls from 22% of m_E* at")
+    print("   alpha = 1 to 8% at alpha = 0.5, where the threshold is about 3 TeV.")
 
 
 if __name__ == "__main__":

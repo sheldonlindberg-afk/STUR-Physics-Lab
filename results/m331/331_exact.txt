@@ -90,6 +90,16 @@ E5  Is asymptotic freedom of colour needed?  The selection without it
       pole lies far above M_Pl. Asymptotic freedom of colour is therefore an independent
       condition of the selection; it is needed only to remove (N_c, N_g) = (2, 4).
       Every other N_g > N_c is already excluded by the running (U(1)_X, or colour itself).
+   The physical route to the same cut. A baryon is N_c quarks, so its spin is N_c/2 mod 1
+   and its charge is (1 - N_c)/2 + k:
+     N_c = 2: baryons are bosons   with charges -1/2, 1/2, 3/2
+     N_c = 3: baryons are fermions with charges -1, 0, 1, 2
+     N_c = 4: baryons are bosons   with charges -3/2, -1/2, 1/2, 3/2, 5/2
+     N_c = 5: baryons are fermions with charges -2, -1, 0, 1, 2, 3
+   Fermionic, integer-charged baryons need N_c odd. Among odd N_c >= 3 the survivors are
+     {'-1/sqrt3': [(3, 3)], '+1/sqrt3': [(3, 3)]}
+   with asymptotic freedom not imposed: it then follows (a_3 = -5 at N_c = N_g = 3).
+   Beyond the scanned range more generations only lower the pole: d a_X / d N_g = 8/3 (beta = -1/sqrt3), 40/9 (beta = +1/sqrt3) at N_c = 3.
    N_c = 1 (no colour group at all; any N_g cancels the anomalies), one loop:
      beta = -1/sqrt3: N_g = 1..7 reach M_Pl (N_g = 7: a_X = 118/9, pole 1.1e+21 GeV)
      beta = +1/sqrt3: N_g = 1..3 reach M_Pl (N_g = 3: a_X = 14, pole 8.4e+19 GeV)

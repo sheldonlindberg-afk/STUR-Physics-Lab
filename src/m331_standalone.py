@@ -27,7 +27,8 @@ WHAT IT COMPUTES
       S1  Charges for general N_c from anomaly cancellation; all gauge anomalies vanish.
       S2  SU(3)_L anomaly + asymptotic freedom of colour  =>  N_c odd and N_g = N_c.
       S2b Is asymptotic freedom needed? Without it, running alone leaves (N_c, N_g) = (3, 3)
-          and, for beta = -1/sqrt3 only, (2, 4). It is an independent condition.
+          and, for beta = -1/sqrt3 only, (2, 4). It is an independent condition; requiring
+          baryons that are fermions of integer charge (N_c odd) replaces it.
       S3  Calibration: the two-loop machinery reproduces the Standard Model coefficients.
       S4  SU(3)_L one-loop running excludes N_c >= 7.
       S5  U(1)_X two-loop running excludes N_c = 5, in both variants, with Yukawas.
@@ -174,12 +175,13 @@ def alpha_s(mu):
 # ----------------------------------------------------------------------------------------
 # Group theory and the general one- and two-loop gauge beta functions
 # ----------------------------------------------------------------------------------------
+# >>> core (copied from src/m331_core.py by tools/build_m331_standalone.py; edit the core, not this copy)
 class Group:
     def __init__(self, name, N=None):            # N = None -> U(1)
         self.name, self.N = name, N
 
     def CA(self):
-        return 0 if self.N is None else self.N
+        return 0 if self.N in (None, 1) else self.N         # N = 1: no colour group (N_c = 1)
 
     def T(self, d):                              # Dynkin index of the irrep of dimension d
         if self.N is None or d == 1:
@@ -242,15 +244,13 @@ def yukawa_coeff(groups, psi1, psi2, n_terms):
     """Two-loop Yukawa term per y^2: n_terms [C2(psi1) + C2(psi2)] / d(G) for each group."""
     out = []
     for i, g in enumerate(groups):
-        dG = 1 if g.N is None else g.N**2 - 1
+        dG = 1 if g.N in (None, 1) else g.N**2 - 1
         s = sum(q**2 if g.N is None else g.C2(dims[i]) for dims, q in (psi1, psi2))
         out.append(F(n_terms) * s / dG)
     return out
 
 
-# ----------------------------------------------------------------------------------------
 # The 3-3-1 models for general N_c (groups ordered X, SU(3)_L, SU(N_c))
-# ----------------------------------------------------------------------------------------
 def charges(Nc):
     """Quark charges fixed by anomaly cancellation with Yukawas, for general N_c."""
     return F(Nc + 1, 2 * Nc), F(1 - Nc, 2 * Nc)
@@ -258,7 +258,9 @@ def charges(Nc):
 
 def model(Nc, variant, Ng=None):
     Qu, Qd = charges(Nc)
-    Ng = Nc if Ng is None else Ng            # N_g = N_c (S2) unless given (S2b)
+    Ng = Nc if Ng is None else Ng            # N_g = N_c unless given
+    if (Ng * (1 + Nc)) % (2 * Nc):
+        raise ValueError(f"N_c = {Nc}, N_g = {Ng}: the SU(3)_L anomaly does not cancel")
     nA = Ng * (1 + Nc) // (2 * Nc)           # n anti-triplet generations: N_g (1 + N_c) = 2 n N_c
     gs = [Group("X"), Group("SU3L", 3), Group("SUNc", Nc)]
     if variant == "-1/sqrt3":
@@ -290,14 +292,15 @@ def anomalies(Nc, variant, Ng=None):
         "X^3": sum(m * dim(d) * q**3 for m, d, q in ferm),
         "grav^2 X": sum(m * dim(d) * q for m, d, q in ferm),
         "SU3L^2 X": sum(m * d[2] * q for m, d, q in ferm if d[1] == 3),
-        "SUNc^2 X": sum(m * d[1] * q for m, d, q in ferm if d[2] == Nc),
+        "SUNc^2 X": sum(m * d[1] * q for m, d, q in ferm if d[2] == Nc and Nc > 1),
         "SU3L^3": F(Ng + Nc * (Ng - nA) - Nc * nA),       # triplets minus anti-triplets
     }
+# <<< core
 
 
-def yukawas_331(Nc, variant):
+def yukawas_331(Nc, variant, Ng=None):
     """Two-loop Yukawa coefficient vectors (top quark; all exotic fermions at one common y_J)."""
-    gs, ferm, scal, (Xt, Xa, Qu, Qd, Ng, nA) = model(Nc, variant)
+    gs, ferm, scal, (Xt, Xa, Qu, Qd, Ng, nA) = model(Nc, variant, Ng)
     nt = 3 * Nc
     top = yukawa_coeff(gs, ((None, 3, Nc), Xt), ((None, 1, Nc), -Qu), nt)
     if variant == "-1/sqrt3":
@@ -366,7 +369,7 @@ def blow_up(Nc, variant, yt=0.0, yJ=0.0, mu0=MU331, gmax=4 * pi, lam=(0.0, 0.0, 
     a, b = coefficients(gs, ferm, scal)
     a = [float(x) for x in a]
     b = [[float(x) for x in r] for r in b] if loops == 2 else [[0.0] * 3 for _ in range(3)]
-    ct, cJ = yukawas_331(Nc, variant)
+    ct, cJ = yukawas_331(Nc, variant, Ng)
     if yuk is None:
         yuk = [ct[i] * yt**2 + cJ[i] * yJ**2 for i in range(3)]
     yuk = [x if loops == 2 else 0.0 for x in yuk]
@@ -458,6 +461,17 @@ def s2b():
     print("   -> For beta = +1/sqrt3, running alone selects (3, 3). For beta = -1/sqrt3, (2, 4) also")
     print("      reaches M_Pl: its colour group is not asymptotically free, but its pole is far above")
     print("      M_Pl. Asymptotic freedom of colour is an independent condition, needed only for (2, 4).")
+    print("   The same cut from an observation. A baryon is N_c quarks: spin N_c/2 mod 1, charge")
+    print("   (1 - N_c)/2 + k. Baryons are fermions of integer charge only for odd N_c:")
+    for Nc in (2, 3):
+        Qu, Qd = charges(Nc)
+        print(f"     N_c = {Nc}: charges " + ", ".join(str(k * Qu + (Nc - k) * Qd) for k in range(Nc + 1)))
+    print("   Among odd N_c >= 3 the running alone leaves (3, 3); asymptotic freedom then follows.")
+    check("baryon charges are integers iff N_c is odd (N_c = 2..9)",
+          all(all((k * charges(Nc)[0] + (Nc - k) * charges(Nc)[1]).denominator == (1 if Nc % 2 else 2)
+                  for k in range(Nc + 1)) for Nc in range(2, 10)))
+    check("among odd N_c >= 3, without asymptotic freedom, only (3, 3) survives (both variants)",
+          all([s for s in surv[v] if s[0] % 2] == [(3, 3)] for v in VARIANTS))
     check("N_g = 2 N_c is excluded by running alone for N_c = 3, 4, 5 (both variants)",
           all(p[v, Nc, 2 * Nc] < M_PLANCK for v in VARIANTS for Nc in (3, 4, 5)))
     check("beta = -1/sqrt3: (N_c, N_g) = (2, 4) reaches M_Pl (1.0e27 GeV) without asymptotic freedom",
@@ -665,7 +679,8 @@ def s6b():
     g = lambda lm: log(pole_split(3, f["MV"], f["mJ"], exp(lm), f["mS"], f["n_light"]) / M_PLANCK)
     m_star = exp(bisect(g, log(100.0), log(3000.0), tol=1e-4))
     print(f"   N_c = 3 reaches M_Pl only if m_E >= {m_star:.0f} GeV (two loops; the repository's three-loop")
-    print("   value is 584 +- 118 GeV, src/m331_margin.py). With three E the condition is on their")
+    print("   value, with the Yukawas run rather than held constant, is 649 +- 132 GeV,")
+    print("   src/m331_margin.py). With three E the condition is on their")
     print("   geometric mean. Run 2 allows that mean down to ~0.24 TeV, so the LHC has not tested it;")
     print("   the HL-LHC reaches about the threshold (src/m331_heavy_lepton.py).")
     check("beta = +1/sqrt3, light heavy leptons: N_c = 3 falls below M_Pl at alpha = 1 (0.572 M_Pl)",
@@ -709,7 +724,7 @@ def main():
     print("   prediction). In the beta = -1/sqrt3")
     print("   variant the margins are wide. In the beta = +1/sqrt3 variant the selection is a")
     print("   condition, not a margin: N_c = 3 reaches M_Pl at alpha = 1 only if the three heavy")
-    print("   charged leptons are heavy enough (geometric mean >= 584 +- 118 GeV at three loops,")
+    print("   charged leptons are heavy enough (geometric mean >= 649 +- 132 GeV at three loops,")
     print("   S6b at two loops). The LHC has not tested this; the HL-LHC reaches about the threshold.")
     print(f"\n   Checks passed: {n_ok}/{len(CHECKS)}   ({time.time() - t0:.0f} s)")
     for label, ok in CHECKS:

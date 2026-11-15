@@ -201,12 +201,15 @@ def c3_tensor(Nc, variant):
 
 
 def blow_up(Nc, variant, yt=0.0, yJ=0.0, mu0=Y.MU331, gmax=4 * pi, s2=None, lam=(0.0, 0.0, 0.0),
-            n_light=1, loops=3, yuk=None, grav=None, mu_max=1e45):
+            n_light=1, loops=3, yuk=None, grav=None, mu_max=1e45, yrun=None):
     """As m331_yukawa.blow_up (same boundary, two-loop and Yukawa terms), plus the
     three-loop gauge and matter terms when loops = 3. yuk: an explicit two-loop Yukawa
     vector, overriding the one built from yt and yJ (used by m331_margin.py).
     grav: optional f_g(mu), adding -f_g(mu) g_i to every gauge beta function (the
-    universal gravity term, src/m331_gravity_fixed_point.py); None leaves it out."""
+    universal gravity term, src/m331_gravity_fixed_point.py); None leaves it out.
+    yrun: (ys0, cy, cg) to run the Yukawas at one loop with the gauge couplings instead of
+    holding them constant: ys0 the Yukawas at mu0, d ys/dt = ys (v . cy)/(16 pi^2) with
+    v = (ys^2, g^2), and cg the two-loop gauge coefficient of each ys^2 (m331_margin.py)."""
     gs, ferm, scal, _ = E.MODELS[variant](Nc)
     a, b = E.coefficients(gs, ferm, scal)
     a = np.array([float(x) for x in a])
@@ -230,6 +233,23 @@ def blow_up(Nc, variant, yt=0.0, yJ=0.0, mu0=Y.MU331, gmax=4 * pi, s2=None, lam=
     def ev(t, g):
         return gmax - max(g)
     ev.terminal = True
+    if yrun is not None:
+        ys0, cy, cg = (np.asarray(x, float) for x in yrun)
+        k = 16 * pi**2
+
+        def rhs(t, s):                                           # noqa: F811 (gauge + running Yukawas)
+            g, ys = s[:3], s[3:]
+            g2 = g**2
+            three = np.array([g2 @ c3[i] @ g2 for i in range(3)])
+            dg = g**3 / k * (a + (b @ g2 - (cg @ ys**2 if loops > 1 else 0)) / k + three / (2 * k**2))
+            if grav is not None:
+                dg = dg - grav(mu0 * np.exp(t)) * g
+            return np.concatenate([dg, ys * (np.concatenate([ys**2, g2]) @ cy) / k])
+
+        def ev(t, s):                                            # noqa: F811
+            return min(gmax - max(s[:3]), 4 * pi - max(abs(s[3:])))
+        ev.terminal = True
+        g0 = np.concatenate([g0, ys0])
     sol = solve_ivp(rhs, [0, log(mu_max / mu0)], g0, events=ev, rtol=1e-9, atol=1e-12, max_step=0.5)
     return mu0 * np.exp(sol.t_events[0][0]) if sol.t_events[0].size else mu_max
 

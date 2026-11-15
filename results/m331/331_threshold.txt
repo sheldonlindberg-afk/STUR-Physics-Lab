@@ -55,3 +55,17 @@ T4  The narrow margin, recomputed (beta = +1/sqrt3, N_c = 3)
    Residual matching-scale dependence at two loops (r_J = 1, r_S = 1), N_c = 3 pole / M_Pl:
      beta = -1/sqrt3: mu = M_V/2, M_V, 2 M_V -> 2.95e+10, 2.96e+10, 2.98e+10
      beta = +1/sqrt3: mu = M_V/2, M_V, 2 M_V -> 3.65, 3.68, 3.7
+
+==============================================================================
+T5  The models removed by the colour conditions, at full strength (NOTE_331 section 2)
+==============================================================================
+   Lowest and highest pole over the whole scan and mu = M_V/3, M_V, 3 M_V (two loops,
+   Yukawas and thresholds on), in units of M_Pl ('none' = no pole below 1e45 GeV):
+     beta = -1/sqrt3 (N_c, N_g) = (2, 4):       359 to  7.91e+08   reaches M_Pl everywhere
+     beta = -1/sqrt3 (N_c, N_g) = (1, 7):      18.8 to       138   reaches M_Pl everywhere
+     beta = -1/sqrt3 (N_c, N_g) = (1, 8):      0.15 to      1.37   marginal
+     beta = +1/sqrt3 (N_c, N_g) = (2, 4):  0.000982 to    0.0168   fails everywhere
+     beta = +1/sqrt3 (N_c, N_g) = (1, 3):      1.79 to      24.2   reaches M_Pl everywhere
+     beta = +1/sqrt3 (N_c, N_g) = (1, 4):  0.000197 to   0.00322   fails everywhere
+   So without the colour conditions the running also allows (2, 4) for beta = -1/sqrt3, and a
+   colourless N_c = 1 with N_g <= 7 (beta = -1/sqrt3) or <= 3 (beta = +1/sqrt3).
