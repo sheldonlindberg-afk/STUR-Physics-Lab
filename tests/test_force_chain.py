@@ -13,15 +13,26 @@ VALUES = {name: value for name, value, _, _ in LEDGER}
 
 def test_every_stage_after_the_first_uses_an_earlier_stage():
     n = len(FC.STAGES)
-    for st in range(2, n + 1):
+    for st in list(range(2, n + 1)) + list(FC.BRANCHES):
         sources = {made for _, _, made, used in LEDGER if st in used}
-        assert sources and min(sources) < st, st
+        assert sources and min(map(FC.order, sources)) < FC.order(st), st
     for _, _, made, used in LEDGER:
-        assert all(u > made for u in used)
+        assert all(FC.order(u) > FC.order(made) for u in used)
+
+
+def test_branches_follow_their_stage_and_end_at_a_measurement():
+    assert sorted(FC.BRANCHES) == ["2a", "2b", "2c", "3a", "4a", "4b", "7a"]
+    compared = {name for st, name, _, src in INPUTS if "compared, not used" in src}
+    assert compared == {"M_W", "neutron lifetime", "Y_p", "heaviest neutron star", "sin^2 theta_W at 157 MeV"}
+    made = {name: m for name, _, m, _ in LEDGER}
+    assert made["neutron lifetime"] == "3a" and "4a" in [u for n, _, _, used in LEDGER if n == "neutron lifetime" for u in used]
+    assert 8 in [u for n, _, _, used in LEDGER if n.startswith("neutron-star limit") for u in used]
 
 
 def test_each_stage_hands_something_on_or_is_final():
-    final = {"pi0 width", "m_pi O(p^4)", "neutrality needed", "end temperature", "Sgr A* T_H"}
+    final = {"pi0 width", "m_pi O(p^4)", "neutrality needed", "end temperature", "Sgr A* T_H",
+             "M_W", "Chandrasekhar mass", "1/alpha from a_e", "sin^2 theta_W(0)",
+             "helium's sensitivity to m_n - m_p"}
     for name, _, made, used in LEDGER:
         assert used or name in final, name
 
@@ -34,6 +45,14 @@ def test_the_numbers_the_stages_pass():
     assert abs(VALUES["neutrality needed"] / 2.82e-19 - 1) < 3e-3
     assert abs(VALUES["phase"] - 2.1868) < 1e-3
     assert abs(VALUES["end temperature"] / (VALUES["M_Pl"] / (8 * 3.141592653589793)) - 1) < 1e-6
+    assert abs(VALUES["M_W"] - 80.474) < 0.005
+    assert abs(VALUES["neutron lifetime"] - 880.6) < 0.1
+    assert abs(VALUES["Y_p"] - 0.2407) < 0.001
+    assert abs(VALUES["1/alpha from a_e"] - 137.035999166) < 2e-9
+    assert abs(VALUES["sin^2 theta_W(0)"] - 0.23873) < 2e-5
+    assert abs(VALUES["helium's sensitivity to m_n - m_p"] + 0.61) < 0.03
+    assert abs(VALUES["Chandrasekhar mass"] - 1.456) < 0.002
+    assert abs(VALUES["neutron-star limit (free neutrons)"] - 0.710) < 0.002
 
 
 def test_measured_inputs_are_declared_where_they_enter():

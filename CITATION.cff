@@ -10,8 +10,8 @@ abstract: >-
   whether gravity is quantum, as perturbative quantum gravity predicts.
   Bounds on classical-quantum gravity are worked examples within existing
   literature rather than new results. A research note argues that, in 3-3-1
-  models, Planck-scale perturbativity selects three colours and three
-  generations (conditional; not peer reviewed). Every number is reproduced
+  models, asymptotic freedom of colour plus Planck-scale perturbativity
+  select three colours and three generations (conditional; not peer reviewed). Every number is reproduced
   by the scripts in src/.
 authors:
   - family-names: Lindberg

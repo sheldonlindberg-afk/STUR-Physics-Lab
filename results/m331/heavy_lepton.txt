@@ -42,7 +42,7 @@ H5  The RG condition is on the geometric mean of the three m_E
    m_E = (320.0, 400.0, 100.0) GeV: pole 0.7706 M_Pl;  degenerate at the geometric mean 234 GeV: 0.7705 M_Pl
    lightest Run-2-allowed set, one E per flavour: (e, mu, tau) = (321, 404, 100) GeV, geometric mean 235 GeV
    if all three mix with tau: geometric mean 100 GeV
-   the selection needs >= 584 +- 118 GeV (M_V = 3.755 TeV): the LHC has not tested it.
+   the selection needs >= 649 +- 132 GeV (M_V = 3.755 TeV): the LHC has not tested it.
 
 ==============================================================================
 H6  HL-LHC, 3 ab^-1 (13 TeV cross sections): expected reach per flavour
@@ -50,14 +50,14 @@ H6  HL-LHC, 3 ab^-1 (13 TeV cross sections): expected reach per flavour
    e  : 735 GeV background-limited, 800 GeV (capped: past the last published point) background-free
    mu : 748 GeV background-limited, 800 GeV (capped: past the last published point) background-free
    tau: 455 GeV background-limited, 734 GeV background-free
-   geometric mean of the reach, one E per flavour: 630 to 777 GeV, against m_E* = 584 +- 118 GeV
+   geometric mean of the reach, one E per flavour: 630 to 777 GeV, against m_E* = 649 +- 132 GeV
    The tau-mixed E sets the pace: its reach is the weakest of the three.
 
 ==============================================================================
 H7  The target moves: m_E* with M_V at the projected HL-LHC Z' floor
 ==============================================================================
    Z' expected reach at 3 ab^-1 (sqrt(L) scaling, all channels open): 5.50 TeV (Run 2 expected 4.80 TeV)
-   -> M_V >= 4.49 TeV;  m_E* = 646 GeV with Yukawas, 763 GeV without (+-20% truncation, section 3e)
+   -> M_V >= 4.49 TeV;  m_E* = 714 GeV with Yukawas, 763 GeV without (+-20% truncation, section 3e)
    HL-LHC geometric-mean reach 630-777 GeV vs this m_E*: the HL-LHC reaches the
    threshold, but covers its uncertainty band only with the optimistic scaling, and only
    if each E mixes with a different flavour (all tau-mixed: reach 455-734 GeV).

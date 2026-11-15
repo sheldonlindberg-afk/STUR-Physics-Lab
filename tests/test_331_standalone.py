@@ -64,4 +64,4 @@ def test_runs_isolated_and_every_check_passes():
                          timeout=300).stdout
     assert "ALL CHECKS PASS" in out and "FAIL" not in out
     ref = open(os.path.join(os.path.dirname(__file__), "..", "results", "m331", "standalone.txt")).read()
-    assert "Checks passed: 23/23" in ref and "ALL CHECKS PASS" in ref
+    assert "Checks passed: 28/28" in ref and "ALL CHECKS PASS" in ref

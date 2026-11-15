@@ -4,8 +4,8 @@
 > and physicists, plus one research note (independent work, not peer reviewed). Topics:
 > teleparallel gravity (TEGR) and GR's classic tests, decoherence and complementarity,
 > the entanglement area law, Jacobson's argument, and the Bose-Marletto-Vedral
-> two-mass experiment. The research note: in 3-3-1 models, Planck-scale perturbativity
-> selects N_c = N_g = 3 (conditional; paper/note331.pdf). The research notes collect
+> two-mass experiment. The research note: in 3-3-1 models, asymptotic freedom of
+> colour plus Planck-scale perturbativity selects N_c = N_g = 3 (conditional; paper/note331.pdf). The research notes collect
 > known physics as one bookkeeping equation, rho_ij(t) = rho_ij(0) <E_j|E_i>
 > exp(i(S_i - S_j)/hbar), with gravity's TEGR action in S_i. It is a synthesis, not a
 > new theory.
@@ -34,8 +34,11 @@
   gravity leaves <= 1.5% (smearing <= 52 um, where Newton's law is tested). If it stays
   coherent, Oppenheim-type gravity must shake it with >= 1.3e-12 m s^-2/rtHz.
 - Both diamond tests need ~4e8 x today's largest superposed mass.
-- Standalone note (NOTE_331.md): in 3-3-1 models, perturbativity to the Planck scale
-  selects N_c = N_g = 3 and the 1/3 quark charges (conditional).
+- Standalone note (NOTE_331.md): in 3-3-1 models, asymptotic freedom of colour plus
+  perturbativity to the Planck scale select N_c = N_g = 3 and the 1/3 quark charges
+  (conditional; perturbativity alone also allows N_c = 2, N_g = 4 for beta = -1/sqrt3,
+  and a colourless N_c = 1; requiring fermionic, integer-charged baryons, N_c odd >= 3,
+  closes it without assuming asymptotic freedom).
 - Visibility loss counts quanta: -ln V = 2 Var(dN) = 2<dN> coth(hbar w / 2 k_B T);
   one trapped ion, contrast 0.787 -> 0.111 from nbar = 0.1 to 5.
 
@@ -69,7 +72,7 @@
 - /src/first_principles_standalone.py — that rebuild's ten stages alone, each function callable
   (expected output: /results/first_principles_standalone.txt)
 - /src/m331_standalone.py — the 3-3-1 selection in one file, standard library only:
-  paste into any Python runner or AI code tool and run; it ends with 23 PASS/FAIL checks
+  paste into any Python runner or AI code tool and run; it ends with 28 PASS/FAIL checks
   (expected output: /results/m331/standalone.txt)
 - /notebooks/ — five study notebooks with exercises
 - /index.html — worked examples: TEGR, is gravity quantum?, gravity and entanglement,

@@ -1,0 +1,73 @@
+
+==============================================================================
+B1  The W mass from G_F, M_Z and alpha: what the running of alpha and the top quark do
+==============================================================================
+   Delta alpha (zero momentum -> M_Z) = 0.05933;  Delta rho (top) = 0.00933, x 0.902 with QCD
+   tree level, alpha(0)        : M_W = 80.939 GeV  (+0.71%)
+   with alpha run to M_Z       : M_W = 79.961 GeV  (-0.51%)
+   with the top quark's loop   : M_W = 80.531 GeV  (+0.20%)
+   and its QCD correction      : M_W = 80.474 GeV  (+0.13%)
+   measured: 80.3692 +- 0.0133 GeV. The two leading corrections leave +0.13%;
+   the remaining bosonic and two-loop terms are not computed (MODEL).
+   LIT check: with the PDG's complete Delta r = 0.03685 the same relation gives 80.355 GeV.
+
+==============================================================================
+B2  The neutron lifetime from G_F, |V_ud| and g_A
+==============================================================================
+   phase space f = 1.6361 (no Coulomb), 1.6917 with the Fermi function
+   tree level with that f: 913.2 s;  with the quoted radiative corrections: 880.6 +- 1.6 s
+   measured: 878.4 +- 0.5 s  (pull +1.3 sigma)
+
+==============================================================================
+B3  Primordial helium: all four forces in one number
+==============================================================================
+   expansion (gravity): t = 0.75 s at 1 MeV, 119 s at 0.1 MeV; T_nu/T -> 0.7138 ((4/11)^(1/3) = 0.7138)
+   weak freeze-out: neutron fraction 0.1602 if neutrons did not decay
+   deuterium survives and burns at T = 71 keV, t = 256 s, when the neutron fraction has decayed to 0.1201
+   Y_p = 0.2407  (measured 0.245 +- 0.003);  baryons conserved to 5e-14
+   D/H left over = 5.7e-05 (measured 2.55e-05): the minimal network leaves twice the
+   measured deuterium, since it has no D + p -> 3He. Helium is insensitive to that:
+      D + D S-factor x 2    : Y_p = 0.2425
+      D + D S-factor / 2    : Y_p = 0.2388
+      n + p capture x 1.3   : Y_p = 0.2408
+      baryon density + 10%  : Y_p = 0.2415
+      lifetime + 5 s        : Y_p = 0.2417
+   and to the force that sets the clock: with G 10% larger, Y_p = 0.2491
+
+==============================================================================
+B4  When matter collapses: two pure numbers times M_Pl^3 / m_N^2
+==============================================================================
+   M_Pl^3 / m_n^2 = 1.848 solar masses = 2.19e+57 nucleons
+   Lane-Emden n = 3: xi_1 = 6.89685, omega = 2.01824 (tabulated 6.89685, 2.01824)
+   Chandrasekhar: 3.0980 / mu_e^2  ->  1.456 solar masses for carbon (mu_e = 2), such as the diamonds
+   Oppenheimer-Volkoff, free neutrons: 0.3843  ->  0.710 solar masses, R = 9.2 km (1939: 0.71, 9.6 km)
+   heaviest neutron star measured: 2.08 +- 0.07 solar masses = 2.9 x the free-neutron limit: the nuclear force's repulsion carries the rest
+   GW250114's black holes, 33.6 and 32.2 solar masses, are above every such limit
+
+==============================================================================
+B5  The electron's magnetic moment and alpha
+==============================================================================
+   the chain's route, down from M_Z: 1/alpha(0) = 137.0360 +- 0.0088 (the hadronic input's error)
+   a_e from that alpha: 0.00115965 +- 0.00000007;  measured 0.00115965218059
+   the measured a_e inverted through the QED series: 1/alpha = 137.035999166  (published 137.035999166 +- 1.5e-08)
+   they differ by 5.5e-08, far inside the chain's error; the electron's moment is 6e+05 times more precise
+   This is a return trip, not an independent test: the alpha-hat(M_Z) that stage 1 takes as input
+   was itself obtained from alpha(0). What the branch shows is where the chain's alpha comes from.
+
+==============================================================================
+B6  The weak mixing angle at low energy, from the loops that run alpha
+==============================================================================
+   lambda = 0.2500 (leptons), 0.4773 = 21/44 (five quarks), 0.3750 = 3/8 (all fermions)
+   sin^2 theta_W(M_Z) = 0.23129;  leptons +0.00059, hadrons +0.00685  ->  sin^2 theta_W(0) = 0.23873
+   full calculation (PDG): 0.23873 +- 5e-05;  measured at 157 MeV (Qweak): 0.2382 +- 0.0011  (pull +0.5 sigma)
+   the angle rises by 3.2% between M_Z and zero; the measurement sees the rise at 6.3 sigma
+
+==============================================================================
+B7  The neutron-proton mass difference: quoted, and what it controls
+==============================================================================
+   m_d - m_u = 2.49 MeV (lattice averages);  lattice QCD + QED: 2.52 (quark masses) -1.0 (electromagnetism) = 1.51 +- 0.28 MeV;  measured 1.2933
+   delta = 1.2933 MeV: phase space 1.692, lifetime  880.6 s, Y_p = 0.2407
+   delta = 1.3063 MeV: phase space 1.805, lifetime  825.4 s, Y_p = 0.2328
+   delta = 1.5100 MeV: phase space 4.481, lifetime  332.4 s, Y_p = 0.1166
+   dY_p/d delta = -0.609 per MeV: the measured helium (+- 0.003) fixes delta to +- 5 keV, the lattice to +- 280 keV
+   with electromagnetism alone (-1.0 MeV) the proton would be the heavier one and hydrogen would decay
