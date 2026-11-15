@@ -59,8 +59,9 @@ Pythia 8).
 
 **Conditions:**
 - the 3-3-1 framework;
-- asymptotic freedom of colour (needed only to exclude N_c = 2, N_g = 4 for β = −1/√3;
-  [NOTE_331.md §2](NOTE_331.md));
+- a non-abelian, asymptotically free colour group. Asymptotic freedom is needed only to
+  exclude N_c = 2, N_g = 4 for β = −1/√3; a colourless N_c = 1 would also pass the
+  running ([NOTE_331.md §2](NOTE_331.md));
 - Planck-scale perturbativity;
 - the measured TeV-scale electroweak couplings, which are an input, not a prediction.
   In the β = +1/√3 variant there is no comfortable margin. At α = 1 (three loops), N_c = 3
@@ -239,7 +240,7 @@ python3 src/ladder_links.py          # links across the rungs: neutral matter, p
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
 python3 src/why_parameters.py        # the 19 parameters: explanations tested, 3-3-1 flavour, ~3 s
 python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (288 tests)
+python -m pytest tests -q           # every number pinned (289 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on

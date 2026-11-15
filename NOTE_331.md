@@ -1,4 +1,4 @@
-# Three colours and three generations from perturbativity in 3-3-1 models
+# Three colours and three generations from asymptotic freedom and Planck-scale perturbativity in 3-3-1 models
 
 *Sheldon Lindberg, November 2026. Preprint, not peer reviewed; comments from 3-3-1
 experts are welcome. **PDF: [paper/note331.pdf](paper/note331.pdf)** (LaTeX source
@@ -60,7 +60,8 @@ are β = ±1/√3. The minimal β = −√3 model is excluded by atomic parity v
 bound (§6).
 
 For colour group SU(N_c) we take N_g generations, with N_c ≥ 2: for N_c = 1 there is
-no colour gauge field, and the asymptotic-freedom condition of step 2 is vacuous. Each generation has left-handed lepton
+no colour gauge field, and the asymptotic-freedom condition of step 2 is vacuous. This is
+a condition, not a result: a colourless N_c = 1 world passes the running (§2, step 2). Each generation has left-handed lepton
 triplets and quark triplets or anti-triplets, with the third member an exotic quark. n of
 the N_g quark generations sit in the anti-triplet.
 
@@ -134,6 +135,12 @@ all 29 solutions up to N_c = 60 checked).
   The (2, 4) run uses the measured α_s as the SU(2)-colour coupling at 4 TeV, the same
   counterfactual boundary condition as for N_c = 5 (§4). Yukawas and thresholds were not
   added; they move poles by factors of a few, against a margin of 10⁸.
+- **N_c = 1 is excluded by assumption, not by the running.** With no colour group, the
+  charges are Q_u = 1 and Q_d = 0, every generation's colourless "quarks" sit in the
+  anti-triplet, and any N_g cancels the anomalies. At one loop a_X = 22/9 for N_g = 1
+  (β = −1/√3), and N_g = 1–7 reach M_Pl; for β = +1/√3, N_g = 1–3 do
+  (N_g = 3 has a_X = 14, the same as N_c = N_g = 3). So the requirement N_c ≥ 2 of §1, a
+  non-abelian colour group, is load-bearing in both variants (`src/m331_exact.py`, E5).
 
 **Step 3: SU(3)_L excludes N_c ≥ 7.** With N_g = N_c there are N_c(1 + N_c) Weyl triplets.
 The one-loop coefficient b_L = 11 − N_c(1 + N_c)/3 − (scalars) is computed from
@@ -580,7 +587,10 @@ find them much heavier than the Z′, the selection's own perturbativity criteri
 2. **Asymptotic freedom of colour** is a separate assumption. Perturbativity to M_Pl
    doesn't imply it, and for β = −1/√3 the selection needs it: without it,
    (N_c, N_g) = (2, 4) survives as well (§2, step 2). Physically it stands for a colour
-   force that confines. For β = +1/√3 it can be dropped.
+   force that confines. For β = +1/√3 it can be dropped, but a colour group must still
+   exist: with N_c = 1 and up to 7 generations (3 for β = +1/√3) every coupling also
+   reaches M_Pl. The full statement is: among 3-3-1 models with an asymptotically free,
+   non-abelian colour group, only N_c = N_g = 3 is perturbative to M_Pl.
 3. **Perturbativity to the Planck scale** is a standard criterion, not a theorem. A pole
    below M_Pl signals new physics, not an inconsistency. Drop the requirement and the
    selection drops too.

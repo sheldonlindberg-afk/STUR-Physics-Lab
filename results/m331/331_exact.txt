@@ -90,3 +90,7 @@ E5  Is asymptotic freedom of colour needed?  The selection without it
       pole lies far above M_Pl. Asymptotic freedom of colour is therefore an independent
       condition of the selection; it is needed only to remove (N_c, N_g) = (2, 4).
       Every other N_g > N_c is already excluded by the running (U(1)_X, or colour itself).
+   N_c = 1 (no colour group at all; any N_g cancels the anomalies), one loop:
+     beta = -1/sqrt3: N_g = 1..7 reach M_Pl (N_g = 7: a_X = 118/9, pole 1.1e+21 GeV)
+     beta = +1/sqrt3: N_g = 1..3 reach M_Pl (N_g = 3: a_X = 14, pole 8.4e+19 GeV)
+   -> a non-abelian colour group (N_c >= 2) is also a condition, in both variants.

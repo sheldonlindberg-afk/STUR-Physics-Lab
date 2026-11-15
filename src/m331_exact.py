@@ -280,6 +280,22 @@ def survivors(gmax=4 * pi, mus=(2e3, 4e3, 1e4, 3e4), loops=2):
     return out
 
 
+def colourless(Ng, variant="-1/sqrt3", mu0=4e3):
+    """N_c = 1: no colour group, Q_u = 1, Q_d = 0, and the SU(3)_L anomaly puts every 'quark'
+    generation in the anti-triplet (n = N_g, any N_g). Returns the exact one-loop
+    (a_X, a_L) and the one-loop U(1)_X pole in GeV."""
+    s = 1 if variant == "-1/sqrt3" else 2                 # leptons X = -s/3, anti-triplet X = +s/3
+    ferm = [(Ng, (None, 3), F(-s, 3)), (Ng, (None, 1), F(1)),
+            (Ng, (None, 3), F(s, 3)), (Ng, (None, 1), F(-1))]      # the Q = 0 singlets do not run
+    if s == 2:
+        ferm += [(Ng, (None, 1), F(1)), (Ng, (None, 1), F(-1))]    # E^c and the exotic's partner
+    assert sum(m * d[1] * q**3 for m, d, q in ferm) == 0 and sum(m * d[1] * q for m, d, q in ferm) == 0
+    X = (F(-1, 3), F(2, 3), F(-1, 3)) if s == 1 else (F(1, 3), F(1, 3), F(-2, 3))
+    a, _ = coefficients([Group("X"), Group("SU3L", 3)], ferm, [(1, (None, 3), x) for x in X])
+    aX_inv = run_two_loop(3, mu0=mu0)[3]
+    return a[0], a[1], mu0 * np.exp(2 * pi * aX_inv / float(a[0]))
+
+
 def without_asymptotic_freedom():
     banner("E5  Is asymptotic freedom of colour needed?  The selection without it")
     print("   The SU(3)_L anomaly alone allows N_g = k N_c (N_c odd) and N_g = 2 k N_c (N_c even).")
@@ -306,6 +322,12 @@ def without_asymptotic_freedom():
     print("      pole lies far above M_Pl. Asymptotic freedom of colour is therefore an independent")
     print("      condition of the selection; it is needed only to remove (N_c, N_g) = (2, 4).")
     print("      Every other N_g > N_c is already excluded by the running (U(1)_X, or colour itself).")
+    print("   N_c = 1 (no colour group at all; any N_g cancels the anomalies), one loop:")
+    for name in MODELS:
+        ok = [Ng for Ng in range(1, 13) if colourless(Ng, name)[2] > M_PLANCK]
+        aX, aL, p = colourless(ok[-1], name)
+        print(f"     beta = {name}: N_g = {ok[0]}..{ok[-1]} reach M_Pl (N_g = {ok[-1]}: a_X = {aX}, pole {p:.1e} GeV)")
+    print("   -> a non-abelian colour group (N_c >= 2) is also a condition, in both variants.")
 
 
 if __name__ == "__main__":

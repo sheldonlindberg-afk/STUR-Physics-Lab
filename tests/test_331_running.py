@@ -65,3 +65,12 @@ def test_selection_without_asymptotic_freedom():
     assert E.run_two_loop(2, Ng=4, model=E.model_331_plus)[0] < E.M_PLANCK
     with pytest.raises(ValueError):
         E.model_331(3, 4)                                       # SU(3)_L anomaly does not cancel
+
+
+def test_colourless_case_passes_the_running():
+    """N_c = 1 is excluded by requiring a colour group, not by the running."""
+    import m331_exact as E
+    from fractions import Fraction as F
+    assert E.colourless(1)[0] == F(22, 9) and E.colourless(3, "+1/sqrt3")[0] == 14
+    ok = {v: [Ng for Ng in range(1, 13) if E.colourless(Ng, v)[2] > E.M_PLANCK] for v in E.MODELS}
+    assert ok == {"-1/sqrt3": list(range(1, 8)), "+1/sqrt3": [1, 2, 3]}

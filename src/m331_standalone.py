@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-Three colours and three generations from perturbativity in 3-3-1 models.
+Three colours and three generations from asymptotic freedom and Planck-scale
+perturbativity in 3-3-1 models.
 A single-file, standard-library-only reproduction of the selection N_c = N_g = 3.
 
 HOW TO RUN
