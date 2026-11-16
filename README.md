@@ -269,7 +269,7 @@ python3 src/ladder_links.py          # links across the rungs: neutral matter, p
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
 python3 src/why_parameters.py        # the 19 parameters: explanations tested, 3-3-1 flavour, ~3 s
 python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (324 tests)
+python -m pytest tests -q           # every number pinned (325 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on

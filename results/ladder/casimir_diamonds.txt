@@ -18,6 +18,12 @@ P3  The Casimir-Polder coefficient (CHECK, exact)
    U = -(23/(4*pi)) hbar c alpha1 alpha2 / r^7 = -(23/(4 pi)) hbar c alpha1 alpha2 / r^7
 
 ==============================================================================
+P3b  The quantum step, checked against exact normal modes (CHECK, instantaneous coupling)
+==============================================================================
+   alpha0/r^3 = 0.05: exact (hbar/2) sum(w+ + w- - 2 w0) = -0.0018794158;  (hbar/2pi) int ln det = -0.0018794158;  second order -0.001875 vs London -(3/4) alpha0^2 = -0.001875
+   alpha0/r^3 = 0.3: exact (hbar/2) sum(w+ + w- - 2 w0) = -0.0744812503;  (hbar/2pi) int ln det = -0.0744812503;  second order -0.067500 vs London -(3/4) alpha0^2 = -0.067500
+
+==============================================================================
 P4  In the diamond experiment
 ==============================================================================
    design A, m = 1.468e-14 kg (R = 1.00 um), r = 200 um: derived U = -1.6787e-36 J, src/stur_gravity_entanglement.py -1.6787e-36 J (ratio 1.000000000000)
