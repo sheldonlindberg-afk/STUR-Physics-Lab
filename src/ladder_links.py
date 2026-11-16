@@ -274,6 +274,28 @@ L16 The ringdown fit checked at zero spin: rung 6 -> its own data (H7, H8).
       against the exact 2.100 (+0.9%). So the fit's error at the non-spinning end is about
       1%; the GW250114 inversion uses it at chi ~ 0.7, which this check does not cover
       (that needs the Teukolsky equation). (CHECK at chi = 0; the rest FOLLOWS)
+L17 The ABJ anomaly coefficient, derived: rung 1's anomalies -> L2's pi0 width.
+  L17a Fujikawa's Jacobian with explicit Euclidean gamma matrices. D-slash^2 = D^2 - (e/2)
+      sigma_{mu nu} F_{mu nu}; the regulated trace Tr gamma5 exp(-D-slash^2/M^2) keeps, as
+      M -> infinity, only the term second order in sigma F, with int d^4k/(2 pi)^4 e^(-k^2) =
+      1/(16 pi^2): A = (1/16 pi^2)(e^2/8) tr[gamma5 sigma_{mu nu} sigma_{rho sigma}] F F. The
+      trace is computed for all 256 index sets: it is -4 eps_{mu nu rho sigma} exactly (the sign
+      is the orientation chosen for gamma5; the magnitude is not conventional). So
+      A = e^2 eps F F / (32 pi^2) and the divergence of the axial current, twice the Jacobian,
+      is d_mu j5^mu = (e^2/16 pi^2) eps^{mu nu rho sigma} F_{mu nu} F_{rho sigma} in magnitude.
+      (CHECK, symbolic; the dropped terms vanish as M -> infinity by power counting)
+  L17b A second route that shares nothing with it. In parallel E and B, the lowest Landau
+      level of each chirality is a 1+1 Weyl fermion with eB/2 pi states per area, whose
+      momenta drift at eE: d n5/dt = 2 (eB/2 pi)(eE/2 pi) = e^2 E B / (2 pi^2). With
+      eps F F = 8 F_12 F_34 (and |eps F F| = 8 E B in Minkowski) L17a gives the same
+      number. (CHECK, symbolic)
+  L17c Matching to L2. Weights: j5^3 = (u-bar g g5 u - d-bar g g5 d)/2 over N_c colours gives
+      (N_c/2)(Q_u^2 - Q_d^2) times L17a. With <0|j5^3|pi0> = i f_pi p and eps F F = 4 eps
+      d A d A (two photons: a factor 2), the amplitude is
+          A = alpha N_c (Q_u^2 - Q_d^2) / (pi f_pi),
+      the coefficient that L2 quoted; the width follows from L2b. (CHECK, symbolic)
+  L17d What stays quoted: the PCAC step <0|j5|pi0> = i f_pi p, and that the anomaly is not
+      renormalized beyond one loop (Adler-Bardeen). (LIT)
 L14 Bekenstein bound: rung 6 -> rung 4. S <= 2 pi k R E / (hbar c). A Schwarzschild black hole
   (R = 2GM/c^2, E = M c^2) saturates it exactly, = A / 4 l_P^2 (CHECK, symbolic). Design A's
   diamond (radius 1.0 um, 7.4e11 atoms): Bekenstein bound 2.6e23 k_B, holographic bound
@@ -848,6 +870,63 @@ def bcw_at_zero_spin():
     return f1 + f2, w.real, q1 + q2, w.real / (-2 * w.imag)
 
 
+# ---------------------------------------------------------------------------------- L17
+def abj_fujikawa():
+    """L17a: tr[gamma5 sigma_{mu nu} sigma_{rho sigma}] = lam eps_{mu nu rho sigma} for all
+    indices (returns lam and whether it holds for every set), and the coefficient of
+    eps F F in the Jacobian A = (1/16 pi^2)(e^2/8) lam, in units of e^2/(32 pi^2)."""
+    import sympy as sp
+    from sympy import I, Matrix, eye, zeros, LeviCivita
+    s1 = Matrix([[0, 1], [1, 0]]); s2 = Matrix([[0, -I], [I, 0]]); s3 = Matrix([[1, 0], [0, -1]])
+    def kron(a, b):
+        return sp.kronecker_product(a, b)
+    Z = sp.eye(2)
+    gam = [kron(s2, s1), kron(s2, s2), kron(s2, s3), kron(s1, Z)]       # Euclidean: {g_m, g_n} = 2 delta
+    ok = all(sp.simplify(gam[m] * gam[n] + gam[n] * gam[m] - 2 * (1 if m == n else 0) * sp.eye(4)) == sp.zeros(4, 4)
+             for m in range(4) for n in range(4))
+    g5 = gam[0] * gam[1] * gam[2] * gam[3]
+    sig = lambda m, n: I / 2 * (gam[m] * gam[n] - gam[n] * gam[m])
+    lam, holds = None, True
+    for a in range(4):
+        for b in range(4):
+            for c in range(4):
+                for d in range(4):
+                    tr = sp.simplify((g5 * sig(a, b) * sig(c, d)).trace())
+                    e = LeviCivita(a, b, c, d)
+                    if e == 0:
+                        holds &= tr == 0
+                    else:
+                        lam = tr / e if lam is None else lam
+                        holds &= sp.simplify(tr - lam * e) == 0
+    A = sp.Rational(1, 16) / sp.pi**2 * sp.Rational(1, 8) * lam           # in units of e^2 eps F F
+    return ok, lam, holds, sp.simplify(abs(A) * 32 * sp.pi**2)             # last: 1 means e^2/(32 pi^2); the sign is gamma5's orientation
+
+
+def abj_landau():
+    """L17b: Jacobian route (divergence = 2 A, in units of eps F F with eps F F = 8 F12 F34) minus the
+    Landau-level count 2 (eB/2pi)(eE/2pi), with F12 = B and F34 = E."""
+    import sympy as sp
+    e, B, E = sp.symbols("e B E", positive=True)
+    from sympy import LeviCivita
+    F = sp.zeros(4, 4)
+    F[0, 1], F[1, 0], F[2, 3], F[3, 2] = B, -B, E, -E
+    epsFF = sum(LeviCivita(a, b, c, d) * F[a, b] * F[c, d]
+                for a in range(4) for b in range(4) for c in range(4) for d in range(4))
+    div = 2 * e**2 / (32 * sp.pi**2) * epsFF
+    landau = 2 * (e * B / (2 * sp.pi)) * (e * E / (2 * sp.pi))
+    return sp.simplify(epsFF - 8 * B * E), sp.simplify(div - landau)
+
+
+def abj_pion_amplitude():
+    """L17c: amplitude from the anomaly, divided by alpha N_c (Q_u^2 - Q_d^2)/(pi f_pi); 1 if it matches."""
+    import sympy as sp
+    e, Nc, Qu, Qd, fpi, alpha = sp.symbols("e N_c Q_u Q_d f_pi alpha", positive=True)
+    c = Nc * (Qu**2 - Qd**2) / 2 * e**2 / (16 * sp.pi**2)                  # d j5^3 = c eps F F
+    amp = c / fpi * 8                                                      # eps F F = 4 eps dA dA, times 2 photon orderings
+    target = alpha * Nc * (Qu**2 - Qd**2) / (sp.pi * fpi)
+    return sp.simplify((amp / target).subs(e, sp.sqrt(4 * sp.pi * alpha)))
+
+
 # ---------------------------------------------------------------------------------- L6
 def carbon12_binding():
     """L6a: B = 6 m_p + 6 m_n + 6 m_e - 12 u, in MeV, and per nucleon."""
@@ -1213,6 +1292,15 @@ def main():
     fr, er, fq, eq = bcw_at_zero_spin()
     print(f"   Berti-Cardoso-Will at chi = 0: M omega_R {fr:.4f} vs exact {er:.4f} ({100 * (fr / er - 1):+.1f}%);"
           f"  Q {fq:.3f} vs {eq:.3f} ({100 * (fq / eq - 1):+.1f}%)")
+
+    banner("L17  The ABJ anomaly coefficient, derived (CHECK, symbolic)")
+    ok, lam, holds, coef = abj_fujikawa()
+    print(f"   Euclidean gamma matrices satisfy the Clifford algebra: {ok};  tr[g5 sigma_mn sigma_rs] = {lam} eps_mnrs"
+          f" for all 256 index sets: {holds}")
+    print(f"   |Jacobian| = {coef} x e^2 eps F F / (32 pi^2): the divergence is e^2 eps F F / (16 pi^2) in magnitude")
+    d1, d2 = abj_landau()
+    print(f"   eps F F - 8 F12 F34 = {d1};  Fujikawa divergence minus the Landau-level count 2(eB/2pi)(eE/2pi) = {d2}")
+    print(f"   pi0 -> gamma gamma amplitude from the anomaly over alpha N_c (Q_u^2 - Q_d^2)/(pi f_pi): {abj_pion_amplitude()}")
 
     banner("L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)")
     d_rc, d_k, d_A, d_S, d_S2, fac = de_sitter_entropy_symbolic()

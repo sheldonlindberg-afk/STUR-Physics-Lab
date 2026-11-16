@@ -219,7 +219,7 @@ counts is not derived here (see [TEGR.md](TEGR.md) for the corner-charge attempt
 
 ## Links between the rungs (`src/ladder_links.py`)
 
-The rungs above are separate derivations. In sixteen places one rung's output is another
+The rungs above are separate derivations. In seventeen places one rung's output is another
 rung's input, and the link can be checked against a measurement or against the other rung's
 code.
 
@@ -390,6 +390,15 @@ splitting use α(0). This link shows they are one coupling at two scales.
 |---|---|---|
 | L16a | Leaver's continued fraction for gravitational perturbations of rung 6's Schwarzschild metric gives Mω = **0.373672 − 0.088962i** (l = 2, n = 0) and 0.346711 − 0.273915i (n = 1), the known values | CHECK |
 | L16b | The Berti–Cardoso–Will fit that H7–H8 invert, at χ = 0: Mω_R = 0.3683 against 0.3737 (−1.4%), Q = 2.119 against 2.100 (+0.9%). The fit is good to about 1% at the non-spinning end. GW250114 uses it at χ ≈ 0.7, which needs the Teukolsky equation and is not checked here | CHECK at χ = 0 |
+
+### Link 17: the ABJ anomaly coefficient, derived, from rung 1's anomalies to link 2's π⁰ width (`src/ladder_links.py` L17)
+
+| | Result | Status |
+|---|---|---|
+| L17a | Fujikawa's Jacobian with explicit Euclidean gamma matrices: tr[γ₅σ_μνσ_ρσ] = −4ε_μνρσ for all 256 index sets (the sign is γ₅'s orientation), so ∂·j₅ = **e²εFF/16π²** in magnitude per Dirac fermion | CHECK, symbolic |
+| L17b | A route sharing nothing with it: the lowest Landau level of each chirality is a 1+1 Weyl fermion, so dn₅/dt = 2(eB/2π)(eE/2π) = e²EB/2π², the same number | CHECK, symbolic |
+| L17c | The weights of j₅³ over N_c colours and the matching to ⟨0\|j₅\|π⁰⟩ = if_πp give **A = αN_c(Q_u² − Q_d²)/(πf_π)**: the coefficient L2 quoted | CHECK, symbolic |
+| L17d | Still quoted: the PCAC step and that the anomaly is not renormalized beyond one loop (Adler–Bardeen) | LIT |
 
 ### Link 12: neutrino mass from rung 1's breaking scale, to oscillation data (`src/ladder_links.py` L12)
 

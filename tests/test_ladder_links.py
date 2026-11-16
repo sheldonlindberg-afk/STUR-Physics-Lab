@@ -191,6 +191,13 @@ def test_quasinormal_modes_and_the_fit_at_zero_spin():
     assert abs(fr / er - 1) < 0.02 and abs(fq / eq - 1) < 0.015 and fr / er < 1 < fq / eq
 
 
+def test_abj_anomaly_derived():
+    ok, lam, holds, coef = LL.abj_fujikawa()
+    assert ok and holds and abs(lam) == 4 and coef == 1
+    assert LL.abj_landau() == (0, 0)
+    assert LL.abj_pion_amplitude() == 1
+
+
 def test_reference_output_matches():
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):

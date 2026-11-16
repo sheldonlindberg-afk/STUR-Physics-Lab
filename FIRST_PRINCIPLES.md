@@ -278,7 +278,7 @@ effort:
 | Casimir–Polder formula | Second-order perturbation theory of two dipoles coupled to the quantized field, or the zero-point energy shift of the field modes; Wick-rotate ω → iξ. Done for instantaneous coupling (`casimir_diamonds.py` P3b: exact normal modes against the ln det integral, 10⁻¹¹); the retarded case remains | medium, half done |
 | Radiative correction to M_Z (+0.35%) | The one-loop oblique corrections Δr; needs m_t, m_H | medium–large |
 | ChPT low-energy constants ℓ̄₃, Σ | Lattice QCD. Not feasible in a standard-library script; it stays an input | — |
-| ABJ anomaly coefficient | The triangle diagram, or Fujikawa's path-integral Jacobian | medium |
+| ABJ anomaly coefficient | The triangle diagram, or Fujikawa's path-integral Jacobian. Done (`ladder_links.py` L17: Fujikawa with explicit gamma matrices, a Landau-level cross-check, and the π⁰ amplitude); PCAC and Adler–Bardeen remain quoted | medium, done |
 | Hawking radiation as radiation | Bogoliubov coefficients of a field on the collapsing geometry, which give a Planckian spectrum at κ/2π | large |
 | Berti–Cardoso–Will QNM fit | Leaver's continued fraction for the Teukolsky equation, solved for ω(χ). Done at χ = 0 (`ladder_links.py` L16: the fit is 1.4% and 0.9% off there); the spin dependence remains | medium, started |
 | Design A's parameters | Re-run the design scan (`src/stur_gravity_entanglement.py`) | small |
