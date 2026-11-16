@@ -7,7 +7,7 @@ HOW TO RUN
     Paste this whole file into any Python 3.8+ runner (a terminal, an online
     interpreter, Jupyter, Pyodide, or an AI assistant's code tool) and run it.
     No packages to install: it uses only the Python standard library.
-    It runs in about a second. It exits with status 1 if any check fails, so scripts and
+    It runs in a few seconds. It exits with status 1 if any check fails, so scripts and
     CI can rely on the exit code as well as the printed verdict.
 
 READING THE CHECKS
@@ -61,11 +61,11 @@ WHAT IT COMPUTES
               threshold scan (Landau poles from src/m331_three_loop.py, carried as numbers).
               Black holes (rung 6 -> 4 and link 3): the diamond's Schwarzschild radius is a
               millionth of the Planck length; a Planck-mass black hole has k_B T = M_Pl/8 pi.
-      More    Links added later, derived here without sympy (src/ladder_links.py L10e, L11-L19): the
+      More    Links added later, derived here without sympy (src/ladder_links.py L10e, L11-L20): the
               de Sitter horizon's entropy 3 pi/Lambda and its first law; the seesaw neutrino scale and
               its 1/w scaling (the Yukawas stay free); the first post-Newtonian correction to the
               entangling phase (-1.4e-23 rad); the cosmological constant against each rung's vacuum
-              energy; Leaver's quasinormal modes and the ringdown fit at zero spin; the ABJ anomaly
+              energy; Leaver's quasinormal modes, Schwarzschild and Kerr, and the ringdown fit against them; the ABJ anomaly
               coefficient from gamma matrices; the rho parameter's top-bottom loop and M_W; and
               Hawking's Planck spectrum from the Bogoliubov coefficients.
     Inputs are measured values (PDG 2024, FLAG 2024, CODATA 2018, Planck 2018; for rung 6 the EHT,
@@ -1212,7 +1212,7 @@ def links():
 
 
 # ----------------------------------------------------------------------------------------
-# MORE LINKS (src/ladder_links.py L10e, L11-L19), standard library only
+# MORE LINKS (src/ladder_links.py L10e, L11-L20), standard library only
 # ----------------------------------------------------------------------------------------
 M_H_GEV, M_T_GEV, M_B_GEV = 125.20, 172.57, 4.18      # PDG 2024
 MW_MEAS = 80.3692                                     # GeV, PDG 2024 average
@@ -1306,8 +1306,97 @@ def seesaw_light(mD, M):
     return 2 * mD**2 / (M + sqrt(M * M + 4 * mD**2))
 
 
+KERR_BCW_TABLE = {0.0: (.3737, .0890), 0.1: (.3870, .0887), 0.2: (.4021, .0883), 0.3: (.4195, .0877),
+                  0.4: (.4398, .0869), 0.5: (.4641, .0856), 0.6: (.4940, .0838), 0.7: (.5326, .0808),
+                  0.8: (.5860, .0756), 0.9: (.6716, .0649), 0.98: (.8254, .0386)}   # BCW 2006, Table II
+
+
+def kerr_conditions(w, A, chi, m=2, s=-2, N=300):
+    """Leaver's radial and angular continued-fraction conditions for the n = 0 Kerr mode (2M = 1)."""
+    a = chi / 2
+    b = sqrt(1 - 4 * a * a)
+    k1, k2 = abs(m - s) / 2, abs(m + s) / 2
+    q = w / 2 - m * a
+    c0 = 1 - s - 1j * w - 2j * q / b
+    c1 = -4 + 2j * w * (2 + b) + 4j * q / b
+    c2 = s + 3 - 3j * w - 2j * q / b
+    c3 = w * w * (4 + 2 * b - a * a) - 2 * a * m * w - s - 1 + (2 + b) * 1j * w - A + (4 * w + 2j) * q / b
+    c4 = s + 1 - 2 * w * w - (2 * s + 3) * 1j * w - (4 * w + 2j) * q / b
+    al = lambda k: k * k + (c0 + 1) * k + c0
+    be = lambda k: -2 * k * k + (c1 + 2) * k + c3
+    ga = lambda k: k * k + (c2 - 3) * k + c4 - c2 + 2
+    R = 0
+    for k in range(N - 1, -1, -1):
+        R = al(k) * ga(k + 1) / (be(k + 1) - R)
+    aw = a * w
+    alt = lambda k: -2 * (k + 1) * (k + 2 * k1 + 1)
+    bet = lambda k: (k * (k - 1) + 2 * k * (k1 + k2 + 1 - 2 * aw)
+                     - (2 * aw * (2 * k1 + s + 1) - (k1 + k2) * (k1 + k2 + 1)) - (aw * aw + s * (s + 1) + A))
+    gat = lambda k: 2 * aw * (k + k1 + k2 + s)
+    Rt = 0
+    for k in range(N - 1, 0, -1):
+        Rt = alt(k - 1) * gat(k) / (bet(k) - Rt)
+    return be(0) - R, bet(0) - Rt
+
+
+def kerr_solve(chi, guess):
+    x = list(guess)
+    for _ in range(60):
+        f = lambda v: kerr_conditions(v[0], v[1], chi)
+        F0 = f(x)
+        J = []
+        for j in range(2):
+            xp = list(x)
+            xp[j] += 1e-7
+            Fp = f(xp)
+            J.append([(Fp[i] - F0[i]) / 1e-7 for i in range(2)])
+        det = J[0][0] * J[1][1] - J[1][0] * J[0][1]
+        d0 = (F0[0] * J[1][1] - F0[1] * J[1][0]) / det
+        d1 = (F0[1] * J[0][0] - F0[0] * J[0][1]) / det
+        x[0] -= d0
+        x[1] -= d1
+        if abs(d0) + abs(d1) < 1e-13:
+            break
+    return x
+
+
+_KERR_GRID = {}
+
+
+def kerr_grid():
+    if not _KERR_GRID:
+        x = kerr_solve(0.0, [2 * leaver(0), 4 + 0j])
+        _KERR_GRID[0.0] = tuple(x)
+        for i in range(1, 40):
+            x = kerr_solve(i * 0.025, x)
+            _KERR_GRID[round(i * 0.025, 4)] = tuple(x)
+    return _KERR_GRID
+
+
+def kerr_FQ_w(chi):
+    g = kerr_grid()
+    k = min(g, key=lambda c: abs(c - chi))
+    return kerr_solve(chi, list(g[k]))[0] / 2
+
+
+def kerr_FQ(chi):
+    w = kerr_FQ_w(chi)
+    return w.real, w.real / (-2 * w.imag)
+
+
+def invert_220_exact(freq, damp, z):
+    Q = pi * freq / damp
+    lo, hi = 0.0, 0.95
+    for _ in range(50):
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if kerr_FQ(mid)[1] < Q else (lo, mid)
+    chi = (lo + hi) / 2
+    return kerr_FQ(chi)[0] / (2 * pi * freq * GM_SUN / C_LIGHT**3) / (1 + z), chi
+
+
+
 def links_more():
-    banner("MORE LINKS  Rung 5 -> 6, rung 1 -> data, rung 4 -> 5 and 6 (src/ladder_links.py L10e, L11-L19)")
+    banner("MORE LINKS  Rung 5 -> 6, rung 1 -> data, rung 4 -> 5 and 6 (src/ladder_links.py L10e, L11-L20)")
     plain("further places where one rung feeds another: the de Sitter horizon's entropy, the neutrino-mass scale, the first relativistic correction to the experiment's phase (far too small to see), the cosmological constant against each rung's vacuum energy, and three results the earlier rungs had quoted: the ringdown fit, the anomaly coefficient and Hawking's Planck spectrum.")
     l = 1.0
     # L11: the de Sitter horizon
@@ -1429,10 +1518,33 @@ def links_more():
     check("L16a Leaver's continued fraction for Schwarzschild: M omega = 0.373672 - 0.088962 i (l = 2, n = 0) and"
           " 0.346711 - 0.273915 i (n = 1)", abs(w0 - (0.373672 - 0.088962j)) < 2e-6 and abs(w1 - (0.346711 - 0.273915j)) < 2e-6,
           "pinned", f"got {w0:.6f} and {w1:.6f}")
-    check("L16b the Berti-Cardoso-Will fit at chi = 0 is 1.4% low in frequency and 0.9% high in Q (the spin dependence"
-          " at chi ~ 0.7, which GW250114 uses, needs the Teukolsky equation and is not checked)",
+    check("L16b the Berti-Cardoso-Will fit at chi = 0 is 1.4% low in frequency and 0.9% high in Q (L20 covers the spin"
+          " dependence at chi ~ 0.7, which GW250114 uses)",
           abs(fit_r / w0.real - 1 + 0.014) < 1e-3 and abs(fit_q / (w0.real / (-2 * w0.imag)) - 1 - 0.009) < 1e-3, "pinned",
           f"got {100 * (fit_r / w0.real - 1):+.2f}% and {100 * (fit_q / (w0.real / (-2 * w0.imag)) - 1):+.2f}%")
+    # L20: Kerr quasinormal modes
+    worst = max(max(abs(kerr_FQ_w(c).real - re), abs(-kerr_FQ_w(c).imag - im)) for c, (re, im) in KERR_BCW_TABLE.items())
+    check("L20a Teukolsky's radial equation (s = -2) with Leaver's recurrence, coupled through the separation constant to the"
+          " spheroidal equation's, reproduces Berti-Cardoso-Will's Table II (l = m = 2, n = 0, chi = 0 to 0.98) to 6e-5",
+          worst < 6e-5, "data", f"largest difference {worst:.1e}; the table is quoted to 4 digits, so half a unit in the last place is 5e-5")
+    ef = eq = 0.0
+    for i in range(100):
+        c = i * 0.01
+        Fx, Qx = kerr_FQ(c)
+        ef = max(ef, abs((BCW_220[0] + BCW_220[1] * (1 - c) ** BCW_220[2]) / Fx - 1))
+        eq = max(eq, abs((BCW_220[3] + BCW_220[4] * (1 - c) ** BCW_220[5]) / Qx - 1))
+    check("L20b the fit against the exact modes over chi = 0 to 0.99: largest errors 1.85% (F) and 0.88% (Q), the maxima BCW state",
+          abs(ef - 0.0185) < 5e-4 and abs(eq - 0.0088) < 5e-4, "data", f"got {100 * ef:.2f}% and {100 * eq:.2f}%")
+    mf, chif = invert_220_exact(F220[0], G220[0], GW_Z[0])
+    a_f = kerr_area_km2(mf, chif)
+    corners = [kerr_area_km2(*invert_220_exact(f, g, z)) for f in (F220[0] - F220[1], F220[0] + F220[2])
+               for g in (G220[0] - G220[1], G220[0] + G220[2]) for z in (GW_Z[0] - GW_Z[1], GW_Z[0] + GW_Z[1])]
+    a_init_max = kerr_area_km2(GW_M1[0] + GW_M1[2], 0) + kerr_area_km2(GW_M2[0] + GW_M2[2], 0)
+    check("L20c GW250114's ringdown inverted with the exact Kerr modes: M_f = 66.48 Msun, chi_f = 0.744, final area 4.04e5 km^2;"
+          " at the least favourable corner 3.36e5 km^2 against the initial 2.52e5: the area law does not rest on the fit's error",
+          abs(mf - 66.48) < 0.02 and abs(chif - 0.7444) < 5e-4 and abs(a_f / 4.039e5 - 1) < 1e-3
+          and min(corners) > a_init_max and abs(min(corners) / 3.360e5 - 1) < 2e-3, "pinned",
+          f"got M_f = {mf:.2f}, chi_f = {chif:.4f}, area {a_f:.4g} km^2, worst corner {min(corners):.4g}, initial {a_init_max:.4g}")
     # L17: the ABJ anomaly
     gam = gamma_matrices()
     id4 = [[1 if i == j else 0 for j in range(4)] for i in range(4)]
@@ -1577,7 +1689,7 @@ def main():
     print("   first post-Newtonian correction to the experiment's phase is 1e-23 rad; the cosmological constant is")
     print("   the Planck vacuum energy divided by 8 S_dS/3 and is not explained; and the ringdown fit, the ABJ")
     print("   anomaly coefficient, the rho parameter's top loop and Hawking's Planck spectrum, quoted until now,")
-    print("   are derived (the M_Z correction in the MS-bar scheme, the fit's spin dependence and the microstates")
+    print("   are derived (the M_Z correction in the MS-bar scheme and the microstates")
     print("   of S_dS are not).")
     by_kind = ", ".join(f"{sum(k == kind for _, _, k in CHECKS)} {kind}" for kind in KINDS)
     print(f"\n   Checks passed: {n_ok}/{len(CHECKS)}   ({by_kind}; {time.time() - t0:.2f} s)")

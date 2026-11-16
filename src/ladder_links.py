@@ -272,8 +272,8 @@ L16 The ringdown fit checked at zero spin: rung 6 -> its own data (H7, H8).
   L16b The Berti-Cardoso-Will fit that black_holes.py H7-H8 inverts, at chi = 0: M omega_R =
       f1 + f2 = 0.3683 (1.4% below the exact 0.37367) and Q = q1 + q2 = 2.119
       against the exact 2.100 (+0.9%). So the fit's error at the non-spinning end is about
-      1%; the GW250114 inversion uses it at chi ~ 0.7, which this check does not cover
-      (that needs the Teukolsky equation). (CHECK at chi = 0; the rest FOLLOWS)
+      1%; the GW250114 inversion uses it at chi ~ 0.7, which L20 covers with Kerr's
+      Teukolsky equation. (CHECK at chi = 0)
 L17 The ABJ anomaly coefficient, derived: rung 1's anomalies -> L2's pi0 width.
   L17a Fujikawa's Jacobian with explicit Euclidean gamma matrices. D-slash^2 = D^2 - (e/2)
       sigma_{mu nu} F_{mu nu}; the regulated trace Tr gamma5 exp(-D-slash^2/M^2) keeps, as
@@ -337,6 +337,21 @@ L19 Hawking radiation as radiation, derived: rung 6 -> its own temperature (H1, 
       1), is the Stefan-Boltzmann law in one dimension. For Schwarzschild it uses the T_H of
       H1. What this does not do: the 3+1 grey-body factors (greybody transmission) that turn
       this into L7's mass-loss rate are quoted there (LIT: Carr et al.). (CHECK, symbolic)
+L20 The ringdown fit at the spin GW250114 uses: Leaver's method for Kerr, rung 6 -> H7, H8.
+  L20a Teukolsky's radial equation for s = -2 with Leaver's three-term recurrence (units 2M = 1,
+      a = chi/2) coupled to the spin-weighted spheroidal equation's recurrence through the
+      separation constant A: two complex continued-fraction conditions for (omega, A), solved by
+      Newton's method and continued in chi from L16's Schwarzschild mode. Compared with the 11
+      tabulated values of Berti, Cardoso and Will (PRD 73, 064030, Table II, l = m = 2, n = 0,
+      chi = 0 to 0.98; LIT, 4 digits): every real and imaginary part agrees to 6e-5. (CHECK; LIT)
+  L20b The fit F = f1 + f2 (1 - chi)^f3, Q = q1 + q2 (1 - chi)^q3 against the exact modes over
+      chi = 0 to 0.99: largest errors 1.85% (frequency) and 0.88% (Q), the 1.85% and 0.88% that
+      Berti, Cardoso and Will state. (CHECK)
+  L20c GW250114's ringdown-only 220 mode (247 Hz, damping 221 Hz, z = 0.09) inverted with the
+      exact modes: M_f = 66.48 Msun, chi_f = 0.744 (the fit gave 66.73 and 0.746), final area
+      4.04e5 km^2 (fit: 4.07e5). At the least favourable corner of the published ranges the final
+      area is 3.36e5 km^2 (fit: 3.41e5) against the initial 2.52e5: the area law's check does
+      not rest on the fit's error. (CHECK; LIT data)
 L14 Bekenstein bound: rung 6 -> rung 4. S <= 2 pi k R E / (hbar c). A Schwarzschild black hole
   (R = 2GM/c^2, E = M c^2) saturates it exactly, = A / 4 l_P^2 (CHECK, symbolic). Design A's
   diamond (radius 1.0 um, 7.4e11 atoms): Bekenstein bound 2.6e23 k_B, holographic bound
@@ -1061,6 +1076,131 @@ def bogoliubov_symbolic():
     return unit, n, flux
 
 
+# ---------------------------------------------------------------------------------- L20
+KERR_BCW_TABLE = {0.0: (.3737, .0890), 0.1: (.3870, .0887), 0.2: (.4021, .0883), 0.3: (.4195, .0877),
+                  0.4: (.4398, .0869), 0.5: (.4641, .0856), 0.6: (.4940, .0838), 0.7: (.5326, .0808),
+                  0.8: (.5860, .0756), 0.9: (.6716, .0649), 0.98: (.8254, .0386)}   # BCW 2006, Table II, l = m = 2, n = 0
+
+
+def kerr_conditions(w, A, chi, m=2, s=-2, N=300):
+    """Leaver's two continued-fraction conditions (radial, angular) for the n = 0 mode (2M = 1)."""
+    a = chi / 2
+    b = math.sqrt(1 - 4 * a * a)
+    k1, k2 = abs(m - s) / 2, abs(m + s) / 2
+    q = w / 2 - m * a
+    c0 = 1 - s - 1j * w - 2j * q / b
+    c1 = -4 + 2j * w * (2 + b) + 4j * q / b
+    c2 = s + 3 - 3j * w - 2j * q / b
+    c3 = w * w * (4 + 2 * b - a * a) - 2 * a * m * w - s - 1 + (2 + b) * 1j * w - A + (4 * w + 2j) * q / b
+    c4 = s + 1 - 2 * w * w - (2 * s + 3) * 1j * w - (4 * w + 2j) * q / b
+    al = lambda k: k * k + (c0 + 1) * k + c0
+    be = lambda k: -2 * k * k + (c1 + 2) * k + c3
+    ga = lambda k: k * k + (c2 - 3) * k + c4 - c2 + 2
+    R = 0
+    for k in range(N - 1, -1, -1):
+        R = al(k) * ga(k + 1) / (be(k + 1) - R)
+    rad = be(0) - R
+    aw = a * w
+    alt = lambda k: -2 * (k + 1) * (k + 2 * k1 + 1)
+    bet = lambda k: (k * (k - 1) + 2 * k * (k1 + k2 + 1 - 2 * aw)
+                     - (2 * aw * (2 * k1 + s + 1) - (k1 + k2) * (k1 + k2 + 1)) - (aw * aw + s * (s + 1) + A))
+    gat = lambda k: 2 * aw * (k + k1 + k2 + s)
+    Rt = 0
+    for k in range(N - 1, 0, -1):
+        Rt = alt(k - 1) * gat(k) / (bet(k) - Rt)
+    return rad, bet(0) - Rt
+
+
+def kerr_solve(chi, guess):
+    """Newton's method in (omega, A) with a finite-difference Jacobian."""
+    x = list(guess)
+    for _ in range(60):
+        f = lambda v: kerr_conditions(v[0], v[1], chi)
+        F0 = f(x)
+        J = []
+        for j in range(2):
+            xp = list(x)
+            xp[j] += 1e-7
+            Fp = f(xp)
+            J.append([(Fp[i] - F0[i]) / 1e-7 for i in range(2)])
+        det = J[0][0] * J[1][1] - J[1][0] * J[0][1]
+        d0 = (F0[0] * J[1][1] - F0[1] * J[1][0]) / det
+        d1 = (F0[1] * J[0][0] - F0[0] * J[0][1]) / det
+        x[0] -= d0
+        x[1] -= d1
+        if abs(d0) + abs(d1) < 1e-13:
+            break
+    return x
+
+
+@functools.lru_cache(maxsize=None)
+def kerr_grid():
+    """Solutions on chi = 0, 0.025, ..., 0.975 by continuation from Schwarzschild (A = 4)."""
+    x = kerr_solve(0.0, [2 * leaver_qnm(0), 4 + 0j])
+    out = {0.0: tuple(x)}
+    for i in range(1, 40):
+        x = kerr_solve(i * 0.025, x)
+        out[round(i * 0.025, 4)] = tuple(x)
+    return out
+
+
+def kerr_qnm(chi):
+    """M omega (magnitude convention: real part > 0, imaginary part < 0) of the l = m = 2, n = 0 mode."""
+    g = kerr_grid()
+    k = min(g, key=lambda c: abs(c - chi))
+    return kerr_solve(chi, list(g[k]))[0] / 2
+
+
+def kerr_FQ(chi):
+    w = kerr_qnm(chi)
+    return w.real, w.real / (-2 * w.imag)
+
+
+def kerr_table_check():
+    """L20a: largest difference from BCW's Table II over its 11 tabulated spins."""
+    worst = 0.0
+    for chi, (re, im) in KERR_BCW_TABLE.items():
+        w = kerr_qnm(chi)
+        worst = max(worst, abs(w.real - re), abs(-w.imag - im))
+    return worst
+
+
+def kerr_fit_errors(n=100):
+    """L20b: largest relative errors of BCW's F and Q fits against the exact modes, chi = 0 to 0.99."""
+    import black_holes as BH
+    f1, f2, f3, q1, q2, q3 = BH.BCW_220
+    ef = eq = 0.0
+    for i in range(n):
+        c = i * 0.01
+        F, Q = kerr_FQ(c)
+        ef = max(ef, abs((f1 + f2 * (1 - c) ** f3) / F - 1))
+        eq = max(eq, abs((q1 + q2 * (1 - c) ** q3) / Q - 1))
+    return ef, eq
+
+
+def invert_220_exact(freq, damp, z):
+    """L20c: remnant mass and spin from the 220 frequency and damping rate with the exact Kerr modes."""
+    import black_holes as BH
+    Q = math.pi * freq / damp
+    lo, hi = 0.0, 0.95
+    for _ in range(50):
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if kerr_FQ(mid)[1] < Q else (lo, mid)
+    chi = (lo + hi) / 2
+    m_det = kerr_FQ(chi)[0] / (2 * math.pi * freq * BH.GM_SUN / BH.C**3)
+    return m_det / (1 + z), chi
+
+
+def area_law_exact():
+    """L20c: GW250114's final area with the exact modes, at the median and the least favourable corner."""
+    import black_holes as BH
+    mf, chif = invert_220_exact(BH.F220, BH.G220, BH.GW_Z)
+    a_f = BH.kerr_area_km2(mf, chif)
+    a_f_min = min(BH.kerr_area_km2(*invert_220_exact(f, g, z)) for f in (BH.F220 - BH.F220_ERR, BH.F220 + BH.F220_ERR)
+                  for g in (BH.G220 - BH.G220_LO, BH.G220 + BH.G220_HI) for z in (BH.GW_Z - BH.GW_Z_ERR, BH.GW_Z + BH.GW_Z_ERR))
+    return mf, chif, a_f, a_f_min
+
+
 # ---------------------------------------------------------------------------------- L6
 def carbon12_binding():
     """L6a: B = 6 m_p + 6 m_n + 6 m_e - 12 u, in MeV, and per nucleon."""
@@ -1456,6 +1596,19 @@ def main():
     unit, nplanck, flux = bogoliubov_symbolic()
     print(f"   |alpha|^2 - |beta|^2 - 1/(2 pi kappa Omega) = {unit};  |beta|^2/(|alpha|^2 - |beta|^2) - 1/(e^(2 pi w/kappa) - 1) = {nplanck}")
     print(f"   (1/2 pi) int w n dw - pi T^2/12 = {flux}  (one massless 1+1 field)")
+
+    banner("L20  Kerr quasinormal modes: the ringdown fit at the spin GW250114 uses (CHECK; LIT)")
+    print(f"   Leaver's coupled continued fractions against BCW Table II (11 spins, l = m = 2, n = 0): largest difference {kerr_table_check():.1e}")
+    ef, eq = kerr_fit_errors()
+    print(f"   the fit against the exact modes, chi = 0 to 0.99: largest errors {100 * ef:.2f}% (F), {100 * eq:.2f}% (Q);"
+          " BCW state 1.85% and 0.88%")
+    import black_holes as BH
+    mf, chif, a_f, a_min = area_law_exact()
+    fit_mf, fit_chi = BH.invert_220(BH.F220, BH.G220, BH.GW_Z)
+    a_i, a_fit, a_i_max, a_fit_min, _ = BH.area_law()
+    print(f"   GW250114 ringdown alone: exact M_f = {mf:.2f} Msun, chi_f = {chif:.3f} (fit {fit_mf:.2f}, {fit_chi:.3f});"
+          f" final area {a_f:.4g} km^2 (fit {a_fit:.4g})")
+    print(f"   least favourable corner: final {a_min:.4g} km^2 (fit {a_fit_min:.4g}) against initial {a_i_max:.4g}")
 
     banner("L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)")
     d_rc, d_k, d_A, d_S, d_S2, fac = de_sitter_entropy_symbolic()

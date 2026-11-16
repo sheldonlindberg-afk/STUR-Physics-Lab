@@ -216,6 +216,17 @@ def test_hawking_spectrum_from_bogoliubov_coefficients():
     assert abs(rat2 / ex2 - 1) < 1e-12
 
 
+def test_kerr_modes_and_the_fit_at_the_spin_gw250114_uses():
+    assert LL.kerr_table_check() < 6e-5
+    ef, eq = LL.kerr_fit_errors()
+    assert abs(ef - 0.0185) < 5e-4 and abs(eq - 0.0088) < 5e-4           # BCW's stated maxima, 1.85% and 0.88%
+    mf, chif, a_f, a_min = LL.area_law_exact()
+    assert abs(mf - 66.48) < 0.02 and abs(chif - 0.7444) < 5e-4 and abs(a_f / 4.039e5 - 1) < 1e-3
+    import black_holes as BH
+    a_i, a_fit, a_i_max, a_fit_min, _ = BH.area_law()
+    assert a_min > a_i_max and abs(a_min / 3.360e5 - 1) < 2e-3 and abs(a_f / a_fit - 1) < 0.01
+
+
 def test_reference_output_matches():
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):

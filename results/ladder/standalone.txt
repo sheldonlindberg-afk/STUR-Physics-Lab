@@ -209,7 +209,7 @@ LINKS  Where one rung's output is another rung's input
    [PASS] [math]          a black hole of one Planck mass has k_B T_H = M_Pl c^2/(8 pi) = 4.86e17 GeV, 1/(8 pi) of the 3-3-1 cutoff, and a radius of 2 Planck lengths
 
 ==============================================================================
-MORE LINKS  Rung 5 -> 6, rung 1 -> data, rung 4 -> 5 and 6 (src/ladder_links.py L10e, L11-L19)
+MORE LINKS  Rung 5 -> 6, rung 1 -> data, rung 4 -> 5 and 6 (src/ladder_links.py L10e, L11-L20)
 ==============================================================================
    In plain words: further places where one rung feeds another: the de Sitter horizon's
    entropy, the neutrino-mass scale, the first relativistic correction to the experiment's
@@ -243,8 +243,16 @@ MORE LINKS  Rung 5 -> 6, rung 1 -> data, rung 4 -> 5 and 6 (src/ladder_links.py 
           ratios 6.05e+42, 4.65e+54, 8.89e+62, 8.70e+122
    [PASS] [pinned]        L16a Leaver's continued fraction for Schwarzschild: M omega = 0.373672 - 0.088962 i (l = 2, n = 0) and 0.346711 - 0.273915 i (n = 1)
           got 0.373672-0.088962j and 0.346711-0.273915j
-   [PASS] [pinned]        L16b the Berti-Cardoso-Will fit at chi = 0 is 1.4% low in frequency and 0.9% high in Q (the spin dependence at chi ~ 0.7, which GW250114 uses, needs the Teukolsky equation and is not checked)
+   [PASS] [pinned]        L16b the Berti-Cardoso-Will fit at chi = 0 is 1.4% low in frequency and 0.9% high in Q (L20 covers the spin dependence at chi ~ 0.7, which GW250114 uses)
           got -1.44% and +0.88%
+   [PASS] [data]          L20a Teukolsky's radial equation (s = -2) with Leaver's recurrence, coupled through the separation constant to the spheroidal equation's, reproduces Berti-Cardoso-Will's Table II (l = m = 2, n = 0, chi = 0 to 0.98) to 6e-5
+          largest difference 4.5e-05; the table is quoted to 4 digits, so half a unit in
+          the last place is 5e-5
+   [PASS] [data]          L20b the fit against the exact modes over chi = 0 to 0.99: largest errors 1.85% (F) and 0.88% (Q), the maxima BCW state
+          got 1.85% and 0.88%
+   [PASS] [pinned]        L20c GW250114's ringdown inverted with the exact Kerr modes: M_f = 66.48 Msun, chi_f = 0.744, final area 4.04e5 km^2; at the least favourable corner 3.36e5 km^2 against the initial 2.52e5: the area law does not rest on the fit's error
+          got M_f = 66.48, chi_f = 0.7444, area 4.039e+05 km^2, worst corner 3.36e+05,
+          initial 2.521e+05
    [PASS] [math]          L17a Fujikawa's Jacobian with explicit gamma matrices: tr[gamma5 sigma_mn sigma_rs] = -4 eps_mnrs for all 256 index sets (the sign is gamma5's orientation), so the divergence is e^2 eps F F/(16 pi^2) in magnitude
    [PASS] [math]          L17b a second route: each chirality's lowest Landau level is a 1+1 Weyl fermion, d n5/dt = 2 (eB/2 pi)(eE/2 pi); with eps F F = 8 F12 F34 it is the same number as the Jacobian's (e^2/32 pi^2) x 2 eps F F
    [PASS] [math]          L17c matching to PCAC: the anomaly's amplitude is alpha N_c (Q_u^2 - Q_d^2)/(pi f_pi), the coefficient the pi0 width (links above) took as given; the PCAC step and Adler-Bardeen stay quoted
@@ -283,8 +291,8 @@ VERDICT
    first post-Newtonian correction to the experiment's phase is 1e-23 rad; the cosmological constant is
    the Planck vacuum energy divided by 8 S_dS/3 and is not explained; and the ringdown fit, the ABJ
    anomaly coefficient, the rho parameter's top loop and Hawking's Planck spectrum, quoted until now,
-   are derived (the M_Z correction in the MS-bar scheme, the fit's spin dependence and the microstates
+   are derived (the M_Z correction in the MS-bar scheme and the microstates
    of S_dS are not).
 
-   Checks passed: 83/83   (54 math, 10 data, 19 pinned; 0.32 s)
+   Checks passed: 86/86   (54 math, 12 data, 20 pinned; 2.63 s)
    ALL CHECKS PASS

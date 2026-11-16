@@ -219,7 +219,7 @@ counts is not derived here (see [TEGR.md](TEGR.md) for the corner-charge attempt
 
 ## Links between the rungs (`src/ladder_links.py`)
 
-The rungs above are separate derivations. In nineteen places one rung's output is another
+The rungs above are separate derivations. In twenty places one rung's output is another
 rung's input, and the link can be checked against a measurement or against the other rung's
 code.
 
@@ -389,7 +389,7 @@ splitting use α(0). This link shows they are one coupling at two scales.
 | | Result | Status |
 |---|---|---|
 | L16a | Leaver's continued fraction for gravitational perturbations of rung 6's Schwarzschild metric gives Mω = **0.373672 − 0.088962i** (l = 2, n = 0) and 0.346711 − 0.273915i (n = 1), the known values | CHECK |
-| L16b | The Berti–Cardoso–Will fit that H7–H8 invert, at χ = 0: Mω_R = 0.3683 against 0.3737 (−1.4%), Q = 2.119 against 2.100 (+0.9%). The fit is good to about 1% at the non-spinning end. GW250114 uses it at χ ≈ 0.7, which needs the Teukolsky equation and is not checked here | CHECK at χ = 0 |
+| L16b | The Berti–Cardoso–Will fit that H7–H8 invert, at χ = 0: Mω_R = 0.3683 against 0.3737 (−1.4%), Q = 2.119 against 2.100 (+0.9%). The fit is good to about 1% at the non-spinning end. GW250114 uses it at χ ≈ 0.7: Link 20 | CHECK at χ = 0 |
 
 ### Link 17: the ABJ anomaly coefficient, derived, from rung 1's anomalies to link 2's π⁰ width (`src/ladder_links.py` L17)
 
@@ -418,6 +418,14 @@ H1 and H2 fix the temperature geometrically; the step that was quoted was that t
 | L19a | A massless field's outgoing modes e^(−iωu) against the vacuum of the regular coordinate U across the horizon, with u = −(1/κ)ln(−κU) and κ from H1. The Klein–Gordon overlaps reduce (one integration by parts) to Γ(1 + iω/κ)(±iΩ)^(−1−iω/κ). With \|Γ(1+iy)\|² = πy/sinh πy: **\|β/α\|² = e^(−2πω/κ)** and \|α\|² − \|β\|² = 1/(2πκΩ), the unitarity normalization. The integral and \|Γ\|² are checked numerically | CHECK |
 | L19b | The mean number of quanta n = \|β\|²/(\|α\|² − \|β\|²) = **1/(e^(2πω/κ) − 1)**, for every Ω: Planck's law at k_BT = ħκ/2π, as an emission spectrum | CHECK, symbolic |
 | L19c | The energy flux of one massless 1+1 field is πT²/12, the one-dimensional Stefan–Boltzmann law. The 3+1 grey-body factors that give L7's mass-loss rate stay quoted (Carr et al.) | CHECK; LIT |
+
+### Link 20: the ringdown fit at the spin GW250114 uses, within rung 6 (`src/ladder_links.py` L20)
+
+| | Result | Status |
+|---|---|---|
+| L20a | Teukolsky's radial equation for s = −2 with Leaver's recurrence, coupled through the separation constant to the spin-weighted spheroidal equation's recurrence: two complex continued-fraction conditions for (ω, A), solved by Newton's method and continued in χ from L16. Against the 11 tabulated values of Berti–Cardoso–Will (Table II, l = m = 2, n = 0, χ = 0 to 0.98), every real and imaginary part agrees to 6×10⁻⁵ | CHECK; LIT |
+| L20b | The fit against the exact modes over χ = 0 to 0.99: largest errors **1.85%** (frequency) and **0.88%** (Q), exactly the maxima Berti–Cardoso–Will state | CHECK |
+| L20c | GW250114's ringdown-only 220 mode inverted with the exact modes: **M_f = 66.48 M☉, χ_f = 0.744** (the fit gave 66.73 and 0.746), final area **4.04×10⁵ km²** (fit 4.07×10⁵). At the least favourable corner of the published ranges the final area is 3.36×10⁵ km² (fit 3.41×10⁵) against the initial 2.52×10⁵: the area law's check does not rest on the fit's error | CHECK; LIT data |
 
 ### Link 12: neutrino mass from rung 1's breaking scale, to oscillation data (`src/ladder_links.py` L12)
 
@@ -483,10 +491,10 @@ build order, the postulates, each derivation step and the check that proves it, 
 which results are still quoted rather than derived.
 
 **In one paste:** [`src/ladder_standalone.py`](src/ladder_standalone.py) reproduces all six
-rungs and the links (the five original and L10e, L11–L19) with only the Python standard library (83 PASS/FAIL checks; expected output
+rungs and the links (the five original and L10e, L11–L20) with only the Python standard library (86 PASS/FAIL checks; expected output
 [results/ladder/standalone.txt](results/ladder/standalone.txt)). Each check is tagged math
-(54: identities verified by computation), data (10: against measurements, each printing its
-tolerance and why) or pinned (19: this repository's own derived numbers); checks inside the
+(54: identities verified by computation), data (12: against measurements, each printing its
+tolerance and why) or pinned (20: this repository's own derived numbers); checks inside the
 linear sigma model are also tagged model. It exits with status 1 if any check fails. The website has a
 **Copy Python script** button for it.
 

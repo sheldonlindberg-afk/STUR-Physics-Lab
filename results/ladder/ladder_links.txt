@@ -208,6 +208,14 @@ L19  Hawking radiation as radiation: the Bogoliubov coefficients (CHECK)
    (1/2 pi) int w n dw - pi T^2/12 = 0  (one massless 1+1 field)
 
 ==============================================================================
+L20  Kerr quasinormal modes: the ringdown fit at the spin GW250114 uses (CHECK; LIT)
+==============================================================================
+   Leaver's coupled continued fractions against BCW Table II (11 spins, l = m = 2, n = 0): largest difference 4.5e-05
+   the fit against the exact modes, chi = 0 to 0.99: largest errors 1.85% (F), 0.88% (Q); BCW state 1.85% and 0.88%
+   GW250114 ringdown alone: exact M_f = 66.48 Msun, chi_f = 0.744 (fit 66.73, 0.746); final area 4.039e+05 km^2 (fit 4.065e+05)
+   least favourable corner: final 3.36e+05 km^2 (fit 3.411e+05) against initial 2.521e+05
+
+==============================================================================
 L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)
 ==============================================================================
    r_c - l = 0;  kappa - 1/l = 0;  A - 12 pi/Lambda = 0  (A = 4 pi l^2; not 4 pi/Lambda)

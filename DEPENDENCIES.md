@@ -357,7 +357,7 @@ Values computed in one script and retyped in others instead of imported. Each co
 | M_Z′/M_V = √(4/3 (1 + β² t_X²)) at 4 TeV | src/m331_breaking.py B4, evaluated at sin²θ_W(4 TeV) | 1.22495 | `m331_heavy_lepton:274` 1.225 (rounded); `m331_margin:54` 1.225 (rounded); `m331_standalone:629` 1.225 (rounded); `m331_standalone:645` 1.225 (rounded); `m331_threshold:195` 1.225 (rounded); `m331_threshold:199` 1.225 (rounded); `m331_threshold:202` 1.225 (rounded) |
 | SU(2) coupling g at M_Z, √(4πα)/sinθ_W | from 1/α(M_Z) and sin²θ_W(M_Z) (this tool) | 0.651689 | `ladder_standalone:303` 0.652 (rounded); `m331_breaking:237` 0.652 (rounded); `m331_breaking:245` 0.652 (rounded) |
 | area-law coefficient S/(R/a)² per scalar | src/stur_unification.py U3 (results/unification/output.txt) | 0.3046 | `stur_emergent:35` 0.3046 (exact); `stur_oppenheim:47` 0.3046 (exact); `stur_thermo_gravity:54` 0.3046 (exact) |
-| design A: entangling phase Δφ (rad) | src/graviton_exchange.py N4 | 2.18681 | `ladder_standalone:625` 2.1868 (rounded); `ladder_standalone:1395` 2.1868 (rounded) |
+| design A: entangling phase Δφ (rad) | src/graviton_exchange.py N4 | 2.18681 | `ladder_standalone:625` 2.1868 (rounded); `ladder_standalone:1484` 2.1868 (rounded) |
 
 ## Values with one source
 
@@ -464,7 +464,17 @@ Literals with at least three significant digits that appear in two or more scrip
 | 0.0176 | `chain_first_principles`, `first_principles_standalone`, `ladder_links` |
 | 0.02783 | `ladder_links`, `ladder_standalone` |
 | 0.0314977 | `ladder_links`, `ladder_standalone` |
+| 0.0386 | `ladder_links`, `ladder_standalone` |
+| 0.0649 | `ladder_links`, `ladder_standalone` |
+| 0.0756 | `ladder_links`, `ladder_standalone` |
+| 0.0808 | `ladder_links`, `ladder_standalone` |
 | 0.0823774 | `chain_first_principles`, `first_principles_standalone` |
+| 0.0838 | `ladder_links`, `ladder_standalone` |
+| 0.0856 | `ladder_links`, `ladder_standalone` |
+| 0.0869 | `ladder_links`, `ladder_standalone` |
+| 0.0877 | `ladder_links`, `ladder_standalone` |
+| 0.0883 | `ladder_links`, `ladder_standalone` |
+| 0.0887 | `ladder_links`, `ladder_standalone` |
 | 0.0935 | `chain_first_principles`, `first_principles_standalone` |
 | 0.105658 | `chain_first_principles`, `first_principles_standalone`, `ladder_links` |
 | 0.1176 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
@@ -473,14 +483,25 @@ Literals with at least three significant digits that appear in two or more scrip
 | 0.1292 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
 | 0.22501 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
 | 0.3583 | `chain_first_principles`, `first_principles_standalone`, `m331_scalar`, `why_parameters` |
+| 0.3737 | `ladder_links`, `ladder_standalone` |
 | 0.3825 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
+| 0.387 | `ladder_links`, `ladder_standalone` |
+| 0.4021 | `ladder_links`, `ladder_standalone` |
+| 0.4195 | `ladder_links`, `ladder_standalone` |
+| 0.4398 | `ladder_links`, `ladder_standalone` |
+| 0.4641 | `ladder_links`, `ladder_standalone` |
 | 0.4873 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
+| 0.494 | `ladder_links`, `ladder_standalone` |
 | 0.499 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
 | -0.499 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
 | 0.5055 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
 | 0.510999 | `ladder_links`, `stur_measurement` |
+| 0.5326 | `ladder_links`, `ladder_standalone` |
+| 0.586 | `ladder_links`, `ladder_standalone` |
 | 0.6154 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
 | 0.64779 | `chain_first_principles`, `first_principles_standalone`, `m331_scalar`, `why_parameters` |
+| 0.6716 | `ladder_links`, `ladder_standalone` |
+| 0.8254 | `ladder_links`, `ladder_standalone` |
 | 0.9369 | `chain_first_principles`, `first_principles_standalone`, `m331_scalar`, `why_parameters` |
 | 0.967 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
 | 0.97367 | `chain_first_principles`, `first_principles_standalone`, `ladder_links` |

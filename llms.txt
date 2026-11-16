@@ -60,7 +60,7 @@
   first law, the Nariai limit with the measured Lambda, photon sphere/shadow/ISCO, EHT
   shadows of M87* and Sgr A*, GW250114's area increase; Hawking radiation unmeasured.
 - /src/ladder_standalone.py — the whole ladder in one file, standard library only: paste
-  into any Python runner or AI code tool; 83 PASS/FAIL checks, tagged math / data / pinned
+  into any Python runner or AI code tool; 86 PASS/FAIL checks, tagged math / data / pinned
   (expected output: /results/ladder/standalone.txt)
 - /src/chain_first_principles.py — the force chain on the blind first-principles rebuild, in one
   file, standard library only; derived values replace outside numbers and each result is compared
