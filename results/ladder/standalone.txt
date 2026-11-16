@@ -209,6 +209,43 @@ LINKS  Where one rung's output is another rung's input
    [PASS] [math]          a black hole of one Planck mass has k_B T_H = M_Pl c^2/(8 pi) = 4.86e17 GeV, 1/(8 pi) of the 3-3-1 cutoff, and a radius of 2 Planck lengths
 
 ==============================================================================
+OLDER LINKS  Rung 2 -> 4, rung 6 -> 3, 2, 1, rung 1 -> 2 and 3, rung 5 -> 4 (src/ladder_links.py L6-L10)
+==============================================================================
+   In plain words: the diamond's mass is almost all QCD field energy; an evaporating black
+   hole passes every scale at which the forces separate; the pion's decay constant follows
+   from the weak force; one electromagnetic coupling runs from the Z mass to zero
+   momentum; and rung 5's Lambda cannot entangle the diamonds.
+
+   [PASS] [pinned]        L6a carbon-12 from its constituents: 6 m_p + 6 m_n + 6 m_e - 12 u = 92.16 MeV, 7.68 MeV per nucleon (the nuclear binding)
+          got 92.162 MeV
+   [PASS] [pinned]        L6b-c the diamond's mass by Feynman-Hellmann with FLAG 2024 sigma terms: 91.45% QCD field energy, 4.53% u, d masses, 4.82% s mass, 0.03% electrons, -0.82% binding (N_f = 2+1); the parts sum to the whole
+          got QCD 91.45% and 89.86% (N_f = 2+1+1)
+   [PASS] [pinned]        L6d the phase goes as m^2: with massless u, d quarks design A's 2.19 rad would be 1.99 rad, with every quark and the electron massless 1.80 rad (first order in the sigma terms)
+          got 1.993 and 1.796 rad from 2.1868
+   [PASS] [pinned]        L7a-b the emission counts rung 1's particles: T_H(1e10 g) = 1057 GeV; f = 1.016 below every mass; every Standard Model species 15.33 (W, Z longitudinal modes as scalars) and the unbroken count the same; the unbroken 3-3-1 content 25.66 (beta = -1/sqrt3) or 26.49 (+1/sqrt3), against Carr et al.'s 1.00 and 15.35
+          got T = 1057.3 GeV, f = 1.016, 15.332, 15.332, 3-3-1 25.66, 26.49
+   [PASS] [pinned]        L7d against Carr et al.: 1e10 g at f = 15.35 lives 406.7 s (theirs 407); the hole whose lifetime is the age of the universe is M* = 5.11e14 g at T_H = 20.7 MeV (theirs 5.1e14 g, 21 MeV), with f(T) integrated
+          got 406.7 s, M* = 5.111e+14 g, T_H = 20.7 MeV
+   [PASS] [pinned]        L7c the thresholds a shrinking hole crosses, in reverse order of the forces separating: the QCD crossover at 6.76e10 kg (2.3e14 s left), the electroweak crossover at 6.63e7 kg, the 3-3-1 content at 939 GeV (1.13e7 kg, 337 s), the Planck mass at 2.2e-8 kg (T_H = M_Pl/8 pi)
+          got QCD: 6.756e+10 kg, 2.287e+14 s, EW: 6.629e+07 kg, 1.183e+05 s, 331:
+          1.126e+07 kg, 3.367e+02 s, Planck: 2.176e-08 kg, 2.430e-42 s
+   [PASS] [data]          L8a f_pi from G_F and the measured pi -> mu nu rate: f_pi |V_ud| = 127.13 MeV (PDG 127.13), f_pi = 130.57 MeV against rung 2's lattice 130.2(1.2) MeV; L8b with it, Gamma(pi0 -> gamma gamma) = 7.742 eV (PrimEx 7.802 +- 0.117) and the O(p^4) m_pi = 132.3 MeV
+          got f_pi|V_ud| = 127.13 MeV, f_pi = 130.57 MeV, Gamma = 7.742 eV, m_pi = 132.3
+          MeV
+   [PASS] [pinned]        L8c the photon splits the pions: with Weinberg's two sum rules and rho + a1 saturation, DGMLY gives m_pi+^2 - m_pi0^2 = (3 alpha/4 pi) m_rho^2 m_a1^2/(m_a1^2 - m_rho^2) ln(m_a1^2/m_rho^2), independent of f_pi (the integral is done numerically at two f_pi): 1604 MeV^2, 5.84 MeV, against the measured 1261 MeV^2, 4.59 MeV; saturation by the lowest resonances is +27%
+          numerical 1603.65 and 1603.65 MeV^2, closed form 1603.67
+   [PASS] [data]          L9a the leptons' vacuum polarization at one loop, from the Feynman-parameter integral and in closed form: 314.191e-4 for e, mu, tau against Steinhauser's 314.190e-4
+          got 314.19112e-4 (integral), 314.19111e-4 (closed form), 314.19007e-4
+          (Steinhauser)
+   [PASS] [data]          L9b the hadrons' part cannot be computed from the repository's data: the KEDR R-ratio (1.84-3.05 GeV) gives 1.74e-3 of Delta alpha_had, 6.3% of PDG's 0.02783
+          got 1.743e-03, 6.3%
+   [PASS] [data]          L9c rung 1's 1/alpha-hat(M_Z) = 127.930 run to q^2 = 0 with the leptons through three loops, PDG's hadronic part and the MS-bar conversion gives 1/alpha(0) = 137.035999, CODATA's 137.035999084: one coupling at two scales
+          got 137.035999 against 137.035999084
+   [PASS] [pinned]        L10 rung 5's Schwarzschild-de Sitter in the lab: Phi = -(c^2/2)(1 - f) = -GM/r - Lambda c^2 r^2/6 solves nabla^2 Phi = -Lambda c^2 away from the mass; the Lambda term is a sum of one-body energies, so it cancels in the entangling combination; what could entangle is of order (r/l)^2 = 2.0e-59 at design A's farthest branch distance (l = 1.65e26 m)
+          laplacian + Lambda c^2 = -8.2e-06; entangling Lambda term 2.2e-16; (r/l)^2 =
+          2.04e-59
+
+==============================================================================
 MORE LINKS  Rung 5 -> 6, rung 1 -> data, rung 4 -> 5 and 6 (src/ladder_links.py L10e, L11-L22)
 ==============================================================================
    In plain words: further places where one rung feeds another: the de Sitter horizon's
@@ -300,5 +337,5 @@ VERDICT
    are derived (the M_Z correction beyond the top loop and the microstates
    of S_dS are not).
 
-   Checks passed: 89/89   (56 math, 13 data, 20 pinned; 3.05 s)
+   Checks passed: 101/101   (56 math, 17 data, 28 pinned; 3.83 s)
    ALL CHECKS PASS

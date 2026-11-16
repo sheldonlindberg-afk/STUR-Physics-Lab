@@ -103,12 +103,36 @@ def test_added_links_agree_with_ladder_links():
     assert abs(s_mine / LL.de_sitter_numbers()[2] - 1) < 1e-12
 
 
+def test_older_links_agree_with_ladder_links():
+    import ladder_links as LL
+    assert (S.M_P_MEV, S.M_N0_MEV, S.M_E_MEV, S.U_MEV) == (LL.M_P_MEV, LL.M_N0_MEV, LL.M_E_MEV, LL.U_MEV)
+    assert S.SIGMA_PIN == {k: v[0] for k, v in LL.SIGMA_PIN.items()} and S.SIGMA_S == {k: v[0] for k, v in LL.SIGMA_S.items()}
+    assert (S.W_S0, S.W_HALF_N, S.W_HALF_C, S.W_S1, S.W_S2, S.ALPHA_EVAP) == (LL.W_S0, LL.W_HALF_N, LL.W_HALF_C, LL.W_S1, LL.W_S2, LL.ALPHA_EVAP)
+    assert (S.T_QCD, S.T_EW, S.MV_FLOOR, S.AGE_S) == (LL.T_QCD, LL.T_EW, LL.MV_FLOOR, LL.AGE_S)
+    for v in ("+1/sqrt3", "-1/sqrt3"):
+        mine, theirs = S.f_331_count(v), LL.f_331(v)
+        assert abs(mine[0] - theirs[0]) < 1e-12 and mine[1:] == theirs[1:]
+    for T in (1e-3, 0.02, 0.1, 1.0, 30.0, 100.0, 300.0, 5000.0):
+        assert abs(S.f_of_T(T) - LL.f_of_T(T)) < 1e-12
+    for M in (1e8, 1e11, 5e13):
+        assert abs(S.lifetime_s(M) / LL.lifetime_s(M) - 1) < 1e-9
+    fV, f, _ = LL.fpi_from_weak()
+    G, pull, m4 = LL.rung2_with_weak_fpi()
+    assert abs(fV * 1e3 - 127.13) < 0.01 and abs(f * 1e3 - 130.57) < 0.01 and abs(G - 7.742) < 2e-3 and abs(m4 * 1e3 - 132.3) < 0.1
+    num, clo = LL.dalpha_lep_one_loop()
+    assert abs(clo - 314.19111e-4) < 2e-9 and abs(num - 314.19112e-4) < 3e-9
+    assert (S.DR_W_HAT, S.RHO_HAT) == (LL.DR_W_HAT, LL.RHO_HAT)
+    assert (S.AINV_MZ_MSBAR, S.DALPHA_HAD, S.DALPHA_CONV, S.R_KEDR) == (LL.AINV_MZ_MSBAR, LL.DALPHA_HAD[0], LL.DALPHA_CONV, LL.R_KEDR)
+    assert (S.GAMMA_PI_MUNU, S.DELTA_PI, S.V_UD) == (LL.GAMMA_PI_MUNU, LL.DELTA_PI[0], LL.V_UD[0])
+    assert (S.M_RHO, S.M_A1) == (LL.M_RHO[0], LL.M_A1[0])
+
+
 def test_runs_isolated_and_every_check_passes():
     out = subprocess.run([sys.executable, "-I", "-S", PATH], capture_output=True, text=True, timeout=300).stdout
     assert "ALL CHECKS PASS" in out and "FAIL" not in out
     ref = open(os.path.join(os.path.dirname(__file__), "..", "results", "ladder", "standalone.txt")).read()
-    assert "Checks passed: 89/89" in ref and "ALL CHECKS PASS" in ref
-    assert "Checks passed: 89/89" in out
+    assert "Checks passed: 101/101" in ref and "ALL CHECKS PASS" in ref
+    assert "Checks passed: 101/101" in out
 
 
 def test_exit_status_is_nonzero_when_a_check_fails():
