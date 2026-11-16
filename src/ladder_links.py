@@ -185,6 +185,16 @@ L10 The broken de Sitter gauge theory back to the lab: rung 5 -> rung 4.
       magnitude)
   L10d The same G and Lambda: rung 5's coupling 3/(G Lambda) is formed from rung 4's G and
       the measured Lambda, and its l = sqrt(3/Lambda) = 1.65e26 m. (CHECK)
+  L10e The coefficient of L10c, derived (linear in the source mass). A test mass m in rung 5's
+      Schwarzschild-de Sitter field at areal distance r from M has static energy
+      m c^2 sqrt(1 - 2GM/(c^2 r) - r^2/l^2); its part linear in M is
+          U = -G M m / (r sqrt(1 - r^2/l^2)) = -(G M m / r)(1 + r^2/(2 l^2) + ...),
+      so the relative correction is (r/l)^2 / 2 = Lambda r^2 / 6, depending only on r and so
+      symmetric in the two masses. Integrated along design A's branches it shifts the
+      entangling phase by -1.9e-60 of itself (-4.2e-60 rad; the sign is because the farther cross
+      branches matter more). The frame is the static patch
+      centred on one mass, and only terms linear in each mass are kept. (CHECK, symbolic and
+      numeric; FOLLOWS for the frame)
 L11 The cosmological horizon's entropy: rung 5 -> rung 6.
   L11a Rung 5's vacuum, f = 1 - r^2/l^2 with Lambda = 3/l^2, has a horizon at r_c = l. Rung 6's
       surface gravity kappa = |f'(r_h)|/2 gives kappa = 1/l, T_dS = hbar c / (2 pi k_B l) (the
@@ -242,6 +252,18 @@ L13 First post-Newtonian correction to the entangling phase: rung 4 -> rungs 5 a
       dx/ramp = 0.46 mm/s); the G^2 term is another -1.8e-37 rad. No 1PN effect is near
       measurable. (CHECK; FOLLOWS
       for the reading: a coordinate-time phase in the lab frame)
+L15 The cosmological constant against every rung's vacuum energy: rung 5 -> rungs 1, 2, 4.
+  L15a An exact identity: with rho_L = Lambda c^4 / (8 pi G) and the Planck energy density
+      rho_Pl = c^7 / (hbar G^2), S_dS = (3/8) rho_Pl / rho_L. The horizon's entropy is the ratio
+      of the Planck vacuum energy density to the observed one. (CHECK, symbolic)
+  L15b The measured rho_L^(1/4) = 2.25 meV, against: the chiral vacuum energy of rung 2,
+      -f_pi^2 m_pi^2 (leading order of the chiral Lagrangian at U = 1), (111 MeV)^4; the Higgs
+      potential's minimum of rung 1, -m_h^2 v^2 / 8, (104 GeV)^4; the 3-3-1 scale w^4 (an order
+      of magnitude, coefficient unknown) with w from L12; and M_Pl^4 (link 3). Each is
+      6e42, 5e54, 9e62 and 9e122 times rho_L (L15a gives the last as 8 S_dS / 3). Each
+      phase transition changes the vacuum energy by about that much, and nothing in
+      this repository cancels it: this quantifies the cosmological-constant problem, it
+      does not solve it. (CHECK for the arithmetic; LIT for m_h; MODEL for the 3-3-1 w^4)
 L14 Bekenstein bound: rung 6 -> rung 4. S <= 2 pi k R E / (hbar c). A Schwarzschild black hole
   (R = 2GM/c^2, E = M c^2) saturates it exactly, = A / 4 l_P^2 (CHECK, symbolic). Design A's
   diamond (radius 1.0 um, 7.4e11 atoms): Bekenstein bound 2.6e23 k_B, holographic bound
@@ -728,6 +750,61 @@ def diamond_bounds():
     return R, bek, holo, atoms
 
 
+# ---------------------------------------------------------------------------------- L10e, L15
+M_H_GEV = 125.20                                   # PDG 2024
+
+
+def de_sitter_pair_correction(n=4001):
+    """L10e: linear-in-M part of the static energy of a test mass in SdS, its relative correction
+    (r/l)^2/2, and the shift of design A's entangling phase."""
+    import sympy as sp
+    import graviton_exchange as GX
+    import stur_gravity_full as GF
+    r, l, Gs, M, m, c = sp.symbols("r l G M m c", positive=True)
+    E = m * c**2 * sp.sqrt(1 - 2 * Gs * M / (c**2 * r) - r**2 / l**2)
+    lin = sp.simplify(sp.diff(E, M).subs(M, 0))                       # coefficient of M
+    newton = -Gs * m / r
+    ratio = sp.simplify(lin / newton)
+    resid = sp.simplify(sp.series(ratio, r, 0, 4).removeO() - 1 - r**2 / (2 * l**2))
+    _, _, _, (mm, dx, gap, hold, ramp) = GX.branch_phases()
+    t = np.linspace(0, hold + 2 * ramp, n)
+    y = 0.5 * dx * GF.ramp_profile(t, hold, ramp)
+    lval = math.sqrt(3 / LAMBDA_SI)
+    base = lambda rr: G_NEWTON * mm**2 / HBAR_SI * np.trapezoid(1 / rr, t)
+    corr = lambda rr: G_NEWTON * mm**2 / HBAR_SI * np.trapezoid(rr / (2 * lval**2), t)    # (1/r)(r^2/2l^2)
+    rs, rc = np.full_like(t, gap), np.sqrt(gap**2 + (2 * y) ** 2)
+    dn = 2 * base(rs) - 2 * base(rc)
+    dc = 2 * corr(rs) - 2 * corr(rc)
+    return resid, dn, dc
+
+
+def de_sitter_entropy_identity():
+    """L15a: S_dS - (3/8) rho_Pl / rho_L, symbolic."""
+    import sympy as sp
+    Gs, hb, c, Lam = sp.symbols("G hbar c Lambda", positive=True)
+    rho_L = Lam * c**4 / (8 * sp.pi * Gs)
+    rho_Pl = c**7 / (hb * Gs**2)
+    S = 3 * sp.pi * c**3 / (Gs * hb * Lam)
+    return sp.simplify(S - sp.Rational(3, 8) * rho_Pl / rho_L)
+
+
+def vacuum_energy_scales():
+    """L15b: rho_L^(1/4) and the ratios (E^4 / rho_L) of each rung's vacuum-energy scale, E in eV."""
+    import m331_breaking as B
+    eV = 1.602176634e-19
+    rho = LAMBDA_SI * C_SI**4 / (8 * math.pi * G_NEWTON)             # J/m^3
+    rho_ev4 = rho * (HBAR_SI * C_SI) ** 3 / eV**4                    # eV^4
+    f_pi, m_pi = 92.07e6, 134.9768e6                                 # eV (rung 2's f_pi; PDG pi0)
+    v = (math.sqrt(2) * B.G_F) ** -0.5 * 1e9
+    w = seesaw_numbers()["w"] * 1e9
+    mpl = math.sqrt(HBAR_SI * C_SI / G_NEWTON) * C_SI**2 / eV        # eV
+    scales = {"chiral (rung 2): f_pi^2 m_pi^2": f_pi**2 * m_pi**2,
+              "Higgs (rung 1): m_h^2 v^2 / 8": (M_H_GEV * 1e9) ** 2 * v**2 / 8,
+              "3-3-1 (rung 1): w^4": w**4,
+              "Planck (link 3): M_Pl^4": mpl**4}
+    return rho_ev4 ** 0.25, {k: x / rho_ev4 for k, x in scales.items()}
+
+
 # ---------------------------------------------------------------------------------- L6
 def carbon12_binding():
     """L6a: B = 6 m_p + 6 m_n + 6 m_e - 12 u, in MeV, and per nucleon."""
@@ -1072,6 +1149,19 @@ def main():
     banner("L10c-d  What is left of Lambda at the diamonds (FOLLOWS, order of magnitude)")
     rel, l, rf = lambda_correction_size()
     print(f"   l = sqrt(3/Lambda) = {l:.3e} m; farthest branch distance {rf * 1e6:.0f} um; (r/l)^2 = {rel:.1e}")
+
+    banner("L10e  The de Sitter correction to the pair energy, with its coefficient (CHECK; FOLLOWS for the frame)")
+    resid, dn, dc = de_sitter_pair_correction()
+    print(f"   linear in M: U = -(G M m / r)/sqrt(1 - r^2/l^2); series minus (1 + r^2/(2 l^2)): {resid}")
+    print(f"   design A: Newtonian {dn:.4f} rad, de Sitter shift {dc:+.2e} rad ({dc / dn:+.1e})")
+
+    banner("L15  The cosmological constant against each rung's vacuum energy (CHECK; LIT; MODEL for w^4)")
+    print(f"   S_dS - (3/8) rho_Pl / rho_L = {de_sitter_entropy_identity()}")
+    r4, ratios = vacuum_energy_scales()
+    print(f"   rho_L^(1/4) = {r4 * 1e3:.3f} meV")
+    for k, x in ratios.items():
+        print(f"   {k:34s} / rho_L = {x:.1e}")
+    print("   nothing in the repository cancels these: the problem is quantified, not solved.")
 
     banner("L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)")
     d_rc, d_k, d_A, d_S, d_S2, fac = de_sitter_entropy_symbolic()

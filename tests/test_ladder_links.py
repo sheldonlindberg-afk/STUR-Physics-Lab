@@ -173,6 +173,17 @@ def test_bekenstein_bound():
     assert bek > 1e3 * atoms and holo > 1e30 * bek
 
 
+def test_de_sitter_pair_correction_and_vacuum_energy():
+    resid, dn, dc = LL.de_sitter_pair_correction()
+    assert resid == 0 and abs(dc / dn + 1.92e-60) < 0.05e-60
+    assert LL.de_sitter_entropy_identity() == 0
+    r4, ratios = LL.vacuum_energy_scales()
+    assert abs(r4 / 2.248e-3 - 1) < 2e-3
+    vals = list(ratios.values())
+    assert abs(vals[3] / (8 * LL.de_sitter_numbers()[2] / 3) - 1) < 1e-3
+    assert vals == sorted(vals) and 1e42 < vals[0] < 1e43 and 1e54 < vals[1] < 1e55
+
+
 def test_reference_output_matches():
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):

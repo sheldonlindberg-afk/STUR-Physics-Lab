@@ -218,7 +218,7 @@ counts is not derived here (see [TEGR.md](TEGR.md) for the corner-charge attempt
 
 ## Links between the rungs (`src/ladder_links.py`)
 
-The rungs above are separate derivations. In fourteen places one rung's output is another
+The rungs above are separate derivations. In fifteen places one rung's output is another
 rung's input, and the link can be checked against a measurement or against the other rung's
 code.
 
@@ -365,6 +365,7 @@ splitting use α(0). This link shows they are one coupling at two scales.
 | L10b | **The background can't entangle.** For two masses the Λ term is a sum of one-body energies, so it cancels identically in the entangling combination φ₀₀ + φ₁₁ − φ₀₁ − φ₁₀; the 1/r term, with the same G, is all that is left | CHECK, symbolic |
 | L10c | What can is a mass–mass correction from the de Sitter propagator, of relative order (r/l)² = Λr²/3: **2×10⁻⁵⁹** at design A's farthest branch distance. The coefficient isn't computed; the order is the statement | FOLLOWS |
 | L10d | Rung 5's l = √(3/Λ) = 1.65×10²⁶ m and coupling 3/(GΛ) are built from rung 4's G and the measured Λ | CHECK |
+| L10e | The coefficient of L10c, derived to linear order in each mass: a test mass at distance r from M has U = −GMm/(r√(1 − r²/l²)), a relative correction of **(r/l)²/2 = Λr²/6**, symmetric in the two masses. It shifts design A's entangling phase by **−1.9×10⁻⁶⁰** of itself. The frame is the static patch centred on one mass | CHECK; FOLLOWS (frame) |
 
 ### Link 11: the cosmological horizon's entropy, from rung 5 to rung 6 (`src/ladder_links.py` L11)
 
@@ -374,6 +375,13 @@ splitting use α(0). This link shows they are one coupling at two scales.
 | L11b | At every Schwarzschild–de Sitter horizon, from the same f: dM = (f′(r_h)/4π) dS. It is dM = T dS at the black-hole horizon and dM = −T dS at the cosmological one | CHECK, symbolic |
 | L11c | S_bh + S_c < S_dS for every black hole the universe allows (9M²Λ < 1), approaching it as M → 0, because r_b² + r_c² + (r_b + r_c)² = 2l² exactly | CHECK |
 | L11d | At the measured Λ: l = 1.65×10²⁶ m, **S_dS = 3.3×10¹²² k_B**, T_dS = 2.2×10⁻³⁰ K. That S_dS counts microstates is the holographic reading; only the area law and Λ are used here | CHECK; LIT; FOLLOWS |
+
+### Link 15: the cosmological constant against each rung's vacuum energy, from rung 5 to rungs 1, 2, 4 (`src/ladder_links.py` L15)
+
+| | Result | Status |
+|---|---|---|
+| L15a | Exactly, S_dS = (3/8) ρ_Pl/ρ_Λ, with ρ_Λ = Λc⁴/8πG and ρ_Pl = c⁷/(ħG²): the de Sitter entropy is the ratio of the Planck vacuum energy density to the observed one | CHECK, symbolic |
+| L15b | ρ_Λ^(1/4) = 2.25 meV. Against it: rung 2's chiral vacuum energy f_π²m_π² (**6×10⁴²** ρ_Λ), rung 1's Higgs minimum m_h²v²/8 (**5×10⁵⁴**), the 3-3-1 scale w⁴ (9×10⁶², order of magnitude), and M_Pl⁴ (9×10¹²²). Each transition shifts the vacuum energy by about that much and nothing here cancels it: the problem is quantified, not solved | CHECK; LIT; MODEL |
 
 ### Link 12: neutrino mass from rung 1's breaking scale, to oscillation data (`src/ladder_links.py` L12)
 
@@ -399,16 +407,16 @@ A Schwarzschild black hole saturates S ≤ 2πkRE/ħc exactly (it equals A/4l_P�
 
 | | 1 | 2 | 3 | 4 | 5 | 6 |
 |---|---|---|---|---|---|---|
-| **1** | | L2, L8 | L9 | L1, L3 | | L7, L12 (data) |
-| **2** | | | | L6 | | L7 |
+| **1** | | L2, L8 | L9 | L1, L3 | L15 | L7, L12 (data) |
+| **2** | | | | L6 | L15 | L7 |
 | **3** | | | | (Casimir gap) | | L7 |
 | **4** | | | | | L10 | L4, L13, L14 |
 | **5** | | | | | | L5, L11 |
 
-Empty cells are pairs with no link computed: 1–5 and 2–5 (gauge breaking and the de Sitter
-gauge theory share no input except G and Λ), 2–3 and 3–5. The remaining candidates are
-named in the text above as not computed: the de Sitter propagator's (r/l)² coefficient
-(L10c) and the holographic reading of S_dS (L11d).
+Empty cells are pairs with no link computed: 2–3 and 3–5. L15 fills 1–5 and 2–5 with the
+vacuum-energy comparison, which quantifies the cosmological-constant problem without
+solving it. L10e closes the open coefficient of L10c. Still open: the holographic reading
+of S_dS (L11d), which counts microstates this repository cannot derive.
 
 ## How the rungs fit together
 

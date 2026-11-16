@@ -156,6 +156,23 @@ L10c-d  What is left of Lambda at the diamonds (FOLLOWS, order of magnitude)
    l = sqrt(3/Lambda) = 1.647e+26 m; farthest branch distance 743 um; (r/l)^2 = 2.0e-59
 
 ==============================================================================
+L10e  The de Sitter correction to the pair energy, with its coefficient (CHECK; FOLLOWS for the frame)
+==============================================================================
+   linear in M: U = -(G M m / r)/sqrt(1 - r^2/l^2); series minus (1 + r^2/(2 l^2)): 0
+   design A: Newtonian 2.1868 rad, de Sitter shift -4.20e-60 rad (-1.9e-60)
+
+==============================================================================
+L15  The cosmological constant against each rung's vacuum energy (CHECK; LIT; MODEL for w^4)
+==============================================================================
+   S_dS - (3/8) rho_Pl / rho_L = 0
+   rho_L^(1/4) = 2.248 meV
+   chiral (rung 2): f_pi^2 m_pi^2     / rho_L = 6.0e+42
+   Higgs (rung 1): m_h^2 v^2 / 8      / rho_L = 4.7e+54
+   3-3-1 (rung 1): w^4                / rho_L = 8.9e+62
+   Planck (link 3): M_Pl^4            / rho_L = 8.7e+122
+   nothing in the repository cancels these: the problem is quantified, not solved.
+
+==============================================================================
 L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)
 ==============================================================================
    r_c - l = 0;  kappa - 1/l = 0;  A - 12 pi/Lambda = 0  (A = 4 pi l^2; not 4 pi/Lambda)
