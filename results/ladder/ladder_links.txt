@@ -188,6 +188,18 @@ L17  The ABJ anomaly coefficient, derived (CHECK, symbolic)
    pi0 -> gamma gamma amplitude from the anomaly over alpha N_c (Q_u^2 - Q_d^2)/(pi f_pi): 1
 
 ==============================================================================
+L18  The rho parameter from the top-bottom loop, and M_W (CHECK; LIT for the rest)
+==============================================================================
+   vector-current Ward identity 2 LL + 2 LR at equal masses: 0;  1/eps pole left in Delta rho: False;  s^2 dependence left: False
+   loop result minus N_c G_F/(8 sqrt2 pi^2) [m_t^2 + m_b^2 - 2 m_t^2 m_b^2 ln(m_t^2/m_b^2)/(m_t^2 - m_b^2)]: 0;  m_b -> 0: m_t**2
+   Delta rho = 9.256e-03 (m_t = 172.57, m_b = 4.18 GeV);  Delta alpha = 0.05933
+   tree           M_W = 80.939 GeV  (Delta r = +0.0000)
+   + Delta alpha  M_W = 79.961 GeV  (Delta r = +0.0593)
+   + top loop     M_W = 80.526 GeV  (Delta r = +0.0265)
+   + Higgs log    M_W = 80.495 GeV  (Delta r = +0.0285)
+   measured 80.3692 GeV; the remainder Delta r_rest that closes it: +0.0071 (not computed here)
+
+==============================================================================
 L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)
 ==============================================================================
    r_c - l = 0;  kappa - 1/l = 0;  A - 12 pi/Lambda = 0  (A = 4 pi l^2; not 4 pi/Lambda)

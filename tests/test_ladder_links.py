@@ -198,6 +198,16 @@ def test_abj_anomaly_derived():
     assert LL.abj_pion_amplitude() == 1
 
 
+def test_rho_parameter_and_w_mass():
+    ward, pole, s2dep, diff, lim = LL.rho_parameter_loop()
+    assert ward == 0 and not pole and not s2dep and diff == 0 and lim == sp.Symbol("m_t", positive=True) ** 2
+    drho, dal, steps, rest = LL.w_mass_steps()
+    assert abs(drho / 9.256e-3 - 1) < 2e-3
+    mws = [m for m, _ in steps]
+    assert abs(mws[0] - 80.939) < 2e-3 and mws[1] < mws[0] and mws[2] > mws[1] and abs(mws[3] - 80.495) < 3e-3
+    assert 0.005 < rest < 0.009 and abs(steps[3][1] + rest - 0.0356) < 1e-3     # total Delta r of the SM
+
+
 def test_reference_output_matches():
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):

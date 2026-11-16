@@ -276,7 +276,7 @@ effort:
 |---|---|---|
 | 3-3-1 Landau poles (`POLES_331`) | One-loop running dα_i⁻¹/d ln μ = −b_i/2π. Get b_i from the field content (b = −11/3 C₂(G) + 2/3 Σ T(F) + 1/3 Σ T(S)) and find where α_X⁻¹ → 0. One loop gives the order of magnitude; the pinned values are three loops with thresholds (`src/m331_three_loop.py`) | small for one loop |
 | Casimir–Polder formula | Second-order perturbation theory of two dipoles coupled to the quantized field, or the zero-point energy shift of the field modes; Wick-rotate ω → iξ. Done for instantaneous coupling (`casimir_diamonds.py` P3b: exact normal modes against the ln det integral, 10⁻¹¹); the retarded case remains | medium, half done |
-| Radiative correction to M_Z (+0.35%) | The one-loop oblique corrections Δr; needs m_t, m_H | medium–large |
+| Radiative correction to M_Z (+0.35%) | The one-loop oblique corrections Δr; needs m_t, m_H. The top–bottom loop is derived (`ladder_links.py` L18: Δρ, with M_W from it); the bosonic and light-fermion rest, and the MS-bar bookkeeping of B7's number, remain | medium–large, started |
 | ChPT low-energy constants ℓ̄₃, Σ | Lattice QCD. Not feasible in a standard-library script; it stays an input | — |
 | ABJ anomaly coefficient | The triangle diagram, or Fujikawa's path-integral Jacobian. Done (`ladder_links.py` L17: Fujikawa with explicit gamma matrices, a Landau-level cross-check, and the π⁰ amplitude); PCAC and Adler–Bardeen remain quoted | medium, done |
 | Hawking radiation as radiation | Bogoliubov coefficients of a field on the collapsing geometry, which give a Planckian spectrum at κ/2π | large |

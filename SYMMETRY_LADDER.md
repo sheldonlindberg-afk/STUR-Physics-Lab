@@ -219,7 +219,7 @@ counts is not derived here (see [TEGR.md](TEGR.md) for the corner-charge attempt
 
 ## Links between the rungs (`src/ladder_links.py`)
 
-The rungs above are separate derivations. In seventeen places one rung's output is another
+The rungs above are separate derivations. In eighteen places one rung's output is another
 rung's input, and the link can be checked against a measurement or against the other rung's
 code.
 
@@ -399,6 +399,15 @@ splitting use α(0). This link shows they are one coupling at two scales.
 | L17b | A route sharing nothing with it: the lowest Landau level of each chirality is a 1+1 Weyl fermion, so dn₅/dt = 2(eB/2π)(eE/2π) = e²EB/2π², the same number | CHECK, symbolic |
 | L17c | The weights of j₅³ over N_c colours and the matching to ⟨0\|j₅\|π⁰⟩ = if_πp give **A = αN_c(Q_u² − Q_d²)/(πf_π)**: the coefficient L2 quoted | CHECK, symbolic |
 | L17d | Still quoted: the PCAC step and that the anomaly is not renormalized beyond one loop (Adler–Bardeen) | LIT |
+
+### Link 18: the ρ parameter from the top–bottom loop, and M_W, from rung 1 to data (`src/ladder_links.py` L18)
+
+| | Result | Status |
+|---|---|---|
+| L18a | The W and Z self-energies at q² = 0 from the fermion loop in dimensional regularization, with rung 1's couplings T₃ − Qs². The vector Ward identity holds; Δρ has no 1/ε pole and no s² dependence; it equals N_cG_F/(8√2π²)[m_t² + m_b² − 2m_t²m_b² ln(m_t²/m_b²)/(m_t² − m_b²)], which is 3G_Fm_t²/(8√2π²) for m_b → 0 | CHECK, symbolic |
+| L18b | With m_t = 172.57, m_b = 4.18 GeV (PDG 2024): **Δρ = 9.26×10⁻³** | CHECK; LIT |
+| L18c | M_W from G_F, α(0), M_Z with Δr built up: tree **80.94** GeV; + Δα (L9's leptons, hadrons quoted) 79.96; + top loop 80.53; + Higgs log (quoted) **80.50**, against 80.37 measured. The 0.13 GeV left is Δr_rest = 0.007; the total Δr = 0.0356 | CHECK (top loop); LIT |
+| L18d | B7's +0.35% on M_Z is in the MS-bar scheme, where ŝ²(M_Z) absorbs part of Δρ; that bookkeeping is not done. L18 closes the leading piece of the on-shell correction, not B7's number | FOLLOWS |
 
 ### Link 12: neutrino mass from rung 1's breaking scale, to oscillation data (`src/ladder_links.py` L12)
 

@@ -296,6 +296,28 @@ L17 The ABJ anomaly coefficient, derived: rung 1's anomalies -> L2's pi0 width.
       the coefficient that L2 quoted; the width follows from L2b. (CHECK, symbolic)
   L17d What stays quoted: the PCAC step <0|j5|pi0> = i f_pi p, and that the anomaly is not
       renormalized beyond one loop (Adler-Bardeen). (LIT)
+L18 The rho parameter from the top-bottom loop, and what it does to M_W: rung 1 -> data.
+  L18a The W and Z self-energies at q^2 = 0 from the fermion loop, in dimensional regularization
+      (d = 4 - 2 eps) with the tadpole A0 and the two-point function B0 done in closed form.
+      Left-handed pieces give 2 (2/d - 1)[A0(m2) + m1^2 B0] and the left-right piece 2 m1 m2 B0;
+      the vector current's Ward identity (Pi_VV(0) = 0 for equal masses) is checked first.
+      Then Delta rho = Pi_ZZ(0)/M_Z^2 - Pi_WW(0)/M_W^2 for the (t, b) doublet (couplings
+      T3 - Q s^2 from rung 1) has no 1/eps pole and no dependence on s^2, and equals
+          N_c G_F / (8 sqrt2 pi^2) [m_t^2 + m_b^2 - 2 m_t^2 m_b^2 ln(m_t^2/m_b^2) / (m_t^2 - m_b^2)],
+      which is 3 G_F m_t^2 / (8 sqrt2 pi^2) for m_b -> 0. (CHECK, symbolic)
+  L18b With m_t = 172.57 GeV and m_b = 4.18 GeV (LIT: PDG 2024): Delta rho = 9.26e-3.
+  L18c The radiative correction to M_W, from G_F, alpha(0), M_Z: M_W^2 (1 - M_W^2/M_Z^2) =
+      pi alpha / (sqrt2 G_F) / (1 - Delta r) (Sirlin's definition), Delta r = Delta alpha - (c^2/s^2) Delta rho + Delta r_H
+      + Delta r_rest. Tree level (Delta r = 0): 80.94 GeV.
+      Adding Delta alpha = 0.05933 (the leptons of L9 through three loops plus the hadronic
+      0.02783, LIT) lowers it to 79.96, the top loop (L18a) lifts it to 80.53, the Higgs term
+      (LIT: 3 G_F M_W^2 ln(m_H^2/M_W^2) / (8 sqrt2 pi^2), quoted) takes it to 80.50 GeV, against
+      the measured 80.37 (LIT: PDG 2024). The 0.13 GeV left is Delta r_rest = 0.007, everything
+      beyond these leading terms; it is not computed here. (CHECK for the top loop; LIT for
+      the rest)
+  L18d What this does not do: B7's +0.35% (tree M_Z against the measured one) is in the MS-bar
+      scheme, where s-hat^2(M_Z) absorbs part of Delta rho; that bookkeeping is not done here.
+      This closes the leading piece of the on-shell correction, not B7's number. (FOLLOWS)
 L14 Bekenstein bound: rung 6 -> rung 4. S <= 2 pi k R E / (hbar c). A Schwarzschild black hole
   (R = 2GM/c^2, E = M c^2) saturates it exactly, = A / 4 l_P^2 (CHECK, symbolic). Design A's
   diamond (radius 1.0 um, 7.4e11 atoms): Bekenstein bound 2.6e23 k_B, holographic bound
@@ -927,6 +949,67 @@ def abj_pion_amplitude():
     return sp.simplify((amp / target).subs(e, sp.sqrt(4 * sp.pi * alpha)))
 
 
+# ---------------------------------------------------------------------------------- L18
+M_T_GEV, M_B_GEV = 172.57, 4.18                    # PDG 2024
+MW_MEAS = 80.3692                                  # GeV, PDG 2024 average
+DALPHA_HAD_5 = 0.02783                             # PDG 2024 (L9b)
+
+
+def rho_parameter_loop():
+    """L18a: Ward identity, pole- and s^2-independence, and the closed form of Delta rho."""
+    import sympy as sp
+    eps, s2 = sp.symbols("eps s2", positive=True)
+    mt, mb = sp.symbols("m_t m_b", positive=True)
+    D = 1 / eps
+    A0 = lambda m: m**2 * (D + 1 - sp.log(m**2))
+    B0 = lambda m1, m2: D + 1 - (m1**2 * sp.log(m1**2) - m2**2 * sp.log(m2**2)) / (m1**2 - m2**2)
+    B0e = lambda m: D - sp.log(m**2)
+    fac = -sp.Rational(1, 2) * (1 - eps) / (1 - eps / 2)                  # 2/d - 1
+    LL = lambda m1, m2: 2 * fac * (A0(m2) + m1**2 * B0(m1, m2))
+    LLe = lambda m: 2 * fac * (A0(m) + m**2 * B0e(m))
+    LR = lambda m: 2 * m**2 * B0e(m)
+    m = sp.Symbol("m", positive=True)
+    ward = sp.simplify(sp.series(2 * LLe(m) + 2 * LR(m), eps, 0, 1).removeO())
+    Z = lambda mm, Q, T3: (T3 - Q * s2) ** 2 * LLe(mm) + (Q * s2) ** 2 * LLe(mm) + 2 * (T3 - Q * s2) * (-Q * s2) * LR(mm)
+    tot = 4 * (Z(mt, sp.Rational(2, 3), sp.Rational(1, 2)) + Z(mb, -sp.Rational(1, 3), -sp.Rational(1, 2))) - 2 * LL(mt, mb)
+    ser = sp.simplify(sp.series(tot, eps, 0, 1).removeO())
+    known = mt**2 + mb**2 - 2 * mt**2 * mb**2 / (mt**2 - mb**2) * sp.log(mt**2 / mb**2)
+    return ward, ser.has(eps), ser.has(s2), sp.simplify(sp.expand_log(ser - known, force=True)), sp.limit(ser, mb, 0)
+
+
+def rho_top_bottom(mt=M_T_GEV, mb=M_B_GEV):
+    """L18b: Delta rho = N_c G_F F / (8 sqrt2 pi^2)."""
+    GF = 1.1663788e-5
+    F = mt**2 + mb**2 - 2 * mt**2 * mb**2 / (mt**2 - mb**2) * math.log(mt**2 / mb**2)
+    return 3 * GF * F / (8 * math.sqrt(2) * math.pi**2)
+
+
+def w_mass_steps(mH=125.20, mZ=91.1880):
+    """L18c: M_W with Delta r built up term by term (fixed point in M_W), and the implied remainder."""
+    GF = 1.1663788e-5
+    A = math.pi * ALPHA_0 / (math.sqrt(2) * GF)
+    drho = rho_top_bottom()
+    dal = DALPHA_LEP_3LOOP + DALPHA_HAD_5
+
+    def solve(use_dal, use_top, use_h, rest=0.0):
+        MW = 80.4
+        for _ in range(200):
+            c2s2 = MW**2 / (mZ**2 - MW**2)
+            dH = 3 * GF * MW**2 / (8 * math.sqrt(2) * math.pi**2) * math.log(mH**2 / MW**2) if use_h else 0.0
+            dr = (dal if use_dal else 0.0) - (c2s2 * drho if use_top else 0.0) + dH + rest
+            MW = math.sqrt(mZ**2 / 2 * (1 + math.sqrt(1 - 4 * A / (1 - dr) / mZ**2)))
+        return MW, dr
+    steps = [solve(False, False, False), solve(True, False, False), solve(True, True, False), solve(True, True, True)]
+    lo, hi = -0.05, 0.05
+    for _ in range(100):
+        mid = (lo + hi) / 2
+        if solve(True, True, True, mid)[0] > MW_MEAS:
+            lo = mid
+        else:
+            hi = mid
+    return drho, dal, steps, (lo + hi) / 2
+
+
 # ---------------------------------------------------------------------------------- L6
 def carbon12_binding():
     """L6a: B = 6 m_p + 6 m_n + 6 m_e - 12 u, in MeV, and per nucleon."""
@@ -1301,6 +1384,18 @@ def main():
     d1, d2 = abj_landau()
     print(f"   eps F F - 8 F12 F34 = {d1};  Fujikawa divergence minus the Landau-level count 2(eB/2pi)(eE/2pi) = {d2}")
     print(f"   pi0 -> gamma gamma amplitude from the anomaly over alpha N_c (Q_u^2 - Q_d^2)/(pi f_pi): {abj_pion_amplitude()}")
+
+    banner("L18  The rho parameter from the top-bottom loop, and M_W (CHECK; LIT for the rest)")
+    ward, pole, s2dep, diff, lim = rho_parameter_loop()
+    print(f"   vector-current Ward identity 2 LL + 2 LR at equal masses: {ward};  1/eps pole left in Delta rho: {pole};"
+          f"  s^2 dependence left: {s2dep}")
+    print(f"   loop result minus N_c G_F/(8 sqrt2 pi^2) [m_t^2 + m_b^2 - 2 m_t^2 m_b^2 ln(m_t^2/m_b^2)/(m_t^2 - m_b^2)]: {diff};"
+          f"  m_b -> 0: {lim}")
+    drho, dal, steps, rest = w_mass_steps()
+    print(f"   Delta rho = {drho:.3e} (m_t = {M_T_GEV}, m_b = {M_B_GEV} GeV);  Delta alpha = {dal:.5f}")
+    for lab, (mw, dr) in zip(("tree", "+ Delta alpha", "+ top loop", "+ Higgs log"), steps):
+        print(f"   {lab:14s} M_W = {mw:.3f} GeV  (Delta r = {dr:+.4f})")
+    print(f"   measured {MW_MEAS} GeV; the remainder Delta r_rest that closes it: {rest:+.4f} (not computed here)")
 
     banner("L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)")
     d_rc, d_k, d_A, d_S, d_S2, fac = de_sitter_entropy_symbolic()
