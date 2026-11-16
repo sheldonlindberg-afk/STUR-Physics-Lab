@@ -280,7 +280,7 @@ effort:
 | ChPT low-energy constants ℓ̄₃, Σ | Lattice QCD. Not feasible in a standard-library script; it stays an input | — |
 | ABJ anomaly coefficient | The triangle diagram, or Fujikawa's path-integral Jacobian | medium |
 | Hawking radiation as radiation | Bogoliubov coefficients of a field on the collapsing geometry, which give a Planckian spectrum at κ/2π | large |
-| Berti–Cardoso–Will QNM fit | Leaver's continued fraction for the Teukolsky equation, solved for ω(χ) | medium |
+| Berti–Cardoso–Will QNM fit | Leaver's continued fraction for the Teukolsky equation, solved for ω(χ). Done at χ = 0 (`ladder_links.py` L16: the fit is 1.4% and 0.9% off there); the spin dependence remains | medium, started |
 | Design A's parameters | Re-run the design scan (`src/stur_gravity_entanglement.py`) | small |
 
 ---

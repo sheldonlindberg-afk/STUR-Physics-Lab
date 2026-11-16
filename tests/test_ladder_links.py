@@ -184,6 +184,13 @@ def test_de_sitter_pair_correction_and_vacuum_energy():
     assert vals == sorted(vals) and 1e42 < vals[0] < 1e43 and 1e54 < vals[1] < 1e55
 
 
+def test_quasinormal_modes_and_the_fit_at_zero_spin():
+    w0, w1 = LL.leaver_qnm(0), LL.leaver_qnm(1)
+    assert abs(w0 - (0.373672 - 0.088962j)) < 2e-6 and abs(w1 - (0.346711 - 0.273915j)) < 2e-6
+    fr, er, fq, eq = LL.bcw_at_zero_spin()
+    assert abs(fr / er - 1) < 0.02 and abs(fq / eq - 1) < 0.015 and fr / er < 1 < fq / eq
+
+
 def test_reference_output_matches():
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):

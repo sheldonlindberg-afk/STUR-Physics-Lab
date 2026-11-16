@@ -173,6 +173,13 @@ L15  The cosmological constant against each rung's vacuum energy (CHECK; LIT; MO
    nothing in the repository cancels these: the problem is quantified, not solved.
 
 ==============================================================================
+L16  Quasinormal modes from Leaver's continued fraction, and the fit at zero spin (CHECK)
+==============================================================================
+   l = 2, n = 0: M omega = 0.373672 -0.088962 i
+   l = 2, n = 1: M omega = 0.346711 -0.273915 i
+   Berti-Cardoso-Will at chi = 0: M omega_R 0.3683 vs exact 0.3737 (-1.4%);  Q 2.119 vs 2.100 (+0.9%)
+
+==============================================================================
 L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)
 ==============================================================================
    r_c - l = 0;  kappa - 1/l = 0;  A - 12 pi/Lambda = 0  (A = 4 pi l^2; not 4 pi/Lambda)

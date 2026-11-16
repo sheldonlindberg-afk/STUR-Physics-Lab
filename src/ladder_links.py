@@ -264,6 +264,16 @@ L15 The cosmological constant against every rung's vacuum energy: rung 5 -> rung
       phase transition changes the vacuum energy by about that much, and nothing in
       this repository cancels it: this quantifies the cosmological-constant problem, it
       does not solve it. (CHECK for the arithmetic; LIT for m_h; MODEL for the 3-3-1 w^4)
+L16 The ringdown fit checked at zero spin: rung 6 -> its own data (H7, H8).
+  L16a Leaver's continued fraction (Leaver 1985; gravitational perturbations of rung 6's
+      Schwarzschild metric, 2M = 1) solved for the l = 2 quasinormal modes: M omega =
+      0.373672 - 0.088962 i (n = 0) and 0.346711 - 0.273915 i (n = 1), the known values.
+      (CHECK)
+  L16b The Berti-Cardoso-Will fit that black_holes.py H7-H8 inverts, at chi = 0: M omega_R =
+      f1 + f2 = 0.3683 (1.4% below the exact 0.37367) and Q = q1 + q2 = 2.119
+      against the exact 2.100 (+0.9%). So the fit's error at the non-spinning end is about
+      1%; the GW250114 inversion uses it at chi ~ 0.7, which this check does not cover
+      (that needs the Teukolsky equation). (CHECK at chi = 0; the rest FOLLOWS)
 L14 Bekenstein bound: rung 6 -> rung 4. S <= 2 pi k R E / (hbar c). A Schwarzschild black hole
   (R = 2GM/c^2, E = M c^2) saturates it exactly, = A / 4 l_P^2 (CHECK, symbolic). Design A's
   diamond (radius 1.0 um, 7.4e11 atoms): Bekenstein bound 2.6e23 k_B, holographic bound
@@ -805,6 +815,39 @@ def vacuum_energy_scales():
     return rho_ev4 ** 0.25, {k: x / rho_ev4 for k, x in scales.items()}
 
 
+# ---------------------------------------------------------------------------------- L16
+def leaver_qnm(n=0, l=2, start=None):
+    """L16a: M*omega of the gravitational l-mode, n-th overtone, from Leaver's continued fraction
+    (2M = 1, s = 2); the n-th inversion for n > 0."""
+    import mpmath as mp
+    mp.mp.dps = 25
+    eps = 3                                                          # s^2 - 1
+
+    def cond(w, N=600):
+        rho = -1j * w
+        al = lambda k: k * k + (2 * rho + 2) * k + 2 * rho + 1
+        be = lambda k: -(2 * k * k + (8 * rho + 2) * k + 8 * rho**2 + 4 * rho + l * (l + 1) - eps)
+        ga = lambda k: k * k + 4 * rho * k + 4 * rho**2 - eps - 1
+        R = 0
+        for k in range(N - 1, n - 1, -1):
+            R = al(k) * ga(k + 1) / (be(k + 1) - R)
+        fwd = 0
+        for k in range(1, n + 1):
+            fwd = al(k - 1) * ga(k) / (be(k - 1) - fwd)
+        return be(n) - fwd - R
+    g = start or {0: 0.74 - 0.18j, 1: 0.69 - 0.55j}[n]
+    w = mp.findroot(cond, g) / 2
+    return complex(w)
+
+
+def bcw_at_zero_spin():
+    """L16b: the fit's M*omega_R and Q at chi = 0 against the exact n = 0 mode."""
+    import black_holes as BH
+    f1, f2, f3, q1, q2, q3 = BH.BCW_220
+    w = leaver_qnm(0)
+    return f1 + f2, w.real, q1 + q2, w.real / (-2 * w.imag)
+
+
 # ---------------------------------------------------------------------------------- L6
 def carbon12_binding():
     """L6a: B = 6 m_p + 6 m_n + 6 m_e - 12 u, in MeV, and per nucleon."""
@@ -1162,6 +1205,14 @@ def main():
     for k, x in ratios.items():
         print(f"   {k:34s} / rho_L = {x:.1e}")
     print("   nothing in the repository cancels these: the problem is quantified, not solved.")
+
+    banner("L16  Quasinormal modes from Leaver's continued fraction, and the fit at zero spin (CHECK)")
+    for n in (0, 1):
+        w = leaver_qnm(n)
+        print(f"   l = 2, n = {n}: M omega = {w.real:.6f} {w.imag:+.6f} i")
+    fr, er, fq, eq = bcw_at_zero_spin()
+    print(f"   Berti-Cardoso-Will at chi = 0: M omega_R {fr:.4f} vs exact {er:.4f} ({100 * (fr / er - 1):+.1f}%);"
+          f"  Q {fq:.3f} vs {eq:.3f} ({100 * (fq / eq - 1):+.1f}%)")
 
     banner("L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)")
     d_rc, d_k, d_A, d_S, d_S2, fac = de_sitter_entropy_symbolic()

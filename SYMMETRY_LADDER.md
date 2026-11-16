@@ -219,7 +219,7 @@ counts is not derived here (see [TEGR.md](TEGR.md) for the corner-charge attempt
 
 ## Links between the rungs (`src/ladder_links.py`)
 
-The rungs above are separate derivations. In fifteen places one rung's output is another
+The rungs above are separate derivations. In sixteen places one rung's output is another
 rung's input, and the link can be checked against a measurement or against the other rung's
 code.
 
@@ -383,6 +383,13 @@ splitting use α(0). This link shows they are one coupling at two scales.
 |---|---|---|
 | L15a | Exactly, S_dS = (3/8) ρ_Pl/ρ_Λ, with ρ_Λ = Λc⁴/8πG and ρ_Pl = c⁷/(ħG²): the de Sitter entropy is the ratio of the Planck vacuum energy density to the observed one | CHECK, symbolic |
 | L15b | ρ_Λ^(1/4) = 2.25 meV. Against it: rung 2's chiral vacuum energy f_π²m_π² (**6×10⁴²** ρ_Λ), rung 1's Higgs minimum m_h²v²/8 (**5×10⁵⁴**), the 3-3-1 scale w⁴ (9×10⁶², order of magnitude), and M_Pl⁴ (9×10¹²²). Each transition shifts the vacuum energy by about that much and nothing here cancels it: the problem is quantified, not solved | CHECK; LIT; MODEL |
+
+### Link 16: the ringdown fit at zero spin, within rung 6 (`src/ladder_links.py` L16)
+
+| | Result | Status |
+|---|---|---|
+| L16a | Leaver's continued fraction for gravitational perturbations of rung 6's Schwarzschild metric gives Mω = **0.373672 − 0.088962i** (l = 2, n = 0) and 0.346711 − 0.273915i (n = 1), the known values | CHECK |
+| L16b | The Berti–Cardoso–Will fit that H7–H8 invert, at χ = 0: Mω_R = 0.3683 against 0.3737 (−1.4%), Q = 2.119 against 2.100 (+0.9%). The fit is good to about 1% at the non-spinning end. GW250114 uses it at χ ≈ 0.7, which needs the Teukolsky equation and is not checked here | CHECK at χ = 0 |
 
 ### Link 12: neutrino mass from rung 1's breaking scale, to oscillation data (`src/ladder_links.py` L12)
 
