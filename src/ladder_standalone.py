@@ -61,7 +61,7 @@ WHAT IT COMPUTES
               threshold scan (Landau poles from src/m331_three_loop.py, carried as numbers).
               Black holes (rung 6 -> 4 and link 3): the diamond's Schwarzschild radius is a
               millionth of the Planck length; a Planck-mass black hole has k_B T = M_Pl/8 pi.
-      More    Links added later, derived here without sympy (src/ladder_links.py L10e, L11-L21): the
+      More    Links added later, derived here without sympy (src/ladder_links.py L10e, L11-L22): the
               de Sitter horizon's entropy 3 pi/Lambda and its first law; the seesaw neutrino scale and
               its 1/w scaling (the Yukawas stay free); the first post-Newtonian correction to the
               entangling phase (-1.4e-23 rad); the cosmological constant against each rung's vacuum
@@ -1212,10 +1212,11 @@ def links():
 
 
 # ----------------------------------------------------------------------------------------
-# MORE LINKS (src/ladder_links.py L10e, L11-L21), standard library only
+# MORE LINKS (src/ladder_links.py L10e, L11-L22), standard library only
 # ----------------------------------------------------------------------------------------
 M_H_GEV, M_T_GEV, M_B_GEV = 125.20, 172.57, 4.18      # PDG 2024
 MW_MEAS = 80.3692                                     # GeV, PDG 2024 average
+DR_W_HAT, RHO_HAT = 0.06937, 1.01016                  # PDG 2024: MS-bar Delta r_W and rho-hat (bosonic loops included)
 DALPHA_LEP_3LOOP, DALPHA_HAD_5 = 0.031497686, 0.02783       # Steinhauser 1998 (three loops); PDG 2024
 NUFIT_DM21, NUFIT_DM31 = 7.49e-5, 2.513e-3            # eV^2, NuFIT 6.0, normal ordering
 SUM_NU_PLANCK = 0.12                                  # eV, Planck 2018
@@ -1396,7 +1397,7 @@ def invert_220_exact(freq, damp, z):
 
 
 def links_more():
-    banner("MORE LINKS  Rung 5 -> 6, rung 1 -> data, rung 4 -> 5 and 6 (src/ladder_links.py L10e, L11-L21)")
+    banner("MORE LINKS  Rung 5 -> 6, rung 1 -> data, rung 4 -> 5 and 6 (src/ladder_links.py L10e, L11-L22)")
     plain("further places where one rung feeds another: the de Sitter horizon's entropy, the neutrino-mass scale, the first relativistic correction to the experiment's phase (far too small to see), the cosmological constant against each rung's vacuum energy, and three results the earlier rungs had quoted: the ringdown fit, the anomaly coefficient and Hawking's Planck spectrum.")
     l = 1.0
     # L11: the de Sitter horizon
@@ -1657,6 +1658,18 @@ def links_more():
           abs(drho / 9.256e-3 - 1) < 2e-3 and abs(steps[0] - 80.939) < 2e-3 and abs(steps[1] - 79.961) < 2e-3
           and abs(steps[2] - 80.526) < 2e-3 and abs(steps[3] - 80.495) < 3e-3 and abs((lo + hi) / 2 - 0.0071) < 3e-4,
           "pinned", "steps " + ", ".join(f"{x:.3f}" for x in steps) + f", remainder {(lo + hi) / 2:+.4f}")
+    # L22: B7's +0.35% on M_Z through the MS-bar relations
+    alh = 1 / ALPHA_MZ_INV
+    A0 = sqrt(pi * ALPHA_0 / (sqrt(2) * G_F))
+    dr0 = 1 - ALPHA_0 / alh
+    tree_ = sqrt(pi * alh / (sqrt(2) * G_F) / (S2_MZ * (1 - S2_MZ)))
+    pred_ = A0 / (sqrt(S2_MZ * (1 - S2_MZ)) * sqrt((1 - DR_W_HAT) * RHO_HAT))
+    pred1 = A0 / (sqrt(S2_MZ * (1 - S2_MZ)) * sqrt((1 - DR_W_HAT) * (1 + drho)))
+    check("L22 B7's tree M_Z = A0/[s c (1 - Dr0)^(1/2)] against M_Z = A0/[s c ((1 - Dr_W) rho-hat)^(1/2)] (PDG's MS-bar relations):"
+          " M_Z^2/tree^2 = (1 - Dr0)/[(1 - Dr_W) rho-hat] gives 91.1879 GeV and the -0.348% gap; L18's one-loop rho is 91% of"
+          " rho-hat - 1 and gives 91.229 GeV; Dr_W - Dr0 = 0.0029 and the bosonic 9% are not derived",
+          abs(pred_ - MZ_MEAS) < 2e-3 and abs(pred_ / tree_ - MZ_MEAS / tree_) < 5e-5 and abs(drho / (RHO_HAT - 1) - 0.912) < 2e-3
+          and abs(pred1 - 91.229) < 2e-3, "data", f"got {pred_:.4f} GeV (measured {MZ_MEAS}), tree {tree_:.3f}, one-loop rho gives {pred1:.3f}")
     # L19: Hawking radiation as radiation
     import cmath
     y, Om = 0.7, 1.3
@@ -1724,7 +1737,7 @@ def main():
     print("   first post-Newtonian correction to the experiment's phase is 1e-23 rad; the cosmological constant is")
     print("   the Planck vacuum energy divided by 8 S_dS/3 and is not explained; and the ringdown fit, the ABJ")
     print("   anomaly coefficient, the rho parameter's top loop and Hawking's Planck spectrum, quoted until now,")
-    print("   are derived (the M_Z correction in the MS-bar scheme and the microstates")
+    print("   are derived (the M_Z correction beyond the top loop and the microstates")
     print("   of S_dS are not).")
     by_kind = ", ".join(f"{sum(k == kind for _, _, k in CHECKS)} {kind}" for kind in KINDS)
     print(f"\n   Checks passed: {n_ok}/{len(CHECKS)}   ({by_kind}; {time.time() - t0:.2f} s)")

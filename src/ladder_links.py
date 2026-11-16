@@ -373,6 +373,23 @@ L21 The retarded Casimir-Polder step, checked: rung 3's quoted ln det with propa
   L21c The order. At design A's gap, alpha G ~ K R^3 / r^3 = 1e-7, so the second-order term
       that P3 keeps is exact to 1e-14 (the next term of the logarithm is relatively (alpha G)^2).
       (CHECK)
+L22 B7's +0.35% on M_Z, decomposed: rung 1's tree M_Z against the measurement, in the MS-bar scheme.
+  L22a The MS-bar relations (LIT: PDG 2024 electroweak review, eq. 10.26): M_Z = A0 /
+      [s-hat c-hat ((1 - Dr_W) rho-hat)^(1/2)], A0 = (pi alpha / sqrt2 G_F)^(1/2), with the
+      published Dr_W = 0.06937 and rho-hat = 1.01016 (bosonic loops included). B7's tree
+      formula M_Z = (pi alpha-hat / sqrt2 G_F)^(1/2) / (s-hat c-hat) is A0 / [s-hat c-hat (1 - Dr0)^(1/2)] with
+      alpha-hat = alpha/(1 - Dr0), Dr0 = 1 - alpha/alpha-hat = 0.06645. So, exactly,
+          M_Z^2 / M_Z(tree)^2 = (1 - Dr0) / [(1 - Dr_W) rho-hat],
+      which gives 91.1879 GeV against the measured 91.1880, and a gap of -0.348% against B7's -0.348%.
+      (CHECK for the algebra; LIT for the three published numbers)
+  L22b The pieces, in M_Z^2: rho-hat contributes -1.006%, (1 - Dr0)/(1 - Dr_W) contributes +0.314%;
+      together -0.695%, half of it the -0.348% in M_Z. The quadratic top-mass dependence sits in rho-hat
+      alone (Dr_W has none, PDG). (CHECK)
+  L22c What L18 derives of it: the one-loop top-bottom loop gives rho - 1 = 9.26e-3, 91% of rho-hat - 1 =
+      1.016e-2. With it in place of rho-hat, M_Z = 91.229 GeV, 0.045% (0.04 GeV) above the measurement.
+      Not derived here: the other 9% of rho-hat - 1 (bosonic loops, two-loop terms) and Dr_W - Dr0 =
+      0.0029 (vertex and box corrections to muon decay and the rest of the MS-bar Dr_W). So B7's
+      number is decomposed and its dominant part derived, not closed. (CHECK; LIT; FOLLOWS)
 L14 Bekenstein bound: rung 6 -> rung 4. S <= 2 pi k R E / (hbar c). A Schwarzschild black hole
   (R = 2GM/c^2, E = M c^2) saturates it exactly, = A / 4 l_P^2 (CHECK, symbolic). Design A's
   diamond (radius 1.0 um, 7.4e11 atoms): Bekenstein bound 2.6e23 k_B, holographic bound
@@ -1270,6 +1287,29 @@ def casimir_polder_order():
     return x, x**2
 
 
+# ---------------------------------------------------------------------------------- L22
+DR_W_HAT, RHO_HAT = 0.06937, 1.01016              # PDG 2024 EW review: MS-bar Delta r_W and rho-hat (bosonic loops included)
+
+
+def mz_bookkeeping():
+    """L22: B7's tree M_Z against the measured one through the PDG MS-bar relations."""
+    import m331_breaking as B
+    GF = B.G_F
+    al, alh = ALPHA_0, 1 / B.ALPHA_MZ_INV
+    s2 = B.S2_MZ
+    A0 = math.sqrt(math.pi * al / (math.sqrt(2) * GF))
+    dr0 = 1 - al / alh
+    tree = math.sqrt(math.pi * alh / (math.sqrt(2) * GF) / (s2 * (1 - s2)))
+    pred = A0 / (math.sqrt(s2 * (1 - s2)) * math.sqrt((1 - DR_W_HAT) * RHO_HAT))
+    ratio2 = (1 - dr0) / ((1 - DR_W_HAT) * RHO_HAT)
+    parts = (1 / RHO_HAT - 1, (1 - dr0) / (1 - DR_W_HAT) - 1)
+    drho = rho_top_bottom()
+    pred_one_loop = A0 / (math.sqrt(s2 * (1 - s2)) * math.sqrt((1 - DR_W_HAT) * (1 + drho)))
+    return dict(dr0=dr0, tree=tree, pred=pred, gap=pred / tree - 1, measured_gap=B.MZ_MEAS / tree - 1,
+                ratio2=ratio2, parts=parts, drho=drho, frac=drho / (RHO_HAT - 1), pred_one_loop=pred_one_loop,
+                mz=B.MZ_MEAS, dr_diff=DR_W_HAT - dr0)
+
+
 # ---------------------------------------------------------------------------------- L6
 def carbon12_binding():
     """L6a: B = 6 m_p + 6 m_n + 6 m_e - 12 u, in MeV, and per nucleon."""
@@ -1684,6 +1724,17 @@ def main():
         print(f"   r = {r:2d}: U from the normal modes {ex:.12e};  ln det, retarded G(xi) {fo:.12e};  static G(0) {st:.6e}")
     x, x2 = casimir_polder_order()
     print(f"   design A's gap: alpha G ~ K R^3/r^3 = {x:.1e}; the term beyond P3's is relatively {x2:.0e}")
+
+    banner("L22  B7's +0.35% on M_Z decomposed through the MS-bar relations (CHECK; LIT: PDG 2024)")
+    mb_ = mz_bookkeeping()
+    print(f"   Dr0 = 1 - alpha/alpha-hat = {mb_['dr0']:.5f};  B7's tree M_Z = {mb_['tree']:.3f} GeV;"
+          f"  (1 - Dr0)/[(1 - Dr_W) rho-hat] -> M_Z = {mb_['pred']:.4f} GeV (measured {mb_['mz']})")
+    print(f"   gap of the prediction from the tree {100 * mb_['gap']:+.3f}%, measured gap {100 * mb_['measured_gap']:+.3f}%")
+    print(f"   in M_Z^2: rho-hat {100 * mb_['parts'][0]:+.3f}%, (1 - Dr0)/(1 - Dr_W) {100 * mb_['parts'][1]:+.3f}%,"
+          f" together {100 * (mb_['ratio2'] - 1):+.3f}%")
+    print(f"   L18's one-loop top-bottom rho - 1 = {mb_['drho']:.3e}, {100 * mb_['frac']:.0f}% of rho-hat - 1;"
+          f" with it, M_Z = {mb_['pred_one_loop']:.3f} GeV ({100 * (mb_['pred_one_loop'] / mb_['mz'] - 1):+.3f}% from measured);"
+          f" Dr_W - Dr0 = {mb_['dr_diff']:.4f} is not derived")
 
     banner("L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)")
     d_rc, d_k, d_A, d_S, d_S2, fac = de_sitter_entropy_symbolic()

@@ -237,6 +237,15 @@ def test_retarded_casimir_polder_step():
     assert 5e-8 < x < 2e-7 and x2 < 1e-13
 
 
+def test_mz_bookkeeping():
+    b = LL.mz_bookkeeping()
+    assert abs(b["tree"] - 91.5065) < 1e-3 and abs(b["dr0"] - 0.066450) < 1e-5
+    assert abs(b["pred"] - 91.1880) < 2e-3 and abs(b["gap"] - b["measured_gap"]) < 5e-5
+    assert abs(b["parts"][0] + 0.010058) < 1e-5 and abs(b["parts"][1] - 0.003138) < 1e-5
+    assert abs(b["ratio2"] ** 0.5 - 1 + 0.0035) < 1e-4
+    assert abs(b["frac"] - 0.912) < 2e-3 and abs(b["pred_one_loop"] - 91.229) < 2e-3
+
+
 def test_reference_output_matches():
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):

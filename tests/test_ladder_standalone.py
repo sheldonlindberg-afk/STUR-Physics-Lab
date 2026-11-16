@@ -81,6 +81,7 @@ def test_planck_window_scan_poles_agree_with_the_threshold_scan():
 def test_added_links_agree_with_ladder_links():
     import ladder_links as LL
     assert abs(S.leaver(0) - LL.leaver_qnm(0)) < 1e-9 and abs(S.leaver(1) - LL.leaver_qnm(1)) < 1e-9
+    assert (S.DR_W_HAT, S.RHO_HAT) == (LL.DR_W_HAT, LL.RHO_HAT)
     assert abs(S.kerr_FQ(0.7)[0] - LL.kerr_FQ(0.7)[0]) < 1e-9 and abs(S.kerr_FQ(0.7)[1] - LL.kerr_FQ(0.7)[1]) < 1e-9
     assert S.KERR_BCW_TABLE == LL.KERR_BCW_TABLE
     ring = LL.retarded_pair_energy(M=40, rs=(3, 6), r_far=20)       # the standalone's own parameters
@@ -106,8 +107,8 @@ def test_runs_isolated_and_every_check_passes():
     out = subprocess.run([sys.executable, "-I", "-S", PATH], capture_output=True, text=True, timeout=300).stdout
     assert "ALL CHECKS PASS" in out and "FAIL" not in out
     ref = open(os.path.join(os.path.dirname(__file__), "..", "results", "ladder", "standalone.txt")).read()
-    assert "Checks passed: 88/88" in ref and "ALL CHECKS PASS" in ref
-    assert "Checks passed: 88/88" in out
+    assert "Checks passed: 89/89" in ref and "ALL CHECKS PASS" in ref
+    assert "Checks passed: 89/89" in out
 
 
 def test_exit_status_is_nonzero_when_a_check_fails():

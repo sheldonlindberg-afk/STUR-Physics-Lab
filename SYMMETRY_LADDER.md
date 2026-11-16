@@ -61,7 +61,7 @@ M²_AB = g_A g_B Σ_φ ⟨φ⟩†{t_A, t_B}⟨φ⟩, for both variants.
 | B4 | M_W = gv/2; bileptons M² = g²(w² + v_i²)/4; at leading order in v/w, M_Z² = (g² + g_Y²)v²/4 and M_Z′² = (g² + β²g_X²)w²/3. So **M_Z′/M_V = √(4/3·(1 + β²t_X²))**, the formula `src/m331_threshold.py` used, now derived (zero residual) | CHECK |
 | B5 | Z–Z′ mixing: ρ = M_W²/(M_Z² cos²θ_W) = 1 + (v/w)² × (a perfect square), so ρ ≥ 1 at tree level. Checked against exact diagonalization to 3×10⁻⁹ | CHECK |
 | B6 | Every fermion's charge from Q, component by component, for N_c = 3, 5 and 7. Anti-triplets carry −T*. Every SU(2)_L doublet is (Q_u, Q_d) or (0, −1), with Q_u = (N_c + 1)/2N_c and Q_d = (1 − N_c)/2N_c | CHECK |
-| B7 | v = 246.22 GeV from G_F. The tree-level M_Z = 91.51 GeV, against the measured 91.19: the +0.35% is the known radiative correction, not derived here | CHECK |
+| B7 | v = 246.22 GeV from G_F. The tree-level M_Z = 91.51 GeV, against the measured 91.19: the +0.35% is the known radiative correction, decomposed in Link 22 | CHECK |
 
 **After the Standard Model's loops (`src/m331_rho_bound.py`).** B7's +0.35% is known
 Standard Model physics, not a test of 3-3-1. What the global fit leaves after the Standard
@@ -219,7 +219,7 @@ counts is not derived here (see [TEGR.md](TEGR.md) for the corner-charge attempt
 
 ## Links between the rungs (`src/ladder_links.py`)
 
-The rungs above are separate derivations. In twenty-one places one rung's output is another
+The rungs above are separate derivations. In twenty-two places one rung's output is another
 rung's input, and the link can be checked against a measurement or against the other rung's
 code.
 
@@ -435,6 +435,14 @@ H1 and H2 fix the temperature geometrically; the step that was quoted was that t
 | L21b | What it covers: the step from a retarded kernel to the energy. The electromagnetic case is the same algebra with G a 3×3 tensor (P2's Green tensor, checked against the Helmholtz equation) and two transverse polarizations; the dyadic case is not diagonalized here | FOLLOWS |
 | L21c | At design A's gap αG ~ KR³/r³ = 1×10⁻⁷, so P3's second-order term is exact to 10⁻¹⁴ | CHECK |
 
+### Link 22: B7's +0.35% on M_Z, decomposed, from rung 1 to data (`src/ladder_links.py` L22)
+
+| | Result | Status |
+|---|---|---|
+| L22a | In the MS-bar scheme (PDG 2024, eq. 10.26) M_Z = A₀/[ŝĉ((1 − Δr̂_W)ρ̂)^(1/2)], A₀ = (πα/√2G_F)^(1/2). B7's tree formula is the same with (1 − Δr₀)^(1/2), Δr₀ = 1 − α/α̂ = 0.06645. So exactly **M_Z²/M_Z(tree)² = (1 − Δr₀)/[(1 − Δr̂_W)ρ̂]**, with the published Δr̂_W = 0.06937 and ρ̂ = 1.01016: M_Z = **91.1879 GeV** against 91.1880, and the gap −0.348% against B7's −0.348% | CHECK (algebra); LIT |
+| L22b | In M_Z²: ρ̂ gives −1.006%, (1 − Δr₀)/(1 − Δr̂_W) gives +0.314%; together −0.695%. The quadratic m_t dependence is in ρ̂ alone | CHECK |
+| L22c | L18's one-loop top–bottom loop is **91%** of ρ̂ − 1; with it, M_Z = 91.229 GeV, 0.045% above the measurement. Not derived: the other 9% (bosonic loops, two-loop terms) and Δr̂_W − Δr₀ = 0.0029 (vertex and box corrections and the rest of the MS-bar Δr̂_W). B7's number is decomposed and its dominant part derived, not closed | CHECK; LIT; FOLLOWS |
+
 ### Link 12: neutrino mass from rung 1's breaking scale, to oscillation data (`src/ladder_links.py` L12)
 
 | | Result | Status |
@@ -499,9 +507,9 @@ build order, the postulates, each derivation step and the check that proves it, 
 which results are still quoted rather than derived.
 
 **In one paste:** [`src/ladder_standalone.py`](src/ladder_standalone.py) reproduces all six
-rungs and the links (the five original and L10e, L11–L21) with only the Python standard library (88 PASS/FAIL checks; expected output
+rungs and the links (the five original and L10e, L11–L22) with only the Python standard library (89 PASS/FAIL checks; expected output
 [results/ladder/standalone.txt](results/ladder/standalone.txt)). Each check is tagged math
-(56: identities verified by computation), data (12: against measurements, each printing its
+(56: identities verified by computation), data (13: against measurements, each printing its
 tolerance and why) or pinned (20: this repository's own derived numbers); checks inside the
 linear sigma model are also tagged model. It exits with status 1 if any check fails. The website has a
 **Copy Python script** button for it.

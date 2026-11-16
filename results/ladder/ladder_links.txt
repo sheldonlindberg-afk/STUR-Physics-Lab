@@ -224,6 +224,14 @@ L21  The retarded Casimir-Polder step in an exactly solvable retarded system (CH
    design A's gap: alpha G ~ K R^3/r^3 = 1.0e-07; the term beyond P3's is relatively 1e-14
 
 ==============================================================================
+L22  B7's +0.35% on M_Z decomposed through the MS-bar relations (CHECK; LIT: PDG 2024)
+==============================================================================
+   Dr0 = 1 - alpha/alpha-hat = 0.06645;  B7's tree M_Z = 91.506 GeV;  (1 - Dr0)/[(1 - Dr_W) rho-hat] -> M_Z = 91.1879 GeV (measured 91.188)
+   gap of the prediction from the tree -0.348%, measured gap -0.348%
+   in M_Z^2: rho-hat -1.006%, (1 - Dr0)/(1 - Dr_W) +0.314%, together -0.695%
+   L18's one-loop top-bottom rho - 1 = 9.256e-03, 91% of rho-hat - 1; with it, M_Z = 91.229 GeV (+0.045% from measured); Dr_W - Dr0 = 0.0029 is not derived
+
+==============================================================================
 L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)
 ==============================================================================
    r_c - l = 0;  kappa - 1/l = 0;  A - 12 pi/Lambda = 0  (A = 4 pi l^2; not 4 pi/Lambda)
