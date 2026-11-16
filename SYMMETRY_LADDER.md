@@ -483,10 +483,10 @@ build order, the postulates, each derivation step and the check that proves it, 
 which results are still quoted rather than derived.
 
 **In one paste:** [`src/ladder_standalone.py`](src/ladder_standalone.py) reproduces all six
-rungs and all five links with only the Python standard library (58 PASS/FAIL checks; expected output
+rungs and the links (the five original and L10e, L11–L19) with only the Python standard library (83 PASS/FAIL checks; expected output
 [results/ladder/standalone.txt](results/ladder/standalone.txt)). Each check is tagged math
-(41: identities verified by computation), data (9: against measurements, each printing its
-tolerance and why) or pinned (8: this repository's own derived numbers); checks inside the
+(54: identities verified by computation), data (10: against measurements, each printing its
+tolerance and why) or pinned (19: this repository's own derived numbers); checks inside the
 linear sigma model are also tagged model. It exits with status 1 if any check fails. The website has a
 **Copy Python script** button for it.
 

@@ -61,6 +61,13 @@ WHAT IT COMPUTES
               threshold scan (Landau poles from src/m331_three_loop.py, carried as numbers).
               Black holes (rung 6 -> 4 and link 3): the diamond's Schwarzschild radius is a
               millionth of the Planck length; a Planck-mass black hole has k_B T = M_Pl/8 pi.
+      More    Links added later, derived here without sympy (src/ladder_links.py L10e, L11-L19): the
+              de Sitter horizon's entropy 3 pi/Lambda and its first law; the seesaw neutrino scale and
+              its 1/w scaling (the Yukawas stay free); the first post-Newtonian correction to the
+              entangling phase (-1.4e-23 rad); the cosmological constant against each rung's vacuum
+              energy; Leaver's quasinormal modes and the ringdown fit at zero spin; the ABJ anomaly
+              coefficient from gamma matrices; the rho parameter's top-bottom loop and M_W; and
+              Hawking's Planck spectrum from the Bogoliubov coefficients.
     Inputs are measured values (PDG 2024, FLAG 2024, CODATA 2018, Planck 2018; for rung 6 the EHT,
     stellar dynamics and LVK). What is not derived, by
     anyone: why the inputs have their values, and how gravity unifies with the others.
@@ -69,13 +76,15 @@ SOURCE
     Repository: https://github.com/sheldonlindberg-afk/STUR-Physics-Lab
     Notes:      SYMMETRY_LADDER.md
     This file condenses src/m331_breaking.py, chiral_breaking.py, casimir_diamonds.py,
-    graviton_exchange.py, macdowell_mansouri.py, black_holes.py and ladder_links.py;
+    graviton_exchange.py, macdowell_mansouri.py, black_holes.py and ladder_links.py (the sympy ones
+    re-derived here with numbers and exact fractions);
     tests/test_ladder_standalone.py checks
     that it agrees with them. Independent work, not peer reviewed. License: CC0 1.0.
 """
 from fractions import Fraction as F
 from itertools import permutations
 from math import cos, exp, factorial, pi, sin, sqrt
+import cmath
 import random
 import textwrap
 import time
@@ -1202,9 +1211,345 @@ def links():
           " 3-3-1 cutoff, and a radius of 2 Planck lengths", abs(kT * 8 * pi / mpl - 1) < 1e-12 and abs(rs_pl - 2) < 1e-12)
 
 
+# ----------------------------------------------------------------------------------------
+# MORE LINKS (src/ladder_links.py L10e, L11-L19), standard library only
+# ----------------------------------------------------------------------------------------
+M_H_GEV, M_T_GEV, M_B_GEV = 125.20, 172.57, 4.18      # PDG 2024
+MW_MEAS = 80.3692                                     # GeV, PDG 2024 average
+DALPHA_LEP_3LOOP, DALPHA_HAD_5 = 0.031497686, 0.02783       # Steinhauser 1998 (three loops); PDG 2024
+NUFIT_DM21, NUFIT_DM31 = 7.49e-5, 2.513e-3            # eV^2, NuFIT 6.0, normal ordering
+SUM_NU_PLANCK = 0.12                                  # eV, Planck 2018
+M_E_EV = 0.51099895e6
+EV = 1.602176634e-19
+
+
+def design_a():
+    """Design A as rung 4 builds it: m, dx, hold, ramp, gap."""
+    return (geomspace(1e-16, 1e-12, 25)[13], geomspace(10e-6, 3e-3, 25)[18], geomspace(0.05, 20, 25)[2],
+            geomspace(0.05, 5, 17)[12], casimir_safe_gap())
+
+
+def branch_integral(fn, n=4001):
+    """Entangling combination of int fn(r, v1y, v2y, nx, ny) dt over design A's branch pairs
+    (A_i at (0, s_i y), B_j at (gap, s_j y)); returns (sum phi00 + phi11 - phi01 - phi10)."""
+    m, dx, hold, ramp, gap = design_a()
+    total = hold + 2 * ramp
+    dt = total / (n - 1)
+    ts = [total * i / (n - 1) for i in range(n)]
+    ys = [0.5 * dx * ramp_profile(t, hold, ramp) for t in ts]
+    vy = [(ys[min(i + 1, n - 1)] - ys[max(i - 1, 0)]) / (ts[min(i + 1, n - 1)] - ts[max(i - 1, 0)]) for i in range(n)]
+    out = 0.0
+    for si in (1, -1):
+        for sj in (1, -1):
+            vals = []
+            for i in range(n):
+                dyy = (sj - si) * ys[i]
+                r = sqrt(gap * gap + dyy * dyy)
+                vals.append(fn(m, r, si * vy[i], sj * vy[i], gap / r, dyy / r))
+            integral = dt * (sum(vals) - 0.5 * (vals[0] + vals[-1]))
+            out += (1 if si == sj else -1) * integral
+    return out
+
+
+def cgamma(z):
+    """Gamma(z) for complex z, Lanczos (g = 7, 9 terms)."""
+    c = (0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61502916214059,
+         12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7)
+    if z.real < 0.5:
+        return pi / (cmath.sin(pi * z) * cgamma(1 - z))
+    z -= 1
+    x = c[0] + sum(c[i] / (z + i) for i in range(1, 9))
+    t = z + 7.5
+    return sqrt(2 * pi) * t ** (z + 0.5) * cmath.exp(-t) * x
+
+
+def leaver(n, l=2, guess=None):
+    """M omega of the gravitational l-mode, n-th overtone, from Leaver's continued fraction (2M = 1)."""
+    eps = 3
+    def cond(w, N=300):
+        rho = -1j * w
+        al = lambda k: k * k + (2 * rho + 2) * k + 2 * rho + 1
+        be = lambda k: -(2 * k * k + (8 * rho + 2) * k + 8 * rho**2 + 4 * rho + l * (l + 1) - eps)
+        ga = lambda k: k * k + 4 * rho * k + 4 * rho**2 - eps - 1
+        R = 0
+        for k in range(N - 1, n - 1, -1):
+            R = al(k) * ga(k + 1) / (be(k + 1) - R)
+        fwd = 0
+        for k in range(1, n + 1):
+            fwd = al(k - 1) * ga(k) / (be(k - 1) - fwd)
+        return be(n) - fwd - R
+    a, b = (guess or {0: 0.74 - 0.18j, 1: 0.69 - 0.55j}[n]), (guess or {0: 0.74 - 0.18j, 1: 0.69 - 0.55j}[n]) + 0.01
+    fa, fb = cond(a), cond(b)
+    for _ in range(60):
+        if fb == fa:
+            break
+        a, b, fa = b, b - fb * (b - a) / (fb - fa), fb
+        fb = cond(b)
+        if abs(b - a) < 1e-14:
+            break
+    return b / 2
+
+
+def gamma_matrices():
+    """Euclidean 4x4 gamma matrices from Pauli matrices (complex lists)."""
+    s1, s2, s3 = [[0, 1], [1, 0]], [[0, -1j], [1j, 0]], [[1, 0], [0, -1]]
+    one = [[1, 0], [0, 1]]
+    k = lambda A, B: [[A[i // 2][j // 2] * B[i % 2][j % 2] for j in range(4)] for i in range(4)]
+    return [k(s2, s1), k(s2, s2), k(s2, s3), k(s1, one)]
+
+
+def mm(A, B):
+    return [[sum(A[i][k] * B[k][j] for k in range(4)) for j in range(4)] for i in range(4)]
+
+
+def seesaw_light(mD, M):
+    return 2 * mD**2 / (M + sqrt(M * M + 4 * mD**2))
+
+
+def links_more():
+    banner("MORE LINKS  Rung 5 -> 6, rung 1 -> data, rung 4 -> 5 and 6 (src/ladder_links.py L10e, L11-L19)")
+    plain("further places where one rung feeds another: the de Sitter horizon's entropy, the neutrino-mass scale, the first relativistic correction to the experiment's phase (far too small to see), the cosmological constant against each rung's vacuum energy, and three results the earlier rungs had quoted: the ringdown fit, the anomaly coefficient and Hawking's Planck spectrum.")
+    l = 1.0
+    # L11: the de Sitter horizon
+    f0 = lambda r: 1 - r * r / l**2
+    kappa = killing_kappa(f0, l - 1e-6 * l, 1e-8 * l)
+    Lam = 3 / l**2
+    A_ = 4 * pi * l**2
+    ratio_3 = (A_ / 4) / (pi / Lam)
+    Ssi = 3 * pi / (LAMBDA_SI * (HBAR * G_NEWTON / C_LIGHT**3))
+    ell = sqrt(3 / LAMBDA_SI)
+    T_dS = HBAR * C_LIGHT / (2 * pi * K_B * ell)
+    check("L11a de Sitter's horizon r = l has kappa = 1/l from rung 6's Killing definition; A = 4 pi l^2 = 12 pi/Lambda,"
+          " so S = A/4 = 3 pi/Lambda, three times pi/Lambda (the form pi c^3/(G hbar Lambda))",
+          abs(kappa * l - 1) < 1e-5 and abs(A_ - 12 * pi / Lam) < 1e-12 and abs(ratio_3 - 3) < 1e-12)
+    check("L11d at the measured Lambda: l = 1.65e26 m, S_dS = 3.26e122 k_B, T_dS = 2.2e-30 K",
+          abs(Ssi / 3.263e122 - 1) < 1e-3 and abs(T_dS / 2.21e-30 - 1) < 1e-2 and abs(ell / 1.647e26 - 1) < 1e-3,
+          "pinned", f"got S = {Ssi:.4e}, T = {T_dS:.3e} K, l = {ell:.4e} m, pinned 3.263e122, 2.21e-30, 1.647e26")
+    res = 0.0
+    for r_ in (0.3, 0.7, 0.9, 1.1):                      # SdS horizons of 2M = r(1 - r^2/l^2) at those radii
+        Mh = lambda x: x * (1 - x * x / l**2) / 2
+        h = 1e-5
+        dM = (Mh(r_ + h) - Mh(r_ - h)) / (2 * h)
+        fm = lambda x: 1 - 2 * Mh(r_) / x - x * x / l**2
+        fp = (fm(r_ + h) - fm(r_ - h)) / (2 * h)
+        res = max(res, abs(dM - fp / (4 * pi) * 2 * pi * r_))
+    check("L11b the first law dM = (f'(r_h)/4 pi) dS holds at both Schwarzschild-de Sitter horizons (dM = T dS at the"
+          " black hole's, dM = -T dS at the cosmological one)", res < 1e-8, "math", f"largest residual {res:.1e}")
+    worst, k_max = 0.0, 200
+    for k in range(1, k_max):
+        hz = sds_horizons((k / k_max) / sqrt(27), l)
+        worst = max(worst, hz[0]**2 + hz[1]**2)
+    check("L11c de Sitter maximizes the entropy: (S_bh + S_c)/S_dS < 1 for every black hole the universe allows,"
+          " r_b^2 + r_c^2 + (r_b + r_c)^2 = 2 l^2", worst < 1 and abs(worst - 0.998077) < 1e-5, "pinned", f"got {worst:.6f}")
+    # L10e
+    lam_r = lambda r, Lm: 1 / sqrt(1 - r * r / l**2)
+    ok = all(abs(lam_r(r_, 0) - (1 + r_ * r_ / (2 * l**2))) < 0.5 * r_**4 / l**4 * 1.5 for r_ in (0.01, 0.05, 0.1))
+    m, dx, hold, ramp, gap = design_a()
+    ell2 = 3 / LAMBDA_SI
+    dn = G_NEWTON * m * m / HBAR * branch_integral(lambda m_, r, v1, v2, nx, ny: 1 / r)
+    dc = G_NEWTON * m * m / HBAR * branch_integral(lambda m_, r, v1, v2, nx, ny: r / (2 * ell2))
+    check("L10e a test mass at distance r from M has U = -GMm/(r sqrt(1 - r^2/l^2)): a relative correction (r/l)^2/2,"
+          " symmetric in the two masses; it shifts design A's phase by -1.9e-60 of itself",
+          ok and abs(dc / dn / -1.92e-60 - 1) < 0.03, "pinned", f"got {dc / dn:.3e}")
+    # L12: neutrino mass
+    qm, qp = triplet_charges(F(-1, 3), "-1/sqrt3"), triplet_charges(F(-2, 3), "+1/sqrt3")
+    check("L12a rung 1's lepton triplet: (nu, e, N) with N neutral for beta = -1/sqrt3, (nu, e, E-) with E charged for +1/sqrt3",
+          qm == [0, -1, 0] and qp == [0, -1, -1])
+    mD, Mh_ = 3.0e-3, 1.0
+    ev = sorted(jacobi_eigenvalues([[0, mD], [mD, Mh_]]), key=abs)
+    prod_ok = abs(ev[0] * ev[1] + mD**2) < 1e-12
+    mu_, Lm_, mD2 = 1e-6, 1.0, 0.02
+    ev3 = sorted(jacobi_eigenvalues([[0, mD2, 0], [mD2, 0, Lm_], [0, Lm_, mu_]]), key=abs)
+    inv_ok = abs(abs(ev3[0]) / (mu_ * mD2**2 / (mD2**2 + Lm_**2)) - 1) < 1e-4
+    check("L12b seesaw [[0, m_D],[m_D, M]]: the eigenvalues multiply to -m_D^2, so m_light = m_D^2/m_heavy; the inverse"
+          " seesaw gives mu m_D^2/(m_D^2 + Lambda^2); at fixed Yukawas m_light goes as 1/w exactly",
+          prod_ok and inv_ok and abs(abs(ev[0]) - seesaw_light(mD, Mh_)) < 1e-12, "math", f"product residual {abs(ev[0] * ev[1] + mD**2):.1e}")
+    g_ = sqrt(4 * pi / ALPHA_MZ_INV / S2_MZ)
+    w_ = 2 * 4e3 / g_
+    v_ = (sqrt(2) * G_F) ** -0.5
+    M_R = w_ / sqrt(2) * 1e9
+    yD = sqrt(2 * sqrt(NUFIT_DM31) * M_R) / (v_ * 1e9)
+    ye = sqrt(2) * M_E_EV / (v_ * 1e9)
+    lt = lambda wv, yd=yD: seesaw_light(yd * v_ * 1e9 / sqrt(2), wv * 1e9 / sqrt(2))
+    slope = log10_ratio(lt(10 * w_), lt(w_))
+    s_min = sqrt(NUFIT_DM21) + sqrt(NUFIT_DM31)
+    check("L12c-d with M_V = 4 TeV (w = 12.3 TeV): 0.05 eV needs y_D = 3.8e-6, 1.3x the electron's (a free Yukawa, not a"
+          " prediction); the minimal mass sum 0.059 eV is inside Planck's 0.12 eV",
+          abs(w_ / 12275.8 - 1) < 1e-4 and abs(yD / 3.789e-6 - 1) < 2e-3 and abs(yD / ye - 1.2909) < 2e-3
+          and abs(slope + 1) < 1e-9 and s_min < SUM_NU_PLANCK, "pinned", f"got w = {w_:.1f} GeV, y_D = {yD:.3e}, slope {slope:.6f}, sum {s_min:.4f} eV")
+    # L13: first post-Newtonian correction
+    def lag(t, r_=10.0, v_=0.3):
+        U = 1 / r_
+        geo = -1 / t * sqrt(1 - 2 * t * U + 2 * t**2 * U**2 - (1 + 2 * t * U) * t * v_**2)
+        eih = -1 / t + v_**2 / 2 + U + t * (v_**4 / 8 + 1.5 * U * v_**2 - U**2 / 2)
+        return geo - eih
+    r_t = lag(0.02) / lag(0.01)
+    check("L13a the EIH test-mass limit (3/2 v^2 and G^2 terms) agrees with the geodesic Lagrangian of harmonic-coordinate"
+          " Schwarzschild to 1/c^2: the difference scales as 1/c^4", 3.6 < r_t < 4.4, "math", f"difference ratio at t and 2t: {r_t:.3f} (4 expected)")
+    c2 = C_LIGHT**2
+    pn = G_NEWTON * m * m / HBAR * branch_integral(
+        lambda m_, r, v1, v2, nx, ny: (1.5 * (v1**2 + v2**2) - 3.5 * v1 * v2 - 0.5 * (ny * v1) * (ny * v2)) / (r * c2))
+    g2 = -G_NEWTON**2 * m**3 / (HBAR * c2) * branch_integral(lambda m_, r, v1, v2, nx, ny: 1 / r**2)
+    check("L13b design A's entangling phase: the velocity terms of the 1PN correction shift it by -1.4e-23 rad of 2.19"
+          " (relative -6.6e-24 ~ -(v/c)^2), the G^2 term by -1.8e-37 rad: nowhere near measurable",
+          abs(dn - 2.1868) < 1e-3
+          and abs(pn / -1.442e-23 - 1) < 0.02 and abs(g2 / -1.785e-37 - 1) < 0.02, "pinned", f"got {pn:.3e} rad and {g2:.3e} rad")
+    # L14: Bekenstein
+    Mbh = 1e30
+    Rbh = 2 * G_NEWTON * Mbh / c2
+    bek_bh = 2 * pi * Rbh * Mbh * C_LIGHT / HBAR
+    holo_bh = 4 * pi * Rbh**2 / (4 * G_NEWTON * HBAR / C_LIGHT**3)
+    Rd = diamond_radius(m)
+    bek_d = 2 * pi * Rd * m * C_LIGHT / HBAR
+    holo_d = 4 * pi * Rd**2 / (4 * G_NEWTON * HBAR / C_LIGHT**3)
+    atoms = m / (12 * U_AMU)
+    check("L14 a Schwarzschild black hole saturates the Bekenstein bound 2 pi R E/(hbar c) = A/4 l_P^2 exactly; design A's"
+          " diamond (7.4e11 atoms) is far below its bound 2.6e23 and the holographic bound 1.2e58 (k_B)",
+          abs(bek_bh / holo_bh - 1) < 1e-12 and abs(bek_d / 2.620e23 - 1) < 2e-3 and abs(holo_d / 1.201e58 - 1) < 2e-3 and bek_d > 1e3 * atoms,
+          "pinned", f"got bound {bek_d:.3e}, holographic {holo_d:.3e}, atoms {atoms:.3e}")
+    # L15: the cosmological constant against each rung's vacuum energy
+    rho_L = LAMBDA_SI * C_LIGHT**4 / (8 * pi * G_NEWTON)
+    rho_Pl = C_LIGHT**7 / (HBAR * G_NEWTON**2)
+    rho_ev4 = rho_L * (HBAR * C_LIGHT) ** 3 / EV**4
+    mpl_ev = sqrt(HBAR * C_LIGHT / G_NEWTON) * c2 / EV
+    ratios = [(92.07e6 * 134.9768e6) ** 2 / rho_ev4, ((M_H_GEV * 1e9) ** 2 * (v_ * 1e9) ** 2 / 8) / rho_ev4,
+              (w_ * 1e9) ** 4 / rho_ev4, mpl_ev**4 / rho_ev4]
+    check("L15a S_dS = (3/8) rho_Planck/rho_Lambda exactly, with rho_Lambda = Lambda c^4/8 pi G and rho_Pl = c^7/(hbar G^2)",
+          abs(Ssi / (3 / 8 * rho_Pl / rho_L) - 1) < 1e-12)
+    check("L15b rho_Lambda^(1/4) = 2.25 meV; rung 2's chiral vacuum energy f_pi^2 m_pi^2 is 6e42, rung 1's Higgs minimum"
+          " m_h^2 v^2/8 5e54, the 3-3-1 scale w^4 9e62 (an order of magnitude) and M_Pl^4 9e122 times larger: the"
+          " cosmological-constant problem, quantified and not solved",
+          abs(rho_ev4**0.25 / 2.248e-3 - 1) < 2e-3 and abs(ratios[0] / 6.05e42 - 1) < 5e-3 and abs(ratios[1] / 4.65e54 - 1) < 5e-3
+          and abs(ratios[2] / 8.89e62 - 1) < 5e-3 and abs(ratios[3] / (8 * Ssi / 3) - 1) < 1e-3, "pinned",
+          "ratios " + ", ".join(f"{x:.2e}" for x in ratios))
+    # L16: quasinormal modes
+    w0, w1 = leaver(0), leaver(1)
+    fit_r = BCW_220[0] + BCW_220[1]
+    fit_q = BCW_220[3] + BCW_220[4]
+    check("L16a Leaver's continued fraction for Schwarzschild: M omega = 0.373672 - 0.088962 i (l = 2, n = 0) and"
+          " 0.346711 - 0.273915 i (n = 1)", abs(w0 - (0.373672 - 0.088962j)) < 2e-6 and abs(w1 - (0.346711 - 0.273915j)) < 2e-6,
+          "pinned", f"got {w0:.6f} and {w1:.6f}")
+    check("L16b the Berti-Cardoso-Will fit at chi = 0 is 1.4% low in frequency and 0.9% high in Q (the spin dependence"
+          " at chi ~ 0.7, which GW250114 uses, needs the Teukolsky equation and is not checked)",
+          abs(fit_r / w0.real - 1 + 0.014) < 1e-3 and abs(fit_q / (w0.real / (-2 * w0.imag)) - 1 - 0.009) < 1e-3, "pinned",
+          f"got {100 * (fit_r / w0.real - 1):+.2f}% and {100 * (fit_q / (w0.real / (-2 * w0.imag)) - 1):+.2f}%")
+    # L17: the ABJ anomaly
+    gam = gamma_matrices()
+    id4 = [[1 if i == j else 0 for j in range(4)] for i in range(4)]
+    cliff = all(abs(sum(abs(mm(gam[a], gam[b])[i][j] + mm(gam[b], gam[a])[i][j] - (2 if a == b else 0) * id4[i][j])
+                        for i in range(4) for j in range(4))) < 1e-12 for a in range(4) for b in range(4))
+    g5 = mm(mm(gam[0], gam[1]), mm(gam[2], gam[3]))
+    sig = lambda a, b: [[0.5j * (mm(gam[a], gam[b])[i][j] - mm(gam[b], gam[a])[i][j]) for j in range(4)] for i in range(4)]
+    lam, holds = None, True
+    for a, b, c_, d in ((a, b, c_, d) for a in range(4) for b in range(4) for c_ in range(4) for d in range(4)):
+        P = mm(mm(g5, sig(a, b)), sig(c_, d))
+        tr = sum(P[i][i] for i in range(4))
+        e = eps4([a, b, c_, d])
+        if e == 0:
+            holds &= abs(tr) < 1e-12
+        else:
+            lam = tr / e if lam is None else lam
+            holds &= abs(tr - lam * e) < 1e-12
+    check("L17a Fujikawa's Jacobian with explicit gamma matrices: tr[gamma5 sigma_mn sigma_rs] = -4 eps_mnrs for all 256 index sets"
+          " (the sign is gamma5's orientation), so the divergence is e^2 eps F F/(16 pi^2) in magnitude",
+          cliff and holds and abs(abs(lam) - 4) < 1e-12 and abs(abs((1 / (16 * pi**2)) * (1 / 8) * lam) * 32 * pi**2 - 1) < 1e-12)
+    Bf, Ef = F(3, 7), F(5, 11)
+    Fm = [[0] * 4 for _ in range(4)]
+    Fm[0][1], Fm[1][0], Fm[2][3], Fm[3][2] = Bf, -Bf, Ef, -Ef
+    epsFF = sum(eps4([a, b, c_, d]) * Fm[a][b] * Fm[c_][d] for a, b, c_, d in permutations(range(4)))
+    check("L17b a second route: each chirality's lowest Landau level is a 1+1 Weyl fermion, d n5/dt = 2 (eB/2 pi)(eE/2 pi);"
+          " with eps F F = 8 F12 F34 it is the same number as the Jacobian's (e^2/32 pi^2) x 2 eps F F",
+          epsFF == 8 * Bf * Ef and abs(2 / (32 * pi**2) * float(epsFF) - 2 * float(Bf) * float(Ef) / (4 * pi**2)) < 1e-15)
+    ok = True
+    for Nc, Qu, Qd, alpha in ((3, 2 / 3, -1 / 3, 1 / 137.036), (5, 3 / 5, -2 / 5, 1 / 137.036)):
+        e2 = 4 * pi * alpha
+        amp = Nc * (Qu**2 - Qd**2) / 2 * e2 / (16 * pi**2) * 8                 # per 1/f_pi
+        ok &= abs(amp / (alpha * Nc * (Qu**2 - Qd**2) / pi) - 1) < 1e-12
+    check("L17c matching to PCAC: the anomaly's amplitude is alpha N_c (Q_u^2 - Q_d^2)/(pi f_pi), the coefficient the pi0 width"
+          " (links above) took as given; the PCAC step and Adler-Bardeen stay quoted", ok)
+    # L18: the rho parameter
+    def drho_loop(eps, s2, mt=M_T_GEV, mb=M_B_GEV):
+        from math import log
+        D = 1 / eps
+        A0 = lambda m_: m_**2 * (D + 1 - log(m_**2))
+        B0 = lambda m1, m2: D + 1 - (m1**2 * log(m1**2) - m2**2 * log(m2**2)) / (m1**2 - m2**2)
+        B0e = lambda m_: D - log(m_**2)
+        fac = -0.5 * (1 - eps) / (1 - eps / 2)
+        LLn = lambda m1, m2: 2 * fac * (A0(m2) + m1**2 * B0(m1, m2))
+        LLe = lambda m_: 2 * fac * (A0(m_) + m_**2 * B0e(m_))
+        LRn = lambda m_: 2 * m_**2 * B0e(m_)
+        Z = lambda m_, Q, T3: (T3 - Q * s2) ** 2 * LLe(m_) + (Q * s2) ** 2 * LLe(m_) - 2 * (T3 - Q * s2) * Q * s2 * LRn(m_)
+        ward = 2 * LLe(mt) + 2 * LRn(mt)
+        return 4 * (Z(mt, 2 / 3, 0.5) + Z(mb, -1 / 3, -0.5)) - 2 * LLn(mt, mb), ward
+    from math import log
+    Fclosed = M_T_GEV**2 + M_B_GEV**2 - 2 * M_T_GEV**2 * M_B_GEV**2 / (M_T_GEV**2 - M_B_GEV**2) * log(M_T_GEV**2 / M_B_GEV**2)
+    t1, w1_ = drho_loop(1e-6, 0.2)
+    t2, _ = drho_loop(1e-6, 0.3)
+    check("L18a the W and Z self-energies from the t-b loop in dimensional regularization: the vector Ward identity holds,"
+          " Delta rho has no 1/eps pole and no s^2 dependence, and equals N_c G_F/(8 sqrt2 pi^2) [m_t^2 + m_b^2 - 2 m_t^2 m_b^2"
+          " ln(m_t^2/m_b^2)/(m_t^2 - m_b^2)]", abs(t1 / Fclosed - 1) < 1e-4 and abs(t1 - t2) < 1e-2 * Fclosed * 1e-2
+          and abs(w1_) < 1e-4 * Fclosed, "math", f"loop/closed - 1 = {t1 / Fclosed - 1:.1e} at eps = 1e-6")
+    drho = 3 * G_F * Fclosed / (8 * sqrt(2) * pi**2)
+    A_w = pi * ALPHA_0 / (sqrt(2) * G_F)
+    dal = DALPHA_LEP_3LOOP + DALPHA_HAD_5
+    def solve(use_dal, use_top, use_h, rest=0.0):
+        MW = 80.4
+        for _ in range(200):
+            c2s2 = MW**2 / (MZ_MEAS**2 - MW**2)
+            dH = 3 * G_F * MW**2 / (8 * sqrt(2) * pi**2) * log(M_H_GEV**2 / MW**2) if use_h else 0.0
+            dr = (dal if use_dal else 0.0) - (c2s2 * drho if use_top else 0.0) + dH + rest
+            MW = sqrt(MZ_MEAS**2 / 2 * (1 + sqrt(1 - 4 * A_w / (1 - dr) / MZ_MEAS**2)))
+        return MW
+    steps = [solve(0, 0, 0), solve(1, 0, 0), solve(1, 1, 0), solve(1, 1, 1)]
+    lo, hi = -0.05, 0.05
+    for _ in range(80):
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if solve(1, 1, 1, mid) > MW_MEAS else (lo, mid)
+    check("L18b-c Delta rho = 9.26e-3; M_W from G_F, alpha(0), M_Z: tree 80.94, + Delta alpha 79.96, + top loop 80.53, + Higgs log"
+          " 80.50 GeV against 80.37 measured; the remainder Delta r = 0.007 is not computed here (B7's MS-bar +0.35% is not closed)",
+          abs(drho / 9.256e-3 - 1) < 2e-3 and abs(steps[0] - 80.939) < 2e-3 and abs(steps[1] - 79.961) < 2e-3
+          and abs(steps[2] - 80.526) < 2e-3 and abs(steps[3] - 80.495) < 3e-3 and abs((lo + hi) / 2 - 0.0071) < 3e-4,
+          "pinned", "steps " + ", ".join(f"{x:.3f}" for x in steps) + f", remainder {(lo + hi) / 2:+.4f}")
+    # L19: Hawking radiation as radiation
+    import cmath
+    y, Om = 0.7, 1.3
+    s_ = 0.6 + 0.9j
+    n_pts, lo_t, hi_t = 40000, -40.0, 6.0
+    h_ = (hi_t - lo_t) / n_pts
+    fn = lambda t: cmath.exp(1j * y * t - s_ * cmath.exp(t) + t)
+    simpson = h_ / 3 * (fn(lo_t) + fn(hi_t) + sum((4 if k % 2 else 2) * fn(lo_t + k * h_) for k in range(1, n_pts)))
+    closed = cgamma(1 + 1j * y) * s_ ** (-1 - 1j * y)
+    gam2 = abs(cgamma(1 + 1j * y)) ** 2 - pi * y / (exp(pi * y) - exp(-pi * y)) * 2
+    mod = lambda sgn: abs(cgamma(1 + 1j * y) * (sgn * 1j * Om) ** (-1 - 1j * y))
+    rat = (mod(-1) / mod(+1)) ** 2
+    check("L19a the Klein-Gordon overlaps of the outgoing modes e^(-i w u), u = -(1/kappa) ln(-kappa U), with the vacuum of"
+          " the regular coordinate U reduce to Gamma(1 + i w/kappa)(+-i Omega)^(-1-i w/kappa) (the integral and"
+          " |Gamma(1+iy)|^2 = pi y/sinh(pi y) checked numerically); |beta/alpha|^2 = e^(-2 pi w/kappa)",
+          abs(simpson - closed) < 1e-8 and abs(gam2) < 1e-12 and abs(rat / exp(-2 * pi * y) - 1) < 1e-10, "math",
+          f"integral difference {abs(simpson - closed):.1e}, ratio {rat:.10f} vs {exp(-2 * pi * y):.10f}")
+    ok = True
+    for y_, Om_ in ((0.7, 1.3), (1.9, 0.4), (0.2, 5.0)):
+        g2_ = abs(cgamma(1 + 1j * y_)) ** 2
+        A2 = exp(pi * y_) * g2_ / (4 * pi**2 * y_ * Om_)               # w = y kappa, kappa = 1
+        B2 = exp(-pi * y_) * g2_ / (4 * pi**2 * y_ * Om_)
+        ok &= abs((A2 - B2) * 2 * pi * Om_ - 1) < 1e-10 and abs(B2 / (A2 - B2) * (exp(2 * pi * y_) - 1) - 1) < 1e-10
+    check("L19b unitarity |alpha|^2 - |beta|^2 = 1/(2 pi kappa Omega) and the mean number n = |beta|^2/(|alpha|^2 - |beta|^2) ="
+          " 1/(e^(2 pi w/kappa) - 1): Planck's law at k_B T = hbar kappa/2 pi, as emission, for every Omega", ok)
+    zeta2 = sum(1 / k**2 for k in range(1, 200001))
+    flux = zeta2 / (2 * pi)                                              # (1/2 pi) int w n dw, T = 1
+    check("L19c the energy flux of one massless 1+1 field is pi T^2/12, the one-dimensional Stefan-Boltzmann law (the 3+1"
+          " grey-body factors behind the mass-loss rate stay quoted: Carr et al.)", abs(flux / (pi / 12) - 1) < 1e-5)
+
+
+def log10_ratio(a, b):
+    from math import log10
+    return log10(a / b)
+
+
+
 def main():
     t0 = time.time()
-    for rung in (rung1, rung2, rung3, rung4, rung5, rung6, links):
+    for rung in (rung1, rung2, rung3, rung4, rung5, rung6, links, links_more):
         rung()
     banner("VERDICT")
     n_ok = sum(ok for _, ok, _ in CHECKS)
@@ -1226,6 +1571,14 @@ def main():
     print("   are measured; gravity's unification with the other forces is not derived. Rung 2's")
     print("   pion counting uses the linear sigma model, a stand-in for QCD, and rung 5 rewrites GR")
     print("   rather than going beyond it.")
+    print("   Nine more links follow: de Sitter's horizon has entropy 3 pi/Lambda = pi x 3/(G Lambda), 3.3e122, and"
+          " is the maximum;")
+    print("   rung 1's breaking scale gives a seesaw neutrino mass scaling as 1/w, with the Yukawas left free; the")
+    print("   first post-Newtonian correction to the experiment's phase is 1e-23 rad; the cosmological constant is")
+    print("   the Planck vacuum energy divided by 8 S_dS/3 and is not explained; and the ringdown fit, the ABJ")
+    print("   anomaly coefficient, the rho parameter's top loop and Hawking's Planck spectrum, quoted until now,")
+    print("   are derived (the M_Z correction in the MS-bar scheme, the fit's spin dependence and the microstates")
+    print("   of S_dS are not).")
     by_kind = ", ".join(f"{sum(k == kind for _, _, k in CHECKS)} {kind}" for kind in KINDS)
     print(f"\n   Checks passed: {n_ok}/{len(CHECKS)}   ({by_kind}; {time.time() - t0:.2f} s)")
     for label, ok, _ in CHECKS:

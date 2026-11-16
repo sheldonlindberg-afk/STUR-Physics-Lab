@@ -12,7 +12,7 @@ import stur_gravity_entanglement as GE
 
 
 def test_imports_only_the_standard_library():
-    allowed = {"fractions", "itertools", "math", "random", "textwrap", "time"}
+    allowed = {"cmath", "fractions", "itertools", "math", "random", "textwrap", "time"}
     mods = set()
     for node in ast.walk(ast.parse(open(PATH).read())):
         if isinstance(node, ast.Import):
@@ -78,12 +78,32 @@ def test_planck_window_scan_poles_agree_with_the_threshold_scan():
         assert abs(p5 / (scan[v, 5][1] * E.M_PLANCK) - 1) < 1e-4
 
 
+def test_added_links_agree_with_ladder_links():
+    import ladder_links as LL
+    assert abs(S.leaver(0) - LL.leaver_qnm(0)) < 1e-9 and abs(S.leaver(1) - LL.leaver_qnm(1)) < 1e-9
+    assert abs(S.cgamma(1 + 0.7j) - complex(__import__("mpmath").gamma(1 + 0.7j))) < 1e-12
+    drho, dal, steps, rest = LL.w_mass_steps()
+    assert S.DALPHA_LEP_3LOOP == LL.DALPHA_LEP_3LOOP and S.DALPHA_HAD_5 == LL.DALPHA_HAD_5
+    assert (S.M_T_GEV, S.M_B_GEV, S.M_H_GEV, S.MW_MEAS) == (LL.M_T_GEV, LL.M_B_GEV, LL.M_H_GEV, LL.MW_MEAS)
+    assert (S.NUFIT_DM21, S.NUFIT_DM31, S.SUM_NU_PLANCK) == (LL.NUFIT_DM21, LL.NUFIT_DM31, LL.SUM_NU_PLANCK)
+    sn = LL.seesaw_numbers()
+    g = S.sqrt(4 * S.pi / S.ALPHA_MZ_INV / S.S2_MZ)
+    assert abs(2 * 4e3 / g - sn["w"]) < 1e-6
+    dn, dp, dq = LL.eih_phase_shift()
+    m, dx, hold, ramp, gap = S.design_a()
+    pn = S.G_NEWTON * m * m / S.HBAR * S.branch_integral(
+        lambda m_, r, v1, v2, nx, ny: (1.5 * (v1**2 + v2**2) - 3.5 * v1 * v2 - 0.5 * (ny * v1) * (ny * v2)) / (r * S.C_LIGHT**2))
+    assert abs(pn / dp - 1) < 1e-3
+    s_mine = 3 * S.pi / (S.LAMBDA_SI * (S.HBAR * S.G_NEWTON / S.C_LIGHT**3))
+    assert abs(s_mine / LL.de_sitter_numbers()[2] - 1) < 1e-12
+
+
 def test_runs_isolated_and_every_check_passes():
     out = subprocess.run([sys.executable, "-I", "-S", PATH], capture_output=True, text=True, timeout=300).stdout
     assert "ALL CHECKS PASS" in out and "FAIL" not in out
     ref = open(os.path.join(os.path.dirname(__file__), "..", "results", "ladder", "standalone.txt")).read()
-    assert "Checks passed: 60/60" in ref and "ALL CHECKS PASS" in ref
-    assert "Checks passed: 60/60" in out
+    assert "Checks passed: 83/83" in ref and "ALL CHECKS PASS" in ref
+    assert "Checks passed: 83/83" in out
 
 
 def test_exit_status_is_nonzero_when_a_check_fails():
