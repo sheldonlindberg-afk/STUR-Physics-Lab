@@ -147,7 +147,7 @@ Casimir–Polder force.
 | P1 | The polarizability of a dielectric sphere, from Laplace's equation with the boundary conditions: **α/(4πε₀) = KR³, K = (ε − 1)/(ε + 2)** | CHECK |
 | P2 | The dipole Green tensor at imaginary frequency satisfies the wave equation and is transverse off the source; **Tr G·G = 2e^(−2u)(3 + 6u + 5u² + 2u³ + u⁴)/r⁶** | CHECK |
 | P3 | The Casimir–Polder fluctuation formula U = −(ħ/2π)∫dξ α₁α₂ Tr G·G (LIT: Casimir and Polder 1948, the one quantum step quoted, not derived). For constant α, the integral is exactly **23/4**, so **U = −(23/4π) ħc α₁α₂/r⁷** | CHECK; LIT formula |
-| P3b | **The quantum step, checked.** Two coupled oscillators with the static dipole tensor have exact normal modes; their zero-point shift equals (ħ/2π)∫dξ Σ ln(1 − α²t²) to 10⁻¹¹ at any coupling strength, and its second order is London's −(3/4)ħω₀α₀²/r⁶. Retardation enters only through P2's classical Green tensor; that the same ln det holds with the retarded G is the standard argument-principle step, not checked here | CHECK (instantaneous limit) |
+| P3b | **The quantum step, checked.** Two coupled oscillators with the static dipole tensor have exact normal modes; their zero-point shift equals (ħ/2π)∫dξ Σ ln(1 − α²t²) to 10⁻¹¹ at any coupling strength, and its second order is London's −(3/4)ħω₀α₀²/r⁶. Retardation enters only through P2's classical Green tensor; that the same ln det holds with the retarded G is checked in Link 21 | CHECK (instantaneous limit) |
 | P4 | This is the formula the experiment code had quoted as known; it agrees to 12 digits. At 200 µm, Casimir/gravity = 2.3×10⁻². Casimir ∝ R⁶/r⁷ and gravity ∝ R⁶/r, so the safe gap doesn't depend on the mass: 181 µm | CHECK |
 | P5 | At temperature T the frequency integral becomes the Matsubara sum. With constant α it is exact in closed form: **U_T = U₀ η(τ)**, τ = 2πk_BTr/ħc, with **η = 1 + (22/21735)τ⁶ + …** at small τ and η → 6τ/23 (U_T → −3k_BTα₁α₂/r⁶) at large τ. It agrees to machine precision with Boyer's far-zone result (PRA 11, 1650 (1975)) in the form of Passante and Spagnolo, PRA 76, 042112 (2007), eq. (11), including the τ⁶ term. The regimes are those of Goedecke and Wood, PRA 60, 2577 (1999). Constant α: only ξ up to ~10c/r = 1.7×10¹³ rad/s matter at the gap. Ideal diamond has zero Born effective charges (Lawler and Shirley, arXiv:cond-mat/0407541), and its one-phonon absorption at 1332 cm⁻¹ (2.5×10¹⁴ rad/s) is forbidden (Shiryaev et al., Meteorit. Planet. Sci. 57, 730 (2022)). So its lowest lattice absorption is 15× above the frequencies that matter | CHECK, exact; LIT |
 | P6 | The safe gap at finite temperature. At the design's 0.15 K it moves by 1×10⁻¹¹, and at 4.2 K by 0.2%. It grows by 6% at 10 K and by 1.7× (to 0.31 mm) at 77 K. Thermal corrections don't tighten the gap at the design's temperature. With design A's own branch separation (721 µm, not the 250 µm H0 used) the gap would be 164 µm, so 181 µm is conservative | CHECK |
@@ -219,7 +219,7 @@ counts is not derived here (see [TEGR.md](TEGR.md) for the corner-charge attempt
 
 ## Links between the rungs (`src/ladder_links.py`)
 
-The rungs above are separate derivations. In twenty places one rung's output is another
+The rungs above are separate derivations. In twenty-one places one rung's output is another
 rung's input, and the link can be checked against a measurement or against the other rung's
 code.
 
@@ -427,6 +427,14 @@ H1 and H2 fix the temperature geometrically; the step that was quoted was that t
 | L20b | The fit against the exact modes over χ = 0 to 0.99: largest errors **1.85%** (frequency) and **0.88%** (Q), exactly the maxima Berti–Cardoso–Will state | CHECK |
 | L20c | GW250114's ringdown-only 220 mode inverted with the exact modes: **M_f = 66.48 M☉, χ_f = 0.744** (the fit gave 66.73 and 0.746), final area **4.04×10⁵ km²** (fit 4.07×10⁵). At the least favourable corner of the published ranges the final area is 3.36×10⁵ km² (fit 3.41×10⁵) against the initial 2.52×10⁵: the area law's check does not rest on the fit's error | CHECK; LIT data |
 
+### Link 21: the retarded Casimir–Polder step, within rung 3 (`src/ladder_links.py` L21)
+
+| | Result | Status |
+|---|---|---|
+| L21a | An exactly solvable retarded system: two oscillators on a ring of lattice sites carrying a scalar field. The interaction energy from the normal modes of the whole system (one diagonalization) equals (1/2π)∫dξ ln[1 − (g²G₁₂(ξ,r)α_d(ξ))²], with G the field's Green function at imaginary frequency (e^(−κr) decay, κ = √(ξ² + μ²)), to 10⁻⁹ or better at r = 4, 8, 12. Replacing G₁₂(ξ) by its static value, the instantaneous coupling of P3b, is off by a factor of 3 at r = 4 | CHECK |
+| L21b | What it covers: the step from a retarded kernel to the energy. The electromagnetic case is the same algebra with G a 3×3 tensor (P2's Green tensor, checked against the Helmholtz equation) and two transverse polarizations; the dyadic case is not diagonalized here | FOLLOWS |
+| L21c | At design A's gap αG ~ KR³/r³ = 1×10⁻⁷, so P3's second-order term is exact to 10⁻¹⁴ | CHECK |
+
 ### Link 12: neutrino mass from rung 1's breaking scale, to oscillation data (`src/ladder_links.py` L12)
 
 | | Result | Status |
@@ -491,9 +499,9 @@ build order, the postulates, each derivation step and the check that proves it, 
 which results are still quoted rather than derived.
 
 **In one paste:** [`src/ladder_standalone.py`](src/ladder_standalone.py) reproduces all six
-rungs and the links (the five original and L10e, L11–L20) with only the Python standard library (86 PASS/FAIL checks; expected output
+rungs and the links (the five original and L10e, L11–L21) with only the Python standard library (88 PASS/FAIL checks; expected output
 [results/ladder/standalone.txt](results/ladder/standalone.txt)). Each check is tagged math
-(54: identities verified by computation), data (12: against measurements, each printing its
+(56: identities verified by computation), data (12: against measurements, each printing its
 tolerance and why) or pinned (20: this repository's own derived numbers); checks inside the
 linear sigma model are also tagged model. It exits with status 1 if any check fails. The website has a
 **Copy Python script** button for it.

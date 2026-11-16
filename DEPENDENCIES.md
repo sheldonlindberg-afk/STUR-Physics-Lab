@@ -6,7 +6,7 @@ This page records which script feeds which, and which physical quantities each o
 
 ## Summary
 
-- **54 scripts** in `src/`, in 6 topics; **100 imports** between them, 36 of them across topics. 12 scripts import nothing from the others and nothing imports them.
+- **54 scripts** in `src/`, in 6 topics; **101 imports** between them, 36 of them across topics. 12 scripts import nothing from the others and nothing imports them.
 - **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 292 literals in the source.
 - **44 quantities are typed in more than one script**; 19 of them are shared by more than one topic.
 - **2 copies differ from their source for a stated reason**; **0 differ without one (drift).**
@@ -105,6 +105,7 @@ flowchart LR
   graviton_exchange --> stur_gravity_entanglement
   graviton_exchange --> stur_gravity_full
   ladder_links --> black_holes
+  ladder_links --> casimir_diamonds
   ladder_links --> chiral_breaking
   ladder_links --> graviton_exchange
   ladder_links --> m331_breaking
@@ -205,7 +206,7 @@ flowchart LR
 | `ladder_links` (Symmetry ladder) | `m331_three_loop` (3-3-1 selection) | `WORST`, `pole` |
 | `ladder_links` (Symmetry ladder) | `m331_threshold` (3-3-1 selection) | `GRID` |
 | `ladder_links` (Symmetry ladder) | `m331_why_three` (3-3-1 selection) | `charges` |
-| `ladder_links` (Symmetry ladder) | `stur_gravity_entanglement` (Diamond experiment) | `C`, `G`, `HBAR`, `radius` |
+| `ladder_links` (Symmetry ladder) | `stur_gravity_entanglement` (Diamond experiment) | `C`, `EPS_DIAMOND`, `G`, `HBAR`, `radius` |
 | `ladder_links` (Symmetry ladder) | `stur_gravity_full` (Diamond experiment) | `ramp_profile` |
 | `m331_breaking` (Symmetry ladder) | `m331_exact` (3-3-1 selection) | `MODELS` |
 | `m331_rho_bound` (Symmetry ladder) | `m331_threshold` (3-3-1 selection) | `gL_at`, `mzp_over_mv` |
@@ -263,7 +264,7 @@ flowchart LR
 | [`graviton_exchange`](src/graviton_exchange.py) | `chiral_breaking`, `stur_gravity_entanglement`, `stur_gravity_full` | The gravity rung of the ladder (SYMMETRY_LADDER.md): from linearized GR to the entangling phase of the two-diamond experiment |
 | [`macdowell_mansouri`](src/macdowell_mansouri.py) | — | The gravity rung as a broken gauge theory: MacDowell-Mansouri (1977) and Stelle-West (1980) |
 | [`black_holes`](src/black_holes.py) | `macdowell_mansouri`, `stur_gravity_full` | Black holes: the strong-field end of gravity's side column (SYMMETRY_LADDER.md, rung 6) |
-| [`ladder_links`](src/ladder_links.py) | `black_holes`, `chiral_breaking`, `graviton_exchange`, `m331_breaking`, `m331_exact`, `m331_gravity_fixed_point`, `m331_margin`, `m331_three_loop`, `m331_threshold`, `m331_why_three`, `stur_gravity_entanglement`, `stur_gravity_full` | Links between the rungs of the symmetry-breaking ladder (SYMMETRY_LADDER.md): places where one rung's output is another rung's input, checke |
+| [`ladder_links`](src/ladder_links.py) | `black_holes`, `casimir_diamonds`, `chiral_breaking`, `graviton_exchange`, `m331_breaking`, `m331_exact`, `m331_gravity_fixed_point`, `m331_margin`, `m331_three_loop`, `m331_threshold`, `m331_why_three`, `stur_gravity_entanglement`, `stur_gravity_full` | Links between the rungs of the symmetry-breaking ladder (SYMMETRY_LADDER.md): places where one rung's output is another rung's input, checke |
 | [`ladder_standalone`](src/ladder_standalone.py) | — | The symmetry-breaking ladder, from 3-3-1 to the two-diamond gravity experiment |
 | [`m331_rho_bound`](src/m331_rho_bound.py) | `m331_breaking`, `m331_threshold`, `m331_yukawa` | The rho parameter and the 3-3-1 scale: what electroweak precision says about w, from the tree-level Z-Z' mixing of rung 1 (src/m331_breaking |
 | [`m331_zpole`](src/m331_zpole.py) | `m331_breaking`, `m331_rho_bound`, `m331_zprime_recast` | The Z-pole observables and the 3-3-1 scale: the full tree-level electroweak-precision test of Z-Z' mixing, validated on the E6 Z' bosons, ag |

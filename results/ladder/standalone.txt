@@ -209,7 +209,7 @@ LINKS  Where one rung's output is another rung's input
    [PASS] [math]          a black hole of one Planck mass has k_B T_H = M_Pl c^2/(8 pi) = 4.86e17 GeV, 1/(8 pi) of the 3-3-1 cutoff, and a radius of 2 Planck lengths
 
 ==============================================================================
-MORE LINKS  Rung 5 -> 6, rung 1 -> data, rung 4 -> 5 and 6 (src/ladder_links.py L10e, L11-L20)
+MORE LINKS  Rung 5 -> 6, rung 1 -> data, rung 4 -> 5 and 6 (src/ladder_links.py L10e, L11-L21)
 ==============================================================================
    In plain words: further places where one rung feeds another: the de Sitter horizon's
    entropy, the neutrino-mass scale, the first relativistic correction to the experiment's
@@ -253,6 +253,10 @@ MORE LINKS  Rung 5 -> 6, rung 1 -> data, rung 4 -> 5 and 6 (src/ladder_links.py 
    [PASS] [pinned]        L20c GW250114's ringdown inverted with the exact Kerr modes: M_f = 66.48 Msun, chi_f = 0.744, final area 4.04e5 km^2; at the least favourable corner 3.36e5 km^2 against the initial 2.52e5: the area law does not rest on the fit's error
           got M_f = 66.48, chi_f = 0.7444, area 4.039e+05 km^2, worst corner 3.36e+05,
           initial 2.521e+05
+   [PASS] [math]          L21a retarded Casimir-Polder: in a solvable model (two oscillators and a propagating field on a ring) the energy from the normal modes of the whole system equals (1/2 pi) int dxi ln[1 - (g^2 G12(xi, r) alpha_d)^2] with the retarded Green function, while the static (instantaneous) kernel is off by a factor of 3; P2's Green tensor carries the same algebra to the electromagnetic case (the dyadic case is not diagonalized here)
+          r = 3: normal modes -1.238928e-03, ln det -1.238928e-03, static -3.527416e-03
+   [PASS] [math]          L21c at design A's gap alpha G ~ K R^3/r^3 = 1e-7, so the second-order Casimir-Polder term is exact to 1e-14
+          got 1.02e-07
    [PASS] [math]          L17a Fujikawa's Jacobian with explicit gamma matrices: tr[gamma5 sigma_mn sigma_rs] = -4 eps_mnrs for all 256 index sets (the sign is gamma5's orientation), so the divergence is e^2 eps F F/(16 pi^2) in magnitude
    [PASS] [math]          L17b a second route: each chirality's lowest Landau level is a 1+1 Weyl fermion, d n5/dt = 2 (eB/2 pi)(eE/2 pi); with eps F F = 8 F12 F34 it is the same number as the Jacobian's (e^2/32 pi^2) x 2 eps F F
    [PASS] [math]          L17c matching to PCAC: the anomaly's amplitude is alpha N_c (Q_u^2 - Q_d^2)/(pi f_pi), the coefficient the pi0 width (links above) took as given; the PCAC step and Adler-Bardeen stay quoted
@@ -294,5 +298,5 @@ VERDICT
    are derived (the M_Z correction in the MS-bar scheme and the microstates
    of S_dS are not).
 
-   Checks passed: 86/86   (54 math, 12 data, 20 pinned; 2.63 s)
+   Checks passed: 88/88   (56 math, 12 data, 20 pinned; 2.98 s)
    ALL CHECKS PASS

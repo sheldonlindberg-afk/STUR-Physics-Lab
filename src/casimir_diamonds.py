@@ -82,7 +82,8 @@ over imaginary frequencies, Casimir and Polder 1948).
       for any coupling strength; its second order, -(hbar/2 pi) int a^2 Tr T.T, is London's
       -(3/4) hbar w0 a0^2 / r^6. Retardation enters only through G(i xi) of P2, which is
       classical Maxwell; that the same ln det holds with the retarded G is the standard
-      argument-principle step and is not checked here. (CHECK for the instantaneous limit)
+      argument-principle step; src/ladder_links.py L21 checks it in an exactly solvable retarded
+      model. (CHECK for the instantaneous limit)
 Labels: CHECK, LIT (eps of diamond, 5.7; the sources named in P5 and P7), MODEL (P7's patch model).
 """
 import math

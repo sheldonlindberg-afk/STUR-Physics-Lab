@@ -227,6 +227,16 @@ def test_kerr_modes_and_the_fit_at_the_spin_gw250114_uses():
     assert a_min > a_i_max and abs(a_min / 3.360e5 - 1) < 2e-3 and abs(a_f / a_fit - 1) < 0.01
 
 
+def test_retarded_casimir_polder_step():
+    res = LL.retarded_pair_energy()
+    for r, (ex, fo, st) in res.items():
+        assert abs(fo / ex - 1) < 1e-8                      # normal modes against the retarded ln det
+        assert abs(st / ex - 1) > 1.0 or r > 4              # the static kernel is wrong
+    assert abs(res[4][2] / res[4][0] - 3.06) < 0.05
+    x, x2 = LL.casimir_polder_order()
+    assert 5e-8 < x < 2e-7 and x2 < 1e-13
+
+
 def test_reference_output_matches():
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):

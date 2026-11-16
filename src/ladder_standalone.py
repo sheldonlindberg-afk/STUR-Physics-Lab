@@ -61,7 +61,7 @@ WHAT IT COMPUTES
               threshold scan (Landau poles from src/m331_three_loop.py, carried as numbers).
               Black holes (rung 6 -> 4 and link 3): the diamond's Schwarzschild radius is a
               millionth of the Planck length; a Planck-mass black hole has k_B T = M_Pl/8 pi.
-      More    Links added later, derived here without sympy (src/ladder_links.py L10e, L11-L20): the
+      More    Links added later, derived here without sympy (src/ladder_links.py L10e, L11-L21): the
               de Sitter horizon's entropy 3 pi/Lambda and its first law; the seesaw neutrino scale and
               its 1/w scaling (the Yukawas stay free); the first post-Newtonian correction to the
               entangling phase (-1.4e-23 rad); the cosmological constant against each rung's vacuum
@@ -83,7 +83,7 @@ SOURCE
 """
 from fractions import Fraction as F
 from itertools import permutations
-from math import cos, exp, factorial, pi, sin, sqrt
+from math import cos, exp, factorial, log, pi, sin, sqrt
 import cmath
 import random
 import textwrap
@@ -1212,7 +1212,7 @@ def links():
 
 
 # ----------------------------------------------------------------------------------------
-# MORE LINKS (src/ladder_links.py L10e, L11-L20), standard library only
+# MORE LINKS (src/ladder_links.py L10e, L11-L21), standard library only
 # ----------------------------------------------------------------------------------------
 M_H_GEV, M_T_GEV, M_B_GEV = 125.20, 172.57, 4.18      # PDG 2024
 MW_MEAS = 80.3692                                     # GeV, PDG 2024 average
@@ -1396,7 +1396,7 @@ def invert_220_exact(freq, damp, z):
 
 
 def links_more():
-    banner("MORE LINKS  Rung 5 -> 6, rung 1 -> data, rung 4 -> 5 and 6 (src/ladder_links.py L10e, L11-L20)")
+    banner("MORE LINKS  Rung 5 -> 6, rung 1 -> data, rung 4 -> 5 and 6 (src/ladder_links.py L10e, L11-L21)")
     plain("further places where one rung feeds another: the de Sitter horizon's entropy, the neutrino-mass scale, the first relativistic correction to the experiment's phase (far too small to see), the cosmological constant against each rung's vacuum energy, and three results the earlier rungs had quoted: the ringdown fit, the anomaly coefficient and Hawking's Planck spectrum.")
     l = 1.0
     # L11: the de Sitter horizon
@@ -1545,6 +1545,43 @@ def links_more():
           abs(mf - 66.48) < 0.02 and abs(chif - 0.7444) < 5e-4 and abs(a_f / 4.039e5 - 1) < 1e-3
           and min(corners) > a_init_max and abs(min(corners) / 3.360e5 - 1) < 2e-3, "pinned",
           f"got M_f = {mf:.2f}, chi_f = {chif:.4f}, area {a_f:.4g} km^2, worst corner {min(corners):.4g}, initial {a_init_max:.4g}")
+    # L21: the retarded Casimir-Polder step, in an exactly solvable retarded model
+    M_, mu_, g_, w0_ = 40, 0.3, 0.45, 1.0
+    def lat_green(xi, d):
+        return sum(cos(2 * pi * p_ * d / M_) / (xi * xi + mu_**2 + 4 * sin(pi * p_ / M_) ** 2) for p_ in range(M_)) / M_
+    def e0(r):
+        V = [[0.0] * (M_ + 2) for _ in range(M_ + 2)]
+        for j in range(M_):
+            V[j][j] = 2 + mu_**2
+            V[j][(j + 1) % M_] = V[(j + 1) % M_][j] = -1.0
+        V[M_][M_] = V[M_ + 1][M_ + 1] = w0_**2
+        V[M_][0] = V[0][M_] = g_
+        V[M_ + 1][r] = V[r][M_ + 1] = g_
+        return 0.5 * sum(sqrt(x) for x in jacobi_eigenvalues(V))
+    def lndet(r, retarded, n=1600):
+        def f(xi):
+            a = xi * xi + w0_**2
+            return log(1 - (g_ * g_ * lat_green(xi if retarded else 0.0, r) / (a - g_ * g_ * lat_green(xi, 0))) ** 2)
+        h = 1.0 / n                                   # xi = t/(1 - t), dxi = dt/(1 - t)^2
+        tot = 0.0
+        for k in range(n):
+            t = k * h
+            wgt = 1 if k in (0,) else (4 if k % 2 else 2)
+            tot += wgt * f(t / (1 - t)) / (1 - t) ** 2
+        tot += 0.0                                    # the integrand vanishes at t = 1
+        return tot * h / 3 / (2 * pi)
+    r_far = M_ // 2
+    ex0, fo0, st0 = e0(r_far), lndet(r_far, True), lndet(r_far, False)
+    rows = [(r, e0(r) - ex0, lndet(r, True) - fo0, lndet(r, False) - st0) for r in (3, 6)]
+    check("L21a retarded Casimir-Polder: in a solvable model (two oscillators and a propagating field on a ring) the energy from"
+          " the normal modes of the whole system equals (1/2 pi) int dxi ln[1 - (g^2 G12(xi, r) alpha_d)^2] with the retarded"
+          " Green function, while the static (instantaneous) kernel is off by a factor of 3; P2's Green tensor carries the same"
+          " algebra to the electromagnetic case (the dyadic case is not diagonalized here)",
+          all(abs(fo / ex - 1) < 1e-6 for _, ex, fo, _ in rows) and abs(rows[0][3] / rows[0][1] - 3) < 1.0 and abs(rows[0][3] / rows[0][1] - 1) > 1,
+          "math", "r = %d: normal modes %.6e, ln det %.6e, static %.6e" % (rows[0][0], rows[0][1], rows[0][2], rows[0][3]))
+    x_cp = ((EPS_DIAMOND - 1) / (EPS_DIAMOND + 2)) * diamond_radius(m)**3 / gap**3
+    check("L21c at design A's gap alpha G ~ K R^3/r^3 = 1e-7, so the second-order Casimir-Polder term is exact to 1e-14",
+          5e-8 < x_cp < 2e-7 and x_cp**2 < 1e-13, "math", f"got {x_cp:.2e}")
     # L17: the ABJ anomaly
     gam = gamma_matrices()
     id4 = [[1 if i == j else 0 for j in range(4)] for i in range(4)]
@@ -1581,7 +1618,6 @@ def links_more():
           " (links above) took as given; the PCAC step and Adler-Bardeen stay quoted", ok)
     # L18: the rho parameter
     def drho_loop(eps, s2, mt=M_T_GEV, mb=M_B_GEV):
-        from math import log
         D = 1 / eps
         A0 = lambda m_: m_**2 * (D + 1 - log(m_**2))
         B0 = lambda m1, m2: D + 1 - (m1**2 * log(m1**2) - m2**2 * log(m2**2)) / (m1**2 - m2**2)
@@ -1593,7 +1629,6 @@ def links_more():
         Z = lambda m_, Q, T3: (T3 - Q * s2) ** 2 * LLe(m_) + (Q * s2) ** 2 * LLe(m_) - 2 * (T3 - Q * s2) * Q * s2 * LRn(m_)
         ward = 2 * LLe(mt) + 2 * LRn(mt)
         return 4 * (Z(mt, 2 / 3, 0.5) + Z(mb, -1 / 3, -0.5)) - 2 * LLn(mt, mb), ward
-    from math import log
     Fclosed = M_T_GEV**2 + M_B_GEV**2 - 2 * M_T_GEV**2 * M_B_GEV**2 / (M_T_GEV**2 - M_B_GEV**2) * log(M_T_GEV**2 / M_B_GEV**2)
     t1, w1_ = drho_loop(1e-6, 0.2)
     t2, _ = drho_loop(1e-6, 0.3)

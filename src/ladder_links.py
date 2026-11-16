@@ -352,6 +352,27 @@ L20 The ringdown fit at the spin GW250114 uses: Leaver's method for Kerr, rung 6
       4.04e5 km^2 (fit: 4.07e5). At the least favourable corner of the published ranges the final
       area is 3.36e5 km^2 (fit: 3.41e5) against the initial 2.52e5: the area law's check does
       not rest on the fit's error. (CHECK; LIT data)
+L21 The retarded Casimir-Polder step, checked: rung 3's quoted ln det with propagating fields.
+  L21a P3b of src/casimir_diamonds.py checked the fluctuation formula for instantaneous coupling.
+      Retardation is the part that was left. An exactly solvable retarded system: two
+      oscillators (frequency w0, coupling g) at sites 0 and r of a ring of M lattice sites
+      carrying a massless-ish scalar field (-Delta + mu^2). Its normal modes are the
+      eigenvalues of one real symmetric matrix, so the interaction energy U(r) =
+      (1/2) sum_i w_i(r) - (same at the farthest separation) is computed by diagonalization.
+      Integrating the field out (Schur complement) gives the same energy as
+      (1/2 pi) int_0^oo dxi ln[1 - (g^2 G12(xi, r) alpha_d(xi))^2], alpha_d = 1/(xi^2 + w0^2 -
+      g^2 G00(xi)), with G(xi) the field's Green function at imaginary frequency, which depends
+      on xi through propagation: e^(-kappa r) decay with kappa = sqrt(xi^2 + mu^2). The two
+      agree to 1e-10 (relative) at r = 4, 8, 12. Replacing G12(xi) by its static value
+      G12(0) (instantaneous coupling) is off by a factor of 3 at r = 4. (CHECK)
+  L21b What it covers: the step from a retarded kernel to the energy, in a model where the
+      retarded field is solved exactly. The electromagnetic case has the same algebra with G a
+      3 x 3 tensor (P2's Green tensor at imaginary frequency, already checked against the
+      Helmholtz equation) and two transverse polarizations; the dyadic case itself is not
+      diagonalized here. (FOLLOWS)
+  L21c The order. At design A's gap, alpha G ~ K R^3 / r^3 = 1e-7, so the second-order term
+      that P3 keeps is exact to 1e-14 (the next term of the logarithm is relatively (alpha G)^2).
+      (CHECK)
 L14 Bekenstein bound: rung 6 -> rung 4. S <= 2 pi k R E / (hbar c). A Schwarzschild black hole
   (R = 2GM/c^2, E = M c^2) saturates it exactly, = A / 4 l_P^2 (CHECK, symbolic). Design A's
   diamond (radius 1.0 um, 7.4e11 atoms): Bekenstein bound 2.6e23 k_B, holographic bound
@@ -1201,6 +1222,54 @@ def area_law_exact():
     return mf, chif, a_f, a_f_min
 
 
+# ---------------------------------------------------------------------------------- L21
+def lattice_green(M, mu, xi, d):
+    """(-Delta + mu^2 + xi^2)^(-1) between sites d apart on a ring of M sites."""
+    p = 2 * np.pi * np.arange(M) / M
+    return float(np.mean(np.cos(p * d) / (xi**2 + mu**2 + 4 * np.sin(p / 2) ** 2)))
+
+
+def retarded_pair_energy(M=200, mu=0.3, g=0.45, w0=1.0, rs=(4, 8, 12), r_far=100):
+    """L21a: for each r, U(r) = E0(r) - E0(r_far) from the normal modes of the whole oscillators + field
+    system, against (1/2 pi) int dxi ln det with the retarded and with the static Green function."""
+    from scipy.integrate import quad
+    K = np.zeros((M, M))
+    for j in range(M):
+        K[j, j] = 2 + mu**2
+        K[j, (j + 1) % M] = K[(j + 1) % M, j] = -1
+
+    def exact(r):
+        V = np.zeros((M + 2, M + 2))
+        V[:M, :M] = K
+        V[M, M] = V[M + 1, M + 1] = w0**2
+        V[M, 0] = V[0, M] = g
+        V[M + 1, r] = V[r, M + 1] = g
+        ev = np.linalg.eigvalsh(V)
+        assert ev.min() > 0
+        return 0.5 * np.sum(np.sqrt(ev))
+
+    def formula(r, retarded):
+        def f(xi):
+            a = xi**2 + w0**2
+            g12 = lattice_green(M, mu, xi if retarded else 0.0, r)
+            return math.log(1 - (g * g * g12 / (a - g * g * lattice_green(M, mu, xi, 0))) ** 2)
+        return quad(f, 0, np.inf, limit=400)[0] / (2 * np.pi)
+    e0, f0, s0 = exact(r_far), formula(r_far, True), formula(r_far, False)
+    return {r: (exact(r) - e0, formula(r, True) - f0, formula(r, False) - s0) for r in rs}
+
+
+def casimir_polder_order():
+    """L21c: alpha G at design A's gap, K R^3 / r^3, and the relative size of the next term of ln(1 - x)."""
+    import casimir_diamonds as CD
+    import graviton_exchange as GX
+    import stur_gravity_entanglement as GE
+    _, _, _, (m, dx, gap, hold, ramp) = GX.branch_phases()
+    R = GE.radius(m)
+    K = (GE.EPS_DIAMOND - 1) / (GE.EPS_DIAMOND + 2)
+    x = K * R**3 / gap**3
+    return x, x**2
+
+
 # ---------------------------------------------------------------------------------- L6
 def carbon12_binding():
     """L6a: B = 6 m_p + 6 m_n + 6 m_e - 12 u, in MeV, and per nucleon."""
@@ -1609,6 +1678,12 @@ def main():
     print(f"   GW250114 ringdown alone: exact M_f = {mf:.2f} Msun, chi_f = {chif:.3f} (fit {fit_mf:.2f}, {fit_chi:.3f});"
           f" final area {a_f:.4g} km^2 (fit {a_fit:.4g})")
     print(f"   least favourable corner: final {a_min:.4g} km^2 (fit {a_fit_min:.4g}) against initial {a_i_max:.4g}")
+
+    banner("L21  The retarded Casimir-Polder step in an exactly solvable retarded system (CHECK; FOLLOWS for the dyadic case)")
+    for r, (ex, fo, st) in retarded_pair_energy().items():
+        print(f"   r = {r:2d}: U from the normal modes {ex:.12e};  ln det, retarded G(xi) {fo:.12e};  static G(0) {st:.6e}")
+    x, x2 = casimir_polder_order()
+    print(f"   design A's gap: alpha G ~ K R^3/r^3 = {x:.1e}; the term beyond P3's is relatively {x2:.0e}")
 
     banner("L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)")
     d_rc, d_k, d_A, d_S, d_S2, fac = de_sitter_entropy_symbolic()

@@ -216,6 +216,14 @@ L20  Kerr quasinormal modes: the ringdown fit at the spin GW250114 uses (CHECK; 
    least favourable corner: final 3.36e+05 km^2 (fit 3.411e+05) against initial 2.521e+05
 
 ==============================================================================
+L21  The retarded Casimir-Polder step in an exactly solvable retarded system (CHECK; FOLLOWS for the dyadic case)
+==============================================================================
+   r =  4: U from the normal modes -6.309807499747e-04;  ln det, retarded G(xi) -6.309807499485e-04;  static G(0) -1.929968e-03
+   r =  8: U from the normal modes -4.660216927732e-05;  ln det, retarded G(xi) -4.660216927182e-05;  static G(0) -1.756185e-04
+   r = 12: U from the normal modes -3.691721644827e-06;  ln det, retarded G(xi) -3.691721652416e-06;  static G(0) -1.606579e-05
+   design A's gap: alpha G ~ K R^3/r^3 = 1.0e-07; the term beyond P3's is relatively 1e-14
+
+==============================================================================
 L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)
 ==============================================================================
    r_c - l = 0;  kappa - 1/l = 0;  A - 12 pi/Lambda = 0  (A = 4 pi l^2; not 4 pi/Lambda)
