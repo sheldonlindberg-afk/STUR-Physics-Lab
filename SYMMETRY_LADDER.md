@@ -219,7 +219,7 @@ counts is not derived here (see [TEGR.md](TEGR.md) for the corner-charge attempt
 
 ## Links between the rungs (`src/ladder_links.py`)
 
-The rungs above are separate derivations. In eighteen places one rung's output is another
+The rungs above are separate derivations. In nineteen places one rung's output is another
 rung's input, and the link can be checked against a measurement or against the other rung's
 code.
 
@@ -408,6 +408,16 @@ splitting use α(0). This link shows they are one coupling at two scales.
 | L18b | With m_t = 172.57, m_b = 4.18 GeV (PDG 2024): **Δρ = 9.26×10⁻³** | CHECK; LIT |
 | L18c | M_W from G_F, α(0), M_Z with Δr built up: tree **80.94** GeV; + Δα (L9's leptons, hadrons quoted) 79.96; + top loop 80.53; + Higgs log (quoted) **80.50**, against 80.37 measured. The 0.13 GeV left is Δr_rest = 0.007; the total Δr = 0.0356 | CHECK (top loop); LIT |
 | L18d | B7's +0.35% on M_Z is in the MS-bar scheme, where ŝ²(M_Z) absorbs part of Δρ; that bookkeeping is not done. L18 closes the leading piece of the on-shell correction, not B7's number | FOLLOWS |
+
+### Link 19: Hawking radiation as radiation, within rung 6 (`src/ladder_links.py` L19)
+
+H1 and H2 fix the temperature geometrically; the step that was quoted was that the field is then *emitted* with a Planck spectrum.
+
+| | Result | Status |
+|---|---|---|
+| L19a | A massless field's outgoing modes e^(−iωu) against the vacuum of the regular coordinate U across the horizon, with u = −(1/κ)ln(−κU) and κ from H1. The Klein–Gordon overlaps reduce (one integration by parts) to Γ(1 + iω/κ)(±iΩ)^(−1−iω/κ). With \|Γ(1+iy)\|² = πy/sinh πy: **\|β/α\|² = e^(−2πω/κ)** and \|α\|² − \|β\|² = 1/(2πκΩ), the unitarity normalization. The integral and \|Γ\|² are checked numerically | CHECK |
+| L19b | The mean number of quanta n = \|β\|²/(\|α\|² − \|β\|²) = **1/(e^(2πω/κ) − 1)**, for every Ω: Planck's law at k_BT = ħκ/2π, as an emission spectrum | CHECK, symbolic |
+| L19c | The energy flux of one massless 1+1 field is πT²/12, the one-dimensional Stefan–Boltzmann law. The 3+1 grey-body factors that give L7's mass-loss rate stay quoted (Carr et al.) | CHECK; LIT |
 
 ### Link 12: neutrino mass from rung 1's breaking scale, to oscillation data (`src/ladder_links.py` L12)
 

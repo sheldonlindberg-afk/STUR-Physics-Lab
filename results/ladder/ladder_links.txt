@@ -200,6 +200,14 @@ L18  The rho parameter from the top-bottom loop, and M_W (CHECK; LIT for the res
    measured 80.3692 GeV; the remainder Delta r_rest that closes it: +0.0071 (not computed here)
 
 ==============================================================================
+L19  Hawking radiation as radiation: the Bogoliubov coefficients (CHECK)
+==============================================================================
+   int x^(iy) e^(-s x) dx against Gamma(1+iy) s^(-1-iy): difference 4.2e-22;  |Gamma(1+iy)|^2 - pi y/sinh(pi y): 4.2e-22
+   |beta/alpha|^2 from the continued integrals 0.0122990935; e^(-2 pi w/kappa) = 0.0122990935
+   |alpha|^2 - |beta|^2 - 1/(2 pi kappa Omega) = 0;  |beta|^2/(|alpha|^2 - |beta|^2) - 1/(e^(2 pi w/kappa) - 1) = 0
+   (1/2 pi) int w n dw - pi T^2/12 = 0  (one massless 1+1 field)
+
+==============================================================================
 L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)
 ==============================================================================
    r_c - l = 0;  kappa - 1/l = 0;  A - 12 pi/Lambda = 0  (A = 4 pi l^2; not 4 pi/Lambda)

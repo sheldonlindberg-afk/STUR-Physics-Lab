@@ -279,7 +279,7 @@ effort:
 | Radiative correction to M_Z (+0.35%) | The one-loop oblique corrections Δr; needs m_t, m_H. The top–bottom loop is derived (`ladder_links.py` L18: Δρ, with M_W from it); the bosonic and light-fermion rest, and the MS-bar bookkeeping of B7's number, remain | medium–large, started |
 | ChPT low-energy constants ℓ̄₃, Σ | Lattice QCD. Not feasible in a standard-library script; it stays an input | — |
 | ABJ anomaly coefficient | The triangle diagram, or Fujikawa's path-integral Jacobian. Done (`ladder_links.py` L17: Fujikawa with explicit gamma matrices, a Landau-level cross-check, and the π⁰ amplitude); PCAC and Adler–Bardeen remain quoted | medium, done |
-| Hawking radiation as radiation | Bogoliubov coefficients of a field on the collapsing geometry, which give a Planckian spectrum at κ/2π | large |
+| Hawking radiation as radiation | Bogoliubov coefficients of a field on the collapsing geometry, which give a Planckian spectrum at κ/2π. Done in the near-horizon 1+1 form (`ladder_links.py` L19); the collapsing-star geometry and the 3+1 grey-body factors remain | large, mostly done |
 | Berti–Cardoso–Will QNM fit | Leaver's continued fraction for the Teukolsky equation, solved for ω(χ). Done at χ = 0 (`ladder_links.py` L16: the fit is 1.4% and 0.9% off there); the spin dependence remains | medium, started |
 | Design A's parameters | Re-run the design scan (`src/stur_gravity_entanglement.py`) | small |
 

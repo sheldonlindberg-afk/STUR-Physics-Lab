@@ -208,6 +208,14 @@ def test_rho_parameter_and_w_mass():
     assert 0.005 < rest < 0.009 and abs(steps[3][1] + rest - 0.0356) < 1e-3     # total Delta r of the SM
 
 
+def test_hawking_spectrum_from_bogoliubov_coefficients():
+    de, dg, rat, ex = LL.bogoliubov_checks()
+    assert de < 1e-15 and dg < 1e-15 and abs(rat / ex - 1) < 1e-12
+    assert LL.bogoliubov_symbolic() == (0, 0, 0)
+    de2, dg2, rat2, ex2 = LL.bogoliubov_checks(y=1.9, Om=0.4)         # other frequency and Omega: still thermal
+    assert abs(rat2 / ex2 - 1) < 1e-12
+
+
 def test_reference_output_matches():
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):

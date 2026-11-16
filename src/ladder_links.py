@@ -318,6 +318,25 @@ L18 The rho parameter from the top-bottom loop, and what it does to M_W: rung 1 
   L18d What this does not do: B7's +0.35% (tree M_Z against the measured one) is in the MS-bar
       scheme, where s-hat^2(M_Z) absorbs part of Delta rho; that bookkeeping is not done here.
       This closes the leading piece of the on-shell correction, not B7's number. (FOLLOWS)
+L19 Hawking radiation as radiation, derived: rung 6 -> its own temperature (H1, H2).
+  H1 and H2 fix the temperature geometrically; the quoted step was that the field is then
+  *emitted* with a Planck spectrum. Here: a massless field's outgoing modes at infinity,
+  p_w = e^(-i w u)/sqrt(4 pi w), against the vacuum of the regular (Kruskal) coordinate U
+  across the horizon, v_O = e^(-i O U)/sqrt(4 pi O). Near the horizon u = -(1/kappa)
+  ln(-kappa U), kappa from rung 6 (H1).
+  L19a The Klein-Gordon overlaps, with one integration by parts (checked numerically):
+      alpha = (1/2 pi) sqrt(O/w) kappa^(i y) int_0^oo x^(i y) e^(-i O x) dx and beta the same with
+      e^(+i O x), y = w/kappa. The integral is Gamma(1 + i y) s^(-1-i y) at s = +-i O, so
+      |alpha|^2 = e^(pi y) |Gamma|^2 / (4 pi^2 w O) and |beta|^2 the same with e^(-pi y). With
+      |Gamma(1 + i y)|^2 = pi y / sinh(pi y) (checked): |beta/alpha|^2 = e^(-2 pi w/kappa), and
+      |alpha|^2 - |beta|^2 = 1/(2 pi kappa O), the unitarity (commutator) normalization. (CHECK)
+  L19b The mean number of quanta in mode w is the ratio, n = |beta|^2/(|alpha|^2 - |beta|^2) =
+      1/(e^(2 pi w/kappa) - 1): Planck's law at k_B T = hbar kappa/2 pi, now as an emission
+      spectrum, for every O. (CHECK, symbolic)
+  L19c The energy flux of one massless 1+1 field, (1/2 pi) int w n dw = pi (k_B T)^2/12 (hbar =
+      1), is the Stefan-Boltzmann law in one dimension. For Schwarzschild it uses the T_H of
+      H1. What this does not do: the 3+1 grey-body factors (greybody transmission) that turn
+      this into L7's mass-loss rate are quoted there (LIT: Carr et al.). (CHECK, symbolic)
 L14 Bekenstein bound: rung 6 -> rung 4. S <= 2 pi k R E / (hbar c). A Schwarzschild black hole
   (R = 2GM/c^2, E = M c^2) saturates it exactly, = A / 4 l_P^2 (CHECK, symbolic). Design A's
   diamond (radius 1.0 um, 7.4e11 atoms): Bekenstein bound 2.6e23 k_B, holographic bound
@@ -1010,6 +1029,38 @@ def w_mass_steps(mH=125.20, mZ=91.1880):
     return drho, dal, steps, (lo + hi) / 2
 
 
+# ---------------------------------------------------------------------------------- L19
+def bogoliubov_checks(y=0.7, Om=1.3, s_re=0.6):
+    """L19a: numerical check of the integral and of |Gamma(1+iy)|^2, then the moduli."""
+    import mpmath as mp
+    mp.mp.dps = 20
+    # int_0^oo x^(iy) e^(-s x) dx = Gamma(1 + iy) s^(-1 - iy), checked at Re s > 0 (then continued to s = +-i Omega)
+    s_ = mp.mpf(s_re) + 0.9j
+    num = mp.quad(lambda x: x ** (1j * y) * mp.exp(-s_ * x), [0, 1, 10, mp.inf])
+    clo = mp.gamma(1 + 1j * y) * s_ ** (-1 - 1j * y)
+    gam2 = abs(mp.gamma(1 + 1j * y)) ** 2 - mp.pi * y / mp.sinh(mp.pi * y)
+    # moduli of the continued integral at s = +- i Omega (principal branch)
+    mod = lambda sgn: abs(mp.gamma(1 + 1j * y) * (sgn * 1j * Om) ** (-1 - 1j * y))
+    ratio = (mod(-1) / mod(+1)) ** 2                        # |beta/alpha|^2 should be e^(-2 pi y)
+    return abs(num - clo), abs(gam2), ratio, mp.e ** (-2 * mp.pi * y)
+
+
+def bogoliubov_symbolic():
+    """L19a-c: unitarity normalization, Planck's law and the 1+1 flux."""
+    import sympy as sp
+    y, w, O, k = sp.symbols("y omega Omega kappa", positive=True)
+    g2 = sp.pi * y / sp.sinh(sp.pi * y)
+    A2 = sp.exp(sp.pi * y) * g2 / (4 * sp.pi**2 * w * O)
+    B2 = sp.exp(-sp.pi * y) * g2 / (4 * sp.pi**2 * w * O)
+    unit = sp.simplify(sp.expand((A2 - B2).subs(y, w / k).rewrite(sp.exp) - 1 / (2 * sp.pi * k * O)))
+    n = sp.simplify((B2 / (A2 - B2)).rewrite(sp.exp) - 1 / (sp.exp(2 * sp.pi * y) - 1))
+    T = sp.Symbol("T", positive=True)
+    t, nn = sp.symbols("t n", positive=True)                 # w/(e^(w/T) - 1) = T^2 t sum_n e^(-n t), w = T t
+    zeta2 = sp.summation(sp.integrate(t * sp.exp(-nn * t), (t, 0, sp.oo)), (nn, 1, sp.oo))
+    flux = sp.simplify(T**2 * zeta2 / (2 * sp.pi) - sp.pi * T**2 / 12)
+    return unit, n, flux
+
+
 # ---------------------------------------------------------------------------------- L6
 def carbon12_binding():
     """L6a: B = 6 m_p + 6 m_n + 6 m_e - 12 u, in MeV, and per nucleon."""
@@ -1396,6 +1447,15 @@ def main():
     for lab, (mw, dr) in zip(("tree", "+ Delta alpha", "+ top loop", "+ Higgs log"), steps):
         print(f"   {lab:14s} M_W = {mw:.3f} GeV  (Delta r = {dr:+.4f})")
     print(f"   measured {MW_MEAS} GeV; the remainder Delta r_rest that closes it: {rest:+.4f} (not computed here)")
+
+    banner("L19  Hawking radiation as radiation: the Bogoliubov coefficients (CHECK)")
+    de, dg, rat, ex = bogoliubov_checks()
+    print(f"   int x^(iy) e^(-s x) dx against Gamma(1+iy) s^(-1-iy): difference {float(de):.1e};"
+          f"  |Gamma(1+iy)|^2 - pi y/sinh(pi y): {float(dg):.1e}")
+    print(f"   |beta/alpha|^2 from the continued integrals {float(rat):.10f}; e^(-2 pi w/kappa) = {float(ex):.10f}")
+    unit, nplanck, flux = bogoliubov_symbolic()
+    print(f"   |alpha|^2 - |beta|^2 - 1/(2 pi kappa Omega) = {unit};  |beta|^2/(|alpha|^2 - |beta|^2) - 1/(e^(2 pi w/kappa) - 1) = {nplanck}")
+    print(f"   (1/2 pi) int w n dw - pi T^2/12 = {flux}  (one massless 1+1 field)")
 
     banner("L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)")
     d_rc, d_k, d_A, d_S, d_S2, fac = de_sitter_entropy_symbolic()
