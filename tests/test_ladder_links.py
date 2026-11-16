@@ -137,6 +137,42 @@ def test_de_sitter_gauge_theory_in_the_lab():
     assert abs(l / 1.647e26 - 1) < 1e-3 and abs(rel / 2.04e-59 - 1) < 0.01
 
 
+def test_de_sitter_horizon_entropy():
+    d_rc, d_k, d_A, d_S, d_S2, fac = LL.de_sitter_entropy_symbolic()
+    assert (d_rc, d_k, d_A, d_S, d_S2) == (0, 0, 0, 0, 0) and fac == 3     # A = 12 pi/Lambda, S = 3 pi/Lambda
+    assert LL.first_law_every_horizon() == 0
+    ident, worst = LL.sds_entropy_bound()
+    assert ident == 0 and worst < 1
+    l, A, S, T, r1, r2 = LL.de_sitter_numbers()
+    assert abs(S / 3.263e122 - 1) < 1e-3 and abs(T / 2.21e-30 - 1) < 1e-2
+    assert abs(r1 - 1) < 1e-12 and abs(r2 - 3) < 1e-12
+
+
+def test_neutrino_mass_from_the_breaking_scale():
+    q = LL.lepton_triplets()
+    assert q["-1/sqrt3"] == ["0", "-1", "0"] and q["+1/sqrt3"] == ["0", "-1", "-1"]
+    prod, resid, inv = LL.seesaw_symbolic()
+    assert prod == 0 and resid == 0 and inv == 0
+    sn = LL.seesaw_numbers()
+    assert abs(sn["slope"] + 1) < 1e-9 and abs(sn["light"] / 0.0501 - 1) < 2e-3
+    assert 1.2 < sn["ratio"] < 1.4 and abs(sn["m_with_ye"] / 0.0301 - 1) < 5e-3
+    tot, bound = LL.neutrino_data()
+    assert 0.058 < tot < 0.060 and tot < bound
+
+
+def test_first_post_newtonian_correction():
+    assert LL.eih_test_mass_limit() == 0
+    dn, dp, dq = LL.eih_phase_shift()
+    assert abs(dn - 2.1868) < 1e-3
+    assert abs(dp / dn) < 1e-23 and abs(dq / dn) < 1e-37 and dp != 0
+
+
+def test_bekenstein_bound():
+    assert LL.bekenstein_saturation() == 0
+    R, bek, holo, atoms = LL.diamond_bounds()
+    assert bek > 1e3 * atoms and holo > 1e30 * bek
+
+
 def test_reference_output_matches():
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):

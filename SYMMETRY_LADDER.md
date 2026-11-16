@@ -218,7 +218,7 @@ counts is not derived here (see [TEGR.md](TEGR.md) for the corner-charge attempt
 
 ## Links between the rungs (`src/ladder_links.py`)
 
-The rungs above are separate derivations. In five places one rung's output is another
+The rungs above are separate derivations. In fourteen places one rung's output is another
 rung's input, and the link can be checked against a measurement or against the other rung's
 code.
 
@@ -365,6 +365,50 @@ splitting use α(0). This link shows they are one coupling at two scales.
 | L10b | **The background can't entangle.** For two masses the Λ term is a sum of one-body energies, so it cancels identically in the entangling combination φ₀₀ + φ₁₁ − φ₀₁ − φ₁₀; the 1/r term, with the same G, is all that is left | CHECK, symbolic |
 | L10c | What can is a mass–mass correction from the de Sitter propagator, of relative order (r/l)² = Λr²/3: **2×10⁻⁵⁹** at design A's farthest branch distance. The coefficient isn't computed; the order is the statement | FOLLOWS |
 | L10d | Rung 5's l = √(3/Λ) = 1.65×10²⁶ m and coupling 3/(GΛ) are built from rung 4's G and the measured Λ | CHECK |
+
+### Link 11: the cosmological horizon's entropy, from rung 5 to rung 6 (`src/ladder_links.py` L11)
+
+| | Result | Status |
+|---|---|---|
+| L11a | Rung 5's vacuum f = 1 − r²/l² has a horizon at r = l with κ = 1/l (rung 6's Killing definition), so T_dS = ħc/(2πk_B l). The area is **A = 4πl² = 12π/Λ** (not 4π/Λ) and S_dS = A/4l_P² = **3πc³/(GħΛ)** = π × rung 5's coupling 3/(GΛ). The form πc³/(GħΛ) is a factor 3 too small | CHECK, symbolic |
+| L11b | At every Schwarzschild–de Sitter horizon, from the same f: dM = (f′(r_h)/4π) dS. It is dM = T dS at the black-hole horizon and dM = −T dS at the cosmological one | CHECK, symbolic |
+| L11c | S_bh + S_c < S_dS for every black hole the universe allows (9M²Λ < 1), approaching it as M → 0, because r_b² + r_c² + (r_b + r_c)² = 2l² exactly | CHECK |
+| L11d | At the measured Λ: l = 1.65×10²⁶ m, **S_dS = 3.3×10¹²² k_B**, T_dS = 2.2×10⁻³⁰ K. That S_dS counts microstates is the holographic reading; only the area law and Λ are used here | CHECK; LIT; FOLLOWS |
+
+### Link 12: neutrino mass from rung 1's breaking scale, to oscillation data (`src/ladder_links.py` L12)
+
+| | Result | Status |
+|---|---|---|
+| L12a | Rung 1's lepton triplet is (ν, e, N⁰) for β = −1/√3 and (ν, e, E⁻) for β = +1/√3: only the first has a neutral partner of ν inside the multiplet; in the second a singlet ν_R must be added | CHECK |
+| L12b | Seesaw [[0, m_D], [m_D, M]]: the eigenvalues multiply to −m_D² exactly, so m_light = m_D²/m_heavy; m_D²/M to O(m_D⁴/M³). The inverse seesaw gives μm_D²/(m_D² + Λ²) to first order in μ. At fixed Yukawas m_light ∝ 1/w exactly | CHECK |
+| L12c | **The Yukawas are not predicted.** With M_V = 4 TeV (w = 12.3 TeV) and y_R = 1, 0.05 eV needs y_D = 3.8×10⁻⁶, 1.3× the electron's; y_D = y_e gives 0.030 eV. Rung 1 supplies the scale and the structure, not y_D | CHECK; MODEL |
+| L12d | NuFIT 6.0 (normal ordering) gives a minimal sum of 0.059 eV, inside Planck 2018's < 0.12 eV | CHECK; LIT |
+
+### Link 13: the first post-Newtonian correction to the entangling phase, from rung 4 to rungs 5 and 6 (`src/ladder_links.py` L13)
+
+| | Result | Status |
+|---|---|---|
+| L13a | The two-body Einstein–Infeld–Hoffmann Lagrangian. Its test-mass limit (the 3/2 v² and G² terms) is checked against the geodesic Lagrangian of the harmonic-coordinate Schwarzschild metric of rungs 5–6, expanded to 1/c²; the v₁·v₂ and (n·v₁)(n·v₂) terms are quoted | CHECK; KNOWN |
+| L13b | Along design A's trajectories the one-body terms cancel in the entangling combination. The velocity terms shift the phase by **−1.4×10⁻²³ rad** of 2.19 (relative −6.6×10⁻²⁴ ≈ −(v/c)², v = 0.46 mm/s); the G² term by −1.8×10⁻³⁷ rad. Nowhere near measurable | CHECK; FOLLOWS |
+
+### Link 14: the Bekenstein bound, from rung 6 to rung 4 (`src/ladder_links.py` L14)
+
+A Schwarzschild black hole saturates S ≤ 2πkRE/ħc exactly (it equals A/4l_P², symbolic). Design A's diamond (R = 1.0 µm, 7.4×10¹¹ atoms) has a Bekenstein bound of 2.6×10²³ k_B and a holographic bound of 1.2×10⁵⁸ k_B; neither constrains the experiment. (CHECK)
+
+### Where links exist, by pair of rungs
+
+| | 1 | 2 | 3 | 4 | 5 | 6 |
+|---|---|---|---|---|---|---|
+| **1** | | L2, L8 | L9 | L1, L3 | | L7, L12 (data) |
+| **2** | | | | L6 | | L7 |
+| **3** | | | | (Casimir gap) | | L7 |
+| **4** | | | | | L10 | L4, L13, L14 |
+| **5** | | | | | | L5, L11 |
+
+Empty cells are pairs with no link computed: 1–5 and 2–5 (gauge breaking and the de Sitter
+gauge theory share no input except G and Λ), 2–3 and 3–5. The remaining candidates are
+named in the text above as not computed: the de Sitter propagator's (r/l)² coefficient
+(L10c) and the holographic reading of S_dS (L11d).
 
 ## How the rungs fit together
 

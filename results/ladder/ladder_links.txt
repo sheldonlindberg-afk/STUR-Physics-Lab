@@ -156,6 +156,53 @@ L10c-d  What is left of Lambda at the diamonds (FOLLOWS, order of magnitude)
    l = sqrt(3/Lambda) = 1.647e+26 m; farthest branch distance 743 um; (r/l)^2 = 2.0e-59
 
 ==============================================================================
+L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)
+==============================================================================
+   r_c - l = 0;  kappa - 1/l = 0;  A - 12 pi/Lambda = 0  (A = 4 pi l^2; not 4 pi/Lambda)
+   S - 3 pi/Lambda = 0  (G = c = hbar = k_B = 1): S = pi x 3/(G Lambda), rung 5's coupling times pi
+   S / (pi c^3/(G hbar Lambda)) = 3: the entropy is three times that form
+
+==============================================================================
+L11b-c  The first law at every horizon, and de Sitter as the entropy maximum (CHECK)
+==============================================================================
+   dM/dr_h - (f'(r_h)/4 pi) dS/dr_h for SdS, any horizon: 0
+   r_b^2 + r_c^2 + (r_b + r_c)^2 - 2 l^2 (Vieta, exact): 0;  max (S_bh + S_c)/S_dS over 0 < 9 M^2 Lambda < 1: 0.998077 < 1
+
+==============================================================================
+L11d  The vacuum's entropy at the measured Lambda (CHECK; LIT Lambda)
+==============================================================================
+   l = 1.647e+26 m;  A = 3.410e+53 m^2;  S_dS = 3.263e+122 k_B;  T_dS = 2.21e-30 K
+   S_dS / (pi x 3/(G Lambda)) = 1.000000;  S_dS / (pi c^3/(G hbar Lambda)) = 3.000000
+
+==============================================================================
+L12a-b  Neutrino mass: the lepton triplets and the seesaw algebra (CHECK)
+==============================================================================
+   beta = -1/sqrt3 lepton triplet charges ['0', '-1', '0']
+   beta = +1/sqrt3 lepton triplet charges ['0', '-1', '-1']
+   seesaw: lambda_1 lambda_2 + m_D^2 = 0 (exact);  light - (m_D^2/M - m_D^4/M^3) = O(m_D^6): residual 0
+   inverse seesaw: characteristic polynomial at mu m_D^2/(m_D^2 + Lambda^2), to first order in mu: 0
+
+==============================================================================
+L12c-d  The scale, the Yukawas it leaves free, and the data (CHECK; MODEL; LIT)
+==============================================================================
+   M_V = 4 TeV: w = 2 M_V/g = 12.28 TeV (g = 0.6517);  M = y_R w/sqrt2 = 8.68 TeV (y_R = 1)
+   m_light = 0.0501 eV needs y_D = 3.79e-06 = 1.29 x the electron's 2.94e-06;  m_D/M = 7.6e-08
+   y_D = y_e gives 0.0301 eV;  log-log slope of m_light against w at fixed Yukawas: -1.000000
+   NuFIT 6.0 (normal ordering): minimal sum 0.0588 eV; Planck 2018: < 0.12 eV. The Yukawas stay inputs.
+
+==============================================================================
+L13a-b  First post-Newtonian correction to the entangling phase (CHECK; KNOWN EIH terms)
+==============================================================================
+   EIH test-mass limit minus the harmonic-coordinate geodesic Lagrangian, to 1/c^2: 0
+   design A: Newtonian 2.1868 rad;  v-dependent 1PN -1.44e-23 rad (-6.6e-24);  G^2 term -1.78e-37 rad (-8.2e-38)
+
+==============================================================================
+L14  The Bekenstein bound (CHECK)
+==============================================================================
+   2 pi R E/(hbar c) - A/(4 l_P^2) for Schwarzschild: 0
+   design A's diamond: R = 1.00 um, 7.37e+11 atoms;  Bekenstein bound 2.62e+23 k_B, holographic bound 1.20e+58 k_B
+
+==============================================================================
 L3a  The Planck mass: the 3-3-1 cutoff from rung 4's G (CHECK)
 ==============================================================================
    rung 4 (src/stur_gravity_entanglement.py): G = 6.67430e-11, hbar = 1.054571817e-34, c = 299792458

@@ -185,6 +185,68 @@ L10 The broken de Sitter gauge theory back to the lab: rung 5 -> rung 4.
       magnitude)
   L10d The same G and Lambda: rung 5's coupling 3/(G Lambda) is formed from rung 4's G and
       the measured Lambda, and its l = sqrt(3/Lambda) = 1.65e26 m. (CHECK)
+L11 The cosmological horizon's entropy: rung 5 -> rung 6.
+  L11a Rung 5's vacuum, f = 1 - r^2/l^2 with Lambda = 3/l^2, has a horizon at r_c = l. Rung 6's
+      surface gravity kappa = |f'(r_h)|/2 gives kappa = 1/l, T_dS = hbar c / (2 pi k_B l) (the
+      Gibbons-Hawking temperature), and the area law gives the horizon area A = 4 pi l^2 =
+      12 pi / Lambda (not 4 pi / Lambda) and the entropy
+          S_dS = A / (4 l_P^2) = 3 pi c^3 / (G hbar Lambda) = pi x [3 / (G Lambda)]
+      in units k_B = 1: pi times rung 5's MacDowell-Mansouri coupling, and 3 times
+      pi c^3 / (G hbar Lambda). (CHECK, symbolic)
+  L11b The first law at every horizon of Schwarzschild-de Sitter, from the same f: with
+      M(r_h) from f(r_h) = 0, dM = (f'(r_h) / 4 pi) dS, S = pi r_h^2 (G = c = hbar = 1). At the
+      black-hole horizon f' > 0 and it is dM = T dS; at the cosmological horizon f' < 0 and
+      it is dM = -T dS: the mass inside the cosmological horizon falls as that horizon grows.
+      (CHECK, symbolic)
+  L11c De Sitter space maximizes the entropy: S_bh + S_c < S_dS for every black hole the
+      universe allows (9 M^2 Lambda < 1), approaching it as M -> 0. The three roots of
+      r^3 - l^2 r + 2 M l^2 sum to zero, so r_b^2 + r_c^2 + (r_b + r_c)^2 = 2 l^2, exactly.
+      (CHECK)
+  L11d The measured Lambda (Planck 2018 with BAO, as rungs 5 and 6): l = 1.65e26 m, S_dS =
+      3.3e122 k_B, T_dS = 2.2e-30 K. The cosmological-constant problem, in rung 6's
+      terms: the entropy of the vacuum is the inverse of how small Lambda is in Planck units.
+      Not tested: that S_dS counts microstates (the holographic reading); only that the area
+      law of rung 6 and the Lambda of rung 5 give it. (CHECK; LIT Lambda; FOLLOWS for the
+      reading)
+L12 Neutrino mass from rung 1's breaking scale: rung 1 -> low-energy oscillation data.
+  L12a Rung 1's lepton triplet, from its charges (src/m331_breaking.py B6): beta = -1/sqrt3 has
+      (nu, e, N) with N electrically neutral; beta = +1/sqrt3 has (nu, e, E^-) with a charged
+      heavy lepton. So only the first variant has a neutral state beside nu inside the
+      multiplet; in the second a singlet nu_R must be added. (CHECK)
+  L12b The type-I seesaw matrix [[0, m_D], [m_D, M]] with m_D = y_D v / sqrt2 (v from rung 1's
+      G_F) and M = y_R w / sqrt2 (w the 3-3-1 vev, M_V = g w / 2): the eigenvalues multiply to
+      -m_D^2 exactly, so m_light = m_D^2 / m_heavy exactly, = m_D^2/M to O(m_D^4/M^3); the
+      inverse seesaw [[0, m_D, 0], [m_D, 0, Lambda], [0, Lambda, mu]] gives mu m_D^2/(m_D^2 +
+      Lambda^2) to first order in mu. At fixed Yukawas m_light scales exactly as 1/w. (CHECK,
+      symbolic and numeric)
+  L12c What this does not do: the Yukawas are free. At w = 2 M_V / g with M_V = 4 TeV and y_R = 1,
+      m_light = 0.05 eV (sqrt of the atmospheric splitting) needs y_D = 3.8e-6, 1.3 times the
+      electron's Yukawa; y_D equal to the electron's gives 0.03 eV. That is a coincidence of
+      order of magnitude, not a prediction: no relation fixes y_D. What rung 1 supplies is the
+      scale w and the structure, so the suppression m_D / M ~ 8e-8 needs no Majorana
+      scale below w. (CHECK for the arithmetic; MODEL for the Yukawas)
+  L12d Against data (LIT: NuFIT 6.0, normal ordering, delta m^2_21 = 7.49e-5, delta m^2_31 =
+      2.513e-3 eV^2; Planck 2018, sum m_nu < 0.12 eV): the minimal sum is 0.059 eV, inside the
+      bound, so a sub-eV scale of the seesaw form is consistent with both. (CHECK; LIT)
+L13 First post-Newtonian correction to the entangling phase: rung 4 -> rungs 5 and 6.
+  L13a The two-body Einstein-Infeld-Hoffmann Lagrangian (LIT: EIH 1938; harmonic coordinates):
+      L_int = G m1 m2 / r [1 + (v1^2 + v2^2) 3/(2c^2) - 7 v1.v2 / (2c^2) - (n.v1)(n.v2)/(2c^2)]
+              - G^2 m1 m2 (m1 + m2) / (2 c^2 r^2).
+      Its test-mass limit is checked here against the geodesic Lagrangian of rung 5/6's
+      Schwarzschild metric in harmonic coordinates, expanded to 1/c^2: the 3/2 v^2 term and the
+      G^2 term agree. The v1.v2 and (n.v1)(n.v2) terms are quoted. (CHECK for the test-mass
+      limit; KNOWN for the rest)
+  L13b Along design A's branch trajectories, the one-body terms (m v^4/8c^2 and the like) cancel
+      in the entangling combination exactly, as in L10b. The rest, integrated: the entangling
+      phase shifts by -1.4e-23 rad of 2.19, a relative -6.6e-24 (of order (v/c)^2 for v =
+      dx/ramp = 0.46 mm/s); the G^2 term is another -1.8e-37 rad. No 1PN effect is near
+      measurable. (CHECK; FOLLOWS
+      for the reading: a coordinate-time phase in the lab frame)
+L14 Bekenstein bound: rung 6 -> rung 4. S <= 2 pi k R E / (hbar c). A Schwarzschild black hole
+  (R = 2GM/c^2, E = M c^2) saturates it exactly, = A / 4 l_P^2 (CHECK, symbolic). Design A's
+  diamond (radius 1.0 um, 7.4e11 atoms): Bekenstein bound 2.6e23 k_B, holographic bound
+  1.2e58 k_B; its entropy at 0.15 K is far below either, so neither constrains the experiment.
+  (CHECK; the diamond's own entropy is not computed here)
 Labels: CHECK, FOLLOWS, KNOWN, LIT, MODEL (L3f's gravity term; L7c's switch-on rule; L8c's resonance saturation).
 """
 import functools
@@ -193,6 +255,7 @@ import os
 import sys
 from itertools import product
 
+import numpy as np
 import sympy as sp
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -465,6 +528,204 @@ def lambda_correction_size():
     r_far = math.hypot(gap, dx)
     l = math.sqrt(3 / LAMBDA_SI)
     return (r_far / l) ** 2, l, r_far
+
+
+# ---------------------------------------------------------------------------------- L11
+HBAR_SI, C_SI, KB_SI = 1.054571817e-34, 299792458.0, 1.380649e-23
+
+
+def de_sitter_entropy_symbolic():
+    """L11a: horizon, surface gravity, area, entropy of f = 1 - r^2/l^2 (G = c = hbar = k_B = 1)."""
+    import sympy as sp
+    r, l = sp.symbols("r l", positive=True)
+    f = 1 - r**2 / l**2
+    Lam = 3 / l**2
+    rc = [x for x in sp.solve(f, r) if x.is_positive][0]
+    kappa = sp.Abs(sp.diff(f, r)).subs(r, rc) / 2
+    A = 4 * sp.pi * rc**2
+    S = A / 4
+    return (sp.simplify(rc - l), sp.simplify(kappa - 1 / l), sp.simplify(A - 12 * sp.pi / Lam),
+            sp.simplify(S - 3 * sp.pi / Lam), sp.simplify(S - sp.pi * 3 / Lam),
+            sp.simplify(S / (sp.pi / Lam)))          # the last: 3, the factor over pi c^3/(G hbar Lambda)
+
+
+def first_law_every_horizon():
+    """L11b: dM/dr_h - (f'(r_h)/4 pi) dS/dr_h for SdS, with M from f(r_h) = 0."""
+    import sympy as sp
+    r, l, M = sp.symbols("r l M", positive=True)
+    f = 1 - 2 * M / r - r**2 / l**2
+    Mh = sp.solve(f, M)[0]
+    fp = sp.diff(f, r).subs(M, Mh)
+    return sp.simplify(sp.diff(Mh, r) - fp / (4 * sp.pi) * sp.diff(sp.pi * r**2, r))
+
+
+def sds_entropy_bound(n=200):
+    """L11c: max over M of (S_bh + S_c)/S_dS for 0 < 9 M^2 Lambda < 1, and the exact root identity."""
+    import sympy as sp
+    rb, rc = sp.symbols("r_b r_c", positive=True)
+    # roots rb, rc, -(rb + rc) of r^3 - l^2 r + 2 M l^2: e2 = rb rc - (rb + rc)^2 = -l^2  ->  l^2 = rb^2 + rb rc + rc^2;  then the sum of squares is 2 l^2:
+    ident = sp.simplify(rb**2 + rc**2 + (rb + rc) ** 2 - 2 * (rb**2 + rb * rc + rc**2))
+    worst = 0.0
+    for k in range(1, n):
+        Mv = (k / n) / math.sqrt(27)               # l = 1: 9 M^2 Lambda = 27 M^2 < 1
+        # stdlib bisection: f(r) = r^3 - r + 2 M has roots 0 < r_b < 1/sqrt3 < r_c < 1
+        g = lambda x: x**3 - x + 2 * Mv
+        a, b = 1e-12, 1 / math.sqrt(3)
+        for _ in range(200):
+            m = (a + b) / 2
+            a, b = (m, b) if g(m) > 0 else (a, m)
+        rbv = (a + b) / 2
+        a, b = 1 / math.sqrt(3), 1.0
+        for _ in range(200):
+            m = (a + b) / 2
+            a, b = (a, m) if g(m) > 0 else (m, b)
+        rcv = (a + b) / 2
+        worst = max(worst, rbv**2 + rcv**2)        # (S_bh + S_c) / S_dS with S = pi r^2, S_dS = pi l^2
+    return ident, worst
+
+
+def de_sitter_numbers():
+    """L11d: l, S_dS, T_dS, and 3 pi c^3/(G hbar Lambda) against pi x 3/(G Lambda) in Planck units."""
+    lP2 = G_NEWTON * HBAR_SI / C_SI**3
+    l = math.sqrt(3 / LAMBDA_SI)
+    A = 4 * math.pi * l**2
+    S = A / (4 * lP2)
+    T = HBAR_SI * C_SI / (2 * math.pi * KB_SI * l)
+    mm = 3 / (lP2 * LAMBDA_SI)
+    return l, A, S, T, S / (math.pi * mm), S / (math.pi * C_SI**3 / (G_NEWTON * HBAR_SI * LAMBDA_SI))
+
+
+# ---------------------------------------------------------------------------------- L12
+NUFIT_DM21, NUFIT_DM31 = 7.49e-5, 2.513e-3        # eV^2, NuFIT 6.0 (2024), normal ordering
+SUM_NU_PLANCK = 0.12                              # eV, Planck 2018 (TT,TE,EE+lowE+lensing+BAO), 95%
+M_E_EV = 0.51099895e6
+
+
+def lepton_triplets():
+    """L12a: the lepton triplet's charges for both variants, from rung 1's B6."""
+    import m331_breaking as B
+    out = {}
+    for v in ("-1/sqrt3", "+1/sqrt3"):
+        rows, ok, _ = B.charges(v, 3)
+        out[v] = [str(x) for k, X, q in rows if k == "lepton triplet" for x in q]
+    return out
+
+
+def seesaw_symbolic():
+    """L12b: det identity, leading terms, and the inverse seesaw's first order in mu."""
+    import sympy as sp
+    mD, M, mu, Lam, eps = sp.symbols("m_D M mu Lambda epsilon", positive=True)
+    S = sp.Matrix([[0, mD], [mD, M]])
+    ev = S.eigenvals()
+    lam = sorted(ev, key=lambda e: float(e.subs({mD: 1, M: 7})))
+    prod = sp.simplify(lam[0] * lam[1] + mD**2)                               # det = -m_D^2
+    light = sp.simplify(-lam[0])
+    ser = sp.series(light.subs(mD, eps * mD), eps, 0, 6).removeO()
+    resid = sp.simplify(ser - (eps**2 * mD**2 / M - eps**4 * mD**4 / M**3))
+    I = sp.Matrix([[0, mD, 0], [mD, 0, Lam], [0, Lam, mu]])
+    p = sp.expand(I.charpoly(sp.Symbol("x")).as_expr())
+    x = sp.Symbol("x")
+    # smallest root to first order in mu: x = mu mD^2/(mD^2 + Lam^2) solves p = 0 up to O(mu^2)
+    root = mu * mD**2 / (mD**2 + Lam**2)
+    inv = sp.simplify(sp.series(p.subs(x, root), mu, 0, 2).removeO())
+    return prod, resid, inv
+
+
+def seesaw_numbers(MV=4e3, yR=1.0, target=math.sqrt(NUFIT_DM31)):
+    """L12b-c: w from M_V = g w / 2, M = y_R w / sqrt2, the y_D that gives `target` eV, and
+    the scaling of m_light with w at fixed Yukawas (log-log slope)."""
+    import m331_breaking as B
+    g = math.sqrt(4 * math.pi / B.ALPHA_MZ_INV / B.S2_MZ)
+    w = 2 * MV / g
+    v = (math.sqrt(2) * B.G_F) ** -0.5
+    M = yR * w / math.sqrt(2) * 1e9                                  # eV
+    vev = v * 1e9
+    yD = math.sqrt(2 * target * M) / vev                              # m_D^2 / M = target, m_D = y_D v / sqrt2
+    ye = math.sqrt(2) * M_E_EV / vev
+    def light(wv, yd=yD):                                            # 2 m_D^2 / (M + sqrt(M^2 + 4 m_D^2)): no cancellation
+        m_D, MM = yd * vev / math.sqrt(2), yR * wv * 1e9 / math.sqrt(2)
+        return 2 * m_D**2 / (MM + math.sqrt(MM**2 + 4 * m_D**2))
+    slope = math.log(light(10 * w) / light(w)) / math.log(10)
+    m_with_ye = light(w, ye)
+    return dict(g=g, w=w, M=M, yD=yD, ye=ye, ratio=yD / ye, light=light(w), slope=slope,
+                m_with_ye=m_with_ye, suppress=(yD * vev / math.sqrt(2)) / M)
+
+
+def neutrino_data():
+    """L12d: minimal sum of masses for normal ordering from the splittings."""
+    m1 = 0.0
+    m2 = math.sqrt(NUFIT_DM21)
+    m3 = math.sqrt(NUFIT_DM31)
+    return m1 + m2 + m3, SUM_NU_PLANCK
+
+
+# ---------------------------------------------------------------------------------- L13
+def eih_test_mass_limit():
+    """L13a: expand -m c^2 sqrt(-g_mu nu v^mu v^nu / c^2) in harmonic-coordinate Schwarzschild to
+    1/c^2 and subtract the EIH test-mass limit (m2 -> M, v2 = 0). Zero means they agree."""
+    import sympy as sp
+    m, Mm, Gs, r, vv, t = sp.symbols("m M G r v t", positive=True)       # t = 1/c^2
+    U = Gs * Mm / r
+    L = -m / t * sp.sqrt(1 - 2 * t * U + 2 * t**2 * U**2 - (1 + 2 * t * U) * t * vv**2)
+    ser = sp.series(L, t, 0, 2).removeO()
+    eih = -m / t + m * vv**2 / 2 + m * U + t * (m * vv**4 / 8 + sp.Rational(3, 2) * m * U * vv**2
+                                                   - Gs**2 * m * Mm**2 / (2 * r**2))       # m << M
+    return sp.simplify(sp.expand(ser - eih))
+
+
+def eih_phase_shift(n=4001):
+    """L13b: entangling phase of design A, Newtonian and from the 1PN terms of the EIH Lagrangian,
+    along the branch trajectories (A_i at (0, s_i y), B_j at (gap, s_j y))."""
+    import graviton_exchange as GX
+    import stur_gravity_full as GF
+    _, _, _, (m, dx, gap, hold, ramp) = GX.branch_phases()
+    total = hold + 2 * ramp
+    t = np.linspace(0, total, n)
+    y = 0.5 * dx * GF.ramp_profile(t, hold, ramp)
+    vy = np.gradient(y, t)
+    G_, hb, c2 = G_NEWTON, HBAR_SI, C_SI**2
+    N = np.zeros((2, 2))
+    P = np.zeros((2, 2))
+    Q = np.zeros((2, 2))
+    for i, si in enumerate((1, -1)):
+        for j, sj in enumerate((1, -1)):
+            d = np.stack([np.full_like(t, gap), sj * y - si * y])               # B - A
+            r = np.sqrt((d**2).sum(0))
+            nvec = d / r
+            v1 = np.stack([np.zeros_like(t), si * vy])
+            v2 = np.stack([np.zeros_like(t), sj * vy])
+            newt = G_ * m**2 / r
+            pn = newt / c2 * (1.5 * ((v1**2).sum(0) + (v2**2).sum(0)) - 3.5 * (v1 * v2).sum(0)
+                              - 0.5 * (nvec * v1).sum(0) * (nvec * v2).sum(0))
+            g2 = -G_**2 * m**3 / (c2 * r**2)
+            N[i, j] = np.trapezoid(newt, t) / hb
+            P[i, j] = np.trapezoid(pn, t) / hb
+            Q[i, j] = np.trapezoid(g2, t) / hb
+    ent = lambda a: a[0, 0] + a[1, 1] - a[0, 1] - a[1, 0]
+    return ent(N), ent(P), ent(Q)
+
+
+# ---------------------------------------------------------------------------------- L14
+def bekenstein_saturation():
+    """L14: 2 pi R E / (hbar c) for a Schwarzschild black hole minus A / (4 l_P^2), symbolic."""
+    import sympy as sp
+    Gs, hb, c, M = sp.symbols("G hbar c M", positive=True)
+    R = 2 * Gs * M / c**2
+    bek = 2 * sp.pi * R * M * c**2 / (hb * c)
+    area = 4 * sp.pi * R**2 / (4 * Gs * hb / c**3)
+    return sp.simplify(bek - area)
+
+
+def diamond_bounds():
+    """L14: design A's Bekenstein bound and holographic bound, against its atom count."""
+    import graviton_exchange as GX
+    import stur_gravity_entanglement as GE
+    _, _, _, (m, dx, gap, hold, ramp) = GX.branch_phases()
+    R = GE.radius(m)
+    bek = 2 * math.pi * R * m * C_SI / HBAR_SI
+    holo = 4 * math.pi * R**2 / (4 * G_NEWTON * HBAR_SI / C_SI**3)
+    atoms = m / (12 * U_AMU)
+    return R, bek, holo, atoms
 
 
 # ---------------------------------------------------------------------------------- L6
@@ -811,6 +1072,51 @@ def main():
     banner("L10c-d  What is left of Lambda at the diamonds (FOLLOWS, order of magnitude)")
     rel, l, rf = lambda_correction_size()
     print(f"   l = sqrt(3/Lambda) = {l:.3e} m; farthest branch distance {rf * 1e6:.0f} um; (r/l)^2 = {rel:.1e}")
+
+    banner("L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)")
+    d_rc, d_k, d_A, d_S, d_S2, fac = de_sitter_entropy_symbolic()
+    print(f"   r_c - l = {d_rc};  kappa - 1/l = {d_k};  A - 12 pi/Lambda = {d_A}  (A = 4 pi l^2; not 4 pi/Lambda)")
+    print(f"   S - 3 pi/Lambda = {d_S}  (G = c = hbar = k_B = 1): S = pi x 3/(G Lambda), rung 5's coupling times pi")
+    print(f"   S / (pi c^3/(G hbar Lambda)) = {fac}: the entropy is three times that form")
+
+    banner("L11b-c  The first law at every horizon, and de Sitter as the entropy maximum (CHECK)")
+    print(f"   dM/dr_h - (f'(r_h)/4 pi) dS/dr_h for SdS, any horizon: {first_law_every_horizon()}")
+    ident, worst = sds_entropy_bound()
+    print(f"   r_b^2 + r_c^2 + (r_b + r_c)^2 - 2 l^2 (Vieta, exact): {ident};"
+          f"  max (S_bh + S_c)/S_dS over 0 < 9 M^2 Lambda < 1: {worst:.6f} < 1")
+
+    banner("L11d  The vacuum's entropy at the measured Lambda (CHECK; LIT Lambda)")
+    l, A, S, T, r1, r2 = de_sitter_numbers()
+    print(f"   l = {l:.3e} m;  A = {A:.3e} m^2;  S_dS = {S:.3e} k_B;  T_dS = {T:.2e} K")
+    print(f"   S_dS / (pi x 3/(G Lambda)) = {r1:.6f};  S_dS / (pi c^3/(G hbar Lambda)) = {r2:.6f}")
+
+    banner("L12a-b  Neutrino mass: the lepton triplets and the seesaw algebra (CHECK)")
+    for v, q in lepton_triplets().items():
+        print(f"   beta = {v:8s} lepton triplet charges {q}")
+    prod, resid, inv = seesaw_symbolic()
+    print(f"   seesaw: lambda_1 lambda_2 + m_D^2 = {prod} (exact);  light - (m_D^2/M - m_D^4/M^3) = O(m_D^6): residual {resid}")
+    print(f"   inverse seesaw: characteristic polynomial at mu m_D^2/(m_D^2 + Lambda^2), to first order in mu: {inv}")
+
+    banner("L12c-d  The scale, the Yukawas it leaves free, and the data (CHECK; MODEL; LIT)")
+    sn = seesaw_numbers()
+    print(f"   M_V = 4 TeV: w = 2 M_V/g = {sn['w'] / 1e3:.2f} TeV (g = {sn['g']:.4f});  M = y_R w/sqrt2 = {sn['M'] / 1e12:.2f} TeV (y_R = 1)")
+    print(f"   m_light = {sn['light']:.4f} eV needs y_D = {sn['yD']:.2e} = {sn['ratio']:.2f} x the electron's {sn['ye']:.2e};"
+          f"  m_D/M = {sn['suppress']:.1e}")
+    print(f"   y_D = y_e gives {sn['m_with_ye']:.4f} eV;  log-log slope of m_light against w at fixed Yukawas: {sn['slope']:.6f}")
+    tot, bound = neutrino_data()
+    print(f"   NuFIT 6.0 (normal ordering): minimal sum {tot:.4f} eV; Planck 2018: < {bound} eV. The Yukawas stay inputs.")
+
+    banner("L13a-b  First post-Newtonian correction to the entangling phase (CHECK; KNOWN EIH terms)")
+    print(f"   EIH test-mass limit minus the harmonic-coordinate geodesic Lagrangian, to 1/c^2: {eih_test_mass_limit()}")
+    dn, dp, dq = eih_phase_shift()
+    print(f"   design A: Newtonian {dn:.4f} rad;  v-dependent 1PN {dp:+.2e} rad ({dp / dn:+.1e});"
+          f"  G^2 term {dq:+.2e} rad ({dq / dn:+.1e})")
+
+    banner("L14  The Bekenstein bound (CHECK)")
+    R, bek, holo, atoms = diamond_bounds()
+    print(f"   2 pi R E/(hbar c) - A/(4 l_P^2) for Schwarzschild: {bekenstein_saturation()}")
+    print(f"   design A's diamond: R = {R * 1e6:.2f} um, {atoms:.2e} atoms;  Bekenstein bound {bek:.2e} k_B,"
+          f" holographic bound {holo:.2e} k_B")
 
     banner("L3a  The Planck mass: the 3-3-1 cutoff from rung 4's G (CHECK)")
     mpl, mpl331, (G, hb, c) = planck_mass()
