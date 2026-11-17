@@ -452,7 +452,7 @@ H1 and H2 fix the temperature geometrically; the step that was quoted was that t
 
 ### Link 24: the emission weights of L7, derived, within rung 6 (`rebuild/campaigns/greybody`, `src/ladder_links.py` L24)
 
-*Acceptance record pending: both builds passed the original verifier and an independent audit; the strengthened verifier was still running when this was committed.*
+*Accepted: `rebuild/campaigns/greybody/ACCEPTED.md` (two blind builds, a hidden oracle, an adversarial audit with an independent solver, and the strengthened gate).*
 
 | | Result | Status |
 |---|---|---|
