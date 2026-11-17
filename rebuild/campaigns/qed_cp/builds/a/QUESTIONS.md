@@ -14,3 +14,6 @@
    says to (argued in DERIVATION §1).
 4. **The sign/phase convention of E⊥** (i in front, ε versus ε*) drops out: each exchanged photon contributes
    (+i)(−i) = +1.
+5. **Audit follow-up (near zone).** For rω₀ ≤ 1e-7, `cp_energy` came out low by 4.2e-4 relative because `quad` under-sampled one long
+   integration panel. That was a numerical bug, not a spec ambiguity. It is fixed with decade breakpoints, and the
+   validity range is now stated in DERIVATION §6(d).

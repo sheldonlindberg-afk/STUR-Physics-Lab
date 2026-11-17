@@ -38,11 +38,11 @@ ORACLE = [
 
 
 def dense(m):
-    """12 random log-uniform r w0 in [1e-2, 1e3] with random w0, alpha0; a fresh seed each run (printed) so nothing can be fitted to the points."""
+    """12 random log-uniform r w0 in [1e-8, 1e5] with random w0, alpha0; a fresh seed each run (printed) so nothing can be fitted to the points."""
     seed = time.time_ns() % 10**9
     rnd, worst = random.Random(seed), 0.0
     for _ in range(12):
-        rho, w0, al = 10 ** rnd.uniform(-2, 3), 10 ** rnd.uniform(-1, 1), 10 ** rnd.uniform(-1, 1)
+        rho, w0, al = 10 ** rnd.uniform(-8, 5), 10 ** rnd.uniform(-1, 1), 10 ** rnd.uniform(-1, 1)
         worst = max(worst, abs(m.cp_energy(rho / w0, w0, al) / reference(rho / w0, w0, al) - 1))
     return worst < 1e-6, f"worst relative deviation {worst:.2e} over 12 random points (seed {seed})"
 
@@ -53,4 +53,15 @@ def coeff_tight(m):
     return abs(C / FAR - 1) < 1e-8 and abs(D / NEAR - 1) < 1e-8, f"C rel {C / FAR - 1:.1e}, D rel {D / NEAR - 1:.1e}"
 
 
-ORACLE += [("dense random points against the accurate reference", dense), ("coefficients to 1e-8", coeff_tight)]
+def extremes(m):
+    """Fixed extreme separations, the region where a build's integration can quietly fail (the first accepted build a was low by 4e-4 below 1e-7)."""
+    worst, where = 0.0, None
+    for rho in (1e-8, 1e-7, 1e-6, 1e-5, 1e3, 1e4, 1e5):
+        d = abs(m.cp_energy(rho, 1.0, 1.0) / ref_rho(rho) - 1)
+        if d > worst:
+            worst, where = d, rho
+    return worst < 1e-7, f"worst relative deviation at r w0 in 1e-8 .. 1e5: {worst:.1e} at {where}"
+
+
+ORACLE += [("dense random points against the accurate reference", dense), ("coefficients to 1e-8", coeff_tight),
+           ("extreme separations r w0 = 1e-8 .. 1e5 to 1e-7", extremes)]

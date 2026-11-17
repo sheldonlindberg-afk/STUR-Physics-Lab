@@ -44,7 +44,10 @@ def _J(rho):
         return val / rho
     g = lambda t: math.exp(-2 * rho * t) * _p(rho * t) / (1 + t * t)**2
     T = 1.0 / rho
-    pts = [0.0, 1.0, 10.0] + ([T, 20 * T] if T > 10 else [])
+    # decade breakpoints 10, 100, ... up to T = 1/rho: without them quad under-samples the 1/t^4 region of a single
+    # panel [10, T] and loses ~1e-3 of J for rho <= 1e-7 (found in audit; now within 2e-16 of mpmath for 1e-12 <= rho <= 1e5)
+    decades = [10.0**j for j in range(1, int(math.log10(T)) + 1)] if T > 10 else [10.0]
+    pts = [0.0, 1.0] + decades + ([T, 20 * T] if T > 10 else [])
     pts = sorted(set(pts))
     val = sum(quad(g, lo, hi, **opts)[0] for lo, hi in zip(pts, pts[1:]))
     val += quad(g, pts[-1], np.inf, **opts)[0]
@@ -68,8 +71,11 @@ def near_coefficient():
 
 
 PROVENANCE = {
-    "cp_energy": ("derived", "4th-order RS over 12 two-photon exchange diagrams; denominator identity (2) + closed-form "
-                             "photon k-integrals -> 1D u-integral (DERIVATION secs 1-4)"),
+    "cp_energy": ("derived", "runtime: scipy quad of the 1D imaginary-frequency integral U = -(1/pi r^6) int du "
+                             "alpha(iu)^2 e^{-2ur} p(ur) (eq. 3), in dimensionless form J(rho); eq. 3 itself is derived "
+                             "in DERIVATION secs 1-4 from 4th-order RS over the 12 two-photon exchange diagrams "
+                             "(denominator identity (2), posited and proved by residues, + closed-form k-integrals); "
+                             "valid and checked against mpmath for 1e-12 <= r*w0 <= 1e5"),
     "far_coefficient": ("derived", "rho -> infinity limit of J(rho): sum c_n n!/2^{n+1}/pi (DERIVATION sec 5)"),
     "near_coefficient": ("derived", "rho -> 0 limit of J(rho): (1/pi) int 3/(1+t^2)^2; cross-checked by London route"),
 }
@@ -130,6 +136,15 @@ if __name__ == "__main__":
     n, diff, S, syms = _check_identity()
     print(f"number of time orderings: {n}; identity (2) residual: {diff}")
     Sf = sp.lambdify(syms, S, 'numpy')
+    rng = np.random.default_rng(1)
+    worst = 0.0
+    for _ in range(5):
+        av, bv, kv, qv = rng.uniform(0.3, 3.0, 4)
+        lhs = Sf(av, bv, kv, qv)
+        rhs = 8 / math.pi * quad(lambda u: av * bv * kv * qv / ((av**2 + u**2) * (bv**2 + u**2) * (kv**2 + u**2)
+                                 * (qv**2 + u**2)), 0, np.inf, epsabs=0, epsrel=1e-13)[0]
+        worst = max(worst, abs(rhs / lhs - 1))
+    print(f"identity (2) numerically at 5 random (a,b,k,q): max relative deviation {worst:.2e}")
     print("p(x) coefficients:", _C)
     print(f"far  C = {far_coefficient():.12f}   cp_energy*r^7 at r w0=1e5: {-cp_energy(1e5, 1, 1) * 1e35:.12f}")
     print(f"near D = {near_coefficient():.12f}   cp_energy*r^6 at r w0=1e-5: {-cp_energy(1e-5, 1, 1) * 1e-30:.12f}")
@@ -149,6 +164,15 @@ if __name__ == "__main__":
         ext = np.polyfit(es, v, 2)[-1]
         print(f"r w0={r}: eq.(3) U = {cp_energy(r, 1, 1):.6e}; direct eq.(1) extrapolated eps->0: {ext:.6e}  (raw {v})")
     # numerical stability: t-form vs s-form at rho = 1 boundary region
+    import mpmath as mp
+    mp.mp.dps = 30
+    worst = 0.0
+    for rho in (1e-12, 1e-9, 1e-7, 1e-5, 1e-2, 0.5, 1.0, 3.0, 1e2, 1e4, 1e5):
+        rm = mp.mpf(rho)
+        g = lambda t: mp.e**(-2 * rm * t) * sum(c * (rm * t)**n for n, c in enumerate(_C)) / (1 + t * t)**2
+        ref = mp.quad(g, [0, 1, 10, 1 / rm, 20 / rm, mp.inf])
+        worst = max(worst, abs(_J(rho) / float(ref) - 1))
+    print(f"J(rho) vs 30-digit mpmath reference, rho in [1e-12, 1e5]: max relative deviation {worst:.2e}")
     rho = 1.0
     gt = lambda t: math.exp(-2 * rho * t) * _p(rho * t) / (1 + t * t)**2
     print(f"J(1): s-form {_J(1.0):.14f}, t-form {quad(gt, 0, np.inf, epsrel=1e-13, limit=400)[0]:.14f}")

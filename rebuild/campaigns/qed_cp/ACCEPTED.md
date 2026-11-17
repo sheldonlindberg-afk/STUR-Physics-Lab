@@ -29,3 +29,24 @@ which is the extrapolation error they state.
   every numerical check and is now caught only by the lint and by reading DERIVATION.md).
 * **Open follow-ups** (from AUDIT.md): intermediate-result exports so the banned route fails numerically; wording
   fixes in both DERIVATION files ("posited, proved by residues" in build a; "exponential" not "Gaussian" damping in b).
+
+## Revision: build a corrected after acceptance
+
+While fixing the audit's documentation findings, build a's builder found a real bug: for r w0 <= 1e-7 `cp_energy` was low
+by 4.2e-4 relative (the integration under-sampled a slowly decaying tail on one long panel; breakpoints at every decade now
+fix it, and the near zone gives U r^6 = -3/4 to nine digits). **The original gate and the original oracle missed it**: the
+oracle probed r w0 = 0.05 and above, and its random points started at 1e-2. The oracle is therefore extended: the random
+points now span r w0 = 1e-8 to 1e5 (fresh seed each run) and a fixed check at r w0 = 1e-8, 1e-7, 1e-6, 1e-5, 1e3, 1e4, 1e5
+holds each build to 1e-7 against the accurate reference (which reproduces the analytic limits to 1e-9 over that range).
+
+| Version | Extreme-separation check |
+|---|---|
+| Build a as first accepted | FAIL (4.2e-4 at 1e-8) |
+| Build a revised (this repository now) | PASS (2.2e-16); full verifier PASS (`builds/a/verifier_report.txt`) |
+| Build b | PASS (5.3e-14) |
+
+Elsewhere (r w0 >= 1e-6) the revised build a's values differ from the first accepted ones by at most 2e-13, so Link 23's
+comparison (r w0 = 0.05 to 20) is unchanged. Documentation fixes in the revised DERIVATION.md: the denominator identity is
+"posited, then proved by residues" (and was first found by fitting a two-coefficient ansatz); the claimed random-point and
+precision checks now exist under `__main__` (8.9e-16 and 2.2e-16); the provenance note says what runs (a one-dimensional
+imaginary-frequency integral derived from the 12 diagrams); the validity range is 1e-12 <= r w0 <= 1e5.

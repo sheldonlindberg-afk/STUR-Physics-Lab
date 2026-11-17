@@ -56,14 +56,15 @@ for general a = ω_A, b = ω_B (done by enumeration in sympy; the code in `__mai
 N = a²b+ab² + (a+b)²(k+q) + (a+b)(k²+q²) + 2(a+b)kq + kq(k+q),
 already symmetric in k↔q. For a = b: Σ₁₂ = 2[2a³+4a²(k+q)+2a(k+q)²+kq(k+q)] / [a(a+k)²(a+q)²(k+q)].
 
-**Key identity (derived, verified).**
+**Key identity (posited, then proved by residues).** I found the form of (2) by trying an ansatz c₁·kq + c₂·u² in the numerator and fitting c₁, c₂ numerically during exploration (c₁ = 8/π, c₂ = 0); it was then proved:
 
 Σ₁₂(k,q) = (8/π) ∫₀^∞ du  ab·kq / [(a²+u²)(b²+u²)(k²+u²)(q²+u²)].     (2)
 
 Proof: the integrand is even in u, so ∫₀^∞ = ½∫_{−∞}^{∞}; close in the upper half plane, simple poles at
 u = ia, ib, ik, iq; the sum of residues (2πi·½·Σ Res) is a rational function that reduces to Σ₁₂ (checked
-symbolically with sympy residues in `__main__`, and numerically at random points). This identity is the step that
-turns real-photon-energy denominators into an imaginary-frequency representation; it is *derived* here, not assumed.
+symbolically with sympy residues in `__main__`, residual 0, and numerically by quad at 5 random (a,b,k,q) in
+`__main__`). This identity is the step that turns real-photon-energy denominators into an imaginary-frequency
+representation; it is not assumed, but it was guessed before it was proved.
 
 ## 4. Doing the photon integrals
 
@@ -108,7 +109,13 @@ dipole–dipole operator V = [d_A·d_B − 3(d_A·r̂)(d_B·r̂)]/r³: U = −Σ
 Gauss–Legendre grid for several ε and extrapolated polynomially to ε→0. This does not use identity (2) or the
 contour step of §4. Compared with (3) at r ω₀ = 2 (slow but independent): direct −8.2793e−3 vs eq.(3) −8.2767e−3, 3e−4 relative, limited by the ε-extrapolation.
 (c) Identity (2) checked symbolically by residues and numerically at random (a,b,k,q).
-(d) Numerical stability of (3): quad with tightened tolerances / alternative variable (t vs s) agree to ~1e-12.
+(d) Numerical stability of (3): the two variables (t vs s) agree to ~1e-14 at ρ = 1, and J(ρ) agrees with a
+30-digit mpmath quadrature to 2e-16 relative (measured) for ρ from 1e-12 to 1e5 (both in `__main__`).
+
+**Validity range of `cp_energy`.** Checked for 1e-12 ≤ rω₀ ≤ 1e5. An earlier version split the t-integral only at
+t = 1, 10, 1/ρ, 20/ρ; for ρ ≤ 1e-7 `quad` under-sampled the single panel [10, 1/ρ] (the 3/t⁴ tail, ~1e-3 of J)
+and U was low by 4.2e-4 relative. Decade breakpoints 10, 100, …, 1/ρ fix this; results for ρ ≥ 1e-6 are
+changed by at most 2e-13 relative (at ρ = 1e-6, an improvement). Below ρ = 1e-12 it is untested, and floating-point r⁶ under/overflow eventually limits it.
 
 ## 7. Not derived / caveats
 
