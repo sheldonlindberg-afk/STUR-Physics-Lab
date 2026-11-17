@@ -12,12 +12,12 @@ from scipy.special import lambertw
 
 R_H = 2.0                    # horizon radius 2M (SPEC)
 T_HAWKING = 1.0 / (8.0 * math.pi)   # SPEC section 3
-RSTAR_MIN = -80.0            # start of integration in r*; f ~ e^{(r*-2)/2}
+RSTAR_MIN = -160.0           # start of integration in r*; f ~ e^{(r*-2)/2}, sqrt(f) ~ e^{-40.5} (DERIVATION 2)
 R_A = 3.0                    # switch from r* to r integration
-RTOL, ATOL = 1e-11, 1e-300
+RTOL, ATOL = 1e-12, 1e-300
 
 PROVENANCE = {
-    "transmission": ("derived", "ingoing horizon BC, ODE integration, matched to exact asymptotic 1/r series; Gamma=1/|A_in|^2"),
+    "transmission": ("derived", "ingoing horizon BC, ODE integration, matched to exact asymptotic 1/r series; Gamma=1/|A_in|^2 (unclipped); fermion horizon BC to O(sqrt f); rel. accuracy 1e-9 claimed (DERIVATION 9)"),
     "absorption_sum": ("derived", "sum over j >= s of (2j+1) transmission until terms negligible"),
     "power_per_dof": ("derived", "SPEC 3 integral: Gauss-Legendre panels in w on [0, w_max], partial waves until negligible"),
 }
@@ -115,13 +115,18 @@ def _solve(s, j, w, sign=+1, rstar_min=RSTAR_MIN, R=None):
     f0 = x0 / (2.0 + x0)
     ph = np.exp(-1j * w * rstar_min)
     if _is_fermion(s):
-        c, dfac = 0.0, 0.0
+        # u = 1 + c sqrt(f): V ~ sign k sqrt(f)/8, d sqrt(f)/dr* = sqrt(f) f_r / 2 (DERIVATION 2)
+        k = j + 0.5
+        z0 = math.sqrt(f0)
+        c = sign * 2.0 * k / (1.0 - 8j * w)
+        psi0 = ph * (1.0 + c * z0)
+        dpsi0 = ph * (-1j * w * (1.0 + c * z0) + c * z0 * (1.0 / (2.0 + x0)**2))
     else:
         v1 = j * (j + 1.0) / 4.0 + 2.0 * (1.0 - s * s) / 8.0
         c = v1 / (0.25 - 1j * w)
         dfac = f0 * (2.0 / (2.0 + x0)**2)          # d f / d r* = f * f_r
-    psi0 = ph * (1.0 + c * f0)
-    dpsi0 = ph * (-1j * w * (1.0 + c * f0) + c * dfac)
+        psi0 = ph * (1.0 + c * f0)
+        dpsi0 = ph * (-1j * w * (1.0 + c * f0) + c * dfac)
 
     def rhs1(t, y):
         x = y[0]
@@ -160,7 +165,7 @@ def _solve(s, j, w, sign=+1, rstar_min=RSTAR_MIN, R=None):
 @functools.lru_cache(maxsize=None)
 def _transmission(s, j, w):
     A_in, _, _ = _solve(s, j, w)
-    return float(min(1.0, 1.0 / abs(A_in)**2))
+    return float(1.0 / abs(A_in)**2)       # no clip: see DERIVATION section 1
 
 
 def transmission(s, j, w):
@@ -247,12 +252,14 @@ if __name__ == "__main__":
         b, _, _ = _solve(0.5, j, w, sign=-1)
         print(f"fermion j={j} w={w}: Gamma(V+) = {1/abs(a)**2:.10e}, Gamma(V-) = {1/abs(b)**2:.10e}")
     # (c) matching radius and r*_min convergence
-    for s, j, w in ((0, 0, 0.005), (2, 2, 0.01), (0.5, 1.5, 0.3), (1, 2, 1.5)):
+    for s, j, w in ((0, 0, 0.005), (2, 2, 0.01), (0.5, 0.5, 0.002), (0.5, 0.5, 0.01), (0.5, 1.5, 0.005),
+                    (0.5, 2.5, 0.02), (0.5, 1.5, 0.3), (1, 2, 1.5)):
         s, j = float(s), float(j)
         g0 = 1 / abs(_solve(s, j, w)[0])**2
         g1 = 1 / abs(_solve(s, j, w, R=2 * _match_radius(s, j, w))[0])**2
         g2 = 1 / abs(_solve(s, j, w, rstar_min=2 * RSTAR_MIN)[0])**2
-        print(f"conv s={s} j={j} w={w}: {g0:.10e}  R*2: {g1/g0-1:.1e}  r*min*2: {g2/g0-1:.1e}")
+        g3 = 1 / abs(_solve(s, j, w, rstar_min=RSTAR_MIN / 2)[0])**2
+        print(f"conv s={s} j={j} w={w}: {g0:.12e}  R*2: {g1/g0-1:.1e}  r*min*2: {g2/g0-1:.1e}  r*min/2: {g3/g0-1:.1e}")
     # (e) limits
     for w in (0.002, 0.005, 0.01):
         print(f"Gamma_00/w^2 at w={w}: {transmission(0, 0, w)/w**2:.5f}")

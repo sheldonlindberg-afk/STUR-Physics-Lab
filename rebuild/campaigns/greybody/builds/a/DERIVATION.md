@@ -20,18 +20,36 @@ At infinity, W = 2iω(|A_in|² − |A_out|²). Hence
 
     |A_in|² − |A_out|² = 1,      Γ = (transmitted flux)/(incident flux) = ω·1 / (ω|A_in|²) = 1/|A_in|² .
 
-So Γ ∈ [0, 1] automatically and is obtained from |A_in| alone (no cancellation even when Γ ≪ 1).
-The identity |A_in|² − |A_out|² = 1 is a free numerical check (route 2a).
+So Γ = 1/|A_in|² is obtained from |A_in| alone (no cancellation even when Γ ≪ 1), and the identity
+|A_in|² − |A_out|² = 1 is a free numerical check (route 6a). The identity implies Γ ≤ 1 only for the exact solution;
+numerically, near total transmission (high ω, A_out → 0) the computed 1/|A_in|² can exceed 1 by the integration error.
+**The code does not clip.** Measured (672 points, s ∈ {0, 1/2, 1, 2}, j = s … s+5, ω = 0.3 … 3): 342 points give
+Γ > 1, by at most 6e−12, which is the same size as the integration error of §9. The returned value is the unclipped
+1/|A_in|². (The first build clipped with min(1, ·); that was removed so that the code and this section agree.)
 
 ## 2. Near-horizon boundary condition
 
 With x = r − 2, f = x/(x+2), and dx/dr* = f. Inverting r*: r*/2 − 1 = x/2 + ln(x/2), so
 x = 2 W₀(e^{r*/2 − 1}) (Lambert W). Near the horizon f ≈ e^{(r*−2)/2} → 0 exponentially.
 
-Write ψ = e^{−iωr*} u. Then u'' − 2iω u' − V u = 0. Bosons: V ≈ V₁ f with V₁ = L/4 + κ/8 (value of V/f at r = 2), and
-f' = f·f_r → f/2, so u = 1 + c f with c(1/4 − iω) = V₁, i.e. c = V₁/(1/4 − iω). For fermions V ≈ (W_r f) ~ ±(k/8)√f,
-so the leading correction is O(√f). I start at r*_min = −80 (f ~ e^{−41}, √f ~ e^{−20.5} ≈ 1e−9) where the
-correction is negligible, and impose ψ = e^{−iωr*}, ψ' = −iω e^{−iωr*} (plus the O(f) boson correction for safety).
+Write ψ = e^{−iωr*} u. Then u'' − 2iω u' − V u = 0.
+
+* Bosons: V ≈ V₁ f with V₁ = L/4 + κ/8 (value of V/f at r = 2), and f' = f·f_r → f/2, so u = 1 + c f with
+  c(1/4 − iω) = V₁, i.e. c = V₁/(1/4 − iω).
+* Fermions: with z = √f, dz/dr* = z f_r/2 → z/4, and V₊ ≈ −k z (1 − 3/2)/4 = +k z/8 (V₋: −k z/8). Then u = 1 + c z
+  with c/16 − iω c/2 = ±k/8, i.e. **c = ±2k/(1 − 8iω)**. The code imposes ψ = e^{−iωr*}(1 + c z),
+  ψ' = e^{−iωr*}[−iω(1 + c z) + c z f_r/2] with the exact f_r = 2/r².
+
+**Why the leading correction matters (and why the first build was not accurate enough for fermions at low ω).**
+Dropping the u-correction leaves an error in ψ' of size |c| z/4 relative to ψ. Decomposed on the horizon solutions
+e^{∓iωr*} this is an admixture of the *outgoing-at-horizon* solution with amplitude δ ≈ |c| z/(8ω). At low ω both
+horizon solutions reach infinity through the same barrier with comparable |A_in|, so δΓ/Γ ~ 2δ ~ k z/(2ω).
+The first build started at r*_min = −80 with no fermion correction: z ≈ e^{−20.5} ≈ 1.2e−9, which gives
+δΓ/Γ ~ 1e−7 at ω ~ 0.002 – 0.01 — exactly what was then measured (6e−8 … 2.7e−7, growing with k, oscillating in ω),
+and well above 1e−8. Bosons were not affected: their error is O(f) ~ e^{−41}, and c was already included.
+Fix: (i) the O(√f) fermion correction above; (ii) r*_min = −160 (z ≈ e^{−40.5} ≈ 2.6e−18, f ≈ 7e−36), so even the
+next term is negligible. Check: with the correction, r*_min = −80, −160, −320 agree to ≤ 3e−11 for fermions at
+ω = 0.002 … 0.2 (without it, −80 is off by up to 2.7e−7; see §9).
 x is carried as an ODE variable (dx/dr* = x/(x+2)) so r − 2 never underflows against 2.
 
 ## 3. Interior integration
@@ -39,7 +57,7 @@ x is carried as an ODE variable (dx/dr* = x/(x+2)) so r − 2 never underflows a
 Stage 1, variable r*: state (x, ψ, ψ'), from r*_min to r*_a = r*(r = 3) = 3 + 2 ln(1/2). Check: the integrated x at r*_a
 must equal 1 (consistency check on x(r*)).
 Stage 2, variable r (no horizon singularity for r ≥ 3): dψ/dr = χ/f, dχ/dr = (V − ω²)ψ/f, χ = dψ/dr*, from r = 3 to R.
-Both with DOP853 at rtol 1e−11 (complex state split into real/imag).
+Both with DOP853 at rtol 1e−12 (complex state split into real/imag). The residual error scales with rtol (§9).
 
 Fermion potential in closed form (sign +): dW/dr = k[f_r/(2√f r) − √f/r²] = (k√f/r²)[1/(f r) − 1], so
 dW/dr* = f dW/dr = (k√f/r²)(3/r − 1), and
@@ -117,9 +135,18 @@ and is used as a check, not as an input.
 * Asymptotic series implemented with scaled coefficients b_n = a_n R^{−n} (no overflow), summed to n ≈ 2ωR or until
   three consecutive terms are < 1e−18 (single exact zeros occur, e.g. a_2 = 0 for s = 1, j = 1, so "stop when a term
   grows" is wrong; this was a bug in the first draft, caught by the flux identity).
-* Flux identity |A_in|² − |A_out|² = 1 holds to ~1e−11 (moderate ω).
-* Fermions: Γ(V₊) = Γ(V₋) to all printed digits (10) at ω = 0.05 … 1.
-* R → 2R changes Γ by ≤ 1e−11; r*_min → 2 r*_min by ≤ 4e−10 (including Γ₂₂(0.01) ≈ 1.2e−12).
+* Flux identity |A_in|² − |A_out|² = 1 holds to ~2e−12 at rtol 1e−12 (moderate ω).
+* Fermions: Γ(V₊) = Γ(V₋) to ≤ 3e−11 at ω = 0.002 … 1. Note this test alone is NOT sensitive to the horizon error of
+  §2: in the first build V₊ and V₋ shared the same 1e−7 error (|c| is the same for both signs). The r*_min test is
+  the one that detects it; the first build ran that test only at ω ≥ 0.3, where δ ∝ 1/ω is small, so it was missed.
+* Accuracy claim for transmission(), all spins, ω ∈ [0.002, 3]: **relative 1e−9** (observed ≤ 3e−11).
+  Supporting test (run on 8 ω-values 0.002 … 1 times j = s … s+2 for every spin, fermions j = 1/2, 3/2, 5/2): the
+  production result versus a run with rtol 1e−13, r*_min = −320 and R doubled, max relative difference
+  2.1e−11 (s=0), 2.5e−11 (s=1/2), 2.0e−11 (s=1), 2.7e−11 (s=2). Separately: R → 2R changes Γ by ≤ 4e−13; r*_min
+  −160 → −80 or −320 by ≤ 3e−11; rtol 1e−11/1e−12/1e−13 shows the residual ∝ rtol (1e−9, 1e−10, 1e−11 at the old
+  rtol ladder), i.e. it is integration error, not a systematic.
+  Below ω = 0.002 the claim is not tested. For Γ ≲ 1e−20 (high j, very low ω) the relative accuracy is the same,
+  since Γ comes from |A_in| without cancellation; the flux identity, however, cannot be checked there.
 * Γ₀₀/ω² = 16.208, 16.541, 17.143 at ω = 0.002, 0.005, 0.01: linear in ω, extrapolating to ≈ 16.0 at ω → 0 (§5).
 * Σ(2j+1)Γ/ω² at ω = 1, 2, 3 approaches 27 with the expected oscillating finite-ω corrections
   (s = 0: 26.18, 26.71, 27.17; s = 1/2: 27.83, 27.22, 26.83).
@@ -127,3 +154,8 @@ and is used as a check, not as an input.
   scipy.quad route all agree to ≤ 3e−11 relative. Claimed tolerance on P_s: 1e−8 relative.
   The quad route reuses the same Γ (it checks the ω-integration and j-sum); Γ itself is checked by the flux identity,
   the fermion partner potential, the R and r*_min convergence, and the two analytic limits.
+* After the horizon fix (rev. 2) P_s is unchanged to the 10 printed digits: the 1e−7 fermion error lived at
+  ω ≲ 0.05, where the emission integrand is tiny.
+* The r*_min test (×2 and ×1/2) is now run in `__main__` at fermion points ω = 0.002, 0.005, 0.01, 0.02 as well as
+  boson points; all agree to ≤ 3.3e−11 (main_out.txt).
+

@@ -245,7 +245,7 @@ L24  The emission weights of L7, derived by the grey-body campaign (CHECK; FOLLO
    spin 1: P = 1.68193e-05/M^2, weight 0.06023 (quoted 0.06, +0.4%)
    spin 2: P = 1.91837e-06/M^2, weight 0.00687 (quoted 0.007, -1.9%)
    Standard Model f: quoted weights 15.332; derived weights, charged fermions at the quoted 0.142: 15.332; derived 0.1465 for every fermion: 15.712 (Carr: 15.35)
-   accepted build a's Gamma against the independent solver at 6 reference points: worst 9.2e-11
+   accepted build a's Gamma against the independent solver at 6 reference points: worst 1.3e-10
 
 ==============================================================================
 L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)

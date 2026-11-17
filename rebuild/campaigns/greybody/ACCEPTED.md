@@ -73,3 +73,25 @@ fermion Gamma is not supported. It went back to its builder as a class B finding
 documentation finding (the undocumented clip of Gamma to 1). P_s is unaffected (it agrees with the two-route values to
 1e-9 or better); Link 24's numbers do not depend on this, but build a stays "accepted for P_s, under revision for low-w
 fermion Gamma" until it passes.
+
+## Revision 2 closed: build a fixed and re-verified
+
+Build a's builder found the cause by derivation: the spin-1/2 potential behaves like sqrt(f), not f, at the horizon, so the
+ingoing solution is e^{-i w r*}(1 + c sqrt(f) + ...); the first build omitted the c sqrt(f) term and started at r* = -80
+where sqrt(f) ~ 1e-9, leaving an outgoing wave of relative size ~ k sqrt(f)/(8 w) that is amplified at low w (error ~
+k sqrt(f)/(2 w) in Gamma, about 1e-7 at w = 0.002-0.01). Its earlier checks missed it because the V+/V- comparison carries the
+same error for both signs and the r*_min test was run only at w >= 0.3. Fix: the series term is imposed with c = +-2k/(1 - 8 i w)
+(derived in DERIVATION section 2), r*_min = -160, rtol 1e-12. The clip of Gamma to 1 is removed; DERIVATION section 1 now
+says Gamma <= 1 holds only for the exact solution and reports that at high w about half of 672 sampled points exceed 1, by
+at most 6e-12, the integration error (the blind check allows 1e-9). Claimed accuracy: 1e-9 for every spin, 0.002 <= w <= 3.
+
+| Step | Result |
+|---|---|
+| Tightened oracle, build a, before the fix | FAIL (9.7e-8 at the six low-w fermion points, limit 1e-8) |
+| Build a after the fix; full verifier (`builds/a/verifier_report.txt`) | PASS: 40 points 1.7e-10, six fermion points 1.8e-9, P_s to the two-route values 3e-11, 8e-13, 4e-10, 1e-9 |
+| Build a against build b (orchestrator, 9 points incl. some outside the oracle set) | 5e-11 |
+
+Both builds now pass every check in the strengthened gate. Their agreement (5e-11) is between two implementations of the same
+method; the independent solver supplies the method-independent check (1e-9). Link 24's numbers did not change (P_s to
+10 digits). Remaining low-severity items: below w = 0.002 the accuracy is untested; the flux-conservation identity cannot be
+used as a relative check when Gamma << 1.
