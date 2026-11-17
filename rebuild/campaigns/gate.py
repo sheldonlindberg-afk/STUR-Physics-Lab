@@ -46,7 +46,29 @@ def run(label, fn, mod, seconds):
     return {"label": label, "ok": bool(ok), "detail": str(detail), "seconds": round(time.time() - t0, 2)}
 
 
-def lint(path, allowed, targets):
+def _fold(node):
+    """Value of a constant expression built from numbers, math.pi / pi and + - * / **, else None."""
+    if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)):
+        return float(node.value)
+    if isinstance(node, ast.Attribute) and node.attr == "pi":
+        return math.pi
+    if isinstance(node, ast.Name) and node.id == "pi":
+        return math.pi
+    if isinstance(node, ast.UnaryOp) and isinstance(node.op, (ast.USub, ast.UAdd)):
+        v = _fold(node.operand)
+        return None if v is None else (-v if isinstance(node.op, ast.USub) else v)
+    if isinstance(node, ast.BinOp) and isinstance(node.op, (ast.Add, ast.Sub, ast.Mult, ast.Div, ast.Pow)):
+        a, b = _fold(node.left), _fold(node.right)
+        if a is None or b is None:
+            return None
+        try:
+            return {ast.Add: a + b, ast.Sub: a - b, ast.Mult: a * b, ast.Div: a / b if b else None, ast.Pow: a**b}[type(node.op)]
+        except (OverflowError, ZeroDivisionError, ValueError):
+            return None
+    return None
+
+
+def lint(path, allowed, targets, exact=()):
     """Imports, forbidden calls, `from inputs import`, and (verifier only) literals that equal an oracle target."""
     src = open(path).read()
     problems = []
@@ -70,6 +92,13 @@ def lint(path, allowed, targets):
             for t in targets:
                 if v and t and sig >= 3 and abs(v / t - 1) < 0.01:
                     problems.append(f"line {node.lineno}: literal {v} is within 1% of an oracle target")
+    for node in ast.walk(ast.parse(src)):                                 # integer-built constant expressions that equal an oracle target
+        if isinstance(node, (ast.BinOp, ast.Constant)) and exact:
+            v = _fold(node)
+            if v is not None:
+                for t in exact:
+                    if t and abs(v / t - 1) < 1e-9:
+                        problems.append(f"line {node.lineno}: constant expression equals the oracle target {t:.6g}")
     return problems
 
 
@@ -110,11 +139,12 @@ def main():
 
     # tier 2: lint
     oracle = None
-    targets = []
+    targets, exact = [], []
     if a.mode == "verifier" and a.oracle:
         oracle = load(a.oracle, "oracle")
         targets = list(getattr(oracle, "LINT_TARGETS", []))
-    problems = lint(mod_path, set(camp.ALLOWED_IMPORTS) | {"inputs"}, targets) if os.path.exists(mod_path) else ["module missing"]
+        exact = list(getattr(oracle, "LINT_EXACT", []))
+    problems = lint(mod_path, set(camp.ALLOWED_IMPORTS) | {"inputs"}, targets, exact) if os.path.exists(mod_path) else ["module missing"]
     report["tiers"]["lint"] = [{"label": "lint", "ok": not problems, "detail": "; ".join(problems)}]
 
     # tier 3: blind checks

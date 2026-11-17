@@ -65,3 +65,38 @@ def test_exporter_never_ships_the_oracle_or_the_repository():
                 assert "23/(4" not in text and "0.267" not in text, f          # no oracle targets in anything shipped
     r = subprocess.run([sys.executable, os.path.join(CAMP, "export_room.py"), "greybody", "x", os.path.join(ROOT, "scratch-room")], capture_output=True, text=True)
     assert r.returncode != 0                                                        # a room inside the repository is refused
+
+
+QED_STUB = '''
+import math
+PROVENANCE = {"cp_energy": ("derived", "x"), "far_coefficient": ("derived", "x"), "near_coefficient": ("derived", "x")}
+def cp_energy(r, w0, alpha0): return -1.0
+def far_coefficient(): return %s
+def near_coefficient(): return %s
+'''
+
+
+def test_lint_catches_integer_built_answers():
+    """The audit's mutant M1 typed 23/(4*math.pi) and 3/4: the float-literal lint missed them."""
+    oracle = os.path.join(CAMP, "qed_cp", "oracle.py")
+    for far, near in (("23/(4*math.pi)", "1.0"), ("1.0", "3/4"), ("1.0", "0.75")):
+        r = run_gate(stub(QED_STUB % (far, near), "qed_cp"), campaign="qed_cp", mode="verifier", oracle=oracle)
+        assert "constant expression equals the oracle target" in r.stdout, (far, near)
+    clean = run_gate(stub(QED_STUB % ("1.0", "2.0"), "qed_cp"), campaign="qed_cp", mode="verifier", oracle=oracle)
+    assert "constant expression equals the oracle target" not in clean.stdout
+
+
+def test_new_qed_cp_checks_exist_and_the_oracle_reference_is_accurate():
+    import importlib.util
+    def load(path, name):
+        spec = importlib.util.spec_from_file_location(name, path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        return mod
+    camp = load(os.path.join(CAMP, "qed_cp", "campaign.py"), "qed_cp_campaign")
+    oracle = load(os.path.join(CAMP, "qed_cp", "oracle.py"), "qed_cp_oracle")
+    labels = [l for l, _ in camp.BLIND]
+    assert "far zone approached with a 1/rho^2 deficit" in labels and "U / alpha0^2 independent of alpha0 at w0 != 1" in labels
+    import math
+    assert abs(-oracle.ref_rho(1e3) * 1e3**7 / (23 / (4 * math.pi)) - 1) < 1e-4     # the old reference was 9% off here
+    assert abs(oracle.reference(2.0, 3.0, 0.5) / (oracle.ref_rho(6.0) * 0.25 * 3.0**7) - 1) < 1e-12
