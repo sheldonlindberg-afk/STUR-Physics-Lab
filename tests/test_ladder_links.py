@@ -1,7 +1,7 @@
 """Pins src/ladder_links.py: the links between the ladder's rungs (SYMMETRY_LADDER.md).
 L1, neutral matter (rung 1 -> rung 4); L2, pi0 -> gamma gamma (rung 1 -> rung 2);
 L3, the Planck mass (rung 4 -> rung 1), at the reference spectrum and over the threshold scan."""
-import contextlib, io, os, sys
+import contextlib, io, math, os, sys
 import sympy as sp
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 import ladder_links as LL
@@ -244,6 +244,12 @@ def test_mz_bookkeeping():
     assert abs(b["parts"][0] + 0.010058) < 1e-5 and abs(b["parts"][1] - 0.003138) < 1e-5
     assert abs(b["ratio2"] ** 0.5 - 1 + 0.0035) < 1e-4
     assert abs(b["frac"] - 0.912) < 2e-3 and abs(b["pred_one_loop"] - 91.229) < 2e-3
+
+
+def test_qed_cp_accepted_builds():
+    worst, cross, far, near = LL.qed_cp_accepted(rhos=(0.05, 1.0, 20.0))
+    assert worst < 1e-9 and cross < 1e-9
+    assert abs(far - 23 / (4 * math.pi)) < 1e-10 and abs(near - 0.75) < 1e-10
 
 
 def test_reference_output_matches():

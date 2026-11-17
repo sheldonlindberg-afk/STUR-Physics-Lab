@@ -1,0 +1,2 @@
+- SPEC does not say how to treat the oscillatory k,q integrals; I used Abel damping e^{-eps(k+q)}, eps->0 (no cut-off), with 1/(k+q)=int ds e^{-(k+q)s}. No principal values arise because all time-ordered denominators are positive.
+- SPEC says "identical atoms" with 3 degenerate excited states: used isotropic alpha, Tr[T T] = AA+2BB.

@@ -390,6 +390,17 @@ L22 B7's +0.35% on M_Z, decomposed: rung 1's tree M_Z against the measurement, i
       Not derived here: the other 9% of rho-hat - 1 (bosonic loops, two-loop terms) and Dr_W - Dr0 =
       0.0029 (vertex and box corrections to muon decay and the rest of the MS-bar Dr_W). So B7's
       number is decomposed and its dominant part derived, not closed. (CHECK; LIT; FOLLOWS)
+L23 The electromagnetic dyadic step of L21, derived independently: rung 3 from photon exchange.
+  L23a Two blind builds (campaign qed_cp, rebuild/campaigns/qed_cp/ACCEPTED.md) derived the retarded
+      Casimir-Polder energy of two single-resonance atoms from the 12 time-ordered fourth-order diagrams of
+      the dipole-photon coupling, with the full photon polarization sum and angular average, and no use of the
+      Green-tensor formula. The accepted builds agree with the imaginary-frequency integral of rung 3 (P3)
+      to 1e-11 (1e-15 against the oracle's extended-precision reference) over r w0 = 1e-2 to 1e3, and derive the far coefficient 23/(4 pi) and the near coefficient 3/4.
+      So the 3 x 3, two-polarization structure that L21b left as FOLLOWS is confirmed by an independent route.
+      (CHECK; two builds, an audit, a hidden oracle)
+  L23b What it does not do: the single-resonance atom model is the polarizability of P3b (constant-alpha
+      follows in the far zone); the Abel-damping step for the photon integrals is supported, not proved; and
+      the gate cannot enforce the independence of the route, which the audit checked by reading. (FOLLOWS)
 L14 Bekenstein bound: rung 6 -> rung 4. S <= 2 pi k R E / (hbar c). A Schwarzschild black hole
   (R = 2GM/c^2, E = M c^2) saturates it exactly, = A / 4 l_P^2 (CHECK, symbolic). Design A's
   diamond (radius 1.0 um, 7.4e11 atoms): Bekenstein bound 2.6e23 k_B, holographic bound
@@ -1310,6 +1321,31 @@ def mz_bookkeeping():
                 mz=B.MZ_MEAS, dr_diff=DR_W_HAT - dr0)
 
 
+# ---------------------------------------------------------------------------------- L23
+def _load_build(name):
+    import importlib.util
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "rebuild", "campaigns", "qed_cp", "builds", name, "qed_cp.py")
+    spec = importlib.util.spec_from_file_location("qed_cp_build_" + name, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def p3_reference(rho):
+    """U in units alpha0^2 w0^7 at r w0 = rho from rung 3's route: -(1/2 pi) int dxi alpha(i xi)^2 Tr G.G, alpha0 = w0 = 1."""
+    from scipy.integrate import quad
+    f = lambda xi: (1 / (1 + xi**2)) ** 2 * 2 * math.exp(-2 * xi * rho) * (3 + 6 * xi * rho + 5 * (xi * rho) ** 2 + 2 * (xi * rho) ** 3 + (xi * rho) ** 4) / rho**6
+    return -quad(f, 0, math.inf, limit=400)[0] / (2 * math.pi)
+
+
+def qed_cp_accepted(rhos=(0.05, 0.5, 1.0, 3.0, 20.0)):
+    """L23a: the accepted perturbation-theory build a against rung 3's route; build b at one point; the derived coefficients."""
+    a, b = _load_build("a"), _load_build("b")
+    worst = max(abs(a.cp_energy(r, 1.0, 1.0) / p3_reference(r) - 1) for r in rhos)
+    cross = abs(b.cp_energy(1.0, 1.0, 1.0) / a.cp_energy(1.0, 1.0, 1.0) - 1)
+    return worst, cross, a.far_coefficient(), a.near_coefficient()
+
+
 # ---------------------------------------------------------------------------------- L6
 def carbon12_binding():
     """L6a: B = 6 m_p + 6 m_n + 6 m_e - 12 u, in MeV, and per nucleon."""
@@ -1735,6 +1771,12 @@ def main():
     print(f"   L18's one-loop top-bottom rho - 1 = {mb_['drho']:.3e}, {100 * mb_['frac']:.0f}% of rho-hat - 1;"
           f" with it, M_Z = {mb_['pred_one_loop']:.3f} GeV ({100 * (mb_['pred_one_loop'] / mb_['mz'] - 1):+.3f}% from measured);"
           f" Dr_W - Dr0 = {mb_['dr_diff']:.4f} is not derived")
+
+    banner("L23  The dyadic Casimir-Polder step from photon exchange: two blind builds (CHECK)")
+    worst, cross, far, near = qed_cp_accepted()
+    print(f"   12-diagram perturbation theory (accepted build a) against rung 3's Green-tensor integral, r w0 = 0.05 to 20: worst difference {worst:.1e}")
+    print(f"   build b (a different reduction) against build a at r w0 = 1: {cross:.1e};  derived far coefficient {far:.6f} (23/(4 pi) = {23 / (4 * math.pi):.6f}),"
+          f" near coefficient {near:.6f}")
 
     banner("L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)")
     d_rc, d_k, d_A, d_S, d_S2, fac = de_sitter_entropy_symbolic()

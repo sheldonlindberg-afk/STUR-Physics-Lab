@@ -44,9 +44,10 @@ def test_quoted_provenance_is_refused_outside_the_allowed_list():
 
 
 def test_oracle_literal_lint_catches_a_typed_in_answer():
-    sys.path.insert(0, os.path.join(CAMP, "greybody"))
-    import importlib
-    oracle = importlib.import_module("oracle")
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("greybody_campaign_oracle", os.path.join(CAMP, "greybody", "oracle.py"))
+    oracle = importlib.util.module_from_spec(spec)             # a unique name: a module called `oracle` shadows rebuild/oracle.py
+    spec.loader.exec_module(oracle)
     typed = GOOD_SHAPE.replace("return 1.0\n", "return %r\n" % (oracle.TARGET[1] * 1.004), 1) if False else GOOD_SHAPE + "\nP1 = %r\n" % (oracle.TARGET[1] * 1.004)
     r = run_gate(stub(typed), mode="verifier", oracle=os.path.join(CAMP, "greybody", "oracle.py"))
     assert "within 1% of an oracle target" in r.stdout

@@ -219,7 +219,7 @@ counts is not derived here (see [TEGR.md](TEGR.md) for the corner-charge attempt
 
 ## Links between the rungs (`src/ladder_links.py`)
 
-The rungs above are separate derivations. In twenty-two places one rung's output is another
+The rungs above are separate derivations. In twenty-three places one rung's output is another
 rung's input, and the link can be checked against a measurement or against the other rung's
 code.
 
@@ -432,7 +432,7 @@ H1 and H2 fix the temperature geometrically; the step that was quoted was that t
 | | Result | Status |
 |---|---|---|
 | L21a | An exactly solvable retarded system: two oscillators on a ring of lattice sites carrying a scalar field. The interaction energy from the normal modes of the whole system (one diagonalization) equals (1/2π)∫dξ ln[1 − (g²G₁₂(ξ,r)α_d(ξ))²], with G the field's Green function at imaginary frequency (e^(−κr) decay, κ = √(ξ² + μ²)), to 10⁻⁹ or better at r = 4, 8, 12. Replacing G₁₂(ξ) by its static value, the instantaneous coupling of P3b, is off by a factor of 3 at r = 4 | CHECK |
-| L21b | What it covers: the step from a retarded kernel to the energy. The electromagnetic case is the same algebra with G a 3×3 tensor (P2's Green tensor, checked against the Helmholtz equation) and two transverse polarizations; the dyadic case is not diagonalized here | FOLLOWS |
+| L21b | What it covers: the step from a retarded kernel to the energy. The electromagnetic case is the same algebra with G a 3×3 tensor (P2's Green tensor, checked against the Helmholtz equation) and two transverse polarizations; the dyadic case is confirmed by Link 23 | CHECK (scalar model); Link 23 for the dyadic case |
 | L21c | At design A's gap αG ~ KR³/r³ = 1×10⁻⁷, so P3's second-order term is exact to 10⁻¹⁴ | CHECK |
 
 ### Link 22: B7's +0.35% on M_Z, decomposed, from rung 1 to data (`src/ladder_links.py` L22)
@@ -442,6 +442,13 @@ H1 and H2 fix the temperature geometrically; the step that was quoted was that t
 | L22a | In the MS-bar scheme (PDG 2024, eq. 10.26) M_Z = A₀/[ŝĉ((1 − Δr̂_W)ρ̂)^(1/2)], A₀ = (πα/√2G_F)^(1/2). B7's tree formula is the same with (1 − Δr₀)^(1/2), Δr₀ = 1 − α/α̂ = 0.06645. So exactly **M_Z²/M_Z(tree)² = (1 − Δr₀)/[(1 − Δr̂_W)ρ̂]**, with the published Δr̂_W = 0.06937 and ρ̂ = 1.01016: M_Z = **91.1879 GeV** against 91.1880, and the gap −0.348% against B7's −0.348% | CHECK (algebra); LIT |
 | L22b | In M_Z²: ρ̂ gives −1.006%, (1 − Δr₀)/(1 − Δr̂_W) gives +0.314%; together −0.695%. The quadratic m_t dependence is in ρ̂ alone | CHECK |
 | L22c | L18's one-loop top–bottom loop is **91%** of ρ̂ − 1; with it, M_Z = 91.229 GeV, 0.045% above the measurement. Not derived: the other 9% (bosonic loops, two-loop terms) and Δr̂_W − Δr₀ = 0.0029 (vertex and box corrections and the rest of the MS-bar Δr̂_W). B7's number is decomposed and its dominant part derived, not closed | CHECK; LIT; FOLLOWS |
+
+### Link 23: the dyadic Casimir–Polder step from photon exchange, within rung 3 (`rebuild/campaigns/qed_cp`, `src/ladder_links.py` L23)
+
+| | Result | Status |
+|---|---|---|
+| L23a | Two **blind** builds (different models, clean rooms, a hidden oracle, an adversarial audit; see `rebuild/campaigns/qed_cp/ACCEPTED.md`) derived the retarded Casimir–Polder energy of two single-resonance atoms from the **12 time-ordered fourth-order diagrams** of the dipole–photon coupling, with the full photon polarization sum and angular average, without the Green-tensor formula. They agree with rung 3's imaginary-frequency integral to 10⁻¹¹ (10⁻¹⁵ against the oracle's extended-precision reference) over rω₀ = 10⁻² to 10³ and derive **23/(4π)** (far) and **3/4** (near). This confirms the 3×3, two-polarization structure that L21b left open | CHECK; two builds, audit, oracle |
+| L23b | Not established: the Abel-damping step for the photon integrals (supported by three regularizers, not proved); the gate cannot enforce the independence of the route, which the audit checked by reading; the single-resonance atom model | FOLLOWS |
 
 ### Link 12: neutrino mass from rung 1's breaking scale, to oscillation data (`src/ladder_links.py` L12)
 

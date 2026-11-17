@@ -232,6 +232,12 @@ L22  B7's +0.35% on M_Z decomposed through the MS-bar relations (CHECK; LIT: PDG
    L18's one-loop top-bottom rho - 1 = 9.256e-03, 91% of rho-hat - 1; with it, M_Z = 91.229 GeV (+0.045% from measured); Dr_W - Dr0 = 0.0029 is not derived
 
 ==============================================================================
+L23  The dyadic Casimir-Polder step from photon exchange: two blind builds (CHECK)
+==============================================================================
+   12-diagram perturbation theory (accepted build a) against rung 3's Green-tensor integral, r w0 = 0.05 to 20: worst difference 6.1e-12
+   build b (a different reduction) against build a at r w0 = 1: 2.2e-16;  derived far coefficient 1.830282 (23/(4 pi) = 1.830282), near coefficient 0.750000
+
+==============================================================================
 L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)
 ==============================================================================
    r_c - l = 0;  kappa - 1/l = 0;  A - 12 pi/Lambda = 0  (A = 4 pi l^2; not 4 pi/Lambda)
