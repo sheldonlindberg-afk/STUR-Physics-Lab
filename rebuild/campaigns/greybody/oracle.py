@@ -40,11 +40,14 @@ def power_precise(m):
 
 
 def gamma_dense(m):
-    worst = 0.0
-    for (s, j, w), g in [(tuple(k), v) for k, v in _REF["gamma"]]:
-        worst = max(worst, abs(m.transmission(s, j, w) / g - 1))
-    return worst < 1e-4, f"worst relative deviation over {len(_REF['gamma'])} reference points: {worst:.1e}"
+    worst, where = 0.0, None
+    pts = [(tuple(k), v) for k, v in _REF["gamma"]] + [(tuple(k), v) for k, v in _REF["gamma_lowfreq_fermion"]]
+    for (s, j, w), g in pts:
+        d = abs(m.transmission(s, j, w) / g - 1)
+        if d > worst:
+            worst, where = d, (s, j, w)
+    return worst < 1e-6, f"worst relative deviation over {len(pts)} reference points: {worst:.1e} at (s, j, w) = {where}"
 
 
 ORACLE += [("power per degree of freedom to 1e-5 against the two-route values", power_precise),
-           ("grey-body factor at 40 reference points (independent WKB-projection solver) to 1e-4", gamma_dense)]
+           ("grey-body factor at 46 reference points, including low-frequency fermions (independent WKB-projection solver) to 1e-6", gamma_dense)]

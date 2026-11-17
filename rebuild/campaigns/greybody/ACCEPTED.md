@@ -33,3 +33,17 @@ low-frequency fermion Gamma of build a is accurate to about 1e-7 rather than 1e-
   implementations; the auditor's WKB-projection solver is what makes the agreement meaningful.
 * **Open follow-ups:** build b's fermion horizon boundary condition; build a's undocumented clip and wording; the charged
   spin-1/2 weight of Carr et al. (0.142 against 0.147) is not reproduced by massless grey-body factors (Link 24, FOLLOWS).
+
+## Revision after acceptance: build b returned to its builder
+
+The audit's medium finding on build b (fermion Gamma wrong by up to 1.4e-4 at low w) was turned into a gate check: the
+oracle's Gamma set now has 46 reference points, six of them low-frequency fermion partial waves computed with the
+auditor's independent solver, at tolerance 1e-6 (was 40 points at 1e-4). Build a passes it (worst 9.7e-8 at
+(1/2, 1/2, 0.002)). **Build b fails it** (worst 1.4e-4 at (1/2, 7/2, 0.02)), so build b is not accepted under the stricter
+gate until its builder fixes it (class B, label only; see the log below). The ladder (Link 24) uses build a and P_s agrees
+between a, b and the auditor's solver to 3e-7 or better, so Link 24 does not depend on this fix.
+
+| Step | Result |
+|---|---|
+| Tightened oracle, build a | PASS (9.7e-8) |
+| Tightened oracle, build b | FAIL (1.4e-4), returned to builder |
