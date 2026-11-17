@@ -252,6 +252,16 @@ def test_qed_cp_accepted_builds():
     assert abs(far - 23 / (4 * math.pi)) < 1e-10 and abs(near - 0.75) < 1e-10
 
 
+def test_grey_body_weights_derived():
+    gw = LL.grey_weights()
+    for s, (d, q) in gw.items():
+        assert abs(d / q - 1) < 0.02                    # within the digits Carr et al. quote (0.007 has one)
+    assert abs(gw[0][0] - 0.26638) < 1e-4 and abs(gw[0.5][0] - 0.14652) < 1e-4 and abs(gw[1][0] - 0.06023) < 1e-4 and abs(gw[2][0] - 0.006870) < 1e-5
+    fq, fd, fall = LL.grey_f_standard_model()
+    assert abs(fq - 15.332) < 1e-3 and abs(fd - 15.332) < 2e-3 and abs(fall - 15.712) < 2e-3
+    assert LL.grey_gamma_against_reference(6) < 1e-6
+
+
 def test_reference_output_matches():
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):

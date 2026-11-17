@@ -238,6 +238,16 @@ L23  The dyadic Casimir-Polder step from photon exchange: two blind builds (CHEC
    build b (a different reduction) against build a at r w0 = 1: 2.2e-16;  derived far coefficient 1.830282 (23/(4 pi) = 1.830282), near coefficient 0.750000
 
 ==============================================================================
+L24  The emission weights of L7, derived by the grey-body campaign (CHECK; FOLLOWS for the charged weight)
+==============================================================================
+   spin 0: P = 7.43869e-05/M^2, weight 0.26638 (quoted 0.267, -0.2%)
+   spin 0.5: P = 4.09165e-05/M^2, weight 0.14652 (quoted 0.147, -0.3%)
+   spin 1: P = 1.68193e-05/M^2, weight 0.06023 (quoted 0.06, +0.4%)
+   spin 2: P = 1.91837e-06/M^2, weight 0.00687 (quoted 0.007, -1.9%)
+   Standard Model f: quoted weights 15.332; derived weights, charged fermions at the quoted 0.142: 15.332; derived 0.1465 for every fermion: 15.712 (Carr: 15.35)
+   accepted build a's Gamma against the independent solver at 6 reference points: worst 9.2e-11
+
+==============================================================================
 L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)
 ==============================================================================
    r_c - l = 0;  kappa - 1/l = 0;  A - 12 pi/Lambda = 0  (A = 4 pi l^2; not 4 pi/Lambda)

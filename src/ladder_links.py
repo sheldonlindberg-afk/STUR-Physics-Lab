@@ -401,6 +401,20 @@ L23 The electromagnetic dyadic step of L21, derived independently: rung 3 from p
   L23b What it does not do: the single-resonance atom model is the polarizability of P3b (constant-alpha
       follows in the far zone); the Abel-damping step for the photon integrals is supported, not proved; and
       the gate cannot enforce the independence of the route, which the audit checked by reading. (FOLLOWS)
+L24 The emission weights of L7, derived: the grey-body campaign. Rung 6, quoted -> derived.
+  L24a L7 took the energy emitted per degree of freedom of each spin (weights 0.267, 0.147, 0.060, 0.007 with
+      dM/dt = -5.34e25 f/M^2 g^3/s) from Carr et al. 2021, after Page 1976 and MacGibbon-Webber. Two blind builds
+      (rebuild/campaigns/greybody, ACCEPTED.md) derived them from the Regge-Wheeler and Chandrasekhar master equations
+      on Schwarzschild: Gamma_{s,j}(omega) from the ingoing horizon solution matched to the large-r asymptotic series,
+      then P_s = sum_j (2j+1) int dw/(2 pi) w Gamma/(e^{w/T} -+ 1) at T = 1/8 pi. In units 1/M^2: 7.43869e-5 (spin 0),
+      4.09165e-5 (1/2), 1.68193e-5 (1), 1.91837e-6 (2); in Carr's normalization the weights are 0.2664, 0.1465,
+      0.0602, 0.00687, against the quoted 0.267, 0.147, 0.060, 0.007 (differences 0.2%, 0.3%, 0.4%, 1.9%, all
+      within the quoted digits). An auditor's independent solver (WKB projection at large R, no asymptotic series)
+      reproduces P_s to 1e-9 and the low-frequency limits of Gamma are exact. (CHECK; two builds, audit, oracle)
+  L24b What it does not reproduce: Carr's 0.142 for charged spin-1/2 against 0.147 for neutral. Massless grey-body
+      factors give one spin-1/2 weight, 0.1465. L7's Standard Model count f = 15.332 uses the quoted 0.142 for charged
+      fermions; with the derived 0.1465 for every fermion it would be 15.71, 2.5% above Carr's 15.35. The 3% charged
+      difference is Carr et al.'s, not derived here. (FOLLOWS; reported, not resolved)
 L14 Bekenstein bound: rung 6 -> rung 4. S <= 2 pi k R E / (hbar c). A Schwarzschild black hole
   (R = 2GM/c^2, E = M c^2) saturates it exactly, = A / 4 l_P^2 (CHECK, symbolic). Design A's
   diamond (radius 1.0 um, 7.4e11 atoms): Bekenstein bound 2.6e23 k_B, holographic bound
@@ -1346,6 +1360,38 @@ def qed_cp_accepted(rhos=(0.05, 0.5, 1.0, 3.0, 20.0)):
     return worst, cross, a.far_coefficient(), a.near_coefficient()
 
 
+# ---------------------------------------------------------------------------------- L24
+GREY_P = {0: 7.43868693871e-5, 0.5: 4.09165271219e-5, 1: 1.68192739347e-5, 2: 1.91836996439e-6}   # accepted campaign, units 1/M^2
+
+
+def grey_weights():
+    """L24a: the derived P_s in Carr's normalization (5.34e25 g^3/s over hbar c^4/G^2), against the quoted weights."""
+    unit = ALPHA_EVAP / (HBAR_SI * C_SI**4 / G_NEWTON**2 * 1e9)
+    quoted = {0: W_S0, 0.5: W_HALF_N, 1: W_S1, 2: W_S2}
+    return {s: (p / unit, quoted[s]) for s, p in GREY_P.items()}
+
+
+def grey_f_standard_model():
+    """L24b: the Standard Model count of L7 with the quoted charged-fermion weight, and with the derived one for all fermions."""
+    w = grey_weights()
+    f = lambda w0, wn, wc, w1, w2: 2 * 12 * w1 + 4 * w0 + 2 * 3 * wn + 2 * 42 * wc + 2 * w2
+    return (f(w[0][1], w[0.5][1], W_HALF_C, w[1][1], w[2][1]),
+            f(w[0][0], w[0.5][0], W_HALF_C, w[1][0], w[2][0]),
+            f(w[0][0], w[0.5][0], w[0.5][0], w[1][0], w[2][0]))
+
+
+def grey_gamma_against_reference(n=6):
+    """L24a: the accepted build a's Gamma at n reference points against the auditor's independent solver."""
+    import importlib.util, json
+    here = os.path.dirname(os.path.abspath(__file__))
+    spec = importlib.util.spec_from_file_location("greybody_build_a", os.path.join(here, "..", "rebuild", "campaigns", "greybody", "builds", "a", "greybody.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    ref = json.load(open(os.path.join(here, "..", "rebuild", "campaigns", "greybody", "reference.json")))["gamma"]
+    step = max(1, len(ref) // n)
+    return max(abs(mod.transmission(*k) / v - 1) for k, v in ref[::step])
+
+
 # ---------------------------------------------------------------------------------- L6
 def carbon12_binding():
     """L6a: B = 6 m_p + 6 m_n + 6 m_e - 12 u, in MeV, and per nucleon."""
@@ -1777,6 +1823,14 @@ def main():
     print(f"   12-diagram perturbation theory (accepted build a) against rung 3's Green-tensor integral, r w0 = 0.05 to 20: worst difference {worst:.1e}")
     print(f"   build b (a different reduction) against build a at r w0 = 1: {cross:.1e};  derived far coefficient {far:.6f} (23/(4 pi) = {23 / (4 * math.pi):.6f}),"
           f" near coefficient {near:.6f}")
+
+    banner("L24  The emission weights of L7, derived by the grey-body campaign (CHECK; FOLLOWS for the charged weight)")
+    gw = grey_weights()
+    for s_, (d_, q_) in gw.items():
+        print(f"   spin {s_}: P = {GREY_P[s_]:.5e}/M^2, weight {d_:.5f} (quoted {q_}, {100 * (d_ / q_ - 1):+.1f}%)")
+    fq, fd, fall = grey_f_standard_model()
+    print(f"   Standard Model f: quoted weights {fq:.3f}; derived weights, charged fermions at the quoted 0.142: {fd:.3f}; derived 0.1465 for every fermion: {fall:.3f} (Carr: 15.35)")
+    print(f"   accepted build a's Gamma against the independent solver at 6 reference points: worst {grey_gamma_against_reference():.1e}")
 
     banner("L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)")
     d_rc, d_k, d_A, d_S, d_S2, fac = de_sitter_entropy_symbolic()

@@ -219,7 +219,7 @@ counts is not derived here (see [TEGR.md](TEGR.md) for the corner-charge attempt
 
 ## Links between the rungs (`src/ladder_links.py`)
 
-The rungs above are separate derivations. In twenty-three places one rung's output is another
+The rungs above are separate derivations. In twenty-four places one rung's output is another
 rung's input, and the link can be checked against a measurement or against the other rung's
 code.
 
@@ -449,6 +449,15 @@ H1 and H2 fix the temperature geometrically; the step that was quoted was that t
 |---|---|---|
 | L23a | Two **blind** builds (different models, clean rooms, a hidden oracle, an adversarial audit; see `rebuild/campaigns/qed_cp/ACCEPTED.md`) derived the retarded Casimir–Polder energy of two single-resonance atoms from the **12 time-ordered fourth-order diagrams** of the dipole–photon coupling, with the full photon polarization sum and angular average, without the Green-tensor formula. They agree with rung 3's imaginary-frequency integral to 10⁻¹¹ (10⁻¹⁵ against the oracle's extended-precision reference) over rω₀ = 10⁻² to 10³ and derive **23/(4π)** (far) and **3/4** (near). This confirms the 3×3, two-polarization structure that L21b left open | CHECK; two builds, audit, oracle |
 | L23b | Not established: the Abel-damping step for the photon integrals (supported by three regularizers, not proved); the gate cannot enforce the independence of the route, which the audit checked by reading; the single-resonance atom model | FOLLOWS |
+
+### Link 24: the emission weights of L7, derived, within rung 6 (`rebuild/campaigns/greybody`, `src/ladder_links.py` L24)
+
+*Acceptance record pending: both builds passed the original verifier and an independent audit; the strengthened verifier was still running when this was committed.*
+
+| | Result | Status |
+|---|---|---|
+| L24a | L7 quoted the energy emitted per degree of freedom (weights 0.267, 0.147, 0.060, 0.007; Carr et al. 2021 after Page 1976). Two blind builds derived them from the Regge–Wheeler and Chandrasekhar master equations on Schwarzschild (grey-body factors Γ_{s,j}(ω) from the horizon solution matched to the large-r series, then P_s = Σ_j(2j+1)∫dω/2π ωΓ/(e^{ω/T} ∓ 1), T = 1/8π): P_s = 7.43869×10⁻⁵, 4.09165×10⁻⁵, 1.68193×10⁻⁵, 1.91837×10⁻⁶ in units 1/M², i.e. weights **0.2664, 0.1465, 0.0602, 0.00687** (−0.2%, −0.3%, +0.4%, −1.9% against the quoted, within their digits). An auditor's series-free solver reproduces P_s to 10⁻⁹ | CHECK; two builds, audit, oracle |
+| L24b | Not reproduced: Carr's 0.142 for charged spin-½ against 0.147 neutral. Massless grey-body factors give one weight, 0.1465; with it for every fermion the Standard Model count would be 15.71 against Carr's 15.35 (L7's 15.332 uses the quoted 0.142). Reported, not resolved | FOLLOWS |
 
 ### Link 12: neutrino mass from rung 1's breaking scale, to oscillation data (`src/ladder_links.py` L12)
 

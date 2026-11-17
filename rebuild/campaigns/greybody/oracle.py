@@ -8,7 +8,10 @@ WEIGHTS = {0: 0.267, 0.5: 0.147, 1: 0.060, 2: 0.007}
 TOL = {0: 0.015, 0.5: 0.015, 1: 0.02, 2: 0.06}
 TARGET = {s: WEIGHTS[s] * UNIT for s in WEIGHTS}
 TARGET[2] = 3.84e-6 / 2                                         # Page 1976, per helicity
-LINT_TARGETS = [v for v in TARGET.values()] + [UNIT, 16.0 * 3.14159]
+# Two-route values (accepted builds a and the auditor's independent WKB-projection solver agree to < 1e-7): the sharp targets.
+PRECISE = {0: 7.43868693871e-5, 0.5: 4.09165271219e-5, 1: 1.68192739347e-5, 2: 1.91836996439e-6}
+LINT_TARGETS = [v for v in TARGET.values()] + list(PRECISE.values()) + [UNIT, 16.0 * 3.14159]
+LINT_EXACT = [PRECISE[0], PRECISE[2]]
 
 
 def mk(s):
@@ -18,8 +21,30 @@ def mk(s):
     return f
 
 
-ORACLE = [(f"power per degree of freedom, spin {s}", mk(s)) for s in (0, 0.5, 1, 2)]
-ORACLE.append(("weights ratio to the scalar: 0.551 (1/2), 0.225 (1), 0.026 (2)",
-               lambda m: (lambda p: (abs(p[1] / p[0] - 0.147 / 0.267) < 0.02 and abs(p[2] / p[0] - 0.060 / 0.267) < 0.02, ", ".join(f"{x / p[0]:.3f}" for x in p)))([m.power_per_dof(s) for s in (0, 0.5, 1, 2)])))
+ORACLE = [(f"power per degree of freedom, spin {s} (literature, loose)", mk(s)) for s in (0, 0.5, 1, 2)]
 ORACLE.append(("grey-body factor at fixed arguments: Gamma(0,0,0.2) = 0.9089 +- 1e-3, Gamma(1,1,0.2) = 0.1299 +- 1e-3 (orchestrator's integration)",
                lambda m: (abs(m.transmission(0, 0, 0.2) - 0.9089) < 1e-3 and abs(m.transmission(1, 1, 0.2) - 0.1299) < 1e-3, f"{m.transmission(0, 0, 0.2):.4f}, {m.transmission(1, 1, 0.2):.4f}")))
+
+
+import json as _json, os as _os
+_REF = _json.load(open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "reference.json")))
+
+
+def power_precise(m):
+    out, ok = [], True
+    for s, p in PRECISE.items():
+        d = m.power_per_dof(s) / p - 1
+        out.append(f"s={s}: {d:+.1e}")
+        ok &= abs(d) < 1e-5
+    return ok, "relative to the two-route value: " + ", ".join(out)
+
+
+def gamma_dense(m):
+    worst = 0.0
+    for (s, j, w), g in [(tuple(k), v) for k, v in _REF["gamma"]]:
+        worst = max(worst, abs(m.transmission(s, j, w) / g - 1))
+    return worst < 1e-4, f"worst relative deviation over {len(_REF['gamma'])} reference points: {worst:.1e}"
+
+
+ORACLE += [("power per degree of freedom to 1e-5 against the two-route values", power_precise),
+           ("grey-body factor at 40 reference points (independent WKB-projection solver) to 1e-4", gamma_dense)]

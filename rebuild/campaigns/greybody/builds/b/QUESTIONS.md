@@ -1,0 +1,5 @@
+- SPEC s2 "A_in at finite r*": resolved by matching to formal asymptotic series psi_pm = e^{+-i w r*} sum c_n r^-n (derived in DERIVATION.md), truncated at the smallest term.
+- Fermion sign: sigma=-1 used; sigma=+1 agrees to ~4e-11 in Gamma.
+- "j >= s" for s=1/2 read as j=1/2,3/2,...; s=1 starts at j=1, s=2 at j=2, s=0 at j=0.
+- Integration range in w: [0, 2.4] (e^{-w/T} ~ 1e-26 at the end); main check uses [0, 2.8] with 16 nodes.
+- Gamma may exceed 1 by ~1e-10 at high w (ODE tolerance); not clipped.
