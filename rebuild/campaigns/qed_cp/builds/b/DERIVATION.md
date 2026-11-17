@@ -18,7 +18,7 @@ Enumeration of 4 time slots: choose A slots (6 ways), pair the slots into two ph
 the pairings that join A to B: 12 time-ordered diagrams (done by code, verify count = 12).
 Vertex factors: emission -d.(-i sqrt(2 pi k/V) eps* e^{-ik.x}) , absorption -d.(i sqrt(..) eps e^{ik.x});
 a created-then-annihilated photon gives (+i)(-i)=+1 times (2 pi k/V) eps_i eps*_m e^{ik.r}. Atom line (0->e_i ->0): d^2 delta_ij.
-Energy denominators: E4 = sum V V V /((E0-E1)(E0-E2)(E0-E3)) = - sum 1/(D1 D2 D3), with D = energy of the
+Energy denominators: E4 = sum V V V V /((E0-E1)(E0-E2)(E0-E3)) = - sum 1/(D1 D2 D3), with D = energy of the
 intermediate state (excited atoms a each + photons present) > 0 : no principal values and no cut-offs
 arise in the time-ordered form.
 Index structure of every diagram: delta_ij delta_mn P_im(k) P_jn(q) = Tr[P(k)P(q)], P = delta - khat khat (polarisation sum).
@@ -53,6 +53,31 @@ Far (r a >> 1): k,q << a, S -> 4/(a^2 (k+q)):
 ## 4. Independent second route
 (i) Limits above from the closed integrals vs the full cp_energy at r a=1e-3 and 1e4.
 (ii) A direct 2D check of the double integral at moderate r with a different numerical method
-(Gaussian-damped e^{-eps(k+q)} brute force quadrature, eps->0 extrapolation) -- see __main__.
-Nothing left underived except: Abel (damping) prescription for the oscillatory k integrals (physical
-finiteness; justified by the result being independent of eps-shape).
+(2D brute-force quadrature with damping, eps->0 extrapolation) -- see __main__. Two damping shapes were run:
+exponential e^{-eps(k+q)} (linear-in-eps Richardson) and Gaussian e^{-eps^2(k^2+q^2)} (quadratic Richardson),
+eps = 0.1, 0.05, 0.025, at r a = 0.5, 1, 3. Results (U/(alpha0^2 w0^7)):
+  r a = 1:   exp -0.65153, gauss -0.651267, main route -0.651266
+  r a = 3:   exp -5.987e-4, gauss -5.963978e-4, main route -5.963977e-4
+  r a = 0.5: exp -45.73, gauss -45.62, main route -45.68  (grid coarse and eps too large here; ~0.1-0.2% scatter)
+The Gaussian shape converges to the main route to ~1e-6 relative at r a = 1, 3; the exponential shape agrees to
+0.05-0.4% (its eps->0 convergence is slow, only linear). This supports, but does not prove, that the eps->0 limit
+is the same for these two smooth dampings. Not tested: other shapes, other separations, rigorous convergence proof.
+Nothing left underived except the Abel/damping prescription for the oscillatory integrals (taken as the
+definition of the conditionally convergent integral; checked as above).
+
+## 5. Map from the 12 diagrams to the code (_u) and independent check
+sympy sums the 12 enumerated diagrams to S (section 1). By partial fractions in the code's decomposition
+ S = f1(k) g1(q) + f2(k) g2(q) + f4(k) g4(q)/(k+q),  f1 = 2k/(a(a+k)^2), f2 = 6/(a+k)^2, f4 = 4a/(a+k)^2, g = 1/(a+q)
+(valid as integrand because F is symmetric in k<->q). In _u: `sep` = f1 g1 + f2 g2 terms evaluated at s=0
+(M[1,2]*M[0,1]*2/a and 6*M[0,2]*M[0,1]); `integrand` = f4 g4 with e^{-(k+q)s} (4a*M[0,2](s)*M[0,1](s)), integrated over s.
+Check in __main__: `_S_independent` enumerates all strings of 4 vertices (atom, photon label, create/annihilate) with
+explicit photon occupation / atom excitation tracking (a different enumeration from the slot/pairing one), obtains
+24 = 2 x 12 labelled sequences, and compares its sum/2 with the symmetrised f1g1+f2g2+f4g4/(k+q) used by _u at five fixed
+(k,q) points: max relative difference 3e-16.
+
+## 6. Validity range of cp_energy
+Checked for 1e-4 <= r w0 <= 1e8: -U r^7/alpha0^2 / far_coefficient - 1 = -5.6e-8 (1e4), -5.6e-12 (1e6), -4e-16 (1e8)
+(the residual is the physical retardation correction, falling like 1/(r w0)^2); -U r^6/(w0 alpha0^2)/near_coefficient - 1 = -3.3e-7 (1e-3), -3.3e-9 (1e-4). Not checked outside this range. The mpmath working precision is 45 digits for
+r w0 <= 1e4 and grows by 6 digits per decade above that, because each photon integral carries 1/r^3 cancellations
+(with fixed 45 digits the error was ~1e-8 at 1e6 and ~3e-6 at 1e8). Runtime grows with the precision (about 5-20 s at 1e6-1e8).
+

@@ -50,3 +50,19 @@ comparison (r w0 = 0.05 to 20) is unchanged. Documentation fixes in the revised 
 "posited, then proved by residues" (and was first found by fitting a two-coefficient ansatz); the claimed random-point and
 precision checks now exist under `__main__` (8.9e-16 and 2.2e-16); the provenance note says what runs (a one-dimensional
 imaginary-frequency integral derived from the 12 diagrams); the validity range is 1e-12 <= r w0 <= 1e5.
+
+## Revision: build b's documentation findings addressed
+
+Build b's builder fixed the audit's documentation findings and one precision item; the full verifier on the extended
+oracle passes (`builds/b/verifier_report.txt`, 28 passes including the extreme-separation check, which is exact to the
+double), and the values agree with the revised build a to 2e-16 or better at every separation tried. Changes:
+the transcription typo and the "Gaussian" wording fixed; the claim that the result is independent of the damping shape
+was **tested** instead of softened (a Gaussian damping, with quadratic Richardson extrapolation, agrees with the main route to
+3e-7 at r w0 = 1 and 3; the exponential damping to 0.05-0.4%, as its linear convergence allows), and DERIVATION.md says
+this supports but does not prove the limit is shape-independent; a new section maps the 12-diagram sum onto the helper `_u`
+and `__main__` checks it against an independent enumeration of all 24 labelled four-vertex sequences (6.7e-16); working
+precision grows above r w0 = 1e4 (the earlier ~1e-8 at 1e6 and ~3e-6 at 1e8 are gone), and the checked range is stated as
+1e-4 <= r w0 <= 1e8 (the oracle now also holds it to 1e-7 down to 1e-8).
+
+Open: a rigorous proof of the Abel-damping limit (supported by two damping shapes in each build and by the audit's three
+regularizers); the intermediate-export contract change that would let the gate check the 12-diagram sum numerically.

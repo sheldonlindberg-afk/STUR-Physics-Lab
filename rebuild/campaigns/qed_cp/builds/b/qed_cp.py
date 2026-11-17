@@ -67,7 +67,9 @@ def _M(X, m_f, n_f, s, r, a):
 
 def _u(rho, tol_refine=1):
     """U / (alpha0^2 w0^7) as a function of rho = r w0 (a = 1)."""
-    with mp.workdps(_DPS * tol_refine):
+    # working precision grows for rho >> 1e4: the 1/r^3-per-photon cancellations eat ~6 digits per decade
+    extra = int(6 * max(0.0, math.log10(rho) - 4.0))
+    with mp.workdps(_DPS * tol_refine + extra):
         a = mp.mpf(1)
         r = mp.mpf(rho)
         d4 = mp.mpf(1) / 4  # d^4 = alpha0^2 a^2 / 4 with alpha0 = 1
@@ -80,6 +82,44 @@ def _u(rho, tol_refine=1):
             integ = mp.quad(integrand, pts + [mp.inf])
             tot += wX * (sep + integ)
         return float(-d4 / mp.pi**2 * tot)
+
+
+def _S_decomp(k, q, a=1.0):
+    """The three terms used inside _u: f1 g1 + f2 g2 (separable) + f4 g4/(k+q) (the ds-integral term)."""
+    g1 = 1 / (a + q)
+    return (2 * k / (a * (a + k) ** 2)) * g1 + 6 / (a + k) ** 2 * g1 + (4 * a / (a + k) ** 2) * g1 / (k + q)
+
+
+def _S_independent(k, q, a=1.0):
+    """Independent enumeration: all strings of 4 vertices (atom, photon label, create/annihilate) with explicit
+    photon occupation and atom excitation tracking; labelled photons (k, q) count each physical diagram twice."""
+    verts = [(at, ph, op) for at in "AB" for ph in (0, 1) for op in ("c", "d")]
+    en = (k, q)
+    total, count = 0.0, 0
+    for seq in itertools.product(verts, repeat=4):
+        if sorted(v[0] for v in seq) != ["A", "A", "B", "B"]:
+            continue
+        occ, exc, ok, D, ends = [0, 0], {"A": 0, "B": 0}, True, 1.0, {0: [], 1: []}
+        for i, (at, ph, op) in enumerate(seq):
+            if op == "c":
+                ok = ok and occ[ph] == 0
+                occ[ph] += 1
+            else:
+                ok = ok and occ[ph] == 1
+                occ[ph] -= 1
+            ends[ph].append(at)
+            exc[at] ^= 1
+            if not ok:
+                break
+            if i < 3:
+                D *= a * (exc["A"] + exc["B"]) + occ[0] * en[0] + occ[1] * en[1]
+        if not ok or occ != [0, 0] or exc != {"A": 0, "B": 0}:
+            continue
+        if any(sorted(ends[ph]) != ["A", "B"] for ph in (0, 1)):   # each photon joins A and B
+            continue
+        total += 1.0 / D
+        count += 1
+    return total / 2, count
 
 
 def cp_energy(r, w0, alpha0):
@@ -111,16 +151,16 @@ def near_coefficient():
     return float(sp.simplify((IA**2 + 2 * IB**2) / (2 * sp.pi**2)))
 
 
-def _brute(rho, eps, n=1500, kmax=None):
+def _brute(rho, eps, n=1500, kmax=None, shape="exp"):
     """Second route: direct 2D Riemann/trapezoid quadrature of the double k,q integral with damping e^{-eps(k+q)}."""
     import numpy as np
-    kmax = kmax or 40.0 / eps
+    kmax = kmax or (40.0 if shape == "exp" else 8.0) / eps
     k = (np.arange(n * 40) + 0.5) * (kmax / (n * 40))
     dk = kmax / (n * 40)
     x = k * rho
     A = 2 * (np.sin(x) - x * np.cos(x)) / rho**3
     B = ((x**2 - 1) * np.sin(x) + x * np.cos(x)) / rho**3
-    damp = np.exp(-eps * k)
+    damp = np.exp(-eps * k) if shape == "exp" else np.exp(-(eps * k) ** 2)
     tot = 0.0
     kk = k[:, None]
     step = 400
@@ -136,10 +176,22 @@ def _brute(rho, eps, n=1500, kmax=None):
 if __name__ == "__main__":
     S, n, syms = _diagram_sum()
     print("diagrams:", n, " S =", sp.factor(S))
+    worst = 0.0
+    for kk, qq in ((0.3, 1.7), (2.2, 0.15), (4.1, 3.3), (0.9, 0.9), (0.05, 5.0)):
+        Si, cnt = _S_independent(kk, qq)
+        Su = 0.5 * (_S_decomp(kk, qq) + _S_decomp(qq, kk))
+        worst = max(worst, abs(Si / Su - 1))
+    print("independent 4-vertex enumeration: labelled sequences =", cnt, "(expect 2 x 12 = 24); max rel diff vs _u terms:", worst)
     print("far C =", far_coefficient(), " near D =", near_coefficient())
     for rho in (0.01, 1.0, 1e3):
         print("rho", rho, "u", _u(rho), "u at higher precision", _u(rho, 2))
-    vals = [_brute(1.0, e, n=100) for e in (0.1, 0.05, 0.025)]
-    print("brute 2D rho=1, eps=0.1,0.05,0.025:", vals)
-    r1 = [2 * vals[i + 1] - vals[i] for i in range(2)]
-    print("Richardson (linear in eps):", r1, " second:", (4 * r1[1] - r1[0]) / 3, " vs main route", _u(1.0))
+    for shape, order in (("exp", 1), ("gauss", 2)):
+        for rho in (0.5, 1.0, 3.0):
+            vals = [_brute(rho, e, n=100, shape=shape) for e in (0.1, 0.05, 0.025)]
+            if order == 1:
+                r1 = [2 * vals[j + 1] - vals[j] for j in range(2)]
+                ext = (4 * r1[1] - r1[0]) / 3
+            else:
+                r1 = [(4 * vals[j + 1] - vals[j]) / 3 for j in range(2)]
+                ext = (16 * r1[1] - r1[0]) / 15
+            print("brute", shape, "rho", rho, "damped:", [float(v) for v in vals], "extrapolated:", float(ext), "main route:", _u(rho))

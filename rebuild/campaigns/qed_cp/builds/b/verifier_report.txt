@@ -27,6 +27,7 @@
    [PASS] U(r w0 = 1.0) against the imaginary-frequency route  (derived -6.512664e-01, reference -6.512664e-01 (+0.0000%))
    [PASS] U(r w0 = 3.0) against the imaginary-frequency route  (derived -5.963977e-04, reference -5.963977e-04 (+0.0000%))
    [PASS] U(r w0 = 20.0) against the imaginary-frequency route  (derived -1.410560e-09, reference -1.410560e-09 (+0.0000%))
-   [PASS] dense random points against the accurate reference  (worst relative deviation 2.22e-16 over 12 random points (seed 949519529))
+   [PASS] dense random points against the accurate reference  (worst relative deviation 2.22e-16 over 12 random points (seed 38934151))
    [PASS] coefficients to 1e-8  (C rel 0.0e+00, D rel 0.0e+00)
+   [PASS] extreme separations r w0 = 1e-8 .. 1e5 to 1e-7  (worst relative deviation at r w0 in 1e-8 .. 1e5: 0.0e+00 at None)
 GATE PASSED
