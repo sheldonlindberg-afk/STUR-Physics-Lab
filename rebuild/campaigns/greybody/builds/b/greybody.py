@@ -65,7 +65,7 @@ def _potential(s, j, d, sigma):
     return f * (j * (j + 1.0) / r ** 2 + 2.0 * (1.0 - s * s) / r ** 3)
 
 
-def _amplitudes(s, j, w, R=None, d0fac=1e-8, rtol=1e-11, sigma=None, N=80):
+def _amplitudes(s, j, w, R=None, d0fac=1e-22, rtol=1e-12, sigma=None, N=80):
     sigma = _SIGMA if sigma is None else sigma
     if R is None:
         L = j * (j + 1.0) + 2

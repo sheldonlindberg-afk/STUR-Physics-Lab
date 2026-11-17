@@ -11,7 +11,10 @@ Emission: P_s = sum_j (2j+1) Int_0^inf dw/(2 pi) w Gamma/(e^{w/T} -+ 1).
 ## Numerical scheme (all steps derived here)
 1. Near horizon variable: r = 2 + e^t. With d = e^t, f = d/(2+d), dr* = dr/f, define Phi = f dpsi/dr = dpsi/dr*.
    d psi/dt = r Phi,   d Phi/dt = -(w^2 - V) r psi.  (regular in t; from dpsi/dr = Phi/f, dr = d dt, f = d/r.)
-   Start at d0 = 1e-8 min(1,w)^2 with psi = e^{-i w r*}, Phi = -i w psi (error O(V/w) ~ d0/w).
+   Start at d0 = 1e-22 min(1,w)^2 with psi = e^{-i w r*}, Phi = -i w psi.
+   Horizon-start error: bosons V ~ f so error O(d0/w); FERMIONS V ~ sqrt(f) (the sqrt(f)(3/r^3-1/r^2) term), so the
+   error is O(k sqrt(d0)/w) -- much larger. (Original build used d0=1e-8 w^2 and was wrong by 3e-5..9e-5 relative for
+   low-w fermions; found by varying d0 at fermion low-w arguments. Fixed with d0 = 1e-22 w^2, rtol 1e-12.)
 2. Far field: formal solutions psi_pm = e^{ +- i w r*} u_pm(x), x=1/r, u = sum c_n x^n. Substituting into the wave eq:
    2 i w u_r + (f u_r)_r - g u = 0, g = V/f. With u_r = -x^2 du/dx, f=1-2x, g = sum_{p>=2} g_p x^p:
    c_m = [ (m-1)m c_{m-1} - 2(m-2) m c_{m-2} - sum_{p=2}^{m+1} g_p c_{m+1-p} ] / (2 i w m), c_0=1  (w -> -w for psi_-).
@@ -27,3 +30,10 @@ Emission: P_s = sum_j (2j+1) Int_0^inf dw/(2 pi) w Gamma/(e^{w/T} -+ 1).
 (c) fermion sigma=+1 vs -1 same Gamma.
 (d) Low-w analytic: Gamma_00 -> 16 w^2 (horizon area / pi... 4 pi r_h^2 /pi) as a check, not an input.
 Nothing not derived; no tabulated numbers used.
+
+## Error bound and how it was tested (revised)
+Convergence was tested separately at each kind of argument, doubling/varying ONE parameter at a time: d0fac 1e-22 -> 1e-26,
+R -> 2R, rtol 1e-12 -> 1e-13, sigma -> -sigma, at (s,j,w) = (1/2,1/2,0.01),(1/2,3/2,0.01),(1/2,5/2,0.05),(1/2,1/2,0.3),(1/2,9/2,1.0),
+(2,2,0.01),(0,0,0.005),(1,1,0.05),(0,3,0.1),(2,5,0.5): every relative change in Gamma is < 2e-11. Claimed relative accuracy of
+transmission(): 1e-9 (ODE+series), at all tested spins and low/high w, including Gamma ~ 1e-12.
+Flux-conservation check 1-|Aout/Ain|^2 is NOT a valid relative check when Gamma << 1 (cancellation), so it is not used there.
