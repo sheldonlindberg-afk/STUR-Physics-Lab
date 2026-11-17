@@ -62,3 +62,14 @@ Build b failed it (1.4e-4 at (1/2, 7/2, 0.02)) and went back to its builder as a
 Still open (low): build a clips Gamma to 1 without saying so; build a's fermion Gamma at w <= 0.005 is accurate to about
 1e-7, not the 1e-10 its derivation implies; the flux-conservation identity is not usable as a relative check when
 Gamma << 1 (build b's own note).
+
+## Revision 2: build a returned to its builder (low-frequency fermions)
+
+With build b fixed, the independent solver and build b agree to 2e-9 at the six low-frequency fermion reference points,
+which pins the truth to that level. The oracle's Gamma check is therefore split: 40 points at 1e-6 and the six
+low-frequency fermion points at 1e-8. Build b passes both (1.8e-9). **Build a fails the second** (worst 9.7e-8 at
+(1/2, 1/2, 0.002); also 3.2e-8 and 2.7e-8 at two others), so its DERIVATION.md claim of ~1e-10 accuracy at low-frequency
+fermion Gamma is not supported. It went back to its builder as a class B finding, label only, together with the audit's
+documentation finding (the undocumented clip of Gamma to 1). P_s is unaffected (it agrees with the two-route values to
+1e-9 or better); Link 24's numbers do not depend on this, but build a stays "accepted for P_s, under revision for low-w
+fermion Gamma" until it passes.

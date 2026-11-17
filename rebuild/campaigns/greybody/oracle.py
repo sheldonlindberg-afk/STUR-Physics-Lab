@@ -41,7 +41,7 @@ def power_precise(m):
 
 def gamma_dense(m):
     worst, where = 0.0, None
-    pts = [(tuple(k), v) for k, v in _REF["gamma"]] + [(tuple(k), v) for k, v in _REF["gamma_lowfreq_fermion"]]
+    pts = [(tuple(k), v) for k, v in _REF["gamma"]]
     for (s, j, w), g in pts:
         d = abs(m.transmission(s, j, w) / g - 1)
         if d > worst:
@@ -49,5 +49,17 @@ def gamma_dense(m):
     return worst < 1e-6, f"worst relative deviation over {len(pts)} reference points: {worst:.1e} at (s, j, w) = {where}"
 
 
+def gamma_lowfreq_fermion(m):
+    """Low-frequency fermion partial waves: the independent solver and the fixed build b agree to 2e-9 here, so 1e-8 is a real requirement."""
+    worst, where = 0.0, None
+    pts = [(tuple(k), v) for k, v in _REF["gamma_lowfreq_fermion"]]
+    for (s, j, w), g in pts:
+        d = abs(m.transmission(s, j, w) / g - 1)
+        if d > worst:
+            worst, where = d, (s, j, w)
+    return worst < 1e-8, f"worst relative deviation over {len(pts)} low-frequency fermion points: {worst:.1e} at (s, j, w) = {where}"
+
+
 ORACLE += [("power per degree of freedom to 1e-5 against the two-route values", power_precise),
-           ("grey-body factor at 46 reference points, including low-frequency fermions (independent WKB-projection solver) to 1e-6", gamma_dense)]
+           ("grey-body factor at 40 reference points (independent WKB-projection solver) to 1e-6", gamma_dense),
+           ("grey-body factor at the 6 low-frequency fermion reference points (independent WKB-projection solver) to 1e-8", gamma_lowfreq_fermion)]
