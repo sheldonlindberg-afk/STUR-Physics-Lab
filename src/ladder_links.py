@@ -413,8 +413,10 @@ L24 The emission weights of L7, derived: the grey-body campaign. Rung 6, quoted 
       reproduces P_s to 1e-9 and the low-frequency limits of Gamma are exact. (CHECK; two builds, audit, oracle)
   L24b What it does not reproduce: Carr's 0.142 for charged spin-1/2 against 0.147 for neutral. Massless grey-body
       factors give one spin-1/2 weight, 0.1465. L7's Standard Model count f = 15.332 uses the quoted 0.142 for charged
-      fermions; with the derived 0.1465 for every fermion it would be 15.71, 2.5% above Carr's 15.35. The 3% charged
-      difference is Carr et al.'s, not derived here. (FOLLOWS; reported, not resolved)
+      fermions; with the derived 0.1465 for every fermion it would be 15.71, 2.5% above Carr's 15.35. Carr et al.
+      (eqs. 12-13) quote the two weights with different mean emitted energies (4.22 and 4.18 T_BH) from MacGibbon 1991
+      after Page 1976-77, so the charged value is a different (massive charged-lepton) calculation than the massless
+      grey-body factors here; not derived here, and its source could not be retrieved. (FOLLOWS; located, not resolved)
 L14 Bekenstein bound: rung 6 -> rung 4. S <= 2 pi k R E / (hbar c). A Schwarzschild black hole
   (R = 2GM/c^2, E = M c^2) saturates it exactly, = A / 4 l_P^2 (CHECK, symbolic). Design A's
   diamond (radius 1.0 um, 7.4e11 atoms): Bekenstein bound 2.6e23 k_B, holographic bound
