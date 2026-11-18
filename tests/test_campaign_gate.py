@@ -101,3 +101,24 @@ def test_new_qed_cp_checks_exist_and_the_oracle_reference_is_accurate():
     import math
     assert abs(-oracle.ref_rho(1e3) * 1e3**7 / (23 / (4 * math.pi)) - 1) < 1e-4     # the old reference was 9% off here
     assert abs(oracle.reference(2.0, 3.0, 0.5) / (oracle.ref_rho(6.0) * 0.25 * 3.0**7) - 1) < 1e-12
+
+
+def test_qed_cp_builds_expose_the_route_enforcing_exports_and_agree():
+    """The contract change (SPEC 3b): both accepted builds must provide denominator_sum and damped_energy, match the independent
+    references, and agree with each other although they evaluate the damped energy differently."""
+    import importlib.util
+    def load(path, name):
+        spec = importlib.util.spec_from_file_location(name, path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        return mod
+    base = os.path.join(CAMP, "qed_cp")
+    a, b = load(os.path.join(base, "builds", "a", "qed_cp.py"), "qedcp_a_t"), load(os.path.join(base, "builds", "b", "qed_cp.py"), "qedcp_b_t")
+    orc = load(os.path.join(base, "oracle.py"), "qedcp_oracle_t")
+    for m in (a, b):
+        assert orc.denominator_sum_check(m)[0]
+    pt = (1.3, 0.9, 1.7, 0.6)
+    ua, ub = a.damped_energy(*pt), b.damped_energy(*pt)
+    ref = orc._RD.F(pt[0] * pt[1], pt[3] * pt[1]) * pt[2] ** 2 * pt[1] ** 7
+    assert abs(ua / ub - 1) < 1e-12 and abs(ua / ref - 1) < 1e-6
+    assert abs(a.denominator_sum(0.7, 1.9, 1.3, 0.6) / orc.sum_reference(0.7, 1.9, 1.3, 0.6) - 1) < 1e-12

@@ -81,3 +81,24 @@ Checked for 1e-4 <= r w0 <= 1e8: -U r^7/alpha0^2 / far_coefficient - 1 = -5.6e-8
 r w0 <= 1e4 and grows by 6 digits per decade above that, because each photon integral carries 1/r^3 cancellations
 (with fixed 45 digits the error was ~1e-8 at 1e6 and ~3e-6 at 1e8). Runtime grows with the precision (about 5-20 s at 1e6-1e8).
 
+
+## 7. Added exports (SPEC 3b)
+### denominator_sum(k, q, a, b)
+Direct implementation of the SPEC rule: all 24 permutations of the events (A,k),(A,q),(B,k),(B,q); after each of the first
+three events toggle the atom's excitation (a for A, b for B) and the photon's occupation; E_n = a*exc_A + b*exc_B + k*occ_k + q*occ_q;
+sum 1/(E1E2E3) and divide by 2. For a = b = w0 this equals the 12-diagram sum S(k,q) of section 1 symmetrised in k<->q,
+i.e. (1/2)[S_decomp(k,q) + S_decomp(q,k)] with S_decomp = f1 g1 + f2 g2 + f4 g4/(k+q) of section 5 (the form used inside `_u`);
+the code checks this (max rel diff ~1e-16) and also against `_S_independent` (same 24-sequence enumeration in the
+atom/photon string form). Not used inside `_u`, which uses the partial-fraction form for the s-integral; a != b is never needed by cp_energy.
+Properties: positive, symmetric in k<->q and a<->b, homogeneous of degree -3 (all verified in the gate).
+### damped_energy(r, w0, alpha0, eps)
+Same double integral as section 2 with e^{-eps(k+q)} inserted. Because e^{-eps(k+q)}/(k+q) = int_eps^inf ds e^{-(k+q)s} and
+e^{-eps k} e^{-ks'} = e^{-k(s'+eps)}, the only change is s -> s + eps: the separable terms are M[.](eps) instead of M[.](0), and the
+s-integral runs from eps to infinity. At eps = 0 the code path is literally cp_energy's (cp_energy unchanged). Units: U = alpha0^2 w0^7 u(r w0; eps w0).
+Accuracy (checked against `_brute`, the independent 2D midpoint quadrature, no extrapolation; relative difference, n=100 / n=200 grid,
+which falls 16x per doubling, i.e. the brute force is the limiting error): (rho,eps) = (0.3,0.25): 2.5e-9 / 1.6e-10; (0.3,1): 2e-10 / 1e-11;
+(1,0.25): 9e-9 / 6e-10; (1,0.5): 2.5e-9 / 1.6e-10; (3,1): 2.5e-9 / 1.6e-10; (3,0.25): 6e-8 / 4e-9. Raising the working precision (45 -> 90 digits) changes
+nothing (rel. diff 0.0 at (0.3,0.25), (1,1), (3,0.25)). So accuracy is well below 1e-6 on 0.3 <= r w0 <= 3, 0.25 <= eps w0 <= 1 (the requested range).
+eps -> 0: damped/cp_energy - 1 = -3.346 eps w0 (1e-4,1e-5 at rho=1), i.e. linear convergence from the weak side. Other ranges (eps w0 < 1e-3, r w0 outside 1e-2..1e2) are
+computed by the same code but not independently verified. Cost ~3-6 s per call.
+Provenance: both "derived" (nothing typed in).

@@ -122,3 +122,68 @@ changed by at most 2e-13 relative (at ρ = 1e-6, an improvement). Below ρ = 1e-
 The direction average τ_ij and the polarisation sum are the standard results permitted by SPEC §2 (τ re-checked
 numerically in `__main__`). The interchange of the u-integral with the conditionally convergent k, q integrals is
 justified via the Abel regulator, not proved rigorously; route 6(b) checks it numerically.
+
+## 8. Intermediate exports (SPEC §3b, added after the audit)
+
+### 8.1 `denominator_sum(k, q, a, b)`
+
+The code follows the SPEC §3b rule literally. It enumerates all 24 orderings of the events (A,k), (A,q), (B,k), (B,q).
+Each event toggles its atom (energy a or b) and its photon (energy k or q). It adds 1/(E₁E₂E₃) and divides by 2.
+
+**How this maps to §1–3.** In §1 the photon at A's earlier vertex is called p, which gives 12 orderings for each
+assignment of p, q to modes. In the 24-ordering rule the two photons have fixed energies k and q:
+- the 12 orderings with (A,k) before (A,q) add up to Σ₁₂(k,q) of §3;
+- the 12 with (A,q) first add up to Σ₁₂(q,k).
+
+So (24-sum)/2 = [Σ₁₂(k,q) + Σ₁₂(q,k)]/2 = Σ₁₂(k,q), because Σ₁₂ is symmetric in k ↔ q. Only this symmetric part enters
+eq. (1), whose remaining factor k³q³ Tr[τ(kr)τ(qr)] is symmetric. The code checks this for a ≠ b, independent atom
+energies, at 20 random points against the symbolic 12-path sum: agreement 7e−16.
+
+**Provenance:** derived, being the 4th-order RS energy denominators of §1. **Accuracy:** machine precision.
+**Valid for:** any positive k, q, a, b.
+
+### 8.2 `damped_energy(r, w0, alpha0, eps)`
+
+This is eq. (1) with the factor e^{−ε(k+q)}:
+U_ε = −(d⁴/π²)∫∫dk dq k³q³ e^{−ε(k+q)} Tr[τ(kr)τ(qr)] Σ₁₂(k,q). Here d⁴ = α₀²ω₀²/4 and a = b = ω₀. It does not use
+identity (2), the contour step of §4, or any imaginary-frequency quantity.
+
+**Exact split.** The numerator satisfies N = (a+b)[ab + (a+b)(k+q) + (k+q)²] + kq(k+q), which sympy confirms with
+residual 0. Hence
+
+Σ₁₂ = 4/[(a+k)(a+q)(b+k)(b+q)] · [ ab/(k+q) + (a+b) + (k+q) + kq/(a+b) ].
+
+With g(k) = k³e^{−εk}/[(a+k)(b+k)] and the matrix G[f] = ∫dk g(k) f(k) τ(kr):
+- the last three terms are separable, giving (a+b)Tr G[1]² + 2Tr G[k]G[1] + Tr G[k]²/(a+b);
+- the first term uses 1/(k+q) = ∫₀^∞ds e^{−s(k+q)}, a real Laplace variable, not a frequency. It gives
+  ab∫₀^∞ds Tr G[e^{−sk}]².
+
+Here Tr[(P₁δ+Q₁r̂r̂)(P₂δ+Q₂r̂r̂)] = 3P₁P₂ + P₁Q₂ + Q₁P₂ + Q₁Q₂, and P = (2j₀ − j₂)/3, Q = j₂ are the forms of §2
+written with spherical Bessel functions, which avoids cancellation at small kr. At finite ε every integral converges
+absolutely. There is no cut-off beyond ε itself and no principal value, since all denominators are positive.
+
+**Numerics. No extrapolation in ε is used.**
+- **k-integral:** 16-point Gauss–Legendre on panels. The panels are graded geometrically near k = 0, then have width
+  ≤ min(π/2r, 1/(2ε), ω₀/2), up to K = [80 + 6 ln(1 + 6/εω₀)]/ε, where the integrand has fallen by more than e^{−80}.
+- **s-integral:** `scipy` quad on octave panels sc·2^j, with sc = 1/(r+ε), j = −6…29. The integrand goes as s⁻⁸ at
+  large s. Tolerances: rel 1e−11, abs 1e−13 of the integral's scale.
+- **Subnormal floats:** e^{−sk} is capped at e^{−200} to keep the products out of slow subnormal floats. This changes
+  nothing at the 1e−80 level.
+
+**Tests (run in `__main__`):**
+- **(i) Grid refinement.** Halving the panel widths, extending K by 25% and tightening the tolerances 4× changes the
+  result by ≤ 1e−15 at (rω₀, εω₀) = (1, 0.5), (3, 1), (0.3, 0.25) and (2, 0.25).
+- **(ii) Brute force.** The unsplit double integral, with the full Σ₁₂ on a 2-D Gauss–Legendre grid (§6b without the
+  extrapolation), agrees to between 3e−12 and 1.3e−10 at the same four points.
+- **(iii) Approach to cp_energy.** The ratio damped/cp_energy − 1 shrinks linearly in ε, roughly −3.3 εω₀/(rω₀) at
+  small ε; for example, at rω₀ = 1 it is −3.3e−2, then −1.0e−2 at ε = 0.01, then 0.003. A linear fit through the two
+  smallest ε lands within 1e−3 (rω₀ = 0.3) down to 5e−6 (rω₀ = 3) of cp_energy. That fit is a test only, never used to
+  produce a value. The approach is monotone from the weak side, as the blind check requires.
+
+**Scaling.** U_ε(λr, ω₀/λ, λ³α₀, λε) = U_ε/λ holds because every integration variable scales.
+
+**Accuracy and validity range.** About 1e−10 relative or better for 0.25 ≤ εω₀ ≤ 1 and 0.3 ≤ rω₀ ≤ 3, which is the
+required range. It is also checked at εω₀ down to 0.003, where the runtime is about 5 s. Smaller ε works, but the
+runtime grows like 1/ε: about 24 s at εω₀ = 0.001.
+
+**Provenance:** derived, from eq. (1) of the perturbation-theory route.

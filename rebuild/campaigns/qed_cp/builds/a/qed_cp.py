@@ -70,6 +70,79 @@ def near_coefficient():
     return float(sp.integrate(sp.Float(_C[0]) / (1 + t**2)**2, (t, 0, sp.oo)) / sp.pi)
 
 
+
+# ---------------------------------------------------------------- SPEC 3b intermediate exports
+
+def denominator_sum(k, q, a, b):
+    """SPEC 3b: sum over the 24 orderings of the vertex events (A,k),(A,q),(B,k),(B,q) of 1/(E1 E2 E3), / 2.
+    Each event toggles its atom (energy a or b) and its photon (energy k or q); E_n = energy after n events."""
+    W = {'A': a, 'B': b}
+    E = {'k': k, 'q': q}
+    tot = 0.0
+    for perm in itertools.permutations((('A', 'k'), ('A', 'q'), ('B', 'k'), ('B', 'q'))):
+        ex = {'A': False, 'B': False}
+        ph = {'k': False, 'q': False}
+        prod = 1.0
+        for at, pp in perm[:3]:
+            ex[at] = not ex[at]
+            ph[pp] = not ph[pp]
+            prod *= sum(W[z] for z in ex if ex[z]) + sum(E[z] for z in ph if ph[z])
+        tot += 1.0 / prod
+    return tot / 2
+
+
+def _kgrid(r, eps, a, b, refine=1):
+    """Gauss-Legendre nodes/weights on [0, K]: graded panels near k = 0, then panels of width <= pi/(2r),
+    <= 1/(2 eps) and <= min(a,b)/2; K chosen so that k^6 e^{-eps k} has fallen below 1e-30 of its peak."""
+    K = (80.0 + 6 * math.log(1 + 6 / (eps * min(a, b)))) / eps * (1 + 0.25 * (refine - 1))
+    h = min(math.pi / (2 * r), 0.5 / eps, 0.5 * min(a, b)) / refine
+    edges = [0.0] + [h * 2.0**(-j) for j in range(40, 0, -1)]
+    edges += list(np.arange(h, K, h)) + [K]
+    edges = np.unique(np.array(edges))
+    xg, wg = np.polynomial.legendre.leggauss(16)
+    mid, half = (edges[:-1] + edges[1:]) / 2, (edges[1:] - edges[:-1]) / 2
+    return (mid[:, None] + half[:, None] * xg).ravel(), (half[:, None] * wg).ravel()
+
+
+def _PQ(x):
+    """tau_ij(x) = P delta_ij + Q rhat_i rhat_j with P = (2 j0 - j2)/3, Q = j2 (stable form of DERIVATION sec 2)."""
+    from scipy.special import spherical_jn
+    j0, j2 = spherical_jn(0, x), spherical_jn(2, x)
+    return (2 * j0 - j2) / 3, j2
+
+
+def _tr(G1, G2):
+    """Tr[(P1 d + Q1 rr)(P2 d + Q2 rr)] = 3 P1 P2 + P1 Q2 + Q1 P2 + Q1 Q2."""
+    return 3 * G1[0] * G2[0] + G1[0] * G2[1] + G1[1] * G2[0] + G1[1] * G2[1]
+
+
+def damped_energy(r, w0, alpha0, eps, _refine=1):
+    """SPEC 3b: eq.(1) of DERIVATION.md with the factor e^{-eps(k+q)}, evaluated without identity (2).
+    Sigma_12 = 4/[(a+k)(a+q)(b+k)(b+q)] [ab/(k+q) + (a+b) + (k+q) + kq/(a+b)] (exact algebra, DERIVATION sec 8);
+    the separable pieces are products of 1D k-integrals, and the 1/(k+q) piece uses 1/(k+q) = int_0^inf ds e^{-s(k+q)}
+    (a real Laplace variable), giving an s-integral of products of 1D k-integrals. All integrals converge absolutely."""
+    a = b = w0
+    d4 = alpha0**2 * w0**2 / 4
+    k, w = _kgrid(r, eps, a, b, _refine)
+    P, Q = _PQ(k * r)
+    g = w * k**3 * np.exp(-eps * k) / ((a + k) * (b + k))
+    G = lambda f: (np.dot(g * f, P), np.dot(g * f, Q))
+    G0, G1 = G(1.0), G(k)
+    sep = (a + b) * _tr(G0, G0) + 2 * _tr(G1, G0) + _tr(G1, G1) / (a + b)
+
+    def lap(s):
+        Gs = G(np.exp(-np.minimum(s * k, 200.0)))   # cap keeps products out of slow subnormal floats; e^-200 is negligible
+        return _tr(Gs, Gs)
+
+    # s-integral: integrand ~ s^-8 for s >> 1/r, eps; panels on a log scale
+    sc = 1.0 / (r + eps)
+    pts = [0.0] + [sc * 2.0**j for j in range(-6, 30)]
+    # absolute floor relative to the size of the s-integral (~ lap(0) * sc); a pure relative target cannot be met
+    # on far-tail panels where the integrand is ~1e-40 of its peak
+    opts = dict(epsabs=1e-13 * abs(lap(0.0)) * sc / _refine**2, epsrel=1e-11 / _refine**2, limit=200)
+    L = sum(quad(lap, lo, hi, **opts)[0] for lo, hi in zip(pts, pts[1:]))
+    return -(d4 / math.pi**2) * 4 * (a * b * L + sep)
+
 PROVENANCE = {
     "cp_energy": ("derived", "runtime: scipy quad of the 1D imaginary-frequency integral U = -(1/pi r^6) int du "
                              "alpha(iu)^2 e^{-2ur} p(ur) (eq. 3), in dimensionless form J(rho); eq. 3 itself is derived "
@@ -78,6 +151,12 @@ PROVENANCE = {
                              "valid and checked against mpmath for 1e-12 <= r*w0 <= 1e5"),
     "far_coefficient": ("derived", "rho -> infinity limit of J(rho): sum c_n n!/2^{n+1}/pi (DERIVATION sec 5)"),
     "near_coefficient": ("derived", "rho -> 0 limit of J(rho): (1/pi) int 3/(1+t^2)^2; cross-checked by London route"),
+    "denominator_sum": ("derived", "literal SPEC 3b enumeration (24 orderings / 2) of the 4th-order RS energy denominators; "
+                                   "equals Sigma_12 of DERIVATION sec 3 (checked symbolically in __main__)"),
+    "damped_energy": ("derived", "eq.(1) (12-diagram RS sum) with e^{-eps(k+q)}: exact split of Sigma_12 + real Laplace "
+                                 "variable for 1/(k+q), Gauss-Legendre in k, quad in s; no identity (2), no imaginary "
+                                 "frequency (DERIVATION sec 8); ~1e-10 relative, tested for 0.25 <= eps*w0 <= 1 at "
+                                 "0.3 <= r*w0 <= 3 (grid refinement + brute force), and down to eps*w0 = 0.003"),
 }
 
 
@@ -163,6 +242,29 @@ if __name__ == "__main__":
         v = np.array([_U_double(r, e, Sf) for e in es])
         ext = np.polyfit(es, v, 2)[-1]
         print(f"r w0={r}: eq.(3) U = {cp_energy(r, 1, 1):.6e}; direct eq.(1) extrapolated eps->0: {ext:.6e}  (raw {v})")
+    # ---- SPEC 3b exports
+    fS = sp.lambdify(syms, S)                     # Sigma_12(a, b, k, q) from the 12 ordered paths
+    rng = np.random.default_rng(7)
+    worst = 0.0
+    for _ in range(20):
+        av, bv, kv, qv = rng.uniform(0.05, 5.0, 4)
+        worst = max(worst, abs(denominator_sum(kv, qv, av, bv) / fS(av, bv, kv, qv) - 1))
+    print(f"denominator_sum (24/2 rule) vs 12-path Sigma_12 at 20 random points, a != b: max rel. dev. {worst:.2e}")
+    a_, b_, k_, q_ = syms
+    split = 4 / ((a_ + k_) * (a_ + q_) * (b_ + k_) * (b_ + q_)) * (a_ * b_ / (k_ + q_) + (a_ + b_) + (k_ + q_) + k_ * q_ / (a_ + b_))
+    print(f"exact split of Sigma_12 used by damped_energy (DERIVATION sec 8): residual {sp.simplify(split - S)}")
+    for r, e in ((1.0, 0.5), (3.0, 1.0), (0.3, 0.25), (2.0, 0.25)):
+        dm, dr = damped_energy(r, 1.0, 1.0, e), damped_energy(r, 1.0, 1.0, e, _refine=2)
+        bf = _U_double(r, e, Sf)
+        print(f"damped_energy(r={r}, eps={e}) = {dm:.12e}; refined grid {dr / dm - 1:+.1e}; "
+              f"brute-force eq.(1) grid {bf / dm - 1:+.1e}")
+    for r in (0.3, 1.0, 3.0):
+        U = cp_energy(r, 1.0, 1.0)
+        es = (0.1, 0.03, 0.01, 0.003)
+        dev = [damped_energy(r, 1.0, 1.0, e) / U - 1 for e in es]
+        lin = (dev[-1] - dev[-2]) / (es[-1] - es[-2])
+        print(f"r w0={r}: damped/cp_energy - 1 at eps={es}: " + ", ".join(f"{d:+.3e}" for d in dev)
+              + f"; linear in eps, intercept {dev[-1] - lin * es[-1]:+.1e} (test only)")
     # numerical stability: t-form vs s-form at rho = 1 boundary region
     import mpmath as mp
     mp.mp.dps = 30

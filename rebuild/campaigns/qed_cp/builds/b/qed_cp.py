@@ -7,6 +7,8 @@ import sympy as sp
 PROVENANCE = {
     "cp_energy": ("derived", "12 time-ordered 4th-order diagrams (enumerated), angle/polarisation sums, Abel-damped k,q integrals via 1/(k+q)=int ds e^{-(k+q)s}"),
     "far_coefficient": ("derived", "k,q<<w0 limit of the same double integral, exact Laplace transforms (sympy)"),
+    "denominator_sum": ("derived", "explicit enumeration of the 24 four-vertex orderings (toggle atom excitation / photon occupation), sum of 1/(E1E2E3), divided by 2"),
+    "damped_energy": ("derived", "same double integral as cp_energy with e^{-eps(k+q)}: absolutely convergent, evaluated at finite eps via s-representation shifted to s>=eps; no extrapolation"),
     "near_coefficient": ("derived", "k,q>>w0 limit of the same double integral, Abel integrals (sympy)"),
 }
 
@@ -65,8 +67,8 @@ def _M(X, m_f, n_f, s, r, a):
     return val.imag
 
 
-def _u(rho, tol_refine=1):
-    """U / (alpha0^2 w0^7) as a function of rho = r w0 (a = 1)."""
+def _u(rho, tol_refine=1, eps=0.0):
+    """U / (alpha0^2 w0^7) as a function of rho = r w0 (a = 1); eps = damping length (units 1/w0), 0 = Abel limit."""
     # working precision grows for rho >> 1e4: the 1/r^3-per-photon cancellations eat ~6 digits per decade
     extra = int(6 * max(0.0, math.log10(rho) - 4.0))
     with mp.workdps(_DPS * tol_refine + extra):
@@ -76,9 +78,10 @@ def _u(rho, tol_refine=1):
         tot = mp.mpf(0)
         for X, wX in (("A", 1), ("B", 2)):
             g1 = lambda s: _M(X, 0, 1, s, r, a)
-            sep = (2 / a) * _M(X, 1, 2, 0, r, a) * g1(0) + 6 * _M(X, 0, 2, 0, r, a) * g1(0)
+            e0 = mp.mpf(eps)
+            sep = (2 / a) * _M(X, 1, 2, e0, r, a) * g1(e0) + 6 * _M(X, 0, 2, e0, r, a) * g1(e0)
             integrand = lambda s: 4 * a * _M(X, 0, 2, s, r, a) * g1(s)
-            pts = sorted({mp.mpf(0), 1 / a, r, 10 * r, 10 / a})
+            pts = sorted({e0} | {p for p in (1 / a, r, 10 * r, 10 / a) if p > e0})
             integ = mp.quad(integrand, pts + [mp.inf])
             tot += wX * (sep + integ)
         return float(-d4 / mp.pi**2 * tot)
@@ -120,6 +123,29 @@ def _S_independent(k, q, a=1.0):
         total += 1.0 / D
         count += 1
     return total / 2, count
+
+
+def denominator_sum(k, q, a, b):
+    """SPEC 3b: sum over the 24 orderings of the events (A,k),(A,q),(B,k),(B,q) of 1/(E1 E2 E3), divided by 2.
+    E_n = energy of the state after n events; each event toggles its atom's excitation (a or b) and its photon's occupation (k or q)."""
+    events = [("A", 0), ("A", 1), ("B", 0), ("B", 1)]
+    en = (k, q)
+    tot = 0.0
+    for order in itertools.permutations(events):
+        exc = {"A": 0, "B": 0}
+        occ = [0, 0]
+        D = 1.0
+        for atom, ph in order[:3]:
+            exc[atom] ^= 1
+            occ[ph] ^= 1
+            D *= a * exc["A"] + b * exc["B"] + occ[0] * en[0] + occ[1] * en[1]
+        tot += 1.0 / D
+    return tot / 2
+
+
+def damped_energy(r, w0, alpha0, eps):
+    """U with every photon integrand multiplied by exp(-eps (k+q)); finite eps, no extrapolation. U = alpha0^2 w0^7 u(r w0; eps w0)."""
+    return alpha0**2 * w0**7 * _u(float(r) * float(w0), 1, float(eps) * float(w0))
 
 
 def cp_energy(r, w0, alpha0):
@@ -182,6 +208,12 @@ if __name__ == "__main__":
         Su = 0.5 * (_S_decomp(kk, qq) + _S_decomp(qq, kk))
         worst = max(worst, abs(Si / Su - 1))
     print("independent 4-vertex enumeration: labelled sequences =", cnt, "(expect 2 x 12 = 24); max rel diff vs _u terms:", worst)
+    dmax = max(abs(denominator_sum(kk, qq, 1.0, 1.0) / (0.5 * (_S_decomp(kk, qq) + _S_decomp(qq, kk))) - 1) for kk, qq in ((0.3, 1.7), (2.2, 0.15), (4.1, 3.3)))
+    print("denominator_sum(a=b=1) vs symmetrised _S_decomp: max rel diff", dmax, "; a!=b example", denominator_sum(0.7, 1.9, 1.3, 0.6))
+    for rho_, e_ in ((0.3, 0.25), (1.0, 0.5), (3.0, 1.0)):
+        dd = damped_energy(rho_, 1.0, 1.0, e_)
+        print("damped_energy rho", rho_, "eps", e_, dd, "brute 2D (n=200):", float(_brute(rho_, e_, n=200)), "rel diff", float(_brute(rho_, e_, n=200)) / dd - 1)
+    print("damped/cp - 1 at rho=1, eps=1e-4, 1e-5 (expect -3.35 eps):", [damped_energy(1.0, 1.0, 1.0, e_) / cp_energy(1.0, 1.0, 1.0) - 1 for e_ in (1e-4, 1e-5)])
     print("far C =", far_coefficient(), " near D =", near_coefficient())
     for rho in (0.01, 1.0, 1e3):
         print("rho", rho, "u", _u(rho), "u at higher precision", _u(rho, 2))

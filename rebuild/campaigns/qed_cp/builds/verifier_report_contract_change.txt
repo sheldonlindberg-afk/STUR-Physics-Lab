@@ -1,0 +1,14 @@
+== a
+36
+   [PASS] extreme separations r w0 = 1e-8 .. 1e5 to 1e-7  (worst relative deviation at r w0 in 1e-8 .. 1e5: 2.2e-16 at 1e-08)
+   [PASS] denominator_sum against the independent 24-ordering enumeration to 1e-12  (worst relative deviation from the independent 24-ordering enumeration: 0.0e+00)
+   [PASS] damped_energy against the independent separable double integral to 1e-6  (worst relative deviation over 5 points: 6.1e-08 at (r w0, eps, w0, alpha0) = (3.0, 0.5, 1.0, 1.0))
+GATE PASSED
+== b
+36
+   [PASS] extreme separations r w0 = 1e-8 .. 1e5 to 1e-7  (worst relative deviation at r w0 in 1e-8 .. 1e5: 0.0e+00 at None)
+   [PASS] denominator_sum against the independent 24-ordering enumeration to 1e-12  (worst relative deviation from the independent 24-ordering enumeration: 2.2e-16)
+   [PASS] damped_energy against the independent separable double integral to 1e-6  (worst relative deviation over 5 points: 6.1e-08 at (r w0, eps, w0, alpha0) = (3.0, 0.5, 1.0, 1.0))
+GATE PASSED
+
+[exited with code 0]

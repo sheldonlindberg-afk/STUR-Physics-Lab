@@ -78,6 +78,23 @@ auditor's independent 24-ordering enumeration (agrees with build a's closed form
 integral by the orchestrator (`reference_damped.py`), which a degree-4 extrapolation to eps -> 0 matches to the main route
 at r w0 = 1 to 1e-8 (-0.6512664067 against -0.6512664). A banned-route build cannot produce either quantity.
 
-Status: the builds in `builds/a` and `builds/b` pre-date the contract change and lack the two exports, so they fail the contract
-tier of the current gate until their builders add them (sent back as class C, both builders, with no formulas given). Their
-numerical results for `cp_energy` are unchanged and remain verified as above.
+Status: closed. Both builders added the two exports (class C, no formulas given) and both builds pass the full strengthened
+verifier, 36 checks each and no failures (`builds/verifier_report_contract_change.txt`):
+
+* `denominator_sum`: matches the independent 24-ordering enumeration exactly (build a) and to 2e-16 (build b), with the two
+  atoms' energies independent.
+* `damped_energy`: both builds agree with the orchestrator's separable double integral to 6.1e-8 at worst (the same value for
+  both, so it is the reference's own residual at (3, 0.5)), and with each other to ~1e-15 at three points, although they
+  evaluate it differently (a: Gauss-Legendre panels and a quadrature over the Laplace variable; b: exact finite-eps shift of the
+  Laplace integral with mpmath). Neither extrapolates in eps and neither uses the imaginary-frequency formula. Both observe the
+  same approach to cp_energy, damped/cp_energy - 1 = -3.3 eps w0 at r w0 = 1, linear and from the weak side (build b at eps =
+  1e-4 and 1e-5).
+* `cp_energy` is identical to the previously accepted values.
+
+One oracle bug (class R) was found on the way: my first reference scaling for w0 != 1 passed the wrong argument, which made
+build a fail at the single w0 != 1 point; the fix is in the oracle and both builds then pass.
+
+The audit's high finding (the gate could not force the route; mutant M1 passed every numerical check) is closed for these two
+builds: a build using the Green-tensor formula cannot produce the 12-diagram denominator sum or the finite-eps double integral.
+Still not enforced numerically: that cp_energy itself is computed from the diagrams (its link to the exports rests on the
+derivations, which the audit read), and the Abel-damping limit remains supported, not proved.

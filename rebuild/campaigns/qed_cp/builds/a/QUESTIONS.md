@@ -17,3 +17,8 @@
 5. **Audit follow-up (near zone).** For rω₀ ≤ 1e-7, `cp_energy` came out low by 4.2e-4 relative because `quad` under-sampled one long
    integration panel. That was a numerical bug, not a spec ambiguity. It is fixed with decade breakpoints, and the
    validity range is now stated in DERIVATION §6(d).
+6. **SPEC 3b, damped_energy.** For a = b = ω₀, "every photon-momentum integrand multiplied by e^{−ε(k+q)}" is read as the
+   damping factor inside eq.(1), the double k, q integral over the 12-diagram sum. Under that reading ε → 0 gives
+   cp_energy. The real Laplace variable used to factor 1/(k+q) is a calculation device, not an imaginary frequency.
+   I counted it as allowed under "do not use the imaginary-frequency formula". The brute-force check (ii) does not use it
+   and agrees to 1e−10.
