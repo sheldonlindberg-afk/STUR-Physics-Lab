@@ -23,3 +23,11 @@ What a well-posed campaign needs, in order:
 4. Staged exports (self-energies at q^2 = 0, then vertex, then box, then the sum) so each stage has its own gate.
 
 Until (1) and (2) exist, running builders would test the SPEC, not the physics.
+
+## Decision (orchestrator, on the user's instruction to decide what fits best)
+
+The textbook delta_VB is not launched as a campaign: it is finite and gauge-independent only together with the on-shell counterterms and
+a Fermi-theory subtraction, so a SPEC for it would test the SPEC. The first stage instead is the one piece of the bosonic remainder that
+is gauge-independent and sharply defined: the Higgs-mass dependence of Delta rho (`rebuild/campaigns/higgs_rho`), which also replaces the
+Higgs-log term that L18 quotes. Later stages (the full bosonic Delta rho in a fixed gauge with the pinch parts, then vertex and box) can
+reuse its infrastructure once that campaign shows the method works.

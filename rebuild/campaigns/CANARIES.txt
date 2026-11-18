@@ -1,3 +1,4 @@
 # one token per campaign, planted in <campaign>/oracle.py (never exported to a room); audit_transcript.py --canary reads them
 CANARY-d4157dcb34b242f2-greybody
 CANARY-6a170912e3004d4e-qed_cp
+CANARY-060158c59f054784-higgs_rho

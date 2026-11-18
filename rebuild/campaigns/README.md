@@ -39,4 +39,5 @@ change, N numerical).
 |---|---|---|---|
 | `greybody` | L7's weights 0.267, 0.147, 0.060, 0.007 and the 5.34e25 coefficient (Carr et al. 2021, after Page 1976) | power per degree of freedom for s = 0, 1/2, 1, 2 | solve the master equations; the oracle's own integration agreed to 1% |
 | `qed_cp` | the Green-tensor formula's dyadic step (L21b) | 23/(4 pi) far zone, 3/4 near zone, the crossover | perturbation theory over photon modes vs the repository's imaginary-frequency integral |
-| `muon_vb` | B7's remaining Delta r-hat_W - Delta r_0 and the bosonic 9% | see `muon_vb/SCOPING.md`: not launched | |
+| `higgs_rho` | L18's quoted Higgs log (and the first bosonic piece of B7's remaining 9%) | the m_H dependence of Delta rho: -3 alpha/(16 pi c^2) ln m_H^2 (LIT, hidden) | custodial limit, MS-bar scale independence, linearity in alpha, gauge parameter (blind or oracle) |
+| `muon_vb` | B7's remaining Delta r-hat_W - Delta r_0 | `muon_vb/SCOPING.md`: the textbook delta_VB is not a well-posed first target (finite only with specific counterterms and a Fermi-theory subtraction); the decision is to start from the gauge-independent Higgs-mass dependence (`higgs_rho`) and add stages later | |
