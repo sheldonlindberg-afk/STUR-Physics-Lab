@@ -68,9 +68,10 @@ ORACLE += [("dense random points against the accurate reference", dense), ("coef
            ("extreme separations r w0 = 1e-8 .. 1e5 to 1e-7", extremes)]
 
 
-import itertools, os as _os2, sys as _sys2
-_sys2.path.insert(0, _os2.path.dirname(_os2.path.abspath(__file__)))
-import reference_damped as _RD
+import importlib.util as _ilu, itertools, os as _os2
+_spec = _ilu.spec_from_file_location("qed_cp_reference_damped", _os2.path.join(_os2.path.dirname(_os2.path.abspath(__file__)), "reference_damped.py"))
+_RD = _ilu.module_from_spec(_spec)             # loaded by path under a unique name: never touch sys.path (a module called `oracle` elsewhere must not be shadowed)
+_spec.loader.exec_module(_RD)
 
 
 def sum_reference(k, q, a, b):

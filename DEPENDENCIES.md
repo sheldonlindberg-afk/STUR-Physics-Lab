@@ -7,7 +7,7 @@ This page records which script feeds which, and which physical quantities each o
 ## Summary
 
 - **54 scripts** in `src/`, in 6 topics; **101 imports** between them, 36 of them across topics. 12 scripts import nothing from the others and nothing imports them.
-- **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 299 literals in the source.
+- **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 301 literals in the source.
 - **44 quantities are typed in more than one script**; 19 of them are shared by more than one topic.
 - **2 copies differ from their source for a stated reason**; **0 differ without one (drift).**
 
@@ -400,7 +400,7 @@ These are imported from their source by every script that uses them; a typed-in 
 | 1/α(0) | input | 137.036 | CODATA 2018 | `chain_branches`, `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone` (exact, rounded) |
 | 1/α(M_Z), MS-bar | input | 127.93 | PDG 2024 | `chain_first_principles`, `first_principles_standalone`, `force_chain`, `ladder_links`, `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zpole`, `m331_zprime_recast` |
 | sin²θ_W(M_Z), MS-bar | input | 0.23129 | PDG 2024 | `chain_branches`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zpole` (variant), `m331_zprime_recast` (variant) |
-| M_Z (GeV) | input | 91.188 | PDG 2024 | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_yukawa`, `m331_zprime_recast`, `qcd_running` |
+| M_Z (GeV) | input | 91.188 | PDG 2024 | `chain_first_principles`, `first_principles_standalone`, `ladder_links` (exact, rounded), `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_yukawa`, `m331_zprime_recast`, `qcd_running` |
 | Γ_Z (GeV) | input | 2.4955 | PDG 2024 | `m331_heavy_lepton`, `m331_zprime_recast` |
 | G_F (GeV⁻²) | input | 1.166379e-5 | PDG 2024 | `chain_first_principles`, `first_principles_standalone`, `force_chain`, `ladder_links`, `ladder_standalone`, `m331_breaking` |
 | electroweak vev (√2 G_F)^(−1/2) (GeV) | derived | 246.22 | src/m331_breaking.py B7 | `ladder_standalone` (rounded), `m331_standalone` (rounded), `m331_yukawa` (rounded) |

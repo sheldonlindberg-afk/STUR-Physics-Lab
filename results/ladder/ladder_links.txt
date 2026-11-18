@@ -257,6 +257,12 @@ L25  Hawking radiation from a collapsing shell: the map behind L19, derived (CHE
    w = 0.1, w' = 0.12: |beta/alpha|^2 from the overlap integrals 6.694429104e-04; ((w'-w)/(w'+w))^2 e^(-8 pi M w) = 6.694429104e-04
 
 ==============================================================================
+L26  The Higgs term of L18: its coefficient derived by two blind builds (CHECK; FOLLOWS for the finite shape)
+==============================================================================
+   -(c^2/s^2) x [log coefficient of Delta rho] = 2.024116162e-03;  L18's quoted 3 G_F M_W^2/(8 sqrt2 pi^2) = 2.024116162e-03  (ratio 1.000000000000)
+   Delta rho(125.2) - Delta rho(M_W) = -1.9980e-04; the leading log alone would give -5.1563e-04 (0.39 of it)
+
+==============================================================================
 L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)
 ==============================================================================
    r_c - l = 0;  kappa - 1/l = 0;  A - 12 pi/Lambda = 0  (A = 4 pi l^2; not 4 pi/Lambda)

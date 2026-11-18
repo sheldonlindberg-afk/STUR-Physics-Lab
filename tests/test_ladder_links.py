@@ -273,6 +273,15 @@ def test_collapsing_shell_map_and_thermal_ratio():
     assert abs(num / math.exp(-8 * math.pi * 0.1) - 1) < 1e-3                    # w' >> w: the Planck factor of L19
 
 
+def test_higgs_term_of_l18_is_derived():
+    derived, quoted, rho125, lead125 = LL.higgs_term_derived()
+    assert abs(derived / quoted - 1) < 1e-12                 # the derived coefficient reproduces L18's quoted one
+    assert -2.1e-4 < rho125 < -1.9e-4 and 0.38 < rho125 / lead125 < 0.40
+    a, b = LL._load_higgs_build("a"), LL._load_higgs_build("b")
+    for mh, xi, mu in ((125.0, 1.0, 80.38), (300.0, 0.4, 200.0), (1000.0, 0.0, 50.0)):
+        assert a.rho_higgs_rel(mh, 80.38, 91.19, 1 / 128.0, xi, mu) == b.rho_higgs_rel(mh, 80.38, 91.19, 1 / 128.0, xi, mu)
+
+
 def test_reference_output_matches():
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):

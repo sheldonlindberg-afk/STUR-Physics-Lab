@@ -1,6 +1,8 @@
-# Campaign `higgs_rho`: in progress (not accepted)
+# Accepted: campaign `higgs_rho` (the Higgs-mass dependence of the rho parameter at one loop)
 
-Status log; the acceptance sections are written when both builds, the cross-build comparison and the audit are done.
+*Result: from the bosonic electroweak Lagrangian in R_xi gauge, the Higgs-containing one-loop diagrams give Delta rho(m_H) - Delta rho(M_W) with the poles m_H-independent and cancelling, xi dropping out exactly, and the large-m_H form -(3 alpha/16 pi c^2) ln(m_H^2/M_W^2) + C, C = 9.54e-4; two builds agree to the double over 10 GeV .. 1e33 M_W, and an auditor's two independent routes agree with both.*
+
+(The history below is the log of how it got there, including the orchestrator's own mistakes.)
 
 | Step | Result |
 |---|---|
@@ -34,3 +36,23 @@ Remaining findings sent to the builders (documentation, no result changes): vert
 build b's garbled ghost paragraph, and that `log_coefficient` is a hand-typed analytic expression (it follows from the large-m_H expansion; a
 numerical check was requested). Not enforceable by the gate: that a build derived its closed forms instead of reciting them (the audit read both
 derivations; build b's is terse but contains no recited formula). Status: **not accepted until both builds pass the strengthened gate**.
+
+## Final state
+
+| Phase | Evidence |
+|---|---|
+| P0 rooms | level 2 of PROTOCOL.md; scratch in `tmp/`, every command begins with `cd <room>`; transcript audits clean (`builds/*/isolation_audit.txt`, re-run after every round, canary absent) |
+| P1 builders | `builds/a` (Opus), `builds/b` (Sonnet); the builder gates pass (7 of 7 blind checks) |
+| P2 verifier | both builds pass the strengthened oracle: log coefficient and its measured slope, the finite function at seven masses (1e-9) against the auditor's independent references, xi and mu independence at finite m_H, Landau gauge, the large-m_H constant, the exact large-mH form up to 1e20 MW, and the raw self-energies in the pinned convention (`builds/*/verifier_report.txt`, 26 passes each) |
+| P3 cross-build | exact agreement (relative difference 0.0) on rho and Pi_WW at nine points from 10 GeV to 8e33 GeV, including xi = 0, 0.4, 1, 2, 3 and different mu |
+| P4 audit | Opus auditor (`AUDIT.md`): physics confirmed by two independent routes; one high finding against the gate, fixed as above; nine mutants all killed |
+| Class counts | R (orchestrator): 2 (the custodial check divided by alpha s^2; the first extreme-mass starting point too low); B: 2 (build b nan at xi = 0, its working precision at extreme m_H); C: 1 (SPEC pinned the tensor reduction); N: documentation items in both builds |
+
+## What is and is not established
+
+* **Established:** the Feynman rules, the complete Higgs-containing diagram set (the H seagull, the H-gauge bubble and the H-Goldstone bubble for W and Z; tadpoles cancel in
+  Delta rho), the pole structure, the exact xi independence, the coefficient of ln m_H^2, and the finite function, by two builds and three independent evaluations.
+* **Not established:** that a build derived and did not recite (the gate cannot enforce it; the audit read both derivations, build b's is terse); the
+  full Higgs dependence of Delta r, which also needs the q^2-dependent self-energies (this campaign is Delta rho at q = 0); the exact agreement
+  of the builds is algebraic (equivalent expressions evaluated at high precision), so it checks implementation and the shared SPEC conventions, not the physics, which
+  the auditor's routes and the literature coefficient (-3 alpha/16 pi c^2, hidden oracle) check.

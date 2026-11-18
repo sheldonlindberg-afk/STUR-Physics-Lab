@@ -219,7 +219,7 @@ counts is not derived here (see [TEGR.md](TEGR.md) for the corner-charge attempt
 
 ## Links between the rungs (`src/ladder_links.py`)
 
-The rungs above are separate derivations. In twenty-five places one rung's output is another
+The rungs above are separate derivations. In twenty-six places one rung's output is another
 rung's input, and the link can be checked against a measurement or against the other rung's
 code.
 
@@ -406,7 +406,7 @@ splitting use α(0). This link shows they are one coupling at two scales.
 |---|---|---|
 | L18a | The W and Z self-energies at q² = 0 from the fermion loop in dimensional regularization, with rung 1's couplings T₃ − Qs². The vector Ward identity holds; Δρ has no 1/ε pole and no s² dependence; it equals N_cG_F/(8√2π²)[m_t² + m_b² − 2m_t²m_b² ln(m_t²/m_b²)/(m_t² − m_b²)], which is 3G_Fm_t²/(8√2π²) for m_b → 0 | CHECK, symbolic |
 | L18b | With m_t = 172.57, m_b = 4.18 GeV (PDG 2024): **Δρ = 9.26×10⁻³** | CHECK; LIT |
-| L18c | M_W from G_F, α(0), M_Z with Δr built up: tree **80.94** GeV; + Δα (L9's leptons, hadrons quoted) 79.96; + top loop 80.53; + Higgs log (quoted) **80.50**, against 80.37 measured. The 0.13 GeV left is Δr_rest = 0.007; the total Δr = 0.0356 | CHECK (top loop); LIT |
+| L18c | M_W from G_F, α(0), M_Z with Δr built up: tree **80.94** GeV; + Δα (L9's leptons, hadrons quoted) 79.96; + top loop 80.53; + Higgs log (coefficient derived in Link 26, shape quoted) **80.50**, against 80.37 measured. The 0.13 GeV left is Δr_rest = 0.007; the total Δr = 0.0356 | CHECK (top loop); LIT |
 | L18d | B7's +0.35% on M_Z is in the MS-bar scheme, where ŝ²(M_Z) absorbs part of Δρ; that bookkeeping is not done. L18 closes the leading piece of the on-shell correction, not B7's number | FOLLOWS |
 
 ### Link 19: Hawking radiation as radiation, within rung 6 (`src/ladder_links.py` L19)
@@ -466,6 +466,13 @@ H1 and H2 fix the temperature geometrically; the step that was quoted was that t
 | L25a | L19 assumed the map u = −(1/κ)ln(−κU). For a thin null shell collapsing to a Schwarzschild hole it follows exactly: an incoming ray at advanced time v < v₀ passes through the centre (u_in = v), meets the shell at r_s = (v₀ − v)/2 and leaves along u = v₀ − 2r*(r_s), so **u(v) = v − 4M ln((v_H − v)/4M)**, v_H = v₀ − 4M (residual 0, symbolic). Near v_H, du/dv ∼ 4M/(v_H − v): κ = 1/4M, equal to H1's \|f′(r_h)\|/2. Rays with v > v_H never reach infinity | CHECK, symbolic |
 | L25b | With this map the L19 overlaps are exact: **\|β\|²/\|α\|² = ((ω′ − ω)/(ω′ + ω))² e^(−8πMω)**, the Planck factor times a correction that tends to 1 for in-frequencies ω′ ≫ ω (the modes that fell in at late times) and is smaller otherwise: a thin-shell hole is thermal only for those modes | CHECK |
 | L25c | Not derived: a thin shell is not a star (no matter dynamics, no back-reaction); the late-time stationarity of the flux, the 3+1 grey-body factors (derived in Link 24) joined to it, and the back-reaction on the mass | FOLLOWS |
+
+### Link 26: the Higgs term of L18, its coefficient derived (`rebuild/campaigns/higgs_rho`, `src/ladder_links.py` L26)
+
+| | Result | Status |
+|---|---|---|
+| L26a | L18 quoted Δr_H = +(3G_FM_W²/8√2π²) ln(m_H²/M_W²). Two blind builds derived the m_H dependence of Δρ = Π_WW(0)/M_W² − Π_ZZ(0)/M_Z² from the Higgs-containing one-loop diagrams of the bosonic electroweak Lagrangian in R_ξ gauge (H–gauge bubble, H–Goldstone bubble, seagull; Feynman rules read off |DΦ|²): the poles are m_H-independent and cancel, ξ drops out exactly, and **Δρ = −(3α/16πc²) ln(m_H²/M_W²) + C**, C = 9.54×10⁻⁴ relative to m_H = M_W. With Δr_H = −(c²/s²)Δρ the quoted coefficient is reproduced **to the double** (2.0241161617955×10⁻³). An auditor's two other routes agree with both builds at m_H = 10 to 5000 GeV; the builds agree exactly up to 10³³ M_W | CHECK; two builds, audit, oracle |
+| L26b | Not replaced: the finite function at m_H = 125.2 GeV, Δρ(m_H) − Δρ(M_W) = −2.0×10⁻⁴, is 39% of the leading-log value (−5.2×10⁻⁴), so the leading log overstates it; but Δr's own m_H dependence also comes from the q²-dependent self-energies (Π_WW(M_W²) − Π_WW(0), photon–Z mixing), which are not computed. L18's term keeps its quoted shape; its coefficient is derived | FOLLOWS |
 
 ### Link 12: neutrino mass from rung 1's breaking scale, to oscillation data (`src/ladder_links.py` L12)
 

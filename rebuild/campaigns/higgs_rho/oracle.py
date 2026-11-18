@@ -72,6 +72,20 @@ def constant_check(m):
     return abs(C / C_INF - 1) < 1e-5, f"large-mH constant {C:.9e} against the analytic {C_INF:.9e}"
 
 
+def extreme_mass_check(m):
+    """The exact large-mH form B ln(mH^2/MW^2) + C is analytic, so it is a reference up to masses far beyond any physical scale; a fixed working
+    precision loses the m_H^2 terms that cancel only between W and Z (about 2 log10(mH/M) digits)."""
+    B = target(MW, MZ, ALPHA)
+    worst, where = 0.0, None
+    for e in (6, 8, 12, 16, 20):                       # the asymptotic form's own corrections are ~ (MW/mH)^2 ln: 1e-12 at 1e6 MW
+        mh = MW * 10.0**e
+        v = m.rho_higgs_rel(mh, MW, MZ, ALPHA, 1.0, MW)
+        d = abs((v - B * math.log((mh / MW) ** 2) - C_INF) / (B * math.log((mh / MW) ** 2)))
+        if d > worst:
+            worst, where = d, e
+    return worst < 1e-8, f"worst |rho - B ln - C| / |B ln| at mH = 1e6 .. 1e20 MW: {worst:.1e} at 1e{where} MW"
+
+
 def raw_check(m):
     w = 0.0
     for (mh, xi, mu), (pw, pz) in PI_REF.items():
@@ -85,4 +99,5 @@ ORACLE = [("log_coefficient = -3 alpha/(16 pi c^2)", coeff_check),
           ("rho_higgs_rel is xi- and mu-independent at finite mH (xi = 0.3, 4, 25)", xi_finite_check),
           ("Landau gauge xi = 0 is accepted", landau_check),
           ("large-mH constant term", constant_check),
+          ("exact large-mH form B ln + C holds from mH = 1e6 MW to 1e20 MW", extreme_mass_check),
           ("raw self-energies in the pinned convention", raw_check)]

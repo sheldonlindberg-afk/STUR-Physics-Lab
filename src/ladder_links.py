@@ -433,6 +433,19 @@ L25 Hawking radiation from a collapsing shell: the map behind L19, derived. Rung
       (w, w'). (CHECK)
   L25c What it does not do: a thin shell is not a star (no matter dynamics, no back-reaction); the late-time stationarity of the
       flux, the 3+1 grey-body factors and the back-reaction on the mass are not derived here. (FOLLOWS)
+L26 The Higgs term of L18, derived: the coefficient of ln m_H^2 in Delta rho. Rung 1, quoted -> derived (coefficient only).
+  L26a L18 quoted the heavy-Higgs term Delta r_H = +(3 G_F M_W^2 / 8 sqrt2 pi^2) ln(m_H^2/M_W^2). Two blind builds (campaign higgs_rho,
+      ACCEPTED.md) derived the m_H dependence of Delta rho = Pi_WW(0)/M_W^2 - Pi_ZZ(0)/M_Z^2 from the Higgs-containing one-loop diagrams of the
+      bosonic electroweak Lagrangian in R_xi gauge (Feynman rules read off |D Phi|^2; the H-gauge bubble, the H-Goldstone bubble and the
+      seagull, in dimensional regularization): the poles are m_H-independent and cancel, xi drops out exactly, and
+          Delta rho = -(3 alpha / 16 pi c^2) ln(m_H^2/M_W^2) + C,   C = 9.54e-4 (relative to m_H = M_W),
+      so, with Delta r_H = -(c^2/s^2) Delta rho and G_F M_W^2 = pi alpha / (sqrt2 s^2), the quoted coefficient 3 G_F M_W^2/(8 sqrt2 pi^2) =
+      3 alpha/(16 pi s^2) is reproduced to the double. An independent auditor computed the finite function by two other routes
+      (agreement to the double at m_H = 10 to 5000 GeV). (CHECK; two builds, audit, oracle)
+  L26b What it does not give: the full Higgs dependence of Delta r at m_H = 125 GeV. The finite function Delta rho(m_H) - Delta rho(M_W) at 125.2
+      GeV is -2.0e-4, 39% of the leading-log value -5.2e-4: the leading log overstates it. But Delta r's own m_H dependence also
+      comes from the q^2-dependent self-energies (Pi_WW(M_W^2) - Pi_WW(0), photon-Z mixing), which are not computed here, so L18's term
+      is not replaced; its coefficient is derived, its finite-m_H shape is not. (FOLLOWS)
 L14 Bekenstein bound: rung 6 -> rung 4. S <= 2 pi k R E / (hbar c). A Schwarzschild black hole
   (R = 2GM/c^2, E = M c^2) saturates it exactly, = A / 4 l_P^2 (CHECK, symbolic). Design A's
   diamond (radius 1.0 um, 7.4e11 atoms): Bekenstein bound 2.6e23 k_B, holographic bound
@@ -1440,6 +1453,30 @@ def shell_bogoliubov_ratio(w, wp, M=1.0):
     return float(abs(ib) ** 2 / abs(ia) ** 2), float(((wp - w) / (wp + w)) ** 2 * mp.e ** (-8 * mp.pi * M * w))
 
 
+# ---------------------------------------------------------------------------------- L26
+def _load_higgs_build(name):
+    import importlib.util
+    here = os.path.dirname(os.path.abspath(__file__))
+    spec = importlib.util.spec_from_file_location("higgs_rho_build_" + name, os.path.join(here, "..", "rebuild", "campaigns", "higgs_rho", "builds", name, "higgs_rho.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def higgs_term_derived(mh=125.20, MW_=80.3692, MZ_=91.1876):
+    """L26: the accepted build's log coefficient against L18's quoted term, and the finite function against the leading log at mh."""
+    a = _load_higgs_build("a")
+    GF = 1.1663788e-5
+    s2 = 1 - (MW_ / MZ_) ** 2
+    alpha = math.sqrt(2) * GF * MW_**2 * s2 / math.pi                     # G_F M_W^2 = pi alpha / (sqrt2 s^2)
+    B = a.log_coefficient(MW_, MZ_, alpha, 1.0)
+    quoted = 3 * GF * MW_**2 / (8 * math.sqrt(2) * math.pi**2)             # L18's coefficient of ln(m_H^2/M_W^2) in Delta r_H
+    derived = -(MW_**2 / MZ_**2) / s2 * B                                    # Delta r_H = -(c^2/s^2) Delta rho
+    rho = a.rho_higgs_rel(mh, MW_, MZ_, alpha, 1.0, MW_)
+    lead = B * math.log((mh / MW_) ** 2)
+    return derived, quoted, rho, lead
+
+
 # ---------------------------------------------------------------------------------- L6
 def carbon12_binding():
     """L6a: B = 6 m_p + 6 m_n + 6 m_e - 12 u, in MeV, and per nucleon."""
@@ -1887,6 +1924,11 @@ def main():
     for w_, wp_ in ((0.05, 0.4), (0.05, 5.0), (0.1, 50.0), (0.1, 0.12)):
         num, closed = shell_bogoliubov_ratio(w_, wp_)
         print(f"   w = {w_}, w' = {wp_}: |beta/alpha|^2 from the overlap integrals {num:.9e}; ((w'-w)/(w'+w))^2 e^(-8 pi M w) = {closed:.9e}")
+
+    banner("L26  The Higgs term of L18: its coefficient derived by two blind builds (CHECK; FOLLOWS for the finite shape)")
+    derived, quoted, rho125, lead125 = higgs_term_derived()
+    print(f"   -(c^2/s^2) x [log coefficient of Delta rho] = {derived:.9e};  L18's quoted 3 G_F M_W^2/(8 sqrt2 pi^2) = {quoted:.9e}  (ratio {derived / quoted:.12f})")
+    print(f"   Delta rho(125.2) - Delta rho(M_W) = {rho125:.4e}; the leading log alone would give {lead125:.4e} ({rho125 / lead125:.2f} of it)")
 
     banner("L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)")
     d_rc, d_k, d_A, d_S, d_S2, fac = de_sitter_entropy_symbolic()

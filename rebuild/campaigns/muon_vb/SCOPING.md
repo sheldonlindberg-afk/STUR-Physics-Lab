@@ -31,3 +31,5 @@ a Fermi-theory subtraction, so a SPEC for it would test the SPEC. The first stag
 is gauge-independent and sharply defined: the Higgs-mass dependence of Delta rho (`rebuild/campaigns/higgs_rho`), which also replaces the
 Higgs-log term that L18 quotes. Later stages (the full bosonic Delta rho in a fixed gauge with the pinch parts, then vertex and box) can
 reuse its infrastructure once that campaign shows the method works.
+
+Update: the first stage (`higgs_rho`) is accepted. Not yet covered: the gauge-boson loops of Delta rho (no H), the q^2-dependent self-energies that enter Delta r, and the vertex and box terms.
