@@ -36,16 +36,16 @@ def b_alpha_linear(m):
 
 
 def b_custodial(m):
-    """When M_Z -> M_W (s -> 0, g' -> 0) the hypercharge coupling vanishes and the custodial symmetry is exact, so Delta rho -> 0 like s^2
-    at fixed alpha/s^2 (here: fixed g)."""
+    """When M_Z -> M_W (s -> 0, g' -> 0) the hypercharge coupling vanishes and the custodial symmetry is exact, so Delta rho ~ g'^2 = 4 pi alpha / c^2.
+    At fixed g, alpha = g^2 s^2 / 4 pi goes to zero with s^2, so Delta rho / alpha tends to a constant."""
     out = []
     for eps in (2e-3, 1e-3):
         mz = MW * (1 + eps)
         s2 = 1 - (MW / mz) ** 2
         g2 = 4 * math.pi * ALPHA / (1 - (MW / MZ) ** 2)                 # the g of the physical point, kept fixed
         alpha = g2 * s2 / (4 * math.pi)
-        out.append(m.rho_higgs_rel(400.0, MW, mz, alpha, 1.0, MW) / (alpha * s2))
-    return abs(out[0] / out[1] - 1) < 0.01, f"rho_higgs_rel / (alpha s^2) at two small s^2: {out[0]:.5f}, {out[1]:.5f} (a finite limit means Delta rho ~ g'^2: custodial symmetry)"
+        out.append(m.rho_higgs_rel(400.0, MW, mz, alpha, 1.0, MW) / alpha)
+    return abs(out[0] / out[1] - 1) < 0.01, f"rho_higgs_rel / alpha at two small s^2 (alpha = g^2 s^2/4 pi at fixed g, so a finite limit means Delta rho ~ g'^2 ~ s^2): {out[0]:.5f}, {out[1]:.5f}"
 
 
 def b_slope_matches_coefficient(m):
