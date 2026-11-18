@@ -26,7 +26,11 @@ your derivation). The rho parameter is ρ = M_W²(eff)/(c² M_Z²(eff)), so at o
 
     Δρ = Π_WW(0)/M_W² − Π_ZZ(0)/M_Z² .
 
-Regularize in d = 4 − 2ε dimensions and subtract the pole in the MS-bar scheme at the scale μ (a length⁻¹ argument).
+Regularize in d = 4 − 2ε dimensions (conventional dimensional regularization: the loop momentum is d-dimensional and the tensor reduction
+is k^μk^ν → g^{μν}k²/d, with the O(ε) part of 1/d kept against the 1/ε pole) and subtract the pole in the MS-bar scheme at the scale μ
+(a mass argument): μ^{2ε} multiplies the measure and Δ = 1/ε − γ_E + ln 4π is dropped. The sum of the one-loop 1PI diagrams is i Π_VV g^{μν},
+M²(eff) = M² + Π (the Z term is ½ M_Z²(eff) Z² and ½ Π_ZZ Z²). These conventions fix the raw self-energy exports; the difference
+`rho_higgs_rel` does not depend on them. The gauge parameter ξ must be accepted for any ξ ≥ 0, including the Landau gauge ξ = 0.
 
 ## 3. Exports (exact signatures in campaign.py)
 
