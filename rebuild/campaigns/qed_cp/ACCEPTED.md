@@ -66,3 +66,18 @@ precision grows above r w0 = 1e4 (the earlier ~1e-8 at 1e6 and ~3e-6 at 1e8 are 
 
 Open: a rigorous proof of the Abel-damping limit (supported by two damping shapes in each build and by the audit's three
 regularizers); the intermediate-export contract change that would let the gate check the 12-diagram sum numerically.
+
+## Contract change (class C): route enforcement, in progress
+
+The audit's one high finding was that no numerical check could force SPEC section 2's route (mutant M1, the banned formula typed
+in, passed every numerical check). The contract now has two more exports that exist only on the perturbation-theory route
+(SPEC 3b): `denominator_sum(k, q, a, b)`, the sum over 24 orderings of four vertex events of 1/(E1 E2 E3) divided by 2, with
+the two atoms' energies independent; and `damped_energy(r, w0, alpha0, eps)`, the fourth-order energy with every photon
+integrand damped by exp(-eps (k+q)). The oracle checks them against references that share nothing with the builds: the
+auditor's independent 24-ordering enumeration (agrees with build a's closed form to the double) and a separable double
+integral by the orchestrator (`reference_damped.py`), which a degree-4 extrapolation to eps -> 0 matches to the main route
+at r w0 = 1 to 1e-8 (-0.6512664067 against -0.6512664). A banned-route build cannot produce either quantity.
+
+Status: the builds in `builds/a` and `builds/b` pre-date the contract change and lack the two exports, so they fail the contract
+tier of the current gate until their builders add them (sent back as class C, both builders, with no formulas given). Their
+numerical results for `cp_energy` are unchanged and remain verified as above.

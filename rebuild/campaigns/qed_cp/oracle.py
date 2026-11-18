@@ -65,3 +65,44 @@ def extremes(m):
 
 ORACLE += [("dense random points against the accurate reference", dense), ("coefficients to 1e-8", coeff_tight),
            ("extreme separations r w0 = 1e-8 .. 1e5 to 1e-7", extremes)]
+
+
+import itertools, os as _os2, sys as _sys2
+_sys2.path.insert(0, _os2.path.dirname(_os2.path.abspath(__file__)))
+import reference_damped as _RD
+
+
+def sum_reference(k, q, a, b):
+    """The auditor's independent enumeration: 24 orderings of four vertex events, intermediate energies by toggling."""
+    W, E = {"A": a, "B": b}, {"k": k, "q": q}
+    tot = 0.0
+    for perm in itertools.permutations([("A", "k"), ("A", "q"), ("B", "k"), ("B", "q")]):
+        ex, ph, den = {"A": 0, "B": 0}, {"k": 0, "q": 0}, 1.0
+        for at, p in perm[:3]:
+            ex[at] ^= 1
+            ph[p] ^= 1
+            den *= sum(W[z] for z in ex if ex[z]) + sum(E[z] for z in ph if ph[z])
+        tot += 1.0 / den
+    return tot / 2
+
+
+def denominator_sum_check(m):
+    pts = [(0.7, 1.9, 1.0, 1.0), (2.3, 0.4, 1.3, 0.6), (5.0, 3.0, 0.8, 2.2), (0.05, 40.0, 2.0, 0.3), (1e-3, 2e-3, 1.0, 1.0)]
+    worst = max(abs(m.denominator_sum(*p) / sum_reference(*p) - 1) for p in pts)
+    return worst < 1e-12, f"worst relative deviation from the independent 24-ordering enumeration: {worst:.1e}"
+
+
+def damped_energy_check(m):
+    """Finite-eps energy against the orchestrator's separable double integral (which, extrapolated to eps -> 0 with a degree-4 fit
+    of five eps values, reproduces the main route at rho = 1 to 1e-8)."""
+    worst, where = 0.0, None
+    for rho, eps, w0, al in ((1.0, 0.5, 1.0, 1.0), (1.0, 0.25, 1.0, 1.0), (0.5, 0.4, 1.0, 1.0), (3.0, 0.5, 1.0, 1.0), (2.0, 0.6, 0.7, 1.9)):
+        ref = _RD.F(rho * w0, eps * w0) * al**2 * w0**7
+        d = abs(m.damped_energy(rho / w0, w0, al, eps) / ref - 1)
+        if d > worst:
+            worst, where = d, (rho, eps, w0, al)
+    return worst < 1e-6, f"worst relative deviation over 5 points: {worst:.1e} at (r w0, eps, w0, alpha0) = {where}"
+
+
+ORACLE += [("denominator_sum against the independent 24-ordering enumeration to 1e-12", denominator_sum_check),
+           ("damped_energy against the independent separable double integral to 1e-6", damped_energy_check)]

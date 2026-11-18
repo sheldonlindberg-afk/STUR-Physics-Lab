@@ -38,6 +38,21 @@ numerically, and you may use the standard integral over the directions of k and 
 * `far_coefficient()` → C defined by U → −C α₀² / r⁷ for r ω₀ ≫ 1.
 * `near_coefficient()` → D defined by U → −D ω₀ α₀² / r⁶ for r ω₀ ≪ 1.
 
+## 3b. Intermediate exports (added after the audit: they make the required route checkable)
+
+Two further exports expose quantities that exist only on the perturbation-theory route, so a build cannot satisfy them
+with the imaginary-frequency formula:
+
+* `denominator_sum(k, q, a, b)` where atom A has excitation energy a and atom B has b (the model of section 1 with a = b = ω₀
+  is the case used for cp_energy) and k, q are the two exchanged photon energies: the sum, over the 24 orderings of the four
+  vertex events (A with photon k, A with photon q, B with photon k, B with photon q), of 1/(E₁E₂E₃), divided by 2 for the
+  exchange of the two photon labels (so 12 distinct time-ordered paths). Eₙ is the energy, above the ground state, of the
+  intermediate state after the first n events of the ordering: each event toggles the excitation of its atom (ground ↔
+  excited, energy a or b) and the occupation of its photon (absent ↔ present, energy k or q). Units: 1/energy³.
+* `damped_energy(r, w0, alpha0, eps)`: the energy U of section 1 with every photon-momentum integrand multiplied by the
+  damping factor e^{−eps (k+q)} (k, q the two exchanged photon energies, eps a length; the integrals then converge
+  absolutely). It tends to cp_energy as eps → 0. Scaling: damped_energy(λr, w0/λ, λ³α₀, λ eps) = damped_energy(r, w0, α₀, eps)/λ.
+
 ## 4. Conventions for numerics
 
 State the cut-offs (none should be needed: the physical energy shift is finite), how you perform the photon-momentum
