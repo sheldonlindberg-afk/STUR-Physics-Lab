@@ -1672,6 +1672,25 @@ def links_more():
           " rho-hat - 1 and gives 91.229 GeV; Dr_W - Dr0 = 0.0029 and the bosonic 9% are not derived",
           abs(pred_ - MZ_MEAS) < 2e-3 and abs(pred_ / tree_ - MZ_MEAS / tree_) < 5e-5 and abs(drho / (RHO_HAT - 1) - 0.912) < 2e-3
           and abs(pred1 - 91.229) < 2e-3, "data", f"got {pred_:.4f} GeV (measured {MZ_MEAS}), tree {tree_:.3f}, one-loop rho gives {pred1:.3f}")
+    # L25: the thin-shell collapse map behind L19
+    Msh, v0s = 1.0, 25.0
+    rstar_ = lambda r_: r_ + 2 * Msh * log(r_ / (2 * Msh) - 1)
+    u_ray = lambda v_: v0s - 2 * rstar_((v0s - v_) / 2)                       # the ray through the centre, met by the shell at r_s = (v0 - v)/2
+    vH_ = v0s - 4 * Msh
+    u_closed = lambda v_: v_ - 4 * Msh * log((vH_ - v_) / (4 * Msh))
+    d_map = max(abs(u_ray(v_) - u_closed(v_)) for v_ in (-30.0, -3.0, 5.0, 15.0, 20.9))
+    xs_ = 1e-6
+    kap_inv = (u_closed(vH_ - xs_ - 1e-9) - u_closed(vH_ - xs_ + 1e-9)) / (-2e-9) * xs_    # du/dv ~ (1/kappa)/(vH - v)
+    ratios_ok = True
+    for w_, wp_ in ((0.05, 0.4), (0.05, 5.0), (0.1, 50.0)):
+        y_ = 4 * Msh * w_
+        ia = cgamma(1 + 1j * y_) * (-1j * (w_ - wp_)) ** (-1 - 1j * y_)
+        ib = cgamma(1 + 1j * y_) * (-1j * (w_ + wp_)) ** (-1 - 1j * y_)
+        ratios_ok &= abs(abs(ib) ** 2 / abs(ia) ** 2 / (((wp_ - w_) / (wp_ + w_)) ** 2 * exp(-8 * pi * Msh * w_)) - 1) < 1e-9
+    check("L25 Hawking from a collapsing null shell: the ray through the centre gives u(v) = v - 4M ln((v_H - v)/4M) exactly (kappa = 1/4M, H1's"
+          " value), and the overlap integrals give |beta/alpha|^2 = ((w' - w)/(w' + w))^2 e^(-8 pi M w): the Planck factor of L19, thermal for"
+          " in-frequencies w' >> w only; a thin shell is not a star", d_map < 1e-9 and abs(kap_inv - 4 * Msh) < 1e-3 and ratios_ok, "math",
+          f"map difference {d_map:.1e}, 1/kappa = {kap_inv:.4f} (4M)")
     # L19: Hawking radiation as radiation
     import cmath
     y, Om = 0.7, 1.3

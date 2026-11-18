@@ -417,6 +417,22 @@ L24 The emission weights of L7, derived: the grey-body campaign. Rung 6, quoted 
       (eqs. 12-13) quote the two weights with different mean emitted energies (4.22 and 4.18 T_BH) from MacGibbon 1991
       after Page 1976-77, so the charged value is a different (massive charged-lepton) calculation than the massless
       grey-body factors here; not derived here, and its source could not be retrieved. (FOLLOWS; located, not resolved)
+L25 Hawking radiation from a collapsing shell: the map behind L19, derived. Rung 6, quoted -> derived.
+  L25a L19 assumed the map u = -(1/kappa) ln(-kappa U) between the horizon-crossing coordinate and retarded time. For a thin null
+      shell that collapses to a Schwarzschild hole of mass M (flat inside, Schwarzschild outside, the shell at advanced time v0)
+      it follows exactly. An incoming ray at advanced time v < v0 passes through the centre (u_in = v), meets the shell at
+      r_s = (v0 - v)/2, and leaves along u = v0 - 2 r*(r_s), r* = r + 2M ln(r/2M - 1). So
+          u(v) = v - 4M ln((v_H - v)/4M),   v_H = v0 - 4M,
+      derived symbolically here (residual 0). Near v_H, du/dv ~ 4M/(v_H - v): kappa = 1/4M, equal to |f'(r_h)|/2 of H1. Rays with
+      v > v_H never reach infinity: the horizon. (CHECK, symbolic)
+  L25b With this map the overlaps of L19 are exact: alpha and beta are the integrals int_0^oo x^(4iM w) e^(i(w -+ w')x) dx (x = v_H - v), so
+          |beta_{w w'}|^2 / |alpha_{w w'}|^2 = ((w' - w)/(w' + w))^2 e^(-8 pi M w),
+      the Planck factor of L19 times a correction that tends to 1 for in-frequencies w' >> w (the modes that fell in at late
+      times), and that is ((w' - w)/(w' + w))^2 < 1 otherwise: a thin-shell hole is thermal only for those modes. The closed
+      form of the overlap integrals is the one L19 verifies against direct integration; here it is evaluated at several
+      (w, w'). (CHECK)
+  L25c What it does not do: a thin shell is not a star (no matter dynamics, no back-reaction); the late-time stationarity of the
+      flux, the 3+1 grey-body factors and the back-reaction on the mass are not derived here. (FOLLOWS)
 L14 Bekenstein bound: rung 6 -> rung 4. S <= 2 pi k R E / (hbar c). A Schwarzschild black hole
   (R = 2GM/c^2, E = M c^2) saturates it exactly, = A / 4 l_P^2 (CHECK, symbolic). Design A's
   diamond (radius 1.0 um, 7.4e11 atoms): Bekenstein bound 2.6e23 k_B, holographic bound
@@ -1394,6 +1410,36 @@ def grey_gamma_against_reference(n=6):
     return max(abs(mod.transmission(*k) / v - 1) for k, v in ref[::step])
 
 
+# ---------------------------------------------------------------------------------- L25
+def null_shell_map():
+    """L25a: u(v) for a thin null shell collapsing to a Schwarzschild hole: derived symbolically from the ray through the centre."""
+    import sympy as sp
+    v, v0, M = sp.symbols("v v0 M", positive=True)
+    rs = (v0 - v) / 2                                        # where the reflected ray meets the shell (flat inside: u_in = v)
+    rstar = lambda r: r + 2 * M * sp.log(r / (2 * M) - 1)
+    u = v0 - 2 * rstar(rs)                                    # outgoing ray u = v - 2 r* in the exterior, at v = v0
+    vH = v0 - 4 * M
+    claimed = v - 4 * M * sp.log((vH - v) / (4 * M))
+    resid = sp.simplify(sp.expand_log(u - claimed, force=True))
+    x = sp.Symbol("x", positive=True)
+    dudx = sp.simplify(sp.diff(claimed.subs(v, vH - x), x))   # du/dv = -du/dx at fixed v0
+    kappa_inv = sp.limit(-(sp.diff(claimed.subs(v, vH - x), x)) * x, x, 0)       # du/dv ~ (1/kappa)/x
+    f = lambda r: 1 - 2 * M / r
+    kappa_h1 = sp.simplify(sp.diff(f(sp.Symbol("r", positive=True)), sp.Symbol("r", positive=True)).subs(sp.Symbol("r", positive=True), 2 * M) / 2)
+    return resid, sp.simplify(kappa_inv), kappa_h1
+
+
+def shell_bogoliubov_ratio(w, wp, M=1.0):
+    """L25b: |beta/alpha|^2 from the overlap integrals int_0^oo x^(i y) e^(i s x) dx = Gamma(1 + i y) (-i s)^(-1 - i y), y = 4 M w,
+    s = w - w' (alpha) and w + w' (beta), and the closed form ((w' - w)/(w' + w))^2 e^(-8 pi M w)."""
+    import mpmath as mp
+    y = 4 * M * w
+    # alpha: e^{-i w u} e^{+i w' v} -> integrand x^(i y) e^{i (w - w') x}; beta: e^{-i w u} e^{-i w' v} -> x^(i y) e^{i (w + w') x}
+    ia = mp.gamma(1 + 1j * y) * mp.power(-1j * (w - wp), -1 - 1j * y)
+    ib = mp.gamma(1 + 1j * y) * mp.power(-1j * (w + wp), -1 - 1j * y)
+    return float(abs(ib) ** 2 / abs(ia) ** 2), float(((wp - w) / (wp + w)) ** 2 * mp.e ** (-8 * mp.pi * M * w))
+
+
 # ---------------------------------------------------------------------------------- L6
 def carbon12_binding():
     """L6a: B = 6 m_p + 6 m_n + 6 m_e - 12 u, in MeV, and per nucleon."""
@@ -1833,6 +1879,14 @@ def main():
     fq, fd, fall = grey_f_standard_model()
     print(f"   Standard Model f: quoted weights {fq:.3f}; derived weights, charged fermions at the quoted 0.142: {fd:.3f}; derived 0.1465 for every fermion: {fall:.3f} (Carr: 15.35)")
     print(f"   accepted build a's Gamma against the independent solver at 6 reference points: worst {grey_gamma_against_reference():.1e}")
+
+    banner("L25  Hawking radiation from a collapsing shell: the map behind L19, derived (CHECK)")
+    resid, kinv, kh1 = null_shell_map()
+    print(f"   u(v) from the ray through the centre minus v - 4M ln((v_H - v)/4M): {resid};  1/kappa from du/dv ~ (1/kappa)/(v_H - v): {kinv};"
+          f"  H1's |f'(r_h)|/2 = {kh1}")
+    for w_, wp_ in ((0.05, 0.4), (0.05, 5.0), (0.1, 50.0), (0.1, 0.12)):
+        num, closed = shell_bogoliubov_ratio(w_, wp_)
+        print(f"   w = {w_}, w' = {wp_}: |beta/alpha|^2 from the overlap integrals {num:.9e}; ((w'-w)/(w'+w))^2 e^(-8 pi M w) = {closed:.9e}")
 
     banner("L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)")
     d_rc, d_k, d_A, d_S, d_S2, fac = de_sitter_entropy_symbolic()

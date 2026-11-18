@@ -219,7 +219,7 @@ counts is not derived here (see [TEGR.md](TEGR.md) for the corner-charge attempt
 
 ## Links between the rungs (`src/ladder_links.py`)
 
-The rungs above are separate derivations. In twenty-four places one rung's output is another
+The rungs above are separate derivations. In twenty-five places one rung's output is another
 rung's input, and the link can be checked against a measurement or against the other rung's
 code.
 
@@ -459,6 +459,14 @@ H1 and H2 fix the temperature geometrically; the step that was quoted was that t
 | L24a | L7 quoted the energy emitted per degree of freedom (weights 0.267, 0.147, 0.060, 0.007; Carr et al. 2021 after Page 1976). Two blind builds derived them from the Regge–Wheeler and Chandrasekhar master equations on Schwarzschild (grey-body factors Γ_{s,j}(ω) from the horizon solution matched to the large-r series, then P_s = Σ_j(2j+1)∫dω/2π ωΓ/(e^{ω/T} ∓ 1), T = 1/8π): P_s = 7.43869×10⁻⁵, 4.09165×10⁻⁵, 1.68193×10⁻⁵, 1.91837×10⁻⁶ in units 1/M², i.e. weights **0.2664, 0.1465, 0.0602, 0.00687** (−0.2%, −0.3%, +0.4%, −1.9% against the quoted, within their digits). An auditor's series-free solver reproduces P_s to 10⁻⁹ | CHECK; two builds, audit, oracle |
 | L24b | Not reproduced, and now located: Carr et al. (arXiv:2002.12778, eqs. 12–13) quote two spin-½ weights, 0.147 (neutral) and 0.142 (charge ±e), and different mean emitted energies for them (4.22 and 4.18 T_BH), citing MacGibbon, PRD 44, 376 (1991) after Page 1976–77. A massless grey-body factor depends on spin only, so the derived weight 0.1465 matches the neutral one; the charged value is a different calculation (a charged lepton with its mass, Page's charged-lepton emission), which this repository has not done and whose source I could not retrieve. With 0.1465 for every fermion the Standard Model count would be 15.71 against Carr's 15.35 (L7's 15.332 uses the quoted 0.142). Open: a massive-fermion grey-body campaign | FOLLOWS |
 
+### Link 25: Hawking radiation from a collapsing shell, within rung 6 (`src/ladder_links.py` L25)
+
+| | Result | Status |
+|---|---|---|
+| L25a | L19 assumed the map u = −(1/κ)ln(−κU). For a thin null shell collapsing to a Schwarzschild hole it follows exactly: an incoming ray at advanced time v < v₀ passes through the centre (u_in = v), meets the shell at r_s = (v₀ − v)/2 and leaves along u = v₀ − 2r*(r_s), so **u(v) = v − 4M ln((v_H − v)/4M)**, v_H = v₀ − 4M (residual 0, symbolic). Near v_H, du/dv ∼ 4M/(v_H − v): κ = 1/4M, equal to H1's \|f′(r_h)\|/2. Rays with v > v_H never reach infinity | CHECK, symbolic |
+| L25b | With this map the L19 overlaps are exact: **\|β\|²/\|α\|² = ((ω′ − ω)/(ω′ + ω))² e^(−8πMω)**, the Planck factor times a correction that tends to 1 for in-frequencies ω′ ≫ ω (the modes that fell in at late times) and is smaller otherwise: a thin-shell hole is thermal only for those modes | CHECK |
+| L25c | Not derived: a thin shell is not a star (no matter dynamics, no back-reaction); the late-time stationarity of the flux, the 3+1 grey-body factors (derived in Link 24) joined to it, and the back-reaction on the mass | FOLLOWS |
+
 ### Link 12: neutrino mass from rung 1's breaking scale, to oscillation data (`src/ladder_links.py` L12)
 
 | | Result | Status |
@@ -523,9 +531,9 @@ build order, the postulates, each derivation step and the check that proves it, 
 which results are still quoted rather than derived.
 
 **In one paste:** [`src/ladder_standalone.py`](src/ladder_standalone.py) reproduces all six
-rungs and all the links, L1–L22, with only the Python standard library (101 PASS/FAIL checks; expected output
+rungs and all the links, L1–L22 and L25, with only the Python standard library (102 PASS/FAIL checks; expected output
 [results/ladder/standalone.txt](results/ladder/standalone.txt)). Each check is tagged math
-(56: identities verified by computation), data (17: against measurements, each printing its
+(57: identities verified by computation), data (17: against measurements, each printing its
 tolerance and why) or pinned (28: this repository's own derived numbers); checks inside the
 linear sigma model are also tagged model. It exits with status 1 if any check fails. The website has a
 **Copy Python script** button for it.

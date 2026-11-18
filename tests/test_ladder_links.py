@@ -262,6 +262,17 @@ def test_grey_body_weights_derived():
     assert LL.grey_gamma_against_reference(6) < 1e-6
 
 
+def test_collapsing_shell_map_and_thermal_ratio():
+    resid, kinv, kh1 = LL.null_shell_map()
+    M = LL.sp.Symbol("M", positive=True)
+    assert resid == 0 and LL.sp.simplify(kinv - 4 * M) == 0 and LL.sp.simplify(kh1 - 1 / (4 * M)) == 0
+    for w, wp in ((0.05, 0.4), (0.05, 5.0), (0.1, 50.0), (0.1, 0.12)):
+        num, closed = LL.shell_bogoliubov_ratio(w, wp)
+        assert abs(num / closed - 1) < 1e-12
+    num, _ = LL.shell_bogoliubov_ratio(0.1, 1e4)
+    assert abs(num / math.exp(-8 * math.pi * 0.1) - 1) < 1e-3                    # w' >> w: the Planck factor of L19
+
+
 def test_reference_output_matches():
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):

@@ -248,6 +248,15 @@ L24  The emission weights of L7, derived by the grey-body campaign (CHECK; FOLLO
    accepted build a's Gamma against the independent solver at 6 reference points: worst 1.3e-10
 
 ==============================================================================
+L25  Hawking radiation from a collapsing shell: the map behind L19, derived (CHECK)
+==============================================================================
+   u(v) from the ray through the centre minus v - 4M ln((v_H - v)/4M): 0;  1/kappa from du/dv ~ (1/kappa)/(v_H - v): 4*M;  H1's |f'(r_h)|/2 = 1/(4*M)
+   w = 0.05, w' = 0.4: |beta/alpha|^2 from the overlap integrals 1.721712052e-01; ((w'-w)/(w'+w))^2 e^(-8 pi M w) = 1.721712052e-01
+   w = 0.05, w' = 5.0: |beta/alpha|^2 from the overlap integrals 2.734494789e-01; ((w'-w)/(w'+w))^2 e^(-8 pi M w) = 2.734494789e-01
+   w = 0.1, w' = 50.0: |beta/alpha|^2 from the overlap integrals 8.035715575e-02; ((w'-w)/(w'+w))^2 e^(-8 pi M w) = 8.035715575e-02
+   w = 0.1, w' = 0.12: |beta/alpha|^2 from the overlap integrals 6.694429104e-04; ((w'-w)/(w'+w))^2 e^(-8 pi M w) = 6.694429104e-04
+
+==============================================================================
 L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)
 ==============================================================================
    r_c - l = 0;  kappa - 1/l = 0;  A - 12 pi/Lambda = 0  (A = 4 pi l^2; not 4 pi/Lambda)
