@@ -97,7 +97,7 @@ def damped_energy_check(m):
     of five eps values, reproduces the main route at rho = 1 to 1e-8)."""
     worst, where = 0.0, None
     for rho, eps, w0, al in ((1.0, 0.5, 1.0, 1.0), (1.0, 0.25, 1.0, 1.0), (0.5, 0.4, 1.0, 1.0), (3.0, 0.5, 1.0, 1.0), (2.0, 0.6, 0.7, 1.9)):
-        ref = _RD.F(rho * w0, eps * w0) * al**2 * w0**7
+        ref = _RD.F(rho, eps * w0) * al**2 * w0**7              # rho = r w0 is the dimensionless separation; eps is a length, so eps w0 is dimensionless
         d = abs(m.damped_energy(rho / w0, w0, al, eps) / ref - 1)
         if d > worst:
             worst, where = d, (rho, eps, w0, al)
