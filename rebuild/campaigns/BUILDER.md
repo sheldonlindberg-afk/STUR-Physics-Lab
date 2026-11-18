@@ -3,7 +3,8 @@
 You are deriving one physics result **from first principles** and implementing it. A number that
 happens to match is not enough: the derivation is the deliverable, and it will be audited.
 
-**Working directory:** the clean room you were started in. Run every command there. Do not read any
+**Working directory:** the clean room. Your shell may START in another directory (it inherits the orchestrator's, which holds the
+repository), so begin every Bash command with `cd <your room> &&`, and never run `ls`, `find` or `grep -r` without an explicit path. Do not read any
 path outside it. There is no repository, no web, no literature lookup for numerical values: if you need a
 value that SPEC.md does not give, derive it or stop and write the question in `QUESTIONS.md`.
 
@@ -28,5 +29,8 @@ check's arguments, or detect that you are being tested.
 5. **Report**: the gate summary verbatim; every ambiguity in SPEC.md and how you resolved it (also append it
    to `builds/<id>/QUESTIONS.md`); anything you could not derive. If you cannot make the gate pass honestly,
    say so plainly and stop: a failed honest build is worth more than a forced pass.
+
+Put every scratch file (helper scripts, profiles, outputs) in `./tmp/` inside this room, never in the session's shared scratchpad or
+any other directory: your transcript will be audited for any path outside the room, and files you did not create are a violation.
 
 Allowed imports are listed in `campaign.ALLOWED_IMPORTS`. Keep runtime of each export reasonable.

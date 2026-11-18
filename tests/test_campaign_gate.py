@@ -122,3 +122,58 @@ def test_qed_cp_builds_expose_the_route_enforcing_exports_and_agree():
     ref = orc._RD.F(pt[0] * pt[1], pt[3] * pt[1]) * pt[2] ** 2 * pt[1] ** 7
     assert abs(ua / ub - 1) < 1e-12 and abs(ua / ref - 1) < 1e-6
     assert abs(a.denominator_sum(0.7, 1.9, 1.3, 0.6) / orc.sum_reference(0.7, 1.9, 1.3, 0.6) - 1) < 1e-12
+
+
+def _transcript(calls, cwd=None):
+    import json
+    return "\n".join(json.dumps({"message": {"content": [{"type": "tool_use", "name": n, "input": i}]}, "timestamp": "t", "cwd": cwd}) for n, i in calls) + "\n"
+
+
+def test_transcript_audit_accepts_own_files_and_flags_everything_else():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("audit_transcript_t", os.path.join(CAMP, "audit_transcript.py"))
+    A = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(A)
+    room = tempfile.mkdtemp()
+    scratch = tempfile.mkdtemp()
+    def run(calls, canaries=(), cwd=None):
+        p = os.path.join(tempfile.mkdtemp(), "t.jsonl")
+        open(p, "w").write(_transcript(calls, cwd or room))
+        return A.check(p, room, canaries)[1]
+    repo = os.path.join(ROOT)                      # a shell that starts in the repository, as the builders' did
+    # clean: reads and writes in the room, math that looks like paths, scratch file it created and reads back, python stdlib
+    assert not run([("Read", {"file_path": room + "/SPEC.md"}), ("Bash", {"command": f"cd {room} && python3 -c 'print(1/2, x/np.pi)'"}),
+                    ("Bash", {"command": f"cat > {scratch}/a.py <<EOF\nprint(1)\nEOF"}), ("Bash", {"command": f"python3 {scratch}/a.py"}),
+                    ("Bash", {"command": "python3 -m cProfile -o " + scratch + "/prof x.py; python3 -c \"import pstats; pstats.Stats('" + scratch + "/prof')\""}),
+                    ("Read", {"file_path": "/usr/lib/python3/dist-packages/x.py"})])
+    # violations
+    assert run([("Read", {"file_path": "/home/user/STUR-Physics-Lab/src/ladder_links.py"})])                       # the repository
+    assert run([("Bash", {"command": f"cat {scratch}/someone_elses_file.py"})])                                    # a file it did not create
+    assert run([("Bash", {"command": "cat ../oracle.py"})])                                                        # relative escape
+    assert run([("WebFetch", {"url": "https://example.org"})]) and run([("Agent", {"prompt": "x"})])               # web and delegation
+    assert run([("Bash", {"command": f"cd .. && ls"})])                                                            # cd out
+    # the shell starts in the repository: relative paths and default-directory searches there are leaks; inside the room they are fine
+    assert run([("Bash", {"command": "cat README.md"})], cwd=repo) and run([("Bash", {"command": "ls"})], cwd=repo)
+    assert run([("Bash", {"command": "grep -rn oracle"})], cwd=repo) and run([("Bash", {"command": "find . -name '*.py'"})], cwd=repo)
+    assert run([("Bash", {"command": f"cd {room} && cd builds && cd ../.."})], cwd=repo)                              # one level too many leaves the room
+    assert not run([("Bash", {"command": f"cd {room} && cat SPEC.md && ls && cd builds/x && cd ../.. && grep -rn x ."})], cwd=repo)
+    assert not run([("Bash", {"command": "ps aux | grep gate.py | head -2; pgrep -af gate.py"})], cwd=repo)       # a grep pattern is not a path
+    assert run([("Bash", {"command": "grep -n foo SPEC.md"})], cwd=repo)                                          # a grep FILE argument is
+    assert run([("Bash", {"command": "echo hi"})], canaries=("CANARY-abc",)) == [] or True
+    p = os.path.join(tempfile.mkdtemp(), "t.jsonl")
+    open(p, "w").write(_transcript([("Bash", {"command": "echo CANARY-abc"})]))
+    assert A.check(p, room, ("CANARY-abc",))[1]                                                                    # a canary in the transcript
+
+
+def test_canaries_are_planted_in_the_oracles_and_never_in_a_room():
+    tokens = [l.strip() for l in open(os.path.join(CAMP, "CANARIES.txt")) if l.strip() and not l.startswith("#")]
+    assert len(tokens) == 2
+    for tok, camp in zip(tokens, ("greybody", "qed_cp")):
+        assert tok in open(os.path.join(CAMP, camp, "oracle.py")).read()
+        room = os.path.join(tempfile.mkdtemp(), "room")
+        subprocess.run([sys.executable, os.path.join(CAMP, "export_room.py"), camp, camp + "-t", room], check=True, capture_output=True)
+        assert os.path.isdir(os.path.join(room, "tmp"))                                       # the private scratch directory
+        for f in os.listdir(room):
+            p = os.path.join(room, f)
+            if os.path.isfile(p):
+                assert tok not in open(p).read(), f

@@ -1,3 +1,4 @@
+# CANARY-6a170912e3004d4e-qed_cp: planted so a builder transcript that contains this string has read the oracle
 """Hidden oracle for the Casimir-Polder campaign.
 Far zone: U = -23 hbar c alpha1 alpha2 / (4 pi r^7) (Casimir and Polder 1948), near zone: London, -(3/4) w0 alpha0^2 / r^6.
 Crossover: the repository's own imaginary-frequency route, U = -(1/2 pi) int dxi alpha(i xi)^2 Tr G.G with

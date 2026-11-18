@@ -1,3 +1,4 @@
+# CANARY-d4157dcb34b242f2-greybody: planted so a builder transcript that contains this string has read the oracle
 """Hidden oracle for the grey-body campaign. Targets: Carr et al., Rept. Prog. Phys. 84, 116902 (2021), eqs. (11)-(13)
 (weights 0.267, 0.147, 0.060, 0.007 per degree of freedom with dM/dt = -5.34e25 f/M^2 g^3/s, after MacGibbon-Webber)
 converted with hbar c^4/G^2; and Page, PRD 13, 198 (1976) (photon 3.37e-5, graviton 3.84e-6 for two helicities).

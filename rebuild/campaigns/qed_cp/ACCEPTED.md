@@ -98,3 +98,11 @@ The audit's high finding (the gate could not force the route; mutant M1 passed e
 builds: a build using the Green-tensor formula cannot produce the 12-diagram denominator sum or the finite-eps double integral.
 Still not enforced numerically: that cp_energy itself is computed from the diagrams (its link to the exports rests on the
 derivations, which the audit read), and the Abel-damping limit remains supported, not proved.
+
+## Isolation evidence
+
+Transcript audit of both builders (`builds/a/isolation_audit.txt`, `builds/b/isolation_audit.txt`, with transcript hashes): no web,
+delegation or MCP tool, no read of a file outside the room that the transcript did not create, no `cd` out of the room, no canary
+token. Helper scripts and profiles were written to the shared session scratchpad (the environment instructs agents to use it) and
+are accepted only because the same transcript created them. This is evidence after the fact, level 2 plus a transcript record; it
+is not level 3 (a fresh machine). What the audit cannot show is in `../ISOLATION.md`.

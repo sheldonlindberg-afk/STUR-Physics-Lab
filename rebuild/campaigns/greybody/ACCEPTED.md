@@ -95,3 +95,11 @@ Both builds now pass every check in the strengthened gate. Their agreement (5e-1
 method; the independent solver supplies the method-independent check (1e-9). Link 24's numbers did not change (P_s to
 10 digits). Remaining low-severity items: below w = 0.002 the accuracy is untested; the flux-conservation identity cannot be
 used as a relative check when Gamma << 1.
+
+## Isolation evidence
+
+Transcript audit of both builders (`builds/a/isolation_audit.txt`, `builds/b/isolation_audit.txt`, with transcript hashes): no web,
+delegation or MCP tool, no read of a file outside the room that the transcript did not create, no `cd` out of the room, no canary
+token. Helper scripts and profiles were written to the shared session scratchpad (the environment instructs agents to use it) and
+are accepted only because the same transcript created them. This is evidence after the fact, level 2 plus a transcript record; it
+is not level 3 (a fresh machine). What the audit cannot show is in `../ISOLATION.md`.

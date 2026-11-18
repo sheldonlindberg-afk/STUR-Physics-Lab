@@ -18,12 +18,13 @@ independent and audited. Same failure modes, same defences:
 * `gate.py`: the generic gate (contract, lint, blind checks; with `--oracle`, the oracle). The builder runs it in
   `--mode builder`; the orchestrator runs `--mode verifier`.
 * `export_room.py <campaign> <build_id> <room>`: the clean room (never inside the repository, never with `oracle.py`).
+* `audit_transcript.py`, `CANARIES.txt`, `ISOLATION.md`: the isolation record (what is enforced, what is evidenced, what is not).
 * `BUILDER.md`: the builder's instructions. `<campaign>/SPEC.md`: postulates, no answers. `<campaign>/campaign.py`:
   exports and blind checks (the builder may read it). `<campaign>/oracle.py`: hidden targets.
 
 ## Phases (each gate is a program's exit code)
 
-P0 export two rooms; P1 two independent builders (different models), each must pass `--mode builder`;
+P0 export two rooms; P1 two independent builders (different models), each must pass `--mode builder`, and each builder's transcript is audited for isolation (`audit_transcript.py`, `ISOLATION.md`);
 P2 the orchestrator runs `--mode verifier --oracle` on each build; P3 cross-build: both builds on the same
 arguments must agree; P4 an auditor session reads `DERIVATION.md` and the code, writes mutants, and every
 surviving mutant becomes a new blind check; P5 accept: only then does a result enter `src/ladder_links.py`.
