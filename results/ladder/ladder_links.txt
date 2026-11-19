@@ -270,6 +270,12 @@ L27  The Higgs dependence of Delta r from the q^2-dependent self-energies: L18's
    M_W with the derived Higgs term: 80.501 GeV (L18's quoted term gave 80.495); remainder Delta r_rest: +0.0075 (quoted +0.0071)
 
 ==============================================================================
+L28  The Higgs part of Delta r is gauge-parameter independent: spread over xi (CHECK)
+==============================================================================
+   Delta r_H(300) - Delta r_H(M_W) over xi = 0, 0.3, 1, 4, 25: relative spread 0.0e+00 (two builds agree exactly)
+   Pi_WW(M_W^2) at m_H = 125.2: xi = 0 13.3187407578, xi = 25 13.3187407578
+
+==============================================================================
 L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)
 ==============================================================================
    r_c - l = 0;  kappa - 1/l = 0;  A - 12 pi/Lambda = 0  (A = 4 pi l^2; not 4 pi/Lambda)

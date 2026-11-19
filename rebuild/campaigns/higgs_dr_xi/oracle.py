@@ -104,10 +104,61 @@ def own_precision_check(m):
     return w < 1e-8, f"extreme masses at the build's own precision, xi = 0, 1, 4: {w:.1e}"
 
 
+XI_WIDE = (0.0, 1e-6, 1e-3, 0.01, 0.1, 0.2, 0.3, 2.0, 4.0, 25.0, 100.0, 1e3, 1e4)
+
+
+def _rel(a, b):
+    if not (isinstance(a, float) and math.isfinite(a)):
+        return float("inf")
+    return abs(a / b - 1) if b != 0 else abs(a)
+
+
+def O_sigma_xi_independent(m):
+    """sigma_W, sigma_Z at xi != 1 equal their xi = 1 values (1e-9), W and Z, q^2 from -50 MW^2 to MZ^2 (below the physical threshold),
+    m_H from 1 GeV (Goldstone loop above its unphysical threshold at small xi) to 1500 GeV, xi from 0 to 1e4.
+    Kills mutants whose raw self-energies carry a xi dependence that Delta r does not see (common shifts, off-shell Pi_Z, q^2 < 0) and
+    xi errors outside the oracle's xi grid (xi > 25, 0 < xi < 0.3)."""
+    worst, where = 0.0, None
+    for f, M in ((m.sigma_W, MW), (m.sigma_Z, MZ)):
+        for mh in (1.0, 10.0, 40.0, 125.2, 300.0, 1500.0):
+            for q2 in (-50 * MW**2, -3 * MW**2, 0.0, 0.5 * MW**2, MW**2, MZ**2):
+                if q2 >= (mh + M)**2:
+                    continue
+                ref = f(q2, mh, MW, MZ, ALPHA, 1.0, MW)
+                for xi in XI_WIDE:
+                    d = _rel(f(q2, mh, MW, MZ, ALPHA, xi, MW), ref)
+                    if d > worst:
+                        worst, where = d, (f.__name__, mh, q2, xi)
+    return worst < 1e-9, f"worst |sigma(xi)/sigma(1) - 1| over xi = {XI_WIDE}: {worst:.1e} at {where}"
+
+
+def O_delta_r_xi_wide(m):
+    """delta_r_higgs_rel(xi) = delta_r_higgs_rel(1) (1e-9) at xi values and m_H values the oracle does not test (m_H up to 1e9 GeV,
+    xi up to 1e4, small nonzero xi with a light Higgs). Self-consistency only: xi = 1 itself is pinned by the oracle."""
+    worst, where = 0.0, None
+    for mh in (1.0, 10.0, 30.0, 60.0, 125.2, 1000.0, 1e5, 3e7, 1e9):
+        ref = m.delta_r_higgs_rel(mh, MW, MZ, ALPHA, 1.0, MW)
+        for xi in (0.0, 1e-3, 0.01, 0.1, 0.2, 100.0, 1e3, 1e4):
+            d = _rel(m.delta_r_higgs_rel(mh, MW, MZ, ALPHA, xi, MW), ref)
+            if d > worst:
+                worst, where = d, (mh, xi)
+    return worst < 1e-9, f"worst |dr(xi)/dr(1) - 1|: {worst:.1e} at (mH, xi) = {where}"
+
+
+def O_log_coefficient_xi_wide(m):
+    """log_coefficient does not depend on xi, including xi outside the oracle grid."""
+    ref = m.log_coefficient(MW, MZ, ALPHA, 1.0)
+    w = max(_rel(m.log_coefficient(MW, MZ, ALPHA, xi), ref) for xi in (1e-3, 0.1, 100.0, 1e4))
+    return w < 1e-12, f"worst |B(xi)/B(1) - 1| for xi = 1e-3, 0.1, 100, 1e4: {w:.1e}"
+
+
 ORACLE = [("delta_r_higgs_rel equals the Feynman-gauge reference at every xi (xi independence), 1e-9", finite_check),
           ("xi independence at other (MW, MZ, alpha)", other_points_check),
           ("log_coefficient is xi independent and equals 11 alpha/(48 pi s^2)", coeff_check),
           ("raw self-energies at xi = 1 in the pinned convention", feynman_raw_check),
           ("large-mH constant at xi = 0 and 4", constant_check),
           ("dense mH grid 1 GeV .. 2e7 GeV at xi = 0, 5", dense_check),
-          ("extreme masses at the build's own precision", own_precision_check)]
+          ("extreme masses at the build's own precision", own_precision_check),
+          ("raw self-energies are xi independent (audit theorem, AUDIT.md section 2), wide xi grid", O_sigma_xi_independent),
+          ("delta_r_higgs_rel on a wide xi grid", O_delta_r_xi_wide),
+          ("log_coefficient on a wide xi grid", O_log_coefficient_xi_wide)]

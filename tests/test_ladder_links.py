@@ -301,3 +301,8 @@ def test_higgs_dr_link_27():
         assert a.delta_r_higgs_rel(mh, *M, 80.38) == b.delta_r_higgs_rel(mh, *M, 80.38)
     for q2 in (-5e4, 0.0, 6e3):
         assert a.sigma_W(q2, 300.0, *M, 80.38) == b.sigma_W(q2, 300.0, *M, 80.38)
+
+
+def test_higgs_dr_gauge_independence_link_28():
+    spread, s0, s25 = LL.higgs_dr_xi_spread()
+    assert spread < 1e-12 and abs(s0 / s25 - 1) < 1e-12 and abs(s0 / 13.3187407578 - 1) < 1e-9
