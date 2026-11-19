@@ -1,0 +1,5 @@
+Transcript audit of the builder of bos_se build b (room room-bos_se-b) after all rounds, run 2026-11-19T16:53:26Z
+transcript sha256: 93350ea6b16b4167297e7c2303de820b3f97de1d82b6b7378df866f10bb1d707  (73 lines)
+command: python3 audit_transcript.py <transcript> <room> --canary <tokens from CANARIES.txt>; cwd-aware
+tool calls: {'Bash': 19, 'Write': 1, 'SubagentHandback': 1}
+ISOLATION RECORD CLEAN

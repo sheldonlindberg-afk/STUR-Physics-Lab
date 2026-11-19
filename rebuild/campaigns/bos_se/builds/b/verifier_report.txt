@@ -1,0 +1,33 @@
+== contract
+   [PASS] export sigma_AA
+   [PASS] export sigma_AZ
+   [PASS] export sigma_ZZ
+   [PASS] export sigma_W
+   [PASS] PROVENANCE is a dict covering every export
+   [PASS] PROVENANCE[sigma_AA] valid (kind and note)
+   [PASS] PROVENANCE[sigma_AZ] valid (kind and note)
+   [PASS] PROVENANCE[sigma_ZZ] valid (kind and note)
+   [PASS] PROVENANCE[sigma_W] valid (kind and note)
+   [PASS] DERIVATION.md exists
+== lint
+   [PASS] lint
+== blind
+   [PASS] photon Ward identity: Sigma^AA_T(0) = 0
+   [PASS] all four Sigma are linear in alpha
+   [PASS] mu dependence of every Sigma is linear in k^2 (UV pole structure)
+   [PASS] Sigma is continuous at k^2 -> 0
+   [PASS] Sigma is finite and real at all sampled k^2 including thresholds
+== oracle
+   [PASS] real parts above the thresholds  (real parts above the thresholds: worst 0.0e+00 at None)
+   [PASS] M_H from 1 GeV to 1e9 GeV  (M_H from 1 GeV to 1e9 GeV (both Sigma with a Higgs loop): worst 1.4e-14 at ('sigma_W', 1000000000.0, 0.0))
+   [PASS] MS-bar scale from 1 GeV to 1e4 GeV  (MS-bar scale from 1 GeV to 1e4 GeV: worst 3.6e-14 at ('sigma_AA', 10000.0, 0.0))
+   [PASS] large M_H at the build's own precision  (large M_H (1e6, 1e10, 1e14 GeV) at the build's own precision: worst 1.3e-12)
+   [PASS] asymptotic large spacelike k^2 (textbook massless coefficients)  (large spacelike k^2 against the textbook massless (5/3, 31/9; 1/3, 8/9) coefficients: worst 8.8e-09 at ('sigma_ZZ', -1000000000000.0))
+   [PASS] custodial limit g' -> 0  (custodial limit s^2 -> 0 at fixed g: |Sigma_ZZ - Sigma_W|/|Sigma_W| = 2.2e-07 (must be O(s^2)), |Sigma_AZ|/(s |Sigma_W|) = 7.7e-01 (must stay O(1)))
+   [PASS] mpmath global precision untouched (SPEC 4)  (mp.dps after import 15, after calls 15 (must stay 15))
+   [PASS] dense M_H grid  (dense M_H grid 1 GeV - 1e9 GeV: worst 1.4e-14 at ('sigma_W', 1000000000.0, 0.0))
+   [PASS] real parts above Higgs thresholds at M_H != 125  (real parts above the Higgs thresholds, M_H = 300, 700, 3000 GeV: worst 0.0e+00 at None)
+   [PASS] wide MS-bar scale  (mu from 1e-2 GeV to 1e9 GeV: worst 0.0e+00 at None)
+   [PASS] c_W far from the SM  (M_Z = 82, 120, 300 GeV at M_W = 80 GeV: worst 0.0e+00 at None)
+   [PASS] grid with absolute floor at zeros (replacement)  (oracle grid with an absolute floor at the reference's zeros: worst 6.7e-20 at ('sigma_AA', (0.0, 80.0, 92.0, 300.0, 0.007692307692307693, 176.0)))
+GATE PASSED

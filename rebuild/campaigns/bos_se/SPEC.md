@@ -20,7 +20,7 @@ Units: ħ = c = 1. This is the first stage of the on-shell Delta r of muon decay
 ## 2. The quantities (definition)
 
 For V, V' ∈ {A, Z} or V = V' = W, the transverse part Σ^{VV'}_T(k²) of the one-loop 1PI two-point function is defined by the dressed transverse propagator
-−i g^{μν}/(k² − M_V² + Σ_T(k²)) (for the A–Z mixing: the transverse mixing term −i g^{μν} Σ^{AZ}_T(k²) in the inverse propagator matrix; positive Σ lowers the
+−i g^{μν}/(k² − M_V² + Σ_T(k²)) (for the A–Z mixing: the transverse vertex function, the quadratic term of the effective action, is Γ^{VV'}_{μν} = −i g_{μν}[(k² − M_V²)δ_{VV'} + Σ^{VV'}_T(k²)], so the A–Z entry is −i g_{μν} Σ^{AZ}_T; positive Σ lowers the
 effective mass² M² − Σ). Σ^{AA}, Σ^{AZ}: M_A = 0. Include **all** one-loop 1PI diagrams with at least one boson, ghost or scalar in the loop and no fermion: gauge-boson
 bubbles with triple vertices, Goldstone and Higgs bubbles, mixed gauge–scalar bubbles, ghost loops and every quartic-vertex tadpole-type loop (the "seagull" diagrams on
 a boson line). **Exclude** the diagrams with a one-point Higgs tadpole attached (they are cancelled by the tadpole counterterm). Regularize in d = 4 − 2ε (conventional

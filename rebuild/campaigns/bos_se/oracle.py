@@ -112,3 +112,11 @@ ORACLE = [("all four self-energies against the reference on a (k^2, masses, alph
           ("M_H from 1 GeV to 1e9 GeV", higgs_mass_check),
           ("MS-bar scale from 1 GeV to 1e4 GeV", mu_check),
           ("large M_H at the build's own precision", own_precision_check)]
+
+
+# Checks adopted from the Opus audit (AUDIT.md section 4): six wrong mutants had survived the first gate. grid_check_absfloor replaces grid_check (an absolute floor where the
+# reference is exactly zero, so a correct double-precision build is not rejected); the rest are new.
+_pa = importlib.util.spec_from_file_location("bos_se_audit_checks", os.path.join(os.path.dirname(os.path.abspath(__file__)), "audit_proposed_checks.py"))
+AC = importlib.util.module_from_spec(_pa)
+_pa.loader.exec_module(AC)
+ORACLE = [(n, f) for n, f in ORACLE if f is not grid_check] + list(AC.CHECKS)
