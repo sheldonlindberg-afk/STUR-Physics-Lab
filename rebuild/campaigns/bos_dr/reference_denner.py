@@ -15,9 +15,18 @@ def _local(fn):
     return w
 
 
+@functools.lru_cache(maxsize=None)
+def _re_B0_cached(p2, m0, m1, mu, delta, dps):
+    with mp.workdps(dps):
+        return _re_B0(mp.mpf(p2), mp.mpf(m0), mp.mpf(m1), mp.mpf(mu), delta)
+
+
 def re_B0(p2, m0, m1, mu, delta=0):
+    return _re_B0_cached(mp.nstr(mp.mpf(p2), 45), mp.nstr(mp.mpf(m0), 45), mp.nstr(mp.mpf(m1), 45), mp.nstr(mp.mpf(mu), 45), delta, mp.mp.dps)
+
+
+def _re_B0(p2, m0, m1, mu, delta=0):
     """Re B0 (Delta dropped, or shifted by `delta` to test pole cancellation): Delta - int_0^1 ln|(p2 x^2 - x(p2 - m0^2 + m1^2) + m1^2)/mu^2| dx."""
-    p2, m0, m1, mu = (mp.mpf(t) for t in (p2, m0, m1, mu))
     f = lambda x: p2 * x * x - x * (p2 - m0 * m0 + m1 * m1) + m1 * m1
     pts = [mp.mpf(0), mp.mpf(1)]
     if p2 != 0:
@@ -191,3 +200,46 @@ def delta_r(P, part="all"):
             t += delta_vb(P)
         tot += t
     return tot
+
+
+# ----------------------------------------------------------------------------- bosonic-only float API used by the bos_se oracle
+def _P(MW, MZ, MH, alpha, mu):
+    return Params(alpha, MZ, MW, MH, 0, mu=mu)
+
+
+def _real(x):
+    return float(mp.re(x))
+
+
+def sig_AA(k2, MW, MZ, MH, alpha, mu):
+    with mp.workdps(DPS):
+        return _real(sigma_AA(_P(MW, MZ, MH, alpha, mu), k2, "bos"))
+
+
+def sig_AZ(k2, MW, MZ, MH, alpha, mu):
+    """Denner (B.2), bosonic part, at general k^2."""
+    with mp.workdps(DPS):
+        P = _P(MW, MZ, MH, alpha, mu)
+        k2 = _small(k2)
+        pref = -P.alpha / (4 * mp.pi)
+        c2, MW2 = P.c2, P.MW**2
+        B = lambda a, b, c: _B(P, a, b, c)
+        t = (((9 * c2 + mp.mpf(1) / 2) * k2 + (12 * c2 + 4) * MW2) * B(k2, P.MW, P.MW) - (12 * c2 - 2) * MW2 * B(0, P.MW, P.MW) + k2 / 3)
+        return _real(pref * (-1 / (3 * P.s * P.c)) * t)
+
+
+def sig_ZZ(k2, MW, MZ, MH, alpha, mu):
+    with mp.workdps(DPS):
+        return _real(sigma_ZZ(_P(MW, MZ, MH, alpha, mu), k2, "bos"))
+
+
+def sig_W(k2, MW, MZ, MH, alpha, mu):
+    with mp.workdps(DPS):
+        return _real(sigma_W(_P(MW, MZ, MH, alpha, mu), k2, "bos"))
+
+
+def dr_bos(MW, MZ, MH, alpha):
+    """The non-fermionic part of the on-shell Delta r (eq. 8.14), bosonic self-energies + delta_VB, 't Hooft-Feynman gauge. mu drops out (UV finite)."""
+    with mp.workdps(DPS):
+        P = Params(alpha, MZ, MW, MH, 0, mu=MW)
+        return _real(delta_r(P, "bos"))

@@ -167,8 +167,8 @@ def test_transcript_audit_accepts_own_files_and_flags_everything_else():
 
 def test_canaries_are_planted_in_the_oracles_and_never_in_a_room():
     tokens = [l.strip() for l in open(os.path.join(CAMP, "CANARIES.txt")) if l.strip() and not l.startswith("#")]
-    assert len(tokens) == 6
-    for tok, camp in zip(tokens, ("greybody", "qed_cp", "higgs_rho", "higgs_dr", "higgs_dr_xi", "bos_se")):
+    assert len(tokens) == 7
+    for tok, camp in zip(tokens, ("greybody", "qed_cp", "higgs_rho", "higgs_dr", "higgs_dr_xi", "bos_se", "bos_dr")):
         assert tok in open(os.path.join(CAMP, camp, "oracle.py")).read()
         room = os.path.join(tempfile.mkdtemp(), "room")
         subprocess.run([sys.executable, os.path.join(CAMP, "export_room.py"), camp, camp + "-t", room], check=True, capture_output=True)
