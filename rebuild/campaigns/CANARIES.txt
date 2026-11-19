@@ -6,3 +6,4 @@ CANARY-3b8e51d07c4a9f26-higgs_dr
 CANARY-7c1d92e45b8a3f60-higgs_dr_xi
 CANARY-5e2a8b13c9d47f10-bos_se
 CANARY-9a4f6e2d1b8c3057-bos_dr
+CANARY-2f6c9a47e1b05d83-charged_half
