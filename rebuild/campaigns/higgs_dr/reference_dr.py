@@ -9,8 +9,21 @@ Delta r (Higgs part), derived from muon decay in the on-shell scheme (see SPEC.m
 """
 import mpmath as mp
 
-mp.mp.dps = 40
-_PTS = [mp.mpf(0)] + [mp.mpf(10) ** (-k) for k in range(44, 0, -1)] + [mp.mpf(1) / 2, mp.mpf(1)]   # x ~ M^2/m_H^2 can be tiny: resolve the scales
+import functools
+
+DPS = 40          # working precision, applied locally to every public function: this module never changes the global mpmath precision
+
+
+def _pts():
+    return [mp.mpf(0)] + [mp.mpf(10) ** (-k) for k in range(44, 0, -1)] + [mp.mpf(1) / 2, mp.mpf(1)]   # x ~ M^2/m_H^2 can be tiny: resolve the scales
+
+
+def _local(fn):
+    @functools.wraps(fn)
+    def w(*a, **k):
+        with mp.workdps(DPS):
+            return fn(*a, **k)
+    return w
 
 
 def _A0(m2, mu2):
@@ -18,13 +31,14 @@ def _A0(m2, mu2):
 
 
 def _B0(q2, M2, mh2, mu2):
-    return -mp.quad(lambda x: mp.log(((1 - x) * M2 + x * mh2 - x * (1 - x) * q2) / mu2), _PTS)
+    return -mp.quad(lambda x: mp.log(((1 - x) * M2 + x * mh2 - x * (1 - x) * q2) / mu2), _pts())
 
 
 def _B00(q2, M2, mh2, mu2):
-    return mp.quad(lambda x: (((1 - x) * M2 + x * mh2 - x * (1 - x) * q2) / 2) * (1 - mp.log(((1 - x) * M2 + x * mh2 - x * (1 - x) * q2) / mu2)), _PTS)
+    return mp.quad(lambda x: (((1 - x) * M2 + x * mh2 - x * (1 - x) * q2) / 2) * (1 - mp.log(((1 - x) * M2 + x * mh2 - x * (1 - x) * q2) / mu2)), _pts())
 
 
+@_local
 def pi_v(q2, mh, M, kappa2, mu):
     """Pi_V(q^2) in units where the overall 1/16 pi^2 is included."""
     mh2, M2, mu2 = mp.mpf(mh) ** 2, mp.mpf(M) ** 2, mp.mpf(mu) ** 2
@@ -32,6 +46,7 @@ def pi_v(q2, mh, M, kappa2, mu):
     return kappa2 / (16 * mp.pi**2) * (-M2 * _B0(q2, M2, mh2, mu2) + _B00(q2, M2, mh2, mu2) - _A0(mh2, mu2) / 4)
 
 
+@_local
 def couplings(MW, MZ, alpha):
     c2 = (mp.mpf(MW) / MZ) ** 2
     s2 = 1 - c2
@@ -39,12 +54,14 @@ def couplings(MW, MZ, alpha):
     return g2, c2, s2
 
 
+@_local
 def drho(mh, MW, MZ, alpha, mu):
     mh, MW, MZ, alpha, mu = (mp.mpf(t) for t in (mh, MW, MZ, alpha, mu))
     g2, c2, s2 = couplings(MW, MZ, alpha)
     return pi_v(0, mh, MW, g2, mu) / MW**2 - pi_v(0, mh, MZ, g2 / c2, mu) / MZ**2
 
 
+@_local
 def dr_h(mh, MW, MZ, alpha, mu):
     mh, MW, MZ, alpha, mu = (mp.mpf(t) for t in (mh, MW, MZ, alpha, mu))
     g2, c2, s2 = couplings(MW, MZ, alpha)
@@ -53,9 +70,11 @@ def dr_h(mh, MW, MZ, alpha, mu):
     return -(pw0 - pwm) / MW**2 - (c2 / s2) * (pwm / MW**2 - pzm / MZ**2)
 
 
+@_local
 def dr_h_rel(mh, MW, MZ, alpha, mu):
     return dr_h(mh, MW, MZ, alpha, mu) - dr_h(MW, MW, MZ, alpha, mu)
 
 
+@_local
 def drho_rel(mh, MW, MZ, alpha, mu):
     return drho(mh, MW, MZ, alpha, mu) - drho(MW, MW, MZ, alpha, mu)

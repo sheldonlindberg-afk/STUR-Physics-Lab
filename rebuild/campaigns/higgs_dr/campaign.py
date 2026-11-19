@@ -67,6 +67,31 @@ def b_sign(m):
     return v[0] < v[1] < v[2], f"delta_r_higgs_rel at mH = 125, 300, 1000 GeV is increasing: {v}"
 
 
+def b_sigma_alpha_linear(m):
+    """Pi_V is proportional to alpha at fixed masses (one loop, g^2 = 4 pi alpha/s^2). Kills sigma_* that ignore alpha."""
+    worst = 0.0
+    for f in (m.sigma_W, m.sigma_Z):
+        for q2 in (0.0, MW**2, -2.0 * MW**2):
+            a, b = f(q2, 300.0, MW, MZ, ALPHA, MW), f(q2, 300.0, MW, MZ, 3 * ALPHA, MW)
+            worst = max(worst, abs(b / a / 3 - 1))
+    return worst < 1e-12, f"sigma(3 alpha)/(3 sigma(alpha)) - 1, worst over W, Z and three q^2: {worst:.1e}"
+
+
+def b_sigma_coupling_scaling(m):
+    """At fixed MW the W self-energy depends on MZ only through g^2 = 4 pi alpha/s^2 (the H-W, H-phi+ and seagull loops contain
+    no Z); at fixed MZ the Z self-energy depends on MW only through g^2/c^2 = 4 pi alpha/(s^2 c^2). Kills couplings taken from
+    module-level defaults instead of the arguments."""
+    worst = 0.0
+    s2 = lambda w, z: 1 - (w / z) ** 2
+    for q2 in (0.0, 0.7 * MW**2, -3.0 * MW**2):
+        a, b = m.sigma_W(q2, 250.0, MW, MZ, ALPHA, MW), m.sigma_W(q2, 250.0, MW, 97.0, ALPHA, MW)
+        worst = max(worst, abs(b / a / (s2(MW, MZ) / s2(MW, 97.0)) - 1))
+        a, b = m.sigma_Z(q2, 250.0, MW, MZ, ALPHA, MW), m.sigma_Z(q2, 250.0, 77.0, MZ, ALPHA, MW)
+        sc = lambda w, z: s2(w, z) * (w / z) ** 2
+        worst = max(worst, abs(b / a / (sc(MW, MZ) / sc(77.0, MZ)) - 1))
+    return worst < 1e-12, f"sigma_W(MZ')/sigma_W(MZ) against s^2/s'^2 and sigma_Z(MW')/sigma_Z(MW) against (s c)^2/(s' c')^2: worst {worst:.1e}"
+
+
 BLIND = [
     ("delta_r_higgs_rel vanishes at the reference mass", b_reference_zero),
     ("delta_r_higgs_rel does not depend on the MS-bar scale", b_mu_independent),
@@ -75,4 +100,6 @@ BLIND = [
     ("self-energies are continuous at q^2 -> 0", b_q2_continuity),
     ("the large-mH slope equals log_coefficient", b_slope_matches_coefficient),
     ("delta_r_higgs_rel increases with mH between 125 and 1000 GeV", b_sign),
+    ("self-energies are proportional to alpha at fixed masses", b_sigma_alpha_linear),
+    ("W self-energy depends on MZ only through 1/s^2, Z self-energy on MW only through 1/(s^2 c^2)", b_sigma_coupling_scaling),
 ]
