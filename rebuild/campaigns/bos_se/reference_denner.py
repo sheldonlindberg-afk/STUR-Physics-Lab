@@ -10,7 +10,7 @@ DPS = 50
 def _local(fn):
     @functools.wraps(fn)
     def w(*a, **k):
-        with mp.workdps(DPS):
+        with mp.workdps(max(DPS, mp.mp.dps)):
             return fn(*a, **k)
     return w
 
@@ -211,14 +211,19 @@ def _real(x):
     return float(mp.re(x))
 
 
+def _dps(MW, MH, k2=0.0):
+    """Working precision: the M_H^2 terms cancel against each other and against the k^2 -> 0 limit (k^2 = 1e-18): 8 digits per decade of the mass ratio."""
+    return int(60 + 8 * max(0.0, mp.log10(max(abs(MH), abs(MW)) / abs(MW))) + 4 * max(0.0, mp.log10(max(abs(MW), abs(MH)) ** 2 / 1.0) - 6))
+
+
 def sig_AA(k2, MW, MZ, MH, alpha, mu):
-    with mp.workdps(DPS):
+    with mp.workdps(_dps(MW, MH)):
         return _real(sigma_AA(_P(MW, MZ, MH, alpha, mu), k2, "bos"))
 
 
 def sig_AZ(k2, MW, MZ, MH, alpha, mu):
     """Denner (B.2), bosonic part, at general k^2."""
-    with mp.workdps(DPS):
+    with mp.workdps(_dps(MW, MH)):
         P = _P(MW, MZ, MH, alpha, mu)
         k2 = _small(k2)
         pref = -P.alpha / (4 * mp.pi)
@@ -229,10 +234,10 @@ def sig_AZ(k2, MW, MZ, MH, alpha, mu):
 
 
 def sig_ZZ(k2, MW, MZ, MH, alpha, mu):
-    with mp.workdps(DPS):
+    with mp.workdps(_dps(MW, MH)):
         return _real(sigma_ZZ(_P(MW, MZ, MH, alpha, mu), k2, "bos"))
 
 
 def sig_W(k2, MW, MZ, MH, alpha, mu):
-    with mp.workdps(DPS):
+    with mp.workdps(_dps(MW, MH)):
         return _real(sigma_W(_P(MW, MZ, MH, alpha, mu), k2, "bos"))

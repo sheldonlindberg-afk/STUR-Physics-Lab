@@ -42,12 +42,12 @@ def vb_check(m):
 
 def mh_scan_check(m):
     worst, where = 0.0, None
-    for mh in (1.0, 20.0, 91.19, 400.0, 5e3, 1e5, 1e7):
+    for mh in (1.0, 20.0, 91.19, 400.0, 5e3, 1e5, 1e7, 1e10, 1e13):
         ref = R.dr_bos(MW, MZ, mh, ALPHA)
         d = abs(m.delta_r_bos(MW, MZ, mh, ALPHA) / ref - 1)
         if d > worst:
             worst, where = d, mh
-    return worst < 1e-8, f"M_H from 1 GeV to 1e7 GeV: worst {worst:.1e} at {where}"
+    return worst < 1e-8, f"M_H from 1 GeV to 1e13 GeV: worst {worst:.1e} at {where}"
 
 
 def own_precision_check(m):
@@ -68,5 +68,5 @@ def own_precision_check(m):
 
 ORACLE = [("Delta r_bos against the reference at five (MW, MZ, MH, alpha), 1e-9", total_check),
           ("delta_vb against the textbook vertex+box+wave-function value", vb_check),
-          ("Delta r_bos for M_H from 1 GeV to 1e7 GeV", mh_scan_check),
+          ("Delta r_bos for M_H from 1 GeV to 1e13 GeV", mh_scan_check),
           ("large M_H at the build's own precision", own_precision_check)]
