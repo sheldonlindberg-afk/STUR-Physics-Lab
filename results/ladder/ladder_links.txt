@@ -263,6 +263,13 @@ L26  The Higgs term of L18: its coefficient derived by two blind builds (CHECK; 
    Delta rho(125.2) - Delta rho(M_W) = -1.9980e-04; the leading log alone would give -5.1563e-04 (0.39 of it)
 
 ==============================================================================
+L27  The Higgs dependence of Delta r from the q^2-dependent self-energies: L18's Higgs term replaced (CHECK)
+==============================================================================
+   coefficient of ln m_H^2: derived 11 alpha/(48 pi s^2) over L18's quoted 3 alpha/(16 pi s^2) (= the Delta rho screening part alone): 1.222222222 (11/9 = 1.222222222)
+   Delta r_H(125.2) - Delta r_H(M_W) at M_W = 80.3692: derived 1.430938e-03; L18's quoted leading log 1.794506e-03  (ratio 0.797)
+   M_W with the derived Higgs term: 80.501 GeV (L18's quoted term gave 80.495); remainder Delta r_rest: +0.0075 (quoted +0.0071)
+
+==============================================================================
 L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)
 ==============================================================================
    r_c - l = 0;  kappa - 1/l = 0;  A - 12 pi/Lambda = 0  (A = 4 pi l^2; not 4 pi/Lambda)

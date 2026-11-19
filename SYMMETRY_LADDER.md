@@ -406,7 +406,7 @@ splitting use α(0). This link shows they are one coupling at two scales.
 |---|---|---|
 | L18a | The W and Z self-energies at q² = 0 from the fermion loop in dimensional regularization, with rung 1's couplings T₃ − Qs². The vector Ward identity holds; Δρ has no 1/ε pole and no s² dependence; it equals N_cG_F/(8√2π²)[m_t² + m_b² − 2m_t²m_b² ln(m_t²/m_b²)/(m_t² − m_b²)], which is 3G_Fm_t²/(8√2π²) for m_b → 0 | CHECK, symbolic |
 | L18b | With m_t = 172.57, m_b = 4.18 GeV (PDG 2024): **Δρ = 9.26×10⁻³** | CHECK; LIT |
-| L18c | M_W from G_F, α(0), M_Z with Δr built up: tree **80.94** GeV; + Δα (L9's leptons, hadrons quoted) 79.96; + top loop 80.53; + Higgs log (coefficient derived in Link 26, shape quoted) **80.50**, against 80.37 measured. The 0.13 GeV left is Δr_rest = 0.007; the total Δr = 0.0356 | CHECK (top loop); LIT |
+| L18c | M_W from G_F, α(0), M_Z with Δr built up: tree **80.94** GeV; + Δα (L9's leptons, hadrons quoted) 79.96; + top loop 80.53; + Higgs term (derived in Links 26–27) **80.50**, against 80.37 measured. The 0.13 GeV left is Δr_rest = 0.0075; the total Δr = 0.0356 | CHECK (top loop); LIT |
 | L18d | B7's +0.35% on M_Z is in the MS-bar scheme, where ŝ²(M_Z) absorbs part of Δρ; that bookkeeping is not done. L18 closes the leading piece of the on-shell correction, not B7's number | FOLLOWS |
 
 ### Link 19: Hawking radiation as radiation, within rung 6 (`src/ladder_links.py` L19)
@@ -472,7 +472,16 @@ H1 and H2 fix the temperature geometrically; the step that was quoted was that t
 | | Result | Status |
 |---|---|---|
 | L26a | L18 quoted Δr_H = +(3G_FM_W²/8√2π²) ln(m_H²/M_W²). Two blind builds derived the m_H dependence of Δρ = Π_WW(0)/M_W² − Π_ZZ(0)/M_Z² from the Higgs-containing one-loop diagrams of the bosonic electroweak Lagrangian in R_ξ gauge (H–gauge bubble, H–Goldstone bubble, seagull; Feynman rules read off |DΦ|²): the poles are m_H-independent and cancel, ξ drops out exactly, and **Δρ = −(3α/16πc²) ln(m_H²/M_W²) + C**, C = 9.54×10⁻⁴ relative to m_H = M_W. With Δr_H = −(c²/s²)Δρ the quoted coefficient is reproduced **to the double** (2.0241161617955×10⁻³). An auditor's two other routes agree with both builds at m_H = 10 to 5000 GeV; the builds agree exactly up to 10³³ M_W | CHECK; two builds, audit, oracle |
-| L26b | Not replaced: the finite function at m_H = 125.2 GeV, Δρ(m_H) − Δρ(M_W) = −2.0×10⁻⁴, is 39% of the leading-log value (−5.2×10⁻⁴), so the leading log overstates it; but Δr's own m_H dependence also comes from the q²-dependent self-energies (Π_WW(M_W²) − Π_WW(0), photon–Z mixing), which are not computed. L18's term keeps its quoted shape; its coefficient is derived | FOLLOWS |
+| L26b | What Link 26 left open (the finite shape at m_H = 125 GeV and the q²-dependent self-energies) is closed in Link 27, which also shows that this link's check was against the Δρ screening part of the coefficient only | CHECK |
+
+### Link 27: the Higgs dependence of Δr from the q²-dependent self-energies (`rebuild/campaigns/higgs_dr`, `src/ladder_links.py` L27)
+
+| | Result | Status |
+|---|---|---|
+| L27a | Two blind builds derived the Higgs-containing W and Z self-energies at general q² (H–gauge bubble, H–Goldstone bubble, seagull; Feynman gauge, MS-bar), Π_V(q²) = (κ²/16π²)[−M²B₀ + B₀₀ − A₀(m_H)/4], and from the muon-decay relation (bare g₀² = e²/s₀², s₀² = s² + c²(Π_W(M_W²)/M_W² − Π_Z(M_Z²)/M_Z²), G_F/√2 = g₀²/8(M_W0² + Π_W(0))) the Higgs part of Sirlin's Δr: Δr_H = [Π_W(M_W²) − Π_W(0)]/M_W² + (c²/s²)[Π_Z(M_Z²)/M_Z² − Π_W(M_W²)/M_W²]. The tadpoles cancel in both brackets. An Opus audit re-derived the Feynman rules in sympy and evaluated the self-energies by three other routes (analytic Passarino–Veltman to 10⁻³⁷, a dispersion relation, a 4D Euclidean integral): no disagreement | CHECK; two builds, audit, oracle |
+| L27b | The coefficient of ln m_H² is **11α/(48πs²)**: 9/11 of it, 3α/16πs², is the Δρ screening term and **the remaining 2/11, α/24πs², comes from the q² dependence of the self-energies**. L18 and Link 26 had the first part only: the derived coefficient is **11/9 times L18's quoted one** (the earlier "reproduced to the double" was against Δρ, not Δr). At large m_H the absolute MS-bar value (μ = M_W) is Δr_H = (11/12)(α/4πs²)[ln(m_H²/M_W²) − 5/6] + O(M_W²/m_H² ln), so relative to m_H = M_W the constant is −2.4006×10⁻³ at the campaign inputs | CHECK |
+| L27c | At m_H = 125.2 GeV Δr_H(m_H) − Δr_H(M_W) = **1.431×10⁻³**, against 1.795×10⁻³ from L18's leading log (the larger coefficient is outweighed by the constant). L18's M_W with the derived term: **80.501 GeV** (80.495 with the quoted term), the remainder Δr_rest = **0.0075** (was 0.0071) | CHECK |
+| L27d | Not derived: Δr_H(M_W) itself (the scheme constants drop out of the difference), the gauge-boson loops of Δρ and the vertex and box terms, the two-loop terms. The Higgs does not couple to the massless fermions of muon decay, so there are no Higgs vertex or box diagrams at one loop. The gauge was fixed to Feynman: Higgs-only gauge independence of Δr_H was not tested. The gate cannot enforce that the builds derived and did not recite; the audit read both derivations | FOLLOWS |
 
 ### Link 12: neutrino mass from rung 1's breaking scale, to oscillation data (`src/ladder_links.py` L12)
 

@@ -1,0 +1,34 @@
+== contract
+   [PASS] export sigma_W
+   [PASS] export sigma_Z
+   [PASS] export delta_r_higgs_rel
+   [PASS] export log_coefficient
+   [PASS] PROVENANCE is a dict covering every export
+   [PASS] PROVENANCE[sigma_W] valid (kind and note)
+   [PASS] PROVENANCE[sigma_Z] valid (kind and note)
+   [PASS] PROVENANCE[delta_r_higgs_rel] valid (kind and note)
+   [PASS] PROVENANCE[log_coefficient] valid (kind and note)
+   [PASS] DERIVATION.md exists
+== lint
+   [PASS] lint
+== blind
+   [PASS] delta_r_higgs_rel vanishes at the reference mass
+   [PASS] delta_r_higgs_rel does not depend on the MS-bar scale
+   [PASS] delta_r_higgs_rel is linear in alpha
+   [PASS] mu-dependence of the raw self-energies is linear in q^2 (UV pole structure)
+   [PASS] self-energies are continuous at q^2 -> 0
+   [PASS] the large-mH slope equals log_coefficient
+   [PASS] delta_r_higgs_rel increases with mH between 125 and 1000 GeV
+   [PASS] self-energies are proportional to alpha at fixed masses
+   [PASS] W self-energy depends on MZ only through 1/s^2, Z self-energy on MW only through 1/(s^2 c^2)
+== oracle
+   [PASS] log_coefficient = 11 alpha/(48 pi s^2)  (worst relative deviation of log_coefficient from the reference coefficient: 2.2e-16)
+   [PASS] delta_r_higgs_rel against the independent reference, mH = 10..5000 GeV, two scales, 1e-9  (worst relative deviation of delta_r_higgs_rel from the independent reference, mH = 10..5000 GeV, two scales: 0.0e+00 at None)
+   [PASS] delta_r_higgs_rel at two other (MW, MZ, alpha) points  (delta_r_higgs_rel at two other (MW, MZ, alpha) points against the reference: 0.0e+00)
+   [PASS] raw q^2-dependent self-energies in the pinned convention, q^2 = -3 MW^2 .. MZ^2  (raw MS-bar Pi_WW(q^2), Pi_ZZ(q^2) in the convention of SPEC section 2, q^2 from -3 MW^2 to MZ^2: worst relative deviation 1.1e-16)
+   [PASS] large-mH constant term  (large-mH constant -2.400630511e-03 against the reference -2.400630511e-03)
+   [PASS] exact large-mH form B ln + C holds from mH = 1e6 MW to 1e14 MW  (worst |dr - B ln - C| / |B ln| at mH = 1e6 .. 1e14 MW: 1.8e-12 at 1e6 MW)
+   [PASS] delta_r_higgs_rel on a dense log grid, mH = 1 GeV .. 2e7 GeV  (worst relative deviation, mH = 1 GeV .. 2e7 GeV: 0.0e+00 at None)
+   [PASS] raw self-energies at other (MW, MZ, alpha), deep spacelike q^2 and near threshold  (worst relative deviation 2.2e-16 at (MW, MZ, alpha, mH, q2/MW^2) = (80.38, 91.19, 0.00781, 60.0, -50.0))
+   [PASS] extreme-mass check with the build at its own mpmath precision (the gate must not raise it)  (at the build's own precision (global mp.dps after import: 15): worst |dr - B ln - C|/|B ln| = 1.8e-12 at 1e6 MW)
+GATE PASSED

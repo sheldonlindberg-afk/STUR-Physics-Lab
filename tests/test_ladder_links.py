@@ -288,3 +288,16 @@ def test_reference_output_matches():
         LL.main()
     ref = open(os.path.join(os.path.dirname(__file__), "..", "results", "ladder", "ladder_links.txt")).read()
     assert buf.getvalue() == ref
+
+
+def test_higgs_dr_link_27():
+    ratio, dh, q, mw, rest, restq, mwq = LL.higgs_dr_derived()
+    assert abs(ratio - 11 / 9) < 1e-9                                  # the full coefficient is 11/9 of the Delta rho screening part L18 quoted
+    assert abs(dh / 1.430938e-3 - 1) < 1e-5 and abs(q / 1.794506e-3 - 1) < 1e-5
+    assert abs(mw - 80.501) < 1e-3 and abs(mwq - 80.495) < 1e-3 and abs(rest - 0.0075) < 5e-5
+    a, b = LL._load_higgs_dr_build("a"), LL._load_higgs_dr_build("b")
+    M = (80.38, 91.19, 1 / 128.0)
+    for mh in (10.0, 125.2, 1000.0, 1e6):
+        assert a.delta_r_higgs_rel(mh, *M, 80.38) == b.delta_r_higgs_rel(mh, *M, 80.38)
+    for q2 in (-5e4, 0.0, 6e3):
+        assert a.sigma_W(q2, 300.0, *M, 80.38) == b.sigma_W(q2, 300.0, *M, 80.38)

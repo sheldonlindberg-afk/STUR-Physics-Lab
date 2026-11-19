@@ -446,6 +446,13 @@ L26 The Higgs term of L18, derived: the coefficient of ln m_H^2 in Delta rho. Ru
       GeV is -2.0e-4, 39% of the leading-log value -5.2e-4: the leading log overstates it. But Delta r's own m_H dependence also
       comes from the q^2-dependent self-energies (Pi_WW(M_W^2) - Pi_WW(0), photon-Z mixing), which are not computed here, so L18's term
       is not replaced; its coefficient is derived, its finite-m_H shape is not. (FOLLOWS)
+L27 The Higgs dependence of Delta r, derived: the q^2-dependent W and Z self-energies. Rung 1, quoted -> derived.
+  L27a Two blind builds (campaign higgs_dr, ACCEPTED.md): Pi_V(q^2) from the Higgs-containing diagrams, and from muon decay
+      Delta r_H = [Pi_W(M_W^2) - Pi_W(0)]/M_W^2 + (c^2/s^2)[Pi_Z(M_Z^2)/M_Z^2 - Pi_W(M_W^2)/M_W^2]. The coefficient of ln m_H^2 is
+      11 alpha/(48 pi s^2): the Delta rho screening 3 alpha/(16 pi s^2) plus alpha/(24 pi s^2) from the q^2 dependence, so L18's quoted
+      term (and Link 26's check) had only 9/11 of it. (CHECK; two builds, audit, oracle)
+  L27b At m_H = 125.2 GeV Delta r_H(m_H) - Delta r_H(M_W) = 1.431e-3 (L18's quoted leading log 1.795e-3); M_W = 80.501 GeV with it
+      (80.495 before), Delta r_rest = 0.0075. (CHECK)
 L14 Bekenstein bound: rung 6 -> rung 4. S <= 2 pi k R E / (hbar c). A Schwarzschild black hole
   (R = 2GM/c^2, E = M c^2) saturates it exactly, = A / 4 l_P^2 (CHECK, symbolic). Design A's
   diamond (radius 1.0 um, 7.4e11 atoms): Bekenstein bound 2.6e23 k_B, holographic bound
@@ -1477,6 +1484,56 @@ def higgs_term_derived(mh=125.20, MW_=80.3692, MZ_=91.1876):
     return derived, quoted, rho, lead
 
 
+def _load_higgs_dr_build(name):
+    import importlib.util
+    here = os.path.dirname(os.path.abspath(__file__))
+    spec = importlib.util.spec_from_file_location("higgs_dr_build_" + name, os.path.join(here, "..", "rebuild", "campaigns", "higgs_dr", "builds", name, "higgs_dr.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def higgs_dr_derived(mh=125.20, mZ=91.1880, MWc=80.3692, name="a"):
+    """L27: Delta r's Higgs dependence from the q^2-dependent self-energies (accepted higgs_dr build), against L18's quoted term.
+    Returns (coefficient ratio derived/quoted, derived Delta r_H(mh)-Delta r_H(MW) at MWc, L18's quoted term there, M_W with the derived term,
+    the remainder Delta r_rest that closes to the measured M_W with it, with L18's quoted term)."""
+    b = _load_higgs_dr_build(name)
+    GF = 1.1663788e-5
+    A = math.pi * ALPHA_0 / (math.sqrt(2) * GF)
+    drho = rho_top_bottom()
+    dal = DALPHA_LEP_3LOOP + DALPHA_HAD_5
+
+    def alpha_of(MW):                                                        # G_F M_W^2 = pi alpha / (sqrt2 s^2): the weak coupling the self-energies use
+        return math.sqrt(2) * GF * MW**2 * (1 - MW**2 / mZ**2) / math.pi
+
+    def dH(MW):
+        return b.delta_r_higgs_rel(mh, MW, mZ, alpha_of(MW), MW)
+
+    def quoted(MW):
+        return 3 * GF * MW**2 / (8 * math.sqrt(2) * math.pi**2) * math.log(mh**2 / MW**2)
+
+    def mw(term):
+        MW = 80.4
+        for _ in range(60):
+            c2s2 = MW**2 / (mZ**2 - MW**2)
+            dr = dal - c2s2 * drho + term(MW)
+            new = math.sqrt(mZ**2 / 2 * (1 + math.sqrt(1 - 4 * A / (1 - dr) / mZ**2)))
+            if abs(new - MW) < 1e-12:
+                MW = new
+                break
+            MW = new
+        return MW
+
+    def rest(term):                                                          # Delta r_rest that makes the prediction equal the measured M_W
+        MW = MW_MEAS
+        c2s2 = MW**2 / (mZ**2 - MW**2)
+        return (1 - A / (MW**2 * (1 - MW**2 / mZ**2))) - (dal - c2s2 * drho + term(MW))
+
+    coeff = b.log_coefficient(MWc, mZ, alpha_of(MWc))
+    q_coeff = 3 * GF * MWc**2 / (8 * math.sqrt(2) * math.pi**2)
+    return coeff / q_coeff, dH(MWc), quoted(MWc), mw(dH), rest(dH), rest(quoted), mw(quoted)
+
+
 # ---------------------------------------------------------------------------------- L6
 def carbon12_binding():
     """L6a: B = 6 m_p + 6 m_n + 6 m_e - 12 u, in MeV, and per nucleon."""
@@ -1929,6 +1986,12 @@ def main():
     derived, quoted, rho125, lead125 = higgs_term_derived()
     print(f"   -(c^2/s^2) x [log coefficient of Delta rho] = {derived:.9e};  L18's quoted 3 G_F M_W^2/(8 sqrt2 pi^2) = {quoted:.9e}  (ratio {derived / quoted:.12f})")
     print(f"   Delta rho(125.2) - Delta rho(M_W) = {rho125:.4e}; the leading log alone would give {lead125:.4e} ({rho125 / lead125:.2f} of it)")
+
+    banner("L27  The Higgs dependence of Delta r from the q^2-dependent self-energies: L18's Higgs term replaced (CHECK)")
+    ratio27, dh27, q27, mw27, rest27, restq27, mwq27 = higgs_dr_derived()
+    print(f"   coefficient of ln m_H^2: derived 11 alpha/(48 pi s^2) over L18's quoted 3 alpha/(16 pi s^2) (= the Delta rho screening part alone): {ratio27:.9f} (11/9 = {11 / 9:.9f})")
+    print(f"   Delta r_H(125.2) - Delta r_H(M_W) at M_W = 80.3692: derived {dh27:.6e}; L18's quoted leading log {q27:.6e}  (ratio {dh27 / q27:.3f})")
+    print(f"   M_W with the derived Higgs term: {mw27:.3f} GeV (L18's quoted term gave {mwq27:.3f}); remainder Delta r_rest: {rest27:+.4f} (quoted {restq27:+.4f})")
 
     banner("L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)")
     d_rc, d_k, d_A, d_S, d_S2, fac = de_sitter_entropy_symbolic()
