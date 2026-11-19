@@ -17,7 +17,9 @@ MW, MZ, MH, ALPHA = 80.38, 91.19, 125.0, 1 / 128.0
 LINT_TARGETS = []
 LINT_EXACT = []
 FUNCS = ("sigma_AA", "sigma_AZ", "sigma_ZZ", "sigma_W")
-REF = {"sigma_AA": R.sig_AA, "sigma_AZ": R.sig_AZ, "sigma_ZZ": R.sig_ZZ, "sigma_W": R.sig_W}
+# Denner's covariant derivative has +i g1 Y B/2, so his A = -s W3 + c B; SPEC pins -i g' Y B/2 and A = s W3 + c B: the photon field differs by a sign, so
+# Sigma^AZ(SPEC) = - Sigma^AZ(Denner) (found when the first blind build, which followed the SPEC, disagreed by exactly 2 = a sign: class R of the orchestrator).
+REF = {"sigma_AA": R.sig_AA, "sigma_AZ": lambda *a: -R.sig_AZ(*a), "sigma_ZZ": R.sig_ZZ, "sigma_W": R.sig_W}
 
 
 def _dev(v, r, scale):
