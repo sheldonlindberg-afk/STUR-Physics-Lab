@@ -456,6 +456,14 @@ L27 The Higgs dependence of Delta r, derived: the q^2-dependent W and Z self-ene
   L28a Two blind builds (campaign higgs_dr_xi): the g^{mu nu} coefficient of the Higgs-containing self-energies does not depend on xi at any q^2
       below threshold (the xi parts of the H-V and H-Goldstone bubbles cancel pointwise after transverse projection); Delta r_H(m_H) is
       therefore the Link 27 value in every gauge. (CHECK; two builds, audit, oracle)
+L29 The whole bosonic one-loop Delta r. Rung 1, quoted -> derived (non-fermionic part).
+  L29a Two stages of blind builds (campaigns bos_se, bos_dr; ACCEPTED.md each): the bosonic W, Z, photon self-energies and photon-Z mixing from the Lagrangian
+      ('t Hooft-Feynman gauge, all gauge-boson, Goldstone, Higgs and ghost loops), then the on-shell renormalization of muon decay with the vertex, box and lepton
+      wave-function diagrams (IR cancelled with the Fermi-theory subtraction) assembled into Delta r_bos = Sigma'_AA(0) + 2(s/c)Sigma_AZ(0)/M_Z^2
+      - (c^2/s^2)[Sigma_ZZ(M_Z^2)/M_Z^2 - Sigma_W(M_W^2)/M_W^2] + [Sigma_W(0) - Sigma_W(M_W^2)]/M_W^2 + delta_VB, delta_VB = (alpha/4 pi s^2)
+      [6 + (7 - 4 s^2)/(2 s^2) ln c^2], UV finite and mu independent. (CHECK; four builds, two audits with independent derivations, oracle)
+  L29b Delta r_bos(125.2 GeV) = 4.0e-3; with Delta alpha and the top loop M_W = 80.456 GeV against 80.369 measured. What remains is fermionic and higher
+      order (not derived here). (CHECK; FOLLOWS)
 L14 Bekenstein bound: rung 6 -> rung 4. S <= 2 pi k R E / (hbar c). A Schwarzschild black hole
   (R = 2GM/c^2, E = M c^2) saturates it exactly, = A / 4 l_P^2 (CHECK, symbolic). Design A's
   diamond (radius 1.0 um, 7.4e11 atoms): Bekenstein bound 2.6e23 k_B, holographic bound
@@ -1555,6 +1563,47 @@ def higgs_dr_xi_spread(mh=300.0, MW_=80.38, MZ_=91.19, al=2.0**-7):
     return spread, a.sigma_W(MW_**2, 125.2, MW_, MZ_, al, 0.0, MW_), a.sigma_W(MW_**2, 125.2, MW_, MZ_, al, 25.0, MW_)
 
 
+def _load_bos_dr_build(name):
+    """The accepted bos_dr build `name`; it imports the provided stage-1 module bos_se (accepted build a), which is put on the path first."""
+    import importlib.util
+    import sys
+    here = os.path.dirname(os.path.abspath(__file__))
+    camp = os.path.join(here, "..", "rebuild", "campaigns")
+    se = os.path.join(camp, "bos_se", "builds", "a")
+    if se not in sys.path:
+        sys.path.insert(0, se)
+    spec = importlib.util.spec_from_file_location("bos_dr_build_" + name, os.path.join(camp, "bos_dr", "builds", name, "bos_dr.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def bosonic_dr_derived(mh=125.20, mZ=91.1880, name="a"):
+    """L29: the whole non-fermionic one-loop Delta r (accepted bos_dr build) in L18's M_W relation, replacing L18's Higgs term.
+    Returns (Delta r_bos at m_H and M_W of the fixed point, M_W with Delta alpha + the top loop + Delta r_bos, the remainder Delta r_rest that closes to the
+    measured M_W, Delta r_bos at m_H = M_W, delta_vb, the two builds' relative difference)."""
+    b = _load_bos_dr_build(name)
+    other = _load_bos_dr_build("b" if name == "a" else "a")
+    GF = 1.1663788e-5
+    A = math.pi * ALPHA_0 / (math.sqrt(2) * GF)
+    drho = rho_top_bottom()
+    dal = DALPHA_LEP_3LOOP + DALPHA_HAD_5
+    MW = 80.4
+    for _ in range(60):
+        c2s2 = MW**2 / (mZ**2 - MW**2)
+        dr = dal - c2s2 * drho + b.delta_r_bos(MW, mZ, mh, ALPHA_0)
+        new = math.sqrt(mZ**2 / 2 * (1 + math.sqrt(1 - 4 * A / (1 - dr) / mZ**2)))
+        if abs(new - MW) < 1e-12:
+            MW = new
+            break
+        MW = new
+    bos = b.delta_r_bos(MW, mZ, mh, ALPHA_0)
+    c2s2m = MW_MEAS**2 / (mZ**2 - MW_MEAS**2)
+    rest = (1 - A / (MW_MEAS**2 * (1 - MW_MEAS**2 / mZ**2))) - (dal - c2s2m * drho + b.delta_r_bos(MW_MEAS, mZ, mh, ALPHA_0))
+    diff = abs(bos / other.delta_r_bos(MW, mZ, mh, ALPHA_0) - 1)
+    return bos, MW, rest, b.delta_r_bos(MW, mZ, MW, ALPHA_0), b.delta_vb(MW, mZ, ALPHA_0), diff
+
+
 # ---------------------------------------------------------------------------------- L6
 def carbon12_binding():
     """L6a: B = 6 m_p + 6 m_n + 6 m_e - 12 u, in MeV, and per nucleon."""
@@ -2018,6 +2067,11 @@ def main():
     spread28, tot0, tot25 = higgs_dr_xi_spread()
     print(f"   Delta r_H(300) - Delta r_H(M_W) over xi = 0, 0.3, 1, 4, 25: relative spread {spread28:.1e} (two builds agree exactly)")
     print(f"   Pi_WW(M_W^2) at m_H = 125.2: xi = 0 {tot0:.10f}, xi = 25 {tot25:.10f}")
+
+    banner("L29  The whole bosonic one-loop Delta r: gauge-boson loops, vertex and box terms (CHECK)")
+    bos29, mw29, rest29, bos_ref29, vb29, diff29 = bosonic_dr_derived()
+    print(f"   Delta r_bos(m_H = 125.2) = {bos29:.6e} at M_W = {mw29:.3f} GeV (m_H = M_W: {bos_ref29:.6e}); delta_VB = {vb29:.6e}; two builds differ by {diff29:.1e} (relative)")
+    print(f"   M_W from Delta alpha + the top loop (L18) + Delta r_bos: {mw29:.3f} GeV (measured {MW_MEAS}); remainder Delta r_rest closing it: {rest29:+.4f}")
 
     banner("L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)")
     d_rc, d_k, d_A, d_S, d_S2, fac = de_sitter_entropy_symbolic()

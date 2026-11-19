@@ -35,8 +35,7 @@ report the decomposition in DERIVATION.md.
 ## 4. Exports (exact signatures in campaign.py)
 
 `delta_r_bos(MW, MZ, MH, alpha)` → Δr_bos, dimensionless, first order in α. The MS-bar scale cancels; the exports take no μ.
-`delta_vb(MW, MZ, alpha)` → the one-loop vertex + box + lepton-wave-function contribution to the relative correction of the muon-decay amplitude (after the Fermi-theory QED subtraction), as it enters Δr_bos in your
-decomposition; for definiteness take the 't Hooft–Feynman-gauge diagrams of section 3 with the on-shell W–ℓ–ν coupling counterterm *not* included (it belongs to the renormalization pieces).
+`delta_vb(MW, MZ, alpha)` → the finite, μ-independent grouping of the one-loop vertex, box and lepton-wave-function contributions that the on-shell Δr formula uses: the unrenormalized sum δ_V of those diagrams (after the Fermi-theory QED subtraction; it is UV divergent and μ dependent by itself, with MS-bar at μ = M_W) plus the piece of the photon–Z mixing at zero momentum that, in your decomposition, is regrouped with it so that the combination depends on s² only. State the grouping you chose in DERIVATION.md.
 
 ## 5. Conventions for numerics
 

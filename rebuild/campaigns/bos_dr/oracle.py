@@ -2,7 +2,7 @@
 """Hidden oracle for the bos_dr campaign.
 
 Target: the non-fermionic part of Delta r of Denner, Fortschr. Phys. 41 (1993) 307 (arXiv:0709.1075) eq. (8.14) with the self-energies of appendix B and
-delta_VB = (alpha/4 pi s^2)[6 + (7 - 4 s^2)/(2 s^2) ln c^2] (the textbook vertex + box + wave-function term in the 't Hooft-Feynman gauge). The bosonic self-energies were
+delta_VB = (alpha/4 pi s^2)[6 + (7 - 4 s^2)/(2 s^2) ln c^2] (Denner's grouping: the vertex + box + wave-function sum in MS-bar at mu = M_W, equivalently delta_V(mu) + 2 Sigma^AZ(0; mu)/(s c M_Z^2) for any mu; the raw delta_V alone is UV divergent). The bosonic self-energies were
 checked by two blind builds (campaign bos_se); the sum is UV finite and mu independent, its M_H dependence equals the independently derived Higgs result
 (campaigns higgs_dr, higgs_dr_xi) to 1e-16, and the full Delta r reproduces the paper's M_W at its benchmark within 0.01 GeV (after the O(alpha alpha_s) term)."""
 import importlib.util, math, os
@@ -70,3 +70,11 @@ ORACLE = [("Delta r_bos against the reference at five (MW, MZ, MH, alpha), 1e-9"
           ("delta_vb against the textbook vertex+box+wave-function value", vb_check),
           ("Delta r_bos for M_H from 1 GeV to 1e13 GeV", mh_scan_check),
           ("large M_H at the build's own precision", own_precision_check)]
+
+
+# Checks adopted from the Opus audit (AUDIT.md): five wrong mutants had survived the first gate (errors only at small s^2, at M_W/M_Z > 0.95, at the Thomson alpha,
+# at M_H in 2e3-4e3 or 2e10-8e12 GeV).
+_pa = importlib.util.spec_from_file_location("bos_dr_audit_checks", os.path.join(os.path.dirname(os.path.abspath(__file__)), "audit_proposed_checks.py"))
+AC = importlib.util.module_from_spec(_pa)
+_pa.loader.exec_module(AC)
+ORACLE = ORACLE + list(AC.CHECKS)

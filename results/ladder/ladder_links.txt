@@ -276,6 +276,12 @@ L28  The Higgs part of Delta r is gauge-parameter independent: spread over xi (C
    Pi_WW(M_W^2) at m_H = 125.2: xi = 0 13.3187407578, xi = 25 13.3187407578
 
 ==============================================================================
+L29  The whole bosonic one-loop Delta r: gauge-boson loops, vertex and box terms (CHECK)
+==============================================================================
+   Delta r_bos(m_H = 125.2) = 4.011123e-03 at M_W = 80.456 GeV (m_H = M_W: 2.624583e-03); delta_VB = 6.669497e-03; two builds differ by 3.1e-15 (relative)
+   M_W from Delta alpha + the top loop (L18) + Delta r_bos: 80.456 GeV (measured 80.3692); remainder Delta r_rest closing it: +0.0049
+
+==============================================================================
 L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)
 ==============================================================================
    r_c - l = 0;  kappa - 1/l = 0;  A - 12 pi/Lambda = 0  (A = 4 pi l^2; not 4 pi/Lambda)

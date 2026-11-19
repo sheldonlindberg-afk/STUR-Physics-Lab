@@ -306,3 +306,13 @@ def test_higgs_dr_link_27():
 def test_higgs_dr_gauge_independence_link_28():
     spread, s0, s25 = LL.higgs_dr_xi_spread()
     assert spread < 1e-12 and abs(s0 / s25 - 1) < 1e-12 and abs(s0 / 13.3187407578 - 1) < 1e-9
+
+
+def test_bosonic_dr_link_29():
+    bos, mw, rest, bos_ref, vb, diff = LL.bosonic_dr_derived()
+    assert abs(bos / 4.011123e-3 - 1) < 1e-5 and abs(mw - 80.456) < 1e-3 and abs(rest - 0.0049) < 5e-5
+    assert abs(bos_ref / 2.624583e-3 - 1) < 1e-5 and abs(vb / 6.669497e-3 - 1) < 1e-5 and diff < 1e-12
+    b = LL._load_bos_dr_build("b")
+    a = LL._load_bos_dr_build("a")
+    for p in ((80.38, 91.19, 125.0, 1 / 128.0), (75.0, 100.0, 60.0, 1 / 130.0)):
+        assert abs(a.delta_r_bos(*p) / b.delta_r_bos(*p) - 1) < 1e-12

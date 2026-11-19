@@ -1,0 +1,27 @@
+== contract
+   [PASS] export delta_r_bos
+   [PASS] export delta_vb
+   [PASS] PROVENANCE is a dict covering every export
+   [PASS] PROVENANCE[delta_r_bos] valid (kind and note)
+   [PASS] PROVENANCE[delta_vb] valid (kind and note)
+   [PASS] DERIVATION.md exists
+== lint
+   [PASS] lint
+== blind
+   [PASS] Delta r_bos and delta_vb are first order in alpha
+   [PASS] the large-MH slope of Delta r_bos is 11 alpha/(48 pi s^2)
+   [PASS] Delta r_bos is finite and increases with MH
+   [PASS] delta_vb depends on the masses only through s^2
+   [PASS] Delta r_bos is dimensionless (mass-scale invariant)
+== oracle
+   [PASS] Delta r_bos against the reference at five (MW, MZ, MH, alpha), 1e-9  (Delta r_bos against the reference at 5 (MW, MZ, MH, alpha): worst relative deviation 2.0e-15 at (80.38, 91.19, 125.0, 0.0078125))
+   [PASS] delta_vb against the textbook vertex+box+wave-function value  (delta_vb against the textbook value: worst 5.6e-16)
+   [PASS] Delta r_bos for M_H from 1 GeV to 1e13 GeV  (M_H from 1 GeV to 1e13 GeV: worst 1.8e-14 at 20.0)
+   [PASS] large M_H at the build's own precision  (large M_H at the build's own precision: 1.1e-16)
+   [PASS] exports exactly linear in alpha over [1/300, 1/60] (BLIND-OK)  (f(alpha)/alpha over alpha in [1/300, 1/60]: worst spread 8.9e-16)
+   [PASS] Delta r_bos - delta_vb = Sigma part (Denner grouping) from bos_se (BLIND-OK*)  (Delta r_bos - delta_vb against the Sigma part from bos_se (two points, two mu): worst 2.1e-15)
+   [PASS] both exports at the Thomson alpha against the reference  (alpha = 1/137.036: Delta r_bos 1.1e-15, delta_vb 1.3e-16)
+   [PASS] delta_vb over s^2 in [0.01, 0.99]  (delta_vb over M_W/M_Z in [0.1, 0.995]: worst 7.3e-15 at M_W/M_Z = 0.995)
+   [PASS] Delta r_bos far from the SM s^2 (absolute floor at its zero)  (Delta r_bos at M_W = 30 .. 90.5 GeV (M_Z = 91.19): worst 5.0e-14 at M_W = 89.5)
+   [PASS] Delta r_bos at M_H between the oracle scan points  (Delta r_bos at 7 M_H between the oracle scan points: worst 5.3e-16 at M_H = 3500.0)
+GATE PASSED
