@@ -282,6 +282,17 @@ L29  The whole bosonic one-loop Delta r: gauge-boson loops, vertex and box terms
    M_W from Delta alpha + the top loop (L18) + Delta r_bos: 80.456 GeV (measured 80.3692); remainder Delta r_rest closing it: +0.0049
 
 ==============================================================================
+L30  Carr's charged spin-1/2 weight: Page's charge fluctuations, and how much of it is convention (CHECK)
+==============================================================================
+   neutral weight 0.1465; weight ratio (charged / neutral) by the rule for which hole charge a particle sees (grey-body, chemical potential):
+      after,  after: weight 0.96345  energy 0.99595  -> f = 0.1411
+      after,    mid: weight 1.00767  energy 0.99671  -> f = 0.1476
+        mid,    mid: weight 0.98822  energy 1.00017  -> f = 0.1448
+     before,    mid: weight 0.96909  energy 1.00359  -> f = 0.1420
+     before, before: weight 1.01355  energy 1.00439  -> f = 0.1485
+   principal rule (after, after): f = 0.1411 against Carr's 0.142; the consistent rule (after, mid) gives 0.1476; two builds differ by 3.2e-08
+
+==============================================================================
 L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)
 ==============================================================================
    r_c - l = 0;  kappa - 1/l = 0;  A - 12 pi/Lambda = 0  (A = 4 pi l^2; not 4 pi/Lambda)

@@ -6,7 +6,7 @@ weight 0.142 against 0.147 for a neutral one, and mean emitted energies 4.18 and
 radial system, validated at g = 0 against the accepted greybody references to 2e-7; reference_chain.py: grey-body grid, quadrature and the birth-death chain) gives, for the model
 with every charge taken after the emission, weight ratio 0.9634 (f = 0.1416) and energy ratio 0.9960, and other charge-assignment rules give ratios from 0.93 to 1.05: the O(alpha)
 effect depends on the assignment, which is the same order as the self-energy corrections Page ignored. The oracle checks the builds against the reference, not against the
-literature numbers (the literature ratio is reproduced within its quoted digits by the principal rule only)."""
+literature numbers (the literature ratio 0.142 lies within the quoted digits for the principal rule (after, after) and also for (before, mid); the audit showed the thermodynamically consistent rule (after, mid) gives ~1.008)."""
 import importlib.util, json, math, os
 
 _here = os.path.dirname(os.path.abspath(__file__))
@@ -77,3 +77,11 @@ ORACLE = [("g = 0 reproduces the accepted greybody fermion references", gamma_g0
           ("weight and energy ratios, rule (before, before)", ratio_check(("before", "before"), 1.0)),
           ("weight and energy ratios, rules (after, mid) and (mid, mid)", lambda m: (ratio_check(("after", "mid"), 1.0)(m)[0] and ratio_check(("mid", "mid"), 1.0)(m)[0], "rules (after, mid) and (mid, mid)")),
           ("stationary charge distribution", distribution_check)]
+
+
+# Checks adopted from the Opus audit (AUDIT.md): seven wrong mutants had survived the first gate.
+import importlib.util as _iu, os as _os
+_pa = _iu.spec_from_file_location("charged_half_audit_checks", _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "audit_proposed_checks.py"))
+AC = _iu.module_from_spec(_pa)
+_pa.loader.exec_module(AC)
+ORACLE = ORACLE + list(AC.CHECKS)

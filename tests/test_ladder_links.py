@@ -316,3 +316,13 @@ def test_bosonic_dr_link_29():
     a = LL._load_bos_dr_build("a")
     for p in ((80.38, 91.19, 125.0, 1 / 128.0), (75.0, 100.0, 60.0, 1 / 130.0)):
         assert abs(a.delta_r_bos(*p) / b.delta_r_bos(*p) - 1) < 1e-12
+
+
+def test_charged_half_link_30():
+    w0, rr, wp, diff = LL.charged_half_derived()
+    assert abs(rr[("after", "after")][0] - 0.963447) < 2e-6 and abs(rr[("after", "after")][1] - 0.995946) < 2e-6
+    assert abs(rr[("after", "mid")][0] - 1.007675) < 2e-6 and abs(rr[("mid", "mid")][0] - 0.988218) < 2e-6
+    assert abs(rr[("before", "before")][0] - 1.013553) < 2e-6
+    assert abs(wp - 0.1411) < 1e-4 and diff < 1e-6          # two builds agree
+    # the 3-digit window of Carr's 0.142 is hit by the principal rule only among the headline rules except (before, mid)
+    assert 0.9593 < rr[("after", "after")][0] < 0.9727 and not 0.9593 < rr[("after", "mid")][0] < 0.9727

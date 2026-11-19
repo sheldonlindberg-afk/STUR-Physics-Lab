@@ -411,12 +411,10 @@ L24 The emission weights of L7, derived: the grey-body campaign. Rung 6, quoted 
       0.0602, 0.00687, against the quoted 0.267, 0.147, 0.060, 0.007 (differences 0.2%, 0.3%, 0.4%, 1.9%, all
       within the quoted digits). An auditor's independent solver (WKB projection at large R, no asymptotic series)
       reproduces P_s to 1e-9 and the low-frequency limits of Gamma are exact. (CHECK; two builds, audit, oracle)
-  L24b What it does not reproduce: Carr's 0.142 for charged spin-1/2 against 0.147 for neutral. Massless grey-body
-      factors give one spin-1/2 weight, 0.1465. L7's Standard Model count f = 15.332 uses the quoted 0.142 for charged
-      fermions; with the derived 0.1465 for every fermion it would be 15.71, 2.5% above Carr's 15.35. Carr et al.
-      (eqs. 12-13) quote the two weights with different mean emitted energies (4.22 and 4.18 T_BH) from MacGibbon 1991
-      after Page 1976-77, so the charged value is a different (massive charged-lepton) calculation than the massless
-      grey-body factors here; not derived here, and its source could not be retrieved. (FOLLOWS; located, not resolved)
+  L24b Carr's 0.142 for charged spin-1/2 against 0.147 for neutral: massless grey-body factors give one spin-1/2 weight,
+      0.1465, so the charged value is a different calculation (Page 1977: charge fluctuations of the hole, see L30), no
+      longer open in kind but convention dependent. L7's SM count f = 15.332 uses the quoted 0.142; with 0.1465 for every
+      fermion it would be 15.71. (see L30)
 L25 Hawking radiation from a collapsing shell: the map behind L19, derived. Rung 6, quoted -> derived.
   L25a L19 assumed the map u = -(1/kappa) ln(-kappa U) between the horizon-crossing coordinate and retarded time. For a thin null
       shell that collapses to a Schwarzschild hole of mass M (flat inside, Schwarzschild outside, the shell at advanced time v0)
@@ -464,6 +462,14 @@ L29 The whole bosonic one-loop Delta r. Rung 1, quoted -> derived (non-fermionic
       [6 + (7 - 4 s^2)/(2 s^2) ln c^2], UV finite and mu independent. (CHECK; four builds, two audits with independent derivations, oracle)
   L29b Delta r_bos(125.2 GeV) = 4.0e-3; with Delta alpha and the top loop M_W = 80.456 GeV against 80.369 measured. What remains is fermionic and higher
       order (not derived here). (CHECK; FOLLOWS)
+L30 Carr's charged spin-1/2 weight 0.142: Page's charge fluctuations. Rung 6 (with rung 1's charge), quoted -> derived, convention dependent.
+  L30a Two blind builds (campaign charged_half, ACCEPTED.md) of a massless Dirac field in Schwarzschild with Coulomb energy g/r (g = alpha q n), the horizon
+      chemical potential g/2, grey-body factors Gamma_j(w; g), emission rates of e- and e+, and the stationary distribution of the hole charge n (birth-death chain,
+      <n^2> = 11.8). Gamma agrees with an independent Whittaker-matching solver to 3e-8; the builds to 3e-8 on the ratios. (CHECK; two builds, audit, oracle)
+  L30b The weight ratio (charged/neutral) depends on which hole charge (before, mid, after emission) the grey-body factor and the chemical potential use:
+      (after, after) 0.9634 (f = 0.1411 against 0.142, inside the quoted digits), (mid, mid) 0.988, (after, mid), the thermodynamically consistent rule, 1.0077
+      (f = 0.1476), (before, before) 1.014; nine rules span 0.93-1.05 and only +1.85 alpha of the O(alpha) slope is the fluctuation effect itself. The energy
+      ratio 0.9959 does not reproduce the literature 0.9905 and cannot in this model. So 0.142 is reproduced by one convention, not derived. (CHECK; FOLLOWS)
 L14 Bekenstein bound: rung 6 -> rung 4. S <= 2 pi k R E / (hbar c). A Schwarzschild black hole
   (R = 2GM/c^2, E = M c^2) saturates it exactly, = A / 4 l_P^2 (CHECK, symbolic). Design A's
   diamond (radius 1.0 um, 7.4e11 atoms): Bekenstein bound 2.6e23 k_B, holographic bound
@@ -1604,6 +1610,28 @@ def bosonic_dr_derived(mh=125.20, mZ=91.1880, name="a"):
     return bos, MW, rest, b.delta_r_bos(MW, mZ, MW, ALPHA_0), b.delta_vb(MW, mZ, ALPHA_0), diff
 
 
+def _load_charged_half_build(name):
+    """The accepted charged_half build `name` (a blind build of Page's charged-hole Dirac emission model)."""
+    import importlib.util
+    here = os.path.dirname(os.path.abspath(__file__))
+    spec = importlib.util.spec_from_file_location("charged_half_build_" + name, os.path.join(here, "..", "rebuild", "campaigns", "charged_half", "builds", name, "charged_half.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def charged_half_derived(name="a"):
+    """L30: Carr's charged spin-1/2 weight 0.142 from Page's charge fluctuations. Returns (neutral weight 0.1465 from L24, {rule: (weight ratio, energy ratio)},
+    the principal-rule weight, the two builds' largest difference over the rules)."""
+    a = _load_charged_half_build(name)
+    b = _load_charged_half_build("b" if name == "a" else "a")
+    al = ALPHA_0
+    rules = [("after", "after"), ("after", "mid"), ("mid", "mid"), ("before", "mid"), ("before", "before")]
+    out = {r: (a.weight_ratio(al, r), a.energy_ratio(al, r)) for r in rules}
+    diff = max(abs(a.weight_ratio(al, r) - b.weight_ratio(al, r)) for r in rules)
+    return 0.1465, out, 0.1465 * out[("after", "after")][0], diff
+
+
 # ---------------------------------------------------------------------------------- L6
 def carbon12_binding():
     """L6a: B = 6 m_p + 6 m_n + 6 m_e - 12 u, in MeV, and per nucleon."""
@@ -2072,6 +2100,13 @@ def main():
     bos29, mw29, rest29, bos_ref29, vb29, diff29 = bosonic_dr_derived()
     print(f"   Delta r_bos(m_H = 125.2) = {bos29:.6e} at M_W = {mw29:.3f} GeV (m_H = M_W: {bos_ref29:.6e}); delta_VB = {vb29:.6e}; two builds differ by {diff29:.1e} (relative)")
     print(f"   M_W from Delta alpha + the top loop (L18) + Delta r_bos: {mw29:.3f} GeV (measured {MW_MEAS}); remainder Delta r_rest closing it: {rest29:+.4f}")
+
+    banner("L30  Carr's charged spin-1/2 weight: Page's charge fluctuations, and how much of it is convention (CHECK)")
+    w0_30, rr30, wp30, d30 = charged_half_derived()
+    print(f"   neutral weight {w0_30}; weight ratio (charged / neutral) by the rule for which hole charge a particle sees (grey-body, chemical potential):")
+    for r, (wr, er) in rr30.items():
+        print(f"     {r[0]:>6s}, {r[1]:>6s}: weight {wr:.5f}  energy {er:.5f}  -> f = {w0_30 * wr:.4f}")
+    print(f"   principal rule (after, after): f = {wp30:.4f} against Carr's 0.142; the consistent rule (after, mid) gives {w0_30 * rr30[('after', 'mid')][0]:.4f}; two builds differ by {d30:.1e}")
 
     banner("L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)")
     d_rc, d_k, d_A, d_S, d_S2, fac = de_sitter_entropy_symbolic()
