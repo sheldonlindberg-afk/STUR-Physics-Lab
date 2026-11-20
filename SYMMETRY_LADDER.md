@@ -573,7 +573,7 @@ A Schwarzschild black hole saturates S ≤ 2πkRE/ħc exactly (it equals A/4l_P�
 | **4** | | | | | L10 | L4, L13, L14 |
 | **5** | | | | | | L5, L11 |
 
-Empty cells are pairs with no link computed: 2–3 and 3–5. L15 fills 1–5 and 2–5 with the
+Empty cells are pairs with no link computed: 2–3 and 3–5. Scoping (`LINKS_SCOPING.md`, formulas from the agent's own knowledge, to be re-checked before any campaign): **3–5 has no link by the structure of the rungs** (rung 3 computes energy differences of a massless field at laboratory distances, rung 5 has one absolute scale ℓ; they meet only through powers of r/ℓ ≈ 10⁻³⁰, e.g. the de Sitter thermal correction to Casimir–Polder, η − 1 ≈ 10⁻¹⁸³, an exact identity and not a prediction). **2–3 has no link in the apparatus**: the one candidate that passes the novelty test is the nucleon's electric polarizability from rung 2's pion cloud (leading-order chiral perturbation theory, α_E = 5αg_A²/(96πf_π²m_π) ≈ 12.6×10⁻⁴ fm³ with these constants, against 11.2(4) measured), fed into rung 3's Casimir–Polder formula; for the diamond experiment it is negligible (about 10⁻¹⁷ to 10⁻¹⁶ of diamond's electronic polarizability). It could be run as a campaign, with weak independence (every builder knows the textbook formula). The 3–4 cell is already a link in substance (the 181 µm gap). L15 fills 1–5 and 2–5 with the
 vacuum-energy comparison, which quantifies the cosmological-constant problem without
 solving it. L10e closes the open coefficient of L10c. Still open: the holographic reading
 of S_dS (L11d), which counts microstates this repository cannot derive.
