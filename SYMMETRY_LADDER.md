@@ -375,7 +375,7 @@ splitting use α(0). This link shows they are one coupling at two scales.
 | L11a | Rung 5's vacuum f = 1 − r²/l² has a horizon at r = l with κ = 1/l (rung 6's Killing definition), so T_dS = ħc/(2πk_B l). The area is **A = 4πl² = 12π/Λ** (not 4π/Λ) and S_dS = A/4l_P² = **3πc³/(GħΛ)** = π × rung 5's coupling 3/(GΛ). The form πc³/(GħΛ) is a factor 3 too small | CHECK, symbolic |
 | L11b | At every Schwarzschild–de Sitter horizon, from the same f: dM = (f′(r_h)/4π) dS. It is dM = T dS at the black-hole horizon and dM = −T dS at the cosmological one | CHECK, symbolic |
 | L11c | S_bh + S_c < S_dS for every black hole the universe allows (9M²Λ < 1), approaching it as M → 0, because r_b² + r_c² + (r_b + r_c)² = 2l² exactly | CHECK |
-| L11d | At the measured Λ: l = 1.65×10²⁶ m, **S_dS = 3.3×10¹²² k_B**, T_dS = 2.2×10⁻³⁰ K. That S_dS counts microstates is the holographic reading; only the area law and Λ are used here | CHECK; LIT; FOLLOWS |
+| L11d | At the measured Λ: l = 1.65×10²⁶ m, **S_dS = 3.3×10¹²² k_B**, T_dS = 2.2×10⁻³⁰ K. The number is the Gibbons–Hawking area-law entropy of the cosmological horizon (semi-classical). That it counts microstates (e^S = dim H of the static patch) is a conjecture (Banks–Fischler, dS/CFT, static-patch proposals) that is neither derived nor tested here; only the area law and Λ are used. Status of the proposals and the objections: [HOLOGRAPHY_NOTE.md](HOLOGRAPHY_NOTE.md) (sources partly seen only as abstracts) | CHECK; LIT; MODEL (the microstate reading) |
 
 ### Link 15: the cosmological constant against each rung's vacuum energy, from rung 5 to rungs 1, 2, 4 (`src/ladder_links.py` L15)
 

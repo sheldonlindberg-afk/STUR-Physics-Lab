@@ -215,9 +215,9 @@ L11 The cosmological horizon's entropy: rung 5 -> rung 6.
   L11d The measured Lambda (Planck 2018 with BAO, as rungs 5 and 6): l = 1.65e26 m, S_dS =
       3.3e122 k_B, T_dS = 2.2e-30 K. The cosmological-constant problem, in rung 6's
       terms: the entropy of the vacuum is the inverse of how small Lambda is in Planck units.
-      Not tested: that S_dS counts microstates (the holographic reading); only that the area
-      law of rung 6 and the Lambda of rung 5 give it. (CHECK; LIT Lambda; FOLLOWS for the
-      reading)
+      That S_dS counts microstates (the holographic reading) is a conjecture, neither derived
+      nor tested here; only the area law of rung 6 and the Lambda of rung 5 give the number.
+      (CHECK; LIT Lambda; MODEL for the reading; see HOLOGRAPHY_NOTE.md)
 L12 Neutrino mass from rung 1's breaking scale: rung 1 -> low-energy oscillation data.
   L12a Rung 1's lepton triplet, from its charges (src/m331_breaking.py B6): beta = -1/sqrt3 has
       (nu, e, N) with N electrically neutral; beta = +1/sqrt3 has (nu, e, E^-) with a charged
