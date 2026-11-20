@@ -1,0 +1,6 @@
+Transcript audit of the builder of dr_xi build a (room room-dr_xi-a) after all rounds, run 2026-11-20T11:47:21Z
+NOTE: build a was restarted from a fresh room after a container restart killed the first builder; this transcript covers the whole build; the lost first attempt (lost-room-dr_xi-a) was discarded and not used.
+transcript sha256: c308301ee03a7b5568d160c7702e90dfa5187a7a2b2af879a7f6ad7cfce0f5e7  (163 lines)
+command: python3 audit_transcript.py <transcript> <room> --canary <tokens from CANARIES.txt>; cwd-aware
+tool calls: {'Bash': 45, 'Write': 5, 'SubagentHandback': 1}
+ISOLATION RECORD CLEAN

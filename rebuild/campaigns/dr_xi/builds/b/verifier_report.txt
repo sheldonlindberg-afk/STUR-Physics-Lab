@@ -1,0 +1,23 @@
+== contract
+   [PASS] export delta_r_se
+   [PASS] export delta_r_vbw
+   [PASS] export delta_r_bos_xi
+   [PASS] PROVENANCE is a dict covering every export
+   [PASS] PROVENANCE[delta_r_se] valid (kind and note)
+   [PASS] PROVENANCE[delta_r_vbw] valid (kind and note)
+   [PASS] PROVENANCE[delta_r_bos_xi] valid (kind and note)
+   [PASS] DERIVATION.md exists
+== lint
+   [PASS] lint
+== blind
+   [PASS] first order in alpha
+   [PASS] the total is independent of xi (0 ... 1000)
+   [PASS] SE + VBW = total at every mu and xi
+   [PASS] large-MH slope 11 alpha / 48 pi s^2 in every xi
+   [PASS] the classes depend on xi and compensate
+== oracle
+   [PASS] total against the reference at every xi  (total against the xi = 1 reference at 5 points x 6 xi: worst 3.3e-15 at ((80.38, 91.19, 125.0, 0.0078125), 0.0))
+   [PASS] SE + VBW against the reference, xi and mu varied  (SE + VBW against the reference, xi and mu varied: worst 6.4e-15 at (80.38, 91.19, 125.0, 5.0, 3000.0))
+   [PASS] M_H scan at three xi  (M_H from 1 GeV to 1e9 GeV at three xi: worst 3.2e-14 at (20.0, 0.0))
+   [PASS] at the build's own precision  (large M_H at the build's own precision: 2.2e-16)
+GATE PASSED
