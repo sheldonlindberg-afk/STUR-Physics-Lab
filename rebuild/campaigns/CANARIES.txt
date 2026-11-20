@@ -10,3 +10,4 @@ CANARY-2f6c9a47e1b05d83-charged_half
 CANARY-8d1e5b3a7c924f06-ferm_se
 CANARY-4b7a2e9c6d1f8035-dr_xi
 CANARY-6c3e8a1f5b9d2740-qcd_drho
+CANARY-1d9f4c7a2e6b8350-nucleon_pol
