@@ -339,3 +339,12 @@ def test_dr_xi_gauge_independence_link_32():
     tot, spread, dse, dvb, cross, d29 = LL.dr_xi_gauge_independence()
     assert abs(tot / 4.297530731364e-3 - 1) < 1e-9 and spread < 1e-11 and d29 < 1e-9
     assert abs(dse + dvb) < 1e-13 and abs(dse) > 1e-3 and cross < 1e-9      # the classes move and cancel; both builds agree
+
+
+def test_qcd_drho_link_33():
+    import math
+    cp, cm, dr0, mw0, mws, diff = LL.qcd_drho_derived()
+    assert abs(cp + (4 / 3) * (0.5 + math.pi**2 / 6)) < 1e-12 and abs(cm - (4 / 3) * (1.5 - math.pi**2 / 6)) < 1e-12 and diff < 1e-12
+    assert abs(dr0 - 3 * 1.1663788e-5 * LL.M_T_GEV**2 / (8 * math.sqrt(2) * math.pi**2)) < 1e-12
+    assert abs(mw0 - 80.4744) < 5e-4 and abs(mws[0.118][0] - 80.4096) < 5e-4 and abs(mws[0.108][0] - 80.4151) < 5e-4
+    assert mws[0.118][0] < mws[0.108][0] < mw0

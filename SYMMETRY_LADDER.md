@@ -532,6 +532,16 @@ H1 and H2 fix the temperature geometrically; the step that was quoted was that t
 | L32b | Structure found: δZ_e and Σ_W(M_W²)/M_W² − Σ_Z(M_Z²)/M_Z² are ξ independent; all of SE's ξ dependence is in [Σ_W(0) − Σ_W(M_W²)]/M_W², cancelled by the vertex, box and wave-function terms; as ξ → 0⁺ each class diverges like ±(3/4)(α/4π) ln ξ (soft photon with the Goldstone and the W's ξ-pole), the total does not. Class SE agrees with the auditor's independent derivation to 3×10⁻¹⁵ at 49 points; the two builds agree on SE and VBW to 9×10⁻¹⁵ | CHECK |
 | L32c | Not independently derived: class VBW (the builds derived it twice; the audit's check of it follows from gauge independence). The classes at exactly ξ = 0 are infrared divergent and their values a convention (the builds differ by (1/8)(α/4π), equal and opposite). The fermion loops (Link 31) were derived at ξ = 1 only | FOLLOWS |
 
+### Link 33: the QCD correction to the top-bottom Δρ and the M_W relation (`rebuild/campaigns/qcd_drho`, `src/ladder_links.py` L33)
+
+*Accepted: `rebuild/campaigns/qcd_drho/ACCEPTED.md` (two blind Opus builds, a hidden oracle, an Opus audit that re-derived the coefficient by the Goldstone route and made 22 mutants).*
+
+| | Result | Status |
+|---|---|---|
+| L33a | The O(α_s) correction to Δρ of the (t, massless b) doublet, from the two-loop vacuum correlators of the weak currents: **c_pole = −C_F(½ + π²/6) = −2.8599** (C_F = 4/3) and **c_MS-bar(μ = m̄) = C_F(3/2 − π²/6) = −0.1932**, plus (3C_F/2) ln(μ²/m̄²) at other μ; m_pole = m̄[1 + C_F(α_s/π)(1 + ¾ ln(μ²/m̄²))]. The auditor's route (Goldstone self-energies in the gaugeless limit, 150 digits, PSLQ) agrees; ξ independent to 25 digits. **Both builders and the auditor knew the textbook result beforehand**: the agreement shows correct execution, weaker independence than usual | CHECK; two builds, audit, oracle |
+| L33b | With Link 31's one-loop Δr and the pole-mass term −(c²/s²)Δρ₀ c α_s/π (leading m_t² only), M_W falls from 80.474 to **80.410 GeV** (α_s = 0.118) or 80.415 GeV (0.108), against 80.369 measured: the remainder is 0.04 GeV (Δr_rest = 0.0022), down from 0.106 GeV | CHECK; LIT (α_s) |
+| L33c | Not derived: terms beyond leading m_t² and m_b ≠ 0, the other O(αα_s) pieces, O(αα_s²), O(α²) electroweak, the choice of the α_s scale (the 0.006 GeV spread above is one measure of that ambiguity), and the 't Hooft–Veltman γ5 check. The 0.04 GeV left is not claimed to be explained | FOLLOWS |
+
 ### Link 12: neutrino mass from rung 1's breaking scale, to oscillation data (`src/ladder_links.py` L12)
 
 | | Result | Status |

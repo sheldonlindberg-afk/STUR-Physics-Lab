@@ -7,7 +7,7 @@ This page records which script feeds which, and which physical quantities each o
 ## Summary
 
 - **54 scripts** in `src/`, in 6 topics; **101 imports** between them, 36 of them across topics. 12 scripts import nothing from the others and nothing imports them.
-- **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 310 literals in the source.
+- **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 312 literals in the source.
 - **44 quantities are typed in more than one script**; 20 of them are shared by more than one topic.
 - **2 copies differ from their source for a stated reason**; **0 differ without one (drift).**
 
@@ -338,7 +338,7 @@ Each row is one quantity typed into scripts of more than one topic. Where it is 
 | m_c (GeV), MS-bar, α_s threshold | input | 3-3-1 selection, Symmetry ladder | `ladder_links`, `m331_standalone`, `qcd_running` |  |
 | sin²θ_W(M_Z), MS-bar | input | 3-3-1 selection, Symmetry ladder | `chain_branches`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zpole`, `m331_zprime_recast` |  |
 | top-quark mass (GeV) | input | 3-3-1 selection, Symmetry ladder | `chain_branches`, `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone`, `m331_margin`, `m331_scalar`, `m331_standalone`, `m331_yukawa`, `qcd_running` |  |
-| α_s(M_Z) | input | 3-3-1 selection, Symmetry ladder | `chain_first_principles`, `first_principles_standalone`, `m331_margin`, `m331_scalar`, `m331_standalone`, `qcd_running`, `why_parameters` |  |
+| α_s(M_Z) | input | 3-3-1 selection, Symmetry ladder | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `m331_margin`, `m331_scalar`, `m331_standalone`, `qcd_running`, `why_parameters` |  |
 
 **Links through a formula.** Some quantities share inputs without sharing a number:
 
@@ -405,7 +405,7 @@ These are imported from their source by every script that uses them; a typed-in 
 | Γ_Z (GeV) | input | 2.4955 | PDG 2024 | `m331_heavy_lepton`, `m331_zprime_recast` |
 | G_F (GeV⁻²) | input | 1.166379e-5 | PDG 2024 | `chain_first_principles`, `first_principles_standalone`, `force_chain`, `ladder_links`, `ladder_standalone`, `m331_breaking` |
 | electroweak vev (√2 G_F)^(−1/2) (GeV) | derived | 246.22 | src/m331_breaking.py B7 | `ladder_standalone` (rounded), `m331_standalone` (rounded), `m331_yukawa` (rounded) |
-| α_s(M_Z) | input | 0.118 | PDG 2024 | `chain_first_principles`, `first_principles_standalone`, `m331_margin`, `m331_scalar`, `m331_standalone`, `qcd_running`, `why_parameters` |
+| α_s(M_Z) | input | 0.118 | PDG 2024 | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `m331_margin`, `m331_scalar`, `m331_standalone`, `qcd_running`, `why_parameters` |
 | top-quark mass (GeV) | input | 172.57 | PDG 2024 | `chain_branches`, `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone`, `m331_margin`, `m331_scalar`, `m331_standalone`, `m331_yukawa`, `qcd_running` |
 | sin²θ_W(4 TeV) | derived | 0.250507 | one-loop SM running from M_Z (m331_exact.run_two_loop) | `m331_zprime_recast` (rounded) |
 | 1/α(4 TeV) | derived | 125.723 | one-loop SM running from M_Z (m331_exact.run_two_loop) | `m331_zprime_recast` (rounded) |

@@ -6,8 +6,8 @@ Delta rho = N_C G_F m_t^2/(8 sqrt(2) pi^2) [1 - (C_F/2)(1 + pi^2/3)(alpha_s/pi)]
 coefficient shifts by +2 C_F (m_pole = mbar [1 + C_F alpha_s/pi]) to -0.1932; for mu != mbar the running mbar(mu) adds (3 C_F/2) ln(mu^2/mbar^2) (anomalous dimension gamma_m^0 = 3 C_F/4 in a = alpha_s/pi)."""
 import math
 
-LINT_TARGETS = [2.8599, 2.859, 0.1932, 0.193]
-LINT_EXACT = []
+LINT_TARGETS = [2.8599, 2.859, 0.1932, 0.193, 2.1449, 0.14493]     # audit C5: the C_F-stripped values too
+LINT_EXACT = [0.5 + math.pi**2 / 6, 1.5 - math.pi**2 / 6, -(0.5 + math.pi**2 / 6), -(1.5 - math.pi**2 / 6), (3 + math.pi**2) / 6, (9 - math.pi**2) / 6]
 GF = 1.1663788e-5
 
 
@@ -52,3 +52,11 @@ def total_check(m):
 
 
 ORACLE = [("one-loop Delta rho_0", one_check), ("O(alpha_s) coefficient, pole and MS-bar, general C_F and mu", coeff_check), ("Delta rho with QCD", total_check)]
+
+
+# Checks adopted from the Opus audit (AUDIT.md): seven wrong mutants had survived the first gate (C_F or N_C handled only at the physical point, the pole coefficient probed only at mu = m, narrow windows).
+import importlib.util as _iu
+_pa = _iu.spec_from_file_location("qcd_drho_audit_checks", __import__("os").path.join(__import__("os").path.dirname(__import__("os").path.abspath(__file__)), "audit_proposed_checks.py"))
+AC = _iu.module_from_spec(_pa)
+_pa.loader.exec_module(AC)
+ORACLE = ORACLE + list(AC.CHECKS)

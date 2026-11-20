@@ -483,6 +483,13 @@ L32 The whole bosonic one-loop Delta r is gauge-parameter independent: general R
       dependence sits in [Sigma_W(0) - Sigma_W(M_W^2)]/M_W^2. Class SE agrees with an auditor's independent derivation to 3e-15 at 49 points. (CHECK; two builds, audit, oracle)
   L32b Class VBW was derived by the two builds but not independently by the auditor; the classes at xi = 0 are infrared divergent and their values a convention. Fermion loops (L31) were not
       rechecked at xi != 1. (FOLLOWS)
+L33 The QCD correction to the top-bottom Delta rho. Rung 1, quoted -> derived (leading m_t^2).
+  L33a Two blind Opus builds (campaign qcd_drho, ACCEPTED.md) of the O(alpha_s) correction from the two-loop vacuum correlators of the weak currents: c_pole = -C_F (1/2 + pi^2/6)
+      = -2.859912 and c_MSbar(mu = m) = C_F (3/2 - pi^2/6) = -0.193245 (+ (3 C_F/2) ln(mu^2/m^2) at other mu), reproduced by an auditor's Goldstone-route derivation (150 digits, PSLQ).
+      Both builders and the auditor knew the textbook result beforehand (language models): the agreement is evidence of correct execution, weaker evidence of independence. (CHECK; two builds, audit, oracle)
+  L33b With L31's whole one-loop Delta r and the pole-mass correction -(c^2/s^2) Delta rho_0 c alpha_s/pi (leading m_t^2 only): M_W falls from 80.474 to 80.410 GeV (alpha_s = 0.118) or 80.415 GeV
+      (0.108); the remainder to the measured 80.369 GeV is 0.04 GeV (Delta r_rest = 0.0022). Not derived: non-leading O(alpha alpha_s), O(alpha alpha_s^2), O(alpha^2) electroweak; the alpha_s
+      scale is not fixed at this order. (CHECK; LIT alpha_s; FOLLOWS)
 L14 Bekenstein bound: rung 6 -> rung 4. S <= 2 pi k R E / (hbar c). A Schwarzschild black hole
   (R = 2GM/c^2, E = M c^2) saturates it exactly, = A / 4 l_P^2 (CHECK, symbolic). Design A's
   diamond (radius 1.0 um, 7.4e11 atoms): Bekenstein bound 2.6e23 k_B, holographic bound
@@ -1765,6 +1772,19 @@ def _load_qcd_drho_build(name):
     return mod
 
 
+def qcd_drho_derived(mt=M_T_GEV, alphas=(0.108, 0.1180), name="a"):
+    """L33: the O(alpha alpha_s) top-bottom correction to Delta rho (accepted qcd_drho builds) and its effect on L31's one-loop M_W.
+    Returns (c_pole for C_F = 4/3, c_MSbar(mu = m), Delta rho_0, M_W with no QCD, {alpha_s: (M_W, Delta r_rest)}, the two builds' coefficient difference)."""
+    a = _load_qcd_drho_build(name)
+    b = _load_qcd_drho_build("b" if name == "a" else "a")
+    GF = 1.1663788e-5
+    c_pole, c_ms = a.qcd_coeff("pole", 4 / 3, 1.0), a.qcd_coeff("msbar", 4 / 3, 1.0)
+    diff = max(abs(a.qcd_coeff(s_, cf, r) - b.qcd_coeff(s_, cf, r)) for s_, cf, r in (("pole", 4 / 3, 1.0), ("msbar", 4 / 3, 3.0), ("msbar", 0.75, 0.4)))
+    out = {x: ferm_dr_derived(mt=mt, alphas=x, qcd_name=name) for x in alphas}
+    mw0 = ferm_dr_derived(mt=mt)[0]
+    return c_pole, c_ms, a.delta_rho_oneloop(mt, GF, 3), mw0, {x: (out[x][0], out[x][-1]) for x in alphas}, diff
+
+
 # ---------------------------------------------------------------------------------- L6
 def carbon12_binding():
     """L6a: B = 6 m_p + 6 m_n + 6 m_e - 12 u, in MeV, and per nucleon."""
@@ -2251,6 +2271,11 @@ def main():
     tot32, spr32, dse32, dvb32, cr32, d29 = dr_xi_gauge_independence()
     print(f"   Delta r_bos = {tot32:.12e}; relative spread over xi = 1e-9 ... 1e6: {spr32:.1e}; difference to the xi = 1 module of L29: {d29:.1e}")
     print(f"   between xi = 1 and 4 class SE changes by {dse32:+.4e} and class VBW by {dvb32:+.4e} (they cancel); the two builds agree on both classes to {cr32:.1e}")
+
+    banner("L33  The QCD correction to the top-bottom Delta rho and the M_W relation (CHECK; LIT alpha_s)")
+    cp33, cm33, dr0_33, mw0_33, mws33, d33 = qcd_drho_derived()
+    print(f"   c_pole = {cp33:.6f}, c_MSbar(mu = m) = {cm33:.6f} (C_F = 4/3); Delta rho_0 = {dr0_33:.6f}; the two builds differ by {d33:.0e}")
+    print(f"   M_W: no QCD {mw0_33:.3f} GeV; " + "; ".join(f"alpha_s = {x}: {v[0]:.3f} GeV (Delta r_rest {v[1]:+.4f})" for x, v in mws33.items()) + f"; measured {MW_MEAS}")
 
     banner("L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)")
     d_rc, d_k, d_A, d_S, d_S2, fac = de_sitter_entropy_symbolic()
