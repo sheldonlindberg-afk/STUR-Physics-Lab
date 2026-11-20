@@ -73,3 +73,10 @@ ORACLE = [("total against the reference at every xi", total_check),
           ("SE + VBW against the reference, xi and mu varied", sum_check),
           ("M_H scan at three xi", mh_xi_check),
           ("at the build's own precision", own_precision_check)]
+
+
+# Checks adopted from the Opus audit (AUDIT.md): ten wrong mutants had survived the first gate (anything moved between the classes SE and VBW, small-xi branches, a Feynman-gauge photon or Z).
+_pa = importlib.util.spec_from_file_location("dr_xi_audit_checks", os.path.join(os.path.dirname(os.path.abspath(__file__)), "audit_proposed_checks.py"))
+AC = importlib.util.module_from_spec(_pa)
+_pa.loader.exec_module(AC)
+ORACLE = ORACLE + list(AC.CHECKS)

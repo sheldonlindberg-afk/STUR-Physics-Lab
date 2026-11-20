@@ -476,6 +476,13 @@ L31 The fermionic one-loop Delta r: fermion-loop self-energies. Rung 1, quoted -
   L31b Combined as in L29: Delta r_ferm = 0.0253 (u, d, s, c, b at model masses; 0.0257 with the quoted Delta alpha_had replacing those loops), independent of mu to 3e-17 and
       identical in the two builds to 3e-17; the leptonic Delta alpha at M_Z comes out 0.031419 against the literature one-loop 0.0314190. With L29's bosonic part: M_W = 80.474 GeV
       against 80.369 measured; the 0.106 GeV left (Delta r_rest = 0.0057) is QCD and two-loop. (CHECK; LIT for Delta alpha_had; FOLLOWS)
+L32 The whole bosonic one-loop Delta r is gauge-parameter independent: general R_xi, no provided module. Rung 1, quoted -> derived.
+  L32a Two blind builds (campaign dr_xi, ACCEPTED.md) derived, with the Feynman rules generated from the Lagrangian in code, the gauge-boson self-energies, the photon-Z mixing, the on-shell
+      renormalization (class SE) and the vertex, box and lepton wave-function diagrams with the Fermi subtraction (class VBW) in R_xi. The total is independent of xi from 1e-9 to 1e6 and equals
+      L29's xi = 1 value to 1e-15; the classes shift by -/+ 2.5e-3 between xi = 0 and 1 (benchmark) and cancel; delta Z_e and Sigma_W/M_W^2 - Sigma_Z/M_Z^2 are xi independent, all of SE's xi
+      dependence sits in [Sigma_W(0) - Sigma_W(M_W^2)]/M_W^2. Class SE agrees with an auditor's independent derivation to 3e-15 at 49 points. (CHECK; two builds, audit, oracle)
+  L32b Class VBW was derived by the two builds but not independently by the auditor; the classes at xi = 0 are infrared divergent and their values a convention. Fermion loops (L31) were not
+      rechecked at xi != 1. (FOLLOWS)
 L14 Bekenstein bound: rung 6 -> rung 4. S <= 2 pi k R E / (hbar c). A Schwarzschild black hole
   (R = 2GM/c^2, E = M c^2) saturates it exactly, = A / 4 l_P^2 (CHECK, symbolic). Design A's
   diamond (radius 1.0 um, 7.4e11 atoms): Bekenstein bound 2.6e23 k_B, holographic bound
@@ -1713,6 +1720,36 @@ def ferm_dr_derived(mZ=91.1880, mt=M_T_GEV, name="a", mu=None):
     return MW, raw, raw + shift, abs(raw2 - raw), abs(other_raw - raw), dal_lep, rest
 
 
+def _load_dr_xi_build(name):
+    """The accepted dr_xi build `name` (blind build of the bosonic one-loop Delta r in general R_xi gauge)."""
+    import importlib.util
+    here = os.path.dirname(os.path.abspath(__file__))
+    spec = importlib.util.spec_from_file_location("dr_xi_build_" + name, os.path.join(here, "..", "rebuild", "campaigns", "dr_xi", "builds", name, "dr_xi.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def dr_xi_gauge_independence(mw=80.38, mz=91.19, mh=125.0, al=2.0**-7, name="a"):
+    """L32: the whole bosonic one-loop Delta r in R_xi gauge. Returns (the total at xi = 1, the relative spread of the total over xi = 1e-9 ... 1e6,
+    SE(xi = 4) - SE(1) and VBW(xi = 4) - VBW(1) (equal and opposite), the two builds' relative difference of SE and VBW over xi in 0.3 ... 1000,
+    the difference to L29's xi = 1 module bos_dr)."""
+    b = _load_dr_xi_build(name)
+    o = _load_dr_xi_build("b" if name == "a" else "a")
+    xs = (1e-9, 1e-3, 0.3, 1.0, 4.0, 25.0, 1e3, 1e6)
+    tot = [b.delta_r_bos_xi(mw, mz, mh, al, x) for x in xs]
+    spread = (max(tot) - min(tot)) / abs(tot[3])
+    mu = mw
+    dse = b.delta_r_se(mw, mz, mh, al, 4.0, mu) - b.delta_r_se(mw, mz, mh, al, 1.0, mu)
+    dvb = b.delta_r_vbw(mw, mz, al, 4.0, mu) - b.delta_r_vbw(mw, mz, al, 1.0, mu)
+    cross = 0.0
+    for x in (0.3, 1.0, 4.0, 1e3):
+        cross = max(cross, abs(b.delta_r_se(mw, mz, mh, al, x, mu) / o.delta_r_se(mw, mz, mh, al, x, mu) - 1),
+                    abs(b.delta_r_vbw(mw, mz, al, x, mu) / o.delta_r_vbw(mw, mz, al, x, mu) - 1))
+    bd = _load_bos_dr_build("a")
+    return tot[3], spread, dse, dvb, cross, abs(tot[3] / bd.delta_r_bos(mw, mz, mh, al) - 1)
+
+
 # ---------------------------------------------------------------------------------- L6
 def carbon12_binding():
     """L6a: B = 6 m_p + 6 m_n + 6 m_e - 12 u, in MeV, and per nucleon."""
@@ -2194,6 +2231,11 @@ def main():
     print(f"   Delta r_ferm = {raw31:.6f} (model light-quark masses), {shifted31:.6f} with the quoted Delta alpha_had; mu dependence {dmu31:.0e}; two builds differ by {dbuild31:.0e}")
     print(f"   Delta alpha_lep(M_Z), one loop, from Sigma'_AA(0) - Sigma_AA(M_Z^2)/M_Z^2: {dal31:.6f} (literature one loop {DALPHA_LEP_1LOOP_LIT:.6f})")
     print(f"   M_W with the whole one-loop Delta r (L29 bosonic + this): {mw31:.3f} GeV (measured {MW_MEAS}); remainder Delta r_rest = {rest31:+.4f} (QCD, two loop; not derived)")
+
+    banner("L32  The whole bosonic one-loop Delta r is gauge-parameter independent: general R_xi (CHECK)")
+    tot32, spr32, dse32, dvb32, cr32, d29 = dr_xi_gauge_independence()
+    print(f"   Delta r_bos = {tot32:.12e}; relative spread over xi = 1e-9 ... 1e6: {spr32:.1e}; difference to the xi = 1 module of L29: {d29:.1e}")
+    print(f"   between xi = 1 and 4 class SE changes by {dse32:+.4e} and class VBW by {dvb32:+.4e} (they cancel); the two builds agree on both classes to {cr32:.1e}")
 
     banner("L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)")
     d_rc, d_k, d_A, d_S, d_S2, fac = de_sitter_entropy_symbolic()

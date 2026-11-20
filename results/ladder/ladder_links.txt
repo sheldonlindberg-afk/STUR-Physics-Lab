@@ -300,6 +300,12 @@ L31  The fermionic one-loop Delta r: fermion-loop self-energies (CHECK; LIT Delt
    M_W with the whole one-loop Delta r (L29 bosonic + this): 80.474 GeV (measured 80.3692); remainder Delta r_rest = +0.0057 (QCD, two loop; not derived)
 
 ==============================================================================
+L32  The whole bosonic one-loop Delta r is gauge-parameter independent: general R_xi (CHECK)
+==============================================================================
+   Delta r_bos = 4.297530731364e-03; relative spread over xi = 1e-9 ... 1e6: 0.0e+00; difference to the xi = 1 module of L29: 4.4e-16
+   between xi = 1 and 4 class SE changes by +1.0601e-02 and class VBW by -1.0601e-02 (they cancel); the two builds agree on both classes to 5.3e-15
+
+==============================================================================
 L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)
 ==============================================================================
    r_c - l = 0;  kappa - 1/l = 0;  A - 12 pi/Lambda = 0  (A = 4 pi l^2; not 4 pi/Lambda)

@@ -333,3 +333,9 @@ def test_ferm_dr_link_31():
     assert abs(mw - 80.4744) < 5e-4 and abs(raw - 0.0253293) < 1e-6 and abs(shifted - 0.0256835) < 1e-6
     assert dmu < 1e-12 and dbuild < 1e-12                       # mu independence and the two builds
     assert abs(dal - LL.DALPHA_LEP_1LOOP_LIT) < 5e-7 and abs(rest - 0.00566) < 5e-5
+
+
+def test_dr_xi_gauge_independence_link_32():
+    tot, spread, dse, dvb, cross, d29 = LL.dr_xi_gauge_independence()
+    assert abs(tot / 4.297530731364e-3 - 1) < 1e-9 and spread < 1e-11 and d29 < 1e-9
+    assert abs(dse + dvb) < 1e-13 and abs(dse) > 1e-3 and cross < 1e-9      # the classes move and cancel; both builds agree

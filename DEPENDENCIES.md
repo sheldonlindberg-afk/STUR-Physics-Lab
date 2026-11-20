@@ -7,7 +7,7 @@ This page records which script feeds which, and which physical quantities each o
 ## Summary
 
 - **54 scripts** in `src/`, in 6 topics; **101 imports** between them, 36 of them across topics. 12 scripts import nothing from the others and nothing imports them.
-- **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 309 literals in the source.
+- **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 310 literals in the source.
 - **44 quantities are typed in more than one script**; 20 of them are shared by more than one topic.
 - **2 copies differ from their source for a stated reason**; **0 differ without one (drift).**
 

@@ -30,6 +30,9 @@ Below every threshold the quantities are real; at or above, return the real part
   It does *not* contain the photon–Z mixing piece (that is in SE).
 * The total Δr_bos = SE + VBW is UV finite, μ independent and ξ independent.
 
+**Landau gauge, ξ = 0 exactly (clarification added after the audit).** The classes SE and VBW are separately infrared divergent at ξ = 0 and diverge like ±(3/4)(α/4π) ln ξ as ξ → 0⁺; the total is finite and ξ independent. At ξ = 0 their *values* therefore
+depend on how the infrared pole is subtracted, a convention this SPEC does not fix: state yours (the two accepted builds differ by the constant (1/8)(α/4π), equal and opposite in the two classes). Only ξ > 0 values of the classes are compared between builds.
+
 ## 3. Exports (exact signatures in campaign.py)
 
 `delta_r_se(MW, MZ, MH, alpha, xi, mu)`: class SE, MS-bar at μ.
