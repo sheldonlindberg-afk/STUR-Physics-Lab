@@ -293,6 +293,13 @@ L30  Carr's charged spin-1/2 weight: Page's charge fluctuations, and how much of
    principal rule (after, after): f = 0.1411 against Carr's 0.142; the consistent rule (after, mid) gives 0.1476; two builds differ by 3.2e-08
 
 ==============================================================================
+L31  The fermionic one-loop Delta r: fermion-loop self-energies (CHECK; LIT Delta alpha_had)
+==============================================================================
+   Delta r_ferm = 0.025329 (model light-quark masses), 0.025684 with the quoted Delta alpha_had; mu dependence 3e-17; two builds differ by 3e-17
+   Delta alpha_lep(M_Z), one loop, from Sigma'_AA(0) - Sigma_AA(M_Z^2)/M_Z^2: 0.031419 (literature one loop 0.031419)
+   M_W with the whole one-loop Delta r (L29 bosonic + this): 80.474 GeV (measured 80.3692); remainder Delta r_rest = +0.0057 (QCD, two loop; not derived)
+
+==============================================================================
 L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)
 ==============================================================================
    r_c - l = 0;  kappa - 1/l = 0;  A - 12 pi/Lambda = 0  (A = 4 pi l^2; not 4 pi/Lambda)

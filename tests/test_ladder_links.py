@@ -326,3 +326,10 @@ def test_charged_half_link_30():
     assert abs(wp - 0.1411) < 1e-4 and diff < 1e-6          # two builds agree
     # the 3-digit window of Carr's 0.142 is hit by the principal rule only among the headline rules except (before, mid)
     assert 0.9593 < rr[("after", "after")][0] < 0.9727 and not 0.9593 < rr[("after", "mid")][0] < 0.9727
+
+
+def test_ferm_dr_link_31():
+    mw, raw, shifted, dmu, dbuild, dal, rest = LL.ferm_dr_derived()
+    assert abs(mw - 80.4744) < 5e-4 and abs(raw - 0.0253293) < 1e-6 and abs(shifted - 0.0256835) < 1e-6
+    assert dmu < 1e-12 and dbuild < 1e-12                       # mu independence and the two builds
+    assert abs(dal - LL.DALPHA_LEP_1LOOP_LIT) < 5e-7 and abs(rest - 0.00566) < 5e-5

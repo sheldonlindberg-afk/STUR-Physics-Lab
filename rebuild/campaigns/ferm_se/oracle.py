@@ -32,6 +32,8 @@ def _dev(v, r, scale):
         return float("inf")
     if not math.isfinite(v):
         return float("inf")
+    if abs(v - r) <= 1e-13 * scale:      # audit C1: exact zeros (Sigma^AA(0), Sigma^AZ(0)) are met only to roundoff
+        return 0.0
     return abs(v - r) / (abs(r) + 1e-9 * scale)
 
 
@@ -136,3 +138,10 @@ ORACLE = [("all four self-energies against the reference: fermion sets x (k^2, m
           ("one fermion mass from 1e-6 to 1e4 GeV", mass_scan_check),
           ("real parts above the thresholds", above_threshold_check),
           ("at the build's own precision", own_precision_check)]
+
+
+# Checks adopted from the Opus audit (AUDIT.md): seven wrong mutants had survived the first gate.
+_pa = importlib.util.spec_from_file_location("ferm_se_audit_checks", os.path.join(os.path.dirname(os.path.abspath(__file__)), "audit_proposed_checks.py"))
+AC = importlib.util.module_from_spec(_pa)
+_pa.loader.exec_module(AC)
+ORACLE = ORACLE + list(AC.CHECKS)

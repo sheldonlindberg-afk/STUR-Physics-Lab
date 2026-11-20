@@ -406,7 +406,7 @@ splitting use α(0). This link shows they are one coupling at two scales.
 |---|---|---|
 | L18a | The W and Z self-energies at q² = 0 from the fermion loop in dimensional regularization, with rung 1's couplings T₃ − Qs². The vector Ward identity holds; Δρ has no 1/ε pole and no s² dependence; it equals N_cG_F/(8√2π²)[m_t² + m_b² − 2m_t²m_b² ln(m_t²/m_b²)/(m_t² − m_b²)], which is 3G_Fm_t²/(8√2π²) for m_b → 0 | CHECK, symbolic |
 | L18b | With m_t = 172.57, m_b = 4.18 GeV (PDG 2024): **Δρ = 9.26×10⁻³** | CHECK; LIT |
-| L18c | M_W from G_F, α(0), M_Z with Δr built up: tree **80.94** GeV; + Δα (L9's leptons, hadrons quoted) 79.96; + top loop 80.53; + Higgs term (derived in Links 26–27) **80.50**; with the whole bosonic Δr (Link 29) **80.456**, against 80.37 measured. The 0.13 GeV left (0.09 GeV after Link 29) is Δr_rest = 0.0075 (0.0049); the total Δr = 0.0356 | CHECK (top loop); LIT |
+| L18c | M_W from G_F, α(0), M_Z with Δr built up: tree **80.94** GeV; + Δα (L9's leptons, hadrons quoted) 79.96; + top loop 80.53; + Higgs term (derived in Links 26–27) **80.50**; with the whole bosonic Δr (Link 29) **80.456**, and with the fermion loops derived too (Link 31) **80.474**, against 80.37 measured. The 0.13 GeV left (0.09 GeV after Link 29) is Δr_rest = 0.0075 (0.0049); the total Δr = 0.0356 | CHECK (top loop); LIT |
 | L18d | B7's +0.35% on M_Z is in the MS-bar scheme, where ŝ²(M_Z) absorbs part of Δρ; that bookkeeping is not done. L18 closes the leading piece of the on-shell correction, not B7's number | FOLLOWS |
 
 ### Link 19: Hawking radiation as radiation, within rung 6 (`src/ladder_links.py` L19)
@@ -510,6 +510,17 @@ H1 and H2 fix the temperature geometrically; the step that was quoted was that t
 | L30b | Charged/neutral weight ratio by the rule for which hole charge (before / mid / after emission) the grey-body factor and the chemical potential see: (after, after) **0.9634**, i.e. f = 0.1465 × 0.9634 = **0.1411** against Carr's 0.142 (inside the quoted digits); (mid, mid) 0.988; (after, mid), the thermodynamically consistent rule, **1.0077** (f = 0.1476); (before, before) 1.014; nine rules span 0.93–1.05. Only +1.85α of the O(α) slope is the fluctuation effect; the rest is the rule | CHECK |
 | L30c | The energy ratio 0.9959 does not reproduce the literature 4.18/4.22 = 0.9905, and no rule can (the expansion bounds it at ≥ 0.9959). Self-energy corrections of the same order are outside the model. Page 1977 itself was not readable here (abstract only) | FOLLOWS |
 | L30d | Verdict: 0.142 is **consistent with** a Page-type model, **not derived** by it: the rule that reproduces it is not the one detailed balance selects. L7's use of the quoted 0.142 is unchanged | FOLLOWS |
+
+### Link 31: the fermionic one-loop Δr: fermion-loop self-energies (`rebuild/campaigns/ferm_se`, `src/ladder_links.py` L31)
+
+*Accepted: `rebuild/campaigns/ferm_se/ACCEPTED.md` (two blind builds, a hidden oracle built on a transcription of Denner's appendix B, an Opus audit with an independent derivation, independent dispersion-relation numerics and 24 mutants).*
+
+| | Result | Status |
+|---|---|---|
+| L31a | The fermion-loop transverse self-energies Σ^AA, Σ^AZ, Σ^ZZ, Σ^W for any fermion list (any weak isospin, colour, CKM weights), derived from the Lagrangian with d-dimensional traces (anticommuting γ5), MS-bar. The two builds agree with the auditor's derivation and numerics to 10⁻¹⁴ (75 points incl. thresholds, masses 10⁻⁶–10⁴ GeV, μ 1–10⁴ GeV) and with Denner to 10⁻¹². Found on the way: Denner's ZZ axial term 3/(4s²c²) is the |I₃| = ½ case of 3I₃²/(s²c²) (my reference's error, not the builds') | CHECK; two builds, audit, oracle |
+| L31b | Combined as in Link 29: **Δr_ferm = 0.0253** with all fermions at model masses, 0.0257 with the quoted Δα_had replacing the u, d, s, c, b loops; independent of μ to 3×10⁻¹⁷ (needs an exactly unitary CKM matrix: a rounded one leaves 10⁻⁸) and identical in the two builds to 3×10⁻¹⁷. The leptonic Δα(M_Z) comes out 0.031419 against the literature one-loop value 0.0314190 | CHECK; LIT (Δα_had) |
+| L31c | With Link 29's bosonic part the whole one-loop M_W relation gives **M_W = 80.474 GeV** against 80.369 measured; the 0.106 GeV left (Δr_rest = 0.0057) is QCD and two-loop. This replaces L18's separate Δα, top and Higgs inputs for the one-loop part | CHECK; LIT |
+| L31d | Not derived: QCD corrections (O(αα_s) etc.), two-loop and resummation, the Δα_had block (quoted), and whether the γ5-scheme finite terms cancel in Δr (not checked; NDR used) | FOLLOWS |
 
 ### Link 12: neutrino mass from rung 1's breaking scale, to oscillation data (`src/ladder_links.py` L12)
 

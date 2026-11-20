@@ -470,6 +470,12 @@ L30 Carr's charged spin-1/2 weight 0.142: Page's charge fluctuations. Rung 6 (wi
       (after, after) 0.9634 (f = 0.1411 against 0.142, inside the quoted digits), (mid, mid) 0.988, (after, mid), the thermodynamically consistent rule, 1.0077
       (f = 0.1476), (before, before) 1.014; nine rules span 0.93-1.05 and only +1.85 alpha of the O(alpha) slope is the fluctuation effect itself. The energy
       ratio 0.9959 does not reproduce the literature 0.9905 and cannot in this model. So 0.142 is reproduced by one convention, not derived. (CHECK; FOLLOWS)
+L31 The fermionic one-loop Delta r: fermion-loop self-energies. Rung 1, quoted -> derived (the one-loop M_W relation is now complete).
+  L31a Two blind builds (campaign ferm_se, ACCEPTED.md) of Sigma^AA, Sigma^AZ, Sigma^ZZ, Sigma^W from fermion loops (any isospin, MS-bar, NDR gamma5), checked by an
+      auditor's independent derivation and numerics to 1e-14. (CHECK; two builds, audit, oracle)
+  L31b Combined as in L29: Delta r_ferm = 0.0253 (u, d, s, c, b at model masses; 0.0257 with the quoted Delta alpha_had replacing those loops), independent of mu to 3e-17 and
+      identical in the two builds to 3e-17; the leptonic Delta alpha at M_Z comes out 0.031419 against the literature one-loop 0.0314190. With L29's bosonic part: M_W = 80.474 GeV
+      against 80.369 measured; the 0.106 GeV left (Delta r_rest = 0.0057) is QCD and two-loop. (CHECK; LIT for Delta alpha_had; FOLLOWS)
 L14 Bekenstein bound: rung 6 -> rung 4. S <= 2 pi k R E / (hbar c). A Schwarzschild black hole
   (R = 2GM/c^2, E = M c^2) saturates it exactly, = A / 4 l_P^2 (CHECK, symbolic). Design A's
   diamond (radius 1.0 um, 7.4e11 atoms): Bekenstein bound 2.6e23 k_B, holographic bound
@@ -2182,6 +2188,12 @@ def main():
     for r, (wr, er) in rr30.items():
         print(f"     {r[0]:>6s}, {r[1]:>6s}: weight {wr:.5f}  energy {er:.5f}  -> f = {w0_30 * wr:.4f}")
     print(f"   principal rule (after, after): f = {wp30:.4f} against Carr's 0.142; the consistent rule (after, mid) gives {w0_30 * rr30[('after', 'mid')][0]:.4f}; two builds differ by {d30:.1e}")
+
+    banner("L31  The fermionic one-loop Delta r: fermion-loop self-energies (CHECK; LIT Delta alpha_had)")
+    mw31, raw31, shifted31, dmu31, dbuild31, dal31, rest31 = ferm_dr_derived()
+    print(f"   Delta r_ferm = {raw31:.6f} (model light-quark masses), {shifted31:.6f} with the quoted Delta alpha_had; mu dependence {dmu31:.0e}; two builds differ by {dbuild31:.0e}")
+    print(f"   Delta alpha_lep(M_Z), one loop, from Sigma'_AA(0) - Sigma_AA(M_Z^2)/M_Z^2: {dal31:.6f} (literature one loop {DALPHA_LEP_1LOOP_LIT:.6f})")
+    print(f"   M_W with the whole one-loop Delta r (L29 bosonic + this): {mw31:.3f} GeV (measured {MW_MEAS}); remainder Delta r_rest = {rest31:+.4f} (QCD, two loop; not derived)")
 
     banner("L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)")
     d_rc, d_k, d_A, d_S, d_S2, fac = de_sitter_entropy_symbolic()
