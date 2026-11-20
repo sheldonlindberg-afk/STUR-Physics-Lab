@@ -348,3 +348,9 @@ def test_qcd_drho_link_33():
     assert abs(dr0 - 3 * 1.1663788e-5 * LL.M_T_GEV**2 / (8 * math.sqrt(2) * math.pi**2)) < 1e-12
     assert abs(mw0 - 80.4744) < 5e-4 and abs(mws[0.118][0] - 80.4096) < 5e-4 and abs(mws[0.108][0] - 80.4151) < 5e-4
     assert mws[0.118][0] < mws[0.108][0] < mw0
+
+
+def test_nucleon_polarizability_link_34():
+    aE, bM, diff, rat, r = LL.nucleon_polarizability_derived()
+    assert abs(aE / 12.5819e-4 - 1) < 1e-4 and abs(bM / aE - 0.1) < 1e-12 and diff < 1e-12
+    assert 1.05 < rat < 1.2 and abs(r / 2.8e-10 - 1) < 0.05

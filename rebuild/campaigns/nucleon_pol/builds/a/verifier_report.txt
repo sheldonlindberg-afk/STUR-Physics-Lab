@@ -17,4 +17,8 @@
    [PASS] alpha_E against 5 alpha gA^2 / (96 pi f^2 m_pi)  (alpha_E against the reference at 5 parameter points: worst 2.2e-16)
    [PASS] beta_M = alpha_E/10  (beta_M against the reference: worst 4.4e-16)
    [PASS] unit conversion and the physical-point value  (alpha_E in fm^3: 1.2582e-03 (reference 1.2582e-03))
+   [PASS] alpha_E, beta_M on a wide (gA, f, m_pi, alpha) grid (auditor's Compton route)  (240 points: worst relative 6.7e-16 at (gA, f, m_pi, alpha) = (0.1, 10.0, 10000.0, 1e-06))
+   [PASS] exact gA^2 / (f^2 m_pi) x alpha homogeneity, evenness, chiral-limit 1/m_pi (reference-free)  (worst relative deviation from exact gA^2 f^-2 m^-1 alpha scaling: 4.4e-16; zero at alpha = 0: True)
+   [PASS] to_fm3 is exactly x (hbar c)^3  (worst relative 0.0e+00; to_fm3(0) = 0.0)
+   [PASS] no typed-in closed-form denominators (heuristic lint)  (no target denominators typed in)
 GATE PASSED

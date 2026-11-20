@@ -7,7 +7,7 @@ At g_A = 1.27, f_pi = 92.4 MeV, m_pi = 139.57 MeV this is 12.6e-4 fm^3 (measured
 import math
 
 LINT_TARGETS = [12.6e-4, 1.26e-3, 1.26e-4]
-LINT_EXACT = [5 / (96 * math.pi), 1 / (192 * math.pi), 5 / (384 * math.pi**2), 1 / (768 * math.pi**2)]
+LINT_EXACT = [5 / (96 * math.pi), 1 / (192 * math.pi), 5 / (384 * math.pi**2), 1 / (768 * math.pi**2), 96.0, 192.0, 384.0, 768.0]     # audit C2: the denominators of a typed-in closed form
 HBARC = 197.3269804
 
 
@@ -39,3 +39,11 @@ def fm3_check(m):
 
 
 ORACLE = [("alpha_E against 5 alpha gA^2 / (96 pi f^2 m_pi)", alpha_check), ("beta_M = alpha_E/10", beta_check), ("unit conversion and the physical-point value", fm3_check)]
+
+
+# Checks adopted from the Opus audit (AUDIT.md): seven wrong mutants had survived the first gate (negative gA, clamped or drifting ranges, a typed-in closed form, abs() in the unit conversion).
+import importlib.util as _iu, os as _os
+_pa = _iu.spec_from_file_location("nucleon_pol_audit_checks", _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "audit_proposed_checks.py"))
+AC = _iu.module_from_spec(_pa)
+_pa.loader.exec_module(AC)
+ORACLE = ORACLE + list(AC.CHECKS)

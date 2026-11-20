@@ -17,7 +17,7 @@ Units: ħ = c = 1 inside the derivation; the exports return MeV⁻³ and a helpe
 ## 2. The quantities (definition)
 
 The effective Hamiltonian of a static nucleon in slowly varying external fields is H_eff = −½ · 4π α_E E² − ½ · 4π β_M B² (Heaviside–Lorentz fields E, B with α = e²/4π; equivalently the induced electric dipole is d = 4π α_E E). α_E and β_M
-are the electric and magnetic polarizabilities, read off from the O(ω²) terms of the forward Compton amplitude after removing the nucleon-pole (Born) contributions. Isospin symmetry holds (proton and neutron have the same α_E and β_M at this order).
+are the electric and magnetic polarizabilities, read off from the O(ω²) terms of the Compton amplitude at general photon energy and scattering angle (forward scattering gives only α_E + β_M) after removing the nucleon-pole (Born) contributions; in the heavy-baryon limit m_N → ∞ and a radiation gauge ε·v = 0 the Born graphs vanish. Isospin symmetry holds (proton and neutron have the same α_E and β_M at this order).
 α_E, β_M have the dimension (energy)⁻³ in natural units. Regularize in dimensional regularization; state whether any divergence appears and why not.
 
 ## 3. Exports (exact signatures in campaign.py)

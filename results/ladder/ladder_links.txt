@@ -312,6 +312,12 @@ L33  The QCD correction to the top-bottom Delta rho and the M_W relation (CHECK;
    M_W: no QCD 80.474 GeV; alpha_s = 0.108: 80.415 GeV (Delta r_rest +0.0025); alpha_s = 0.118: 80.410 GeV (Delta r_rest +0.0022); measured 80.3692
 
 ==============================================================================
+L34  Rung 2's pion cloud sets the nucleon polarizability used by rung 3 (CHECK)
+==============================================================================
+   alpha_E = 1.258e-03 fm^3 (1.12 x the measured proton 11.2e-4), beta_M = 1.258e-04 fm^3; the two builds differ by 2e-16
+   neutron-neutron: Casimir-Polder (alpha_E only) equals gravity at r = 2.81e-10 m
+
+==============================================================================
 L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)
 ==============================================================================
    r_c - l = 0;  kappa - 1/l = 0;  A - 12 pi/Lambda = 0  (A = 4 pi l^2; not 4 pi/Lambda)

@@ -490,6 +490,13 @@ L33 The QCD correction to the top-bottom Delta rho. Rung 1, quoted -> derived (l
   L33b With L31's whole one-loop Delta r and the pole-mass correction -(c^2/s^2) Delta rho_0 c alpha_s/pi (leading m_t^2 only): M_W falls from 80.474 to 80.410 GeV (alpha_s = 0.118) or 80.415 GeV
       (0.108); the remainder to the measured 80.369 GeV is 0.04 GeV (Delta r_rest = 0.0022). Not derived: non-leading O(alpha alpha_s), O(alpha alpha_s^2), O(alpha^2) electroweak; the alpha_s
       scale is not fixed at this order. (CHECK; LIT alpha_s; FOLLOWS)
+L34 Rung 2's pion cloud sets the nucleon polarizability that rung 3's Casimir-Polder energy uses. Rung 2 -> rung 3, the first link in that cell.
+  L34a Two blind builds (campaign nucleon_pol, ACCEPTED.md) of the leading-order heavy-baryon chiral perturbation theory polarizabilities: alpha_E = 5 alpha gA^2/(96 pi f^2 m_pi) = 12.58e-4 fm^3
+      and beta_M = alpha_E/10 = 1.258e-4 fm^3 (measured proton 11.2(4) and 2.5(4); the missing part of beta_M is the Delta(1232), excluded). An auditor's Born-subtracted real-photon Compton route at
+      general angle reproduces them. Builders and auditor knew the textbook result (recorded). (CHECK; two builds, audit, oracle)
+  L34b Consequence in rung 3's formula: two neutrons feel a retarded Casimir-Polder tail -23 hbar c alpha_E^2/(4 pi r^7) that overtakes gravity -G m_n^2/r at r = 2.8e-10 m (spin-independent part only;
+      the magnetic dipole interaction is larger there). For the diamond experiment the strong sector's contribution to the polarizability is negligible (scoping estimate 1e-17 of diamond's electronic
+      polarizability, LINKS_SCOPING.md; not pinned). (CHECK; MODEL for the consequence)
 L14 Bekenstein bound: rung 6 -> rung 4. S <= 2 pi k R E / (hbar c). A Schwarzschild black hole
   (R = 2GM/c^2, E = M c^2) saturates it exactly, = A / 4 l_P^2 (CHECK, symbolic). Design A's
   diamond (radius 1.0 um, 7.4e11 atoms): Bekenstein bound 2.6e23 k_B, holographic bound
@@ -1785,6 +1792,31 @@ def qcd_drho_derived(mt=M_T_GEV, alphas=(0.108, 0.1180), name="a"):
     return c_pole, c_ms, a.delta_rho_oneloop(mt, GF, 3), mw0, {x: (out[x][0], out[x][-1]) for x in alphas}, diff
 
 
+def _load_nucleon_pol_build(name):
+    """The accepted nucleon_pol build `name` (blind build of the nucleon polarizabilities at leading order in heavy-baryon chiral perturbation theory)."""
+    import importlib.util
+    here = os.path.dirname(os.path.abspath(__file__))
+    spec = importlib.util.spec_from_file_location("nucleon_pol_build_" + name, os.path.join(here, "..", "rebuild", "campaigns", "nucleon_pol", "builds", name, "nucleon_pol.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def nucleon_polarizability_derived(name="a"):
+    """L34: rung 2's pion cloud gives the nucleon polarizability (LO heavy-baryon chiral perturbation theory), which rung 3's Casimir-Polder formula then uses between two neutrons.
+    Returns (alpha_E, beta_M in fm^3, the two builds' relative difference, alpha_E / measured, the neutron-neutron separation (m) at which the retarded
+    Casimir-Polder energy -23 hbar c alpha_E^2 / (4 pi r^7) equals the gravitational energy -G m_n^2 / r)."""
+    a = _load_nucleon_pol_build(name)
+    b = _load_nucleon_pol_build("b" if name == "a" else "a")
+    p = (1.27, 92.4, 139.57, ALPHA_0)     # g_A, f_pi (MeV), m_pi+- (MeV), alpha: the SPEC's own normalization of f_pi
+    aE, bM = a.to_fm3(a.alpha_E(*p)), a.to_fm3(a.beta_M(*p))
+    diff = abs(a.alpha_E(*p) / b.alpha_E(*p) - 1) + abs(a.beta_M(*p) / b.beta_M(*p) - 1)
+    hbarc, G, mn = 3.16152677e-26, 6.67430e-11, 1.67492750e-27      # J m, m^3 kg^-1 s^-2, kg
+    vol = aE * 1e-45                                              # fm^3 -> m^3
+    r = (23 * hbarc * vol**2 / (4 * math.pi * G * mn**2)) ** (1 / 6)
+    return aE, bM, diff, aE / 11.2e-4, r
+
+
 # ---------------------------------------------------------------------------------- L6
 def carbon12_binding():
     """L6a: B = 6 m_p + 6 m_n + 6 m_e - 12 u, in MeV, and per nucleon."""
@@ -2276,6 +2308,11 @@ def main():
     cp33, cm33, dr0_33, mw0_33, mws33, d33 = qcd_drho_derived()
     print(f"   c_pole = {cp33:.6f}, c_MSbar(mu = m) = {cm33:.6f} (C_F = 4/3); Delta rho_0 = {dr0_33:.6f}; the two builds differ by {d33:.0e}")
     print(f"   M_W: no QCD {mw0_33:.3f} GeV; " + "; ".join(f"alpha_s = {x}: {v[0]:.3f} GeV (Delta r_rest {v[1]:+.4f})" for x, v in mws33.items()) + f"; measured {MW_MEAS}")
+
+    banner("L34  Rung 2's pion cloud sets the nucleon polarizability used by rung 3 (CHECK)")
+    aE34, bM34, d34, rat34, r34 = nucleon_polarizability_derived()
+    print(f"   alpha_E = {aE34:.3e} fm^3 ({rat34:.2f} x the measured proton 11.2e-4), beta_M = {bM34:.3e} fm^3; the two builds differ by {d34:.0e}")
+    print(f"   neutron-neutron: Casimir-Polder (alpha_E only) equals gravity at r = {r34:.2e} m")
 
     banner("L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)")
     d_rc, d_k, d_A, d_S, d_S2, fac = de_sitter_entropy_symbolic()
