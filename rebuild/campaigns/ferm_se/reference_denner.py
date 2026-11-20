@@ -301,7 +301,7 @@ def f_ZZ(k2, fermions, MW, MZ, alpha, mu):
         for m, Q, I3, NC in fermions:
             m, Q, I3 = mp.mpf(m), mp.mpf(Q), mp.mpf(I3)
             gp, gm = _gpm(P, Q, I3)
-            t += NC * ((gp**2 + gm**2) * _ferm_bracket(P, k2, m) + 3 / (4 * P.s2 * P.c2) * m * m * (_B(P, k2, m, m) if m != 0 else 0))
+            t += NC * ((gp**2 + gm**2) * _ferm_bracket(P, k2, m) + 3 * I3**2 / (P.s2 * P.c2) * m * m * (_B(P, k2, m, m) if m != 0 else 0))   # Denner: 3/(4 s2 c2) for |I3| = 1/2; general: 3 I3^2/(s2 c2)
         return _real(-P.alpha / (4 * mp.pi) * mp.mpf(2) / 3 * t)
 
 

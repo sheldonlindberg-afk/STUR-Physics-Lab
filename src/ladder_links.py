@@ -1632,6 +1632,81 @@ def charged_half_derived(name="a"):
     return 0.1465, out, 0.1465 * out[("after", "after")][0], diff
 
 
+def _load_ferm_se_build(name):
+    """The accepted ferm_se build `name` (blind build of the fermion-loop gauge-boson self-energies)."""
+    import importlib.util
+    here = os.path.dirname(os.path.abspath(__file__))
+    spec = importlib.util.spec_from_file_location("ferm_se_build_" + name, os.path.join(here, "..", "rebuild", "campaigns", "ferm_se", "builds", name, "ferm_se.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _ferm_content(mt):
+    """Fermion content of the Standard Model for the ferm_se exports: (fermions, doublets). Light-quark masses are model values only: the hadronic block is
+    replaced by the quoted Delta alpha_had in ferm_dr_derived. The CKM matrix is the exactly unitary standard parameterization (s12, s23, s13 = 0.2250, 0.0418, 0.00369)."""
+    fs, ds = [], []
+    for x in (M_EL, M_MU, M_TAU):
+        fs += [(x, -1, -0.5, 1), (0.0, 0, 0.5, 1)]
+        ds.append((0.0, x, 1.0))
+    ups, downs = (0.062, 1.27, mt), (0.083, 0.215, M_B_GEV)
+    for u, d in zip(ups, downs):
+        fs += [(u, 2 / 3, 0.5, 3), (d, -1 / 3, -0.5, 3)]
+    s12, s23, s13 = 0.2250, 0.0418, 0.00369
+    c12, c23, c13 = (math.sqrt(1 - x * x) for x in (s12, s23, s13))
+    V = [[c12 * c13, s12 * c13, s13], [-s12 * c23 - c12 * s23 * s13, c12 * c23 - s12 * s23 * s13, s23 * c13],
+         [s12 * s23 - c12 * c23 * s13, -c12 * s23 - s12 * c23 * s13, c23 * c13]]
+    for i, u in enumerate(ups):
+        for j, d in enumerate(downs):
+            ds.append((u, d, 3 * V[i][j] ** 2))
+    return tuple(fs), tuple(ds), tuple(f for f in fs if f[3] == 3 and f[0] != mt and f[0] != 0.0 or f == (M_B_GEV, -1 / 3, -0.5, 3))
+
+
+def ferm_dr_derived(mZ=91.1880, mt=M_T_GEV, name="a", mu=None):
+    """L31: the whole fermionic one-loop Delta r from the accepted ferm_se self-energies, combined as in L29 (Delta r_ferm = Sigma'_AA(0)
+    - (c^2/s^2)[Sigma_ZZ(M_Z^2)/M_Z^2 - Sigma_W(M_W^2)/M_W^2] + [Sigma_W(0) - Sigma_W(M_W^2)]/M_W^2; Sigma_AZ^ferm(0) = 0), plus L29's bosonic part.
+    The u, d, s, c, b loops of Sigma'_AA(0) are replaced through the quoted Delta alpha_had (shift = Delta alpha_had - the same loops' one-loop value at M_Z);
+    everything else is derived. Returns (M_W, Delta r_ferm unshifted, Delta r_ferm shifted, mu dependence of the unshifted one, two builds' difference,
+    Delta alpha_lep one loop at M_Z, Delta r_rest left to the measured M_W)."""
+    b = _load_ferm_se_build(name)
+    other = _load_ferm_se_build("b" if name == "a" else "a")
+    bd = _load_bos_dr_build("a")
+    GF = 1.1663788e-5
+    A = math.pi * ALPHA_0 / (math.sqrt(2) * GF)
+    fs, ds, had = _ferm_content(mt)
+    h = 1e-14
+
+    def dr_f(bm, MW, mu_):
+        s2 = 1 - MW**2 / mZ**2
+        c2 = 1 - s2
+        S = lambda n, k2, a: getattr(bm, n)(k2, a, MW, mZ, ALPHA_0, mu_)
+        dAA = lambda f: (bm.sigma_AA(h, f, MW, mZ, ALPHA_0, mu_) - bm.sigma_AA(-h, f, MW, mZ, ALPHA_0, mu_)) / (2 * h)
+        weak = -(c2 / s2) * (S("sigma_ZZ", mZ**2, fs) / mZ**2 - S("sigma_W", MW**2, ds) / MW**2) + (S("sigma_W", 0.0, ds) - S("sigma_W", MW**2, ds)) / MW**2
+        dal_had_model = dAA(had) - S("sigma_AA", mZ**2, had) / mZ**2
+        lep = tuple(f for f in fs if f[3] == 1 and f[1] != 0)
+        dal_lep = dAA(lep) - S("sigma_AA", mZ**2, lep) / mZ**2
+        return dAA(fs) + weak, DALPHA_HAD_5 - dal_had_model, dal_lep
+
+    MW = 80.4
+    for _ in range(60):
+        mu_ = mu or MW
+        raw, shift, dal_lep = dr_f(b, MW, mu_)
+        dr = raw + shift + bd.delta_r_bos(MW, mZ, 125.20, ALPHA_0)
+        new = math.sqrt(mZ**2 / 2 * (1 + math.sqrt(1 - 4 * A / (1 - dr) / mZ**2)))
+        if abs(new - MW) < 1e-12:
+            MW = new
+            break
+        MW = new
+    raw, shift, dal_lep = dr_f(b, MW, mu or MW)
+    raw2 = dr_f(b, MW, 7.0 * MW)[0]
+    other_raw = dr_f(other, MW, MW)[0]
+    dr = raw + shift + bd.delta_r_bos(MW, mZ, 125.20, ALPHA_0)
+    c2s2m = MW_MEAS**2 / (mZ**2 - MW_MEAS**2)
+    rawm, shiftm, _ = dr_f(b, MW_MEAS, MW_MEAS)
+    rest = (1 - A / (MW_MEAS**2 * (1 - MW_MEAS**2 / mZ**2))) - (rawm + shiftm + bd.delta_r_bos(MW_MEAS, mZ, 125.20, ALPHA_0))
+    return MW, raw, raw + shift, abs(raw2 - raw), abs(other_raw - raw), dal_lep, rest
+
+
 # ---------------------------------------------------------------------------------- L6
 def carbon12_binding():
     """L6a: B = 6 m_p + 6 m_n + 6 m_e - 12 u, in MeV, and per nucleon."""
