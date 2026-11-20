@@ -1675,7 +1675,7 @@ def _ferm_content(mt):
     return tuple(fs), tuple(ds), tuple(f for f in fs if f[3] == 3 and f[0] != mt and f[0] != 0.0 or f == (M_B_GEV, -1 / 3, -0.5, 3))
 
 
-def ferm_dr_derived(mZ=91.1880, mt=M_T_GEV, name="a", mu=None):
+def ferm_dr_derived(mZ=91.1880, mt=M_T_GEV, name="a", mu=None, alphas=0.0, qcd_name="a"):
     """L31: the whole fermionic one-loop Delta r from the accepted ferm_se self-energies, combined as in L29 (Delta r_ferm = Sigma'_AA(0)
     - (c^2/s^2)[Sigma_ZZ(M_Z^2)/M_Z^2 - Sigma_W(M_W^2)/M_W^2] + [Sigma_W(0) - Sigma_W(M_W^2)]/M_W^2; Sigma_AZ^ferm(0) = 0), plus L29's bosonic part.
     The u, d, s, c, b loops of Sigma'_AA(0) are replaced through the quoted Delta alpha_had (shift = Delta alpha_had - the same loops' one-loop value at M_Z);
@@ -1688,6 +1688,11 @@ def ferm_dr_derived(mZ=91.1880, mt=M_T_GEV, name="a", mu=None):
     A = math.pi * ALPHA_0 / (math.sqrt(2) * GF)
     fs, ds, had = _ferm_content(mt)
     h = 1e-14
+    if alphas:
+        qd = _load_qcd_drho_build(qcd_name)
+        drho_qcd = qd.delta_rho_oneloop(mt, GF, 3) * qd.qcd_coeff("pole", 4 / 3, 1.0) * alphas / math.pi     # O(alpha alpha_s) top-bottom, leading in m_t^2
+    else:
+        drho_qcd = 0.0
 
     def dr_f(bm, MW, mu_):
         s2 = 1 - MW**2 / mZ**2
@@ -1704,7 +1709,7 @@ def ferm_dr_derived(mZ=91.1880, mt=M_T_GEV, name="a", mu=None):
     for _ in range(60):
         mu_ = mu or MW
         raw, shift, dal_lep = dr_f(b, MW, mu_)
-        dr = raw + shift + bd.delta_r_bos(MW, mZ, 125.20, ALPHA_0)
+        dr = raw + shift + bd.delta_r_bos(MW, mZ, 125.20, ALPHA_0) - (1 - (MW / mZ) ** 2) ** -1 * (MW / mZ) ** 2 * drho_qcd
         new = math.sqrt(mZ**2 / 2 * (1 + math.sqrt(1 - 4 * A / (1 - dr) / mZ**2)))
         if abs(new - MW) < 1e-12:
             MW = new
@@ -1716,7 +1721,7 @@ def ferm_dr_derived(mZ=91.1880, mt=M_T_GEV, name="a", mu=None):
     dr = raw + shift + bd.delta_r_bos(MW, mZ, 125.20, ALPHA_0)
     c2s2m = MW_MEAS**2 / (mZ**2 - MW_MEAS**2)
     rawm, shiftm, _ = dr_f(b, MW_MEAS, MW_MEAS)
-    rest = (1 - A / (MW_MEAS**2 * (1 - MW_MEAS**2 / mZ**2))) - (rawm + shiftm + bd.delta_r_bos(MW_MEAS, mZ, 125.20, ALPHA_0))
+    rest = (1 - A / (MW_MEAS**2 * (1 - MW_MEAS**2 / mZ**2))) - (rawm + shiftm + bd.delta_r_bos(MW_MEAS, mZ, 125.20, ALPHA_0) - c2s2m * drho_qcd)
     return MW, raw, raw + shift, abs(raw2 - raw), abs(other_raw - raw), dal_lep, rest
 
 
@@ -1748,6 +1753,16 @@ def dr_xi_gauge_independence(mw=80.38, mz=91.19, mh=125.0, al=2.0**-7, name="a")
                     abs(b.delta_r_vbw(mw, mz, al, x, mu) / o.delta_r_vbw(mw, mz, al, x, mu) - 1))
     bd = _load_bos_dr_build("a")
     return tot[3], spread, dse, dvb, cross, abs(tot[3] / bd.delta_r_bos(mw, mz, mh, al) - 1)
+
+
+def _load_qcd_drho_build(name):
+    """The accepted qcd_drho build `name` (blind build of the O(alpha_s) correction to Delta rho)."""
+    import importlib.util
+    here = os.path.dirname(os.path.abspath(__file__))
+    spec = importlib.util.spec_from_file_location("qcd_drho_build_" + name, os.path.join(here, "..", "rebuild", "campaigns", "qcd_drho", "builds", name, "qcd_drho.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
 
 
 # ---------------------------------------------------------------------------------- L6

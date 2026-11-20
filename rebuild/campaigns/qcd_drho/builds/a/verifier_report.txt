@@ -1,0 +1,22 @@
+== contract
+   [PASS] export delta_rho_oneloop
+   [PASS] export qcd_coeff
+   [PASS] export delta_rho_qcd
+   [PASS] PROVENANCE is a dict covering every export
+   [PASS] PROVENANCE[delta_rho_oneloop] valid (kind and note)
+   [PASS] PROVENANCE[qcd_coeff] valid (kind and note)
+   [PASS] PROVENANCE[delta_rho_qcd] valid (kind and note)
+   [PASS] DERIVATION.md exists
+== lint
+   [PASS] lint
+== blind
+   [PASS] one-loop Delta rho scales as m^2 and N_C
+   [PASS] coefficient is linear in C_F
+   [PASS] scheme shift is C_F times a pure number
+   [PASS] MS-bar coefficient is linear in ln mu
+   [PASS] delta_rho_qcd = Delta rho_0 (1 + c alpha_s/pi)
+== oracle
+   [PASS] one-loop Delta rho_0  (one-loop Delta rho_0 against N_C G_F m^2/(8 sqrt2 pi^2): 4.4e-16)
+   [PASS] O(alpha_s) coefficient, pole and MS-bar, general C_F and mu  (c(scheme, C_F, mu/m) against the reference over five C_F and five schemes/scales: worst relative 2.2e-15 at (1.3333333333333333, 'msbar', 1.0))
+   [PASS] Delta rho with QCD  (delta_rho_qcd against the reference: 4.4e-16)
+GATE PASSED
