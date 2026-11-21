@@ -13,7 +13,7 @@
       G window in which pole_5 < M_Pl < pole_3: 0.0524 < G/G_measured < 2.82e+14
    [math] PASS  N_c = 3 is selected against the Planck mass (beta = +1/sqrt3): pole_5 < M_Pl < pole_3
    [math] PASS  the G window is the one the poles and M_Pl give by hand-off
-   Gravity's scale from stage 1's own matter (induced at one loop, cut off at the U(1)_X pole):
+   Gravity's scale from stage 1's own matter (induced at one loop, proper-time cutoff at the U(1)_X pole):
       beta = -1/sqrt3: 17 vectors, 66 Weyl fermions, 18 scalars; induced M_Pl / measured = 2.39e+10, 1.22e+10, none, none  (xi = 0, 1/6 at the one- and three-loop pole)
       beta = +1/sqrt3: 17 vectors, 69 Weyl fermions, 18 scalars; induced M_Pl / measured = 3.1, 2.03, 0.712, 0.466  (xi = 0, 1/6 at the one- and three-loop pole)
    [math] PASS  the induced 1/G is positive for the selected variant at both structural couplings (xi = 0, 1/6)

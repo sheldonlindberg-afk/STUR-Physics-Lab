@@ -16,7 +16,10 @@ at the U(1)_X pole (2.9–4.4 M_Pl), gives **M_Pl between 0.47 and 3.1 times its
 So G comes out at 0.10–4.6 times the measured value, with no input from gravity at all. The
 other variant, whose pole lies 10¹⁰ M_Pl up, fails. So does N_c = 5, which would induce
 M_Pl ≈ 10¹² GeV. This is a MODEL result: an order-of-magnitude prediction of G that rests on
-Sakharov's assumptions, listed below.
+Sakharov's assumptions and on the proper-time (heat-kernel) cutoff, which fixes its sign. Both are
+listed below. The coefficient was rebuilt blind twice and audited
+([rebuild/campaigns/induced_g/ACCEPTED.md](rebuild/campaigns/induced_g/ACCEPTED.md)), and the merged
+chain now derives gravity's scale this way in step 1, with the measured G as a check.
 
 ## The formula (LIT)
 
@@ -93,6 +96,14 @@ N_c = 3 pole, which is the condition stage 1 uses to select N_c = 3.
 
 ## What it does not do
 
+- **The sign belongs to the regulator.** With the proper-time cutoff, matter induces attractive
+  gravity and vectors repulsive. The weights 1 : 1 : −4 (scalar : Weyl : vector) hold for any common
+  regulator, but the overall sign and factor do not. A positive cutoff on mode energies flips every
+  sign (and rescales by 2–4×); dimensional regularization has no κ² term; Pauli–Villars gives either
+  sign (audit of campaign `induced_g`, §1d). Physically, the sign of induced G belongs to whatever
+  completes 3-3-1 above its pole. So the prediction reads: *with a heat-kernel cutoff at the pole*,
+  stage 1 induces G within an order of magnitude of the measured value.
+
 - **It predicts an order of magnitude, not a value.** The spread comes from ξ and from the 1- vs
   3-loop pole. Most of the content is two facts: the selected variant's pole lies at 3–4 M_Pl,
   and its fermions outweigh its vectors. The other variant shows that the first fact is not
@@ -105,6 +116,6 @@ N_c = 3 pole, which is the condition stage 1 uses to select N_c = 3.
 - **Beyond the test:** the N_c = 5 content at its own pole (7.3×10¹¹ GeV) would induce
   M_Pl ≈ 9×10¹¹ GeV, 10⁻⁷ of the measured value. Of the two, only N_c = 3 reproduces G.
 
-**Status for the chain:** a MODEL result worth a blind rebuild. Its next gates are an
-independent build of the induced coefficient and a verifier check of the sign. If it passes
-them, it is a candidate stage 0, with the measured G as a branch with a pull.
+**Status for the chain:** accepted as a blind campaign and wired into the merged chain's step 1
+([src/chain_first_principles.py](src/chain_first_principles.py)). The measured G is a `[model]`
+check on the induced band, and its digits remain a precision input downstream.

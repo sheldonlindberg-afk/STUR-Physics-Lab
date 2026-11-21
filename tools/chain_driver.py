@@ -48,8 +48,9 @@ READING THE OUTPUT
 GRAVITY'S SCALE
     Step 1 derives the Planck mass's order of magnitude from stage 1 itself: the one-loop
     induced Newton constant of its 17 gauge vectors, 69 Weyl fermions and 18 scalars, cut off
-    at its U(1)_X Landau pole (INDUCED_GRAVITY.md; campaign induced_g). The measured G is then
-    a check on that band, not an input to it. Downstream steps need G to many digits, which
+    at its U(1)_X Landau pole (INDUCED_GRAVITY.md; campaign induced_g, accepted). The measured G
+    is then a check on that band, not an input to it. The sign of an induced G belongs to the
+    regulator: this is the proper-time (heat-kernel) cutoff, as in the campaign's SPEC. Downstream steps need G to many digits, which
     an order-of-magnitude derivation can't give, so they take the measured value as a
     precision input, marked where it enters.
 
@@ -178,7 +179,7 @@ def unification():
     REPLACED.append(("number of colours N_c", "3", "the Landau poles against M_Pl (stages running, links); one loop"))
 
     # gravity's scale from stage 1's own matter: Sakharov's induced G, cut off at the U(1)_X pole (campaign induced_g)
-    print("   Gravity's scale from stage 1's own matter (induced at one loop, cut off at the U(1)_X pole):")
+    print("   Gravity's scale from stage 1's own matter (induced at one loop, proper-time cutoff at the U(1)_X pole):")
 
     def species(var, nc=3):
         n_w = n_s = 0

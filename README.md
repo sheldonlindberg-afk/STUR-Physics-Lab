@@ -271,7 +271,7 @@ python3 src/why_parameters.py        # the 19 parameters: explanations tested, 3
 python3 src/m331_gravigut_nogo.py    # no derivation of stage 7's gravity from stage 1's 3-3-1: the graviGUT no-go, ~3 s
 python3 src/induced_gravity.py       # G induced by stage 1's matter at its Landau pole: M_Pl within a factor 3, <1 s
 python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (372 tests)
+python -m pytest tests -q           # every number pinned (375 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on

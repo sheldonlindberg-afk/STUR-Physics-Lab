@@ -61,3 +61,12 @@ def stage1_check(m):
 ORACLE = [("k1 per kind and dimension", k1_check), ("the signs of 1/G per species", sign_check),
           ("1/G at general counts", inv_G_check), ("stage 1's content", stage1_check)]
 # CANARY-5a8c2e7f1d3b6094-induced_g: planted so a builder transcript that contains this string has read the oracle
+
+
+# Checks adopted from the audit (AUDIT.md section 4): eight wrong mutants had survived the first gate (xi applied to ghosts or
+# spinors, clamped or |xi|, mpl = 0.0 at 1/G = 0, the spinor dimension wrong above d = 10, Weyl silently defined in odd d).
+import importlib.util as _iu, os as _os
+_pa = _iu.spec_from_file_location("induced_g_audit_checks", _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "audit_proposed_checks.py"))
+AC = _iu.module_from_spec(_pa)
+_pa.loader.exec_module(AC)
+ORACLE = ORACLE + list(AC.CHECKS)

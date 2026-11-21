@@ -32,7 +32,7 @@ BUILD_ID = "2026-11-b"
 # Their top-level helpers that import outside the standard library (a build's own second-route checks)
 # are dropped, so the chain stays standard library only; the exports are embedded verbatim.
 CAMPAIGN_STAGES = [("induced_g", os.path.join("rebuild", "campaigns", "induced_g", "builds", "a", "induced_g.py"),
-                    "campaign induced_g, blind build a (oracle passed, audit pending: rebuild/campaigns/induced_g/)")]
+                    "campaign induced_g, blind build a (rebuild/campaigns/induced_g/ACCEPTED.md)")]
 STDLIB_OK = {"math", "cmath", "fractions", "itertools", "functools"}
 OUTPUTS = {"chain": ("chain_first_principles.py", "chain_driver.py", "THE CHAIN"),
            "stages": ("first_principles_standalone.py", "stages_driver.py", "THE REPORT")}

@@ -21,7 +21,8 @@ Units: ħ = c = 1. Euclidean signature throughout.
 * Fields, all massless (masses ≪ κ, so they only change finite terms):
   - real scalar with kinetic operator −∇² + ξR (ξ a real number);
   - Dirac fermion with D̸² as its Laplace-type operator (spinor dimension 2^⌊d/2⌋); Weyl = half a Dirac (even d only);
-  - abelian gauge vector (one generator of a gauge group counts as one vector at one loop), in Feynman gauge, with its ghosts;
+  - abelian gauge vector (one generator of a gauge group counts as one vector at one loop), in Feynman gauge, with its ghosts:
+    one complex Grassmann ghost pair with the operator −∇² (ξ = 0), i.e. Z_ghost = det(−∇²)^(+1);
   - also, for comparison, the same vector operator without its ghosts.
 
 ## 2. The quantities (definition)
@@ -34,11 +35,16 @@ Units: ħ = c = 1. Euclidean signature throughout.
   'vector_no_ghosts' kind without them. Weyl is half of Dirac. Fermion statistics are **not** in k₁.
 * **1/G**: the coefficient fixed by matching the κ² ∫√g R term of W to S_grav, in d = 4, for a collection of
   n_s real scalars (all with the same ξ), n_w Weyl fermions and n_v gauge vectors with ghosts. Its sign is part
-  of the answer and follows from the conventions above.
+  of the answer and follows from the conventions above, **including the proper-time regulator**: the sign of a κ² term
+  belongs to the regulator (another regulator can rescale it or flip it), so the conventions fix it only together.
+
+*Clarified after the audit (AUDIT.md, findings C1–C4), with no change of meaning for either build: the ghost count and
+operator, the role of ξ for non-scalar kinds, Weyl at odd d, and the regulator qualifier on the sign.*
 
 ## 3. Exports (exact signatures in campaign.py)
 
-`k1(kind, d=4, xi=0.0)` for kind in 'scalar', 'weyl', 'dirac', 'vector', 'vector_no_ghosts' (Weyl only for even d);
+`k1(kind, d=4, xi=0.0)` for kind in 'scalar', 'weyl', 'dirac', 'vector', 'vector_no_ghosts'. ξ couples only the real scalars:
+it is ignored for every other kind. 'weyl' at odd d raises ValueError;
 `inv_G(kappa, n_s, n_w, n_v, xi=0.0)` → 1/G in units of κ² (ħ = c = 1, d = 4), so with κ in GeV, 1/G in GeV²;
 `mpl(kappa, n_s, n_w, n_v, xi=0.0)` → √(1/G) when 1/G > 0, and None otherwise.
 
