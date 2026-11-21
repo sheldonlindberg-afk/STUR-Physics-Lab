@@ -104,6 +104,8 @@ Each place a measured number enters is marked. Not derived anywhere in the chain
 - gravity's unification with the gauge forces. Stage 7 is an equivalent rewriting of general
   relativity with Λ, in the same broken-symmetry language as stage 1. It is not derived from
   stage 1, and the step from 6 to 7 is a change of language, not of physics.
+  [GRAVIGUT_NOGO.md](GRAVIGUT_NOGO.md) shows why it cannot be: no breaking of stage 1 leaves
+  gravity's non-compact group, and no orthogonal graviGUT parent holds stage 1's chiral fermions.
 
 Three steps carry a model, named where they occur: the ρ + a₁ saturation of the pion
 splitting (27% above the measured value), the switch-on rule for each species in the

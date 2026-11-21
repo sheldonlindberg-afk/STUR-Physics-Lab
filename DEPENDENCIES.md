@@ -6,7 +6,7 @@ This page records which script feeds which, and which physical quantities each o
 
 ## Summary
 
-- **54 scripts** in `src/`, in 6 topics; **101 imports** between them, 36 of them across topics. 12 scripts import nothing from the others and nothing imports them.
+- **55 scripts** in `src/`, in 6 topics; **102 imports** between them, 37 of them across topics. 11 scripts import nothing from the others and nothing imports them.
 - **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 314 literals in the source.
 - **44 quantities are typed in more than one script**; 20 of them are shared by more than one topic.
 - **2 copies differ from their source for a stated reason**; **0 differ without one (drift).**
@@ -35,6 +35,7 @@ flowchart LR
     m331_core
     m331_matrix_check
     m331_coupling_map
+    m331_gravigut_nogo
     why_parameters
     qcd_running
     rge_engine
@@ -123,6 +124,7 @@ flowchart LR
   m331_coupling_map --> qcd_running
   m331_exact --> m331_core
   m331_exact --> qcd_running
+  m331_gravigut_nogo --> chain_first_principles
   m331_gravity_fixed_point --> m331_exact
   m331_gravity_fixed_point --> m331_margin
   m331_gravity_fixed_point --> m331_three_loop
@@ -209,6 +211,7 @@ flowchart LR
 | `ladder_links` (Symmetry ladder) | `stur_gravity_entanglement` (Diamond experiment) | `C`, `EPS_DIAMOND`, `G`, `HBAR`, `radius` |
 | `ladder_links` (Symmetry ladder) | `stur_gravity_full` (Diamond experiment) | `ramp_profile` |
 | `m331_breaking` (Symmetry ladder) | `m331_exact` (3-3-1 selection) | `MODELS` |
+| `m331_gravigut_nogo` (3-3-1 selection) | `chain_first_principles` (Symmetry ladder) | `gauge331`, `running` |
 | `m331_rho_bound` (Symmetry ladder) | `m331_threshold` (3-3-1 selection) | `gL_at`, `mzp_over_mv` |
 | `m331_rho_bound` (Symmetry ladder) | `m331_yukawa` (3-3-1 selection) | `boundary` |
 | `m331_zpole` (Symmetry ladder) | `m331_zprime_recast` (3-3-1 selection) | `g331`, `gE6`, `t8` |
@@ -250,6 +253,7 @@ flowchart LR
 | [`m331_core`](src/m331_core.py) | — | The shared core of the 3-3-1 selection (NOTE_331.md): group invariants, the general one- and two-loop gauge beta-function coefficients, the  |
 | [`m331_matrix_check`](src/m331_matrix_check.py) | `m331_exact`, `m331_yukawa` | An independent route to the 3-3-1 gauge beta-function coefficients (NOTE_331.md, section 3) |
 | [`m331_coupling_map`](src/m331_coupling_map.py) | `m331_exact`, `qcd_running` | The 3-3-1 selection without the measured couplings: a map of coupling space (NOTE_331.md, section 4a) |
+| [`m331_gravigut_nogo`](src/m331_gravigut_nogo.py) | `chain_first_principles` | Can stage 1's 3-3-1 gauge theory and stage 7's gravity gauge theory come from one group? Stage 1 of the merged simulation (src/chain_first_p |
 | [`why_parameters`](src/why_parameters.py) | `ladder_links`, `m331_exact`, `m331_rho_bound`, `m331_scalar`, `m331_threshold`, `m331_yukawa` | Why do the Standard Model's 19 parameters have their values? What can be said, and tested |
 | [`qcd_running`](src/qcd_running.py) | — | Two-loop MS-bar running of the strong coupling, used by the 3-3-1 scripts. |
 | [`rge_engine`](src/rge_engine.py) | — | General one-loop RGEs for quartic and Yukawa couplings (real scalars, two-component fermions) |
