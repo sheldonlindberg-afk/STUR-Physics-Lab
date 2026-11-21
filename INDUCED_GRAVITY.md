@@ -103,6 +103,10 @@ N_c = 3 pole, which is the condition stage 1 uses to select N_c = 3.
   sign (audit of campaign `induced_g`, §1d). Physically, the sign of induced G belongs to whatever
   completes 3-3-1 above its pole. So the prediction reads: *with a heat-kernel cutoff at the pole*,
   stage 1 induces G within an order of magnitude of the measured value.
+  [INDUCED_GRAVITY_FINITE.md](INDUCED_GRAVITY_FINITE.md) sharpens this. A regulator-free G from 3-3-1's own masses
+  is impossible: it would need w ≳ 3×10¹⁸ GeV. But for the minimal completion that makes induced gravity finite
+  (two heavy levels at the pole), the proper-time result is exact and the sign is fixed by stage 1's own fields:
+  attractive.
 
 - **It predicts an order of magnitude, not a value.** The spread comes from ξ and from the 1- vs
   3-loop pole. Most of the content is two facts: the selected variant's pole lies at 3–4 M_Pl,

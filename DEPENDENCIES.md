@@ -6,7 +6,7 @@ This page records which script feeds which, and which physical quantities each o
 
 ## Summary
 
-- **57 scripts** in `src/`, in 6 topics; **104 imports** between them, 39 of them across topics. 11 scripts import nothing from the others and nothing imports them.
+- **58 scripts** in `src/`, in 6 topics; **106 imports** between them, 40 of them across topics. 11 scripts import nothing from the others and nothing imports them.
 - **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 345 literals in the source.
 - **44 quantities are typed in more than one script**; 36 of them are shared by more than one topic.
 - **2 copies differ from their source for a stated reason**; **0 differ without one (drift).**
@@ -37,6 +37,7 @@ flowchart LR
     m331_coupling_map
     m331_gravigut_nogo
     induced_gravity
+    induced_gravity_finite
     gravity_from_331
     why_parameters
     qcd_running
@@ -109,6 +110,8 @@ flowchart LR
   graviton_exchange --> stur_gravity_full
   gravity_from_331 --> chain_first_principles
   induced_gravity --> chain_first_principles
+  induced_gravity_finite --> chain_first_principles
+  induced_gravity_finite --> induced_gravity
   ladder_links --> black_holes
   ladder_links --> casimir_diamonds
   ladder_links --> chiral_breaking
@@ -208,6 +211,7 @@ flowchart LR
 | `graviton_exchange` (Symmetry ladder) | `stur_gravity_full` (Diamond experiment) | `design_a`, `ramp_profile`, `trajectory_dphi` |
 | `gravity_from_331` (3-3-1 selection) | `chain_first_principles` (Symmetry ladder) | `gauge331`, `running` |
 | `induced_gravity` (3-3-1 selection) | `chain_first_principles` (Symmetry ladder) | `gauge331`, `inputs`, `links`, `running` |
+| `induced_gravity_finite` (3-3-1 selection) | `chain_first_principles` (Symmetry ladder) | `induced_g` |
 | `ladder_links` (Symmetry ladder) | `m331_exact` (3-3-1 selection) | `MODELS`, `M_PLANCK` |
 | `ladder_links` (Symmetry ladder) | `m331_gravity_fixed_point` (3-3-1 selection) | `f_profile`, `f_separatrix_sm` |
 | `ladder_links` (Symmetry ladder) | `m331_margin` (3-3-1 selection) | `ALPHA1`, `FLOORS`, `pole` |
@@ -261,6 +265,7 @@ flowchart LR
 | [`m331_coupling_map`](src/m331_coupling_map.py) | `m331_exact`, `qcd_running` | The 3-3-1 selection without the measured couplings: a map of coupling space (NOTE_331.md, section 4a) |
 | [`m331_gravigut_nogo`](src/m331_gravigut_nogo.py) | `chain_first_principles` | Can stage 1's 3-3-1 gauge theory and stage 7's gravity gauge theory come from one group? Stage 1 of the merged simulation (src/chain_first_p |
 | [`induced_gravity`](src/induced_gravity.py) | `chain_first_principles` | Is Newton's constant induced by stage 1's own matter, cut off at its U(1)_X Landau pole? The test of INDUCED_GRAVITY.md |
+| [`induced_gravity_finite`](src/induced_gravity_finite.py) | `chain_first_principles`, `induced_gravity` | Can the induced G be made independent of the regulator? The computation registered in INDUCED_GRAVITY_FINITE.md (commit c1beae2), item by it |
 | [`gravity_from_331`](src/gravity_from_331.py) | `chain_first_principles` | Gravity from the 3-3-1 gauge theory: what can be derived, and what is induced |
 | [`why_parameters`](src/why_parameters.py) | `ladder_links`, `m331_exact`, `m331_rho_bound`, `m331_scalar`, `m331_threshold`, `m331_yukawa` | Why do the Standard Model's 19 parameters have their values? What can be said, and tested |
 | [`qcd_running`](src/qcd_running.py) | — | Two-loop MS-bar running of the strong coupling, used by the 3-3-1 scripts. |
@@ -546,7 +551,7 @@ Literals with at least three significant digits that appear in two or more scrip
 | 0.97367 | `chain_first_principles`, `first_principles_standalone`, `gravity_from_331`, `ladder_links`, `ladder_standalone` |
 | 0.9999 | `black_holes`, `ladder_standalone` |
 | 1.00039 | `chain_first_principles`, `first_principles_standalone`, `gravity_from_331`, `m331_rho_bound` |
-| 1.01 | `chain_branches`, `force_chain`, `ladder_standalone`, `stur_oppenheim` |
+| 1.01 | `chain_branches`, `force_chain`, `induced_gravity_finite`, `ladder_standalone`, `stur_oppenheim` |
 | 1.01016 | `ladder_links`, `ladder_standalone` |
 | 1.062 | `chain_first_principles`, `chiral_breaking`, `first_principles_standalone`, `gravity_from_331`, `ladder_standalone` |
 | 1.1568 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `gravity_from_331`, `ladder_standalone` |

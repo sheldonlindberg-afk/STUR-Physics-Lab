@@ -37,7 +37,7 @@ TOPICS = {
     "3-3-1 selection": ["m331_why_three", "m331_three_generations", "m331_su3L_running", "m331_exact",
                         "m331_yukawa", "m331_threshold", "m331_closure", "m331_scalar", "m331_three_loop",
                         "m331_margin", "m331_zprime_recast", "m331_heavy_lepton", "m331_gravity_fixed_point", "m331_standalone",
-                        "m331_core", "m331_matrix_check", "m331_coupling_map", "m331_gravigut_nogo", "induced_gravity", "gravity_from_331",
+                        "m331_core", "m331_matrix_check", "m331_coupling_map", "m331_gravigut_nogo", "induced_gravity", "induced_gravity_finite", "gravity_from_331",
                         "why_parameters",
                         "qcd_running", "rge_engine"],
     "Symmetry ladder": ["m331_breaking", "chiral_breaking", "casimir_diamonds", "graviton_exchange",

@@ -270,9 +270,10 @@ python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no depend
 python3 src/why_parameters.py        # the 19 parameters: explanations tested, 3-3-1 flavour, ~3 s
 python3 src/m331_gravigut_nogo.py    # no derivation of stage 7's gravity from stage 1's 3-3-1: the graviGUT no-go, ~3 s
 python3 src/induced_gravity.py       # G induced by stage 1's matter at its Landau pole: M_Pl within a factor 3, <1 s
+python3 src/induced_gravity_finite.py # regulator-free induced G: impossible within 3-3-1; the minimal completion fixes the sign, <1 s
 python3 src/gravity_from_331.py      # all of it in one paste: the no-go, the induced G, the loop to N_c = 3, ~3 s
 python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (379 tests)
+python -m pytest tests -q           # every number pinned (385 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on
@@ -291,6 +292,7 @@ WHY.md                    why these inputs? the 19 parameters, explanations test
 SYMMETRY_LADDER.md        symmetry breaking from 3-3-1 to the diamond experiment, derived
 GRAVIGUT_NOGO.md          why gravity's gauge group is not derived from 3-3-1: a no-go
 INDUCED_GRAVITY.md        G induced by stage 1's matter at its Landau pole (MODEL)
+INDUCED_GRAVITY_FINITE.md the regulator question: sum rules, a mass bound, the two-level completion
 FIRST_PRINCIPLES.md       how to rebuild the ladder from first principles
 rebuild/                  protocol and harness for a blind AI rebuild of the ladder
 DEPENDENCIES.md           generated map: which script feeds which, and every shared constant

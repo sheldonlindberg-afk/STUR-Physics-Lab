@@ -1,8 +1,8 @@
-# Can the induced G be made independent of the regulator? Registration
+# Can the induced G be made independent of the regulator?
 
 *Written and committed before any number below is computed. The derivation of every formula
 used is part of the registration, so a sign or factor error is visible before the result is.
-Independent work, not peer reviewed. Status: **registered, not computed.***
+Independent work, not peer reviewed. Status: **registered (commit c1beae2), then computed: every item as registered** (result below; the registration above unchanged).*
 
 ## The question
 
@@ -106,3 +106,36 @@ fixed. To be shown by an explicit example.
 
 That is the strongest statement the physics allows. The audit's sign-flipping energy cutoff
 then corresponds to no physical completion of this two-level kind.
+
+---
+
+## Result (computed after registration)
+
+Run it: `python3 src/induced_gravity_finite.py` (standard library only, under a second; output in
+[results/induced_gravity/finite.txt](results/induced_gravity/finite.txt)). Pinned by
+[`tests/test_induced_gravity_finite.py`](tests/test_induced_gravity_finite.py).
+
+| Item | Result | Registered expectation |
+|---|---|---|
+| 1 | str[1] = 18 + 34 − 138 = **−86**. S1 alone would need ξ = 0.17593 for all 18 scalars | as registered |
+| 2 | Bound (A): the measured M_Pl is reached only for **w ≥ 2.8×10¹⁸ GeV** (Σ\|k₁\| = 23–26) | as registered (needed w ≫ 10⁷ GeV) |
+| 3 | 600 random two-level completions, stage 1's light masses kept: formula (B) exact to **3×10⁻¹³**, and the sign of 1/G equals the sign of S **in every case** | as registered |
+| 4 | Three levels: S = +3.17 with weights −13.8, +39.3, −28.7 at 1.4×10¹⁷, 3.1×10¹⁹, 3.6×10¹⁹ GeV gives **1/G < 0** | as registered |
+| 5 | I(m) asymptotics against direct integration: **3.5×10⁻⁸** | as registered |
+
+**What it means.**
+- **The regulator dependence is physical, not a defect of the calculation.** No spectrum with masses from
+  3-3-1's own vacuum values can induce the measured G finitely: that needs w ≳ 3×10¹⁸ GeV, or states near the
+  Planck mass. So G is set by whatever completes 3-3-1 at its pole, and a cutoff is how one writes that.
+- **For the minimal completion the sign and size are fixed.** That completion is two heavy levels satisfying the
+  sum rules. The induced G is then exactly the proper-time result of INDUCED_GRAVITY.md, with
+  κ² = M₁² r ln r/(r − 1) between the two levels. Its sign is the sign of stage 1's own str[k₁]: attractive for
+  β = +1/√3, whatever the heavy states are. With the levels at the one-loop pole and up to 10× above it, the
+  induced M_Pl is 3.1–6.7 × measured at ξ = 0.
+- **Beyond the minimal completion the sign is open.** With three or more levels, or with a mode-energy cutoff,
+  either sign is possible.
+
+So the sharpest form of the result is: *if 3-3-1 is completed at its Landau pole by the minimal set of heavy
+states that makes induced gravity finite, gravity comes out attractive, with G within an order of magnitude of
+the measured value.* The cosmological term still needs str[1] = str[m²] = str[m⁴] = 0, which takes more states;
+that is not addressed here.
