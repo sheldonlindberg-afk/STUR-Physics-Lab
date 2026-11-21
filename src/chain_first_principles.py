@@ -19,7 +19,8 @@ WHAT IT IS
     The file has three parts:
       1. MEASURED INPUTS. The only numbers typed in. Each names its source.
       2. STAGES. The blind build: toolkit, gauge331, weak, chiral, casimir, graviton,
-         desitter, blackholes, running, links.
+         desitter, blackholes, running, links; then induced_g, the accepted blind build of
+         campaign induced_g (Newton's constant induced by quantum fields at one loop).
       3. THE CHAIN. Nine steps. Each takes values that earlier steps returned and hands new
          ones on. Wherever the chain could take a number from outside, and a stage derives
          it, the derived number is used. Then every result that has a measurement is
@@ -36,6 +37,8 @@ READING THE OUTPUT
              algebra or the wiring is wrong.
     [fit]    a derived value against a measurement, as a pull:
              (derived - measured) / uncertainty. |pull| <= 2 is printed as "fits".
+    [model]  a value that follows from a named model (here: gravity induced by stage 1's
+             own matter, cut off at its Landau pole), against its measurement. In the verdict.
     [info]   a derived value with nothing measured to compare it with yet (a prediction),
              or a comparison whose uncertainty this file can't compute.
     [conj]   step 9 only: a value that follows under a named, unproven conjecture, against
@@ -43,8 +46,17 @@ READING THE OUTPUT
     [emp]    step 9 only: an empirical regularity with no accepted derivation, against its
              measurement. Not part of the fit.
 
+GRAVITY'S SCALE
+    Step 1 derives the Planck mass's order of magnitude from stage 1 itself: the one-loop
+    induced Newton constant of its 17 gauge vectors, 69 Weyl fermions and 18 scalars, cut off
+    at its U(1)_X Landau pole (INDUCED_GRAVITY.md; campaign induced_g, accepted). The measured G
+    is then a check on that band, not an input to it. The sign of an induced G belongs to the
+    regulator: this is the proper-time (heat-kernel) cutoff, as in the campaign's SPEC. Downstream steps need G to many digits, which
+    an order-of-magnitude derivation can't give, so they take the measured value as a
+    precision input, marked where it enters.
+
 WHAT IT DOES NOT SHOW
-    The measured inputs stay measured: G, the couplings at M_Z, G_F, the pion's decay rate,
+    The measured inputs stay measured: G's digits, the couplings at M_Z, G_F, the pion's decay rate,
     the lattice constants, Lambda, diamond's permittivity. No stage derives them, and the
     chain doesn't derive the values they have: step 9 tests the published explanations and
     finds none that is established. The 3-3-1 scale and the
@@ -2615,6 +2627,64 @@ links = _load_links()
 
 
 # ==================================================================================================
+# STAGE induced_g: campaign induced_g, blind build a (rebuild/campaigns/induced_g/ACCEPTED.md)
+# rebuild/campaigns/induced_g/builds/a/induced_g.py; helpers that need numpy (its second route) are left out
+# ==================================================================================================
+def _load_induced_g():
+    """Induced Newton constant at one loop (Sakharov), proper-time cutoff. See DERIVATION.md."""
+    import math
+    from fractions import Fraction
+
+    _SIXTH = Fraction(1, 6)
+
+
+    def _spinor_dim(d):
+        return 2 ** (d // 2)
+
+
+    def k1(kind, d=4, xi=0.0):
+        """Coefficient of R in b1 = tr(E) + tr(1) R/6, per field, bare trace (ghosts subtracted inside 'vector')."""
+        if kind == "scalar":                       # E = -xi R, tr 1 = 1
+            return float(_SIXTH) - xi
+        if kind in ("dirac", "weyl"):              # E = -R/4 (Lichnerowicz), tr 1 = 2^floor(d/2)
+            if kind == "weyl" and d % 2:
+                raise ValueError("Weyl fermions only in even d")
+            val = _spinor_dim(d) * (_SIXTH - Fraction(1, 4))
+            return float(val / 2 if kind == "weyl" else val)
+        if kind == "vector_no_ghosts":             # E_m^n = -R_m^n, tr E = -R, tr 1 = d
+            return float(d * _SIXTH - 1)
+        if kind == "vector":                       # minus two real xi = 0 scalars (complex Grassmann ghost pair)
+            return float(d * _SIXTH - 1 - 2 * _SIXTH)
+        raise ValueError(f"unknown kind {kind}")
+
+
+    def inv_G(kappa, n_s, n_w, n_v, xi=0.0):
+        """1/G from W = -ln Z matched to S_grav = -(1/16 pi G) int sqrt(g) R, d = 4.
+        W ⊃ -(kappa^2/(32 pi^2)) K int R, K = sum_bosons k1 - sum_fermions k1  =>  1/G = kappa^2 K / (2 pi)."""
+        K = n_s * k1("scalar", 4, xi) + n_v * k1("vector", 4) - n_w * k1("weyl", 4)
+        return kappa ** 2 * K / (2 * math.pi)
+
+
+    def mpl(kappa, n_s, n_w, n_v, xi=0.0):
+        g = inv_G(kappa, n_s, n_w, n_v, xi)
+        return math.sqrt(g) if g > 0 else None
+
+
+    PROVENANCE = {
+        "k1": ("derived", "b1 = tr E + tr1 R/6 with E from each operator (DERIVATION.md sec 2)"),
+        "inv_G": ("derived", "kappa^2 term of W = -ln Z with proper-time cutoff matched to S_grav (sec 3-5)"),
+        "mpl": ("derived", "sqrt of inv_G when positive"),
+    }
+
+
+    # ---------------------------------------------------------------- second route: exact spectra on round spheres
+    return _types.SimpleNamespace(**locals())
+
+
+induced_g = _load_induced_g()
+
+
+# ==================================================================================================
 # THE CHAIN (tools/chain_driver.py, verbatim)
 # ==================================================================================================
 LEDGER = []      # [name, value, step that produced it, [steps that used it]]
@@ -2622,6 +2692,7 @@ CHECKS = []      # (tag, label, ok)
 FIT = []         # (label, derived, measured, sigma, pull, what was derived)
 REPLACED = []    # (parameter, value text, where it came from)
 BEYOND = []      # step 9: (tag, label, value, measured, pull or None, what it assumes)
+MODEL = []       # [model] rows: (label, ok, detail)
 
 
 def banner(s):
@@ -2663,6 +2734,11 @@ def fit(label, pred, meas, unit, uses, extra_sigma=0.0):
     return p
 
 
+def model(label, ok, detail=""):
+    MODEL.append((label, ok, detail))
+    print(f"   [model] {'PASS' if ok else 'FAIL'}  {label}" + (f"  ({detail})" if detail else ""))
+
+
 def rel(a, b):
     return abs(a - b) / max(abs(b), 1e-300)
 
@@ -2698,10 +2774,11 @@ def unification():
               for n in (3, 5, 7) for bb in (b, -b, Fraction(2, 7)) for xl in (Fraction(-1, 3), Fraction(5, 9))
               for xt in (Fraction(0), Fraction(4, 11))))
 
-    # the measured couplings enter here
+    # the measured couplings enter here. G's scale is checked below against the one stage 1 induces;
+    # its digits are a precision input for every step that uses it
     G = inputs.G_NEWTON
     mpl = links.planck_mass_GeV(G, inputs.HBAR, inputs.C_LIGHT)
-    print(f"   Planck mass from the measured G: {mpl:.6e} GeV")
+    print(f"   Planck mass from the measured G: {mpl:.6e} GeV (its scale is checked against the induced one below)")
 
     # the number of colours is not put in either: the U(1)_X Landau pole must lie above the Planck mass
     # for the theory to reach it, and N_c = 5's pole lies far below
@@ -2717,6 +2794,44 @@ def unification():
             wlo, whi = links.g_window(p3, p5, mpl)
             check("the G window is the one the poles and M_Pl give by hand-off", rel(wlo, lo) < 1e-12 and rel(whi, hi) < 1e-12)
     REPLACED.append(("number of colours N_c", "3", "the Landau poles against M_Pl (stages running, links); one loop"))
+
+    # gravity's scale from stage 1's own matter: Sakharov's induced G, cut off at the U(1)_X pole (campaign induced_g)
+    print("   Gravity's scale from stage 1's own matter (induced at one loop, proper-time cutoff at the U(1)_X pole):")
+
+    def species(var, nc=3):
+        n_w = n_s = 0
+        for kind, mult, dim, _ in running._fields_331(nc, var):
+            if kind == "weyl":
+                n_w += int(mult) * dim
+            else:
+                n_s += 2 * int(mult) * dim
+        return n_s, n_w, (nc * nc - 1) + 8 + 1
+    band = {}
+    for var in gauge331.VARIANTS:
+        n_s, n_w, n_v = species(var)
+        poles = {"one loop": running.landau_pole(3, var), "three loops": inputs.POLES_331[var][0]}
+        band[var] = [induced_g.mpl(p, n_s, n_w, n_v, xi) for xi in (0.0, 1 / 6) for p in poles.values()]
+        shown = ", ".join("none" if m is None else f"{m / mpl:.3g}" for m in band[var])
+        print(f"      beta = {var}: {n_v} vectors, {n_w} Weyl fermions, {n_s} scalars; induced M_Pl / measured ="
+              f" {shown}  (xi = 0, 1/6 at the one- and three-loop pole)")
+    sel = [m for m in band[variant] if m is not None]
+    other = [m for v in gauge331.VARIANTS if v != variant for m in band[v] if m is not None]
+    lo, hi = min(sel) / mpl, max(sel) / mpl
+    check("the induced 1/G is positive for the selected variant at both structural couplings (xi = 0, 1/6)",
+          len(sel) == 4)
+    check("the induced Planck mass lies below the N_c = 3 pole it is cut off at: the selection is self-consistent",
+          all(m < running.landau_pole(3, variant) for m in sel))
+    n5 = species(variant, 5)
+    m5 = induced_g.mpl(running.landau_pole(5, variant), *n5, 0.0)
+    model("the measured Planck mass lies in the band stage 1 induces (beta = " + variant + ")", lo <= 1 <= hi,
+          f"induced {lo:.2f} to {hi:.2f} x measured, so G is {1 / hi ** 2:.2f} to {1 / lo ** 2:.1f} x measured")
+    model("the other variant cannot induce it: its pole is too high", all(not (1 / 3 <= m / mpl <= 3) for m in other),
+          "closest induced M_Pl " + (f"{min(other, key=lambda m: abs(math.log(m / mpl))) / mpl:.2g} x measured" if other else "none"))
+    model("N_c = 5 at its own pole cannot induce it", m5 is None or m5 / mpl < 1e-3,
+          f"induced M_Pl {m5:.2e} GeV = {m5 / mpl:.1e} x measured" if m5 else "no positive G")
+    REPLACED.append(("gravity's scale (M_Pl, to within a factor 3)", f"{lo:.2f} to {hi:.2f} x the measured value",
+                     "the one-loop induced G of stage 1's fields at its U(1)_X pole (campaign induced_g); measured G is now"
+                     " a check on it, and its digits a precision input downstream"))
 
     # the electroweak gauge bosons, from the mass matrix
     alpha_mz = 1 / inputs.ALPHA_MZ_INV
@@ -3190,7 +3305,7 @@ def summary():
     banner("What the chain no longer takes from outside")
     for name, value, how in REPLACED:
         print(f"   {name}: {value}\n      from {how}")
-    print("\n   Still measured (rebuild/inputs.py): G, hbar, c, k_B, e; alpha at M_Z and at 0, sin^2 theta_W, G_F;")
+    print("\n   Still measured (rebuild/inputs.py): G's digits (a check on its derived scale), hbar, c, k_B, e; alpha at M_Z and at 0, sin^2 theta_W, G_F;")
     print("   the pion's decay rate, its radiative correction and |V_ud|; the lattice constants; g_A and the")
     print("   nucleon and pion masses; Lambda; diamond's permittivity and density; the astronomical data.")
     print("   Chosen, not measured: the 3-3-1 scale MU_331, the ratio v1/v2, the diamond design.")
@@ -3215,14 +3330,17 @@ def summary():
     bad_math = [label for _, label, ok in CHECKS if not ok]
     n_ok = len(CHECKS) - len(bad_math)
     print(f"   [math] checks: {n_ok}/{len(CHECKS)} pass")
+    bad_model = [label for label, ok, _ in MODEL if not ok]
+    print(f"   [model] checks: {len(MODEL) - len(bad_model)}/{len(MODEL)} pass")
     fits = worst <= 2
-    print("\n   VERDICT: " + ("every hand-off checks, and every derived value is within 2 sigma of its measurement."
-                              if fits and not bad_math else
-                              "NOT ALL PASS: " + "; ".join(bad_math + [row[0] for row in FIT if abs(row[4]) > 2])))
+    print("\n   VERDICT: " + ("every hand-off checks, every derived value is within 2 sigma of its measurement, and"
+                              " the measured G lies in the band stage 1 induces."
+                              if fits and not bad_math and not bad_model else
+                              "NOT ALL PASS: " + "; ".join(bad_math + bad_model + [row[0] for row in FIT if abs(row[4]) > 2])))
     print("   This tests the chain's wiring and its derived numbers. It does not test the measured inputs,")
     print("   and step 1's tree-level M_Z is outside this verdict because the chain has no loop corrections.")
     print("   Step 9's [conj] and [emp] rows are outside it too: they test explanations, not the chain.")
-    return 0 if fits and not bad_math else 1
+    return 0 if fits and not bad_math and not bad_model else 1
 
 
 def run():

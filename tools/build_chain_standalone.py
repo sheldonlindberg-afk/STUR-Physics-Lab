@@ -28,6 +28,12 @@ sys.path.insert(0, os.path.join(ROOT, "rebuild"))
 import contract  # noqa: E402
 
 BUILD_ID = "2026-11-b"
+# Accepted campaign builds embedded in the chain after the ten stages: (module, path, what it is).
+# Their top-level helpers that import outside the standard library (a build's own second-route checks)
+# are dropped, so the chain stays standard library only; the exports are embedded verbatim.
+CAMPAIGN_STAGES = [("induced_g", os.path.join("rebuild", "campaigns", "induced_g", "builds", "a", "induced_g.py"),
+                    "campaign induced_g, blind build a (rebuild/campaigns/induced_g/ACCEPTED.md)")]
+STDLIB_OK = {"math", "cmath", "fractions", "itertools", "functools"}
 OUTPUTS = {"chain": ("chain_first_principles.py", "chain_driver.py", "THE CHAIN"),
            "stages": ("first_principles_standalone.py", "stages_driver.py", "THE REPORT")}
 
@@ -37,8 +43,9 @@ def out_path(kind):
 RULE = "# " + "=" * 98
 
 
-def _body_without_main(path, drop_imports):
-    """The module's source lines, minus the trailing __main__ block and the named top-level imports."""
+def _body_without_main(path, drop_imports, drop_nonstdlib=False):
+    """The module's source lines, minus the trailing __main__ block and the named top-level imports
+    (and, with drop_nonstdlib, the top-level functions that import outside the standard library)."""
     src = open(path, encoding="utf-8").read()
     tree = ast.parse(src)
     lines = src.split("\n")
@@ -52,6 +59,11 @@ def _body_without_main(path, drop_imports):
             cut.update(range(node.lineno - 1, len(lines)))
         elif isinstance(node, ast.Import) and all(a.name in drop_imports and a.asname is None for a in node.names):
             cut.update(range(node.lineno - 1, node.end_lineno))
+        elif isinstance(node, ast.FunctionDef) and drop_nonstdlib and any(
+            isinstance(n, (ast.Import, ast.ImportFrom)) and
+            any((a.name if isinstance(n, ast.Import) else (n.module or "")).split(".")[0] not in STDLIB_OK
+                for a in (n.names if isinstance(n, ast.Import) else [n])) for n in ast.walk(node)):
+            cut.update(range(node.lineno - 1 - len(node.decorator_list), node.end_lineno))
         elif isinstance(node, ast.ImportFrom) and node.module in drop_imports:
             raise SystemExit(f"{path}: 'from {node.module} import' cannot be embedded")
         elif isinstance(node, ast.Global) or any(isinstance(n, ast.Global) for n in ast.walk(node)):
@@ -88,6 +100,10 @@ def render(kind="chain", build_id=BUILD_ID):
                 "# (its derivation notes: DERIVATION_" + s["name"] + ".md beside it)", RULE]
         out += _wrap(s["module"], _body_without_main(os.path.join(build, s["module"] + ".py"),
                                                      set(stage_mods) | {"inputs"}))
+    if kind == "chain":
+        for mod, rel_path, what in CAMPAIGN_STAGES:
+            out += ["", "", RULE, f"# STAGE {mod}: {what}", f"# {rel_path}; helpers that need numpy (its second route) are left out", RULE]
+            out += _wrap(mod, _body_without_main(os.path.join(ROOT, rel_path), set(), drop_nonstdlib=True))
     out += ["", "", RULE, f"# {title} (tools/{driver_name}, verbatim)", RULE, body.rstrip("\n"), ""]
     return "\n".join(out)
 

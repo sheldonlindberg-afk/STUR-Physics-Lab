@@ -104,6 +104,8 @@ Each place a measured number enters is marked. Not derived anywhere in the chain
 - gravity's unification with the gauge forces. Stage 7 is an equivalent rewriting of general
   relativity with Λ, in the same broken-symmetry language as stage 1. It is not derived from
   stage 1, and the step from 6 to 7 is a change of language, not of physics.
+  [GRAVIGUT_NOGO.md](GRAVIGUT_NOGO.md) shows why it cannot be: no breaking of stage 1 leaves
+  gravity's non-compact group, and no orthogonal graviGUT parent holds stage 1's chiral fermions.
 
 Three steps carry a model, named where they occur: the ρ + a₁ saturation of the pion
 splitting (27% above the measured value), the switch-on rule for each species in the
@@ -143,6 +145,7 @@ number is used, and every result that has a measurement is then compared with it
 | f_π | 130.567 MeV | G_F and the pion's weak decay, in place of the lattice value |
 | m_π | 132.3 ± 3.8 MeV | O(p⁴) chiral perturbation theory with that f_π (the formula is quoted) |
 | Gap between the diamonds | 181.11 µm | the Casimir–Polder force |
+| Gravity's scale | M_Pl 0.47–3.1 × measured | the one-loop induced G of stage 1's own fields, cut off at its U(1)_X pole ([INDUCED_GRAVITY.md](INDUCED_GRAVITY.md); blind campaign `induced_g`) |
 
 | Derived, against its measurement | Pull |
 |---|---|
@@ -154,9 +157,12 @@ number is used, and every result that has a measurement is then compared with it
 | GW250114's ringdown frequency and damping rate | +0.33σ, +0.59σ |
 
 All eight are within 2σ (χ² = 3.76; they are not independent, since several share f_π), and
-all 38 identity and hand-off checks pass. Three limits apply:
+all 40 identity and hand-off checks pass. The three `[model]` checks pass too: the measured G
+lies in the band stage 1 induces, and neither the other variant nor N_c = 5 can induce it.
+Three limits apply:
 
-- **The measured inputs stay measured.** G, the couplings at M_Z, G_F, the pion's decay rate,
+- **The measured inputs stay measured.** G's digits (its scale is now a check, not an input;
+  downstream steps need its digits), the couplings at M_Z, G_F, the pion's decay rate,
   the lattice constants and Λ are not derived by any stage. The 3-3-1 scale and the ratio of
   the two electroweak vacuum values are choices.
 - **Tree-level M_Z is 0.35% above the measured value**, far outside the measurement's error.
@@ -170,7 +176,7 @@ in kind. It is not from the blind build. It asks why the measured inputs have th
 the Standard Model's 19 parameters, the published attempts to explain them, and quark flavour
 in 3-3-1, restated with the standard library from [`src/why_parameters.py`](src/why_parameters.py).
 Its comparisons are tagged `[conj]` (rests on a named conjecture) or `[emp]` (an empirical
-regularity) and stay outside the fit and the verdict; ten of the 38 checks are its identities.
+regularity) and stay outside the fit and the verdict; ten of the 40 checks are its identities.
 The explanation, results and sources are in [WHY.md](WHY.md).
 
 [`src/first_principles_standalone.py`](src/first_principles_standalone.py) is the ten stages

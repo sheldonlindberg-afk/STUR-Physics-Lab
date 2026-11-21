@@ -268,8 +268,12 @@ python3 src/m331_breaking.py         # the ladder, rungs 1-6: also chiral_breaki
 python3 src/ladder_links.py          # links across the rungs: neutral matter, pi0 -> gamma gamma, M_Pl, ~2 s
 python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
 python3 src/why_parameters.py        # the 19 parameters: explanations tested, 3-3-1 flavour, ~3 s
+python3 src/m331_gravigut_nogo.py    # no derivation of stage 7's gravity from stage 1's 3-3-1: the graviGUT no-go, ~3 s
+python3 src/induced_gravity.py       # G induced by stage 1's matter at its Landau pole: M_Pl within a factor 3, <1 s
+python3 src/induced_gravity_finite.py # regulator-free induced G: impossible within 3-3-1; the minimal completion fixes the sign, <1 s
+python3 src/gravity_from_331.py      # all of it in one paste: the no-go, the induced G, the loop to N_c = 3, ~3 s
 python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (356 tests)
+python -m pytest tests -q           # every number pinned (393 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on
@@ -282,10 +286,15 @@ paper/                    the 3-3-1 note: PDF, LaTeX source, and its own README 
 notebooks/                study notebooks with exercises
 NOTE_331.md               the 3-3-1 note with extended detail on each check
 NOVELTY.md                literature search: what is new, what was already known
+CLAIMS.md                 every headline claim: label, the tests that pin it, assumptions, falsifier
+PREREGISTRATION.md        rules for tests registered before computing, and the registry
 NOTE_TEGR.md              the frame in teleparallel gravity and black-hole entropy
 FORCE_CHAIN.md            the forces as one chain, from 3-3-1 into black holes and back
 WHY.md                    why these inputs? the 19 parameters, explanations tested, sources
 SYMMETRY_LADDER.md        symmetry breaking from 3-3-1 to the diamond experiment, derived
+GRAVIGUT_NOGO.md          why gravity's gauge group is not derived from 3-3-1: a no-go
+INDUCED_GRAVITY.md        G induced by stage 1's matter at its Landau pole (MODEL)
+INDUCED_GRAVITY_FINITE.md the regulator question: sum rules, a mass bound, the two-level completion
 FIRST_PRINCIPLES.md       how to rebuild the ladder from first principles
 rebuild/                  protocol and harness for a blind AI rebuild of the ladder
 DEPENDENCIES.md           generated map: which script feeds which, and every shared constant

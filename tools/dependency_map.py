@@ -37,7 +37,7 @@ TOPICS = {
     "3-3-1 selection": ["m331_why_three", "m331_three_generations", "m331_su3L_running", "m331_exact",
                         "m331_yukawa", "m331_threshold", "m331_closure", "m331_scalar", "m331_three_loop",
                         "m331_margin", "m331_zprime_recast", "m331_heavy_lepton", "m331_gravity_fixed_point", "m331_standalone",
-                        "m331_core", "m331_matrix_check", "m331_coupling_map",
+                        "m331_core", "m331_matrix_check", "m331_coupling_map", "m331_gravigut_nogo", "induced_gravity", "induced_gravity_finite", "gravity_from_331",
                         "why_parameters",
                         "qcd_running", "rge_engine"],
     "Symmetry ladder": ["m331_breaking", "chiral_breaking", "casimir_diamonds", "graviton_exchange",
@@ -188,18 +188,18 @@ q("c_s", "area-law coefficient S/(R/a)² per scalar", lambda: _c_area(), "derive
 # generated from rebuild/inputs.py embed its DESIGN_A_* lines verbatim; those are skipped.
 q("A_m", "design A: mass (kg)", lambda: cached("A", _design_a)["m"], "derived",
   "src/stur_gravity_full.py design_a()", match=0.03, same=1e-3, single_source=True, short=True,
-  skip=[("chain_first_principles", "DESIGN_A_"), ("first_principles_standalone", "DESIGN_A_")])
+  skip=[("chain_first_principles", "DESIGN_A_"), ("first_principles_standalone", "DESIGN_A_"), ("gravity_from_331", "DESIGN_A_")])
 q("A_R", "design A: diamond radius (m)", lambda: _diamond_radius(), "derived",
   "src/stur_gravity_full.py design_a()", match=0.02, same=1e-3, single_source=True)
 q("A_dx", "design A: branch separation Δx (m)", lambda: cached("A", _design_a)["dx"], "derived",
   "src/stur_gravity_full.py design_a()", match=2e-3, same=5e-4, single_source=True,
-  skip=[("chain_first_principles", "DESIGN_A_"), ("first_principles_standalone", "DESIGN_A_")])
+  skip=[("chain_first_principles", "DESIGN_A_"), ("first_principles_standalone", "DESIGN_A_"), ("gravity_from_331", "DESIGN_A_")])
 q("A_gap", "Casimir-safe gap (m)", lambda: cached("A", _design_a)["gap"], "derived",
   "src/stur_gravity_full.py design_a() (Casimir < 10% of gravity)", match=2e-3, same=5e-4,
   single_source=True, skip=[("ladder_standalone", "abs(gap - 181.16e-6)")])
 q("A_ramp", "design A: ramp time (s)", lambda: cached("A", _design_a)["ramp"], "derived",
   "src/stur_gravity_full.py design_a()", match=2e-3, same=1e-3, single_source=True,
-  skip=[("chain_first_principles", "DESIGN_A_"), ("first_principles_standalone", "DESIGN_A_")])
+  skip=[("chain_first_principles", "DESIGN_A_"), ("first_principles_standalone", "DESIGN_A_"), ("gravity_from_331", "DESIGN_A_")])
 q("A_total", "design A: total time (s)", lambda: cached("A", _design_a)["total"], "derived",
   "src/stur_gravity_full.py design_a()", match=3e-3, same=2e-3, single_source=True,
   skip=[("stur_z2_higgs", "cut = 3.25")])
