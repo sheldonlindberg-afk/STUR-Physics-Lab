@@ -1,0 +1,5 @@
+Transcript audit of the builder of qcd_drho build a (room room-qcd_drho-a) after all rounds, run 2026-11-20T17:00:40Z
+transcript sha256: 7d75bb85f157aa9228256ef50b7c87fd468109b39ec13bd456959b896803b4d8  (108 lines)
+command: python3 audit_transcript.py <transcript> <room> --canary <tokens from CANARIES.txt>; cwd-aware
+tool calls: {'Bash': 23, 'Write': 3, 'Edit': 1, 'Monitor': 2, 'SubagentHandback': 1}
+ISOLATION RECORD CLEAN

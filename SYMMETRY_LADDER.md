@@ -61,7 +61,7 @@ M²_AB = g_A g_B Σ_φ ⟨φ⟩†{t_A, t_B}⟨φ⟩, for both variants.
 | B4 | M_W = gv/2; bileptons M² = g²(w² + v_i²)/4; at leading order in v/w, M_Z² = (g² + g_Y²)v²/4 and M_Z′² = (g² + β²g_X²)w²/3. So **M_Z′/M_V = √(4/3·(1 + β²t_X²))**, the formula `src/m331_threshold.py` used, now derived (zero residual) | CHECK |
 | B5 | Z–Z′ mixing: ρ = M_W²/(M_Z² cos²θ_W) = 1 + (v/w)² × (a perfect square), so ρ ≥ 1 at tree level. Checked against exact diagonalization to 3×10⁻⁹ | CHECK |
 | B6 | Every fermion's charge from Q, component by component, for N_c = 3, 5 and 7. Anti-triplets carry −T*. Every SU(2)_L doublet is (Q_u, Q_d) or (0, −1), with Q_u = (N_c + 1)/2N_c and Q_d = (1 − N_c)/2N_c | CHECK |
-| B7 | v = 246.22 GeV from G_F. The tree-level M_Z = 91.51 GeV, against the measured 91.19: the +0.35% is the known radiative correction, not derived here | CHECK |
+| B7 | v = 246.22 GeV from G_F. The tree-level M_Z = 91.51 GeV, against the measured 91.19: the +0.35% is the known radiative correction, decomposed in Link 22 | CHECK |
 
 **After the Standard Model's loops (`src/m331_rho_bound.py`).** B7's +0.35% is known
 Standard Model physics, not a test of 3-3-1. What the global fit leaves after the Standard
@@ -147,6 +147,7 @@ Casimir–Polder force.
 | P1 | The polarizability of a dielectric sphere, from Laplace's equation with the boundary conditions: **α/(4πε₀) = KR³, K = (ε − 1)/(ε + 2)** | CHECK |
 | P2 | The dipole Green tensor at imaginary frequency satisfies the wave equation and is transverse off the source; **Tr G·G = 2e^(−2u)(3 + 6u + 5u² + 2u³ + u⁴)/r⁶** | CHECK |
 | P3 | The Casimir–Polder fluctuation formula U = −(ħ/2π)∫dξ α₁α₂ Tr G·G (LIT: Casimir and Polder 1948, the one quantum step quoted, not derived). For constant α, the integral is exactly **23/4**, so **U = −(23/4π) ħc α₁α₂/r⁷** | CHECK; LIT formula |
+| P3b | **The quantum step, checked.** Two coupled oscillators with the static dipole tensor have exact normal modes; their zero-point shift equals (ħ/2π)∫dξ Σ ln(1 − α²t²) to 10⁻¹¹ at any coupling strength, and its second order is London's −(3/4)ħω₀α₀²/r⁶. Retardation enters only through P2's classical Green tensor; that the same ln det holds with the retarded G is checked in Link 21 | CHECK (instantaneous limit) |
 | P4 | This is the formula the experiment code had quoted as known; it agrees to 12 digits. At 200 µm, Casimir/gravity = 2.3×10⁻². Casimir ∝ R⁶/r⁷ and gravity ∝ R⁶/r, so the safe gap doesn't depend on the mass: 181 µm | CHECK |
 | P5 | At temperature T the frequency integral becomes the Matsubara sum. With constant α it is exact in closed form: **U_T = U₀ η(τ)**, τ = 2πk_BTr/ħc, with **η = 1 + (22/21735)τ⁶ + …** at small τ and η → 6τ/23 (U_T → −3k_BTα₁α₂/r⁶) at large τ. It agrees to machine precision with Boyer's far-zone result (PRA 11, 1650 (1975)) in the form of Passante and Spagnolo, PRA 76, 042112 (2007), eq. (11), including the τ⁶ term. The regimes are those of Goedecke and Wood, PRA 60, 2577 (1999). Constant α: only ξ up to ~10c/r = 1.7×10¹³ rad/s matter at the gap. Ideal diamond has zero Born effective charges (Lawler and Shirley, arXiv:cond-mat/0407541), and its one-phonon absorption at 1332 cm⁻¹ (2.5×10¹⁴ rad/s) is forbidden (Shiryaev et al., Meteorit. Planet. Sci. 57, 730 (2022)). So its lowest lattice absorption is 15× above the frequencies that matter | CHECK, exact; LIT |
 | P6 | The safe gap at finite temperature. At the design's 0.15 K it moves by 1×10⁻¹¹, and at 4.2 K by 0.2%. It grows by 6% at 10 K and by 1.7× (to 0.31 mm) at 77 K. Thermal corrections don't tighten the gap at the design's temperature. With design A's own branch separation (721 µm, not the 250 µm H0 used) the gap would be 164 µm, so 181 µm is conservative | CHECK |
@@ -218,7 +219,7 @@ counts is not derived here (see [TEGR.md](TEGR.md) for the corner-charge attempt
 
 ## Links between the rungs (`src/ladder_links.py`)
 
-The rungs above are separate derivations. In five places one rung's output is another
+The rungs above are separate derivations. In twenty-six places one rung's output is another
 rung's input, and the link can be checked against a measurement or against the other rung's
 code.
 
@@ -365,6 +366,227 @@ splitting use α(0). This link shows they are one coupling at two scales.
 | L10b | **The background can't entangle.** For two masses the Λ term is a sum of one-body energies, so it cancels identically in the entangling combination φ₀₀ + φ₁₁ − φ₀₁ − φ₁₀; the 1/r term, with the same G, is all that is left | CHECK, symbolic |
 | L10c | What can is a mass–mass correction from the de Sitter propagator, of relative order (r/l)² = Λr²/3: **2×10⁻⁵⁹** at design A's farthest branch distance. The coefficient isn't computed; the order is the statement | FOLLOWS |
 | L10d | Rung 5's l = √(3/Λ) = 1.65×10²⁶ m and coupling 3/(GΛ) are built from rung 4's G and the measured Λ | CHECK |
+| L10e | The coefficient of L10c, derived to linear order in each mass: a test mass at distance r from M has U = −GMm/(r√(1 − r²/l²)), a relative correction of **(r/l)²/2 = Λr²/6**, symmetric in the two masses. It shifts design A's entangling phase by **−1.9×10⁻⁶⁰** of itself. The frame is the static patch centred on one mass | CHECK; FOLLOWS (frame) |
+
+### Link 11: the cosmological horizon's entropy, from rung 5 to rung 6 (`src/ladder_links.py` L11)
+
+| | Result | Status |
+|---|---|---|
+| L11a | Rung 5's vacuum f = 1 − r²/l² has a horizon at r = l with κ = 1/l (rung 6's Killing definition), so T_dS = ħc/(2πk_B l). The area is **A = 4πl² = 12π/Λ** (not 4π/Λ) and S_dS = A/4l_P² = **3πc³/(GħΛ)** = π × rung 5's coupling 3/(GΛ). The form πc³/(GħΛ) is a factor 3 too small | CHECK, symbolic |
+| L11b | At every Schwarzschild–de Sitter horizon, from the same f: dM = (f′(r_h)/4π) dS. It is dM = T dS at the black-hole horizon and dM = −T dS at the cosmological one | CHECK, symbolic |
+| L11c | S_bh + S_c < S_dS for every black hole the universe allows (9M²Λ < 1), approaching it as M → 0, because r_b² + r_c² + (r_b + r_c)² = 2l² exactly | CHECK |
+| L11d | At the measured Λ: l = 1.65×10²⁶ m, **S_dS = 3.3×10¹²² k_B**, T_dS = 2.2×10⁻³⁰ K. The number is the Gibbons–Hawking area-law entropy of the cosmological horizon (semi-classical). That it counts microstates (e^S = dim H of the static patch) is a conjecture (Banks–Fischler, dS/CFT, static-patch proposals) that is neither derived nor tested here; only the area law and Λ are used. Status of the proposals and the objections: [HOLOGRAPHY_NOTE.md](HOLOGRAPHY_NOTE.md) (sources partly seen only as abstracts) | CHECK; LIT; MODEL (the microstate reading) |
+
+### Link 15: the cosmological constant against each rung's vacuum energy, from rung 5 to rungs 1, 2, 4 (`src/ladder_links.py` L15)
+
+| | Result | Status |
+|---|---|---|
+| L15a | Exactly, S_dS = (3/8) ρ_Pl/ρ_Λ, with ρ_Λ = Λc⁴/8πG and ρ_Pl = c⁷/(ħG²): the de Sitter entropy is the ratio of the Planck vacuum energy density to the observed one | CHECK, symbolic |
+| L15b | ρ_Λ^(1/4) = 2.25 meV. Against it: rung 2's chiral vacuum energy f_π²m_π² (**6×10⁴²** ρ_Λ), rung 1's Higgs minimum m_h²v²/8 (**5×10⁵⁴**), the 3-3-1 scale w⁴ (9×10⁶², order of magnitude), and M_Pl⁴ (9×10¹²²). Each transition shifts the vacuum energy by about that much and nothing here cancels it: the problem is quantified, not solved | CHECK; LIT; MODEL |
+
+### Link 16: the ringdown fit at zero spin, within rung 6 (`src/ladder_links.py` L16)
+
+| | Result | Status |
+|---|---|---|
+| L16a | Leaver's continued fraction for gravitational perturbations of rung 6's Schwarzschild metric gives Mω = **0.373672 − 0.088962i** (l = 2, n = 0) and 0.346711 − 0.273915i (n = 1), the known values | CHECK |
+| L16b | The Berti–Cardoso–Will fit that H7–H8 invert, at χ = 0: Mω_R = 0.3683 against 0.3737 (−1.4%), Q = 2.119 against 2.100 (+0.9%). The fit is good to about 1% at the non-spinning end. GW250114 uses it at χ ≈ 0.7: Link 20 | CHECK at χ = 0 |
+
+### Link 17: the ABJ anomaly coefficient, derived, from rung 1's anomalies to link 2's π⁰ width (`src/ladder_links.py` L17)
+
+| | Result | Status |
+|---|---|---|
+| L17a | Fujikawa's Jacobian with explicit Euclidean gamma matrices: tr[γ₅σ_μνσ_ρσ] = −4ε_μνρσ for all 256 index sets (the sign is γ₅'s orientation), so ∂·j₅ = **e²εFF/16π²** in magnitude per Dirac fermion | CHECK, symbolic |
+| L17b | A route sharing nothing with it: the lowest Landau level of each chirality is a 1+1 Weyl fermion, so dn₅/dt = 2(eB/2π)(eE/2π) = e²EB/2π², the same number | CHECK, symbolic |
+| L17c | The weights of j₅³ over N_c colours and the matching to ⟨0\|j₅\|π⁰⟩ = if_πp give **A = αN_c(Q_u² − Q_d²)/(πf_π)**: the coefficient L2 quoted | CHECK, symbolic |
+| L17d | Still quoted: the PCAC step and that the anomaly is not renormalized beyond one loop (Adler–Bardeen) | LIT |
+
+### Link 18: the ρ parameter from the top–bottom loop, and M_W, from rung 1 to data (`src/ladder_links.py` L18)
+
+| | Result | Status |
+|---|---|---|
+| L18a | The W and Z self-energies at q² = 0 from the fermion loop in dimensional regularization, with rung 1's couplings T₃ − Qs². The vector Ward identity holds; Δρ has no 1/ε pole and no s² dependence; it equals N_cG_F/(8√2π²)[m_t² + m_b² − 2m_t²m_b² ln(m_t²/m_b²)/(m_t² − m_b²)], which is 3G_Fm_t²/(8√2π²) for m_b → 0 | CHECK, symbolic |
+| L18b | With m_t = 172.57, m_b = 4.18 GeV (PDG 2024): **Δρ = 9.26×10⁻³** | CHECK; LIT |
+| L18c | M_W from G_F, α(0), M_Z with Δr built up: tree **80.94** GeV; + Δα (L9's leptons, hadrons quoted) 79.96; + top loop 80.53; + Higgs term (derived in Links 26–27) **80.50**; with the whole bosonic Δr (Link 29) **80.456**, and with the fermion loops derived too (Link 31) **80.474**, against 80.37 measured. The 0.13 GeV left (0.09 GeV after Link 29) is Δr_rest = 0.0075 (0.0049); the total Δr = 0.0356 | CHECK (top loop); LIT |
+| L18d | B7's +0.35% on M_Z is in the MS-bar scheme, where ŝ²(M_Z) absorbs part of Δρ; that bookkeeping is not done. L18 closes the leading piece of the on-shell correction, not B7's number | FOLLOWS |
+
+### Link 19: Hawking radiation as radiation, within rung 6 (`src/ladder_links.py` L19)
+
+H1 and H2 fix the temperature geometrically; the step that was quoted was that the field is then *emitted* with a Planck spectrum.
+
+| | Result | Status |
+|---|---|---|
+| L19a | A massless field's outgoing modes e^(−iωu) against the vacuum of the regular coordinate U across the horizon, with u = −(1/κ)ln(−κU) and κ from H1. The Klein–Gordon overlaps reduce (one integration by parts) to Γ(1 + iω/κ)(±iΩ)^(−1−iω/κ). With \|Γ(1+iy)\|² = πy/sinh πy: **\|β/α\|² = e^(−2πω/κ)** and \|α\|² − \|β\|² = 1/(2πκΩ), the unitarity normalization. The integral and \|Γ\|² are checked numerically | CHECK |
+| L19b | The mean number of quanta n = \|β\|²/(\|α\|² − \|β\|²) = **1/(e^(2πω/κ) − 1)**, for every Ω: Planck's law at k_BT = ħκ/2π, as an emission spectrum | CHECK, symbolic |
+| L19c | The energy flux of one massless 1+1 field is πT²/12, the one-dimensional Stefan–Boltzmann law. The 3+1 grey-body factors that give L7's mass-loss rate stay quoted (Carr et al.) | CHECK; LIT |
+
+### Link 20: the ringdown fit at the spin GW250114 uses, within rung 6 (`src/ladder_links.py` L20)
+
+| | Result | Status |
+|---|---|---|
+| L20a | Teukolsky's radial equation for s = −2 with Leaver's recurrence, coupled through the separation constant to the spin-weighted spheroidal equation's recurrence: two complex continued-fraction conditions for (ω, A), solved by Newton's method and continued in χ from L16. Against the 11 tabulated values of Berti–Cardoso–Will (Table II, l = m = 2, n = 0, χ = 0 to 0.98), every real and imaginary part agrees to 6×10⁻⁵ | CHECK; LIT |
+| L20b | The fit against the exact modes over χ = 0 to 0.99: largest errors **1.85%** (frequency) and **0.88%** (Q), exactly the maxima Berti–Cardoso–Will state | CHECK |
+| L20c | GW250114's ringdown-only 220 mode inverted with the exact modes: **M_f = 66.48 M☉, χ_f = 0.744** (the fit gave 66.73 and 0.746), final area **4.04×10⁵ km²** (fit 4.07×10⁵). At the least favourable corner of the published ranges the final area is 3.36×10⁵ km² (fit 3.41×10⁵) against the initial 2.52×10⁵: the area law's check does not rest on the fit's error | CHECK; LIT data |
+
+### Link 21: the retarded Casimir–Polder step, within rung 3 (`src/ladder_links.py` L21)
+
+| | Result | Status |
+|---|---|---|
+| L21a | An exactly solvable retarded system: two oscillators on a ring of lattice sites carrying a scalar field. The interaction energy from the normal modes of the whole system (one diagonalization) equals (1/2π)∫dξ ln[1 − (g²G₁₂(ξ,r)α_d(ξ))²], with G the field's Green function at imaginary frequency (e^(−κr) decay, κ = √(ξ² + μ²)), to 10⁻⁹ or better at r = 4, 8, 12. Replacing G₁₂(ξ) by its static value, the instantaneous coupling of P3b, is off by a factor of 3 at r = 4 | CHECK |
+| L21b | What it covers: the step from a retarded kernel to the energy. The electromagnetic case is the same algebra with G a 3×3 tensor (P2's Green tensor, checked against the Helmholtz equation) and two transverse polarizations; the dyadic case is confirmed by Link 23 | CHECK (scalar model); Link 23 for the dyadic case |
+| L21c | At design A's gap αG ~ KR³/r³ = 1×10⁻⁷, so P3's second-order term is exact to 10⁻¹⁴ | CHECK |
+
+### Link 22: B7's +0.35% on M_Z, decomposed, from rung 1 to data (`src/ladder_links.py` L22)
+
+| | Result | Status |
+|---|---|---|
+| L22a | In the MS-bar scheme (PDG 2024, eq. 10.26) M_Z = A₀/[ŝĉ((1 − Δr̂_W)ρ̂)^(1/2)], A₀ = (πα/√2G_F)^(1/2). B7's tree formula is the same with (1 − Δr₀)^(1/2), Δr₀ = 1 − α/α̂ = 0.06645. So exactly **M_Z²/M_Z(tree)² = (1 − Δr₀)/[(1 − Δr̂_W)ρ̂]**, with the published Δr̂_W = 0.06937 and ρ̂ = 1.01016: M_Z = **91.1879 GeV** against 91.1880, and the gap −0.348% against B7's −0.348% | CHECK (algebra); LIT |
+| L22b | In M_Z²: ρ̂ gives −1.006%, (1 − Δr₀)/(1 − Δr̂_W) gives +0.314%; together −0.695%. The quadratic m_t dependence is in ρ̂ alone | CHECK |
+| L22c | L18's one-loop top–bottom loop is **91%** of ρ̂ − 1; with it, M_Z = 91.229 GeV, 0.045% above the measurement. Not derived: the other 9% (bosonic loops, two-loop terms) and Δr̂_W − Δr₀ = 0.0029 (vertex and box corrections and the rest of the MS-bar Δr̂_W). B7's number is decomposed and its dominant part derived, not closed | CHECK; LIT; FOLLOWS |
+
+### Link 23: the dyadic Casimir–Polder step from photon exchange, within rung 3 (`rebuild/campaigns/qed_cp`, `src/ladder_links.py` L23)
+
+| | Result | Status |
+|---|---|---|
+| L23a | Two **blind** builds (different models, clean rooms, a hidden oracle, an adversarial audit; see `rebuild/campaigns/qed_cp/ACCEPTED.md`) derived the retarded Casimir–Polder energy of two single-resonance atoms from the **12 time-ordered fourth-order diagrams** of the dipole–photon coupling, with the full photon polarization sum and angular average, without the Green-tensor formula. They agree with rung 3's imaginary-frequency integral to 10⁻¹¹ (10⁻¹⁵ against the oracle's extended-precision reference) over rω₀ = 10⁻² to 10³ and derive **23/(4π)** (far) and **3/4** (near). This confirms the 3×3, two-polarization structure that L21b left open | CHECK; two builds, audit, oracle |
+| L23b | The Abel-damping step for the photon integrals now has a **conditional proof, not independently reviewed** (`rebuild/campaigns/qed_cp/ABEL_NOTE.md`): for separated ground-state atoms with all energies positive (no zero-energy resonance), every smooth damping (three times differentiable in each photon energy, uniform bounds: the builds' e^{−ε(k+q)}, Gaussians, form factors) gives the same limit, the campaign's value, with a rate O(ε) (O(ε²) for even regulators); it is **false for some regulators**: a sharp cut-off diverges (as −Λ²/(2π²r⁴)) and Fejér averaging converges to a wrong value (U* − α₀²ω₀/(2π²r⁶), 6.75% of the near-zone energy), while analytic continuation in a power agrees to 2×10⁻¹³; the proof of the rate is for product regulators only, the one-photon bounds and the continuation argument are sketched; nothing is claimed for excited atoms, zero-energy resonances or infinitely many levels. Still not established: the gate cannot enforce the independence of the route, which the audit checked by reading; the single-resonance atom model | FOLLOWS |
+
+### Link 24: the emission weights of L7, derived, within rung 6 (`rebuild/campaigns/greybody`, `src/ladder_links.py` L24)
+
+*Accepted: `rebuild/campaigns/greybody/ACCEPTED.md` (two blind builds, a hidden oracle, an adversarial audit with an independent solver, and the strengthened gate).*
+
+| | Result | Status |
+|---|---|---|
+| L24a | L7 quoted the energy emitted per degree of freedom (weights 0.267, 0.147, 0.060, 0.007; Carr et al. 2021 after Page 1976). Two blind builds derived them from the Regge–Wheeler and Chandrasekhar master equations on Schwarzschild (grey-body factors Γ_{s,j}(ω) from the horizon solution matched to the large-r series, then P_s = Σ_j(2j+1)∫dω/2π ωΓ/(e^{ω/T} ∓ 1), T = 1/8π): P_s = 7.43869×10⁻⁵, 4.09165×10⁻⁵, 1.68193×10⁻⁵, 1.91837×10⁻⁶ in units 1/M², i.e. weights **0.2664, 0.1465, 0.0602, 0.00687** (−0.2%, −0.3%, +0.4%, −1.9% against the quoted, within their digits). An auditor's series-free solver reproduces P_s to 10⁻⁹ | CHECK; two builds, audit, oracle |
+| L24b | Carr et al. (arXiv:2002.12778, eqs. 12–13) quote two spin-½ weights, 0.147 (neutral) and 0.142 (charge ±e), with mean emitted energies 4.22 and 4.18 T_BH, citing MacGibbon, PRD 44, 376 (1991) after Page 1976–77. A massless grey-body factor depends on spin only, so the derived weight 0.1465 matches the neutral one. The charged value comes from Page's charge fluctuations of the hole, taken up in **Link 30**: reproduced by one convention, not derived. With 0.1465 for every fermion the Standard Model count would be 15.71 against Carr's 15.35 (L7's 15.332 uses the quoted 0.142) | FOLLOWS (see L30) |
+
+### Link 25: Hawking radiation from a collapsing shell, within rung 6 (`src/ladder_links.py` L25)
+
+| | Result | Status |
+|---|---|---|
+| L25a | L19 assumed the map u = −(1/κ)ln(−κU). For a thin null shell collapsing to a Schwarzschild hole it follows exactly: an incoming ray at advanced time v < v₀ passes through the centre (u_in = v), meets the shell at r_s = (v₀ − v)/2 and leaves along u = v₀ − 2r*(r_s), so **u(v) = v − 4M ln((v_H − v)/4M)**, v_H = v₀ − 4M (residual 0, symbolic). Near v_H, du/dv ∼ 4M/(v_H − v): κ = 1/4M, equal to H1's \|f′(r_h)\|/2. Rays with v > v_H never reach infinity | CHECK, symbolic |
+| L25b | With this map the L19 overlaps are exact: **\|β\|²/\|α\|² = ((ω′ − ω)/(ω′ + ω))² e^(−8πMω)**, the Planck factor times a correction that tends to 1 for in-frequencies ω′ ≫ ω (the modes that fell in at late times) and is smaller otherwise: a thin-shell hole is thermal only for those modes | CHECK |
+| L25c | Not derived: a thin shell is not a star (no matter dynamics, no back-reaction); the late-time stationarity of the flux, the 3+1 grey-body factors (derived in Link 24) joined to it, and the back-reaction on the mass | FOLLOWS |
+
+### Link 26: the Higgs term of L18, its coefficient derived (`rebuild/campaigns/higgs_rho`, `src/ladder_links.py` L26)
+
+| | Result | Status |
+|---|---|---|
+| L26a | L18 quoted Δr_H = +(3G_FM_W²/8√2π²) ln(m_H²/M_W²). Two blind builds derived the m_H dependence of Δρ = Π_WW(0)/M_W² − Π_ZZ(0)/M_Z² from the Higgs-containing one-loop diagrams of the bosonic electroweak Lagrangian in R_ξ gauge (H–gauge bubble, H–Goldstone bubble, seagull; Feynman rules read off |DΦ|²): the poles are m_H-independent and cancel, ξ drops out exactly, and **Δρ = −(3α/16πc²) ln(m_H²/M_W²) + C**, C = 9.54×10⁻⁴ relative to m_H = M_W. With Δr_H = −(c²/s²)Δρ the quoted coefficient is reproduced **to the double** (2.0241161617955×10⁻³). An auditor's two other routes agree with both builds at m_H = 10 to 5000 GeV; the builds agree exactly up to 10³³ M_W | CHECK; two builds, audit, oracle |
+| L26b | What Link 26 left open (the finite shape at m_H = 125 GeV and the q²-dependent self-energies) is closed in Link 27, which also shows that this link's check was against the Δρ screening part of the coefficient only | CHECK |
+
+### Link 27: the Higgs dependence of Δr from the q²-dependent self-energies (`rebuild/campaigns/higgs_dr`, `src/ladder_links.py` L27)
+
+| | Result | Status |
+|---|---|---|
+| L27a | Two blind builds derived the Higgs-containing W and Z self-energies at general q² (H–gauge bubble, H–Goldstone bubble, seagull; Feynman gauge, MS-bar), Π_V(q²) = (κ²/16π²)[−M²B₀ + B₀₀ − A₀(m_H)/4], and from the muon-decay relation (bare g₀² = e²/s₀², s₀² = s² + c²(Π_W(M_W²)/M_W² − Π_Z(M_Z²)/M_Z²), G_F/√2 = g₀²/8(M_W0² + Π_W(0))) the Higgs part of Sirlin's Δr: Δr_H = [Π_W(M_W²) − Π_W(0)]/M_W² + (c²/s²)[Π_Z(M_Z²)/M_Z² − Π_W(M_W²)/M_W²]. The tadpoles cancel in both brackets. An Opus audit re-derived the Feynman rules in sympy and evaluated the self-energies by three other routes (analytic Passarino–Veltman to 10⁻³⁷, a dispersion relation, a 4D Euclidean integral): no disagreement | CHECK; two builds, audit, oracle |
+| L27b | The coefficient of ln m_H² is **11α/(48πs²)**: 9/11 of it, 3α/16πs², is the Δρ screening term and **the remaining 2/11, α/24πs², comes from the q² dependence of the self-energies**. L18 and Link 26 had the first part only: the derived coefficient is **11/9 times L18's quoted one** (the earlier "reproduced to the double" was against Δρ, not Δr). At large m_H the absolute MS-bar value (μ = M_W) is Δr_H = (11/12)(α/4πs²)[ln(m_H²/M_W²) − 5/6] + O(M_W²/m_H² ln), so relative to m_H = M_W the constant is −2.4006×10⁻³ at the campaign inputs | CHECK |
+| L27c | At m_H = 125.2 GeV Δr_H(m_H) − Δr_H(M_W) = **1.431×10⁻³**, against 1.795×10⁻³ from L18's leading log (the larger coefficient is outweighed by the constant). L18's M_W with the derived term: **80.501 GeV** (80.495 with the quoted term), the remainder Δr_rest = **0.0075** (was 0.0071) | CHECK |
+| L27d | Not derived: Δr_H(M_W) itself (the scheme constants drop out of the difference), the gauge-boson loops of Δρ and the vertex and box terms, the two-loop terms. The Higgs does not couple to the massless fermions of muon decay, so there are no Higgs vertex or box diagrams at one loop. Gauge independence of Δr_H is established (Link 28). The gate cannot enforce that the builds derived and did not recite; the audit read both derivations | FOLLOWS |
+
+### Link 28: the Higgs part of Δr does not depend on the gauge parameter (`rebuild/campaigns/higgs_dr_xi`, `src/ladder_links.py` L28)
+
+| | Result | Status |
+|---|---|---|
+| L28a | Link 27 fixed Feynman gauge. Two blind builds redid the Higgs-containing self-energies in R_ξ gauge for general ξ ≥ 0 (full propagator −i[g − (1−ξ)kk/(k²−ξM²)]/(k²−M²), Goldstone mass² ξM², Landau gauge included) and found that **Π_VV(q²), the g^{μν} coefficient, is ξ-independent at every q² below threshold**: the ξ-dependent parts of the H–V and H–Goldstone bubbles cancel pointwise in the loop momentum after transverse projection, so the ξ dependence lives only in the q^μq^ν part and the V–φ mixing, which drop out of muon decay with massless leptons. Each bubble alone depends strongly on ξ (H–V at m_H = 125.2, q² = M_W²: 2851 → 80990 for ξ = 0 → 25), the sum does not | CHECK; two builds, audit, oracle |
+| L28b | An Opus audit derived the Feynman rules in sympy and confirmed Π_g to 5×10⁻²⁵ against Link 27's reference at ξ = 0 to 25, and by a 4D Euclidean momentum integral to 10⁻¹³ at 144 points. Ghosts do not enter; tadpoles are ξ- and m_H-dependent but cancel in Δr | CHECK |
+| L28c | Not established: the gate cannot tell xi-independence from a build that ignores ξ (the independent derivation is the evidence); the longitudinal part and mixing were computed by the auditor's one route; gauge independence of the gauge-boson loops, vertex and box terms | FOLLOWS |
+
+### Link 29: the whole bosonic one-loop Δr: gauge-boson loops, vertex and box terms (`rebuild/campaigns/bos_se`, `rebuild/campaigns/bos_dr`, `src/ladder_links.py` L29)
+
+| | Result | Status |
+|---|---|---|
+| L29a | Stage 1 (`bos_se`): two blind builds derived the transverse self-energies Σ^AA, Σ^AZ, Σ^ZZ, Σ^W from all fermion-free one-loop diagrams (gauge-boson, Goldstone, Higgs and ghost loops, triple and quartic couplings, seagulls) in 't Hooft–Feynman gauge, MS-bar, from the Lagrangian. They agree with each other to 10⁻²¹ and with the published appendix of Denner (Fortschr. Phys. 41, 307) to 10⁻¹³; an auditor's independent hand derivation agrees bit for bit (it also fixed the sign of the photon–Z mixing under the SPEC's field convention) | CHECK; two builds, audit, oracle |
+| L29b | Stage 2 (`bos_dr`): two blind builds, with stage 1 provided, derived the on-shell renormalization of muon decay (M_W, M_Z poles, Thomson charge, s² = 1 − M_W²/M_Z²) and the vertex corrections, the five box diagrams and the lepton wave-function renormalization, with the IR divergence cancelling between the lepton wave function and the photon box and the Fermi-theory QED correction vanishing at zero momentum: **Δr_bos = Σ′_AA(0) + 2(s/c)Σ_AZ(0)/M_Z² − (c²/s²)[Σ_ZZ(M_Z²)/M_Z² − Σ_W(M_W²)/M_W²] + [Σ_W(0) − Σ_W(M_W²)]/M_W² + δ_VB**, δ_VB = (α/4πs²)[6 + (7 − 4s²)/(2s²) ln c²]. UV finite, μ independent, and its large-m_H slope is the 11α/(48πs²) of Link 27. The builds agree with each other and with the reference to 10⁻¹⁵; an auditor re-derived δ_V symbolically (UV pole 4g², IR cancellation, five boxes) and the decomposition | CHECK; two builds, audit, oracle |
+| L29c | At the physical point Δr_bos(m_H = 125.2) = **4.0×10⁻³** (2.6×10⁻³ at m_H = M_W); δ_VB = 6.7×10⁻³. M_W from Δα, L18's top loop and Δr_bos: **80.456 GeV** against 80.369 measured; the remainder is Δr_rest = 0.0049 (was 0.0075 in Link 27). A transcription of Denner's fermionic self-energies (not derived here, labelled literature) gives 80.479 GeV for the full one-loop value, so the rest is fermionic non-leading and higher-order terms | CHECK; LIT for the remark |
+| L29d | Not derived: the fermion-loop self-energies beyond Δα and the leading top term, QCD corrections, two-loop and resummation. The mixed Fierz/dimensional-scheme subtlety of the Fermi subtraction is settled only for the charge-retention order (the audit shows both orders agree when treated consistently in four dimensions). Gauge independence of the bosonic total is now checked at general ξ (Link 32; the Higgs part in Link 28) | FOLLOWS |
+
+### Link 30: Carr's charged spin-½ weight 0.142: Page's charge fluctuations (`rebuild/campaigns/charged_half`, `src/ladder_links.py` L30)
+
+*Accepted: `rebuild/campaigns/charged_half/ACCEPTED.md` (two blind builds, a hidden oracle, an Opus audit with an independent sympy derivation, an independent Gamma solver and 20 mutants).*
+
+| | Result | Status |
+|---|---|---|
+| L30a | A massless Dirac field in Schwarzschild with Coulomb energy g/r (g = αqn), horizon chemical potential g/2, the Chandrasekhar–Page radial system, grey-body factors Γ_j(ω; g), e⁻/e⁺ emission rates and the stationary distribution of the hole charge n (⟨n²⟩ = 11.8). Γ agrees with an independent Whittaker-matching solver to 3×10⁻⁸ and the two builds agree to ~10⁻⁷ | CHECK; two builds, audit, oracle |
+| L30b | Charged/neutral weight ratio by the rule for which hole charge (before / mid / after emission) the grey-body factor and the chemical potential see: (after, after) **0.9634**, i.e. f = 0.1465 × 0.9634 = **0.1411** against Carr's 0.142 (inside the quoted digits); (mid, mid) 0.988; (after, mid), the thermodynamically consistent rule, **1.0077** (f = 0.1476); (before, before) 1.014; nine rules span 0.93–1.05. Only +1.85α of the O(α) slope is the fluctuation effect; the rest is the rule | CHECK |
+| L30c | The energy ratio 0.9959 does not reproduce the literature 4.18/4.22 = 0.9905, and no rule can (the expansion bounds it at ≥ 0.9959). Self-energy corrections of the same order are outside the model. Page 1977 itself was not readable here (abstract only) | FOLLOWS |
+| L30d | Verdict: 0.142 is **consistent with** a Page-type model, **not derived** by it: the rule that reproduces it is not the one detailed balance selects. L7's use of the quoted 0.142 is unchanged | FOLLOWS |
+
+### Link 31: the fermionic one-loop Δr: fermion-loop self-energies (`rebuild/campaigns/ferm_se`, `src/ladder_links.py` L31)
+
+*Accepted: `rebuild/campaigns/ferm_se/ACCEPTED.md` (two blind builds, a hidden oracle built on a transcription of Denner's appendix B, an Opus audit with an independent derivation, independent dispersion-relation numerics and 24 mutants).*
+
+| | Result | Status |
+|---|---|---|
+| L31a | The fermion-loop transverse self-energies Σ^AA, Σ^AZ, Σ^ZZ, Σ^W for any fermion list (any weak isospin, colour, CKM weights), derived from the Lagrangian with d-dimensional traces (anticommuting γ5), MS-bar. The two builds agree with the auditor's derivation and numerics to 10⁻¹⁴ (75 points incl. thresholds, masses 10⁻⁶–10⁴ GeV, μ 1–10⁴ GeV) and with Denner to 10⁻¹². Found on the way: Denner's ZZ axial term 3/(4s²c²) is the |I₃| = ½ case of 3I₃²/(s²c²) (my reference's error, not the builds') | CHECK; two builds, audit, oracle |
+| L31b | Combined as in Link 29: **Δr_ferm = 0.0253** with all fermions at model masses, 0.0257 with the quoted Δα_had replacing the u, d, s, c, b loops; independent of μ to 3×10⁻¹⁷ (needs an exactly unitary CKM matrix: a rounded one leaves 10⁻⁸) and identical in the two builds to 3×10⁻¹⁷. The leptonic Δα(M_Z) comes out 0.031419 against the literature one-loop value 0.0314190 | CHECK; LIT (Δα_had) |
+| L31c | With Link 29's bosonic part the whole one-loop M_W relation gives **M_W = 80.474 GeV** against 80.369 measured; the 0.106 GeV left (Δr_rest = 0.0057) is QCD and two-loop. This replaces L18's separate Δα, top and Higgs inputs for the one-loop part | CHECK; LIT |
+| L31d | Not derived: QCD corrections (O(αα_s) etc.), two-loop and resummation, the Δα_had block (quoted), and whether the γ5-scheme finite terms cancel in Δr (not checked; NDR used) | FOLLOWS |
+
+### Link 32: the whole bosonic one-loop Δr is gauge-parameter independent: general R_ξ (`rebuild/campaigns/dr_xi`, `src/ladder_links.py` L32)
+
+*Accepted: `rebuild/campaigns/dr_xi/ACCEPTED.md` (two blind Opus builds with no provided module, a hidden oracle, an Opus audit with an independent derivation of the self-energy class and 19 wrong mutants).*
+
+| | Result | Status |
+|---|---|---|
+| L32a | In the R_ξ gauge (one ξ for W, Z, photon; the Feynman rules generated from the Lagrangian in code) the builds derived class SE (self-energies, photon–Z mixing, on-shell renormalization) and class VBW (vertex, box, lepton wave function, Fermi-theory subtraction). **The total Δr_bos = 4.2975307×10⁻³ (benchmark M_W 80.38, M_Z 91.19, M_H 125, α = 1/128) is independent of ξ from 10⁻⁹ to 10⁶ (spread < 10⁻¹³), equals the ξ = 1 value of Link 29 to 10⁻¹⁵ and is μ independent**; each class shifts (SE by −2.5×10⁻³, VBW by +2.5×10⁻³ between ξ = 0 and 1) and they cancel | CHECK; two builds, audit, oracle |
+| L32b | Structure found: δZ_e and Σ_W(M_W²)/M_W² − Σ_Z(M_Z²)/M_Z² are ξ independent; all of SE's ξ dependence is in [Σ_W(0) − Σ_W(M_W²)]/M_W², cancelled by the vertex, box and wave-function terms; as ξ → 0⁺ each class diverges like ±(3/4)(α/4π) ln ξ (soft photon with the Goldstone and the W's ξ-pole), the total does not. Class SE agrees with the auditor's independent derivation to 3×10⁻¹⁵ at 49 points; the two builds agree on SE and VBW to 9×10⁻¹⁵ | CHECK |
+| L32c | Not independently derived: class VBW (the builds derived it twice; the audit's check of it follows from gauge independence). The classes at exactly ξ = 0 are infrared divergent and their values a convention (the builds differ by (1/8)(α/4π), equal and opposite). The fermion loops (Link 31) were derived at ξ = 1 only | FOLLOWS |
+
+### Link 33: the QCD correction to the top-bottom Δρ and the M_W relation (`rebuild/campaigns/qcd_drho`, `src/ladder_links.py` L33)
+
+*Accepted: `rebuild/campaigns/qcd_drho/ACCEPTED.md` (two blind Opus builds, a hidden oracle, an Opus audit that re-derived the coefficient by the Goldstone route and made 22 mutants).*
+
+| | Result | Status |
+|---|---|---|
+| L33a | The O(α_s) correction to Δρ of the (t, massless b) doublet, from the two-loop vacuum correlators of the weak currents: **c_pole = −C_F(½ + π²/6) = −2.8599** (C_F = 4/3) and **c_MS-bar(μ = m̄) = C_F(3/2 − π²/6) = −0.1932**, plus (3C_F/2) ln(μ²/m̄²) at other μ; m_pole = m̄[1 + C_F(α_s/π)(1 + ¾ ln(μ²/m̄²))]. The auditor's route (Goldstone self-energies in the gaugeless limit, 150 digits, PSLQ) agrees; ξ independent to 25 digits. **Both builders and the auditor knew the textbook result beforehand**: the agreement shows correct execution, weaker independence than usual | CHECK; two builds, audit, oracle |
+| L33b | With Link 31's one-loop Δr and the pole-mass term −(c²/s²)Δρ₀ c α_s/π (leading m_t² only), M_W falls from 80.474 to **80.410 GeV** (α_s = 0.118) or 80.415 GeV (0.108), against 80.369 measured: the remainder is 0.04 GeV (Δr_rest = 0.0022), down from 0.106 GeV | CHECK; LIT (α_s) |
+| L33c | Not derived: terms beyond leading m_t² and m_b ≠ 0, the other O(αα_s) pieces, O(αα_s²), O(α²) electroweak, the choice of the α_s scale (the 0.006 GeV spread above is one measure of that ambiguity), and the 't Hooft–Veltman γ5 check. The 0.04 GeV left is not claimed to be explained | FOLLOWS |
+| L33d | What the literature says the remaining 0.04 GeV contains (`MW_RESIDUAL_NOTE.md`; all **LIT or EST, not derived here**): the pole-mass series Δρ = 3x_t(1 − 2.8599a − 14.594a² − 93.15a³), a = α_s/π, whose first term is L33a (Chetyrkin–Kühn–Steinhauser, read), gives O(αα_s²) ≈ −11 MeV and O(α_s³) ≈ −2 to −3 MeV on M_W; the irreducible two-loop electroweak part is estimated at about −34 MeV (range −25 to −42; the agent's own subtraction from Weiglein's table, uncontrolled input differences); mixed three-loop terms about +4 MeV. These sum to about −45 MeV against the −41 MeV needed, so the gap is plausibly the two-loop electroweak term plus the higher QCD orders. The literature's full prediction, 80.357 GeV (Degrassi–Gambino–Giardino), would then sit a few to 12 MeV below the measurement. Not verified: the explicit M_H dependence of the leading two-loop term, Avdeev et al. (has an erratum), and one number seen only in a search snippet | LIT; EST; FOLLOWS |
+
+### Link 34: rung 2's pion cloud sets the nucleon polarizability that rung 3's Casimir–Polder energy uses (`rebuild/campaigns/nucleon_pol`, `src/ladder_links.py` L34)
+
+*Accepted: `rebuild/campaigns/nucleon_pol/ACCEPTED.md` (two blind builds, a hidden oracle, an Opus audit with an independent real-photon Compton route and 21 mutants). The first link in the rung 2–3 cell.*
+
+| | Result | Status |
+|---|---|---|
+| L34a | Leading-order heavy-baryon chiral perturbation theory: **α_E = 5αg_A²/(96πf_π²m_π) = 12.6×10⁻⁴ fm³** and **β_M = α_E/10 = 1.26×10⁻⁴ fm³** (g_A = 1.27, f_π = 92.4 MeV, m_π = 139.57 MeV), in the convention H_eff = −½·4π(α_E E² + β_M B²). Measured proton: 11.2(4) and 2.5(4): α_E is 12% high and β_M half the measured value, the missing part being the Δ(1232) paramagnetic term, excluded here. The auditor's route (real photons at general energy and angle, Born graphs vanishing in radiation gauge; neutron = proton shown by C and isospin arguments) agrees. **Builders and auditor knew the textbook result**; the independence evidence is the different gauge and route | CHECK; two builds, audit, oracle |
+| L34b | In rung 3's formula the neutron–neutron retarded Casimir–Polder energy −23ħcα_E²/(4πr⁷) equals gravity −Gm_n²/r at r = 2.8×10⁻¹⁰ m (spin-independent part only; the neutron's magnetic-dipole interaction is larger there). For the diamond experiment the strong sector is negligible (scoping estimate about 10⁻¹⁷ of diamond's electronic polarizability, not pinned). The link is therefore a consistency statement between rungs, not an effect on the experiment | CHECK; MODEL |
+| L34c | Not derived: the Δ(1232) and higher-order terms (the measured β_M), the neutron's own value (isospin argument only), any effect on the apparatus | FOLLOWS |
+
+### Link 12: neutrino mass from rung 1's breaking scale, to oscillation data (`src/ladder_links.py` L12)
+
+| | Result | Status |
+|---|---|---|
+| L12a | Rung 1's lepton triplet is (ν, e, N⁰) for β = −1/√3 and (ν, e, E⁻) for β = +1/√3: only the first has a neutral partner of ν inside the multiplet; in the second a singlet ν_R must be added | CHECK |
+| L12b | Seesaw [[0, m_D], [m_D, M]]: the eigenvalues multiply to −m_D² exactly, so m_light = m_D²/m_heavy; m_D²/M to O(m_D⁴/M³). The inverse seesaw gives μm_D²/(m_D² + Λ²) to first order in μ. At fixed Yukawas m_light ∝ 1/w exactly | CHECK |
+| L12c | **The Yukawas are not predicted.** With M_V = 4 TeV (w = 12.3 TeV) and y_R = 1, 0.05 eV needs y_D = 3.8×10⁻⁶, 1.3× the electron's; y_D = y_e gives 0.030 eV. Rung 1 supplies the scale and the structure, not y_D | CHECK; MODEL |
+| L12d | NuFIT 6.0 (normal ordering) gives a minimal sum of 0.059 eV, inside Planck 2018's < 0.12 eV | CHECK; LIT |
+
+### Link 13: the first post-Newtonian correction to the entangling phase, from rung 4 to rungs 5 and 6 (`src/ladder_links.py` L13)
+
+| | Result | Status |
+|---|---|---|
+| L13a | The two-body Einstein–Infeld–Hoffmann Lagrangian. Its test-mass limit (the 3/2 v² and G² terms) is checked against the geodesic Lagrangian of the harmonic-coordinate Schwarzschild metric of rungs 5–6, expanded to 1/c²; the v₁·v₂ and (n·v₁)(n·v₂) terms are quoted | CHECK; KNOWN |
+| L13b | Along design A's trajectories the one-body terms cancel in the entangling combination. The velocity terms shift the phase by **−1.4×10⁻²³ rad** of 2.19 (relative −6.6×10⁻²⁴ ≈ −(v/c)², v = 0.46 mm/s); the G² term by −1.8×10⁻³⁷ rad. Nowhere near measurable | CHECK; FOLLOWS |
+
+### Link 14: the Bekenstein bound, from rung 6 to rung 4 (`src/ladder_links.py` L14)
+
+A Schwarzschild black hole saturates S ≤ 2πkRE/ħc exactly (it equals A/4l_P², symbolic). Design A's diamond (R = 1.0 µm, 7.4×10¹¹ atoms) has a Bekenstein bound of 2.6×10²³ k_B and a holographic bound of 1.2×10⁵⁸ k_B; neither constrains the experiment. (CHECK)
+
+### Where links exist, by pair of rungs
+
+| | 1 | 2 | 3 | 4 | 5 | 6 |
+|---|---|---|---|---|---|---|
+| **1** | | L2, L8 | L9 | L1, L3 | L15 | L7, L12 (data) |
+| **2** | | | | L6 | L15 | L7 |
+| **3** | | | | (Casimir gap) | | L7 |
+| **4** | | | | | L10 | L4, L13, L14 |
+| **5** | | | | | | L5, L11 |
+
+Empty cells are pairs with no link computed: 2–3 and 3–5. Scoping (`LINKS_SCOPING.md`, formulas from the agent's own knowledge, to be re-checked before any campaign): **3–5 has no link by the structure of the rungs** (rung 3 computes energy differences of a massless field at laboratory distances, rung 5 has one absolute scale ℓ; they meet only through powers of r/ℓ ≈ 10⁻³⁰, e.g. the de Sitter thermal correction to Casimir–Polder, η − 1 ≈ 10⁻¹⁸³, an exact identity and not a prediction). **2–3 has no link in the apparatus, but one in the physics (Link 34)**: the one candidate that passed the novelty test is the nucleon's electric polarizability from rung 2's pion cloud (leading-order chiral perturbation theory, α_E = 5αg_A²/(96πf_π²m_π) ≈ 12.6×10⁻⁴ fm³ with these constants, against 11.2(4) measured), fed into rung 3's Casimir–Polder formula; for the diamond experiment it is negligible (about 10⁻¹⁷ to 10⁻¹⁶ of diamond's electronic polarizability). It could be run as a campaign, with weak independence (every builder knows the textbook formula). The 3–4 cell is already a link in substance (the 181 µm gap). L15 fills 1–5 and 2–5 with the
+vacuum-energy comparison, which quantifies the cosmological-constant problem without
+solving it. L10e closes the open coefficient of L10c. Still open: the holographic reading
+of S_dS (L11d), which counts microstates this repository cannot derive.
 
 ## How the rungs fit together
 
@@ -395,10 +617,10 @@ build order, the postulates, each derivation step and the check that proves it, 
 which results are still quoted rather than derived.
 
 **In one paste:** [`src/ladder_standalone.py`](src/ladder_standalone.py) reproduces all six
-rungs and all five links with only the Python standard library (58 PASS/FAIL checks; expected output
+rungs and all the links, L1–L22 and L25, with only the Python standard library (102 PASS/FAIL checks; expected output
 [results/ladder/standalone.txt](results/ladder/standalone.txt)). Each check is tagged math
-(41: identities verified by computation), data (9: against measurements, each printing its
-tolerance and why) or pinned (8: this repository's own derived numbers); checks inside the
+(57: identities verified by computation), data (17: against measurements, each printing its
+tolerance and why) or pinned (28: this repository's own derived numbers); checks inside the
 linear sigma model are also tagged model. It exits with status 1 if any check fails. The website has a
 **Copy Python script** button for it.
 

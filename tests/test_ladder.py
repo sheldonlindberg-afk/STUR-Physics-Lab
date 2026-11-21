@@ -47,6 +47,14 @@ def test_casimir_polder_derived():
     assert abs(mine / theirs - 1) < 1e-12
 
 
+def test_casimir_polder_quantum_step_against_exact_modes():
+    for q2 in (0.05, 0.3):
+        ex, fo, sec, lon = CP.oscillator_check(q2)
+        assert abs(ex / fo - 1) < 1e-9 and abs(sec / lon - 1) < 1e-12     # nonperturbative, and London
+    ex, fo, sec, lon = CP.oscillator_check(0.3)
+    assert abs(ex / lon - 1) > 0.05          # the second order alone is not the exact answer
+
+
 def test_casimir_polder_finite_temperature():
     e, t, ser, hi = CP.matsubara_eta()
     assert sp.simplify(ser - (1 + sp.Rational(22, 21735) * t**6)) == 0 and hi == sp.Rational(6, 23)

@@ -1,0 +1,30 @@
+== contract
+   [PASS] export transmission
+   [PASS] export absorption_sum
+   [PASS] export power_per_dof
+   [PASS] PROVENANCE is a dict covering every export
+   [PASS] PROVENANCE[transmission] valid (kind and note)
+   [PASS] PROVENANCE[absorption_sum] valid (kind and note)
+   [PASS] PROVENANCE[power_per_dof] valid (kind and note)
+   [PASS] DERIVATION.md exists
+== lint
+   [PASS] lint
+== blind
+   [PASS] transmission lies in [0, 1]
+   [PASS] low-frequency scalar limit: the horizon area
+   [PASS] low-frequency power laws of the lowest partial waves
+   [PASS] geometric-optics limit: capture cross section 27 pi M^2
+   [PASS] transmission of the lowest partial wave is monotone in w
+   [PASS] power per degree of freedom: positive and ordered by spin
+   [PASS] determinism
+   [PASS] exact low-frequency coefficients of the partial waves
+   [PASS] power_per_dof equals the gate's own assembly from transmission
+== oracle
+   [PASS] power per degree of freedom, spin 0 (literature, loose)  (derived 7.4387e-05, target 7.4560e-05 (-0.23%, tolerance 1.5%))
+   [PASS] power per degree of freedom, spin 0.5 (literature, loose)  (derived 4.0917e-05, target 4.1050e-05 (-0.32%, tolerance 1.5%))
+   [PASS] power per degree of freedom, spin 1 (literature, loose)  (derived 1.6819e-05, target 1.6755e-05 (+0.38%, tolerance 2.0%))
+   [PASS] power per degree of freedom, spin 2 (literature, loose)  (derived 1.9184e-06, target 1.9200e-06 (-0.08%, tolerance 6.0%))
+   [PASS] grey-body factor at fixed arguments: Gamma(0,0,0.2) = 0.9089 +- 1e-3, Gamma(1,1,0.2) = 0.1299 +- 1e-3 (orchestrator's integration)  (0.9089, 0.1300)
+   [PASS] power per degree of freedom to 1e-5 against the two-route values  (relative to the two-route value: s=0: +1.5e-09, s=0.5: +1.1e-08, s=1: -2.3e-08, s=2: -3.4e-07)
+   [PASS] grey-body factor at 46 reference points, including low-frequency fermions (independent WKB-projection solver) to 1e-6  (worst relative deviation over 46 reference points: 1.8e-09 at (s, j, w) = (0.5, 3.5, 0.02))
+GATE PASSED

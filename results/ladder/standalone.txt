@@ -209,6 +209,108 @@ LINKS  Where one rung's output is another rung's input
    [PASS] [math]          a black hole of one Planck mass has k_B T_H = M_Pl c^2/(8 pi) = 4.86e17 GeV, 1/(8 pi) of the 3-3-1 cutoff, and a radius of 2 Planck lengths
 
 ==============================================================================
+OLDER LINKS  Rung 2 -> 4, rung 6 -> 3, 2, 1, rung 1 -> 2 and 3, rung 5 -> 4 (src/ladder_links.py L6-L10)
+==============================================================================
+   In plain words: the diamond's mass is almost all QCD field energy; an evaporating black
+   hole passes every scale at which the forces separate; the pion's decay constant follows
+   from the weak force; one electromagnetic coupling runs from the Z mass to zero
+   momentum; and rung 5's Lambda cannot entangle the diamonds.
+
+   [PASS] [pinned]        L6a carbon-12 from its constituents: 6 m_p + 6 m_n + 6 m_e - 12 u = 92.16 MeV, 7.68 MeV per nucleon (the nuclear binding)
+          got 92.162 MeV
+   [PASS] [pinned]        L6b-c the diamond's mass by Feynman-Hellmann with FLAG 2024 sigma terms: 91.45% QCD field energy, 4.53% u, d masses, 4.82% s mass, 0.03% electrons, -0.82% binding (N_f = 2+1); the parts sum to the whole
+          got QCD 91.45% and 89.86% (N_f = 2+1+1)
+   [PASS] [pinned]        L6d the phase goes as m^2: with massless u, d quarks design A's 2.19 rad would be 1.99 rad, with every quark and the electron massless 1.80 rad (first order in the sigma terms)
+          got 1.993 and 1.796 rad from 2.1868
+   [PASS] [pinned]        L7a-b the emission counts rung 1's particles: T_H(1e10 g) = 1057 GeV; f = 1.016 below every mass; every Standard Model species 15.33 (W, Z longitudinal modes as scalars) and the unbroken count the same; the unbroken 3-3-1 content 25.66 (beta = -1/sqrt3) or 26.49 (+1/sqrt3), against Carr et al.'s 1.00 and 15.35
+          got T = 1057.3 GeV, f = 1.016, 15.332, 15.332, 3-3-1 25.66, 26.49
+   [PASS] [pinned]        L7d against Carr et al.: 1e10 g at f = 15.35 lives 406.7 s (theirs 407); the hole whose lifetime is the age of the universe is M* = 5.11e14 g at T_H = 20.7 MeV (theirs 5.1e14 g, 21 MeV), with f(T) integrated
+          got 406.7 s, M* = 5.111e+14 g, T_H = 20.7 MeV
+   [PASS] [pinned]        L7c the thresholds a shrinking hole crosses, in reverse order of the forces separating: the QCD crossover at 6.76e10 kg (2.3e14 s left), the electroweak crossover at 6.63e7 kg, the 3-3-1 content at 939 GeV (1.13e7 kg, 337 s), the Planck mass at 2.2e-8 kg (T_H = M_Pl/8 pi)
+          got QCD: 6.756e+10 kg, 2.287e+14 s, EW: 6.629e+07 kg, 1.183e+05 s, 331:
+          1.126e+07 kg, 3.367e+02 s, Planck: 2.176e-08 kg, 2.430e-42 s
+   [PASS] [data]          L8a f_pi from G_F and the measured pi -> mu nu rate: f_pi |V_ud| = 127.13 MeV (PDG 127.13), f_pi = 130.57 MeV against rung 2's lattice 130.2(1.2) MeV; L8b with it, Gamma(pi0 -> gamma gamma) = 7.742 eV (PrimEx 7.802 +- 0.117) and the O(p^4) m_pi = 132.3 MeV
+          got f_pi|V_ud| = 127.13 MeV, f_pi = 130.57 MeV, Gamma = 7.742 eV, m_pi = 132.3
+          MeV
+   [PASS] [pinned]        L8c the photon splits the pions: with Weinberg's two sum rules and rho + a1 saturation, DGMLY gives m_pi+^2 - m_pi0^2 = (3 alpha/4 pi) m_rho^2 m_a1^2/(m_a1^2 - m_rho^2) ln(m_a1^2/m_rho^2), independent of f_pi (the integral is done numerically at two f_pi): 1604 MeV^2, 5.84 MeV, against the measured 1261 MeV^2, 4.59 MeV; saturation by the lowest resonances is +27%
+          numerical 1603.65 and 1603.65 MeV^2, closed form 1603.67
+   [PASS] [data]          L9a the leptons' vacuum polarization at one loop, from the Feynman-parameter integral and in closed form: 314.191e-4 for e, mu, tau against Steinhauser's 314.190e-4
+          got 314.19112e-4 (integral), 314.19111e-4 (closed form), 314.19007e-4
+          (Steinhauser)
+   [PASS] [data]          L9b the hadrons' part cannot be computed from the repository's data: the KEDR R-ratio (1.84-3.05 GeV) gives 1.74e-3 of Delta alpha_had, 6.3% of PDG's 0.02783
+          got 1.743e-03, 6.3%
+   [PASS] [data]          L9c rung 1's 1/alpha-hat(M_Z) = 127.930 run to q^2 = 0 with the leptons through three loops, PDG's hadronic part and the MS-bar conversion gives 1/alpha(0) = 137.035999, CODATA's 137.035999084: one coupling at two scales
+          got 137.035999 against 137.035999084
+   [PASS] [pinned]        L10 rung 5's Schwarzschild-de Sitter in the lab: Phi = -(c^2/2)(1 - f) = -GM/r - Lambda c^2 r^2/6 solves nabla^2 Phi = -Lambda c^2 away from the mass; the Lambda term is a sum of one-body energies, so it cancels in the entangling combination; what could entangle is of order (r/l)^2 = 2.0e-59 at design A's farthest branch distance (l = 1.65e26 m)
+          laplacian + Lambda c^2 = -8.2e-06; entangling Lambda term 2.2e-16; (r/l)^2 =
+          2.04e-59
+
+==============================================================================
+MORE LINKS  Rung 5 -> 6, rung 1 -> data, rung 4 -> 5 and 6 (src/ladder_links.py L10e, L11-L22)
+==============================================================================
+   In plain words: further places where one rung feeds another: the de Sitter horizon's
+   entropy, the neutrino-mass scale, the first relativistic correction to the experiment's
+   phase (far too small to see), the cosmological constant against each rung's vacuum
+   energy, and three results the earlier rungs had quoted: the ringdown fit, the anomaly
+   coefficient and Hawking's Planck spectrum.
+
+   [PASS] [math]          L11a de Sitter's horizon r = l has kappa = 1/l from rung 6's Killing definition; A = 4 pi l^2 = 12 pi/Lambda, so S = A/4 = 3 pi/Lambda, three times pi/Lambda (the form pi c^3/(G hbar Lambda))
+   [PASS] [pinned]        L11d at the measured Lambda: l = 1.65e26 m, S_dS = 3.26e122 k_B, T_dS = 2.2e-30 K
+          got S = 3.2633e+122, T = 2.212e-30 K, l = 1.6473e+26 m, pinned 3.263e122,
+          2.21e-30, 1.647e26
+   [PASS] [math]          L11b the first law dM = (f'(r_h)/4 pi) dS holds at both Schwarzschild-de Sitter horizons (dM = T dS at the black hole's, dM = -T dS at the cosmological one)
+          largest residual 5.6e-10
+   [PASS] [pinned]        L11c de Sitter maximizes the entropy: (S_bh + S_c)/S_dS < 1 for every black hole the universe allows, r_b^2 + r_c^2 + (r_b + r_c)^2 = 2 l^2
+          got 0.998077
+   [PASS] [pinned]        L10e a test mass at distance r from M has U = -GMm/(r sqrt(1 - r^2/l^2)): a relative correction (r/l)^2/2, symmetric in the two masses; it shifts design A's phase by -1.9e-60 of itself
+          got -1.923e-60
+   [PASS] [math]          L12a rung 1's lepton triplet: (nu, e, N) with N neutral for beta = -1/sqrt3, (nu, e, E-) with E charged for +1/sqrt3
+   [PASS] [math]          L12b seesaw [[0, m_D],[m_D, M]]: the eigenvalues multiply to -m_D^2, so m_light = m_D^2/m_heavy; the inverse seesaw gives mu m_D^2/(m_D^2 + Lambda^2); at fixed Yukawas m_light goes as 1/w exactly
+          product residual 1.7e-21
+   [PASS] [pinned]        L12c-d with M_V = 4 TeV (w = 12.3 TeV): 0.05 eV needs y_D = 3.8e-6, 1.3x the electron's (a free Yukawa, not a prediction); the minimal mass sum 0.059 eV is inside Planck's 0.12 eV
+          got w = 12275.8 GeV, y_D = 3.789e-06, slope -1.000000, sum 0.0588 eV
+   [PASS] [math]          L13a the EIH test-mass limit (3/2 v^2 and G^2 terms) agrees with the geodesic Lagrangian of harmonic-coordinate Schwarzschild to 1/c^2: the difference scales as 1/c^4
+          difference ratio at t and 2t: 4.007 (4 expected)
+   [PASS] [pinned]        L13b design A's entangling phase: the velocity terms of the 1PN correction shift it by -1.4e-23 rad of 2.19 (relative -6.6e-24 ~ -(v/c)^2), the G^2 term by -1.8e-37 rad: nowhere near measurable
+          got -1.442e-23 rad and -1.785e-37 rad
+   [PASS] [pinned]        L14 a Schwarzschild black hole saturates the Bekenstein bound 2 pi R E/(hbar c) = A/4 l_P^2 exactly; design A's diamond (7.4e11 atoms) is far below its bound 2.6e23 and the holographic bound 1.2e58 (k_B)
+          got bound 2.620e+23, holographic 1.201e+58, atoms 7.366e+11
+   [PASS] [math]          L15a S_dS = (3/8) rho_Planck/rho_Lambda exactly, with rho_Lambda = Lambda c^4/8 pi G and rho_Pl = c^7/(hbar G^2)
+   [PASS] [pinned]        L15b rho_Lambda^(1/4) = 2.25 meV; rung 2's chiral vacuum energy f_pi^2 m_pi^2 is 6e42, rung 1's Higgs minimum m_h^2 v^2/8 5e54, the 3-3-1 scale w^4 9e62 (an order of magnitude) and M_Pl^4 9e122 times larger: the cosmological-constant problem, quantified and not solved
+          ratios 6.05e+42, 4.65e+54, 8.89e+62, 8.70e+122
+   [PASS] [pinned]        L16a Leaver's continued fraction for Schwarzschild: M omega = 0.373672 - 0.088962 i (l = 2, n = 0) and 0.346711 - 0.273915 i (n = 1)
+          got 0.373672-0.088962j and 0.346711-0.273915j
+   [PASS] [pinned]        L16b the Berti-Cardoso-Will fit at chi = 0 is 1.4% low in frequency and 0.9% high in Q (L20 covers the spin dependence at chi ~ 0.7, which GW250114 uses)
+          got -1.44% and +0.88%
+   [PASS] [data]          L20a Teukolsky's radial equation (s = -2) with Leaver's recurrence, coupled through the separation constant to the spheroidal equation's, reproduces Berti-Cardoso-Will's Table II (l = m = 2, n = 0, chi = 0 to 0.98) to 6e-5
+          largest difference 4.5e-05; the table is quoted to 4 digits, so half a unit in
+          the last place is 5e-5
+   [PASS] [data]          L20b the fit against the exact modes over chi = 0 to 0.99: largest errors 1.85% (F) and 0.88% (Q), the maxima BCW state
+          got 1.85% and 0.88%
+   [PASS] [pinned]        L20c GW250114's ringdown inverted with the exact Kerr modes: M_f = 66.48 Msun, chi_f = 0.744, final area 4.04e5 km^2; at the least favourable corner 3.36e5 km^2 against the initial 2.52e5: the area law does not rest on the fit's error
+          got M_f = 66.48, chi_f = 0.7444, area 4.039e+05 km^2, worst corner 3.36e+05,
+          initial 2.521e+05
+   [PASS] [math]          L21a retarded Casimir-Polder: in a solvable model (two oscillators and a propagating field on a ring) the energy from the normal modes of the whole system equals (1/2 pi) int dxi ln[1 - (g^2 G12(xi, r) alpha_d)^2] with the retarded Green function, while the static (instantaneous) kernel is off by a factor of 3; P2's Green tensor carries the same algebra to the electromagnetic case (the dyadic case is not diagonalized here)
+          r = 3: normal modes -1.238928e-03, ln det -1.238928e-03, static -3.527416e-03
+   [PASS] [math]          L21c at design A's gap alpha G ~ K R^3/r^3 = 1e-7, so the second-order Casimir-Polder term is exact to 1e-14
+          got 1.02e-07
+   [PASS] [math]          L17a Fujikawa's Jacobian with explicit gamma matrices: tr[gamma5 sigma_mn sigma_rs] = -4 eps_mnrs for all 256 index sets (the sign is gamma5's orientation), so the divergence is e^2 eps F F/(16 pi^2) in magnitude
+   [PASS] [math]          L17b a second route: each chirality's lowest Landau level is a 1+1 Weyl fermion, d n5/dt = 2 (eB/2 pi)(eE/2 pi); with eps F F = 8 F12 F34 it is the same number as the Jacobian's (e^2/32 pi^2) x 2 eps F F
+   [PASS] [math]          L17c matching to PCAC: the anomaly's amplitude is alpha N_c (Q_u^2 - Q_d^2)/(pi f_pi), the coefficient the pi0 width (links above) took as given; the PCAC step and Adler-Bardeen stay quoted
+   [PASS] [math]          L18a the W and Z self-energies from the t-b loop in dimensional regularization: the vector Ward identity holds, Delta rho has no 1/eps pole and no s^2 dependence, and equals N_c G_F/(8 sqrt2 pi^2) [m_t^2 + m_b^2 - 2 m_t^2 m_b^2 ln(m_t^2/m_b^2)/(m_t^2 - m_b^2)]
+          loop/closed - 1 = 3.2e-06 at eps = 1e-6
+   [PASS] [pinned]        L18b-c Delta rho = 9.26e-3; M_W from G_F, alpha(0), M_Z: tree 80.94, + Delta alpha 79.96, + top loop 80.53, + Higgs log 80.50 GeV against 80.37 measured; the remainder Delta r = 0.007 is not computed here (B7's MS-bar +0.35% is not closed)
+          steps 80.939, 79.961, 80.526, 80.495, remainder +0.0071
+   [PASS] [data]          L22 B7's tree M_Z = A0/[s c (1 - Dr0)^(1/2)] against M_Z = A0/[s c ((1 - Dr_W) rho-hat)^(1/2)] (PDG's MS-bar relations): M_Z^2/tree^2 = (1 - Dr0)/[(1 - Dr_W) rho-hat] gives 91.1879 GeV and the -0.348% gap; L18's one-loop rho is 91% of rho-hat - 1 and gives 91.229 GeV; Dr_W - Dr0 = 0.0029 and the bosonic 9% are not derived
+          got 91.1879 GeV (measured 91.188), tree 91.506, one-loop rho gives 91.229
+   [PASS] [math]          L25 Hawking from a collapsing null shell: the ray through the centre gives u(v) = v - 4M ln((v_H - v)/4M) exactly (kappa = 1/4M, H1's value), and the overlap integrals give |beta/alpha|^2 = ((w' - w)/(w' + w))^2 e^(-8 pi M w): the Planck factor of L19, thermal for in-frequencies w' >> w only; a thin shell is not a star
+          map difference 1.8e-15, 1/kappa = 4.0000 (4M)
+   [PASS] [math]          L19a the Klein-Gordon overlaps of the outgoing modes e^(-i w u), u = -(1/kappa) ln(-kappa U), with the vacuum of the regular coordinate U reduce to Gamma(1 + i w/kappa)(+-i Omega)^(-1-i w/kappa) (the integral and |Gamma(1+iy)|^2 = pi y/sinh(pi y) checked numerically); |beta/alpha|^2 = e^(-2 pi w/kappa)
+          integral difference 3.4e-15, ratio 0.0122990935 vs 0.0122990935
+   [PASS] [math]          L19b unitarity |alpha|^2 - |beta|^2 = 1/(2 pi kappa Omega) and the mean number n = |beta|^2/(|alpha|^2 - |beta|^2) = 1/(e^(2 pi w/kappa) - 1): Planck's law at k_B T = hbar kappa/2 pi, as emission, for every Omega
+   [PASS] [math]          L19c the energy flux of one massless 1+1 field is pi T^2/12, the one-dimensional Stefan-Boltzmann law (the 3+1 grey-body factors behind the mass-loss rate stay quoted: Carr et al.)
+
+==============================================================================
 VERDICT
 ==============================================================================
    3-3-1 breaks to the Standard Model and then to electromagnetism: the photon, hypercharge,
@@ -229,6 +331,13 @@ VERDICT
    are measured; gravity's unification with the other forces is not derived. Rung 2's
    pion counting uses the linear sigma model, a stand-in for QCD, and rung 5 rewrites GR
    rather than going beyond it.
+   Nine more links follow: de Sitter's horizon has entropy 3 pi/Lambda = pi x 3/(G Lambda), 3.3e122, and is the maximum;
+   rung 1's breaking scale gives a seesaw neutrino mass scaling as 1/w, with the Yukawas left free; the
+   first post-Newtonian correction to the experiment's phase is 1e-23 rad; the cosmological constant is
+   the Planck vacuum energy divided by 8 S_dS/3 and is not explained; and the ringdown fit, the ABJ
+   anomaly coefficient, the rho parameter's top loop and Hawking's Planck spectrum, quoted until now,
+   are derived (the M_Z correction beyond the top loop and the microstates
+   of S_dS are not).
 
-   Checks passed: 60/60   (41 math, 10 data, 9 pinned; 0.04 s)
+   Checks passed: 102/102   (57 math, 17 data, 28 pinned; 5.51 s)
    ALL CHECKS PASS

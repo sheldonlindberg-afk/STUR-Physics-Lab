@@ -185,6 +185,323 @@ L10 The broken de Sitter gauge theory back to the lab: rung 5 -> rung 4.
       magnitude)
   L10d The same G and Lambda: rung 5's coupling 3/(G Lambda) is formed from rung 4's G and
       the measured Lambda, and its l = sqrt(3/Lambda) = 1.65e26 m. (CHECK)
+  L10e The coefficient of L10c, derived (linear in the source mass). A test mass m in rung 5's
+      Schwarzschild-de Sitter field at areal distance r from M has static energy
+      m c^2 sqrt(1 - 2GM/(c^2 r) - r^2/l^2); its part linear in M is
+          U = -G M m / (r sqrt(1 - r^2/l^2)) = -(G M m / r)(1 + r^2/(2 l^2) + ...),
+      so the relative correction is (r/l)^2 / 2 = Lambda r^2 / 6, depending only on r and so
+      symmetric in the two masses. Integrated along design A's branches it shifts the
+      entangling phase by -1.9e-60 of itself (-4.2e-60 rad; the sign is because the farther cross
+      branches matter more). The frame is the static patch
+      centred on one mass, and only terms linear in each mass are kept. (CHECK, symbolic and
+      numeric; FOLLOWS for the frame)
+L11 The cosmological horizon's entropy: rung 5 -> rung 6.
+  L11a Rung 5's vacuum, f = 1 - r^2/l^2 with Lambda = 3/l^2, has a horizon at r_c = l. Rung 6's
+      surface gravity kappa = |f'(r_h)|/2 gives kappa = 1/l, T_dS = hbar c / (2 pi k_B l) (the
+      Gibbons-Hawking temperature), and the area law gives the horizon area A = 4 pi l^2 =
+      12 pi / Lambda (not 4 pi / Lambda) and the entropy
+          S_dS = A / (4 l_P^2) = 3 pi c^3 / (G hbar Lambda) = pi x [3 / (G Lambda)]
+      in units k_B = 1: pi times rung 5's MacDowell-Mansouri coupling, and 3 times
+      pi c^3 / (G hbar Lambda). (CHECK, symbolic)
+  L11b The first law at every horizon of Schwarzschild-de Sitter, from the same f: with
+      M(r_h) from f(r_h) = 0, dM = (f'(r_h) / 4 pi) dS, S = pi r_h^2 (G = c = hbar = 1). At the
+      black-hole horizon f' > 0 and it is dM = T dS; at the cosmological horizon f' < 0 and
+      it is dM = -T dS: the mass inside the cosmological horizon falls as that horizon grows.
+      (CHECK, symbolic)
+  L11c De Sitter space maximizes the entropy: S_bh + S_c < S_dS for every black hole the
+      universe allows (9 M^2 Lambda < 1), approaching it as M -> 0. The three roots of
+      r^3 - l^2 r + 2 M l^2 sum to zero, so r_b^2 + r_c^2 + (r_b + r_c)^2 = 2 l^2, exactly.
+      (CHECK)
+  L11d The measured Lambda (Planck 2018 with BAO, as rungs 5 and 6): l = 1.65e26 m, S_dS =
+      3.3e122 k_B, T_dS = 2.2e-30 K. The cosmological-constant problem, in rung 6's
+      terms: the entropy of the vacuum is the inverse of how small Lambda is in Planck units.
+      That S_dS counts microstates (the holographic reading) is a conjecture, neither derived
+      nor tested here; only the area law of rung 6 and the Lambda of rung 5 give the number.
+      (CHECK; LIT Lambda; MODEL for the reading; see HOLOGRAPHY_NOTE.md)
+L12 Neutrino mass from rung 1's breaking scale: rung 1 -> low-energy oscillation data.
+  L12a Rung 1's lepton triplet, from its charges (src/m331_breaking.py B6): beta = -1/sqrt3 has
+      (nu, e, N) with N electrically neutral; beta = +1/sqrt3 has (nu, e, E^-) with a charged
+      heavy lepton. So only the first variant has a neutral state beside nu inside the
+      multiplet; in the second a singlet nu_R must be added. (CHECK)
+  L12b The type-I seesaw matrix [[0, m_D], [m_D, M]] with m_D = y_D v / sqrt2 (v from rung 1's
+      G_F) and M = y_R w / sqrt2 (w the 3-3-1 vev, M_V = g w / 2): the eigenvalues multiply to
+      -m_D^2 exactly, so m_light = m_D^2 / m_heavy exactly, = m_D^2/M to O(m_D^4/M^3); the
+      inverse seesaw [[0, m_D, 0], [m_D, 0, Lambda], [0, Lambda, mu]] gives mu m_D^2/(m_D^2 +
+      Lambda^2) to first order in mu. At fixed Yukawas m_light scales exactly as 1/w. (CHECK,
+      symbolic and numeric)
+  L12c What this does not do: the Yukawas are free. At w = 2 M_V / g with M_V = 4 TeV and y_R = 1,
+      m_light = 0.05 eV (sqrt of the atmospheric splitting) needs y_D = 3.8e-6, 1.3 times the
+      electron's Yukawa; y_D equal to the electron's gives 0.03 eV. That is a coincidence of
+      order of magnitude, not a prediction: no relation fixes y_D. What rung 1 supplies is the
+      scale w and the structure, so the suppression m_D / M ~ 8e-8 needs no Majorana
+      scale below w. (CHECK for the arithmetic; MODEL for the Yukawas)
+  L12d Against data (LIT: NuFIT 6.0, normal ordering, delta m^2_21 = 7.49e-5, delta m^2_31 =
+      2.513e-3 eV^2; Planck 2018, sum m_nu < 0.12 eV): the minimal sum is 0.059 eV, inside the
+      bound, so a sub-eV scale of the seesaw form is consistent with both. (CHECK; LIT)
+L13 First post-Newtonian correction to the entangling phase: rung 4 -> rungs 5 and 6.
+  L13a The two-body Einstein-Infeld-Hoffmann Lagrangian (LIT: EIH 1938; harmonic coordinates):
+      L_int = G m1 m2 / r [1 + (v1^2 + v2^2) 3/(2c^2) - 7 v1.v2 / (2c^2) - (n.v1)(n.v2)/(2c^2)]
+              - G^2 m1 m2 (m1 + m2) / (2 c^2 r^2).
+      Its test-mass limit is checked here against the geodesic Lagrangian of rung 5/6's
+      Schwarzschild metric in harmonic coordinates, expanded to 1/c^2: the 3/2 v^2 term and the
+      G^2 term agree. The v1.v2 and (n.v1)(n.v2) terms are quoted. (CHECK for the test-mass
+      limit; KNOWN for the rest)
+  L13b Along design A's branch trajectories, the one-body terms (m v^4/8c^2 and the like) cancel
+      in the entangling combination exactly, as in L10b. The rest, integrated: the entangling
+      phase shifts by -1.4e-23 rad of 2.19, a relative -6.6e-24 (of order (v/c)^2 for v =
+      dx/ramp = 0.46 mm/s); the G^2 term is another -1.8e-37 rad. No 1PN effect is near
+      measurable. (CHECK; FOLLOWS
+      for the reading: a coordinate-time phase in the lab frame)
+L15 The cosmological constant against every rung's vacuum energy: rung 5 -> rungs 1, 2, 4.
+  L15a An exact identity: with rho_L = Lambda c^4 / (8 pi G) and the Planck energy density
+      rho_Pl = c^7 / (hbar G^2), S_dS = (3/8) rho_Pl / rho_L. The horizon's entropy is the ratio
+      of the Planck vacuum energy density to the observed one. (CHECK, symbolic)
+  L15b The measured rho_L^(1/4) = 2.25 meV, against: the chiral vacuum energy of rung 2,
+      -f_pi^2 m_pi^2 (leading order of the chiral Lagrangian at U = 1), (111 MeV)^4; the Higgs
+      potential's minimum of rung 1, -m_h^2 v^2 / 8, (104 GeV)^4; the 3-3-1 scale w^4 (an order
+      of magnitude, coefficient unknown) with w from L12; and M_Pl^4 (link 3). Each is
+      6e42, 5e54, 9e62 and 9e122 times rho_L (L15a gives the last as 8 S_dS / 3). Each
+      phase transition changes the vacuum energy by about that much, and nothing in
+      this repository cancels it: this quantifies the cosmological-constant problem, it
+      does not solve it. (CHECK for the arithmetic; LIT for m_h; MODEL for the 3-3-1 w^4)
+L16 The ringdown fit checked at zero spin: rung 6 -> its own data (H7, H8).
+  L16a Leaver's continued fraction (Leaver 1985; gravitational perturbations of rung 6's
+      Schwarzschild metric, 2M = 1) solved for the l = 2 quasinormal modes: M omega =
+      0.373672 - 0.088962 i (n = 0) and 0.346711 - 0.273915 i (n = 1), the known values.
+      (CHECK)
+  L16b The Berti-Cardoso-Will fit that black_holes.py H7-H8 inverts, at chi = 0: M omega_R =
+      f1 + f2 = 0.3683 (1.4% below the exact 0.37367) and Q = q1 + q2 = 2.119
+      against the exact 2.100 (+0.9%). So the fit's error at the non-spinning end is about
+      1%; the GW250114 inversion uses it at chi ~ 0.7, which L20 covers with Kerr's
+      Teukolsky equation. (CHECK at chi = 0)
+L17 The ABJ anomaly coefficient, derived: rung 1's anomalies -> L2's pi0 width.
+  L17a Fujikawa's Jacobian with explicit Euclidean gamma matrices. D-slash^2 = D^2 - (e/2)
+      sigma_{mu nu} F_{mu nu}; the regulated trace Tr gamma5 exp(-D-slash^2/M^2) keeps, as
+      M -> infinity, only the term second order in sigma F, with int d^4k/(2 pi)^4 e^(-k^2) =
+      1/(16 pi^2): A = (1/16 pi^2)(e^2/8) tr[gamma5 sigma_{mu nu} sigma_{rho sigma}] F F. The
+      trace is computed for all 256 index sets: it is -4 eps_{mu nu rho sigma} exactly (the sign
+      is the orientation chosen for gamma5; the magnitude is not conventional). So
+      A = e^2 eps F F / (32 pi^2) and the divergence of the axial current, twice the Jacobian,
+      is d_mu j5^mu = (e^2/16 pi^2) eps^{mu nu rho sigma} F_{mu nu} F_{rho sigma} in magnitude.
+      (CHECK, symbolic; the dropped terms vanish as M -> infinity by power counting)
+  L17b A second route that shares nothing with it. In parallel E and B, the lowest Landau
+      level of each chirality is a 1+1 Weyl fermion with eB/2 pi states per area, whose
+      momenta drift at eE: d n5/dt = 2 (eB/2 pi)(eE/2 pi) = e^2 E B / (2 pi^2). With
+      eps F F = 8 F_12 F_34 (and |eps F F| = 8 E B in Minkowski) L17a gives the same
+      number. (CHECK, symbolic)
+  L17c Matching to L2. Weights: j5^3 = (u-bar g g5 u - d-bar g g5 d)/2 over N_c colours gives
+      (N_c/2)(Q_u^2 - Q_d^2) times L17a. With <0|j5^3|pi0> = i f_pi p and eps F F = 4 eps
+      d A d A (two photons: a factor 2), the amplitude is
+          A = alpha N_c (Q_u^2 - Q_d^2) / (pi f_pi),
+      the coefficient that L2 quoted; the width follows from L2b. (CHECK, symbolic)
+  L17d What stays quoted: the PCAC step <0|j5|pi0> = i f_pi p, and that the anomaly is not
+      renormalized beyond one loop (Adler-Bardeen). (LIT)
+L18 The rho parameter from the top-bottom loop, and what it does to M_W: rung 1 -> data.
+  L18a The W and Z self-energies at q^2 = 0 from the fermion loop, in dimensional regularization
+      (d = 4 - 2 eps) with the tadpole A0 and the two-point function B0 done in closed form.
+      Left-handed pieces give 2 (2/d - 1)[A0(m2) + m1^2 B0] and the left-right piece 2 m1 m2 B0;
+      the vector current's Ward identity (Pi_VV(0) = 0 for equal masses) is checked first.
+      Then Delta rho = Pi_ZZ(0)/M_Z^2 - Pi_WW(0)/M_W^2 for the (t, b) doublet (couplings
+      T3 - Q s^2 from rung 1) has no 1/eps pole and no dependence on s^2, and equals
+          N_c G_F / (8 sqrt2 pi^2) [m_t^2 + m_b^2 - 2 m_t^2 m_b^2 ln(m_t^2/m_b^2) / (m_t^2 - m_b^2)],
+      which is 3 G_F m_t^2 / (8 sqrt2 pi^2) for m_b -> 0. (CHECK, symbolic)
+  L18b With m_t = 172.57 GeV and m_b = 4.18 GeV (LIT: PDG 2024): Delta rho = 9.26e-3.
+  L18c The radiative correction to M_W, from G_F, alpha(0), M_Z: M_W^2 (1 - M_W^2/M_Z^2) =
+      pi alpha / (sqrt2 G_F) / (1 - Delta r) (Sirlin's definition), Delta r = Delta alpha - (c^2/s^2) Delta rho + Delta r_H
+      + Delta r_rest. Tree level (Delta r = 0): 80.94 GeV.
+      Adding Delta alpha = 0.05933 (the leptons of L9 through three loops plus the hadronic
+      0.02783, LIT) lowers it to 79.96, the top loop (L18a) lifts it to 80.53, the Higgs term
+      (LIT: 3 G_F M_W^2 ln(m_H^2/M_W^2) / (8 sqrt2 pi^2), quoted) takes it to 80.50 GeV, against
+      the measured 80.37 (LIT: PDG 2024). The 0.13 GeV left is Delta r_rest = 0.007, everything
+      beyond these leading terms; it is not computed here. (CHECK for the top loop; LIT for
+      the rest)
+  L18d What this does not do: B7's +0.35% (tree M_Z against the measured one) is in the MS-bar
+      scheme, where s-hat^2(M_Z) absorbs part of Delta rho; that bookkeeping is not done here.
+      This closes the leading piece of the on-shell correction, not B7's number. (FOLLOWS)
+L19 Hawking radiation as radiation, derived: rung 6 -> its own temperature (H1, H2).
+  H1 and H2 fix the temperature geometrically; the quoted step was that the field is then
+  *emitted* with a Planck spectrum. Here: a massless field's outgoing modes at infinity,
+  p_w = e^(-i w u)/sqrt(4 pi w), against the vacuum of the regular (Kruskal) coordinate U
+  across the horizon, v_O = e^(-i O U)/sqrt(4 pi O). Near the horizon u = -(1/kappa)
+  ln(-kappa U), kappa from rung 6 (H1).
+  L19a The Klein-Gordon overlaps, with one integration by parts (checked numerically):
+      alpha = (1/2 pi) sqrt(O/w) kappa^(i y) int_0^oo x^(i y) e^(-i O x) dx and beta the same with
+      e^(+i O x), y = w/kappa. The integral is Gamma(1 + i y) s^(-1-i y) at s = +-i O, so
+      |alpha|^2 = e^(pi y) |Gamma|^2 / (4 pi^2 w O) and |beta|^2 the same with e^(-pi y). With
+      |Gamma(1 + i y)|^2 = pi y / sinh(pi y) (checked): |beta/alpha|^2 = e^(-2 pi w/kappa), and
+      |alpha|^2 - |beta|^2 = 1/(2 pi kappa O), the unitarity (commutator) normalization. (CHECK)
+  L19b The mean number of quanta in mode w is the ratio, n = |beta|^2/(|alpha|^2 - |beta|^2) =
+      1/(e^(2 pi w/kappa) - 1): Planck's law at k_B T = hbar kappa/2 pi, now as an emission
+      spectrum, for every O. (CHECK, symbolic)
+  L19c The energy flux of one massless 1+1 field, (1/2 pi) int w n dw = pi (k_B T)^2/12 (hbar =
+      1), is the Stefan-Boltzmann law in one dimension. For Schwarzschild it uses the T_H of
+      H1. What this does not do: the 3+1 grey-body factors (greybody transmission) that turn
+      this into L7's mass-loss rate are quoted there (LIT: Carr et al.). (CHECK, symbolic)
+L20 The ringdown fit at the spin GW250114 uses: Leaver's method for Kerr, rung 6 -> H7, H8.
+  L20a Teukolsky's radial equation for s = -2 with Leaver's three-term recurrence (units 2M = 1,
+      a = chi/2) coupled to the spin-weighted spheroidal equation's recurrence through the
+      separation constant A: two complex continued-fraction conditions for (omega, A), solved by
+      Newton's method and continued in chi from L16's Schwarzschild mode. Compared with the 11
+      tabulated values of Berti, Cardoso and Will (PRD 73, 064030, Table II, l = m = 2, n = 0,
+      chi = 0 to 0.98; LIT, 4 digits): every real and imaginary part agrees to 6e-5. (CHECK; LIT)
+  L20b The fit F = f1 + f2 (1 - chi)^f3, Q = q1 + q2 (1 - chi)^q3 against the exact modes over
+      chi = 0 to 0.99: largest errors 1.85% (frequency) and 0.88% (Q), the 1.85% and 0.88% that
+      Berti, Cardoso and Will state. (CHECK)
+  L20c GW250114's ringdown-only 220 mode (247 Hz, damping 221 Hz, z = 0.09) inverted with the
+      exact modes: M_f = 66.48 Msun, chi_f = 0.744 (the fit gave 66.73 and 0.746), final area
+      4.04e5 km^2 (fit: 4.07e5). At the least favourable corner of the published ranges the final
+      area is 3.36e5 km^2 (fit: 3.41e5) against the initial 2.52e5: the area law's check does
+      not rest on the fit's error. (CHECK; LIT data)
+L21 The retarded Casimir-Polder step, checked: rung 3's quoted ln det with propagating fields.
+  L21a P3b of src/casimir_diamonds.py checked the fluctuation formula for instantaneous coupling.
+      Retardation is the part that was left. An exactly solvable retarded system: two
+      oscillators (frequency w0, coupling g) at sites 0 and r of a ring of M lattice sites
+      carrying a massless-ish scalar field (-Delta + mu^2). Its normal modes are the
+      eigenvalues of one real symmetric matrix, so the interaction energy U(r) =
+      (1/2) sum_i w_i(r) - (same at the farthest separation) is computed by diagonalization.
+      Integrating the field out (Schur complement) gives the same energy as
+      (1/2 pi) int_0^oo dxi ln[1 - (g^2 G12(xi, r) alpha_d(xi))^2], alpha_d = 1/(xi^2 + w0^2 -
+      g^2 G00(xi)), with G(xi) the field's Green function at imaginary frequency, which depends
+      on xi through propagation: e^(-kappa r) decay with kappa = sqrt(xi^2 + mu^2). The two
+      agree to 1e-10 (relative) at r = 4, 8, 12. Replacing G12(xi) by its static value
+      G12(0) (instantaneous coupling) is off by a factor of 3 at r = 4. (CHECK)
+  L21b What it covers: the step from a retarded kernel to the energy, in a model where the
+      retarded field is solved exactly. The electromagnetic case has the same algebra with G a
+      3 x 3 tensor (P2's Green tensor at imaginary frequency, already checked against the
+      Helmholtz equation) and two transverse polarizations; the dyadic case itself is not
+      diagonalized here. (FOLLOWS)
+  L21c The order. At design A's gap, alpha G ~ K R^3 / r^3 = 1e-7, so the second-order term
+      that P3 keeps is exact to 1e-14 (the next term of the logarithm is relatively (alpha G)^2).
+      (CHECK)
+L22 B7's +0.35% on M_Z, decomposed: rung 1's tree M_Z against the measurement, in the MS-bar scheme.
+  L22a The MS-bar relations (LIT: PDG 2024 electroweak review, eq. 10.26): M_Z = A0 /
+      [s-hat c-hat ((1 - Dr_W) rho-hat)^(1/2)], A0 = (pi alpha / sqrt2 G_F)^(1/2), with the
+      published Dr_W = 0.06937 and rho-hat = 1.01016 (bosonic loops included). B7's tree
+      formula M_Z = (pi alpha-hat / sqrt2 G_F)^(1/2) / (s-hat c-hat) is A0 / [s-hat c-hat (1 - Dr0)^(1/2)] with
+      alpha-hat = alpha/(1 - Dr0), Dr0 = 1 - alpha/alpha-hat = 0.06645. So, exactly,
+          M_Z^2 / M_Z(tree)^2 = (1 - Dr0) / [(1 - Dr_W) rho-hat],
+      which gives 91.1879 GeV against the measured 91.1880, and a gap of -0.348% against B7's -0.348%.
+      (CHECK for the algebra; LIT for the three published numbers)
+  L22b The pieces, in M_Z^2: rho-hat contributes -1.006%, (1 - Dr0)/(1 - Dr_W) contributes +0.314%;
+      together -0.695%, half of it the -0.348% in M_Z. The quadratic top-mass dependence sits in rho-hat
+      alone (Dr_W has none, PDG). (CHECK)
+  L22c What L18 derives of it: the one-loop top-bottom loop gives rho - 1 = 9.26e-3, 91% of rho-hat - 1 =
+      1.016e-2. With it in place of rho-hat, M_Z = 91.229 GeV, 0.045% (0.04 GeV) above the measurement.
+      Not derived here: the other 9% of rho-hat - 1 (bosonic loops, two-loop terms) and Dr_W - Dr0 =
+      0.0029 (vertex and box corrections to muon decay and the rest of the MS-bar Dr_W). So B7's
+      number is decomposed and its dominant part derived, not closed. (CHECK; LIT; FOLLOWS)
+L23 The electromagnetic dyadic step of L21, derived independently: rung 3 from photon exchange.
+  L23a Two blind builds (campaign qed_cp, rebuild/campaigns/qed_cp/ACCEPTED.md) derived the retarded
+      Casimir-Polder energy of two single-resonance atoms from the 12 time-ordered fourth-order diagrams of
+      the dipole-photon coupling, with the full photon polarization sum and angular average, and no use of the
+      Green-tensor formula. The accepted builds agree with the imaginary-frequency integral of rung 3 (P3)
+      to 1e-11 (1e-15 against the oracle's extended-precision reference) over r w0 = 1e-2 to 1e3, and derive the far coefficient 23/(4 pi) and the near coefficient 3/4.
+      So the 3 x 3, two-polarization structure that L21b left as FOLLOWS is confirmed by an independent route.
+      (CHECK; two builds, an audit, a hidden oracle)
+  L23b What it does not do: the single-resonance atom model is the polarizability of P3b (constant-alpha
+      follows in the far zone); the Abel-damping step for the photon integrals is supported, not proved; and
+      the gate cannot enforce the independence of the route, which the audit checked by reading. (FOLLOWS)
+L24 The emission weights of L7, derived: the grey-body campaign. Rung 6, quoted -> derived.
+  L24a L7 took the energy emitted per degree of freedom of each spin (weights 0.267, 0.147, 0.060, 0.007 with
+      dM/dt = -5.34e25 f/M^2 g^3/s) from Carr et al. 2021, after Page 1976 and MacGibbon-Webber. Two blind builds
+      (rebuild/campaigns/greybody, ACCEPTED.md) derived them from the Regge-Wheeler and Chandrasekhar master equations
+      on Schwarzschild: Gamma_{s,j}(omega) from the ingoing horizon solution matched to the large-r asymptotic series,
+      then P_s = sum_j (2j+1) int dw/(2 pi) w Gamma/(e^{w/T} -+ 1) at T = 1/8 pi. In units 1/M^2: 7.43869e-5 (spin 0),
+      4.09165e-5 (1/2), 1.68193e-5 (1), 1.91837e-6 (2); in Carr's normalization the weights are 0.2664, 0.1465,
+      0.0602, 0.00687, against the quoted 0.267, 0.147, 0.060, 0.007 (differences 0.2%, 0.3%, 0.4%, 1.9%, all
+      within the quoted digits). An auditor's independent solver (WKB projection at large R, no asymptotic series)
+      reproduces P_s to 1e-9 and the low-frequency limits of Gamma are exact. (CHECK; two builds, audit, oracle)
+  L24b Carr's 0.142 for charged spin-1/2 against 0.147 for neutral: massless grey-body factors give one spin-1/2 weight,
+      0.1465, so the charged value is a different calculation (Page 1977: charge fluctuations of the hole, see L30), no
+      longer open in kind but convention dependent. L7's SM count f = 15.332 uses the quoted 0.142; with 0.1465 for every
+      fermion it would be 15.71. (see L30)
+L25 Hawking radiation from a collapsing shell: the map behind L19, derived. Rung 6, quoted -> derived.
+  L25a L19 assumed the map u = -(1/kappa) ln(-kappa U) between the horizon-crossing coordinate and retarded time. For a thin null
+      shell that collapses to a Schwarzschild hole of mass M (flat inside, Schwarzschild outside, the shell at advanced time v0)
+      it follows exactly. An incoming ray at advanced time v < v0 passes through the centre (u_in = v), meets the shell at
+      r_s = (v0 - v)/2, and leaves along u = v0 - 2 r*(r_s), r* = r + 2M ln(r/2M - 1). So
+          u(v) = v - 4M ln((v_H - v)/4M),   v_H = v0 - 4M,
+      derived symbolically here (residual 0). Near v_H, du/dv ~ 4M/(v_H - v): kappa = 1/4M, equal to |f'(r_h)|/2 of H1. Rays with
+      v > v_H never reach infinity: the horizon. (CHECK, symbolic)
+  L25b With this map the overlaps of L19 are exact: alpha and beta are the integrals int_0^oo x^(4iM w) e^(i(w -+ w')x) dx (x = v_H - v), so
+          |beta_{w w'}|^2 / |alpha_{w w'}|^2 = ((w' - w)/(w' + w))^2 e^(-8 pi M w),
+      the Planck factor of L19 times a correction that tends to 1 for in-frequencies w' >> w (the modes that fell in at late
+      times), and that is ((w' - w)/(w' + w))^2 < 1 otherwise: a thin-shell hole is thermal only for those modes. The closed
+      form of the overlap integrals is the one L19 verifies against direct integration; here it is evaluated at several
+      (w, w'). (CHECK)
+  L25c What it does not do: a thin shell is not a star (no matter dynamics, no back-reaction); the late-time stationarity of the
+      flux, the 3+1 grey-body factors and the back-reaction on the mass are not derived here. (FOLLOWS)
+L26 The Higgs term of L18, derived: the coefficient of ln m_H^2 in Delta rho. Rung 1, quoted -> derived (coefficient only).
+  L26a L18 quoted the heavy-Higgs term Delta r_H = +(3 G_F M_W^2 / 8 sqrt2 pi^2) ln(m_H^2/M_W^2). Two blind builds (campaign higgs_rho,
+      ACCEPTED.md) derived the m_H dependence of Delta rho = Pi_WW(0)/M_W^2 - Pi_ZZ(0)/M_Z^2 from the Higgs-containing one-loop diagrams of the
+      bosonic electroweak Lagrangian in R_xi gauge (Feynman rules read off |D Phi|^2; the H-gauge bubble, the H-Goldstone bubble and the
+      seagull, in dimensional regularization): the poles are m_H-independent and cancel, xi drops out exactly, and
+          Delta rho = -(3 alpha / 16 pi c^2) ln(m_H^2/M_W^2) + C,   C = 9.54e-4 (relative to m_H = M_W),
+      so, with Delta r_H = -(c^2/s^2) Delta rho and G_F M_W^2 = pi alpha / (sqrt2 s^2), the quoted coefficient 3 G_F M_W^2/(8 sqrt2 pi^2) =
+      3 alpha/(16 pi s^2) is reproduced to the double. An independent auditor computed the finite function by two other routes
+      (agreement to the double at m_H = 10 to 5000 GeV). (CHECK; two builds, audit, oracle)
+  L26b What it does not give: the full Higgs dependence of Delta r at m_H = 125 GeV. The finite function Delta rho(m_H) - Delta rho(M_W) at 125.2
+      GeV is -2.0e-4, 39% of the leading-log value -5.2e-4: the leading log overstates it. But Delta r's own m_H dependence also
+      comes from the q^2-dependent self-energies (Pi_WW(M_W^2) - Pi_WW(0), photon-Z mixing), which are not computed here, so L18's term
+      is not replaced; its coefficient is derived, its finite-m_H shape is not. (FOLLOWS)
+L27 The Higgs dependence of Delta r, derived: the q^2-dependent W and Z self-energies. Rung 1, quoted -> derived.
+  L27a Two blind builds (campaign higgs_dr, ACCEPTED.md): Pi_V(q^2) from the Higgs-containing diagrams, and from muon decay
+      Delta r_H = [Pi_W(M_W^2) - Pi_W(0)]/M_W^2 + (c^2/s^2)[Pi_Z(M_Z^2)/M_Z^2 - Pi_W(M_W^2)/M_W^2]. The coefficient of ln m_H^2 is
+      11 alpha/(48 pi s^2): the Delta rho screening 3 alpha/(16 pi s^2) plus alpha/(24 pi s^2) from the q^2 dependence, so L18's quoted
+      term (and Link 26's check) had only 9/11 of it. (CHECK; two builds, audit, oracle)
+  L27b At m_H = 125.2 GeV Delta r_H(m_H) - Delta r_H(M_W) = 1.431e-3 (L18's quoted leading log 1.795e-3); M_W = 80.501 GeV with it
+      (80.495 before), Delta r_rest = 0.0075. (CHECK)L28 The Higgs part of Delta r is gauge-parameter independent (R_xi, xi >= 0). Rung 1.
+  L28a Two blind builds (campaign higgs_dr_xi): the g^{mu nu} coefficient of the Higgs-containing self-energies does not depend on xi at any q^2
+      below threshold (the xi parts of the H-V and H-Goldstone bubbles cancel pointwise after transverse projection); Delta r_H(m_H) is
+      therefore the Link 27 value in every gauge. (CHECK; two builds, audit, oracle)
+L29 The whole bosonic one-loop Delta r. Rung 1, quoted -> derived (non-fermionic part).
+  L29a Two stages of blind builds (campaigns bos_se, bos_dr; ACCEPTED.md each): the bosonic W, Z, photon self-energies and photon-Z mixing from the Lagrangian
+      ('t Hooft-Feynman gauge, all gauge-boson, Goldstone, Higgs and ghost loops), then the on-shell renormalization of muon decay with the vertex, box and lepton
+      wave-function diagrams (IR cancelled with the Fermi-theory subtraction) assembled into Delta r_bos = Sigma'_AA(0) + 2(s/c)Sigma_AZ(0)/M_Z^2
+      - (c^2/s^2)[Sigma_ZZ(M_Z^2)/M_Z^2 - Sigma_W(M_W^2)/M_W^2] + [Sigma_W(0) - Sigma_W(M_W^2)]/M_W^2 + delta_VB, delta_VB = (alpha/4 pi s^2)
+      [6 + (7 - 4 s^2)/(2 s^2) ln c^2], UV finite and mu independent. (CHECK; four builds, two audits with independent derivations, oracle)
+  L29b Delta r_bos(125.2 GeV) = 4.0e-3; with Delta alpha and the top loop M_W = 80.456 GeV against 80.369 measured. What remains is fermionic and higher
+      order (not derived here). (CHECK; FOLLOWS)
+L30 Carr's charged spin-1/2 weight 0.142: Page's charge fluctuations. Rung 6 (with rung 1's charge), quoted -> derived, convention dependent.
+  L30a Two blind builds (campaign charged_half, ACCEPTED.md) of a massless Dirac field in Schwarzschild with Coulomb energy g/r (g = alpha q n), the horizon
+      chemical potential g/2, grey-body factors Gamma_j(w; g), emission rates of e- and e+, and the stationary distribution of the hole charge n (birth-death chain,
+      <n^2> = 11.8). Gamma agrees with an independent Whittaker-matching solver to 3e-8; the builds to 3e-8 on the ratios. (CHECK; two builds, audit, oracle)
+  L30b The weight ratio (charged/neutral) depends on which hole charge (before, mid, after emission) the grey-body factor and the chemical potential use:
+      (after, after) 0.9634 (f = 0.1411 against 0.142, inside the quoted digits), (mid, mid) 0.988, (after, mid), the thermodynamically consistent rule, 1.0077
+      (f = 0.1476), (before, before) 1.014; nine rules span 0.93-1.05 and only +1.85 alpha of the O(alpha) slope is the fluctuation effect itself. The energy
+      ratio 0.9959 does not reproduce the literature 0.9905 and cannot in this model. So 0.142 is reproduced by one convention, not derived. (CHECK; FOLLOWS)
+L31 The fermionic one-loop Delta r: fermion-loop self-energies. Rung 1, quoted -> derived (the one-loop M_W relation is now complete).
+  L31a Two blind builds (campaign ferm_se, ACCEPTED.md) of Sigma^AA, Sigma^AZ, Sigma^ZZ, Sigma^W from fermion loops (any isospin, MS-bar, NDR gamma5), checked by an
+      auditor's independent derivation and numerics to 1e-14. (CHECK; two builds, audit, oracle)
+  L31b Combined as in L29: Delta r_ferm = 0.0253 (u, d, s, c, b at model masses; 0.0257 with the quoted Delta alpha_had replacing those loops), independent of mu to 3e-17 and
+      identical in the two builds to 3e-17; the leptonic Delta alpha at M_Z comes out 0.031419 against the literature one-loop 0.0314190. With L29's bosonic part: M_W = 80.474 GeV
+      against 80.369 measured; the 0.106 GeV left (Delta r_rest = 0.0057) is QCD and two-loop. (CHECK; LIT for Delta alpha_had; FOLLOWS)
+L32 The whole bosonic one-loop Delta r is gauge-parameter independent: general R_xi, no provided module. Rung 1, quoted -> derived.
+  L32a Two blind builds (campaign dr_xi, ACCEPTED.md) derived, with the Feynman rules generated from the Lagrangian in code, the gauge-boson self-energies, the photon-Z mixing, the on-shell
+      renormalization (class SE) and the vertex, box and lepton wave-function diagrams with the Fermi subtraction (class VBW) in R_xi. The total is independent of xi from 1e-9 to 1e6 and equals
+      L29's xi = 1 value to 1e-15; the classes shift by -/+ 2.5e-3 between xi = 0 and 1 (benchmark) and cancel; delta Z_e and Sigma_W/M_W^2 - Sigma_Z/M_Z^2 are xi independent, all of SE's xi
+      dependence sits in [Sigma_W(0) - Sigma_W(M_W^2)]/M_W^2. Class SE agrees with an auditor's independent derivation to 3e-15 at 49 points. (CHECK; two builds, audit, oracle)
+  L32b Class VBW was derived by the two builds but not independently by the auditor; the classes at xi = 0 are infrared divergent and their values a convention. Fermion loops (L31) were not
+      rechecked at xi != 1. (FOLLOWS)
+L33 The QCD correction to the top-bottom Delta rho. Rung 1, quoted -> derived (leading m_t^2).
+  L33a Two blind Opus builds (campaign qcd_drho, ACCEPTED.md) of the O(alpha_s) correction from the two-loop vacuum correlators of the weak currents: c_pole = -C_F (1/2 + pi^2/6)
+      = -2.859912 and c_MSbar(mu = m) = C_F (3/2 - pi^2/6) = -0.193245 (+ (3 C_F/2) ln(mu^2/m^2) at other mu), reproduced by an auditor's Goldstone-route derivation (150 digits, PSLQ).
+      Both builders and the auditor knew the textbook result beforehand (language models): the agreement is evidence of correct execution, weaker evidence of independence. (CHECK; two builds, audit, oracle)
+  L33b With L31's whole one-loop Delta r and the pole-mass correction -(c^2/s^2) Delta rho_0 c alpha_s/pi (leading m_t^2 only): M_W falls from 80.474 to 80.410 GeV (alpha_s = 0.118) or 80.415 GeV
+      (0.108); the remainder to the measured 80.369 GeV is 0.04 GeV (Delta r_rest = 0.0022). Not derived: non-leading O(alpha alpha_s), O(alpha alpha_s^2), O(alpha^2) electroweak; the alpha_s
+      scale is not fixed at this order. (CHECK; LIT alpha_s; FOLLOWS)
+L34 Rung 2's pion cloud sets the nucleon polarizability that rung 3's Casimir-Polder energy uses. Rung 2 -> rung 3, the first link in that cell.
+  L34a Two blind builds (campaign nucleon_pol, ACCEPTED.md) of the leading-order heavy-baryon chiral perturbation theory polarizabilities: alpha_E = 5 alpha gA^2/(96 pi f^2 m_pi) = 12.58e-4 fm^3
+      and beta_M = alpha_E/10 = 1.258e-4 fm^3 (measured proton 11.2(4) and 2.5(4); the missing part of beta_M is the Delta(1232), excluded). An auditor's Born-subtracted real-photon Compton route at
+      general angle reproduces them. Builders and auditor knew the textbook result (recorded). (CHECK; two builds, audit, oracle)
+  L34b Consequence in rung 3's formula: two neutrons feel a retarded Casimir-Polder tail -23 hbar c alpha_E^2/(4 pi r^7) that overtakes gravity -G m_n^2/r at r = 2.8e-10 m (spin-independent part only;
+      the magnetic dipole interaction is larger there). For the diamond experiment the strong sector's contribution to the polarizability is negligible (scoping estimate 1e-17 of diamond's electronic
+      polarizability, LINKS_SCOPING.md; not pinned). (CHECK; MODEL for the consequence)
+L14 Bekenstein bound: rung 6 -> rung 4. S <= 2 pi k R E / (hbar c). A Schwarzschild black hole
+  (R = 2GM/c^2, E = M c^2) saturates it exactly, = A / 4 l_P^2 (CHECK, symbolic). Design A's
+  diamond (radius 1.0 um, 7.4e11 atoms): Bekenstein bound 2.6e23 k_B, holographic bound
+  1.2e58 k_B; its entropy at 0.15 K is far below either, so neither constrains the experiment.
+  (CHECK; the diamond's own entropy is not computed here)
 Labels: CHECK, FOLLOWS, KNOWN, LIT, MODEL (L3f's gravity term; L7c's switch-on rule; L8c's resonance saturation).
 """
 import functools
@@ -193,6 +510,7 @@ import os
 import sys
 from itertools import product
 
+import numpy as np
 import sympy as sp
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -465,6 +783,1038 @@ def lambda_correction_size():
     r_far = math.hypot(gap, dx)
     l = math.sqrt(3 / LAMBDA_SI)
     return (r_far / l) ** 2, l, r_far
+
+
+# ---------------------------------------------------------------------------------- L11
+HBAR_SI, C_SI, KB_SI = 1.054571817e-34, 299792458.0, 1.380649e-23
+
+
+def de_sitter_entropy_symbolic():
+    """L11a: horizon, surface gravity, area, entropy of f = 1 - r^2/l^2 (G = c = hbar = k_B = 1)."""
+    import sympy as sp
+    r, l = sp.symbols("r l", positive=True)
+    f = 1 - r**2 / l**2
+    Lam = 3 / l**2
+    rc = [x for x in sp.solve(f, r) if x.is_positive][0]
+    kappa = sp.Abs(sp.diff(f, r)).subs(r, rc) / 2
+    A = 4 * sp.pi * rc**2
+    S = A / 4
+    return (sp.simplify(rc - l), sp.simplify(kappa - 1 / l), sp.simplify(A - 12 * sp.pi / Lam),
+            sp.simplify(S - 3 * sp.pi / Lam), sp.simplify(S - sp.pi * 3 / Lam),
+            sp.simplify(S / (sp.pi / Lam)))          # the last: 3, the factor over pi c^3/(G hbar Lambda)
+
+
+def first_law_every_horizon():
+    """L11b: dM/dr_h - (f'(r_h)/4 pi) dS/dr_h for SdS, with M from f(r_h) = 0."""
+    import sympy as sp
+    r, l, M = sp.symbols("r l M", positive=True)
+    f = 1 - 2 * M / r - r**2 / l**2
+    Mh = sp.solve(f, M)[0]
+    fp = sp.diff(f, r).subs(M, Mh)
+    return sp.simplify(sp.diff(Mh, r) - fp / (4 * sp.pi) * sp.diff(sp.pi * r**2, r))
+
+
+def sds_entropy_bound(n=200):
+    """L11c: max over M of (S_bh + S_c)/S_dS for 0 < 9 M^2 Lambda < 1, and the exact root identity."""
+    import sympy as sp
+    rb, rc = sp.symbols("r_b r_c", positive=True)
+    # roots rb, rc, -(rb + rc) of r^3 - l^2 r + 2 M l^2: e2 = rb rc - (rb + rc)^2 = -l^2  ->  l^2 = rb^2 + rb rc + rc^2;  then the sum of squares is 2 l^2:
+    ident = sp.simplify(rb**2 + rc**2 + (rb + rc) ** 2 - 2 * (rb**2 + rb * rc + rc**2))
+    worst = 0.0
+    for k in range(1, n):
+        Mv = (k / n) / math.sqrt(27)               # l = 1: 9 M^2 Lambda = 27 M^2 < 1
+        # stdlib bisection: f(r) = r^3 - r + 2 M has roots 0 < r_b < 1/sqrt3 < r_c < 1
+        g = lambda x: x**3 - x + 2 * Mv
+        a, b = 1e-12, 1 / math.sqrt(3)
+        for _ in range(200):
+            m = (a + b) / 2
+            a, b = (m, b) if g(m) > 0 else (a, m)
+        rbv = (a + b) / 2
+        a, b = 1 / math.sqrt(3), 1.0
+        for _ in range(200):
+            m = (a + b) / 2
+            a, b = (a, m) if g(m) > 0 else (m, b)
+        rcv = (a + b) / 2
+        worst = max(worst, rbv**2 + rcv**2)        # (S_bh + S_c) / S_dS with S = pi r^2, S_dS = pi l^2
+    return ident, worst
+
+
+def de_sitter_numbers():
+    """L11d: l, S_dS, T_dS, and 3 pi c^3/(G hbar Lambda) against pi x 3/(G Lambda) in Planck units."""
+    lP2 = G_NEWTON * HBAR_SI / C_SI**3
+    l = math.sqrt(3 / LAMBDA_SI)
+    A = 4 * math.pi * l**2
+    S = A / (4 * lP2)
+    T = HBAR_SI * C_SI / (2 * math.pi * KB_SI * l)
+    mm = 3 / (lP2 * LAMBDA_SI)
+    return l, A, S, T, S / (math.pi * mm), S / (math.pi * C_SI**3 / (G_NEWTON * HBAR_SI * LAMBDA_SI))
+
+
+# ---------------------------------------------------------------------------------- L12
+NUFIT_DM21, NUFIT_DM31 = 7.49e-5, 2.513e-3        # eV^2, NuFIT 6.0 (2024), normal ordering
+SUM_NU_PLANCK = 0.12                              # eV, Planck 2018 (TT,TE,EE+lowE+lensing+BAO), 95%
+M_E_EV = 0.51099895e6
+
+
+def lepton_triplets():
+    """L12a: the lepton triplet's charges for both variants, from rung 1's B6."""
+    import m331_breaking as B
+    out = {}
+    for v in ("-1/sqrt3", "+1/sqrt3"):
+        rows, ok, _ = B.charges(v, 3)
+        out[v] = [str(x) for k, X, q in rows if k == "lepton triplet" for x in q]
+    return out
+
+
+def seesaw_symbolic():
+    """L12b: det identity, leading terms, and the inverse seesaw's first order in mu."""
+    import sympy as sp
+    mD, M, mu, Lam, eps = sp.symbols("m_D M mu Lambda epsilon", positive=True)
+    S = sp.Matrix([[0, mD], [mD, M]])
+    ev = S.eigenvals()
+    lam = sorted(ev, key=lambda e: float(e.subs({mD: 1, M: 7})))
+    prod = sp.simplify(lam[0] * lam[1] + mD**2)                               # det = -m_D^2
+    light = sp.simplify(-lam[0])
+    ser = sp.series(light.subs(mD, eps * mD), eps, 0, 6).removeO()
+    resid = sp.simplify(ser - (eps**2 * mD**2 / M - eps**4 * mD**4 / M**3))
+    I = sp.Matrix([[0, mD, 0], [mD, 0, Lam], [0, Lam, mu]])
+    p = sp.expand(I.charpoly(sp.Symbol("x")).as_expr())
+    x = sp.Symbol("x")
+    # smallest root to first order in mu: x = mu mD^2/(mD^2 + Lam^2) solves p = 0 up to O(mu^2)
+    root = mu * mD**2 / (mD**2 + Lam**2)
+    inv = sp.simplify(sp.series(p.subs(x, root), mu, 0, 2).removeO())
+    return prod, resid, inv
+
+
+def seesaw_numbers(MV=4e3, yR=1.0, target=math.sqrt(NUFIT_DM31)):
+    """L12b-c: w from M_V = g w / 2, M = y_R w / sqrt2, the y_D that gives `target` eV, and
+    the scaling of m_light with w at fixed Yukawas (log-log slope)."""
+    import m331_breaking as B
+    g = math.sqrt(4 * math.pi / B.ALPHA_MZ_INV / B.S2_MZ)
+    w = 2 * MV / g
+    v = (math.sqrt(2) * B.G_F) ** -0.5
+    M = yR * w / math.sqrt(2) * 1e9                                  # eV
+    vev = v * 1e9
+    yD = math.sqrt(2 * target * M) / vev                              # m_D^2 / M = target, m_D = y_D v / sqrt2
+    ye = math.sqrt(2) * M_E_EV / vev
+    def light(wv, yd=yD):                                            # 2 m_D^2 / (M + sqrt(M^2 + 4 m_D^2)): no cancellation
+        m_D, MM = yd * vev / math.sqrt(2), yR * wv * 1e9 / math.sqrt(2)
+        return 2 * m_D**2 / (MM + math.sqrt(MM**2 + 4 * m_D**2))
+    slope = math.log(light(10 * w) / light(w)) / math.log(10)
+    m_with_ye = light(w, ye)
+    return dict(g=g, w=w, M=M, yD=yD, ye=ye, ratio=yD / ye, light=light(w), slope=slope,
+                m_with_ye=m_with_ye, suppress=(yD * vev / math.sqrt(2)) / M)
+
+
+def neutrino_data():
+    """L12d: minimal sum of masses for normal ordering from the splittings."""
+    m1 = 0.0
+    m2 = math.sqrt(NUFIT_DM21)
+    m3 = math.sqrt(NUFIT_DM31)
+    return m1 + m2 + m3, SUM_NU_PLANCK
+
+
+# ---------------------------------------------------------------------------------- L13
+def eih_test_mass_limit():
+    """L13a: expand -m c^2 sqrt(-g_mu nu v^mu v^nu / c^2) in harmonic-coordinate Schwarzschild to
+    1/c^2 and subtract the EIH test-mass limit (m2 -> M, v2 = 0). Zero means they agree."""
+    import sympy as sp
+    m, Mm, Gs, r, vv, t = sp.symbols("m M G r v t", positive=True)       # t = 1/c^2
+    U = Gs * Mm / r
+    L = -m / t * sp.sqrt(1 - 2 * t * U + 2 * t**2 * U**2 - (1 + 2 * t * U) * t * vv**2)
+    ser = sp.series(L, t, 0, 2).removeO()
+    eih = -m / t + m * vv**2 / 2 + m * U + t * (m * vv**4 / 8 + sp.Rational(3, 2) * m * U * vv**2
+                                                   - Gs**2 * m * Mm**2 / (2 * r**2))       # m << M
+    return sp.simplify(sp.expand(ser - eih))
+
+
+def eih_phase_shift(n=4001):
+    """L13b: entangling phase of design A, Newtonian and from the 1PN terms of the EIH Lagrangian,
+    along the branch trajectories (A_i at (0, s_i y), B_j at (gap, s_j y))."""
+    import graviton_exchange as GX
+    import stur_gravity_full as GF
+    _, _, _, (m, dx, gap, hold, ramp) = GX.branch_phases()
+    total = hold + 2 * ramp
+    t = np.linspace(0, total, n)
+    y = 0.5 * dx * GF.ramp_profile(t, hold, ramp)
+    vy = np.gradient(y, t)
+    G_, hb, c2 = G_NEWTON, HBAR_SI, C_SI**2
+    N = np.zeros((2, 2))
+    P = np.zeros((2, 2))
+    Q = np.zeros((2, 2))
+    for i, si in enumerate((1, -1)):
+        for j, sj in enumerate((1, -1)):
+            d = np.stack([np.full_like(t, gap), sj * y - si * y])               # B - A
+            r = np.sqrt((d**2).sum(0))
+            nvec = d / r
+            v1 = np.stack([np.zeros_like(t), si * vy])
+            v2 = np.stack([np.zeros_like(t), sj * vy])
+            newt = G_ * m**2 / r
+            pn = newt / c2 * (1.5 * ((v1**2).sum(0) + (v2**2).sum(0)) - 3.5 * (v1 * v2).sum(0)
+                              - 0.5 * (nvec * v1).sum(0) * (nvec * v2).sum(0))
+            g2 = -G_**2 * m**3 / (c2 * r**2)
+            N[i, j] = np.trapezoid(newt, t) / hb
+            P[i, j] = np.trapezoid(pn, t) / hb
+            Q[i, j] = np.trapezoid(g2, t) / hb
+    ent = lambda a: a[0, 0] + a[1, 1] - a[0, 1] - a[1, 0]
+    return ent(N), ent(P), ent(Q)
+
+
+# ---------------------------------------------------------------------------------- L14
+def bekenstein_saturation():
+    """L14: 2 pi R E / (hbar c) for a Schwarzschild black hole minus A / (4 l_P^2), symbolic."""
+    import sympy as sp
+    Gs, hb, c, M = sp.symbols("G hbar c M", positive=True)
+    R = 2 * Gs * M / c**2
+    bek = 2 * sp.pi * R * M * c**2 / (hb * c)
+    area = 4 * sp.pi * R**2 / (4 * Gs * hb / c**3)
+    return sp.simplify(bek - area)
+
+
+def diamond_bounds():
+    """L14: design A's Bekenstein bound and holographic bound, against its atom count."""
+    import graviton_exchange as GX
+    import stur_gravity_entanglement as GE
+    _, _, _, (m, dx, gap, hold, ramp) = GX.branch_phases()
+    R = GE.radius(m)
+    bek = 2 * math.pi * R * m * C_SI / HBAR_SI
+    holo = 4 * math.pi * R**2 / (4 * G_NEWTON * HBAR_SI / C_SI**3)
+    atoms = m / (12 * U_AMU)
+    return R, bek, holo, atoms
+
+
+# ---------------------------------------------------------------------------------- L10e, L15
+M_H_GEV = 125.20                                   # PDG 2024
+
+
+def de_sitter_pair_correction(n=4001):
+    """L10e: linear-in-M part of the static energy of a test mass in SdS, its relative correction
+    (r/l)^2/2, and the shift of design A's entangling phase."""
+    import sympy as sp
+    import graviton_exchange as GX
+    import stur_gravity_full as GF
+    r, l, Gs, M, m, c = sp.symbols("r l G M m c", positive=True)
+    E = m * c**2 * sp.sqrt(1 - 2 * Gs * M / (c**2 * r) - r**2 / l**2)
+    lin = sp.simplify(sp.diff(E, M).subs(M, 0))                       # coefficient of M
+    newton = -Gs * m / r
+    ratio = sp.simplify(lin / newton)
+    resid = sp.simplify(sp.series(ratio, r, 0, 4).removeO() - 1 - r**2 / (2 * l**2))
+    _, _, _, (mm, dx, gap, hold, ramp) = GX.branch_phases()
+    t = np.linspace(0, hold + 2 * ramp, n)
+    y = 0.5 * dx * GF.ramp_profile(t, hold, ramp)
+    lval = math.sqrt(3 / LAMBDA_SI)
+    base = lambda rr: G_NEWTON * mm**2 / HBAR_SI * np.trapezoid(1 / rr, t)
+    corr = lambda rr: G_NEWTON * mm**2 / HBAR_SI * np.trapezoid(rr / (2 * lval**2), t)    # (1/r)(r^2/2l^2)
+    rs, rc = np.full_like(t, gap), np.sqrt(gap**2 + (2 * y) ** 2)
+    dn = 2 * base(rs) - 2 * base(rc)
+    dc = 2 * corr(rs) - 2 * corr(rc)
+    return resid, dn, dc
+
+
+def de_sitter_entropy_identity():
+    """L15a: S_dS - (3/8) rho_Pl / rho_L, symbolic."""
+    import sympy as sp
+    Gs, hb, c, Lam = sp.symbols("G hbar c Lambda", positive=True)
+    rho_L = Lam * c**4 / (8 * sp.pi * Gs)
+    rho_Pl = c**7 / (hb * Gs**2)
+    S = 3 * sp.pi * c**3 / (Gs * hb * Lam)
+    return sp.simplify(S - sp.Rational(3, 8) * rho_Pl / rho_L)
+
+
+def vacuum_energy_scales():
+    """L15b: rho_L^(1/4) and the ratios (E^4 / rho_L) of each rung's vacuum-energy scale, E in eV."""
+    import m331_breaking as B
+    eV = 1.602176634e-19
+    rho = LAMBDA_SI * C_SI**4 / (8 * math.pi * G_NEWTON)             # J/m^3
+    rho_ev4 = rho * (HBAR_SI * C_SI) ** 3 / eV**4                    # eV^4
+    f_pi, m_pi = 92.07e6, 134.9768e6                                 # eV (rung 2's f_pi; PDG pi0)
+    v = (math.sqrt(2) * B.G_F) ** -0.5 * 1e9
+    w = seesaw_numbers()["w"] * 1e9
+    mpl = math.sqrt(HBAR_SI * C_SI / G_NEWTON) * C_SI**2 / eV        # eV
+    scales = {"chiral (rung 2): f_pi^2 m_pi^2": f_pi**2 * m_pi**2,
+              "Higgs (rung 1): m_h^2 v^2 / 8": (M_H_GEV * 1e9) ** 2 * v**2 / 8,
+              "3-3-1 (rung 1): w^4": w**4,
+              "Planck (link 3): M_Pl^4": mpl**4}
+    return rho_ev4 ** 0.25, {k: x / rho_ev4 for k, x in scales.items()}
+
+
+# ---------------------------------------------------------------------------------- L16
+def leaver_qnm(n=0, l=2, start=None):
+    """L16a: M*omega of the gravitational l-mode, n-th overtone, from Leaver's continued fraction
+    (2M = 1, s = 2); the n-th inversion for n > 0."""
+    import mpmath as mp
+    mp.mp.dps = 25
+    eps = 3                                                          # s^2 - 1
+
+    def cond(w, N=600):
+        rho = -1j * w
+        al = lambda k: k * k + (2 * rho + 2) * k + 2 * rho + 1
+        be = lambda k: -(2 * k * k + (8 * rho + 2) * k + 8 * rho**2 + 4 * rho + l * (l + 1) - eps)
+        ga = lambda k: k * k + 4 * rho * k + 4 * rho**2 - eps - 1
+        R = 0
+        for k in range(N - 1, n - 1, -1):
+            R = al(k) * ga(k + 1) / (be(k + 1) - R)
+        fwd = 0
+        for k in range(1, n + 1):
+            fwd = al(k - 1) * ga(k) / (be(k - 1) - fwd)
+        return be(n) - fwd - R
+    g = start or {0: 0.74 - 0.18j, 1: 0.69 - 0.55j}[n]
+    w = mp.findroot(cond, g) / 2
+    return complex(w)
+
+
+def bcw_at_zero_spin():
+    """L16b: the fit's M*omega_R and Q at chi = 0 against the exact n = 0 mode."""
+    import black_holes as BH
+    f1, f2, f3, q1, q2, q3 = BH.BCW_220
+    w = leaver_qnm(0)
+    return f1 + f2, w.real, q1 + q2, w.real / (-2 * w.imag)
+
+
+# ---------------------------------------------------------------------------------- L17
+def abj_fujikawa():
+    """L17a: tr[gamma5 sigma_{mu nu} sigma_{rho sigma}] = lam eps_{mu nu rho sigma} for all
+    indices (returns lam and whether it holds for every set), and the coefficient of
+    eps F F in the Jacobian A = (1/16 pi^2)(e^2/8) lam, in units of e^2/(32 pi^2)."""
+    import sympy as sp
+    from sympy import I, Matrix, eye, zeros, LeviCivita
+    s1 = Matrix([[0, 1], [1, 0]]); s2 = Matrix([[0, -I], [I, 0]]); s3 = Matrix([[1, 0], [0, -1]])
+    def kron(a, b):
+        return sp.kronecker_product(a, b)
+    Z = sp.eye(2)
+    gam = [kron(s2, s1), kron(s2, s2), kron(s2, s3), kron(s1, Z)]       # Euclidean: {g_m, g_n} = 2 delta
+    ok = all(sp.simplify(gam[m] * gam[n] + gam[n] * gam[m] - 2 * (1 if m == n else 0) * sp.eye(4)) == sp.zeros(4, 4)
+             for m in range(4) for n in range(4))
+    g5 = gam[0] * gam[1] * gam[2] * gam[3]
+    sig = lambda m, n: I / 2 * (gam[m] * gam[n] - gam[n] * gam[m])
+    lam, holds = None, True
+    for a in range(4):
+        for b in range(4):
+            for c in range(4):
+                for d in range(4):
+                    tr = sp.simplify((g5 * sig(a, b) * sig(c, d)).trace())
+                    e = LeviCivita(a, b, c, d)
+                    if e == 0:
+                        holds &= tr == 0
+                    else:
+                        lam = tr / e if lam is None else lam
+                        holds &= sp.simplify(tr - lam * e) == 0
+    A = sp.Rational(1, 16) / sp.pi**2 * sp.Rational(1, 8) * lam           # in units of e^2 eps F F
+    return ok, lam, holds, sp.simplify(abs(A) * 32 * sp.pi**2)             # last: 1 means e^2/(32 pi^2); the sign is gamma5's orientation
+
+
+def abj_landau():
+    """L17b: Jacobian route (divergence = 2 A, in units of eps F F with eps F F = 8 F12 F34) minus the
+    Landau-level count 2 (eB/2pi)(eE/2pi), with F12 = B and F34 = E."""
+    import sympy as sp
+    e, B, E = sp.symbols("e B E", positive=True)
+    from sympy import LeviCivita
+    F = sp.zeros(4, 4)
+    F[0, 1], F[1, 0], F[2, 3], F[3, 2] = B, -B, E, -E
+    epsFF = sum(LeviCivita(a, b, c, d) * F[a, b] * F[c, d]
+                for a in range(4) for b in range(4) for c in range(4) for d in range(4))
+    div = 2 * e**2 / (32 * sp.pi**2) * epsFF
+    landau = 2 * (e * B / (2 * sp.pi)) * (e * E / (2 * sp.pi))
+    return sp.simplify(epsFF - 8 * B * E), sp.simplify(div - landau)
+
+
+def abj_pion_amplitude():
+    """L17c: amplitude from the anomaly, divided by alpha N_c (Q_u^2 - Q_d^2)/(pi f_pi); 1 if it matches."""
+    import sympy as sp
+    e, Nc, Qu, Qd, fpi, alpha = sp.symbols("e N_c Q_u Q_d f_pi alpha", positive=True)
+    c = Nc * (Qu**2 - Qd**2) / 2 * e**2 / (16 * sp.pi**2)                  # d j5^3 = c eps F F
+    amp = c / fpi * 8                                                      # eps F F = 4 eps dA dA, times 2 photon orderings
+    target = alpha * Nc * (Qu**2 - Qd**2) / (sp.pi * fpi)
+    return sp.simplify((amp / target).subs(e, sp.sqrt(4 * sp.pi * alpha)))
+
+
+# ---------------------------------------------------------------------------------- L18
+M_T_GEV, M_B_GEV = 172.57, 4.18                    # PDG 2024
+MW_MEAS = 80.3692                                  # GeV, PDG 2024 average
+DALPHA_HAD_5 = 0.02783                             # PDG 2024 (L9b)
+
+
+def rho_parameter_loop():
+    """L18a: Ward identity, pole- and s^2-independence, and the closed form of Delta rho."""
+    import sympy as sp
+    eps, s2 = sp.symbols("eps s2", positive=True)
+    mt, mb = sp.symbols("m_t m_b", positive=True)
+    D = 1 / eps
+    A0 = lambda m: m**2 * (D + 1 - sp.log(m**2))
+    B0 = lambda m1, m2: D + 1 - (m1**2 * sp.log(m1**2) - m2**2 * sp.log(m2**2)) / (m1**2 - m2**2)
+    B0e = lambda m: D - sp.log(m**2)
+    fac = -sp.Rational(1, 2) * (1 - eps) / (1 - eps / 2)                  # 2/d - 1
+    LL = lambda m1, m2: 2 * fac * (A0(m2) + m1**2 * B0(m1, m2))
+    LLe = lambda m: 2 * fac * (A0(m) + m**2 * B0e(m))
+    LR = lambda m: 2 * m**2 * B0e(m)
+    m = sp.Symbol("m", positive=True)
+    ward = sp.simplify(sp.series(2 * LLe(m) + 2 * LR(m), eps, 0, 1).removeO())
+    Z = lambda mm, Q, T3: (T3 - Q * s2) ** 2 * LLe(mm) + (Q * s2) ** 2 * LLe(mm) + 2 * (T3 - Q * s2) * (-Q * s2) * LR(mm)
+    tot = 4 * (Z(mt, sp.Rational(2, 3), sp.Rational(1, 2)) + Z(mb, -sp.Rational(1, 3), -sp.Rational(1, 2))) - 2 * LL(mt, mb)
+    ser = sp.simplify(sp.series(tot, eps, 0, 1).removeO())
+    known = mt**2 + mb**2 - 2 * mt**2 * mb**2 / (mt**2 - mb**2) * sp.log(mt**2 / mb**2)
+    return ward, ser.has(eps), ser.has(s2), sp.simplify(sp.expand_log(ser - known, force=True)), sp.limit(ser, mb, 0)
+
+
+def rho_top_bottom(mt=M_T_GEV, mb=M_B_GEV):
+    """L18b: Delta rho = N_c G_F F / (8 sqrt2 pi^2)."""
+    GF = 1.1663788e-5
+    F = mt**2 + mb**2 - 2 * mt**2 * mb**2 / (mt**2 - mb**2) * math.log(mt**2 / mb**2)
+    return 3 * GF * F / (8 * math.sqrt(2) * math.pi**2)
+
+
+def w_mass_steps(mH=125.20, mZ=91.1880):
+    """L18c: M_W with Delta r built up term by term (fixed point in M_W), and the implied remainder."""
+    GF = 1.1663788e-5
+    A = math.pi * ALPHA_0 / (math.sqrt(2) * GF)
+    drho = rho_top_bottom()
+    dal = DALPHA_LEP_3LOOP + DALPHA_HAD_5
+
+    def solve(use_dal, use_top, use_h, rest=0.0):
+        MW = 80.4
+        for _ in range(200):
+            c2s2 = MW**2 / (mZ**2 - MW**2)
+            dH = 3 * GF * MW**2 / (8 * math.sqrt(2) * math.pi**2) * math.log(mH**2 / MW**2) if use_h else 0.0
+            dr = (dal if use_dal else 0.0) - (c2s2 * drho if use_top else 0.0) + dH + rest
+            MW = math.sqrt(mZ**2 / 2 * (1 + math.sqrt(1 - 4 * A / (1 - dr) / mZ**2)))
+        return MW, dr
+    steps = [solve(False, False, False), solve(True, False, False), solve(True, True, False), solve(True, True, True)]
+    lo, hi = -0.05, 0.05
+    for _ in range(100):
+        mid = (lo + hi) / 2
+        if solve(True, True, True, mid)[0] > MW_MEAS:
+            lo = mid
+        else:
+            hi = mid
+    return drho, dal, steps, (lo + hi) / 2
+
+
+# ---------------------------------------------------------------------------------- L19
+def bogoliubov_checks(y=0.7, Om=1.3, s_re=0.6):
+    """L19a: numerical check of the integral and of |Gamma(1+iy)|^2, then the moduli."""
+    import mpmath as mp
+    mp.mp.dps = 20
+    # int_0^oo x^(iy) e^(-s x) dx = Gamma(1 + iy) s^(-1 - iy), checked at Re s > 0 (then continued to s = +-i Omega)
+    s_ = mp.mpf(s_re) + 0.9j
+    num = mp.quad(lambda x: x ** (1j * y) * mp.exp(-s_ * x), [0, 1, 10, mp.inf])
+    clo = mp.gamma(1 + 1j * y) * s_ ** (-1 - 1j * y)
+    gam2 = abs(mp.gamma(1 + 1j * y)) ** 2 - mp.pi * y / mp.sinh(mp.pi * y)
+    # moduli of the continued integral at s = +- i Omega (principal branch)
+    mod = lambda sgn: abs(mp.gamma(1 + 1j * y) * (sgn * 1j * Om) ** (-1 - 1j * y))
+    ratio = (mod(-1) / mod(+1)) ** 2                        # |beta/alpha|^2 should be e^(-2 pi y)
+    return abs(num - clo), abs(gam2), ratio, mp.e ** (-2 * mp.pi * y)
+
+
+def bogoliubov_symbolic():
+    """L19a-c: unitarity normalization, Planck's law and the 1+1 flux."""
+    import sympy as sp
+    y, w, O, k = sp.symbols("y omega Omega kappa", positive=True)
+    g2 = sp.pi * y / sp.sinh(sp.pi * y)
+    A2 = sp.exp(sp.pi * y) * g2 / (4 * sp.pi**2 * w * O)
+    B2 = sp.exp(-sp.pi * y) * g2 / (4 * sp.pi**2 * w * O)
+    unit = sp.simplify(sp.expand((A2 - B2).subs(y, w / k).rewrite(sp.exp) - 1 / (2 * sp.pi * k * O)))
+    n = sp.simplify((B2 / (A2 - B2)).rewrite(sp.exp) - 1 / (sp.exp(2 * sp.pi * y) - 1))
+    T = sp.Symbol("T", positive=True)
+    t, nn = sp.symbols("t n", positive=True)                 # w/(e^(w/T) - 1) = T^2 t sum_n e^(-n t), w = T t
+    zeta2 = sp.summation(sp.integrate(t * sp.exp(-nn * t), (t, 0, sp.oo)), (nn, 1, sp.oo))
+    flux = sp.simplify(T**2 * zeta2 / (2 * sp.pi) - sp.pi * T**2 / 12)
+    return unit, n, flux
+
+
+# ---------------------------------------------------------------------------------- L20
+KERR_BCW_TABLE = {0.0: (.3737, .0890), 0.1: (.3870, .0887), 0.2: (.4021, .0883), 0.3: (.4195, .0877),
+                  0.4: (.4398, .0869), 0.5: (.4641, .0856), 0.6: (.4940, .0838), 0.7: (.5326, .0808),
+                  0.8: (.5860, .0756), 0.9: (.6716, .0649), 0.98: (.8254, .0386)}   # BCW 2006, Table II, l = m = 2, n = 0
+
+
+def kerr_conditions(w, A, chi, m=2, s=-2, N=300):
+    """Leaver's two continued-fraction conditions (radial, angular) for the n = 0 mode (2M = 1)."""
+    a = chi / 2
+    b = math.sqrt(1 - 4 * a * a)
+    k1, k2 = abs(m - s) / 2, abs(m + s) / 2
+    q = w / 2 - m * a
+    c0 = 1 - s - 1j * w - 2j * q / b
+    c1 = -4 + 2j * w * (2 + b) + 4j * q / b
+    c2 = s + 3 - 3j * w - 2j * q / b
+    c3 = w * w * (4 + 2 * b - a * a) - 2 * a * m * w - s - 1 + (2 + b) * 1j * w - A + (4 * w + 2j) * q / b
+    c4 = s + 1 - 2 * w * w - (2 * s + 3) * 1j * w - (4 * w + 2j) * q / b
+    al = lambda k: k * k + (c0 + 1) * k + c0
+    be = lambda k: -2 * k * k + (c1 + 2) * k + c3
+    ga = lambda k: k * k + (c2 - 3) * k + c4 - c2 + 2
+    R = 0
+    for k in range(N - 1, -1, -1):
+        R = al(k) * ga(k + 1) / (be(k + 1) - R)
+    rad = be(0) - R
+    aw = a * w
+    alt = lambda k: -2 * (k + 1) * (k + 2 * k1 + 1)
+    bet = lambda k: (k * (k - 1) + 2 * k * (k1 + k2 + 1 - 2 * aw)
+                     - (2 * aw * (2 * k1 + s + 1) - (k1 + k2) * (k1 + k2 + 1)) - (aw * aw + s * (s + 1) + A))
+    gat = lambda k: 2 * aw * (k + k1 + k2 + s)
+    Rt = 0
+    for k in range(N - 1, 0, -1):
+        Rt = alt(k - 1) * gat(k) / (bet(k) - Rt)
+    return rad, bet(0) - Rt
+
+
+def kerr_solve(chi, guess):
+    """Newton's method in (omega, A) with a finite-difference Jacobian."""
+    x = list(guess)
+    for _ in range(60):
+        f = lambda v: kerr_conditions(v[0], v[1], chi)
+        F0 = f(x)
+        J = []
+        for j in range(2):
+            xp = list(x)
+            xp[j] += 1e-7
+            Fp = f(xp)
+            J.append([(Fp[i] - F0[i]) / 1e-7 for i in range(2)])
+        det = J[0][0] * J[1][1] - J[1][0] * J[0][1]
+        d0 = (F0[0] * J[1][1] - F0[1] * J[1][0]) / det
+        d1 = (F0[1] * J[0][0] - F0[0] * J[0][1]) / det
+        x[0] -= d0
+        x[1] -= d1
+        if abs(d0) + abs(d1) < 1e-13:
+            break
+    return x
+
+
+@functools.lru_cache(maxsize=None)
+def kerr_grid():
+    """Solutions on chi = 0, 0.025, ..., 0.975 by continuation from Schwarzschild (A = 4)."""
+    x = kerr_solve(0.0, [2 * leaver_qnm(0), 4 + 0j])
+    out = {0.0: tuple(x)}
+    for i in range(1, 40):
+        x = kerr_solve(i * 0.025, x)
+        out[round(i * 0.025, 4)] = tuple(x)
+    return out
+
+
+def kerr_qnm(chi):
+    """M omega (magnitude convention: real part > 0, imaginary part < 0) of the l = m = 2, n = 0 mode."""
+    g = kerr_grid()
+    k = min(g, key=lambda c: abs(c - chi))
+    return kerr_solve(chi, list(g[k]))[0] / 2
+
+
+def kerr_FQ(chi):
+    w = kerr_qnm(chi)
+    return w.real, w.real / (-2 * w.imag)
+
+
+def kerr_table_check():
+    """L20a: largest difference from BCW's Table II over its 11 tabulated spins."""
+    worst = 0.0
+    for chi, (re, im) in KERR_BCW_TABLE.items():
+        w = kerr_qnm(chi)
+        worst = max(worst, abs(w.real - re), abs(-w.imag - im))
+    return worst
+
+
+def kerr_fit_errors(n=100):
+    """L20b: largest relative errors of BCW's F and Q fits against the exact modes, chi = 0 to 0.99."""
+    import black_holes as BH
+    f1, f2, f3, q1, q2, q3 = BH.BCW_220
+    ef = eq = 0.0
+    for i in range(n):
+        c = i * 0.01
+        F, Q = kerr_FQ(c)
+        ef = max(ef, abs((f1 + f2 * (1 - c) ** f3) / F - 1))
+        eq = max(eq, abs((q1 + q2 * (1 - c) ** q3) / Q - 1))
+    return ef, eq
+
+
+def invert_220_exact(freq, damp, z):
+    """L20c: remnant mass and spin from the 220 frequency and damping rate with the exact Kerr modes."""
+    import black_holes as BH
+    Q = math.pi * freq / damp
+    lo, hi = 0.0, 0.95
+    for _ in range(50):
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if kerr_FQ(mid)[1] < Q else (lo, mid)
+    chi = (lo + hi) / 2
+    m_det = kerr_FQ(chi)[0] / (2 * math.pi * freq * BH.GM_SUN / BH.C**3)
+    return m_det / (1 + z), chi
+
+
+def area_law_exact():
+    """L20c: GW250114's final area with the exact modes, at the median and the least favourable corner."""
+    import black_holes as BH
+    mf, chif = invert_220_exact(BH.F220, BH.G220, BH.GW_Z)
+    a_f = BH.kerr_area_km2(mf, chif)
+    a_f_min = min(BH.kerr_area_km2(*invert_220_exact(f, g, z)) for f in (BH.F220 - BH.F220_ERR, BH.F220 + BH.F220_ERR)
+                  for g in (BH.G220 - BH.G220_LO, BH.G220 + BH.G220_HI) for z in (BH.GW_Z - BH.GW_Z_ERR, BH.GW_Z + BH.GW_Z_ERR))
+    return mf, chif, a_f, a_f_min
+
+
+# ---------------------------------------------------------------------------------- L21
+def lattice_green(M, mu, xi, d):
+    """(-Delta + mu^2 + xi^2)^(-1) between sites d apart on a ring of M sites."""
+    p = 2 * np.pi * np.arange(M) / M
+    return float(np.mean(np.cos(p * d) / (xi**2 + mu**2 + 4 * np.sin(p / 2) ** 2)))
+
+
+def retarded_pair_energy(M=200, mu=0.3, g=0.45, w0=1.0, rs=(4, 8, 12), r_far=100):
+    """L21a: for each r, U(r) = E0(r) - E0(r_far) from the normal modes of the whole oscillators + field
+    system, against (1/2 pi) int dxi ln det with the retarded and with the static Green function."""
+    from scipy.integrate import quad
+    K = np.zeros((M, M))
+    for j in range(M):
+        K[j, j] = 2 + mu**2
+        K[j, (j + 1) % M] = K[(j + 1) % M, j] = -1
+
+    def exact(r):
+        V = np.zeros((M + 2, M + 2))
+        V[:M, :M] = K
+        V[M, M] = V[M + 1, M + 1] = w0**2
+        V[M, 0] = V[0, M] = g
+        V[M + 1, r] = V[r, M + 1] = g
+        ev = np.linalg.eigvalsh(V)
+        assert ev.min() > 0
+        return 0.5 * np.sum(np.sqrt(ev))
+
+    def formula(r, retarded):
+        def f(xi):
+            a = xi**2 + w0**2
+            g12 = lattice_green(M, mu, xi if retarded else 0.0, r)
+            return math.log(1 - (g * g * g12 / (a - g * g * lattice_green(M, mu, xi, 0))) ** 2)
+        return quad(f, 0, np.inf, limit=400)[0] / (2 * np.pi)
+    e0, f0, s0 = exact(r_far), formula(r_far, True), formula(r_far, False)
+    return {r: (exact(r) - e0, formula(r, True) - f0, formula(r, False) - s0) for r in rs}
+
+
+def casimir_polder_order():
+    """L21c: alpha G at design A's gap, K R^3 / r^3, and the relative size of the next term of ln(1 - x)."""
+    import casimir_diamonds as CD
+    import graviton_exchange as GX
+    import stur_gravity_entanglement as GE
+    _, _, _, (m, dx, gap, hold, ramp) = GX.branch_phases()
+    R = GE.radius(m)
+    K = (GE.EPS_DIAMOND - 1) / (GE.EPS_DIAMOND + 2)
+    x = K * R**3 / gap**3
+    return x, x**2
+
+
+# ---------------------------------------------------------------------------------- L22
+DR_W_HAT, RHO_HAT = 0.06937, 1.01016              # PDG 2024 EW review: MS-bar Delta r_W and rho-hat (bosonic loops included)
+
+
+def mz_bookkeeping():
+    """L22: B7's tree M_Z against the measured one through the PDG MS-bar relations."""
+    import m331_breaking as B
+    GF = B.G_F
+    al, alh = ALPHA_0, 1 / B.ALPHA_MZ_INV
+    s2 = B.S2_MZ
+    A0 = math.sqrt(math.pi * al / (math.sqrt(2) * GF))
+    dr0 = 1 - al / alh
+    tree = math.sqrt(math.pi * alh / (math.sqrt(2) * GF) / (s2 * (1 - s2)))
+    pred = A0 / (math.sqrt(s2 * (1 - s2)) * math.sqrt((1 - DR_W_HAT) * RHO_HAT))
+    ratio2 = (1 - dr0) / ((1 - DR_W_HAT) * RHO_HAT)
+    parts = (1 / RHO_HAT - 1, (1 - dr0) / (1 - DR_W_HAT) - 1)
+    drho = rho_top_bottom()
+    pred_one_loop = A0 / (math.sqrt(s2 * (1 - s2)) * math.sqrt((1 - DR_W_HAT) * (1 + drho)))
+    return dict(dr0=dr0, tree=tree, pred=pred, gap=pred / tree - 1, measured_gap=B.MZ_MEAS / tree - 1,
+                ratio2=ratio2, parts=parts, drho=drho, frac=drho / (RHO_HAT - 1), pred_one_loop=pred_one_loop,
+                mz=B.MZ_MEAS, dr_diff=DR_W_HAT - dr0)
+
+
+# ---------------------------------------------------------------------------------- L23
+def _load_build(name):
+    import importlib.util
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "rebuild", "campaigns", "qed_cp", "builds", name, "qed_cp.py")
+    spec = importlib.util.spec_from_file_location("qed_cp_build_" + name, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def p3_reference(rho):
+    """U in units alpha0^2 w0^7 at r w0 = rho from rung 3's route: -(1/2 pi) int dxi alpha(i xi)^2 Tr G.G, alpha0 = w0 = 1."""
+    from scipy.integrate import quad
+    f = lambda xi: (1 / (1 + xi**2)) ** 2 * 2 * math.exp(-2 * xi * rho) * (3 + 6 * xi * rho + 5 * (xi * rho) ** 2 + 2 * (xi * rho) ** 3 + (xi * rho) ** 4) / rho**6
+    return -quad(f, 0, math.inf, limit=400)[0] / (2 * math.pi)
+
+
+def qed_cp_accepted(rhos=(0.05, 0.5, 1.0, 3.0, 20.0)):
+    """L23a: the accepted perturbation-theory build a against rung 3's route; build b at one point; the derived coefficients."""
+    a, b = _load_build("a"), _load_build("b")
+    worst = max(abs(a.cp_energy(r, 1.0, 1.0) / p3_reference(r) - 1) for r in rhos)
+    cross = abs(b.cp_energy(1.0, 1.0, 1.0) / a.cp_energy(1.0, 1.0, 1.0) - 1)
+    return worst, cross, a.far_coefficient(), a.near_coefficient()
+
+
+# ---------------------------------------------------------------------------------- L24
+GREY_P = {0: 7.43868693871e-5, 0.5: 4.09165271219e-5, 1: 1.68192739347e-5, 2: 1.91836996439e-6}   # accepted campaign, units 1/M^2
+
+
+def grey_weights():
+    """L24a: the derived P_s in Carr's normalization (5.34e25 g^3/s over hbar c^4/G^2), against the quoted weights."""
+    unit = ALPHA_EVAP / (HBAR_SI * C_SI**4 / G_NEWTON**2 * 1e9)
+    quoted = {0: W_S0, 0.5: W_HALF_N, 1: W_S1, 2: W_S2}
+    return {s: (p / unit, quoted[s]) for s, p in GREY_P.items()}
+
+
+def grey_f_standard_model():
+    """L24b: the Standard Model count of L7 with the quoted charged-fermion weight, and with the derived one for all fermions."""
+    w = grey_weights()
+    f = lambda w0, wn, wc, w1, w2: 2 * 12 * w1 + 4 * w0 + 2 * 3 * wn + 2 * 42 * wc + 2 * w2
+    return (f(w[0][1], w[0.5][1], W_HALF_C, w[1][1], w[2][1]),
+            f(w[0][0], w[0.5][0], W_HALF_C, w[1][0], w[2][0]),
+            f(w[0][0], w[0.5][0], w[0.5][0], w[1][0], w[2][0]))
+
+
+def grey_gamma_against_reference(n=6):
+    """L24a: the accepted build a's Gamma at n reference points against the auditor's independent solver."""
+    import importlib.util, json
+    here = os.path.dirname(os.path.abspath(__file__))
+    spec = importlib.util.spec_from_file_location("greybody_build_a", os.path.join(here, "..", "rebuild", "campaigns", "greybody", "builds", "a", "greybody.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    ref = json.load(open(os.path.join(here, "..", "rebuild", "campaigns", "greybody", "reference.json")))["gamma"]
+    step = max(1, len(ref) // n)
+    return max(abs(mod.transmission(*k) / v - 1) for k, v in ref[::step])
+
+
+# ---------------------------------------------------------------------------------- L25
+def null_shell_map():
+    """L25a: u(v) for a thin null shell collapsing to a Schwarzschild hole: derived symbolically from the ray through the centre."""
+    import sympy as sp
+    v, v0, M = sp.symbols("v v0 M", positive=True)
+    rs = (v0 - v) / 2                                        # where the reflected ray meets the shell (flat inside: u_in = v)
+    rstar = lambda r: r + 2 * M * sp.log(r / (2 * M) - 1)
+    u = v0 - 2 * rstar(rs)                                    # outgoing ray u = v - 2 r* in the exterior, at v = v0
+    vH = v0 - 4 * M
+    claimed = v - 4 * M * sp.log((vH - v) / (4 * M))
+    resid = sp.simplify(sp.expand_log(u - claimed, force=True))
+    x = sp.Symbol("x", positive=True)
+    dudx = sp.simplify(sp.diff(claimed.subs(v, vH - x), x))   # du/dv = -du/dx at fixed v0
+    kappa_inv = sp.limit(-(sp.diff(claimed.subs(v, vH - x), x)) * x, x, 0)       # du/dv ~ (1/kappa)/x
+    f = lambda r: 1 - 2 * M / r
+    kappa_h1 = sp.simplify(sp.diff(f(sp.Symbol("r", positive=True)), sp.Symbol("r", positive=True)).subs(sp.Symbol("r", positive=True), 2 * M) / 2)
+    return resid, sp.simplify(kappa_inv), kappa_h1
+
+
+def shell_bogoliubov_ratio(w, wp, M=1.0):
+    """L25b: |beta/alpha|^2 from the overlap integrals int_0^oo x^(i y) e^(i s x) dx = Gamma(1 + i y) (-i s)^(-1 - i y), y = 4 M w,
+    s = w - w' (alpha) and w + w' (beta), and the closed form ((w' - w)/(w' + w))^2 e^(-8 pi M w)."""
+    import mpmath as mp
+    y = 4 * M * w
+    # alpha: e^{-i w u} e^{+i w' v} -> integrand x^(i y) e^{i (w - w') x}; beta: e^{-i w u} e^{-i w' v} -> x^(i y) e^{i (w + w') x}
+    ia = mp.gamma(1 + 1j * y) * mp.power(-1j * (w - wp), -1 - 1j * y)
+    ib = mp.gamma(1 + 1j * y) * mp.power(-1j * (w + wp), -1 - 1j * y)
+    return float(abs(ib) ** 2 / abs(ia) ** 2), float(((wp - w) / (wp + w)) ** 2 * mp.e ** (-8 * mp.pi * M * w))
+
+
+# ---------------------------------------------------------------------------------- L26
+def _load_higgs_build(name):
+    import importlib.util
+    here = os.path.dirname(os.path.abspath(__file__))
+    spec = importlib.util.spec_from_file_location("higgs_rho_build_" + name, os.path.join(here, "..", "rebuild", "campaigns", "higgs_rho", "builds", name, "higgs_rho.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def higgs_term_derived(mh=125.20, MW_=80.3692, MZ_=91.1876):
+    """L26: the accepted build's log coefficient against L18's quoted term, and the finite function against the leading log at mh."""
+    a = _load_higgs_build("a")
+    GF = 1.1663788e-5
+    s2 = 1 - (MW_ / MZ_) ** 2
+    alpha = math.sqrt(2) * GF * MW_**2 * s2 / math.pi                     # G_F M_W^2 = pi alpha / (sqrt2 s^2)
+    B = a.log_coefficient(MW_, MZ_, alpha, 1.0)
+    quoted = 3 * GF * MW_**2 / (8 * math.sqrt(2) * math.pi**2)             # L18's coefficient of ln(m_H^2/M_W^2) in Delta r_H
+    derived = -(MW_**2 / MZ_**2) / s2 * B                                    # Delta r_H = -(c^2/s^2) Delta rho
+    rho = a.rho_higgs_rel(mh, MW_, MZ_, alpha, 1.0, MW_)
+    lead = B * math.log((mh / MW_) ** 2)
+    return derived, quoted, rho, lead
+
+
+def _load_higgs_dr_build(name):
+    import importlib.util
+    here = os.path.dirname(os.path.abspath(__file__))
+    spec = importlib.util.spec_from_file_location("higgs_dr_build_" + name, os.path.join(here, "..", "rebuild", "campaigns", "higgs_dr", "builds", name, "higgs_dr.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def higgs_dr_derived(mh=125.20, mZ=91.1880, MWc=80.3692, name="a"):
+    """L27: Delta r's Higgs dependence from the q^2-dependent self-energies (accepted higgs_dr build), against L18's quoted term.
+    Returns (coefficient ratio derived/quoted, derived Delta r_H(mh)-Delta r_H(MW) at MWc, L18's quoted term there, M_W with the derived term,
+    the remainder Delta r_rest that closes to the measured M_W with it, with L18's quoted term)."""
+    b = _load_higgs_dr_build(name)
+    GF = 1.1663788e-5
+    A = math.pi * ALPHA_0 / (math.sqrt(2) * GF)
+    drho = rho_top_bottom()
+    dal = DALPHA_LEP_3LOOP + DALPHA_HAD_5
+
+    def alpha_of(MW):                                                        # G_F M_W^2 = pi alpha / (sqrt2 s^2): the weak coupling the self-energies use
+        return math.sqrt(2) * GF * MW**2 * (1 - MW**2 / mZ**2) / math.pi
+
+    def dH(MW):
+        return b.delta_r_higgs_rel(mh, MW, mZ, alpha_of(MW), MW)
+
+    def quoted(MW):
+        return 3 * GF * MW**2 / (8 * math.sqrt(2) * math.pi**2) * math.log(mh**2 / MW**2)
+
+    def mw(term):
+        MW = 80.4
+        for _ in range(60):
+            c2s2 = MW**2 / (mZ**2 - MW**2)
+            dr = dal - c2s2 * drho + term(MW)
+            new = math.sqrt(mZ**2 / 2 * (1 + math.sqrt(1 - 4 * A / (1 - dr) / mZ**2)))
+            if abs(new - MW) < 1e-12:
+                MW = new
+                break
+            MW = new
+        return MW
+
+    def rest(term):                                                          # Delta r_rest that makes the prediction equal the measured M_W
+        MW = MW_MEAS
+        c2s2 = MW**2 / (mZ**2 - MW**2)
+        return (1 - A / (MW**2 * (1 - MW**2 / mZ**2))) - (dal - c2s2 * drho + term(MW))
+
+    coeff = b.log_coefficient(MWc, mZ, alpha_of(MWc))
+    q_coeff = 3 * GF * MWc**2 / (8 * math.sqrt(2) * math.pi**2)
+    return coeff / q_coeff, dH(MWc), quoted(MWc), mw(dH), rest(dH), rest(quoted), mw(quoted)
+
+
+def higgs_dr_xi_spread(mh=300.0, MW_=80.38, MZ_=91.19, al=2.0**-7):
+    """L28: the accepted higgs_dr_xi builds: the spread of Delta r_H over xi, and Pi_WW(MW^2) at xi = 0 and 25 (m_H = 125.2); the two builds agree."""
+    import importlib.util
+    here = os.path.dirname(os.path.abspath(__file__))
+    mods = []
+    for n in ("a", "b"):
+        spec = importlib.util.spec_from_file_location("higgs_dr_xi_build_" + n, os.path.join(here, "..", "rebuild", "campaigns", "higgs_dr_xi", "builds", n, "higgs_dr_xi.py"))
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        mods.append(mod)
+    a, b = mods
+    xis = (0.0, 0.3, 1.0, 4.0, 25.0)
+    v = [a.delta_r_higgs_rel(mh, MW_, MZ_, al, x, MW_) for x in xis]
+    vb = [b.delta_r_higgs_rel(mh, MW_, MZ_, al, x, MW_) for x in xis]
+    spread = max(max(v) - min(v), max(abs(x - y) for x, y in zip(v, vb))) / abs(v[2])
+    return spread, a.sigma_W(MW_**2, 125.2, MW_, MZ_, al, 0.0, MW_), a.sigma_W(MW_**2, 125.2, MW_, MZ_, al, 25.0, MW_)
+
+
+def _load_bos_dr_build(name):
+    """The accepted bos_dr build `name`; it imports the provided stage-1 module bos_se (accepted build a), which is put on the path first."""
+    import importlib.util
+    import sys
+    here = os.path.dirname(os.path.abspath(__file__))
+    camp = os.path.join(here, "..", "rebuild", "campaigns")
+    se = os.path.join(camp, "bos_se", "builds", "a")
+    if se not in sys.path:
+        sys.path.insert(0, se)
+    spec = importlib.util.spec_from_file_location("bos_dr_build_" + name, os.path.join(camp, "bos_dr", "builds", name, "bos_dr.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def bosonic_dr_derived(mh=125.20, mZ=91.1880, name="a"):
+    """L29: the whole non-fermionic one-loop Delta r (accepted bos_dr build) in L18's M_W relation, replacing L18's Higgs term.
+    Returns (Delta r_bos at m_H and M_W of the fixed point, M_W with Delta alpha + the top loop + Delta r_bos, the remainder Delta r_rest that closes to the
+    measured M_W, Delta r_bos at m_H = M_W, delta_vb, the two builds' relative difference)."""
+    b = _load_bos_dr_build(name)
+    other = _load_bos_dr_build("b" if name == "a" else "a")
+    GF = 1.1663788e-5
+    A = math.pi * ALPHA_0 / (math.sqrt(2) * GF)
+    drho = rho_top_bottom()
+    dal = DALPHA_LEP_3LOOP + DALPHA_HAD_5
+    MW = 80.4
+    for _ in range(60):
+        c2s2 = MW**2 / (mZ**2 - MW**2)
+        dr = dal - c2s2 * drho + b.delta_r_bos(MW, mZ, mh, ALPHA_0)
+        new = math.sqrt(mZ**2 / 2 * (1 + math.sqrt(1 - 4 * A / (1 - dr) / mZ**2)))
+        if abs(new - MW) < 1e-12:
+            MW = new
+            break
+        MW = new
+    bos = b.delta_r_bos(MW, mZ, mh, ALPHA_0)
+    c2s2m = MW_MEAS**2 / (mZ**2 - MW_MEAS**2)
+    rest = (1 - A / (MW_MEAS**2 * (1 - MW_MEAS**2 / mZ**2))) - (dal - c2s2m * drho + b.delta_r_bos(MW_MEAS, mZ, mh, ALPHA_0))
+    diff = abs(bos / other.delta_r_bos(MW, mZ, mh, ALPHA_0) - 1)
+    return bos, MW, rest, b.delta_r_bos(MW, mZ, MW, ALPHA_0), b.delta_vb(MW, mZ, ALPHA_0), diff
+
+
+def _load_charged_half_build(name):
+    """The accepted charged_half build `name` (a blind build of Page's charged-hole Dirac emission model)."""
+    import importlib.util
+    here = os.path.dirname(os.path.abspath(__file__))
+    spec = importlib.util.spec_from_file_location("charged_half_build_" + name, os.path.join(here, "..", "rebuild", "campaigns", "charged_half", "builds", name, "charged_half.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def charged_half_derived(name="a"):
+    """L30: Carr's charged spin-1/2 weight 0.142 from Page's charge fluctuations. Returns (neutral weight 0.1465 from L24, {rule: (weight ratio, energy ratio)},
+    the principal-rule weight, the two builds' largest difference over the rules)."""
+    a = _load_charged_half_build(name)
+    b = _load_charged_half_build("b" if name == "a" else "a")
+    al = ALPHA_0
+    rules = [("after", "after"), ("after", "mid"), ("mid", "mid"), ("before", "mid"), ("before", "before")]
+    out = {r: (a.weight_ratio(al, r), a.energy_ratio(al, r)) for r in rules}
+    diff = max(abs(a.weight_ratio(al, r) - b.weight_ratio(al, r)) for r in rules)
+    return 0.1465, out, 0.1465 * out[("after", "after")][0], diff
+
+
+def _load_ferm_se_build(name):
+    """The accepted ferm_se build `name` (blind build of the fermion-loop gauge-boson self-energies)."""
+    import importlib.util
+    here = os.path.dirname(os.path.abspath(__file__))
+    spec = importlib.util.spec_from_file_location("ferm_se_build_" + name, os.path.join(here, "..", "rebuild", "campaigns", "ferm_se", "builds", name, "ferm_se.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _ferm_content(mt):
+    """Fermion content of the Standard Model for the ferm_se exports: (fermions, doublets). Light-quark masses are model values only: the hadronic block is
+    replaced by the quoted Delta alpha_had in ferm_dr_derived. The CKM matrix is the exactly unitary standard parameterization (s12, s23, s13 = 0.2250, 0.0418, 0.00369)."""
+    fs, ds = [], []
+    for x in (M_EL, M_MU, M_TAU):
+        fs += [(x, -1, -0.5, 1), (0.0, 0, 0.5, 1)]
+        ds.append((0.0, x, 1.0))
+    ups, downs = (0.062, 1.27, mt), (0.083, 0.215, M_B_GEV)
+    for u, d in zip(ups, downs):
+        fs += [(u, 2 / 3, 0.5, 3), (d, -1 / 3, -0.5, 3)]
+    s12, s23, s13 = 0.2250, 0.0418, 0.00369
+    c12, c23, c13 = (math.sqrt(1 - x * x) for x in (s12, s23, s13))
+    V = [[c12 * c13, s12 * c13, s13], [-s12 * c23 - c12 * s23 * s13, c12 * c23 - s12 * s23 * s13, s23 * c13],
+         [s12 * s23 - c12 * c23 * s13, -c12 * s23 - s12 * c23 * s13, c23 * c13]]
+    for i, u in enumerate(ups):
+        for j, d in enumerate(downs):
+            ds.append((u, d, 3 * V[i][j] ** 2))
+    return tuple(fs), tuple(ds), tuple(f for f in fs if f[3] == 3 and f[0] != mt and f[0] != 0.0 or f == (M_B_GEV, -1 / 3, -0.5, 3))
+
+
+def ferm_dr_derived(mZ=91.1880, mt=M_T_GEV, name="a", mu=None, alphas=0.0, qcd_name="a"):
+    """L31: the whole fermionic one-loop Delta r from the accepted ferm_se self-energies, combined as in L29 (Delta r_ferm = Sigma'_AA(0)
+    - (c^2/s^2)[Sigma_ZZ(M_Z^2)/M_Z^2 - Sigma_W(M_W^2)/M_W^2] + [Sigma_W(0) - Sigma_W(M_W^2)]/M_W^2; Sigma_AZ^ferm(0) = 0), plus L29's bosonic part.
+    The u, d, s, c, b loops of Sigma'_AA(0) are replaced through the quoted Delta alpha_had (shift = Delta alpha_had - the same loops' one-loop value at M_Z);
+    everything else is derived. Returns (M_W, Delta r_ferm unshifted, Delta r_ferm shifted, mu dependence of the unshifted one, two builds' difference,
+    Delta alpha_lep one loop at M_Z, Delta r_rest left to the measured M_W)."""
+    b = _load_ferm_se_build(name)
+    other = _load_ferm_se_build("b" if name == "a" else "a")
+    bd = _load_bos_dr_build("a")
+    GF = 1.1663788e-5
+    A = math.pi * ALPHA_0 / (math.sqrt(2) * GF)
+    fs, ds, had = _ferm_content(mt)
+    h = 1e-14
+    if alphas:
+        qd = _load_qcd_drho_build(qcd_name)
+        drho_qcd = qd.delta_rho_oneloop(mt, GF, 3) * qd.qcd_coeff("pole", 4 / 3, 1.0) * alphas / math.pi     # O(alpha alpha_s) top-bottom, leading in m_t^2
+    else:
+        drho_qcd = 0.0
+
+    def dr_f(bm, MW, mu_):
+        s2 = 1 - MW**2 / mZ**2
+        c2 = 1 - s2
+        S = lambda n, k2, a: getattr(bm, n)(k2, a, MW, mZ, ALPHA_0, mu_)
+        dAA = lambda f: (bm.sigma_AA(h, f, MW, mZ, ALPHA_0, mu_) - bm.sigma_AA(-h, f, MW, mZ, ALPHA_0, mu_)) / (2 * h)
+        weak = -(c2 / s2) * (S("sigma_ZZ", mZ**2, fs) / mZ**2 - S("sigma_W", MW**2, ds) / MW**2) + (S("sigma_W", 0.0, ds) - S("sigma_W", MW**2, ds)) / MW**2
+        dal_had_model = dAA(had) - S("sigma_AA", mZ**2, had) / mZ**2
+        lep = tuple(f for f in fs if f[3] == 1 and f[1] != 0)
+        dal_lep = dAA(lep) - S("sigma_AA", mZ**2, lep) / mZ**2
+        return dAA(fs) + weak, DALPHA_HAD_5 - dal_had_model, dal_lep
+
+    MW = 80.4
+    for _ in range(60):
+        mu_ = mu or MW
+        raw, shift, dal_lep = dr_f(b, MW, mu_)
+        dr = raw + shift + bd.delta_r_bos(MW, mZ, 125.20, ALPHA_0) - (1 - (MW / mZ) ** 2) ** -1 * (MW / mZ) ** 2 * drho_qcd
+        new = math.sqrt(mZ**2 / 2 * (1 + math.sqrt(1 - 4 * A / (1 - dr) / mZ**2)))
+        if abs(new - MW) < 1e-12:
+            MW = new
+            break
+        MW = new
+    raw, shift, dal_lep = dr_f(b, MW, mu or MW)
+    raw2 = dr_f(b, MW, 7.0 * MW)[0]
+    other_raw = dr_f(other, MW, MW)[0]
+    dr = raw + shift + bd.delta_r_bos(MW, mZ, 125.20, ALPHA_0)
+    c2s2m = MW_MEAS**2 / (mZ**2 - MW_MEAS**2)
+    rawm, shiftm, _ = dr_f(b, MW_MEAS, MW_MEAS)
+    rest = (1 - A / (MW_MEAS**2 * (1 - MW_MEAS**2 / mZ**2))) - (rawm + shiftm + bd.delta_r_bos(MW_MEAS, mZ, 125.20, ALPHA_0) - c2s2m * drho_qcd)
+    return MW, raw, raw + shift, abs(raw2 - raw), abs(other_raw - raw), dal_lep, rest
+
+
+def _load_dr_xi_build(name):
+    """The accepted dr_xi build `name` (blind build of the bosonic one-loop Delta r in general R_xi gauge)."""
+    import importlib.util
+    here = os.path.dirname(os.path.abspath(__file__))
+    spec = importlib.util.spec_from_file_location("dr_xi_build_" + name, os.path.join(here, "..", "rebuild", "campaigns", "dr_xi", "builds", name, "dr_xi.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def dr_xi_gauge_independence(mw=80.38, mz=91.19, mh=125.0, al=2.0**-7, name="a"):
+    """L32: the whole bosonic one-loop Delta r in R_xi gauge. Returns (the total at xi = 1, the relative spread of the total over xi = 1e-9 ... 1e6,
+    SE(xi = 4) - SE(1) and VBW(xi = 4) - VBW(1) (equal and opposite), the two builds' relative difference of SE and VBW over xi in 0.3 ... 1000,
+    the difference to L29's xi = 1 module bos_dr)."""
+    b = _load_dr_xi_build(name)
+    o = _load_dr_xi_build("b" if name == "a" else "a")
+    xs = (1e-9, 1e-3, 0.3, 1.0, 4.0, 25.0, 1e3, 1e6)
+    tot = [b.delta_r_bos_xi(mw, mz, mh, al, x) for x in xs]
+    spread = (max(tot) - min(tot)) / abs(tot[3])
+    mu = mw
+    dse = b.delta_r_se(mw, mz, mh, al, 4.0, mu) - b.delta_r_se(mw, mz, mh, al, 1.0, mu)
+    dvb = b.delta_r_vbw(mw, mz, al, 4.0, mu) - b.delta_r_vbw(mw, mz, al, 1.0, mu)
+    cross = 0.0
+    for x in (0.3, 1.0, 4.0, 1e3):
+        cross = max(cross, abs(b.delta_r_se(mw, mz, mh, al, x, mu) / o.delta_r_se(mw, mz, mh, al, x, mu) - 1),
+                    abs(b.delta_r_vbw(mw, mz, al, x, mu) / o.delta_r_vbw(mw, mz, al, x, mu) - 1))
+    bd = _load_bos_dr_build("a")
+    return tot[3], spread, dse, dvb, cross, abs(tot[3] / bd.delta_r_bos(mw, mz, mh, al) - 1)
+
+
+def _load_qcd_drho_build(name):
+    """The accepted qcd_drho build `name` (blind build of the O(alpha_s) correction to Delta rho)."""
+    import importlib.util
+    here = os.path.dirname(os.path.abspath(__file__))
+    spec = importlib.util.spec_from_file_location("qcd_drho_build_" + name, os.path.join(here, "..", "rebuild", "campaigns", "qcd_drho", "builds", name, "qcd_drho.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def qcd_drho_derived(mt=M_T_GEV, alphas=(0.108, 0.1180), name="a"):
+    """L33: the O(alpha alpha_s) top-bottom correction to Delta rho (accepted qcd_drho builds) and its effect on L31's one-loop M_W.
+    Returns (c_pole for C_F = 4/3, c_MSbar(mu = m), Delta rho_0, M_W with no QCD, {alpha_s: (M_W, Delta r_rest)}, the two builds' coefficient difference)."""
+    a = _load_qcd_drho_build(name)
+    b = _load_qcd_drho_build("b" if name == "a" else "a")
+    GF = 1.1663788e-5
+    c_pole, c_ms = a.qcd_coeff("pole", 4 / 3, 1.0), a.qcd_coeff("msbar", 4 / 3, 1.0)
+    diff = max(abs(a.qcd_coeff(s_, cf, r) - b.qcd_coeff(s_, cf, r)) for s_, cf, r in (("pole", 4 / 3, 1.0), ("msbar", 4 / 3, 3.0), ("msbar", 0.75, 0.4)))
+    out = {x: ferm_dr_derived(mt=mt, alphas=x, qcd_name=name) for x in alphas}
+    mw0 = ferm_dr_derived(mt=mt)[0]
+    return c_pole, c_ms, a.delta_rho_oneloop(mt, GF, 3), mw0, {x: (out[x][0], out[x][-1]) for x in alphas}, diff
+
+
+def _load_nucleon_pol_build(name):
+    """The accepted nucleon_pol build `name` (blind build of the nucleon polarizabilities at leading order in heavy-baryon chiral perturbation theory)."""
+    import importlib.util
+    here = os.path.dirname(os.path.abspath(__file__))
+    spec = importlib.util.spec_from_file_location("nucleon_pol_build_" + name, os.path.join(here, "..", "rebuild", "campaigns", "nucleon_pol", "builds", name, "nucleon_pol.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def nucleon_polarizability_derived(name="a"):
+    """L34: rung 2's pion cloud gives the nucleon polarizability (LO heavy-baryon chiral perturbation theory), which rung 3's Casimir-Polder formula then uses between two neutrons.
+    Returns (alpha_E, beta_M in fm^3, the two builds' relative difference, alpha_E / measured, the neutron-neutron separation (m) at which the retarded
+    Casimir-Polder energy -23 hbar c alpha_E^2 / (4 pi r^7) equals the gravitational energy -G m_n^2 / r)."""
+    a = _load_nucleon_pol_build(name)
+    b = _load_nucleon_pol_build("b" if name == "a" else "a")
+    p = (1.27, 92.4, 139.57, ALPHA_0)     # g_A, f_pi (MeV), m_pi+- (MeV), alpha: the SPEC's own normalization of f_pi
+    aE, bM = a.to_fm3(a.alpha_E(*p)), a.to_fm3(a.beta_M(*p))
+    diff = abs(a.alpha_E(*p) / b.alpha_E(*p) - 1) + abs(a.beta_M(*p) / b.beta_M(*p) - 1)
+    hbarc, G, mn = 3.16152677e-26, 6.67430e-11, 1.67492750e-27      # J m, m^3 kg^-1 s^-2, kg
+    vol = aE * 1e-45                                              # fm^3 -> m^3
+    r = (23 * hbarc * vol**2 / (4 * math.pi * G * mn**2)) ** (1 / 6)
+    return aE, bM, diff, aE / 11.2e-4, r
 
 
 # ---------------------------------------------------------------------------------- L6
@@ -811,6 +2161,203 @@ def main():
     banner("L10c-d  What is left of Lambda at the diamonds (FOLLOWS, order of magnitude)")
     rel, l, rf = lambda_correction_size()
     print(f"   l = sqrt(3/Lambda) = {l:.3e} m; farthest branch distance {rf * 1e6:.0f} um; (r/l)^2 = {rel:.1e}")
+
+    banner("L10e  The de Sitter correction to the pair energy, with its coefficient (CHECK; FOLLOWS for the frame)")
+    resid, dn, dc = de_sitter_pair_correction()
+    print(f"   linear in M: U = -(G M m / r)/sqrt(1 - r^2/l^2); series minus (1 + r^2/(2 l^2)): {resid}")
+    print(f"   design A: Newtonian {dn:.4f} rad, de Sitter shift {dc:+.2e} rad ({dc / dn:+.1e})")
+
+    banner("L15  The cosmological constant against each rung's vacuum energy (CHECK; LIT; MODEL for w^4)")
+    print(f"   S_dS - (3/8) rho_Pl / rho_L = {de_sitter_entropy_identity()}")
+    r4, ratios = vacuum_energy_scales()
+    print(f"   rho_L^(1/4) = {r4 * 1e3:.3f} meV")
+    for k, x in ratios.items():
+        print(f"   {k:34s} / rho_L = {x:.1e}")
+    print("   nothing in the repository cancels these: the problem is quantified, not solved.")
+
+    banner("L16  Quasinormal modes from Leaver's continued fraction, and the fit at zero spin (CHECK)")
+    for n in (0, 1):
+        w = leaver_qnm(n)
+        print(f"   l = 2, n = {n}: M omega = {w.real:.6f} {w.imag:+.6f} i")
+    fr, er, fq, eq = bcw_at_zero_spin()
+    print(f"   Berti-Cardoso-Will at chi = 0: M omega_R {fr:.4f} vs exact {er:.4f} ({100 * (fr / er - 1):+.1f}%);"
+          f"  Q {fq:.3f} vs {eq:.3f} ({100 * (fq / eq - 1):+.1f}%)")
+
+    banner("L17  The ABJ anomaly coefficient, derived (CHECK, symbolic)")
+    ok, lam, holds, coef = abj_fujikawa()
+    print(f"   Euclidean gamma matrices satisfy the Clifford algebra: {ok};  tr[g5 sigma_mn sigma_rs] = {lam} eps_mnrs"
+          f" for all 256 index sets: {holds}")
+    print(f"   |Jacobian| = {coef} x e^2 eps F F / (32 pi^2): the divergence is e^2 eps F F / (16 pi^2) in magnitude")
+    d1, d2 = abj_landau()
+    print(f"   eps F F - 8 F12 F34 = {d1};  Fujikawa divergence minus the Landau-level count 2(eB/2pi)(eE/2pi) = {d2}")
+    print(f"   pi0 -> gamma gamma amplitude from the anomaly over alpha N_c (Q_u^2 - Q_d^2)/(pi f_pi): {abj_pion_amplitude()}")
+
+    banner("L18  The rho parameter from the top-bottom loop, and M_W (CHECK; LIT for the rest)")
+    ward, pole, s2dep, diff, lim = rho_parameter_loop()
+    print(f"   vector-current Ward identity 2 LL + 2 LR at equal masses: {ward};  1/eps pole left in Delta rho: {pole};"
+          f"  s^2 dependence left: {s2dep}")
+    print(f"   loop result minus N_c G_F/(8 sqrt2 pi^2) [m_t^2 + m_b^2 - 2 m_t^2 m_b^2 ln(m_t^2/m_b^2)/(m_t^2 - m_b^2)]: {diff};"
+          f"  m_b -> 0: {lim}")
+    drho, dal, steps, rest = w_mass_steps()
+    print(f"   Delta rho = {drho:.3e} (m_t = {M_T_GEV}, m_b = {M_B_GEV} GeV);  Delta alpha = {dal:.5f}")
+    for lab, (mw, dr) in zip(("tree", "+ Delta alpha", "+ top loop", "+ Higgs log"), steps):
+        print(f"   {lab:14s} M_W = {mw:.3f} GeV  (Delta r = {dr:+.4f})")
+    print(f"   measured {MW_MEAS} GeV; the remainder Delta r_rest that closes it: {rest:+.4f} (not computed here)")
+
+    banner("L19  Hawking radiation as radiation: the Bogoliubov coefficients (CHECK)")
+    de, dg, rat, ex = bogoliubov_checks()
+    print(f"   int x^(iy) e^(-s x) dx against Gamma(1+iy) s^(-1-iy): difference {float(de):.1e};"
+          f"  |Gamma(1+iy)|^2 - pi y/sinh(pi y): {float(dg):.1e}")
+    print(f"   |beta/alpha|^2 from the continued integrals {float(rat):.10f}; e^(-2 pi w/kappa) = {float(ex):.10f}")
+    unit, nplanck, flux = bogoliubov_symbolic()
+    print(f"   |alpha|^2 - |beta|^2 - 1/(2 pi kappa Omega) = {unit};  |beta|^2/(|alpha|^2 - |beta|^2) - 1/(e^(2 pi w/kappa) - 1) = {nplanck}")
+    print(f"   (1/2 pi) int w n dw - pi T^2/12 = {flux}  (one massless 1+1 field)")
+
+    banner("L20  Kerr quasinormal modes: the ringdown fit at the spin GW250114 uses (CHECK; LIT)")
+    print(f"   Leaver's coupled continued fractions against BCW Table II (11 spins, l = m = 2, n = 0): largest difference {kerr_table_check():.1e}")
+    ef, eq = kerr_fit_errors()
+    print(f"   the fit against the exact modes, chi = 0 to 0.99: largest errors {100 * ef:.2f}% (F), {100 * eq:.2f}% (Q);"
+          " BCW state 1.85% and 0.88%")
+    import black_holes as BH
+    mf, chif, a_f, a_min = area_law_exact()
+    fit_mf, fit_chi = BH.invert_220(BH.F220, BH.G220, BH.GW_Z)
+    a_i, a_fit, a_i_max, a_fit_min, _ = BH.area_law()
+    print(f"   GW250114 ringdown alone: exact M_f = {mf:.2f} Msun, chi_f = {chif:.3f} (fit {fit_mf:.2f}, {fit_chi:.3f});"
+          f" final area {a_f:.4g} km^2 (fit {a_fit:.4g})")
+    print(f"   least favourable corner: final {a_min:.4g} km^2 (fit {a_fit_min:.4g}) against initial {a_i_max:.4g}")
+
+    banner("L21  The retarded Casimir-Polder step in an exactly solvable retarded system (CHECK; FOLLOWS for the dyadic case)")
+    for r, (ex, fo, st) in retarded_pair_energy().items():
+        print(f"   r = {r:2d}: U from the normal modes {ex:.12e};  ln det, retarded G(xi) {fo:.12e};  static G(0) {st:.6e}")
+    x, x2 = casimir_polder_order()
+    print(f"   design A's gap: alpha G ~ K R^3/r^3 = {x:.1e}; the term beyond P3's is relatively {x2:.0e}")
+
+    banner("L22  B7's +0.35% on M_Z decomposed through the MS-bar relations (CHECK; LIT: PDG 2024)")
+    mb_ = mz_bookkeeping()
+    print(f"   Dr0 = 1 - alpha/alpha-hat = {mb_['dr0']:.5f};  B7's tree M_Z = {mb_['tree']:.3f} GeV;"
+          f"  (1 - Dr0)/[(1 - Dr_W) rho-hat] -> M_Z = {mb_['pred']:.4f} GeV (measured {mb_['mz']})")
+    print(f"   gap of the prediction from the tree {100 * mb_['gap']:+.3f}%, measured gap {100 * mb_['measured_gap']:+.3f}%")
+    print(f"   in M_Z^2: rho-hat {100 * mb_['parts'][0]:+.3f}%, (1 - Dr0)/(1 - Dr_W) {100 * mb_['parts'][1]:+.3f}%,"
+          f" together {100 * (mb_['ratio2'] - 1):+.3f}%")
+    print(f"   L18's one-loop top-bottom rho - 1 = {mb_['drho']:.3e}, {100 * mb_['frac']:.0f}% of rho-hat - 1;"
+          f" with it, M_Z = {mb_['pred_one_loop']:.3f} GeV ({100 * (mb_['pred_one_loop'] / mb_['mz'] - 1):+.3f}% from measured);"
+          f" Dr_W - Dr0 = {mb_['dr_diff']:.4f} is not derived")
+
+    banner("L23  The dyadic Casimir-Polder step from photon exchange: two blind builds (CHECK)")
+    worst, cross, far, near = qed_cp_accepted()
+    print(f"   12-diagram perturbation theory (accepted build a) against rung 3's Green-tensor integral, r w0 = 0.05 to 20: worst difference {worst:.1e}")
+    print(f"   build b (a different reduction) against build a at r w0 = 1: {cross:.1e};  derived far coefficient {far:.6f} (23/(4 pi) = {23 / (4 * math.pi):.6f}),"
+          f" near coefficient {near:.6f}")
+
+    banner("L24  The emission weights of L7, derived by the grey-body campaign (CHECK; FOLLOWS for the charged weight)")
+    gw = grey_weights()
+    for s_, (d_, q_) in gw.items():
+        print(f"   spin {s_}: P = {GREY_P[s_]:.5e}/M^2, weight {d_:.5f} (quoted {q_}, {100 * (d_ / q_ - 1):+.1f}%)")
+    fq, fd, fall = grey_f_standard_model()
+    print(f"   Standard Model f: quoted weights {fq:.3f}; derived weights, charged fermions at the quoted 0.142: {fd:.3f}; derived 0.1465 for every fermion: {fall:.3f} (Carr: 15.35)")
+    print(f"   accepted build a's Gamma against the independent solver at 6 reference points: worst {grey_gamma_against_reference():.1e}")
+
+    banner("L25  Hawking radiation from a collapsing shell: the map behind L19, derived (CHECK)")
+    resid, kinv, kh1 = null_shell_map()
+    print(f"   u(v) from the ray through the centre minus v - 4M ln((v_H - v)/4M): {resid};  1/kappa from du/dv ~ (1/kappa)/(v_H - v): {kinv};"
+          f"  H1's |f'(r_h)|/2 = {kh1}")
+    for w_, wp_ in ((0.05, 0.4), (0.05, 5.0), (0.1, 50.0), (0.1, 0.12)):
+        num, closed = shell_bogoliubov_ratio(w_, wp_)
+        print(f"   w = {w_}, w' = {wp_}: |beta/alpha|^2 from the overlap integrals {num:.9e}; ((w'-w)/(w'+w))^2 e^(-8 pi M w) = {closed:.9e}")
+
+    banner("L26  The Higgs term of L18: its coefficient derived by two blind builds (CHECK; FOLLOWS for the finite shape)")
+    derived, quoted, rho125, lead125 = higgs_term_derived()
+    print(f"   -(c^2/s^2) x [log coefficient of Delta rho] = {derived:.9e};  L18's quoted 3 G_F M_W^2/(8 sqrt2 pi^2) = {quoted:.9e}  (ratio {derived / quoted:.12f})")
+    print(f"   Delta rho(125.2) - Delta rho(M_W) = {rho125:.4e}; the leading log alone would give {lead125:.4e} ({rho125 / lead125:.2f} of it)")
+
+    banner("L27  The Higgs dependence of Delta r from the q^2-dependent self-energies: L18's Higgs term replaced (CHECK)")
+    ratio27, dh27, q27, mw27, rest27, restq27, mwq27 = higgs_dr_derived()
+    print(f"   coefficient of ln m_H^2: derived 11 alpha/(48 pi s^2) over L18's quoted 3 alpha/(16 pi s^2) (= the Delta rho screening part alone): {ratio27:.9f} (11/9 = {11 / 9:.9f})")
+    print(f"   Delta r_H(125.2) - Delta r_H(M_W) at M_W = 80.3692: derived {dh27:.6e}; L18's quoted leading log {q27:.6e}  (ratio {dh27 / q27:.3f})")
+    print(f"   M_W with the derived Higgs term: {mw27:.3f} GeV (L18's quoted term gave {mwq27:.3f}); remainder Delta r_rest: {rest27:+.4f} (quoted {restq27:+.4f})")
+
+    banner("L28  The Higgs part of Delta r is gauge-parameter independent: spread over xi (CHECK)")
+    spread28, tot0, tot25 = higgs_dr_xi_spread()
+    print(f"   Delta r_H(300) - Delta r_H(M_W) over xi = 0, 0.3, 1, 4, 25: relative spread {spread28:.1e} (two builds agree exactly)")
+    print(f"   Pi_WW(M_W^2) at m_H = 125.2: xi = 0 {tot0:.10f}, xi = 25 {tot25:.10f}")
+
+    banner("L29  The whole bosonic one-loop Delta r: gauge-boson loops, vertex and box terms (CHECK)")
+    bos29, mw29, rest29, bos_ref29, vb29, diff29 = bosonic_dr_derived()
+    print(f"   Delta r_bos(m_H = 125.2) = {bos29:.6e} at M_W = {mw29:.3f} GeV (m_H = M_W: {bos_ref29:.6e}); delta_VB = {vb29:.6e}; two builds differ by {diff29:.1e} (relative)")
+    print(f"   M_W from Delta alpha + the top loop (L18) + Delta r_bos: {mw29:.3f} GeV (measured {MW_MEAS}); remainder Delta r_rest closing it: {rest29:+.4f}")
+
+    banner("L30  Carr's charged spin-1/2 weight: Page's charge fluctuations, and how much of it is convention (CHECK)")
+    w0_30, rr30, wp30, d30 = charged_half_derived()
+    print(f"   neutral weight {w0_30}; weight ratio (charged / neutral) by the rule for which hole charge a particle sees (grey-body, chemical potential):")
+    for r, (wr, er) in rr30.items():
+        print(f"     {r[0]:>6s}, {r[1]:>6s}: weight {wr:.5f}  energy {er:.5f}  -> f = {w0_30 * wr:.4f}")
+    print(f"   principal rule (after, after): f = {wp30:.4f} against Carr's 0.142; the consistent rule (after, mid) gives {w0_30 * rr30[('after', 'mid')][0]:.4f}; two builds differ by {d30:.1e}")
+
+    banner("L31  The fermionic one-loop Delta r: fermion-loop self-energies (CHECK; LIT Delta alpha_had)")
+    mw31, raw31, shifted31, dmu31, dbuild31, dal31, rest31 = ferm_dr_derived()
+    print(f"   Delta r_ferm = {raw31:.6f} (model light-quark masses), {shifted31:.6f} with the quoted Delta alpha_had; mu dependence {dmu31:.0e}; two builds differ by {dbuild31:.0e}")
+    print(f"   Delta alpha_lep(M_Z), one loop, from Sigma'_AA(0) - Sigma_AA(M_Z^2)/M_Z^2: {dal31:.6f} (literature one loop {DALPHA_LEP_1LOOP_LIT:.6f})")
+    print(f"   M_W with the whole one-loop Delta r (L29 bosonic + this): {mw31:.3f} GeV (measured {MW_MEAS}); remainder Delta r_rest = {rest31:+.4f} (QCD, two loop; not derived)")
+
+    banner("L32  The whole bosonic one-loop Delta r is gauge-parameter independent: general R_xi (CHECK)")
+    tot32, spr32, dse32, dvb32, cr32, d29 = dr_xi_gauge_independence()
+    print(f"   Delta r_bos = {tot32:.12e}; relative spread over xi = 1e-9 ... 1e6: {spr32:.1e}; difference to the xi = 1 module of L29: {d29:.1e}")
+    print(f"   between xi = 1 and 4 class SE changes by {dse32:+.4e} and class VBW by {dvb32:+.4e} (they cancel); the two builds agree on both classes to {cr32:.1e}")
+
+    banner("L33  The QCD correction to the top-bottom Delta rho and the M_W relation (CHECK; LIT alpha_s)")
+    cp33, cm33, dr0_33, mw0_33, mws33, d33 = qcd_drho_derived()
+    print(f"   c_pole = {cp33:.6f}, c_MSbar(mu = m) = {cm33:.6f} (C_F = 4/3); Delta rho_0 = {dr0_33:.6f}; the two builds differ by {d33:.0e}")
+    print(f"   M_W: no QCD {mw0_33:.3f} GeV; " + "; ".join(f"alpha_s = {x}: {v[0]:.3f} GeV (Delta r_rest {v[1]:+.4f})" for x, v in mws33.items()) + f"; measured {MW_MEAS}")
+
+    banner("L34  Rung 2's pion cloud sets the nucleon polarizability used by rung 3 (CHECK)")
+    aE34, bM34, d34, rat34, r34 = nucleon_polarizability_derived()
+    print(f"   alpha_E = {aE34:.3e} fm^3 ({rat34:.2f} x the measured proton 11.2e-4), beta_M = {bM34:.3e} fm^3; the two builds differ by {d34:.0e}")
+    print(f"   neutron-neutron: Casimir-Polder (alpha_E only) equals gravity at r = {r34:.2e} m")
+
+    banner("L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)")
+    d_rc, d_k, d_A, d_S, d_S2, fac = de_sitter_entropy_symbolic()
+    print(f"   r_c - l = {d_rc};  kappa - 1/l = {d_k};  A - 12 pi/Lambda = {d_A}  (A = 4 pi l^2; not 4 pi/Lambda)")
+    print(f"   S - 3 pi/Lambda = {d_S}  (G = c = hbar = k_B = 1): S = pi x 3/(G Lambda), rung 5's coupling times pi")
+    print(f"   S / (pi c^3/(G hbar Lambda)) = {fac}: the entropy is three times that form")
+
+    banner("L11b-c  The first law at every horizon, and de Sitter as the entropy maximum (CHECK)")
+    print(f"   dM/dr_h - (f'(r_h)/4 pi) dS/dr_h for SdS, any horizon: {first_law_every_horizon()}")
+    ident, worst = sds_entropy_bound()
+    print(f"   r_b^2 + r_c^2 + (r_b + r_c)^2 - 2 l^2 (Vieta, exact): {ident};"
+          f"  max (S_bh + S_c)/S_dS over 0 < 9 M^2 Lambda < 1: {worst:.6f} < 1")
+
+    banner("L11d  The vacuum's entropy at the measured Lambda (CHECK; LIT Lambda)")
+    l, A, S, T, r1, r2 = de_sitter_numbers()
+    print(f"   l = {l:.3e} m;  A = {A:.3e} m^2;  S_dS = {S:.3e} k_B;  T_dS = {T:.2e} K")
+    print(f"   S_dS / (pi x 3/(G Lambda)) = {r1:.6f};  S_dS / (pi c^3/(G hbar Lambda)) = {r2:.6f}")
+
+    banner("L12a-b  Neutrino mass: the lepton triplets and the seesaw algebra (CHECK)")
+    for v, q in lepton_triplets().items():
+        print(f"   beta = {v:8s} lepton triplet charges {q}")
+    prod, resid, inv = seesaw_symbolic()
+    print(f"   seesaw: lambda_1 lambda_2 + m_D^2 = {prod} (exact);  light - (m_D^2/M - m_D^4/M^3) = O(m_D^6): residual {resid}")
+    print(f"   inverse seesaw: characteristic polynomial at mu m_D^2/(m_D^2 + Lambda^2), to first order in mu: {inv}")
+
+    banner("L12c-d  The scale, the Yukawas it leaves free, and the data (CHECK; MODEL; LIT)")
+    sn = seesaw_numbers()
+    print(f"   M_V = 4 TeV: w = 2 M_V/g = {sn['w'] / 1e3:.2f} TeV (g = {sn['g']:.4f});  M = y_R w/sqrt2 = {sn['M'] / 1e12:.2f} TeV (y_R = 1)")
+    print(f"   m_light = {sn['light']:.4f} eV needs y_D = {sn['yD']:.2e} = {sn['ratio']:.2f} x the electron's {sn['ye']:.2e};"
+          f"  m_D/M = {sn['suppress']:.1e}")
+    print(f"   y_D = y_e gives {sn['m_with_ye']:.4f} eV;  log-log slope of m_light against w at fixed Yukawas: {sn['slope']:.6f}")
+    tot, bound = neutrino_data()
+    print(f"   NuFIT 6.0 (normal ordering): minimal sum {tot:.4f} eV; Planck 2018: < {bound} eV. The Yukawas stay inputs.")
+
+    banner("L13a-b  First post-Newtonian correction to the entangling phase (CHECK; KNOWN EIH terms)")
+    print(f"   EIH test-mass limit minus the harmonic-coordinate geodesic Lagrangian, to 1/c^2: {eih_test_mass_limit()}")
+    dn, dp, dq = eih_phase_shift()
+    print(f"   design A: Newtonian {dn:.4f} rad;  v-dependent 1PN {dp:+.2e} rad ({dp / dn:+.1e});"
+          f"  G^2 term {dq:+.2e} rad ({dq / dn:+.1e})")
+
+    banner("L14  The Bekenstein bound (CHECK)")
+    R, bek, holo, atoms = diamond_bounds()
+    print(f"   2 pi R E/(hbar c) - A/(4 l_P^2) for Schwarzschild: {bekenstein_saturation()}")
+    print(f"   design A's diamond: R = {R * 1e6:.2f} um, {atoms:.2e} atoms;  Bekenstein bound {bek:.2e} k_B,"
+          f" holographic bound {holo:.2e} k_B")
 
     banner("L3a  The Planck mass: the 3-3-1 cutoff from rung 4's G (CHECK)")
     mpl, mpl331, (G, hb, c) = planck_mass()

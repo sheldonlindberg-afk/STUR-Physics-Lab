@@ -1,0 +1,34 @@
+== contract
+   [PASS] export sigma_W
+   [PASS] export sigma_Z
+   [PASS] export delta_r_higgs_rel
+   [PASS] export log_coefficient
+   [PASS] PROVENANCE is a dict covering every export
+   [PASS] PROVENANCE[sigma_W] valid (kind and note)
+   [PASS] PROVENANCE[sigma_Z] valid (kind and note)
+   [PASS] PROVENANCE[delta_r_higgs_rel] valid (kind and note)
+   [PASS] PROVENANCE[log_coefficient] valid (kind and note)
+   [PASS] DERIVATION.md exists
+== lint
+   [PASS] lint
+== blind
+   [PASS] delta_r_higgs_rel vanishes at the reference mass, any xi
+   [PASS] delta_r_higgs_rel does not depend on the MS-bar scale
+   [PASS] delta_r_higgs_rel is linear in alpha
+   [PASS] mu-dependence of the raw self-energies is linear in q^2
+   [PASS] the large-mH slope equals log_coefficient
+   [PASS] self-energies are proportional to alpha
+   [PASS] self-energies are continuous at q^2 -> 0
+   [PASS] the xi spread of delta_r_higgs_rel is reported
+== oracle
+   [PASS] delta_r_higgs_rel equals the Feynman-gauge reference at every xi (xi independence), 1e-9  (worst relative deviation of delta_r_higgs_rel from the Feynman-gauge reference over xi = (0.0, 0.3, 1.0, 4.0, 25.0): 0.0e+00 at None)
+   [PASS] xi independence at other (MW, MZ, alpha)  (other (MW, MZ, alpha) points at xi = 0, 3: 0.0e+00)
+   [PASS] log_coefficient is xi independent and equals 11 alpha/(48 pi s^2)  (log_coefficient at xi = (0.0, 0.3, 1.0, 4.0, 25.0): 0.0e+00)
+   [PASS] raw self-energies at xi = 1 in the pinned convention  (raw self-energies at xi = 1 against the reference: 1.1e-16)
+   [PASS] large-mH constant at xi = 0 and 4  (large-mH constant at xi = 0, 4 against -2.400630511e-03: 5.2e-11)
+   [PASS] dense mH grid 1 GeV .. 2e7 GeV at xi = 0, 5  (dense m_H grid 1 GeV .. 2e7 GeV at xi = 0, 5: 0.0e+00 at None)
+   [PASS] extreme masses at the build's own precision  (extreme masses at the build's own precision, xi = 0, 1, 4: 1.8e-12)
+   [PASS] raw self-energies are xi independent (audit theorem, AUDIT.md section 2), wide xi grid  (worst |sigma(xi)/sigma(1) - 1| over xi = (0.0, 1e-06, 0.001, 0.01, 0.1, 0.2, 0.3, 2.0, 4.0, 25.0, 100.0, 1000.0, 10000.0): 0.0e+00 at None)
+   [PASS] delta_r_higgs_rel on a wide xi grid  (worst |dr(xi)/dr(1) - 1|: 0.0e+00 at (mH, xi) = None)
+   [PASS] log_coefficient on a wide xi grid  (worst |B(xi)/B(1) - 1| for xi = 1e-3, 0.1, 100, 1e4: 0.0e+00)
+GATE PASSED

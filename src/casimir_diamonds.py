@@ -74,6 +74,16 @@ over imaginary frequencies, Casimir and Polder 1948).
       beyond the Casimir force. H6's remedy, a conducting shield, is not established for
       them; dipole control (or measurement and subtraction) at the 1e-4 e um level is an open
       requirement of the design. (CHECK, given the model; LIT)
+  P3b The quantum step of P3, checked rather than quoted, for instantaneous coupling. Two
+      isotropic oscillators (frequency w0, polarizability a(i xi) = a0 w0^2/(w0^2 + xi^2))
+      coupled by the static dipole tensor T = (3 n n - 1)/r^3 (eigenvalues 2, -1, -1 over r^3)
+      have exact normal modes w^2 = w0^2 -+ a0 w0^2 t (t an eigenvalue of T). Their zero-point
+      shift (hbar/2) sum (w+ + w- - 2 w0) equals (hbar/2 pi) int dxi sum_t ln(1 - a^2 t^2)
+      for any coupling strength; its second order, -(hbar/2 pi) int a^2 Tr T.T, is London's
+      -(3/4) hbar w0 a0^2 / r^6. Retardation enters only through G(i xi) of P2, which is
+      classical Maxwell; that the same ln det holds with the retarded G is the standard
+      argument-principle step; src/ladder_links.py L21 checks it in an exactly solvable retarded
+      model. (CHECK for the instantaneous limit)
 Labels: CHECK, LIT (eps of diamond, 5.7; the sources named in P5 and P7), MODEL (P7's patch model).
 """
 import math
@@ -147,6 +157,18 @@ def compare_with_experiment_code():
     theirs = GE.casimir_energy(m, r)
     grav = -GE.G * m * m / r
     return mine, theirs, grav, R
+
+
+def oscillator_check(q2=0.3):
+    """P3b: exact zero-point shift of two coupled oscillators (hbar = mu = w0 = r = 1, alpha0 = q2)
+    against the ln det integral, and the second order against London's -(3/4) alpha0^2."""
+    from scipy.integrate import quad
+    ts = (2.0, -1.0, -1.0)
+    exact = sum(0.5 * (math.sqrt(1 - q2 * t) + math.sqrt(1 + q2 * t) - 2) for t in ts)
+    f = lambda x: sum(math.log(1 - (q2 / (1 + x * x)) ** 2 * t * t) for t in ts)
+    formula = quad(f, 0, math.inf)[0] / (2 * math.pi)
+    second = -quad(lambda x: (q2 / (1 + x * x)) ** 2 * sum(t * t for t in ts), 0, math.inf)[0] / (2 * math.pi)
+    return exact, formula, second, -0.75 * q2**2
 
 
 # ---------------------------------------------------------------------- P5: finite T
@@ -312,6 +334,12 @@ def main():
     I = frequency_integral()
     print(f"   int_0^oo e^(-2u)(3 + 6u + 5u^2 + 2u^3 + u^4) du = {I}")
     print(f"   U = -({casimir_coefficient()}) hbar c alpha1 alpha2 / r^7 = -(23/(4 pi)) hbar c alpha1 alpha2 / r^7")
+
+    banner("P3b  The quantum step, checked against exact normal modes (CHECK, instantaneous coupling)")
+    for q2 in (0.05, 0.3):
+        ex, fo, sec, lon = oscillator_check(q2)
+        print(f"   alpha0/r^3 = {q2}: exact (hbar/2) sum(w+ + w- - 2 w0) = {ex:.10f};  (hbar/2pi) int ln det = {fo:.10f};"
+              f"  second order {sec:.6f} vs London -(3/4) alpha0^2 = {lon:.6f}")
 
     banner("P4  In the diamond experiment")
     mine, theirs, grav, R = compare_with_experiment_code()

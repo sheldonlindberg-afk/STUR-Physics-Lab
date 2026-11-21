@@ -1,0 +1,2 @@
+SE and VBW of the two builds, xi > 0, three points x six xi x three mu: worst relative difference 9.3e-15
+xi = 0 (Landau, IR pole subtracted in MS-bar by each builder; the convention differs): 7.771237455657387e-05

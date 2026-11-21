@@ -1,7 +1,7 @@
 """Pins src/ladder_links.py: the links between the ladder's rungs (SYMMETRY_LADDER.md).
 L1, neutral matter (rung 1 -> rung 4); L2, pi0 -> gamma gamma (rung 1 -> rung 2);
 L3, the Planck mass (rung 4 -> rung 1), at the reference spectrum and over the threshold scan."""
-import contextlib, io, os, sys
+import contextlib, io, math, os, sys
 import sympy as sp
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 import ladder_links as LL
@@ -137,9 +137,220 @@ def test_de_sitter_gauge_theory_in_the_lab():
     assert abs(l / 1.647e26 - 1) < 1e-3 and abs(rel / 2.04e-59 - 1) < 0.01
 
 
+def test_de_sitter_horizon_entropy():
+    d_rc, d_k, d_A, d_S, d_S2, fac = LL.de_sitter_entropy_symbolic()
+    assert (d_rc, d_k, d_A, d_S, d_S2) == (0, 0, 0, 0, 0) and fac == 3     # A = 12 pi/Lambda, S = 3 pi/Lambda
+    assert LL.first_law_every_horizon() == 0
+    ident, worst = LL.sds_entropy_bound()
+    assert ident == 0 and worst < 1
+    l, A, S, T, r1, r2 = LL.de_sitter_numbers()
+    assert abs(S / 3.263e122 - 1) < 1e-3 and abs(T / 2.21e-30 - 1) < 1e-2
+    assert abs(r1 - 1) < 1e-12 and abs(r2 - 3) < 1e-12
+
+
+def test_neutrino_mass_from_the_breaking_scale():
+    q = LL.lepton_triplets()
+    assert q["-1/sqrt3"] == ["0", "-1", "0"] and q["+1/sqrt3"] == ["0", "-1", "-1"]
+    prod, resid, inv = LL.seesaw_symbolic()
+    assert prod == 0 and resid == 0 and inv == 0
+    sn = LL.seesaw_numbers()
+    assert abs(sn["slope"] + 1) < 1e-9 and abs(sn["light"] / 0.0501 - 1) < 2e-3
+    assert 1.2 < sn["ratio"] < 1.4 and abs(sn["m_with_ye"] / 0.0301 - 1) < 5e-3
+    tot, bound = LL.neutrino_data()
+    assert 0.058 < tot < 0.060 and tot < bound
+
+
+def test_first_post_newtonian_correction():
+    assert LL.eih_test_mass_limit() == 0
+    dn, dp, dq = LL.eih_phase_shift()
+    assert abs(dn - 2.1868) < 1e-3
+    assert abs(dp / dn) < 1e-23 and abs(dq / dn) < 1e-37 and dp != 0
+
+
+def test_bekenstein_bound():
+    assert LL.bekenstein_saturation() == 0
+    R, bek, holo, atoms = LL.diamond_bounds()
+    assert bek > 1e3 * atoms and holo > 1e30 * bek
+
+
+def test_de_sitter_pair_correction_and_vacuum_energy():
+    resid, dn, dc = LL.de_sitter_pair_correction()
+    assert resid == 0 and abs(dc / dn + 1.92e-60) < 0.05e-60
+    assert LL.de_sitter_entropy_identity() == 0
+    r4, ratios = LL.vacuum_energy_scales()
+    assert abs(r4 / 2.248e-3 - 1) < 2e-3
+    vals = list(ratios.values())
+    assert abs(vals[3] / (8 * LL.de_sitter_numbers()[2] / 3) - 1) < 1e-3
+    assert vals == sorted(vals) and 1e42 < vals[0] < 1e43 and 1e54 < vals[1] < 1e55
+
+
+def test_quasinormal_modes_and_the_fit_at_zero_spin():
+    w0, w1 = LL.leaver_qnm(0), LL.leaver_qnm(1)
+    assert abs(w0 - (0.373672 - 0.088962j)) < 2e-6 and abs(w1 - (0.346711 - 0.273915j)) < 2e-6
+    fr, er, fq, eq = LL.bcw_at_zero_spin()
+    assert abs(fr / er - 1) < 0.02 and abs(fq / eq - 1) < 0.015 and fr / er < 1 < fq / eq
+
+
+def test_abj_anomaly_derived():
+    ok, lam, holds, coef = LL.abj_fujikawa()
+    assert ok and holds and abs(lam) == 4 and coef == 1
+    assert LL.abj_landau() == (0, 0)
+    assert LL.abj_pion_amplitude() == 1
+
+
+def test_rho_parameter_and_w_mass():
+    ward, pole, s2dep, diff, lim = LL.rho_parameter_loop()
+    assert ward == 0 and not pole and not s2dep and diff == 0 and lim == sp.Symbol("m_t", positive=True) ** 2
+    drho, dal, steps, rest = LL.w_mass_steps()
+    assert abs(drho / 9.256e-3 - 1) < 2e-3
+    mws = [m for m, _ in steps]
+    assert abs(mws[0] - 80.939) < 2e-3 and mws[1] < mws[0] and mws[2] > mws[1] and abs(mws[3] - 80.495) < 3e-3
+    assert 0.005 < rest < 0.009 and abs(steps[3][1] + rest - 0.0356) < 1e-3     # total Delta r of the SM
+
+
+def test_hawking_spectrum_from_bogoliubov_coefficients():
+    de, dg, rat, ex = LL.bogoliubov_checks()
+    assert de < 1e-15 and dg < 1e-15 and abs(rat / ex - 1) < 1e-12
+    assert LL.bogoliubov_symbolic() == (0, 0, 0)
+    de2, dg2, rat2, ex2 = LL.bogoliubov_checks(y=1.9, Om=0.4)         # other frequency and Omega: still thermal
+    assert abs(rat2 / ex2 - 1) < 1e-12
+
+
+def test_kerr_modes_and_the_fit_at_the_spin_gw250114_uses():
+    assert LL.kerr_table_check() < 6e-5
+    ef, eq = LL.kerr_fit_errors()
+    assert abs(ef - 0.0185) < 5e-4 and abs(eq - 0.0088) < 5e-4           # BCW's stated maxima, 1.85% and 0.88%
+    mf, chif, a_f, a_min = LL.area_law_exact()
+    assert abs(mf - 66.48) < 0.02 and abs(chif - 0.7444) < 5e-4 and abs(a_f / 4.039e5 - 1) < 1e-3
+    import black_holes as BH
+    a_i, a_fit, a_i_max, a_fit_min, _ = BH.area_law()
+    assert a_min > a_i_max and abs(a_min / 3.360e5 - 1) < 2e-3 and abs(a_f / a_fit - 1) < 0.01
+
+
+def test_retarded_casimir_polder_step():
+    res = LL.retarded_pair_energy()
+    for r, (ex, fo, st) in res.items():
+        assert abs(fo / ex - 1) < 1e-8                      # normal modes against the retarded ln det
+        assert abs(st / ex - 1) > 1.0 or r > 4              # the static kernel is wrong
+    assert abs(res[4][2] / res[4][0] - 3.06) < 0.05
+    x, x2 = LL.casimir_polder_order()
+    assert 5e-8 < x < 2e-7 and x2 < 1e-13
+
+
+def test_mz_bookkeeping():
+    b = LL.mz_bookkeeping()
+    assert abs(b["tree"] - 91.5065) < 1e-3 and abs(b["dr0"] - 0.066450) < 1e-5
+    assert abs(b["pred"] - 91.1880) < 2e-3 and abs(b["gap"] - b["measured_gap"]) < 5e-5
+    assert abs(b["parts"][0] + 0.010058) < 1e-5 and abs(b["parts"][1] - 0.003138) < 1e-5
+    assert abs(b["ratio2"] ** 0.5 - 1 + 0.0035) < 1e-4
+    assert abs(b["frac"] - 0.912) < 2e-3 and abs(b["pred_one_loop"] - 91.229) < 2e-3
+
+
+def test_qed_cp_accepted_builds():
+    worst, cross, far, near = LL.qed_cp_accepted(rhos=(0.05, 1.0, 20.0))
+    assert worst < 1e-9 and cross < 1e-9
+    assert abs(far - 23 / (4 * math.pi)) < 1e-10 and abs(near - 0.75) < 1e-10
+
+
+def test_grey_body_weights_derived():
+    gw = LL.grey_weights()
+    for s, (d, q) in gw.items():
+        assert abs(d / q - 1) < 0.02                    # within the digits Carr et al. quote (0.007 has one)
+    assert abs(gw[0][0] - 0.26638) < 1e-4 and abs(gw[0.5][0] - 0.14652) < 1e-4 and abs(gw[1][0] - 0.06023) < 1e-4 and abs(gw[2][0] - 0.006870) < 1e-5
+    fq, fd, fall = LL.grey_f_standard_model()
+    assert abs(fq - 15.332) < 1e-3 and abs(fd - 15.332) < 2e-3 and abs(fall - 15.712) < 2e-3
+    assert LL.grey_gamma_against_reference(6) < 1e-6
+
+
+def test_collapsing_shell_map_and_thermal_ratio():
+    resid, kinv, kh1 = LL.null_shell_map()
+    M = LL.sp.Symbol("M", positive=True)
+    assert resid == 0 and LL.sp.simplify(kinv - 4 * M) == 0 and LL.sp.simplify(kh1 - 1 / (4 * M)) == 0
+    for w, wp in ((0.05, 0.4), (0.05, 5.0), (0.1, 50.0), (0.1, 0.12)):
+        num, closed = LL.shell_bogoliubov_ratio(w, wp)
+        assert abs(num / closed - 1) < 1e-12
+    num, _ = LL.shell_bogoliubov_ratio(0.1, 1e4)
+    assert abs(num / math.exp(-8 * math.pi * 0.1) - 1) < 1e-3                    # w' >> w: the Planck factor of L19
+
+
+def test_higgs_term_of_l18_is_derived():
+    derived, quoted, rho125, lead125 = LL.higgs_term_derived()
+    assert abs(derived / quoted - 1) < 1e-12                 # the derived coefficient reproduces L18's quoted one
+    assert -2.1e-4 < rho125 < -1.9e-4 and 0.38 < rho125 / lead125 < 0.40
+    a, b = LL._load_higgs_build("a"), LL._load_higgs_build("b")
+    for mh, xi, mu in ((125.0, 1.0, 80.38), (300.0, 0.4, 200.0), (1000.0, 0.0, 50.0)):
+        assert a.rho_higgs_rel(mh, 80.38, 91.19, 1 / 128.0, xi, mu) == b.rho_higgs_rel(mh, 80.38, 91.19, 1 / 128.0, xi, mu)
+
+
 def test_reference_output_matches():
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
         LL.main()
     ref = open(os.path.join(os.path.dirname(__file__), "..", "results", "ladder", "ladder_links.txt")).read()
     assert buf.getvalue() == ref
+
+
+def test_higgs_dr_link_27():
+    ratio, dh, q, mw, rest, restq, mwq = LL.higgs_dr_derived()
+    assert abs(ratio - 11 / 9) < 1e-9                                  # the full coefficient is 11/9 of the Delta rho screening part L18 quoted
+    assert abs(dh / 1.430938e-3 - 1) < 1e-5 and abs(q / 1.794506e-3 - 1) < 1e-5
+    assert abs(mw - 80.501) < 1e-3 and abs(mwq - 80.495) < 1e-3 and abs(rest - 0.0075) < 5e-5
+    a, b = LL._load_higgs_dr_build("a"), LL._load_higgs_dr_build("b")
+    M = (80.38, 91.19, 1 / 128.0)
+    for mh in (10.0, 125.2, 1000.0, 1e6):
+        assert a.delta_r_higgs_rel(mh, *M, 80.38) == b.delta_r_higgs_rel(mh, *M, 80.38)
+    for q2 in (-5e4, 0.0, 6e3):
+        assert a.sigma_W(q2, 300.0, *M, 80.38) == b.sigma_W(q2, 300.0, *M, 80.38)
+
+
+def test_higgs_dr_gauge_independence_link_28():
+    spread, s0, s25 = LL.higgs_dr_xi_spread()
+    assert spread < 1e-12 and abs(s0 / s25 - 1) < 1e-12 and abs(s0 / 13.3187407578 - 1) < 1e-9
+
+
+def test_bosonic_dr_link_29():
+    bos, mw, rest, bos_ref, vb, diff = LL.bosonic_dr_derived()
+    assert abs(bos / 4.011123e-3 - 1) < 1e-5 and abs(mw - 80.456) < 1e-3 and abs(rest - 0.0049) < 5e-5
+    assert abs(bos_ref / 2.624583e-3 - 1) < 1e-5 and abs(vb / 6.669497e-3 - 1) < 1e-5 and diff < 1e-12
+    b = LL._load_bos_dr_build("b")
+    a = LL._load_bos_dr_build("a")
+    for p in ((80.38, 91.19, 125.0, 1 / 128.0), (75.0, 100.0, 60.0, 1 / 130.0)):
+        assert abs(a.delta_r_bos(*p) / b.delta_r_bos(*p) - 1) < 1e-12
+
+
+def test_charged_half_link_30():
+    w0, rr, wp, diff = LL.charged_half_derived()
+    assert abs(rr[("after", "after")][0] - 0.963447) < 2e-6 and abs(rr[("after", "after")][1] - 0.995946) < 2e-6
+    assert abs(rr[("after", "mid")][0] - 1.007675) < 2e-6 and abs(rr[("mid", "mid")][0] - 0.988218) < 2e-6
+    assert abs(rr[("before", "before")][0] - 1.013553) < 2e-6
+    assert abs(wp - 0.1411) < 1e-4 and diff < 1e-6          # two builds agree
+    # the 3-digit window of Carr's 0.142 is hit by the principal rule only among the headline rules except (before, mid)
+    assert 0.9593 < rr[("after", "after")][0] < 0.9727 and not 0.9593 < rr[("after", "mid")][0] < 0.9727
+
+
+def test_ferm_dr_link_31():
+    mw, raw, shifted, dmu, dbuild, dal, rest = LL.ferm_dr_derived()
+    assert abs(mw - 80.4744) < 5e-4 and abs(raw - 0.0253293) < 1e-6 and abs(shifted - 0.0256835) < 1e-6
+    assert dmu < 1e-12 and dbuild < 1e-12                       # mu independence and the two builds
+    assert abs(dal - LL.DALPHA_LEP_1LOOP_LIT) < 5e-7 and abs(rest - 0.00566) < 5e-5
+
+
+def test_dr_xi_gauge_independence_link_32():
+    tot, spread, dse, dvb, cross, d29 = LL.dr_xi_gauge_independence()
+    assert abs(tot / 4.297530731364e-3 - 1) < 1e-9 and spread < 1e-11 and d29 < 1e-9
+    assert abs(dse + dvb) < 1e-13 and abs(dse) > 1e-3 and cross < 1e-9      # the classes move and cancel; both builds agree
+
+
+def test_qcd_drho_link_33():
+    import math
+    cp, cm, dr0, mw0, mws, diff = LL.qcd_drho_derived()
+    assert abs(cp + (4 / 3) * (0.5 + math.pi**2 / 6)) < 1e-12 and abs(cm - (4 / 3) * (1.5 - math.pi**2 / 6)) < 1e-12 and diff < 1e-12
+    assert abs(dr0 - 3 * 1.1663788e-5 * LL.M_T_GEV**2 / (8 * math.sqrt(2) * math.pi**2)) < 1e-12
+    assert abs(mw0 - 80.4744) < 5e-4 and abs(mws[0.118][0] - 80.4096) < 5e-4 and abs(mws[0.108][0] - 80.4151) < 5e-4
+    assert mws[0.118][0] < mws[0.108][0] < mw0
+
+
+def test_nucleon_polarizability_link_34():
+    aE, bM, diff, rat, r = LL.nucleon_polarizability_derived()
+    assert abs(aE / 12.5819e-4 - 1) < 1e-4 and abs(bM / aE - 0.1) < 1e-12 and diff < 1e-12
+    assert 1.05 < rat < 1.2 and abs(r / 2.8e-10 - 1) < 0.05

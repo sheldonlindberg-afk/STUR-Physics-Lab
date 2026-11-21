@@ -1,0 +1,31 @@
+== contract
+   [PASS] export self_energy_W
+   [PASS] export self_energy_Z
+   [PASS] export rho_higgs_rel
+   [PASS] export log_coefficient
+   [PASS] PROVENANCE is a dict covering every export
+   [PASS] PROVENANCE[self_energy_W] valid (kind and note)
+   [PASS] PROVENANCE[self_energy_Z] valid (kind and note)
+   [PASS] PROVENANCE[rho_higgs_rel] valid (kind and note)
+   [PASS] PROVENANCE[log_coefficient] valid (kind and note)
+   [PASS] DERIVATION.md exists
+== lint
+   [PASS] lint
+== blind
+   [PASS] rho_higgs_rel vanishes at the reference mass
+   [PASS] rho_higgs_rel does not depend on the MS-bar scale (poles cancel)
+   [PASS] rho_higgs_rel is linear in alpha
+   [PASS] custodial limit: Delta rho ~ g'^2 as M_Z -> M_W
+   [PASS] the large-mH slope equals log_coefficient
+   [PASS] rho_higgs_rel is monotone in mH
+   [PASS] rho_higgs_rel is the difference of the two self-energy exports
+== oracle
+   [PASS] log_coefficient = -3 alpha/(16 pi c^2)  (worst relative deviation of log_coefficient from -3 alpha/(16 pi c^2): 2.2e-16)
+   [PASS] measured large-mH slope of rho_higgs_rel = -3 alpha/(16 pi c^2)  (measured slope -6.001224e-04, target -6.001224e-04)
+   [PASS] rho_higgs_rel against the independent finite-function reference, mH = 10..5000 GeV, 1e-9  (worst relative deviation of rho_higgs_rel from the independent reference at mH = 10..5000 GeV: 0.0e+00 at None)
+   [PASS] rho_higgs_rel is xi- and mu-independent at finite mH (xi = 0.3, 4, 25)  (rho_higgs_rel at finite mH for xi = 0.3, 4, 25 and two MS-bar scales: worst deviation from the xi = 1 reference 0.0e+00)
+   [PASS] Landau gauge xi = 0 is accepted  (rho_higgs_rel in the Landau gauge xi = 0 at mH = 300 GeV: -0.0008533394666078636)
+   [PASS] large-mH constant term  (large-mH constant 9.539008880e-04 against the analytic 9.539008880e-04)
+   [PASS] exact large-mH form B ln + C holds from mH = 1e6 MW to 1e20 MW  (worst |rho - B ln - C| / |B ln| at mH = 1e6 .. 1e20 MW: 2.2e-12 at 1e6 MW)
+   [PASS] raw self-energies in the pinned convention  (raw MS-bar Pi_WW(0), Pi_ZZ(0) in the convention of SPEC section 2: worst relative deviation 0.0e+00)
+GATE PASSED

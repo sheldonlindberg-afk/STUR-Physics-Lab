@@ -156,6 +156,215 @@ L10c-d  What is left of Lambda at the diamonds (FOLLOWS, order of magnitude)
    l = sqrt(3/Lambda) = 1.647e+26 m; farthest branch distance 743 um; (r/l)^2 = 2.0e-59
 
 ==============================================================================
+L10e  The de Sitter correction to the pair energy, with its coefficient (CHECK; FOLLOWS for the frame)
+==============================================================================
+   linear in M: U = -(G M m / r)/sqrt(1 - r^2/l^2); series minus (1 + r^2/(2 l^2)): 0
+   design A: Newtonian 2.1868 rad, de Sitter shift -4.20e-60 rad (-1.9e-60)
+
+==============================================================================
+L15  The cosmological constant against each rung's vacuum energy (CHECK; LIT; MODEL for w^4)
+==============================================================================
+   S_dS - (3/8) rho_Pl / rho_L = 0
+   rho_L^(1/4) = 2.248 meV
+   chiral (rung 2): f_pi^2 m_pi^2     / rho_L = 6.0e+42
+   Higgs (rung 1): m_h^2 v^2 / 8      / rho_L = 4.7e+54
+   3-3-1 (rung 1): w^4                / rho_L = 8.9e+62
+   Planck (link 3): M_Pl^4            / rho_L = 8.7e+122
+   nothing in the repository cancels these: the problem is quantified, not solved.
+
+==============================================================================
+L16  Quasinormal modes from Leaver's continued fraction, and the fit at zero spin (CHECK)
+==============================================================================
+   l = 2, n = 0: M omega = 0.373672 -0.088962 i
+   l = 2, n = 1: M omega = 0.346711 -0.273915 i
+   Berti-Cardoso-Will at chi = 0: M omega_R 0.3683 vs exact 0.3737 (-1.4%);  Q 2.119 vs 2.100 (+0.9%)
+
+==============================================================================
+L17  The ABJ anomaly coefficient, derived (CHECK, symbolic)
+==============================================================================
+   Euclidean gamma matrices satisfy the Clifford algebra: True;  tr[g5 sigma_mn sigma_rs] = -4 eps_mnrs for all 256 index sets: True
+   |Jacobian| = 1 x e^2 eps F F / (32 pi^2): the divergence is e^2 eps F F / (16 pi^2) in magnitude
+   eps F F - 8 F12 F34 = 0;  Fujikawa divergence minus the Landau-level count 2(eB/2pi)(eE/2pi) = 0
+   pi0 -> gamma gamma amplitude from the anomaly over alpha N_c (Q_u^2 - Q_d^2)/(pi f_pi): 1
+
+==============================================================================
+L18  The rho parameter from the top-bottom loop, and M_W (CHECK; LIT for the rest)
+==============================================================================
+   vector-current Ward identity 2 LL + 2 LR at equal masses: 0;  1/eps pole left in Delta rho: False;  s^2 dependence left: False
+   loop result minus N_c G_F/(8 sqrt2 pi^2) [m_t^2 + m_b^2 - 2 m_t^2 m_b^2 ln(m_t^2/m_b^2)/(m_t^2 - m_b^2)]: 0;  m_b -> 0: m_t**2
+   Delta rho = 9.256e-03 (m_t = 172.57, m_b = 4.18 GeV);  Delta alpha = 0.05933
+   tree           M_W = 80.939 GeV  (Delta r = +0.0000)
+   + Delta alpha  M_W = 79.961 GeV  (Delta r = +0.0593)
+   + top loop     M_W = 80.526 GeV  (Delta r = +0.0265)
+   + Higgs log    M_W = 80.495 GeV  (Delta r = +0.0285)
+   measured 80.3692 GeV; the remainder Delta r_rest that closes it: +0.0071 (not computed here)
+
+==============================================================================
+L19  Hawking radiation as radiation: the Bogoliubov coefficients (CHECK)
+==============================================================================
+   int x^(iy) e^(-s x) dx against Gamma(1+iy) s^(-1-iy): difference 4.2e-22;  |Gamma(1+iy)|^2 - pi y/sinh(pi y): 4.2e-22
+   |beta/alpha|^2 from the continued integrals 0.0122990935; e^(-2 pi w/kappa) = 0.0122990935
+   |alpha|^2 - |beta|^2 - 1/(2 pi kappa Omega) = 0;  |beta|^2/(|alpha|^2 - |beta|^2) - 1/(e^(2 pi w/kappa) - 1) = 0
+   (1/2 pi) int w n dw - pi T^2/12 = 0  (one massless 1+1 field)
+
+==============================================================================
+L20  Kerr quasinormal modes: the ringdown fit at the spin GW250114 uses (CHECK; LIT)
+==============================================================================
+   Leaver's coupled continued fractions against BCW Table II (11 spins, l = m = 2, n = 0): largest difference 4.5e-05
+   the fit against the exact modes, chi = 0 to 0.99: largest errors 1.85% (F), 0.88% (Q); BCW state 1.85% and 0.88%
+   GW250114 ringdown alone: exact M_f = 66.48 Msun, chi_f = 0.744 (fit 66.73, 0.746); final area 4.039e+05 km^2 (fit 4.065e+05)
+   least favourable corner: final 3.36e+05 km^2 (fit 3.411e+05) against initial 2.521e+05
+
+==============================================================================
+L21  The retarded Casimir-Polder step in an exactly solvable retarded system (CHECK; FOLLOWS for the dyadic case)
+==============================================================================
+   r =  4: U from the normal modes -6.309807499747e-04;  ln det, retarded G(xi) -6.309807499485e-04;  static G(0) -1.929968e-03
+   r =  8: U from the normal modes -4.660216927732e-05;  ln det, retarded G(xi) -4.660216927182e-05;  static G(0) -1.756185e-04
+   r = 12: U from the normal modes -3.691721644827e-06;  ln det, retarded G(xi) -3.691721652416e-06;  static G(0) -1.606579e-05
+   design A's gap: alpha G ~ K R^3/r^3 = 1.0e-07; the term beyond P3's is relatively 1e-14
+
+==============================================================================
+L22  B7's +0.35% on M_Z decomposed through the MS-bar relations (CHECK; LIT: PDG 2024)
+==============================================================================
+   Dr0 = 1 - alpha/alpha-hat = 0.06645;  B7's tree M_Z = 91.506 GeV;  (1 - Dr0)/[(1 - Dr_W) rho-hat] -> M_Z = 91.1879 GeV (measured 91.188)
+   gap of the prediction from the tree -0.348%, measured gap -0.348%
+   in M_Z^2: rho-hat -1.006%, (1 - Dr0)/(1 - Dr_W) +0.314%, together -0.695%
+   L18's one-loop top-bottom rho - 1 = 9.256e-03, 91% of rho-hat - 1; with it, M_Z = 91.229 GeV (+0.045% from measured); Dr_W - Dr0 = 0.0029 is not derived
+
+==============================================================================
+L23  The dyadic Casimir-Polder step from photon exchange: two blind builds (CHECK)
+==============================================================================
+   12-diagram perturbation theory (accepted build a) against rung 3's Green-tensor integral, r w0 = 0.05 to 20: worst difference 6.1e-12
+   build b (a different reduction) against build a at r w0 = 1: 2.2e-16;  derived far coefficient 1.830282 (23/(4 pi) = 1.830282), near coefficient 0.750000
+
+==============================================================================
+L24  The emission weights of L7, derived by the grey-body campaign (CHECK; FOLLOWS for the charged weight)
+==============================================================================
+   spin 0: P = 7.43869e-05/M^2, weight 0.26638 (quoted 0.267, -0.2%)
+   spin 0.5: P = 4.09165e-05/M^2, weight 0.14652 (quoted 0.147, -0.3%)
+   spin 1: P = 1.68193e-05/M^2, weight 0.06023 (quoted 0.06, +0.4%)
+   spin 2: P = 1.91837e-06/M^2, weight 0.00687 (quoted 0.007, -1.9%)
+   Standard Model f: quoted weights 15.332; derived weights, charged fermions at the quoted 0.142: 15.332; derived 0.1465 for every fermion: 15.712 (Carr: 15.35)
+   accepted build a's Gamma against the independent solver at 6 reference points: worst 1.3e-10
+
+==============================================================================
+L25  Hawking radiation from a collapsing shell: the map behind L19, derived (CHECK)
+==============================================================================
+   u(v) from the ray through the centre minus v - 4M ln((v_H - v)/4M): 0;  1/kappa from du/dv ~ (1/kappa)/(v_H - v): 4*M;  H1's |f'(r_h)|/2 = 1/(4*M)
+   w = 0.05, w' = 0.4: |beta/alpha|^2 from the overlap integrals 1.721712052e-01; ((w'-w)/(w'+w))^2 e^(-8 pi M w) = 1.721712052e-01
+   w = 0.05, w' = 5.0: |beta/alpha|^2 from the overlap integrals 2.734494789e-01; ((w'-w)/(w'+w))^2 e^(-8 pi M w) = 2.734494789e-01
+   w = 0.1, w' = 50.0: |beta/alpha|^2 from the overlap integrals 8.035715575e-02; ((w'-w)/(w'+w))^2 e^(-8 pi M w) = 8.035715575e-02
+   w = 0.1, w' = 0.12: |beta/alpha|^2 from the overlap integrals 6.694429104e-04; ((w'-w)/(w'+w))^2 e^(-8 pi M w) = 6.694429104e-04
+
+==============================================================================
+L26  The Higgs term of L18: its coefficient derived by two blind builds (CHECK; FOLLOWS for the finite shape)
+==============================================================================
+   -(c^2/s^2) x [log coefficient of Delta rho] = 2.024116162e-03;  L18's quoted 3 G_F M_W^2/(8 sqrt2 pi^2) = 2.024116162e-03  (ratio 1.000000000000)
+   Delta rho(125.2) - Delta rho(M_W) = -1.9980e-04; the leading log alone would give -5.1563e-04 (0.39 of it)
+
+==============================================================================
+L27  The Higgs dependence of Delta r from the q^2-dependent self-energies: L18's Higgs term replaced (CHECK)
+==============================================================================
+   coefficient of ln m_H^2: derived 11 alpha/(48 pi s^2) over L18's quoted 3 alpha/(16 pi s^2) (= the Delta rho screening part alone): 1.222222222 (11/9 = 1.222222222)
+   Delta r_H(125.2) - Delta r_H(M_W) at M_W = 80.3692: derived 1.430938e-03; L18's quoted leading log 1.794506e-03  (ratio 0.797)
+   M_W with the derived Higgs term: 80.501 GeV (L18's quoted term gave 80.495); remainder Delta r_rest: +0.0075 (quoted +0.0071)
+
+==============================================================================
+L28  The Higgs part of Delta r is gauge-parameter independent: spread over xi (CHECK)
+==============================================================================
+   Delta r_H(300) - Delta r_H(M_W) over xi = 0, 0.3, 1, 4, 25: relative spread 0.0e+00 (two builds agree exactly)
+   Pi_WW(M_W^2) at m_H = 125.2: xi = 0 13.3187407578, xi = 25 13.3187407578
+
+==============================================================================
+L29  The whole bosonic one-loop Delta r: gauge-boson loops, vertex and box terms (CHECK)
+==============================================================================
+   Delta r_bos(m_H = 125.2) = 4.011123e-03 at M_W = 80.456 GeV (m_H = M_W: 2.624583e-03); delta_VB = 6.669497e-03; two builds differ by 3.1e-15 (relative)
+   M_W from Delta alpha + the top loop (L18) + Delta r_bos: 80.456 GeV (measured 80.3692); remainder Delta r_rest closing it: +0.0049
+
+==============================================================================
+L30  Carr's charged spin-1/2 weight: Page's charge fluctuations, and how much of it is convention (CHECK)
+==============================================================================
+   neutral weight 0.1465; weight ratio (charged / neutral) by the rule for which hole charge a particle sees (grey-body, chemical potential):
+      after,  after: weight 0.96345  energy 0.99595  -> f = 0.1411
+      after,    mid: weight 1.00767  energy 0.99671  -> f = 0.1476
+        mid,    mid: weight 0.98822  energy 1.00017  -> f = 0.1448
+     before,    mid: weight 0.96909  energy 1.00359  -> f = 0.1420
+     before, before: weight 1.01355  energy 1.00439  -> f = 0.1485
+   principal rule (after, after): f = 0.1411 against Carr's 0.142; the consistent rule (after, mid) gives 0.1476; two builds differ by 3.2e-08
+
+==============================================================================
+L31  The fermionic one-loop Delta r: fermion-loop self-energies (CHECK; LIT Delta alpha_had)
+==============================================================================
+   Delta r_ferm = 0.025329 (model light-quark masses), 0.025684 with the quoted Delta alpha_had; mu dependence 3e-17; two builds differ by 3e-17
+   Delta alpha_lep(M_Z), one loop, from Sigma'_AA(0) - Sigma_AA(M_Z^2)/M_Z^2: 0.031419 (literature one loop 0.031419)
+   M_W with the whole one-loop Delta r (L29 bosonic + this): 80.474 GeV (measured 80.3692); remainder Delta r_rest = +0.0057 (QCD, two loop; not derived)
+
+==============================================================================
+L32  The whole bosonic one-loop Delta r is gauge-parameter independent: general R_xi (CHECK)
+==============================================================================
+   Delta r_bos = 4.297530731364e-03; relative spread over xi = 1e-9 ... 1e6: 0.0e+00; difference to the xi = 1 module of L29: 4.4e-16
+   between xi = 1 and 4 class SE changes by +1.0601e-02 and class VBW by -1.0601e-02 (they cancel); the two builds agree on both classes to 5.3e-15
+
+==============================================================================
+L33  The QCD correction to the top-bottom Delta rho and the M_W relation (CHECK; LIT alpha_s)
+==============================================================================
+   c_pole = -2.859912, c_MSbar(mu = m) = -0.193245 (C_F = 4/3); Delta rho_0 = 0.009332; the two builds differ by 0e+00
+   M_W: no QCD 80.474 GeV; alpha_s = 0.108: 80.415 GeV (Delta r_rest +0.0025); alpha_s = 0.118: 80.410 GeV (Delta r_rest +0.0022); measured 80.3692
+
+==============================================================================
+L34  Rung 2's pion cloud sets the nucleon polarizability used by rung 3 (CHECK)
+==============================================================================
+   alpha_E = 1.258e-03 fm^3 (1.12 x the measured proton 11.2e-4), beta_M = 1.258e-04 fm^3; the two builds differ by 2e-16
+   neutron-neutron: Casimir-Polder (alpha_E only) equals gravity at r = 2.81e-10 m
+
+==============================================================================
+L11a  The de Sitter horizon: rung 5's Lambda through rung 6's area law (CHECK, symbolic)
+==============================================================================
+   r_c - l = 0;  kappa - 1/l = 0;  A - 12 pi/Lambda = 0  (A = 4 pi l^2; not 4 pi/Lambda)
+   S - 3 pi/Lambda = 0  (G = c = hbar = k_B = 1): S = pi x 3/(G Lambda), rung 5's coupling times pi
+   S / (pi c^3/(G hbar Lambda)) = 3: the entropy is three times that form
+
+==============================================================================
+L11b-c  The first law at every horizon, and de Sitter as the entropy maximum (CHECK)
+==============================================================================
+   dM/dr_h - (f'(r_h)/4 pi) dS/dr_h for SdS, any horizon: 0
+   r_b^2 + r_c^2 + (r_b + r_c)^2 - 2 l^2 (Vieta, exact): 0;  max (S_bh + S_c)/S_dS over 0 < 9 M^2 Lambda < 1: 0.998077 < 1
+
+==============================================================================
+L11d  The vacuum's entropy at the measured Lambda (CHECK; LIT Lambda)
+==============================================================================
+   l = 1.647e+26 m;  A = 3.410e+53 m^2;  S_dS = 3.263e+122 k_B;  T_dS = 2.21e-30 K
+   S_dS / (pi x 3/(G Lambda)) = 1.000000;  S_dS / (pi c^3/(G hbar Lambda)) = 3.000000
+
+==============================================================================
+L12a-b  Neutrino mass: the lepton triplets and the seesaw algebra (CHECK)
+==============================================================================
+   beta = -1/sqrt3 lepton triplet charges ['0', '-1', '0']
+   beta = +1/sqrt3 lepton triplet charges ['0', '-1', '-1']
+   seesaw: lambda_1 lambda_2 + m_D^2 = 0 (exact);  light - (m_D^2/M - m_D^4/M^3) = O(m_D^6): residual 0
+   inverse seesaw: characteristic polynomial at mu m_D^2/(m_D^2 + Lambda^2), to first order in mu: 0
+
+==============================================================================
+L12c-d  The scale, the Yukawas it leaves free, and the data (CHECK; MODEL; LIT)
+==============================================================================
+   M_V = 4 TeV: w = 2 M_V/g = 12.28 TeV (g = 0.6517);  M = y_R w/sqrt2 = 8.68 TeV (y_R = 1)
+   m_light = 0.0501 eV needs y_D = 3.79e-06 = 1.29 x the electron's 2.94e-06;  m_D/M = 7.6e-08
+   y_D = y_e gives 0.0301 eV;  log-log slope of m_light against w at fixed Yukawas: -1.000000
+   NuFIT 6.0 (normal ordering): minimal sum 0.0588 eV; Planck 2018: < 0.12 eV. The Yukawas stay inputs.
+
+==============================================================================
+L13a-b  First post-Newtonian correction to the entangling phase (CHECK; KNOWN EIH terms)
+==============================================================================
+   EIH test-mass limit minus the harmonic-coordinate geodesic Lagrangian, to 1/c^2: 0
+   design A: Newtonian 2.1868 rad;  v-dependent 1PN -1.44e-23 rad (-6.6e-24);  G^2 term -1.78e-37 rad (-8.2e-38)
+
+==============================================================================
+L14  The Bekenstein bound (CHECK)
+==============================================================================
+   2 pi R E/(hbar c) - A/(4 l_P^2) for Schwarzschild: 0
+   design A's diamond: R = 1.00 um, 7.37e+11 atoms;  Bekenstein bound 2.62e+23 k_B, holographic bound 1.20e+58 k_B
+
+==============================================================================
 L3a  The Planck mass: the 3-3-1 cutoff from rung 4's G (CHECK)
 ==============================================================================
    rung 4 (src/stur_gravity_entanglement.py): G = 6.67430e-11, hbar = 1.054571817e-34, c = 299792458

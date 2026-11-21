@@ -1,0 +1,31 @@
+== contract
+   [PASS] export sigma_AA
+   [PASS] export sigma_AZ
+   [PASS] export sigma_ZZ
+   [PASS] export sigma_W
+   [PASS] PROVENANCE is a dict covering every export
+   [PASS] PROVENANCE[sigma_AA] valid (kind and note)
+   [PASS] PROVENANCE[sigma_AZ] valid (kind and note)
+   [PASS] PROVENANCE[sigma_ZZ] valid (kind and note)
+   [PASS] PROVENANCE[sigma_W] valid (kind and note)
+   [PASS] DERIVATION.md exists
+== lint
+   [PASS] lint
+== blind
+   [PASS] photon Ward identity: Sigma^AA_T(0) = Sigma^AZ_T(0) = 0
+   [PASS] Sigma is linear in alpha
+   [PASS] loops of different fermions and doublets add
+   [PASS] mu dependence of every Sigma is linear in k^2 (UV pole structure)
+   [PASS] continuous at k^2 -> 0 and finite at all sampled k^2
+== oracle
+   [PASS] all four self-energies against the reference: fermion sets x (k^2, masses, alpha, mu) grid  (worst relative deviation from the reference over the fermion sets and (k^2, masses, alpha, mu) grid: 3.0e-15 at ('sigma_ZZ', 'odd', 70.58849599999999, 80.0))
+   [PASS] MS-bar scale from 1 GeV to 1e4 GeV  (MS-bar scale from 1 GeV to 1e4 GeV: worst 0.0e+00 at None)
+   [PASS] one fermion mass from 1e-6 to 1e4 GeV  (fermion mass from 1e-6 to 1e4 GeV: worst 0.0e+00 at None)
+   [PASS] real parts above the thresholds  (real parts above the thresholds: worst 6.9e-16 at ('sigma_ZZ', 76.87856))
+   [PASS] at the build's own precision  (at the build's own (default) precision: worst 0.0e+00)
+   [FAIL] auditor table: thresholds, wide k^2 and mu, tiny masses, massive Q = 0, general I3  (ValueError: math domain error)
+   [PASS] photon slope at k^2 = 0 (charge renormalisation)  (Sigma^AA'(0) against (alpha/3pi) N Q^2 ln(mu^2/m^2): worst relative 8.0e-11 at m = 0.000510998)
+   [PASS] exact ln mu^2 linearity for mu in [1e-2, 1e6] GeV  ((Sigma(1e6) - 2 Sigma(1e2) + Sigma(1e-2)) / |Sigma(1e6) - Sigma(1e-2)|: worst 9.5e-17 at ('sigma_ZZ', -30000.0))
+   [PASS] massless asymptotics at k^2 = -1e14  (against the massless form at k^2 = -1e14: worst relative 5.1e-10 at sigma_ZZ)
+   [PASS] global mpmath precision untouched (SPEC 4)  (mp.dps before 15, after import 15, after calls 15)
+GATE FAILED

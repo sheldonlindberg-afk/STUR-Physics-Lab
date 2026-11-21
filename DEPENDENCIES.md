@@ -6,9 +6,9 @@ This page records which script feeds which, and which physical quantities each o
 
 ## Summary
 
-- **54 scripts** in `src/`, in 6 topics; **98 imports** between them, 35 of them across topics. 12 scripts import nothing from the others and nothing imports them.
-- **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 278 literals in the source.
-- **44 quantities are typed in more than one script**; 18 of them are shared by more than one topic.
+- **54 scripts** in `src/`, in 6 topics; **101 imports** between them, 36 of them across topics. 12 scripts import nothing from the others and nothing imports them.
+- **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 314 literals in the source.
+- **44 quantities are typed in more than one script**; 20 of them are shared by more than one topic.
 - **2 copies differ from their source for a stated reason**; **0 differ without one (drift).**
 
 ## Imports
@@ -104,6 +104,8 @@ flowchart LR
   graviton_exchange --> chiral_breaking
   graviton_exchange --> stur_gravity_entanglement
   graviton_exchange --> stur_gravity_full
+  ladder_links --> black_holes
+  ladder_links --> casimir_diamonds
   ladder_links --> chiral_breaking
   ladder_links --> graviton_exchange
   ladder_links --> m331_breaking
@@ -114,6 +116,7 @@ flowchart LR
   ladder_links --> m331_threshold
   ladder_links --> m331_why_three
   ladder_links --> stur_gravity_entanglement
+  ladder_links --> stur_gravity_full
   m331_breaking --> m331_exact
   m331_closure --> m331_threshold
   m331_coupling_map --> m331_exact
@@ -203,7 +206,8 @@ flowchart LR
 | `ladder_links` (Symmetry ladder) | `m331_three_loop` (3-3-1 selection) | `WORST`, `pole` |
 | `ladder_links` (Symmetry ladder) | `m331_threshold` (3-3-1 selection) | `GRID` |
 | `ladder_links` (Symmetry ladder) | `m331_why_three` (3-3-1 selection) | `charges` |
-| `ladder_links` (Symmetry ladder) | `stur_gravity_entanglement` (Diamond experiment) | `C`, `G`, `HBAR` |
+| `ladder_links` (Symmetry ladder) | `stur_gravity_entanglement` (Diamond experiment) | `C`, `EPS_DIAMOND`, `G`, `HBAR`, `radius` |
+| `ladder_links` (Symmetry ladder) | `stur_gravity_full` (Diamond experiment) | `ramp_profile` |
 | `m331_breaking` (Symmetry ladder) | `m331_exact` (3-3-1 selection) | `MODELS` |
 | `m331_rho_bound` (Symmetry ladder) | `m331_threshold` (3-3-1 selection) | `gL_at`, `mzp_over_mv` |
 | `m331_rho_bound` (Symmetry ladder) | `m331_yukawa` (3-3-1 selection) | `boundary` |
@@ -260,7 +264,7 @@ flowchart LR
 | [`graviton_exchange`](src/graviton_exchange.py) | `chiral_breaking`, `stur_gravity_entanglement`, `stur_gravity_full` | The gravity rung of the ladder (SYMMETRY_LADDER.md): from linearized GR to the entangling phase of the two-diamond experiment |
 | [`macdowell_mansouri`](src/macdowell_mansouri.py) | — | The gravity rung as a broken gauge theory: MacDowell-Mansouri (1977) and Stelle-West (1980) |
 | [`black_holes`](src/black_holes.py) | `macdowell_mansouri`, `stur_gravity_full` | Black holes: the strong-field end of gravity's side column (SYMMETRY_LADDER.md, rung 6) |
-| [`ladder_links`](src/ladder_links.py) | `chiral_breaking`, `graviton_exchange`, `m331_breaking`, `m331_exact`, `m331_gravity_fixed_point`, `m331_margin`, `m331_three_loop`, `m331_threshold`, `m331_why_three`, `stur_gravity_entanglement` | Links between the rungs of the symmetry-breaking ladder (SYMMETRY_LADDER.md): places where one rung's output is another rung's input, checke |
+| [`ladder_links`](src/ladder_links.py) | `black_holes`, `casimir_diamonds`, `chiral_breaking`, `graviton_exchange`, `m331_breaking`, `m331_exact`, `m331_gravity_fixed_point`, `m331_margin`, `m331_three_loop`, `m331_threshold`, `m331_why_three`, `stur_gravity_entanglement`, `stur_gravity_full` | Links between the rungs of the symmetry-breaking ladder (SYMMETRY_LADDER.md): places where one rung's output is another rung's input, checke |
 | [`ladder_standalone`](src/ladder_standalone.py) | — | The symmetry-breaking ladder, from 3-3-1 to the two-diamond gravity experiment |
 | [`m331_rho_bound`](src/m331_rho_bound.py) | `m331_breaking`, `m331_threshold`, `m331_yukawa` | The rho parameter and the 3-3-1 scale: what electroweak precision says about w, from the tree-level Z-Z' mixing of rung 1 (src/m331_breaking |
 | [`m331_zpole`](src/m331_zpole.py) | `m331_breaking`, `m331_rho_bound`, `m331_zprime_recast` | The Z-pole observables and the 3-3-1 scale: the full tree-level electroweak-precision test of Z-Z' mixing, validated on the E6 Z' bosons, ag |
@@ -326,13 +330,15 @@ Each row is one quantity typed into scripts of more than one topic. Where it is 
 | GM☉ (m³ s⁻²) | input | Symmetry ladder, Teleparallel gravity | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone`, `stur_tegr_gr` | the Sun's mass scale: TEGR's solar-system tests and the black-hole rung's EHT and LVK masses |
 | M_Z (GeV) | input | 3-3-1 selection, Symmetry ladder | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_yukawa`, `m331_zprime_recast`, `qcd_running` |  |
 | Planck mass √(ħc/G) (GeV) | derived | 3-3-1 selection, Symmetry ladder | `black_holes`, `ladder_standalone`, `m331_exact`, `m331_standalone`, `m331_su3L_running` | the 3-3-1 selection's cutoff. It is typed as a number in the 3-3-1 scripts; it is √(ħc/G), the G the diamond experiment uses |
-| R-ratio below charm, KEDR (1.84–3.05 GeV) | input | 3-3-1 selection, Symmetry ladder | `ladder_links`, `m331_standalone`, `m331_why_three` |  |
+| R-ratio below charm, KEDR (1.84–3.05 GeV) | input | 3-3-1 selection, Symmetry ladder | `ladder_links`, `ladder_standalone`, `m331_standalone`, `m331_why_three` |  |
 | diamond density (kg/m³) | input | Diamond experiment, Symmetry ladder | `chain_first_principles`, `first_principles_standalone`, `ladder_standalone`, `stur_gravity_entanglement` |  |
 | diamond permittivity | input | Diamond experiment, Symmetry ladder | `chain_first_principles`, `first_principles_standalone`, `force_chain`, `ladder_standalone`, `stur_gravity_entanglement` |  |
 | electroweak vev (√2 G_F)^(−1/2) (GeV) | derived | 3-3-1 selection, Symmetry ladder | `ladder_standalone`, `m331_standalone`, `m331_yukawa` | derived in rung 1 and retyped in the 3-3-1 Yukawa scripts |
+| m_b (GeV), MS-bar, α_s threshold | input | 3-3-1 selection, Symmetry ladder | `ladder_links`, `ladder_standalone`, `m331_standalone`, `qcd_running` |  |
+| m_c (GeV), MS-bar, α_s threshold | input | 3-3-1 selection, Symmetry ladder | `ladder_links`, `m331_standalone`, `qcd_running` |  |
 | sin²θ_W(M_Z), MS-bar | input | 3-3-1 selection, Symmetry ladder | `chain_branches`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zpole`, `m331_zprime_recast` |  |
-| top-quark mass (GeV) | input | 3-3-1 selection, Symmetry ladder | `chain_branches`, `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `m331_margin`, `m331_scalar`, `m331_standalone`, `m331_yukawa`, `qcd_running` |  |
-| α_s(M_Z) | input | 3-3-1 selection, Symmetry ladder | `chain_first_principles`, `first_principles_standalone`, `m331_margin`, `m331_scalar`, `m331_standalone`, `qcd_running`, `why_parameters` |  |
+| top-quark mass (GeV) | input | 3-3-1 selection, Symmetry ladder | `chain_branches`, `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone`, `m331_margin`, `m331_scalar`, `m331_standalone`, `m331_yukawa`, `qcd_running` |  |
+| α_s(M_Z) | input | 3-3-1 selection, Symmetry ladder | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `m331_margin`, `m331_scalar`, `m331_standalone`, `qcd_running`, `why_parameters` |  |
 
 **Links through a formula.** Some quantities share inputs without sharing a number:
 
@@ -345,15 +351,15 @@ Values computed in one script and retyped in others instead of imported. Each co
 
 | Quantity | Source | Value | Copies |
 |---|---|---|---|
-| Planck mass √(ħc/G) (GeV) | √(ħc/G) from G, ħ, c (this tool) | 1.220890e19 | `black_holes:86` 1.220890e19 (rounded); `ladder_standalone:1161` 1.220890e19 (rounded); `m331_exact:28` 1.220890e19 (rounded); `m331_standalone:71` 1.220890e19 (rounded); `m331_su3L_running:19` 1.220890e19 (rounded) |
-| Planck length √(ħG/c³) (m) | √(ħG/c³) from G, ħ, c (this tool) | 1.616255e-35 | `black_holes:85` 1.616255e-35 (rounded); `chain_first_principles:119` 1.616255e-35 (rounded); `first_principles_standalone:97` 1.616255e-35 (rounded); `ladder_standalone:115` 1.616255e-35 (rounded); `macdowell_mansouri:267` 1.616255e-35 (rounded) |
-| electroweak vev (√2 G_F)^(−1/2) (GeV) | src/m331_breaking.py B7 | 246.22 | `ladder_standalone:363` 246.22 (rounded); `m331_standalone:70` 246.22 (rounded); `m331_yukawa:77` 246.22 (rounded) |
+| Planck mass √(ħc/G) (GeV) | √(ħc/G) from G, ħ, c (this tool) | 1.220890e19 | `black_holes:86` 1.220890e19 (rounded); `ladder_standalone:1172` 1.220890e19 (rounded); `m331_exact:28` 1.220890e19 (rounded); `m331_standalone:71` 1.220890e19 (rounded); `m331_su3L_running:19` 1.220890e19 (rounded) |
+| Planck length √(ħG/c³) (m) | √(ħG/c³) from G, ħ, c (this tool) | 1.616255e-35 | `black_holes:85` 1.616255e-35 (rounded); `chain_first_principles:119` 1.616255e-35 (rounded); `first_principles_standalone:97` 1.616255e-35 (rounded); `ladder_standalone:126` 1.616255e-35 (rounded); `macdowell_mansouri:267` 1.616255e-35 (rounded) |
+| electroweak vev (√2 G_F)^(−1/2) (GeV) | src/m331_breaking.py B7 | 246.22 | `ladder_standalone:374` 246.22 (rounded); `m331_standalone:70` 246.22 (rounded); `m331_yukawa:77` 246.22 (rounded) |
 | sin²θ_W(4 TeV) | one-loop SM running from M_Z (m331_exact.run_two_loop) | 0.250507 | `m331_zprime_recast:68` 0.2505 (rounded) |
 | 1/α(4 TeV) | one-loop SM running from M_Z (m331_exact.run_two_loop) | 125.723 | `m331_zprime_recast:69` 125.7 (rounded) |
 | M_Z′/M_V = √(4/3 (1 + β² t_X²)) at 4 TeV | src/m331_breaking.py B4, evaluated at sin²θ_W(4 TeV) | 1.22495 | `m331_heavy_lepton:274` 1.225 (rounded); `m331_margin:54` 1.225 (rounded); `m331_standalone:629` 1.225 (rounded); `m331_standalone:645` 1.225 (rounded); `m331_threshold:195` 1.225 (rounded); `m331_threshold:199` 1.225 (rounded); `m331_threshold:202` 1.225 (rounded) |
-| SU(2) coupling g at M_Z, √(4πα)/sinθ_W | from 1/α(M_Z) and sin²θ_W(M_Z) (this tool) | 0.651689 | `ladder_standalone:294` 0.652 (rounded); `m331_breaking:237` 0.652 (rounded); `m331_breaking:245` 0.652 (rounded) |
+| SU(2) coupling g at M_Z, √(4πα)/sinθ_W | from 1/α(M_Z) and sin²θ_W(M_Z) (this tool) | 0.651689 | `ladder_standalone:305` 0.652 (rounded); `m331_breaking:237` 0.652 (rounded); `m331_breaking:245` 0.652 (rounded) |
 | area-law coefficient S/(R/a)² per scalar | src/stur_unification.py U3 (results/unification/output.txt) | 0.3046 | `stur_emergent:35` 0.3046 (exact); `stur_oppenheim:47` 0.3046 (exact); `stur_thermo_gravity:54` 0.3046 (exact) |
-| design A: entangling phase Δφ (rad) | src/graviton_exchange.py N4 | 2.18681 | `ladder_standalone:616` 2.1868 (rounded) |
+| design A: entangling phase Δφ (rad) | src/graviton_exchange.py N4 | 2.18681 | `ladder_standalone:627` 2.1868 (rounded); `ladder_standalone:1487` 2.1868 (rounded) |
 
 ## Values with one source
 
@@ -392,15 +398,15 @@ These are imported from their source by every script that uses them; a typed-in 
 | Planck mass √(ħc/G) (GeV) | derived | 1.220890e19 | √(ħc/G) from G, ħ, c (this tool) | `black_holes` (rounded), `ladder_standalone` (rounded), `m331_exact` (rounded), `m331_standalone` (rounded), `m331_su3L_running` (rounded) |
 | Planck length √(ħG/c³) (m) | derived | 1.616255e-35 | √(ħG/c³) from G, ħ, c (this tool) | `black_holes` (rounded), `chain_first_principles` (rounded), `first_principles_standalone` (rounded), `ladder_standalone` (rounded), `macdowell_mansouri` (rounded) |
 | cosmological constant Λ (m⁻²) | input | 1.105600e-52 | Planck 2018 +BAO, 3H₀²Ω_Λ/c² | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone`, `macdowell_mansouri` |
-| 1/α(0) | input | 137.036 | CODATA 2018 | `chain_branches`, `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone` |
+| 1/α(0) | input | 137.036 | CODATA 2018 | `chain_branches`, `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone` (exact, rounded) |
 | 1/α(M_Z), MS-bar | input | 127.93 | PDG 2024 | `chain_first_principles`, `first_principles_standalone`, `force_chain`, `ladder_links`, `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zpole`, `m331_zprime_recast` |
 | sin²θ_W(M_Z), MS-bar | input | 0.23129 | PDG 2024 | `chain_branches`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_margin`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_zpole` (variant), `m331_zprime_recast` (variant) |
-| M_Z (GeV) | input | 91.188 | PDG 2024 | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_yukawa`, `m331_zprime_recast`, `qcd_running` |
+| M_Z (GeV) | input | 91.188 | PDG 2024 | `chain_first_principles`, `first_principles_standalone`, `ladder_links` (exact, rounded), `ladder_standalone`, `m331_breaking`, `m331_exact`, `m331_heavy_lepton`, `m331_standalone`, `m331_su3L_running`, `m331_three_generations`, `m331_yukawa`, `m331_zprime_recast`, `qcd_running` |
 | Γ_Z (GeV) | input | 2.4955 | PDG 2024 | `m331_heavy_lepton`, `m331_zprime_recast` |
 | G_F (GeV⁻²) | input | 1.166379e-5 | PDG 2024 | `chain_first_principles`, `first_principles_standalone`, `force_chain`, `ladder_links`, `ladder_standalone`, `m331_breaking` |
 | electroweak vev (√2 G_F)^(−1/2) (GeV) | derived | 246.22 | src/m331_breaking.py B7 | `ladder_standalone` (rounded), `m331_standalone` (rounded), `m331_yukawa` (rounded) |
-| α_s(M_Z) | input | 0.118 | PDG 2024 | `chain_first_principles`, `first_principles_standalone`, `m331_margin`, `m331_scalar`, `m331_standalone`, `qcd_running`, `why_parameters` |
-| top-quark mass (GeV) | input | 172.57 | PDG 2024 | `chain_branches`, `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `m331_margin`, `m331_scalar`, `m331_standalone`, `m331_yukawa`, `qcd_running` |
+| α_s(M_Z) | input | 0.118 | PDG 2024 | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `m331_margin`, `m331_scalar`, `m331_standalone`, `qcd_running`, `why_parameters` |
+| top-quark mass (GeV) | input | 172.57 | PDG 2024 | `chain_branches`, `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone`, `m331_margin`, `m331_scalar`, `m331_standalone`, `m331_yukawa`, `qcd_running` |
 | sin²θ_W(4 TeV) | derived | 0.250507 | one-loop SM running from M_Z (m331_exact.run_two_loop) | `m331_zprime_recast` (rounded) |
 | 1/α(4 TeV) | derived | 125.723 | one-loop SM running from M_Z (m331_exact.run_two_loop) | `m331_zprime_recast` (rounded) |
 | M_Z′/M_V = √(4/3 (1 + β² t_X²)) at 4 TeV | derived | 1.22495 | src/m331_breaking.py B4, evaluated at sin²θ_W(4 TeV) | `m331_heavy_lepton` (rounded), `m331_margin` (rounded), `m331_standalone` (rounded), `m331_threshold` (rounded) |
@@ -411,11 +417,11 @@ These are imported from their source by every script that uses them; a typed-in 
 | average nucleon mass (GeV) | input | 0.938919 | PDG 2024 | `chain_first_principles`, `chiral_breaking`, `first_principles_standalone`, `ladder_standalone` |
 | \|⟨q̄q⟩\|^(1/3) (GeV) | input | 0.272 | FLAG 19 (restated in FLAG 21) | `chain_first_principles`, `chiral_breaking`, `first_principles_standalone`, `ladder_standalone` |
 | m_u, m_d (GeV) | input | 0.00216 | PDG 2024 | `chain_first_principles`, `chiral_breaking`, `first_principles_standalone`, `ladder_standalone` |
-| m_c (GeV), MS-bar, α_s threshold | input | 1.27 | PDG 2024 | `m331_standalone`, `qcd_running` |
-| m_b (GeV), MS-bar, α_s threshold | input | 4.18 | PDG 2024 | `m331_standalone`, `qcd_running` |
+| m_c (GeV), MS-bar, α_s threshold | input | 1.27 | PDG 2024 | `ladder_links`, `m331_standalone`, `qcd_running` |
+| m_b (GeV), MS-bar, α_s threshold | input | 4.18 | PDG 2024 | `ladder_links`, `ladder_standalone`, `m331_standalone`, `qcd_running` |
 | SU(2) coupling g at M_Z, √(4πα)/sinθ_W | derived | 0.651689 | from 1/α(M_Z) and sin²θ_W(M_Z) (this tool) | `ladder_standalone` (rounded), `m331_breaking` (rounded) |
 | empirical g_πNN (approximate) | input | 13.1 | LIT | `chain_first_principles`, `chiral_breaking`, `first_principles_standalone`, `ladder_standalone` |
-| R-ratio below charm, KEDR (1.84–3.05 GeV) | input | 2.225 | Anashin et al. 2017 | `ladder_links`, `m331_standalone`, `m331_why_three` |
+| R-ratio below charm, KEDR (1.84–3.05 GeV) | input | 2.225 | Anashin et al. 2017 | `ladder_links`, `ladder_standalone`, `m331_standalone`, `m331_why_three` |
 | R-ratio comparison scale (GeV), KEDR range midpoint | input | 2.45 | this repository's choice | `m331_standalone`, `m331_why_three` |
 | Γ(π⁰ → γγ), PrimEx-I+II (eV) | input | 7.802 | Larin et al. 2020 | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone` |
 | PrimEx-I+II systematic error (eV) | input | 0.105 | Larin et al. 2020 | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone` |
@@ -441,80 +447,135 @@ Literals with at least three significant digits that appear in two or more scrip
 
 | Value | Scripts |
 |---|---|
+| 6.582120e-25 | `ladder_links`, `ladder_standalone` |
 | 1.467799e-14 | `chain_first_principles`, `first_principles_standalone` |
 | 7.040000e-6 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
 | 1.540000e-5 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
+| 7.490000e-5 | `ladder_links`, `ladder_standalone` |
 | 3.060000e-4 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
-| 5.109990e-4 | `chain_first_principles`, `first_principles_standalone`, `ladder_links` |
+| 5.109990e-4 | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone` |
 | 7.208434e-4 | `chain_first_principles`, `first_principles_standalone` |
 | 0.00206 | `chain_first_principles`, `first_principles_standalone`, `m331_scalar`, `why_parameters` |
+| 0.002513 | `ladder_links`, `ladder_standalone` |
 | 0.00314 | `chain_first_principles`, `first_principles_standalone`, `m331_scalar`, `why_parameters` |
 | 0.003364 | `chain_first_principles`, `chiral_breaking`, `first_principles_standalone`, `ladder_standalone` |
 | 0.00356 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
 | 0.00556 | `chain_first_principles`, `first_principles_standalone`, `m331_scalar`, `why_parameters` |
+| 0.007122 | `ladder_links`, `ladder_standalone` |
 | 0.0143 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
 | -0.0143 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
 | 0.0163 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
-| 0.0176 | `chain_first_principles`, `first_principles_standalone`, `ladder_links` |
+| 0.0176 | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone` |
+| 0.02783 | `ladder_links`, `ladder_standalone` |
+| 0.031419 | `ladder_links`, `ladder_standalone` |
+| 0.0314977 | `ladder_links`, `ladder_standalone` |
+| 0.0386 | `ladder_links`, `ladder_standalone` |
+| 0.0649 | `ladder_links`, `ladder_standalone` |
+| 0.06937 | `ladder_links`, `ladder_standalone` |
+| 0.0756 | `ladder_links`, `ladder_standalone` |
+| 0.0808 | `ladder_links`, `ladder_standalone` |
 | 0.0823774 | `chain_first_principles`, `first_principles_standalone` |
+| 0.0838 | `ladder_links`, `ladder_standalone` |
+| 0.0856 | `ladder_links`, `ladder_standalone` |
+| 0.0869 | `ladder_links`, `ladder_standalone` |
+| 0.0877 | `ladder_links`, `ladder_standalone` |
+| 0.0883 | `ladder_links`, `ladder_standalone` |
+| 0.0887 | `ladder_links`, `ladder_standalone` |
 | 0.0935 | `chain_first_principles`, `first_principles_standalone` |
-| 0.105658 | `chain_first_principles`, `first_principles_standalone`, `ladder_links` |
+| 0.105658 | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone` |
 | 0.1176 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
 | 0.1184 | `chain_first_principles`, `first_principles_standalone`, `m331_scalar`, `why_parameters` |
 | 0.12604 | `chain_first_principles`, `first_principles_standalone`, `m331_scalar`, `why_parameters` |
 | 0.1292 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
+| 0.142 | `ladder_links`, `ladder_standalone` |
+| 0.147 | `ladder_links`, `ladder_standalone` |
+| 0.1565 | `ladder_links`, `ladder_standalone` |
 | 0.22501 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
+| 0.267 | `ladder_links`, `ladder_standalone` |
 | 0.3583 | `chain_first_principles`, `first_principles_standalone`, `m331_scalar`, `why_parameters` |
+| 0.3737 | `ladder_links`, `ladder_standalone` |
 | 0.3825 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
+| 0.387 | `ladder_links`, `ladder_standalone` |
+| 0.4021 | `ladder_links`, `ladder_standalone` |
+| 0.4195 | `ladder_links`, `ladder_standalone` |
+| 0.4398 | `ladder_links`, `ladder_standalone` |
+| 0.4641 | `ladder_links`, `ladder_standalone` |
 | 0.4873 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
+| 0.494 | `ladder_links`, `ladder_standalone` |
 | 0.499 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
 | -0.499 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
 | 0.5055 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
-| 0.510999 | `ladder_links`, `stur_measurement` |
+| 0.510999 | `ladder_links`, `ladder_standalone`, `stur_measurement` |
+| 0.5326 | `ladder_links`, `ladder_standalone` |
+| 0.586 | `ladder_links`, `ladder_standalone` |
 | 0.6154 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
 | 0.64779 | `chain_first_principles`, `first_principles_standalone`, `m331_scalar`, `why_parameters` |
+| 0.6716 | `ladder_links`, `ladder_standalone` |
+| 0.77526 | `ladder_links`, `ladder_standalone` |
+| 0.8254 | `ladder_links`, `ladder_standalone` |
 | 0.9369 | `chain_first_principles`, `first_principles_standalone`, `m331_scalar`, `why_parameters` |
 | 0.967 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
-| 0.97367 | `chain_first_principles`, `first_principles_standalone`, `ladder_links` |
+| 0.97367 | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone` |
 | 0.9999 | `black_holes`, `ladder_standalone` |
 | 1.00039 | `chain_first_principles`, `first_principles_standalone`, `m331_rho_bound` |
 | 1.01 | `chain_branches`, `force_chain`, `ladder_standalone`, `stur_oppenheim` |
+| 1.01016 | `ladder_links`, `ladder_standalone` |
 | 1.062 | `chain_first_principles`, `chiral_breaking`, `first_principles_standalone`, `ladder_standalone` |
 | 1.1568 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
 | -1.1568 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
 | 1.1666 | `chain_first_principles`, `first_principles_standalone`, `m331_scalar`, `why_parameters` |
+| 1.23 | `ladder_links`, `ladder_standalone` |
+| 1.273 | `ladder_links`, `ladder_standalone` |
 | 1.4187 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
 | 1.5251 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
 | 1.58114 | `chain_first_principles`, `first_principles_standalone` |
-| 1.77693 | `chain_first_principles`, `first_principles_standalone`, `ladder_links` |
+| 1.77693 | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone` |
+| 1.84 | `ladder_links`, `ladder_standalone` |
 | 1.96 | `m331_rho_bound`, `short_range_gravity` |
+| 3.05 | `ladder_links`, `ladder_standalone` |
 | 3.07 | `chain_first_principles`, `chiral_breaking`, `first_principles_standalone`, `ladder_standalone` |
+| 4.183 | `ladder_links`, `ladder_standalone` |
+| 15.35 | `ladder_links`, `ladder_standalone` |
 | 32.2 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
 | 33.6 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
+| 42.2 | `ladder_links`, `ladder_standalone` |
+| 44.9 | `ladder_links`, `ladder_standalone` |
 | 51.8 | `black_holes`, `ladder_standalone` |
+| 60.9 | `ladder_links`, `ladder_standalone` |
 | 62.7 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
-| 80.3692 | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `m331_breaking`, `m331_scalar` |
+| 80.3692 | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone`, `m331_breaking`, `m331_scalar` |
 | 80.384 | `chain_first_principles`, `first_principles_standalone`, `m331_scalar`, `why_parameters` |
+| 80.4 | `ladder_links`, `ladder_standalone` |
 | 125.15 | `chain_first_principles`, `first_principles_standalone`, `m331_scalar`, `why_parameters` |
-| 125.2 | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `m331_scalar` |
+| 125.2 | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone`, `m331_scalar` |
 | 126.3 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
 | 129.6 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
 | 138 | `chain_branches`, `m331_heavy_lepton` |
+| 159.5 | `ladder_links`, `ladder_standalone` |
 | 171 | `chain_first_principles`, `first_principles_standalone` |
 | 171.2 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
 | 171.53 | `chain_first_principles`, `first_principles_standalone`, `why_parameters` |
 | 173.34 | `chain_first_principles`, `first_principles_standalone`, `m331_scalar`, `why_parameters` |
 | 221 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
 | 247 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
-| 3755.1 | `force_chain`, `ladder_links` |
+| 365.25 | `ladder_links`, `ladder_standalone` |
+| 931.494 | `ladder_links`, `ladder_standalone` |
+| 938.272 | `ladder_links`, `ladder_standalone` |
+| 939.565 | `ladder_links`, `ladder_standalone` |
+| 3755.1 | `force_chain`, `ladder_links`, `ladder_standalone` |
 | 7959 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
 | 8277 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
+| 5.109990e5 | `ladder_links`, `ladder_standalone` |
 | 3.975000e6 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
 | 4.297000e6 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
 | 1.790000e7 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
-| 3.840800e7 | `chain_first_principles`, `first_principles_standalone`, `ladder_links` |
+| 3.840800e7 | `chain_first_principles`, `first_principles_standalone`, `ladder_links`, `ladder_standalone` |
+| 9.207000e7 | `ladder_links`, `ladder_standalone` |
+| 1.349768e8 | `ladder_links`, `ladder_standalone` |
+| 1.378700e10 | `ladder_links`, `ladder_standalone` |
 | 5.156000e11 | `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
 | 1.125800e15 | `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
 | 3.085678e16 | `black_holes`, `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
 | 3.491030e19 | `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
+| 5.340000e25 | `ladder_links`, `ladder_standalone` |
 | 2.289690e29 | `chain_first_principles`, `first_principles_standalone`, `ladder_standalone` |
