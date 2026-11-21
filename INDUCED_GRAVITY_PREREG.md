@@ -1,7 +1,7 @@
 # Pre-registration: is G induced by stage 1's own matter, cut off at its Landau pole?
 
 *Written before the calculation, so that the pass and fail conditions can't be moved to fit the
-result. Independent work, not peer reviewed. Status: **registered, not yet computed.***
+result. Independent work, not peer reviewed. Status: **registered, then computed: FAIL** (result appended below, the registration above unchanged).*
 
 ## The hypothesis (MODEL)
 
@@ -90,3 +90,38 @@ It suggested that the selected variant's sign is marginal (close to zero at ξ =
 conditions above were chosen for the physics reasons stated, not adjusted to that tally. The
 structural ξ values and the factor-3 band are the natural choices, and the variant test
 was added so that a pass could not be trivial.
+
+---
+
+## Result (computed after registration)
+
+Run it: `python3 src/induced_gravity.py` (standard library only, under a second; output in
+[results/induced_gravity/output.txt](results/induced_gravity/output.txt)). Pinned by
+[`tests/test_induced_gravity.py`](tests/test_induced_gravity.py).
+
+| β | N_V, N_W, N_S | str[k₁] at ξ = 0 | at ξ = 1/6 | U(1)_X pole (1 loop / 3 loops) |
+|---|---|---|---|---|
+| +1/√3 (selected) | 17, 69, 18 | **+19/6** | **+1/6** | 4.37 / 2.86 M_Pl |
+| −1/√3 | 17, 66, 18 | +8/3 | −1/3 | 3.7×10¹⁰ / 1.9×10¹⁰ M_Pl |
+
+- **Selected variant: FAIL.** str[k₁] is positive at both structural values of ξ, so
+  induced 1/G is not positive. The 17 vectors (−34/3) do not outweigh 69 Weyl fermions
+  (+23/2); the scalars only add to the wrong sign unless ξ > 1/6.
+- **Fit (CONDITIONAL, not a prediction).** A positive G with the cutoff at the pole needs
+  ξ = 0.194 (one-loop pole) or 0.219 (three-loop pole); the band of the registration allows
+  ξ from 0.178 to 0.56. ξ is then one new parameter traded for G: no net prediction.
+- **Variant test: as required.** β = −1/√3 gives a positive G at ξ = 1/6, but needs a cutoff
+  of 5.3×10¹⁹ GeV, 10⁻¹⁰ of its pole: far outside the band.
+- Not counted, because it was not registered and it mixes the two variants: the cutoff the
+  β = −1/√3 content needs at ξ = 1/6 (5.30×10¹⁹ GeV) lies within 0.6% of the β = +1/√3
+  one-loop pole (5.34×10¹⁹ GeV). The two contents differ by three Weyl fermions. This is
+  recorded as a coincidence, not as evidence.
+- Kabat's contact-term question was registered as a hurdle for a pass. With a fail at the
+  structural values it is not needed. A larger negative vector term would move the selected
+  variant's ξ = 1/6 value across zero: str = 1/6 needs the 17 vectors to give 1/6 more,
+  1.5% of their −34/3. So the conformal case is within reach of that one theory question.
+
+**What this means for the chain.** G is not derived from stage 1 by Sakharov's mechanism with
+the registered assumptions. Of the three relations to gravity left after the graviGUT
+no-go, this one fails, and supersymmetry fails its count. The asymptotic-safety route, which
+fixes 3-3-1's couplings but not G, is the one remaining.

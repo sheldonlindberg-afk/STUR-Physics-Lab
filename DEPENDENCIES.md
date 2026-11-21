@@ -6,7 +6,7 @@ This page records which script feeds which, and which physical quantities each o
 
 ## Summary
 
-- **55 scripts** in `src/`, in 6 topics; **102 imports** between them, 37 of them across topics. 11 scripts import nothing from the others and nothing imports them.
+- **56 scripts** in `src/`, in 6 topics; **103 imports** between them, 38 of them across topics. 11 scripts import nothing from the others and nothing imports them.
 - **53 catalogued quantities** (38 measured inputs, 15 derived in the repository), found as 314 literals in the source.
 - **44 quantities are typed in more than one script**; 20 of them are shared by more than one topic.
 - **2 copies differ from their source for a stated reason**; **0 differ without one (drift).**
@@ -36,6 +36,7 @@ flowchart LR
     m331_matrix_check
     m331_coupling_map
     m331_gravigut_nogo
+    induced_gravity
     why_parameters
     qcd_running
     rge_engine
@@ -105,6 +106,7 @@ flowchart LR
   graviton_exchange --> chiral_breaking
   graviton_exchange --> stur_gravity_entanglement
   graviton_exchange --> stur_gravity_full
+  induced_gravity --> chain_first_principles
   ladder_links --> black_holes
   ladder_links --> casimir_diamonds
   ladder_links --> chiral_breaking
@@ -202,6 +204,7 @@ flowchart LR
 | `force_chain` (Symmetry ladder) | `stur_gravity_full` (Diamond experiment) | `casimir_safe_gap` |
 | `graviton_exchange` (Symmetry ladder) | `stur_gravity_entanglement` (Diamond experiment) | `G`, `HBAR` |
 | `graviton_exchange` (Symmetry ladder) | `stur_gravity_full` (Diamond experiment) | `design_a`, `ramp_profile`, `trajectory_dphi` |
+| `induced_gravity` (3-3-1 selection) | `chain_first_principles` (Symmetry ladder) | `gauge331`, `inputs`, `links`, `running` |
 | `ladder_links` (Symmetry ladder) | `m331_exact` (3-3-1 selection) | `MODELS`, `M_PLANCK` |
 | `ladder_links` (Symmetry ladder) | `m331_gravity_fixed_point` (3-3-1 selection) | `f_profile`, `f_separatrix_sm` |
 | `ladder_links` (Symmetry ladder) | `m331_margin` (3-3-1 selection) | `ALPHA1`, `FLOORS`, `pole` |
@@ -254,6 +257,7 @@ flowchart LR
 | [`m331_matrix_check`](src/m331_matrix_check.py) | `m331_exact`, `m331_yukawa` | An independent route to the 3-3-1 gauge beta-function coefficients (NOTE_331.md, section 3) |
 | [`m331_coupling_map`](src/m331_coupling_map.py) | `m331_exact`, `qcd_running` | The 3-3-1 selection without the measured couplings: a map of coupling space (NOTE_331.md, section 4a) |
 | [`m331_gravigut_nogo`](src/m331_gravigut_nogo.py) | `chain_first_principles` | Can stage 1's 3-3-1 gauge theory and stage 7's gravity gauge theory come from one group? Stage 1 of the merged simulation (src/chain_first_p |
+| [`induced_gravity`](src/induced_gravity.py) | `chain_first_principles` | Is Newton's constant induced by stage 1's own matter, cut off at its U(1)_X Landau pole? The test registered in INDUCED_GRAVITY_PREREG.md, c |
 | [`why_parameters`](src/why_parameters.py) | `ladder_links`, `m331_exact`, `m331_rho_bound`, `m331_scalar`, `m331_threshold`, `m331_yukawa` | Why do the Standard Model's 19 parameters have their values? What can be said, and tested |
 | [`qcd_running`](src/qcd_running.py) | — | Two-loop MS-bar running of the strong coupling, used by the 3-3-1 scripts. |
 | [`rge_engine`](src/rge_engine.py) | — | General one-loop RGEs for quartic and Yukawa couplings (real scalars, two-component fermions) |
