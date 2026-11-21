@@ -62,6 +62,10 @@
 - /src/ladder_standalone.py — the whole ladder in one file, standard library only: paste
   into any Python runner or AI code tool; 102 PASS/FAIL checks, tagged math / data / pinned
   (expected output: /results/ladder/standalone.txt)
+- /src/gravity_from_331.py — gravity from the 3-3-1 gauge theory, one standard-library file: the no-go
+  (gravity's gauge group is not derived from 3-3-1) and Newton's G induced by stage 1's own fields at its
+  Landau pole, within an order of magnitude, with the loop closing on three colours (expected output:
+  /results/gravity/output.txt; notes: /INDUCED_GRAVITY.md, /GRAVIGUT_NOGO.md)
 - /src/chain_first_principles.py — the force chain on the blind first-principles rebuild, in one
   file, standard library only; derived values replace outside numbers and each result is compared
   with its measurement (expected output: /results/chain_first_principles.txt)

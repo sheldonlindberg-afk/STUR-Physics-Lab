@@ -270,8 +270,9 @@ python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no depend
 python3 src/why_parameters.py        # the 19 parameters: explanations tested, 3-3-1 flavour, ~3 s
 python3 src/m331_gravigut_nogo.py    # no derivation of stage 7's gravity from stage 1's 3-3-1: the graviGUT no-go, ~3 s
 python3 src/induced_gravity.py       # G induced by stage 1's matter at its Landau pole: M_Pl within a factor 3, <1 s
+python3 src/gravity_from_331.py      # all of it in one paste: the no-go, the induced G, the loop to N_c = 3, ~3 s
 python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (375 tests)
+python -m pytest tests -q           # every number pinned (379 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on

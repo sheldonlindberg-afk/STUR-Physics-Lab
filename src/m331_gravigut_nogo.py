@@ -54,10 +54,12 @@ from collections import Counter
 from fractions import Fraction
 from functools import lru_cache
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import chain_first_principles as CFP            # the merged simulation: stage 1's blind-build modules
+_CFP = globals().get("CFP")                     # an embedded copy (src/gravity_from_331.py) is handed CFP
+if _CFP is None:                                # as a repository script: the merged simulation's blind-build stages
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import chain_first_principles as _CFP
 
-gauge331, running = CFP.gauge331, CFP.running
+gauge331, running = _CFP.gauge331, _CFP.running
 VARIANTS = gauge331.VARIANTS
 
 
