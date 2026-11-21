@@ -6,13 +6,21 @@
    [math] PASS  matter is exactly neutral, beta = -1/sqrt3: q_p + q_e = 0, q_n = 0, Q_nu = 0
    [math] PASS  matter is exactly neutral, beta = +1/sqrt3: q_p + q_e = 0, q_n = 0, Q_nu = 0
    [math] PASS  q_p + q_e equals the gauge anomaly per generation, identically in (N_c, b, X_L, X_t)
-   Planck mass from the measured G: 1.220890e+19 GeV
+   Planck mass from the measured G: 1.220890e+19 GeV (its scale is checked against the induced one below)
    beta = -1/sqrt3: one-loop Landau poles 4.470e+29 GeV (N_c = 3), 1.900e+15 GeV (N_c = 5);  = 3.66e+10 and 0.000156 M_Pl
       G window in which pole_5 < M_Pl < pole_3: 7.46e-22 < G/G_measured < 4.13e+07
    beta = +1/sqrt3: one-loop Landau poles 5.335e+19 GeV (N_c = 3), 7.265e+11 GeV (N_c = 5);  = 4.37 and 5.95e-08 M_Pl
       G window in which pole_5 < M_Pl < pole_3: 0.0524 < G/G_measured < 2.82e+14
    [math] PASS  N_c = 3 is selected against the Planck mass (beta = +1/sqrt3): pole_5 < M_Pl < pole_3
    [math] PASS  the G window is the one the poles and M_Pl give by hand-off
+   Gravity's scale from stage 1's own matter (induced at one loop, cut off at the U(1)_X pole):
+      beta = -1/sqrt3: 17 vectors, 66 Weyl fermions, 18 scalars; induced M_Pl / measured = 2.39e+10, 1.22e+10, none, none  (xi = 0, 1/6 at the one- and three-loop pole)
+      beta = +1/sqrt3: 17 vectors, 69 Weyl fermions, 18 scalars; induced M_Pl / measured = 3.1, 2.03, 0.712, 0.466  (xi = 0, 1/6 at the one- and three-loop pole)
+   [math] PASS  the induced 1/G is positive for the selected variant at both structural couplings (xi = 0, 1/6)
+   [math] PASS  the induced Planck mass lies below the N_c = 3 pole it is cut off at: the selection is self-consistent
+   [model] PASS  the measured Planck mass lies in the band stage 1 induces (beta = +1/sqrt3)  (induced 0.47 to 3.10 x measured, so G is 0.10 to 4.6 x measured)
+   [model] PASS  the other variant cannot induce it: its pole is too high  (closest induced M_Pl 1.2e+10 x measured)
+   [model] PASS  N_c = 5 at its own pole cannot induce it  (induced M_Pl 9.24e+11 GeV = 7.6e-08 x measured)
    [math] PASS  the photon is massless: M.n = 0 for the derived direction n  (|M n|/M_max^2 = 8.9e-17)
    [math] PASS  the mass matrix's Z, with the 3-3-1 scale taken to infinity, is the tree-level formula's  (91.506456 vs 91.506456 GeV)
    g = 0.65169 (from alpha(M_Z), sin^2 theta_W);  g_X = 0.37687 (fixed by the photon's coupling);  v = 246.220 GeV (from G_F)
@@ -167,6 +175,8 @@ What the chain no longer takes from outside
       from anomaly cancellation (stage gauge331)
    number of colours N_c: 3
       from the Landau poles against M_Pl (stages running, links); one loop
+   gravity's scale (M_Pl, to within a factor 3): 0.47 to 3.10 x the measured value
+      from the one-loop induced G of stage 1's fields at its U(1)_X pole (campaign induced_g); measured G is now a check on it, and its digits a precision input downstream
    pion decay constant f_pi: 130.567 MeV
       from G_F and the pion's weak decay (stage weak), in place of the lattice value
    pion mass m_pi: 132.3 MeV
@@ -174,7 +184,7 @@ What the chain no longer takes from outside
    gap between the diamonds: 181.11 um
       from the Casimir-Polder force (stage casimir)
 
-   Still measured (rebuild/inputs.py): G, hbar, c, k_B, e; alpha at M_Z and at 0, sin^2 theta_W, G_F;
+   Still measured (rebuild/inputs.py): G's digits (a check on its derived scale), hbar, c, k_B, e; alpha at M_Z and at 0, sin^2 theta_W, G_F;
    the pion's decay rate, its radiative correction and |V_ud|; the lattice constants; g_A and the
    nucleon and pion masses; Lambda; diamond's permittivity and density; the astronomical data.
    Chosen, not measured: the 3-3-1 scale MU_331, the ratio v1/v2, the diamond design.
@@ -224,9 +234,10 @@ The fit: every derived value that has a measurement
                   derived 244.071, measured 221 +- 39; from the derived Kerr remnant (the mode formula is a quoted fit)
 
    chi^2 = 3.76 for 8 comparisons (not independent: several share f_pi); largest |pull| = 1.30
-   [math] checks: 38/38 pass
+   [math] checks: 40/40 pass
+   [model] checks: 3/3 pass
 
-   VERDICT: every hand-off checks, and every derived value is within 2 sigma of its measurement.
+   VERDICT: every hand-off checks, every derived value is within 2 sigma of its measurement, and the measured G lies in the band stage 1 induces.
    This tests the chain's wiring and its derived numbers. It does not test the measured inputs,
    and step 1's tree-level M_Z is outside this verdict because the chain has no loop corrections.
    Step 9's [conj] and [emp] rows are outside it too: they test explanations, not the chain.
