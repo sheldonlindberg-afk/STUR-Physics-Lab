@@ -257,7 +257,7 @@ flowchart LR
 | [`m331_matrix_check`](src/m331_matrix_check.py) | `m331_exact`, `m331_yukawa` | An independent route to the 3-3-1 gauge beta-function coefficients (NOTE_331.md, section 3) |
 | [`m331_coupling_map`](src/m331_coupling_map.py) | `m331_exact`, `qcd_running` | The 3-3-1 selection without the measured couplings: a map of coupling space (NOTE_331.md, section 4a) |
 | [`m331_gravigut_nogo`](src/m331_gravigut_nogo.py) | `chain_first_principles` | Can stage 1's 3-3-1 gauge theory and stage 7's gravity gauge theory come from one group? Stage 1 of the merged simulation (src/chain_first_p |
-| [`induced_gravity`](src/induced_gravity.py) | `chain_first_principles` | Is Newton's constant induced by stage 1's own matter, cut off at its U(1)_X Landau pole? The test registered in INDUCED_GRAVITY_PREREG.md, c |
+| [`induced_gravity`](src/induced_gravity.py) | `chain_first_principles` | Is Newton's constant induced by stage 1's own matter, cut off at its U(1)_X Landau pole? The test of INDUCED_GRAVITY.md |
 | [`why_parameters`](src/why_parameters.py) | `ladder_links`, `m331_exact`, `m331_rho_bound`, `m331_scalar`, `m331_threshold`, `m331_yukawa` | Why do the Standard Model's 19 parameters have their values? What can be said, and tested |
 | [`qcd_running`](src/qcd_running.py) | — | Two-loop MS-bar running of the strong coupling, used by the 3-3-1 scripts. |
 | [`rge_engine`](src/rge_engine.py) | — | General one-loop RGEs for quartic and Yukawa couplings (real scalars, two-component fermions) |
