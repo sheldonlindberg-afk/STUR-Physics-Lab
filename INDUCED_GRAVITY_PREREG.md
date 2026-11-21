@@ -1,7 +1,7 @@
 # Pre-registration: is G induced by stage 1's own matter, cut off at its Landau pole?
 
 *Written before the calculation, so that the pass and fail conditions can't be moved to fit the
-result. Independent work, not peer reviewed. Status: **registered, then computed: FAIL** (result appended below, the registration above unchanged).*
+result. Independent work, not peer reviewed. Status: **registered; computed as registered: FAIL; the registered formula's overall sign then found to be wrong; with the sign corrected and nothing else changed: PASS** (both results below; the registration above unchanged).*
 
 ## The hypothesis (MODEL)
 
@@ -125,3 +125,67 @@ Run it: `python3 src/induced_gravity.py` (standard library only, under a second;
 the registered assumptions. Of the three relations to gravity left after the graviGUT
 no-go, this one fails, and supersymmetry fails its count. The asymptotic-safety route, which
 fixes 3-3-1's couplings but not G, is the one remaining.
+
+---
+
+## Correction: the registered formula has the wrong overall sign
+
+The registration quoted 1/G = −(1/2π) str[k₁] κ² from Visser's eq. (21) and said that its
+sign "was checked against Visser's own statement in eq. (29), and not re-derived". Re-deriving
+it gives the opposite sign. In the standard convention, attractive gravity has G > 0 and the
+Euclidean action is −(1/16πG)∫√g R. For bosons W = ½ ln det D = −½∫_{1/κ²}^∞ (dt/t) Tr e^{−tD},
+and the heat-kernel term (4πt)⁻² t ∫√g a₁ gives W ⊃ −(κ²/32π²)∫√g a₁. So
+
+**1/G = +(1/2π) str[k₁] κ²,  M_Pl² = +str[k₁] κ²/(2π): positive G needs str[k₁] > 0.**
+
+Independent sources, read verbatim where stated:
+- F. Larsen and F. Wilczek, Nucl. Phys. B458 (1996) 249,
+  [arXiv:hep-th/9506066](https://arxiv.org/abs/hep-th/9506066), sec. 3.3:
+  1/G_ren = 1/G_bare + (1/2π)(1/6 − ξ)/ε² for a scalar. This is the corrected formula, with κ = 1/ε.
+- S. Solodukhin, Living Rev. Rel. 14 (2011) 8, [arXiv:1104.3712](https://arxiv.org/abs/1104.3712):
+  eqs. (115) and (141) give a positive scalar contribution. Sec. 3.15 says that for Dirac fermions the
+  signs combine to "the total positive contribution to Newton's constant".
+- Gauge vectors are negative: the heat-kernel value (4/6 − 1) − 2·(1/6) = −2/3 per generator with
+  ghosts, as in Visser's Table I and Vassilevich. This was read only in summary for Larsen–Wilczek and
+  Solodukhin's vector equation.
+- Kabat's contact term: "For spin one the two entropies differ by a contact interaction with the
+  horizon which appears in the black hole entropy but not in the entropy of entanglement"
+  ([arXiv:hep-th/9503016](https://arxiv.org/abs/hep-th/9503016), abstract, verbatim). It concerns
+  the entropy. It does not change the vector's heat-kernel contribution to 1/G, so the registered
+  coefficients stand. Kabat's equations were not read.
+
+The species coefficients, the inputs, the ξ values, the band and the variant test are all
+unchanged. Only the sign of the relation between str[k₁] and 1/G is corrected.
+
+| Selected β = +1/√3 | str[k₁] | κ needed | / 1-loop pole | / 3-loop pole | In band [1/3, 3] |
+|---|---|---|---|---|---|
+| ξ = 0 | +19/6 | 1.41 M_Pl | 0.32 | 0.49 | yes (3-loop pole) |
+| ξ = 1/6 | +1/6 | 6.14 M_Pl | 1.40 | 2.15 | yes (both) |
+
+β = −1/√3: ξ = 0 needs a cutoff 10⁻¹⁰ of its pole, and ξ = 1/6 gives no positive G. **The registered
+table now reads PASS (prediction), and the variant test discriminates.**
+
+**What it predicts (MODEL).** M_Pl = pole · √(str[k₁]/2π) gives 0.47–3.1 times the measured
+Planck mass, so G is 0.10–4.6 times the measured value, from stage 1's field content and
+couplings alone. The spread is the registered ξ ∈ {0, 1/6} and the 1- vs 3-loop pole. It closes
+stage 1 on itself: str[k₁] < 2π, so the induced M_Pl lies below the N_c = 3 pole, which is
+the selection's own condition.
+
+**How much weight it carries, stated plainly.**
+- The pass appeared only after a correction made once the result was known. The correction is
+  forced by the literature, not chosen, but a reader should weigh it as a post-hoc correction.
+- What is tested is an order of magnitude. Most of the content is two facts: the selected
+  variant's pole happens to lie at 3–4 M_Pl, and its fermions outweigh its vectors. The variant
+  test shows that the first fact is not automatic: the other variant's pole is 10¹⁰ M_Pl.
+- Sakharov's assumptions remain: no tree-level 1/G₀, and a proper-time cutoff identified with
+  a Landau pole, which is a criterion (α_X = 1), not a physical scale. The graviton loop is not
+  included.
+- Not registered, reported only: the same loop induces a vacuum energy with str[1] = −86,
+  of order κ⁴, about 10¹²² times the measured cosmological constant. That is the cosmological
+  constant problem, unchanged. The N_c = 5 content at its own pole would induce
+  M_Pl ≈ 9×10¹¹ GeV, 10⁻⁷ of the measured value, so N_c = 3 is the only one of the two that
+  reproduces G.
+
+**Status for the chain:** a MODEL result worth a blind rebuild, not a derivation yet. The next
+gates are an independent build of the induced coefficient and a verifier check of the sign.
+After that it could become a candidate stage 0, with the measured G as a branch with a pull.

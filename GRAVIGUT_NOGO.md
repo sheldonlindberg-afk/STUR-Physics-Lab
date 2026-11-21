@@ -42,7 +42,7 @@ already says: the step from 6 to 7 is a change of language, not of physics.
 - Supergroups beyond N5's count, and Kaluza–Klein constructions.
 - Gravity that is not unified with 3-3-1 but fixes its couplings (asymptotic safety,
   [`src/m331_gravity_fixed_point.py`](src/m331_gravity_fixed_point.py)) or is induced by its
-  matter (Sakharov). Those are the next steps, in [INDUCED_GRAVITY_PREREG.md](INDUCED_GRAVITY_PREREG.md).
+  matter (Sakharov), tested in [INDUCED_GRAVITY_PREREG.md](INDUCED_GRAVITY_PREREG.md).
 
 ## Sources
 
