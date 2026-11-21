@@ -65,6 +65,16 @@
 - /src/chain_first_principles.py — the force chain on the blind first-principles rebuild, in one
   file, standard library only; derived values replace outside numbers and each result is compared
   with its measurement (expected output: /results/chain_first_principles.txt)
+- /rebuild/campaigns/ — Links 24-34 of the ladder, each built twice blind (hidden oracle, adversarial audit with
+  an independent derivation and deliberately wrong code): black-hole grey-body emission weights, Casimir-Polder from
+  the atom's response, the Higgs and whole one-loop Delta r (gauge-parameter independent in general R_xi), fermion
+  loops, the leading QCD correction (M_W 80.474 -> 80.410 GeV vs 80.369 measured), charged black-hole emission
+  (Carr's 0.142 reproduced by one convention, not derived), the nucleon polarizability from the pion cloud.
+  Builders were AI models that could recall textbook results; isolation is of files, not knowledge.
+- /STRUCTURE_NOTES.md — does compressing these formalisms into one ladder expose unnoticed structure? Mostly known
+  results; one candidate (convention dependence of the charged-hole weight), novelty not established.
+- /LINKS_SCOPING.md, /HOLOGRAPHY_NOTE.md, /MW_RESIDUAL_NOTE.md — scoping notes: the empty rung-link cells, the status
+  of the microstate reading of de Sitter entropy (a conjecture), and the literature accounting of the remaining 0.04 GeV in M_W.
 - /WHY.md — why the measured inputs have their values: the Standard Model's 19 parameters sorted
   by what is known (11 unexplained, 3 relations, 2 empirical regularities, 3 conjectures; none
   derived), each published explanation tested against data, and quark flavour in 3-3-1; step 9 of
