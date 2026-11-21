@@ -286,6 +286,7 @@ paper/                    the 3-3-1 note: PDF, LaTeX source, and its own README 
 notebooks/                study notebooks with exercises
 NOTE_331.md               the 3-3-1 note with extended detail on each check
 NOVELTY.md                literature search: what is new, what was already known
+CLAIMS.md                 every headline claim: label, the tests that pin it, assumptions, falsifier
 NOTE_TEGR.md              the frame in teleparallel gravity and black-hole entropy
 FORCE_CHAIN.md            the forces as one chain, from 3-3-1 into black holes and back
 WHY.md                    why these inputs? the 19 parameters, explanations tested, sources
