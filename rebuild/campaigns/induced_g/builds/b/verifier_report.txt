@@ -1,0 +1,23 @@
+== contract
+   [PASS] export k1
+   [PASS] export inv_G
+   [PASS] export mpl
+   [PASS] PROVENANCE is a dict covering every export
+   [PASS] PROVENANCE[k1] valid (kind and note)
+   [PASS] PROVENANCE[inv_G] valid (kind and note)
+   [PASS] PROVENANCE[mpl] valid (kind and note)
+   [PASS] DERIVATION.md exists
+== lint
+   [PASS] lint
+== blind
+   [PASS] scalar k1: linear in xi, slope -1
+   [PASS] spinor k1 scales with the spinor dimension; Weyl = Dirac/2
+   [PASS] vector k1 linear in d; ghost part independent of d
+   [PASS] 1/G: kappa^2 scaling, additive, zero without fields
+   [PASS] mpl consistent with inv_G
+== oracle
+   [PASS] k1 per kind and dimension  (k1 for every kind at d = 2..10 against tr(E + R/6): worst 0.0e+00)
+   [PASS] the signs of 1/G per species  (one minimal scalar +0.0265, one Weyl +0.0265, one vector -0.1061 (scalars and fermions positive, vectors negative))
+   [PASS] 1/G at general counts  (1/G against (kappa^2/2pi) str[k1] at 5 points: worst 1.1e-14)
+   [PASS] stage 1's content  (stage 1's content at its pole: M_Pl = 3.787794118382607e+19 (beta = +1/sqrt3, xi = 0); beta = -1/sqrt3 at xi = 1/6 has no positive G: None)
+GATE PASSED

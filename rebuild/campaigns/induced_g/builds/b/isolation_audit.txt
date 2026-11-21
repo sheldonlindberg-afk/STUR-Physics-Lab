@@ -1,0 +1,3 @@
+transcript sha256: 80032ceaee7e9d75b3c944f9c66a3171570423ed791be5136d374d29b2c531a6
+tool calls: {'Bash': 5, 'SubagentHandback': 1}
+ISOLATION RECORD CLEAN
