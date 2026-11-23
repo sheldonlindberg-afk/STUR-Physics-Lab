@@ -1,4 +1,13 @@
-# Gravity and the Quantum: Worked Examples — AI/LLM information
+# Quantum Gravity Algorithm — AI/LLM information
+
+> The centre of this repository is ckm_from_331_overlaps.py: one standard-library Python
+> script that computes quark masses and the CKM matrix in the beta = -1/sqrt(3) 3-3-1 model
+> with no fitted inputs. Profiles on an internal coordinate are modes of operators set by
+> each field's quantum numbers, solved self-consistently with the U(1)_X background that all
+> fermions source. Result: the converged solution is parity-even, several light quarks are
+> massless, the mixing is not realistic and J = 0. Expected output: results/ckm_331/output.txt.
+
+## Earlier work in this repository
 
 > Reproducible worked examples at the gravity-quantum interface, for physics students
 > and physicists, plus one research note (independent work, not peer reviewed). Topics:

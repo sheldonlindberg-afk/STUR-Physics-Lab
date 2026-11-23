@@ -1,6 +1,6 @@
 {
-  "name": "Gravity and the Quantum: Worked Examples",
-  "short_name": "Gravity & Quantum",
+  "name": "Quantum Gravity Algorithm",
+  "short_name": "QG Algorithm",
   "description": "Reproducible worked examples at the gravity-quantum interface, for physics students and physicists",
   "start_url": "./",
   "display": "standalone",
