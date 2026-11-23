@@ -1,7 +1,7 @@
 ==============================================================================
 STUR Physics Lab, production v2.2: nothing tuned, nothing fitted
 ==============================================================================
-Inputs: 34 measured or defined constants (INPUTS). Comparisons: 8 measured results, never used in a calculation.
+Inputs: 31 measured or defined constants (INPUTS). Comparisons: 8 measured results, never used in a calculation.
 
 PART A. COSMOLOGY (flat Lambda-CDM, Friedmann equation)
 ------------------------------------------------------------------------------
@@ -301,11 +301,14 @@ PART H. WHERE QUANTUM THEORY AND GRAVITY MEET (established physics)
       (t_evap counts photon emission only; more particle species shorten it)
   H4. Unruh effect: an accelerated observer sees the vacuum as thermal
       at g = 9.7983 m/s^2: T = 3.9732e-20 K;  1 K needs a = 2.4661e+20 m/s^2
-  H5. Gravity as a mediator of entanglement (two masses, each in two places)
-      design: m = 1e-14 kg, separation 250e-6 m, closest distance 450e-6 m, time 2.5 s
-      entangling phase 0.0661 rad, concurrence 0.0330, entanglement entropy 0.0036 bits
-      if gravity can carry quantum information this entanglement appears; a classical
-      gravitational field cannot create it (concurrence 0). Measuring it is the open test.
+  H5. The smallest mass that gravity can ever entangle maximally (two masses, each in two places)
+      limits: entangling phase pi (concurrence 1); time <= age of the universe (Part A);
+      separation >= the Compton wavelength hbar/(m c). Then m >= (pi hbar^2 / (G c t0))^(1/3).
+      m_min = 1.5888e-28 kg = 89.1 MeV/c^2 = 0.095 m_p, at separation 2.214e-15 m
+      check: phase 3.141593 rad, concurrence 1.000000, entropy 1.000000 bits
+      Anything lighter cannot be fully entangled by gravity in the lifetime of the universe.
+      A classical gravitational field cannot entangle at all (concurrence 0): measuring
+      gravity-made entanglement in any system is the open test of whether gravity is quantum.
   H6. Why gravity is so weak for a proton: the strong scale comes from logarithmic running
       alpha_s(M_P) = 0.01886 (Standard Model running to M_P, no new physics assumed)
       Lambda_QCD(5 flavours, 2-loop) = 0.2262 GeV;  ln(M_P/Lambda) = 45.43;  one-loop 2pi/(b0 alpha_s(M_P)) = 47.58
@@ -319,11 +322,16 @@ PART H. WHERE QUANTUM THEORY AND GRAVITY MEET (established physics)
       Hubble radius / proton Compton length    6.5300e+41   log10    41.81   Dirac's large number; its closeness to 1/alpha_G is unexplained
       rho_Lambda / rho_Planck                 1.1319e-123   log10  -122.95   the cosmological-constant problem: open
       S_dS x rho_Lambda / rho_Planck           3.7500e-01   log10    -0.43   = 3/8 exactly: the 10^122 and 10^-123 are one fact
+      (hbar^2 H0/(G c))^(1/3) / m_pi           4.2868e-01   log10    -0.37   Weinberg 1972: same order as 1; unexplained
+      H5 smallest entangled mass / m_pi        6.3859e-01   log10    -0.19   same combination as Weinberg's (t0 ~ 1/H0)
   RESULT: every number above is calculated from G, hbar, c, k_B and measured masses. Two of
     the apparent large-number coincidences are exact identities (alpha_G = (m_p/M_P)^2 and
     S_dS rho_Lambda/rho_P = 3/8). One has a known mechanism (the proton/Planck hierarchy from
     logarithmic running). Open: alpha, the Yukawa couplings, rho_Lambda, and whether gravity
     carries entanglement (H5) - the measurement that would decide if gravity is quantum.
+    A coincidence to watch: the smallest mass gravity can entangle within the age of the universe
+    (H5) is 0.64 m_pi - the same combination of hbar, G, c and the Hubble
+    time as Weinberg's 1972 large-number relation. Same order of magnitude, no known mechanism.
 
 PART I. CAN ALPHA BE CALCULATED FROM THE OTHER NUMBERS?
 ------------------------------------------------------------------------------
@@ -417,7 +425,7 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Hawking temperature = Unruh temperature at the horizon's surface gravity  (rel diff 0.0e+00)
   [PASS] de Sitter entropy: area law A/(4 l_P^2) = Part A's pi c^5/(G hbar H^2)  (rel diff 0.0e+00)
   [PASS] Identity: S_dS x (rho_Lambda / rho_Planck) = 3/8 exactly  (rel diff 0.0e+00)
-  [PASS] Entanglement entropy: reduced density matrix = concurrence formula  (abs diff 1.3e-15)
+  [PASS] Entanglement entropy: reduced density matrix = concurrence formula  (abs diff 1.1e-16)
   [PASS] Two-loop gauge coefficients from field content = textbook matrices (SM and MSSM)
   [PASS] Unification solver at one loop = closed-form solution (every M_S, and pure SM)  (max rel diff 6.2e-13)
   [PASS] Yukawa-RGE gauge coefficients from Casimirs = textbook (SM and MSSM; t, b, tau)
@@ -425,4 +433,4 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Lambda_QCD (2-loop) reproduces alpha_s(M_Z)  (rel diff 2.2e-16)
   32/32 checks pass
 ==============================================================================
-Elapsed: 119.6 s
+Elapsed: 80.4 s

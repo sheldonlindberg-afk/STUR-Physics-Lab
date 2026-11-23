@@ -39,7 +39,8 @@
 
 - Part H (quantum and gravity, established physics): Planck units; the one-loop correction to
   Newton's law (41/(10 pi), quoted); Hawking, de Sitter and Unruh temperatures; gravity-mediated
-  entanglement (concurrence 0.033 for a 1e-14 kg design; zero if gravity is classical); the
+  entanglement (smallest mass gravity can ever entangle maximally: (pi hbar^2/(G c t0))^(1/3) =
+  89 MeV, same combination as Weinberg's pion relation; zero if gravity is classical); the
   proton/Planck hierarchy from logarithmic running. Exact identities: alpha_G = (m_p/M_P)^2,
   S_dS * rho_Lambda/rho_P = 3/8.
 

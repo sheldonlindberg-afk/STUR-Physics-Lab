@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>STUR Physics Lab: one simulation</title>
-<meta name="description" content="One self-contained Python simulation, standard library only, with nothing tuned and nothing fitted: the age of the universe from the Friedmann equation, and the quark-mixing matrix from renormalization-group-run quark masses in the Fritzsch texture, with its free phases scanned over their whole range.">
+<title>STUR Physics Lab</title>
+<meta name="description" content="One self-contained Python simulation built only from established physics, with nothing tuned and nothing fitted. It asks which of nature's numbers can be calculated from the others, from cosmology and quark mixing to grand unification and the meeting point of quantum theory and gravity, and reports what it finds, including what cannot be calculated.">
 <meta property="og:site_name" content="STUR Physics Lab">
-<meta property="og:title" content="One simulation, nothing tuned">
-<meta property="og:description" content="Cosmology and quark flavour from measured inputs only. Copy the script and run it anywhere.">
+<meta property="og:title" content="STUR Physics Lab: one simulation, nothing tuned">
+<meta property="og:description" content="A theory-of-everything workshop in one Python file: established physics, measured inputs, nothing fitted. Copy it and run it anywhere.">
 <meta property="og:url" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">
@@ -16,151 +16,148 @@
 <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
 <style>
   :root { --bg: #f6f8fa; --fg: #0f1720; --muted: #4a5663; --card: #ffffff; --line: #d8dee4;
-          --accent: #15803d; --accent-fg: #ffffff; --bad: #b42318; --good: #15803d; --code: #eef1f4; }
+          --accent: #15803d; --accent-fg: #ffffff; --bad: #b42318; --good: #15803d; --warn: #9a6700; --code: #eef1f4; }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) { --bg: #07090d; --fg: #e6edf3; --muted: #9aa7b4; --card: #0f141b;
-      --line: #263040; --accent: #4ade80; --accent-fg: #04110a; --bad: #f97066; --good: #4ade80; --code: #151b23; }
+      --line: #263040; --accent: #4ade80; --accent-fg: #04110a; --bad: #f97066; --good: #4ade80; --warn: #e3b341; --code: #151b23; }
   }
   :root[data-theme="dark"] { --bg: #07090d; --fg: #e6edf3; --muted: #9aa7b4; --card: #0f141b;
-    --line: #263040; --accent: #4ade80; --accent-fg: #04110a; --bad: #f97066; --good: #4ade80; --code: #151b23; }
+    --line: #263040; --accent: #4ade80; --accent-fg: #04110a; --bad: #f97066; --good: #4ade80; --warn: #e3b341; --code: #151b23; }
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body { margin: 0; background: var(--bg); color: var(--fg); line-height: 1.6;
          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
-  main { max-width: 860px; margin: 0 auto; padding: 32px 16px 64px; }
-  header { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
-  header img { width: 36px; height: 36px; }
-  header b { font-size: 17px; }
+  main { max-width: 880px; margin: 0 auto; padding: 24px 16px 64px; }
+  header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; }
+  .brand { display: flex; align-items: center; gap: 10px; color: var(--fg); text-decoration: none; font-weight: 700; }
+  .brand img { width: 32px; height: 32px; }
+  nav { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 15px; }
+  nav a { color: var(--muted); text-decoration: none; }
+  nav a:hover { color: var(--accent); }
   h1 { font-size: clamp(28px, 5vw, 42px); line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 14px; }
   h1 span { color: var(--accent); }
-  h2 { font-size: 22px; margin: 40px 0 10px; }
+  h2 { font-size: 23px; margin: 44px 0 12px; scroll-margin-top: 16px; }
+  h3 { font-size: 17px; margin: 22px 0 8px; }
   p { margin: 0 0 14px; }
   .lede { font-size: 18px; color: var(--muted); }
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; margin: 18px 0; }
-  .cta { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 8px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 10px; margin: 4px 0 10px; }
   .btn { display: inline-block; padding: 11px 18px; border-radius: 10px; border: 1px solid var(--line);
          background: var(--card); color: var(--fg); text-decoration: none; font: inherit; font-weight: 600; cursor: pointer; }
   .btn.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
   .btn:disabled { opacity: 0.7; cursor: default; }
-  .status { font-size: 14px; color: var(--muted); }
-  .status a, a { color: var(--accent); }
+  .status { font-size: 14px; color: var(--muted); margin: 0; }
+  a { color: var(--accent); }
   code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; }
   code { background: var(--code); padding: 1px 5px; border-radius: 5px; }
   pre { background: var(--code); padding: 14px; border-radius: 10px; overflow-x: auto; margin: 0 0 14px; }
   .tablewrap { overflow-x: auto; }
   table { border-collapse: collapse; width: 100%; font-size: 15px; }
-  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
   th { color: var(--muted); font-weight: 600; }
-  .in { color: var(--good); font-weight: 600; }
-  .out { color: var(--bad); font-weight: 600; }
-  ul { padding-left: 22px; margin: 0 0 14px; }
+  .tag { display: inline-block; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px;
+         border: 1px solid currentColor; white-space: nowrap; }
+  .ok { color: var(--good); } .no { color: var(--bad); } .open { color: var(--warn); }
+  ul, ol { padding-left: 22px; margin: 0 0 14px; }
+  li { margin-bottom: 6px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .grid .card { margin: 0; }
+  .grid h3 { margin-top: 0; }
   footer { margin-top: 48px; font-size: 14px; color: var(--muted); }
 </style>
 </head>
 <body>
 <main>
   <header>
-    <img src="assets/logo.svg" alt="" width="36" height="36">
-    <b>STUR Physics Lab</b>
+    <a class="brand" href="#top"><img src="assets/logo.svg" alt="" width="32" height="32">STUR Physics Lab</a>
+    <nav aria-label="Sections">
+      <a href="#what">What it is</a>
+      <a href="#goal">What it attempts</a>
+      <a href="#rule">The rule</a>
+      <a href="#results">Results</a>
+      <a href="#patterns">Patterns</a>
+      <a href="#run">Run it</a>
+    </nav>
   </header>
 
-  <h1>One simulation. <span>Nothing tuned.</span></h1>
-  <p class="lede">One Python file that uses only the standard library. Every number it prints is calculated from measured inputs. Measured results are used only to judge the output, never inside a calculation. Where the inputs cannot fix a quantity, the script scans its whole range instead of choosing a value.</p>
+  <h1 id="top">Which of nature's numbers can be <span>calculated from the others?</span></h1>
+  <p class="lede">One Python simulation, built only from established physics, with nothing tuned and nothing fitted. It starts from the measured constants of nature, calculates everything it can, and states plainly which numbers it can derive and which it can't.</p>
 
   <div class="card">
     <div class="cta">
-      <button class="btn primary copy-script" type="button" data-src="production_v2_2.py" data-status="copy-status">Copy Python script</button>
+      <button class="btn primary copy-script" type="button" data-src="production_v2_2.py" data-status="copy-status-top">Copy Python script</button>
       <a class="btn" href="production_v2_2.py" download="production_v2_2.py">Download .py</a>
       <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/production_v2_2.py">View on GitHub</a>
     </div>
-    <p class="status" id="copy-status" role="status" aria-live="polite">Paste it into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 3 minutes and ends with 32 self-checks. Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/production_v2_2.txt">results/production_v2_2.txt</a>.</p>
+    <p class="status" id="copy-status-top" role="status" aria-live="polite">One file, standard library only. Paste it into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 1–2 minutes and ends with 32 self-checks. Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/production_v2_2.txt">results/production_v2_2.txt</a>.</p>
   </div>
 
-  <h2>The rule</h2>
+  <h2 id="what">What the simulation is</h2>
+  <p><code>production_v2_2.py</code> is a single, self-contained program. It starts from about thirty measured or defined constants: particle masses, coupling strengths, the CMB temperature, Newton's constant and others, each with its uncertainty and published source. It then calculates forward, using only physics that is established and published:</p>
   <ul>
-    <li><b>INPUTS</b>: measured or defined constants, each with an uncertainty and a source (PDG 2024, Planck 2018, CODATA, SI).</li>
-    <li><b>COMPARISONS</b>: measured results, used only to judge the output.</li>
-    <li><b>NUMERICS</b>: step counts, grid sizes and precision. The self-checks vary them and show the results do not move.</li>
-    <li>Everything else is calculated. The repository's test fails if any non-integer number appears in the script outside those three tables.</li>
+    <li><b>the Friedmann equation</b> for the expansion of the universe;</li>
+    <li><b>the renormalization group</b> for how particle masses and forces change with energy, with every coefficient computed from group theory;</li>
+    <li><b>exact linear algebra</b> for how quarks mix;</li>
+    <li><b>semiclassical gravity</b> (Hawking, Bekenstein, Unruh, and gravity as a quantum effective field theory) where quantum theory and gravity meet.</li>
+  </ul>
+  <p>Every scale it uses comes out of its own earlier steps: the top-quark mass scale, the unification scale, the Planck mass. Nothing is typed in to make an answer come out right.</p>
+
+  <h2 id="goal">What it is attempting</h2>
+  <p>It is a <b>theory-of-everything workshop</b>. A final theory would calculate the constants of nature instead of measuring them. Nobody has one. This simulation builds as far toward it as established physics reaches, then reports where it stops. For each number it asks:</p>
+  <ol>
+    <li><b>Can it be calculated from the other numbers?</b> If so, it does the calculation and compares the result with measurement.</li>
+    <li><b>If not, what would it take?</b> It tests the established ideas that would relate it to others: grand unification, texture zeros, flavour symmetries, fixed points. It shows exactly where each one fails or what it would require.</li>
+    <li><b>Do patterns emerge?</b> Famous large-number "coincidences" are computed and labelled. Each one is either an <i>exact identity</i>, a <i>known mechanism</i>, a <i>measured input</i>, or <i>open</i>, so patterns don't turn into numerology.</li>
+  </ol>
+  <p>Negative results count. A clean "this cannot be calculated within these frameworks", backed by an exhaustive search, narrows down where a deeper theory has to do its work.</p>
+
+  <h2 id="rule">The rule: nothing tuned, nothing fitted</h2>
+  <div class="grid">
+    <div class="card"><h3>Inputs</h3><p>Measured or defined constants, each with an uncertainty and a source (PDG 2024, Planck 2018, CODATA 2018, SI, IAU). They are the only physics numbers that enter a calculation.</p></div>
+    <div class="card"><h3>Comparisons</h3><p>Measured results (the quark-mixing matrix, the age of the universe), used only to judge the output, never inside a calculation.</p></div>
+    <div class="card"><h3>Unknowns</h3><p>Quantities nothing can fix (a phase, a superpartner mass, tan β) are never given a value. They are scanned over their whole range, and the prediction is the band that results.</p></div>
+    <div class="card"><h3>Enforced</h3><p>The repository's test fails if any non-integer number appears in the script outside the input, comparison and numerical-setting tables. The output ends with 32 self-checks of the calculation itself.</p></div>
+  </div>
+
+  <h2 id="results">What it has found</h2>
+  <div class="tablewrap"><table>
+    <tr><th>Part</th><th>Question</th><th>Result</th><th>Status</th></tr>
+    <tr><td>A</td><td>The universe's expansion from the CMB temperature, H<sub>0</sub> and Ω<sub>m</sub></td><td>Age 13.795 Gyr (Planck: 13.787 ± 0.020); Ω<sub>Λ</sub> = 0.6846 (Planck: 0.6847)</td><td><span class="tag ok">agrees</span></td></tr>
+    <tr><td>B</td><td>Quark mixing from quark masses (the Fritzsch texture)</td><td>|V<sub>us</sub>|, |V<sub>ub</sub>| and CP violation come out right; |V<sub>cb</sub>| misses by 30σ for every phase</td><td><span class="tag no">excluded</span></td></tr>
+    <tr><td>C</td><td>Every texture-zero pattern that makes a prediction</td><td>83 tested; 82 excluded; one survives (χ² = 0.2–0.3 for 1 degree of freedom)</td><td><span class="tag open">1 survivor</span></td></tr>
+    <tr><td>D</td><td>What the 3-3-1 gauge symmetry says about the mass matrices</td><td>It allows every entry, so it forces no zero</td><td><span class="tag open">no constraint</span></td></tr>
+    <tr><td>E</td><td>Can a flavour symmetry make the survivor?</td><td>Not as a predictive model: Hermitian matrices are impossible, and the zeros alone predict nothing</td><td><span class="tag no">no</span></td></tr>
+    <tr><td>F–G</td><td>Does any zero pattern of general mass matrices predict the quark-mixing matrix?</td><td>All 61,009 pattern pairs checked exactly: none does, in the Standard Model, left-right models or 3-3-1</td><td><span class="tag no">not calculable</span></td></tr>
+    <tr><td>H</td><td>Where quantum theory and gravity meet</td><td>Planck units, the quantum correction to Newton's law, black-hole and de Sitter temperatures, the Unruh effect; the smallest mass gravity can ever entangle: 89 MeV/c²</td><td><span class="tag ok">calculated</span></td></tr>
+    <tr><td>I</td><td>Can α be calculated from the other numbers?</td><td>Via grand unification only if superpartners exist; the measured α then points to superpartners at 2.5 TeV. The Standard Model alone misses by 36%</td><td><span class="tag open">conditional</span></td></tr>
+    <tr><td>J</td><td>Can the Yukawa couplings (the masses) be calculated?</td><td>SU(5) and Georgi–Jarlskog ratios excluded; b–τ unification and the top fixed point both point to tan β ≈ 1.35 in supersymmetry</td><td><span class="tag no">not calculated</span></td></tr>
+  </table></div>
+  <p>The quark sector closes with 10 measured inputs: 6 masses and 4 mixing parameters. Texture zeros calculate none of the mixing numbers in any of the three frameworks tested.</p>
+
+  <h2 id="patterns">Patterns that emerged</h2>
+  <ul>
+    <li><span class="tag ok">identity</span> Gravity's strength for a proton is exactly (m<sub>p</sub>/M<sub>Planck</sub>)². "Why is gravity weak?" becomes "why is the proton light?"</li>
+    <li><span class="tag ok">identity</span> The de Sitter entropy (10<sup>122</sup>) times the dark-energy-to-Planck density ratio (10<sup>−123</sup>) is exactly 3/8. The two famous huge numbers are one fact.</li>
+    <li><span class="tag ok">mechanism</span> The proton is 10<sup>19</sup> times lighter than the Planck mass because the strong force strengthens only logarithmically as energy falls: ln(M<sub>P</sub>/Λ<sub>QCD</sub>) = 45.</li>
+    <li><span class="tag open">coincidence</span> The smallest mass gravity can entangle within the age of the universe (89 MeV/c²) is 0.64 pion masses. It is the same combination of ħ, G, c and the Hubble time as Weinberg's 1972 large-number relation. They agree in order of magnitude, and no mechanism is known.</li>
+    <li><span class="tag open">pointer</span> In supersymmetry, two independent relations (b–τ unification and the top-quark fixed point) land on the same tan β ≈ 1.35. That pins one number, not the masses, and is not checked against the Higgs mass.</li>
+    <li><span class="tag no">open</span> Still not calculated by anything: α, the Yukawa couplings, the cosmological constant, and whether gravity is quantum. The last is a measurement waiting to be made: a classical gravitational field cannot entangle masses at all.</li>
   </ul>
 
-  <h2>Part A: cosmology</h2>
-  <p>The radiation density comes from the CMB temperature, the dark-energy density from flatness, and the age from the Friedmann equation, integrated in 50-digit arithmetic.</p>
-  <div class="tablewrap"><table>
-    <tr><th>Quantity</th><th>Calculated</th><th>Measured (Planck 2018)</th></tr>
-    <tr><td>Ω<sub>Λ</sub> = 1 − Ω<sub>m</sub> − Ω<sub>r</sub></td><td>0.6846 ± 0.0073</td><td>0.6847 ± 0.0073</td></tr>
-    <tr><td>Age of the universe</td><td>13.795 Gyr</td><td>13.787 ± 0.020 Gyr</td></tr>
-    <tr><td>Acceleration began at</td><td>z = 0.631</td><td></td></tr>
-    <tr><td>de Sitter horizon entropy</td><td>3.31 × 10<sup>122</sup> k<sub>B</sub></td><td></td></tr>
-  </table></div>
-
-  <h2>Part B: quark mixing from quark masses</h2>
-  <p>The six measured quark masses are run with the renormalization group up to m_t(m_t) and to the superpartner scale (2.54 TeV) that Part I derives. Every coefficient is computed from group theory. The masses fix every entry of the Fritzsch six-zero texture, and diagonalizing both sectors exactly gives the CKM matrix. The texture's two phases are fixed by nothing, so each prediction is the band swept out over all of their values.</p>
-  <div class="tablewrap"><table>
-    <tr><th>Observable</th><th>Band over all phases (2.54 TeV)</th><th>Measured (PDG 2024)</th><th>Verdict</th></tr>
-    <tr><td>|V<sub>us</sub>|</td><td>0.176 – 0.261</td><td>0.22501</td><td class="in">inside</td></tr>
-    <tr><td>|V<sub>cb</sub>|</td><td>0.074 – 0.195</td><td>0.0418</td><td class="out">outside, 32σ</td></tr>
-    <tr><td>|V<sub>ub</sub>|</td><td>0.0027 – 0.0092</td><td>0.00373</td><td class="in">inside</td></tr>
-    <tr><td>|V<sub>ub</sub>/V<sub>cb</sub>|</td><td>0.036 – 0.052</td><td>0.089</td><td class="out">outside, 14σ</td></tr>
-    <tr><td>|V<sub>td</sub>/V<sub>ts</sub>|</td><td>0.227 – 0.233</td><td>0.207</td><td class="out">outside, 5σ</td></tr>
-    <tr><td>Jarlskog J</td><td>−3.6 – 3.6 × 10<sup>−4</sup></td><td>3.12 × 10<sup>−5</sup></td><td class="in">inside</td></tr>
-  </table></div>
-  <p><b>Result:</b> with nothing tuned, the quark masses give the Cabibbo angle, |V<sub>ub</sub>| and the size of CP violation, but for no value of the phases do they give |V<sub>cb</sub>|. The six-zero texture is excluded, as the literature also finds.</p>
-
-  <h2>Part C: every texture pattern that makes a prediction</h2>
-  <p>The Fritzsch pattern is only one guess about where the zeros in the quark mass matrices sit. The script tests every guess that makes a prediction: all pairs of Hermitian mass matrices with five or six zeros, 1,000 pairs in 188 classes. The masses fix each sector's entries exactly. Every unknown (the phases, and one free entry in five-zero sectors) is scanned or tested, never set.</p>
-  <div class="tablewrap"><table>
-    <tr><th>Classes</th><th>Outcome</th></tr>
-    <tr><td>64</td><td>cannot give three real nonzero masses</td></tr>
-    <tr><td>41</td><td>keep a phase inside one sector, so they predict nothing</td></tr>
-    <tr><td>82</td><td class="out">excluded at every scale (every six-zero pattern among them)</td></tr>
-    <tr><td>1</td><td class="in">survives: χ² = 0.3 for 1 degree of freedom</td></tr>
-  </table></div>
-<pre>M_u = | 0 0 X |   M_d = | 0 X 0 |
-      | 0 X X |         | X 0 X |
-      | X X X |         | 0 X X |</pre>
-  <p>The survivor pairs Fritzsch's down-quark matrix with a five-zero up-quark matrix.</p>
-
-  <h2>Part D: what 3-3-1 says about the mass matrices</h2>
-  <p>From the 3-3-1 charges (β = ±1/√3), the script finds every gauge-invariant Yukawa coupling. Every entry of both mass matrices is allowed, so <b>3-3-1 by itself forces no zero</b>: it can neither rescue nor select a texture. What it does fix is that one family (a triplet) differs from the other two. That turns the surviving pattern into three distinct 3-3-1 hypotheses, which differ in which family is the triplet. Their flavour-changing Z′ couplings would tell them apart.</p>
-
-  <h2>Part E: can a flavour symmetry make the survivor inside 3-3-1?</h2>
-  <ul>
-    <li><b>Minimal scalars: no.</b> An exhaustive scan of Z<sub>2</sub> to Z<sub>6</sub> (50,364 pattern pairs) finds no texture zero that keeps all three families mixing. The reason is structural: every row's charge shifts by the same amount between the up and down sectors.</li>
-    <li><b>Hermitian matrices: impossible.</b> That would need a symmetry exchanging left-handed quarks (SU(3)<sub>L</sub> triplets) with right-handed ones (singlets).</li>
-    <li><b>Extra scalars: the zeros, but no prediction.</b> Z<sub>6</sub> with 6 scalar triplets gives exactly the survivor's zeros. As general matrices, though, they have 14 parameters for 10 observables: −4 predictions.</li>
-  </ul>
-  <p><b>Result:</b> no flavour symmetry inside 3-3-1 turns the survivor into a predictive model. Its prediction needs left-right symmetric gauge structure, which is outside 3-3-1.</p>
-
-  <h2>Part F: does any zero pattern predict the CKM matrix?</h2>
-  <p>Inside 3-3-1 a symmetry can only make zeros in general mass matrices, so the script checks every such pattern: 61,009 pairs in 497 classes. It counts each pattern's physical parameters exactly, from the rank of 10 invariants computed in integer arithmetic. Of the 472 classes that mix all three families and have a phase, 470 have exactly 10 parameters for 10 observables, so they predict nothing. The other two cannot violate CP. <b>No pattern predicts anything.</b></p>
-  <h2>Part G: other gauge frameworks</h2>
-  <p>The same question for the Standard Model and for left-right symmetric models. In the Standard Model, symmetries make zeros in general matrices, and none predicts anything (Part F). In left-right models the matrices are Hermitian, but the zeros must sit in the same places for up and down quarks. All 3 such patterns that predict anything are excluded, at 31σ or more.</p>
-  <p><b>Closure:</b> in the Standard Model, in left-right models and in 3-3-1, the quark sector closes with 10 measured inputs: the 6 masses and the 4 CKM parameters. Texture zeros calculate none of the CKM numbers. That would need relations between couplings (non-abelian flavour symmetries or grand unification).</p>
-
-  <h2>Part H: where quantum theory and gravity meet</h2>
-  <p>A workshop built only from established physics, with every pattern labelled. From G, ħ, c and k<sub>B</sub> plus measured masses, the script computes:</p>
-  <ul>
-    <li>the Planck units;</li>
-    <li>the one-loop quantum correction to Newton's law;</li>
-    <li>Hawking temperatures, including the black hole that evaporates in exactly the age of the universe (1.7×10<sup>11</sup> kg);</li>
-    <li>the de Sitter horizon (3.3×10<sup>122</sup> k<sub>B</sub>) and the Unruh effect;</li>
-    <li>the entanglement that gravity would create between two masses in superposition. If gravity is classical, it is zero. Measuring it is the open test.</li>
-  </ul>
-  <p><b>Patterns:</b> two famous large-number coincidences are exact identities. One is α<sub>G</sub> = (m<sub>p</sub>/M<sub>P</sub>)². The other is S<sub>dS</sub>·ρ<sub>Λ</sub>/ρ<sub>Planck</sub> = 3/8: the 10<sup>122</sup> entropy and the 10<sup>−123</sup> vacuum energy are one fact. The weakness of gravity for a proton comes from logarithmic running of the strong force. Still open: α, the Yukawa couplings, ρ<sub>Λ</sub>, and whether gravity carries entanglement.</p>
-
-  <h2>Part I: can α be calculated from the other numbers?</h2>
-  <p>No accepted theory derives α. Grand unification relates it to the strong coupling and the weak mixing angle: if all three forces meet at one energy, α follows. With Standard Model particles alone the forces don't meet: the required 1/α is 81.8, against a measured 127.95. With supersymmetry the answer depends on the unknown superpartner mass, so α is not predicted. Read backwards, the measured α points to superpartners near 2.5 TeV. The closed formulas proposed for α (Eddington, Wyler and others) are all excluded by thousands of standard deviations or more.</p>
-
-  <h2>Part J: can the Yukawa couplings be calculated from the other numbers?</h2>
-  <p>Grand unification predicts quark-to-lepton mass ratios. Minimal SU(5)'s m<sub>s</sub>/m<sub>d</sub> = m<sub>μ</sub>/m<sub>e</sub> is off by 558σ. The Georgi–Jarlskog version, m<sub>s</sub>/m<sub>d</sub> = m<sub>μ</sub>/(9m<sub>e</sub>), is off by 10σ. Bottom–tau unification fails in the Standard Model. In supersymmetry, using the scales from Part I, it works only at tan β = 1.35. A large top coupling running down predicts a 217–220 GeV top in the Standard Model, against 163 GeV measured. In supersymmetry it needs tan β = 1.33–1.40, the same narrow region. <b>No Yukawa coupling is calculated.</b> Every scale used comes from the algorithm itself.</p>
-
-  <h2>Run it locally</h2>
-<pre>python3 production_v2_2.py
-python3 production_v2_2.py --json-out out.json
-python3 production_v2_2.py --scales 2000 5000</pre>
+  <h2 id="run">Run it</h2>
+  <div class="card">
+    <div class="cta">
+      <button class="btn primary copy-script" type="button" data-src="production_v2_2.py" data-status="copy-status-bottom">Copy Python script</button>
+      <a class="btn" href="production_v2_2.py" download="production_v2_2.py">Download .py</a>
+    </div>
+    <p class="status" id="copy-status-bottom" role="status" aria-live="polite">Pasting into an AI assistant? Add "Run this and explain the results."</p>
+  </div>
+<pre>python3 production_v2_2.py                     # full report
+python3 production_v2_2.py --json-out out.json # every number, as JSON</pre>
+  <p>The report prints every input with its source, each part's calculation, a verdict for each comparison, and the self-checks. The tests that enforce the no-tuning rule are in <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/tests/test_production.py">tests/test_production.py</a>.</p>
 
   <footer>
-    Independent work, not peer reviewed. CC0 1.0 (public domain). Source and tests:
+    Independent work, not peer reviewed. CC0 1.0 (public domain). Source, tests and history:
     <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab">GitHub</a>.
   </footer>
 </main>

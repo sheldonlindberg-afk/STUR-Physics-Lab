@@ -212,9 +212,8 @@ which the script does not search.
 
 This part is a workshop in the spirit of a search for a theory of everything. It is built only
 from established physics, and every apparent pattern carries its status. Everything follows
-from G, ħ, c and k_B plus measured masses. The two exceptions are labelled: the one-loop
-coefficient 41/(10π) (quoted from Bjerrum-Bohr, Donoghue and Holstein 2003), and the
-design of the entanglement experiment.
+from G, ħ, c and k_B plus measured masses. The one exception is labelled: the one-loop
+coefficient 41/(10π), quoted from Bjerrum-Bohr, Donoghue and Holstein 2003.
 
 | | Result |
 |---|---|
@@ -222,7 +221,7 @@ design of the entanglement experiment.
 | H2 Quantum correction to Newton's law | Sun–Earth: 1.5×10⁻⁹² (the relativistic term is 3.0×10⁻⁸); for protons it overtakes the relativistic term below 0.22 Compton lengths; the effective theory ends at 1.14 l_P |
 | H3 Black holes | the Sun: T_H = 6.2×10⁻⁸ K; the hole that evaporates in exactly the Part A age has 1.73×10¹¹ kg; de Sitter horizon: 2.2×10⁻³⁰ K, 3.3×10¹²² k_B |
 | H4 Unruh effect | 4.0×10⁻²⁰ K at Earth's g |
-| H5 Gravity-mediated entanglement | 10⁻¹⁴ kg design: entangling phase 0.066 rad, concurrence 0.033. Zero if gravity is classical: the open test |
+| H5 Smallest mass gravity can ever entangle | (πħ²/(G c t₀))^(1/3) = 89 MeV/c² (0.095 m_p): maximal entanglement within the age of the universe at the closest allowed separation, the Compton wavelength. Zero if gravity is classical: the open test |
 | H6 Why gravity is weak | the proton mass comes from Λ_QCD = 0.226 GeV, set by logarithmic running: ln(M_P/Λ) = 45.4 |
 | H7 Large numbers | each one labelled as identity, known mechanism, measured input, or open |
 
@@ -231,6 +230,11 @@ The pattern that emerges is that two famous "coincidences" are exact identities:
 vacuum energy are one fact. The weakness of gravity for a proton has a known cause,
 logarithmic running. What remains open: α, the Yukawa couplings, ρ_Λ, and whether gravity
 carries entanglement (H5), which is the measurement that would decide whether gravity is quantum.
+
+A coincidence to watch: the smallest mass gravity can entangle within the age of the universe
+(H5) is 0.64 m_π. It is the same combination of ħ, G, c and the Hubble time as Weinberg's 1972
+large-number relation for the pion mass (0.43 m_π with H₀). The two agree in order of
+magnitude, and no mechanism is known.
 
 **Part I: can α be calculated from the other numbers?**
 
@@ -276,8 +280,7 @@ Yukawas, and it is not checked here against the Higgs mass.
 All scales come from the algorithm. Parts B and C run at m_t(m_t) and at Part I's M_S. Part J
 uses Part I's M_GUT and Part H's M_Planck. The tan β range and the "large" top coupling come
 from the perturbativity limit √(4π). The only numbers not produced by the algorithm are the
-measured inputs, the numerical settings, and the design of the two-mass entanglement
-experiment in H5.
+measured inputs, the numerical settings, and the quoted coefficient 41/(10π).
 
 ## What changed from production v1
 

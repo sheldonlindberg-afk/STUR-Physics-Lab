@@ -187,7 +187,9 @@ def test_quantum_gravity():
     assert abs(qg["numbers"]["S_dS_times_rho_ratio"] - 3 / 8) < 1e-12
     alpha_g = qg["numbers"]["alpha_G_proton"]
     assert abs(alpha_g / qg["numbers"]["m_p_over_M_P"] ** 2 - 1) < 1e-12
-    assert 0 < qg["entanglement"]["concurrence"] < 1
+    en = qg["entanglement"]
+    assert abs(en["concurrence"] - 1) < 1e-12 and abs(en["entropy_bits"] - 1) < 1e-12
+    assert abs(en["m_min_MeV"] - 89.13) < 0.05
     assert 0.2 < qg["transmutation"]["Lambda5_GeV"] < 0.25
 
 

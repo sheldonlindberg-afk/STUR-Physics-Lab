@@ -125,12 +125,7 @@ INPUTS: Dict[str, Dict[str, str]] = {
     "GM_sun": {"value": "1.3271244e20", "sigma": "0", "unit": "m^3/s^2", "source": "IAU 2015 B3, nominal (exact)"},
     "GM_earth": {"value": "3.986004418e14", "sigma": "0.000000008e14", "unit": "m^3/s^2", "source": "IERS 2010"},
     "R_earth": {"value": "6378137", "sigma": "0", "unit": "m", "source": "WGS 84 equatorial radius (defined)"},
-    # --- design of a two-mass entanglement experiment: chosen values, not physics
-    "bmv_mass": {"value": "1e-14", "sigma": "0", "unit": "kg",
-                 "source": "DESIGN, of the order proposed by Bose et al. 2017 (PRL 119, 240401)"},
-    "bmv_dx": {"value": "250e-6", "sigma": "0", "unit": "m", "source": "DESIGN: superposition size"},
-    "bmv_d": {"value": "450e-6", "sigma": "0", "unit": "m", "source": "DESIGN: closest distance of the branches"},
-    "bmv_time": {"value": "2.5", "sigma": "0", "unit": "s", "source": "DESIGN: interaction time"},
+    "m_pi_MeV": {"value": "139.57039", "sigma": "0.00018", "unit": "MeV", "source": "PDG 2024, charged pion"},
 }
 
 # The measured inputs whose uncertainties are propagated into the flavour bands.
@@ -1572,11 +1567,10 @@ def general_texture_closure() -> Dict[str, Any]:
 # =============================================================================
 # 6f. PART H: WHERE QUANTUM THEORY AND GRAVITY MEET (established physics only)
 # =============================================================================
-# Everything here follows from G, hbar, c, k_B and measured masses, except two
-# things that are labelled where they appear: the coefficient 41/(10 pi) of the
+# Everything here follows from G, hbar, c, k_B, measured masses and the Part A age,
+# except one thing, labelled where it appears: the coefficient 41/(10 pi) of the
 # one-loop quantum correction to Newton's potential, quoted from the published
-# calculation (Bjerrum-Bohr, Donoghue, Holstein 2003), and the geometry of the
-# two-mass entanglement experiment, which is a design, not physics.
+# calculation (Bjerrum-Bohr, Donoghue, Holstein 2003).
 EFT_NEWTON_COEFF_NUM, EFT_NEWTON_COEFF_DEN = 41, 10   # coefficient = 41 / (10 pi)
 
 
@@ -1666,19 +1660,28 @@ def quantum_gravity(cosmo: Dict[str, Any], flav: Dict[str, Any]) -> Dict[str, An
     out["unruh"] = {"g_earth": g_earth, "T_at_g_K": hbar * g_earth / (2 * math.pi * c * kb),
                     "a_for_1K": 2 * math.pi * c * kb / hbar}
 
-    # H5. Gravity-mediated entanglement (two masses, each in a superposition of two places
-    #     along the line joining them; the four branch distances are d, d+dx, d+dx, d+2dx)
-    m, dx, d, tau = x["bmv_mass"], x["bmv_dx"], x["bmv_d"], x["bmv_time"]
-    dist = {(0, 0): d + dx, (0, 1): d + 2 * dx, (1, 0): d, (1, 1): d + dx}   # (left mass, right mass)
-    phase = {k: g * m * m * tau / (hbar * r) for k, r in dist.items()}
-    dphi = phase[(1, 0)] + phase[(0, 1)] - phase[(0, 0)] - phase[(1, 1)]
-    amps = [cmath.exp(1j * phase[k]) / 2 for k in ((0, 0), (0, 1), (1, 0), (1, 1))]
+    # H5. The smallest mass gravity can ever entangle maximally. Two equal masses, each in two
+    #     places; the branch phases are G m^2 tau/(hbar r). For any geometry the entangling phase
+    #     d_phi = phi(d) + phi(d+2dx) - 2 phi(d+dx) is below G m^2 tau/(hbar d) (its limit for
+    #     dx >> d). Maximal entanglement (concurrence 1) needs d_phi = pi. The time is at most the
+    #     age of the universe (Part A), and a mass cannot be localized more tightly than its
+    #     Compton wavelength, d >= hbar/(m c). Together: G m^3 c t0 / hbar^2 >= pi, so
+    #     m >= (pi hbar^2 / (G c t0))^(1/3). No design number enters.
+    mev = x["e_charge"] * 10 ** 6
+    m_min = (math.pi * hbar ** 2 / (g * c * t0_s)) ** (1 / 3)
+    d_min = hbar / (m_min * c)
+    phase_close = g * m_min ** 2 * t0_s / (hbar * d_min)
+    # limiting geometry (dx >> d): only the closest branch pair has a phase
+    phases = {(0, 0): 0, (0, 1): 0, (1, 0): phase_close, (1, 1): 0}
+    amps = [cmath.exp(1j * phases[k]) / 2 for k in ((0, 0), (0, 1), (1, 0), (1, 1))]
+    dphi = phases[(1, 0)] + phases[(0, 1)] - phases[(0, 0)] - phases[(1, 1)]
     conc = abs(math.sin(dphi / 2))
     p = (1 + math.sqrt(max(0, 1 - conc ** 2))) / 2
     ent_formula = -(p * math.log2(p) + (1 - p) * math.log2(1 - p)) if 0 < p < 1 else 0.0
-    out["entanglement"] = {"phases_rad": {f"{k}": v for k, v in phase.items()}, "entangling_phase_rad": dphi,
-                           "concurrence": conc, "entropy_bits": _two_qubit_entropy(amps),
-                           "entropy_formula_bits": ent_formula}
+    out["entanglement"] = {"m_min_kg": m_min, "m_min_MeV": m_min * c ** 2 / mev, "d_min_m": d_min,
+                           "t0_s": t0_s, "entangling_phase_rad": dphi, "concurrence": conc,
+                           "entropy_bits": _two_qubit_entropy(amps), "entropy_formula_bits": ent_formula,
+                           "m_min_over_m_p": m_min / x["m_p"]}
 
     # H6. Why gravity is weak for protons: the strong scale comes from logarithmic running
     runner = flav["runner"]
@@ -1702,6 +1705,9 @@ def quantum_gravity(cosmo: Dict[str, Any], flav: Dict[str, Any]) -> Dict[str, An
         "electric_over_gravity_p_e": alpha * hbar * c / (g * m_p * x["m_e"]),
         "rho_Lambda_over_rho_P": rho_l / out["planck"]["rho_P_kg_m3"],
         "S_dS_times_rho_ratio": float(cosmo["S_deSitter_kB"]) * rho_l / out["planck"]["rho_P_kg_m3"],
+        # Weinberg (1972): (hbar^2 H0 / (G c))^(1/3) is close to the pion mass
+        "weinberg_over_m_pi": (hbar ** 2 * h0 / (g * c)) ** (1 / 3) * c ** 2 / mev / x["m_pi_MeV"],
+        "m_min_entangle_over_m_pi": out["entanglement"]["m_min_MeV"] / x["m_pi_MeV"],
     }
     return out
 
@@ -2917,13 +2923,16 @@ def report(res: Dict[str, Any]) -> str:
     w("  H4. Unruh effect: an accelerated observer sees the vacuum as thermal")
     w(f"      at g = {un['g_earth']:.4f} m/s^2: T = {un['T_at_g_K']:.4e} K;  1 K needs a = {un['a_for_1K']:.4e} m/s^2")
     en = qg["entanglement"]
-    w("  H5. Gravity as a mediator of entanglement (two masses, each in two places)")
-    w(f"      design: m = {INPUTS['bmv_mass']['value']} kg, separation {INPUTS['bmv_dx']['value']} m,"
-      f" closest distance {INPUTS['bmv_d']['value']} m, time {INPUTS['bmv_time']['value']} s")
-    w(f"      entangling phase {en['entangling_phase_rad']:.4f} rad, concurrence {en['concurrence']:.4f},"
-      f" entanglement entropy {en['entropy_bits']:.4f} bits")
-    w("      if gravity can carry quantum information this entanglement appears; a classical")
-    w("      gravitational field cannot create it (concurrence 0). Measuring it is the open test.")
+    w("  H5. The smallest mass that gravity can ever entangle maximally (two masses, each in two places)")
+    w("      limits: entangling phase pi (concurrence 1); time <= age of the universe (Part A);")
+    w("      separation >= the Compton wavelength hbar/(m c). Then m >= (pi hbar^2 / (G c t0))^(1/3).")
+    w(f"      m_min = {en['m_min_kg']:.4e} kg = {en['m_min_MeV']:.1f} MeV/c^2 = {en['m_min_over_m_p']:.3f} m_p,"
+      f" at separation {en['d_min_m']:.3e} m")
+    w(f"      check: phase {en['entangling_phase_rad']:.6f} rad, concurrence {en['concurrence']:.6f},"
+      f" entropy {en['entropy_bits']:.6f} bits")
+    w("      Anything lighter cannot be fully entangled by gravity in the lifetime of the universe.")
+    w("      A classical gravitational field cannot entangle at all (concurrence 0): measuring")
+    w("      gravity-made entanglement in any system is the open test of whether gravity is quantum.")
     tr = qg["transmutation"]
     w("  H6. Why gravity is so weak for a proton: the strong scale comes from logarithmic running")
     w(f"      alpha_s(M_P) = {tr['alpha_s_at_M_P']:.5f} (Standard Model running to M_P, no new physics assumed)")
@@ -2942,6 +2951,9 @@ def report(res: Dict[str, Any]) -> str:
          "Dirac's large number; its closeness to 1/alpha_G is unexplained"),
         ("rho_Lambda / rho_Planck", nb["rho_Lambda_over_rho_P"], "the cosmological-constant problem: open"),
         ("S_dS x rho_Lambda / rho_Planck", nb["S_dS_times_rho_ratio"], "= 3/8 exactly: the 10^122 and 10^-123 are one fact"),
+        ("(hbar^2 H0/(G c))^(1/3) / m_pi", nb["weinberg_over_m_pi"], "Weinberg 1972: same order as 1; unexplained"),
+        ("H5 smallest entangled mass / m_pi", nb["m_min_entangle_over_m_pi"],
+         "same combination as Weinberg's (t0 ~ 1/H0)"),
     ]
     for name, val, status in rows:
         w(f"      {name:<38} {val:12.4e}   log10 {math.log10(val):8.2f}   {status}")
@@ -2950,6 +2962,9 @@ def report(res: Dict[str, Any]) -> str:
     w("    S_dS rho_Lambda/rho_P = 3/8). One has a known mechanism (the proton/Planck hierarchy from")
     w("    logarithmic running). Open: alpha, the Yukawa couplings, rho_Lambda, and whether gravity")
     w("    carries entanglement (H5) - the measurement that would decide if gravity is quantum.")
+    w(f"    A coincidence to watch: the smallest mass gravity can entangle within the age of the universe")
+    w(f"    (H5) is {nb['m_min_entangle_over_m_pi']:.2f} m_pi - the same combination of hbar, G, c and the Hubble")
+    w("    time as Weinberg's 1972 large-number relation. Same order of magnitude, no known mechanism.")
     w("")
     w("PART I. CAN ALPHA BE CALCULATED FROM THE OTHER NUMBERS?")
     w("-" * 78)
