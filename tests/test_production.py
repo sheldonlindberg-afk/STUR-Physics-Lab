@@ -179,6 +179,18 @@ def test_parallel_textures_excluded():
         assert len(par) == 3 and not any(r["survives"] for r in par)
 
 
+def test_quantum_gravity():
+    """Part H: established quantum-gravity numbers, and the two exact identities."""
+    qg = RESULT["quantum_gravity"]
+    assert abs(qg["planck"]["E_P_GeV"] / 1.22089e19 - 1) < 1e-4
+    assert abs(qg["black_holes"]["evaporating_now"]["mass_kg"] / 1.7298e11 - 1) < 1e-3
+    assert abs(qg["numbers"]["S_dS_times_rho_ratio"] - 3 / 8) < 1e-12
+    alpha_g = qg["numbers"]["alpha_G_proton"]
+    assert abs(alpha_g / qg["numbers"]["m_p_over_M_P"] ** 2 - 1) < 1e-12
+    assert 0 < qg["entanglement"]["concurrence"] < 1
+    assert 0.2 < qg["transmutation"]["Lambda5_GeV"] < 0.25
+
+
 def test_report_matches_expected_output():
     got = P.report(RESULT).splitlines()
     want = [ln for ln in open(EXPECTED, encoding="utf-8").read().splitlines() if not ln.startswith("Elapsed")]

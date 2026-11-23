@@ -28,7 +28,7 @@ python3 production_v2_2.py --scales 2000 5000  # other evaluation scales (GeV, a
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 22 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 28 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -207,6 +207,30 @@ in left-right models and in 3-3-1, the quark sector closes with **10 measured in
 and 4 CKM parameters**. Texture zeros calculate no CKM number. Calculating them needs
 relations between nonzero entries (non-abelian flavour symmetries or grand unification),
 which the script does not search.
+
+**Part H: where quantum theory and gravity meet**
+
+This part is a workshop in the spirit of a search for a theory of everything. It is built only
+from established physics, and every apparent pattern carries its status. Everything follows
+from G, ħ, c and k_B plus measured masses. The two exceptions are labelled: the one-loop
+coefficient 41/(10π) (quoted from Bjerrum-Bohr, Donoghue and Holstein 2003), and the
+design of the entanglement experiment.
+
+| | Result |
+|---|---|
+| H1 Planck units | l_P = 1.616×10⁻³⁵ m, E_P = 1.221×10¹⁹ GeV |
+| H2 Quantum correction to Newton's law | 3.4×10⁻⁷⁰ at 1 m; for protons it overtakes the relativistic term below 0.22 Compton lengths; the effective theory ends at 1.14 l_P |
+| H3 Black holes | the Sun: T_H = 6.2×10⁻⁸ K; the hole that evaporates in exactly the Part A age has 1.73×10¹¹ kg; de Sitter horizon: 2.2×10⁻³⁰ K, 3.3×10¹²² k_B |
+| H4 Unruh effect | 4.0×10⁻²⁰ K at Earth's g |
+| H5 Gravity-mediated entanglement | 10⁻¹⁴ kg design: entangling phase 0.066 rad, concurrence 0.033. Zero if gravity is classical: the open test |
+| H6 Why gravity is weak | the proton mass comes from Λ_QCD = 0.226 GeV, set by logarithmic running: ln(M_P/Λ) = 45.4 |
+| H7 Large numbers | each one labelled as identity, known mechanism, measured input, or open |
+
+The pattern that emerges is that two famous "coincidences" are exact identities:
+α_G = (m_p/M_P)², and S_dS · ρ_Λ/ρ_Planck = 3/8. So the 10¹²² entropy and the 10⁻¹²³
+vacuum energy are one fact. The weakness of gravity for a proton has a known cause,
+logarithmic running. What remains open: α, the Yukawa couplings, ρ_Λ, and whether gravity
+carries entanglement (H5), which is the measurement that would decide whether gravity is quantum.
 
 ## What changed from production v1
 

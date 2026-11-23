@@ -44,6 +44,10 @@ WHAT IT CALCULATES
     texture: an exhaustive scan of abelian Z_N charge assignments with the
     minimal scalars, a search for the fewest extra scalar triplets that give
     the survivor's zeros, and a parameter count of the model that results.
+  Part H, where quantum theory and gravity meet: Planck units, the one-loop
+    quantum correction to Newton's law, Hawking and de Sitter horizons, the
+    Unruh effect, gravity-mediated entanglement, the logarithmic origin of the
+    proton/Planck hierarchy, and the large dimensionless numbers with their status.
   Part F, whether ANY zero pattern of general mass matrices predicts the CKM
     matrix: the exact number of physical parameters of all 61,009 pattern pairs,
     from the rank of the Jacobian of 10 weak-basis invariants, computed in exact
@@ -103,6 +107,21 @@ INPUTS: Dict[str, Dict[str, str]] = {
     "m_c": {"value": "1.2730", "sigma": "0.0046", "unit": "GeV", "source": "PDG 2024, m_c(m_c)"},
     "m_b": {"value": "4.183", "sigma": "0.007", "unit": "GeV", "source": "PDG 2024, m_b(m_b)"},
     "M_t": {"value": "172.57", "sigma": "0.29", "unit": "GeV", "source": "PDG 2024, direct measurements"},
+    # --- atomic and astronomical constants (Part H)
+    "e_charge": {"value": "1.602176634e-19", "sigma": "0", "unit": "C", "source": "SI, exact"},
+    "alpha_em": {"value": "7.2973525693e-3", "sigma": "0.0000000011e-3", "unit": "",
+                 "source": "CODATA 2018, fine-structure constant at zero momentum"},
+    "m_p": {"value": "1.67262192369e-27", "sigma": "0.00000000051e-27", "unit": "kg", "source": "CODATA 2018"},
+    "m_e": {"value": "9.1093837015e-31", "sigma": "0.0000000028e-31", "unit": "kg", "source": "CODATA 2018"},
+    "GM_sun": {"value": "1.3271244e20", "sigma": "0", "unit": "m^3/s^2", "source": "IAU 2015 B3, nominal (exact)"},
+    "GM_earth": {"value": "3.986004418e14", "sigma": "0.000000008e14", "unit": "m^3/s^2", "source": "IERS 2010"},
+    "R_earth": {"value": "6378137", "sigma": "0", "unit": "m", "source": "WGS 84 equatorial radius (defined)"},
+    # --- design of a two-mass entanglement experiment: chosen values, not physics
+    "bmv_mass": {"value": "1e-14", "sigma": "0", "unit": "kg",
+                 "source": "DESIGN, of the order proposed by Bose et al. 2017 (PRL 119, 240401)"},
+    "bmv_dx": {"value": "250e-6", "sigma": "0", "unit": "m", "source": "DESIGN: superposition size"},
+    "bmv_d": {"value": "450e-6", "sigma": "0", "unit": "m", "source": "DESIGN: closest distance of the branches"},
+    "bmv_time": {"value": "2.5", "sigma": "0", "unit": "s", "source": "DESIGN: interaction time"},
 }
 
 # The measured inputs whose uncertainties are propagated into the flavour bands.
@@ -156,6 +175,8 @@ NUMERICS: Dict[str, Any] = {
     "symmetry_max_N": 6,              # Z_N searched exhaustively for N = 2 .. this
     "closure_seed": 20261123,         # integer points for the exact Jacobian ranks (any seed works)
     "closure_points": 2,              # points per pattern; the largest rank found is kept
+    "check_fd_rel_step": "1e-5",      # finite-difference step for the first-law check
+    "check_fd_tol": "1e-8",
     "report_sci_below": "1e-3",       # print in scientific notation below / above these
     "report_sci_above": "1e5",
     # Scales at which the flavour bands are reported: the four 3-3-1 benchmark
@@ -1528,6 +1549,143 @@ def general_texture_closure() -> Dict[str, Any]:
 
 
 # =============================================================================
+# 6f. PART H: WHERE QUANTUM THEORY AND GRAVITY MEET (established physics only)
+# =============================================================================
+# Everything here follows from G, hbar, c, k_B and measured masses, except two
+# things that are labelled where they appear: the coefficient 41/(10 pi) of the
+# one-loop quantum correction to Newton's potential, quoted from the published
+# calculation (Bjerrum-Bohr, Donoghue, Holstein 2003), and the geometry of the
+# two-mass entanglement experiment, which is a design, not physics.
+EFT_NEWTON_COEFF_NUM, EFT_NEWTON_COEFF_DEN = 41, 10   # coefficient = 41 / (10 pi)
+
+
+def _schwarzschild(m: float, c: float, g: float, hbar: float, kb: float) -> Dict[str, float]:
+    return {
+        "mass_kg": m,
+        "r_s_m": 2 * g * m / c ** 2,
+        "T_H_K": hbar * c ** 3 / (8 * math.pi * g * m * kb),
+        "S_BH_kB": 4 * math.pi * g * m ** 2 / (hbar * c),
+        # evaporation into massless quanta, geometric-optics estimate (photons only)
+        "t_evap_s": 5120 * math.pi * g ** 2 * m ** 3 / (hbar * c ** 4),
+    }
+
+
+def _lambda_qcd_2loop(alpha_mz: float, mz: float, nf: int) -> float:
+    """Lambda_MSbar from the two-loop formula alpha_s = 4 pi/(b0 t) [1 - b1 ln t/(b0^2 t)], t = ln(mu^2/L^2)."""
+    b0, b1 = (float(v) for v in qcd_beta(nf))
+
+    def alpha(lam: float) -> float:
+        t = math.log(mz ** 2 / lam ** 2)
+        return 4 * math.pi / (b0 * t) * (1 - b1 * math.log(t) / (b0 ** 2 * t))
+    lo, hi = mz * 10 ** -6, mz / 10
+    for _ in range(300):
+        mid = math.sqrt(lo * hi)
+        if alpha(mid) < alpha_mz:
+            lo = mid
+        else:
+            hi = mid
+    return math.sqrt(lo * hi)
+
+
+def _two_qubit_entropy(amps: List[complex]) -> float:
+    """Entanglement entropy (bits) from the reduced density matrix of a two-qubit pure state."""
+    a00, a01, a10, a11 = amps
+    r00 = abs(a00) ** 2 + abs(a01) ** 2
+    r11 = abs(a10) ** 2 + abs(a11) ** 2
+    r01 = a00 * a10.conjugate() + a01 * a11.conjugate()
+    disc = math.sqrt(max(0, (r00 - r11) ** 2 + 4 * abs(r01) ** 2))
+    ent = 0.0
+    for lam in ((r00 + r11 + disc) / 2, (r00 + r11 - disc) / 2):
+        if lam > 0:
+            ent -= lam * math.log2(lam)
+    return ent
+
+
+def quantum_gravity(cosmo: Dict[str, Any], flav: Dict[str, Any]) -> Dict[str, Any]:
+    x = _float_inputs()
+    c, g, kb, alpha = x["c"], x["G"], x["k_B"], x["alpha_em"]
+    hbar = x["h"] / (2 * math.pi)
+    gev = x["e_charge"] * 10 ** 9                     # J per GeV
+    out: Dict[str, Any] = {}
+
+    # H1. Planck units
+    lp, mp_planck = math.sqrt(hbar * g / c ** 3), math.sqrt(hbar * c / g)
+    out["planck"] = {"l_P_m": lp, "t_P_s": lp / c, "m_P_kg": mp_planck, "E_P_GeV": mp_planck * c ** 2 / gev,
+                     "T_P_K": mp_planck * c ** 2 / kb, "rho_P_kg_m3": c ** 5 / (hbar * g ** 2)}
+
+    # H2. Newton's potential with its one-loop quantum correction
+    #     V = -G m1 m2 / r [1 + 3 G (m1 + m2)/(r c^2) + (41/(10 pi)) G hbar/(r^2 c^3)]
+    k_q = EFT_NEWTON_COEFF_NUM / (EFT_NEWTON_COEFF_DEN * math.pi)
+    m_p = x["m_p"]
+    out["newton"] = {
+        "coefficient": k_q,
+        "quantum_rel_at_1m": k_q * lp ** 2,
+        "classical_rel_two_1kg_at_1m": 3 * g * 2 / c ** 2,
+        # distance where the quantum term equals the relativistic one: r = k_q hbar / (3 (m1 + m2) c)
+        "r_equal_two_protons_m": k_q * hbar / (3 * 2 * m_p * c),
+        "proton_compton_m": hbar / (m_p * c),
+        # distance where the quantum term reaches 1: the effective theory stops there
+        "r_breakdown_m": math.sqrt(k_q) * lp,
+    }
+
+    # H3. Black holes and horizons
+    m_sun = x["GM_sun"] / g
+    t0_s = float(cosmo["age_Gyr"]) * 31557600 * 10 ** 9
+    m_evap = (t0_s * hbar * c ** 4 / (5120 * math.pi * g ** 2)) ** (1 / 3)
+    h0 = float(cosmo["H0_per_s"])
+    h_l = h0 * math.sqrt(float(cosmo["Omega_Lambda"]))
+    out["black_holes"] = {"sun": _schwarzschild(m_sun, c, g, hbar, kb),
+                          "evaporating_now": _schwarzschild(m_evap, c, g, hbar, kb)}
+    out["de_sitter"] = {"H_Lambda_per_s": h_l, "T_dS_K": hbar * h_l / (2 * math.pi * kb),
+                        "S_area_law_kB": math.pi * (c / h_l) ** 2 / lp ** 2,
+                        "S_part_A_kB": float(cosmo["S_deSitter_kB"])}
+
+    # H4. Unruh effect
+    g_earth = x["GM_earth"] / x["R_earth"] ** 2
+    out["unruh"] = {"g_earth": g_earth, "T_at_g_K": hbar * g_earth / (2 * math.pi * c * kb),
+                    "a_for_1K": 2 * math.pi * c * kb / hbar}
+
+    # H5. Gravity-mediated entanglement (two masses, each in a superposition of two places
+    #     along the line joining them; the four branch distances are d, d+dx, d+dx, d+2dx)
+    m, dx, d, tau = x["bmv_mass"], x["bmv_dx"], x["bmv_d"], x["bmv_time"]
+    dist = {(0, 0): d + dx, (0, 1): d + 2 * dx, (1, 0): d, (1, 1): d + dx}   # (left mass, right mass)
+    phase = {k: g * m * m * tau / (hbar * r) for k, r in dist.items()}
+    dphi = phase[(1, 0)] + phase[(0, 1)] - phase[(0, 0)] - phase[(1, 1)]
+    amps = [cmath.exp(1j * phase[k]) / 2 for k in ((0, 0), (0, 1), (1, 0), (1, 1))]
+    conc = abs(math.sin(dphi / 2))
+    p = (1 + math.sqrt(max(0, 1 - conc ** 2))) / 2
+    ent_formula = -(p * math.log2(p) + (1 - p) * math.log2(1 - p)) if 0 < p < 1 else 0.0
+    out["entanglement"] = {"phases_rad": {f"{k}": v for k, v in phase.items()}, "entangling_phase_rad": dphi,
+                           "concurrence": conc, "entropy_bits": _two_qubit_entropy(amps),
+                           "entropy_formula_bits": ent_formula}
+
+    # H6. Why gravity is weak for protons: the strong scale comes from logarithmic running
+    runner = flav["runner"]
+    mp_gev = mp_planck * c ** 2 / gev
+    as_planck = runner.alpha_s(mp_gev)
+    lam5 = _lambda_qcd_2loop(x["alpha_s_MZ"], x["M_Z"], 5)
+    b0_6 = float(qcd_beta(6)[0])
+    out["transmutation"] = {"alpha_s_at_M_P": as_planck, "Lambda5_GeV": lam5,
+                            "ln_MP_over_Lambda": math.log(mp_gev / lam5),
+                            "one_loop_2pi_over_b0_alpha": 2 * math.pi / (b0_6 * as_planck),
+                            "m_p_over_Lambda": m_p * c ** 2 / gev / lam5}
+
+    # H7. Dimensionless numbers (patterns; each labelled)
+    rho_crit = 3 * h0 ** 2 / (8 * math.pi * g)
+    rho_l = float(cosmo["Omega_Lambda"]) * rho_crit
+    alpha_g_p = g * m_p ** 2 / (hbar * c)
+    out["numbers"] = {
+        "alpha": alpha, "alpha_G_proton": alpha_g_p, "alpha_G_electron": g * x["m_e"] ** 2 / (hbar * c),
+        "m_p_over_m_e": m_p / x["m_e"], "m_p_over_M_P": m_p / mp_planck,
+        "hubble_radius_over_proton_compton": (c / h0) / (hbar / (m_p * c)),
+        "electric_over_gravity_p_e": alpha * hbar * c / (g * m_p * x["m_e"]),
+        "rho_Lambda_over_rho_P": rho_l / out["planck"]["rho_P_kg_m3"],
+        "S_dS_times_rho_ratio": float(cosmo["S_deSitter_kB"]) * rho_l / out["planck"]["rho_P_kg_m3"],
+    }
+    return out
+
+
+# =============================================================================
 # 7. COSMOLOGY (Decimal arithmetic)
 # =============================================================================
 def dec_pi() -> Decimal:
@@ -1894,6 +2052,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
                      for mu in scales)]
     symm = symmetry_search(yuk, survivors)
     closure = general_texture_closure()
+    qg = quantum_gravity(cosmo, flav)
     checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
     checks.append(("Every symmetry found reproduces its target zeros exactly (recomputed from the charges)",
                    all(sv["verified"] for e in symm["by_beta"].values() for sv in e["survivors"]
@@ -1904,8 +2063,41 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
     r_full, r_diag = invariant_rank(full, full, draw), invariant_rank(diag, diag, draw)
     checks.append(("Invariant-rank method: general matrices give 10 physical parameters, diagonal ones 6",
                    (r_full, r_diag) == (10, 6), f"ranks {r_full}, {r_diag}"))
+    # Part H
+    tol = num("check_rel_tol")
+    xf = _float_inputs()
+    hb, cc, gg, kk = xf["h"] / (2 * math.pi), xf["c"], xf["G"], xf["k_B"]
+    msun = qg["black_holes"]["sun"]["mass_kg"]
+    step = msun * num("check_fd_rel_step")
+    s_p = _schwarzschild(msun + step, cc, gg, hb, kk)["S_BH_kB"]
+    s_m = _schwarzschild(msun - step, cc, gg, hb, kk)["S_BH_kB"]
+    ds_de = (s_p - s_m) / (2 * step * cc ** 2)                # dS/dE in units of k_B per joule
+    inv_kt = 1 / (kk * qg["black_holes"]["sun"]["T_H_K"])
+    checks.append(("Black-hole first law: dS/dE = 1/(k_B T_H) (entropy and temperature consistent)",
+                   abs(ds_de / inv_kt - 1) < num("check_fd_tol"), f"rel diff {abs(ds_de / inv_kt - 1):.1e}"))
+    kappa = cc ** 4 / (4 * gg * msun)                        # surface gravity
+    t_unruh = hb * kappa / (2 * math.pi * cc * kk)
+    rel = abs(t_unruh / qg["black_holes"]["sun"]["T_H_K"] - 1)
+    checks.append(("Hawking temperature = Unruh temperature at the horizon's surface gravity", rel < tol,
+                   f"rel diff {rel:.1e}"))
+    ds = qg["de_sitter"]
+    rel = abs(ds["S_area_law_kB"] / ds["S_part_A_kB"] - 1)
+    checks.append(("de Sitter entropy: area law A/(4 l_P^2) = Part A's pi c^5/(G hbar H^2)", rel < tol,
+                   f"rel diff {rel:.1e}"))
+    rel = abs(qg["numbers"]["S_dS_times_rho_ratio"] / (3 / 8) - 1)
+    checks.append(("Identity: S_dS x (rho_Lambda / rho_Planck) = 3/8 exactly", rel < tol, f"rel diff {rel:.1e}"))
+    en = qg["entanglement"]
+    rel = abs(en["entropy_bits"] - en["entropy_formula_bits"])
+    checks.append(("Entanglement entropy: reduced density matrix = concurrence formula", rel < tol,
+                   f"abs diff {rel:.1e}"))
+    lam = qg["transmutation"]["Lambda5_GeV"]
+    b0, b1 = (float(v) for v in qcd_beta(5))
+    t = math.log(xf["M_Z"] ** 2 / lam ** 2)
+    back = 4 * math.pi / (b0 * t) * (1 - b1 * math.log(t) / (b0 ** 2 * t))
+    checks.append(("Lambda_QCD (2-loop) reproduces alpha_s(M_Z)", abs(back / xf["alpha_s_MZ"] - 1) < tol,
+                   f"rel diff {abs(back / xf['alpha_s_MZ'] - 1):.1e}"))
     return {"scales": scales, "cosmology": cosmo, "flavour": flav, "survey": survey, "yukawa_331": yuk,
-            "symmetry": symm, "closure": closure, "checks": checks, "precision": prec}
+            "symmetry": symm, "closure": closure, "quantum_gravity": qg, "checks": checks, "precision": prec}
 
 
 def report(res: Dict[str, Any]) -> str:
@@ -2173,6 +2365,70 @@ def report(res: Dict[str, Any]) -> str:
     w("  between nonzero entries (non-abelian flavour symmetries or grand unification),")
     w("  which this script does not search.")
     w("")
+    w("PART H. WHERE QUANTUM THEORY AND GRAVITY MEET (established physics)")
+    w("-" * 78)
+    qg = res["quantum_gravity"]
+    pl = qg["planck"]
+    w("  H1. Planck units from G, hbar, c, k_B")
+    w(f"      l_P = {pl['l_P_m']:.4e} m   t_P = {pl['t_P_s']:.4e} s   m_P = {pl['m_P_kg']:.4e} kg"
+      f"   E_P = {pl['E_P_GeV']:.4e} GeV   T_P = {pl['T_P_K']:.4e} K")
+    nw = qg["newton"]
+    w("  H2. Newton's law with its one-loop quantum correction (gravity as an effective field theory)")
+    w("      V = -G m1 m2 / r [1 + 3 G (m1+m2)/(r c^2) + (41/10pi) G hbar/(r^2 c^3)]")
+    w(f"      coefficient 41/(10 pi) = {nw['coefficient']:.5f}  [quoted: Bjerrum-Bohr, Donoghue, Holstein 2003]")
+    w(f"      two 1 kg masses at 1 m: relativistic term {nw['classical_rel_two_1kg_at_1m']:.2e},"
+      f" quantum term {nw['quantum_rel_at_1m']:.2e}")
+    w(f"      for two protons the quantum term overtakes the relativistic one below r = {nw['r_equal_two_protons_m']:.2e} m"
+      f" ({nw['r_equal_two_protons_m'] / nw['proton_compton_m']:.3f} proton Compton lengths)")
+    w(f"      the quantum term reaches 1 (the effective theory ends) at r = {nw['r_breakdown_m']:.2e} m"
+      f" = {nw['r_breakdown_m'] / pl['l_P_m']:.3f} l_P")
+    w("  H3. Black holes and horizons (Hawking, Bekenstein)")
+    for name, bh in qg["black_holes"].items():
+        label = "the Sun's mass" if name == "sun" else "mass evaporating in exactly the age of Part A"
+        w(f"      {label}: M = {bh['mass_kg']:.4e} kg, r_s = {bh['r_s_m']:.4e} m, T_H = {bh['T_H_K']:.4e} K,"
+          f" S = {bh['S_BH_kB']:.4e} k_B, t_evap = {bh['t_evap_s'] / (31557600 * 10 ** 9):.4e} Gyr")
+    ds = qg["de_sitter"]
+    w(f"      de Sitter horizon of the Part A cosmology: T = {ds['T_dS_K']:.4e} K,"
+      f" S = A/(4 l_P^2) = {ds['S_area_law_kB']:.4e} k_B")
+    w("      (t_evap counts photon emission only; more particle species shorten it)")
+    un = qg["unruh"]
+    w("  H4. Unruh effect: an accelerated observer sees the vacuum as thermal")
+    w(f"      at g = {un['g_earth']:.4f} m/s^2: T = {un['T_at_g_K']:.4e} K;  1 K needs a = {un['a_for_1K']:.4e} m/s^2")
+    en = qg["entanglement"]
+    w("  H5. Gravity as a mediator of entanglement (two masses, each in two places)")
+    w(f"      design: m = {INPUTS['bmv_mass']['value']} kg, separation {INPUTS['bmv_dx']['value']} m,"
+      f" closest distance {INPUTS['bmv_d']['value']} m, time {INPUTS['bmv_time']['value']} s")
+    w(f"      entangling phase {en['entangling_phase_rad']:.4f} rad, concurrence {en['concurrence']:.4f},"
+      f" entanglement entropy {en['entropy_bits']:.4f} bits")
+    w("      if gravity can carry quantum information this entanglement appears; a classical")
+    w("      gravitational field cannot create it (concurrence 0). Measuring it is the open test.")
+    tr = qg["transmutation"]
+    w("  H6. Why gravity is so weak for a proton: the strong scale comes from logarithmic running")
+    w(f"      alpha_s(M_P) = {tr['alpha_s_at_M_P']:.5f} (Standard Model running to M_P, no new physics assumed)")
+    w(f"      Lambda_QCD(5 flavours, 2-loop) = {tr['Lambda5_GeV']:.4f} GeV;  ln(M_P/Lambda) = {tr['ln_MP_over_Lambda']:.2f};"
+      f"  one-loop 2pi/(b0 alpha_s(M_P)) = {tr['one_loop_2pi_over_b0_alpha']:.2f}")
+    w(f"      m_p / Lambda = {tr['m_p_over_Lambda']:.2f}: the proton mass is set by Lambda (computing it needs lattice QCD)")
+    nb = qg["numbers"]
+    w("  H7. Dimensionless numbers, each with its status")
+    rows = [
+        ("alpha (electromagnetic coupling)", nb["alpha"], "measured input; not derived by any theory"),
+        ("alpha_G (proton) = G m_p^2/(hbar c)", nb["alpha_G_proton"], "= (m_p/M_P)^2 exactly; small because of H6"),
+        ("alpha_G (electron)", nb["alpha_G_electron"], "the electron mass is a Higgs coupling: not derived"),
+        ("m_p / m_e", nb["m_p_over_m_e"], "QCD scale over a Yukawa coupling: not derived"),
+        ("electric/gravitational force, p-e", nb["electric_over_gravity_p_e"], "= alpha hbar c/(G m_p m_e): follows from rows above"),
+        ("Hubble radius / proton Compton length", nb["hubble_radius_over_proton_compton"],
+         "Dirac's large number; its closeness to 1/alpha_G is unexplained"),
+        ("rho_Lambda / rho_Planck", nb["rho_Lambda_over_rho_P"], "the cosmological-constant problem: open"),
+        ("S_dS x rho_Lambda / rho_Planck", nb["S_dS_times_rho_ratio"], "= 3/8 exactly: the 10^122 and 10^-123 are one fact"),
+    ]
+    for name, val, status in rows:
+        w(f"      {name:<38} {val:12.4e}   log10 {math.log10(val):8.2f}   {status}")
+    w("  RESULT: every number above is calculated from G, hbar, c, k_B and measured masses. Two of")
+    w("    the apparent large-number coincidences are exact identities (alpha_G = (m_p/M_P)^2 and")
+    w("    S_dS rho_Lambda/rho_P = 3/8). One has a known mechanism (the proton/Planck hierarchy from")
+    w("    logarithmic running). Open: alpha, the Yukawa couplings, rho_Lambda, and whether gravity")
+    w("    carries entanglement (H5) - the measurement that would decide if gravity is quantum.")
+    w("")
     w("SELF-CHECKS (correctness of the calculation, not agreement with data)")
     w("-" * 78)
     for name, ok, detail in res["checks"]:
@@ -2209,6 +2465,7 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
                                    "left_blocks": y["left_blocks"]} for b, y in res["yukawa_331"].items()},
         "symmetry_331": {f"b={b}": e for b, e in res["symmetry"]["by_beta"].items()},
         "general_texture_closure": res["closure"],
+        "quantum_gravity": res["quantum_gravity"],
         "checks": [{"name": n, "pass": ok, "detail": d} for n, ok, d in res["checks"]],
     })
 
