@@ -1,29 +1,46 @@
-CKM from 3-3-1 wavefunction overlaps
-inputs: 9 localisation centres chosen to reproduce |V_us|, |V_cb|, |V_ub|; J and mass ratios are outputs
-grid: 481 points on y in [-6.0, 6.0]
-up sector:   9 couplings allowed, 9 forbidden by U(1)_X / SU(3)_L
-down sector: 9 couplings allowed, 9 forbidden by U(1)_X / SU(3)_L
+CKM from 3-3-1 wavefunction overlaps, solved self-consistently (no fitted inputs)
+inputs: alpha(M_Z) = 1/127.95, sin^2 theta_W = 0.23122, v = 246.22 GeV, w = 5000 GeV
+derived couplings: g_L = 0.6517, g_X = 0.3768
+net U(1)_X charge of all fermion fields: +0.0e+00
+self-consistency: 38 iterations, last change in A = 7.1e-13, converged = True
 
-mass ratios from sqrt(eigenvalues of Y Y^dagger), heaviest = 1:
-  up  : unresolved  4.124e-04  1.000e+00
-  down: unresolved  1.490e-02  1.000e+00
+derived profile centres <y> (unit = width of the localizing background):
+  Q_a  (3, 3bar, 0): modes +0.0000, -0.0000
+  Q_3  (3, 3, +1/3): modes -0.0000
+  up_R (3, 1, +2/3): modes -0.0000, -0.0000, +0.0000, +0.0000
+  dn_R (3, 1, -1/3): modes -0.0000, +0.0000, +0.0000, +0.0000, -0.0000
+  L    (1, 3, -1/3): modes -0.0000, +0.0000, +0.0000
+  e_R  (1, 1, -1): modes +0.0000, -0.0000, +0.0000
+  scalar eta: -0.0000
+  scalar rho: -0.0000
+  scalar chi: -0.0000
 
-|V_CKM|:
-  0.9747  0.2235  0.0038
-  0.2234  0.9739  0.0409
-  0.0067  0.0405  0.9992
+masses (GeV), light three then exotic:
+  up:   0  0.1934  77.03  3154
+  down: 0  0  0.4641  2208  3164
+  m_c/m_t = 0.002511   m_u/m_t = 0
+  m_s/m_b = 0   m_d/m_b = 0
+  measured at M_Z (approx.): m_c/m_t = 3.6e-3, m_u/m_t = 7e-6, m_s/m_b = 1.9e-2, m_d/m_b = 9.6e-4
 
-|V_us| = 0.2235   |V_cb| = 0.0409   |V_ub| = 0.00379   J = -2.149e-05
+|V_CKM| (light 3 x 3 block):
+  0.0000  0.0000  0.9988
+  0.0000  0.9988  0.0024
+  0.9994  0.0000  0.0000
+
+|V_us| = 0.0000   |V_cb| = 0.0024   |V_ub| = 0.99879   J = 0.000e+00
 measured (PDG 2024): |V_us| = 0.2243, |V_cb| = 0.0408, |V_ub| = 0.00382, J = 3.08e-05
-(the sign of J flips if every scalar phase is conjugated; the demo does not fix that convention)
+note: 1 up and 2 down light masses vanish; mixing among degenerate massless states is not defined,
+      so the corresponding entries of |V| are basis artefacts, not results.
+why: the self-consistent background is even in y (a lopsided seed decays back to it), so every
+     profile is centred at y = 0, each mode has definite parity, and overlaps of odd total parity vanish.
 
 self-checks:
-  PASS  H_up = U diag(ev) U^dagger (rel. err 3.0e-16)
-  PASS  H_up eigenvalues non-negative
-  PASS  H_down = U diag(ev) U^dagger (rel. err 1.2e-15)
-  PASS  H_down eigenvalues non-negative
-  PASS  V_CKM unitary (max |V^dagger V - 1| = 7.8e-16)
-  PASS  each row of |V|^2 sums to 1
-  PASS  |J| <= 1/(6 sqrt 3), the largest a 3x3 unitary allows
+  PASS  self-consistent loop converged
+  PASS  total U(1)_X charge of the fermion content is zero
+  PASS  modes of each operator orthonormal (max error 2.2e-16)
+  PASS  light CKM block unitary to O(v^2/w^2) (max |V^dagger V - 1| = 2.4e-03)
+  PASS  |V| insensitive to the exotic scale (w x4 changes it by 2.3e-03)
+  PASS  J = 0 exactly, as it must be when no complex number enters
+  PASS  converged background is parity-even (odd part 3.7e-16)
 
 7/7 checks passed

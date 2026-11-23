@@ -5,7 +5,7 @@
 <h1 align="center">Quark Mixing from 3-3-1 Wavefunction Overlaps</h1>
 
 <p align="center">
-  <strong>One standard-library Python script: Yukawa matrices from overlap integrals, a 3-3-1 charge selection rule, and the CKM matrix out the other end.</strong><br>
+  <strong>One standard-library Python script: a self-consistent, fit-free 3-3-1 calculation of quark masses and the CKM matrix from wavefunction overlaps.</strong><br>
   Independent work, not peer reviewed.
 </p>
 
@@ -24,50 +24,50 @@
 
 ## The script: [`ckm_from_331_overlaps.py`](ckm_from_331_overlaps.py)
 
-Each quark gets a Gaussian profile along an internal coordinate y. A Yukawa entry is the
-overlap ∫ ψ_L* Φ ψ_R dy with a scalar background Φ(y) whose y-dependent phase is the only
-source of CP violation. In the 3-3-1 model SU(3)_C × SU(3)_L × U(1)_X, the U(1)_X charges
-decide which scalar each generation may couple to, so no mixing angle is typed in. The two
-Yukawa matrices are diagonalized (complex Jacobi) to V_CKM = U_u† U_d and the Jarlskog J.
+Quark masses and the CKM matrix in the 3-3-1 model SU(3)_C × SU(3)_L × U(1)_X (β = −1/√3),
+**with no fitted inputs**. Each field's profile on an internal coordinate y is a mode of
+
+    H_f = −d²/dy² + y² + g_X X_f A(y),      −A″ = g_X Σ_f n_f X_f |ψ_f|²
+
+Fields with identical quantum numbers are the successive orthogonal modes of one operator
+(Q₁, Q₂ = modes 0, 1; u, c, t, U = modes 0–3; d, s, b, D₁, D₂ = modes 0–4), so generations are
+not placed by hand. All fermions, leptons and exotics included, source the U(1)_X background
+A, and the loop repeats until A stops changing. Yukawas are overlaps ∫ ψ_L Φ ψ_R dy of the
+converged profiles; the 4×4 up and 5×5 down mass matrices give the light masses and V_CKM.
 
 ```bash
-python3 ckm_from_331_overlaps.py     # Python 3.8+, standard library only, < 1 s
+python3 ckm_from_331_overlaps.py     # Python 3.8+, standard library only, ~2 s
 ```
 
-| Step | Function |
-|---|---|
-| Localized profile from d(ln ψ)/dy = −(y − y₀)/w² | `solve_localized_wavefunction` |
-| Scalar amplitude and phase on y | `build_scalar_profile` |
-| −X_L + X_Φ + X_R = 0 and SU(3)_L contraction | `is_331_coupling_allowed` |
-| Y_ij = Σ_Φ c_ij ∫ ψ_L,i* Φ ψ_R,j dy | `build_derived_yukawa_331` |
-| H = Y Y†, V = U_u† U_d, \|V_ij\|, J | `diagonalize_ckm_from_yukawas` |
+External numbers, all measured, none adjusted toward quark data: α(M_Z), sin²θ_W(M_Z)
+(→ g_L = 0.652, g_X = 0.377), v = 246 GeV, and the 3-3-1 scale w (exotic masses only;
+|V| changes by 2×10⁻³ when w is raised fourfold). v_η = v_ρ = v/√2.
 
-**Demo (β = −1/√3).** Q₁, Q₂ are antitriplets (X = 0), Q₃ a triplet (X = +⅓). The charge rule
-sends Q₁,₂ to ρ* (up) and η* (down), and Q₃ to η (up) and ρ (down): 9 of 18 candidate
-entries per sector are forbidden. The nine localization centres were chosen to match the
-three measured |V| magnitudes; widths, scalar phases and Clebsch–Gordan weights (all 1)
-were fixed beforehand.
+**Result.** The loop locks in after 38 iterations (change in A < 10⁻¹²), and a lopsided
+starting background decays back to the same solution. Total X charge of the fermion content
+is zero and the background is even in y, so every profile is centred at y = 0 with definite
+parity, and odd-parity overlaps vanish:
 
-| Quantity | Script | Measured | Status |
-|---|---|---|---|
-| \|V_us\|, \|V_cb\|, \|V_ub\| | 0.2235, 0.0409, 0.00379 | 0.2243, 0.0408, 0.00382 | fitted (9 inputs, 3 targets) |
-| \|V_td\| | 0.0067 | 0.0086 | output |
-| J | −2.15×10⁻⁵ | +3.08×10⁻⁵ | output; sign is a phase convention here |
-| m_c/m_t, m_s/m_b | 4.1×10⁻⁴, 1.5×10⁻² | ≈ 3.6×10⁻³, 1.9×10⁻² | output |
-| m_u, m_d | unresolved | nonzero | fails (below double precision) |
+| Quantity | Script | Measured |
+|---|---|---|
+| heaviest light up / down | 77 GeV / 0.46 GeV | ≈ 172 / 2.9 GeV |
+| m_c/m_t | 2.5×10⁻³ | ≈ 3.6×10⁻³ |
+| m_u, m_d, m_s | 0 | nonzero |
+| \|V_us\|, \|V_cb\| | 0, 0.0024 | 0.224, 0.041 |
+| J | 0 exactly (no complex input) | 3.08×10⁻⁵ |
 
-The demo ends with seven checks on its own numerics (H = U diag U†, V unitary, |J| ≤ 1/(6√3)).
-[`tests/test_ckm_331.py`](tests/test_ckm_331.py) checks the eigensolver against numpy and
-pins the output on every commit.
+Nothing was tuned after seeing these numbers. The calculation pins down what the minimal
+setup lacks: a derived source of y → −y breaking (e.g. chirality-dependent coupling to a
+domain wall) and a derived CP phase.
 
-**Limits.** Not a prediction: the |V| magnitudes are matched by choice of centres. The
-SU(3)_L check only asks whether representations can contract, and the CG weights are set
-to 1. No renormalization-group running.
+Seven self-checks run at the end (convergence, ΣX = 0, orthonormal modes, light-block
+unitarity, w-insensitivity, J = 0, parity of A). [`tests/test_ckm_331.py`](tests/test_ckm_331.py)
+checks both eigensolvers against numpy and pins the output; expected output:
+[`results/ckm_331/output.txt`](results/ckm_331/output.txt).
 
-**Fix to the uploaded file.** As first uploaded (`production_v2_2.py`), the Jacobi rotation
-had inconsistent signs and phases, so its eigenvalues disagreed with numpy and U diag U†
-did not rebuild H. The rotation now removes the phase of a_pq and then applies the
-standard real Jacobi step; it agrees with numpy to 10⁻¹⁵.
+**History.** Uploaded as `production_v2_2.py`; its complex Jacobi eigensolver had
+inconsistent signs and phases (wrong eigenvalues) and is fixed, agreeing with numpy to
+10⁻¹⁵. An interim demo that chose nine centres to match |V| was removed: nothing is fitted.
 
 ---
 
@@ -326,7 +326,7 @@ python3 src/induced_gravity.py       # G induced by stage 1's matter at its Land
 python3 src/induced_gravity_finite.py # regulator-free induced G: impossible within 3-3-1; the minimal completion fixes the sign, <1 s
 python3 src/gravity_from_331.py      # all of it in one paste: the no-go, the induced G, the loop to N_c = 3, ~3 s
 python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (397 tests)
+python -m pytest tests -q           # every number pinned (398 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on

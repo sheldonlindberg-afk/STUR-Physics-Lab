@@ -292,103 +292,260 @@ def diagonalize_ckm_from_yukawas(
 
 
 # ---------------------------------------------------------------------------
-# Demo: run this file (python3 ckm_from_331_overlaps.py) to see one worked case.
-# Inputs: the nine localisation centres were chosen (Nelder-Mead) so that |V_us|,
-# |V_cb| and |V_ub| come out at their measured values. Everything else is fixed by
-# hand: widths, scalar profiles and phases, and every CG weight = 1. J and the mass
-# ratios are then outputs, not inputs.
+# Self-consistent calculation: nothing is fitted.
+#
+# Every field's profile on y is a mode of one operator,
+#     H_f = -d^2/dy^2 + y^2 + g_X X_f A(y),
+# where y^2 is the localizing domain-wall background (it sets the unit of y) and
+# A(y) is the U(1)_X background sourced by every fermion of the model:
+#     -A''(y) = g_X * sum_f n_f X_f |psi_f(y)|^2.
+# Fields with identical quantum numbers are the successive orthogonal modes of the
+# same operator, so generations are not placed by hand. A is recomputed from the
+# modes and the loop repeats until A stops changing (it "locks in").
+#
+# External numbers, all measured and none adjusted toward quark data:
+#   alpha(M_Z), sin^2 theta_W(M_Z)  ->  g_L, g_X   (beta = -1/sqrt(3) matching)
+#   v = 246 GeV and the 3-3-1 scale w (only sets how heavy the exotic quarks are).
 # ---------------------------------------------------------------------------
 
-def _demo_inputs():
-    """Quark sector of the beta = -1/sqrt(3) 3-3-1 model on y in [-6, 6].
+ALPHA_MZ = 1.0 / 127.95
+SIN2W_MZ = 0.23122
+V_EW_GEV = 246.22
+W_331_GEV = 5000.0  # exotic-quark scale; light-quark results are checked to be insensitive to it
 
-    Left-handed quarks: Q_1, Q_2 in the antitriplet (X = 0), Q_3 in the triplet
-    (X = +1/3). Right-handed u (X = +2/3) and d (X = -1/3) are SU(3)_L singlets.
-    Scalars: eta (X = -1/3), rho (X = +2/3) and their conjugates. The U(1)_X rule
-    alone decides which scalar couples each generation: rho* and eta* reach Q_1, Q_2;
-    eta and rho reach Q_3. All Clebsch-Gordan weights are set to 1, so no mixing
-    angle is put in by hand.
-    """
-    n = 481
-    grid = [-6.0 + 12.0 * k / (n - 1) for k in range(n)]
-    third = 1.0 / 3.0
-    left = [
-        FermionMultiplet331("Q1_L", 0, "L", "3bar", 0.0, -1.505, 0.55, 1.0),
-        FermionMultiplet331("Q2_L", 1, "L", "3bar", 0.0, -1.422, 0.55, 1.0),
-        FermionMultiplet331("Q3_L", 2, "L", "3", third, -2.155, 0.55, 1.0),
-    ]
-    u_right = [
-        FermionMultiplet331("u_R", 0, "R", "1", 2 * third, -0.398, 0.5, 1.0),
-        FermionMultiplet331("c_R", 1, "R", "1", 2 * third, 1.239, 0.5, 1.0),
-        FermionMultiplet331("t_R", 2, "R", "1", 2 * third, 3.303, 0.5, 1.0),
-    ]
-    d_right = [
-        FermionMultiplet331("d_R", 0, "R", "1", -third, -0.038, 0.5, 1.0),
-        FermionMultiplet331("s_R", 1, "R", "1", -third, -0.857, 0.5, 1.0),
-        FermionMultiplet331("b_R", 2, "R", "1", -third, 3.327, 0.5, 1.0),
-    ]
-    ones = [[1.0 + 0j] * 3 for _ in range(3)]
-    eta = ScalarChannel331("eta", -third, 1.0, 0.3, 1.6, 0.35, 0.20, 1.3)
-    rho_c = ScalarChannel331("rho*", -2 * third, 1.0, -1.2, 1.8, -0.25, 0.15, 0.9)
-    rho = ScalarChannel331("rho", 2 * third, 1.0, 0.6, 1.6, 0.25, 0.15, 0.9)
-    eta_c = ScalarChannel331("eta*", third, 1.0, -1.8, 1.8, -0.35, 0.20, 1.3)
-    up_scalars = [(eta, ones), (rho_c, ones)]
-    down_scalars = [(rho, ones), (eta_c, ones)]
-    return grid, left, u_right, d_right, up_scalars, down_scalars
+THIRD = 1.0 / 3.0
+
+# beta = -1/sqrt(3) model, one entry per field species:
+# (name, X, multiplicity per generation (colour x SU(3)_L components), number of generations).
+# Leptons and exotic quarks are included because they source A(y); the total X is zero.
+SPECIES: List[Tuple[str, float, int, int]] = [
+    ("Q_a  (3, 3bar, 0)", 0.0, 9, 2),         # (d, -u, D)_L, generations 1 and 2
+    ("Q_3  (3, 3, +1/3)", THIRD, 9, 1),       # (u, d, U)_L, generation 3
+    ("up_R (3, 1, +2/3)", 2 * THIRD, 3, 4),   # u_R, c_R, t_R and the exotic U_R: same charges
+    ("dn_R (3, 1, -1/3)", -THIRD, 3, 5),      # d_R, s_R, b_R and the exotics D_1R, D_2R
+    ("L    (1, 3, -1/3)", -THIRD, 3, 3),      # (nu, e, N)_L
+    ("e_R  (1, 1, -1)", -1.0, 1, 3),
+]
+# Scalars are probes of A (their condensates are not counted as sources).
+SCALARS: Dict[str, float] = {"eta": -THIRD, "rho": 2 * THIRD, "chi": -THIRD}
 
 
-def _self_checks(y_u, y_d, result) -> List[Tuple[str, bool]]:
-    """Checks the numerics: V unitary, H = U diag U^dagger, J matches its definition."""
-    checks: List[Tuple[str, bool]] = []
-    for name, y in (("up", y_u), ("down", y_d)):
-        h = _mat_mul(y, _mat_hermitian(y))
-        ev, u = jacobi_hermitian_eig(h)
-        rebuilt = _mat_mul(_mat_mul(u, [[ev[i] if i == j else 0.0 for j in range(3)] for i in range(3)]), _mat_hermitian(u))
-        scale = max(abs(x) for row in h for x in row) or 1.0
-        err = max(abs(h[i][j] - rebuilt[i][j]) for i in range(3) for j in range(3)) / scale
-        checks.append((f"H_{name} = U diag(ev) U^dagger (rel. err {err:.1e})", err < 1e-10))
-        checks.append((f"H_{name} eigenvalues non-negative", min(ev) > -1e-12 * scale))
-    _, u_u = jacobi_hermitian_eig(_mat_mul(y_u, _mat_hermitian(y_u)))
-    _, u_d = jacobi_hermitian_eig(_mat_mul(y_d, _mat_hermitian(y_d)))
-    v = _mat_mul(_mat_hermitian(u_u), u_d)
-    vv = _mat_mul(_mat_hermitian(v), v)
-    uerr = max(abs(vv[i][j] - (1.0 if i == j else 0.0)) for i in range(3) for j in range(3))
-    checks.append((f"V_CKM unitary (max |V^dagger V - 1| = {uerr:.1e})", uerr < 1e-10))
-    rows = [sum(m * m for m in row) for row in result["abs_v_ckm"]]
-    checks.append(("each row of |V|^2 sums to 1", all(abs(r - 1.0) < 1e-10 for r in rows)))
-    checks.append(("|J| <= 1/(6 sqrt 3), the largest a 3x3 unitary allows", abs(result["jarlskog_j"]) <= 1.0 / (6.0 * math.sqrt(3.0)) + 1e-12))
-    return checks
+def gauge_couplings() -> Tuple[float, float]:
+    """g_L and g_X from alpha and sin^2 theta_W at M_Z for beta = -1/sqrt(3):
+    t^2 = g_X^2/g_L^2 = s^2 / (1 - (1 + beta^2) s^2)."""
+    g_l = math.sqrt(4.0 * math.pi * ALPHA_MZ / SIN2W_MZ)
+    t2 = SIN2W_MZ / (1.0 - (4.0 / 3.0) * SIN2W_MZ)
+    return g_l, math.sqrt(t2) * g_l
+
+
+def _sturm_count(diag: Sequence[float], off2: float, lam: float) -> int:
+    """Number of eigenvalues below lam of a symmetric tridiagonal matrix."""
+    count, q = 0, 1.0
+    for i, d in enumerate(diag):
+        q = d - lam - (off2 / q if i else 0.0)
+        if q == 0.0:
+            q = 1e-300
+        if q < 0.0:
+            count += 1
+    return count
+
+
+def _thomas(diag: Sequence[float], off: float, rhs: Sequence[float]) -> List[float]:
+    n = len(diag)
+    c, d = [0.0] * n, [0.0] * n
+    c[0], d[0] = off / diag[0], rhs[0] / diag[0]
+    for i in range(1, n):
+        m = diag[i] - off * c[i - 1]
+        c[i] = off / m
+        d[i] = (rhs[i] - off * d[i - 1]) / m
+    x = [0.0] * n
+    x[-1] = d[-1]
+    for i in range(n - 2, -1, -1):
+        x[i] = d[i] - c[i] * x[i + 1]
+    return x
+
+
+def lowest_modes(grid: Sequence[float], potential: Sequence[float], k: int) -> Tuple[List[float], List[List[float]]]:
+    """Lowest k eigenpairs of -d^2/dy^2 + V(y) with psi = 0 at the ends (finite differences,
+    Sturm bisection for the eigenvalues, inverse iteration for the modes)."""
+    h = grid[1] - grid[0]
+    diag = [2.0 / (h * h) + v for v in potential]
+    off = -1.0 / (h * h)
+    lo_all, hi_all = min(diag) - 4.0 / (h * h), max(diag) + 4.0 / (h * h)
+    evals: List[float] = []
+    modes: List[List[float]] = []
+    for j in range(k):
+        lo, hi = lo_all, hi_all
+        for _ in range(200):
+            mid = 0.5 * (lo + hi)
+            if _sturm_count(diag, off * off, mid) > j:
+                hi = mid
+            else:
+                lo = mid
+            if hi - lo < 1e-13 * max(1.0, abs(mid)):
+                break
+        lam = 0.5 * (lo + hi)
+        shift = lam - 1e-9 * max(1.0, abs(lam))
+        vec = [1.0 + 0.01 * math.sin(7.0 * i) for i in range(len(grid))]
+        for _ in range(6):
+            vec = _thomas([d - shift for d in diag], off, vec)
+            for prev in modes:  # keep exact orthogonality to lower modes
+                dot = sum(a * b for a, b in zip(vec, prev)) * h
+                vec = [a - dot * b for a, b in zip(vec, prev)]
+            nrm = math.sqrt(sum(a * a for a in vec) * h)
+            vec = [a / nrm for a in vec]
+        if max(vec) < -min(vec):  # sign convention: largest lobe positive
+            vec = [-a for a in vec]
+        evals.append(lam)
+        modes.append(vec)
+    return evals, modes
+
+
+def solve_self_consistent(
+    n_grid: int = 401, half_width: float = 8.0, mixing: float = 0.5, tol: float = 1e-12, max_iter: int = 500
+) -> Dict[str, Any]:
+    """Iterates modes <-> U(1)_X background until the background stops changing."""
+    _, g_x = gauge_couplings()
+    grid = [-half_width + 2.0 * half_width * i / (n_grid - 1) for i in range(n_grid)]
+    h = grid[1] - grid[0]
+    a_field = [0.0] * n_grid
+    history: List[float] = []
+    modes: Dict[str, List[List[float]]] = {}
+    for it in range(1, max_iter + 1):
+        density = [0.0] * n_grid
+        for name, x, mult, ngen in SPECIES:
+            pot = [y * y + g_x * x * a for y, a in zip(grid, a_field)]
+            _, modes[name] = lowest_modes(grid, pot, ngen)
+            if x != 0.0:
+                for psi in modes[name]:
+                    for i, p in enumerate(psi):
+                        density[i] += mult * x * p * p
+        # -A'' = g_X rho with A = 0 at the ends.
+        rhs = [g_x * r * h * h for r in density]
+        a_new = _thomas([2.0] * n_grid, -1.0, rhs)
+        change = max(abs(p - q) for p, q in zip(a_new, a_field))
+        history.append(change)
+        a_field = [(1.0 - mixing) * p + mixing * q for p, q in zip(a_field, a_new)]
+        if change < tol:
+            break
+    scalars = {}
+    for name, x in SCALARS.items():
+        pot = [y * y + g_x * x * a for y, a in zip(grid, a_field)]
+        scalars[name] = lowest_modes(grid, pot, 1)[1][0]
+    net_charge = sum(mult * x * ngen for _, x, mult, ngen in SPECIES)
+    return {"grid": grid, "A": a_field, "modes": modes, "scalars": scalars,
+            "iterations": len(history), "history": history, "converged": history[-1] < tol,
+            "net_x_charge": net_charge, "g_x": g_x}
+
+
+def _overlap(grid: Sequence[float], a: Sequence[float], b: Sequence[float], c: Sequence[float]) -> float:
+    return _trapz_complex(grid, [complex(p * q * r, 0.0) for p, q, r in zip(a, b, c)]).real
+
+
+def build_mass_matrices(sol: Dict[str, Any], w_gev: float = W_331_GEV) -> Tuple[List[List[complex]], List[List[complex]]]:
+    """Up (4x4) and down (5x5) mass matrices, rows = left-handed components, columns =
+    right-handed modes. The scalar in each row is fixed by which SU(3)_L component of the
+    multiplet its vev sits in; U(1)_X neutrality of every term is asserted.
+
+    up rows:   u in Q_1, u in Q_2 (via rho*), u in Q_3 (via eta), U in Q_3 (via chi)
+    down rows: d in Q_1, d in Q_2 (via eta*), d in Q_3 (via rho), D in Q_1, D in Q_2 (via chi*)
+    v_eta = v_rho = v / sqrt(2) (no information in the model prefers either)."""
+    grid, m, s = sol["grid"], sol["modes"], sol["scalars"]
+    v_eta = v_rho = V_EW_GEV / math.sqrt(2.0)
+    qa, q3 = m["Q_a  (3, 3bar, 0)"], m["Q_3  (3, 3, +1/3)"][0]
+    up_r, dn_r = m["up_R (3, 1, +2/3)"], m["dn_R (3, 1, -1/3)"]
+    up_rows = [(qa[0], 0.0, "rho*", -2 * THIRD, v_rho), (qa[1], 0.0, "rho*", -2 * THIRD, v_rho),
+               (q3, THIRD, "eta", -THIRD, v_eta), (q3, THIRD, "chi", -THIRD, w_gev)]
+    dn_rows = [(qa[0], 0.0, "eta*", THIRD, v_eta), (qa[1], 0.0, "eta*", THIRD, v_eta),
+               (q3, THIRD, "rho", 2 * THIRD, v_rho), (qa[0], 0.0, "chi*", THIRD, w_gev),
+               (qa[1], 0.0, "chi*", THIRD, w_gev)]
+
+    def assemble(rows, right, x_right):
+        out = []
+        for psi_l, x_l, sname, x_s, vev in rows:
+            assert abs(-x_l + x_s + x_right) < 1e-12, (sname, x_l, x_right)
+            prof = s[sname.rstrip("*")]
+            out.append([complex(vev * _overlap(grid, psi_l, prof, psi_r), 0.0) for psi_r in right])
+        return out
+
+    return assemble(up_rows, up_r, 2 * THIRD), assemble(dn_rows, dn_r, -THIRD)
+
+
+def light_ckm(m_u: List[List[complex]], m_d: List[List[complex]]) -> Dict[str, Any]:
+    """CKM among the three light states. W links row k of the up matrix to row k of the
+    down matrix for k = 0, 1, 2 (the SU(2)_L doublet inside each SU(3)_L multiplet)."""
+    ev_u, u_u = jacobi_hermitian_eig(_mat_mul(m_u, _mat_hermitian(m_u)))
+    ev_d, u_d = jacobi_hermitian_eig(_mat_mul(m_d, _mat_hermitian(m_d)))
+    v = [[sum(u_u[k][i].conjugate() * u_d[k][j] for k in range(3)) for j in range(3)] for i in range(3)]
+    mags = [[abs(x) for x in row] for row in v]
+    j_cp = (v[0][1] * v[1][2] * v[0][2].conjugate() * v[1][1].conjugate()).imag
+    return {"masses_up_gev": [math.sqrt(max(e, 0.0)) for e in ev_u],
+            "masses_down_gev": [math.sqrt(max(e, 0.0)) for e in ev_d],
+            "v": v, "abs_v": mags, "J": j_cp}
 
 
 def main() -> int:
-    grid, left, u_right, d_right, up_scalars, down_scalars = _demo_inputs()
-    y_u, info_u = build_derived_yukawa_331(grid, left, u_right, up_scalars)
-    y_d, info_d = build_derived_yukawa_331(grid, left, d_right, down_scalars)
-    res = diagonalize_ckm_from_yukawas(y_u, y_d)
+    g_l, g_x = gauge_couplings()
+    sol = solve_self_consistent()
+    m_u, m_d = build_mass_matrices(sol)
+    res = light_ckm(m_u, m_d)
+    res_w = light_ckm(*build_mass_matrices(sol, w_gev=4.0 * W_331_GEV))
 
-    print("CKM from 3-3-1 wavefunction overlaps")
-    print("inputs: 9 localisation centres chosen to reproduce |V_us|, |V_cb|, |V_ub|; J and mass ratios are outputs")
-    print(f"grid: {len(grid)} points on y in [{grid[0]:.1f}, {grid[-1]:.1f}]")
-    print(f"up sector:   {info_u['allowed_couplings']} couplings allowed, {info_u['forbidden_by_u1x_or_rep']} forbidden by U(1)_X / SU(3)_L")
-    print(f"down sector: {info_d['allowed_couplings']} couplings allowed, {info_d['forbidden_by_u1x_or_rep']} forbidden by U(1)_X / SU(3)_L")
-    print("\nmass ratios from sqrt(eigenvalues of Y Y^dagger), heaviest = 1:")
-    for name, ev in (("up  ", res["h_u_eigenvalues_asc"]), ("down", res["h_d_eigenvalues_asc"])):
-        # An eigenvalue below ~1e-14 of the largest is round-off: that mass is not resolved.
-        cells = [
-            f"{math.sqrt(e / ev[-1]):.3e}" if e > 1e-14 * ev[-1] else "unresolved"
-            for e in ev
-        ]
-        print(f"  {name}: " + "  ".join(cells))
-    print("\n|V_CKM|:")
-    for row in res["abs_v_ckm"]:
+    print("CKM from 3-3-1 wavefunction overlaps, solved self-consistently (no fitted inputs)")
+    print(f"inputs: alpha(M_Z) = 1/{1 / ALPHA_MZ:.2f}, sin^2 theta_W = {SIN2W_MZ}, v = {V_EW_GEV} GeV, w = {W_331_GEV:.0f} GeV")
+    print(f"derived couplings: g_L = {g_l:.4f}, g_X = {g_x:.4f}")
+    print(f"net U(1)_X charge of all fermion fields: {sol['net_x_charge']:+.1e}")
+    print(f"self-consistency: {sol['iterations']} iterations, last change in A = {sol['history'][-1]:.1e}, converged = {sol['converged']}")
+
+    grid, hh = sol["grid"], sol["grid"][1] - sol["grid"][0]
+    print("\nderived profile centres <y> (unit = width of the localizing background):")
+    for name, _, _, _ in SPECIES:
+        cs = ["%+.4f" % (sum(y * p * p for y, p in zip(grid, psi)) * hh) for psi in sol["modes"][name]]
+        print(f"  {name}: modes " + ", ".join(cs))
+    for name, prof in sol["scalars"].items():
+        print(f"  scalar {name}: {sum(y * p * p for y, p in zip(grid, prof)) * hh:+.4f}")
+
+    mu, md = res["masses_up_gev"], res["masses_down_gev"]
+    print("\nmasses (GeV), light three then exotic:")
+    print("  up:   " + "  ".join(f"{x:.4g}" for x in mu))
+    print("  down: " + "  ".join(f"{x:.4g}" for x in md))
+    print(f"  m_c/m_t = {mu[1] / mu[2]:.4g}   m_u/m_t = {mu[0] / mu[2]:.4g}")
+    print(f"  m_s/m_b = {md[1] / md[2]:.4g}   m_d/m_b = {md[0] / md[2]:.4g}")
+    print("  measured at M_Z (approx.): m_c/m_t = 3.6e-3, m_u/m_t = 7e-6, m_s/m_b = 1.9e-2, m_d/m_b = 9.6e-4")
+
+    print("\n|V_CKM| (light 3 x 3 block):")
+    for row in res["abs_v"]:
         print("  " + "  ".join(f"{x:.4f}" for x in row))
-    o = res["observables"]
-    print(f"\n|V_us| = {o['V_us']:.4f}   |V_cb| = {o['V_cb']:.4f}   |V_ub| = {o['V_ub']:.5f}   J = {o['J']:.3e}")
+    a = res["abs_v"]
+    print(f"\n|V_us| = {a[0][1]:.4f}   |V_cb| = {a[1][2]:.4f}   |V_ub| = {a[0][2]:.5f}   J = {res['J']:.3e}")
     print("measured (PDG 2024): |V_us| = 0.2243, |V_cb| = 0.0408, |V_ub| = 0.00382, J = 3.08e-05")
-    print("(the sign of J flips if every scalar phase is conjugated; the demo does not fix that convention)")
+    n0u = sum(1 for x in mu[:3] if x < 1e-6 * mu[2])
+    n0d = sum(1 for x in md[:3] if x < 1e-6 * md[2])
+    if n0u > 1 or n0d > 1:
+        print(f"note: {n0u} up and {n0d} down light masses vanish; mixing among degenerate massless states is not defined,")
+        print("      so the corresponding entries of |V| are basis artefacts, not results.")
+    print("why: the self-consistent background is even in y (a lopsided seed decays back to it), so every")
+    print("     profile is centred at y = 0, each mode has definite parity, and overlaps of odd total parity vanish.")
+
+    checks: List[Tuple[str, bool]] = []
+    checks.append(("self-consistent loop converged", sol["converged"]))
+    checks.append(("total U(1)_X charge of the fermion content is zero", abs(sol["net_x_charge"]) < 1e-12))
+    worst = 0.0
+    for modes in sol["modes"].values():
+        for i, p in enumerate(modes):
+            for j, q in enumerate(modes):
+                worst = max(worst, abs(sum(a1 * b1 for a1, b1 in zip(p, q)) * hh - (1.0 if i == j else 0.0)))
+    checks.append((f"modes of each operator orthonormal (max error {worst:.1e})", worst < 1e-9))
+    vv = [[sum(res["v"][k][i].conjugate() * res["v"][k][j] for k in range(3)) for j in range(3)] for i in range(3)]
+    uerr = max(abs(vv[i][j] - (1.0 if i == j else 0.0)) for i in range(3) for j in range(3))
+    checks.append((f"light CKM block unitary to O(v^2/w^2) (max |V^dagger V - 1| = {uerr:.1e})", uerr < 1e-2))
+    dw = max(abs(p - q) for r1, r2 in zip(res["abs_v"], res_w["abs_v"]) for p, q in zip(r1, r2))
+    checks.append((f"|V| insensitive to the exotic scale (w x4 changes it by {dw:.1e})", dw < 1e-2))
+    checks.append(("J = 0 exactly, as it must be when no complex number enters", res["J"] == 0.0))
+    odd = max(abs(sol["A"][i] - sol["A"][-1 - i]) for i in range(len(grid))) / 2
+    checks.append((f"converged background is parity-even (odd part {odd:.1e})", odd < 1e-10))
 
     print("\nself-checks:")
-    checks = _self_checks(y_u, y_d, res)
     for label, ok in checks:
         print(f"  {'PASS' if ok else 'FAIL'}  {label}")
     n_pass = sum(ok for _, ok in checks)

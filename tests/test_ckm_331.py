@@ -1,7 +1,7 @@
 """Pins ckm_from_331_overlaps.py, the repository's copy-paste script.
 
-It must stay standard-library-only, its Hermitian eigensolver must agree with numpy,
-and its demo output must match results/ckm_331/output.txt.
+It must stay standard-library-only, its eigensolvers must agree with numpy, the
+self-consistent loop must converge, and its output must match results/ckm_331/output.txt.
 """
 import ast, os, subprocess, sys
 import numpy as np
@@ -32,10 +32,25 @@ def test_eigensolver_matches_numpy():
         assert np.allclose(u.conj().T @ u, np.eye(3), atol=1e-12)
 
 
-def test_u1x_selection_in_demo():
-    grid, left, ur, dr, us, ds = C._demo_inputs()
-    _, info = C.build_derived_yukawa_331(grid, left, ur, us)
-    assert info["allowed_couplings"] == 9 and info["forbidden_by_u1x_or_rep"] == 9
+def test_mode_solver_matches_numpy():
+    grid = [-6.0 + 12.0 * i / 200 for i in range(201)]
+    pot = [y * y + 0.3 * y for y in grid]
+    ev, modes = C.lowest_modes(grid, pot, 4)
+    h = grid[1] - grid[0]
+    m = np.diag([2 / h**2 + v for v in pot]) + np.diag([-1 / h**2] * 200, 1) + np.diag([-1 / h**2] * 200, -1)
+    ref = np.linalg.eigvalsh(m)[:4]
+    assert np.allclose(ev, ref, rtol=1e-10)
+    for k, psi in enumerate(modes):
+        assert np.allclose(m @ np.array(psi), ref[k] * np.array(psi), atol=1e-6 * max(1.0, ref[k]))
+
+
+def test_self_consistent_solution():
+    sol = C.solve_self_consistent()
+    assert sol["converged"] and sol["net_x_charge"] == 0.0
+    a = sol["A"]
+    assert max(abs(a[i] - a[-1 - i]) for i in range(len(a))) < 1e-10   # parity-even attractor
+    res = C.light_ckm(*C.build_mass_matrices(sol))
+    assert res["J"] == 0.0                                                # no complex input
 
 
 def test_demo_output_is_pinned():
@@ -43,4 +58,4 @@ def test_demo_output_is_pinned():
     assert out.returncode == 0, out.stdout + out.stderr
     expected = open(os.path.join(ROOT, "results", "ckm_331", "output.txt"), encoding="utf8").read()
     assert out.stdout == expected
-    assert "7/7 checks passed" in out.stdout
+    assert "7/7 checks passed" in out.stdout and "no fitted inputs" in out.stdout

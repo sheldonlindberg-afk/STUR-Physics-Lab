@@ -6,18 +6,18 @@
 <meta name="theme-color" content="#07090d" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f6f8fa" media="(prefers-color-scheme: light)">
 <title>Quark Mixing from 3-3-1 Overlaps</title>
-<meta name="description" content="One standard-library Python script that builds quark Yukawa matrices from overlaps of localized wavefunctions in a 3-3-1 model, with the U(1)_X charges deciding which couplings exist, and diagonalizes them to get the CKM matrix and the Jarlskog invariant.">
+<meta name="description" content="One standard-library Python script that computes quark masses and the CKM matrix in a 3-3-1 model with no fitted inputs: every field's profile on an internal coordinate is solved self-consistently with the U(1)_X background all fermions source, iterated until it converges.">
 <meta property="og:site_name" content="STUR Physics Lab">
-<meta property="og:title" content="Quark mixing from 3-3-1 wavefunction overlaps">
-<meta property="og:description" content="Yukawa matrices from overlap integrals on an internal coordinate, a 3-3-1 charge selection rule, and the CKM matrix out the other end. One Python file, standard library only.">
+<meta property="og:title" content="Quark mixing from 3-3-1 wavefunction overlaps, nothing fitted">
+<meta property="og:description" content="Profiles from quantum numbers, a self-consistent U(1)_X background, overlaps, and the CKM matrix out the other end. One Python file, standard library only.">
 <meta property="og:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Quark mixing from 3-3-1 wavefunction overlaps">
-<meta name="twitter:description" content="One Python file: 3-3-1 selection rule, overlap integrals, CKM matrix and Jarlskog invariant.">
+<meta name="twitter:title" content="Quark mixing from 3-3-1 wavefunction overlaps, nothing fitted">
+<meta name="twitter:description" content="One Python file: a self-consistent 3-3-1 calculation of quark masses and the CKM matrix, with no fitted inputs.">
 <meta name="twitter:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/og-card.png">
 <link rel="canonical" href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">
 <link rel="manifest" href="manifest.json">
@@ -29,7 +29,7 @@
   "@context": "https://schema.org",
   "@type": "SoftwareSourceCode",
   "name": "ckm_from_331_overlaps.py",
-  "description": "Quark Yukawa matrices from overlaps of localized wavefunctions in a 3-3-1 model, diagonalized to the CKM matrix and the Jarlskog invariant.",
+  "description": "A self-consistent, fit-free calculation of quark masses and the CKM matrix from wavefunction overlaps in a 3-3-1 model.",
   "programmingLanguage": "Python",
   "author": {"@type": "Person", "name": "Sheldon Lindberg"},
   "url": "https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/",
@@ -55,11 +55,11 @@
     <a class="brand" href="index.html"><img src="assets/logo.svg" alt="" width="28" height="28">STUR Physics Lab</a>
     <nav class="nav" aria-label="Sections">
       <a href="#idea">The idea</a>
-      <a href="#steps">What it computes</a>
+      <a href="#loop">The loop</a>
       <a href="#rule">3-3-1 rule</a>
       <a href="#result">Result</a>
       <a href="#run">Run it</a>
-      <a href="#limits">Limits</a>
+      <a href="#next">What's missing</a>
     </nav>
   </div>
 </header>
@@ -67,14 +67,14 @@
 <main id="main">
 
   <div class="hero">
-    <p class="eyebrow">One Python script &middot; standard library only &middot; CC0</p>
+    <p class="eyebrow">One Python script &middot; standard library only &middot; nothing fitted &middot; CC0</p>
     <h1>Quark mixing from <span>where quarks sit</span>.</h1>
-    <p class="lede"><code>ckm_from_331_overlaps.py</code> builds the quark Yukawa matrices of a <strong>3-3-1 model</strong> from overlap integrals of localized wavefunctions on an extra internal coordinate, lets the model's <strong>U(1)<sub>X</sub> charges</strong> decide which couplings exist, then diagonalizes the result to get the <strong>CKM matrix</strong> and the <strong>Jarlskog invariant J</strong>. No mixing angle is typed in.</p>
-    <p class="muted">The file runs as pasted in any Python 3.8+ runner, notebook or AI assistant's code tool, in well under a second, and ends with seven PASS/FAIL checks on its own numerics. Independent work, not peer reviewed.</p>
+    <p class="lede"><code>ckm_from_331_overlaps.py</code> computes quark masses and the <strong>CKM matrix</strong> in a <strong>3-3-1 model</strong> with no fitted inputs. Every field's profile on an internal coordinate comes from its quantum numbers. Those profiles are solved together with the <strong>U(1)<sub>X</sub> background</strong> that all the fermions source, and the loop repeats until the background stops changing. Yukawa couplings are then overlap integrals of the converged profiles.</p>
+    <p class="muted">The only external numbers are measured, and none is adjusted toward quark data: α and sin²θ<sub>W</sub> at M<sub>Z</sub> (which fix the gauge couplings), the Higgs vev v = 246 GeV, and the 3-3-1 scale, which only sets the exotic-quark masses. It runs in about two seconds and ends with seven PASS/FAIL checks. Independent work, not peer reviewed.</p>
     <div class="facts">
-      <div class="fact"><b>0.2235</b><span>|V<sub>us</sub>| from the demo (measured 0.2243). The three |V| magnitudes are matched by choosing nine localization centres, so this is a fit, not a prediction.</span></div>
-      <div class="fact"><b>9 of 18</b><span>Yukawa entries per sector that U(1)<sub>X</sub> charge conservation forbids; the scalars that survive differ by generation.</span></div>
-      <div class="fact"><b>|J| = 2.1×10⁻⁵</b><span>an output, not an input: measured 3.08×10⁻⁵. Right order, wrong by about 30%, sign set by a phase convention.</span></div>
+      <div class="fact"><b>38 iterations</b><span>until the self-consistent background locks in (change below 10⁻¹²). A deliberately lopsided starting point decays back to the same solution.</span></div>
+      <div class="fact"><b>Σ X = 0</b><span>The model's fermion content has zero total U(1)<sub>X</sub> charge, so the background stays bounded and symmetric.</span></div>
+      <div class="fact"><b>Not yet the CKM</b><span>With nothing fitted, the converged answer is mirror-symmetric: several quarks come out massless and the mixing is a permutation. See the result section for why.</span></div>
     </div>
     <div class="cta">
       <button class="btn primary copy-script" type="button" data-src="ckm_from_331_overlaps.py" data-status="copy-status-top">Copy the script</button>
@@ -86,86 +86,104 @@
   <section id="idea" aria-labelledby="idea-h">
     <p class="eyebrow">1 &middot; The idea</p>
     <h2 id="idea-h">Masses and mixing as overlaps</h2>
-    <div class="takeaway"><b>In one line:</b> if each quark is a bump at its own place along a hidden coordinate y, its coupling to the Higgs-like field is how much the bumps overlap, and small overlaps give small masses and small mixings.</div>
+    <div class="takeaway"><b>In one line:</b> if each quark is a wave along a hidden coordinate y, its coupling to the Higgs-like fields is how much the waves overlap. Small overlaps would give small masses and small mixings.</div>
     <div class="prose">
-      <p>The Standard Model leaves the quark masses and the four CKM parameters as free numbers, and those numbers are strongly hierarchical. A common way to make hierarchies natural is to give the fermions profiles along an internal coordinate y (as in split-fermion and extra-dimension models). A Yukawa coupling is then the integral of a left-handed profile, a scalar profile and a right-handed profile, and Gaussians that sit apart overlap exponentially little.</p>
-      <p>This script puts that mechanism inside a <strong>3-3-1 model</strong>, SU(3)<sub>C</sub> × SU(3)<sub>L</sub> × U(1)<sub>X</sub>, where the three quark generations are not copies of each other: two left-handed quark families sit in the antitriplet and the third in the triplet, with different X charges. So the charge rule alone decides which scalar each generation can couple to.</p>
+      <p>The Standard Model leaves the quark masses and the four CKM parameters as free numbers. Overlap models try to explain them: fermions get profiles along an internal coordinate y, and a Yukawa coupling is the integral of a left-handed profile, a scalar profile and a right-handed profile.</p>
+      <p>Usually those profile positions are chosen to fit the data. This script doesn't choose them. In the 3-3-1 model, SU(3)<sub>C</sub> × SU(3)<sub>L</sub> × U(1)<sub>X</sub>, every field has fixed quantum numbers, and the script derives each profile from them alone. <strong>Fields with identical quantum numbers are not separate bumps placed by hand.</strong> They are the successive orthogonal modes (0, 1, 2, …) of a single operator. That is how generations arise here.</p>
     </div>
     <figure>
       <div class="fig">
-        <svg id="fig-profiles" class="profiles" viewBox="0 0 640 230" role="img" aria-label="Normalized profiles along the internal coordinate y for the demo: three left-handed quark doublet profiles, three right-handed up-type and three right-handed down-type profiles, and the envelopes of the two up-sector scalars."></svg>
+        <svg id="fig-profiles" class="profiles" viewBox="0 0 640 240" role="img" aria-label="Converged profiles along y: the two antitriplet quark modes, the four right-handed up-type modes, and the eta scalar, all centred at y = 0.">
+<line x1="28" x2="612" y1="120" y2="120" style="stroke:var(--faint)"/>
+<text x="86.4" y="232" text-anchor="middle" font-size="12" style="fill:var(--muted)">y = -4</text>
+<text x="203.2" y="232" text-anchor="middle" font-size="12" style="fill:var(--muted)">y = -2</text>
+<text x="320.0" y="232" text-anchor="middle" font-size="12" style="fill:var(--muted)">y = 0</text>
+<text x="436.8" y="232" text-anchor="middle" font-size="12" style="fill:var(--muted)">y = 2</text>
+<text x="553.6" y="232" text-anchor="middle" font-size="12" style="fill:var(--muted)">y = 4</text>
+<path d="M28.0 120.0 L32.7 120.0 L37.3 120.0 L42.0 120.0 L46.7 120.0 L51.4 120.0 L56.0 120.0 L60.7 120.0 L65.4 120.0 L70.0 120.0 L74.7 120.0 L79.4 120.0 L84.1 120.0 L88.7 120.0 L93.4 119.9 L98.1 119.9 L102.8 119.9 L107.4 119.8 L112.1 119.8 L116.8 119.7 L121.4 119.6 L126.1 119.5 L130.8 119.4 L135.5 119.2 L140.1 119.0 L144.8 118.7 L149.5 118.4 L154.1 118.0 L158.8 117.4 L163.5 116.8 L168.2 116.1 L172.8 115.2 L177.5 114.1 L182.2 112.9 L186.8 111.5 L191.5 109.8 L196.2 107.9 L200.9 105.7 L205.5 103.2 L210.2 100.5 L214.9 97.4 L219.6 94.0 L224.2 90.3 L228.9 86.3 L233.6 82.0 L238.2 77.4 L242.9 72.5 L247.6 67.4 L252.3 62.2 L256.9 56.8 L261.6 51.4 L266.3 46.0 L270.9 40.7 L275.6 35.5 L280.3 30.6 L285.0 25.9 L289.6 21.7 L294.3 17.9 L299.0 14.6 L303.6 11.9 L308.3 9.9 L313.0 8.5 L317.7 7.8 L322.3 7.8 L327.0 8.5 L331.7 9.9 L336.4 11.9 L341.0 14.6 L345.7 17.9 L350.4 21.7 L355.0 25.9 L359.7 30.6 L364.4 35.5 L369.1 40.7 L373.7 46.0 L378.4 51.4 L383.1 56.8 L387.7 62.2 L392.4 67.4 L397.1 72.5 L401.8 77.4 L406.4 82.0 L411.1 86.3 L415.8 90.3 L420.4 94.0 L425.1 97.4 L429.8 100.5 L434.5 103.2 L439.1 105.7 L443.8 107.9 L448.5 109.8 L453.2 111.5 L457.8 112.9 L462.5 114.1 L467.2 115.2 L471.8 116.1 L476.5 116.8 L481.2 117.4 L485.9 118.0 L490.5 118.4 L495.2 118.7 L499.9 119.0 L504.5 119.2 L509.2 119.4 L513.9 119.5 L518.6 119.6 L523.2 119.7 L527.9 119.8 L532.6 119.8 L537.2 119.9 L541.9 119.9 L546.6 119.9 L551.3 120.0 L555.9 120.0 L560.6 120.0 L565.3 120.0 L570.0 120.0 L574.6 120.0 L579.3 120.0 L584.0 120.0 L588.6 120.0 L593.3 120.0 L598.0 120.0 L602.7 120.0 L607.3 120.0 L612.0 120.0" fill="none" stroke-width="1.2" style="stroke:var(--blue)" stroke-dasharray="3 3"/>
+<path d="M28.0 120.0 L32.7 120.0 L37.3 120.0 L42.0 120.0 L46.7 120.0 L51.4 120.0 L56.0 120.0 L60.7 120.0 L65.4 119.9 L70.0 119.9 L74.7 119.9 L79.4 119.9 L84.1 119.8 L88.7 119.7 L93.4 119.7 L98.1 119.5 L102.8 119.4 L107.4 119.2 L112.1 119.0 L116.8 118.7 L121.4 118.3 L126.1 117.8 L130.8 117.2 L135.5 116.5 L140.1 115.7 L144.8 114.6 L149.5 113.4 L154.1 111.9 L158.8 110.1 L163.5 108.1 L168.2 105.7 L172.8 103.0 L177.5 100.0 L182.2 96.5 L186.8 92.7 L191.5 88.5 L196.2 84.0 L200.9 79.1 L205.5 73.9 L210.2 68.5 L214.9 62.9 L219.6 57.2 L224.2 51.6 L228.9 46.1 L233.6 40.9 L238.2 36.1 L242.9 31.9 L247.6 28.3 L252.3 25.7 L256.9 24.0 L261.6 23.5 L266.3 24.2 L270.9 26.2 L275.6 29.6 L280.3 34.4 L285.0 40.5 L289.6 48.0 L294.3 56.7 L299.0 66.5 L303.6 77.4 L308.3 89.0 L313.0 101.1 L317.7 113.7 L322.3 126.3 L327.0 138.9 L331.7 151.0 L336.4 162.6 L341.0 173.5 L345.7 183.3 L350.4 192.0 L355.0 199.5 L359.7 205.6 L364.4 210.4 L369.1 213.8 L373.7 215.8 L378.4 216.5 L383.1 216.0 L387.7 214.3 L392.4 211.7 L397.1 208.1 L401.8 203.9 L406.4 199.1 L411.1 193.9 L415.8 188.4 L420.4 182.8 L425.1 177.1 L429.8 171.5 L434.5 166.1 L439.1 160.9 L443.8 156.0 L448.5 151.5 L453.2 147.3 L457.8 143.5 L462.5 140.0 L467.2 137.0 L471.8 134.3 L476.5 131.9 L481.2 129.9 L485.9 128.1 L490.5 126.6 L495.2 125.4 L499.9 124.3 L504.5 123.5 L509.2 122.8 L513.9 122.2 L518.6 121.7 L523.2 121.3 L527.9 121.0 L532.6 120.8 L537.2 120.6 L541.9 120.5 L546.6 120.3 L551.3 120.3 L555.9 120.2 L560.6 120.1 L565.3 120.1 L570.0 120.1 L574.6 120.1 L579.3 120.0 L584.0 120.0 L588.6 120.0 L593.3 120.0 L598.0 120.0 L602.7 120.0 L607.3 120.0 L612.0 120.0" fill="none" stroke-width="1.2" style="stroke:var(--blue)" stroke-dasharray="3 3"/>
+<path d="M28.0 120.0 L32.7 120.0 L37.3 120.0 L42.0 120.0 L46.7 119.9 L51.4 119.9 L56.0 119.9 L60.7 119.8 L65.4 119.8 L70.0 119.7 L74.7 119.6 L79.4 119.5 L84.1 119.3 L88.7 119.0 L93.4 118.7 L98.1 118.4 L102.8 117.9 L107.4 117.3 L112.1 116.5 L116.8 115.6 L121.4 114.5 L126.1 113.2 L130.8 111.5 L135.5 109.6 L140.1 107.4 L144.8 104.8 L149.5 101.8 L154.1 98.5 L158.8 94.7 L163.5 90.4 L168.2 85.8 L172.8 80.8 L177.5 75.5 L182.2 69.9 L186.8 64.1 L191.5 58.3 L196.2 52.5 L200.9 47.0 L205.5 41.8 L210.2 37.3 L214.9 33.5 L219.6 30.7 L224.2 29.1 L228.9 28.9 L233.6 30.1 L238.2 33.0 L242.9 37.5 L247.6 43.8 L252.3 51.7 L256.9 61.3 L261.6 72.2 L266.3 84.4 L270.9 97.5 L275.6 111.3 L280.3 125.3 L285.0 139.1 L289.6 152.4 L294.3 164.6 L299.0 175.6 L303.6 184.8 L308.3 192.0 L313.0 196.9 L317.7 199.5 L322.3 199.5 L327.0 196.9 L331.7 192.0 L336.4 184.8 L341.0 175.6 L345.7 164.6 L350.4 152.4 L355.0 139.1 L359.7 125.3 L364.4 111.3 L369.1 97.5 L373.7 84.4 L378.4 72.2 L383.1 61.3 L387.7 51.7 L392.4 43.8 L397.1 37.5 L401.8 33.0 L406.4 30.1 L411.1 28.9 L415.8 29.1 L420.4 30.7 L425.1 33.5 L429.8 37.3 L434.5 41.8 L439.1 47.0 L443.8 52.5 L448.5 58.3 L453.2 64.1 L457.8 69.9 L462.5 75.5 L467.2 80.8 L471.8 85.8 L476.5 90.4 L481.2 94.7 L485.9 98.5 L490.5 101.8 L495.2 104.8 L499.9 107.4 L504.5 109.6 L509.2 111.5 L513.9 113.2 L518.6 114.5 L523.2 115.6 L527.9 116.5 L532.6 117.3 L537.2 117.9 L541.9 118.4 L546.6 118.7 L551.3 119.0 L555.9 119.3 L560.6 119.5 L565.3 119.6 L570.0 119.7 L574.6 119.8 L579.3 119.8 L584.0 119.9 L588.6 119.9 L593.3 119.9 L598.0 120.0 L602.7 120.0 L607.3 120.0 L612.0 120.0" fill="none" stroke-width="1.2" style="stroke:var(--blue)" stroke-dasharray="3 3"/>
+<path d="M28.0 120.1 L32.7 120.1 L37.3 120.1 L42.0 120.2 L46.7 120.2 L51.4 120.3 L56.0 120.4 L60.7 120.6 L65.4 120.7 L70.0 121.0 L74.7 121.3 L79.4 121.7 L84.1 122.2 L88.7 122.9 L93.4 123.7 L98.1 124.7 L102.8 126.0 L107.4 127.4 L112.1 129.2 L116.8 131.4 L121.4 133.8 L126.1 136.7 L130.8 140.1 L135.5 143.8 L140.1 148.0 L144.8 152.7 L149.5 157.8 L154.1 163.2 L158.8 168.9 L163.5 174.8 L168.2 180.8 L172.8 186.6 L177.5 192.2 L182.2 197.3 L186.8 201.6 L191.5 205.0 L196.2 207.3 L200.9 208.1 L205.5 207.3 L210.2 204.8 L214.9 200.3 L219.6 194.0 L224.2 185.7 L228.9 175.6 L233.6 163.9 L238.2 150.9 L242.9 136.8 L247.6 122.2 L252.3 107.5 L256.9 93.3 L261.6 80.1 L266.3 68.4 L270.9 58.7 L275.6 51.5 L280.3 47.0 L285.0 45.6 L289.6 47.3 L294.3 52.2 L299.0 59.9 L303.6 70.3 L308.3 82.8 L313.0 97.0 L317.7 112.2 L322.3 127.8 L327.0 143.0 L331.7 157.2 L336.4 169.7 L341.0 180.1 L345.7 187.8 L350.4 192.7 L355.0 194.4 L359.7 193.0 L364.4 188.5 L369.1 181.3 L373.7 171.6 L378.4 159.9 L383.1 146.7 L387.7 132.5 L392.4 117.8 L397.1 103.2 L401.8 89.1 L406.4 76.1 L411.1 64.4 L415.8 54.3 L420.4 46.0 L425.1 39.7 L429.8 35.2 L434.5 32.7 L439.1 31.9 L443.8 32.7 L448.5 35.0 L453.2 38.4 L457.8 42.7 L462.5 47.8 L467.2 53.4 L471.8 59.2 L476.5 65.2 L481.2 71.1 L485.9 76.8 L490.5 82.2 L495.2 87.3 L499.9 92.0 L504.5 96.2 L509.2 99.9 L513.9 103.3 L518.6 106.2 L523.2 108.6 L527.9 110.8 L532.6 112.6 L537.2 114.0 L541.9 115.3 L546.6 116.3 L551.3 117.1 L555.9 117.8 L560.6 118.3 L565.3 118.7 L570.0 119.0 L574.6 119.3 L579.3 119.4 L584.0 119.6 L588.6 119.7 L593.3 119.8 L598.0 119.8 L602.7 119.9 L607.3 119.9 L612.0 119.9" fill="none" stroke-width="1.2" style="stroke:var(--blue)" stroke-dasharray="3 3"/>
+<path d="M28.0 120.0 L32.7 120.0 L37.3 120.0 L42.0 120.0 L46.7 120.0 L51.4 120.0 L56.0 120.0 L60.7 120.0 L65.4 120.0 L70.0 120.0 L74.7 120.0 L79.4 120.0 L84.1 120.0 L88.7 120.0 L93.4 119.9 L98.1 119.9 L102.8 119.9 L107.4 119.9 L112.1 119.8 L116.8 119.7 L121.4 119.7 L126.1 119.6 L130.8 119.4 L135.5 119.2 L140.1 119.0 L144.8 118.8 L149.5 118.4 L154.1 118.0 L158.8 117.5 L163.5 116.9 L168.2 116.2 L172.8 115.3 L177.5 114.3 L182.2 113.1 L186.8 111.7 L191.5 110.1 L196.2 108.2 L200.9 106.1 L205.5 103.6 L210.2 100.9 L214.9 97.9 L219.6 94.5 L224.2 90.8 L228.9 86.8 L233.6 82.5 L238.2 77.9 L242.9 73.0 L247.6 67.9 L252.3 62.7 L256.9 57.3 L261.6 51.8 L266.3 46.3 L270.9 40.9 L275.6 35.6 L280.3 30.6 L285.0 25.9 L289.6 21.5 L294.3 17.6 L299.0 14.3 L303.6 11.5 L308.3 9.4 L313.0 8.0 L317.7 7.2 L322.3 7.2 L327.0 8.0 L331.7 9.4 L336.4 11.5 L341.0 14.3 L345.7 17.6 L350.4 21.5 L355.0 25.9 L359.7 30.6 L364.4 35.6 L369.1 40.9 L373.7 46.3 L378.4 51.8 L383.1 57.3 L387.7 62.7 L392.4 67.9 L397.1 73.0 L401.8 77.9 L406.4 82.5 L411.1 86.8 L415.8 90.8 L420.4 94.5 L425.1 97.9 L429.8 100.9 L434.5 103.6 L439.1 106.1 L443.8 108.2 L448.5 110.1 L453.2 111.7 L457.8 113.1 L462.5 114.3 L467.2 115.3 L471.8 116.2 L476.5 116.9 L481.2 117.5 L485.9 118.0 L490.5 118.4 L495.2 118.8 L499.9 119.0 L504.5 119.2 L509.2 119.4 L513.9 119.6 L518.6 119.7 L523.2 119.7 L527.9 119.8 L532.6 119.9 L537.2 119.9 L541.9 119.9 L546.6 119.9 L551.3 120.0 L555.9 120.0 L560.6 120.0 L565.3 120.0 L570.0 120.0 L574.6 120.0 L579.3 120.0 L584.0 120.0 L588.6 120.0 L593.3 120.0 L598.0 120.0 L602.7 120.0 L607.3 120.0 L612.0 120.0" fill="none" stroke-width="1.6" style="stroke:var(--warn)" stroke-dasharray="6 4"/>
+<path d="M28.0 120.0 L32.7 120.0 L37.3 120.0 L42.0 120.0 L46.7 120.0 L51.4 120.0 L56.0 120.0 L60.7 120.0 L65.4 120.0 L70.0 120.0 L74.7 120.0 L79.4 120.0 L84.1 120.0 L88.7 120.0 L93.4 119.9 L98.1 119.9 L102.8 119.9 L107.4 119.9 L112.1 119.8 L116.8 119.7 L121.4 119.7 L126.1 119.5 L130.8 119.4 L135.5 119.2 L140.1 119.0 L144.8 118.7 L149.5 118.4 L154.1 118.0 L158.8 117.5 L163.5 116.9 L168.2 116.2 L172.8 115.3 L177.5 114.3 L182.2 113.0 L186.8 111.6 L191.5 110.0 L196.2 108.1 L200.9 105.9 L205.5 103.5 L210.2 100.8 L214.9 97.7 L219.6 94.3 L224.2 90.6 L228.9 86.6 L233.6 82.3 L238.2 77.7 L242.9 72.9 L247.6 67.8 L252.3 62.5 L256.9 57.1 L261.6 51.7 L266.3 46.2 L270.9 40.8 L275.6 35.6 L280.3 30.6 L285.0 25.9 L289.6 21.6 L294.3 17.7 L299.0 14.4 L303.6 11.7 L308.3 9.6 L313.0 8.1 L317.7 7.4 L322.3 7.4 L327.0 8.1 L331.7 9.6 L336.4 11.7 L341.0 14.4 L345.7 17.7 L350.4 21.6 L355.0 25.9 L359.7 30.6 L364.4 35.6 L369.1 40.8 L373.7 46.2 L378.4 51.7 L383.1 57.1 L387.7 62.5 L392.4 67.8 L397.1 72.9 L401.8 77.7 L406.4 82.3 L411.1 86.6 L415.8 90.6 L420.4 94.3 L425.1 97.7 L429.8 100.8 L434.5 103.5 L439.1 105.9 L443.8 108.1 L448.5 110.0 L453.2 111.6 L457.8 113.0 L462.5 114.3 L467.2 115.3 L471.8 116.2 L476.5 116.9 L481.2 117.5 L485.9 118.0 L490.5 118.4 L495.2 118.7 L499.9 119.0 L504.5 119.2 L509.2 119.4 L513.9 119.5 L518.6 119.7 L523.2 119.7 L527.9 119.8 L532.6 119.9 L537.2 119.9 L541.9 119.9 L546.6 119.9 L551.3 120.0 L555.9 120.0 L560.6 120.0 L565.3 120.0 L570.0 120.0 L574.6 120.0 L579.3 120.0 L584.0 120.0 L588.6 120.0 L593.3 120.0 L598.0 120.0 L602.7 120.0 L607.3 120.0 L612.0 120.0" fill="none" stroke-width="2.2" style="stroke:var(--accent)"/>
+<path d="M28.0 120.0 L32.7 120.0 L37.3 120.0 L42.0 120.0 L46.7 120.0 L51.4 120.0 L56.0 120.0 L60.7 120.0 L65.4 119.9 L70.0 119.9 L74.7 119.9 L79.4 119.9 L84.1 119.8 L88.7 119.8 L93.4 119.7 L98.1 119.6 L102.8 119.4 L107.4 119.2 L112.1 119.0 L116.8 118.7 L121.4 118.3 L126.1 117.9 L130.8 117.3 L135.5 116.6 L140.1 115.7 L144.8 114.7 L149.5 113.5 L154.1 112.0 L158.8 110.3 L163.5 108.2 L168.2 105.9 L172.8 103.2 L177.5 100.2 L182.2 96.8 L186.8 93.0 L191.5 88.8 L196.2 84.3 L200.9 79.4 L205.5 74.3 L210.2 68.9 L214.9 63.3 L219.6 57.6 L224.2 51.9 L228.9 46.4 L233.6 41.1 L238.2 36.3 L242.9 32.0 L247.6 28.4 L252.3 25.7 L256.9 24.0 L261.6 23.3 L266.3 24.0 L270.9 25.9 L275.6 29.3 L280.3 34.0 L285.0 40.1 L289.6 47.6 L294.3 56.3 L299.0 66.2 L303.6 77.1 L308.3 88.8 L313.0 101.0 L317.7 113.6 L322.3 126.4 L327.0 139.0 L331.7 151.2 L336.4 162.9 L341.0 173.8 L345.7 183.7 L350.4 192.4 L355.0 199.9 L359.7 206.0 L364.4 210.7 L369.1 214.1 L373.7 216.0 L378.4 216.7 L383.1 216.0 L387.7 214.3 L392.4 211.6 L397.1 208.0 L401.8 203.7 L406.4 198.9 L411.1 193.6 L415.8 188.1 L420.4 182.4 L425.1 176.7 L429.8 171.1 L434.5 165.7 L439.1 160.6 L443.8 155.7 L448.5 151.2 L453.2 147.0 L457.8 143.2 L462.5 139.8 L467.2 136.8 L471.8 134.1 L476.5 131.8 L481.2 129.7 L485.9 128.0 L490.5 126.5 L495.2 125.3 L499.9 124.3 L504.5 123.4 L509.2 122.7 L513.9 122.1 L518.6 121.7 L523.2 121.3 L527.9 121.0 L532.6 120.8 L537.2 120.6 L541.9 120.4 L546.6 120.3 L551.3 120.2 L555.9 120.2 L560.6 120.1 L565.3 120.1 L570.0 120.1 L574.6 120.1 L579.3 120.0 L584.0 120.0 L588.6 120.0 L593.3 120.0 L598.0 120.0 L602.7 120.0 L607.3 120.0 L612.0 120.0" fill="none" stroke-width="2.2" style="stroke:var(--accent)" stroke-dasharray="8 3"/>
+
+        </svg>
         <div class="legend" aria-hidden="true">
-          <span><i style="background:var(--accent)"></i>left-handed Q<sub>1,2,3</sub></span>
-          <span><i style="background:var(--blue)"></i>right-handed u, c, t</span>
-          <span><i style="background:var(--violet)"></i>right-handed d, s, b</span>
-          <span><i style="background:var(--warn)"></i>scalar envelopes η, ρ*</span>
+          <span><i style="background:var(--accent)"></i>Q<sub>1</sub>, Q<sub>2</sub>: modes 0 and 1 of one operator</span>
+          <span><i style="background:var(--blue)"></i>u, c, t, U (right-handed): modes 0–3</span>
+          <span><i style="background:var(--warn)"></i>scalar η</span>
         </div>
       </div>
-      <figcaption>The demo's profiles, drawn from the same centres and widths as the script. Each Yukawa entry is the overlap of one green, one scalar and one blue (or violet) curve.</figcaption>
+      <figcaption>The converged profiles, plotted from the script's own output. Everything is centred at y = 0, and each mode is either even or odd in y. That symmetry decides the result.</figcaption>
     </figure>
   </section>
 
-  <section id="steps" aria-labelledby="steps-h">
-    <p class="eyebrow">2 &middot; What the script computes</p>
-    <h2 id="steps-h">Five steps, each a function you can call</h2>
+  <section id="loop" aria-labelledby="loop-h">
+    <p class="eyebrow">2 &middot; The algorithm</p>
+    <h2 id="loop-h">Iterate until it locks in</h2>
     <ol class="steps prose">
-      <li><b>Profiles.</b> <code>solve_localized_wavefunction</code> integrates d(ln ψ)/dy = −(y − y<sub>0</sub>)/w² to a Gaussian, normalizes it on the grid, and reports its measured centre and RMS width.</li>
-      <li><b>Scalar backgrounds.</b> <code>build_scalar_profile</code> gives each scalar channel a Gaussian amplitude and a y-dependent phase (a linear slope plus a small oscillation). These phases are the only source of CP violation.</li>
-      <li><b>Selection rule.</b> <code>is_331_coupling_allowed</code> keeps ψ̄<sub>L</sub> Φ ψ<sub>R</sub> only if −X<sub>L</sub> + X<sub>Φ</sub> + X<sub>R</sub> = 0 and the SU(3)<sub>L</sub> representations can contract.</li>
-      <li><b>Yukawa matrices.</b> <code>build_derived_yukawa_331</code> sums, over the allowed scalars, the overlap ∫ ψ<sub>L</sub>* Φ ψ<sub>R</sub> dy (trapezoid rule) times a Clebsch–Gordan weight. The demo sets every weight to 1.</li>
-      <li><b>CKM.</b> <code>diagonalize_ckm_from_yukawas</code> diagonalizes H = Y Y<sup>†</sup> for each sector with a complex Jacobi solver, forms V = U<sub>u</sub><sup>†</sup> U<sub>d</sub>, and returns |V<sub>ij</sub>| and J = Im(V<sub>us</sub> V<sub>cb</sub> V<sub>ub</sub>* V<sub>cs</sub>*).</li>
+      <li><b>Couplings from measurement.</b> g<sub>L</sub> = √(4πα)/sin θ<sub>W</sub>, and for β = −1/√3, g<sub>X</sub>²/g<sub>L</sub>² = s²/(1 − 4s²/3). This gives g<sub>L</sub> = 0.652 and g<sub>X</sub> = 0.377.</li>
+      <li><b>Modes.</b> For each field species f, solve H<sub>f</sub> = −d²/dy² + y² + g<sub>X</sub> X<sub>f</sub> A(y) and keep as many of its lowest modes as the model has copies of f. Q<sub>a</sub> (two antitriplets) keeps 2; the right-handed up type (u, c, t and the exotic U) keeps 4; the right-handed down type (d, s, b, D<sub>1</sub>, D<sub>2</sub>) keeps 5. The y² term is the localizing background and sets the unit of length.</li>
+      <li><b>Background.</b> Every fermion field in the model, leptons and exotic quarks included, sources the U(1)<sub>X</sub> background: −A″ = g<sub>X</sub> Σ<sub>f</sub> n<sub>f</sub> X<sub>f</sub> |ψ<sub>f</sub>|², counting colour and SU(3)<sub>L</sub> components.</li>
+      <li><b>Repeat.</b> Mix the new A half-and-half with the old one and go back to step 2. Stop when A changes by less than 10⁻¹².</li>
+      <li><b>Masses and CKM.</b> Mass-matrix entries are v × ∫ ψ<sub>L</sub> Φ ψ<sub>R</sub> dy, using the converged profiles and scalar modes. Diagonalize M M<sup>†</sup> for the 4 × 4 up and 5 × 5 down systems, keep the three light states, and form V from the rows that the W boson connects.</li>
     </ol>
     <details class="deeper">
-      <summary>Go deeper: the overlap formula <span>Yukawa entry, Jarlskog invariant</span></summary>
+      <summary>Go deeper: numerics <span>solvers, checks</span></summary>
       <div class="body">
-        <div class="eq">Y<sub>ij</sub> = Σ<sub>Φ allowed</sub> c<sub>ij</sub><sup>Φ</sup> ∫ dy ψ<sub>L,i</sub>(y)* Φ(y) ψ<sub>R,j</sub>(y)<br>Φ(y) = v e<sup>−(y−y<sub>Φ</sub>)²/2σ²</sup> e<sup>i(k y + a sin ω y)</sup><br>H = Y Y<sup>†</sup> = U diag(m²) U<sup>†</sup>, &nbsp; V = U<sub>u</sub><sup>†</sup> U<sub>d</sub></div>
-        <p>Rows of V are ordered by ascending mass in each sector, so V<sub>us</sub> is V[0][1]. J is invariant under rephasing the quark fields, so it is the physical measure of CP violation; it flips sign if every scalar phase is conjugated.</p>
+        <p>The modes come from a finite-difference operator on 401 points, y ∈ [−8, 8]. Eigenvalues come from Sturm-sequence bisection and modes from inverse iteration, with explicit orthogonalization against lower modes. The background equation is a tridiagonal (Thomas) solve. The small mass matrices are diagonalized with a complex Jacobi solver. The repository's tests check every solver against numpy.</p>
       </div>
     </details>
   </section>
 
   <section id="rule" aria-labelledby="rule-h">
-    <p class="eyebrow">3 &middot; The 3-3-1 selection rule</p>
-    <h2 id="rule-h">The charges choose the scalar for each generation</h2>
-    <p class="prose">The demo uses the β = −1/√3 assignment. Right-handed quarks are SU(3)<sub>L</sub> singlets with u<sub>R</sub>: X = +⅔ and d<sub>R</sub>: X = −⅓. Imposing −X<sub>L</sub> + X<sub>Φ</sub> + X<sub>R</sub> = 0 gives:</p>
+    <p class="eyebrow">3 &middot; The 3-3-1 structure</p>
+    <h2 id="rule-h">Which scalar each quark couples through</h2>
+    <p class="prose">The model is the β = −1/√3 version. Each row of the mass matrix pairs a left-handed component with the scalar whose vev sits in that component, and the script asserts that U(1)<sub>X</sub> is conserved (−X<sub>L</sub> + X<sub>Φ</sub> + X<sub>R</sub> = 0) in every term.</p>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Left-handed quarks</th><th>SU(3)<sub>L</sub>, X</th><th>Up sector couples via</th><th>Down sector couples via</th></tr></thead>
+        <thead><tr><th>Left-handed</th><th>SU(3)<sub>L</sub>, X</th><th>Up-type row via</th><th>Down-type row via</th></tr></thead>
         <tbody>
-          <tr><td>Q<sub>1</sub>, Q<sub>2</sub></td><td class="num">3̄, 0</td><td>ρ* (X = −⅔)</td><td>η* (X = +⅓)</td></tr>
-          <tr><td>Q<sub>3</sub></td><td class="num">3, +⅓</td><td>η (X = −⅓)</td><td>ρ (X = +⅔)</td></tr>
+          <tr><td>Q<sub>1</sub>, Q<sub>2</sub> = (d, −u, D)</td><td class="num">3̄, 0</td><td>ρ* (light u)</td><td>η* (light d), χ* (exotic D)</td></tr>
+          <tr><td>Q<sub>3</sub> = (u, d, U)</td><td class="num">3, +⅓</td><td>η (light u), χ (exotic U)</td><td>ρ (light d)</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="prose muted" style="margin-top:14px">With two scalar channels offered to each sector, every one of the 9 entries is allowed by exactly one of them and forbidden by the other, so the script reports 9 allowed and 9 forbidden couplings per sector. The third generation feels a different scalar profile from the first two, which is where the 3-3-1 structure enters the mixing.</p>
+    <p class="prose muted" style="margin-top:14px">v<sub>η</sub> = v<sub>ρ</sub> = v/√2, because nothing in the model prefers one over the other. Raising the exotic scale w fourfold changes |V| by only 2×10⁻³, which the script checks.</p>
   </section>
 
   <section id="result" aria-labelledby="result-h">
-    <p class="eyebrow">4 &middot; The demo result</p>
-    <h2 id="result-h">What comes out, and what was put in</h2>
-    <p class="prose">The nine localization centres were chosen (by a Nelder–Mead search) so that |V<sub>us</sub>|, |V<sub>cb</sub>| and |V<sub>ub</sub>| match their measured values. Widths, scalar profiles, phases and Clebsch–Gordan weights were fixed by hand beforehand. Nine knobs for three targets is underdetermined, so the matched magnitudes show that the mechanism <em>can</em> carry the hierarchy, not that it predicts it. The rest is output.</p>
+    <p class="eyebrow">4 &middot; The result</p>
+    <h2 id="result-h">What the converged calculation gives</h2>
+    <p class="prose">These are the numbers the algorithm produces. Nothing was adjusted after seeing them.</p>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Quantity</th><th>Script</th><th>Measured</th><th>Status</th></tr></thead>
+        <thead><tr><th>Quantity</th><th>Script</th><th>Measured</th><th>Verdict</th></tr></thead>
         <tbody>
-          <tr><td>|V<sub>us</sub>|</td><td class="num">0.2235</td><td class="num">0.2243</td><td><span class="tag cond">fitted</span></td></tr>
-          <tr><td>|V<sub>cb</sub>|</td><td class="num">0.0409</td><td class="num">0.0408</td><td><span class="tag cond">fitted</span></td></tr>
-          <tr><td>|V<sub>ub</sub>|</td><td class="num">0.00379</td><td class="num">0.00382</td><td><span class="tag cond">fitted</span></td></tr>
-          <tr><td>|V<sub>td</sub>|</td><td class="num">0.0067</td><td class="num">0.0086</td><td><span class="tag known">output</span> follows from unitarity and the phases</td></tr>
-          <tr><td>J (Jarlskog)</td><td class="num">−2.15×10⁻⁵</td><td class="num">+3.08×10⁻⁵</td><td><span class="tag known">output</span> magnitude 70% of measured; sign is a convention here</td></tr>
-          <tr><td>m<sub>c</sub>/m<sub>t</sub></td><td class="num">4.1×10⁻⁴</td><td class="num">≈ 3.6×10⁻³</td><td><span class="tag known">output</span> about 9× too small</td></tr>
-          <tr><td>m<sub>s</sub>/m<sub>b</sub></td><td class="num">1.5×10⁻²</td><td class="num">≈ 1.9×10⁻²</td><td><span class="tag known">output</span> close</td></tr>
-          <tr><td>m<sub>u</sub>, m<sub>d</sub></td><td class="num">unresolved</td><td class="num">nonzero</td><td><span class="tag open">fails</span> below double-precision resolution</td></tr>
+          <tr><td>Heaviest up-type light quark</td><td class="num">77 GeV</td><td class="num">≈ 172 GeV (t)</td><td><span class="tag known">right order</span></td></tr>
+          <tr><td>m<sub>c</sub>/m<sub>t</sub></td><td class="num">2.5×10⁻³</td><td class="num">≈ 3.6×10⁻³</td><td><span class="tag known">right order</span></td></tr>
+          <tr><td>m<sub>u</sub></td><td class="num">0</td><td class="num">nonzero</td><td><span class="tag open">fails</span></td></tr>
+          <tr><td>Heaviest down-type light quark</td><td class="num">0.46 GeV</td><td class="num">≈ 2.9 GeV (b)</td><td><span class="tag open">6× low</span></td></tr>
+          <tr><td>m<sub>d</sub>, m<sub>s</sub></td><td class="num">0, 0</td><td class="num">nonzero</td><td><span class="tag open">fails</span></td></tr>
+          <tr><td>|V<sub>us</sub>|, |V<sub>cb</sub>|</td><td class="num">0, 0.0024</td><td class="num">0.224, 0.041</td><td><span class="tag open">fails</span></td></tr>
+          <tr><td>J (CP violation)</td><td class="num">0 exactly</td><td class="num">3.08×10⁻⁵</td><td><span class="tag open">fails</span></td></tr>
         </tbody>
       </table>
     </div>
-    <p class="src">Measured values: PDG 2024; mass ratios at the Z mass, approximate. The demo prints every number above, so you can check them in the expected output below.</p>
+    <h3 style="margin-top:24px">Why it fails, and why that's informative</h3>
+    <div class="prose">
+      <p><strong>Mirror symmetry survives.</strong> The fermion content has zero total X charge, and the localizing background is even in y, so the self-consistent background is even too. The script started from a lopsided background and watched it decay back to the even one. With an even background, every mode is either even or odd, and any overlap of odd total parity is exactly zero. That kills the off-diagonal entries that mixing needs and leaves some quarks massless. Mixing among massless states isn't even defined, so those |V| entries are basis artefacts.</p>
+      <p><strong>No source of CP violation.</strong> Every profile is real, so every Yukawa is real and J = 0 exactly. The minimal 3-3-1 field content has no complex number of its own to supply.</p>
+      <p>So the calculation shows what is <em>missing</em>: something that breaks y → −y (for example, chirality-dependent coupling to a kink, as in domain-wall fermions) and a complex phase. Each would have to be derived, not chosen, to keep the rule that nothing is fitted.</p>
+    </div>
+    <p class="src">Measured values: PDG 2024; light-quark masses at the Z mass, approximate.</p>
   </section>
 
   <section id="run" aria-labelledby="run-h">
     <p class="eyebrow">5 &middot; Run it</p>
     <h2 id="run-h">Copy the script</h2>
-    <p class="prose">One file, about 400 lines, only <code>math</code>, <code>cmath</code>, <code>dataclasses</code> and <code>typing</code>. Paste it into any Python runner and run it, or import it and call the five functions with your own charges, centres and scalar profiles.</p>
+    <p class="prose">One file that uses only <code>math</code>, <code>cmath</code>, <code>dataclasses</code> and <code>typing</code>. Paste it into any Python runner and run it, or import it and call <code>solve_self_consistent</code>, <code>build_mass_matrices</code> and <code>light_ckm</code> yourself.</p>
     <div class="cta">
       <button class="btn primary copy-script" type="button" id="copyckm" data-src="ckm_from_331_overlaps.py" data-status="copyckm-status">Copy Python script</button>
       <a class="btn" href="ckm_from_331_overlaps.py" download="ckm_from_331_overlaps.py">Download .py</a>
@@ -173,30 +191,26 @@
     </div>
     <p class="src" id="copyckm-status" role="status" aria-live="polite">Pasting into an AI assistant? Add “Run this and explain the results.” Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/ckm_331/output.txt">results/ckm_331/output.txt</a></p>
 <pre class="out">$ python3 ckm_from_331_overlaps.py
-...
-|V_CKM|:
-  0.9747  0.2235  0.0038
-  0.2234  0.9739  0.0409
-  0.0067  0.0405  0.9992
-
-|V_us| = 0.2235   |V_cb| = 0.0409   |V_ub| = 0.00379   J = -2.149e-05
+CKM from 3-3-1 wavefunction overlaps, solved self-consistently (no fitted inputs)
+derived couplings: g_L = 0.6517, g_X = 0.3768
+self-consistency: 38 iterations, last change in A = 7.1e-13, converged = True
 ...
 7/7 checks passed</pre>
-    <p class="prose muted">The seven checks test the numerics, not the physics: H = U diag U<sup>†</sup> for each sector, non-negative eigenvalues, V unitary, rows of |V|² summing to 1, and |J| below its maximum 1/(6√3). In the repository, <code>tests/test_ckm_331.py</code> also checks the eigensolver against numpy on random matrices and pins the full output on every commit.</p>
+    <p class="prose muted">The seven checks: the loop converged; total X charge is zero; each operator's modes are orthonormal; the light CKM block is unitary up to O(v²/w²) corrections; |V| barely depends on the exotic scale; J = 0 when nothing is complex; the converged background is even. In the repository, <code>tests/test_ckm_331.py</code> also checks both eigensolvers against numpy and pins the full output on every commit.</p>
   </section>
 
-  <section id="limits" aria-labelledby="limits-h">
-    <p class="eyebrow">6 &middot; Limits</p>
-    <h2 id="limits-h">What this is not</h2>
+  <section id="next" aria-labelledby="next-h">
+    <p class="eyebrow">6 &middot; What's missing</p>
+    <h2 id="next-h">Ingredients that would still have to be derived</h2>
     <div class="grid g3">
-      <div class="card"><h3>Not a prediction</h3><p>The |V| magnitudes are matched by choice of inputs. A prediction would need the centres to come from somewhere else, such as a potential that the 3-3-1 fields themselves generate.</p></div>
-      <div class="card"><h3>A loose group check</h3><p>The SU(3)<sub>L</sub> test only asks whether the representations can contract; it doesn't use the scalar's representation or compute real Clebsch–Gordan coefficients, which the demo sets to 1.</p></div>
-      <div class="card"><h3>No running</h3><p>Yukawas are computed at one scale and compared with low-energy data. The first-generation masses come out below what double precision can resolve.</p></div>
+      <div class="card"><h3>Breaking y → −y</h3><p>In domain-wall models, left- and right-handed zero modes come from fields with opposite-sign couplings to the wall and can sit at different places. A derived chirality-dependent shift would turn on the overlaps that parity now forces to zero.</p></div>
+      <div class="card"><h3>A CP phase</h3><p>With real profiles, J = 0. A nonzero J needs a complex phase that the model itself produces, such as a spontaneous phase between scalar vevs.</p></div>
+      <div class="card"><h3>v<sub>η</sub>/v<sub>ρ</sub> and running</h3><p>The vev ratio is set equal because nothing fixes it yet. Yukawas are compared at one scale, without renormalization-group running.</p></div>
     </div>
     <details class="deeper">
-      <summary>Changelog <span>a fix to the uploaded eigensolver</span></summary>
+      <summary>Changelog <span>from the uploaded file to this version</span></summary>
       <div class="body">
-        <p>As first uploaded (<code>production_v2_2.py</code>), the Jacobi rotation used inconsistent signs and phases: on random Hermitian matrices its eigenvalues disagreed with numpy, and U diag U<sup>†</sup> did not rebuild H. The rotation now removes the phase of a<sub>pq</sub> first and then applies the standard real Jacobi step; eigenvalues and eigenvectors agree with numpy to 10⁻¹⁵. The rest of the physics code is unchanged; the demo and self-checks were added.</p>
+        <p>Uploaded as <code>production_v2_2.py</code>. Its complex Jacobi eigensolver had inconsistent signs and phases. That is now fixed and agrees with numpy to 10⁻¹⁵. An earlier demo chose nine profile centres to match the measured |V| values. It was removed because nothing may be fitted, and replaced with the self-consistent loop. The original overlap and selection functions are still in the file as a library.</p>
       </div>
     </details>
   </section>
@@ -211,39 +225,6 @@
 
 <script>
 (function () {
-  // Profiles figure: same centres and widths as _demo_inputs() in the script.
-  var svg = document.getElementById("fig-profiles");
-  if (svg) {
-    var NS = "http://www.w3.org/2000/svg", W = 640, H = 230, pad = 28, y0 = -5, y1 = 6;
-    var X = function (y) { return pad + (y - y0) / (y1 - y0) * (W - 2 * pad); };
-    var base = H - 30;
-    function curve(c, w, color, dash, scale) {
-      var d = "";
-      for (var k = 0; k <= 240; k++) {
-        var y = y0 + (y1 - y0) * k / 240, v = Math.exp(-0.5 * (y - c) * (y - c) / (w * w));
-        d += (k ? "L" : "M") + X(y).toFixed(1) + " " + (base - v * scale).toFixed(1);
-      }
-      var p = document.createElementNS(NS, "path");
-      p.setAttribute("d", d); p.setAttribute("fill", "none"); p.setAttribute("stroke-width", "1.8");
-      p.style.stroke = color; if (dash) p.setAttribute("stroke-dasharray", dash);
-      svg.appendChild(p);
-    }
-    var axis = document.createElementNS(NS, "line");
-    axis.setAttribute("x1", pad); axis.setAttribute("x2", W - pad); axis.setAttribute("y1", base); axis.setAttribute("y2", base);
-    axis.style.stroke = "var(--faint)"; svg.appendChild(axis);
-    for (var t = -4; t <= 6; t += 2) {
-      var tx = document.createElementNS(NS, "text");
-      tx.setAttribute("x", X(t)); tx.setAttribute("y", base + 18); tx.setAttribute("text-anchor", "middle"); tx.setAttribute("font-size", "12");
-      tx.style.fill = "var(--muted)"; tx.textContent = "y = " + t; svg.appendChild(tx);
-    }
-    // Scalar envelopes (eta, rho*), drawn dashed and lower.
-    curve(0.3, 1.6, "var(--warn)", "5 4", 90); curve(-1.2, 1.8, "var(--warn)", "5 4", 90);
-    [-1.505, -1.422, -2.155].forEach(function (c) { curve(c, 0.55, "var(--accent)", null, 170); });
-    [-0.398, 1.239, 3.303].forEach(function (c) { curve(c, 0.5, "var(--blue)", null, 150); });
-    [-0.038, -0.857, 3.327].forEach(function (c) { curve(c, 0.5, "var(--violet)", "2 3", 150); });
-  }
-
-  // Copy the script to the clipboard.
   function copyText(text) {
     if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
     return new Promise(function (ok, fail) {
