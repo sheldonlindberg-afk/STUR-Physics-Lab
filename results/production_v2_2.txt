@@ -216,6 +216,59 @@ PART D. WHAT 3-3-1 SAYS ABOUT THE MASS MATRICES (from the gauge charges)
       up 0X0/XXX/0XX   down 00X/0XX/XX0
       up XX0/XXX/0X0   down 0XX/XX0/X00
 
+PART E. CAN A FLAVOUR SYMMETRY PRODUCE THE SURVIVOR INSIDE 3-3-1?
+------------------------------------------------------------------------------
+  beta = -1/sqrt3:
+    E1. Minimal scalars (one per row and sector). Down-minus-up scalar charge is the same
+        for all three rows: True. So any abelian symmetry groups the rows the
+        same way in both sectors. Exhaustive scan of Z_N, N = 2..6:
+          Z_2:    112 realizable pattern pairs, 0 with a texture zero and three-family mixing
+          Z_3:   1143 realizable pattern pairs, 0 with a texture zero and three-family mixing
+          Z_4:   4768 realizable pattern pairs, 0 with a texture zero and three-family mixing
+          Z_5:  13525 realizable pattern pairs, 0 with a texture zero and three-family mixing
+          Z_6:  30816 realizable pattern pairs, 0 with a texture zero and three-family mixing
+    E2. Hermitian mass matrices: a symmetry would have to map Q_i (SU(3)_L (anti)triplets)
+        onto u^c, d^c (singlets). Possible: False.
+    E3. The survivor's zeros alone, with extra copies of the two mass-giving scalars:
+        up 00X/0XX/XXX  down 0X0/X0X/0XX: Z_6 with 6 scalar triplets (minimal: 2)
+          charges Q (0, 1, 0), u^c (0, 2, 4), d^c (5, 2, 1); X=-1/3 scalar charges [0, 2, 4]; X=2/3 scalar charges [1, 2, 3]
+          as general complex matrices these zeros leave 11 magnitudes + 3 phases = 14 parameters for 10 observables: -4 predictions
+        up 0X0/XXX/0XX  down 00X/0XX/XX0: Z_6 with 6 scalar triplets (minimal: 2)
+          charges Q (0, 1, 0), u^c (0, 4, 3), d^c (5, 1, 3); X=-1/3 scalar charges [2, 3, 4]; X=2/3 scalar charges [1, 2, 5]
+          as general complex matrices these zeros leave 11 magnitudes + 3 phases = 14 parameters for 10 observables: -4 predictions
+        up XX0/XXX/0X0  down 0XX/XX0/X00: Z_6 with 6 scalar triplets (minimal: 2)
+          charges Q (0, 1, 0), u^c (0, 1, 5), d^c (4, 2, 3); X=-1/3 scalar charges [1, 3, 4]; X=2/3 scalar charges [0, 4, 5]
+          as general complex matrices these zeros leave 11 magnitudes + 3 phases = 14 parameters for 10 observables: -4 predictions
+  beta = +1/sqrt3:
+    E1. Minimal scalars (one per row and sector). Down-minus-up scalar charge is the same
+        for all three rows: True. So any abelian symmetry groups the rows the
+        same way in both sectors. Exhaustive scan of Z_N, N = 2..6:
+          Z_2:    112 realizable pattern pairs, 0 with a texture zero and three-family mixing
+          Z_3:   1143 realizable pattern pairs, 0 with a texture zero and three-family mixing
+          Z_4:   4768 realizable pattern pairs, 0 with a texture zero and three-family mixing
+          Z_5:  13525 realizable pattern pairs, 0 with a texture zero and three-family mixing
+          Z_6:  30816 realizable pattern pairs, 0 with a texture zero and three-family mixing
+    E2. Hermitian mass matrices: a symmetry would have to map Q_i (SU(3)_L (anti)triplets)
+        onto u^c, d^c (singlets). Possible: False.
+    E3. The survivor's zeros alone, with extra copies of the two mass-giving scalars:
+        up 00X/0XX/XXX  down 0X0/X0X/0XX: Z_6 with 6 scalar triplets (minimal: 2)
+          charges Q (0, 1, 0), u^c (0, 2, 4), d^c (5, 2, 1); X=-2/3 scalar charges [0, 2, 4]; X=1/3 scalar charges [1, 2, 3]
+          as general complex matrices these zeros leave 11 magnitudes + 3 phases = 14 parameters for 10 observables: -4 predictions
+        up 0X0/XXX/0XX  down 00X/0XX/XX0: Z_6 with 6 scalar triplets (minimal: 2)
+          charges Q (0, 1, 0), u^c (0, 4, 3), d^c (5, 1, 3); X=-2/3 scalar charges [2, 3, 4]; X=1/3 scalar charges [1, 2, 5]
+          as general complex matrices these zeros leave 11 magnitudes + 3 phases = 14 parameters for 10 observables: -4 predictions
+        up XX0/XXX/0X0  down 0XX/XX0/X00: Z_6 with 6 scalar triplets (minimal: 2)
+          charges Q (0, 1, 0), u^c (0, 1, 5), d^c (4, 2, 3); X=-2/3 scalar charges [1, 3, 4]; X=1/3 scalar charges [0, 4, 5]
+          as general complex matrices these zeros leave 11 magnitudes + 3 phases = 14 parameters for 10 observables: -4 predictions
+  RESULT: no flavour symmetry inside 3-3-1 produces the survivor as a predictive model.
+    * with the minimal scalars, abelian symmetries make no zero that keeps three-family
+      mixing (E1: none found for N <= 6);
+    * with extra scalars, Z_6 and 6 triplets give exactly the survivor's zeros, but the
+      matrices are then general, not Hermitian, and make -4 predictions (E3);
+    * the survivor's one prediction comes from Hermiticity, which needs a symmetry that
+      exchanges left- and right-handed quarks: not possible with SU(3)_L acting on one side
+      only (E2). It needs a left-right extension of the gauge group, which is outside 3-3-1.
+
 SELF-CHECKS (correctness of the calculation, not agreement with data)
 ------------------------------------------------------------------------------
   [PASS] QCD beta coefficients from Casimirs: b0(nf=5) = 23/3, b1(nf=5) = 116/3  (b0 = 23/3, b1 = 116/3)
@@ -238,6 +291,7 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Joint-test chi^2 independent of the starting grids (both doubled)  (max rel change 1.4e-07)
   [PASS] 3-3-1 charges: ordinary components come out as 2/3 and -1/3 (beta = +-1/sqrt3)
   [PASS] 3-3-1 anomalies cancel: [SU(3)_L]^3 and [SU(3)_C]^2 U(1)_X
-  20/20 checks pass
+  [PASS] Every symmetry found reproduces its target zeros exactly (recomputed from the charges)
+  21/21 checks pass
 ==============================================================================
-Elapsed: 131.2 s
+Elapsed: 163.1 s

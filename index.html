@@ -72,7 +72,7 @@
       <a class="btn" href="production_v2_2.py" download="production_v2_2.py">Download .py</a>
       <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/production_v2_2.py">View on GitHub</a>
     </div>
-    <p class="status" id="copy-status" role="status" aria-live="polite">Paste it into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 2–3 minutes and ends with 20 self-checks. Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/production_v2_2.txt">results/production_v2_2.txt</a>.</p>
+    <p class="status" id="copy-status" role="status" aria-live="polite">Paste it into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 3 minutes and ends with 21 self-checks. Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/production_v2_2.txt">results/production_v2_2.txt</a>.</p>
   </div>
 
   <h2>The rule</h2>
@@ -122,6 +122,14 @@
 
   <h2>Part D: what 3-3-1 says about the mass matrices</h2>
   <p>From the 3-3-1 charges (β = ±1/√3), the script finds every gauge-invariant Yukawa coupling. Every entry of both mass matrices is allowed, so <b>3-3-1 by itself forces no zero</b>: it can neither rescue nor select a texture. What it does fix is that one family (a triplet) differs from the other two. That turns the surviving pattern into three distinct 3-3-1 hypotheses, which differ in which family is the triplet. Their flavour-changing Z′ couplings would tell them apart.</p>
+
+  <h2>Part E: can a flavour symmetry make the survivor inside 3-3-1?</h2>
+  <ul>
+    <li><b>Minimal scalars: no.</b> An exhaustive scan of Z<sub>2</sub> to Z<sub>6</sub> (50,364 pattern pairs) finds no texture zero that keeps all three families mixing. The reason is structural: every row's charge shifts by the same amount between the up and down sectors.</li>
+    <li><b>Hermitian matrices: impossible.</b> That would need a symmetry exchanging left-handed quarks (SU(3)<sub>L</sub> triplets) with right-handed ones (singlets).</li>
+    <li><b>Extra scalars: the zeros, but no prediction.</b> Z<sub>6</sub> with 6 scalar triplets gives exactly the survivor's zeros. As general matrices, though, they have 14 parameters for 10 observables: −4 predictions.</li>
+  </ul>
+  <p><b>Result:</b> no flavour symmetry inside 3-3-1 turns the survivor into a predictive model. Its prediction needs left-right symmetric gauge structure, which is outside 3-3-1.</p>
 
   <h2>Run it locally</h2>
 <pre>python3 production_v2_2.py

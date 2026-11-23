@@ -40,8 +40,12 @@ WHAT IT CALCULATES
   Part D, what the 3-3-1 gauge symmetry says about the mass matrices: the
     charges, the gauge-invariant Yukawa operators, and which entries they allow,
     for beta = -1/sqrt3 and +1/sqrt3.
+  Part E, whether a flavour symmetry inside 3-3-1 can produce the surviving
+    texture: an exhaustive scan of abelian Z_N charge assignments with the
+    minimal scalars, a search for the fewest extra scalar triplets that give
+    the survivor's zeros, and a parameter count of the model that results.
 
-Run:  python3 production_v2_2.py                 (full report, about 2-3 minutes)
+Run:  python3 production_v2_2.py                 (full report, about 3 minutes)
       python3 production_v2_2.py --json-out out.json
 """
 
@@ -145,6 +149,7 @@ NUMERICS: Dict[str, Any] = {
     "root_merge_rel": "1e-13",
     "survival_sigma": 3,              # a pattern survives if its p-value is above the 3-sigma level
     "check_survey_tol": "1e-6",
+    "symmetry_max_N": 6,              # Z_N searched exhaustively for N = 2 .. this
     "report_sci_below": "1e-3",       # print in scientific notation below / above these
     "report_sci_above": "1e5",
     # Scales at which the flavour bands are reported: the four 3-3-1 benchmark
@@ -1143,6 +1148,203 @@ def versions_331(zu, zd, perms_331: Sequence[Tuple[int, int, int]]) -> List[Tupl
 
 
 # =============================================================================
+# 6d. CAN A FLAVOUR SYMMETRY PRODUCE THE SURVIVOR INSIDE 3-3-1?
+# =============================================================================
+# An abelian flavour symmetry Z_N gives each field a charge mod N. A Yukawa entry
+# survives only if the charges of its three fields sum to 0 mod N. Every
+# abelian symmetry is a product of such factors, and a product only removes
+# more entries, so scanning Z_N covers the abelian case.
+def yukawa_slots(y: Dict[str, Any]) -> Dict[Tuple[int, str], Tuple[Any, int]]:
+    """For each (family row, flavour): the scalar that gives the mass and the sign of its
+    charge in the operator (-1 if the conjugate appears). Exactly one per row in 3-3-1."""
+    slots = {}
+    for (fam, flav), ops in y["operators"].items():
+        if len(ops) != 1:
+            raise RuntimeError("expected exactly one mass operator per row and flavour")
+        o = ops[0]
+        slots[(fam, flav)] = ((o["scalar_X"], o["component"]), -1 if o["conjugate"] else 1)
+    return slots
+
+
+def row_shift_is_common(slots: Dict[Tuple[int, str], Tuple[Any, int]]) -> bool:
+    """Is (down-sector scalar charge) - (up-sector scalar charge) the same combination of
+    scalar charges for all three rows? If so, a symmetry groups the rows identically in
+    both sectors."""
+    def vec(fam: int, flav: str) -> Dict[Any, int]:
+        key, sgn = slots[(fam, flav)]
+        return {key: sgn}
+    diffs = []
+    for fam in (1, 2, 3):
+        d = dict(vec(fam, "d"))
+        for k, v in vec(fam, "u").items():
+            d[k] = d.get(k, 0) - v
+        diffs.append({k: v for k, v in d.items() if v})
+    return all(dd == diffs[0] for dd in diffs)
+
+
+def _structural_rank3(pat) -> bool:
+    return any(all((i, p[i]) in pat for i in range(3)) for p in itertools.permutations(range(3)))
+
+
+def _row_components(pat) -> List[set]:
+    rows = [{a for (i, a) in pat if i == r} for r in range(3)]
+    comps: List[set] = []
+    for r in range(3):
+        merged = {r}
+        for c in [c for c in comps if any(rows[r] & rows[x] for x in c)]:
+            merged |= c
+            comps.remove(c)
+        comps.append(merged)
+    return comps
+
+
+def _three_family_mixing(pu, pd) -> bool:
+    """Can every CKM element be nonzero? Mass eigenstates live inside row components, so
+    V_ab can be nonzero only if the up and down components overlap."""
+    return all(a & b for a in _row_components(pu) for b in _row_components(pd))
+
+
+def minimal_scalar_scan(slots, n_max: int) -> List[Dict[str, int]]:
+    """Every Z_N (N <= n_max) charge assignment with the minimal scalars (one per row type)."""
+    keys = sorted({k for k, _ in slots.values()}, key=str)
+    out = []
+    for n in range(2, n_max + 1):
+        pairs = useful = 0
+        for q_rest in itertools.product(range(n), repeat=2):
+            q_q = (0,) + q_rest                              # one overall shift is unphysical
+            for qs in itertools.product(range(n), repeat=len(keys)):
+                q_s = dict(zip(keys, qs))
+                pats = {}
+                for flav in ("u", "d"):
+                    rows = [(q_q[i] + slots[(i + 1, flav)][1] * q_s[slots[(i + 1, flav)][0]]) % n
+                            for i in range(3)]
+                    found = set()
+                    for cols in itertools.product(range(n), repeat=3):
+                        pat = frozenset((i, a) for i in range(3) for a in range(3) if (rows[i] + cols[a]) % n == 0)
+                        if _structural_rank3(pat):
+                            found.add(pat)
+                    pats[flav] = found
+                for pu in pats["u"]:
+                    for pd in pats["d"]:
+                        pairs += 1
+                        if (len(pu) < 9 or len(pd) < 9) and _three_family_mixing(pu, pd):
+                            useful += 1
+        out.append({"N": n, "pattern_pairs": pairs, "with_zeros_and_mixing": useful})
+    return out
+
+
+def _nonzero_full(zeros) -> set:
+    """Nonzero entries of a general (non-Hermitian) matrix with the same zero positions."""
+    z = {(i, j) for a, b in zeros for (i, j) in ((a, b), (b, a))}
+    return {(i, j) for i in range(3) for j in range(3)} - z
+
+
+def _allowed(slots, charges: Dict[str, Any], n: int, flav: str, scalar_charges: Dict[Any, List[int]]) -> set:
+    q_q, q_f = charges["Q"], charges[flav]
+    out = set()
+    for i in range(3):
+        key, sgn = slots[(i + 1, flav)]
+        for a in range(3):
+            if any((q_q[i] + sgn * c + q_f[a]) % n == 0 for c in scalar_charges[key]):
+                out.add((i, a))
+    return out
+
+
+def extended_scalar_search(slots, zu, zd, n_max: int) -> Dict[str, Any] | None:
+    """Fewest scalar triplets (copies of the two mass-giving scalars, each with its own
+    charge) and a Z_N, N <= n_max, whose allowed entries are exactly the nonzero entries."""
+    keys = sorted({k for k, _ in slots.values()}, key=str)
+    nz = {"u": _nonzero_full(zu), "d": _nonzero_full(zd)}
+    best = None
+    for n in range(2, n_max + 1):
+        for q_rest in itertools.product(range(n), repeat=2):
+            q_q = (0,) + q_rest
+            for q_u in itertools.product(range(n), repeat=3):
+                req = {k: set() for k in keys}
+                forb = {k: set() for k in keys}
+                for i in range(3):
+                    key, sgn = slots[(i + 1, "u")]
+                    for a in range(3):
+                        (req if (i, a) in nz["u"] else forb)[key].add((-sgn * (q_q[i] + q_u[a])) % n)
+                if any(req[k] & forb[k] for k in keys):
+                    continue
+                for q_d in itertools.product(range(n), repeat=3):
+                    r2 = {k: set(v) for k, v in req.items()}
+                    f2 = {k: set(v) for k, v in forb.items()}
+                    for i in range(3):
+                        key, sgn = slots[(i + 1, "d")]
+                        for a in range(3):
+                            (r2 if (i, a) in nz["d"] else f2)[key].add((-sgn * (q_q[i] + q_d[a])) % n)
+                    if any(r2[k] & f2[k] for k in keys):
+                        continue
+                    count = sum(len(r2[k]) for k in keys)
+                    if best is None or count < best["triplets"]:
+                        best = {"N": n, "triplets": count, "Q": q_q, "u": q_u, "d": q_d,
+                                "scalar_charges": {k: sorted(r2[k]) for k in keys}}
+    return best
+
+
+def rephasing_rank(nz_u: set, nz_d: set) -> int:
+    """Rank of the phase redefinitions (Q_i shared, u^c_a, d^c_a) acting on the nonzero entries."""
+    rows = []
+    for nz, off in ((nz_u, 3), (nz_d, 6)):
+        for i, a in sorted(nz):
+            r = [Fr(0)] * 9
+            r[i] = Fr(1)
+            r[off + a] = Fr(1)
+            rows.append(r)
+    rank = 0
+    for c in range(9):
+        p = next((r for r in range(rank, len(rows)) if rows[r][c] != 0), None)
+        if p is None:
+            continue
+        rows[rank], rows[p] = rows[p], rows[rank]
+        for r in range(len(rows)):
+            if r != rank and rows[r][c] != 0:
+                f = rows[r][c] / rows[rank][c]
+                rows[r] = [x - f * yv for x, yv in zip(rows[r], rows[rank])]
+        rank += 1
+    return rank
+
+
+def general_texture_count(zu, zd) -> Dict[str, int]:
+    """Parameters of general complex mass matrices with these zeros, against 10 observables
+    (6 masses, 3 angles, 1 phase)."""
+    nu, nd = _nonzero_full(zu), _nonzero_full(zd)
+    n = len(nu) + len(nd)
+    phases = n - rephasing_rank(nu, nd)
+    return {"nonzero": n, "magnitudes": n, "phases": phases, "parameters": n + phases,
+            "predictions": 10 - (n + phases)}
+
+
+def symmetry_search(yuk: Dict[int, Dict[str, Any]], survivors: Sequence[Tuple[Any, Any]]) -> Dict[str, Any]:
+    n_max = int(num("symmetry_max_N"))
+    out: Dict[str, Any] = {"by_beta": {}}
+    perms = residual_permutations(yuk[-1]["left_blocks"])
+    for b, y in yuk.items():
+        slots = yukawa_slots(y)
+        entry = {"common_shift": row_shift_is_common(slots),
+                 "minimal_scan": minimal_scalar_scan(slots, n_max),
+                 # Hermiticity would relate Y(Q_i, q^c_a) to Y(Q_a, q^c_i)*; a flavour symmetry
+                 # commutes with SU(3)_L and cannot map an (anti)triplet onto a singlet
+                 "hermitian_possible": any(q["rep"] == "1" for q in y["quarks"].values()),
+                 "survivors": []}
+        for zu, zd in survivors:
+            for pu, pd in versions_331(zu, zd, perms):
+                ext = extended_scalar_search(slots, pu, pd, n_max)
+                check = None
+                if ext is not None:
+                    sc = ext["scalar_charges"]
+                    ch = {"Q": ext["Q"], "u": ext["u"], "d": ext["d"]}
+                    check = (_allowed(slots, ch, ext["N"], "u", sc) == _nonzero_full(pu)
+                             and _allowed(slots, ch, ext["N"], "d", sc) == _nonzero_full(pd))
+                entry["survivors"].append({"zeros_u": pu, "zeros_d": pd, "symmetry": ext, "verified": check,
+                                           "general_count": general_texture_count(pu, pd)})
+        out["by_beta"][b] = entry
+    return out
+
+
+# =============================================================================
 # 7. COSMOLOGY (Decimal arithmetic)
 # =============================================================================
 def dec_pi() -> Decimal:
@@ -1502,9 +1704,18 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
     flav = run_flavour(scales, steps, grid)
     survey = run_survey(flav, scales)
     yuk = {b: yukawa_structure_331(b) for b in (-1, 1)}
+    survivors = [(r["zeros_u"], r["zeros_d"]) for r in survey[scales[0]]["classes"]
+                 if r["status"] == "tested" and all(
+                     next(x for x in survey[mu]["classes"]
+                          if (x["zeros_u"], x["zeros_d"]) == (r["zeros_u"], r["zeros_d"]))["survives"]
+                     for mu in scales)]
+    symm = symmetry_search(yuk, survivors)
     checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
+    checks.append(("Every symmetry found reproduces its target zeros exactly (recomputed from the charges)",
+                   all(sv["verified"] for e in symm["by_beta"].values() for sv in e["survivors"]
+                       if sv["symmetry"] is not None), ""))
     return {"scales": scales, "cosmology": cosmo, "flavour": flav, "survey": survey, "yukawa_331": yuk,
-            "checks": checks, "precision": prec}
+            "symmetry": symm, "checks": checks, "precision": prec}
 
 
 def report(res: Dict[str, Any]) -> str:
@@ -1678,6 +1889,54 @@ def report(res: Dict[str, Any]) -> str:
         for zu, zd in vs:
             w(f"      up {pattern_mask(zu)}   down {pattern_mask(zd)}")
     w("")
+    w("PART E. CAN A FLAVOUR SYMMETRY PRODUCE THE SURVIVOR INSIDE 3-3-1?")
+    w("-" * 78)
+    sy = res["symmetry"]["by_beta"]
+    nmax = int(num("symmetry_max_N"))
+    for b, e in sy.items():
+        sign = "-" if b < 0 else "+"
+        w(f"  beta = {sign}1/sqrt3:")
+        w(f"    E1. Minimal scalars (one per row and sector). Down-minus-up scalar charge is the same")
+        w(f"        for all three rows: {e['common_shift']}. So any abelian symmetry groups the rows the")
+        w(f"        same way in both sectors. Exhaustive scan of Z_N, N = 2..{nmax}:")
+        for m in e["minimal_scan"]:
+            w(f"          Z_{m['N']}: {m['pattern_pairs']:6d} realizable pattern pairs, {m['with_zeros_and_mixing']}"
+              f" with a texture zero and three-family mixing")
+        w(f"    E2. Hermitian mass matrices: a symmetry would have to map Q_i (SU(3)_L (anti)triplets)")
+        w(f"        onto u^c, d^c (singlets). Possible: {e['hermitian_possible']}.")
+        w(f"    E3. The survivor's zeros alone, with extra copies of the two mass-giving scalars:")
+        for sv in e["survivors"]:
+            ext, gc = sv["symmetry"], sv["general_count"]
+            tag = f"up {pattern_mask(sv['zeros_u'])}  down {pattern_mask(sv['zeros_d'])}"
+            if ext is None:
+                w(f"        {tag}: no Z_N with N <= {nmax} does it")
+            else:
+                sc = "; ".join(f"X={k[0]} scalar charges {v}" for k, v in ext["scalar_charges"].items())
+                w(f"        {tag}: Z_{ext['N']} with {ext['triplets']} scalar triplets (minimal: 2)")
+                w(f"          charges Q {ext['Q']}, u^c {ext['u']}, d^c {ext['d']}; {sc}")
+            w(f"          as general complex matrices these zeros leave {gc['magnitudes']} magnitudes +"
+              f" {gc['phases']} phases = {gc['parameters']} parameters for 10 observables:"
+              f" {gc['predictions']} predictions")
+    all_sv = [sv for e in sy.values() for sv in e["survivors"]]
+    found = [sv["symmetry"] for sv in all_sv if sv["symmetry"] is not None]
+    none_minimal = all(m["with_zeros_and_mixing"] == 0 for e in sy.values() for m in e["minimal_scan"])
+    no_herm = not any(e["hermitian_possible"] for e in sy.values())
+    max_pred = max(sv["general_count"]["predictions"] for sv in all_sv) if all_sv else None
+    if none_minimal and no_herm and (max_pred is None or max_pred < 1):
+        w("  RESULT: no flavour symmetry inside 3-3-1 produces the survivor as a predictive model.")
+    else:
+        w("  RESULT: see E1-E3; at least one route is open.")
+    w(f"    * with the minimal scalars, abelian symmetries make no zero that keeps three-family")
+    w(f"      mixing (E1: {'none found' if none_minimal else 'some found'} for N <= {nmax});")
+    if found:
+        nmin = min(f["N"] for f in found)
+        tmin = min(f["triplets"] for f in found)
+        w(f"    * with extra scalars, Z_{nmin} and {tmin} triplets give exactly the survivor's zeros, but the")
+        w(f"      matrices are then general, not Hermitian, and make {max_pred} predictions (E3);")
+    w("    * the survivor's one prediction comes from Hermiticity, which needs a symmetry that")
+    w("      exchanges left- and right-handed quarks: not possible with SU(3)_L acting on one side")
+    w("      only (E2). It needs a left-right extension of the gauge group, which is outside 3-3-1.")
+    w("")
     w("SELF-CHECKS (correctness of the calculation, not agreement with data)")
     w("-" * 78)
     for name, ok, detail in res["checks"]:
@@ -1712,6 +1971,7 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
         "yukawa_331": {f"b={b}": {"operators": {f"{f}{fl}": v for (f, fl), v in y["operators"].items()},
                                    "all_entries_allowed": y["all_entries_allowed"],
                                    "left_blocks": y["left_blocks"]} for b, y in res["yukawa_331"].items()},
+        "symmetry_331": {f"b={b}": e for b, e in res["symmetry"]["by_beta"].items()},
         "checks": [{"name": n, "pass": ok, "detail": d} for n, ok, d in res["checks"]],
     })
 

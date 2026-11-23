@@ -20,7 +20,7 @@
 ## Run it
 
 ```
-python3 production_v2_2.py                     # full report, about 2-3 minutes
+python3 production_v2_2.py                     # full report, about 3 minutes
 python3 production_v2_2.py --json-out out.json # every number, as JSON
 python3 production_v2_2.py --scales 2000 5000  # other evaluation scales (GeV, above m_t)
 ```
@@ -28,7 +28,7 @@ python3 production_v2_2.py --scales 2000 5000  # other evaluation scales (GeV, a
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 20 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 21 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -146,6 +146,33 @@ checks that the anomalies cancel. It then finds every gauge-invariant Yukawa ope
   3-3-1 hypotheses**, which differ in which index is the triplet family. They give the same
   CKM matrix but different flavour-changing Z′ couplings, and that is what would tell them
   apart.
+
+**Part E: can a flavour symmetry produce the survivor inside 3-3-1?**
+
+The search covers abelian symmetries Z_N: each field gets a charge mod N, and a Yukawa
+entry survives only if its charges sum to 0. Every abelian group is a product of such
+factors, so scanning Z_N covers the abelian case. Everything is done for both β = ±1/√3.
+
+* **E1, minimal scalars: no.** Each row of each mass matrix gets its mass from one scalar.
+  The script computes that the down-minus-up scalar charge is the same for all three rows.
+  So any abelian symmetry groups the rows in the same way in both sectors, and the CKM
+  matrix then falls apart into blocks. An exhaustive scan of Z_2 to Z_6 confirms it: of
+  50,364 realizable pattern pairs, **none** has a texture zero and three-family mixing.
+* **E2, Hermiticity: impossible.** The survivor's one prediction relies on Hermitian
+  matrices (M₁₂ = M₂₁* and so on). A symmetry would have to map the left-handed quarks
+  (SU(3)_L triplets and antitriplets) onto the right-handed ones (singlets). No symmetry that
+  commutes with SU(3)_L can do that.
+* **E3, extra scalars: the zeros, but no prediction.** With extra copies of the two
+  mass-giving scalars, **Z_6 with 6 scalar triplets** (4 more than minimal 3-3-1) gives
+  exactly the survivor's zeros, in each of its three 3-3-1 placements. The charges are in
+  the output, and the script re-derives the pattern from them. No Z_N with N ≤ 6 does it with
+  fewer triplets. But the matrices are then general complex matrices: 11 magnitudes and 3
+  phases, so 14 parameters for 10 observables and **−4 predictions**.
+
+**Conclusion: no flavour symmetry inside 3-3-1 produces the survivor as a predictive
+model.** Its prediction needs Hermitian mass matrices. That takes a symmetry exchanging left-
+and right-handed quarks, so the gauge group must treat them alike: a left-right extension,
+outside 3-3-1.
 
 ## What changed from production v1
 

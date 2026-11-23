@@ -23,6 +23,12 @@
 - 3-3-1 (beta = +-1/sqrt3): every mass-matrix entry is gauge-allowed, so 3-3-1 forces no
   texture zero. The triplet family makes the survivor three distinct 3-3-1 hypotheses.
 
+- Flavour symmetry (Part E): with the minimal 3-3-1 scalars, no abelian Z_N (N <= 6, exhaustive)
+  makes a texture zero that keeps three-family mixing. Hermitian matrices cannot come from a
+  symmetry commuting with SU(3)_L. Z_6 with 6 scalar triplets gives the survivor's zeros, but as
+  general matrices they have 14 parameters for 10 observables (-4 predictions). Conclusion: no
+  flavour symmetry inside 3-3-1 makes the survivor predictive.
+
 ## Files
 - production_v2_2.py: the simulation
 - results/production_v2_2.txt: expected output

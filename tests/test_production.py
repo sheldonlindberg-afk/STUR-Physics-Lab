@@ -149,6 +149,19 @@ def test_331_allows_every_entry():
     assert len(P.residual_permutations([[1, 2], [3]])) == 2
 
 
+def test_symmetry_search():
+    """Part E: no abelian symmetry on the minimal 3-3-1 fields makes a usable zero; with extra
+    scalars Z_6 reproduces the survivor's zeros, but the general (non-Hermitian) version predicts nothing."""
+    for b, e in RESULT["symmetry"]["by_beta"].items():
+        assert e["common_shift"] and not e["hermitian_possible"]
+        assert all(m["with_zeros_and_mixing"] == 0 for m in e["minimal_scan"])
+        assert len(e["survivors"]) == 3
+        for sv in e["survivors"]:
+            assert sv["verified"]
+            assert (sv["symmetry"]["N"], sv["symmetry"]["triplets"]) == (6, 6)
+            assert sv["general_count"]["predictions"] == -4
+
+
 def test_report_matches_expected_output():
     got = P.report(RESULT).splitlines()
     want = [ln for ln in open(EXPECTED, encoding="utf-8").read().splitlines() if not ln.startswith("Elapsed")]
