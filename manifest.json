@@ -1,7 +1,7 @@
 {
-  "name": "Gravity and the Quantum: Worked Examples",
-  "short_name": "Gravity & Quantum",
-  "description": "Reproducible worked examples at the gravity-quantum interface, for physics students and physicists",
+  "name": "STUR Physics Lab: one simulation",
+  "short_name": "STUR Lab",
+  "description": "One self-contained Python simulation with nothing tuned and nothing fitted",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#0a0a0f",
@@ -64,20 +64,6 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
-    }
-  ],
-  "shortcuts": [
-    {
-      "name": "Research notes",
-      "short_name": "Notes",
-      "description": "Research notes, with the interactive calculators",
-      "url": "technical.html",
-      "icons": [
-        {
-          "src": "assets/icons/icon-96.png",
-          "sizes": "96x96"
-        }
-      ]
     }
   ],
   "related_applications": [],

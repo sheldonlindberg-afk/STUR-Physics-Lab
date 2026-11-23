@@ -1,1478 +1,950 @@
+#!/usr/bin/env python3
 """
-Unified Closed-Loop Physics Simulation — Production v1.
+STUR Physics Lab: production simulation v2.
 
-Zero external dependencies (Python standard library only: math, cmath, decimal,
-json, argparse, dataclasses, pathlib, typing).
-No arbitrary free-parameter tuning or hardcoded target outputs.
+One self-contained script. Python 3.8+, standard library only. Copy it, paste it
+into any Python runner, notebook or AI assistant's code tool, and run it.
+
+THE RULE: NOTHING IN THIS FILE IS TUNED OR FITTED.
+  * Every measured number is in INPUTS, with its uncertainty and its source.
+  * Every measured number used only to judge the results is in COMPARISONS. Those
+    never enter a calculation.
+  * Every numerical-method setting (step counts, grid sizes, precision) is in
+    NUMERICS. The self-checks show the results do not depend on them.
+  * Everything else is calculated: group-theory coefficients from Casimirs and
+    field content, quark masses from the renormalization group, the quark-mixing
+    matrix from an exact diagonalization, and the cosmology from the Friedmann
+    equation.
+  * Where the inputs cannot fix a quantity (the two phases of the quark mass
+    matrices), the script does not choose a value. It scans the whole range,
+    and the prediction is the band the scan sweeps out.
+  tests/test_production.py enforces the rule: it fails if a non-integer number
+  appears anywhere outside INPUTS, COMPARISONS and NUMERICS.
+
+WHAT IT CALCULATES
+  Part A, cosmology (flat LambdaCDM): the radiation density from the CMB
+    temperature, the dark-energy density from flatness, the age of the universe,
+    the deceleration parameter, the redshift where the expansion starts to
+    accelerate, matter-radiation equality, and the horizon entropies.
+  Part B, quark flavour: the six quark masses run with the renormalization group
+    (two-loop QCD, one-loop QED, then one-loop Standard Model Yukawa and gauge
+    running above the top mass) to each benchmark 3-3-1 scale. They are then
+    put into the Fritzsch six-zero texture, whose entries the masses fix exactly.
+    Diagonalizing it gives the full CKM matrix for every value of the two free
+    phases, and each element's band is compared with the measured value.
+
+Run:  python3 production_v2_2.py                 (full report, about 10 s)
+      python3 production_v2_2.py --json-out out.json
 """
 
 from __future__ import annotations
 
 import argparse
 import cmath
-from dataclasses import dataclass, field, replace
 from decimal import Decimal, localcontext
+from fractions import Fraction as Fr
+import itertools
 import json
 import math
-from pathlib import Path
+import sys
 import time
-from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple, Union
+from typing import Any, Callable, Dict, List, Sequence, Tuple
 
+VERSION = "production v2.2"
 
-DEFAULT_CKM_TARGETS: Dict[str, Tuple[float, float]] = {
-    "V_us": (0.2250, 0.0008),
-    "V_cb": (0.0410, 0.0006),
-    "V_ub": (0.00365, 0.00012),
-    "J": (3.0e-5, 1.5e-6),
+# =============================================================================
+# 1. MEASURED INPUTS (the only physics numbers that enter a calculation)
+# =============================================================================
+# Values are strings so that the high-precision cosmology sees them exactly.
+INPUTS: Dict[str, Dict[str, str]] = {
+    # --- SI defining constants (exact) and astronomical unit (exact, IAU 2012)
+    "c": {"value": "299792458", "sigma": "0", "unit": "m/s", "source": "SI, exact"},
+    "h": {"value": "6.62607015e-34", "sigma": "0", "unit": "J s", "source": "SI, exact"},
+    "k_B": {"value": "1.380649e-23", "sigma": "0", "unit": "J/K", "source": "SI, exact"},
+    "au": {"value": "149597870700", "sigma": "0", "unit": "m", "source": "IAU 2012, exact"},
+    "G": {"value": "6.67430e-11", "sigma": "0.00015e-11", "unit": "m^3/(kg s^2)",
+          "source": "CODATA 2018"},
+    # --- cosmology
+    "T_CMB": {"value": "2.7255", "sigma": "0.0006", "unit": "K", "source": "Fixsen 2009 (COBE/FIRAS)"},
+    "N_eff": {"value": "3.044", "sigma": "0", "unit": "",
+              "source": "Standard Model calculation of N_eff (Bennett et al. 2021); not measured"},
+    "H0": {"value": "67.36", "sigma": "0.54", "unit": "km/s/Mpc",
+           "source": "Planck 2018 VI, TT,TE,EE+lowE+lensing"},
+    "Omega_m": {"value": "0.3153", "sigma": "0.0073", "unit": "",
+                "source": "Planck 2018 VI, TT,TE,EE+lowE+lensing"},
+    # --- electroweak
+    "G_F": {"value": "1.1663788e-5", "sigma": "0.0000006e-5", "unit": "GeV^-2", "source": "PDG 2024"},
+    "M_Z": {"value": "91.1876", "sigma": "0.0021", "unit": "GeV", "source": "PDG (LEP Z pole)"},
+    "alpha_em_inv_MZ": {"value": "127.951", "sigma": "0.009", "unit": "",
+                        "source": "PDG 2024, MS-bar at M_Z"},
+    # --- QCD
+    "alpha_s_MZ": {"value": "0.1180", "sigma": "0.0009", "unit": "", "source": "PDG 2024"},
+    # --- quark masses: u, d, s MS-bar at 2 GeV; c, b MS-bar at their own mass; t pole (direct)
+    "m_u": {"value": "0.00216", "sigma": "0.00007", "unit": "GeV", "source": "PDG 2024, MS-bar(2 GeV)"},
+    "m_d": {"value": "0.00470", "sigma": "0.00007", "unit": "GeV", "source": "PDG 2024, MS-bar(2 GeV)"},
+    "m_s": {"value": "0.0935", "sigma": "0.0008", "unit": "GeV", "source": "PDG 2024, MS-bar(2 GeV)"},
+    "mu_light": {"value": "2", "sigma": "0", "unit": "GeV", "source": "PDG convention for u, d, s"},
+    "m_c": {"value": "1.2730", "sigma": "0.0046", "unit": "GeV", "source": "PDG 2024, m_c(m_c)"},
+    "m_b": {"value": "4.183", "sigma": "0.007", "unit": "GeV", "source": "PDG 2024, m_b(m_b)"},
+    "M_t": {"value": "172.57", "sigma": "0.29", "unit": "GeV", "source": "PDG 2024, direct measurements"},
 }
 
-BENCHMARK_V331_SCALES_GEV: Tuple[float, ...] = (1500.0, 3500.0, 7000.0, 10000.0)
+# The measured inputs whose uncertainties are propagated into the flavour bands.
+FLAVOUR_UNCERTAIN = ("m_u", "m_d", "m_s", "m_c", "m_b", "M_t", "alpha_s_MZ")
+COSMO_UNCERTAIN = ("H0", "Omega_m", "T_CMB")
+
+# =============================================================================
+# 2. COMPARISONS (measured results; used only to judge the output)
+# =============================================================================
+# (value, +sigma, -sigma)
+COMPARISONS: Dict[str, Dict[str, Any]] = {
+    "V_us": {"value": ("0.22501", "0.00068", "0.00068"), "source": "PDG 2024 CKM global fit, eq. 12.27"},
+    "V_cb": {"value": ("0.04183", "0.00079", "0.00069"), "source": "PDG 2024 CKM global fit, eq. 12.27"},
+    "V_ub": {"value": ("0.003732", "0.000090", "0.000085"), "source": "PDG 2024 CKM global fit, eq. 12.27"},
+    "J": {"value": ("3.12e-5", "0.13e-5", "0.12e-5"), "source": "PDG 2024 CKM global fit"},
+    "V_td/V_ts": {"value": ("0.207", "0.0032", "0.0032"),
+                  "source": "PDG 2024 eq. 12.14, from Delta m_d / Delta m_s: "
+                            "0.207 +/- 0.001 +/- 0.003, the two errors combined in quadrature"},
+    "age_Gyr": {"value": ("13.787", "0.020", "0.020"), "source": "Planck 2018 VI, TT,TE,EE+lowE+lensing"},
+    "Omega_Lambda": {"value": ("0.6847", "0.0073", "0.0073"), "source": "Planck 2018 VI, TT,TE,EE+lowE+lensing"},
+}
+
+# =============================================================================
+# 3. NUMERICS (method settings only; the self-checks vary them)
+# =============================================================================
+NUMERICS: Dict[str, Any] = {
+    "precision_digits": 50,           # Decimal digits for the cosmology
+    "romberg_max_levels": 22,
+    "romberg_rel_tol": "1e-30",
+    "friedmann_check_steps": 20000,   # independent float quadrature of the age
+    "friedmann_check_lna_min": -40,
+    "rg_steps_per_efold": 200,        # RK4 steps per unit of ln(mu)
+    "phase_grid": 120,                # coarse grid per phase (both phases in [0, 2 pi))
+    "pattern_search_min_step": "1e-12",
+    "jacobi_tol": "1e-30",
+    "check_rel_tol": "1e-9",
+    "check_rg_tol": "1e-7",
+    "check_age_tol": "1e-8",
+    "report_sci_below": "1e-3",       # print in scientific notation below / above these
+    "report_sci_above": "1e5",
+    # Scales at which the flavour bands are reported: the four 3-3-1 benchmark
+    # scales of production v1. All four are always reported; none is selected.
+    "evaluation_scales_GeV": ("1500", "3500", "7000", "10000"),
+}
 
 
-def _dec_sqrt(val: Decimal) -> Decimal:
-    if val <= Decimal(0):
-        return Decimal(0)
-    return val.sqrt()
+def inp(name: str) -> float:
+    return float(INPUTS[name]["value"])
 
 
-def _dec_pow_float(base: Decimal, exp_float: float, prec: int) -> Decimal:
-    """Compute base**exp_float at `prec` digits using Decimal Newton ln() and exp()."""
-    if base <= Decimal(0):
-        return Decimal(0)
-    if exp_float == 0.0:
-        return Decimal(1)
-    if base == Decimal(1):
-        return Decimal(1)
-    with localcontext() as ctx:
-        ctx.prec = prec + 20
-        b_f = float(base)
-        if b_f > 0.0 and math.isfinite(b_f):
-            x = Decimal(str(math.log(b_f)))
-        else:
-            x = Decimal(0)
-        for _ in range(8):
-            ex = x.exp()
-            x = x - (ex - base) / ex
-        res = (Decimal(str(exp_float)) * x).exp()
-    with localcontext() as ctx:
-        ctx.prec = prec
-        return +res
+def sig(name: str) -> float:
+    return float(INPUTS[name]["sigma"])
 
 
-@dataclass(frozen=True)
-class SimLoopConfig:
-    precision_digits: int = 180
-    omega_r: str = "9.2e-5"
-    omega_m: str = "0.315"
-    omega_lambda: str = "0.685"
-    h0_km_s_mpc: str = "67.4"
-    curvature_scale: str = "1.0"
-    entropy_ratio: str = "1.0"
-    backreaction_epoch: str = "present"  # "present" | "asymptotic"
-
-    t_span: Tuple[float, float] = (0.0, 10.0)
-    time_scale: str = "dimensionless"
-    a0: float = 0.01
-    present_epoch_a: float = 1.0
-    richardson_steps: int = 500
-    rtol: float = 1e-11
-    atol: float = 1e-14
-    use_decimal_flrw: bool = True
-
-    m_u_input: float = 0.00216
-    m_d_input: float = 0.00470
-    m_s_input: float = 0.09340
-    mu_light_gev: float = 2.0
-
-    m_c_input: float = 1.27
-    mu_c_gev: float = 1.27
-
-    m_b_input: float = 4.18
-    mu_b_gev: float = 4.18
-
-    m_t_pole_gev: float = 172.69
-    enable_top_yukawa_rg: bool = True
-    enable_2loop_qcd_rg: bool = True
-
-    mz_gev: float = 91.1876
-    alpha_s_mz: float = 0.1180
-    alpha_em_mz: float = 1.0 / 127.95
-    j_ref_scale: float = 3.0e-5
-    theta_23_rad: float = 0.0
-    cp_phase_rad: float = 1.144
-
-    cg_w12: float = 1.0
-    cg_w23: float = 1.0
-    cg_w13: float = 1.0
-
-    v_ew_gev: float = 246.22
-    v_331_gev: float = 3500.0
-
-    c1: float = -1.20
-    c2: float = 0.35
-    c3: float = 1.60
-    w1: float = 1.15
-    w2: float = 0.95
-    w3: float = 1.25
-    phi_12: float = 0.45
-    phi_23: float = -0.35
-    phi_13: float = 0.20
-    overlap_profile: str = "gaussian"
-
-    r1: float = 0.25
-    r2: float = 1.40
-    r3: float = 3.10
-    center_mode: str = "log1p"
-    curvature_coupling: float = 0.20
-    torsion_coupling: float = 0.0
-    resistance_gain: float = 1.0
-    resistance_profile_power: float = 1.0
-    structural_mixing_factor: float = 1.0
-    chord_shortcut: float = 0.0
-    detour_13: float = 0.0
-
-    max_cycles: int = 30
-    loop_tol: float = 1e-13
-    include_j_in_chi2: bool = True
-    ckm_targets: Dict[str, Tuple[float, float]] = field(
-        default_factory=lambda: dict(DEFAULT_CKM_TARGETS)
-    )
-
-    @property
-    def eps_331(self) -> float:
-        ratio = self.v_ew_gev / max(self.v_331_gev, 1e-9)
-        return ratio * ratio
+def num(name: str) -> float:
+    return float(NUMERICS[name])
 
 
-@dataclass(frozen=True)
-class GeometricState:
-    r1: float = 0.25
-    r2: float = 1.40
-    r3: float = 3.10
-    center_mode: str = "log1p"
-    curvature: float = 0.20
-    torsion: float = 0.0
-    v_331_gev: float = 3500.0
-    v_ew_gev: float = 246.22
-    cp_base_rad: float = 1.144
-    resistance_gain: float = 1.0
-    resistance_profile_power: float = 1.0
-    structural_mixing_factor: float = 1.0
-    chord_shortcut: float = 0.0
-    detour_13: float = 0.0
-
-    @property
-    def eps_331(self) -> float:
-        ratio = self.v_ew_gev / max(self.v_331_gev, 1e-9)
-        return ratio * ratio
-
-    def centers(self) -> List[float]:
-        coords = [float(self.r1), float(self.r2), float(self.r3)]
-        mode = (self.center_mode or "log1p").lower()
-        if mode == "log1p":
-            return [math.log1p(max(0.0, x)) for x in coords]
-        if mode == "linear":
-            return coords
-        raise ValueError(f"Unsupported center_mode: {self.center_mode!r}")
-
-    def derived_widths(self) -> List[float]:
-        r_vec = [max(0.0, float(self.r1)), max(0.0, float(self.r2)), max(0.0, float(self.r3))]
-        return [0.85 / (1.0 + 0.45 * r_val) for r_val in r_vec]
+# =============================================================================
+# 4. GROUP THEORY: every coefficient is computed, then cross-checked
+# =============================================================================
+def su_n_casimirs(n: int) -> Tuple[Fr, Fr, Fr]:
+    """C_A, C_F, T_F of SU(N) with fundamental Dynkin index T_F = 1/2."""
+    return Fr(n), Fr(n * n - 1, 2 * n), Fr(1, 2)
 
 
-def compute_cosmology_180_metrics(
-    precision_digits: int = 180,
-    omega_r: str = "9.2e-5",
-    omega_m: str = "0.315",
-    omega_lambda: str = "0.685",
-    h0_km_s_mpc: str = "67.4",
-    so41_curvature_scale: str = "1.0",
-    bh_entropy_ratio: str = "1.0",
-) -> Dict[str, Any]:
-    if precision_digits < 50:
-        raise ValueError("precision_digits must be >= 50.")
-
-    with localcontext() as ctx:
-        ctx.prec = precision_digits
-        om_r = Decimal(omega_r)
-        om_m = Decimal(omega_m)
-        om_l = Decimal(omega_lambda)
-        h0 = Decimal(h0_km_s_mpc)
-        k_so41 = Decimal(so41_curvature_scale)
-        s_bh = Decimal(bh_entropy_ratio)
-        one = Decimal(1)
-
-        flatness_residual = (om_r + om_m + om_l) - one
-        e0_sq = om_r + om_m + om_l
-        e0 = _dec_sqrt(e0_sq) if e0_sq > 0 else Decimal(0)
-        so41_balance = (k_so41 * s_bh) - one
-
-        z_eff = Decimal("0.5")
-        a_z = one / (one + z_eff)
-        ez_sq = om_r / (a_z ** 4) + om_m / (a_z ** 3) + om_l
-        ez = _dec_sqrt(ez_sq)
-        h_eff = h0 * ez
-
-        return {
-            "precision_digits": precision_digits,
-            "flatness_residual": str(flatness_residual),
-            "e0": str(e0),
-            "so41_balance_residual": str(so41_balance),
-            "h_eff_z0p5": str(h_eff),
-            "max_abs_consistency_pull_sigma": float(
-                max(abs(flatness_residual), abs(so41_balance)) / Decimal("0.01")
-            ),
-            "status": "verified_within_1.3_sigma",
-        }
+def qcd_beta(nf: int) -> Tuple[Fr, Fr]:
+    """d a / d ln mu^2 = -b0 a^2 - b1 a^3 with a = alpha_s / (4 pi)."""
+    ca, cf, tf = su_n_casimirs(3)
+    b0 = Fr(11, 3) * ca - Fr(4, 3) * tf * nf
+    b1 = Fr(34, 3) * ca * ca - 4 * cf * tf * nf - Fr(20, 3) * ca * tf * nf
+    return b0, b1
 
 
-def compute_horizon_entropy_state(
-    cfg: SimLoopConfig,
-    a_eval: Union[Decimal, float],
-    flavor_j_abs: Union[Decimal, float],
-    holonomy_phi_g: Union[Decimal, float] = Decimal(0),
-) -> Dict[str, Any]:
-    prec = max(50, int(cfg.precision_digits))
-    with localcontext() as ctx:
-        ctx.prec = prec
-        one = Decimal(1)
-        three = Decimal(3)
-        om_r = Decimal(cfg.omega_r)
-        om_m = Decimal(cfg.omega_m)
-        om_l_base = Decimal(cfg.omega_lambda)
-        h0 = Decimal(cfg.h0_km_s_mpc)
-        k_curv = Decimal(cfg.curvature_scale)
-        s_ent = Decimal(cfg.entropy_ratio)
-
-        a_raw = a_eval if isinstance(a_eval, Decimal) else Decimal(str(a_eval))
-        floor_a = Decimal("1e-12")
-        a_dec = a_raw if a_raw > floor_a else floor_a
-
-        e_sq = om_r / (a_dec ** 4) + om_m / (a_dec ** 3) + om_l_base
-        floor_e_sq = Decimal("1e-30")
-        e_sq_pos = e_sq if e_sq > floor_e_sq else floor_e_sq
-
-        s_norm = one / e_sq_pos
-        j_0 = Decimal(str(max(cfg.j_ref_scale, 1e-30)))
-        j_raw = flavor_j_abs if isinstance(flavor_j_abs, Decimal) else Decimal(str(flavor_j_abs))
-        j_pos = j_raw if j_raw > Decimal(0) else Decimal(0)
-        j_over_j0 = j_pos / j_0
-
-        phi_dec = holonomy_phi_g if isinstance(holonomy_phi_g, Decimal) else Decimal(str(holonomy_phi_g))
-        geom_mod = one + (phi_dec * Decimal(str(cfg.eps_331)))
-
-        floor_s = Decimal("1e-12")
-        s_pos = s_norm if s_norm > floor_s else floor_s
-        delta_om_l = -(j_over_j0 * geom_mod / (three * s_pos)) * Decimal("1e-4")
-        om_l_eff = om_l_base + delta_om_l
-
-        flatness_residual = (om_r + om_m + om_l_eff) - one
-        e0_sq = om_r + om_m + om_l_eff
-        e0 = _dec_sqrt(e0_sq) if e0_sq > 0 else Decimal(0)
-        balance_residual = (k_curv * s_ent) - one
-
-        z_eff = Decimal("0.5")
-        a_z = one / (one + z_eff)
-        ez_sq = om_r / (a_z ** 4) + om_m / (a_z ** 3) + om_l_eff
-        ez = _dec_sqrt(ez_sq)
-        h_eff = h0 * ez
-
-        max_pull = float(max(abs(flatness_residual), abs(balance_residual)) / Decimal("0.01"))
-
-        return {
-            "precision_digits": prec,
-            "a_eval_exact": str(a_dec),
-            "omega_r": str(om_r),
-            "omega_m": str(om_m),
-            "omega_lambda_base": str(om_l_base),
-            "omega_lambda_eff": str(om_l_eff),
-            "horizon_entropy_ratio_s_norm": str(s_norm),
-            "j_over_j0": str(j_over_j0),
-            "holonomy_coupling_factor": str(geom_mod),
-            "horizon_entropy_shift": str(delta_om_l),
-            "flatness_residual": str(flatness_residual),
-            "e0": str(e0),
-            "balance_residual": str(balance_residual),
-            "h_eff_z0p5": str(h_eff),
-            "max_abs_consistency_pull_sigma": max_pull,
-            "status": "verified_within_1.3_sigma" if max_pull <= 1.3 else "consistency_pull_elevated",
-        }
+def qcd_gamma_m(nf: int) -> Tuple[Fr, Fr]:
+    """d ln m / d ln mu^2 = -(g0 a + g1 a^2) with a = alpha_s / (4 pi)."""
+    ca, cf, tf = su_n_casimirs(3)
+    g0 = 3 * cf
+    g1 = cf * (Fr(3, 2) * cf + Fr(97, 6) * ca - Fr(10, 3) * tf * nf)
+    return g0, g1
 
 
-def resistance_density(s: float, state: GeometricState) -> float:
-    s_clamped = max(0.0, min(1.0, float(s)))
-    power = max(0.1, float(state.resistance_profile_power))
-    gain = max(0.0, float(state.resistance_gain))
-    return gain * (0.45 + 1.55 * (s_clamped ** power))
+# Standard Model field content: (name, SU(3) dim, SU(2) dim, hypercharge Y, kind, copies)
+SM_FIELDS = (
+    ("Q", 3, 2, Fr(1, 6), "weyl", 3),
+    ("u^c", 3, 1, Fr(-2, 3), "weyl", 3),
+    ("d^c", 3, 1, Fr(1, 3), "weyl", 3),
+    ("L", 1, 2, Fr(-1, 2), "weyl", 3),
+    ("e^c", 1, 1, Fr(1, 1), "weyl", 3),
+    ("H", 1, 2, Fr(1, 2), "complex_scalar", 1),
+)
+GUT_NORM = Fr(3, 5)  # g1^2 = (5/3) g'^2: the SU(5)-normalized hypercharge
 
 
-def integrate_resistance_path(
-    r_start: float,
-    r_end: float,
-    state: GeometricState,
-    n_quad: int = 200,
-    signed_path_shift: float = 0.0,
-) -> float:
-    dr = abs(float(r_end) - float(r_start))
-    if dr <= 0.0:
-        return max(0.0, float(signed_path_shift))
-    steps = max(16, int(n_quad))
-    h = 1.0 / steps
-    acc = 0.5 * (resistance_density(0.0, state) + resistance_density(1.0, state))
-    for k in range(1, steps):
-        acc += resistance_density(k * h, state)
-    integral_val = dr * acc * h
-    return max(0.0, integral_val + float(signed_path_shift))
+def dynkin_fund(dim: int) -> Fr:
+    return Fr(1, 2) if dim > 1 else Fr(0)
 
 
-def _chi2_and_pulls(
-    obs: Dict[str, float], targets: Dict[str, Tuple[float, float]]
-) -> Tuple[float, Dict[str, float]]:
-    chi2 = 0.0
-    pulls: Dict[str, float] = {}
-    for k, (target, sigma) in targets.items():
-        if k not in obs:
+def casimir_fund(group_n: int, dim: int) -> Fr:
+    return su_n_casimirs(group_n)[1] if dim > 1 else Fr(0)
+
+
+def sm_gauge_b() -> Tuple[Fr, Fr, Fr]:
+    """One-loop b_i in d g_i / d ln mu = b_i g_i^3 / (16 pi^2), from the field content."""
+    b = [Fr(0), -Fr(11, 3) * su_n_casimirs(2)[0], -Fr(11, 3) * su_n_casimirs(3)[0]]
+    for _, d3, d2, y, kind, copies in SM_FIELDS:
+        w = Fr(2, 3) if kind == "weyl" else Fr(1, 3)
+        b[0] += w * copies * GUT_NORM * y * y * d3 * d2
+        b[1] += w * copies * dynkin_fund(d2) * d3
+        b[2] += w * copies * dynkin_fund(d3) * d2
+    return b[0], b[1], b[2]
+
+
+def top_yukawa_gauge_coeffs() -> Tuple[Fr, Fr, Fr]:
+    """c_i in 16 pi^2 d ln y_t / d ln mu  contains  -c_i g_i^2: 3 [C2(Q) + C2(u^c)] per group."""
+    q = SM_FIELDS[0]
+    u = SM_FIELDS[1]
+    c1 = 3 * GUT_NORM * (q[3] ** 2 + u[3] ** 2)
+    c2 = 3 * (casimir_fund(2, q[2]) + casimir_fund(2, u[2]))
+    c3 = 3 * (casimir_fund(3, q[1]) + casimir_fund(3, u[1]))
+    return c1, c2, c3
+
+
+def top_yukawa_self_coeff() -> Fr:
+    """16 pi^2 d ln y_t / d ln mu contains (3/2) y_t^2 + Y2, with Y2 = N_c y_t^2."""
+    return Fr(3, 2) + su_n_casimirs(3)[0]
+
+
+YUKAWA_SPLIT = Fr(3, 2)  # coefficient of (Y_u Y_u^dag - Y_d Y_d^dag) in the SM Yukawa RGE
+
+
+def zeta3() -> float:
+    """Apery's constant from zeta(3) = (5/2) sum (-1)^(n+1) / (n^3 binom(2n, n))."""
+    total = 0.0
+    for n in range(1, 40):
+        total += (-1) ** (n + 1) / (n ** 3 * math.comb(2 * n, n))
+    return 5 * total / 2
+
+
+def pole_to_msbar_coeffs(n_light: int) -> Tuple[float, float]:
+    """M / m(m) = 1 + k1 a + k2 a^2 with a = alpha_s(m)/pi (Gray, Broadhurst, Grafe, Schilcher 1990),
+    light-quark masses in the loop neglected."""
+    ca, cf, tf = su_n_casimirs(3)
+    z2 = math.pi ** 2 / 6
+    k1 = float(cf)
+    k2 = (307 / 32 + 2 * z2 + 2 * z2 * math.log(2) / 3 - zeta3() / 6
+          - n_light * (71 / 144 + z2 / 3))
+    return k1, k2
+
+
+# =============================================================================
+# 5. RENORMALIZATION-GROUP RUNNING
+# =============================================================================
+def _rk4(f: Callable[[List[float]], List[float]], y: List[float], h: float) -> List[float]:
+    k1 = f(y)
+    k2 = f([a + h / 2 * b for a, b in zip(y, k1)])
+    k3 = f([a + h / 2 * b for a, b in zip(y, k2)])
+    k4 = f([a + h * b for a, b in zip(y, k3)])
+    return [a + h / 6 * (b1 + 2 * b2 + 2 * b3 + b4) for a, b1, b2, b3, b4 in zip(y, k1, k2, k3, k4)]
+
+
+def _nf_at(mu: float, thresholds: Sequence[float]) -> int:
+    return 3 + sum(1 for m in thresholds if mu > m)
+
+
+def integrate_ln_mu(y0: List[float], mu0: float, mu1: float,
+                    rhs: Callable[[List[float], int], List[float]],
+                    thresholds: Sequence[float], steps_per_efold: int) -> List[float]:
+    """RK4 in ln(mu), split exactly at the flavour thresholds."""
+    l0, l1 = math.log(mu0), math.log(mu1)
+    cuts = sorted(math.log(m) for m in thresholds if min(l0, l1) < math.log(m) < max(l0, l1))
+    if l1 < l0:
+        cuts.reverse()
+    pts = [l0] + cuts + [l1]
+    y = list(y0)
+    for a, b in zip(pts[:-1], pts[1:]):
+        if b == a:
             continue
-        pull = (float(obs[k]) - target) / sigma
-        pulls[k] = pull
-        chi2 += pull * pull
-    return chi2, pulls
+        nf = _nf_at(math.exp((a + b) / 2), thresholds)
+        n = max(1, math.ceil(abs(b - a) * steps_per_efold))
+        h = (b - a) / n
+        for _ in range(n):
+            y = _rk4(lambda v: rhs(v, nf), y, h)
+    return y
 
 
-def evaluate_geometric_resistance_state(
-    state: GeometricState,
-    targets: Optional[Dict[str, Tuple[float, float]]] = None,
-) -> Dict[str, Any]:
-    active_targets = targets if targets is not None else DEFAULT_CKM_TARGETS
+class FlavourRunner:
+    """Runs alpha_s and the quark masses from the measured inputs. No free parameters."""
 
-    d_12 = integrate_resistance_path(state.r1, state.r2, state, signed_path_shift=0.0)
-    d_23 = integrate_resistance_path(state.r2, state.r3, state, signed_path_shift=0.0)
-    shift_13 = float(state.detour_13) - float(state.chord_shortcut) * abs(state.r3 - state.r1)
-    d_13 = integrate_resistance_path(state.r1, state.r3, state, signed_path_shift=shift_13)
+    def __init__(self, x: Dict[str, float], steps_per_efold: int):
+        self.x = x
+        self.steps = steps_per_efold
+        self.alpha_em = 1 / x["alpha_em_inv_MZ"]
+        self.coef = {}
+        for nf in range(3, 7):
+            b0, b1 = qcd_beta(nf)
+            g0, g1 = qcd_gamma_m(nf)
+            self.coef[nf] = (float(b0), float(b1), float(g0), float(g1))
+        self.thresholds: List[float] = [x["m_c"], x["m_b"]]
+        self.mt_msbar = self._top_msbar()
+        self.thresholds = [x["m_c"], x["m_b"], self.mt_msbar]
+        self.v = (math.sqrt(2) * x["G_F"]) ** (-1 / 2)
 
-    a_12 = math.exp(-d_12)
-    a_23 = math.exp(-d_23)
-    a_13 = math.exp(-d_13)
+    # d alpha_s / d ln mu and d ln m / d ln mu (two-loop QCD, one-loop QED)
+    def _qcd_rhs(self, y: List[float], nf: int, q2: float) -> List[float]:
+        b0, b1, g0, g1 = self.coef[nf]
+        al = y[0]
+        a = al / (4 * math.pi)
+        dal = -2 * (b0 * al * al / (4 * math.pi) + b1 * al ** 3 / (16 * math.pi ** 2))
+        dlnm = -2 * (g0 * a + g1 * a * a) - 3 * q2 * self.alpha_em / (2 * math.pi)
+        return [dal, dlnm]
 
-    mix = max(0.0, float(state.structural_mixing_factor))
-    v_us = min(0.999, a_12 * mix)
-    v_cb = min(0.999, a_23 * mix)
-    v_ub = min(0.999, a_13 * mix)
+    def alpha_s(self, mu: float) -> float:
+        y = integrate_ln_mu([self.x["alpha_s_MZ"], 0.0], self.x["M_Z"], mu,
+                            lambda v, nf: self._qcd_rhs(v, nf, 0.0), self.thresholds, self.steps)
+        return y[0]
 
-    dr12 = state.r2 - state.r1
-    dr23 = state.r3 - state.r2
-    dr13 = state.r3 - state.r1
+    def run_mass(self, m0: float, mu0: float, mu1: float, charge: Fr) -> float:
+        y = integrate_ln_mu([self.alpha_s(mu0), math.log(m0)], mu0, mu1,
+                            lambda v, nf: self._qcd_rhs(v, nf, float(charge) ** 2),
+                            self.thresholds, self.steps)
+        return math.exp(y[1])
 
-    phi_12 = 0.25 * state.curvature * dr12 - 0.18 * state.torsion * (dr12 ** 2)
-    phi_23 = 0.15 * state.curvature * dr23 - 0.22 * state.torsion * (dr23 ** 2)
-    phi_13 = 0.37 * state.curvature * dr13 - 0.05 * state.torsion * (dr13 ** 2)
+    def _top_msbar(self) -> float:
+        """Solve M_t = m (1 + k1 a(m) + k2 a(m)^2) for the MS-bar mass m = m_t(m_t)."""
+        k1, k2 = pole_to_msbar_coeffs(5)
+        big_m = self.x["M_t"]
+        m = big_m
+        for _ in range(100):
+            a = self.alpha_s(m) / math.pi
+            m_new = big_m / (1 + k1 * a + k2 * a * a)
+            if abs(m_new - m) <= abs(m) * float(NUMERICS["check_rel_tol"]) / 1000:
+                m = m_new
+                break
+            m = m_new
+        return m
 
-    holonomy_phase = phi_12 + phi_23 - phi_13
-    delta_cp = state.cp_base_rad + state.eps_331 * holonomy_phase
-
-    s12 = min(0.999, v_us)
-    s23 = min(0.999, v_cb / max(math.sqrt(max(1.0 - s12 * s12, 1e-12)), 1e-12))
-    s13 = min(0.999, v_ub)
-    c12_w = math.sqrt(max(0.0, 1.0 - s12 * s12))
-    c23_w = math.sqrt(max(0.0, 1.0 - s23 * s23))
-    c13_w = math.sqrt(max(0.0, 1.0 - s13 * s13))
-    j_val = s12 * s23 * s13 * c12_w * c23_w * (c13_w * c13_w) * math.sin(delta_cp)
-
-    obs = {
-        "V_us": float(v_us),
-        "V_cb": float(v_cb),
-        "V_ub": float(v_ub),
-        "J": float(j_val),
-    }
-    chi2, pulls = _chi2_and_pulls(obs, active_targets)
-
-    return {
-        "center_mode": state.center_mode,
-        "centers": state.centers(),
-        "derived_widths": state.derived_widths(),
-        "attenuation_integrals": {"D_12": d_12, "D_23": d_23, "D_13": d_13},
-        "attenuation_factors": {"A_12": a_12, "A_23": a_23, "A_13": a_13},
-        "phases_rad": {"phi_12": phi_12, "phi_23": phi_23, "phi_13": phi_13},
-        "holonomy_phase_rad": holonomy_phase,
-        "eps_331": state.eps_331,
-        "delta_cp_rad": delta_cp,
-        "observables": obs,
-        "chi2": chi2,
-        "pulls_sigma": pulls,
-    }
-
-
-def _h0_in_rate_units_decimal(h0_km_s_mpc: Decimal, time_scale: str) -> Decimal:
-    mode = (time_scale or "dimensionless").lower()
-    if mode == "dimensionless":
-        return Decimal(1)
-    if mode == "gyr":
-        km_per_mpc = Decimal("3.0856775814913673e19")
-        sec_per_gyr = Decimal("3.15576e16")
-        return h0_km_s_mpc * sec_per_gyr / km_per_mpc
-    if mode == "inverse_thousands":
-        return h0_km_s_mpc / Decimal("1000")
-    raise ValueError(f"Unsupported time_scale: {time_scale!r}")
-
-
-def flrw_dadt(t: float, a: float, params: Dict[str, float]) -> float:
-    _ = t
-    h_rate = params.get("h0", 1.0)
-    om_r = params.get("omega_r", 9.2e-5)
-    om_m = params.get("omega_m", 0.315)
-    om_l = params.get("omega_lambda", 0.685)
-    a_eff = max(a, 1e-15)
-    h_sq = max(0.0, om_r / (a_eff ** 4) + om_m / (a_eff ** 3) + om_l)
-    return h_rate * a_eff * math.sqrt(h_sq)
-
-
-def _flrw_dadt_decimal(t: Decimal, a: Decimal, params: Dict[str, Decimal]) -> Decimal:
-    _ = t
-    h_rate = params.get("h0", Decimal(1))
-    om_r = params.get("omega_r", Decimal("9.2e-5"))
-    om_m = params.get("omega_m", Decimal("0.315"))
-    om_l = params.get("omega_lambda", Decimal("0.685"))
-    min_a = Decimal("1e-15")
-    a_eff = a if a > min_a else min_a
-    h_sq = om_r / (a_eff ** 4) + om_m / (a_eff ** 3) + om_l
-    if h_sq <= Decimal(0):
-        return Decimal(0)
-    return h_rate * a_eff * _dec_sqrt(h_sq)
-
-
-def _rk4_step(
-    f: Callable[[float, float, Dict[str, float]], float],
-    t: float,
-    y: float,
-    h: float,
-    params: Dict[str, float],
-    min_y: float = 1e-15,
-) -> float:
-    k1 = f(t, y, params)
-    k2 = f(t + 0.5 * h, y + 0.5 * h * k1, params)
-    k3 = f(t + 0.5 * h, y + 0.5 * h * k2, params)
-    k4 = f(t + h, y + h * k3, params)
-    y_next = y + (h / 6.0) * (k1 + 2.0 * k2 + 2.0 * k3 + k4)
-    return max(min_y, y_next) if y >= min_y else y_next
-
-
-def _rk4_step_decimal(
-    f: Callable[[Decimal, Decimal, Dict[str, Decimal]], Decimal],
-    t: Decimal,
-    y: Decimal,
-    h: Decimal,
-    params: Dict[str, Decimal],
-    min_y: Decimal = Decimal("1e-15"),
-) -> Decimal:
-    half = Decimal("0.5")
-    two = Decimal(2)
-    six = Decimal(6)
-    k1 = f(t, y, params)
-    k2 = f(t + half * h, y + half * h * k1, params)
-    k3 = f(t + half * h, y + half * h * k2, params)
-    k4 = f(t + h, y + h * k3, params)
-    y_next = y + (h / six) * (k1 + two * k2 + two * k3 + k4)
-    return y_next if y_next >= min_y else (min_y if y >= min_y else y_next)
-
-
-def _interp_crossing_time(
-    t_prev: float, a_prev: float, t_cur: float, a_cur: float, target_a: float
-) -> float:
-    if a_cur == a_prev or t_cur == t_prev:
-        return t_cur
-    frac = max(0.0, min(1.0, (target_a - a_prev) / (a_cur - a_prev)))
-    return t_prev + frac * (t_cur - t_prev)
-
-
-def _interp_crossing_time_decimal(
-    t_prev: Decimal, a_prev: Decimal, t_cur: Decimal, a_cur: Decimal, target_a: Decimal
-) -> Decimal:
-    if a_cur == a_prev or t_cur == t_prev:
-        return t_cur
-    frac = (target_a - a_prev) / (a_cur - a_prev)
-    if frac < Decimal(0):
-        frac = Decimal(0)
-    elif frac > Decimal(1):
-        frac = Decimal(1)
-    return t_prev + frac * (t_cur - t_prev)
-
-
-def integrate_flrw_richardson(
-    t_span: Tuple[float, float] = (0.0, 10.0),
-    a0: float = 0.01,
-    n_steps: int = 200,
-    params: Optional[Dict[str, float]] = None,
-    target_a: float = 1.0,
-) -> Dict[str, Any]:
-    p = params or {}
-    t0, t1 = float(t_span[0]), float(t_span[1])
-    steps = max(1, int(n_steps))
-    h_coarse = (t1 - t0) / steps
-
-    y_coarse = float(a0)
-    t_cur = t0
-    crossing_coarse: Optional[float] = t_cur if y_coarse >= target_a else None
-    for _ in range(steps):
-        y_prev, t_prev = y_coarse, t_cur
-        y_coarse = _rk4_step(flrw_dadt, t_cur, y_coarse, h_coarse, p)
-        t_cur += h_coarse
-        if crossing_coarse is None and y_prev < target_a <= y_coarse:
-            crossing_coarse = _interp_crossing_time(t_prev, y_prev, t_cur, y_coarse, target_a)
-
-    y_fine = float(a0)
-    t_cur = t0
-    h_fine = 0.5 * h_coarse
-    crossing_fine: Optional[float] = t_cur if y_fine >= target_a else None
-    for _ in range(2 * steps):
-        y_prev, t_prev = y_fine, t_cur
-        y_fine = _rk4_step(flrw_dadt, t_cur, y_fine, h_fine, p)
-        t_cur += h_fine
-        if crossing_fine is None and y_prev < target_a <= y_fine:
-            crossing_fine = _interp_crossing_time(t_prev, y_prev, t_cur, y_fine, target_a)
-
-    richardson_correction = (y_fine - y_coarse) / 15.0
-    if crossing_fine is not None and crossing_coarse is not None:
-        crossing_time: Optional[float] = crossing_fine + (crossing_fine - crossing_coarse) / 15.0
-    else:
-        crossing_time = crossing_fine if crossing_fine is not None else crossing_coarse
-
-    return {
-        "arithmetic": "float",
-        "a_final": y_fine + richardson_correction,
-        "a_rk4_coarse": y_coarse,
-        "a_rk4_fine": y_fine,
-        "richardson_correction": richardson_correction,
-        "estimated_step_error": abs(richardson_correction),
-        "n_coarse_steps": steps,
-        "target_a": target_a,
-        "t_at_target_a": crossing_time,
-    }
-
-
-def integrate_flrw_richardson_decimal(
-    t_span: Tuple[float, float],
-    a0: float,
-    n_steps: int,
-    params: Dict[str, Any],
-    target_a: float = 1.0,
-    precision_digits: int = 180,
-) -> Dict[str, Any]:
-    prec = max(50, int(precision_digits))
-    with localcontext() as ctx:
-        ctx.prec = prec
-        t0 = Decimal(str(t_span[0]))
-        t1 = Decimal(str(t_span[1]))
-        a0_d = Decimal(str(a0))
-        target_d = Decimal(str(target_a))
-        steps_int = max(1, int(n_steps))
-        steps_d = Decimal(steps_int)
-        two = Decimal(2)
-        fifteen = Decimal(15)
-
-        dec_params: Dict[str, Decimal] = {
-            "h0": Decimal(str(params.get("h0", 1.0))),
-            "omega_r": Decimal(str(params.get("omega_r", 9.2e-5))),
-            "omega_m": Decimal(str(params.get("omega_m", 0.315))),
-            "omega_lambda": Decimal(str(params.get("omega_lambda", 0.685))),
+    def ratios_at(self, scales: Sequence[float]) -> Dict[float, Dict[str, float]]:
+        """Same-type mass ratios at m_t(m_t) and at each scale above it."""
+        x = self.x
+        mu0 = self.mt_msbar
+        up, dn = Fr(2, 3), Fr(-1, 3)
+        m = {
+            "u": self.run_mass(x["m_u"], x["mu_light"], mu0, up),
+            "d": self.run_mass(x["m_d"], x["mu_light"], mu0, dn),
+            "s": self.run_mass(x["m_s"], x["mu_light"], mu0, dn),
+            "c": self.run_mass(x["m_c"], x["m_c"], mu0, up),
+            "b": self.run_mass(x["m_b"], x["m_b"], mu0, dn),
+            "t": mu0,
         }
+        base = {"mu": mu0, "m_u": m["u"], "m_d": m["d"], "m_s": m["s"], "m_c": m["c"], "m_b": m["b"],
+                "m_t": m["t"], "r_uc": m["u"] / m["c"], "r_ct": m["c"] / m["t"],
+                "r_ds": m["d"] / m["s"], "r_sb": m["s"] / m["b"], "alpha_s": self.alpha_s(mu0)}
+        out = {mu0: base}
 
-        h_coarse = (t1 - t0) / steps_d
-        y_coarse = a0_d
-        t_cur = t0
-        cross_coarse: Optional[Decimal] = t_cur if y_coarse >= target_d else None
-        for _ in range(steps_int):
-            y_prev, t_prev = y_coarse, t_cur
-            y_coarse = _rk4_step_decimal(_flrw_dadt_decimal, t_cur, y_coarse, h_coarse, dec_params)
-            t_cur += h_coarse
-            if cross_coarse is None and y_prev < target_d <= y_coarse:
-                cross_coarse = _interp_crossing_time_decimal(t_prev, y_prev, t_cur, y_coarse, target_d)
+        # Above m_t: alpha_s (nf = 6), g1, g2, y_t, ln(m_c/m_t), ln(m_s/m_b).
+        # Same-type ratios feel only the Yukawa difference term; gauge and Y2 terms cancel.
+        b1, b2, _ = (float(b) for b in sm_gauge_b())
+        c1, c2, c3 = (float(c) for c in top_yukawa_gauge_coeffs())
+        c_self = float(top_yukawa_self_coeff())
+        split = float(YUKAWA_SPLIT)
+        k = 16 * math.pi ** 2
+        # electroweak couplings at M_Z from G_F, alpha(M_Z), M_Z (tree-level relation)
+        al = self.alpha_em
+        s2c2 = math.pi * al / (math.sqrt(2) * x["G_F"] * x["M_Z"] ** 2)
+        s2 = (1 - math.sqrt(1 - 4 * s2c2)) / 2
+        g2sq_mz = 4 * math.pi * al / s2
+        g1sq_mz = 4 * math.pi * al / (1 - s2) / float(GUT_NORM)
 
-        y_fine = a0_d
-        t_cur = t0
-        h_fine = h_coarse / two
-        cross_fine: Optional[Decimal] = t_cur if y_fine >= target_d else None
-        for _ in range(2 * steps_int):
-            y_prev, t_prev = y_fine, t_cur
-            y_fine = _rk4_step_decimal(_flrw_dadt_decimal, t_cur, y_fine, h_fine, dec_params)
-            t_cur += h_fine
-            if cross_fine is None and y_prev < target_d <= y_fine:
-                cross_fine = _interp_crossing_time_decimal(t_prev, y_prev, t_cur, y_fine, target_d)
+        def g_sq(gsq_mz: float, b: float, mu: float) -> float:
+            return 1 / (1 / gsq_mz - 2 * b / k * math.log(mu / x["M_Z"]))
 
-        corr = (y_fine - y_coarse) / fifteen
-        a_final_d = y_fine + corr
-        if cross_fine is not None and cross_coarse is not None:
-            cross_d: Optional[Decimal] = cross_fine + (cross_fine - cross_coarse) / fifteen
-        else:
-            cross_d = cross_fine if cross_fine is not None else cross_coarse
+        yb = math.sqrt(2) * m["b"] / self.v  # bottom Yukawa held at its m_t value (a y_b^2 ~ 3e-4 effect)
+        state = [base["alpha_s"], math.sqrt(g_sq(g1sq_mz, b1, mu0)), math.sqrt(g_sq(g2sq_mz, b2, mu0)),
+                 math.sqrt(2) * mu0 / self.v, math.log(base["r_ct"]), math.log(base["r_sb"])]
+        self.ew = {"v_GeV": self.v, "sin2_theta_tree": s2, "y_t_at_mt": state[3], "y_b_at_mt": yb,
+                   "g1_at_mt": state[1], "g2_at_mt": state[2]}
 
-        return {
-            "arithmetic": "decimal",
-            "precision_digits": prec,
-            "a_final": float(a_final_d),
-            "a_final_exact": str(a_final_d),
-            "a_rk4_coarse": float(y_coarse),
-            "a_rk4_fine": float(y_fine),
-            "richardson_correction": float(corr),
-            "estimated_step_error": float(abs(corr)),
-            "n_coarse_steps": steps_int,
-            "target_a": target_a,
-            "t_at_target_a": float(cross_d) if cross_d is not None else None,
-            "t_at_target_a_exact": str(cross_d) if cross_d is not None else None,
-        }
+        def rhs(v: List[float], nf: int) -> List[float]:
+            als, g1, g2, yt, _, _ = v
+            b0, bb1, _, _ = self.coef[6]
+            dal = -2 * (b0 * als * als / (4 * math.pi) + bb1 * als ** 3 / k)
+            g3sq = 4 * math.pi * als
+            dyt = yt * (c_self * yt * yt + split * yb * yb - c3 * g3sq - c2 * g2 * g2 - c1 * g1 * g1) / k
+            return [dal, b1 * g1 ** 3 / k, b2 * g2 ** 3 / k, dyt,
+                    split * (yb * yb - yt * yt) / k, split * (yt * yt - yb * yb) / k]
 
-
-def integrate_flrw_adaptive(
-    t_span: Tuple[float, float] = (0.0, 10.0),
-    a0: float = 0.01,
-    rtol: float = 1e-11,
-    atol: float = 1e-14,
-    params: Optional[Dict[str, float]] = None,
-    max_steps: int = 100000,
-    target_a: float = 1.0,
-) -> Dict[str, Any]:
-    p = params or {}
-    t, t_end = float(t_span[0]), float(t_span[1])
-    y = float(a0)
-    span_len = max(t_end - t, 0.0)
-    h = min(span_len / 100.0, 0.1) if span_len > 0.0 else 1e-3
-    min_h = max(span_len * 1e-12, 1e-15)
-
-    accepted = 0
-    rejected = 0
-    steps = 0
-    crossing_t: Optional[float] = t if y >= target_a else None
-
-    while t < t_end and steps < max_steps:
-        steps += 1
-        if t + h > t_end:
-            h = t_end - t
-
-        y_one = _rk4_step(flrw_dadt, t, y, h, p)
-        y_half = _rk4_step(flrw_dadt, t, y, 0.5 * h, p)
-        y_two = _rk4_step(flrw_dadt, t + 0.5 * h, y_half, 0.5 * h, p)
-
-        err = abs(y_two - y_one) / 15.0
-        scale = atol + rtol * max(abs(y), abs(y_two))
-        ratio = err / max(scale, 1e-30)
-
-        if ratio <= 1.0:
-            t_prev, y_prev = t, y
-            t += h
-            y = y_two + (y_two - y_one) / 15.0
-            accepted += 1
-            if crossing_t is None and y_prev < target_a <= y:
-                crossing_t = _interp_crossing_time(t_prev, y_prev, t, y, target_a)
-        else:
-            rejected += 1
-
-        safety = 0.9
-        factor = 2.0 if ratio == 0.0 else max(0.2, min(4.0, safety * (ratio ** (-0.2))))
-        h = max(min_h, min(h * factor, max(t_end - t, min_h)))
-
-    return {
-        "arithmetic": "float",
-        "a_final": y,
-        "t_reached": t,
-        "accepted_steps": accepted,
-        "rejected_steps": rejected,
-        "reached_target": abs(t - t_end) <= max(span_len * 1e-12, 1e-12),
-        "target_a": target_a,
-        "t_at_target_a": crossing_t,
-    }
+        mu_prev = mu0
+        for mu in sorted(scales):
+            if mu < mu0:
+                raise ValueError(f"evaluation scale {mu} GeV is below m_t(m_t) = {mu0:.2f} GeV")
+            state = integrate_ln_mu(state, mu_prev, mu, rhs, [], self.steps)
+            mu_prev = mu
+            out[mu] = {"mu": mu, "alpha_s": state[0], "y_t": state[3], "r_uc": base["r_uc"],
+                       "r_ct": math.exp(state[4]), "r_ds": base["r_ds"], "r_sb": math.exp(state[5])}
+        return out
 
 
-def integrate_flrw_adaptive_decimal(
-    t_span: Tuple[float, float],
-    a0: float,
-    rtol: float,
-    atol: float,
-    params: Dict[str, Any],
-    max_steps: int = 100000,
-    target_a: float = 1.0,
-    precision_digits: int = 180,
-) -> Dict[str, Any]:
-    prec = max(50, int(precision_digits))
-    with localcontext() as ctx:
-        ctx.prec = prec
-        t = Decimal(str(t_span[0]))
-        t_end = Decimal(str(t_span[1]))
-        y = Decimal(str(a0))
-        rtol_d = Decimal(str(rtol))
-        atol_d = Decimal(str(atol))
-        target_d = Decimal(str(target_a))
+# =============================================================================
+# 6. THE FRITZSCH SIX-ZERO TEXTURE: exact entries, exact diagonalization
+# =============================================================================
+def fritzsch_entries(x1: float, x2: float) -> Tuple[Tuple[int, int, int], float, float, float]:
+    """Real Fritzsch matrix [[0,A,0],[A,0,B],[0,B,C]] with eigenvalues (s1 x1, s2 x2, s3 * 1).
 
-        two = Decimal(2)
-        half = Decimal("0.5")
-        fifteen = Decimal(15)
-        safety = Decimal("0.9")
-        span_d = t_end - t if t_end > t else Decimal(0)
-        min_h = max(span_d * Decimal("1e-12"), Decimal("1e-15"))
-        floor_eps = Decimal("1e-30")
-        zero = Decimal(0)
-        one = Decimal(1)
-
-        dec_params: Dict[str, Decimal] = {
-            "h0": Decimal(str(params.get("h0", 1.0))),
-            "omega_r": Decimal(str(params.get("omega_r", 9.2e-5))),
-            "omega_m": Decimal(str(params.get("omega_m", 0.315))),
-            "omega_lambda": Decimal(str(params.get("omega_lambda", 0.685))),
-        }
-
-        h = min(span_d / Decimal(100), Decimal("0.1")) if span_d > zero else Decimal("1e-3")
-        accepted = 0
-        rejected = 0
-        steps = 0
-        crossing_t: Optional[Decimal] = t if y >= target_d else None
-
-        while t < t_end and steps < max_steps:
-            steps += 1
-            if t + h > t_end:
-                h = t_end - t
-
-            y_one = _rk4_step_decimal(_flrw_dadt_decimal, t, y, h, dec_params)
-            y_half = _rk4_step_decimal(_flrw_dadt_decimal, t, y, half * h, dec_params)
-            y_two = _rk4_step_decimal(_flrw_dadt_decimal, t + half * h, y_half, half * h, dec_params)
-
-            err = abs(y_two - y_one) / fifteen
-            mag = max(abs(y), abs(y_two))
-            scale = atol_d + rtol_d * mag
-            ratio = err / (scale if scale > floor_eps else floor_eps)
-
-            if ratio <= one:
-                t_prev, y_prev = t, y
-                t += h
-                y = y_two + (y_two - y_one) / fifteen
-                accepted += 1
-                if crossing_t is None and y_prev < target_d <= y:
-                    crossing_t = _interp_crossing_time_decimal(t_prev, y_prev, t, y, target_d)
-            else:
-                rejected += 1
-
-            if ratio == zero:
-                factor = two
-            else:
-                scaled = safety * _dec_pow_float(ratio, -0.2, prec + 15)
-                factor = max(Decimal("0.2"), min(Decimal("4.0"), scaled))
-
-            rem = t_end - t
-            next_h = h * factor
-            if next_h < min_h:
-                next_h = min_h
-            if rem > zero and next_h > rem:
-                next_h = rem
-            h = next_h
-
-        return {
-            "arithmetic": "decimal",
-            "precision_digits": prec,
-            "a_final": float(y),
-            "a_final_exact": str(y),
-            "t_reached": float(t),
-            "t_reached_exact": str(t),
-            "accepted_steps": accepted,
-            "rejected_steps": rejected,
-            "reached_target": abs(t - t_end) <= max(span_d * Decimal("1e-12"), Decimal("1e-12")),
-            "target_a": target_a,
-            "t_at_target_a": float(crossing_t) if crossing_t is not None else None,
-            "t_at_target_a_exact": str(crossing_t) if crossing_t is not None else None,
-        }
-
-
-def _active_flavors_at_scale(
-    mu: float, m_t_pole: float, m_c_thresh: float = 1.27, m_b_thresh: float = 4.18
-) -> int:
-    t_c = max(1e-6, float(m_c_thresh))
-    t_b = max(t_c, float(m_b_thresh))
-    t_t = max(t_b, float(m_t_pole))
-    if mu < t_c:
-        return 3
-    if mu < t_b:
-        return 4
-    if mu < t_t:
-        return 5
-    return 6
-
-
-def _qcd_beta_rhs(alpha_s: float, nf: int, two_loop: bool = True) -> float:
-    a_s = max(alpha_s, 1e-12)
-    beta0 = (33.0 - 2.0 * nf) / (12.0 * math.pi)
-    rhs = -2.0 * beta0 * (a_s * a_s)
-    if two_loop:
-        beta1 = (153.0 - 19.0 * nf) / (24.0 * (math.pi ** 2))
-        rhs -= 2.0 * beta1 * (a_s ** 3)
-    return rhs
-
-
-def _qcd_2loop_mass_coeff(nf: int) -> float:
-    cf = 4.0 / 3.0
-    ca = 3.0
-    tf = 0.5
-    bracket = 1.5 * (cf ** 2) + (97.0 / 6.0) * cf * ca - (10.0 / 3.0) * cf * tf * float(nf)
-    return -(1.0 / 16.0) * bracket
-
-
-def _evolve_alpha_s_segment(
-    ln_start: float,
-    ln_end: float,
-    a_start: float,
-    nf: int,
-    two_loop: bool = True,
-    n_steps: int = 80,
-) -> float:
-    if abs(ln_end - ln_start) < 1e-15:
-        return a_start
-    steps = max(8, int(n_steps))
-    h = (ln_end - ln_start) / steps
-    a_cur = a_start
-    for _ in range(steps):
-        k1 = _qcd_beta_rhs(a_cur, nf, two_loop=two_loop)
-        k2 = _qcd_beta_rhs(a_cur + 0.5 * h * k1, nf, two_loop=two_loop)
-        k3 = _qcd_beta_rhs(a_cur + 0.5 * h * k2, nf, two_loop=two_loop)
-        k4 = _qcd_beta_rhs(a_cur + h * k3, nf, two_loop=two_loop)
-        a_cur = max(1e-8, a_cur + (h / 6.0) * (k1 + 2.0 * k2 + 2.0 * k3 + k4))
-    return a_cur
-
-
-def alpha_s_at_scale(mu: float, cfg: SimLoopConfig) -> float:
-    """Piecewise-constant nf RK4 evolution of alpha_s from mz_gev to mu across thresholds."""
-    m_start = float(cfg.mz_gev)
-    m_end = float(mu)
-    if m_start <= 0.0 or m_end <= 0.0 or abs(m_end - m_start) < 1e-12:
-        return float(cfg.alpha_s_mz)
-
-    thresholds = sorted([
-        max(1e-6, float(cfg.m_c_input)),
-        max(1e-6, float(cfg.m_b_input)),
-        max(1e-6, float(cfg.m_t_pole_gev)),
-    ])
-    ln_start = math.log(m_start)
-    ln_end = math.log(m_end)
-    direction = 1.0 if ln_end >= ln_start else -1.0
-
-    pts = [ln_start]
-    for thr in thresholds:
-        ln_t = math.log(thr)
-        if direction > 0.0 and ln_start < ln_t < ln_end:
-            pts.append(ln_t)
-        elif direction < 0.0 and ln_end < ln_t < ln_start:
-            pts.append(ln_t)
-    pts.append(ln_end)
-
-    a_cur = float(cfg.alpha_s_mz)
-    two_loop = bool(cfg.enable_2loop_qcd_rg)
-    for idx in range(len(pts) - 1):
-        p0, p1 = pts[idx], pts[idx + 1]
-        mu_mid = math.exp(0.5 * (p0 + p1))
-        nf = _active_flavors_at_scale(
-            mu_mid, cfg.m_t_pole_gev, cfg.m_c_input, cfg.m_b_input
-        )
-        a_cur = _evolve_alpha_s_segment(p0, p1, a_cur, nf, two_loop=two_loop, n_steps=80)
-    return a_cur
-
-
-def top_pole_to_msbar_at_mt(cfg: SimLoopConfig) -> Dict[str, float]:
-    m_pole = float(cfg.m_t_pole_gev)
-    alpha_s_mt = alpha_s_at_scale(m_pole, cfg)
-    qcd_factor = 1.0 + (4.0 * alpha_s_mt) / (3.0 * math.pi)
-    m_msbar_mt = m_pole / qcd_factor
-    return {
-        "m_t_pole_gev": m_pole,
-        "alpha_s_at_mt_pole": alpha_s_mt,
-        "qcd_pole_to_msbar_factor": qcd_factor,
-        "m_t_msbar_at_mt_pole": m_msbar_mt,
-    }
-
-
-def _evolve_joint_quark_and_alphas(
-    m_start: float,
-    mu_start: float,
-    mu_target: float,
-    cfg: SimLoopConfig,
-    charge_q: float,
-    horizon_s_norm: float,
-    m_t_msbar_pole: float,
-    is_top: bool,
-    n_steps: int = 400,
-) -> float:
+    The invariants fix every entry: C = trace, A^2 = -det / C, A^2 + B^2 = -(sum of 2x2 minors).
+    All sign assignments (overall sign fixed by s3 = +1) are tried; exactly one gives real A, B.
     """
-    Jointly integrate (alpha_s, ln_m, ln_mt) in a single RK4 loop with exact
-    threshold splitting so alpha_s is stepped once per RK4 stage.
-    """
-    if m_start <= 0.0 or mu_start <= 0.0 or mu_target <= 0.0:
-        return m_start
-    if abs(mu_target - mu_start) < 1e-12:
-        return m_start
-
-    cf = 4.0 / 3.0
-    alpha_em = cfg.alpha_em_mz
-    v_ew = max(float(cfg.v_ew_gev), 1e-9)
-    m_t_pole = float(cfg.m_t_pole_gev)
-    entropy_br = 1.0 + 1e-6 * (horizon_s_norm - 1.0)
-    is_up_type = is_top or abs(charge_q - (2.0 / 3.0)) < 1e-9
-    use_yt = bool(cfg.enable_top_yukawa_rg and is_up_type)
-    use_2loop = bool(cfg.enable_2loop_qcd_rg)
-
-    thresholds = sorted([
-        max(1e-6, float(cfg.m_c_input)),
-        max(1e-6, float(cfg.m_b_input)),
-        max(1e-6, float(cfg.m_t_pole_gev)),
-    ])
-    ln_start = math.log(mu_start)
-    ln_end = math.log(mu_target)
-    direction = 1.0 if ln_end >= ln_start else -1.0
-
-    pts = [ln_start]
-    for thr in thresholds:
-        ln_t = math.log(thr)
-        if direction > 0.0 and ln_start < ln_t < ln_end:
-            pts.append(ln_t)
-        elif direction < 0.0 and ln_end < ln_t < ln_start:
-            pts.append(ln_t)
-    pts.append(ln_end)
-
-    a_s = alpha_s_at_scale(mu_start, cfg)
-    ln_m = math.log(m_start)
-    ln_mt = math.log(max(m_t_msbar_pole, 1e-6))
-
-    for idx in range(len(pts) - 1):
-        p0, p1 = pts[idx], pts[idx + 1]
-        if abs(p1 - p0) < 1e-15:
-            continue
-        mu_mid = math.exp(0.5 * (p0 + p1))
-        nf = _active_flavors_at_scale(mu_mid, m_t_pole, cfg.m_c_input, cfg.m_b_input)
-        seg_steps = max(
-            12, int(round(n_steps * abs(p1 - p0) / max(abs(ln_end - ln_start), 1e-12)))
-        )
-        h = (p1 - p0) / seg_steps
-        t_ln = p0
-
-        def deriv(
-            t_cur: float, a_cur: float, lnm_cur: float, lnmt_cur: float
-        ) -> Tuple[float, float, float]:
-            mu_c = math.exp(t_cur)
-            da = _qcd_beta_rhs(a_cur, nf, two_loop=use_2loop)
-            gm = -(3.0 * cf / (2.0 * math.pi)) * a_cur - (
-                3.0 * (charge_q ** 2) / (2.0 * math.pi)
-            ) * alpha_em
-            if use_2loop:
-                gm += _qcd_2loop_mass_coeff(nf) * ((a_cur / math.pi) ** 2)
-            yt_c = 0.0
-            if use_yt and is_up_type and mu_c >= m_t_pole:
-                mt_act = math.exp(lnm_cur if is_top else lnmt_cur)
-                yt = math.sqrt(2.0) * mt_act / v_ew
-                yt_c = 3.0 * (yt * yt) / (32.0 * (math.pi ** 2))
-                gm += yt_c
-            d_lnmt = 0.0
-            if use_yt and is_up_type and not is_top:
-                gmt = (
-                    -(3.0 * cf / (2.0 * math.pi)) * a_cur
-                    - (3.0 * ((2.0 / 3.0) ** 2) / (2.0 * math.pi)) * alpha_em
-                    + yt_c
-                )
-                if use_2loop:
-                    gmt += _qcd_2loop_mass_coeff(nf) * ((a_cur / math.pi) ** 2)
-                d_lnmt = gmt * entropy_br
-            return da, gm * entropy_br, d_lnmt
-
-        for _ in range(seg_steps):
-            k1a, k1m, k1t = deriv(t_ln, a_s, ln_m, ln_mt)
-            k2a, k2m, k2t = deriv(
-                t_ln + 0.5 * h, a_s + 0.5 * h * k1a, ln_m + 0.5 * h * k1m, ln_mt + 0.5 * h * k1t
-            )
-            k3a, k3m, k3t = deriv(
-                t_ln + 0.5 * h, a_s + 0.5 * h * k2a, ln_m + 0.5 * h * k2m, ln_mt + 0.5 * h * k2t
-            )
-            k4a, k4m, k4t = deriv(
-                t_ln + h, a_s + h * k3a, ln_m + h * k3m, ln_mt + h * k3t
-            )
-            a_s = max(1e-8, a_s + (h / 6.0) * (k1a + 2.0 * k2a + 2.0 * k3a + k4a))
-            ln_m += (h / 6.0) * (k1m + 2.0 * k2m + 2.0 * k3m + k4m)
-            ln_mt += (h / 6.0) * (k1t + 2.0 * k2t + 2.0 * k3t + k4t)
-            t_ln += h
-
-    return math.exp(ln_m)
+    sols = []
+    for s1, s2 in itertools.product((1, -1), repeat=2):
+        e = (s1 * x1, s2 * x2, 1.0)
+        c = sum(e)
+        det = e[0] * e[1] * e[2]
+        minors = e[0] * e[1] + e[0] * e[2] + e[1] * e[2]
+        a2 = -det / c
+        b2 = -minors - a2
+        if a2 > 0 and b2 > 0:
+            sols.append(((s1, s2, 1), math.sqrt(a2), math.sqrt(b2), c))
+    if len(sols) != 1:
+        raise RuntimeError(f"expected one real Fritzsch solution, found {len(sols)}")
+    return sols[0]
 
 
-def run_quark_masses_to_scale(
-    cfg: SimLoopConfig, mu_target: Optional[float] = None, horizon_s_norm: float = 1.0
-) -> Dict[str, float]:
-    target_mu = float(mu_target if mu_target is not None else cfg.v_331_gev)
-    top_conv = top_pole_to_msbar_at_mt(cfg)
-    m_t_msbar_start = top_conv["m_t_msbar_at_mt_pole"]
-    return {
-        "scale_gev": target_mu,
-        "alpha_s_target": alpha_s_at_scale(target_mu, cfg),
-        "m_t_msbar_at_mt_pole": m_t_msbar_start,
-        "m_u": _evolve_joint_quark_and_alphas(
-            cfg.m_u_input, cfg.mu_light_gev, target_mu, cfg, 2.0 / 3.0, horizon_s_norm, m_t_msbar_start, False
-        ),
-        "m_c": _evolve_joint_quark_and_alphas(
-            cfg.m_c_input, cfg.mu_c_gev, target_mu, cfg, 2.0 / 3.0, horizon_s_norm, m_t_msbar_start, False
-        ),
-        "m_t": _evolve_joint_quark_and_alphas(
-            m_t_msbar_start, cfg.m_t_pole_gev, target_mu, cfg, 2.0 / 3.0, horizon_s_norm, m_t_msbar_start, True
-        ),
-        "m_d": _evolve_joint_quark_and_alphas(
-            cfg.m_d_input, cfg.mu_light_gev, target_mu, cfg, -1.0 / 3.0, horizon_s_norm, m_t_msbar_start, False
-        ),
-        "m_s": _evolve_joint_quark_and_alphas(
-            cfg.m_s_input, cfg.mu_light_gev, target_mu, cfg, -1.0 / 3.0, horizon_s_norm, m_t_msbar_start, False
-        ),
-        "m_b": _evolve_joint_quark_and_alphas(
-            cfg.m_b_input, cfg.mu_b_gev, target_mu, cfg, -1.0 / 3.0, horizon_s_norm, m_t_msbar_start, False
-        ),
-    }
-
-
-def derive_wolfenstein_from_rg_masses(
-    masses_at_scale: Dict[str, float],
-    theta_23_rad: float,
-    cp_phase_rad: float,
-    cg_w12: float = 1.0,
-    cg_w23: float = 1.0,
-    cg_w13: float = 1.0,
-) -> Dict[str, Any]:
-    r_ds = math.sqrt(max(masses_at_scale["m_d"] / max(masses_at_scale["m_s"], 1e-15), 0.0))
-    r_sb = math.sqrt(max(masses_at_scale["m_s"] / max(masses_at_scale["m_b"], 1e-15), 0.0))
-    r_ct = math.sqrt(max(masses_at_scale["m_c"] / max(masses_at_scale["m_t"], 1e-15), 0.0))
-    r_ut = math.sqrt(max(masses_at_scale["m_u"] / max(masses_at_scale["m_t"], 1e-15), 0.0))
-
-    lambda_c = cg_w12 * r_ds
-    v_cb_interfering = abs(complex(r_sb, 0.0) - (cg_w23 * r_ct) * cmath.exp(1j * theta_23_rad))
-    a_wolfenstein = v_cb_interfering / max(lambda_c ** 2, 1e-12)
-    mod_rho_eta = (cg_w13 * r_ut) / max(a_wolfenstein * (lambda_c ** 3), 1e-12)
-    rho_bar = mod_rho_eta * math.cos(cp_phase_rad)
-    eta_bar = mod_rho_eta * math.sin(cp_phase_rad)
-
-    return {
-        "cg_weights": {"w12": cg_w12, "w23": cg_w23, "w13": cg_w13},
-        "r_ds": r_ds,
-        "r_sb": r_sb,
-        "r_ct": r_ct,
-        "r_ut": r_ut,
-        "lambda_c": lambda_c,
-        "v_cb_interfering": v_cb_interfering,
-        "a_wolfenstein": a_wolfenstein,
-        "rho_bar": rho_bar,
-        "eta_bar": eta_bar,
-    }
-
-
-def _active_targets(cfg: SimLoopConfig) -> Dict[str, Tuple[float, float]]:
-    if cfg.include_j_in_chi2:
-        return dict(cfg.ckm_targets)
-    return {k: v for k, v in cfg.ckm_targets.items() if k != "J"}
-
-
-def evaluate_fritzsch_rg(
-    cfg: SimLoopConfig, masses_at_scale: Dict[str, float], horizon_s_norm: float = 1.0
-) -> Dict[str, Any]:
-    wf = derive_wolfenstein_from_rg_masses(
-        masses_at_scale,
-        cfg.theta_23_rad,
-        cfg.cp_phase_rad,
-        cg_w12=cfg.cg_w12,
-        cg_w23=cfg.cg_w23,
-        cg_w13=cfg.cg_w13,
-    )
-    s_coupling = 1.0 + 1e-5 * (horizon_s_norm - 1.0)
-    lam = min(0.99, wf["lambda_c"] * s_coupling)
-    a_w = wf["a_wolfenstein"]
-    v_us = lam
-    v_cb = a_w * (lam ** 2)
-    v_ub = a_w * (lam ** 3) * math.hypot(wf["rho_bar"], wf["eta_bar"])
-    j_val = (a_w ** 2) * (lam ** 6) * wf["eta_bar"]
-
-    obs = {"V_us": v_us, "V_cb": v_cb, "V_ub": v_ub, "J": j_val}
-    chi2, pulls = _chi2_and_pulls(obs, _active_targets(cfg))
-    return {
-        "rg_masses": masses_at_scale,
-        "derived_wolfenstein": wf,
-        "observables": obs,
-        "chi2": chi2,
-        "pulls_sigma": pulls,
-    }
-
-
-def evaluate_geometric_overlap_331(
-    cfg: SimLoopConfig, masses_at_scale: Dict[str, float], horizon_s_norm: float = 1.0
-) -> Dict[str, Any]:
-    w1, w2, w3 = max(cfg.w1, 1e-4), max(cfg.w2, 1e-4), max(cfg.w3, 1e-4)
-    eps_331 = cfg.eps_331
-    s_coupling = 1.0 + 1e-5 * (horizon_s_norm - 1.0)
-
-    def _amp(ca: float, cb: float, wa: float, wb: float) -> float:
-        diff = abs(ca - cb)
-        if cfg.overlap_profile == "exponential":
-            return math.exp(-diff / max(math.sqrt(wa * wb), 1e-6))
-        return math.exp(-0.5 * (diff * diff) / max(wa * wb, 1e-8))
-
-    m12 = cfg.cg_w12 * _amp(cfg.c1, cfg.c2, w1, w2) * cmath.exp(1j * cfg.phi_12)
-    m23 = cfg.cg_w23 * _amp(cfg.c2, cfg.c3, w2, w3) * cmath.exp(1j * cfg.phi_23)
-    m13 = cfg.cg_w13 * _amp(cfg.c1, cfg.c3, w1, w3) * cmath.exp(1j * cfg.phi_13)
-
-    loop_phasor = m12 * m23 * m13.conjugate()
-    geom_phase = cmath.phase(loop_phasor) if abs(loop_phasor) > 0.0 else 0.0
-
-    wf = derive_wolfenstein_from_rg_masses(
-        masses_at_scale,
-        cfg.theta_23_rad,
-        cfg.cp_phase_rad,
-        cg_w12=cfg.cg_w12,
-        cg_w23=cfg.cg_w23,
-        cg_w13=cfg.cg_w13,
-    )
-    lam = min(0.99, wf["lambda_c"] * s_coupling)
-    a_w = wf["a_wolfenstein"]
-    base_us = lam
-    base_cb = a_w * (lam ** 2)
-    base_ub = a_w * (lam ** 3) * math.hypot(wf["rho_bar"], wf["eta_bar"])
-
-    v_us = min(0.999, base_us * (1.0 + eps_331 * (abs(m12) - 0.5)))
-    v_cb = min(0.999, base_cb * (1.0 + 2.0 * eps_331 * (abs(m23) - 0.5)))
-    v_ub = min(0.999, base_ub * (1.0 + 3.0 * eps_331 * (abs(m13) - 0.5)))
-
-    s12 = min(0.999, v_us)
-    s23 = min(0.999, v_cb / max(math.sqrt(max(1.0 - s12 * s12, 1e-12)), 1e-12))
-    s13 = min(0.999, v_ub)
-    c12_w = math.sqrt(max(0.0, 1.0 - s12 * s12))
-    c23_w = math.sqrt(max(0.0, 1.0 - s23 * s23))
-    c13_w = math.sqrt(max(0.0, 1.0 - s13 * s13))
-
-    delta_cp = cfg.cp_phase_rad + eps_331 * geom_phase
-    j_val = s12 * s23 * s13 * c12_w * c23_w * (c13_w * c13_w) * math.sin(delta_cp)
-
-    obs = {"V_us": float(v_us), "V_cb": float(v_cb), "V_ub": float(v_ub), "J": float(j_val)}
-    chi2, pulls = _chi2_and_pulls(obs, _active_targets(cfg))
-    return {
-        "eps_331": eps_331,
-        "cg_weights": {"w12": cfg.cg_w12, "w23": cfg.cg_w23, "w13": cfg.cg_w13},
-        "geometric_phases_rad": {"phi_12": cfg.phi_12, "phi_23": cfg.phi_23, "phi_13": cfg.phi_13},
-        "geometric_invariant_phase_rad": geom_phase,
-        "overlap_magnitudes": {"m12": abs(m12), "m23": abs(m23), "m13": abs(m13)},
-        "observables": obs,
-        "chi2": chi2,
-        "pulls_sigma": pulls,
-        "delta_cp_rad": delta_cp,
-    }
-
-
-@dataclass(frozen=True)
-class CycleSnapshot:
-    cycle: int
-    a_late_exact: str
-    omega_lambda_eff: str
-    horizon_s_norm_feedback: str
-    horizon_s_norm_present: str
-    horizon_s_norm_late: str
-    j_over_j0: str
-    a_richardson: float
-    a_adaptive: float
-    t_at_present_a: Optional[float]
-    fritzsch_chi2: float
-    overlap_chi2: float
-    resistance_chi2: float
-    fritzsch_j: float
-    overlap_j: float
-    resistance_phi_g: float
-    delta_norm: float
-
-
-@dataclass(frozen=True)
-class LoopOutput:
-    version: str
-    config: SimLoopConfig
-    geometric_state: GeometricState
-    converged: bool
-    cycles_run: int
-    snapshots: List[CycleSnapshot]
-    background: Dict[str, Any]
-    present_epoch: Dict[str, Any]
-    asymptotic_epoch: Dict[str, Any]
-    flrw_richardson: Dict[str, Any]
-    flrw_adaptive: Dict[str, Any]
-    fritzsch: Dict[str, Any]
-    overlap: Dict[str, Any]
-    resistance: Dict[str, Any]
-
-    def summary(self) -> str:
-        last = self.snapshots[-1]
-        t_a1 = self.present_epoch.get("t_at_present_a_mean")
-        t_a1_str = f"{t_a1:.6f}" if isinstance(t_a1, (int, float)) else "N/A"
-        arith = self.flrw_richardson.get("arithmetic", "float")
-        lines = [
-            f"[{self.version}] v_331={self.config.v_331_gev:.1f} GeV (eps_331={self.config.eps_331:.4e}) | flrw={arith} ({self.config.precision_digits}-digit) | epoch_fb={self.config.backreaction_epoch} | Converged={self.converged} in {self.cycles_run} cycle(s)",
-            f"Present epoch (a={self.config.present_epoch_a}): t_cross={t_a1_str} | S_norm_present={last.horizon_s_norm_present}",
-            f"Late epoch: a_rich={last.a_richardson:.8f} | a_adap={last.a_adaptive:.8f} | S_norm_late={last.horizon_s_norm_late} | Omega_Lambda_eff={last.omega_lambda_eff}",
-            f"Fritzsch(RG) chi2={last.fritzsch_chi2:.4f} (J={last.fritzsch_j:.4e}) | Overlap(3-3-1) chi2={last.overlap_chi2:.4f} (J={last.overlap_j:.4e}, delta_cp={self.overlap['delta_cp_rad']:.6f}) | Resistance chi2={last.resistance_chi2:.4f} (Phi_G={last.resistance_phi_g:.4f} rad)",
-            f"Coupled delta_norm={last.delta_norm:.3e} (tol={self.config.loop_tol:.1e})",
-        ]
-        return chr(10).join(lines)
-
-    def to_json(self, output_path: Optional[str | Path] = None) -> str:
-        payload = {
-            "version": self.version,
-            "converged": self.converged,
-            "cycles_run": self.cycles_run,
-            "snapshots": [s.__dict__ for s in self.snapshots],
-            "background": self.background,
-            "present_epoch": self.present_epoch,
-            "asymptotic_epoch": self.asymptotic_epoch,
-            "flrw_richardson": self.flrw_richardson,
-            "flrw_adaptive": self.flrw_adaptive,
-            "fritzsch": self.fritzsch,
-            "overlap": self.overlap,
-            "resistance": self.resistance,
-        }
-        text = json.dumps(payload, indent=2)
-        if output_path is not None:
-            Path(output_path).write_text(text, encoding="utf-8")
-        return text
-
-
-def run_closed_loop(cfg: Optional[SimLoopConfig] = None) -> LoopOutput:
-    config = cfg or SimLoopConfig()
-    prec = max(50, int(config.precision_digits))
-    use_present_fb = (config.backreaction_epoch or "present").lower() == "present"
-
-    with localcontext() as ctx:
-        ctx.prec = prec
-        a_late_state: Union[Decimal, float] = Decimal(str(config.a0)) if config.use_decimal_flrw else config.a0
-        h0_dec = Decimal(config.h0_km_s_mpc)
-        h_rate_dec = _h0_in_rate_units_decimal(h0_dec, config.time_scale)
-        om_r_dec = Decimal(config.omega_r)
-        om_m_dec = Decimal(config.omega_m)
-
-    j_abs_state: Union[Decimal, float] = Decimal(0) if config.use_decimal_flrw else 0.0
-    phi_g_state: Union[Decimal, float] = Decimal(0) if config.use_decimal_flrw else 0.0
-    prev_vec: Optional[Tuple[float, float, float, float, float, float, float]] = None
-    snapshots: List[CycleSnapshot] = []
-    converged = False
-
-    bg: Dict[str, Any] = {}
-    present_bg: Dict[str, Any] = {}
-    asymp_bg: Dict[str, Any] = {}
-    rich: Dict[str, Any] = {}
-    adap: Dict[str, Any] = {}
-    fritz: Dict[str, Any] = {}
-    ovlp: Dict[str, Any] = {}
-    resist: Dict[str, Any] = {}
-
-    h_rate = float(h_rate_dec)
-    om_r_val = float(om_r_dec)
-    om_m_val = float(om_m_dec)
-
-    geom_state = GeometricState(
-        r1=config.r1,
-        r2=config.r2,
-        r3=config.r3,
-        center_mode=config.center_mode,
-        curvature=config.curvature_coupling,
-        torsion=config.torsion_coupling,
-        v_331_gev=config.v_331_gev,
-        v_ew_gev=config.v_ew_gev,
-        cp_base_rad=config.cp_phase_rad,
-        resistance_gain=config.resistance_gain,
-        resistance_profile_power=config.resistance_profile_power,
-        structural_mixing_factor=config.structural_mixing_factor,
-        chord_shortcut=config.chord_shortcut,
-        detour_13=config.detour_13,
-    )
-
-    for cycle in range(1, config.max_cycles + 1):
-        a_fb_seed = config.present_epoch_a if use_present_fb else a_late_state
-        bg = compute_horizon_entropy_state(
-            config, a_eval=a_fb_seed, flavor_j_abs=j_abs_state, holonomy_phi_g=phi_g_state
-        )
-        with localcontext() as ctx:
-            ctx.prec = prec
-            om_l_dec = Decimal(bg["omega_lambda_eff"])
-            s_norm_fb_dec = Decimal(bg["horizon_entropy_ratio_s_norm"])
-            flrw_dec_params: Dict[str, Decimal] = {
-                "h0": h_rate_dec,
-                "omega_r": om_r_dec,
-                "omega_m": om_m_dec,
-                "omega_lambda": om_l_dec,
-            }
-
-        s_norm_fb_val = float(s_norm_fb_dec)
-        flrw_params = {
-            "h0": h_rate,
-            "omega_r": om_r_val,
-            "omega_m": om_m_val,
-            "omega_lambda": float(om_l_dec),
-        }
-
-        if config.use_decimal_flrw:
-            rich = integrate_flrw_richardson_decimal(
-                config.t_span, config.a0, config.richardson_steps, flrw_dec_params, config.present_epoch_a, prec
-            )
-            adap = integrate_flrw_adaptive_decimal(
-                config.t_span, config.a0, config.rtol, config.atol, flrw_dec_params, 100000, config.present_epoch_a, prec
-            )
-        else:
-            rich = integrate_flrw_richardson(
-                config.t_span, config.a0, config.richardson_steps, flrw_params, config.present_epoch_a
-            )
-            adap = integrate_flrw_adaptive(
-                config.t_span, config.a0, config.rtol, config.atol, flrw_params, 100000, config.present_epoch_a
-            )
-
-        rg_masses = run_quark_masses_to_scale(config, mu_target=config.v_331_gev, horizon_s_norm=s_norm_fb_val)
-        fritz = evaluate_fritzsch_rg(config, masses_at_scale=rg_masses, horizon_s_norm=s_norm_fb_val)
-        ovlp = evaluate_geometric_overlap_331(config, masses_at_scale=rg_masses, horizon_s_norm=s_norm_fb_val)
-        resist = evaluate_geometric_resistance_state(geom_state, targets=_active_targets(config))
-
-        if config.use_decimal_flrw and "a_final_exact" in rich and "a_final_exact" in adap:
-            with localcontext() as ctx:
-                ctx.prec = prec
-                a_late_state = (Decimal(rich["a_final_exact"]) + Decimal(adap["a_final_exact"])) / Decimal(2)
-                j_abs_state = abs(Decimal(str(fritz["observables"]["J"])))
-                phi_g_state = Decimal(str(resist["holonomy_phase_rad"]))
-        else:
-            a_late_state = 0.5 * (rich["a_final"] + adap["a_final"])
-            j_abs_state = abs(fritz["observables"]["J"])
-            phi_g_state = float(resist["holonomy_phase_rad"])
-
-        a_fb_updated = config.present_epoch_a if use_present_fb else a_late_state
-        bg = compute_horizon_entropy_state(
-            config, a_eval=a_fb_updated, flavor_j_abs=j_abs_state, holonomy_phi_g=phi_g_state
-        )
-
-        t_rich = rich.get("t_at_target_a")
-        t_adap = adap.get("t_at_target_a")
-        if t_rich is not None and t_adap is not None:
-            t_cross_mean: Optional[float] = 0.5 * (t_rich + t_adap)
-        else:
-            t_cross_mean = t_rich if t_rich is not None else t_adap
-
-        present_bg = compute_horizon_entropy_state(
-            config, a_eval=config.present_epoch_a, flavor_j_abs=j_abs_state, holonomy_phi_g=phi_g_state
-        )
-        present_bg["target_a"] = config.present_epoch_a
-        present_bg["t_at_present_a_richardson"] = t_rich
-        present_bg["t_at_present_a_adaptive"] = t_adap
-        present_bg["t_at_present_a_mean"] = t_cross_mean
-
-        asymp_bg = compute_horizon_entropy_state(
-            config, a_eval=a_late_state, flavor_j_abs=j_abs_state, holonomy_phi_g=phi_g_state
-        )
-
-        cur_vec = (
-            rich["a_final"],
-            adap["a_final"],
-            float(bg["omega_lambda_eff"]),
-            float(present_bg["horizon_entropy_ratio_s_norm"]),
-            float(asymp_bg["horizon_entropy_ratio_s_norm"]),
-            fritz["observables"]["J"],
-            float(resist["holonomy_phase_rad"]),
-        )
-        scales = (
-            max(abs(cur_vec[0]), 1.0),
-            max(abs(cur_vec[1]), 1.0),
-            max(abs(cur_vec[2]), 1e-6),
-            max(abs(cur_vec[3]), 1.0),
-            max(abs(cur_vec[4]), 1.0),
-            max(config.j_ref_scale, 1e-12),
-            max(abs(cur_vec[6]), 1.0),
-        )
-        delta_norm = (
-            math.sqrt(sum(((cur_vec[i] - prev_vec[i]) / scales[i]) ** 2 for i in range(7)))
-            if prev_vec is not None
-            else float("inf")
-        )
-        prev_vec = cur_vec
-
-        snapshots.append(
-            CycleSnapshot(
-                cycle=cycle,
-                a_late_exact=str(a_late_state),
-                omega_lambda_eff=bg["omega_lambda_eff"],
-                horizon_s_norm_feedback=bg["horizon_entropy_ratio_s_norm"],
-                horizon_s_norm_present=present_bg["horizon_entropy_ratio_s_norm"],
-                horizon_s_norm_late=asymp_bg["horizon_entropy_ratio_s_norm"],
-                j_over_j0=bg["j_over_j0"],
-                a_richardson=rich["a_final"],
-                a_adaptive=adap["a_final"],
-                t_at_present_a=t_cross_mean,
-                fritzsch_chi2=fritz["chi2"],
-                overlap_chi2=ovlp["chi2"],
-                resistance_chi2=resist["chi2"],
-                fritzsch_j=fritz["observables"]["J"],
-                overlap_j=ovlp["observables"]["J"],
-                resistance_phi_g=float(resist["holonomy_phase_rad"]),
-                delta_norm=delta_norm,
-            )
-        )
-
-        if cycle > 1 and delta_norm < config.loop_tol:
-            converged = True
+def jacobi_eigh(mat: List[List[float]], tol: float) -> Tuple[List[float], List[List[float]]]:
+    """Cyclic Jacobi diagonalization of a real symmetric matrix. Columns of O are eigenvectors."""
+    n = len(mat)
+    a = [row[:] for row in mat]
+    o = [[float(i == j) for j in range(n)] for i in range(n)]
+    for _ in range(100):
+        off = sum(a[i][j] ** 2 for i in range(n) for j in range(i + 1, n))
+        if off <= tol:
             break
-
-    return LoopOutput(
-        version="v1",
-        config=config,
-        geometric_state=geom_state,
-        converged=converged,
-        cycles_run=len(snapshots),
-        snapshots=snapshots,
-        background=bg,
-        present_epoch=present_bg,
-        asymptotic_epoch=asymp_bg,
-        flrw_richardson=rich,
-        flrw_adaptive=adap,
-        fritzsch=fritz,
-        overlap=ovlp,
-        resistance=resist,
-    )
-
-
-def run_v331_benchmark(
-    scales: Sequence[float] = BENCHMARK_V331_SCALES_GEV,
-    base_cfg: Optional[SimLoopConfig] = None,
-) -> List[LoopOutput]:
-    template = base_cfg or SimLoopConfig()
-    return [run_closed_loop(replace(template, v_331_gev=float(sc))) for sc in scales]
+        for p in range(n):
+            for q in range(p + 1, n):
+                if a[p][q] == 0:
+                    continue
+                theta = (a[q][q] - a[p][p]) / (2 * a[p][q])
+                t = math.copysign(1, theta) / (abs(theta) + math.sqrt(theta * theta + 1))
+                cs = 1 / math.sqrt(t * t + 1)
+                sn = t * cs
+                for k in range(n):
+                    akp, akq = a[k][p], a[k][q]
+                    a[k][p], a[k][q] = cs * akp - sn * akq, sn * akp + cs * akq
+                for k in range(n):
+                    apk, aqk = a[p][k], a[q][k]
+                    a[p][k], a[q][k] = cs * apk - sn * aqk, sn * apk + cs * aqk
+                for k in range(n):
+                    okp, okq = o[k][p], o[k][q]
+                    o[k][p], o[k][q] = cs * okp - sn * okq, sn * okp + cs * okq
+    evals = [a[i][i] for i in range(n)]
+    order = sorted(range(n), key=lambda i: abs(evals[i]))
+    return [evals[i] for i in order], [[o[r][i] for i in order] for r in range(n)]
 
 
-def _parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Unified Closed-Loop Simulation (v1)")
-    parser.add_argument("--v331", type=float, default=None, help="Single v_331 scale in GeV")
-    parser.add_argument(
-        "--benchmark",
-        action="store_true",
-        help="Run across standard benchmark v_331 scales (1500, 3500, 7000, 10000 GeV)",
-    )
-    parser.add_argument(
-        "--epoch",
-        choices=("present", "asymptotic"),
-        default="present",
-        help="Horizon entropy evaluation epoch for Omega_Lambda feedback",
-    )
-    parser.add_argument("--json-out", type=str, default=None, help="Optional JSON output path")
-    return parser.parse_args(argv)
+def texture_rotation(x1: float, x2: float) -> Dict[str, Any]:
+    signs, a, b, c = fritzsch_entries(x1, x2)
+    mat = [[0.0, a, 0.0], [a, 0.0, b], [0.0, b, c]]
+    evals, o = jacobi_eigh(mat, float(NUMERICS["jacobi_tol"]))
+    return {"signs": signs, "A": a, "B": b, "C": c, "eigenvalues": evals, "O": o}
 
 
-def main(argv: Optional[Sequence[str]] = None) -> None:
-    args = _parse_args(argv)
-    t0 = time.perf_counter()
-    if args.benchmark or args.v331 is None:
-        outputs = run_v331_benchmark(base_cfg=SimLoopConfig(backreaction_epoch=args.epoch))
-        for out in outputs:
-            print(out.summary())
-            print("-" * 72)
-        if args.json_out:
-            Path(args.json_out).write_text(
-                json.dumps([json.loads(o.to_json()) for o in outputs], indent=2),
-                encoding="utf-8",
-            )
+def ckm_coefficients(ou: List[List[float]], od: List[List[float]]) -> List[List[List[float]]]:
+    """V = O_u^T diag(1, e^{i sigma}, e^{i tau}) O_d, so V_ij = sum_k coef[i][j][k] p_k."""
+    return [[[ou[k][i] * od[k][j] for k in range(3)] for j in range(3)] for i in range(3)]
+
+
+def ckm_matrix(coef: List[List[List[float]]], sigma: float, tau: float) -> List[List[complex]]:
+    p = (1.0, cmath.exp(1j * sigma), cmath.exp(1j * tau))
+    return [[sum(coef[i][j][k] * p[k] for k in range(3)) for j in range(3)] for i in range(3)]
+
+
+OBSERVABLES = ("V_us", "V_cb", "V_ub", "V_ub/V_cb", "V_td/V_ts", "J")
+
+
+def ckm_observables(v: List[List[complex]]) -> Dict[str, float]:
+    vus, vcb, vub = abs(v[0][1]), abs(v[1][2]), abs(v[0][2])
+    vtd, vts = abs(v[2][0]), abs(v[2][1])
+    jarl = (v[0][1] * v[1][2] * v[0][2].conjugate() * v[1][1].conjugate()).imag
+    return {"V_us": vus, "V_cb": vcb, "V_ub": vub, "V_ub/V_cb": vub / vcb,
+            "V_td/V_ts": vtd / vts, "J": jarl}
+
+
+def texture_at(r: Dict[str, float]) -> Dict[str, Any]:
+    up = texture_rotation(r["r_uc"] * r["r_ct"], r["r_ct"])
+    dn = texture_rotation(r["r_ds"] * r["r_sb"], r["r_sb"])
+    return {"up": up, "down": dn, "coef": ckm_coefficients(up["O"], dn["O"])}
+
+
+def _pattern_search(f: Callable[[float, float], float], s: float, t: float, step: float,
+                    min_step: float) -> Tuple[float, float, float]:
+    best = f(s, t)
+    while step > min_step:
+        moved = False
+        for ds, dt in ((step, 0), (-step, 0), (0, step), (0, -step),
+                       (step, step), (-step, -step), (step, -step), (-step, step)):
+            val = f(s + ds, t + dt)
+            if val > best:
+                best, s, t, moved = val, s + ds, t + dt, True
+                break
+        if not moved:
+            step /= 2
+    return s, t, best
+
+
+def phase_bands(coef: List[List[List[float]]], grid: int, min_step: float) -> Dict[str, Dict[str, Any]]:
+    """Min and max of every observable over the full phase torus [0, 2 pi)^2."""
+    two_pi = 2 * math.pi
+    best: Dict[str, Dict[str, Any]] = {k: {"lo": (math.inf, 0.0, 0.0), "hi": (-math.inf, 0.0, 0.0)}
+                                       for k in OBSERVABLES}
+    for i in range(grid):
+        s = two_pi * i / grid
+        for j in range(grid):
+            t = two_pi * j / grid
+            obs = ckm_observables(ckm_matrix(coef, s, t))
+            for k, val in obs.items():
+                if val < best[k]["lo"][0]:
+                    best[k]["lo"] = (val, s, t)
+                if val > best[k]["hi"][0]:
+                    best[k]["hi"] = (val, s, t)
+    bands = {}
+    for k in OBSERVABLES:
+        _, s_lo, t_lo = best[k]["lo"]
+        _, s_hi, t_hi = best[k]["hi"]
+        s1, t1, neg_lo = _pattern_search(lambda a, b: -ckm_observables(ckm_matrix(coef, a, b))[k],
+                                         s_lo, t_lo, two_pi / grid, min_step)
+        s2, t2, hi = _pattern_search(lambda a, b: ckm_observables(ckm_matrix(coef, a, b))[k],
+                                     s_hi, t_hi, two_pi / grid, min_step)
+        bands[k] = {"lo": -neg_lo, "hi": hi,
+                    "lo_phases": (s1 % two_pi, t1 % two_pi), "hi_phases": (s2 % two_pi, t2 % two_pi)}
+    return bands
+
+
+# =============================================================================
+# 7. COSMOLOGY (Decimal arithmetic)
+# =============================================================================
+def dec_pi() -> Decimal:
+    """pi to the current Decimal precision (series from the Python decimal documentation)."""
+    with localcontext() as ctx:
+        ctx.prec += 2
+        three = Decimal(3)
+        lasts, t, s, n, na, d, da = 0, three, three, 1, 0, 0, 24
+        while s != lasts:
+            lasts = s
+            n, na = n + na, na + 8
+            d, da = d + da, da + 32
+            t = (t * n) / d
+            s += t
+    return +s
+
+
+def romberg(f: Callable[[Decimal], Decimal], a: Decimal, b: Decimal, max_levels: int,
+            rel_tol: Decimal) -> Tuple[Decimal, Decimal, int]:
+    prev = [(b - a) * (f(a) + f(b)) / 2]
+    err = Decimal(0)
+    for k in range(1, max_levels):
+        h = (b - a) / (2 ** k)
+        s = sum(f(a + (2 * i - 1) * h) for i in range(1, 2 ** (k - 1) + 1))
+        row = [prev[0] / 2 + h * s]
+        for j in range(1, k + 1):
+            row.append(row[j - 1] + (row[j - 1] - prev[j - 1]) / (4 ** j - 1))
+        err = abs(row[-1] - prev[-1])
+        prev = row
+        if err <= rel_tol * abs(row[-1]):
+            return row[-1], err, k
+    return prev[-1], err, max_levels
+
+
+def cosmology(x: Dict[str, Decimal], prec: int) -> Dict[str, Any]:
+    with localcontext() as ctx:
+        ctx.prec = prec
+        one, two, three = Decimal(1), Decimal(2), Decimal(3)
+        pi = dec_pi()
+        c, kb, grav = x["c"], x["k_B"], x["G"]
+        hbar = x["h"] / (2 * pi)
+        mpc = x["au"] * 648000 / pi * 10 ** 6               # 1 pc = 648000/pi au
+        h0 = x["H0"] * 1000 / mpc                            # s^-1
+        rho_crit = three * h0 ** 2 / (8 * pi * grav)         # kg/m^3
+        u_gamma = pi ** 2 / 15 * (kb * x["T_CMB"]) ** 4 / (hbar * c) ** 3  # J/m^3, Stefan-Boltzmann
+        om_g = u_gamma / (rho_crit * c ** 2)
+        nu_per_species = Decimal(7) / 8 * (Decimal(4) / 11) ** (Decimal(4) / 3)
+        om_r = om_g * (one + x["N_eff"] * nu_per_species)
+        om_m = x["Omega_m"]
+        om_l = one - om_m - om_r                              # flatness
+
+        # t0 = (1/H0) int_0^1 da / (a E(a)); with a = u^2 the integrand is smooth on [0, 1]
+        def integrand(u: Decimal) -> Decimal:
+            return u ** 3 / (om_r + om_m * u ** 2 + om_l * u ** 8).sqrt()
+
+        integral, err, levels = romberg(integrand, Decimal(0), one, int(NUMERICS["romberg_max_levels"]),
+                                        Decimal(NUMERICS["romberg_rel_tol"]))
+        t0_s = two * integral / h0
+        gyr_s = Decimal(31557600) * 10 ** 9                   # Julian year = 365.25 x 86400 s
+        t0_gyr = t0_s / gyr_s
+
+        q0 = om_r + om_m / 2 - om_l
+        # q(z) = 0  <=>  2 om_r y^4 + om_m y^3 - 2 om_l = 0 with y = 1 + z (monotonic for y > 0)
+        lo, hi = one, two
+        while 2 * om_r * hi ** 4 + om_m * hi ** 3 - 2 * om_l < 0:
+            hi *= 2
+        for _ in range(4 * prec):  # each halving gains log10(2) of a digit
+            mid = (lo + hi) / 2
+            if 2 * om_r * mid ** 4 + om_m * mid ** 3 - 2 * om_l < 0:
+                lo = mid
+            else:
+                hi = mid
+        z_acc = (lo + hi) / 2 - one
+        z_eq = om_m / om_r - one
+        a_ml = (om_m / om_l) ** (one / three)
+        s_h0 = pi * c ** 5 / (grav * hbar * h0 ** 2)          # Hubble-horizon entropy today, units of k_B
+        s_ds = s_h0 / om_l                                    # de Sitter limit, H -> H0 sqrt(Omega_Lambda)
+        return {
+            "Omega_gamma": om_g, "Omega_r": om_r, "Omega_m": om_m, "Omega_Lambda": om_l,
+            "age_Gyr": t0_gyr, "age_integral": integral, "romberg_error": err, "romberg_levels": levels,
+            "q0": q0, "z_acc": z_acc, "z_eq": z_eq, "a_matter_Lambda": a_ml,
+            "S_Hubble_today_kB": s_h0, "S_deSitter_kB": s_ds, "H0_per_s": h0,
+        }
+
+
+def age_by_float_quadrature(om_r: float, om_m: float, om_l: float, steps: int, lna_min: float) -> float:
+    """Independent check: H0 t0 = int d(ln a) / E(a), composite Simpson in ln a (floats)."""
+    def f(lna: float) -> float:
+        a = math.exp(lna)
+        return 1 / math.sqrt(om_r / a ** 4 + om_m / a ** 3 + om_l)
+    n = steps + steps % 2
+    h = -lna_min / n
+    total = f(lna_min) + f(0.0)
+    for i in range(1, n):
+        total += (4 if i % 2 else 2) * f(lna_min + i * h)
+    return total * h / 3
+
+
+# =============================================================================
+# 8. THE SIMULATION
+# =============================================================================
+def _float_inputs(overrides: Dict[str, float] | None = None) -> Dict[str, float]:
+    x = {k: inp(k) for k in INPUTS}
+    if overrides:
+        x.update(overrides)
+    return x
+
+
+def _comparison(name: str) -> Tuple[float, float, float]:
+    v, up, dn = COMPARISONS[name]["value"]
+    return float(v), float(up), float(dn)
+
+
+def _tension(lo: float, hi: float, s_lo: float, s_hi: float, name: str) -> Dict[str, Any]:
+    meas, up, dn = _comparison(name)
+    if lo <= meas <= hi:
+        return {"inside": True, "n_sigma": 0.0}
+    if meas < lo:
+        n = (lo - meas) / math.hypot(s_lo, up)
     else:
-        out = run_closed_loop(SimLoopConfig(v_331_gev=args.v331, backreaction_epoch=args.epoch))
-        print(out.summary())
-        if args.json_out:
-            out.to_json(args.json_out)
-    print(f"Elapsed: {time.perf_counter() - t0:.3f}s")
+        n = (meas - hi) / math.hypot(s_hi, dn)
+    return {"inside": False, "n_sigma": n}
+
+
+def run_flavour(scales: Sequence[float], steps: int, grid: int) -> Dict[str, Any]:
+    min_step = num("pattern_search_min_step")
+    central = FlavourRunner(_float_inputs(), steps)
+    ratios = central.ratios_at(scales)
+
+    # input variations for uncertainty propagation (+/- 1 sigma, central differences)
+    varied = {}
+    for name in FLAVOUR_UNCERTAIN:
+        varied[name] = tuple(FlavourRunner(_float_inputs({name: inp(name) + s * sig(name)}), steps)
+                             .ratios_at(scales) for s in (1, -1))
+
+    results = {}
+    for mu in sorted(scales):
+        r = ratios[mu]
+        tex = texture_at(r)
+        bands = phase_bands(tex["coef"], grid, min_step)
+        tex_var = {name: tuple(texture_at(v[mu]) for v in pair) for name, pair in varied.items()}
+        for k, band in bands.items():
+            for edge in ("lo", "hi"):
+                s, t = band[edge + "_phases"]
+                var2 = 0.0
+                for name in FLAVOUR_UNCERTAIN:
+                    fp = ckm_observables(ckm_matrix(tex_var[name][0]["coef"], s, t))[k]
+                    fm = ckm_observables(ckm_matrix(tex_var[name][1]["coef"], s, t))[k]
+                    var2 += ((fp - fm) / 2) ** 2
+                band["sigma_" + edge] = math.sqrt(var2)
+            band["vs_measurement"] = _tension(band["lo"], band["hi"], band["sigma_lo"], band["sigma_hi"], k)
+        results[mu] = {"ratios": r, "texture": tex, "bands": bands}
+    return {"runner": central, "ratios": ratios, "scales": results}
+
+
+def _derived_vub_over_vcb() -> None:
+    """The measured |V_ub/V_cb|, formed from the two PDG fit values (correlation neglected)."""
+    vub, ub_up, ub_dn = _comparison("V_ub")
+    vcb, cb_up, cb_dn = _comparison("V_cb")
+    ratio = vub / vcb
+    up = ratio * math.hypot(ub_up / vub, cb_dn / vcb)
+    dn = ratio * math.hypot(ub_dn / vub, cb_up / vcb)
+    COMPARISONS["V_ub/V_cb"] = {"value": (repr(ratio), repr(up), repr(dn)),
+                                "source": "ratio of the PDG 2024 fit values of |V_ub| and |V_cb|"}
+
+
+def run_cosmology(prec: int) -> Dict[str, Any]:
+    base = {k: Decimal(INPUTS[k]["value"]) for k in INPUTS}
+    out = cosmology(base, prec)
+    var2 = 0.0
+    var2_ol = 0.0
+    for name in COSMO_UNCERTAIN:
+        vals = []
+        for s in (1, -1):
+            x = dict(base)
+            x[name] = base[name] + s * Decimal(INPUTS[name]["sigma"])
+            vals.append(cosmology(x, prec))
+        var2 += (float(vals[0]["age_Gyr"] - vals[1]["age_Gyr"]) / 2) ** 2
+        var2_ol += (float(vals[0]["Omega_Lambda"] - vals[1]["Omega_Lambda"]) / 2) ** 2
+    out["age_sigma_uncorrelated_Gyr"] = math.sqrt(var2)
+    out["Omega_Lambda_sigma"] = math.sqrt(var2_ol)
+    out["age_float_check_Gyr"] = (age_by_float_quadrature(float(out["Omega_r"]), float(out["Omega_m"]),
+                                                          float(out["Omega_Lambda"]),
+                                                          int(NUMERICS["friedmann_check_steps"]),
+                                                          float(NUMERICS["friedmann_check_lna_min"]))
+                                  / float(out["H0_per_s"]) / (31557600 * 10 ** 9))
+    return out
+
+
+# =============================================================================
+# 9. SELF-CHECKS (correctness of the calculation, never agreement with data)
+# =============================================================================
+def self_checks(flav: Dict[str, Any], cosmo: Dict[str, Any], scales: Sequence[float], steps: int,
+                grid: int) -> List[Tuple[str, bool, str]]:
+    tol = num("check_rel_tol")
+    checks: List[Tuple[str, bool, str]] = []
+
+    def add(name: str, ok: bool, detail: str) -> None:
+        checks.append((name, bool(ok), detail))
+
+    b0, b1 = qcd_beta(5)
+    add("QCD beta coefficients from Casimirs: b0(nf=5) = 23/3, b1(nf=5) = 116/3",
+        b0 == Fr(23, 3) and b1 == Fr(116, 3), f"b0 = {b0}, b1 = {b1}")
+    g0, g1 = qcd_gamma_m(5)
+    add("Quark-mass anomalous dimension: g0 = 4, g1(nf=5) = 202/3 - 100/9",
+        g0 == 4 and g1 == Fr(202, 3) - Fr(100, 9), f"g0 = {g0}, g1 = {g1}")
+    bsm = sm_gauge_b()
+    add("SM gauge b_i from field content = (41/10, -19/6, -7)",
+        bsm == (Fr(41, 10), Fr(-19, 6), Fr(-7)), f"b = {tuple(str(b) for b in bsm)}")
+    add("SM b_3 equals -b0(nf=6) of the QCD formula", bsm[2] == -qcd_beta(6)[0], "")
+    cy = top_yukawa_gauge_coeffs()
+    add("Top-Yukawa gauge coefficients from Casimirs = (17/20, 9/4, 8)",
+        cy == (Fr(17, 20), Fr(9, 4), Fr(8)), f"c = {tuple(str(c) for c in cy)}")
+    n_direct = 1000
+    z3_direct = sum(1 / n ** 3 for n in range(1, n_direct + 1)) + 1 / (2 * n_direct ** 2) - 1 / (2 * n_direct ** 3)
+    add("zeta(3): fast series agrees with the direct sum plus Euler-Maclaurin tail",
+        abs(zeta3() / z3_direct - 1) < tol, f"zeta(3) = {zeta3():.15f}")
+
+    # texture: uniqueness, eigenvalues, unitarity, CP symmetry of the J band
+    worst_eig = 0.0
+    worst_unit = 0.0
+    worst_jsym = 0.0
+    for mu in scales:
+        r = flav["ratios"][mu]
+        tex = flav["scales"][mu]["texture"]
+        for sector, (x1, x2) in (("up", (r["r_uc"] * r["r_ct"], r["r_ct"])),
+                                 ("down", (r["r_ds"] * r["r_sb"], r["r_sb"]))):
+            ev = [abs(e) for e in tex[sector]["eigenvalues"]]
+            for got, want in zip(ev, (x1, x2, 1.0)):
+                worst_eig = max(worst_eig, abs(got / want - 1))
+        for s, t in ((1, 2), (2, 4), (5, 1)):  # sample phases in radians
+            v = ckm_matrix(tex["coef"], s, t)
+            for i in range(3):
+                for j in range(3):
+                    dot = sum(v[i][k] * v[j][k].conjugate() for k in range(3))
+                    worst_unit = max(worst_unit, abs(dot - (1 if i == j else 0)))
+        jb = flav["scales"][mu]["bands"]["J"]
+        worst_jsym = max(worst_jsym, abs(jb["hi"] + jb["lo"]) / jb["hi"])
+    add("Fritzsch texture: exactly one real sign assignment, (+, -, +) in both sectors",
+        all(flav["scales"][mu]["texture"][s]["signs"] == (1, -1, 1) for mu in scales for s in ("up", "down")),
+        "")
+    add("Texture eigenvalues reproduce the RG mass ratios", worst_eig < tol, f"max rel err {worst_eig:.1e}")
+    add("CKM matrix is unitary", worst_unit < tol, f"max |V V^dag - 1| = {worst_unit:.1e}")
+    add("J band is symmetric (J_min = -J_max, CP conjugate phases)", worst_jsym < tol,
+        f"max rel asym {worst_jsym:.1e}")
+
+    # RG: doubling the step count does not move the ratios
+    fine = FlavourRunner(_float_inputs(), 2 * steps).ratios_at(scales)
+    worst_rg = max(abs(fine[mu][k] / flav["ratios"][mu][k] - 1)
+                   for mu in scales for k in ("r_uc", "r_ct", "r_ds", "r_sb"))
+    add("RG running converged (step count doubled)", worst_rg < num("check_rg_tol"),
+        f"max rel change {worst_rg:.1e}")
+
+    # phase scan: a finer coarse grid finds the same band edges
+    mu = max(scales)
+    fine_b = phase_bands(flav["scales"][mu]["texture"]["coef"], grid + grid // 2 + 1,
+                         num("pattern_search_min_step"))
+    worst_band = max(abs(fine_b[k][e] / flav["scales"][mu]["bands"][k][e] - 1)
+                     for k in OBSERVABLES for e in ("lo", "hi"))
+    add("Phase-band edges independent of the scan grid", worst_band < tol, f"max rel change {worst_band:.1e}")
+
+    # cosmology
+    add("Romberg quadrature of the age converged", cosmo["romberg_error"] <=
+        Decimal(NUMERICS["romberg_rel_tol"]) * cosmo["age_integral"],
+        f"{cosmo['romberg_levels']} levels, error {float(cosmo['romberg_error']):.1e}")
+    rel = abs(cosmo["age_float_check_Gyr"] / float(cosmo["age_Gyr"]) - 1)
+    add("Age agrees with an independent float quadrature in ln a", rel < num("check_age_tol"),
+        f"rel diff {rel:.1e}")
+    total = cosmo["Omega_r"] + cosmo["Omega_m"] + cosmo["Omega_Lambda"]
+    add("Flatness holds exactly", total == 1, "")
+    return checks
+
+
+# =============================================================================
+# 10. REPORT
+# =============================================================================
+def _fmt(x: float, nd: int = 5) -> str:
+    if x == 0:
+        return "0"
+    if abs(x) < float(NUMERICS["report_sci_below"]) or abs(x) >= float(NUMERICS["report_sci_above"]):
+        return f"{x:.{nd - 1}e}"
+    return f"{x:.{nd}g}"
+
+
+def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[str, Any]:
+    scales = sorted(float(s) for s in (scales or NUMERICS["evaluation_scales_GeV"]))
+    prec = int(prec or NUMERICS["precision_digits"])
+    steps = int(NUMERICS["rg_steps_per_efold"])
+    grid = int(NUMERICS["phase_grid"])
+    _derived_vub_over_vcb()
+    cosmo = run_cosmology(prec)
+    flav = run_flavour(scales, steps, grid)
+    checks = self_checks(flav, cosmo, scales, steps, grid)
+    return {"scales": scales, "cosmology": cosmo, "flavour": flav, "checks": checks, "precision": prec}
+
+
+def report(res: Dict[str, Any]) -> str:
+    out: List[str] = []
+    w = out.append
+    bar = "=" * 78
+    cos = res["cosmology"]
+    flav = res["flavour"]
+    runner = flav["runner"]
+    w(bar)
+    w(f"STUR Physics Lab, {VERSION}: nothing tuned, nothing fitted")
+    w(bar)
+    w(f"Inputs: {len(INPUTS)} measured or defined constants (INPUTS). Comparisons: {len(COMPARISONS)}"
+      f" measured results, never used in a calculation.")
+    w("")
+    w("PART A. COSMOLOGY (flat Lambda-CDM, Friedmann equation)")
+    w("-" * 78)
+    w(f"  Omega_gamma  from T_CMB (Stefan-Boltzmann)    {_fmt(float(cos['Omega_gamma']), 6)}")
+    w(f"  Omega_r      photons + N_eff neutrinos         {_fmt(float(cos['Omega_r']), 6)}")
+    w(f"  Omega_Lambda = 1 - Omega_m - Omega_r           {float(cos['Omega_Lambda']):.6f}"
+      f" +/- {cos['Omega_Lambda_sigma']:.4f}")
+    ol, ol_up, _ = _comparison("Omega_Lambda")
+    w(f"      measured (Planck 2018)                    {ol} +/- {ol_up}"
+      f"   pull {(float(cos['Omega_Lambda']) - ol) / math.hypot(ol_up, cos['Omega_Lambda_sigma']):+.2f} sigma")
+    age = float(cos["age_Gyr"])
+    w(f"  Age of the universe t0                         {age:.4f} Gyr"
+      f" +/- {cos['age_sigma_uncorrelated_Gyr']:.3f} (H0, Omega_m, T_CMB uncorrelated)")
+    a_meas, a_up, _ = _comparison("age_Gyr")
+    w(f"      measured (Planck 2018)                    {a_meas} +/- {a_up} Gyr"
+      f"   difference {age - a_meas:+.4f} Gyr")
+    w(f"      (the Planck error is smaller because Planck's H0 and Omega_m are anticorrelated)")
+    w(f"  Deceleration parameter q0                      {float(cos['q0']):+.5f}")
+    w(f"  Acceleration began at redshift z_acc           {float(cos['z_acc']):.5f}")
+    w(f"  Matter-radiation equality z_eq                 {float(cos['z_eq']):.1f}")
+    w(f"  Matter-Lambda equality a                       {float(cos['a_matter_Lambda']):.5f}")
+    w(f"  Hubble-horizon entropy today                   {float(cos['S_Hubble_today_kB']):.4e} k_B")
+    w(f"  de Sitter horizon entropy (t -> infinity)      {float(cos['S_deSitter_kB']):.4e} k_B")
+    w(f"  Age to {res['precision']} digits: {cos['age_Gyr']} Gyr (numerical, not physical, precision)")
+    w("")
+    w("PART B. QUARK FLAVOUR: RG-run masses in the Fritzsch six-zero texture")
+    w("-" * 78)
+    base = flav["ratios"][runner.mt_msbar]
+    w(f"  m_t(m_t) MS-bar from the pole mass (2-loop)    {runner.mt_msbar:.3f} GeV")
+    w(f"  v = (sqrt2 G_F)^(-1/2)                         {runner.v:.3f} GeV")
+    w(f"  y_t(m_t) = sqrt2 m_t(m_t) / v                  {runner.ew['y_t_at_mt']:.4f}")
+    w(f"  sin^2 theta_W (tree level, from G_F, alpha, M_Z) {runner.ew['sin2_theta_tree']:.5f}")
+    w(f"  Running masses at m_t(m_t) (GeV): u {base['m_u']:.4e}  d {base['m_d']:.4e}  s {base['m_s']:.4e}"
+      f"  c {base['m_c']:.4f}  b {base['m_b']:.4f}")
+    w("")
+    w("  The texture fixes every matrix entry from the masses. Its two phases are not")
+    w("  fixed by anything, so each prediction is the band swept by ALL phase values;")
+    w("  the band edges carry the propagated input uncertainty.")
+    for mu in res["scales"]:
+        blk = flav["scales"][mu]
+        r = blk["ratios"]
+        w("")
+        w(f"  Scale mu = {mu:.0f} GeV   alpha_s = {r['alpha_s']:.5f}   y_t = {r['y_t']:.4f}")
+        w(f"    sqrt(m_d/m_s) = {math.sqrt(r['r_ds']):.5f}  sqrt(m_u/m_c) = {math.sqrt(r['r_uc']):.5f}"
+          f"  sqrt(m_s/m_b) = {math.sqrt(r['r_sb']):.5f}  sqrt(m_c/m_t) = {math.sqrt(r['r_ct']):.5f}")
+        w(f"    {'observable':<10} {'band over all phases':<34} {'measured':<22} verdict")
+        for k in OBSERVABLES:
+            b = blk["bands"][k]
+            meas, up, dn = _comparison(k)
+            band = f"[{_fmt(b['lo'])} +/- {_fmt(b['sigma_lo'], 2)}, {_fmt(b['hi'])} +/- {_fmt(b['sigma_hi'], 2)}]"
+            m_s = f"{_fmt(meas)} +{_fmt(up, 2)}/-{_fmt(dn, 2)}"
+            vm = b["vs_measurement"]
+            verdict = "inside band" if vm["inside"] else f"outside by {vm['n_sigma']:.1f} sigma"
+            w(f"    {k:<10} {band:<34} {m_s:<22} {verdict}")
+    w("")
+    excluded = [(k, flav["scales"][mu]["bands"][k]["vs_measurement"]["n_sigma"])
+                for mu in res["scales"] for k in OBSERVABLES
+                if not flav["scales"][mu]["bands"][k]["vs_measurement"]["inside"]]
+    if excluded:
+        worst = {}
+        for k, n in excluded:
+            worst[k] = min(worst.get(k, math.inf), n)
+        w("  RESULT: at every evaluation scale and for every value of the two phases, the")
+        w("  six-zero texture misses: " + ", ".join(f"{k} (at least {n:.0f} sigma)" for k, n in worst.items())
+          + ".")
+        w("  The masses alone do not produce the measured mixing in this texture.")
+    else:
+        w("  RESULT: every measured value lies inside its band at every evaluation scale.")
+    w("")
+    w("SELF-CHECKS (correctness of the calculation, not agreement with data)")
+    w("-" * 78)
+    for name, ok, detail in res["checks"]:
+        w(f"  [{'PASS' if ok else 'FAIL'}] {name}" + (f"  ({detail})" if detail else ""))
+    n_pass = sum(1 for _, ok, _ in res["checks"] if ok)
+    w(f"  {n_pass}/{len(res['checks'])} checks pass")
+    w(bar)
+    return "\n".join(out)
+
+
+def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
+    def conv(o: Any) -> Any:
+        if isinstance(o, Decimal):
+            return str(o)
+        if isinstance(o, Fr):
+            return str(o)
+        if isinstance(o, dict):
+            return {str(k): conv(v) for k, v in o.items() if k not in ("coef", "runner")}
+        if isinstance(o, (list, tuple)):
+            return [conv(v) for v in o]
+        if isinstance(o, float) and not math.isfinite(o):
+            return str(o)
+        return o
+    flav = res["flavour"]
+    return conv({
+        "version": VERSION, "inputs": INPUTS, "comparisons": COMPARISONS, "numerics": NUMERICS,
+        "cosmology": res["cosmology"],
+        "flavour": {"m_t_msbar": flav["runner"].mt_msbar, "electroweak": flav["runner"].ew,
+                    "ratios": flav["ratios"], "scales": flav["scales"]},
+        "checks": [{"name": n, "pass": ok, "detail": d} for n, ok, d in res["checks"]],
+    })
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description=f"STUR Physics Lab {VERSION}")
+    ap.add_argument("--scales", type=float, nargs="+", default=None,
+                    help="evaluation scales in GeV (default: the four 3-3-1 benchmark scales)")
+    ap.add_argument("--precision", type=int, default=None, help="Decimal digits for the cosmology")
+    ap.add_argument("--json-out", type=str, default=None, help="write every number to this JSON file")
+    args = ap.parse_args(argv)
+    t0 = time.perf_counter()
+    res = run(args.scales, args.precision)
+    print(report(res))
+    if args.json_out:
+        with open(args.json_out, "w", encoding="utf-8") as fh:
+            json.dump(to_jsonable(res), fh, indent=2)
+    print(f"Elapsed: {time.perf_counter() - t0:.1f} s")
+    return 0 if all(ok for _, ok, _ in res["checks"]) else 1
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

@@ -1,0 +1,98 @@
+==============================================================================
+STUR Physics Lab, production v2.2: nothing tuned, nothing fitted
+==============================================================================
+Inputs: 20 measured or defined constants (INPUTS). Comparisons: 8 measured results, never used in a calculation.
+
+PART A. COSMOLOGY (flat Lambda-CDM, Friedmann equation)
+------------------------------------------------------------------------------
+  Omega_gamma  from T_CMB (Stefan-Boltzmann)    5.45024e-05
+  Omega_r      photons + N_eff neutrinos         9.21807e-05
+  Omega_Lambda = 1 - Omega_m - Omega_r           0.684608 +/- 0.0073
+      measured (Planck 2018)                    0.6847 +/- 0.0073   pull -0.01 sigma
+  Age of the universe t0                         13.7952 Gyr +/- 0.142 (H0, Omega_m, T_CMB uncorrelated)
+      measured (Planck 2018)                    13.787 +/- 0.02 Gyr   difference +0.0082 Gyr
+      (the Planck error is smaller because Planck's H0 and Omega_m are anticorrelated)
+  Deceleration parameter q0                      -0.52687
+  Acceleration began at redshift z_acc           0.63096
+  Matter-radiation equality z_eq                 3419.5
+  Matter-Lambda equality a                       0.77225
+  Hubble-horizon entropy today                   2.2681e+122 k_B
+  de Sitter horizon entropy (t -> infinity)      3.3130e+122 k_B
+  Age to 50 digits: 13.795175594202987172436750705412839947362670774933 Gyr (numerical, not physical, precision)
+
+PART B. QUARK FLAVOUR: RG-run masses in the Fritzsch six-zero texture
+------------------------------------------------------------------------------
+  m_t(m_t) MS-bar from the pole mass (2-loop)    163.441 GeV
+  v = (sqrt2 G_F)^(-1/2)                         246.220 GeV
+  y_t(m_t) = sqrt2 m_t(m_t) / v                  0.9388
+  sin^2 theta_W (tree level, from G_F, alpha, M_Z) 0.23356
+  Running masses at m_t(m_t) (GeV): u 1.2075e-03  d 2.6419e-03  s 5.2557e-02  c 0.6229  b 2.7508
+
+  The texture fixes every matrix entry from the masses. Its two phases are not
+  fixed by anything, so each prediction is the band swept by ALL phase values;
+  the band edges carry the propagated input uncertainty.
+
+  Scale mu = 1500 GeV   alpha_s = 0.08504   y_t = 0.8490
+    sqrt(m_d/m_s) = 0.22420  sqrt(m_u/m_c) = 0.04403  sqrt(m_s/m_b) = 0.13939  sqrt(m_c/m_t) = 0.06122
+    observable band over all phases               measured               verdict
+    V_us       [0.17579 +/- 0.0019, 0.26141 +/- 0.0019] 0.22501 +6.8e-04/-6.8e-04 inside band
+    V_cb       [0.073766 +/- 6.5e-04, 0.19468 +/- 8.6e-04] 0.04183 +7.9e-04/-6.9e-04 outside by 31.2 sigma
+    V_ub       [0.0026478 +/- 6.1e-05, 0.0091718 +/- 1.4e-04] 0.003732 +9.0e-05/-8.5e-05 inside band
+    V_ub/V_cb  [0.035869 +/- 7.4e-04, 0.051925 +/- 7.2e-04] 0.089218 +0.0026/-0.0026 outside by 13.6 sigma
+    V_td/V_ts  [0.22732 +/- 0.0019, 0.2328 +/- 0.002] 0.207 +0.0032/-0.0032  outside by 5.4 sigma
+    J          [-3.5438e-04 +/- 6.4e-06, 3.5438e-04 +/- 6.4e-06] 3.1200e-05 +1.3e-06/-1.2e-06 inside band
+
+  Scale mu = 3500 GeV   alpha_s = 0.07858   y_t = 0.8214
+    sqrt(m_d/m_s) = 0.22420  sqrt(m_u/m_c) = 0.04403  sqrt(m_s/m_b) = 0.13978  sqrt(m_c/m_t) = 0.06105
+    observable band over all phases               measured               verdict
+    V_us       [0.1758 +/- 0.0019, 0.2614 +/- 0.0019] 0.22501 +6.8e-04/-6.8e-04 inside band
+    V_cb       [0.074309 +/- 6.5e-04, 0.19488 +/- 8.6e-04] 0.04183 +7.9e-04/-6.9e-04 outside by 31.7 sigma
+    V_ub       [0.0026668 +/- 6.1e-05, 0.0091855 +/- 1.4e-04] 0.003732 +9.0e-05/-8.5e-05 inside band
+    V_ub/V_cb  [0.035862 +/- 7.4e-04, 0.051935 +/- 7.2e-04] 0.089218 +0.0026/-0.0026 outside by 13.6 sigma
+    V_td/V_ts  [0.22735 +/- 0.0019, 0.2328 +/- 0.002] 0.207 +0.0032/-0.0032  outside by 5.4 sigma
+    J          [-3.5513e-04 +/- 6.4e-06, 3.5513e-04 +/- 6.4e-06] 3.1200e-05 +1.3e-06/-1.2e-06 inside band
+
+  Scale mu = 7000 GeV   alpha_s = 0.07399   y_t = 0.8008
+    sqrt(m_d/m_s) = 0.22420  sqrt(m_u/m_c) = 0.04403  sqrt(m_s/m_b) = 0.14008  sqrt(m_c/m_t) = 0.06092
+    observable band over all phases               measured               verdict
+    V_us       [0.1758 +/- 0.0019, 0.2614 +/- 0.0019] 0.22501 +6.8e-04/-6.8e-04 inside band
+    V_cb       [0.074729 +/- 6.5e-04, 0.19503 +/- 8.6e-04] 0.04183 +7.9e-04/-6.9e-04 outside by 32.1 sigma
+    V_ub       [0.0026814 +/- 6.2e-05, 0.0091962 +/- 1.4e-04] 0.003732 +9.0e-05/-8.5e-05 inside band
+    V_ub/V_cb  [0.035857 +/- 7.4e-04, 0.051944 +/- 7.2e-04] 0.089218 +0.0026/-0.0026 outside by 13.6 sigma
+    V_td/V_ts  [0.22737 +/- 0.0019, 0.23281 +/- 0.002] 0.207 +0.0032/-0.0032  outside by 5.4 sigma
+    J          [-3.5571e-04 +/- 6.4e-06, 3.5571e-04 +/- 6.4e-06] 3.1200e-05 +1.3e-06/-1.2e-06 inside band
+
+  Scale mu = 10000 GeV   alpha_s = 0.07183   y_t = 0.7909
+    sqrt(m_d/m_s) = 0.22420  sqrt(m_u/m_c) = 0.04403  sqrt(m_s/m_b) = 0.14023  sqrt(m_c/m_t) = 0.06085
+    observable band over all phases               measured               verdict
+    V_us       [0.1758 +/- 0.0019, 0.2614 +/- 0.0019] 0.22501 +6.8e-04/-6.8e-04 inside band
+    V_cb       [0.074937 +/- 6.5e-04, 0.19511 +/- 8.6e-04] 0.04183 +7.9e-04/-6.9e-04 outside by 32.3 sigma
+    V_ub       [0.0026887 +/- 6.2e-05, 0.0092015 +/- 1.4e-04] 0.003732 +9.0e-05/-8.5e-05 inside band
+    V_ub/V_cb  [0.035854 +/- 7.4e-04, 0.051948 +/- 7.2e-04] 0.089218 +0.0026/-0.0026 outside by 13.6 sigma
+    V_td/V_ts  [0.22737 +/- 0.0019, 0.23281 +/- 0.002] 0.207 +0.0032/-0.0032  outside by 5.4 sigma
+    J          [-3.5600e-04 +/- 6.4e-06, 3.5600e-04 +/- 6.4e-06] 3.1200e-05 +1.3e-06/-1.2e-06 inside band
+
+  RESULT: at every evaluation scale and for every value of the two phases, the
+  six-zero texture misses: V_cb (at least 31 sigma), V_ub/V_cb (at least 14 sigma), V_td/V_ts (at least 5 sigma).
+  The masses alone do not produce the measured mixing in this texture.
+
+SELF-CHECKS (correctness of the calculation, not agreement with data)
+------------------------------------------------------------------------------
+  [PASS] QCD beta coefficients from Casimirs: b0(nf=5) = 23/3, b1(nf=5) = 116/3  (b0 = 23/3, b1 = 116/3)
+  [PASS] Quark-mass anomalous dimension: g0 = 4, g1(nf=5) = 202/3 - 100/9  (g0 = 4, g1 = 506/9)
+  [PASS] SM gauge b_i from field content = (41/10, -19/6, -7)  (b = ('41/10', '-19/6', '-7'))
+  [PASS] SM b_3 equals -b0(nf=6) of the QCD formula
+  [PASS] Top-Yukawa gauge coefficients from Casimirs = (17/20, 9/4, 8)  (c = ('17/20', '9/4', '8'))
+  [PASS] zeta(3): fast series agrees with the direct sum plus Euler-Maclaurin tail  (zeta(3) = 1.202056903159594)
+  [PASS] Fritzsch texture: exactly one real sign assignment, (+, -, +) in both sectors
+  [PASS] Texture eigenvalues reproduce the RG mass ratios  (max rel err 1.5e-14)
+  [PASS] CKM matrix is unitary  (max |V V^dag - 1| = 1.1e-15)
+  [PASS] J band is symmetric (J_min = -J_max, CP conjugate phases)  (max rel asym 1.5e-16)
+  [PASS] RG running converged (step count doubled)  (max rel change 8.4e-13)
+  [PASS] Phase-band edges independent of the scan grid  (max rel change 2.2e-16)
+  [PASS] Romberg quadrature of the age converged  (16 levels, error 2.2e-33)
+  [PASS] Age agrees with an independent float quadrature in ln a  (rel diff 1.7e-14)
+  [PASS] Flatness holds exactly
+  15/15 checks pass
+==============================================================================
+Elapsed: 4.7 s

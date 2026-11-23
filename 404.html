@@ -2,36 +2,22 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#4ade80">
-<title>Page Not Found | Gravity and the Quantum</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page not found | STUR Physics Lab</title>
 <link rel="icon" type="image/svg+xml" href="/STUR-Physics-Lab/assets/logo.svg">
-<link rel="stylesheet" href="/STUR-Physics-Lab/assets/css/stur-core.css">
-<link rel="stylesheet" href="/STUR-Physics-Lab/assets/css/stur-glass.css">
 <style>
-  body { min-height: 100vh; margin: 0; background: #000; color: #fff; display: flex; align-items: center; justify-content: center;
-         font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; text-align: center; padding: 24px; }
-  .box { max-width: 440px; }
-  img { width: 88px; height: 88px; border-radius: 22px; border: 1px solid rgba(255,255,255,0.1); padding: 8px;
-        box-shadow: 0 20px 50px rgba(74,222,128,0.2); margin-bottom: 24px; }
-  h1 { font-size: 30px; margin: 0 0 10px; letter-spacing: -0.02em; }
-  p { color: rgba(255,255,255,0.7); line-height: 1.6; margin: 0 0 28px; font-size: 15px; }
-  .links { display: flex; flex-direction: column; gap: 12px; }
-  a { display: block; padding: 14px 24px; border-radius: 16px; text-decoration: none; font-weight: 600; }
-  .primary { background: linear-gradient(135deg, rgba(74,222,128,0.9), rgba(34,197,94,0.9)); color: #000;
-             box-shadow: 0 4px 20px rgba(74,222,128,0.4); }
-  .secondary { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); font-weight: 500; }
+  :root { --bg: #f6f8fa; --fg: #0f1720; --muted: #4a5663; --accent: #15803d; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #07090d; --fg: #e6edf3; --muted: #9aa7b4; --accent: #4ade80; } }
+  body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px;
+         background: var(--bg); color: var(--fg); font-family: -apple-system, system-ui, sans-serif; text-align: center; }
+  p { color: var(--muted); } a { color: var(--accent); font-weight: 600; }
 </style>
 </head>
 <body>
-  <div class="box">
-    <img src="/STUR-Physics-Lab/assets/logo.svg" alt="">
+  <div>
     <h1>Page not found</h1>
-    <p>That page doesn't exist. The worked examples are on the home page.</p>
-    <div class="links">
-      <a class="primary" href="/STUR-Physics-Lab/">Back to the worked examples</a>
-      <a class="secondary" href="/STUR-Physics-Lab/technical.html">Research notes</a>
-    </div>
+    <p>This site now has one page: the simulation.</p>
+    <a href="/STUR-Physics-Lab/">Go to the simulation</a>
   </div>
 </body>
 </html>
