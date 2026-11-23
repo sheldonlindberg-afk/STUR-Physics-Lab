@@ -1,4 +1,4 @@
-# Quark mixing from 3-3-1 wavefunction overlaps — AI/LLM information
+# Quantum Gravity Algorithm — AI/LLM information
 
 > The centre of this repository is ckm_from_331_overlaps.py: one standard-library Python
 > script that computes quark masses and the CKM matrix in the beta = -1/sqrt(3) 3-3-1 model

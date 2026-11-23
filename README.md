@@ -2,7 +2,7 @@
   <img src="assets/logo.svg" alt="" width="120"/>
 </p>
 
-<h1 align="center">Quark Mixing from 3-3-1 Wavefunction Overlaps</h1>
+<h1 align="center">Quantum Gravity Algorithm</h1>
 
 <p align="center">
   <strong>One standard-library Python script: a self-consistent, fit-free 3-3-1 calculation of quark masses and the CKM matrix from wavefunction overlaps.</strong><br>
