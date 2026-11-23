@@ -1,4 +1,13 @@
-# Gravity and the Quantum: Worked Examples — AI/LLM information
+# Quark mixing from 3-3-1 wavefunction overlaps — AI/LLM information
+
+> The centre of this repository is ckm_from_331_overlaps.py: one standard-library Python
+> script that builds quark Yukawa matrices from overlaps of localized wavefunctions on an
+> internal coordinate in a 3-3-1 model (U(1)_X charges select which scalar couples each
+> generation), then diagonalizes them to the CKM matrix and the Jarlskog invariant. In the
+> demo the |V| magnitudes are fitted by nine localization centres; J and mass ratios are
+> outputs. Expected output: results/ckm_331/output.txt.
+
+## Earlier work in this repository
 
 > Reproducible worked examples at the gravity-quantum interface, for physics students
 > and physicists, plus one research note (independent work, not peer reviewed). Topics:

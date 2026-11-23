@@ -220,8 +220,10 @@ def jacobi_hermitian_eig(
         if abs_apq < tol:
             continue
 
-        phase = apq / abs_apq
-        phase_conj = phase.conjugate()
+        # Rotate in the (p, q) plane: first remove the phase of a_pq by rephasing
+        # column/row q (D = diag(..., e^{-i phi} at q, ...)), then apply the real
+        # Jacobi rotation with t = tan(theta) the smaller root of t^2 + 2 tau t - 1 = 0.
+        phase_conj = (apq / abs_apq).conjugate()
         tau = (aqq - app) / (2.0 * abs_apq)
         t = (
             1.0 / (tau + math.sqrt(1.0 + tau * tau))
@@ -233,23 +235,23 @@ def jacobi_hermitian_eig(
 
         for k in range(n):
             if k != p and k != q:
-                akp, akq = a[k][p], a[k][q]
-                new_kp = c * akp + s * phase * akq
-                new_kq = -s * phase_conj * akp + c * akq
+                akp, akq = a[k][p], a[k][q] * phase_conj
+                new_kp = c * akp - s * akq
+                new_kq = s * akp + c * akq
                 a[k][p] = new_kp
                 a[p][k] = new_kp.conjugate()
                 a[k][q] = new_kq
                 a[q][k] = new_kq.conjugate()
 
-        a[p][p] = complex(app + t * abs_apq, 0.0)
-        a[q][q] = complex(aqq - t * abs_apq, 0.0)
+        a[p][p] = complex(app - t * abs_apq, 0.0)
+        a[q][q] = complex(aqq + t * abs_apq, 0.0)
         a[p][q] = 0j
         a[q][p] = 0j
 
         for i in range(n):
-            uip, uiq = u[i][p], u[i][q]
-            u[i][p] = c * uip + s * phase * uiq
-            u[i][q] = -s * phase_conj * uip + c * uiq
+            uip, uiq = u[i][p], u[i][q] * phase_conj
+            u[i][p] = c * uip - s * uiq
+            u[i][q] = s * uip + c * uiq
 
     evals = [a[i][i].real for i in range(n)]
     order = sorted(range(n), key=lambda idx: evals[idx])
@@ -287,3 +289,112 @@ def diagonalize_ckm_from_yukawas(
         },
         "jarlskog_j": j_cp,
     }
+
+
+# ---------------------------------------------------------------------------
+# Demo: run this file (python3 ckm_from_331_overlaps.py) to see one worked case.
+# Inputs: the nine localisation centres were chosen (Nelder-Mead) so that |V_us|,
+# |V_cb| and |V_ub| come out at their measured values. Everything else is fixed by
+# hand: widths, scalar profiles and phases, and every CG weight = 1. J and the mass
+# ratios are then outputs, not inputs.
+# ---------------------------------------------------------------------------
+
+def _demo_inputs():
+    """Quark sector of the beta = -1/sqrt(3) 3-3-1 model on y in [-6, 6].
+
+    Left-handed quarks: Q_1, Q_2 in the antitriplet (X = 0), Q_3 in the triplet
+    (X = +1/3). Right-handed u (X = +2/3) and d (X = -1/3) are SU(3)_L singlets.
+    Scalars: eta (X = -1/3), rho (X = +2/3) and their conjugates. The U(1)_X rule
+    alone decides which scalar couples each generation: rho* and eta* reach Q_1, Q_2;
+    eta and rho reach Q_3. All Clebsch-Gordan weights are set to 1, so no mixing
+    angle is put in by hand.
+    """
+    n = 481
+    grid = [-6.0 + 12.0 * k / (n - 1) for k in range(n)]
+    third = 1.0 / 3.0
+    left = [
+        FermionMultiplet331("Q1_L", 0, "L", "3bar", 0.0, -1.505, 0.55, 1.0),
+        FermionMultiplet331("Q2_L", 1, "L", "3bar", 0.0, -1.422, 0.55, 1.0),
+        FermionMultiplet331("Q3_L", 2, "L", "3", third, -2.155, 0.55, 1.0),
+    ]
+    u_right = [
+        FermionMultiplet331("u_R", 0, "R", "1", 2 * third, -0.398, 0.5, 1.0),
+        FermionMultiplet331("c_R", 1, "R", "1", 2 * third, 1.239, 0.5, 1.0),
+        FermionMultiplet331("t_R", 2, "R", "1", 2 * third, 3.303, 0.5, 1.0),
+    ]
+    d_right = [
+        FermionMultiplet331("d_R", 0, "R", "1", -third, -0.038, 0.5, 1.0),
+        FermionMultiplet331("s_R", 1, "R", "1", -third, -0.857, 0.5, 1.0),
+        FermionMultiplet331("b_R", 2, "R", "1", -third, 3.327, 0.5, 1.0),
+    ]
+    ones = [[1.0 + 0j] * 3 for _ in range(3)]
+    eta = ScalarChannel331("eta", -third, 1.0, 0.3, 1.6, 0.35, 0.20, 1.3)
+    rho_c = ScalarChannel331("rho*", -2 * third, 1.0, -1.2, 1.8, -0.25, 0.15, 0.9)
+    rho = ScalarChannel331("rho", 2 * third, 1.0, 0.6, 1.6, 0.25, 0.15, 0.9)
+    eta_c = ScalarChannel331("eta*", third, 1.0, -1.8, 1.8, -0.35, 0.20, 1.3)
+    up_scalars = [(eta, ones), (rho_c, ones)]
+    down_scalars = [(rho, ones), (eta_c, ones)]
+    return grid, left, u_right, d_right, up_scalars, down_scalars
+
+
+def _self_checks(y_u, y_d, result) -> List[Tuple[str, bool]]:
+    """Checks the numerics: V unitary, H = U diag U^dagger, J matches its definition."""
+    checks: List[Tuple[str, bool]] = []
+    for name, y in (("up", y_u), ("down", y_d)):
+        h = _mat_mul(y, _mat_hermitian(y))
+        ev, u = jacobi_hermitian_eig(h)
+        rebuilt = _mat_mul(_mat_mul(u, [[ev[i] if i == j else 0.0 for j in range(3)] for i in range(3)]), _mat_hermitian(u))
+        scale = max(abs(x) for row in h for x in row) or 1.0
+        err = max(abs(h[i][j] - rebuilt[i][j]) for i in range(3) for j in range(3)) / scale
+        checks.append((f"H_{name} = U diag(ev) U^dagger (rel. err {err:.1e})", err < 1e-10))
+        checks.append((f"H_{name} eigenvalues non-negative", min(ev) > -1e-12 * scale))
+    _, u_u = jacobi_hermitian_eig(_mat_mul(y_u, _mat_hermitian(y_u)))
+    _, u_d = jacobi_hermitian_eig(_mat_mul(y_d, _mat_hermitian(y_d)))
+    v = _mat_mul(_mat_hermitian(u_u), u_d)
+    vv = _mat_mul(_mat_hermitian(v), v)
+    uerr = max(abs(vv[i][j] - (1.0 if i == j else 0.0)) for i in range(3) for j in range(3))
+    checks.append((f"V_CKM unitary (max |V^dagger V - 1| = {uerr:.1e})", uerr < 1e-10))
+    rows = [sum(m * m for m in row) for row in result["abs_v_ckm"]]
+    checks.append(("each row of |V|^2 sums to 1", all(abs(r - 1.0) < 1e-10 for r in rows)))
+    checks.append(("|J| <= 1/(6 sqrt 3), the largest a 3x3 unitary allows", abs(result["jarlskog_j"]) <= 1.0 / (6.0 * math.sqrt(3.0)) + 1e-12))
+    return checks
+
+
+def main() -> int:
+    grid, left, u_right, d_right, up_scalars, down_scalars = _demo_inputs()
+    y_u, info_u = build_derived_yukawa_331(grid, left, u_right, up_scalars)
+    y_d, info_d = build_derived_yukawa_331(grid, left, d_right, down_scalars)
+    res = diagonalize_ckm_from_yukawas(y_u, y_d)
+
+    print("CKM from 3-3-1 wavefunction overlaps")
+    print("inputs: 9 localisation centres chosen to reproduce |V_us|, |V_cb|, |V_ub|; J and mass ratios are outputs")
+    print(f"grid: {len(grid)} points on y in [{grid[0]:.1f}, {grid[-1]:.1f}]")
+    print(f"up sector:   {info_u['allowed_couplings']} couplings allowed, {info_u['forbidden_by_u1x_or_rep']} forbidden by U(1)_X / SU(3)_L")
+    print(f"down sector: {info_d['allowed_couplings']} couplings allowed, {info_d['forbidden_by_u1x_or_rep']} forbidden by U(1)_X / SU(3)_L")
+    print("\nmass ratios from sqrt(eigenvalues of Y Y^dagger), heaviest = 1:")
+    for name, ev in (("up  ", res["h_u_eigenvalues_asc"]), ("down", res["h_d_eigenvalues_asc"])):
+        # An eigenvalue below ~1e-14 of the largest is round-off: that mass is not resolved.
+        cells = [
+            f"{math.sqrt(e / ev[-1]):.3e}" if e > 1e-14 * ev[-1] else "unresolved"
+            for e in ev
+        ]
+        print(f"  {name}: " + "  ".join(cells))
+    print("\n|V_CKM|:")
+    for row in res["abs_v_ckm"]:
+        print("  " + "  ".join(f"{x:.4f}" for x in row))
+    o = res["observables"]
+    print(f"\n|V_us| = {o['V_us']:.4f}   |V_cb| = {o['V_cb']:.4f}   |V_ub| = {o['V_ub']:.5f}   J = {o['J']:.3e}")
+    print("measured (PDG 2024): |V_us| = 0.2243, |V_cb| = 0.0408, |V_ub| = 0.00382, J = 3.08e-05")
+    print("(the sign of J flips if every scalar phase is conjugated; the demo does not fix that convention)")
+
+    print("\nself-checks:")
+    checks = _self_checks(y_u, y_d, res)
+    for label, ok in checks:
+        print(f"  {'PASS' if ok else 'FAIL'}  {label}")
+    n_pass = sum(ok for _, ok in checks)
+    print(f"\n{n_pass}/{len(checks)} checks passed")
+    return 0 if n_pass == len(checks) else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

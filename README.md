@@ -2,11 +2,10 @@
   <img src="assets/logo.svg" alt="" width="120"/>
 </p>
 
-<h1 align="center">Gravity and the Quantum: Worked Examples</h1>
+<h1 align="center">Quark Mixing from 3-3-1 Wavefunction Overlaps</h1>
 
 <p align="center">
-  <strong>Reproducible worked examples at the gravity–quantum interface, for physics students and physicists, plus one research note.</strong><br>
-  Every number comes from a script in <code>src/</code> and is pinned by a test that runs on every commit.<br>
+  <strong>One standard-library Python script: Yukawa matrices from overlap integrals, a 3-3-1 charge selection rule, and the CKM matrix out the other end.</strong><br>
   Independent work, not peer reviewed.
 </p>
 
@@ -16,13 +15,67 @@
 </p>
 
 <p align="center">
-  <a href="paper/note331.pdf"><strong>3-3-1 note (PDF)</strong></a>
-  &nbsp;&middot;&nbsp; <a href="notebooks/">Notebooks</a>
-  &nbsp;&middot;&nbsp; <a href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">Website</a>
-  &nbsp;&middot;&nbsp; <a href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/technical.html">Research notes</a>
+  <a href="ckm_from_331_overlaps.py"><strong>The script</strong></a>
+  &nbsp;&middot;&nbsp; <a href="results/ckm_331/output.txt">Expected output</a>
+  &nbsp;&middot;&nbsp; <a href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">Website (copy button)</a>
 </p>
 
 ---
+
+## The script: [`ckm_from_331_overlaps.py`](ckm_from_331_overlaps.py)
+
+Each quark gets a Gaussian profile along an internal coordinate y. A Yukawa entry is the
+overlap ∫ ψ_L* Φ ψ_R dy with a scalar background Φ(y) whose y-dependent phase is the only
+source of CP violation. In the 3-3-1 model SU(3)_C × SU(3)_L × U(1)_X, the U(1)_X charges
+decide which scalar each generation may couple to, so no mixing angle is typed in. The two
+Yukawa matrices are diagonalized (complex Jacobi) to V_CKM = U_u† U_d and the Jarlskog J.
+
+```bash
+python3 ckm_from_331_overlaps.py     # Python 3.8+, standard library only, < 1 s
+```
+
+| Step | Function |
+|---|---|
+| Localized profile from d(ln ψ)/dy = −(y − y₀)/w² | `solve_localized_wavefunction` |
+| Scalar amplitude and phase on y | `build_scalar_profile` |
+| −X_L + X_Φ + X_R = 0 and SU(3)_L contraction | `is_331_coupling_allowed` |
+| Y_ij = Σ_Φ c_ij ∫ ψ_L,i* Φ ψ_R,j dy | `build_derived_yukawa_331` |
+| H = Y Y†, V = U_u† U_d, \|V_ij\|, J | `diagonalize_ckm_from_yukawas` |
+
+**Demo (β = −1/√3).** Q₁, Q₂ are antitriplets (X = 0), Q₃ a triplet (X = +⅓). The charge rule
+sends Q₁,₂ to ρ* (up) and η* (down), and Q₃ to η (up) and ρ (down): 9 of 18 candidate
+entries per sector are forbidden. The nine localization centres were chosen to match the
+three measured |V| magnitudes; widths, scalar phases and Clebsch–Gordan weights (all 1)
+were fixed beforehand.
+
+| Quantity | Script | Measured | Status |
+|---|---|---|---|
+| \|V_us\|, \|V_cb\|, \|V_ub\| | 0.2235, 0.0409, 0.00379 | 0.2243, 0.0408, 0.00382 | fitted (9 inputs, 3 targets) |
+| \|V_td\| | 0.0067 | 0.0086 | output |
+| J | −2.15×10⁻⁵ | +3.08×10⁻⁵ | output; sign is a phase convention here |
+| m_c/m_t, m_s/m_b | 4.1×10⁻⁴, 1.5×10⁻² | ≈ 3.6×10⁻³, 1.9×10⁻² | output |
+| m_u, m_d | unresolved | nonzero | fails (below double precision) |
+
+The demo ends with seven checks on its own numerics (H = U diag U†, V unitary, |J| ≤ 1/(6√3)).
+[`tests/test_ckm_331.py`](tests/test_ckm_331.py) checks the eigensolver against numpy and
+pins the output on every commit.
+
+**Limits.** Not a prediction: the |V| magnitudes are matched by choice of centres. The
+SU(3)_L check only asks whether representations can contract, and the CG weights are set
+to 1. No renormalization-group running.
+
+**Fix to the uploaded file.** As first uploaded (`production_v2_2.py`), the Jacobi rotation
+had inconsistent signs and phases, so its eigenvalues disagreed with numpy and U diag U†
+did not rebuild H. The rotation now removes the phase of a_pq and then applies the
+standard real Jacobi step; it agrees with numpy to 10⁻¹⁵.
+
+---
+
+# The rest of this repository
+
+Earlier work kept here: worked examples at the gravity–quantum interface and a research
+note on 3-3-1 models. Every number comes from a script in `src/` and is pinned by a test.
+
 
 ## For researchers: three colours and three generations in 3-3-1 models
 
@@ -273,7 +326,7 @@ python3 src/induced_gravity.py       # G induced by stage 1's matter at its Land
 python3 src/induced_gravity_finite.py # regulator-free induced G: impossible within 3-3-1; the minimal completion fixes the sign, <1 s
 python3 src/gravity_from_331.py      # all of it in one paste: the no-go, the induced G, the loop to N_c = 3, ~3 s
 python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (393 tests)
+python -m pytest tests -q           # every number pinned (397 tests)
 ```
 
 Each script writes its reference output to `results/`, and CI checks every number on

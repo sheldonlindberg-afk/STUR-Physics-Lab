@@ -5,20 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#07090d" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f6f8fa" media="(prefers-color-scheme: light)">
-<title>Gravity and the Quantum: Worked Examples</title>
-<meta name="description" content="Reproducible worked examples at the gravity–quantum interface for physics students and physicists: teleparallel gravity (TEGR) and the classic tests of GR, decoherence and complementarity, the entanglement area law, and the Bose–Marletto–Vedral two-mass experiment, plus a research note on 3-3-1 models. Every number comes from open code pinned by tests.">
-<meta property="og:site_name" content="Gravity and the Quantum">
-<meta property="og:title" content="Gravity and the quantum, worked out">
-<meta property="og:description" content="Reproducible worked examples: teleparallel gravity and the classic tests of GR, decoherence, the area law, and gravity-mediated entanglement. Plus a research note: asymptotic freedom and Planck-scale perturbativity in 3-3-1 models select three colours and three generations.">
+<title>Quark Mixing from 3-3-1 Overlaps</title>
+<meta name="description" content="One standard-library Python script that builds quark Yukawa matrices from overlaps of localized wavefunctions in a 3-3-1 model, with the U(1)_X charges deciding which couplings exist, and diagonalizes them to get the CKM matrix and the Jarlskog invariant.">
+<meta property="og:site_name" content="STUR Physics Lab">
+<meta property="og:title" content="Quark mixing from 3-3-1 wavefunction overlaps">
+<meta property="og:description" content="Yukawa matrices from overlap integrals on an internal coordinate, a 3-3-1 charge selection rule, and the CKM matrix out the other end. One Python file, standard library only.">
 <meta property="og:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Gravity and the quantum, worked out: a flat grid of tetrad frames twisting near a central mass.">
 <meta property="og:url" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Gravity and the quantum, worked out">
-<meta name="twitter:description" content="Reproducible worked examples at the gravity–quantum interface, for physics students and physicists, plus a 3-3-1 research note.">
+<meta name="twitter:title" content="Quark mixing from 3-3-1 wavefunction overlaps">
+<meta name="twitter:description" content="One Python file: 3-3-1 selection rule, overlap integrals, CKM matrix and Jarlskog invariant.">
 <meta name="twitter:image" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/assets/og-card.png">
 <link rel="canonical" href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">
 <link rel="manifest" href="manifest.json">
@@ -28,554 +27,223 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "LearningResource",
-  "name": "Gravity and the quantum, worked out",
-  "description": "Reproducible worked examples at the gravity–quantum interface: TEGR, decoherence, the entanglement area law and gravity-mediated entanglement, with notebooks and exercises, plus a 3-3-1 research note.",
+  "@type": "SoftwareSourceCode",
+  "name": "ckm_from_331_overlaps.py",
+  "description": "Quark Yukawa matrices from overlaps of localized wavefunctions in a 3-3-1 model, diagonalized to the CKM matrix and the Jarlskog invariant.",
+  "programmingLanguage": "Python",
   "author": {"@type": "Person", "name": "Sheldon Lindberg"},
-  "datePublished": "2026-11-11",
   "url": "https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/",
+  "codeRepository": "https://github.com/sheldonlindberg-afk/STUR-Physics-Lab",
   "license": "https://creativecommons.org/publicdomain/zero/1.0/",
-  "isAccessibleForFree": true,
-  "learningResourceType": ["worked example", "exercise"],
-  "educationalLevel": ["undergraduate", "graduate"],
-  "audience": {"@type": "EducationalAudience", "educationalRole": ["student", "researcher"]}
+  "isAccessibleForFree": true
 }
 </script>
+<style>
+  .profiles { display: block; width: 100%; height: auto; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; color: var(--muted); margin-top: 8px; }
+  .legend i { display: inline-block; width: 18px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+  ol.steps { padding-left: 22px; }
+  ol.steps li { margin-bottom: 10px; }
+  pre.out { overflow-x: auto; font: 13px/1.5 var(--mono); background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+</style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="top">
   <div class="top-inner">
-    <a class="brand" href="index.html"><img src="assets/logo.svg" alt="" width="28" height="28">Gravity &amp; Quantum</a>
+    <a class="brand" href="index.html"><img src="assets/logo.svg" alt="" width="28" height="28">STUR Physics Lab</a>
     <nav class="nav" aria-label="Sections">
-      <a href="#twist">TEGR</a>
-      <a href="#quantum">Is gravity quantum?</a>
-      <a href="#strength">Entanglement</a>
-      <a href="#measurement">Measurement</a>
-      <a href="#research">Research note</a>
-      <a href="#chain">Forces</a>
-      <a href="#gravity">Gravity from 3-3-1</a>
-      <a href="#status">How sure</a>
-      <a href="#deeper">Study</a>
+      <a href="#idea">The idea</a>
+      <a href="#steps">What it computes</a>
+      <a href="#rule">3-3-1 rule</a>
+      <a href="#result">Result</a>
+      <a href="#run">Run it</a>
+      <a href="#limits">Limits</a>
     </nav>
   </div>
 </header>
 
 <main id="main">
 
-  <!-- Hero -->
   <div class="hero">
-    <p class="eyebrow">Worked examples &middot; research note &middot; open code &middot; CC0</p>
-    <h1>Gravity and the quantum, <span>worked out</span>.</h1>
-    <p class="lede">Reproducible worked examples at the gravity–quantum interface: <strong>teleparallel gravity</strong> from the tetrad field equations to the classic tests of GR, <strong>decoherence</strong> and complementarity, the <strong>entanglement area law</strong> and the Unruh effect on a lattice, and a <strong>Bose–Marletto–Vedral</strong> two-diamond design with a full noise budget. Every number comes from a script and is pinned by a test that runs on every commit.</p>
-    <p class="muted">For physics students, each topic has a notebook with exercises (prerequisites: GR at the level of Carroll, graduate quantum mechanics). For researchers, there is one candidate original result: a note showing that Planck-scale perturbativity in 3-3-1 models selects N<sub>c</sub> = N<sub>g</sub> = 3. Independent work, not peer reviewed; each claim is labelled established, worked example, conditional or open.</p>
+    <p class="eyebrow">One Python script &middot; standard library only &middot; CC0</p>
+    <h1>Quark mixing from <span>where quarks sit</span>.</h1>
+    <p class="lede"><code>ckm_from_331_overlaps.py</code> builds the quark Yukawa matrices of a <strong>3-3-1 model</strong> from overlap integrals of localized wavefunctions on an extra internal coordinate, lets the model's <strong>U(1)<sub>X</sub> charges</strong> decide which couplings exist, then diagonalizes the result to get the <strong>CKM matrix</strong> and the <strong>Jarlskog invariant J</strong>. No mixing angle is typed in.</p>
+    <p class="muted">The file runs as pasted in any Python 3.8+ runner, notebook or AI assistant's code tool, in well under a second, and ends with seven PASS/FAIL checks on its own numerics. Independent work, not peer reviewed.</p>
     <div class="facts">
-      <div class="fact"><b>42.98″</b><span>Mercury's perihelion shift per century, from geodesics of the solution of the TEGR field equations. Curvature is never used.</span></div>
-      <div class="fact"><b>2.19 rad</b><span>the gravitational entangling phase in a two-diamond design worked out here: 270 runs at the published targets.</span></div>
-      <div class="fact"><b>N<sub>c</sub> = N<sub>g</sub> = 3</b><span>the only number of colours and generations in 3-3-1 models whose couplings stay perturbative to M<sub>Pl</sub>. Conditional, unreviewed.</span></div>
+      <div class="fact"><b>0.2235</b><span>|V<sub>us</sub>| from the demo (measured 0.2243). The three |V| magnitudes are matched by choosing nine localization centres, so this is a fit, not a prediction.</span></div>
+      <div class="fact"><b>9 of 18</b><span>Yukawa entries per sector that U(1)<sub>X</sub> charge conservation forbids; the scalars that survive differ by generation.</span></div>
+      <div class="fact"><b>|J| = 2.1×10⁻⁵</b><span>an output, not an input: measured 3.08×10⁻⁵. Right order, wrong by about 30%, sign set by a phase convention.</span></div>
     </div>
     <div class="cta">
-      <a class="btn primary" href="#twist">Start with TEGR &darr;</a>
-      <a class="btn" href="paper/note331.pdf">Read the 3-3-1 note (PDF)</a>
-      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/tree/main/notebooks">Notebooks</a>
+      <button class="btn primary copy-script" type="button" data-src="ckm_from_331_overlaps.py" data-status="copy-status-top">Copy the script</button>
+      <a class="btn" href="#idea">How it works &darr;</a>
     </div>
+    <p class="src" id="copy-status-top" role="status" aria-live="polite"></p>
   </div>
 
-  <!-- 1. TEGR -->
-  <section id="twist" aria-labelledby="twist-h">
-    <p class="eyebrow">1 &middot; Teleparallel gravity</p>
-    <h2 id="twist-h">The same gravity as Einstein's, told a different way</h2>
-    <div class="takeaway"><b>In one line:</b> space stays flat, every point carries its own rulers and clock, and gravity is how those rulers are twisted relative to their neighbours.</div>
+  <section id="idea" aria-labelledby="idea-h">
+    <p class="eyebrow">1 &middot; The idea</p>
+    <h2 id="idea-h">Masses and mixing as overlaps</h2>
+    <div class="takeaway"><b>In one line:</b> if each quark is a bump at its own place along a hidden coordinate y, its coupling to the Higgs-like field is how much the bumps overlap, and small overlaps give small masses and small mixings.</div>
     <div class="prose">
-      <p><strong>The famous picture.</strong> In 1915 Einstein described gravity as the shape of spacetime. A mass bends it, and everything moving nearby follows the bends. That's the rubber-sheet picture most of us grew up with.</p>
-      <p><strong>The other picture.</strong> In 1928 Einstein explored a related idea he called "distant parallelism". Physicists later developed it into a theory that gives exactly the same predictions as his 1915 theory. It's called <em>teleparallel gravity</em>, or TEGR for short. In TEGR, space is never bent. Instead, every point in space carries its own little set of measuring sticks and a clock. Far from any mass, all those sets line up perfectly with one another. Near a mass, neighbouring sets stop lining up. That mismatch is called <em>torsion</em>, and it's what we feel as gravity.</p>
-      <p>Torsion behaves like a <strong>force field</strong> on a fixed, flat stage, much like the electric field around a charged object. That resemblance to the other forces is why some physicists find this picture a useful starting point for thinking about gravity and quantum physics together.</p>
+      <p>The Standard Model leaves the quark masses and the four CKM parameters as free numbers, and those numbers are strongly hierarchical. A common way to make hierarchies natural is to give the fermions profiles along an internal coordinate y (as in split-fermion and extra-dimension models). A Yukawa coupling is then the integral of a left-handed profile, a scalar profile and a right-handed profile, and Gaussians that sit apart overlap exponentially little.</p>
+      <p>This script puts that mechanism inside a <strong>3-3-1 model</strong>, SU(3)<sub>C</sub> × SU(3)<sub>L</sub> × U(1)<sub>X</sub>, where the three quark generations are not copies of each other: two left-handed quark families sit in the antitriplet and the third in the triplet, with different X charges. So the charge rule alone decides which scalar each generation can couple to.</p>
     </div>
-
     <figure>
       <div class="fig">
-        <div class="panels">
-          <div>
-            <p class="panel-title">Einstein's usual picture: space curves</p>
-            <svg id="fig-curve" viewBox="0 0 300 220" role="img" aria-label="A square grid whose lines sag toward a mass in the centre."></svg>
-            <p class="panel-sub">The grid itself bends toward the mass.</p>
-          </div>
-          <div>
-            <p class="panel-title">The teleparallel picture: rulers twist</p>
-            <svg id="fig-twist" viewBox="0 0 300 220" role="img" aria-label="A flat square grid; at each point a small pair of arrows. Far from the central mass the arrows line up; near it they are stretched and turned relative to their neighbours."></svg>
-            <p class="panel-sub">The grid stays flat. Each point's rulers (the arrows) turn and stretch near the mass.</p>
-          </div>
+        <svg id="fig-profiles" class="profiles" viewBox="0 0 640 230" role="img" aria-label="Normalized profiles along the internal coordinate y for the demo: three left-handed quark doublet profiles, three right-handed up-type and three right-handed down-type profiles, and the envelopes of the two up-sector scalars."></svg>
+        <div class="legend" aria-hidden="true">
+          <span><i style="background:var(--accent)"></i>left-handed Q<sub>1,2,3</sub></span>
+          <span><i style="background:var(--blue)"></i>right-handed u, c, t</span>
+          <span><i style="background:var(--violet)"></i>right-handed d, s, b</span>
+          <span><i style="background:var(--warn)"></i>scalar envelopes η, ρ*</span>
         </div>
       </div>
-      <figcaption>A cartoon, not to scale. Both pictures describe one and the same theory and make the same predictions. They differ in what they call "gravity": a bend in space, or a twist between neighbouring rulers.</figcaption>
+      <figcaption>The demo's profiles, drawn from the same centres and widths as the script. Each Yukawa entry is the overlap of one green, one scalar and one blue (or violet) curve.</figcaption>
     </figure>
+  </section>
 
-    <h3>Same answers as Einstein, to every decimal we can measure</h3>
-    <p class="prose muted">As a check, we solved gravity's equations in the twist form for the Sun and the Earth, then traced planets, light rays and clocks through the result. Curved space is used nowhere in that calculation. These are textbook results; recomputing them shows the twist picture really is the same theory.</p>
+  <section id="steps" aria-labelledby="steps-h">
+    <p class="eyebrow">2 &middot; What the script computes</p>
+    <h2 id="steps-h">Five steps, each a function you can call</h2>
+    <ol class="steps prose">
+      <li><b>Profiles.</b> <code>solve_localized_wavefunction</code> integrates d(ln ψ)/dy = −(y − y<sub>0</sub>)/w² to a Gaussian, normalizes it on the grid, and reports its measured centre and RMS width.</li>
+      <li><b>Scalar backgrounds.</b> <code>build_scalar_profile</code> gives each scalar channel a Gaussian amplitude and a y-dependent phase (a linear slope plus a small oscillation). These phases are the only source of CP violation.</li>
+      <li><b>Selection rule.</b> <code>is_331_coupling_allowed</code> keeps ψ̄<sub>L</sub> Φ ψ<sub>R</sub> only if −X<sub>L</sub> + X<sub>Φ</sub> + X<sub>R</sub> = 0 and the SU(3)<sub>L</sub> representations can contract.</li>
+      <li><b>Yukawa matrices.</b> <code>build_derived_yukawa_331</code> sums, over the allowed scalars, the overlap ∫ ψ<sub>L</sub>* Φ ψ<sub>R</sub> dy (trapezoid rule) times a Clebsch–Gordan weight. The demo sets every weight to 1.</li>
+      <li><b>CKM.</b> <code>diagonalize_ckm_from_yukawas</code> diagonalizes H = Y Y<sup>†</sup> for each sector with a complex Jacobi solver, forms V = U<sub>u</sub><sup>†</sup> U<sub>d</sub>, and returns |V<sub>ij</sub>| and J = Im(V<sub>us</sub> V<sub>cb</sub> V<sub>ub</sub>* V<sub>cs</sub>*).</li>
+    </ol>
+    <details class="deeper">
+      <summary>Go deeper: the overlap formula <span>Yukawa entry, Jarlskog invariant</span></summary>
+      <div class="body">
+        <div class="eq">Y<sub>ij</sub> = Σ<sub>Φ allowed</sub> c<sub>ij</sub><sup>Φ</sup> ∫ dy ψ<sub>L,i</sub>(y)* Φ(y) ψ<sub>R,j</sub>(y)<br>Φ(y) = v e<sup>−(y−y<sub>Φ</sub>)²/2σ²</sup> e<sup>i(k y + a sin ω y)</sup><br>H = Y Y<sup>†</sup> = U diag(m²) U<sup>†</sup>, &nbsp; V = U<sub>u</sub><sup>†</sup> U<sub>d</sub></div>
+        <p>Rows of V are ordered by ascending mass in each sector, so V<sub>us</sub> is V[0][1]. J is invariant under rephasing the quark fields, so it is the physical measure of CP violation; it flips sign if every scalar phase is conjugated.</p>
+      </div>
+    </details>
+  </section>
+
+  <section id="rule" aria-labelledby="rule-h">
+    <p class="eyebrow">3 &middot; The 3-3-1 selection rule</p>
+    <h2 id="rule-h">The charges choose the scalar for each generation</h2>
+    <p class="prose">The demo uses the β = −1/√3 assignment. Right-handed quarks are SU(3)<sub>L</sub> singlets with u<sub>R</sub>: X = +⅔ and d<sub>R</sub>: X = −⅓. Imposing −X<sub>L</sub> + X<sub>Φ</sub> + X<sub>R</sub> = 0 gives:</p>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Test</th><th>Twist picture (computed)</th><th>Measured</th></tr></thead>
+        <thead><tr><th>Left-handed quarks</th><th>SU(3)<sub>L</sub>, X</th><th>Up sector couples via</th><th>Down sector couples via</th></tr></thead>
         <tbody>
-          <tr><td>Mercury's orbit slowly turns</td><td class="num">42.98″ per century</td><td class="num ok">42.98″</td></tr>
-          <tr><td>Starlight bends passing the Sun</td><td class="num">1.7512″</td><td>matches radio-telescope (VLBI) measurements</td></tr>
-          <tr><td>Radio signals slowed by the Sun (Cassini)</td><td class="num">γ = 1 exactly</td><td>1, to a few parts in 100,000</td></tr>
-          <tr><td>GPS satellite clocks run fast</td><td class="num">+38.54 µs a day</td><td>≈ 38.6 µs (built into GPS)</td></tr>
+          <tr><td>Q<sub>1</sub>, Q<sub>2</sub></td><td class="num">3̄, 0</td><td>ρ* (X = −⅔)</td><td>η* (X = +⅓)</td></tr>
+          <tr><td>Q<sub>3</sub></td><td class="num">3, +⅓</td><td>η (X = −⅓)</td><td>ρ (X = +⅔)</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="prose" style="margin-top:16px"><strong>Light bending, leg by leg:</strong> Newton's gravity predicts only <em>half</em> the bending of starlight. In the twist picture you can see where the other half comes from. The "time" rulers give Newton's half, and the "space" rulers give the rest, which Newton's theory has no place for.</p>
+    <p class="prose muted" style="margin-top:14px">With two scalar channels offered to each sector, every one of the 9 entries is allowed by exactly one of them and forbidden by the other, so the script reports 9 allowed and 9 forbidden couplings per sector. The third generation feels a different scalar profile from the first two, which is where the 3-3-1 structure enters the mixing.</p>
+  </section>
 
-    <h3>Why learn gravity this way?</h3>
+  <section id="result" aria-labelledby="result-h">
+    <p class="eyebrow">4 &middot; The demo result</p>
+    <h2 id="result-h">What comes out, and what was put in</h2>
+    <p class="prose">The nine localization centres were chosen (by a Nelder–Mead search) so that |V<sub>us</sub>|, |V<sub>cb</sub>| and |V<sub>ub</sub>| match their measured values. Widths, scalar profiles, phases and Clebsch–Gordan weights were fixed by hand beforehand. Nine knobs for three targets is underdetermined, so the matched magnitudes show that the mechanism <em>can</em> carry the hierarchy, not that it predicts it. The rest is output.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Quantity</th><th>Script</th><th>Measured</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>|V<sub>us</sub>|</td><td class="num">0.2235</td><td class="num">0.2243</td><td><span class="tag cond">fitted</span></td></tr>
+          <tr><td>|V<sub>cb</sub>|</td><td class="num">0.0409</td><td class="num">0.0408</td><td><span class="tag cond">fitted</span></td></tr>
+          <tr><td>|V<sub>ub</sub>|</td><td class="num">0.00379</td><td class="num">0.00382</td><td><span class="tag cond">fitted</span></td></tr>
+          <tr><td>|V<sub>td</sub>|</td><td class="num">0.0067</td><td class="num">0.0086</td><td><span class="tag known">output</span> follows from unitarity and the phases</td></tr>
+          <tr><td>J (Jarlskog)</td><td class="num">−2.15×10⁻⁵</td><td class="num">+3.08×10⁻⁵</td><td><span class="tag known">output</span> magnitude 70% of measured; sign is a convention here</td></tr>
+          <tr><td>m<sub>c</sub>/m<sub>t</sub></td><td class="num">4.1×10⁻⁴</td><td class="num">≈ 3.6×10⁻³</td><td><span class="tag known">output</span> about 9× too small</td></tr>
+          <tr><td>m<sub>s</sub>/m<sub>b</sub></td><td class="num">1.5×10⁻²</td><td class="num">≈ 1.9×10⁻²</td><td><span class="tag known">output</span> close</td></tr>
+          <tr><td>m<sub>u</sub>, m<sub>d</sub></td><td class="num">unresolved</td><td class="num">nonzero</td><td><span class="tag open">fails</span> below double-precision resolution</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="src">Measured values: PDG 2024; mass ratios at the Z mass, approximate. The demo prints every number above, so you can check them in the expected output below.</p>
+  </section>
+
+  <section id="run" aria-labelledby="run-h">
+    <p class="eyebrow">5 &middot; Run it</p>
+    <h2 id="run-h">Copy the script</h2>
+    <p class="prose">One file, about 400 lines, only <code>math</code>, <code>cmath</code>, <code>dataclasses</code> and <code>typing</code>. Paste it into any Python runner and run it, or import it and call the five functions with your own charges, centres and scalar profiles.</p>
+    <div class="cta">
+      <button class="btn primary copy-script" type="button" id="copyckm" data-src="ckm_from_331_overlaps.py" data-status="copyckm-status">Copy Python script</button>
+      <a class="btn" href="ckm_from_331_overlaps.py" download="ckm_from_331_overlaps.py">Download .py</a>
+      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/ckm_from_331_overlaps.py">View on GitHub</a>
+    </div>
+    <p class="src" id="copyckm-status" role="status" aria-live="polite">Pasting into an AI assistant? Add “Run this and explain the results.” Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/ckm_331/output.txt">results/ckm_331/output.txt</a></p>
+<pre class="out">$ python3 ckm_from_331_overlaps.py
+...
+|V_CKM|:
+  0.9747  0.2235  0.0038
+  0.2234  0.9739  0.0409
+  0.0067  0.0405  0.9992
+
+|V_us| = 0.2235   |V_cb| = 0.0409   |V_ub| = 0.00379   J = -2.149e-05
+...
+7/7 checks passed</pre>
+    <p class="prose muted">The seven checks test the numerics, not the physics: H = U diag U<sup>†</sup> for each sector, non-negative eigenvalues, V unitary, rows of |V|² summing to 1, and |J| below its maximum 1/(6√3). In the repository, <code>tests/test_ckm_331.py</code> also checks the eigensolver against numpy on random matrices and pins the full output on every commit.</p>
+  </section>
+
+  <section id="limits" aria-labelledby="limits-h">
+    <p class="eyebrow">6 &middot; Limits</p>
+    <h2 id="limits-h">What this is not</h2>
     <div class="grid g3">
-      <div class="card"><h3>It looks like the other forces</h3><p>Electricity, magnetism and the nuclear forces are all fields on a fixed stage. In TEGR, gravity is written the same way.</p></div>
-      <div class="card"><h3>A new view, not a fix</h3><p>Writing gravity this way doesn't by itself make it easier to combine with quantum physics. The deep problems of quantum gravity are still there.</p></div>
-      <div class="card"><h3>Nothing is given up</h3><p>Black holes, orbits, light bending and GPS all come out exactly as in Einstein's curved picture. It's a different view of the same physics, not a rival theory.</p></div>
-    </div>
-
-    <details class="deeper">
-      <summary>Go deeper: the TEGR equations <span>tetrad, Weitzenböck torsion, Schwarzschild</span></summary>
-      <div class="body">
-        <p><span class="tag known">established</span> TEGR (Aldrovandi &amp; Pereira, <em>Teleparallel Gravity</em>, 2013). The dynamical field is the tetrad e<sup>a</sup><sub>μ</sub>, with g<sub>μν</sub> = η<sub>ab</sub> e<sup>a</sup><sub>μ</sub> e<sup>b</sup><sub>ν</sub>. The connection is the curvature-free Weitzenböck connection, so gravity is carried entirely by torsion:</p>
-        <div class="eq">Γ<sup>ρ</sup><sub>μν</sub> = e<sub>a</sub><sup>ρ</sup> ∂<sub>μ</sub>e<sup>a</sup><sub>ν</sub>, &nbsp; T<sup>ρ</sup><sub>μν</sub> = Γ<sup>ρ</sup><sub>νμ</sub> − Γ<sup>ρ</sup><sub>μν</sub><br>S<sub>grav</sub> = (c⁴/16πG) ∫ e T d⁴x, &nbsp; T = −R + (divergence) <span class="c">&nbsp;// same field equations as GR</span></div>
-        <p><span class="tag checked">worked example</span> The identity T = −R + divergence, verified symbolically, then spot-checked at random points in 200-digit arithmetic, where it vanishes to working precision. For a static spherical tetrad e⁰ = e<sup>A</sup>dt, e¹ = e<sup>B</sup>dr, the TEGR field equations give 2rA′ = e<sup>2B</sup> − 1 and 2rB′ = 1 − e<sup>2B</sup>, hence Schwarzschild, uniquely (Birkhoff). The weak field gives Ψ = Φ and ∇²Φ = 4πGρ. The classic tests in the table are numerical geodesic integrals of that tetrad, not textbook formulas.</p>
-        <p class="src">Notes: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/TEGR.md">TEGR.md</a> &middot; code: <code>src/stur_tegr.py</code>, <code>src/stur_tegr_gr.py</code> &middot; tests: <code>tests/test_tegr.py</code>, <code>tests/test_tegr_gr.py</code></p>
-      </div>
-    </details>
-  </section>
-
-  <!-- 2. Quantum gravity -->
-  <section id="quantum" aria-labelledby="quantum-h">
-    <p class="eyebrow">2 &middot; An open question: is gravity quantum?</p>
-    <h2 id="quantum-h">Where is the gravity of something in two places at once?</h2>
-    <div class="takeaway"><b>In one line:</b> nobody knows yet. Standard quantum theory suggests each version of the object carries its own gravity field; some physicists propose that gravity stays classical. Experiments are being designed to decide.</div>
-    <div class="prose">
-      <p>Quantum objects can be in a <em>superposition</em>: not here <em>or</em> there, but a combination of both, which physicists call two "branches". Atoms and large molecules have been put in superpositions in the lab.</p>
-      <p>So what does their gravity do? There are two broad possibilities:</p>
-    </div>
-    <div class="grid g2">
-      <div class="card"><h3>A. Gravity follows each branch</h3><p>Each version of the object has its own gravity field, just as it has its own electric field. Two such objects can then become <strong>entangled through gravity alone</strong>, linked in a way no classical force could produce.</p><p class="small muted">What you expect if gravity is quantum, as in standard (perturbative) quantum gravity.</p></div>
-      <div class="card"><h3>B. Gravity stays classical</h3><p>There is a single, non-quantum gravity field. Then gravity can never entangle anything.</p><p class="small muted">The idea behind "classical gravity" models, such as Oppenheim's.</p></div>
-    </div>
-
-    <figure>
-      <div class="fig">
-        <svg viewBox="0 0 640 210" role="img" aria-label="Two diamonds, each in two places. Dashed lines connect each branch of the left diamond to each branch of the right diamond, standing for the four branch-by-branch gravitational pulls.">
-          <g font-family="system-ui, sans-serif" font-size="13" fill="currentColor">
-            <g style="color: var(--muted)">
-              <line x1="190" y1="55" x2="450" y2="55" stroke="currentColor" stroke-dasharray="4 5"/>
-              <line x1="190" y1="155" x2="450" y2="155" stroke="currentColor" stroke-dasharray="4 5"/>
-              <line x1="190" y1="55" x2="450" y2="155" stroke="currentColor" stroke-dasharray="2 6" opacity="0.6"/>
-              <line x1="190" y1="155" x2="450" y2="55" stroke="currentColor" stroke-dasharray="2 6" opacity="0.6"/>
-            </g>
-            <g style="color: var(--accent)">
-              <path d="M190 37 l14 18 -14 18 -14 -18z" fill="currentColor" opacity="0.9"/>
-              <path d="M190 137 l14 18 -14 18 -14 -18z" fill="currentColor" opacity="0.9"/>
-              <path d="M450 37 l14 18 -14 18 -14 -18z" fill="currentColor" opacity="0.9"/>
-              <path d="M450 137 l14 18 -14 18 -14 -18z" fill="currentColor" opacity="0.9"/>
-            </g>
-            <text x="120" y="60" text-anchor="end" style="fill: var(--text)">diamond 1,</text>
-            <text x="120" y="76" text-anchor="end" style="fill: var(--muted)">branch "up"</text>
-            <text x="120" y="160" text-anchor="end" style="fill: var(--text)">diamond 1,</text>
-            <text x="120" y="176" text-anchor="end" style="fill: var(--muted)">branch "down"</text>
-            <text x="520" y="60" style="fill: var(--text)">diamond 2,</text>
-            <text x="520" y="76" style="fill: var(--muted)">branch "up"</text>
-            <text x="520" y="160" style="fill: var(--text)">diamond 2,</text>
-            <text x="520" y="176" style="fill: var(--muted)">branch "down"</text>
-            <text x="320" y="110" text-anchor="middle" style="fill: var(--muted)">each pair of branches feels its own pull</text>
-          </g>
-        </svg>
-      </div>
-      <figcaption>The test proposed by Bose et al. and Marletto &amp; Vedral (2017). If gravity follows each branch, the four branch pairs pick up different phases and the diamonds become entangled. If gravity is classical, they never do.</figcaption>
-    </figure>
-
-    <h3>What it costs gravity to stay classical</h3>
-    <div class="prose">
-      <p>A classical gravity still has to respond to quantum matter. Work by Diósi, Tilloy and Oppenheim's group shows that this is possible only if gravity also adds a little random jitter. How much jitter is allowed is an active research question, and lab experiments are already putting limits on it.</p>
-      <p><span class="tag checked">worked example</span> These notes work through one case. If the jitter is smeared over a very small distance and has no memory, it would heat <strong>every kilogram of matter by about 0.5 W</strong>, 6×10¹⁰ times the heat flowing out of the Earth's interior. Nothing like that is observed. Change either assumption and the conclusion changes, so treat this as an illustration of how such models are tested, not as a proof that gravity is quantum.</p>
-      <p><strong>Gravity barely keeps records.</strong> On standard physics, splitting a tiny diamond into two places would send out about 10<sup>−59</sup> gravitons. So gravity by itself keeps essentially no record of which branch happened, and wouldn't destroy the superposition on its own.</p>
-    </div>
-
-    <h3>The experiment that could tell</h3>
-    <div class="grid g3">
-      <div class="card"><h3>2.19 rad</h3><p>the gravitational phase two diamonds of 1.5×10<sup>−14</sup> kg would build up in one design worked out here, if gravity follows each branch.</p></div>
-      <div class="card"><h3>270 runs</h3><p>about 0.6 hours of data, at the experiment's published targets, to see the entanglement.</p></div>
-      <div class="card"><h3>4×10⁸ ×</h3><p>heavier than anything put in superposition so far. This is the hard part, and it is likely decades of engineering away.</p></div>
-    </div>
-    <p class="prose" style="margin-top:16px"><span class="tag cond">what it would mean</span> If the diamonds entangle, gravity can't be purely classical, which is what most physicists expect. If they <em>don't</em>, that would be a major surprise and new physics. Either way the experiment tests gravity itself, not the ideas on this site.</p>
-
-    <details class="deeper">
-      <summary>Go deeper: the branch equation and the noise floor <span>λ, Diósi–Penrose, design A</span></summary>
-      <div class="body">
-        <p>Each branch i carries its own field state |E<sub>i</sub>⟩ (detectors, photons, its own Coulomb field and the tetrad e<sub>i</sub>), and its action S<sub>i</sub> includes gravity's TEGR action. This is standard quantum bookkeeping written out for gravity; λ = 1 below means gravity follows each branch.</p>
-        <div class="eq">|Ψ⟩ = Σ<sub>i</sub> c<sub>i</sub> |i⟩<sub>matter</sub> |E<sub>i</sub>⟩<sub>fields</sub> e<sup>iS<sub>i</sub>/ħ</sup><br>ρ<sub>ij</sub>(t) = ρ<sub>ij</sub>(0) · ⟨E<sub>j</sub>|E<sub>i</sub>⟩ · e<sup>i(S<sub>i</sub> − S<sub>j</sub>)/ħ</sup><br>S<sub>i</sub> = S<sub>matter</sub>[i] + S<sub>EM</sub>[i] + (c⁴/16πG) ∫ e<sub>i</sub> T[e<sub>i</sub>] d⁴x</div>
-        <p><span class="tag cond">under stated assumptions</span> A Markovian classical gravity must carry noise; minimizing total decoherence over monitoring strength gives the Diósi–Penrose kernel 4πG/ħq² at every q (Tilloy–Diósi; Oppenheim's trade-off has the same floor). Smeared at R₀ = a, the entanglement cutoff of section 3, it heats matter at 0.5 W/kg, a figure set by the nucleus's finite size. That excludes such models <em>under R₀ = a and Markovian dynamics</em>. A larger R₀, or memory in the dynamics, escapes the argument. Systematic treatments of this question are in Fabiano, Fujita, Matsumura &amp; Carney (2026) and Angeli et al. (2025); the calculation here is a worked example within that literature, not a new result.</p>
-        <p><span class="tag checked">worked example</span> Design A: m = 1.5×10<sup>−14</sup> kg, split 721 µm, Casimir-safe gap 181 µm, Δφ = 2.19 rad, 270 runs (gas-collision rate derived, not interpolated). Requirements include a vacuum below 8×10<sup>−15</sup> Pa, spin coherence above 1.4 s and vibration noise 57× below LISA Pathfinder.</p>
-        <p class="src">Notes: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/COLLECTIVE.md">COLLECTIVE.md</a>, <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/GRAVITY_ENTANGLEMENT.md">GRAVITY_ENTANGLEMENT.md</a>, <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/OPPENHEIM.md">OPPENHEIM.md</a> &middot; interactive two-diamond calculator: <a href="technical.html#experiment">research notes</a></p>
-      </div>
-    </details>
-  </section>
-
-  <!-- 3. Strength of gravity -->
-  <section id="strength" aria-labelledby="strength-h">
-    <p class="eyebrow">3 &middot; A research idea: gravity and entanglement</p>
-    <h2 id="strength-h">Could gravity's strength come from the entanglement of empty space?</h2>
-    <div class="takeaway"><b>In one line:</b> empty space is entangled across every surface. A serious but unproven idea says Einstein's equations, and gravity's strength, follow from that entanglement.</div>
-    <div class="prose">
-      <p><span class="tag known">established</span> Quantum fields fill all of space, even a perfect vacuum. Draw any imaginary surface: the field on one side is <em>entangled</em> with the field on the other, by an amount that grows with the surface's area. This "area law" is well known (Srednicki, 1993), and we recomputed it.</p>
-      <p><span class="tag open">open idea</span> In 1995 physicist Ted Jacobson showed something remarkable. <em>Assume</em> that ordinary heat-flow rules (thermodynamics) hold at every tiny horizon in spacetime, and <strong>Einstein's equations come out</strong>. Gravity's strength, Newton's constant G, is then tied to how much entanglement there is per unit area. We re-checked each step of his argument in code.</p>
-      <p>It's an influential idea, and it suggests gravity might not be a separate ingredient but something that emerges from quantum physics. But it rests on an assumption that hasn't been established, and physicists still debate it. It doesn't predict the value of G either: run backwards, the measured G only fixes a combination of unknowns.</p>
+      <div class="card"><h3>Not a prediction</h3><p>The |V| magnitudes are matched by choice of inputs. A prediction would need the centres to come from somewhere else, such as a potential that the 3-3-1 fields themselves generate.</p></div>
+      <div class="card"><h3>A loose group check</h3><p>The SU(3)<sub>L</sub> test only asks whether the representations can contract; it doesn't use the scalar's representation or compute real Clebsch–Gordan coefficients, which the demo sets to 1.</p></div>
+      <div class="card"><h3>No running</h3><p>Yukawas are computed at one scale and compared with low-energy data. The first-generation masses come out below what double precision can resolve.</p></div>
     </div>
     <details class="deeper">
-      <summary>Go deeper: area law, Unruh, Jacobson <span>c<sub>s</sub> = 0.3046, G = πa²c³/(N c<sub>s</sub>ħ)</span></summary>
+      <summary>Changelog <span>a fix to the uploaded eigensolver</span></summary>
       <div class="body">
-        <p><span class="tag checked">worked example</span> Area law by Srednicki's method: S = 0.3046 (R/a)² per scalar field (literature 0.30). Modular Hamiltonian on a lattice: K = 2π × boost to 0.99997 at L = 60 (Bisognano–Wichmann), so an accelerated observer sees T = ħg/2πck<sub>B</sub> (the Unruh effect).</p>
-        <div class="eq">δQ = T δS on every local horizon &nbsp;⇒&nbsp; G<sub>μν</sub> + Λg<sub>μν</sub> = (8πG/c⁴) T<sub>μν</sub><br>1/(4Għ) = entanglement per area &nbsp;⇒&nbsp; G = π a² c³ / (N c<sub>s</sub> ħ), &nbsp; c<sub>s</sub> = 0.3046</div>
-        <p>Jacobson's algebra is re-derived symbolically: Raychaudhuri, the null-vector lemma and the contracted Bianchi identity. Its premise, local equilibrium on every local horizon, is assumed. The measured G fixes only a²/N, the cutoff a against the number of fields N. Caveats: c<sub>s</sub> depends on the regulator, and for gauge fields the area-law coefficient includes contact terms (Kabat 1995), so the identification is cleanest for scalars and fermions.</p>
-        <p class="src">Notes: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/DERIVATION.md">DERIVATION.md</a>, <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/EMERGENT.md">EMERGENT.md</a> &middot; code: <code>src/stur_unification.py</code>, <code>src/stur_jacobson.py</code></p>
+        <p>As first uploaded (<code>production_v2_2.py</code>), the Jacobi rotation used inconsistent signs and phases: on random Hermitian matrices its eigenvalues disagreed with numpy, and U diag U<sup>†</sup> did not rebuild H. The rotation now removes the phase of a<sub>pq</sub> first and then applies the standard real Jacobi step; eigenvalues and eigenvectors agree with numpy to 10⁻¹⁵. The rest of the physics code is unchanged; the demo and self-checks were added.</p>
       </div>
     </details>
-  </section>
-
-  <!-- 4. Measurement -->
-  <section id="measurement" aria-labelledby="meas-h">
-    <p class="eyebrow">4 &middot; What measurement really does</p>
-    <h2 id="meas-h">Records, not observers</h2>
-    <div class="takeaway"><b>In one line:</b> interference disappears when the surroundings keep a record of which path was taken. Nobody has to look.</div>
-    <div class="prose">
-      <p>Send particles through two slits and you get stripes, an interference pattern. Put a detector at the slits and the stripes fade. The popular story says "observing changes reality". The physics is more down to earth: <strong>the stripes fade by exactly as much as the detector recorded which slit was used</strong>. The detector doesn't need to be read, switched on to a screen or noticed by anyone. A stray air molecule or photon carrying the information works just as well. Physicists call this <em>decoherence</em>.</p>
-      <p>Try it. Slide the detector strength and watch the fringe contrast and the path information trade off. Their squares always add up to exactly 1.</p>
-    </div>
-    <div class="card" style="margin-top:12px">
-      <div class="demo">
-        <canvas id="slit" width="640" height="200" aria-label="Interference pattern on a screen. The stripes fade as detector strength increases."></canvas>
-        <div>
-          <div class="slider">
-            <label for="theta"><span>Detector strength</span><span id="theta-v">0%</span></label>
-            <input id="theta" type="range" min="0" max="100" value="0" step="1">
-          </div>
-          <div class="readout">
-            <div><b id="v-out">1.00</b><span>fringe contrast (V)</span></div>
-            <div><b id="d-out">0.00</b><span>which-path record (D)</span></div>
-          </div>
-          <p class="small muted" style="margin:10px 0 0">V² + D² = <b id="sum-out">1.000</b> at every setting.</p>
-        </div>
-      </div>
-    </div>
-    <p class="prose" style="margin-top:16px"><span class="tag open">still debated</span> Decoherence explains why interference vanishes and why big objects look classical. It doesn't, by itself, say why we see one particular outcome rather than another. That is the "measurement problem", and the different interpretations of quantum mechanics answer it differently.</p>
-    <div class="grid g3" style="margin-top:16px">
-      <div class="card"><h3>Why probabilities are what they are</h3><p>Quantum chance follows one exact rule: probability = amplitude squared (the Born rule). Well-known arguments by Gleason (1957) and Zurek (2005) show it's the only consistent rule, given some reasonable assumptions, such as no faster-than-light messages. Whether those assumptions are fully innocent is still debated.</p></div>
-      <div class="card"><h3>Branches, not split sources</h3><p>An electron's Coulomb field is entangled with its position branch by branch; it is not sourced by the mean charge density. The semiclassical alternative, the electromagnetic analogue of the Schrödinger–Newton equation, lets the electron repel itself and binds hydrogen at 6.64 eV, against the measured 13.60 eV. The gravitational version of this question is what the λ experiments test.</p></div>
-      <div class="card"><h3>A worked lab example</h3><p>Fringe loss counts the spread in exchanged energy quanta, so heat destroys more of it. For a single trapped ion, contrast falls from 0.787 to 0.111 as its motion warms from 0.1 to 5 quanta.</p></div>
-    </div>
-    <details class="deeper">
-      <summary>Go deeper: visibility, the Born rule and the ion example <span>V = |⟨E₁|E₂⟩|, −ln V = 2 Var(ΔN)</span></summary>
-      <div class="body">
-        <p><span class="tag known">established</span> V = |⟨E₁|E₂⟩| and the complementarity D² + V² = 1 (Englert 1996). In the demo, ⟨E₁|E₂⟩ = cos θ, with θ running from 0° to 90° across the slider. <code>src/stur_measurement.py</code> T3 gives D² + V² = 1.000000 at every angle.</p>
-        <p><span class="tag checked">worked example</span> The Born rule by four published routes, each reproduced numerically: envariance with fine-graining (Zurek), Gleason-type additivity (only F(x) = x is additive, to 10<sup>−15</sup>), no-signalling (every other power signals), and branch frequencies. Caveat: envariance assumes probabilities exist and depend only on the state (Schlosshauer &amp; Fine 2005). The additivity and no-signalling routes don't, but they assume non-contextuality and locality.</p>
-        <div class="eq">V = ⟨(−1)<sup>ΔN</sup>⟩, &nbsp; −ln V = 2 Var(ΔN) = 2⟨ΔN⟩ coth(ħω / 2k<sub>B</sub>T) <span class="c">// for the displaced-oscillator example</span></div>
-        <p class="src">Notes: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/MEASUREMENT.md">MEASUREMENT.md</a>, <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/BORN.md">BORN.md</a>, <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/PREDICTIONS.md">PREDICTIONS.md</a> &middot; code: <code>src/stur_born.py</code>, <code>src/stur_lab_test.py</code></p>
-      </div>
-    </details>
-  </section>
-
-  <!-- Research -->
-  <section id="research" aria-labelledby="research-h">
-    <p class="eyebrow">For researchers</p>
-    <h2 id="research-h">Three colours and three generations from asymptotic freedom and Planck-scale perturbativity in 3-3-1 models</h2>
-    <div class="takeaway"><b>Result (conditional):</b> keep N<sub>c</sub> general, take no generation or neutrino number from experiment, and require every gauge coupling to stay perturbative to the Planck scale. Only N<sub>c</sub> = N<sub>g</sub> = 3 survives, with quark charges ⅔ and −⅓.</div>
-    <div class="prose">
-      <p>The SU(3)<sub>L</sub> anomaly plus asymptotic freedom of colour force N<sub>c</sub> to be odd and N<sub>g</sub> = N<sub>c</sub>, which makes Witten's global anomaly automatic. Asymptotic freedom is an independent condition: without it, N<sub>c</sub> = 2 with N<sub>g</sub> = 4 also stays perturbative to M<sub>Pl</sub> for β = −1/√3, while every other N<sub>g</sub> &gt; N<sub>c</sub> is excluded by the running alone. It can be replaced by an observation: baryons are fermions of integer charge only if N<sub>c</sub> is odd, and among odd N<sub>c</sub> ≥ 3 the running alone leaves N<sub>c</sub> = N<sub>g</sub> = 3. In coupling space the regions are nested: wherever any odd N<sub>c</sub> ≥ 3 survives, N<sub>c</sub> = 3 does. SU(3)<sub>L</sub> running then excludes N<sub>c</sub> ≥ 7, and U(1)<sub>X</sub> running excludes N<sub>c</sub> = 5. The selection holds at two loops with Yukawa terms, at three loops in the gauge couplings, with one-loop threshold matching across the heavy spectrum, for 3-3-1 scales of 2–30 TeV, and in both variants β = ±1/√3. It takes the measured electroweak couplings at the TeV scale as input; in the β = +1/√3 variant N<sub>c</sub> = 3 itself reaches M<sub>Pl</sub> (α = 1, three loops) only if the heavy charged leptons are heavier than about 0.65 TeV with the bileptons at their LHC bound, so there the selection is conditional on that mass. Requiring the scalar sector to stay perturbative to M<sub>Pl</sub> bounds the exotic-quark masses below 1.4–1.8 times the bilepton mass.</p>
-      <p><span class="tag cond">conditional</span> on the 3-3-1 framework and on Planck-scale perturbativity. The closest prior work is Doff &amp; Pisano (2000), who find N<sub>g</sub> = k&middot;n<sub>c</sub> without fixing k or n<sub>c</sub>. An INSPIRE search found no earlier use of running to fix N<sub>c</sub>; comments from 3-3-1 experts are welcome.</p>
-    </div>
-    <div class="cta">
-      <a class="btn primary" href="paper/note331.pdf">PDF</a>
-      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/paper/note331.tex">LaTeX source</a>
-      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/NOTE_331.md">Extended notes</a>
-      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/NOVELTY.md">Literature search</a>
-    </div>
-    <h3 id="run331" style="margin-top:28px">Run the 3-3-1 selection yourself</h3>
-    <p class="prose">One Python file reproduces the whole chain: charges and anomalies for general N<sub>c</sub>, N<sub>g</sub> = N<sub>c</sub>, the Standard Model calibration, SU(3)<sub>L</sub> and two-loop U(1)<sub>X</sub> running with Yukawas, one-loop thresholds across the heavy spectrum, the β = +1/√3 heavy-lepton condition against mass floors, and the R-ratio check. It needs only the Python standard library, so it runs as pasted in any Python 3.8+ runner, notebook or AI assistant's code tool. It takes about 20 seconds and ends with 28 PASS/FAIL checks against the numbers pinned in this repository.</p>
-    <div class="cta">
-      <button class="btn primary copy-script" type="button" id="copy331" data-src="src/m331_standalone.py" data-status="copy331-status">Copy Python script</button>
-      <a class="btn" href="src/m331_standalone.py" download="m331_standalone.py">Download .py</a>
-      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/src/m331_standalone.py">View on GitHub</a>
-    </div>
-    <p class="src" id="copy331-status" role="status" aria-live="polite">Pasting into an AI assistant? Add “Run this and explain the results.” Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/m331/standalone.txt">results/m331/standalone.txt</a></p>
-    <h3 style="margin-top:28px">Also here: classical–quantum gravity bounds</h3>
-    <p class="prose muted">Worked examples within the Tilloy–Diósi and Oppenheim literature: the decoherence–diffusion trade-off minimized to the Diósi–Penrose floor, and the acceleration-noise floor that a coherent levitated diamond would imply for any classical–quantum gravity. These are not new results; see <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/OPPENHEIM.md">OPPENHEIM.md</a>.</p>
-  </section>
-
-  <!-- The forces in one chain -->
-  <section id="chain" aria-labelledby="chain-h">
-    <p class="eyebrow">For students</p>
-    <h2 id="chain-h">The forces in one chain: from 3-3-1 into black holes and back</h2>
-    <div class="takeaway"><b>What it shows:</b> the forces don't turn into one another. At each threshold a symmetry breaks and the forces separate, down to the two that act between the diamonds: gravity, the signal, and electromagnetism, the background. One program follows them in order, and each stage computes with what the earlier stages handed it.</div>
-    <div class="prose">
-      <p><b>1. Unification.</b> SU(3)<sub>C</sub> × SU(3)<sub>L</sub> × U(1)<sub>X</sub> breaks to the Standard Model and then to electromagnetism. Anomaly cancellation fixes the quark charges, 2/3 and −1/3, and makes matter exactly neutral: q<sub>p</sub> + q<sub>e</sub> = 0 for any number of colours. The Landau poles select three colours against the Planck mass √(ħc/G), built from the same G the diamonds measure: N<sub>c</sub> = 3 reaches 2.86 M<sub>Pl</sub>, N<sub>c</sub> = 5 fails at 4×10<sup>−8</sup> M<sub>Pl</sub>.</p>
-      <p><b>2. Electroweak to the photon.</b> The coupling the breaking uses at the Z mass, run down to zero momentum (leptons computed, hadrons measured), is the fine-structure constant: 1/α(0) = 137.035999. <b>3. Weak to strong.</b> The Fermi constant and the pion's weak decay give the pion decay constant, f<sub>π</sub> = 130.57 MeV, without the lattice.</p>
-      <p><b>4. The strong force.</b> Colour is never broken; chiral symmetry is. With the charges of stage 1, the α of stage 2 and the f<sub>π</sub> of stage 3: π<sup>0</sup> → γγ at 7.742 eV, against PrimEx's 7.80 ± 0.12 eV; the pion mass at O(p<sup>4</sup>) in chiral perturbation theory, 132.3 MeV against 135.0; the photon's splitting of the charged and neutral pions; and the nuclear force as one-pion exchange with range 1.41 fm. The nucleon's mass, and so the diamond's, is 91% QCD field energy: the Higgs-generated quark masses give under a tenth of it.</p>
-      <p><b>5. Electromagnetism in the lab.</b> Exact neutrality from stage 1 and α from stage 2 set what the experiment needs: under 2.8×10<sup>−19</sup> e per nucleon, which no discharging can arrange and anomaly cancellation delivers. Between neutral diamonds what remains is the Casimir–Polder force, derived from electrostatics and the dipole field; it sets the 181 μm gap. <b>6. Gravity in the lab.</b> One-graviton exchange gives Newton's law and the experiment's 2.19 rad entangling phase. Without the u and d quarks' masses it would be 1.99 rad: what the experiment weighs is QCD.</p>
-      <p><b>7. Gravity as a broken gauge theory.</b> MacDowell–Mansouri (1977) writes general relativity with a cosmological constant as a de Sitter gauge theory broken to Lorentz, the same broken-symmetry language as stage 1. It is an equivalent rewriting, not a unification: gravity keeps its own input, G. The cosmological constant can't change stage 6's phase, because its term cancels in the entangling combination exactly.</p>
-      <p><b>8. Black holes.</b> The gauge theory's spin connection gives the surface gravity, and its solution the Hawking temperature. Against data: the predicted shadows of M87* and Sgr A* match the EHT rings (42 ± 3 and 51.8 ± 2.3 μas), and GW250114's horizon area grew from 237,000 to about 407,000 km², as Hawking's area law requires. Then the chain runs back: an evaporating black hole heats as it shrinks, and its temperature passes the diamonds' cryostat, the CMB, electrons, pions, the QCD crossover where stage 4's condensate melts, the W and Z, the electroweak crossover where stage 1's breaking undoes, the 3-3-1 scale, and ends at the Planck mass stage 1 started from. What it emits counts stage 1's particles. Hawking radiation itself has never been measured.</p>
-      <p><b>What isn't derived.</b> Every measured input is marked where it enters: G's digits (its scale is <a href="#gravity">induced by stage 1</a>), the couplings and masses, Λ, diamond's permittivity. Why they take those values, why the scales are so far apart, and how gravity unifies with the gauge forces are not derived anywhere in the chain (it can't, by the route tried <a href="#gravity">below</a>). <a href="#why">Step 9</a> tests the published explanations.</p>
-    </div>
-    <div class="cta">
-      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/FORCE_CHAIN.md">Read the chain</a>
-      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/SYMMETRY_LADDER.md">Step-by-step derivations</a>
-    </div>
-    <h3 id="runchain" style="margin-top:28px">Run it yourself</h3>
-    <p class="prose">One Python file reproduces the derivations with only the Python standard library, so it runs as pasted in any Python 3.8+ runner, notebook or AI assistant's code tool. It takes about a second and ends with 102 PASS/FAIL checks, each tagged as math (an identity verified by computation), data (against a measurement, with its tolerance explained) or pinned (a number derived in this repository). The full chain, with every hand-off recorded, is <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/src/force_chain.py">src/force_chain.py</a> in the repository.</p>
-    <div class="cta">
-      <button class="btn primary copy-script" type="button" id="copychain" data-src="src/ladder_standalone.py" data-status="copychain-status">Copy Python script</button>
-      <a class="btn" href="src/ladder_standalone.py" download="forces_standalone.py">Download .py</a>
-      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/src/ladder_standalone.py">View on GitHub</a>
-    </div>
-    <p class="src" id="copychain-status" role="status" aria-live="polite">Pasting into an AI assistant? Add “Run this and explain the results.” Compare with <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/ladder/standalone.txt">the expected output</a>.</p>
-    <h3 id="runfirst" style="margin-top:28px">The same chain, rebuilt from first principles</h3>
-    <div class="prose">
-      <p>The script above was written alongside the results it checks. To test it, the whole ladder was rebuilt blind. Separate AI sessions each received one stage, the postulates, the function signatures and the measured inputs. None saw this repository's code or its answers. A program, not the AI, decided whether each stage passed: every function had to satisfy identities, limits and scaling laws, and typed-in answers were rejected. Two such builds were made independently. They agree with each other to 1 part in 10<sup>8</sup> on 25 probes. They agree with the original code too, except in one value at the 10<sup>−6</sup> level, where both builds give the same number and the original is the less precise. The procedure is in <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/rebuild/PROTOCOL.md">rebuild/PROTOCOL.md</a>.</p>
-      <p>Two files come out of that rebuild. <b>The first-principles calculations</b> are the ten rebuilt stages alone: 74 functions, 66 derived inside the build and 8 quoted from the literature, each printed with how it was obtained. <b>The merged simulation</b> wires those stages into the eight-step chain above, and adds a ninth step that asks why the measured inputs have their values (below). Wherever the chain could take a number from outside and a stage derives it, the derived number is used: the quark charges from anomaly cancellation, three colours from the Landau poles, f<sub>π</sub> = 130.567 MeV from the pion's weak decay, the pion mass 132.3 ± 3.8 MeV, and the 181.11 μm gap. Every result that has a measurement is then compared with it.</p>
-      <p><b>Does it fit?</b> All eight comparisons are within 2σ: the pion mass (−0.71σ), the π<sup>0</sup> → γγ width (−0.51σ, or −0.81σ with the derived pion mass in place of the measured one), the pion–nucleon coupling (−1.30σ), the M87* and Sgr A* angular sizes (−0.40σ, +0.16σ), and GW250114's ringdown frequency and damping rate (+0.33σ, +0.59σ). All 40 identity and hand-off checks pass, and the measured G lies in the band that stage 1's own matter induces at its Landau pole (0.47–3.1 × the measured Planck mass).</p>
-      <p><b>What this doesn't show.</b> The measured inputs stay measured: G's digits (its scale is now derived, <a href="#gravity">below</a>), the couplings at the Z mass, G<sub>F</sub>, the pion's decay rate, the lattice constants and Λ. Tree-level M<sub>Z</sub> comes out 0.35% above the measured value, far outside the measurement's error, because the chain has no loop corrections; it is printed but not counted in the fit. Both builds ran on one AI model, so they are independent sessions, not independent minds.</p>
-    </div>
-    <h3 id="campaigns" style="margin-top:28px">Further results, each built twice blind and audited</h3>
-    <div class="prose">
-      <p>The same procedure was then used, campaign by campaign, to close open items in the ladder (Links 24 to 34 in <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/SYMMETRY_LADDER.md">SYMMETRY_LADDER.md</a>): the grey-body emission weights of a black hole; the Casimir&ndash;Polder energy from the atoms' own response; the Higgs-mass dependence of &Delta;&rho; and the whole one-loop &Delta;r, with its vertex and box terms, its fermion loops and its independence of the gauge parameter; the leading QCD correction to the top&ndash;bottom term; Page's charge fluctuations and Carr's charged-fermion emission weight; and the nucleon's polarizability from its pion cloud. Each campaign has a hidden oracle, two independent builds and an adversarial audit with its own derivation and deliberately wrong versions of the code.</p>
-      <p><b>Where it stands.</b> The one-loop W-mass relation, assembled from derived pieces, gives 80.474 GeV; the leading QCD correction brings it to 80.410 GeV against the measured 80.369 GeV. What remains (0.04 GeV) is attributed in the literature to two-loop terms this repository does not derive. Carr's charged-fermion weight 0.142 is reproduced by one convention for the black hole's charge fluctuations and not derived: the thermodynamically consistent convention gives 0.148.</p>
-      <p><b>Limits.</b> The builders and auditors were AI models that could recall textbook results, so agreement is weaker evidence for famous numbers, and the isolation is of files, not of knowledge. A pilot in a fresh container found defects the first builds did not have. The audits found mistakes in the orchestrator's own references, specifications and checks more often than in the builds. The procedure and the isolation evidence are in <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/rebuild/campaigns/README.md">rebuild/campaigns</a>; <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/STRUCTURE_NOTES.md">STRUCTURE_NOTES.md</a> asks whether compressing these formalisms into one ladder exposes structure nobody had noticed (mostly known results; one candidate, not established as new).</p>
-    </div>
-    <p class="prose">Both files need only the Python standard library and run in about a second as pasted.</p>
-    <div class="cta">
-      <button class="btn primary copy-script" type="button" id="copymerged" data-src="src/chain_first_principles.py" data-status="copymerged-status">Copy the merged simulation</button>
-      <a class="btn" href="src/chain_first_principles.py" download="chain_first_principles.py">Download .py</a>
-      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/src/chain_first_principles.py">View on GitHub</a>
-    </div>
-    <p class="src" id="copymerged-status" role="status" aria-live="polite">The nine-step chain with the fit. Pasting into an AI assistant? Add “Run this and explain the results.” Compare with <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/chain_first_principles.txt">the expected output</a>.</p>
-    <div class="cta">
-      <button class="btn primary copy-script" type="button" id="copyfirst" data-src="src/first_principles_standalone.py" data-status="copyfirst-status">Copy the first-principles calculations</button>
-      <a class="btn" href="src/first_principles_standalone.py" download="first_principles_standalone.py">Download .py</a>
-      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/src/first_principles_standalone.py">View on GitHub</a>
-    </div>
-    <p class="src" id="copyfirst-status" role="status" aria-live="polite">The ten stages alone, each function callable. Compare with <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/first_principles_standalone.txt">the expected output</a>.</p>
-    <h3 id="why" style="margin-top:28px">Step 9: why these inputs? A unification attempt</h3>
-    <div class="prose">
-      <p>The chain takes its inputs as measured. Step 9 of the merged simulation asks where they come from: the Standard Model's 19 parameters, the published attempts to explain them, and what the 3-3-1 structure adds for quark flavour. <b>None of the 19 is derived, here or anywhere.</b> Sorted by what is known: 11 have no explanation, 3 are related to other inputs by established physics, 2 follow an empirical regularity, and 3 have an explanation that rests on a conjecture. Each row carries its label, and the conjectures stay outside the chain's fit.</p>
-      <p><b>What worked.</b> If the Higgs self-coupling and its rate of change both vanish at the Planck mass (a conjecture, from asymptotically safe gravity), the top and Higgs masses follow from the gauge couplings alone: 170&ndash;174 GeV against 172.57 measured, and 129&ndash;133 GeV against 125.20. In the 3-3-1 model with right-handed neutrinos the published Peccei&ndash;Quinn charges check out exactly, so the strong CP angle can be removed at the price of an unobserved axion. And one ratio of vacuum values, 59.3, makes the top and bottom couplings equal.</p>
-      <p><b>What failed.</b> The same Planck-mass condition leaves the 3-3-1 potential unbounded below. With generic couplings, the 3-3-1 structure pairs the top quark with the lightest down quark, the opposite of what is measured, so it does not explain quark mixing. The classic relation between the Cabibbo angle and the quark masses misses by 2.8% (5&sigma;).</p>
-      <p><b>What has no handle.</b> The electroweak scale, the four lightest quark masses, the electron and muon masses, the electromagnetic coupling and three of the four mixing parameters.</p>
-    </div>
-    <div class="cta">
-      <a class="btn primary" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/WHY.md">Read the explanation, with every source</a>
-      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/why/output.txt">All calculations (output)</a>
-      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/src/why_parameters.py">The script</a>
-    </div>
-  </section>
-
-  <!-- Gravity from 3-3-1 -->
-  <section id="gravity" aria-labelledby="gravity-h">
-    <p class="eyebrow">Research</p>
-    <h2 id="gravity-h">Can gravity come out of the 3-3-1 gauge theory?</h2>
-    <div class="takeaway"><b>What it shows:</b> gravity's gauge group can't be derived from the 3-3-1 theory, but gravity's <i>strength</i> can be estimated from it. The theory's own particles, cut off at the one energy scale the theory has, produce a Newton's constant within an order of magnitude of the measured one. The measured G then becomes a check, not an input.</div>
-    <div class="prose">
-      <p><b>The question.</b> The forces chain above starts from SU(3)<sub>C</sub> × SU(3)<sub>L</sub> × U(1)<sub>X</sub> and derives the quark charges and the number of colours. But it needs one number from gravity: Newton's G. Could gravity come out of the 3-3-1 theory instead? There are two ways it could, and one program tries both.</p>
-      <p><b>Route A: one gauge group for everything. It fails, and the failure can be proved.</b> Symmetry breaking can only leave a subgroup of what you start with. The 3-3-1 group is compact, and gravity's gauge group (de Sitter, or Lorentz) is not, so no breaking of 3-3-1 produces gravity. The published way around this puts gravity's group and the internal forces inside one larger group. Every version so far uses SO(10). Applied to 3-3-1 it fails: the 3-3-1 families are not copies of one another, so all three must sit in one representation. Keeping their left–right asymmetry then forces the larger group up to SO(30). All 115 ways of placing 3-3-1 there bring at least 49 extra exotic particles, and none matches the theory's actual particles. Supersymmetry, the one other loophole, has too few states: 56 against the 69 needed.</p>
-      <p><b>Route B: gravity induced by matter. It works, within its assumptions.</b> In 1967 Sakharov proposed that gravity has no strength of its own: quantum fields on a curved spacetime produce it. Each kind of particle contributes a fixed amount, set by how its quantum fluctuations respond to curvature. Scalars and fermions strengthen gravity, and force-carrying vectors weaken it, in the ratio 1 : 1 : −4. The sum needs a cutoff energy, and 3-3-1 supplies one: the energy at which its U(1)<sub>X</sub> force becomes strongly coupled, 3 to 4 Planck masses. Counting its 17 force carriers, 69 fermions and 18 scalars gives a Planck mass of <b>0.47 to 3.1 times the measured value</b>, so G comes out at 0.1 to 4.6 times the measured G. The other 3-3-1 variant, whose cutoff lies 10<sup>10</sup> times higher, misses completely, and so does a world with five colours.</p>
-      <p><b>The loop closes.</b> The chain selects three colours because the five-colour theory breaks down below the Planck mass. Now the Planck mass it compares against is the one its own particles produce, and three colours are still selected. So measured couplings give the cutoff, the cutoff gives G, and G gives three colours, which are the same particles the count started from. The measured G sits inside the predicted band.</p>
-      <p><b>How it was checked.</b> The coefficient for each kind of particle was derived blind, twice, by separate AI sessions that saw only the postulates and never the answer. A program, not the AI, decided whether each build passed. The two builds agree to 1 part in 10<sup>15</sup>. Both builds checked it against the exact vibration spectrum of a four-dimensional sphere, and an auditor confirmed it again from the zero-point energy of a closed universe. The auditor also wrote 30 altered versions of the code, 28 of them wrong, to test the checks: every wrong one is now caught. The program below repeats the sphere check itself.</p>
-      <p><b>What it doesn't show.</b> It predicts G's order of magnitude, not its digits. Its sign depends on how the cutoff is applied: with the standard proper-time (heat-kernel) cutoff used here, matter makes gravity attractive, but a cutoff on mode energies would reverse it, and only physics beyond 3-3-1 decides which is right. It also assumes, as Sakharov did, that gravity has no strength of its own. The same calculation gives a vacuum energy 10<sup>122</sup> times too large, which is the cosmological constant problem, unsolved.</p>
-    </div>
-    <div class="cta">
-      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/INDUCED_GRAVITY.md">Read the induced-gravity note</a>
-      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/GRAVIGUT_NOGO.md">Read the no-go</a>
-      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/rebuild/campaigns/induced_g/ACCEPTED.md">The blind builds and the audit</a>
-    </div>
-    <h3 id="rungravity" style="margin-top:28px">Run it yourself</h3>
-    <p class="prose">One Python file runs all of it with only the standard library: Part 1 (3-3-1 from the measured couplings), Part 2 (the no-go), Part 3 (the induced G, with the sphere check) and Part 4 (the loop). It contains the measured inputs, the blind-built stages and the accepted induced-gravity build, assembled unchanged. It takes about three seconds and ends with 12 PASS/FAIL checks.</p>
-    <div class="cta">
-      <button class="btn primary copy-script" type="button" id="copygravity" data-src="src/gravity_from_331.py" data-status="copygravity-status">Copy Python script</button>
-      <a class="btn" href="src/gravity_from_331.py" download="gravity_from_331.py">Download .py</a>
-      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/src/gravity_from_331.py">View on GitHub</a>
-    </div>
-    <p class="src" id="copygravity-status" role="status" aria-live="polite">Pasting into an AI assistant? Add “Run this and explain the results.” Compare with <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/gravity/output.txt">the expected output</a>.</p>
-  </section>
-
-  <!-- Myths -->
-  <section id="myths" aria-labelledby="myths-h">
-    <p class="eyebrow">For teaching</p>
-    <h2 id="myths-h">Common misconceptions, and the physics that answers them</h2>
-    <p class="lede">Misconceptions students bring to the classroom, each answered by a result worked out on this page.</p>
-    <div class="grid g2">
-      <div class="card myth"><div class="claim">Consciousness, or "the observer", creates reality.</div><div class="fix">Interference is lost whenever the surroundings record which path was taken. A photon or an air molecule is enough, and no mind is involved (section 4). Mainstream physics gives consciousness no special role.</div></div>
-      <div class="card myth"><div class="claim">Entanglement lets you send messages instantly.</div><div class="fix">Entangled correlations appear at a distance, but they can't carry a message. This "no-signalling" rule is built into quantum theory and confirmed by experiment.</div></div>
-      <div class="card myth"><div class="claim">Your thoughts or intentions can change quantum outcomes.</div><div class="fix">The odds are fixed by amplitude squared, confirmed to many decimal places. No controlled experiment has found intention moving them.</div></div>
-      <div class="card myth"><div class="claim">"Quantum" healing, energy and wellness products.</div><div class="fix">Warm, large, wet objects like bodies are constantly recorded by their surroundings, so their quantum superpositions vanish almost instantly. "Quantum" on a label isn't physics.</div></div>
-      <div class="card myth"><div class="claim">Physicists have no idea how gravity and quantum physics fit together.</div><div class="fix">At everyday energies physicists routinely calculate small quantum effects of gravity. What's untested is whether gravity really is quantum, which is what the diamond experiments aim to check (section 2). The hard open problems are at tiny scales, like black-hole interiors and the Big Bang.</div></div>
-      <div class="card myth"><div class="claim">Einstein said space is curved, so a "twist" picture must be wrong.</div><div class="fix">They are two ways of writing the same theory, with identical predictions. Einstein explored a closely related idea himself in 1928 (section 1).</div></div>
-      <div class="card myth"><div class="claim">The quantum probability rule is arbitrary.</div><div class="fix">It's tightly constrained. Gleason's theorem and related arguments show that, given reasonable assumptions, amplitude squared is the only consistent rule (section 4).</div></div>
-    </div>
-  </section>
-
-  <!-- Status -->
-  <section id="status" aria-labelledby="status-h">
-    <p class="eyebrow">How sure is each piece?</p>
-    <h2 id="status-h">Every claim carries a label</h2>
-    <p class="lede">Trust comes from saying exactly what is established, what is a worked example, and what is still open. This is independent work and has not been peer reviewed. Where it goes beyond textbook physics, it says so.</p>
-    <div class="grid g4">
-      <div class="card"><p><span class="tag known">established</span></p><p>Published and tested: gravity as torsion (TEGR, equivalent to Einstein's theory), records erasing interference (decoherence), the entanglement area law, the Unruh effect.</p></div>
-      <div class="card"><p><span class="tag checked">worked example</span></p><p>Calculations done here to illustrate or check known physics. The numbers on this page come from 54 open scripts and are pinned by automated tests that run on every change.</p></div>
-      <div class="card"><p><span class="tag cond">under stated assumptions</span></p><p>The argument against one class of classical-gravity models (section 2). Hawking radiation: it follows from quantum fields on a classical background, but no black hole's radiation has been seen. Each holds only under the assumptions stated next to it.</p></div>
-      <div class="card"><p><span class="tag open">open</span></p><p>Whether gravity is quantum: the diamond experiments haven't been done. Whether gravity emerges from entanglement (section 3). Why we see one outcome (section 4). Whether black holes destroy information.</p></div>
-    </div>
-  </section>
-
-  <!-- Study -->
-  <section id="deeper" aria-labelledby="deeper-h">
-    <p class="eyebrow">Study</p>
-    <h2 id="deeper-h">Notebooks, exercises and reading</h2>
-    <div class="grid g2">
-      <div class="card">
-        <h3><a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/tree/main/notebooks">Notebooks with exercises</a></h3>
-        <ol class="small">
-          <li><b>TEGR and the classic tests.</b> Tetrad field equations to Schwarzschild; perihelion, light bending, γ, GPS. <i>Prerequisite: Carroll ch. 1–5.</i></li>
-          <li><b>Complementarity and decoherence.</b> V² + D² = 1; a thermal environment, −ln V = 2 Var(ΔN). <i>Prerequisite: density matrices.</i></li>
-          <li><b>Gravity-mediated entanglement.</b> Branch phases, concurrence and gas decoherence in a two-diamond experiment. <i>Prerequisite: two-qubit entanglement.</i></li>
-          <li><b>The area law.</b> Srednicki's computation, S ≈ 0.30 (R/a)². <i>Prerequisite: Gaussian states.</i></li>
-        </ol>
-        <p class="small muted">Outputs are saved, so the notebooks read on GitHub; CI re-runs them on every commit.</p>
-      </div>
-      <div class="card">
-        <h3>Run it yourself</h3>
-<pre>git clone https://github.com/sheldonlindberg-afk/STUR-Physics-Lab
-cd STUR-Physics-Lab
-pip install -r requirements.txt pytest jupyter
-python3 src/stur_tegr_gr.py   # GR's classic tests from TEGR
-python -m pytest tests -q     # every number pinned
-jupyter lab notebooks/</pre>
-      </div>
-    </div>
-    <div class="grid g2" style="margin-top:16px">
-      <div class="card">
-        <h3>Further reading</h3>
-        <ul class="small">
-          <li>R. Aldrovandi &amp; J. G. Pereira, <em>Teleparallel Gravity: An Introduction</em> (Springer, 2013)</li>
-          <li>W. H. Zurek, "Decoherence, einselection, and the quantum origins of the classical", <em>Rev. Mod. Phys.</em> 75, 715 (2003)</li>
-          <li>B.-G. Englert, "Fringe visibility and which-way information: an inequality", <em>Phys. Rev. Lett.</em> 77, 2154 (1996)</li>
-          <li>M. Srednicki, "Entropy and area", <em>Phys. Rev. Lett.</em> 71, 666 (1993)</li>
-          <li>T. Jacobson, "Thermodynamics of spacetime: the Einstein equation of state", <em>Phys. Rev. Lett.</em> 75, 1260 (1995)</li>
-          <li>S. Bose et al.; C. Marletto &amp; V. Vedral, <em>Phys. Rev. Lett.</em> 119, 240401 and 240402 (2017)</li>
-          <li>J. Oppenheim et al., "Gravitationally induced decoherence vs space-time diffusion", <em>Nat. Commun.</em> (2023)</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3>More</h3>
-        <ul class="small">
-          <li><a href="technical.html">Research notes</a>: the derivation chain, Born-rule tables and an interactive two-diamond calculator.</li>
-          <li><a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/NOVELTY.md">Literature check</a>: what prior work already covers.</li>
-          <li><a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab">The code</a>: every script, result and test.</li>
-          <li><a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/issues">Report a mistake</a>: issues are welcome.</li>
-        </ul>
-      </div>
-    </div>
   </section>
 </main>
 
 <footer>
   <div class="foot">
     <span>Sheldon Lindberg &middot; CC0 1.0 &middot; <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab">GitHub</a></span>
-    <span><a href="technical.html">Research notes</a> &middot; <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/issues">Report a mistake</a></span>
+    <span><a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/issues">Report a mistake</a></span>
   </div>
 </footer>
 
 <script>
 (function () {
-  var NS = "http://www.w3.org/2000/svg";
-  function el(name, attrs, parent) {
-    var e = document.createElementNS(NS, name);
-    for (var k in attrs) e.setAttribute(k, attrs[k]);
-    if (parent) parent.appendChild(e);
-    return e;
-  }
-  var cx = 150, cy = 110;
-
-  // Curved picture: grid lines displaced toward the mass.
-  var curve = document.getElementById("fig-curve");
-  if (curve) {
-    var g = el("g", { stroke: "currentColor", fill: "none", "stroke-width": "1" }, curve);
-    g.style.color = "var(--muted)";
-    function warp(x, y) {
-      var dx = x - cx, dy = y - cy, r = Math.sqrt(dx * dx + dy * dy) + 1e-9;
-      var pull = 34 * Math.exp(-r * r / 4200);
-      return [x - pull * dx / r, y - pull * dy / r + 0.5 * pull];
-    }
-    function line(points) {
-      var d = points.map(function (p, i) { var w = warp(p[0], p[1]); return (i ? "L" : "M") + w[0].toFixed(1) + " " + w[1].toFixed(1); }).join(" ");
-      el("path", { d: d }, g);
-    }
-    for (var gx = 10; gx <= 290; gx += 20) { var pts = []; for (var yy = 0; yy <= 220; yy += 5) pts.push([gx, yy]); line(pts); }
-    for (var gy = 10; gy <= 210; gy += 20) { var pts2 = []; for (var xx = 0; xx <= 300; xx += 5) pts2.push([xx, gy]); line(pts2); }
-    var m = el("circle", { cx: cx, cy: cy + 17, r: 9, fill: "currentColor" }, curve); m.style.color = "var(--warn)";
-  }
-
-  // Twist picture: flat grid, a ruler pair at each node, turned and stretched near the mass.
-  var tw = document.getElementById("fig-twist");
-  if (tw) {
-    var grid = el("g", { stroke: "currentColor", "stroke-width": "0.6", opacity: "0.45" }, tw);
-    grid.style.color = "var(--faint)";
-    for (var a = 10; a <= 290; a += 20) el("line", { x1: a, y1: 0, x2: a, y2: 220 }, grid);
-    for (var b = 10; b <= 210; b += 20) el("line", { x1: 0, y1: b, x2: 300, y2: b }, grid);
-    var arrows = el("g", { "stroke-width": "1.6", "stroke-linecap": "round", fill: "none" }, tw);
-    for (var x = 30; x <= 270; x += 40) {
-      for (var y = 30; y <= 190; y += 40) {
-        var dx = x - cx, dy = y - cy, r = Math.sqrt(dx * dx + dy * dy);
-        if (r < 18) continue;
-        var s = Math.min(1, 1400 / (r * r));                 // field strength, capped near the mass
-        var ang = 0.75 * s;                                  // neighbouring frames turn more toward the centre
-        var L = 11, rx = dx / r, ry = dy / r;
-        var c = Math.cos(ang), sn = Math.sin(ang);
-        function frame(u, v) {                               // stretch along the radial direction, then turn
-          var k = 0.7 * s * (u * rx + v * ry);
-          u += k * rx; v += k * ry;
-          return [u * c - v * sn, u * sn + v * c];
-        }
-        var r1 = frame(L, 0), r2 = frame(0, -L);             // far away: every frame points right and up
-        var col = s > 0.3 ? "var(--accent)" : "var(--blue)";
-        var p1 = el("path", { d: "M" + x + " " + y + " l" + r1[0].toFixed(1) + " " + r1[1].toFixed(1), stroke: "currentColor" }, arrows);
-        var p2 = el("path", { d: "M" + x + " " + y + " l" + r2[0].toFixed(1) + " " + r2[1].toFixed(1), stroke: "currentColor" }, arrows);
-        p1.style.color = col; p2.style.color = col;
-        var dot = el("circle", { cx: x, cy: y, r: 1.8, fill: "currentColor" }, arrows); dot.style.color = col;
+  // Profiles figure: same centres and widths as _demo_inputs() in the script.
+  var svg = document.getElementById("fig-profiles");
+  if (svg) {
+    var NS = "http://www.w3.org/2000/svg", W = 640, H = 230, pad = 28, y0 = -5, y1 = 6;
+    var X = function (y) { return pad + (y - y0) / (y1 - y0) * (W - 2 * pad); };
+    var base = H - 30;
+    function curve(c, w, color, dash, scale) {
+      var d = "";
+      for (var k = 0; k <= 240; k++) {
+        var y = y0 + (y1 - y0) * k / 240, v = Math.exp(-0.5 * (y - c) * (y - c) / (w * w));
+        d += (k ? "L" : "M") + X(y).toFixed(1) + " " + (base - v * scale).toFixed(1);
       }
+      var p = document.createElementNS(NS, "path");
+      p.setAttribute("d", d); p.setAttribute("fill", "none"); p.setAttribute("stroke-width", "1.8");
+      p.style.stroke = color; if (dash) p.setAttribute("stroke-dasharray", dash);
+      svg.appendChild(p);
     }
-    var mass = el("circle", { cx: cx, cy: cy, r: 9, fill: "currentColor" }, tw); mass.style.color = "var(--warn)";
+    var axis = document.createElementNS(NS, "line");
+    axis.setAttribute("x1", pad); axis.setAttribute("x2", W - pad); axis.setAttribute("y1", base); axis.setAttribute("y2", base);
+    axis.style.stroke = "var(--faint)"; svg.appendChild(axis);
+    for (var t = -4; t <= 6; t += 2) {
+      var tx = document.createElementNS(NS, "text");
+      tx.setAttribute("x", X(t)); tx.setAttribute("y", base + 18); tx.setAttribute("text-anchor", "middle"); tx.setAttribute("font-size", "12");
+      tx.style.fill = "var(--muted)"; tx.textContent = "y = " + t; svg.appendChild(tx);
+    }
+    // Scalar envelopes (eta, rho*), drawn dashed and lower.
+    curve(0.3, 1.6, "var(--warn)", "5 4", 90); curve(-1.2, 1.8, "var(--warn)", "5 4", 90);
+    [-1.505, -1.422, -2.155].forEach(function (c) { curve(c, 0.55, "var(--accent)", null, 170); });
+    [-0.398, 1.239, 3.303].forEach(function (c) { curve(c, 0.5, "var(--blue)", null, 150); });
+    [-0.038, -0.857, 3.327].forEach(function (c) { curve(c, 0.5, "var(--violet)", "2 3", 150); });
   }
 
-  // Double-slit demo: V = cos(theta), D = sin(theta).
-  var cv = document.getElementById("slit"), sl = document.getElementById("theta");
-  function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
-  function draw() {
-    if (!cv || !sl) return;
-    var t = (+sl.value / 100) * Math.PI / 2, V = Math.cos(t), D = Math.sin(t);
-    var ctx = cv.getContext("2d"), W = cv.width, H = cv.height;
-    ctx.clearRect(0, 0, W, H);
-    var acc = css("--accent") || "#4ade80";
-    for (var i = 0; i < W; i++) {
-      var u = (i - W / 2) / W;
-      var env = Math.exp(-u * u / 0.06);
-      var I = env * (1 + V * Math.cos(2 * Math.PI * u * 9)) / 2;
-      ctx.globalAlpha = Math.min(1, 0.08 + I);
-      ctx.fillStyle = acc;
-      ctx.fillRect(i, 0, 1, H * 0.62);
-      ctx.globalAlpha = 1;
-      ctx.fillRect(i, H - 6 - I * H * 0.3, 1, 2.5);
-    }
-    document.getElementById("theta-v").textContent = sl.value + "%";
-    document.getElementById("v-out").textContent = V.toFixed(2);
-    document.getElementById("d-out").textContent = D.toFixed(2);
-    document.getElementById("sum-out").textContent = (V * V + D * D).toFixed(3);
-  }
-  if (sl) { sl.addEventListener("input", draw); draw(); }
-
-  // Copy a standalone script (3-3-1 selection, the forces in one chain) to the clipboard.
+  // Copy the script to the clipboard.
   function copyText(text) {
     if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
     return new Promise(function (ok, fail) {
@@ -608,8 +276,6 @@ jupyter lab notebooks/</pre>
         .then(function () { setTimeout(function () { cp.textContent = label; cp.disabled = false; }, 2500); });
     });
   });
-  if (window.matchMedia) window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", draw);
-
 })();
 </script>
 </body>

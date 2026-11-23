@@ -1,0 +1,29 @@
+CKM from 3-3-1 wavefunction overlaps
+inputs: 9 localisation centres chosen to reproduce |V_us|, |V_cb|, |V_ub|; J and mass ratios are outputs
+grid: 481 points on y in [-6.0, 6.0]
+up sector:   9 couplings allowed, 9 forbidden by U(1)_X / SU(3)_L
+down sector: 9 couplings allowed, 9 forbidden by U(1)_X / SU(3)_L
+
+mass ratios from sqrt(eigenvalues of Y Y^dagger), heaviest = 1:
+  up  : unresolved  4.124e-04  1.000e+00
+  down: unresolved  1.490e-02  1.000e+00
+
+|V_CKM|:
+  0.9747  0.2235  0.0038
+  0.2234  0.9739  0.0409
+  0.0067  0.0405  0.9992
+
+|V_us| = 0.2235   |V_cb| = 0.0409   |V_ub| = 0.00379   J = -2.149e-05
+measured (PDG 2024): |V_us| = 0.2243, |V_cb| = 0.0408, |V_ub| = 0.00382, J = 3.08e-05
+(the sign of J flips if every scalar phase is conjugated; the demo does not fix that convention)
+
+self-checks:
+  PASS  H_up = U diag(ev) U^dagger (rel. err 3.0e-16)
+  PASS  H_up eigenvalues non-negative
+  PASS  H_down = U diag(ev) U^dagger (rel. err 1.2e-15)
+  PASS  H_down eigenvalues non-negative
+  PASS  V_CKM unitary (max |V^dagger V - 1| = 7.8e-16)
+  PASS  each row of |V|^2 sums to 1
+  PASS  |J| <= 1/(6 sqrt 3), the largest a 3x3 unitary allows
+
+7/7 checks passed
