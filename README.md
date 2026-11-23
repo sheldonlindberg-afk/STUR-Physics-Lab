@@ -192,11 +192,21 @@ the largest possible rank, finding rank 10 at any point proves it.
 | 2 | rank 8, but J ≡ 0 (checked in exact Gaussian integers): excluded |
 | **0** | **predict anything and allow CP violation** |
 
-**Closure.** Inside 3-3-1, with abelian flavour symmetries and any number of scalars, the
-quark sector closes with **10 measured inputs: 6 masses and 4 CKM parameters**. None of the
-four CKM numbers can be calculated there. Calculating them needs relations between nonzero
-entries (non-abelian symmetries, not searched) or a gauge group that treats left- and
-right-handed quarks alike (outside 3-3-1).
+**Part G: other gauge frameworks.** 3-3-1 is not essential to the algorithm, so the script
+asks the same question of the Standard Model and of left-right symmetric models.
+
+* *Standard Model, any number of Higgs doublets:* an abelian symmetry makes zeros in general
+  matrices, and Part F shows none of those predicts anything.
+* *Left-right symmetric with parity:* the Yukawa matrices are Hermitian. But every bidoublet
+  feeds both sectors through its two vevs, so the zeros sit in the same places in up and
+  down ("parallel" textures). Part C tested all 3 parallel Hermitian classes that predict
+  anything: all are excluded, at 31σ or more.
+
+**Closure.** With abelian flavour symmetries and any number of scalars, in the Standard Model,
+in left-right models and in 3-3-1, the quark sector closes with **10 measured inputs: 6 masses
+and 4 CKM parameters**. Texture zeros calculate no CKM number. Calculating them needs
+relations between nonzero entries (non-abelian flavour symmetries or grand unification),
+which the script does not search.
 
 ## What changed from production v1
 

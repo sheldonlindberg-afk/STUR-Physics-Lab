@@ -33,6 +33,9 @@
   Exact Jacobian ranks of 10 weak-basis invariants: every pattern with three-family mixing and
   CP violation has exactly 10 physical parameters, so none predicts anything. Inside 3-3-1 the
   quark sector closes with 10 measured inputs (6 masses, 4 CKM parameters).
+- Part G: the same in the Standard Model (general zeros, Part F) and in left-right models
+  (parallel Hermitian textures; all 3 predictive ones excluded at >= 31 sigma). Texture zeros
+  calculate no CKM number in any of the three frameworks.
 
 ## Files
 - production_v2_2.py: the simulation

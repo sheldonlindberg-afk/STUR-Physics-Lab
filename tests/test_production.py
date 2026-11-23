@@ -171,6 +171,14 @@ def test_general_texture_closure():
     assert cl["predictive_with_cp"] == []
 
 
+def test_parallel_textures_excluded():
+    """Part G: left-right models give parallel Hermitian textures; every predictive one is excluded."""
+    for mu in RESULT["scales"]:
+        par = [r for r in RESULT["survey"][mu]["classes"]
+               if r["status"] == "tested" and r["zeros_u"] == r["zeros_d"]]
+        assert len(par) == 3 and not any(r["survives"] for r in par)
+
+
 def test_report_matches_expected_output():
     got = P.report(RESULT).splitlines()
     want = [ln for ln in open(EXPECTED, encoding="utf-8").read().splitlines() if not ln.startswith("Elapsed")]
