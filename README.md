@@ -28,7 +28,7 @@ python3 production_v2_2.py --scales 2000 5000  # other evaluation scales (GeV, a
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 28 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 30 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -231,6 +231,27 @@ The pattern that emerges is that two famous "coincidences" are exact identities:
 vacuum energy are one fact. The weakness of gravity for a proton has a known cause,
 logarithmic running. What remains open: α, the Yukawa couplings, ρ_Λ, and whether gravity
 carries entanglement (H5), which is the measurement that would decide whether gravity is quantum.
+
+**Part I: can α be calculated from the other numbers?**
+
+No accepted theory derives α. Grand unification is the one established framework that
+relates it to other measured numbers. If the three gauge couplings meet at one scale,
+1/α(M_Z) follows from α_s(M_Z) and sin²θ̂_W(M_Z) (PDG 2024: 0.23129 ± 0.00004) alone. The
+script solves for that α. It runs the couplings at one and two loops, with coefficients computed
+from the field content and checked against the textbook matrices.
+
+| Content | 1/α(M_Z), 2-loop |
+|---|---|
+| Standard Model only | 81.8 (−36%: the SM couplings do not meet) |
+| MSSM, superpartners at M_Z | 139.6 |
+| MSSM, superpartners at 3 TeV | 127.4 |
+| MSSM, superpartners at 10⁷ GeV | 98.7 |
+| **measured** | **127.951 ± 0.009** |
+
+So α is not calculated. Unification turns it into a function of one unknown, the superpartner
+scale M_S. Read the other way, the measured α points to **M_S ≈ 2.5 TeV** (1.9–3.3 TeV from the
+α_s and sin²θ_W errors), before the unknown threshold corrections. The closed formulas proposed
+for 1/α (Eddington, Wyler, 4π³+π²+π) are all excluded by thousands of standard deviations or more.
 
 ## What changed from production v1
 

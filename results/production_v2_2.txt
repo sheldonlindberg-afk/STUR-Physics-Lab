@@ -1,7 +1,7 @@
 ==============================================================================
 STUR Physics Lab, production v2.2: nothing tuned, nothing fitted
 ==============================================================================
-Inputs: 31 measured or defined constants (INPUTS). Comparisons: 8 measured results, never used in a calculation.
+Inputs: 32 measured or defined constants (INPUTS). Comparisons: 8 measured results, never used in a calculation.
 
 PART A. COSMOLOGY (flat Lambda-CDM, Friedmann equation)
 ------------------------------------------------------------------------------
@@ -347,6 +347,38 @@ PART H. WHERE QUANTUM THEORY AND GRAVITY MEET (established physics)
     logarithmic running). Open: alpha, the Yukawa couplings, rho_Lambda, and whether gravity
     carries entanglement (H5) - the measurement that would decide if gravity is quantum.
 
+PART I. CAN ALPHA BE CALCULATED FROM THE OTHER NUMBERS?
+------------------------------------------------------------------------------
+  No accepted theory derives alpha. Grand unification relates it to other measured numbers:
+  if the three gauge couplings meet at one scale, 1/alpha(M_Z) follows from alpha_s(M_Z) and
+  sin^2 theta_W(M_Z) alone. The script solves for the alpha at which they meet, running at
+  one and two loops (coefficients from the field content). Superpartner scale M_S unknown:
+  scanned. Unknown threshold corrections (superpartner spectrum, GUT particles): not included.
+    measured 1/alpha(M_Z), MS-bar: 127.951 +/- 0.009
+    content                     1/alpha(M_Z) 1-loop   2-loop (+/- inputs)     M_GUT (GeV)   1/alpha_GUT
+    MSSM above M_S = 91.2 GeV         126.56          139.62 +/- 0.97      7.00e+17     25.26
+    MSSM above M_S = 300 GeV          122.73          135.44 +/- 0.97      1.60e+17     25.43
+    MSSM above M_S = 1e+03 GeV        118.85          131.22 +/- 0.97      3.62e+16     25.58
+    MSSM above M_S = 3e+03 GeV        115.31          127.36 +/- 0.97      9.31e+15     25.71
+    MSSM above M_S = 1e+04 GeV        111.43          123.13 +/- 0.98      2.11e+15     25.84
+    MSSM above M_S = 1e+05 GeV        104.01          115.02 +/- 0.98      1.23e+14     26.08
+    MSSM above M_S = 1e+07 GeV         89.18           98.75 +/- 0.99      4.18e+11     26.51
+    Standard Model only                77.05           81.85 +/- 0.58      1.11e+09     26.94
+  Standard Model: forcing unification gives 1/alpha = 81.8, -36% from the measurement. The SM couplings do not meet.
+  MSSM: the prediction slides with the unknown M_S by -3.51 per e-fold. It equals
+    the measured alpha at M_S = 2.54 TeV (1.92 to 3.35 TeV from the alpha_s and sin^2 theta_W errors alone).
+  Numerology: closed formulas proposed for 1/alpha(0), tested against CODATA 2018
+    Eddington 1929: 136                              136.0000000   off by 5.02e+07 sigma
+    Eddington 1931: 137                              137.0000000   off by 1.74e+06 sigma
+    4 pi^3 + pi^2 + pi                               137.0363038   off by 1.48e+04 sigma
+    Wyler 1969: (8 pi^4 / 9) (2^4 5! / pi^5)^(1/4)   137.0360824   off by 4.04e+03 sigma
+    CODATA 2018: 1/alpha = 137.035999084
+  RESULT: alpha is not calculated. Unification turns it into a function of one unknown, the
+    superpartner scale; equivalently, the measured alpha points to M_S of a few TeV in the MSSM
+    (before unknown threshold corrections). The SM alone cannot unify, and every closed
+    formula tested is excluded by thousands of standard deviations or more. Getting from
+    alpha(M_Z) to alpha(0) also needs the hadronic vacuum polarization, a measured input.
+
 SELF-CHECKS (correctness of the calculation, not agreement with data)
 ------------------------------------------------------------------------------
   [PASS] QCD beta coefficients from Casimirs: b0(nf=5) = 23/3, b1(nf=5) = 116/3  (b0 = 23/3, b1 = 116/3)
@@ -376,7 +408,9 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] de Sitter entropy: area law A/(4 l_P^2) = Part A's pi c^5/(G hbar H^2)  (rel diff 0.0e+00)
   [PASS] Identity: S_dS x (rho_Lambda / rho_Planck) = 3/8 exactly  (rel diff 0.0e+00)
   [PASS] Entanglement entropy: reduced density matrix = concurrence formula  (abs diff 1.3e-15)
+  [PASS] Two-loop gauge coefficients from field content = textbook matrices (SM and MSSM)
+  [PASS] Unification solver at one loop = closed-form solution (every M_S, and pure SM)  (max rel diff 6.3e-13)
   [PASS] Lambda_QCD (2-loop) reproduces alpha_s(M_Z)  (rel diff 2.2e-16)
-  28/28 checks pass
+  30/30 checks pass
 ==============================================================================
-Elapsed: 144.4 s
+Elapsed: 165.3 s

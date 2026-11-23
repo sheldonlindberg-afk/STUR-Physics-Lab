@@ -48,6 +48,10 @@ WHAT IT CALCULATES
     quantum correction to Newton's law, Hawking and de Sitter horizons, the
     Unruh effect, gravity-mediated entanglement, the logarithmic origin of the
     proton/Planck hierarchy, and the large dimensionless numbers with their status.
+  Part I, whether alpha can be calculated from the other numbers: grand
+    unification of the three gauge couplings at one and two loops, for the SM
+    and the MSSM with its unknown superpartner scale scanned, plus a test of the
+    closed formulas proposed for 1/alpha.
   Part F, whether ANY zero pattern of general mass matrices predicts the CKM
     matrix: the exact number of physical parameters of all 61,009 pattern pairs,
     from the rank of the Jacobian of 10 weak-basis invariants, computed in exact
@@ -107,6 +111,8 @@ INPUTS: Dict[str, Dict[str, str]] = {
     "m_c": {"value": "1.2730", "sigma": "0.0046", "unit": "GeV", "source": "PDG 2024, m_c(m_c)"},
     "m_b": {"value": "4.183", "sigma": "0.007", "unit": "GeV", "source": "PDG 2024, m_b(m_b)"},
     "M_t": {"value": "172.57", "sigma": "0.29", "unit": "GeV", "source": "PDG 2024, direct measurements"},
+    "s2_hat_Z": {"value": "0.23129", "sigma": "0.00004", "unit": "",
+                 "source": "PDG 2024 (rev. April 2024) global fit, MS-bar sin^2 theta_W(M_Z)"},
     # --- atomic and astronomical constants (Part H)
     "e_charge": {"value": "1.602176634e-19", "sigma": "0", "unit": "C", "source": "SI, exact"},
     "alpha_em": {"value": "7.2973525693e-3", "sigma": "0.0000000011e-3", "unit": "",
@@ -175,6 +181,14 @@ NUMERICS: Dict[str, Any] = {
     "symmetry_max_N": 6,              # Z_N searched exhaustively for N = 2 .. this
     "closure_seed": 20261123,         # integer points for the exact Jacobian ranks (any seed works)
     "closure_points": 2,              # points per pattern; the largest rank found is kept
+    "unif_step": "0.02",              # RK4 step in ln(mu) for the gauge running
+    "unif_bracket_lo": 20,            # search interval for 1/alpha(M_Z)
+    "unif_bracket_hi": 200,
+    "unif_iterations": 60,
+    "unif_ms_deriv_step": "0.05",     # step in ln(M_S) for the slope
+    "unif_tol": "1e-7",
+    # superpartner mass scale M_S is unknown: scanned (GeV); 'none' = no superpartners (pure SM)
+    "unif_susy_scales_GeV": ("91.1876", "300", "1000", "3000", "10000", "100000", "1e7", "none"),
     "check_fd_rel_step": "1e-5",      # finite-difference step for the first-law check
     "check_fd_tol": "1e-8",
     "report_sci_below": "1e-3",       # print in scientific notation below / above these
@@ -1686,6 +1700,221 @@ def quantum_gravity(cosmo: Dict[str, Any], flav: Dict[str, Any]) -> Dict[str, An
 
 
 # =============================================================================
+# 6g. PART I: CAN ALPHA BE CALCULATED FROM THE OTHER NUMBERS?
+# =============================================================================
+# No accepted theory derives alpha. One established framework relates it to other
+# measured numbers: grand unification. If the three gauge couplings meet at one
+# scale, alpha(M_Z) follows from alpha_s(M_Z) and sin^2 theta_W(M_Z) alone. The
+# script runs the couplings at one and two loops (coefficients computed from the
+# field content and checked against the textbook matrices) and solves for the
+# alpha at which all three meet. It does this for the Standard Model and for its
+# minimal supersymmetric extension (MSSM). The MSSM's superpartner mass scale M_S
+# is unknown, so it is scanned over its whole range, not chosen. alpha is never
+# used: the measured value is only a comparison. Threshold corrections at M_S and
+# at the unification scale are unknown and are not included.
+def _rep_indices(field) -> Tuple[List[Fr], List[Fr]]:
+    """S_i(R) times the dimension under the other groups (summed over copies), and C2_i(R)."""
+    _, d3, d2, y, _, copies = field
+    s = [GUT_NORM * y * y * d3 * d2, dynkin_fund(d2) * d3, dynkin_fund(d3) * d2]
+    c = [GUT_NORM * y * y, casimir_fund(2, d2), casimir_fund(3, d3)]
+    return [v * copies for v in s], c
+
+
+def sm_two_loop_b() -> List[List[Fr]]:
+    """Gauge two-loop coefficients b_ij (Machacek-Vaughn, gauge part) from the SM content."""
+    ca = [Fr(0), su_n_casimirs(2)[0], su_n_casimirs(3)[0]]
+    b = [[Fr(0)] * 3 for _ in range(3)]
+    for i in range(3):
+        b[i][i] -= Fr(34, 3) * ca[i] ** 2
+    for f in SM_FIELDS:
+        s, c = _rep_indices(f)
+        for i in range(3):
+            for j in range(3):
+                if f[4] == "weyl":
+                    b[i][j] += s[i] * (2 * c[j] + (Fr(10, 3) * ca[i] if i == j else 0))
+                else:
+                    b[i][j] += s[i] * (4 * c[j] + (Fr(2, 3) * ca[i] if i == j else 0))
+    return b
+
+
+MSSM_HIGGS = (("H_u", 1, 2, Fr(1, 2), "chiral", 1), ("H_d", 1, 2, Fr(-1, 2), "chiral", 1))
+
+
+def mssm_b() -> Tuple[List[Fr], List[List[Fr]]]:
+    """One- and two-loop gauge coefficients of a supersymmetric theory from its chiral superfields:
+    b_i = -3 C_A + sum S(R);  b_ij = -6 C_A^2 delta_ij + sum S_i(R) [2 C_A delta_ij + 4 C2_j(R)]."""
+    ca = [Fr(0), su_n_casimirs(2)[0], su_n_casimirs(3)[0]]
+    chiral = [f for f in SM_FIELDS if f[4] == "weyl"] + list(MSSM_HIGGS)
+    b1 = [-3 * ca[i] for i in range(3)]
+    b2 = [[Fr(0)] * 3 for _ in range(3)]
+    for i in range(3):
+        b2[i][i] -= 6 * ca[i] ** 2
+    for f in chiral:
+        s, c = _rep_indices(f)
+        for i in range(3):
+            b1[i] += s[i]
+            for j in range(3):
+                b2[i][j] += s[i] * (4 * c[j] + (2 * ca[i] if i == j else 0))
+    return b1, b2
+
+
+def _gauge_rhs(inv: List[float], b1: List[float], b2: List[List[float]], loops: int) -> List[float]:
+    """d(1/alpha_i)/d ln mu = -b_i/(2 pi) - sum_j b_ij alpha_j / (8 pi^2)."""
+    alphas = [1 / v for v in inv]
+    out = []
+    for i in range(3):
+        d = -b1[i] / (2 * math.pi)
+        if loops == 2:
+            d -= sum(b2[i][j] * alphas[j] for j in range(3)) / (8 * math.pi ** 2)
+        out.append(d)
+    return out
+
+
+def unification_mismatch(inv_alpha_em: float, s2: float, alpha_s: float, mz: float, m_s: float,
+                         loops: int, step: float) -> Tuple[float, float, float]:
+    """Run 1/alpha_i up; where 1/alpha_1 = 1/alpha_2, return (1/alpha_3 - 1/alpha_1, M_GUT, alpha_GUT)."""
+    sm1 = [float(v) for v in sm_gauge_b()]
+    sm2 = [[float(v) for v in r] for r in sm_two_loop_b()]
+    ms1_f, ms2_f = mssm_b()
+    ms1 = [float(v) for v in ms1_f]
+    ms2 = [[float(v) for v in r] for r in ms2_f]
+    ca = [0, float(su_n_casimirs(2)[0]), float(su_n_casimirs(3)[0])]
+    inv = [float(GUT_NORM) * (1 - s2) * inv_alpha_em, s2 * inv_alpha_em, 1 / alpha_s]
+    t, t_s = math.log(mz), math.log(m_s)
+    switched = m_s <= mz
+    if switched:   # MS-bar -> DR-bar at the start
+        inv = [inv[i] - ca[i] / (12 * math.pi) for i in range(3)]
+    prev = None
+    while t < math.log(mz) + 60:
+        if not switched and t + step >= t_s:
+            h = t_s - t
+            if h > 0:
+                inv = _rk4(lambda v: _gauge_rhs(v, sm1, sm2, loops), inv, h)
+            t = t_s
+            inv = [inv[i] - ca[i] / (12 * math.pi) for i in range(3)]
+            switched = True
+            continue
+        b1, b2 = (ms1, ms2) if switched else (sm1, sm2)
+        new = _rk4(lambda v: _gauge_rhs(v, b1, b2, loops), inv, step)
+        d_old, d_new = inv[0] - inv[1], new[0] - new[1]
+        if d_old > 0 >= d_new:
+            f = d_old / (d_old - d_new)
+            cross = [a + f * (b - a) for a, b in zip(inv, new)]
+            return cross[2] - cross[0], math.exp(t + f * step), 1 / cross[0]
+        inv, t = new, t + step
+        if any(v <= 0 for v in inv):
+            break
+    return math.nan, math.nan, math.nan
+
+
+def predict_alpha(s2: float, alpha_s: float, mz: float, m_s: float, loops: int) -> Dict[str, float]:
+    """The 1/alpha(M_Z) at which all three couplings meet (secant iteration on the mismatch)."""
+    step = num("unif_step")
+    lo, hi = num("unif_bracket_lo"), num("unif_bracket_hi")
+    f_lo = unification_mismatch(lo, s2, alpha_s, mz, m_s, loops, step)[0]
+    f_hi = unification_mismatch(hi, s2, alpha_s, mz, m_s, loops, step)[0]
+    if not (f_lo * f_hi < 0):
+        return {"inv_alpha": math.nan, "M_GUT": math.nan, "alpha_GUT": math.nan}
+    root, side = lo, 0
+    for _ in range(int(num("unif_iterations"))):          # Illinois variant of regula falsi
+        mid = hi - f_hi * (hi - lo) / (f_hi - f_lo)
+        f_mid = unification_mismatch(mid, s2, alpha_s, mz, m_s, loops, step)[0]
+        if abs(mid - root) < num("unif_tol"):
+            root = mid
+            break
+        root = mid
+        if (f_mid < 0) == (f_lo < 0):
+            lo, f_lo = mid, f_mid
+            if side == -1:
+                f_hi /= 2
+            side = -1
+        else:
+            hi, f_hi = mid, f_mid
+            if side == 1:
+                f_lo /= 2
+            side = 1
+    _, m_gut, a_gut = unification_mismatch(root, s2, alpha_s, mz, m_s, loops, step)
+    return {"inv_alpha": root, "M_GUT": m_gut, "alpha_GUT": a_gut}
+
+
+def alpha_from_unification() -> Dict[str, Any]:
+    x = _float_inputs()
+    s2, s2_sig = x["s2_hat_Z"], sig("s2_hat_Z")
+    a_s, a_s_sig, mz = x["alpha_s_MZ"], sig("alpha_s_MZ"), x["M_Z"]
+    out: Dict[str, Any] = {"rows": []}
+    for k in NUMERICS["unif_susy_scales_GeV"]:
+        m_s = float(k) if k != "none" else math.inf
+        row: Dict[str, Any] = {"M_S": m_s}
+        for loops in (1, 2):
+            ms_eff = m_s if math.isfinite(m_s) else mz * 10 ** 30   # beyond M_GUT: pure SM
+            c = predict_alpha(s2, a_s, mz, ms_eff, loops)
+            if loops == 2:
+                var = 0.0
+                for name, val, sg in (("s2", s2, s2_sig), ("as", a_s, a_s_sig)):
+                    p = predict_alpha(s2 + sg if name == "s2" else s2, a_s + sg if name == "as" else a_s,
+                                      mz, ms_eff, loops)["inv_alpha"]
+                    var += (p - c["inv_alpha"]) ** 2
+                c["sigma_inputs"] = math.sqrt(var)
+            row[f"loop{loops}"] = c
+        out["rows"].append(row)
+    out["measured_inv_alpha_MZ"] = x["alpha_em_inv_MZ"]
+    out["measured_sigma"] = sig("alpha_em_inv_MZ")
+    # read backwards: the superpartner scale at which the two-loop prediction equals the measurement
+    def gap(log_ms: float, s2v: float = s2, asv: float = a_s, target: float = x["alpha_em_inv_MZ"]) -> float:
+        return predict_alpha(s2v, asv, mz, math.exp(log_ms), 2)["inv_alpha"] - target
+    lo, hi = math.log(mz), math.log(float(NUMERICS["unif_susy_scales_GeV"][-2]))
+    if gap(lo) * gap(hi) < 0:
+        for _ in range(int(num("unif_iterations"))):
+            mid = (lo + hi) / 2
+            if (gap(mid) > 0) == (gap(lo) > 0):
+                lo = mid
+            else:
+                hi = mid
+        l_ms = (lo + hi) / 2
+        h = num("unif_ms_deriv_step")
+        slope = (gap(l_ms + h) - gap(l_ms - h)) / (2 * h)            # d(1/alpha)/d ln M_S
+        d_s2 = (gap(l_ms, s2v=s2 + s2_sig) - gap(l_ms)) / slope
+        d_as = (gap(l_ms, asv=a_s + a_s_sig) - gap(l_ms)) / slope
+        sig_ln = math.hypot(d_s2, d_as)
+        out["M_S_for_measured_alpha"] = {"M_S_GeV": math.exp(l_ms), "ln_sigma": sig_ln,
+                                         "low_GeV": math.exp(l_ms - sig_ln), "high_GeV": math.exp(l_ms + sig_ln),
+                                         "slope_per_efold": slope}
+    return out
+
+
+def predict_alpha_one_loop_exact(s2: float, alpha_s: float, mz: float, m_s: float, sm_only: bool = False) -> float:
+    """One loop in closed form: X_i = 1/alpha_i(M_Z) - b_i^SM l_s/2pi - C_A,i/12pi - b_i^MSSM L/2pi
+    equal for i = 1, 2, 3, linear in (1/alpha, L). Used to check the numerical solution."""
+    sm1 = [float(v) for v in sm_gauge_b()]
+    ms1 = sm1 if sm_only else [float(v) for v in mssm_b()[0]]
+    ca = [0, 0, 0] if sm_only else [0, float(su_n_casimirs(2)[0]), float(su_n_casimirs(3)[0])]
+    ls = 0 if sm_only else math.log(m_s / mz)
+    k = [float(GUT_NORM) * (1 - s2), s2, 0]                  # coefficient of 1/alpha in 1/alpha_i
+    const = [(1 / alpha_s if i == 2 else 0) - sm1[i] * ls / (2 * math.pi) - ca[i] / (12 * math.pi)
+             for i in range(3)]
+    lcoef = [-ms1[i] / (2 * math.pi) for i in range(3)]
+    # (k1 - k3) A + (l1 - l3) L = c3 - c1 ;  (k2 - k3) A + (l2 - l3) L = c3 - c2
+    a11, a12, r1 = k[0] - k[2], lcoef[0] - lcoef[2], const[2] - const[0]
+    a21, a22, r2 = k[1] - k[2], lcoef[1] - lcoef[2], const[2] - const[1]
+    return (r1 * a22 - r2 * a12) / (a11 * a22 - a12 * a21)
+
+
+def alpha_numerology() -> List[Dict[str, Any]]:
+    """Closed formulas proposed for 1/alpha(0), tested against CODATA. None is a derivation."""
+    a_inv = 1 / inp("alpha_em")
+    a_sig = sig("alpha_em") / inp("alpha_em") ** 2
+    pi = math.pi
+    cands = [
+        ("Eddington 1929: 136", 136),
+        ("Eddington 1931: 137", 137),
+        ("4 pi^3 + pi^2 + pi", 4 * pi ** 3 + pi ** 2 + pi),
+        ("Wyler 1969: (8 pi^4 / 9) (2^4 5! / pi^5)^(1/4)",
+         8 * pi ** 4 / 9 * (2 ** 4 * math.factorial(5) / pi ** 5) ** (1 / 4)),
+    ]
+    return [{"formula": n, "value": v, "n_sigma": abs(v - a_inv) / a_sig} for n, v in cands]
+
+
+# =============================================================================
 # 7. COSMOLOGY (Decimal arithmetic)
 # =============================================================================
 def dec_pi() -> Decimal:
@@ -2053,6 +2282,8 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
     symm = symmetry_search(yuk, survivors)
     closure = general_texture_closure()
     qg = quantum_gravity(cosmo, flav)
+    alpha_unif = alpha_from_unification()
+    alpha_num = alpha_numerology()
     checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
     checks.append(("Every symmetry found reproduces its target zeros exactly (recomputed from the charges)",
                    all(sv["verified"] for e in symm["by_beta"].values() for sv in e["survivors"]
@@ -2094,10 +2325,25 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
     b0, b1 = (float(v) for v in qcd_beta(5))
     t = math.log(xf["M_Z"] ** 2 / lam ** 2)
     back = 4 * math.pi / (b0 * t) * (1 - b1 * math.log(t) / (b0 ** 2 * t))
+    sm2 = sm_two_loop_b()
+    want_sm2 = [[Fr(199, 50), Fr(27, 10), Fr(44, 5)], [Fr(9, 10), Fr(35, 6), Fr(12)], [Fr(11, 10), Fr(9, 2), Fr(-26)]]
+    mb1, mb2 = mssm_b()
+    want_m2 = [[Fr(199, 25), Fr(27, 5), Fr(88, 5)], [Fr(9, 5), Fr(25), Fr(24)], [Fr(11, 5), Fr(9), Fr(14)]]
+    checks.append(("Two-loop gauge coefficients from field content = textbook matrices (SM and MSSM)",
+                   sm2 == want_sm2 and mb1 == [Fr(33, 5), Fr(1), Fr(-3)] and mb2 == want_m2, ""))
+    worst_u = 0.0
+    for row in alpha_unif["rows"]:
+        finite = math.isfinite(row["M_S"])
+        exact = predict_alpha_one_loop_exact(xf["s2_hat_Z"], xf["alpha_s_MZ"], xf["M_Z"],
+                                             row["M_S"] if finite else 1, sm_only=not finite)
+        worst_u = max(worst_u, abs(row["loop1"]["inv_alpha"] / exact - 1))
+    checks.append(("Unification solver at one loop = closed-form solution (every M_S, and pure SM)",
+                   worst_u < num("check_survey_tol"), f"max rel diff {worst_u:.1e}"))
     checks.append(("Lambda_QCD (2-loop) reproduces alpha_s(M_Z)", abs(back / xf["alpha_s_MZ"] - 1) < tol,
                    f"rel diff {abs(back / xf['alpha_s_MZ'] - 1):.1e}"))
     return {"scales": scales, "cosmology": cosmo, "flavour": flav, "survey": survey, "yukawa_331": yuk,
-            "symmetry": symm, "closure": closure, "quantum_gravity": qg, "checks": checks, "precision": prec}
+            "symmetry": symm, "closure": closure, "quantum_gravity": qg, "alpha_unification": alpha_unif,
+            "alpha_numerology": alpha_num, "checks": checks, "precision": prec}
 
 
 def report(res: Dict[str, Any]) -> str:
@@ -2429,6 +2675,41 @@ def report(res: Dict[str, Any]) -> str:
     w("    logarithmic running). Open: alpha, the Yukawa couplings, rho_Lambda, and whether gravity")
     w("    carries entanglement (H5) - the measurement that would decide if gravity is quantum.")
     w("")
+    w("PART I. CAN ALPHA BE CALCULATED FROM THE OTHER NUMBERS?")
+    w("-" * 78)
+    au = res["alpha_unification"]
+    w("  No accepted theory derives alpha. Grand unification relates it to other measured numbers:")
+    w("  if the three gauge couplings meet at one scale, 1/alpha(M_Z) follows from alpha_s(M_Z) and")
+    w("  sin^2 theta_W(M_Z) alone. The script solves for the alpha at which they meet, running at")
+    w("  one and two loops (coefficients from the field content). Superpartner scale M_S unknown:")
+    w("  scanned. Unknown threshold corrections (superpartner spectrum, GUT particles): not included.")
+    w(f"    measured 1/alpha(M_Z), MS-bar: {au['measured_inv_alpha_MZ']} +/- {au['measured_sigma']}")
+    w("    content                     1/alpha(M_Z) 1-loop   2-loop (+/- inputs)     M_GUT (GeV)   1/alpha_GUT")
+    for row in au["rows"]:
+        name = (f"MSSM above M_S = {row['M_S']:.3g} GeV" if math.isfinite(row["M_S"])
+                else "Standard Model only")
+        l1, l2 = row["loop1"], row["loop2"]
+        w(f"    {name:<30} {l1['inv_alpha']:9.2f}        {l2['inv_alpha']:8.2f} +/- {l2['sigma_inputs']:.2f}"
+          f"      {l2['M_GUT']:.2e}     {1 / l2['alpha_GUT']:.2f}")
+    sm_row = [r for r in au["rows"] if not math.isfinite(r["M_S"])][0]
+    miss = sm_row["loop2"]["inv_alpha"] / au["measured_inv_alpha_MZ"] - 1
+    w(f"  Standard Model: forcing unification gives 1/alpha = {sm_row['loop2']['inv_alpha']:.1f},"
+      f" {100 * miss:+.0f}% from the measurement. The SM couplings do not meet.")
+    ms = au.get("M_S_for_measured_alpha")
+    if ms:
+        w(f"  MSSM: the prediction slides with the unknown M_S by {ms['slope_per_efold']:.2f} per e-fold. It equals")
+        w(f"    the measured alpha at M_S = {ms['M_S_GeV'] / 1000:.2f} TeV ({ms['low_GeV'] / 1000:.2f} to"
+          f" {ms['high_GeV'] / 1000:.2f} TeV from the alpha_s and sin^2 theta_W errors alone).")
+    w("  Numerology: closed formulas proposed for 1/alpha(0), tested against CODATA 2018")
+    for c_ in res["alpha_numerology"]:
+        w(f"    {c_['formula']:<48} {c_['value']:.7f}   off by {c_['n_sigma']:.2e} sigma")
+    w(f"    CODATA 2018: 1/alpha = {1 / inp('alpha_em'):.9f}")
+    w("  RESULT: alpha is not calculated. Unification turns it into a function of one unknown, the")
+    w("    superpartner scale; equivalently, the measured alpha points to M_S of a few TeV in the MSSM")
+    w("    (before unknown threshold corrections). The SM alone cannot unify, and every closed")
+    w("    formula tested is excluded by thousands of standard deviations or more. Getting from")
+    w("    alpha(M_Z) to alpha(0) also needs the hadronic vacuum polarization, a measured input.")
+    w("")
     w("SELF-CHECKS (correctness of the calculation, not agreement with data)")
     w("-" * 78)
     for name, ok, detail in res["checks"]:
@@ -2466,6 +2747,7 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
         "symmetry_331": {f"b={b}": e for b, e in res["symmetry"]["by_beta"].items()},
         "general_texture_closure": res["closure"],
         "quantum_gravity": res["quantum_gravity"],
+        "alpha_unification": res["alpha_unification"], "alpha_numerology": res["alpha_numerology"],
         "checks": [{"name": n, "pass": ok, "detail": d} for n, ok, d in res["checks"]],
     })
 

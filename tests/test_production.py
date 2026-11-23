@@ -191,6 +191,17 @@ def test_quantum_gravity():
     assert 0.2 < qg["transmutation"]["Lambda5_GeV"] < 0.25
 
 
+def test_alpha_from_unification():
+    """Part I: the SM cannot unify; MSSM unification reproduces alpha only at M_S of a few TeV;
+    every closed formula for 1/alpha is excluded."""
+    au = RESULT["alpha_unification"]
+    sm = [r for r in au["rows"] if not math.isfinite(r["M_S"])][0]
+    assert abs(sm["loop2"]["inv_alpha"] - 81.85) < 0.05
+    ms = au["M_S_for_measured_alpha"]["M_S_GeV"]
+    assert 2000 < ms < 3200
+    assert all(c["n_sigma"] > 1000 for c in RESULT["alpha_numerology"])
+
+
 def test_report_matches_expected_output():
     got = P.report(RESULT).splitlines()
     want = [ln for ln in open(EXPECTED, encoding="utf-8").read().splitlines() if not ln.startswith("Elapsed")]

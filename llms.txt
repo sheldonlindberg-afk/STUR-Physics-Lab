@@ -43,6 +43,11 @@
   proton/Planck hierarchy from logarithmic running. Exact identities: alpha_G = (m_p/M_P)^2,
   S_dS * rho_Lambda/rho_P = 3/8.
 
+- Part I (alpha): grand unification at two loops from alpha_s and sin^2 theta_W. SM cannot
+  unify (needs 1/alpha = 81.8 vs 127.95). In the MSSM, alpha is a function of the unknown
+  superpartner scale; the measured value points to M_S ~ 2.5 TeV. Closed formulas for 1/alpha
+  (Eddington, Wyler, 4pi^3+pi^2+pi) are excluded by >= 4000 sigma.
+
 ## Files
 - production_v2_2.py: the simulation
 - results/production_v2_2.txt: expected output
