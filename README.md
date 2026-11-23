@@ -28,7 +28,7 @@ python3 production_v2_2.py --scales 2000 5000  # other evaluation scales (GeV, a
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 30 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 32 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -69,7 +69,7 @@ compared with the measurement as a band.
 1. The six measured quark masses are run with the renormalization group. Below the top mass
    this is two-loop QCD and one-loop QED, with flavour thresholds at m_c, m_b and m_t. Above
    it, the same-type mass ratios are run with one-loop Standard Model Yukawa and gauge terms,
-   up to each of the four 3-3-1 benchmark scales (1.5, 3.5, 7 and 10 TeV). The top pole mass
+   to m_t(m_t) and to the superpartner scale M_S = 2.54 TeV that Part I derives. No scale is typed in. The top pole mass
    is converted to MS-bar at two loops. Every β-function and anomalous-dimension coefficient
    is computed from SU(N) Casimirs and the Standard Model field content, and checked against
    the textbook value.
@@ -79,13 +79,13 @@ compared with the measurement as a band.
 3. V = O_uᵀ · diag(1, e^{iσ}, e^{iτ}) · O_d for every (σ, τ). Each observable's band over the
    full phase torus is found and given the propagated input uncertainty.
 
-Result at 3.5 TeV (the four scales agree to within 1%):
+Result at M_S = 2.54 TeV (m_t(m_t) agrees to within 3%):
 
 | Observable | Band over all phases | Measured (PDG 2024) | Verdict |
 |---|---|---|---|
 | \|V_us\| | 0.1758 – 0.2614 | 0.22501 ± 0.00068 | inside |
-| \|V_cb\| | 0.0743 – 0.1949 | 0.04183 ± 0.0007 | **outside by 32σ** |
-| \|V_ub\| | 0.00267 – 0.00919 | 0.00373 ± 0.00009 | inside |
+| \|V_cb\| | 0.0741 – 0.1948 | 0.04183 ± 0.0007 | **outside by 32σ** |
+| \|V_ub\| | 0.00266 – 0.00918 | 0.00373 ± 0.00009 | inside |
 | \|V_ub/V_cb\| | 0.0359 – 0.0519 | 0.0892 ± 0.0026 | **outside by 14σ** |
 | \|V_td/V_ts\| | 0.2274 – 0.2328 | 0.207 ± 0.003 | **outside by 5σ** |
 | J | −3.55 – 3.55 × 10⁻⁴ | 3.12 × 10⁻⁵ | inside |
@@ -123,8 +123,8 @@ masses, 41 keep a phase inside a sector and predict nothing, and **83 are tested
 excluded at every scale, and one survives:**
 
 ```
-M_u = | 0 0 X |      M_d = | 0 X 0 |      chi^2 = 0.29 to 0.37 for 1 dof (0.5 to 0.6 sigma)
-      | 0 X X |            | X 0 X |      at 1.5, 3.5, 7 and 10 TeV
+M_u = | 0 0 X |      M_d = | 0 X 0 |      chi^2 = 0.19 to 0.31 for 1 dof (0.4 to 0.6 sigma)
+      | 0 X X |            | X 0 X |      at m_t(m_t) and at M_S
       | X X X |            | 0 X X |
 ```
 
@@ -219,7 +219,7 @@ design of the entanglement experiment.
 | | Result |
 |---|---|
 | H1 Planck units | l_P = 1.616×10⁻³⁵ m, E_P = 1.221×10¹⁹ GeV |
-| H2 Quantum correction to Newton's law | 3.4×10⁻⁷⁰ at 1 m; for protons it overtakes the relativistic term below 0.22 Compton lengths; the effective theory ends at 1.14 l_P |
+| H2 Quantum correction to Newton's law | Sun–Earth: 1.5×10⁻⁹² (the relativistic term is 3.0×10⁻⁸); for protons it overtakes the relativistic term below 0.22 Compton lengths; the effective theory ends at 1.14 l_P |
 | H3 Black holes | the Sun: T_H = 6.2×10⁻⁸ K; the hole that evaporates in exactly the Part A age has 1.73×10¹¹ kg; de Sitter horizon: 2.2×10⁻³⁰ K, 3.3×10¹²² k_B |
 | H4 Unruh effect | 4.0×10⁻²⁰ K at Earth's g |
 | H5 Gravity-mediated entanglement | 10⁻¹⁴ kg design: entangling phase 0.066 rad, concurrence 0.033. Zero if gravity is classical: the open test |
@@ -252,6 +252,32 @@ So α is not calculated. Unification turns it into a function of one unknown, th
 scale M_S. Read the other way, the measured α points to **M_S ≈ 2.5 TeV** (1.9–3.3 TeV from the
 α_s and sin²θ_W errors), before the unknown threshold corrections. The closed formulas proposed
 for 1/α (Eddington, Wyler, 4π³+π²+π) are all excluded by thousands of standard deviations or more.
+
+**Part J: can the Yukawa couplings be calculated from the other numbers?**
+
+No accepted theory gives them. Two established ideas relate them, and both are tested with
+all scales taken from Part I:
+
+* **Quark/lepton ratios from grand unification** (group theory). Minimal SU(5)'s
+  m_s/m_d = m_μ/m_e (= 210.6) is off by 558σ. Georgi–Jarlskog's m_s/m_d = m_μ/(9m_e)
+  (= 23.4) is off by 10σ from the measured 19.9 ± 0.3.
+* **b–τ unification** (y_b = y_τ at unification). In the SM the ratio is 0.70 where g₁ = g₂
+  and 0.59 at M_Planck. In the MSSM (M_S = 2.54 TeV, M_GUT = 1.15×10¹⁶ GeV from Part I, tan β
+  scanned over its perturbative range) it is 0.79–0.88. It reaches 1 only at tan β = 1.35,
+  where y_t(M_GUT) = 2.6, at the edge of perturbation theory.
+* **The top quasi-fixed point.** In the SM, a large top coupling at M_Planck runs to
+  m_t(m_t) = 217–220 GeV, against a measured 163.4. In the MSSM the measured top mass needs
+  tan β = 1.33–1.40.
+
+So no Yukawa coupling is calculated. In the MSSM, b–τ unification and the top fixed point
+point to the same narrow region, tan β ≈ 1.3–1.4. That is one number, not a calculation of the
+Yukawas, and it is not checked here against the Higgs mass.
+
+All scales come from the algorithm. Parts B and C run at m_t(m_t) and at Part I's M_S. Part J
+uses Part I's M_GUT and Part H's M_Planck. The tan β range and the "large" top coupling come
+from the perturbativity limit √(4π). The only numbers not produced by the algorithm are the
+measured inputs, the numerical settings, and the design of the two-mass entanglement
+experiment in H5.
 
 ## What changed from production v1
 

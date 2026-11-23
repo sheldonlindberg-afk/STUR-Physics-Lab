@@ -48,6 +48,11 @@
   superpartner scale; the measured value points to M_S ~ 2.5 TeV. Closed formulas for 1/alpha
   (Eddington, Wyler, 4pi^3+pi^2+pi) are excluded by >= 4000 sigma.
 
+- Part J (Yukawas): SU(5) m_s/m_d = m_mu/m_e off by 558 sigma; Georgi-Jarlskog off by 10 sigma.
+  b-tau unification fails in the SM (0.59-0.70); in the MSSM (scales from Part I) it needs
+  tan(beta) = 1.35, and the top quasi-fixed point needs 1.33-1.40. No Yukawa is calculated.
+- Every scale comes from the algorithm: m_t(m_t), Part I's M_S = 2.54 TeV and M_GUT, M_Planck.
+
 ## Files
 - production_v2_2.py: the simulation
 - results/production_v2_2.txt: expected output

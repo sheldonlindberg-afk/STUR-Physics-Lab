@@ -1,7 +1,7 @@
 ==============================================================================
 STUR Physics Lab, production v2.2: nothing tuned, nothing fitted
 ==============================================================================
-Inputs: 32 measured or defined constants (INPUTS). Comparisons: 8 measured results, never used in a calculation.
+Inputs: 34 measured or defined constants (INPUTS). Comparisons: 8 measured results, never used in a calculation.
 
 PART A. COSMOLOGY (flat Lambda-CDM, Friedmann equation)
 ------------------------------------------------------------------------------
@@ -32,48 +32,28 @@ PART B. QUARK FLAVOUR: RG-run masses in the Fritzsch six-zero texture
   fixed by anything, so each prediction is the band swept by ALL phase values;
   the band edges carry the propagated input uncertainty.
 
-  Scale mu = 1500 GeV   alpha_s = 0.08504   y_t = 0.8490
-    sqrt(m_d/m_s) = 0.22420  sqrt(m_u/m_c) = 0.04403  sqrt(m_s/m_b) = 0.13939  sqrt(m_c/m_t) = 0.06122
+  Scale mu = 163 GeV   alpha_s = 0.10847   y_t = 0.9388
+    sqrt(m_d/m_s) = 0.22420  sqrt(m_u/m_c) = 0.04403  sqrt(m_s/m_b) = 0.13823  sqrt(m_c/m_t) = 0.06173
     observable band over all phases               measured               verdict
     V_us       [0.17579 +/- 0.0019, 0.26141 +/- 0.0019] 0.22501 +6.8e-04/-6.8e-04 inside band
-    V_cb       [0.073766 +/- 6.5e-04, 0.19468 +/- 8.6e-04] 0.04183 +7.9e-04/-6.9e-04 outside by 31.2 sigma
-    V_ub       [0.0026478 +/- 6.1e-05, 0.0091718 +/- 1.4e-04] 0.003732 +9.0e-05/-8.5e-05 inside band
-    V_ub/V_cb  [0.035869 +/- 7.4e-04, 0.051925 +/- 7.2e-04] 0.089218 +0.0026/-0.0026 outside by 13.6 sigma
-    V_td/V_ts  [0.22732 +/- 0.0019, 0.2328 +/- 0.002] 0.207 +0.0032/-0.0032  outside by 5.4 sigma
-    J          [-3.5438e-04 +/- 6.4e-06, 3.5438e-04 +/- 6.4e-06] 3.1200e-05 +1.3e-06/-1.2e-06 inside band
+    V_cb       [0.072149 +/- 6.5e-04, 0.19409 +/- 8.5e-04] 0.04183 +7.9e-04/-6.9e-04 outside by 29.7 sigma
+    V_ub       [0.0025909 +/- 6.0e-05, 0.0091315 +/- 1.4e-04] 0.003732 +9.0e-05/-8.5e-05 inside band
+    V_ub/V_cb  [0.035886 +/- 7.4e-04, 0.051894 +/- 7.2e-04] 0.089218 +0.0026/-0.0026 outside by 13.6 sigma
+    V_td/V_ts  [0.22725 +/- 0.0019, 0.23278 +/- 0.002] 0.207 +0.0032/-0.0032  outside by 5.4 sigma
+    J          [-3.5220e-04 +/- 6.3e-06, 3.5220e-04 +/- 6.3e-06] 3.1200e-05 +1.3e-06/-1.2e-06 inside band
 
-  Scale mu = 3500 GeV   alpha_s = 0.07858   y_t = 0.8214
-    sqrt(m_d/m_s) = 0.22420  sqrt(m_u/m_c) = 0.04403  sqrt(m_s/m_b) = 0.13978  sqrt(m_c/m_t) = 0.06105
+  Scale mu = 2536 GeV   alpha_s = 0.08092   y_t = 0.8316
+    sqrt(m_d/m_s) = 0.22420  sqrt(m_u/m_c) = 0.04403  sqrt(m_s/m_b) = 0.13963  sqrt(m_c/m_t) = 0.06111
     observable band over all phases               measured               verdict
-    V_us       [0.1758 +/- 0.0019, 0.2614 +/- 0.0019] 0.22501 +6.8e-04/-6.8e-04 inside band
-    V_cb       [0.074309 +/- 6.5e-04, 0.19488 +/- 8.6e-04] 0.04183 +7.9e-04/-6.9e-04 outside by 31.7 sigma
-    V_ub       [0.0026668 +/- 6.1e-05, 0.0091855 +/- 1.4e-04] 0.003732 +9.0e-05/-8.5e-05 inside band
-    V_ub/V_cb  [0.035862 +/- 7.4e-04, 0.051935 +/- 7.2e-04] 0.089218 +0.0026/-0.0026 outside by 13.6 sigma
-    V_td/V_ts  [0.22735 +/- 0.0019, 0.2328 +/- 0.002] 0.207 +0.0032/-0.0032  outside by 5.4 sigma
-    J          [-3.5513e-04 +/- 6.4e-06, 3.5513e-04 +/- 6.4e-06] 3.1200e-05 +1.3e-06/-1.2e-06 inside band
-
-  Scale mu = 7000 GeV   alpha_s = 0.07399   y_t = 0.8008
-    sqrt(m_d/m_s) = 0.22420  sqrt(m_u/m_c) = 0.04403  sqrt(m_s/m_b) = 0.14008  sqrt(m_c/m_t) = 0.06092
-    observable band over all phases               measured               verdict
-    V_us       [0.1758 +/- 0.0019, 0.2614 +/- 0.0019] 0.22501 +6.8e-04/-6.8e-04 inside band
-    V_cb       [0.074729 +/- 6.5e-04, 0.19503 +/- 8.6e-04] 0.04183 +7.9e-04/-6.9e-04 outside by 32.1 sigma
-    V_ub       [0.0026814 +/- 6.2e-05, 0.0091962 +/- 1.4e-04] 0.003732 +9.0e-05/-8.5e-05 inside band
-    V_ub/V_cb  [0.035857 +/- 7.4e-04, 0.051944 +/- 7.2e-04] 0.089218 +0.0026/-0.0026 outside by 13.6 sigma
-    V_td/V_ts  [0.22737 +/- 0.0019, 0.23281 +/- 0.002] 0.207 +0.0032/-0.0032  outside by 5.4 sigma
-    J          [-3.5571e-04 +/- 6.4e-06, 3.5571e-04 +/- 6.4e-06] 3.1200e-05 +1.3e-06/-1.2e-06 inside band
-
-  Scale mu = 10000 GeV   alpha_s = 0.07183   y_t = 0.7909
-    sqrt(m_d/m_s) = 0.22420  sqrt(m_u/m_c) = 0.04403  sqrt(m_s/m_b) = 0.14023  sqrt(m_c/m_t) = 0.06085
-    observable band over all phases               measured               verdict
-    V_us       [0.1758 +/- 0.0019, 0.2614 +/- 0.0019] 0.22501 +6.8e-04/-6.8e-04 inside band
-    V_cb       [0.074937 +/- 6.5e-04, 0.19511 +/- 8.6e-04] 0.04183 +7.9e-04/-6.9e-04 outside by 32.3 sigma
-    V_ub       [0.0026887 +/- 6.2e-05, 0.0092015 +/- 1.4e-04] 0.003732 +9.0e-05/-8.5e-05 inside band
-    V_ub/V_cb  [0.035854 +/- 7.4e-04, 0.051948 +/- 7.2e-04] 0.089218 +0.0026/-0.0026 outside by 13.6 sigma
-    V_td/V_ts  [0.22737 +/- 0.0019, 0.23281 +/- 0.002] 0.207 +0.0032/-0.0032  outside by 5.4 sigma
-    J          [-3.5600e-04 +/- 6.4e-06, 3.5600e-04 +/- 6.4e-06] 3.1200e-05 +1.3e-06/-1.2e-06 inside band
+    V_us       [0.1758 +/- 0.0019, 0.26141 +/- 0.0019] 0.22501 +6.8e-04/-6.8e-04 inside band
+    V_cb       [0.074107 +/- 6.5e-04, 0.1948 +/- 8.6e-04] 0.04183 +7.9e-04/-6.9e-04 outside by 31.6 sigma
+    V_ub       [0.0026597 +/- 6.1e-05, 0.0091804 +/- 1.4e-04] 0.003732 +9.0e-05/-8.5e-05 inside band
+    V_ub/V_cb  [0.035865 +/- 7.4e-04, 0.051931 +/- 7.2e-04] 0.089218 +0.0026/-0.0026 outside by 13.6 sigma
+    V_td/V_ts  [0.22734 +/- 0.0019, 0.2328 +/- 0.002] 0.207 +0.0032/-0.0032  outside by 5.4 sigma
+    J          [-3.5485e-04 +/- 6.4e-06, 3.5485e-04 +/- 6.4e-06] 3.1200e-05 +1.3e-06/-1.2e-06 inside band
 
   RESULT: at every evaluation scale and for every value of the two phases, the
-  six-zero texture misses: V_cb (at least 31 sigma), V_ub/V_cb (at least 14 sigma), V_td/V_ts (at least 5 sigma).
+  six-zero texture misses: V_cb (at least 30 sigma), V_ub/V_cb (at least 14 sigma), V_td/V_ts (at least 5 sigma).
   The masses alone do not produce the measured mixing in this texture.
 
 PART C. EVERY TEXTURE-ZERO PATTERN THAT MAKES A PREDICTION
@@ -86,98 +66,96 @@ PART C. EVERY TEXTURE-ZERO PATTERN THAT MAKES A PREDICTION
      41 keep a phase inside one sector, so they predict nothing (not tested)
      83 make predictions and are tested
 
-  zeros  up mass matrix  down mass matrix  pred   n-sigma at 1.5 TeV  3.5 TeV  7 TeV  10 TeV   verdict
-      5  00X/0XX/XXX     0X0/X0X/0XX          1         0.5        0.6        0.6        0.6   SURVIVES
-      5  00X/0X0/X0X     0X0/XXX/0XX          1        13.2       13.2       13.2       13.2   excluded (band)
-      5  00X/0XX/XXX     0X0/XX0/00X          1        13.3       13.3       13.3       13.3   excluded (band)
-      5  00X/0XX/XXX     00X/0XX/XX0          1        13.7       13.7       13.6       13.6   excluded (joint)
-      5  00X/0XX/XX0     00X/0XX/XXX          1        17.3       17.3       17.3       17.3   excluded (joint)
-      5  00X/0XX/XX0     0XX/XX0/X0X          1        21.3       21.1       21.0       20.9   excluded (band)
-      6  00X/0XX/XX0     00X/0X0/X0X          2        21.7       21.5       21.3       21.3   excluded (band)
-      5  00X/0XX/XX0     X0X/0X0/X0X          1        21.7       21.5       21.3       21.3   excluded (band)
-      5  0XX/XX0/X0X     X0X/0X0/X00          1        21.7       21.5       21.4       21.3   excluded (band)
-      5  00X/0X0/X0X     XX0/X0X/0XX          1        21.8       21.6       21.5       21.4   excluded (band)
-      5  00X/0X0/X0X     00X/0XX/XXX          1        24.4       24.4       24.4       24.4   excluded (band)
-      5  00X/0XX/XXX     00X/0X0/X0X          1        25.9       25.9       25.9       25.9   excluded (band)
-      5  00X/0XX/XX0     X0X/0XX/XX0          1        29.6       30.1       30.5       30.7   excluded (band)
-      5  0XX/XX0/X0X     0XX/X00/X0X          1        31.2       31.7       32.1       32.3   excluded (band)
-      6  00X/0XX/XX0     00X/0XX/XX0          2        31.2       31.7       32.1       32.3   excluded (band)
-      5  00X/0XX/XXX     X00/0X0/00X          1        34.3       34.3       34.3       34.4   excluded (band)
-      5  00X/0XX/XX0     XX0/XXX/0X0          1        33.3       33.8       34.2       34.4   excluded (band)
-      5  00X/0X0/X0X     0XX/XX0/X0X          1        36.7       36.6       36.6       36.6   excluded (band)
-      5  X00/0XX/0XX     00X/0XX/XX0          1        36.8       36.7       36.7       36.7   excluded (band)
-      6  00X/0X0/X0X     0XX/X00/X0X          2        36.8       36.7       36.7       36.7   excluded (band)
-      5  00X/0X0/X0X     XXX/X00/X0X          1        38.8       38.8       38.8       38.8   excluded (band)
-      5  X00/0X0/00X     00X/0XX/XXX          1        42.2       42.2       42.2       42.2   excluded (band)
-      5  00X/0XX/XXX     XX0/X00/00X          1        42.9       42.9       42.9       42.9   excluded (band)
-      6  00X/0X0/X0X     XX0/X00/00X          2        43.9       43.9       43.9       43.9   excluded (band)
-      5  00X/0X0/X0X     XX0/XX0/00X          1        43.9       43.9       43.9       43.9   excluded (band)
-      5  X00/0XX/0XX     00X/0X0/X0X          1        43.9       43.9       43.9       43.9   excluded (band)
-      5  00X/0XX/XXX     X00/00X/0XX          1        46.4       46.5       46.5       46.5   excluded (band)
-      5  0XX/XX0/X0X     00X/0X0/X0X          1        51.7       52.1       52.4       52.5   excluded (band)
-      5  0XX/XX0/X0X     X00/00X/0XX          1        52.6       53.0       53.3       53.4   excluded (band)
-      5  00X/0XX/XX0     0X0/XXX/0XX          1        58.7       59.0       59.2       59.3   excluded (band)
-      5  X00/0X0/00X     0XX/XX0/X0X          1        60.6       60.6       60.6       60.6   excluded (band)
-      6  00X/0X0/X0X     00X/0X0/X0X          2        60.6       60.6       60.6       60.6   excluded (band)
-      6  00X/0X0/X0X     0X0/XX0/00X          2        60.6       60.6       60.6       60.6   excluded (band)
-      5  00X/0X0/X0X     X0X/0X0/X0X          1        60.6       60.6       60.6       60.6   excluded (band)
-      5  X00/0XX/0XX     X00/00X/0XX          1        60.6       60.6       60.6       60.6   excluded (band)
-      5  X00/0XX/0XX     X00/0X0/00X          1        60.6       60.6       60.6       60.6   excluded (band)
-      6  X00/0X0/00X     00X/0X0/X0X          2        60.6       60.6       60.6       60.6   excluded (band)
-      5  X00/0X0/00X     X00/0XX/0XX          1        60.6       60.6       60.6       60.6   excluded (band)
-      5  0XX/XX0/X0X     X00/0X0/00X          1        77.6       77.4       77.3       77.3   excluded (band)
-      5  00X/0XX/XXX     0XX/X00/X0X          1        79.3       79.3       79.2       79.2   excluded (band)
-      5  00X/0X0/X0X     X0X/00X/XXX          1        85.2       85.4       85.5       85.5   excluded (band)
-      5  0XX/XX0/X0X     00X/0XX/XX0          1        85.0       85.3       85.5       85.6   excluded (band)
-      5  00X/0X0/X0X     XX0/XXX/0X0          1        87.4       87.7       87.9       88.0   excluded (band)
-      5  00X/0X0/X0X     X0X/0XX/XX0          1        88.1       88.4       88.6       88.7   excluded (band)
-      5  X00/0XX/0XX     X0X/00X/XX0          1        90.1       90.3       90.5       90.6   excluded (band)
-      6  00X/0X0/X0X     00X/0XX/XX0          2        90.4       90.7       90.8       90.9   excluded (band)
-      6  00X/0X0/X0X     0X0/X0X/0XX          2        90.5       90.8       91.0       91.0   excluded (band)
-      6  X00/0X0/00X     00X/0XX/XX0          2        90.5       90.8       91.0       91.0   excluded (band)
-      5  X00/0XX/0XX     X0X/0X0/X00          1       105.9      105.9      106.0      106.0   excluded (band)
-      5  00X/0XX/XXX     XX0/X0X/0X0          1       119.6      119.5      119.4      119.4   excluded (band)
-      5  00X/0XX/XXX     0XX/XX0/X00          1       127.7      127.6      127.5      127.5   excluded (band)
-      5  00X/0XX/XXX     X0X/00X/XX0          1       156.3      156.3      156.3      156.3   excluded (band)
-      5  00X/0XX/XXX     X0X/0X0/X00          1       156.4      156.4      156.4      156.4   excluded (band)
-      5  00X/0XX/XXX     X00/0XX/0X0          1       158.9      158.9      158.9      158.9   excluded (band)
-      6  00X/0X0/X0X     X00/0X0/00X          2       182.2      182.2      182.2      182.2   excluded (band)
-      5  00X/0XX/XX0     X00/0XX/0XX          1       182.2      182.2      182.2      182.2   excluded (band)
-      5  00X/0X0/X0X     X00/0XX/0XX          1       182.2      182.2      182.2      182.2   excluded (band)
-      6  00X/0XX/XX0     0X0/XX0/00X          2       182.4      182.4      182.4      182.4   excluded (band)
-      6  00X/0XX/XX0     X00/0X0/00X          2       182.4      182.4      182.4      182.4   excluded (band)
-      6  00X/0XX/XX0     X00/0XX/0X0          2       182.6      182.6      182.6      182.6   excluded (band)
-      6  00X/0X0/X0X     X00/0XX/0X0          2       183.5      183.5      183.5      183.5   excluded (band)
-      5  00X/0XX/XX0     XX0/XX0/00X          1       260.0      260.2      260.4      260.5   excluded (band)
-      5  X00/0XX/0XX     0XX/X00/X0X          1       310.3      310.2      310.1      310.1   excluded (band)
-      6  00X/0X0/X0X     X00/00X/0XX          2       330.3      330.3      330.3      330.3   excluded (band)
-      6  X00/0X0/00X     X00/0X0/00X          2       330.9      330.9      330.9      330.9   excluded (band)
-      5  0XX/XX0/X0X     X0X/00X/XX0          1       781.7      778.5      775.9      774.7   excluded (band)
-      5  00X/0XX/XX0     X0X/00X/XXX          1       862.9      862.8      862.7      862.7   excluded (band)
-      5  00X/0XX/XX0     XXX/XX0/X00          1       866.7      866.7      866.7      866.7   excluded (band)
-      5  00X/0X0/X0X     XXX/XX0/X00          1       866.9      866.9      866.9      866.9   excluded (band)
-      6  00X/0X0/X0X     X0X/0X0/X00          2       867.4      867.4      867.4      867.4   excluded (band)
-      6  00X/0XX/XX0     X0X/0X0/X00          2       867.6      867.6      867.6      867.6   excluded (band)
-      5  00X/0XX/XX0     XXX/X00/X0X          1       871.2      871.1      871.0      871.0   excluded (band)
-      6  00X/0XX/XX0     0XX/XX0/X00          2       880.8      880.8      880.9      880.9   excluded (band)
-      6  00X/0X0/X0X     0XX/XX0/X00          2       882.0      882.0      882.1      882.1   excluded (band)
-      6  00X/0XX/XX0     X00/00X/0XX          2       >1000      >1000      >1000      >1000   excluded (band)
-      5  00X/0XX/XX0     XX0/X0X/0XX          1       >1000      >1000      >1000      >1000   excluded (band)
-      6  00X/0XX/XX0     0X0/X0X/0XX          2       >1000      >1000      >1000      >1000   excluded (band)
-      6  00X/0X0/X0X     X0X/00X/XX0          2       >1000      >1000      >1000      >1000   excluded (band)
-      6  00X/0XX/XX0     0XX/X00/X0X          2       >1000      >1000      >1000      >1000   excluded (band)
-      6  00X/0X0/X0X     XX0/X0X/0X0          2       >1000      >1000      >1000      >1000   excluded (band)
-      6  00X/0XX/XX0     XX0/X00/00X          2       >1000      >1000      >1000      >1000   excluded (band)
-      6  00X/0XX/XX0     X0X/00X/XX0          2       >1000      >1000      >1000      >1000   excluded (band)
-      6  00X/0XX/XX0     XX0/X0X/0X0          2       >1000      >1000      >1000      >1000   excluded (band)
+  zeros  up mass matrix  down mass matrix  pred   n-sigma at 0.163441 TeV  2.53649 TeV   verdict
+      5  00X/0XX/XXX     0X0/X0X/0XX          1         0.4        0.6   SURVIVES
+      5  00X/0X0/X0X     0X0/XXX/0XX          1        13.2       13.2   excluded (band)
+      5  00X/0XX/XXX     0X0/XX0/00X          1        13.3       13.3   excluded (band)
+      5  00X/0XX/XXX     00X/0XX/XX0          1        13.9       13.7   excluded (joint)
+      5  00X/0XX/XX0     00X/0XX/XXX          1        17.3       17.3   excluded (joint)
+      5  00X/0XX/XX0     0XX/XX0/X0X          1        21.7       21.2   excluded (band)
+      6  00X/0XX/XX0     00X/0X0/X0X          2        22.2       21.5   excluded (band)
+      5  00X/0XX/XX0     X0X/0X0/X0X          1        22.2       21.5   excluded (band)
+      5  0XX/XX0/X0X     X0X/0X0/X00          1        22.3       21.6   excluded (band)
+      5  00X/0X0/X0X     XX0/X0X/0XX          1        22.3       21.7   excluded (band)
+      5  00X/0X0/X0X     00X/0XX/XXX          1        24.4       24.4   excluded (band)
+      5  00X/0XX/XXX     00X/0X0/X0X          1        25.9       25.9   excluded (band)
+      5  00X/0XX/XX0     X0X/0XX/XX0          1        28.0       29.9   excluded (band)
+      5  0XX/XX0/X0X     0XX/X00/X0X          1        29.7       31.5   excluded (band)
+      6  00X/0XX/XX0     00X/0XX/XX0          2        29.7       31.6   excluded (band)
+      5  00X/0XX/XX0     XX0/XXX/0X0          1        31.7       33.6   excluded (band)
+      5  00X/0XX/XXX     X00/0X0/00X          1        34.2       34.3   excluded (band)
+      5  00X/0X0/X0X     0XX/XX0/X0X          1        36.9       36.6   excluded (band)
+      6  00X/0X0/X0X     0XX/X00/X0X          2        37.0       36.8   excluded (band)
+      5  X00/0XX/0XX     00X/0XX/XX0          1        37.0       36.8   excluded (band)
+      5  00X/0X0/X0X     XXX/X00/X0X          1        38.9       38.8   excluded (band)
+      5  X00/0X0/00X     00X/0XX/XXX          1        42.3       42.2   excluded (band)
+      5  00X/0XX/XXX     XX0/X00/00X          1        42.9       42.9   excluded (band)
+      6  00X/0X0/X0X     XX0/X00/00X          2        43.9       43.9   excluded (band)
+      5  00X/0X0/X0X     XX0/XX0/00X          1        43.9       43.9   excluded (band)
+      5  X00/0XX/0XX     00X/0X0/X0X          1        43.9       43.9   excluded (band)
+      5  00X/0XX/XXX     X00/00X/0XX          1        46.3       46.4   excluded (band)
+      5  0XX/XX0/X0X     00X/0X0/X0X          1        50.5       51.9   excluded (band)
+      5  0XX/XX0/X0X     X00/00X/0XX          1        51.4       52.8   excluded (band)
+      5  00X/0XX/XX0     0X0/XXX/0XX          1        57.9       58.9   excluded (band)
+      5  X00/0X0/00X     0XX/XX0/X0X          1        60.6       60.6   excluded (band)
+      6  00X/0X0/X0X     00X/0X0/X0X          2        60.6       60.6   excluded (band)
+      6  00X/0X0/X0X     0X0/XX0/00X          2        60.6       60.6   excluded (band)
+      5  00X/0X0/X0X     X0X/0X0/X0X          1        60.6       60.6   excluded (band)
+      5  X00/0XX/0XX     X00/00X/0XX          1        60.6       60.6   excluded (band)
+      5  X00/0XX/0XX     X00/0X0/00X          1        60.6       60.6   excluded (band)
+      6  X00/0X0/00X     00X/0X0/X0X          2        60.6       60.6   excluded (band)
+      5  X00/0X0/00X     X00/0XX/0XX          1        60.6       60.6   excluded (band)
+      5  0XX/XX0/X0X     X00/0X0/00X          1        78.1       77.5   excluded (band)
+      5  00X/0XX/XXX     0XX/X00/X0X          1        79.2       79.3   excluded (band)
+      5  0XX/XX0/X0X     00X/0XX/XX0          1        84.3       85.2   excluded (band)
+      5  00X/0X0/X0X     X0X/00X/XXX          1        84.7       85.3   excluded (band)
+      5  00X/0X0/X0X     XX0/XXX/0X0          1        86.6       87.6   excluded (band)
+      5  00X/0X0/X0X     X0X/0XX/XX0          1        87.3       88.3   excluded (band)
+      5  X00/0XX/0XX     X0X/00X/XX0          1        89.3       90.2   excluded (band)
+      6  00X/0X0/X0X     00X/0XX/XX0          2        89.7       90.6   excluded (band)
+      6  00X/0X0/X0X     0X0/X0X/0XX          2        89.8       90.7   excluded (band)
+      6  X00/0X0/00X     00X/0XX/XX0          2        89.8       90.7   excluded (band)
+      5  X00/0XX/0XX     X0X/0X0/X00          1       105.7      105.9   excluded (band)
+      5  00X/0XX/XXX     XX0/X0X/0X0          1       119.9      119.5   excluded (band)
+      5  00X/0XX/XXX     0XX/XX0/X00          1       128.0      127.6   excluded (band)
+      5  00X/0XX/XXX     X0X/00X/XX0          1       156.3      156.3   excluded (band)
+      5  00X/0XX/XXX     X0X/0X0/X00          1       156.4      156.4   excluded (band)
+      5  00X/0XX/XXX     X00/0XX/0X0          1       158.9      158.9   excluded (band)
+      6  00X/0X0/X0X     X00/0X0/00X          2       182.2      182.2   excluded (band)
+      5  00X/0XX/XX0     X00/0XX/0XX          1       182.2      182.2   excluded (band)
+      5  00X/0X0/X0X     X00/0XX/0XX          1       182.2      182.2   excluded (band)
+      6  00X/0XX/XX0     0X0/XX0/00X          2       182.4      182.4   excluded (band)
+      6  00X/0XX/XX0     X00/0X0/00X          2       182.4      182.4   excluded (band)
+      6  00X/0XX/XX0     X00/0XX/0X0          2       182.6      182.6   excluded (band)
+      6  00X/0X0/X0X     X00/0XX/0X0          2       183.5      183.5   excluded (band)
+      5  00X/0XX/XX0     XX0/XX0/00X          1       259.3      260.1   excluded (band)
+      5  X00/0XX/0XX     0XX/X00/X0X          1       310.6      310.2   excluded (band)
+      6  00X/0X0/X0X     X00/00X/0XX          2       330.3      330.3   excluded (band)
+      6  X00/0X0/00X     X00/0X0/00X          2       330.9      330.9   excluded (band)
+      5  0XX/XX0/X0X     X0X/00X/XX0          1       790.7      779.7   excluded (band)
+      5  00X/0XX/XX0     X0X/00X/XXX          1       863.2      862.8   excluded (band)
+      5  00X/0XX/XX0     XXX/XX0/X00          1       866.7      866.7   excluded (band)
+      5  00X/0X0/X0X     XXX/XX0/X00          1       866.9      866.9   excluded (band)
+      6  00X/0X0/X0X     X0X/0X0/X00          2       867.4      867.4   excluded (band)
+      6  00X/0XX/XX0     X0X/0X0/X00          2       867.6      867.6   excluded (band)
+      5  00X/0XX/XX0     XXX/X00/X0X          1       871.4      871.1   excluded (band)
+      6  00X/0XX/XX0     0XX/XX0/X00          2       880.6      880.8   excluded (band)
+      6  00X/0X0/X0X     0XX/XX0/X00          2       881.8      882.0   excluded (band)
+      6  00X/0XX/XX0     X00/00X/0XX          2       >1000      >1000   excluded (band)
+      5  00X/0XX/XX0     XX0/X0X/0XX          1       >1000      >1000   excluded (band)
+      6  00X/0XX/XX0     0X0/X0X/0XX          2       >1000      >1000   excluded (band)
+      6  00X/0X0/X0X     X0X/00X/XX0          2       >1000      >1000   excluded (band)
+      6  00X/0XX/XX0     0XX/X00/X0X          2       >1000      >1000   excluded (band)
+      6  00X/0X0/X0X     XX0/X0X/0X0          2       >1000      >1000   excluded (band)
+      6  00X/0XX/XX0     XX0/X00/00X          2       >1000      >1000   excluded (band)
+      6  00X/0XX/XX0     X0X/00X/XX0          2       >1000      >1000   excluded (band)
+      6  00X/0XX/XX0     XX0/X0X/0X0          2       >1000      >1000   excluded (band)
   (masks: rows of the matrix, X = nonzero, 0 = texture zero; 'band' = one |V_ij| alone
    is out of reach for every value of the unknowns; 'joint' = all four data at once)
 
   Survivor  up 00X/0XX/XXX  down 0X0/X0X/0XX: 1 prediction(s), class of 6 equivalent orderings
-    1.5 TeV: chi^2 = 0.29 for 1 dof (0.5 sigma);  ranges over all unknowns: V_us [1.91e-09, 0.991]  V_cb [8.02e-11, 0.999]  V_ub [1.99e-12, 0.0446]  J [-0.00367, 0.00367]
-    3.5 TeV: chi^2 = 0.33 for 1 dof (0.6 sigma);  ranges over all unknowns: V_us [1.90e-09, 0.991]  V_cb [8.46e-11, 0.999]  V_ub [4.42e-12, 0.0446]  J [-0.00367, 0.00367]
-    7 TeV: chi^2 = 0.36 for 1 dof (0.6 sigma);  ranges over all unknowns: V_us [2.31e-10, 0.991]  V_cb [5.87e-11, 0.999]  V_ub [1.42e-12, 0.0446]  J [-0.00367, 0.00367]
-    10 TeV: chi^2 = 0.37 for 1 dof (0.6 sigma);  ranges over all unknowns: V_us [9.73e-11, 0.991]  V_cb [4.94e-11, 0.999]  V_ub [4.15e-12, 0.0446]  J [-0.00367, 0.00367]
+    0.163441 TeV: chi^2 = 0.19 for 1 dof (0.4 sigma);  ranges over all unknowns: V_us [9.59e-11, 0.991]  V_cb [1.05e-10, 0.999]  V_ub [5.87e-12, 0.0446]  J [-0.00367, 0.00367]
+    2.53649 TeV: chi^2 = 0.31 for 1 dof (0.6 sigma);  ranges over all unknowns: V_us [1.22e-09, 0.991]  V_cb [8.15e-11, 0.999]  V_ub [2.02e-12, 0.0446]  J [-0.00367, 0.00367]
   (the free entry and the phases sweep each observable over a wide range on its own; the
    prediction is a relation among the four, which the joint test checks)
 
@@ -313,7 +291,7 @@ PART H. WHERE QUANTUM THEORY AND GRAVITY MEET (established physics)
   H2. Newton's law with its one-loop quantum correction (gravity as an effective field theory)
       V = -G m1 m2 / r [1 + 3 G (m1+m2)/(r c^2) + (41/10pi) G hbar/(r^2 c^3)]
       coefficient 41/(10 pi) = 1.30507  [quoted: Bjerrum-Bohr, Donoghue, Holstein 2003]
-      two 1 kg masses at 1 m: relativistic term 4.46e-27, quantum term 3.41e-70
+      Sun-Earth at 1 au: relativistic term 2.96e-08, quantum term 1.52e-92
       for two protons the quantum term overtakes the relativistic one below r = 4.57e-17 m (0.218 proton Compton lengths)
       the quantum term reaches 1 (the effective theory ends) at r = 1.85e-35 m = 1.142 l_P
   H3. Black holes and horizons (Hawking, Bekenstein)
@@ -357,16 +335,18 @@ PART I. CAN ALPHA BE CALCULATED FROM THE OTHER NUMBERS?
     measured 1/alpha(M_Z), MS-bar: 127.951 +/- 0.009
     content                     1/alpha(M_Z) 1-loop   2-loop (+/- inputs)     M_GUT (GeV)   1/alpha_GUT
     MSSM above M_S = 91.2 GeV         126.56          139.62 +/- 0.97      7.00e+17     25.26
-    MSSM above M_S = 300 GeV          122.73          135.44 +/- 0.97      1.60e+17     25.43
-    MSSM above M_S = 1e+03 GeV        118.85          131.22 +/- 0.97      3.62e+16     25.58
-    MSSM above M_S = 3e+03 GeV        115.31          127.36 +/- 0.97      9.31e+15     25.71
-    MSSM above M_S = 1e+04 GeV        111.43          123.13 +/- 0.98      2.11e+15     25.84
-    MSSM above M_S = 1e+05 GeV        104.01          115.02 +/- 0.98      1.23e+14     26.08
-    MSSM above M_S = 1e+07 GeV         89.18           98.75 +/- 0.99      4.18e+11     26.51
+    MSSM above M_S = 813 GeV          119.51          131.94 +/- 0.97      4.67e+16     25.55
+    MSSM above M_S = 7.26e+03 GeV     112.46          124.26 +/- 0.98      3.13e+15     25.81
+    MSSM above M_S = 6.47e+04 GeV     105.41          116.55 +/- 0.98      2.10e+14     26.04
+    MSSM above M_S = 5.77e+05 GeV      98.36          108.83 +/- 0.98      1.41e+13     26.25
+    MSSM above M_S = 5.15e+06 GeV      91.31          101.10 +/- 0.99      9.49e+11     26.46
+    MSSM above M_S = 4.59e+07 GeV      84.27           93.35 +/- 0.99      6.36e+10     26.65
+    MSSM above M_S = 4.1e+08 GeV       77.22           85.59 +/- 1.00      4.26e+09     26.83
     Standard Model only                77.05           81.85 +/- 0.58      1.11e+09     26.94
   Standard Model: forcing unification gives 1/alpha = 81.8, -36% from the measurement. The SM couplings do not meet.
   MSSM: the prediction slides with the unknown M_S by -3.51 per e-fold. It equals
-    the measured alpha at M_S = 2.54 TeV (1.92 to 3.35 TeV from the alpha_s and sin^2 theta_W errors alone).
+    the measured alpha at M_S = 2.54 TeV (1.92 to 3.35 TeV from the alpha_s and sin^2 theta_W errors alone),
+    with unification at M_GUT = 1.146e+16 GeV, 1/alpha_GUT = 25.69. Parts B, C and J use these scales.
   Numerology: closed formulas proposed for 1/alpha(0), tested against CODATA 2018
     Eddington 1929: 136                              136.0000000   off by 5.02e+07 sigma
     Eddington 1931: 137                              137.0000000   off by 1.74e+06 sigma
@@ -379,6 +359,36 @@ PART I. CAN ALPHA BE CALCULATED FROM THE OTHER NUMBERS?
     formula tested is excluded by thousands of standard deviations or more. Getting from
     alpha(M_Z) to alpha(0) also needs the hadronic vacuum polarization, a measured input.
 
+PART J. CAN THE YUKAWA COUPLINGS BE CALCULATED FROM THE OTHER NUMBERS?
+------------------------------------------------------------------------------
+  J1. Quark/lepton mass ratios fixed by grand unification (group theory, at the unification
+      scale; same-charge ratios hardly run, so they can be compared at m_t)
+      measured m_s/m_d = 19.89 +/- 0.34; m_mu/m_e at m_t = 210.65
+      minimal SU(5), m_s/m_d = m_mu/m_e:              210.65   off by 558 sigma
+      Georgi-Jarlskog, m_s/m_d = m_mu/(9 m_e):         23.41   off by 10.3 sigma
+  J2. b-tau unification: y_b = y_tau at the unification scale (MSSM: M_GUT from Part I)
+      SM at SM g1 = g2 (1.02e+13 GeV): y_b/y_tau = 0.696
+      SM at M_Planck (1.22e+19 GeV): y_b/y_tau = 0.588
+      MSSM above M_S = 2.54 TeV, up to M_GUT = 1.15e+16 GeV (both Part I);
+      tan(beta) scanned over its perturbative range 0.24 to 263.4:
+        0.241: n.p.   0.384: n.p.   0.613: n.p.   0.977: n.p.   1.56: 0.876   2.48: 0.813
+        3.96: 0.799   6.31: 0.795   10.1: 0.793   16: 0.793   25.6: 0.794   40.8: 0.799
+        65: 0.791   104: n.p.   165: n.p.   263: n.p.
+        (y_b/y_tau at the unification point; n.p. = a coupling leaves perturbation theory)
+      y_b/y_tau = 1 only at tan(beta) = 1.348, where y_t(M_GUT) = 2.63: the edge of perturbation theory
+  J3. Top quasi-fixed point: a large y_t at high scale is driven to a value set by the gauge couplings
+      SM, y_t = 1.77 at M_Planck -> m_t(m_t) = 216.9 GeV
+      SM, y_t = 3.54 at M_Planck -> m_t(m_t) = 220.4 GeV
+      measured m_t(m_t) = 163.4 GeV
+      MSSM, y_t = 1.77 at M_GUT (Part I): the measured top mass needs tan(beta) = 1.401
+      MSSM, y_t = 3.54 at M_GUT (Part I): the measured top mass needs tan(beta) = 1.329
+  RESULT: no Yukawa coupling is calculated. Minimal SU(5) and Georgi-Jarlskog mass ratios are
+    excluded. In the SM, b-tau unification and the top fixed point both fail.
+    In the MSSM (scales from Part I), b-tau unification needs tan(beta) = 1.35 and the top fixed point
+    gives tan(beta) = 1.33 to 1.40: the same narrow region, at the edge of perturbation theory.
+    That is one number (tan beta), not a calculation of the Yukawas, and it is not checked
+    here against the Higgs mass.
+
 SELF-CHECKS (correctness of the calculation, not agreement with data)
 ------------------------------------------------------------------------------
   [PASS] QCD beta coefficients from Casimirs: b0(nf=5) = 23/3, b1(nf=5) = 116/3  (b0 = 23/3, b1 = 116/3)
@@ -388,17 +398,17 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Top-Yukawa gauge coefficients from Casimirs = (17/20, 9/4, 8)  (c = ('17/20', '9/4', '8'))
   [PASS] zeta(3): fast series agrees with the direct sum plus Euler-Maclaurin tail  (zeta(3) = 1.202056903159594)
   [PASS] Fritzsch texture: exactly one real sign assignment, (+, -, +) in both sectors
-  [PASS] Texture eigenvalues reproduce the RG mass ratios  (max rel err 1.5e-14)
-  [PASS] CKM matrix is unitary  (max |V V^dag - 1| = 1.1e-15)
-  [PASS] J band is symmetric (J_min = -J_max, CP conjugate phases)  (max rel asym 1.5e-16)
+  [PASS] Texture eigenvalues reproduce the RG mass ratios  (max rel err 2.5e-14)
+  [PASS] CKM matrix is unitary  (max |V V^dag - 1| = 6.7e-16)
+  [PASS] J band is symmetric (J_min = -J_max, CP conjugate phases)  (max rel asym 3.1e-16)
   [PASS] RG running converged (step count doubled)  (max rel change 8.4e-13)
   [PASS] Phase-band edges independent of the scan grid  (max rel change 2.2e-16)
   [PASS] Romberg quadrature of the age converged  (16 levels, error 2.2e-33)
   [PASS] Age agrees with an independent float quadrature in ln a  (rel diff 1.7e-14)
   [PASS] Flatness holds exactly
-  [PASS] Survey reproduces Part B for the Fritzsch pattern (exact |V_cb| band vs phase scan)  (max rel diff 2.4e-14)
-  [PASS] Every survey mass matrix has the RG-run masses as eigenvalues  (max rel err 3.6e-08)
-  [PASS] Joint-test chi^2 independent of the starting grids (both doubled)  (max rel change 1.4e-07)
+  [PASS] Survey reproduces Part B for the Fritzsch pattern (exact |V_cb| band vs phase scan)  (max rel diff 7.7e-15)
+  [PASS] Every survey mass matrix has the RG-run masses as eigenvalues  (max rel err 6.4e-08)
+  [PASS] Joint-test chi^2 independent of the starting grids (both doubled)  (max rel change 1.0e-07)
   [PASS] 3-3-1 charges: ordinary components come out as 2/3 and -1/3 (beta = +-1/sqrt3)
   [PASS] 3-3-1 anomalies cancel: [SU(3)_L]^3 and [SU(3)_C]^2 U(1)_X
   [PASS] Every symmetry found reproduces its target zeros exactly (recomputed from the charges)
@@ -409,8 +419,10 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Identity: S_dS x (rho_Lambda / rho_Planck) = 3/8 exactly  (rel diff 0.0e+00)
   [PASS] Entanglement entropy: reduced density matrix = concurrence formula  (abs diff 1.3e-15)
   [PASS] Two-loop gauge coefficients from field content = textbook matrices (SM and MSSM)
-  [PASS] Unification solver at one loop = closed-form solution (every M_S, and pure SM)  (max rel diff 6.3e-13)
+  [PASS] Unification solver at one loop = closed-form solution (every M_S, and pure SM)  (max rel diff 6.2e-13)
+  [PASS] Yukawa-RGE gauge coefficients from Casimirs = textbook (SM and MSSM; t, b, tau)
+  [PASS] MSSM Yukawa self-terms from field multiplicities: 6 y_t^3, (3 y_b^2 + 4 y_tau^2) y_tau  (6.000, 7.000)
   [PASS] Lambda_QCD (2-loop) reproduces alpha_s(M_Z)  (rel diff 2.2e-16)
-  30/30 checks pass
+  32/32 checks pass
 ==============================================================================
-Elapsed: 165.3 s
+Elapsed: 119.6 s

@@ -28,7 +28,8 @@ WHAT IT CALCULATES
     accelerate, matter-radiation equality, and the horizon entropies.
   Part B, quark flavour: the six quark masses run with the renormalization group
     (two-loop QCD, one-loop QED, then one-loop Standard Model Yukawa and gauge
-    running above the top mass) to each benchmark 3-3-1 scale. They are then
+    running above the top mass) to m_t(m_t) and to the superpartner scale that
+    Part I derives. They are then
     put into the Fritzsch six-zero texture, whose entries the masses fix exactly.
     Diagonalizing it gives the full CKM matrix for every value of the two free
     phases, and each element's band is compared with the measured value.
@@ -119,6 +120,8 @@ INPUTS: Dict[str, Dict[str, str]] = {
                  "source": "CODATA 2018, fine-structure constant at zero momentum"},
     "m_p": {"value": "1.67262192369e-27", "sigma": "0.00000000051e-27", "unit": "kg", "source": "CODATA 2018"},
     "m_e": {"value": "9.1093837015e-31", "sigma": "0.0000000028e-31", "unit": "kg", "source": "CODATA 2018"},
+    "m_mu_MeV": {"value": "105.6583755", "sigma": "0.0000023", "unit": "MeV", "source": "PDG 2024 (pole)"},
+    "m_tau_MeV": {"value": "1776.93", "sigma": "0.09", "unit": "MeV", "source": "PDG 2024 (pole)"},
     "GM_sun": {"value": "1.3271244e20", "sigma": "0", "unit": "m^3/s^2", "source": "IAU 2015 B3, nominal (exact)"},
     "GM_earth": {"value": "3.986004418e14", "sigma": "0.000000008e14", "unit": "m^3/s^2", "source": "IERS 2010"},
     "R_earth": {"value": "6378137", "sigma": "0", "unit": "m", "source": "WGS 84 equatorial radius (defined)"},
@@ -187,16 +190,15 @@ NUMERICS: Dict[str, Any] = {
     "unif_iterations": 60,
     "unif_ms_deriv_step": "0.05",     # step in ln(M_S) for the slope
     "unif_tol": "1e-7",
-    # superpartner mass scale M_S is unknown: scanned (GeV); 'none' = no superpartners (pure SM)
-    "unif_susy_scales_GeV": ("91.1876", "300", "1000", "3000", "10000", "100000", "1e7", "none"),
+    "unif_grid_points": 8,            # M_S scan: geometric grid from M_Z to the SM unification point
+    "yukawa_tan_beta_points": 16,     # tan(beta) scan: geometric grid between its perturbative bounds
     "check_fd_rel_step": "1e-5",      # finite-difference step for the first-law check
     "check_fd_tol": "1e-8",
     "report_sci_below": "1e-3",       # print in scientific notation below / above these
     "report_sci_above": "1e5",
-    # Scales at which the flavour bands are reported: the four 3-3-1 benchmark
-    # scales of production v1. All four are always reported; none is selected.
-    "evaluation_scales_GeV": ("1500", "3500", "7000", "10000"),
 }
+# Scales are never typed in: Parts B and C are evaluated at m_t(m_t) and at the superpartner
+# scale M_S that Part I derives; Part J uses the unification scales it computes and M_Planck.
 
 
 def inp(name: str) -> float:
@@ -405,7 +407,8 @@ class FlavourRunner:
         }
         base = {"mu": mu0, "m_u": m["u"], "m_d": m["d"], "m_s": m["s"], "m_c": m["c"], "m_b": m["b"],
                 "m_t": m["t"], "r_uc": m["u"] / m["c"], "r_ct": m["c"] / m["t"],
-                "r_ds": m["d"] / m["s"], "r_sb": m["s"] / m["b"], "alpha_s": self.alpha_s(mu0)}
+                "r_ds": m["d"] / m["s"], "r_sb": m["s"] / m["b"], "alpha_s": self.alpha_s(mu0),
+                "y_t": math.sqrt(2) * mu0 / self.v}
         out = {mu0: base}
 
         # Above m_t: alpha_s (nf = 6), g1, g2, y_t, ln(m_c/m_t), ln(m_s/m_b).
@@ -442,8 +445,12 @@ class FlavourRunner:
 
         mu_prev = mu0
         for mu in sorted(scales):
-            if mu < mu0:
+            # below m_t(m_t) the ratio running is only continued across the top-mass uncertainty
+            # (input variations shift m_t(m_t) itself); anything lower is refused
+            if mu < mu0 * (1 - 3 * sig("M_t") / inp("M_t")):
                 raise ValueError(f"evaluation scale {mu} GeV is below m_t(m_t) = {mu0:.2f} GeV")
+            if mu == mu0:
+                continue
             state = integrate_ln_mu(state, mu_prev, mu, rhs, [], self.steps)
             mu_prev = mu
             out[mu] = {"mu": mu, "alpha_s": state[0], "y_t": state[3], "r_uc": base["r_uc"],
@@ -1633,8 +1640,8 @@ def quantum_gravity(cosmo: Dict[str, Any], flav: Dict[str, Any]) -> Dict[str, An
     m_p = x["m_p"]
     out["newton"] = {
         "coefficient": k_q,
-        "quantum_rel_at_1m": k_q * lp ** 2,
-        "classical_rel_two_1kg_at_1m": 3 * g * 2 / c ** 2,
+        "quantum_rel_sun_earth": k_q * lp ** 2 / x["au"] ** 2,
+        "classical_rel_sun_earth": 3 * (x["GM_sun"] + x["GM_earth"]) / (x["au"] * c ** 2),
         # distance where the quantum term equals the relativistic one: r = k_q hbar / (3 (m1 + m2) c)
         "r_equal_two_protons_m": k_q * hbar / (3 * 2 * m_p * c),
         "proton_compton_m": hbar / (m_p * c),
@@ -1842,8 +1849,13 @@ def alpha_from_unification() -> Dict[str, Any]:
     s2, s2_sig = x["s2_hat_Z"], sig("s2_hat_Z")
     a_s, a_s_sig, mz = x["alpha_s_MZ"], sig("alpha_s_MZ"), x["M_Z"]
     out: Dict[str, Any] = {"rows": []}
-    for k in NUMERICS["unif_susy_scales_GeV"]:
-        m_s = float(k) if k != "none" else math.inf
+    # scan M_S from M_Z up to the scale where pure-SM couplings, forced to unify, meet (one loop):
+    # above it there is no supersymmetric range left and every row is the SM row
+    m12 = predict_alpha(s2, a_s, mz, mz * 10 ** 30, 1)["M_GUT"]
+    n_pts = int(num("unif_grid_points"))
+    grid = [mz * (m12 / mz) ** (k / (n_pts - 1)) for k in range(n_pts)] + [math.inf]
+    out["scan_top_GeV"] = m12
+    for m_s in grid:
         row: Dict[str, Any] = {"M_S": m_s}
         for loops in (1, 2):
             ms_eff = m_s if math.isfinite(m_s) else mz * 10 ** 30   # beyond M_GUT: pure SM
@@ -1862,7 +1874,7 @@ def alpha_from_unification() -> Dict[str, Any]:
     # read backwards: the superpartner scale at which the two-loop prediction equals the measurement
     def gap(log_ms: float, s2v: float = s2, asv: float = a_s, target: float = x["alpha_em_inv_MZ"]) -> float:
         return predict_alpha(s2v, asv, mz, math.exp(log_ms), 2)["inv_alpha"] - target
-    lo, hi = math.log(mz), math.log(float(NUMERICS["unif_susy_scales_GeV"][-2]))
+    lo, hi = math.log(mz), math.log(m12)
     if gap(lo) * gap(hi) < 0:
         for _ in range(int(num("unif_iterations"))):
             mid = (lo + hi) / 2
@@ -1876,7 +1888,9 @@ def alpha_from_unification() -> Dict[str, Any]:
         d_s2 = (gap(l_ms, s2v=s2 + s2_sig) - gap(l_ms)) / slope
         d_as = (gap(l_ms, asv=a_s + a_s_sig) - gap(l_ms)) / slope
         sig_ln = math.hypot(d_s2, d_as)
+        at_ms = predict_alpha(s2, a_s, mz, math.exp(l_ms), 2)
         out["M_S_for_measured_alpha"] = {"M_S_GeV": math.exp(l_ms), "ln_sigma": sig_ln,
+                                         "M_GUT_GeV": at_ms["M_GUT"], "alpha_GUT": at_ms["alpha_GUT"],
                                          "low_GeV": math.exp(l_ms - sig_ln), "high_GeV": math.exp(l_ms + sig_ln),
                                          "slope_per_efold": slope}
     return out
@@ -1912,6 +1926,250 @@ def alpha_numerology() -> List[Dict[str, Any]]:
          8 * pi ** 4 / 9 * (2 ** 4 * math.factorial(5) / pi ** 5) ** (1 / 4)),
     ]
     return [{"formula": n, "value": v, "n_sigma": abs(v - a_inv) / a_sig} for n, v in cands]
+
+
+# =============================================================================
+# 6h. PART J: CAN THE YUKAWA COUPLINGS BE CALCULATED FROM THE OTHER NUMBERS?
+# =============================================================================
+# No accepted theory gives the Yukawa couplings. Two established ideas relate them:
+#   * grand unification puts quarks and leptons in one multiplet, which fixes
+#     quark/lepton mass ratios at the unification scale by group theory
+#     (minimal SU(5): m_b = m_tau, m_s = m_mu, m_d = m_e; Georgi-Jarlskog with a
+#     45-dimensional Higgs: m_s = m_mu/3, m_d = 3 m_e);
+#   * a large top coupling at high scales is driven by running to an infrared
+#     quasi-fixed point, set by the gauge couplings (Pendleton-Ross, Hill).
+# Unknowns (the unification scale, the MSSM's tan(beta) and its superpartner
+# scale) are scanned or taken from Part I; nothing is fitted.
+PERTURBATIVE_LIMIT = math.sqrt(4 * math.pi)   # a coupling above sqrt(4 pi) is not perturbative
+
+
+def lepton_masses_gev() -> Dict[str, float]:
+    x = _float_inputs()
+    me = x["m_e"] * x["c"] ** 2 / (x["e_charge"] * 10 ** 9)
+    return {"e": me, "mu": x["m_mu_MeV"] / 1000, "tau": x["m_tau_MeV"] / 1000}
+
+
+def lepton_running_mass(pole: float, mu: float, alpha: float) -> float:
+    """One-loop QED: m(m) = M / (1 + alpha/pi), then d ln m / d ln mu = -3 alpha/(2 pi) (charge 1)."""
+    m_m = pole / (1 + alpha / math.pi)
+    return m_m * (mu / m_m) ** (-3 * alpha / (2 * math.pi))
+
+
+def _pair_gauge_coeffs(left, right) -> Tuple[float, float, float]:
+    """16 pi^2 d ln y/d ln mu contains -c_i g_i^2 with c_i = 3 [C2_i(left) + C2_i(right)] (SM)."""
+    return (float(3 * GUT_NORM * (left[3] ** 2 + right[3] ** 2)),
+            float(3 * (casimir_fund(2, left[2]) + casimir_fund(2, right[2]))),
+            float(3 * (casimir_fund(3, left[1]) + casimir_fund(3, right[1]))))
+
+
+def _susy_gauge_coeffs(fields) -> Tuple[float, float, float]:
+    """MSSM: 16 pi^2 d ln y/d ln mu contains -2 sum over the three fields of C2_i g_i^2."""
+    return (float(2 * sum(GUT_NORM * f[3] ** 2 for f in fields)),
+            float(2 * sum(casimir_fund(2, f[2]) for f in fields)),
+            float(2 * sum(casimir_fund(3, f[1]) for f in fields)))
+
+
+def _fields() -> Dict[str, Any]:
+    named = {f[0]: f for f in SM_FIELDS}
+    named.update({f[0]: f for f in MSSM_HIGGS})
+    return named
+
+
+def yukawa_rhs(model: str):
+    """Right-hand side for (g1, g2, g3, y_t, y_b, y_tau) in d/d ln mu, one loop."""
+    f = _fields()
+    k = 16 * math.pi ** 2
+    nc = float(su_n_casimirs(3)[0])
+    if model == "SM":
+        gb = [float(v) for v in sm_gauge_b()]
+        ct = _pair_gauge_coeffs(f["Q"], f["u^c"])
+        cb = _pair_gauge_coeffs(f["Q"], f["d^c"])
+        cl = _pair_gauge_coeffs(f["L"], f["e^c"])
+        split = float(YUKAWA_SPLIT)
+
+        def rhs(v: List[float], nf: int) -> List[float]:
+            g1, g2, g3, yt, yb, yl = v
+            y2 = nc * yt ** 2 + nc * yb ** 2 + yl ** 2
+            gs = (g1 ** 2, g2 ** 2, g3 ** 2)
+            return [gb[0] * g1 ** 3 / k, gb[1] * g2 ** 3 / k, gb[2] * g3 ** 3 / k,
+                    yt * (split * (yt ** 2 - yb ** 2) + y2 - sum(c * g for c, g in zip(ct, gs))) / k,
+                    yb * (split * (yb ** 2 - yt ** 2) + y2 - sum(c * g for c, g in zip(cb, gs))) / k,
+                    yl * (split * yl ** 2 + y2 - sum(c * g for c, g in zip(cl, gs))) / k]
+        return rhs
+    gb = [float(v) for v in mssm_b()[0]]
+    ct = _susy_gauge_coeffs((f["H_u"], f["Q"], f["u^c"]))
+    cb = _susy_gauge_coeffs((f["H_d"], f["Q"], f["d^c"]))
+    cl = _susy_gauge_coeffs((f["H_d"], f["L"], f["e^c"]))
+    # anomalous dimensions: a superpotential term with N invariant terms gives each field
+    # (N / its number of components) x y^2
+    dims = {"H_u": 2, "H_d": 2, "Q": 6, "u^c": 3, "d^c": 3, "L": 2, "e^c": 1}
+    terms = {"t": ("H_u", "Q", "u^c", 6), "b": ("H_d", "Q", "d^c", 6), "l": ("H_d", "L", "e^c", 2)}
+
+    def rhs(v: List[float], nf: int) -> List[float]:
+        g1, g2, g3, yt, yb, yl = v
+        y = {"t": yt, "b": yb, "l": yl}
+        gam = {name: 0.0 for name in dims}
+        for key, (a, b, c, n) in terms.items():
+            for fld in (a, b, c):
+                gam[fld] += n / dims[fld] * y[key] ** 2
+        gs = (g1 ** 2, g2 ** 2, g3 ** 2)
+        out = [gb[0] * g1 ** 3 / k, gb[1] * g2 ** 3 / k, gb[2] * g3 ** 3 / k]
+        for key, cc in (("t", ct), ("b", cb), ("l", cl)):
+            a, b, c, _ = terms[key]
+            out.append(y[key] * (gam[a] + gam[b] + gam[c] - sum(ci * g for ci, g in zip(cc, gs))) / k)
+        return out
+    return rhs
+
+
+def couplings_at_mt(flav: Dict[str, Any]) -> Tuple[float, List[float]]:
+    """(m_t(m_t), [g1, g2, g3, y_t, y_b, y_tau]) at mu = m_t(m_t) from the measured inputs."""
+    x = _float_inputs()
+    runner = flav["runner"]
+    mt = runner.mt_msbar
+    base = flav["ratios"][mt]
+    v = runner.v
+    a_em = 1 / x["alpha_em_inv_MZ"]
+    s2 = x["s2_hat_Z"]
+    sm1 = [float(b) for b in sm_gauge_b()]
+    k = 16 * math.pi ** 2
+    g1sq = 4 * math.pi * a_em / (1 - s2) / float(GUT_NORM)
+    g2sq = 4 * math.pi * a_em / s2
+    lt = math.log(mt / x["M_Z"])
+    g1 = math.sqrt(1 / (1 / g1sq - 2 * sm1[0] / k * lt))
+    g2 = math.sqrt(1 / (1 / g2sq - 2 * sm1[1] / k * lt))
+    g3 = math.sqrt(4 * math.pi * base["alpha_s"])
+    lep = lepton_masses_gev()
+    m_tau = lepton_running_mass(lep["tau"], mt, inp("alpha_em"))
+    rt2 = math.sqrt(2)
+    return mt, [g1, g2, g3, rt2 * mt / v, rt2 * base["m_b"] / v, rt2 * m_tau / v]
+
+
+def run_to(state: List[float], mu0: float, mu1: float, model: str) -> List[float]:
+    return integrate_ln_mu(state, mu0, mu1, yukawa_rhs(model), [], int(num("rg_steps_per_efold")))
+
+
+def unification_point(state: List[float], mu0: float, model: str,
+                       mu_stop: float | None = None) -> Tuple[float, List[float]]:
+    """Run up until g1 = g2 (or until mu_stop, if given); NaN scale if a coupling leaves
+    perturbation theory first."""
+    rhs = yukawa_rhs(model)
+    h = num("unif_step")
+    t, v = math.log(mu0), list(state)
+    while t < math.log(mu0) + 60:
+        if mu_stop is not None and t + h >= math.log(mu_stop):
+            new = _rk4(lambda s: rhs(s, 6), v, math.log(mu_stop) - t)
+            if any(abs(c) > PERTURBATIVE_LIMIT for c in new):
+                return math.nan, new
+            return mu_stop, new
+        new = _rk4(lambda s: rhs(s, 6), v, h)
+        if mu_stop is None and v[0] < v[1] and new[0] >= new[1]:
+            f = (v[1] - v[0]) / ((v[1] - v[0]) - (new[1] - new[0]))
+            return math.exp(t + f * h), [a + f * (b - a) for a, b in zip(v, new)]
+        if any(abs(c) > PERTURBATIVE_LIMIT for c in new):
+            return math.nan, new
+        v, t = new, t + h
+    return math.nan, v
+
+
+def yukawa_relations(flav: Dict[str, Any], m_s_susy: float | None, m_gut: float | None,
+                     m_planck_gev: float) -> Dict[str, Any]:
+    """m_s_susy and m_gut come from Part I (two-loop unification at the measured alpha)."""
+    x = _float_inputs()
+    out: Dict[str, Any] = {}
+    mt, st = couplings_at_mt(flav)
+    lep = lepton_masses_gev()
+    a0 = inp("alpha_em")
+    # J1. ratios (same-type ratios do not run with QCD; gauge and Yukawa terms cancel within a type)
+    r_q = 1 / flav["ratios"][mt]["r_ds"]                                    # m_s/m_d
+    r_l = lepton_running_mass(lep["mu"], mt, a0) / lepton_running_mass(lep["e"], mt, a0)
+    sig_q = r_q * math.hypot(sig("m_s") / inp("m_s"), sig("m_d") / inp("m_d"))
+    out["ratios"] = {"ms_over_md": r_q, "ms_over_md_sigma": sig_q, "mmu_over_me_at_mt": r_l,
+                     "SU5": {"predicted": r_l, "n_sigma": abs(r_l - r_q) / sig_q},
+                     "GJ": {"predicted": r_l / 9, "n_sigma": abs(r_l / 9 - r_q) / sig_q}}
+    # J2. b-tau unification
+    # the SM has no unification point: report where g1 = g2 and at M_Planck
+    mu12, s12 = unification_point(st, mt, "SM")
+    s_pl = run_to(st, mt, m_planck_gev, "SM")
+    out["btau_SM"] = [{"mu": mu12, "where": "SM g1 = g2", "yb_over_ytau": s12[4] / s12[5]},
+                      {"mu": m_planck_gev, "where": "M_Planck", "yb_over_ytau": s_pl[4] / s_pl[5]}]
+    mssm = []
+    if m_s_susy:
+        s_ms = run_to(st, mt, m_s_susy, "SM")
+        # tan(beta) range: y_t/sin(beta) and y_b/cos(beta) at M_S must stay below sqrt(4 pi)
+        sb_min = s_ms[3] / PERTURBATIVE_LIMIT
+        cb_min = s_ms[4] / PERTURBATIVE_LIMIT
+        tb_lo = sb_min / math.sqrt(1 - sb_min ** 2)
+        tb_hi = math.sqrt(1 - cb_min ** 2) / cb_min
+        n_tb = int(num("yukawa_tan_beta_points"))
+        out["tan_beta_range"] = (tb_lo, tb_hi)
+        for k in range(n_tb):
+            tb = tb_lo * (tb_hi / tb_lo) ** (k / (n_tb - 1))
+            sb, cb = tb / math.sqrt(1 + tb * tb), 1 / math.sqrt(1 + tb * tb)
+            s0 = [s_ms[0], s_ms[1], s_ms[2], s_ms[3] / sb, s_ms[4] / cb, s_ms[5] / cb]
+            mg, sg = unification_point(s0, m_s_susy, "MSSM", m_gut)
+            mssm.append({"tan_beta": tb, "M_GUT": mg,
+                         "yb_over_ytau": sg[4] / sg[5] if math.isfinite(mg) else math.nan,
+                         "yt_GUT": sg[3], "yb_GUT": sg[4]})
+    out["btau_MSSM"] = mssm
+    out["M_S"] = m_s_susy
+    out["M_GUT"] = m_gut
+    if m_s_susy:
+        # where does y_b/y_tau reach 1 at low tan(beta)? (bisection between the last
+        # non-perturbative point and the first perturbative one)
+        def ratio_at(tb: float) -> Tuple[float, float]:
+            sb, cb = tb / math.sqrt(1 + tb * tb), 1 / math.sqrt(1 + tb * tb)
+            s0 = [s_ms[0], s_ms[1], s_ms[2], s_ms[3] / sb, s_ms[4] / cb, s_ms[5] / cb]
+            mg, sg = unification_point(s0, m_s_susy, "MSSM", m_gut)
+            return (sg[4] / sg[5] if math.isfinite(mg) else math.inf), sg[3]
+        ok = [r for r in mssm if math.isfinite(r["M_GUT"])]
+        bad = [r for r in mssm if not math.isfinite(r["M_GUT"]) and r["tan_beta"] < min(q["tan_beta"] for q in ok)]
+        if ok and bad:
+            lo, hi = max(r["tan_beta"] for r in bad), min(r["tan_beta"] for r in ok)
+            if ratio_at(hi)[0] < 1:
+                for _ in range(int(num("unif_iterations"))):
+                    mid = (lo + hi) / 2
+                    if ratio_at(mid)[0] >= 1:
+                        lo = mid
+                    else:
+                        hi = mid
+                r1, yt1 = ratio_at(hi)
+                out["btau_MSSM_unity"] = {"tan_beta": (lo + hi) / 2, "yt_GUT": yt1, "ratio": r1,
+                                          "tan_beta_nonperturbative_below": lo}
+    # J3. top quasi-fixed point: start large at the unification scale, run down
+    # a "large" top coupling: half the perturbative limit and the limit itself
+    starts = (PERTURBATIVE_LIMIT / 2, PERTURBATIVE_LIMIT)
+    fp = []
+    mu_top = m_planck_gev
+    s_up = run_to(st, mt, mu_top, "SM")
+    for y0 in starts:
+        s = list(s_up)
+        s[3] = float(y0)
+        down = run_to(s, mu_top, mt, "SM")
+        fp.append({"yt_start": float(y0), "yt_mt": down[3], "mt_msbar": down[3] * flav["runner"].v / math.sqrt(2)})
+    out["fixed_point_SM"] = {"scale": mu_top, "runs": fp, "measured_yt_mt": st[3], "measured_mt_msbar": mt}
+    # MSSM quasi-fixed point: large y_t at M_GUT, MSSM running to M_S, y_t(SM) = y_t(MSSM) sin(beta),
+    # SM running to m_t; solve for the sin(beta) that gives the measured top coupling
+    if m_s_susy:
+        s_ms = run_to(st, mt, m_s_susy, "SM")
+        mg, s_g = unification_point([s_ms[0], s_ms[1], s_ms[2], s_ms[3], 0, 0], m_s_susy, "MSSM", m_gut)
+        rows = []
+        for y0 in starts:
+            down = run_to([s_g[0], s_g[1], s_g[2], float(y0), 0, 0], mg, m_s_susy, "MSSM")
+
+            def yt_mt(sb: float) -> float:
+                return run_to([down[0], down[1], down[2], down[3] * sb, 0, 0], m_s_susy, mt, "SM")[3]
+            lo, hi = 0, 1
+            for _ in range(int(num("unif_iterations"))):
+                mid = (lo + hi) / 2
+                if yt_mt(mid) < st[3]:
+                    lo = mid
+                else:
+                    hi = mid
+            sb = (lo + hi) / 2
+            rows.append({"yt_start": float(y0), "yt_MSSM_at_MS": down[3], "sin_beta": sb,
+                         "tan_beta": sb / math.sqrt(1 - sb * sb)})
+        out["fixed_point_MSSM"] = {"M_GUT": mg, "runs": rows}
+    return out
 
 
 # =============================================================================
@@ -2265,12 +2523,17 @@ def _fmt(x: float, nd: int = 5) -> str:
 
 
 def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[str, Any]:
-    scales = sorted(float(s) for s in (scales or NUMERICS["evaluation_scales_GeV"]))
     prec = int(prec or NUMERICS["precision_digits"])
     steps = int(NUMERICS["rg_steps_per_efold"])
     grid = int(NUMERICS["phase_grid"])
     _derived_vub_over_vcb()
     cosmo = run_cosmology(prec)
+    alpha_unif = alpha_from_unification()                         # Part I first: it supplies M_S
+    alpha_num = alpha_numerology()
+    m_susy = alpha_unif.get("M_S_for_measured_alpha", {}).get("M_S_GeV")
+    if not scales:
+        scales = [FlavourRunner(_float_inputs(), steps).mt_msbar] + ([m_susy] if m_susy else [])
+    scales = sorted(float(v) for v in scales)
     flav = run_flavour(scales, steps, grid)
     survey = run_survey(flav, scales)
     yuk = {b: yukawa_structure_331(b) for b in (-1, 1)}
@@ -2282,8 +2545,8 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
     symm = symmetry_search(yuk, survivors)
     closure = general_texture_closure()
     qg = quantum_gravity(cosmo, flav)
-    alpha_unif = alpha_from_unification()
-    alpha_num = alpha_numerology()
+    m_gut = alpha_unif.get("M_S_for_measured_alpha", {}).get("M_GUT_GeV")
+    yukawa = yukawa_relations(flav, m_susy, m_gut, qg["planck"]["E_P_GeV"])
     checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
     checks.append(("Every symmetry found reproduces its target zeros exactly (recomputed from the charges)",
                    all(sv["verified"] for e in symm["by_beta"].values() for sv in e["survivors"]
@@ -2339,11 +2602,24 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
         worst_u = max(worst_u, abs(row["loop1"]["inv_alpha"] / exact - 1))
     checks.append(("Unification solver at one loop = closed-form solution (every M_S, and pure SM)",
                    worst_u < num("check_survey_tol"), f"max rel diff {worst_u:.1e}"))
+    f_ = _fields()
+    got = (_pair_gauge_coeffs(f_["Q"], f_["u^c"]), _pair_gauge_coeffs(f_["Q"], f_["d^c"]),
+           _pair_gauge_coeffs(f_["L"], f_["e^c"]),
+           _susy_gauge_coeffs((f_["H_u"], f_["Q"], f_["u^c"])), _susy_gauge_coeffs((f_["H_d"], f_["Q"], f_["d^c"])),
+           _susy_gauge_coeffs((f_["H_d"], f_["L"], f_["e^c"])))
+    want = ((17 / 20, 9 / 4, 8), (1 / 4, 9 / 4, 8), (9 / 4, 9 / 4, 0),
+            (13 / 15, 3, 16 / 3), (7 / 15, 3, 16 / 3), (9 / 5, 3, 0))
+    ok_y = all(abs(a - b) < tol for g_, w_ in zip(got, want) for a, b in zip(g_, w_))
+    checks.append(("Yukawa-RGE gauge coefficients from Casimirs = textbook (SM and MSSM; t, b, tau)", ok_y, ""))
+    yt_test = yukawa_rhs("MSSM")([0, 0, 0, 1, 0, 0], 6)[3] * 16 * math.pi ** 2
+    yl_test = yukawa_rhs("MSSM")([0, 0, 0, 0, 1, 1], 6)[5] * 16 * math.pi ** 2
+    checks.append(("MSSM Yukawa self-terms from field multiplicities: 6 y_t^3, (3 y_b^2 + 4 y_tau^2) y_tau",
+                   abs(yt_test - 6) < tol and abs(yl_test - 7) < tol, f"{yt_test:.3f}, {yl_test:.3f}"))
     checks.append(("Lambda_QCD (2-loop) reproduces alpha_s(M_Z)", abs(back / xf["alpha_s_MZ"] - 1) < tol,
                    f"rel diff {abs(back / xf['alpha_s_MZ'] - 1):.1e}"))
     return {"scales": scales, "cosmology": cosmo, "flavour": flav, "survey": survey, "yukawa_331": yuk,
             "symmetry": symm, "closure": closure, "quantum_gravity": qg, "alpha_unification": alpha_unif,
-            "alpha_numerology": alpha_num, "checks": checks, "precision": prec}
+            "alpha_numerology": alpha_num, "yukawa": yukawa, "checks": checks, "precision": prec}
 
 
 def report(res: Dict[str, Any]) -> str:
@@ -2622,8 +2898,8 @@ def report(res: Dict[str, Any]) -> str:
     w("  H2. Newton's law with its one-loop quantum correction (gravity as an effective field theory)")
     w("      V = -G m1 m2 / r [1 + 3 G (m1+m2)/(r c^2) + (41/10pi) G hbar/(r^2 c^3)]")
     w(f"      coefficient 41/(10 pi) = {nw['coefficient']:.5f}  [quoted: Bjerrum-Bohr, Donoghue, Holstein 2003]")
-    w(f"      two 1 kg masses at 1 m: relativistic term {nw['classical_rel_two_1kg_at_1m']:.2e},"
-      f" quantum term {nw['quantum_rel_at_1m']:.2e}")
+    w(f"      Sun-Earth at 1 au: relativistic term {nw['classical_rel_sun_earth']:.2e},"
+      f" quantum term {nw['quantum_rel_sun_earth']:.2e}")
     w(f"      for two protons the quantum term overtakes the relativistic one below r = {nw['r_equal_two_protons_m']:.2e} m"
       f" ({nw['r_equal_two_protons_m'] / nw['proton_compton_m']:.3f} proton Compton lengths)")
     w(f"      the quantum term reaches 1 (the effective theory ends) at r = {nw['r_breakdown_m']:.2e} m"
@@ -2699,7 +2975,9 @@ def report(res: Dict[str, Any]) -> str:
     if ms:
         w(f"  MSSM: the prediction slides with the unknown M_S by {ms['slope_per_efold']:.2f} per e-fold. It equals")
         w(f"    the measured alpha at M_S = {ms['M_S_GeV'] / 1000:.2f} TeV ({ms['low_GeV'] / 1000:.2f} to"
-          f" {ms['high_GeV'] / 1000:.2f} TeV from the alpha_s and sin^2 theta_W errors alone).")
+          f" {ms['high_GeV'] / 1000:.2f} TeV from the alpha_s and sin^2 theta_W errors alone),")
+        w(f"    with unification at M_GUT = {ms['M_GUT_GeV']:.3e} GeV, 1/alpha_GUT = {1 / ms['alpha_GUT']:.2f}."
+          " Parts B, C and J use these scales.")
     w("  Numerology: closed formulas proposed for 1/alpha(0), tested against CODATA 2018")
     for c_ in res["alpha_numerology"]:
         w(f"    {c_['formula']:<48} {c_['value']:.7f}   off by {c_['n_sigma']:.2e} sigma")
@@ -2709,6 +2987,55 @@ def report(res: Dict[str, Any]) -> str:
     w("    (before unknown threshold corrections). The SM alone cannot unify, and every closed")
     w("    formula tested is excluded by thousands of standard deviations or more. Getting from")
     w("    alpha(M_Z) to alpha(0) also needs the hadronic vacuum polarization, a measured input.")
+    w("")
+    w("PART J. CAN THE YUKAWA COUPLINGS BE CALCULATED FROM THE OTHER NUMBERS?")
+    w("-" * 78)
+    yk = res["yukawa"]
+    ra = yk["ratios"]
+    w("  J1. Quark/lepton mass ratios fixed by grand unification (group theory, at the unification")
+    w("      scale; same-charge ratios hardly run, so they can be compared at m_t)")
+    w(f"      measured m_s/m_d = {ra['ms_over_md']:.2f} +/- {ra['ms_over_md_sigma']:.2f};"
+      f" m_mu/m_e at m_t = {ra['mmu_over_me_at_mt']:.2f}")
+    w(f"      minimal SU(5), m_s/m_d = m_mu/m_e:            {ra['SU5']['predicted']:8.2f}   off by {ra['SU5']['n_sigma']:.0f} sigma")
+    w(f"      Georgi-Jarlskog, m_s/m_d = m_mu/(9 m_e):      {ra['GJ']['predicted']:8.2f}   off by {ra['GJ']['n_sigma']:.1f} sigma")
+    w("  J2. b-tau unification: y_b = y_tau at the unification scale (MSSM: M_GUT from Part I)")
+    for p_ in yk["btau_SM"]:
+        w(f"      SM at {p_['where']} ({p_['mu']:.2e} GeV): y_b/y_tau = {p_['yb_over_ytau']:.3f}")
+    if yk.get("btau_MSSM"):
+        lo_, hi_ = yk["tan_beta_range"]
+        w(f"      MSSM above M_S = {yk['M_S'] / 1000:.2f} TeV, up to M_GUT = {yk['M_GUT']:.2e} GeV (both Part I);")
+        w(f"      tan(beta) scanned over its perturbative"
+          f" range {lo_:.2f} to {hi_:.1f}:")
+        line = []
+        for r_ in yk["btau_MSSM"]:
+            v_ = f"{r_['yb_over_ytau']:.3f}" if math.isfinite(r_["yb_over_ytau"]) else "n.p."
+            line.append(f"{r_['tan_beta']:.3g}: {v_}")
+        for i in range(0, len(line), 6):
+            w("        " + "   ".join(line[i:i + 6]))
+        w("        (y_b/y_tau at the unification point; n.p. = a coupling leaves perturbation theory)")
+        u_ = yk.get("btau_MSSM_unity")
+        if u_:
+            w(f"      y_b/y_tau = 1 only at tan(beta) = {u_['tan_beta']:.3f}, where y_t(M_GUT) = {u_['yt_GUT']:.2f}:"
+              f" the edge of perturbation theory")
+    fs = yk["fixed_point_SM"]
+    w("  J3. Top quasi-fixed point: a large y_t at high scale is driven to a value set by the gauge couplings")
+    for r_ in fs["runs"]:
+        w(f"      SM, y_t = {r_['yt_start']:.2f} at M_Planck -> m_t(m_t) = {r_['mt_msbar']:.1f} GeV")
+    w(f"      measured m_t(m_t) = {fs['measured_mt_msbar']:.1f} GeV")
+    if yk.get("fixed_point_MSSM"):
+        for r_ in yk["fixed_point_MSSM"]["runs"]:
+            w(f"      MSSM, y_t = {r_['yt_start']:.2f} at M_GUT (Part I):"
+              f" the measured top mass needs tan(beta) = {r_['tan_beta']:.3f}")
+    w("  RESULT: no Yukawa coupling is calculated. Minimal SU(5) and Georgi-Jarlskog mass ratios are")
+    w("    excluded. In the SM, b-tau unification and the top fixed point both fail.")
+    if yk.get("btau_MSSM_unity") and yk.get("fixed_point_MSSM"):
+        tbs = [r_["tan_beta"] for r_ in yk["fixed_point_MSSM"]["runs"]]
+        w(f"    In the MSSM (scales from Part I), b-tau unification needs tan(beta) ="
+          f" {yk['btau_MSSM_unity']['tan_beta']:.2f} and the top fixed point")
+        w(f"    gives tan(beta) = {min(tbs):.2f} to {max(tbs):.2f}: the same narrow region, at the edge of"
+          " perturbation theory.")
+        w("    That is one number (tan beta), not a calculation of the Yukawas, and it is not checked")
+        w("    here against the Higgs mass.")
     w("")
     w("SELF-CHECKS (correctness of the calculation, not agreement with data)")
     w("-" * 78)
@@ -2748,6 +3075,7 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
         "general_texture_closure": res["closure"],
         "quantum_gravity": res["quantum_gravity"],
         "alpha_unification": res["alpha_unification"], "alpha_numerology": res["alpha_numerology"],
+        "yukawa": res["yukawa"], "scales": res["scales"],
         "checks": [{"name": n, "pass": ok, "detail": d} for n, ok, d in res["checks"]],
     })
 
@@ -2755,7 +3083,7 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
 def main(argv: Sequence[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=f"STUR Physics Lab {VERSION}")
     ap.add_argument("--scales", type=float, nargs="+", default=None,
-                    help="evaluation scales in GeV (default: the four 3-3-1 benchmark scales)")
+                    help="evaluation scales in GeV (default: m_t(m_t) and the superpartner scale from Part I)")
     ap.add_argument("--precision", type=int, default=None, help="Decimal digits for the cosmology")
     ap.add_argument("--json-out", type=str, default=None, help="write every number to this JSON file")
     args = ap.parse_args(argv)

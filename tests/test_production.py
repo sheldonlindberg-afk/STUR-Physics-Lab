@@ -202,6 +202,25 @@ def test_alpha_from_unification():
     assert all(c["n_sigma"] > 1000 for c in RESULT["alpha_numerology"])
 
 
+def test_scales_come_from_the_algorithm():
+    """No scale is typed in: Parts B and C run at m_t(m_t) and at Part I's superpartner scale,
+    and Part J uses Part I's unification scale."""
+    mt = RESULT["flavour"]["runner"].mt_msbar
+    ms = RESULT["alpha_unification"]["M_S_for_measured_alpha"]
+    assert RESULT["scales"] == sorted([mt, ms["M_S_GeV"]])
+    assert RESULT["yukawa"]["M_S"] == ms["M_S_GeV"] and RESULT["yukawa"]["M_GUT"] == ms["M_GUT_GeV"]
+
+
+def test_yukawa_relations():
+    """Part J: SU(5) and Georgi-Jarlskog ratios excluded; SM b-tau fails; MSSM needs tan(beta) ~ 1.3."""
+    yk = RESULT["yukawa"]
+    assert yk["ratios"]["SU5"]["n_sigma"] > 100 and yk["ratios"]["GJ"]["n_sigma"] > 5
+    assert all(p["yb_over_ytau"] < 0.8 for p in yk["btau_SM"])
+    assert 1.2 < yk["btau_MSSM_unity"]["tan_beta"] < 1.5
+    assert all(1.2 < r["tan_beta"] < 1.5 for r in yk["fixed_point_MSSM"]["runs"])
+    assert all(r["mt_msbar"] > 200 for r in yk["fixed_point_SM"]["runs"])
+
+
 def test_report_matches_expected_output():
     got = P.report(RESULT).splitlines()
     want = [ln for ln in open(EXPECTED, encoding="utf-8").read().splitlines() if not ln.startswith("Elapsed")]

@@ -72,7 +72,7 @@
       <a class="btn" href="production_v2_2.py" download="production_v2_2.py">Download .py</a>
       <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/production_v2_2.py">View on GitHub</a>
     </div>
-    <p class="status" id="copy-status" role="status" aria-live="polite">Paste it into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 3 minutes and ends with 30 self-checks. Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/production_v2_2.txt">results/production_v2_2.txt</a>.</p>
+    <p class="status" id="copy-status" role="status" aria-live="polite">Paste it into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 3 minutes and ends with 32 self-checks. Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/production_v2_2.txt">results/production_v2_2.txt</a>.</p>
   </div>
 
   <h2>The rule</h2>
@@ -94,9 +94,9 @@
   </table></div>
 
   <h2>Part B: quark mixing from quark masses</h2>
-  <p>The six measured quark masses are run with the renormalization group up to the 3-3-1 benchmark scales (1.5 to 10 TeV). Every coefficient is computed from group theory. The masses fix every entry of the Fritzsch six-zero texture, and diagonalizing both sectors exactly gives the CKM matrix. The texture's two phases are fixed by nothing, so each prediction is the band swept out over all of their values.</p>
+  <p>The six measured quark masses are run with the renormalization group up to m_t(m_t) and to the superpartner scale (2.54 TeV) that Part I derives. Every coefficient is computed from group theory. The masses fix every entry of the Fritzsch six-zero texture, and diagonalizing both sectors exactly gives the CKM matrix. The texture's two phases are fixed by nothing, so each prediction is the band swept out over all of their values.</p>
   <div class="tablewrap"><table>
-    <tr><th>Observable</th><th>Band over all phases (3.5 TeV)</th><th>Measured (PDG 2024)</th><th>Verdict</th></tr>
+    <tr><th>Observable</th><th>Band over all phases (2.54 TeV)</th><th>Measured (PDG 2024)</th><th>Verdict</th></tr>
     <tr><td>|V<sub>us</sub>|</td><td>0.176 – 0.261</td><td>0.22501</td><td class="in">inside</td></tr>
     <tr><td>|V<sub>cb</sub>|</td><td>0.074 – 0.195</td><td>0.0418</td><td class="out">outside, 32σ</td></tr>
     <tr><td>|V<sub>ub</sub>|</td><td>0.0027 – 0.0092</td><td>0.00373</td><td class="in">inside</td></tr>
@@ -150,6 +150,9 @@
 
   <h2>Part I: can α be calculated from the other numbers?</h2>
   <p>No accepted theory derives α. Grand unification relates it to the strong coupling and the weak mixing angle: if all three forces meet at one energy, α follows. With Standard Model particles alone the forces don't meet: the required 1/α is 81.8, against a measured 127.95. With supersymmetry the answer depends on the unknown superpartner mass, so α is not predicted. Read backwards, the measured α points to superpartners near 2.5 TeV. The closed formulas proposed for α (Eddington, Wyler and others) are all excluded by thousands of standard deviations or more.</p>
+
+  <h2>Part J: can the Yukawa couplings be calculated from the other numbers?</h2>
+  <p>Grand unification predicts quark-to-lepton mass ratios. Minimal SU(5)'s m<sub>s</sub>/m<sub>d</sub> = m<sub>μ</sub>/m<sub>e</sub> is off by 558σ. The Georgi–Jarlskog version, m<sub>s</sub>/m<sub>d</sub> = m<sub>μ</sub>/(9m<sub>e</sub>), is off by 10σ. Bottom–tau unification fails in the Standard Model. In supersymmetry, using the scales from Part I, it works only at tan β = 1.35. A large top coupling running down predicts a 217–220 GeV top in the Standard Model, against 163 GeV measured. In supersymmetry it needs tan β = 1.33–1.40, the same narrow region. <b>No Yukawa coupling is calculated.</b> Every scale used comes from the algorithm itself.</p>
 
   <h2>Run it locally</h2>
 <pre>python3 production_v2_2.py
