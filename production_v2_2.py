@@ -625,18 +625,16 @@ def _invariants(e: Sequence[float]) -> Tuple[float, float, float]:
 
 
 def _poly_coeffs(g: Callable[[float], float]) -> List[float]:
-    """Coefficients of a polynomial of degree <= 3 from its values at -2, -1, 1, 2."""
-    xs = (-2, -1, 1, 2)
-    a = [[float(x) ** k for k in range(4)] + [g(x)] for x in xs]
-    for c in range(4):
-        p = max(range(c, 4), key=lambda r: abs(a[r][c]))
-        a[c], a[p] = a[p], a[c]
-        for r in range(4):
-            if r != c:
-                f = a[r][c] / a[c][c]
-                for k in range(c, 5):
-                    a[r][k] -= f * a[c][k]
-    return [a[i][4] / a[i][i] for i in range(4)]
+    """Coefficients of a polynomial of degree <= 3 from its values at 0, +-1, +-2.
+
+    c0 = g(0) is read directly: rebuilding it from values at +-1, +-2 cancels O(1)
+    terms down to a constant that can be ~1e-8 (the determinant of a hierarchical
+    sector), losing most of its digits. The rest splits into odd and even parts."""
+    c0 = g(0)
+    o1, o2 = (g(1) - g(-1)) / 2, (g(2) - g(-2)) / 2            # c1 x + c3 x^3
+    e1, e2 = (g(1) + g(-1)) / 2 - c0, (g(2) + g(-2)) / 2 - c0  # c2 x^2
+    c3 = (o2 - 2 * o1) / 6
+    return [c0, o1 - c3, (4 * e1 + e2) / 8, c3]
 
 
 def real_roots(coefs: Sequence[float]) -> List[float]:
@@ -2128,7 +2126,8 @@ def yukawa_relations(flav: Dict[str, Any], m_s_susy: float | None, m_gut: float 
             mg, sg = unification_point(s0, m_s_susy, "MSSM", m_gut)
             return (sg[4] / sg[5] if math.isfinite(mg) else math.inf), sg[3]
         ok = [r for r in mssm if math.isfinite(r["M_GUT"])]
-        bad = [r for r in mssm if not math.isfinite(r["M_GUT"]) and r["tan_beta"] < min(q["tan_beta"] for q in ok)]
+        first_ok = min((q["tan_beta"] for q in ok), default=math.inf)
+        bad = [r for r in mssm if not math.isfinite(r["M_GUT"]) and r["tan_beta"] < first_ok]
         if ok and bad:
             lo, hi = max(r["tan_beta"] for r in bad), min(r["tan_beta"] for r in ok)
             if ratio_at(hi)[0] < 1:

@@ -154,8 +154,8 @@ PART C. EVERY TEXTURE-ZERO PATTERN THAT MAKES A PREDICTION
    is out of reach for every value of the unknowns; 'joint' = all four data at once)
 
   Survivor  up 00X/0XX/XXX  down 0X0/X0X/0XX: 1 prediction(s), class of 6 equivalent orderings
-    0.163441 TeV: chi^2 = 0.19 for 1 dof (0.4 sigma);  ranges over all unknowns: V_us [9.59e-11, 0.991]  V_cb [1.05e-10, 0.999]  V_ub [5.87e-12, 0.0446]  J [-0.00367, 0.00367]
-    2.53649 TeV: chi^2 = 0.31 for 1 dof (0.6 sigma);  ranges over all unknowns: V_us [1.22e-09, 0.991]  V_cb [8.15e-11, 0.999]  V_ub [2.02e-12, 0.0446]  J [-0.00367, 0.00367]
+    0.163441 TeV: chi^2 = 0.19 for 1 dof (0.4 sigma);  ranges over all unknowns: V_us [8.72e-11, 0.991]  V_cb [1.07e-10, 0.999]  V_ub [5.80e-12, 0.0446]  J [-0.00367, 0.00367]
+    2.53649 TeV: chi^2 = 0.31 for 1 dof (0.6 sigma);  ranges over all unknowns: V_us [1.51e-09, 0.991]  V_cb [8.00e-11, 0.999]  V_ub [1.96e-12, 0.0446]  J [-0.00367, 0.00367]
   (the free entry and the phases sweep each observable over a wide range on its own; the
    prediction is a relation among the four, which the joint test checks)
 
@@ -415,8 +415,8 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Age agrees with an independent float quadrature in ln a  (rel diff 1.7e-14)
   [PASS] Flatness holds exactly
   [PASS] Survey reproduces Part B for the Fritzsch pattern (exact |V_cb| band vs phase scan)  (max rel diff 7.7e-15)
-  [PASS] Every survey mass matrix has the RG-run masses as eigenvalues  (max rel err 6.4e-08)
-  [PASS] Joint-test chi^2 independent of the starting grids (both doubled)  (max rel change 1.0e-07)
+  [PASS] Every survey mass matrix has the RG-run masses as eigenvalues  (max rel err 1.1e-08)
+  [PASS] Joint-test chi^2 independent of the starting grids (both doubled)  (max rel change 1.1e-07)
   [PASS] 3-3-1 charges: ordinary components come out as 2/3 and -1/3 (beta = +-1/sqrt3)
   [PASS] 3-3-1 anomalies cancel: [SU(3)_L]^3 and [SU(3)_C]^2 U(1)_X
   [PASS] Every symmetry found reproduces its target zeros exactly (recomputed from the charges)
@@ -433,4 +433,4 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Lambda_QCD (2-loop) reproduces alpha_s(M_Z)  (rel diff 2.2e-16)
   32/32 checks pass
 ==============================================================================
-Elapsed: 80.4 s
+Elapsed: 80.3 s
