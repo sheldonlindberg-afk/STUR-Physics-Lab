@@ -162,6 +162,15 @@ def test_symmetry_search():
             assert sv["general_count"]["predictions"] == -4
 
 
+def test_general_texture_closure():
+    """Part F: every zero pattern of general mass matrices that allows three-family mixing and
+    CP violation has exactly 10 physical parameters, so none predicts anything."""
+    cl = RESULT["closure"]
+    assert cl["ordered_pairs"] == 247 ** 2 and cl["classes"] == 497
+    assert cl["rank"] == {10: 470, 8: 2} and cl["cp_impossible"] == 2
+    assert cl["predictive_with_cp"] == []
+
+
 def test_report_matches_expected_output():
     got = P.report(RESULT).splitlines()
     want = [ln for ln in open(EXPECTED, encoding="utf-8").read().splitlines() if not ln.startswith("Elapsed")]

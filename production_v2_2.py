@@ -44,6 +44,10 @@ WHAT IT CALCULATES
     texture: an exhaustive scan of abelian Z_N charge assignments with the
     minimal scalars, a search for the fewest extra scalar triplets that give
     the survivor's zeros, and a parameter count of the model that results.
+  Part F, whether ANY zero pattern of general mass matrices predicts the CKM
+    matrix: the exact number of physical parameters of all 61,009 pattern pairs,
+    from the rank of the Jacobian of 10 weak-basis invariants, computed in exact
+    integer arithmetic.
 
 Run:  python3 production_v2_2.py                 (full report, about 3 minutes)
       python3 production_v2_2.py --json-out out.json
@@ -150,6 +154,8 @@ NUMERICS: Dict[str, Any] = {
     "survival_sigma": 3,              # a pattern survives if its p-value is above the 3-sigma level
     "check_survey_tol": "1e-6",
     "symmetry_max_N": 6,              # Z_N searched exhaustively for N = 2 .. this
+    "closure_seed": 20261123,         # integer points for the exact Jacobian ranks (any seed works)
+    "closure_points": 2,              # points per pattern; the largest rank found is kept
     "report_sci_below": "1e-3",       # print in scientific notation below / above these
     "report_sci_above": "1e5",
     # Scales at which the flavour bands are reported: the four 3-3-1 benchmark
@@ -1345,6 +1351,183 @@ def symmetry_search(yuk: Dict[int, Dict[str, Any]], survivors: Sequence[Tuple[An
 
 
 # =============================================================================
+# 6e. DOES ANY TEXTURE OF GENERAL MASS MATRICES PREDICT THE CKM MATRIX?
+# =============================================================================
+# Part E shows that inside 3-3-1 a symmetry can only put zeros into general
+# (non-Hermitian) mass matrices. This part asks, for EVERY zero pattern of
+# general 3x3 matrices in both sectors, how many independent combinations of its
+# parameters reach the 10 observables (6 masses, 3 angles, 1 phase). They are
+# measured by 10 weak-basis invariants of H = M M^dag:
+#     tr H_u, tr H_u^2, det H_u, the same for H_d, and tr(H_u^a H_d^b), a, b = 1, 2.
+# The rank of their Jacobian with respect to the real and imaginary parts of the
+# nonzero entries is the number of physical parameters; predictions = 10 - rank.
+# The Jacobian is computed exactly: at integer points the invariants and their
+# derivatives are integers, and the rank is found by elimination modulo a large
+# prime. Because 10 is the largest possible rank, finding rank 10 at any point
+# proves the generic rank is 10. CP violation needs Im det[H_u, H_d] (which is
+# proportional to J) to be nonzero; that is checked in exact Gaussian integers.
+_PRIME = (1 << 61) - 1
+
+
+class _Dual:
+    """A value and its gradient, integers modulo _PRIME (forward-mode exact derivatives)."""
+    __slots__ = ("v", "g")
+
+    def __init__(self, v: int, g: List[int]):
+        self.v, self.g = v, g
+
+    def __add__(self, o: "_Dual") -> "_Dual":
+        return _Dual((self.v + o.v) % _PRIME, [(a + b) % _PRIME for a, b in zip(self.g, o.g)])
+
+    def __sub__(self, o: "_Dual") -> "_Dual":
+        return _Dual((self.v - o.v) % _PRIME, [(a - b) % _PRIME for a, b in zip(self.g, o.g)])
+
+    def __mul__(self, o: "_Dual") -> "_Dual":
+        return _Dual(self.v * o.v % _PRIME, [(self.v * b + o.v * a) % _PRIME for a, b in zip(self.g, o.g)])
+
+
+class _Cx:
+    """Complex number over any ring with + - * (here _Dual or int)."""
+    __slots__ = ("r", "i")
+
+    def __init__(self, r: Any, i: Any):
+        self.r, self.i = r, i
+
+    def __add__(self, o: "_Cx") -> "_Cx":
+        return _Cx(self.r + o.r, self.i + o.i)
+
+    def __sub__(self, o: "_Cx") -> "_Cx":
+        return _Cx(self.r - o.r, self.i - o.i)
+
+    def __mul__(self, o: "_Cx") -> "_Cx":
+        return _Cx(self.r * o.r - self.i * o.i, self.r * o.i + self.i * o.r)
+
+    def conj(self, zero: Any) -> "_Cx":
+        return _Cx(self.r, zero - self.i)
+
+
+def _cmm(a, b):
+    out = []
+    for i in range(3):
+        row = []
+        for j in range(3):
+            acc = a[i][0] * b[0][j]
+            for k in (1, 2):
+                acc = acc + a[i][k] * b[k][j]
+            row.append(acc)
+        out.append(row)
+    return out
+
+
+def _cdag(a, zero):
+    return [[a[j][i].conj(zero) for j in range(3)] for i in range(3)]
+
+
+def _cdet(a):
+    def t(p, q, r, s):
+        return p * s - q * r
+    return (a[0][0] * t(a[1][1], a[1][2], a[2][1], a[2][2]) - a[0][1] * t(a[1][0], a[1][2], a[2][0], a[2][2])
+            + a[0][2] * t(a[1][0], a[1][1], a[2][0], a[2][1]))
+
+
+class _IntStream:
+    """Deterministic integers 1..97 (a 64-bit linear congruential generator)."""
+
+    def __init__(self, seed: int):
+        self.s = seed
+
+    def __call__(self) -> int:
+        self.s = (self.s * 6364136223846793005 + 1442695040888963407) % (1 << 64)
+        return 1 + (self.s >> 40) % 97
+
+
+def invariant_rank(pu, pd, draw: _IntStream) -> int:
+    """Exact rank (mod a 61-bit prime) of the Jacobian of the 10 invariants at one integer point."""
+    ents = [("u", e) for e in sorted(pu)] + [("d", e) for e in sorted(pd)]
+    m = 2 * len(ents)
+    zero = _Dual(0, [0] * m)
+    mats = {s: [[_Cx(zero, zero) for _ in range(3)] for _ in range(3)] for s in "ud"}
+    for k, (s, (i, a)) in enumerate(ents):
+        gr, gi = [0] * m, [0] * m
+        gr[2 * k], gi[2 * k + 1] = 1, 1
+        mats[s][i][a] = _Cx(_Dual(draw(), gr), _Dual(draw(), gi))
+    hu = _cmm(mats["u"], _cdag(mats["u"], zero))
+    hd = _cmm(mats["d"], _cdag(mats["d"], zero))
+    hu2, hd2 = _cmm(hu, hu), _cmm(hd, hd)
+
+    def tr(a):
+        return a[0][0].r + a[1][1].r + a[2][2].r
+    f = [tr(hu), tr(hu2), _cdet(hu).r, tr(hd), tr(hd2), _cdet(hd).r,
+         tr(_cmm(hu, hd)), tr(_cmm(hu2, hd)), tr(_cmm(hu, hd2)), tr(_cmm(hu2, hd2))]
+    rows = [list(x.g) for x in f]
+    rank = 0
+    for c in range(m):
+        p = next((r for r in range(rank, len(rows)) if rows[r][c]), None)
+        if p is None:
+            continue
+        rows[rank], rows[p] = rows[p], rows[rank]
+        inv = pow(rows[rank][c], _PRIME - 2, _PRIME)
+        for r in range(len(rows)):
+            if r != rank and rows[r][c]:
+                fct = rows[r][c] * inv % _PRIME
+                rows[r] = [(x - fct * y) % _PRIME for x, y in zip(rows[r], rows[rank])]
+        rank += 1
+    return rank
+
+
+def cp_violation_possible(pu, pd, draw: _IntStream, tries: int) -> bool:
+    """Is Im det[H_u, H_d] nonzero at some integer point? Exact Gaussian-integer arithmetic."""
+    for _ in range(tries):
+        mats = {s: [[_Cx(draw(), draw()) if (i, a) in p else _Cx(0, 0) for a in range(3)] for i in range(3)]
+                for s, p in (("u", pu), ("d", pd))}
+        hu = _cmm(mats["u"], _cdag(mats["u"], 0))
+        hd = _cmm(mats["d"], _cdag(mats["d"], 0))
+        a, b = _cmm(hu, hd), _cmm(hd, hu)
+        comm = [[a[i][j] - b[i][j] for j in range(3)] for i in range(3)]
+        if _cdet(comm).i != 0:
+            return True
+    return False
+
+
+def general_texture_closure() -> Dict[str, Any]:
+    entries = [(i, a) for i in range(3) for a in range(3)]
+    perms = list(itertools.permutations(range(3)))
+    pats = [frozenset(c) for k in range(3, 10) for c in itertools.combinations(entries, k)
+            if _structural_rank3(set(c))]
+    # canonical form under (common row permutation, separate column permutations)
+    col_canon = {}
+    for p in pats:
+        for r in perms:
+            col_canon[(p, r)] = min(tuple(sorted((r[i], c[j]) for i, j in p)) for c in perms)
+    classes: Dict[Any, Tuple[Any, Any]] = {}
+    for pu in pats:
+        for pd in pats:
+            key = min((col_canon[(pu, r)], col_canon[(pd, r)]) for r in perms)
+            classes.setdefault(key, (pu, pd))
+    draw = _IntStream(int(num("closure_seed")))
+    tries = int(num("closure_points"))
+    counts = {"ordered_pairs": len(pats) ** 2, "classes": len(classes), "no_three_family_mixing": 0,
+              "no_phase": 0, "candidates": 0, "rank": {}, "cp_impossible": 0, "predictive_with_cp": []}
+    for key in sorted(classes):
+        pu, pd = (frozenset(x) for x in key)
+        if not _three_family_mixing(pu, pd):
+            counts["no_three_family_mixing"] += 1
+            continue
+        if len(pu) + len(pd) - rephasing_rank(set(pu), set(pd)) < 1:
+            counts["no_phase"] += 1
+            continue
+        counts["candidates"] += 1
+        rk = max(invariant_rank(pu, pd, draw) for _ in range(tries))
+        counts["rank"][rk] = counts["rank"].get(rk, 0) + 1
+        if rk < 10:
+            if cp_violation_possible(pu, pd, draw, tries):
+                counts["predictive_with_cp"].append({"zeros_u": key[0], "zeros_d": key[1], "rank": rk})
+            else:
+                counts["cp_impossible"] += 1
+    return counts
+
+
+# =============================================================================
 # 7. COSMOLOGY (Decimal arithmetic)
 # =============================================================================
 def dec_pi() -> Decimal:
@@ -1710,12 +1893,19 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
                           if (x["zeros_u"], x["zeros_d"]) == (r["zeros_u"], r["zeros_d"]))["survives"]
                      for mu in scales)]
     symm = symmetry_search(yuk, survivors)
+    closure = general_texture_closure()
     checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
     checks.append(("Every symmetry found reproduces its target zeros exactly (recomputed from the charges)",
                    all(sv["verified"] for e in symm["by_beta"].values() for sv in e["survivors"]
                        if sv["symmetry"] is not None), ""))
+    full = frozenset((i, a) for i in range(3) for a in range(3))
+    diag = frozenset((i, i) for i in range(3))
+    draw = _IntStream(int(num("closure_seed")))
+    r_full, r_diag = invariant_rank(full, full, draw), invariant_rank(diag, diag, draw)
+    checks.append(("Invariant-rank method: general matrices give 10 physical parameters, diagonal ones 6",
+                   (r_full, r_diag) == (10, 6), f"ranks {r_full}, {r_diag}"))
     return {"scales": scales, "cosmology": cosmo, "flavour": flav, "survey": survey, "yukawa_331": yuk,
-            "symmetry": symm, "checks": checks, "precision": prec}
+            "symmetry": symm, "closure": closure, "checks": checks, "precision": prec}
 
 
 def report(res: Dict[str, Any]) -> str:
@@ -1937,6 +2127,36 @@ def report(res: Dict[str, Any]) -> str:
     w("      exchanges left- and right-handed quarks: not possible with SU(3)_L acting on one side")
     w("      only (E2). It needs a left-right extension of the gauge group, which is outside 3-3-1.")
     w("")
+    w("PART F. DOES ANY TEXTURE OF GENERAL MASS MATRICES PREDICT THE CKM MATRIX?")
+    w("-" * 78)
+    cl = res["closure"]
+    w("  Every zero pattern of two general 3x3 mass matrices. Physical parameters = exact rank of")
+    w("  the Jacobian of 10 weak-basis invariants of H = M M^dag (6 masses, 4 mixing invariants).")
+    w(f"    {cl['ordered_pairs']} ordered pairs of patterns with three nonzero masses, {cl['classes']} classes")
+    w(f"    {cl['no_three_family_mixing']:5d} cannot mix all three families (measured: all nine |V_ij| nonzero)")
+    w(f"    {cl['no_phase']:5d} have no phase left, so J = 0 (measured: J = 3.12e-5)")
+    w(f"    {cl['candidates']:5d} candidates; physical parameters (rank) per class: "
+      + ", ".join(f"rank {k}: {v}" for k, v in sorted(cl["rank"].items(), reverse=True)))
+    w(f"    {cl['cp_impossible']:5d} of the classes with rank below 10 have J = 0 identically")
+    w(f"    {len(cl['predictive_with_cp']):5d} make a prediction and allow CP violation")
+    if not cl["predictive_with_cp"]:
+        w("  RESULT: no texture-zero pattern of general quark mass matrices predicts anything.")
+        w("    Every viable pattern has exactly as many physical parameters as there are")
+        w("    observables (10), so zeros alone, however a symmetry makes them, fix nothing.")
+    w("")
+    w("CLOSURE OF THE FLAVOUR SECTOR (Parts B to F together)")
+    w("-" * 78)
+    w("  * Hermitian textures (B, C): one pattern survives, with one prediction.")
+    w("  * Inside 3-3-1 no symmetry can make mass matrices Hermitian (E2), and with its own")
+    w("    scalars no abelian symmetry makes a usable zero (E1).")
+    w("  * Zeros in general matrices, the only kind a symmetry inside 3-3-1 can make, never")
+    w("    predict anything (F).")
+    w("  So inside 3-3-1, with abelian flavour symmetries and any number of scalars, the quark")
+    w("  sector closes with 10 measured inputs: 6 masses and 4 CKM parameters. None of the")
+    w("  four CKM numbers can be calculated there. Calculating them needs either relations")
+    w("  between nonzero entries (non-abelian symmetries, not searched here) or a gauge group")
+    w("  that treats left- and right-handed quarks alike (outside 3-3-1).")
+    w("")
     w("SELF-CHECKS (correctness of the calculation, not agreement with data)")
     w("-" * 78)
     for name, ok, detail in res["checks"]:
@@ -1972,6 +2192,7 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
                                    "all_entries_allowed": y["all_entries_allowed"],
                                    "left_blocks": y["left_blocks"]} for b, y in res["yukawa_331"].items()},
         "symmetry_331": {f"b={b}": e for b, e in res["symmetry"]["by_beta"].items()},
+        "general_texture_closure": res["closure"],
         "checks": [{"name": n, "pass": ok, "detail": d} for n, ok, d in res["checks"]],
     })
 

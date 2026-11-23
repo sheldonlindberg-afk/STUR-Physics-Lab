@@ -269,6 +269,33 @@ PART E. CAN A FLAVOUR SYMMETRY PRODUCE THE SURVIVOR INSIDE 3-3-1?
       exchanges left- and right-handed quarks: not possible with SU(3)_L acting on one side
       only (E2). It needs a left-right extension of the gauge group, which is outside 3-3-1.
 
+PART F. DOES ANY TEXTURE OF GENERAL MASS MATRICES PREDICT THE CKM MATRIX?
+------------------------------------------------------------------------------
+  Every zero pattern of two general 3x3 mass matrices. Physical parameters = exact rank of
+  the Jacobian of 10 weak-basis invariants of H = M M^dag (6 masses, 4 mixing invariants).
+    61009 ordered pairs of patterns with three nonzero masses, 497 classes
+       19 cannot mix all three families (measured: all nine |V_ij| nonzero)
+        6 have no phase left, so J = 0 (measured: J = 3.12e-5)
+      472 candidates; physical parameters (rank) per class: rank 10: 470, rank 8: 2
+        2 of the classes with rank below 10 have J = 0 identically
+        0 make a prediction and allow CP violation
+  RESULT: no texture-zero pattern of general quark mass matrices predicts anything.
+    Every viable pattern has exactly as many physical parameters as there are
+    observables (10), so zeros alone, however a symmetry makes them, fix nothing.
+
+CLOSURE OF THE FLAVOUR SECTOR (Parts B to F together)
+------------------------------------------------------------------------------
+  * Hermitian textures (B, C): one pattern survives, with one prediction.
+  * Inside 3-3-1 no symmetry can make mass matrices Hermitian (E2), and with its own
+    scalars no abelian symmetry makes a usable zero (E1).
+  * Zeros in general matrices, the only kind a symmetry inside 3-3-1 can make, never
+    predict anything (F).
+  So inside 3-3-1, with abelian flavour symmetries and any number of scalars, the quark
+  sector closes with 10 measured inputs: 6 masses and 4 CKM parameters. None of the
+  four CKM numbers can be calculated there. Calculating them needs either relations
+  between nonzero entries (non-abelian symmetries, not searched here) or a gauge group
+  that treats left- and right-handed quarks alike (outside 3-3-1).
+
 SELF-CHECKS (correctness of the calculation, not agreement with data)
 ------------------------------------------------------------------------------
   [PASS] QCD beta coefficients from Casimirs: b0(nf=5) = 23/3, b1(nf=5) = 116/3  (b0 = 23/3, b1 = 116/3)
@@ -292,6 +319,7 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] 3-3-1 charges: ordinary components come out as 2/3 and -1/3 (beta = +-1/sqrt3)
   [PASS] 3-3-1 anomalies cancel: [SU(3)_L]^3 and [SU(3)_C]^2 U(1)_X
   [PASS] Every symmetry found reproduces its target zeros exactly (recomputed from the charges)
-  21/21 checks pass
+  [PASS] Invariant-rank method: general matrices give 10 physical parameters, diagonal ones 6  (ranks 10, 6)
+  22/22 checks pass
 ==============================================================================
-Elapsed: 163.1 s
+Elapsed: 168.9 s

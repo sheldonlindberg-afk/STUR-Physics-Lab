@@ -29,6 +29,11 @@
   general matrices they have 14 parameters for 10 observables (-4 predictions). Conclusion: no
   flavour symmetry inside 3-3-1 makes the survivor predictive.
 
+- Closure (Part F): all 61,009 zero-pattern pairs of general quark mass matrices (497 classes).
+  Exact Jacobian ranks of 10 weak-basis invariants: every pattern with three-family mixing and
+  CP violation has exactly 10 physical parameters, so none predicts anything. Inside 3-3-1 the
+  quark sector closes with 10 measured inputs (6 masses, 4 CKM parameters).
+
 ## Files
 - production_v2_2.py: the simulation
 - results/production_v2_2.txt: expected output

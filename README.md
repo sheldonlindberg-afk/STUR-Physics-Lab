@@ -28,7 +28,7 @@ python3 production_v2_2.py --scales 2000 5000  # other evaluation scales (GeV, a
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 21 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 22 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -173,6 +173,30 @@ factors, so scanning Z_N covers the abelian case. Everything is done for both β
 model.** Its prediction needs Hermitian mass matrices. That takes a symmetry exchanging left-
 and right-handed quarks, so the gauge group must treat them alike: a left-right extension,
 outside 3-3-1.
+
+**Part F: does ANY texture of general mass matrices predict the CKM matrix?**
+
+Inside 3-3-1 a symmetry can only put zeros into general (non-Hermitian) matrices. Part F
+therefore checks every zero pattern of two general 3×3 matrices: 247² = 61,009 ordered pairs,
+or 497 classes. The number of physical parameters of a pattern is the rank of the Jacobian of
+10 weak-basis invariants of H = MM† (tr H, tr H², det H in each sector, and tr(H_u^a H_d^b)
+for a, b = 1, 2), with respect to the entries. The rank is computed **exactly**: at integer
+points everything is an integer, and the elimination runs modulo a 61-bit prime. Since 10 is
+the largest possible rank, finding rank 10 at any point proves it.
+
+| Classes | Outcome |
+|---|---|
+| 19 | cannot mix all three families |
+| 6 | no phase left, so J = 0 |
+| 470 | exactly 10 physical parameters for 10 observables: **no prediction** |
+| 2 | rank 8, but J ≡ 0 (checked in exact Gaussian integers): excluded |
+| **0** | **predict anything and allow CP violation** |
+
+**Closure.** Inside 3-3-1, with abelian flavour symmetries and any number of scalars, the
+quark sector closes with **10 measured inputs: 6 masses and 4 CKM parameters**. None of the
+four CKM numbers can be calculated there. Calculating them needs relations between nonzero
+entries (non-abelian symmetries, not searched) or a gauge group that treats left- and
+right-handed quarks alike (outside 3-3-1).
 
 ## What changed from production v1
 

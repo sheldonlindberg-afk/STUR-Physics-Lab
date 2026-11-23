@@ -72,7 +72,7 @@
       <a class="btn" href="production_v2_2.py" download="production_v2_2.py">Download .py</a>
       <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/production_v2_2.py">View on GitHub</a>
     </div>
-    <p class="status" id="copy-status" role="status" aria-live="polite">Paste it into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 3 minutes and ends with 21 self-checks. Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/production_v2_2.txt">results/production_v2_2.txt</a>.</p>
+    <p class="status" id="copy-status" role="status" aria-live="polite">Paste it into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 3 minutes and ends with 22 self-checks. Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/production_v2_2.txt">results/production_v2_2.txt</a>.</p>
   </div>
 
   <h2>The rule</h2>
@@ -130,6 +130,10 @@
     <li><b>Extra scalars: the zeros, but no prediction.</b> Z<sub>6</sub> with 6 scalar triplets gives exactly the survivor's zeros. As general matrices, though, they have 14 parameters for 10 observables: −4 predictions.</li>
   </ul>
   <p><b>Result:</b> no flavour symmetry inside 3-3-1 turns the survivor into a predictive model. Its prediction needs left-right symmetric gauge structure, which is outside 3-3-1.</p>
+
+  <h2>Part F: does any zero pattern predict the CKM matrix?</h2>
+  <p>Inside 3-3-1 a symmetry can only make zeros in general mass matrices, so the script checks every such pattern: 61,009 pairs in 497 classes. It counts each pattern's physical parameters exactly, from the rank of 10 invariants computed in integer arithmetic. Of the 472 classes that mix all three families and have a phase, 470 have exactly 10 parameters for 10 observables, so they predict nothing. The other two cannot violate CP. <b>No pattern predicts anything.</b></p>
+  <p><b>Closure:</b> inside 3-3-1 the quark sector closes with 10 measured inputs, the 6 masses and 4 CKM parameters. Calculating the CKM numbers needs non-abelian relations or a left-right gauge group.</p>
 
   <h2>Run it locally</h2>
 <pre>python3 production_v2_2.py
