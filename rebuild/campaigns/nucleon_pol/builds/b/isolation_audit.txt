@@ -1,5 +1,0 @@
-Transcript audit of the builder of nucleon_pol build b (room room-nucleon_pol-b) after all rounds, run 2026-11-20T18:38:47Z
-transcript sha256: b74ec5b652f19df1cfedbae18d156fa26dea692081cb38fe76d70dcd509366f7  (34 lines)
-command: python3 audit_transcript.py <transcript> <room> --canary <tokens from CANARIES.txt>; cwd-aware
-tool calls: {'Bash': 7, 'SubagentHandback': 1}
-ISOLATION RECORD CLEAN

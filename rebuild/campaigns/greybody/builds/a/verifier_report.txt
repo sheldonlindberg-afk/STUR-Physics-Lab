@@ -1,8 +1,0 @@
-26
-   [PASS] grey-body factor at fixed arguments: Gamma(0,0,0.2) = 0.9089 +- 1e-3, Gamma(1,1,0.2) = 0.1299 +- 1e-3 (orchestrator's integration)  (0.9089, 0.1300)
-   [PASS] power per degree of freedom to 1e-5 against the two-route values  (relative to the two-route value: s=0: -3.2e-11, s=0.5: +7.5e-13, s=1: -4.0e-10, s=2: -9.9e-10)
-   [PASS] grey-body factor at 40 reference points (independent WKB-projection solver) to 1e-6  (worst relative deviation over 40 reference points: 1.7e-10 at (s, j, w) = (2, 3, 0.395877))
-   [PASS] grey-body factor at the 6 low-frequency fermion reference points (independent WKB-projection solver) to 1e-8  (worst relative deviation over 6 low-frequency fermion points: 1.8e-09 at (s, j, w) = (0.5, 3.5, 0.02))
-GATE PASSED
-
-[exited with code 0]

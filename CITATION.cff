@@ -1,18 +1,14 @@
 cff-version: 1.2.0
 message: "If you use this work, please cite it as below."
-title: "Gravity and the Quantum: Worked Examples"
+title: "STUR Physics Lab: one simulation (production v2.2)"
 abstract: >-
-  Reproducible worked examples at the gravity-quantum interface, for physics
-  students and physicists, with study notebooks and exercises: teleparallel
-  gravity (TEGR) and general relativity's classic tests, decoherence and
-  complementarity, the entanglement area law, Jacobson's thermodynamic
-  argument, and a worked two-diamond design (phase 2.19 rad) for testing
-  whether gravity is quantum, as perturbative quantum gravity predicts.
-  Bounds on classical-quantum gravity are worked examples within existing
-  literature rather than new results. A research note argues that, in 3-3-1
-  models, asymptotic freedom of colour plus Planck-scale perturbativity
-  select three colours and three generations (conditional; not peer reviewed). Every number is reproduced
-  by the scripts in src/.
+  One self-contained Python simulation (standard library only) with nothing
+  tuned and nothing fitted. Part A computes flat Lambda-CDM cosmology from
+  measured inputs: the radiation density from the CMB temperature, the dark
+  energy density from flatness, and the age of the universe. Part B runs the
+  measured quark masses with the renormalization group, builds the Fritzsch
+  six-zero texture exactly, and scans its two free phases over their full
+  range. It finds |V_cb| outside the predicted band for every phase.
 authors:
   - family-names: Lindberg
     given-names: Sheldon
@@ -21,12 +17,9 @@ license: CC0-1.0
 repository-code: "https://github.com/sheldonlindberg-afk/STUR-Physics-Lab"
 url: "https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/"
 keywords:
-  - decoherence
-  - Born rule
-  - teleparallel gravity
-  - entanglement entropy
-  - gravity-induced entanglement
-  - Diosi-Penrose
-  - 3-3-1 models
-  - physics education
-date-released: "2026-11-11"
+  - renormalization group
+  - CKM matrix
+  - Fritzsch texture
+  - cosmology
+  - reproducibility
+date-released: "2026-11-23"

@@ -1,5 +1,0 @@
-- Weyl in d=4: half Dirac, k1 = -1/6; its sign in 1/G follows the Dirac statistics sign (+1/2 ln det D^2 per Dirac), giving a positive 1/G contribution.
-- Ghosts: taken as two scalars with xi=0 (-nabla^2), independent of the vector's curvature coupling, per SPEC.
-- Vector kinetic operator in Feynman gauge: -nabla^2 + Ric (E = -Ric); xi is not applied to vector/ghosts.
-- inv_G always uses d=4 and the Weyl k1 of d=4; the xi argument applies to the real scalars only.
-- First spectral Dirac check disagreed (deg 4C vs 8C for D^2); corrected degeneracy (both signs of Dslash).

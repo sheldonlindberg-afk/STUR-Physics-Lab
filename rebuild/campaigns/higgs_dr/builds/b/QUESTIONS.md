@@ -1,5 +1,0 @@
-- SPEC s2 "O(eps) of 1/d kept against the pole": for the phi-H loop the dim-reg identity int l^2/(l^2-D)^2=(d/2)int 1/(l^2-D) makes 4/d*(d/2)=2 exact, so the finite remainder is the "+1" in A0(Delta_x); adopted that.
-- Sign/normalisation of the phi-H bubble fixed by scalar-QED transversality (bubble+seagull) rather than a vertex-by-vertex sign tracking.
-- Pi_VV convention: effective mass^2 = M^2 + Pi, i.e. iPi g^{mu nu} = sum of diagrams (checked by geometric series).
-- "(M_W)" reference for the relative quantity is evaluated exactly at mH=MW (returns 0.0).
-- Precision change: the module no longer sets global mp.mp.dps. Each export runs inside mp.workdps(90) (needed: mH^2 terms ~1e28 M^2 cancel against O(1) logs at mH = 1e14 MW), and the Feynman-parameter breakpoints now extend to 1-1e-44 (the sharp region is 1-x ~ M^2/mH^2 ~ 1e-28). Physics unchanged; my own check of B ln(mH^2/MW^2)+C from 1e8 to 1e14 MW deviates by <1.4e-12 relative (residual is the O(M^2/mH^2 ln) correction of the C fixed at 1e6 MW). Cost: gate runtime about 65 s.

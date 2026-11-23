@@ -1,5 +1,0 @@
-Transcript audit of the builder of ferm_se build b (room room-ferm_se-b) after all rounds, run 2026-11-20T00:03:34Z
-transcript sha256: 72a9be9025eaafcd46be29bb25c3aa3c6f2ac7a92384b3a144c4db4b7472c4ba  (27 lines)
-command: python3 audit_transcript.py <transcript> <room> --canary <tokens from CANARIES.txt>; cwd-aware
-tool calls: {'Bash': 5, 'SubagentHandback': 1}
-ISOLATION RECORD CLEAN

@@ -2,11 +2,11 @@
   <img src="assets/logo.svg" alt="" width="120"/>
 </p>
 
-<h1 align="center">Gravity and the Quantum: Worked Examples</h1>
+<h1 align="center">STUR Physics Lab: one simulation</h1>
 
 <p align="center">
-  <strong>Reproducible worked examples at the gravity–quantum interface, for physics students and physicists, plus one research note.</strong><br>
-  Every number comes from a script in <code>src/</code> and is pinned by a test that runs on every commit.<br>
+  <strong><a href="production_v2_2.py">production_v2_2.py</a>: one script, Python standard library only, nothing tuned, nothing fitted.</strong><br>
+  Every number it prints is calculated from measured inputs, and the measured results it is judged against never enter the calculation.<br>
   Independent work, not peer reviewed.
 </p>
 
@@ -15,302 +15,306 @@
   <a href="https://creativecommons.org/publicdomain/zero/1.0/"><img src="https://img.shields.io/badge/License-CC0_1.0-lightgrey.svg" alt="License: CC0-1.0"></a>
 </p>
 
-<p align="center">
-  <a href="paper/note331.pdf"><strong>3-3-1 note (PDF)</strong></a>
-  &nbsp;&middot;&nbsp; <a href="notebooks/">Notebooks</a>
-  &nbsp;&middot;&nbsp; <a href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">Website</a>
-  &nbsp;&middot;&nbsp; <a href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/technical.html">Research notes</a>
-</p>
-
 ---
 
-## For researchers: three colours and three generations in 3-3-1 models
+## Run it
 
-**[paper/note331.pdf](paper/note331.pdf)** (LaTeX: [paper/note331.tex](paper/note331.tex);
-extended notes: [NOTE_331.md](NOTE_331.md); the note's own page: [paper/README.md](paper/README.md))
+```
+python3 production_v2_2.py                     # full report, about 3 minutes
+python3 production_v2_2.py --json-out out.json # every number, as JSON
+python3 production_v2_2.py --scales 2000 5000  # other evaluation scales (GeV, above m_t)
+```
 
-In SU(3)_C × SU(3)_L × U(1)_X models, keep the number of colours N_c general, take no
-generation or neutrino number from experiment, and require every gauge coupling to stay
-perturbative to the Planck scale.
+Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
+**Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
+runner, notebook or AI assistant's code tool. The expected output is
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 32 self-checks, which test
+the calculation itself, not its agreement with data.
 
-Exact (algebra, no measured input):
-- Anomaly cancellation fixes the quark charges for every N_c, and the SU(3)_L anomaly makes
-  N_g a multiple of N_c (N_c odd) or 2N_c (N_c even).
-- Baryons are fermions with integer charge if and only if N_c is odd.
+## The rule
 
-Numerical (running from the measured couplings):
-- SU(3)_L running excludes N_c ≥ 7, and U(1)_X running excludes N_c = 5.
-- Every N_g > N_c is excluded too, except N_c = 2 with N_g = 4 for β = −1/√3. A colourless
-  N_c = 1 also passes.
-- In coupling space the regions are nested: wherever any odd N_c ≥ 3 survives, N_c = 3
-  does. No choice of couplings selects 5 or 7 instead
-  ([`src/m331_coupling_map.py`](src/m331_coupling_map.py)).
+**Nothing is tuned or fitted. Everything is calculated.**
 
-So one input about colour is needed. As an observation: a colour force exists and baryons
-are fermions of integer charge (N_c odd, at least 3). Asymptotic freedom of colour then
-follows. As an axiom instead: colour is non-abelian and asymptotically free. Either way,
-only **N_c = N_g = 3** survives, with quark charges ⅔ and −⅓. The selection holds:
-- at two loops, including two-loop Yukawa terms, and at three loops in the gauge and
-  matter sector;
-- with one-loop threshold matching across the heavy spectrum;
-- for 3-3-1 scales of 2–30 TeV;
-- in both variants β = ±1/√3 (for β = +1/√3, only if its heavy charged leptons are above
-  about 0.65 TeV; see below).
-
-Every β-function coefficient is derived twice here, from tabulated group invariants and from
-explicit generator matrices ([`src/m331_matrix_check.py`](src/m331_matrix_check.py)), and
-agrees exactly, to three loops, with the external package PyR@TE 3
-([`tools/pyrate_crosscheck.py`](tools/pyrate_crosscheck.py)).
-
-Requiring the scalar sector to stay perturbative to M_Pl then bounds the exotic quarks
-below 1.4–1.8 M_V.
-A recast of the ATLAS 13 TeV, 139 fb⁻¹ dilepton search puts the Z′ above 4.6–5.2 TeV for
-β = +1/√3 and 4.0–5.0 TeV for β = −1/√3, depending on its decays
-([`src/m331_zprime_recast.py`](src/m331_zprime_recast.py); validated against ATLAS's own
-Z′_ψ and Z′_χ limits, using the official HEPData tables, and reproduced independently with
-Pythia 8).
-
-**Conditions:**
-- the 3-3-1 framework;
-- the framework's scope: β = ±1/√3 with leptons in triplets. The flipped 3-3-1 model, with a
-  lepton sextet, has a different anomaly relation and is not covered
-  ([NOTE_331.md §1](NOTE_331.md));
-- one input about colour, as above: baryons like ours (N_c odd, at least 3), or a
-  non-abelian, asymptotically free colour group ([NOTE_331.md §2](NOTE_331.md));
-- Planck-scale perturbativity;
-- the measured TeV-scale electroweak couplings, which are an input, not a prediction.
-  In the β = +1/√3 variant there is no comfortable margin. At α = 1 (three loops), N_c = 3
-  reaches M_Pl only if the heavy charged leptons are heavier than 0.65 ± 0.13 TeV with M_V
-  at its LHC bound (1.09 TeV at M_V = 10 TeV; Yukawa couplings run with the gauge couplings).
-  A stricter criterion asks for more: about 3 TeV at α = 0.5. Lighter ones are not yet excluded by the
-  LHC, and they push N_c = 3 below M_Pl too
-  ([`src/m331_margin.py`](src/m331_margin.py); [NOTE_331.md §3e](NOTE_331.md)).
-  The condition is on the three leptons' geometric-mean mass. Run 2 allows it down to
-  0.24 TeV, so the LHC has not tested it. The HL-LHC reaches it only about at the threshold
-  ([`src/m331_heavy_lepton.py`](src/m331_heavy_lepton.py), cross-checked against Pythia 8
-  and reproducing ATLAS's own singlet limits; [NOTE_331.md §3f](NOTE_331.md)).
-
-**Run it in one paste.** [`src/m331_standalone.py`](src/m331_standalone.py) reproduces the
-whole selection in a single file that uses only the Python standard library: charges and
-anomalies for general N_c, N_g = N_c, the selection without asymptotic freedom, the Standard Model calibration, SU(3)_L and two-loop
-U(1)_X running with Yukawas, one-loop thresholds across the heavy spectrum, the
-β = +1/√3 heavy-lepton condition against mass floors, and the R-ratio cross-check. Copy it (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/#run331)
-has a one-click **Copy Python script** button; on GitHub use *Copy raw file*) and paste it
-into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 15 s
-and ends with 28 PASS/FAIL checks against the numbers pinned here
-([expected output](results/m331/standalone.txt)).
-
-The closest prior work is Doff & Pisano (2000). The literature search is in
-[NOVELTY.md](NOVELTY.md). Comments from 3-3-1 experts are welcome; please
-[open an issue](https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/issues).
-
-## For researchers: the frame in teleparallel gravity and black-hole entropy
-
-**[NOTE_TEGR.md](NOTE_TEGR.md)** (literature map: [QUANTUM_TEGR.md](QUANTUM_TEGR.md))
-
-Teleparallel gravity (TEGR) equals GR up to a boundary term, plus one extra variable, the
-local Lorentz frame. The note asks whether that frame contributes to black-hole entropy.
-
-- **Classically, it changes where the entropy is booked, not the first law.** TEGR's
-  Noether charge vanishes at the bifurcation surface, and the Wald entropy sits in the
-  corner term instead. δM = TδS + ΦδQ comes out as in GR for every frame.
-- **The frame's corner phase space is a Lorentz orbit through the dual area bivector over
-  8πG,** for any metric. Its charges close into so(3,1), and its normal boost is conjugate
-  to area/8πG.
-- **Quantized, it gives a group-dependent logarithm** (1, 5 or 9 × ln a), not the area law
-  and not Sen's universal 77/45. So the frame must be gauge in the measure, and TEGR's
-  black-hole entropy is GR's.
-
-All of it is computed by `src/stur_tegr_corner.py`, `src/stur_tegr_frame.py` and
-`src/stur_tegr_logs.py`, and pinned by tests.
-
-## The forces in one chain
-
-**[FORCE_CHAIN.md](FORCE_CHAIN.md)** runs the forces as one simulation (`src/force_chain.py`,
-about 7 s): unification, the photon, weak to strong, the strong force, electromagnetism and
-gravity in the lab, gravity as a broken gauge theory, and black holes, which evaporate back
-through every force to the Planck mass the chain started from. Each stage uses earlier
-stages' outputs, and each measured input is marked where it enters.
-
-Seven branches leave the chain where its values meet a measurement it did not use
-(`src/chain_branches.py`): the W mass from the running of α and the top quark (80.47 GeV
-against 80.37); the electron's magnetic moment, inverted to the α the chain starts from; the
-weak mixing angle at zero momentum (0.23873 against 0.2382 ± 0.0011); the neutron lifetime
-(880.6 ± 1.6 s against 878.4 ± 0.5); primordial helium, which needs all four forces (0.241
-against 0.245 ± 0.003); how sharply that helium pins the neutron–proton mass difference; and
-the masses at which cold matter collapses, two pure numbers times M_Pl³/m_N² (1.456 and
-0.710 M☉).
-
-`src/chain_first_principles.py` is the same chain as one copy-paste file (standard library only,
-about 1 s), built on the blind first-principles rebuild: derived values replace outside numbers
-wherever a stage derives them, and all eight comparisons with measurements are within 2σ.
-Its ninth step asks why the measured inputs have their values: **[WHY.md](WHY.md)** sorts the
-Standard Model's 19 parameters by what is known (11 unexplained, 3 related by established
-physics, 2 empirical regularities, 3 conjectured), tests each published explanation against
-data, and works out what the 3-3-1 structure does and does not give for quark flavour. None of
-the 19 is derived.
-`src/first_principles_standalone.py` is that rebuild's ten stages alone.
-
-## For students: the symmetry-breaking ladder
-
-**[SYMMETRY_LADDER.md](SYMMETRY_LADDER.md)** follows the forces down in energy, from the 3-3-1
-scale to the two diamonds, with every step derived and checked in code:
-- 3-3-1 → Standard Model → electromagnetism: the photon, the hypercharge matching and the
-  W, Z, Z′ masses, from the gauge-boson mass matrix;
-- chiral symmetry breaking: pions, the GMOR relation and the nuclear force, and the pion
-  mass at O(p⁴) in chiral perturbation theory (132.6 ± 3.8 MeV against 135.0);
-- the Casimir–Polder force between the diamonds, from electrostatics and the dipole field,
-  at finite temperature (negligible at the design's 0.15 K), and the electric dipoles that
-  exceed the design's bound by orders of magnitude (measured on silica, modelled for patches);
-- one-graviton exchange: Newton's law and the experiment's 2.19 rad phase;
-- gravity as a broken de Sitter gauge theory (MacDowell–Mansouri), a reformulation of GR;
-- black holes, gravity's strong-field end rather than a symmetry breaking: the Hawking
-  temperature fixed by the smoothness of Euclidean time, the first law in exact fractions,
-  the largest black hole the measured Λ allows, and the EHT shadows of M87* and Sgr A* and
-  GW250114's area increase against the data (Hawking radiation itself is unmeasured);
-- twenty-six links across the rungs (see SYMMETRY_LADDER.md). **Neutral matter:** q_p + q_e is exactly the 3-3-1 (or
-  Standard Model) mixed anomaly, and the diamond experiment needs it below 2.8×10⁻¹⁹ e per
-  nucleon; the measured limit, 10⁻²¹ e, is 280× tighter. **π⁰ → γγ:** rung 1's charges and the measured f_π
-  give 7.79 eV, against PrimEx's 7.80 ± 0.12 eV, for any N_c. **The Planck mass:** the 3-3-1
-  selection's cutoff is √(ħc/G) with the diamond experiment's G; the selection would survive
-  G 8.2× weaker or 10¹⁴× stronger at the reference spectrum, and G 1.6× weaker at the
-  worst point of the threshold scan. **Black holes:** the diamond's Schwarzschild radius is a
-  millionth of the Planck length, and a Planck-mass black hole has k_BT = M_Pl c²/8π.
-
-Gravity is not part of the gauge chain; the page says where each derivation stops.
-
-**Run it in one paste.** [`src/ladder_standalone.py`](src/ladder_standalone.py) reproduces all
-six rungs and twenty-one links in a single file that uses only the Python standard library. Copy it (the
-[website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/#runchain) has a one-click
-**Copy Python script** button) and paste it into any Python 3.8+ runner, notebook or AI
-assistant's code tool. It runs in a few seconds and ends with 102 PASS/FAIL checks
-([expected output](results/ladder/standalone.txt)). Each check is tagged **math** (an identity
-verified by computation), **data** (against a measurement, with the tolerance and its reason
-printed) or **pinned** (a number this repository derives, guarding against changes), and the
-script exits with status 1 if any check fails.
-
-## For students: notebooks with exercises
-
-| Notebook | What it works out | Prerequisites |
+| Kind of number | Where it lives | Example |
 |---|---|---|
-| [01 TEGR and the classic tests](notebooks/01_tegr_classic_tests.ipynb) | Tetrad field equations → Schwarzschild; perihelion 42.98″/century, light bending 1.7512″, γ = 1, GPS +38.54 µs/day, all from geodesic integrals | Carroll ch. 1–5 |
-| [02 Complementarity and decoherence](notebooks/02_complementarity_and_decoherence.ipynb) | Englert's V² + D² = 1; a thermal which-path environment, −ln V = 2 Var(ΔN) | Density matrices |
-| [03 Gravity-mediated entanglement](notebooks/03_gravity_mediated_entanglement.ipynb) | Bose–Marletto–Vedral branch phases, concurrence, gas decoherence | Two-qubit entanglement |
-| [04 The area law](notebooks/04_area_law.ipynb) | Srednicki's S ≈ 0.30 (R/a)² | Gaussian states |
-| [05 Teleparallel gravity in 3D](notebooks/05_teleparallel_3d_quantum.ipynb) | 3D quantum gravity (Ponzano–Regge): exact 6j symbols, their Regge-action limit, the 2–3 move | Notebook 01; SU(2) recoupling |
+| Measured or defined input | `INPUTS`, each with uncertainty and source | quark masses (PDG 2024), H0 (Planck 2018), T_CMB |
+| Measured result, used only to judge | `COMPARISONS` | CKM fit (PDG 2024), the age of the universe (Planck 2018) |
+| Numerical-method setting | `NUMERICS`; the self-checks vary the key ones | RK4 steps, phase-grid size, Decimal digits |
+| Everything else | calculated | β-functions from Casimirs, the CKM matrix from an exact diagonalization |
 
-Outputs are saved, so the notebooks read on GitHub, and CI re-runs them on every commit.
+[`tests/test_production.py`](tests/test_production.py) enforces the rule. It fails if any
+non-integer number appears anywhere in the script outside those three tables, or if any
+calculating function reads `COMPARISONS`.
 
-## The worked examples
+Where the inputs cannot determine a quantity, the script does not pick a value. The two
+phases of the quark mass matrices are the only such quantities, and each is scanned over its
+whole range, [0, 2π). The prediction is the band that the scan sweeps out, and it is
+compared with the measurement as a band.
 
-Each piece is labelled by status. **Established** means published and tested;
-**recomputed** means it is reproduced here in code; **conditional** means it holds only
-under stated assumptions.
+## What it calculates
 
-| Topic | Result | Status | Report |
+**Part A: cosmology** (flat ΛCDM, the Friedmann equation, 50-digit Decimal arithmetic)
+
+| Quantity | How | Result | Measured |
 |---|---|---|---|
-| Teleparallel gravity | Schwarzschild is the unique static spherical solution of the TEGR field equations; GR's classic tests from its geodesics | Established; recomputed | [TEGR.md](TEGR.md) |
-| Which-path records | V = \|⟨E₁\|E₂⟩\|, D² + V² = 1 | Established (Englert 1996); recomputed | [MEASUREMENT.md](MEASUREMENT.md) |
-| Born rule | p = \|c\|² by envariance, Gleason-type additivity, no-signalling and branch frequencies | Published arguments reproduced; each assumes locality or non-contextuality | [BORN.md](BORN.md) |
-| Area law, Unruh | S = 0.3046 (R/a)² per scalar; K = 2π × boost on a lattice | Established (Srednicki; Bisognano–Wichmann); recomputed | [DERIVATION.md](DERIVATION.md) |
-| Jacobson's argument | Clausius on local horizons gives Einstein's equations, with 1/4Għ = entanglement per area | Hypothesis; algebra re-checked, premise assumed; relates G to unknowns, does not predict it | [DERIVATION.md](DERIVATION.md) |
-| Two-diamond (BMV) design | Δφ = 2.19 rad; 270 runs (0.6 h) at the published targets, which need 4×10⁸ × today's largest superposed mass and vibration noise 57× below LISA Pathfinder | Worked example | [GRAVITY_ENTANGLEMENT.md](GRAVITY_ENTANGLEMENT.md) |
-| Classical–quantum gravity | Oppenheim's decoherence–diffusion trade-off, minimized, is the Diósi–Penrose floor; a coherent diamond implies CQ acceleration noise ≥ 1.3×10⁻¹² m s⁻²/√Hz | Worked example within existing literature, not new | [OPPENHEIM.md](OPPENHEIM.md) |
-| Smeared Markovian classical gravity | At R₀ = a it heats matter at 0.5 W/kg, 6×10¹⁰ × the Earth's heat flow | Conditional: **only under R₀ = a and Markovian dynamics** | [COLLECTIVE.md](COLLECTIVE.md) |
-| Trapped-ion visibility | −ln V = 2 Var(ΔN); contrast 0.787 → 0.111 from n̄ = 0.1 to 5 | Worked example; novelty unchecked | [PREDICTIONS.md](PREDICTIONS.md) |
+| Ω_γ | Stefan–Boltzmann law from T_CMB | 5.450 × 10⁻⁵ | |
+| Ω_r | photons + N_eff = 3.044 neutrinos | 9.218 × 10⁻⁵ | |
+| Ω_Λ | flatness: 1 − Ω_m − Ω_r | 0.6846 ± 0.0073 | 0.6847 ± 0.0073 |
+| Age t₀ | Romberg quadrature of ∫ da / (a H) | 13.795 Gyr | 13.787 ± 0.020 Gyr |
+| q₀, z_acc, z_eq | closed forms and root finding | −0.527, 0.631, 3420 | |
+| Horizon entropies | π c⁵ / (G ħ H²) | 2.27 × 10¹²² k_B today, 3.31 × 10¹²² k_B de Sitter | |
 
-The experimental consequences, with requirements and sources, are in
-[PREDICTIONS.md](PREDICTIONS.md). A positive two-diamond result (gravity follows each
-branch, λ = 1) is also what perturbative quantum gravity predicts, so it would rule out
-classical gravity, not single out anything here.
+**Part B: quark flavour** (the Fritzsch six-zero texture)
 
-### One equation for the bookkeeping
+1. The six measured quark masses are run with the renormalization group. Below the top mass
+   this is two-loop QCD and one-loop QED, with flavour thresholds at m_c, m_b and m_t. Above
+   it, the same-type mass ratios are run with one-loop Standard Model Yukawa and gauge terms,
+   to m_t(m_t) and to the superpartner scale M_S = 2.54 TeV that Part I derives. No scale is typed in. The top pole mass
+   is converted to MS-bar at two loops. Every β-function and anomalous-dimension coefficient
+   is computed from SU(N) Casimirs and the Standard Model field content, and checked against
+   the textbook value.
+2. The Fritzsch matrix [[0, A, 0], [A, 0, B], [0, B, C]] has its entries fixed exactly by its
+   three eigenvalues. The script tries every sign assignment, finds that exactly one gives
+   real entries, builds both quark sectors, and diagonalizes them exactly (Jacobi).
+3. V = O_uᵀ · diag(1, e^{iσ}, e^{iτ}) · O_d for every (σ, τ). Each observable's band over the
+   full phase torus is found and given the propagated input uncertainty.
 
-The research notes ([DERIVATION.md](DERIVATION.md), [technical.html](technical.html))
-collect these pieces in one place:
+Result at M_S = 2.54 TeV (m_t(m_t) agrees to within 3%):
 
-```
-ρᵢⱼ(t) = ρᵢⱼ(0) · ⟨Eⱼ|Eᵢ⟩ · e^{i(Sᵢ − Sⱼ)/ħ}
-Sᵢ = S_matter[i] + S_EM[i] + (c⁴/16πG) ∫ eᵢ T[eᵢ] d⁴x        gravity's TEGR action
-```
+| Observable | Band over all phases | Measured (PDG 2024) | Verdict |
+|---|---|---|---|
+| \|V_us\| | 0.1758 – 0.2614 | 0.22501 ± 0.00068 | inside |
+| \|V_cb\| | 0.0741 – 0.1948 | 0.04183 ± 0.0007 | **outside by 32σ** |
+| \|V_ub\| | 0.00266 – 0.00918 | 0.00373 ± 0.00009 | inside |
+| \|V_ub/V_cb\| | 0.0359 – 0.0519 | 0.0892 ± 0.0026 | **outside by 14σ** |
+| \|V_td/V_ts\| | 0.2274 – 0.2328 | 0.207 ± 0.003 | **outside by 5σ** |
+| J | −3.55 – 3.55 × 10⁻⁴ | 3.12 × 10⁻⁵ | inside |
 
-This is standard decoherence with branch-dependent phases; it is not a new theory. Its
-use is practical: every decoherence channel, gravity's own field included, enters as one
-factor of the record overlap ⟨Eⱼ|Eᵢ⟩, so the channels are tallied and compared on the
-same footing in one calculation.
+**Conclusion.** With nothing tuned, the quark masses in the six-zero texture reproduce the
+Cabibbo angle, |V_ub| and the size of CP violation, but for no value of the phases do they
+reproduce |V_cb|. The texture is excluded. This agrees with the literature, where the
+six-zero Fritzsch texture is excluded by the heavy top quark.
 
-## Reproduce
+**Part C: every texture-zero pattern that makes a prediction**
 
-```bash
-pip install -r requirements.txt pytest
-python3 src/stur_tegr_gr.py         # GR's classic tests from TEGR, ~10 s
-python3 src/stur_tegr_corner.py     # TEGR vs GR Noether charges and the first law, ~60 s
-python3 src/stur_tegr_frame.py      # the frame at a corner: boost conjugate to area/8piG; Lorentz closure, ~15 s
-python3 src/stur_tegr_logs.py       # frame edge logs vs Sen's universal log correction, ~1 s
-python3 src/stur_tegr3d.py          # 3D: Ponzano-Regge 6j asymptotics and the 2-3 move, ~3 s
-python3 src/stur_derivation.py      # the whole chain, ~30 s
-python3 src/stur_gravity_full.py    # the two-diamond design search, ~15 s
-python3 src/short_range_gravity.py  # design A against a Yukawa term in Newton's law, ~4 s
-python3 src/m331_exact.py           # the 3-3-1 selection, both variants
-python3 src/m331_three_loop.py       # three-loop gauge running and the criterion, ~70 s
-python3 src/m331_margin.py           # the beta = +1/sqrt3 margin against mass floors, ~2 min
-python3 src/m331_matrix_check.py     # the beta-function coefficients again, from explicit matrices, ~2 s
-python3 src/m331_coupling_map.py     # the selection as a map of coupling space, ~2.5 min
-python3 src/m331_heavy_lepton.py     # its heavy leptons vs the LHC and HL-LHC, ~5 s
-python3 src/m331_gravity_fixed_point.py  # gravity above M_Pl (asymptotic safety) and the 3-3-1 couplings, ~70 s
-python3 src/force_chain.py           # the forces in one chain, with its seven branches, ~7 s
-python3 src/chain_branches.py        # the branches alone, with their sensitivities, ~15 s
-python3 src/ladder_standalone.py     # the whole ladder, one file, no dependencies, ~1 s
-python3 src/m331_rho_bound.py        # rho from 3-3-1 Z-Z' mixing vs the global fit and the LHC, ~7 s
-python3 src/m331_zpole.py            # the LEP/SLD Z-pole fit of the mixing, validated on E6 Z', ~30 s
-python3 src/m331_breaking.py         # the ladder, rungs 1-6: also chiral_breaking, casimir_diamonds,
-                                    # graviton_exchange, macdowell_mansouri, black_holes (each a few seconds)
-python3 src/ladder_links.py          # links across the rungs: neutral matter, pi0 -> gamma gamma, M_Pl, ~2 s
-python3 src/m331_standalone.py      # the whole 3-3-1 chain, one file, no dependencies, ~15 s
-python3 src/why_parameters.py        # the 19 parameters: explanations tested, 3-3-1 flavour, ~3 s
-python3 src/m331_gravigut_nogo.py    # no derivation of stage 7's gravity from stage 1's 3-3-1: the graviGUT no-go, ~3 s
-python3 src/induced_gravity.py       # G induced by stage 1's matter at its Landau pole: M_Pl within a factor 3, <1 s
-python3 src/induced_gravity_finite.py # regulator-free induced G: impossible within 3-3-1; the minimal completion fixes the sign, <1 s
-python3 src/gravity_from_331.py      # all of it in one paste: the no-go, the induced G, the loop to N_c = 3, ~3 s
-python3 tools/dependency_map.py    # regenerate DEPENDENCIES.md after changing a script, ~1 s
-python -m pytest tests -q           # every number pinned (393 tests)
-```
+Part B tests one guess about the shape of the mass matrices. Part C tests all of them.
+Each sector is a Hermitian matrix (always possible by right-handed rotations, which leave
+the CKM matrix unchanged), and a symmetric off-diagonal pair counts as one zero.
 
-Each script writes its reference output to `results/`, and CI checks every number on
-each push.
+* **Counting.** A sector with 3 zeros has its 3 entries fixed exactly by its 3 masses. A
+  sector with 2 zeros keeps one free entry. Add the 2 phases between the sectors, plus a
+  phase inside any sector whose three off-diagonals are all nonzero. The data are 4 numbers
+  (|V_us|, |V_cb|, |V_ub|, J), so *predictions = 4 − unknowns*. Only pairs with five or six
+  zeros predict anything.
+* **Solving.** With no loop phase, the squared off-diagonal entries enter the trace, the
+  sum of the 2×2 minors and the determinant linearly. Each sector is therefore solved
+  exactly (linear algebra plus at most a cubic), with every sign assignment of the
+  eigenvalues and every branch. One-parameter families are found on their exact intervals.
+* **Testing, without fitting.** (1) The band test: for fixed rotations, each
+  |V_ij| = |c₀ + c₁e^{iσ} + c₂e^{iτ}| sweeps exactly [max(0, 2 max|c| − Σ|c|), Σ|c|] over the
+  phases. If a measurement lies outside that band at every value of the free entry, the
+  pattern is excluded. (2) Otherwise, the joint test asks whether *any* point of the unknowns
+  reproduces all four data at once. It converts the smallest χ² into a p-value with
+  (predictions) degrees of freedom. The point found is never reported or used. It only
+  decides survival, at the 3σ level.
 
-## Layout
+Result: the 1,000 ordered pairs fall into 188 classes. 64 cannot give three real nonzero
+masses, 41 keep a phase inside a sector and predict nothing, and **83 are tested. 82 are
+excluded at every scale, and one survives:**
 
 ```
-paper/                    the 3-3-1 note: PDF, LaTeX source, and its own README (start there)
-notebooks/                study notebooks with exercises
-NOTE_331.md               the 3-3-1 note with extended detail on each check
-NOVELTY.md                literature search: what is new, what was already known
-CLAIMS.md                 every headline claim: label, the tests that pin it, assumptions, falsifier
-PREREGISTRATION.md        rules for tests registered before computing, and the registry
-NOTE_TEGR.md              the frame in teleparallel gravity and black-hole entropy
-FORCE_CHAIN.md            the forces as one chain, from 3-3-1 into black holes and back
-WHY.md                    why these inputs? the 19 parameters, explanations tested, sources
-SYMMETRY_LADDER.md        symmetry breaking from 3-3-1 to the diamond experiment, derived
-GRAVIGUT_NOGO.md          why gravity's gauge group is not derived from 3-3-1: a no-go
-INDUCED_GRAVITY.md        G induced by stage 1's matter at its Landau pole (MODEL)
-INDUCED_GRAVITY_FINITE.md the regulator question: sum rules, a mass bound, the two-level completion
-FIRST_PRINCIPLES.md       how to rebuild the ladder from first principles
-rebuild/                  protocol and harness for a blind AI rebuild of the ladder
-DEPENDENCIES.md           generated map: which script feeds which, and every shared constant
-QUANTUM_TEGR.md           literature map for quantum teleparallel gravity
-TEGR.md, MEASUREMENT.md, BORN.md, DERIVATION.md, GRAVITY_ENTANGLEMENT.md,
-OPPENHEIM.md, COLLECTIVE.md, EMERGENT.md, PREDICTIONS.md
-                          the worked examples, one report each
-src/                      one script per report; outputs in results/
-tests/                    regression tests
-index.html, technical.html  the website (GitHub Pages)
+M_u = | 0 0 X |      M_d = | 0 X 0 |      chi^2 = 0.19 to 0.31 for 1 dof (0.4 to 0.6 sigma)
+      | 0 X X |            | X 0 X |      at m_t(m_t) and at M_S
+      | X X X |            | 0 X X |
 ```
 
-Script names keep the `stur_` prefix of the project's former working title.
-Earlier exploratory material, superseded by the work above, is preserved in git
-history at commit [`d6baab6`](https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/tree/d6baab6).
+The down sector is Fritzsch's. The up sector has five-zero structure, the kind of pattern
+classified by Ramond, Roberts and Ross (1993). Every six-zero pattern is excluded,
+Fritzsch's at 31σ or more.
 
-## License
+**Part D: what 3-3-1 says about the mass matrices**
 
-CC0 1.0. See [LICENSE](LICENSE).
+The script derives the 3-3-1 charges from Q = T₃ + βT₈ + X, for β = −1/√3 and +1/√3, and
+checks that the anomalies cancel. It then finds every gauge-invariant Yukawa operator.
+
+* Every entry of both quark mass matrices is allowed. Rows 1 and 2 (the antitriplet
+  families) get one vev and row 3 (the triplet family) gets another:
+  M = diag(v_A, v_A, v_B) × (free Yukawas). **The gauge symmetry forces no texture zero, so
+  3-3-1 by itself cannot rescue or select a pattern.** Zeros need an extra symmetry.
+* The left-handed families split into gauge blocks {1, 2} and {3}. Only 2 of the 6 index
+  permutations remain basis changes. The surviving class therefore becomes **3 distinct
+  3-3-1 hypotheses**, which differ in which index is the triplet family. They give the same
+  CKM matrix but different flavour-changing Z′ couplings, and that is what would tell them
+  apart.
+
+**Part E: can a flavour symmetry produce the survivor inside 3-3-1?**
+
+The search covers abelian symmetries Z_N: each field gets a charge mod N, and a Yukawa
+entry survives only if its charges sum to 0. Every abelian group is a product of such
+factors, so scanning Z_N covers the abelian case. Everything is done for both β = ±1/√3.
+
+* **E1, minimal scalars: no.** Each row of each mass matrix gets its mass from one scalar.
+  The script computes that the down-minus-up scalar charge is the same for all three rows.
+  So any abelian symmetry groups the rows in the same way in both sectors, and the CKM
+  matrix then falls apart into blocks. An exhaustive scan of Z_2 to Z_6 confirms it: of
+  50,364 realizable pattern pairs, **none** has a texture zero and three-family mixing.
+* **E2, Hermiticity: impossible.** The survivor's one prediction relies on Hermitian
+  matrices (M₁₂ = M₂₁* and so on). A symmetry would have to map the left-handed quarks
+  (SU(3)_L triplets and antitriplets) onto the right-handed ones (singlets). No symmetry that
+  commutes with SU(3)_L can do that.
+* **E3, extra scalars: the zeros, but no prediction.** With extra copies of the two
+  mass-giving scalars, **Z_6 with 6 scalar triplets** (4 more than minimal 3-3-1) gives
+  exactly the survivor's zeros, in each of its three 3-3-1 placements. The charges are in
+  the output, and the script re-derives the pattern from them. No Z_N with N ≤ 6 does it with
+  fewer triplets. But the matrices are then general complex matrices: 11 magnitudes and 3
+  phases, so 14 parameters for 10 observables and **−4 predictions**.
+
+**Conclusion: no flavour symmetry inside 3-3-1 produces the survivor as a predictive
+model.** Its prediction needs Hermitian mass matrices. That takes a symmetry exchanging left-
+and right-handed quarks, so the gauge group must treat them alike: a left-right extension,
+outside 3-3-1.
+
+**Part F: does ANY texture of general mass matrices predict the CKM matrix?**
+
+Inside 3-3-1 a symmetry can only put zeros into general (non-Hermitian) matrices. Part F
+therefore checks every zero pattern of two general 3×3 matrices: 247² = 61,009 ordered pairs,
+or 497 classes. The number of physical parameters of a pattern is the rank of the Jacobian of
+10 weak-basis invariants of H = MM† (tr H, tr H², det H in each sector, and tr(H_u^a H_d^b)
+for a, b = 1, 2), with respect to the entries. The rank is computed **exactly**: at integer
+points everything is an integer, and the elimination runs modulo a 61-bit prime. Since 10 is
+the largest possible rank, finding rank 10 at any point proves it.
+
+| Classes | Outcome |
+|---|---|
+| 19 | cannot mix all three families |
+| 6 | no phase left, so J = 0 |
+| 470 | exactly 10 physical parameters for 10 observables: **no prediction** |
+| 2 | rank 8, but J ≡ 0 (checked in exact Gaussian integers): excluded |
+| **0** | **predict anything and allow CP violation** |
+
+**Part G: other gauge frameworks.** 3-3-1 is not essential to the algorithm, so the script
+asks the same question of the Standard Model and of left-right symmetric models.
+
+* *Standard Model, any number of Higgs doublets:* an abelian symmetry makes zeros in general
+  matrices, and Part F shows none of those predicts anything.
+* *Left-right symmetric with parity:* the Yukawa matrices are Hermitian. But every bidoublet
+  feeds both sectors through its two vevs, so the zeros sit in the same places in up and
+  down ("parallel" textures). Part C tested all 3 parallel Hermitian classes that predict
+  anything: all are excluded, at 31σ or more.
+
+**Closure.** With abelian flavour symmetries and any number of scalars, in the Standard Model,
+in left-right models and in 3-3-1, the quark sector closes with **10 measured inputs: 6 masses
+and 4 CKM parameters**. Texture zeros calculate no CKM number. Calculating them needs
+relations between nonzero entries (non-abelian flavour symmetries or grand unification),
+which the script does not search.
+
+**Part H: where quantum theory and gravity meet**
+
+This part is a workshop in the spirit of a search for a theory of everything. It is built only
+from established physics, and every apparent pattern carries its status. Everything follows
+from G, ħ, c and k_B plus measured masses. The one exception is labelled: the one-loop
+coefficient 41/(10π), quoted from Bjerrum-Bohr, Donoghue and Holstein 2003.
+
+| | Result |
+|---|---|
+| H1 Planck units | l_P = 1.616×10⁻³⁵ m, E_P = 1.221×10¹⁹ GeV |
+| H2 Quantum correction to Newton's law | Sun–Earth: 1.5×10⁻⁹² (the relativistic term is 3.0×10⁻⁸); for protons it overtakes the relativistic term below 0.22 Compton lengths; the effective theory ends at 1.14 l_P |
+| H3 Black holes | the Sun: T_H = 6.2×10⁻⁸ K; the hole that evaporates in exactly the Part A age has 1.73×10¹¹ kg; de Sitter horizon: 2.2×10⁻³⁰ K, 3.3×10¹²² k_B |
+| H4 Unruh effect | 4.0×10⁻²⁰ K at Earth's g |
+| H5 Smallest mass gravity can ever entangle | (πħ²/(G c t₀))^(1/3) = 89 MeV/c² (0.095 m_p): maximal entanglement within the age of the universe at the closest allowed separation, the Compton wavelength. Zero if gravity is classical: the open test |
+| H6 Why gravity is weak | the proton mass comes from Λ_QCD = 0.226 GeV, set by logarithmic running: ln(M_P/Λ) = 45.4 |
+| H7 Large numbers | each one labelled as identity, known mechanism, measured input, or open |
+
+The pattern that emerges is that two famous "coincidences" are exact identities:
+α_G = (m_p/M_P)², and S_dS · ρ_Λ/ρ_Planck = 3/8. So the 10¹²² entropy and the 10⁻¹²³
+vacuum energy are one fact. The weakness of gravity for a proton has a known cause,
+logarithmic running. What remains open: α, the Yukawa couplings, ρ_Λ, and whether gravity
+carries entanglement (H5), which is the measurement that would decide whether gravity is quantum.
+
+A coincidence to watch: the smallest mass gravity can entangle within the age of the universe
+(H5) is 0.64 m_π. It is the same combination of ħ, G, c and the Hubble time as Weinberg's 1972
+large-number relation for the pion mass (0.43 m_π with H₀). The two agree in order of
+magnitude, and no mechanism is known.
+
+**Part I: can α be calculated from the other numbers?**
+
+No accepted theory derives α. Grand unification is the one established framework that
+relates it to other measured numbers. If the three gauge couplings meet at one scale,
+1/α(M_Z) follows from α_s(M_Z) and sin²θ̂_W(M_Z) (PDG 2024: 0.23129 ± 0.00004) alone. The
+script solves for that α. It runs the couplings at one and two loops, with coefficients computed
+from the field content and checked against the textbook matrices.
+
+| Content | 1/α(M_Z), 2-loop |
+|---|---|
+| Standard Model only | 81.8 (−36%: the SM couplings do not meet) |
+| MSSM, superpartners at M_Z | 139.6 |
+| MSSM, superpartners at 3 TeV | 127.4 |
+| MSSM, superpartners at 10⁷ GeV | 98.7 |
+| **measured** | **127.951 ± 0.009** |
+
+So α is not calculated. Unification turns it into a function of one unknown, the superpartner
+scale M_S. Read the other way, the measured α points to **M_S ≈ 2.5 TeV** (1.9–3.3 TeV from the
+α_s and sin²θ_W errors), before the unknown threshold corrections. The closed formulas proposed
+for 1/α (Eddington, Wyler, 4π³+π²+π) are all excluded by thousands of standard deviations or more.
+
+**Part J: can the Yukawa couplings be calculated from the other numbers?**
+
+No accepted theory gives them. Two established ideas relate them, and both are tested with
+all scales taken from Part I:
+
+* **Quark/lepton ratios from grand unification** (group theory). Minimal SU(5)'s
+  m_s/m_d = m_μ/m_e (= 210.6) is off by 558σ. Georgi–Jarlskog's m_s/m_d = m_μ/(9m_e)
+  (= 23.4) is off by 10σ from the measured 19.9 ± 0.3.
+* **b–τ unification** (y_b = y_τ at unification). In the SM the ratio is 0.70 where g₁ = g₂
+  and 0.59 at M_Planck. In the MSSM (M_S = 2.54 TeV, M_GUT = 1.15×10¹⁶ GeV from Part I, tan β
+  scanned over its perturbative range) it is 0.79–0.88. It reaches 1 only at tan β = 1.35,
+  where y_t(M_GUT) = 2.6, at the edge of perturbation theory.
+* **The top quasi-fixed point.** In the SM, a large top coupling at M_Planck runs to
+  m_t(m_t) = 217–220 GeV, against a measured 163.4. In the MSSM the measured top mass needs
+  tan β = 1.33–1.40.
+
+So no Yukawa coupling is calculated. In the MSSM, b–τ unification and the top fixed point
+point to the same narrow region, tan β ≈ 1.3–1.4. That is one number, not a calculation of the
+Yukawas, and it is not checked here against the Higgs mass.
+
+All scales come from the algorithm. Parts B and C run at m_t(m_t) and at Part I's M_S. Part J
+uses Part I's M_GUT and Part H's M_Planck. The tan β range and the "large" top coupling come
+from the perturbativity limit √(4π). The only numbers not produced by the algorithm are the
+measured inputs, the numerical settings, and the quoted coefficient 41/(10π).
+
+## What changed from production v1
+
+The first version of `production_v2_2.py` (commit `2fa12f0`) gave χ² ≈ 3,600 for its Fritzsch
+module and χ² ≈ 359,000 for its "resistance" module. Its outputs depended on hand-set numbers.
+v2.2 replaces each one:
+
+| v1 | Problem | v2.2 |
+|---|---|---|
+| `cp_phase_rad = 1.144` | the measured CKM phase, put in as input | removed; phases scanned over [0, 2π) |
+| `theta_23_rad = 0` | a free phase set by hand | scanned |
+| overlap model: `c1..c3, w1..w3, phi_12..phi_13`, `(abs(m) - 0.5)` and `2, 3 × eps` factors | arbitrary parameters, no derivation | removed |
+| resistance model: `r1..r3`, `0.45 + 1.55 s^p`, widths `0.85/(1 + 0.45 r)`, phase coefficients `0.25, 0.18, 0.15, 0.22, 0.37, 0.05` | arbitrary parameters, no derivation | removed |
+| cosmology–flavour feedback: `delta Omega_L = -(J/J0) ... × 1e-4`, entropy couplings `1e-6`, `1e-5`, `j_ref_scale = 3e-5` | invented couplings; `J0` was the measured J | removed: no calculated coupling exists, so there is no loop to close |
+| `"status": "verified_within_1.3_sigma"` | hard-coded verdict string | removed; verdicts are computed |
+| `Omega_r = 9.2e-5`, `Omega_Lambda = 0.685` | entered by hand | calculated from T_CMB, N_eff and flatness |
+| `v_ew = 246.22` | entered by hand | (√2 G_F)^(−1/2) |
+| FLRW ODE over `t_span = (0, 10)` from `a0 = 0.01` | arbitrary span; `a_final` meaningless | the age, by quadrature from a = 0 |
+| two-loop mass anomalous dimension | off by a factor of 2 | corrected, and computed from Casimirs |
+| up-type-only `3 y_t² / (32 π²)` term | not the Standard Model RGE | SM one-loop Yukawa RGE for the ratios |
+
+## Repository layout
+
+```
+production_v2_2.py            the simulation (the only script in this repository)
+results/production_v2_2.txt   its expected output
+tests/test_production.py      the no-tuning rule, the self-checks, the pinned numbers
+index.html                    website: one page, one Copy button
+archive/                      notes and the 3-3-1 paper from the earlier codebase (prose only)
+```
+
+The earlier modules, notebooks and tools are in the git history (last at commit `2fa12f0`).
+The files in `archive/` refer to them by their old paths.
+
+## Licence
+
+CC0 1.0: public domain. Copy it freely.

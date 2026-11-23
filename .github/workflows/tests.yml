@@ -16,6 +16,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install -r requirements.txt pytest
-      - name: Every number pinned
+      - run: pip install pytest
+      - name: The simulation runs and passes its self-checks
+        run: python production_v2_2.py
+      - name: Nothing tuned, every number pinned
         run: python -m pytest tests/ -q
