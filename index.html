@@ -72,7 +72,7 @@
       <a class="btn" href="production_v2_2.py" download="production_v2_2.py">Download .py</a>
       <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/production_v2_2.py">View on GitHub</a>
     </div>
-    <p class="status" id="copy-status" role="status" aria-live="polite">Paste it into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 5 seconds and ends with 15 self-checks. Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/production_v2_2.txt">results/production_v2_2.txt</a>.</p>
+    <p class="status" id="copy-status" role="status" aria-live="polite">Paste it into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 2–3 minutes and ends with 20 self-checks. Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/production_v2_2.txt">results/production_v2_2.txt</a>.</p>
   </div>
 
   <h2>The rule</h2>
@@ -105,6 +105,23 @@
     <tr><td>Jarlskog J</td><td>−3.6 – 3.6 × 10<sup>−4</sup></td><td>3.12 × 10<sup>−5</sup></td><td class="in">inside</td></tr>
   </table></div>
   <p><b>Result:</b> with nothing tuned, the quark masses give the Cabibbo angle, |V<sub>ub</sub>| and the size of CP violation, but for no value of the phases do they give |V<sub>cb</sub>|. The six-zero texture is excluded, as the literature also finds.</p>
+
+  <h2>Part C: every texture pattern that makes a prediction</h2>
+  <p>The Fritzsch pattern is only one guess about where the zeros in the quark mass matrices sit. The script tests every guess that makes a prediction: all pairs of Hermitian mass matrices with five or six zeros, 1,000 pairs in 188 classes. The masses fix each sector's entries exactly. Every unknown (the phases, and one free entry in five-zero sectors) is scanned or tested, never set.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Classes</th><th>Outcome</th></tr>
+    <tr><td>64</td><td>cannot give three real nonzero masses</td></tr>
+    <tr><td>41</td><td>keep a phase inside one sector, so they predict nothing</td></tr>
+    <tr><td>82</td><td class="out">excluded at every scale (every six-zero pattern among them)</td></tr>
+    <tr><td>1</td><td class="in">survives: χ² = 0.3 for 1 degree of freedom</td></tr>
+  </table></div>
+<pre>M_u = | 0 0 X |   M_d = | 0 X 0 |
+      | 0 X X |         | X 0 X |
+      | X X X |         | 0 X X |</pre>
+  <p>The survivor pairs Fritzsch's down-quark matrix with a five-zero up-quark matrix.</p>
+
+  <h2>Part D: what 3-3-1 says about the mass matrices</h2>
+  <p>From the 3-3-1 charges (β = ±1/√3), the script finds every gauge-invariant Yukawa coupling. Every entry of both mass matrices is allowed, so <b>3-3-1 by itself forces no zero</b>: it can neither rescue nor select a texture. What it does fix is that one family (a triplet) differs from the other two. That turns the surviving pattern into three distinct 3-3-1 hypotheses, which differ in which family is the triplet. Their flavour-changing Z′ couplings would tell them apart.</p>
 
   <h2>Run it locally</h2>
 <pre>python3 production_v2_2.py

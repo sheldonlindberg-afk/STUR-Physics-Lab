@@ -32,8 +32,16 @@ WHAT IT CALCULATES
     put into the Fritzsch six-zero texture, whose entries the masses fix exactly.
     Diagonalizing it gives the full CKM matrix for every value of the two free
     phases, and each element's band is compared with the measured value.
+  Part C, every texture-zero pattern that makes a prediction: all pairs of
+    Hermitian quark mass matrices with five or six zeros, grouped into classes
+    under weak-basis permutations. Each sector's entries are solved exactly from
+    its masses. Every unknown is scanned or tested, never fixed, and each class
+    is judged against the measured CKM matrix.
+  Part D, what the 3-3-1 gauge symmetry says about the mass matrices: the
+    charges, the gauge-invariant Yukawa operators, and which entries they allow,
+    for beta = -1/sqrt3 and +1/sqrt3.
 
-Run:  python3 production_v2_2.py                 (full report, about 10 s)
+Run:  python3 production_v2_2.py                 (full report, about 2-3 minutes)
       python3 production_v2_2.py --json-out out.json
 """
 
@@ -125,6 +133,18 @@ NUMERICS: Dict[str, Any] = {
     "check_rel_tol": "1e-9",
     "check_rg_tol": "1e-7",
     "check_age_tol": "1e-8",
+    "survey_min_zeros": 5,            # 5 or 6 zeros: the patterns with at least one prediction
+    "survey_curve_grid": 24,          # starting grid along a one-parameter family
+    "survey_phase_grid": 16,          # starting grid per phase
+    "survey_starts": 3,               # best grid points refined by compass search
+    "survey_sigma_iterations": 3,     # re-evaluations of the input-induced errors at the point found
+    "survey_min_step": "1e-9",
+    "survey_residual_tol": "1e-6",    # relative mismatch of trace, minors, det for an accepted matrix
+    "check_survey_eig_tol": "1e-6",   # float cancellation in hierarchical matrices; masses are known to ~1e-2
+    "root_trim_rel": "1e-14",
+    "root_merge_rel": "1e-13",
+    "survival_sigma": 3,              # a pattern survives if its p-value is above the 3-sigma level
+    "check_survey_tol": "1e-6",
     "report_sci_below": "1e-3",       # print in scientific notation below / above these
     "report_sci_above": "1e5",
     # Scales at which the flavour bands are reported: the four 3-3-1 benchmark
@@ -519,6 +539,610 @@ def phase_bands(coef: List[List[List[float]]], grid: int, min_step: float) -> Di
 
 
 # =============================================================================
+# 6b. TEXTURE SURVEY: every texture-zero pattern with at least one prediction
+# =============================================================================
+# Hermitian mass matrices, zeros counted per independent entry (a symmetric
+# off-diagonal pair is one zero). Any pair of quark mass matrices can be made
+# Hermitian by right-handed rotations, which leave the CKM matrix unchanged.
+#
+# A sector with 3 zeros has 3 nonzero entries, which its 3 masses fix exactly.
+# With 2 zeros it has 4, leaving one free entry. Counting unknowns: 2 phases
+# between the sectors, plus 1 per free entry, plus 1 per sector whose three
+# off-diagonal entries are all nonzero (a phase that cannot be rotated away).
+# The data are 4 numbers (|V_us|, |V_cb|, |V_ub|, J), so
+# predictions = 4 - unknowns. Only patterns with at least one prediction (five
+# or six zeros, no loop phase) are tested; the rest are counted.
+#
+# The unknowns are never given values. A pattern is tested in two steps:
+#   1. Exact band test. For fixed rotations, each |V_ij| = |c0 + c1 e^(i s) + c2 e^(i t)|
+#      sweeps exactly [max(0, 2 max|c| - sum|c|), sum|c|] over the phases. If any
+#      measurement lies outside its band (with input and measurement errors) at
+#      every value of the free entry, the pattern is excluded.
+#   2. Joint test. Otherwise the script asks whether ANY point of the unknowns
+#      reproduces all four data at once: it minimizes chi^2 over the unknowns and
+#      converts it to a p-value with (predictions) degrees of freedom. This is a
+#      hypothesis test. The point found is never reported as a determination and
+#      never used anywhere else.
+POSITIONS = ((0, 0), (1, 1), (2, 2), (0, 1), (0, 2), (1, 2))
+SURVEY_OBS = ("V_us", "V_cb", "V_ub", "J")
+_ELEMENTS = {"V_us": (0, 1), "V_cb": (1, 2), "V_ub": (0, 2)}
+
+
+def _comp(p: Tuple[int, int]) -> int:
+    return 3 - p[0] - p[1]
+
+
+def _invariants(e: Sequence[float]) -> Tuple[float, float, float]:
+    return e[0] + e[1] + e[2], e[0] * e[1] + e[0] * e[2] + e[1] * e[2], e[0] * e[1] * e[2]
+
+
+def _poly_coeffs(g: Callable[[float], float]) -> List[float]:
+    """Coefficients of a polynomial of degree <= 3 from its values at -2, -1, 1, 2."""
+    xs = (-2, -1, 1, 2)
+    a = [[float(x) ** k for k in range(4)] + [g(x)] for x in xs]
+    for c in range(4):
+        p = max(range(c, 4), key=lambda r: abs(a[r][c]))
+        a[c], a[p] = a[p], a[c]
+        for r in range(4):
+            if r != c:
+                f = a[r][c] / a[c][c]
+                for k in range(c, 5):
+                    a[r][k] -= f * a[c][k]
+    return [a[i][4] / a[i][i] for i in range(4)]
+
+
+def real_roots(coefs: Sequence[float]) -> List[float]:
+    """All real roots of sum c_k x^k: monotone brackets between critical points, then bisection."""
+    c = list(coefs)
+    scale = max(abs(v) for v in c) or 1
+    while len(c) > 1 and abs(c[-1]) <= scale * num("root_trim_rel"):
+        c.pop()
+    deg = len(c) - 1
+    if deg <= 0:
+        return []
+    if deg == 1:
+        return [-c[0] / c[1]]
+
+    def f(x: float) -> float:
+        return sum(ck * x ** k for k, ck in enumerate(c))
+    bound = 1 + max(abs(ck / c[-1]) for ck in c[:-1])
+    crit = sorted(r for r in real_roots([k * c[k] for k in range(1, len(c))]) if -bound < r < bound)
+    pts = [-bound] + crit + [bound]
+    roots = []
+    for a, b in zip(pts[:-1], pts[1:]):
+        fa, fb = f(a), f(b)
+        if fa == 0:
+            roots.append(a)
+            continue
+        if (fa < 0) == (fb < 0):
+            continue
+        while True:
+            m = (a + b) / 2
+            if m in (a, b):
+                break
+            fm = f(m)
+            if fm == 0:
+                a = b = m
+                break
+            if (fa < 0) == (fm < 0):
+                a, fa = m, fm
+            else:
+                b = m
+        roots.append((a + b) / 2)
+    if f(bound) == 0:
+        roots.append(bound)
+    out: List[float] = []
+    for r in sorted(roots):
+        if not out or abs(r - out[-1]) > num("root_merge_rel") * max(1, abs(r)):
+            out.append(r)
+    return out
+
+
+def _sym_matrix(d: Dict[int, float], q: Dict[Tuple[int, int], float]) -> List[List[float]]:
+    m = [[0.0] * 3 for _ in range(3)]
+    for i, v in d.items():
+        m[i][i] = v
+    for p, v in q.items():
+        m[p[0]][p[1]] = m[p[1]][p[0]] = math.sqrt(max(v, 0))
+    return m
+
+
+def _invariant_residual(m: List[List[float]], e: Sequence[float]) -> float:
+    t, s2, det = _invariants(e)
+    tr = m[0][0] + m[1][1] + m[2][2]
+    minors = sum(m[i][i] * m[j][j] - m[i][j] ** 2 for i, j in ((0, 1), (0, 2), (1, 2)))
+    dt = (m[0][0] * (m[1][1] * m[2][2] - m[1][2] ** 2) - m[0][1] * (m[0][1] * m[2][2] - m[1][2] * m[0][2])
+          + m[0][2] * (m[0][1] * m[1][2] - m[1][1] * m[0][2]))
+    # relative to each invariant: the determinant of a hierarchical sector is ~1e-8
+    return max(abs(tr - t) / max(abs(v) for v in e), abs(minors - s2) / abs(s2), abs(dt - det) / abs(det))
+
+
+def _q_solve(d: Dict[int, float], offs: Sequence[Tuple[int, int]], e: Sequence[float]):
+    """Squared off-diagonal entries from the invariants, which are linear in them (no loop)."""
+    _, s2, det = _invariants(e)
+    dd = [d.get(i, 0) for i in range(3)]
+    r1 = dd[0] * dd[1] + dd[0] * dd[2] + dd[1] * dd[2] - s2      # = sum of q
+    r2 = dd[0] * dd[1] * dd[2] - det                              # = sum of d_comp(q) q
+    if len(offs) == 2:
+        a, b = offs
+        ca, cb = dd[_comp(a)], dd[_comp(b)]
+        if cb == ca:
+            return None
+        qb = (r2 - ca * r1) / (cb - ca)
+        return {a: r1 - qb, b: qb}
+    if len(offs) == 1:
+        return {offs[0]: r1}
+    return {}
+
+
+def _split(nonzero: Sequence[Tuple[int, int]]):
+    return [p[0] for p in nonzero if p[0] == p[1]], [p for p in nonzero if p[0] != p[1]]
+
+
+def family_kinds(nonzero: Sequence[Tuple[int, int]]):
+    """The solution families of a sector with these nonzero entries, or 'loop'."""
+    diags, offs = _split(nonzero)
+    if len(offs) == 3:
+        return "loop"
+    if len(nonzero) == 3:
+        if len(diags) == 1:
+            return [("fixed", 0)]
+        if len(diags) == 2:
+            return [("root", k) for k in range(3)]
+        return [("perm", k) for k in range(6)]
+    if len(diags) == 2:
+        return [("curve", k) for k in range(3)]          # one free diagonal entry, q's linear
+    return [("block", m) for m in range(3)]               # one state decouples with eigenvalue e_m
+
+
+def fixed_matrix(nonzero, kind: str, br: int, e: Sequence[float]):
+    diags, offs = _split(nonzero)
+    t, _, det = _invariants(e)
+    if kind == "fixed":
+        d = {diags[0]: t}
+        q = _q_solve(d, offs, e)
+    elif kind == "root":
+        i, j = diags
+        a = offs[0]
+
+        def g(x: float) -> float:
+            dx = {i: x, j: t - x}
+            qq = _q_solve(dx, offs, e)
+            v = [dx.get(k, 0) for k in range(3)]
+            return v[0] * v[1] * v[2] - v[_comp(a)] * qq[a] - det
+        rts = real_roots(_poly_coeffs(g))
+        if br >= len(rts):
+            return None
+        d = {i: rts[br], j: t - rts[br]}
+        q = _q_solve(d, offs, e)
+    else:
+        perm = list(itertools.permutations(range(3)))[br]
+        d = {k: e[perm[k]] for k in range(3)}
+        q = {}
+    if q is None or any(v < 0 for v in q.values()):
+        return None
+    m = _sym_matrix(d, q)
+    return m if _invariant_residual(m, e) < num("survey_residual_tol") else None
+
+
+def curve_interval(nonzero, kind: str, br: int, e: Sequence[float]):
+    """The br-th interval of the free diagonal entry on which every q >= 0 (|entries| <= 1)."""
+    diags, offs = _split(nonzero)
+    t, s2, det = _invariants(e)
+    if kind == "block":
+        others = [e[i] for i in range(3) if i != br]
+        return (min(others), max(others))
+    i, j = diags
+    a, b = offs
+
+    def dd(x: float) -> List[float]:
+        return [{i: x, j: t - x}.get(k, 0) for k in range(3)]
+
+    def den(x: float) -> float:
+        v = dd(x)
+        return v[_comp(b)] - v[_comp(a)]
+
+    def r1(x: float) -> float:
+        v = dd(x)
+        return v[0] * v[1] + v[0] * v[2] + v[1] * v[2] - s2
+
+    def nb(x: float) -> float:
+        v = dd(x)
+        return (v[0] * v[1] * v[2] - det) - v[_comp(a)] * r1(x)
+
+    def na(x: float) -> float:
+        return r1(x) * den(x) - nb(x)
+
+    breaks = {-1, 1}
+    for f in (den, nb, na):
+        breaks |= {r for r in real_roots(_poly_coeffs(f)) if -1 < r < 1}
+    breaks_sorted = sorted(breaks)
+    ivs: List[Tuple[float, float]] = []
+    for lo, hi in zip(breaks_sorted[:-1], breaks_sorted[1:]):
+        q = _q_solve({i: (lo + hi) / 2, j: t - (lo + hi) / 2}, offs, e)
+        if q is not None and all(v >= 0 for v in q.values()):
+            if ivs and ivs[-1][1] == lo:
+                ivs[-1] = (ivs[-1][0], hi)
+            else:
+                ivs.append((lo, hi))
+    return ivs[br] if br < len(ivs) else None
+
+
+def curve_matrix(nonzero, kind: str, br: int, e: Sequence[float], t_unit: float):
+    """The matrix at relative position t_unit in [0, 1] along the family (Chebyshev spacing)."""
+    iv = curve_interval(nonzero, kind, br, e)
+    if iv is None:
+        return None
+    x = iv[0] + (iv[1] - iv[0]) * (1 - math.cos(math.pi * t_unit)) / 2
+    diags, offs = _split(nonzero)
+    t, _, _ = _invariants(e)
+    if kind == "block":
+        a = offs[0]
+        others = [e[i] for i in range(3) if i != br]
+        d = {_comp(a): e[br], a[0]: x, a[1]: sum(others) - x}
+        q = {a: x * (sum(others) - x) - others[0] * others[1]}
+    else:
+        i, j = diags
+        d = {i: x, j: t - x}
+        q = _q_solve(d, offs, e)
+    if q is None:
+        return None
+    m = _sym_matrix(d, q)
+    return m if _invariant_residual(m, e) < num("survey_residual_tol") else None
+
+
+def _sector_matrix(nonzero, var, e_abs: Sequence[float], t_unit: float):
+    signs, kind, br = var
+    e = (signs[0] * e_abs[0], signs[1] * e_abs[1], e_abs[2])
+    if kind in ("curve", "block"):
+        return curve_matrix(nonzero, kind, br, e, t_unit)
+    return fixed_matrix(nonzero, kind, br, e)
+
+
+def sector_variants(nonzero, e_abs: Sequence[float]):
+    """Every (eigenvalue signs, family, branch) with a real solution; 'loop' if a phase survives.
+    The overall sign is fixed by the heaviest eigenvalue being positive (it does not change V)."""
+    kinds = family_kinds(nonzero)
+    if kinds == "loop":
+        return "loop"
+    out = []
+    for signs in itertools.product((1, -1), repeat=2):
+        e = (signs[0] * e_abs[0], signs[1] * e_abs[1], e_abs[2])
+        for kind, br in kinds:
+            ok = (curve_interval(nonzero, kind, br, e) if kind in ("curve", "block")
+                  else fixed_matrix(nonzero, kind, br, e))
+            if ok is not None:
+                out.append((signs, kind, br))
+    return out
+
+
+def _permute_pattern(zeros, perm):
+    return tuple(sorted(tuple(sorted((perm[i], perm[j]))) for i, j in zeros))
+
+
+def pattern_class(zu, zd, perms=None):
+    """Canonical representative of (zeros_u, zeros_d) under simultaneous index permutations,
+    which are weak-basis changes and leave the CKM matrix unchanged."""
+    perms = perms or list(itertools.permutations(range(3)))
+    return min((_permute_pattern(zu, p), _permute_pattern(zd, p)) for p in perms)
+
+
+def pattern_mask(zeros) -> str:
+    rows = []
+    for i in range(3):
+        rows.append("".join("0" if tuple(sorted((i, j))) in zeros else "X" for j in range(3)))
+    return "/".join(rows)
+
+
+def _eigen_ratios(r: Dict[str, float]) -> Dict[str, Tuple[float, float, float]]:
+    return {"u": (r["r_uc"] * r["r_ct"], r["r_ct"], 1.0), "d": (r["r_ds"] * r["r_sb"], r["r_sb"], 1.0)}
+
+
+def _magnitude_band(coef, ij: Tuple[int, int]) -> Tuple[float, float]:
+    c = [abs(v) for v in coef[ij[0]][ij[1]]]
+    s = sum(c)
+    return max(0, 2 * max(c) - s), s
+
+
+def _survey_obs(coef, s: float, t: float) -> Tuple[float, float, float, float]:
+    p1, p2 = cmath.exp(1j * s), cmath.exp(1j * t)
+
+    def v(i: int, j: int) -> complex:
+        c = coef[i][j]
+        return c[0] + c[1] * p1 + c[2] * p2
+    vus, vcb, vub, vcs = v(0, 1), v(1, 2), v(0, 2), v(1, 1)
+    return abs(vus), abs(vcb), abs(vub), (vus * vcb * vub.conjugate() * vcs.conjugate()).imag
+
+
+def _minimize(f: Callable[[List[float]], float], x: List[float], steps: List[float],
+              min_step: float) -> Tuple[List[float], float]:
+    """Compass search: deterministic, derivative-free."""
+    best = f(x)
+    steps = list(steps)
+    while max(steps) > min_step:
+        moved = False
+        for d in range(len(x)):
+            if steps[d] == 0:
+                continue
+            for sgn in (1, -1):
+                y = list(x)
+                y[d] += sgn * steps[d]
+                v = f(y)
+                if v < best:
+                    best, x, moved = v, y, True
+                    break
+            if moved:
+                break
+        if not moved:
+            steps = [s / 2 for s in steps]
+    return x, best
+
+
+def chi2_pvalue(chi2: float, dof: int) -> float:
+    """Upper tail of the chi^2 distribution for integer dof (closed forms)."""
+    if dof <= 0:
+        return math.nan
+    h = chi2 / 2
+    if dof % 2 == 0:
+        return math.exp(-h) * sum(h ** j / math.factorial(j) for j in range(dof // 2))
+    tail = sum(h ** (j - 1 / 2) / math.gamma(j + 1 / 2) for j in range(1, (dof - 1) // 2 + 1))
+    return math.erfc(math.sqrt(h)) + math.exp(-h) * tail
+
+
+def pvalue_to_sigma(p: float) -> float:
+    """Two-sided Gaussian equivalent: erfc(n / sqrt2) = p."""
+    if p <= 0:
+        return math.inf
+    lo, hi = 0.0, 40.0
+    for _ in range(200):
+        mid = (lo + hi) / 2
+        if math.erfc(mid / math.sqrt(2)) > p:
+            lo = mid
+        else:
+            hi = mid
+    return (lo + hi) / 2
+
+
+class TextureSurvey:
+    """All texture pairs with >= 1 prediction at one evaluation scale."""
+
+    def __init__(self, ratios_central: Dict[str, float], ratios_varied: Sequence[Tuple[Dict, Dict]]):
+        self.E = [_eigen_ratios(ratios_central)]
+        for plus, minus in ratios_varied:
+            self.E += [_eigen_ratios(plus), _eigen_ratios(minus)]
+        self.cache: Dict[Any, Any] = {}
+        self.meas = {k: _comparison(k) for k in SURVEY_OBS}
+
+    def rotation(self, sector: str, nonzero, var, ei: int, t_unit: float):
+        key = (sector, tuple(nonzero), var, ei, t_unit)
+        if key not in self.cache:
+            m = _sector_matrix(nonzero, var, self.E[ei][sector], t_unit)
+            self.cache[key] = None if m is None else jacobi_eigh(m, num("jacobi_tol"))[1]
+        return self.cache[key]
+
+    def coef(self, pair, t_unit: float, ei: int = 0):
+        nu, vu, nd, vd = pair
+        ou = self.rotation("u", nu, vu, ei, t_unit if vu[1] in ("curve", "block") else 0)
+        od = self.rotation("d", nd, vd, ei, t_unit if vd[1] in ("curve", "block") else 0)
+        return None if ou is None or od is None else ckm_coefficients(ou, od)
+
+    def input_sigma(self, pair, f, t_unit: float) -> float:
+        v2 = 0.0
+        for k in range(1, len(self.E), 2):
+            cp, cm = self.coef(pair, t_unit, k), self.coef(pair, t_unit, k + 1)
+            if cp is not None and cm is not None:
+                v2 += ((f(cp) - f(cm)) / 2) ** 2
+        return math.sqrt(v2)
+
+    def band_distance(self, pair, t_unit: float) -> float:
+        """Largest n-sigma distance of a measured |V_ij| from its exact phase band."""
+        c = self.coef(pair, t_unit)
+        if c is None:
+            return math.inf
+        worst = 0.0
+        for k, ij in _ELEMENTS.items():
+            lo, hi = _magnitude_band(c, ij)
+            m, up, dn = self.meas[k]
+            if lo <= m <= hi:
+                continue
+            edge = 0 if m < lo else 1
+            s = self.input_sigma(pair, lambda cc: _magnitude_band(cc, ij)[edge], t_unit)
+            n = (lo - m) / math.hypot(s, up) if m < lo else (m - hi) / math.hypot(s, dn)
+            worst = max(worst, n)
+        return worst
+
+    def chi2(self, o: Sequence[float], sig_in: Sequence[float]) -> float:
+        tot = 0.0
+        for k, val, si in zip(SURVEY_OBS, o, sig_in):
+            m, up, dn = self.meas[k]
+            tot += ((val - m) / math.hypot(up if val > m else dn, si)) ** 2
+        return tot
+
+    def joint(self, pair, n_curve: int, nt: int, nph: int):
+        ts = [(i + 1 / 2) / nt for i in range(nt)] if n_curve else [0]
+        zero = (0, 0, 0, 0)
+        starts = []
+        for t in ts:
+            c = self.coef(pair, t)
+            if c is None:
+                continue
+            for i in range(nph):
+                for j in range(nph):
+                    s, u = 2 * math.pi * i / nph, 2 * math.pi * j / nph
+                    starts.append((self.chi2(_survey_obs(c, s, u), zero), t, s, u))
+        starts.sort()
+
+        def f(x: List[float], sig: Sequence[float]) -> float:
+            if n_curve and not 0 <= x[0] <= 1:
+                return math.inf
+            c = self.coef(pair, x[0] if n_curve else 0)
+            return math.inf if c is None else self.chi2(_survey_obs(c, x[1], x[2]), sig)
+        best = (math.inf, None)
+        for _, t, s, u in starts[:int(num("survey_starts"))]:
+            x, sig = [t, s, u], zero
+            for _ in range(int(num("survey_sigma_iterations"))):
+                x, _ = _minimize(lambda y: f(y, sig), x,
+                                 [1 / nt if n_curve else 0, 2 * math.pi / nph, 2 * math.pi / nph],
+                                 num("survey_min_step"))
+                sig = tuple(self.input_sigma(pair, lambda cc, k=k: _survey_obs(cc, x[1], x[2])[k],
+                                             x[0] if n_curve else 0) for k in range(4))
+            val = f(x, sig)
+            if val < best[0]:
+                best = (val, (x, sig))
+        return best
+
+    def bands(self, pair, n_curve: int, nt: int, nph: int) -> Dict[str, Tuple[float, float]]:
+        """Range of each observable over ALL unknowns (free entry and both phases)."""
+        ts = [(i + 1 / 2) / nt for i in range(nt)] if n_curve else [0]
+        out = {}
+        for k in range(4):
+            res = []
+            for sense in (1, -1):
+                def f(x: List[float]) -> float:
+                    if n_curve and not 0 <= x[0] <= 1:
+                        return math.inf
+                    c = self.coef(pair, x[0] if n_curve else 0)
+                    return math.inf if c is None else sense * _survey_obs(c, x[1], x[2])[k]
+                start = min(([t, 2 * math.pi * i / nph, 2 * math.pi * j / nph]
+                             for t in ts for i in range(nph) for j in range(nph)), key=f)
+                x, v = _minimize(f, start, [1 / nt if n_curve else 0, 2 * math.pi / nph, 2 * math.pi / nph],
+                                 num("survey_min_step"))
+                res.append(sense * v)
+            out[SURVEY_OBS[k]] = (res[0], res[1])
+        return out
+
+    def run(self, min_zeros: int) -> Dict[str, Any]:
+        e = self.E[0]
+        sector: Dict[Any, Dict[str, Any]] = {}
+        for nz in (2, 3):
+            for z in itertools.combinations(POSITIONS, nz):
+                nonzero = [p for p in POSITIONS if p not in z]
+                sector[tuple(sorted(z))] = {s: sector_variants(nonzero, e[s]) for s in ("u", "d")}
+        classes: Dict[Any, List[Any]] = {}
+        for zu, zd in itertools.product(sector, repeat=2):
+            if len(zu) + len(zd) >= min_zeros:
+                classes.setdefault(pattern_class(zu, zd), []).append((zu, zd))
+        nt, nph = int(num("survey_curve_grid")), int(num("survey_phase_grid"))
+        results = []
+        for key in sorted(classes):
+            zu, zd = key
+            rec: Dict[str, Any] = {"zeros_u": zu, "zeros_d": zd, "zeros": len(zu) + len(zd),
+                                   "orbit": len(classes[key])}
+            vu, vd = sector[zu]["u"], sector[zd]["d"]
+            if vu == "loop" or vd == "loop":
+                rec["status"] = "loop"
+                results.append(rec)
+                continue
+            if not vu or not vd:
+                rec["status"] = "no_solution"
+                results.append(rec)
+                continue
+            nu = [p for p in POSITIONS if p not in zu]
+            nd = [p for p in POSITIONS if p not in zd]
+            rec.update({"status": "tested", "band_sigma": math.inf, "chi2": math.inf, "variant": None})
+            for a, b in itertools.product(vu, vd):
+                pair = (nu, a, nd, b)
+                n_curve = (a[1] in ("curve", "block")) + (b[1] in ("curve", "block"))
+                rec["predictions"] = 4 - 2 - n_curve
+                ts = [(i + 1 / 2) / nt for i in range(nt)] if n_curve else [0]
+                bd = min(self.band_distance(pair, t) for t in ts)
+                rec["band_sigma"] = min(rec["band_sigma"], bd)
+                if bd > num("survival_sigma"):
+                    continue
+                c2, arg = self.joint(pair, n_curve, nt, nph)
+                if c2 < rec["chi2"]:
+                    rec.update({"chi2": c2, "variant": (a, b), "pair": pair, "n_curve": n_curve,
+                                "input_sigma": arg[1]})
+            if rec["chi2"] < math.inf:
+                rec["sigma"] = pvalue_to_sigma(chi2_pvalue(rec["chi2"], rec["predictions"]))
+            else:
+                rec["sigma"] = rec["band_sigma"]
+            rec["survives"] = rec["sigma"] <= num("survival_sigma")
+            if rec["survives"]:
+                rec["bands"] = self.bands(rec["pair"], rec["n_curve"], nt, nph)
+            results.append(rec)
+        return {"classes": results, "n_ordered_pairs": sum(len(v) for v in classes.values())}
+
+
+# =============================================================================
+# 6c. WHAT THE 3-3-1 GAUGE SYMMETRY SAYS ABOUT THE QUARK MASS MATRICES
+# =============================================================================
+def triplet_charges(b: int, x: Fr, anti: bool = False) -> Tuple[Fr, Fr, Fr]:
+    """Q = T3 + beta T8 + X on an SU(3)_L (anti)triplet; with beta = b/sqrt3, beta T8 = (b/6) diag(1,1,-2)."""
+    t3 = (Fr(1, 2), Fr(-1, 2), Fr(0))
+    t8 = (Fr(b, 6), Fr(b, 6), Fr(-2 * b, 6))
+    s = -1 if anti else 1
+    return tuple(s * a + s * c + x for a, c in zip(t3, t8))
+
+
+def model_331(b: int) -> Tuple[Dict[int, Dict[str, Any]], Dict[Fr, Dict[str, Any]]]:
+    """Quarks and scalars of the 3-3-1 model with beta = b/sqrt3 (b = +1 or -1).
+
+    Anomaly cancellation puts two families in antitriplets, (d, -u, exotic), and one in a
+    triplet, (u, d, exotic). X is fixed by the first component: u has 2/3, d has -1/3.
+    Scalars: one triplet for each component that can hold a neutral vev."""
+    x3 = Fr(2, 3) - triplet_charges(b, Fr(0))[0]
+    xa = Fr(-1, 3) - triplet_charges(b, Fr(0), anti=True)[0]
+    quarks = {f: {"rep": "3bar", "X": xa, "content": ("d", "u", "exotic")} for f in (1, 2)}
+    quarks[3] = {"rep": "3", "X": x3, "content": ("u", "d", "exotic")}
+    for q in quarks.values():
+        q["charges"] = triplet_charges(b, q["X"], anti=q["rep"] == "3bar")
+    scalars: Dict[Fr, Dict[str, Any]] = {}
+    for k in range(3):
+        x = -triplet_charges(b, Fr(0))[k]
+        ch = triplet_charges(b, x)
+        scalars.setdefault(x, {"X": x, "charges": ch, "neutral": [i for i in range(3) if ch[i] == 0]})
+    return quarks, scalars
+
+
+def yukawa_structure_331(b: int) -> Dict[str, Any]:
+    """Which entries of the quark mass matrices the gauge symmetry allows, and from which vev."""
+    quarks, scalars = model_331(b)
+    singlet_x = {"u": Fr(-2, 3), "d": Fr(1, 3)}        # X of u^c and d^c (all families alike)
+    table = {}
+    for fam, q in quarks.items():
+        for flav, xc in singlet_x.items():
+            ops = []
+            for x, s in scalars.items():
+                conj = q["rep"] == "3"                   # 3 x 3bar: a triplet quark needs S*
+                if q["X"] + (-x if conj else x) + xc != 0:
+                    continue
+                for k in s["neutral"]:
+                    if q["content"][k] == flav:
+                        ops.append({"scalar_X": x, "conjugate": conj, "component": k + 1})
+            table[(fam, flav)] = ops
+    reps: Dict[str, List[int]] = {}
+    for fam, q in quarks.items():
+        reps.setdefault(q["rep"], []).append(fam)
+    blocks = sorted(reps.values(), key=len, reverse=True)
+    return {
+        "b": b, "quarks": quarks, "scalars": scalars, "operators": table,
+        # u^c_a (and d^c_a) are identical for all a, so an allowed (row, flavour) allows the whole row
+        "all_entries_allowed": all(table[(f, fl)] for f in quarks for fl in ("u", "d")),
+        "left_blocks": blocks,
+        "shared_scalars": [s for s in scalars.values() if len(s["neutral"]) > 1],
+    }
+
+
+def residual_permutations(blocks: Sequence[Sequence[int]]) -> List[Tuple[int, int, int]]:
+    """Index permutations that keep every gauge block in place (families labelled 1..3)."""
+    keep = []
+    for p in itertools.permutations(range(3)):
+        if all({p[f - 1] + 1 for f in blk} == set(blk) for blk in blocks):
+            keep.append(p)
+    return keep
+
+
+def versions_331(zu, zd, perms_331: Sequence[Tuple[int, int, int]]) -> List[Tuple[Any, Any]]:
+    """The physically distinct 3-3-1 placements of one texture class (index 3 = triplet family)."""
+    seen = {}
+    for p in itertools.permutations(range(3)):
+        pu, pd = _permute_pattern(zu, p), _permute_pattern(zd, p)
+        seen.setdefault(pattern_class(pu, pd, perms_331), (pu, pd))
+    return [seen[k] for k in sorted(seen)]
+
+
+# =============================================================================
 # 7. COSMOLOGY (Decimal arithmetic)
 # =============================================================================
 def dec_pi() -> Decimal:
@@ -671,7 +1295,17 @@ def run_flavour(scales: Sequence[float], steps: int, grid: int) -> Dict[str, Any
                 band["sigma_" + edge] = math.sqrt(var2)
             band["vs_measurement"] = _tension(band["lo"], band["hi"], band["sigma_lo"], band["sigma_hi"], k)
         results[mu] = {"ratios": r, "texture": tex, "bands": bands}
-    return {"runner": central, "ratios": ratios, "scales": results}
+    return {"runner": central, "ratios": ratios, "scales": results, "varied": varied}
+
+
+def run_survey(flav: Dict[str, Any], scales: Sequence[float]) -> Dict[float, Dict[str, Any]]:
+    out = {}
+    for mu in scales:
+        varied = [(flav["varied"][name][0][mu], flav["varied"][name][1][mu]) for name in FLAVOUR_UNCERTAIN]
+        sv = TextureSurvey(flav["ratios"][mu], varied)
+        out[mu] = sv.run(int(num("survey_min_zeros")))
+        out[mu]["survey"] = sv
+    return out
 
 
 def _derived_vub_over_vcb() -> None:
@@ -712,7 +1346,8 @@ def run_cosmology(prec: int) -> Dict[str, Any]:
 # 9. SELF-CHECKS (correctness of the calculation, never agreement with data)
 # =============================================================================
 def self_checks(flav: Dict[str, Any], cosmo: Dict[str, Any], scales: Sequence[float], steps: int,
-                grid: int) -> List[Tuple[str, bool, str]]:
+                grid: int, survey: Dict[float, Dict[str, Any]], yuk: Dict[int, Dict[str, Any]]
+                ) -> List[Tuple[str, bool, str]]:
     tol = num("check_rel_tol")
     checks: List[Tuple[str, bool, str]] = []
 
@@ -789,6 +1424,60 @@ def self_checks(flav: Dict[str, Any], cosmo: Dict[str, Any], scales: Sequence[fl
         f"rel diff {rel:.1e}")
     total = cosmo["Omega_r"] + cosmo["Omega_m"] + cosmo["Omega_Lambda"]
     add("Flatness holds exactly", total == 1, "")
+
+    # texture survey
+    fz = ((0, 0), (1, 1), (0, 2))                       # Fritzsch: zeros at 11, 22, 13
+    nz = [p for p in POSITIONS if p not in fz]
+    worst_f = 0.0
+    for mu in scales:
+        sv = survey[mu]["survey"]
+        pair = (nz, ((1, -1), "fixed", 0), nz, ((1, -1), "fixed", 0))
+        lo, hi = _magnitude_band(sv.coef(pair, 0), _ELEMENTS["V_cb"])
+        pb = flav["scales"][mu]["bands"]["V_cb"]
+        worst_f = max(worst_f, abs(lo / pb["lo"] - 1), abs(hi / pb["hi"] - 1))
+    add("Survey reproduces Part B for the Fritzsch pattern (exact |V_cb| band vs phase scan)",
+        worst_f < tol, f"max rel diff {worst_f:.1e}")
+    worst_e = 0.0
+    for mu in scales:
+        sv = survey[mu]["survey"]
+        for (sector, nonzero, var, ei, t_unit), o in sv.cache.items():
+            if o is None or ei != 0:
+                continue
+            m = _sector_matrix(list(nonzero), var, sv.E[0][sector], t_unit)
+            ev = sorted(abs(x) for x in jacobi_eigh(m, num("jacobi_tol"))[0])
+            for got, want in zip(ev, sv.E[0][sector]):
+                worst_e = max(worst_e, abs(got / want - 1))
+    add("Every survey mass matrix has the RG-run masses as eigenvalues", worst_e < num("check_survey_eig_tol"),
+        f"max rel err {worst_e:.1e}")
+    mu = max(scales)
+    sv = survey[mu]["survey"]
+    worst_g = 0.0
+    for rec in survey[mu]["classes"]:
+        if rec.get("pair") is None:
+            continue
+        c2, _ = sv.joint(rec["pair"], rec["n_curve"], 2 * int(num("survey_curve_grid")),
+                         2 * int(num("survey_phase_grid")))
+        worst_g = max(worst_g, abs(c2 - rec["chi2"]) / max(1, rec["chi2"]))
+    add("Joint-test chi^2 independent of the starting grids (both doubled)", worst_g < num("check_survey_tol"),
+        f"max rel change {worst_g:.1e}")
+
+    # 3-3-1 charges
+    ok_charges = True
+    ok_anomaly = True
+    for b, y in yuk.items():
+        for q in y["quarks"].values():
+            want = {"u": Fr(2, 3), "d": Fr(-1, 3)}
+            ok_charges &= all(q["charges"][k] == want[c] for k, c in enumerate(q["content"]) if c in want)
+        # [SU(3)_C]^2 U(1)_X: left-handed colour triplets minus conjugate singlets, X-weighted
+        x_left = sum(3 * q["X"] for q in y["quarks"].values())
+        x_conj = sum(-q["charges"][k] for q in y["quarks"].values() for k in range(3))
+        ok_anomaly &= x_left + x_conj == 0
+        # [SU(3)_L]^3: N_c x (antitriplet families) = N_c x (triplet families) + 3 lepton triplets
+        n3 = sum(1 for q in y["quarks"].values() if q["rep"] == "3")
+        nb = sum(1 for q in y["quarks"].values() if q["rep"] == "3bar")
+        ok_anomaly &= 3 * nb == 3 * n3 + 3
+    add("3-3-1 charges: ordinary components come out as 2/3 and -1/3 (beta = +-1/sqrt3)", ok_charges, "")
+    add("3-3-1 anomalies cancel: [SU(3)_L]^3 and [SU(3)_C]^2 U(1)_X", ok_anomaly, "")
     return checks
 
 
@@ -811,8 +1500,11 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
     _derived_vub_over_vcb()
     cosmo = run_cosmology(prec)
     flav = run_flavour(scales, steps, grid)
-    checks = self_checks(flav, cosmo, scales, steps, grid)
-    return {"scales": scales, "cosmology": cosmo, "flavour": flav, "checks": checks, "precision": prec}
+    survey = run_survey(flav, scales)
+    yuk = {b: yukawa_structure_331(b) for b in (-1, 1)}
+    checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
+    return {"scales": scales, "cosmology": cosmo, "flavour": flav, "survey": survey, "yukawa_331": yuk,
+            "checks": checks, "precision": prec}
 
 
 def report(res: Dict[str, Any]) -> str:
@@ -896,6 +1588,96 @@ def report(res: Dict[str, Any]) -> str:
     else:
         w("  RESULT: every measured value lies inside its band at every evaluation scale.")
     w("")
+    w("PART C. EVERY TEXTURE-ZERO PATTERN THAT MAKES A PREDICTION")
+    w("-" * 78)
+    w("  Hermitian mass matrices; a symmetric off-diagonal pair counts as one zero.")
+    w("  Unknowns (2 phases, 1 per free entry) are scanned or tested, never fixed;")
+    w("  predictions = 4 data (|V_us|, |V_cb|, |V_ub|, J) - unknowns.")
+    sv0 = res["survey"][res["scales"][0]]
+    recs = {mu: {(r["zeros_u"], r["zeros_d"]): r for r in res["survey"][mu]["classes"]} for mu in res["scales"]}
+    n_loop = sum(1 for r in sv0["classes"] if r["status"] == "loop")
+    n_none = sum(1 for r in sv0["classes"] if r["status"] == "no_solution")
+    tested = [r for r in sv0["classes"] if r["status"] == "tested"]
+    w(f"  {sv0['n_ordered_pairs']} ordered pattern pairs with 5 or 6 zeros fall into {len(sv0['classes'])} classes"
+      f" under weak-basis permutations:")
+    w(f"    {n_none:3d} cannot give three nonzero masses with real entries")
+    w(f"    {n_loop:3d} keep a phase inside one sector, so they predict nothing (not tested)")
+    w(f"    {len(tested):3d} make predictions and are tested")
+    w("")
+    sc = res["scales"]
+    w("  zeros  up mass matrix  down mass matrix  pred   n-sigma at " + "  ".join(f"{m / 1000:g} TeV" for m in sc)
+      + "   verdict")
+
+    def key_sigma(r: Dict[str, Any]) -> float:
+        return max(recs[mu][(r["zeros_u"], r["zeros_d"])]["sigma"] for mu in sc)
+    for r in sorted(tested, key=key_sigma):
+        k = (r["zeros_u"], r["zeros_d"])
+        sig_s = "  ".join(f"{recs[mu][k]['sigma']:9.1f}" if recs[mu][k]["sigma"] < 1000 else "    >1000"
+                          for mu in sc)
+        surv = all(recs[mu][k]["survives"] for mu in sc)
+        how = "joint" if recs[sc[0]][k].get("pair") is not None else "band"
+        verdict = "SURVIVES" if surv else f"excluded ({how})"
+        w(f"  {r['zeros']:5d}  {pattern_mask(r['zeros_u']):<14}  {pattern_mask(r['zeros_d']):<16}  {r['predictions']:4d}"
+          f"   {sig_s}   {verdict}")
+    w("  (masks: rows of the matrix, X = nonzero, 0 = texture zero; 'band' = one |V_ij| alone")
+    w("   is out of reach for every value of the unknowns; 'joint' = all four data at once)")
+    survivors = [r for r in tested if all(recs[mu][(r["zeros_u"], r["zeros_d"])]["survives"] for mu in sc)]
+    for r in survivors:
+        k = (r["zeros_u"], r["zeros_d"])
+        w("")
+        w(f"  Survivor  up {pattern_mask(k[0])}  down {pattern_mask(k[1])}:"
+          f" {r['predictions']} prediction(s), class of {r['orbit']} equivalent orderings")
+        for mu in sc:
+            rr = recs[mu][k]
+            bands = "  ".join(f"{name} [{_fmt(lo, 3)}, {_fmt(hi, 3)}]" for name, (lo, hi) in rr["bands"].items())
+            w(f"    {mu / 1000:g} TeV: chi^2 = {rr['chi2']:.2f} for {rr['predictions']} dof"
+              f" ({rr['sigma']:.1f} sigma);  ranges over all unknowns: {bands}")
+    if survivors:
+        w("  (the free entry and the phases sweep each observable over a wide range on its own; the")
+        w("   prediction is a relation among the four, which the joint test checks)")
+    if not survivors:
+        w("  RESULT: no texture-zero pattern with a prediction survives.")
+    else:
+        w("")
+        w(f"  RESULT: {len(survivors)} of {len(tested)} predictive patterns survive at every scale;"
+          f" {len(tested) - len(survivors)} are excluded.")
+    w("")
+    w("PART D. WHAT 3-3-1 SAYS ABOUT THE MASS MATRICES (from the gauge charges)")
+    w("-" * 78)
+    for b, y in res["yukawa_331"].items():
+        sign = "-" if b < 0 else "+"
+        w(f"  beta = {sign}1/sqrt3:")
+        for fam, q in y["quarks"].items():
+            ch = ", ".join(str(c) for c in q["charges"])
+            w(f"    family {fam}: {q['rep']:<4} X = {str(q['X']):>4}  components ({', '.join(q['content'])})"
+              f" with charges ({ch})")
+        for (fam, flav), ops in y["operators"].items():
+            if fam == 2:
+                continue
+            desc = "; ".join(f"Q_{fam} S{'*' if o['conjugate'] else ''}(X={o['scalar_X']}) {flav}^c,"
+                             f" vev in component {o['component']}" for o in ops)
+            w(f"    row {'1, 2' if fam == 1 else '3   '} of M_{flav}: {desc}")
+        for s_ in y["shared_scalars"]:
+            w(f"    note: the scalar with X = {s_['X']} has {len(s_['neutral'])} neutral components"
+              f" (two triplets with identical charges)")
+    y = res["yukawa_331"][-1]
+    perms = residual_permutations(y["left_blocks"])
+    w("  Consequences, identical for both values of beta:")
+    w(f"    * every entry of both mass matrices is allowed: {y['all_entries_allowed']}. The gauge symmetry forces")
+    w("      no texture zero, so 3-3-1 alone neither rescues nor selects a pattern.")
+    w("    * rows 1, 2 get one vev and row 3 another: M = diag(v_A, v_A, v_B) x (free Yukawas).")
+    w(f"    * the left-handed families split into gauge blocks {y['left_blocks']}, so only"
+      f" {len(perms)} of the 6 index permutations stay basis changes.")
+    w("      A texture class therefore becomes several distinct 3-3-1 hypotheses, which differ in")
+    w("      which index is the triplet family (index 3 below). They give the same CKM matrix")
+    w("      but different flavour-changing Z' couplings.")
+    for r in survivors:
+        vs = versions_331(r["zeros_u"], r["zeros_d"], perms)
+        w(f"    survivor up {pattern_mask(r['zeros_u'])} down {pattern_mask(r['zeros_d'])}:"
+          f" {len(vs)} distinct 3-3-1 placements")
+        for zu, zd in vs:
+            w(f"      up {pattern_mask(zu)}   down {pattern_mask(zd)}")
+    w("")
     w("SELF-CHECKS (correctness of the calculation, not agreement with data)")
     w("-" * 78)
     for name, ok, detail in res["checks"]:
@@ -913,7 +1695,8 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
         if isinstance(o, Fr):
             return str(o)
         if isinstance(o, dict):
-            return {str(k): conv(v) for k, v in o.items() if k not in ("coef", "runner")}
+            return {str(k): conv(v) for k, v in o.items()
+                    if k not in ("coef", "runner", "survey", "varied", "pair")}
         if isinstance(o, (list, tuple)):
             return [conv(v) for v in o]
         if isinstance(o, float) and not math.isfinite(o):
@@ -925,6 +1708,10 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
         "cosmology": res["cosmology"],
         "flavour": {"m_t_msbar": flav["runner"].mt_msbar, "electroweak": flav["runner"].ew,
                     "ratios": flav["ratios"], "scales": flav["scales"]},
+        "texture_survey": {mu: sv["classes"] for mu, sv in res["survey"].items()},
+        "yukawa_331": {f"b={b}": {"operators": {f"{f}{fl}": v for (f, fl), v in y["operators"].items()},
+                                   "all_entries_allowed": y["all_entries_allowed"],
+                                   "left_blocks": y["left_blocks"]} for b, y in res["yukawa_331"].items()},
         "checks": [{"name": n, "pass": ok, "detail": d} for n, ok, d in res["checks"]],
     })
 

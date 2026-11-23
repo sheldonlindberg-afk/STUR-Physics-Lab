@@ -20,7 +20,7 @@
 ## Run it
 
 ```
-python3 production_v2_2.py                     # full report, about 5 s
+python3 production_v2_2.py                     # full report, about 2-3 minutes
 python3 production_v2_2.py --json-out out.json # every number, as JSON
 python3 production_v2_2.py --scales 2000 5000  # other evaluation scales (GeV, above m_t)
 ```
@@ -28,7 +28,7 @@ python3 production_v2_2.py --scales 2000 5000  # other evaluation scales (GeV, a
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 15 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 20 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -39,7 +39,7 @@ the calculation itself, not its agreement with data.
 |---|---|---|
 | Measured or defined input | `INPUTS`, each with uncertainty and source | quark masses (PDG 2024), H0 (Planck 2018), T_CMB |
 | Measured result, used only to judge | `COMPARISONS` | CKM fit (PDG 2024), the age of the universe (Planck 2018) |
-| Numerical-method setting | `NUMERICS`; the self-checks vary each one | RK4 steps, phase-grid size, Decimal digits |
+| Numerical-method setting | `NUMERICS`; the self-checks vary the key ones | RK4 steps, phase-grid size, Decimal digits |
 | Everything else | calculated | β-functions from Casimirs, the CKM matrix from an exact diagonalization |
 
 [`tests/test_production.py`](tests/test_production.py) enforces the rule. It fails if any
@@ -94,6 +94,58 @@ Result at 3.5 TeV (the four scales agree to within 1%):
 Cabibbo angle, |V_ub| and the size of CP violation, but for no value of the phases do they
 reproduce |V_cb|. The texture is excluded. This agrees with the literature, where the
 six-zero Fritzsch texture is excluded by the heavy top quark.
+
+**Part C: every texture-zero pattern that makes a prediction**
+
+Part B tests one guess about the shape of the mass matrices. Part C tests all of them.
+Each sector is a Hermitian matrix (always possible by right-handed rotations, which leave
+the CKM matrix unchanged), and a symmetric off-diagonal pair counts as one zero.
+
+* **Counting.** A sector with 3 zeros has its 3 entries fixed exactly by its 3 masses. A
+  sector with 2 zeros keeps one free entry. Add the 2 phases between the sectors, plus a
+  phase inside any sector whose three off-diagonals are all nonzero. The data are 4 numbers
+  (|V_us|, |V_cb|, |V_ub|, J), so *predictions = 4 − unknowns*. Only pairs with five or six
+  zeros predict anything.
+* **Solving.** With no loop phase, the squared off-diagonal entries enter the trace, the
+  sum of the 2×2 minors and the determinant linearly. Each sector is therefore solved
+  exactly (linear algebra plus at most a cubic), with every sign assignment of the
+  eigenvalues and every branch. One-parameter families are found on their exact intervals.
+* **Testing, without fitting.** (1) The band test: for fixed rotations, each
+  |V_ij| = |c₀ + c₁e^{iσ} + c₂e^{iτ}| sweeps exactly [max(0, 2 max|c| − Σ|c|), Σ|c|] over the
+  phases. If a measurement lies outside that band at every value of the free entry, the
+  pattern is excluded. (2) Otherwise, the joint test asks whether *any* point of the unknowns
+  reproduces all four data at once. It converts the smallest χ² into a p-value with
+  (predictions) degrees of freedom. The point found is never reported or used. It only
+  decides survival, at the 3σ level.
+
+Result: the 1,000 ordered pairs fall into 188 classes. 64 cannot give three real nonzero
+masses, 41 keep a phase inside a sector and predict nothing, and **83 are tested. 82 are
+excluded at every scale, and one survives:**
+
+```
+M_u = | 0 0 X |      M_d = | 0 X 0 |      chi^2 = 0.29 to 0.37 for 1 dof (0.5 to 0.6 sigma)
+      | 0 X X |            | X 0 X |      at 1.5, 3.5, 7 and 10 TeV
+      | X X X |            | 0 X X |
+```
+
+The down sector is Fritzsch's. The up sector has five-zero structure, the kind of pattern
+classified by Ramond, Roberts and Ross (1993). Every six-zero pattern is excluded,
+Fritzsch's at 31σ or more.
+
+**Part D: what 3-3-1 says about the mass matrices**
+
+The script derives the 3-3-1 charges from Q = T₃ + βT₈ + X, for β = −1/√3 and +1/√3, and
+checks that the anomalies cancel. It then finds every gauge-invariant Yukawa operator.
+
+* Every entry of both quark mass matrices is allowed. Rows 1 and 2 (the antitriplet
+  families) get one vev and row 3 (the triplet family) gets another:
+  M = diag(v_A, v_A, v_B) × (free Yukawas). **The gauge symmetry forces no texture zero, so
+  3-3-1 by itself cannot rescue or select a pattern.** Zeros need an extra symmetry.
+* The left-handed families split into gauge blocks {1, 2} and {3}. Only 2 of the 6 index
+  permutations remain basis changes. The surviving class therefore becomes **3 distinct
+  3-3-1 hypotheses**, which differ in which index is the triplet family. They give the same
+  CKM matrix but different flavour-changing Z′ couplings, and that is what would tell them
+  apart.
 
 ## What changed from production v1
 

@@ -122,9 +122,39 @@ def test_leading_order_relations():
         assert abs(b["V_cb"]["lo"] - abs(a - c)) < 0.01
 
 
-def test_script_runs_and_matches_expected_output():
-    out = subprocess.run([sys.executable, PATH], capture_output=True, text=True, timeout=300)
-    assert out.returncode == 0, out.stderr
-    got = [ln for ln in out.stdout.splitlines() if not ln.startswith("Elapsed")]
+def test_texture_survey():
+    """Part C: every predictive texture pair is tested; the verdicts are the same at every scale."""
+    verdicts = None
+    for mu in RESULT["scales"]:
+        classes = RESULT["survey"][mu]["classes"]
+        tested = [r for r in classes if r["status"] == "tested"]
+        assert len(classes) == 188 and len(tested) == 83
+        survivors = sorted((P.pattern_mask(r["zeros_u"]), P.pattern_mask(r["zeros_d"]))
+                           for r in tested if r["survives"])
+        verdicts = verdicts or survivors
+        assert survivors == verdicts
+        fz = ((0, 0), (0, 2), (1, 1))
+        key = P.pattern_class(fz, fz)
+        rec = [r for r in classes if (r["zeros_u"], r["zeros_d"]) == key][0]
+        assert not rec["survives"] and rec["sigma"] > 25
+    assert len(verdicts) == 1
+
+
+def test_331_allows_every_entry():
+    """Part D: the gauge symmetry forbids no entry; families split as {1, 2} + {3}."""
+    for b in (-1, 1):
+        y = RESULT["yukawa_331"][b]
+        assert y["all_entries_allowed"]
+        assert y["left_blocks"] == [[1, 2], [3]]
+    assert len(P.residual_permutations([[1, 2], [3]])) == 2
+
+
+def test_report_matches_expected_output():
+    got = P.report(RESULT).splitlines()
     want = [ln for ln in open(EXPECTED, encoding="utf-8").read().splitlines() if not ln.startswith("Elapsed")]
     assert got == want
+
+
+def test_command_line_runs():
+    out = subprocess.run([sys.executable, PATH, "--help"], capture_output=True, text=True, timeout=60)
+    assert out.returncode == 0 and "--json-out" in out.stdout

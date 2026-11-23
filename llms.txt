@@ -16,6 +16,13 @@
   (14 sigma) and |V_td/V_ts| (5 sigma) are outside for every phase, so the six-zero
   texture is excluded.
 
+- Texture survey: all 1,000 pairs of Hermitian quark mass matrices with 5 or 6 zeros
+  (188 classes). 83 make predictions; 82 are excluded, and one survives (up 00X/0XX/XXX,
+  down Fritzsch 0X0/X0X/0XX; chi^2 = 0.3 for 1 dof). No unknown is fixed: the band test is
+  exact, and the joint test only decides survival.
+- 3-3-1 (beta = +-1/sqrt3): every mass-matrix entry is gauge-allowed, so 3-3-1 forces no
+  texture zero. The triplet family makes the survivor three distinct 3-3-1 hypotheses.
+
 ## Files
 - production_v2_2.py: the simulation
 - results/production_v2_2.txt: expected output
