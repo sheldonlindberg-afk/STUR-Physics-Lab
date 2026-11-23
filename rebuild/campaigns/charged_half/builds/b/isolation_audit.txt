@@ -1,5 +1,0 @@
-Transcript audit of the builder of charged_half build b (room room-charged_half-b) after all rounds, run 2026-11-19T22:57:53Z
-transcript sha256: ed82539e5ae83cb1b2644bfe7b06802b954c5738b781c7ac40ee28f7367cb460  (149 lines)
-command: python3 audit_transcript.py <transcript> <room> --canary <tokens from CANARIES.txt>; cwd-aware
-tool calls: {'Bash': 43, 'ToolSearch': 1, 'TaskStop': 2, 'SubagentHandback': 2}
-ISOLATION RECORD CLEAN

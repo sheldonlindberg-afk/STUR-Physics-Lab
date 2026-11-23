@@ -1,5 +1,0 @@
-Transcript audit of the builder of qed_cp build a (room room-qed_cp-a), run 2026-11-18T05:56:13Z
-transcript sha256: ecf9cebd72b62ca33b1622bd52278d12e3fce4c43e3ebc7adf6e0ec4862ae16e  (163 lines)
-command: python3 audit_transcript.py <transcript> <room> --canary <tokens from CANARIES.txt>; the rule simulates the shell's working directory from the transcript's recorded cwd
-tool calls: {'Bash': 38, 'Write': 3, 'Edit': 1, 'SubagentHandback': 3}
-ISOLATION RECORD CLEAN

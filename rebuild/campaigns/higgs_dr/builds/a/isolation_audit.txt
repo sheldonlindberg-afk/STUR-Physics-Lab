@@ -1,5 +1,0 @@
-Transcript audit of the builder of higgs_dr build a (room room-higgs_dr-a) after all rounds, run 2026-11-19T04:23:52Z
-transcript sha256: 598c77d50a60cbd2ed267775811c22caf0c051093f8dd6df070b72a82dd00e51  (35 lines)
-command: python3 audit_transcript.py <transcript> <room> --canary <tokens from CANARIES.txt>; cwd-aware
-tool calls: {'Bash': 5, 'Write': 2, 'SubagentHandback': 1}
-ISOLATION RECORD CLEAN

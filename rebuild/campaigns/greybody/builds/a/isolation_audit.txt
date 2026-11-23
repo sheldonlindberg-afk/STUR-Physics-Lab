@@ -1,5 +1,0 @@
-Transcript audit of the builder of greybody build a (room room-greybody-a), run 2026-11-18T05:56:13Z
-transcript sha256: dc5ceccc161a6d9fe179ca7681aad5f6eab2b3d82e04dd9f739b4898eabf4398  (104 lines)
-command: python3 audit_transcript.py <transcript> <room> --canary <tokens from CANARIES.txt>; the rule simulates the shell's working directory from the transcript's recorded cwd
-tool calls: {'Bash': 24, 'Write': 2, 'Edit': 1, 'SubagentHandback': 2, 'Read': 1}
-ISOLATION RECORD CLEAN
