@@ -2476,8 +2476,14 @@ def _k_refine(task: Tuple[float, List[float]]) -> Tuple[float, List[float], floa
 def _k_refine_all(tasks: List[Tuple[float, List[float]]], workers: int) -> List[Tuple[float, List[float], float]]:
     """Refinements are independent: spread over worker processes where fork is available, else serial."""
     if workers > 1 and "fork" in multiprocessing.get_all_start_methods():
+        out, t0 = [], time.perf_counter()
         with multiprocessing.get_context("fork").Pool(workers) as pool:
-            return pool.map(_k_refine, tasks, chunksize=1)
+            for k, r in enumerate(pool.imap_unordered(_k_refine, tasks, chunksize=1), 1):
+                out.append(r)
+                if k % 20 == 0 or k == len(tasks):
+                    print(f"  [K3 progress] {k}/{len(tasks)} refinements, {time.perf_counter() - t0:.0f} s",
+                          file=sys.stderr, flush=True)
+        return out
     return [_k_refine(t) for t in tasks]
 
 
