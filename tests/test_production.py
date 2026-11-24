@@ -223,6 +223,16 @@ def test_yukawa_relations():
     assert all(r["mt_msbar"] > 200 for r in yk["fixed_point_SM"]["runs"])
 
 
+def test_higgs_mass_mssm():
+    """Part K: with Part I's M_S and Part J's tan(beta), maximal stop mixing bounds m_h far below 125 GeV."""
+    hg = RESULT["higgs"]
+    assert hg["M_S"] == RESULT["alpha_unification"]["M_S_for_measured_alpha"]["M_S_GeV"]
+    assert min(hg["tan_betas"]) == min(r["tan_beta"] for r in RESULT["yukawa"]["fixed_point_MSSM"]["runs"]
+                                       + [RESULT["yukawa"]["btau_MSSM_unity"]])
+    assert 95 < hg["mh_upper_bound"] < 110
+    assert all(r["mh_no_mixing"] < r["mh_max_mixing"] for r in hg["rows"])
+
+
 def test_report_matches_expected_output():
     got = P.report(RESULT).splitlines()
     want = [ln for ln in open(EXPECTED, encoding="utf-8").read().splitlines() if not ln.startswith("Elapsed")]

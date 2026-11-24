@@ -28,7 +28,7 @@ python3 production_v2_2.py --scales 2000 5000  # other evaluation scales (GeV, a
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 32 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 35 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -275,10 +275,31 @@ all scales taken from Part I:
 
 So no Yukawa coupling is calculated. In the MSSM, b–τ unification and the top fixed point
 point to the same narrow region, tan β ≈ 1.3–1.4. That is one number, not a calculation of the
-Yukawas, and it is not checked here against the Higgs mass.
+Yukawas. Part K tests it against the Higgs mass.
+
+**Part K: the Higgs mass in the MSSM, from the scales of Parts I and J**
+
+In the MSSM the Higgs self-coupling is not a free parameter: at M_S it is fixed by the gauge
+couplings, tan β and the stop mixing X_t. The script matches λ(M_S) = (g² + g′²)/4 · cos²2β plus the
+one-loop stop threshold (3y_t⁴/8π²)·X²(1 − X²/12), runs λ down to m_t in the SM, and takes
+m_h = √λ · v. M_S (1.9–3.3 TeV) comes from Part I and tan β (1.33–1.40) from Part J. X_t is unknown,
+so it is scanned. The threshold is largest at X_t² = 6 M_S², which gives an upper bound that holds
+for every mixing.
+
+| | Result |
+|---|---|
+| m_h, no stop mixing | 83–90 GeV |
+| m_h, maximal mixing (upper bound) | **≤ 103.9 GeV** |
+| measured | 125.20 ± 0.11 GeV |
+| M_S that 125.2 GeV would need (tan β = 1.40, maximal mixing) | 5.4 × 10⁶ GeV, 7.7 e-folds above Part I |
+
+The missing two-loop and pole-mass corrections are a few GeV in the literature, which leaves a
+21 GeV gap. So the minimal MSSM with one superpartner scale cannot satisfy all four at once:
+gauge unification at the measured α, b–τ unification, the top fixed point and the Higgs mass.
+The route is excluded, with no free parameter adjusted.
 
 All scales come from the algorithm. Parts B and C run at m_t(m_t) and at Part I's M_S. Part J
-uses Part I's M_GUT and Part H's M_Planck. The tan β range and the "large" top coupling come
+uses Part I's M_GUT and Part H's M_Planck. Part K uses Part I's M_S and Part J's tan β. The tan β range and the "large" top coupling come
 from the perturbativity limit √(4π). The only numbers not produced by the algorithm are the
 measured inputs, the numerical settings, and the quoted coefficient 41/(10π).
 

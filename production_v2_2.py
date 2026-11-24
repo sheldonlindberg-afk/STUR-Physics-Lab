@@ -146,6 +146,7 @@ COMPARISONS: Dict[str, Dict[str, Any]] = {
                             "0.207 +/- 0.001 +/- 0.003, the two errors combined in quadrature"},
     "age_Gyr": {"value": ("13.787", "0.020", "0.020"), "source": "Planck 2018 VI, TT,TE,EE+lowE+lensing"},
     "Omega_Lambda": {"value": ("0.6847", "0.0073", "0.0073"), "source": "Planck 2018 VI, TT,TE,EE+lowE+lensing"},
+    "m_h": {"value": ("125.20", "0.11", "0.11"), "source": "PDG 2024, Higgs boson mass (combined)"},
 }
 
 # =============================================================================
@@ -187,6 +188,9 @@ NUMERICS: Dict[str, Any] = {
     "unif_tol": "1e-7",
     "unif_grid_points": 8,            # M_S scan: geometric grid from M_Z to the SM unification point
     "yukawa_tan_beta_points": 16,     # tan(beta) scan: geometric grid between its perturbative bounds
+    "higgs_xt_points": 13,            # stop-mixing grid X_t/M_S from 0 to sqrt(12) (Part K)
+    "higgs_ms_search_efolds": 40,     # search range in ln(M_S) above m_t for the backwards reading
+    "higgs_iterations": 50,           # bisection steps for that reading
     "check_fd_rel_step": "1e-5",      # finite-difference step for the first-law check
     "check_fd_tol": "1e-8",
     "report_sci_below": "1e-3",       # print in scientific notation below / above these
@@ -2178,6 +2182,94 @@ def yukawa_relations(flav: Dict[str, Any], m_s_susy: float | None, m_gut: float 
 
 
 # =============================================================================
+# 6b. PART K: THE HIGGS MASS IN THE MSSM, FROM THE SCALES OF PARTS I AND J
+# =============================================================================
+# Effective theory: the MSSM above M_S, the SM below. Convention V = (lambda/2) (H^dag H)^2,
+# so m_h^2 = lambda v^2 at tree level.
+def sm_higgs_rhs():
+    """(g1, g2, g3, y_t, y_b, y_tau, lambda) in d/d ln mu, one loop (lambda adds nothing to
+    the others at one loop). 16 pi^2 beta_lambda = 12 lambda^2 - 3 lambda (3 g^2 + g'^2)
+    + 12 lambda y_t^2 - 12 y_t^4 + (3/4) [2 g^4 + (g^2 + g'^2)^2]."""
+    base = yukawa_rhs("SM")
+    gn = float(GUT_NORM)
+    k = 16 * math.pi ** 2
+
+    def rhs(v: List[float], nf: int) -> List[float]:
+        out = base(v[:6], nf)
+        g1, g2, _, yt, _, _, lam = v
+        gp2, g22 = gn * g1 ** 2, g2 ** 2
+        out.append((12 * lam ** 2 - 3 * lam * (3 * g22 + gp2) + 12 * lam * yt ** 2 - 12 * yt ** 4
+                    + 3 * (2 * g22 ** 2 + (g22 + gp2) ** 2) / 4) / k)
+        return out
+    return rhs
+
+
+def stop_threshold(xt: float) -> float:
+    """One-loop stop threshold to lambda at M_S, in units of 3 y_t^4/(8 pi^2):
+    X^2 (1 - X^2/12), X = X_t/M_S. Its maximum over every mixing is 3, at X^2 = 6."""
+    return xt ** 2 * (1 - xt ** 2 / 12)
+
+
+def mssm_lambda_at_ms(state_ms: List[float], tan_beta: float, xt: float) -> float:
+    """Matching at M_S: lambda = (g^2 + g'^2)/4 cos^2(2 beta) + stop threshold."""
+    g1, g2, _, yt = state_ms[:4]
+    c2b = (1 - tan_beta ** 2) / (1 + tan_beta ** 2)
+    tree = (g2 ** 2 + float(GUT_NORM) * g1 ** 2) / 4 * c2b ** 2
+    return tree + 3 * yt ** 4 / (8 * math.pi ** 2) * stop_threshold(xt)
+
+
+def mssm_higgs_mass(flav: Dict[str, Any], m_s: float, tan_beta: float, xt: float,
+                    steps: int | None = None) -> float:
+    mt, st = couplings_at_mt(flav)
+    steps = steps or int(num("rg_steps_per_efold"))
+    s_ms = integrate_ln_mu(st, mt, m_s, yukawa_rhs("SM"), [], steps)
+    lam_ms = mssm_lambda_at_ms(s_ms, tan_beta, xt)
+    down = integrate_ln_mu(s_ms + [lam_ms], m_s, mt, sm_higgs_rhs(), [], steps)
+    return math.sqrt(down[6]) * flav["runner"].v if down[6] > 0 else math.nan
+
+
+def ms_for_higgs_mass(flav: Dict[str, Any], tan_beta: float, target: float) -> float:
+    """Read backwards: the M_S at which the largest MSSM Higgs mass (maximal mixing) equals target."""
+    mt = flav["runner"].mt_msbar
+    x6 = math.sqrt(6)
+    lo, hi = math.log(mt), math.log(mt) + int(num("higgs_ms_search_efolds"))
+    if (mssm_higgs_mass(flav, math.exp(hi), tan_beta, x6) - target) < 0:
+        return math.nan
+    for _ in range(int(num("higgs_iterations"))):
+        mid = (lo + hi) / 2
+        if mssm_higgs_mass(flav, math.exp(mid), tan_beta, x6) < target:
+            lo = mid
+        else:
+            hi = mid
+    return math.exp((lo + hi) / 2)
+
+
+def higgs_mass_mssm(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yuk: Dict[str, Any]) -> Dict[str, Any]:
+    """M_S (with its range) from Part I, tan(beta) from Part J's two determinations; the stop
+    mixing X_t is unknown and scanned over all values: the threshold is largest at X_t^2 = 6 M_S^2,
+    so that value gives an upper bound on m_h that holds for every mixing."""
+    ms = alpha_unif.get("M_S_for_measured_alpha")
+    if not ms or not yuk.get("btau_MSSM_unity") or not yuk.get("fixed_point_MSSM"):
+        return {}
+    tbs = [yuk["btau_MSSM_unity"]["tan_beta"]] + [r["tan_beta"] for r in yuk["fixed_point_MSSM"]["runs"]]
+    x6 = math.sqrt(6)
+    rows = []
+    for label, m_s in (("low", ms["low_GeV"]), ("central", ms["M_S_GeV"]), ("high", ms["high_GeV"])):
+        for tb in (min(tbs), max(tbs)):
+            rows.append({"M_S_label": label, "M_S": m_s, "tan_beta": tb,
+                         "mh_no_mixing": mssm_higgs_mass(flav, m_s, tb, 0),
+                         "mh_max_mixing": mssm_higgs_mass(flav, m_s, tb, x6)})
+    # dependence on X_t at the central point (the bound is the maximum of this curve)
+    n_x = int(num("higgs_xt_points"))
+    xt_max = math.sqrt(12)                    # beyond this the threshold is negative
+    curve = [(xt_max * i / (n_x - 1), mssm_higgs_mass(flav, ms["M_S_GeV"], max(tbs), xt_max * i / (n_x - 1)))
+             for i in range(n_x)]
+    bound = max(r["mh_max_mixing"] for r in rows)
+    return {"tan_betas": tbs, "rows": rows, "xt_curve": curve, "mh_upper_bound": bound,
+            "M_S": ms["M_S_GeV"], "M_S_range": (ms["low_GeV"], ms["high_GeV"])}
+
+
+# =============================================================================
 # 7. COSMOLOGY (Decimal arithmetic)
 # =============================================================================
 def dec_pi() -> Decimal:
@@ -2552,7 +2644,29 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
     qg = quantum_gravity(cosmo, flav)
     m_gut = alpha_unif.get("M_S_for_measured_alpha", {}).get("M_GUT_GeV")
     yukawa = yukawa_relations(flav, m_susy, m_gut, qg["planck"]["E_P_GeV"])
+    higgs = higgs_mass_mssm(flav, alpha_unif, yukawa)
     checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
+    # Part K checks
+    k16 = 16 * math.pi ** 2
+    hr = sm_higgs_rhs()
+    gn = float(GUT_NORM)
+    got_l = [hr([0, 0, 0, 1, 0, 0, 0], 6)[6] * k16, hr([0, 0, 0, 0, 0, 0, 1], 6)[6] * k16,
+             hr([0, 1, 0, 0, 0, 0, 0], 6)[6] * k16, hr([1 / math.sqrt(gn), 0, 0, 0, 0, 0, 0], 6)[6] * k16]
+    want_l = [-12, 12, 9 / 4, 3 / 4]
+    checks.append(("SM beta_lambda coefficients: -12 y_t^4, 12 lambda^2, (9/4) g^4, (3/4) g'^4",
+                   all(abs(a - b) < num("check_rel_tol") for a, b in zip(got_l, want_l)),
+                   ", ".join(f"{a:.4f}" for a in got_l)))
+    if higgs:
+        r0 = max(higgs["rows"], key=lambda r: r["mh_max_mixing"])
+        m2 = mssm_higgs_mass(flav, r0["M_S"], r0["tan_beta"], math.sqrt(6), steps=2 * steps)
+        rel = abs(m2 / r0["mh_max_mixing"] - 1)
+        checks.append(("Higgs-mass running converged (step count doubled)", rel < num("check_rg_tol"),
+                       f"rel change {rel:.1e}"))
+        xs = [c[0] for c in higgs["xt_curve"]]
+        peak = max(higgs["xt_curve"], key=lambda c: c[1])[0]
+        spacing = xs[1] - xs[0]
+        checks.append(("Largest Higgs mass over the X_t scan sits at X_t^2 = 6 M_S^2 (the bound used)",
+                       abs(peak - math.sqrt(6)) <= spacing, f"peak at X_t/M_S = {peak:.3f}"))
     checks.append(("Every symmetry found reproduces its target zeros exactly (recomputed from the charges)",
                    all(sv["verified"] for e in symm["by_beta"].values() for sv in e["survivors"]
                        if sv["symmetry"] is not None), ""))
@@ -2624,7 +2738,8 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
                    f"rel diff {abs(back / xf['alpha_s_MZ'] - 1):.1e}"))
     return {"scales": scales, "cosmology": cosmo, "flavour": flav, "survey": survey, "yukawa_331": yuk,
             "symmetry": symm, "closure": closure, "quantum_gravity": qg, "alpha_unification": alpha_unif,
-            "alpha_numerology": alpha_num, "yukawa": yukawa, "checks": checks, "precision": prec}
+            "alpha_numerology": alpha_num, "yukawa": yukawa, "higgs": higgs, "checks": checks,
+            "precision": prec}
 
 
 def report(res: Dict[str, Any]) -> str:
@@ -3048,9 +3163,43 @@ def report(res: Dict[str, Any]) -> str:
           f" {yk['btau_MSSM_unity']['tan_beta']:.2f} and the top fixed point")
         w(f"    gives tan(beta) = {min(tbs):.2f} to {max(tbs):.2f}: the same narrow region, at the edge of"
           " perturbation theory.")
-        w("    That is one number (tan beta), not a calculation of the Yukawas, and it is not checked")
-        w("    here against the Higgs mass.")
+        w("    That is one number (tan beta), not a calculation of the Yukawas. Part K tests it against")
+        w("    the Higgs mass.")
     w("")
+    hg = res.get("higgs")
+    if hg:
+        mh, mh_up, _ = _comparison("m_h")
+        w("PART K. THE HIGGS MASS IN THE MSSM, FROM THE SCALES OF PARTS I AND J")
+        w("-" * 78)
+        w("  In the MSSM the Higgs self-coupling is not free: at M_S it is fixed by the gauge couplings,")
+        w("  tan(beta) and the stop mixing X_t. Effective theory: lambda(M_S) = (g^2 + g'^2)/4 cos^2(2 beta)")
+        w("  + (3 y_t^4 / 8 pi^2) X^2 (1 - X^2/12), X = X_t/M_S; SM running of lambda down to m_t; m_h = sqrt(lambda) v.")
+        w(f"  Inputs from the algorithm: M_S = {hg['M_S'] / 1000:.2f} TeV ({hg['M_S_range'][0] / 1000:.2f} to"
+          f" {hg['M_S_range'][1] / 1000:.2f}, Part I);")
+        w(f"  tan(beta) = {min(hg['tan_betas']):.3f} to {max(hg['tan_betas']):.3f} (Part J: b-tau unification and the top fixed point).")
+        w("  X_t is unknown: scanned. The threshold is largest at X^2 = 6, so maximal mixing bounds m_h from above.")
+        w("      M_S (TeV)   tan(beta)   m_h, no mixing   m_h, maximal mixing  (GeV)")
+        for r_ in hg["rows"]:
+            w(f"      {r_['M_S'] / 1000:7.2f}     {r_['tan_beta']:7.3f}      {r_['mh_no_mixing']:8.1f}          {r_['mh_max_mixing']:8.1f}")
+        w(f"      m_h against X_t/M_S at M_S = {hg['M_S'] / 1000:.2f} TeV, tan(beta) = {max(hg['tan_betas']):.3f}:")
+        line = [f"{x_:.2f}: {m_:.1f}" if math.isfinite(m_) else f"{x_:.2f}: unstable" for x_, m_ in hg["xt_curve"]]
+        for i in range(0, len(line), 5):
+            w("        " + "   ".join(line[i:i + 5]))
+        gap_ = mh - hg["mh_upper_bound"]
+        w(f"  Upper bound over every mixing and the whole M_S, tan(beta) range: m_h <= {hg['mh_upper_bound']:.1f} GeV")
+        w(f"      measured m_h = {mh:.2f} +/- {mh_up:.2f} GeV: the bound is {gap_:.1f} GeV short")
+        need = ms_for_higgs_mass(res["flavour"], max(hg["tan_betas"]), mh)
+        if math.isfinite(need):
+            w(f"  Read backwards: at tan(beta) = {max(hg['tan_betas']):.3f} and maximal mixing, m_h = {mh:.1f} GeV needs"
+              f" M_S = {need:.2e} GeV,")
+            w(f"      {math.log(need / hg['M_S']):.1f} e-folds above Part I's M_S.")
+        w("  Not included: two-loop thresholds and the pole-to-MS-bar Higgs-mass conversion (a few GeV in")
+        w("  the literature), heavy-Higgs and gaugino thresholds. None closes a gap of this size.")
+        w("  RESULT: the MSSM route of Parts I and J is excluded by the Higgs mass. The superpartner scale")
+        w("    that gives the measured alpha and the tan(beta) that gives b-tau unification together")
+        w(f"    predict m_h <= {hg['mh_upper_bound']:.0f} GeV. Unification (Part I), b-tau unification and the top")
+        w("    fixed point (Part J) cannot all hold in the minimal model with one superpartner scale.")
+        w("")
     w("SELF-CHECKS (correctness of the calculation, not agreement with data)")
     w("-" * 78)
     for name, ok, detail in res["checks"]:
