@@ -251,6 +251,36 @@ def test_uv_joint_test():
     assert jt["predictive_survivors_theory"] == [("SM up to M_P", ("H",))]
 
 
+def test_survey_certificates_are_sound():
+    """Part C certificates on cases with known answers: two exclusions are proved quickly, and the
+    survivor (which has a point that fits) is never 'proved' excluded."""
+    mu = RESULT["scales"][0]
+    sv = RESULT["survey"][mu]["survey"]
+    recs = {(P.pattern_mask(r["zeros_u"]), P.pattern_mask(r["zeros_d"])): r
+            for r in RESULT["survey"][mu]["classes"] if r["status"] == "tested"}
+    for key in (("00X/0X0/X0X", "00X/0X0/X0X"), ("00X/0XX/XXX", "0XX/XX0/X00")):
+        assert not recs[key]["survives"] and P._certify_class((sv, recs[key]))["certified"]
+    old = P.NUMERICS["cert_budget"]
+    P.NUMERICS["cert_budget"] = 20000
+    try:
+        assert not P._certify_class((sv, recs[("00X/0XX/XXX", "0X0/X0X/0XX")]))["certified"]
+    finally:
+        P.NUMERICS["cert_budget"] = old
+
+
+def test_survivor_prediction():
+    """The survivor's prediction: with |V_us|, |V_cb|, |V_ub| at their measured values (1 sigma),
+    J and |V_td/V_ts| follow; both ranges contain the measured values."""
+    for mu in RESULT["scales"]:
+        surv = [r for r in RESULT["survey"][mu]["classes"] if r["status"] == "tested" and r["survives"]]
+        assert len(surv) == 1
+        pr = surv[0]["prediction"]
+        lo, hi = pr["J"]
+        assert lo <= 3.12e-5 <= hi and hi - lo < 1e-5
+        lo, hi = pr["V_td/V_ts"]
+        assert 0.15 < lo <= hi < 0.3
+
+
 def test_parallel_textures_excluded():
     """Part G: left-right models give parallel Hermitian textures; every predictive one is excluded."""
     for mu in RESULT["scales"]:
