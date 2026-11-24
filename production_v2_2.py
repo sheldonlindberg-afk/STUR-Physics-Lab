@@ -75,6 +75,8 @@ from fractions import Fraction as Fr
 import itertools
 import json
 import math
+import multiprocessing
+import os
 import sys
 import time
 from typing import Any, Callable, Dict, List, Sequence, Tuple
@@ -2298,14 +2300,42 @@ class Z3Overlaps:
             return self.cache[key]
         c = self.ground_state(a, s)
         floor = max(c) * num("k_mode_floor")
+        coef = [complex()] * self.m                   # b_n at index n mod M (M > 2N + 1: no aliasing)
+        for idx, cn in enumerate(c):
+            if cn > floor:
+                n = idx - self.n
+                coef[n % self.m] = cn * cmath.exp(-1j * n * theta_c)
+        vals = self._synth(coef)
+        self.cache[key] = vals
+        return vals
+
+    def _synth(self, coef: List[complex]) -> List[complex]:
+        """sum_k coef_k e^(2 pi i k m / L) for m = 0..L-1, L = len(coef) dividing M: a mixed-radix
+        fast Fourier transform. It gives the same grid values as the direct Fourier sum."""
+        size = len(coef)
+        if size == 1:
+            return list(coef)
+        p = next((q for q in (2, 3, 5, 7) if size % q == 0), size)
+        if p == size:
+            stride = self.m // size
+            return [sum(coef[k] * self.w[(k * j * stride) % self.m] for k in range(size)) for j in range(size)]
+        sub_len = size // p
+        subs = [self._synth(coef[r::p]) for r in range(p)]
+        stride = self.m // size
+        out = [complex()] * size
+        for idx in range(size):
+            k = idx % sub_len
+            out[idx] = sum(subs[r][k] * self.w[(r * idx * stride) % self.m] for r in range(p))
+        return out
+
+    def profile_direct(self, a: float, s: float, theta_c: float) -> List[complex]:
+        """The same grid values by the direct Fourier sum (used only to check _synth)."""
+        c = self.ground_state(a, s)
         vals = [complex()] * self.m
         for idx, cn in enumerate(c):
-            if cn <= floor:
-                continue
             n = idx - self.n
             b = cn * cmath.exp(-1j * n * theta_c)
             vals = [v + b * r for v, r in zip(vals, self._row(n))]
-        self.cache[key] = vals
         return vals
 
     def _rolled(self, vals: List[complex], shift: int) -> List[complex]:
@@ -2427,8 +2457,33 @@ def k_chi2(p: Dict[str, Any] | None, meas: Dict[str, Any]) -> float:
     return tot
 
 
+_K_CONTEXT: Dict[str, Any] = {}
+
+
+def _k_refine(task: Tuple[float, List[float]]) -> Tuple[float, List[float], float]:
+    """One compass-search refinement (module level, so worker processes can run it)."""
+    mu, x0 = task
+    ctx = _K_CONTEXT
+    lo, hi = ctx["range"]
+    model, meas = ctx["model"], ctx["meas"][mu]
+
+    def clamp(x: Sequence[float]) -> List[float]:
+        return [min(max(x[0], lo), hi), min(max(x[1], lo), hi), x[2] % 1, x[3] % 1]
+    x, val = _minimize(lambda y: k_chi2(model.point(clamp(y)), meas), list(x0), ctx["steps"], num("k_min_step"))
+    return mu, clamp(x), val
+
+
+def _k_refine_all(tasks: List[Tuple[float, List[float]]], workers: int) -> List[Tuple[float, List[float], float]]:
+    """Refinements are independent: spread over worker processes where fork is available, else serial."""
+    if workers > 1 and "fork" in multiprocessing.get_all_start_methods():
+        with multiprocessing.get_context("fork").Pool(workers) as pool:
+            return pool.map(_k_refine, tasks, chunksize=1)
+    return [_k_refine(t) for t in tasks]
+
+
 def k_search(model: Z3Overlaps, meas_by_scale: Dict[float, Dict[str, Any]], la_range: Tuple[float, float],
-             n_starts: int, extra_starts: Sequence[Sequence[float]] = ()) -> Dict[float, Dict[str, Any]]:
+             n_starts: int, extra_starts: Sequence[Sequence[float]] = (), workers: int = 1
+             ) -> Dict[float, Dict[str, Any]]:
     """Registered search: the start grid (both scales at once), then the n_starts lowest grid points
     per scale, plus any extra starts, refined by compass search."""
     lo, hi = la_range
@@ -2445,22 +2500,18 @@ def k_search(model: Z3Overlaps, meas_by_scale: Dict[float, Dict[str, Any]], la_r
                     for mu, meas in meas_by_scale.items():
                         grid[mu].append((k_chi2(p, meas), x))
 
-    def clamp(x: Sequence[float]) -> List[float]:
-        return [min(max(x[0], lo), hi), min(max(x[1], lo), hi), x[2] % 1, x[3] % 1]
-    out = {}
-    for mu, meas in meas_by_scale.items():
+    tasks = []
+    for mu in meas_by_scale:
         grid[mu].sort(key=lambda r: r[0])
-        starts = [list(x) for _, x in grid[mu][:n_starts]] + [list(x) for x in extra_starts]
-        best = (math.inf, None)
-        refined = []
-        for x0 in starts:
-            x, val = _minimize(lambda y: k_chi2(model.point(clamp(y)), meas), list(x0),
-                               [step_a, step_a, 1 / nt, 1 / nf], num("k_min_step"))
-            x = clamp(x)
-            refined.append(val)
-            if val < best[0]:
-                best = (val, x)
-        out[mu] = {"chi2": best[0], "x": best[1], "grid_best": grid[mu][0][0], "refined": refined,
+        tasks += [(mu, list(x)) for _, x in grid[mu][:n_starts]] + [(mu, list(x)) for x in extra_starts]
+    _K_CONTEXT.update({"model": model, "meas": meas_by_scale, "range": la_range,
+                       "steps": [step_a, step_a, 1 / nt, 1 / nf]})
+    results = _k_refine_all(tasks, workers)
+    out = {}
+    for mu in meas_by_scale:
+        mine = [(val, x) for m_, x, val in results if m_ == mu]
+        best = min(mine, key=lambda r: r[0])
+        out[mu] = {"chi2": best[0], "x": best[1], "grid_best": grid[mu][0][0], "refined": [v for v, _ in mine],
                    "range": la_range}
     return out
 
@@ -2536,10 +2587,15 @@ def run_part_k(flav: Dict[str, Any], scales: Sequence[float], full_checks: bool 
     if full_checks:
         extra = k_box_points(int(num("k_random_starts")))
         k3 = {}
+        by_range: Dict[Any, List[float]] = {}
         for mu, r in final.items():
-            chk = k_search(model, {mu: meas[mu]}, r["range"], int(num("k_starts_check")), extra)[mu]
-            k3[mu] = {"chi2": chk["chi2"], "x": chk["x"],
-                      "lower_by": (r["chi2"] - chk["chi2"]) / r["chi2"]}
+            by_range.setdefault(tuple(r["range"]), []).append(mu)
+        for rng, mus in by_range.items():
+            chk = k_search(model, {mu: meas[mu] for mu in mus}, rng, int(num("k_starts_check")), extra,
+                           workers=os.cpu_count() or 1)
+            for mu in mus:
+                k3[mu] = {"chi2": chk[mu]["chi2"], "x": chk[mu]["x"], "n_refined": len(chk[mu]["refined"]),
+                          "lower_by": (final[mu]["chi2"] - chk[mu]["chi2"]) / final[mu]["chi2"]}
         res["K3"] = k3
     return res
 

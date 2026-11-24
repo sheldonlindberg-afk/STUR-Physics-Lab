@@ -81,7 +81,7 @@ def test_standard_library_only():
         elif isinstance(node, ast.ImportFrom):
             mods.add(node.module.split(".")[0])
     assert mods <= {"__future__", "argparse", "cmath", "decimal", "fractions", "itertools",
-                    "json", "math", "sys", "time", "typing"}, mods
+                    "json", "math", "multiprocessing", "os", "sys", "time", "typing"}, mods
 
 
 def test_every_self_check_passes():
