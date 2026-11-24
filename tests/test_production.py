@@ -217,6 +217,21 @@ def test_model_lineage():
     assert not lin["uv_consistent"]
 
 
+def test_uv_joint_test():
+    """Part M: the SM up to M_P misses every condition it predicts; the MSSM survives each
+    condition alone and in pairs, never predicting anything, and all three together exclude it."""
+    jt = RESULT["joint"]
+    rows = {(r["hypothesis"], r["conditions"]): r for r in jt["rows"]}
+    assert len(rows) == 14
+    assert not any(r["survives"] for (h, _), r in rows.items() if h.startswith("SM"))
+    assert abs(jt["SM_pulls"]["H"] - 4.07) < 0.05
+    mssm = {c: r for (h, c), r in rows.items() if h.startswith("MSSM")}
+    assert all(mssm[c]["survives"] and mssm[c]["chi2"] < 1e-6 for c in mssm if len(c) < 3)
+    assert not mssm[("U", "B", "H")]["survives"] and mssm[("U", "B", "H")]["n_sigma"] > 20
+    assert all(r["dof"] <= 0 for r in mssm.values())
+    assert jt["predictive_survivors"] == []
+
+
 def test_parallel_textures_excluded():
     """Part G: left-right models give parallel Hermitian textures; every predictive one is excluded."""
     for mu in RESULT["scales"]:

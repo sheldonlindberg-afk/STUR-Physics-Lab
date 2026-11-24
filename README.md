@@ -29,7 +29,7 @@ python3 production_v2_2.py --set M_t=173.5      # change a measured input; the w
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 42 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 43 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -66,9 +66,21 @@ From that trace the report lists, for each stage, its evidence level (proved, ex
 numerical, conditional, parameter trade), the inputs it reads, the stages it takes results
 from, and what it assumes. It also lists which stages each input reaches (change `M_t` and
 seven stages are recalculated) and checks whether the stages' assumptions are compatible.
-They are not yet: Parts I, J and K assume the MSSM above M_S and Part L the Standard Model up
-to M_P, so they cannot all describe one world. The audit findings, open and resolved, are part
-of the output.
+They are not: Parts I, J and K assume the MSSM above M_S and Part L the Standard Model up to
+M_P. The script does not choose between them. Part M tests each against every combination of
+the conditions the other parts impose (gauge unification, b-τ unification, the Higgs mass):
+
+* **SM up to M_P** has no unknowns, so every condition is a prediction, and it misses each one:
+  unification by 79σ, b-τ by 81σ, the Higgs mass from λ(M_P) = 0 by 4.1σ.
+* **MSSM above M_S** has three unknowns (M_S, tan β, the stop mixing X_t). It meets any one or
+  two of the conditions, but only because the unknowns absorb them: it never predicts anything.
+  All three together exclude it at 23σ: unification fixes M_S, b-τ fixes tan β ≈ 1.35, and
+  there the Higgs mass cannot exceed about 104 GeV.
+
+So no hypothesis and set of conditions both survives and predicts something. The errors are the
+measured inputs' only; theory errors (the one-loop stop threshold above all) are not calculated,
+so the sizes of the exclusions are upper bounds. The audit findings, open and resolved, are
+part of the output.
 
 ## What it calculates
 

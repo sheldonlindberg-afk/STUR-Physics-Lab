@@ -58,6 +58,9 @@ WHAT IT CALCULATES
     from the rank of the Jacobian of 10 weak-basis invariants. Every rank is proved
     (an exact lower bound meets a symmetry upper bound) and J = 0 is proved by
     symbolic expansion where it holds.
+  Part M, which high-energy hypothesis survives: the SM up to M_P and the MSSM
+    above M_S (its unknowns scanned), each against every combination of gauge
+    unification, b-tau unification and the Higgs mass. None is chosen in advance.
 
 THE MODEL AS ONE ALGORITHM
   The parts run as named stages (STAGES). Every read of a measured input and of
@@ -190,7 +193,7 @@ NUMERICS: Dict[str, Any] = {
     "symmetry_max_N": 6,              # Z_N searched exhaustively for N = 2 .. this
     "joint_ms_points": 20,            # Part M: grid in ln M_S from m_t(m_t) to Part I's scan top
     "joint_tan_beta_points": 20,      # Part M: grid in ln tan(beta) over its perturbative range
-    "joint_min_step": "1e-3",         # Part M: compass search stops at this step in ln M_S, ln tan(beta)
+    "joint_bisections": 20,           # Part M: bisection steps for b-tau roots and perturbativity edges
     "closure_seed": 20261123,         # integer points for the exact Jacobian ranks (any seed works)
     "closure_points": 2,              # points per pattern; the largest rank found is kept
     "unif_step": "0.02",              # RK4 step in ln(mu) for the gauge running
@@ -255,8 +258,8 @@ STAGES: Dict[str, Dict[str, str]] = {
     "criticality": {"part": "L", "level": "conditional", "uv": "SM up to M_P",
                     "assumes": "lambda(M_P) = 0; two-loop running, one-loop matching"},
     "uv_joint_test": {"part": "M", "level": "numerical",
-                      "assumes": "every hypothesis against every set of conditions; unknowns scanned on a "
-                                 "grid plus compass search; input errors only, no theory errors"},
+                      "assumes": "every hypothesis against every set of conditions; unknowns on a grid "
+                                 "plus exact roots and edges; input errors only, no theory errors"},
     "self_checks": {"part": "-", "level": "validation", "assumes": "tests the calculation, not the physics"},
 }
 
@@ -2893,13 +2896,14 @@ def sm_lambda_profile(crit: Dict[str, Any], m_h: float) -> Dict[str, Any]:
 # is not chosen: every hypothesis is run against every combination of the
 # conditions the other parts impose, and the data decide. Conditions:
 #   U  gauge unification         predicts 1/alpha(M_Z)        (measured input)
-#   B  b-tau unification         predicts y_b/y_tau = 1 where g1 = g2
+#   B  b-tau unification         predicts y_b/y_tau = 1 at M_GUT (SM: where g1 = g2)
 #   H  Higgs mass                SM: lambda(M_P) = 0 (Part L); MSSM: matching at M_S
 # The MSSM has three unknowns (M_S, tan beta, the stop mixing X_t). They are scanned
 # and the smallest chi^2 is found only to decide survival, as in Part C: the point
 # is never reported or used. X_t enters only the stop threshold, and m_h rises with
 # it, so for X_t in [0, sqrt12] m_h covers exactly [m_h(X_t = 0), m_h(X_t^2 = 6 M_S^2)].
-# Every MSSM point must keep its Yukawa couplings perturbative up to g1 = g2.
+# Every MSSM point must keep its Yukawa couplings perturbative up to M_GUT, the scale where
+# the three gauge couplings meet for that M_S; b-tau unification is tested there (as in Part J).
 # Errors: measured inputs only. Theory errors (higher loops, the one-loop stop
 # threshold) are not included, so a small tension is not an exclusion of the theory.
 JOINT_CONDITIONS = ("U", "B", "H")
@@ -2908,7 +2912,8 @@ JOINT_CONDITIONS = ("U", "B", "H")
 def _joint_verdict(chi2: float, n_cond: int, n_par: int) -> Dict[str, Any]:
     dof = n_cond - n_par
     if dof >= 1:
-        n_sig = pvalue_to_sigma(chi2_pvalue(chi2, dof))
+        p = chi2_pvalue(chi2, dof)
+        n_sig = pvalue_to_sigma(p) if p > 0 else math.sqrt(chi2)     # beyond float range: asymptotic
     else:                            # no prediction: how far the data lie outside what it can reach
         n_sig = math.sqrt(max(chi2, 0.0))
     return {"chi2": chi2, "dof": dof, "n_sigma": n_sig, "survives": n_sig <= num("survival_sigma"),
@@ -2943,12 +2948,15 @@ def uv_joint_test(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yuk: Dict[st
 
     # --- MSSM above M_S
     l_lo, l_hi = math.log(mt), math.log(alpha_unif["scan_top_GeV"])
-    alpha_cache: Dict[float, float] = {}
+    alpha_cache: Dict[float, Dict[str, float]] = {}
+
+    def unif_at(l_ms: float) -> Dict[str, float]:
+        if l_ms not in alpha_cache:
+            alpha_cache[l_ms] = predict_alpha(s2, a_s, mz, math.exp(l_ms), 2)
+        return alpha_cache[l_ms]
 
     def alpha_at(l_ms: float) -> float:
-        if l_ms not in alpha_cache:
-            alpha_cache[l_ms] = predict_alpha(s2, a_s, mz, math.exp(l_ms), 2)["inv_alpha"]
-        return alpha_cache[l_ms]
+        return unif_at(l_ms)["inv_alpha"]
 
     def mh_from(state: List[float], m_s: float, lam: float, vev: float, mt_: float) -> float:
         down = integrate_ln_mu(state + [lam], m_s, mt_, sm_higgs_rhs(), [], steps)
@@ -2981,52 +2989,89 @@ def uv_joint_test(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yuk: Dict[st
         sb_min, cb_min = s_ms[3] / PERTURBATIVE_LIMIT, s_ms[4] / PERTURBATIVE_LIMIT
         return sb_min / math.sqrt(1 - sb_min ** 2), math.sqrt(1 - cb_min ** 2) / cb_min
 
-    def pulls(l_ms: float, l_tb: float) -> Dict[str, float] | None:
-        if not l_lo <= l_ms <= l_hi:
-            return None
+    def point(l_ms: float, s_ms: List[float], l_tb: float) -> Dict[str, Any] | None:
+        """All three pulls at one (M_S, tan beta); None where a Yukawa coupling leaves
+        perturbation theory below M_GUT (where the three gauge couplings meet for this M_S,
+        Part I's two-loop running: the scale b-tau unification refers to, as in Part J)."""
         m_s, tb = math.exp(l_ms), math.exp(l_tb)
-        s_ms = integrate_ln_mu(st, mt, m_s, yukawa_rhs("SM"), [], steps)
-        lo_tb, hi_tb = tb_range(s_ms)
-        if not lo_tb <= tb <= hi_tb:
-            return None
         sb, cb = tb / math.sqrt(1 + tb * tb), 1 / math.sqrt(1 + tb * tb)
+        m_gut = unif_at(l_ms)["M_GUT"]
+        if not math.isfinite(m_gut):
+            return None
         mg, sg = unification_point([s_ms[0], s_ms[1], s_ms[2], s_ms[3] / sb, s_ms[4] / cb, s_ms[5] / cb],
-                                   m_s, "MSSM")
+                                   m_s, "MSSM", m_gut)
         if not math.isfinite(mg):
-            return None                              # a Yukawa coupling leaves perturbation theory
+            return None
         g = nearest(l_ms)
+        r = sg[4] / sg[5]
         m0 = mh_from(s_ms, m_s, mssm_lambda_at_ms(s_ms, tb, 0), v, mt)
         m3 = mh_from(s_ms, m_s, mssm_lambda_at_ms(s_ms, tb, math.sqrt(6)), v, mt)
         gap_h = (m0 - mh_meas) if mh_meas < m0 else (mh_meas - m3) if mh_meas > m3 else 0.0
-        r = sg[4] / sg[5]
-        return {"U": (alpha_at(l_ms) - a_meas) / sig_u[g], "B": (r - 1) / (r * yb_rel), "H": gap_h / sig_h[g]}
+        return {"U": (alpha_at(l_ms) - a_meas) / sig_u[g], "B": (r - 1) / (r * yb_rel), "H": gap_h / sig_h[g],
+                "ratio": r}
 
-    grid = []
-    for l_ms in grid_l:
-        lo_tb, hi_tb = tb_range(integrate_ln_mu(st, mt, math.exp(l_ms), yukawa_rhs("SM"), [], steps))
-        for k in range(n_tb):
-            l_tb = math.log(lo_tb) + (math.log(hi_tb) - math.log(lo_tb)) * k / (n_tb - 1)
-            p = pulls(l_ms, l_tb)
-            if p is not None:
-                grid.append(((l_ms, l_tb), p))
-    out["MSSM_grid_points"] = (len(grid), n_ms * n_tb)
-    d_l = (l_hi - l_lo) / (n_ms - 1)
+    n_bis = int(num("joint_bisections"))
 
-    def chi2_of(p: Dict[str, float] | None, conds: Sequence[str]) -> float:
-        return math.inf if p is None else sum(p[c] ** 2 for c in conds)
+    def candidates(l_ms: float) -> List[Dict[str, Any]]:
+        """Every tan(beta) worth testing at this M_S: a grid over the perturbative range, plus each
+        root of y_b/y_tau = 1 and each edge of perturbation theory, located by bisection. b-tau is
+        so sharp (the y_b error is 0.5 percent) that only its roots can satisfy it."""
+        s_ms = integrate_ln_mu(st, mt, math.exp(l_ms), yukawa_rhs("SM"), [], steps)
+        lo_tb, hi_tb = tb_range(s_ms)
+        ls = [math.log(lo_tb) + (math.log(hi_tb) - math.log(lo_tb)) * k / (n_tb - 1) for k in range(n_tb)]
+        pts = [(lt, point(l_ms, s_ms, lt)) for lt in ls]
+        edges = []
+        for (la, pa), (lb, pb) in zip(pts, pts[1:]):
+            if (pa is None) != (pb is None):                     # edge of perturbation theory
+                good, bad = (la, lb) if pa is not None else (lb, la)
+                for _ in range(n_bis):
+                    mid = (good + bad) / 2
+                    if point(l_ms, s_ms, mid) is None:
+                        bad = mid
+                    else:
+                        good = mid
+                edges.append((good, point(l_ms, s_ms, good)))
+        valid = sorted([(lt, p) for lt, p in pts + edges if p is not None], key=lambda z: z[0])
+        roots = []
+        for (la, pa), (lb, pb) in zip(valid, valid[1:]):        # b-tau roots between valid points
+            if (pa["ratio"] - 1) * (pb["ratio"] - 1) < 0:
+                a, b, fa = la, lb, pa["ratio"] - 1
+                for _ in range(n_bis):
+                    mid = (a + b) / 2
+                    pm = point(l_ms, s_ms, mid)
+                    if pm is None:
+                        b = mid
+                        continue
+                    if (pm["ratio"] - 1) * fa > 0:
+                        a, fa = mid, pm["ratio"] - 1
+                    else:
+                        b = mid
+                pr = point(l_ms, s_ms, a)
+                if pr is not None:
+                    roots.append(pr)
+        return [p for _, p in valid] + roots
+
+    # M_S: the grid, plus where unification reproduces the measured alpha (Part I) and around it,
+    # because the alpha condition is sharp in M_S (3.5 units of 1/alpha per e-fold)
+    l_list = list(grid_l)
+    ms_i = alpha_unif.get("M_S_for_measured_alpha")
+    if ms_i:
+        l_star, s_l = math.log(ms_i["M_S_GeV"]), ms_i["ln_sigma"]
+        l_list += [l_star + k * s_l for k in (-2, -1, 0, 1, 2) if l_lo <= l_star + k * s_l <= l_hi]
+    allpts = [p for l_ms in l_list for p in candidates(l_ms)]
+    out["MSSM_points"] = len(allpts)
+
+    def chi2_of(p: Dict[str, float], conds: Sequence[str]) -> float:
+        return sum(p[c] ** 2 for c in conds)
 
     for k in range(1, len(JOINT_CONDITIONS) + 1):
         for conds in itertools.combinations(JOINT_CONDITIONS, k):
             out["rows"].append({"hypothesis": "SM up to M_P", "conditions": conds, "unknowns": 0,
                                 **_joint_verdict(chi2_of(sm_pull, conds), len(conds), 0)})
             n_par = 1 + (("B" in conds or "H" in conds)) + ("H" in conds)     # M_S, tan beta, X_t
-            (x0, best) = min(((pt, chi2_of(p, conds)) for pt, p in grid), key=lambda z: z[1])
-            if math.isfinite(best) and best > 0:
-                _, best = _minimize(lambda y: chi2_of(pulls(y[0], y[1]), conds), list(x0),
-                                    [d_l / 2, d_l / 2], num("joint_min_step"))
+            best = min((chi2_of(p, conds) for p in allpts), default=math.inf)
             out["rows"].append({"hypothesis": "MSSM above M_S", "conditions": conds, "unknowns": n_par,
                                 **_joint_verdict(best, len(conds), n_par)})
-    ms_i = alpha_unif.get("M_S_for_measured_alpha")
     out["check_U_at_part_I"] = (alpha_at(math.log(ms_i["M_S_GeV"])) - a_meas) if ms_i else math.nan
     out["survivors"] = [(r["hypothesis"], r["conditions"]) for r in out["rows"] if r["survives"]]
     out["predictive_survivors"] = [(r["hypothesis"], r["conditions"]) for r in out["rows"]
@@ -4147,13 +4192,14 @@ def report(res: Dict[str, Any]) -> str:
     w("  The field content above the electroweak scale is not chosen. Each hypothesis is tested")
     w("  against every combination of the conditions the other parts impose:")
     w("    U  gauge unification      predicts 1/alpha(M_Z)")
-    w("    B  b-tau unification      predicts y_b/y_tau = 1 where g1 = g2")
+    w("    B  b-tau unification      predicts y_b/y_tau = 1 at M_GUT (SM: where g1 = g2)")
     w("    H  Higgs mass             SM: lambda(M_P) = 0 (Part L); MSSM: matching at M_S (Part K)")
-    w("  SM up to M_P has no unknowns. The MSSM has M_S, tan(beta) and the stop mixing X_t, scanned")
-    w(f"  ({jt['MSSM_grid_points'][0]} perturbative points of {jt['MSSM_grid_points'][1]}, then compass search);"
-      " the best point only")
-    w("  decides survival. With no prediction (dof <= 0) the number is the distance in sigma between")
-    w("  the data and everything the hypothesis can reach. Errors: measured inputs only.")
+    w("  SM up to M_P has no unknowns. The MSSM has M_S, tan(beta) and the stop mixing X_t. M_S is")
+    w("  scanned on a grid plus where unification gives the measured alpha; tan(beta) on a grid plus")
+    w("  every root of y_b/y_tau = 1 and every edge of perturbation theory (bisection); X_t is")
+    w(f"  eliminated exactly. {jt['MSSM_points']} perturbative points; the best one only decides survival.")
+    w("  With no prediction (dof <= 0) the number is the distance in sigma between the data and")
+    w("  everything the hypothesis can reach. Errors: measured inputs only, no theory errors.")
     sp = jt["SM_pulls"]
     w(f"  SM pulls: U {sp['U']:+.1f} sigma, B {sp['B']:+.1f} sigma, H {sp['H']:+.1f} sigma")
     w("    hypothesis        conditions  unknowns  dof    chi^2      sigma   verdict")
