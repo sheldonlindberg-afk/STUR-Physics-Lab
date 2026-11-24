@@ -229,7 +229,7 @@ def test_uv_joint_test():
     rows = {(r["hypothesis"], r["conditions"]): r for r in jt["rows"]}
     assert len(rows) == 14
     assert not any(r["survives"] for (h, _), r in rows.items() if h.startswith("SM"))
-    assert abs(jt["SM_pulls"]["H"] - 4.07) < 0.05
+    assert abs(jt["SM_pulls"]["H"] - 3.71) < 0.05
     mssm = {c: r for (h, c), r in rows.items() if h.startswith("MSSM")}
     assert all(mssm[c]["survives"] and mssm[c]["chi2"] < 1e-6 for c in mssm if len(c) < 3)
     assert not mssm[("U", "B", "H")]["survives"] and mssm[("U", "B", "H")]["n_sigma"] > 20
@@ -237,12 +237,15 @@ def test_uv_joint_test():
     assert jt["predictive_survivors"] == []
     # theory errors: calculated from the code's own lower orders, never typed in
     th = jt["SM_theory_sigma"]
-    assert abs(th["H"] - 5.78) < 0.05 and abs(th["U"] - 4.80) < 0.05
+    # Part L's last orders: three-loop running, two-loop matching: a quarter of a GeV
+    assert 0.1 < th["H"] < 0.5 and abs(th["U"] - 4.80) < 0.05
     assert all(r["with_theory"]["n_sigma"] <= r["n_sigma"] + 1e-9 for r in rows.values())
-    # they decide two verdicts: SM criticality and the MSSM with all three conditions
+    # SM criticality is now excluded with theory errors too; only the MSSM with all three
+    # conditions still depends on them (through the one-loop unification shift)
+    assert rows[("SM up to M_P", ("H",))]["with_theory"]["n_sigma"] > 3
     flips = {k for k, r in rows.items() if r["survives"] != r["with_theory"]["survives"]}
-    assert flips == {("SM up to M_P", ("H",)), ("MSSM above M_S", ("U", "B", "H"))}
-    assert jt["predictive_survivors_theory"] == [("SM up to M_P", ("H",))]
+    assert flips == {("MSSM above M_S", ("U", "B", "H"))}
+    assert jt["predictive_survivors_theory"] == []
 
 
 def test_parallel_textures_excluded():
@@ -308,13 +311,20 @@ def test_higgs_mass_mssm():
 
 
 def test_sm_criticality():
-    """Part L: lambda(M_P) = 0 at two loops predicts m_h a few GeV above the measurement; the
-    measured m_h makes lambda(M_P) slightly negative."""
+    """Part L: lambda(M_P) = 0 at three loops with two-loop matching predicts m_h a few GeV above
+    the measurement, reproducing Buttazzo et al.; the measured m_h makes lambda(M_P) slightly negative."""
     cr = RESULT["criticality"]
     two = [r for r in cr["rows"] if r["loops"] == 2]
     assert all(127 < r["m_h"] < 131 for r in two)
     assert max(r["m_h"] for r in two) - min(r["m_h"] for r in two) < 0.5   # Planck mass, matching
     assert 127 < cr["central"]["m_h"] < 131 and cr["central"]["matched"]
+    assert (cr["central"]["loops"], cr["central"]["matching"]) == (3, "two loops")
+    # the higher orders move it by well under a GeV
+    assert abs(cr["central"]["m_h"] - cr["two_loop_one_loop"]["m_h"]) < 1
+    bz = cr["buttazzo"]
+    assert bz["dev_3L"] < 1e-4 < bz["dev_2L"]
+    assert bz["dev_lambda"] < bz["lambda_th"] and bz["dev_yt"] < bz["yt_th"]
+    assert abs(cr["central"]["m_h"] - bz["mh_linear"]) < bz["mh_linear_tol"]
     assert 0.3 < cr["sigma_total"] < 2
     assert 125 < cr["double"]["m_h"] < 135 and 170 < cr["double"]["M_t"] < 177
     pr = P.sm_lambda_profile(cr, 125.20)

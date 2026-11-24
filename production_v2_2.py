@@ -211,7 +211,7 @@ NUMERICS: Dict[str, Any] = {
     "higgs_iterations": 50,           # bisection steps for that reading
     "crit_tol": "1e-10",              # relative tolerance of the root solves (Part L)
     "crit_iterations": 40,
-    "crit_steps_per_efold": 50,       # RK4 steps per e-fold for the three-loop Planck-scale runs (Part L)
+    "crit_steps_per_efold": 50,       # RK4 steps per e-fold for Part L's runs to the Planck scale
     "check_b0_points": 200000,       # midpoint quadrature points for the B0 check
     "check_b0_tol": "1e-5",          # (the integrand has integrable log singularities above threshold)
     "crit_yt_step": "1e-2",           # first relative step in y_t when bracketing beta_lambda = 0
@@ -348,7 +348,7 @@ STAGES: Dict[str, Dict[str, str]] = {
     "higgs_mssm": {"part": "K", "level": "conditional", "uv": "MSSM above M_S",
                    "assumes": "M_S from Part I, tan(beta) from Part J, one-loop stop threshold"},
     "criticality": {"part": "L", "level": "conditional", "uv": "SM up to M_P",
-                    "assumes": "lambda(M_P) = 0; two-loop running, one-loop matching"},
+                    "assumes": "lambda(M_P) = 0; three-loop running, two-loop matching"},
     "uv_joint_test": {"part": "M", "level": "numerical",
                       "assumes": "every hypothesis against every set of conditions; unknowns on a grid "
                                  "plus exact roots and edges; theory errors = last-order shifts"},
@@ -366,9 +366,12 @@ AUDIT_FINDINGS: Tuple[Tuple[str, str], ...] = (
                  "the conditions and reports which survive."),
     ("resolved", "Part M's theory errors are calculated, not typed in: for every ingredient the change "
                  "from the last order the script computes to the one below it."),
-    ("open", "Two Part M verdicts depend on those theory errors (SM criticality, the MSSM with all three "
-             "conditions). Settling them needs the next order: three-loop running, two-loop matching, "
-             "the two-loop stop threshold."),
+    ("resolved", "SM criticality's Part M verdict depended on the theory error while Part L stopped at two "
+                 "loops. With three-loop running and two-loop matching its last-order shift is a quarter of a "
+                 "GeV, and it is excluded with or without theory errors."),
+    ("open", "The MSSM with all three conditions still depends on the theory errors, through the one- to "
+             "two-loop shift of unification. Settling it needs three-loop gauge running with superpartner "
+             "and GUT thresholds, and the two-loop stop threshold."),
     ("open", "No stage feeds cosmology: H0 and Omega_m are inputs. A shared mechanism would need "
              "equations for the dark-matter density and Lambda."),
     ("resolved", "M_P was computed inside Part H, so every input of Part H (H0 among them) seemed to "
@@ -2790,6 +2793,8 @@ def critical_lambda(state: List[float], mt: float, mu: float, loops: int, steps:
     """The lambda(m_t) for which lambda(mu) = 0. Bracket: lambda = 0 (it runs negative) and the
     smallest of y_t^2 / 2^n, n = 1, 2, ..., above which lambda(mu) is positive; or, from a guess,
     guess (1 -+ crit_yt_step 2^n) until the sign changes."""
+    steps = steps or int(num("crit_steps_per_efold"))
+
     def f(lam0: float) -> float:
         return _lambda_at(state, lam0, mt, mu, loops, steps)
     if guess:
@@ -2920,13 +2925,17 @@ def predict_higgs_mass(overrides: Dict[str, float] | None, mu: float, loops: int
     """M_h from lambda(mu) = 0. With matching, y_t depends on M_h: iterate to the fixed point
     (from the tree-level answer, or from mh_start)."""
     mh = mh_start or 0
+    lam = 0.0
     if not mh:
         mt, v, _, st, ms_ = matched_couplings(overrides, 0, False)
-        mh = math.sqrt(2 * critical_lambda(st, mt, mu, loops, steps)) * v
-    lam = 0
+        lam = critical_lambda(st, mt, mu, loops, steps)
+        mh = math.sqrt(2 * lam) * v
+        if not matched:                  # tree level: that is the answer
+            return {"m_h": mh, "lambda_mt": lam, "yt_mt": st[3]}
     for _ in range(int(num("crit_iterations")) if matched else 1):
         mt, v, _, st, ms_ = matched_couplings(overrides, mh, matched)
-        lam = critical_lambda(st, mt, mu, loops, steps)
+        # warm start from the last root (or the tree-level lambda of this M_h)
+        lam = critical_lambda(st, mt, mu, loops, steps, guess=lam or mh * mh / (2 * v * v))
         new = higgs_mass_from_lambda(lam, ms_[0], ms_[1], ms_[2], v, mt, matched)
         done = abs(new - mh) < num("crit_tol") * mh
         mh = new
@@ -3052,8 +3061,8 @@ def sm_criticality(planck_gev: float) -> Dict[str, Any]:
     def beta_at_crit(yt0: float) -> Tuple[float, float]:
         s = list(st)
         s[3] = yt0
-        lam = critical_lambda(s, mt, planck_gev, 2)
-        top = run_sm(s + [lam], mt, planck_gev, 2)
+        lam = critical_lambda(s, mt, planck_gev, 2, guess=central["lambda_mt"])
+        top = run_sm(s + [lam], mt, planck_gev, 2, int(num("crit_steps_per_efold")))
         return rhs2(top, 6)[6], lam
     # bracket in y_t: step from the measured value towards smaller |beta_lambda| until it changes sign
     step = num("crit_yt_step")
@@ -3811,7 +3820,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
     checks.append(("Two-loop beta_lambda coefficients agree with the hypercharge-normalized literature form",
                    conv == want_c, " ".join(str(v_) for v_ in conv)))
     mt_c, _, _, st_c, _ = matched_couplings(None, crit["two_loop_one_loop"]["m_h"], True)
-    lam_fine = critical_lambda(st_c, mt_c, crit["planck"]["M_P"], 2, steps=2 * steps)
+    lam_fine = critical_lambda(st_c, mt_c, crit["planck"]["M_P"], 2, steps=2 * int(num("crit_steps_per_efold")))
     rel = abs(lam_fine / crit["two_loop_one_loop"]["lambda_mt"] - 1)
     big_c, _, _, s_c = nnlo_state(None, crit["central"]["m_h"], 3)
     lam_fine3 = critical_lambda(s_c, big_c, crit["planck"]["M_P"], 3, steps=2 * int(num("crit_steps_per_efold")),
