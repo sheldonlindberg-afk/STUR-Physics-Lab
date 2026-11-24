@@ -158,6 +158,20 @@ PART C. EVERY TEXTURE-ZERO PATTERN THAT MAKES A PREDICTION
     2.53649 TeV: chi^2 = 0.40 for 1 dof (0.6 sigma);  ranges over all unknowns: V_us [5.15e-13, 0.991]  V_cb [1.03e-10, 0.999]  V_ub [4.76e-12, 0.045]  J [-0.0037, 0.0037]
   (the free entry and the phases sweep each observable over a wide range on its own; the
    prediction is a relation among the four, which the joint test checks)
+  What it predicts: |V_us|, |V_cb|, |V_ub| fix its three unknowns at isolated points; at each,
+  |J| and |V_td/V_ts| follow (errors: the three moduli and the inputs, re-solved):
+    0.16279 TeV: |J| = 2.903e-05 +/- 1.2e-06 (-1.2 sigma)   |V_td/V_ts| = 0.1966 +/- 0.0030 (-2.4 sigma)
+    0.16279 TeV: |J| = 3.233e-05 +/- 1.3e-06 (+0.6 sigma)   |V_td/V_ts| = 0.2751 +/- 0.0034 (+14.5 sigma)
+    2.53649 TeV: |J| = 2.956e-05 +/- 1.2e-06 (-0.9 sigma)   |V_td/V_ts| = 0.1994 +/- 0.0031 (-1.7 sigma)
+    2.53649 TeV: |J| = 3.259e-05 +/- 1.2e-06 (+0.8 sigma)   |V_td/V_ts| = 0.2732 +/- 0.0036 (+13.8 sigma)
+    measured: J = 3.120e-05 +/- 1.3e-06, |V_td/V_ts| = 0.207 +/- 0.0032
+    Both predictions at once (2 dof), best solution: 2.2 sigma at 0.16279 TeV, 1.4 sigma at 2.53649 TeV
+    |V_td/V_ts| is not used by the survey, but the PDG fit behind the measured moduli and J
+    includes B-mixing data, so this test is not fully independent of them.
+    (|V_td/V_ts| is used nowhere in the survey: it is an independent test)
+
+  Certificates: not run here (python3 production_v2_2.py --certify proves each exclusion over
+    the whole parameter space; it takes several minutes).
 
   RESULT: 1 of 83 predictive patterns survive at every scale; 82 are excluded.
 
@@ -557,8 +571,8 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
   texture_survey (C, numerical)
       inputs: none
       takes: flavour
-      assumes: Hermitian textures; joint fits start from a finite grid, so an
-        exclusion could miss a minimum
+      assumes: Hermitian textures; searches from finite grids (--certify
+        proves the exclusions: 80 of 82)
   gauge_331 (D, exact)
       inputs: none
       assumes: 3-3-1 representations, beta = -1/sqrt3, +1/sqrt3
@@ -731,4 +745,4 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (15 stages, 28 edges)
   49/49 checks pass
 ==============================================================================
-Elapsed: 344.9 s
+Elapsed: 331.7 s

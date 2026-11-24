@@ -99,7 +99,7 @@ def test_standard_library_only():
         elif isinstance(node, ast.ImportFrom):
             mods.add(node.module.split(".")[0])
     assert mods <= {"__future__", "argparse", "cmath", "decimal", "fractions", "itertools",
-                    "json", "math", "sys", "time", "typing"}, mods
+                    "json", "math", "multiprocessing", "sys", "time", "typing"}, mods
 
 
 def test_every_self_check_passes():
@@ -269,16 +269,16 @@ def test_survey_certificates_are_sound():
 
 
 def test_survivor_prediction():
-    """The survivor's prediction: with |V_us|, |V_cb|, |V_ub| at their measured values (1 sigma),
-    J and |V_td/V_ts| follow; both ranges contain the measured values."""
+    """The survivor's prediction: |V_us|, |V_cb|, |V_ub| fix its unknowns at isolated points; two
+    distinct solutions, one excluded by |V_td/V_ts| (never used by the survey), one within 3 sigma."""
     for mu in RESULT["scales"]:
         surv = [r for r in RESULT["survey"][mu]["classes"] if r["status"] == "tested" and r["survives"]]
         assert len(surv) == 1
-        pr = surv[0]["prediction"]
-        lo, hi = pr["J"]
-        assert lo <= 3.12e-5 <= hi and hi - lo < 1e-5
-        lo, hi = pr["V_td/V_ts"]
-        assert 0.15 < lo <= hi < 0.3
+        sols = surv[0]["prediction"]
+        assert len(sols) == 2
+        pulls = [abs(o["V_td/V_ts"] - 0.207) / math.hypot(o["V_td/V_ts_sigma"], 0.0032) for o in sols]
+        assert min(pulls) < 3 < max(pulls)
+        assert all(2.5e-5 < o["J"] < 3.5e-5 and o["J_sigma"] < 2e-6 for o in sols)
 
 
 def test_parallel_textures_excluded():
