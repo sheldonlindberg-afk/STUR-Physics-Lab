@@ -1510,56 +1510,76 @@ class TextureSurvey:
             out[SURVEY_OBS[k]] = (res[0], res[1])
         return out
 
-    def prediction(self, rec: Dict[str, Any], nt: int, nph: int) -> Dict[str, Tuple[float, float]]:
-        """What a surviving pattern predicts: its three unknowns (t, both phases) are fixed by
-        |V_us|, |V_cb|, |V_ub|, so J and |V_td/V_ts| follow. Their ranges over the region where
-        those three moduli lie within 1 sigma (their measurement and input errors), by grid plus
-        compass search (numerical). |V_td/V_ts| is not used anywhere in the survey."""
+    def prediction(self, rec: Dict[str, Any], nt: int, nph: int) -> List[Dict[str, float]]:
+        """What a surviving pattern predicts. |V_us|, |V_cb|, |V_ub| fix its three unknowns (t and
+        both phases) at isolated points, found from every grid point by compass search; at each,
+        |J| and |V_td/V_ts| follow (CP-conjugate solutions, J -> -J, are merged). Errors: re-solve
+        with each measured modulus moved by its error, and with each input moved by its error."""
         pair, n_curve = rec["pair"], rec["n_curve"]
+        mods = SURVEY_OBS[:3]
 
-        def at(x: List[float]):
+        def at(x: List[float], ei: int = 0):
             if n_curve and not 0 <= x[0] <= 1:
                 return None
-            c = self.coef(pair, x[0] if n_curve else 0)
+            c = self.coef(pair, x[0] if n_curve else 0, ei)
             if c is None:
                 return None
-            o = _survey_obs(c, x[1], x[2])
             v = ckm_matrix(c, x[1], x[2])
-            return o, abs(v[2][0]) / abs(v[2][1])
+            return _survey_obs(c, x[1], x[2]), abs(v[2][0]) / abs(v[2][1])
 
-        def chi3(x: List[float], o) -> float:
-            sig = [self.input_sigma(pair, lambda cc, k=k: _survey_obs(cc, x[1], x[2])[k], x[0] if n_curve else 0)
-                   for k in range(3)]
-            return self.chi2(list(o[:3]) + [self.meas["J"][0]], sig + [0.0])
+        def solve(x0: List[float], target: Sequence[float], ei: int = 0):
+            def f(x: List[float]) -> float:
+                r = at(x, ei)
+                if r is None:
+                    return math.inf
+                return sum(((r[0][k] - target[k]) / self.meas[name][1]) ** 2 for k, name in enumerate(mods))
+            x, v = _minimize(f, list(x0), [1 / nt if n_curve else 0, 2 * math.pi / nph, 2 * math.pi / nph],
+                             num("survey_min_step"))
+            return x, v
+        central = [self.meas[k][0] for k in mods]
         ts = [(i + 1 / 2) / nt for i in range(nt)] if n_curve else [0]
         starts = []
         for t in ts:
-            for i in range(nph):
-                for j in range(nph):
-                    x = [t, 2 * math.pi * i / nph, 2 * math.pi * j / nph]
+            for a in range(nph):
+                for b in range(nph):
+                    x = [t, 2 * math.pi * a / nph, 2 * math.pi * b / nph]
                     r = at(x)
                     if r is not None:
-                        starts.append((self.chi2(list(r[0][:3]) + [self.meas["J"][0]], (0, 0, 0, 0)), x))
+                        starts.append((sum(((r[0][k] - central[k]) / self.meas[n][1]) ** 2
+                                           for k, n in enumerate(mods)), x))
         starts.sort(key=lambda z: z[0])
-        steps = [1 / nt if n_curve else 0, 2 * math.pi / nph, 2 * math.pi / nph]
-        out = {}
-        tol = 1 + num("survey_residual_tol")
-        for name, pick in (("J", lambda r: r[0][3]), ("V_td/V_ts", lambda r: r[1])):
-            ref = abs(pick(at(starts[0][1]))) or 1            # the pattern's own value: the scale of the objective
-            lo, hi = math.inf, -math.inf
-            for sense in (1, -1):
-                def f(x: List[float]) -> float:
-                    r = at(x)
-                    if r is None:
-                        return math.inf
-                    return sense * pick(r) / ref + max(0.0, chi3(x, r[0]) - 1) * nt * nph
-                for _, x0 in starts[:int(num("survey_starts"))]:
-                    x, _ = _minimize(f, list(x0), steps, num("survey_min_step"))
-                    r = at(x)
-                    if r is not None and chi3(x, r[0]) <= tol:
-                        lo, hi = min(lo, pick(r)), max(hi, pick(r))
-            out[name] = (lo, hi)
-        return out
+        sols: List[List[float]] = []
+        tol = num("survey_residual_tol")
+        for _, x0 in starts[:nt * int(num("survey_starts"))]:
+            x, v = solve(x0, central)
+            if v > tol:
+                continue
+            key = [x[0], x[1] % (2 * math.pi), x[2] % (2 * math.pi)]
+            if all(sum(abs(a - b) for a, b in zip(key, y)) > tol for y in sols):
+                sols.append(key)
+        out: List[Dict[str, float]] = []
+        for x in sols:
+            r = at(x)
+            j0, q0 = abs(r[0][3]), r[1]
+            dj2 = dq2 = 0.0
+            for k, name in enumerate(mods):                  # measured moduli moved by their errors
+                tgt = list(central)
+                tgt[k] += self.meas[name][1]
+                xs, _ = solve(x, tgt)
+                rs = at(xs)
+                dj2 += (abs(rs[0][3]) - j0) ** 2
+                dq2 += (rs[1] - q0) ** 2
+            for e in range(1, len(self.E), 2):              # inputs moved by their errors
+                pm = []
+                for ei in (e, e + 1):
+                    xs, _ = solve(x, central, ei)
+                    rs = at(xs, ei)
+                    pm.append(rs)
+                dj2 += ((abs(pm[0][0][3]) - abs(pm[1][0][3])) / 2) ** 2
+                dq2 += ((pm[0][1] - pm[1][1]) / 2) ** 2
+            if not any(abs(j0 - o["J"]) < tol * j0 and abs(q0 - o["V_td/V_ts"]) < tol for o in out):
+                out.append({"J": j0, "J_sigma": math.sqrt(dj2), "V_td/V_ts": q0, "V_td/V_ts_sigma": math.sqrt(dq2)})
+        return sorted(out, key=lambda o: o["J"])
 
     def run(self, min_zeros: int) -> Dict[str, Any]:
         e = self.E[0]
@@ -4800,13 +4820,27 @@ def report(res: Dict[str, Any]) -> str:
         w("   prediction is a relation among the four, which the joint test checks)")
         for r in survivors:
             k = (r["zeros_u"], r["zeros_d"])
-            w("  What it predicts: |V_us|, |V_cb|, |V_ub| fix its three unknowns, so J and |V_td/V_ts| follow.")
-            w("  Over the region where those three moduli lie within 1 sigma (numerical search):")
-            for name in ("J", "V_td/V_ts"):
-                m_, up_, _ = _comparison(name)
-                rng = "   ".join(f"{mu / 1000:g} TeV [{_fmt(recs[mu][k]['prediction'][name][0], 4)},"
-                               f" {_fmt(recs[mu][k]['prediction'][name][1], 4)}]" for mu in sc)
-                w(f"    {name:10s} {rng}   measured {_fmt(m_, 4)} +/- {_fmt(up_, 2)}")
+            w("  What it predicts: |V_us|, |V_cb|, |V_ub| fix its three unknowns at isolated points; at each,")
+            w("  |J| and |V_td/V_ts| follow (errors: the three moduli and the inputs, re-solved):")
+            mj, sj, _ = _comparison("J")
+            mq, sq, _ = _comparison("V_td/V_ts")
+            for mu in sc:
+                for o in recs[mu][k]["prediction"]:
+                    pj = (o["J"] - mj) / math.hypot(o["J_sigma"], sj)
+                    pq = (o["V_td/V_ts"] - mq) / math.hypot(o["V_td/V_ts_sigma"], sq)
+                    w(f"    {mu / 1000:g} TeV: |J| = {o['J']:.3e} +/- {o['J_sigma']:.1e} ({pj:+.1f} sigma)   |V_td/V_ts| ="
+                      f" {o['V_td/V_ts']:.4f} +/- {o['V_td/V_ts_sigma']:.4f} ({pq:+.1f} sigma)")
+            w(f"    measured: J = {mj:.3e} +/- {sj:.1e}, |V_td/V_ts| = {mq} +/- {sq}")
+            best = []
+            for mu in sc:
+                c2 = [((o["J"] - mj) / math.hypot(o["J_sigma"], sj)) ** 2
+                      + ((o["V_td/V_ts"] - mq) / math.hypot(o["V_td/V_ts_sigma"], sq)) ** 2
+                      for o in recs[mu][k]["prediction"]]
+                best.append(pvalue_to_sigma(chi2_pvalue(min(c2), 2)) if c2 else math.inf)
+            w(f"    Both predictions at once (2 dof), best solution: " + ", ".join(
+                f"{b:.1f} sigma at {mu / 1000:g} TeV" for b, mu in zip(best, sc)))
+            w("    |V_td/V_ts| is not used by the survey, but the PDG fit behind the measured moduli and J")
+            w("    includes B-mixing data, so this test is not fully independent of them.")
             w("    (|V_td/V_ts| is used nowhere in the survey: it is an independent test)")
     cert_ = res.get("survey_certificates")
     w("")
