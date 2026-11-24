@@ -177,6 +177,7 @@ NUMERICS: Dict[str, Any] = {
     "jacobi_tol": "1e-30",
     "check_rel_tol": "1e-9",
     "check_lit_tol": "1e-4",          # two units of the last digit the literature prints (Part L checks)
+    "check_lit_b4_tol": "1e-6",       # B4 is printed to six decimals
     "check_rg_tol": "1e-7",
     "check_age_tol": "1e-8",
     "survey_min_zeros": 5,            # 5 or 6 zeros: the patterns with at least one prediction
@@ -289,6 +290,56 @@ LITERATURE: Dict[str, Dict[str, Any]] = {
                   "conversion, already in this script)",
         "value": {"ew": ("6.48", "-0.01", "0.18"), "qcd_ew": ("-7.53", "0.09", "-0.23"),
                   "M_h0": "125", "M_t0": "173"}},
+    "qcd_beta_3_4loop": {
+        "source": "Chetyrkin, Kuehn, Steinhauser 2000, RunDec (hep-ph/0004189), eq. (betafct) "
+                  "(van Ritbergen, Vermaseren, Larin 1997): mu^2 d(a)/d mu^2 = -sum beta_i a^(i+2), "
+                  "a = alpha_s/pi. Terms (coefficient, power of n_f, zeta value), times norm",
+        "value": {"beta2": {"norm": "1/64", "terms": [("2857/2", 0, ""), ("-5033/18", 1, ""), ("325/54", 2, "")]},
+                  "beta3": {"norm": "1/256", "terms": [("149753/6", 0, ""), ("3564", 0, "z3"),
+                                                       ("-1078361/162", 1, ""), ("-6508/27", 1, "z3"),
+                                                       ("50065/162", 2, ""), ("6472/81", 2, "z3"),
+                                                       ("1093/729", 3, "")]}}},
+    "qcd_gamma_3_4loop": {
+        "source": "RunDec, eq. after (defgamma) (Chetyrkin 1997; Vermaseren, Larin, van Ritbergen 1997): "
+                  "mu^2 d m/d mu^2 = -m sum gamma_i a^(i+1), same form",
+        "value": {"gamma2": {"norm": "1/64", "terms": [("1249", 0, ""), ("-2216/27", 1, ""), ("-160/3", 1, "z3"),
+                                                        ("-140/81", 2, "")]},
+                  "gamma3": {"norm": "1/256", "terms": [("4603055/162", 0, ""), ("135680/27", 0, "z3"),
+                                                         ("-8800", 0, "z5"), ("-91723/27", 1, ""),
+                                                         ("-34192/9", 1, "z3"), ("880", 1, "z4"),
+                                                         ("18400/9", 1, "z5"), ("5242/243", 2, ""),
+                                                         ("800/9", 2, "z3"), ("-160/3", 2, "z4"),
+                                                         ("-332/243", 3, ""), ("64/27", 3, "z3")]}}},
+    "qcd_decoupling": {
+        "source": "RunDec eqs. (zetagSI), (zetamSI) at mu = mu_h = m_h(m_h), where every logarithm vanishes "
+                  "(Chetyrkin, Kniehl, Steinhauser 1997, 1998): alpha_s^(n_l) = zeta_g^2 alpha_s^(n_f), "
+                  "m^(n_l) = zeta_m m^(n_f), series in a = alpha_s^(n_f)/pi; terms (coefficient, power of "
+                  "n_l, constant). B4 = 16 Li4(1/2) - 13/2 zeta4 - 4 zeta2 ln^2 2 + 2/3 ln^4 2",
+        "value": {"g2": [("11/72", 0, "")],
+                  "g3": [("564731/124416", 0, ""), ("-82043/27648", 0, "z3"), ("-2633/31104", 1, "")],
+                  "m2": [("89/432", 0, "")],
+                  "m3": [("2951/2916", 0, ""), ("-407/864", 0, "z3"), ("5/4", 0, "z4"), ("-1/36", 0, "B4"),
+                         ("1327/11664", 1, ""), ("-2/27", 1, "z3")]}},
+    "top_mass_4loop": {
+        "source": "Marquard, Smirnov, Smirnov, Steinhauser 2015 (arXiv:1502.01030), eq. (cm4): the a^4 term "
+                  "of M/m(m) for n_l = 5, a = alpha_s^(6)(m)/pi (+-21.5)",
+        "value": {"c4_nl5": "827.37", "sigma": "21.5"}},
+    "lambda_3loop_qcd": {
+        "source": "Buttazzo et al. 2013, footnote in section 3.1 (from Martin 2013's three-loop effective "
+                  "potential): lambda^(3)_QCD(mu = M_t) = norm g3^4 G_mu^2 M_t^4 (4 pi)^-6 [sum], leading "
+                  "order in g3 and y_t, M_h, M_W, M_Z << M_t. Terms (coefficient, constant)",
+        "value": {"norm": "-8/135",
+                  "terms": [("176", "pi4"), ("720", "pi2"), ("960", "pi2_ln2sq"), ("1440", "pi2_ln2"),
+                            ("9105", ""), ("-960", "ln2_4"), ("-23040", "li4half"), ("8640", "z3")]}},
+    "check_rundec": {
+        "source": "RunDec section 2 and table (alsMb), eq. (numdef): alpha_s^(5)(mu) from alpha_s^(5)(M_Z) "
+                  "= 0.118 by exact integration, five flavours, at 3 and 4 loops; B4; Chetyrkin 1997 "
+                  "(hep-ph/9703278), numerical gamma_m: gamma_2, gamma_3 coefficients of n_f^k",
+        "value": {"alpha_MZ": "0.118", "M_Z": "91.18", "M_b": "4.7",
+                  "alpha_Mb_4L": "0.2169467", "alpha_1GeV_3L": "0.4029", "alpha_1GeV_4L": "0.4065",
+                  "B4": "-1.762800",
+                  "gamma2": ("19.5156", "-2.28412", "-0.0270062"),
+                  "gamma3": ("98.9434", "-19.1075", "0.276163", "0.00579322")}},
     "check_buttazzo": {
         "source": "Buttazzo et al. 2013: inputs (table 'values'), couplings at mu = M_t (section 3, with "
                   "the three-loop QCD part of y_t) and at the Planck mass (eq. sys:Pl); used only by "
@@ -348,7 +399,7 @@ STAGES: Dict[str, Dict[str, str]] = {
     "higgs_mssm": {"part": "K", "level": "conditional", "uv": "MSSM above M_S",
                    "assumes": "M_S from Part I, tan(beta) from Part J, one-loop stop threshold"},
     "criticality": {"part": "L", "level": "conditional", "uv": "SM up to M_P",
-                    "assumes": "lambda(M_P) = 0; three-loop running, two-loop matching"},
+                    "assumes": "lambda(M_P) = 0; three-loop running and matching (QCD part), four-loop QCD"},
     "uv_joint_test": {"part": "M", "level": "numerical",
                       "assumes": "every hypothesis against every set of conditions; unknowns on a grid "
                                  "plus exact roots and edges; theory errors = last-order shifts"},
@@ -366,9 +417,11 @@ AUDIT_FINDINGS: Tuple[Tuple[str, str], ...] = (
                  "the conditions and reports which survive."),
     ("resolved", "Part M's theory errors are calculated, not typed in: for every ingredient the change "
                  "from the last order the script computes to the one below it."),
-    ("resolved", "SM criticality's Part M verdict depended on the theory error while Part L stopped at two "
-                 "loops. With three-loop running and two-loop matching its last-order shift is a quarter of a "
-                 "GeV, and it is excluded with or without theory errors."),
+    ("resolved", "Part L runs at three loops, matches at three loops (leading QCD part) and treats QCD at "
+                 "four loops with three-loop decoupling, each published coefficient checked by a self-check."),
+    ("open", "If SM criticality's Part M verdict differs between the two error sets, it is decided by the "
+             "last-order shifts, which four-loop QCD dominates. They are a conservative estimate: the QCD "
+             "series of the top pole mass falls by about a factor of three per order."),
     ("open", "The MSSM with all three conditions still depends on the theory errors, through the one- to "
              "two-loop shift of unification. Settling it needs three-loop gauge running with superpartner "
              "and GUT thresholds, and the two-loop stop threshold."),
@@ -554,6 +607,89 @@ def zeta3() -> float:
     return 5 * total / 2
 
 
+def zeta_int(n: int) -> float:
+    """Riemann zeta(n), integer n >= 2: twenty terms plus the Euler-Maclaurin tail."""
+    big = 20
+    head = sum(k ** -n for k in range(1, big))
+    return (head + big ** (1 - n) / (n - 1) + big ** -n / 2 + n * big ** (-n - 1) / 12
+            - n * (n + 1) * (n + 2) * big ** (-n - 3) / 720)
+
+
+def li4_half() -> float:
+    """Li_4(1/2) = sum 1/(2^k k^4)."""
+    return sum(1 / (2 ** k * k ** 4) for k in range(1, 60))
+
+
+def qcd_constant(tag: str) -> float:
+    """The transcendental constants the quoted QCD and matching coefficients multiply."""
+    l2, z2, z4 = math.log(2), math.pi ** 2 / 6, math.pi ** 4 / 90
+    return {"": 1.0, "z3": zeta3(), "z4": z4, "z5": zeta_int(5),
+            "B4": 16 * li4_half() - 13 * z4 / 2 - 4 * z2 * l2 ** 2 + 2 * l2 ** 4 / 3,
+            "pi4": math.pi ** 4, "pi2": math.pi ** 2, "pi2_ln2sq": math.pi ** 2 * l2 ** 2,
+            "pi2_ln2": math.pi ** 2 * l2, "ln2_4": l2 ** 4, "li4half": li4_half()}[tag]
+
+
+def _lit_poly(terms: Sequence[Tuple[str, int, str]], n: int) -> float:
+    return sum(lit_num(c) * n ** p * qcd_constant(z) for c, p, z in terms)
+
+
+def qcd_beta_pi(nf: int, loops: int) -> List[float]:
+    """beta_i with a = alpha_s/pi: one and two loops from the Casimirs (b_i/4^(i+1)), three and
+    four from LITERATURE."""
+    b0, b1 = qcd_beta(nf)
+    out = [float(b0) / 4, float(b1) / 16]
+    for key in ("beta2", "beta3"):
+        e = LITERATURE["qcd_beta_3_4loop"]["value"][key]
+        out.append(lit_num(e["norm"]) * _lit_poly(e["terms"], nf))
+    return out[:loops]
+
+
+def qcd_gamma_pi(nf: int, loops: int) -> List[float]:
+    """gamma_m,i with a = alpha_s/pi, the same way."""
+    g0, g1 = qcd_gamma_m(nf)
+    out = [float(g0) / 4, float(g1) / 16]
+    for key in ("gamma2", "gamma3"):
+        e = LITERATURE["qcd_gamma_3_4loop"]["value"][key]
+        out.append(lit_num(e["norm"]) * _lit_poly(e["terms"], nf))
+    return out[:loops]
+
+
+def decoupling_g2(alpha_f: float, n_l: int, loops: int) -> float:
+    """zeta_g^2 at mu = m_h(m_h): alpha_s^(n_l) / alpha_s^(n_f); (loops - 1)-loop matching
+    for loops-loop running, so nothing below three loops."""
+    e = LITERATURE["qcd_decoupling"]["value"]
+    a = alpha_f / math.pi
+    z = 1.0
+    if loops >= 3:
+        z += _lit_poly(e["g2"], n_l) * a * a
+    if loops >= 4:
+        z += _lit_poly(e["g3"], n_l) * a ** 3
+    return z
+
+
+def decoupling_m(alpha_f: float, n_l: int, loops: int) -> float:
+    """zeta_m at mu = m_h(m_h): m^(n_l) / m^(n_f) for a lighter quark."""
+    e = LITERATURE["qcd_decoupling"]["value"]
+    a = alpha_f / math.pi
+    z = 1.0
+    if loops >= 3:
+        z += _lit_poly(e["m2"], n_l) * a * a
+    if loops >= 4:
+        z += _lit_poly(e["m3"], n_l) * a ** 3
+    return z
+
+
+def alpha_up(alpha_l: float, n_l: int, loops: int) -> float:
+    """alpha_s^(n_f) from alpha_s^(n_l) at the threshold: the downward relation, inverted exactly."""
+    a_f = alpha_l
+    for _ in range(50):
+        new = alpha_l / decoupling_g2(a_f, n_l, loops)
+        if new == a_f:
+            break
+        a_f = new
+    return a_f
+
+
 def pole_to_msbar_coeffs(n_light: int) -> Tuple[float, float]:
     """M / m(m) = 1 + k1 a + k2 a^2 with a = alpha_s(m)/pi (Gray, Broadhurst, Grafe, Schilcher 1990),
     light-quark masses in the loop neglected."""
@@ -563,6 +699,20 @@ def pole_to_msbar_coeffs(n_light: int) -> Tuple[float, float]:
     k2 = (307 / 32 + 2 * z2 + 2 * z2 * math.log(2) / 3 - zeta3() / 6
           - n_light * (71 / 144 + z2 / 3))
     return k1, k2
+
+
+def pole_to_msbar_k(n_light: int, loops: int) -> List[float]:
+    """M / m(m) = 1 + sum k_i a^i, a = alpha_s^(n_l + 1)(m)/pi: two loops analytic (above), three
+    (Melnikov-van Ritbergen) and four (Marquard et al., n_l = 5 only) from LITERATURE."""
+    k1, k2 = pole_to_msbar_coeffs(n_light)
+    c = LITERATURE["top_mass_3loop"]["value"]
+    k3 = lit_num(c["c2"]) * n_light ** 2 + lit_num(c["c1"]) * n_light + lit_num(c["c0"])
+    ks = [k1, k2, k3]
+    if loops >= 4:
+        if n_light != 5:
+            raise ValueError("the four-loop coefficient is quoted for n_l = 5 only")
+        ks.append(lit_num(LITERATURE["top_mass_4loop"]["value"]["c4_nl5"]))
+    return ks[:loops]
 
 
 # =============================================================================
@@ -582,18 +732,24 @@ def _nf_at(mu: float, thresholds: Sequence[float]) -> int:
 
 def integrate_ln_mu(y0: List[float], mu0: float, mu1: float,
                     rhs: Callable[[List[float], int], List[float]],
-                    thresholds: Sequence[float], steps_per_efold: int) -> List[float]:
-    """RK4 in ln(mu), split exactly at the flavour thresholds."""
+                    thresholds: Sequence[float], steps_per_efold: int,
+                    match: Callable[[List[float], float, int, int], List[float]] | None = None) -> List[float]:
+    """RK4 in ln(mu), split exactly at the flavour thresholds; match(y, mu, nf_from, nf_to)
+    applies the decoupling relations where a threshold is crossed."""
     l0, l1 = math.log(mu0), math.log(mu1)
     cuts = sorted(math.log(m) for m in thresholds if min(l0, l1) < math.log(m) < max(l0, l1))
     if l1 < l0:
         cuts.reverse()
     pts = [l0] + cuts + [l1]
     y = list(y0)
+    nf_prev = None
     for a, b in zip(pts[:-1], pts[1:]):
         if b == a:
             continue
         nf = _nf_at(math.exp((a + b) / 2), thresholds)
+        if match is not None and nf_prev is not None and nf != nf_prev:
+            y = match(y, math.exp(a), nf_prev, nf)
+        nf_prev = nf
         n = max(1, math.ceil(abs(b - a) * steps_per_efold))
         h = (b - a) / n
         for _ in range(n):
@@ -604,18 +760,17 @@ def integrate_ln_mu(y0: List[float], mu0: float, mu1: float,
 class FlavourRunner:
     """Runs alpha_s and the quark masses from the measured inputs. No free parameters."""
 
-    def __init__(self, x: Dict[str, float], steps_per_efold: int, qcd_loops: int = 2):
-        """qcd_loops = 1 drops the two-loop QCD terms: the change is Part M's estimate of the
-        error from the orders not calculated."""
+    def __init__(self, x: Dict[str, float], steps_per_efold: int, qcd_loops: int = 4):
+        """QCD at qcd_loops loops: the beta function and the mass anomalous dimension at that
+        order, (qcd_loops - 1)-loop decoupling at the quark thresholds, the top pole/MS-bar
+        conversion at qcd_loops loops. Lowering it by one is Part M's estimate of the error
+        from the orders not calculated."""
         self.x = x
         self.steps = steps_per_efold
+        self.loops = qcd_loops
         self.alpha_em = 1 / x["alpha_em_inv_MZ"]
-        self.coef = {}
-        for nf in range(3, 7):
-            b0, b1 = qcd_beta(nf)
-            g0, g1 = qcd_gamma_m(nf)
-            two = 1 if qcd_loops >= 2 else 0
-            self.coef[nf] = (float(b0), two * float(b1), float(g0), two * float(g1))
+        self.beta = {nf: qcd_beta_pi(nf, qcd_loops) for nf in range(3, 7)}
+        self.gamma = {nf: qcd_gamma_pi(nf, qcd_loops) for nf in range(3, 7)}
         self.thresholds: List[float] = [x["m_c"], x["m_b"]]
         self.mt_msbar = self._top_msbar()
         self.thresholds = [x["m_c"], x["m_b"], self.mt_msbar]
@@ -623,32 +778,43 @@ class FlavourRunner:
 
     # d alpha_s / d ln mu and d ln m / d ln mu (two-loop QCD, one-loop QED)
     def _qcd_rhs(self, y: List[float], nf: int, q2: float) -> List[float]:
-        b0, b1, g0, g1 = self.coef[nf]
-        al = y[0]
-        a = al / (4 * math.pi)
-        dal = -2 * (b0 * al * al / (4 * math.pi) + b1 * al ** 3 / (16 * math.pi ** 2))
-        dlnm = -2 * (g0 * a + g1 * a * a) - 3 * q2 * self.alpha_em / (2 * math.pi)
+        """d alpha_s / d ln mu and d ln m / d ln mu (QCD at self.loops loops, one-loop QED)."""
+        a = y[0] / math.pi
+        dal = -2 * math.pi * sum(b * a ** (i + 2) for i, b in enumerate(self.beta[nf]))
+        dlnm = (-2 * sum(g * a ** (i + 1) for i, g in enumerate(self.gamma[nf]))
+                - 3 * q2 * self.alpha_em / (2 * math.pi))
         return [dal, dlnm]
+
+    def _match(self, y: List[float], mu: float, nf_from: int, nf_to: int) -> List[float]:
+        """Decouple (downward) or re-couple (upward) alpha_s and a light mass at a threshold."""
+        if nf_to < nf_from:
+            al_f = y[0]
+            return [al_f * decoupling_g2(al_f, nf_to, self.loops),
+                    y[1] + math.log(decoupling_m(al_f, nf_to, self.loops))]
+        al_f = alpha_up(y[0], nf_from, self.loops)
+        return [al_f, y[1] - math.log(decoupling_m(al_f, nf_from, self.loops))]
 
     def alpha_s(self, mu: float) -> float:
         y = integrate_ln_mu([self.x["alpha_s_MZ"], 0.0], self.x["M_Z"], mu,
-                            lambda v, nf: self._qcd_rhs(v, nf, 0.0), self.thresholds, self.steps)
+                            lambda v, nf: self._qcd_rhs(v, nf, 0.0), self.thresholds, self.steps,
+                            self._match)
         return y[0]
 
     def run_mass(self, m0: float, mu0: float, mu1: float, charge: Fr) -> float:
         y = integrate_ln_mu([self.alpha_s(mu0), math.log(m0)], mu0, mu1,
                             lambda v, nf: self._qcd_rhs(v, nf, float(charge) ** 2),
-                            self.thresholds, self.steps)
+                            self.thresholds, self.steps, self._match)
         return math.exp(y[1])
 
     def _top_msbar(self) -> float:
-        """Solve M_t = m (1 + k1 a(m) + k2 a(m)^2) for the MS-bar mass m = m_t(m_t)."""
-        k1, k2 = pole_to_msbar_coeffs(5)
+        """Solve M_t = m (1 + sum_i k_i a(m)^i) for the MS-bar mass m = m_t(m_t), with
+        a = alpha_s^(6)(m)/pi, to self.loops loops."""
+        ks = pole_to_msbar_k(5, self.loops)
         big_m = self.x["M_t"]
         m = big_m
         for _ in range(100):
-            a = self.alpha_s(m) / math.pi
-            m_new = big_m / (1 + k1 * a + k2 * a * a)
+            a = alpha_up(self.alpha_s(m), 5, self.loops) / math.pi
+            m_new = big_m / (1 + sum(k * a ** (i + 1) for i, k in enumerate(ks)))
             if abs(m_new - m) <= abs(m) * float(NUMERICS["check_rel_tol"]) / 1000:
                 m = m_new
                 break
@@ -670,7 +836,8 @@ class FlavourRunner:
         }
         base = {"mu": mu0, "m_u": m["u"], "m_d": m["d"], "m_s": m["s"], "m_c": m["c"], "m_b": m["b"],
                 "m_t": m["t"], "r_uc": m["u"] / m["c"], "r_ct": m["c"] / m["t"],
-                "r_ds": m["d"] / m["s"], "r_sb": m["s"] / m["b"], "alpha_s": self.alpha_s(mu0),
+                "r_ds": m["d"] / m["s"], "r_sb": m["s"] / m["b"],
+                "alpha_s": alpha_up(self.alpha_s(mu0), 5, self.loops),      # six flavours from here up
                 "y_t": math.sqrt(2) * mu0 / self.v}
         out = {mu0: base}
 
@@ -699,8 +866,7 @@ class FlavourRunner:
 
         def rhs(v: List[float], nf: int) -> List[float]:
             als, g1, g2, yt, _, _ = v
-            b0, bb1, _, _ = self.coef[6]
-            dal = -2 * (b0 * als * als / (4 * math.pi) + bb1 * als ** 3 / k)
+            dal = -2 * math.pi * sum(b * (als / math.pi) ** (i + 2) for i, b in enumerate(self.beta[6]))
             g3sq = 4 * math.pi * als
             dyt = yt * (c_self * yt * yt + split * yb * yb - c3 * g3sq - c2 * g2 * g2 - c1 * g1 * g1) / k
             return [dal, b1 * g1 ** 3 / k, b2 * g2 ** 3 / k, dyt,
@@ -2729,13 +2895,13 @@ def sm_rge(loops: int):
     return rhs
 
 
-def sm_state_at_mt(overrides: Dict[str, float] | None = None, runner: "FlavourRunner | None" = None
-                   ) -> Tuple[float, float, float, List[float]]:
+def sm_state_at_mt(overrides: Dict[str, float] | None = None, runner: "FlavourRunner | None" = None,
+                   qcd_loops: int = 4) -> Tuple[float, float, float, List[float]]:
     """(m_t(m_t), v, M_t/m_t(m_t), [g1, g2, g3, y_t, y_b, y_tau]) at m_t(m_t), from the inputs
     (with optional changes, for propagating their errors). The one derivation of these
     couplings: pass a runner to reuse running that is already done."""
     if runner is None:
-        runner = FlavourRunner(_float_inputs(overrides), int(num("rg_steps_per_efold")))
+        runner = FlavourRunner(_float_inputs(overrides), int(num("rg_steps_per_efold")), qcd_loops)
     x = runner.x
     mt = runner.mt_msbar
     base = runner.ratios_at([mt])[mt]
@@ -2908,10 +3074,10 @@ def higgs_mass_from_lambda(lam: float, mt: float, mw: float, mz: float, v: float
     return _bracketed_root(f, lo, hi, num("crit_tol"), int(num("crit_iterations")))
 
 
-def matched_couplings(overrides: Dict[str, float] | None, mh: float, matched: bool):
+def matched_couplings(overrides: Dict[str, float] | None, mh: float, matched: bool, qcd_loops: int = 4):
     """State at m_t(m_t) with y_t matched to the pole mass (QCD conversion of the script plus the
     one-loop electroweak part, which depends on M_h), and the mass inputs for the lambda matching."""
-    mt, v, pole_ratio, st = sm_state_at_mt(overrides)
+    mt, v, pole_ratio, st = sm_state_at_mt(overrides, qcd_loops=qcd_loops)
     x = _float_inputs(overrides)
     masses = (x["M_t"], x["M_W"], x["M_Z"])
     if matched:
@@ -2964,48 +3130,46 @@ def yt_two_loop(mh: float, mt_pole: float, g3: float) -> float:
             + g3 ** 2 * _fit_2loop("yt_2loop_matching", "qcd_ew", mh, mt_pole)) / k2
 
 
-def top_qcd_three_loop_factor(g3: float, n_light: int) -> float:
-    """y_t (= m_t(m_t)) with the three-loop QCD pole/MS-bar term over y_t without it."""
-    k1, k2 = pole_to_msbar_coeffs(n_light)
-    c = LITERATURE["top_mass_3loop"]["value"]
-    k3 = lit_num(c["c2"]) * n_light ** 2 + lit_num(c["c1"]) * n_light + lit_num(c["c0"])
-    a = g3 ** 2 / (4 * math.pi ** 2)                     # alpha_s / pi
-    two = 1 + k1 * a + k2 * a * a
-    return two / (two + k3 * a ** 3)
+def lambda_three_loop_qcd(g3: float, v: float, mt_pole: float) -> float:
+    """lambda^(3)(mu = M_t), its leading QCD part (LITERATURE); G_mu = 1/(sqrt2 V^2)."""
+    e = LITERATURE["lambda_3loop_qcd"]["value"]
+    g_mu = 1 / (math.sqrt(2) * v * v)
+    bracket = sum(lit_num(c) * qcd_constant(t) for c, t in e["terms"])
+    return lit_num(e["norm"]) * g3 ** 4 * g_mu ** 2 * mt_pole ** 4 / (16 * math.pi ** 2) ** 3 * bracket
 
 
-def nnlo_state(overrides: Dict[str, float] | None, mh: float, loops: int, qcd3: bool = True):
+def nnlo_state(overrides: Dict[str, float] | None, mh: float, loops: int, qcd_loops: int = 4):
     """(M_t, v, pole masses, [g1, g2, g3, y_t, y_b, y_tau] at mu = M_t) with two-loop matching:
-    y_t from the two-loop QCD conversion and one-loop electroweak part at m_t(m_t) (Part L), the
-    three-loop QCD term (if qcd3), run to mu = M_t, plus the two-loop electroweak and mixed parts."""
-    mt, v, _, st, masses = matched_couplings(overrides, mh, True)
-    st = list(st)
-    if qcd3:
-        st[3] *= top_qcd_three_loop_factor(st[2], 5)
+    y_t from the QCD conversion (qcd_loops loops, in the flavour running) and the one-loop
+    electroweak part at m_t(m_t) (Part L), run to mu = M_t, plus the two-loop electroweak and
+    mixed parts."""
+    mt, v, _, st, masses = matched_couplings(overrides, mh, True, qcd_loops)
     big_mt = masses[0]
-    s_ = run_sm(st + [mh * mh / (2 * v * v)], mt, big_mt, loops)[:6]
+    s_ = run_sm(list(st) + [mh * mh / (2 * v * v)], mt, big_mt, loops)[:6]
     s_[3] += yt_two_loop(mh, big_mt, s_[2])
     return big_mt, v, masses, s_
 
 
-def lambda_nnlo(mh: float, masses: Tuple[float, float, float], v: float, g3: float) -> float:
-    """lambda(mu = M_t) for a Higgs pole mass: tree + one loop + two loops."""
+def lambda_nnlo(mh: float, masses: Tuple[float, float, float], v: float, g3: float, matching: int = 3) -> float:
+    """lambda(mu = M_t) for a Higgs pole mass: tree + one loop + two loops (+ the leading QCD
+    part of three loops)."""
     big_mt = masses[0]
     return (mh * mh / (2 * v * v) + lambda_one_loop(mh, big_mt, masses[1], masses[2], v, big_mt)
-            + lambda_two_loop(mh, big_mt, g3))
+            + lambda_two_loop(mh, big_mt, g3) + (lambda_three_loop_qcd(g3, v, big_mt) if matching >= 3 else 0))
 
 
 def predict_higgs_mass_nnlo(overrides: Dict[str, float] | None, mu: float, loops: int, mh_start: float,
-                            qcd3: bool = True, steps: int | None = None) -> Dict[str, float]:
-    """M_h from lambda(mu) = 0 with two-loop matching at mu = M_t (iterated: y_t and the
-    thresholds depend on M_h)."""
+                            matching: int = 3, qcd_loops: int = 4, steps: int | None = None) -> Dict[str, float]:
+    """M_h from lambda(mu) = 0 with two- or three-loop matching at mu = M_t (iterated: y_t and
+    the thresholds depend on M_h)."""
     steps = steps or int(num("crit_steps_per_efold"))
     mh, lam, s_ = mh_start, 0.0, []
     for _ in range(int(num("crit_iterations"))):
-        big_mt, v, masses, s_ = nnlo_state(overrides, mh, loops, qcd3)
+        big_mt, v, masses, s_ = nnlo_state(overrides, mh, loops, qcd_loops)
         lam = critical_lambda(s_, big_mt, mu, loops, steps, guess=lam or mh * mh / (2 * v * v))
+        l3 = lambda_three_loop_qcd(s_[2], v, big_mt) if matching >= 3 else 0
         new = higgs_mass_from_lambda(lam, masses[0], masses[1], masses[2], v, big_mt, True,
-                                     extra=lambda m: lambda_two_loop(m, big_mt, s_[2]))
+                                     extra=lambda m: lambda_two_loop(m, big_mt, s_[2]) + l3)
         done = abs(new - mh) < num("crit_tol") * mh
         mh = new
         if done:
@@ -3031,8 +3195,10 @@ def sm_criticality(planck_gev: float) -> Dict[str, Any]:
         rows.append({"scale": "M_P", "mu": planck_gev, "loops": loops, "matching": "one loop", "matched": True,
                      **predict_higgs_mass(None, planck_gev, loops, True, mh_start=start,
                                           steps=c_steps if loops == 3 else None)})
-    for loops, qcd3, label in ((2, True, "two loops"), (3, False, "two loops, no a^3"), (3, True, "two loops")):
-        r = predict_higgs_mass_nnlo(None, planck_gev, loops, start, qcd3)
+    for loops, matching, qcd, label in ((2, 2, 4, "two loops"), (3, 2, 3, "two loops, QCD 3"), (3, 2, 4, "two loops"),
+                                        (2, 3, 4, "three loops"), (3, 3, 3, "three loops, QCD 3"),
+                                        (3, 3, 4, "three loops")):
+        r = predict_higgs_mass_nnlo(None, planck_gev, loops, start, matching, qcd)
         rows.append({"scale": "M_P", "mu": planck_gev, "loops": loops, "matching": label, "matched": True,
                      "lambda_mt": r["lambda_Mt"], **r})
     out["rows"] = rows
@@ -3041,14 +3207,15 @@ def sm_criticality(planck_gev: float) -> Dict[str, Any]:
         return [r for r in rows if r["scale"] == "M_P" and r["loops"] == loops and r["matching"] == matching][0]
     out["row"] = {f"{lp}L/{m}": row(lp, m) for lp, m in ((1, "tree"), (2, "tree"), (3, "tree"), (2, "one loop"),
                                                           (3, "one loop"), (2, "two loops"), (3, "two loops"),
-                                                          (3, "two loops, no a^3"))}
-    out["two_loop_one_loop"] = row(2, "one loop")         # the previous central result
-    central = row(3, "two loops")
+                                                          (3, "two loops, QCD 3"), (2, "three loops"),
+                                                          (3, "three loops, QCD 3"), (3, "three loops"))}
+    out["two_loop_one_loop"] = row(2, "one loop")         # two-loop running, one-loop matching
+    central = row(3, "three loops")
     # input errors: M_t and alpha_s dominate; M_W enters only through the matching
     var = {}
     for name in ("M_t", "alpha_s_MZ", "M_W"):
         var[name] = predict_higgs_mass_nnlo({name: inp(name) + sig(name)}, planck_gev, 3,
-                                            central["m_h"])["m_h"] - central["m_h"]
+                                            central["m_h"], 3)["m_h"] - central["m_h"]
     out["sigma_inputs"] = var
     out["sigma_total"] = math.sqrt(sum(d ** 2 for d in var.values()))
     out["central"] = central
@@ -3091,15 +3258,16 @@ def sm_criticality(planck_gev: float) -> Dict[str, Any]:
             break
     out["double"] = {"yt_mt": yt_c, "lambda_mt": lam_c, "m_h": mh_c, "M_t": mtp_c}
     out["buttazzo"] = buttazzo_checks()
+    out["qcd_checks"] = qcd_checks()
     out["state_mt"] = (mt, v, masses)
     return out
 
 
 def sm_lambda_profile(crit: Dict[str, Any], m_h: float) -> Dict[str, Any]:
-    """lambda(mu) at three loops for a given Higgs pole mass (two-loop matching at M_t): its value
+    """lambda(mu) at three loops for a given Higgs pole mass (three-loop matching at M_t): its value
     at M_P and where it turns negative. Called by the report with the measured m_h."""
     big_mt, v, masses, st = nnlo_state(None, m_h, 3)
-    lam0 = lambda_nnlo(m_h, masses, v, st[2])
+    lam0 = lambda_nnlo(m_h, masses, v, st[2], 3)
     mp = crit["planck"]["M_P"]
     c_steps = int(num("crit_steps_per_efold"))
     top = run_sm(st + [lam0], big_mt, mp, 3, c_steps)
@@ -3113,6 +3281,33 @@ def sm_lambda_profile(crit: Dict[str, Any], m_h: float) -> Dict[str, Any]:
         else:
             hi = mid
     return {"lambda_MP": top[6], "beta_MP": sm_rge(3)(top, 6)[6], "mu_zero": math.exp((lo + hi) / 2)}
+
+
+def qcd_checks() -> Dict[str, float]:
+    """The quoted four-loop QCD coefficients against published numbers (LITERATURE["check_rundec"])."""
+    c = LITERATURE["check_rundec"]["value"]
+    steps = int(num("rg_steps_per_efold"))
+
+    def run5(loops: int, mu: float) -> float:          # five flavours, exact integration
+        beta = qcd_beta_pi(5, loops)
+        return integrate_ln_mu([lit_num(c["alpha_MZ"])], lit_num(c["M_Z"]), mu,
+                               lambda v, nf: [-2 * math.pi * sum(b * (v[0] / math.pi) ** (i + 2)
+                                                                  for i, b in enumerate(beta))], [], steps)[0]
+    out = {"alpha_Mb_4L": run5(4, lit_num(c["M_b"])), "alpha_1GeV_3L": run5(3, 1), "alpha_1GeV_4L": run5(4, 1)}
+    out["dev_alpha_Mb"] = abs(out["alpha_Mb_4L"] / lit_num(c["alpha_Mb_4L"]) - 1)
+    out["dev_alpha_1GeV"] = max(abs(out["alpha_1GeV_3L"] - lit_num(c["alpha_1GeV_3L"])),
+                                abs(out["alpha_1GeV_4L"] - lit_num(c["alpha_1GeV_4L"])))
+    dev_g = 0.0                                          # coefficient of each power of n_f
+    for key in ("gamma2", "gamma3"):
+        e = LITERATURE["qcd_gamma_3_4loop"]["value"][key]
+        for k, want in enumerate(c[key]):
+            got = lit_num(e["norm"]) * sum(lit_num(a) * qcd_constant(z) for a, p, z in e["terms"] if p == k)
+            dev_g = max(dev_g, abs(got / lit_num(want) - 1))
+    out["dev_gamma"] = dev_g
+    out["dev_B4"] = abs(qcd_constant("B4") - lit_num(c["B4"]))
+    al_f = lit_num(c["alpha_Mb_4L"])
+    out["dev_roundtrip"] = abs(alpha_up(al_f * decoupling_g2(al_f, 4, 4), 4, 4) / al_f - 1)
+    return out
 
 
 def buttazzo_checks() -> Dict[str, float]:
@@ -3130,8 +3325,9 @@ def buttazzo_checks() -> Dict[str, float]:
         out[f"dev_{loops}L"] = max(abs(top[i] - pl[k]) for i, k in ((0, "g1"), (1, "g2"), (2, "g3"),
                                                                      (3, "y_t"), (6, "lambda")))
     mh = inputs.pop("M_h")
-    big_mt, v, masses, s_ = nnlo_state(inputs, mh, 3)
-    out["lambda_Mt"], out["yt_Mt"] = lambda_nnlo(mh, masses, v, s_[2]), s_[3]
+    # at the paper's own order: two-loop matching, QCD (running, top mass) at three loops
+    big_mt, v, masses, s_ = nnlo_state(inputs, mh, 3, qcd_loops=3)
+    out["lambda_Mt"], out["yt_Mt"] = lambda_nnlo(mh, masses, v, s_[2], 2), s_[3]
     out["dev_lambda"], out["dev_yt"] = abs(out["lambda_Mt"] - at["lambda"]), abs(out["yt_Mt"] - at["y_t"])
     out["lambda_th"], out["yt_th"] = lit_num(c["lambda_th"]), lit_num(c["yt_th"])
     # their linear lambda(M_Pl) = 0, solved for M_h at this script's M_t and alpha_s
@@ -3212,8 +3408,8 @@ def uv_joint_test(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yuk: Dict[st
                            for n in FLAVOUR_UNCERTAIN)) / mb
     out: Dict[str, Any] = {"yb_rel_sigma": yb_rel, "rows": []}
 
-    # theory error of y_b(m_t): two-loop against one-loop QCD running of m_b
-    mb1 = FlavourRunner(x, steps, qcd_loops=1)
+    # theory error of y_b(m_t): the last QCD order (running, decoupling) against the one below
+    mb1 = FlavourRunner(x, steps, qcd_loops=runner.loops - 1)
     yb_rel_th = abs(mb1.ratios_at([mb1.mt_msbar])[mb1.mt_msbar]["m_b"] / mb - 1)
 
     # --- Standard Model up to M_P: no unknowns, every condition is a prediction
@@ -3221,11 +3417,15 @@ def uv_joint_test(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yuk: Dict[st
     sm_row = sm_rows["loop2"]
     r_sm = yuk["btau_SM"][0]["yb_over_ytau"]
     crow = {k: r["m_h"] for k, r in crit["row"].items()}
-    # Part L's last orders: three-loop running against two, two-loop matching against one
+    # Part L's last orders: three-loop running against two, three-loop matching against two,
+    # four-loop QCD (running, decoupling, top mass) against three
+    c_ = crow["3L/three loops"]
     sm_th = {"U": abs(sm_row["inv_alpha"] - sm_rows["loop1"]["inv_alpha"]),
              "B": yb_rel_th,
-             "H": math.hypot(crow["3L/two loops"] - crow["2L/two loops"],
-                             crow["3L/two loops"] - crow["3L/one loop"])}
+             "H": math.sqrt((c_ - crow["2L/three loops"]) ** 2 + (c_ - crow["3L/two loops"]) ** 2
+                            + (c_ - crow["3L/three loops, QCD 3"]) ** 2)}
+    out["SM_theory_H_parts"] = {"running": c_ - crow["2L/three loops"], "matching": c_ - crow["3L/two loops"],
+                                "QCD": c_ - crow["3L/three loops, QCD 3"]}
     sm_in = {"U": math.hypot(sm_row["sigma_inputs"], a_err), "B": yb_rel,
              "H": math.hypot(crit["sigma_total"], mh_err)}
     sm_gap = {"U": sm_row["inv_alpha"] - a_meas, "B": (r_sm - 1) / r_sm, "H": crit["central"]["m_h"] - mh_meas}
@@ -3833,9 +4033,18 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
     checks.append(("Three-loop RGEs: Buttazzo et al.'s couplings at M_t reproduce their Planck-scale values"
                    " (two loops must miss)", bz["dev_3L"] < tol_l < bz["dev_2L"],
                    f"max dev {bz['dev_3L']:.1e} at 3 loops, {bz['dev_2L']:.1e} at 2"))
-    checks.append(("Part L's M_h = Buttazzo et al.'s lambda(M_Pl) = 0, solved at our M_t, alpha_s (their"
-                   " theory error)", abs(crit["central"]["m_h"] - bz["mh_linear"]) < bz["mh_linear_tol"],
-                   f"{crit['central']['m_h']:.2f} against {bz['mh_linear']:.2f} GeV"))
+    m_paper = crit["row"]["3L/two loops, QCD 3"]["m_h"]
+    checks.append(("Part L at Buttazzo et al.'s order = their lambda(M_Pl) = 0, solved at our M_t, alpha_s"
+                   " (their theory error)", abs(m_paper - bz["mh_linear"]) < bz["mh_linear_tol"],
+                   f"{m_paper:.2f} against {bz['mh_linear']:.2f} GeV"))
+    qc = crit["qcd_checks"]
+    checks.append(("Four-loop QCD beta function: RunDec's alpha_s(M_b) (7 digits) and alpha_s(1 GeV) at 3, 4 loops",
+                   qc["dev_alpha_Mb"] < num("check_lit_tol") / 10 and qc["dev_alpha_1GeV"] < num("check_lit_tol") / 2,
+                   f"alpha_s(M_b) = {qc['alpha_Mb_4L']:.7f}, alpha_s(1 GeV) = {qc['alpha_1GeV_4L']:.4f}"))
+    checks.append(("Four-loop mass anomalous dimension = Chetyrkin's numerical form (each power of n_f); B4;"
+                   " decoupling inverted exactly", qc["dev_gamma"] < num("check_lit_tol") / 10
+                   and qc["dev_B4"] < num("check_lit_b4_tol") and qc["dev_roundtrip"] < num("check_rel_tol"),
+                   f"max rel dev {qc['dev_gamma']:.1e}, B4 dev {qc['dev_B4']:.1e}"))
     checks.append(("Two-loop matching: their inputs give their lambda(M_t) and y_t(M_t) within their theory errors",
                    bz["dev_lambda"] < bz["lambda_th"] and bz["dev_yt"] < bz["yt_th"],
                    f"lambda {bz['lambda_Mt']:.5f}, y_t {bz['yt_Mt']:.5f}"))
@@ -4479,34 +4688,40 @@ def report(res: Dict[str, Any]) -> str:
         w("  two-loop terms and all three-loop terms quoted from Buttazzo et al. 2013, appendix B). Matching")
         w("  to the pole masses M_h, M_t, M_W, M_Z and G_F: tree level; one loop at mu = m_t(m_t) (their")
         w("  appendix A, Passarino-Veltman functions in closed form); two loops at mu = M_t (their section 2")
-        w("  interpolations of lambda^(2) and of the electroweak parts of y_t^(2), plus the three-loop QCD")
-        w("  term of the top pole/MS-bar conversion, Melnikov-van Ritbergen 2000).")
+        w("  interpolations of lambda^(2) and of the electroweak parts of y_t^(2)); three loops: the leading")
+        w("  QCD part of lambda^(3) (their footnote, from Martin 2013). QCD: alpha_s and the quark masses run")
+        w("  at four loops with three-loop decoupling (RunDec), the top pole/MS-bar conversion at four loops")
+        w("  (Melnikov-van Ritbergen 2000, Marquard et al. 2015).")
         w("      condition                 loops   matching            predicted M_h (GeV)")
         for r_ in cr["rows"]:
             w(f"      lambda({r_['scale']:<11}) = 0       {r_['loops']}      {r_['matching']:18s}  {r_['m_h']:8.2f}")
         si = cr["sigma_inputs"]
         rw = cr["row"]
-        w(f"  Three loops, two-loop matching: M_h = {c_['m_h']:.2f} GeV +/- {cr['sigma_total']:.2f}"
-          f" (inputs: M_t {si['M_t']:+.2f}, alpha_s {si['alpha_s_MZ']:+.2f}, M_W {si['M_W']:+.3f})")
-        w(f"      three-loop running moves it by {rw['3L/two loops']['m_h'] - rw['2L/two loops']['m_h']:+.2f} GeV;"
-          f" two-loop matching by {rw['3L/two loops']['m_h'] - rw['3L/one loop']['m_h']:+.2f} GeV"
-          f" ({rw['3L/two loops, no a^3']['m_h'] - rw['3L/one loop']['m_h']:+.2f} from lambda^(2)")
-        w(f"      and y_t^(2), {rw['3L/two loops']['m_h'] - rw['3L/two loops, no a^3']['m_h']:+.2f} from the"
-          " three-loop QCD top-mass term)")
+        w(f"  Three-loop running, three-loop matching, four-loop QCD: M_h = {c_['m_h']:.2f} GeV +/-"
+          f" {cr['sigma_total']:.2f}")
+        w(f"      (inputs: M_t {si['M_t']:+.2f}, alpha_s {si['alpha_s_MZ']:+.2f}, M_W {si['M_W']:+.3f})")
+        cm_ = c_["m_h"]
+        w(f"      the last order of each part moves it by: running (3 loops vs 2)"
+          f" {cm_ - rw['2L/three loops']['m_h']:+.2f} GeV, matching (3 vs 2)"
+          f" {cm_ - rw['3L/two loops']['m_h']:+.2f} GeV,")
+        w(f"      QCD running, decoupling and top mass (4 loops vs 3) {cm_ - rw['3L/three loops, QCD 3']['m_h']:+.2f}"
+          f" GeV; two-loop matching against one: {rw['3L/two loops']['m_h'] - rw['3L/one loop']['m_h']:+.2f} GeV")
         w(f"      measured M_h = {mh:.2f} +/- {mh_up:.2f} GeV: the prediction is {c_['m_h'] - mh:.1f} GeV high,"
           f" {(c_['m_h'] - mh) / math.hypot(cr['sigma_total'], mh_up):.1f} sigma on the input errors")
         bz = cr["buttazzo"]
-        w(f"      cross-check: Buttazzo et al.'s own result, lambda(M_Pl) linear in M_h, M_t, alpha_s, gives"
-          f" M_h = {bz['mh_linear']:.2f} GeV here")
-        w("      Still not included: three-loop matching, four-loop running beyond pure QCD, and the")
-        w("      four-loop QCD running of alpha_s and of the quark masses (this script runs them at two).")
+        w(f"      cross-check at Buttazzo et al.'s own order (two-loop matching, QCD at three loops):"
+          f" {rw['3L/two loops, QCD 3']['m_h']:.2f} GeV;")
+        w(f"      their lambda(M_Pl), linear in M_h, M_t, alpha_s, gives {bz['mh_linear']:.2f} GeV here")
+        w("      Three-loop matching here is its leading QCD part (lambda: O(alpha_s^2 y_t^4); y_t: pure QCD,")
+        w("      to four loops). Not included: the electroweak and mixed three-loop thresholds, and four-loop")
+        w("      running beyond pure QCD.")
         d_ = cr["double"]
         w("  Both conditions at the Planck scale, lambda(M_P) = 0 and beta_lambda(M_P) = 0, fix two numbers")
         w("  (at two loops, one-loop matching):")
         w(f"      M_h = {d_['m_h']:.1f} GeV and M_t = {d_['M_t']:.1f} GeV"
           f" (measured {mh:.1f} and {inp('M_t'):.2f}; QCD pole/MS-bar ratio of the measured top kept)")
         pr = sm_lambda_profile(cr, mh)
-        w(f"  Read backwards, with the measured M_h (three loops, two-loop matching): lambda(M_P) = {pr['lambda_MP']:+.4f},"
+        w(f"  Read backwards, with the measured M_h (Part L's central order): lambda(M_P) = {pr['lambda_MP']:+.4f},"
           f" beta_lambda(M_P) = {pr['beta_MP']:+.1e}")
         if math.isfinite(pr["mu_zero"]):
             w(f"      lambda turns negative at mu = {pr['mu_zero']:.2e} GeV: the electroweak vacuum is not the")
@@ -4514,9 +4729,9 @@ def report(res: Dict[str, Any]) -> str:
             w("      calculated here.")
         w(f"  RESULT: one condition at the Planck scale gives the Higgs mass to"
           f" {100 * abs(c_['m_h'] / mh - 1):.0f} percent with nothing adjusted:")
-        w(f"    {c_['m_h']:.1f} GeV against {mh:.2f}. Three-loop running and two-loop matching move it by")
-        w(f"    {c_['m_h'] - cr['two_loop_one_loop']['m_h']:+.2f} GeV and do not close the gap: the measured"
-          " Higgs mass makes lambda slightly")
+        w(f"    {c_['m_h']:.1f} GeV against {mh:.2f}. The higher orders (three-loop running and matching,")
+        w(f"    four-loop QCD) move it by {c_['m_h'] - cr['two_loop_one_loop']['m_h']:+.2f} GeV and do not close"
+          " the gap: the measured Higgs mass makes lambda slightly")
         w("    negative at M_P and the SM vacuum is not stable. The top mass dominates the input error; the")
         w("    second condition (beta_lambda = 0) lands near the measured top mass.")
         w("")
