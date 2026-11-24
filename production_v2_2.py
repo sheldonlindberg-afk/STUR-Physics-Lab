@@ -208,8 +208,12 @@ NUMERICS: Dict[str, Any] = {
     "k_theta_grid": 12,
     "k_flux_grid": 24,
     "k_starts": 10,                   # lowest grid points refined, per scale
-    "k_starts_check": 20,             # K3
-    "k_random_starts": 200,           # K3
+    "k_starts_check": 20,             # K3 as registered (not run: too slow; replaced by the dense grid)
+    "k_random_starts": 200,
+    "k_dense_a": 17,                  # K3 replacement: dense grid 17 x 17 x 48 x 48 (on quadrature points)
+    "k_dense_t": 48,
+    "k_dense_f": 48,
+    "k_dense_refine": 20,             # best dense-grid points refined, per scale
     "k_boundary_extend": 2,           # decades added once if the best point sits on a range edge
     "k_min_step": "1e-6",             # compass-search resolution in the search coordinates
     "k_mode_floor": "1e-18",          # Fourier coefficients below this (relative) are below double precision
@@ -2366,7 +2370,7 @@ class Z3Overlaps:
 
     def yukawas(self, a_q: float, a_h: float, t: float, f: float):
         if len(self.cache) > 4096:            # bound the memory of the refinement stage
-            self.cache = {k: v for k, v in self.cache.items() if k[0] == "c"}
+            self.cache = {}
         prods = self.quark_products(a_q, f)
         h = self.higgs(a_h, f, t)
         hc = [v.conjugate() for v in h]
@@ -2522,6 +2526,52 @@ def k_search(model: Z3Overlaps, meas_by_scale: Dict[float, Dict[str, Any]], la_r
     return out
 
 
+def _k_dense_slab(task: Tuple[float, float]) -> Dict[float, List[Tuple[float, Tuple[float, ...]]]]:
+    """All dense-grid points with one (log10 a_q, f): the quark products are computed once."""
+    la_q, f = task
+    ctx = _K_CONTEXT
+    lo, hi = ctx["range"]
+    na, nt = int(num("k_dense_a")), int(num("k_dense_t"))
+    keep = int(num("k_dense_refine"))
+    best: Dict[float, List[Tuple[float, Tuple[float, ...]]]] = {mu: [] for mu in ctx["meas"]}
+    for ia in range(na):
+        la_h = lo + (hi - lo) * ia / (na - 1)
+        for it in range(nt):
+            x = (la_q, la_h, it / nt, f)
+            p = ctx["model"].point(x)
+            for mu, meas in ctx["meas"].items():
+                best[mu].append((k_chi2(p, meas), x))
+    return {mu: sorted(v)[:keep] for mu, v in best.items()}
+
+
+def k_dense_check(model: Z3Overlaps, meas: Dict[float, Dict[str, Any]], la_range: Tuple[float, float],
+                  workers: int) -> Dict[float, Dict[str, Any]]:
+    """Replacement for K3 (rule 5): a grid 28 times denser than the start grid, then the best
+    k_dense_refine points per scale refined by the same compass search."""
+    lo, hi = la_range
+    na, nf = int(num("k_dense_a")), int(num("k_dense_f"))
+    tasks = [(lo + (hi - lo) * i / (na - 1), j / nf) for i in range(na) for j in range(nf)]
+    step_a = (num("k_log_a_hi") - num("k_log_a_lo")) / (int(num("k_log_a_grid")) - 1)
+    _K_CONTEXT.update({"model": model, "meas": meas, "range": la_range,
+                       "steps": [step_a, step_a, 1 / int(num("k_theta_grid")), 1 / int(num("k_flux_grid"))]})
+    if workers > 1 and "fork" in multiprocessing.get_all_start_methods():
+        with multiprocessing.get_context("fork").Pool(workers) as pool:
+            slabs = pool.map(_k_dense_slab, tasks, chunksize=4)
+    else:
+        slabs = [_k_dense_slab(t) for t in tasks]
+    keep = int(num("k_dense_refine"))
+    out = {}
+    refine_tasks = []
+    for mu in meas:
+        pts = sorted(r for sl in slabs for r in sl[mu])
+        out[mu] = {"dense_best": pts[0][0], "n_points": len(tasks) * na * int(num("k_dense_t"))}
+        refine_tasks += [(mu, list(x)) for _, x in pts[:keep]]
+    for mu, x, val in _k_refine_all(refine_tasks, workers):
+        if val < out[mu].get("chi2", math.inf):
+            out[mu].update({"chi2": val, "x": x})
+    return out
+
+
 def k_box_points(n: int) -> List[List[float]]:
     """Deterministic points in the search box from the script's integer stream (seed closure_seed)."""
     draw = _IntStream(int(num("closure_seed")))
@@ -2591,17 +2641,14 @@ def run_part_k(flav: Dict[str, Any], scales: Sequence[float], full_checks: bool 
     res["K4"] = k4
     # K3 (long; run with --part-k-search-check): more starts and random starts
     if full_checks:
-        extra = k_box_points(int(num("k_random_starts")))
         k3 = {}
         by_range: Dict[Any, List[float]] = {}
         for mu, r in final.items():
             by_range.setdefault(tuple(r["range"]), []).append(mu)
         for rng, mus in by_range.items():
-            chk = k_search(model, {mu: meas[mu] for mu in mus}, rng, int(num("k_starts_check")), extra,
-                           workers=os.cpu_count() or 1)
+            chk = k_dense_check(model, {mu: meas[mu] for mu in mus}, rng, os.cpu_count() or 1)
             for mu in mus:
-                k3[mu] = {"chi2": chk[mu]["chi2"], "x": chk[mu]["x"], "n_refined": len(chk[mu]["refined"]),
-                          "lower_by": (final[mu]["chi2"] - chk[mu]["chi2"]) / final[mu]["chi2"]}
+                k3[mu] = dict(chk[mu], lower_by=(final[mu]["chi2"] - chk[mu]["chi2"]) / final[mu]["chi2"])
         res["K3"] = k3
     return res
 
@@ -3073,7 +3120,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None,
                    f"det rel diff {k4d:.1e}, |VV^dag - 1| {k4u:.1e}"))
     if "K3" in part_k:
         k3 = max(v["lower_by"] for v in part_k["K3"].values())
-        checks.append(("Part K, K3: 20 refined + 200 random starts find no lower minimum (more than 1%)",
+        checks.append(("Part K, K3 (replaced, rule 5): a 28x denser grid, best 20 refined, finds no lower minimum",
                        k3 <= num("k_tol_search"), f"largest relative improvement {k3:.1e}"))
     return {"part_k": part_k, "scales": scales, "cosmology": cosmo, "flavour": flav, "survey": survey, "yukawa_331": yuk,
             "symmetry": symm, "closure": closure, "quantum_gravity": qg, "alpha_unification": alpha_unif,
@@ -3532,9 +3579,10 @@ def report(res: Dict[str, Any]) -> str:
         w("      " + "  ".join(f"{k} {_fmt(po['obs'][k], 3)} (meas {_fmt(ms['ckm'][k][0], 3)})" for k in SURVEY_OBS))
     if "K3" in pk:
         for mu, v in pk["K3"].items():
-            w(f"  K3 at {mu:.0f} GeV: 20 + 200 starts give chi^2_min = {v['chi2']:.1f}")
+            w(f"  K3 replacement at {mu:.0f} GeV: {v['n_points']} dense-grid points (best {v['dense_best']:.1f}),"
+              f" best 20 refined: chi^2_min = {v['chi2']:.1f}")
     else:
-        w("  K3 (more starts) runs with --part-k-search-check; its result is in the registration document.")
+        w("  K3 (search completeness) runs with --part-k-search-check; its result is in the registration document.")
     surv = [mu for mu in res["scales"] if pk["final"][mu]["survives"]]
     if surv:
         w("  RESULT: the Z3 overlap model survives at " + ", ".join(f"{m:.0f} GeV" for m in surv)
@@ -3594,7 +3642,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     ap.add_argument("--precision", type=int, default=None, help="Decimal digits for the cosmology")
     ap.add_argument("--json-out", type=str, default=None, help="write every number to this JSON file")
     ap.add_argument("--part-k-search-check", action="store_true",
-                    help="also run Part K's registered check K3 (more starts; about an hour)")
+                    help="also run Part K's search-completeness check (a 28x denser grid; minutes on 4 cores)")
     args = ap.parse_args(argv)
     t0 = time.perf_counter()
     res = run(args.scales, args.precision, args.part_k_search_check)
