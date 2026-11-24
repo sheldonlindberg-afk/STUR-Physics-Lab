@@ -331,6 +331,16 @@ LITERATURE: Dict[str, Dict[str, Any]] = {
         "value": {"norm": "-8/135",
                   "terms": [("176", "pi4"), ("720", "pi2"), ("960", "pi2_ln2sq"), ("1440", "pi2_ln2"),
                             ("9105", ""), ("-960", "ln2_4"), ("-23040", "li4half"), ("8640", "z3")]}},
+    "smdr_reference": {
+        "source": "Martin, Robertson 2019 (arXiv:1907.02500v5, SMDR), eqs. (referencemodelOS) and "
+                  "(referencemodelMSbar): on-shell inputs and the MS-bar couplings at Q0 = 173.1 GeV that "
+                  "reproduce them, with full two-loop plus leading three-loop matching and four-loop QCD. "
+                  "Part L anchors its matching to this point and carries it to the measured inputs",
+        "value": {"inputs": {"M_t": "173.1", "M_h": "125.1", "alpha_s_MZ": "0.1181", "G_F": "1.1663787e-5",
+                             "M_Z": "91.1876"},
+                  "Q0": "173.1",
+                  "couplings": {"lambda": "0.12603842", "g3": "1.1636241", "g2": "0.64765961",
+                                "gp": "0.35853877", "y_t": "0.93480082"}}},
     "check_rundec": {
         "source": "RunDec section 2 and table (alsMb), eq. (numdef): alpha_s^(5)(mu) from alpha_s^(5)(M_Z) "
                   "= 0.118 by exact integration, five flavours, at 3 and 4 loops; B4; Chetyrkin 1997 "
@@ -399,7 +409,7 @@ STAGES: Dict[str, Dict[str, str]] = {
     "higgs_mssm": {"part": "K", "level": "conditional", "uv": "MSSM above M_S",
                    "assumes": "M_S from Part I, tan(beta) from Part J, one-loop stop threshold"},
     "criticality": {"part": "L", "level": "conditional", "uv": "SM up to M_P",
-                    "assumes": "lambda(M_P) = 0; three-loop running and matching (QCD part), four-loop QCD"},
+                    "assumes": "lambda(M_P) = 0; three-loop running, matching anchored to SMDR, four-loop QCD"},
     "uv_joint_test": {"part": "M", "level": "numerical",
                       "assumes": "every hypothesis against every set of conditions; unknowns on a grid "
                                  "plus exact roots and edges; theory errors = last-order shifts"},
@@ -419,6 +429,9 @@ AUDIT_FINDINGS: Tuple[Tuple[str, str], ...] = (
                  "from the last order the script computes to the one below it."),
     ("resolved", "Part L runs at three loops, matches at three loops (leading QCD part) and treats QCD at "
                  "four loops with three-loop decoupling, each published coefficient checked by a self-check."),
+    ("resolved", "The electroweak and mixed higher-order thresholds Part L could not transcribe are taken "
+                 "from SMDR's reference point (full two-loop plus leading three-loop): anchoring to it moves "
+                 "M_h by about a MeV, so this script's matching is confirmed."),
     ("open", "If SM criticality's Part M verdict differs between the two error sets, it is decided by the "
              "last-order shifts, which four-loop QCD dominates. They are a conservative estimate: the QCD "
              "series of the top pole mass falls by about a factor of three per order."),
@@ -3158,16 +3171,51 @@ def lambda_nnlo(mh: float, masses: Tuple[float, float, float], v: float, g3: flo
             + lambda_two_loop(mh, big_mt, g3) + (lambda_three_loop_qcd(g3, v, big_mt) if matching >= 3 else 0))
 
 
+def smdr_offsets() -> Dict[str, float]:
+    """SMDR's couplings at its reference point minus this script's (three-loop matching, four-loop
+    QCD) at the same inputs: the electroweak and mixed higher-order thresholds this script lacks,
+    plus its simpler electroweak inputs. Indices into the state: g1, g2, g3, y_t; and lambda."""
+    c = LITERATURE["smdr_reference"]["value"]
+    ins = {k: lit_num(v) for k, v in c["inputs"].items()}
+    mh = ins.pop("M_h")
+    big_mt, v, masses, st = nnlo_state(ins, mh, 3)
+    q0 = lit_num(c["Q0"])
+    st = run_sm(st + [lambda_nnlo(mh, masses, v, st[2], 3)], big_mt, q0, 3)
+    ref = {k: lit_num(x) for k, x in c["couplings"].items()}
+    return {"g1": ref["gp"] / math.sqrt(float(GUT_NORM)) - st[0], "g2": ref["g2"] - st[1],
+            "g3": ref["g3"] - st[2], "y_t": ref["y_t"] - st[3], "lambda": ref["lambda"] - st[6],
+            "ours": {"lambda": st[6], "y_t": st[3], "g3": st[2], "g2": st[1],
+                     "gp": st[0] * math.sqrt(float(GUT_NORM))}, "smdr": ref}
+
+
+def anchored_state(overrides: Dict[str, float] | None, mh: float, anchor: Dict[str, float] | None,
+                   loops: int = 3):
+    """(M_t, v, [g1, g2, g3, y_t, y_b, y_tau, lambda] at mu = M_t) for a Higgs pole mass, at Part L's
+    central order: three-loop matching, four-loop QCD, shifted by SMDR's offsets if anchor."""
+    big_mt, v, masses, s_ = nnlo_state(overrides, mh, loops)
+    lam = lambda_nnlo(mh, masses, v, s_[2], 3)
+    if anchor:
+        s_ = [s_[0] + anchor["g1"], s_[1] + anchor["g2"], s_[2] + anchor["g3"], s_[3] + anchor["y_t"]] + s_[4:]
+        lam += anchor["lambda"]
+    return big_mt, v, list(s_) + [lam]
+
+
 def predict_higgs_mass_nnlo(overrides: Dict[str, float] | None, mu: float, loops: int, mh_start: float,
-                            matching: int = 3, qcd_loops: int = 4, steps: int | None = None) -> Dict[str, float]:
+                            matching: int = 3, qcd_loops: int = 4, steps: int | None = None,
+                            anchor: Dict[str, float] | None = None) -> Dict[str, float]:
     """M_h from lambda(mu) = 0 with two- or three-loop matching at mu = M_t (iterated: y_t and
-    the thresholds depend on M_h)."""
+    the thresholds depend on M_h). With anchor (smdr_offsets()), the couplings at M_t are shifted
+    by SMDR's offsets: its matching, carried to these inputs by this script's."""
     steps = steps or int(num("crit_steps_per_efold"))
     mh, lam, s_ = mh_start, 0.0, []
     for _ in range(int(num("crit_iterations"))):
         big_mt, v, masses, s_ = nnlo_state(overrides, mh, loops, qcd_loops)
+        if anchor:
+            s_ = [s_[0] + anchor["g1"], s_[1] + anchor["g2"], s_[2] + anchor["g3"], s_[3] + anchor["y_t"]] + s_[4:]
         lam = critical_lambda(s_, big_mt, mu, loops, steps, guess=lam or mh * mh / (2 * v * v))
         l3 = lambda_three_loop_qcd(s_[2], v, big_mt) if matching >= 3 else 0
+        if anchor:
+            l3 += anchor["lambda"]
         new = higgs_mass_from_lambda(lam, masses[0], masses[1], masses[2], v, big_mt, True,
                                      extra=lambda m: lambda_two_loop(m, big_mt, s_[2]) + l3)
         done = abs(new - mh) < num("crit_tol") * mh
@@ -3210,12 +3258,18 @@ def sm_criticality(planck_gev: float) -> Dict[str, Any]:
                                                           (3, "two loops, QCD 3"), (2, "three loops"),
                                                           (3, "three loops, QCD 3"), (3, "three loops"))}
     out["two_loop_one_loop"] = row(2, "one loop")         # two-loop running, one-loop matching
-    central = row(3, "three loops")
+    anchor = smdr_offsets()
+    out["smdr"] = anchor
+    r = predict_higgs_mass_nnlo(None, planck_gev, 3, row(3, "three loops")["m_h"], 3, 4, anchor=anchor)
+    rows.append({"scale": "M_P", "mu": planck_gev, "loops": 3, "matching": "SMDR-anchored", "matched": True,
+                 "lambda_mt": r["lambda_Mt"], **r})
+    out["row"]["3L/SMDR-anchored"] = rows[-1]
+    central = rows[-1]
     # input errors: M_t and alpha_s dominate; M_W enters only through the matching
     var = {}
     for name in ("M_t", "alpha_s_MZ", "M_W"):
         var[name] = predict_higgs_mass_nnlo({name: inp(name) + sig(name)}, planck_gev, 3,
-                                            central["m_h"], 3)["m_h"] - central["m_h"]
+                                            central["m_h"], 3, anchor=anchor)["m_h"] - central["m_h"]
     out["sigma_inputs"] = var
     out["sigma_total"] = math.sqrt(sum(d ** 2 for d in var.values()))
     out["central"] = central
@@ -3264,10 +3318,10 @@ def sm_criticality(planck_gev: float) -> Dict[str, Any]:
 
 
 def sm_lambda_profile(crit: Dict[str, Any], m_h: float) -> Dict[str, Any]:
-    """lambda(mu) at three loops for a given Higgs pole mass (three-loop matching at M_t): its value
+    """lambda(mu) at three loops for a given Higgs pole mass (Part L's central matching at M_t): its value
     at M_P and where it turns negative. Called by the report with the measured m_h."""
-    big_mt, v, masses, st = nnlo_state(None, m_h, 3)
-    lam0 = lambda_nnlo(m_h, masses, v, st[2], 3)
+    big_mt, v, full = anchored_state(None, m_h, crit.get("smdr"))
+    st, lam0 = full[:6], full[6]
     mp = crit["planck"]["M_P"]
     c_steps = int(num("crit_steps_per_efold"))
     top = run_sm(st + [lam0], big_mt, mp, 3, c_steps)
@@ -3419,13 +3473,14 @@ def uv_joint_test(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yuk: Dict[st
     crow = {k: r["m_h"] for k, r in crit["row"].items()}
     # Part L's last orders: three-loop running against two, three-loop matching against two,
     # four-loop QCD (running, decoupling, top mass) against three
+    # matching: SMDR's (full two-loop plus leading three-loop) against this script's own three-loop
     c_ = crow["3L/three loops"]
+    parts = {"running": c_ - crow["2L/three loops"], "matching": crow["3L/SMDR-anchored"] - c_,
+             "QCD": c_ - crow["3L/three loops, QCD 3"]}
     sm_th = {"U": abs(sm_row["inv_alpha"] - sm_rows["loop1"]["inv_alpha"]),
              "B": yb_rel_th,
-             "H": math.sqrt((c_ - crow["2L/three loops"]) ** 2 + (c_ - crow["3L/two loops"]) ** 2
-                            + (c_ - crow["3L/three loops, QCD 3"]) ** 2)}
-    out["SM_theory_H_parts"] = {"running": c_ - crow["2L/three loops"], "matching": c_ - crow["3L/two loops"],
-                                "QCD": c_ - crow["3L/three loops, QCD 3"]}
+             "H": math.sqrt(sum(d * d for d in parts.values()))}
+    out["SM_theory_H_parts"] = parts
     sm_in = {"U": math.hypot(sm_row["sigma_inputs"], a_err), "B": yb_rel,
              "H": math.hypot(crit["sigma_total"], mh_err)}
     sm_gap = {"U": sm_row["inv_alpha"] - a_meas, "B": (r_sm - 1) / r_sm, "H": crit["central"]["m_h"] - mh_meas}
@@ -4022,8 +4077,8 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
     mt_c, _, _, st_c, _ = matched_couplings(None, crit["two_loop_one_loop"]["m_h"], True)
     lam_fine = critical_lambda(st_c, mt_c, crit["planck"]["M_P"], 2, steps=2 * int(num("crit_steps_per_efold")))
     rel = abs(lam_fine / crit["two_loop_one_loop"]["lambda_mt"] - 1)
-    big_c, _, _, s_c = nnlo_state(None, crit["central"]["m_h"], 3)
-    lam_fine3 = critical_lambda(s_c, big_c, crit["planck"]["M_P"], 3, steps=2 * int(num("crit_steps_per_efold")),
+    big_c, _, s_c = anchored_state(None, crit["central"]["m_h"], crit["smdr"])
+    lam_fine3 = critical_lambda(s_c[:6], big_c, crit["planck"]["M_P"], 3, steps=2 * int(num("crit_steps_per_efold")),
                                 guess=crit["central"]["lambda_Mt"])
     rel3 = abs(lam_fine3 / crit["central"]["lambda_Mt"] - 1)
     checks.append(("Criticality solve converged (step count doubled; two and three loops)",
@@ -4045,6 +4100,10 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
                    " decoupling inverted exactly", qc["dev_gamma"] < num("check_lit_tol") / 10
                    and qc["dev_B4"] < num("check_lit_b4_tol") and qc["dev_roundtrip"] < num("check_rel_tol"),
                    f"max rel dev {qc['dev_gamma']:.1e}, B4 dev {qc['dev_B4']:.1e}"))
+    sm_ = crit["smdr"]
+    checks.append(("This script's own matching = SMDR's at its reference point, within Buttazzo et al.'s"
+                   " theory errors (lambda, y_t)", abs(sm_["lambda"]) < bz["lambda_th"] and abs(sm_["y_t"]) < bz["yt_th"],
+                   f"lambda {sm_['lambda']:+.1e}, y_t {sm_['y_t']:+.1e}"))
     checks.append(("Two-loop matching: their inputs give their lambda(M_t) and y_t(M_t) within their theory errors",
                    bz["dev_lambda"] < bz["lambda_th"] and bz["dev_yt"] < bz["yt_th"],
                    f"lambda {bz['lambda_Mt']:.5f}, y_t {bz['yt_Mt']:.5f}"))
@@ -4697,15 +4756,23 @@ def report(res: Dict[str, Any]) -> str:
             w(f"      lambda({r_['scale']:<11}) = 0       {r_['loops']}      {r_['matching']:18s}  {r_['m_h']:8.2f}")
         si = cr["sigma_inputs"]
         rw = cr["row"]
-        w(f"  Three-loop running, three-loop matching, four-loop QCD: M_h = {c_['m_h']:.2f} GeV +/-"
+        sm_ = cr["smdr"]
+        w("  Anchored to SMDR (Martin-Robertson 2019: full two-loop plus leading three-loop matching, four-loop")
+        w("  QCD) at its reference point. Couplings at Q0 = 173.1 GeV for SMDR's inputs, this script vs SMDR:")
+        w("      " + "   ".join(f"{k} {sm_['ours'][k]:.5f} / {sm_['smdr'][k]:.5f}" for k in ("lambda", "y_t", "g3")))
+        w("      " + "   ".join(f"{k} {sm_['ours'][k]:.5f} / {sm_['smdr'][k]:.5f}" for k in ("g2", "gp")))
+        w("  The differences (this script's missing electroweak and mixed thresholds and its simpler")
+        w("  electroweak inputs) are added at M_t; this script's own matching carries them to the inputs.")
+        w(f"  Three-loop running, SMDR-anchored matching, four-loop QCD: M_h = {c_['m_h']:.2f} GeV +/-"
           f" {cr['sigma_total']:.2f}")
         w(f"      (inputs: M_t {si['M_t']:+.2f}, alpha_s {si['alpha_s_MZ']:+.2f}, M_W {si['M_W']:+.3f})")
         cm_ = c_["m_h"]
-        w(f"      the last order of each part moves it by: running (3 loops vs 2)"
-          f" {cm_ - rw['2L/three loops']['m_h']:+.2f} GeV, matching (3 vs 2)"
-          f" {cm_ - rw['3L/two loops']['m_h']:+.2f} GeV,")
-        w(f"      QCD running, decoupling and top mass (4 loops vs 3) {cm_ - rw['3L/three loops, QCD 3']['m_h']:+.2f}"
-          f" GeV; two-loop matching against one: {rw['3L/two loops']['m_h'] - rw['3L/one loop']['m_h']:+.2f} GeV")
+        own = rw["3L/three loops"]["m_h"]
+        w(f"      against this script's own three-loop matching ({own:.2f} GeV): {cm_ - own:+.2f} GeV. Last orders of")
+        w(f"      its own calculation: running (3 loops vs 2) {own - rw['2L/three loops']['m_h']:+.2f} GeV, matching"
+          f" (3 vs 2) {own - rw['3L/two loops']['m_h']:+.2f} GeV,")
+        w(f"      QCD running, decoupling and top mass (4 loops vs 3) {own - rw['3L/three loops, QCD 3']['m_h']:+.2f}"
+          " GeV")
         w(f"      measured M_h = {mh:.2f} +/- {mh_up:.2f} GeV: the prediction is {c_['m_h'] - mh:.1f} GeV high,"
           f" {(c_['m_h'] - mh) / math.hypot(cr['sigma_total'], mh_up):.1f} sigma on the input errors")
         bz = cr["buttazzo"]

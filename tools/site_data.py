@@ -34,9 +34,8 @@ def main():
     # Part L: lambda(mu) for the measured Higgs mass and for the critical one
     curves = {}
     for key, mh in (("measured", mh_meas), ("critical", cr["central"]["m_h"])):
-        big_mt, v, masses, st = P.nnlo_state(None, mh, 3)           # Part L's central order
-        lam0 = P.lambda_nnlo(mh, masses, v, st[2])
-        pts = sampled(st + [lam0], big_mt, mp, P.sm_rge(3), 80)
+        big_mt, v, st = P.anchored_state(None, mh, cr["smdr"])       # Part L's central order
+        pts = sampled(st, big_mt, mp, P.sm_rge(3), 80)
         curves[key] = {"m_h": mh, "pts": [[round(x, 4), round(s[6], 6)] for x, s in pts]}
     prof = P.sm_lambda_profile(cr, mh_meas)
     # Part I: inverse gauge couplings, SM all the way and MSSM above M_S (one loop, for display)
@@ -55,7 +54,7 @@ def main():
         "criticality": {
             "m_h_pred": cr["central"]["m_h"], "sigma": cr["sigma_total"], "m_h_meas": mh_meas,
             "m_h_tree": cr["tree_matching"]["m_h"],
-            "m_h_lower_matching": cr["row"]["3L/two loops"]["m_h"],
+            "m_h_lower_matching": cr["row"]["3L/three loops"]["m_h"],
             "one_loop_running": [r["m_h"] for r in cr["rows"] if r["loops"] == 1][0],
             "double_m_h": cr["double"]["m_h"], "double_M_t": cr["double"]["M_t"], "M_t_meas": P.inp("M_t"),
             "lambda_MP": prof["lambda_MP"], "mu_zero": prof["mu_zero"], "M_P": mp, "curves": curves},

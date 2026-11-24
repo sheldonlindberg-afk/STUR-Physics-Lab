@@ -29,7 +29,7 @@ python3 production_v2_2.py --set M_t=173.5      # change a measured input; the w
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 48 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 49 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -84,9 +84,10 @@ order is usually smaller than that step, so these give the weakest exclusions, a
 lies between the two columns. Two verdicts depend on them:
 
 * **SM criticality**: 3.3σ with input errors, 2.95σ with theory errors, just inside the 3σ line.
-  Part L's last-order shifts are 0.23 GeV (three-loop running), 0.07 GeV (three-loop matching)
-  and 0.40 GeV (four-loop QCD). The QCD series of the top pole mass falls by about a factor of
-  three per order, so its last step overstates the next one.
+  The theory error is 0.23 GeV (three-loop running against two), 0.001 GeV (SMDR's matching
+  against the script's own) and 0.40 GeV (four-loop QCD against three). The last is the size
+  of the four-loop term of the top pole/MS-bar conversion; the QCD series of the top pole mass
+  falls by about a factor of three per order, so that step overstates the next one.
 * **The MSSM with all three conditions**: 24σ, or 2.65σ once unification's one- to two-loop shift
   (12 in 1/α) is counted, because that frees M_S. Settling it needs three-loop gauge running
   with superpartner and GUT thresholds and the two-loop stop threshold.
@@ -376,6 +377,12 @@ measured top mass and α_s predicts M_h, with no free parameter and no new parti
   parts of y_t⁽²⁾); three loops, its leading QCD part: λ⁽³⁾ at O(α_s² y_t⁴) (their footnote, from
   Martin 2013) and the pure-QCD y_t to four loops. With QCD at three loops, their inputs give
   their λ(M_t) and y_t(M_t) (0.12605 against 0.12604, 0.93689 against 0.93690).
+* **Anchored to SMDR** (Martin–Robertson 2019), the most complete public matching: full two loops
+  plus the leading three-loop terms, including the electroweak and mixed ones this script cannot
+  transcribe. At SMDR's reference point the script's own couplings differ from SMDR's by
+  −2.3 × 10⁻⁴ (λ) and −1.9 × 10⁻⁴ (y_t), inside Buttazzo et al.'s theory errors (a self-check);
+  those differences are added at M_t, and the script's matching carries them to the measured
+  inputs. The anchored M_h differs from the script's own by about a MeV.
 
 | λ(M_P) = 0 (QCD at four loops unless noted) | M_h (GeV) |
 |---|---|
@@ -384,7 +391,8 @@ measured top mass and α_s predicts M_h, with no free parameter and no new parti
 | three-loop running, two-loop matching | 128.27 |
 | three-loop running, two-loop matching, QCD at three loops (Buttazzo et al.'s order) | 128.67 |
 | Buttazzo et al.'s own λ(M_Pl), solved at this script's M_t and α_s | 128.68 |
-| **three-loop running, three-loop matching** | **128.34 ± 0.95** (M_t, α_s, M_W errors) |
+| three-loop running, three-loop matching (this script's own) | 128.34 |
+| **three-loop running, matching anchored to SMDR** | **128.34 ± 0.95** (M_t, α_s, M_W errors) |
 | measured | 125.20 ± 0.11 |
 
 The last order of each ingredient moves the prediction by −0.23 GeV (three-loop running), +0.07

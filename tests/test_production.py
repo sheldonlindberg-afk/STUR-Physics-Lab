@@ -321,7 +321,10 @@ def test_sm_criticality():
     assert all(127 < r["m_h"] < 131 for r in two)
     assert max(r["m_h"] for r in two) - min(r["m_h"] for r in two) < 1.5   # Planck mass, matching orders
     assert 127 < cr["central"]["m_h"] < 131 and cr["central"]["matched"]
-    assert (cr["central"]["loops"], cr["central"]["matching"]) == (3, "three loops")
+    assert (cr["central"]["loops"], cr["central"]["matching"]) == (3, "SMDR-anchored")
+    # anchoring to SMDR's full two-loop plus leading three-loop matching changes M_h by under 50 MeV
+    assert abs(cr["central"]["m_h"] - cr["row"]["3L/three loops"]["m_h"]) < 0.05
+    assert abs(cr["smdr"]["lambda"]) < 3e-4 and abs(cr["smdr"]["y_t"]) < 5e-4
     # the higher orders move it by well under a GeV
     assert abs(cr["central"]["m_h"] - cr["two_loop_one_loop"]["m_h"]) < 1
     bz = cr["buttazzo"]
