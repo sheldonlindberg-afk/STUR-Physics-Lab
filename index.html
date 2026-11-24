@@ -145,7 +145,7 @@
 
   <div class="hero" aria-label="Headline result">
     <div class="stat"><div class="label">Higgs mass from one condition at the Planck scale</div>
-      <div class="value"><span data-v="crit.pred">129.0</span> <span class="unit">GeV</span></div>
+      <div class="value"><span data-v="crit.pred">128.7</span> <span class="unit">GeV</span></div>
       <div class="note">± <span data-v="crit.sigma">0.9</span> from the top mass and α<sub>s</sub></div></div>
     <div class="stat"><div class="label">Measured at the LHC</div>
       <div class="value"><span data-v="crit.meas">125.20</span> <span class="unit">GeV</span></div>
@@ -162,8 +162,8 @@
   <ol class="ladder">
     <li class="rung"><div class="scale"><b>10<sup>19</sup> GeV</b>Planck mass</div><div class="body">
       <h3>The Higgs self-coupling vanishes <span class="chip warn">3% off</span></h3>
-      <p>If nothing new appears below the Planck scale, the Higgs self-coupling λ can be zero there (Froggatt–Nielsen 1996, Shaposhnikov–Wetterich 2010). Run down with two-loop equations, that one condition predicts the Higgs mass.</p>
-      <p class="res">Prediction <b><span data-v="crit.pred">129.0</span> GeV</b>, measured 125.20. Demanding that λ also stops running predicts the top mass as well: <b><span data-v="crit.mt">173.5</span> GeV</b>, against 172.57 measured. <a href="#higgs">See the running ↓</a></p></div></li>
+      <p>If nothing new appears below the Planck scale, the Higgs self-coupling λ can be zero there (Froggatt–Nielsen 1996, Shaposhnikov–Wetterich 2010). Run down with three-loop equations, that one condition predicts the Higgs mass.</p>
+      <p class="res">Prediction <b><span data-v="crit.pred">128.7</span> GeV</b>, measured 125.20. Demanding that λ also stops running predicts the top mass as well: <b><span data-v="crit.mt">173.5</span> GeV</b>, against 172.57 measured. <a href="#higgs">See the running ↓</a></p></div></li>
     <li class="rung"><div class="scale"><b>10<sup>16</sup> GeV</b>grand unification</div><div class="body">
       <h3>The three forces meet <span class="chip warn">only with superpartners</span></h3>
       <p>In the Standard Model the three gauge couplings never meet. Add supersymmetry above a scale M<sub>S</sub> and they meet at M<sub>GUT</sub> ≈ <span data-v="unif.mgut">1.1 × 10¹⁶</span> GeV. Then α is no longer free: it follows from α<sub>s</sub> and sin²θ<sub>W</sub>.</p>
@@ -191,7 +191,7 @@
   <p>λ starts near 0.13 at the weak scale and is driven down by the top quark. For the measured Higgs mass it crosses zero long before the Planck scale. A Higgs only about 4 GeV heavier would bring it to exactly zero at M<sub>P</sub>: that is the critical curve.</p>
   <figure>
     <div class="chart" id="chart-lambda"><div class="legend" id="leg-lambda"></div></div>
-    <figcaption>Two-loop Standard Model running, matched at one loop to the pole masses of the Higgs, top, W and Z. The one-loop matching shifts the prediction by only <span data-v="crit.shift">+0.04</span> GeV, so the gap is not a matching artefact at this order.</figcaption>
+    <figcaption>Three-loop Standard Model running, matched at two loops to the pole masses of the Higgs, top, W and Z. Going from one-loop to two-loop matching shifts the prediction by only <span data-v="crit.shift">−0.07</span> GeV, so the gap is not a matching artefact at this order.</figcaption>
     <details><summary>Data table</summary><div class="tablewrap" id="tbl-lambda"></div></details>
   </figure>
 
@@ -211,7 +211,7 @@
   <h2 id="numbers">Nature's free numbers, one by one</h2>
   <div class="tablewrap"><table>
     <tr><th>Numbers</th><th>Count</th><th>What the ladder does with them</th><th>Status</th></tr>
-    <tr><td>Higgs mass</td><td class="num">1</td><td>λ(M<sub>P</sub>) = 0 gives <span data-v="crit.pred">129.0</span> GeV against 125.20</td><td><span class="chip warn">3% off</span></td></tr>
+    <tr><td>Higgs mass</td><td class="num">1</td><td>λ(M<sub>P</sub>) = 0 gives <span data-v="crit.pred">128.7</span> GeV against 125.20</td><td><span class="chip warn">3% off</span></td></tr>
     <tr><td>Top mass</td><td class="num">(1)</td><td>λ = β<sub>λ</sub> = 0 at M<sub>P</sub> gives <span data-v="crit.mt">173.5</span> GeV against 172.57 (one of the 6 quark masses)</td><td><span class="chip warn">within 1 GeV</span></td></tr>
     <tr><td>Gauge couplings</td><td class="num">3</td><td>Unification ties α to the other two, at the cost of a new scale M<sub>S</sub></td><td><span class="chip info">traded</span></td></tr>
     <tr><td>Quark mixing (CKM)</td><td class="num">4</td><td>One Hermitian texture survives with one relation; general matrices predict nothing</td><td><span class="chip warn">1 relation</span></td></tr>
@@ -280,7 +280,7 @@ python3 production_v2_2.py --json-out out.json # every number, as JSON</pre>
       "crit.pred": c.m_h_pred.toFixed(1), "crit.sigma": c.sigma.toFixed(1), "crit.meas": c.m_h_meas.toFixed(2),
       "crit.pct": Math.round(100 * Math.abs(c.m_h_pred / c.m_h_meas - 1)), "crit.mt": c.double_M_t.toFixed(1),
       "crit.muzero": sci(c.mu_zero, 1), "crit.lmp": fmt(c.lambda_MP, 3),
-      "crit.shift": (c.m_h_pred - c.m_h_tree >= 0 ? "+" : "−") + Math.abs(c.m_h_pred - c.m_h_tree).toFixed(2),
+      "crit.shift": (c.m_h_pred - c.m_h_one_loop_matching >= 0 ? "+" : "−") + Math.abs(c.m_h_pred - c.m_h_one_loop_matching).toFixed(2),
       "unif.mgut": sci(u.M_GUT, 1), "unif.ms": (u.M_S / 1000).toFixed(1),
       "mssm.bound": D.higgs_mssm.bound.toFixed(1), "tb": D.tan_beta.btau.toFixed(2),
       "cosmo.age": D.cosmology.age.toFixed(3), "cosmo.ol": D.cosmology.Omega_Lambda.toFixed(4), "checks": D.checks[0]

@@ -2,7 +2,8 @@
 
 Three kinds of test:
   1. The rule: no non-integer number may appear in the script outside INPUTS,
-     COMPARISONS and NUMERICS, and measured comparisons never feed a calculation.
+     COMPARISONS, NUMERICS and LITERATURE (published coefficients, each with its
+     source), and measured comparisons never feed a calculation.
   2. The script is standard-library only and every self-check passes.
   3. The headline numbers stay where they are (they move only if an input moves).
 """
@@ -17,7 +18,7 @@ import sys
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 PATH = os.path.join(ROOT, "production_v2_2.py")
 EXPECTED = os.path.join(ROOT, "results", "production_v2_2.txt")
-TABLES = ("INPUTS", "COMPARISONS", "NUMERICS")
+TABLES = ("INPUTS", "COMPARISONS", "NUMERICS", "LITERATURE")
 
 
 def _load():
@@ -42,6 +43,10 @@ def _table_line_ranges():
     return ranges
 
 
+def test_literature_entries_have_sources():
+    assert all(e["source"] and "value" in e for e in P.LITERATURE.values())
+
+
 def test_no_tunable_number_outside_the_input_tables():
     ranges = _table_line_ranges()
     assert len(ranges) == len(TABLES)
@@ -59,7 +64,7 @@ def test_no_tunable_number_outside_the_input_tables():
             bad.append((node.lineno, v))
         if isinstance(v, str) and numeric_string.match(v.strip()) and not v.strip().isdigit():
             bad.append((node.lineno, v))
-    assert not bad, f"numbers outside INPUTS/COMPARISONS/NUMERICS: {bad}"
+    assert not bad, f"numbers outside INPUTS/COMPARISONS/NUMERICS/LITERATURE: {bad}"
 
 
 def test_comparisons_never_feed_a_calculation():
