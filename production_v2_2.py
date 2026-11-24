@@ -191,6 +191,10 @@ NUMERICS: Dict[str, Any] = {
     "root_trim_rel": "1e-14",
     "root_merge_rel": "1e-13",
     "survival_sigma": 3,              # a pattern survives if its p-value is above the 3-sigma level
+    "cert_round_rel": "1e-12",        # Part C certificates: outward widening of interval bounds (rounding)
+    "cert_eval_rel": "1e-14",         # Part C certificates: rounding of one polynomial evaluation, relative
+    "cert_min_width": "1e-12",        # Part C certificates: narrowest cell along a family
+    "cert_budget": 1000000,           # Part C certificates: cells per variant before giving up
     "check_survey_tol": "1e-6",
     "symmetry_max_N": 6,              # Z_N searched exhaustively for N = 2 .. this
     "joint_ms_points": 20,            # Part M: grid in ln M_S from m_t(m_t) to Part I's scan top
@@ -396,6 +400,8 @@ STAGES: Dict[str, Dict[str, str]] = {
     "texture_survey": {"part": "C", "level": "numerical",
                        "assumes": "Hermitian textures; joint fits start from a finite grid, so an "
                                   "exclusion could miss a minimum"},
+    "survey_certificates": {"part": "C", "level": "proved",
+                            "assumes": "only with --certify; exclusions proved cell by cell, at m_t(m_t)"},
     "gauge_331": {"part": "D", "level": "exact", "assumes": "3-3-1 representations, beta = -1/sqrt3, +1/sqrt3"},
     "flavour_symmetry_331": {"part": "E", "level": "exact",
                              "assumes": "abelian Z_N up to symmetry_max_N; scalar potential not solved"},
@@ -1504,6 +1510,57 @@ class TextureSurvey:
             out[SURVEY_OBS[k]] = (res[0], res[1])
         return out
 
+    def prediction(self, rec: Dict[str, Any], nt: int, nph: int) -> Dict[str, Tuple[float, float]]:
+        """What a surviving pattern predicts: its three unknowns (t, both phases) are fixed by
+        |V_us|, |V_cb|, |V_ub|, so J and |V_td/V_ts| follow. Their ranges over the region where
+        those three moduli lie within 1 sigma (their measurement and input errors), by grid plus
+        compass search (numerical). |V_td/V_ts| is not used anywhere in the survey."""
+        pair, n_curve = rec["pair"], rec["n_curve"]
+
+        def at(x: List[float]):
+            if n_curve and not 0 <= x[0] <= 1:
+                return None
+            c = self.coef(pair, x[0] if n_curve else 0)
+            if c is None:
+                return None
+            o = _survey_obs(c, x[1], x[2])
+            v = ckm_matrix(c, x[1], x[2])
+            return o, abs(v[2][0]) / abs(v[2][1])
+
+        def chi3(x: List[float], o) -> float:
+            sig = [self.input_sigma(pair, lambda cc, k=k: _survey_obs(cc, x[1], x[2])[k], x[0] if n_curve else 0)
+                   for k in range(3)]
+            return self.chi2(list(o[:3]) + [self.meas["J"][0]], sig + [0.0])
+        ts = [(i + 1 / 2) / nt for i in range(nt)] if n_curve else [0]
+        starts = []
+        for t in ts:
+            for i in range(nph):
+                for j in range(nph):
+                    x = [t, 2 * math.pi * i / nph, 2 * math.pi * j / nph]
+                    r = at(x)
+                    if r is not None:
+                        starts.append((self.chi2(list(r[0][:3]) + [self.meas["J"][0]], (0, 0, 0, 0)), x))
+        starts.sort(key=lambda z: z[0])
+        steps = [1 / nt if n_curve else 0, 2 * math.pi / nph, 2 * math.pi / nph]
+        out = {}
+        tol = 1 + num("survey_residual_tol")
+        for name, pick in (("J", lambda r: r[0][3]), ("V_td/V_ts", lambda r: r[1])):
+            ref = abs(pick(at(starts[0][1]))) or 1            # the pattern's own value: the scale of the objective
+            lo, hi = math.inf, -math.inf
+            for sense in (1, -1):
+                def f(x: List[float]) -> float:
+                    r = at(x)
+                    if r is None:
+                        return math.inf
+                    return sense * pick(r) / ref + max(0.0, chi3(x, r[0]) - 1) * nt * nph
+                for _, x0 in starts[:int(num("survey_starts"))]:
+                    x, _ = _minimize(f, list(x0), steps, num("survey_min_step"))
+                    r = at(x)
+                    if r is not None and chi3(x, r[0]) <= tol:
+                        lo, hi = min(lo, pick(r)), max(hi, pick(r))
+            out[name] = (lo, hi)
+        return out
+
     def run(self, min_zeros: int) -> Dict[str, Any]:
         e = self.E[0]
         sector: Dict[Any, Dict[str, Any]] = {}
@@ -1553,8 +1610,347 @@ class TextureSurvey:
             rec["survives"] = rec["sigma"] <= num("survival_sigma")
             if rec["survives"]:
                 rec["bands"] = self.bands(rec["pair"], rec["n_curve"], nt, nph)
+                rec["prediction"] = self.prediction(rec, nt, nph)
             results.append(rec)
         return {"classes": results, "n_ordered_pairs": sum(len(v) for v in classes.values())}
+
+
+# --- Part C certificates: is an exclusion true at EVERY point, not just where the search looked?
+# The joint test and the band test of a family are evaluated at sampled points. A certificate
+# covers the whole parameter space (position t along the family, both phases) with cells, and
+# proves for each cell that no point in it can survive: a rigorous upper bound on how far every
+# CKM element can move inside the cell gives a lower bound on its distance from the data.
+#   * Matrix entries: along a family they are x, T - x, constants, or sqrt(N(x)/D(x)) with
+#     polynomials N, D; their exact range on a cell comes from the endpoints and the roots of
+#     N'D - N D' (found once per family), widened for rounding.
+#   * Eigenvectors: every matrix of a family has the same eigenvalues (its invariants are
+#     fixed). For the eigenvector v' of M + dM with eigenvalue lambda_i, its component along v_k
+#     is a_k = v_k.dM.v' / (lambda_i - lambda_k), so |a_k| <= (|v_k.dM.v_i| + |dM| s) / gap_ik
+#     with s = |v' - v_i| <= A + A^2, A = sum |a_k|: solved as a quadratic inequality.
+#   * CKM elements: V_ij = u_i.P.d_j with P = diag(1, e^is, e^it), so the change of V_ij is at
+#     most sum_k |a_k| B_kj + sum_l |b_l| B_il + (eta_u + eta_d + eta_u eta_d) B_ij + A_u A_d,
+#     B_kl = sum of |coefficients| >= |V_kl| at any phase; a phase step dp moves V_ij by at
+#     most |c_1| dp_1 + |c_2| dp_2; J from the product of the four disks.
+#   * Input errors: the input-induced sigma is bounded above by the same radii.
+# A cell is discarded if its band distance or its chi^2 is provably above the 3-sigma level;
+# otherwise it is split (along t while the eigenvector part dominates, else the phases).
+class _Iv:
+    """A closed interval, widened outward by cert_round_rel at every operation."""
+    __slots__ = ("lo", "hi")
+
+    def __init__(self, lo: float, hi: float | None = None):
+        hi = lo if hi is None else hi
+        w = num("cert_round_rel") * max(abs(lo), abs(hi))
+        self.lo, self.hi = lo - w, hi + w
+
+
+def _padd(a: List[float], b: List[float]) -> List[float]:
+    n = max(len(a), len(b))
+    return [(a[k] if k < len(a) else 0) + (b[k] if k < len(b) else 0) for k in range(n)]
+
+
+def _pneg(a: List[float]) -> List[float]:
+    return [-v for v in a]
+
+
+def _pmul(a: List[float], b: List[float]) -> List[float]:
+    out = [0.0] * (len(a) + len(b) - 1)
+    for i, u in enumerate(a):
+        for j, w in enumerate(b):
+            out[i + j] += u * w
+    return out
+
+
+def _pval(a: List[float], x: float) -> float:
+    return sum(c * x ** k for k, c in enumerate(a))
+
+
+def _pabs(a: List[float], x: float) -> float:
+    return sum(abs(c) * abs(x) ** k for k, c in enumerate(a))
+
+
+def _pder(a: List[float]) -> List[float]:
+    return [k * a[k] for k in range(1, len(a))] or [0.0]
+
+
+def _family_polys(nonzero, kind: str, br: int, e: Sequence[float]):
+    """Diagonal entries as polynomials in x, and the squared off-diagonals as (position, N, D,
+    critical points of N/D)."""
+    diags, offs = _split(nonzero)
+    t_, s2, det = _invariants(e)
+    if kind == "block":
+        a = offs[0]
+        others = [e[i] for i in range(3) if i != br]
+        tot = sum(others)
+        dg = {_comp(a): [e[br]], a[0]: [0.0, 1.0], a[1]: [tot, -1.0]}
+        qs = [(a, [-others[0] * others[1], tot, -1.0], [1.0])]
+    else:
+        i, j = diags
+        a, b = offs
+        dd: List[List[float]] = [[0.0], [0.0], [0.0]]
+        dd[i], dd[j] = [0.0, 1.0], [t_, -1.0]
+        r1 = _padd(_padd(_padd(_pmul(dd[0], dd[1]), _pmul(dd[0], dd[2])), _pmul(dd[1], dd[2])), [-s2])
+        r2 = _padd(_pmul(_pmul(dd[0], dd[1]), dd[2]), [-det])
+        ca, cb = dd[_comp(a)], dd[_comp(b)]
+        nb, den = _padd(r2, _pneg(_pmul(ca, r1))), _padd(cb, _pneg(ca))
+        dg = {k: dd[k] for k in range(3)}
+        qs = [(a, _padd(_pmul(r1, den), _pneg(nb)), den), (b, nb, den)]
+    out = []
+    for pos, n_, d_ in qs:
+        k_ = _padd(_pmul(_pder(n_), d_), _pneg(_pmul(n_, _pder(d_))))
+        out.append((pos, n_, d_, sorted(real_roots(k_)) if any(k_) else []))
+    return dg, out
+
+
+def _rational_range(n_: List[float], d_: List[float], crit: Sequence[float], x0: float, x1: float):
+    pts = [x0, x1] + [r for r in crit if x0 < r < x1]
+    vals, wid = [], 0.0
+    for x in pts:
+        d = _pval(d_, x)
+        vals.append(_pval(n_, x) / d)
+        wid = max(wid, num("cert_eval_rel") * (_pabs(n_, x) + abs(vals[-1]) * _pabs(d_, x)) / abs(d))
+    return min(vals) - wid, max(vals) + wid
+
+
+class _Certifier:
+    """Rigorous exclusion of one pattern pair over all of (t, sigma, tau), see the comment above."""
+    ELEM = {"V_us": (0, 1), "V_cb": (1, 2), "V_ub": (0, 2), "V_cs": (1, 1)}
+
+    def __init__(self, sv: "TextureSurvey"):
+        self.sv = sv
+        self.cache: Dict[Any, Any] = {}
+
+    def _sector(self, nonzero, var, e_abs: Sequence[float], ta: float, tb: float):
+        """(matrix at the cell centre, entrywise bound on its change over the cell) or None."""
+        signs, kind, br = var
+        e = (signs[0] * e_abs[0], signs[1] * e_abs[1], e_abs[2])
+        key = (tuple(nonzero), var, tuple(e_abs))
+        if kind not in ("curve", "block"):
+            if key not in self.cache:
+                self.cache[key] = fixed_matrix(nonzero, kind, br, e)
+            m = self.cache[key]
+            return None if m is None else (m, [[0.0] * 3 for _ in range(3)])
+        if key not in self.cache:
+            iv = curve_interval(nonzero, kind, br, e)
+            self.cache[key] = (iv, None if iv is None else _family_polys(nonzero, kind, br, e))
+        iv, polys = self.cache[key]
+        if iv is None:
+            return None
+
+        def x_of(t: float) -> float:
+            return iv[0] + (iv[1] - iv[0]) * (1 - math.cos(math.pi * t)) / 2
+        xc, x0, x1 = x_of((ta + tb) / 2), x_of(ta), x_of(tb)
+        dg, qs = polys
+        mc = [[0.0] * 3 for _ in range(3)]
+        dev = [[0.0] * 3 for _ in range(3)]
+        for k, pk in dg.items():
+            mc[k][k] = _pval(pk, xc)
+            lo, hi = sorted((_pval(pk, x0), _pval(pk, x1)))
+            r = _Iv(lo, hi)
+            dev[k][k] = max(r.hi - mc[k][k], mc[k][k] - r.lo)
+        for pos, n_, d_, crit in qs:
+            v = math.sqrt(max(_pval(n_, xc) / _pval(d_, xc), 0))
+            lo, hi = _rational_range(n_, d_, crit, x0, x1)
+            r = _Iv(math.sqrt(max(lo, 0)), math.sqrt(max(hi, 0)))
+            for p_ in (pos, pos[::-1]):
+                mc[p_[0]][p_[1]] = v
+                dev[p_[0]][p_[1]] = max(r.hi - v, v - r.lo)
+        return mc, dev
+
+    @staticmethod
+    def _components(mc, dev):
+        """Eigenvectors at the centre and, for each, bounds on its components along the others
+        and on eta over the cell (None where the bound does not close)."""
+        ev, o = jacobi_eigh(mc, num("jacobi_tol"))
+        vec = [[o[r][i] for r in range(3)] for i in range(3)]
+        dn = math.sqrt(sum(dev[r][c] ** 2 for r in range(3) for c in range(3)))
+        comps = []
+        for i in range(3):
+            rk, alpha, beta = {}, 0.0, 0.0
+            for k in range(3):
+                if k == i:
+                    continue
+                g = abs(ev[i] - ev[k])
+                rk[k] = (sum(abs(vec[k][r]) * dev[r][c] * abs(vec[i][c]) for r in range(3) for c in range(3)), g)
+                alpha += rk[k][0] / g
+                beta += dn / g
+            s1 = None
+            if beta < 1:
+                qa, qb, qc = beta * beta, 2 * alpha * beta + beta - 1, alpha + alpha * alpha
+                if qa == 0:
+                    s1 = qc / -qb
+                elif qb * qb - 4 * qa * qc >= 0:
+                    rt = math.sqrt(qb * qb - 4 * qa * qc)
+                    s1 = (-qb - rt) / (2 * qa) if (-qb + rt) / (2 * qa) > math.sqrt(2) else None
+            if s1 is None or s1 >= 1:
+                comps.append(None)
+                continue
+            a = {k: (r + dn * s1) / g for k, (r, g) in rk.items()}
+            comps.append((a, min(1.0, sum(a.values()) ** 2)))
+        return o, comps
+
+    def tdata(self, pair, ta: float, tb: float):
+        """For the central inputs and every input variation: CKM coefficients at the cell centre
+        and the radius of each element over the cell (any phase)."""
+        nu, vu, nd, vd = pair
+        out = []
+        for e in self.sv.E:
+            su, sd = self._sector(nu, vu, e["u"], ta, tb), self._sector(nd, vd, e["d"], ta, tb)
+            if su is None or sd is None:
+                return None
+            ou, cu = self._components(*su)
+            od, cd = self._components(*sd)
+            coef = ckm_coefficients(ou, od)
+            bnd = [[sum(abs(x) for x in coef[i][j]) for j in range(3)] for i in range(3)]
+            rad = {}
+            for k, (i, j) in self.ELEM.items():
+                if cu[i] is None or cd[j] is None:
+                    rad[k] = 2.0
+                    continue
+                (au, etu), (ad, etd) = cu[i], cd[j]
+                rad[k] = min(2.0, (etu + etd + etu * etd) * bnd[i][j] + sum(v * bnd[m][j] for m, v in au.items())
+                             + sum(v * bnd[i][m] for m, v in ad.items()) + sum(au.values()) * sum(ad.values()))
+            out.append((coef, rad))
+        return out
+
+    def _obs(self, coef, rad, sc: float, tc: float, hs: float, ht: float) -> Dict[str, Tuple[float, float, float, float]]:
+        """(lower, upper, centre value, radius) of each survey observable over the cell."""
+        p = (1, cmath.exp(1j * sc), cmath.exp(1j * tc))
+        z = {}
+        for k, (i, j) in self.ELEM.items():
+            c = coef[i][j]
+            z[k] = (sum(c[m] * p[m] for m in range(3)), rad[k] + abs(c[1]) * hs + abs(c[2]) * ht)
+        out = {k: (max(0, abs(z[k][0]) - z[k][1]), abs(z[k][0]) + z[k][1], abs(z[k][0]), z[k][1])
+               for k in ("V_us", "V_cb", "V_ub")}
+        zs = [z["V_us"], z["V_cb"], z["V_ub"], z["V_cs"]]
+        jc = (zs[0][0] * zs[1][0] * zs[2][0].conjugate() * zs[3][0].conjugate()).imag
+        jr = math.prod(abs(v) + r for v, r in zs) - math.prod(abs(v) for v, _ in zs)
+        out["J"] = (jc - jr, jc + jr, jc, jr)
+        return out
+
+    def _sigma_up(self, per_e: List[Any], k: str, idx: int) -> float:
+        """Upper bound on the input-induced sigma: centre differences plus both radii."""
+        v2 = 0.0
+        for a in range(1, len(per_e), 2):
+            v2 += ((abs(per_e[a][k][idx] - per_e[a + 1][k][idx]) + per_e[a][k][3] + per_e[a + 1][k][3]) / 2) ** 2
+        return math.sqrt(v2)
+
+    def chi2_lower(self, td, sc: float, tc: float, hs: float, ht: float) -> float:
+        per_e = [self._obs(c, r, sc, tc, hs, ht) for c, r in td]
+        tot = 0.0
+        for k in SURVEY_OBS:
+            lo, hi = per_e[0][k][0], per_e[0][k][1]
+            m, up, dn = self.sv.meas[k]
+            if lo <= m <= hi:
+                continue
+            s = self._sigma_up(per_e, k, 2)
+            tot += ((lo - m) / math.hypot(up, s)) ** 2 if m < lo else ((m - hi) / math.hypot(dn, s)) ** 2
+        return tot
+
+    def band_lower(self, td, with_radii: bool = True) -> float:
+        """Lower bound on the largest band distance of |V_us|, |V_cb|, |V_ub| over the cell."""
+        worst = 0.0
+        for k in ("V_us", "V_cb", "V_ub"):
+            ij = self.ELEM[k]
+            per_e = []
+            for coef, rad in td:
+                lo, hi = _magnitude_band(coef, ij)
+                r = rad[k] if with_radii else 0.0
+                per_e.append({k: (lo - r, hi + r, lo, r, hi)})
+            lo, hi = per_e[0][k][0], per_e[0][k][1]
+            m, up, dn = self.sv.meas[k]
+            if lo <= m <= hi:
+                continue
+            v2 = 0.0
+            edge = 2 if m < lo else 4
+            for a in range(1, len(per_e), 2):
+                v2 += ((abs(per_e[a][k][edge] - per_e[a + 1][k][edge]) + per_e[a][k][3] + per_e[a + 1][k][3]) / 2) ** 2
+            s = math.sqrt(v2)
+            worst = max(worst, (lo - m) / math.hypot(s, up) if m < lo else (m - hi) / math.hypot(s, dn))
+        return worst
+
+    def certify(self, pair, n_curve: int, dof: int) -> Tuple[bool, int]:
+        """True if no point of the pair's parameter space survives; also the cells used."""
+        sig3 = num("survival_sigma")
+        lo_, hi_ = 0.0, 100 * sig3 * sig3
+        for _ in range(int(num("crit_iterations"))):       # the chi^2 at the 3-sigma level
+            mid = (lo_ + hi_) / 2
+            lo_, hi_ = (mid, hi_) if pvalue_to_sigma(chi2_pvalue(mid, dof)) < sig3 else (lo_, mid)
+        thr = hi_
+        nt = int(num("survey_curve_grid"))
+        two_pi = 2 * math.pi
+        stack = [("b", i / nt, (i + 1) / nt, 0.0, two_pi, 0.0, two_pi) for i in range(nt)] if n_curve \
+            else [("j", 0.0, 0.0, 0.0, two_pi, 0.0, two_pi)]
+        tcache: Dict[Tuple[float, float], Any] = {}
+        n, budget, wmin = 0, int(num("cert_budget")), num("cert_min_width")
+        while stack:
+            n += 1
+            if n > budget:
+                return False, n
+            mode, ta, tb, s0, s1, u0, u1 = stack.pop()
+            if (ta, tb) not in tcache:
+                tcache[(ta, tb)] = self.tdata(pair, ta, tb)
+            td = tcache[(ta, tb)]
+            mid = (ta + tb) / 2
+            if td is None:
+                if tb - ta < wmin:
+                    return False, n
+                stack += [(mode, ta, mid, s0, s1, u0, u1), (mode, mid, tb, s0, s1, u0, u1)]
+                continue
+            if self.band_lower(td) > sig3:
+                continue
+            if mode == "b":                                   # phase-independent: refine t only
+                if self.band_lower(td, False) > sig3 and tb - ta > wmin:
+                    stack += [("b", ta, mid, s0, s1, u0, u1), ("b", mid, tb, s0, s1, u0, u1)]
+                else:
+                    stack.append(("j", ta, tb, s0, s1, u0, u1))
+                continue
+            hs, hu = (s1 - s0) / 2, (u1 - u0) / 2
+            if self.chi2_lower(td, s0 + hs, u0 + hu, hs, hu) > thr:
+                continue
+            point = [(c, {k: 0.0 for k in r}) for c, r in td]          # the cell centre itself
+            if self.band_lower(point) <= sig3 and self.chi2_lower(point, s0 + hs, u0 + hu, 0, 0) <= thr:
+                return False, n                                       # a surviving point: not excluded
+            tr = max(td[0][1].values())
+            pr = max(abs(td[0][0][i][j][1]) * hs + abs(td[0][0][i][j][2]) * hu for i, j in self.ELEM.values())
+            if n_curve and tr > pr and tb - ta > wmin:
+                stack += [("j", ta, mid, s0, s1, u0, u1), ("j", mid, tb, s0, s1, u0, u1)]
+            elif hs >= hu:
+                stack += [("j", ta, tb, s0, s0 + hs, u0, u1), ("j", ta, tb, s0 + hs, s1, u0, u1)]
+            else:
+                stack += [("j", ta, tb, s0, s1, u0, u0 + hu), ("j", ta, tb, s0, s1, u0 + hu, u1)]
+        return True, n
+
+
+def _certify_class(args) -> Dict[str, Any]:
+    sv, rec = args
+    e = sv.E[0]
+    nu = [p for p in POSITIONS if p not in rec["zeros_u"]]
+    nd = [p for p in POSITIONS if p not in rec["zeros_d"]]
+    cert, cells = _Certifier(sv), 0
+    for a, b in itertools.product(sector_variants(nu, e["u"]), sector_variants(nd, e["d"])):
+        n_curve = (a[1] in ("curve", "block")) + (b[1] in ("curve", "block"))
+        ok, n = cert.certify((nu, a, nd, b), n_curve, rec["predictions"])
+        cells += n
+        if not ok:
+            return {"zeros_u": rec["zeros_u"], "zeros_d": rec["zeros_d"], "certified": False, "cells": cells}
+    return {"zeros_u": rec["zeros_u"], "zeros_d": rec["zeros_d"], "certified": True, "cells": cells}
+
+
+def certify_survey(survey_at_scale: Dict[str, Any]) -> Dict[str, Any]:
+    """Certify every exclusion of one scale's survey (all variants of each class), in parallel
+    where the platform can fork."""
+    sv = survey_at_scale["survey"]
+    todo = [(sv, r) for r in survey_at_scale["classes"] if r["status"] == "tested" and not r["survives"]]
+    t0 = time.perf_counter()
+    try:
+        import multiprocessing
+        with multiprocessing.get_context("fork").Pool() as pool:
+            results = pool.map(_certify_class, todo, chunksize=1)
+    except (ValueError, OSError, ImportError):
+        results = [_certify_class(a) for a in todo]
+    return {"results": results, "certified": sum(r["certified"] for r in results), "excluded": len(results),
+            "seconds": time.perf_counter() - t0}
 
 
 # =============================================================================
@@ -3994,7 +4390,7 @@ def _fmt(x: float, nd: int = 5) -> str:
     return f"{x:.{nd}g}"
 
 
-def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[str, Any]:
+def run(scales: Sequence[float] | None = None, prec: int | None = None, certify: bool = False) -> Dict[str, Any]:
     prec = int(prec or NUMERICS["precision_digits"])
     steps = int(NUMERICS["rg_steps_per_efold"])
     grid = int(NUMERICS["phase_grid"])
@@ -4016,6 +4412,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
     flav = _stage("flavour", flavour)
     scales = dict.__getitem__(flav, "evaluation_scales")
     survey = _stage("texture_survey", lambda: run_survey(flav, scales))
+    certs = _stage("survey_certificates", lambda: certify_survey(survey[scales[0]])) if certify else None
     yuk = _stage("gauge_331", lambda: {b: yukawa_structure_331(b) for b in (-1, 1)})
 
     def survivors() -> List[Tuple[Any, Any]]:
@@ -4222,7 +4619,8 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
     return {"scales": scales, "cosmology": cosmo, "flavour": flav, "survey": survey, "yukawa_331": yuk,
             "symmetry": symm, "closure": closure, "quantum_gravity": qg, "alpha_unification": alpha_unif,
             "alpha_numerology": alpha_num, "yukawa": yukawa, "higgs": higgs, "criticality": crit,
-            "joint": joint, "checks": checks, "lineage": lin, "changed_inputs": dict(_TRACE["set"]),
+            "joint": joint, "survey_certificates": certs, "checks": checks, "lineage": lin,
+            "changed_inputs": dict(_TRACE["set"]),
             "precision": prec}
 
 
@@ -4251,7 +4649,8 @@ def model_lineage() -> Dict[str, Any]:
             uv.setdefault(STAGES[st]["uv"], []).append(st)
     takers = {f"{p}[{k}]": sorted(v - {"self_checks"}, key=order.index) for (p, k), v in _TRACE["keys"].items()}
     return {"order": order, "uses": uses, "reads": reads, "reaches": reaches, "takers": takers,
-            "registered": all(st in STAGES for st in order) and all(st in order for st in STAGES),
+            "registered": all(st in STAGES for st in order)
+            and all(st in order for st in STAGES if st != "survey_certificates"),
             "acyclic": all(st not in down[st] for st in order),
             "in_order": all(order.index(u) < order.index(st) for st in order for u in uses[st]),
             "uv_hypotheses": uv, "uv_consistent": len(uv) <= 1}
@@ -4399,6 +4798,31 @@ def report(res: Dict[str, Any]) -> str:
     if survivors:
         w("  (the free entry and the phases sweep each observable over a wide range on its own; the")
         w("   prediction is a relation among the four, which the joint test checks)")
+        for r in survivors:
+            k = (r["zeros_u"], r["zeros_d"])
+            w("  What it predicts: |V_us|, |V_cb|, |V_ub| fix its three unknowns, so J and |V_td/V_ts| follow.")
+            w("  Over the region where those three moduli lie within 1 sigma (numerical search):")
+            for name in ("J", "V_td/V_ts"):
+                m_, up_, _ = _comparison(name)
+                rng = "   ".join(f"{mu / 1000:g} TeV [{_fmt(recs[mu][k]['prediction'][name][0], 4)},"
+                               f" {_fmt(recs[mu][k]['prediction'][name][1], 4)}]" for mu in sc)
+                w(f"    {name:10s} {rng}   measured {_fmt(m_, 4)} +/- {_fmt(up_, 2)}")
+            w("    (|V_td/V_ts| is used nowhere in the survey: it is an independent test)")
+    cert_ = res.get("survey_certificates")
+    w("")
+    if cert_:
+        bad = [r for r in cert_["results"] if not r["certified"]]
+        w(f"  Certificates (at m_t(m_t)): {cert_['certified']} of {cert_['excluded']} exclusions are proved over the")
+        w("    whole parameter space (every point of every family, both phases), by interval bounds on")
+        w("    the matrix entries, perturbation bounds on the eigenvectors and branch-and-bound;")
+        w(f"    {cert_['seconds']:.0f} s.")
+        if bad:
+            w("    Not proved (excluded by the numerical search only): " + "; ".join(
+                f"{pattern_mask(r['zeros_u'])} / {pattern_mask(r['zeros_d'])}" for r in bad))
+        w("    A survival needs no certificate: the search exhibits a point that fits.")
+    else:
+        w("  Certificates: not run here (python3 production_v2_2.py --certify proves each exclusion over")
+        w("    the whole parameter space; it takes several minutes).")
     if not survivors:
         w("  RESULT: no texture-zero pattern with a prediction survives.")
     else:
@@ -4935,6 +5359,7 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
         "yukawa": res["yukawa"], "scales": res["scales"],
         "checks": [{"name": n, "pass": ok, "detail": d} for n, ok, d in res["checks"]],
         "uv_joint_test": res["joint"],
+        "survey_certificates": res["survey_certificates"],
         "model": {"stages": STAGES, "lineage": res["lineage"], "changed_inputs": res["changed_inputs"],
                   "audit_findings": [{"status": a, "finding": b} for a, b in AUDIT_FINDINGS]},
     })
@@ -4946,6 +5371,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                     help="evaluation scales in GeV (default: m_t(m_t) and the superpartner scale from Part I)")
     ap.add_argument("--precision", type=int, default=None, help="Decimal digits for the cosmology")
     ap.add_argument("--json-out", type=str, default=None, help="write every number to this JSON file")
+    ap.add_argument("--certify", action="store_true",
+                    help="prove every texture exclusion of Part C over its whole parameter space (minutes)")
     ap.add_argument("--set", action="append", default=[], metavar="NAME=VALUE",
                     help="change one measured input (repeatable); the whole model is recalculated")
     args = ap.parse_args(argv)
@@ -4957,7 +5384,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         Decimal(value)                                  # must be a number
         _TRACE["set"][name] = value
     t0 = time.perf_counter()
-    res = run(args.scales, args.precision)
+    res = run(args.scales, args.precision, args.certify)
     print(report(res))
     if args.json_out:
         with open(args.json_out, "w", encoding="utf-8") as fh:
