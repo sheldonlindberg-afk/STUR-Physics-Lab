@@ -55,11 +55,20 @@ WHAT IT CALCULATES
     closed formulas proposed for 1/alpha.
   Part F, whether ANY zero pattern of general mass matrices predicts the CKM
     matrix: the exact number of physical parameters of all 61,009 pattern pairs,
-    from the rank of the Jacobian of 10 weak-basis invariants, computed in exact
-    integer arithmetic.
+    from the rank of the Jacobian of 10 weak-basis invariants. Every rank is proved
+    (an exact lower bound meets a symmetry upper bound) and J = 0 is proved by
+    symbolic expansion where it holds.
 
-Run:  python3 production_v2_2.py                 (full report, about 3 minutes)
+THE MODEL AS ONE ALGORITHM
+  The parts run as named stages (STAGES). Every read of a measured input and of
+  another stage's result is recorded, and the report prints the graph the run
+  followed, each stage's evidence level and assumptions, which stages each input
+  reaches, whether the stages' assumptions are compatible, and the audit findings.
+  --set NAME=VALUE changes a measured input and recalculates the whole model.
+
+Run:  python3 production_v2_2.py                 (full report, about 5 minutes)
       python3 production_v2_2.py --json-out out.json
+      python3 production_v2_2.py --set M_t=173.5   (change an input, recalculate everything)
 """
 
 from __future__ import annotations
@@ -233,8 +242,9 @@ STAGES: Dict[str, Dict[str, str]] = {
                              "assumes": "abelian Z_N up to symmetry_max_N; scalar potential not solved"},
     "general_texture_closure": {"part": "F", "level": "proved",
                                 "assumes": "equalities only: a rank-10 pattern may still miss the data"},
+    "planck_units": {"part": "H1", "level": "exact", "assumes": "none; nothing derives G"},
     "quantum_gravity": {"part": "H", "level": "exact",
-                        "assumes": "identities and effective field theory; nothing derives G"},
+                        "assumes": "identities and effective field theory"},
     "yukawa_relations": {"part": "J", "level": "conditional", "uv": "MSSM above M_S",
                          "assumes": "M_S and M_GUT from Part I"},
     "higgs_mssm": {"part": "K", "level": "conditional", "uv": "MSSM above M_S",
@@ -254,14 +264,16 @@ AUDIT_FINDINGS: Tuple[Tuple[str, str], ...] = (
              "hold. A single model must choose, and then the other stages' results lapse."),
     ("open", "No stage feeds cosmology: H0 and Omega_m are inputs. A shared mechanism would need "
              "equations for the dark-matter density and Lambda."),
-    ("open", "No stage derives G: M_P is calculated from it and handed to Parts J and L."),
+    ("resolved", "M_P was computed inside Part H, so every input of Part H (H0 among them) seemed to "
+                 "reach Parts J and L. The Planck units are now their own stage."),
+    ("open", "No stage derives G: M_P is calculated from it and handed to Parts H, J and L."),
     ("open", "The quark masses and mixing are inputs to the textures. Connecting them to 3-3-1 needs "
              "the scalar potential, its vacuum, and the vevs that multiply the Yukawa couplings."),
     ("open", "No common mechanism yet: no stage computes a quantity that two sectors both take "
-             "from it except M_S, M_GUT (Part I) and M_P (Part H)."),
+             "from it except M_S, M_GUT (Part I) and M_P (Part H1)."),
 )
 
-_TRACE: Dict[str, Any] = {"stage": None, "inputs": {}, "uses": {}, "set": {}}
+_TRACE: Dict[str, Any] = {"stage": None, "inputs": {}, "uses": {}, "keys": {}, "set": {}}
 
 
 def _note_input(name: str) -> None:
@@ -269,10 +281,11 @@ def _note_input(name: str) -> None:
         _TRACE["inputs"].setdefault(_TRACE["stage"], set()).add(name)
 
 
-def _note_use(producer: str) -> None:
+def _note_use(producer: str, key: Any = "*") -> None:
     s = _TRACE["stage"]
     if s and s != producer:
         _TRACE["uses"].setdefault(s, set()).add(producer)
+        _TRACE["keys"].setdefault((producer, str(key)), set()).add(s)
 
 
 def _input_value(name: str) -> str:
@@ -312,11 +325,11 @@ class _Output(dict):
     producer = ""
 
     def __getitem__(self, k: Any) -> Any:
-        _note_use(self.producer)
+        _note_use(self.producer, k)
         return dict.__getitem__(self, k)
 
     def get(self, k: Any, d: Any = None) -> Any:
-        _note_use(self.producer)
+        _note_use(self.producer, k)
         return dict.get(self, k, d)
 
     def items(self):
@@ -1888,17 +1901,28 @@ def _two_qubit_entropy(amps: List[complex]) -> float:
     return ent
 
 
-def quantum_gravity(cosmo: Dict[str, Any], flav: Dict[str, Any]) -> Dict[str, Any]:
+def planck_units() -> Dict[str, float]:
+    """H1. Planck units from G, hbar, c, k_B: calculated once, here, and handed to every stage
+    that needs the Planck scale (Parts H, J, L)."""
+    x = _float_inputs()
+    c, g, kb = x["c"], x["G"], x["k_B"]
+    hbar = x["h"] / (2 * math.pi)
+    gev = x["e_charge"] * 10 ** 9                     # J per GeV
+    lp, mp_planck = math.sqrt(hbar * g / c ** 3), math.sqrt(hbar * c / g)
+    return {"l_P_m": lp, "t_P_s": lp / c, "m_P_kg": mp_planck, "E_P_GeV": mp_planck * c ** 2 / gev,
+            "T_P_K": mp_planck * c ** 2 / kb, "rho_P_kg_m3": c ** 5 / (hbar * g ** 2)}
+
+
+def quantum_gravity(cosmo: Dict[str, Any], flav: Dict[str, Any], planck: Dict[str, float]) -> Dict[str, Any]:
     x = _float_inputs()
     c, g, kb, alpha = x["c"], x["G"], x["k_B"], x["alpha_em"]
     hbar = x["h"] / (2 * math.pi)
     gev = x["e_charge"] * 10 ** 9                     # J per GeV
     out: Dict[str, Any] = {}
 
-    # H1. Planck units
-    lp, mp_planck = math.sqrt(hbar * g / c ** 3), math.sqrt(hbar * c / g)
-    out["planck"] = {"l_P_m": lp, "t_P_s": lp / c, "m_P_kg": mp_planck, "E_P_GeV": mp_planck * c ** 2 / gev,
-                     "T_P_K": mp_planck * c ** 2 / kb, "rho_P_kg_m3": c ** 5 / (hbar * g ** 2)}
+    # H1. Planck units (their own stage)
+    out["planck"] = dict(planck)
+    lp, mp_planck = planck["l_P_m"], planck["m_P_kg"]
 
     # H2. Newton's potential with its one-loop quantum correction
     #     V = -G m1 m2 / r [1 + 3 G (m1 + m2)/(r c^2) + (41/(10 pi)) G hbar/(r^2 c^3)]
@@ -3208,7 +3232,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
     steps = int(NUMERICS["rg_steps_per_efold"])
     grid = int(NUMERICS["phase_grid"])
     _derived_vub_over_vcb()
-    _TRACE.update(stage=None, inputs={}, uses={})
+    _TRACE.update(stage=None, inputs={}, uses={}, keys={})
     cosmo = _stage("cosmology", lambda: run_cosmology(prec))
     alpha_unif = _stage("gauge_unification", alpha_from_unification)   # Part I first: it supplies M_S
     alpha_num = _stage("alpha_numerology", alpha_numerology)
@@ -3235,12 +3259,13 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
                     for mu in scales)]
     symm = _stage("flavour_symmetry_331", lambda: symmetry_search(yuk, survivors()))
     closure = _stage("general_texture_closure", general_texture_closure)
-    qg = _stage("quantum_gravity", lambda: quantum_gravity(cosmo, flav))
+    planck = _stage("planck_units", planck_units)
+    qg = _stage("quantum_gravity", lambda: quantum_gravity(cosmo, flav, planck))
     yukawa = _stage("yukawa_relations", lambda: yukawa_relations(
         flav, alpha_unif.get("M_S_for_measured_alpha", {}).get("M_S_GeV"),
-        alpha_unif.get("M_S_for_measured_alpha", {}).get("M_GUT_GeV"), qg["planck"]["E_P_GeV"]))
+        alpha_unif.get("M_S_for_measured_alpha", {}).get("M_GUT_GeV"), planck["E_P_GeV"]))
     higgs = _stage("higgs_mssm", lambda: higgs_mass_mssm(flav, alpha_unif, yukawa))
-    crit = _stage("criticality", lambda: sm_criticality(qg["planck"]["E_P_GeV"]))
+    crit = _stage("criticality", lambda: sm_criticality(planck["E_P_GeV"]))
     _TRACE["stage"] = "self_checks"                 # everything below validates the stages above
     _TRACE["inputs"].setdefault("self_checks", set())
     checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
@@ -3425,7 +3450,8 @@ def model_lineage() -> Dict[str, Any]:
     for st in order:
         if "uv" in STAGES.get(st, {}):
             uv.setdefault(STAGES[st]["uv"], []).append(st)
-    return {"order": order, "uses": uses, "reads": reads, "reaches": reaches,
+    takers = {f"{p}[{k}]": sorted(v - {"self_checks"}, key=order.index) for (p, k), v in _TRACE["keys"].items()}
+    return {"order": order, "uses": uses, "reads": reads, "reaches": reaches, "takers": takers,
             "registered": all(st in STAGES for st in order) and all(st in order for st in STAGES),
             "acyclic": all(st not in down[st] for st in order),
             "in_order": all(order.index(u) < order.index(st) for st in order for u in uses[st]),
@@ -3968,14 +3994,12 @@ def report(res: Dict[str, Any]) -> str:
         w(_wrap("assumes: " + info["assumes"], 6))
     au_ms = res["alpha_unification"].get("M_S_for_measured_alpha", {})
     w("  Numbers calculated once and handed on:")
-    handoffs = (("M_S", au_ms.get("M_S_GeV"), "gauge_unification"),
-                ("M_GUT", au_ms.get("M_GUT_GeV"), "gauge_unification"),
-                ("M_P", res["quantum_gravity"]["planck"]["E_P_GeV"], "quantum_gravity"),
-                ("m_t(m_t)", res["flavour"]["runner"].mt_msbar, "flavour"))
-    for name, val, prod in handoffs:
-        takers = [st for st in lin["order"] if prod in lin["uses"][st] and st != "self_checks"]
-        if val is not None:
-            w(f"    {name:9s} = {_fmt(val)} GeV, from {prod}, taken by " + (", ".join(takers) or "none"))
+    handoffs = (("M_S, M_GUT", f"{_fmt(au_ms.get('M_S_GeV') or math.nan)}, {_fmt(au_ms.get('M_GUT_GeV') or math.nan)}",
+                 "gauge_unification[M_S_for_measured_alpha]"),
+                ("M_P", _fmt(res["quantum_gravity"]["planck"]["E_P_GeV"]), "planck_units[E_P_GeV]"),
+                ("m_t(m_t)", _fmt(res["flavour"]["runner"].mt_msbar), "flavour[runner]"))
+    for name, val, key in handoffs:
+        w(_wrap(f"{name} = {val} GeV, from {key}, taken by " + (", ".join(lin["takers"].get(key, [])) or "none"), 4))
     w("  Changing one measured input recalculates every stage it reaches, for example:")
     for name in ("M_t", "alpha_s_MZ", "G", "H0"):
         w(_wrap(f"{name}: " + ", ".join(st for st in lin["reaches"][name] if st != "self_checks"), 4))

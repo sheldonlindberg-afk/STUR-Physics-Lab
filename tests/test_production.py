@@ -202,6 +202,21 @@ def test_closure_certificates_are_sound():
     assert P.cp_violation_possible(tri, diag, draw, 2)
 
 
+def test_model_lineage():
+    """The traced graph: pure-mathematics stages read no measured input; M_P is made once and
+    reaches Parts J and L without dragging cosmology along; the UV hypotheses conflict."""
+    lin = RESULT["lineage"]
+    assert lin["registered"] and lin["acyclic"] and lin["in_order"]
+    for st in ("general_texture_closure", "gauge_331"):
+        assert lin["reads"][st] == [] and lin["uses"][st] == []
+    assert lin["uses"]["criticality"] == ["planck_units"]
+    assert {"yukawa_relations", "criticality", "quantum_gravity"} <= set(lin["takers"]["planck_units[E_P_GeV]"])
+    assert [s for s in lin["reaches"]["H0"] if s != "self_checks"] == ["cosmology", "quantum_gravity"]
+    assert "criticality" in lin["reaches"]["M_t"] and "criticality" in lin["reaches"]["G"]
+    assert "flavour" in lin["takers"]["gauge_unification[M_S_for_measured_alpha]"]
+    assert not lin["uv_consistent"]
+
+
 def test_parallel_textures_excluded():
     """Part G: left-right models give parallel Hermitian textures; every predictive one is excluded."""
     for mu in RESULT["scales"]:

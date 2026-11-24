@@ -23,12 +23,13 @@
 python3 production_v2_2.py                     # full report, about 5 minutes
 python3 production_v2_2.py --json-out out.json # every number, as JSON
 python3 production_v2_2.py --scales 2000 5000  # other evaluation scales (GeV, above m_t)
+python3 production_v2_2.py --set M_t=173.5      # change a measured input; the whole model is recalculated
 ```
 
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 41 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 42 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -50,6 +51,24 @@ Where the inputs cannot determine a quantity, the script does not pick a value. 
 phases of the quark mass matrices are the only such quantities, and each is scanned over its
 whole range, [0, 2π). The prediction is the band that the scan sweeps out, and it is
 compared with the measurement as a band.
+
+## One model, one algorithm
+
+The script runs as a chain of named stages, in order. A number is calculated once, in the
+stage that produces it, and handed to every later stage that needs it: the superpartner scale
+M_S and M_GUT from Part I, the Planck mass from Part H1, the quark-mass running from Part B.
+Every read of a measured input and of another stage's result is recorded while the script
+runs, so the dependency graph the report prints is the one the code followed, not a diagram
+kept in step by hand. A test fails if any function reads `INPUTS` without going through the
+recorder.
+
+From that trace the report lists, for each stage, its evidence level (proved, exact,
+numerical, conditional, parameter trade), the inputs it reads, the stages it takes results
+from, and what it assumes. It also lists which stages each input reaches (change `M_t` and
+seven stages are recalculated) and checks whether the stages' assumptions are compatible.
+They are not yet: Parts I, J and K assume the MSSM above M_S and Part L the Standard Model up
+to M_P, so they cannot all describe one world. The audit findings, open and resolved, are part
+of the output.
 
 ## What it calculates
 
