@@ -3,7 +3,7 @@
 *Written before any number below is computed, under the rules of
 [archive/PREREGISTRATION.md](../archive/PREREGISTRATION.md). The derivation of every formula the
 computation uses is part of the registration. Independent work, not peer reviewed.
-Status: **draft, not yet registered** (nothing computed).*
+Status: **registered, not yet computed**.*
 
 ## The question
 
@@ -139,16 +139,20 @@ from the holonomy, through the different hypercharges.
   uncertainties are propagated by ±1σ variations of `FLAVOUR_UNCERTAIN`, as in Part C's
   `input_sigma`. The CKM data come from `COMPARISONS` (V_us, V_cb, V_ub, J), with asymmetric errors as
   in `TextureSurvey.chi2`.
-- **χ².** The sum of 8 terms. For each ratio: ((ln r_pred − ln r_meas) / (σ_r / r_meas))². For each CKM
-  datum: ((pred − meas)/σ), with σ the upper or lower error on the side the prediction falls, combined
-  in quadrature with the input-propagated error of the prediction at that point. Correlations are
-  neglected, as in Part C. The p-value is chi2_pvalue(χ²_min, 4) = exp(−χ²_min/2)(1 + χ²_min/2), converted to
-  Gaussian σ by `pvalue_to_sigma`.
+- **χ².** The sum of 8 terms. The predictions depend only on the four unknowns, never on a measured
+  input, so every uncertainty sits on the measured side. For each ratio:
+  ((ln r_pred − ln r_meas)/σ_ln r)², where σ_ln r is the quadrature sum over `FLAVOUR_UNCERTAIN` of
+  half the change of ln r_meas between the +1σ and −1σ runs. For each CKM datum: ((pred − meas)/σ)²,
+  with σ the upper or lower error from `COMPARISONS` on the side the prediction falls. Correlations
+  are neglected, as in Part C. The p-value is chi2_pvalue(χ²_min, 4) = exp(−χ²_min/2)(1 + χ²_min/2),
+  converted to Gaussian σ by `pvalue_to_sigma`. The Yukawa matrices do not depend on the evaluation
+  scale; only the measured ratios do, so one search serves both scales, minimizing each scale's χ².
 - **Search coordinates.** log₁₀ a_q and log₁₀ a_H ∈ [−2, 4]; t = θ_H/(2π/3) ∈ [0, 1); and
   f = Φ/12π ∈ [0, 1).
 - **Start grid.** log₁₀ a_q and log₁₀ a_H ∈ {−2, −1.25, …, 4} (9 values each),
-  t ∈ {k/12 : k = 0..11} and f ∈ {k/24 : k = 0..23}: 9 × 9 × 12 × 24 = 23,328 points. The 10 lowest are refined by the compass search `_minimize`. The θ_H and
-  Φ coordinates are periodic; the a coordinates are clamped to the range.
+  t ∈ {k/12 : k = 0..11} and f ∈ {k/24 : k = 0..23}: 9 × 9 × 12 × 24 = 23,328 points. At each scale
+  the 10 lowest are refined by the compass search `_minimize`. The θ_H and Φ coordinates are
+  periodic; the a coordinates are clamped to the range.
 - **Boundary rule.** If the best point has log₁₀ a_q or log₁₀ a_H on the edge of [−2, 4], that range is
   extended by 2 decades in that direction once, and the search is repeated. Both results are reported.
 - **Numerical settings (NUMERICS).** N = 128 Fourier modes and M = 576 quadrature points
@@ -175,7 +179,7 @@ from the holonomy, through the different hypercharges.
   broken further, which brings new unknowns.
 - *K1 survives:* it is a genuine candidate with 4 predictions. Survival is constructive: the point
   found proves it. Exclusion holds only within the registered search, which K3 tests.
-- *K0a or K0b failing* means the code is wrong, not the theorem. It would be fixed, then reported
+- *K0a, K0b or K0c failing* means the code is wrong, not the theorem. It would be fixed, then reported
   below the result under rule 5.
 
 ---
