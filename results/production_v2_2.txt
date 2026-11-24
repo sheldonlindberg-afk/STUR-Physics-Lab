@@ -255,11 +255,14 @@ PART F. DOES ANY TEXTURE OF GENERAL MASS MATRICES PREDICT THE CKM MATRIX?
        19 cannot mix all three families (measured: all nine |V_ij| nonzero)
         6 have no phase left, so J = 0 (measured: J = 3.12e-5)
       472 candidates; physical parameters (rank) per class: rank 10: 470, rank 8: 2
-        2 of the classes with rank below 10 have J = 0 identically
+      472 of these ranks proved (exact lower bound = symmetry upper bound), 0 open
+        2 of the classes with rank below 10 have J = 0 identically (symbolic expansion)
         0 make a prediction and allow CP violation
-  RESULT: no texture-zero pattern of general quark mass matrices predicts anything.
-    Every viable pattern has exactly as many physical parameters as there are
-    observables (10), so zeros alone, however a symmetry makes them, fix nothing.
+  RESULT (proved): no texture-zero pattern of general quark mass matrices predicts
+    an equality. Every viable pattern has exactly as many physical parameters as there
+    are observables (10), so zeros alone, however a symmetry makes them, fix nothing.
+    Scope: this is a statement about relations. A rank-10 pattern can still fail to
+    reach the measured values (an inequality); that is not tested here.
 
 PART G. OTHER GAUGE FRAMEWORKS
 ------------------------------------------------------------------------------
@@ -492,6 +495,7 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] One-loop matching of lambda and y_t: d/d ln mu reproduces the one-loop RGE exactly  (max rel diff 1.6e-11)
   [PASS] Every symmetry found reproduces its target zeros exactly (recomputed from the charges)
   [PASS] Invariant-rank method: general matrices give 10 physical parameters, diagonal ones 6  (ranks 10, 6)
+  [PASS] Part F certificates: symmetry upper bounds meet the ranks (10, 6); J = 0 proved for diagonal matrices and refuted for triangular ones  (upper bounds 10, 6)
   [PASS] Black-hole first law: dS/dE = 1/(k_B T_H) (entropy and temperature consistent)  (rel diff 2.0e-12)
   [PASS] Hawking temperature = Unruh temperature at the horizon's surface gravity  (rel diff 0.0e+00)
   [PASS] de Sitter entropy: area law A/(4 l_P^2) = Part A's pi c^5/(G hbar H^2)  (rel diff 0.0e+00)
@@ -502,6 +506,6 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Yukawa-RGE gauge coefficients from Casimirs = textbook (SM and MSSM; t, b, tau)
   [PASS] MSSM Yukawa self-terms from field multiplicities: 6 y_t^3, (3 y_b^2 + 4 y_tau^2) y_tau  (6.000, 7.000)
   [PASS] Lambda_QCD (2-loop) reproduces alpha_s(M_Z)  (rel diff 2.2e-16)
-  40/40 checks pass
+  41/41 checks pass
 ==============================================================================
-Elapsed: 316.6 s
+Elapsed: 328.6 s
