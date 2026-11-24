@@ -4779,9 +4779,9 @@ def report(res: Dict[str, Any]) -> str:
         w(f"      cross-check at Buttazzo et al.'s own order (two-loop matching, QCD at three loops):"
           f" {rw['3L/two loops, QCD 3']['m_h']:.2f} GeV;")
         w(f"      their lambda(M_Pl), linear in M_h, M_t, alpha_s, gives {bz['mh_linear']:.2f} GeV here")
-        w("      Three-loop matching here is its leading QCD part (lambda: O(alpha_s^2 y_t^4); y_t: pure QCD,")
-        w("      to four loops). Not included: the electroweak and mixed three-loop thresholds, and four-loop")
-        w("      running beyond pure QCD.")
+        w("      This script's own three-loop matching is its leading QCD part (lambda: O(alpha_s^2 y_t^4); y_t:")
+        w("      pure QCD, to four loops); the anchor adds SMDR's full two loops and leading three loops. Not")
+        w("      included: the rest of three-loop matching, and four-loop running beyond pure QCD.")
         d_ = cr["double"]
         w("  Both conditions at the Planck scale, lambda(M_P) = 0 and beta_lambda(M_P) = 0, fix two numbers")
         w("  (at two loops, one-loop matching):")
