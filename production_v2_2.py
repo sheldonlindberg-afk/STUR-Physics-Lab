@@ -4287,7 +4287,7 @@ def report(res: Dict[str, Any]) -> str:
             zero = v["chi2"] < num("joint_chi2_zero")
             cols.append(f"{'0' if zero else _fmt(v['n_sigma'], 3):>7s}   {verdict(v):9s}")
         w(f"    {r['hypothesis']:17s} {'+'.join(r['conditions']):10s} {r['unknowns']:5d} {r['dof']:6d}"
-          f"  | {cols[0]}  | {cols[1]}")
+          f"  | {cols[0]}  | {cols[1]}".rstrip())
     w("    (survives: no prediction, the unknowns absorb the conditions; predicts: survives and")
     w("    predicts at least one number)")
     for label, key in (("inputs only", "predictive_survivors"), ("with theory errors", "predictive_survivors_theory")):
