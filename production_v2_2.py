@@ -188,6 +188,9 @@ NUMERICS: Dict[str, Any] = {
     "survival_sigma": 3,              # a pattern survives if its p-value is above the 3-sigma level
     "check_survey_tol": "1e-6",
     "symmetry_max_N": 6,              # Z_N searched exhaustively for N = 2 .. this
+    "joint_ms_points": 20,            # Part M: grid in ln M_S from m_t(m_t) to Part I's scan top
+    "joint_tan_beta_points": 20,      # Part M: grid in ln tan(beta) over its perturbative range
+    "joint_min_step": "1e-3",         # Part M: compass search stops at this step in ln M_S, ln tan(beta)
     "closure_seed": 20261123,         # integer points for the exact Jacobian ranks (any seed works)
     "closure_points": 2,              # points per pattern; the largest rank found is kept
     "unif_step": "0.02",              # RK4 step in ln(mu) for the gauge running
@@ -251,6 +254,9 @@ STAGES: Dict[str, Dict[str, str]] = {
                    "assumes": "M_S from Part I, tan(beta) from Part J, one-loop stop threshold"},
     "criticality": {"part": "L", "level": "conditional", "uv": "SM up to M_P",
                     "assumes": "lambda(M_P) = 0; two-loop running, one-loop matching"},
+    "uv_joint_test": {"part": "M", "level": "numerical",
+                      "assumes": "every hypothesis against every set of conditions; unknowns scanned on a "
+                                 "grid plus compass search; input errors only, no theory errors"},
     "self_checks": {"part": "-", "level": "validation", "assumes": "tests the calculation, not the physics"},
 }
 
@@ -260,8 +266,11 @@ AUDIT_FINDINGS: Tuple[Tuple[str, str], ...] = (
                  "(Parts J/K and Part L). There is now one derivation, sm_state_at_mt."),
     ("open", "Part L rebuilds the quark-mass running instead of taking the flavour stage's: same "
              "function, same numbers, because its error propagation re-runs the chain per input."),
-    ("open", "Parts I, J, K assume the MSSM above M_S; Part L assumes the SM up to M_P. Both cannot "
-             "hold. A single model must choose, and then the other stages' results lapse."),
+    ("resolved", "Parts I, J, K assume the MSSM above M_S; Part L assumes the SM up to M_P. Both cannot "
+                 "hold, so neither is chosen: Part M runs each hypothesis against every combination of "
+                 "the conditions and reports which survive."),
+    ("open", "Part M uses input errors only. The theory errors of the one-loop stop threshold and of "
+             "the matching are not calculated, so its exclusions are upper bounds on the tension."),
     ("open", "No stage feeds cosmology: H0 and Omega_m are inputs. A shared mechanism would need "
              "equations for the dark-matter density and Lambda."),
     ("resolved", "M_P was computed inside Part H, so every input of Part H (H0 among them) seemed to "
@@ -2878,6 +2887,152 @@ def sm_lambda_profile(crit: Dict[str, Any], m_h: float) -> Dict[str, Any]:
 
 
 # =============================================================================
+# 6i. PART M: WHICH HIGH-ENERGY HYPOTHESIS SURVIVES EVERY CONDITION AT ONCE?
+# =============================================================================
+# The field content above the electroweak scale is not fixed by the inputs, so it
+# is not chosen: every hypothesis is run against every combination of the
+# conditions the other parts impose, and the data decide. Conditions:
+#   U  gauge unification         predicts 1/alpha(M_Z)        (measured input)
+#   B  b-tau unification         predicts y_b/y_tau = 1 where g1 = g2
+#   H  Higgs mass                SM: lambda(M_P) = 0 (Part L); MSSM: matching at M_S
+# The MSSM has three unknowns (M_S, tan beta, the stop mixing X_t). They are scanned
+# and the smallest chi^2 is found only to decide survival, as in Part C: the point
+# is never reported or used. X_t enters only the stop threshold, and m_h rises with
+# it, so for X_t in [0, sqrt12] m_h covers exactly [m_h(X_t = 0), m_h(X_t^2 = 6 M_S^2)].
+# Every MSSM point must keep its Yukawa couplings perturbative up to g1 = g2.
+# Errors: measured inputs only. Theory errors (higher loops, the one-loop stop
+# threshold) are not included, so a small tension is not an exclusion of the theory.
+JOINT_CONDITIONS = ("U", "B", "H")
+
+
+def _joint_verdict(chi2: float, n_cond: int, n_par: int) -> Dict[str, Any]:
+    dof = n_cond - n_par
+    if dof >= 1:
+        n_sig = pvalue_to_sigma(chi2_pvalue(chi2, dof))
+    else:                            # no prediction: how far the data lie outside what it can reach
+        n_sig = math.sqrt(max(chi2, 0.0))
+    return {"chi2": chi2, "dof": dof, "n_sigma": n_sig, "survives": n_sig <= num("survival_sigma"),
+            "predicts": dof >= 1}
+
+
+def uv_joint_test(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yuk: Dict[str, Any],
+                  crit: Dict[str, Any]) -> Dict[str, Any]:
+    x = _float_inputs()
+    mh_meas, mh_err, _ = _comparison("m_h")
+    a_meas, a_err = x["alpha_em_inv_MZ"], sig("alpha_em_inv_MZ")
+    s2, a_s, mz = x["s2_hat_Z"], x["alpha_s_MZ"], x["M_Z"]
+    runner = flav["runner"]
+    mt, v = runner.mt_msbar, runner.v
+    _, _, _, st = sm_state_at_mt(runner=runner)
+    steps = int(num("rg_steps_per_efold"))
+    # relative error of y_b(m_t), from the flavour stage's input variations (b-tau errors, linear)
+    mb = flav["ratios"][mt]["m_b"]
+    yb_rel = math.sqrt(sum(((flav["varied"][n][0][mt]["m_b"] - flav["varied"][n][1][mt]["m_b"]) / 2) ** 2
+                           for n in FLAVOUR_UNCERTAIN)) / mb
+    out: Dict[str, Any] = {"yb_rel_sigma": yb_rel, "rows": []}
+
+    # --- Standard Model up to M_P: no unknowns, every condition is a prediction
+    sm_row = [r for r in alpha_unif["rows"] if not math.isfinite(r["M_S"])][0]["loop2"]
+    r_sm = yuk["btau_SM"][0]["yb_over_ytau"]
+    sm_pull = {"U": (sm_row["inv_alpha"] - a_meas) / math.hypot(sm_row["sigma_inputs"], a_err),
+               "B": (r_sm - 1) / (r_sm * yb_rel),
+               "H": (crit["central"]["m_h"] - mh_meas) / math.hypot(crit["sigma_total"], mh_err)}
+    out["SM_pulls"] = sm_pull
+
+    # --- MSSM above M_S
+    l_lo, l_hi = math.log(mt), math.log(alpha_unif["scan_top_GeV"])
+    alpha_cache: Dict[float, float] = {}
+
+    def alpha_at(l_ms: float) -> float:
+        if l_ms not in alpha_cache:
+            alpha_cache[l_ms] = predict_alpha(s2, a_s, mz, math.exp(l_ms), 2)["inv_alpha"]
+        return alpha_cache[l_ms]
+
+    def mh_from(state: List[float], m_s: float, lam: float, vev: float, mt_: float) -> float:
+        down = integrate_ln_mu(state + [lam], m_s, mt_, sm_higgs_rhs(), [], steps)
+        return math.sqrt(down[6]) * vev if down[6] > 0 else 0.0
+
+    n_ms, n_tb = int(num("joint_ms_points")), int(num("joint_tan_beta_points"))
+    grid_l = [l_lo + (l_hi - l_lo) * k / (n_ms - 1) for k in range(n_ms)]
+    sig_u, sig_h = {}, {}
+    for l_ms in grid_l:               # input errors at each grid M_S (used at the nearest one)
+        d = [predict_alpha(s2 + sig("s2_hat_Z"), a_s, mz, math.exp(l_ms), 2)["inv_alpha"] - alpha_at(l_ms),
+             predict_alpha(s2, a_s + sig("alpha_s_MZ"), mz, math.exp(l_ms), 2)["inv_alpha"] - alpha_at(l_ms)]
+        sig_u[l_ms] = math.hypot(math.hypot(*d), a_err)
+        dm = []
+        ref = None
+        for ov in (None, {"M_t": inp("M_t") + sig("M_t")}, {"alpha_s_MZ": a_s + sig("alpha_s_MZ")}):
+            mt_o, v_o, _, st_o = sm_state_at_mt(ov) if ov else (mt, v, None, st)
+            s_ms = integrate_ln_mu(st_o, mt_o, math.exp(l_ms), yukawa_rhs("SM"), [], steps)
+            # tan(beta) = 0 gives cos^2(2 beta) = 1, the same tree value as tan(beta) -> infinity
+            m = mh_from(s_ms, math.exp(l_ms), mssm_lambda_at_ms(s_ms, 0, math.sqrt(6)), v_o, mt_o)
+            if ref is None:
+                ref = m
+            else:
+                dm.append(m - ref)
+        sig_h[l_ms] = math.hypot(math.hypot(*dm), mh_err)
+
+    def nearest(l_ms: float) -> float:
+        return min(grid_l, key=lambda g: abs(g - l_ms))
+
+    def tb_range(s_ms: List[float]) -> Tuple[float, float]:
+        sb_min, cb_min = s_ms[3] / PERTURBATIVE_LIMIT, s_ms[4] / PERTURBATIVE_LIMIT
+        return sb_min / math.sqrt(1 - sb_min ** 2), math.sqrt(1 - cb_min ** 2) / cb_min
+
+    def pulls(l_ms: float, l_tb: float) -> Dict[str, float] | None:
+        if not l_lo <= l_ms <= l_hi:
+            return None
+        m_s, tb = math.exp(l_ms), math.exp(l_tb)
+        s_ms = integrate_ln_mu(st, mt, m_s, yukawa_rhs("SM"), [], steps)
+        lo_tb, hi_tb = tb_range(s_ms)
+        if not lo_tb <= tb <= hi_tb:
+            return None
+        sb, cb = tb / math.sqrt(1 + tb * tb), 1 / math.sqrt(1 + tb * tb)
+        mg, sg = unification_point([s_ms[0], s_ms[1], s_ms[2], s_ms[3] / sb, s_ms[4] / cb, s_ms[5] / cb],
+                                   m_s, "MSSM")
+        if not math.isfinite(mg):
+            return None                              # a Yukawa coupling leaves perturbation theory
+        g = nearest(l_ms)
+        m0 = mh_from(s_ms, m_s, mssm_lambda_at_ms(s_ms, tb, 0), v, mt)
+        m3 = mh_from(s_ms, m_s, mssm_lambda_at_ms(s_ms, tb, math.sqrt(6)), v, mt)
+        gap_h = (m0 - mh_meas) if mh_meas < m0 else (mh_meas - m3) if mh_meas > m3 else 0.0
+        r = sg[4] / sg[5]
+        return {"U": (alpha_at(l_ms) - a_meas) / sig_u[g], "B": (r - 1) / (r * yb_rel), "H": gap_h / sig_h[g]}
+
+    grid = []
+    for l_ms in grid_l:
+        lo_tb, hi_tb = tb_range(integrate_ln_mu(st, mt, math.exp(l_ms), yukawa_rhs("SM"), [], steps))
+        for k in range(n_tb):
+            l_tb = math.log(lo_tb) + (math.log(hi_tb) - math.log(lo_tb)) * k / (n_tb - 1)
+            p = pulls(l_ms, l_tb)
+            if p is not None:
+                grid.append(((l_ms, l_tb), p))
+    out["MSSM_grid_points"] = (len(grid), n_ms * n_tb)
+    d_l = (l_hi - l_lo) / (n_ms - 1)
+
+    def chi2_of(p: Dict[str, float] | None, conds: Sequence[str]) -> float:
+        return math.inf if p is None else sum(p[c] ** 2 for c in conds)
+
+    for k in range(1, len(JOINT_CONDITIONS) + 1):
+        for conds in itertools.combinations(JOINT_CONDITIONS, k):
+            out["rows"].append({"hypothesis": "SM up to M_P", "conditions": conds, "unknowns": 0,
+                                **_joint_verdict(chi2_of(sm_pull, conds), len(conds), 0)})
+            n_par = 1 + (("B" in conds or "H" in conds)) + ("H" in conds)     # M_S, tan beta, X_t
+            (x0, best) = min(((pt, chi2_of(p, conds)) for pt, p in grid), key=lambda z: z[1])
+            if math.isfinite(best) and best > 0:
+                _, best = _minimize(lambda y: chi2_of(pulls(y[0], y[1]), conds), list(x0),
+                                    [d_l / 2, d_l / 2], num("joint_min_step"))
+            out["rows"].append({"hypothesis": "MSSM above M_S", "conditions": conds, "unknowns": n_par,
+                                **_joint_verdict(best, len(conds), n_par)})
+    ms_i = alpha_unif.get("M_S_for_measured_alpha")
+    out["check_U_at_part_I"] = (alpha_at(math.log(ms_i["M_S_GeV"])) - a_meas) if ms_i else math.nan
+    out["survivors"] = [(r["hypothesis"], r["conditions"]) for r in out["rows"] if r["survives"]]
+    out["predictive_survivors"] = [(r["hypothesis"], r["conditions"]) for r in out["rows"]
+                                   if r["survives"] and r["predicts"]]
+    return out
+
+
+# =============================================================================
 # 7. COSMOLOGY (Decimal arithmetic)
 # =============================================================================
 def dec_pi() -> Decimal:
@@ -3266,6 +3421,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
         alpha_unif.get("M_S_for_measured_alpha", {}).get("M_GUT_GeV"), planck["E_P_GeV"]))
     higgs = _stage("higgs_mssm", lambda: higgs_mass_mssm(flav, alpha_unif, yukawa))
     crit = _stage("criticality", lambda: sm_criticality(planck["E_P_GeV"]))
+    joint = _stage("uv_joint_test", lambda: uv_joint_test(flav, alpha_unif, yukawa, crit))
     _TRACE["stage"] = "self_checks"                 # everything below validates the stages above
     _TRACE["inputs"].setdefault("self_checks", set())
     checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
@@ -3415,6 +3571,9 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
                    abs(yt_test - 6) < tol and abs(yl_test - 7) < tol, f"{yt_test:.3f}, {yl_test:.3f}"))
     checks.append(("Lambda_QCD (2-loop) reproduces alpha_s(M_Z)", abs(back / xf["alpha_s_MZ"] - 1) < tol,
                    f"rel diff {abs(back / xf['alpha_s_MZ'] - 1):.1e}"))
+    checks.append(("Part M at Part I's M_S reproduces the measured alpha (the two stages agree)",
+                   abs(joint["check_U_at_part_I"]) < num("unif_tol") * 100,
+                   f"diff {joint['check_U_at_part_I']:.1e}"))
     _TRACE["stage"] = None
     lin = model_lineage()
     checks.append(("Model graph: every stage registered, acyclic, and run in dependency order",
@@ -3423,7 +3582,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
     return {"scales": scales, "cosmology": cosmo, "flavour": flav, "survey": survey, "yukawa_331": yuk,
             "symmetry": symm, "closure": closure, "quantum_gravity": qg, "alpha_unification": alpha_unif,
             "alpha_numerology": alpha_num, "yukawa": yukawa, "higgs": higgs, "criticality": crit,
-            "checks": checks, "lineage": lin, "changed_inputs": dict(_TRACE["set"]),
+            "joint": joint, "checks": checks, "lineage": lin, "changed_inputs": dict(_TRACE["set"]),
             "precision": prec}
 
 
@@ -3980,6 +4139,37 @@ def report(res: Dict[str, Any]) -> str:
         w("    vacuum is not stable. The top mass dominates the input error; the second condition")
         w("    (beta_lambda = 0) lands near the measured top mass.")
         w("")
+    jt = res["joint"]
+    w("PART M. WHICH HIGH-ENERGY HYPOTHESIS SURVIVES EVERY CONDITION AT ONCE?")
+    w("-" * 78)
+    w("  The field content above the electroweak scale is not chosen. Each hypothesis is tested")
+    w("  against every combination of the conditions the other parts impose:")
+    w("    U  gauge unification      predicts 1/alpha(M_Z)")
+    w("    B  b-tau unification      predicts y_b/y_tau = 1 where g1 = g2")
+    w("    H  Higgs mass             SM: lambda(M_P) = 0 (Part L); MSSM: matching at M_S (Part K)")
+    w("  SM up to M_P has no unknowns. The MSSM has M_S, tan(beta) and the stop mixing X_t, scanned")
+    w(f"  ({jt['MSSM_grid_points'][0]} perturbative points of {jt['MSSM_grid_points'][1]}, then compass search);"
+      " the best point only")
+    w("  decides survival. With no prediction (dof <= 0) the number is the distance in sigma between")
+    w("  the data and everything the hypothesis can reach. Errors: measured inputs only.")
+    sp = jt["SM_pulls"]
+    w(f"  SM pulls: U {sp['U']:+.1f} sigma, B {sp['B']:+.1f} sigma, H {sp['H']:+.1f} sigma")
+    w("    hypothesis        conditions  unknowns  dof    chi^2      sigma   verdict")
+    for r in jt["rows"]:
+        verdict = ("survives, predicts" if r["predicts"] else "survives, no prediction") if r["survives"] \
+            else "excluded"
+        w(f"    {r['hypothesis']:17s} {'+'.join(r['conditions']):10s} {r['unknowns']:5d} {r['dof']:6d}"
+          f"  {_fmt(r['chi2'], 4):>9s}  {_fmt(r['n_sigma'], 3):>8s}   {verdict}")
+    preds = jt["predictive_survivors"]
+    w("  RESULT: " + ("surviving combinations that predict something: "
+                      + "; ".join(f"{h} with {'+'.join(c)}" for h, c in preds) if preds
+                      else "no combination of hypothesis and conditions both survives and predicts anything."))
+    surv_m = [c for h, c in jt["survivors"] if h.startswith("MSSM")]
+    if surv_m:
+        w(_wrap("The MSSM survives with " + ", ".join("+".join(c) for c in surv_m)
+                + ", but its unknowns absorb every condition: it predicts nothing.", 4))
+    w("    The SM up to M_P predicts each number and misses each one. Theory errors are not included.")
+    w("")
     w("THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)")
     w("-" * 78)
     lin = res["lineage"]
@@ -4010,8 +4200,8 @@ def report(res: Dict[str, Any]) -> str:
     for hyp, sts in lin["uv_hypotheses"].items():
         w(f"    {hyp:16s}: " + ", ".join(sts))
     if not lin["uv_consistent"]:
-        w("    INCONSISTENT: these field contents exclude each other, so the stages above cannot all")
-        w("    describe one world. Each result holds only under its own hypothesis.")
+        w("    These field contents exclude each other. No stage chooses: Part M tests every")
+        w("    hypothesis against every combination of conditions.")
     w(f"  The graph is acyclic ({lin['acyclic']}), so one pass in order is self-consistent: no stage")
     w("  needs a value that a later stage changes. A shared mechanism would add such feedback.")
     w("  Audit findings:")
@@ -4058,6 +4248,7 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
         "alpha_unification": res["alpha_unification"], "alpha_numerology": res["alpha_numerology"],
         "yukawa": res["yukawa"], "scales": res["scales"],
         "checks": [{"name": n, "pass": ok, "detail": d} for n, ok, d in res["checks"]],
+        "uv_joint_test": res["joint"],
         "model": {"stages": STAGES, "lineage": res["lineage"], "changed_inputs": res["changed_inputs"],
                   "audit_findings": [{"status": a, "finding": b} for a, b in AUDIT_FINDINGS]},
     })
