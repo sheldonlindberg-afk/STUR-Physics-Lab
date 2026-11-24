@@ -55,7 +55,7 @@ def main():
         "criticality": {
             "m_h_pred": cr["central"]["m_h"], "sigma": cr["sigma_total"], "m_h_meas": mh_meas,
             "m_h_tree": cr["tree_matching"]["m_h"],
-            "m_h_one_loop_matching": cr["row"]["3L/one loop"]["m_h"],
+            "m_h_lower_matching": cr["row"]["3L/two loops"]["m_h"],
             "one_loop_running": [r["m_h"] for r in cr["rows"] if r["loops"] == 1][0],
             "double_m_h": cr["double"]["m_h"], "double_M_t": cr["double"]["M_t"], "M_t_meas": P.inp("M_t"),
             "lambda_MP": prof["lambda_MP"], "mu_zero": prof["mu_zero"], "M_P": mp, "curves": curves},

@@ -29,7 +29,7 @@ python3 production_v2_2.py --set M_t=173.5      # change a measured input; the w
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 46 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 48 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -41,7 +41,7 @@ the calculation itself, not its agreement with data.
 | Measured or defined input | `INPUTS`, each with uncertainty and source | quark masses (PDG 2024), H0 (Planck 2018), T_CMB |
 | Measured result, used only to judge | `COMPARISONS` | CKM fit (PDG 2024), the age of the universe (Planck 2018) |
 | Numerical-method setting | `NUMERICS`; the self-checks vary the key ones | RK4 steps, phase-grid size, Decimal digits |
-| Published coefficient, too long to re-derive | `LITERATURE`, each with its source; self-checks reproduce the published results | three-loop SM β-functions, two-loop Higgs thresholds |
+| Published coefficient, too long to re-derive | `LITERATURE`, each with its source; self-checks reproduce the published results | three-loop SM and four-loop QCD β-functions, Higgs thresholds |
 | Everything else | calculated | β-functions from Casimirs, the CKM matrix from an exact diagonalization |
 
 [`tests/test_production.py`](tests/test_production.py) enforces the rule. It fails if any
@@ -72,22 +72,28 @@ M_P. The script does not choose between them. Part M tests each against every co
 the conditions the other parts impose (gauge unification, b-τ unification, the Higgs mass):
 
 * **SM up to M_P** has no unknowns, so every condition is a prediction, and it misses each one:
-  unification by 79σ, b-τ by 81σ, the Higgs mass from λ(M_P) = 0 by 3.7σ.
+  unification by 79σ, b-τ by 79σ, the Higgs mass from λ(M_P) = 0 by 3.3σ.
 * **MSSM above M_S** has three unknowns (M_S, tan β, the stop mixing X_t). It meets any one or
   two of the conditions, but only because the unknowns absorb them: it never predicts anything.
-  All three together exclude it at 23σ: unification fixes M_S, b-τ fixes tan β ≈ 1.35, and
-  there the Higgs mass cannot exceed about 104 GeV.
+  All three together exclude it at 24σ: unification fixes M_S, b-τ fixes tan β ≈ 1.33, and
+  there the Higgs mass cannot exceed about 103 GeV.
 
 Every verdict is given twice. The script calculates theory errors itself, never typing one in:
 for every ingredient, the change from the last order it computes to the one below. The next
 order is usually smaller than that step, so these give the weakest exclusions, and the truth
-lies between the two columns. With Part L at three loops and two-loop matching, its last-order
-shift is 0.24 GeV, and SM criticality is excluded either way (3.7σ, 3.6σ). Only one verdict
-still depends on the theory errors: the MSSM with all three conditions survives (2.5σ) once
-unification's one- to two-loop shift (12 in 1/α) is counted, because that frees M_S. Settling it
-needs three-loop gauge running with superpartner and GUT thresholds and the two-loop stop
-threshold. **With either set of errors, no hypothesis and set of conditions both survives and
-predicts anything.** The audit findings, open and resolved, are part of the output.
+lies between the two columns. Two verdicts depend on them:
+
+* **SM criticality**: 3.3σ with input errors, 2.95σ with theory errors, just inside the 3σ line.
+  Part L's last-order shifts are 0.23 GeV (three-loop running), 0.07 GeV (three-loop matching)
+  and 0.40 GeV (four-loop QCD). The QCD series of the top pole mass falls by about a factor of
+  three per order, so its last step overstates the next one.
+* **The MSSM with all three conditions**: 24σ, or 2.65σ once unification's one- to two-loop shift
+  (12 in 1/α) is counted, because that frees M_S. Settling it needs three-loop gauge running
+  with superpartner and GUT thresholds and the two-loop stop threshold.
+
+With input errors only, no hypothesis and set of conditions both survives and predicts
+anything; with theory errors, SM criticality would be the one that does. The audit findings,
+open and resolved, are part of the output.
 
 ## What it calculates
 
@@ -161,7 +167,7 @@ masses, 41 keep a phase inside a sector and predict nothing, and **83 are tested
 excluded at every scale, and one survives:**
 
 ```
-M_u = | 0 0 X |      M_d = | 0 X 0 |      chi^2 = 0.19 to 0.31 for 1 dof (0.4 to 0.6 sigma)
+M_u = | 0 0 X |      M_d = | 0 X 0 |      chi^2 = 0.27 to 0.40 for 1 dof (0.5 to 0.6 sigma)
       | 0 X X |            | X 0 X |      at m_t(m_t) and at M_S
       | X X X |            | 0 X X |
 ```
@@ -315,13 +321,13 @@ all scales taken from Part I:
 * **Quark/lepton ratios from grand unification** (group theory). Minimal SU(5)'s
   m_s/m_d = m_μ/m_e (= 210.6) is off by 558σ. Georgi–Jarlskog's m_s/m_d = m_μ/(9m_e)
   (= 23.4) is off by 10σ from the measured 19.9 ± 0.3.
-* **b–τ unification** (y_b = y_τ at unification). In the SM the ratio is 0.70 where g₁ = g₂
-  and 0.59 at M_Planck. In the MSSM (M_S = 2.54 TeV, M_GUT = 1.15×10¹⁶ GeV from Part I, tan β
-  scanned over its perturbative range) it is 0.79–0.88. It reaches 1 only at tan β = 1.35,
-  where y_t(M_GUT) = 2.6, at the edge of perturbation theory.
+* **b–τ unification** (y_b = y_τ at unification). In the SM the ratio is 0.69 where g₁ = g₂
+  and 0.58 at M_Planck. In the MSSM (M_S = 2.54 TeV, M_GUT = 1.15×10¹⁶ GeV from Part I, tan β
+  scanned over its perturbative range) it is 0.77–0.86. It reaches 1 only at tan β = 1.33,
+  where y_t(M_GUT) = 2.8, at the edge of perturbation theory.
 * **The top quasi-fixed point.** In the SM, a large top coupling at M_Planck runs to
-  m_t(m_t) = 217–220 GeV, against a measured 163.4. In the MSSM the measured top mass needs
-  tan β = 1.33–1.40.
+  m_t(m_t) = 217–220 GeV, against a measured 162.8. In the MSSM the measured top mass needs
+  tan β = 1.31–1.38.
 
 So no Yukawa coupling is calculated. In the MSSM, b–τ unification and the top fixed point
 point to the same narrow region, tan β ≈ 1.3–1.4. That is one number, not a calculation of the
@@ -332,16 +338,16 @@ Yukawas. Part K tests it against the Higgs mass.
 In the MSSM the Higgs self-coupling is not a free parameter: at M_S it is fixed by the gauge
 couplings, tan β and the stop mixing X_t. The script matches λ(M_S) = (g² + g′²)/4 · cos²2β plus the
 one-loop stop threshold (3y_t⁴/8π²)·X²(1 − X²/12), runs λ down to m_t in the SM, and takes
-m_h = √λ · v. M_S (1.9–3.3 TeV) comes from Part I and tan β (1.33–1.40) from Part J. X_t is unknown,
+m_h = √λ · v. M_S (1.9–3.3 TeV) comes from Part I and tan β (1.31–1.38) from Part J. X_t is unknown,
 so it is scanned. The threshold is largest at X_t² = 6 M_S², which gives an upper bound that holds
 for every mixing.
 
 | | Result |
 |---|---|
-| m_h, no stop mixing | 83–90 GeV |
-| m_h, maximal mixing (upper bound) | **≤ 103.9 GeV** |
+| m_h, no stop mixing | 82–89 GeV |
+| m_h, maximal mixing (upper bound) | **≤ 102.9 GeV** |
 | measured | 125.20 ± 0.11 GeV |
-| M_S that 125.2 GeV would need (tan β = 1.40, maximal mixing) | 5.4 × 10⁶ GeV, 7.7 e-folds above Part I |
+| M_S that 125.2 GeV would need (tan β = 1.38, maximal mixing) | 1.3 × 10⁷ GeV, 8.6 e-folds above Part I |
 
 The missing two-loop and pole-mass corrections are a few GeV in the literature, which leaves a
 21 GeV gap. So the minimal MSSM with one superpartner scale cannot satisfy all four at once:
@@ -359,39 +365,42 @@ measured top mass and α_s predicts M_h, with no free parameter and no new parti
   quoted from Buttazzo et al. 2013, appendix B, read from the paper's LaTeX source. A self-check
   runs their own couplings at M_t to the Planck scale: three-loop running reproduces their printed
   Planck-scale values to 6 × 10⁻⁵, two-loop running misses by 8 × 10⁻⁴.
-* **Matching** to the pole masses M_h, M_t, M_W, M_Z and to G_F: one loop at μ = m_t(m_t), from
-  their appendix A (Passarino–Veltman functions in closed form, checked against quadrature and
-  against the one-loop RGE); two loops at μ = M_t, from their interpolations of λ⁽²⁾ and of the
-  electroweak parts of y_t⁽²⁾, plus the three-loop QCD term of the top pole/MS-bar conversion
-  (Melnikov–van Ritbergen 2000). A self-check feeds their inputs through this matching and gets
-  their λ(M_t) and y_t(M_t) within their theory errors.
+* **QCD** (shared with every part): α_s and the quark masses run at four loops (β₂, β₃, γ₂, γ₃ from
+  RunDec), with three-loop decoupling at the c, b and t thresholds (Chetyrkin–Kniehl–Steinhauser),
+  inverted exactly going up, and the top pole/MS-bar conversion at four loops (Melnikov–van
+  Ritbergen; Marquard et al. 2015). Self-checks reproduce RunDec's α_s(M_b) = 0.2169467 and its
+  α_s(1 GeV) at three and four loops, and Chetyrkin's numerical γ_m coefficient by coefficient.
+* **Matching** to the pole masses M_h, M_t, M_W, M_Z and to G_F: one loop at μ = m_t(m_t) (their
+  appendix A, Passarino–Veltman functions in closed form, checked against quadrature and against
+  the one-loop RGE); two loops at μ = M_t (their interpolations of λ⁽²⁾ and of the electroweak
+  parts of y_t⁽²⁾); three loops, its leading QCD part: λ⁽³⁾ at O(α_s² y_t⁴) (their footnote, from
+  Martin 2013) and the pure-QCD y_t to four loops. With QCD at three loops, their inputs give
+  their λ(M_t) and y_t(M_t) (0.12605 against 0.12604, 0.93689 against 0.93690).
 
-| λ(M_P) = 0 | M_h (GeV) |
+| λ(M_P) = 0 (QCD at four loops unless noted) | M_h (GeV) |
 |---|---|
-| one-loop running, tree matching | 134.76 |
-| two-loop running, tree matching | 128.98 |
-| two-loop running, one-loop matching | 129.02 |
-| three-loop running, one-loop matching | 128.80 |
-| three-loop running, two-loop matching without the three-loop QCD top term | 129.68 |
-| **three-loop running, two-loop matching** | **128.72 ± 0.94** (M_t, α_s, M_W errors) |
+| one-loop running, tree matching | 133.40 |
+| two-loop running, one-loop matching | 127.58 |
+| three-loop running, two-loop matching | 128.27 |
+| three-loop running, two-loop matching, QCD at three loops (Buttazzo et al.'s order) | 128.67 |
 | Buttazzo et al.'s own λ(M_Pl), solved at this script's M_t and α_s | 128.68 |
+| **three-loop running, three-loop matching** | **128.34 ± 0.95** (M_t, α_s, M_W errors) |
 | measured | 125.20 ± 0.11 |
 
-Three-loop running moves the prediction by −0.23 GeV and two-loop matching by −0.07 GeV (+0.89
-from λ⁽²⁾ and y_t⁽²⁾, −0.96 from the three-loop QCD top-mass term). The higher orders change it by
-0.3 GeV in all, and the gap stays at 3.5 GeV: 3.7σ on the input errors, and still 3.6σ once the
-last-order shifts are added as theory errors (Part M). The measured Higgs mass puts λ(M_P) at
-−0.011, turning negative at 3 × 10¹⁰ GeV: the Standard Model sits just on the unstable side. Both
-Planck-scale conditions together (λ = β_λ = 0, at two loops) give M_h = 130.8 GeV and M_t =
-173.5 GeV, within 1 GeV of the measured top mass. Not included: three-loop matching, and four-loop
-QCD running of α_s and the quark masses (this script runs them at two loops).
+The last order of each ingredient moves the prediction by −0.23 GeV (three-loop running), +0.07
+GeV (three-loop matching) and −0.40 GeV (four-loop QCD: running, decoupling and the top mass).
+The gap is 3.1 GeV: 3.3σ on the input errors, 2.95σ once those last-order shifts are counted as
+theory errors (Part M). The measured Higgs mass puts λ(M_P) at −0.0098, turning negative at
+6 × 10¹⁰ GeV: the Standard Model sits just on the unstable side. Both Planck-scale conditions
+together (λ = β_λ = 0, at two loops) give M_h = 130.7 GeV and M_t = 174.3 GeV. Not included: the
+electroweak and mixed three-loop thresholds, and four-loop running beyond pure QCD.
 
 All scales come from the algorithm. Parts B and C run at m_t(m_t) and at Part I's M_S. Part J
 uses Part I's M_GUT and Part H's M_Planck. Part K uses Part I's M_S and Part J's tan β. The tan β range and the "large" top coupling come
 from the perturbativity limit √(4π). The only numbers not produced by the algorithm are the
 measured inputs, the numerical settings, the quoted coefficient 41/(10π), the quoted two-loop
 y_t and λ coefficients and one-loop matching formulas of Part L, and the `LITERATURE` table
-(three-loop running and two-loop matching), each checked by a self-check.
+(three-loop running and matching, four-loop QCD), each checked by a self-check.
 
 ## What changed from production v1
 

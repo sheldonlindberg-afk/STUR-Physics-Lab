@@ -4252,7 +4252,7 @@ def report(res: Dict[str, Any]) -> str:
     w("PART B. QUARK FLAVOUR: RG-run masses in the Fritzsch six-zero texture")
     w("-" * 78)
     base = flav["ratios"][runner.mt_msbar]
-    w(f"  m_t(m_t) MS-bar from the pole mass (2-loop)    {runner.mt_msbar:.3f} GeV")
+    w(f"  m_t(m_t) MS-bar from the pole mass ({runner.loops}-loop)    {runner.mt_msbar:.3f} GeV")
     w(f"  v = (sqrt2 G_F)^(-1/2)                         {runner.v:.3f} GeV")
     w(f"  y_t(m_t) = sqrt2 m_t(m_t) / v                  {runner.ew['y_t_at_mt']:.4f}")
     w(f"  sin^2 theta_W (tree level, from G_F, alpha, M_Z) {runner.ew['sin2_theta_tree']:.5f}")
@@ -4729,8 +4729,8 @@ def report(res: Dict[str, Any]) -> str:
             w("      calculated here.")
         w(f"  RESULT: one condition at the Planck scale gives the Higgs mass to"
           f" {100 * abs(c_['m_h'] / mh - 1):.0f} percent with nothing adjusted:")
-        w(f"    {c_['m_h']:.1f} GeV against {mh:.2f}. The higher orders (three-loop running and matching,")
-        w(f"    four-loop QCD) move it by {c_['m_h'] - cr['two_loop_one_loop']['m_h']:+.2f} GeV and do not close"
+        w(f"    {c_['m_h']:.1f} GeV against {mh:.2f}. Against two-loop running with one-loop matching (same QCD),")
+        w(f"    the higher orders move it by {c_['m_h'] - cr['two_loop_one_loop']['m_h']:+.2f} GeV and do not close"
           " the gap: the measured Higgs mass makes lambda slightly")
         w("    negative at M_P and the SM vacuum is not stable. The top mass dominates the input error; the")
         w("    second condition (beta_lambda = 0) lands near the measured top mass.")

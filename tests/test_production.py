@@ -229,7 +229,7 @@ def test_uv_joint_test():
     rows = {(r["hypothesis"], r["conditions"]): r for r in jt["rows"]}
     assert len(rows) == 14
     assert not any(r["survives"] for (h, _), r in rows.items() if h.startswith("SM"))
-    assert abs(jt["SM_pulls"]["H"] - 3.71) < 0.05
+    assert abs(jt["SM_pulls"]["H"] - 3.27) < 0.05
     mssm = {c: r for (h, c), r in rows.items() if h.startswith("MSSM")}
     assert all(mssm[c]["survives"] and mssm[c]["chi2"] < 1e-6 for c in mssm if len(c) < 3)
     assert not mssm[("U", "B", "H")]["survives"] and mssm[("U", "B", "H")]["n_sigma"] > 20
@@ -237,15 +237,17 @@ def test_uv_joint_test():
     assert jt["predictive_survivors"] == []
     # theory errors: calculated from the code's own lower orders, never typed in
     th = jt["SM_theory_sigma"]
-    # Part L's last orders: three-loop running, two-loop matching: a quarter of a GeV
-    assert 0.1 < th["H"] < 0.5 and abs(th["U"] - 4.80) < 0.05
+    # Part L's last orders: running 3 vs 2 loops, matching 3 vs 2, QCD 4 vs 3 (the largest)
+    parts = jt["SM_theory_H_parts"]
+    assert abs(parts["QCD"]) > max(abs(parts["running"]), abs(parts["matching"]))
+    assert 0.3 < th["H"] < 0.6 and abs(th["U"] - 4.80) < 0.05
     assert all(r["with_theory"]["n_sigma"] <= r["n_sigma"] + 1e-9 for r in rows.values())
-    # SM criticality is now excluded with theory errors too; only the MSSM with all three
-    # conditions still depends on them (through the one-loop unification shift)
-    assert rows[("SM up to M_P", ("H",))]["with_theory"]["n_sigma"] > 3
+    # two verdicts depend on the theory errors: SM criticality (3.3 sigma on inputs, just under 3 with
+    # the last-order shifts) and the MSSM with all three conditions (through unification)
+    assert 2.5 < rows[("SM up to M_P", ("H",))]["with_theory"]["n_sigma"] < 3
     flips = {k for k, r in rows.items() if r["survives"] != r["with_theory"]["survives"]}
-    assert flips == {("MSSM above M_S", ("U", "B", "H"))}
-    assert jt["predictive_survivors_theory"] == []
+    assert flips == {("SM up to M_P", ("H",)), ("MSSM above M_S", ("U", "B", "H"))}
+    assert jt["predictive_survivors_theory"] == [("SM up to M_P", ("H",))]
 
 
 def test_parallel_textures_excluded():
@@ -318,13 +320,27 @@ def test_sm_criticality():
     assert all(127 < r["m_h"] < 131 for r in two)
     assert max(r["m_h"] for r in two) - min(r["m_h"] for r in two) < 0.5   # Planck mass, matching
     assert 127 < cr["central"]["m_h"] < 131 and cr["central"]["matched"]
-    assert (cr["central"]["loops"], cr["central"]["matching"]) == (3, "two loops")
+    assert (cr["central"]["loops"], cr["central"]["matching"]) == (3, "three loops")
     # the higher orders move it by well under a GeV
     assert abs(cr["central"]["m_h"] - cr["two_loop_one_loop"]["m_h"]) < 1
     bz = cr["buttazzo"]
     assert bz["dev_3L"] < 1e-4 < bz["dev_2L"]
     assert bz["dev_lambda"] < bz["lambda_th"] and bz["dev_yt"] < bz["yt_th"]
-    assert abs(cr["central"]["m_h"] - bz["mh_linear"]) < bz["mh_linear_tol"]
+    assert abs(cr["row"]["3L/two loops, QCD 3"]["m_h"] - bz["mh_linear"]) < bz["mh_linear_tol"]
+    qc = cr["qcd_checks"]
+    assert qc["dev_alpha_Mb"] < 1e-5 and qc["dev_gamma"] < 1e-5 and qc["dev_B4"] < 1e-6
+
+
+def test_four_loop_qcd():
+    """Four-loop QCD with three-loop decoupling: the published coefficients reproduce RunDec and
+    Chetyrkin; each lower order is the right truncation; the runner's m_t(m_t) moves as expected."""
+    x = P._float_inputs()
+    runs = {L: P.FlavourRunner(x, int(P.num("rg_steps_per_efold")), L) for L in (2, 3, 4)}
+    mts = {L: r.mt_msbar for L, r in runs.items()}
+    assert mts[2] > mts[3] > mts[4]                      # each QCD order lowers m_t(m_t)
+    assert 0.3 < mts[2] - mts[4] < 1.0
+    assert abs(P.qcd_beta_pi(5, 2)[1] - (102 - 38 * 5 / 3) / 16) < 1e-12
+    assert P.decoupling_g2(0.2, 4, 2) == 1 and P.decoupling_m(0.2, 4, 2) == 1
     assert 0.3 < cr["sigma_total"] < 2
     assert 125 < cr["double"]["m_h"] < 135 and 170 < cr["double"]["M_t"] < 177
     pr = P.sm_lambda_profile(cr, 125.20)
