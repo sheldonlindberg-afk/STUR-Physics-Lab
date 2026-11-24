@@ -186,4 +186,62 @@ from the holonomy, through the different hypercharges.
 
 ## Result
 
-*(Not yet computed.)*
+*Computed after registration, by `production_v2_2.py` (Part K) at commit `f616ec9`. Nothing above
+the separator was changed; `tests/test_preregistration.py` checks this.*
+
+**K1: excluded at both scales, as registered.**
+
+| Scale | χ²_min (4 dof) | Verdict |
+|---|---|---|
+| m_t(m_t) = 163.4 GeV | 40,571.3 | excluded: p below double precision, beyond 37σ |
+| M_S = 2536 GeV | 41,283.1 | excluded: p below double precision, beyond 37σ |
+
+The best point lies inside the registered range (log₁₀ a_q = −0.70, log₁₀ a_H = 0.73,
+θ_H = 62.0°, Φ = 11.04π), so the boundary rule did not apply. As registered, this point is not a
+determination of anything. It shows only how close the model can get.
+
+**Where the χ² comes from (at m_t(m_t)).** The mass hierarchies dominate, as D7 expected:
+
+| Term | Model at best point | Measured | χ² contribution |
+|---|---|---|---|
+| m_u/m_c | 9.1 × 10⁻² | 1.94 × 10⁻³ | 13,571 |
+| m_c/m_t | 1.65 × 10⁻² | 3.81 × 10⁻³ | 12,579 |
+| m_d/m_s | 0.213 | 0.0503 | 7,073 |
+| m_s/m_b | 9.4 × 10⁻³ | 1.91 × 10⁻² | 5,698 |
+| \|V_us\| | 0.209 | 0.225 | 577 |
+| \|V_cb\| | 0.0296 | 0.0418 | 313 |
+| \|V_ub\| | 0.00463 | 0.00373 | 100 |
+| J | 3.7 × 10⁻⁷ | 3.12 × 10⁻⁵ | 660 |
+
+The pattern is the one D7 derived. One width and one Higgs give both sectors nearly the same
+hierarchy: ln(m_t/m_c) = 4.10 and ln(m_b/m_s) = 4.67 in the model, against 5.57 and 3.96 measured. The
+model settles between them and misses both. The holonomy, the only thing that separates up from down
+(D8), shifts the profiles too little to split the sectors by the measured amount. It also leaves CP
+violation 85 times too small.
+
+**The checks.**
+
+| Item | Result | As registered? |
+|---|---|---|
+| K0a | max \|J\| at Φ = 0 over 20 points: 5 × 10⁻⁴⁵ | yes |
+| K0b | at Φ = 0 with θ_H ∈ {0, π/3, 4π/3}, max \|V_ij\| = 1.000000000000 at every point with a defined V. At 6 of the 60 points two masses are degenerate, so V is undefined (D3); they were counted, not used. | yes, with that count stated |
+| K0c | at Φ = 0: max \|1 − \|V_ii\|\| = 4 × 10⁻¹⁶; up and down mass ratios equal to 0 relative | yes |
+| K2 | χ² at the best point with N = 192, M = 864: relative change 1.9 × 10⁻¹² and 4.4 × 10⁻¹² | yes |
+| K3 | *(running; see below)* | |
+| K4 | \|det Y\|² against the product of the masses²: 3 × 10⁻¹¹ relative; \|VV† − 1\| = 3 × 10⁻¹³ | yes |
+
+**Implementation notes (none changes a registered item).**
+- `ckm_observables` from Part B also forms ratios such as \|V_ub/V_cb\|, which divide by zero where
+  D8 makes V = 1. Part K computes its four registered observables with the same formulas, without
+  those ratios.
+- Fourier coefficients below 10⁻¹⁸ of the largest are skipped when a profile is put on the grid.
+  That is below double precision, and K2 confirms it changes nothing.
+- The compass search stops at a step of 10⁻⁶ in the search coordinates (`k_min_step`). The
+  registration fixed the method, not this resolution.
+
+**What it means.** The Z₃ overlap geometry of STUR v7.0, with one quark width, a Higgs profile, a
+hypercharge holonomy and nothing typed in, cannot produce the quark masses and the CKM matrix
+together. With no flux, two theorems (D6 and D8) already exclude it exactly, and v7.0's own
+configuration is one of those cases. A viable version would need Z₃ to be broken further, for
+example by generation-dependent widths. Each such width is a new unknown, unless a rule derived from
+the geometry fixes it before the data are compared.
