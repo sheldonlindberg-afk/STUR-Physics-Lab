@@ -458,21 +458,29 @@ PART L. STANDARD MODEL CRITICALITY: THE HIGGS MASS FROM ONE CONDITION AT THE PLA
       lambda(M_P        ) = 0       2      three loops           128.57
       lambda(M_P        ) = 0       3      three loops, QCD 3    128.74
       lambda(M_P        ) = 0       3      three loops           128.34
-  Three-loop running, three-loop matching, four-loop QCD: M_h = 128.34 GeV +/- 0.95
+      lambda(M_P        ) = 0       3      SMDR-anchored         128.34
+  Anchored to SMDR (Martin-Robertson 2019: full two-loop plus leading three-loop matching, four-loop
+  QCD) at its reference point. Couplings at Q0 = 173.1 GeV for SMDR's inputs, this script vs SMDR:
+      lambda 0.12581 / 0.12604   y_t 0.93461 / 0.93480   g3 1.16360 / 1.16362
+      g2 0.64812 / 0.64766   gp 0.35871 / 0.35854
+  The differences (this script's missing electroweak and mixed thresholds and its simpler
+  electroweak inputs) are added at M_t; this script's own matching carries them to the inputs.
+  Three-loop running, SMDR-anchored matching, four-loop QCD: M_h = 128.34 GeV +/- 0.95
       (inputs: M_t +0.60, alpha_s -0.74, M_W +0.000)
-      the last order of each part moves it by: running (3 loops vs 2) -0.23 GeV, matching (3 vs 2) +0.07 GeV,
-      QCD running, decoupling and top mass (4 loops vs 3) -0.40 GeV; two-loop matching against one: +0.92 GeV
+      against this script's own three-loop matching (128.34 GeV): -0.00 GeV. Last orders of
+      its own calculation: running (3 loops vs 2) -0.23 GeV, matching (3 vs 2) +0.07 GeV,
+      QCD running, decoupling and top mass (4 loops vs 3) -0.40 GeV
       measured M_h = 125.20 +/- 0.11 GeV: the prediction is 3.1 GeV high, 3.3 sigma on the input errors
       cross-check at Buttazzo et al.'s own order (two-loop matching, QCD at three loops): 128.67 GeV;
       their lambda(M_Pl), linear in M_h, M_t, alpha_s, gives 128.68 GeV here
-      Three-loop matching here is its leading QCD part (lambda: O(alpha_s^2 y_t^4); y_t: pure QCD,
-      to four loops). Not included: the electroweak and mixed three-loop thresholds, and four-loop
-      running beyond pure QCD.
+      This script's own three-loop matching is its leading QCD part (lambda: O(alpha_s^2 y_t^4); y_t:
+      pure QCD, to four loops); the anchor adds SMDR's full two loops and leading three loops. Not
+      included: the rest of three-loop matching, and four-loop running beyond pure QCD.
   Both conditions at the Planck scale, lambda(M_P) = 0 and beta_lambda(M_P) = 0, fix two numbers
   (at two loops, one-loop matching):
       M_h = 130.7 GeV and M_t = 174.3 GeV (measured 125.2 and 172.57; QCD pole/MS-bar ratio of the measured top kept)
   Read backwards, with the measured M_h (Part L's central order): lambda(M_P) = -0.0098, beta_lambda(M_P) = +1.6e-04
-      lambda turns negative at mu = 5.86e+10 GeV: the electroweak vacuum is not the
+      lambda turns negative at mu = 6.20e+10 GeV: the electroweak vacuum is not the
       lowest state. Whether it is long-lived (metastable) needs the tunnelling rate, not
       calculated here.
   RESULT: one condition at the Planck scale gives the Higgs mass to 3 percent with nothing adjusted:
@@ -587,8 +595,8 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
         e_charge, m_b, m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV, m_u,
         mu_light, s2_hat_Z
       takes: planck_units
-      assumes: lambda(M_P) = 0; three-loop running and matching (QCD part),
-        four-loop QCD
+      assumes: lambda(M_P) = 0; three-loop running, matching anchored to
+        SMDR, four-loop QCD
   uv_joint_test (M, numerical)
       inputs: G_F, M_W, M_Z, M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ, c,
         e_charge, m_b, m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV, m_u,
@@ -645,6 +653,10 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
     [resolved] Part L runs at three loops, matches at three loops (leading
       QCD part) and treats QCD at four loops with three-loop decoupling, each
       published coefficient checked by a self-check.
+    [resolved] The electroweak and mixed higher-order thresholds Part L could
+      not transcribe are taken from SMDR's reference point (full two-loop
+      plus leading three-loop): anchoring to it moves M_h by about a MeV, so
+      this script's matching is confirmed.
     [open] If SM criticality's Part M verdict differs between the two error
       sets, it is decided by the last-order shifts, which four-loop QCD
       dominates. They are a conservative estimate: the QCD series of the top
@@ -693,11 +705,12 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Largest Higgs mass over the X_t scan sits at X_t^2 = 6 M_S^2 (the bound used)  (peak at X_t/M_S = 2.309)
   [PASS] One-loop beta_lambda: Part L convention = Part K convention (lambda_K = 2 lambda)  (rel diff 4.4e-16)
   [PASS] Two-loop beta_lambda coefficients agree with the hypercharge-normalized literature form  (-312 629/24 -379/48 36 21/2)
-  [PASS] Criticality solve converged (step count doubled; two and three loops)  (rel change 3.2e-13)
+  [PASS] Criticality solve converged (step count doubled; two and three loops)  (rel change 1.1e-13)
   [PASS] Three-loop RGEs: Buttazzo et al.'s couplings at M_t reproduce their Planck-scale values (two loops must miss)  (max dev 6.1e-05 at 3 loops, 7.8e-04 at 2)
   [PASS] Part L at Buttazzo et al.'s order = their lambda(M_Pl) = 0, solved at our M_t, alpha_s (their theory error)  (128.67 against 128.68 GeV)
   [PASS] Four-loop QCD beta function: RunDec's alpha_s(M_b) (7 digits) and alpha_s(1 GeV) at 3, 4 loops  (alpha_s(M_b) = 0.2169467, alpha_s(1 GeV) = 0.4065)
   [PASS] Four-loop mass anomalous dimension = Chetyrkin's numerical form (each power of n_f); B4; decoupling inverted exactly  (max rel dev 2.0e-06, B4 dev 8.7e-08)
+  [PASS] This script's own matching = SMDR's at its reference point, within Buttazzo et al.'s theory errors (lambda, y_t)  (lambda +2.3e-04, y_t +1.9e-04)
   [PASS] Two-loop matching: their inputs give their lambda(M_t) and y_t(M_t) within their theory errors  (lambda 0.12605, y_t 0.93689)
   [PASS] Passarino-Veltman B0 in closed form = direct quadrature (below and above threshold)  (max abs diff 5.0e-06)
   [PASS] One-loop matching of lambda and y_t: d/d ln mu reproduces the one-loop RGE exactly  (max rel diff 1.6e-11)
@@ -716,6 +729,6 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Lambda_QCD (2-loop) reproduces alpha_s(M_Z)  (rel diff 2.2e-16)
   [PASS] Part M at Part I's M_S reproduces the measured alpha (the two stages agree)  (diff -1.4e-14)
   [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (15 stages, 28 edges)
-  48/48 checks pass
+  49/49 checks pass
 ==============================================================================
-Elapsed: 341.4 s
+Elapsed: 344.9 s
