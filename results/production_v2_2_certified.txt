@@ -1,0 +1,758 @@
+==============================================================================
+STUR Physics Lab, production v2.2: nothing tuned, nothing fitted
+==============================================================================
+Inputs: 32 measured or defined constants (INPUTS). Comparisons: 9 measured results, never used in a calculation.
+
+PART A. COSMOLOGY (flat Lambda-CDM, Friedmann equation)
+------------------------------------------------------------------------------
+  Omega_gamma  from T_CMB (Stefan-Boltzmann)    5.45024e-05
+  Omega_r      photons + N_eff neutrinos         9.21807e-05
+  Omega_Lambda = 1 - Omega_m - Omega_r           0.684608 +/- 0.0073
+      measured (Planck 2018)                    0.6847 +/- 0.0073   pull -0.01 sigma
+  Age of the universe t0                         13.7952 Gyr +/- 0.142 (H0, Omega_m, T_CMB uncorrelated)
+      measured (Planck 2018)                    13.787 +/- 0.02 Gyr   difference +0.0082 Gyr
+      (the Planck error is smaller because Planck's H0 and Omega_m are anticorrelated)
+  Deceleration parameter q0                      -0.52687
+  Acceleration began at redshift z_acc           0.63096
+  Matter-radiation equality z_eq                 3419.5
+  Matter-Lambda equality a                       0.77225
+  Hubble-horizon entropy today                   2.2681e+122 k_B
+  de Sitter horizon entropy (t -> infinity)      3.3130e+122 k_B
+  Age to 50 digits: 13.795175594202987172436750705412839947362670774933 Gyr (numerical, not physical, precision)
+
+PART B. QUARK FLAVOUR: RG-run masses in the Fritzsch six-zero texture
+------------------------------------------------------------------------------
+  m_t(m_t) MS-bar from the pole mass (4-loop)    162.790 GeV
+  v = (sqrt2 G_F)^(-1/2)                         246.220 GeV
+  y_t(m_t) = sqrt2 m_t(m_t) / v                  0.9350
+  sin^2 theta_W (tree level, from G_F, alpha, M_Z) 0.23356
+  Running masses at m_t(m_t) (GeV): u 1.1810e-03  d 2.5839e-03  s 5.1404e-02  c 0.5975  b 2.7288
+
+  The texture fixes every matrix entry from the masses. Its two phases are not
+  fixed by anything, so each prediction is the band swept by ALL phase values;
+  the band edges carry the propagated input uncertainty.
+
+  Scale mu = 163 GeV   alpha_s = 0.10849   y_t = 0.9350
+    sqrt(m_d/m_s) = 0.22420  sqrt(m_u/m_c) = 0.04446  sqrt(m_s/m_b) = 0.13725  sqrt(m_c/m_t) = 0.06058
+    observable band over all phases               measured               verdict
+    V_us       [0.17537 +/- 0.0019, 0.26182 +/- 0.0019] 0.22501 +6.8e-04/-6.8e-04 inside band
+    V_cb       [0.072358 +/- 6.5e-04, 0.19205 +/- 9.4e-04] 0.04183 +7.9e-04/-6.9e-04 outside by 29.9 sigma
+    V_ub       [0.0026437 +/- 6.2e-05, 0.0091114 +/- 1.4e-04] 0.003732 +9.0e-05/-8.5e-05 inside band
+    V_ub/V_cb  [0.036512 +/- 7.6e-04, 0.052139 +/- 7.3e-04] 0.089218 +0.0026/-0.0026 outside by 13.5 sigma
+    V_td/V_ts  [0.22722 +/- 0.0019, 0.23257 +/- 0.002] 0.207 +0.0032/-0.0032  outside by 5.4 sigma
+    J          [-3.4826e-04 +/- 6.3e-06, 3.4826e-04 +/- 6.3e-06] 3.1200e-05 +1.3e-06/-1.2e-06 inside band
+
+  Scale mu = 2536 GeV   alpha_s = 0.08090   y_t = 0.8277
+    sqrt(m_d/m_s) = 0.22420  sqrt(m_u/m_c) = 0.04446  sqrt(m_s/m_b) = 0.13864  sqrt(m_c/m_t) = 0.05998
+    observable band over all phases               measured               verdict
+    V_us       [0.17538 +/- 0.0019, 0.26181 +/- 0.0019] 0.22501 +6.8e-04/-6.8e-04 inside band
+    V_cb       [0.074282 +/- 6.5e-04, 0.19276 +/- 9.4e-04] 0.04183 +7.9e-04/-6.9e-04 outside by 31.7 sigma
+    V_ub       [0.0027123 +/- 6.3e-05, 0.00916 +/- 1.4e-04] 0.003732 +9.0e-05/-8.5e-05 inside band
+    V_ub/V_cb  [0.036488 +/- 7.6e-04, 0.052177 +/- 7.3e-04] 0.089218 +0.0026/-0.0026 outside by 13.5 sigma
+    V_td/V_ts  [0.22731 +/- 0.0019, 0.2326 +/- 0.002] 0.207 +0.0032/-0.0032  outside by 5.4 sigma
+    J          [-3.5090e-04 +/- 6.3e-06, 3.5090e-04 +/- 6.3e-06] 3.1200e-05 +1.3e-06/-1.2e-06 inside band
+
+  RESULT: at every evaluation scale and for every value of the two phases, the
+  six-zero texture misses: V_cb (at least 30 sigma), V_ub/V_cb (at least 14 sigma), V_td/V_ts (at least 5 sigma).
+  The masses alone do not produce the measured mixing in this texture.
+
+PART C. EVERY TEXTURE-ZERO PATTERN THAT MAKES A PREDICTION
+------------------------------------------------------------------------------
+  Hermitian mass matrices; a symmetric off-diagonal pair counts as one zero.
+  Unknowns (2 phases, 1 per free entry) are scanned or tested, never fixed;
+  predictions = 4 data (|V_us|, |V_cb|, |V_ub|, J) - unknowns.
+  1000 ordered pattern pairs with 5 or 6 zeros fall into 188 classes under weak-basis permutations:
+     64 cannot give three nonzero masses with real entries
+     41 keep a phase inside one sector, so they predict nothing (not tested)
+     83 make predictions and are tested
+
+  zeros  up mass matrix  down mass matrix  pred   n-sigma at 0.16279 TeV  2.53649 TeV   verdict
+      5  00X/0XX/XXX     0X0/X0X/0XX          1         0.5        0.6   SURVIVES
+      5  00X/0X0/X0X     0X0/XXX/0XX          1        13.2       13.2   excluded (band)
+      5  00X/0XX/XXX     0X0/XX0/00X          1        13.3       13.3   excluded (band)
+      5  00X/0XX/XXX     00X/0XX/XX0          1        13.8       13.6   excluded (joint)
+      5  00X/0XX/XX0     00X/0XX/XXX          1        17.2       17.1   excluded (joint)
+      5  00X/0XX/XX0     0XX/XX0/X0X          1        19.7       19.1   excluded (band)
+      6  00X/0XX/XX0     00X/0X0/X0X          2        20.1       19.5   excluded (band)
+      5  00X/0XX/XX0     X0X/0X0/X0X          1        20.1       19.5   excluded (band)
+      5  00X/0X0/X0X     XX0/X0X/0XX          1        20.2       19.6   excluded (band)
+      5  0XX/XX0/X0X     X0X/0X0/X00          1        20.2       20.5   excluded (band)
+      5  00X/0X0/X0X     00X/0XX/XXX          1        24.2       24.2   excluded (band)
+      5  00X/0XX/XXX     00X/0X0/X0X          1        25.8       25.8   excluded (band)
+      5  00X/0XX/XX0     X0X/0XX/XX0          1        28.2       30.0   excluded (band)
+      5  0XX/XX0/X0X     0XX/X00/X0X          1        29.8       31.7   excluded (band)
+      6  00X/0XX/XX0     00X/0XX/XX0          2        29.9       31.7   excluded (band)
+      5  00X/0XX/XX0     XX0/XXX/0X0          1        31.9       33.8   excluded (band)
+      5  00X/0XX/XXX     X00/0X0/00X          1        34.3       34.4   excluded (band)
+      5  00X/0X0/X0X     0XX/XX0/X0X          1        37.0       36.8   excluded (band)
+      5  X00/0XX/0XX     00X/0XX/XX0          1        37.1       36.9   excluded (band)
+      6  00X/0X0/X0X     0XX/X00/X0X          2        37.1       36.9   excluded (band)
+      5  00X/0X0/X0X     XXX/X00/X0X          1        39.0       38.9   excluded (band)
+      5  X00/0X0/00X     00X/0XX/XXX          1        42.3       42.2   excluded (band)
+      5  00X/0XX/XXX     XX0/X00/00X          1        42.9       42.9   excluded (band)
+      6  00X/0X0/X0X     XX0/X00/00X          2        43.9       43.9   excluded (band)
+      5  00X/0X0/X0X     XX0/XX0/00X          1        43.9       43.9   excluded (band)
+      5  X00/0XX/0XX     00X/0X0/X0X          1        43.9       43.9   excluded (band)
+      5  00X/0XX/XXX     X00/00X/0XX          1        46.2       46.4   excluded (band)
+      5  0XX/XX0/X0X     00X/0X0/X0X          1        50.8       52.2   excluded (band)
+      5  0XX/XX0/X0X     X00/00X/0XX          1        51.7       53.1   excluded (band)
+      5  00X/0XX/XX0     0X0/XXX/0XX          1        56.2       57.2   excluded (band)
+      5  X00/0X0/00X     0XX/XX0/X0X          1        60.6       60.6   excluded (band)
+      6  00X/0X0/X0X     00X/0X0/X0X          2        60.6       60.6   excluded (band)
+      6  00X/0X0/X0X     0X0/XX0/00X          2        60.6       60.6   excluded (band)
+      5  00X/0X0/X0X     X0X/0X0/X0X          1        60.6       60.6   excluded (band)
+      5  X00/0XX/0XX     X00/00X/0XX          1        60.6       60.6   excluded (band)
+      5  X00/0XX/0XX     X00/0X0/00X          1        60.6       60.6   excluded (band)
+      6  X00/0X0/00X     00X/0X0/X0X          2        60.6       60.6   excluded (band)
+      5  X00/0X0/00X     X00/0XX/0XX          1        60.6       60.6   excluded (band)
+      5  0XX/XX0/X0X     X00/0X0/00X          1        69.7       69.2   excluded (band)
+      5  00X/0XX/XXX     0XX/X00/X0X          1        77.0       77.0   excluded (band)
+      5  00X/0X0/X0X     X0X/00X/XXX          1        82.4       83.0   excluded (band)
+      5  0XX/XX0/X0X     00X/0XX/XX0          1        82.7       83.6   excluded (band)
+      5  00X/0X0/X0X     XX0/XXX/0X0          1        84.6       85.6   excluded (band)
+      5  00X/0X0/X0X     X0X/0XX/XX0          1        85.5       86.4   excluded (band)
+      5  X00/0XX/0XX     X0X/00X/XX0          1        87.5       88.4   excluded (band)
+      6  00X/0X0/X0X     00X/0XX/XX0          2        87.9       88.7   excluded (band)
+      6  00X/0X0/X0X     0X0/X0X/0XX          2        88.0       88.8   excluded (band)
+      6  X00/0X0/00X     00X/0XX/XX0          2        88.0       88.8   excluded (band)
+      5  X00/0XX/0XX     X0X/0X0/X00          1       104.2      104.5   excluded (band)
+      5  00X/0XX/XXX     XX0/X0X/0X0          1       120.2      119.9   excluded (band)
+      5  00X/0XX/XXX     0XX/XX0/X00          1       128.4      128.0   excluded (band)
+      5  00X/0XX/XXX     X0X/00X/XX0          1       156.7      156.7   excluded (band)
+      5  00X/0XX/XXX     X0X/0X0/X00          1       156.8      156.8   excluded (band)
+      5  00X/0XX/XXX     X00/0XX/0X0          1       159.5      159.5   excluded (band)
+      6  00X/0X0/X0X     X00/0X0/00X          2       180.0      180.0   excluded (band)
+      5  00X/0XX/XX0     X00/0XX/0XX          1       180.0      180.0   excluded (band)
+      5  00X/0X0/X0X     X00/0XX/0XX          1       180.0      180.0   excluded (band)
+      6  00X/0XX/XX0     0X0/XX0/00X          2       180.2      180.2   excluded (band)
+      6  00X/0XX/XX0     X00/0X0/00X          2       180.2      180.2   excluded (band)
+      6  00X/0XX/XX0     X00/0XX/0X0          2       180.4      180.4   excluded (band)
+      6  00X/0X0/X0X     X00/0XX/0X0          2       181.2      181.3   excluded (band)
+      5  00X/0XX/XX0     XX0/XX0/00X          1       259.6      260.4   excluded (band)
+      5  X00/0XX/0XX     0XX/X00/X0X          1       310.7      310.3   excluded (band)
+      6  00X/0X0/X0X     X00/00X/0XX          2       330.3      330.3   excluded (band)
+      6  X00/0X0/00X     X00/0X0/00X          2       330.9      330.9   excluded (band)
+      5  0XX/XX0/X0X     X0X/00X/XX0          1       772.5      761.5   excluded (band)
+      5  00X/0XX/XX0     XXX/X00/X0X          1       857.6      857.3   excluded (band)
+      5  00X/0XX/XX0     X0X/00X/XXX          1       861.1      860.8   excluded (band)
+      5  00X/0XX/XX0     XXX/XX0/X00          1       865.3      865.3   excluded (band)
+      5  00X/0X0/X0X     XXX/XX0/X00          1       865.5      865.5   excluded (band)
+      6  00X/0X0/X0X     X0X/0X0/X00          2       866.0      866.0   excluded (band)
+      6  00X/0XX/XX0     X0X/0X0/X00          2       866.1      866.1   excluded (band)
+      6  00X/0XX/XX0     0XX/XX0/X00          2       879.4      879.6   excluded (band)
+      6  00X/0X0/X0X     0XX/XX0/X00          2       880.6      880.8   excluded (band)
+      6  00X/0XX/XX0     X00/00X/0XX          2       >1000      >1000   excluded (band)
+      5  00X/0XX/XX0     XX0/X0X/0XX          1       >1000      >1000   excluded (band)
+      6  00X/0XX/XX0     0X0/X0X/0XX          2       >1000      >1000   excluded (band)
+      6  00X/0X0/X0X     X0X/00X/XX0          2       >1000      >1000   excluded (band)
+      6  00X/0XX/XX0     0XX/X00/X0X          2       >1000      >1000   excluded (band)
+      6  00X/0X0/X0X     XX0/X0X/0X0          2       >1000      >1000   excluded (band)
+      6  00X/0XX/XX0     XX0/X00/00X          2       >1000      >1000   excluded (band)
+      6  00X/0XX/XX0     X0X/00X/XX0          2       >1000      >1000   excluded (band)
+      6  00X/0XX/XX0     XX0/X0X/0X0          2       >1000      >1000   excluded (band)
+  (masks: rows of the matrix, X = nonzero, 0 = texture zero; 'band' = one |V_ij| alone
+   is out of reach for every value of the unknowns; 'joint' = all four data at once)
+
+  Survivor  up 00X/0XX/XXX  down 0X0/X0X/0XX: 1 prediction(s), class of 6 equivalent orderings
+    0.16279 TeV: chi^2 = 0.27 for 1 dof (0.5 sigma);  ranges over all unknowns: V_us [1.83e-09, 0.992]  V_cb [8.34e-11, 0.999]  V_ub [9.55e-13, 0.045]  J [-0.0037, 0.0037]
+    2.53649 TeV: chi^2 = 0.40 for 1 dof (0.6 sigma);  ranges over all unknowns: V_us [5.15e-13, 0.991]  V_cb [1.03e-10, 0.999]  V_ub [4.76e-12, 0.045]  J [-0.0037, 0.0037]
+  (the free entry and the phases sweep each observable over a wide range on its own; the
+   prediction is a relation among the four, which the joint test checks)
+  What it predicts: |V_us|, |V_cb|, |V_ub| fix its three unknowns at isolated points; at each,
+  |J| and |V_td/V_ts| follow (errors: the three moduli and the inputs, re-solved):
+    0.16279 TeV: |J| = 2.903e-05 +/- 1.2e-06 (-1.2 sigma)   |V_td/V_ts| = 0.1966 +/- 0.0030 (-2.4 sigma)
+    0.16279 TeV: |J| = 3.233e-05 +/- 1.3e-06 (+0.6 sigma)   |V_td/V_ts| = 0.2751 +/- 0.0034 (+14.5 sigma)
+    2.53649 TeV: |J| = 2.956e-05 +/- 1.2e-06 (-0.9 sigma)   |V_td/V_ts| = 0.1994 +/- 0.0031 (-1.7 sigma)
+    2.53649 TeV: |J| = 3.259e-05 +/- 1.2e-06 (+0.8 sigma)   |V_td/V_ts| = 0.2732 +/- 0.0036 (+13.8 sigma)
+    measured: J = 3.120e-05 +/- 1.3e-06, |V_td/V_ts| = 0.207 +/- 0.0032
+    Both predictions at once (2 dof), best solution: 2.2 sigma at 0.16279 TeV, 1.4 sigma at 2.53649 TeV
+    |V_td/V_ts| is not used by the survey, but the PDG fit behind the measured moduli and J
+    includes B-mixing data, so this test is not fully independent of them.
+    (|V_td/V_ts| is used nowhere in the survey: it is an independent test)
+
+  Certificates (at m_t(m_t)): 80 of 82 exclusions are proved over the
+    whole parameter space (every point of every family, both phases), by interval bounds on
+    the matrix entries, perturbation bounds on the eigenvectors and branch-and-bound;
+    588 s.
+    Not proved (excluded by the numerical search only): 00X/0XX/XXX / 00X/0XX/XX0; 00X/0XX/XX0 / 00X/0XX/XXX
+    A survival needs no certificate: the search exhibits a point that fits.
+
+  RESULT: 1 of 83 predictive patterns survive at every scale; 82 are excluded.
+
+PART D. WHAT 3-3-1 SAYS ABOUT THE MASS MATRICES (from the gauge charges)
+------------------------------------------------------------------------------
+  beta = -1/sqrt3:
+    family 1: 3bar X =    0  components (d, u, exotic) with charges (-1/3, 2/3, -1/3)
+    family 2: 3bar X =    0  components (d, u, exotic) with charges (-1/3, 2/3, -1/3)
+    family 3: 3    X =  1/3  components (u, d, exotic) with charges (2/3, -1/3, 2/3)
+    row 1, 2 of M_u: Q_1 S(X=2/3) u^c, vev in component 2
+    row 1, 2 of M_d: Q_1 S(X=-1/3) d^c, vev in component 1
+    row 3    of M_u: Q_3 S*(X=-1/3) u^c, vev in component 1
+    row 3    of M_d: Q_3 S*(X=2/3) d^c, vev in component 2
+    note: the scalar with X = -1/3 has 2 neutral components (two triplets with identical charges)
+  beta = +1/sqrt3:
+    family 1: 3bar X =  1/3  components (d, u, exotic) with charges (-1/3, 2/3, 2/3)
+    family 2: 3bar X =  1/3  components (d, u, exotic) with charges (-1/3, 2/3, 2/3)
+    family 3: 3    X =    0  components (u, d, exotic) with charges (2/3, -1/3, -1/3)
+    row 1, 2 of M_u: Q_1 S(X=1/3) u^c, vev in component 2
+    row 1, 2 of M_d: Q_1 S(X=-2/3) d^c, vev in component 1
+    row 3    of M_u: Q_3 S*(X=-2/3) u^c, vev in component 1
+    row 3    of M_d: Q_3 S*(X=1/3) d^c, vev in component 2
+    note: the scalar with X = 1/3 has 2 neutral components (two triplets with identical charges)
+  Consequences, identical for both values of beta:
+    * every entry of both mass matrices is allowed: True. The gauge symmetry forces
+      no texture zero, so 3-3-1 alone neither rescues nor selects a pattern.
+    * rows 1, 2 get one vev and row 3 another: M = diag(v_A, v_A, v_B) x (free Yukawas).
+    * the left-handed families split into gauge blocks [[1, 2], [3]], so only 2 of the 6 index permutations stay basis changes.
+      A texture class therefore becomes several distinct 3-3-1 hypotheses, which differ in
+      which index is the triplet family (index 3 below). They give the same CKM matrix
+      but different flavour-changing Z' couplings.
+    survivor up 00X/0XX/XXX down 0X0/X0X/0XX: 3 distinct 3-3-1 placements
+      up 00X/0XX/XXX   down 0X0/X0X/0XX
+      up 0X0/XXX/0XX   down 00X/0XX/XX0
+      up XX0/XXX/0X0   down 0XX/XX0/X00
+
+PART E. CAN A FLAVOUR SYMMETRY PRODUCE THE SURVIVOR INSIDE 3-3-1?
+------------------------------------------------------------------------------
+  beta = -1/sqrt3:
+    E1. Minimal scalars (one per row and sector). Down-minus-up scalar charge is the same
+        for all three rows: True. So any abelian symmetry groups the rows the
+        same way in both sectors. Exhaustive scan of Z_N, N = 2..6:
+          Z_2:    112 realizable pattern pairs, 0 with a texture zero and three-family mixing
+          Z_3:   1143 realizable pattern pairs, 0 with a texture zero and three-family mixing
+          Z_4:   4768 realizable pattern pairs, 0 with a texture zero and three-family mixing
+          Z_5:  13525 realizable pattern pairs, 0 with a texture zero and three-family mixing
+          Z_6:  30816 realizable pattern pairs, 0 with a texture zero and three-family mixing
+    E2. Hermitian mass matrices: a symmetry would have to map Q_i (SU(3)_L (anti)triplets)
+        onto u^c, d^c (singlets). Possible: False.
+    E3. The survivor's zeros alone, with extra copies of the two mass-giving scalars:
+        up 00X/0XX/XXX  down 0X0/X0X/0XX: Z_6 with 6 scalar triplets (minimal: 2)
+          charges Q (0, 1, 0), u^c (0, 2, 4), d^c (5, 2, 1); X=-1/3 scalar charges [0, 2, 4]; X=2/3 scalar charges [1, 2, 3]
+          as general complex matrices these zeros leave 11 magnitudes + 3 phases = 14 parameters for 10 observables: -4 predictions
+        up 0X0/XXX/0XX  down 00X/0XX/XX0: Z_6 with 6 scalar triplets (minimal: 2)
+          charges Q (0, 1, 0), u^c (0, 4, 3), d^c (5, 1, 3); X=-1/3 scalar charges [2, 3, 4]; X=2/3 scalar charges [1, 2, 5]
+          as general complex matrices these zeros leave 11 magnitudes + 3 phases = 14 parameters for 10 observables: -4 predictions
+        up XX0/XXX/0X0  down 0XX/XX0/X00: Z_6 with 6 scalar triplets (minimal: 2)
+          charges Q (0, 1, 0), u^c (0, 1, 5), d^c (4, 2, 3); X=-1/3 scalar charges [1, 3, 4]; X=2/3 scalar charges [0, 4, 5]
+          as general complex matrices these zeros leave 11 magnitudes + 3 phases = 14 parameters for 10 observables: -4 predictions
+  beta = +1/sqrt3:
+    E1. Minimal scalars (one per row and sector). Down-minus-up scalar charge is the same
+        for all three rows: True. So any abelian symmetry groups the rows the
+        same way in both sectors. Exhaustive scan of Z_N, N = 2..6:
+          Z_2:    112 realizable pattern pairs, 0 with a texture zero and three-family mixing
+          Z_3:   1143 realizable pattern pairs, 0 with a texture zero and three-family mixing
+          Z_4:   4768 realizable pattern pairs, 0 with a texture zero and three-family mixing
+          Z_5:  13525 realizable pattern pairs, 0 with a texture zero and three-family mixing
+          Z_6:  30816 realizable pattern pairs, 0 with a texture zero and three-family mixing
+    E2. Hermitian mass matrices: a symmetry would have to map Q_i (SU(3)_L (anti)triplets)
+        onto u^c, d^c (singlets). Possible: False.
+    E3. The survivor's zeros alone, with extra copies of the two mass-giving scalars:
+        up 00X/0XX/XXX  down 0X0/X0X/0XX: Z_6 with 6 scalar triplets (minimal: 2)
+          charges Q (0, 1, 0), u^c (0, 2, 4), d^c (5, 2, 1); X=-2/3 scalar charges [0, 2, 4]; X=1/3 scalar charges [1, 2, 3]
+          as general complex matrices these zeros leave 11 magnitudes + 3 phases = 14 parameters for 10 observables: -4 predictions
+        up 0X0/XXX/0XX  down 00X/0XX/XX0: Z_6 with 6 scalar triplets (minimal: 2)
+          charges Q (0, 1, 0), u^c (0, 4, 3), d^c (5, 1, 3); X=-2/3 scalar charges [2, 3, 4]; X=1/3 scalar charges [1, 2, 5]
+          as general complex matrices these zeros leave 11 magnitudes + 3 phases = 14 parameters for 10 observables: -4 predictions
+        up XX0/XXX/0X0  down 0XX/XX0/X00: Z_6 with 6 scalar triplets (minimal: 2)
+          charges Q (0, 1, 0), u^c (0, 1, 5), d^c (4, 2, 3); X=-2/3 scalar charges [1, 3, 4]; X=1/3 scalar charges [0, 4, 5]
+          as general complex matrices these zeros leave 11 magnitudes + 3 phases = 14 parameters for 10 observables: -4 predictions
+  RESULT: no flavour symmetry inside 3-3-1 produces the survivor as a predictive model.
+    * with the minimal scalars, abelian symmetries make no zero that keeps three-family
+      mixing (E1: none found for N <= 6);
+    * with extra scalars, Z_6 and 6 triplets give exactly the survivor's zeros, but the
+      matrices are then general, not Hermitian, and make -4 predictions (E3);
+    * the survivor's one prediction comes from Hermiticity, which needs a symmetry that
+      exchanges left- and right-handed quarks: not possible with SU(3)_L acting on one side
+      only (E2). It needs a left-right extension of the gauge group, which is outside 3-3-1.
+
+PART F. DOES ANY TEXTURE OF GENERAL MASS MATRICES PREDICT THE CKM MATRIX?
+------------------------------------------------------------------------------
+  Every zero pattern of two general 3x3 mass matrices. Physical parameters = exact rank of
+  the Jacobian of 10 weak-basis invariants of H = M M^dag (6 masses, 4 mixing invariants).
+    61009 ordered pairs of patterns with three nonzero masses, 497 classes
+       19 cannot mix all three families (measured: all nine |V_ij| nonzero)
+        6 have no phase left, so J = 0 (measured: J = 3.12e-5)
+      472 candidates; physical parameters (rank) per class: rank 10: 470, rank 8: 2
+      472 of these ranks proved (exact lower bound = symmetry upper bound), 0 open
+        2 of the classes with rank below 10 have J = 0 identically (symbolic expansion)
+        0 make a prediction and allow CP violation
+  RESULT (proved): no texture-zero pattern of general quark mass matrices predicts
+    an equality. Every viable pattern has exactly as many physical parameters as there
+    are observables (10), so zeros alone, however a symmetry makes them, fix nothing.
+    Scope: this is a statement about relations. A rank-10 pattern can still fail to
+    reach the measured values (an inequality); that is not tested here.
+
+PART G. OTHER GAUGE FRAMEWORKS
+------------------------------------------------------------------------------
+  Standard Model with any number of Higgs doublets: an abelian symmetry makes zeros in
+    general matrices; Part F: none of those predicts anything.
+  Left-right symmetric model with parity: Yukawa matrices are Hermitian, but every
+    bidoublet feeds both sectors (M_u and M_d mix the same couplings through its two
+    vevs), so zeros sit in the same places in up and down: parallel textures.
+    Part C tested 3 parallel Hermitian classes with a prediction; 0 survive at every scale.
+  RESULT: texture zeros calculate no CKM number in the Standard Model, in left-right
+    models or in 3-3-1, with abelian flavour symmetries.
+------------------------------------------------------------------------------
+  * Hermitian textures (B, C): one pattern survives, with one prediction.
+  * Inside 3-3-1 no symmetry can make mass matrices Hermitian (E2), and with its own
+    scalars no abelian symmetry makes a usable zero (E1).
+  * Zeros in general matrices, the only kind a symmetry inside 3-3-1 can make, never
+    predict anything (F).
+  * In the Standard Model and in left-right models the same holds (G).
+  So with abelian flavour symmetries and any number of scalars, in all three frameworks, the quark
+  sector closes with 10 measured inputs: 6 masses and 4 CKM parameters. None of the
+  four CKM numbers can be calculated from zeros. Calculating them needs relations
+  between nonzero entries (non-abelian flavour symmetries or grand unification),
+  which this script does not search.
+
+PART H. WHERE QUANTUM THEORY AND GRAVITY MEET (established physics)
+------------------------------------------------------------------------------
+  H1. Planck units from G, hbar, c, k_B
+      l_P = 1.6163e-35 m   t_P = 5.3912e-44 s   m_P = 2.1764e-08 kg   E_P = 1.2209e+19 GeV   T_P = 1.4168e+32 K
+  H2. Newton's law with its one-loop quantum correction (gravity as an effective field theory)
+      V = -G m1 m2 / r [1 + 3 G (m1+m2)/(r c^2) + (41/10pi) G hbar/(r^2 c^3)]
+      coefficient 41/(10 pi) = 1.30507  [quoted: Bjerrum-Bohr, Donoghue, Holstein 2003]
+      Sun-Earth at 1 au: relativistic term 2.96e-08, quantum term 1.52e-92
+      for two protons the quantum term overtakes the relativistic one below r = 4.57e-17 m (0.218 proton Compton lengths)
+      the quantum term reaches 1 (the effective theory ends) at r = 1.85e-35 m = 1.142 l_P
+  H3. Black holes and horizons (Hawking, Bekenstein)
+      the Sun's mass: M = 1.9884e+30 kg, r_s = 2.9533e+03 m, T_H = 6.1703e-08 K, S = 1.0489e+77 k_B, t_evap = 2.0955e+58 Gyr
+      mass evaporating in exactly the age of Part A: M = 1.7298e+11 kg, r_s = 2.5691e-16 m, T_H = 7.0929e+11 K, S = 7.9376e+38 k_B, t_evap = 1.3795e+01 Gyr
+      de Sitter horizon of the Part A cosmology: T = 2.1958e-30 K, S = A/(4 l_P^2) = 3.3130e+122 k_B
+      (t_evap counts photon emission only; more particle species shorten it)
+  H4. Unruh effect: an accelerated observer sees the vacuum as thermal
+      at g = 9.7983 m/s^2: T = 3.9732e-20 K;  1 K needs a = 2.4661e+20 m/s^2
+  H5. The smallest mass that gravity can ever entangle maximally (two masses, each in two places)
+      limits: entangling phase pi (concurrence 1); time <= age of the universe (Part A);
+      separation >= the Compton wavelength hbar/(m c). Then m >= (pi hbar^2 / (G c t0))^(1/3).
+      m_min = 1.5888e-28 kg = 89.1 MeV/c^2 = 0.095 m_p, at separation 2.214e-15 m
+      check: phase 3.141593 rad, concurrence 1.000000, entropy 1.000000 bits
+      Anything lighter cannot be fully entangled by gravity in the lifetime of the universe.
+      A classical gravitational field cannot entangle at all (concurrence 0): measuring
+      gravity-made entanglement in any system is the open test of whether gravity is quantum.
+  H6. Why gravity is so weak for a proton: the strong scale comes from logarithmic running
+      alpha_s(M_P) = 0.01886 (Standard Model running to M_P, no new physics assumed)
+      Lambda_QCD(5 flavours, 2-loop) = 0.2262 GeV;  ln(M_P/Lambda) = 45.43;  one-loop 2pi/(b0 alpha_s(M_P)) = 47.59
+      m_p / Lambda = 4.15: the proton mass is set by Lambda (computing it needs lattice QCD)
+  H7. Dimensionless numbers, each with its status
+      alpha (electromagnetic coupling)         7.2974e-03   log10    -2.14   measured input; not derived by any theory
+      alpha_G (proton) = G m_p^2/(hbar c)      5.9061e-39   log10   -38.23   = (m_p/M_P)^2 exactly; small because of H6
+      alpha_G (electron)                       1.7518e-45   log10   -44.76   the electron mass is a Higgs coupling: not derived
+      m_p / m_e                                1.8362e+03   log10     3.26   QCD scale over a Yukawa coupling: not derived
+      electric/gravitational force, p-e        2.2687e+39   log10    39.36   = alpha hbar c/(G m_p m_e): follows from rows above
+      Hubble radius / proton Compton length    6.5300e+41   log10    41.81   Dirac's large number; its closeness to 1/alpha_G is unexplained
+      rho_Lambda / rho_Planck                 1.1319e-123   log10  -122.95   the cosmological-constant problem: open
+      S_dS x rho_Lambda / rho_Planck           3.7500e-01   log10    -0.43   = 3/8 exactly: the 10^122 and 10^-123 are one fact
+      (hbar^2 H0/(G c))^(1/3) / m_pi           4.2868e-01   log10    -0.37   Weinberg 1972: same order as 1; unexplained
+      H5 smallest entangled mass / m_pi        6.3859e-01   log10    -0.19   same combination as Weinberg's (t0 ~ 1/H0)
+  RESULT: every number above is calculated from G, hbar, c, k_B and measured masses. Two of
+    the apparent large-number coincidences are exact identities (alpha_G = (m_p/M_P)^2 and
+    S_dS rho_Lambda/rho_P = 3/8). One has a known mechanism (the proton/Planck hierarchy from
+    logarithmic running). Open: alpha, the Yukawa couplings, rho_Lambda, and whether gravity
+    carries entanglement (H5) - the measurement that would decide if gravity is quantum.
+    A coincidence to watch: the smallest mass gravity can entangle within the age of the universe
+    (H5) is 0.64 m_pi - the same combination of hbar, G, c and the Hubble
+    time as Weinberg's 1972 large-number relation. Same order of magnitude, no known mechanism.
+
+PART I. CAN ALPHA BE CALCULATED FROM THE OTHER NUMBERS?
+------------------------------------------------------------------------------
+  No accepted theory derives alpha. Grand unification relates it to other measured numbers:
+  if the three gauge couplings meet at one scale, 1/alpha(M_Z) follows from alpha_s(M_Z) and
+  sin^2 theta_W(M_Z) alone. The script solves for the alpha at which they meet, running at
+  one and two loops (coefficients from the field content). Superpartner scale M_S unknown:
+  scanned. Unknown threshold corrections (superpartner spectrum, GUT particles): not included.
+    measured 1/alpha(M_Z), MS-bar: 127.951 +/- 0.009
+    content                     1/alpha(M_Z) 1-loop   2-loop (+/- inputs)     M_GUT (GeV)   1/alpha_GUT
+    MSSM above M_S = 91.2 GeV         126.56          139.62 +/- 0.97      7.00e+17     25.26
+    MSSM above M_S = 813 GeV          119.51          131.94 +/- 0.97      4.67e+16     25.55
+    MSSM above M_S = 7.26e+03 GeV     112.46          124.26 +/- 0.98      3.13e+15     25.81
+    MSSM above M_S = 6.47e+04 GeV     105.41          116.55 +/- 0.98      2.10e+14     26.04
+    MSSM above M_S = 5.77e+05 GeV      98.36          108.83 +/- 0.98      1.41e+13     26.25
+    MSSM above M_S = 5.15e+06 GeV      91.31          101.10 +/- 0.99      9.49e+11     26.46
+    MSSM above M_S = 4.59e+07 GeV      84.27           93.35 +/- 0.99      6.36e+10     26.65
+    MSSM above M_S = 4.1e+08 GeV       77.22           85.59 +/- 1.00      4.26e+09     26.83
+    Standard Model only                77.05           81.85 +/- 0.58      1.11e+09     26.94
+  Standard Model: forcing unification gives 1/alpha = 81.8, -36% from the measurement. The SM couplings do not meet.
+  MSSM: the prediction slides with the unknown M_S by -3.51 per e-fold. It equals
+    the measured alpha at M_S = 2.54 TeV (1.92 to 3.35 TeV from the alpha_s and sin^2 theta_W errors alone),
+    with unification at M_GUT = 1.146e+16 GeV, 1/alpha_GUT = 25.69. Parts B, C and J use these scales.
+  Numerology: closed formulas proposed for 1/alpha(0), tested against CODATA 2018
+    Eddington 1929: 136                              136.0000000   off by 5.02e+07 sigma
+    Eddington 1931: 137                              137.0000000   off by 1.74e+06 sigma
+    4 pi^3 + pi^2 + pi                               137.0363038   off by 1.48e+04 sigma
+    Wyler 1969: (8 pi^4 / 9) (2^4 5! / pi^5)^(1/4)   137.0360824   off by 4.04e+03 sigma
+    CODATA 2018: 1/alpha = 137.035999084
+  RESULT: alpha is not calculated. Unification turns it into a function of one unknown, the
+    superpartner scale; equivalently, the measured alpha points to M_S of a few TeV in the MSSM
+    (before unknown threshold corrections). The SM alone cannot unify, and every closed
+    formula tested is excluded by thousands of standard deviations or more. Getting from
+    alpha(M_Z) to alpha(0) also needs the hadronic vacuum polarization, a measured input.
+
+PART J. CAN THE YUKAWA COUPLINGS BE CALCULATED FROM THE OTHER NUMBERS?
+------------------------------------------------------------------------------
+  J1. Quark/lepton mass ratios fixed by grand unification (group theory, at the unification
+      scale; same-charge ratios hardly run, so they can be compared at m_t)
+      measured m_s/m_d = 19.89 +/- 0.34; m_mu/m_e at m_t = 210.65
+      minimal SU(5), m_s/m_d = m_mu/m_e:              210.65   off by 558 sigma
+      Georgi-Jarlskog, m_s/m_d = m_mu/(9 m_e):         23.41   off by 10.3 sigma
+  J2. b-tau unification: y_b = y_tau at the unification scale (MSSM: M_GUT from Part I)
+      SM at SM g1 = g2 (1.02e+13 GeV): y_b/y_tau = 0.691
+      SM at M_Planck (1.22e+19 GeV): y_b/y_tau = 0.584
+      MSSM above M_S = 2.54 TeV, up to M_GUT = 1.15e+16 GeV (both Part I);
+      tan(beta) scanned over its perturbative range 0.24 to 265.6:
+        0.24: n.p.   0.383: n.p.   0.611: n.p.   0.975: n.p.   1.56: 0.864   2.48: 0.805
+        3.96: 0.792   6.32: 0.787   10.1: 0.786   16.1: 0.786   25.7: 0.787   41: 0.790
+        65.4: 0.774   104: n.p.   166: n.p.   266: n.p.
+        (y_b/y_tau at the unification point; n.p. = a coupling leaves perturbation theory)
+      y_b/y_tau = 1 only at tan(beta) = 1.327, where y_t(M_GUT) = 2.77: the edge of perturbation theory
+  J3. Top quasi-fixed point: a large y_t at high scale is driven to a value set by the gauge couplings
+      SM, y_t = 1.77 at M_Planck -> m_t(m_t) = 216.9 GeV
+      SM, y_t = 3.54 at M_Planck -> m_t(m_t) = 220.4 GeV
+      measured m_t(m_t) = 162.8 GeV
+      MSSM, y_t = 1.77 at M_GUT (Part I): the measured top mass needs tan(beta) = 1.382
+      MSSM, y_t = 3.54 at M_GUT (Part I): the measured top mass needs tan(beta) = 1.313
+  RESULT: no Yukawa coupling is calculated. Minimal SU(5) and Georgi-Jarlskog mass ratios are
+    excluded. In the SM, b-tau unification and the top fixed point both fail.
+    In the MSSM (scales from Part I), b-tau unification needs tan(beta) = 1.33 and the top fixed point
+    gives tan(beta) = 1.31 to 1.38: the same narrow region, at the edge of perturbation theory.
+    That is one number (tan beta), not a calculation of the Yukawas. Part K tests it against
+    the Higgs mass.
+
+PART K. THE HIGGS MASS IN THE MSSM, FROM THE SCALES OF PARTS I AND J
+------------------------------------------------------------------------------
+  In the MSSM the Higgs self-coupling is not free: at M_S it is fixed by the gauge couplings,
+  tan(beta) and the stop mixing X_t. Effective theory: lambda(M_S) = (g^2 + g'^2)/4 cos^2(2 beta)
+  + (3 y_t^4 / 8 pi^2) X^2 (1 - X^2/12), X = X_t/M_S; SM running of lambda down to m_t; m_h = sqrt(lambda) v.
+  Inputs from the algorithm: M_S = 2.54 TeV (1.92 to 3.35, Part I);
+  tan(beta) = 1.313 to 1.382 (Part J: b-tau unification and the top fixed point).
+  X_t is unknown: scanned. The threshold is largest at X^2 = 6, so maximal mixing bounds m_h from above.
+      M_S (TeV)   tan(beta)   m_h, no mixing   m_h, maximal mixing  (GeV)
+         1.92       1.313          82.0              98.7
+         1.92       1.382          83.2              99.7
+         2.54       1.313          85.0             100.4
+         2.54       1.382          86.1             101.3
+         3.35       1.313          87.7             101.9
+         3.35       1.382          88.8             102.9
+      m_h against X_t/M_S at M_S = 2.54 TeV, tan(beta) = 1.382:
+        0.00: 86.1   0.29: 86.6   0.58: 87.9   0.87: 90.0   1.15: 92.5
+        1.44: 95.2   1.73: 97.8   2.02: 99.9   2.31: 101.2   2.60: 101.1
+        2.89: 99.2   3.18: 94.6   3.46: 86.1
+  Upper bound over every mixing and the whole M_S, tan(beta) range: m_h <= 102.9 GeV
+      measured m_h = 125.20 +/- 0.11 GeV: the bound is 22.3 GeV short
+  Read backwards: at tan(beta) = 1.382 and maximal mixing, m_h = 125.2 GeV needs M_S = 1.33e+07 GeV,
+      8.6 e-folds above Part I's M_S.
+  Not included: two-loop thresholds and the pole-to-MS-bar Higgs-mass conversion (a few GeV in
+  the literature), heavy-Higgs and gaugino thresholds. None closes a gap of this size.
+  RESULT: the MSSM route of Parts I and J is excluded by the Higgs mass. The superpartner scale
+    that gives the measured alpha and the tan(beta) that gives b-tau unification together
+    predict m_h <= 103 GeV. Unification (Part I), b-tau unification and the top
+    fixed point (Part J) cannot all hold in the minimal model with one superpartner scale.
+
+PART L. STANDARD MODEL CRITICALITY: THE HIGGS MASS FROM ONE CONDITION AT THE PLANCK SCALE
+------------------------------------------------------------------------------
+  If nothing new enters below the Planck scale, the Higgs self-coupling can be fixed there:
+  lambda(M_P) = 0 (Froggatt-Nielsen 1996; Shaposhnikov-Wetterich 2010). Running it down to m_t
+  with the measured top mass and alpha_s then predicts m_h. No free parameter, no new particle.
+  Running: one, two and three loops (two-loop gauge b_ij from the field content; y_t and lambda
+  two-loop terms and all three-loop terms quoted from Buttazzo et al. 2013, appendix B). Matching
+  to the pole masses M_h, M_t, M_W, M_Z and G_F: tree level; one loop at mu = m_t(m_t) (their
+  appendix A, Passarino-Veltman functions in closed form); two loops at mu = M_t (their section 2
+  interpolations of lambda^(2) and of the electroweak parts of y_t^(2)); three loops: the leading
+  QCD part of lambda^(3) (their footnote, from Martin 2013). QCD: alpha_s and the quark masses run
+  at four loops with three-loop decoupling (RunDec), the top pole/MS-bar conversion at four loops
+  (Melnikov-van Ritbergen 2000, Marquard et al. 2015).
+      condition                 loops   matching            predicted M_h (GeV)
+      lambda(M_P        ) = 0       1      tree                  133.40
+      lambda(M_P        ) = 0       2      tree                  127.62
+      lambda(M_P        ) = 0       3      tree                  127.39
+      lambda(M_P reduced) = 0       1      tree                  133.32
+      lambda(M_P reduced) = 0       2      tree                  127.64
+      lambda(M_P reduced) = 0       3      tree                  127.41
+      lambda(M_P        ) = 0       2      one loop              127.58
+      lambda(M_P        ) = 0       3      one loop              127.35
+      lambda(M_P        ) = 0       2      two loops             128.50
+      lambda(M_P        ) = 0       3      two loops, QCD 3      128.67
+      lambda(M_P        ) = 0       3      two loops             128.27
+      lambda(M_P        ) = 0       2      three loops           128.57
+      lambda(M_P        ) = 0       3      three loops, QCD 3    128.74
+      lambda(M_P        ) = 0       3      three loops           128.34
+      lambda(M_P        ) = 0       3      SMDR-anchored         128.34
+  Anchored to SMDR (Martin-Robertson 2019: full two-loop plus leading three-loop matching, four-loop
+  QCD) at its reference point. Couplings at Q0 = 173.1 GeV for SMDR's inputs, this script vs SMDR:
+      lambda 0.12581 / 0.12604   y_t 0.93461 / 0.93480   g3 1.16360 / 1.16362
+      g2 0.64812 / 0.64766   gp 0.35871 / 0.35854
+  The differences (this script's missing electroweak and mixed thresholds and its simpler
+  electroweak inputs) are added at M_t; this script's own matching carries them to the inputs.
+  Three-loop running, SMDR-anchored matching, four-loop QCD: M_h = 128.34 GeV +/- 0.95
+      (inputs: M_t +0.60, alpha_s -0.74, M_W +0.000)
+      against this script's own three-loop matching (128.34 GeV): -0.00 GeV. Last orders of
+      its own calculation: running (3 loops vs 2) -0.23 GeV, matching (3 vs 2) +0.07 GeV,
+      QCD running, decoupling and top mass (4 loops vs 3) -0.40 GeV
+      measured M_h = 125.20 +/- 0.11 GeV: the prediction is 3.1 GeV high, 3.3 sigma on the input errors
+      cross-check at Buttazzo et al.'s own order (two-loop matching, QCD at three loops): 128.67 GeV;
+      their lambda(M_Pl), linear in M_h, M_t, alpha_s, gives 128.68 GeV here
+      This script's own three-loop matching is its leading QCD part (lambda: O(alpha_s^2 y_t^4); y_t:
+      pure QCD, to four loops); the anchor adds SMDR's full two loops and leading three loops. Not
+      included: the rest of three-loop matching, and four-loop running beyond pure QCD.
+  Both conditions at the Planck scale, lambda(M_P) = 0 and beta_lambda(M_P) = 0, fix two numbers
+  (at two loops, one-loop matching):
+      M_h = 130.7 GeV and M_t = 174.3 GeV (measured 125.2 and 172.57; QCD pole/MS-bar ratio of the measured top kept)
+  Read backwards, with the measured M_h (Part L's central order): lambda(M_P) = -0.0098, beta_lambda(M_P) = +1.6e-04
+      lambda turns negative at mu = 6.20e+10 GeV: the electroweak vacuum is not the
+      lowest state. Whether it is long-lived (metastable) needs the tunnelling rate, not
+      calculated here.
+  RESULT: one condition at the Planck scale gives the Higgs mass to 3 percent with nothing adjusted:
+    128.3 GeV against 125.20. Against two-loop running with one-loop matching (same QCD),
+    the higher orders move it by +0.76 GeV and do not close the gap: the measured Higgs mass makes lambda slightly
+    negative at M_P and the SM vacuum is not stable. The top mass dominates the input error; the
+    second condition (beta_lambda = 0) lands near the measured top mass.
+
+PART M. WHICH HIGH-ENERGY HYPOTHESIS SURVIVES EVERY CONDITION AT ONCE?
+------------------------------------------------------------------------------
+  The field content above the electroweak scale is not chosen. Each hypothesis is tested
+  against every combination of the conditions the other parts impose:
+    U  gauge unification      predicts 1/alpha(M_Z)
+    B  b-tau unification      predicts y_b/y_tau = 1 at M_GUT (SM: where g1 = g2)
+    H  Higgs mass             SM: lambda(M_P) = 0 (Part L); MSSM: matching at M_S (Part K)
+  SM up to M_P has no unknowns. The MSSM has M_S, tan(beta) and the stop mixing X_t. M_S is
+  scanned on a grid plus where unification gives the measured alpha; tan(beta) on a grid plus
+  every root of y_b/y_tau = 1 and every edge of perturbation theory (bisection); X_t is
+  eliminated exactly. 367 perturbative points; the best one only decides survival.
+  With no prediction (dof <= 0) the number is the distance in sigma between the data and
+  everything the hypothesis can reach. Two error sets bracket every verdict:
+    inputs           measured inputs only: the strongest exclusion
+    +theory          plus, per ingredient, the change from the last order calculated to the
+                     one below (running 2 loops vs 1, matching one loop vs tree); the next
+                     order is usually smaller, so this is the weakest exclusion
+  Theory errors, SM:   1/alpha 4.80   y_b 0.1 %   m_h 0.46 GeV (from Parts I, J, L)
+  Theory errors, MSSM at M_S = 3.62 TeV:   1/alpha 12.00   y_b 0.1 %   m_h 0.71 GeV
+  Not estimated: the two-loop stop threshold, GUT and superpartner thresholds.
+  SM pulls, inputs:  U -78.8  B -78.5  H +3.3 sigma;  +theory:  U -9.5  B -77.9  H +2.95 sigma
+    hypothesis        conditions  unknowns  dof  |  sigma   verdict    |  sigma   verdict
+                                                 |  (inputs)           |  (+theory)
+    SM up to M_P      U              0      1  |    78.8   excluded   |    9.53   excluded
+    MSSM above M_S    U              1      0  |       0   survives   |       0   survives
+    SM up to M_P      B              0      1  |    78.5   excluded   |    77.9   excluded
+    MSSM above M_S    B              2     -1  |       0   survives   |       0   survives
+    SM up to M_P      H              0      1  |    3.27   excluded   |    2.95   predicts
+    MSSM above M_S    H              3     -2  |       0   survives   |       0   survives
+    SM up to M_P      U+B            0      2  |     111   excluded   |    78.5   excluded
+    MSSM above M_S    U+B            2      0  |       0   survives   |       0   survives
+    SM up to M_P      U+H            0      2  |    78.9   excluded   |    9.72   excluded
+    MSSM above M_S    U+H            3     -1  |       0   survives   |       0   survives
+    SM up to M_P      B+H            0      2  |    78.5   excluded   |      78   excluded
+    MSSM above M_S    B+H            3     -1  |   0.937   survives   |   0.459   survives
+    SM up to M_P      U+B+H          0      3  |     111   excluded   |    78.5   excluded
+    MSSM above M_S    U+B+H          3      0  |    23.9   excluded   |    2.65   survives
+    (survives: no prediction, the unknowns absorb the conditions; predicts: survives and
+    predicts at least one number)
+  RESULT (inputs only): no hypothesis and set of conditions both survives and
+    predicts anything.
+  RESULT (with theory errors): survives and predicts: SM up to M_P with H
+    Verdicts that depend on the theory errors: SM up to M_P with H; MSSM
+      above M_S with U+B+H. Deciding them needs the next order, not a
+      different error estimate.
+
+THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
+------------------------------------------------------------------------------
+  Stage (part, evidence level): measured inputs read; results taken from earlier stages
+  cosmology (A, conditional)
+      inputs: G, H0, N_eff, Omega_m, T_CMB, au, c, h, k_B
+      assumes: flat LambdaCDM: Omega_Lambda = 1 - Omega_m - Omega_r
+  gauge_unification (I, parameter trade)
+      inputs: M_Z, alpha_em_inv_MZ, alpha_s_MZ, s2_hat_Z
+      assumes: one superpartner scale M_S; the measured alpha is spent to
+        infer it
+  alpha_numerology (I, exact)
+      inputs: alpha_em
+      assumes: none (tests closed formulas)
+  flavour (B, numerical)
+      inputs: G_F, M_Z, M_t, alpha_em_inv_MZ, alpha_s_MZ, m_b, m_c, m_d, m_s,
+        m_u, mu_light
+      takes: gauge_unification
+      assumes: Fritzsch six-zero texture; phase bands from a finite grid plus
+        local search
+  texture_survey (C, numerical)
+      inputs: none
+      takes: flavour
+      assumes: Hermitian textures; joint fits start from a finite grid, so an
+        exclusion could miss a minimum
+  survey_certificates (C, proved)
+      inputs: none
+      takes: texture_survey
+      assumes: only with --certify; exclusions proved cell by cell, at
+        m_t(m_t)
+  gauge_331 (D, exact)
+      inputs: none
+      assumes: 3-3-1 representations, beta = -1/sqrt3, +1/sqrt3
+  flavour_symmetry_331 (E, exact)
+      inputs: none
+      takes: texture_survey, gauge_331
+      assumes: abelian Z_N up to symmetry_max_N; scalar potential not solved
+  general_texture_closure (F, proved)
+      inputs: none
+      assumes: equalities only: a rank-10 pattern may still miss the data
+  planck_units (H1, exact)
+      inputs: G, c, e_charge, h, k_B
+      assumes: none; nothing derives G
+  quantum_gravity (H, exact)
+      inputs: G, GM_earth, GM_sun, M_Z, R_earth, alpha_em, alpha_s_MZ, au, c,
+        e_charge, h, k_B, m_e, m_p, m_pi_MeV
+      takes: cosmology, flavour, planck_units
+      assumes: identities and effective field theory
+  yukawa_relations (J, conditional)
+      inputs: G_F, M_Z, M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ, c,
+        e_charge, m_b, m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV, m_u,
+        mu_light, s2_hat_Z
+      takes: gauge_unification, flavour, planck_units
+      assumes: M_S and M_GUT from Part I
+  higgs_mssm (K, conditional)
+      inputs: G_F, M_Z, M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ, c,
+        e_charge, m_b, m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV, m_u,
+        mu_light, s2_hat_Z
+      takes: gauge_unification, flavour, yukawa_relations
+      assumes: M_S from Part I, tan(beta) from Part J, one-loop stop
+        threshold
+  criticality (L, conditional)
+      inputs: G_F, M_W, M_Z, M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ, c,
+        e_charge, m_b, m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV, m_u,
+        mu_light, s2_hat_Z
+      takes: planck_units
+      assumes: lambda(M_P) = 0; three-loop running, matching anchored to
+        SMDR, four-loop QCD
+  uv_joint_test (M, numerical)
+      inputs: G_F, M_W, M_Z, M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ, c,
+        e_charge, m_b, m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV, m_u,
+        mu_light, s2_hat_Z
+      takes: gauge_unification, flavour, yukawa_relations, criticality
+      assumes: every hypothesis against every set of conditions; unknowns on
+        a grid plus exact roots and edges; theory errors = last-order shifts
+  self_checks (-, validation)
+      inputs: G, G_F, M_W, M_Z, M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ,
+        c, e_charge, h, k_B, m_b, m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV,
+        m_u, mu_light, s2_hat_Z
+      takes: cosmology, gauge_unification, flavour, texture_survey,
+        gauge_331, flavour_symmetry_331, quantum_gravity, higgs_mssm,
+        criticality, uv_joint_test
+      assumes: tests the calculation, not the physics
+  Numbers calculated once and handed on:
+    M_S, M_GUT = 2536.5, 1.1459e+16 GeV, from
+      gauge_unification[M_S_for_measured_alpha], taken by flavour,
+      yukawa_relations, higgs_mssm, uv_joint_test
+    M_P = 1.2209e+19 GeV, from planck_units[E_P_GeV], taken by
+      quantum_gravity, yukawa_relations, criticality
+    m_t(m_t) = 162.79 GeV, from flavour[runner], taken by quantum_gravity,
+      yukawa_relations, higgs_mssm, uv_joint_test
+  Changing one measured input recalculates every stage it reaches, for example:
+    M_t: flavour, texture_survey, survey_certificates, flavour_symmetry_331,
+      quantum_gravity, yukawa_relations, higgs_mssm, criticality,
+      uv_joint_test
+    alpha_s_MZ: gauge_unification, flavour, texture_survey,
+      survey_certificates, flavour_symmetry_331, quantum_gravity,
+      yukawa_relations, higgs_mssm, criticality, uv_joint_test
+    G: cosmology, planck_units, quantum_gravity, yukawa_relations,
+      higgs_mssm, criticality, uv_joint_test
+    H0: cosmology, quantum_gravity
+  Global consistency of the stage assumptions:
+    MSSM above M_S  : gauge_unification, yukawa_relations, higgs_mssm
+    SM up to M_P    : criticality
+    These field contents exclude each other. No stage chooses: Part M tests every
+    hypothesis against every combination of conditions.
+  The graph is acyclic (True), so one pass in order is self-consistent: no stage
+  needs a value that a later stage changes. A shared mechanism would add such feedback.
+  Audit findings:
+    [resolved] The SM couplings at m_t(m_t) were derived by two copies of the
+      same formulas (Parts J/K and Part L). There is now one derivation,
+      sm_state_at_mt.
+    [open] Part L rebuilds the quark-mass running instead of taking the
+      flavour stage's: same function, same numbers, because its error
+      propagation re-runs the chain per input.
+    [resolved] Parts I, J, K assume the MSSM above M_S; Part L assumes the SM
+      up to M_P. Both cannot hold, so neither is chosen: Part M runs each
+      hypothesis against every combination of the conditions and reports
+      which survive.
+    [resolved] Part M's theory errors are calculated, not typed in: for every
+      ingredient the change from the last order the script computes to the
+      one below it.
+    [resolved] Part L runs at three loops, matches at three loops (leading
+      QCD part) and treats QCD at four loops with three-loop decoupling, each
+      published coefficient checked by a self-check.
+    [resolved] The electroweak and mixed higher-order thresholds Part L could
+      not transcribe are taken from SMDR's reference point (full two-loop
+      plus leading three-loop): anchoring to it moves M_h by about a MeV, so
+      this script's matching is confirmed.
+    [open] If SM criticality's Part M verdict differs between the two error
+      sets, it is decided by the last-order shifts, which four-loop QCD
+      dominates. They are a conservative estimate: the QCD series of the top
+      pole mass falls by about a factor of three per order.
+    [open] The MSSM with all three conditions still depends on the theory
+      errors, through the one- to two-loop shift of unification. Settling it
+      needs three-loop gauge running with superpartner and GUT thresholds,
+      and the two-loop stop threshold.
+    [open] No stage feeds cosmology: H0 and Omega_m are inputs. A shared
+      mechanism would need equations for the dark-matter density and Lambda.
+    [resolved] M_P was computed inside Part H, so every input of Part H (H0
+      among them) seemed to reach Parts J and L. The Planck units are now
+      their own stage.
+    [open] No stage derives G: M_P is calculated from it and handed to Parts
+      H, J and L.
+    [open] The quark masses and mixing are inputs to the textures. Connecting
+      them to 3-3-1 needs the scalar potential, its vacuum, and the vevs that
+      multiply the Yukawa couplings.
+    [open] No common mechanism yet: no stage computes a quantity that two
+      sectors both take from it except M_S, M_GUT (Part I) and M_P (Part H1).
+
+SELF-CHECKS (correctness of the calculation, not agreement with data)
+------------------------------------------------------------------------------
+  [PASS] QCD beta coefficients from Casimirs: b0(nf=5) = 23/3, b1(nf=5) = 116/3  (b0 = 23/3, b1 = 116/3)
+  [PASS] Quark-mass anomalous dimension: g0 = 4, g1(nf=5) = 202/3 - 100/9  (g0 = 4, g1 = 506/9)
+  [PASS] SM gauge b_i from field content = (41/10, -19/6, -7)  (b = ('41/10', '-19/6', '-7'))
+  [PASS] SM b_3 equals -b0(nf=6) of the QCD formula
+  [PASS] Top-Yukawa gauge coefficients from Casimirs = (17/20, 9/4, 8)  (c = ('17/20', '9/4', '8'))
+  [PASS] zeta(3): fast series agrees with the direct sum plus Euler-Maclaurin tail  (zeta(3) = 1.202056903159594)
+  [PASS] Fritzsch texture: exactly one real sign assignment, (+, -, +) in both sectors
+  [PASS] Texture eigenvalues reproduce the RG mass ratios  (max rel err 1.7e-14)
+  [PASS] CKM matrix is unitary  (max |V V^dag - 1| = 1.3e-15)
+  [PASS] J band is symmetric (J_min = -J_max, CP conjugate phases)  (max rel asym 1.6e-16)
+  [PASS] RG running converged (step count doubled)  (max rel change 1.1e-12)
+  [PASS] Phase-band edges independent of the scan grid  (max rel change 2.2e-16)
+  [PASS] Romberg quadrature of the age converged  (16 levels, error 2.2e-33)
+  [PASS] Age agrees with an independent float quadrature in ln a  (rel diff 1.7e-14)
+  [PASS] Flatness holds exactly
+  [PASS] Survey reproduces Part B for the Fritzsch pattern (exact |V_cb| band vs phase scan)  (max rel diff 9.1e-15)
+  [PASS] Every survey mass matrix has the RG-run masses as eigenvalues  (max rel err 2.4e-09)
+  [PASS] Joint-test chi^2 independent of the starting grids (both doubled)  (max rel change 2.2e-08)
+  [PASS] 3-3-1 charges: ordinary components come out as 2/3 and -1/3 (beta = +-1/sqrt3)
+  [PASS] 3-3-1 anomalies cancel: [SU(3)_L]^3 and [SU(3)_C]^2 U(1)_X
+  [PASS] SM beta_lambda coefficients: -12 y_t^4, 12 lambda^2, (9/4) g^4, (3/4) g'^4  (-12.0000, 12.0000, 2.2500, 0.7500)
+  [PASS] Higgs-mass running converged (step count doubled)  (rel change 2.3e-15)
+  [PASS] Largest Higgs mass over the X_t scan sits at X_t^2 = 6 M_S^2 (the bound used)  (peak at X_t/M_S = 2.309)
+  [PASS] One-loop beta_lambda: Part L convention = Part K convention (lambda_K = 2 lambda)  (rel diff 4.4e-16)
+  [PASS] Two-loop beta_lambda coefficients agree with the hypercharge-normalized literature form  (-312 629/24 -379/48 36 21/2)
+  [PASS] Criticality solve converged (step count doubled; two and three loops)  (rel change 1.1e-13)
+  [PASS] Three-loop RGEs: Buttazzo et al.'s couplings at M_t reproduce their Planck-scale values (two loops must miss)  (max dev 6.1e-05 at 3 loops, 7.8e-04 at 2)
+  [PASS] Part L at Buttazzo et al.'s order = their lambda(M_Pl) = 0, solved at our M_t, alpha_s (their theory error)  (128.67 against 128.68 GeV)
+  [PASS] Four-loop QCD beta function: RunDec's alpha_s(M_b) (7 digits) and alpha_s(1 GeV) at 3, 4 loops  (alpha_s(M_b) = 0.2169467, alpha_s(1 GeV) = 0.4065)
+  [PASS] Four-loop mass anomalous dimension = Chetyrkin's numerical form (each power of n_f); B4; decoupling inverted exactly  (max rel dev 2.0e-06, B4 dev 8.7e-08)
+  [PASS] This script's own matching = SMDR's at its reference point, within Buttazzo et al.'s theory errors (lambda, y_t)  (lambda +2.3e-04, y_t +1.9e-04)
+  [PASS] Two-loop matching: their inputs give their lambda(M_t) and y_t(M_t) within their theory errors  (lambda 0.12605, y_t 0.93689)
+  [PASS] Passarino-Veltman B0 in closed form = direct quadrature (below and above threshold)  (max abs diff 5.0e-06)
+  [PASS] One-loop matching of lambda and y_t: d/d ln mu reproduces the one-loop RGE exactly  (max rel diff 1.6e-11)
+  [PASS] Every symmetry found reproduces its target zeros exactly (recomputed from the charges)
+  [PASS] Invariant-rank method: general matrices give 10 physical parameters, diagonal ones 6  (ranks 10, 6)
+  [PASS] Part F certificates: symmetry upper bounds meet the ranks (10, 6); J = 0 proved for diagonal matrices and refuted for triangular ones  (upper bounds 10, 6)
+  [PASS] Black-hole first law: dS/dE = 1/(k_B T_H) (entropy and temperature consistent)  (rel diff 2.0e-12)
+  [PASS] Hawking temperature = Unruh temperature at the horizon's surface gravity  (rel diff 0.0e+00)
+  [PASS] de Sitter entropy: area law A/(4 l_P^2) = Part A's pi c^5/(G hbar H^2)  (rel diff 0.0e+00)
+  [PASS] Identity: S_dS x (rho_Lambda / rho_Planck) = 3/8 exactly  (rel diff 0.0e+00)
+  [PASS] Entanglement entropy: reduced density matrix = concurrence formula  (abs diff 1.1e-16)
+  [PASS] Two-loop gauge coefficients from field content = textbook matrices (SM and MSSM)
+  [PASS] Unification solver at one loop = closed-form solution (every M_S, and pure SM)  (max rel diff 6.2e-13)
+  [PASS] Yukawa-RGE gauge coefficients from Casimirs = textbook (SM and MSSM; t, b, tau)
+  [PASS] MSSM Yukawa self-terms from field multiplicities: 6 y_t^3, (3 y_b^2 + 4 y_tau^2) y_tau  (6.000, 7.000)
+  [PASS] Lambda_QCD (2-loop) reproduces alpha_s(M_Z)  (rel diff 2.2e-16)
+  [PASS] Part M at Part I's M_S reproduces the measured alpha (the two stages agree)  (diff -1.4e-14)
+  [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (16 stages, 29 edges)
+  49/49 checks pass
+==============================================================================
+Elapsed: 923.4 s

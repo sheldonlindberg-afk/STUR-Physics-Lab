@@ -398,8 +398,8 @@ STAGES: Dict[str, Dict[str, str]] = {
     "flavour": {"part": "B", "level": "numerical",
                 "assumes": "Fritzsch six-zero texture; phase bands from a finite grid plus local search"},
     "texture_survey": {"part": "C", "level": "numerical",
-                       "assumes": "Hermitian textures; joint fits start from a finite grid, so an "
-                                  "exclusion could miss a minimum"},
+                       "assumes": "Hermitian textures; searches from finite grids (--certify proves the "
+                                  "exclusions: 80 of 82)"},
     "survey_certificates": {"part": "C", "level": "proved",
                             "assumes": "only with --certify; exclusions proved cell by cell, at m_t(m_t)"},
     "gauge_331": {"part": "D", "level": "exact", "assumes": "3-3-1 representations, beta = -1/sqrt3, +1/sqrt3"},

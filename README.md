@@ -24,6 +24,7 @@ python3 production_v2_2.py                     # full report, about 7 minutes
 python3 production_v2_2.py --json-out out.json # every number, as JSON
 python3 production_v2_2.py --scales 2000 5000  # other evaluation scales (GeV, above m_t)
 python3 production_v2_2.py --set M_t=173.5      # change a measured input; the whole model is recalculated
+python3 production_v2_2.py --certify            # also prove every texture exclusion of Part C (~10 min more)
 ```
 
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
@@ -176,6 +177,32 @@ M_u = | 0 0 X |      M_d = | 0 X 0 |      chi^2 = 0.27 to 0.40 for 1 dof (0.5 to
 The down sector is Fritzsch's. The up sector has five-zero structure, the kind of pattern
 classified by Ramond, Roberts and Ross (1993). Every six-zero pattern is excluded,
 Fritzsch's at 31σ or more.
+
+**The exclusions are proved, not just searched** (`python3 production_v2_2.py --certify`, about
+ten minutes on four cores; the report of that run is
+[results/production_v2_2_certified.txt](results/production_v2_2_certified.txt)). The searches
+above sample the parameter space; a certificate covers all of it (every point along every
+family, both phases) with cells and proves for each that no point in it can fit. Along a
+family the matrix entries are rational functions of the free entry with exact ranges, and the
+eigenvalues never change, so eigenvector perturbation bounds turn the entry ranges into rigorous
+bounds on every CKM element. **80 of the 82 exclusions are proved at m_t(m_t).** The two that are
+not, 00X/0XX/XXX with 00X/0XX/XX0 and its mirror (excluded at 14σ and 17σ by the joint fit),
+remain numerical: their certificates need finer cells than the budget allows. The survival
+needs no certificate, since the search exhibits a point that fits.
+
+**What the survivor predicts.** |V_us|, |V_cb| and |V_ub| fix its three unknowns at isolated
+points; each then predicts |J| and |V_td/V_ts|, which the survey never used:
+
+| at m_t(m_t) | \|J\| | \|V_td/V_ts\| |
+|---|---|---|
+| solution 1 | 2.90 ± 0.12 × 10⁻⁵ (−1.2σ) | 0.1966 ± 0.0030 (−2.4σ) |
+| solution 2 | 3.23 ± 0.13 × 10⁻⁵ (+0.6σ) | 0.2751 ± 0.0034 (+14.5σ) |
+| measured | 3.12 ± 0.13 × 10⁻⁵ | 0.207 ± 0.0032 |
+
+Solution 2 is excluded by |V_td/V_ts|. Solution 1 is 2.2σ from both measurements together at
+m_t(m_t) (1.4σ at M_S): the pattern survives, with a sharp prediction that a better measurement
+of |V_td/V_ts| or J can test. (The PDG fit behind the measured moduli and J includes B-mixing
+data, so the |V_td/V_ts| test is not fully independent of them.)
 
 **Part D: what 3-3-1 says about the mass matrices**
 
