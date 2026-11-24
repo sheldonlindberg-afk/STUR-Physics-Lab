@@ -435,33 +435,43 @@ PART L. STANDARD MODEL CRITICALITY: THE HIGGS MASS FROM ONE CONDITION AT THE PLA
   If nothing new enters below the Planck scale, the Higgs self-coupling can be fixed there:
   lambda(M_P) = 0 (Froggatt-Nielsen 1996; Shaposhnikov-Wetterich 2010). Running it down to m_t
   with the measured top mass and alpha_s then predicts m_h. No free parameter, no new particle.
-  Running: two-loop SM (gauge b_ij from the field content; y_t and lambda two-loop terms quoted from
-  Buttazzo et al. 2013, cross-checked below). Matching at mu = m_t(m_t) to the pole masses M_h, M_t,
-  M_W, M_Z and G_F: tree level, and one loop (their appendix A, Passarino-Veltman functions in closed
-  form; checked: the mu dependence of each threshold is exactly the one-loop RGE).
-      condition                 loops   matching   lambda(m_t)   predicted M_h (GeV)
-      lambda(M_P        ) = 0       1      tree       0.14978         134.76
-      lambda(M_P        ) = 0       2      tree       0.13721         128.98
-      lambda(M_P reduced) = 0       1      tree       0.14959         134.67
-      lambda(M_P reduced) = 0       2      tree       0.13721         128.98
-      lambda(M_P        ) = 0       2      one loop   0.13719         129.02
-  Two loops, one-loop matching: M_h = 129.02 GeV +/- 0.93 (inputs: M_t +0.60, alpha_s -0.72, M_W +0.000)
-      the one-loop matching moves it by +0.04 GeV: at mu = m_t(m_t) both one-loop
-      thresholds (lambda and the electroweak part of y_t) nearly vanish, so the tree-level result stood
-      measured M_h = 125.20 +/- 0.11 GeV: the prediction is 3.8 GeV high, 4.1 sigma on the input errors
-      Still not included: two-loop matching (QCD x top-Yukawa terms in lambda and y_t), the three-loop
-      QCD top-mass conversion, three-loop running.
-  Both conditions at the Planck scale, lambda(M_P) = 0 and beta_lambda(M_P) = 0, fix two numbers:
+  Running: one, two and three loops (two-loop gauge b_ij from the field content; y_t and lambda
+  two-loop terms and all three-loop terms quoted from Buttazzo et al. 2013, appendix B). Matching
+  to the pole masses M_h, M_t, M_W, M_Z and G_F: tree level; one loop at mu = m_t(m_t) (their
+  appendix A, Passarino-Veltman functions in closed form); two loops at mu = M_t (their section 2
+  interpolations of lambda^(2) and of the electroweak parts of y_t^(2), plus the three-loop QCD
+  term of the top pole/MS-bar conversion, Melnikov-van Ritbergen 2000).
+      condition                 loops   matching            predicted M_h (GeV)
+      lambda(M_P        ) = 0       1      tree                  134.76
+      lambda(M_P        ) = 0       2      tree                  128.98
+      lambda(M_P        ) = 0       3      tree                  128.75
+      lambda(M_P reduced) = 0       1      tree                  134.67
+      lambda(M_P reduced) = 0       2      tree                  128.98
+      lambda(M_P reduced) = 0       3      tree                  128.76
+      lambda(M_P        ) = 0       2      one loop              129.02
+      lambda(M_P        ) = 0       3      one loop              128.79
+      lambda(M_P        ) = 0       2      two loops             128.95
+      lambda(M_P        ) = 0       3      two loops, no a^3     129.68
+      lambda(M_P        ) = 0       3      two loops             128.72
+  Three loops, two-loop matching: M_h = 128.72 GeV +/- 0.94 (inputs: M_t +0.60, alpha_s -0.73, M_W +0.000)
+      three-loop running moves it by -0.23 GeV; two-loop matching by -0.07 GeV (+0.89 from lambda^(2)
+      and y_t^(2), -0.96 from the three-loop QCD top-mass term)
+      measured M_h = 125.20 +/- 0.11 GeV: the prediction is 3.5 GeV high, 3.7 sigma on the input errors
+      cross-check: Buttazzo et al.'s own result, lambda(M_Pl) linear in M_h, M_t, alpha_s, gives M_h = 128.68 GeV here
+      Still not included: three-loop matching, four-loop running beyond pure QCD, and the
+      four-loop QCD running of alpha_s and of the quark masses (this script runs them at two).
+  Both conditions at the Planck scale, lambda(M_P) = 0 and beta_lambda(M_P) = 0, fix two numbers
+  (at two loops, one-loop matching):
       M_h = 130.8 GeV and M_t = 173.5 GeV (measured 125.2 and 172.57; QCD pole/MS-bar ratio of the measured top kept)
-  Read backwards, with the measured M_h (one-loop matching): lambda(M_P) = -0.0122, beta_lambda(M_P) = +1.5e-04
-      lambda turns negative at mu = 2.60e+10 GeV: the electroweak vacuum is not the
+  Read backwards, with the measured M_h (three loops, two-loop matching): lambda(M_P) = -0.0110, beta_lambda(M_P) = +1.7e-04
+      lambda turns negative at mu = 3.11e+10 GeV: the electroweak vacuum is not the
       lowest state. Whether it is long-lived (metastable) needs the tunnelling rate, not
       calculated here.
   RESULT: one condition at the Planck scale gives the Higgs mass to 3 percent with nothing adjusted:
-    129.0 GeV against 125.20. The one-loop matching does not close the gap, so at this
-    order the gap is real: the measured Higgs mass makes lambda slightly negative at M_P and the SM
-    vacuum is not stable. The top mass dominates the input error; the second condition
-    (beta_lambda = 0) lands near the measured top mass.
+    128.7 GeV against 125.20. Three-loop running and two-loop matching move it by
+    -0.30 GeV and do not close the gap: the measured Higgs mass makes lambda slightly
+    negative at M_P and the SM vacuum is not stable. The top mass dominates the input error; the
+    second condition (beta_lambda = 0) lands near the measured top mass.
 
 PART M. WHICH HIGH-ENERGY HYPOTHESIS SURVIVES EVERY CONDITION AT ONCE?
 ------------------------------------------------------------------------------
@@ -480,34 +490,34 @@ PART M. WHICH HIGH-ENERGY HYPOTHESIS SURVIVES EVERY CONDITION AT ONCE?
     +theory          plus, per ingredient, the change from the last order calculated to the
                      one below (running 2 loops vs 1, matching one loop vs tree); the next
                      order is usually smaller, so this is the weakest exclusion
-  Theory errors, SM:   1/alpha 4.80   y_b 7.2 %   m_h 5.78 GeV (from Parts I, J, L)
+  Theory errors, SM:   1/alpha 4.80   y_b 7.2 %   m_h 0.24 GeV (from Parts I, J, L)
   Theory errors, MSSM at M_S = 3.64 TeV:   1/alpha 12.00   y_b 7.2 %   m_h 0.71 GeV
   Not estimated: the two-loop stop threshold, GUT and superpartner thresholds.
-  SM pulls, inputs:  U -78.8  B -80.7  H +4.1 sigma;  +theory:  U -9.5  B -6.1  H +0.65 sigma
+  SM pulls, inputs:  U -78.8  B -80.7  H +3.7 sigma;  +theory:  U -9.5  B -6.1  H +3.60 sigma
     hypothesis        conditions  unknowns  dof  |  sigma   verdict    |  sigma   verdict
                                                  |  (inputs)           |  (+theory)
     SM up to M_P      U              0      1  |    78.8   excluded   |    9.53   excluded
     MSSM above M_S    U              1      0  |       0   survives   |       0   survives
     SM up to M_P      B              0      1  |    80.7   excluded   |    6.05   excluded
     MSSM above M_S    B              2     -1  |       0   survives   |       0   survives
-    SM up to M_P      H              0      1  |    4.07   excluded   |   0.653   predicts
+    SM up to M_P      H              0      1  |    3.71   excluded   |     3.6   excluded
     MSSM above M_S    H              3     -2  |       0   survives   |       0   survives
     SM up to M_P      U+B            0      2  |     113   excluded   |    11.1   excluded
     MSSM above M_S    U+B            2      0  |       0   survives   |       0   survives
-    SM up to M_P      U+H            0      2  |    78.9   excluded   |    9.29   excluded
+    SM up to M_P      U+H            0      2  |    78.9   excluded   |    9.94   excluded
     MSSM above M_S    U+H            3     -1  |       0   survives   |       0   survives
-    SM up to M_P      B+H            0      2  |    80.8   excluded   |    5.75   excluded
+    SM up to M_P      B+H            0      2  |    80.8   excluded   |    6.73   excluded
     MSSM above M_S    B+H            3     -1  |       0   survives   |       0   survives
-    SM up to M_P      U+B+H          0      3  |     113   excluded   |    10.9   excluded
+    SM up to M_P      U+B+H          0      3  |     113   excluded   |    11.4   excluded
     MSSM above M_S    U+B+H          3      0  |    23.1   excluded   |    2.52   survives
     (survives: no prediction, the unknowns absorb the conditions; predicts: survives and
     predicts at least one number)
   RESULT (inputs only): no hypothesis and set of conditions both survives and
     predicts anything.
-  RESULT (with theory errors): survives and predicts: SM up to M_P with H
-    Verdicts that depend on the theory errors: SM up to M_P with H; MSSM
-      above M_S with U+B+H. Deciding them needs the next order, not a
-      different error estimate.
+  RESULT (with theory errors): no hypothesis and set of conditions both
+    survives and predicts anything.
+    Verdicts that depend on the theory errors: MSSM above M_S with U+B+H.
+      Deciding them needs the next order, not a different error estimate.
 
 THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
 ------------------------------------------------------------------------------
@@ -569,7 +579,7 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
         e_charge, m_b, m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV, m_u,
         mu_light, s2_hat_Z
       takes: planck_units
-      assumes: lambda(M_P) = 0; two-loop running, one-loop matching
+      assumes: lambda(M_P) = 0; three-loop running, two-loop matching
   uv_joint_test (M, numerical)
       inputs: G_F, M_W, M_Z, M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ, c,
         e_charge, m_b, m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV, m_u,
@@ -623,10 +633,14 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
     [resolved] Part M's theory errors are calculated, not typed in: for every
       ingredient the change from the last order the script computes to the
       one below it.
-    [open] Two Part M verdicts depend on those theory errors (SM criticality,
-      the MSSM with all three conditions). Settling them needs the next
-      order: three-loop running, two-loop matching, the two-loop stop
-      threshold.
+    [resolved] SM criticality's Part M verdict depended on the theory error
+      while Part L stopped at two loops. With three-loop running and two-loop
+      matching its last-order shift is a quarter of a GeV, and it is excluded
+      with or without theory errors.
+    [open] The MSSM with all three conditions still depends on the theory
+      errors, through the one- to two-loop shift of unification. Settling it
+      needs three-loop gauge running with superpartner and GUT thresholds,
+      and the two-loop stop threshold.
     [open] No stage feeds cosmology: H0 and Omega_m are inputs. A shared
       mechanism would need equations for the dark-matter density and Lambda.
     [resolved] M_P was computed inside Part H, so every input of Part H (H0
@@ -667,7 +681,10 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Largest Higgs mass over the X_t scan sits at X_t^2 = 6 M_S^2 (the bound used)  (peak at X_t/M_S = 2.309)
   [PASS] One-loop beta_lambda: Part L convention = Part K convention (lambda_K = 2 lambda)  (rel diff 4.4e-16)
   [PASS] Two-loop beta_lambda coefficients agree with the hypercharge-normalized literature form  (-312 629/24 -379/48 36 21/2)
-  [PASS] Criticality solve converged (step count doubled)  (rel change 3.9e-14)
+  [PASS] Criticality solve converged (step count doubled; two and three loops)  (rel change 9.2e-14)
+  [PASS] Three-loop RGEs: Buttazzo et al.'s couplings at M_t reproduce their Planck-scale values (two loops must miss)  (max dev 6.1e-05 at 3 loops, 7.8e-04 at 2)
+  [PASS] Part L's M_h = Buttazzo et al.'s lambda(M_Pl) = 0, solved at our M_t, alpha_s (their theory error)  (128.72 against 128.68 GeV)
+  [PASS] Two-loop matching: their inputs give their lambda(M_t) and y_t(M_t) within their theory errors  (lambda 0.12605, y_t 0.93711)
   [PASS] Passarino-Veltman B0 in closed form = direct quadrature (below and above threshold)  (max abs diff 5.0e-06)
   [PASS] One-loop matching of lambda and y_t: d/d ln mu reproduces the one-loop RGE exactly  (max rel diff 1.6e-11)
   [PASS] Every symmetry found reproduces its target zeros exactly (recomputed from the charges)
@@ -685,6 +702,6 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Lambda_QCD (2-loop) reproduces alpha_s(M_Z)  (rel diff 2.2e-16)
   [PASS] Part M at Part I's M_S reproduces the measured alpha (the two stages agree)  (diff -1.4e-14)
   [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (15 stages, 28 edges)
-  43/43 checks pass
+  46/46 checks pass
 ==============================================================================
-Elapsed: 456.8 s
+Elapsed: 410.6 s

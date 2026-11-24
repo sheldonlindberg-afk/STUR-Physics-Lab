@@ -29,7 +29,7 @@ python3 production_v2_2.py --set M_t=173.5      # change a measured input; the w
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 43 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 46 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
