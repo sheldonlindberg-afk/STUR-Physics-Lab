@@ -2927,7 +2927,9 @@ def uv_joint_test(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yuk: Dict[st
     steps = int(num("rg_steps_per_efold"))
     # relative error of y_b(m_t), from the flavour stage's input variations (b-tau errors, linear)
     mb = flav["ratios"][mt]["m_b"]
-    yb_rel = math.sqrt(sum(((flav["varied"][n][0][mt]["m_b"] - flav["varied"][n][1][mt]["m_b"]) / 2) ** 2
+    def mb_of(ratios: Dict[float, Dict[str, float]]) -> float:     # m_b(m_t) at that run's own m_t
+        return next(e["m_b"] for e in ratios.values() if "m_b" in e)
+    yb_rel = math.sqrt(sum(((mb_of(flav["varied"][n][0]) - mb_of(flav["varied"][n][1])) / 2) ** 2
                            for n in FLAVOUR_UNCERTAIN)) / mb
     out: Dict[str, Any] = {"yb_rel_sigma": yb_rel, "rows": []}
 
