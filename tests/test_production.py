@@ -230,6 +230,14 @@ def test_uv_joint_test():
     assert not mssm[("U", "B", "H")]["survives"] and mssm[("U", "B", "H")]["n_sigma"] > 20
     assert all(r["dof"] <= 0 for r in mssm.values())
     assert jt["predictive_survivors"] == []
+    # theory errors: calculated from the code's own lower orders, never typed in
+    th = jt["SM_theory_sigma"]
+    assert abs(th["H"] - 5.78) < 0.05 and abs(th["U"] - 4.80) < 0.05
+    assert all(r["with_theory"]["n_sigma"] <= r["n_sigma"] + 1e-9 for r in rows.values())
+    # they decide two verdicts: SM criticality and the MSSM with all three conditions
+    flips = {k for k, r in rows.items() if r["survives"] != r["with_theory"]["survives"]}
+    assert flips == {("SM up to M_P", ("H",)), ("MSSM above M_S", ("U", "B", "H"))}
+    assert jt["predictive_survivors_theory"] == [("SM up to M_P", ("H",))]
 
 
 def test_parallel_textures_excluded():

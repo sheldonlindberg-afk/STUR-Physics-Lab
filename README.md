@@ -77,9 +77,20 @@ the conditions the other parts impose (gauge unification, b-τ unification, the 
   All three together exclude it at 23σ: unification fixes M_S, b-τ fixes tan β ≈ 1.35, and
   there the Higgs mass cannot exceed about 104 GeV.
 
-So no hypothesis and set of conditions both survives and predicts something. The errors are the
-measured inputs' only; theory errors (the one-loop stop threshold above all) are not calculated,
-so the sizes of the exclusions are upper bounds. The audit findings, open and resolved, are
+Every verdict is given twice. With the measured inputs' errors only, no hypothesis and set of
+conditions both survives and predicts something. The script also calculates theory errors
+itself, never typing one in: for every ingredient, the change from the last order it computes
+to the one below (running at two loops against one, matching at one loop against tree level).
+The next order is usually smaller than that step, so these are the weakest exclusions, and
+the truth lies between the two columns. With them, two verdicts change:
+
+* SM criticality survives (0.65σ): the 1→2-loop shift of the predicted Higgs mass is 5.8 GeV.
+  It is then the one surviving combination that predicts a number.
+* The MSSM with all three conditions survives (2.5σ): at one loop against two, unification
+  moves 1/α by about 12, which frees M_S.
+
+Settling those two needs the next order (three-loop running, two-loop matching, the two-loop
+stop threshold), not a different error estimate. The audit findings, open and resolved, are
 part of the output.
 
 ## What it calculates

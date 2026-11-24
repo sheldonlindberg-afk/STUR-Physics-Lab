@@ -260,7 +260,7 @@ STAGES: Dict[str, Dict[str, str]] = {
                     "assumes": "lambda(M_P) = 0; two-loop running, one-loop matching"},
     "uv_joint_test": {"part": "M", "level": "numerical",
                       "assumes": "every hypothesis against every set of conditions; unknowns on a grid "
-                                 "plus exact roots and edges; input errors only, no theory errors"},
+                                 "plus exact roots and edges; theory errors = last-order shifts"},
     "self_checks": {"part": "-", "level": "validation", "assumes": "tests the calculation, not the physics"},
 }
 
@@ -273,8 +273,11 @@ AUDIT_FINDINGS: Tuple[Tuple[str, str], ...] = (
     ("resolved", "Parts I, J, K assume the MSSM above M_S; Part L assumes the SM up to M_P. Both cannot "
                  "hold, so neither is chosen: Part M runs each hypothesis against every combination of "
                  "the conditions and reports which survive."),
-    ("open", "Part M uses input errors only. The theory errors of the one-loop stop threshold and of "
-             "the matching are not calculated, so its exclusions are upper bounds on the tension."),
+    ("resolved", "Part M's theory errors are calculated, not typed in: for every ingredient the change "
+                 "from the last order the script computes to the one below it."),
+    ("open", "Two Part M verdicts depend on those theory errors (SM criticality, the MSSM with all three "
+             "conditions). Settling them needs the next order: three-loop running, two-loop matching, "
+             "the two-loop stop threshold."),
     ("open", "No stage feeds cosmology: H0 and Omega_m are inputs. A shared mechanism would need "
              "equations for the dark-matter density and Lambda."),
     ("resolved", "M_P was computed inside Part H, so every input of Part H (H0 among them) seemed to "
@@ -507,7 +510,9 @@ def integrate_ln_mu(y0: List[float], mu0: float, mu1: float,
 class FlavourRunner:
     """Runs alpha_s and the quark masses from the measured inputs. No free parameters."""
 
-    def __init__(self, x: Dict[str, float], steps_per_efold: int):
+    def __init__(self, x: Dict[str, float], steps_per_efold: int, qcd_loops: int = 2):
+        """qcd_loops = 1 drops the two-loop QCD terms: the change is Part M's estimate of the
+        error from the orders not calculated."""
         self.x = x
         self.steps = steps_per_efold
         self.alpha_em = 1 / x["alpha_em_inv_MZ"]
@@ -515,7 +520,8 @@ class FlavourRunner:
         for nf in range(3, 7):
             b0, b1 = qcd_beta(nf)
             g0, g1 = qcd_gamma_m(nf)
-            self.coef[nf] = (float(b0), float(b1), float(g0), float(g1))
+            two = 1 if qcd_loops >= 2 else 0
+            self.coef[nf] = (float(b0), two * float(b1), float(g0), two * float(g1))
         self.thresholds: List[float] = [x["m_c"], x["m_b"]]
         self.mt_msbar = self._top_msbar()
         self.thresholds = [x["m_c"], x["m_b"], self.mt_msbar]
@@ -2905,9 +2911,29 @@ def sm_lambda_profile(crit: Dict[str, Any], m_h: float) -> Dict[str, Any]:
 # it, so for X_t in [0, sqrt12] m_h covers exactly [m_h(X_t = 0), m_h(X_t^2 = 6 M_S^2)].
 # Every MSSM point must keep its Yukawa couplings perturbative up to M_GUT, the scale where
 # the three gauge couplings meet for that M_S; b-tau unification is tested there (as in Part J).
-# Errors: measured inputs only. Theory errors (higher loops, the one-loop stop
-# threshold) are not included, so a small tension is not an exclusion of the theory.
+# Errors, two ways, so each verdict is bracketed:
+#   inputs           the measured inputs' errors only: the strongest exclusion
+#   inputs + theory  plus, for every ingredient, the change from the last order the script
+#                    calculates to the order below it (running: 2 loops vs 1; low-scale
+#                    matching: one loop vs tree). The next order is usually much smaller
+#                    than the last step, so this is the weakest exclusion.
+# Not estimated: the two-loop stop threshold (the code has only the one-loop one, which is
+# the leading effect, not a correction), GUT and superpartner thresholds of unification.
 JOINT_CONDITIONS = ("U", "B", "H")
+
+
+def mh_from_ms(state_ms: List[float], m_s: float, lam_k: float, x: Dict[str, float], v: float, mt: float,
+               loops: int, matched: bool) -> float:
+    """m_h from lambda (Part K convention, lambda_K = 2 lambda_L) at M_S: run down at one loop
+    (Part K) or two (Part L), convert at m_t at tree level or with Part L's one-loop matching."""
+    steps = int(num("rg_steps_per_efold"))
+    if loops == 1:
+        lam_l = integrate_ln_mu(state_ms + [lam_k], m_s, mt, sm_higgs_rhs(), [], steps)[6] / 2
+    else:
+        lam_l = run_sm(state_ms + [lam_k / 2], m_s, mt, 2)[6]
+    if lam_l <= 0:
+        return 0.0
+    return higgs_mass_from_lambda(lam_l, x["M_t"], x["M_W"], x["M_Z"], v, mt, matched)
 
 
 def _joint_verdict(chi2: float, n_cond: int, n_par: int) -> Dict[str, Any]:
@@ -2939,13 +2965,24 @@ def uv_joint_test(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yuk: Dict[st
                            for n in FLAVOUR_UNCERTAIN)) / mb
     out: Dict[str, Any] = {"yb_rel_sigma": yb_rel, "rows": []}
 
+    # theory error of y_b(m_t): two-loop against one-loop QCD running of m_b
+    mb1 = FlavourRunner(x, steps, qcd_loops=1)
+    yb_rel_th = abs(mb1.ratios_at([mb1.mt_msbar])[mb1.mt_msbar]["m_b"] / mb - 1)
+
     # --- Standard Model up to M_P: no unknowns, every condition is a prediction
-    sm_row = [r for r in alpha_unif["rows"] if not math.isfinite(r["M_S"])][0]["loop2"]
+    sm_rows = [r for r in alpha_unif["rows"] if not math.isfinite(r["M_S"])][0]
+    sm_row = sm_rows["loop2"]
     r_sm = yuk["btau_SM"][0]["yb_over_ytau"]
-    sm_pull = {"U": (sm_row["inv_alpha"] - a_meas) / math.hypot(sm_row["sigma_inputs"], a_err),
-               "B": (r_sm - 1) / (r_sm * yb_rel),
-               "H": (crit["central"]["m_h"] - mh_meas) / math.hypot(crit["sigma_total"], mh_err)}
-    out["SM_pulls"] = sm_pull
+    crow = {(r["loops"], r["matched"]): r["m_h"] for r in crit["rows"] if r["scale"] == "M_P"}
+    sm_th = {"U": abs(sm_row["inv_alpha"] - sm_rows["loop1"]["inv_alpha"]),
+             "B": yb_rel_th,
+             "H": math.hypot(crow[(2, False)] - crow[(1, False)], crow[(2, True)] - crow[(2, False)])}
+    sm_in = {"U": math.hypot(sm_row["sigma_inputs"], a_err), "B": yb_rel,
+             "H": math.hypot(crit["sigma_total"], mh_err)}
+    sm_gap = {"U": sm_row["inv_alpha"] - a_meas, "B": (r_sm - 1) / r_sm, "H": crit["central"]["m_h"] - mh_meas}
+    sm_pull = {c: sm_gap[c] / sm_in[c] for c in JOINT_CONDITIONS}
+    sm_pull_th = {c: sm_gap[c] / math.hypot(sm_in[c], sm_th[c]) for c in JOINT_CONDITIONS}
+    out["SM_pulls"], out["SM_pulls_theory"], out["SM_theory_sigma"] = sm_pull, sm_pull_th, sm_th
 
     # --- MSSM above M_S
     l_lo, l_hi = math.log(mt), math.log(alpha_unif["scan_top_GeV"])
@@ -2965,7 +3002,7 @@ def uv_joint_test(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yuk: Dict[st
 
     n_ms, n_tb = int(num("joint_ms_points")), int(num("joint_tan_beta_points"))
     grid_l = [l_lo + (l_hi - l_lo) * k / (n_ms - 1) for k in range(n_ms)]
-    sig_u, sig_h = {}, {}
+    sig_u, sig_h, th_u, th_h = {}, {}, {}, {}
     for l_ms in grid_l:               # input errors at each grid M_S (used at the nearest one)
         d = [predict_alpha(s2 + sig("s2_hat_Z"), a_s, mz, math.exp(l_ms), 2)["inv_alpha"] - alpha_at(l_ms),
              predict_alpha(s2, a_s + sig("alpha_s_MZ"), mz, math.exp(l_ms), 2)["inv_alpha"] - alpha_at(l_ms)]
@@ -2982,6 +3019,14 @@ def uv_joint_test(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yuk: Dict[st
             else:
                 dm.append(m - ref)
         sig_h[l_ms] = math.hypot(math.hypot(*dm), mh_err)
+        # theory: unification at one loop against two; m_h with two-loop running against one,
+        # and with Part L's one-loop matching against tree level (at tan beta -> infinity, X_t^2 = 6 M_S^2)
+        th_u[l_ms] = abs(alpha_at(l_ms) - predict_alpha(s2, a_s, mz, math.exp(l_ms), 1)["inv_alpha"])
+        s_ms = integrate_ln_mu(st, mt, math.exp(l_ms), yukawa_rhs("SM"), [], steps)
+        lam_k = mssm_lambda_at_ms(s_ms, 0, math.sqrt(6))
+        m11 = mh_from_ms(s_ms, math.exp(l_ms), lam_k, x, v, mt, 1, False)
+        th_h[l_ms] = math.hypot(mh_from_ms(s_ms, math.exp(l_ms), lam_k, x, v, mt, 2, False) - m11,
+                                mh_from_ms(s_ms, math.exp(l_ms), lam_k, x, v, mt, 1, True) - m11)
 
     def nearest(l_ms: float) -> float:
         return min(grid_l, key=lambda g: abs(g - l_ms))
@@ -3008,7 +3053,11 @@ def uv_joint_test(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yuk: Dict[st
         m0 = mh_from(s_ms, m_s, mssm_lambda_at_ms(s_ms, tb, 0), v, mt)
         m3 = mh_from(s_ms, m_s, mssm_lambda_at_ms(s_ms, tb, math.sqrt(6)), v, mt)
         gap_h = (m0 - mh_meas) if mh_meas < m0 else (mh_meas - m3) if mh_meas > m3 else 0.0
-        return {"U": (alpha_at(l_ms) - a_meas) / sig_u[g], "B": (r - 1) / (r * yb_rel), "H": gap_h / sig_h[g],
+        gaps = {"U": alpha_at(l_ms) - a_meas, "B": (r - 1) / r, "H": gap_h}
+        sin = {"U": sig_u[g], "B": yb_rel, "H": sig_h[g]}
+        sth = {"U": th_u[g], "B": yb_rel_th, "H": th_h[g]}
+        return {"pull": {c: gaps[c] / sin[c] for c in JOINT_CONDITIONS},
+                "pull_th": {c: gaps[c] / math.hypot(sin[c], sth[c]) for c in JOINT_CONDITIONS},
                 "ratio": r}
 
     n_bis = int(num("joint_bisections"))
@@ -3068,15 +3117,26 @@ def uv_joint_test(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yuk: Dict[st
     for k in range(1, len(JOINT_CONDITIONS) + 1):
         for conds in itertools.combinations(JOINT_CONDITIONS, k):
             out["rows"].append({"hypothesis": "SM up to M_P", "conditions": conds, "unknowns": 0,
-                                **_joint_verdict(chi2_of(sm_pull, conds), len(conds), 0)})
+                                **_joint_verdict(chi2_of(sm_pull, conds), len(conds), 0),
+                                "with_theory": _joint_verdict(chi2_of(sm_pull_th, conds), len(conds), 0)})
             n_par = 1 + (("B" in conds or "H" in conds)) + ("H" in conds)     # M_S, tan beta, X_t
-            best = min((chi2_of(p, conds) for p in allpts), default=math.inf)
+            best = min((chi2_of(p["pull"], conds) for p in allpts), default=math.inf)
+            best_th = min((chi2_of(p["pull_th"], conds) for p in allpts), default=math.inf)
             out["rows"].append({"hypothesis": "MSSM above M_S", "conditions": conds, "unknowns": n_par,
-                                **_joint_verdict(best, len(conds), n_par)})
+                                **_joint_verdict(best, len(conds), n_par),
+                                "with_theory": _joint_verdict(best_th, len(conds), n_par)})
+    if ms_i:
+        g = nearest(math.log(ms_i["M_S_GeV"]))
+        out["MSSM_theory_sigma_at_part_I"] = {"U": th_u[g], "B": yb_rel_th, "H": th_h[g],
+                                              "M_S": math.exp(g)}
     out["check_U_at_part_I"] = (alpha_at(math.log(ms_i["M_S_GeV"])) - a_meas) if ms_i else math.nan
     out["survivors"] = [(r["hypothesis"], r["conditions"]) for r in out["rows"] if r["survives"]]
     out["predictive_survivors"] = [(r["hypothesis"], r["conditions"]) for r in out["rows"]
                                    if r["survives"] and r["predicts"]]
+    out["survivors_theory"] = [(r["hypothesis"], r["conditions"]) for r in out["rows"]
+                               if r["with_theory"]["survives"]]
+    out["predictive_survivors_theory"] = [(r["hypothesis"], r["conditions"]) for r in out["rows"]
+                                          if r["with_theory"]["survives"] and r["with_theory"]["predicts"]]
     return out
 
 
@@ -4200,25 +4260,46 @@ def report(res: Dict[str, Any]) -> str:
     w("  every root of y_b/y_tau = 1 and every edge of perturbation theory (bisection); X_t is")
     w(f"  eliminated exactly. {jt['MSSM_points']} perturbative points; the best one only decides survival.")
     w("  With no prediction (dof <= 0) the number is the distance in sigma between the data and")
-    w("  everything the hypothesis can reach. Errors: measured inputs only, no theory errors.")
-    sp = jt["SM_pulls"]
-    w(f"  SM pulls: U {sp['U']:+.1f} sigma, B {sp['B']:+.1f} sigma, H {sp['H']:+.1f} sigma")
-    w("    hypothesis        conditions  unknowns  dof    chi^2      sigma   verdict")
+    w("  everything the hypothesis can reach. Two error sets bracket every verdict:")
+    w("    inputs           measured inputs only: the strongest exclusion")
+    w("    +theory          plus, per ingredient, the change from the last order calculated to the")
+    w("                     one below (running 2 loops vs 1, matching one loop vs tree); the next")
+    w("                     order is usually smaller, so this is the weakest exclusion")
+    th, tm = jt["SM_theory_sigma"], jt.get("MSSM_theory_sigma_at_part_I")
+    w(f"  Theory errors, SM:   1/alpha {th['U']:.2f}   y_b {100 * th['B']:.1f} %   m_h {th['H']:.2f} GeV"
+      " (from Parts I, J, L)")
+    if tm:
+        w(f"  Theory errors, MSSM at M_S = {_fmt(tm['M_S'] / 1000, 3)} TeV:   1/alpha {tm['U']:.2f}   y_b"
+          f" {100 * tm['B']:.1f} %   m_h {tm['H']:.2f} GeV")
+    w("  Not estimated: the two-loop stop threshold, GUT and superpartner thresholds.")
+    sp, st_ = jt["SM_pulls"], jt["SM_pulls_theory"]
+    w(f"  SM pulls, inputs:  U {sp['U']:+.1f}  B {sp['B']:+.1f}  H {sp['H']:+.1f} sigma;"
+      f"  +theory:  U {st_['U']:+.1f}  B {st_['B']:+.1f}  H {st_['H']:+.2f} sigma")
+    w("    hypothesis        conditions  unknowns  dof  |  sigma   verdict    |  sigma   verdict")
+    w("                                                 |  (inputs)           |  (+theory)")
+
+    def verdict(v: Dict[str, Any]) -> str:
+        return ("predicts" if v["predicts"] else "survives") if v["survives"] else "excluded"
+
     for r in jt["rows"]:
-        verdict = ("survives, predicts" if r["predicts"] else "survives, no prediction") if r["survives"] \
-            else "excluded"
-        zero = r["chi2"] < num("joint_chi2_zero")
+        cols = []
+        for v in (r, r["with_theory"]):
+            zero = v["chi2"] < num("joint_chi2_zero")
+            cols.append(f"{'0' if zero else _fmt(v['n_sigma'], 3):>7s}   {verdict(v):9s}")
         w(f"    {r['hypothesis']:17s} {'+'.join(r['conditions']):10s} {r['unknowns']:5d} {r['dof']:6d}"
-          f"  {'0' if zero else _fmt(r['chi2'], 4):>9s}  {'0' if zero else _fmt(r['n_sigma'], 3):>8s}   {verdict}")
-    preds = jt["predictive_survivors"]
-    w("  RESULT: " + ("surviving combinations that predict something: "
-                      + "; ".join(f"{h} with {'+'.join(c)}" for h, c in preds) if preds
-                      else "no combination of hypothesis and conditions both survives and predicts anything."))
-    surv_m = [c for h, c in jt["survivors"] if h.startswith("MSSM")]
-    if surv_m:
-        w(_wrap("The MSSM survives with " + ", ".join("+".join(c) for c in surv_m)
-                + ", but its unknowns absorb every condition: it predicts nothing.", 4))
-    w("    The SM up to M_P predicts each number and misses each one. Theory errors are not included.")
+          f"  | {cols[0]}  | {cols[1]}")
+    w("    (survives: no prediction, the unknowns absorb the conditions; predicts: survives and")
+    w("    predicts at least one number)")
+    for label, key in (("inputs only", "predictive_survivors"), ("with theory errors", "predictive_survivors_theory")):
+        preds = jt[key]
+        w(_wrap(f"RESULT ({label}): " + ("survives and predicts: " + "; ".join(
+            f"{h} with {'+'.join(c)}" for h, c in preds) if preds else
+            "no hypothesis and set of conditions both survives and predicts anything."), 2))
+    flips = [r for r in jt["rows"] if r["survives"] != r["with_theory"]["survives"]]
+    if flips:
+        w(_wrap("Verdicts that depend on the theory errors: " + "; ".join(
+            f"{r['hypothesis']} with {'+'.join(r['conditions'])}" for r in flips)
+            + ". Deciding them needs the next order, not a different error estimate.", 4))
     w("")
     w("THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)")
     w("-" * 78)
