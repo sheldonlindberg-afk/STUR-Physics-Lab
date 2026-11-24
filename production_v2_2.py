@@ -191,6 +191,9 @@ NUMERICS: Dict[str, Any] = {
     "higgs_xt_points": 13,            # stop-mixing grid X_t/M_S from 0 to sqrt(12) (Part K)
     "higgs_ms_search_efolds": 40,     # search range in ln(M_S) above m_t for the backwards reading
     "higgs_iterations": 50,           # bisection steps for that reading
+    "crit_tol": "1e-10",              # relative tolerance of the root solves (Part L)
+    "crit_iterations": 40,
+    "crit_yt_step": "1e-2",           # first relative step in y_t when bracketing beta_lambda = 0
     "check_fd_rel_step": "1e-5",      # finite-difference step for the first-law check
     "check_fd_tol": "1e-8",
     "report_sci_below": "1e-3",       # print in scientific notation below / above these
@@ -2270,6 +2273,198 @@ def higgs_mass_mssm(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yuk: Dict[
 
 
 # =============================================================================
+# 6c. PART L: STANDARD MODEL CRITICALITY AT THE PLANCK SCALE (two-loop running)
+# =============================================================================
+# Convention of Buttazzo et al. 2013 (arXiv:1307.3536): V = lambda (|H|^2 - v^2/2)^2,
+# m_h^2 = 2 lambda v^2 at tree level. Quoted two-loop coefficients (their appendix B,
+# top Yukawa only at two loops; y_b and y_tau enter at one loop), in GUT normalization
+# and d/d ln(mu^2), so each term below is (4 pi)^-4 x [coefficient]:
+GAUGE_2L_YT = (Fr(17, 10), Fr(3, 2), Fr(2))             # -d_i y_t^2 in g_i^3 [...]
+# top Yukawa: y_t [y_t^2 (c0 y_t^2 + c1 lambda + c2 g3^2 + c3 g2^2 + c4 g1^2) + c5 lambda^2
+#                  + c6 g3^4 + c7 g2^4 + c8 g1^4 + c9 g3^2 g2^2 + c10 g3^2 g1^2 + c11 g2^2 g1^2]
+YT_2L = (Fr(-12), Fr(-12), Fr(36), Fr(225, 16), Fr(393, 80), Fr(6), Fr(-108), Fr(-23, 4),
+         Fr(1187, 600), Fr(9), Fr(19, 15), Fr(-9, 20))
+# Higgs quartic, as (coefficient, powers of lambda, y_t^2, g3^2, g2^2, g1^2)
+LAMBDA_2L = ((Fr(-156), 3, 0, 0, 0, 0), (Fr(-72), 2, 1, 0, 0, 0), (Fr(54), 2, 0, 0, 1, 0),
+             (Fr(54, 5), 2, 0, 0, 0, 1), (Fr(-3, 2), 1, 2, 0, 0, 0), (Fr(40), 1, 1, 1, 0, 0),
+             (Fr(45, 4), 1, 1, 0, 1, 0), (Fr(17, 4), 1, 1, 0, 0, 1), (Fr(-73, 16), 1, 0, 0, 2, 0),
+             (Fr(1887, 400), 1, 0, 0, 0, 2), (Fr(117, 40), 1, 0, 0, 1, 1), (Fr(15), 0, 3, 0, 0, 0),
+             (Fr(-16), 0, 2, 1, 0, 0), (Fr(-4, 5), 0, 2, 0, 0, 1), (Fr(-9, 8), 0, 1, 0, 2, 0),
+             (Fr(-171, 200), 0, 1, 0, 0, 2), (Fr(63, 20), 0, 1, 0, 1, 1), (Fr(305, 32), 0, 0, 0, 3, 0),
+             (Fr(-3411, 4000), 0, 0, 0, 0, 3), (Fr(-289, 160), 0, 0, 0, 2, 1), (Fr(-1677, 800), 0, 0, 0, 1, 2))
+
+
+def sm_rge(loops: int):
+    """(g1, g2, g3, y_t, y_b, y_tau, lambda) in d/d ln mu. One loop from the field content
+    (Part J's Yukawa equations; lambda in this Part's convention), two loops from the
+    quoted coefficients above plus the gauge b_ij from the field content."""
+    base = yukawa_rhs("SM")
+    gn = float(GUT_NORM)
+    k = 16 * math.pi ** 2
+    b2 = [[float(c) for c in row] for row in sm_two_loop_b()]
+    dt = [float(c) for c in GAUGE_2L_YT]
+    c = [float(v) for v in YT_2L]
+    l2 = [(float(a), p) for a, *p in LAMBDA_2L]
+
+    def rhs(v: List[float], nf: int) -> List[float]:
+        g1, g2, g3, yt, _, _, lam = v
+        out = base(v[:6], nf)
+        a1, a2, a3, y2 = g1 ** 2, g2 ** 2, g3 ** 2, yt ** 2
+        gp2 = gn * a1
+        dl = (24 * lam ** 2 - 3 * lam * (3 * a2 + gp2) + 12 * lam * y2 - 6 * y2 ** 2
+              + 3 * (2 * a2 ** 2 + (a2 + gp2) ** 2) / 8) / k
+        if loops >= 2:
+            for i, g in enumerate((g1, g2, g3)):
+                out[i] += g ** 3 * (sum(b2[i][j] * a for j, a in enumerate((a1, a2, a3))) - dt[i] * y2) / k ** 2
+            out[3] += yt * (y2 * (c[0] * y2 + c[1] * lam + c[2] * a3 + c[3] * a2 + c[4] * a1) + c[5] * lam ** 2
+                            + c[6] * a3 ** 2 + c[7] * a2 ** 2 + c[8] * a1 ** 2 + c[9] * a3 * a2
+                            + c[10] * a3 * a1 + c[11] * a2 * a1) / k ** 2
+            # the quoted lambda coefficients are for d/d ln(mu^2): times 2 for d/d ln mu
+            dl += 2 * sum(a * lam ** p[0] * y2 ** p[1] * a3 ** p[2] * a2 ** p[3] * a1 ** p[4]
+                          for a, p in l2) / k ** 2
+        out.append(dl)
+        return out
+    return rhs
+
+
+def sm_state_at_mt(overrides: Dict[str, float] | None = None) -> Tuple[float, float, float, List[float]]:
+    """(m_t(m_t), v, M_t/m_t(m_t), [g1, g2, g3, y_t, y_b, y_tau]) at m_t(m_t), from the inputs
+    (with optional changes, for propagating their errors)."""
+    x = _float_inputs(overrides)
+    runner = FlavourRunner(x, int(num("rg_steps_per_efold")))
+    mt = runner.mt_msbar
+    base = runner.ratios_at([mt])[mt]
+    a_em, s2 = 1 / x["alpha_em_inv_MZ"], x["s2_hat_Z"]
+    sm1 = [float(b) for b in sm_gauge_b()]
+    k = 16 * math.pi ** 2
+    lt = math.log(mt / x["M_Z"])
+    g1 = math.sqrt(1 / (float(GUT_NORM) / (4 * math.pi * a_em / (1 - s2)) - 2 * sm1[0] / k * lt))
+    g2 = math.sqrt(1 / (s2 / (4 * math.pi * a_em) - 2 * sm1[1] / k * lt))
+    g3 = math.sqrt(4 * math.pi * base["alpha_s"])
+    m_tau = lepton_running_mass(lepton_masses_gev()["tau"], mt, inp("alpha_em"))
+    rt2 = math.sqrt(2)
+    return mt, runner.v, x["M_t"] / mt, [g1, g2, g3, rt2 * mt / runner.v, rt2 * base["m_b"] / runner.v,
+                                         rt2 * m_tau / runner.v]
+
+
+def run_sm(state: List[float], mu0: float, mu1: float, loops: int, steps: int | None = None) -> List[float]:
+    return integrate_ln_mu(state, mu0, mu1, sm_rge(loops), [], steps or int(num("rg_steps_per_efold")))
+
+
+def _bracketed_root(f: Callable[[float], float], a: float, b: float, tol: float, iters: int) -> float:
+    """Root of f in [a, b] with f(a), f(b) of opposite sign (Illinois false position)."""
+    fa, fb = f(a), f(b)
+    side = 0
+    for _ in range(iters):
+        c = b - fb * (b - a) / (fb - fa)
+        fc = f(c)
+        if abs(c - b) < tol * abs(c) or fc == 0:
+            return c
+        if (fc > 0) == (fb > 0):
+            b, fb = c, fc
+            if side == -1:
+                fa /= 2
+            side = -1
+        else:
+            a, fa = c, fc
+            if side == 1:
+                fb /= 2
+            side = 1
+    return c
+
+
+def _lambda_at(state: List[float], lam0: float, mu0: float, mu1: float, loops: int,
+               steps: int | None = None) -> float:
+    """lambda(mu1); +inf if it runs into a Landau pole on the way."""
+    try:
+        out = run_sm(state + [lam0], mu0, mu1, loops, steps)[6]
+    except OverflowError:
+        return math.inf
+    return out if math.isfinite(out) else math.inf
+
+
+def critical_lambda(state: List[float], mt: float, mu: float, loops: int, steps: int | None = None) -> float:
+    """The lambda(m_t) for which lambda(mu) = 0. Bracket: lambda = 0 (it runs negative) and the
+    smallest of y_t^2 / 2^n, n = 1, 2, ..., above which lambda(mu) is positive."""
+    def f(lam0: float) -> float:
+        return _lambda_at(state, lam0, mt, mu, loops, steps)
+    lo, hi = 0, state[3] ** 2
+    while f(hi / 2) > 0:
+        hi /= 2
+    def capped(lam0: float) -> float:
+        return min(f(lam0), 1)                 # a Landau pole counts as "positive", finitely
+    return _bracketed_root(capped, lo, hi, num("crit_tol"), int(num("crit_iterations")))
+
+
+def sm_criticality(planck_gev: float) -> Dict[str, Any]:
+    """lambda(M_P) = 0 (Froggatt-Nielsen 1996; Shaposhnikov-Wetterich 2010): one condition at the
+    Planck scale fixes m_h from the measured top mass and alpha_s. Both Planck masses (G only)."""
+    out: Dict[str, Any] = {}
+    mt, v, pole_ratio, st = sm_state_at_mt()
+    m_red = planck_gev / math.sqrt(8 * math.pi)
+    out["planck"] = {"M_P": planck_gev, "M_P_reduced": m_red}
+    rows = []
+    for name, mu in (("M_P", planck_gev), ("M_P reduced", m_red)):
+        for loops in (1, 2):
+            lam = critical_lambda(st, mt, mu, loops)
+            rows.append({"scale": name, "mu": mu, "loops": loops, "lambda_mt": lam, "m_h": math.sqrt(2 * lam) * v})
+    out["rows"] = rows
+    central = [r for r in rows if r["scale"] == "M_P" and r["loops"] == 2][0]
+    # input errors: M_t and alpha_s (the two that matter), varied one at a time
+    var = {}
+    for name in ("M_t", "alpha_s_MZ"):
+        mt2, v2, _, st2 = sm_state_at_mt({name: inp(name) + sig(name)})
+        var[name] = math.sqrt(2 * critical_lambda(st2, mt2, planck_gev, 2)) * v2 - central["m_h"]
+    out["sigma_inputs"] = var
+    out["sigma_total"] = math.sqrt(sum(d ** 2 for d in var.values()))
+    out["central"] = central
+    # both conditions at once, lambda(M_P) = 0 and beta_lambda(M_P) = 0: solve for lambda(m_t) and y_t(m_t)
+    rhs2 = sm_rge(2)
+
+    def beta_at_crit(yt0: float) -> Tuple[float, float]:
+        s = list(st)
+        s[3] = yt0
+        lam = critical_lambda(s, mt, planck_gev, 2)
+        top = run_sm(s + [lam], mt, planck_gev, 2)
+        return rhs2(top, 6)[6], lam
+    # bracket in y_t: step from the measured value towards smaller |beta_lambda| until it changes sign
+    step = num("crit_yt_step")
+    y0, b0 = st[3], beta_at_crit(st[3])[0]
+    y1, b1 = y0 * (1 + step), beta_at_crit(y0 * (1 + step))[0]
+    sgn = 1 if abs(b1) < abs(b0) else -1
+    while (b1 > 0) == (b0 > 0):
+        y0, b0 = y1, b1
+        step *= 2
+        y1 = st[3] * (1 + sgn * step)
+        b1 = beta_at_crit(y1)[0]
+    yt_c = _bracketed_root(lambda y: beta_at_crit(y)[0], y0, y1, num("crit_tol"), int(num("crit_iterations")))
+    lam_c = beta_at_crit(yt_c)[1]
+    out["double"] = {"yt_mt": yt_c, "lambda_mt": lam_c, "m_h": math.sqrt(2 * lam_c) * v,
+                     "M_t": yt_c * v / math.sqrt(2) * pole_ratio}
+    out["state_mt"] = (mt, v, st)
+    return out
+
+
+def sm_lambda_profile(crit: Dict[str, Any], m_h: float) -> Dict[str, Any]:
+    """lambda(mu) at two loops for a given Higgs mass (tree-level matching at m_t): where it turns
+    negative and its value at M_P. Called by the report with the measured m_h."""
+    mt, v, st = crit["state_mt"]
+    lam0 = m_h ** 2 / (2 * v ** 2)
+    mp = crit["planck"]["M_P"]
+    top = run_sm(st + [lam0], mt, mp, 2)
+    lo, hi = math.log(mt), math.log(mp)
+    if top[6] >= 0:
+        return {"lambda_MP": top[6], "beta_MP": sm_rge(2)(top, 6)[6], "mu_zero": math.nan}
+    for _ in range(int(num("crit_iterations"))):
+        mid = (lo + hi) / 2
+        if run_sm(st + [lam0], mt, math.exp(mid), 2)[6] > 0:
+            lo = mid
+        else:
+            hi = mid
+    return {"lambda_MP": top[6], "beta_MP": sm_rge(2)(top, 6)[6], "mu_zero": math.exp((lo + hi) / 2)}
+
+
+# =============================================================================
 # 7. COSMOLOGY (Decimal arithmetic)
 # =============================================================================
 def dec_pi() -> Decimal:
@@ -2645,6 +2840,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
     m_gut = alpha_unif.get("M_S_for_measured_alpha", {}).get("M_GUT_GeV")
     yukawa = yukawa_relations(flav, m_susy, m_gut, qg["planck"]["E_P_GeV"])
     higgs = higgs_mass_mssm(flav, alpha_unif, yukawa)
+    crit = sm_criticality(qg["planck"]["E_P_GeV"])
     checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
     # Part K checks
     k16 = 16 * math.pi ** 2
@@ -2667,6 +2863,26 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
         spacing = xs[1] - xs[0]
         checks.append(("Largest Higgs mass over the X_t scan sits at X_t^2 = 6 M_S^2 (the bound used)",
                        abs(peak - math.sqrt(6)) <= spacing, f"peak at X_t/M_S = {peak:.3f}"))
+    # Part L checks
+    pt = [2 / 5, 3 / 5, 11 / 10, 9 / 10, 0, 0, 1 / 10]
+    one_l = sm_rge(1)(pt, 6)[6]
+    k_conv = sm_higgs_rhs()(pt[:6] + [2 * pt[6]], 6)[6] / 2
+    checks.append(("One-loop beta_lambda: Part L convention = Part K convention (lambda_K = 2 lambda)",
+                   abs(one_l / k_conv - 1) < num("check_rel_tol"), f"rel diff {abs(one_l / k_conv - 1):.1e}"))
+    # the quoted coefficients, rewritten for hypercharge g'^2 = (3/5) g1^2 and d/d ln mu, must give
+    # the independently published form (Ford, Jack, Jones 1992; Degrassi et al. 2012)
+    lam_terms = {tuple(p): a for a, *p in LAMBDA_2L}
+    gn_ = GUT_NORM
+    conv = [2 * lam_terms[(3, 0, 0, 0, 0)], 2 * lam_terms[(1, 0, 0, 0, 2)] / gn_ ** 2,
+            2 * lam_terms[(0, 0, 0, 0, 3)] / gn_ ** 3, 2 * lam_terms[(2, 0, 0, 0, 1)] / gn_,
+            2 * lam_terms[(0, 1, 0, 1, 1)] / gn_]
+    want_c = [Fr(-312), Fr(629, 24), Fr(-379, 48), Fr(36), Fr(21, 2)]
+    checks.append(("Two-loop beta_lambda coefficients agree with the hypercharge-normalized literature form",
+                   conv == want_c, " ".join(str(v_) for v_ in conv)))
+    lam_fine = critical_lambda(crit["state_mt"][2], crit["state_mt"][0], crit["planck"]["M_P"], 2, steps=2 * steps)
+    rel = abs(lam_fine / crit["central"]["lambda_mt"] - 1)
+    checks.append(("Criticality solve converged (step count doubled)", rel < num("check_rg_tol"),
+                   f"rel change {rel:.1e}"))
     checks.append(("Every symmetry found reproduces its target zeros exactly (recomputed from the charges)",
                    all(sv["verified"] for e in symm["by_beta"].values() for sv in e["survivors"]
                        if sv["symmetry"] is not None), ""))
@@ -2738,7 +2954,8 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
                    f"rel diff {abs(back / xf['alpha_s_MZ'] - 1):.1e}"))
     return {"scales": scales, "cosmology": cosmo, "flavour": flav, "survey": survey, "yukawa_331": yuk,
             "symmetry": symm, "closure": closure, "quantum_gravity": qg, "alpha_unification": alpha_unif,
-            "alpha_numerology": alpha_num, "yukawa": yukawa, "higgs": higgs, "checks": checks,
+            "alpha_numerology": alpha_num, "yukawa": yukawa, "higgs": higgs, "criticality": crit,
+            "checks": checks,
             "precision": prec}
 
 
@@ -3199,6 +3416,45 @@ def report(res: Dict[str, Any]) -> str:
         w("    that gives the measured alpha and the tan(beta) that gives b-tau unification together")
         w(f"    predict m_h <= {hg['mh_upper_bound']:.0f} GeV. Unification (Part I), b-tau unification and the top")
         w("    fixed point (Part J) cannot all hold in the minimal model with one superpartner scale.")
+        w("")
+    cr = res.get("criticality")
+    if cr:
+        mh, mh_up, _ = _comparison("m_h")
+        c_ = cr["central"]
+        w("PART L. STANDARD MODEL CRITICALITY: THE HIGGS MASS FROM ONE CONDITION AT THE PLANCK SCALE")
+        w("-" * 78)
+        w("  If nothing new enters below the Planck scale, the Higgs self-coupling can be fixed there:")
+        w("  lambda(M_P) = 0 (Froggatt-Nielsen 1996; Shaposhnikov-Wetterich 2010). Running it down to m_t")
+        w("  with the measured top mass and alpha_s then predicts m_h. No free parameter, no new particle.")
+        w("  Running: two-loop SM (gauge b_ij from the field content; y_t and lambda two-loop terms quoted from")
+        w("  Buttazzo et al. 2013, cross-checked below); matching at m_t(m_t) at tree level, m_h^2 = 2 lambda v^2.")
+        w("      condition           loops   lambda(m_t)   predicted m_h (GeV)")
+        for r_ in cr["rows"]:
+            w(f"      lambda({r_['scale']:<11}) = 0   {r_['loops']}      {r_['lambda_mt']:.5f}       {r_['m_h']:8.2f}")
+        si = cr["sigma_inputs"]
+        w(f"  Two loops, lambda(M_P) = 0: m_h = {c_['m_h']:.2f} GeV"
+          f"  +/- {cr['sigma_total']:.2f} (inputs: M_t {si['M_t']:+.2f}, alpha_s {si['alpha_s_MZ']:+.2f})")
+        w(f"      measured m_h = {mh:.2f} +/- {mh_up:.2f} GeV: the prediction is {c_['m_h'] - mh:.1f} GeV high,"
+          f" {(c_['m_h'] - mh) / math.hypot(cr['sigma_total'], mh_up):.1f} sigma on the input errors alone")
+        w("      Not included, and of the same size as the gap: the one-loop (and higher) matching of lambda")
+        w("      and y_t to the measured pole masses, electroweak corrections to y_t, three-loop running.")
+        d_ = cr["double"]
+        w("  Both conditions at the Planck scale, lambda(M_P) = 0 and beta_lambda(M_P) = 0, fix two numbers:")
+        w(f"      m_h = {d_['m_h']:.1f} GeV and M_t = {d_['M_t']:.1f} GeV"
+          f" (measured {mh:.1f} and {inp('M_t'):.2f}; pole/MS-bar ratio of the measured top kept)")
+        pr = sm_lambda_profile(cr, mh)
+        w(f"  Read backwards, with the measured m_h: lambda(M_P) = {pr['lambda_MP']:+.4f},"
+          f" beta_lambda(M_P) = {pr['beta_MP']:+.1e}")
+        if math.isfinite(pr["mu_zero"]):
+            w(f"      lambda turns negative at mu = {pr['mu_zero']:.2e} GeV: the electroweak vacuum is not the")
+            w("      lowest state. Whether it is long-lived (metastable) needs the tunnelling rate, not")
+            w("      calculated here.")
+        w(f"  RESULT: one condition at the Planck scale gives the Higgs mass to"
+          f" {100 * abs(c_['m_h'] / mh - 1):.0f} percent with nothing")
+        w(f"    adjusted: {c_['m_h']:.1f} GeV against {mh:.2f}. It is not exact: at this order the measured Higgs")
+        w("    mass makes lambda slightly negative at M_P, so the SM vacuum is not stable. Whether the gap is")
+        w("    physics or the omitted matching corrections needs those corrections; the top mass dominates")
+        w("    the input error. The second condition (beta_lambda = 0) also lands near the measured top mass.")
         w("")
     w("SELF-CHECKS (correctness of the calculation, not agreement with data)")
     w("-" * 78)

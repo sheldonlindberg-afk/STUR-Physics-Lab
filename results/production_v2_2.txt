@@ -427,6 +427,34 @@ PART K. THE HIGGS MASS IN THE MSSM, FROM THE SCALES OF PARTS I AND J
     predict m_h <= 104 GeV. Unification (Part I), b-tau unification and the top
     fixed point (Part J) cannot all hold in the minimal model with one superpartner scale.
 
+PART L. STANDARD MODEL CRITICALITY: THE HIGGS MASS FROM ONE CONDITION AT THE PLANCK SCALE
+------------------------------------------------------------------------------
+  If nothing new enters below the Planck scale, the Higgs self-coupling can be fixed there:
+  lambda(M_P) = 0 (Froggatt-Nielsen 1996; Shaposhnikov-Wetterich 2010). Running it down to m_t
+  with the measured top mass and alpha_s then predicts m_h. No free parameter, no new particle.
+  Running: two-loop SM (gauge b_ij from the field content; y_t and lambda two-loop terms quoted from
+  Buttazzo et al. 2013, cross-checked below); matching at m_t(m_t) at tree level, m_h^2 = 2 lambda v^2.
+      condition           loops   lambda(m_t)   predicted m_h (GeV)
+      lambda(M_P        ) = 0   1      0.14978         134.76
+      lambda(M_P        ) = 0   2      0.13721         128.98
+      lambda(M_P reduced) = 0   1      0.14959         134.67
+      lambda(M_P reduced) = 0   2      0.13721         128.98
+  Two loops, lambda(M_P) = 0: m_h = 128.98 GeV  +/- 0.92 (inputs: M_t +0.59, alpha_s -0.71)
+      measured m_h = 125.20 +/- 0.11 GeV: the prediction is 3.8 GeV high, 4.1 sigma on the input errors alone
+      Not included, and of the same size as the gap: the one-loop (and higher) matching of lambda
+      and y_t to the measured pole masses, electroweak corrections to y_t, three-loop running.
+  Both conditions at the Planck scale, lambda(M_P) = 0 and beta_lambda(M_P) = 0, fix two numbers:
+      m_h = 130.8 GeV and M_t = 173.5 GeV (measured 125.2 and 172.57; pole/MS-bar ratio of the measured top kept)
+  Read backwards, with the measured m_h: lambda(M_P) = -0.0121, beta_lambda(M_P) = +1.5e-04
+      lambda turns negative at mu = 2.70e+10 GeV: the electroweak vacuum is not the
+      lowest state. Whether it is long-lived (metastable) needs the tunnelling rate, not
+      calculated here.
+  RESULT: one condition at the Planck scale gives the Higgs mass to 3 percent with nothing
+    adjusted: 129.0 GeV against 125.20. It is not exact: at this order the measured Higgs
+    mass makes lambda slightly negative at M_P, so the SM vacuum is not stable. Whether the gap is
+    physics or the omitted matching corrections needs those corrections; the top mass dominates
+    the input error. The second condition (beta_lambda = 0) also lands near the measured top mass.
+
 SELF-CHECKS (correctness of the calculation, not agreement with data)
 ------------------------------------------------------------------------------
   [PASS] QCD beta coefficients from Casimirs: b0(nf=5) = 23/3, b1(nf=5) = 116/3  (b0 = 23/3, b1 = 116/3)
@@ -452,6 +480,9 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] SM beta_lambda coefficients: -12 y_t^4, 12 lambda^2, (9/4) g^4, (3/4) g'^4  (-12.0000, 12.0000, 2.2500, 0.7500)
   [PASS] Higgs-mass running converged (step count doubled)  (rel change 2.2e-16)
   [PASS] Largest Higgs mass over the X_t scan sits at X_t^2 = 6 M_S^2 (the bound used)  (peak at X_t/M_S = 2.309)
+  [PASS] One-loop beta_lambda: Part L convention = Part K convention (lambda_K = 2 lambda)  (rel diff 4.4e-16)
+  [PASS] Two-loop beta_lambda coefficients agree with the hypercharge-normalized literature form  (-312 629/24 -379/48 36 21/2)
+  [PASS] Criticality solve converged (step count doubled)  (rel change 5.8e-15)
   [PASS] Every symmetry found reproduces its target zeros exactly (recomputed from the charges)
   [PASS] Invariant-rank method: general matrices give 10 physical parameters, diagonal ones 6  (ranks 10, 6)
   [PASS] Black-hole first law: dS/dE = 1/(k_B T_H) (entropy and temperature consistent)  (rel diff 2.0e-12)
@@ -464,6 +495,6 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Yukawa-RGE gauge coefficients from Casimirs = textbook (SM and MSSM; t, b, tau)
   [PASS] MSSM Yukawa self-terms from field multiplicities: 6 y_t^3, (3 y_b^2 + 4 y_tau^2) y_tau  (6.000, 7.000)
   [PASS] Lambda_QCD (2-loop) reproduces alpha_s(M_Z)  (rel diff 2.2e-16)
-  35/35 checks pass
+  38/38 checks pass
 ==============================================================================
-Elapsed: 103.0 s
+Elapsed: 213.4 s

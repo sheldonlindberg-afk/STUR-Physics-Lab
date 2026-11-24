@@ -233,6 +233,19 @@ def test_higgs_mass_mssm():
     assert all(r["mh_no_mixing"] < r["mh_max_mixing"] for r in hg["rows"])
 
 
+def test_sm_criticality():
+    """Part L: lambda(M_P) = 0 at two loops predicts m_h a few GeV above the measurement; the
+    measured m_h makes lambda(M_P) slightly negative."""
+    cr = RESULT["criticality"]
+    two = [r for r in cr["rows"] if r["loops"] == 2]
+    assert all(127 < r["m_h"] < 131 for r in two)
+    assert abs(two[0]["m_h"] - two[1]["m_h"]) < 0.5          # insensitive to which Planck mass
+    assert 0.3 < cr["sigma_total"] < 2
+    assert 125 < cr["double"]["m_h"] < 135 and 170 < cr["double"]["M_t"] < 177
+    pr = P.sm_lambda_profile(cr, 125.20)
+    assert -0.03 < pr["lambda_MP"] < 0 and 1e9 < pr["mu_zero"] < 1e12
+
+
 def test_report_matches_expected_output():
     got = P.report(RESULT).splitlines()
     want = [ln for ln in open(EXPECTED, encoding="utf-8").read().splitlines() if not ln.startswith("Elapsed")]

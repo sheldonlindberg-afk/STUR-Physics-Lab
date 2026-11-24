@@ -20,7 +20,7 @@
 ## Run it
 
 ```
-python3 production_v2_2.py                     # full report, about 3 minutes
+python3 production_v2_2.py                     # full report, about 4 minutes
 python3 production_v2_2.py --json-out out.json # every number, as JSON
 python3 production_v2_2.py --scales 2000 5000  # other evaluation scales (GeV, above m_t)
 ```
@@ -28,7 +28,7 @@ python3 production_v2_2.py --scales 2000 5000  # other evaluation scales (GeV, a
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 35 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 38 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -297,6 +297,29 @@ The missing two-loop and pole-mass corrections are a few GeV in the literature, 
 21 GeV gap. So the minimal MSSM with one superpartner scale cannot satisfy all four at once:
 gauge unification at the measured α, b–τ unification, the top fixed point and the Higgs mass.
 The route is excluded, with no free parameter adjusted.
+
+**Part L: Standard Model criticality, the Higgs mass from one condition at the Planck scale**
+
+If nothing new enters below the Planck scale, the Higgs self-coupling can be fixed there:
+λ(M_P) = 0 (Froggatt–Nielsen 1996, Shaposhnikov–Wetterich 2010). Running it down with the
+measured top mass and α_s predicts m_h, with no free parameter and no new particle. The running is
+two-loop. The gauge b_ij come from the field content. The two-loop y_t and λ terms are quoted from
+Buttazzo et al. 2013, and a self-check confirms that they match the independently published
+hypercharge-normalized form. Matching at m_t is tree level.
+
+| | Result |
+|---|---|
+| λ(M_P) = 0, one loop | m_h = 134.8 GeV |
+| λ(M_P) = 0, two loops | **m_h = 129.0 ± 0.9 GeV** (M_t and α_s errors) |
+| measured | 125.20 ± 0.11 GeV |
+| λ(M_P) = 0 and β_λ(M_P) = 0 together | m_h = 130.8 GeV, M_t = 173.5 GeV (measured 172.57) |
+| measured m_h, read back | λ(M_P) = −0.012; λ turns negative at 2.7 × 10¹⁰ GeV |
+
+The prediction is 3.8 GeV high, 4.1σ on the input errors alone. The omitted corrections (one-loop
+matching of λ and y_t to the pole masses, three-loop running) are about that size, so whether the
+gap is real is open. Read the other way, the measured Higgs mass puts the Standard Model just on the
+unstable side of this boundary. This is the closest any condition in the script comes to calculating
+a Standard Model parameter, and the second condition lands within 1 GeV of the measured top mass.
 
 All scales come from the algorithm. Parts B and C run at m_t(m_t) and at Part I's M_S. Part J
 uses Part I's M_GUT and Part H's M_Planck. Part K uses Part I's M_S and Part J's tan β. The tan β range and the "large" top coupling come
