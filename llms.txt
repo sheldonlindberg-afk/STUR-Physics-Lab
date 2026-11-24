@@ -52,6 +52,8 @@
 - Part J (Yukawas): SU(5) m_s/m_d = m_mu/m_e off by 558 sigma; Georgi-Jarlskog off by 10 sigma.
   b-tau unification fails in the SM (0.59-0.70); in the MSSM (scales from Part I) it needs
   tan(beta) = 1.35, and the top quasi-fixed point needs 1.33-1.40. No Yukawa is calculated.
+- Part K (Higgs mass, MSSM): with Part I's M_S and Part J's tan(beta), maximal stop mixing gives m_h <= 103.9 GeV vs measured 125.20; that MSSM route is excluded.
+- Part L (SM criticality): lambda(M_P) = 0, two-loop running, one-loop matching to pole masses, predicts M_h = 129.0 +/- 0.9 GeV vs 125.20 (matching shifts it +0.04 GeV); with lambda = beta_lambda = 0, M_t = 173.5 GeV. Measured M_h gives lambda(M_P) = -0.012.
 - Every scale comes from the algorithm: m_t(m_t), Part I's M_S = 2.54 TeV and M_GUT, M_Planck.
 
 ## Files

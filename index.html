@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>STUR Physics Lab</title>
-<meta name="description" content="One self-contained Python simulation built only from established physics, with nothing tuned and nothing fitted. It asks which of nature's numbers can be calculated from the others, from cosmology and quark mixing to grand unification and the meeting point of quantum theory and gravity, and reports what it finds, including what cannot be calculated.">
+<meta name="description" content="Which of nature's numbers can be calculated from the others? One Python simulation built only from established physics, with nothing tuned and nothing fitted, climbs from the measured constants to the Planck scale and shows what each step fixes.">
 <meta property="og:site_name" content="STUR Physics Lab">
-<meta property="og:title" content="STUR Physics Lab: one simulation, nothing tuned">
-<meta property="og:description" content="A theory-of-everything workshop in one Python file: established physics, measured inputs, nothing fitted. Copy it and run it anywhere.">
+<meta property="og:title" content="STUR Physics Lab: which of nature's numbers can be calculated?">
+<meta property="og:description" content="Established physics, measured inputs, nothing fitted. One condition at the Planck scale gives the Higgs mass to 3 percent.">
 <meta property="og:url" content="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">
@@ -15,153 +15,429 @@
 <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
 <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
 <style>
-  :root { --bg: #f6f8fa; --fg: #0f1720; --muted: #4a5663; --card: #ffffff; --line: #d8dee4;
-          --accent: #15803d; --accent-fg: #ffffff; --bad: #b42318; --good: #15803d; --warn: #9a6700; --code: #eef1f4; }
+  :root { color-scheme: light;
+    --bg: #fbfaf7; --fg: #14161a; --muted: #555a63; --faint: #8a8f98; --card: #ffffff; --line: #e3e0d8;
+    --accent: #2a78d6; --accent-fg: #ffffff; --code: #f1efe9;
+    --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --band: rgba(42,120,214,0.10);
+    --good: #15803d; --warn: #9a6700; --bad: #b42318; --info: #52514e; }
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) { --bg: #07090d; --fg: #e6edf3; --muted: #9aa7b4; --card: #0f141b;
-      --line: #263040; --accent: #4ade80; --accent-fg: #04110a; --bad: #f97066; --good: #4ade80; --warn: #e3b341; --code: #151b23; }
+    :root:not([data-theme="light"]) { color-scheme: dark;
+      --bg: #0c0d10; --fg: #ecebe6; --muted: #b3b1a8; --faint: #7d7c76; --card: #15171b; --line: #2a2d33;
+      --accent: #3987e5; --accent-fg: #ffffff; --code: #1c1f24;
+      --s1: #3987e5; --s2: #d95926; --s3: #199e70; --band: rgba(57,135,229,0.16);
+      --good: #4ade80; --warn: #e3b341; --bad: #f97066; --info: #c3c2b7; }
   }
-  :root[data-theme="dark"] { --bg: #07090d; --fg: #e6edf3; --muted: #9aa7b4; --card: #0f141b;
-    --line: #263040; --accent: #4ade80; --accent-fg: #04110a; --bad: #f97066; --good: #4ade80; --warn: #e3b341; --code: #151b23; }
+  :root[data-theme="dark"] { color-scheme: dark;
+    --bg: #0c0d10; --fg: #ecebe6; --muted: #b3b1a8; --faint: #7d7c76; --card: #15171b; --line: #2a2d33;
+    --accent: #3987e5; --accent-fg: #ffffff; --code: #1c1f24;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --band: rgba(57,135,229,0.16);
+    --good: #4ade80; --warn: #e3b341; --bad: #f97066; --info: #c3c2b7; }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body { margin: 0; background: var(--bg); color: var(--fg); line-height: 1.6;
          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
-  main { max-width: 880px; margin: 0 auto; padding: 24px 16px 64px; }
-  header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; }
+  main { max-width: 920px; margin: 0 auto; padding: 24px 16px 72px; }
+  header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 36px; }
   .brand { display: flex; align-items: center; gap: 10px; color: var(--fg); text-decoration: none; font-weight: 700; }
-  .brand img { width: 32px; height: 32px; }
-  nav { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 15px; }
+  .brand img { width: 30px; height: 30px; }
+  nav { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 15px; }
   nav a { color: var(--muted); text-decoration: none; }
   nav a:hover { color: var(--accent); }
-  h1 { font-size: clamp(28px, 5vw, 42px); line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 14px; }
-  h1 span { color: var(--accent); }
-  h2 { font-size: 23px; margin: 44px 0 12px; scroll-margin-top: 16px; }
-  h3 { font-size: 17px; margin: 22px 0 8px; }
+  h1, h2, .serif { font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif; }
+  h1 { font-size: clamp(30px, 5.4vw, 48px); line-height: 1.12; letter-spacing: -0.01em; margin: 0 0 16px; font-weight: 600; }
+  h2 { font-size: clamp(24px, 3.6vw, 30px); line-height: 1.2; margin: 64px 0 10px; scroll-margin-top: 16px; font-weight: 600; }
+  h3 { font-size: 17px; margin: 0 0 6px; }
   p { margin: 0 0 14px; }
-  .lede { font-size: 18px; color: var(--muted); }
+  .lede { font-size: 19px; color: var(--muted); max-width: 46em; }
+  .kicker { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin: 64px 0 0; }
+  .kicker + h2 { margin-top: 4px; }
+  a { color: var(--accent); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; background: var(--code); padding: 1px 5px; border-radius: 5px; }
+  pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; background: var(--code); padding: 14px; border-radius: 10px; overflow-x: auto; margin: 0 0 14px; }
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; margin: 18px 0; }
+
+  /* hero result */
+  .hero { display: grid; grid-template-columns: 1fr; gap: 0; margin: 28px 0 8px; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: var(--card); }
+  @media (min-width: 680px) { .hero { grid-template-columns: 1fr 1fr 1fr; } }
+  .stat { padding: 18px 20px; border-bottom: 1px solid var(--line); }
+  @media (min-width: 680px) { .stat { border-bottom: 0; border-right: 1px solid var(--line); } .stat:last-child { border-right: 0; } }
+  .stat .label { font-size: 13px; color: var(--muted); }
+  .stat .value { font-size: 34px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.2; }
+  .stat .unit { font-size: 16px; color: var(--muted); font-weight: 400; }
+  .stat .note { font-size: 13px; color: var(--muted); }
+
+  /* the ladder */
+  .ladder { position: relative; margin: 26px 0 0; padding: 0; list-style: none; }
+  .ladder::before { content: ""; position: absolute; left: 92px; top: 6px; bottom: 6px; width: 2px; background: var(--line); }
+  .rung { position: relative; display: grid; grid-template-columns: 80px 1fr; gap: 0 28px; padding: 0 0 22px; }
+  .rung .scale { text-align: right; font-variant-numeric: tabular-nums; font-size: 13px; color: var(--muted); padding-top: 2px; line-height: 1.3; }
+  .rung .scale b { display: block; color: var(--fg); font-size: 15px; }
+  .rung::after { content: ""; position: absolute; left: 87px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--card); border: 2px solid var(--accent); }
+  .rung .body { padding-left: 4px; }
+  .rung .body p { margin: 0 0 6px; color: var(--muted); font-size: 15px; }
+  .rung .body p.res { color: var(--fg); }
+  @media (max-width: 520px) {
+    .ladder::before { left: 6px; } .rung { grid-template-columns: 1fr; padding-left: 26px; } .rung::after { left: 1px; }
+    .rung .scale { text-align: left; } .rung .scale b { display: inline; margin-right: 6px; }
+  }
+  .chip { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; padding: 1px 9px; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap; vertical-align: 2px; margin-left: 6px; }
+  .chip::before { font-weight: 900; }
+  .chip.good { color: var(--good); } .chip.good::before { content: "✓"; }
+  .chip.warn { color: var(--warn); } .chip.warn::before { content: "≈"; }
+  .chip.bad { color: var(--bad); } .chip.bad::before { content: "✕"; }
+  .chip.info { color: var(--info); } .chip.info::before { content: "○"; }
+
+  /* charts */
+  figure { margin: 22px 0 8px; }
+  .chart { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 10px 6px; }
+  .chart svg { display: block; max-width: 100%; height: auto; overflow: visible; }
+  .chart .axis text, .chart .lab { fill: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .chart .grid line { stroke: var(--line); stroke-width: 1; }
+  .chart .zero { stroke: var(--faint); stroke-width: 1; }
+  .chart .ref { stroke: var(--faint); stroke-dasharray: 3 4; stroke-width: 1; }
+  .chart .dlab { font-size: 12px; font-weight: 600; fill: var(--fg); }
+  .legend { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 13px; color: var(--muted); padding: 2px 8px 6px; }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .legend i { display: inline-block; width: 18px; height: 0; border-top: 2px solid; }
+  .legend i.dash { border-top-style: dashed; }
+  .tip { position: absolute; pointer-events: none; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; font-size: 12.5px; line-height: 1.45; box-shadow: 0 4px 14px rgba(0,0,0,0.12); opacity: 0; transition: opacity 0.1s; white-space: nowrap; z-index: 2; }
+  .tip b { font-variant-numeric: tabular-nums; }
+  .tip .sw { display: inline-block; width: 10px; height: 2px; vertical-align: middle; margin-right: 6px; }
+  figcaption { font-size: 14px; color: var(--muted); margin-top: 10px; }
+  details { margin: 8px 0 0; font-size: 14px; color: var(--muted); }
+  summary { cursor: pointer; }
+  .tablewrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 15px; }
+  th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 14px; }
+  td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
+  .grid2 .card { margin: 0; }
+  ul.patterns { list-style: none; padding: 0; margin: 0; }
+  ul.patterns li { padding: 12px 0; border-bottom: 1px solid var(--line); }
+  ul.patterns li:last-child { border-bottom: 0; }
+  ul.patterns .chip { margin: 0 8px 0 0; }
   .cta { display: flex; flex-wrap: wrap; gap: 10px; margin: 4px 0 10px; }
-  .btn { display: inline-block; padding: 11px 18px; border-radius: 10px; border: 1px solid var(--line);
+  .btn { display: inline-block; padding: 10px 17px; border-radius: 10px; border: 1px solid var(--line);
          background: var(--card); color: var(--fg); text-decoration: none; font: inherit; font-weight: 600; cursor: pointer; }
   .btn.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
   .btn:disabled { opacity: 0.7; cursor: default; }
   .status { font-size: 14px; color: var(--muted); margin: 0; }
-  a { color: var(--accent); }
-  code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; }
-  code { background: var(--code); padding: 1px 5px; border-radius: 5px; }
-  pre { background: var(--code); padding: 14px; border-radius: 10px; overflow-x: auto; margin: 0 0 14px; }
-  .tablewrap { overflow-x: auto; }
-  table { border-collapse: collapse; width: 100%; font-size: 15px; }
-  th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
-  th { color: var(--muted); font-weight: 600; }
-  .tag { display: inline-block; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px;
-         border: 1px solid currentColor; white-space: nowrap; }
-  .ok { color: var(--good); } .no { color: var(--bad); } .open { color: var(--warn); }
-  ul, ol { padding-left: 22px; margin: 0 0 14px; }
-  li { margin-bottom: 6px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
-  .grid .card { margin: 0; }
-  .grid h3 { margin-top: 0; }
-  footer { margin-top: 48px; font-size: 14px; color: var(--muted); }
+  footer { margin-top: 56px; font-size: 14px; color: var(--muted); }
 </style>
 </head>
 <body>
 <main>
   <header>
-    <a class="brand" href="#top"><img src="assets/logo.svg" alt="" width="32" height="32">STUR Physics Lab</a>
+    <a class="brand" href="#top"><img src="assets/logo.svg" alt="" width="30" height="30">STUR Physics Lab</a>
     <nav aria-label="Sections">
-      <a href="#what">What it is</a>
-      <a href="#goal">What it attempts</a>
-      <a href="#rule">The rule</a>
-      <a href="#results">Results</a>
-      <a href="#patterns">Patterns</a>
+      <a href="#ladder">The ladder</a>
+      <a href="#higgs">The Higgs mass</a>
+      <a href="#unification">Unification</a>
+      <a href="#numbers">Nature's numbers</a>
+      <a href="#method">Method</a>
       <a href="#run">Run it</a>
     </nav>
   </header>
 
-  <h1 id="top">Which of nature's numbers can be <span>calculated from the others?</span></h1>
-  <p class="lede">One Python simulation, built only from established physics, with nothing tuned and nothing fitted. It starts from the measured constants of nature, calculates everything it can, and states plainly which numbers it can derive and which it can't.</p>
+  <h1 id="top">Which of nature's numbers can be calculated from the others?</h1>
+  <p class="lede">The Standard Model and cosmology need about two dozen numbers that are measured, not explained. This project is one Python simulation, built only from established physics, with nothing tuned and nothing fitted. It starts from the measured constants and climbs toward the Planck scale. At each rung it asks whether a known principle fixes one of those numbers.</p>
 
-  <div class="card">
-    <div class="cta">
-      <button class="btn primary copy-script" type="button" data-src="production_v2_2.py" data-status="copy-status-top">Copy Python script</button>
-      <a class="btn" href="production_v2_2.py" download="production_v2_2.py">Download .py</a>
-      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/production_v2_2.py">View on GitHub</a>
-    </div>
-    <p class="status" id="copy-status-top" role="status" aria-live="polite">One file, standard library only. Paste it into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 1–2 minutes and ends with 32 self-checks. Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/production_v2_2.txt">results/production_v2_2.txt</a>.</p>
+  <div class="hero" aria-label="Headline result">
+    <div class="stat"><div class="label">Higgs mass from one condition at the Planck scale</div>
+      <div class="value"><span data-v="crit.pred">129.0</span> <span class="unit">GeV</span></div>
+      <div class="note">± <span data-v="crit.sigma">0.9</span> from the top mass and α<sub>s</sub></div></div>
+    <div class="stat"><div class="label">Measured at the LHC</div>
+      <div class="value"><span data-v="crit.meas">125.20</span> <span class="unit">GeV</span></div>
+      <div class="note">± 0.11 (PDG 2024)</div></div>
+    <div class="stat"><div class="label">Agreement, with nothing adjusted</div>
+      <div class="value"><span data-v="crit.pct">3</span><span class="unit">%</span></div>
+      <div class="note">a real gap at this order: the vacuum is not stable</div></div>
   </div>
 
-  <h2 id="what">What the simulation is</h2>
-  <p><code>production_v2_2.py</code> is a single, self-contained program. It starts from about thirty measured or defined constants: particle masses, coupling strengths, the CMB temperature, Newton's constant and others, each with its uncertainty and published source. It then calculates forward, using only physics that is established and published:</p>
-  <ul>
-    <li><b>the Friedmann equation</b> for the expansion of the universe;</li>
-    <li><b>the renormalization group</b> for how particle masses and forces change with energy, with every coefficient computed from group theory;</li>
-    <li><b>exact linear algebra</b> for how quarks mix;</li>
-    <li><b>semiclassical gravity</b> (Hawking, Bekenstein, Unruh, and gravity as a quantum effective field theory) where quantum theory and gravity meet.</li>
-  </ul>
-  <p>Every scale it uses comes out of its own earlier steps: the top-quark mass scale, the unification scale, the Planck mass. Nothing is typed in to make an answer come out right.</p>
+  <p class="kicker">The idea</p>
+  <h2 id="ladder">A physics ladder, climbed backwards</h2>
+  <p>Physics is usually built upward, from small to large. Here the ladder runs the other way. The simulation starts from what is measured at everyday and collider energies, then uses the renormalization group to carry every coupling up to higher energies. If a principle such as unification, a fixed point or the vanishing of a coupling holds at a high rung, it becomes a <i>prediction</i> for a number measured at a low rung. Nothing is added unless the mathematics demands it.</p>
 
-  <h2 id="goal">What it is attempting</h2>
-  <p>It is a <b>theory-of-everything workshop</b>. A final theory would calculate the constants of nature instead of measuring them. Nobody has one. This simulation builds as far toward it as established physics reaches, then reports where it stops. For each number it asks:</p>
-  <ol>
-    <li><b>Can it be calculated from the other numbers?</b> If so, it does the calculation and compares the result with measurement.</li>
-    <li><b>If not, what would it take?</b> It tests the established ideas that would relate it to others: grand unification, texture zeros, flavour symmetries, fixed points. It shows exactly where each one fails or what it would require.</li>
-    <li><b>Do patterns emerge?</b> Famous large-number "coincidences" are computed and labelled. Each one is either an <i>exact identity</i>, a <i>known mechanism</i>, a <i>measured input</i>, or <i>open</i>, so patterns don't turn into numerology.</li>
+  <ol class="ladder">
+    <li class="rung"><div class="scale"><b>10<sup>19</sup> GeV</b>Planck mass</div><div class="body">
+      <h3>The Higgs self-coupling vanishes <span class="chip warn">3% off</span></h3>
+      <p>If nothing new appears below the Planck scale, the Higgs self-coupling λ can be zero there (Froggatt–Nielsen 1996, Shaposhnikov–Wetterich 2010). Run down with two-loop equations, that one condition predicts the Higgs mass.</p>
+      <p class="res">Prediction <b><span data-v="crit.pred">129.0</span> GeV</b>, measured 125.20. Demanding that λ also stops running predicts the top mass as well: <b><span data-v="crit.mt">173.5</span> GeV</b>, against 172.57 measured. <a href="#higgs">See the running ↓</a></p></div></li>
+    <li class="rung"><div class="scale"><b>10<sup>16</sup> GeV</b>grand unification</div><div class="body">
+      <h3>The three forces meet <span class="chip warn">only with superpartners</span></h3>
+      <p>In the Standard Model the three gauge couplings never meet. Add supersymmetry above a scale M<sub>S</sub> and they meet at M<sub>GUT</sub> ≈ <span data-v="unif.mgut">1.1 × 10¹⁶</span> GeV. Then α is no longer free: it follows from α<sub>s</sub> and sin²θ<sub>W</sub>.</p>
+      <p class="res">The measured α requires M<sub>S</sub> ≈ <b><span data-v="unif.ms">2.5</span> TeV</b>. One number is traded for another, so nothing is closed yet. <a href="#unification">See the couplings ↓</a></p></div></li>
+    <li class="rung"><div class="scale"><b>10<sup>10</sup> GeV</b>instability scale</div><div class="body">
+      <h3>The Higgs potential tips over <span class="chip info">calculated</span></h3>
+      <p class="res">With the measured Higgs mass, λ turns negative at <b><span data-v="crit.muzero">2.6 × 10¹⁰</span> GeV</b> and reaches <span data-v="crit.lmp">−0.012</span> at the Planck mass. Our vacuum is not the lowest state of the Standard Model.</p></div></li>
+    <li class="rung"><div class="scale"><b>10<sup>3</sup> GeV</b>superpartners</div><div class="body">
+      <h3>Supersymmetry fixes the Higgs mass <span class="chip bad">excluded</span></h3>
+      <p>In the minimal supersymmetric model the Higgs self-coupling is not free. Two independent relations, bottom–tau unification and the top-quark fixed point, both give tan β ≈ <span data-v="tb">1.35</span>. Combined with M<sub>S</sub> from unification, they bound the Higgs mass.</p>
+      <p class="res">At most <b><span data-v="mssm.bound">103.9</span> GeV</b> for every stop mixing, against 125.20 measured. That route cannot hold together.</p></div></li>
+    <li class="rung"><div class="scale"><b>10<sup>2</sup> GeV</b>weak scale</div><div class="body">
+      <h3>Quark masses and their mixing <span class="chip bad">not calculable by zeros</span></h3>
+      <p class="res">Every pattern of zeros in the quark mass matrices was tested exactly: 61,009 pairs of general matrices, and 83 predictive Hermitian classes. One Hermitian pattern survives with a single relation, and no pattern of general matrices predicts anything. The quark sector needs its 10 measured inputs.</p></div></li>
+    <li class="rung"><div class="scale"><b>10<sup>−1</sup> GeV</b>strong scale</div><div class="body">
+      <h3>Why gravity is weak <span class="chip good">mechanism</span></h3>
+      <p class="res">The proton is 10¹⁹ times lighter than the Planck mass because the strong coupling grows only logarithmically: ln(M<sub>P</sub>/Λ<sub>QCD</sub>) ≈ 45. Gravity's strength for a proton is exactly (m<sub>p</sub>/M<sub>P</sub>)².</p></div></li>
+    <li class="rung"><div class="scale"><b>10<sup>−42</sup> GeV</b>Hubble scale</div><div class="body">
+      <h3>The age of the universe <span class="chip good">agrees</span></h3>
+      <p class="res">From the CMB temperature, H<sub>0</sub> and Ω<sub>m</sub>, the Friedmann equation gives <b><span data-v="cosmo.age">13.795</span> Gyr</b> (Planck: 13.787) and Ω<sub>Λ</sub> = <span data-v="cosmo.ol">0.6846</span>. The size of Λ itself stays open: the 10<sup>122</sup> of the de Sitter entropy and the 10<sup>−123</sup> of the vacuum energy are one fact, since their product is exactly 3/8.</p></div></li>
   </ol>
-  <p>Negative results count. A clean "this cannot be calculated within these frameworks", backed by an exhaustive search, narrows down where a deeper theory has to do its work.</p>
 
-  <h2 id="rule">The rule: nothing tuned, nothing fitted</h2>
-  <div class="grid">
-    <div class="card"><h3>Inputs</h3><p>Measured or defined constants, each with an uncertainty and a source (PDG 2024, Planck 2018, CODATA 2018, SI, IAU). They are the only physics numbers that enter a calculation.</p></div>
-    <div class="card"><h3>Comparisons</h3><p>Measured results (the quark-mixing matrix, the age of the universe), used only to judge the output, never inside a calculation.</p></div>
-    <div class="card"><h3>Unknowns</h3><p>Quantities nothing can fix (a phase, a superpartner mass, tan β) are never given a value. They are scanned over their whole range, and the prediction is the band that results.</p></div>
-    <div class="card"><h3>Enforced</h3><p>The repository's test fails if any non-integer number appears in the script outside the input, comparison and numerical-setting tables. The output ends with 32 self-checks of the calculation itself.</p></div>
-  </div>
+  <p class="kicker">Part L</p>
+  <h2 id="higgs">The Higgs self-coupling, from the top quark to the Planck mass</h2>
+  <p>λ starts near 0.13 at the weak scale and is driven down by the top quark. For the measured Higgs mass it crosses zero long before the Planck scale. A Higgs only about 4 GeV heavier would bring it to exactly zero at M<sub>P</sub>: that is the critical curve.</p>
+  <figure>
+    <div class="chart" id="chart-lambda"><div class="legend" id="leg-lambda"></div></div>
+    <figcaption>Two-loop Standard Model running, matched at one loop to the pole masses of the Higgs, top, W and Z. The one-loop matching shifts the prediction by only <span data-v="crit.shift">+0.04</span> GeV, so the gap is not a matching artefact at this order.</figcaption>
+    <details><summary>Data table</summary><div class="tablewrap" id="tbl-lambda"></div></details>
+  </figure>
 
-  <h2 id="results">What it has found</h2>
+  <p class="kicker">Parts I and K</p>
+  <h2 id="unification">Do the forces unify?</h2>
+  <p>The inverse strengths of the three forces change in straight lines with log energy, at one loop. In the Standard Model they miss one another. With superpartners at M<sub>S</sub> the slopes change and the three lines meet. The same supersymmetric model then has to explain the Higgs mass, and it can't.</p>
+  <figure>
+    <div class="chart" id="chart-unif"><div class="legend" id="leg-unif"></div></div>
+    <figcaption>1/α for hypercharge (GUT normalized), the weak force and the strong force. Dashed: Standard Model alone. Solid: the supersymmetric model above M<sub>S</sub> = <span data-v="unif.ms">2.5</span> TeV, the value the measured α requires. Plotted at one loop; the script's unification test runs at two loops.</figcaption>
+  </figure>
+  <figure>
+    <div class="chart" id="chart-mssm"><div class="legend" id="leg-mssm"></div></div>
+    <figcaption>The supersymmetric Higgs mass against stop mixing X<sub>t</sub>/M<sub>S</sub>, at the M<sub>S</sub> and tan β derived above. Its peak is the bound for every mixing, and it sits about 21 GeV below the measured mass.</figcaption>
+  </figure>
+
+  <p class="kicker">The scoreboard</p>
+  <h2 id="numbers">Nature's free numbers, one by one</h2>
   <div class="tablewrap"><table>
-    <tr><th>Part</th><th>Question</th><th>Result</th><th>Status</th></tr>
-    <tr><td>A</td><td>The universe's expansion from the CMB temperature, H<sub>0</sub> and Ω<sub>m</sub></td><td>Age 13.795 Gyr (Planck: 13.787 ± 0.020); Ω<sub>Λ</sub> = 0.6846 (Planck: 0.6847)</td><td><span class="tag ok">agrees</span></td></tr>
-    <tr><td>B</td><td>Quark mixing from quark masses (the Fritzsch texture)</td><td>|V<sub>us</sub>|, |V<sub>ub</sub>| and CP violation come out right; |V<sub>cb</sub>| misses by 30σ for every phase</td><td><span class="tag no">excluded</span></td></tr>
-    <tr><td>C</td><td>Every texture-zero pattern that makes a prediction</td><td>83 tested; 82 excluded; one survives (χ² = 0.2–0.3 for 1 degree of freedom)</td><td><span class="tag open">1 survivor</span></td></tr>
-    <tr><td>D</td><td>What the 3-3-1 gauge symmetry says about the mass matrices</td><td>It allows every entry, so it forces no zero</td><td><span class="tag open">no constraint</span></td></tr>
-    <tr><td>E</td><td>Can a flavour symmetry make the survivor?</td><td>Not as a predictive model: Hermitian matrices are impossible, and the zeros alone predict nothing</td><td><span class="tag no">no</span></td></tr>
-    <tr><td>F–G</td><td>Does any zero pattern of general mass matrices predict the quark-mixing matrix?</td><td>All 61,009 pattern pairs checked exactly: none does, in the Standard Model, left-right models or 3-3-1</td><td><span class="tag no">not calculable</span></td></tr>
-    <tr><td>H</td><td>Where quantum theory and gravity meet</td><td>Planck units, the quantum correction to Newton's law, black-hole and de Sitter temperatures, the Unruh effect; the smallest mass gravity can ever entangle: 89 MeV/c²</td><td><span class="tag ok">calculated</span></td></tr>
-    <tr><td>I</td><td>Can α be calculated from the other numbers?</td><td>Via grand unification only if superpartners exist; the measured α then points to superpartners at 2.5 TeV. The Standard Model alone misses by 36%</td><td><span class="tag open">conditional</span></td></tr>
-    <tr><td>J</td><td>Can the Yukawa couplings (the masses) be calculated?</td><td>SU(5) and Georgi–Jarlskog ratios excluded; b–τ unification and the top fixed point both point to tan β ≈ 1.35 in supersymmetry</td><td><span class="tag no">not calculated</span></td></tr>
+    <tr><th>Numbers</th><th>Count</th><th>What the ladder does with them</th><th>Status</th></tr>
+    <tr><td>Higgs mass</td><td class="num">1</td><td>λ(M<sub>P</sub>) = 0 gives <span data-v="crit.pred">129.0</span> GeV against 125.20</td><td><span class="chip warn">3% off</span></td></tr>
+    <tr><td>Top mass</td><td class="num">(1)</td><td>λ = β<sub>λ</sub> = 0 at M<sub>P</sub> gives <span data-v="crit.mt">173.5</span> GeV against 172.57 (one of the 6 quark masses)</td><td><span class="chip warn">within 1 GeV</span></td></tr>
+    <tr><td>Gauge couplings</td><td class="num">3</td><td>Unification ties α to the other two, at the cost of a new scale M<sub>S</sub></td><td><span class="chip info">traded</span></td></tr>
+    <tr><td>Quark mixing (CKM)</td><td class="num">4</td><td>One Hermitian texture survives with one relation; general matrices predict nothing</td><td><span class="chip warn">1 relation</span></td></tr>
+    <tr><td>Quark and lepton masses</td><td class="num">9</td><td>SU(5) and Georgi–Jarlskog ratios excluded; b–τ unification needs supersymmetry, which the Higgs mass then excludes</td><td><span class="chip bad">not calculated</span></td></tr>
+    <tr><td>Higgs vacuum value</td><td class="num">1</td><td>From G<sub>F</sub>; an input</td><td><span class="chip info">input</span></td></tr>
+    <tr><td>Strong CP angle θ</td><td class="num">1</td><td>Not addressed yet</td><td><span class="chip info">next</span></td></tr>
+    <tr><td>Neutrino masses and mixing</td><td class="num">7–9</td><td>Not addressed yet</td><td><span class="chip info">next</span></td></tr>
+    <tr><td>Cosmological constant</td><td class="num">1</td><td>Ω<sub>Λ</sub> follows from flatness; the value of ρ<sub>Λ</sub> is open</td><td><span class="chip bad">open</span></td></tr>
   </table></div>
-  <p>The quark sector closes with 10 measured inputs: 6 masses and 4 mixing parameters. Texture zeros calculate none of the mixing numbers in any of the three frameworks tested.</p>
 
-  <h2 id="patterns">Patterns that emerged</h2>
-  <ul>
-    <li><span class="tag ok">identity</span> Gravity's strength for a proton is exactly (m<sub>p</sub>/M<sub>Planck</sub>)². "Why is gravity weak?" becomes "why is the proton light?"</li>
-    <li><span class="tag ok">identity</span> The de Sitter entropy (10<sup>122</sup>) times the dark-energy-to-Planck density ratio (10<sup>−123</sup>) is exactly 3/8. The two famous huge numbers are one fact.</li>
-    <li><span class="tag ok">mechanism</span> The proton is 10<sup>19</sup> times lighter than the Planck mass because the strong force strengthens only logarithmically as energy falls: ln(M<sub>P</sub>/Λ<sub>QCD</sub>) = 45.</li>
-    <li><span class="tag open">coincidence</span> The smallest mass gravity can entangle within the age of the universe (89 MeV/c²) is 0.64 pion masses. It is the same combination of ħ, G, c and the Hubble time as Weinberg's 1972 large-number relation. They agree in order of magnitude, and no mechanism is known.</li>
-    <li><span class="tag open">pointer</span> In supersymmetry, two independent relations (b–τ unification and the top-quark fixed point) land on the same tan β ≈ 1.35. That pins one number, not the masses, and is not checked against the Higgs mass.</li>
-    <li><span class="tag no">open</span> Still not calculated by anything: α, the Yukawa couplings, the cosmological constant, and whether gravity is quantum. The last is a measurement waiting to be made: a classical gravitational field cannot entangle masses at all.</li>
+  <h2>Patterns that emerged</h2>
+  <ul class="patterns">
+    <li><span class="chip good">identity</span>Gravity's strength for a proton is exactly (m<sub>p</sub>/M<sub>Planck</sub>)². "Why is gravity weak?" becomes "why is the proton light?"</li>
+    <li><span class="chip good">identity</span>The de Sitter entropy (10<sup>122</sup>) times the dark-energy-to-Planck density ratio (10<sup>−123</sup>) is exactly 3/8. The two famous huge numbers are one fact.</li>
+    <li><span class="chip warn">near miss</span>The Higgs sits within 3% of the mass at which its self-coupling would vanish at the Planck scale, and the top within 1 GeV of where that coupling would also stop running. Either the Standard Model reaches the Planck scale almost exactly critical, or something enters on the way.</li>
+    <li><span class="chip info">coincidence</span>The smallest mass gravity can entangle within the age of the universe (89 MeV/c²) is 0.64 pion masses. It is the same combination of ħ, G, c and the Hubble time as Weinberg's 1972 large-number relation. No mechanism is known.</li>
+    <li><span class="chip bad">open</span>Still not calculated by anything: α, the Yukawa couplings, the cosmological constant, and whether gravity is quantum. The last is a measurement waiting to be made, because a classical gravitational field cannot entangle masses at all.</li>
   </ul>
+
+  <p class="kicker">How it works</p>
+  <h2 id="method">Nothing tuned, nothing fitted</h2>
+  <div class="grid2">
+    <div class="card"><h3>Measured inputs only</h3><p>About thirty constants (masses, couplings, the CMB temperature, G), each with its uncertainty and source: PDG 2024, Planck 2018, CODATA 2018. They are the only physics numbers that enter a calculation.</p></div>
+    <div class="card"><h3>Established physics only</h3><p>The Friedmann equation, the renormalization group with coefficients from group theory, exact linear algebra, and semiclassical gravity. Every scale comes from an earlier step.</p></div>
+    <div class="card"><h3>Unknowns are scanned</h3><p>Quantities nothing fixes, such as a phase or the stop mixing, are never given a value. They are scanned over their whole range, and the prediction is the band that results.</p></div>
+    <div class="card"><h3>Checked by itself</h3><p>A test fails if any tunable number appears outside the input tables. The run ends with <span data-v="checks">40</span> self-checks of the calculation itself, which test correctness, not agreement with data.</p></div>
+  </div>
 
   <h2 id="run">Run it</h2>
   <div class="card">
     <div class="cta">
-      <button class="btn primary copy-script" type="button" data-src="production_v2_2.py" data-status="copy-status-bottom">Copy Python script</button>
+      <button class="btn primary copy-script" type="button" data-src="production_v2_2.py" data-status="copy-status">Copy Python script</button>
       <a class="btn" href="production_v2_2.py" download="production_v2_2.py">Download .py</a>
+      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/production_v2_2.py">View on GitHub</a>
     </div>
-    <p class="status" id="copy-status-bottom" role="status" aria-live="polite">Pasting into an AI assistant? Add "Run this and explain the results."</p>
+    <p class="status" id="copy-status" role="status" aria-live="polite">One file, standard library only. Paste it into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 5 minutes. Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/production_v2_2.txt">results/production_v2_2.txt</a>.</p>
   </div>
-<pre>python3 production_v2_2.py                     # full report
+<pre>python3 production_v2_2.py                     # full report, Parts A to L
 python3 production_v2_2.py --json-out out.json # every number, as JSON</pre>
-  <p>The report prints every input with its source, each part's calculation, a verdict for each comparison, and the self-checks. The tests that enforce the no-tuning rule are in <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/tests/test_production.py">tests/test_production.py</a>.</p>
 
   <footer>
-    Independent work, not peer reviewed. CC0 1.0 (public domain). Source, tests and history:
+    Independent work, not peer reviewed. CC0 1.0 (public domain). Every number and curve on this page is generated from the script by <code>tools/site_data.py</code>. Source, tests and history:
     <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab">GitHub</a>.
   </footer>
 </main>
+<script src="assets/site-data.js"></script>
 <script>
+(function () {
+  "use strict";
+  var D = window.SITE_DATA;
+  var NS = "http://www.w3.org/2000/svg";
+  function el(tag, attrs, parent) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function sup(n) { return String(n).replace(/-/g, "−").replace(/[0-9−]/g, function (c) { return "⁰¹²³⁴⁵⁶⁷⁸⁹".charAt("0123456789".indexOf(c)) || "⁻"; }); }
+  function sci(x, d) { var e = Math.floor(Math.log10(Math.abs(x))); return (x / Math.pow(10, e)).toFixed(d) + " × 10" + sup(e); }
+  function fmt(x, d) { return (x < 0 ? "−" : "") + Math.abs(x).toFixed(d); }
+
+  // fill the numbers
+  if (D) {
+    var c = D.criticality, u = D.unification;
+    var vals = {
+      "crit.pred": c.m_h_pred.toFixed(1), "crit.sigma": c.sigma.toFixed(1), "crit.meas": c.m_h_meas.toFixed(2),
+      "crit.pct": Math.round(100 * Math.abs(c.m_h_pred / c.m_h_meas - 1)), "crit.mt": c.double_M_t.toFixed(1),
+      "crit.muzero": sci(c.mu_zero, 1), "crit.lmp": fmt(c.lambda_MP, 3),
+      "crit.shift": (c.m_h_pred - c.m_h_tree >= 0 ? "+" : "−") + Math.abs(c.m_h_pred - c.m_h_tree).toFixed(2),
+      "unif.mgut": sci(u.M_GUT, 1), "unif.ms": (u.M_S / 1000).toFixed(1),
+      "mssm.bound": D.higgs_mssm.bound.toFixed(1), "tb": D.tan_beta.btau.toFixed(2),
+      "cosmo.age": D.cosmology.age.toFixed(3), "cosmo.ol": D.cosmology.Omega_Lambda.toFixed(4), "checks": D.checks[0]
+    };
+    Array.prototype.forEach.call(document.querySelectorAll("[data-v]"), function (n) {
+      var v = vals[n.getAttribute("data-v")];
+      if (v !== undefined) n.textContent = v;
+    });
+  }
+
+  // a small line chart: series [{name, color, dash, pts:[[x,y]...]}], with crosshair tooltip
+  var charts = [];
+  function lineChart(host, opt) { charts.push([host, opt]); drawChart(host, opt); }
+  function drawChart(host, opt) {
+    Array.prototype.forEach.call(host.querySelectorAll("svg, .tip"), function (n) { n.remove(); });
+    var lg = document.getElementById(opt.legend); if (lg) lg.innerHTML = "";
+    var W = Math.max(300, Math.round(host.clientWidth - 20)), narrow = W < 560;
+    var H = narrow ? Math.round((opt.height || 340) * 0.8) : (opt.height || 340), m = { l: 56, r: 14, t: 14, b: 40 };
+    var svg = el("svg", { viewBox: "0 0 " + W + " " + H, width: W, height: H, role: "img", "aria-label": opt.label });
+    host.insertBefore(svg, host.firstChild);
+    var xt = narrow ? opt.xt.filter(function (v, i) { return i % 2 === 0; }) : opt.xt;
+    var x0 = opt.x[0], x1 = opt.x[1], y0 = opt.y[0], y1 = opt.y[1];
+    function X(v) { return m.l + (v - x0) / (x1 - x0) * (W - m.l - m.r); }
+    function Y(v) { return m.t + (y1 - v) / (y1 - y0) * (H - m.t - m.b); }
+    var g = el("g", { "class": "grid" }, svg), ax = el("g", { "class": "axis" }, svg);
+    opt.yt.forEach(function (v) {
+      el("line", { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v) }, g);
+      var t = el("text", { x: m.l - 8, y: Y(v) + 4, "text-anchor": "end" }, ax); t.textContent = opt.yf(v);
+    });
+    xt.forEach(function (v) {
+      var t = el("text", { x: X(v), y: H - m.b + 18, "text-anchor": "middle" }, ax); t.textContent = opt.xf(v);
+    });
+    var xl = el("text", { x: (m.l + W - m.r) / 2, y: H - 4, "text-anchor": "middle", "class": "lab" }, svg); xl.textContent = opt.xlabel;
+    var yl = el("text", { x: 12, y: (m.t + H - m.b) / 2, "text-anchor": "middle", "class": "lab", transform: "rotate(-90 12 " + (m.t + H - m.b) / 2 + ")" }, svg); yl.textContent = opt.ylabel;
+    if (opt.zero) el("line", { x1: m.l, x2: W - m.r, y1: Y(0), y2: Y(0), "class": "zero" }, svg);
+    (opt.band || []).forEach(function (b) {
+      el("rect", { x: m.l, width: W - m.l - m.r, y: Y(b.hi), height: Math.max(2, Y(b.lo) - Y(b.hi)), fill: "var(--band)" }, svg);
+      var t = el("text", { x: W - m.r - 4, y: Y(b.hi) - 6, "text-anchor": "end", "class": "dlab" }, svg); t.textContent = b.label;
+    });
+    (opt.vref || []).forEach(function (r) {
+      el("line", { x1: X(r.x), x2: X(r.x), y1: m.t, y2: H - m.b, "class": "ref" }, svg);
+      var right = X(r.x) > W * 0.8;
+      var t = el("text", { x: X(r.x) + (right ? -5 : 5), y: m.t + 12, "class": "lab", "text-anchor": right ? "end" : "start" }, svg); t.textContent = r.label;
+    });
+    opt.series.forEach(function (s) {
+      var d = s.pts.map(function (p, i) { return (i ? "L" : "M") + X(p[0]).toFixed(1) + " " + Y(p[1]).toFixed(1); }).join("");
+      el("path", { d: d, fill: "none", stroke: s.color, "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round", "stroke-dasharray": s.dash ? "6 5" : "none" }, svg);
+      if (s.label) {
+        var p = s.pts[s.labelAt != null ? s.labelAt : s.pts.length - 1];
+        var t = el("text", { x: X(p[0]) + (s.dx || 6), y: Y(p[1]) + (s.dy || 4), "class": "dlab", "text-anchor": s.anchor || "start" }, svg); t.textContent = s.label;
+      }
+    });
+    (opt.points || []).forEach(function (p) {
+      el("circle", { cx: X(p.x), cy: Y(p.y), r: 5, fill: p.color, stroke: "var(--card)", "stroke-width": 2 }, svg);
+      var t = el("text", { x: X(p.x) + (p.dx || 8), y: Y(p.y) + (p.dy || -8), "class": "dlab", "text-anchor": p.anchor || "start" }, svg); t.textContent = p.label;
+    });
+    // legend
+    var leg = document.getElementById(opt.legend);
+    if (leg) opt.series.filter(function (s) { return s.legend !== false; }).forEach(function (s) {
+      var sp = document.createElement("span"); var i = document.createElement("i");
+      i.style.borderTopColor = s.color; if (s.dash) i.className = "dash";
+      sp.appendChild(i); sp.appendChild(document.createTextNode(s.name)); leg.appendChild(sp);
+    });
+    // hover
+    var cross = el("line", { y1: m.t, y2: H - m.b, stroke: "var(--faint)", "stroke-width": 1, opacity: 0 }, svg);
+    var dots = opt.series.map(function (s) { return el("circle", { r: 4, fill: s.color, stroke: "var(--card)", "stroke-width": 2, opacity: 0 }, svg); });
+    var tip = document.createElement("div"); tip.className = "tip"; host.appendChild(tip);
+    var hit = el("rect", { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: "transparent" }, svg);
+    function move(ev) {
+      var r = svg.getBoundingClientRect(), sx = (ev.clientX - r.left) / r.width * W;
+      var xv = x0 + (sx - m.l) / (W - m.l - m.r) * (x1 - x0);
+      var rows = [];
+      opt.series.forEach(function (s, k) {
+        var best = null;
+        s.pts.forEach(function (p) { if (!best || Math.abs(p[0] - xv) < Math.abs(best[0] - xv)) best = p; });
+        if (!best || Math.abs(best[0] - xv) > (x1 - x0) * 0.04) { dots[k].setAttribute("opacity", 0); return; }
+        dots[k].setAttribute("cx", X(best[0])); dots[k].setAttribute("cy", Y(best[1])); dots[k].setAttribute("opacity", 1);
+        rows.push('<span class="sw" style="background:' + s.color + '"></span>' + s.name + ": <b>" + opt.tf(best[1]) + "</b>");
+      });
+      if (!rows.length) { leave(); return; }
+      cross.setAttribute("x1", X(xv)); cross.setAttribute("x2", X(xv)); cross.setAttribute("opacity", 1);
+      tip.innerHTML = "<div>" + opt.txf(xv) + "</div>" + rows.join("<br>");
+      var hr = host.getBoundingClientRect(), px = ev.clientX - hr.left, tw = tip.offsetWidth;
+      tip.style.left = Math.min(Math.max(8, px + 14), hr.width - tw - 8) + "px";
+      tip.style.top = "18px"; tip.style.opacity = 1;
+    }
+    function leave() { tip.style.opacity = 0; cross.setAttribute("opacity", 0); dots.forEach(function (d) { d.setAttribute("opacity", 0); }); }
+    if (leg && opt.extraLegend) { var sp = document.createElement("span"); sp.innerHTML = opt.extraLegend; leg.appendChild(sp); }
+    hit.addEventListener("pointermove", move); hit.addEventListener("pointerdown", move); hit.addEventListener("pointerleave", leave);
+  }
+
+  if (!D) {
+    Array.prototype.forEach.call(document.querySelectorAll(".chart"), function (h) { h.insertAdjacentHTML("afterbegin", '<p class="status">Chart data (assets/site-data.js) did not load.</p>'); });
+    return;
+  }
+  var css = getComputedStyle(document.documentElement);
+  function col(n) { return "var(" + n + ")"; }
+  function pow10(v) { return "10" + sup(Math.round(v)); }
+
+  // Part L: lambda(mu)
+  var c = D.criticality, lx1 = Math.log10(c.M_P);
+  lineChart(document.getElementById("chart-lambda"), {
+    label: "Higgs self-coupling lambda against energy, for the measured and the critical Higgs mass",
+    x: [2, 19.5], y: [-0.025, 0.14], xt: [2, 5, 8, 11, 14, 17], yt: [-0.02, 0, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12],
+    xf: function (v) { return pow10(v); }, yf: function (v) { return fmt(v, 2); },
+    xlabel: "energy (GeV)", ylabel: "λ", zero: true, legend: "leg-lambda",
+    tf: function (v) { return fmt(v, 4); }, txf: function (v) { return "μ = " + sci(Math.pow(10, v), 1) + " GeV"; },
+    vref: [{ x: lx1, label: "Planck mass" }],
+    series: [
+      { name: "measured Higgs mass, " + c.m_h_meas.toFixed(2) + " GeV", color: col("--s1"), pts: c.curves.measured.pts, label: "measured", labelAt: 16, dy: 20, anchor: "end", dx: -4 },
+      { name: "critical Higgs mass, " + c.m_h_pred.toFixed(1) + " GeV", color: col("--s2"), pts: c.curves.critical.pts, label: "critical", labelAt: 34, dy: -10 }
+    ],
+    points: [{ x: Math.log10(c.mu_zero), y: 0, color: col("--s1"), label: "λ = 0 at " + sci(c.mu_zero, 1) + " GeV", dy: 22, anchor: "middle", dx: 0 }]
+  });
+  var tb = '<table><tr><th>μ (GeV)</th><th>λ, measured Higgs mass</th><th>λ, critical Higgs mass</th></tr>';
+  c.curves.measured.pts.forEach(function (p, i) { if (i % 10 === 0 || i === c.curves.measured.pts.length - 1) tb += "<tr><td class='num'>" + sci(Math.pow(10, p[0]), 2) + "</td><td class='num'>" + fmt(p[1], 4) + "</td><td class='num'>" + fmt(c.curves.critical.pts[i][1], 4) + "</td></tr>"; });
+  document.getElementById("tbl-lambda").innerHTML = tb + "</table>";
+
+  // Part I: inverse couplings
+  var u = D.unification, names = ["hypercharge 1/α₁", "weak 1/α₂", "strong 1/α₃"], cols = [col("--s1"), col("--s2"), col("--s3")];
+  var series = [];
+  for (var k = 0; k < 3; k++) {
+    series.push({ name: names[k] + ", SM", color: cols[k], dash: true, legend: false, pts: u.sm.map(function (r) { return [r[0], r[k + 1]]; }) });
+    series.push({ name: names[k] + ", with superpartners", color: cols[k], pts: u.mssm.map(function (r) { return [r[0], r[k + 1]]; }) });
+  }
+  lineChart(document.getElementById("chart-unif"), {
+    label: "Inverse gauge couplings against energy, Standard Model and with superpartners",
+    x: [2, 19.5], y: [0, 62], xt: [2, 5, 8, 11, 14, 17], yt: [0, 10, 20, 30, 40, 50, 60],
+    xf: function (v) { return pow10(v); }, yf: function (v) { return String(v); },
+    xlabel: "energy (GeV)", ylabel: "1/α", legend: "leg-unif",
+    tf: function (v) { return v.toFixed(2); }, txf: function (v) { return "μ = " + sci(Math.pow(10, v), 1) + " GeV"; },
+    vref: [{ x: Math.log10(u.M_S), label: "Mₛ (superpartners)" }, { x: Math.log10(u.M_GUT), label: "unification" }],
+    extraLegend: '<i class="dash" style="border-top-color:var(--faint)"></i>Standard Model alone',
+    series: series
+  });
+
+  var rt = null, lastW = window.innerWidth;
+  window.addEventListener("resize", function () {
+    if (window.innerWidth === lastW) return;
+    lastW = window.innerWidth; clearTimeout(rt);
+    rt = setTimeout(function () { charts.forEach(function (c) { drawChart(c[0], c[1]); }); }, 150);
+  });
+
+  // Part K: MSSM Higgs mass vs stop mixing
+  var h = D.higgs_mssm, pk = h.curve.reduce(function (a, b) { return b[1] > a[1] ? b : a; });
+  lineChart(document.getElementById("chart-mssm"), {
+    label: "Supersymmetric Higgs mass against stop mixing, with the measured Higgs mass",
+    height: 280, x: [0, 3.6], y: [80, 130], xt: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5], yt: [80, 90, 100, 110, 120, 130],
+    xf: function (v) { return v.toFixed(1); }, yf: function (v) { return String(v); },
+    xlabel: "stop mixing Xₜ / Mₛ", ylabel: "Higgs mass (GeV)", legend: "leg-mssm",
+    tf: function (v) { return v.toFixed(1) + " GeV"; }, txf: function (v) { return "Xₜ/Mₛ = " + v.toFixed(2); },
+    band: [{ lo: D.criticality.m_h_meas - 0.11, hi: D.criticality.m_h_meas + 0.11, label: "measured " + D.criticality.m_h_meas.toFixed(2) + " GeV" }],
+    series: [{ name: "supersymmetric Higgs mass, Mₛ = " + (h.M_S / 1000).toFixed(2) + " TeV, tan β = " + h.tan_beta.toFixed(2), color: col("--s1"), pts: h.curve }],
+    points: [{ x: pk[0], y: pk[1], color: col("--s1"), label: "peak " + pk[1].toFixed(1) + " GeV", dy: -12, anchor: "middle", dx: 0 }]
+  });
+})();
+
 (function () {
   "use strict";
   function copyText(text) {

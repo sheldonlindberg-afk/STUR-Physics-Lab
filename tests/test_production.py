@@ -223,6 +223,40 @@ def test_yukawa_relations():
     assert all(r["mt_msbar"] > 200 for r in yk["fixed_point_SM"]["runs"])
 
 
+def test_higgs_mass_mssm():
+    """Part K: with Part I's M_S and Part J's tan(beta), maximal stop mixing bounds m_h far below 125 GeV."""
+    hg = RESULT["higgs"]
+    assert hg["M_S"] == RESULT["alpha_unification"]["M_S_for_measured_alpha"]["M_S_GeV"]
+    assert min(hg["tan_betas"]) == min(r["tan_beta"] for r in RESULT["yukawa"]["fixed_point_MSSM"]["runs"]
+                                       + [RESULT["yukawa"]["btau_MSSM_unity"]])
+    assert 95 < hg["mh_upper_bound"] < 110
+    assert all(r["mh_no_mixing"] < r["mh_max_mixing"] for r in hg["rows"])
+
+
+def test_sm_criticality():
+    """Part L: lambda(M_P) = 0 at two loops predicts m_h a few GeV above the measurement; the
+    measured m_h makes lambda(M_P) slightly negative."""
+    cr = RESULT["criticality"]
+    two = [r for r in cr["rows"] if r["loops"] == 2]
+    assert all(127 < r["m_h"] < 131 for r in two)
+    assert max(r["m_h"] for r in two) - min(r["m_h"] for r in two) < 0.5   # Planck mass, matching
+    assert 127 < cr["central"]["m_h"] < 131 and cr["central"]["matched"]
+    assert 0.3 < cr["sigma_total"] < 2
+    assert 125 < cr["double"]["m_h"] < 135 and 170 < cr["double"]["M_t"] < 177
+    pr = P.sm_lambda_profile(cr, 125.20)
+    assert -0.03 < pr["lambda_MP"] < 0 and 1e9 < pr["mu_zero"] < 1e12
+
+
+def test_website_data_is_current():
+    """assets/site-data.js (written by tools/site_data.py) shows the numbers the script computes."""
+    import json
+    txt = open(os.path.join(ROOT, "assets", "site-data.js"), encoding="utf-8").read()
+    data = json.loads(txt[txt.index("{"):txt.rindex("}") + 1])
+    assert abs(data["criticality"]["m_h_pred"] - RESULT["criticality"]["central"]["m_h"]) < 1e-6
+    assert abs(data["higgs_mssm"]["bound"] - RESULT["higgs"]["mh_upper_bound"]) < 1e-6
+    assert data["checks"][0] == len(RESULT["checks"])
+
+
 def test_report_matches_expected_output():
     got = P.report(RESULT).splitlines()
     want = [ln for ln in open(EXPECTED, encoding="utf-8").read().splitlines() if not ln.startswith("Elapsed")]
