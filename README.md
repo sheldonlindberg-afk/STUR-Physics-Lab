@@ -359,10 +359,12 @@ v2.2 replaces each one:
 ## Repository layout
 
 ```
-production_v2_2.py            the simulation (the only script in this repository)
+production_v2_2.py            the simulation
 results/production_v2_2.txt   its expected output
 tests/test_production.py      the no-tuning rule, the self-checks, the pinned numbers
-index.html                    website: one page, one Copy button
+index.html                    website: the ladder, the results and their curves
+assets/site-data.js           every number and curve the website shows (generated)
+tools/site_data.py            writes assets/site-data.js from one run of the simulation
 archive/                      notes and the 3-3-1 paper from the earlier codebase (prose only)
 ```
 

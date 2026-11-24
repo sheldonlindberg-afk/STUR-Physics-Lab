@@ -247,6 +247,16 @@ def test_sm_criticality():
     assert -0.03 < pr["lambda_MP"] < 0 and 1e9 < pr["mu_zero"] < 1e12
 
 
+def test_website_data_is_current():
+    """assets/site-data.js (written by tools/site_data.py) shows the numbers the script computes."""
+    import json
+    txt = open(os.path.join(ROOT, "assets", "site-data.js"), encoding="utf-8").read()
+    data = json.loads(txt[txt.index("{"):txt.rindex("}") + 1])
+    assert abs(data["criticality"]["m_h_pred"] - RESULT["criticality"]["central"]["m_h"]) < 1e-6
+    assert abs(data["higgs_mssm"]["bound"] - RESULT["higgs"]["mh_upper_bound"]) < 1e-6
+    assert data["checks"][0] == len(RESULT["checks"])
+
+
 def test_report_matches_expected_output():
     got = P.report(RESULT).splitlines()
     want = [ln for ln in open(EXPECTED, encoding="utf-8").read().splitlines() if not ln.startswith("Elapsed")]
