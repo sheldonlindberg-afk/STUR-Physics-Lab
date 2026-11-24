@@ -33,6 +33,11 @@ registered. The rules below exist so that cannot happen again.
 | Document | Registered at commit | Registration hash (sha256) | Outcome |
 |---|---|---|---|
 | [INDUCED_GRAVITY_FINITE.md](INDUCED_GRAVITY_FINITE.md) | c1beae2 | 2a8e696679591acca28dd308e50298dd48219f3be7f5d64cd32dbb9da1ed6045 | every item as registered |
+| [../registrations/PART_K_Z3_OVERLAPS.md](../registrations/PART_K_Z3_OVERLAPS.md) | 7274f77 | 5d5aceeacc7a609e0292687d85c604c54eb70bb92d42e5e1f8319d2707142d37 | not yet computed |
+
+`tools/prereg.py` was removed in the reorganization (commit `ac2809c`); its hash function now lives in
+[`tests/test_preregistration.py`](../tests/test_preregistration.py) and is unchanged (run it as
+`python3 tests/test_preregistration.py <file>`).
 
 The earlier induced-gravity registration predates these rules. Its record is
 [INDUCED_GRAVITY.md](INDUCED_GRAVITY.md), which states that the sign was corrected after a first

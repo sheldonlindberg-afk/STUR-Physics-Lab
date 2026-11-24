@@ -3,7 +3,7 @@
 *Written before any number below is computed, under the rules of
 [archive/PREREGISTRATION.md](../archive/PREREGISTRATION.md). The derivation of every formula the
 computation uses is part of the registration. Independent work, not peer reviewed.
-Status: **registered, not yet computed**.*
+Status: **registered (commit 7274f77), not yet computed**.*
 
 ## The question
 
