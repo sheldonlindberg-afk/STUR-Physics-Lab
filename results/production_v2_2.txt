@@ -463,6 +463,40 @@ PART L. STANDARD MODEL CRITICALITY: THE HIGGS MASS FROM ONE CONDITION AT THE PLA
     vacuum is not stable. The top mass dominates the input error; the second condition
     (beta_lambda = 0) lands near the measured top mass.
 
+PART M. WHICH HIGH-ENERGY HYPOTHESIS SURVIVES EVERY CONDITION AT ONCE?
+------------------------------------------------------------------------------
+  The field content above the electroweak scale is not chosen. Each hypothesis is tested
+  against every combination of the conditions the other parts impose:
+    U  gauge unification      predicts 1/alpha(M_Z)
+    B  b-tau unification      predicts y_b/y_tau = 1 at M_GUT (SM: where g1 = g2)
+    H  Higgs mass             SM: lambda(M_P) = 0 (Part L); MSSM: matching at M_S (Part K)
+  SM up to M_P has no unknowns. The MSSM has M_S, tan(beta) and the stop mixing X_t. M_S is
+  scanned on a grid plus where unification gives the measured alpha; tan(beta) on a grid plus
+  every root of y_b/y_tau = 1 and every edge of perturbation theory (bisection); X_t is
+  eliminated exactly. 368 perturbative points; the best one only decides survival.
+  With no prediction (dof <= 0) the number is the distance in sigma between the data and
+  everything the hypothesis can reach. Errors: measured inputs only, no theory errors.
+  SM pulls: U -78.8 sigma, B -80.7 sigma, H +4.1 sigma
+    hypothesis        conditions  unknowns  dof    chi^2      sigma   verdict
+    SM up to M_P      U              0      1       6210      78.8   excluded
+    MSSM above M_S    U              1      0          0         0   survives, no prediction
+    SM up to M_P      B              0      1       6508      80.7   excluded
+    MSSM above M_S    B              2     -1          0         0   survives, no prediction
+    SM up to M_P      H              0      1      16.59      4.07   excluded
+    MSSM above M_S    H              3     -2          0         0   survives, no prediction
+    SM up to M_P      U+B            0      2  1.272e+04       113   excluded
+    MSSM above M_S    U+B            2      0          0         0   survives, no prediction
+    SM up to M_P      U+H            0      2       6226      78.9   excluded
+    MSSM above M_S    U+H            3     -1          0         0   survives, no prediction
+    SM up to M_P      B+H            0      2       6525      80.8   excluded
+    MSSM above M_S    B+H            3     -1          0         0   survives, no prediction
+    SM up to M_P      U+B+H          0      3  1.273e+04       113   excluded
+    MSSM above M_S    U+B+H          3      0        533      23.1   excluded
+  RESULT: no combination of hypothesis and conditions both survives and predicts anything.
+    The MSSM survives with U, B, H, U+B, U+H, B+H, but its unknowns absorb
+      every condition: it predicts nothing.
+    The SM up to M_P predicts each number and misses each one. Theory errors are not included.
+
 THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
 ------------------------------------------------------------------------------
   Stage (part, evidence level): measured inputs read; results taken from earlier stages
@@ -524,36 +558,44 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
         mu_light, s2_hat_Z
       takes: planck_units
       assumes: lambda(M_P) = 0; two-loop running, one-loop matching
+  uv_joint_test (M, numerical)
+      inputs: G_F, M_Z, M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ, c,
+        e_charge, m_b, m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV, m_u,
+        mu_light, s2_hat_Z
+      takes: gauge_unification, flavour, yukawa_relations, criticality
+      assumes: every hypothesis against every set of conditions; unknowns on
+        a grid plus exact roots and edges; input errors only, no theory
+        errors
   self_checks (-, validation)
       inputs: G, G_F, M_W, M_Z, M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ,
         c, e_charge, h, k_B, m_b, m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV,
         m_u, mu_light, s2_hat_Z
       takes: cosmology, gauge_unification, flavour, texture_survey,
         gauge_331, flavour_symmetry_331, quantum_gravity, higgs_mssm,
-        criticality
+        criticality, uv_joint_test
       assumes: tests the calculation, not the physics
   Numbers calculated once and handed on:
     M_S, M_GUT = 2536.5, 1.1459e+16 GeV, from
       gauge_unification[M_S_for_measured_alpha], taken by flavour,
-      yukawa_relations, higgs_mssm
+      yukawa_relations, higgs_mssm, uv_joint_test
     M_P = 1.2209e+19 GeV, from planck_units[E_P_GeV], taken by
       quantum_gravity, yukawa_relations, criticality
     m_t(m_t) = 163.44 GeV, from flavour[runner], taken by quantum_gravity,
-      yukawa_relations, higgs_mssm
+      yukawa_relations, higgs_mssm, uv_joint_test
   Changing one measured input recalculates every stage it reaches, for example:
     M_t: flavour, texture_survey, flavour_symmetry_331, quantum_gravity,
-      yukawa_relations, higgs_mssm, criticality
+      yukawa_relations, higgs_mssm, criticality, uv_joint_test
     alpha_s_MZ: gauge_unification, flavour, texture_survey,
       flavour_symmetry_331, quantum_gravity, yukawa_relations, higgs_mssm,
-      criticality
+      criticality, uv_joint_test
     G: cosmology, planck_units, quantum_gravity, yukawa_relations,
-      higgs_mssm, criticality
+      higgs_mssm, criticality, uv_joint_test
     H0: cosmology, quantum_gravity
   Global consistency of the stage assumptions:
     MSSM above M_S  : gauge_unification, yukawa_relations, higgs_mssm
     SM up to M_P    : criticality
-    INCONSISTENT: these field contents exclude each other, so the stages above cannot all
-    describe one world. Each result holds only under its own hypothesis.
+    These field contents exclude each other. No stage chooses: Part M tests every
+    hypothesis against every combination of conditions.
   The graph is acyclic (True), so one pass in order is self-consistent: no stage
   needs a value that a later stage changes. A shared mechanism would add such feedback.
   Audit findings:
@@ -563,9 +605,13 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
     [open] Part L rebuilds the quark-mass running instead of taking the
       flavour stage's: same function, same numbers, because its error
       propagation re-runs the chain per input.
-    [open] Parts I, J, K assume the MSSM above M_S; Part L assumes the SM up
-      to M_P. Both cannot hold. A single model must choose, and then the
-      other stages' results lapse.
+    [resolved] Parts I, J, K assume the MSSM above M_S; Part L assumes the SM
+      up to M_P. Both cannot hold, so neither is chosen: Part M runs each
+      hypothesis against every combination of the conditions and reports
+      which survive.
+    [open] Part M uses input errors only. The theory errors of the one-loop
+      stop threshold and of the matching are not calculated, so its
+      exclusions are upper bounds on the tension.
     [open] No stage feeds cosmology: H0 and Omega_m are inputs. A shared
       mechanism would need equations for the dark-matter density and Lambda.
     [resolved] M_P was computed inside Part H, so every input of Part H (H0
@@ -622,7 +668,8 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Yukawa-RGE gauge coefficients from Casimirs = textbook (SM and MSSM; t, b, tau)
   [PASS] MSSM Yukawa self-terms from field multiplicities: 6 y_t^3, (3 y_b^2 + 4 y_tau^2) y_tau  (6.000, 7.000)
   [PASS] Lambda_QCD (2-loop) reproduces alpha_s(M_Z)  (rel diff 2.2e-16)
-  [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (14 stages, 23 edges)
-  42/42 checks pass
+  [PASS] Part M at Part I's M_S reproduces the measured alpha (the two stages agree)  (diff -1.4e-14)
+  [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (15 stages, 28 edges)
+  43/43 checks pass
 ==============================================================================
-Elapsed: 340.2 s
+Elapsed: 429.9 s
