@@ -475,27 +475,39 @@ PART M. WHICH HIGH-ENERGY HYPOTHESIS SURVIVES EVERY CONDITION AT ONCE?
   every root of y_b/y_tau = 1 and every edge of perturbation theory (bisection); X_t is
   eliminated exactly. 368 perturbative points; the best one only decides survival.
   With no prediction (dof <= 0) the number is the distance in sigma between the data and
-  everything the hypothesis can reach. Errors: measured inputs only, no theory errors.
-  SM pulls: U -78.8 sigma, B -80.7 sigma, H +4.1 sigma
-    hypothesis        conditions  unknowns  dof    chi^2      sigma   verdict
-    SM up to M_P      U              0      1       6210      78.8   excluded
-    MSSM above M_S    U              1      0          0         0   survives, no prediction
-    SM up to M_P      B              0      1       6508      80.7   excluded
-    MSSM above M_S    B              2     -1          0         0   survives, no prediction
-    SM up to M_P      H              0      1      16.59      4.07   excluded
-    MSSM above M_S    H              3     -2          0         0   survives, no prediction
-    SM up to M_P      U+B            0      2  1.272e+04       113   excluded
-    MSSM above M_S    U+B            2      0          0         0   survives, no prediction
-    SM up to M_P      U+H            0      2       6226      78.9   excluded
-    MSSM above M_S    U+H            3     -1          0         0   survives, no prediction
-    SM up to M_P      B+H            0      2       6525      80.8   excluded
-    MSSM above M_S    B+H            3     -1          0         0   survives, no prediction
-    SM up to M_P      U+B+H          0      3  1.273e+04       113   excluded
-    MSSM above M_S    U+B+H          3      0        533      23.1   excluded
-  RESULT: no combination of hypothesis and conditions both survives and predicts anything.
-    The MSSM survives with U, B, H, U+B, U+H, B+H, but its unknowns absorb
-      every condition: it predicts nothing.
-    The SM up to M_P predicts each number and misses each one. Theory errors are not included.
+  everything the hypothesis can reach. Two error sets bracket every verdict:
+    inputs           measured inputs only: the strongest exclusion
+    +theory          plus, per ingredient, the change from the last order calculated to the
+                     one below (running 2 loops vs 1, matching one loop vs tree); the next
+                     order is usually smaller, so this is the weakest exclusion
+  Theory errors, SM:   1/alpha 4.80   y_b 7.2 %   m_h 5.78 GeV (from Parts I, J, L)
+  Theory errors, MSSM at M_S = 3.64 TeV:   1/alpha 12.00   y_b 7.2 %   m_h 0.71 GeV
+  Not estimated: the two-loop stop threshold, GUT and superpartner thresholds.
+  SM pulls, inputs:  U -78.8  B -80.7  H +4.1 sigma;  +theory:  U -9.5  B -6.1  H +0.65 sigma
+    hypothesis        conditions  unknowns  dof  |  sigma   verdict    |  sigma   verdict
+                                                 |  (inputs)           |  (+theory)
+    SM up to M_P      U              0      1  |    78.8   excluded   |    9.53   excluded
+    MSSM above M_S    U              1      0  |       0   survives   |       0   survives
+    SM up to M_P      B              0      1  |    80.7   excluded   |    6.05   excluded
+    MSSM above M_S    B              2     -1  |       0   survives   |       0   survives
+    SM up to M_P      H              0      1  |    4.07   excluded   |   0.653   predicts
+    MSSM above M_S    H              3     -2  |       0   survives   |       0   survives
+    SM up to M_P      U+B            0      2  |     113   excluded   |    11.1   excluded
+    MSSM above M_S    U+B            2      0  |       0   survives   |       0   survives
+    SM up to M_P      U+H            0      2  |    78.9   excluded   |    9.29   excluded
+    MSSM above M_S    U+H            3     -1  |       0   survives   |       0   survives
+    SM up to M_P      B+H            0      2  |    80.8   excluded   |    5.75   excluded
+    MSSM above M_S    B+H            3     -1  |       0   survives   |       0   survives
+    SM up to M_P      U+B+H          0      3  |     113   excluded   |    10.9   excluded
+    MSSM above M_S    U+B+H          3      0  |    23.1   excluded   |    2.52   survives
+    (survives: no prediction, the unknowns absorb the conditions; predicts: survives and
+    predicts at least one number)
+  RESULT (inputs only): no hypothesis and set of conditions both survives and
+    predicts anything.
+  RESULT (with theory errors): survives and predicts: SM up to M_P with H
+    Verdicts that depend on the theory errors: SM up to M_P with H; MSSM
+      above M_S with U+B+H. Deciding them needs the next order, not a
+      different error estimate.
 
 THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
 ------------------------------------------------------------------------------
@@ -559,13 +571,12 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
       takes: planck_units
       assumes: lambda(M_P) = 0; two-loop running, one-loop matching
   uv_joint_test (M, numerical)
-      inputs: G_F, M_Z, M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ, c,
+      inputs: G_F, M_W, M_Z, M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ, c,
         e_charge, m_b, m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV, m_u,
         mu_light, s2_hat_Z
       takes: gauge_unification, flavour, yukawa_relations, criticality
       assumes: every hypothesis against every set of conditions; unknowns on
-        a grid plus exact roots and edges; input errors only, no theory
-        errors
+        a grid plus exact roots and edges; theory errors = last-order shifts
   self_checks (-, validation)
       inputs: G, G_F, M_W, M_Z, M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ,
         c, e_charge, h, k_B, m_b, m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV,
@@ -609,9 +620,13 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
       up to M_P. Both cannot hold, so neither is chosen: Part M runs each
       hypothesis against every combination of the conditions and reports
       which survive.
-    [open] Part M uses input errors only. The theory errors of the one-loop
-      stop threshold and of the matching are not calculated, so its
-      exclusions are upper bounds on the tension.
+    [resolved] Part M's theory errors are calculated, not typed in: for every
+      ingredient the change from the last order the script computes to the
+      one below it.
+    [open] Two Part M verdicts depend on those theory errors (SM criticality,
+      the MSSM with all three conditions). Settling them needs the next
+      order: three-loop running, two-loop matching, the two-loop stop
+      threshold.
     [open] No stage feeds cosmology: H0 and Omega_m are inputs. A shared
       mechanism would need equations for the dark-matter density and Lambda.
     [resolved] M_P was computed inside Part H, so every input of Part H (H0
@@ -672,4 +687,4 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (15 stages, 28 edges)
   43/43 checks pass
 ==============================================================================
-Elapsed: 429.9 s
+Elapsed: 456.8 s
