@@ -223,6 +223,31 @@ def test_yukawa_relations():
     assert all(r["mt_msbar"] > 200 for r in yk["fixed_point_SM"]["runs"])
 
 
+def test_part_k_as_registered():
+    """Part K (registrations/PART_K_Z3_OVERLAPS.md): excluded at both scales, far beyond 3 sigma, with the
+    best point inside the registered range (so the boundary rule did not apply)."""
+    pk = RESULT["part_k"]
+    assert pk["units"] == {"Q": 1, "u": 4, "d": -2, "H": 3} and pk["flux_period_over_2pi"] == 6
+    assert not pk["extended"]
+    for mu in RESULT["scales"]:
+        r = pk["final"][mu]
+        assert not r["survives"] and r["chi2"] > 3e4, (mu, r["chi2"])
+        lo, hi = P.num("k_log_a_lo"), P.num("k_log_a_hi")
+        assert all(lo < v < hi for v in r["x"][:2])
+
+
+def test_part_k_theorems():
+    """D1/D8: no flux gives J = 0 and V = 1; D6: a Higgs on a symmetry point gives some |V_ij| = 1."""
+    model = P.Z3Overlaps(32, 108)
+    for x in ([0.5, 1.0, 0.3], [2.0, -1.0, 0.71], [-1.5, 3.0, 0.05]):
+        p = model.point(x + [0.0])
+        assert abs(p["obs"]["J"]) < 1e-15
+        assert all(abs(abs(p["V"][i][i]) - 1) < 1e-12 for i in range(3))
+        assert abs(p["ratios"]["r_ct"] / p["ratios"]["r_sb"] - 1) < 1e-12
+        q = model.point(x[:2] + [0.37, 0.13])
+        assert abs(q["obs"]["J"]) > 1e-20            # the holonomy is what makes CP violation (J ~ 1e-48 without)
+
+
 def test_report_matches_expected_output():
     got = P.report(RESULT).splitlines()
     want = [ln for ln in open(EXPECTED, encoding="utf-8").read().splitlines() if not ln.startswith("Elapsed")]

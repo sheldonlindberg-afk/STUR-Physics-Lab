@@ -54,8 +54,16 @@
   tan(beta) = 1.35, and the top quasi-fixed point needs 1.33-1.40. No Yukawa is calculated.
 - Every scale comes from the algorithm: m_t(m_t), Part I's M_S = 2.54 TeV and M_GUT, M_Planck.
 
+- Part K (preregistered, registrations/PART_K_Z3_OVERLAPS.md): quark profiles at the three Z3
+  points of a circle, one shared width, a Higgs profile and a hypercharge holonomy; Yukawas are
+  exact triple overlaps; 4 unknowns scanned, 8 data. Excluded as registered: chi^2_min ~ 40,600
+  for 4 dof. Theorems: no flux gives V = 1; no flux with the Higgs on a fixed point (STUR v7.0's
+  configuration) gives some |V_ij| = 1.
+
 ## Files
 - production_v2_2.py: the simulation
 - results/production_v2_2.txt: expected output
 - tests/test_production.py: the no-tuning rule and the pinned numbers
+- tests/test_preregistration.py: registered documents cannot be edited
+- registrations/: preregistered tests (Part K)
 - archive/: notes and the 3-3-1 paper from the earlier codebase

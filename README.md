@@ -28,7 +28,7 @@ python3 production_v2_2.py --scales 2000 5000  # other evaluation scales (GeV, a
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 32 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 37 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -282,6 +282,32 @@ uses Part I's M_GUT and Part H's M_Planck. The tan β range and the "large" top 
 from the perturbativity limit √(4π). The only numbers not produced by the algorithm are the
 measured inputs, the numerical settings, and the quoted coefficient 41/(10π).
 
+**Part K: can overlaps on the Z₃ circle give the quark masses and the CKM matrix? (preregistered)**
+
+STUR v7.0 got its CKM numbers from overlaps of three generations localized at the three Z₃
+points of a circle. Rerunning that code (commit `2859610`) showed its agreements came from typed
+constants (α_eff = 1.480 where its own calculation gives 1.431; A ≡ f_hol = 0.846; η̄ from four typed
+factors), and it never diagonalized a Yukawa matrix. Part K keeps the geometry and drops everything
+typed in. It was registered before anything was computed:
+[registrations/PART_K_Z3_OVERLAPS.md](registrations/PART_K_Z3_OVERLAPS.md) (commit `7274f77`; its
+hash is pinned by [tests/test_preregistration.py](tests/test_preregistration.py)).
+
+* **Model.** Every quark profile is the ground state of −(∂ − is)² + a_q(1 − cos θ), with one a_q for Q,
+  u and d, and the three generations are its Z₃ rotations. The Higgs is the same with a_H, at θ_H. A
+  hypercharge holonomy Φ (s = qΦ/2π) is the only source of CP violation. Yukawas are triple overlaps,
+  integrated exactly (the trapezoid rule is exact for these trigonometric polynomials) and diagonalized. The 4 unknowns (a_q, a_H, θ_H, Φ) are scanned;
+  there are 8 data (4 mass ratios and |V_us|, |V_cb|, |V_ub|, J), so **4 predictions**.
+* **Two theorems, derived in the registration and checked by the script.** With no flux the Q, u and
+  d profiles coincide, so **V = 1** and the up and down mass ratios are equal, for any widths (D8).
+  With no flux and the Higgs on a fixed point, which is v7.0's configuration, **some |V_ij| = 1** even
+  with different widths (D6). So once the Yukawa matrices are actually diagonalized, v7.0's own
+  configuration has no three-family mixing.
+* **Result: excluded, as registered.** χ²_min = 40,571 at m_t(m_t) and 41,283 at M_S, for 4 degrees
+  of freedom: far beyond 37σ, the limit of double precision. Even at the best point the mass
+  hierarchies are too shallow: m_u/m_c comes out 9×10⁻², against 1.9×10⁻³ measured. The best point lies
+  inside the registered range, the result is unchanged with finer numerics (K2), and the
+  determinant and unitarity checks pass (K4).
+
 ## What changed from production v1
 
 The first version of `production_v2_2.py` (commit `2fa12f0`) gave χ² ≈ 3,600 for its Fritzsch
@@ -308,6 +334,8 @@ v2.2 replaces each one:
 production_v2_2.py            the simulation (the only script in this repository)
 results/production_v2_2.txt   its expected output
 tests/test_production.py      the no-tuning rule, the self-checks, the pinned numbers
+tests/test_preregistration.py fails if a registered document is edited after registration
+registrations/                preregistered tests (Part K), written and committed before computing
 index.html                    website: one page, one Copy button
 archive/                      notes and the 3-3-1 paper from the earlier codebase (prose only)
 ```

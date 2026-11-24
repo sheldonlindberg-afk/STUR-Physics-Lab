@@ -57,6 +57,10 @@ WHAT IT CALCULATES
     matrix: the exact number of physical parameters of all 61,009 pattern pairs,
     from the rank of the Jacobian of 10 weak-basis invariants, computed in exact
     integer arithmetic.
+  Part K (preregistered in registrations/PART_K_Z3_OVERLAPS.md): whether quark
+    profiles localized at the three Z3 points of a circle, with one shared width,
+    a Higgs profile and a hypercharge holonomy, give the quark masses and the CKM
+    matrix. Yukawas are exact triple overlaps; all four unknowns are scanned.
 
 Run:  python3 production_v2_2.py                 (full report, about 3 minutes)
       python3 production_v2_2.py --json-out out.json
@@ -191,6 +195,31 @@ NUMERICS: Dict[str, Any] = {
     "check_fd_tol": "1e-8",
     "report_sci_below": "1e-3",       # print in scientific notation below / above these
     "report_sci_above": "1e5",
+    # Part K (registrations/PART_K_Z3_OVERLAPS.md: every setting below is the registered one)
+    "k_fourier_modes": 128,           # N: Fourier modes -N..N of each profile
+    "k_quad_points": 576,             # M: trapezoid points (> 3N, divisible by 36)
+    "k_fourier_modes_check": 192,     # K2
+    "k_quad_points_check": 864,       # K2
+    "k_log_a_lo": -2,                 # search range of log10 a_q and log10 a_H
+    "k_log_a_hi": 4,
+    "k_log_a_grid": 9,                # start grid: 9 x 9 x 12 x 24
+    "k_theta_grid": 12,
+    "k_flux_grid": 24,
+    "k_starts": 10,                   # lowest grid points refined, per scale
+    "k_starts_check": 20,             # K3
+    "k_random_starts": 200,           # K3
+    "k_boundary_extend": 2,           # decades added once if the best point sits on a range edge
+    "k_min_step": "1e-6",             # compass-search resolution in the search coordinates
+    "k_mode_floor": "1e-18",          # Fourier coefficients below this (relative) are below double precision
+    "k_shift_rel": "1e-10",           # inverse-iteration shift below the bisected ground-state energy
+    "k_inverse_iterations": 4,
+    "k_check_points": 20,             # K0a-c
+    "k_tol_J": "1e-12",               # K0a
+    "k_tol_unit": "1e-9",             # K0b, K0c
+    "k_tol_converged": "1e-6",        # K2, K4 (determinant)
+    "k_tol_search": "0.01",           # K3: a lower minimum by more than 1% fails it
+    "k_tol_unitarity": "1e-12",       # K4
+    "k_degenerate_ratio": 1000,       # eigenvalues of H counted distinct if the gap exceeds this x pair split
 }
 # Scales are never typed in: Parts B and C are evaluated at m_t(m_t) and at the superpartner
 # scale M_S that Part I derives; Part J uses the unification scales it computes and M_Planck.
@@ -2178,6 +2207,344 @@ def yukawa_relations(flav: Dict[str, Any], m_s_susy: float | None, m_gut: float 
 
 
 # =============================================================================
+# 6i. PART K: QUARK MASSES AND CKM FROM OVERLAPS ON THE Z3 CIRCLE (registered)
+# =============================================================================
+# The computation registered in registrations/PART_K_Z3_OVERLAPS.md (commit 7274f77) before
+# any of its numbers was computed. Three generations sit at the Z3 points theta_k = 2 pi k/3 of a
+# circle; every quark profile is the ground state of -(d - i s)^2 + a_q (1 - cos theta) with one
+# shared a_q, and the Higgs that of the same operator with a_H, centred at theta_H. A constant
+# hypercharge connection (holonomy Phi) enters as s = q Phi / 2 pi. Yukawas are triple overlaps;
+# the four unknowns (a_q, a_H, theta_H, Phi) are scanned, never set; 8 data, 4 predictions.
+K_SCALE_KEYS = ("r_uc", "r_ct", "r_ds", "r_sb")
+
+
+def k_flux_units() -> Tuple[Dict[str, int], int]:
+    """Hypercharges of Q, u_R, d_R, H as integers in units of their common denominator D.
+    With f = Phi/(2 pi D) the shift s = q Phi/2 pi is (D q) f, and f has period 1."""
+    y = {f[0]: f[3] for f in SM_FIELDS}
+    q = {"Q": y["Q"], "u": -y["u^c"], "d": -y["d^c"], "H": y["H"]}
+    den = 1
+    for v in q.values():
+        den = den * v.denominator // math.gcd(den, v.denominator)
+    return {k: int(v * den) for k, v in q.items()}, den
+
+
+class Z3Overlaps:
+    """Profiles, Yukawa matrices and observables of the registered model, at fixed (N, M)."""
+
+    def __init__(self, n_modes: int, m_points: int):
+        if m_points <= 3 * n_modes or m_points % 36:
+            raise ValueError("need M > 3N and M divisible by 36")
+        self.n, self.m = n_modes, m_points
+        self.units, self.den = k_flux_units()
+        self.w = [cmath.exp(2 * 1j * math.pi * k / m_points) for k in range(m_points)]
+        self.rows: Dict[int, List[complex]] = {}
+        self.cache: Dict[Any, Any] = {}
+
+    def _row(self, n: int) -> List[complex]:
+        if n not in self.rows:
+            self.rows[n] = [self.w[(n * k) % self.m] for k in range(self.m)]
+        return self.rows[n]
+
+    def ground_state(self, a: float, s: float) -> List[float]:
+        """c_n, n = -N..N: ground state of T_nn = (n - s)^2 + a, T_n,n+-1 = -a/2 (D1); c_n > 0,
+        2 pi sum c_n^2 = 1. Sturm bisection for the energy, then inverse iteration (T - sigma) x = b."""
+        key = ("c", a, s)
+        if key in self.cache:
+            return self.cache[key]
+        ns = range(-self.n, self.n + 1)
+        d = [(n - s) ** 2 + a for n in ns]
+        e2 = (a / 2) ** 2
+
+        def below(x: float) -> int:
+            cnt, q = 0, 1.0
+            for k, dk in enumerate(d):
+                q = dk - x - (e2 / q if k else 0)
+                if q == 0:
+                    q = math.ulp(abs(x) + 1)
+                cnt += q < 0
+            return cnt
+        lo, hi = min(d) - a, min(d)
+        while True:
+            mid = (lo + hi) / 2
+            if mid in (lo, hi):
+                break
+            lo, hi = (lo, mid) if below(mid) >= 1 else (mid, hi)
+        sigma = lo - num("k_shift_rel") * (abs(lo) + a + 1)
+        off = -a / 2
+        x = [1.0] * len(d)
+        for _ in range(int(num("k_inverse_iterations"))):
+            # Thomas algorithm; T - sigma is positive definite since sigma lies below the spectrum
+            cp, dp = [0.0] * len(d), [0.0] * len(d)
+            for k in range(len(d)):
+                den = d[k] - sigma - (off * cp[k - 1] if k else 0)
+                cp[k] = off / den
+                dp[k] = (x[k] - (off * dp[k - 1] if k else 0)) / den
+            for k in range(len(d) - 1, -1, -1):
+                x[k] = dp[k] - (cp[k] * x[k + 1] if k + 1 < len(d) else 0)
+            big = max(abs(v) for v in x)
+            x = [v / big for v in x]
+        if sum(x) < 0:
+            x = [-v for v in x]
+        norm = math.sqrt(2 * math.pi * sum(v * v for v in x))
+        c = [v / norm for v in x]
+        self.cache[key] = c
+        return c
+
+    def profile(self, a: float, s: float, theta_c: float) -> List[complex]:
+        """chi(theta_m - theta_c) on the M quadrature points, from its Fourier series."""
+        key = ("p", a, s, theta_c)
+        if key in self.cache:
+            return self.cache[key]
+        c = self.ground_state(a, s)
+        floor = max(c) * num("k_mode_floor")
+        vals = [complex()] * self.m
+        for idx, cn in enumerate(c):
+            if cn <= floor:
+                continue
+            n = idx - self.n
+            b = cn * cmath.exp(-1j * n * theta_c)
+            vals = [v + b * r for v, r in zip(vals, self._row(n))]
+        self.cache[key] = vals
+        return vals
+
+    def _rolled(self, vals: List[complex], shift: int) -> List[complex]:
+        return [vals[(k - shift) % self.m] for k in range(self.m)]
+
+    def quark_products(self, a_q: float, f: float):
+        """conj(Psi_Q,i) Psi_q,j on the grid for both sectors (they depend on a_q and the flux only)."""
+        key = ("P", a_q, f)
+        if key in self.cache:
+            return self.cache[key]
+        third = self.m // 3
+        gen = {}
+        for sp in ("Q", "u", "d"):
+            base = self.profile(a_q, self.units[sp] * f, 0.0)
+            gen[sp] = [self._rolled(base, k * third) for k in range(3)]
+        prods = {sec: [[[qi.conjugate() * qj for qi, qj in zip(gen["Q"][i], gen[sec][j])] for j in range(3)]
+                       for i in range(3)] for sec in ("u", "d")}
+        self.cache[key] = prods
+        return prods
+
+    def higgs(self, a_h: float, f: float, t: float) -> List[complex]:
+        """Higgs profile centred at theta_H = t 2 pi/3."""
+        s = self.units["H"] * f
+        k = t * self.m / 3
+        if math.isclose(k, round(k)):         # on a quadrature point: rotate the centred profile
+            return self._rolled(self.profile(a_h, s, 0.0), round(k) % self.m)
+        return self.profile(a_h, s, t * 2 * math.pi / 3)
+
+    def yukawas(self, a_q: float, a_h: float, t: float, f: float):
+        if len(self.cache) > 4096:            # bound the memory of the refinement stage
+            self.cache = {k: v for k, v in self.cache.items() if k[0] == "c"}
+        prods = self.quark_products(a_q, f)
+        h = self.higgs(a_h, f, t)
+        hc = [v.conjugate() for v in h]
+        wgt = 2 * math.pi / self.m
+        yu = [[wgt * sum(map(lambda p, x: p * x, prods["u"][i][j], hc)) for j in range(3)] for i in range(3)]
+        yd = [[wgt * sum(map(lambda p, x: p * x, prods["d"][i][j], h)) for j in range(3)] for i in range(3)]
+        return yu, yd
+
+    def point(self, x: Sequence[float]) -> Dict[str, Any] | None:
+        """Observables at search coordinates x = (log10 a_q, log10 a_H, t, f); theta_H = t 2 pi/3."""
+        la_q, la_h, t, f = x
+        yu, yd = self.yukawas(10 ** la_q, 10 ** la_h, t, f % 1)
+        out: Dict[str, Any] = {"Y_u": yu, "Y_d": yd}
+        sectors = {}
+        for name, y in (("u", yu), ("d", yd)):
+            big = max(abs(v) for row in y for v in row)
+            if big == 0:
+                return None
+            yn = [[v / big for v in row] for row in y]
+            h = [[sum(yn[i][k] * yn[j][k].conjugate() for k in range(3)) for j in range(3)] for i in range(3)]
+            eig = hermitian_eigh(h)
+            if eig is None or eig[0][0] <= 0:
+                return None
+            sectors[name] = (eig, yn)
+        (eu, uu), (ed, ud) = sectors["u"][0], sectors["d"][0]
+        v = [[sum(uu[k][a].conjugate() * ud[k][b] for k in range(3)) for b in range(3)] for a in range(3)]
+        mu = [math.sqrt(e) for e in eu]
+        md = [math.sqrt(e) for e in ed]
+        # the four registered observables, with the formulas of ckm_observables (its ratios can divide by 0)
+        obs = {"V_us": abs(v[0][1]), "V_cb": abs(v[1][2]), "V_ub": abs(v[0][2]),
+               "J": (v[0][1] * v[1][2] * v[0][2].conjugate() * v[1][1].conjugate()).imag}
+        out.update({"V": v, "m_u": mu, "m_d": md, "obs": obs,
+                    "ratios": {"r_uc": mu[0] / mu[1], "r_ct": mu[1] / mu[2],
+                               "r_ds": md[0] / md[1], "r_sb": md[1] / md[2]},
+                    "Yn": {"u": sectors["u"][1], "d": sectors["d"][1]}})
+        return out
+
+
+def hermitian_eigh(h: List[List[complex]]):
+    """Eigenvalues (ascending) and eigenvector columns of a 3x3 Hermitian matrix through its real 6x6
+    embedding [[Re, -Im], [Im, Re]] (D3). None if two eigenvalues are not clearly distinct."""
+    n = len(h)
+    emb = [[0.0] * (2 * n) for _ in range(2 * n)]
+    for i in range(n):
+        for j in range(n):
+            emb[i][j] = emb[i + n][j + n] = h[i][j].real
+            emb[i][j + n] = -h[i][j].imag
+            emb[i + n][j] = h[i][j].imag
+    ev, o = jacobi_eigh(emb, num("jacobi_tol"))
+    split = max(abs(ev[2 * k + 1] - ev[2 * k]) for k in range(n))
+    gaps = [ev[2 * k + 2] - ev[2 * k + 1] for k in range(n - 1)]
+    if min(gaps) <= num("k_degenerate_ratio") * split:
+        return None
+    vals, cols = [], []
+    for k in range(n):
+        col = [o[r][2 * k] for r in range(2 * n)]
+        vec = [complex(col[r], col[r + n]) for r in range(n)]
+        nrm = math.sqrt(sum(abs(z) ** 2 for z in vec))
+        vals.append((ev[2 * k] + ev[2 * k + 1]) / 2)
+        cols.append([z / nrm for z in vec])
+    return vals, [[cols[k][r] for k in range(n)] for r in range(n)]
+
+
+def k_measured(flav: Dict[str, Any], mu: float) -> Dict[str, Any]:
+    """ln of the run mass ratios and their input-propagated errors at one scale, and the CKM data."""
+    r = flav["ratios"][mu]
+    out = {"ln": {k: math.log(r[k]) for k in K_SCALE_KEYS}, "sig": {}}
+    for k in K_SCALE_KEYS:
+        v2 = 0.0
+        for name in FLAVOUR_UNCERTAIN:
+            plus, minus = flav["varied"][name]
+            v2 += ((math.log(plus[mu][k]) - math.log(minus[mu][k])) / 2) ** 2
+        out["sig"][k] = math.sqrt(v2)
+    out["ckm"] = {k: _comparison(k) for k in SURVEY_OBS}
+    return out
+
+
+def k_chi2(p: Dict[str, Any] | None, meas: Dict[str, Any]) -> float:
+    if p is None:
+        return math.inf
+    tot = 0.0
+    for k in K_SCALE_KEYS:
+        tot += ((math.log(p["ratios"][k]) - meas["ln"][k]) / meas["sig"][k]) ** 2
+    for k in SURVEY_OBS:
+        m, up, dn = meas["ckm"][k]
+        val = p["obs"][k]
+        tot += ((val - m) / (up if val > m else dn)) ** 2
+    return tot
+
+
+def k_search(model: Z3Overlaps, meas_by_scale: Dict[float, Dict[str, Any]], la_range: Tuple[float, float],
+             n_starts: int, extra_starts: Sequence[Sequence[float]] = ()) -> Dict[float, Dict[str, Any]]:
+    """Registered search: the start grid (both scales at once), then the n_starts lowest grid points
+    per scale, plus any extra starts, refined by compass search."""
+    lo, hi = la_range
+    step_a = (num("k_log_a_hi") - num("k_log_a_lo")) / (int(num("k_log_a_grid")) - 1)   # registered spacing
+    las = [lo + k * step_a for k in range(int(round((hi - lo) / step_a)) + 1)]
+    nt, nf = int(num("k_theta_grid")), int(num("k_flux_grid"))
+    grid: Dict[float, List[Tuple[float, Tuple[float, ...]]]] = {mu: [] for mu in meas_by_scale}
+    for la_q in las:
+        for fi in range(nf):
+            for la_h in las:
+                for ti in range(nt):
+                    x = (la_q, la_h, ti / nt, fi / nf)
+                    p = model.point(x)
+                    for mu, meas in meas_by_scale.items():
+                        grid[mu].append((k_chi2(p, meas), x))
+
+    def clamp(x: Sequence[float]) -> List[float]:
+        return [min(max(x[0], lo), hi), min(max(x[1], lo), hi), x[2] % 1, x[3] % 1]
+    out = {}
+    for mu, meas in meas_by_scale.items():
+        grid[mu].sort(key=lambda r: r[0])
+        starts = [list(x) for _, x in grid[mu][:n_starts]] + [list(x) for x in extra_starts]
+        best = (math.inf, None)
+        refined = []
+        for x0 in starts:
+            x, val = _minimize(lambda y: k_chi2(model.point(clamp(y)), meas), list(x0),
+                               [step_a, step_a, 1 / nt, 1 / nf], num("k_min_step"))
+            x = clamp(x)
+            refined.append(val)
+            if val < best[0]:
+                best = (val, x)
+        out[mu] = {"chi2": best[0], "x": best[1], "grid_best": grid[mu][0][0], "refined": refined,
+                   "range": la_range}
+    return out
+
+
+def k_box_points(n: int) -> List[List[float]]:
+    """Deterministic points in the search box from the script's integer stream (seed closure_seed)."""
+    draw = _IntStream(int(num("closure_seed")))
+    lo, hi = num("k_log_a_lo"), num("k_log_a_hi")
+    return [[lo + (hi - lo) * (draw() - 1) / 96, lo + (hi - lo) * (draw() - 1) / 96, (draw() - 1) / 97,
+             (draw() - 1) / 97] for _ in range(n)]
+
+
+def run_part_k(flav: Dict[str, Any], scales: Sequence[float], full_checks: bool = False) -> Dict[str, Any]:
+    model = Z3Overlaps(int(num("k_fourier_modes")), int(num("k_quad_points")))
+    meas = {mu: k_measured(flav, mu) for mu in scales}
+    lo, hi = num("k_log_a_lo"), num("k_log_a_hi")
+    res: Dict[str, Any] = {"measured": meas, "units": model.units, "flux_period_over_2pi": model.den}
+    search = k_search(model, meas, (lo, hi), int(num("k_starts")))
+    # boundary rule: extend once by k_boundary_extend decades on the side the best point touches
+    ext = num("k_boundary_extend")
+    extended = {}
+    for mu, r in search.items():
+        la = r["x"][:2]
+        new_lo = lo - ext if any(v <= lo + num("k_min_step") for v in la) else lo
+        new_hi = hi + ext if any(v >= hi - num("k_min_step") for v in la) else hi
+        if (new_lo, new_hi) != (lo, hi):
+            extended[mu] = k_search(model, {mu: meas[mu]}, (new_lo, new_hi), int(num("k_starts")))[mu]
+    res["search"], res["extended"] = search, extended
+    final = {mu: (extended[mu] if mu in extended and extended[mu]["chi2"] < search[mu]["chi2"] else search[mu])
+             for mu in scales}
+    res["final"] = final
+    for mu, r in final.items():
+        r["sigma"] = pvalue_to_sigma(chi2_pvalue(r["chi2"], 4))
+        r["survives"] = r["sigma"] <= num("survival_sigma")
+        p = model.point(r["x"])
+        r["point_obs"] = {"ratios": p["ratios"], "obs": p["obs"]}
+    # K0: the theorems, at deterministic points with no flux
+    pts = k_box_points(int(num("k_check_points")))
+    # points where two masses are degenerate have no defined V (D3); they are counted, not used
+    gen_pts = [model.point([x[0], x[1], x[2], 0.0]) for x in pts]
+    sym_pts = [model.point([x[0], x[1], t, 0.0]) for x in pts for t in (0, 1 / 2, 2)]
+    k0a = max(abs(p["obs"]["J"]) for p in gen_pts if p is not None)
+    k0b = min(max(abs(v) for row in p["V"] for v in row) for p in sym_pts if p is not None)
+    k0c_v, k0c_r = 0.0, 0.0
+    for p in gen_pts:
+        if p is None:
+            continue
+        k0c_v = max(k0c_v, max(abs(1 - abs(p["V"][i][i])) for i in range(3)))
+        rr = p["ratios"]
+        k0c_r = max(k0c_r, abs(rr["r_uc"] / rr["r_ds"] - 1), abs(rr["r_ct"] / rr["r_sb"] - 1))
+    res["K0"] = {"max_abs_J": k0a, "min_max_abs_V": k0b, "max_1_minus_Vii": k0c_v, "max_ratio_diff": k0c_r,
+                 "degenerate": {"generic": sum(p is None for p in gen_pts), "symmetric": sum(p is None for p in sym_pts),
+                                "of": (len(gen_pts), len(sym_pts))}}
+    # K2: finer numerics at each best point
+    fine = Z3Overlaps(int(num("k_fourier_modes_check")), int(num("k_quad_points_check")))
+    res["K2"] = {mu: abs(k_chi2(fine.point(r["x"]), meas[mu]) / r["chi2"] - 1) for mu, r in final.items()}
+    # K4: determinant and unitarity at each best point
+    k4 = {}
+    for mu, r in final.items():
+        p = model.point(r["x"])
+        det_rel = 0.0
+        for sec, masses in (("u", p["m_u"]), ("d", p["m_d"])):
+            dt = _cdet([[_Cx(z.real, z.imag) for z in row] for row in p["Yn"][sec]])
+            det2 = dt.r ** 2 + dt.i ** 2
+            prod = (masses[0] * masses[1] * masses[2]) ** 2
+            det_rel = max(det_rel, abs(prod / det2 - 1))
+        v = p["V"]
+        unit = max(abs(sum(v[i][k] * v[j][k].conjugate() for k in range(3)) - (i == j))
+                   for i in range(3) for j in range(3))
+        k4[mu] = {"det_rel": det_rel, "unitarity": unit}
+    res["K4"] = k4
+    # K3 (long; run with --part-k-search-check): more starts and random starts
+    if full_checks:
+        extra = k_box_points(int(num("k_random_starts")))
+        k3 = {}
+        for mu, r in final.items():
+            chk = k_search(model, {mu: meas[mu]}, r["range"], int(num("k_starts_check")), extra)[mu]
+            k3[mu] = {"chi2": chk["chi2"], "x": chk["x"],
+                      "lower_by": (r["chi2"] - chk["chi2"]) / r["chi2"]}
+        res["K3"] = k3
+    return res
+
+
+# =============================================================================
 # 7. COSMOLOGY (Decimal arithmetic)
 # =============================================================================
 def dec_pi() -> Decimal:
@@ -2527,7 +2894,8 @@ def _fmt(x: float, nd: int = 5) -> str:
     return f"{x:.{nd}g}"
 
 
-def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[str, Any]:
+def run(scales: Sequence[float] | None = None, prec: int | None = None,
+        part_k_search_check: bool = False) -> Dict[str, Any]:
     prec = int(prec or NUMERICS["precision_digits"])
     steps = int(NUMERICS["rg_steps_per_efold"])
     grid = int(NUMERICS["phase_grid"])
@@ -2552,6 +2920,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
     qg = quantum_gravity(cosmo, flav)
     m_gut = alpha_unif.get("M_S_for_measured_alpha", {}).get("M_GUT_GeV")
     yukawa = yukawa_relations(flav, m_susy, m_gut, qg["planck"]["E_P_GeV"])
+    part_k = run_part_k(flav, scales, part_k_search_check)
     checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
     checks.append(("Every symmetry found reproduces its target zeros exactly (recomputed from the charges)",
                    all(sv["verified"] for e in symm["by_beta"].values() for sv in e["survivors"]
@@ -2622,7 +2991,29 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
                    abs(yt_test - 6) < tol and abs(yl_test - 7) < tol, f"{yt_test:.3f}, {yl_test:.3f}"))
     checks.append(("Lambda_QCD (2-loop) reproduces alpha_s(M_Z)", abs(back / xf["alpha_s_MZ"] - 1) < tol,
                    f"rel diff {abs(back / xf['alpha_s_MZ'] - 1):.1e}"))
-    return {"scales": scales, "cosmology": cosmo, "flavour": flav, "survey": survey, "yukawa_331": yuk,
+    k0 = part_k["K0"]
+    checks.append(("Part K, K0a: with no flux every profile is real, so J = 0", k0["max_abs_J"] <= num("k_tol_J"),
+                   f"max |J| {k0['max_abs_J']:.1e}"))
+    checks.append(("Part K, K0b: no flux and the Higgs on a symmetry point give some |V_ij| = 1 (theorem D6)",
+                   k0["min_max_abs_V"] >= 1 - num("k_tol_unit"),
+                   f"min max|V_ij| = {k0['min_max_abs_V']:.12f}; {k0['degenerate']['symmetric']} of"
+                   f" {k0['degenerate']['of'][1]} points have degenerate masses, so no V"))
+    checks.append(("Part K, K0c: no flux makes the two sectors identical, V = 1 (theorem D8)",
+                   k0["max_1_minus_Vii"] <= num("k_tol_unit") and k0["max_ratio_diff"] <= num("k_tol_unit"),
+                   f"max |1 - |V_ii|| {k0['max_1_minus_Vii']:.1e}, ratio diff {k0['max_ratio_diff']:.1e}"))
+    k2 = max(part_k["K2"].values())
+    checks.append(("Part K, K2: chi^2 at the best point unchanged with N = 192, M = 864", k2 < num("k_tol_converged"),
+                   f"max rel change {k2:.1e}"))
+    k4d = max(v["det_rel"] for v in part_k["K4"].values())
+    k4u = max(v["unitarity"] for v in part_k["K4"].values())
+    checks.append(("Part K, K4: |det Y|^2 = product of the masses^2, and V unitary, at the best point",
+                   k4d < num("k_tol_converged") and k4u < num("k_tol_unitarity"),
+                   f"det rel diff {k4d:.1e}, |VV^dag - 1| {k4u:.1e}"))
+    if "K3" in part_k:
+        k3 = max(v["lower_by"] for v in part_k["K3"].values())
+        checks.append(("Part K, K3: 20 refined + 200 random starts find no lower minimum (more than 1%)",
+                       k3 <= num("k_tol_search"), f"largest relative improvement {k3:.1e}"))
+    return {"part_k": part_k, "scales": scales, "cosmology": cosmo, "flavour": flav, "survey": survey, "yukawa_331": yuk,
             "symmetry": symm, "closure": closure, "quantum_gravity": qg, "alpha_unification": alpha_unif,
             "alpha_numerology": alpha_num, "yukawa": yukawa, "checks": checks, "precision": prec}
 
@@ -3051,6 +3442,45 @@ def report(res: Dict[str, Any]) -> str:
         w("    That is one number (tan beta), not a calculation of the Yukawas, and it is not checked")
         w("    here against the Higgs mass.")
     w("")
+    w("PART K. QUARK MASSES AND CKM FROM OVERLAPS ON THE Z3 CIRCLE (preregistered)")
+    w("-" * 78)
+    pk = res["part_k"]
+    w("  Registered before computing: registrations/PART_K_Z3_OVERLAPS.md (commit 7274f77).")
+    w("  Three generations at the Z3 points of a circle; every quark profile the ground state of")
+    w("  -(d - i s)^2 + a_q (1 - cos theta) with ONE a_q for Q, u, d; the Higgs the same with a_H at")
+    w("  theta_H; a hypercharge holonomy Phi, s = q Phi/2pi; Yukawas = triple overlaps, diagonalized.")
+    w(f"  Flux units (6 q): Q {pk['units']['Q']}, u {pk['units']['u']}, d {pk['units']['d']}, H {pk['units']['H']};"
+      f" Phi has period {2 * pk['flux_period_over_2pi']} pi.")
+    w("  Unknowns a_q, a_H, theta_H, Phi: all scanned. 8 data (4 mass ratios, |V_us|, |V_cb|, |V_ub|, J):")
+    w("  4 predictions, chi^2 with 4 dof. Registered expectation: excluded (theorems D6, D8; estimate D7).")
+    w("  Exact results checked numerically (self-checks K0a-c): with no flux J = 0, V = 1 and the up and")
+    w("  down mass ratios are equal, whatever the widths; with the Higgs on a fixed point (v7.0) some")
+    w("  |V_ij| = 1. So only the holonomy can separate the two sectors.")
+    for mu in res["scales"]:
+        r = pk["final"][mu]
+        ms = pk["measured"][mu]
+        po = r["point_obs"]
+        ext = " (after the registered range extension)" if mu in pk["extended"] else ""
+        sig_s = (f"{r['sigma']:.1f} sigma" if math.isfinite(r["sigma"]) else
+                 f"p below double precision, beyond {math.floor(pvalue_to_sigma(sys.float_info.min))} sigma")
+        w(f"  mu = {mu:.0f} GeV: chi^2_min = {r['chi2']:.1f} for 4 dof, {sig_s}{ext}:"
+          f" {'SURVIVES' if r['survives'] else 'EXCLUDED'}")
+        w("    at the point of least chi^2 (a hypothesis test, not a determination):")
+        w("      " + "  ".join(f"{k} {po['ratios'][k]:.3e} (meas {math.exp(ms['ln'][k]):.3e})" for k in K_SCALE_KEYS))
+        w("      " + "  ".join(f"{k} {_fmt(po['obs'][k], 3)} (meas {_fmt(ms['ckm'][k][0], 3)})" for k in SURVEY_OBS))
+    if "K3" in pk:
+        for mu, v in pk["K3"].items():
+            w(f"  K3 at {mu:.0f} GeV: 20 + 200 starts give chi^2_min = {v['chi2']:.1f}")
+    else:
+        w("  K3 (more starts) runs with --part-k-search-check; its result is in the registration document.")
+    surv = [mu for mu in res["scales"] if pk["final"][mu]["survives"]]
+    if surv:
+        w("  RESULT: the Z3 overlap model survives at " + ", ".join(f"{m:.0f} GeV" for m in surv)
+          + ": a candidate with 4 predictions, against the registered expectation.")
+    else:
+        w("  RESULT: excluded at every scale, as registered. The Z3 overlap geometry with one quark width and")
+        w("    no typed factors cannot give the quark masses and the CKM matrix together.")
+    w("")
     w("SELF-CHECKS (correctness of the calculation, not agreement with data)")
     w("-" * 78)
     for name, ok, detail in res["checks"]:
@@ -3090,6 +3520,7 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
         "quantum_gravity": res["quantum_gravity"],
         "alpha_unification": res["alpha_unification"], "alpha_numerology": res["alpha_numerology"],
         "yukawa": res["yukawa"], "scales": res["scales"],
+        "part_k": {k: v for k, v in res["part_k"].items() if k != "measured"},
         "checks": [{"name": n, "pass": ok, "detail": d} for n, ok, d in res["checks"]],
     })
 
@@ -3100,9 +3531,11 @@ def main(argv: Sequence[str] | None = None) -> int:
                     help="evaluation scales in GeV (default: m_t(m_t) and the superpartner scale from Part I)")
     ap.add_argument("--precision", type=int, default=None, help="Decimal digits for the cosmology")
     ap.add_argument("--json-out", type=str, default=None, help="write every number to this JSON file")
+    ap.add_argument("--part-k-search-check", action="store_true",
+                    help="also run Part K's registered check K3 (more starts; about an hour)")
     args = ap.parse_args(argv)
     t0 = time.perf_counter()
-    res = run(args.scales, args.precision)
+    res = run(args.scales, args.precision, args.part_k_search_check)
     print(report(res))
     if args.json_out:
         with open(args.json_out, "w", encoding="utf-8") as fh:

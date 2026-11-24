@@ -397,6 +397,30 @@ PART J. CAN THE YUKAWA COUPLINGS BE CALCULATED FROM THE OTHER NUMBERS?
     That is one number (tan beta), not a calculation of the Yukawas, and it is not checked
     here against the Higgs mass.
 
+PART K. QUARK MASSES AND CKM FROM OVERLAPS ON THE Z3 CIRCLE (preregistered)
+------------------------------------------------------------------------------
+  Registered before computing: registrations/PART_K_Z3_OVERLAPS.md (commit 7274f77).
+  Three generations at the Z3 points of a circle; every quark profile the ground state of
+  -(d - i s)^2 + a_q (1 - cos theta) with ONE a_q for Q, u, d; the Higgs the same with a_H at
+  theta_H; a hypercharge holonomy Phi, s = q Phi/2pi; Yukawas = triple overlaps, diagonalized.
+  Flux units (6 q): Q 1, u 4, d -2, H 3; Phi has period 12 pi.
+  Unknowns a_q, a_H, theta_H, Phi: all scanned. 8 data (4 mass ratios, |V_us|, |V_cb|, |V_ub|, J):
+  4 predictions, chi^2 with 4 dof. Registered expectation: excluded (theorems D6, D8; estimate D7).
+  Exact results checked numerically (self-checks K0a-c): with no flux J = 0, V = 1 and the up and
+  down mass ratios are equal, whatever the widths; with the Higgs on a fixed point (v7.0) some
+  |V_ij| = 1. So only the holonomy can separate the two sectors.
+  mu = 163 GeV: chi^2_min = 40571.3 for 4 dof, p below double precision, beyond 37 sigma: EXCLUDED
+    at the point of least chi^2 (a hypothesis test, not a determination):
+      r_uc 9.083e-02 (meas 1.939e-03)  r_ct 1.655e-02 (meas 3.811e-03)  r_ds 2.131e-01 (meas 5.027e-02)  r_sb 9.382e-03 (meas 1.911e-02)
+      V_us 0.209 (meas 0.225)  V_cb 0.0296 (meas 0.0418)  V_ub 0.00463 (meas 0.00373)  J 3.69e-07 (meas 3.12e-05)
+  mu = 2536 GeV: chi^2_min = 41283.1 for 4 dof, p below double precision, beyond 37 sigma: EXCLUDED
+    at the point of least chi^2 (a hypothesis test, not a determination):
+      r_uc 9.242e-02 (meas 1.939e-03)  r_ct 1.649e-02 (meas 3.735e-03)  r_ds 2.139e-01 (meas 5.027e-02)  r_sb 9.442e-03 (meas 1.950e-02)
+      V_us 0.209 (meas 0.225)  V_cb 0.0295 (meas 0.0418)  V_ub 0.00462 (meas 0.00373)  J 3.75e-07 (meas 3.12e-05)
+  K3 (more starts) runs with --part-k-search-check; its result is in the registration document.
+  RESULT: excluded at every scale, as registered. The Z3 overlap geometry with one quark width and
+    no typed factors cannot give the quark masses and the CKM matrix together.
+
 SELF-CHECKS (correctness of the calculation, not agreement with data)
 ------------------------------------------------------------------------------
   [PASS] QCD beta coefficients from Casimirs: b0(nf=5) = 23/3, b1(nf=5) = 116/3  (b0 = 23/3, b1 = 116/3)
@@ -431,6 +455,11 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Yukawa-RGE gauge coefficients from Casimirs = textbook (SM and MSSM; t, b, tau)
   [PASS] MSSM Yukawa self-terms from field multiplicities: 6 y_t^3, (3 y_b^2 + 4 y_tau^2) y_tau  (6.000, 7.000)
   [PASS] Lambda_QCD (2-loop) reproduces alpha_s(M_Z)  (rel diff 2.2e-16)
-  32/32 checks pass
+  [PASS] Part K, K0a: with no flux every profile is real, so J = 0  (max |J| 5.2e-45)
+  [PASS] Part K, K0b: no flux and the Higgs on a symmetry point give some |V_ij| = 1 (theorem D6)  (min max|V_ij| = 1.000000000000; 6 of 60 points have degenerate masses, so no V)
+  [PASS] Part K, K0c: no flux makes the two sectors identical, V = 1 (theorem D8)  (max |1 - |V_ii|| 4.4e-16, ratio diff 0.0e+00)
+  [PASS] Part K, K2: chi^2 at the best point unchanged with N = 192, M = 864  (max rel change 4.4e-12)
+  [PASS] Part K, K4: |det Y|^2 = product of the masses^2, and V unitary, at the best point  (det rel diff 3.3e-11, |VV^dag - 1| 2.9e-13)
+  37/37 checks pass
 ==============================================================================
-Elapsed: 80.3 s
+Elapsed: 187.5 s
