@@ -206,12 +206,144 @@ NUMERICS: Dict[str, Any] = {
 # scale M_S that Part I derives; Part J uses the unification scales it computes and M_Planck.
 
 
+# =============================================================================
+# 3b. ONE MODEL: EVERY STAGE, WHAT IT ASSUMES, AND WHAT IT READS
+# =============================================================================
+# The simulation is one algorithm. Each stage below runs once, in order; a number
+# is calculated in the stage that produces it and handed to every later stage
+# that needs it. The dependency graph is not typed in: every read of a measured
+# input and every read of another stage's result is recorded while the stages
+# run, so the graph in the report is the one the code actually follows.
+#   level: proved / exact / numerical / conditional / parameter trade / validation
+#   uv:    the field content the stage assumes above the electroweak scale, where
+#          it assumes one. Stages that assume different ones cannot both hold.
+STAGES: Dict[str, Dict[str, str]] = {
+    "cosmology": {"part": "A", "level": "conditional",
+                  "assumes": "flat LambdaCDM: Omega_Lambda = 1 - Omega_m - Omega_r"},
+    "gauge_unification": {"part": "I", "level": "parameter trade", "uv": "MSSM above M_S",
+                          "assumes": "one superpartner scale M_S; the measured alpha is spent to infer it"},
+    "alpha_numerology": {"part": "I", "level": "exact", "assumes": "none (tests closed formulas)"},
+    "flavour": {"part": "B", "level": "numerical",
+                "assumes": "Fritzsch six-zero texture; phase bands from a finite grid plus local search"},
+    "texture_survey": {"part": "C", "level": "numerical",
+                       "assumes": "Hermitian textures; joint fits start from a finite grid, so an "
+                                  "exclusion could miss a minimum"},
+    "gauge_331": {"part": "D", "level": "exact", "assumes": "3-3-1 representations, beta = -1/sqrt3, +1/sqrt3"},
+    "flavour_symmetry_331": {"part": "E", "level": "exact",
+                             "assumes": "abelian Z_N up to symmetry_max_N; scalar potential not solved"},
+    "general_texture_closure": {"part": "F", "level": "proved",
+                                "assumes": "equalities only: a rank-10 pattern may still miss the data"},
+    "quantum_gravity": {"part": "H", "level": "exact",
+                        "assumes": "identities and effective field theory; nothing derives G"},
+    "yukawa_relations": {"part": "J", "level": "conditional", "uv": "MSSM above M_S",
+                         "assumes": "M_S and M_GUT from Part I"},
+    "higgs_mssm": {"part": "K", "level": "conditional", "uv": "MSSM above M_S",
+                   "assumes": "M_S from Part I, tan(beta) from Part J, one-loop stop threshold"},
+    "criticality": {"part": "L", "level": "conditional", "uv": "SM up to M_P",
+                    "assumes": "lambda(M_P) = 0; two-loop running, one-loop matching"},
+    "self_checks": {"part": "-", "level": "validation", "assumes": "tests the calculation, not the physics"},
+}
+
+# What the dependency audit found that the traced graph cannot show by itself.
+AUDIT_FINDINGS: Tuple[Tuple[str, str], ...] = (
+    ("resolved", "The SM couplings at m_t(m_t) were derived by two copies of the same formulas "
+                 "(Parts J/K and Part L). There is now one derivation, sm_state_at_mt."),
+    ("open", "Part L rebuilds the quark-mass running instead of taking the flavour stage's: same "
+             "function, same numbers, because its error propagation re-runs the chain per input."),
+    ("open", "Parts I, J, K assume the MSSM above M_S; Part L assumes the SM up to M_P. Both cannot "
+             "hold. A single model must choose, and then the other stages' results lapse."),
+    ("open", "No stage feeds cosmology: H0 and Omega_m are inputs. A shared mechanism would need "
+             "equations for the dark-matter density and Lambda."),
+    ("open", "No stage derives G: M_P is calculated from it and handed to Parts J and L."),
+    ("open", "The quark masses and mixing are inputs to the textures. Connecting them to 3-3-1 needs "
+             "the scalar potential, its vacuum, and the vevs that multiply the Yukawa couplings."),
+    ("open", "No common mechanism yet: no stage computes a quantity that two sectors both take "
+             "from it except M_S, M_GUT (Part I) and M_P (Part H)."),
+)
+
+_TRACE: Dict[str, Any] = {"stage": None, "inputs": {}, "uses": {}, "set": {}}
+
+
+def _note_input(name: str) -> None:
+    if _TRACE["stage"]:
+        _TRACE["inputs"].setdefault(_TRACE["stage"], set()).add(name)
+
+
+def _note_use(producer: str) -> None:
+    s = _TRACE["stage"]
+    if s and s != producer:
+        _TRACE["uses"].setdefault(s, set()).add(producer)
+
+
+def _input_value(name: str) -> str:
+    """The one place a measured value is read: recorded, and replaced if --set changed it."""
+    _note_input(name)
+    return _TRACE["set"].get(name, INPUTS[name]["value"])
+
+
 def inp(name: str) -> float:
-    return float(INPUTS[name]["value"])
+    return float(_input_value(name))
 
 
 def sig(name: str) -> float:
+    _note_input(name)
     return float(INPUTS[name]["sigma"])
+
+
+def inp_decimal(name: str) -> Decimal:
+    return Decimal(_input_value(name))
+
+
+def sig_decimal(name: str) -> Decimal:
+    _note_input(name)
+    return Decimal(INPUTS[name]["sigma"])
+
+
+class _InputView(dict):
+    """All measured inputs as floats; each read is recorded for the stage that makes it."""
+
+    def __getitem__(self, k: str) -> float:
+        _note_input(k)
+        return dict.__getitem__(self, k)
+
+
+class _Output(dict):
+    """A stage's result. Reading it from inside another stage records that dependency."""
+    producer = ""
+
+    def __getitem__(self, k: Any) -> Any:
+        _note_use(self.producer)
+        return dict.__getitem__(self, k)
+
+    def get(self, k: Any, d: Any = None) -> Any:
+        _note_use(self.producer)
+        return dict.get(self, k, d)
+
+    def items(self):
+        _note_use(self.producer)
+        return dict.items(self)
+
+    def values(self):
+        _note_use(self.producer)
+        return dict.values(self)
+
+    def __iter__(self):
+        _note_use(self.producer)
+        return dict.__iter__(self)
+
+
+def _stage(name: str, thunk: Callable[[], Any]) -> Any:
+    """Run one stage of the model with its reads recorded under its name."""
+    prev, _TRACE["stage"] = _TRACE["stage"], name
+    _TRACE["inputs"].setdefault(name, set())
+    try:
+        out = thunk()
+    finally:
+        _TRACE["stage"] = prev
+    if isinstance(out, dict):
+        out = _Output(out)
+        out.producer = name
+    return out
 
 
 def num(name: str) -> float:
@@ -2168,26 +2300,9 @@ def yukawa_rhs(model: str):
 
 
 def couplings_at_mt(flav: Dict[str, Any]) -> Tuple[float, List[float]]:
-    """(m_t(m_t), [g1, g2, g3, y_t, y_b, y_tau]) at mu = m_t(m_t) from the measured inputs."""
-    x = _float_inputs()
-    runner = flav["runner"]
-    mt = runner.mt_msbar
-    base = flav["ratios"][mt]
-    v = runner.v
-    a_em = 1 / x["alpha_em_inv_MZ"]
-    s2 = x["s2_hat_Z"]
-    sm1 = [float(b) for b in sm_gauge_b()]
-    k = 16 * math.pi ** 2
-    g1sq = 4 * math.pi * a_em / (1 - s2) / float(GUT_NORM)
-    g2sq = 4 * math.pi * a_em / s2
-    lt = math.log(mt / x["M_Z"])
-    g1 = math.sqrt(1 / (1 / g1sq - 2 * sm1[0] / k * lt))
-    g2 = math.sqrt(1 / (1 / g2sq - 2 * sm1[1] / k * lt))
-    g3 = math.sqrt(4 * math.pi * base["alpha_s"])
-    lep = lepton_masses_gev()
-    m_tau = lepton_running_mass(lep["tau"], mt, inp("alpha_em"))
-    rt2 = math.sqrt(2)
-    return mt, [g1, g2, g3, rt2 * mt / v, rt2 * base["m_b"] / v, rt2 * m_tau / v]
+    """(m_t(m_t), [g1, g2, g3, y_t, y_b, y_tau]) at mu = m_t(m_t), from the flavour stage's running."""
+    mt, _, _, st = sm_state_at_mt(runner=flav["runner"])
+    return mt, st
 
 
 def run_to(state: List[float], mu0: float, mu1: float, model: str) -> List[float]:
@@ -2462,11 +2577,14 @@ def sm_rge(loops: int):
     return rhs
 
 
-def sm_state_at_mt(overrides: Dict[str, float] | None = None) -> Tuple[float, float, float, List[float]]:
+def sm_state_at_mt(overrides: Dict[str, float] | None = None, runner: "FlavourRunner | None" = None
+                   ) -> Tuple[float, float, float, List[float]]:
     """(m_t(m_t), v, M_t/m_t(m_t), [g1, g2, g3, y_t, y_b, y_tau]) at m_t(m_t), from the inputs
-    (with optional changes, for propagating their errors)."""
-    x = _float_inputs(overrides)
-    runner = FlavourRunner(x, int(num("rg_steps_per_efold")))
+    (with optional changes, for propagating their errors). The one derivation of these
+    couplings: pass a runner to reuse running that is already done."""
+    if runner is None:
+        runner = FlavourRunner(_float_inputs(overrides), int(num("rg_steps_per_efold")))
+    x = runner.x
     mt = runner.mt_msbar
     base = runner.ratios_at([mt])[mt]
     a_em, s2 = 1 / x["alpha_em_inv_MZ"], x["s2_hat_Z"]
@@ -2838,7 +2956,7 @@ def age_by_float_quadrature(om_r: float, om_m: float, om_l: float, steps: int, l
 # 8. THE SIMULATION
 # =============================================================================
 def _float_inputs(overrides: Dict[str, float] | None = None) -> Dict[str, float]:
-    x = {k: inp(k) for k in INPUTS}
+    x = _InputView({k: float(_TRACE["set"].get(k, INPUTS[k]["value"])) for k in INPUTS})
     if overrides:
         x.update(overrides)
     return x
@@ -2913,15 +3031,15 @@ def _derived_vub_over_vcb() -> None:
 
 
 def run_cosmology(prec: int) -> Dict[str, Any]:
-    base = {k: Decimal(INPUTS[k]["value"]) for k in INPUTS}
+    base = _InputView({k: Decimal(_TRACE["set"].get(k, INPUTS[k]["value"])) for k in INPUTS})
     out = cosmology(base, prec)
     var2 = 0.0
     var2_ol = 0.0
     for name in COSMO_UNCERTAIN:
         vals = []
         for s in (1, -1):
-            x = dict(base)
-            x[name] = base[name] + s * Decimal(INPUTS[name]["sigma"])
+            x = _InputView(base)
+            x[name] = base[name] + s * sig_decimal(name)
             vals.append(cosmology(x, prec))
         var2 += (float(vals[0]["age_Gyr"] - vals[1]["age_Gyr"]) / 2) ** 2
         var2_ol += (float(vals[0]["Omega_Lambda"] - vals[1]["Omega_Lambda"]) / 2) ** 2
@@ -3090,28 +3208,41 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
     steps = int(NUMERICS["rg_steps_per_efold"])
     grid = int(NUMERICS["phase_grid"])
     _derived_vub_over_vcb()
-    cosmo = run_cosmology(prec)
-    alpha_unif = alpha_from_unification()                         # Part I first: it supplies M_S
-    alpha_num = alpha_numerology()
-    m_susy = alpha_unif.get("M_S_for_measured_alpha", {}).get("M_S_GeV")
-    if not scales:
-        scales = [FlavourRunner(_float_inputs(), steps).mt_msbar] + ([m_susy] if m_susy else [])
-    scales = sorted(float(v) for v in scales)
-    flav = run_flavour(scales, steps, grid)
-    survey = run_survey(flav, scales)
-    yuk = {b: yukawa_structure_331(b) for b in (-1, 1)}
-    survivors = [(r["zeros_u"], r["zeros_d"]) for r in survey[scales[0]]["classes"]
-                 if r["status"] == "tested" and all(
-                     next(x for x in survey[mu]["classes"]
-                          if (x["zeros_u"], x["zeros_d"]) == (r["zeros_u"], r["zeros_d"]))["survives"]
-                     for mu in scales)]
-    symm = symmetry_search(yuk, survivors)
-    closure = general_texture_closure()
-    qg = quantum_gravity(cosmo, flav)
-    m_gut = alpha_unif.get("M_S_for_measured_alpha", {}).get("M_GUT_GeV")
-    yukawa = yukawa_relations(flav, m_susy, m_gut, qg["planck"]["E_P_GeV"])
-    higgs = higgs_mass_mssm(flav, alpha_unif, yukawa)
-    crit = sm_criticality(qg["planck"]["E_P_GeV"])
+    _TRACE.update(stage=None, inputs={}, uses={})
+    cosmo = _stage("cosmology", lambda: run_cosmology(prec))
+    alpha_unif = _stage("gauge_unification", alpha_from_unification)   # Part I first: it supplies M_S
+    alpha_num = _stage("alpha_numerology", alpha_numerology)
+
+    def flavour() -> Dict[str, Any]:
+        sc = scales
+        if not sc:
+            m_s = alpha_unif.get("M_S_for_measured_alpha", {}).get("M_S_GeV")
+            sc = [FlavourRunner(_float_inputs(), steps).mt_msbar] + ([m_s] if m_s else [])
+        sc = sorted(float(v) for v in sc)
+        out = run_flavour(sc, steps, grid)
+        out["evaluation_scales"] = sc
+        return out
+    flav = _stage("flavour", flavour)
+    scales = dict.__getitem__(flav, "evaluation_scales")
+    survey = _stage("texture_survey", lambda: run_survey(flav, scales))
+    yuk = _stage("gauge_331", lambda: {b: yukawa_structure_331(b) for b in (-1, 1)})
+
+    def survivors() -> List[Tuple[Any, Any]]:
+        return [(r["zeros_u"], r["zeros_d"]) for r in survey[scales[0]]["classes"]
+                if r["status"] == "tested" and all(
+                    next(x for x in survey[mu]["classes"]
+                         if (x["zeros_u"], x["zeros_d"]) == (r["zeros_u"], r["zeros_d"]))["survives"]
+                    for mu in scales)]
+    symm = _stage("flavour_symmetry_331", lambda: symmetry_search(yuk, survivors()))
+    closure = _stage("general_texture_closure", general_texture_closure)
+    qg = _stage("quantum_gravity", lambda: quantum_gravity(cosmo, flav))
+    yukawa = _stage("yukawa_relations", lambda: yukawa_relations(
+        flav, alpha_unif.get("M_S_for_measured_alpha", {}).get("M_S_GeV"),
+        alpha_unif.get("M_S_for_measured_alpha", {}).get("M_GUT_GeV"), qg["planck"]["E_P_GeV"]))
+    higgs = _stage("higgs_mssm", lambda: higgs_mass_mssm(flav, alpha_unif, yukawa))
+    crit = _stage("criticality", lambda: sm_criticality(qg["planck"]["E_P_GeV"]))
+    _TRACE["stage"] = "self_checks"                 # everything below validates the stages above
+    _TRACE["inputs"].setdefault("self_checks", set())
     checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
     # Part K checks
     k16 = 16 * math.pi ** 2
@@ -3259,11 +3390,57 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
                    abs(yt_test - 6) < tol and abs(yl_test - 7) < tol, f"{yt_test:.3f}, {yl_test:.3f}"))
     checks.append(("Lambda_QCD (2-loop) reproduces alpha_s(M_Z)", abs(back / xf["alpha_s_MZ"] - 1) < tol,
                    f"rel diff {abs(back / xf['alpha_s_MZ'] - 1):.1e}"))
+    _TRACE["stage"] = None
+    lin = model_lineage()
+    checks.append(("Model graph: every stage registered, acyclic, and run in dependency order",
+                   lin["registered"] and lin["acyclic"] and lin["in_order"],
+                   f"{len(lin['order'])} stages, {sum(len(u) for u in lin['uses'].values())} edges"))
     return {"scales": scales, "cosmology": cosmo, "flavour": flav, "survey": survey, "yukawa_331": yuk,
             "symmetry": symm, "closure": closure, "quantum_gravity": qg, "alpha_unification": alpha_unif,
             "alpha_numerology": alpha_num, "yukawa": yukawa, "higgs": higgs, "criticality": crit,
-            "checks": checks,
+            "checks": checks, "lineage": lin, "changed_inputs": dict(_TRACE["set"]),
             "precision": prec}
+
+
+def model_lineage() -> Dict[str, Any]:
+    """The dependency graph the last run followed, read from the trace, and what it implies:
+    which stages each measured input reaches, and which stage assumptions conflict."""
+    order = list(_TRACE["inputs"])                      # stages in the order they ran
+    uses = {st: sorted(_TRACE["uses"].get(st, ()), key=order.index) for st in order}
+    reads = {st: sorted(_TRACE["inputs"][st]) for st in order}
+    # every stage downstream of each stage (transitive)
+    down: Dict[str, set] = {st: set() for st in order}
+    for st in reversed(order):
+        for consumer in order:
+            if st in uses[consumer]:
+                down[st] |= {consumer} | down[consumer]
+    reaches = {}
+    for name in INPUTS:
+        direct = {st for st in order if name in reads[st]}
+        allst = set(direct)
+        for st in direct:
+            allst |= down[st]
+        reaches[name] = sorted(allst, key=order.index)
+    uv: Dict[str, List[str]] = {}
+    for st in order:
+        if "uv" in STAGES.get(st, {}):
+            uv.setdefault(STAGES[st]["uv"], []).append(st)
+    return {"order": order, "uses": uses, "reads": reads, "reaches": reaches,
+            "registered": all(st in STAGES for st in order) and all(st in order for st in STAGES),
+            "acyclic": all(st not in down[st] for st in order),
+            "in_order": all(order.index(u) < order.index(st) for st in order for u in uses[st]),
+            "uv_hypotheses": uv, "uv_consistent": len(uv) <= 1}
+
+
+def _wrap(text: str, indent: int, width: int = 78) -> str:
+    lines, cur = [], " " * indent
+    for word in text.split():
+        if len(cur) + len(word) + 1 > width and cur.strip():
+            lines.append(cur.rstrip())
+            cur = " " * (indent + 2)
+        cur += word + " "
+    lines.append(cur.rstrip())
+    return "\n".join(lines)
 
 
 def report(res: Dict[str, Any]) -> str:
@@ -3278,6 +3455,9 @@ def report(res: Dict[str, Any]) -> str:
     w(bar)
     w(f"Inputs: {len(INPUTS)} measured or defined constants (INPUTS). Comparisons: {len(COMPARISONS)}"
       f" measured results, never used in a calculation.")
+    for name, val in res["changed_inputs"].items():
+        w(f"  CHANGED INPUT (--set): {name} = {val} instead of {INPUTS[name]['value']}; every stage it"
+          " reaches is recalculated")
     w("")
     w("PART A. COSMOLOGY (flat Lambda-CDM, Friedmann equation)")
     w("-" * 78)
@@ -3774,6 +3954,46 @@ def report(res: Dict[str, Any]) -> str:
         w("    vacuum is not stable. The top mass dominates the input error; the second condition")
         w("    (beta_lambda = 0) lands near the measured top mass.")
         w("")
+    w("THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)")
+    w("-" * 78)
+    lin = res["lineage"]
+    w("  Stage (part, evidence level): measured inputs read; results taken from earlier stages")
+    for st in lin["order"]:
+        info = STAGES[st]
+        ins = lin["reads"][st]
+        w(f"  {st} ({info['part']}, {info['level']})")
+        w(_wrap("inputs: " + (", ".join(ins) if ins else "none"), 6))
+        if lin["uses"][st]:
+            w(_wrap("takes:  " + ", ".join(lin["uses"][st]), 6))
+        w(_wrap("assumes: " + info["assumes"], 6))
+    au_ms = res["alpha_unification"].get("M_S_for_measured_alpha", {})
+    w("  Numbers calculated once and handed on:")
+    handoffs = (("M_S", au_ms.get("M_S_GeV"), "gauge_unification"),
+                ("M_GUT", au_ms.get("M_GUT_GeV"), "gauge_unification"),
+                ("M_P", res["quantum_gravity"]["planck"]["E_P_GeV"], "quantum_gravity"),
+                ("m_t(m_t)", res["flavour"]["runner"].mt_msbar, "flavour"))
+    for name, val, prod in handoffs:
+        takers = [st for st in lin["order"] if prod in lin["uses"][st] and st != "self_checks"]
+        if val is not None:
+            w(f"    {name:9s} = {_fmt(val)} GeV, from {prod}, taken by " + (", ".join(takers) or "none"))
+    w("  Changing one measured input recalculates every stage it reaches, for example:")
+    for name in ("M_t", "alpha_s_MZ", "G", "H0"):
+        w(_wrap(f"{name}: " + ", ".join(st for st in lin["reaches"][name] if st != "self_checks"), 4))
+    unused = [k for k, v in lin["reaches"].items() if not v]
+    if unused:
+        w(_wrap("Inputs no stage reads: " + ", ".join(unused), 4))
+    w("  Global consistency of the stage assumptions:")
+    for hyp, sts in lin["uv_hypotheses"].items():
+        w(f"    {hyp:16s}: " + ", ".join(sts))
+    if not lin["uv_consistent"]:
+        w("    INCONSISTENT: these field contents exclude each other, so the stages above cannot all")
+        w("    describe one world. Each result holds only under its own hypothesis.")
+    w(f"  The graph is acyclic ({lin['acyclic']}), so one pass in order is self-consistent: no stage")
+    w("  needs a value that a later stage changes. A shared mechanism would add such feedback.")
+    w("  Audit findings:")
+    for status, text in AUDIT_FINDINGS:
+        w(_wrap(f"[{status}] {text}", 4))
+    w("")
     w("SELF-CHECKS (correctness of the calculation, not agreement with data)")
     w("-" * 78)
     for name, ok, detail in res["checks"]:
@@ -3814,6 +4034,8 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
         "alpha_unification": res["alpha_unification"], "alpha_numerology": res["alpha_numerology"],
         "yukawa": res["yukawa"], "scales": res["scales"],
         "checks": [{"name": n, "pass": ok, "detail": d} for n, ok, d in res["checks"]],
+        "model": {"stages": STAGES, "lineage": res["lineage"], "changed_inputs": res["changed_inputs"],
+                  "audit_findings": [{"status": a, "finding": b} for a, b in AUDIT_FINDINGS]},
     })
 
 
@@ -3823,7 +4045,16 @@ def main(argv: Sequence[str] | None = None) -> int:
                     help="evaluation scales in GeV (default: m_t(m_t) and the superpartner scale from Part I)")
     ap.add_argument("--precision", type=int, default=None, help="Decimal digits for the cosmology")
     ap.add_argument("--json-out", type=str, default=None, help="write every number to this JSON file")
+    ap.add_argument("--set", action="append", default=[], metavar="NAME=VALUE",
+                    help="change one measured input (repeatable); the whole model is recalculated")
     args = ap.parse_args(argv)
+    _TRACE["set"] = {}
+    for item in args.set:
+        name, _, value = item.partition("=")
+        if name not in INPUTS:
+            ap.error(f"--set: unknown input {name!r}")
+        Decimal(value)                                  # must be a number
+        _TRACE["set"][name] = value
     t0 = time.perf_counter()
     res = run(args.scales, args.precision)
     print(report(res))

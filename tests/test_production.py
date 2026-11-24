@@ -73,6 +73,19 @@ def test_comparisons_never_feed_a_calculation():
     assert readers <= {"_comparison", "_derived_vub_over_vcb", "report", "to_jsonable"}, readers
 
 
+def test_inputs_are_read_only_through_the_tracer():
+    """Every read of a measured input is recorded, so the traced dependency graph is complete:
+    only these functions touch INPUTS directly, and each of them records what it reads."""
+    readers = set()
+    for node in ast.walk(TREE):
+        if isinstance(node, ast.FunctionDef):
+            for sub in ast.walk(node):
+                if isinstance(sub, ast.Name) and sub.id == "INPUTS":
+                    readers.add(node.name)
+    assert readers <= {"_input_value", "sig", "sig_decimal", "_float_inputs", "run_cosmology",
+                       "model_lineage", "report", "to_jsonable", "main"}, readers
+
+
 def test_standard_library_only():
     mods = set()
     for node in ast.walk(TREE):
