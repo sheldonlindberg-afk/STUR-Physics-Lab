@@ -20,7 +20,7 @@
 ## Run it
 
 ```
-python3 production_v2_2.py                     # full report, about 5 minutes
+python3 production_v2_2.py                     # full report, about 7 minutes
 python3 production_v2_2.py --json-out out.json # every number, as JSON
 python3 production_v2_2.py --scales 2000 5000  # other evaluation scales (GeV, above m_t)
 python3 production_v2_2.py --set M_t=173.5      # change a measured input; the whole model is recalculated

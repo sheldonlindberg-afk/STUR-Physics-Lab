@@ -69,7 +69,7 @@ THE MODEL AS ONE ALGORITHM
   reaches, whether the stages' assumptions are compatible, and the audit findings.
   --set NAME=VALUE changes a measured input and recalculates the whole model.
 
-Run:  python3 production_v2_2.py                 (full report, about 5 minutes)
+Run:  python3 production_v2_2.py                 (full report, about 7 minutes)
       python3 production_v2_2.py --json-out out.json
       python3 production_v2_2.py --set M_t=173.5   (change an input, recalculate everything)
 """
@@ -194,6 +194,7 @@ NUMERICS: Dict[str, Any] = {
     "joint_ms_points": 20,            # Part M: grid in ln M_S from m_t(m_t) to Part I's scan top
     "joint_tan_beta_points": 20,      # Part M: grid in ln tan(beta) over its perturbative range
     "joint_bisections": 20,           # Part M: bisection steps for b-tau roots and perturbativity edges
+    "joint_chi2_zero": "1e-6",        # Part M: a chi^2 below this is bisection residue, printed as 0
     "closure_seed": 20261123,         # integer points for the exact Jacobian ranks (any seed works)
     "closure_points": 2,              # points per pattern; the largest rank found is kept
     "unif_step": "0.02",              # RK4 step in ln(mu) for the gauge running
@@ -4206,8 +4207,9 @@ def report(res: Dict[str, Any]) -> str:
     for r in jt["rows"]:
         verdict = ("survives, predicts" if r["predicts"] else "survives, no prediction") if r["survives"] \
             else "excluded"
+        zero = r["chi2"] < num("joint_chi2_zero")
         w(f"    {r['hypothesis']:17s} {'+'.join(r['conditions']):10s} {r['unknowns']:5d} {r['dof']:6d}"
-          f"  {_fmt(r['chi2'], 4):>9s}  {_fmt(r['n_sigma'], 3):>8s}   {verdict}")
+          f"  {'0' if zero else _fmt(r['chi2'], 4):>9s}  {'0' if zero else _fmt(r['n_sigma'], 3):>8s}   {verdict}")
     preds = jt["predictive_survivors"]
     w("  RESULT: " + ("surviving combinations that predict something: "
                       + "; ".join(f"{h} with {'+'.join(c)}" for h, c in preds) if preds
