@@ -28,7 +28,7 @@ python3 production_v2_2.py --scales 2000 5000  # other evaluation scales (GeV, a
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 40 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 41 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -180,17 +180,29 @@ Inside 3-3-1 a symmetry can only put zeros into general (non-Hermitian) matrices
 therefore checks every zero pattern of two general 3×3 matrices: 247² = 61,009 ordered pairs,
 or 497 classes. The number of physical parameters of a pattern is the rank of the Jacobian of
 10 weak-basis invariants of H = MM† (tr H, tr H², det H in each sector, and tr(H_u^a H_d^b)
-for a, b = 1, 2), with respect to the entries. The rank is computed **exactly**: at integer
-points everything is an integer, and the elimination runs modulo a 61-bit prime. Since 10 is
-the largest possible rank, finding rank 10 at any point proves it.
+for a, b = 1, 2), with respect to the entries. Every count is **proved**, not sampled:
+
+* *Lower bound.* At integer points everything is an integer, and the elimination runs modulo
+  a 61-bit prime. The rank found there can only be at or below the generic rank, and since 10
+  is the largest possible rank, rank 10 at any point proves it.
+* *Upper bound.* Unitary weak-basis transformations that keep every zero a zero (rephasings,
+  and rotations of rows or columns with equal supports) leave all 10 invariants unchanged, so
+  their tangent vectors are in the Jacobian's kernel. The rank is at most the number of real
+  entries minus theirs. For all 472 candidates the two bounds meet.
+* *CP.* J ∝ Im det[H_u, H_d]. A nonzero value at an integer point proves CP violation is
+  possible; otherwise the polynomial is expanded symbolically, and an empty expansion proves
+  J ≡ 0.
 
 | Classes | Outcome |
 |---|---|
-| 19 | cannot mix all three families |
-| 6 | no phase left, so J = 0 |
+| 19 | cannot mix all three families (structural: the CKM matrix splits into blocks) |
+| 6 | no phase left after rephasing, so J = 0 |
 | 470 | exactly 10 physical parameters for 10 observables: **no prediction** |
-| 2 | rank 8, but J ≡ 0 (checked in exact Gaussian integers): excluded |
+| 2 | rank 8 (bounds meet), but J ≡ 0 (symbolic expansion): excluded |
 | **0** | **predict anything and allow CP violation** |
+
+Scope: "no prediction" means no equality among the observables. A rank-10 pattern can still
+be unable to reach the measured values (an inequality); Part F does not test that.
 
 **Part G: other gauge frameworks.** 3-3-1 is not essential to the algorithm, so the script
 asks the same question of the Standard Model and of left-right symmetric models.

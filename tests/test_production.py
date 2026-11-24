@@ -164,11 +164,29 @@ def test_symmetry_search():
 
 def test_general_texture_closure():
     """Part F: every zero pattern of general mass matrices that allows three-family mixing and
-    CP violation has exactly 10 physical parameters, so none predicts anything."""
+    CP violation has exactly 10 physical parameters, so none predicts anything. Every rank is
+    certified (exact lower bound meets the symmetry upper bound) and J = 0 is proved symbolically."""
     cl = RESULT["closure"]
     assert cl["ordered_pairs"] == 247 ** 2 and cl["classes"] == 497
     assert cl["rank"] == {10: 470, 8: 2} and cl["cp_impossible"] == 2
+    assert cl["rank_certified"] == cl["candidates"] == 472 and cl["rank_open"] == []
     assert cl["predictive_with_cp"] == []
+
+
+def test_closure_certificates_are_sound():
+    """The Part F proof tools on cases with known answers, including ones that must fail."""
+    draw = P._IntStream(7)
+    full = frozenset((i, a) for i in range(3) for a in range(3))
+    diag = frozenset((i, i) for i in range(3))
+    tri = frozenset((i, a) for i in range(3) for a in range(i, 3))
+    # rank 10 at a point bounds the generic rank from below; the symmetry bound from above
+    assert P.invariant_rank(full, full, draw) == 10
+    assert 36 - P.stabilizer_rank(full, full, draw) == 10
+    assert 12 - P.stabilizer_rank(diag, diag, draw) == 6 == P.invariant_rank(diag, diag, draw)
+    # J: zero for diagonal (no mixing), nonzero for a triangular up sector
+    assert P.cp_identically_zero(diag, diag)
+    assert not P.cp_identically_zero(tri, diag)
+    assert P.cp_violation_possible(tri, diag, draw, 2)
 
 
 def test_parallel_textures_excluded():

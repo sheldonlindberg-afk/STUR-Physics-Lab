@@ -1406,11 +1406,20 @@ def symmetry_search(yuk: Dict[int, Dict[str, Any]], survivors: Sequence[Tuple[An
 #     tr H_u, tr H_u^2, det H_u, the same for H_d, and tr(H_u^a H_d^b), a, b = 1, 2.
 # The rank of their Jacobian with respect to the real and imaginary parts of the
 # nonzero entries is the number of physical parameters; predictions = 10 - rank.
-# The Jacobian is computed exactly: at integer points the invariants and their
-# derivatives are integers, and the rank is found by elimination modulo a large
-# prime. Because 10 is the largest possible rank, finding rank 10 at any point
-# proves the generic rank is 10. CP violation needs Im det[H_u, H_d] (which is
-# proportional to J) to be nonzero; that is checked in exact Gaussian integers.
+# Every count below is proved, not sampled:
+#   * Lower bound. At integer points the invariants and their derivatives are
+#     integers, and the rank is found by elimination modulo a large prime. The rank
+#     mod p at one point is at most the rank over the rationals there, which is at
+#     most the generic rank. Because 10 is the largest possible rank, rank 10 at any
+#     point proves the generic rank is 10.
+#   * Upper bound. Unitary weak-basis transformations that keep every zero a zero
+#     (rephasings, and rotations of rows or columns with equal supports) leave all
+#     10 invariants unchanged, so their tangent vectors lie in the Jacobian's kernel.
+#     Rank <= 2 * (nonzero entries) - (their rank at a point, again a lower bound).
+#     Where the two bounds meet, the generic rank is certified.
+#   * CP. Im det[H_u, H_d] is proportional to J. A nonzero value at an integer point
+#     (exact Gaussian integers) proves CP violation is possible; if none is found, the
+#     polynomial is expanded symbolically, and an empty expansion proves J = 0.
 _PRIME = (1 << 61) - 1
 
 
@@ -1534,6 +1543,118 @@ def cp_violation_possible(pu, pd, draw: _IntStream, tries: int) -> bool:
     return False
 
 
+class _Poly:
+    """Sparse polynomial with integer coefficients: {exponent tuple: coefficient}."""
+    __slots__ = ("t",)
+
+    def __init__(self, t: Dict[Tuple[int, ...], int]):
+        self.t = t
+
+    def __add__(self, o: "_Poly") -> "_Poly":
+        t = dict(self.t)
+        for k, c in o.t.items():
+            v = t.get(k, 0) + c
+            if v:
+                t[k] = v
+            else:
+                t.pop(k, None)
+        return _Poly(t)
+
+    def __sub__(self, o: "_Poly") -> "_Poly":
+        return self + _Poly({k: -c for k, c in o.t.items()})
+
+    def __mul__(self, o: "_Poly") -> "_Poly":
+        t: Dict[Tuple[int, ...], int] = {}
+        for k1, c1 in self.t.items():
+            for k2, c2 in o.t.items():
+                k = tuple(a + b for a, b in zip(k1, k2))
+                v = t.get(k, 0) + c1 * c2
+                if v:
+                    t[k] = v
+                else:
+                    t.pop(k, None)
+        return _Poly(t)
+
+
+def cp_identically_zero(pu, pd) -> bool:
+    """Is Im det[H_u, H_d] the zero polynomial in the real and imaginary parts of the nonzero
+    entries? Exact symbolic expansion, so True is a proof that J = 0 everywhere on the pattern."""
+    ents = [("u", e) for e in sorted(pu)] + [("d", e) for e in sorted(pd)]
+    n = 2 * len(ents)
+    zero = _Poly({})
+
+    def var(k: int) -> _Poly:
+        return _Poly({tuple(1 if j == k else 0 for j in range(n)): 1})
+    mats = {s: [[_Cx(zero, zero) for _ in range(3)] for _ in range(3)] for s in "ud"}
+    for k, (s, (i, a)) in enumerate(ents):
+        mats[s][i][a] = _Cx(var(2 * k), var(2 * k + 1))
+    hu = _cmm(mats["u"], _cdag(mats["u"], zero))
+    hd = _cmm(mats["d"], _cdag(mats["d"], zero))
+    a, b = _cmm(hu, hd), _cmm(hd, hu)
+    comm = [[a[i][j] - b[i][j] for j in range(3)] for i in range(3)]
+    return not _cdet(comm).i.t
+
+
+def _stabilizer_generators(pu, pd) -> List[Tuple[str, str, int, int, int]]:
+    """Generators of the unitary weak-basis transformations that keep every zero a zero:
+    a common left rotation of rows i, j (support equal in both sectors) and a right rotation
+    of columns i, j of one sector (support equal). Each is (side, sector, i, j, kind) with
+    kind 0 the phase (i = j), 1 the real and 2 the imaginary off-diagonal generator."""
+    def rows(p, r):
+        return {a for (i, a) in p if i == r}
+
+    def cols(p, c):
+        return {i for (i, a) in p if a == c}
+    gens = []
+    for i in range(3):
+        for j in range(i, 3):
+            kinds = (0,) if i == j else (1, 2)
+            if i == j or all(rows(p, i) == rows(p, j) for p in (pu, pd)):
+                gens += [("L", "ud", i, j, k) for k in kinds]
+            for s, p in (("u", pu), ("d", pd)):
+                if i == j or cols(p, i) == cols(p, j):
+                    gens += [("R", s, i, j, k) for k in kinds]
+    return gens
+
+
+def stabilizer_rank(pu, pd, draw: _IntStream) -> int:
+    """Rank (mod _PRIME, at one integer point) of the tangent vectors of those transformations.
+    They leave all 10 invariants unchanged, so they lie in the kernel of the Jacobian, and
+    2 * (nonzero entries) - this rank is an upper bound on the generic Jacobian rank."""
+    ents = [("u", e) for e in sorted(pu)] + [("d", e) for e in sorted(pd)]
+    mats = {s: [[_Cx(0, 0) for _ in range(3)] for _ in range(3)] for s in "ud"}
+    for s, (i, a) in ents:
+        mats[s][i][a] = _Cx(draw(), draw())
+    rows = []
+    for side, secs, i, j, kind in _stabilizer_generators(pu, pd):
+        x = [[_Cx(0, 0) for _ in range(3)] for _ in range(3)]
+        if kind == 0:
+            x[i][i] = _Cx(0, 1)
+        elif kind == 1:
+            x[i][j], x[j][i] = _Cx(1, 0), _Cx(-1, 0)
+        else:
+            x[i][j], x[j][i] = _Cx(0, 1), _Cx(0, 1)
+        delta = {s: (_cmm(x, mats[s]) if side == "L" else _cmm(mats[s], x)) for s in secs}
+        vec = []
+        for s, (r, c) in ents:
+            d = delta[s][r][c] if s in delta else _Cx(0, 0)
+            vec += [d.r % _PRIME, d.i % _PRIME]
+        rows.append(vec)
+    rank = 0
+    for c in range(2 * len(ents)):
+        p = next((r for r in range(rank, len(rows)) if rows[r][c]), None)
+        if p is None:
+            continue
+        rows[rank], rows[p] = rows[p], rows[rank]
+        inv = pow(rows[rank][c], _PRIME - 2, _PRIME)
+        for r in range(len(rows)):
+            if r != rank and rows[r][c]:
+                fct = rows[r][c] * inv % _PRIME
+                rows[r] = [(x - fct * y) % _PRIME for x, y in zip(rows[r], rows[rank])]
+        rank += 1
+    return rank
+
+
 def general_texture_closure() -> Dict[str, Any]:
     entries = [(i, a) for i in range(3) for a in range(3)]
     perms = list(itertools.permutations(range(3)))
@@ -1552,7 +1673,8 @@ def general_texture_closure() -> Dict[str, Any]:
     draw = _IntStream(int(num("closure_seed")))
     tries = int(num("closure_points"))
     counts = {"ordered_pairs": len(pats) ** 2, "classes": len(classes), "no_three_family_mixing": 0,
-              "no_phase": 0, "candidates": 0, "rank": {}, "cp_impossible": 0, "predictive_with_cp": []}
+              "no_phase": 0, "candidates": 0, "rank": {}, "rank_certified": 0, "rank_open": [],
+              "cp_impossible": 0, "predictive_with_cp": []}
     for key in sorted(classes):
         pu, pd = (frozenset(x) for x in key)
         if not _three_family_mixing(pu, pd):
@@ -1562,11 +1684,21 @@ def general_texture_closure() -> Dict[str, Any]:
             counts["no_phase"] += 1
             continue
         counts["candidates"] += 1
+        # lower bound: the rank found at integer points (mod p it can only be smaller)
         rk = max(invariant_rank(pu, pd, draw) for _ in range(tries))
+        # upper bound: 10, and the parameters left after the zero-preserving transformations
+        upper = min(10, 2 * (len(pu) + len(pd)) - max(stabilizer_rank(pu, pd, draw) for _ in range(tries)))
         counts["rank"][rk] = counts["rank"].get(rk, 0) + 1
-        if rk < 10:
-            if cp_violation_possible(pu, pd, draw, tries):
-                counts["predictive_with_cp"].append({"zeros_u": key[0], "zeros_d": key[1], "rank": rk})
+        if rk == upper:
+            counts["rank_certified"] += 1
+        else:
+            counts["rank_open"].append({"zeros_u": key[0], "zeros_d": key[1], "lower": rk, "upper": upper})
+        if upper < 10 or rk < 10:
+            # a nonzero integer witness proves CP violation; otherwise expand the polynomial
+            cp = cp_violation_possible(pu, pd, draw, tries) or not cp_identically_zero(pu, pd)
+            if cp:
+                counts["predictive_with_cp"].append({"zeros_u": key[0], "zeros_d": key[1], "rank": rk,
+                                                     "rank_upper": upper})
             else:
                 counts["cp_impossible"] += 1
     return counts
@@ -3060,6 +3192,13 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None) -> Dict[
     r_full, r_diag = invariant_rank(full, full, draw), invariant_rank(diag, diag, draw)
     checks.append(("Invariant-rank method: general matrices give 10 physical parameters, diagonal ones 6",
                    (r_full, r_diag) == (10, 6), f"ranks {r_full}, {r_diag}"))
+    u_full = 2 * (len(full) + len(full)) - stabilizer_rank(full, full, draw)
+    u_diag = 2 * (len(diag) + len(diag)) - stabilizer_rank(diag, diag, draw)
+    upper_tri = frozenset((i, a) for i in range(3) for a in range(i, 3))
+    cp_ok = cp_identically_zero(diag, diag) and not cp_identically_zero(upper_tri, diag)
+    checks.append(("Part F certificates: symmetry upper bounds meet the ranks (10, 6); J = 0 proved"
+                   " for diagonal matrices and refuted for triangular ones", (u_full, u_diag) == (10, 6) and cp_ok,
+                   f"upper bounds {u_full}, {u_diag}"))
     # Part H
     tol = num("check_rel_tol")
     xf = _float_inputs()
@@ -3356,12 +3495,17 @@ def report(res: Dict[str, Any]) -> str:
     w(f"    {cl['no_phase']:5d} have no phase left, so J = 0 (measured: J = 3.12e-5)")
     w(f"    {cl['candidates']:5d} candidates; physical parameters (rank) per class: "
       + ", ".join(f"rank {k}: {v}" for k, v in sorted(cl["rank"].items(), reverse=True)))
-    w(f"    {cl['cp_impossible']:5d} of the classes with rank below 10 have J = 0 identically")
+    w(f"    {cl['rank_certified']:5d} of these ranks proved (exact lower bound = symmetry upper bound),"
+      f" {len(cl['rank_open'])} open")
+    w(f"    {cl['cp_impossible']:5d} of the classes with rank below 10 have J = 0 identically"
+      " (symbolic expansion)")
     w(f"    {len(cl['predictive_with_cp']):5d} make a prediction and allow CP violation")
-    if not cl["predictive_with_cp"]:
-        w("  RESULT: no texture-zero pattern of general quark mass matrices predicts anything.")
-        w("    Every viable pattern has exactly as many physical parameters as there are")
-        w("    observables (10), so zeros alone, however a symmetry makes them, fix nothing.")
+    if not cl["predictive_with_cp"] and not cl["rank_open"]:
+        w("  RESULT (proved): no texture-zero pattern of general quark mass matrices predicts")
+        w("    an equality. Every viable pattern has exactly as many physical parameters as there")
+        w("    are observables (10), so zeros alone, however a symmetry makes them, fix nothing.")
+        w("    Scope: this is a statement about relations. A rank-10 pattern can still fail to")
+        w("    reach the measured values (an inequality); that is not tested here.")
     w("")
     w("PART G. OTHER GAUGE FRAMEWORKS")
     w("-" * 78)
