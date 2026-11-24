@@ -239,7 +239,8 @@ def test_sm_criticality():
     cr = RESULT["criticality"]
     two = [r for r in cr["rows"] if r["loops"] == 2]
     assert all(127 < r["m_h"] < 131 for r in two)
-    assert abs(two[0]["m_h"] - two[1]["m_h"]) < 0.5          # insensitive to which Planck mass
+    assert max(r["m_h"] for r in two) - min(r["m_h"] for r in two) < 0.5   # Planck mass, matching
+    assert 127 < cr["central"]["m_h"] < 131 and cr["central"]["matched"]
     assert 0.3 < cr["sigma_total"] < 2
     assert 125 < cr["double"]["m_h"] < 135 and 170 < cr["double"]["M_t"] < 177
     pr = P.sm_lambda_profile(cr, 125.20)

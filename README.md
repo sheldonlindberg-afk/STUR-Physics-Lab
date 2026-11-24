@@ -20,7 +20,7 @@
 ## Run it
 
 ```
-python3 production_v2_2.py                     # full report, about 4 minutes
+python3 production_v2_2.py                     # full report, about 5 minutes
 python3 production_v2_2.py --json-out out.json # every number, as JSON
 python3 production_v2_2.py --scales 2000 5000  # other evaluation scales (GeV, above m_t)
 ```
@@ -28,7 +28,7 @@ python3 production_v2_2.py --scales 2000 5000  # other evaluation scales (GeV, a
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 38 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 40 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -302,29 +302,39 @@ The route is excluded, with no free parameter adjusted.
 
 If nothing new enters below the Planck scale, the Higgs self-coupling can be fixed there:
 λ(M_P) = 0 (Froggatt–Nielsen 1996, Shaposhnikov–Wetterich 2010). Running it down with the
-measured top mass and α_s predicts m_h, with no free parameter and no new particle. The running is
-two-loop. The gauge b_ij come from the field content. The two-loop y_t and λ terms are quoted from
-Buttazzo et al. 2013, and a self-check confirms that they match the independently published
-hypercharge-normalized form. Matching at m_t is tree level.
+measured top mass and α_s predicts M_h, with no free parameter and no new particle.
+
+* **Running:** two-loop. The gauge b_ij come from the field content. The two-loop y_t and λ terms
+  are quoted from Buttazzo et al. 2013, and a self-check confirms that they match the independently
+  published hypercharge-normalized form.
+* **Matching** to the pole masses M_h, M_t, M_W, M_Z and to G_F: one loop, from their appendix A.
+  The Passarino–Veltman functions are in closed form. Two self-checks verify the transcription:
+  B0 against direct quadrature, and the μ-dependence of each threshold, which reproduces the one-loop
+  RGE to 10⁻¹¹.
 
 | | Result |
 |---|---|
-| λ(M_P) = 0, one loop | m_h = 134.8 GeV |
-| λ(M_P) = 0, two loops | **m_h = 129.0 ± 0.9 GeV** (M_t and α_s errors) |
+| λ(M_P) = 0, one-loop running, tree matching | M_h = 134.8 GeV |
+| λ(M_P) = 0, two-loop running, tree matching | M_h = 128.98 GeV |
+| λ(M_P) = 0, two-loop running, one-loop matching | **M_h = 129.0 ± 0.9 GeV** (M_t, α_s, M_W errors) |
 | measured | 125.20 ± 0.11 GeV |
-| λ(M_P) = 0 and β_λ(M_P) = 0 together | m_h = 130.8 GeV, M_t = 173.5 GeV (measured 172.57) |
-| measured m_h, read back | λ(M_P) = −0.012; λ turns negative at 2.7 × 10¹⁰ GeV |
+| λ(M_P) = 0 and β_λ(M_P) = 0 together | M_h = 130.8 GeV, M_t = 173.5 GeV (measured 172.57) |
+| measured M_h, read back | λ(M_P) = −0.012; λ turns negative at 2.6 × 10¹⁰ GeV |
 
-The prediction is 3.8 GeV high, 4.1σ on the input errors alone. The omitted corrections (one-loop
-matching of λ and y_t to the pole masses, three-loop running) are about that size, so whether the
-gap is real is open. Read the other way, the measured Higgs mass puts the Standard Model just on the
-unstable side of this boundary. This is the closest any condition in the script comes to calculating
-a Standard Model parameter, and the second condition lands within 1 GeV of the measured top mass.
+The one-loop matching moves the prediction by only +0.04 GeV. At the matching scale
+μ = m_t(m_t), both one-loop thresholds happen to be nearly zero. The gap therefore stays at 3.8 GeV
+(4.1σ on the input errors), and it is not an artefact of the matching at this order. Still missing
+are the two-loop matching (QCD × top-Yukawa), the three-loop QCD top-mass conversion and three-loop
+running. Read the other way, the measured Higgs mass puts the Standard Model just on the unstable
+side of this boundary. This is the closest any condition in the script comes to calculating a
+Standard Model parameter, and the second condition lands within 1 GeV of the measured top mass.
 
 All scales come from the algorithm. Parts B and C run at m_t(m_t) and at Part I's M_S. Part J
 uses Part I's M_GUT and Part H's M_Planck. Part K uses Part I's M_S and Part J's tan β. The tan β range and the "large" top coupling come
 from the perturbativity limit √(4π). The only numbers not produced by the algorithm are the
-measured inputs, the numerical settings, and the quoted coefficient 41/(10π).
+measured inputs, the numerical settings, the quoted coefficient 41/(10π), and the quoted
+two-loop y_t and λ coefficients and one-loop matching formulas of Part L (Buttazzo et al. 2013),
+each checked by a self-check.
 
 ## What changed from production v1
 
