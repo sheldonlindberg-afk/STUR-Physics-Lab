@@ -50,6 +50,29 @@ def main():
     sb, cb = tb / math.sqrt(1 + tb * tb), 1 / math.sqrt(1 + tb * tb)
     s0 = [s_ms[0], s_ms[1], s_ms[2], s_ms[3] / sb, s_ms[4] / cb, s_ms[5] / cb]
     mssm_line = [[round(x, 4)] + inv_alpha(s) for x, s in sampled(s0, m_s, m_gut, P.yukawa_rhs("MSSM"), 60)]
+    # Part C: the surviving pattern and what it predicts at m_t(m_t)
+    mu0 = res["scales"][0]
+    surv = [r for r in res["survey"][mu0]["classes"] if r["status"] == "tested" and r["survives"]][0]
+    tested = [r for r in res["survey"][mu0]["classes"] if r["status"] == "tested"]
+    j_meas, j_sig, _ = P._comparison("J")
+    q_meas, q_sig, _ = P._comparison("V_td/V_ts")
+    best = min(surv["prediction"], key=lambda o: ((o["J"] - j_meas) / math.hypot(o["J_sigma"], j_sig)) ** 2
+               + ((o["V_td/V_ts"] - q_meas) / math.hypot(o["V_td/V_ts_sigma"], q_sig)) ** 2)
+    c2 = (((best["J"] - j_meas) / math.hypot(best["J_sigma"], j_sig)) ** 2
+          + ((best["V_td/V_ts"] - q_meas) / math.hypot(best["V_td/V_ts_sigma"], q_sig)) ** 2)
+    texture = {"tested": len(tested), "survivors": sum(r["survives"] for r in tested),
+               "up": P.pattern_mask(surv["zeros_u"]), "down": P.pattern_mask(surv["zeros_d"]),
+               "J": best["J"], "J_sigma": best["J_sigma"], "J_meas": j_meas,
+               "Vtd_Vts": best["V_td/V_ts"], "Vtd_Vts_sigma": best["V_td/V_ts_sigma"], "Vtd_Vts_meas": q_meas,
+               "both_sigma": P.pvalue_to_sigma(P.chi2_pvalue(c2, 2))}
+    # Part M: which high-energy hypothesis survives
+    jt = res["joint"]
+    rows = {(r["hypothesis"], "+".join(r["conditions"])): r for r in jt["rows"]}
+    joint = {"sm_U": abs(jt["SM_pulls"]["U"]), "sm_B": abs(jt["SM_pulls"]["B"]), "sm_H": jt["SM_pulls"]["H"],
+             "sm_H_theory": jt["SM_pulls_theory"]["H"],
+             "mssm_all": rows[("MSSM above M_S", "U+B+H")]["n_sigma"],
+             "mssm_all_theory": rows[("MSSM above M_S", "U+B+H")]["with_theory"]["n_sigma"],
+             "predictive_survivors": len(jt["predictive_survivors"])}
     data = {
         "criticality": {
             "m_h_pred": cr["central"]["m_h"], "sigma": cr["sigma_total"], "m_h_meas": mh_meas,
@@ -68,6 +91,8 @@ def main():
         "cosmology": {"age": float(res["cosmology"]["age_Gyr"]), "Omega_Lambda": float(res["cosmology"]["Omega_Lambda"])},
         "planck": qg["planck"],
         "checks": [len(res["checks"]), sum(1 for c in res["checks"] if c[1])],
+        "texture": texture,
+        "joint": joint,
     }
     path = os.path.join(ROOT, "assets", "site-data.js")
     with open(path, "w", encoding="utf-8") as f:
