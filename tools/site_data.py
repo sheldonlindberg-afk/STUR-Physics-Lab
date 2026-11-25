@@ -34,9 +34,8 @@ def main():
     # Part L: lambda(mu) for the measured Higgs mass and for the critical one
     curves = {}
     for key, mh in (("measured", mh_meas), ("critical", cr["central"]["m_h"])):
-        mt, v, _, st, ms = P.matched_couplings(None, mh, True)
-        lam0 = mh ** 2 / (2 * v ** 2) + P.lambda_one_loop(mh, ms[0], ms[1], ms[2], v, mt)
-        pts = sampled(st + [lam0], mt, mp, P.sm_rge(2), 80)
+        big_mt, v, st = P.anchored_state(None, mh, cr["smdr"])       # Part L's central order
+        pts = sampled(st, big_mt, mp, P.sm_rge(3), 80)
         curves[key] = {"m_h": mh, "pts": [[round(x, 4), round(s[6], 6)] for x, s in pts]}
     prof = P.sm_lambda_profile(cr, mh_meas)
     # Part I: inverse gauge couplings, SM all the way and MSSM above M_S (one loop, for display)
@@ -51,10 +50,34 @@ def main():
     sb, cb = tb / math.sqrt(1 + tb * tb), 1 / math.sqrt(1 + tb * tb)
     s0 = [s_ms[0], s_ms[1], s_ms[2], s_ms[3] / sb, s_ms[4] / cb, s_ms[5] / cb]
     mssm_line = [[round(x, 4)] + inv_alpha(s) for x, s in sampled(s0, m_s, m_gut, P.yukawa_rhs("MSSM"), 60)]
+    # Part C: the surviving pattern and what it predicts at m_t(m_t)
+    mu0 = res["scales"][0]
+    surv = [r for r in res["survey"][mu0]["classes"] if r["status"] == "tested" and r["survives"]][0]
+    tested = [r for r in res["survey"][mu0]["classes"] if r["status"] == "tested"]
+    j_meas, j_sig, _ = P._comparison("J")
+    q_meas, q_sig, _ = P._comparison("V_td/V_ts")
+    best = min(surv["prediction"], key=lambda o: ((o["J"] - j_meas) / math.hypot(o["J_sigma"], j_sig)) ** 2
+               + ((o["V_td/V_ts"] - q_meas) / math.hypot(o["V_td/V_ts_sigma"], q_sig)) ** 2)
+    c2 = (((best["J"] - j_meas) / math.hypot(best["J_sigma"], j_sig)) ** 2
+          + ((best["V_td/V_ts"] - q_meas) / math.hypot(best["V_td/V_ts_sigma"], q_sig)) ** 2)
+    texture = {"tested": len(tested), "survivors": sum(r["survives"] for r in tested),
+               "up": P.pattern_mask(surv["zeros_u"]), "down": P.pattern_mask(surv["zeros_d"]),
+               "J": best["J"], "J_sigma": best["J_sigma"], "J_meas": j_meas,
+               "Vtd_Vts": best["V_td/V_ts"], "Vtd_Vts_sigma": best["V_td/V_ts_sigma"], "Vtd_Vts_meas": q_meas,
+               "both_sigma": P.pvalue_to_sigma(P.chi2_pvalue(c2, 2))}
+    # Part M: which high-energy hypothesis survives
+    jt = res["joint"]
+    rows = {(r["hypothesis"], "+".join(r["conditions"])): r for r in jt["rows"]}
+    joint = {"sm_U": abs(jt["SM_pulls"]["U"]), "sm_B": abs(jt["SM_pulls"]["B"]), "sm_H": jt["SM_pulls"]["H"],
+             "sm_H_theory": jt["SM_pulls_theory"]["H"],
+             "mssm_all": rows[("MSSM above M_S", "U+B+H")]["n_sigma"],
+             "mssm_all_theory": rows[("MSSM above M_S", "U+B+H")]["with_theory"]["n_sigma"],
+             "predictive_survivors": len(jt["predictive_survivors"])}
     data = {
         "criticality": {
             "m_h_pred": cr["central"]["m_h"], "sigma": cr["sigma_total"], "m_h_meas": mh_meas,
             "m_h_tree": cr["tree_matching"]["m_h"],
+            "m_h_lower_matching": cr["row"]["3L/three loops"]["m_h"],
             "one_loop_running": [r["m_h"] for r in cr["rows"] if r["loops"] == 1][0],
             "double_m_h": cr["double"]["m_h"], "double_M_t": cr["double"]["M_t"], "M_t_meas": P.inp("M_t"),
             "lambda_MP": prof["lambda_MP"], "mu_zero": prof["mu_zero"], "M_P": mp, "curves": curves},
@@ -68,6 +91,8 @@ def main():
         "cosmology": {"age": float(res["cosmology"]["age_Gyr"]), "Omega_Lambda": float(res["cosmology"]["Omega_Lambda"])},
         "planck": qg["planck"],
         "checks": [len(res["checks"]), sum(1 for c in res["checks"] if c[1])],
+        "texture": texture,
+        "joint": joint,
     }
     path = os.path.join(ROOT, "assets", "site-data.js")
     with open(path, "w", encoding="utf-8") as f:

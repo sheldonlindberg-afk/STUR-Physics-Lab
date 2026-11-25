@@ -2,7 +2,8 @@
 
 Three kinds of test:
   1. The rule: no non-integer number may appear in the script outside INPUTS,
-     COMPARISONS and NUMERICS, and measured comparisons never feed a calculation.
+     COMPARISONS, NUMERICS and LITERATURE (published coefficients, each with its
+     source), and measured comparisons never feed a calculation.
   2. The script is standard-library only and every self-check passes.
   3. The headline numbers stay where they are (they move only if an input moves).
 """
@@ -17,7 +18,7 @@ import sys
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 PATH = os.path.join(ROOT, "production_v2_2.py")
 EXPECTED = os.path.join(ROOT, "results", "production_v2_2.txt")
-TABLES = ("INPUTS", "COMPARISONS", "NUMERICS")
+TABLES = ("INPUTS", "COMPARISONS", "NUMERICS", "LITERATURE")
 
 
 def _load():
@@ -42,6 +43,10 @@ def _table_line_ranges():
     return ranges
 
 
+def test_literature_entries_have_sources():
+    assert all(e["source"] and "value" in e for e in P.LITERATURE.values())
+
+
 def test_no_tunable_number_outside_the_input_tables():
     ranges = _table_line_ranges()
     assert len(ranges) == len(TABLES)
@@ -59,7 +64,7 @@ def test_no_tunable_number_outside_the_input_tables():
             bad.append((node.lineno, v))
         if isinstance(v, str) and numeric_string.match(v.strip()) and not v.strip().isdigit():
             bad.append((node.lineno, v))
-    assert not bad, f"numbers outside INPUTS/COMPARISONS/NUMERICS: {bad}"
+    assert not bad, f"numbers outside INPUTS/COMPARISONS/NUMERICS/LITERATURE: {bad}"
 
 
 def test_comparisons_never_feed_a_calculation():
@@ -73,6 +78,19 @@ def test_comparisons_never_feed_a_calculation():
     assert readers <= {"_comparison", "_derived_vub_over_vcb", "report", "to_jsonable"}, readers
 
 
+def test_inputs_are_read_only_through_the_tracer():
+    """Every read of a measured input is recorded, so the traced dependency graph is complete:
+    only these functions touch INPUTS directly, and each of them records what it reads."""
+    readers = set()
+    for node in ast.walk(TREE):
+        if isinstance(node, ast.FunctionDef):
+            for sub in ast.walk(node):
+                if isinstance(sub, ast.Name) and sub.id == "INPUTS":
+                    readers.add(node.name)
+    assert readers <= {"_input_value", "sig", "sig_decimal", "_float_inputs", "run_cosmology",
+                       "model_lineage", "report", "to_jsonable", "main"}, readers
+
+
 def test_standard_library_only():
     mods = set()
     for node in ast.walk(TREE):
@@ -81,7 +99,7 @@ def test_standard_library_only():
         elif isinstance(node, ast.ImportFrom):
             mods.add(node.module.split(".")[0])
     assert mods <= {"__future__", "argparse", "cmath", "decimal", "fractions", "itertools",
-                    "json", "math", "sys", "time", "typing"}, mods
+                    "json", "math", "multiprocessing", "sys", "time", "typing"}, mods
 
 
 def test_every_self_check_passes():
@@ -164,11 +182,103 @@ def test_symmetry_search():
 
 def test_general_texture_closure():
     """Part F: every zero pattern of general mass matrices that allows three-family mixing and
-    CP violation has exactly 10 physical parameters, so none predicts anything."""
+    CP violation has exactly 10 physical parameters, so none predicts anything. Every rank is
+    certified (exact lower bound meets the symmetry upper bound) and J = 0 is proved symbolically."""
     cl = RESULT["closure"]
     assert cl["ordered_pairs"] == 247 ** 2 and cl["classes"] == 497
     assert cl["rank"] == {10: 470, 8: 2} and cl["cp_impossible"] == 2
+    assert cl["rank_certified"] == cl["candidates"] == 472 and cl["rank_open"] == []
     assert cl["predictive_with_cp"] == []
+
+
+def test_closure_certificates_are_sound():
+    """The Part F proof tools on cases with known answers, including ones that must fail."""
+    draw = P._IntStream(7)
+    full = frozenset((i, a) for i in range(3) for a in range(3))
+    diag = frozenset((i, i) for i in range(3))
+    tri = frozenset((i, a) for i in range(3) for a in range(i, 3))
+    # rank 10 at a point bounds the generic rank from below; the symmetry bound from above
+    assert P.invariant_rank(full, full, draw) == 10
+    assert 36 - P.stabilizer_rank(full, full, draw) == 10
+    assert 12 - P.stabilizer_rank(diag, diag, draw) == 6 == P.invariant_rank(diag, diag, draw)
+    # J: zero for diagonal (no mixing), nonzero for a triangular up sector
+    assert P.cp_identically_zero(diag, diag)
+    assert not P.cp_identically_zero(tri, diag)
+    assert P.cp_violation_possible(tri, diag, draw, 2)
+
+
+def test_model_lineage():
+    """The traced graph: pure-mathematics stages read no measured input; M_P is made once and
+    reaches Parts J and L without dragging cosmology along; the UV hypotheses conflict."""
+    lin = RESULT["lineage"]
+    assert lin["registered"] and lin["acyclic"] and lin["in_order"]
+    for st in ("general_texture_closure", "gauge_331"):
+        assert lin["reads"][st] == [] and lin["uses"][st] == []
+    assert lin["uses"]["criticality"] == ["planck_units"]
+    assert {"yukawa_relations", "criticality", "quantum_gravity"} <= set(lin["takers"]["planck_units[E_P_GeV]"])
+    assert [s for s in lin["reaches"]["H0"] if s != "self_checks"] == ["cosmology", "quantum_gravity"]
+    assert "criticality" in lin["reaches"]["M_t"] and "criticality" in lin["reaches"]["G"]
+    assert "flavour" in lin["takers"]["gauge_unification[M_S_for_measured_alpha]"]
+    assert not lin["uv_consistent"]
+
+
+def test_uv_joint_test():
+    """Part M: the SM up to M_P misses every condition it predicts; the MSSM survives each
+    condition alone and in pairs, never predicting anything, and all three together exclude it."""
+    jt = RESULT["joint"]
+    rows = {(r["hypothesis"], r["conditions"]): r for r in jt["rows"]}
+    assert len(rows) == 14
+    assert not any(r["survives"] for (h, _), r in rows.items() if h.startswith("SM"))
+    assert abs(jt["SM_pulls"]["H"] - 3.27) < 0.05
+    mssm = {c: r for (h, c), r in rows.items() if h.startswith("MSSM")}
+    assert all(mssm[c]["survives"] for c in mssm if len(c) < 3)
+    assert all(mssm[c]["chi2"] < 1e-6 for c in (("U",), ("B",), ("H",), ("U", "B"), ("U", "H")))
+    assert not mssm[("U", "B", "H")]["survives"] and mssm[("U", "B", "H")]["n_sigma"] > 20
+    assert all(r["dof"] <= 0 for r in mssm.values())
+    assert jt["predictive_survivors"] == []
+    # theory errors: calculated from the code's own lower orders, never typed in
+    th = jt["SM_theory_sigma"]
+    # Part L's last orders: running 3 vs 2 loops, matching 3 vs 2, QCD 4 vs 3 (the largest)
+    parts = jt["SM_theory_H_parts"]
+    assert abs(parts["QCD"]) > max(abs(parts["running"]), abs(parts["matching"]))
+    assert 0.3 < th["H"] < 0.6 and abs(th["U"] - 4.80) < 0.05
+    assert all(r["with_theory"]["n_sigma"] <= r["n_sigma"] + 1e-9 for r in rows.values())
+    # two verdicts depend on the theory errors: SM criticality (3.3 sigma on inputs, just under 3 with
+    # the last-order shifts) and the MSSM with all three conditions (through unification)
+    assert 2.5 < rows[("SM up to M_P", ("H",))]["with_theory"]["n_sigma"] < 3
+    flips = {k for k, r in rows.items() if r["survives"] != r["with_theory"]["survives"]}
+    assert flips == {("SM up to M_P", ("H",)), ("MSSM above M_S", ("U", "B", "H"))}
+    assert jt["predictive_survivors_theory"] == [("SM up to M_P", ("H",))]
+
+
+def test_survey_certificates_are_sound():
+    """Part C certificates on cases with known answers: two exclusions are proved quickly, and the
+    survivor (which has a point that fits) is never 'proved' excluded."""
+    mu = RESULT["scales"][0]
+    sv = RESULT["survey"][mu]["survey"]
+    recs = {(P.pattern_mask(r["zeros_u"]), P.pattern_mask(r["zeros_d"])): r
+            for r in RESULT["survey"][mu]["classes"] if r["status"] == "tested"}
+    for key in (("00X/0X0/X0X", "00X/0X0/X0X"), ("00X/0XX/XXX", "0XX/XX0/X00")):
+        assert not recs[key]["survives"] and P._certify_class((sv, recs[key]))["certified"]
+    old = P.NUMERICS["cert_budget"]
+    P.NUMERICS["cert_budget"] = 20000
+    try:
+        assert not P._certify_class((sv, recs[("00X/0XX/XXX", "0X0/X0X/0XX")]))["certified"]
+    finally:
+        P.NUMERICS["cert_budget"] = old
+
+
+def test_survivor_prediction():
+    """The survivor's prediction: |V_us|, |V_cb|, |V_ub| fix its unknowns at isolated points; two
+    distinct solutions, one excluded by |V_td/V_ts| (never used by the survey), one within 3 sigma."""
+    for mu in RESULT["scales"]:
+        surv = [r for r in RESULT["survey"][mu]["classes"] if r["status"] == "tested" and r["survives"]]
+        assert len(surv) == 1
+        sols = surv[0]["prediction"]
+        assert len(sols) == 2
+        pulls = [abs(o["V_td/V_ts"] - 0.207) / math.hypot(o["V_td/V_ts_sigma"], 0.0032) for o in sols]
+        assert min(pulls) < 3 < max(pulls)
+        assert all(2.5e-5 < o["J"] < 3.5e-5 and o["J_sigma"] < 2e-6 for o in sols)
 
 
 def test_parallel_textures_excluded():
@@ -234,17 +344,41 @@ def test_higgs_mass_mssm():
 
 
 def test_sm_criticality():
-    """Part L: lambda(M_P) = 0 at two loops predicts m_h a few GeV above the measurement; the
-    measured m_h makes lambda(M_P) slightly negative."""
+    """Part L: lambda(M_P) = 0 at three loops with three-loop matching predicts m_h a few GeV above
+    the measurement, reproducing Buttazzo et al.; the measured m_h makes lambda(M_P) slightly negative."""
     cr = RESULT["criticality"]
     two = [r for r in cr["rows"] if r["loops"] == 2]
     assert all(127 < r["m_h"] < 131 for r in two)
-    assert max(r["m_h"] for r in two) - min(r["m_h"] for r in two) < 0.5   # Planck mass, matching
+    assert max(r["m_h"] for r in two) - min(r["m_h"] for r in two) < 1.5   # Planck mass, matching orders
     assert 127 < cr["central"]["m_h"] < 131 and cr["central"]["matched"]
+    assert (cr["central"]["loops"], cr["central"]["matching"]) == (3, "SMDR-anchored")
+    # anchoring to SMDR's full two-loop plus leading three-loop matching changes M_h by under 50 MeV
+    assert abs(cr["central"]["m_h"] - cr["row"]["3L/three loops"]["m_h"]) < 0.05
+    assert abs(cr["smdr"]["lambda"]) < 3e-4 and abs(cr["smdr"]["y_t"]) < 5e-4
+    # the higher orders move it by well under a GeV
+    assert abs(cr["central"]["m_h"] - cr["two_loop_one_loop"]["m_h"]) < 1
+    bz = cr["buttazzo"]
+    assert bz["dev_3L"] < 1e-4 < bz["dev_2L"]
+    assert bz["dev_lambda"] < bz["lambda_th"] and bz["dev_yt"] < bz["yt_th"]
+    assert abs(cr["row"]["3L/two loops, QCD 3"]["m_h"] - bz["mh_linear"]) < bz["mh_linear_tol"]
+    qc = cr["qcd_checks"]
+    assert qc["dev_alpha_Mb"] < 1e-5 and qc["dev_gamma"] < 1e-5 and qc["dev_B4"] < 1e-6
     assert 0.3 < cr["sigma_total"] < 2
     assert 125 < cr["double"]["m_h"] < 135 and 170 < cr["double"]["M_t"] < 177
     pr = P.sm_lambda_profile(cr, 125.20)
     assert -0.03 < pr["lambda_MP"] < 0 and 1e9 < pr["mu_zero"] < 1e12
+
+
+def test_four_loop_qcd():
+    """Four-loop QCD with three-loop decoupling: the published coefficients reproduce RunDec and
+    Chetyrkin; each lower order is the right truncation; the runner's m_t(m_t) moves as expected."""
+    x = P._float_inputs()
+    runs = {L: P.FlavourRunner(x, int(P.num("rg_steps_per_efold")), L) for L in (2, 3, 4)}
+    mts = {L: r.mt_msbar for L, r in runs.items()}
+    assert mts[2] > mts[3] > mts[4]                      # each QCD order lowers m_t(m_t)
+    assert 0.3 < mts[2] - mts[4] < 1.0
+    assert abs(P.qcd_beta_pi(5, 2)[1] - (102 - 38 * 5 / 3) / 16) < 1e-12
+    assert P.decoupling_g2(0.2, 4, 2) == 1 and P.decoupling_m(0.2, 4, 2) == 1
 
 
 def test_website_data_is_current():

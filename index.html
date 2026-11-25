@@ -134,6 +134,8 @@
       <a href="#ladder">The ladder</a>
       <a href="#higgs">The Higgs mass</a>
       <a href="#unification">Unification</a>
+      <a href="#theories">Which theory?</a>
+      <a href="#textures">Quark textures</a>
       <a href="#numbers">Nature's numbers</a>
       <a href="#method">Method</a>
       <a href="#run">Run it</a>
@@ -145,7 +147,7 @@
 
   <div class="hero" aria-label="Headline result">
     <div class="stat"><div class="label">Higgs mass from one condition at the Planck scale</div>
-      <div class="value"><span data-v="crit.pred">129.0</span> <span class="unit">GeV</span></div>
+      <div class="value"><span data-v="crit.pred">128.3</span> <span class="unit">GeV</span></div>
       <div class="note">± <span data-v="crit.sigma">0.9</span> from the top mass and α<sub>s</sub></div></div>
     <div class="stat"><div class="label">Measured at the LHC</div>
       <div class="value"><span data-v="crit.meas">125.20</span> <span class="unit">GeV</span></div>
@@ -162,22 +164,22 @@
   <ol class="ladder">
     <li class="rung"><div class="scale"><b>10<sup>19</sup> GeV</b>Planck mass</div><div class="body">
       <h3>The Higgs self-coupling vanishes <span class="chip warn">3% off</span></h3>
-      <p>If nothing new appears below the Planck scale, the Higgs self-coupling λ can be zero there (Froggatt–Nielsen 1996, Shaposhnikov–Wetterich 2010). Run down with two-loop equations, that one condition predicts the Higgs mass.</p>
-      <p class="res">Prediction <b><span data-v="crit.pred">129.0</span> GeV</b>, measured 125.20. Demanding that λ also stops running predicts the top mass as well: <b><span data-v="crit.mt">173.5</span> GeV</b>, against 172.57 measured. <a href="#higgs">See the running ↓</a></p></div></li>
+      <p>If nothing new appears below the Planck scale, the Higgs self-coupling λ can be zero there (Froggatt–Nielsen 1996, Shaposhnikov–Wetterich 2010). Run down with three-loop equations, that one condition predicts the Higgs mass.</p>
+      <p class="res">Prediction <b><span data-v="crit.pred">128.3</span> GeV</b>, measured 125.20. Demanding that λ also stops running predicts the top mass as well: <b><span data-v="crit.mt">173.5</span> GeV</b>, against 172.57 measured. <a href="#higgs">See the running ↓</a></p></div></li>
     <li class="rung"><div class="scale"><b>10<sup>16</sup> GeV</b>grand unification</div><div class="body">
       <h3>The three forces meet <span class="chip warn">only with superpartners</span></h3>
       <p>In the Standard Model the three gauge couplings never meet. Add supersymmetry above a scale M<sub>S</sub> and they meet at M<sub>GUT</sub> ≈ <span data-v="unif.mgut">1.1 × 10¹⁶</span> GeV. Then α is no longer free: it follows from α<sub>s</sub> and sin²θ<sub>W</sub>.</p>
       <p class="res">The measured α requires M<sub>S</sub> ≈ <b><span data-v="unif.ms">2.5</span> TeV</b>. One number is traded for another, so nothing is closed yet. <a href="#unification">See the couplings ↓</a></p></div></li>
     <li class="rung"><div class="scale"><b>10<sup>10</sup> GeV</b>instability scale</div><div class="body">
       <h3>The Higgs potential tips over <span class="chip info">calculated</span></h3>
-      <p class="res">With the measured Higgs mass, λ turns negative at <b><span data-v="crit.muzero">2.6 × 10¹⁰</span> GeV</b> and reaches <span data-v="crit.lmp">−0.012</span> at the Planck mass. Our vacuum is not the lowest state of the Standard Model.</p></div></li>
+      <p class="res">With the measured Higgs mass, λ turns negative at <b><span data-v="crit.muzero">5.9 × 10¹⁰</span> GeV</b> and reaches <span data-v="crit.lmp">−0.010</span> at the Planck mass. Our vacuum is not the lowest state of the Standard Model.</p></div></li>
     <li class="rung"><div class="scale"><b>10<sup>3</sup> GeV</b>superpartners</div><div class="body">
       <h3>Supersymmetry fixes the Higgs mass <span class="chip bad">excluded</span></h3>
-      <p>In the minimal supersymmetric model the Higgs self-coupling is not free. Two independent relations, bottom–tau unification and the top-quark fixed point, both give tan β ≈ <span data-v="tb">1.35</span>. Combined with M<sub>S</sub> from unification, they bound the Higgs mass.</p>
-      <p class="res">At most <b><span data-v="mssm.bound">103.9</span> GeV</b> for every stop mixing, against 125.20 measured. That route cannot hold together.</p></div></li>
+      <p>In the minimal supersymmetric model the Higgs self-coupling is not free. Two independent relations, bottom–tau unification and the top-quark fixed point, both give tan β ≈ <span data-v="tb">1.33</span>. Combined with M<sub>S</sub> from unification, they bound the Higgs mass.</p>
+      <p class="res">At most <b><span data-v="mssm.bound">102.9</span> GeV</b> for every stop mixing, against 125.20 measured. That route cannot hold together.</p></div></li>
     <li class="rung"><div class="scale"><b>10<sup>2</sup> GeV</b>weak scale</div><div class="body">
       <h3>Quark masses and their mixing <span class="chip bad">not calculable by zeros</span></h3>
-      <p class="res">Every pattern of zeros in the quark mass matrices was tested exactly: 61,009 pairs of general matrices, and 83 predictive Hermitian classes. One Hermitian pattern survives with a single relation, and no pattern of general matrices predicts anything. The quark sector needs its 10 measured inputs.</p></div></li>
+      <p class="res">Every pattern of zeros in the quark mass matrices was tested: 61,009 pairs of general matrices (none predicts anything, proved) and <span data-v="tex.tested">83</span> predictive Hermitian classes. One Hermitian pattern survives, and the exclusions of 80 of the other 82 are proved, not just searched. The survivor predicts |V<sub>td</sub>/V<sub>ts</sub>| = <b><span data-v="tex.q">0.197</span></b>, against <span data-v="tex.qmeas">0.207</span> measured. <a href="#textures">See the textures ↓</a></p></div></li>
     <li class="rung"><div class="scale"><b>10<sup>−1</sup> GeV</b>strong scale</div><div class="body">
       <h3>Why gravity is weak <span class="chip good">mechanism</span></h3>
       <p class="res">The proton is 10¹⁹ times lighter than the Planck mass because the strong coupling grows only logarithmically: ln(M<sub>P</sub>/Λ<sub>QCD</sub>) ≈ 45. Gravity's strength for a proton is exactly (m<sub>p</sub>/M<sub>P</sub>)².</p></div></li>
@@ -191,7 +193,7 @@
   <p>λ starts near 0.13 at the weak scale and is driven down by the top quark. For the measured Higgs mass it crosses zero long before the Planck scale. A Higgs only about 4 GeV heavier would bring it to exactly zero at M<sub>P</sub>: that is the critical curve.</p>
   <figure>
     <div class="chart" id="chart-lambda"><div class="legend" id="leg-lambda"></div></div>
-    <figcaption>Two-loop Standard Model running, matched at one loop to the pole masses of the Higgs, top, W and Z. The one-loop matching shifts the prediction by only <span data-v="crit.shift">+0.04</span> GeV, so the gap is not a matching artefact at this order.</figcaption>
+    <figcaption>Three-loop Standard Model running, matched at three loops to the pole masses of the Higgs, top, W and Z, with QCD at four loops. Going from two-loop to three-loop matching shifts the prediction by only <span data-v="crit.shift">+0.07</span> GeV, so the gap is not a matching artefact at this order.</figcaption>
     <details><summary>Data table</summary><div class="tablewrap" id="tbl-lambda"></div></details>
   </figure>
 
@@ -204,17 +206,40 @@
   </figure>
   <figure>
     <div class="chart" id="chart-mssm"><div class="legend" id="leg-mssm"></div></div>
-    <figcaption>The supersymmetric Higgs mass against stop mixing X<sub>t</sub>/M<sub>S</sub>, at the M<sub>S</sub> and tan β derived above. Its peak is the bound for every mixing, and it sits about 21 GeV below the measured mass.</figcaption>
+    <figcaption>The supersymmetric Higgs mass against stop mixing X<sub>t</sub>/M<sub>S</sub>, at the M<sub>S</sub> and tan β derived above. Its peak is the bound for every mixing, and it sits about <span data-v="mssm.gap">22</span> GeV below the measured mass.</figcaption>
   </figure>
+
+  <p class="kicker">Part M</p>
+  <h2 id="theories">Which high-energy theory survives every condition at once?</h2>
+  <p>The rungs above assume different things above the weak scale: unification and the supersymmetric Higgs mass assume superpartners, the Planck-scale condition assumes nothing new up to M<sub>P</sub>. They cannot all be true, so the simulation does not choose. It tests each hypothesis against every combination of the conditions (gauge unification, bottom–tau unification, the Higgs mass) and reports which survive.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Hypothesis</th><th>Unknowns</th><th>What happens</th><th>Verdict</th></tr>
+    <tr><td>Standard Model up to M<sub>P</sub></td><td class="num">0</td><td>Every condition is a prediction, and each misses: unification by <span data-v="jt.smU">79</span>σ, bottom–tau by <span data-v="jt.smB">79</span>σ, the Higgs mass by <span data-v="jt.smH">3.3</span>σ (<span data-v="jt.smHth">2.95</span>σ with theory errors)</td><td><span class="chip warn">Higgs: borderline</span></td></tr>
+    <tr><td>Supersymmetry above M<sub>S</sub></td><td class="num">3</td><td>Meets any one or two conditions because its unknowns absorb them, so it predicts nothing; all three together exclude it at <span data-v="jt.mssm">24</span>σ (<span data-v="jt.mssmth">2.7</span>σ with theory errors)</td><td><span class="chip bad">predicts nothing</span></td></tr>
+  </table></div>
+  <p>The theory errors are computed by the simulation itself: for every ingredient, the change from the last order it calculates to the one below. With input errors only, no hypothesis both survives and predicts a number.</p>
+
+  <p class="kicker">Part C</p>
+  <h2 id="textures">The one quark texture that survives</h2>
+  <p>A texture is a pattern of zeros in the quark mass matrices. Each sector's entries follow exactly from its measured masses, and every unknown left (a free entry, two phases) is scanned, never set. Of <span data-v="tex.tested">83</span> patterns that predict anything, one survives:</p>
+<pre>up   <span data-v="tex.up">00X/0XX/XXX</span>      down   <span data-v="tex.down">0X0/X0X/0XX</span>      (rows; X = nonzero, 0 = zero)</pre>
+  <p>Its exclusions of the other patterns are <b>proved</b>, not just searched, for 80 of 82: a branch-and-bound covers every point of every family and both phases with cells, and rigorous bounds on the matrix entries, the eigenvectors and the CKM elements show that no point in any cell fits (<code>--certify</code>; report: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/production_v2_2_certified.txt">results/production_v2_2_certified.txt</a>). The other two stay numerical, excluded at 14σ and 17σ.</p>
+  <p>The three measured moduli |V<sub>us</sub>|, |V<sub>cb</sub>|, |V<sub>ub</sub>| fix the survivor's three unknowns, so it predicts the rest. Its best solution:</p>
+  <div class="tablewrap"><table>
+    <tr><th></th><th>Predicted</th><th>Measured</th></tr>
+    <tr><td>|J| (CP violation)</td><td class="num"><span data-v="tex.J">2.90 × 10⁻⁵</span> ± <span data-v="tex.Js">0.12 × 10⁻⁵</span></td><td class="num"><span data-v="tex.Jmeas">3.12 × 10⁻⁵</span></td></tr>
+    <tr><td>|V<sub>td</sub>/V<sub>ts</sub>|, never used by the survey</td><td class="num"><span data-v="tex.q">0.197</span> ± <span data-v="tex.qs">0.003</span></td><td class="num"><span data-v="tex.qmeas">0.207</span></td></tr>
+  </table></div>
+  <p>Together they are <b><span data-v="tex.both">2.2</span>σ</b> from the measurements: the pattern survives, with a sharp prediction that a better measurement of |V<sub>td</sub>/V<sub>ts</sub>| or J can confirm or exclude. Its other solution is excluded by |V<sub>td</sub>/V<sub>ts</sub>|.</p>
 
   <p class="kicker">The scoreboard</p>
   <h2 id="numbers">Nature's free numbers, one by one</h2>
   <div class="tablewrap"><table>
     <tr><th>Numbers</th><th>Count</th><th>What the ladder does with them</th><th>Status</th></tr>
-    <tr><td>Higgs mass</td><td class="num">1</td><td>λ(M<sub>P</sub>) = 0 gives <span data-v="crit.pred">129.0</span> GeV against 125.20</td><td><span class="chip warn">3% off</span></td></tr>
+    <tr><td>Higgs mass</td><td class="num">1</td><td>λ(M<sub>P</sub>) = 0 gives <span data-v="crit.pred">128.3</span> GeV against 125.20</td><td><span class="chip warn">3% off</span></td></tr>
     <tr><td>Top mass</td><td class="num">(1)</td><td>λ = β<sub>λ</sub> = 0 at M<sub>P</sub> gives <span data-v="crit.mt">173.5</span> GeV against 172.57 (one of the 6 quark masses)</td><td><span class="chip warn">within 1 GeV</span></td></tr>
     <tr><td>Gauge couplings</td><td class="num">3</td><td>Unification ties α to the other two, at the cost of a new scale M<sub>S</sub></td><td><span class="chip info">traded</span></td></tr>
-    <tr><td>Quark mixing (CKM)</td><td class="num">4</td><td>One Hermitian texture survives with one relation; general matrices predict nothing</td><td><span class="chip warn">1 relation</span></td></tr>
+    <tr><td>Quark mixing (CKM)</td><td class="num">4</td><td>One Hermitian texture survives (80 of 82 rivals provably excluded) and predicts |V<sub>td</sub>/V<sub>ts</sub>| = <span data-v="tex.q">0.197</span> against <span data-v="tex.qmeas">0.207</span>; general matrices predict nothing (proved)</td><td><span class="chip warn">1 relation, <span data-v="tex.both">2.2</span>σ</span></td></tr>
     <tr><td>Quark and lepton masses</td><td class="num">9</td><td>SU(5) and Georgi–Jarlskog ratios excluded; b–τ unification needs supersymmetry, which the Higgs mass then excludes</td><td><span class="chip bad">not calculated</span></td></tr>
     <tr><td>Higgs vacuum value</td><td class="num">1</td><td>From G<sub>F</sub>; an input</td><td><span class="chip info">input</span></td></tr>
     <tr><td>Strong CP angle θ</td><td class="num">1</td><td>Not addressed yet</td><td><span class="chip info">next</span></td></tr>
@@ -227,6 +252,7 @@
     <li><span class="chip good">identity</span>Gravity's strength for a proton is exactly (m<sub>p</sub>/M<sub>Planck</sub>)². "Why is gravity weak?" becomes "why is the proton light?"</li>
     <li><span class="chip good">identity</span>The de Sitter entropy (10<sup>122</sup>) times the dark-energy-to-Planck density ratio (10<sup>−123</sup>) is exactly 3/8. The two famous huge numbers are one fact.</li>
     <li><span class="chip warn">near miss</span>The Higgs sits within 3% of the mass at which its self-coupling would vanish at the Planck scale, and the top within 1 GeV of where that coupling would also stop running. Either the Standard Model reaches the Planck scale almost exactly critical, or something enters on the way.</li>
+    <li><span class="chip warn">testable</span>The one surviving quark texture fixes |V<sub>td</sub>/V<sub>ts</sub>| from three other CKM numbers, and lands <span data-v="tex.both">2.2</span>σ from the measurement. It is the only place where zeros in the mass matrices still predict anything.</li>
     <li><span class="chip info">coincidence</span>The smallest mass gravity can entangle within the age of the universe (89 MeV/c²) is 0.64 pion masses. It is the same combination of ħ, G, c and the Hubble time as Weinberg's 1972 large-number relation. No mechanism is known.</li>
     <li><span class="chip bad">open</span>Still not calculated by anything: α, the Yukawa couplings, the cosmological constant, and whether gravity is quantum. The last is a measurement waiting to be made, because a classical gravitational field cannot entangle masses at all.</li>
   </ul>
@@ -237,7 +263,9 @@
     <div class="card"><h3>Measured inputs only</h3><p>About thirty constants (masses, couplings, the CMB temperature, G), each with its uncertainty and source: PDG 2024, Planck 2018, CODATA 2018. They are the only physics numbers that enter a calculation.</p></div>
     <div class="card"><h3>Established physics only</h3><p>The Friedmann equation, the renormalization group with coefficients from group theory, exact linear algebra, and semiclassical gravity. Every scale comes from an earlier step.</p></div>
     <div class="card"><h3>Unknowns are scanned</h3><p>Quantities nothing fixes, such as a phase or the stop mixing, are never given a value. They are scanned over their whole range, and the prediction is the band that results.</p></div>
-    <div class="card"><h3>Checked by itself</h3><p>A test fails if any tunable number appears outside the input tables. The run ends with <span data-v="checks">40</span> self-checks of the calculation itself, which test correctness, not agreement with data.</p></div>
+    <div class="card"><h3>Checked by itself</h3><p>A test fails if any tunable number appears outside the input tables. The run ends with <span data-v="checks">49</span> self-checks of the calculation itself, which test correctness, not agreement with data. Every coefficient quoted from the literature is checked against a published result.</p></div>
+    <div class="card"><h3>One model, traced</h3><p>The parts run as stages of one algorithm. Every read of an input and of an earlier stage's result is recorded, so the report prints the dependency graph the code actually followed. Change one input (<code>--set</code>) and every stage it reaches is recalculated.</p></div>
+    <div class="card"><h3>Proved where it can be</h3><p>Where a claim is "nothing fits anywhere", a search is not enough. The zero-pattern results of Part F are proved exactly, and 80 of the 82 exclusions of Part C are proved by branch-and-bound over their whole parameter space.</p></div>
   </div>
 
   <h2 id="run">Run it</h2>
@@ -247,10 +275,12 @@
       <a class="btn" href="production_v2_2.py" download="production_v2_2.py">Download .py</a>
       <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/production_v2_2.py">View on GitHub</a>
     </div>
-    <p class="status" id="copy-status" role="status" aria-live="polite">One file, standard library only. Paste it into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 5 minutes. Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/production_v2_2.txt">results/production_v2_2.txt</a>.</p>
+    <p class="status" id="copy-status" role="status" aria-live="polite">One file, standard library only. Paste it into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 6 minutes. Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/production_v2_2.txt">results/production_v2_2.txt</a>.</p>
   </div>
-<pre>python3 production_v2_2.py                     # full report, Parts A to L
-python3 production_v2_2.py --json-out out.json # every number, as JSON</pre>
+<pre>python3 production_v2_2.py                     # full report, Parts A to M
+python3 production_v2_2.py --json-out out.json # every number, as JSON
+python3 production_v2_2.py --set M_t=173.5      # change an input; the whole model is recalculated
+python3 production_v2_2.py --certify            # also prove the texture exclusions (about 10 more minutes)</pre>
 
   <footer>
     Independent work, not peer reviewed. CC0 1.0 (public domain). Every number and curve on this page is generated from the script by <code>tools/site_data.py</code>. Source, tests and history:
@@ -280,11 +310,24 @@ python3 production_v2_2.py --json-out out.json # every number, as JSON</pre>
       "crit.pred": c.m_h_pred.toFixed(1), "crit.sigma": c.sigma.toFixed(1), "crit.meas": c.m_h_meas.toFixed(2),
       "crit.pct": Math.round(100 * Math.abs(c.m_h_pred / c.m_h_meas - 1)), "crit.mt": c.double_M_t.toFixed(1),
       "crit.muzero": sci(c.mu_zero, 1), "crit.lmp": fmt(c.lambda_MP, 3),
-      "crit.shift": (c.m_h_pred - c.m_h_tree >= 0 ? "+" : "−") + Math.abs(c.m_h_pred - c.m_h_tree).toFixed(2),
+      "crit.shift": (c.m_h_pred - c.m_h_lower_matching >= 0 ? "+" : "−") + Math.abs(c.m_h_pred - c.m_h_lower_matching).toFixed(2),
       "unif.mgut": sci(u.M_GUT, 1), "unif.ms": (u.M_S / 1000).toFixed(1),
-      "mssm.bound": D.higgs_mssm.bound.toFixed(1), "tb": D.tan_beta.btau.toFixed(2),
+      "mssm.bound": D.higgs_mssm.bound.toFixed(1), "mssm.gap": Math.round(c.m_h_meas - D.higgs_mssm.bound), "tb": D.tan_beta.btau.toFixed(2),
       "cosmo.age": D.cosmology.age.toFixed(3), "cosmo.ol": D.cosmology.Omega_Lambda.toFixed(4), "checks": D.checks[0]
     };
+    if (D.texture) {
+      var t = D.texture;
+      vals["tex.tested"] = t.tested; vals["tex.up"] = t.up; vals["tex.down"] = t.down;
+      vals["tex.J"] = sci(t.J, 2); vals["tex.Js"] = sci(t.J_sigma, 1); vals["tex.Jmeas"] = sci(t.J_meas, 2);
+      vals["tex.q"] = t.Vtd_Vts.toFixed(3); vals["tex.qs"] = t.Vtd_Vts_sigma.toFixed(3);
+      vals["tex.qmeas"] = t.Vtd_Vts_meas.toFixed(3); vals["tex.both"] = t.both_sigma.toFixed(1);
+    }
+    if (D.joint) {
+      var j = D.joint;
+      vals["jt.smU"] = Math.round(j.sm_U); vals["jt.smB"] = Math.round(j.sm_B); vals["jt.smH"] = j.sm_H.toFixed(1);
+      vals["jt.smHth"] = j.sm_H_theory.toFixed(2); vals["jt.mssm"] = Math.round(j.mssm_all);
+      vals["jt.mssmth"] = j.mssm_all_theory.toFixed(1);
+    }
     Array.prototype.forEach.call(document.querySelectorAll("[data-v]"), function (n) {
       var v = vals[n.getAttribute("data-v")];
       if (v !== undefined) n.textContent = v;
