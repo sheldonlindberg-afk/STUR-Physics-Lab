@@ -99,7 +99,7 @@ Status: [x] done, [~] in progress, [ ] not started.
    same for LR (needs the 210 under 3221) and for the M_I thresholds; the potential itself.
 2. [x] Part X: Omega_m from Omega_b + axion at PS's M_I + neutrinos; misalignment alone makes the
    universe 15.2 Gyr old (70 sigma): strings/defects must give ~35 % of the DM. Open: the string yield.
-3. [x] Z pole (Part W): sin^2 theta_eff = 0.23163 (two-loop parametrization, Awramik et al. 2006) vs
+3. [x] Z pole (Part W): sin^2 theta_eff = 0.23164 (two-loop parametrization, Awramik et al. 2006) vs
    0.23151 +- 0.00016 (LEP+SLC). Open: Gamma_Z, R_l, the other pseudo-observables.
 4. Proton running above M_I and the dimension-five factor 2.2.
 

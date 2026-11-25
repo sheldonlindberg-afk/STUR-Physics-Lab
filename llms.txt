@@ -68,7 +68,7 @@
 - Part T8 (heavy spectrum): Pati-Salam's heavy GUT multiplets by group theory; the SU(2)_L triplets (10,3,1) of 126 and (15,3,1) of 210 dominate; within a factor 10 of M_GUT, tau_p spans 1e27-1e43 yr: the spectrum decides.
 - Part V (axion dark matter): misalignment from its ingredients reproduces Di Luzio et al.'s eq. 170; all the DM post-inflation at f_a = 2.0e11 GeV (m_a = 28.5 micro-eV); at Pati-Salam's M_I the axion gives 65% of the DM, at the left-right M_I under 1%.
 - Part W (W mass): SM two-loop M_W (Awramik et al. parametrization) = 80.350 +/- 0.004 GeV at Part L's m_h; PDG fit 80.353, measured 80.360 (no CDF) / 80.369: within 1.4 sigma.
-- Part X (closed cosmology): Omega_m from Omega_b + the axion at PS's M_I (misalignment) + neutrinos gives age 15.2 Gyr, 70 sigma off Planck; strings/defects must supply ~35% of the dark matter. Part W also gives sin^2 theta_eff = 0.23163 vs 0.23151 (LEP+SLC).
+- Part X (closed cosmology): Omega_m from Omega_b + the axion at PS's M_I (misalignment) + neutrinos gives age 15.2 Gyr, 70 sigma off Planck; strings/defects must supply ~35% of the dark matter. Part W also gives sin^2 theta_eff = 0.23164 vs 0.23151 (LEP+SLC).
 - Part U (scorecard): SM to M_P fails unification, b-tau, Higgs (3.3 sigma), baryon asymmetry; minimal SUSY SU(5) fails the Higgs mass and proton decay; SO(10) via Pati-Salam fails nothing at two loops (lambda(M_I) = 0 gives m_h = 125.6 GeV) but predicts nothing yet.
 - Every scale comes from the algorithm: m_t(m_t), Part I's M_S = 2.54 TeV and M_GUT, M_Planck.
 

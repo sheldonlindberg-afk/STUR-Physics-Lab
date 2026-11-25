@@ -1,7 +1,7 @@
 ==============================================================================
 STUR Physics Lab, production v2.2: nothing tuned, nothing fitted
 ==============================================================================
-Inputs: 64 measured or defined constants (INPUTS). Comparisons: 19 measured results, never used in a calculation.
+Inputs: 64 measured or defined constants (INPUTS). Comparisons: 21 measured results, never used in a calculation.
 
 PART A. COSMOLOGY (flat Lambda-CDM, Friedmann equation)
 ------------------------------------------------------------------------------
@@ -899,11 +899,29 @@ PART W. THE W MASS: A TEST OF THE STANDARD MODEL ITSELF
     PDG 2024 average (the input M_W)     80.3692 +/- 0.0133: +1.4 sigma
     PDG 2024 average without CDF         80.3600 +/- 0.0120: +0.8 sigma
     PDG 2024 global-fit prediction       80.3530 +/- 0.0060: +0.5 sigma
+  The effective weak mixing angle of the Z couplings (Awramik, Czakon, Freitas 2006, two loops, leptons):
+    sin^2 theta_eff = 0.23164 +/- 0.00003; at the measured m_h: -0.00001
+    sin^2 theta_eff^lept, LEP + SLC      0.23151 +/- 0.00016: -0.8 sigma
+    sin^2 theta_eff^lept, hadron-collider average 0.23149 +/- 0.00013: -1.1 sigma
   RESULT: the Standard Model's M_W, with every input but Delta alpha_had
     measured or calculated here, agrees with the measurements and reproduces
     the PDG's global fit. No new physics is needed at the weak scale; the
     heavy states of the SO(10) chains decouple, so this tests the SM below
     M_I, not the chains.
+
+PART X. CLOSING THE LOOP: COSMOLOGY FROM THE PARTICLE PHYSICS
+------------------------------------------------------------------------------
+  Part A takes Omega_m as an input. Here it follows from the rest: Omega_b (measured), the axion at the
+  Pati-Salam M_I by misalignment (Part V: Omega_a h^2 = 0.0778) and the minimal neutrino masses
+  (Part P). Flatness gives Omega_Lambda; the Friedmann equation the age.
+    Omega_m = 0.2222 (Part A's input: 0.3153), Omega_Lambda = 0.7777, age = 15.182 Gyr
+    against Planck's 13.787 +/- 0.02 Gyr: +70 sigma (with all of Omega_c: 13.797 Gyr)
+  RESULT: misalignment alone leaves the universe too old by 70 sigma: closing
+    the loop needs 35 % of the dark matter from the axion's strings and
+    domain walls (post-inflation), or a second component. That fraction is
+    now the single number on which the particle-physics side of the cosmology
+    hangs; the lattice and simulation results for the string yield are what
+    would test it.
 
 PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
 ------------------------------------------------------------------------------
@@ -1138,6 +1156,12 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
       takes: criticality
       assumes: the SM's two-loop M_W in its published parametrization, at
         Part L's Higgs mass
+  closed_cosmology (X, conditional)
+      inputs: H0, Omega_b_h2
+      takes: cosmology, neutrinos, dark_matter
+      assumes: Omega_m from Omega_b (measured), the axion at Pati-Salam's M_I
+        (misalignment, post-inflation) and the minimal neutrino masses; flat
+        LambdaCDM
   scorecard (U, conditional)
       inputs: none
       takes: higgs_mssm, criticality, uv_joint_test, neutrinos, proton_decay,
@@ -1154,7 +1178,7 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
       takes: cosmology, gauge_unification, flavour, texture_survey,
         gauge_331, flavour_symmetry_331, quantum_gravity, higgs_mssm,
         criticality, uv_joint_test, mass_formulas, strong_cp, neutrinos,
-        baryon_asymmetry, so10, dark_matter
+        baryon_asymmetry, so10, dark_matter, closed_cosmology
       assumes: tests the calculation, not the physics
   Numbers calculated once and handed on:
     M_S, M_GUT = 2536.5, 1.1459e+16 GeV, from
@@ -1171,16 +1195,18 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
     M_t: flavour, texture_survey, flavour_symmetry_331, quantum_gravity,
       yukawa_relations, higgs_mssm, criticality, uv_joint_test,
       mass_formulas, strong_cp, neutrinos, proton_decay, baryon_asymmetry,
-      so10, dark_matter, w_mass, scorecard
+      so10, dark_matter, w_mass, closed_cosmology, scorecard
     alpha_s_MZ: gauge_unification, flavour, texture_survey,
       flavour_symmetry_331, quantum_gravity, yukawa_relations, higgs_mssm,
       criticality, uv_joint_test, mass_formulas, strong_cp, neutrinos,
-      proton_decay, baryon_asymmetry, so10, dark_matter, w_mass, scorecard
+      proton_decay, baryon_asymmetry, so10, dark_matter, w_mass,
+      closed_cosmology, scorecard
     G: cosmology, planck_units, quantum_gravity, yukawa_relations,
       higgs_mssm, criticality, uv_joint_test, strong_cp, neutrinos,
-      proton_decay, baryon_asymmetry, so10, dark_matter, w_mass, scorecard
+      proton_decay, baryon_asymmetry, so10, dark_matter, w_mass,
+      closed_cosmology, scorecard
     H0: cosmology, quantum_gravity, neutrinos, baryon_asymmetry, so10,
-      dark_matter, scorecard
+      dark_matter, closed_cosmology, scorecard
   Global consistency of the stage assumptions:
     MSSM above M_S  : gauge_unification, yukawa_relations, higgs_mssm, proton_decay
     SM up to M_P    : criticality
@@ -1301,10 +1327,12 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] SO(10) via Pati-Salam: the solved M_I, M_GUT make SU(4), SU(2)_L, SU(2)_R meet at 1/alpha_GUT  (max rel diff 1.1e-15)
   [PASS] Leptogenesis efficiency: z_B solves its freeze-out equation; kappa_f -> 1 in weak washout  (max rel residual 1.1e-15, kappa(K -> 0) = 0.999997)
   [PASS] M_W parametrization returns M_W^0 at its reference point (transcription check)  (80.37790 GeV)
+  [PASS] sin^2 theta_eff parametrization returns s0 at its reference point (transcription check)  (0.2312527)
+  [PASS] Part X with all of Omega_c reproduces Part A's age (the same Friedmann equation)  (13.797 against 13.795 Gyr)
   [PASS] Axion misalignment from its ingredients reproduces Di Luzio et al.'s eq. 170 (their approximation)  (Omega h^2 = 0.1184 at f_a = 2.0e+11 GeV against 0.12)
   [PASS] SO(10) -> Pati-Salam decompositions of 10, 126, 210: component indices add up to the SO(10) index under every factor  (10: 1, 126: 35, 210: 56)
   [PASS] SO(10) chains: the general two-loop formula on the SM content = sm_gauge_b, sm_two_loop_b; the Newton solver at one loop = the linear solution  (rel diff 3.3e-10)
-  [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (25 stages, 69 edges)
-  62/62 checks pass
+  [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (26 stages, 73 edges)
+  64/64 checks pass
 ==============================================================================
-Elapsed: 358.1 s
+Elapsed: 387.6 s

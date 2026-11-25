@@ -693,7 +693,7 @@ calculates; using the measured one instead moves M_W by +1.4 MeV.
 | measured, PDG 2024 average | 80.369 ± 0.013 | +1.4σ |
 
 The effective weak mixing angle of the Z couplings, from the same authors' two-loop parametrization
-(2006), comes out at sin²θ_eff = 0.23163 ± 0.00004, against 0.23151 ± 0.00016 (LEP + SLC) and
+(2006), comes out at sin²θ_eff = 0.23164 ± 0.00003, against 0.23151 ± 0.00016 (LEP + SLC) and
 0.23149 ± 0.00013 (hadron colliders).
 
 The SM prediction agrees with the measurements and reproduces the PDG fit. The heavy states of the
