@@ -73,7 +73,24 @@ def main():
              "mssm_all": rows[("MSSM above M_S", "U+B+H")]["n_sigma"],
              "mssm_all_theory": rows[("MSSM above M_S", "U+B+H")]["with_theory"]["n_sigma"],
              "predictive_survivors": len(jt["predictive_survivors"])}
+    # Parts N, O, P: masses, the strong CP angle, neutrinos
+    mf, sc, nu = res["mass_formulas"], res["strong_cp"], res["neutrinos"]
+    no, io = nu["orderings"]["NO"], nu["orderings"]["IO"]
+    tm1 = [r for r in no["patterns"]["rows"] if r["pattern"].startswith("TM1")][0]
+    best_tm1 = min(tm1["solutions"], key=lambda q: abs(q["delta_pull"]))
+    beyond = {
+        "koide_pole_sigma": mf["koide"][0]["n_sigma"], "koide_mz_sigma": mf["koide"][1]["n_sigma"],
+        "koide_quark_sigma": min(r["n_sigma"] for r in mf["koide"][3:]),
+        "theta_max": sc["bound"]["theta_max"], "theta_max_weakest": sc["bound"]["theta_max_weakest"],
+        "mu_sigma": sc["massless_up"]["n_sigma"], "m_a_ueV": sc["axion"]["m_a_ueV_at_1e12"],
+        "sum_no": no["sum_min"], "sum_io": io["sum_min"], "desi": P._comparison("sum_mnu_DESI")[0],
+        "io_excluded": not io["vs_cosmology"]["sum_mnu_DESI"]["allowed"],
+        "theta13_sigma": min(abs(r["pulls"]["s13sq"]) for r in no["patterns"]["rows"] if r["unknowns"] == 0),
+        "tm1_s12": best_tm1["s12sq"], "tm1_s12_sigma": tm1["n_sigma"], "tm1_delta": best_tm1["delta_deg"],
+        "seesaw_max": no["seesaw"]["M_max_perturbative"], "M_GUT": nu["M_GUT"],
+    }
     data = {
+        "beyond": beyond,
         "criticality": {
             "m_h_pred": cr["central"]["m_h"], "sigma": cr["sigma_total"], "m_h_meas": mh_meas,
             "m_h_tree": cr["tree_matching"]["m_h"],

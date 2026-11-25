@@ -216,7 +216,7 @@ def test_model_lineage():
         assert lin["reads"][st] == [] and lin["uses"][st] == []
     assert lin["uses"]["criticality"] == ["planck_units"]
     assert {"yukawa_relations", "criticality", "quantum_gravity"} <= set(lin["takers"]["planck_units[E_P_GeV]"])
-    assert [s for s in lin["reaches"]["H0"] if s != "self_checks"] == ["cosmology", "quantum_gravity"]
+    assert [s for s in lin["reaches"]["H0"] if s != "self_checks"] == ["cosmology", "quantum_gravity", "neutrinos"]
     assert "criticality" in lin["reaches"]["M_t"] and "criticality" in lin["reaches"]["G"]
     assert "flavour" in lin["takers"]["gauge_unification[M_S_for_measured_alpha]"]
     assert not lin["uv_consistent"]
@@ -379,6 +379,57 @@ def test_four_loop_qcd():
     assert 0.3 < mts[2] - mts[4] < 1.0
     assert abs(P.qcd_beta_pi(5, 2)[1] - (102 - 38 * 5 / 3) / 16) < 1e-12
     assert P.decoupling_g2(0.2, 4, 2) == 1 and P.decoupling_m(0.2, 4, 2) == 1
+
+
+def test_mass_formulas():
+    """Part N: Koide's Q = 2/3 holds for the charged-lepton pole masses only; at M_Z and for the
+    quarks it fails by many sigma."""
+    k = RESULT["mass_formulas"]["koide"]
+    assert k[0]["n_sigma"] < 2 and abs(k[0]["Q"] - 2 / 3) < 2e-5
+    assert all(r["n_sigma"] > 50 for r in k[1:])
+    assert abs(RESULT["mass_formulas"]["koide_m_tau_MeV"] - 1776.97) < 0.05
+
+
+def test_strong_cp():
+    """Part O: the chiral log gives d_n ~ 2e-16 theta-bar e cm, so |theta-bar| < 1e-10; m_u = 0 is
+    excluded; m_a f_a at leading order is within 2 % of the NLO value; theta-bar = 0 at tree level
+    is reachable for the Part C survivor."""
+    sc = RESULT["strong_cp"]
+    b = sc["bound"]
+    assert 1.5e-16 < b["d_n_per_theta"] < 2.5e-16 and 5e-11 < b["theta_max"] < 1.5e-10
+    assert abs(b["gbar"] - 15.5e-3) < 1e-3                  # de Vries et al.: (15.5 +- 2.5) 10^-3
+    assert sc["massless_up"]["n_sigma"] > 25
+    assert abs(sc["axion"]["lo_minus_nlo_rel"]) < 0.02
+    assert len(sc["parity"]) == 1 and sc["parity"][0]["arg_det_over_pi"] in (0, 1)
+    assert 1e-20 < sc["sm_invariant"]["mass_difference_product"] < 1e-18
+
+
+def test_neutrinos():
+    """Part P: the smallest mass sums; DESI + CMB excludes the inverted ordering; the m_bb bands;
+    fixed mixing patterns excluded by theta13; TM1 survives with the known sum rule for delta."""
+    nu = RESULT["neutrinos"]["orderings"]
+    no, io = nu["NO"], nu["IO"]
+    assert abs(no["sum_min"] - 0.0588) < 5e-4 and abs(io["sum_min"] - 0.0989) < 1e-3
+    assert no["vs_cosmology"]["sum_mnu_DESI"]["allowed"] and not io["vs_cosmology"]["sum_mnu_DESI"]["allowed"]
+    assert io["vs_cosmology"]["sum_mnu_Planck"]["allowed"]
+    lo, hi = io["m_bb_at_m0_0"]
+    assert 0.017 < lo < 0.020 and 0.047 < hi < 0.050
+    c0, c1 = no["m_bb_cancellation_m0"]
+    assert 0.001 < c0 < 0.004 and 0.005 < c1 < 0.008 and io["m_bb_cancellation_m0"] is None
+    assert abs(RESULT["neutrinos"]["sum_for_omega_h2_1_eV"] - 94.1) < 0.2
+    for rec in (no, io):
+        rows = {r["pattern"].split(":")[0]: r for r in rec["patterns"]["rows"]}
+        assert all(not r["survives"] and abs(r["pulls"]["s13sq"]) > 30 for r in rows.values() if r["unknowns"] == 0)
+        assert rows["TM1"]["survives"] and rows["TM1"]["n_sigma"] < 1.5
+    # TM1 sum rule: cos delta = -(1 - 5 s13^2) cos 2th23 / (2 sqrt2 s13 sin 2th23 sqrt(1 - 3 s13^2))
+    x = P._float_inputs()
+    s13s, s23s = x["nu_s13sq_NO"], x["nu_s23sq_NO"]
+    want = -(1 - 5 * s13s) * (1 - 2 * s23s) / (2 * math.sqrt(2) * math.sqrt(s13s) * 2 * math.sqrt(s23s * (1 - s23s))
+                                               * math.sqrt(1 - 3 * s13s))
+    tm1 = [r for r in no["patterns"]["rows"] if r["pattern"].startswith("TM1")][0]
+    assert all(abs(math.cos(math.radians(q["delta_deg"])) - want) < 1e-6 for q in tm1["solutions"])
+    ss = no["seesaw"]
+    assert 5e14 < ss["M_for_y_1"] < 7e14 and ss["M_max_perturbative"] < RESULT["neutrinos"]["M_GUT"]
 
 
 def test_website_data_is_current():

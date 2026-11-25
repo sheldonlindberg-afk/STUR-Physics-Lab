@@ -437,6 +437,83 @@ measured inputs, the numerical settings, the quoted coefficient 41/(10π), the q
 y_t and λ coefficients and one-loop matching formulas of Part L, and the `LITERATURE` table
 (three-loop running and matching, four-loop QCD), each checked by a self-check.
 
+**Part N: can the quark and lepton masses be calculated? Closed mass formulas**
+
+Part J tests what grand unification relates. What is left are closed formulas for the masses
+themselves, tested the way Part I tests closed formulas for 1/α. The best known is Koide's (1982),
+Q = (m₁ + m₂ + m₃)/(√m₁ + √m₂ + √m₃)² = 2/3, which no accepted theory derives. A relation among
+masses needs a scale, so it is tested at the pole masses, at the running masses, and for the quarks:
+
+| Masses | Q | Off 2/3 by |
+|---|---|---|
+| charged leptons, pole | 0.6666645 ± 0.0000051 | 0.4σ |
+| charged leptons, MS-bar at M_Z (one-loop QED) | 0.66781 | 225σ |
+| up quarks at m_t(m_t) | 0.888 | 289σ |
+| down quarks at m_t(m_t) | 0.747 | 99σ |
+
+Q = 2/3 at pole masses gives m_τ = 1776.97 MeV (measured 1776.93 ± 0.09). But running the
+masses to M_Z, where they are couplings, moves Q by 225 times its error. A relation that holds only
+for pole masses has no known mechanism: a coincidence to watch. No mass is calculated.
+
+**Part O: the strong CP angle θ̄**
+
+QCD allows a term θ G G̃ that violates P and CP; only θ̄ = θ − arg det(M_u M_d) is physical, and
+the Standard Model gives it no value.
+
+* **O1, the bound.** θ̄ makes a CP-odd pion–nucleon coupling, fixed at leading order by the strong
+  part of m_n − m_p: ḡ₀ = δm_N m* θ̄/(m̄ ε) (de Vries, Mereghetti, Walker-Loud 2015). The pion loop
+  (Crewther, Di Vecchia, Veneziano, Witten 1979) gives d_n = e g_πNN [ḡ₀/(2F_π)] ln(m_N/m_π)/(4π² m_N),
+  with g_πNN = g_A m_N/F_π (Goldberger–Treiman). From the inputs: ḡ₀/(2F_π) = (15.5 ± 1.4)×10⁻³ θ̄
+  (their published value: 15.5 ± 2.5) and d_n = (2.05 ± 0.18)×10⁻¹⁶ θ̄ e cm, between the QCD sum rules
+  (2.4 ± 1.0) and lattice QCD (1.52 ± 0.71). With |d_n| < 1.8×10⁻²⁶ e cm: **|θ̄| < 8.8×10⁻¹¹**
+  (2.2×10⁻¹⁰ with the weakest coefficient).
+* **O2, the explanations.** A massless up quark is excluded: m_u is 31σ from zero. The axion makes
+  θ̄ relax to zero but adds a scale f_a: m_a f_a = √z/(1+z) m_π F_π gives m_a = 5.77 ± 0.05 μeV ×
+  (10¹² GeV/f_a) at leading order (NLO: 5.69 ± 0.05), so m_a = 0.5 neV at Part I's M_GUT. Parity:
+  Hermitian mass matrices have real determinants, so arg det is 0 or π, and flipping a sector's sign
+  (which V cannot see) always reaches θ̄ = 0 at tree level. The Part C survivor is checked. But
+  Hermiticity needs left-right parity (Part E), whose textures Part G excludes.
+* **O3, the SM's own CP violation.** It reaches θ̄ only through Im det[H_u, H_d] = 2J Π(y²
+  differences), about 3×10⁻²⁴ at m_t(m_t), and first diverges at seven loops (Ellis–Gaillard).
+
+θ̄ is bounded, not calculated: every explanation adds an unmeasured number or a symmetry whose
+predictive textures are excluded.
+
+**Part P: neutrino masses and mixing**
+
+NuFIT 6.0 gives the mass-squared differences and the PMNS matrix. Not measured: the lightest mass
+m₀, the ordering, two Majorana phases, and the origin of the masses. Each unknown is scanned.
+
+| | Normal ordering | Inverted ordering |
+|---|---|---|
+| smallest Σm_ν (m₀ = 0) | 58.8 ± 0.2 meV | 98.9 ± 0.4 meV |
+| vs Planck 2018 (< 120 meV) | allowed, m₀ < 30 meV | allowed, m₀ < 16 meV |
+| vs DESI DR2 + CMB (< 64 meV) | allowed, m₀ < 4.1 meV | **excluded at 95%** |
+| m_β at m₀ = 0 (KATRIN: < 450 meV) | 8.8 meV | 48.8 meV |
+| m_ββ band at m₀ = 0 (Majorana phases scanned) | 1.5 – 3.7 meV, can vanish for m₀ = 2.3–6.5 meV | 18.2 – 48.2 meV, a floor |
+
+The m_ββ band over the phases is exact, [max(0, 2 max c − Σc), Σc] with c_i = |U_ei|² m_i, the same
+band as Part C's. KamLAND-Zen's 28–122 meV does not yet reach the inverted floor. Ω_ν h² follows
+from T_CMB (Σm_ν = 94.1 eV for Ω_ν h² = 1): 0.4% of Ω_m at the normal minimum.
+
+**Mixing patterns from discrete flavour symmetries**, tested like Part C's textures. The fixed
+patterns (tribimaximal, bimaximal, two golden-ratio forms, hexagonal) predict θ₁₃ = 0 and are
+excluded at 39σ. The corrected patterns TM1 and TM2 keep one column of the tribimaximal matrix and
+add an angle and a phase; θ₁₃ and θ₂₃ fix those two unknowns exactly, so each predicts θ₁₂ and δ:
+
+| | sin²θ₁₂ | δ (two solutions) | Verdict |
+|---|---|---|---|
+| TM1 (normal) | 0.3182 ± 0.0004 (+0.9σ) | 262° or 98° | survives |
+| TM2 (normal) | 0.3409 ± 0.0002 (+2.9σ) | 286° or 74° | survives, just |
+| measured | 0.308 ± 0.012 | 212 (+26 −41)° | |
+
+TM1 reproduces the published sum rule for cos δ to 10⁻⁶ (a test). Quark–lepton complementarity,
+θ₁₂ + θ_C = 45°, is off by 2.4σ.
+
+**Where the masses come from.** In a seesaw, m = y²v²/(2M): with the heaviest mass of 50 meV,
+M = 6×10¹⁴ GeV for y = 1 and at most 7.6×10¹⁵ GeV for a perturbative y, below Part I's M_GUT. Dirac
+neutrinos need y_ν ≤ 3×10⁻¹³. This tests Part L: the SM up to M_P holds only if neutrinos are Dirac.
+
 ## What changed from production v1
 
 The first version of `production_v2_2.py` (commit `2fa12f0`) gave χ² ≈ 3,600 for its Fritzsch

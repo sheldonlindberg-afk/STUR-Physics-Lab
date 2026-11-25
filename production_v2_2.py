@@ -58,6 +58,11 @@ WHAT IT CALCULATES
     from the rank of the Jacobian of 10 weak-basis invariants. Every rank is proved
     (an exact lower bound meets a symmetry upper bound) and J = 0 is proved by
     symbolic expansion where it holds.
+  Parts N, O, P, what is left: closed mass formulas (Koide) at pole and running masses; the
+    strong CP angle (its bound from the neutron EDM via the chiral logarithm, and the massless
+    up quark, axion and parity explanations); neutrino masses (the lightest mass and Majorana
+    phases scanned, against cosmology, KATRIN and KamLAND-Zen) and mixing patterns from discrete
+    symmetries, with the unknowns of the corrected patterns solved exactly.
   Part M, which high-energy hypothesis survives: the SM up to M_P and the MSSM
     above M_S (its unknowns scanned), each against every combination of gauge
     unification, b-tau unification and the Higgs mass. None is chosen in advance.
@@ -139,6 +144,34 @@ INPUTS: Dict[str, Dict[str, str]] = {
     "GM_earth": {"value": "3.986004418e14", "sigma": "0.000000008e14", "unit": "m^3/s^2", "source": "IERS 2010"},
     "R_earth": {"value": "6378137", "sigma": "0", "unit": "m", "source": "WGS 84 equatorial radius (defined)"},
     "m_pi_MeV": {"value": "139.57039", "sigma": "0.00018", "unit": "MeV", "source": "PDG 2024, charged pion"},
+    # --- hadronic inputs of the strong CP angle (Part O)
+    "m_pi0_MeV": {"value": "134.9768", "sigma": "0.0005", "unit": "MeV", "source": "PDG 2024, neutral pion"},
+    "m_n": {"value": "1.67492749804e-27", "sigma": "0.00000000095e-27", "unit": "kg", "source": "CODATA 2018"},
+    "f_pi_MeV": {"value": "130.2", "sigma": "0.8", "unit": "MeV",
+                 "source": "PDG 2024, f_pi+ (130 MeV normalization; F_pi = f_pi/sqrt2)"},
+    "g_A": {"value": "1.2754", "sigma": "0.0013", "unit": "", "source": "PDG 2024, |lambda| = |g_A/g_V|"},
+    "delta_mN_QCD_MeV": {"value": "2.49", "sigma": "0.17", "unit": "MeV",
+                         "source": "strong (quark-mass) part of m_n - m_p, lattice QCD average: de Vries, "
+                                   "Mereghetti, Walker-Loud 2015 (arXiv:1506.06247), eq. 118"},
+    "d_n_limit": {"value": "1.8e-26", "sigma": "0", "unit": "e cm",
+                  "source": "Abel et al. 2020 (PSI), PRL 124, 081803: |d_n| < 1.8e-26 e cm, 90% CL"},
+    # --- neutrino oscillations (Part P): NuFIT 6.0 (arXiv:2410.05380, JHEP 12 (2024) 216), global fit
+    # IC24 with SK atmospheric data; asymmetric 1 sigma errors symmetrized (mean of the two sides).
+    # Delta m^2_3l = Delta m^2_31 > 0 for normal ordering (NO), Delta m^2_32 < 0 for inverted (IO).
+    "nu_s12sq": {"value": "0.308", "sigma": "0.0115", "unit": "", "source": "NuFIT 6.0 (NO and IO): +0.012 -0.011"},
+    "nu_dm21": {"value": "7.49e-5", "sigma": "0.19e-5", "unit": "eV^2", "source": "NuFIT 6.0 (NO and IO)"},
+    "nu_s13sq_NO": {"value": "0.02215", "sigma": "0.00057", "unit": "", "source": "NuFIT 6.0 NO: +0.00056 -0.00058"},
+    "nu_s23sq_NO": {"value": "0.470", "sigma": "0.015", "unit": "", "source": "NuFIT 6.0 NO: +0.017 -0.013"},
+    "nu_delta_NO": {"value": "212", "sigma": "33.5", "unit": "deg",
+                    "source": "NuFIT 6.0 NO: +26 -41 (far from Gaussian; 3 sigma range 124 to 364)"},
+    "nu_dm3l_NO": {"value": "2.513e-3", "sigma": "0.020e-3", "unit": "eV^2",
+                   "source": "NuFIT 6.0 NO, Delta m^2_31: +0.021 -0.019"},
+    "nu_s13sq_IO": {"value": "0.02231", "sigma": "0.00056", "unit": "", "source": "NuFIT 6.0 IO: +-0.00056"},
+    "nu_s23sq_IO": {"value": "0.550", "sigma": "0.0135", "unit": "", "source": "NuFIT 6.0 IO: +0.012 -0.015"},
+    "nu_delta_IO": {"value": "274", "sigma": "23.5", "unit": "deg",
+                    "source": "NuFIT 6.0 IO: +22 -25 (3 sigma range 201 to 335)"},
+    "nu_dm3l_IO": {"value": "-2.484e-3", "sigma": "0.020e-3", "unit": "eV^2",
+                   "source": "NuFIT 6.0 IO, Delta m^2_32: +-0.020"},
 }
 
 # The measured inputs whose uncertainties are propagated into the flavour bands.
@@ -160,6 +193,17 @@ COMPARISONS: Dict[str, Dict[str, Any]] = {
     "age_Gyr": {"value": ("13.787", "0.020", "0.020"), "source": "Planck 2018 VI, TT,TE,EE+lowE+lensing"},
     "Omega_Lambda": {"value": ("0.6847", "0.0073", "0.0073"), "source": "Planck 2018 VI, TT,TE,EE+lowE+lensing"},
     "m_h": {"value": ("125.20", "0.11", "0.11"), "source": "PDG 2024, Higgs boson mass (combined)"},
+    # upper limits (Part P): the value is the limit, the sigmas are zero
+    "sum_mnu_Planck": {"value": ("0.12", "0", "0"),
+                       "source": "Planck 2018 VI, TT,TE,EE+lowE+lensing+BAO, 95% upper limit (LambdaCDM)"},
+    "sum_mnu_DESI": {"value": ("0.064", "0", "0"),
+                     "source": "DESI DR2 BAO + CMB (arXiv:2503.14738), 95% upper limit (LambdaCDM)"},
+    "m_beta_KATRIN": {"value": ("0.45", "0", "0"), "source": "KATRIN 2025, Science 388, 180: 90% CL"},
+    "m_bb_KLZ_low": {"value": ("0.028", "0", "0"),
+                     "source": "KamLAND-Zen 2025 (arXiv:2406.11438, PRL 135, 262501): 90% CL, most favourable "
+                               "nuclear matrix element"},
+    "m_bb_KLZ_high": {"value": ("0.122", "0", "0"),
+                      "source": "KamLAND-Zen 2025: 90% CL, least favourable nuclear matrix element"},
 }
 
 # =============================================================================
@@ -222,6 +266,11 @@ NUMERICS: Dict[str, Any] = {
     "crit_yt_step": "1e-2",           # first relative step in y_t when bracketing beta_lambda = 0
     "check_fd_rel_step": "1e-5",      # finite-difference step for the first-law check
     "check_fd_tol": "1e-8",
+    "nu_m0_min": "1e-5",              # Part P: smallest lightest-neutrino mass on the grid (eV); 0 is also used
+    "nu_m0_points": 25,               # Part P: geometric grid of the lightest mass up to the cosmology limit
+    "nu_phase_grid": 360,             # Part P: grid of the free phase of a corrected pattern, then bisection
+    "nu_bisections": 80,
+    "check_phase_grid": 96,           # Part P check: brute-force Majorana phases against the exact band
     "report_sci_below": "1e-3",       # print in scientific notation below / above these
     "report_sci_above": "1e5",
 }
@@ -370,6 +419,16 @@ LITERATURE: Dict[str, Dict[str, Any]] = {
                   "lambda_MPl": {"l0": "-0.0143", "lt": "-0.0066", "la": "0.0018", "lh": "0.0029",
                                  "alpha_step": "0.0007"},
                   "dlambda_Mt_dMh": "0.00206"}},
+    "dn_theta": {
+        "source": "Full calculations of d_n / theta-bar, quoted to compare with Part O's chiral log: QCD sum "
+                  "rules, Pospelov-Ritz 2000 (hep-ph/9908508v4), eq. 5; lattice QCD, Dragos et al. 2019 "
+                  "(arXiv:1902.03254), -0.00152(71) theta e fm. Units: e cm per unit theta-bar",
+        "value": {"QCD sum rules (Pospelov-Ritz)": ("2.4e-16", "1.0e-16"),
+                  "lattice QCD (Dragos et al.)": ("1.52e-16", "0.71e-16")}},
+    "axion_mass_nlo": {
+        "source": "QCD axion mass at NLO in chiral perturbation theory with lattice input, Gorghetto-Villadoro "
+                  "2019 (refining Grilli di Cortona et al. 2016): m_a = 5.69(5) micro-eV x (1e12 GeV / f_a)",
+        "value": ("5.69", "0.05")},
 }
 
 
@@ -419,6 +478,14 @@ STAGES: Dict[str, Dict[str, str]] = {
     "uv_joint_test": {"part": "M", "level": "numerical",
                       "assumes": "every hypothesis against every set of conditions; unknowns on a grid "
                                  "plus exact roots and edges; theory errors = last-order shifts"},
+    "mass_formulas": {"part": "N", "level": "exact",
+                      "assumes": "none (tests closed mass formulas at stated scales)"},
+    "strong_cp": {"part": "O", "level": "conditional",
+                  "assumes": "leading-order chiral perturbation theory for d_n and m_a; theta-bar the only "
+                             "source of d_n"},
+    "neutrinos": {"part": "P", "level": "numerical",
+                  "assumes": "three light neutrinos; lightest mass and Majorana phases scanned; cosmological "
+                             "limits assume flat LambdaCDM; unknowns of corrected patterns solved exactly"},
     "self_checks": {"part": "-", "level": "validation", "assumes": "tests the calculation, not the physics"},
 }
 
@@ -453,6 +520,11 @@ AUDIT_FINDINGS: Tuple[Tuple[str, str], ...] = (
              "the scalar potential, its vacuum, and the vevs that multiply the Yukawa couplings."),
     ("open", "No common mechanism yet: no stage computes a quantity that two sectors both take "
              "from it except M_S, M_GUT (Part I) and M_P (Part H1)."),
+    ("open", "Part L assumes the SM up to M_P, but neutrinos have mass (Part P). That holds only if they are "
+             "Dirac particles with Yukawa couplings below 3e-13, which do not affect the running; a seesaw "
+             "needs new states below about 8e15 GeV, whose couplings would enter lambda's running."),
+    ("open", "Theta-bar is bounded, not calculated (Part O). Each explanation adds something unmeasured: an "
+             "axion scale f_a, or a parity symmetry whose Hermitian textures Part G excludes."),
 )
 
 _TRACE: Dict[str, Any] = {"stage": None, "inputs": {}, "uses": {}, "keys": {}, "set": {}}
@@ -4061,6 +4133,509 @@ def uv_joint_test(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yuk: Dict[st
 
 
 # =============================================================================
+# 6k. SHARED HELPERS FOR PARTS N, O, P
+# =============================================================================
+def _propagate(f: Callable[[Dict[str, float]], float], names: Sequence[str]) -> float:
+    """Input-induced error of f(x): central differences, each input moved by its own sigma."""
+    v2 = 0.0
+    for name in names:
+        s_ = sig(name)
+        if s_ == 0:
+            continue
+        hi = f(_float_inputs({name: inp(name) + s_}))
+        lo = f(_float_inputs({name: inp(name) - s_}))
+        v2 += ((hi - lo) / 2) ** 2
+    return math.sqrt(v2)
+
+
+def _mev_per_kg(x: Dict[str, float]) -> float:
+    return x["c"] ** 2 / (x["e_charge"] * 10 ** 6)
+
+
+# =============================================================================
+# 6l. PART N: CAN THE QUARK AND LEPTON MASSES BE CALCULATED? CLOSED MASS FORMULAS
+# =============================================================================
+# Part J tested what grand unification relates (quark/lepton ratios, b-tau, the top fixed
+# point). What is left are closed formulas proposed for the masses themselves, the way Part I
+# tests closed formulas for 1/alpha. The best known is Koide's (1982):
+#   Q = (m_1 + m_2 + m_3) / (sqrt m_1 + sqrt m_2 + sqrt m_3)^2 = 2/3,
+# which no accepted theory derives. Q lies between 1/3 (equal masses) and 1 (one mass). A
+# relation among masses means something only at a stated scale: pole masses are not the
+# couplings of any Lagrangian at one scale, and running masses change their ratios with mu.
+# The formula is tested at the pole masses, at running masses, and for the quarks.
+def koide_q(m: Sequence[float]) -> float:
+    return sum(m) / sum(math.sqrt(v) for v in m) ** 2
+
+
+def mass_formulas(flav: Dict[str, Any]) -> Dict[str, Any]:
+    out: Dict[str, Any] = {}
+    names_l = ("m_e", "m_mu_MeV", "m_tau_MeV")
+
+    def lep(x: Dict[str, float]) -> List[float]:
+        return [x["m_e"] * _mev_per_kg(x) / 1000, x["m_mu_MeV"] / 1000, x["m_tau_MeV"] / 1000]
+
+    def q_pole(x: Dict[str, float]) -> float:
+        return koide_q(lep(x))
+
+    def q_run(alpha_of: Callable[[Dict[str, float]], float]) -> Callable[[Dict[str, float]], float]:
+        def f(x: Dict[str, float]) -> float:
+            return koide_q([lepton_running_mass(m, x["M_Z"], alpha_of(x)) for m in lep(x)])
+        return f
+    target = 2 / 3
+    x0 = _float_inputs()
+    rows = []
+    for label, f in (("charged leptons, pole masses", q_pole),
+                     ("charged leptons, MS-bar at M_Z (one-loop QED, alpha(0))",
+                      q_run(lambda x: x["alpha_em"])),
+                     ("charged leptons, MS-bar at M_Z (one-loop QED, alpha(M_Z))",
+                      q_run(lambda x: 1 / x["alpha_em_inv_MZ"]))):
+        q, s_ = f(x0), _propagate(f, names_l)
+        rows.append({"set": label, "Q": q, "sigma": s_, "n_sigma": abs(q - target) / s_})
+    # quarks: running masses at m_t(m_t), from the flavour stage's QCD running
+    mu0 = flav["runner"].mt_msbar
+    r0 = flav["ratios"][mu0]
+
+    def q_sector(r: Dict[str, float], keys: Sequence[str]) -> float:
+        return koide_q([r[k] for k in keys])
+    for label, keys in (("up quarks u, c, t at m_t(m_t)", ("m_u", "m_c", "m_t")),
+                        ("down quarks d, s, b at m_t(m_t)", ("m_d", "m_s", "m_b"))):
+        q = q_sector(r0, keys)
+        v2 = 0.0
+        for name, pair in flav["varied"].items():
+            plus, minus = (next(r for r in p.values() if "m_u" in r) for p in pair)   # each run's m_t(m_t)
+            v2 += ((q_sector(plus, keys) - q_sector(minus, keys)) / 2) ** 2
+        s_ = math.sqrt(v2)
+        rows.append({"set": label, "Q": q, "sigma": s_, "n_sigma": abs(q - target) / s_})
+    out["koide"] = rows
+    # the scale dependence: how far running moves Q, against how well the pole value fits
+    out["koide_running_shift"] = rows[1]["Q"] - rows[0]["Q"]
+    out["koide_pole_sigma"] = rows[0]["sigma"]
+    out["koide_qed_alpha_spread"] = abs(rows[2]["Q"] - rows[1]["Q"])
+    # what Q = 2/3 at pole masses would predict for m_tau from m_e and m_mu (the classic use)
+    me, mmu, _ = lep(x0)
+    # me + mmu + u^2 = (2/3)(sqrt me + sqrt mmu + u)^2 with u = sqrt(m_tau):  u^2 - 4 a u + 3 b - 2 a^2 = 0
+    a_, b_ = math.sqrt(me) + math.sqrt(mmu), me + mmu
+    u = 2 * a_ + math.sqrt(6 * a_ ** 2 - 3 * b_)
+    out["koide_m_tau_MeV"] = u * u * 1000
+    out["m_tau_MeV"] = inp("m_tau_MeV")
+    out["m_tau_sigma_MeV"] = sig("m_tau_MeV")
+    return out
+
+
+# =============================================================================
+# 6m. PART O: THE STRONG CP ANGLE THETA-BAR
+# =============================================================================
+# QCD allows a term theta (g^2/32 pi^2) G G~ that violates P and CP. Only the combination
+#   theta-bar = theta - arg det(M_u M_d)
+# is physical: a chiral rotation of the quarks moves phase between the two pieces. The
+# Standard Model gives it no value. It would give the neutron an electric dipole moment:
+#   O1. d_n from theta-bar, calculated with the leading chiral logarithm (Crewther, Di Vecchia,
+#       Veneziano, Witten 1979): theta-bar makes a CP-odd pion-nucleon coupling g0, fixed at
+#       leading order by the strong part of the neutron-proton mass difference,
+#         g0 = delta m_N m* theta / (m-bar eps),  eps = (m_d - m_u)/(m_d + m_u),
+#         m* = m_u m_d m_s / (m_s (m_u + m_d) + m_u m_d)   (de Vries et al. 2015, eq. 33),
+#       and the pion loop gives d_n = e g_piNN g0/(2 F_pi) ln(m_N/m_pi) / (4 pi^2 m_N),
+#       with g_piNN = g_A m_N / F_pi (Goldberger-Treiman). The measured limit on d_n then
+#       bounds theta-bar. The chiral log has an unknown counterterm beside it, so the
+#       coefficient is compared with the full calculations (LITERATURE).
+#   O2. The proposed explanations, each tested:
+#       a massless up quark (theta-bar would be unphysical): against the measured m_u;
+#       the axion (Peccei-Quinn): theta-bar relaxes to zero, but the decay constant f_a is
+#       new; m_a f_a is calculated (leading-order chiral perturbation theory);
+#       parity (Hermitian mass matrices by symmetry, theta = 0 by P): arg det M is 0 or pi.
+#   O3. Can the Standard Model's own CP violation feed theta-bar? Only through the flavour
+#       invariant Im det[H_u, H_d], whose size is calculated.
+def theta_coefficient(x: Dict[str, float]) -> Dict[str, float]:
+    """d_n per unit theta-bar from the chiral logarithm, in e cm; every factor from inputs."""
+    hbar_c_mev_cm = x["h"] / (2 * math.pi) * x["c"] / (x["e_charge"] * 10 ** 6) * 100
+    m_n = x["m_n"] * _mev_per_kg(x)
+    f_pi = x["f_pi_MeV"] / math.sqrt(2)
+    mu_, md_, ms_ = x["m_u"], x["m_d"], x["m_s"]
+    eps = (md_ - mu_) / (md_ + mu_)
+    mbar = (mu_ + md_) / 2
+    mstar = mu_ * md_ * ms_ / (ms_ * (mu_ + md_) + mu_ * md_)
+    g0 = x["delta_mN_QCD_MeV"] * mstar / (mbar * eps)            # MeV per unit theta-bar
+    gbar = g0 / (2 * f_pi)                                        # the CP-odd pi-N coupling
+    g_pinn = x["g_A"] * m_n / f_pi
+    log = math.log(m_n / x["m_pi_MeV"])
+    dn = g_pinn * gbar * log / (4 * math.pi ** 2 * m_n) * hbar_c_mev_cm
+    return {"eps": eps, "m_star_GeV": mstar, "g0_MeV": g0, "gbar": gbar, "g_piNN": g_pinn,
+            "chiral_log": log, "d_n_per_theta": dn, "F_pi_MeV": f_pi}
+
+
+def axion_mass_times_fa(x: Dict[str, float]) -> float:
+    """m_a f_a = sqrt(z)/(1 + z) m_pi F_pi at leading order, z = m_u/m_d; in MeV^2."""
+    z = x["m_u"] / x["m_d"]
+    return math.sqrt(z) / (1 + z) * x["m_pi0_MeV"] * x["f_pi_MeV"] / math.sqrt(2)
+
+
+def strong_cp(flav: Dict[str, Any], survey: Dict[float, Dict[str, Any]], scales: Sequence[float],
+              alpha_unif: Dict[str, Any], planck: Dict[str, float]) -> Dict[str, Any]:
+    out: Dict[str, Any] = {}
+    x0 = _float_inputs()
+    had = ("m_u", "m_d", "m_s", "delta_mN_QCD_MeV", "f_pi_MeV", "g_A", "m_n", "m_pi_MeV")
+    # O1. the coefficient and the bound
+    co = theta_coefficient(x0)
+    co["d_n_per_theta_sigma"] = _propagate(lambda x: theta_coefficient(x)["d_n_per_theta"], had)
+    co["gbar_sigma"] = _propagate(lambda x: theta_coefficient(x)["gbar"], had)
+    lim = inp("d_n_limit")
+    co["d_n_limit"] = lim
+    co["theta_max"] = lim / co["d_n_per_theta"]
+    co["literature"] = []
+    for label, (v, s_) in LITERATURE["dn_theta"]["value"].items():
+        c_, e_ = float(v), float(s_)
+        co["literature"].append({"method": label, "d_n_per_theta": c_, "sigma": e_,
+                                 "theta_max": lim / c_, "theta_max_weakest": lim / (c_ - e_)})
+    co["theta_max_weakest"] = max([lim / (co["d_n_per_theta"] - co["d_n_per_theta_sigma"])]
+                                  + [r["theta_max_weakest"] for r in co["literature"]])
+    out["bound"] = co
+    # O2a. a massless up quark
+    z = inp("m_u") / inp("m_d")
+    z_sig = _propagate(lambda x: x["m_u"] / x["m_d"], ("m_u", "m_d"))
+    out["massless_up"] = {"m_u_GeV": inp("m_u"), "sigma": sig("m_u"), "n_sigma": inp("m_u") / sig("m_u"),
+                          "z": z, "z_sigma": z_sig}
+    # O2b. the axion
+    maf = axion_mass_times_fa(x0)
+    maf_sig = _propagate(axion_mass_times_fa, ("m_u", "m_d", "f_pi_MeV", "m_pi0_MeV"))
+    ref = 10 ** 12                                                # GeV: the unit the literature quotes in
+    ueV_at_ref = maf * 10 ** 3 / ref * 10 ** 6                    # micro-eV at f_a = 1e12 GeV
+    nlo, nlo_s = (float(v) for v in LITERATURE["axion_mass_nlo"]["value"])
+    au_ms = alpha_unif.get("M_S_for_measured_alpha", {})
+    scales_fa = [("M_GUT (Part I)", au_ms.get("M_GUT_GeV")), ("M_P (Part H1)", planck["E_P_GeV"])]
+    out["axion"] = {"ma_fa_MeV2": maf, "ma_fa_sigma": maf_sig,
+                    "m_a_ueV_at_1e12": ueV_at_ref, "m_a_ueV_at_1e12_sigma": maf_sig / maf * ueV_at_ref,
+                    "nlo_ueV": nlo, "nlo_sigma": nlo_s, "lo_minus_nlo_rel": ueV_at_ref / nlo - 1,
+                    "at_scales": [{"f_a": name, "f_a_GeV": fa, "m_a_eV": maf * 10 ** 3 / fa}
+                                  for name, fa in scales_fa if fa]}
+    # O2c. parity: Hermitian matrices have real determinants, arg det in {0, pi}. The overall
+    # sign of a sector's matrix does not change V (same eigenvectors) but flips det (3 x 3), so
+    # theta-bar = 0 at tree level is always reachable. Recorded for the Part C survivor.
+    mu0 = scales[0]
+    surv = [r for r in survey[mu0]["classes"] if r["status"] == "tested" and r["survives"]]
+    herm = []
+    sv = survey[mu0]["survey"]
+    for r in surv:
+        nu_, a_, nd_, b_ = r["pair"]
+        dets = {}
+        for sector, nz, var in (("u", nu_, a_), ("d", nd_, b_)):
+            m = _sector_matrix(nz, var, sv.E[0][sector], 1 / 2)
+            if m is None:
+                continue
+            det = (m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1])
+                   - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0])
+                   + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]))
+            signs = var[0]
+            want = signs[0] * signs[1] * math.prod(sv.E[0][sector])
+            dets[sector] = {"det_over_mheaviest3": det, "signed_eigenvalue_product": want,
+                            "eigenvalue_signs": (signs[0], signs[1], 1)}
+        if len(dets) == 2:
+            prod_sign = math.copysign(1, dets["u"]["det_over_mheaviest3"] * dets["d"]["det_over_mheaviest3"])
+            herm.append({"up": pattern_mask(r["zeros_u"]), "down": pattern_mask(r["zeros_d"]),
+                         "sectors": dets, "arg_det_over_pi": 0 if prod_sign > 0 else 1})
+    out["parity"] = herm
+    # O3. the Standard Model's own CP-odd flavour invariant (without J, which only judges: the
+    # report multiplies it in). Im det[H_u, H_d] = 2 J prod_{i<j} (y_ui^2 - y_uj^2)(y_di^2 - y_dj^2)
+    r0 = flav["ratios"][mu0]
+    v = flav["runner"].v
+    yu = [math.sqrt(2) * r0[k] / v for k in ("m_u", "m_c", "m_t")]
+    yd = [math.sqrt(2) * r0[k] / v for k in ("m_d", "m_s", "m_b")]
+    prod = 1.0
+    for ys in (yu, yd):
+        for i in range(3):
+            for j in range(i + 1, 3):
+                prod *= ys[j] ** 2 - ys[i] ** 2
+    out["sm_invariant"] = {"scale": mu0, "mass_difference_product": 2 * prod,
+                           "y_t": yu[2], "y_b": yd[2]}
+    return out
+
+
+# =============================================================================
+# 6n. PART P: NEUTRINO MASSES AND MIXING
+# =============================================================================
+# Oscillations measure two mass-squared differences and the PMNS matrix (three angles and a
+# Dirac phase, delta). Not measured: the lightest mass m_0, the ordering (normal: m1 < m2 <
+# m3; inverted: m3 < m1 < m2), two Majorana phases if neutrinos are their own antiparticles,
+# and the origin of the masses. Each unknown is scanned, never set:
+#   P1. the spectrum against m_0 (from 0 up): the smallest possible sum of the masses in each
+#       ordering, against the cosmological limits (which assume the same flat LambdaCDM as
+#       Part A), and the neutrinos' share of Omega_m, calculated from T_CMB;
+#   P2. the beta-decay mass m_beta = sqrt(sum |U_ei|^2 m_i^2) against KATRIN;
+#   P3. the double-beta mass m_bb = |sum U_ei^2 m_i|: with the two free phases its exact band is
+#       [max(0, 2 max c - sum c), sum c], c_i = |U_ei|^2 m_i (the band of Part C);
+#   P4. mixing patterns from discrete flavour symmetries, tested like Part C's textures:
+#       fixed patterns (tribimaximal, bimaximal, golden ratio, hexagonal) predict all three
+#       angles; the corrected ones (TM1, TM2: one column of the tribimaximal matrix kept, a
+#       rotation with angle and phase added) have two unknowns, which the measured theta13 and
+#       theta23 fix exactly: they then predict theta12 and delta. Also quark-lepton
+#       complementarity, theta12 + theta_C = 45 degrees.
+#   P5. what the masses say about new physics: the seesaw scale, against Part I's M_GUT and
+#       Part H's M_P, and the Dirac alternative.
+NU_ORDERINGS = ("NO", "IO")
+
+
+def nu_params(x: Dict[str, float], o: str) -> Dict[str, float]:
+    return {"s12sq": x["nu_s12sq"], "s13sq": x["nu_s13sq_" + o], "s23sq": x["nu_s23sq_" + o],
+            "delta": math.radians(x["nu_delta_" + o]), "dm21": x["nu_dm21"], "dm3l": x["nu_dm3l_" + o]}
+
+
+def nu_masses(p: Dict[str, float], o: str, m0: float) -> List[float]:
+    """(m1, m2, m3) in eV for lightest mass m0."""
+    if o == "NO":
+        return [m0, math.sqrt(m0 ** 2 + p["dm21"]), math.sqrt(m0 ** 2 + p["dm3l"])]
+    m2 = math.sqrt(m0 ** 2 - p["dm3l"])                      # dm3l = dm32 < 0
+    return [math.sqrt(m2 ** 2 - p["dm21"]), m2, m0]
+
+
+def pmns(s12sq: float, s13sq: float, s23sq: float, delta: float) -> List[List[complex]]:
+    """Standard parametrization (PDG)."""
+    s12, s13, s23 = math.sqrt(s12sq), math.sqrt(s13sq), math.sqrt(s23sq)
+    c12, c13, c23 = math.sqrt(1 - s12sq), math.sqrt(1 - s13sq), math.sqrt(1 - s23sq)
+    e = cmath.exp(1j * delta)
+    return [[c12 * c13, s12 * c13, s13 / e],
+            [-s12 * c23 - c12 * s23 * s13 * e, c12 * c23 - s12 * s23 * s13 * e, s23 * c13],
+            [s12 * s23 - c12 * c23 * s13 * e, -c12 * s23 - s12 * c23 * s13 * e, c23 * c13]]
+
+
+def pmns_angles(u: List[List[complex]]) -> Dict[str, float]:
+    """s12^2, s13^2, s23^2, delta (radians, [0, 2 pi)) and J from any unitary matrix."""
+    ue3 = abs(u[0][2]) ** 2
+    s12sq = abs(u[0][1]) ** 2 / (1 - ue3)
+    s23sq = abs(u[1][2]) ** 2 / (1 - ue3)
+    s12, s13, s23 = math.sqrt(s12sq), math.sqrt(ue3), math.sqrt(s23sq)
+    c12, c13, c23 = math.sqrt(1 - s12sq), math.sqrt(1 - ue3), math.sqrt(1 - s23sq)
+    jj = (u[0][0] * u[1][1] * u[0][1].conjugate() * u[1][0].conjugate()).imag
+    norm = c12 * s12 * c23 * s23 * c13 ** 2 * s13
+    if norm == 0:
+        return {"s12sq": s12sq, "s13sq": ue3, "s23sq": s23sq, "delta": math.nan, "J": jj}
+    cosd = (abs(u[1][0]) ** 2 - s12sq * c23 ** 2 - c12 ** 2 * s23sq * ue3) / (2 * s12 * c12 * s23 * c23 * s13)
+    sind = jj / norm
+    return {"s12sq": s12sq, "s13sq": ue3, "s23sq": s23sq,
+            "delta": math.atan2(sind, cosd) % (2 * math.pi), "J": jj}
+
+
+def _matmul(a: List[List[complex]], b: List[List[complex]]) -> List[List[complex]]:
+    return [[sum(a[i][k] * b[k][j] for k in range(3)) for j in range(3)] for i in range(3)]
+
+
+def tribimaximal() -> List[List[complex]]:
+    r2, r3, r6 = math.sqrt(2), math.sqrt(3), math.sqrt(6)
+    return [[2 / r6, 1 / r3, 0], [-1 / r6, 1 / r3, -1 / r2], [-1 / r6, 1 / r3, 1 / r2]]
+
+
+def corrected_tbm(kind: str, theta: float, phi: float) -> List[List[complex]]:
+    """TM1: U_TBM R_23(theta, phi) keeps the first column; TM2: U_TBM R_13 keeps the second."""
+    c, s = math.cos(theta), math.sin(theta)
+    e = cmath.exp(1j * phi)
+    i, j = (1, 2) if kind == "TM1" else (0, 2)
+    r: List[List[complex]] = [[1 if a == b else 0 for b in range(3)] for a in range(3)]
+    r[i][i], r[j][j], r[i][j], r[j][i] = c, c, s / e, -s * e
+    return _matmul(tribimaximal(), r)
+
+
+def _angle_pull(pred: float, meas: float, sig_: float) -> float:
+    return (pred - meas) / sig_
+
+
+def solve_corrected(kind: str, s13sq: float, s23sq: float) -> List[Tuple[float, float]]:
+    """Every (theta, phi) with the measured theta13 and theta23 (exactly: bisection)."""
+    iters = int(num("nu_bisections"))
+
+    def ue3(th: float) -> float:
+        return abs(corrected_tbm(kind, th, 0)[0][2]) ** 2
+    lo, hi = 0.0, math.pi / 4                                   # |U_e3|^2 rises on [0, pi/4]
+    if not ue3(lo) <= s13sq <= ue3(hi):
+        return []
+    for _ in range(iters):
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if ue3(mid) < s13sq else (lo, mid)
+    th = (lo + hi) / 2
+
+    def g(ph: float) -> float:
+        return pmns_angles(corrected_tbm(kind, th, ph))["s23sq"] - s23sq
+    n = int(num("nu_phase_grid"))
+    grid = [2 * math.pi * k / n for k in range(n + 1)]
+    sols = []
+    for a, b in zip(grid[:-1], grid[1:]):
+        ga, gb = g(a), g(b)
+        if ga == 0:
+            sols.append((th, a))
+        elif ga * gb < 0:
+            for _ in range(iters):
+                mid = (a + b) / 2
+                if g(a) * g(mid) <= 0:
+                    b = mid
+                else:
+                    a = mid
+            sols.append((th, (a + b) / 2))
+    return sols
+
+
+def nu_patterns(o: str) -> Dict[str, Any]:
+    x0 = _float_inputs()
+    p = nu_params(x0, o)
+    meas = {k: (p[k], sig(f"nu_{k}" if k == "s12sq" else f"nu_{k}_{o}")) for k in ("s12sq", "s13sq", "s23sq")}
+    d_meas, d_sig = inp("nu_delta_" + o), sig("nu_delta_" + o)
+    phi_g = (1 + math.sqrt(5)) / 2
+    fixed = (("tribimaximal", 1 / 3), ("bimaximal", 1 / 2), ("golden ratio, tan theta12 = 1/phi", 1 / (1 + phi_g ** 2)),
+             ("golden ratio, cos theta12 = phi/2", 1 - phi_g ** 2 / 4), ("hexagonal, theta12 = 30 deg", 1 / 4))
+    rows = []
+    for name, s12 in fixed:
+        pred = {"s12sq": s12, "s13sq": 0, "s23sq": 1 / 2}
+        pulls = {k: _angle_pull(pred[k], *meas[k]) for k in pred}
+        chi2 = sum(v * v for v in pulls.values())
+        rows.append({"pattern": name, "unknowns": 0, "predictions": 3, "pred": pred, "pulls": pulls,
+                     "chi2": chi2, "n_sigma": pvalue_to_sigma(chi2_pvalue(chi2, 3))})
+    for kind in ("TM1", "TM2"):
+        sols = solve_corrected(kind, p["s13sq"], p["s23sq"])
+        preds = []
+        for th, ph in sols:
+            a = pmns_angles(corrected_tbm(kind, th, ph))
+            preds.append({"theta": th, "phi": ph, "s12sq": a["s12sq"], "delta_deg": math.degrees(a["delta"])})
+        rec: Dict[str, Any] = {"pattern": kind + (": first column of TBM kept" if kind == "TM1"
+                                                  else ": second column of TBM kept"),
+                               "unknowns": 2, "predictions": 2, "solutions": preds}
+        if preds:
+            # errors propagated from the two measured angles that fix the unknowns
+            def pred_of(x: Dict[str, float], which: str, k: int) -> float:
+                q = nu_params(x, o)
+                ss = solve_corrected(kind, q["s13sq"], q["s23sq"])
+                # follow the same solution (nearest phase)
+                th, ph = min(ss, key=lambda t: abs(math.remainder(t[1] - preds[k]["phi"], 2 * math.pi)))
+                a = pmns_angles(corrected_tbm(kind, th, ph))
+                return a["s12sq"] if which == "s12sq" else math.degrees(a["delta"])
+            names = ("nu_s13sq_" + o, "nu_s23sq_" + o)
+            for k, pr in enumerate(preds):
+                pr["s12sq_sigma"] = _propagate(lambda x: pred_of(x, "s12sq", k), names)
+                pr["delta_sigma"] = _propagate(lambda x: pred_of(x, "delta", k), names)
+                pr["s12_pull"] = (pr["s12sq"] - meas["s12sq"][0]) / math.hypot(pr["s12sq_sigma"], meas["s12sq"][1])
+                dd = math.remainder(pr["delta_deg"] - d_meas, 360)
+                pr["delta_pull"] = dd / math.hypot(pr["delta_sigma"], d_sig)
+            # survival is decided by theta12, the Gaussian prediction; delta is far from Gaussian
+            best = min(preds, key=lambda q_: abs(q_["s12_pull"]))
+            rec["chi2"] = best["s12_pull"] ** 2
+            rec["n_sigma"] = abs(best["s12_pull"])
+        else:
+            rec["chi2"], rec["n_sigma"] = math.inf, math.inf
+        rows.append(rec)
+    for r in rows:
+        r["survives"] = r["n_sigma"] <= num("survival_sigma")
+    # quark-lepton complementarity: theta12 + theta_C = pi/4 (theta_C from |V_us|, a comparison)
+    vus = _comparison("V_us")[0]
+    th12 = math.asin(math.sqrt(p["s12sq"]))
+    th12_sig = meas["s12sq"][1] / (2 * math.sqrt(p["s12sq"] * (1 - p["s12sq"])))
+    qlc = math.degrees(th12 + math.asin(vus))
+    qlc_sig = math.degrees(th12_sig)
+    return {"rows": rows, "qlc": {"sum_deg": qlc, "sigma_deg": qlc_sig, "n_sigma": abs(qlc - 45) / qlc_sig},
+            "delta_meas": d_meas, "delta_sigma": d_sig}
+
+
+def neutrino_cosmology_unit(x: Dict[str, float]) -> float:
+    """The sum of neutrino masses (eV) that gives Omega_nu h^2 = 1: relic number density from
+    T_CMB, T_nu = (4/11)^(1/3) T_gamma (instantaneous decoupling), three species of nu + nu-bar."""
+    hbar = x["h"] / (2 * math.pi)
+    kt = x["k_B"] * x["T_CMB"]
+    n_gamma = 2 * zeta3() / math.pi ** 2 * (kt / (hbar * x["c"])) ** 3      # per m^3
+    n_nu = Fr(3, 11) * n_gamma                                             # per species (nu + nu-bar)
+    mpc = x["au"] * 648000 / math.pi * 10 ** 6
+    h100 = 100 * 1000 / mpc
+    rho_c = 3 * h100 ** 2 / (8 * math.pi * x["G"])                         # kg/m^3 for h = 1
+    return rho_c * x["c"] ** 2 / (float(n_nu) * x["e_charge"])            # eV
+
+
+def neutrinos(cosmo: Dict[str, Any], flav: Dict[str, Any], alpha_unif: Dict[str, Any],
+              planck: Dict[str, float]) -> Dict[str, Any]:
+    out: Dict[str, Any] = {"orderings": {}}
+    x0 = _float_inputs()
+    unit = neutrino_cosmology_unit(x0)
+    h_ = inp("H0") / 100
+    om_m = float(cosmo["Omega_m"])
+    lims = {k: _comparison(k)[0] for k in ("sum_mnu_Planck", "sum_mnu_DESI")}
+    n_m0 = int(num("nu_m0_points"))
+    m0_min = num("nu_m0_min")
+    v = flav["runner"].v
+    for o in NU_ORDERINGS:
+        names = ["nu_s12sq", "nu_dm21"] + [f"nu_{k}_{o}" for k in ("s13sq", "s23sq", "delta", "dm3l")]
+        p = nu_params(x0, o)
+        u = pmns(p["s12sq"], p["s13sq"], p["s23sq"], p["delta"])
+        ue2 = [abs(u[0][i]) ** 2 for i in range(3)]
+
+        def total(m0: float, x: Dict[str, float] = x0) -> float:
+            return sum(nu_masses(nu_params(x, o), o, m0))
+
+        def mbeta(m0: float, x: Dict[str, float] = x0) -> float:
+            q = nu_params(x, o)
+            uu = pmns(q["s12sq"], q["s13sq"], q["s23sq"], q["delta"])
+            return math.sqrt(sum(abs(uu[0][i]) ** 2 * m ** 2 for i, m in enumerate(nu_masses(q, o, m0))))
+
+        def mbb_band(m0: float, x: Dict[str, float] = x0) -> Tuple[float, float]:
+            q = nu_params(x, o)
+            uu = pmns(q["s12sq"], q["s13sq"], q["s23sq"], q["delta"])
+            c = [abs(uu[0][i]) ** 2 * m for i, m in enumerate(nu_masses(q, o, m0))]
+            return max(0.0, 2 * max(c) - sum(c)), sum(c)
+
+        rec: Dict[str, Any] = {"masses_at_m0_0": nu_masses(p, o, 0), "sum_min": total(0),
+                               "sum_min_sigma": _propagate(lambda x: total(0, x), names),
+                               "U_e_sq": ue2}
+        # largest m0 each cosmological limit allows (bisection), or None if even m0 = 0 is above it
+        rec["m0_max"] = {}
+        for k, lim in lims.items():
+            if total(0) > lim:
+                rec["m0_max"][k] = None
+                continue
+            lo, hi = 0.0, lim
+            for _ in range(int(num("nu_bisections"))):
+                mid = (lo + hi) / 2
+                lo, hi = (mid, hi) if total(mid) < lim else (lo, mid)
+            rec["m0_max"][k] = (lo + hi) / 2
+        rec["vs_cosmology"] = {k: {"limit": lim, "allowed": total(0) <= lim, "sum_min_minus_limit": total(0) - lim}
+                               for k, lim in lims.items()}
+        rec["Omega_nu_h2_at_min"] = total(0) / unit
+        rec["Omega_nu_over_Omega_m_at_min"] = total(0) / unit / h_ ** 2 / om_m
+        # P2, P3 over the lightest mass: 0, then a geometric grid up to the loosest cosmology limit
+        top = max(m for m in rec["m0_max"].values() if m is not None) if any(
+            m is not None for m in rec["m0_max"].values()) else m0_min
+        grid = [0.0] + [m0_min * (top / m0_min) ** (k / (n_m0 - 1)) for k in range(n_m0)]
+        rec["scan"] = [{"m0": m0, "sum": total(m0), "m_beta": mbeta(m0),
+                        "m_bb_lo": mbb_band(m0)[0], "m_bb_hi": mbb_band(m0)[1]} for m0 in grid]
+        rec["m_beta_min"] = mbeta(0)
+        rec["m_beta_max_cosmology"] = {k: (mbeta(m) if m is not None else None) for k, m in rec["m0_max"].items()}
+        lo0, hi0 = mbb_band(0)
+        rec["m_bb_at_m0_0"] = (lo0, hi0)
+        rec["m_bb_at_m0_0_sigma"] = (_propagate(lambda x: mbb_band(0, x)[0], names),
+                                     _propagate(lambda x: mbb_band(0, x)[1], names))
+        # the range of m0 where full cancellation (m_bb = 0) is possible
+        # the range of m0 where full cancellation (m_bb = 0) is possible: grid, then bisection at each edge
+        sc_ = rec["scan"]
+        edges = []
+        for a_, b_ in zip(sc_[:-1], sc_[1:]):
+            za, zb = a_["m_bb_lo"] == 0, b_["m_bb_lo"] == 0
+            if za != zb:
+                lo, hi = a_["m0"], b_["m0"]
+                for _ in range(int(num("nu_bisections"))):
+                    mid = (lo + hi) / 2
+                    lo, hi = (mid, hi) if (mbb_band(mid)[0] == 0) == za else (lo, mid)
+                edges.append((lo + hi) / 2)
+        rec["m_bb_cancellation_m0"] = (min(edges), max(edges)) if len(edges) >= 2 else None
+        rec["m_bb_max_cosmology"] = {k: (mbb_band(m)[1] if m is not None else None) for k, m in rec["m0_max"].items()}
+        # P5. heaviest mass at m0 = 0 sets the seesaw scale: m = y^2 v^2 / (2 M)
+        m_heavy = max(nu_masses(p, o, 0)) * 10 ** -9                       # GeV
+        rec["seesaw"] = {"m_heaviest_eV": m_heavy * 10 ** 9,
+                         "M_for_y_1": v ** 2 / (2 * m_heavy),
+                         "M_max_perturbative": PERTURBATIVE_LIMIT ** 2 * v ** 2 / (2 * m_heavy),
+                         "M_for_y_top": flav["ratios"][flav["runner"].mt_msbar]["y_t"] ** 2 * v ** 2 / (2 * m_heavy),
+                         "dirac_yukawa": [math.sqrt(2) * m * 10 ** -9 / v for m in nu_masses(p, o, 0)]}
+        rec["patterns"] = nu_patterns(o)
+        out["orderings"][o] = rec
+    au_ms = alpha_unif.get("M_S_for_measured_alpha", {})
+    out["M_GUT"] = au_ms.get("M_GUT_GeV")
+    out["M_P"] = planck["E_P_GeV"]
+    out["sum_for_omega_h2_1_eV"] = unit
+    me = inp("m_e") * _mev_per_kg(x0) / 1000
+    out["electron_yukawa"] = math.sqrt(2) * me / v
+    return out
+
+
+# =============================================================================
 # 7. COSMOLOGY (Decimal arithmetic)
 # =============================================================================
 def dec_pi() -> Decimal:
@@ -4451,6 +5026,9 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     higgs = _stage("higgs_mssm", lambda: higgs_mass_mssm(flav, alpha_unif, yukawa))
     crit = _stage("criticality", lambda: sm_criticality(planck["E_P_GeV"]))
     joint = _stage("uv_joint_test", lambda: uv_joint_test(flav, alpha_unif, yukawa, crit))
+    masses = _stage("mass_formulas", lambda: mass_formulas(flav))
+    scp = _stage("strong_cp", lambda: strong_cp(flav, survey, scales, alpha_unif, planck))
+    nus = _stage("neutrinos", lambda: neutrinos(cosmo, flav, alpha_unif, planck))
     _TRACE["stage"] = "self_checks"                 # everything below validates the stages above
     _TRACE["inputs"].setdefault("self_checks", set())
     checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
@@ -4631,6 +5209,53 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     checks.append(("Part M at Part I's M_S reproduces the measured alpha (the two stages agree)",
                    abs(joint["check_U_at_part_I"]) < num("unif_tol") * 100,
                    f"diff {joint['check_U_at_part_I']:.1e}"))
+    # Parts N, O, P
+    xn = _float_inputs()
+    worst_p = 0.0
+    for o in NU_ORDERINGS:
+        q_ = nu_params(xn, o)
+        back_ = pmns_angles(pmns(q_["s12sq"], q_["s13sq"], q_["s23sq"], q_["delta"]))
+        worst_p = max(worst_p, *(abs(back_[k] / q_[k] - 1) for k in ("s12sq", "s13sq", "s23sq", "delta")))
+        # J in the PDG form: (1/8) sin 2th12 sin 2th23 sin 2th13 cos th13 sin delta
+        s2 = [2 * math.sqrt(q_[k] * (1 - q_[k])) for k in ("s12sq", "s23sq", "s13sq")]
+        j_pdg = s2[0] * s2[1] * s2[2] * math.sqrt(1 - q_["s13sq"]) * math.sin(q_["delta"]) / 8
+        worst_p = max(worst_p, abs(back_["J"] / j_pdg - 1))
+    checks.append(("PMNS matrix: angles, delta and J recovered exactly from the matrix built from them",
+                   worst_p < tol, f"max rel diff {worst_p:.1e}"))
+    tb_ = pmns_angles(tribimaximal())
+    cols_ok = True
+    for kind, col in (("TM1", 0), ("TM2", 1)):
+        um = corrected_tbm(kind, 1 / 3, 1)                 # any point: the checks are identities
+        cols_ok &= all(abs(abs(um[i][col]) - abs(tribimaximal()[i][col])) < tol for i in range(3))
+        cols_ok &= all(abs(sum(abs(um[i][j]) ** 2 for j in range(3)) - 1) < tol for i in range(3))
+    checks.append(("Tribimaximal = (1/3, 0, 1/2); TM1/TM2 keep their TBM column and stay unitary",
+                   abs(tb_["s12sq"] - 1 / 3) < tol and tb_["s13sq"] < tol and abs(tb_["s23sq"] - 1 / 2) < tol
+                   and cols_ok, ""))
+    # m_bb: the exact band against brute force over the two Majorana phases
+    nph_ = int(num("check_phase_grid"))
+    worst_b2 = 0.0
+    for o in NU_ORDERINGS:
+        q_ = nu_params(xn, o)
+        uu = pmns(q_["s12sq"], q_["s13sq"], q_["s23sq"], q_["delta"])
+        for m0 in (0.0, nus["orderings"]["NO"]["m_bb_cancellation_m0"][0] / 2, num("nu_m0_min") * 1000):
+            cc = [abs(uu[0][i]) ** 2 * m for i, m in enumerate(nu_masses(q_, o, m0))]
+            vals = [abs(cc[0] + cc[1] * cmath.exp(2j * math.pi * a / nph_) + cc[2] * cmath.exp(2j * math.pi * b / nph_))
+                    for a in range(nph_) for b in range(nph_)]
+            lo_, hi_ = max(0.0, 2 * max(cc) - sum(cc)), sum(cc)
+            worst_b2 = max(worst_b2, abs(max(vals) - hi_) / hi_, (min(vals) - lo_) / hi_)
+    checks.append(("m_bb: exact band over the Majorana phases = brute force on a phase grid (to grid accuracy)",
+                   worst_b2 < (2 * math.pi / nph_) ** 2, f"max rel diff {worst_b2:.1e}"))
+    kq = (koide_q([1, 1, 1]), koide_q([0, 0, 1]))
+    worst_k = abs(kq[0] - 1 / 3) + abs(kq[1] - 1)
+    m_tau_k = masses["koide_m_tau_MeV"] / 1000
+    lep_ = lepton_masses_gev()
+    worst_k += abs(koide_q([lep_["e"], lep_["mu"], m_tau_k]) - 2 / 3)
+    checks.append(("Koide Q: 1/3 for equal masses, 1 for one mass; the m_tau solved from Q = 2/3 gives Q = 2/3",
+                   worst_k < tol, f"abs diff {worst_k:.1e}"))
+    par_ok = all(abs(sec["det_over_mheaviest3"] / sec["signed_eigenvalue_product"] - 1) < num("check_survey_eig_tol")
+                 for r_ in scp["parity"] for sec in r_["sectors"].values())
+    checks.append(("Part O: each survivor sector's det = product of its signed eigenvalues (real: arg det = 0 or pi)",
+                   par_ok and bool(scp["parity"]), f"{len(scp['parity'])} survivor(s)"))
     _TRACE["stage"] = None
     lin = model_lineage()
     checks.append(("Model graph: every stage registered, acyclic, and run in dependency order",
@@ -4639,7 +5264,8 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     return {"scales": scales, "cosmology": cosmo, "flavour": flav, "survey": survey, "yukawa_331": yuk,
             "symmetry": symm, "closure": closure, "quantum_gravity": qg, "alpha_unification": alpha_unif,
             "alpha_numerology": alpha_num, "yukawa": yukawa, "higgs": higgs, "criticality": crit,
-            "joint": joint, "survey_certificates": certs, "checks": checks, "lineage": lin,
+            "joint": joint, "mass_formulas": masses, "strong_cp": scp, "neutrinos": nus,
+            "survey_certificates": certs, "checks": checks, "lineage": lin,
             "changed_inputs": dict(_TRACE["set"]),
             "precision": prec}
 
@@ -5314,6 +5940,181 @@ def report(res: Dict[str, Any]) -> str:
             f"{r['hypothesis']} with {'+'.join(r['conditions'])}" for r in flips)
             + ". Deciding them needs the next order, not a different error estimate.", 4))
     w("")
+    mf = res["mass_formulas"]
+    w("PART N. CAN THE QUARK AND LEPTON MASSES BE CALCULATED? CLOSED MASS FORMULAS")
+    w("-" * 78)
+    w("  Part J tested what grand unification relates. Left to test are closed formulas for the masses")
+    w("  themselves, as Part I tests them for 1/alpha. Koide (1982): Q = (m1 + m2 + m3)/(sqrt m1 + sqrt m2")
+    w("  + sqrt m3)^2 = 2/3. No accepted theory derives it; Q lies between 1/3 (equal) and 1 (one mass).")
+    w("  A mass relation needs a scale: pole masses are not the couplings of a Lagrangian at one scale,")
+    w("  and running masses change their ratios with mu.")
+    w("      masses                                                        Q           off by")
+    for r_ in mf["koide"]:
+        w(f"      {r_['set']:<58s} {r_['Q']:.7f} +/- {_fmt(r_['sigma'], 2):<8s} {r_['n_sigma']:7.1f} sigma")
+    w(f"  Q = 2/3 at pole masses, solved for m_tau from m_e and m_mu: {mf['koide_m_tau_MeV']:.3f} MeV"
+      f" (measured {mf['m_tau_MeV']:.2f} +/- {mf['m_tau_sigma_MeV']:.2f})")
+    w(f"  Running from the pole masses to M_Z moves Q by {mf['koide_running_shift']:.2e}, about"
+      f" {mf['koide_running_shift'] / mf['koide_pole_sigma']:.0f} times its error;")
+    w(f"  alpha(0) or alpha(M_Z) in the QED running changes that by {mf['koide_qed_alpha_spread']:.1e}.")
+    kr = mf["koide"]
+    w(_wrap(f"RESULT: Koide's relation holds for the charged-lepton pole masses ({kr[0]['n_sigma']:.1f} sigma), but at "
+            f"no scale where the masses are couplings: at M_Z it fails by {min(r_['n_sigma'] for r_ in kr[1:3]):.0f} "
+            f"sigma or more, and for the quarks at m_t(m_t) by {min(r_['n_sigma'] for r_ in kr[3:]):.0f} sigma or "
+            "more. A relation that holds only for pole masses has no known mechanism; it stays a coincidence "
+            "to watch. No quark or lepton mass is calculated.", 2))
+    w("")
+    sc = res["strong_cp"]
+    bd = sc["bound"]
+    w("PART O. THE STRONG CP ANGLE THETA-BAR")
+    w("-" * 78)
+    w("  QCD allows theta (g^2/32 pi^2) G G~, which violates P and CP. Only theta-bar = theta - arg det(M_u M_d)")
+    w("  is physical, and the Standard Model gives it no value. It would give the neutron an electric")
+    w("  dipole moment.")
+    w("  O1. d_n per unit theta-bar, leading chiral logarithm (Crewther, Di Vecchia, Veneziano, Witten 1979):")
+    w("      g0 = delta m_N m* theta/(m-bar eps), from the strong part of m_n - m_p (de Vries et al. 2015);")
+    w("      d_n = e g_piNN [g0/(2 F_pi)] ln(m_N/m_pi) / (4 pi^2 m_N), g_piNN = g_A m_N/F_pi (Goldberger-Treiman)")
+    w(f"      eps = (m_d - m_u)/(m_d + m_u) = {bd['eps']:.3f}; g0/(2 F_pi) = ({1000 * bd['gbar']:.1f} +/-"
+      f" {1000 * bd['gbar_sigma']:.1f}) x 10^-3 theta-bar; g_piNN = {bd['g_piNN']:.2f}; ln(m_N/m_pi) = {bd['chiral_log']:.3f}")
+    w(f"      d_n = ({bd['d_n_per_theta'] * 1e16:.2f} +/- {bd['d_n_per_theta_sigma'] * 1e16:.2f}) x 10^-16 theta-bar e cm"
+      " (input errors; the counterterm beside the log is unknown)")
+    for r_ in bd["literature"]:
+        w(f"      {r_['method']:<32s} ({r_['d_n_per_theta'] * 1e16:.2f} +/- {r_['sigma'] * 1e16:.2f}) x 10^-16 theta-bar e cm")
+    w(f"      measured: |d_n| < {_fmt(bd['d_n_limit'], 2)} e cm (90% CL)  ->  |theta-bar| < {bd['theta_max']:.1e}"
+      f" (chiral log); < {bd['theta_max_weakest']:.1e} with the")
+    w("      weakest coefficient above, each lowered by its 1 sigma error")
+    mu_ = sc["massless_up"]
+    w("  O2. The explanations proposed, each tested:")
+    w(f"      a. massless up quark (theta-bar unphysical): m_u = {1000 * mu_['m_u_GeV']:.2f} +/-"
+      f" {1000 * mu_['sigma']:.2f} MeV, {mu_['n_sigma']:.0f} sigma from zero;")
+    w(f"         m_u/m_d = {mu_['z']:.3f} +/- {mu_['z_sigma']:.3f}. Excluded.")
+    ax = sc["axion"]
+    w("      b. axion (Peccei-Quinn): theta-bar relaxes to zero, at the cost of a new scale f_a.")
+    w(f"         m_a f_a = sqrt(z)/(1 + z) m_pi0 F_pi = {ax['ma_fa_MeV2']:.0f} +/- {ax['ma_fa_sigma']:.0f} MeV^2:"
+      f" m_a = {ax['m_a_ueV_at_1e12']:.2f} +/- {ax['m_a_ueV_at_1e12_sigma']:.2f} micro-eV x (1e12 GeV/f_a)")
+    w(f"         (leading order; NLO with lattice input: {ax['nlo_ueV']:.2f} +/- {ax['nlo_sigma']:.2f},"
+      f" {100 * ax['lo_minus_nlo_rel']:+.1f} %). At the algorithm's scales:")
+    for r_ in ax["at_scales"]:
+        w(f"           f_a = {r_['f_a']:<15s} = {r_['f_a_GeV']:.2e} GeV  ->  m_a = {r_['m_a_eV']:.2e} eV")
+    w("         One unknown (f_a) replaces one (theta-bar): a parameter trade, not a calculation.")
+    w("      c. parity: if a symmetry makes M_u and M_d Hermitian and sets theta = 0, then det M is real")
+    w("         and arg det(M_u M_d) is 0 or pi. Flipping the sign of a sector's matrix keeps V (same")
+    w("         eigenvectors) and flips its det (3 x 3), so theta-bar = 0 at tree level is always reachable.")
+    for r_ in sc["parity"]:
+        sg = {k: "".join("+" if s_ > 0 else "-" for s_ in v["eigenvalue_signs"]) for k, v in r_["sectors"].items()}
+        w(f"         Part C survivor (up {r_['up']}, down {r_['down']}): eigenvalue signs up {sg['u']}, down"
+          f" {sg['d']}; arg det(M_u M_d) = {r_['arg_det_over_pi']} pi")
+    w("         as found (heaviest eigenvalue positive), so theta-bar = 0 needs " +
+      ("no sign flip." if all(r_["arg_det_over_pi"] == 0 for r_ in sc["parity"]) else "one sector's sign flipped."))
+    w("         But Hermiticity needs a left-right parity (Part E), and the textures that parity gives are")
+    w("         excluded (Part G); radiative corrections then move theta-bar off zero. Not a calculation either.")
+    inv = sc["sm_invariant"]
+    j_meas = _comparison("J")[0]
+    w("  O3. Can the SM's own CP violation make theta-bar? Only through the flavour invariant")
+    w("      Im det[H_u, H_d] = 2 J prod_(i<j) (y_ui^2 - y_uj^2)(y_di^2 - y_dj^2), H = Y Y^dagger, which")
+    w(f"      vanishes if any two same-charge quarks were degenerate. At m_t(m_t), with the measured J:"
+      f" {j_meas * inv['mass_difference_product']:.1e}.")
+    w("      Its first divergent contribution to theta-bar is at seven loops (Ellis-Gaillard 1979), so the")
+    w(f"      SM's own theta-bar lies many orders below the bound {bd['theta_max']:.0e}.")
+    w(f"  RESULT: theta-bar is bounded, |theta-bar| < {bd['theta_max']:.1e} (up to {bd['theta_max_weakest']:.1e}"
+      " with the hadronic uncertainty),")
+    w("    but not calculated. The massless-up-quark solution is excluded; the axion trades theta-bar for")
+    w("    f_a and predicts m_a f_a; parity sets it to zero at tree level but needs Hermitian textures,")
+    w("    and the predictive ones are excluded. Theta-bar is the one free number whose smallness the")
+    w("    Standard Model's own CP violation cannot explain.")
+    w("")
+    nu = res["neutrinos"]
+    w("PART P. NEUTRINO MASSES AND MIXING")
+    w("-" * 78)
+    w("  Oscillations (NuFIT 6.0) measure two mass-squared differences and the PMNS matrix. Not measured:")
+    w("  the lightest mass m0, the ordering, two Majorana phases, and the origin of the masses. Each")
+    w("  unknown is scanned, never set.")
+    lims = {"sum_mnu_Planck": "Planck 2018", "sum_mnu_DESI": "DESI DR2 + CMB"}
+    for o, rec in nu["orderings"].items():
+        lab = "normal (m1 < m2 < m3)" if o == "NO" else "inverted (m3 < m1 < m2)"
+        ms_ = rec["masses_at_m0_0"]
+        w(f"  {o}, {lab}:")
+        w(f"    P1. at m0 = 0: masses {', '.join(f'{1000 * m:.2f}' for m in ms_)} meV; sum ="
+          f" {1000 * rec['sum_min']:.2f} +/- {1000 * rec['sum_min_sigma']:.2f} meV (the smallest possible)")
+        for k, v_ in rec["vs_cosmology"].items():
+            m0m = rec["m0_max"][k]
+            tail = (f"allowed; m0 < {1000 * m0m:.1f} meV" if v_["allowed"] else
+                    f"EXCLUDED at 95%: the minimum is {1000 * v_['sum_min_minus_limit']:.1f} meV above it")
+            w(f"        vs {lims[k]:<15s} sum < {1000 * v_['limit']:.0f} meV (95%): {tail}")
+        w(f"        Omega_nu h^2 at the minimum = {rec['Omega_nu_h2_at_min']:.2e}: {100 * rec['Omega_nu_over_Omega_m_at_min']:.2f} %"
+          " of Part A's Omega_m")
+        mbm = rec["m_beta_max_cosmology"]["sum_mnu_Planck"]
+        w(f"    P2. m_beta = {1000 * rec['m_beta_min']:.1f} meV at m0 = 0" +
+          (f", at most {1000 * mbm:.1f} meV under Planck's limit" if mbm else "") +
+          f"; KATRIN: < {1000 * _comparison('m_beta_KATRIN')[0]:.0f} meV (90%)")
+        lo0, hi0 = rec["m_bb_at_m0_0"]
+        sl, sh = rec["m_bb_at_m0_0_sigma"]
+        w(f"    P3. m_bb band over the Majorana phases at m0 = 0: {1000 * lo0:.2f} +/- {1000 * sl:.2f} to"
+          f" {1000 * hi0:.2f} +/- {1000 * sh:.2f} meV")
+        cz = rec["m_bb_cancellation_m0"]
+        if cz:
+            w(f"        m_bb can vanish (phases cancel) for {1000 * cz[0]:.2f} < m0 < {1000 * cz[1]:.2f} meV")
+        else:
+            w("        m_bb cannot vanish for any m0: the inverted ordering has a floor")
+        mbb = rec["m_bb_max_cosmology"]["sum_mnu_Planck"]
+        if mbb:
+            w(f"        largest m_bb under Planck's limit: {1000 * mbb:.1f} meV")
+        line = [f"{1000 * r_['m0']:.3g}: {1000 * r_['m_bb_lo']:.2f}-{1000 * r_['m_bb_hi']:.2f}" for r_ in rec["scan"][::4]]
+        w("        m0 (meV): m_bb band (meV)")
+        for i in range(0, len(line), 4):
+            w("          " + "   ".join(line[i:i + 4]))
+    klo, khi = _comparison("m_bb_KLZ_low")[0], _comparison("m_bb_KLZ_high")[0]
+    io_lo, io_hi = nu["orderings"]["IO"]["m_bb_at_m0_0"]
+    w(f"    KamLAND-Zen: m_bb < {1000 * klo:.0f} to {1000 * khi:.0f} meV (90%, by nuclear matrix element). The inverted")
+    w(f"    floor, {1000 * io_lo:.1f} meV, is below even the strongest limit; its top, {1000 * io_hi:.1f} meV, is above"
+      " it: not yet tested.")
+    w("  P4. Mixing patterns from discrete flavour symmetries (tested like Part C's textures; delta is")
+    w("      far from Gaussian, so only theta12 decides survival, at the 3 sigma level)")
+    for o, rec in nu["orderings"].items():
+        pt = rec["patterns"]
+        w(f"    {o}:  pattern                             unknowns  predicts   pulls / prediction            verdict")
+        for r_ in pt["rows"]:
+            verdict = "survives" if r_["survives"] else "excluded"
+            if r_["unknowns"] == 0:
+                pl = r_["pulls"]
+                w(f"        {r_['pattern']:<36s} {r_['unknowns']:4d} {r_['predictions']:8d}     theta12 {pl['s12sq']:+5.1f},"
+                  f" theta13 {pl['s13sq']:+5.1f}, theta23 {pl['s23sq']:+4.1f}   {verdict}")
+            else:
+                w(f"        {r_['pattern']:<36s} {r_['unknowns']:4d} {r_['predictions']:8d}     theta13, theta23 fix the"
+                  f" unknowns                {verdict}")
+                for q_ in r_["solutions"]:
+                    w(f"            sin^2 theta12 = {q_['s12sq']:.4f} +/- {q_['s12sq_sigma']:.4f} ({q_['s12_pull']:+.1f} sigma);"
+                      f" delta = {q_['delta_deg']:.0f} +/- {q_['delta_sigma']:.0f} deg ({q_['delta_pull']:+.1f} sigma)")
+        w(f"        measured: sin^2 theta12 = {inp('nu_s12sq'):.3f}, delta = {pt['delta_meas']:.0f} +/- {pt['delta_sigma']:.1f} deg")
+    qlc = nu["orderings"]["NO"]["patterns"]["qlc"]
+    w(f"    Quark-lepton complementarity, theta12 + theta_C = 45 deg: {qlc['sum_deg']:.2f} +/- {qlc['sigma_deg']:.2f} deg,"
+      f" {qlc['n_sigma']:.1f} sigma")
+    no_ = nu["orderings"]["NO"]["seesaw"]
+    w("  P5. Where the masses come from. Seesaw: m = y^2 v^2/(2 M), with the heaviest mass at m0 = 0")
+    w(f"      ({1000 * no_['m_heaviest_eV']:.1f} meV, NO):  M = {no_['M_for_y_1']:.1e} GeV for y = 1,"
+      f" {no_['M_for_y_top']:.1e} GeV for y = y_t,")
+    w(f"      at most {no_['M_max_perturbative']:.1e} GeV for y = sqrt(4 pi) (perturbative). Part I's M_GUT ="
+      f" {_fmt(nu['M_GUT'] or math.nan, 3)} GeV and")
+    w(f"      M_P = {nu['M_P']:.2e} GeV lie above it: a seesaw needs new states below the unification scale.")
+    w(f"      Dirac alternative: y_nu up to {max(no_['dirac_yukawa']):.1e}, against y_e = {nu['electron_yukawa']:.1e}"
+      " (a new hierarchy, no new scale).")
+    no_rec, io_rec = nu["orderings"]["NO"], nu["orderings"]["IO"]
+    io_out = [lims[k] for k, v_ in io_rec["vs_cosmology"].items() if not v_["allowed"]]
+    fixed_ = [r_ for r_ in no_rec["patterns"]["rows"] if r_["unknowns"] == 0]
+    t13 = min(abs(r_["pulls"]["s13sq"]) for o_ in NU_ORDERINGS for r_ in nu["orderings"][o_]["patterns"]["rows"]
+              if r_["unknowns"] == 0)
+    corr = {r_["pattern"].split(":")[0]: max(nu["orderings"][o_]["patterns"]["rows"][i]["n_sigma"] for o_ in NU_ORDERINGS)
+            for i, r_ in enumerate(no_rec["patterns"]["rows"]) if r_["unknowns"]}
+    surv_ = [k for k, s_ in corr.items() if s_ <= num("survival_sigma")]
+    w(_wrap("RESULT: the masses and the mixing are measured, not calculated. "
+            + (f"Cosmology ({', '.join(io_out)}, flat LambdaCDM) excludes the inverted ordering at 95%; the normal "
+               f"one keeps m0 below {1000 * min(m for m in no_rec['m0_max'].values() if m):.1f} meV. " if io_out else "")
+            + f"Every fixed mixing pattern ({len(fixed_)}: tribimaximal, bimaximal, golden ratio, hexagonal) is "
+            f"excluded by theta13 at {t13:.0f} sigma or more. "
+            + (f"Surviving corrected patterns: {', '.join(f'{k} (theta12 at {corr[k]:.1f} sigma)' for k in surv_)}; "
+               "each predicts sin^2 theta12 and delta from theta13 and theta23, a test for DUNE and Hyper-Kamiokande."
+               if surv_ else "No corrected pattern survives."), 2))
+    w("    Neutrino masses also test Part L's assumption: the SM up to M_P holds only for Dirac neutrinos.")
+    w("")
     w("THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)")
     w("-" * 78)
     lin = res["lineage"]
@@ -5393,6 +6194,7 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
         "yukawa": res["yukawa"], "scales": res["scales"],
         "checks": [{"name": n, "pass": ok, "detail": d} for n, ok, d in res["checks"]],
         "uv_joint_test": res["joint"],
+        "mass_formulas": res["mass_formulas"], "strong_cp": res["strong_cp"], "neutrinos": res["neutrinos"],
         "survey_certificates": res["survey_certificates"],
         "model": {"stages": STAGES, "lineage": res["lineage"], "changed_inputs": res["changed_inputs"],
                   "audit_findings": [{"status": a, "finding": b} for a, b in AUDIT_FINDINGS]},
