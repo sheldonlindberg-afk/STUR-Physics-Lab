@@ -677,8 +677,8 @@ calculates; using the measured one instead moves M_W by +1.4 MeV.
 
 | | M_W (GeV) | pull |
 |---|---|---|
-| this script (SM) | 80.350 ± 0.006 | |
-| PDG 2024 global fit (SM) | 80.353 ± 0.006 | +0.4σ |
+| this script (SM) | 80.350 ± 0.004 | |
+| PDG 2024 global fit (SM) | 80.353 ± 0.006 | +0.5σ |
 | measured, without CDF II | 80.360 ± 0.012 | +0.8σ |
 | measured, PDG 2024 average | 80.369 ± 0.013 | +1.4σ |
 

@@ -85,10 +85,19 @@ Status: [x] done, [~] in progress, [ ] not started.
 2. [x] Threshold corrections (Part T7): each matching condition shifted by up to +-1 in 1/alpha (assumed
    band), every corner at two loops. Only PS+D's exclusion is robust; LR+D's exclusion and the PS and
    LR verdicts can flip. Next: the actual heavy spectrum (scalar potential of 126 + 45/54/210).
-3. [x] Electroweak precision (Part W): M_W = 80.350 +/- 0.006 GeV (two-loop SM, Awramik et al.
+3. [x] Electroweak precision (Part W): M_W = 80.350 +/- 0.004 GeV (two-loop SM, Awramik et al.
    parametrization) against 80.360 (no CDF) and 80.369 (PDG average): within 1.4 sigma; reproduces the
    PDG fit (80.353). Open: sin^2 theta_eff, the full set of Z-pole observables.
-4. [ ] Proton-decay operator running above M_I (round 2, item 3), once its formula is transcribed.
+4. [ ] Still deferred: proton-decay operator running above M_I (round 2, item 3), until its
+   anomalous-dimension formula is transcribed from a source and checked on the SM exponents.
+
+## Round 4 (proposed)
+1. The heavy spectrum: the SO(10) scalar potential (126 + 45/54/210) and the masses it gives at M_I and
+   M_GUT, to turn Part T7's threshold band into a calculation; that decides PS against LR.
+2. Feed Part V back into Part A: Omega_c from the axion at the surviving chain's M_I (with the string
+   yield as the open input), so cosmology is no longer only an input.
+3. Z-pole observables (sin^2 theta_eff, Gamma_Z) next to M_W.
+4. Proton running above M_I and the dimension-five factor 2.2.
 
 ## Later
 - One running for every coupling (matrix Yukawas to M_GUT); GUT and superpartner thresholds;

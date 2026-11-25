@@ -1,7 +1,7 @@
 ==============================================================================
 STUR Physics Lab, production v2.2: nothing tuned, nothing fitted
 ==============================================================================
-Inputs: 63 measured or defined constants (INPUTS). Comparisons: 17 measured results, never used in a calculation.
+Inputs: 64 measured or defined constants (INPUTS). Comparisons: 19 measured results, never used in a calculation.
 
 PART A. COSMOLOGY (flat Lambda-CDM, Friedmann equation)
 ------------------------------------------------------------------------------
@@ -875,6 +875,22 @@ PART V. DARK MATTER FROM THE AXION
     be the dark matter. Not yet a prediction: the string yield and m_a(T)
     near T_C are the open inputs.
 
+PART W. THE W MASS: A TEST OF THE STANDARD MODEL ITSELF
+------------------------------------------------------------------------------
+  The SM fixes M_W from G_F, alpha, M_Z, m_t and m_h through its quantum corrections. The full two-loop
+  result in its published parametrization (Awramik, Czakon, Freitas, Weiglein 2004; accurate to 0.5 MeV),
+  Delta alpha_had^(5) = 0.02783 (PDG 2024), at Part L's Higgs mass m_h = 128.34 GeV:
+    M_W = 80.3497 +/- 0.0035 GeV  (MeV: M_t 1.7, alpha_s_MZ 0.6, M_Z 2.6, delta_alpha_had5 1.1, m_h 0.4, fit 0.5)
+    at the measured m_h instead: +1.4 MeV
+    PDG 2024 average (the input M_W)     80.3692 +/- 0.0133: +1.4 sigma
+    PDG 2024 average without CDF         80.3600 +/- 0.0120: +0.8 sigma
+    PDG 2024 global-fit prediction       80.3530 +/- 0.0060: +0.5 sigma
+  RESULT: the Standard Model's M_W, with every input but Delta alpha_had
+    measured or calculated here, agrees with the measurements and reproduces
+    the PDG's global fit. No new physics is needed at the weak scale; the
+    heavy states of the SO(10) chains decouple, so this tests the SM below
+    M_I, not the chains.
+
 PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
 ------------------------------------------------------------------------------
   Each hypothesis meets every condition, with the verdict the earlier parts computed:
@@ -1103,6 +1119,11 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
       assumes: QCD axion by misalignment; dilute-instanton m_a(T); string and
         domain-wall production left out; f_a scanned and at each SO(10)
         chain's M_I
+  w_mass (W, conditional)
+      inputs: M_W, M_Z, M_t, alpha_s_MZ, delta_alpha_had5
+      takes: criticality
+      assumes: the SM's two-loop M_W in its published parametrization, at
+        Part L's Higgs mass
   scorecard (U, conditional)
       inputs: none
       takes: higgs_mssm, criticality, uv_joint_test, neutrinos, proton_decay,
@@ -1136,14 +1157,14 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
     M_t: flavour, texture_survey, flavour_symmetry_331, quantum_gravity,
       yukawa_relations, higgs_mssm, criticality, uv_joint_test,
       mass_formulas, strong_cp, neutrinos, proton_decay, baryon_asymmetry,
-      so10, dark_matter, scorecard
+      so10, dark_matter, w_mass, scorecard
     alpha_s_MZ: gauge_unification, flavour, texture_survey,
       flavour_symmetry_331, quantum_gravity, yukawa_relations, higgs_mssm,
       criticality, uv_joint_test, mass_formulas, strong_cp, neutrinos,
-      proton_decay, baryon_asymmetry, so10, dark_matter, scorecard
+      proton_decay, baryon_asymmetry, so10, dark_matter, w_mass, scorecard
     G: cosmology, planck_units, quantum_gravity, yukawa_relations,
       higgs_mssm, criticality, uv_joint_test, strong_cp, neutrinos,
-      proton_decay, baryon_asymmetry, so10, dark_matter, scorecard
+      proton_decay, baryon_asymmetry, so10, dark_matter, w_mass, scorecard
     H0: cosmology, quantum_gravity, neutrinos, baryon_asymmetry, so10,
       dark_matter, scorecard
   Global consistency of the stage assumptions:
@@ -1265,9 +1286,10 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Sphaleron conversion: B/(B - L) = 28/79 and L/(B - L) = -51/79 (exact, three families, one Higgs)
   [PASS] SO(10) via Pati-Salam: the solved M_I, M_GUT make SU(4), SU(2)_L, SU(2)_R meet at 1/alpha_GUT  (max rel diff 1.1e-15)
   [PASS] Leptogenesis efficiency: z_B solves its freeze-out equation; kappa_f -> 1 in weak washout  (max rel residual 1.1e-15, kappa(K -> 0) = 0.999997)
+  [PASS] M_W parametrization returns M_W^0 at its reference point (transcription check)  (80.37790 GeV)
   [PASS] Axion misalignment from its ingredients reproduces Di Luzio et al.'s eq. 170 (their approximation)  (Omega h^2 = 0.1184 at f_a = 2.0e+11 GeV against 0.12)
   [PASS] SO(10) chains: the general two-loop formula on the SM content = sm_gauge_b, sm_two_loop_b; the Newton solver at one loop = the linear solution  (rel diff 3.3e-10)
-  [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (24 stages, 68 edges)
-  60/60 checks pass
+  [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (25 stages, 69 edges)
+  61/61 checks pass
 ==============================================================================
-Elapsed: 467.5 s
+Elapsed: 455.4 s
