@@ -772,6 +772,43 @@ M_d = c Y₁₀ + d Y₁₂₆ and M_e = c Y₁₀ − 3d Y₁₂₆.
 The scorecard now has a fermion-mass row. It moves the surviving chain from Pati–Salam to the
 left-right one.
 
+**Closing the algorithm: the neutrino test (Part Y3), the survivor fed back (Part X), the ledger (Part Z)**
+
+* **Y3: type-II neutrinos from the sum rule.** With type-II seesaw, M_ν ∝ M_d − M_e, so the same
+  8 unknowns must also give the three PMNS angles and Δm²₂₁/Δm²₃₁. They don't: the best point misses
+  by about 21σ (sin²θ₂₃ comes out near 0.14). The reason is one number. Large atmospheric mixing
+  from M_d − M_e needs b and τ to converge at M_GUT (Bajc–Senjanović–Vissani), and without
+  supersymmetry they don't: (m_b − m_τ)/m_b = −0.60. The minimal left-right chain with pure type-II
+  neutrino masses is excluded. Type I adds unknowns and is not tested, so the scorecard's neutrino
+  entry for the chain is *open*.
+* **Part X follows the survivor.** The cosmology closure now takes the surviving chain from Part U
+  automatically: the left-right chain, whose axion gives under 1% of the dark matter. The loop then
+  needs nearly all the dark matter from strings, domain walls or another component.
+* **Part Z: the ledger.** Every free number of the Standard Model plus cosmology carries the status
+  the stages computed for the surviving hypothesis:
+
+| Quantity | Count | Status |
+|---|---|---|
+| hypercharges, charge quantization | 5 per family | calculated (exact) |
+| number of families | 1 | calculated (in 3-3-1) |
+| weak mixing angle at unification | 1 | calculated (3/8) |
+| gauge couplings | 3 | traded (for M_I, M_GUT, α_GUT) |
+| Higgs mass | 1 | open (criticality 3.3σ off) |
+| Higgs vev, quark masses, G | 1 + 6 + 1 | input |
+| CKM | 4 | related (texture, not the survivor's structure) |
+| charged-lepton masses | 3 | traded (sum rule, 8 unknowns) |
+| neutrino masses and mixing | 7–9 | open (type II excluded, type I untested) |
+| strong CP angle | 1 | bounded (< 9×10⁻¹¹) |
+| dark matter, Λ | 1 + 1 | open |
+| baryon asymmetry | 1 | traded (leptogenesis, M₁ unknown) |
+
+**The algorithm closes.** It runs in one pass, every stage in dependency order. Every assumption of
+the surviving hypothesis is consistent with every condition tested, and every free number has a
+status. What it calculates is discrete and exact: the charges and their quantization, sin²θ_W at
+unification, and the family number in 3-3-1. No continuous free number of the Standard Model is
+calculated. The survivor's open entries (neutrinos through type I, the dark matter, the Higgs mass)
+are where it must predict or fail next.
+
 **Part U: the scorecard, every complete hypothesis against every condition**
 
 Part M weighs the high-energy hypotheses against unification, b–τ and the Higgs mass. Parts P–T add

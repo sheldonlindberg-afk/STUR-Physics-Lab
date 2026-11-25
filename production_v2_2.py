@@ -8650,8 +8650,10 @@ def report(res: Dict[str, Any]) -> str:
       + f"; scales from its {lg_['chain']} chain.")
     w("  calculated = fixed with nothing measured spent; related = tied to others by a tested relation;")
     w("  traded = exchanged for an unknown; bounded = only limited; open = no mechanism; input = measured.")
+    w(f"    {'quantity':<34s} {'count':<13s} status")
     for r_ in lg_["rows"]:
-        w(_wrap(f"{r_['quantity']:<34s} {r_['count']:<12s} {r_['status']:<10s} {r_['how']}", 4, 110))
+        w(f"    {r_['quantity']:<34s} {r_['count']:<13s} {r_['status']}")
+        w(_wrap(r_["how"], 8, 100))
     w("  Totals: " + ", ".join(f"{k} {v}" for k, v in sorted(lg_["counts"].items())))
     w(_wrap("RESULT: the algorithm closes: one pass, every stage run in dependency order, every assumption of the "
             "surviving hypothesis consistent with every condition tested, and every free number assigned a status. "

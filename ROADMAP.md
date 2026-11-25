@@ -118,8 +118,17 @@ Status: [x] done, [~] in progress, [ ] not started.
 3. [ ] The same for the LR chain (210 under SU(3) x SU(2)^2 x U(1)).
 4. [x] The Yukawa sector (Part Y): PS excluded by an exact selection rule (light Higgs in one SU(4) irrep:
    M_e = M_d or -3 M_d); the LR chain's 10+126 sum rule reaches the charged leptons (8 unknowns).
-5. [ ] The neutrinos from the sum rule: type-II M_nu ~ M_d - M_e (and type I) at the LR M_GUT: does it
-   give the PMNS angles and Delta m^2 ratio, and what does it predict (delta, m_bb)?
+5. [x] Type-II neutrinos from the sum rule (Part Y3): excluded at ~21 sigma; b and tau do not converge
+   without SUSY ((m_b - m_tau)/m_b = -0.60 at M_GUT). [ ] Type I (and I + II) still to test.
+7. [x] Closing the algorithm: Part X takes the scorecard's survivor; Part Z, the ledger of every free
+   number with its computed status. The algorithm runs in one pass and closes; it calculates only
+   discrete numbers.
+
+## Next (if the attempt continues)
+1. Type-I seesaw in the LR chain (M_R from Y126 v_R): existence test with the extra vev ratio.
+2. The LR chain's own scalar potential (as Parts T9-T11 did for Pati-Salam) and its thresholds.
+3. Left-right Yukawa running between M_I and M_GUT.
+4. Proton running above M_I; triplet-mediated proton decay with the fitted Yukawas.
 6. [ ] Left-right Yukawa running between M_I and M_GUT (SM running is used now).
 
 ## Later
