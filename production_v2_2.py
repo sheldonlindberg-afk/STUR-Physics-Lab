@@ -5104,7 +5104,30 @@ def relativistic_dof(extra_majorana: int = 0) -> Dict[str, Fr]:
     return {"g_star": g_star, "g_s_today": g_s_today, "bosons": Fr(bos), "fermions": Fr(ferm)}
 
 
-def baryon_asymmetry(cosmo: Dict[str, Any], flav: Dict[str, Any], nus: Dict[str, Any]) -> Dict[str, Any]:
+def leptogenesis_efficiency(k_dec: float) -> Tuple[float, float]:
+    """(z_B, kappa_f) for decay parameter K = m~_1 / m_*: z_B solves Buchmuller, Di Bari, Plumacher's
+    eq. 59, (K/4) z^3 e^-z (1 + sqrt(pi z / 2)) = z - 1 (bisection, z > 1); kappa_f from their eq. 22
+    (thermal initial abundance; scatterings neglected, which gives the largest efficiency)."""
+    def g(z: float) -> float:
+        return k_dec / 4 * z ** 3 * math.exp(-z) * (1 + math.sqrt(math.pi * z / 2)) - (z - 1)
+    lo, hi = 1.0, 2.0
+    while g(hi) > 0:
+        hi *= 2
+    # g(1) > 0 and g < 0 beyond the root: the largest root is where the asymmetry freezes
+    for _ in range(int(num("nu_bisections"))):
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if g(mid) > 0 else (lo, mid)
+    z_b = (lo + hi) / 2
+    return z_b, 2 / (k_dec * z_b) * (1 - math.exp(-k_dec * z_b / 2))
+
+
+def equilibrium_neutrino_mass(v_h: float, m_planck: float, g_star: float) -> float:
+    """m_* = 16 pi^(5/2) sqrt(g*) v^2 / (3 sqrt5 M_P) in eV (their eq. 10, v = <H> = 174 GeV)."""
+    return 16 * math.pi ** Fr(5, 2) * math.sqrt(g_star) * v_h ** 2 / (3 * math.sqrt(5) * m_planck) * 10 ** 9
+
+
+def baryon_asymmetry(cosmo: Dict[str, Any], flav: Dict[str, Any], nus: Dict[str, Any],
+                     planck: Dict[str, float]) -> Dict[str, Any]:
     x = _float_inputs()
     out: Dict[str, Any] = {}
     # S1. eta_B
@@ -5143,19 +5166,36 @@ def baryon_asymmetry(cosmo: Dict[str, Any], flav: Dict[str, Any], nus: Dict[str,
     out["leptogenesis"] = {"eta_per_epsilon_kappa": f_eta, "g_star": dof["g_star"], "g_s_today": dof["g_s_today"]}
     v_h = flav["runner"].v / math.sqrt(2)                       # <H> = v / sqrt2
     eps_min = out["eta_B"] / abs(f_eta)
+    # the SM bound on the CP asymmetry, |epsilon_1| <= 3 M_1 (m_3 - m_1) / (16 pi <H>^2) (Buchmuller, Di Bari,
+    # Plumacher, eq. 31; Davidson-Ibarra's eq. 17 is written for the MSSM, whose asymmetry is twice as large)
     rows = []
     for o, rec in nus["orderings"].items():
         ms_ = rec["masses_at_m0_0"]
         dm = (max(ms_) - min(ms_)) * 10 ** -9                    # GeV
-        m1_min = eps_min * 8 * math.pi * v_h ** 2 / (3 * dm)
+        m1_min = eps_min * 16 * math.pi * v_h ** 2 / (3 * dm)
         rows.append({"ordering": o, "m3_minus_m1_eV": dm * 10 ** 9, "M1_min": m1_min,
                      "window_top": rec["seesaw"]["M_max_perturbative"],
                      "window_open": m1_min < rec["seesaw"]["M_max_perturbative"]})
     out["leptogenesis"]["epsilon_min"] = eps_min
     out["leptogenesis"]["rows"] = rows
+    # the efficiency: kappa_f(K), K = m~_1 / m_*, over the natural range m_sol <= m~_1 <= m_atm (NO, m0 = 0)
+    g_sm = relativistic_dof()["g_star"]
+    m_star = equilibrium_neutrino_mass(v_h, planck["E_P_GeV"], float(g_sm))
+    ms_no = nus["orderings"]["NO"]["masses_at_m0_0"]
+    m_sol, m_atm_ = ms_no[1], ms_no[2]
+    no_min = rows[0]["M1_min"]
+    eff = []
+    n_k = int(num("nu_m0_points"))
+    for k in range(n_k):
+        mt_ = m_sol * (m_atm_ / m_sol) ** (k / (n_k - 1))
+        z_b, kap_ = leptogenesis_efficiency(mt_ / m_star)
+        eff.append({"m_tilde_eV": mt_, "K": mt_ / m_star, "z_B": z_b, "kappa": kap_, "M1_min": no_min / kap_})
+    out["leptogenesis"]["m_star_eV"] = m_star
+    out["leptogenesis"]["efficiency"] = eff
+    out["leptogenesis"]["M1_min_natural"] = (eff[0]["M1_min"], eff[-1]["M1_min"])
     # Davidson-Ibarra's own example: epsilon > 1e-6 needs M_1 > 4e9 GeV (their text, m_3 ~ the atmospheric mass)
     m_atm = nus["orderings"]["NO"]["seesaw"]["m_heaviest_eV"] * 10 ** -9
-    out["leptogenesis"]["di_example_M1"] = 10 ** -6 * 8 * math.pi * v_h ** 2 / (3 * m_atm)
+    out["leptogenesis"]["di_example_M1"] = 10 ** -6 * 8 * math.pi * v_h ** 2 / (3 * m_atm)   # their normalization
     return out
 
 
@@ -5547,7 +5587,7 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
                       all3["n_sigma"] if all3 else None),
            "N": entry("trade", "seesaw available, scale unknown"),
            "P": entry("fail", f"p -> nubar K+ at most {d5max:.0e} years against {pdk['limit_K_nu']:.1e} (Part Q)"),
-           "A": entry("trade", "leptogenesis possible above M_1 ~ 3e8 GeV; gravitinos not checked"),
+           "A": entry("trade", "leptogenesis possible above M_1 ~ 7e8 GeV; gravitinos not checked"),
            "T": entry("open", "needs an axion or another mechanism")}
     rows["minimal SUSY SU(5)"] = su5
     vac = s10["vacuum"]
@@ -5560,6 +5600,16 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
         decided = bool(band) and r_["M_I"] > band[-1]
         return entry("open", "metastable between mu_0 and M_I" + ("" if decided else
                      f"; M_I lies inside mu_0's top-mass band ({band[0]:.0e} to {band[-1]:.0e} GeV)"))
+    lg_ = bau["leptogenesis"]
+    m1_full = min(r_["M1_min"] for r_ in lg_["rows"])
+    m1_nat = lg_["M1_min_natural"][0]
+
+    def leptogenesis_entry(m_i: float) -> Dict[str, Any]:
+        if m_i < m1_full:
+            return entry("fail", f"M_1 <~ M_I = {m_i:.0e} GeV is below even the full-efficiency bound {m1_full:.0e} GeV")
+        if m_i < m1_nat:
+            return entry("open", f"M_1 <~ M_I = {m_i:.0e} GeV needs weak washout: the natural range needs M_1 >= {m1_nat:.0e} GeV")
+        return entry("trade", f"M_1 up to M_I = {m_i:.0e} GeV covers the natural range (M_1 >= {m1_nat:.0e} GeV)")
     rows["SM to M_P"]["V"] = entry("open", f"metastable: lambda turns negative at {vac['mu0']:.1e} GeV (Part L)")
     rows["minimal SUSY SU(5)"]["V"] = entry("pass", "lambda is fixed positive by supersymmetry above M_S")
     # --- every SO(10) chain at two loops (Part T5)
@@ -5582,8 +5632,7 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
             "N": entry("pass", f"seesaw at M_I with a Dirac Yukawa of {y_needed:.3f} for the heaviest neutrino"),
             "P": entry("pass" if two["tau_p_allowed"] else "fail",
                        f"p -> e+ pi0 in {two['tau_p_years']:.0e} years against {pdk['limit_e_pi0']:.1e}"),
-            "A": entry("trade" if two["in_leptogenesis_window"] else "fail",
-                       "leptogenesis needs M_1 between 3e8 GeV and M_I: allowed, not computed"),
+            "A": leptogenesis_entry(m_i),
             "T": entry("trade", f"an axion at f_a = M_I would give m_a = {two['axion_m_a_eV_if_fa_MI'] * 10 ** 6:.2g} micro-eV"),
             "V": vacuum_entry(s10["vacuum"], nm)}
     conditions = {"U": "gauge unification", "B": "b-tau unification", "H": "Higgs mass", "N": "neutrino masses",
@@ -5993,7 +6042,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     nus = _stage("neutrinos", lambda: neutrinos(cosmo, flav, alpha_unif, planck))
     pdk = _stage("proton_decay", lambda: proton_decay(flav, alpha_unif, yukawa))
     anom = _stage("anomalies", lambda: anomaly_constraints(yuk))
-    bau = _stage("baryon_asymmetry", lambda: baryon_asymmetry(cosmo, flav, nus))
+    bau = _stage("baryon_asymmetry", lambda: baryon_asymmetry(cosmo, flav, nus, planck))
     s10 = _stage("so10", lambda: so10(flav, alpha_unif, yukawa, scp, bau, pdk, crit))
     score = _stage("scorecard", lambda: scorecard(joint, higgs, crit, pdk, nus, bau, s10, scp))
     _TRACE["stage"] = "self_checks"                 # everything below validates the stages above
@@ -6244,6 +6293,15 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     worst_t = max(abs(v_ * ps_["alpha_GUT"] - 1) for v_ in at_g)
     checks.append(("SO(10) via Pati-Salam: the solved M_I, M_GUT make SU(4), SU(2)_L, SU(2)_R meet at 1/alpha_GUT",
                    worst_t < tol, f"max rel diff {worst_t:.1e}"))
+    # Part S: each z_B solves the freeze-out condition, and kappa_f -> 1 as K -> 0 (thermal initial abundance)
+    worst_z = 0.0
+    for e_ in bau["leptogenesis"]["efficiency"]:
+        z_, k_ = e_["z_B"], e_["K"]
+        worst_z = max(worst_z, abs(k_ / 4 * z_ ** 3 * math.exp(-z_) * (1 + math.sqrt(math.pi * z_ / 2)) - (z_ - 1)) / z_)
+    k_small = leptogenesis_efficiency(num("nu_m0_min"))[1]
+    checks.append(("Leptogenesis efficiency: z_B solves its freeze-out equation; kappa_f -> 1 in weak washout",
+                   worst_z < num("check_survey_tol") and abs(k_small - 1) < num("check_fd_rel_step") * 10,
+                   f"max rel residual {worst_z:.1e}, kappa(K -> 0) = {k_small:.6f}"))
     sm_c1, sm_c2 = sm_as_chain()
     ps1 = s10["chains"]["PS"]["loop1"]
     rel_c = max(abs(ps1["M_I"] / ps_["M_I"] - 1), abs(ps1["M_GUT"] / ps_["M_GUT"] - 1))
@@ -7225,16 +7283,25 @@ def report(res: Dict[str, Any]) -> str:
     w("  S3. Leptogenesis (the seesaw of Part P): eta_B = c_sph (3/4) (g*s,0 / g*) epsilon_1 kappa, kappa <= 1")
     w(f"      g* = {lg['g_star']} (SM plus N_1, from the field content), g*s,0 = {lg['g_s_today']}, c_sph ="
       f" {sp['B_over_BminusL']}: eta_B = {lg['eta_per_epsilon_kappa']:.3e} epsilon_1 kappa")
-    w(f"      so epsilon_1 >= {lg['epsilon_min']:.1e}. Davidson-Ibarra (eq. 17): |epsilon_1| <= 3 M_1 (m_3 - m_1) / (8 pi <H>^2):")
+    w(f"      so epsilon_1 >= {lg['epsilon_min']:.1e}. SM bound: |epsilon_1| <= 3 M_1 (m_3 - m_1) / (16 pi <H>^2):")
     for r_ in lg["rows"]:
         w(f"        {r_['ordering']}: m_3 - m_1 = {1000 * r_['m3_minus_m1_eV']:.1f} meV  ->  M_1 >= {r_['M1_min']:.1e} GeV;"
           f" Part P's window up to {r_['window_top']:.1e} GeV: {'open' if r_['window_open'] else 'closed'}")
-    w(f"      (check: their text's example, epsilon > 1e-6 needs M_1 > 4e9 GeV; here {lg['di_example_M1']:.1e} GeV)")
+    w(f"      (Davidson-Ibarra's MSSM form has 8 pi; their example, epsilon > 1e-6 needs M_1 > 4e9 GeV: here"
+      f" {lg['di_example_M1']:.1e} GeV)")
+    w(f"      Efficiency: kappa_f = 2/(K z_B) (1 - e^(-K z_B / 2)), K = m~_1/m_*, m_* = {1000 * lg['m_star_eV']:.3f} meV"
+      " (from g* and M_P);")
+    w("      z_B solves (K/4) z^3 e^-z (1 + sqrt(pi z/2)) = z - 1 (Buchmuller, Di Bari, Plumacher, eqs. 22, 59). Over")
+    w("      the natural range m_sol <= m~_1 <= m_atm:")
+    for e_ in lg["efficiency"][::max(1, len(lg["efficiency"]) // 4)] + [lg["efficiency"][-1]]:
+        w(f"        m~_1 = {1000 * e_['m_tilde_eV']:5.1f} meV: K = {e_['K']:5.1f}, z_B = {e_['z_B']:.2f}, kappa_f = {e_['kappa']:.4f}"
+          f"  ->  M_1 >= {e_['M1_min']:.1e} GeV")
     w("      Thermal production also needs a reheating temperature above M_1.")
     w(_wrap("RESULT: eta_B is measured, not calculated. The Standard Model fails two of Sakharov's conditions: its "
             f"transition is a crossover ({tr['n_sigma_above']:.0f} sigma above the lattice endpoint) and its CP "
             f"violation is {math.log10(ba['eta_B'] / cp['delta_CP']):.0f} orders too small. Leptogenesis works if the "
-            f"lightest right-handed neutrino is above {min(r_['M1_min'] for r_ in lg['rows']):.0e} GeV, inside the "
+            f"lightest right-handed neutrino is above {min(r_['M1_min'] for r_ in lg['rows']):.0e} GeV (at full "
+            f"efficiency; {lg['M1_min_natural'][0]:.0e} to {lg['M1_min_natural'][1]:.0e} GeV over the natural washout range), inside the "
             "seesaw window of Part P: it ties eta_B to the neutrino masses but adds unmeasured parameters (M_1, the "
             "phases, kappa). Part L's SM up to M_P, with Dirac neutrinos, has no seesaw and so no such mechanism.", 2))
     w("")

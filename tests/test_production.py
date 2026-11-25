@@ -545,6 +545,21 @@ def test_chain_vacuum():
     assert RESULT["scorecard"]["rows"]["SO(10) via LR"]["V"]["status"] == "pass"
 
 
+def test_leptogenesis_efficiency():
+    """Part S: m_* ~ 1.07e-3 eV; z_B of 6-8 in the natural range (Buchmuller, Di Bari, Plumacher); at full
+    efficiency M_1 >= 6.6e8 GeV (their eq. 32); the natural range needs M_1 >~ 1e10 GeV."""
+    lg = RESULT["baryon_asymmetry"]["leptogenesis"]
+    assert abs(lg["m_star_eV"] / 1.08e-3 - 1) < 0.03
+    zs = [e["z_B"] for e in lg["efficiency"]]
+    assert 5 < min(zs) and max(zs) < 9
+    m1 = min(r["M1_min"] for r in lg["rows"])
+    assert abs(m1 / 6.6e8 - 1) < 0.15
+    lo, hi = lg["M1_min_natural"]
+    assert 5e9 < lo < 5e10 < hi < 5e11
+    sc = RESULT["scorecard"]["rows"]
+    assert sc["SO(10) via PS"]["A"]["status"] == "trade" and sc["SO(10) via LR"]["A"]["status"] == "open"
+
+
 def test_website_data_is_current():
     """assets/site-data.js (written by tools/site_data.py) shows the numbers the script computes."""
     import json

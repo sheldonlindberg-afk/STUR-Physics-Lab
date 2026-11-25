@@ -67,7 +67,10 @@ Status: [x] done, [~] in progress, [ ] not started.
    = 6.2e10 GeV (2.3e10-2.0e11 for M_t +- 1 sigma): LR, LR+D stabilizable; PS undecided (inside the
    band); PS+D metastable. Open: the Pati-Salam quartics' own running and positivity above M_I.
 3. Proton decay above M_I with the Pati-Salam operator running; the dimension-5 factor-2.2 debug.
-4. Leptogenesis efficiency kappa from the Boltzmann equations, with M_1 tied to M_I.
+4. [x] Leptogenesis efficiency (Part S): kappa_f from BDP eqs. 22, 59 (z_B solved exactly), m_* from g*
+   and M_P; SM CP bound with 16 pi (BDP eq. 31). M_1 >= 6.5e8 GeV at kappa = 1; 1.5e10-1.3e11 GeV over
+   m_sol <= m~_1 <= m_atm. PS covers it; LR (M_I = 2.8e9) needs weak washout. Open: scatterings,
+   flavour effects, dynamical initial abundance.
 
 ## Later
 - One running for every coupling (matrix Yukawas to M_GUT); GUT and superpartner thresholds;
