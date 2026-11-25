@@ -618,6 +618,20 @@ def test_z_pole_and_closed_cosmology():
     assert abs(cc["age_with_all_dm_Gyr"] / float(RESULT["cosmology"]["age_Gyr"]) - 1) < 5e-3
 
 
+def test_potential_210():
+    """Part T9: the 210 potential's Goldstones are massless, (15,3,1) and (15,1,3) differ only by the cubic;
+    a few percent of the coupling box is viable, and most viable potentials pass proton decay."""
+    pz = RESULT["so10"]["potential_210"]
+    cv = pz["curvatures"]
+    assert all(abs(v) < 1e-9 for v in cv["(6,2,2)"].values())
+    assert all(abs(cv["(15,3,1)"][q] - cv["(15,1,3)"][q]) < 1e-9 for q in ("Q1", "Q2", "Q3", "Q4"))
+    assert abs(cv["(15,3,1)"]["eta"] + cv["(15,1,3)"]["eta"]) < 1e-9 and cv["(15,3,1)"]["eta"] > 0
+    assert 50 < pz["viable"] < pz["tried"] / 5
+    assert 0.5 < pz["frac_proton_ok"] <= 1 and 0.5 < pz["frac_leptogenesis_ok"] <= 1
+    lo, mid, hi = pz["tau_p_quantiles"]
+    assert lo < mid < hi
+
+
 def test_website_data_is_current():
     """assets/site-data.js (written by tools/site_data.py) shows the numbers the script computes."""
     import json

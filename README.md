@@ -30,7 +30,7 @@ python3 production_v2_2.py --certify            # also prove every texture exclu
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 64 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 65 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -657,6 +657,24 @@ Proton decay flips if the (10,3,1) alone is about half as heavy as M_GUT. With a
 anywhere within a factor 10 of M_GUT, M_I spans 10⁷–10¹⁶ GeV and τ_p spans 10²⁷–10⁴³ years.
 **In non-supersymmetric SO(10), the heavy spectrum, not the running, decides every verdict.**
 Calculating it needs the scalar potential's couplings, which nothing measured fixes.
+
+**Part T9: the 210's own potential.** Four of those masses can be calculated. The 210 is the
+antisymmetric tensor φ_ijkl; its potential is built from every invariant (a mass term, one cubic,
+four quartics), with the vev on the Pati–Salam singlet. Each multiplet's mass is the curvature
+along one representative direction. The construction is checked by the Goldstone theorem: the
+eaten (6,2,2) comes out exactly massless for every coupling. The cubic coupling is what splits
+(15,3,1) from (15,1,3). The couplings are scanned within a perturbative box (|λ| ≤ 1, |η/v| ≤ 1;
+an assumption), and a point counts only if the vacuum is a local minimum and the potential is
+bounded below along a fixed set of random directions. Over the viable potentials, with the 126's
+and 10's components still at M_GUT:
+
+* proton decay passes for about 80% (median τ_p ≈ 1×10³⁵ years);
+* M_I has a median near 1.5×10¹¹ GeV, and natural leptogenesis works for nearly all of them;
+* the vacuum can be stabilized for about 20%.
+
+The verdicts are now fractions of a calculated parameter space instead of an assumed band. The
+fractions depend on the scan's priors; the 126's mixed couplings to the 210, which fix its dominant
+(10,3,1), are the next layer.
 
 **Part V: dark matter from the axion**
 

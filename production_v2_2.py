@@ -314,6 +314,11 @@ NUMERICS: Dict[str, Any] = {
     "proton_phase_grid": 36,          # Part Q: grid per unknown GUT phase (phi_2, phi_3) for the dimension-five band
     "check_axion_tol": "0.05",        # Part V: eq. 170 is an approximation (their words); agreement within 5 %
     "heavy_mass_spread": 10,          # Part T8: each heavy GUT multiplet's mass within this factor of M_GUT (assumed)
+    "potential_seed": 20261125,       # Part T9: any seed works; the scan is deterministic
+    "potential_points": 6000,         # Part T9: coupling points tried
+    "potential_lambda_max": 1,        # Part T9: |lambda_a| (normalized quartics) at most this (perturbative box, assumed)
+    "potential_eta_max": 1,           # Part T9: |eta / v| at most this (assumed)
+    "potential_directions": 32,       # Part T9: random directions for the bounded-below test
     "threshold_band": 1,              # Part T7: largest one-loop threshold per matching condition, in 1/alpha (an
                                       # assumption: one heavy multiplet with b ~ 2 a factor e off gives ~0.3)
     "report_sci_below": "1e-3",       # print in scientific notation below / above these
@@ -5628,6 +5633,165 @@ def heavy_spectrum_band(chain: Dict[str, Any], x: Dict[str, float], base: Dict[s
             "tau_p": (base["tau_p_years"] * math.exp(-ext["dlntau"]), base["tau_p_years"] * math.exp(ext["dlntau"]))}
 
 
+# --- T9. The 210's own potential: the masses T8 left unknown, calculated. The 210 is the antisymmetric
+# tensor phi_ijkl of SO(10); its renormalizable potential is built from every invariant: the mass term
+# S2 = phi.phi, the cubic C = phi_ijkl phi_klmn phi_mnij, and four quartics Q1 = S2^2,
+# Q2 = A_lm A_ml (A_lm = phi_ijkl phi_ijkm), Q3 = B_(kl)(mn) B_(mn)(kl) (B = phi_ijkl phi_ijmn),
+# Q4 = phi_ijkl phi_ijmn phi_kmop phi_lnop. With the vev on the Pati-Salam singlet phi_789,10 = v, each
+# multiplet's mass is the curvature along one representative direction (SO(10) indices 0-5 for SO(6),
+# 6-9 for SO(4)): (15,1,1) phi_0123; (6,2,2) phi_0789 (eaten: must be massless for every coupling, a
+# check of the construction); (15,3,1) and (15,1,3) phi_0167 +- phi_0189; (10,2,2) phi_0126. The heavy
+# vectors get M_V^2 = g^2 v^2 / 2 (generators normalized to index 1 on the 10), which defines M_GUT.
+# The couplings are unknown: they are scanned (seeded) within a perturbative box, and a point counts
+# only if the vacuum is a local minimum and the quartic part is positive along a fixed set of random
+# directions (a necessary condition for a potential bounded below). Each viable point's masses then go
+# into T8's responses: the fraction of viable potentials that passes each test is the calculated answer.
+class _UniformStream:
+    """Deterministic floats: the 64-bit linear congruential generator of _IntStream, top 53 bits."""
+
+    def __init__(self, seed: int):
+        self.s = seed
+
+    def __call__(self) -> float:
+        self.s = (self.s * 6364136223846793005 + 1442695040888963407) % (1 << 64)
+        return (self.s >> 11) / (1 << 53)
+
+    def uniform(self, lo: float, hi: float) -> float:
+        return lo + (hi - lo) * self()
+
+    def gauss(self) -> float:
+        """Box-Muller."""
+        u1 = self() or 1 / (1 << 53)
+        return math.sqrt(-2 * math.log(u1)) * math.cos(2 * math.pi * self())
+
+
+def _perm_sign(p: Sequence[int]) -> int:
+    s_ = 1
+    for i in range(len(p)):
+        for j in range(i + 1, len(p)):
+            if p[i] > p[j]:
+                s_ = -s_
+    return s_
+
+
+def _full_tensor(phi: Dict[Tuple[int, ...], float]) -> Dict[Tuple[int, ...], float]:
+    out: Dict[Tuple[int, ...], float] = {}
+    for key, v in phi.items():
+        if v:
+            for p in itertools.permutations(range(4)):
+                idx = tuple(key[q] for q in p)
+                out[idx] = out.get(idx, 0) + _perm_sign(p) * v
+    return out
+
+
+def so10_210_invariants(phi: Dict[Tuple[int, ...], float]) -> Dict[str, float]:
+    f = _full_tensor(phi)
+    s2 = sum(v * v for v in f.values())
+    by3: Dict[Tuple[int, ...], List[Tuple[int, float]]] = {}
+    by2: Dict[Tuple[int, ...], List[Tuple[Tuple[int, int], float]]] = {}
+    for (i, j, k, l), v in f.items():
+        by3.setdefault((i, j, k), []).append((l, v))
+        by2.setdefault((i, j), []).append(((k, l), v))
+    a: Dict[Tuple[int, int], float] = {}
+    for lst in by3.values():
+        for l, v in lst:
+            for m, w_ in lst:
+                a[(l, m)] = a.get((l, m), 0) + v * w_
+    b: Dict[Tuple[Tuple[int, int], Tuple[int, int]], float] = {}
+    for lst in by2.values():
+        for kl, v in lst:
+            for mn, w_ in lst:
+                b[(kl, mn)] = b.get((kl, mn), 0) + v * w_
+    rows: Dict[Tuple[int, int], List[Tuple[Tuple[int, int], float]]] = {}
+    g_ = {((i, j), (k, l)): v for (i, j, k, l), v in f.items()}
+    for (r, c), v in g_.items():
+        rows.setdefault(r, []).append((c, v))
+    cub = sum(v * w_ * g_.get((c2, r), 0) for (r, c), v in g_.items() for c2, w_ in rows.get(c, []))
+    return {"S2": s2, "C": cub, "Q1": s2 * s2,
+            "Q2": sum(v * a.get((m, l), 0) for (l, m), v in a.items()),
+            "Q3": sum(v * b.get((mn, kl), 0) for (kl, mn), v in b.items()),
+            "Q4": sum(v * b.get(((k, m), (l, n)), 0) for ((k, l), (m, n)), v in b.items())}
+
+
+PS_SINGLET_210 = (6, 7, 8, 9)
+PS_210_DIRECTIONS = {"(1,1,1)": (((6, 7, 8, 9), 1),), "(15,1,1)": (((0, 1, 2, 3), 1),),
+                     "(6,2,2)": (((0, 7, 8, 9), 1),),
+                     "(15,3,1)": (((0, 1, 6, 7), 1), ((0, 1, 8, 9), 1)),
+                     "(15,1,3)": (((0, 1, 6, 7), 1), ((0, 1, 8, 9), -1)),
+                     "(10,2,2)": (((0, 1, 2, 6), 1),)}
+QUARTICS_210 = ("Q1", "Q2", "Q3", "Q4")
+
+
+def potential_210_curvatures() -> Dict[str, Dict[str, float]]:
+    """Per multiplet, the coefficient of each normalized coupling in m^2 / v^2 at the vacuum:
+    V = -mu^2 S2/48 + eta C/24 + sum_a lambda_a Q_a/576, mu^2 fixed by the minimum (the cubic vanishes
+    on the singlet). Exact second derivatives of the quartic polynomials from five points."""
+    q0 = so10_210_invariants({PS_SINGLET_210: 1})
+    norm = {"S2": 48, "C": 24, "Q1": 576, "Q2": 576, "Q3": 576, "Q4": 576}
+    out = {}
+    for name, d_ in PS_210_DIRECTIONS.items():
+        nrm = math.sqrt(sum(c_ * c_ for _, c_ in d_))
+        vals = []
+        for t in (-2, -1, 0, 1, 2):
+            phi = {PS_SINGLET_210: 1}
+            for key, c_ in d_:
+                phi[key] = phi.get(key, 0) + t * c_ / nrm
+            vals.append(so10_210_invariants(phi))
+        dd = {k: (-vals[4][k] + 16 * vals[3][k] - 30 * vals[2][k] + 16 * vals[1][k] - vals[0][k]) / 12 for k in vals[0]}
+        # the mass term's curvature is 1 per unit; at the minimum mu^2 = 4 sum_a lambda_a Q_a(e)/576
+        out[name] = {"eta": dd["C"] / norm["C"]}
+        for q in QUARTICS_210:
+            out[name][q] = (dd[q] - 4 * q0[q] * dd["S2"] / norm["S2"]) / norm[q]
+    return out
+
+
+def potential_210_scan(heavy: Dict[str, Any], alpha_gut: float, tau0: float, m_i0: float, tau_limit: float,
+                       mu0: float, m1_nat: float) -> Dict[str, Any]:
+    curv = potential_210_curvatures()
+    rng = _UniformStream(int(num("potential_seed")))
+    lam_max, eta_max = num("potential_lambda_max"), num("potential_eta_max")
+    # random directions for the bounded-below test (a fixed set; quartic invariants evaluated once)
+    keys = list(itertools.combinations(range(10), 4))
+    dirs = []
+    for _ in range(int(num("potential_directions"))):
+        vec = [rng.gauss() for _ in keys]
+        nrm = math.sqrt(sum(v * v for v in vec))
+        dirs.append(so10_210_invariants({k_: v / nrm for k_, v in zip(keys, vec)}))
+    resp = {r_["multiplet"]: r_ for r_ in heavy["rows"]}
+    names = {"(15,1,1)": "210: (15,1,1)", "(15,3,1)": "210: (15,3,1)", "(15,1,3)": "210: (15,1,3)",
+             "(10,2,2)": "210: (10,2,2) + conj."}
+    g2 = 4 * math.pi * alpha_gut
+    pts, tried = [], int(num("potential_points"))
+    for _ in range(tried):
+        lam = {q: rng.uniform(-lam_max, lam_max) for q in QUARTICS_210}
+        eta = rng.uniform(-eta_max, eta_max)
+        m2 = {n_: sum(lam[q] * c_[q] for q in QUARTICS_210) + eta * c_["eta"] for n_, c_ in curv.items()}
+        if any(m2[n_] <= 0 for n_ in curv if n_ != "(6,2,2)"):
+            continue
+        if any(sum(lam[q] * d_[q] for q in QUARTICS_210) <= 0 for d_ in dirs):
+            continue
+        ell = {n_: math.log(math.sqrt(2 * m2[n_] / g2)) for n_ in names}     # ln(M_h / M_V)
+        dtau = sum(resp[names[n_]]["dlntau"] * ell[n_] for n_ in names)
+        dmi = sum(resp[names[n_]]["dlnMI"] * ell[n_] for n_ in names)
+        pts.append({"ell": ell, "tau_p": tau0 * math.exp(dtau), "M_I": m_i0 * math.exp(dmi)})
+    n_ok = len(pts)
+
+    def frac(cond: Callable[[Dict[str, Any]], bool]) -> float:
+        return sum(1 for p_ in pts if cond(p_)) / n_ok if n_ok else math.nan
+
+    def quantiles(key: str) -> Tuple[float, float, float]:
+        v_ = sorted(p_[key] for p_ in pts)
+        return (v_[len(v_) // 6], v_[len(v_) // 2], v_[(5 * len(v_)) // 6]) if v_ else (math.nan,) * 3
+    return {"curvatures": curv, "tried": tried, "viable": n_ok, "lambda_max": lam_max, "eta_max": eta_max,
+            "frac_proton_ok": frac(lambda p_: p_["tau_p"] > tau_limit),
+            "frac_vacuum_ok": frac(lambda p_: p_["M_I"] < mu0),
+            "frac_leptogenesis_ok": frac(lambda p_: p_["M_I"] >= m1_nat),
+            "frac_all": frac(lambda p_: p_["tau_p"] > tau_limit and p_["M_I"] >= m1_nat),
+            "tau_p_quantiles": quantiles("tau_p"), "M_I_quantiles": quantiles("M_I"),
+            "ell_ranges": {n_: (min(p_["ell"][n_] for p_ in pts), max(p_["ell"][n_] for p_ in pts)) if pts else None
+                           for n_ in names}}
+
+
 def so10(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any], scp: Dict[str, Any],
          bau: Dict[str, Any], pdk: Dict[str, Any], crit: Dict[str, Any]) -> Dict[str, Any]:
     x0 = _float_inputs()
@@ -5705,6 +5869,9 @@ def so10(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any
         r_["proton_flip_ratio"] = flip(pdk["limit_e_pi0"], base["tau_p_years"], r_["dlntau"])
         r_["vacuum_flip_ratio"] = flip(out["vacuum"]["mu0"], base["M_I"], r_["dlnMI"])
     out["heavy_spectrum_PS"] = hs
+    # T9. the 210's own potential: its four multiplets' masses calculated over the allowed couplings
+    out["potential_210"] = potential_210_scan(hs, base["alpha_GUT"], base["tau_p_years"], base["M_I"],
+                                              pdk["limit_e_pi0"], out["vacuum"]["mu0"], m1_nat)
     return out
 
 
@@ -6689,6 +6856,12 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     idx_ok = all(so10_decomposition_index(r_) == [Fr(SO10_INDEX[r_])] * 3 for r_ in SO10_TO_PS)
     checks.append(("SO(10) -> Pati-Salam decompositions of 10, 126, 210: component indices add up to the SO(10)"
                    " index under every factor", idx_ok, ", ".join(f"{r_}: {SO10_INDEX[r_]}" for r_ in SO10_TO_PS)))
+    cv_ = s10["potential_210"]["curvatures"]
+    q0_ = so10_210_invariants({PS_SINGLET_210: 1})
+    gold = max(abs(v_) for v_ in cv_["(6,2,2)"].values())
+    rad = max(abs(cv_["(1,1,1)"][q] - 8 * q0_[q] / 576) for q in QUARTICS_210)
+    checks.append(("210 potential: the eaten (6,2,2) is massless for every coupling (Goldstone); the radial mode has"
+                   " twice the vacuum curvature", gold < tol and rad < tol, f"max {max(gold, rad):.1e}"))
     sm_c1, sm_c2 = sm_as_chain()
     ps1 = s10["chains"]["PS"]["loop1"]
     rel_c = max(abs(ps1["M_I"] / ps_["M_I"] - 1), abs(ps1["M_GUT"] / ps_["M_GUT"] - 1))
@@ -7778,6 +7951,20 @@ def report(res: Dict[str, Any]) -> str:
     w(f"      All eight within a factor {hs_['spread']} of M_GUT: M_I {hs_['M_I'][0]:.0e} - {hs_['M_I'][1]:.0e} GeV,"
       f" M_GUT {hs_['M_GUT'][0]:.0e} - {hs_['M_GUT'][1]:.0e} GeV,")
     w(f"      tau_p {hs_['tau_p'][0]:.0e} - {hs_['tau_p'][1]:.0e} years: the heavy spectrum, not the running, decides.")
+    pz = so["potential_210"]
+    w("  T9. The 210's own potential calculates four of those masses. Invariants: S2, the cubic C, quartics Q1-Q4;")
+    w("      vev on the Pati-Salam singlet; mass^2/v^2 per multiplet (quartics per 576, cubic per 24, eta in units of v):")
+    for nm, c_ in pz["curvatures"].items():
+        w(f"        {nm:<9s} " + "  ".join(f"{k_} {v_:+.4f}" for k_, v_ in c_.items()))
+    w(f"      Couplings scanned: |lambda_a| <= {_fmt(pz['lambda_max'], 2)}, |eta/v| <= {_fmt(pz['eta_max'], 2)};"
+      f" {pz['viable']} of {pz['tried']} points give a local minimum bounded")
+    w("      below along the test directions. Their masses (the 126's and 10's still at M_GUT) give, as fractions of")
+    w("      the viable potentials:")
+    tq, mq = pz["tau_p_quantiles"], pz["M_I_quantiles"]
+    w(f"        proton decay passes {100 * pz['frac_proton_ok']:.0f} %; tau_p 16-50-84 %: {tq[0]:.1e}, {tq[1]:.1e}, {tq[2]:.1e} years")
+    w(f"        M_I 16-50-84 %: {mq[0]:.1e}, {mq[1]:.1e}, {mq[2]:.1e} GeV; natural leptogenesis {100 * pz['frac_leptogenesis_ok']:.0f} %;"
+      f" stabilizable vacuum {100 * pz['frac_vacuum_ok']:.0f} %")
+    w(f"        proton decay and natural leptogenesis together: {100 * pz['frac_all']:.0f} %")
     w(_wrap("RESULT: SO(10) calculates the hypercharges' normalization (sin^2 theta_W = 3/8 at unification) and "
             "requires the right-handed neutrino; its minimal Yukawa relations are excluded. Without supersymmetry, "
             f"the Pati-Salam route unifies the three couplings with M_I = {ps['M_I']:.0e} GeV and M_GUT = "

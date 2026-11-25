@@ -103,6 +103,15 @@ Status: [x] done, [~] in progress, [ ] not started.
    0.23151 +- 0.00016 (LEP+SLC). Open: Gamma_Z, R_l, the other pseudo-observables.
 4. Proton running above M_I and the dimension-five factor 2.2.
 
+## Round 5: the scalar potential
+1. [x] The 210's potential (Part T9): all invariants (S2, cubic, Q1-Q4), vev on the PS singlet, masses
+   of (15,1,1), (15,3,1), (15,1,3), (10,2,2) from curvatures; Goldstones massless (check). Couplings
+   scanned in a perturbative box; ~80 % of viable potentials pass proton decay. Open: boundedness is
+   tested on random directions only; the vacuum is local, not shown global; tree level only.
+2. [ ] The 126 (and 10) couplings to the 210: the masses of the 126's (10,3,1), (6,1,1), (15,2,2), the
+   dominant (10,3,1) above all.
+3. [ ] The same for the LR chain (210 under SU(3) x SU(2)^2 x U(1)).
+
 ## Later
 - One running for every coupling (matrix Yukawas to M_GUT); GUT and superpartner thresholds;
   dark matter (axion misalignment, LSP); inflation (Higgs inflation vs lambda(M_P) < 0);
