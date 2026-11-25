@@ -206,7 +206,7 @@
   </figure>
   <figure>
     <div class="chart" id="chart-mssm"><div class="legend" id="leg-mssm"></div></div>
-    <figcaption>The supersymmetric Higgs mass against stop mixing X<sub>t</sub>/M<sub>S</sub>, at the M<sub>S</sub> and tan β derived above. Its peak is the bound for every mixing, and it sits about 21 GeV below the measured mass.</figcaption>
+    <figcaption>The supersymmetric Higgs mass against stop mixing X<sub>t</sub>/M<sub>S</sub>, at the M<sub>S</sub> and tan β derived above. Its peak is the bound for every mixing, and it sits about <span data-v="mssm.gap">22</span> GeV below the measured mass.</figcaption>
   </figure>
 
   <p class="kicker">Part M</p>
@@ -214,7 +214,7 @@
   <p>The rungs above assume different things above the weak scale: unification and the supersymmetric Higgs mass assume superpartners, the Planck-scale condition assumes nothing new up to M<sub>P</sub>. They cannot all be true, so the simulation does not choose. It tests each hypothesis against every combination of the conditions (gauge unification, bottom–tau unification, the Higgs mass) and reports which survive.</p>
   <div class="tablewrap"><table>
     <tr><th>Hypothesis</th><th>Unknowns</th><th>What happens</th><th>Verdict</th></tr>
-    <tr><td>Standard Model up to M<sub>P</sub></td><td class="num">0</td><td>Every condition is a prediction, and each misses: unification by <span data-v="jt.smU">79</span>σ, bottom–tau by <span data-v="jt.smB">79</span>σ, the Higgs mass by <span data-v="jt.smH">3.3</span>σ (<span data-v="jt.smHth">2.9</span>σ with theory errors)</td><td><span class="chip warn">Higgs: borderline</span></td></tr>
+    <tr><td>Standard Model up to M<sub>P</sub></td><td class="num">0</td><td>Every condition is a prediction, and each misses: unification by <span data-v="jt.smU">79</span>σ, bottom–tau by <span data-v="jt.smB">79</span>σ, the Higgs mass by <span data-v="jt.smH">3.3</span>σ (<span data-v="jt.smHth">2.95</span>σ with theory errors)</td><td><span class="chip warn">Higgs: borderline</span></td></tr>
     <tr><td>Supersymmetry above M<sub>S</sub></td><td class="num">3</td><td>Meets any one or two conditions because its unknowns absorb them, so it predicts nothing; all three together exclude it at <span data-v="jt.mssm">24</span>σ (<span data-v="jt.mssmth">2.7</span>σ with theory errors)</td><td><span class="chip bad">predicts nothing</span></td></tr>
   </table></div>
   <p>The theory errors are computed by the simulation itself: for every ingredient, the change from the last order it calculates to the one below. With input errors only, no hypothesis both survives and predicts a number.</p>
@@ -312,7 +312,7 @@ python3 production_v2_2.py --certify            # also prove the texture exclusi
       "crit.muzero": sci(c.mu_zero, 1), "crit.lmp": fmt(c.lambda_MP, 3),
       "crit.shift": (c.m_h_pred - c.m_h_lower_matching >= 0 ? "+" : "−") + Math.abs(c.m_h_pred - c.m_h_lower_matching).toFixed(2),
       "unif.mgut": sci(u.M_GUT, 1), "unif.ms": (u.M_S / 1000).toFixed(1),
-      "mssm.bound": D.higgs_mssm.bound.toFixed(1), "tb": D.tan_beta.btau.toFixed(2),
+      "mssm.bound": D.higgs_mssm.bound.toFixed(1), "mssm.gap": Math.round(c.m_h_meas - D.higgs_mssm.bound), "tb": D.tan_beta.btau.toFixed(2),
       "cosmo.age": D.cosmology.age.toFixed(3), "cosmo.ol": D.cosmology.Omega_Lambda.toFixed(4), "checks": D.checks[0]
     };
     if (D.texture) {
@@ -325,7 +325,7 @@ python3 production_v2_2.py --certify            # also prove the texture exclusi
     if (D.joint) {
       var j = D.joint;
       vals["jt.smU"] = Math.round(j.sm_U); vals["jt.smB"] = Math.round(j.sm_B); vals["jt.smH"] = j.sm_H.toFixed(1);
-      vals["jt.smHth"] = j.sm_H_theory.toFixed(1); vals["jt.mssm"] = Math.round(j.mssm_all);
+      vals["jt.smHth"] = j.sm_H_theory.toFixed(2); vals["jt.mssm"] = Math.round(j.mssm_all);
       vals["jt.mssmth"] = j.mssm_all_theory.toFixed(1);
     }
     Array.prototype.forEach.call(document.querySelectorAll("[data-v]"), function (n) {
