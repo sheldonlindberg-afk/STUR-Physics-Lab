@@ -85,7 +85,9 @@ Status: [x] done, [~] in progress, [ ] not started.
 2. [x] Threshold corrections (Part T7): each matching condition shifted by up to +-1 in 1/alpha (assumed
    band), every corner at two loops. Only PS+D's exclusion is robust; LR+D's exclusion and the PS and
    LR verdicts can flip. Next: the actual heavy spectrum (scalar potential of 126 + 45/54/210).
-3. [ ] Electroweak precision: M_W from G_F, alpha, M_Z (and m_t, m_h) against the measurement.
+3. [x] Electroweak precision (Part W): M_W = 80.350 +/- 0.006 GeV (two-loop SM, Awramik et al.
+   parametrization) against 80.360 (no CDF) and 80.369 (PDG average): within 1.4 sigma; reproduces the
+   PDG fit (80.353). Open: sin^2 theta_eff, the full set of Z-pole observables.
 4. [ ] Proton-decay operator running above M_I (round 2, item 3), once its formula is transcribed.
 
 ## Later

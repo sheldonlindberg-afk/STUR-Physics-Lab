@@ -30,7 +30,7 @@ python3 production_v2_2.py --certify            # also prove every texture exclu
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 60 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 61 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -667,6 +667,23 @@ So at the Pati–Salam scale the axion makes about two thirds of the dark matter
 alone; strings and domain walls, whose yield is not agreed on, only add to it. Unification,
 neutrino masses, the strong CP problem and dark matter would then share one scale. At the
 left-right scale the axion cannot be the dark matter.
+
+**Part W: the W mass, a test of the Standard Model itself**
+
+Given G_F, α, M_Z, m_t and m_h, the SM fixes M_W through its quantum corrections. The script uses the
+full two-loop result in its published parametrization (Awramik, Czakon, Freitas, Weiglein 2004,
+accurate to 0.5 MeV) with the PDG's Δα_had⁽⁵⁾ = 0.02783. The Higgs mass is the one Part L
+calculates; using the measured one instead moves M_W by +1.4 MeV.
+
+| | M_W (GeV) | pull |
+|---|---|---|
+| this script (SM) | 80.350 ± 0.006 | |
+| PDG 2024 global fit (SM) | 80.353 ± 0.006 | +0.4σ |
+| measured, without CDF II | 80.360 ± 0.012 | +0.8σ |
+| measured, PDG 2024 average | 80.369 ± 0.013 | +1.4σ |
+
+The SM prediction agrees with the measurements and reproduces the PDG fit. The heavy states of the
+SO(10) chains decouple, so this tests the SM below M_I, not the chains.
 
 **Part U: the scorecard, every complete hypothesis against every condition**
 

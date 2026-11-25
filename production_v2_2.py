@@ -122,6 +122,8 @@ INPUTS: Dict[str, Dict[str, str]] = {
     "M_W": {"value": "80.3692", "sigma": "0.0133", "unit": "GeV", "source": "PDG 2024, world average (pole)"},
     "alpha_em_inv_MZ": {"value": "127.951", "sigma": "0.009", "unit": "",
                         "source": "PDG 2024, MS-bar at M_Z"},
+    "delta_alpha_had5": {"value": "0.02783", "sigma": "0.00006", "unit": "",
+                         "source": "PDG 2024, Electroweak review: Delta alpha_had^(5)(M_Z) (Part W)"},
     # --- QCD
     "alpha_s_MZ": {"value": "0.1180", "sigma": "0.0009", "unit": "", "source": "PDG 2024"},
     # --- quark masses: u, d, s MS-bar at 2 GeV; c, b MS-bar at their own mass; t pole (direct)
@@ -221,6 +223,10 @@ COMPARISONS: Dict[str, Dict[str, Any]] = {
     "tau_p_K_nu": {"value": ("5.9e33", "0", "0"),
                    "source": "Super-Kamiokande, Abe et al. 2014 (PRD 90, 072005): tau/B(p -> nubar K+), "
                              "years, 90% CL"},
+    "M_W_noCDF": {"value": ("80.360", "0.012", "0.012"),
+                  "source": "PDG 2024, Electroweak review eq. 10.63: average without CDF II"},
+    "M_W_SM_fit": {"value": ("80.353", "0.006", "0.006"),
+                   "source": "PDG 2024, Electroweak review: global SM fit without the M_W measurements"},
     "Omega_c_h2": {"value": ("0.1200", "0.0012", "0.0012"),
                    "source": "Planck 2018 VI, table 2, TT,TE,EE+lowE+lensing (Part V)"},
     # upper limits (Part P): the value is the limit, the sigmas are zero
@@ -482,6 +488,16 @@ LITERATURE: Dict[str, Dict[str, Any]] = {
                   "72.4 +/- 1.7 GeV (Csikor, Fodor, Heitger 1999, hep-ph/9809291); above it a crossover at "
                   "T_c = 159.5 +/- 1.5 GeV (D'Onofrio, Rummukainen 2016, arXiv:1508.07161)",
         "value": {"endpoint_m_h": ("72.4", "1.7"), "T_c": ("159.5", "1.5")}},
+    "w_mass_fit": {
+        "source": "Awramik, Czakon, Freitas, Weiglein 2004 (hep-ph/0311148v3), eqs. 6-8: parametrization of the "
+                  "full two-loop SM prediction of M_W, better than 0.5 MeV for 10 GeV <= M_H <= 1 TeV; "
+                  "Delta alpha_lept from Steinhauser (their text)",
+        "value": {"coefficients": {"MW0": "80.3779", "c1": "0.05427", "c2": "0.008931", "c3": "0.0000882",
+                                   "c4": "0.000161", "c5": "1.070", "c6": "0.5237", "c7": "0.0679", "c8": "0.00179",
+                                   "c9": "0.0000664", "c10": "0.0795", "c11": "114.9"},
+                  "reference": {"M_H": "100", "m_t": "174.3", "M_Z": "91.1875", "delta_alpha": "0.05907",
+                                "alpha_s": "0.119"},
+                  "delta_alpha_lept": "0.0314977", "fit_accuracy": "0.0005"}},
     "axion_misalignment": {
         "source": "Di Luzio, Giannotti, Nardi, Visinelli 2020 (arXiv:2003.01100), sec. 3.3: m_a(T) = beta m_a "
                   "(T_C/T)^gamma (eq. 150, dilute instanton gas, beta from their ref. 184), g* at oscillation, "
@@ -569,6 +585,8 @@ STAGES: Dict[str, Dict[str, str]] = {
     "dark_matter": {"part": "V", "level": "conditional",
                     "assumes": "QCD axion by misalignment; dilute-instanton m_a(T); string and domain-wall "
                                "production left out; f_a scanned and at each SO(10) chain's M_I"},
+    "w_mass": {"part": "W", "level": "conditional",
+               "assumes": "the SM's two-loop M_W in its published parametrization, at Part L's Higgs mass"},
     "self_checks": {"part": "-", "level": "validation", "assumes": "tests the calculation, not the physics"},
 }
 
@@ -5669,6 +5687,51 @@ def dark_matter(scp: Dict[str, Any], s10: Dict[str, Any], planck: Dict[str, floa
 
 
 # =============================================================================
+# 6u. PART W: THE W MASS, A TEST OF THE STANDARD MODEL ITSELF
+# =============================================================================
+# Given G_F, alpha, M_Z and the masses of the top and the Higgs, the SM fixes M_W through its quantum
+# corrections. The full two-loop result is quoted in its published parametrization (Awramik, Czakon,
+# Freitas, Weiglein 2004, eqs. 6-8: better than 0.5 MeV for 10 GeV <= M_H <= 1 TeV), with
+# Delta alpha = Delta alpha_lept (quoted) + Delta alpha_had^(5) (an input). The Higgs mass is the one Part L
+# calculates (lambda(M_P) = 0); the measured one is only a comparison here, and moving to it shifts
+# M_W by about a MeV (the dependence is logarithmic).
+def w_mass(x: Dict[str, float], m_h: float) -> float:
+    c = {k: float(v) for k, v in LITERATURE["w_mass_fit"]["value"]["coefficients"].items()}
+    ref = {k: float(v) for k, v in LITERATURE["w_mass_fit"]["value"]["reference"].items()}
+    d_alpha = float(LITERATURE["w_mass_fit"]["value"]["delta_alpha_lept"]) + x["delta_alpha_had5"]
+    dh_ = math.log(m_h / ref["M_H"])
+    h2 = (m_h / ref["M_H"]) ** 2
+    dt = (x["M_t"] / ref["m_t"]) ** 2 - 1
+    dz = x["M_Z"] / ref["M_Z"] - 1
+    da = d_alpha / ref["delta_alpha"] - 1
+    das = x["alpha_s_MZ"] / ref["alpha_s"] - 1
+    return (c["MW0"] - c["c1"] * dh_ - c["c2"] * dh_ ** 2 + c["c3"] * dh_ ** 4 + c["c4"] * (h2 - 1) - c["c5"] * da
+            + c["c6"] * dt - c["c7"] * dt ** 2 - c["c8"] * dh_ * dt + c["c9"] * h2 * dt - c["c10"] * das + c["c11"] * dz)
+
+
+def w_mass_test(crit: Dict[str, Any]) -> Dict[str, Any]:
+    x0 = _float_inputs()
+    m_h = crit["central"]["m_h"]
+    mw = w_mass(x0, m_h)
+    names = ("M_t", "alpha_s_MZ", "M_Z", "delta_alpha_had5")
+    parts = {n: _propagate(lambda x, n_=n: w_mass(x, m_h), (n,)) for n in names}
+    sig_in = math.sqrt(sum(v * v for v in parts.values()))
+    sig_mh = abs(w_mass(x0, m_h + crit["sigma_total"]) - w_mass(x0, m_h - crit["sigma_total"])) / 2
+    mh_meas = _comparison("m_h")[0]
+    shift = w_mass(x0, mh_meas) - mw
+    fit_err = float(LITERATURE["w_mass_fit"]["value"]["fit_accuracy"])
+    sig_tot = math.sqrt(sig_in ** 2 + sig_mh ** 2 + fit_err ** 2)
+    out = {"M_W": mw, "sigma": sig_tot, "sigma_parts": parts, "sigma_m_h": sig_mh, "fit_accuracy": fit_err,
+           "m_h_used": m_h, "shift_to_measured_m_h": shift}
+    meas = {"PDG 2024 average (the input M_W)": (inp("M_W"), sig("M_W")),
+            "PDG 2024 average without CDF": _comparison("M_W_noCDF")[:2],
+            "PDG 2024 global-fit prediction": _comparison("M_W_SM_fit")[:2]}
+    out["comparisons"] = {k: {"value": v, "sigma": s_, "pull": (v - mw) / math.hypot(s_, sig_tot)}
+                          for k, (v, s_) in meas.items()}
+    return out
+
+
+# =============================================================================
 # 6s. PART U: THE SCORECARD, EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
 # =============================================================================
 # Part M weighs the high-energy hypotheses against unification, b-tau and the Higgs mass. Parts
@@ -6179,6 +6242,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     bau = _stage("baryon_asymmetry", lambda: baryon_asymmetry(cosmo, flav, nus, planck))
     s10 = _stage("so10", lambda: so10(flav, alpha_unif, yukawa, scp, bau, pdk, crit))
     dm = _stage("dark_matter", lambda: dark_matter(scp, s10, planck, bau))
+    mw = _stage("w_mass", lambda: w_mass_test(crit))
     score = _stage("scorecard", lambda: scorecard(joint, higgs, crit, pdk, nus, bau, s10, scp, dm))
     _TRACE["stage"] = "self_checks"                 # everything below validates the stages above
     _TRACE["inputs"].setdefault("self_checks", set())
@@ -6437,6 +6501,15 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     checks.append(("Leptogenesis efficiency: z_B solves its freeze-out equation; kappa_f -> 1 in weak washout",
                    worst_z < num("check_survey_tol") and abs(k_small - 1) < num("check_fd_rel_step") * 10,
                    f"max rel residual {worst_z:.1e}, kappa(K -> 0) = {k_small:.6f}"))
+    # Part W: at the parametrization's own reference point it returns M_W^0
+    lw = LITERATURE["w_mass_fit"]["value"]
+    xr = dict(xn)
+    d_ref = float(lw["reference"]["delta_alpha"]) - float(lw["delta_alpha_lept"])
+    xr.update({"M_t": float(lw["reference"]["m_t"]), "M_Z": float(lw["reference"]["M_Z"]),
+               "alpha_s_MZ": float(lw["reference"]["alpha_s"]), "delta_alpha_had5": d_ref})
+    w_ref = w_mass(xr, float(lw["reference"]["M_H"]))
+    checks.append(("M_W parametrization returns M_W^0 at its reference point (transcription check)",
+                   abs(w_ref - float(lw["coefficients"]["MW0"])) < num("check_rel_tol") * 100, f"{w_ref:.5f} GeV"))
     c170 = dm["check_eq170"]
     checks.append(("Axion misalignment from its ingredients reproduces Di Luzio et al.'s eq. 170 (their approximation)",
                    abs(c170["Omega_h2"] / c170["printed"] - 1) < num("check_axion_tol"),
@@ -6457,7 +6530,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
             "alpha_numerology": alpha_num, "yukawa": yukawa, "higgs": higgs, "criticality": crit,
             "joint": joint, "mass_formulas": masses, "strong_cp": scp, "neutrinos": nus, "proton_decay": pdk,
             "anomalies": anom, "baryon_asymmetry": bau, "so10": s10, "scorecard": score,
-            "dark_matter": dm,
+            "dark_matter": dm, "w_mass": mw,
             "survey_certificates": certs, "checks": checks, "lineage": lin,
             "changed_inputs": dict(_TRACE["set"]),
             "precision": prec}
@@ -7551,6 +7624,22 @@ def report(res: Dict[str, Any]) -> str:
             "would share one scale. At the left-right scale it cannot be the dark matter. Not yet a prediction: the "
             "string yield and m_a(T) near T_C are the open inputs.", 2))
     w("")
+    wm = res["w_mass"]
+    w("PART W. THE W MASS: A TEST OF THE STANDARD MODEL ITSELF")
+    w("-" * 78)
+    w("  The SM fixes M_W from G_F, alpha, M_Z, m_t and m_h through its quantum corrections. The full two-loop")
+    w("  result in its published parametrization (Awramik, Czakon, Freitas, Weiglein 2004; accurate to 0.5 MeV),")
+    w(f"  Delta alpha_had^(5) = {inp('delta_alpha_had5')} (PDG 2024), at Part L's Higgs mass m_h = {wm['m_h_used']:.2f} GeV:")
+    pts = ", ".join(f"{k} {1000 * v:.1f}" for k, v in wm["sigma_parts"].items())
+    w(f"    M_W = {wm['M_W']:.4f} +/- {wm['sigma']:.4f} GeV  (MeV: {pts}, m_h {1000 * wm['sigma_m_h']:.1f},"
+      f" fit {1000 * wm['fit_accuracy']:.1f})")
+    w(f"    at the measured m_h instead: {1000 * wm['shift_to_measured_m_h']:+.1f} MeV")
+    for k, c_ in wm["comparisons"].items():
+        w(f"    {k:<36s} {c_['value']:.4f} +/- {c_['sigma']:.4f}: {c_['pull']:+.1f} sigma")
+    w(_wrap("RESULT: the Standard Model's M_W, with every input but Delta alpha_had measured or calculated here, "
+            "agrees with the measurements and reproduces the PDG's global fit. No new physics is needed at the weak "
+            "scale; the heavy states of the SO(10) chains decouple, so this tests the SM below M_I, not the chains.", 2))
+    w("")
     sc_ = res["scorecard"]
     w("PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION")
     w("-" * 78)
@@ -7665,6 +7754,7 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
         "proton_decay": res["proton_decay"], "anomalies": res["anomalies"],
         "baryon_asymmetry": res["baryon_asymmetry"], "so10": res["so10"],
         "scorecard": res["scorecard"], "dark_matter": res["dark_matter"],
+        "w_mass": res["w_mass"],
         "survey_certificates": res["survey_certificates"],
         "model": {"stages": STAGES, "lineage": res["lineage"], "changed_inputs": res["changed_inputs"],
                   "audit_findings": [{"status": a, "finding": b} for a, b in AUDIT_FINDINGS]},

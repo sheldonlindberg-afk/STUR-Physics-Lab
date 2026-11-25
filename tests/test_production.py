@@ -585,6 +585,16 @@ def test_chain_thresholds():
         assert t["tau_p"][0] <= ch[nm]["loop2"]["tau_p_years"] <= t["tau_p"][1]
 
 
+def test_w_mass():
+    """Part W: the SM's two-loop M_W reproduces the PDG global fit within its error and agrees with the
+    measurements within 2 sigma; the Higgs-mass choice moves it by about a MeV."""
+    wm = RESULT["w_mass"]
+    c = wm["comparisons"]
+    assert abs(c["PDG 2024 global-fit prediction"]["pull"]) < 1
+    assert all(abs(v["pull"]) < 2 for v in c.values())
+    assert abs(wm["shift_to_measured_m_h"]) < 0.003 and 0.003 < wm["sigma"] < 0.01
+
+
 def test_website_data_is_current():
     """assets/site-data.js (written by tools/site_data.py) shows the numbers the script computes."""
     import json
