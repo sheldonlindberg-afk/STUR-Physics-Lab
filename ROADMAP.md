@@ -66,7 +66,12 @@ Status: [x] done, [~] in progress, [ ] not started.
    Elias-Miro et al. 2012), unknown shift; lambda(M_I) = 0 is not required. Stability needs M_I < mu_0
    = 6.2e10 GeV (2.3e10-2.0e11 for M_t +- 1 sigma): LR, LR+D stabilizable; PS undecided (inside the
    band); PS+D metastable. Open: the Pati-Salam quartics' own running and positivity above M_I.
-3. Proton decay above M_I with the Pati-Salam operator running; the dimension-5 factor-2.2 debug.
+3. [ ] Deferred: proton-decay operator running above M_I in each chain. A general pair-exchange rule
+   reproduces the SM's SU(3) exponent but not SU(2) (same- vs opposite-chirality pairs differ), so the
+   one-loop anomalous-dimension formula for B-violating operators must be transcribed from a source
+   (e.g. Abbott-Wise 1980; Alonso, Chang, Jenkins, Manohar, Shotwell 2014) and checked against Part Q's
+   printed SM exponents first. The dimension-5 factor 2.2 against Hisano et al.'s eq. 19 is also open:
+   eq. 19 is itself an approximation (hadronic and CKM factors dropped), so it may not be a bug.
 4. [x] Leptogenesis efficiency (Part S): kappa_f from BDP eqs. 22, 59 (z_B solved exactly), m_* from g*
    and M_P; SM CP bound with 16 pi (BDP eq. 31). M_1 >= 6.5e8 GeV at kappa = 1; 1.5e10-1.3e11 GeV over
    m_sol <= m~_1 <= m_atm. PS covers it; LR (M_I = 2.8e9) needs weak washout. Open: scatterings,
