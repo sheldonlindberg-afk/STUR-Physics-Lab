@@ -836,6 +836,12 @@ PART T. SO(10)
         LR     M_I = 2.8e+09: lambda_SM(M_I) = +0.0061  ->  the threshold can stabilize the vacuum
         LR+D   M_I = 3.0e+10: lambda_SM(M_I) = +0.0012  ->  the threshold can stabilize the vacuum
       The 'lambda(M_I) = 0' Higgs masses above only say how close each chain's M_I lies to mu_0.
+  T7. Thresholds: each matching condition shifted by up to +/- 1.0 in 1/alpha (an assumed band, typical of
+      one-loop thresholds), every corner solved at two loops. Ranges, and which verdicts can flip:
+        PS     M_I 1.5e+10 - 1.3e+12, M_GUT 2.0e+15 - 3.2e+16, tau_p 7e+32 - 4e+37: proton decay, vacuum can flip
+        PS+D   M_I 2.8e+13 - 6.7e+13, M_GUT 3.2e+14 - 2.2e+15, tau_p 4e+29 - 7e+32: robust
+        LR     M_I 8.9e+07 - 8.6e+10, M_GUT 3.2e+15 - 7.1e+16, tau_p 4e+33 - 9e+38: proton decay, vacuum, leptogenesis can flip
+        LR+D   M_I 5.1e+09 - 1.8e+11, M_GUT 6.8e+14 - 7.6e+15, tau_p 8e+30 - 1e+35: proton decay, vacuum, leptogenesis can flip
   RESULT: SO(10) calculates the hypercharges' normalization (sin^2 theta_W =
     3/8 at unification) and requires the right-handed neutrino; its minimal
     Yukawa relations are excluded. Without supersymmetry, the Pati-Salam
@@ -960,10 +966,14 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     asymmetry; trades 1, open 3, passes 1.
   minimal SUSY SU(5): fails Higgs mass, proton decay; trades 5, open 1,
     passes 1.
-  SO(10) via PS: fails nothing; trades 3, open 2, passes 4.
-  SO(10) via PS+D: fails proton decay; trades 3, open 2, passes 3.
-  SO(10) via LR: fails nothing; trades 1, open 3, passes 5.
-  SO(10) via LR+D: fails proton decay; trades 2, open 2, passes 4.
+  SO(10) via PS: fails nothing; trades 3, open 2, passes 4. Thresholds (Part
+    T7) can flip: proton decay, vacuum stability.
+  SO(10) via PS+D: fails proton decay; trades 3, open 2, passes 3. Robust
+    against the thresholds of Part T7.
+  SO(10) via LR: fails nothing; trades 1, open 3, passes 5. Thresholds (Part
+    T7) can flip: proton decay, vacuum stability, baryon asymmetry.
+  SO(10) via LR+D: fails proton decay; trades 2, open 2, passes 4. Thresholds
+    (Part T7) can flip: proton decay, vacuum stability, baryon asymmetry.
   RESULT: surviving every condition tested so far: SO(10) via PS, SO(10) via
     LR. It predicts nothing yet: its scales are solved from the couplings,
     and its passes are consistency, not calculation; two-loop running and
@@ -1260,4 +1270,4 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (24 stages, 68 edges)
   60/60 checks pass
 ==============================================================================
-Elapsed: 442.7 s
+Elapsed: 467.5 s
