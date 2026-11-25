@@ -1,7 +1,7 @@
 ==============================================================================
 STUR Physics Lab, production v2.2: nothing tuned, nothing fitted
 ==============================================================================
-Inputs: 62 measured or defined constants (INPUTS). Comparisons: 16 measured results, never used in a calculation.
+Inputs: 63 measured or defined constants (INPUTS). Comparisons: 16 measured results, never used in a calculation.
 
 PART A. COSMOLOGY (flat Lambda-CDM, Friedmann equation)
 ------------------------------------------------------------------------------
@@ -755,6 +755,34 @@ PART R. WHAT ANOMALY CANCELLATION FIXES (exact)
     the number of colours, and asymptotic freedom of QCD leaves exactly 3:
     the one free integer of the SM that a gauge theory calculates.
 
+PART S. THE BARYON ASYMMETRY
+------------------------------------------------------------------------------
+  S1. eta_B = n_B/n_gamma from Omega_b h^2 = 0.02237 (Planck 2018) and T_CMB: (6.116 +/- 0.041) x 10^-10
+      Making it needs B violation, C and CP violation, and a departure from equilibrium (Sakharov).
+  S2. The Standard Model alone
+      B violation: sphalerons change B and L by N_f = 3 each (the SU(2) anomaly, Part R).
+      Chemical equilibrium (Yukawas, sphalerons, zero hypercharge), solved exactly for N_f = 3, N_H = 1:
+        B = 28/79 (B - L), L = -51/79 (B - L)  (Harvey-Turner's 28/79)
+      Departure from equilibrium: the transition is first order only for m_h < 72.4 +/- 1.7 GeV (lattice);
+        measured m_h = 125.20 GeV, 31 sigma above: a smooth crossover at T_c = 159.5 GeV. Fails.
+      CP violation: J prod(m_i^2 - m_j^2) / T_c^12 = 4.2e-24 (running masses at m_t(m_t)),
+        14 orders of magnitude below eta_B. Fails.
+  S3. Leptogenesis (the seesaw of Part P): eta_B = c_sph (3/4) (g*s,0 / g*) epsilon_1 kappa, kappa <= 1
+      g* = 217/2 (SM plus N_1, from the field content), g*s,0 = 43/11, c_sph = 28/79: eta_B = 9.577e-03 epsilon_1 kappa
+      so epsilon_1 >= 6.4e-08. Davidson-Ibarra (eq. 17): |epsilon_1| <= 3 M_1 (m_3 - m_1) / (8 pi <H>^2):
+        NO: m_3 - m_1 = 50.1 meV  ->  M_1 >= 3.2e+08 GeV; Part P's window up to 7.6e+15 GeV: open
+        IO: m_3 - m_1 = 49.8 meV  ->  M_1 >= 3.3e+08 GeV; Part P's window up to 7.6e+15 GeV: open
+      (check: their text's example, epsilon > 1e-6 needs M_1 > 4e9 GeV; here 5.1e+09 GeV)
+      Thermal production also needs a reheating temperature above M_1.
+  RESULT: eta_B is measured, not calculated. The Standard Model fails two of
+    Sakharov's conditions: its transition is a crossover (31 sigma above the
+    lattice endpoint) and its CP violation is 14 orders too small.
+    Leptogenesis works if the lightest right-handed neutrino is above 3e+08
+    GeV, inside the seesaw window of Part P: it ties eta_B to the neutrino
+    masses but adds unmeasured parameters (M_1, the phases, kappa). Part L's
+    SM up to M_P, with Dirac neutrinos, has no seesaw and so no such
+    mechanism.
+
 THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
 ------------------------------------------------------------------------------
   Stage (part, evidence level): measured inputs read; results taken from earlier stages
@@ -859,6 +887,11 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
       takes: gauge_331
       assumes: one family of the SM's representations (and Part D's 3-3-1
         families); Yukawa couplings for every charged fermion
+  baryon_asymmetry (S, conditional)
+      inputs: G, Omega_b_h2, T_CMB, au, c, h, k_B, m_p
+      takes: flavour, neutrinos
+      assumes: lattice endpoint and T_c of the SM transition; leptogenesis:
+        hierarchical right-handed neutrinos, thermal, efficiency kappa <= 1
   self_checks (-, validation)
       inputs: G, G_F, M_W, M_Z, M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ,
         c, e_charge, h, k_B, m_b, m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV,
@@ -878,19 +911,19 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
       quantum_gravity, yukawa_relations, criticality, strong_cp, neutrinos
     m_t(m_t) = 162.79 GeV, from flavour[runner], taken by quantum_gravity,
       yukawa_relations, higgs_mssm, uv_joint_test, mass_formulas, strong_cp,
-      neutrinos, proton_decay
+      neutrinos, proton_decay, baryon_asymmetry
   Changing one measured input recalculates every stage it reaches, for example:
     M_t: flavour, texture_survey, flavour_symmetry_331, quantum_gravity,
       yukawa_relations, higgs_mssm, criticality, uv_joint_test,
-      mass_formulas, strong_cp, neutrinos, proton_decay
+      mass_formulas, strong_cp, neutrinos, proton_decay, baryon_asymmetry
     alpha_s_MZ: gauge_unification, flavour, texture_survey,
       flavour_symmetry_331, quantum_gravity, yukawa_relations, higgs_mssm,
       criticality, uv_joint_test, mass_formulas, strong_cp, neutrinos,
-      proton_decay
+      proton_decay, baryon_asymmetry
     G: cosmology, planck_units, quantum_gravity, yukawa_relations,
       higgs_mssm, criticality, uv_joint_test, strong_cp, neutrinos,
-      proton_decay
-    H0: cosmology, quantum_gravity, neutrinos
+      proton_decay, baryon_asymmetry
+    H0: cosmology, quantum_gravity, neutrinos, baryon_asymmetry
   Global consistency of the stage assumptions:
     MSSM above M_S  : gauge_unification, yukawa_relations, higgs_mssm, proton_decay
     SM up to M_P    : criticality
@@ -1003,7 +1036,8 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Koide Q: 1/3 for equal masses, 1 for one mass; the m_tau solved from Q = 2/3 gives Q = 2/3  (abs diff 0.0e+00)
   [PASS] Part O: each survivor sector's det = product of its signed eigenvalues (real: arg det = 0 or pi)  (1 survivor(s))
   [PASS] Proton decay: operator-running exponents -2 c_i/b_i from the script's b_i = Ellis et al.'s eq. 17  (max abs diff 2.8e-17)
-  [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (20 stages, 44 edges)
-  55/55 checks pass
+  [PASS] Sphaleron conversion: B/(B - L) = 28/79 and L/(B - L) = -51/79 (exact, three families, one Higgs)
+  [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (21 stages, 46 edges)
+  56/56 checks pass
 ==============================================================================
-Elapsed: 363.0 s
+Elapsed: 366.9 s

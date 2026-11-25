@@ -564,7 +564,7 @@ on the charges, and the one place where the Standard Model's quantum numbers are
 
 **Part S: the baryon asymmetry**
 
-η_B = n_B/n_γ = (6.116 ± 0.004)×10⁻¹⁰, calculated from Planck's Ω_b h² and T_CMB. Making it needs
+η_B = n_B/n_γ = (6.116 ± 0.041)×10⁻¹⁰, calculated from Planck's Ω_b h² and T_CMB. Making it needs
 Sakharov's three conditions:
 
 * **The Standard Model alone fails two of them.** Sphalerons violate B + L, changing each by

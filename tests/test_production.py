@@ -216,7 +216,7 @@ def test_model_lineage():
         assert lin["reads"][st] == [] and lin["uses"][st] == []
     assert lin["uses"]["criticality"] == ["planck_units"]
     assert {"yukawa_relations", "criticality", "quantum_gravity"} <= set(lin["takers"]["planck_units[E_P_GeV]"])
-    assert [s for s in lin["reaches"]["H0"] if s != "self_checks"] == ["cosmology", "quantum_gravity", "neutrinos"]
+    assert [s for s in lin["reaches"]["H0"] if s != "self_checks"] == ["cosmology", "quantum_gravity", "neutrinos", "baryon_asymmetry"]
     assert "criticality" in lin["reaches"]["M_t"] and "criticality" in lin["reaches"]["G"]
     assert "flavour" in lin["takers"]["gauge_unification[M_S_for_measured_alpha]"]
     assert not lin["uv_consistent"]
