@@ -1,7 +1,7 @@
 ==============================================================================
 STUR Physics Lab, production v2.2: nothing tuned, nothing fitted
 ==============================================================================
-Inputs: 63 measured or defined constants (INPUTS). Comparisons: 16 measured results, never used in a calculation.
+Inputs: 63 measured or defined constants (INPUTS). Comparisons: 17 measured results, never used in a calculation.
 
 PART A. COSMOLOGY (flat Lambda-CDM, Friedmann equation)
 ------------------------------------------------------------------------------
@@ -846,6 +846,29 @@ PART T. SO(10)
     thresholds at M_I and M_GUT decide whether it holds, and Part L's SM then
     runs only up to M_I.
 
+PART V. DARK MATTER FROM THE AXION
+------------------------------------------------------------------------------
+  The axion of Part O is made by misalignment: frozen at an angle theta_i until 3 H = m_a(T), then
+  oscillating and redshifting like matter (Di Luzio et al. 2020, eqs. 148-169). m_a f_a from Part O,
+  M_P from Part H1, g_S today = 43/11 from Part S, T_0 from T_CMB; m_a(T) from the dilute instanton gas
+  (beta, gamma, T_C quoted). Strings and domain walls (post-inflation only) are left out: their yield is
+  not agreed on.
+  Check: at f_a = 2.0e+11 GeV, Omega_a h^2 = 0.1184 (their eq. 170: 0.12)
+  Post-inflation (<theta_i^2> = 2.15^2): all of Omega_c h^2 = 0.12 needs f_a = 2.02e+11 GeV,
+    m_a = 28.5 micro-eV (oscillation at T = 730 MeV). Larger f_a overcloses, smaller leaves room for strings.
+  At each SO(10) chain's M_I (PQ broken with B - L):
+    PS     f_a = 1.4e+11 GeV, m_a =    41.4 micro-eV:  64.85 % of the dark matter post-inflation; pre-inflation theta_i = 2.67
+    PS+D   f_a = 4.4e+13 GeV, m_a =     0.1 micro-eV: 52883.42 % of the dark matter post-inflation; pre-inflation theta_i = 0.09
+    LR     f_a = 2.8e+09 GeV, m_a =  2089.5 micro-eV:   0.67 % of the dark matter post-inflation; pre-inflation impossible (theta_i > pi)
+    LR+D   f_a = 3.0e+10 GeV, m_a =   189.6 micro-eV:  10.97 % of the dark matter post-inflation; pre-inflation impossible (theta_i > pi)
+  RESULT: the dark-matter density, an input until now, becomes a function of
+    one unknown, f_a. Put at the Pati-Salam scale, the axion makes about two
+    thirds of the dark matter by misalignment alone (strings add more), at
+    m_a near 40 micro-eV: unification, neutrino masses, the strong CP problem
+    and dark matter would share one scale. At the left-right scale it cannot
+    be the dark matter. Not yet a prediction: the string yield and m_a(T)
+    near T_C are the open inputs.
+
 PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
 ------------------------------------------------------------------------------
   Each hypothesis meets every condition, with the verdict the earlier parts computed:
@@ -859,6 +882,7 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     proton decay pass : no grand unification: B is conserved in perturbation theory
     baryon asymmetry fail : no out-of-equilibrium step, CP violation 14 orders short (Part S)
     strong CP open : theta-bar bounded, not explained (Part O)
+    dark matter open : no dark-matter candidate; Omega_c is an input (Part A)
     vacuum stability open : metastable: lambda turns negative at 6.2e+10 GeV (Part L)
   minimal SUSY SU(5)
     gauge unification trade : M_S chosen by the measured alpha (Part I)
@@ -868,6 +892,7 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     proton decay fail : p -> nubar K+ at most 9e+29 years against 5.9e+33 (Part Q)
     baryon asymmetry trade : leptogenesis possible above M_1 ~ 7e8 GeV; gravitinos not checked
     strong CP open : needs an axion or another mechanism
+    dark matter trade : the lightest superpartner, not calculated here
     vacuum stability pass : lambda is fixed positive by supersymmetry above M_S
   SO(10) via PS
     gauge unification pass : M_I = 1.4e+11, M_GUT = 8.0e+15 GeV solve the three couplings (no
@@ -881,6 +906,8 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     strong CP trade : an axion at f_a = M_I would give m_a = 41 micro-eV
     vacuum stability open : metastable between mu_0 and M_I; M_I lies inside mu_0's top-mass band
       (2e+10 to 2e+11 GeV)
+    dark matter trade : axion at f_a = M_I: 65 % of the dark matter by post-inflation misalignment
+      (strings add more); pre-inflation theta_i = 2.67 gives all of it
   SO(10) via PS+D
     gauge unification pass : M_I = 4.4e+13, M_GUT = 8.4e+14 GeV solve the three couplings (no
       prediction)
@@ -892,6 +919,8 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     baryon asymmetry trade : M_1 up to M_I = 4e+13 GeV covers the natural range (M_1 >= 2e+10 GeV)
     strong CP trade : an axion at f_a = M_I would give m_a = 0.13 micro-eV
     vacuum stability open : metastable between mu_0 and M_I
+    dark matter trade : axion at f_a = M_I: 5.3e+04 % of the dark matter by post-inflation
+      misalignment (strings add more); pre-inflation theta_i = 0.09 gives all of it
   SO(10) via LR
     gauge unification pass : M_I = 2.8e+09, M_GUT = 1.5e+16 GeV solve the three couplings (no
       prediction)
@@ -905,6 +934,8 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     strong CP trade : an axion at f_a = M_I would give m_a = 2.1e+03 micro-eV
     vacuum stability pass : M_I below mu_0 = 6.2e+10 GeV: a scalar threshold can stabilize the
       vacuum
+    dark matter open : axion at f_a = M_I: 0.67 % of the dark matter by post-inflation
+      misalignment, and no initial angle gives all of it: another candidate is needed
   SO(10) via LR+D
     gauge unification pass : M_I = 3.0e+10, M_GUT = 2.3e+15 GeV solve the three couplings (no
       prediction)
@@ -917,6 +948,8 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     strong CP trade : an axion at f_a = M_I would give m_a = 1.9e+02 micro-eV
     vacuum stability pass : M_I below mu_0 = 6.2e+10 GeV: a scalar threshold can stabilize the
       vacuum
+    dark matter open : axion at f_a = M_I: 11 % of the dark matter by post-inflation misalignment,
+      and no initial angle gives all of it: another candidate is needed
   The chains' Higgs condition, lambda(M_I) = 0 where the SM ends (Part L's running and matching):
     PS     M_I = 1.40e+11 GeV: m_h = 125.58 +/- 0.96 GeV, +0.4 sigma
     PS+D   M_I = 4.37e+13 GeV: m_h = 127.38 +/- 0.96 GeV, +2.3 sigma
@@ -924,13 +957,13 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     LR+D   M_I = 3.04e+10 GeV: m_h = 124.83 +/- 0.96 GeV, -0.4 sigma
     Why lambda should vanish at M_I is not established (the scalar sector changes there): a test.
   SM to M_P: fails gauge unification, b-tau unification, Higgs mass, baryon
-    asymmetry; trades 1, open 2, passes 1.
-  minimal SUSY SU(5): fails Higgs mass, proton decay; trades 4, open 1,
+    asymmetry; trades 1, open 3, passes 1.
+  minimal SUSY SU(5): fails Higgs mass, proton decay; trades 5, open 1,
     passes 1.
-  SO(10) via PS: fails nothing; trades 2, open 2, passes 4.
-  SO(10) via PS+D: fails proton decay; trades 2, open 2, passes 3.
-  SO(10) via LR: fails nothing; trades 1, open 2, passes 5.
-  SO(10) via LR+D: fails proton decay; trades 2, open 1, passes 4.
+  SO(10) via PS: fails nothing; trades 3, open 2, passes 4.
+  SO(10) via PS+D: fails proton decay; trades 3, open 2, passes 3.
+  SO(10) via LR: fails nothing; trades 1, open 3, passes 5.
+  SO(10) via LR+D: fails proton decay; trades 2, open 2, passes 4.
   RESULT: surviving every condition tested so far: SO(10) via PS, SO(10) via
     LR. It predicts nothing yet: its scales are solved from the couplings,
     and its passes are consistency, not calculation; two-loop running and
@@ -1054,10 +1087,16 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
       assumes: SO(10) with one 16 per family; minimal Yukawas from one 10_H;
         the Pati-Salam chain with scalars (1,2,2) + (10,1,3), one-loop
         running, no thresholds
+  dark_matter (V, conditional)
+      inputs: G, T_CMB, au, c, e_charge, h, k_B
+      takes: planck_units, strong_cp, baryon_asymmetry, so10
+      assumes: QCD axion by misalignment; dilute-instanton m_a(T); string and
+        domain-wall production left out; f_a scanned and at each SO(10)
+        chain's M_I
   scorecard (U, conditional)
       inputs: none
       takes: higgs_mssm, criticality, uv_joint_test, neutrinos, proton_decay,
-        baryon_asymmetry, so10
+        baryon_asymmetry, so10, dark_matter
       assumes: the SM, minimal SUSY SU(5) and four SO(10) chains (two loops),
         each condition judged by the stage that computes it; for the chains
         the Higgs condition is lambda(M_I) = 0
@@ -1070,7 +1109,7 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
       takes: cosmology, gauge_unification, flavour, texture_survey,
         gauge_331, flavour_symmetry_331, quantum_gravity, higgs_mssm,
         criticality, uv_joint_test, mass_formulas, strong_cp, neutrinos,
-        baryon_asymmetry, so10
+        baryon_asymmetry, so10, dark_matter
       assumes: tests the calculation, not the physics
   Numbers calculated once and handed on:
     M_S, M_GUT = 2536.5, 1.1459e+16 GeV, from
@@ -1079,7 +1118,7 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
       proton_decay
     M_P = 1.2209e+19 GeV, from planck_units[E_P_GeV], taken by
       quantum_gravity, yukawa_relations, criticality, strong_cp, neutrinos,
-      baryon_asymmetry
+      baryon_asymmetry, dark_matter
     m_t(m_t) = 162.79 GeV, from flavour[runner], taken by quantum_gravity,
       yukawa_relations, higgs_mssm, uv_joint_test, mass_formulas, strong_cp,
       neutrinos, proton_decay, baryon_asymmetry, so10
@@ -1087,16 +1126,16 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
     M_t: flavour, texture_survey, flavour_symmetry_331, quantum_gravity,
       yukawa_relations, higgs_mssm, criticality, uv_joint_test,
       mass_formulas, strong_cp, neutrinos, proton_decay, baryon_asymmetry,
-      so10, scorecard
+      so10, dark_matter, scorecard
     alpha_s_MZ: gauge_unification, flavour, texture_survey,
       flavour_symmetry_331, quantum_gravity, yukawa_relations, higgs_mssm,
       criticality, uv_joint_test, mass_formulas, strong_cp, neutrinos,
-      proton_decay, baryon_asymmetry, so10, scorecard
+      proton_decay, baryon_asymmetry, so10, dark_matter, scorecard
     G: cosmology, planck_units, quantum_gravity, yukawa_relations,
       higgs_mssm, criticality, uv_joint_test, strong_cp, neutrinos,
-      proton_decay, baryon_asymmetry, so10, scorecard
+      proton_decay, baryon_asymmetry, so10, dark_matter, scorecard
     H0: cosmology, quantum_gravity, neutrinos, baryon_asymmetry, so10,
-      scorecard
+      dark_matter, scorecard
   Global consistency of the stage assumptions:
     MSSM above M_S  : gauge_unification, yukawa_relations, higgs_mssm, proton_decay
     SM up to M_P    : criticality
@@ -1149,6 +1188,10 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
       That holds only if they are Dirac particles with Yukawa couplings below
       3e-13, which do not affect the running; a seesaw needs new states below
       about 8e15 GeV, whose couplings would enter lambda's running.
+    [open] Part V calculates the axion's dark-matter density as a function of
+      f_a, but Part A still takes Omega_m as an input: feeding Part V back
+      into Part A needs f_a fixed (at a chain's M_I, about two thirds of
+      Omega_c for Pati-Salam) and the string yield.
     [open] Theta-bar is bounded, not calculated (Part O). Each explanation
       adds something unmeasured: an axion scale f_a, or a parity symmetry
       whose Hermitian textures Part G excludes.
@@ -1212,8 +1255,9 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Sphaleron conversion: B/(B - L) = 28/79 and L/(B - L) = -51/79 (exact, three families, one Higgs)
   [PASS] SO(10) via Pati-Salam: the solved M_I, M_GUT make SU(4), SU(2)_L, SU(2)_R meet at 1/alpha_GUT  (max rel diff 1.1e-15)
   [PASS] Leptogenesis efficiency: z_B solves its freeze-out equation; kappa_f -> 1 in weak washout  (max rel residual 1.1e-15, kappa(K -> 0) = 0.999997)
+  [PASS] Axion misalignment from its ingredients reproduces Di Luzio et al.'s eq. 170 (their approximation)  (Omega h^2 = 0.1184 at f_a = 2.0e+11 GeV against 0.12)
   [PASS] SO(10) chains: the general two-loop formula on the SM content = sm_gauge_b, sm_two_loop_b; the Newton solver at one loop = the linear solution  (rel diff 3.3e-10)
-  [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (23 stages, 62 edges)
-  59/59 checks pass
+  [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (24 stages, 68 edges)
+  60/60 checks pass
 ==============================================================================
-Elapsed: 430.6 s
+Elapsed: 442.7 s
