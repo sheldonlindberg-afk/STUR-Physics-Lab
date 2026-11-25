@@ -250,24 +250,25 @@
 
   <p class="kicker">Part U</p>
   <h2 id="scorecard">Which complete theory survives everything?</h2>
-  <p>Each hypothesis is tested against every condition, with the verdict the stage that computes it reached. A <i>trade</i> means an unknown absorbs the condition, so nothing is tested.</p>
+  <p>Each hypothesis is tested against every condition, with the verdict the stage that computes it reached. A <i>trade</i> means an unknown absorbs the condition, so nothing is tested; <i>open</i> means the hypothesis has no working mechanism for it yet. The table is generated from the run: hover or tap a verdict for the stage's reason.</p>
+  <div class="tablewrap" id="tbl-score"><p class="status">The scorecard is generated from assets/site-data.js; it did not load.</p></div>
+  <p>The scorecard also tests the two minimal SO(10) chains with D-parity: both unify too low and fail proton decay. Scanning the unknown threshold corrections shows that only Pati–Salam with D-parity is excluded whatever the heavy spectrum. Pati–Salam without D-parity fails the fermion masses: its unbroken SU(4) keeps the light Higgs in a single SU(4) multiplet, which gives the wrong lepton-to-quark mass ratios (missed by <span data-v="yk.ps">88</span>σ). The survivor is the <b>left-right chain</b>, with M<sub>I</sub> = <span data-v="sv.mi">2.8 × 10⁹</span> GeV and M<sub>GUT</sub> = <span data-v="sv.mgut">1.5 × 10¹⁶</span> GeV, where SU(4) breaks at the unification scale. It fails nothing at this order, but it predicts nothing either: its scales are solved from the measured couplings. Moving the criticality condition from the Planck scale to M<sub>I</sub> gives <span data-v="sc.mh">125.6</span> GeV for Pati–Salam, but that is not a prediction: the heavy scalar at M<sub>I</sub> shifts λ by an unknown amount, so λ(M<sub>I</sub>) = 0 is not required.</p>
+
+  <p class="kicker">Part Y</p>
+  <h2 id="yukawa">Can SO(10) give the fermion masses and the neutrinos?</h2>
+  <p>With a 10 and a 126 of Higgs fields, every fermion mass matrix is built from the same two symmetric Yukawa matrices. Eliminating them leaves the sum rule M<sub>e</sub> = c<sub>1</sub>M<sub>d</sub> + c<sub>2</sub>M<sub>u</sub>. With the measured quark masses and mixing, its eight unknowns reach the three charged-lepton masses at the left-right M<sub>GUT</sub> (worst miss <span data-v="yk.lr">0.28</span>%): a reach, not a prediction. The prediction has to come from the neutrinos, where the same unknowns must also give the three mixing angles and the ratio of the mass splittings.</p>
   <div class="tablewrap"><table>
-    <tr><th>Condition</th><th>SM to M<sub>P</sub></th><th>minimal SUSY SU(5)</th><th>SO(10) via Pati–Salam (two loops)</th></tr>
-    <tr><td>Gauge unification</td><td><span class="chip bad">fails</span></td><td><span class="chip info">trade</span></td><td><span class="chip good">solved</span></td></tr>
-    <tr><td>Higgs mass</td><td><span class="chip bad">3.3σ</span></td><td><span class="chip bad">≤ 103 GeV</span></td><td><span class="chip good"><span data-v="sc.mh">125.6</span> GeV</span></td></tr>
-    <tr><td>Neutrino masses</td><td><span class="chip info">Dirac, unexplained</span></td><td><span class="chip info">trade</span></td><td><span class="chip good">seesaw at M<sub>I</sub></span></td></tr>
-    <tr><td>Proton decay</td><td><span class="chip good">stable</span></td><td><span class="chip bad">fails (ν̄K⁺)</span></td><td><span class="chip good">passes</span></td></tr>
-    <tr><td>Baryon asymmetry</td><td><span class="chip bad">no mechanism</span></td><td><span class="chip info">trade</span></td><td><span class="chip info">leptogenesis possible</span></td></tr>
-    <tr><td>Strong CP</td><td><span class="chip info">open</span></td><td><span class="chip info">open</span></td><td><span class="chip info">axion at M<sub>I</sub></span></td></tr>
-    <tr><td>Dark matter</td><td><span class="chip bad">no candidate</span></td><td><span class="chip info">trade</span></td><td><span class="chip warn">axion at M<sub>I</sub>: ~65%</span></td></tr>
-    <tr><td>Fermion masses</td><td><span class="chip info">free Yukawas</span></td><td><span class="chip bad">SU(5) ratios fail</span></td><td><span class="chip bad">fails (one SU(4) irrep)</span></td></tr>
-    <tr><td>Vacuum stability</td><td><span class="chip info">metastable</span></td><td><span class="chip good">stable</span></td><td><span class="chip info">decided by M<sub>t</sub></span></td></tr>
+    <tr><th>Neutrino masses from</th><th>Unknowns / data</th><th>Best χ²</th><th>Worst neutrino observable</th><th>Heaviest M<sub>R</sub> / M<sub>I</sub></th></tr>
+    <tr><td>type II: M<sub>ν</sub> ∝ M<sub>d</sub> − M<sub>e</sub></td><td class="num"><span data-v="yk.u2">14 / 13</span></td><td class="num"><span data-v="yk.c2">545</span></td><td class="num"><span data-v="yk.n2">20</span>σ</td><td class="num">–</td></tr>
+    <tr><td>type I: M<sub>D</sub> fixed by the same c<sub>1</sub>, c<sub>2</sub></td><td class="num"><span data-v="yk.u1">14 / 13</span></td><td class="num"><span data-v="yk.c1">158</span></td><td class="num"><span data-v="yk.n1">9</span>σ</td><td class="num"><span data-v="yk.r1">1.4 × 10³</span></td></tr>
+    <tr><td>types I + II (one complex ratio more)</td><td class="num"><span data-v="yk.u12">16 / 13</span></td><td class="num"><span data-v="yk.c12">18</span></td><td class="num"><span data-v="yk.n12">1.4</span>σ</td><td class="num"><span data-v="yk.r12">6 × 10²</span></td></tr>
   </table></div>
-  <p>The scorecard also tests every other minimal SO(10) chain at two loops: both chains with D-parity unify too low and fail proton decay. Scanning the unknown threshold corrections shows that only Pati–Salam with D-parity is excluded whatever the heavy spectrum; the other verdicts, including Pati–Salam's survival, depend on it. Pati–Salam then fails the fermion masses: its unbroken SU(4) keeps the light Higgs in a single SU(4) multiplet, which gives the wrong lepton-to-quark mass ratios. The left-right chain, where SU(4) breaks at the unification scale, reaches the charged-lepton masses and fails nothing at this order. It still predicts nothing: its scales are solved from the measured couplings. The entry to watch is the Higgs mass. Moving the criticality condition from the Planck scale to the intermediate scale M<sub>I</sub> gives <span data-v="sc.mh">125.6</span> GeV against 125.20 measured, but the script also shows why that is not a prediction. The heavy scalar at M<sub>I</sub> shifts λ by an unknown amount, so λ(M<sub>I</sub>) = 0 is not required. The near hit only says that M<sub>I</sub> lies close to the scale, about 6 × 10¹⁰ GeV, where the Standard Model's λ turns negative.</p>
+  <p>Type II fails for one reason: without supersymmetry the bottom and tau masses do not converge at M<sub>GUT</sub> ((m<sub>b</sub> − m<sub>τ</sub>)/m<sub>b</sub> = <span data-v="yk.bt">−0.60</span>), so M<sub>d</sub> − M<sub>e</sub> cannot give a large atmospheric angle. In type I the Dirac neutrino matrix is not new: the sum rule already fixes it, M<sub>D</sub> = M<sub>u</sub> + (3 + c<sub>1</sub>)/c<sub>2</sub> (M<sub>d</sub> − M<sub>e</sub>). The right-handed masses then follow without knowing any vev. The mixed case comes closest, but no point reaches 3σ, and every near-fit puts the heaviest right-handed neutrino hundreds of times above the left-right M<sub>I</sub>, where a perturbative 126 coupling allows at most <span data-v="yk.bound">3.5</span> M<sub>I</sub>. Published fits with the full left-right running do find type-I solutions, so this stays <i>open</i>: the next step is that running, not a verdict.</p>
 
   <p class="kicker">Part Z</p>
   <h2 id="ledger">The ledger: what the algorithm does with every free number</h2>
-  <p>The algorithm now closes. It runs in one pass, and the one hypothesis that survives every computed condition, SO(10) broken through the left-right chain, is consistent with all of them. Every free number of the Standard Model and cosmology then has a computed status. The algorithm calculates the discrete numbers exactly: the hypercharges and the quantization of electric charge, sin²θ<sub>W</sub> = 3/8 at unification, and the number of families in 3-3-1. It calculates no continuous number. The gauge couplings and charged-lepton masses are traded for unknowns, the strong CP angle is bounded, and the neutrino masses, the dark matter, the Higgs mass and Λ stay open. The neutrinos are where the survivor must predict or fail next: its simplest neutrino mechanism (type-II seesaw) is already excluded, because without supersymmetry the bottom and tau masses do not converge.</p>
+  <p>The algorithm closes. It runs in one pass, and the one hypothesis that survives every computed condition, SO(10) broken through the left-right chain, is consistent with all of them. Every free number of the Standard Model and cosmology then has a computed status. The algorithm calculates the discrete numbers exactly: the hypercharges and the quantization of electric charge, sin²θ<sub>W</sub> = 3/8 at unification, and the number of families in 3-3-1. It calculates no continuous number. The neutrinos are where the survivor must predict or fail next. Its type-II mechanism is excluded; type I and the mixed case come closest, but they need the right-handed neutrinos far above the chain's intermediate scale.</p>
+  <div class="tablewrap" id="tbl-ledger"><p class="status">The ledger is generated from assets/site-data.js; it did not load.</p></div>
 
   <p class="kicker">The scoreboard</p>
   <h2 id="numbers">Nature's free numbers, one by one</h2>
@@ -280,7 +281,7 @@
     <tr><td>Quark and lepton masses</td><td class="num">9</td><td>SU(5) and Georgi–Jarlskog ratios excluded; b–τ unification needs supersymmetry, which the Higgs mass then excludes. Koide's formula fits the lepton pole masses (<span data-v="bx.kpole">0.4</span>σ) but fails at M<sub>Z</sub> (<span data-v="bx.kmz">225</span>σ) and for quarks</td><td><span class="chip bad">not calculated</span></td></tr>
     <tr><td>Higgs vacuum value</td><td class="num">1</td><td>From G<sub>F</sub>; an input</td><td><span class="chip info">input</span></td></tr>
     <tr><td>Strong CP angle θ</td><td class="num">1</td><td>The neutron EDM bounds |θ̄| &lt; <span data-v="bx.theta">8.8 × 10⁻¹¹</span>. A massless up quark is excluded (<span data-v="bx.mu">31</span>σ); the axion trades θ̄ for f<sub>a</sub>; parity needs excluded textures</td><td><span class="chip bad">bounded, open</span></td></tr>
-    <tr><td>Neutrino masses and mixing</td><td class="num">7–9</td><td>Σm<sub>ν</sub> ≥ <span data-v="bx.sno">58.8</span> meV (normal) or <span data-v="bx.sio">98.9</span> meV (inverted, above DESI's 64 meV). Fixed mixing patterns excluded by θ<sub>13</sub>; TM1 survives and predicts δ</td><td><span class="chip warn">1 pattern, testable</span></td></tr>
+    <tr><td>Neutrino masses and mixing</td><td class="num">7–9</td><td>Σm<sub>ν</sub> ≥ <span data-v="bx.sno">58.8</span> meV (normal) or <span data-v="bx.sio">98.9</span> meV (inverted, above DESI's 64 meV). Fixed mixing patterns excluded by θ<sub>13</sub>; TM1 survives and predicts δ. In the surviving SO(10) chain, type-II neutrinos are excluded and type I is not yet reached</td><td><span class="chip warn">1 pattern, testable</span></td></tr>
     <tr><td>Cosmological constant</td><td class="num">1</td><td>Ω<sub>Λ</sub> follows from flatness; the value of ρ<sub>Λ</sub> is open</td><td><span class="chip bad">open</span></td></tr>
   </table></div>
 
@@ -295,8 +296,8 @@
     <li><span class="chip warn">testable</span>The TM1 mixing pattern, one column of tribimaximal mixing kept, survives (θ<sub>12</sub> at <span data-v="bx.tm1s">0.9</span>σ) and fixes the CP phase from θ<sub>13</sub> and θ<sub>23</sub>: δ ≈ <span data-v="bx.tm1d">262</span>°, for DUNE and Hyper-Kamiokande.</li>
     <li><span class="chip good">calculated</span>Anomaly cancellation fixes the Standard Model's hypercharges and quantizes electric charge, which is why atoms are neutral. In the 3-3-1 extension it also fixes the number of families: a multiple of three, and exactly three if QCD stays asymptotically free.</li>
     <li><span class="chip info">mechanism</span>The baryon asymmetry, η<sub>B</sub> = 6.1 × 10⁻¹⁰, cannot come from the Standard Model alone: its electroweak transition is a smooth crossover and its CP violation is 14 orders too small. Leptogenesis can make it if the lightest right-handed neutrino is heavier than about 10¹⁰ GeV (with the washout calculated), inside the seesaw window and below the Pati–Salam scale.</li>
-    <li><span class="chip warn">near miss</span>Without supersymmetry, SO(10) breaking through Pati–Salam unifies the three forces with an intermediate scale of about 5 × 10¹¹ GeV. The proton survives the Super-K limit, and that intermediate scale is exactly where the seesaw and leptogenesis need the right-handed neutrinos: one chain that ties unification, neutrino masses and the baryon asymmetry together.</li>
-    <li><span class="chip warn">near miss</span>If the axion that solves the strong CP problem lives at the Pati–Salam scale, it makes about two thirds of the dark matter by misalignment alone, with a mass near 40 μeV, and strings add more. One scale would then carry unification, neutrino masses, the strong CP solution and dark matter.</li>
+    <li><span class="chip warn">near miss</span>Without supersymmetry, SO(10) breaking through Pati–Salam unifies the three forces with an intermediate scale of about 10¹¹ GeV, the proton survives the Super-K limit, and that scale is where the seesaw and leptogenesis need the right-handed neutrinos. But its unbroken SU(4) gives the wrong charged-lepton masses. The left-right chain that survives instead has its intermediate scale near 3 × 10⁹ GeV, too low for natural leptogenesis and for the right-handed neutrinos its own Yukawa sector wants.</li>
+    <li><span class="chip warn">near miss</span>If the axion that solves the strong CP problem lives at the Pati–Salam scale, it makes about two thirds of the dark matter by misalignment alone, with a mass near 40 μeV, and strings add more. At the surviving left-right scale it makes only <span data-v="sv.dm">0.7</span>%: built from the particle physics alone, the universe would then be <span data-v="sv.age">21.4</span> Gyr old.</li>
     <li><span class="chip bad">open</span>Still not calculated by anything: α, the Yukawa couplings, θ̄, the neutrino masses, the cosmological constant, and whether gravity is quantum. The last is a measurement waiting to be made, because a classical gravitational field cannot entangle masses at all.</li>
   </ul>
 
@@ -318,7 +319,7 @@
       <a class="btn" href="production_v2_2.py" download="production_v2_2.py">Download .py</a>
       <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/production_v2_2.py">View on GitHub</a>
     </div>
-    <p class="status" id="copy-status" role="status" aria-live="polite">One file, standard library only. Paste it into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 6 minutes. Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/production_v2_2.txt">results/production_v2_2.txt</a>.</p>
+    <p class="status" id="copy-status" role="status" aria-live="polite">One file, standard library only. Paste it into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 10 minutes. Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/production_v2_2.txt">results/production_v2_2.txt</a>.</p>
   </div>
 <pre>python3 production_v2_2.py                     # full report, Parts A to Z
 python3 production_v2_2.py --json-out out.json # every number, as JSON
@@ -386,10 +387,55 @@ python3 production_v2_2.py --certify            # also prove the texture exclusi
       vals["jt.smHth"] = j.sm_H_theory.toFixed(2); vals["jt.mssm"] = Math.round(j.mssm_all);
       vals["jt.mssmth"] = j.mssm_all_theory.toFixed(1);
     }
+    if (D.yukawa) {
+      var y = D.yukawa, ss = y.seesaw;
+      vals["yk.ps"] = Math.round(y.ps_pull); vals["yk.lr"] = (100 * y.lr_miss).toFixed(2);
+      vals["yk.bt"] = fmt(y.b_tau, 2); vals["yk.bound"] = y.M_R_bound.toFixed(1);
+      [["2", "type2"], ["1", "type1"], ["12", "type12"]].forEach(function (k) {
+        var r = ss[k[1]];
+        vals["yk.u" + k[0]] = r.unknowns + " / " + r.data; vals["yk.c" + k[0]] = r.chi2 < 100 ? r.chi2.toFixed(1) : Math.round(r.chi2);
+        vals["yk.n" + k[0]] = r.n_sigma < 10 ? r.n_sigma.toFixed(1) : Math.round(r.n_sigma);
+        if (r.M_R_over_M_I) vals["yk.r" + k[0]] = sci(r.M_R_over_M_I, 1);
+      });
+    }
+    if (D.survivor) {
+      var sv = D.survivor;
+      vals["sv.mi"] = sci(sv.M_I, 1); vals["sv.mgut"] = sci(sv.M_GUT, 1);
+      vals["sv.dm"] = (100 * sv.dm_fraction).toFixed(1); vals["sv.age"] = sv.age.toFixed(1);
+    }
     Array.prototype.forEach.call(document.querySelectorAll("[data-v]"), function (n) {
       var v = vals[n.getAttribute("data-v")];
       if (v !== undefined) n.textContent = v;
     });
+  }
+
+  // the scorecard (Part U) and the ledger (Part Z), exactly as the run computed them
+  function esc(t) { return String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  var CHIP = { pass: "good", fail: "bad", trade: "info", open: "warn", calculated: "good", related: "warn",
+               traded: "info", bounded: "warn", input: "info" };
+  if (D && D.scorecard && D.scorecard.rows) {
+    var sc = D.scorecard, cols = ["SM to M_P", "minimal SUSY SU(5)", "SO(10) via PS", "SO(10) via LR"];
+    var head = { "SM to M_P": "SM to M<sub>P</sub>", "minimal SUSY SU(5)": "minimal SUSY SU(5)",
+                 "SO(10) via PS": "SO(10) via Pati–Salam", "SO(10) via LR": "SO(10) via left-right" };
+    var h = "<table><tr><th>Condition</th>" + cols.map(function (k) {
+      return "<th>" + head[k] + (sc.survivors.indexOf(k) >= 0 ? " <span class='chip good'>survives</span>" : "") + "</th>"; }).join("") + "</tr>";
+    Object.keys(sc.conditions).forEach(function (c) {
+      h += "<tr><td>" + esc(sc.conditions[c]) + "</td>" + cols.map(function (k) {
+        var e = (sc.rows[k] || {})[c];
+        if (!e) return "<td></td>";
+        var sg = e.sigma !== null && e.sigma !== undefined ? " " + e.sigma.toFixed(1) + "σ" : "";
+        return "<td><span class='chip " + (CHIP[e.status] || "info") + "' title=\"" + esc(e.detail) + "\">" + e.status + sg + "</span></td>";
+      }).join("") + "</tr>";
+    });
+    document.getElementById("tbl-score").innerHTML = h + "</table>";
+  }
+  if (D && D.ledger) {
+    var lt = "<table><tr><th>Quantity</th><th>Count</th><th>How (for the " + esc(D.ledger.chain) + " chain)</th><th>Status</th></tr>";
+    D.ledger.rows.forEach(function (r) {
+      lt += "<tr><td>" + esc(r.quantity) + "</td><td class='num'>" + esc(r.count) + "</td><td>" + esc(r.how) +
+            "</td><td><span class='chip " + (CHIP[r.status] || "info") + "'>" + esc(r.status) + "</span></td></tr>";
+    });
+    document.getElementById("tbl-ledger").innerHTML = lt + "</table>";
   }
 
   // a small line chart: series [{name, color, dash, pts:[[x,y]...]}], with crosshair tooltip

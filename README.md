@@ -20,7 +20,7 @@
 ## Run it
 
 ```
-python3 production_v2_2.py                     # full report, about 7 minutes
+python3 production_v2_2.py                     # full report, about 10 minutes
 python3 production_v2_2.py --json-out out.json # every number, as JSON
 python3 production_v2_2.py --scales 2000 5000  # other evaluation scales (GeV, above m_t)
 python3 production_v2_2.py --set M_t=173.5      # change a measured input; the whole model is recalculated
@@ -30,7 +30,7 @@ python3 production_v2_2.py --certify            # also prove every texture exclu
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 68 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 69 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -739,13 +739,14 @@ SO(10) chains decouple, so this tests the SM below M_I, not the chains.
 
 **Part X: closing the loop, cosmology from the particle physics**
 
-Part A takes Ω_m as an input. Here it is built from the rest: Ω_b (measured), the axion at
-Pati–Salam's M_I by misalignment (Part V) and the minimal neutrino masses (Part P). Flatness then
-gives Ω_Λ, and the Friedmann equation gives the age. With misalignment alone, Ω_m = 0.222 and the
-universe would be 15.2 Gyr old, against Planck's 13.787: **70σ off**. With all of Ω_c the same code
-returns Part A's 13.797 Gyr (a self-check). Closing the loop therefore needs about 35% of the dark
-matter to come from the axion's strings and domain walls, or from a second component. That
-fraction is now the one number on which the particle-physics side of cosmology hangs.
+Part A takes Ω_m as an input. Here it is built from the rest: Ω_b (measured), the axion at the
+surviving chain's M_I by misalignment (Part V) and the minimal neutrino masses (Part P). Flatness
+then gives Ω_Λ, and the Friedmann equation gives the age. The survivor is the left-right chain
+(Part U), whose axion gives under 1% of the dark matter: Ω_m = 0.052 and the universe would be
+21.4 Gyr old, against Planck's 13.787: **378σ off**. (At Pati–Salam's M_I it would be 15.2 Gyr,
+70σ.) With all of Ω_c the same code returns Part A's 13.797 Gyr (a self-check). Closing the loop
+therefore needs about 99% of the dark matter from the axion's strings and domain walls, or from a
+second component.
 
 **Part Y: the SO(10) Yukawa sector, can it give the charged-fermion masses?**
 
@@ -766,7 +767,7 @@ M_d = c Y₁₀ + d Y₁₂₆ and M_e = c Y₁₀ − 3d Y₁₂₆.
   and leaving them out had made the search fail. A seeded search with structured starts (a
   Georgi–Jarlskog-sized c₁ whose excess in the 33 entry c₂m_t cancels) finds a point that reaches
   all three lepton masses within 0.2%. With 8 unknowns and 3 masses that predicts nothing yet; the
-  test is the neutrino sector (type-II seesaw: M_ν ∝ M_d − M_e), which comes next. A found point
+  test is the neutrino sector (Y3, Y4 below). A found point
   proves reachability; some seeds of the search fail to find one, which says nothing against it.
 
 The scorecard now has a fermion-mass row. It moves the surviving chain from Pati–Salam to the
@@ -775,12 +776,30 @@ left-right one.
 **Closing the algorithm: the neutrino test (Part Y3), the survivor fed back (Part X), the ledger (Part Z)**
 
 * **Y3: type-II neutrinos from the sum rule.** With type-II seesaw, M_ν ∝ M_d − M_e, so the same
-  8 unknowns must also give the three PMNS angles and Δm²₂₁/Δm²₃₁. They don't: the best point misses
-  by about 21σ (sin²θ₂₃ comes out near 0.14). The reason is one number. Large atmospheric mixing
-  from M_d − M_e needs b and τ to converge at M_GUT (Bajc–Senjanović–Vissani), and without
-  supersymmetry they don't: (m_b − m_τ)/m_b = −0.60. The minimal left-right chain with pure type-II
-  neutrino masses is excluded. Type I adds unknowns and is not tested, so the scorecard's neutrino
-  entry for the chain is *open*.
+  8 unknowns must also give the three PMNS angles and Δm²₂₁/Δm²₃₁ (the six quark masses float within
+  their errors: 13 data, 14 unknowns). They don't: the best point misses by 20σ (sin²θ₂₃ comes
+  out near 0.17). The reason is one number. Large atmospheric mixing from M_d − M_e needs b and τ to
+  converge at M_GUT (Bajc–Senjanović–Vissani), and without supersymmetry they don't:
+  (m_b − m_τ)/m_b = −0.60. The minimal left-right chain with pure type-II neutrino masses is excluded.
+* **Y4: type I, and types I + II.** Type I adds no unknown. The same c₁, c₂ fix the Dirac matrix,
+  M_D = M_u + (3 + c₁)/c₂ (M_d − M_e) (a self-check verifies the algebra at a random point), and
+  M_R ∝ M_d − M_e, so M_ν ∝ M_D (M_d − M_e)⁻¹ M_D. Types I + II add one complex ratio. The right-handed
+  masses follow without any vev: M_R,i = s_i(M_d − M_e) · s_max(M_ν matrix)/m₃. The fits use
+  Levenberg–Marquardt from the best charged-lepton points and from seeded starts:
+
+  | Seesaw | Unknowns / data | Best χ² | Worst neutrino observable | Heaviest M_R / M_I |
+  |---|---|---|---|---|
+  | type II | 14 / 13 | 547 | 19.8σ (sin²θ₂₃ = 0.17) | – |
+  | type I | 14 / 13 | 188 (158) | 11.8σ | 4.4 × 10³ (1.4 × 10³) |
+  | types I + II | 16 / 13 | 32 (18) | 1.0σ | 3.8 × 10² (6.3 × 10²) |
+
+  (The shipped run: 4 + 200 starts per type; in brackets an offline run with 1,000.) No point reaches 3σ. The mixed case comes close, but every near-fit puts
+  the heaviest right-handed neutrino hundreds of times above the left-right M_I = 2.8 × 10⁹ GeV, while
+  a perturbative 126 coupling with v_R ~ M_I allows at most √(4π) M_I. Published fits with the full
+  left-right running (Joshipura–Patel 2011, Ohlsson–Pernow 2019) do find type-I dominated solutions,
+  with M_R well above 10⁹ GeV. This search runs the SM to M_GUT instead. So the scorecard's neutrino
+  entry stays *open*, now with a computed reason: if the chain's neutrinos come from type I, B − L
+  must break well above its M_I.
 * **Part X follows the survivor.** The cosmology closure now takes the surviving chain from Part U
   automatically: the left-right chain, whose axion gives under 1% of the dark matter. The loop then
   needs nearly all the dark matter from strings, domain walls or another component.
@@ -797,7 +816,7 @@ left-right one.
 | Higgs vev, quark masses, G | 1 + 6 + 1 | input |
 | CKM | 4 | related (texture, not the survivor's structure) |
 | charged-lepton masses | 3 | traded (sum rule, 8 unknowns) |
-| neutrino masses and mixing | 7–9 | open (type II excluded, type I untested) |
+| neutrino masses and mixing | 7–9 | open (type II excluded; type I and I + II not reached, M_R ≫ M_I) |
 | strong CP angle | 1 | bounded (< 9×10⁻¹¹) |
 | dark matter, Λ | 1 + 1 | open |
 | baryon asymmetry | 1 | traded (leptogenesis, M₁ unknown) |

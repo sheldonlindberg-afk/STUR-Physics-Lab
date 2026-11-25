@@ -71,9 +71,10 @@
 - Part W (W mass): SM two-loop M_W (Awramik et al. parametrization) = 80.350 +/- 0.004 GeV at Part L's m_h; PDG fit 80.353, measured 80.360 (no CDF) / 80.369: within 1.4 sigma.
 - Part X (closed cosmology): Omega_m from Omega_b + the axion at PS's M_I (misalignment) + neutrinos gives age 15.2 Gyr, 70 sigma off Planck; strings/defects must supply ~35% of the dark matter. Part W also gives sin^2 theta_eff = 0.23164 vs 0.23151 (LEP+SLC).
 - Part Y (SO(10) Yukawas): exact selection rule: in the PS chain the light Higgs is in one SU(4) irrep, M_e = M_d or -3 M_d: excluded (m_mu/m_s = 3.8, m_e/m_d = 0.36 at M_I). In the LR chain the 10+126 sum rule M_e = c1 M_d + c2 M_u reaches the lepton masses (8 unknowns: neutrinos next). The survivor moves from PS to LR.
-- Part Y3 (type-II neutrinos from the sum rule): excluded at ~21 sigma; b and tau do not converge without SUSY ((m_b - m_tau)/m_b = -0.60). Type I untested.
+- Part Y3 (type-II neutrinos from the sum rule): excluded at ~20 sigma; b and tau do not converge without SUSY ((m_b - m_tau)/m_b = -0.60).
+- Part Y4 (type I and I + II): type I adds no unknown (M_D = M_u + (3 + c1)/c2 (M_d - M_e)); Levenberg-Marquardt with quark masses floated: best chi^2 188 (type I) and 32 (I + II) for 13 data, no 3 sigma fit; near-fits need M_R,3 ~ 4e2 M_I, above the perturbative sqrt(4 pi) M_I. Neutrino entry open; published fits with full LR running find type-I solutions.
 - Part Z (ledger): every free number of SM + cosmology has a computed status for the survivor (LR chain): calculated 3 (charges, sin^2 theta_W = 3/8, family number in 3-3-1), traded 3, related 1, bounded 1, open 4, input 3. No continuous SM parameter is calculated.
-- Part U (scorecard): SM to M_P fails unification, b-tau, Higgs (3.3 sigma), baryon asymmetry; minimal SUSY SU(5) fails the Higgs mass and proton decay; SO(10) via Pati-Salam fails nothing at two loops (lambda(M_I) = 0 gives m_h = 125.6 GeV) but predicts nothing yet.
+- Part U (scorecard): SM to M_P fails unification, b-tau, Higgs (3.3 sigma), baryon asymmetry; minimal SUSY SU(5) fails the Higgs mass and proton decay; SO(10) via Pati-Salam fails the fermion masses (Part Y); the left-right chain fails nothing and survives, but predicts nothing yet.
 - Every scale comes from the algorithm: m_t(m_t), Part I's M_S = 2.54 TeV and M_GUT, M_Planck.
 
 ## Files

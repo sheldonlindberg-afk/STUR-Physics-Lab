@@ -674,6 +674,20 @@ def test_type2_and_ledger():
     assert sum(lg["counts"].values()) == len(lg["rows"]) == 15
 
 
+def test_type1_seesaw():
+    """Part Y4: type I adds no unknown (M_D is fixed by the sum rule's c1, c2), types I + II one complex ratio;
+    each fit does at least as well as type II, and its right-handed scale is computed without the 126's vevs."""
+    lr = RESULT["so10_yukawa"]["LR"]
+    t2, t1, t12 = lr["type2"], lr["type1"], lr["type12"]
+    assert (t2["unknowns"], t1["unknowns"], t12["unknowns"]) == (14, 14, 16)
+    assert t12["chi2_min"] <= t1["chi2_min"] < t2["chi2_min"]
+    for t_ in (t1, t12):
+        mr = t_["scales"]["M_R_GeV"]
+        assert mr[0] <= mr[1] <= mr[2] and abs(t_["scales"]["M_R_over_M_I"] - mr[2] / lr["M_I"]) < 1e-9 * mr[2] / lr["M_I"]
+    assert abs(lr["M_R_max_over_M_I"] - math.sqrt(4 * math.pi)) < 1e-12
+    assert P.so10_dirac_identity(3) < 1e-12
+
+
 def test_website_data_is_current():
     """assets/site-data.js (written by tools/site_data.py) shows the numbers the script computes."""
     import json
@@ -682,6 +696,32 @@ def test_website_data_is_current():
     assert abs(data["criticality"]["m_h_pred"] - RESULT["criticality"]["central"]["m_h"]) < 1e-6
     assert abs(data["higgs_mssm"]["bound"] - RESULT["higgs"]["mh_upper_bound"]) < 1e-6
     assert data["checks"][0] == len(RESULT["checks"])
+    # the scorecard and ledger the page renders are the ones this run computed
+    sc = RESULT["scorecard"]
+    assert data["scorecard"]["survivors"] == list(sc["survivors"])
+    assert {h: {c: e["status"] for c, e in r.items()} for h, r in data["scorecard"]["rows"].items()} == \
+        {h: {c: e["status"] for c, e in r.items()} for h, r in sc["rows"].items()}
+    assert [(r["quantity"], r["status"]) for r in data["ledger"]["rows"]] == \
+        [(r["quantity"], r["status"]) for r in RESULT["ledger"]["rows"]]
+    lr = RESULT["so10_yukawa"]["LR"]
+    for k in ("type2", "type1", "type12"):
+        assert abs(data["yukawa"]["seesaw"][k]["chi2"] - lr[k]["chi2_min"]) < 1e-9 * max(1, lr[k]["chi2_min"])
+    assert data["survivor"]["chain"] == RESULT["closed_cosmology"]["chain"]
+
+
+def test_every_page_value_is_filled():
+    """Every number index.html marks with data-v is filled from assets/site-data.js, so no stale typed-in
+    value can survive a rerun; README states the current number of self-checks."""
+    html = open(os.path.join(ROOT, "index.html"), encoding="utf-8").read()
+    script = html[html.index('<script src="assets/site-data.js"></script>'):]
+    keys = set(re.findall(r'data-v="([^"]+)"', html))
+    filled = set(re.findall(r'"([a-z]+\.?[A-Za-z0-9]*)":', script)) | set(re.findall(r'vals\["([^"]+)"\]', script))
+    suffixes = re.findall(r'\[\["(\w+)", "type2"\], \["(\w+)", "type1"\], \["(\w+)", "type12"\]\]', script)
+    for pre in re.findall(r'vals\["([^"]+)" \+ k\[0\]\]', script):
+        filled |= {pre + s_ for s_ in (suffixes[0] if suffixes else ())}
+    assert keys and keys <= filled, sorted(keys - filled)
+    readme = open(os.path.join(ROOT, "README.md"), encoding="utf-8").read()
+    assert f"It ends with {len(RESULT['checks'])} self-checks" in readme.replace("\n", " ")
 
 
 def test_report_matches_expected_output():

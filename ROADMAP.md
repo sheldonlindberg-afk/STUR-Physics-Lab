@@ -125,11 +125,17 @@ Status: [x] done, [~] in progress, [ ] not started.
    discrete numbers.
 
 ## Next (if the attempt continues)
-1. Type-I seesaw in the LR chain (M_R from Y126 v_R): existence test with the extra vev ratio.
-2. The LR chain's own scalar potential (as Parts T9-T11 did for Pati-Salam) and its thresholds.
-3. Left-right Yukawa running between M_I and M_GUT.
-4. Proton running above M_I; triplet-mediated proton decay with the fitted Yukawas.
-6. [ ] Left-right Yukawa running between M_I and M_GUT (SM running is used now).
+Every step also updates the website: tools/site_data.py regenerates assets/site-data.js, index.html shows
+the new result, and the tests fail if a page value, the scorecard, the ledger or README's check count is stale.
+1. [x] Type-I seesaw in the LR chain (Part Y4). Type I adds no unknown: M_D = M_u + (3 + c1)/c2 (M_d - M_e)
+   is fixed by the sum rule; M_R ~ M_d - M_e, and its masses follow without a vev. Types I + II add one
+   complex ratio. Levenberg-Marquardt (quark masses floated within errors, 13 data): type I best chi^2 ~ 160,
+   types I + II ~ 18-32, no 3 sigma fit; every near-fit has M_R,3 ~ 1e2-1e3 M_I, above sqrt(4 pi) M_I.
+   Neutrino entry stays open. Open: published fits (Joshipura-Patel 2011, Ohlsson-Pernow 2019) find type-I
+   solutions with full running, so item 2 decides; leptogenesis from the fitted M_1 once a fit exists.
+2. [ ] Left-right Yukawa running between M_I and M_GUT (SM running is used now), then redo Y2-Y4.
+3. [ ] The LR chain's own scalar potential (as Parts T9-T11 did for Pati-Salam) and its thresholds.
+4. [ ] Proton running above M_I; triplet-mediated proton decay with the fitted Yukawas.
 
 ## Later
 - One running for every coupling (matrix Yukawas to M_GUT); GUT and superpartner thresholds;

@@ -90,9 +90,30 @@ def main():
         "seesaw_max": no["seesaw"]["M_max_perturbative"], "M_GUT": nu["M_GUT"],
     }
     pmssm = [r for r in res["proton_decay"]["rows"] if r["M_S"]][0]
+    # Parts U, Y, Z: the scorecard and ledger as the stages computed them, and the Yukawa-sector tests
+    score = res["scorecard"]
+    scorecard = {"m_h": score["chain_higgs"]["PS"]["m_h"], "survivors": list(score["survivors"]),
+                 "conditions": dict(score["conditions"]),
+                 "rows": {h: {c: {"status": e["status"], "detail": e["detail"], "sigma": e["sigma"]}
+                              for c, e in r.items()} for h, r in score["rows"].items()}}
+    lg = res["ledger"]
+    ledger = {"chain": lg["chain"], "rows": [dict(r) for r in lg["rows"]], "counts": dict(lg["counts"])}
+    yy = res["so10_yukawa"]
+    ylr = yy["LR"]
+    chain = res["so10"]["chains"][lg["chain"]]["loop2"]
+    yukawa = {"ps_pull": min(yy["PS"]["worst_pull_10"], yy["PS"]["worst_pull_126"]),
+              "lr_miss": ylr["worst_rel_miss"], "M_I": ylr["M_I"], "M_GUT": ylr["scale"],
+              "b_tau": ylr["type2"]["b_tau_mismatch"], "M_R_bound": ylr["M_R_max_over_M_I"],
+              "seesaw": {k: {"chi2": ylr[k]["chi2_min"], "n_sigma": ylr[k]["n_sigma_worst"], "unknowns": ylr[k]["unknowns"],
+                             "data": ylr[k]["data_points"], "fits": ylr[k]["fits_found"],
+                             "M_R_over_M_I": ylr[k]["scales"]["M_R_over_M_I"] if ylr[k]["scales"] else None,
+                             "s23": ylr[k]["angles"]["s23sq"]} for k in ("type2", "type1", "type12")}}
+    survivor = {"chain": lg["chain"], "M_I": chain["M_I"], "M_GUT": chain["M_GUT"], "tau_p": chain["tau_p_years"],
+                "dm_fraction": res["dark_matter"]["chains"][lg["chain"]]["fraction_post"],
+                "age": res["closed_cosmology"]["age_Gyr"], "age_pull": res["closed_cosmology"]["age_pull"]}
     data = {
         "beyond": beyond,
-        "scorecard": {"m_h": res["scorecard"]["chain_higgs"]["PS"]["m_h"], "survivors": res["scorecard"]["survivors"]},
+        "scorecard": scorecard, "ledger": ledger, "yukawa": yukawa, "survivor": survivor,
         "proton": {"tau": pmssm["tau_years"], "ratio": pmssm["ratio_to_limit"],
                    "d5": max((r["tau_max"] for r in res["proton_decay"]["d5"]), default=None)},
         "criticality": {
