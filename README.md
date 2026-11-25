@@ -30,7 +30,7 @@ python3 production_v2_2.py --certify            # also prove every texture exclu
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 56 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 57 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -577,6 +577,29 @@ Sakharov's three conditions:
   (their eq. 17) then needs M₁ > 3×10⁸ GeV, inside Part P's seesaw window (< 7.6×10¹⁵ GeV). It ties
   η_B to the neutrino masses but adds unmeasured parameters. Part L's SM up to M_P, which needs Dirac
   neutrinos, has no such mechanism.
+
+**Part T: SO(10)**
+
+SO(10) puts a whole family, with a right-handed neutrino, into one 16.
+
+* **Group theory (exact).** Gauging B − L is anomaly-free only with ν^c: without it, [gravity]²(B−L)
+  and (B−L)³ are −1. Over a complete 16, sin²θ_W = Tr T₃²/Tr Q² = 3/8 at unification, and
+  Tr T₃²/Tr Y² = 3/5, the hypercharge normalization the script uses throughout, now derived.
+* **Minimal Yukawas** (one 10_H) make the three sectors' mass ratios equal and V = 1. At M_S,
+  (m_s/m_b)/(m_c/m_t) is far from 1: excluded. With a 126_H each sector gets its own matrix,
+  which has enough parameters to fit the data but predicts nothing (Part F).
+* **t–b–τ unification** in the MSSM (Part I's scales) needs y_t = y_b at large tan β, where
+  y_b/y_τ ≈ 0.78. That requires a supersymmetric threshold correction of about +28% to m_b,
+  which depends on the unknown spectrum: a trade, not a test.
+* **Non-supersymmetric SO(10) through Pati–Salam** SU(4)×SU(2)_L×SU(2)_R. The b_i come from the
+  field content: (−23/3, −3, 11/3). The three measured couplings then fix the three unknowns
+  exactly, through a linear system at one loop: **M_I = 5.5×10¹¹ GeV, M_GUT = 1.1×10¹⁶ GeV,
+  1/α_GUT = 45.7.** With Part Q's formula the proton lives about 6×10³⁵ years, which passes
+  Super-K. M_I, where B − L breaks and the right-handed neutrinos get their mass, falls inside the
+  window leptogenesis needs (Part S). This one chain joins Parts I, P, Q and S without
+  supersymmetry. It still predicts nothing, since three couplings fix three unknowns, and two-loop
+  running and the thresholds decide whether it holds. In this picture Part L's SM runs only up to
+  M_I.
 
 ## What changed from production v1
 

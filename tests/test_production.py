@@ -485,6 +485,21 @@ def test_baryon_asymmetry():
     assert abs(lg["di_example_M1"] / 4e9 - 1) < 0.4                       # Davidson-Ibarra's own example
 
 
+def test_so10():
+    """Part T: B - L needs nu^c; sin^2 theta_W = 3/8 and the 3/5 normalization from the 16; minimal
+    Yukawa ratios excluded; non-SUSY Pati-Salam unification at M_I ~ 1e11-1e12 GeV passes proton decay."""
+    from fractions import Fraction as Fr
+    so = RESULT["so10"]
+    assert all(v == 0 for v in so["bl_anomalies_with_nu_c"].values())
+    assert any(v != 0 for v in so["bl_anomalies_without_nu_c"].values())
+    assert so["weinberg"]["sin2_theta_W"] == Fr(3, 8) and so["weinberg"]["GUT_norm"] == Fr(3, 5) == P.GUT_NORM
+    assert so["minimal_10"]["s_over_c"] > 3
+    ps = so["pati_salam"]
+    assert ps["b_PS"] == {"4": Fr(-23, 3), "2L": Fr(-3), "2R": Fr(11, 3)}
+    assert ps["consistent"] and 1e11 < ps["M_I"] < 1e12 and 5e15 < ps["M_GUT"] < 3e16
+    assert ps["tau_p_allowed"] and ps["M_I_in_leptogenesis_window"]
+
+
 def test_website_data_is_current():
     """assets/site-data.js (written by tools/site_data.py) shows the numbers the script computes."""
     import json

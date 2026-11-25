@@ -42,9 +42,13 @@ Status: [x] done, [~] in progress, [ ] not started.
       inside Part P's window. Open: the washout efficiency kappa (bounded by 1 here) from the
       Boltzmann equations; flavour effects; the reheating temperature and, in the MSSM, gravitinos.
 
-## Phase 4: SO(10)
-- [ ] Right-handed neutrino in the 16; seesaw scale tied to M_GUT; t-b-tau unification at large
-      tan(beta); joint quark-lepton Yukawa relations.
+## Phase 4: SO(10) (Part T) -- done (first pass)
+- [x] Group theory: B - L needs nu^c; sin^2 theta_W = 3/8, normalization 3/5 (exact).
+- [x] Minimal 10_H Yukawa relations: excluded. t-b-tau (MSSM): needs a ~+28% m_b threshold.
+- [x] Non-SUSY SO(10) via Pati-Salam (one loop): M_I = 5.5e11, M_GUT = 1.1e16 GeV, tau_p ~ 6e35 yr;
+      M_I inside the leptogenesis window. Open: two-loop running with thresholds; the other chains
+      (SU(3) x SU(2)_L x SU(2)_R x U(1)_{B-L}, with and without D-parity); operator running above M_I
+      in the proton lifetime; Part L's lambda running only up to M_I (new vacuum-stability test).
 
 ## Phase 5: extend Part M
 - [ ] Add neutrino masses, the strong CP solution, proton decay and eta_B as conditions; one table

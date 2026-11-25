@@ -548,6 +548,9 @@ STAGES: Dict[str, Dict[str, str]] = {
     "baryon_asymmetry": {"part": "S", "level": "conditional",
                          "assumes": "lattice endpoint and T_c of the SM transition; leptogenesis: hierarchical "
                                     "right-handed neutrinos, thermal, efficiency kappa <= 1"},
+    "so10": {"part": "T", "level": "conditional",
+             "assumes": "SO(10) with one 16 per family; minimal Yukawas from one 10_H; the Pati-Salam chain with "
+                        "scalars (1,2,2) + (10,1,3), one-loop running, no thresholds"},
     "self_checks": {"part": "-", "level": "validation", "assumes": "tests the calculation, not the physics"},
 }
 
@@ -5154,6 +5157,144 @@ def baryon_asymmetry(cosmo: Dict[str, Any], flav: Dict[str, Any], nus: Dict[str,
 
 
 # =============================================================================
+# 6r. PART T: SO(10)
+# =============================================================================
+# SO(10) puts a whole family, with a right-handed neutrino, into one 16. What that fixes:
+#   T1. Group theory (exact): the 16's content is Part R's family plus nu^c; gauging B - L is
+#       anomaly-free only with nu^c; the GUT normalization of hypercharge, sin^2 theta_W = 3/8 at
+#       the unification scale, from traces over the 16.
+#   T2. Minimal Yukawas (one 10_H): M_u ~ M_d ~ M_e ~ M_nu^D, so V = 1 and m_c/m_t = m_s/m_b =
+#       m_mu/m_tau at M_GUT; tested with Part B's running ratios.
+#   T3. t-b-tau unification (one 10_H in the MSSM): y_t = y_b = y_tau at M_GUT, with Part I's scales;
+#       tan(beta) scanned; the SUSY threshold to m_b it would need.
+#   T4. Non-supersymmetric SO(10) through Pati-Salam SU(4) x SU(2)_L x SU(2)_R at M_I: one-loop
+#       running, b_i from the field content (fermions in (4,2,1) + (4bar,1,2), scalars (1,2,2) and
+#       (10,1,3)); the three measured couplings fix M_I, M_GUT and alpha_GUT exactly (a linear
+#       system), and then proton decay (Part Q) and the seesaw / leptogenesis scale (Parts P, S).
+SO10_16 = (("Q", 3, 2), ("u^c", 3, 1), ("d^c", 3, 1), ("L", 1, 2), ("e^c", 1, 1), ("nu^c", 1, 1))
+BL_CHARGE = {"Q": Fr(1, 3), "u^c": Fr(-1, 3), "d^c": Fr(-1, 3), "L": Fr(-1), "e^c": Fr(1), "nu^c": Fr(1)}
+
+
+def bl_anomalies(with_nu_c: bool) -> Dict[str, Fr]:
+    fields = [f for f in SO10_16 if with_nu_c or f[0] != "nu^c"]
+    return {"SU3^2 (B-L)": sum(BL_CHARGE[n] * d2 for n, d3, d2 in fields if d3 == 3),
+            "SU2^2 (B-L)": sum(BL_CHARGE[n] * d3 for n, d3, d2 in fields if d2 == 2),
+            "grav^2 (B-L)": sum(BL_CHARGE[n] * d3 * d2 for n, d3, d2 in fields),
+            "(B-L)^3": sum(BL_CHARGE[n] ** 3 * d3 * d2 for n, d3, d2 in fields)}
+
+
+def weinberg_angle_at_unification() -> Dict[str, Fr]:
+    """sin^2 theta_W = Tr T3^2 / Tr Q^2 over one 16 (any complete multiplet), and the GUT normalization."""
+    hyp = {n: y for n, _, _, y, _, _ in SM_FIELDS}
+    hyp["nu^c"] = Fr(0)
+    t3sq = Fr(0)
+    qsq = Fr(0)
+    ysq = Fr(0)
+    for n, d3, d2 in SO10_16:
+        t3 = [Fr(1, 2), Fr(-1, 2)] if d2 == 2 else [Fr(0)]
+        for t in t3:
+            q = t + hyp[n]
+            t3sq += d3 * t * t
+            qsq += d3 * q * q
+            ysq += d3 * hyp[n] ** 2
+    return {"sin2_theta_W": t3sq / qsq, "GUT_norm": t3sq / ysq}
+
+
+def _pati_salam_b() -> Dict[str, Fr]:
+    """One-loop b for SU(4), SU(2)_L, SU(2)_R: gauge, three families of (4,2,1) + (4bar,1,2) Weyl
+    fermions, complex scalars (1,2,2) and (10,1,3)."""
+    def t_index(n: int, dim: int) -> Fr:
+        return {1: Fr(0), n: Fr(1, 2)}.get(dim, {(4, 10): Fr(3), (4, 15): Fr(4), (2, 3): Fr(2)}.get((n, dim), Fr(0)))
+    b = {"4": -Fr(11, 3) * 4, "2L": -Fr(11, 3) * 2, "2R": -Fr(11, 3) * 2}
+    n_f = sum(copies for name, _, _, _, _, copies in SM_FIELDS if name == "L")
+    reps = [((4, 2, 1), "weyl", n_f), ((4, 1, 2), "weyl", n_f), ((1, 2, 2), "scalar", 1), ((10, 1, 3), "scalar", 1)]
+    for (d4, d2l, d2r), kind, copies in reps:
+        w_ = Fr(2, 3) if kind == "weyl" else Fr(1, 3)
+        b["4"] += w_ * copies * t_index(4, d4) * d2l * d2r
+        b["2L"] += w_ * copies * t_index(2, d2l) * d4 * d2r
+        b["2R"] += w_ * copies * t_index(2, d2r) * d4 * d2l
+    return b
+
+
+def pati_salam_unification(x: Dict[str, float]) -> Dict[str, Any]:
+    """One loop: SM from M_Z to M_I, Pati-Salam from M_I to M_GUT; solve the linear system for
+    (t_I = ln M_I/M_Z, D = ln M_GUT/M_I, 1/alpha_GUT)."""
+    a, s2 = 1 / x["alpha_em_inv_MZ"], x["s2_hat_Z"]
+    inv0 = [float(GUT_NORM) * (1 - s2) / a, s2 / a, 1 / x["alpha_s_MZ"]]     # 1/alpha_1, 1/alpha_2, 1/alpha_3
+    bs = [float(b) for b in sm_gauge_b()]
+    bp = {k: float(v) for k, v in _pati_salam_b().items()}
+    tp = 2 * math.pi
+    gn = float(GUT_NORM)
+    # 1/alpha_1 = gn / alpha_2R + (1 - gn) / alpha_4 at M_I  ->  1/alpha_2R = (1/alpha_1 - (1 - gn)/alpha_3) / gn
+    # unknowns u = (t_I, D, A): rows "value at M_I - b/(2 pi) D - A = 0"
+    rows = [  # coefficients of (t_I, D, A) and the constant
+        ([-bs[2] / tp, -bp["4"] / tp, -1], inv0[2]),
+        ([-bs[1] / tp, -bp["2L"] / tp, -1], inv0[1]),
+        ([(-bs[0] / tp - (1 - gn) * (-bs[2] / tp)) / gn, -bp["2R"] / tp, -1], (inv0[0] - (1 - gn) * inv0[2]) / gn),
+    ]
+    m = [r[0] + [-r[1]] for r in rows]
+    for i in range(3):                                          # Gaussian elimination, partial pivoting
+        piv = max(range(i, 3), key=lambda r: abs(m[r][i]))
+        m[i], m[piv] = m[piv], m[i]
+        for r in range(3):
+            if r != i:
+                f = m[r][i] / m[i][i]
+                m[r] = [p - f * q for p, q in zip(m[r], m[i])]
+    t_i, d, a_inv = (m[i][3] / m[i][i] for i in range(3))
+    m_i = x["M_Z"] * math.exp(t_i)
+    return {"b_PS": _pati_salam_b(), "M_I": m_i, "M_GUT": m_i * math.exp(d), "alpha_GUT": 1 / a_inv,
+            "consistent": 0 < t_i and d > 0}
+
+
+def so10(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any], scp: Dict[str, Any],
+         bau: Dict[str, Any], pdk: Dict[str, Any]) -> Dict[str, Any]:
+    x0 = _float_inputs()
+    out: Dict[str, Any] = {}
+    # T1
+    out["bl_anomalies_with_nu_c"] = bl_anomalies(True)
+    out["bl_anomalies_without_nu_c"] = bl_anomalies(False)
+    out["weinberg"] = weinberg_angle_at_unification()
+    out["weinberg"]["script_GUT_norm"] = GUT_NORM
+    # T2. minimal Yukawas at the highest evaluation scale (Part I's M_S): same-type ratios
+    mu_top = max(flav["ratios"])
+    r = flav["ratios"][mu_top]
+    lep = lepton_masses_gev()
+    rmt = lep["mu"] / lep["tau"]
+    sig_rel = {k: math.hypot(*(sig(n) / inp(n) for n in pair)) for k, pair in
+               (("ct", ("m_c", "M_t")), ("sb", ("m_s", "m_b")))}
+    out["minimal_10"] = {"scale": mu_top, "m_c/m_t": r["r_ct"], "m_s/m_b": r["r_sb"], "m_mu/m_tau": rmt,
+                         "s_over_c": r["r_sb"] / r["r_ct"], "mu_over_s": rmt / r["r_sb"],
+                         "n_sigma_s_c": abs(r["r_sb"] / r["r_ct"] - 1) / math.hypot(sig_rel["ct"], sig_rel["sb"]),
+                         "n_sigma_mu_s": abs(rmt / r["r_sb"] - 1) / sig_rel["sb"]}
+    # T3. t-b-tau in the MSSM: where y_t = y_b at M_GUT (large tan beta), y_b/y_tau there
+    rows = [rw for rw in yukawa.get("btau_MSSM", []) if math.isfinite(rw["M_GUT"])]
+    tbt = None
+    for a_, b_ in zip(rows[:-1], rows[1:]):
+        fa, fb = a_["yt_GUT"] - a_["yb_GUT"], b_["yt_GUT"] - b_["yb_GUT"]
+        if fa * fb < 0:
+            w_ = fa / (fa - fb)
+            tb = math.exp(math.log(a_["tan_beta"]) + w_ * (math.log(b_["tan_beta"]) - math.log(a_["tan_beta"])))
+            tbt = {"tan_beta": tb, "yb_over_ytau": a_["yb_over_ytau"] + w_ * (b_["yb_over_ytau"] - a_["yb_over_ytau"])}
+    if tbt:
+        tbt["m_b_threshold_needed"] = 1 / tbt["yb_over_ytau"] - 1
+    out["t_b_tau"] = tbt
+    # T4. non-SUSY SO(10) through Pati-Salam
+    ps = pati_salam_unification(x0)
+    runner = flav["runner"]
+    a_l = proton_long_distance(runner, x0)
+    ps["tau_p_years"] = proton_lifetime(x0, ps["M_GUT"], ps["alpha_GUT"], None, a_l)
+    ps["tau_p_limit"] = pdk["limit_e_pi0"]
+    ps["tau_p_allowed"] = ps["tau_p_years"] > pdk["limit_e_pi0"]
+    lg = bau["leptogenesis"]["rows"]
+    ps["M1_min_leptogenesis"] = min(r_["M1_min"] for r_ in lg)
+    ps["seesaw_window_top"] = min(r_["window_top"] for r_ in lg)
+    ps["M_I_in_leptogenesis_window"] = ps["M1_min_leptogenesis"] < ps["M_I"] < ps["seesaw_window_top"]
+    ps["axion_m_a_eV_if_fa_MI"] = scp["axion"]["ma_fa_MeV2"] * 10 ** 3 / ps["M_I"]
+    out["pati_salam"] = ps
+    return out
+
+
+# =============================================================================
 # 7. COSMOLOGY (Decimal arithmetic)
 # =============================================================================
 def dec_pi() -> Decimal:
@@ -5550,6 +5691,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     pdk = _stage("proton_decay", lambda: proton_decay(flav, alpha_unif, yukawa))
     anom = _stage("anomalies", lambda: anomaly_constraints(yuk))
     bau = _stage("baryon_asymmetry", lambda: baryon_asymmetry(cosmo, flav, nus))
+    s10 = _stage("so10", lambda: so10(flav, alpha_unif, yukawa, scp, bau, pdk))
     _TRACE["stage"] = "self_checks"                 # everything below validates the stages above
     _TRACE["inputs"].setdefault("self_checks", set())
     checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
@@ -5787,6 +5929,17 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     sph_ = sphaleron_conversion(3, 1)
     checks.append(("Sphaleron conversion: B/(B - L) = 28/79 and L/(B - L) = -51/79 (exact, three families, one Higgs)",
                    (sph_["B_over_BminusL"], sph_["L_over_BminusL"]) == (Fr(28, 79), Fr(-51, 79)), ""))
+    # Part T: the one-loop Pati-Salam solution satisfies its three matching conditions
+    ps_ = s10["pati_salam"]
+    a_i = _alpha_one_loop(ps_["M_I"], xn, None)
+    bp_ = {k_: float(v_) for k_, v_ in ps_["b_PS"].items()}
+    ln_ = math.log(ps_["M_GUT"] / ps_["M_I"]) / (2 * math.pi)
+    gn_ = float(GUT_NORM)
+    at_g = [1 / a_i[2] - bp_["4"] * ln_, 1 / a_i[1] - bp_["2L"] * ln_,
+            (1 / a_i[0] - (1 - gn_) / a_i[2]) / gn_ - bp_["2R"] * ln_]
+    worst_t = max(abs(v_ * ps_["alpha_GUT"] - 1) for v_ in at_g)
+    checks.append(("SO(10) via Pati-Salam: the solved M_I, M_GUT make SU(4), SU(2)_L, SU(2)_R meet at 1/alpha_GUT",
+                   worst_t < tol, f"max rel diff {worst_t:.1e}"))
     _TRACE["stage"] = None
     lin = model_lineage()
     checks.append(("Model graph: every stage registered, acyclic, and run in dependency order",
@@ -5796,7 +5949,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
             "symmetry": symm, "closure": closure, "quantum_gravity": qg, "alpha_unification": alpha_unif,
             "alpha_numerology": alpha_num, "yukawa": yukawa, "higgs": higgs, "criticality": crit,
             "joint": joint, "mass_formulas": masses, "strong_cp": scp, "neutrinos": nus, "proton_decay": pdk,
-            "anomalies": anom, "baryon_asymmetry": bau,
+            "anomalies": anom, "baryon_asymmetry": bau, "so10": s10,
             "survey_certificates": certs, "checks": checks, "lineage": lin,
             "changed_inputs": dict(_TRACE["set"]),
             "precision": prec}
@@ -6775,6 +6928,52 @@ def report(res: Dict[str, Any]) -> str:
             "seesaw window of Part P: it ties eta_B to the neutrino masses but adds unmeasured parameters (M_1, the "
             "phases, kappa). Part L's SM up to M_P, with Dirac neutrinos, has no seesaw and so no such mechanism.", 2))
     w("")
+    so = res["so10"]
+    w("PART T. SO(10)")
+    w("-" * 78)
+    w("  SO(10) puts a whole family, with a right-handed neutrino, into one 16.")
+    wa = so["weinberg"]
+    w("  T1. Group theory (exact)")
+    w("      B - L anomalies of one family, " + ", ".join(f"{k} = {v}" for k, v in so["bl_anomalies_without_nu_c"].items())
+      + " without nu^c;")
+    w("        all zero with it: gauging B - L (inside SO(10)) requires the right-handed neutrino.")
+    w(f"      Over a complete 16: sin^2 theta_W = Tr T3^2 / Tr Q^2 = {wa['sin2_theta_W']} at unification;"
+      f" Tr T3^2 / Tr Y^2 = {wa['GUT_norm']},")
+    w(f"        the hypercharge normalization this script uses throughout ({wa['script_GUT_norm']}).")
+    mn = so["minimal_10"]
+    w(f"  T2. Minimal Yukawas (one 10_H): M_u ~ M_d ~ M_e, so V = 1 and equal mass ratios. At"
+      f" {_fmt(mn['scale'], 3)} GeV:")
+    w(f"      m_c/m_t = {mn['m_c/m_t']:.4f}, m_s/m_b = {mn['m_s/m_b']:.4f}, m_mu/m_tau = {mn['m_mu/m_tau']:.4f}:"
+      f" (m_s/m_b)/(m_c/m_t) = {mn['s_over_c']:.1f}, (m_mu/m_tau)/(m_s/m_b) = {mn['mu_over_s']:.1f}")
+    w("      Excluded (and V = 1 contradicts every CKM measurement). Adding a 126_H gives each sector its own")
+    w("      matrix: enough parameters to fit, none predicted (Part F's closure).")
+    tb = so["t_b_tau"]
+    if tb:
+        w(f"  T3. t-b-tau unification (MSSM, Part I's scales): y_t = y_b at M_GUT for tan(beta) = {tb['tan_beta']:.0f},"
+          f" where y_b/y_tau = {tb['yb_over_ytau']:.3f}.")
+        w(f"      It needs a supersymmetric threshold correction of {100 * tb['m_b_threshold_needed']:+.0f} % to m_b: a"
+          " function of the unknown superpartner spectrum, so a trade, not a test.")
+    ps = so["pati_salam"]
+    bp = ps["b_PS"]
+    w("  T4. Non-supersymmetric SO(10) through Pati-Salam SU(4) x SU(2)_L x SU(2)_R at M_I (one loop)")
+    w(f"      b from the field content: SU(4) {bp['4']}, SU(2)_L {bp['2L']}, SU(2)_R {bp['2R']} (three families of")
+    w("      (4,2,1) + (4bar,1,2), scalars (1,2,2) and (10,1,3)). The three measured couplings fix the three")
+    w("      unknowns exactly (a linear system):")
+    w(f"        M_I = {ps['M_I']:.2e} GeV, M_GUT = {ps['M_GUT']:.2e} GeV, 1/alpha_GUT = {1 / ps['alpha_GUT']:.1f}"
+      f" ({'consistent: M_Z < M_I < M_GUT' if ps['consistent'] else 'inconsistent ordering'})")
+    w(f"      Proton decay (Part Q's formula, SM running throughout): tau = {ps['tau_p_years']:.1e} years against"
+      f" {ps['tau_p_limit']:.1e}: {'allowed' if ps['tau_p_allowed'] else 'excluded'}")
+    w(f"      M_I is where B - L breaks and the right-handed neutrinos get mass: inside leptogenesis's window"
+      f" ({ps['M1_min_leptogenesis']:.0e} to {ps['seesaw_window_top']:.0e} GeV): {ps['M_I_in_leptogenesis_window']}")
+    w(f"      If the axion scale is M_I (as in SO(10) axion models), m_a = {ps['axion_m_a_eV_if_fa_MI'] * 1e6:.1f} micro-eV.")
+    w(_wrap("RESULT: SO(10) calculates the hypercharges' normalization (sin^2 theta_W = 3/8 at unification) and "
+            "requires the right-handed neutrino; its minimal Yukawa relations are excluded. Without supersymmetry, "
+            f"the Pati-Salam route unifies the three couplings with M_I = {ps['M_I']:.0e} GeV and M_GUT = "
+            f"{ps['M_GUT']:.0e} GeV, passes proton decay, and puts the seesaw scale where leptogenesis needs it: one "
+            "chain that joins Parts I, P, Q and S. It predicts nothing yet (three couplings fix three unknowns); "
+            "two-loop running and the thresholds at M_I and M_GUT decide whether it holds, and Part L's SM then "
+            "runs only up to M_I.", 2))
+    w("")
     w("THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)")
     w("-" * 78)
     lin = res["lineage"]
@@ -6856,7 +7055,7 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
         "uv_joint_test": res["joint"],
         "mass_formulas": res["mass_formulas"], "strong_cp": res["strong_cp"], "neutrinos": res["neutrinos"],
         "proton_decay": res["proton_decay"], "anomalies": res["anomalies"],
-        "baryon_asymmetry": res["baryon_asymmetry"],
+        "baryon_asymmetry": res["baryon_asymmetry"], "so10": res["so10"],
         "survey_certificates": res["survey_certificates"],
         "model": {"stages": STAGES, "lineage": res["lineage"], "changed_inputs": res["changed_inputs"],
                   "audit_findings": [{"status": a, "finding": b} for a, b in AUDIT_FINDINGS]},
