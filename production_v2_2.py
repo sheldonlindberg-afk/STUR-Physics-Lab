@@ -5239,7 +5239,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
         uu = pmns(q_["s12sq"], q_["s13sq"], q_["s23sq"], q_["delta"])
         for m0 in (0.0, nus["orderings"]["NO"]["m_bb_cancellation_m0"][0] / 2, num("nu_m0_min") * 1000):
             cc = [abs(uu[0][i]) ** 2 * m for i, m in enumerate(nu_masses(q_, o, m0))]
-            vals = [abs(cc[0] + cc[1] * cmath.exp(2j * math.pi * a / nph_) + cc[2] * cmath.exp(2j * math.pi * b / nph_))
+            vals = [abs(cc[0] + cc[1] * cmath.exp(1j * 2 * math.pi * a / nph_) + cc[2] * cmath.exp(1j * 2 * math.pi * b / nph_))
                     for a in range(nph_) for b in range(nph_)]
             lo_, hi_ = max(0.0, 2 * max(cc) - sum(cc)), sum(cc)
             worst_b2 = max(worst_b2, abs(max(vals) - hi_) / hi_, (min(vals) - lo_) / hi_)

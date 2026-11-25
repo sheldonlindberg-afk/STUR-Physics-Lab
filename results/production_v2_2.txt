@@ -1,7 +1,7 @@
 ==============================================================================
 STUR Physics Lab, production v2.2: nothing tuned, nothing fitted
 ==============================================================================
-Inputs: 32 measured or defined constants (INPUTS). Comparisons: 9 measured results, never used in a calculation.
+Inputs: 48 measured or defined constants (INPUTS). Comparisons: 14 measured results, never used in a calculation.
 
 PART A. COSMOLOGY (flat Lambda-CDM, Friedmann equation)
 ------------------------------------------------------------------------------
@@ -549,6 +549,144 @@ PART M. WHICH HIGH-ENERGY HYPOTHESIS SURVIVES EVERY CONDITION AT ONCE?
       above M_S with U+B+H. Deciding them needs the next order, not a
       different error estimate.
 
+PART N. CAN THE QUARK AND LEPTON MASSES BE CALCULATED? CLOSED MASS FORMULAS
+------------------------------------------------------------------------------
+  Part J tested what grand unification relates. Left to test are closed formulas for the masses
+  themselves, as Part I tests them for 1/alpha. Koide (1982): Q = (m1 + m2 + m3)/(sqrt m1 + sqrt m2
+  + sqrt m3)^2 = 2/3. No accepted theory derives it; Q lies between 1/3 (equal) and 1 (one mass).
+  A mass relation needs a scale: pole masses are not the couplings of a Lagrangian at one scale,
+  and running masses change their ratios with mu.
+      masses                                                        Q           off by
+      charged leptons, pole masses                               0.6666645 +/- 5.1e-06      0.4 sigma
+      charged leptons, MS-bar at M_Z (one-loop QED, alpha(0))    0.6678129 +/- 5.1e-06    225.0 sigma
+      charged leptons, MS-bar at M_Z (one-loop QED, alpha(M_Z))  0.6678943 +/- 5.1e-06    240.9 sigma
+      up quarks u, c, t at m_t(m_t)                              0.8877698 +/- 7.7e-04    288.7 sigma
+      down quarks d, s, b at m_t(m_t)                            0.7474903 +/- 8.2e-04     98.6 sigma
+  Q = 2/3 at pole masses, solved for m_tau from m_e and m_mu: 1776.969 MeV (measured 1776.93 +/- 0.09)
+  Running from the pole masses to M_Z moves Q by 1.15e-03, about 226 times its error;
+  alpha(0) or alpha(M_Z) in the QED running changes that by 8.1e-05.
+  RESULT: Koide's relation holds for the charged-lepton pole masses (0.4
+    sigma), but at no scale where the masses are couplings: at M_Z it fails
+    by 225 sigma or more, and for the quarks at m_t(m_t) by 99 sigma or more.
+    A relation that holds only for pole masses has no known mechanism; it
+    stays a coincidence to watch. No quark or lepton mass is calculated.
+
+PART O. THE STRONG CP ANGLE THETA-BAR
+------------------------------------------------------------------------------
+  QCD allows theta (g^2/32 pi^2) G G~, which violates P and CP. Only theta-bar = theta - arg det(M_u M_d)
+  is physical, and the Standard Model gives it no value. It would give the neutron an electric
+  dipole moment.
+  O1. d_n per unit theta-bar, leading chiral logarithm (Crewther, Di Vecchia, Veneziano, Witten 1979):
+      g0 = delta m_N m* theta/(m-bar eps), from the strong part of m_n - m_p (de Vries et al. 2015);
+      d_n = e g_piNN [g0/(2 F_pi)] ln(m_N/m_pi) / (4 pi^2 m_N), g_piNN = g_A m_N/F_pi (Goldberger-Treiman)
+      eps = (m_d - m_u)/(m_d + m_u) = 0.370; g0/(2 F_pi) = (15.5 +/- 1.4) x 10^-3 theta-bar; g_piNN = 13.02; ln(m_N/m_pi) = 1.907
+      d_n = (2.05 +/- 0.18) x 10^-16 theta-bar e cm (input errors; the counterterm beside the log is unknown)
+      QCD sum rules (Pospelov-Ritz)    (2.40 +/- 1.00) x 10^-16 theta-bar e cm
+      lattice QCD (Dragos et al.)      (1.52 +/- 0.71) x 10^-16 theta-bar e cm
+      measured: |d_n| < 1.8e-26 e cm (90% CL)  ->  |theta-bar| < 8.8e-11 (chiral log); < 2.2e-10 with the
+      weakest coefficient above, each lowered by its 1 sigma error
+  O2. The explanations proposed, each tested:
+      a. massless up quark (theta-bar unphysical): m_u = 2.16 +/- 0.07 MeV, 31 sigma from zero;
+         m_u/m_d = 0.460 +/- 0.016. Excluded.
+      b. axion (Peccei-Quinn): theta-bar relaxes to zero, at the cost of a new scale f_a.
+         m_a f_a = sqrt(z)/(1 + z) m_pi0 F_pi = 5772 +/- 52 MeV^2: m_a = 5.77 +/- 0.05 micro-eV x (1e12 GeV/f_a)
+         (leading order; NLO with lattice input: 5.69 +/- 0.05, +1.4 %). At the algorithm's scales:
+           f_a = M_GUT (Part I)  = 1.15e+16 GeV  ->  m_a = 5.04e-10 eV
+           f_a = M_P (Part H1)   = 1.22e+19 GeV  ->  m_a = 4.73e-13 eV
+         One unknown (f_a) replaces one (theta-bar): a parameter trade, not a calculation.
+      c. parity: if a symmetry makes M_u and M_d Hermitian and sets theta = 0, then det M is real
+         and arg det(M_u M_d) is 0 or pi. Flipping the sign of a sector's matrix keeps V (same
+         eigenvectors) and flips its det (3 x 3), so theta-bar = 0 at tree level is always reachable.
+         Part C survivor (up 00X/0XX/XXX, down 0X0/X0X/0XX): eigenvalue signs up +-+, down +-+; arg det(M_u M_d) = 0
+         as found (heaviest eigenvalue positive), so theta-bar = 0 needs no sign flip.
+         But Hermiticity needs a left-right parity (Part E), and the textures that parity gives are
+         excluded (Part G); radiative corrections then move theta-bar off zero. Not a calculation either.
+  O3. Can the SM's own CP violation make theta-bar? Only through the flavour invariant
+      Im det[H_u, H_d] = 2 J prod_(i<j) (y_ui^2 - y_uj^2)(y_di^2 - y_dj^2), H = Y Y^dagger, which
+      vanishes if any two same-charge quarks were degenerate. At m_t(m_t), with the measured J: 2.9e-24.
+      Its first divergent contribution to theta-bar is at seven loops (Ellis-Gaillard 1979), so the
+      SM's own theta-bar lies many orders below the bound 9e-11.
+  RESULT: theta-bar is bounded, |theta-bar| < 8.8e-11 (up to 2.2e-10 with the hadronic uncertainty),
+    but not calculated. The massless-up-quark solution is excluded; the axion trades theta-bar for
+    f_a and predicts m_a f_a; parity sets it to zero at tree level but needs Hermitian textures,
+    and the predictive ones are excluded. Theta-bar is the one free number whose smallness the
+    Standard Model's own CP violation cannot explain.
+
+PART P. NEUTRINO MASSES AND MIXING
+------------------------------------------------------------------------------
+  Oscillations (NuFIT 6.0) measure two mass-squared differences and the PMNS matrix. Not measured:
+  the lightest mass m0, the ordering, two Majorana phases, and the origin of the masses. Each
+  unknown is scanned, never set.
+  NO, normal (m1 < m2 < m3):
+    P1. at m0 = 0: masses 0.00, 8.65, 50.13 meV; sum = 58.78 +/- 0.23 meV (the smallest possible)
+        vs Planck 2018     sum < 120 meV (95%): allowed; m0 < 30.1 meV
+        vs DESI DR2 + CMB  sum < 64 meV (95%): allowed; m0 < 4.1 meV
+        Omega_nu h^2 at the minimum = 6.25e-04: 0.44 % of Part A's Omega_m
+    P2. m_beta = 8.8 meV at m0 = 0, at most 31.4 meV under Planck's limit; KATRIN: < 450 meV (90%)
+    P3. m_bb band over the Majorana phases at m0 = 0: 1.50 +/- 0.11 to 3.72 +/- 0.11 meV
+        m_bb can vanish (phases cancel) for 2.35 < m0 < 6.46 meV
+        largest m_bb under Planck's limit: 31.1 meV
+        m0 (meV): m_bb band (meV)
+          0: 1.50-3.72   0.0272: 1.48-3.74   0.103: 1.43-3.79   0.393: 1.23-3.99
+          1.49: 0.52-4.77   5.68: 0.00-8.08   21.6: 6.39-22.82
+  IO, inverted (m3 < m1 < m2):
+    P1. at m0 = 0: masses 49.08, 49.84, 0.00 meV; sum = 98.92 +/- 0.40 meV (the smallest possible)
+        vs Planck 2018     sum < 120 meV (95%): allowed; m0 < 16.0 meV
+        vs DESI DR2 + CMB  sum < 64 meV (95%): EXCLUDED at 95%: the minimum is 34.9 meV above it
+        Omega_nu h^2 at the minimum = 1.05e-03: 0.74 % of Part A's Omega_m
+    P2. m_beta = 48.8 meV at m0 = 0, at most 51.3 meV under Planck's limit; KATRIN: < 450 meV (90%)
+    P3. m_bb band over the Majorana phases at m0 = 0: 18.20 +/- 1.12 to 48.22 +/- 0.20 meV
+        m_bb cannot vanish for any m0: the inverted ordering has a floor
+        largest m_bb under Planck's limit: 51.1 meV
+        m0 (meV): m_bb band (meV)
+          0: 18.20-48.22   0.0252: 18.20-48.22   0.086: 18.20-48.22   0.294: 18.19-48.22
+          1.01: 18.18-48.25   3.44: 18.17-48.41   11.8: 18.47-49.83
+    KamLAND-Zen: m_bb < 28 to 122 meV (90%, by nuclear matrix element). The inverted
+    band at m0 = 0, 18.2 to 48.2 meV, is tested only above 28 meV and only with the
+    most favourable matrix elements: neither ordering is excluded by double-beta decay yet.
+  P4. Mixing patterns from discrete flavour symmetries (tested like Part C's textures; delta is
+      far from Gaussian, so only theta12 decides survival, at the 3 sigma level)
+    NO:  pattern                             unknowns  predicts   pulls / prediction            verdict
+        tribimaximal                            0        3     theta12  +2.2, theta13 -38.9, theta23 +2.0   excluded
+        bimaximal                               0        3     theta12 +16.7, theta13 -38.9, theta23 +2.0   excluded
+        golden ratio, tan theta12 = 1/phi       0        3     theta12  -2.7, theta13 -38.9, theta23 +2.0   excluded
+        golden ratio, cos theta12 = phi/2       0        3     theta12  +3.3, theta13 -38.9, theta23 +2.0   excluded
+        hexagonal, theta12 = 30 deg             0        3     theta12  -5.0, theta13 -38.9, theta23 +2.0   excluded
+        TM1: first column of TBM kept           2        2     theta13, theta23 fix the unknowns                survives
+            sin^2 theta12 = 0.3182 +/- 0.0004 (+0.9 sigma); delta = 262 +/- 4 deg (+1.5 sigma)
+            sin^2 theta12 = 0.3182 +/- 0.0004 (+0.9 sigma); delta = 98 +/- 4 deg (-3.4 sigma)
+        TM2: second column of TBM kept          2        2     theta13, theta23 fix the unknowns                survives
+            sin^2 theta12 = 0.3409 +/- 0.0002 (+2.9 sigma); delta = 286 +/- 8 deg (+2.1 sigma)
+            sin^2 theta12 = 0.3409 +/- 0.0002 (+2.9 sigma); delta = 74 +/- 8 deg (-4.0 sigma)
+        measured: sin^2 theta12 = 0.308, delta = 212 +/- 33.5 deg
+    IO:  pattern                             unknowns  predicts   pulls / prediction            verdict
+        tribimaximal                            0        3     theta12  +2.2, theta13 -39.8, theta23 -3.7   excluded
+        bimaximal                               0        3     theta12 +16.7, theta13 -39.8, theta23 -3.7   excluded
+        golden ratio, tan theta12 = 1/phi       0        3     theta12  -2.7, theta13 -39.8, theta23 -3.7   excluded
+        golden ratio, cos theta12 = phi/2       0        3     theta12  +3.3, theta13 -39.8, theta23 -3.7   excluded
+        hexagonal, theta12 = 30 deg             0        3     theta12  -5.0, theta13 -39.8, theta23 -3.7   excluded
+        TM1: first column of TBM kept           2        2     theta13, theta23 fix the unknowns                survives
+            sin^2 theta12 = 0.3181 +/- 0.0004 (+0.9 sigma); delta = 283 +/- 4 deg (+0.4 sigma)
+            sin^2 theta12 = 0.3181 +/- 0.0004 (+0.9 sigma); delta = 77 +/- 4 deg (+6.9 sigma)
+        TM2: second column of TBM kept          2        2     theta13, theta23 fix the unknowns                survives
+            sin^2 theta12 = 0.3409 +/- 0.0002 (+2.9 sigma); delta = 242 +/- 8 deg (-1.3 sigma)
+            sin^2 theta12 = 0.3409 +/- 0.0002 (+2.9 sigma); delta = 118 +/- 8 deg (-6.3 sigma)
+        measured: sin^2 theta12 = 0.308, delta = 274 +/- 23.5 deg
+    Quark-lepton complementarity, theta12 + theta_C = 45 deg: 46.71 +/- 0.71 deg, 2.4 sigma
+  P5. Where the masses come from. Seesaw: m = y^2 v^2/(2 M), with the heaviest mass at m0 = 0
+      (50.1 meV, NO):  M = 6.0e+14 GeV for y = 1, 5.3e+14 GeV for y = y_t,
+      at most 7.6e+15 GeV for y = sqrt(4 pi) (perturbative). Part I's M_GUT = 1.15e+16 GeV and
+      M_P = 1.22e+19 GeV lie above it: a seesaw needs new states below the unification scale.
+      Dirac alternative: y_nu up to 2.9e-13, against y_e = 2.9e-06 (a new hierarchy, no new scale).
+  RESULT: the masses and the mixing are measured, not calculated. Cosmology
+    (DESI DR2 + CMB, flat LambdaCDM) excludes the inverted ordering at 95%;
+    the normal one keeps m0 below 4.1 meV. Every fixed mixing pattern (5:
+    tribimaximal, bimaximal, golden ratio, hexagonal) is excluded by theta13
+    at 39 sigma or more. Surviving corrected patterns: TM1 (theta12 at 0.9
+    sigma), TM2 (theta12 at 2.9 sigma); each predicts sin^2 theta12 and delta
+    from theta13 and theta23, a test for DUNE and Hyper-Kamiokande.
+    Neutrino masses also test Part L's assumption: the SM up to M_P holds only for Dirac neutrinos.
+
 THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
 ------------------------------------------------------------------------------
   Stage (part, evidence level): measured inputs read; results taken from earlier stages
@@ -618,31 +756,54 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
       takes: gauge_unification, flavour, yukawa_relations, criticality
       assumes: every hypothesis against every set of conditions; unknowns on
         a grid plus exact roots and edges; theory errors = last-order shifts
+  mass_formulas (N, exact)
+      inputs: M_Z, alpha_em, alpha_em_inv_MZ, c, e_charge, m_e, m_mu_MeV,
+        m_tau_MeV
+      takes: flavour
+      assumes: none (tests closed mass formulas at stated scales)
+  strong_cp (O, conditional)
+      inputs: c, d_n_limit, delta_mN_QCD_MeV, e_charge, f_pi_MeV, g_A, h,
+        m_d, m_n, m_pi0_MeV, m_pi_MeV, m_s, m_u
+      takes: gauge_unification, flavour, texture_survey, planck_units
+      assumes: leading-order chiral perturbation theory for d_n and m_a;
+        theta-bar the only source of d_n
+  neutrinos (P, numerical)
+      inputs: G, H0, T_CMB, au, c, e_charge, h, k_B, m_e, nu_delta_IO,
+        nu_delta_NO, nu_dm21, nu_dm3l_IO, nu_dm3l_NO, nu_s12sq, nu_s13sq_IO,
+        nu_s13sq_NO, nu_s23sq_IO, nu_s23sq_NO
+      takes: cosmology, gauge_unification, flavour, planck_units
+      assumes: three light neutrinos; lightest mass and Majorana phases
+        scanned; cosmological limits assume flat LambdaCDM; unknowns of
+        corrected patterns solved exactly
   self_checks (-, validation)
       inputs: G, G_F, M_W, M_Z, M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ,
         c, e_charge, h, k_B, m_b, m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV,
-        m_u, mu_light, s2_hat_Z
+        m_u, mu_light, nu_delta_IO, nu_delta_NO, nu_dm21, nu_dm3l_IO,
+        nu_dm3l_NO, nu_s12sq, nu_s13sq_IO, nu_s13sq_NO, nu_s23sq_IO,
+        nu_s23sq_NO, s2_hat_Z
       takes: cosmology, gauge_unification, flavour, texture_survey,
         gauge_331, flavour_symmetry_331, quantum_gravity, higgs_mssm,
-        criticality, uv_joint_test
+        criticality, uv_joint_test, mass_formulas, strong_cp, neutrinos
       assumes: tests the calculation, not the physics
   Numbers calculated once and handed on:
     M_S, M_GUT = 2536.5, 1.1459e+16 GeV, from
       gauge_unification[M_S_for_measured_alpha], taken by flavour,
-      yukawa_relations, higgs_mssm, uv_joint_test
+      yukawa_relations, higgs_mssm, uv_joint_test, strong_cp, neutrinos
     M_P = 1.2209e+19 GeV, from planck_units[E_P_GeV], taken by
-      quantum_gravity, yukawa_relations, criticality
+      quantum_gravity, yukawa_relations, criticality, strong_cp, neutrinos
     m_t(m_t) = 162.79 GeV, from flavour[runner], taken by quantum_gravity,
-      yukawa_relations, higgs_mssm, uv_joint_test
+      yukawa_relations, higgs_mssm, uv_joint_test, mass_formulas, strong_cp,
+      neutrinos
   Changing one measured input recalculates every stage it reaches, for example:
     M_t: flavour, texture_survey, flavour_symmetry_331, quantum_gravity,
-      yukawa_relations, higgs_mssm, criticality, uv_joint_test
+      yukawa_relations, higgs_mssm, criticality, uv_joint_test,
+      mass_formulas, strong_cp, neutrinos
     alpha_s_MZ: gauge_unification, flavour, texture_survey,
       flavour_symmetry_331, quantum_gravity, yukawa_relations, higgs_mssm,
-      criticality, uv_joint_test
+      criticality, uv_joint_test, mass_formulas, strong_cp, neutrinos
     G: cosmology, planck_units, quantum_gravity, yukawa_relations,
-      higgs_mssm, criticality, uv_joint_test
-    H0: cosmology, quantum_gravity
+      higgs_mssm, criticality, uv_joint_test, strong_cp, neutrinos
+    H0: cosmology, quantum_gravity, neutrinos
   Global consistency of the stage assumptions:
     MSSM above M_S  : gauge_unification, yukawa_relations, higgs_mssm
     SM up to M_P    : criticality
@@ -691,6 +852,13 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
       multiply the Yukawa couplings.
     [open] No common mechanism yet: no stage computes a quantity that two
       sectors both take from it except M_S, M_GUT (Part I) and M_P (Part H1).
+    [open] Part L assumes the SM up to M_P, but neutrinos have mass (Part P).
+      That holds only if they are Dirac particles with Yukawa couplings below
+      3e-13, which do not affect the running; a seesaw needs new states below
+      about 8e15 GeV, whose couplings would enter lambda's running.
+    [open] Theta-bar is bounded, not calculated (Part O). Each explanation
+      adds something unmeasured: an axion scale f_a, or a parity symmetry
+      whose Hermitian textures Part G excludes.
 
 SELF-CHECKS (correctness of the calculation, not agreement with data)
 ------------------------------------------------------------------------------
@@ -742,7 +910,12 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] MSSM Yukawa self-terms from field multiplicities: 6 y_t^3, (3 y_b^2 + 4 y_tau^2) y_tau  (6.000, 7.000)
   [PASS] Lambda_QCD (2-loop) reproduces alpha_s(M_Z)  (rel diff 2.2e-16)
   [PASS] Part M at Part I's M_S reproduces the measured alpha (the two stages agree)  (diff -1.4e-14)
-  [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (15 stages, 28 edges)
-  49/49 checks pass
+  [PASS] PMNS matrix: angles, delta and J recovered exactly from the matrix built from them  (max rel diff 4.4e-16)
+  [PASS] Tribimaximal = (1/3, 0, 1/2); TM1/TM2 keep their TBM column and stay unitary
+  [PASS] m_bb: exact band over the Majorana phases = brute force on a phase grid (to grid accuracy)  (max rel diff 1.2e-16)
+  [PASS] Koide Q: 1/3 for equal masses, 1 for one mass; the m_tau solved from Q = 2/3 gives Q = 2/3  (abs diff 0.0e+00)
+  [PASS] Part O: each survivor sector's det = product of its signed eigenvalues (real: arg det = 0 or pi)  (1 survivor(s))
+  [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (18 stages, 40 edges)
+  54/54 checks pass
 ==============================================================================
-Elapsed: 331.7 s
+Elapsed: 366.5 s
