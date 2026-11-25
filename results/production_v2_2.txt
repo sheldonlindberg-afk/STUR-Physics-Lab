@@ -1,7 +1,7 @@
 ==============================================================================
 STUR Physics Lab, production v2.2: nothing tuned, nothing fitted
 ==============================================================================
-Inputs: 51 measured or defined constants (INPUTS). Comparisons: 16 measured results, never used in a calculation.
+Inputs: 62 measured or defined constants (INPUTS). Comparisons: 16 measured results, never used in a calculation.
 
 PART A. COSMOLOGY (flat Lambda-CDM, Friedmann equation)
 ------------------------------------------------------------------------------
@@ -702,14 +702,27 @@ PART Q. PROTON DECAY: THE DIRECT TEST OF UNIFICATION
   Super-Kamiokande: tau/B(p -> e+ pi0) > 2.4e+34 years (90% CL)
       MSSM above M_S (Part I)               allowed, 10.0 times the limit; the limit needs M_X > 6.4e+15 GeV
       SM, X bosons where g1 = g2 (Part J)   EXCLUDED: 2e-11 of the limit; the limit needs M_X > 4.9e+15 GeV
-  Not yet included: the MSSM's dimension-five decay p -> nubar K+ through the colour-triplet
-  Higgsinos (limit 5.9e+33 years), usually the stronger test of supersymmetric SU(5).
+  Q2. Dimension five, p -> nubar K+, through the colour-triplet Higgsinos of minimal SUSY SU(5)
+      (Hisano et al. 2013, eqs. 15-49): M_HC = M_GUT and every superpartner at M_S (Part I),
+      tan(beta) from Part J; Yukawas run in the SM to M_S and in the MSSM to M_HC; the operators run
+      with the Yukawas above M_S, with the gauge couplings below, with QCD to 2 GeV. The two unknown
+      GUT phases are scanned: the band is every lifetime they allow.
+      tan(beta) = 1.327: tau = 2.5e+28 to 7.1e+29 years   (A_L = 0.49, Abar_R = 0.38, y_t(M_HC) = 2.77)
+      tan(beta) = 1.382: tau = 4.4e+28 to 8.8e+29 years   (A_L = 0.49, Abar_R = 0.28, y_t(M_HC) = 1.77)
+      tan(beta) = 1.313: tau = 1.8e+28 to 6.4e+29 years   (A_L = 0.49, Abar_R = 0.44, y_t(M_HC) = 3.55)
+      Super-Kamiokande: tau/B(p -> nubar K+) > 5.9e+33 years (90% CL). Even at the best
+      phases the limit needs M_HC > 1.0e+18 GeV (tau ~ M_HC^2), or superpartners near 231 TeV (tau ~ M_S^2).
+      Check: the higgsino part alone gives 8.9e+30 years; Hisano et al.'s scaling formula,
+      eq. 19, gives 2.0e+31 with the same Abar_R (a factor 2.3; to be debugged).
   RESULT: with superpartners at Part I's M_S, the gauge-boson channel gives
     2.4e+35 years, 10 times the Super-K limit: allowed, and within reach of
-    Hyper-Kamiokande. In the SM, X bosons where g1 = g2 would make the proton
-    live 5e+23 years: excluded, one more reason the SM cannot unify. Proton
-    decay calculates no new number; it is a test the unification of Part I
-    passes so far.
+    Hyper-Kamiokande. But the Higgsino channel of minimal SUSY SU(5) at the
+    same scales lives at most 9e+29 years: excluded for every phase and every
+    tan(beta) of Part J. Minimal SUSY SU(5) with one superpartner scale M_S
+    fails proton decay, as Part K's Higgs mass already found; a heavier
+    colour triplet or superpartners above about 100 TeV are needed. In the
+    SM, X bosons where g1 = g2 would make the proton live 5e+23 years:
+    excluded, one more reason the SM cannot unify.
 
 THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
 ------------------------------------------------------------------------------
@@ -800,11 +813,15 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
         scanned; cosmological limits assume flat LambdaCDM; unknowns of
         corrected patterns solved exactly
   proton_decay (Q, conditional)
-      inputs: M_Z, V_ud, W_pi0_LL, W_pi0_RL, alpha_em_inv_MZ, alpha_s_MZ, c,
-        e_charge, h, m_b, m_p, m_pi0_MeV, mu_light, s2_hat_Z
+      inputs: CKM_A, CKM_etabar, CKM_lambda, CKM_rhobar, G_F, M_W, M_Z, M_t,
+        V_ud, W_pi0_LL, W_pi0_RL, alpha_em, alpha_em_inv_MZ, alpha_p_lattice,
+        alpha_s_MZ, baryon_D, baryon_F, beta_p_lattice, c, e_charge,
+        f_pi_MeV, h, m_K_MeV, m_Lambda_MeV, m_Sigma0_MeV, m_b, m_c, m_d, m_e,
+        m_mu_MeV, m_p, m_pi0_MeV, m_s, m_tau_MeV, m_u, mu_light, s2_hat_Z
       takes: gauge_unification, flavour, yukawa_relations
-      assumes: minimal SU(5) gauge bosons at M_X = M_GUT (Part I; the SM's g1
-        = g2 point for comparison); one-loop operator running; GUT thresholds
+      assumes: minimal SU(5): gauge bosons at M_X = M_GUT, colour triplet at
+        M_HC = M_GUT, every superpartner at M_S (Part I), tan(beta) from Part
+        J; GUT phases scanned; one-loop operator running; GUT thresholds
         unknown
   self_checks (-, validation)
       inputs: G, G_F, M_W, M_Z, M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ,
@@ -953,4 +970,4 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (19 stages, 43 edges)
   55/55 checks pass
 ==============================================================================
-Elapsed: 365.7 s
+Elapsed: 360.2 s

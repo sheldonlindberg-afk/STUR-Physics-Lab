@@ -14,7 +14,7 @@ Status: [x] done, [~] in progress, [ ] not started.
 - [x] Part O: strong CP angle (nEDM bound via chiral log; m_u = 0, axion, parity).
 - [x] Part P: neutrino masses and mixing (cosmology, KATRIN, KamLAND-Zen; TBM, BM, GR, TM1, TM2).
 
-## Phase 1: proton decay (Part Q)
+## Phase 1: proton decay (Part Q) -- done
 - [x] 1a. Dimension-six gauge-boson exchange, p -> e+ pi0, at Part I's M_GUT and alpha_GUT (MSSM)
       and at the SM's g1 = g2 point; short-distance factors from the RGE (exponents from the
       script's own b_i), long-distance factor from the script's QCD running; lattice matrix
@@ -25,11 +25,12 @@ Status: [x] done, [~] in progress, [ ] not started.
       (Part J), M_HC = M_GUT, GUT phases scanned (Hisano et al. 2013, eqs. 15-49). Result:
       3e28-7e29 yr vs 5.9e33: excluded. Open (debug): the higgsino part is a factor 2.2 shorter
       than their eq. 19 scaling; wino/higgsino thresholds below M_S; two-loop running; the
-      CKM phases in the operator coefficients checked against their conventions.
+      CKM phases in the operator coefficients checked against their conventions; at tan(beta) =
+      1.313 y_t(M_HC) = 3.55 is just past sqrt(4 pi), at the edge of perturbation theory.
 - [ ] 1c. Feed proton decay into Part M as a condition (done in Phase 5).
 
-## Phase 2: anomalies, charge quantization, family number
-- [ ] Hypercharges from anomaly cancellation (exact); 3-3-1: anomaly freedom needs the number of
+## Phase 2: anomalies, charge quantization, family number (Part R)
+- [~] Hypercharges from anomaly cancellation (exact); 3-3-1: anomaly freedom needs the number of
       families to equal the number of colours.
 
 ## Phase 3: baryon asymmetry and leptogenesis
