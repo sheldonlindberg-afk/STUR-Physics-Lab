@@ -783,6 +783,38 @@ PART S. THE BARYON ASYMMETRY
     SM up to M_P, with Dirac neutrinos, has no seesaw and so no such
     mechanism.
 
+PART T. SO(10)
+------------------------------------------------------------------------------
+  SO(10) puts a whole family, with a right-handed neutrino, into one 16.
+  T1. Group theory (exact)
+      B - L anomalies of one family, SU3^2 (B-L) = 0, SU2^2 (B-L) = 0, grav^2 (B-L) = -1, (B-L)^3 = -1 without nu^c;
+        all zero with it: gauging B - L (inside SO(10)) requires the right-handed neutrino.
+      Over a complete 16: sin^2 theta_W = Tr T3^2 / Tr Q^2 = 3/8 at unification; Tr T3^2 / Tr Y^2 = 3/5,
+        the hypercharge normalization this script uses throughout (3/5).
+  T2. Minimal Yukawas (one 10_H): M_u ~ M_d ~ M_e, so V = 1 and equal mass ratios. At 2.54e+03 GeV:
+      m_c/m_t = 0.0036, m_s/m_b = 0.0192, m_mu/m_tau = 0.0595: (m_s/m_b)/(m_c/m_t) = 5.3, (m_mu/m_tau)/(m_s/m_b) = 3.1
+      Excluded (and V = 1 contradicts every CKM measurement). Adding a 126_H gives each sector its own
+      matrix: enough parameters to fit, none predicted (Part F's closure).
+  T3. t-b-tau unification (MSSM, Part I's scales): y_t = y_b at M_GUT for tan(beta) = 49, where y_b/y_tau = 0.783.
+      It needs a supersymmetric threshold correction of +28 % to m_b: a function of the unknown superpartner spectrum, so a trade, not a test.
+  T4. Non-supersymmetric SO(10) through Pati-Salam SU(4) x SU(2)_L x SU(2)_R at M_I (one loop)
+      b from the field content: SU(4) -23/3, SU(2)_L -3, SU(2)_R 11/3 (three families of
+      (4,2,1) + (4bar,1,2), scalars (1,2,2) and (10,1,3)). The three measured couplings fix the three
+      unknowns exactly (a linear system):
+        M_I = 5.51e+11 GeV, M_GUT = 1.14e+16 GeV, 1/alpha_GUT = 45.7 (consistent: M_Z < M_I < M_GUT)
+      Proton decay (Part Q's formula, SM running throughout): tau = 6.2e+35 years against 2.4e+34: allowed
+      M_I is where B - L breaks and the right-handed neutrinos get mass: inside leptogenesis's window (3e+08 to 8e+15 GeV): True
+      If the axion scale is M_I (as in SO(10) axion models), m_a = 10.5 micro-eV.
+  RESULT: SO(10) calculates the hypercharges' normalization (sin^2 theta_W =
+    3/8 at unification) and requires the right-handed neutrino; its minimal
+    Yukawa relations are excluded. Without supersymmetry, the Pati-Salam
+    route unifies the three couplings with M_I = 6e+11 GeV and M_GUT = 1e+16
+    GeV, passes proton decay, and puts the seesaw scale where leptogenesis
+    needs it: one chain that joins Parts I, P, Q and S. It predicts nothing
+    yet (three couplings fix three unknowns); two-loop running and the
+    thresholds at M_I and M_GUT decide whether it holds, and Part L's SM then
+    runs only up to M_I.
+
 THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
 ------------------------------------------------------------------------------
   Stage (part, evidence level): measured inputs read; results taken from earlier stages
@@ -892,6 +924,15 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
       takes: flavour, neutrinos
       assumes: lattice endpoint and T_c of the SM transition; leptogenesis:
         hierarchical right-handed neutrinos, thermal, efficiency kappa <= 1
+  so10 (T, conditional)
+      inputs: M_Z, M_t, V_ud, W_pi0_LL, W_pi0_RL, alpha_em_inv_MZ,
+        alpha_s_MZ, c, e_charge, h, m_b, m_c, m_e, m_mu_MeV, m_p, m_pi0_MeV,
+        m_s, m_tau_MeV, mu_light, s2_hat_Z
+      takes: flavour, yukawa_relations, strong_cp, proton_decay,
+        baryon_asymmetry
+      assumes: SO(10) with one 16 per family; minimal Yukawas from one 10_H;
+        the Pati-Salam chain with scalars (1,2,2) + (10,1,3), one-loop
+        running, no thresholds
   self_checks (-, validation)
       inputs: G, G_F, M_W, M_Z, M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ,
         c, e_charge, h, k_B, m_b, m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV,
@@ -900,7 +941,7 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
         nu_s23sq_NO, s2_hat_Z
       takes: cosmology, gauge_unification, flavour, texture_survey,
         gauge_331, flavour_symmetry_331, quantum_gravity, higgs_mssm,
-        criticality, uv_joint_test, mass_formulas, strong_cp, neutrinos
+        criticality, uv_joint_test, mass_formulas, strong_cp, neutrinos, so10
       assumes: tests the calculation, not the physics
   Numbers calculated once and handed on:
     M_S, M_GUT = 2536.5, 1.1459e+16 GeV, from
@@ -911,19 +952,20 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
       quantum_gravity, yukawa_relations, criticality, strong_cp, neutrinos
     m_t(m_t) = 162.79 GeV, from flavour[runner], taken by quantum_gravity,
       yukawa_relations, higgs_mssm, uv_joint_test, mass_formulas, strong_cp,
-      neutrinos, proton_decay, baryon_asymmetry
+      neutrinos, proton_decay, baryon_asymmetry, so10
   Changing one measured input recalculates every stage it reaches, for example:
     M_t: flavour, texture_survey, flavour_symmetry_331, quantum_gravity,
       yukawa_relations, higgs_mssm, criticality, uv_joint_test,
-      mass_formulas, strong_cp, neutrinos, proton_decay, baryon_asymmetry
+      mass_formulas, strong_cp, neutrinos, proton_decay, baryon_asymmetry,
+      so10
     alpha_s_MZ: gauge_unification, flavour, texture_survey,
       flavour_symmetry_331, quantum_gravity, yukawa_relations, higgs_mssm,
       criticality, uv_joint_test, mass_formulas, strong_cp, neutrinos,
-      proton_decay, baryon_asymmetry
+      proton_decay, baryon_asymmetry, so10
     G: cosmology, planck_units, quantum_gravity, yukawa_relations,
       higgs_mssm, criticality, uv_joint_test, strong_cp, neutrinos,
-      proton_decay, baryon_asymmetry
-    H0: cosmology, quantum_gravity, neutrinos, baryon_asymmetry
+      proton_decay, baryon_asymmetry, so10
+    H0: cosmology, quantum_gravity, neutrinos, baryon_asymmetry, so10
   Global consistency of the stage assumptions:
     MSSM above M_S  : gauge_unification, yukawa_relations, higgs_mssm, proton_decay
     SM up to M_P    : criticality
@@ -1037,7 +1079,8 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Part O: each survivor sector's det = product of its signed eigenvalues (real: arg det = 0 or pi)  (1 survivor(s))
   [PASS] Proton decay: operator-running exponents -2 c_i/b_i from the script's b_i = Ellis et al.'s eq. 17  (max abs diff 2.8e-17)
   [PASS] Sphaleron conversion: B/(B - L) = 28/79 and L/(B - L) = -51/79 (exact, three families, one Higgs)
-  [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (21 stages, 46 edges)
-  56/56 checks pass
+  [PASS] SO(10) via Pati-Salam: the solved M_I, M_GUT make SU(4), SU(2)_L, SU(2)_R meet at 1/alpha_GUT  (max rel diff 1.1e-15)
+  [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (22 stages, 52 edges)
+  57/57 checks pass
 ==============================================================================
-Elapsed: 366.9 s
+Elapsed: 373.1 s

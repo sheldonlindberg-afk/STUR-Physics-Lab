@@ -216,7 +216,11 @@ def test_model_lineage():
         assert lin["reads"][st] == [] and lin["uses"][st] == []
     assert lin["uses"]["criticality"] == ["planck_units"]
     assert {"yukawa_relations", "criticality", "quantum_gravity"} <= set(lin["takers"]["planck_units[E_P_GeV]"])
-    assert [s for s in lin["reaches"]["H0"] if s != "self_checks"] == ["cosmology", "quantum_gravity", "neutrinos", "baryon_asymmetry"]
+    h0 = [s for s in lin["reaches"]["H0"] if s != "self_checks"]
+    assert h0[:2] == ["cosmology", "quantum_gravity"]
+    # H0 enters particle physics only through Part P's cosmological neutrino limits (and what reads them)
+    assert not {"flavour", "gauge_unification", "yukawa_relations", "criticality", "proton_decay"} & set(h0)
+    assert "neutrinos" in h0
     assert "criticality" in lin["reaches"]["M_t"] and "criticality" in lin["reaches"]["G"]
     assert "flavour" in lin["takers"]["gauge_unification[M_S_for_measured_alpha]"]
     assert not lin["uv_consistent"]
