@@ -1106,26 +1106,39 @@ PART Z. THE LEDGER: EVERY FREE NUMBER AND WHAT THE ALGORITHM DOES WITH IT
   For the hypothesis that survives every condition (Part U): SO(10) via LR; scales from its LR chain.
   calculated = fixed with nothing measured spent; related = tied to others by a tested relation;
   traded = exchanged for an unknown; bounded = only limited; open = no mechanism; input = measured.
-    hypercharges and electric charge 5 per family calculated anomaly cancellation plus Yukawas fix them
-      uniquely; charge is quantized (Part R, exact)
-    number of families 1 integer calculated 3-3-1: a multiple of 3, exactly 3 with asymptotic freedom (Part
-      R); not in the SO(10) survivor
-    gauge couplings 3 traded LR chain: the three fix M_I = 2.8e+09, M_GUT = 1.5e+16 GeV and alpha_GUT (Part
-      T)
-    weak mixing angle at unification 1 calculated sin^2 theta_W = 3/8 from the 16 (Part T1, exact)
-    Higgs mass 1 open lambda(M_P) = 0 misses by 3.3 sigma (Part L); lambda(M_I) = 0 is not required (Part T6)
-    Higgs vacuum value 1 input from G_F
-    quark masses 6 input run to every scale (Parts B, L)
-    quark mixing (CKM) 4 related one Hermitian texture predicts |V_td/V_ts| at 2.2 sigma (Part C), but it is
-      not the surviving GUT's structure
-    charged-lepton masses 3 traded the 10 + 126 sum rule reaches them with 8 unknowns (Part Y2)
-    neutrino masses and mixing 7-9 open type II from the sum rule misses by 21 sigma (Part Y3); type I not
-      tested
-    strong CP angle 1 bounded |theta-bar| < 8.8e-11; an axion at M_I would trade it for f_a (Part O)
-    dark-matter density 1 open the axion at the survivor's M_I gives 0.7 % (Part V)
-    baryon asymmetry 1 traded leptogenesis needs M_1 >= 6e+08 GeV (Part S); M_1 is unknown
-    cosmological constant 1 open Omega_Lambda follows from flatness; rho_Lambda is not calculated
-    Newton's constant 1 input M_P is calculated from it (Part H1)
+    quantity                           count         status
+    hypercharges and electric charge   5 per family  calculated
+        anomaly cancellation plus Yukawas fix them uniquely; charge is quantized (Part R, exact)
+    number of families                 1 integer     calculated
+        3-3-1: a multiple of 3, exactly 3 with asymptotic freedom (Part R); not in the SO(10)
+          survivor
+    gauge couplings                    3             traded
+        LR chain: the three fix M_I = 2.8e+09, M_GUT = 1.5e+16 GeV and alpha_GUT (Part T)
+    weak mixing angle at unification   1             calculated
+        sin^2 theta_W = 3/8 from the 16 (Part T1, exact)
+    Higgs mass                         1             open
+        lambda(M_P) = 0 misses by 3.3 sigma (Part L); lambda(M_I) = 0 is not required (Part T6)
+    Higgs vacuum value                 1             input
+        from G_F
+    quark masses                       6             input
+        run to every scale (Parts B, L)
+    quark mixing (CKM)                 4             related
+        one Hermitian texture predicts |V_td/V_ts| at 2.2 sigma (Part C), but it is not the
+          surviving GUT's structure
+    charged-lepton masses              3             traded
+        the 10 + 126 sum rule reaches them with 8 unknowns (Part Y2)
+    neutrino masses and mixing         7-9           open
+        type II from the sum rule misses by 21 sigma (Part Y3); type I not tested
+    strong CP angle                    1             bounded
+        |theta-bar| < 8.8e-11; an axion at M_I would trade it for f_a (Part O)
+    dark-matter density                1             open
+        the axion at the survivor's M_I gives 0.7 % (Part V)
+    baryon asymmetry                   1             traded
+        leptogenesis needs M_1 >= 6e+08 GeV (Part S); M_1 is unknown
+    cosmological constant              1             open
+        Omega_Lambda follows from flatness; rho_Lambda is not calculated
+    Newton's constant                  1             input
+        M_P is calculated from it (Part H1)
   Totals: bounded 1, calculated 3, input 3, open 4, related 1, traded 3
   RESULT: the algorithm closes: one pass, every stage run in dependency
     order, every assumption of the surviving hypothesis consistent with every
@@ -1465,4 +1478,4 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (28 stages, 86 edges)
   68/68 checks pass
 ==============================================================================
-Elapsed: 490.6 s
+Elapsed: 474.7 s
