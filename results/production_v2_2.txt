@@ -781,7 +781,6 @@ PART S. THE BARYON ASYMMETRY
         m~_1 =  20.8 meV: K =  19.5, z_B = 7.13, kappa_f = 0.0144  ->  M_1 >= 4.5e+10 GeV
         m~_1 =  32.3 meV: K =  30.2, z_B = 7.76, kappa_f = 0.0085  ->  M_1 >= 7.6e+10 GeV
         m~_1 =  50.1 meV: K =  46.8, z_B = 8.37, kappa_f = 0.0051  ->  M_1 >= 1.3e+11 GeV
-        m~_1 =  50.1 meV: K =  46.8, z_B = 8.37, kappa_f = 0.0051  ->  M_1 >= 1.3e+11 GeV
       Thermal production also needs a reheating temperature above M_1.
   RESULT: eta_B is measured, not calculated. The Standard Model fails two of
     Sakharov's conditions: its transition is a crossover (31 sigma above the
@@ -1217,4 +1216,4 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (23 stages, 62 edges)
   59/59 checks pass
 ==============================================================================
-Elapsed: 445.1 s
+Elapsed: 430.6 s
