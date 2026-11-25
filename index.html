@@ -136,6 +136,9 @@
       <a href="#unification">Unification</a>
       <a href="#theories">Which theory?</a>
       <a href="#textures">Quark textures</a>
+      <a href="#beyond">Masses, θ, ν</a>
+      <a href="#scorecard">Scorecard</a>
+      <a href="#ledger">Ledger</a>
       <a href="#numbers">Nature's numbers</a>
       <a href="#method">Method</a>
       <a href="#run">Run it</a>
@@ -232,18 +235,52 @@
   </table></div>
   <p>Together they are <b><span data-v="tex.both">2.2</span>σ</b> from the measurements: the pattern survives, with a sharp prediction that a better measurement of |V<sub>td</sub>/V<sub>ts</sub>| or J can confirm or exclude. Its other solution is excluded by |V<sub>td</sub>/V<sub>ts</sub>|.</p>
 
+  <p class="kicker">Parts N, O and P</p>
+  <h2 id="beyond">Masses, the strong CP angle, neutrinos</h2>
+  <div class="grid2">
+    <div class="card"><h3>Quark and lepton masses <span class="chip bad">not calculated</span></h3>
+      <p>Koide's closed formula, Q = Σm/(Σ√m)² = 2/3, fits the charged-lepton pole masses to <span data-v="bx.kpole">0.4</span>σ. But pole masses are not couplings at any one scale: with the running masses at M<sub>Z</sub> it misses by <span data-v="bx.kmz">225</span>σ, and for the quarks by <span data-v="bx.kq">99</span>σ or more.</p></div>
+    <div class="card"><h3>Strong CP angle θ̄ <span class="chip bad">bounded</span></h3>
+      <p>The chiral logarithm gives the neutron dipole moment per unit θ̄, so the measured limit bounds |θ̄| &lt; <span data-v="bx.theta">8.8 × 10⁻¹¹</span> (<span data-v="bx.thetaw">2.2 × 10⁻¹⁰</span> with the hadronic error). A massless up quark is excluded by <span data-v="bx.mu">31</span>σ. The axion trades θ̄ for a scale f<sub>a</sub>: m<sub>a</sub> = <span data-v="bx.ma">5.77</span> μeV × 10¹² GeV/f<sub>a</sub>. The Standard Model's own CP violation cannot produce it.</p></div>
+    <div class="card"><h3>Neutrino masses <span class="chip warn">bounded</span></h3>
+      <p>The lightest mass is scanned from zero. The smallest sums are <span data-v="bx.sno">58.8</span> meV (normal ordering) and <span data-v="bx.sio">98.9</span> meV (inverted); DESI with the CMB allows <span data-v="bx.desi">64</span>, which excludes the inverted ordering at 95% in flat ΛCDM. A seesaw with perturbative couplings needs new states below <span data-v="bx.seesaw">7.6 × 10¹⁵</span> GeV, under M<sub>GUT</sub>.</p></div>
+    <div class="card"><h3>Neutrino mixing <span class="chip warn">one pattern</span></h3>
+      <p>Every fixed pattern (tribimaximal, bimaximal, golden ratio, hexagonal) is excluded by θ<sub>13</sub> at <span data-v="bx.t13">39</span>σ. TM1 survives: θ<sub>13</sub> and θ<sub>23</sub> fix its two unknowns, and it predicts sin²θ<sub>12</sub> = <span data-v="bx.tm1">0.318</span> (<span data-v="bx.tm1s">0.9</span>σ) and δ ≈ <span data-v="bx.tm1d">262</span>°.</p></div>
+  </div>
+
+  <p class="kicker">Part U</p>
+  <h2 id="scorecard">Which complete theory survives everything?</h2>
+  <p>Each hypothesis is tested against every condition, with the verdict the stage that computes it reached. A <i>trade</i> means an unknown absorbs the condition, so nothing is tested.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Condition</th><th>SM to M<sub>P</sub></th><th>minimal SUSY SU(5)</th><th>SO(10) via Pati–Salam (two loops)</th></tr>
+    <tr><td>Gauge unification</td><td><span class="chip bad">fails</span></td><td><span class="chip info">trade</span></td><td><span class="chip good">solved</span></td></tr>
+    <tr><td>Higgs mass</td><td><span class="chip bad">3.3σ</span></td><td><span class="chip bad">≤ 103 GeV</span></td><td><span class="chip good"><span data-v="sc.mh">125.6</span> GeV</span></td></tr>
+    <tr><td>Neutrino masses</td><td><span class="chip info">Dirac, unexplained</span></td><td><span class="chip info">trade</span></td><td><span class="chip good">seesaw at M<sub>I</sub></span></td></tr>
+    <tr><td>Proton decay</td><td><span class="chip good">stable</span></td><td><span class="chip bad">fails (ν̄K⁺)</span></td><td><span class="chip good">passes</span></td></tr>
+    <tr><td>Baryon asymmetry</td><td><span class="chip bad">no mechanism</span></td><td><span class="chip info">trade</span></td><td><span class="chip info">leptogenesis possible</span></td></tr>
+    <tr><td>Strong CP</td><td><span class="chip info">open</span></td><td><span class="chip info">open</span></td><td><span class="chip info">axion at M<sub>I</sub></span></td></tr>
+    <tr><td>Dark matter</td><td><span class="chip bad">no candidate</span></td><td><span class="chip info">trade</span></td><td><span class="chip warn">axion at M<sub>I</sub>: ~65%</span></td></tr>
+    <tr><td>Fermion masses</td><td><span class="chip info">free Yukawas</span></td><td><span class="chip bad">SU(5) ratios fail</span></td><td><span class="chip bad">fails (one SU(4) irrep)</span></td></tr>
+    <tr><td>Vacuum stability</td><td><span class="chip info">metastable</span></td><td><span class="chip good">stable</span></td><td><span class="chip info">decided by M<sub>t</sub></span></td></tr>
+  </table></div>
+  <p>The scorecard also tests every other minimal SO(10) chain at two loops: both chains with D-parity unify too low and fail proton decay. Scanning the unknown threshold corrections shows that only Pati–Salam with D-parity is excluded whatever the heavy spectrum; the other verdicts, including Pati–Salam's survival, depend on it. Pati–Salam then fails the fermion masses: its unbroken SU(4) keeps the light Higgs in a single SU(4) multiplet, which gives the wrong lepton-to-quark mass ratios. The left-right chain, where SU(4) breaks at the unification scale, reaches the charged-lepton masses and fails nothing at this order. It still predicts nothing: its scales are solved from the measured couplings. The entry to watch is the Higgs mass. Moving the criticality condition from the Planck scale to the intermediate scale M<sub>I</sub> gives <span data-v="sc.mh">125.6</span> GeV against 125.20 measured, but the script also shows why that is not a prediction. The heavy scalar at M<sub>I</sub> shifts λ by an unknown amount, so λ(M<sub>I</sub>) = 0 is not required. The near hit only says that M<sub>I</sub> lies close to the scale, about 6 × 10¹⁰ GeV, where the Standard Model's λ turns negative.</p>
+
+  <p class="kicker">Part Z</p>
+  <h2 id="ledger">The ledger: what the algorithm does with every free number</h2>
+  <p>The algorithm now closes. It runs in one pass, and the one hypothesis that survives every computed condition, SO(10) broken through the left-right chain, is consistent with all of them. Every free number of the Standard Model and cosmology then has a computed status. The algorithm calculates the discrete numbers exactly: the hypercharges and the quantization of electric charge, sin²θ<sub>W</sub> = 3/8 at unification, and the number of families in 3-3-1. It calculates no continuous number. The gauge couplings and charged-lepton masses are traded for unknowns, the strong CP angle is bounded, and the neutrino masses, the dark matter, the Higgs mass and Λ stay open. The neutrinos are where the survivor must predict or fail next: its simplest neutrino mechanism (type-II seesaw) is already excluded, because without supersymmetry the bottom and tau masses do not converge.</p>
+
   <p class="kicker">The scoreboard</p>
   <h2 id="numbers">Nature's free numbers, one by one</h2>
   <div class="tablewrap"><table>
     <tr><th>Numbers</th><th>Count</th><th>What the ladder does with them</th><th>Status</th></tr>
     <tr><td>Higgs mass</td><td class="num">1</td><td>λ(M<sub>P</sub>) = 0 gives <span data-v="crit.pred">128.3</span> GeV against 125.20</td><td><span class="chip warn">3% off</span></td></tr>
     <tr><td>Top mass</td><td class="num">(1)</td><td>λ = β<sub>λ</sub> = 0 at M<sub>P</sub> gives <span data-v="crit.mt">173.5</span> GeV against 172.57 (one of the 6 quark masses)</td><td><span class="chip warn">within 1 GeV</span></td></tr>
-    <tr><td>Gauge couplings</td><td class="num">3</td><td>Unification ties α to the other two, at the cost of a new scale M<sub>S</sub></td><td><span class="chip info">traded</span></td></tr>
+    <tr><td>Gauge couplings</td><td class="num">3</td><td>Unification ties α to the other two, at the cost of a new scale M<sub>S</sub>; its gauge-boson proton lifetime, <span data-v="pd.tau">2.4 × 10³⁵</span> years, passes Super-K's limit, but minimal SUSY SU(5)'s Higgsino channel (<span data-v="pd.d5">7 × 10²⁹</span> years at most) fails it</td><td><span class="chip info">traded</span></td></tr>
     <tr><td>Quark mixing (CKM)</td><td class="num">4</td><td>One Hermitian texture survives (80 of 82 rivals provably excluded) and predicts |V<sub>td</sub>/V<sub>ts</sub>| = <span data-v="tex.q">0.197</span> against <span data-v="tex.qmeas">0.207</span>; general matrices predict nothing (proved)</td><td><span class="chip warn">1 relation, <span data-v="tex.both">2.2</span>σ</span></td></tr>
-    <tr><td>Quark and lepton masses</td><td class="num">9</td><td>SU(5) and Georgi–Jarlskog ratios excluded; b–τ unification needs supersymmetry, which the Higgs mass then excludes</td><td><span class="chip bad">not calculated</span></td></tr>
+    <tr><td>Quark and lepton masses</td><td class="num">9</td><td>SU(5) and Georgi–Jarlskog ratios excluded; b–τ unification needs supersymmetry, which the Higgs mass then excludes. Koide's formula fits the lepton pole masses (<span data-v="bx.kpole">0.4</span>σ) but fails at M<sub>Z</sub> (<span data-v="bx.kmz">225</span>σ) and for quarks</td><td><span class="chip bad">not calculated</span></td></tr>
     <tr><td>Higgs vacuum value</td><td class="num">1</td><td>From G<sub>F</sub>; an input</td><td><span class="chip info">input</span></td></tr>
-    <tr><td>Strong CP angle θ</td><td class="num">1</td><td>Not addressed yet</td><td><span class="chip info">next</span></td></tr>
-    <tr><td>Neutrino masses and mixing</td><td class="num">7–9</td><td>Not addressed yet</td><td><span class="chip info">next</span></td></tr>
+    <tr><td>Strong CP angle θ</td><td class="num">1</td><td>The neutron EDM bounds |θ̄| &lt; <span data-v="bx.theta">8.8 × 10⁻¹¹</span>. A massless up quark is excluded (<span data-v="bx.mu">31</span>σ); the axion trades θ̄ for f<sub>a</sub>; parity needs excluded textures</td><td><span class="chip bad">bounded, open</span></td></tr>
+    <tr><td>Neutrino masses and mixing</td><td class="num">7–9</td><td>Σm<sub>ν</sub> ≥ <span data-v="bx.sno">58.8</span> meV (normal) or <span data-v="bx.sio">98.9</span> meV (inverted, above DESI's 64 meV). Fixed mixing patterns excluded by θ<sub>13</sub>; TM1 survives and predicts δ</td><td><span class="chip warn">1 pattern, testable</span></td></tr>
     <tr><td>Cosmological constant</td><td class="num">1</td><td>Ω<sub>Λ</sub> follows from flatness; the value of ρ<sub>Λ</sub> is open</td><td><span class="chip bad">open</span></td></tr>
   </table></div>
 
@@ -254,7 +291,13 @@
     <li><span class="chip warn">near miss</span>The Higgs sits within 3% of the mass at which its self-coupling would vanish at the Planck scale, and the top within 1 GeV of where that coupling would also stop running. Either the Standard Model reaches the Planck scale almost exactly critical, or something enters on the way.</li>
     <li><span class="chip warn">testable</span>The one surviving quark texture fixes |V<sub>td</sub>/V<sub>ts</sub>| from three other CKM numbers, and lands <span data-v="tex.both">2.2</span>σ from the measurement. It is the only place where zeros in the mass matrices still predict anything.</li>
     <li><span class="chip info">coincidence</span>The smallest mass gravity can entangle within the age of the universe (89 MeV/c²) is 0.64 pion masses. It is the same combination of ħ, G, c and the Hubble time as Weinberg's 1972 large-number relation. No mechanism is known.</li>
-    <li><span class="chip bad">open</span>Still not calculated by anything: α, the Yukawa couplings, the cosmological constant, and whether gravity is quantum. The last is a measurement waiting to be made, because a classical gravitational field cannot entangle masses at all.</li>
+    <li><span class="chip info">coincidence</span>Koide's Q = 2/3 holds for the charged-lepton pole masses to <span data-v="bx.kpole">0.4</span>σ, yet fails by <span data-v="bx.kmz">225</span>σ for the running masses at M<sub>Z</sub>, the ones that are couplings. A relation without a scale has no known mechanism.</li>
+    <li><span class="chip warn">testable</span>The TM1 mixing pattern, one column of tribimaximal mixing kept, survives (θ<sub>12</sub> at <span data-v="bx.tm1s">0.9</span>σ) and fixes the CP phase from θ<sub>13</sub> and θ<sub>23</sub>: δ ≈ <span data-v="bx.tm1d">262</span>°, for DUNE and Hyper-Kamiokande.</li>
+    <li><span class="chip good">calculated</span>Anomaly cancellation fixes the Standard Model's hypercharges and quantizes electric charge, which is why atoms are neutral. In the 3-3-1 extension it also fixes the number of families: a multiple of three, and exactly three if QCD stays asymptotically free.</li>
+    <li><span class="chip info">mechanism</span>The baryon asymmetry, η<sub>B</sub> = 6.1 × 10⁻¹⁰, cannot come from the Standard Model alone: its electroweak transition is a smooth crossover and its CP violation is 14 orders too small. Leptogenesis can make it if the lightest right-handed neutrino is heavier than about 10¹⁰ GeV (with the washout calculated), inside the seesaw window and below the Pati–Salam scale.</li>
+    <li><span class="chip warn">near miss</span>Without supersymmetry, SO(10) breaking through Pati–Salam unifies the three forces with an intermediate scale of about 5 × 10¹¹ GeV. The proton survives the Super-K limit, and that intermediate scale is exactly where the seesaw and leptogenesis need the right-handed neutrinos: one chain that ties unification, neutrino masses and the baryon asymmetry together.</li>
+    <li><span class="chip warn">near miss</span>If the axion that solves the strong CP problem lives at the Pati–Salam scale, it makes about two thirds of the dark matter by misalignment alone, with a mass near 40 μeV, and strings add more. One scale would then carry unification, neutrino masses, the strong CP solution and dark matter.</li>
+    <li><span class="chip bad">open</span>Still not calculated by anything: α, the Yukawa couplings, θ̄, the neutrino masses, the cosmological constant, and whether gravity is quantum. The last is a measurement waiting to be made, because a classical gravitational field cannot entangle masses at all.</li>
   </ul>
 
   <p class="kicker">How it works</p>
@@ -263,7 +306,7 @@
     <div class="card"><h3>Measured inputs only</h3><p>About thirty constants (masses, couplings, the CMB temperature, G), each with its uncertainty and source: PDG 2024, Planck 2018, CODATA 2018. They are the only physics numbers that enter a calculation.</p></div>
     <div class="card"><h3>Established physics only</h3><p>The Friedmann equation, the renormalization group with coefficients from group theory, exact linear algebra, and semiclassical gravity. Every scale comes from an earlier step.</p></div>
     <div class="card"><h3>Unknowns are scanned</h3><p>Quantities nothing fixes, such as a phase or the stop mixing, are never given a value. They are scanned over their whole range, and the prediction is the band that results.</p></div>
-    <div class="card"><h3>Checked by itself</h3><p>A test fails if any tunable number appears outside the input tables. The run ends with <span data-v="checks">49</span> self-checks of the calculation itself, which test correctness, not agreement with data. Every coefficient quoted from the literature is checked against a published result.</p></div>
+    <div class="card"><h3>Checked by itself</h3><p>A test fails if any tunable number appears outside the input tables. The run ends with <span data-v="checks">61</span> self-checks of the calculation itself, which test correctness, not agreement with data. Every coefficient quoted from the literature is checked against a published result.</p></div>
     <div class="card"><h3>One model, traced</h3><p>The parts run as stages of one algorithm. Every read of an input and of an earlier stage's result is recorded, so the report prints the dependency graph the code actually followed. Change one input (<code>--set</code>) and every stage it reaches is recalculated.</p></div>
     <div class="card"><h3>Proved where it can be</h3><p>Where a claim is "nothing fits anywhere", a search is not enough. The zero-pattern results of Part F are proved exactly, and 80 of the 82 exclusions of Part C are proved by branch-and-bound over their whole parameter space.</p></div>
   </div>
@@ -277,7 +320,7 @@
     </div>
     <p class="status" id="copy-status" role="status" aria-live="polite">One file, standard library only. Paste it into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 6 minutes. Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/production_v2_2.txt">results/production_v2_2.txt</a>.</p>
   </div>
-<pre>python3 production_v2_2.py                     # full report, Parts A to M
+<pre>python3 production_v2_2.py                     # full report, Parts A to Z
 python3 production_v2_2.py --json-out out.json # every number, as JSON
 python3 production_v2_2.py --set M_t=173.5      # change an input; the whole model is recalculated
 python3 production_v2_2.py --certify            # also prove the texture exclusions (about 10 more minutes)</pre>
@@ -322,6 +365,21 @@ python3 production_v2_2.py --certify            # also prove the texture exclusi
       vals["tex.q"] = t.Vtd_Vts.toFixed(3); vals["tex.qs"] = t.Vtd_Vts_sigma.toFixed(3);
       vals["tex.qmeas"] = t.Vtd_Vts_meas.toFixed(3); vals["tex.both"] = t.both_sigma.toFixed(1);
     }
+    if (D.beyond) {
+      var bx = D.beyond;
+      vals["bx.kpole"] = bx.koide_pole_sigma.toFixed(1); vals["bx.kmz"] = Math.round(bx.koide_mz_sigma);
+      vals["bx.kq"] = Math.round(bx.koide_quark_sigma);
+      vals["bx.theta"] = sci(bx.theta_max, 1); vals["bx.thetaw"] = sci(bx.theta_max_weakest, 1);
+      vals["bx.mu"] = Math.round(bx.mu_sigma); vals["bx.ma"] = bx.m_a_ueV.toFixed(2);
+      vals["bx.sno"] = (1000 * bx.sum_no).toFixed(1); vals["bx.sio"] = (1000 * bx.sum_io).toFixed(1);
+      vals["bx.desi"] = Math.round(1000 * bx.desi); vals["bx.t13"] = Math.round(bx.theta13_sigma);
+      vals["bx.tm1"] = bx.tm1_s12.toFixed(3); vals["bx.tm1s"] = bx.tm1_s12_sigma.toFixed(1);
+      vals["bx.tm1d"] = Math.round(bx.tm1_delta); vals["bx.seesaw"] = sci(bx.seesaw_max, 1);
+      vals["bx.mgut"] = sci(bx.M_GUT, 1);
+    }
+    if (D.proton) { vals["pd.tau"] = sci(D.proton.tau, 1); vals["pd.ratio"] = Math.round(D.proton.ratio);
+                    if (D.proton.d5) vals["pd.d5"] = sci(D.proton.d5, 0); }
+    if (D.scorecard) { vals["sc.mh"] = D.scorecard.m_h.toFixed(1); }
     if (D.joint) {
       var j = D.joint;
       vals["jt.smU"] = Math.round(j.sm_U); vals["jt.smB"] = Math.round(j.sm_B); vals["jt.smH"] = j.sm_H.toFixed(1);
