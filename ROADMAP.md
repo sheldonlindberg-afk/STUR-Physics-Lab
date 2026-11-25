@@ -110,8 +110,11 @@ Status: [x] done, [~] in progress, [ ] not started.
    tested on random directions only; the vacuum is local, not shown global; tree level only.
 2. [x] The 126's couplings to <210> (Part T10): self-dual 5-form mass matrices; only the D-odd cubic
    splits (10,3,1) from (10bar,1,3); with (10bar,1,3) light, m^2(10,3,1) = 2 eta_2 v exactly. Joint scan
-   with the 210: most viable potentials pass proton decay and natural leptogenesis. Open: the 10's
-   couplings; the (1,2,2) doublet-mixing and fine-tuning of the light Higgs; one-loop potential.
+   with the 210: most viable potentials pass proton decay and natural leptogenesis.
+2b. [x] The 10's couplings (Part T11): no H H phi cubic; one splitting quartic H_i H_j A_ij (A = 6 v^2 on
+   SO(4), 0 on SO(6)); the cubic H S phi mixes the 10's and 126's (6,1,1). Light doublet assumed (the
+   doublet-triplet tuning); the lighter colour triplet sits near M_GUT. Open: triplet-mediated proton
+   decay (needs Yukawas at M_GUT); a complex 10 (two doublets); the one-loop potential.
 3. [ ] The same for the LR chain (210 under SU(3) x SU(2)^2 x U(1)).
 
 ## Later

@@ -636,6 +636,11 @@ def test_potential_210():
     assert all(abs(c6["(10,3,1)"][k] - c6["(10bar,1,3)"][k]) < 1e-9 for k in ("norm", "D", "E", "F"))
     w6 = pz["with_126"]
     assert w6["viable"] > 50 and w6["frac_proton_ok"] > 0.5
+    # T11: the 10: only A_ij splits doublet from triplet; with the light doublet the triplet is heavy
+    w10 = pz["with_10"]
+    assert (w10["A_SO4"], w10["A_SO6"]) == (6, 0) and w10["split_per_kappa"] == -1
+    assert w10["viable"] > 50 and w10["frac_proton_ok"] > 0.5
+    assert 0.3 < w10["triplet_light_quantiles"][1] < 5
 
 
 def test_website_data_is_current():

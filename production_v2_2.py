@@ -315,7 +315,7 @@ NUMERICS: Dict[str, Any] = {
     "check_axion_tol": "0.05",        # Part V: eq. 170 is an approximation (their words); agreement within 5 %
     "heavy_mass_spread": 10,          # Part T8: each heavy GUT multiplet's mass within this factor of M_GUT (assumed)
     "potential_seed": 20261125,       # Part T9: any seed works; the scan is deterministic
-    "potential_points": 12000,        # Parts T9, T10: coupling points tried
+    "potential_points": 30000,        # Parts T9-T11: coupling points tried
     "potential_lambda_max": 1,        # Part T9: |lambda_a| (normalized quartics) at most this (perturbative box, assumed)
     "potential_eta_max": 1,           # Part T9: |eta / v| at most this (assumed)
     "potential_directions": 32,       # Part T9: random directions for the bounded-below test
@@ -5848,6 +5848,27 @@ def so10_126_coefficients() -> Dict[str, Any]:
     return {"coefficients": coef, "selfdual_dev": sd, "p3_mixing": mix, "d_even_dev": deven}
 
 
+# --- T11. The 10's couplings. 10 x 10 = 1 + 45 + 54 holds no 210, so there is no cubic H H phi; the one
+# quartic that splits the 10 is H_i H_j A_ij with A_ij = phi_iklm phi_jklm (the trace part is universal). At
+# the vev A_ij is 6 v^2 on the SO(4) indices and 0 on the SO(6) ones: it splits the doublet (1,2,2) from the
+# colour triplet (6,1,1). 10 x 126 holds the 210, so the cubic H_i S_ijklm phi_jklm exists; at the vev it
+# picks S_i6789, the 126's own (6,1,1): the two colour triplets mix. The light Higgs needs the (1,2,2) light
+# (at M_I, in this chain), which fixes the 10's mass term: the doublet-triplet splitting, a tuning of the
+# 10's mass against its coupling to <210> to (M_I / M_GUT)^2.
+def so10_10_splitting() -> Dict[Tuple[int, int], float]:
+    """A_ij = phi_iklm phi_jklm at the unit Pati-Salam vev (full index sums)."""
+    phi = {t: _signed(t) for t in itertools.permutations(PS_SINGLET_210)}
+    by3: Dict[Tuple[int, ...], List[Tuple[int, float]]] = {}
+    for t, v in phi.items():
+        by3.setdefault(t[1:], []).append((t[0], v))
+    a_: Dict[Tuple[int, int], float] = {}
+    for lst in by3.values():
+        for i, v in lst:
+            for j, w_ in lst:
+                a_[(i, j)] = a_.get((i, j), 0) + v * w_
+    return a_
+
+
 def potential_210_scan(heavy: Dict[str, Any], alpha_gut: float, tau0: float, m_i0: float, tau_limit: float,
                        mu0: float, m1_nat: float) -> Dict[str, Any]:
     curv = potential_210_curvatures()
@@ -5869,12 +5890,16 @@ def potential_210_scan(heavy: Dict[str, Any], alpha_gut: float, tau0: float, m_i
     scale = {k: max(abs(c126[r_][k]) for r_ in c126) for k in ("cubic", "D", "E")}
     light = "(10bar,1,3)"
     names126 = {"(6,1,1)": "126: (6,1,1)", "(10,3,1)": "126: (10,3,1)", "(15,2,2)": "126: (15,2,2)"}
-    pts, pts_all, tried = [], [], int(num("potential_points"))
+    a10 = so10_10_splitting()
+    a_max = max(abs(v_) for v_ in a10.values())
+    split10 = (a10.get((0, 0), 0) - a10.get((6, 6), 0)) / a_max        # m^2(6,1,1) - m^2(1,2,2), per kappa v^2
+    pts, pts_all, pts_10, tried = [], [], [], int(num("potential_points"))
     for _ in range(tried):
         lam = {q: rng.uniform(-lam_max, lam_max) for q in QUARTICS_210}
         eta = rng.uniform(-eta_max, eta_max)
         k126 = {"cubic": rng.uniform(-eta_max, eta_max), "D": rng.uniform(-lam_max, lam_max),
                 "E": rng.uniform(-lam_max, lam_max)}
+        k10, mix10 = rng.uniform(-lam_max, lam_max), rng.uniform(-eta_max, eta_max)
         m2 = {n_: sum(lam[q] * c_[q] for q in QUARTICS_210) + eta * c_["eta"] for n_, c_ in curv.items()}
         if any(m2[n_] <= 0 for n_ in curv if n_ != "(6,2,2)"):
             continue
@@ -5893,6 +5918,22 @@ def potential_210_scan(heavy: Dict[str, Any], alpha_gut: float, tau0: float, m_i
         dtau2 = dtau + sum(resp[names126[r_]]["dlntau"] * ell2[r_] for r_ in names126)
         dmi2 = dmi + sum(resp[names126[r_]]["dlnMI"] * ell2[r_] for r_ in names126)
         pts_all.append({"ell": ell2, "tau_p": tau0 * math.exp(dtau2), "M_I": m_i0 * math.exp(dmi2)})
+        # the 10: doublet light, so m^2(6,1,1)_10 = kappa_10 * split10 v^2; it mixes (cubic, mix10 v^2) with one
+        # real component of the 126's (6,1,1); the other real component keeps m126["(6,1,1)"]
+        m_h6, m_s6 = k10 * split10, m126["(6,1,1)"]
+        tr_, det_ = m_h6 + m_s6, m_h6 * m_s6 - mix10 ** 2
+        if det_ <= 0 or tr_ <= 0:
+            continue
+        root = math.sqrt(max(tr_ * tr_ / 4 - det_, 0))
+        eig = (tr_ / 2 - root, tr_ / 2 + root, m_s6)                   # three real colour-triplet 6's
+        r6 = resp["10: (6,1,1)"]                                         # the response of one real 6
+        old6 = resp["126: (6,1,1)"]
+        ell6 = [math.log(math.sqrt(2 * e_ / g2)) for e_ in eig]
+        # replace the 126's (6,1,1) term (two real 6's at m126) by the three eigenstates
+        dtau3 = dtau2 - old6["dlntau"] * ell2["(6,1,1)"] + r6["dlntau"] * sum(ell6)
+        dmi3 = dmi2 - old6["dlnMI"] * ell2["(6,1,1)"] + r6["dlnMI"] * sum(ell6)
+        pts_10.append({"tau_p": tau0 * math.exp(dtau3), "M_I": m_i0 * math.exp(dmi3),
+                       "triplet_light": math.sqrt(2 * eig[0] / g2)})
     n_ok = len(pts)
 
     def frac(cond: Callable[[Dict[str, Any]], bool], sample: List[Dict[str, Any]] | None = None) -> float:
@@ -5909,8 +5950,15 @@ def potential_210_scan(heavy: Dict[str, Any], alpha_gut: float, tau0: float, m_i
                "frac_all": frac(lambda p_: p_["tau_p"] > tau_limit and p_["M_I"] >= m1_nat, pts_all),
                "tau_p_quantiles": quantiles("tau_p", pts_all), "M_I_quantiles": quantiles("M_I", pts_all),
                "coefficients_126": c126}
+    with10 = {"viable": len(pts_10), "split_per_kappa": split10, "A_SO6": a10.get((0, 0), 0), "A_SO4": a10.get((6, 6), 0),
+              "frac_proton_ok": frac(lambda p_: p_["tau_p"] > tau_limit, pts_10),
+              "frac_vacuum_ok": frac(lambda p_: p_["M_I"] < mu0, pts_10),
+              "frac_leptogenesis_ok": frac(lambda p_: p_["M_I"] >= m1_nat, pts_10),
+              "frac_all": frac(lambda p_: p_["tau_p"] > tau_limit and p_["M_I"] >= m1_nat, pts_10),
+              "tau_p_quantiles": quantiles("tau_p", pts_10), "M_I_quantiles": quantiles("M_I", pts_10),
+              "triplet_light_quantiles": quantiles("triplet_light", pts_10)}
     return {"curvatures": curv, "tried": tried, "viable": n_ok, "lambda_max": lam_max, "eta_max": eta_max,
-            "with_126": with126,
+            "with_126": with126, "with_10": with10,
             "frac_proton_ok": frac(lambda p_: p_["tau_p"] > tau_limit),
             "frac_vacuum_ok": frac(lambda p_: p_["M_I"] < mu0),
             "frac_leptogenesis_ok": frac(lambda p_: p_["M_I"] >= m1_nat),
@@ -6994,6 +7042,11 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     checks.append(("126: the self-dual basis is self-dual, (10,3,1) and (10bar,1,3) do not mix, and every D-even"
                    " invariant is equal on them", max(c126_["selfdual_dev"], c126_["p3_mixing"], c126_["d_even_dev"]) < tol,
                    f"max {max(c126_['selfdual_dev'], c126_['p3_mixing'], c126_['d_even_dev']):.1e}"))
+    a10_ = so10_10_splitting()
+    a10_ok = all(abs(a10_.get((i, i), 0) - (6 if i >= 6 else 0)) < tol for i in range(10)) and all(
+        abs(v_) < tol for (i, j), v_ in a10_.items() if i != j)
+    checks.append(("10: A_ij = phi phi at the vev is 6 v^2 on SO(4) indices, 0 on SO(6), diagonal (splits (1,2,2) from"
+                   " (6,1,1))", a10_ok, ""))
     sm_c1, sm_c2 = sm_as_chain()
     ps1 = s10["chains"]["PS"]["loop1"]
     rel_c = max(abs(ps1["M_I"] / ps_["M_I"] - 1), abs(ps1["M_GUT"] / ps_["M_GUT"] - 1))
@@ -8111,6 +8164,22 @@ def report(res: Dict[str, Any]) -> str:
     w(f"        M_I 16-50-84 %: {mq[0]:.1e}, {mq[1]:.1e}, {mq[2]:.1e} GeV; natural leptogenesis {100 * p6['frac_leptogenesis_ok']:.0f} %;"
       f" stabilizable vacuum {100 * p6['frac_vacuum_ok']:.0f} %")
     w(f"        proton decay and natural leptogenesis together: {100 * p6['frac_all']:.0f} %")
+    p10 = pz["with_10"]
+    w("  T11. The 10's couplings. No cubic H H phi exists (10 x 10 holds no 210); the quartic H_i H_j A_ij,")
+    w(f"       A_ij = phi_iklm phi_jklm, is {p10['A_SO4']:.0f} v^2 on SO(4) indices and {p10['A_SO6']:.0f} on SO(6): it alone"
+      " splits the doublet (1,2,2) from")
+    w("       the colour triplet (6,1,1). The cubic H_i S_ijklm phi_jklm mixes that triplet with the 126's (6,1,1).")
+    w("       The light doublet fixes the 10's mass term: a cancellation to (M_I/M_GUT)^2, the doublet-triplet")
+    w("       splitting problem, assumed here as in every SO(10) model.")
+    tq, mq, lq = p10["tau_p_quantiles"], p10["M_I_quantiles"], p10["triplet_light_quantiles"]
+    w(f"       With the 10's couplings scanned too ({p10['viable']} jointly viable potentials):")
+    w(f"        lighter colour triplet / M_GUT 16-50-84 %: {lq[0]:.2f}, {lq[1]:.2f}, {lq[2]:.2f}")
+    w(f"        proton decay passes {100 * p10['frac_proton_ok']:.0f} %; tau_p 16-50-84 %: {tq[0]:.1e}, {tq[1]:.1e}, {tq[2]:.1e} years")
+    w(f"        M_I 16-50-84 %: {mq[0]:.1e}, {mq[1]:.1e}, {mq[2]:.1e} GeV; natural leptogenesis {100 * p10['frac_leptogenesis_ok']:.0f} %;"
+      f" stabilizable vacuum {100 * p10['frac_vacuum_ok']:.0f} %")
+    w(f"        proton decay and natural leptogenesis together: {100 * p10['frac_all']:.0f} %")
+    w("       Not included: proton decay through the colour triplets' own Yukawa couplings (scalar exchange), which")
+    w("       needs the Yukawa matrices at M_GUT.")
     w(_wrap("RESULT: SO(10) calculates the hypercharges' normalization (sin^2 theta_W = 3/8 at unification) and "
             "requires the right-handed neutrino; its minimal Yukawa relations are excluded. Without supersymmetry, "
             f"the Pati-Salam route unifies the three couplings with M_I = {ps['M_I']:.0e} GeV and M_GUT = "

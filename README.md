@@ -30,7 +30,7 @@ python3 production_v2_2.py --certify            # also prove every texture exclu
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 66 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 67 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -684,6 +684,17 @@ coupling. With the 126's couplings scanned as well, most jointly viable potentia
 decay, put M_I a little lower (median a few ×10¹⁰ GeV, often below the SM instability scale, so
 the vacuum can be stabilized), and keep natural leptogenesis. The fractions depend on the scan's
 priors, as the report states.
+
+**Part T11: the 10's couplings.** No cubic H H φ exists, because 10×10 = 1 + 45 + 54 holds no 210.
+The one quartic that splits the 10 is H_i H_j A_ij with A_ij = φ_iklm φ_jklm, and at the vacuum
+A_ij is 6v² on the SO(4) indices and 0 on the SO(6) ones (a self-check). That coupling alone
+splits the doublet (1,2,2) from the colour triplet (6,1,1). The cubic H_i Σ_ijklm φ_jklm mixes that
+triplet with the 126's own (6,1,1). The light doublet fixes the 10's mass term; that is the
+doublet–triplet splitting, a cancellation to (M_I/M_GUT)², assumed as in every SO(10) model. With
+the 210's, the 126's and the 10's couplings all scanned, the lighter colour triplet sits near
+M_GUT (median about 1.4 M_GUT). Most jointly viable potentials pass proton decay through the gauge
+bosons, and most keep natural leptogenesis and a stabilizable vacuum. Not included: proton decay
+through the colour triplets' own Yukawa couplings, which needs the Yukawa matrices at M_GUT.
 
 **Part V: dark matter from the axion**
 
