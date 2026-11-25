@@ -91,9 +91,12 @@ Status: [x] done, [~] in progress, [ ] not started.
 4. [ ] Still deferred: proton-decay operator running above M_I (round 2, item 3), until its
    anomalous-dimension formula is transcribed from a source and checked on the SM exponents.
 
-## Round 4 (proposed)
-1. The heavy spectrum: the SO(10) scalar potential (126 + 45/54/210) and the masses it gives at M_I and
-   M_GUT, to turn Part T7's threshold band into a calculation; that decides PS against LR.
+## Round 4
+1. [x] The heavy spectrum (Part T8, Pati-Salam): each heavy GUT multiplet of the 210, 126, 10 by group
+   theory (decompositions checked against SO(10) indices). The SU(2)_L triplets (10,3,1), (15,3,1)
+   dominate; proton decay flips if (10,3,1) is ~half of M_GUT; within a factor 10 tau_p spans 1e27-1e43
+   yr. The verdicts are set by the scalar potential's couplings, which nothing measured fixes. Open: the
+   same for LR (needs the 210 under 3221) and for the M_I thresholds; the potential itself.
 2. Feed Part V back into Part A: Omega_c from the axion at the surviving chain's M_I (with the string
    yield as the open input), so cosmology is no longer only an input.
 3. Z-pole observables (sin^2 theta_eff, Gamma_Z) next to M_W.

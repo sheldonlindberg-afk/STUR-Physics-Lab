@@ -30,7 +30,7 @@ python3 production_v2_2.py --certify            # also prove every texture exclu
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 61 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 62 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -647,6 +647,16 @@ Every corner is solved at two loops:
 
 So only Pati–Salam with D-parity is excluded whatever the thresholds. The surviving chains'
 verdicts depend on the heavy spectrum, which is what has to be calculated next.
+
+**Part T8: the heavy spectrum, by group theory.** In the Pati–Salam chain a 210 breaks SO(10). The
+heavy components of the 210, the 126 and the 10 sit at M_GUT, with masses set by the unknown scalar
+potential. Each component shifts the couplings at M_GUT by (b^h/2π) ln(M_h/M_GUT), where b^h follows
+from group theory; a self-check confirms that every decomposition adds up to its SO(10) index (1, 35,
+56). Two components dominate, both SU(2)_L triplets: the 126's (10,3,1) and the 210's (15,3,1).
+Proton decay flips if the (10,3,1) alone is about half as heavy as M_GUT. With all eight masses
+anywhere within a factor 10 of M_GUT, M_I spans 10⁷–10¹⁶ GeV and τ_p spans 10²⁷–10⁴³ years.
+**In non-supersymmetric SO(10), the heavy spectrum, not the running, decides every verdict.**
+Calculating it needs the scalar potential's couplings, which nothing measured fixes.
 
 **Part V: dark matter from the axion**
 

@@ -309,6 +309,7 @@ NUMERICS: Dict[str, Any] = {
     "check_phase_grid": 96,           # Part P check: brute-force Majorana phases against the exact band
     "proton_phase_grid": 36,          # Part Q: grid per unknown GUT phase (phi_2, phi_3) for the dimension-five band
     "check_axion_tol": "0.05",        # Part V: eq. 170 is an approximation (their words); agreement within 5 %
+    "heavy_mass_spread": 10,          # Part T8: each heavy GUT multiplet's mass within this factor of M_GUT (assumed)
     "threshold_band": 1,              # Part T7: largest one-loop threshold per matching condition, in 1/alpha (an
                                       # assumption: one heavy multiplet with b ~ 2 a factor e off gives ~0.3)
     "report_sci_below": "1e-3",       # print in scientific notation below / above these
@@ -5351,6 +5352,8 @@ def _rep_info(group: str, dim: int) -> Tuple[Fr, Fr]:
         return Fr(n), Fr(n)
     if (n, dim) == (4, 10):                                  # symmetric tensor of SU(4)
         return Fr(n + 2, 2), Fr((n + 2) * (n - 1), n)
+    if (n, dim) == (4, 6):                                   # antisymmetric tensor of SU(4)
+        return Fr(n - 2, 2), Fr((n - 2) * (n + 1), n)
     raise ValueError(f"representation {dim} of {group} not tabulated")
 
 
@@ -5546,6 +5549,69 @@ def chain_thresholds(chain: Dict[str, Any], x: Dict[str, float], base: Dict[str,
             "leptogenesis_flips": any((m_ >= m1_nat) != base_a for m_ in mi)}
 
 
+# --- T8. The heavy spectrum at M_GUT, by group theory. SO(10) -> Pati-Salam without D-parity is broken
+# by the D-odd singlet of a 210; the 126 (whose (10bar,1,3) breaks PS at M_I) and the 10 (whose (1,2,2) holds
+# the light Higgs) have their other components at M_GUT. Under SU(4) x SU(2)_L x SU(2)_R:
+#   210 = (1,1,1) + (15,1,1) + (15,3,1) + (15,1,3) + (6,2,2) + (10,2,2) + (10bar,2,2)
+#   126 = (6,1,1) + (10,3,1) + (10bar,1,3) + (15,2,2)            10 = (6,1,1) + (1,2,2)
+# The (6,2,2) of the 210 is eaten by the heavy vectors (6,2,2), whose mass defines M_GUT. Each remaining
+# heavy multiplet h with mass M_h shifts the couplings at M_GUT by (b_i^h / 2 pi) ln(M_h / M_GUT) (leading
+# log; b_i^h its one-loop contribution). The masses come from the unknown scalar potential: each is
+# scanned within a factor heavy_mass_spread of M_GUT, the response is linear in the logs, so every
+# extreme follows from one solve per multiplet.
+SO10_TO_PS = {10: ((6, 1, 1), (1, 2, 2)),
+              126: ((6, 1, 1), (10, 3, 1), (10, 1, 3), (15, 2, 2)),
+              210: ((1, 1, 1), (15, 1, 1), (15, 3, 1), (15, 1, 3), (6, 2, 2), (10, 2, 2), (10, 2, 2))}
+SO10_INDEX = {10: 1, 126: 35, 210: 56}                       # Dynkin indices, the 10 normalized to 1
+
+
+def so10_decomposition_index(rep: int) -> List[Fr]:
+    """Sum of the components' Dynkin indices under SU(4), SU(2)_L, SU(2)_R: each must equal the SO(10)
+    index (embedding index 1), a check of the decompositions T8 uses."""
+    tot = [Fr(0)] * 3
+    for comp in SO10_TO_PS[rep]:
+        size = math.prod(comp)
+        for i, (g, d) in enumerate(zip(("SU4", "SU2", "SU2"), comp)):
+            tot[i] += _rep_info(g, d)[0] * Fr(size, d)        # T(fund) = 1/2 gives T(10 of SO(10)) = 1
+    return tot
+
+
+PS_GUT_HEAVY = (("210: (15,1,1)", (15, 1, 1), "real"), ("210: (15,3,1)", (15, 3, 1), "real"),
+                ("210: (15,1,3)", (15, 1, 3), "real"), ("210: (10,2,2) + conj.", (10, 2, 2), "complex"),
+                ("126: (6,1,1)", (6, 1, 1), "complex"), ("126: (10,3,1)", (10, 3, 1), "complex"),
+                ("126: (15,2,2)", (15, 2, 2), "complex"), ("10: (6,1,1)", (6, 1, 1), "real"))
+
+
+def heavy_b(rep: Tuple[int, int, int], kind: str) -> List[Fr]:
+    """One-loop b of one scalar multiplet under SU(4), SU(2)_L, SU(2)_R (real: 1/6, complex: 1/3 S)."""
+    w_ = Fr(1, 6) if kind == "real" else Fr(1, 3)
+    size = math.prod(rep)
+    return [w_ * _rep_info(g, d)[0] * Fr(size, d) for g, d in zip(("SU4", "SU2", "SU2"), rep)]
+
+
+def heavy_spectrum_band(chain: Dict[str, Any], x: Dict[str, float], base: Dict[str, Any], a_l: float) -> Dict[str, Any]:
+    """d(ln M_I, ln M_GUT, ln tau_p)/d ln(M_h/M_GUT) per multiplet, and the extremes for |ln| <= ln(spread)."""
+    spread = math.log(num("heavy_mass_spread"))
+    rows = []
+    for name, rep, kind in PS_GUT_HEAVY:
+        bh = [float(v) for v in heavy_b(rep, kind)]
+        delta = [bh_ / (2 * math.pi) for bh_ in bh]              # per unit ln(M_h/M_GUT)
+        shifts = [delta[0] - delta[1], delta[2] - delta[1]]       # PS residuals: inv4 - inv2L, inv2R - inv2L
+        r_ = solve_chain(chain, x, 2, shifts)
+        tau = proton_lifetime(x, r_["M_GUT"], r_["alpha_GUT"], None, a_l)
+        rows.append({"multiplet": name, "b": heavy_b(rep, kind),
+                     "dlnMI": math.log(r_["M_I"] / base["M_I"]), "dlnMG": math.log(r_["M_GUT"] / base["M_GUT"]),
+                     "dlntau": math.log(tau / base["tau_p_years"])})
+    ext = {}
+    for key in ("dlnMI", "dlnMG", "dlntau"):
+        width = spread * sum(abs(r_[key]) for r_ in rows)
+        ext[key] = width
+    return {"spread": num("heavy_mass_spread"), "rows": rows,
+            "M_I": (base["M_I"] * math.exp(-ext["dlnMI"]), base["M_I"] * math.exp(ext["dlnMI"])),
+            "M_GUT": (base["M_GUT"] * math.exp(-ext["dlnMG"]), base["M_GUT"] * math.exp(ext["dlnMG"])),
+            "tau_p": (base["tau_p_years"] * math.exp(-ext["dlntau"]), base["tau_p_years"] * math.exp(ext["dlntau"]))}
+
+
 def so10(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any], scp: Dict[str, Any],
          bau: Dict[str, Any], pdk: Dict[str, Any], crit: Dict[str, Any]) -> Dict[str, Any]:
     x0 = _float_inputs()
@@ -5613,6 +5679,16 @@ def so10(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any
     defs = so10_chains()
     out["thresholds"] = {nm: chain_thresholds(defs[nm], x0, ch["loop2"], a_l, pdk["limit_e_pi0"],
                                               out["vacuum"]["mu0"], m1_nat) for nm, ch in chains.items()}
+    # T8. the Pati-Salam chain's heavy GUT multiplets, one by one
+    hs = heavy_spectrum_band(defs["PS"], x0, chains["PS"]["loop2"], a_l)
+    base = chains["PS"]["loop2"]
+    for r_ in hs["rows"]:
+        # the mass ratio M_h/M_GUT at which each verdict flips (linear in the log; None if it never does here)
+        def flip(target: float, value: float, slope: float) -> float | None:
+            return math.exp(math.log(target / value) / slope) if slope else None
+        r_["proton_flip_ratio"] = flip(pdk["limit_e_pi0"], base["tau_p_years"], r_["dlntau"])
+        r_["vacuum_flip_ratio"] = flip(out["vacuum"]["mu0"], base["M_I"], r_["dlnMI"])
+    out["heavy_spectrum_PS"] = hs
     return out
 
 
@@ -6514,6 +6590,9 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     checks.append(("Axion misalignment from its ingredients reproduces Di Luzio et al.'s eq. 170 (their approximation)",
                    abs(c170["Omega_h2"] / c170["printed"] - 1) < num("check_axion_tol"),
                    f"Omega h^2 = {c170['Omega_h2']:.4f} at f_a = {c170['f_a']:.1e} GeV against {c170['printed']}"))
+    idx_ok = all(so10_decomposition_index(r_) == [Fr(SO10_INDEX[r_])] * 3 for r_ in SO10_TO_PS)
+    checks.append(("SO(10) -> Pati-Salam decompositions of 10, 126, 210: component indices add up to the SO(10)"
+                   " index under every factor", idx_ok, ", ".join(f"{r_}: {SO10_INDEX[r_]}" for r_ in SO10_TO_PS)))
     sm_c1, sm_c2 = sm_as_chain()
     ps1 = s10["chains"]["PS"]["loop1"]
     rel_c = max(abs(ps1["M_I"] / ps_["M_I"] - 1), abs(ps1["M_GUT"] / ps_["M_GUT"] - 1))
@@ -7590,6 +7669,19 @@ def report(res: Dict[str, Any]) -> str:
                                    ("leptogenesis", t_["leptogenesis_flips"])) if f_]
         w(f"        {nm:<6s} M_I {t_['M_I'][0]:.1e} - {t_['M_I'][1]:.1e}, M_GUT {t_['M_GUT'][0]:.1e} - {t_['M_GUT'][1]:.1e},"
           f" tau_p {t_['tau_p'][0]:.0e} - {t_['tau_p'][1]:.0e}: " + (", ".join(flips) + " can flip" if flips else "robust"))
+    hs_ = so["heavy_spectrum_PS"]
+    w("  T8. Pati-Salam's heavy GUT multiplets (SO(10) broken by a 210, plus the 126 and 10): each shifts the")
+    w("      couplings at M_GUT by (b^h/2 pi) ln(M_h/M_GUT). Per unit of that log, and the mass ratio M_h/M_GUT")
+    w("      (that multiplet alone) at which proton decay or vacuum stability would flip:")
+    w("        multiplet               b (4, 2L, 2R)       d ln M_I  d ln tau_p   proton flips   vacuum flips")
+    for r_ in hs_["rows"]:
+        pf = f"{r_['proton_flip_ratio']:.2g}" if r_["proton_flip_ratio"] else "-"
+        vf = f"{r_['vacuum_flip_ratio']:.2g}" if r_["vacuum_flip_ratio"] else "-"
+        w(f"        {r_['multiplet']:<23s} {', '.join(str(v_) for v_ in r_['b']):<18s} {r_['dlnMI']:+8.3f}  {r_['dlntau']:+9.3f}"
+          f"   at {pf:<9s}   at {vf}")
+    w(f"      All eight within a factor {hs_['spread']} of M_GUT: M_I {hs_['M_I'][0]:.0e} - {hs_['M_I'][1]:.0e} GeV,"
+      f" M_GUT {hs_['M_GUT'][0]:.0e} - {hs_['M_GUT'][1]:.0e} GeV,")
+    w(f"      tau_p {hs_['tau_p'][0]:.0e} - {hs_['tau_p'][1]:.0e} years: the heavy spectrum, not the running, decides.")
     w(_wrap("RESULT: SO(10) calculates the hypercharges' normalization (sin^2 theta_W = 3/8 at unification) and "
             "requires the right-handed neutrino; its minimal Yukawa relations are excluded. Without supersymmetry, "
             f"the Pati-Salam route unifies the three couplings with M_I = {ps['M_I']:.0e} GeV and M_GUT = "

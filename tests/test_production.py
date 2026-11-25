@@ -595,6 +595,19 @@ def test_w_mass():
     assert abs(wm["shift_to_measured_m_h"]) < 0.003 and 0.003 < wm["sigma"] < 0.01
 
 
+def test_heavy_spectrum():
+    """Part T8: the SU(2)_L triplets (10,3,1) of the 126 and (15,3,1) of the 210 dominate; proton decay flips
+    if either is lighter than M_GUT by a factor of a few; within a factor 10 the spectrum decides everything."""
+    hs = RESULT["so10"]["heavy_spectrum_PS"]
+    rows = {r["multiplet"]: r for r in hs["rows"]}
+    assert len(rows) == 8
+    big = sorted(rows.values(), key=lambda r: -abs(r["dlntau"]))[:2]
+    assert {r["multiplet"] for r in big} == {"126: (10,3,1)", "210: (15,3,1)"}
+    assert 0.2 < rows["126: (10,3,1)"]["proton_flip_ratio"] < 1
+    assert hs["tau_p"][1] / hs["tau_p"][0] > 1e5
+    assert all(P.so10_decomposition_index(r) == [P.SO10_INDEX[r]] * 3 for r in P.SO10_TO_PS)
+
+
 def test_website_data_is_current():
     """assets/site-data.js (written by tools/site_data.py) shows the numbers the script computes."""
     import json
