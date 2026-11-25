@@ -30,7 +30,7 @@ python3 production_v2_2.py --certify            # also prove every texture exclu
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 67 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 68 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -746,6 +746,31 @@ universe would be 15.2 Gyr old, against Planck's 13.787: **70σ off**. With all 
 returns Part A's 13.797 Gyr (a self-check). Closing the loop therefore needs about 35% of the dark
 matter to come from the axion's strings and domain walls, or from a second component. That
 fraction is now the one number on which the particle-physics side of cosmology hangs.
+
+**Part Y: the SO(10) Yukawa sector, can it give the charged-fermion masses?**
+
+With a 10 and a 126 the Yukawa matrices are symmetric and shared: M_u = a Y₁₀ + b Y₁₂₆,
+M_d = c Y₁₀ + d Y₁₂₆ and M_e = c Y₁₀ − 3d Y₁₂₆.
+
+* **Pati–Salam: excluded (exact selection rule).** Between M_I and M_GUT, SU(4) is unbroken and the
+  210's vev is a Pati–Salam singlet, so nothing can mix the 10's (1,2,2), an SU(4) singlet, with the
+  126's (15,2,2), an SU(4) 15. Part T11's contraction confirms that ⟨210⟩ reaches only the (6,1,1).
+  The light Higgs therefore lies in one SU(4) irrep, which gives M_e = M_d (the 10) or M_e = −3M_d
+  (the 126) for every generation at once. At M_I the measured ratios are m_e/m_d = 0.36,
+  m_μ/m_s = 3.83 and m_τ/m_b = 1.34, which misses 1 by 88σ and 3 by 11σ or more. **The minimal
+  Pati–Salam chain cannot give the charged-fermion masses**; it needs more Yukawa structure (a 120,
+  or a vev that breaks SU(4) at M_GUT).
+* **Left-right chain: reaches them.** There SU(4) breaks at M_GUT, so the doublets can mix, and
+  eliminating Y₁₀ and Y₁₂₆ gives the sum rule M_e = c₁M_d + c₂M_u with complex c₁ and c₂. With M_u
+  real and diagonal, M_d = ΨVXD_dXVᵀΨ; the up-quark phases Ψ are physical for symmetric Yukawas,
+  and leaving them out had made the search fail. A seeded search with structured starts (a
+  Georgi–Jarlskog-sized c₁ whose excess in the 33 entry c₂m_t cancels) finds a point that reaches
+  all three lepton masses within 0.2%. With 8 unknowns and 3 masses that predicts nothing yet; the
+  test is the neutrino sector (type-II seesaw: M_ν ∝ M_d − M_e), which comes next. A found point
+  proves reachability; some seeds of the search fail to find one, which says nothing against it.
+
+The scorecard now has a fermion-mass row. It moves the surviving chain from Pati–Salam to the
+left-right one.
 
 **Part U: the scorecard, every complete hypothesis against every condition**
 

@@ -512,7 +512,7 @@ def test_scorecard():
     assert {"U", "A"} <= set(v["SM to M_P"]["fails"])
     assert {"H", "P"} <= set(v["minimal SUSY SU(5)"]["fails"])
     assert "P" in v["SO(10) via PS+D"]["fails"] and "P" in v["SO(10) via LR+D"]["fails"]
-    assert v["SO(10) via PS"]["fails"] == [] and "SO(10) via PS" in sc["survivors"]
+    assert v["SO(10) via PS"]["fails"] == ["F"] and "SO(10) via LR" in sc["survivors"]
     ph = sc["chain_higgs"]["PS"]
     assert 125 < ph["m_h"] < 127 and abs(ph["pull"]) < 2
 
@@ -641,6 +641,20 @@ def test_potential_210():
     assert (w10["A_SO4"], w10["A_SO6"]) == (6, 0) and w10["split_per_kappa"] == -1
     assert w10["viable"] > 50 and w10["frac_proton_ok"] > 0.5
     assert 0.3 < w10["triplet_light_quantiles"][1] < 5
+
+
+def test_so10_yukawa():
+    """Part Y: the minimal Pati-Salam chain's light Higgs lies in one SU(4) irrep, so M_e = M_d or -3 M_d:
+    excluded by tens of sigma; the general 10 + 126 sum rule reaches the charged leptons at the LR M_GUT."""
+    yy = RESULT["so10_yukawa"]
+    ps = yy["PS"]
+    assert ps["excluded"] and min(ps["worst_pull_10"], ps["worst_pull_126"]) > 10
+    ratios = {g["pair"]: g["ratio"] for g in ps["generations"]}
+    assert 3 < ratios["m_mu/m_s"] < 5 and 1 < ratios["m_tau/m_b"] < 2 and ratios["m_e/m_d"] < 1
+    lr = yy["LR"]
+    assert lr["reaches"] and lr["worst_rel_miss"] < 0.01
+    sc = RESULT["scorecard"]["rows"]
+    assert sc["SO(10) via PS"]["F"]["status"] == "fail" and sc["SO(10) via LR"]["F"]["status"] == "trade"
 
 
 def test_website_data_is_current():

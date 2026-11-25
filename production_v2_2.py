@@ -319,6 +319,13 @@ NUMERICS: Dict[str, Any] = {
     "potential_lambda_max": 1,        # Part T9: |lambda_a| (normalized quartics) at most this (perturbative box, assumed)
     "potential_eta_max": 1,           # Part T9: |eta / v| at most this (assumed)
     "potential_directions": 32,       # Part T9: random directions for the bounded-below test
+    "yukawa_fit_mass_rel": "0.01",    # Part Y: tolerance on the fitted lepton masses (one-loop running at M_GUT)
+    "yukawa_ratio_theory_rel": "0.02",  # Part Y: floor on the error of a lepton/down mass ratio at M_I (running)
+    "yukawa_fit_starts": 600,         # Part Y: seeded starts of the sum-rule search (half structured)
+    "yukawa_fit_evals": 60000,        # Part Y: evaluation budget per start
+    "yukawa_fit_polish": 12,          # Part Y: best starts refined by iterated local search
+    "yukawa_fit_kicks": 25,           # Part Y: random kicks per refined start
+    "yukawa_fit_min_step": "1e-6",    # Part Y: smallest compass step (in log-magnitudes and phases)
     "threshold_band": 1,              # Part T7: largest one-loop threshold per matching condition, in 1/alpha (an
                                       # assumption: one heavy multiplet with b ~ 2 a factor e off gives ~0.3)
     "report_sci_below": "1e-3",       # print in scientific notation below / above these
@@ -609,6 +616,9 @@ STAGES: Dict[str, Dict[str, str]] = {
     "closed_cosmology": {"part": "X", "level": "conditional",
                          "assumes": "Omega_m from Omega_b (measured), the axion at Pati-Salam's M_I (misalignment, "
                                     "post-inflation) and the minimal neutrino masses; flat LambdaCDM"},
+    "so10_yukawa": {"part": "Y", "level": "numerical",
+                    "assumes": "symmetric Yukawas from a 10 and a 126; the selection rule exact at tree level; the "
+                               "sum rule at the LR chain's M_GUT with SM running; unknowns searched, never set"},
     "self_checks": {"part": "-", "level": "validation", "assumes": "tests the calculation, not the physics"},
 }
 
@@ -6233,6 +6243,178 @@ def closed_cosmology(cosmo: Dict[str, Any], dm: Dict[str, Any], nus: Dict[str, A
             "string_fraction_needed": 1 - a_mis / om_c_meas, "Omega_m_input": float(cosmo["Omega_m"])}
 
 
+def _herm3_eigvals(m: List[List[complex]]) -> List[float]:
+    """Eigenvalues (ascending) of a 3x3 Hermitian matrix in closed form (trigonometric solution of the cubic)."""
+    a, b, c = m[0][0].real, m[1][1].real, m[2][2].real
+    d, e, f = m[0][1], m[1][2], m[0][2]
+    q = (a + b + c) / 3
+    p1 = abs(d) ** 2 + abs(e) ** 2 + abs(f) ** 2
+    p2 = (a - q) ** 2 + (b - q) ** 2 + (c - q) ** 2 + 2 * p1
+    if p2 <= 0:
+        return [q, q, q]
+    p = math.sqrt(p2 / 6)
+    # B = (A - q I)/p ; r = det(B)/2
+    aa, bb, cc = (a - q) / p, (b - q) / p, (c - q) / p
+    dd, ee, ff = d / p, e / p, f / p
+    det = (aa * bb * cc + 2 * (dd * ee * ff.conjugate()).real - aa * abs(ee) ** 2 - bb * abs(ff) ** 2 - cc * abs(dd) ** 2)
+    r = max(-1.0, min(1.0, det / 2))
+    phi = math.acos(r) / 3
+    l1 = q + 2 * p * math.cos(phi)
+    l3 = q + 2 * p * math.cos(phi + 2 * math.pi / 3)
+    return sorted([l3, 3 * q - l1 - l3, l1])
+
+
+def _herm3_eigvec(m: List[List[complex]], lam: float) -> List[complex]:
+    """Unit eigenvector for a simple eigenvalue: the largest cross product of two rows of (A - lam I)."""
+    rows = [[m[i][j] - (lam if i == j else 0) for j in range(3)] for i in range(3)]
+    best, bn = None, -1.0
+    for i, j in ((0, 1), (0, 2), (1, 2)):
+        u, w = rows[i], rows[j]
+        cr = [u[1] * w[2] - u[2] * w[1], u[2] * w[0] - u[0] * w[2], u[0] * w[1] - u[1] * w[0]]   # rows . v = 0
+        nrm = math.sqrt(sum(abs(z) ** 2 for z in cr))
+        if nrm > bn:
+            best, bn = cr, nrm
+    return [z / bn for z in best]
+
+
+# =============================================================================
+# 6w. PART Y: THE SO(10) YUKAWA SECTOR, CAN IT GIVE THE CHARGED-FERMION MASSES?
+# =============================================================================
+# With a 10 and a 126 coupling to the fermions, the Yukawa matrices are symmetric and shared by all four
+# sectors: M_u = a Y10 + b Y126, M_d = c Y10 + d Y126, M_e = c Y10 - 3 d Y126 (a-d: the light Higgs'
+# components). Two tests, at the scale where the relations hold (each chain's M_I):
+#   Y1. Pati-Salam selection rule (exact): between M_I and M_GUT SU(4) is unbroken and <210> is a PS singlet,
+#       so nothing mixes the 10's bidoublet (1,2,2) (an SU(4) singlet) with the 126's (15,2,2) (an SU(4) 15);
+#       T11's contraction H_i S_ijklm phi_jklm indeed reaches only the (6,1,1). The light Higgs then lies in
+#       one SU(4) irrep: the 10 alone (M_e = M_d) or the 126 alone (M_e = -3 M_d), for every generation at
+#       once. Tested on m_e/m_d, m_mu/m_s, m_tau/m_b at M_I.
+#   Y2. Where the doublets can mix (SU(4) broken above M_I), eliminating Y10, Y126 gives the sum rule
+#       M_e = c1 M_d + c2 M_u with any complex c1, c2. In the basis where M_u is diagonal,
+#       M_d = Psi V diag(m_d e^{2ia}, m_s e^{2ib}, m_b) V^T Psi (with M_u real diagonal the up-quark phases
+#       Psi = diag(e^{i psi1}, e^{i psi2}, 1) are physical). Eight unknowns for the three charged-lepton masses:
+#       if no point reaches them, the sum rule is excluded whatever the neutrinos do.
+def masses_at_scale(flav: Dict[str, Any], mu: float) -> Dict[str, List[float]]:
+    """Running masses at mu (GeV): the third generation from the SM Yukawa running (Part J's), the lighter
+    from the flavour stage's same-type ratios; leptons with their ratios at M_Z (QED; above it the gauge part
+    is common to all three and y_tau^2 is negligible)."""
+    mt, st = couplings_at_mt(flav)
+    top = run_to(st, mt, mu, "SM")
+    v = flav["runner"].v
+    r = flav["runner"].ratios_at([mu])[mu]
+    m_t, m_b, m_tau = (top[k] * v / math.sqrt(2) for k in (3, 4, 5))
+    lep = lepton_masses_gev()
+    a0, mz = inp("alpha_em"), inp("M_Z")
+    lr = [lepton_running_mass(lep[k], mz, a0) for k in ("e", "mu", "tau")]
+    return {"u": [m_t * r["r_ct"] * r["r_uc"], m_t * r["r_ct"], m_t],
+            "d": [m_b * r["r_sb"] * r["r_ds"], m_b * r["r_sb"], m_b],
+            "e": [m_tau * lr[0] / lr[2], m_tau * lr[1] / lr[2], m_tau]}
+
+
+def _mm_dag(m: List[List[complex]]) -> List[List[complex]]:
+    return [[sum(m[i][k] * m[j][k].conjugate() for k in range(3)) for j in range(3)] for i in range(3)]
+
+
+def so10_yukawa_tests(flav: Dict[str, Any], s10: Dict[str, Any]) -> Dict[str, Any]:
+    """Y1 at the Pati-Salam chain's M_I (where its relations hold); Y2 at the left-right chain's M_GUT (where
+    SU(4) breaks and the doublets can mix; SM running stands in for the missing left-right Yukawa running)."""
+    out = {"PS": so10_selection_rule(flav, s10["chains"]["PS"]["loop2"]["M_I"]),
+           "LR": so10_sum_rule(flav, s10["chains"]["LR"]["loop2"]["M_GUT"])}
+    return out
+
+
+def so10_selection_rule(flav: Dict[str, Any], m_i: float) -> Dict[str, Any]:
+    ms = masses_at_scale(flav, m_i)
+    # Y1: lepton/down ratios per generation against 1 (10 alone) and 3 (126 alone); errors from the inputs
+    rel = {"d": math.hypot(sig("m_d") / inp("m_d"), sig("m_s") / inp("m_s")) / math.sqrt(2),
+           "s": sig("m_s") / inp("m_s"), "b": sig("m_b") / inp("m_b")}
+    gens = []
+    for k, (q, l, e_) in enumerate((("d", "e", rel["d"]), ("s", "mu", rel["s"]), ("b", "tau", rel["b"]))):
+        ratio = ms["e"][k] / ms["d"][k]
+        s_ = ratio * max(e_, num("yukawa_ratio_theory_rel"))
+        gens.append({"pair": f"m_{l}/m_{q}", "ratio": ratio, "sigma": s_,
+                     "pull_10": (ratio - 1) / s_, "pull_126": (ratio - 3) / s_})
+    worst10 = max(abs(g_["pull_10"]) for g_ in gens)
+    worst126 = max(abs(g_["pull_126"]) for g_ in gens)
+    return {"scale": m_i, "masses": ms, "generations": gens, "worst_pull_10": worst10, "worst_pull_126": worst126,
+            "excluded": min(worst10, worst126) > num("survival_sigma")}
+
+
+def so10_sum_rule(flav: Dict[str, Any], mu: float) -> Dict[str, Any]:
+    ms = masses_at_scale(flav, mu)
+    # Y2: the general sum rule on the three charged-lepton masses (seeded multi-start compass search)
+    x = _float_inputs()
+    v_ckm = ckm_from_wolfenstein(x)
+    tol_m = num("yukawa_fit_mass_rel")
+
+    def lepton_masses(u: List[float]) -> List[float]:
+        # u = (ln|c1|, arg c1, ln|c2|, arg c2, a, b, psi_1, psi_2): relative steps for couplings of any size.
+        # With M_u real diagonal the up-quark phases Psi are physical: M_d = Psi V X D_d X V^T Psi.
+        c1, c2 = cmath.rect(math.exp(u[0]), u[1]), cmath.rect(math.exp(u[2]), u[3])
+        ph = (cmath.exp(1j * 2 * u[4]), cmath.exp(1j * 2 * u[5]), 1)
+        psi = (cmath.exp(1j * u[6]), cmath.exp(1j * u[7]), 1)
+        dd = [ms["d"][k] * ph[k] for k in range(3)]
+        me = [[c1 * psi[i] * psi[j] * sum(v_ckm[i][k] * dd[k] * v_ckm[j][k] for k in range(3))
+               + (c2 * ms["u"][i] if i == j else 0) for j in range(3)] for i in range(3)]
+        return [math.sqrt(max(e_, 0)) for e_ in _herm3_eigvals(_mm_dag(me))]
+
+    def chi2(u: List[float]) -> float:
+        return sum(((a_ / b_ - 1) / tol_m) ** 2 for a_, b_ in zip(lepton_masses(u), ms["e"]))
+
+    def compass(u: List[float], step: float) -> Tuple[List[float], float]:
+        """Compass search with a hard evaluation budget."""
+        best_c, steps, n_ev = chi2(u), [step] * len(u), 0
+        while max(steps) > num("yukawa_fit_min_step") and n_ev < int(num("yukawa_fit_evals")):
+            moved = False
+            for d_ in range(len(u)):
+                for sgn in (1, -1):
+                    y_ = list(u)
+                    y_[d_] += sgn * steps[d_]
+                    c_ = chi2(y_)
+                    n_ev += 1
+                    if c_ < best_c:
+                        best_c, u, moved = c_, y_, True
+                        break
+                if moved:
+                    break
+            if not moved:
+                steps = [s_ / 2 for s_ in steps]
+        return u, best_c
+    rng = _UniformStream(int(num("potential_seed")) + 1)
+    found: List[Tuple[float, List[float]]] = []
+    for k_ in range(int(num("yukawa_fit_starts"))):
+        if k_ % 2:
+            # generic start
+            u0 = [math.log(10) * rng.uniform(-1, 3 / 2), rng.uniform(0, 2 * math.pi), math.log(10) * rng.uniform(-6, 0),
+                  rng.uniform(0, 2 * math.pi), rng.uniform(0, math.pi), rng.uniform(0, math.pi),
+                  rng.uniform(0, 2 * math.pi), rng.uniform(0, 2 * math.pi)]
+        else:
+            # structured start: |c1| of a Georgi-Jarlskog size for the muon, and c2 m_t cancelling the excess of
+            # c1 m_b in the 33 entry (arg c2 opposite to arg c1)
+            c1m = rng.uniform(1, 8) * ms["e"][1] / ms["d"][1] / 3
+            a1 = rng.uniform(0, 2 * math.pi)
+            c2m = abs(c1m * ms["d"][2] - ms["e"][2]) / ms["u"][2] * rng.uniform(1 / 2, 2)
+            u0 = [math.log(c1m), a1, math.log(c2m), a1 + math.pi + rng.uniform(-1 / 2, 1 / 2),
+                  rng.uniform(0, math.pi), rng.uniform(0, math.pi), rng.uniform(0, 2 * math.pi), rng.uniform(0, 2 * math.pi)]
+        u, c = compass(u0, 1 / 2)
+        found.append((c, u))
+    # iterated local search: kick the best points (every coordinate by up to one unit) and re-minimize
+    found.sort(key=lambda t: t[0])
+    best = found[0]
+    for c0, u0 in found[:int(num("yukawa_fit_polish"))]:
+        cur = (c0, u0)
+        for _ in range(int(num("yukawa_fit_kicks"))):
+            u, c = compass([v_ + rng.uniform(-1, 1) for v_ in cur[1]], 1 / 4)
+            if c < cur[0]:
+                cur = (c, u)
+        if cur[0] < best[0]:
+            best = cur
+    fit_m = lepton_masses(best[1])
+    return {"scale": mu, "masses": ms, "chi2_min": best[0], "starts": int(num("yukawa_fit_starts")),
+            "mass_tolerance": tol_m, "best_masses": fit_m,
+            "worst_rel_miss": max(abs(a_ / b_ - 1) for a_, b_ in zip(fit_m, ms["e"])),
+            "reaches": best[0] < 1}
+
+
 # =============================================================================
 # 6s. PART U: THE SCORECARD, EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
 # =============================================================================
@@ -6249,7 +6431,7 @@ def closed_cosmology(cosmo: Dict[str, Any], dm: Dict[str, Any], nus: Dict[str, A
 # the scale where the SM ends: computed with Part L's own running and matching.
 def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any], pdk: Dict[str, Any],
               nus: Dict[str, Any], bau: Dict[str, Any], s10: Dict[str, Any], scp: Dict[str, Any],
-              dm: Dict[str, Any]) -> Dict[str, Any]:
+              dm: Dict[str, Any], s10y: Dict[str, Any]) -> Dict[str, Any]:
     mh, mh_s, _ = _comparison("m_h")
     surv = num("survival_sigma")
     rows: Dict[str, Dict[str, Dict[str, Any]]] = {}
@@ -6305,6 +6487,19 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
             return entry("trade", frac + f" (strings add more); pre-inflation theta_i = {d_['theta_i_pre_needed']:.2f}"
                                          " gives all of it")
         return entry("open", frac + ", and no initial angle gives all of it: another candidate is needed")
+    yps, ylr = s10y["PS"], s10y["LR"]
+
+    def fermion_entry(nm: str) -> Dict[str, Any]:
+        if nm.startswith("PS"):
+            return entry("fail" if yps["excluded"] else "pass",
+                         "the light doublet sits in one SU(4) irrep (exact selection rule): M_e = M_d or -3 M_d,"
+                         f" missed by at least {min(yps['worst_pull_10'], yps['worst_pull_126']):.0f} sigma (Part Y)",
+                         min(yps["worst_pull_10"], yps["worst_pull_126"]))
+        return entry("trade" if ylr["reaches"] else "fail",
+                     "M_e = c1 M_d + c2 M_u reaches the lepton masses" + ("" if ylr["reaches"] else " only within"
+                     f" {100 * ylr['worst_rel_miss']:.0f} %") + " (8 unknowns, 3 masses: predictive only with neutrinos)")
+    rows["SM to M_P"]["F"] = entry("trade", "the Yukawa couplings are free parameters")
+    rows["minimal SUSY SU(5)"]["F"] = entry("fail", "m_s/m_d = m_mu/m_e (minimal SU(5)) excluded (Part J)")
     rows["SM to M_P"]["D"] = entry("open", "no dark-matter candidate; Omega_c is an input (Part A)")
     rows["minimal SUSY SU(5)"]["D"] = entry("trade", "the lightest superpartner, not calculated here")
     rows["SM to M_P"]["V"] = entry("open", f"metastable: lambda turns negative at {vac['mu0']:.1e} GeV (Part L)")
@@ -6332,10 +6527,11 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
             "A": leptogenesis_entry(m_i),
             "T": entry("trade", f"an axion at f_a = M_I would give m_a = {two['axion_m_a_eV_if_fa_MI'] * 10 ** 6:.2g} micro-eV"),
             "V": vacuum_entry(s10["vacuum"], nm),
-            "D": dark_matter_entry(dm["chains"][nm])}
+            "D": dark_matter_entry(dm["chains"][nm]),
+            "F": fermion_entry(nm)}
     conditions = {"U": "gauge unification", "B": "b-tau unification", "H": "Higgs mass", "N": "neutrino masses",
                   "P": "proton decay", "A": "baryon asymmetry", "T": "strong CP", "V": "vacuum stability",
-                  "D": "dark matter"}
+                  "D": "dark matter", "F": "fermion masses"}
     verdict = {h: {"fails": [c for c, e in r.items() if e["status"] == "fail"],
                    "trades": [c for c, e in r.items() if e["status"] == "trade"],
                    "passes": [c for c, e in r.items() if e["status"] == "pass"],
@@ -6744,9 +6940,10 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     bau = _stage("baryon_asymmetry", lambda: baryon_asymmetry(cosmo, flav, nus, planck))
     s10 = _stage("so10", lambda: so10(flav, alpha_unif, yukawa, scp, bau, pdk, crit))
     dm = _stage("dark_matter", lambda: dark_matter(scp, s10, planck, bau))
+    s10y = _stage("so10_yukawa", lambda: so10_yukawa_tests(flav, s10))
     mw = _stage("w_mass", lambda: {**w_mass_test(crit), "z_pole": sin2_eff_test(crit)})
     closed = _stage("closed_cosmology", lambda: closed_cosmology(cosmo, dm, nus, "PS"))
-    score = _stage("scorecard", lambda: scorecard(joint, higgs, crit, pdk, nus, bau, s10, scp, dm))
+    score = _stage("scorecard", lambda: scorecard(joint, higgs, crit, pdk, nus, bau, s10, scp, dm, s10y))
     _TRACE["stage"] = "self_checks"                 # everything below validates the stages above
     _TRACE["inputs"].setdefault("self_checks", set())
     checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
@@ -7047,6 +7244,14 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
         abs(v_) < tol for (i, j), v_ in a10_.items() if i != j)
     checks.append(("10: A_ij = phi phi at the vev is 6 v^2 on SO(4) indices, 0 on SO(6), diagonal (splits (1,2,2) from"
                    " (6,1,1))", a10_ok, ""))
+    mt_ = [[complex(2, 0), complex(1, 1), complex(0, 2)], [complex(1, -1), complex(3, 0), complex(1, 0)],
+           [complex(0, -2), complex(1, 0), complex(1, 0)]]
+    ev_ = _herm3_eigvals(mt_)
+    tr_ok = abs(sum(ev_) - 6) < tol and all(
+        max(abs(sum(mt_[i][k] * v_[k] for k in range(3)) - e_ * v_[i]) for i in range(3)) < tol
+        for e_ in ev_ for v_ in [_herm3_eigvec(mt_, e_)])
+    checks.append(("Closed-form 3x3 Hermitian eigenvalues: trace preserved and every eigenvector satisfies A v = lambda v",
+                   tr_ok, ", ".join(f"{e_:.4f}" for e_ in ev_)))
     sm_c1, sm_c2 = sm_as_chain()
     ps1 = s10["chains"]["PS"]["loop1"]
     rel_c = max(abs(ps1["M_I"] / ps_["M_I"] - 1), abs(ps1["M_GUT"] / ps_["M_GUT"] - 1))
@@ -7063,7 +7268,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
             "alpha_numerology": alpha_num, "yukawa": yukawa, "higgs": higgs, "criticality": crit,
             "joint": joint, "mass_formulas": masses, "strong_cp": scp, "neutrinos": nus, "proton_decay": pdk,
             "anomalies": anom, "baryon_asymmetry": bau, "so10": s10, "scorecard": score,
-            "dark_matter": dm, "w_mass": mw, "closed_cosmology": closed,
+            "dark_matter": dm, "w_mass": mw, "closed_cosmology": closed, "so10_yukawa": s10y,
             "survey_certificates": certs, "checks": checks, "lineage": lin,
             "changed_inputs": dict(_TRACE["set"]),
             "precision": prec}
@@ -8252,6 +8457,33 @@ def report(res: Dict[str, Any]) -> str:
             "particle-physics side of the cosmology hangs; the lattice and simulation results for the string "
             "yield are what would test it.", 2))
     w("")
+    yy = res["so10_yukawa"]
+    yp, yl = yy["PS"], yy["LR"]
+    w("PART Y. THE SO(10) YUKAWA SECTOR: CAN IT GIVE THE CHARGED-FERMION MASSES?")
+    w("-" * 78)
+    w("  With a 10 and a 126 the Yukawas are symmetric and shared: M_u = a Y10 + b Y126, M_d = c Y10 + d Y126,")
+    w("  M_e = c Y10 - 3 d Y126 (a-d: the light Higgs' components).")
+    w(f"  Y1. Pati-Salam (at M_I = {yp['scale']:.1e} GeV). SU(4) is unbroken up to M_GUT and <210> is a PS singlet, so")
+    w("      nothing mixes the 10's (1,2,2) (SU(4) singlet) with the 126's (15,2,2): the light Higgs lies in one")
+    w("      SU(4) irrep, and M_e = M_d (10) or M_e = -3 M_d (126) for every generation (exact at tree level).")
+    for g_ in yp["generations"]:
+        w(f"        {g_['pair']:<11s} = {g_['ratio']:.3f} +/- {g_['sigma']:.3f}:  {g_['pull_10']:+.0f} sigma from 1,"
+          f" {g_['pull_126']:+.0f} sigma from 3")
+    w(f"      Excluded: {yp['excluded']}. The minimal Pati-Salam chain cannot give the charged-fermion masses; it needs")
+    w("      more Yukawa structure (a 120, or a vev that breaks SU(4) at M_GUT).")
+    w(f"  Y2. Where the doublets can mix (the left-right chain, SU(4) broken at M_GUT = {yl['scale']:.1e} GeV): eliminating")
+    w("      Y10, Y126 gives M_e = c1 M_d + c2 M_u, c1, c2 complex. With M_u real diagonal, M_d = Psi V X D_d X V^T Psi")
+    w("      (the up-quark phases Psi are physical for symmetric Yukawas). Eight unknowns, three lepton masses:")
+    w(f"      best of {yl['starts']} seeded starts: chi^2 = {_fmt(yl['chi2_min'], 2)} at {100 * yl['mass_tolerance']:.0f} % per mass;"
+      f" masses {', '.join(f'{m_:.4g}' for m_ in yl['best_masses'])} GeV")
+    w(f"      against {', '.join(f'{m_:.4g}' for m_ in yl['masses']['e'])} GeV (worst miss {100 * yl['worst_rel_miss']:.3f} %)."
+      " Reached; the prediction must come from the")
+    w("      neutrinos (type-II seesaw: M_nu proportional to M_d - M_e), the next step.")
+    w(_wrap("RESULT: SO(10)'s Yukawa sector is a real test. The minimal Pati-Salam chain fails it: its unbroken SU(4) "
+            "keeps the light Higgs in one irrep, which gives the wrong lepton/down ratios by tens of sigma. Where "
+            "SU(4) breaks at M_GUT (left-right chain), the 10 + 126 sum rule reaches the charged leptons, with "
+            "parameters to spare: whether it calculates the neutrino mixing is the open question.", 2))
+    w("")
     sc_ = res["scorecard"]
     w("PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION")
     w("-" * 78)
@@ -8366,7 +8598,7 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
         "proton_decay": res["proton_decay"], "anomalies": res["anomalies"],
         "baryon_asymmetry": res["baryon_asymmetry"], "so10": res["so10"],
         "scorecard": res["scorecard"], "dark_matter": res["dark_matter"],
-        "w_mass": res["w_mass"], "closed_cosmology": res["closed_cosmology"],
+        "w_mass": res["w_mass"], "closed_cosmology": res["closed_cosmology"], "so10_yukawa": res["so10_yukawa"],
         "survey_certificates": res["survey_certificates"],
         "model": {"stages": STAGES, "lineage": res["lineage"], "changed_inputs": res["changed_inputs"],
                   "audit_findings": [{"status": a, "finding": b} for a, b in AUDIT_FINDINGS]},

@@ -116,6 +116,11 @@ Status: [x] done, [~] in progress, [ ] not started.
    doublet-triplet tuning); the lighter colour triplet sits near M_GUT. Open: triplet-mediated proton
    decay (needs Yukawas at M_GUT); a complex 10 (two doublets); the one-loop potential.
 3. [ ] The same for the LR chain (210 under SU(3) x SU(2)^2 x U(1)).
+4. [x] The Yukawa sector (Part Y): PS excluded by an exact selection rule (light Higgs in one SU(4) irrep:
+   M_e = M_d or -3 M_d); the LR chain's 10+126 sum rule reaches the charged leptons (8 unknowns).
+5. [ ] The neutrinos from the sum rule: type-II M_nu ~ M_d - M_e (and type I) at the LR M_GUT: does it
+   give the PMNS angles and Delta m^2 ratio, and what does it predict (delta, m_bb)?
+6. [ ] Left-right Yukawa running between M_I and M_GUT (SM running is used now).
 
 ## Later
 - One running for every coupling (matrix Yukawas to M_GUT); GUT and superpartner thresholds;
