@@ -97,9 +97,10 @@ Status: [x] done, [~] in progress, [ ] not started.
    dominate; proton decay flips if (10,3,1) is ~half of M_GUT; within a factor 10 tau_p spans 1e27-1e43
    yr. The verdicts are set by the scalar potential's couplings, which nothing measured fixes. Open: the
    same for LR (needs the 210 under 3221) and for the M_I thresholds; the potential itself.
-2. Feed Part V back into Part A: Omega_c from the axion at the surviving chain's M_I (with the string
-   yield as the open input), so cosmology is no longer only an input.
-3. Z-pole observables (sin^2 theta_eff, Gamma_Z) next to M_W.
+2. [x] Part X: Omega_m from Omega_b + axion at PS's M_I + neutrinos; misalignment alone makes the
+   universe 15.2 Gyr old (70 sigma): strings/defects must give ~35 % of the DM. Open: the string yield.
+3. [x] Z pole (Part W): sin^2 theta_eff = 0.23163 (two-loop parametrization, Awramik et al. 2006) vs
+   0.23151 +- 0.00016 (LEP+SLC). Open: Gamma_Z, R_l, the other pseudo-observables.
 4. Proton running above M_I and the dimension-five factor 2.2.
 
 ## Later

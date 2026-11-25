@@ -608,6 +608,16 @@ def test_heavy_spectrum():
     assert all(P.so10_decomposition_index(r) == [P.SO10_INDEX[r]] * 3 for r in P.SO10_TO_PS)
 
 
+def test_z_pole_and_closed_cosmology():
+    """Part W's Z pole: sin^2 theta_eff within 2 sigma of LEP+SLC. Part X: with misalignment alone at
+    Pati-Salam's M_I the universe is too old; all of Omega_c reproduces Part A's age."""
+    zp = RESULT["w_mass"]["z_pole"]
+    assert 0.2314 < zp["sin2_eff"] < 0.2318 and all(abs(c["pull"]) < 2 for c in zp["comparisons"].values())
+    cc = RESULT["closed_cosmology"]
+    assert cc["age_pull"] > 10 and 0.2 < cc["string_fraction_needed"] < 0.6
+    assert abs(cc["age_with_all_dm_Gyr"] / float(RESULT["cosmology"]["age_Gyr"]) - 1) < 5e-3
+
+
 def test_website_data_is_current():
     """assets/site-data.js (written by tools/site_data.py) shows the numbers the script computes."""
     import json

@@ -227,6 +227,10 @@ COMPARISONS: Dict[str, Dict[str, Any]] = {
                   "source": "PDG 2024, Electroweak review eq. 10.63: average without CDF II"},
     "M_W_SM_fit": {"value": ("80.353", "0.006", "0.006"),
                    "source": "PDG 2024, Electroweak review: global SM fit without the M_W measurements"},
+    "sin2_eff_LEP_SLC": {"value": ("0.23151", "0.00016", "0.00016"),
+                         "source": "PDG 2024, Electroweak review: sin^2 theta_eff^lept, LEP + SLC"},
+    "sin2_eff_colliders": {"value": ("0.23149", "0.00013", "0.00013"),
+                           "source": "PDG 2024, Electroweak review: sin^2 theta_eff^lept, hadron-collider average"},
     "Omega_c_h2": {"value": ("0.1200", "0.0012", "0.0012"),
                    "source": "Planck 2018 VI, table 2, TT,TE,EE+lowE+lensing (Part V)"},
     # upper limits (Part P): the value is the limit, the sigmas are zero
@@ -499,6 +503,15 @@ LITERATURE: Dict[str, Dict[str, Any]] = {
                   "reference": {"M_H": "100", "m_t": "174.3", "M_Z": "91.1875", "delta_alpha": "0.05907",
                                 "alpha_s": "0.119"},
                   "delta_alpha_lept": "0.0314977", "fit_accuracy": "0.0005"}},
+    "sin2_eff_fit": {
+        "source": "Awramik, Czakon, Freitas 2006 (hep-ph/0608099v2), eqs. 48-49 and table 5 (leptons): the SM's "
+                  "two-loop sin^2 theta_eff^lept, maximal deviation 4.5e-6 for 10 GeV <= M_H <= 1 TeV",
+        "value": {"coefficients": {"s0": "0.2312527", "d1": "4.729e-4", "d2": "2.07e-5", "d3": "3.85e-6",
+                                   "d4": "-1.85e-6", "d5": "2.07e-2", "d6": "-2.851e-3", "d7": "1.82e-4",
+                                   "d8": "-9.74e-6", "d9": "3.98e-4", "d10": "-6.55e-1"},
+                  "reference": {"M_H": "100", "m_t": "178.0", "M_Z": "91.1876", "delta_alpha": "0.05907",
+                                "alpha_s": "0.117"},
+                  "fit_accuracy": "4.5e-6"}},
     "axion_misalignment": {
         "source": "Di Luzio, Giannotti, Nardi, Visinelli 2020 (arXiv:2003.01100), sec. 3.3: m_a(T) = beta m_a "
                   "(T_C/T)^gamma (eq. 150, dilute instanton gas, beta from their ref. 184), g* at oscillation, "
@@ -588,6 +601,9 @@ STAGES: Dict[str, Dict[str, str]] = {
                                "production left out; f_a scanned and at each SO(10) chain's M_I"},
     "w_mass": {"part": "W", "level": "conditional",
                "assumes": "the SM's two-loop M_W in its published parametrization, at Part L's Higgs mass"},
+    "closed_cosmology": {"part": "X", "level": "conditional",
+                         "assumes": "Omega_m from Omega_b (measured), the axion at Pati-Salam's M_I (misalignment, "
+                                    "post-inflation) and the minimal neutrino masses; flat LambdaCDM"},
     "self_checks": {"part": "-", "level": "validation", "assumes": "tests the calculation, not the physics"},
 }
 
@@ -5807,6 +5823,73 @@ def w_mass_test(crit: Dict[str, Any]) -> Dict[str, Any]:
     return out
 
 
+def sin2_eff(x: Dict[str, float], m_h: float) -> float:
+    """sin^2 theta_eff^lept, the SM's two-loop fermionic result in its published parametrization
+    (Awramik, Czakon, Freitas 2006, eqs. 48-49, table 5, leptons)."""
+    lit = LITERATURE["sin2_eff_fit"]["value"]
+    d = {k: float(v) for k, v in lit["coefficients"].items()}
+    ref = {k: float(v) for k, v in lit["reference"].items()}
+    d_alpha = float(LITERATURE["w_mass_fit"]["value"]["delta_alpha_lept"]) + x["delta_alpha_had5"]
+    l_h = math.log(m_h / ref["M_H"])
+    dh = m_h / ref["M_H"]
+    da = d_alpha / ref["delta_alpha"] - 1
+    dt = (x["M_t"] / ref["m_t"]) ** 2 - 1
+    das = x["alpha_s_MZ"] / ref["alpha_s"] - 1
+    dz = x["M_Z"] / ref["M_Z"] - 1
+    return (d["s0"] + d["d1"] * l_h + d["d2"] * l_h ** 2 + d["d3"] * l_h ** 4 + d["d4"] * (dh ** 2 - 1)
+            + d["d5"] * da + d["d6"] * dt + d["d7"] * dt ** 2 + d["d8"] * dt * (dh - 1) + d["d9"] * das + d["d10"] * dz)
+
+
+def sin2_eff_test(crit: Dict[str, Any]) -> Dict[str, Any]:
+    x0 = _float_inputs()
+    m_h = crit["central"]["m_h"]
+    s2 = sin2_eff(x0, m_h)
+    names = ("M_t", "alpha_s_MZ", "M_Z", "delta_alpha_had5")
+    parts = {n: _propagate(lambda x, n_=n: sin2_eff(x, m_h), (n,)) for n in names}
+    sig_mh = abs(sin2_eff(x0, m_h + crit["sigma_total"]) - sin2_eff(x0, m_h - crit["sigma_total"])) / 2
+    fit_err = float(LITERATURE["sin2_eff_fit"]["value"]["fit_accuracy"])
+    sig_tot = math.sqrt(sum(v * v for v in parts.values()) + sig_mh ** 2 + fit_err ** 2)
+    out = {"sin2_eff": s2, "sigma": sig_tot, "sigma_parts": parts, "sigma_m_h": sig_mh, "fit_accuracy": fit_err,
+           "shift_to_measured_m_h": sin2_eff(x0, _comparison("m_h")[0]) - s2}
+    out["comparisons"] = {}
+    for k in ("sin2_eff_LEP_SLC", "sin2_eff_colliders"):
+        v, s_, _ = _comparison(k)
+        out["comparisons"][k] = {"value": v, "sigma": s_, "pull": (v - s2) / math.hypot(s_, sig_tot)}
+    return out
+
+
+# =============================================================================
+# 6v. PART X: CLOSING THE LOOP, COSMOLOGY FROM THE PARTICLE PHYSICS
+# =============================================================================
+# Part A takes Omega_m as an input. With the axion at the surviving chain's M_I (Part V) the matter density
+# follows instead: Omega_m h^2 = Omega_b h^2 (measured) + Omega_a h^2 (misalignment) + Omega_nu h^2 (Part P,
+# normal-ordering minimum). Flatness then gives Omega_Lambda, and the Friedmann equation the age (Part A's
+# float quadrature, the same function as its check). Against Planck's age this tests the closed loop; the
+# string and domain-wall yield, the one unknown left, is what must make up any missing dark matter.
+def closed_cosmology(cosmo: Dict[str, Any], dm: Dict[str, Any], nus: Dict[str, Any], chain: str) -> Dict[str, Any]:
+    h_ = inp("H0") / 100
+    om_r = float(cosmo["Omega_r"])
+    h0 = float(cosmo["H0_per_s"])
+    om_b = inp("Omega_b_h2") / h_ ** 2
+    om_nu = nus["orderings"]["NO"]["Omega_nu_h2_at_min"] / h_ ** 2
+    om_c_meas = dm["Omega_c_h2"]
+    gyr = 31557600 * 10 ** 9
+
+    def age(om_c_h2: float) -> Tuple[float, float, float]:
+        om_m = om_b + om_c_h2 / h_ ** 2 + om_nu
+        om_l = 1 - om_m - om_r
+        t = age_by_float_quadrature(om_r, om_m, om_l, int(num("friedmann_check_steps")),
+                                    num("friedmann_check_lna_min")) / h0 / gyr
+        return om_m, om_l, t
+    a_mis = dm["chains"][chain]["Omega_h2_post"]
+    om_m, om_l, t_mis = age(a_mis)
+    _, _, t_all = age(om_c_meas)
+    t_meas, t_sig, _ = _comparison("age_Gyr")
+    return {"chain": chain, "Omega_a_h2": a_mis, "Omega_m": om_m, "Omega_Lambda": om_l, "age_Gyr": t_mis,
+            "age_with_all_dm_Gyr": t_all, "age_pull": (t_mis - t_meas) / t_sig,
+            "string_fraction_needed": 1 - a_mis / om_c_meas, "Omega_m_input": float(cosmo["Omega_m"])}
+
+
 # =============================================================================
 # 6s. PART U: THE SCORECARD, EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
 # =============================================================================
@@ -6318,7 +6401,8 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     bau = _stage("baryon_asymmetry", lambda: baryon_asymmetry(cosmo, flav, nus, planck))
     s10 = _stage("so10", lambda: so10(flav, alpha_unif, yukawa, scp, bau, pdk, crit))
     dm = _stage("dark_matter", lambda: dark_matter(scp, s10, planck, bau))
-    mw = _stage("w_mass", lambda: w_mass_test(crit))
+    mw = _stage("w_mass", lambda: {**w_mass_test(crit), "z_pole": sin2_eff_test(crit)})
+    closed = _stage("closed_cosmology", lambda: closed_cosmology(cosmo, dm, nus, "PS"))
     score = _stage("scorecard", lambda: scorecard(joint, higgs, crit, pdk, nus, bau, s10, scp, dm))
     _TRACE["stage"] = "self_checks"                 # everything below validates the stages above
     _TRACE["inputs"].setdefault("self_checks", set())
@@ -6586,6 +6670,18 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     w_ref = w_mass(xr, float(lw["reference"]["M_H"]))
     checks.append(("M_W parametrization returns M_W^0 at its reference point (transcription check)",
                    abs(w_ref - float(lw["coefficients"]["MW0"])) < num("check_rel_tol") * 100, f"{w_ref:.5f} GeV"))
+    ls_ = LITERATURE["sin2_eff_fit"]["value"]
+    xs_ = dict(xn)
+    xs_.update({"M_t": float(ls_["reference"]["m_t"]), "M_Z": float(ls_["reference"]["M_Z"]),
+                "alpha_s_MZ": float(ls_["reference"]["alpha_s"]),
+                "delta_alpha_had5": float(ls_["reference"]["delta_alpha"]) - float(lw["delta_alpha_lept"])})
+    s_ref = sin2_eff(xs_, float(ls_["reference"]["M_H"]))
+    checks.append(("sin^2 theta_eff parametrization returns s0 at its reference point (transcription check)",
+                   abs(s_ref - float(ls_["coefficients"]["s0"])) < num("check_rel_tol") * 100, f"{s_ref:.7f}"))
+    cl_ = closed["age_with_all_dm_Gyr"]
+    checks.append(("Part X with all of Omega_c reproduces Part A's age (the same Friedmann equation)",
+                   abs(cl_ / float(cosmo["age_Gyr"]) - 1) < num("check_axion_tol") / 10,
+                   f"{cl_:.3f} against {float(cosmo['age_Gyr']):.3f} Gyr"))
     c170 = dm["check_eq170"]
     checks.append(("Axion misalignment from its ingredients reproduces Di Luzio et al.'s eq. 170 (their approximation)",
                    abs(c170["Omega_h2"] / c170["printed"] - 1) < num("check_axion_tol"),
@@ -6609,7 +6705,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
             "alpha_numerology": alpha_num, "yukawa": yukawa, "higgs": higgs, "criticality": crit,
             "joint": joint, "mass_formulas": masses, "strong_cp": scp, "neutrinos": nus, "proton_decay": pdk,
             "anomalies": anom, "baryon_asymmetry": bau, "so10": s10, "scorecard": score,
-            "dark_matter": dm, "w_mass": mw,
+            "dark_matter": dm, "w_mass": mw, "closed_cosmology": closed,
             "survey_certificates": certs, "checks": checks, "lineage": lin,
             "changed_inputs": dict(_TRACE["set"]),
             "precision": prec}
@@ -7728,9 +7824,31 @@ def report(res: Dict[str, Any]) -> str:
     w(f"    at the measured m_h instead: {1000 * wm['shift_to_measured_m_h']:+.1f} MeV")
     for k, c_ in wm["comparisons"].items():
         w(f"    {k:<36s} {c_['value']:.4f} +/- {c_['sigma']:.4f}: {c_['pull']:+.1f} sigma")
+    zp = wm["z_pole"]
+    w("  The effective weak mixing angle of the Z couplings (Awramik, Czakon, Freitas 2006, two loops, leptons):")
+    w(f"    sin^2 theta_eff = {zp['sin2_eff']:.5f} +/- {zp['sigma']:.5f}; at the measured m_h:"
+      f" {zp['shift_to_measured_m_h']:+.5f}")
+    for k, c_ in zp["comparisons"].items():
+        w(f"    {COMPARISONS[k]['source'].split(': ')[-1]:<36s} {c_['value']:.5f} +/- {c_['sigma']:.5f}: {c_['pull']:+.1f} sigma")
     w(_wrap("RESULT: the Standard Model's M_W, with every input but Delta alpha_had measured or calculated here, "
             "agrees with the measurements and reproduces the PDG's global fit. No new physics is needed at the weak "
             "scale; the heavy states of the SO(10) chains decouple, so this tests the SM below M_I, not the chains.", 2))
+    w("")
+    cc_ = res["closed_cosmology"]
+    w("PART X. CLOSING THE LOOP: COSMOLOGY FROM THE PARTICLE PHYSICS")
+    w("-" * 78)
+    w("  Part A takes Omega_m as an input. Here it follows from the rest: Omega_b (measured), the axion at the")
+    w(f"  Pati-Salam M_I by misalignment (Part V: Omega_a h^2 = {cc_['Omega_a_h2']:.4f}) and the minimal neutrino masses")
+    w("  (Part P). Flatness gives Omega_Lambda; the Friedmann equation the age.")
+    w(f"    Omega_m = {cc_['Omega_m']:.4f} (Part A's input: {cc_['Omega_m_input']:.4f}), Omega_Lambda = {cc_['Omega_Lambda']:.4f},"
+      f" age = {cc_['age_Gyr']:.3f} Gyr")
+    w(f"    against Planck's {_comparison('age_Gyr')[0]} +/- {_comparison('age_Gyr')[1]} Gyr: {cc_['age_pull']:+.0f} sigma"
+      f" (with all of Omega_c: {cc_['age_with_all_dm_Gyr']:.3f} Gyr)")
+    w(_wrap(f"RESULT: misalignment alone leaves the universe too old by {cc_['age_pull']:.0f} sigma: closing the loop needs "
+            f"{100 * cc_['string_fraction_needed']:.0f} % of the dark matter from the axion's strings and domain walls "
+            "(post-inflation), or a second component. That fraction is now the single number on which the "
+            "particle-physics side of the cosmology hangs; the lattice and simulation results for the string "
+            "yield are what would test it.", 2))
     w("")
     sc_ = res["scorecard"]
     w("PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION")
@@ -7846,7 +7964,7 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
         "proton_decay": res["proton_decay"], "anomalies": res["anomalies"],
         "baryon_asymmetry": res["baryon_asymmetry"], "so10": res["so10"],
         "scorecard": res["scorecard"], "dark_matter": res["dark_matter"],
-        "w_mass": res["w_mass"],
+        "w_mass": res["w_mass"], "closed_cosmology": res["closed_cosmology"],
         "survey_certificates": res["survey_certificates"],
         "model": {"stages": STAGES, "lineage": res["lineage"], "changed_inputs": res["changed_inputs"],
                   "audit_findings": [{"status": a, "finding": b} for a, b in AUDIT_FINDINGS]},

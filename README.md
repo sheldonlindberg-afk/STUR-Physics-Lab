@@ -30,7 +30,7 @@ python3 production_v2_2.py --certify            # also prove every texture exclu
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 62 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 64 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -692,8 +692,22 @@ calculates; using the measured one instead moves M_W by +1.4 MeV.
 | measured, without CDF II | 80.360 ± 0.012 | +0.8σ |
 | measured, PDG 2024 average | 80.369 ± 0.013 | +1.4σ |
 
+The effective weak mixing angle of the Z couplings, from the same authors' two-loop parametrization
+(2006), comes out at sin²θ_eff = 0.23163 ± 0.00004, against 0.23151 ± 0.00016 (LEP + SLC) and
+0.23149 ± 0.00013 (hadron colliders).
+
 The SM prediction agrees with the measurements and reproduces the PDG fit. The heavy states of the
 SO(10) chains decouple, so this tests the SM below M_I, not the chains.
+
+**Part X: closing the loop, cosmology from the particle physics**
+
+Part A takes Ω_m as an input. Here it is built from the rest: Ω_b (measured), the axion at
+Pati–Salam's M_I by misalignment (Part V) and the minimal neutrino masses (Part P). Flatness then
+gives Ω_Λ, and the Friedmann equation gives the age. With misalignment alone, Ω_m = 0.222 and the
+universe would be 15.2 Gyr old, against Planck's 13.787: **70σ off**. With all of Ω_c the same code
+returns Part A's 13.797 Gyr (a self-check). Closing the loop therefore needs about 35% of the dark
+matter to come from the axion's strings and domain walls, or from a second component. That
+fraction is now the one number on which the particle-physics side of cosmology hangs.
 
 **Part U: the scorecard, every complete hypothesis against every condition**
 
