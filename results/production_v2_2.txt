@@ -842,6 +842,20 @@ PART T. SO(10)
         PS+D   M_I 2.8e+13 - 6.7e+13, M_GUT 3.2e+14 - 2.2e+15, tau_p 4e+29 - 7e+32: robust
         LR     M_I 8.9e+07 - 8.6e+10, M_GUT 3.2e+15 - 7.1e+16, tau_p 4e+33 - 9e+38: proton decay, vacuum, leptogenesis can flip
         LR+D   M_I 5.1e+09 - 1.8e+11, M_GUT 6.8e+14 - 7.6e+15, tau_p 8e+30 - 1e+35: proton decay, vacuum, leptogenesis can flip
+  T8. Pati-Salam's heavy GUT multiplets (SO(10) broken by a 210, plus the 126 and 10): each shifts the
+      couplings at M_GUT by (b^h/2 pi) ln(M_h/M_GUT). Per unit of that log, and the mass ratio M_h/M_GUT
+      (that multiplet alone) at which proton decay or vacuum stability would flip:
+        multiplet               b (4, 2L, 2R)       d ln M_I  d ln tau_p   proton flips   vacuum flips
+        210: (15,1,1)           2/3, 0, 0            +0.149     -0.542   at 30          at 0.0043
+        210: (15,3,1)           2, 5, 0              -1.316     +2.174   at 0.43        at 1.9
+        210: (15,1,3)           2, 0, 5              +1.090     -1.357   at 3.9         at 0.48
+        210: (10,2,2) + conj.   4, 10/3, 10/3        +0.149     -0.542   at 30          at 0.0043
+        126: (6,1,1)            1/3, 0, 0            +0.075     -0.271   at 9.1e+02     at 1.9e-05
+        126: (10,3,1)           3, 20/3, 0           -1.681     +2.628   at 0.5         at 1.6
+        126: (15,2,2)           16/3, 5, 5           +0.075     -0.271   at 9.1e+02     at 1.9e-05
+        10: (6,1,1)             1/6, 0, 0            +0.037     -0.136   at 8.3e+05     at 3.5e-10
+      All eight within a factor 10.0 of M_GUT: M_I 4e+06 - 5e+15 GeV, M_GUT 8e+13 - 8e+17 GeV,
+      tau_p 2e+27 - 1e+43 years: the heavy spectrum, not the running, decides.
   RESULT: SO(10) calculates the hypercharges' normalization (sin^2 theta_W =
     3/8 at unification) and requires the right-handed neutrino; its minimal
     Yukawa relations are excluded. Without supersymmetry, the Pati-Salam
@@ -1288,8 +1302,9 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Leptogenesis efficiency: z_B solves its freeze-out equation; kappa_f -> 1 in weak washout  (max rel residual 1.1e-15, kappa(K -> 0) = 0.999997)
   [PASS] M_W parametrization returns M_W^0 at its reference point (transcription check)  (80.37790 GeV)
   [PASS] Axion misalignment from its ingredients reproduces Di Luzio et al.'s eq. 170 (their approximation)  (Omega h^2 = 0.1184 at f_a = 2.0e+11 GeV against 0.12)
+  [PASS] SO(10) -> Pati-Salam decompositions of 10, 126, 210: component indices add up to the SO(10) index under every factor  (10: 1, 126: 35, 210: 56)
   [PASS] SO(10) chains: the general two-loop formula on the SM content = sm_gauge_b, sm_two_loop_b; the Newton solver at one loop = the linear solution  (rel diff 3.3e-10)
   [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (25 stages, 69 edges)
-  61/61 checks pass
+  62/62 checks pass
 ==============================================================================
-Elapsed: 455.4 s
+Elapsed: 358.1 s
