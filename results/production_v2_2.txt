@@ -973,30 +973,46 @@ PART Y. THE SO(10) YUKAWA SECTOR: CAN IT GIVE THE CHARGED-FERMION MASSES?
         m_tau/m_b   = 1.344 +/- 0.027:  +13 sigma from 1, -62 sigma from 3
       Excluded: True. The minimal Pati-Salam chain cannot give the charged-fermion masses; it needs
       more Yukawa structure (a 120, or a vev that breaks SU(4) at M_GUT).
+  Running to the left-right M_GUT. Between M_I and M_GUT the chain is SU(3) x SU(2)_L x SU(2)_R x U(1)_B-L with
+      one bidoublet: -L = Q_L (Y1 Phi + Y2 Phi~) Q_R + leptons. Its matrix RGE is derived from the general
+      one-loop formula written over every component (a self-check), e.g. for the down quarks
+        16 pi^2 dY2/dt = 2 Y2 Y2+ Y2 - Y2 Y1+ Y1 - Y1 Y1+ Y2 + T Y2 + 2 Tr(3 Y2 Y1+ + Y4 Y3+) Y1 - gauge,
+      so u_R and d_R in one SU(2)_R doublet give y_b a +4 y_t^2 push (the SM's is -3/2 y_t^2). Matrix SM
+      running to M_I = 2.8e+09 GeV, symmetric matching (<Phi> = diag(k1, 0)), left-right running to M_GUT:
+        up       SM running 0.000494, 0.2499, 76.7         left-right 0.0004797, 0.2386, 73.93 GeV
+        down     SM running 0.001119, 0.02226, 1.049       left-right 0.001081, 0.02158, 1.121 GeV
+        leptons  SM running 0.0004689, 0.09878, 1.678      left-right 0.0004432, 0.09335, 1.586 GeV
+      |V_us|, |V_cb|, |V_ub| at M_GUT: 0.2173, 0.0402, 0.00359 (the fits use this matrix).
+      (m_b - m_tau)/m_b: -0.60 with SM running, -0.41 with left-right running (-0.48 if the Dirac
+      neutrino Yukawa is as large as the up quarks'; the unknown Takagi phases move it by at most 4e-05).
   Y2. Where the doublets can mix (the left-right chain, SU(4) broken at M_GUT = 1.5e+16 GeV): eliminating
       Y10, Y126 gives M_e = c1 M_d + c2 M_u, c1, c2 complex. With M_u real diagonal, M_d = Psi V X D_d X V^T Psi
       (the up-quark phases Psi are physical for symmetric Yukawas). Eight unknowns, three lepton masses:
-      best of 600 seeded starts: chi^2 = 0.083 at 1 % per mass; masses 0.0004689, 0.09882, 1.673 GeV
-      against 0.0004689, 0.09878, 1.678 GeV (worst miss 0.284 %). Reached; a prediction must come from the neutrinos.
+      best of 600 seeded starts: chi^2 = 9.3e-04 at 1 % per mass; masses 0.0004432, 0.09332, 1.586 GeV
+      against 0.0004432, 0.09335, 1.586 GeV (worst miss 0.029 %). Reached; a prediction must come from the neutrinos.
   Y3, Y4. The neutrinos (normal ordering): the same unknowns must also give the three PMNS angles and
       Delta m^2_21/Delta m^2_31, with the six quark masses floated within their errors (13 data).
       Type II: M_nu ~ M_d - M_e. Type I: the Dirac matrix is fixed by the same c1, c2,
       M_D = M_u + (3 + c1)/c2 (M_d - M_e), and M_R ~ M_d - M_e, so M_nu ~ M_D (M_d - M_e)^-1 M_D: no new
       unknown. Types I + II add one complex ratio. Levenberg-Marquardt from the best charged-lepton points
-      and 4 + 200 seeded starts per type:
+      and 4 + 1000 seeded starts per type (I + II also from the best I and II points),
+      then 16 kicks of each of the 32 best points:
         seesaw   unknowns    chi^2  worst nu  sin^2: th12   th13    th23   heaviest M_R / M_I
-        II             14    547.0    19.8 s  0.286  0.0194  0.173  -
-        I              14    188.5    11.8 s  0.293  0.0216  0.293  4.4e+03
-        I + II         16     31.9     1.0 s  0.320  0.0220  0.458  3.8e+02
+        II             15    441.0    18.5 s  0.265  0.0201  0.192  -
+        I              15    159.3    10.3 s  0.289  0.0218  0.316  1.2e+03
+        I + II         17     24.1     0.1 s  0.308  0.0222  0.470  1.8e+02
         measured                              0.308  0.0221  0.470  at most sqrt(4 pi) = 3.54
-      Type II: b and tau do not converge without supersymmetry ((m_b - m_tau)/m_b = -0.60 at M_GUT), so
+      Type II: b and tau do not converge without supersymmetry ((m_b - m_tau)/m_b = -0.41 at M_GUT), so
       M_d - M_e cannot give a large theta_23 (Bajc-Senjanovic-Vissani).
-      Type I: no fit within 3 sigma found; at the best point M_R = 4.2e+10, 1.5e+12, 1.2e+13 GeV.
-      Types I + II: no fit within 3 sigma found; at the best point M_R = 1.4e+10, 1.3e+11, 1.0e+12 GeV.
+      Type I: no fit within 3 sigma found; at the best point M_R = 4.0e+10, 1.1e+12, 3.3e+12 GeV.
+      Types I + II: no fit within 3 sigma found; at the best point M_R = 9.3e+09, 1.5e+11, 5.0e+11 GeV.
       The heavy masses need no vev: M_R,i = s_i(M_d - M_e) s_max(M_nu matrix)/m_3. A perturbative 126 coupling
       (M_R,3 <= sqrt(4 pi) v_R) with v_R ~ M_I = 2.8e+09 GeV needs M_R,3/M_I <= 3.54.
-      Published fits with the full left-right running (Joshipura-Patel 2011, Ohlsson-Pernow 2019) find type-I
-      dominated solutions; with SM running to M_GUT this search does not, so the search, not the model, may fail.
+      The fits add the overall phase of M_d against the real M_u (physical for the neutrinos: absorbed by c1 in
+      M_e, not in M_d - M_e), so 9 unknowns: with the 10 quark observables, the 19 parameters of the model.
+      Published fits with full running (Joshipura-Patel 2011, Ohlsson-Pernow 2019) find type-I dominated
+      solutions; this search does not, so either the search or the left-out pieces (the second doublet's vev,
+      the Delta_R coupling, thresholds) decide.
   RESULT: SO(10)'s Yukawa sector is a real test. The minimal Pati-Salam chain
     fails it: its unbroken SU(4) keeps the light Higgs in one irrep, which
     gives the wrong lepton/down ratios by tens of sigma. Where SU(4) breaks
@@ -1070,9 +1086,9 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     b-tau unification open : no b-tau relation without a Yukawa structure (minimal 10_H excluded,
       Part T)
     Higgs mass pass (2.0 sigma): lambda(M_I) = 0 gives m_h = 123.32 GeV
-    neutrino masses open : type II from the 10 + 126 sum rule misses the PMNS data by 20 sigma (b
-      and tau do not converge: (m_b - m_tau)/m_b = -0.60); types I and I + II not reached (best
-      chi^2 188, 32; the closest point puts M_R,3 at 4e+02 M_I)
+    neutrino masses open : type II from the 10 + 126 sum rule misses the PMNS data by 19 sigma (b
+      and tau do not converge: (m_b - m_tau)/m_b = -0.41); types I and I + II not reached (best
+      chi^2 159, 24; the closest point puts M_R,3 at 2e+02 M_I)
     proton decay pass : p -> e+ pi0 in 2e+36 years against 2.4e+34
     baryon asymmetry open : M_1 <~ M_I = 3e+09 GeV needs weak washout: the natural range needs M_1
       >= 2e+10 GeV
@@ -1089,9 +1105,9 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     b-tau unification open : no b-tau relation without a Yukawa structure (minimal 10_H excluded,
       Part T)
     Higgs mass pass (0.4 sigma): lambda(M_I) = 0 gives m_h = 124.83 GeV
-    neutrino masses open : type II from the 10 + 126 sum rule misses the PMNS data by 20 sigma (b
-      and tau do not converge: (m_b - m_tau)/m_b = -0.60); types I and I + II not reached (best
-      chi^2 188, 32; the closest point puts M_R,3 at 4e+02 M_I)
+    neutrino masses open : type II from the 10 + 126 sum rule misses the PMNS data by 19 sigma (b
+      and tau do not converge: (m_b - m_tau)/m_b = -0.41); types I and I + II not reached (best
+      chi^2 159, 24; the closest point puts M_R,3 at 2e+02 M_I)
     proton decay fail : p -> e+ pi0 in 9e+32 years against 2.4e+34
     baryon asymmetry trade : M_1 up to M_I = 3e+10 GeV covers the natural range (M_1 >= 2e+10 GeV)
     strong CP trade : an axion at f_a = M_I would give m_a = 1.9e+02 micro-eV
@@ -1150,8 +1166,8 @@ PART Z. THE LEDGER: EVERY FREE NUMBER AND WHAT THE ALGORITHM DOES WITH IT
     charged-lepton masses              3             traded
         the 10 + 126 sum rule reaches them with 8 unknowns (Part Y2)
     neutrino masses and mixing         7-9           open
-        type II from the sum rule misses by 20 sigma (Part Y3); type I best chi^2 188, types I + II
-          32 for 13 data (Part Y4)
+        type II from the sum rule misses by 19 sigma (Part Y3); with left-right running, best chi^2
+          for 13 data: type I 159, types I + II 24.1 (Part Y4)
     strong CP angle                    1             bounded
         |theta-bar| < 8.8e-11; an axion at M_I would trade it for f_a (Part O)
     dark-matter density                1             open
@@ -1304,10 +1320,12 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
         nu_dm3l_NO, nu_s12sq, nu_s13sq_NO, nu_s23sq_NO, s2_hat_Z
       takes: flavour, so10
       assumes: symmetric Yukawas from a 10 and a 126; the selection rule
-        exact at tree level; the sum rule at the LR chain's M_GUT with SM
-        running; neutrinos by type II, type I, I + II (normal ordering, quark
-        masses floated within errors); v_R ~ M_I for the M_R bound; unknowns
-        searched, never set
+        exact at tree level; the sum rule at the LR chain's M_GUT, with
+        matrix SM running to M_I and one-loop left-right running above it
+        (second bidoublet vev and the Delta_R coupling left out); neutrinos
+        by type II, type I, I + II (normal ordering, quark masses floated
+        within errors); v_R ~ M_I for the M_R bound; unknowns searched, never
+        set
   w_mass (W, conditional)
       inputs: M_W, M_Z, M_t, alpha_s_MZ, delta_alpha_had5
       takes: criticality
@@ -1341,7 +1359,7 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
       takes: cosmology, gauge_unification, flavour, texture_survey,
         gauge_331, flavour_symmetry_331, quantum_gravity, higgs_mssm,
         criticality, uv_joint_test, mass_formulas, strong_cp, neutrinos,
-        baryon_asymmetry, so10, dark_matter, closed_cosmology
+        baryon_asymmetry, so10, dark_matter, so10_yukawa, closed_cosmology
       assumes: tests the calculation, not the physics
   Numbers calculated once and handed on:
     M_S, M_GUT = 2536.5, 1.1459e+16 GeV, from
@@ -1499,9 +1517,11 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] 126: the self-dual basis is self-dual, (10,3,1) and (10bar,1,3) do not mix, and every D-even invariant is equal on them  (max 0.0e+00)
   [PASS] 10: A_ij = phi phi at the vev is 6 v^2 on SO(4) indices, 0 on SO(6), diagonal (splits (1,2,2) from (6,1,1))
   [PASS] Closed-form 3x3 Hermitian eigenvalues: trace preserved and every eigenvector satisfies A v = lambda v  (-0.6940, 1.7480, 4.9460)
+  [PASS] Matrix Yukawa RGEs = the general one-loop formula written over every component (SM; left-right bidoublet theory)  (max rel dev SM 4.6e-16, LR 2.9e-16)
+  [PASS] Left-right running: the matrix SM running gives Part J's masses at M_I; after the left-right run the four couplings meet at the chain's M_GUT  (masses 4.4e-03, couplings 1.1e-12)
   [PASS] SO(10) 10 + 126: the sum rule M_e = c1 M_d + c2 M_u and the Dirac matrix M_D = M_u + (3 + c1)/c2 (M_d - M_e) hold exactly at a random point  (max rel dev 3.2e-15)
   [PASS] SO(10) chains: the general two-loop formula on the SM content = sm_gauge_b, sm_two_loop_b; the Newton solver at one loop = the linear solution  (rel diff 3.3e-10)
-  [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (28 stages, 86 edges)
-  69/69 checks pass
+  [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (28 stages, 87 edges)
+  71/71 checks pass
 ==============================================================================
-Elapsed: 917.1 s
+Elapsed: 1367.3 s

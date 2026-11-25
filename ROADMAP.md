@@ -133,7 +133,15 @@ the new result, and the tests fail if a page value, the scorecard, the ledger or
    types I + II ~ 18-32, no 3 sigma fit; every near-fit has M_R,3 ~ 1e2-1e3 M_I, above sqrt(4 pi) M_I.
    Neutrino entry stays open. Open: published fits (Joshipura-Patel 2011, Ohlsson-Pernow 2019) find type-I
    solutions with full running, so item 2 decides; leptogenesis from the fitted M_1 once a fit exists.
-2. [ ] Left-right Yukawa running between M_I and M_GUT (SM running is used now), then redo Y2-Y4.
+2. [x] Left-right Yukawa running between M_I and M_GUT (Part Y). The bidoublet theory's one-loop matrix RGE is
+   derived, not quoted: the general Machacek-Vaughn formula over every component (checked on the SM's matrix RGE)
+   fixes the reduced form exactly. Matrix SM running to M_I, symmetric matching (<Phi> = diag(k1, 0)), left-right
+   running to M_GUT (the four couplings meet there: a check). (m_b - m_tau)/m_b at M_GUT: -0.60 -> -0.41.
+   Fix: the fits had dropped one physical phase (the overall phase of M_d against M_u): 9 unknowns, 19 model
+   parameters. Fits run in parallel (fork), with cross-seeding and kicks. Result: type II still fails (~19 sigma),
+   type I best chi^2 ~ 160, types I + II ~ 24 for 13 data. An exploratory serial run with other starts found one
+   I + II fit (chi^2 4.8): delta = 17 deg (outside NuFIT's 3 sigma range), M_R,3 = 600 M_I. Open: a search that finds
+   such fits reliably; the second bidoublet's vev and the Delta_R Majorana coupling in the running.
 3. [ ] The LR chain's own scalar potential (as Parts T9-T11 did for Pati-Salam) and its thresholds.
 4. [ ] Proton running above M_I; triplet-mediated proton decay with the fitted Yukawas.
 

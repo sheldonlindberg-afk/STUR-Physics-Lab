@@ -674,13 +674,28 @@ def test_type2_and_ledger():
     assert sum(lg["counts"].values()) == len(lg["rows"]) == 15
 
 
+def test_left_right_running():
+    """Part Y: matrix running SM -> M_I -> left-right -> M_GUT. The reduced RGEs equal the general formula; the
+    left-right running brings b and tau closer than SM running does, whatever the unknown Takagi phases."""
+    rn = RESULT["so10_yukawa"]["running"]
+    assert max(P.matrix_rge_checks(11).values()) < 1e-12
+    assert rn["SM"]["b_tau"] < rn["b_tau_dirac_like_up"] < rn["LR"]["b_tau"] < 0
+    lo, hi = rn["b_tau_phase_range"]
+    assert hi - lo < 1e-3 and lo - 1e-3 < rn["LR"]["b_tau"] < hi + 1e-3
+    inv = rn["LR"]["inv_alpha_M_GUT"]
+    assert max(inv) - min(inv) < 1e-5
+    va = rn["LR"]["V_abs"]
+    assert 0.2 < va[0][1] < 0.23 and 0.03 < va[1][2] < 0.045
+
+
 def test_type1_seesaw():
     """Part Y4: type I adds no unknown (M_D is fixed by the sum rule's c1, c2), types I + II one complex ratio;
     each fit does at least as well as type II, and its right-handed scale is computed without the 126's vevs."""
     lr = RESULT["so10_yukawa"]["LR"]
     t2, t1, t12 = lr["type2"], lr["type1"], lr["type12"]
-    assert (t2["unknowns"], t1["unknowns"], t12["unknowns"]) == (14, 14, 16)
+    assert (t2["unknowns"], t1["unknowns"], t12["unknowns"]) == (15, 15, 17)
     assert t12["chi2_min"] <= t1["chi2_min"] < t2["chi2_min"]
+    assert t12["starts"] > t1["starts"]                          # I + II also starts from the best I and II points
     for t_ in (t1, t12):
         mr = t_["scales"]["M_R_GeV"]
         assert mr[0] <= mr[1] <= mr[2] and abs(t_["scales"]["M_R_over_M_I"] - mr[2] / lr["M_I"]) < 1e-9 * mr[2] / lr["M_I"]

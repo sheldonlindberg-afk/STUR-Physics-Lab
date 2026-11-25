@@ -326,8 +326,12 @@ NUMERICS: Dict[str, Any] = {
     "yukawa_fit_polish": 12,          # Part Y: best starts refined by iterated local search
     "yukawa_fit_kicks": 25,           # Part Y: random kicks per refined start
     "yukawa_nu_seeds": 3,             # Part Y3: charged-lepton solutions the type-II fit starts from
-    "yukawa_nu_starts": 200,          # Parts Y3, Y4: fresh Levenberg-Marquardt starts per seesaw type
-    "yukawa_w_decades": 2,            # Part Y4: types I + II, starts at |w| from 10^-2 to 10^2 (type-II/type-I ratio)
+    "yukawa_nu_starts": 1000,         # Parts Y3, Y4: fresh Levenberg-Marquardt starts per seesaw type (in parallel)
+    "yukawa_w_decades": 2,
+    "yukawa_cross_seeds": 10,
+    "yukawa_nu_polish": 32,           # Parts Y3, Y4: best points refined by kicks (iterated local search)
+    "yukawa_nu_kicks": 16,            # kicks per refined point
+    "yukawa_nu_kick": "0.5",          # largest kick per unknown         # Part Y4: best type-I and type-II points that also start the I + II fit            # Part Y4: types I + II, starts at |w| from 10^-2 to 10^2 (type-II/type-I ratio)
     "yukawa_lm_iters": 400,           # Levenberg-Marquardt: iterations per start
     "yukawa_lm_step": "1e-5",         # forward-difference step (log-magnitudes, phases, pulls)
     "yukawa_lm_mu0": "1e-2",          # initial damping
@@ -335,6 +339,8 @@ NUMERICS: Dict[str, Any] = {
     "yukawa_lm_diag_floor": "1e-12",  # damping floor for a flat direction
     "yukawa_lm_chi2_stop": "1e-6",
     "yukawa_lm_log_max": 30,          # |ln c1|, |ln c2| beyond this is outside any physical range
+    "lr_running_phase_samples": 4,
+    "check_matrix_running_rel": "0.01",  # matrix SM running vs Part J's third-generation running plus ratios    # Part Y: random Takagi phases at M_I, to show how much they move b - tau
     "yukawa_fit_min_step": "1e-6",    # Part Y: smallest compass step (in log-magnitudes and phases)
     "threshold_band": 1,              # Part T7: largest one-loop threshold per matching condition, in 1/alpha (an
                                       # assumption: one heavy multiplet with b ~ 2 a factor e off gives ~0.3)
@@ -628,7 +634,9 @@ STAGES: Dict[str, Dict[str, str]] = {
                                     "(misalignment, post-inflation) and the minimal neutrino masses; flat LambdaCDM"},
     "so10_yukawa": {"part": "Y", "level": "numerical",
                     "assumes": "symmetric Yukawas from a 10 and a 126; the selection rule exact at tree level; the "
-                               "sum rule at the LR chain's M_GUT with SM running; neutrinos by type II, type I, I + II "
+                               "sum rule at the LR chain's M_GUT, with matrix SM running to M_I and one-loop left-right "
+                               "running above it (second bidoublet vev and the Delta_R coupling left out); neutrinos by "
+                               "type II, type I, I + II "
                                "(normal ordering, quark masses floated within errors); v_R ~ M_I for the M_R bound; "
                                "unknowns searched, never set"},
     "ledger": {"part": "Z", "level": "conditional",
@@ -5516,7 +5524,7 @@ def solve_chain(chain: Dict[str, Any], x: Dict[str, float], loops: int,
         u = [u[i] + m[i][n] / m[i][i] for i in range(n)]
     f0 = residuals(u)
     top = _run_inv(at_mi(u), b1, b2, u[0], u[1], loops)
-    return {"M_I": math.exp(u[0]), "M_GUT": math.exp(u[1]), "alpha_GUT": 1 / top[1],
+    return {"M_I": math.exp(u[0]), "M_GUT": math.exp(u[1]), "alpha_GUT": 1 / top[1], "inv_alpha_MI": at_mi(u),
             "residual": max(abs(v) for v in f0), "consistent": t_z < u[0] < u[1]}
 
 
@@ -6293,6 +6301,257 @@ def _herm3_eigvec(m: List[List[complex]], lam: float) -> List[complex]:
 
 
 # =============================================================================
+# 6w0. MATRIX YUKAWA RUNNING: THE SM UP TO M_I, THE LEFT-RIGHT THEORY UP TO M_GUT
+# =============================================================================
+# Part Y evaluates the SO(10) relations at the left-right chain's M_GUT. Between M_I and M_GUT the theory is
+# SU(3) x SU(2)_L x SU(2)_R x U(1)_B-L with one complex bidoublet Phi: -L = Q_L (Y1 Phi + Y2 Phi~) Q_R
+# + L_L (Y3 Phi + Y4 Phi~) L_R + h.c. Its one-loop Yukawa RGE is not quoted: the general one-loop formula
+# (Machacek-Vaughn; two-component fermions, real scalars) is coded over explicit components, checked on the
+# SM's matrix RGE, and the reduced matrix form below is checked against it at a random point (self-checks):
+#   16 pi^2 dY1/dt = 2 Y1 Y1+ Y1 - Y1 Y2+ Y2 - Y2 Y2+ Y1 + T Y1 + 2 Tr(3 Y1 Y2+ + Y3 Y4+) Y2 - gauge
+#   (Y2: exchange 1 <-> 2; leptons: 3 <-> 1, 4 <-> 2), T = Tr(3 Y1 Y1+ + 3 Y2 Y2+ + Y3 Y3+ + Y4 Y4+).
+# Matching at M_I with <Phi> = diag(k1, 0) (the second doublet's vev neglected): M_u = Y1 k1, M_d = Y2 k1*,
+# M_e = Y4 k1*. SO(10)'s Yukawas are symmetric and the left-right running keeps them so, so each matrix is
+# taken in its symmetric (Takagi) form at M_I. Not included: the Majorana coupling of the triplet Delta_R.
+def _cdag3(a: List[List[complex]]) -> List[List[complex]]:
+    return [[a[j][i].conjugate() for j in range(3)] for i in range(3)]
+
+
+def _ctrace(a: List[List[complex]]) -> complex:
+    return a[0][0] + a[1][1] + a[2][2]
+
+
+def _clin(*terms: Tuple[complex, List[List[complex]]]) -> List[List[complex]]:
+    """sum of coefficient x matrix."""
+    return [[sum(c * m[i][j] for c, m in terms) for j in range(3)] for i in range(3)]
+
+
+def _pack(mats: Sequence[List[List[complex]]]) -> List[float]:
+    return [p for m in mats for row in m for z in row for p in (z.real, z.imag)]
+
+
+def _unpack(v: Sequence[float], n: int) -> List[List[List[complex]]]:
+    return [[[complex(v[18 * k + 6 * i + 2 * j], v[18 * k + 6 * i + 2 * j + 1]) for j in range(3)] for i in range(3)]
+            for k in range(n)]
+
+
+def mv_yukawa_beta(terms: Sequence[Tuple[complex, int, int, int, bool]], n_complex: int) -> List[Dict[Tuple[int, int], complex]]:
+    """The general one-loop Yukawa beta function (Yukawa part; Machacek-Vaughn, as in Luo, Wang, Xiao 2003),
+    two-component fermions, real scalars: 16 pi^2 beta(Y^a) = 1/2 [Y2(F)* Y^a + Y^a Y2(F)] + 2 Y^b Y^a+ Y^b
+    + Y^b Y2(S)^ab, Y2(F) = Y^b+ Y^b, Y2(S)^ab = 1/2 Tr(Y^a+ Y^b + Y^b+ Y^a). terms: (coefficient, fermion I,
+    fermion J, complex scalar k, conjugated) for -L = coefficient psi_I psi_J S_k (or S_k*) + h.c.;
+    S_k = (phi_2k + i phi_2k+1)/sqrt 2. Sparse matrices; used only by the self-checks."""
+    ys: List[Dict[Tuple[int, int], complex]] = [dict() for _ in range(2 * n_complex)]
+    for c, i, j, k, conj in terms:
+        for a, d in ((2 * k, 1), (2 * k + 1, -1j if conj else 1j)):
+            for p, q in ((i, j), (j, i)) if i != j else ((i, j),):
+                ys[a][(p, q)] = ys[a].get((p, q), 0) + c * d / math.sqrt(2) * (1 if i != j else 2)
+
+    def mul(a, b):
+        rows: Dict[int, List[Tuple[int, complex]]] = {}
+        for (k, j), w in b.items():
+            rows.setdefault(k, []).append((j, w))
+        out: Dict[Tuple[int, int], complex] = {}
+        for (i, k), w in a.items():
+            for j, x_ in rows.get(k, ()):
+                out[(i, j)] = out.get((i, j), 0) + w * x_
+        return out
+
+    def dg(a):
+        return {(j, i): w.conjugate() for (i, j), w in a.items()}
+
+    def lin(pairs):
+        out: Dict[Tuple[int, int], complex] = {}
+        for c, m in pairs:
+            for key, w in m.items():
+                out[key] = out.get(key, 0) + c * w
+        return out
+
+    def tr(a):
+        return sum(w for (i, j), w in a.items() if i == j)
+    n = len(ys)
+    y2f = lin([(1, mul(dg(y_), y_)) for y_ in ys])
+    y2f_c = {key: w.conjugate() for key, w in y2f.items()}
+    y2s = [[(tr(mul(dg(ys[a]), ys[b])) + tr(mul(dg(ys[b]), ys[a]))) / 2 for b in range(n)] for a in range(n)]
+    return [lin([(Fr(1, 2), mul(y2f_c, ys[a])), (Fr(1, 2), mul(ys[a], y2f))]
+                + [(2, mul(mul(ys[b], dg(ys[a])), ys[b])) for b in range(n)] + [(y2s[a][b], ys[b]) for b in range(n)])
+            for a in range(n)]
+
+
+def sm_matrix_yukawa_beta(yu, yd, ye) -> Tuple[Any, Any, Any]:
+    """Yukawa part of the SM's one-loop matrix RGE (16 pi^2 dY/d ln mu)."""
+    hu, hd, he = (_cmat_mul(y_, _cdag3(y_)) for y_ in (yu, yd, ye))
+    t = 3 * _ctrace(hu) + 3 * _ctrace(hd) + _ctrace(he)
+    sp = float(YUKAWA_SPLIT)
+    return (_clin((sp, _cmat_mul(hu, yu)), (-sp, _cmat_mul(hd, yu)), (t, yu)),
+            _clin((sp, _cmat_mul(hd, yd)), (-sp, _cmat_mul(hu, yd)), (t, yd)),
+            _clin((sp, _cmat_mul(he, ye)), (t, ye)))
+
+
+def lr_matrix_yukawa_beta(y1, y2, y3, y4) -> Tuple[Any, Any, Any, Any]:
+    """Yukawa part of the left-right bidoublet theory's one-loop matrix RGE (16 pi^2 dY/d ln mu)."""
+    t = sum(c * _ctrace(_cmat_mul(y_, _cdag3(y_))) for c, y_ in ((3, y1), (3, y2), (1, y3), (1, y4)))
+    mix = 2 * (3 * _ctrace(_cmat_mul(y1, _cdag3(y2))) + _ctrace(_cmat_mul(y3, _cdag3(y4))))
+
+    def one(me, other, m_):
+        return _clin((2, _cmat_mul(_cmat_mul(me, _cdag3(me)), me)), (-1, _cmat_mul(_cmat_mul(me, _cdag3(other)), other)),
+                     (-1, _cmat_mul(_cmat_mul(other, _cdag3(other)), me)), (t, me), (m_, other))
+    return one(y1, y2, mix), one(y2, y1, mix.conjugate()), one(y3, y4, mix), one(y4, y3, mix.conjugate())
+
+
+LR_YUKAWA_FIELDS = {"q": ((3, 2, 1, Fr(1, 3)), (3, 1, 2, Fr(1, 3))), "l": ((1, 2, 1, Fr(-1)), (1, 1, 2, Fr(-1)))}
+
+
+def lr_yukawa_gauge_coeffs() -> Dict[str, List[float]]:
+    """16 pi^2 d ln Y/d ln mu contains -c_i g_i^2, c_i = 3 [C2_i(left) + C2_i(right)], for SU(3), SU(2)_L,
+    SU(2)_R and U(1)_B-L (charge normalized as in the chains, BL_NORM (B - L)^2)."""
+    out = {}
+    for k, (a, b) in LR_YUKAWA_FIELDS.items():
+        out[k] = [float(3 * (casimir_fund(3, a[0]) + casimir_fund(3, b[0]))),
+                  float(3 * (casimir_fund(2, a[1]) + casimir_fund(2, b[1]))),
+                  float(3 * (casimir_fund(2, a[2]) + casimir_fund(2, b[2]))),
+                  float(3 * BL_NORM * (a[3] ** 2 + b[3] ** 2))]
+    return out
+
+
+def matrix_rge_checks(seed: int) -> Dict[str, float]:
+    """The reduced matrix RGEs against the general formula (mv_yukawa_beta) at a random point, three
+    generations, every component written out: the SM (Q, u^c, d^c, L, e^c and one complex doublet H) and the
+    left-right theory (Q_L, Q_R^c, L_L, L_R^c and the bidoublet Phi, Phi~ = sigma2 Phi* sigma2). Returns the
+    largest relative deviation of each."""
+    rng = _UniformStream(seed)
+
+    def rmat() -> List[List[complex]]:
+        return [[complex(rng.uniform(-1, 1), rng.uniform(-1, 1)) for _ in range(3)] for _ in range(3)]
+    idx: Dict[Tuple[Any, ...], int] = {}
+
+    def ix(*k: Any) -> int:
+        return idx.setdefault(k, len(idx))
+
+    def dev(got, want) -> float:
+        return max(abs(got[i][j] - want[i][j]) for i in range(3) for j in range(3)) / max(
+            abs(want[i][j]) for i in range(3) for j in range(3))
+    out = {}
+    # SM: Y_u q_a eps_ab H_b u^c + Y_d q_a H*_a d^c + Y_e l_a H*_a e^c (complex scalars H_1, H_2 = 0, 1)
+    yu, yd, ye = rmat(), rmat(), rmat()
+    terms = []
+    for i in range(3):
+        for j in range(3):
+            for c in range(3):
+                terms += [(yu[i][j], ix("q", i, 0, c), ix("uc", j, c), 1, False),
+                          (-yu[i][j], ix("q", i, 1, c), ix("uc", j, c), 0, False),
+                          (yd[i][j], ix("q", i, 0, c), ix("dc", j, c), 0, True),
+                          (yd[i][j], ix("q", i, 1, c), ix("dc", j, c), 1, True)]
+            terms += [(ye[i][j], ix("l", i, 0), ix("ec", j), 0, True), (ye[i][j], ix("l", i, 1), ix("ec", j), 1, True)]
+    bt = mv_yukawa_beta(terms, 2)
+    r2 = math.sqrt(2)
+    got = [[[bt[a_].get((ix(f1, i, *w1), ix(f2, j, *w2)), 0) * r2 for j in range(3)] for i in range(3)]
+           for a_, f1, w1, f2, w2 in ((2, "q", (0, 0), "uc", (0,)), (0, "q", (0, 0), "dc", (0,)), (0, "l", (0,), "ec", ()))]
+    out["SM"] = max(dev(g_, w_) for g_, w_ in zip(got, sm_matrix_yukawa_beta(yu, yd, ye)))
+    # left-right: Y Phi_ab q_a qc_b, Phi complex scalar k = 2a + b; Phi~ = [[P22*, -P21*], [-P12*, P11*]]
+    ys = [rmat() for _ in range(4)]
+    tilde = {(0, 0): (3, 1), (0, 1): (2, -1), (1, 0): (1, -1), (1, 1): (0, 1)}
+    idx.clear()
+    terms = []
+    for f1, f2, nc, ya, yb in (("q", "qc", 3, ys[0], ys[1]), ("l", "lc", 1, ys[2], ys[3])):
+        for i in range(3):
+            for j in range(3):
+                for c in range(nc):
+                    for a_ in range(2):
+                        for b_ in range(2):
+                            k_, sg = tilde[(a_, b_)]
+                            terms += [(ya[i][j], ix(f1, i, a_, c), ix(f2, j, b_, c), 2 * a_ + b_, False),
+                                      (sg * yb[i][j], ix(f1, i, a_, c), ix(f2, j, b_, c), k_, True)]
+    bt = mv_yukawa_beta(terms, 4)
+    got = [[[bt[a_].get((ix(f1, i, 0, 0), ix(f2, j, 0, 0)), 0) * r2 for j in range(3)] for i in range(3)]
+           for a_, f1, f2 in ((0, "q", "qc"), (6, "q", "qc"), (0, "l", "lc"), (6, "l", "lc"))]
+    out["LR"] = max(dev(g_, w_) for g_, w_ in zip(got, lr_matrix_yukawa_beta(*ys)))
+    return out
+
+
+def _takagi_like(y: List[List[complex]]) -> Tuple[List[float], List[List[complex]]]:
+    """Singular values (ascending) and the left singular vectors (columns), each column's largest entry made
+    real positive."""
+    h = _cmat_mul(y, _cdag3(y))
+    ev = _herm3_eigvals(h)
+    cols = []
+    for e_ in ev:
+        v_ = _herm3_eigvec(h, e_)
+        big = max(v_, key=abs)
+        ph = big.conjugate() / abs(big)
+        cols.append([z * ph for z in v_])
+    return [math.sqrt(max(e_, 0)) for e_ in ev], [[cols[j][i] for j in range(3)] for i in range(3)]
+
+
+def yukawa_running_lr(flav: Dict[str, Any], chain: Dict[str, Any], two: Dict[str, Any], dirac_like_up: bool = False,
+                      phases: Sequence[float] = (0, 0, 0, 0, 0, 0)) -> Dict[str, Any]:
+    """Masses and quark mixing at the left-right chain's M_GUT: SM matrix running from m_t(m_t) to M_I, symmetric
+    matching, left-right running to M_GUT (two-loop gauge, one-loop Yukawa). dirac_like_up: the Dirac neutrino
+    Yukawa Y3 = Y1 at M_I instead of 0 (the two limits of an unknown). phases: Takagi phases of the up and down
+    matrices at M_I (unknown; zero by default, varied to show the sensitivity)."""
+    x = _float_inputs()
+    mt, st = couplings_at_mt(flav)
+    v_h = flav["runner"].v
+    m0 = masses_at_scale(flav, mt)
+    vc = ckm_from_wolfenstein(x)
+    k_ = math.sqrt(2) / v_h
+    yu = [[complex(m0["u"][i] * k_ if i == j else 0) for j in range(3)] for i in range(3)]
+    yd = [[vc[i][j] * m0["d"][j] * k_ for j in range(3)] for i in range(3)]
+    ye = [[complex(m0["e"][i] * k_ if i == j else 0) for j in range(3)] for i in range(3)]
+    gb = [float(b_) for b_ in sm_gauge_b()]
+    f_ = _fields()
+    gc = [_pair_gauge_coeffs(f_["Q"], f_["u^c"]), _pair_gauge_coeffs(f_["Q"], f_["d^c"]), _pair_gauge_coeffs(f_["L"], f_["e^c"])]
+    kk = 16 * math.pi ** 2
+
+    def rhs_sm(v: List[float], nf: int) -> List[float]:
+        g = v[:3]
+        ys_ = _unpack(v[3:], 3)
+        bs = sm_matrix_yukawa_beta(*ys_)
+        out = [gb[i] * g[i] ** 3 / kk for i in range(3)]
+        for b_, y_, c_ in zip(bs, ys_, gc):
+            gt = sum(ci * gi ** 2 for ci, gi in zip(c_, g))
+            out += _pack([_clin((1 / kk, b_), (-gt / kk, y_))])
+        return out
+    m_i, m_gut = two["M_I"], two["M_GUT"]
+    steps = int(num("rg_steps_per_efold"))
+    s_mi = integrate_ln_mu(list(st[:3]) + _pack([yu, yd, ye]), mt, m_i, rhs_sm, [], steps)
+    yu, yd, ye = _unpack(s_mi[3:], 3)
+    # symmetric matching at M_I
+    sym = {}
+    for nm_, y_, (pa, pb, pc) in (("u", yu, phases[:3]), ("d", yd, phases[3:]), ("e", ye, (0, 0, 0))):
+        sv_, uu = _takagi_like(y_)
+        ph_ = (cmath.exp(1j * pa), cmath.exp(1j * pb), cmath.exp(1j * pc))
+        uu = [[uu[i][j] * ph_[j] for j in range(3)] for i in range(3)]
+        sym[nm_] = ([[sum(uu[i][k] * sv_[k] * uu[j][k] for k in range(3)) for j in range(3)] for i in range(3)], sv_)
+    y1, y2, y4 = sym["u"][0], sym["d"][0], sym["e"][0]
+    y3 = [row[:] for row in y1] if dirac_like_up else [[complex(0)] * 3 for _ in range(3)]
+    b1 = [float(b_) for b_ in chain["b1"]]
+    b2 = [[float(b_) for b_ in r_] for r_ in chain["b2"]]
+    lc = lr_yukawa_gauge_coeffs()
+
+    def rhs_lr(v: List[float], nf: int) -> List[float]:
+        inv = v[:4]
+        al = [1 / w_ for w_ in inv]
+        g2s = [4 * math.pi * a_ for a_ in al]
+        out = [-b1[i] / (2 * math.pi) - sum(b2[i][j] * al[j] for j in range(4)) / (8 * math.pi ** 2) for i in range(4)]
+        ys_ = _unpack(v[4:], 4)
+        bs = lr_matrix_yukawa_beta(*ys_)
+        for b_, y_, key in zip(bs, ys_, ("q", "q", "l", "l")):
+            gt = sum(ci * g_ for ci, g_ in zip(lc[key], g2s))
+            out += _pack([_clin((1 / kk, b_), (-gt / kk, y_))])
+        return out
+    s_g = integrate_ln_mu(list(two["inv_alpha_MI"]) + _pack([y1, y2, y3, y4]), m_i, m_gut, rhs_lr, [], steps)
+    y1, y2, y3, y4 = _unpack(s_g[4:], 4)
+    kap = v_h / math.sqrt(2)
+    (mu_, uu), (md_, ud), (me_, _) = (_takagi_like(y_) for y_ in (y1, y2, y4))
+    v_gut = _cmat_mul(_cdag3(uu), ud)
+    ms = {"u": [m_ * kap for m_ in mu_], "d": [m_ * kap for m_ in md_], "e": [m_ * kap for m_ in me_]}
+    return {"masses": ms, "V": v_gut, "masses_M_I": {k: [w_ * kap for w_ in sym[k][1]] for k in sym},
+            "inv_alpha_M_GUT": s_g[:4], "b_tau": (ms["d"][2] - ms["e"][2]) / ms["d"][2],
+            "V_abs": [[abs(v_gut[i][j]) for j in range(3)] for i in range(3)]}
+
+
+# =============================================================================
 # 6w. PART Y: THE SO(10) YUKAWA SECTOR, CAN IT GIVE THE CHARGED-FERMION MASSES?
 # =============================================================================
 # With a 10 and a 126 coupling to the fermions, the Yukawa matrices are symmetric and shared by all four
@@ -6349,8 +6608,20 @@ def _sing_max(m: List[List[complex]]) -> float:
 def so10_yukawa_tests(flav: Dict[str, Any], s10: Dict[str, Any]) -> Dict[str, Any]:
     """Y1 at the Pati-Salam chain's M_I (where its relations hold); Y2 at the left-right chain's M_GUT (where
     SU(4) breaks and the doublets can mix; SM running stands in for the missing left-right Yukawa running)."""
+    two = s10["chains"]["LR"]["loop2"]
+    chain = so10_chains()["LR"]
+    run = yukawa_running_lr(flav, chain, two)
+    sm_g = masses_at_scale(flav, two["M_GUT"])
+    rng = _UniformStream(int(num("potential_seed")) + 2)
+    alt = [yukawa_running_lr(flav, chain, two, dirac_like_up=True)] + [
+        yukawa_running_lr(flav, chain, two, phases=[rng.uniform(0, 2 * math.pi) for _ in range(6)])
+        for _ in range(int(num("lr_running_phase_samples")))]
+    running = {"LR": {k: run[k] for k in ("masses", "masses_M_I", "b_tau", "V_abs", "inv_alpha_M_GUT")},
+               "SM": {"masses": sm_g, "b_tau": (sm_g["d"][2] - sm_g["e"][2]) / sm_g["d"][2]},
+               "b_tau_dirac_like_up": alt[0]["b_tau"], "b_tau_phase_range": (min(a_["b_tau"] for a_ in alt[1:]),
+                                                                              max(a_["b_tau"] for a_ in alt[1:]))}
     out = {"PS": so10_selection_rule(flav, s10["chains"]["PS"]["loop2"]["M_I"]),
-           "LR": so10_sum_rule(flav, s10["chains"]["LR"]["loop2"]["M_GUT"], s10["chains"]["LR"]["loop2"]["M_I"])}
+           "LR": so10_sum_rule(flav, two["M_GUT"], two["M_I"], run["masses"], run["V"]), "running": running}
     return out
 
 
@@ -6371,21 +6642,26 @@ def so10_selection_rule(flav: Dict[str, Any], m_i: float) -> Dict[str, Any]:
             "excluded": min(worst10, worst126) > num("survival_sigma")}
 
 
-def so10_sum_rule(flav: Dict[str, Any], mu: float, m_i: float) -> Dict[str, Any]:
-    ms = masses_at_scale(flav, mu)
+def so10_sum_rule(flav: Dict[str, Any], mu: float, m_i: float, ms: Dict[str, List[float]] | None = None,
+                  v_ckm: List[List[complex]] | None = None) -> Dict[str, Any]:
+    """The sum rule and the neutrino fits at mu, with the masses and quark mixing there (ms, v_ckm; by default
+    the SM-run masses and the measured CKM matrix)."""
+    ms = ms or masses_at_scale(flav, mu)
     # Y2: the general sum rule on the three charged-lepton masses (seeded multi-start compass search)
     x = _float_inputs()
-    v_ckm = ckm_from_wolfenstein(x)
+    v_ckm = v_ckm or ckm_from_wolfenstein(x)
     tol_m = num("yukawa_fit_mass_rel")
 
     def matrices(u: List[float]) -> Tuple[List[List[complex]], List[List[complex]]]:
         # u = (ln|c1|, arg c1, ln|c2|, arg c2, a, b, psi_1, psi_2): relative steps for couplings of any size.
         # With M_u real diagonal the up-quark phases Psi are physical: M_d = Psi V X D_d X V^T Psi.
         # A mass dictionary as the last entry of u replaces the central quark masses (Y3, Y4).
+        # The neutrino fits (Y3, Y4) add u[8], the third up-quark phase: an overall phase of M_d against the real
+        # M_u, absorbed by c1 in M_e but not in M_d - M_e (Y2 has no use for it).
         m_ = u[-1] if isinstance(u[-1], dict) else ms
         c1, c2 = cmath.rect(math.exp(u[0]), u[1]), cmath.rect(math.exp(u[2]), u[3])
         ph = (cmath.exp(1j * 2 * u[4]), cmath.exp(1j * 2 * u[5]), 1)
-        psi = (cmath.exp(1j * u[6]), cmath.exp(1j * u[7]), 1)
+        psi = (cmath.exp(1j * u[6]), cmath.exp(1j * u[7]), cmath.exp(1j * u[8]) if isinstance(u[-1], dict) else 1)
         dd = [m_["d"][k] * ph[k] for k in range(3)]
         md = [[psi[i] * psi[j] * sum(v_ckm[i][k] * dd[k] * v_ckm[j][k] for k in range(3)) for j in range(3)]
               for i in range(3)]
@@ -6409,7 +6685,7 @@ def so10_sum_rule(flav: Dict[str, Any], mu: float, m_i: float) -> Dict[str, Any]
         """(M_nu up to its scale, M_e, the type-I coefficient's matrix K or None). Type II: M_nu ~ M_d - M_e.
         Type I: M_D = M_u + r (M_d - M_e) with r = (3 + c1)/c2 fixed by the sum rule (no new unknown), M_R ~
         M_d - M_e, so M_nu ~ K = M_D (M_d - M_e)^-1 M_D. Types I + II: K + w (s_K/s_d) (M_d - M_e), w complex
-        (u[8], u[9]), normalized by the two matrices' largest singular values."""
+        (u[9], u[10]), normalized by the two matrices' largest singular values."""
         md, me = matrices(u)
         dm = [[md[i][j] - me[i][j] for j in range(3)] for i in range(3)]
         if kind == "II":
@@ -6421,7 +6697,7 @@ def so10_sum_rule(flav: Dict[str, Any], mu: float, m_i: float) -> Dict[str, Any]
         kk = _cmat_mul(_cmat_mul(m_d, _cmat_inv3(dm)), m_d)
         if kind == "I":
             return kk, me, kk
-        w_ = cmath.rect(math.exp(u[8]), u[9]) * _sing_max(kk) / _sing_max(dm)
+        w_ = cmath.rect(math.exp(u[9]), u[10]) * _sing_max(kk) / _sing_max(dm)
         return [[kk[i][j] + w_ * dm[i][j] for j in range(3)] for i in range(3)], me, kk
 
     def neutrinos(u: List[float], kind: str = "II") -> Dict[str, Any]:
@@ -6455,7 +6731,7 @@ def so10_sum_rule(flav: Dict[str, Any], mu: float, m_i: float) -> Dict[str, Any]
                 steps = [s_ / 2 for s_ in steps]
         return u, best_c
     rng = _UniformStream(int(num("potential_seed")) + 1)
-    found: List[Tuple[float, List[float]]] = []
+    starts0: List[List[float]] = []
     for k_ in range(int(num("yukawa_fit_starts"))):
         if k_ % 2:
             # generic start
@@ -6470,8 +6746,8 @@ def so10_sum_rule(flav: Dict[str, Any], mu: float, m_i: float) -> Dict[str, Any]
             c2m = abs(c1m * ms["d"][2] - ms["e"][2]) / ms["u"][2] * rng.uniform(1 / 2, 2)
             u0 = [math.log(c1m), a1, math.log(c2m), a1 + math.pi + rng.uniform(-1 / 2, 1 / 2),
                   rng.uniform(0, math.pi), rng.uniform(0, math.pi), rng.uniform(0, 2 * math.pi), rng.uniform(0, 2 * math.pi)]
-        u, c = compass(u0, 1 / 2)
-        found.append((c, u))
+        starts0.append(u0)
+    found = [(c, u) for u, c in _parallel_map(lambda k_: compass(starts0[k_], 1 / 2), len(starts0))]
     # iterated local search: kick the best points (every coordinate by up to one unit) and re-minimize
     found.sort(key=lambda t: t[0])
     best = found[0]
@@ -6499,7 +6775,7 @@ def so10_sum_rule(flav: Dict[str, Any], mu: float, m_i: float) -> Dict[str, Any]
              "d": [math.hypot(sig(n_) / inp(n_), floor) for n_ in ("m_d", "m_s", "m_b")]}
 
     def split(u: List[float], kind: str) -> Tuple[List[float], Dict[str, List[float]]]:
-        n_ = 10 if kind == "I+II" else 8
+        n_ = 11 if kind == "I+II" else 9
         pull = u[n_:]
         m_ = {"u": [ms["u"][i] * math.exp(q_rel["u"][i] * pull[i]) for i in range(3)],
               "d": [ms["d"][i] * math.exp(q_rel["d"][i] * pull[3 + i]) for i in range(3)], "e": ms["e"]}
@@ -6538,30 +6814,64 @@ def so10_sum_rule(flav: Dict[str, Any], mu: float, m_i: float) -> Dict[str, Any]
             c2m = abs(c1m * ms["d"][2] - ms["e"][2]) / ms["u"][2] * rng.uniform(1 / 2, 2)
             u0 = [math.log(c1m), a1, math.log(c2m), a1 + math.pi + rng.uniform(-1 / 2, 1 / 2),
                   rng.uniform(0, math.pi), rng.uniform(0, math.pi), rng.uniform(0, 2 * math.pi), rng.uniform(0, 2 * math.pi)]
+        u0 = u0 + [rng.uniform(0, 2 * math.pi)]                   # the third up-quark phase
         if kind == "I+II":
             w_dec = num("yukawa_w_decades")
             u0 += [math.log(10) * rng.uniform(-w_dec, w_dec), rng.uniform(0, 2 * math.pi)]
         return u0 + [0] * 6
 
-    def fit_neutrinos(kind: str) -> Dict[str, Any]:
+    tops: Dict[str, List[Tuple[float, List[float]]]] = {}
+
+    def fit_neutrinos(kind: str, extra: Sequence[List[float]] = ()) -> Dict[str, Any]:
         n_starts = len(seeds) + int(num("yukawa_nu_starts"))
-        best_, fits = (math.inf, None), []
-        for k_ in range(n_starts):
-            u, c = _levenberg_marquardt(lambda y_: residuals(y_, kind), start(kind, k_), int(num("yukawa_lm_iters")))
-            if c < best_[0]:
-                best_ = (c, u)
-            if c < num("survival_sigma") ** 2:
-                core = split(u, kind)[0]
-                fits.append((neutrinos(core, kind), seesaw_scales(core, kind)))
+        lm_iters, cut = int(num("yukawa_lm_iters")), num("survival_sigma") ** 2
+        starts = [start(kind, k_) for k_ in range(n_starts)] + [list(e_) for e_ in extra]
+
+        def one(k_: int) -> Tuple[float, List[float]]:
+            u, c = _levenberg_marquardt(lambda y_: residuals(y_, kind), starts[k_], lm_iters)
+            return c, u
+        ranked = _parallel_map(one, len(starts))
+        fit_us = [u for c, u in ranked if c < cut]
+        # iterated local search: kick the best points (every unknown by up to yukawa_nu_kick, in log-magnitudes,
+        # phases and quark pulls) and re-minimize; a kick is kept if it lowers chi^2. Each refined point has its
+        # own deterministic stream, so the result does not depend on how the work is shared out.
+        ranked.sort(key=lambda t_: t_[0])
+        n_pol = min(int(num("yukawa_nu_polish")), len(ranked))
+        base_seed = rng.s
+
+        def polish(j_: int) -> Tuple[Tuple[float, List[float]], List[List[float]]]:
+            r_ = _UniformStream(base_seed + j_ + 1)
+            cur, hits = ranked[j_], []
+            kick = num("yukawa_nu_kick")
+            for _ in range(int(num("yukawa_nu_kicks"))):
+                u, c = _levenberg_marquardt(lambda y_: residuals(y_, kind),
+                                            [v_ + r_.uniform(-kick, kick) for v_ in cur[1]], lm_iters)
+                if c < cut:
+                    hits.append(u)
+                if c < cur[0]:
+                    cur = (c, u)
+            return cur, hits
+        for j_, (cur, hits) in enumerate(_parallel_map(polish, n_pol)):
+            ranked[j_] = cur
+            fit_us += hits
+        best_ = min(ranked, key=lambda t_: t_[0])
+        fits = [(neutrinos(split(u, kind)[0], kind), seesaw_scales(split(u, kind)[0], kind)) for u in fit_us]
+        tops[kind] = sorted(ranked, key=lambda t_: t_[0])[:int(num("yukawa_cross_seeds"))]
         core = split(best_[1], kind)[0]
         nb, res = neutrinos(core, kind), residuals(best_[1], kind)
-        rec = {"chi2_min": best_[0], "starts": n_starts, "seeds": len(seeds), "data_points": 7 + 6, "unknowns": len(best_[1]),
+        rec = {"chi2_min": best_[0], "starts": len(starts), "seeds": len(seeds), "data_points": 7 + 6, "unknowns": len(best_[1]),
                "angles": {k: nb["angles"][k] for k in nu_data}, "ratio": nb["ratio"], "ratio_meas": r_meas,
                "lepton_masses": lepton_masses(core), "quark_pulls": res[7:],
                "n_sigma_worst": max(abs(v_) for v_ in res[3:7]), "fits_found": len(fits),
                "delta_deg_range": ((min(math.degrees(f_["angles"]["delta"]) % 360 for f_, _ in fits),
                                     max(math.degrees(f_["angles"]["delta"]) % 360 for f_, _ in fits)) if fits else None),
                "scales": seesaw_scales(core, kind)}
+        if fits:
+            # delta is never fitted: each fit predicts it. Pull on the circle against the measured value (NuFIT's
+            # distribution is far from Gaussian, so this is only indicative)
+            d0, ds = inp("nu_delta_NO"), sig("nu_delta_NO")
+            pulls = [abs((math.degrees(f_["angles"]["delta"]) - d0 + 180) % 360 - 180) / ds for f_, _ in fits]
+            rec["delta_pull_range"] = (min(pulls), max(pulls))
         if fits and kind != "II":
             rec["M_R_over_M_I_range"] = (min(s_["M_R_over_M_I"] for _, s_ in fits), max(s_["M_R_over_M_I"] for _, s_ in fits))
             rec["M_1_range_GeV"] = (min(s_["M_1_GeV"] for _, s_ in fits), max(s_["M_1_GeV"] for _, s_ in fits))
@@ -6572,7 +6882,11 @@ def so10_sum_rule(flav: Dict[str, Any], mu: float, m_i: float) -> Dict[str, Any]
     out["type2"]["b_tau_mismatch"] = (ms["d"][2] - ms["e"][2]) / ms["d"][2]
     # Y4. type I (M_D fixed by the same c1, c2: no new unknown) and types I + II (one complex ratio more)
     out["type1"] = fit_neutrinos("I")
-    out["type12"] = fit_neutrinos("I+II")
+    # types I + II also start from the best type-I points (type II small) and type-II points (type I small)
+    w_dec = num("yukawa_w_decades")
+    cross = [u_[:9] + [math.log(10) * sg * w_dec, rng.uniform(0, 2 * math.pi)] + u_[9:]
+             for kind_, sg in (("I", -1), ("II", 1)) for _, u_ in tops[kind_]]
+    out["type12"] = fit_neutrinos("I+II", cross)
     # perturbativity of the 126's coupling: M_R,3 = y_126 v_R <= sqrt(4 pi) v_R; with v_R ~ M_I (the scale where
     # SU(2)_R x U(1)_B-L breaks) the heaviest right-handed neutrino is at most sqrt(4 pi) M_I
     out["M_I"] = m_i
@@ -6610,6 +6924,37 @@ def so10_dirac_identity(seed: int) -> float:
             dev = max(dev, abs(me[i][j] - c1 * md[i][j] - c2 * mu[i][j]) / abs(me[i][j]),
                       abs(mdir[i][j] - mu[i][j] - (3 + c1) / c2 * (md[i][j] - me[i][j])) / abs(mdir[i][j]))
     return dev
+
+
+def _parallel_map(fn: Callable[[int], Any], n: int) -> List[Any]:
+    """[fn(0), ..., fn(n - 1)], on every core where the platform can fork (each forked worker inherits fn and
+    sends back its share of the results; nothing but the results is pickled), else in turn. The order of the
+    results never depends on the platform or the number of cores."""
+    try:
+        import multiprocessing
+        ctx = multiprocessing.get_context("fork")
+        n_proc = min(multiprocessing.cpu_count(), n)
+        if n_proc < 2:
+            raise ValueError("one core")
+        jobs = []
+        for w_ in range(n_proc):
+            rd, wr = ctx.Pipe(duplex=False)
+
+            def work(w_: int = w_, wr: Any = wr) -> None:
+                wr.send([(i, fn(i)) for i in range(w_, n, n_proc)])
+                wr.close()
+            p_ = ctx.Process(target=work)
+            p_.start()
+            wr.close()
+            jobs.append((p_, rd))
+        out: List[Any] = [None] * n
+        for p_, rd in jobs:
+            for i, r_ in rd.recv():
+                out[i] = r_
+            p_.join()
+        return out
+    except (ValueError, OSError, ImportError, EOFError):
+        return [fn(i) for i in range(n)]
 
 
 def _levenberg_marquardt(resid: Callable[[List[float]], List[float]], u: List[float], iters: int) -> Tuple[List[float], float]:
@@ -6712,8 +7057,10 @@ def final_ledger(score: Dict[str, Any], s10: Dict[str, Any], s10y: Dict[str, Any
          "the 10 + 126 sum rule reaches them with 8 unknowns (Part Y2)"),
         ("neutrino masses and mixing", "7-9", {"trade": "traded", "pass": "related"}.get(
             score["rows"].get(f"SO(10) via {chain}", {}).get("N", {}).get("status", "open"), "open"),
-         f"type II from the sum rule misses by {t2['n_sigma_worst']:.0f} sigma (Part Y3); type I best chi^2 "
-         f"{s10y['LR']['type1']['chi2_min']:.0f}, types I + II {s10y['LR']['type12']['chi2_min']:.0f} for 13 data (Part Y4)"),
+         f"type II from the sum rule misses by {t2['n_sigma_worst']:.0f} sigma (Part Y3); with left-right running, best "
+         f"chi^2 for 13 data: type I {s10y['LR']['type1']['chi2_min']:.0f}, types I + II {s10y['LR']['type12']['chi2_min']:.1f}"
+         + (f", whose fits need M_R,3 = {s10y['LR']['type12']['M_R_over_M_I_range'][0]:.0f} M_I and predict delta ="
+            f" {s10y['LR']['type12']['delta_deg_range'][0]:.0f} deg (Part Y4)" if s10y['LR']['type12']['fits_found'] else " (Part Y4)")),
         ("strong CP angle", "1", "bounded",
          f"|theta-bar| < {scp['bound']['theta_max']:.1e}; an axion at M_I would trade it for f_a (Part O)"),
         ("dark-matter density", "1", "open" if not dm["chains"][chain]["pre_possible"] else "traded",
@@ -7588,6 +7935,17 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
         for e_ in ev_ for v_ in [_herm3_eigvec(mt_, e_)])
     checks.append(("Closed-form 3x3 Hermitian eigenvalues: trace preserved and every eigenvector satisfies A v = lambda v",
                    tr_ok, ", ".join(f"{e_:.4f}" for e_ in ev_)))
+    mrc = matrix_rge_checks(int(num("potential_seed")))
+    checks.append(("Matrix Yukawa RGEs = the general one-loop formula written over every component (SM; left-right"
+                   " bidoublet theory)", max(mrc.values()) < tol, f"max rel dev SM {mrc['SM']:.1e}, LR {mrc['LR']:.1e}"))
+    rn_ = s10y["running"]
+    jm = s10["chains"]["LR"]["loop2"]["M_I"]
+    sm_mi = masses_at_scale(flav, jm)
+    dev_r = max(abs(a_ / b_ - 1) for k_ in "ude" for a_, b_ in zip(rn_["LR"]["masses_M_I"][k_], sm_mi[k_]))
+    inv_g = rn_["LR"]["inv_alpha_M_GUT"]
+    checks.append(("Left-right running: the matrix SM running gives Part J's masses at M_I; after the left-right run"
+                   " the four couplings meet at the chain's M_GUT", dev_r < num("check_matrix_running_rel")
+                   and max(inv_g) - min(inv_g) < num("unif_tol") * 100, f"masses {dev_r:.1e}, couplings {max(inv_g) - min(inv_g):.1e}"))
     dev_d = so10_dirac_identity(int(num("potential_seed")))
     checks.append(("SO(10) 10 + 126: the sum rule M_e = c1 M_d + c2 M_u and the Dirac matrix M_D = M_u + (3 + c1)/c2"
                    " (M_d - M_e) hold exactly at a random point", dev_d < tol, f"max rel dev {dev_d:.1e}"))
@@ -8811,6 +9169,22 @@ def report(res: Dict[str, Any]) -> str:
           f" {g_['pull_126']:+.0f} sigma from 3")
     w(f"      Excluded: {yp['excluded']}. The minimal Pati-Salam chain cannot give the charged-fermion masses; it needs")
     w("      more Yukawa structure (a 120, or a vev that breaks SU(4) at M_GUT).")
+    rn = yy["running"]
+    w("  Running to the left-right M_GUT. Between M_I and M_GUT the chain is SU(3) x SU(2)_L x SU(2)_R x U(1)_B-L with")
+    w("      one bidoublet: -L = Q_L (Y1 Phi + Y2 Phi~) Q_R + leptons. Its matrix RGE is derived from the general")
+    w("      one-loop formula written over every component (a self-check), e.g. for the down quarks")
+    w("        16 pi^2 dY2/dt = 2 Y2 Y2+ Y2 - Y2 Y1+ Y1 - Y1 Y1+ Y2 + T Y2 + 2 Tr(3 Y2 Y1+ + Y4 Y3+) Y1 - gauge,")
+    w("      so u_R and d_R in one SU(2)_R doublet give y_b a +4 y_t^2 push (the SM's is -3/2 y_t^2). Matrix SM")
+    w(f"      running to M_I = {yl['M_I']:.1e} GeV, symmetric matching (<Phi> = diag(k1, 0)), left-right running to M_GUT:")
+    for k_, nm_ in (("u", "up"), ("d", "down"), ("e", "leptons")):
+        w(f"        {nm_:<8s} SM running {', '.join(f'{m_:.4g}' for m_ in rn['SM']['masses'][k_]):<30s}"
+          f" left-right {', '.join(f'{m_:.4g}' for m_ in rn['LR']['masses'][k_])} GeV")
+    va = rn["LR"]["V_abs"]
+    w(f"      |V_us|, |V_cb|, |V_ub| at M_GUT: {va[0][1]:.4f}, {va[1][2]:.4f}, {va[0][2]:.5f} (the fits use this matrix).")
+    w(f"      (m_b - m_tau)/m_b: {rn['SM']['b_tau']:+.2f} with SM running, {rn['LR']['b_tau']:+.2f} with left-right running"
+      f" ({rn['b_tau_dirac_like_up']:+.2f} if the Dirac")
+    w(f"      neutrino Yukawa is as large as the up quarks'; the unknown Takagi phases move it by at most"
+      f" {max(abs(v_ - rn['LR']['b_tau']) for v_ in rn['b_tau_phase_range']):.0e}).")
     w(f"  Y2. Where the doublets can mix (the left-right chain, SU(4) broken at M_GUT = {yl['scale']:.1e} GeV): eliminating")
     w("      Y10, Y126 gives M_e = c1 M_d + c2 M_u, c1, c2 complex. With M_u real diagonal, M_d = Psi V X D_d X V^T Psi")
     w("      (the up-quark phases Psi are physical for symmetric Yukawas). Eight unknowns, three lepton masses:")
@@ -8823,7 +9197,9 @@ def report(res: Dict[str, Any]) -> str:
     w("      Type II: M_nu ~ M_d - M_e. Type I: the Dirac matrix is fixed by the same c1, c2,")
     w("      M_D = M_u + (3 + c1)/c2 (M_d - M_e), and M_R ~ M_d - M_e, so M_nu ~ M_D (M_d - M_e)^-1 M_D: no new")
     w("      unknown. Types I + II add one complex ratio. Levenberg-Marquardt from the best charged-lepton points")
-    w(f"      and {yl['type1']['seeds']} + {yl['type1']['starts'] - yl['type1']['seeds']} seeded starts per type:")
+    w(f"      and {yl['type1']['seeds']} + {yl['type1']['starts'] - yl['type1']['seeds']} seeded starts per type (I + II also from the"
+      f" best I and II points),")
+    w(f"      then {int(num('yukawa_nu_kicks'))} kicks of each of the {int(num('yukawa_nu_polish'))} best points:")
     w(f"        {'seesaw':<8s} {'unknowns':>8s} {'chi^2':>8s} {'worst nu':>9s}  sin^2: th12   th13    th23   heaviest M_R / M_I")
     for nm_, k_ in (("II", "type2"), ("I", "type1"), ("I + II", "type12")):
         t_ = yl[k_]
@@ -8840,17 +9216,23 @@ def report(res: Dict[str, Any]) -> str:
     for nm_, k_ in (("Type I", "type1"), ("Types I + II", "type12")):
         t_ = yl[k_]
         if t_["fits_found"]:
-            w(f"      {nm_}: {t_['fits_found']} fits within 3 sigma; delta {t_['delta_deg_range'][0]:.0f} to "
-              f"{t_['delta_deg_range'][1]:.0f} deg; M_R,3/M_I {t_['M_R_over_M_I_range'][0]:.1e} to {t_['M_R_over_M_I_range'][1]:.1e};"
-              f" M_1 {t_['M_1_range_GeV'][0]:.1e} to {t_['M_1_range_GeV'][1]:.1e} GeV.")
+            w(f"      {nm_}: {t_['fits_found']} fit(s) within 3 sigma (best chi^2 {t_['chi2_min']:.1f}). They predict delta,"
+              f" never fitted: {t_['delta_deg_range'][0]:.0f} to {t_['delta_deg_range'][1]:.0f} deg,")
+            w(f"        against {inp('nu_delta_NO'):.0f} +/- {sig('nu_delta_NO'):.0f} deg: {t_['delta_pull_range'][0]:.1f} to"
+              f" {t_['delta_pull_range'][1]:.1f} sigma (NuFIT's delta is far from Gaussian: indicative only);")
+            w(f"        M_R,3/M_I {t_['M_R_over_M_I_range'][0]:.1e} to {t_['M_R_over_M_I_range'][1]:.1e};"
+              f" the lightest right-handed neutrino M_1 = {t_['M_1_range_GeV'][0]:.1e} to {t_['M_1_range_GeV'][1]:.1e} GeV.")
         else:
             sc_ = t_["scales"]
             w(f"      {nm_}: no fit within 3 sigma found; at the best point M_R = "
               + ", ".join(f"{m_:.1e}" for m_ in sc_["M_R_GeV"]) + " GeV.")
     w("      The heavy masses need no vev: M_R,i = s_i(M_d - M_e) s_max(M_nu matrix)/m_3. A perturbative 126 coupling")
     w(f"      (M_R,3 <= sqrt(4 pi) v_R) with v_R ~ M_I = {yl['M_I']:.1e} GeV needs M_R,3/M_I <= {yl['M_R_max_over_M_I']:.2f}.")
-    w("      Published fits with the full left-right running (Joshipura-Patel 2011, Ohlsson-Pernow 2019) find type-I")
-    w("      dominated solutions; with SM running to M_GUT this search does not, so the search, not the model, may fail.")
+    w("      The fits add the overall phase of M_d against the real M_u (physical for the neutrinos: absorbed by c1 in")
+    w("      M_e, not in M_d - M_e), so 9 unknowns: with the 10 quark observables, the 19 parameters of the model.")
+    w("      Published fits with full running (Joshipura-Patel 2011, Ohlsson-Pernow 2019) find type-I dominated")
+    w("      solutions; this search does not, so either the search or the left-out pieces (the second doublet's vev,")
+    w("      the Delta_R coupling, thresholds) decide.")
     w(_wrap("RESULT: SO(10)'s Yukawa sector is a real test. The minimal Pati-Salam chain fails it: its unbroken SU(4) "
             "keeps the light Higgs in one irrep, which gives the wrong lepton/down ratios by tens of sigma. Where "
             "SU(4) breaks at M_GUT (left-right chain), the 10 + 126 sum rule reaches the charged leptons; type-II "

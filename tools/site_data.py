@@ -104,6 +104,7 @@ def main():
     yukawa = {"ps_pull": min(yy["PS"]["worst_pull_10"], yy["PS"]["worst_pull_126"]),
               "lr_miss": ylr["worst_rel_miss"], "M_I": ylr["M_I"], "M_GUT": ylr["scale"],
               "b_tau": ylr["type2"]["b_tau_mismatch"], "M_R_bound": ylr["M_R_max_over_M_I"],
+              "b_tau_sm": yy["running"]["SM"]["b_tau"], "b_tau_lr": yy["running"]["LR"]["b_tau"],
               "seesaw": {k: {"chi2": ylr[k]["chi2_min"], "n_sigma": ylr[k]["n_sigma_worst"], "unknowns": ylr[k]["unknowns"],
                              "data": ylr[k]["data_points"], "fits": ylr[k]["fits_found"],
                              "M_R_over_M_I": ylr[k]["scales"]["M_R_over_M_I"] if ylr[k]["scales"] else None,

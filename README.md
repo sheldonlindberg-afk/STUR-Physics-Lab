@@ -20,7 +20,7 @@
 ## Run it
 
 ```
-python3 production_v2_2.py                     # full report, about 10 minutes
+python3 production_v2_2.py                     # full report, about 20 minutes (four cores)
 python3 production_v2_2.py --json-out out.json # every number, as JSON
 python3 production_v2_2.py --scales 2000 5000  # other evaluation scales (GeV, above m_t)
 python3 production_v2_2.py --set M_t=173.5      # change a measured input; the whole model is recalculated
@@ -30,7 +30,7 @@ python3 production_v2_2.py --certify            # also prove every texture exclu
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 69 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 71 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -775,31 +775,39 @@ left-right one.
 
 **Closing the algorithm: the neutrino test (Part Y3), the survivor fed back (Part X), the ledger (Part Z)**
 
-* **Y3: type-II neutrinos from the sum rule.** With type-II seesaw, M_ν ∝ M_d − M_e, so the same
-  8 unknowns must also give the three PMNS angles and Δm²₂₁/Δm²₃₁ (the six quark masses float within
-  their errors: 13 data, 14 unknowns). They don't: the best point misses by 20σ (sin²θ₂₃ comes
-  out near 0.17). The reason is one number. Large atmospheric mixing from M_d − M_e needs b and τ to
-  converge at M_GUT (Bajc–Senjanović–Vissani), and without supersymmetry they don't:
-  (m_b − m_τ)/m_b = −0.60. The minimal left-right chain with pure type-II neutrino masses is excluded.
+* **Running to the left-right M_GUT.** Between M_I and M_GUT the chain is SU(3) × SU(2)_L × SU(2)_R ×
+  U(1)_{B−L} with one bidoublet, −L = Q_L (Y₁Φ + Y₂Φ̃) Q_R + leptons. Its matrix RGE is derived, not quoted:
+  the general one-loop formula (Machacek–Vaughn) is written out over every field component, checked on the
+  SM's matrix RGE, and fixes the reduced form exactly (a self-check, to 10⁻¹⁶):
+  16π² dY₂/dt = 2Y₂Y₂†Y₂ − Y₂Y₁†Y₁ − Y₁Y₁†Y₂ + T Y₂ + 2Tr(3Y₂Y₁† + Y₄Y₃†) Y₁ − gauge. Because u_R and d_R
+  share an SU(2)_R doublet, y_t pushes y_b up (+4y_t² in d ln(y_b/y_τ)) where the SM pushes it down. The
+  masses and the CKM matrix run in the SM to M_I, are matched symmetrically there (the second doublet's vev
+  neglected), and run in the left-right theory to M_GUT, where the four couplings meet (a check).
+  (m_b − m_τ)/m_b at M_GUT goes from −0.60 (SM running) to −0.41.
+* **Y3: type-II neutrinos.** With type-II seesaw, M_ν ∝ M_d − M_e, so the same unknowns must also give the
+  three PMNS angles and Δm²₂₁/Δm²₃₁ (the six quark masses float within their errors: 13 data). They don't:
+  the best point misses by about 19σ (sin²θ₂₃ ≈ 0.18). Large atmospheric mixing from M_d − M_e needs b and τ
+  to converge at M_GUT (Bajc–Senjanović–Vissani); even with left-right running they don't.
 * **Y4: type I, and types I + II.** Type I adds no unknown. The same c₁, c₂ fix the Dirac matrix,
-  M_D = M_u + (3 + c₁)/c₂ (M_d − M_e) (a self-check verifies the algebra at a random point), and
-  M_R ∝ M_d − M_e, so M_ν ∝ M_D (M_d − M_e)⁻¹ M_D. Types I + II add one complex ratio. The right-handed
-  masses follow without any vev: M_R,i = s_i(M_d − M_e) · s_max(M_ν matrix)/m₃. The fits use
-  Levenberg–Marquardt from the best charged-lepton points and from seeded starts:
+  M_D = M_u + (3 + c₁)/c₂ (M_d − M_e) (a self-check verifies the algebra), and M_R ∝ M_d − M_e, so
+  M_ν ∝ M_D (M_d − M_e)⁻¹ M_D. Types I + II add one complex ratio. The right-handed masses follow without any
+  vev: M_R,i = s_i(M_d − M_e) · s_max(M_ν matrix)/m₃. The fits also carry the overall phase of M_d against
+  M_u, which the charged leptons cannot see but the neutrinos can (9 unknowns; with the 10 quark observables,
+  the model's 19 parameters). Levenberg–Marquardt runs from 1,000 seeded starts per type in parallel, with
+  cross-seeding and kicks of the best points:
 
-  | Seesaw | Unknowns / data | Best χ² | Worst neutrino observable | Heaviest M_R / M_I |
-  |---|---|---|---|---|
-  | type II | 14 / 13 | 547 | 19.8σ (sin²θ₂₃ = 0.17) | – |
-  | type I | 14 / 13 | 188 (158) | 11.8σ | 4.4 × 10³ (1.4 × 10³) |
-  | types I + II | 16 / 13 | 32 (18) | 1.0σ | 3.8 × 10² (6.3 × 10²) |
+  | Seesaw | Unknowns / data | Best χ² | Heaviest M_R / M_I near the best point |
+  |---|---|---|---|
+  | type II | 15 / 13 | ≈ 440 | – |
+  | type I | 15 / 13 | ≈ 160 | ≈ 10³ |
+  | types I + II | 17 / 13 | ≈ 24 | ≈ 10² – 10³ |
 
-  (The shipped run: 4 + 200 starts per type; in brackets an offline run with 1,000.) No point reaches 3σ. The mixed case comes close, but every near-fit puts
-  the heaviest right-handed neutrino hundreds of times above the left-right M_I = 2.8 × 10⁹ GeV, while
-  a perturbative 126 coupling with v_R ~ M_I allows at most √(4π) M_I. Published fits with the full
-  left-right running (Joshipura–Patel 2011, Ohlsson–Pernow 2019) do find type-I dominated solutions,
-  with M_R well above 10⁹ GeV. This search runs the SM to M_GUT instead. So the scorecard's neutrino
-  entry stays *open*, now with a computed reason: if the chain's neutrinos come from type I, B − L
-  must break well above its M_I.
+  (Exact numbers in the output.) No point of the shipped run reaches 3σ. An exploratory run with other starts
+  found one types I + II point that fits (χ² = 4.8, every neutrino observable within 0.6σ). It predicts the CP
+  phase δ ≈ 17°, outside NuFIT's 3σ range, and needs M_R,3 = 600 M_I, far above the √(4π) M_I a perturbative
+  126 coupling allows with v_R ~ M_I = 2.8 × 10⁹ GeV. Published fits (Joshipura–Patel 2011, Ohlsson–Pernow
+  2019) find type-I solutions, so the scorecard's neutrino entry stays *open*; what is computed is that every
+  near-fit wants B − L broken well above the chain's M_I.
 * **Part X follows the survivor.** The cosmology closure now takes the surviving chain from Part U
   automatically: the left-right chain, whose axion gives under 1% of the dark matter. The loop then
   needs nearly all the dark matter from strings, domain walls or another component.
@@ -816,7 +824,7 @@ left-right one.
 | Higgs vev, quark masses, G | 1 + 6 + 1 | input |
 | CKM | 4 | related (texture, not the survivor's structure) |
 | charged-lepton masses | 3 | traded (sum rule, 8 unknowns) |
-| neutrino masses and mixing | 7–9 | open (type II excluded; type I and I + II not reached, M_R ≫ M_I) |
+| neutrino masses and mixing | 7–9 | open (type II excluded; type I and I + II not reached by the shipped search, M_R ≫ M_I) |
 | strong CP angle | 1 | bounded (< 9×10⁻¹¹) |
 | dark matter, Λ | 1 + 1 | open |
 | baryon asymmetry | 1 | traded (leptogenesis, M₁ unknown) |
