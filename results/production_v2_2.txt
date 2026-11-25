@@ -961,6 +961,31 @@ PART X. CLOSING THE LOOP: COSMOLOGY FROM THE PARTICLE PHYSICS
     hangs; the lattice and simulation results for the string yield are what
     would test it.
 
+PART Y. THE SO(10) YUKAWA SECTOR: CAN IT GIVE THE CHARGED-FERMION MASSES?
+------------------------------------------------------------------------------
+  With a 10 and a 126 the Yukawas are symmetric and shared: M_u = a Y10 + b Y126, M_d = c Y10 + d Y126,
+  M_e = c Y10 - 3 d Y126 (a-d: the light Higgs' components).
+  Y1. Pati-Salam (at M_I = 1.4e+11 GeV). SU(4) is unbroken up to M_GUT and <210> is a PS singlet, so
+      nothing mixes the 10's (1,2,2) (SU(4) singlet) with the 126's (15,2,2): the light Higgs lies in one
+      SU(4) irrep, and M_e = M_d (10) or M_e = -3 M_d (126) for every generation (exact at tree level).
+        m_e/m_d     = 0.361 +/- 0.007:  -88 sigma from 1, -365 sigma from 3
+        m_mu/m_s    = 3.827 +/- 0.077:  +37 sigma from 1, +11 sigma from 3
+        m_tau/m_b   = 1.344 +/- 0.027:  +13 sigma from 1, -62 sigma from 3
+      Excluded: True. The minimal Pati-Salam chain cannot give the charged-fermion masses; it needs
+      more Yukawa structure (a 120, or a vev that breaks SU(4) at M_GUT).
+  Y2. Where the doublets can mix (the left-right chain, SU(4) broken at M_GUT = 1.5e+16 GeV): eliminating
+      Y10, Y126 gives M_e = c1 M_d + c2 M_u, c1, c2 complex. With M_u real diagonal, M_d = Psi V X D_d X V^T Psi
+      (the up-quark phases Psi are physical for symmetric Yukawas). Eight unknowns, three lepton masses:
+      best of 600 seeded starts: chi^2 = 0.049 at 1 % per mass; masses 0.0004689, 0.09891, 1.675 GeV
+      against 0.0004689, 0.09878, 1.678 GeV (worst miss 0.174 %). Reached; the prediction must come from the
+      neutrinos (type-II seesaw: M_nu proportional to M_d - M_e), the next step.
+  RESULT: SO(10)'s Yukawa sector is a real test. The minimal Pati-Salam chain
+    fails it: its unbroken SU(4) keeps the light Higgs in one irrep, which
+    gives the wrong lepton/down ratios by tens of sigma. Where SU(4) breaks
+    at M_GUT (left-right chain), the 10 + 126 sum rule reaches the charged
+    leptons, with parameters to spare: whether it calculates the neutrino
+    mixing is the open question.
+
 PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
 ------------------------------------------------------------------------------
   Each hypothesis meets every condition, with the verdict the earlier parts computed:
@@ -974,6 +999,7 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     proton decay pass : no grand unification: B is conserved in perturbation theory
     baryon asymmetry fail : no out-of-equilibrium step, CP violation 14 orders short (Part S)
     strong CP open : theta-bar bounded, not explained (Part O)
+    fermion masses trade : the Yukawa couplings are free parameters
     dark matter open : no dark-matter candidate; Omega_c is an input (Part A)
     vacuum stability open : metastable: lambda turns negative at 6.2e+10 GeV (Part L)
   minimal SUSY SU(5)
@@ -984,6 +1010,7 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     proton decay fail : p -> nubar K+ at most 9e+29 years against 5.9e+33 (Part Q)
     baryon asymmetry trade : leptogenesis possible above M_1 ~ 7e8 GeV; gravitinos not checked
     strong CP open : needs an axion or another mechanism
+    fermion masses fail : m_s/m_d = m_mu/m_e (minimal SU(5)) excluded (Part J)
     dark matter trade : the lightest superpartner, not calculated here
     vacuum stability pass : lambda is fixed positive by supersymmetry above M_S
   SO(10) via PS
@@ -1000,6 +1027,8 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
       (2e+10 to 2e+11 GeV)
     dark matter trade : axion at f_a = M_I: 65 % of the dark matter by post-inflation misalignment
       (strings add more); pre-inflation theta_i = 2.67 gives all of it
+    fermion masses fail (88.3 sigma): the light doublet sits in one SU(4) irrep (exact selection
+      rule): M_e = M_d or -3 M_d, missed by at least 88 sigma (Part Y)
   SO(10) via PS+D
     gauge unification pass : M_I = 4.4e+13, M_GUT = 8.4e+14 GeV solve the three couplings (no
       prediction)
@@ -1013,6 +1042,8 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     vacuum stability open : metastable between mu_0 and M_I
     dark matter trade : axion at f_a = M_I: 5.3e+04 % of the dark matter by post-inflation
       misalignment (strings add more); pre-inflation theta_i = 0.09 gives all of it
+    fermion masses fail (88.3 sigma): the light doublet sits in one SU(4) irrep (exact selection
+      rule): M_e = M_d or -3 M_d, missed by at least 88 sigma (Part Y)
   SO(10) via LR
     gauge unification pass : M_I = 2.8e+09, M_GUT = 1.5e+16 GeV solve the three couplings (no
       prediction)
@@ -1028,6 +1059,8 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
       vacuum
     dark matter open : axion at f_a = M_I: 0.67 % of the dark matter by post-inflation
       misalignment, and no initial angle gives all of it: another candidate is needed
+    fermion masses trade : M_e = c1 M_d + c2 M_u reaches the lepton masses (8 unknowns, 3 masses:
+      predictive only with neutrinos)
   SO(10) via LR+D
     gauge unification pass : M_I = 3.0e+10, M_GUT = 2.3e+15 GeV solve the three couplings (no
       prediction)
@@ -1042,6 +1075,8 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
       vacuum
     dark matter open : axion at f_a = M_I: 11 % of the dark matter by post-inflation misalignment,
       and no initial angle gives all of it: another candidate is needed
+    fermion masses trade : M_e = c1 M_d + c2 M_u reaches the lepton masses (8 unknowns, 3 masses:
+      predictive only with neutrinos)
   The chains' Higgs condition, lambda(M_I) = 0 where the SM ends (Part L's running and matching):
     PS     M_I = 1.40e+11 GeV: m_h = 125.58 +/- 0.96 GeV, +0.4 sigma
     PS+D   M_I = 4.37e+13 GeV: m_h = 127.38 +/- 0.96 GeV, +2.3 sigma
@@ -1049,21 +1084,20 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     LR+D   M_I = 3.04e+10 GeV: m_h = 124.83 +/- 0.96 GeV, -0.4 sigma
     Why lambda should vanish at M_I is not established (the scalar sector changes there): a test.
   SM to M_P: fails gauge unification, b-tau unification, Higgs mass, baryon
-    asymmetry; trades 1, open 3, passes 1.
-  minimal SUSY SU(5): fails Higgs mass, proton decay; trades 5, open 1,
-    passes 1.
-  SO(10) via PS: fails nothing; trades 3, open 2, passes 4. Thresholds (Part
-    T7) can flip: proton decay, vacuum stability.
-  SO(10) via PS+D: fails proton decay; trades 3, open 2, passes 3. Robust
-    against the thresholds of Part T7.
-  SO(10) via LR: fails nothing; trades 1, open 3, passes 5. Thresholds (Part
+    asymmetry; trades 2, open 3, passes 1.
+  minimal SUSY SU(5): fails Higgs mass, proton decay, fermion masses; trades
+    5, open 1, passes 1.
+  SO(10) via PS: fails fermion masses; trades 3, open 2, passes 4. Thresholds
+    (Part T7) can flip: proton decay, vacuum stability.
+  SO(10) via PS+D: fails proton decay, fermion masses; trades 3, open 2,
+    passes 3. Robust against the thresholds of Part T7.
+  SO(10) via LR: fails nothing; trades 2, open 3, passes 5. Thresholds (Part
     T7) can flip: proton decay, vacuum stability, baryon asymmetry.
-  SO(10) via LR+D: fails proton decay; trades 2, open 2, passes 4. Thresholds
+  SO(10) via LR+D: fails proton decay; trades 3, open 2, passes 4. Thresholds
     (Part T7) can flip: proton decay, vacuum stability, baryon asymmetry.
-  RESULT: surviving every condition tested so far: SO(10) via PS, SO(10) via
-    LR. It predicts nothing yet: its scales are solved from the couplings,
-    and its passes are consistency, not calculation; two-loop running and
-    thresholds come next.
+  RESULT: surviving every condition tested so far: SO(10) via LR. It predicts
+    nothing yet: its scales are solved from the couplings, and its passes are
+    consistency, not calculation; two-loop running and thresholds come next.
 
 THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
 ------------------------------------------------------------------------------
@@ -1189,6 +1223,14 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
       assumes: QCD axion by misalignment; dilute-instanton m_a(T); string and
         domain-wall production left out; f_a scanned and at each SO(10)
         chain's M_I
+  so10_yukawa (Y, numerical)
+      inputs: CKM_A, CKM_etabar, CKM_lambda, CKM_rhobar, G_F, M_Z, M_t,
+        alpha_em, alpha_em_inv_MZ, alpha_s_MZ, c, e_charge, m_b, m_c, m_d,
+        m_e, m_mu_MeV, m_s, m_tau_MeV, m_u, mu_light, s2_hat_Z
+      takes: flavour, so10
+      assumes: symmetric Yukawas from a 10 and a 126; the selection rule
+        exact at tree level; the sum rule at the LR chain's M_GUT with SM
+        running; unknowns searched, never set
   w_mass (W, conditional)
       inputs: M_W, M_Z, M_t, alpha_s_MZ, delta_alpha_had5
       takes: criticality
@@ -1203,7 +1245,7 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
   scorecard (U, conditional)
       inputs: none
       takes: higgs_mssm, criticality, uv_joint_test, neutrinos, proton_decay,
-        baryon_asymmetry, so10, dark_matter
+        baryon_asymmetry, so10, dark_matter, so10_yukawa
       assumes: the SM, minimal SUSY SU(5) and four SO(10) chains (two loops),
         each condition judged by the stage that computes it; for the chains
         the Higgs condition is lambda(M_I) = 0
@@ -1228,23 +1270,23 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
       baryon_asymmetry, dark_matter
     m_t(m_t) = 162.79 GeV, from flavour[runner], taken by quantum_gravity,
       yukawa_relations, higgs_mssm, uv_joint_test, mass_formulas, strong_cp,
-      neutrinos, proton_decay, baryon_asymmetry, so10
+      neutrinos, proton_decay, baryon_asymmetry, so10, so10_yukawa
   Changing one measured input recalculates every stage it reaches, for example:
     M_t: flavour, texture_survey, flavour_symmetry_331, quantum_gravity,
       yukawa_relations, higgs_mssm, criticality, uv_joint_test,
       mass_formulas, strong_cp, neutrinos, proton_decay, baryon_asymmetry,
-      so10, dark_matter, w_mass, closed_cosmology, scorecard
+      so10, dark_matter, so10_yukawa, w_mass, closed_cosmology, scorecard
     alpha_s_MZ: gauge_unification, flavour, texture_survey,
       flavour_symmetry_331, quantum_gravity, yukawa_relations, higgs_mssm,
       criticality, uv_joint_test, mass_formulas, strong_cp, neutrinos,
-      proton_decay, baryon_asymmetry, so10, dark_matter, w_mass,
+      proton_decay, baryon_asymmetry, so10, dark_matter, so10_yukawa, w_mass,
       closed_cosmology, scorecard
     G: cosmology, planck_units, quantum_gravity, yukawa_relations,
       higgs_mssm, criticality, uv_joint_test, strong_cp, neutrinos,
-      proton_decay, baryon_asymmetry, so10, dark_matter, w_mass,
+      proton_decay, baryon_asymmetry, so10, dark_matter, so10_yukawa, w_mass,
       closed_cosmology, scorecard
     H0: cosmology, quantum_gravity, neutrinos, baryon_asymmetry, so10,
-      dark_matter, closed_cosmology, scorecard
+      dark_matter, so10_yukawa, closed_cosmology, scorecard
   Global consistency of the stage assumptions:
     MSSM above M_S  : gauge_unification, yukawa_relations, higgs_mssm, proton_decay
     SM up to M_P    : criticality
@@ -1372,8 +1414,9 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] 210 potential: the eaten (6,2,2) is massless for every coupling (Goldstone); the radial mode has twice the vacuum curvature  (max 0.0e+00)
   [PASS] 126: the self-dual basis is self-dual, (10,3,1) and (10bar,1,3) do not mix, and every D-even invariant is equal on them  (max 0.0e+00)
   [PASS] 10: A_ij = phi phi at the vev is 6 v^2 on SO(4) indices, 0 on SO(6), diagonal (splits (1,2,2) from (6,1,1))
+  [PASS] Closed-form 3x3 Hermitian eigenvalues: trace preserved and every eigenvector satisfies A v = lambda v  (-0.6940, 1.7480, 4.9460)
   [PASS] SO(10) chains: the general two-loop formula on the SM content = sm_gauge_b, sm_two_loop_b; the Newton solver at one loop = the linear solution  (rel diff 3.3e-10)
-  [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (26 stages, 73 edges)
-  67/67 checks pass
+  [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (27 stages, 76 edges)
+  68/68 checks pass
 ==============================================================================
-Elapsed: 376.3 s
+Elapsed: 414.2 s
