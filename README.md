@@ -30,7 +30,7 @@ python3 production_v2_2.py --certify            # also prove every texture exclu
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 59 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 60 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -632,6 +632,26 @@ mass μ₀ = 6.2×10¹⁰ GeV (2.3×10¹⁰ to 2.0×10¹¹ for M_t ± 1σ). Both
 band, so whether it is stable is decided by M_t. The "λ(M_I) = 0" Higgs masses only measure how
 close each chain's M_I lies to μ₀: the 125.6 GeV of Pati–Salam is a coincidence of scales, not a
 prediction. The scorecard has a vacuum-stability row.
+
+**Part V: dark matter from the axion**
+
+Until now the dark-matter density was an input. The axion of Part O is produced by misalignment:
+it sits frozen at an angle θ_i until 3H = m_a(T), then oscillates and redshifts like matter. The
+script calculates this from its ingredients (Di Luzio, Giannotti, Nardi, Visinelli 2020, eqs.
+148–169). It takes m_a f_a from Part O, M_P from Part H, g_S today = 43/11 from Part S and T₀ from
+T_CMB; the dilute-instanton m_a(T) is quoted. The result reproduces the paper's own eq. 170 to 1.3%
+(a self-check). After inflation, misalignment alone gives all of Ω_c h² = 0.1200 at
+**f_a = 2.0×10¹¹ GeV, m_a = 28.5 μeV**. If the axion scale is each SO(10) chain's M_I:
+
+| Chain | f_a = M_I | m_a | Post-inflation misalignment | Pre-inflation |
+|---|---|---|---|---|
+| Pati–Salam | 1.4×10¹¹ GeV | 41 μeV | 65% of the dark matter | θ_i = 2.66 gives all |
+| Left-right | 2.8×10⁹ GeV | 2.1 meV | 0.7% | impossible (θ_i > π) |
+
+So at the Pati–Salam scale the axion makes about two thirds of the dark matter from misalignment
+alone; strings and domain walls, whose yield is not agreed on, only add to it. Unification,
+neutrino masses, the strong CP problem and dark matter would then share one scale. At the
+left-right scale the axion cannot be the dark matter.
 
 **Part U: the scorecard, every complete hypothesis against every condition**
 

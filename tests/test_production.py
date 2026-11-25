@@ -560,6 +560,19 @@ def test_leptogenesis_efficiency():
     assert sc["SO(10) via PS"]["A"]["status"] == "trade" and sc["SO(10) via LR"]["A"]["status"] == "open"
 
 
+def test_dark_matter():
+    """Part V: misalignment from its ingredients reproduces eq. 170 of Di Luzio et al.; post-inflation all
+    the dark matter needs f_a ~ 2e11 GeV (m_a ~ 28 micro-eV); at Pati-Salam's M_I about two thirds; at the
+    left-right M_I no angle suffices."""
+    dm = RESULT["dark_matter"]
+    assert abs(dm["check_eq170"]["Omega_h2"] / 0.12 - 1) < 0.05
+    assert 1.5e11 < dm["f_a_all_dm_post"] < 2.5e11 and 2.4e-5 < dm["m_a_all_dm_post_eV"] < 3.4e-5
+    ps, lr = dm["chains"]["PS"], dm["chains"]["LR"]
+    assert 0.4 < ps["fraction_post"] < 0.9 and ps["pre_possible"]
+    assert lr["fraction_post"] < 0.05 and not lr["pre_possible"]
+    assert RESULT["scorecard"]["rows"]["SO(10) via LR"]["D"]["status"] == "open"
+
+
 def test_website_data_is_current():
     """assets/site-data.js (written by tools/site_data.py) shows the numbers the script computes."""
     import json

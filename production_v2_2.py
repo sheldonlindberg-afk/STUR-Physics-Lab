@@ -221,6 +221,8 @@ COMPARISONS: Dict[str, Dict[str, Any]] = {
     "tau_p_K_nu": {"value": ("5.9e33", "0", "0"),
                    "source": "Super-Kamiokande, Abe et al. 2014 (PRD 90, 072005): tau/B(p -> nubar K+), "
                              "years, 90% CL"},
+    "Omega_c_h2": {"value": ("0.1200", "0.0012", "0.0012"),
+                   "source": "Planck 2018 VI, table 2, TT,TE,EE+lowE+lensing (Part V)"},
     # upper limits (Part P): the value is the limit, the sigmas are zero
     "sum_mnu_Planck": {"value": ("0.12", "0", "0"),
                        "source": "Planck 2018 VI, TT,TE,EE+lowE+lensing+BAO, 95% upper limit (LambdaCDM)"},
@@ -300,6 +302,7 @@ NUMERICS: Dict[str, Any] = {
     "nu_bisections": 80,
     "check_phase_grid": 96,           # Part P check: brute-force Majorana phases against the exact band
     "proton_phase_grid": 36,          # Part Q: grid per unknown GUT phase (phi_2, phi_3) for the dimension-five band
+    "check_axion_tol": "0.05",        # Part V: eq. 170 is an approximation (their words); agreement within 5 %
     "report_sci_below": "1e-3",       # print in scientific notation below / above these
     "report_sci_above": "1e5",
 }
@@ -477,6 +480,13 @@ LITERATURE: Dict[str, Dict[str, Any]] = {
                   "72.4 +/- 1.7 GeV (Csikor, Fodor, Heitger 1999, hep-ph/9809291); above it a crossover at "
                   "T_c = 159.5 +/- 1.5 GeV (D'Onofrio, Rummukainen 2016, arXiv:1508.07161)",
         "value": {"endpoint_m_h": ("72.4", "1.7"), "T_c": ("159.5", "1.5")}},
+    "axion_misalignment": {
+        "source": "Di Luzio, Giannotti, Nardi, Visinelli 2020 (arXiv:2003.01100), sec. 3.3: m_a(T) = beta m_a "
+                  "(T_C/T)^gamma (eq. 150, dilute instanton gas, beta from their ref. 184), g* at oscillation, "
+                  "b = 1, the post-inflation <theta_i^2> = 2.15^2 with anharmonic terms; eq. 170, Omega h^2 = 0.12 "
+                  "at f_a = 2.0e11 GeV, quoted only to check the calculation",
+        "value": {"beta": "0.026", "gamma": "4", "T_C_GeV": "0.160", "g_star_osc": "61.75", "b": "1",
+                  "theta_post": "2.15", "eq170_f_a_GeV": "2.0e11", "eq170_Omega_h2": "0.12"}},
     "axion_mass_nlo": {
         "source": "QCD axion mass at NLO in chiral perturbation theory with lattice input, Gorghetto-Villadoro "
                   "2019 (refining Grilli di Cortona et al. 2016): m_a = 5.69(5) micro-eV x (1e12 GeV / f_a)",
@@ -554,6 +564,9 @@ STAGES: Dict[str, Dict[str, str]] = {
     "scorecard": {"part": "U", "level": "conditional",
                   "assumes": "the SM, minimal SUSY SU(5) and four SO(10) chains (two loops), each condition judged "
                              "by the stage that computes it; for the chains the Higgs condition is lambda(M_I) = 0"},
+    "dark_matter": {"part": "V", "level": "conditional",
+                    "assumes": "QCD axion by misalignment; dilute-instanton m_a(T); string and domain-wall "
+                               "production left out; f_a scanned and at each SO(10) chain's M_I"},
     "self_checks": {"part": "-", "level": "validation", "assumes": "tests the calculation, not the physics"},
 }
 
@@ -591,6 +604,9 @@ AUDIT_FINDINGS: Tuple[Tuple[str, str], ...] = (
     ("open", "Part L assumes the SM up to M_P, but neutrinos have mass (Part P). That holds only if they are "
              "Dirac particles with Yukawa couplings below 3e-13, which do not affect the running; a seesaw "
              "needs new states below about 8e15 GeV, whose couplings would enter lambda's running."),
+    ("open", "Part V calculates the axion's dark-matter density as a function of f_a, but Part A still takes "
+             "Omega_m as an input: feeding Part V back into Part A needs f_a fixed (at a chain's M_I, about two "
+             "thirds of Omega_c for Pati-Salam) and the string yield."),
     ("open", "Theta-bar is bounded, not calculated (Part O). Each explanation adds something unmeasured: an "
              "axion scale f_a, or a parity symmetry whose Hermitian textures Part G excludes."),
 )
@@ -5546,6 +5562,76 @@ def so10(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any
 
 
 # =============================================================================
+# 6t. PART V: DARK MATTER FROM THE AXION
+# =============================================================================
+# Part A takes the dark-matter density as an input. The axion of Part O, if it exists, is made in the
+# early universe by misalignment: the field sits at a random angle theta_i until the Hubble rate drops
+# below its temperature-dependent mass, then oscillates and redshifts like matter. Calculated here
+# (Di Luzio, Giannotti, Nardi, Visinelli 2020, eqs. 148-169), with every scale from the algorithm:
+#   m_a(T) = beta m_a (T_C/T)^gamma above T_C (dilute instanton gas; beta, gamma, T_C quoted);
+#   oscillation when 3 H(T_osc) = m_a(T_osc), H = sqrt(8 pi^3 g*/90) T^2 / M_P (M_P from Part H1);
+#   n_a(T_osc) = (b/2) m_a(T_osc) f_a^2 <theta_i^2>, then n_a/s is conserved to today
+#   (g_S today = 43/11 from Part S, T_0 from T_CMB); m_a f_a from Part O.
+# Pre-inflation: theta_i is one unknown angle (scanned). Post-inflation: it averages over the universe,
+# <theta_i^2> = 2.15^2 with anharmonic terms (quoted), and the string and domain-wall contribution,
+# on which no quantitative agreement exists, is left out. f_a is scanned, and set to each SO(10) chain's
+# M_I (where PQ symmetry would break with B - L).
+def axion_relic(f_a: float, theta2: float, maf_mev2: float, m_planck: float, g_s0: float, x: Dict[str, float]) -> Dict[str, float]:
+    lit = LITERATURE["axion_misalignment"]["value"]
+    beta, gamma, t_c = float(lit["beta"]), float(lit["gamma"]), float(lit["T_C_GeV"])
+    g_osc, b_ = float(lit["g_star_osc"]), float(lit["b"])
+    m_a = maf_mev2 * 10 ** -6 / f_a                                       # GeV
+    h_coef = math.sqrt(8 * math.pi ** 3 * g_osc / 90) / m_planck
+    t_osc = (beta * m_a * t_c ** gamma / (3 * h_coef)) ** (1 / (2 + gamma))
+    m_osc = beta * m_a * (t_c / t_osc) ** gamma
+    if t_osc < t_c:                                                       # oscillates after QCD: m_a(T) = m_a
+        t_osc = math.sqrt(m_a / (3 * h_coef))
+        m_osc = m_a
+    n_osc = b_ / 2 * m_osc * f_a ** 2 * theta2
+    gev = x["e_charge"] * 10 ** 9
+    hbar_c = x["h"] / (2 * math.pi) * x["c"] / gev                        # GeV m
+    t_0 = x["k_B"] * x["T_CMB"] / gev
+    n_0 = n_osc * g_s0 * t_0 ** 3 / (g_osc * t_osc ** 3)
+    mpc = x["au"] * 648000 / math.pi * 10 ** 6
+    rho_c100 = 3 * (100 * 1000 / mpc) ** 2 / (8 * math.pi * x["G"]) * x["c"] ** 2 / gev * hbar_c ** 3   # GeV^4
+    return {"m_a_eV": m_a * 10 ** 9, "T_osc_GeV": t_osc, "Omega_h2": m_a * n_0 / rho_c100}
+
+
+def dark_matter(scp: Dict[str, Any], s10: Dict[str, Any], planck: Dict[str, float], bau: Dict[str, Any]) -> Dict[str, Any]:
+    x = _float_inputs()
+    maf = scp["axion"]["ma_fa_MeV2"]
+    m_p = planck["E_P_GeV"]
+    g_s0 = float(bau["leptogenesis"]["g_s_today"])
+    lit = LITERATURE["axion_misalignment"]["value"]
+    th_post = float(lit["theta_post"])
+    om_c, om_c_s, _ = _comparison("Omega_c_h2")
+
+    def omega(f_a: float, th2: float) -> float:
+        return axion_relic(f_a, th2, maf, m_p, g_s0, x)["Omega_h2"]
+    # post-inflation: the f_a (and m_a) for which misalignment alone is all the dark matter
+    lo, hi = math.log(10 ** 8), math.log(10 ** 16)
+    for _ in range(int(num("nu_bisections"))):
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if omega(math.exp(mid), th_post ** 2) < om_c else (lo, mid)
+    f_dm = math.exp((lo + hi) / 2)
+    post = axion_relic(f_dm, th_post ** 2, maf, m_p, g_s0, x)
+    ref = axion_relic(float(lit["eq170_f_a_GeV"]), th_post ** 2, maf, m_p, g_s0, x)
+    chains = {}
+    for nm, ch in s10["chains"].items():
+        m_i = ch["loop2"]["M_I"]
+        r_ = axion_relic(m_i, th_post ** 2, maf, m_p, g_s0, x)
+        th_need = th_post * math.sqrt(om_c / r_["Omega_h2"])               # pre-inflation, quadratic potential
+        chains[nm] = {"f_a": m_i, "m_a_eV": r_["m_a_eV"], "Omega_h2_post": r_["Omega_h2"],
+                      "fraction_post": r_["Omega_h2"] / om_c, "theta_i_pre_needed": th_need,
+                      "pre_possible": th_need < math.pi}
+    return {"Omega_c_h2": om_c, "Omega_c_h2_sigma": om_c_s, "theta_post": th_post,
+            "f_a_all_dm_post": f_dm, "m_a_all_dm_post_eV": post["m_a_eV"], "T_osc_GeV": post["T_osc_GeV"],
+            "check_eq170": {"f_a": float(lit["eq170_f_a_GeV"]), "Omega_h2": ref["Omega_h2"],
+                            "printed": float(lit["eq170_Omega_h2"])},
+            "chains": chains}
+
+
+# =============================================================================
 # 6s. PART U: THE SCORECARD, EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
 # =============================================================================
 # Part M weighs the high-energy hypotheses against unification, b-tau and the Higgs mass. Parts
@@ -5560,7 +5646,8 @@ def so10(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any
 # For the Pati-Salam chain the Higgs condition is lambda(M_I) = 0, Part L's criticality moved to
 # the scale where the SM ends: computed with Part L's own running and matching.
 def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any], pdk: Dict[str, Any],
-              nus: Dict[str, Any], bau: Dict[str, Any], s10: Dict[str, Any], scp: Dict[str, Any]) -> Dict[str, Any]:
+              nus: Dict[str, Any], bau: Dict[str, Any], s10: Dict[str, Any], scp: Dict[str, Any],
+              dm: Dict[str, Any]) -> Dict[str, Any]:
     mh, mh_s, _ = _comparison("m_h")
     surv = num("survival_sigma")
     rows: Dict[str, Dict[str, Dict[str, Any]]] = {}
@@ -5610,6 +5697,14 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
         if m_i < m1_nat:
             return entry("open", f"M_1 <~ M_I = {m_i:.0e} GeV needs weak washout: the natural range needs M_1 >= {m1_nat:.0e} GeV")
         return entry("trade", f"M_1 up to M_I = {m_i:.0e} GeV covers the natural range (M_1 >= {m1_nat:.0e} GeV)")
+    def dark_matter_entry(d_: Dict[str, Any]) -> Dict[str, Any]:
+        frac = f"axion at f_a = M_I: {100 * d_['fraction_post']:.2g} % of the dark matter by post-inflation misalignment"
+        if d_["pre_possible"]:
+            return entry("trade", frac + f" (strings add more); pre-inflation theta_i = {d_['theta_i_pre_needed']:.2f}"
+                                         " gives all of it")
+        return entry("open", frac + ", and no initial angle gives all of it: another candidate is needed")
+    rows["SM to M_P"]["D"] = entry("open", "no dark-matter candidate; Omega_c is an input (Part A)")
+    rows["minimal SUSY SU(5)"]["D"] = entry("trade", "the lightest superpartner, not calculated here")
     rows["SM to M_P"]["V"] = entry("open", f"metastable: lambda turns negative at {vac['mu0']:.1e} GeV (Part L)")
     rows["minimal SUSY SU(5)"]["V"] = entry("pass", "lambda is fixed positive by supersymmetry above M_S")
     # --- every SO(10) chain at two loops (Part T5)
@@ -5634,9 +5729,11 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
                        f"p -> e+ pi0 in {two['tau_p_years']:.0e} years against {pdk['limit_e_pi0']:.1e}"),
             "A": leptogenesis_entry(m_i),
             "T": entry("trade", f"an axion at f_a = M_I would give m_a = {two['axion_m_a_eV_if_fa_MI'] * 10 ** 6:.2g} micro-eV"),
-            "V": vacuum_entry(s10["vacuum"], nm)}
+            "V": vacuum_entry(s10["vacuum"], nm),
+            "D": dark_matter_entry(dm["chains"][nm])}
     conditions = {"U": "gauge unification", "B": "b-tau unification", "H": "Higgs mass", "N": "neutrino masses",
-                  "P": "proton decay", "A": "baryon asymmetry", "T": "strong CP", "V": "vacuum stability"}
+                  "P": "proton decay", "A": "baryon asymmetry", "T": "strong CP", "V": "vacuum stability",
+                  "D": "dark matter"}
     verdict = {h: {"fails": [c for c, e in r.items() if e["status"] == "fail"],
                    "trades": [c for c, e in r.items() if e["status"] == "trade"],
                    "passes": [c for c, e in r.items() if e["status"] == "pass"],
@@ -6044,7 +6141,8 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     anom = _stage("anomalies", lambda: anomaly_constraints(yuk))
     bau = _stage("baryon_asymmetry", lambda: baryon_asymmetry(cosmo, flav, nus, planck))
     s10 = _stage("so10", lambda: so10(flav, alpha_unif, yukawa, scp, bau, pdk, crit))
-    score = _stage("scorecard", lambda: scorecard(joint, higgs, crit, pdk, nus, bau, s10, scp))
+    dm = _stage("dark_matter", lambda: dark_matter(scp, s10, planck, bau))
+    score = _stage("scorecard", lambda: scorecard(joint, higgs, crit, pdk, nus, bau, s10, scp, dm))
     _TRACE["stage"] = "self_checks"                 # everything below validates the stages above
     _TRACE["inputs"].setdefault("self_checks", set())
     checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
@@ -6302,6 +6400,10 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     checks.append(("Leptogenesis efficiency: z_B solves its freeze-out equation; kappa_f -> 1 in weak washout",
                    worst_z < num("check_survey_tol") and abs(k_small - 1) < num("check_fd_rel_step") * 10,
                    f"max rel residual {worst_z:.1e}, kappa(K -> 0) = {k_small:.6f}"))
+    c170 = dm["check_eq170"]
+    checks.append(("Axion misalignment from its ingredients reproduces Di Luzio et al.'s eq. 170 (their approximation)",
+                   abs(c170["Omega_h2"] / c170["printed"] - 1) < num("check_axion_tol"),
+                   f"Omega h^2 = {c170['Omega_h2']:.4f} at f_a = {c170['f_a']:.1e} GeV against {c170['printed']}"))
     sm_c1, sm_c2 = sm_as_chain()
     ps1 = s10["chains"]["PS"]["loop1"]
     rel_c = max(abs(ps1["M_I"] / ps_["M_I"] - 1), abs(ps1["M_GUT"] / ps_["M_GUT"] - 1))
@@ -6318,6 +6420,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
             "alpha_numerology": alpha_num, "yukawa": yukawa, "higgs": higgs, "criticality": crit,
             "joint": joint, "mass_formulas": masses, "strong_cp": scp, "neutrinos": nus, "proton_decay": pdk,
             "anomalies": anom, "baryon_asymmetry": bau, "so10": s10, "scorecard": score,
+            "dark_matter": dm,
             "survey_certificates": certs, "checks": checks, "lineage": lin,
             "changed_inputs": dict(_TRACE["set"]),
             "precision": prec}
@@ -7376,6 +7479,32 @@ def report(res: Dict[str, Any]) -> str:
             "two-loop running and the thresholds at M_I and M_GUT decide whether it holds, and Part L's SM then "
             "runs only up to M_I.", 2))
     w("")
+    dmr = res["dark_matter"]
+    w("PART V. DARK MATTER FROM THE AXION")
+    w("-" * 78)
+    w("  The axion of Part O is made by misalignment: frozen at an angle theta_i until 3 H = m_a(T), then")
+    w("  oscillating and redshifting like matter (Di Luzio et al. 2020, eqs. 148-169). m_a f_a from Part O,")
+    w("  M_P from Part H1, g_S today = 43/11 from Part S, T_0 from T_CMB; m_a(T) from the dilute instanton gas")
+    w("  (beta, gamma, T_C quoted). Strings and domain walls (post-inflation only) are left out: their yield is")
+    w("  not agreed on.")
+    c170 = dmr["check_eq170"]
+    w(f"  Check: at f_a = {c170['f_a']:.1e} GeV, Omega_a h^2 = {c170['Omega_h2']:.4f} (their eq. 170: {c170['printed']})")
+    w(f"  Post-inflation (<theta_i^2> = {dmr['theta_post']}^2): all of Omega_c h^2 = {dmr['Omega_c_h2']} needs f_a ="
+      f" {dmr['f_a_all_dm_post']:.2e} GeV,")
+    w(f"    m_a = {1e6 * dmr['m_a_all_dm_post_eV']:.1f} micro-eV (oscillation at T = {1000 * dmr['T_osc_GeV']:.0f} MeV)."
+      " Larger f_a overcloses, smaller leaves room for strings.")
+    w("  At each SO(10) chain's M_I (PQ broken with B - L):")
+    for nm, c_ in dmr["chains"].items():
+        pre = (f"pre-inflation theta_i = {c_['theta_i_pre_needed']:.2f}" if c_["pre_possible"]
+               else "pre-inflation impossible (theta_i > pi)")
+        w(f"    {nm:<6s} f_a = {c_['f_a']:.1e} GeV, m_a = {1e6 * c_['m_a_eV']:7.1f} micro-eV: {100 * c_['fraction_post']:6.2f} %"
+          f" of the dark matter post-inflation; {pre}")
+    w(_wrap("RESULT: the dark-matter density, an input until now, becomes a function of one unknown, f_a. Put at "
+            "the Pati-Salam scale, the axion makes about two thirds of the dark matter by misalignment alone (strings "
+            "add more), at m_a near 40 micro-eV: unification, neutrino masses, the strong CP problem and dark matter "
+            "would share one scale. At the left-right scale it cannot be the dark matter. Not yet a prediction: the "
+            "string yield and m_a(T) near T_C are the open inputs.", 2))
+    w("")
     sc_ = res["scorecard"]
     w("PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION")
     w("-" * 78)
@@ -7481,7 +7610,7 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
         "mass_formulas": res["mass_formulas"], "strong_cp": res["strong_cp"], "neutrinos": res["neutrinos"],
         "proton_decay": res["proton_decay"], "anomalies": res["anomalies"],
         "baryon_asymmetry": res["baryon_asymmetry"], "so10": res["so10"],
-        "scorecard": res["scorecard"],
+        "scorecard": res["scorecard"], "dark_matter": res["dark_matter"],
         "survey_certificates": res["survey_certificates"],
         "model": {"stages": STAGES, "lineage": res["lineage"], "changed_inputs": res["changed_inputs"],
                   "audit_findings": [{"status": a, "finding": b} for a, b in AUDIT_FINDINGS]},

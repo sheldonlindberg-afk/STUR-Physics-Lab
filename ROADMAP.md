@@ -77,6 +77,16 @@ Status: [x] done, [~] in progress, [ ] not started.
    m_sol <= m~_1 <= m_atm. PS covers it; LR (M_I = 2.8e9) needs weak washout. Open: scatterings,
    flavour effects, dynamical initial abundance.
 
+## Round 3 (in order)
+1. [x] Dark matter from the axion (Part V): misalignment from its ingredients (Di Luzio et al. eqs.
+   148-169; eq. 170 reproduced to 1.3 %). All the DM post-inflation at f_a = 2.0e11 GeV; at PS's M_I
+   65 % (strings add more), at LR's M_I under 1 % and no angle suffices. Open: string yield; lattice
+   chi(T) instead of the instanton gas; feeding Omega_c back into Part A.
+2. [ ] Threshold corrections: the unknown heavy masses at M_I and M_GUT scanned in a band; do the
+   chain verdicts (proton decay, vacuum, leptogenesis) survive?
+3. [ ] Electroweak precision: M_W from G_F, alpha, M_Z (and m_t, m_h) against the measurement.
+4. [ ] Proton-decay operator running above M_I (round 2, item 3), once its formula is transcribed.
+
 ## Later
 - One running for every coupling (matrix Yukawas to M_GUT); GUT and superpartner thresholds;
   dark matter (axion misalignment, LSP); inflation (Higgs inflation vs lambda(M_P) < 0);

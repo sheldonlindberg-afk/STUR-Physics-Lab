@@ -64,6 +64,7 @@
 - Part T (SO(10)): B - L needs nu^c; sin^2 theta_W = 3/8 and the 3/5 normalization derived; minimal 10_H Yukawas excluded; t-b-tau needs a ~+28% m_b threshold; non-SUSY SO(10) via Pati-Salam unifies at one loop with M_I = 5.5e11, M_GUT = 1.1e16 GeV, passes proton decay, and puts the seesaw scale where leptogenesis needs it.
 - Part T5 (SO(10) chains, two loops): PS M_I = 1.4e11, M_GUT = 8.0e15; PS+D and LR+D excluded by proton decay; LR M_I = 2.8e9.
 - Part T6 (vacuum): lambda(M_I) = 0 is not required (tree threshold lambda_H - lambda_HS^2/lambda_S); stability needs M_I below mu_0 = 6.2e10 GeV: LR chains yes, PS undecided by M_t, PS+D no.
+- Part V (axion dark matter): misalignment from its ingredients reproduces Di Luzio et al.'s eq. 170; all the DM post-inflation at f_a = 2.0e11 GeV (m_a = 28.5 micro-eV); at Pati-Salam's M_I the axion gives 65% of the DM, at the left-right M_I under 1%.
 - Part U (scorecard): SM to M_P fails unification, b-tau, Higgs (3.3 sigma), baryon asymmetry; minimal SUSY SU(5) fails the Higgs mass and proton decay; SO(10) via Pati-Salam fails nothing at two loops (lambda(M_I) = 0 gives m_h = 125.6 GeV) but predicts nothing yet.
 - Every scale comes from the algorithm: m_t(m_t), Part I's M_S = 2.54 TeV and M_GUT, M_Planck.
 

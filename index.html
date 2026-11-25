@@ -258,6 +258,7 @@
     <tr><td>Proton decay</td><td><span class="chip good">stable</span></td><td><span class="chip bad">fails (ν̄K⁺)</span></td><td><span class="chip good">passes</span></td></tr>
     <tr><td>Baryon asymmetry</td><td><span class="chip bad">no mechanism</span></td><td><span class="chip info">trade</span></td><td><span class="chip info">leptogenesis possible</span></td></tr>
     <tr><td>Strong CP</td><td><span class="chip info">open</span></td><td><span class="chip info">open</span></td><td><span class="chip info">axion at M<sub>I</sub></span></td></tr>
+    <tr><td>Dark matter</td><td><span class="chip bad">no candidate</span></td><td><span class="chip info">trade</span></td><td><span class="chip warn">axion at M<sub>I</sub>: ~65%</span></td></tr>
     <tr><td>Vacuum stability</td><td><span class="chip info">metastable</span></td><td><span class="chip good">stable</span></td><td><span class="chip info">decided by M<sub>t</sub></span></td></tr>
   </table></div>
   <p>The scorecard also tests every other minimal SO(10) chain at two loops: both chains with D-parity unify too low and fail proton decay. Only non-supersymmetric SO(10) through Pati–Salam fails nothing at this order. It still predicts nothing: its scales are solved from the measured couplings. The entry to watch is the Higgs mass. Moving the criticality condition from the Planck scale to the intermediate scale M<sub>I</sub> gives <span data-v="sc.mh">125.6</span> GeV against 125.20 measured, but the script also shows why that is not a prediction. The heavy scalar at M<sub>I</sub> shifts λ by an unknown amount, so λ(M<sub>I</sub>) = 0 is not required. The near hit only says that M<sub>I</sub> lies close to the scale, about 6 × 10¹⁰ GeV, where the Standard Model's λ turns negative.</p>
@@ -289,6 +290,7 @@
     <li><span class="chip good">calculated</span>Anomaly cancellation fixes the Standard Model's hypercharges and quantizes electric charge, which is why atoms are neutral. In the 3-3-1 extension it also fixes the number of families: a multiple of three, and exactly three if QCD stays asymptotically free.</li>
     <li><span class="chip info">mechanism</span>The baryon asymmetry, η<sub>B</sub> = 6.1 × 10⁻¹⁰, cannot come from the Standard Model alone: its electroweak transition is a smooth crossover and its CP violation is 14 orders too small. Leptogenesis can make it if the lightest right-handed neutrino is heavier than about 10¹⁰ GeV (with the washout calculated), inside the seesaw window and below the Pati–Salam scale.</li>
     <li><span class="chip warn">near miss</span>Without supersymmetry, SO(10) breaking through Pati–Salam unifies the three forces with an intermediate scale of about 5 × 10¹¹ GeV. The proton survives the Super-K limit, and that intermediate scale is exactly where the seesaw and leptogenesis need the right-handed neutrinos: one chain that ties unification, neutrino masses and the baryon asymmetry together.</li>
+    <li><span class="chip warn">near miss</span>If the axion that solves the strong CP problem lives at the Pati–Salam scale, it makes about two thirds of the dark matter by misalignment alone, with a mass near 40 μeV, and strings add more. One scale would then carry unification, neutrino masses, the strong CP solution and dark matter.</li>
     <li><span class="chip bad">open</span>Still not calculated by anything: α, the Yukawa couplings, θ̄, the neutrino masses, the cosmological constant, and whether gravity is quantum. The last is a measurement waiting to be made, because a classical gravitational field cannot entangle masses at all.</li>
   </ul>
 
@@ -298,7 +300,7 @@
     <div class="card"><h3>Measured inputs only</h3><p>About thirty constants (masses, couplings, the CMB temperature, G), each with its uncertainty and source: PDG 2024, Planck 2018, CODATA 2018. They are the only physics numbers that enter a calculation.</p></div>
     <div class="card"><h3>Established physics only</h3><p>The Friedmann equation, the renormalization group with coefficients from group theory, exact linear algebra, and semiclassical gravity. Every scale comes from an earlier step.</p></div>
     <div class="card"><h3>Unknowns are scanned</h3><p>Quantities nothing fixes, such as a phase or the stop mixing, are never given a value. They are scanned over their whole range, and the prediction is the band that results.</p></div>
-    <div class="card"><h3>Checked by itself</h3><p>A test fails if any tunable number appears outside the input tables. The run ends with <span data-v="checks">59</span> self-checks of the calculation itself, which test correctness, not agreement with data. Every coefficient quoted from the literature is checked against a published result.</p></div>
+    <div class="card"><h3>Checked by itself</h3><p>A test fails if any tunable number appears outside the input tables. The run ends with <span data-v="checks">60</span> self-checks of the calculation itself, which test correctness, not agreement with data. Every coefficient quoted from the literature is checked against a published result.</p></div>
     <div class="card"><h3>One model, traced</h3><p>The parts run as stages of one algorithm. Every read of an input and of an earlier stage's result is recorded, so the report prints the dependency graph the code actually followed. Change one input (<code>--set</code>) and every stage it reaches is recalculated.</p></div>
     <div class="card"><h3>Proved where it can be</h3><p>Where a claim is "nothing fits anywhere", a search is not enough. The zero-pattern results of Part F are proved exactly, and 80 of the 82 exclusions of Part C are proved by branch-and-bound over their whole parameter space.</p></div>
   </div>
@@ -312,7 +314,7 @@
     </div>
     <p class="status" id="copy-status" role="status" aria-live="polite">One file, standard library only. Paste it into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 6 minutes. Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/production_v2_2.txt">results/production_v2_2.txt</a>.</p>
   </div>
-<pre>python3 production_v2_2.py                     # full report, Parts A to U
+<pre>python3 production_v2_2.py                     # full report, Parts A to V
 python3 production_v2_2.py --json-out out.json # every number, as JSON
 python3 production_v2_2.py --set M_t=173.5      # change an input; the whole model is recalculated
 python3 production_v2_2.py --certify            # also prove the texture exclusions (about 10 more minutes)</pre>
