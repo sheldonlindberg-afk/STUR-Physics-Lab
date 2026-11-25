@@ -724,6 +724,37 @@ PART Q. PROTON DECAY: THE DIRECT TEST OF UNIFICATION
     SM, X bosons where g1 = g2 would make the proton live 5e+23 years:
     excluded, one more reason the SM cannot unify.
 
+PART R. WHAT ANOMALY CANCELLATION FIXES (exact)
+------------------------------------------------------------------------------
+  A chiral gauge theory is consistent only if its gauge anomalies cancel: exact conditions on the
+  charges, and the one place where the SM's quantum numbers are calculated, not measured.
+  R1. One family with the SM's representations and unknown hypercharges Y_Q, Y_u, Y_d, Y_L, Y_e:
+      [SU(3)]^2 U(1), [SU(2)]^2 U(1), [gravity]^2 U(1), U(1)^3. The three linear ones give Y_L, Y_d,
+      Y_e; U(1)^3 is then a quadratic, solved exactly (Y_Q = 1/6 sets the normalization):
+        Y(Q) = 1/6, Y(u^c) = -2/3, Y(d^c) = 1/3, Y(L) = -1/2, Y(e^c) = 1
+        Y(Q) = 1/6, Y(u^c) = 1/3, Y(d^c) = -2/3, Y(L) = -1/2, Y(e^c) = 1
+      the two differ only by naming u^c and d^c. A branch with Y_Q = 0 also cancels (True), but only the
+      right-handed quarks are charged and no Yukawa coupling exists (False).
+      With Yukawa couplings for every fermion: the SM's hypercharges, uniquely.
+      Electric charge Q = T3 + Y/(2 Y_H): u 2/3, d -1/3, e -1, nu 0. Proton + electron: 0;
+      neutron: 0. Charge is quantized: atoms are neutral because the anomalies cancel.
+      With a right-handed neutrino, SM + eps (B - L) cancels for every eps (True) and keeps
+      a Dirac Yukawa (True): hydrogen stays neutral (0) but the neutron gets charge 1 x eps.
+      A Majorana mass for nu^c (the seesaw of Part P) needs Y(nu^c) = 0, so eps = 0: quantization returns.
+  R2. Witten's SU(2) anomaly: 4 doublets per family (3 colours of Q, plus L): even, consistent.
+  R3. 3-3-1 (Part D): [SU(3)_L]^3 = #triplets - #antitriplets = 0 for Part D's 3 families (1 quark family in a triplet).
+      With N_f families of lepton triplets and k quark families in triplets (N_c colours), it cancels
+      only if N_f (N_c - 1) = 2 N_c k. For N_c = 3:
+        N_f = 3, k = 1: QCD b0 = 5 (asymptotically free)
+        N_f = 6, k = 2: QCD b0 = -1 (not asymptotically free)
+        N_f = 9, k = 3: QCD b0 = -7 (not asymptotically free)
+  RESULT: the SM's hypercharges and the quantization of electric charge
+    follow from anomaly cancellation and the Yukawa couplings: calculated,
+    not measured. A right-handed neutrino leaves one free direction, closed
+    by a Majorana mass. In 3-3-1 the number of families must be a multiple of
+    the number of colours, and asymptotic freedom of QCD leaves exactly 3:
+    the one free integer of the SM that a gauge theory calculates.
+
 THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
 ------------------------------------------------------------------------------
   Stage (part, evidence level): measured inputs read; results taken from earlier stages
@@ -823,6 +854,11 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
         M_HC = M_GUT, every superpartner at M_S (Part I), tan(beta) from Part
         J; GUT phases scanned; one-loop operator running; GUT thresholds
         unknown
+  anomalies (R, exact)
+      inputs: none
+      takes: gauge_331
+      assumes: one family of the SM's representations (and Part D's 3-3-1
+        families); Yukawa couplings for every charged fermion
   self_checks (-, validation)
       inputs: G, G_F, M_W, M_Z, M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ,
         c, e_charge, h, k_B, m_b, m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV,
@@ -967,7 +1003,7 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Koide Q: 1/3 for equal masses, 1 for one mass; the m_tau solved from Q = 2/3 gives Q = 2/3  (abs diff 0.0e+00)
   [PASS] Part O: each survivor sector's det = product of its signed eigenvalues (real: arg det = 0 or pi)  (1 survivor(s))
   [PASS] Proton decay: operator-running exponents -2 c_i/b_i from the script's b_i = Ellis et al.'s eq. 17  (max abs diff 2.8e-17)
-  [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (19 stages, 43 edges)
+  [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (20 stages, 44 edges)
   55/55 checks pass
 ==============================================================================
-Elapsed: 360.2 s
+Elapsed: 363.0 s
