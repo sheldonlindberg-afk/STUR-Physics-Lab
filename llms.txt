@@ -58,6 +58,7 @@
 - Part N (masses): Koide's Q = 2/3 fits the charged-lepton pole masses (0.4 sigma) but fails at M_Z (225 sigma) and for quarks (>= 99 sigma). No mass is calculated.
 - Part O (strong CP): chiral log gives d_n = 2.05e-16 theta-bar e cm, so |theta-bar| < 8.8e-11 (2.2e-10 weakest). m_u = 0 excluded (31 sigma); axion: m_a = 5.77 micro-eV x 1e12 GeV/f_a (a trade); parity gives arg det in {0, pi} but needs excluded textures.
 - Part P (neutrinos): smallest sum 58.8 meV (NO), 98.9 meV (IO, excluded at 95% by DESI DR2 + CMB); m_bb bands with Majorana phases scanned; fixed mixing patterns excluded by theta13 (39 sigma); TM1 survives and predicts delta ~ 262 deg; seesaw scale <= 7.6e15 GeV, so Part L's SM-to-M_P needs Dirac neutrinos.
+- Part Q (proton decay): dimension-6 p -> e+ pi0 at Part I's M_GUT and alpha_GUT gives 2.4e35 yr, 10x the Super-K limit 2.4e34; the SM's g1 = g2 point gives 5e23 yr (excluded). Dimension-5 (SUSY) not yet included; see ROADMAP.md.
 - Every scale comes from the algorithm: m_t(m_t), Part I's M_S = 2.54 TeV and M_GUT, M_Planck.
 
 ## Files

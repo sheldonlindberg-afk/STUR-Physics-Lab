@@ -155,6 +155,13 @@ INPUTS: Dict[str, Dict[str, str]] = {
                                    "Mereghetti, Walker-Loud 2015 (arXiv:1506.06247), eq. 118"},
     "d_n_limit": {"value": "1.8e-26", "sigma": "0", "unit": "e cm",
                   "source": "Abel et al. 2020 (PSI), PRL 124, 081803: |d_n| < 1.8e-26 e cm, 90% CL"},
+    # --- proton decay (Part Q): lattice matrix elements (stat and syst errors combined in quadrature)
+    "W_pi0_RL": {"value": "-0.131", "sigma": "0.0136", "unit": "GeV^2",
+                 "source": "<pi0|(ud)_R u_L|p>, MS-bar NDR at 2 GeV: Aoki, Izubuchi, Shintani, Soni 2017 "
+                           "(arXiv:1705.01338), table 4: -0.131(4)(13)"},
+    "W_pi0_LL": {"value": "0.134", "sigma": "0.0168", "unit": "GeV^2",
+                 "source": "<pi0|(ud)_L u_L|p>, same: 0.134(5)(16)"},
+    "V_ud": {"value": "0.97367", "sigma": "0.00032", "unit": "", "source": "PDG 2024, superallowed beta decays"},
     # --- neutrino oscillations (Part P): NuFIT 6.0 (arXiv:2410.05380, JHEP 12 (2024) 216), global fit
     # IC24 with SK atmospheric data; asymmetric 1 sigma errors symmetrized (mean of the two sides).
     # Delta m^2_3l = Delta m^2_31 > 0 for normal ordering (NO), Delta m^2_32 < 0 for inverted (IO).
@@ -193,6 +200,13 @@ COMPARISONS: Dict[str, Dict[str, Any]] = {
     "age_Gyr": {"value": ("13.787", "0.020", "0.020"), "source": "Planck 2018 VI, TT,TE,EE+lowE+lensing"},
     "Omega_Lambda": {"value": ("0.6847", "0.0073", "0.0073"), "source": "Planck 2018 VI, TT,TE,EE+lowE+lensing"},
     "m_h": {"value": ("125.20", "0.11", "0.11"), "source": "PDG 2024, Higgs boson mass (combined)"},
+    # lower limits (Part Q): the value is the limit, the sigmas are zero
+    "tau_p_e_pi0": {"value": ("2.4e34", "0", "0"),
+                    "source": "Super-Kamiokande, Takenaka et al. 2020 (PRD 102, 112011): tau/B(p -> e+ pi0), "
+                              "years, 90% CL"},
+    "tau_p_K_nu": {"value": ("5.9e33", "0", "0"),
+                   "source": "Super-Kamiokande, Abe et al. 2014 (PRD 90, 072005): tau/B(p -> nubar K+), "
+                             "years, 90% CL"},
     # upper limits (Part P): the value is the limit, the sigmas are zero
     "sum_mnu_Planck": {"value": ("0.12", "0", "0"),
                        "source": "Planck 2018 VI, TT,TE,EE+lowE+lensing+BAO, 95% upper limit (LambdaCDM)"},
@@ -425,6 +439,19 @@ LITERATURE: Dict[str, Dict[str, Any]] = {
                   "(arXiv:1902.03254), -0.00152(71) theta e fm. Units: e cm per unit theta-bar",
         "value": {"QCD sum rules (Pospelov-Ritz)": ("2.4e-16", "1.0e-16"),
                   "lattice QCD (Dragos et al.)": ("1.52e-16", "0.71e-16")}},
+    "proton_decay_d6": {
+        "source": "Dimension-six proton decay through the SU(5) gauge bosons (Ellis, Garcia, Nagata, "
+                  "Nanopoulos, Olive 2020, arXiv:2003.03285, eqs. 17, 20, 45). The two operators (lepton "
+                  "doublet, lepton singlet) run as C ~ prod_i alpha_i^(-2 c_i / b_i): the one-loop "
+                  "anomalous-dimension coefficients c_i (d ln C / d ln mu = -sum c_i alpha_i / pi) for SU(3), "
+                  "SU(2), U(1)_GUT, in the SM and the MSSM; with the script's b_i they must reproduce the "
+                  "printed exponents (a self-check). Below M_Z the QCD coefficient is the same c_3 = 1. "
+                  "Two-loop long-distance factor A_L = 1.247, quoted only to compare",
+        "value": {"SM": {"S1": ("11/40", "9/8", "1"), "S2": ("23/40", "9/8", "1")},
+                  "MSSM": {"S1": ("11/60", "3/4", "2/3"), "S2": ("23/60", "3/4", "2/3")},
+                  "printed_exponents": {"SM": {"S1": ("-11/82", "27/38", "2/7"), "S2": ("-23/82", "27/38", "2/7")},
+                                        "MSSM": {"S1": ("-1/18", "-3/2", "4/9"), "S2": ("-23/198", "-3/2", "4/9")}},
+                  "A_L_two_loop": "1.247"}},
     "axion_mass_nlo": {
         "source": "QCD axion mass at NLO in chiral perturbation theory with lattice input, Gorghetto-Villadoro "
                   "2019 (refining Grilli di Cortona et al. 2016): m_a = 5.69(5) micro-eV x (1e12 GeV / f_a)",
@@ -486,6 +513,9 @@ STAGES: Dict[str, Dict[str, str]] = {
     "neutrinos": {"part": "P", "level": "numerical",
                   "assumes": "three light neutrinos; lightest mass and Majorana phases scanned; cosmological "
                              "limits assume flat LambdaCDM; unknowns of corrected patterns solved exactly"},
+    "proton_decay": {"part": "Q", "level": "conditional", "uv": "MSSM above M_S",
+                     "assumes": "minimal SU(5) gauge bosons at M_X = M_GUT (Part I; the SM's g1 = g2 point for "
+                                "comparison); one-loop operator running; GUT thresholds unknown"},
     "self_checks": {"part": "-", "level": "validation", "assumes": "tests the calculation, not the physics"},
 }
 
@@ -4636,6 +4666,100 @@ def neutrinos(cosmo: Dict[str, Any], flav: Dict[str, Any], alpha_unif: Dict[str,
 
 
 # =============================================================================
+# 6o. PART Q: PROTON DECAY, THE DIRECT TEST OF UNIFICATION
+# =============================================================================
+# If the gauge couplings unify (Part I), the quarks and leptons share multiplets and the heavy
+# gauge bosons X, Y of SU(5) turn quarks into leptons: the proton decays. Dimension-six exchange
+# gives p -> e+ pi0 with (Ellis et al. 2020, eq. 45, minimal SU(5))
+#   Gamma = m_p/(32 pi) (1 - m_pi^2/m_p^2)^2 A_L^2 (g_GUT^2/M_X^2)^2
+#           x [A_S1^2 W_RL^2 + (1 + |V_ud|^2)^2 A_S2^2 W_LL^2],
+# W = lattice matrix elements at 2 GeV, A_S = the two operators' running from M_X to M_Z (one
+# loop, exponents -2 c_i/b_i with the script's own b_i), A_L = their QCD running from M_Z to 2 GeV.
+# Every scale comes from the algorithm: M_X = M_GUT and alpha_GUT from Part I (MSSM above M_S);
+# for the SM, which does not unify, the point where g1 = g2 (Part J). GUT thresholds unknown.
+def _alpha_one_loop(mu: float, x: Dict[str, float], m_s: float | None) -> List[float]:
+    """alpha_1 (GUT-normalized), alpha_2, alpha_3 at mu: one loop from M_Z, MSSM above m_s if given."""
+    a, s2 = 1 / x["alpha_em_inv_MZ"], x["s2_hat_Z"]
+    inv = [float(GUT_NORM) * (1 - s2) / a, s2 / a, 1 / x["alpha_s_MZ"]]
+    b_sm = [float(b) for b in sm_gauge_b()]
+    b_ms = [float(b) for b in mssm_b()[0]]
+    lo = min(mu, m_s) if m_s else mu
+    out = [i - b / (2 * math.pi) * math.log(lo / x["M_Z"]) for i, b in zip(inv, b_sm)]
+    if m_s and mu > m_s:
+        out = [i - b / (2 * math.pi) * math.log(mu / m_s) for i, b in zip(out, b_ms)]
+    return [1 / v for v in out]
+
+
+def proton_exponents(model: str, op: str) -> List[float]:
+    """-2 c_i / b_i for (alpha_1, alpha_2, alpha_3): the running of one dimension-six operator."""
+    c = [float(Fr(v)) for v in LITERATURE["proton_decay_d6"]["value"][model][op]]
+    b = [float(v) for v in (sm_gauge_b() if model == "SM" else mssm_b()[0])]
+    return [-2 * ci / bi for ci, bi in zip(c, b)]
+
+
+def proton_short_distance(x: Dict[str, float], m_x: float, m_s: float | None, op: str) -> float:
+    """A_S: the operator's coefficient at M_Z over its value at M_X."""
+    steps = [("MSSM", m_x, m_s), ("SM", m_s, x["M_Z"])] if m_s else [("SM", m_x, x["M_Z"])]
+    a_s = 1.0
+    for model, hi, lo in steps:
+        a_hi, a_lo = _alpha_one_loop(hi, x, m_s), _alpha_one_loop(lo, x, m_s)
+        for e, al, ah in zip(proton_exponents(model, op), a_lo, a_hi):
+            a_s *= (al / ah) ** e
+    return a_s
+
+
+def proton_long_distance(runner: "FlavourRunner", x: Dict[str, float]) -> float:
+    """A_L: QCD running of the operators from M_Z to the matrix elements' scale (one loop in the
+    exponent 2 c_3 / b0 per flavour region, alpha_s from the script's four-loop running)."""
+    c3 = float(Fr(LITERATURE["proton_decay_d6"]["value"]["SM"]["S1"][2]))
+    pts = [(x["M_Z"], 5), (x["m_b"], 4), (x["mu_light"], 4)]
+    a_l = 1.0
+    for (hi, nf), (lo, _) in zip(pts[:-1], pts[1:]):
+        b0 = float(qcd_beta(nf)[0])
+        a_l *= (runner.alpha_s(lo) / runner.alpha_s(hi)) ** (2 * c3 / b0)
+    return a_l
+
+
+def proton_lifetime(x: Dict[str, float], m_x: float, alpha_gut: float, m_s: float | None, a_l: float) -> float:
+    """tau(p -> e+ pi0) in years."""
+    gev = x["e_charge"] * 10 ** 9
+    m_p = x["m_p"] * x["c"] ** 2 / gev
+    m_pi = x["m_pi0_MeV"] / 1000
+    g2 = 4 * math.pi * alpha_gut
+    s1, s2 = proton_short_distance(x, m_x, m_s, "S1"), proton_short_distance(x, m_x, m_s, "S2")
+    amp2 = s1 ** 2 * x["W_pi0_RL"] ** 2 + (1 + x["V_ud"] ** 2) ** 2 * s2 ** 2 * x["W_pi0_LL"] ** 2
+    width = m_p / (32 * math.pi) * (1 - m_pi ** 2 / m_p ** 2) ** 2 * a_l ** 2 * (g2 / m_x ** 2) ** 2 * amp2
+    hbar_gev_s = x["h"] / (2 * math.pi) / gev
+    return hbar_gev_s / width / 31557600                      # Julian year
+
+
+def proton_decay(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any]) -> Dict[str, Any]:
+    x0 = _float_inputs()
+    runner = flav["runner"]
+    a_l = proton_long_distance(runner, x0)
+    lim = _comparison("tau_p_e_pi0")[0]
+    rows = []
+    au = alpha_unif.get("M_S_for_measured_alpha", {})
+    hyps = []
+    if au.get("M_GUT_GeV"):
+        hyps.append(("MSSM above M_S (Part I)", au["M_GUT_GeV"], au["alpha_GUT"], au["M_S_GeV"]))
+    sm12 = yukawa["btau_SM"][0]["mu"]
+    if math.isfinite(sm12):
+        hyps.append(("SM, X bosons where g1 = g2 (Part J)", sm12, _alpha_one_loop(sm12, x0, None)[1], None))
+    names = ("W_pi0_RL", "W_pi0_LL", "V_ud", "m_p", "m_pi0_MeV")
+    for label, m_x, a_g, m_s in hyps:
+        tau = proton_lifetime(x0, m_x, a_g, m_s, a_l)
+        tau_sig = _propagate(lambda x: proton_lifetime(x, m_x, a_g, m_s, a_l), names)
+        rows.append({"hypothesis": label, "M_X": m_x, "alpha_GUT": a_g, "M_S": m_s,
+                     "A_S1": proton_short_distance(x0, m_x, m_s, "S1"),
+                     "A_S2": proton_short_distance(x0, m_x, m_s, "S2"),
+                     "tau_years": tau, "tau_sigma": tau_sig, "limit": lim, "allowed": tau > lim,
+                     "ratio_to_limit": tau / lim, "M_X_needed": m_x * (lim / tau) ** (1 / 4)})
+    return {"A_L": a_l, "A_L_two_loop_quoted": float(LITERATURE["proton_decay_d6"]["value"]["A_L_two_loop"]),
+            "rows": rows, "limit_e_pi0": lim, "limit_K_nu": _comparison("tau_p_K_nu")[0]}
+
+
+# =============================================================================
 # 7. COSMOLOGY (Decimal arithmetic)
 # =============================================================================
 def dec_pi() -> Decimal:
@@ -5029,6 +5153,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     masses = _stage("mass_formulas", lambda: mass_formulas(flav))
     scp = _stage("strong_cp", lambda: strong_cp(flav, survey, scales, alpha_unif, planck))
     nus = _stage("neutrinos", lambda: neutrinos(cosmo, flav, alpha_unif, planck))
+    pdk = _stage("proton_decay", lambda: proton_decay(flav, alpha_unif, yukawa))
     _TRACE["stage"] = "self_checks"                 # everything below validates the stages above
     _TRACE["inputs"].setdefault("self_checks", set())
     checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
@@ -5256,6 +5381,12 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
                  for r_ in scp["parity"] for sec in r_["sectors"].values())
     checks.append(("Part O: each survivor sector's det = product of its signed eigenvalues (real: arg det = 0 or pi)",
                    par_ok and bool(scp["parity"]), f"{len(scp['parity'])} survivor(s)"))
+    # Part Q: the operator-running exponents from the script's own b_i = the printed ones
+    pr_ = LITERATURE["proton_decay_d6"]["value"]["printed_exponents"]
+    worst_q = max(abs(a_ - float(Fr(b_))) for m_ in ("SM", "MSSM") for o_ in ("S1", "S2")
+                  for a_, b_ in zip(proton_exponents(m_, o_), pr_[m_][o_]))
+    checks.append(("Proton decay: operator-running exponents -2 c_i/b_i from the script's b_i = Ellis et al.'s eq. 17",
+                   worst_q < tol, f"max abs diff {worst_q:.1e}"))
     _TRACE["stage"] = None
     lin = model_lineage()
     checks.append(("Model graph: every stage registered, acyclic, and run in dependency order",
@@ -5264,7 +5395,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     return {"scales": scales, "cosmology": cosmo, "flavour": flav, "survey": survey, "yukawa_331": yuk,
             "symmetry": symm, "closure": closure, "quantum_gravity": qg, "alpha_unification": alpha_unif,
             "alpha_numerology": alpha_num, "yukawa": yukawa, "higgs": higgs, "criticality": crit,
-            "joint": joint, "mass_formulas": masses, "strong_cp": scp, "neutrinos": nus,
+            "joint": joint, "mass_formulas": masses, "strong_cp": scp, "neutrinos": nus, "proton_decay": pdk,
             "survey_certificates": certs, "checks": checks, "lineage": lin,
             "changed_inputs": dict(_TRACE["set"]),
             "precision": prec}
@@ -6115,6 +6246,37 @@ def report(res: Dict[str, Any]) -> str:
                if surv_ else "No corrected pattern survives."), 2))
     w("    Neutrino masses also test Part L's assumption: the SM up to M_P holds only for Dirac neutrinos.")
     w("")
+    pq = res["proton_decay"]
+    w("PART Q. PROTON DECAY: THE DIRECT TEST OF UNIFICATION")
+    w("-" * 78)
+    w("  If the couplings unify (Part I), the SU(5) gauge bosons X, Y turn quarks into leptons. Their")
+    w("  exchange gives p -> e+ pi0 (Ellis et al. 2020, minimal SU(5)):")
+    w("    Gamma = m_p/(32 pi) (1 - m_pi^2/m_p^2)^2 A_L^2 (g_GUT^2/M_X^2)^2 [A_S1^2 W_RL^2 + (1 + |V_ud|^2)^2 A_S2^2 W_LL^2]")
+    w("  W: lattice matrix elements at 2 GeV (Aoki et al. 2017). A_S: one-loop running of the two operators")
+    w("  from M_X to M_Z, exponents -2 c_i/b_i with this script's b_i. A_L: their QCD running to 2 GeV with")
+    w(f"  this script's alpha_s: A_L = {pq['A_L']:.3f} (one-loop exponent; two loops: {pq['A_L_two_loop_quoted']:.3f}, quoted).")
+    w("  M_X and alpha_GUT come from the algorithm; GUT thresholds (M_X against M_GUT) are unknown.")
+    w("      hypothesis                            M_X (GeV)   alpha_GUT  A_S1   A_S2   tau (years)")
+    for r_ in pq["rows"]:
+        w(f"      {r_['hypothesis']:<37s} {r_['M_X']:.2e}   {r_['alpha_GUT']:.4f}   {r_['A_S1']:.2f}   {r_['A_S2']:.2f}"
+          f"   {r_['tau_years']:.1e} +/- {r_['tau_sigma']:.0e}")
+    w(f"  Super-Kamiokande: tau/B(p -> e+ pi0) > {pq['limit_e_pi0']:.1e} years (90% CL)")
+    for r_ in pq["rows"]:
+        verdict = (f"allowed, {r_['ratio_to_limit']:.1f} times the limit" if r_["allowed"] else
+                   f"EXCLUDED: {r_['ratio_to_limit']:.0e} of the limit")
+        w(f"      {r_['hypothesis']:<37s} {verdict}; the limit needs M_X > {r_['M_X_needed']:.1e} GeV")
+    w("  Not yet included: the MSSM's dimension-five decay p -> nubar K+ through the colour-triplet")
+    w(f"  Higgsinos (limit {pq['limit_K_nu']:.1e} years), usually the stronger test of supersymmetric SU(5).")
+    mss = [r_ for r_ in pq["rows"] if r_["M_S"]]
+    sms = [r_ for r_ in pq["rows"] if not r_["M_S"]]
+    w(_wrap("RESULT: " + (f"with superpartners at Part I's M_S, the gauge-boson channel gives "
+                          f"{mss[0]['tau_years']:.1e} years, {mss[0]['ratio_to_limit']:.0f} times the Super-K limit: "
+                          f"{'allowed' if mss[0]['allowed'] else 'excluded'}, and within reach of Hyper-Kamiokande. "
+                          if mss else "")
+            + (f"In the SM, X bosons where g1 = g2 would make the proton live {sms[0]['tau_years']:.0e} years: "
+               "excluded, one more reason the SM cannot unify. " if sms else "")
+            + "Proton decay calculates no new number; it is a test the unification of Part I passes so far.", 2))
+    w("")
     w("THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)")
     w("-" * 78)
     lin = res["lineage"]
@@ -6195,6 +6357,7 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
         "checks": [{"name": n, "pass": ok, "detail": d} for n, ok, d in res["checks"]],
         "uv_joint_test": res["joint"],
         "mass_formulas": res["mass_formulas"], "strong_cp": res["strong_cp"], "neutrinos": res["neutrinos"],
+        "proton_decay": res["proton_decay"],
         "survey_certificates": res["survey_certificates"],
         "model": {"stages": STAGES, "lineage": res["lineage"], "changed_inputs": res["changed_inputs"],
                   "audit_findings": [{"status": a, "finding": b} for a, b in AUDIT_FINDINGS]},

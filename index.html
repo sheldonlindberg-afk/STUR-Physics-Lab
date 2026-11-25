@@ -252,7 +252,7 @@
     <tr><th>Numbers</th><th>Count</th><th>What the ladder does with them</th><th>Status</th></tr>
     <tr><td>Higgs mass</td><td class="num">1</td><td>λ(M<sub>P</sub>) = 0 gives <span data-v="crit.pred">128.3</span> GeV against 125.20</td><td><span class="chip warn">3% off</span></td></tr>
     <tr><td>Top mass</td><td class="num">(1)</td><td>λ = β<sub>λ</sub> = 0 at M<sub>P</sub> gives <span data-v="crit.mt">173.5</span> GeV against 172.57 (one of the 6 quark masses)</td><td><span class="chip warn">within 1 GeV</span></td></tr>
-    <tr><td>Gauge couplings</td><td class="num">3</td><td>Unification ties α to the other two, at the cost of a new scale M<sub>S</sub></td><td><span class="chip info">traded</span></td></tr>
+    <tr><td>Gauge couplings</td><td class="num">3</td><td>Unification ties α to the other two, at the cost of a new scale M<sub>S</sub>; its proton lifetime, <span data-v="pd.tau">2.4 × 10³⁵</span> years, passes Super-K's limit</td><td><span class="chip info">traded</span></td></tr>
     <tr><td>Quark mixing (CKM)</td><td class="num">4</td><td>One Hermitian texture survives (80 of 82 rivals provably excluded) and predicts |V<sub>td</sub>/V<sub>ts</sub>| = <span data-v="tex.q">0.197</span> against <span data-v="tex.qmeas">0.207</span>; general matrices predict nothing (proved)</td><td><span class="chip warn">1 relation, <span data-v="tex.both">2.2</span>σ</span></td></tr>
     <tr><td>Quark and lepton masses</td><td class="num">9</td><td>SU(5) and Georgi–Jarlskog ratios excluded; b–τ unification needs supersymmetry, which the Higgs mass then excludes. Koide's formula fits the lepton pole masses (<span data-v="bx.kpole">0.4</span>σ) but fails at M<sub>Z</sub> (<span data-v="bx.kmz">225</span>σ) and for quarks</td><td><span class="chip bad">not calculated</span></td></tr>
     <tr><td>Higgs vacuum value</td><td class="num">1</td><td>From G<sub>F</sub>; an input</td><td><span class="chip info">input</span></td></tr>
@@ -279,7 +279,7 @@
     <div class="card"><h3>Measured inputs only</h3><p>About thirty constants (masses, couplings, the CMB temperature, G), each with its uncertainty and source: PDG 2024, Planck 2018, CODATA 2018. They are the only physics numbers that enter a calculation.</p></div>
     <div class="card"><h3>Established physics only</h3><p>The Friedmann equation, the renormalization group with coefficients from group theory, exact linear algebra, and semiclassical gravity. Every scale comes from an earlier step.</p></div>
     <div class="card"><h3>Unknowns are scanned</h3><p>Quantities nothing fixes, such as a phase or the stop mixing, are never given a value. They are scanned over their whole range, and the prediction is the band that results.</p></div>
-    <div class="card"><h3>Checked by itself</h3><p>A test fails if any tunable number appears outside the input tables. The run ends with <span data-v="checks">54</span> self-checks of the calculation itself, which test correctness, not agreement with data. Every coefficient quoted from the literature is checked against a published result.</p></div>
+    <div class="card"><h3>Checked by itself</h3><p>A test fails if any tunable number appears outside the input tables. The run ends with <span data-v="checks">55</span> self-checks of the calculation itself, which test correctness, not agreement with data. Every coefficient quoted from the literature is checked against a published result.</p></div>
     <div class="card"><h3>One model, traced</h3><p>The parts run as stages of one algorithm. Every read of an input and of an earlier stage's result is recorded, so the report prints the dependency graph the code actually followed. Change one input (<code>--set</code>) and every stage it reaches is recalculated.</p></div>
     <div class="card"><h3>Proved where it can be</h3><p>Where a claim is "nothing fits anywhere", a search is not enough. The zero-pattern results of Part F are proved exactly, and 80 of the 82 exclusions of Part C are proved by branch-and-bound over their whole parameter space.</p></div>
   </div>
@@ -293,7 +293,7 @@
     </div>
     <p class="status" id="copy-status" role="status" aria-live="polite">One file, standard library only. Paste it into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 6 minutes. Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/production_v2_2.txt">results/production_v2_2.txt</a>.</p>
   </div>
-<pre>python3 production_v2_2.py                     # full report, Parts A to P
+<pre>python3 production_v2_2.py                     # full report, Parts A to Q
 python3 production_v2_2.py --json-out out.json # every number, as JSON
 python3 production_v2_2.py --set M_t=173.5      # change an input; the whole model is recalculated
 python3 production_v2_2.py --certify            # also prove the texture exclusions (about 10 more minutes)</pre>
@@ -350,6 +350,7 @@ python3 production_v2_2.py --certify            # also prove the texture exclusi
       vals["bx.tm1d"] = Math.round(bx.tm1_delta); vals["bx.seesaw"] = sci(bx.seesaw_max, 1);
       vals["bx.mgut"] = sci(bx.M_GUT, 1);
     }
+    if (D.proton) { vals["pd.tau"] = sci(D.proton.tau, 1); vals["pd.ratio"] = Math.round(D.proton.ratio); }
     if (D.joint) {
       var j = D.joint;
       vals["jt.smU"] = Math.round(j.sm_U); vals["jt.smB"] = Math.round(j.sm_B); vals["jt.smH"] = j.sm_H.toFixed(1);

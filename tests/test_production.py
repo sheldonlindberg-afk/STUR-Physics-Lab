@@ -432,6 +432,20 @@ def test_neutrinos():
     assert 5e14 < ss["M_for_y_1"] < 7e14 and ss["M_max_perturbative"] < RESULT["neutrinos"]["M_GUT"]
 
 
+def test_proton_decay():
+    """Part Q: at Part I's M_GUT and alpha_GUT the gauge-boson channel lives longer than the Super-K
+    limit (and agrees with Ellis et al.'s scaling formula); the SM's g1 = g2 point is excluded."""
+    pq = RESULT["proton_decay"]
+    assert abs(pq["A_L"] - pq["A_L_two_loop_quoted"]) < 0.05
+    rows = {r["hypothesis"].split(" ")[0].rstrip(","): r for r in pq["rows"]}
+    m = rows["MSSM"]
+    assert m["allowed"] and 3 < m["ratio_to_limit"] < 30
+    # Ellis et al. 2020: tau_flipped = 7.9e35 (M_X/1e16)^4 (0.0378/alpha)^2 yr, unflipped smaller by ~4.8
+    ellis = 7.9e35 / 4.8 * (m["M_X"] / 1e16) ** 4 * (0.0378 / m["alpha_GUT"]) ** 2
+    assert abs(m["tau_years"] / ellis - 1) < 0.2
+    assert not rows["SM"]["allowed"] and rows["SM"]["ratio_to_limit"] < 1e-8
+
+
 def test_website_data_is_current():
     """assets/site-data.js (written by tools/site_data.py) shows the numbers the script computes."""
     import json

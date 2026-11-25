@@ -30,7 +30,7 @@ python3 production_v2_2.py --certify            # also prove every texture exclu
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 54 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 55 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -514,6 +514,23 @@ TM1 reproduces the published sum rule for cos δ to 10⁻⁶ (a test). Quark–l
 M = 6×10¹⁴ GeV for y = 1 and at most 7.6×10¹⁵ GeV for a perturbative y, below Part I's M_GUT. Dirac
 neutrinos need y_ν ≤ 3×10⁻¹³. This tests Part L: the SM up to M_P holds only if neutrinos are Dirac.
 
+**Part Q: proton decay, the direct test of unification**
+
+If the couplings unify (Part I), the SU(5) gauge bosons turn quarks into leptons, and the proton
+decays through p → e⁺π⁰. The width (Ellis et al. 2020, minimal SU(5)) takes lattice matrix elements
+(Aoki et al. 2017). The operators' running from M_X to M_Z uses exponents −2c_i/b_i built from the
+script's own b_i, which a self-check compares with the printed ones. Their QCD running to 2 GeV uses
+the script's α_s: A_L = 1.27 at one loop, against 1.247 at two loops (quoted).
+
+| Hypothesis | M_X (GeV) | α_GUT | τ(p → e⁺π⁰) | vs Super-K (> 2.4×10³⁴ yr) |
+|---|---|---|---|---|
+| MSSM above M_S (Part I) | 1.15×10¹⁶ | 0.0389 | 2.4×10³⁵ yr | allowed, 10× the limit |
+| SM, X bosons where g₁ = g₂ | 1.0×10¹³ | 0.0236 | 5×10²³ yr | excluded |
+
+The supersymmetric lifetime agrees with Ellis et al.'s scaling formula to 10% and lies within reach
+of Hyper-Kamiokande. Not yet included: the dimension-five decay p → ν̄K⁺ through the colour-triplet
+Higgsinos, usually the stronger test of supersymmetric SU(5) (next in [ROADMAP.md](ROADMAP.md)).
+
 ## What changed from production v1
 
 The first version of `production_v2_2.py` (commit `2fa12f0`) gave χ² ≈ 3,600 for its Fritzsch
@@ -543,6 +560,7 @@ tests/test_production.py      the no-tuning rule, the self-checks, the pinned nu
 index.html                    website: the ladder, the results and their curves
 assets/site-data.js           every number and curve the website shows (generated)
 tools/site_data.py            writes assets/site-data.js from one run of the simulation
+ROADMAP.md                    the phases still to build, and their status
 archive/                      notes and the 3-3-1 paper from the earlier codebase (prose only)
 ```
 

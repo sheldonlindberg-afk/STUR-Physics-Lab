@@ -89,8 +89,10 @@ def main():
         "tm1_s12": best_tm1["s12sq"], "tm1_s12_sigma": tm1["n_sigma"], "tm1_delta": best_tm1["delta_deg"],
         "seesaw_max": no["seesaw"]["M_max_perturbative"], "M_GUT": nu["M_GUT"],
     }
+    pmssm = [r for r in res["proton_decay"]["rows"] if r["M_S"]][0]
     data = {
         "beyond": beyond,
+        "proton": {"tau": pmssm["tau_years"], "ratio": pmssm["ratio_to_limit"]},
         "criticality": {
             "m_h_pred": cr["central"]["m_h"], "sigma": cr["sigma_total"], "m_h_meas": mh_meas,
             "m_h_tree": cr["tree_matching"]["m_h"],
