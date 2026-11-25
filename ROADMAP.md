@@ -82,8 +82,9 @@ Status: [x] done, [~] in progress, [ ] not started.
    148-169; eq. 170 reproduced to 1.3 %). All the DM post-inflation at f_a = 2.0e11 GeV; at PS's M_I
    65 % (strings add more), at LR's M_I under 1 % and no angle suffices. Open: string yield; lattice
    chi(T) instead of the instanton gas; feeding Omega_c back into Part A.
-2. [ ] Threshold corrections: the unknown heavy masses at M_I and M_GUT scanned in a band; do the
-   chain verdicts (proton decay, vacuum, leptogenesis) survive?
+2. [x] Threshold corrections (Part T7): each matching condition shifted by up to +-1 in 1/alpha (assumed
+   band), every corner at two loops. Only PS+D's exclusion is robust; LR+D's exclusion and the PS and
+   LR verdicts can flip. Next: the actual heavy spectrum (scalar potential of 126 + 45/54/210).
 3. [ ] Electroweak precision: M_W from G_F, alpha, M_Z (and m_t, m_h) against the measurement.
 4. [ ] Proton-decay operator running above M_I (round 2, item 3), once its formula is transcribed.
 

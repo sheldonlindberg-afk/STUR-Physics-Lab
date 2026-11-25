@@ -303,6 +303,8 @@ NUMERICS: Dict[str, Any] = {
     "check_phase_grid": 96,           # Part P check: brute-force Majorana phases against the exact band
     "proton_phase_grid": 36,          # Part Q: grid per unknown GUT phase (phi_2, phi_3) for the dimension-five band
     "check_axion_tol": "0.05",        # Part V: eq. 170 is an approximation (their words); agreement within 5 %
+    "threshold_band": 1,              # Part T7: largest one-loop threshold per matching condition, in 1/alpha (an
+                                      # assumption: one heavy multiplet with b ~ 2 a factor e off gives ~0.3)
     "report_sci_below": "1e-3",       # print in scientific notation below / above these
     "report_sci_above": "1e5",
 }
@@ -5390,8 +5392,10 @@ def _run_inv(inv: List[float], b1: List[float], b2: List[List[float]], t0: float
     return inv
 
 
-def solve_chain(chain: Dict[str, Any], x: Dict[str, float], loops: int) -> Dict[str, Any]:
-    """Newton's method on the chain's conditions; unknowns u = (t_I, t_G[, inv_2R(M_I)]) in ln mu."""
+def solve_chain(chain: Dict[str, Any], x: Dict[str, float], loops: int,
+                shifts: Sequence[float] | None = None) -> Dict[str, Any]:
+    """Newton's method on the chain's conditions; unknowns u = (t_I, t_G[, inv_2R(M_I)]) in ln mu.
+    shifts: a threshold correction added to each matching condition (in 1/alpha)."""
     a, s2 = 1 / x["alpha_em_inv_MZ"], x["s2_hat_Z"]
     inv0 = [float(GUT_NORM) * (1 - s2) / a, s2 / a, 1 / x["alpha_s_MZ"]]
     sm1 = [float(v) for v in sm_gauge_b()]
@@ -5418,6 +5422,8 @@ def solve_chain(chain: Dict[str, Any], x: Dict[str, float], loops: int) -> Dict[
             res = [res[0], start[2] - start[1]]           # D-parity: g_R = g_L at M_I (then equal above)
         elif chain["D"]:
             res = [res[0], res[2]]                        # 2R = 2L above M_I automatically
+        if shifts:
+            res = [r_ + d_ for r_, d_ in zip(res, shifts)]
         return res
     u = [math.log(10 ** 11), math.log(10 ** 16)] + ([inv0[1]] if free_split else [])
     h_ = num("unif_ms_deriv_step")
@@ -5496,6 +5502,32 @@ def chain_vacuum(crit: Dict[str, Any], chains: Dict[str, Dict[str, Any]]) -> Dic
     return {"mu0": mu0, "mu0_band_Mt": sorted(b for b in band if math.isfinite(b)), "rows": rows}
 
 
+def chain_thresholds(chain: Dict[str, Any], x: Dict[str, float], base: Dict[str, Any], a_l: float,
+                     tau_limit: float, mu0: float, m1_nat: float) -> Dict[str, Any]:
+    """Every corner of the threshold box |delta_k| <= threshold_band (in 1/alpha, one per matching
+    condition), two loops: the ranges of M_I, M_GUT and tau_p, and whether any verdict flips."""
+    d_max = num("threshold_band")
+    n_cond = 3 if (chain["groups"][0] == "SU3" and not chain["D"]) else 2
+    rows = []
+    for signs in itertools.product((-1, 0, 1), repeat=n_cond):
+        r_ = solve_chain(chain, x, 2, [s_ * d_max for s_ in signs])
+        if not r_["consistent"] or r_["residual"] > num("unif_tol") * 100:
+            continue
+        r_["tau_p_years"] = proton_lifetime(x, r_["M_GUT"], r_["alpha_GUT"], None, a_l)
+        rows.append(r_)
+    mi = [r_["M_I"] for r_ in rows]
+    mg = [r_["M_GUT"] for r_ in rows]
+    tau = [r_["tau_p_years"] for r_ in rows]
+    base_p = base["tau_p_years"] > tau_limit
+    base_v = base["M_I"] < mu0
+    base_a = base["M_I"] >= m1_nat
+    return {"band": d_max, "corners": len(rows), "M_I": (min(mi), max(mi)), "M_GUT": (min(mg), max(mg)),
+            "tau_p": (min(tau), max(tau)),
+            "proton_flips": any((t_ > tau_limit) != base_p for t_ in tau),
+            "vacuum_flips": any((m_ < mu0) != base_v for m_ in mi),
+            "leptogenesis_flips": any((m_ >= m1_nat) != base_a for m_ in mi)}
+
+
 def so10(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any], scp: Dict[str, Any],
          bau: Dict[str, Any], pdk: Dict[str, Any], crit: Dict[str, Any]) -> Dict[str, Any]:
     x0 = _float_inputs()
@@ -5558,6 +5590,11 @@ def so10(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any
         chains[name] = rec
     out["chains"] = chains
     out["vacuum"] = chain_vacuum(crit, chains)
+    # T7. how robust each chain's verdicts are against the unknown thresholds
+    m1_nat = bau["leptogenesis"]["M1_min_natural"][0]
+    defs = so10_chains()
+    out["thresholds"] = {nm: chain_thresholds(defs[nm], x0, ch["loop2"], a_l, pdk["limit_e_pi0"],
+                                              out["vacuum"]["mu0"], m1_nat) for nm, ch in chains.items()}
     return out
 
 
@@ -7471,6 +7508,15 @@ def report(res: Dict[str, Any]) -> str:
         verdict = "the threshold can stabilize the vacuum" if r_["stabilizable"] else "metastable SM between mu_0 and M_I"
         w(f"        {nm:<6s} M_I = {r_['M_I']:.1e}: lambda_SM(M_I) = {r_['lambda_SM_at_MI']:+.4f}  ->  {verdict}")
     w("      The 'lambda(M_I) = 0' Higgs masses above only say how close each chain's M_I lies to mu_0.")
+    th_ = so["thresholds"]
+    band_ = next(iter(th_.values()))["band"] if th_ else 0
+    w(f"  T7. Thresholds: each matching condition shifted by up to +/- {band_} in 1/alpha (an assumed band, typical of")
+    w("      one-loop thresholds), every corner solved at two loops. Ranges, and which verdicts can flip:")
+    for nm, t_ in th_.items():
+        flips = [n_ for n_, f_ in (("proton decay", t_["proton_flips"]), ("vacuum", t_["vacuum_flips"]),
+                                   ("leptogenesis", t_["leptogenesis_flips"])) if f_]
+        w(f"        {nm:<6s} M_I {t_['M_I'][0]:.1e} - {t_['M_I'][1]:.1e}, M_GUT {t_['M_GUT'][0]:.1e} - {t_['M_GUT'][1]:.1e},"
+          f" tau_p {t_['tau_p'][0]:.0e} - {t_['tau_p'][1]:.0e}: " + (", ".join(flips) + " can flip" if flips else "robust"))
     w(_wrap("RESULT: SO(10) calculates the hypercharges' normalization (sin^2 theta_W = 3/8 at unification) and "
             "requires the right-handed neutrino; its minimal Yukawa relations are excluded. Without supersymmetry, "
             f"the Pati-Salam route unifies the three couplings with M_I = {ps['M_I']:.0e} GeV and M_GUT = "
@@ -7520,9 +7566,17 @@ def report(res: Dict[str, Any]) -> str:
     for nm, ph in sc_["chain_higgs"].items():
         w(f"    {nm:<6s} M_I = {ph['M_I']:.2e} GeV: m_h = {ph['m_h']:.2f} +/- {ph['sigma']:.2f} GeV, {ph['pull']:+.1f} sigma")
     w("    Why lambda should vanish at M_I is not established (the scalar sector changes there): a test.")
+    thr = res["so10"]["thresholds"]
     for h, v_ in sc_["verdict"].items():
+        rob = ""
+        nm_ = h.replace("SO(10) via ", "")
+        if nm_ in thr:
+            t_ = thr[nm_]
+            flips = [c for c, f_ in (("P", t_["proton_flips"]), ("V", t_["vacuum_flips"]), ("A", t_["leptogenesis_flips"])) if f_]
+            rob = (" Thresholds (Part T7) can flip: " + ", ".join(sc_["conditions"][c] for c in flips) + "."
+                   if flips else " Robust against the thresholds of Part T7.")
         w(_wrap(f"{h}: fails {', '.join(sc_['conditions'][c] for c in v_['fails']) or 'nothing'}; trades "
-                f"{len(v_['trades'])}, open {len(v_['open'])}, passes {len(v_['passes'])}.", 2))
+                f"{len(v_['trades'])}, open {len(v_['open'])}, passes {len(v_['passes'])}." + rob, 2))
     w(_wrap("RESULT: " + ("surviving every condition tested so far: " + ", ".join(sc_["survivors"])
                           + ". It predicts nothing yet: its scales are solved from the couplings, and its passes are "
                             "consistency, not calculation; two-loop running and thresholds come next."

@@ -633,6 +633,21 @@ band, so whether it is stable is decided by M_t. The "λ(M_I) = 0" Higgs masses 
 close each chain's M_I lies to μ₀: the 125.6 GeV of Pati–Salam is a coincidence of scales, not a
 prediction. The scorecard has a vacuum-stability row.
 
+**Part T7: are the chain verdicts robust against thresholds?** The masses of the heavy fields at M_I
+and M_GUT are unknown, so each matching condition is shifted by up to ±1 in 1/α. That band is an
+assumption: one heavy multiplet with b ≈ 2, a factor e from the matching scale, gives about 0.3.
+Every corner is solved at two loops:
+
+| Chain | M_I range (GeV) | τ_p range (yr) | Verdicts that can flip |
+|---|---|---|---|
+| Pati–Salam | 1.5×10¹⁰ – 1.3×10¹² | 7×10³² – 4×10³⁷ | proton decay, vacuum |
+| Pati–Salam + D | 2.8×10¹³ – 6.7×10¹³ | 4×10²⁹ – 7×10³² | none: **robustly excluded** |
+| Left-right | 9×10⁷ – 9×10¹⁰ | 4×10³³ – 9×10³⁸ | proton decay, vacuum, leptogenesis |
+| Left-right + D | 5×10⁹ – 2×10¹¹ | 8×10³⁰ – 1×10³⁵ | all three, including its exclusion |
+
+So only Pati–Salam with D-parity is excluded whatever the thresholds. The surviving chains'
+verdicts depend on the heavy spectrum, which is what has to be calculated next.
+
 **Part V: dark matter from the axion**
 
 Until now the dark-matter density was an input. The axion of Part O is produced by misalignment:

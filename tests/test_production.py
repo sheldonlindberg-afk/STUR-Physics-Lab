@@ -573,6 +573,18 @@ def test_dark_matter():
     assert RESULT["scorecard"]["rows"]["SO(10) via LR"]["D"]["status"] == "open"
 
 
+def test_chain_thresholds():
+    """Part T7: with thresholds up to the band, PS+D stays excluded by proton decay (robust), while the
+    LR+D exclusion and the PS and LR verdicts can flip; the zero-threshold point lies inside every range."""
+    th = RESULT["so10"]["thresholds"]
+    ch = RESULT["so10"]["chains"]
+    assert not th["PS+D"]["proton_flips"] and th["LR+D"]["proton_flips"]
+    for nm, t in th.items():
+        assert t["corners"] >= 8
+        assert t["M_I"][0] <= ch[nm]["loop2"]["M_I"] <= t["M_I"][1]
+        assert t["tau_p"][0] <= ch[nm]["loop2"]["tau_p_years"] <= t["tau_p"][1]
+
+
 def test_website_data_is_current():
     """assets/site-data.js (written by tools/site_data.py) shows the numbers the script computes."""
     import json
