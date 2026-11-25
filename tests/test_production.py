@@ -444,6 +444,11 @@ def test_proton_decay():
     ellis = 7.9e35 / 4.8 * (m["M_X"] / 1e16) ** 4 * (0.0378 / m["alpha_GUT"]) ** 2
     assert abs(m["tau_years"] / ellis - 1) < 0.2
     assert not rows["SM"]["allowed"] and rows["SM"]["ratio_to_limit"] < 1e-8
+    # dimension five: minimal SUSY SU(5) at Part I's scales is excluded by p -> nubar K+ at every phase
+    assert pq["d5"] and all(not r["allowed_somewhere"] for r in pq["d5"])
+    for r in pq["d5"]:
+        assert r["tau_min"] <= r["tau_max"] < 1e31
+        assert abs(r["A_L"] - 0.53) < 0.06                    # Hisano et al., eq. 25 (one-loop alpha_s)
 
 
 def test_website_data_is_current():

@@ -528,8 +528,21 @@ the script's α_s: A_L = 1.27 at one loop, against 1.247 at two loops (quoted).
 | SM, X bosons where g₁ = g₂ | 1.0×10¹³ | 0.0236 | 5×10²³ yr | excluded |
 
 The supersymmetric lifetime agrees with Ellis et al.'s scaling formula to 10% and lies within reach
-of Hyper-Kamiokande. Not yet included: the dimension-five decay p → ν̄K⁺ through the colour-triplet
-Higgsinos, usually the stronger test of supersymmetric SU(5) (next in [ROADMAP.md](ROADMAP.md)).
+of Hyper-Kamiokande.
+
+**Dimension five.** In minimal supersymmetric SU(5), the colour-triplet Higgsinos give p → ν̄K⁺
+(Hisano, Kobayashi, Kuwahara, Nagata 2013, eqs. 15–49). Every input is taken from earlier stages:
+
+* M_HC = M_GUT, and every superpartner at M_S (Part I); tan β from Part J.
+* The Yukawas run in the SM up to M_S and in the MSSM up to M_HC.
+* The operators run with the Yukawas above M_S, with the gauge couplings below M_S, and with QCD
+  down to 2 GeV.
+* The two unknown GUT phases are scanned.
+
+The result is τ = 3×10²⁸ to 7×10²⁹ years over all phases, against Super-K's 5.9×10³³. **Minimal SUSY
+SU(5) with one superpartner scale is excluded by proton decay**, as it is by the Higgs mass (Part K).
+The limit would need M_HC ≈ 10¹⁸ GeV or superpartners near 200 TeV. Open item: the higgsino part is a
+factor 2.2 shorter-lived than Hisano et al.'s scaling formula (eq. 19), which is to be debugged.
 
 ## What changed from production v1
 

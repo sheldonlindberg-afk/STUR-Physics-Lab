@@ -21,10 +21,12 @@ Status: [x] done, [~] in progress, [ ] not started.
       elements; against Super-K. Open: two-loop A_L (one loop used; 1.247 at two loops is quoted),
       GUT thresholds (M_X = M_GUT assumed). Result: MSSM 2.4e35 yr (10x the
       Super-K limit), SM g1 = g2 point 5e23 yr (excluded).
-- [~] 1b. Dimension-five p -> K+ nubar in minimal SUSY SU(5), with M_S (Part I), tan(beta)
-      (Part J), M_HC = M_GUT. Needs: wino/higgsino dressing functions and the short-distance
-      factor A_S of the dimension-five operators (Hisano et al. 2013, arXiv:1304.3651, eqs. 15-49),
-      transcribed and checked.
+- [x] 1b. Dimension-five p -> nubar K+ in minimal SUSY SU(5), with M_S (Part I), tan(beta)
+      (Part J), M_HC = M_GUT, GUT phases scanned (Hisano et al. 2013, eqs. 15-49). Result:
+      3e28-7e29 yr vs 5.9e33: excluded. Open (debug): the higgsino part is a factor 2.2 shorter
+      than their eq. 19 scaling; wino/higgsino thresholds below M_S; two-loop running; the
+      CKM phases in the operator coefficients checked against their conventions.
+- [ ] 1c. Feed proton decay into Part M as a condition (done in Phase 5).
 
 ## Phase 2: anomalies, charge quantization, family number
 - [ ] Hypercharges from anomaly cancellation (exact); 3-3-1: anomaly freedom needs the number of

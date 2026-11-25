@@ -162,6 +162,18 @@ INPUTS: Dict[str, Dict[str, str]] = {
     "W_pi0_LL": {"value": "0.134", "sigma": "0.0168", "unit": "GeV^2",
                  "source": "<pi0|(ud)_L u_L|p>, same: 0.134(5)(16)"},
     "V_ud": {"value": "0.97367", "sigma": "0.00032", "unit": "", "source": "PDG 2024, superallowed beta decays"},
+    "CKM_lambda": {"value": "0.22501", "sigma": "0.00068", "unit": "", "source": "PDG 2024 CKM fit, Wolfenstein lambda"},
+    "CKM_A": {"value": "0.826", "sigma": "0.0155", "unit": "", "source": "PDG 2024 CKM fit: +0.016 -0.015"},
+    "CKM_rhobar": {"value": "0.1591", "sigma": "0.0094", "unit": "", "source": "PDG 2024 CKM fit"},
+    "CKM_etabar": {"value": "0.3523", "sigma": "0.0072", "unit": "", "source": "PDG 2024 CKM fit: +0.0073 -0.0071"},
+    "alpha_p_lattice": {"value": "-0.0144", "sigma": "0.0021", "unit": "GeV^3",
+                        "source": "Aoki, Izubuchi, Shintani, Soni 2017 (arXiv:1705.01338), eq. 23: -0.0144(3)(21)"},
+    "beta_p_lattice": {"value": "0.0144", "sigma": "0.0021", "unit": "GeV^3", "source": "same: 0.0144(3)(21)"},
+    "baryon_D": {"value": "0.80", "sigma": "0", "unit": "", "source": "chiral Lagrangian D, as used by Hisano et al. 2013"},
+    "baryon_F": {"value": "0.47", "sigma": "0", "unit": "", "source": "chiral Lagrangian F, as used by Hisano et al. 2013"},
+    "m_K_MeV": {"value": "493.677", "sigma": "0.015", "unit": "MeV", "source": "PDG 2024, charged kaon"},
+    "m_Sigma0_MeV": {"value": "1192.642", "sigma": "0.024", "unit": "MeV", "source": "PDG 2024"},
+    "m_Lambda_MeV": {"value": "1115.683", "sigma": "0.006", "unit": "MeV", "source": "PDG 2024"},
     # --- neutrino oscillations (Part P): NuFIT 6.0 (arXiv:2410.05380, JHEP 12 (2024) 216), global fit
     # IC24 with SK atmospheric data; asymmetric 1 sigma errors symmetrized (mean of the two sides).
     # Delta m^2_3l = Delta m^2_31 > 0 for normal ordering (NO), Delta m^2_32 < 0 for inverted (IO).
@@ -285,6 +297,7 @@ NUMERICS: Dict[str, Any] = {
     "nu_phase_grid": 360,             # Part P: grid of the free phase of a corrected pattern, then bisection
     "nu_bisections": 80,
     "check_phase_grid": 96,           # Part P check: brute-force Majorana phases against the exact band
+    "proton_phase_grid": 36,          # Part Q: grid per unknown GUT phase (phi_2, phi_3) for the dimension-five band
     "report_sci_below": "1e-3",       # print in scientific notation below / above these
     "report_sci_above": "1e5",
 }
@@ -452,6 +465,11 @@ LITERATURE: Dict[str, Dict[str, Any]] = {
                   "printed_exponents": {"SM": {"S1": ("-11/82", "27/38", "2/7"), "S2": ("-23/82", "27/38", "2/7")},
                                         "MSSM": {"S1": ("-1/18", "-3/2", "4/9"), "S2": ("-23/198", "-3/2", "4/9")}},
                   "A_L_two_loop": "1.247"}},
+    "proton_decay_d5_scaling": {
+        "source": "Hisano, Kobayashi, Kuwahara, Nagata 2013 (arXiv:1304.3651), eq. 19: the higgsino-exchange "
+                  "lifetime tau ~ C sin^4(2 beta) (0.1/Abar_R)^2 (M_S/100 TeV)^2 (M_HC/1e16 GeV)^2 years at "
+                  "mu_H = M_S; C, quoted only to compare with Part Q's full calculation",
+        "value": "4e35"},
     "axion_mass_nlo": {
         "source": "QCD axion mass at NLO in chiral perturbation theory with lattice input, Gorghetto-Villadoro "
                   "2019 (refining Grilli di Cortona et al. 2016): m_a = 5.69(5) micro-eV x (1e12 GeV / f_a)",
@@ -514,8 +532,9 @@ STAGES: Dict[str, Dict[str, str]] = {
                   "assumes": "three light neutrinos; lightest mass and Majorana phases scanned; cosmological "
                              "limits assume flat LambdaCDM; unknowns of corrected patterns solved exactly"},
     "proton_decay": {"part": "Q", "level": "conditional", "uv": "MSSM above M_S",
-                     "assumes": "minimal SU(5) gauge bosons at M_X = M_GUT (Part I; the SM's g1 = g2 point for "
-                                "comparison); one-loop operator running; GUT thresholds unknown"},
+                     "assumes": "minimal SU(5): gauge bosons at M_X = M_GUT, colour triplet at M_HC = M_GUT, every "
+                                "superpartner at M_S (Part I), tan(beta) from Part J; GUT phases scanned; one-loop "
+                                "operator running; GUT thresholds unknown"},
     "self_checks": {"part": "-", "level": "validation", "assumes": "tests the calculation, not the physics"},
 }
 
@@ -4733,6 +4752,137 @@ def proton_lifetime(x: Dict[str, float], m_x: float, alpha_gut: float, m_s: floa
     return hbar_gev_s / width / 31557600                      # Julian year
 
 
+# --- Q2. Dimension five: p -> K+ nubar through the colour-triplet Higgsinos of minimal SUSY SU(5)
+# (Hisano, Kobayashi, Kuwahara, Nagata 2013, arXiv:1304.3651, eqs. 15-49). The triplet mass M_HC
+# is set to Part I's M_GUT, every superpartner (sfermions, wino, higgsino) to Part I's M_S, and
+# tan(beta) is Part J's. The unknown GUT phases phi_2, phi_3 (phi_1 = -phi_2 - phi_3) are scanned,
+# and the band of lifetimes is reported. Yukawas: SM running to M_S (Parts B, J), MSSM above;
+# operator running between M_HC and M_S with the Yukawas (eqs. 41, 42), gauge-only below (eqs. 37,
+# 38, SM b_i), QCD to 2 GeV (eq. 24). Not included: the wino and higgsino thresholds between M_S and
+# M_Z (taken at M_S), two-loop running, and the GUT-scale thresholds that fix M_HC.
+def ckm_from_wolfenstein(x: Dict[str, float]) -> List[List[complex]]:
+    """The CKM matrix from the PDG fit's Wolfenstein parameters, exactly (PDG convention)."""
+    lam, a, rho, eta = x["CKM_lambda"], x["CKM_A"], x["CKM_rhobar"], x["CKM_etabar"]
+    s12, s23 = lam, a * lam ** 2
+    z = complex(rho, eta)
+    s13e = a * lam ** 3 * z * math.sqrt(1 - a * a * lam ** 4) / (math.sqrt(1 - lam * lam) * (1 - a * a * lam ** 4 * z))
+    s13, delta = abs(s13e), cmath.phase(s13e)
+    return pmns(s12 ** 2, s13 ** 2, s23 ** 2, delta)          # same standard parametrization
+
+
+def _f_susy(m: float, ms: float) -> float:
+    """F(M, M_S^2) of eq. 16; its limit 1/(2 M_S) at M = M_S (eq. 18)."""
+    if abs(m / ms - 1) < num("check_rel_tol"):
+        return 1 / (2 * ms)
+    d = ms ** 2 - m ** 2
+    return m * (1 / d - m ** 2 / d ** 2 * math.log(ms ** 2 / m ** 2))
+
+
+def proton_decay_d5(flav: Dict[str, Any], m_s: float, m_hc: float, tan_beta: float) -> Dict[str, Any]:
+    x = _float_inputs()
+    runner = flav["runner"]
+    mt = runner.mt_msbar
+    mz, mw = x["M_Z"], x["M_W"]
+    q2 = x["mu_light"]
+    up, dn = Fr(2, 3), Fr(-1, 3)
+    sb, cb = tan_beta / math.sqrt(1 + tan_beta ** 2), 1 / math.sqrt(1 + tan_beta ** 2)
+    s2b = 2 * sb * cb
+    k = 16 * math.pi ** 2
+
+    def drbar(m: float, mu: float) -> float:                  # eq. 21
+        return m * (1 - runner.alpha_s(mu) / (3 * math.pi))
+    # quark masses (MS-bar -> DR-bar) at m_Z and at 2 GeV
+    src = {"d": (x["m_d"], q2, dn), "s": (x["m_s"], q2, dn), "c": (x["m_c"], x["m_c"], up),
+           "b": (x["m_b"], x["m_b"], dn), "t": (mt, mt, up)}
+    m_z = {q: drbar(runner.run_mass(m0, mu0, mz, ch), mz) for q, (m0, mu0, ch) in src.items()}
+    m_2 = {q: drbar(runner.run_mass(m0, mu0, q2, ch) if mu0 != q2 else m0, q2) for q, (m0, mu0, ch) in src.items()}
+    lep = lepton_masses_gev()
+    a0 = inp("alpha_em")
+    mtau_z = lepton_running_mass(lep["tau"], mz, a0)
+    # third-generation couplings at M_S (SM), second generation from the flavour stage's ratios
+    _, st = couplings_at_mt(flav)
+    s_ms = run_to(st, mt, m_s, "SM")
+    r_ms = flav["ratios"][min(flav["ratios"], key=lambda mu: abs(math.log(mu / m_s)))]
+    # MSSM couplings at M_S: y_u / sin(beta), y_d, y_e / cos(beta) (eq. 30); then run to M_HC with
+    # the ratios y_c/y_t and y_s/y_b (MSSM anomalous dimensions) and the operators' exponents
+    y0 = [s_ms[0], s_ms[1], s_ms[2], s_ms[3] / sb, s_ms[4] / cb, s_ms[5] / cb,
+          math.log(r_ms["r_ct"]), math.log(r_ms["r_sb"]), 0.0, 0.0, 0.0, 0.0, 0.0]
+    gauge6 = yukawa_rhs("MSSM")
+    r_mu_tau = lep["mu"] / lep["tau"]
+
+    def rhs(v: List[float], nf: int) -> List[float]:
+        g1, g2, g3, yt, yb, yl = v[:6]
+        out = gauge6(v[:6], nf)
+        yc, ys = yt * math.exp(v[6]), yb * math.exp(v[7])
+        gg = 8 * g3 ** 2 + 6 * g2 ** 2 + Fr(2, 5) * g1 ** 2
+        ups, dns, els = (yc, yt), (ys, yb), (yl * r_mu_tau, yl)
+        ints = [(2 * (ups[i] ** 2 + dns[j] ** 2) + els[j] ** 2 - float(gg)) / k for i in range(2) for j in range(2)]
+        cbar = (2 * (yt ** 2 + yl ** 2) - 8 * g3 ** 2 - float(Fr(12, 5)) * g1 ** 2) / k
+        return out + [-(3 * yt ** 2 + yb ** 2) / k, -(3 * yb ** 2 + yt ** 2) / k] + ints + [cbar]
+    top = integrate_ln_mu(y0, m_s, m_hc, rhs, [], int(num("rg_steps_per_efold")))
+    f = {"t": top[3], "b": top[4], "tau": top[5], "c": top[3] * math.exp(top[6]), "s": top[4] * math.exp(top[7])}
+    # C_ij(M_S)/C_ij(M_HC) = exp(-integral of the exponent from M_S to M_HC)
+    c_ratio = {(i, j): math.exp(-top[8 + 2 * a + b]) for a, i in enumerate(("c", "t")) for b, j in enumerate(("s", "b"))}
+    cbar_ratio = math.exp(-top[12])
+    # gauge-only running from M_S to m_Z (eqs. 37, 38; SM b_i)
+    b_sm = [float(b) for b in sm_gauge_b()]
+    al_s, al_z = _alpha_one_loop(m_s, x, None), _alpha_one_loop(mz, x, None)
+    ratio = [z_ / s_ for z_, s_ in zip(al_z, al_s)]
+    c_wino = ratio[2] ** (-2 / b_sm[2]) * ratio[1] ** (-15 / (2 * b_sm[1])) * ratio[0] ** (-1 / (10 * b_sm[0]))
+    c_higgsino = ratio[2] ** (-2 / b_sm[2]) * ratio[1] ** (-9 / (4 * b_sm[1])) * ratio[0] ** (-11 / (20 * b_sm[0]))
+    a2_z, a2_s = al_z[1], al_s[1]
+    # QCD below m_Z (eq. 24)
+    as2, asb, asz = runner.alpha_s(q2), runner.alpha_s(x["m_b"]), runner.alpha_s(mz)
+    a_l = (as2 / asb) ** Fr(-18, 25) * (asb / asz) ** Fr(-18, 23)
+    abar_l = (as2 / asb) ** Fr(-6, 5) * (asb / asz) ** Fr(-30, 23)
+    a_s = {(i, j): mw ** 2 * s2b * f[i] * f[j] / (4 * math.pi * m_z[i] * m_z[j]) * a2_s / a2_z ** 2
+           * c_wino * c_ratio[(i, j)] for i in ("c", "t") for j in ("s", "b")}
+    ybar_t_ms, ybar_tau_ms = s_ms[3] / sb, s_ms[5] / cb
+    abar_s = (mw ** 4 * s2b ** 2 * f["t"] * ybar_t_ms * ybar_tau_ms * f["s"]
+              / ((4 * math.pi) ** 2 * a2_z ** 2 * m_z["t"] ** 2 * mtau_z * m_z["s"]) * c_higgsino * cbar_ratio)
+    a_r = {key: a_l * v for key, v in a_s.items()}
+    abar_r = abar_l * abar_s
+    # hadronic matrix elements and the width (eqs. 44-49)
+    v = ckm_from_wolfenstein(x)
+    gev = x["e_charge"] * 10 ** 9
+    m_p = x["m_p"] * x["c"] ** 2 / gev
+    m_k, m_bar = x["m_K_MeV"] / 1000, (x["m_Sigma0_MeV"] + x["m_Lambda_MeV"]) / 2000
+    f_pi = x["f_pi_MeV"] / math.sqrt(2) / 1000
+    d_, f_ = x["baryon_D"], x["baryon_F"]
+    al_p, be_p = x["alpha_p_lattice"], x["beta_p_lattice"]
+    f_w, f_h = _f_susy(m_s, m_s), _f_susy(m_s, m_s)            # wino and higgsino at M_S
+    chi = 1 + (d_ + f_) * m_p / m_bar
+    idx = {"u": 0, "c": 1, "t": 2, "d": 0, "s": 1, "b": 2}
+
+    def amplitudes(ph2: float, ph3: float) -> Tuple[complex, complex]:
+        ph = {"c": ph2, "t": ph3}
+        ph1 = -ph2 - ph3
+        wino = {j: sum(m_2[i] * v[idx[i]][0] * v[idx[i]][1] * cmath.exp(1j * ph[i]) * a_r[(i, j)] for i in ("c", "t"))
+                for j in ("s", "b")}
+        c_mu = 2 * be_p * f_w * chi * m_2["s"] * v[0][1].conjugate() * wino["s"]
+        higg = (al_p * m_2["t"] ** 2 * mtau_z * v[2][2].conjugate() * cmath.exp(1j * ph1) / (mw ** 2 * s2b)
+                * f_h * abar_r * (m_2["d"] * v[0][0] * v[2][1] * (1 + (d_ + 3 * f_) / 3 * m_p / m_bar)
+                                  + m_2["s"] * v[0][1] * v[2][0] * 2 * d_ / 3 * m_p / m_bar))
+        c_tau = 2 * be_p * f_w * chi * m_2["b"] * v[0][2].conjugate() * wino["b"] - higg
+        return c_mu, c_tau
+
+    pre = m_p * a2_z ** 4 / (64 * math.pi * f_pi ** 2 * m_hc ** 2 * mw ** 4 * s2b ** 2) * (1 - m_k ** 2 / m_p ** 2) ** 2
+    hbar_gev_s = x["h"] / (2 * math.pi) / gev
+    n_ph = int(num("proton_phase_grid"))
+    taus = []
+    for a in range(n_ph):
+        for b in range(n_ph):
+            cm, ct = amplitudes(2 * math.pi * a / n_ph, 2 * math.pi * b / n_ph)
+            taus.append(hbar_gev_s / (pre * (abs(cm) ** 2 + abs(ct) ** 2)) / 31557600)
+    cm0, ct0 = amplitudes(0, 0)
+    higg_only = hbar_gev_s / (pre * abs(ct0 - 2 * be_p * f_w * chi * m_2["b"] * v[0][2].conjugate()
+                                         * sum(m_2[i] * v[idx[i]][0] * v[idx[i]][1] * a_r[(i, "b")]
+                                               for i in ("c", "t"))) ** 2) / 31557600
+    return {"tan_beta": tan_beta, "M_S": m_s, "M_HC": m_hc, "A_L": a_l, "Abar_L": abar_l,
+            "A_R": {f"{i}{j}": val for (i, j), val in a_r.items()}, "Abar_R": abar_r,
+            "f_GUT": f, "tau_min": min(taus), "tau_max": max(taus), "tau_higgsino_only": higg_only}
+
+
 def proton_decay(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any]) -> Dict[str, Any]:
     x0 = _float_inputs()
     runner = flav["runner"]
@@ -4755,8 +4905,20 @@ def proton_decay(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[
                      "A_S2": proton_short_distance(x0, m_x, m_s, "S2"),
                      "tau_years": tau, "tau_sigma": tau_sig, "limit": lim, "allowed": tau > lim,
                      "ratio_to_limit": tau / lim, "M_X_needed": m_x * (lim / tau) ** (1 / 4)})
+    d5 = []
+    lim_k = _comparison("tau_p_K_nu")[0]
+    if au.get("M_GUT_GeV") and yukawa.get("btau_MSSM_unity"):
+        tbs = [yukawa["btau_MSSM_unity"]["tan_beta"]] + [r["tan_beta"] for r in yukawa.get("fixed_point_MSSM", {}).get("runs", [])]
+        for tb in tbs:
+            r5 = proton_decay_d5(flav, au["M_S_GeV"], au["M_GUT_GeV"], tb)
+            r5["allowed_somewhere"] = r5["tau_max"] > lim_k
+            r5["allowed_everywhere"] = r5["tau_min"] > lim_k
+            # M_HC that the limit needs (the lifetime grows as M_HC^2, at the most favourable phases)
+            r5["M_HC_needed"] = r5["M_HC"] * math.sqrt(lim_k / r5["tau_max"])
+            r5["M_S_needed_scaling"] = r5["M_S"] * math.sqrt(lim_k / r5["tau_max"])
+            d5.append(r5)
     return {"A_L": a_l, "A_L_two_loop_quoted": float(LITERATURE["proton_decay_d6"]["value"]["A_L_two_loop"]),
-            "rows": rows, "limit_e_pi0": lim, "limit_K_nu": _comparison("tau_p_K_nu")[0]}
+            "rows": rows, "limit_e_pi0": lim, "limit_K_nu": lim_k, "d5": d5}
 
 
 # =============================================================================
@@ -6265,17 +6427,38 @@ def report(res: Dict[str, Any]) -> str:
         verdict = (f"allowed, {r_['ratio_to_limit']:.1f} times the limit" if r_["allowed"] else
                    f"EXCLUDED: {r_['ratio_to_limit']:.0e} of the limit")
         w(f"      {r_['hypothesis']:<37s} {verdict}; the limit needs M_X > {r_['M_X_needed']:.1e} GeV")
-    w("  Not yet included: the MSSM's dimension-five decay p -> nubar K+ through the colour-triplet")
-    w(f"  Higgsinos (limit {pq['limit_K_nu']:.1e} years), usually the stronger test of supersymmetric SU(5).")
+    w("  Q2. Dimension five, p -> nubar K+, through the colour-triplet Higgsinos of minimal SUSY SU(5)")
+    w("      (Hisano et al. 2013, eqs. 15-49): M_HC = M_GUT and every superpartner at M_S (Part I),")
+    w("      tan(beta) from Part J; Yukawas run in the SM to M_S and in the MSSM to M_HC; the operators run")
+    w("      with the Yukawas above M_S, with the gauge couplings below, with QCD to 2 GeV. The two unknown")
+    w("      GUT phases are scanned: the band is every lifetime they allow.")
+    for r_ in pq["d5"]:
+        w(f"      tan(beta) = {r_['tan_beta']:.3f}: tau = {r_['tau_min']:.1e} to {r_['tau_max']:.1e} years"
+          f"   (A_L = {r_['A_L']:.2f}, Abar_R = {r_['Abar_R']:.2f}, y_t(M_HC) = {r_['f_GUT']['t']:.2f})")
+    if pq["d5"]:
+        r0 = pq["d5"][0]
+        w(f"      Super-Kamiokande: tau/B(p -> nubar K+) > {pq['limit_K_nu']:.1e} years (90% CL). Even at the best")
+        w(f"      phases the limit needs M_HC > {r0['M_HC_needed']:.1e} GeV (tau ~ M_HC^2), or superpartners near"
+          f" {r0['M_S_needed_scaling'] / 1000:.0f} TeV (tau ~ M_S^2).")
+        w(f"      Check: the higgsino part alone gives {r0['tau_higgsino_only']:.1e} years; Hisano et al.'s scaling formula,")
+        eq19 = float(LITERATURE["proton_decay_d5_scaling"]["value"]) * (2 * r0["tan_beta"] / (1 + r0["tan_beta"] ** 2)) ** 4 * (1 / (10 * r0["Abar_R"])) ** 2 \
+            * (r0["M_S"] / 10 ** 5) ** 2 * (r0["M_HC"] / 10 ** 16) ** 2
+        w(f"      eq. 19, gives {eq19:.1e} with the same Abar_R (a factor {eq19 / r0['tau_higgsino_only']:.1f}; to be"
+          " debugged).")
     mss = [r_ for r_ in pq["rows"] if r_["M_S"]]
     sms = [r_ for r_ in pq["rows"] if not r_["M_S"]]
+    d5_out = [r_ for r_ in pq["d5"] if not r_["allowed_somewhere"]]
     w(_wrap("RESULT: " + (f"with superpartners at Part I's M_S, the gauge-boson channel gives "
                           f"{mss[0]['tau_years']:.1e} years, {mss[0]['ratio_to_limit']:.0f} times the Super-K limit: "
                           f"{'allowed' if mss[0]['allowed'] else 'excluded'}, and within reach of Hyper-Kamiokande. "
                           if mss else "")
+            + (f"But the Higgsino channel of minimal SUSY SU(5) at the same scales lives at most "
+               f"{max(r_['tau_max'] for r_ in pq['d5']):.0e} years: excluded for every phase and every tan(beta) of "
+               "Part J. Minimal SUSY SU(5) with one superpartner scale M_S fails proton decay, as Part K's Higgs mass "
+               "already found; a heavier colour triplet or superpartners above about 100 TeV are needed. "
+               if pq["d5"] and len(d5_out) == len(pq["d5"]) else "")
             + (f"In the SM, X bosons where g1 = g2 would make the proton live {sms[0]['tau_years']:.0e} years: "
-               "excluded, one more reason the SM cannot unify. " if sms else "")
-            + "Proton decay calculates no new number; it is a test the unification of Part I passes so far.", 2))
+               "excluded, one more reason the SM cannot unify." if sms else ""), 2))
     w("")
     w("THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)")
     w("-" * 78)

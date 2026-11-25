@@ -252,7 +252,7 @@
     <tr><th>Numbers</th><th>Count</th><th>What the ladder does with them</th><th>Status</th></tr>
     <tr><td>Higgs mass</td><td class="num">1</td><td>λ(M<sub>P</sub>) = 0 gives <span data-v="crit.pred">128.3</span> GeV against 125.20</td><td><span class="chip warn">3% off</span></td></tr>
     <tr><td>Top mass</td><td class="num">(1)</td><td>λ = β<sub>λ</sub> = 0 at M<sub>P</sub> gives <span data-v="crit.mt">173.5</span> GeV against 172.57 (one of the 6 quark masses)</td><td><span class="chip warn">within 1 GeV</span></td></tr>
-    <tr><td>Gauge couplings</td><td class="num">3</td><td>Unification ties α to the other two, at the cost of a new scale M<sub>S</sub>; its proton lifetime, <span data-v="pd.tau">2.4 × 10³⁵</span> years, passes Super-K's limit</td><td><span class="chip info">traded</span></td></tr>
+    <tr><td>Gauge couplings</td><td class="num">3</td><td>Unification ties α to the other two, at the cost of a new scale M<sub>S</sub>; its gauge-boson proton lifetime, <span data-v="pd.tau">2.4 × 10³⁵</span> years, passes Super-K's limit, but minimal SUSY SU(5)'s Higgsino channel (<span data-v="pd.d5">7 × 10²⁹</span> years at most) fails it</td><td><span class="chip info">traded</span></td></tr>
     <tr><td>Quark mixing (CKM)</td><td class="num">4</td><td>One Hermitian texture survives (80 of 82 rivals provably excluded) and predicts |V<sub>td</sub>/V<sub>ts</sub>| = <span data-v="tex.q">0.197</span> against <span data-v="tex.qmeas">0.207</span>; general matrices predict nothing (proved)</td><td><span class="chip warn">1 relation, <span data-v="tex.both">2.2</span>σ</span></td></tr>
     <tr><td>Quark and lepton masses</td><td class="num">9</td><td>SU(5) and Georgi–Jarlskog ratios excluded; b–τ unification needs supersymmetry, which the Higgs mass then excludes. Koide's formula fits the lepton pole masses (<span data-v="bx.kpole">0.4</span>σ) but fails at M<sub>Z</sub> (<span data-v="bx.kmz">225</span>σ) and for quarks</td><td><span class="chip bad">not calculated</span></td></tr>
     <tr><td>Higgs vacuum value</td><td class="num">1</td><td>From G<sub>F</sub>; an input</td><td><span class="chip info">input</span></td></tr>
@@ -350,7 +350,8 @@ python3 production_v2_2.py --certify            # also prove the texture exclusi
       vals["bx.tm1d"] = Math.round(bx.tm1_delta); vals["bx.seesaw"] = sci(bx.seesaw_max, 1);
       vals["bx.mgut"] = sci(bx.M_GUT, 1);
     }
-    if (D.proton) { vals["pd.tau"] = sci(D.proton.tau, 1); vals["pd.ratio"] = Math.round(D.proton.ratio); }
+    if (D.proton) { vals["pd.tau"] = sci(D.proton.tau, 1); vals["pd.ratio"] = Math.round(D.proton.ratio);
+                    if (D.proton.d5) vals["pd.d5"] = sci(D.proton.d5, 0); }
     if (D.joint) {
       var j = D.joint;
       vals["jt.smU"] = Math.round(j.sm_U); vals["jt.smB"] = Math.round(j.sm_B); vals["jt.smH"] = j.sm_H.toFixed(1);

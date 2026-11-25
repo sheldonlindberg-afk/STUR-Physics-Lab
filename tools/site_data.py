@@ -92,7 +92,8 @@ def main():
     pmssm = [r for r in res["proton_decay"]["rows"] if r["M_S"]][0]
     data = {
         "beyond": beyond,
-        "proton": {"tau": pmssm["tau_years"], "ratio": pmssm["ratio_to_limit"]},
+        "proton": {"tau": pmssm["tau_years"], "ratio": pmssm["ratio_to_limit"],
+                   "d5": max((r["tau_max"] for r in res["proton_decay"]["d5"]), default=None)},
         "criticality": {
             "m_h_pred": cr["central"]["m_h"], "sigma": cr["sigma_total"], "m_h_meas": mh_meas,
             "m_h_tree": cr["tree_matching"]["m_h"],
