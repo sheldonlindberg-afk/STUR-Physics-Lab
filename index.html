@@ -137,6 +137,7 @@
       <a href="#theories">Which theory?</a>
       <a href="#textures">Quark textures</a>
       <a href="#beyond">Masses, θ, ν</a>
+      <a href="#scorecard">Scorecard</a>
       <a href="#numbers">Nature's numbers</a>
       <a href="#method">Method</a>
       <a href="#run">Run it</a>
@@ -246,6 +247,20 @@
       <p>Every fixed pattern (tribimaximal, bimaximal, golden ratio, hexagonal) is excluded by θ<sub>13</sub> at <span data-v="bx.t13">39</span>σ. TM1 survives: θ<sub>13</sub> and θ<sub>23</sub> fix its two unknowns, and it predicts sin²θ<sub>12</sub> = <span data-v="bx.tm1">0.318</span> (<span data-v="bx.tm1s">0.9</span>σ) and δ ≈ <span data-v="bx.tm1d">262</span>°.</p></div>
   </div>
 
+  <p class="kicker">Part U</p>
+  <h2 id="scorecard">Which complete theory survives everything?</h2>
+  <p>Each hypothesis is tested against every condition, with the verdict the stage that computes it reached. A <i>trade</i> means an unknown absorbs the condition, so nothing is tested.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Condition</th><th>SM to M<sub>P</sub></th><th>minimal SUSY SU(5)</th><th>SO(10) via Pati–Salam</th></tr>
+    <tr><td>Gauge unification</td><td><span class="chip bad">fails</span></td><td><span class="chip info">trade</span></td><td><span class="chip good">solved</span></td></tr>
+    <tr><td>Higgs mass</td><td><span class="chip bad">3.3σ</span></td><td><span class="chip bad">≤ 103 GeV</span></td><td><span class="chip good"><span data-v="sc.mh">126.1</span> GeV</span></td></tr>
+    <tr><td>Neutrino masses</td><td><span class="chip info">Dirac, unexplained</span></td><td><span class="chip info">trade</span></td><td><span class="chip good">seesaw at M<sub>I</sub></span></td></tr>
+    <tr><td>Proton decay</td><td><span class="chip good">stable</span></td><td><span class="chip bad">fails (ν̄K⁺)</span></td><td><span class="chip good">passes</span></td></tr>
+    <tr><td>Baryon asymmetry</td><td><span class="chip bad">no mechanism</span></td><td><span class="chip info">trade</span></td><td><span class="chip info">leptogenesis possible</span></td></tr>
+    <tr><td>Strong CP</td><td><span class="chip info">open</span></td><td><span class="chip info">open</span></td><td><span class="chip info">axion at M<sub>I</sub></span></td></tr>
+  </table></div>
+  <p>Only non-supersymmetric SO(10) through Pati–Salam fails nothing at this order. It still predicts nothing: its scales are solved from the measured couplings. The entry to watch is the Higgs mass. Moving the criticality condition from the Planck scale to the intermediate scale M<sub>I</sub> gives <span data-v="sc.mh">126.1</span> GeV against 125.20 measured, though nothing yet explains why λ should vanish there.</p>
+
   <p class="kicker">The scoreboard</p>
   <h2 id="numbers">Nature's free numbers, one by one</h2>
   <div class="tablewrap"><table>
@@ -296,7 +311,7 @@
     </div>
     <p class="status" id="copy-status" role="status" aria-live="polite">One file, standard library only. Paste it into any Python 3.8+ runner, notebook or AI assistant's code tool. It runs in about 6 minutes. Expected output: <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/production_v2_2.txt">results/production_v2_2.txt</a>.</p>
   </div>
-<pre>python3 production_v2_2.py                     # full report, Parts A to T
+<pre>python3 production_v2_2.py                     # full report, Parts A to U
 python3 production_v2_2.py --json-out out.json # every number, as JSON
 python3 production_v2_2.py --set M_t=173.5      # change an input; the whole model is recalculated
 python3 production_v2_2.py --certify            # also prove the texture exclusions (about 10 more minutes)</pre>
@@ -355,6 +370,7 @@ python3 production_v2_2.py --certify            # also prove the texture exclusi
     }
     if (D.proton) { vals["pd.tau"] = sci(D.proton.tau, 1); vals["pd.ratio"] = Math.round(D.proton.ratio);
                     if (D.proton.d5) vals["pd.d5"] = sci(D.proton.d5, 0); }
+    if (D.scorecard) { vals["sc.mh"] = D.scorecard.m_h.toFixed(1); }
     if (D.joint) {
       var j = D.joint;
       vals["jt.smU"] = Math.round(j.sm_U); vals["jt.smB"] = Math.round(j.sm_B); vals["jt.smH"] = j.sm_H.toFixed(1);

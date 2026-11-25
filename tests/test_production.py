@@ -504,6 +504,18 @@ def test_so10():
     assert ps["tau_p_allowed"] and ps["M_I_in_leptogenesis_window"]
 
 
+def test_scorecard():
+    """Part U: SM to M_P fails unification and the baryon asymmetry; minimal SUSY SU(5) fails the Higgs
+    mass and proton decay; SO(10) via Pati-Salam fails nothing at this order (lambda(M_I) = 0 near 126 GeV)."""
+    sc = RESULT["scorecard"]
+    v = sc["verdict"]
+    assert {"U", "A"} <= set(v["SM to M_P"]["fails"])
+    assert {"H", "P"} <= set(v["minimal SUSY SU(5)"]["fails"])
+    assert v["SO(10) via Pati-Salam"]["fails"] == [] and sc["survivors"] == ["SO(10) via Pati-Salam"]
+    ph = sc["pati_salam_higgs"]
+    assert 125 < ph["m_h"] < 127.5 and abs(ph["pull"]) < 3
+
+
 def test_website_data_is_current():
     """assets/site-data.js (written by tools/site_data.py) shows the numbers the script computes."""
     import json

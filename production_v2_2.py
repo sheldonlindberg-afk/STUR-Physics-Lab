@@ -551,6 +551,9 @@ STAGES: Dict[str, Dict[str, str]] = {
     "so10": {"part": "T", "level": "conditional",
              "assumes": "SO(10) with one 16 per family; minimal Yukawas from one 10_H; the Pati-Salam chain with "
                         "scalars (1,2,2) + (10,1,3), one-loop running, no thresholds"},
+    "scorecard": {"part": "U", "level": "conditional",
+                  "assumes": "three complete hypotheses, each condition judged by the stage that computes it; for "
+                             "Pati-Salam the Higgs condition is lambda(M_I) = 0"},
     "self_checks": {"part": "-", "level": "validation", "assumes": "tests the calculation, not the physics"},
 }
 
@@ -5295,6 +5298,83 @@ def so10(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any
 
 
 # =============================================================================
+# 6s. PART U: THE SCORECARD, EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
+# =============================================================================
+# Part M weighs the high-energy hypotheses against unification, b-tau and the Higgs mass. Parts
+# P-T add neutrino masses, proton decay, the baryon asymmetry, the strong CP angle and a third
+# hypothesis. Here each complete hypothesis meets every condition, with the verdict each earlier
+# stage computed:
+#   SM to M_P              nothing new below the Planck mass (neutrinos Dirac)
+#   minimal SUSY SU(5)     the MSSM above Part I's M_S, unified at M_GUT (Parts I, J, K, Q)
+#   SO(10) via Pati-Salam  the SM up to M_I, SU(4) x SU(2)_L x SU(2)_R up to M_GUT (Part T)
+# Each entry is one of: pass, fail (with its sigma or reason), trade (an unknown absorbs the
+# condition, so nothing is tested), or open (no mechanism in that hypothesis).
+# For the Pati-Salam chain the Higgs condition is lambda(M_I) = 0, Part L's criticality moved to
+# the scale where the SM ends: computed with Part L's own running and matching.
+def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any], pdk: Dict[str, Any],
+              nus: Dict[str, Any], bau: Dict[str, Any], s10: Dict[str, Any], scp: Dict[str, Any]) -> Dict[str, Any]:
+    mh, mh_s, _ = _comparison("m_h")
+    surv = num("survival_sigma")
+    rows: Dict[str, Dict[str, Dict[str, Any]]] = {}
+
+    def entry(status: str, detail: str, sigma: float | None = None) -> Dict[str, Any]:
+        return {"status": status, "detail": detail, "sigma": sigma}
+    # --- SM up to M_P
+    sp = joint["SM_pulls"]
+    sm = {"U": entry("fail", "the couplings do not meet", abs(sp["U"])),
+          "B": entry("fail", "y_b/y_tau far from 1 where g1 = g2", abs(sp["B"])),
+          "H": entry("fail" if abs(sp["H"]) > surv else "pass", "lambda(M_P) = 0 (Part L)", abs(sp["H"])),
+          "N": entry("trade", f"Dirac Yukawas up to {max(nus['orderings']['NO']['seesaw']['dirac_yukawa']):.0e}, unexplained"),
+          "P": entry("pass", "no grand unification: B is conserved in perturbation theory"),
+          "A": entry("fail", "no out-of-equilibrium step, CP violation 14 orders short (Part S)"),
+          "T": entry("open", "theta-bar bounded, not explained (Part O)")}
+    rows["SM to M_P"] = sm
+    # --- minimal SUSY SU(5)
+    d5max = max((r["tau_max"] for r in pdk["d5"]), default=math.nan)
+    mssm_rows = {tuple(r["conditions"]): r for r in joint["rows"] if r["hypothesis"].startswith("MSSM")}
+    all3 = mssm_rows.get(("U", "B", "H"))
+    su5 = {"U": entry("trade", "M_S chosen by the measured alpha (Part I)"),
+           "B": entry("trade", "tan(beta) chosen by b-tau (Part J)"),
+           "H": entry("fail", f"m_h <= {higgs['mh_upper_bound']:.1f} GeV at those scales (Part K)",
+                      all3["n_sigma"] if all3 else None),
+           "N": entry("trade", "seesaw available, scale unknown"),
+           "P": entry("fail", f"p -> nubar K+ at most {d5max:.0e} years against {pdk['limit_K_nu']:.1e} (Part Q)"),
+           "A": entry("trade", "leptogenesis possible above M_1 ~ 3e8 GeV; gravitinos not checked"),
+           "T": entry("open", "needs an axion or another mechanism")}
+    rows["minimal SUSY SU(5)"] = su5
+    # --- SO(10) via Pati-Salam
+    ps = s10["pati_salam"]
+    m_i = ps["M_I"]
+    crit_mi = predict_higgs_mass_nnlo(None, m_i, 3, crit["central"]["m_h"], anchor=crit["smdr"])
+    sig_h = math.hypot(crit["sigma_total"], mh_s)
+    pull_h = (crit_mi["m_h"] - mh) / sig_h
+    m3 = nus["orderings"]["NO"]["seesaw"]["m_heaviest_eV"] * 10 ** -9
+    v = crit["state_mt"][1]
+    y_needed = math.sqrt(2 * m_i * m3) / v                      # Dirac Yukawa if M_R = M_I
+    pso = {"U": entry("pass" if ps["consistent"] else "fail",
+                      f"M_I = {m_i:.1e}, M_GUT = {ps['M_GUT']:.1e} GeV solve the three couplings (no prediction)"),
+           "B": entry("open", "no b-tau relation without a Yukawa structure (minimal 10_H excluded, Part T)"),
+           "H": entry("fail" if abs(pull_h) > surv else "pass",
+                      f"lambda(M_I) = 0 gives m_h = {crit_mi['m_h']:.2f} GeV", abs(pull_h)),
+           "N": entry("pass", f"seesaw at M_I with a Dirac Yukawa of {y_needed:.2f} for the heaviest neutrino"),
+           "P": entry("pass" if ps["tau_p_allowed"] else "fail",
+                      f"p -> e+ pi0 in {ps['tau_p_years']:.0e} years against {ps['tau_p_limit']:.1e}"),
+           "A": entry("trade" if ps["M_I_in_leptogenesis_window"] else "fail",
+                      "leptogenesis needs M_1 between 3e8 GeV and M_I: allowed, not computed"),
+           "T": entry("trade", f"an axion at f_a = M_I would give m_a = {ps['axion_m_a_eV_if_fa_MI'] * 10 ** 6:.0f} micro-eV")}
+    rows["SO(10) via Pati-Salam"] = pso
+    conditions = {"U": "gauge unification", "B": "b-tau unification", "H": "Higgs mass", "N": "neutrino masses",
+                  "P": "proton decay", "A": "baryon asymmetry", "T": "strong CP"}
+    verdict = {h: {"fails": [c for c, e in r.items() if e["status"] == "fail"],
+                   "trades": [c for c, e in r.items() if e["status"] == "trade"],
+                   "passes": [c for c, e in r.items() if e["status"] == "pass"],
+                   "open": [c for c, e in r.items() if e["status"] == "open"]} for h, r in rows.items()}
+    return {"rows": rows, "conditions": conditions, "verdict": verdict,
+            "pati_salam_higgs": {"m_h": crit_mi["m_h"], "sigma": sig_h, "pull": pull_h, "M_I": m_i},
+            "survivors": [h for h, v_ in verdict.items() if not v_["fails"]]}
+
+
+# =============================================================================
 # 7. COSMOLOGY (Decimal arithmetic)
 # =============================================================================
 def dec_pi() -> Decimal:
@@ -5692,6 +5772,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     anom = _stage("anomalies", lambda: anomaly_constraints(yuk))
     bau = _stage("baryon_asymmetry", lambda: baryon_asymmetry(cosmo, flav, nus))
     s10 = _stage("so10", lambda: so10(flav, alpha_unif, yukawa, scp, bau, pdk))
+    score = _stage("scorecard", lambda: scorecard(joint, higgs, crit, pdk, nus, bau, s10, scp))
     _TRACE["stage"] = "self_checks"                 # everything below validates the stages above
     _TRACE["inputs"].setdefault("self_checks", set())
     checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
@@ -5949,7 +6030,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
             "symmetry": symm, "closure": closure, "quantum_gravity": qg, "alpha_unification": alpha_unif,
             "alpha_numerology": alpha_num, "yukawa": yukawa, "higgs": higgs, "criticality": crit,
             "joint": joint, "mass_formulas": masses, "strong_cp": scp, "neutrinos": nus, "proton_decay": pdk,
-            "anomalies": anom, "baryon_asymmetry": bau, "so10": s10,
+            "anomalies": anom, "baryon_asymmetry": bau, "so10": s10, "scorecard": score,
             "survey_certificates": certs, "checks": checks, "lineage": lin,
             "changed_inputs": dict(_TRACE["set"]),
             "precision": prec}
@@ -6974,6 +7055,30 @@ def report(res: Dict[str, Any]) -> str:
             "two-loop running and the thresholds at M_I and M_GUT decide whether it holds, and Part L's SM then "
             "runs only up to M_I.", 2))
     w("")
+    sc_ = res["scorecard"]
+    w("PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION")
+    w("-" * 78)
+    w("  Each hypothesis meets every condition, with the verdict the earlier parts computed:")
+    w("    pass / fail (sigma or reason) / trade (an unknown absorbs the condition: nothing tested) /")
+    w("    open (no mechanism in that hypothesis).")
+    for h, r_ in sc_["rows"].items():
+        w(f"  {h}")
+        for c, e in r_.items():
+            sg = f" ({e['sigma']:.1f} sigma)" if e["sigma"] is not None else ""
+            w(_wrap(f"{sc_['conditions'][c]:<18s} {e['status']:<6s}{sg}: {e['detail']}", 4, 100))
+    ph = sc_["pati_salam_higgs"]
+    w(f"  Pati-Salam's Higgs condition, lambda(M_I) = 0 at M_I = {ph['M_I']:.2e} GeV (Part L's running and matching):")
+    w(f"    m_h = {ph['m_h']:.2f} +/- {ph['sigma']:.2f} GeV against {_comparison('m_h')[0]:.2f}: {ph['pull']:+.1f} sigma."
+      " Why lambda should vanish at M_I is not established:")
+    w("    the scalar sector changes there. A test, not a derivation.")
+    for h, v_ in sc_["verdict"].items():
+        w(_wrap(f"{h}: fails {', '.join(sc_['conditions'][c] for c in v_['fails']) or 'nothing'}; trades "
+                f"{len(v_['trades'])}, open {len(v_['open'])}, passes {len(v_['passes'])}.", 2))
+    w(_wrap("RESULT: " + ("surviving every condition tested so far: " + ", ".join(sc_["survivors"])
+                          + ". It predicts nothing yet: its scales are solved from the couplings, and its passes are "
+                            "consistency, not calculation; two-loop running and thresholds come next."
+                          if sc_["survivors"] else "no complete hypothesis survives every condition."), 2))
+    w("")
     w("THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)")
     w("-" * 78)
     lin = res["lineage"]
@@ -7056,6 +7161,7 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
         "mass_formulas": res["mass_formulas"], "strong_cp": res["strong_cp"], "neutrinos": res["neutrinos"],
         "proton_decay": res["proton_decay"], "anomalies": res["anomalies"],
         "baryon_asymmetry": res["baryon_asymmetry"], "so10": res["so10"],
+        "scorecard": res["scorecard"],
         "survey_certificates": res["survey_certificates"],
         "model": {"stages": STAGES, "lineage": res["lineage"], "changed_inputs": res["changed_inputs"],
                   "audit_findings": [{"status": a, "finding": b} for a, b in AUDIT_FINDINGS]},

@@ -50,9 +50,20 @@ Status: [x] done, [~] in progress, [ ] not started.
       (SU(3) x SU(2)_L x SU(2)_R x U(1)_{B-L}, with and without D-parity); operator running above M_I
       in the proton lifetime; Part L's lambda running only up to M_I (new vacuum-stability test).
 
-## Phase 5: extend Part M
-- [ ] Add neutrino masses, the strong CP solution, proton decay and eta_B as conditions; one table
-      of which complete hypothesis survives everything.
+## Phase 5: one scorecard (Part U) -- done (first pass)
+- [x] Three complete hypotheses (SM to M_P, minimal SUSY SU(5), SO(10) via Pati-Salam) against
+      unification, b-tau, Higgs mass, neutrino masses, proton decay, baryon asymmetry, strong CP.
+      Result: only SO(10) via Pati-Salam fails nothing at one loop; lambda(M_I) = 0 gives
+      m_h = 126.1 GeV (~1 sigma). Open: the justification for lambda(M_I) = 0; fold the new
+      conditions into Part M's chi^2 machinery.
+
+## Next round (proposed order)
+1. Two-loop Pati-Salam running with thresholds; the other SO(10) chains (2_L 2_R 3_C 1_{B-L},
+   D-parity); does any chain predict a number (e.g. sin^2 theta_W or alpha_s) once thresholds are
+   fixed by the scalar spectrum?
+2. Lambda's running above M_I in the Pati-Salam scalar sector: what lambda(M_I) really is.
+3. Proton decay above M_I with the Pati-Salam operator running; the dimension-5 factor-2.2 debug.
+4. Leptogenesis efficiency kappa from the Boltzmann equations, with M_1 tied to M_I.
 
 ## Later
 - One running for every coupling (matrix Yukawas to M_GUT); GUT and superpartner thresholds;

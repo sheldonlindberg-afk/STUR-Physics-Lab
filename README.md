@@ -601,6 +601,32 @@ SO(10) puts a whole family, with a right-handed neutrino, into one 16.
   running and the thresholds decide whether it holds. In this picture Part L's SM runs only up to
   M_I.
 
+**Part U: the scorecard, every complete hypothesis against every condition**
+
+Part M weighs the high-energy hypotheses against unification, b–τ and the Higgs mass. Parts P–T add
+neutrino masses, proton decay, the baryon asymmetry, the strong CP angle and a third hypothesis.
+Each entry below is the verdict the stage that computes it reached. *Trade* means an unknown
+absorbs the condition, so nothing is tested; *open* means that hypothesis has no mechanism for it.
+
+| Condition | SM to M_P | minimal SUSY SU(5) | SO(10) via Pati–Salam |
+|---|---|---|---|
+| gauge unification | fail (79σ) | trade (M_S) | pass (M_I, M_GUT solved) |
+| b–τ unification | fail (79σ) | trade (tan β) | open |
+| Higgs mass | fail (3.3σ; 2.95σ with theory errors) | fail (m_h ≤ 103 GeV) | pass: λ(M_I) = 0 gives 126.1 GeV (~1σ) |
+| neutrino masses | trade (Dirac, y ~ 3×10⁻¹³) | trade | pass (seesaw at M_I, y ≈ 0.03) |
+| proton decay | pass (no GUT) | fail (p → ν̄K⁺, 4 orders short) | pass (6×10³⁵ yr) |
+| baryon asymmetry | fail (no mechanism) | trade | trade (leptogenesis window open) |
+| strong CP | open | open | trade (axion at f_a = M_I: m_a ≈ 10 μeV) |
+
+The only hypothesis that fails nothing at this order is non-supersymmetric SO(10) through
+Pati–Salam. It also predicts nothing yet: its scales are solved from the couplings, and its passes
+are consistency checks, not calculations.
+
+The Higgs entry is the one to watch. Moving Part L's criticality condition from M_P to M_I gives
+126.1 GeV, against 125.20 measured. But nothing establishes why λ should vanish at M_I, where the
+scalar sector changes. That makes it a test, possibly a coincidence. Two-loop running and the
+thresholds come next ([ROADMAP.md](ROADMAP.md)).
+
 ## What changed from production v1
 
 The first version of `production_v2_2.py` (commit `2fa12f0`) gave χ² ≈ 3,600 for its Fritzsch
