@@ -817,6 +817,16 @@ PART T. SO(10)
         PS+D   m_h = 127.38 GeV
         LR     m_h = 123.32 GeV
         LR+D   m_h = 124.83 GeV
+  T6. What lambda(M_I) is. The heavy scalar that breaks the chain at M_I shifts the SM quartic at tree level
+      (Elias-Miro et al. 2012, eq. 5): lambda_SM(M_I) = lambda_H - lambda_HS^2/lambda_S, a shift that is >= 0
+      and unknown. So lambda(M_I) = 0 is not a condition of the theory. What is fixed: the vacuum is stable
+      only if the SM's lambda stays positive up to M_I, i.e. M_I below the scale mu_0 where it turns negative.
+      mu_0 = 6.20e+10 GeV for the measured m_h (2.3e+10 to 2.0e+11 for M_t +/- 1 sigma)
+        PS     M_I = 1.4e+11: lambda_SM(M_I) = -0.0013  ->  metastable SM between mu_0 and M_I
+        PS+D   M_I = 4.4e+13: lambda_SM(M_I) = -0.0073  ->  metastable SM between mu_0 and M_I
+        LR     M_I = 2.8e+09: lambda_SM(M_I) = +0.0061  ->  the threshold can stabilize the vacuum
+        LR+D   M_I = 3.0e+10: lambda_SM(M_I) = +0.0012  ->  the threshold can stabilize the vacuum
+      The 'lambda(M_I) = 0' Higgs masses above only say how close each chain's M_I lies to mu_0.
   RESULT: SO(10) calculates the hypercharges' normalization (sin^2 theta_W =
     3/8 at unification) and requires the right-handed neutrino; its minimal
     Yukawa relations are excluded. Without supersymmetry, the Pati-Salam
@@ -840,6 +850,7 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     proton decay pass : no grand unification: B is conserved in perturbation theory
     baryon asymmetry fail : no out-of-equilibrium step, CP violation 14 orders short (Part S)
     strong CP open : theta-bar bounded, not explained (Part O)
+    vacuum stability open : metastable: lambda turns negative at 6.2e+10 GeV (Part L)
   minimal SUSY SU(5)
     gauge unification trade : M_S chosen by the measured alpha (Part I)
     b-tau unification trade : tan(beta) chosen by b-tau (Part J)
@@ -848,6 +859,7 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     proton decay fail : p -> nubar K+ at most 9e+29 years against 5.9e+33 (Part Q)
     baryon asymmetry trade : leptogenesis possible above M_1 ~ 3e8 GeV; gravitinos not checked
     strong CP open : needs an axion or another mechanism
+    vacuum stability pass : lambda is fixed positive by supersymmetry above M_S
   SO(10) via PS
     gauge unification pass : M_I = 1.4e+11, M_GUT = 8.0e+15 GeV solve the three couplings (no
       prediction)
@@ -858,6 +870,8 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     proton decay pass : p -> e+ pi0 in 2e+35 years against 2.4e+34
     baryon asymmetry trade : leptogenesis needs M_1 between 3e8 GeV and M_I: allowed, not computed
     strong CP trade : an axion at f_a = M_I would give m_a = 41 micro-eV
+    vacuum stability open : metastable between mu_0 and M_I; M_I lies inside mu_0's top-mass band
+      (2e+10 to 2e+11 GeV)
   SO(10) via PS+D
     gauge unification pass : M_I = 4.4e+13, M_GUT = 8.4e+14 GeV solve the three couplings (no
       prediction)
@@ -868,6 +882,7 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     proton decay fail : p -> e+ pi0 in 2e+31 years against 2.4e+34
     baryon asymmetry trade : leptogenesis needs M_1 between 3e8 GeV and M_I: allowed, not computed
     strong CP trade : an axion at f_a = M_I would give m_a = 0.13 micro-eV
+    vacuum stability open : metastable between mu_0 and M_I
   SO(10) via LR
     gauge unification pass : M_I = 2.8e+09, M_GUT = 1.5e+16 GeV solve the three couplings (no
       prediction)
@@ -878,6 +893,8 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     proton decay pass : p -> e+ pi0 in 2e+36 years against 2.4e+34
     baryon asymmetry trade : leptogenesis needs M_1 between 3e8 GeV and M_I: allowed, not computed
     strong CP trade : an axion at f_a = M_I would give m_a = 2.1e+03 micro-eV
+    vacuum stability pass : M_I below mu_0 = 6.2e+10 GeV: a scalar threshold can stabilize the
+      vacuum
   SO(10) via LR+D
     gauge unification pass : M_I = 3.0e+10, M_GUT = 2.3e+15 GeV solve the three couplings (no
       prediction)
@@ -888,6 +905,8 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     proton decay fail : p -> e+ pi0 in 9e+32 years against 2.4e+34
     baryon asymmetry trade : leptogenesis needs M_1 between 3e8 GeV and M_I: allowed, not computed
     strong CP trade : an axion at f_a = M_I would give m_a = 1.9e+02 micro-eV
+    vacuum stability pass : M_I below mu_0 = 6.2e+10 GeV: a scalar threshold can stabilize the
+      vacuum
   The chains' Higgs condition, lambda(M_I) = 0 where the SM ends (Part L's running and matching):
     PS     M_I = 1.40e+11 GeV: m_h = 125.58 +/- 0.96 GeV, +0.4 sigma
     PS+D   M_I = 4.37e+13 GeV: m_h = 127.38 +/- 0.96 GeV, +2.3 sigma
@@ -895,13 +914,13 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     LR+D   M_I = 3.04e+10 GeV: m_h = 124.83 +/- 0.96 GeV, -0.4 sigma
     Why lambda should vanish at M_I is not established (the scalar sector changes there): a test.
   SM to M_P: fails gauge unification, b-tau unification, Higgs mass, baryon
-    asymmetry; trades 1, open 1, passes 1.
+    asymmetry; trades 1, open 2, passes 1.
   minimal SUSY SU(5): fails Higgs mass, proton decay; trades 4, open 1,
-    passes 0.
-  SO(10) via PS: fails nothing; trades 2, open 1, passes 4.
-  SO(10) via PS+D: fails proton decay; trades 2, open 1, passes 3.
-  SO(10) via LR: fails nothing; trades 2, open 1, passes 4.
-  SO(10) via LR+D: fails proton decay; trades 2, open 1, passes 3.
+    passes 1.
+  SO(10) via PS: fails nothing; trades 2, open 2, passes 4.
+  SO(10) via PS+D: fails proton decay; trades 2, open 2, passes 3.
+  SO(10) via LR: fails nothing; trades 2, open 1, passes 5.
+  SO(10) via LR+D: fails proton decay; trades 2, open 1, passes 4.
   RESULT: surviving every condition tested so far: SO(10) via PS, SO(10) via
     LR. It predicts nothing yet: its scales are solved from the couplings,
     and its passes are consistency, not calculation; two-loop running and
@@ -1184,4 +1203,4 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (23 stages, 59 edges)
   58/58 checks pass
 ==============================================================================
-Elapsed: 417.2 s
+Elapsed: 427.3 s
