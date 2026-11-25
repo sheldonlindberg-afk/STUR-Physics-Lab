@@ -544,6 +544,24 @@ SU(5) with one superpartner scale is excluded by proton decay**, as it is by the
 The limit would need M_HC ≈ 10¹⁸ GeV or superpartners near 200 TeV. Open item: the higgsino part is a
 factor 2.2 shorter-lived than Hisano et al.'s scaling formula (eq. 19), which is to be debugged.
 
+**Part R: what anomaly cancellation fixes (exact)**
+
+A chiral gauge theory is consistent only if its gauge anomalies cancel. These are exact conditions
+on the charges, and the one place where the Standard Model's quantum numbers are calculated:
+
+* **Hypercharges.** One family with unknown hypercharges, under [SU(3)]²U(1), [SU(2)]²U(1),
+  [gravity]²U(1) and U(1)³, solved exactly in rational arithmetic. Two solutions remain, which are
+  the SM's assignment under the two namings of u^c and d^c. A third branch, with Y_Q = 0, also
+  cancels, but it allows no Yukawa coupling. Requiring Yukawas gives the SM uniquely.
+* **Charge quantization.** It follows: q_u = 2/3, q_d = −1/3, q_e = −1, so the proton plus the
+  electron has charge 0, and so does the neutron.
+* **Right-handed neutrino.** It reopens one direction: SM + ε(B − L) cancels for every ε. Hydrogen
+  stays neutral, but the neutron gets charge ε. A Majorana mass, as in Part P's seesaw, forces ε = 0.
+* **Witten's SU(2) anomaly.** There are 4 doublets per family, an even number, so it cancels.
+* **3-3-1 (Part D).** [SU(3)_L]³ cancels only if N_f(N_c − 1) = 2N_c·k, so for N_c = 3 the number of
+  families is a multiple of 3: 3, 6, 9, and so on. Asymptotic freedom of QCD then leaves **exactly
+  three families**, the one free integer of the SM that a gauge theory calculates.
+
 ## What changed from production v1
 
 The first version of `production_v2_2.py` (commit `2fa12f0`) gave χ² ≈ 3,600 for its Fritzsch

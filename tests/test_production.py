@@ -451,6 +451,24 @@ def test_proton_decay():
         assert abs(r["A_L"] - 0.53) < 0.06                    # Hisano et al., eq. 25 (one-loop alpha_s)
 
 
+def test_anomalies():
+    """Part R: anomaly cancellation plus Yukawas give the SM hypercharges uniquely and quantize charge;
+    nu_R opens B - L (neutron charge eps); 3-3-1 needs N_f a multiple of 3, asymptotic freedom leaves 3."""
+    from fractions import Fraction as Fr
+    an = RESULT["anomalies"]
+    hy = an["hypercharge"]
+    assert hy["all_cancel"] and len(hy["solutions"]) == 2 and len(hy["with_yukawas"]) == 1
+    assert hy["with_yukawas"][0] == {"Q": Fr(1, 6), "u^c": Fr(-2, 3), "d^c": Fr(1, 3), "L": Fr(-1, 2), "e^c": Fr(1)}
+    ch = hy["charges"]
+    assert (ch["u"], ch["d"], ch["e"], ch["nu"]) == (Fr(2, 3), Fr(-1, 3), Fr(-1), Fr(0))
+    assert ch["proton_plus_electron"] == 0 and ch["neutron"] == 0
+    assert hy["Y_Q_zero_branch_cancels"] and not hy["Y_Q_zero_branch_has_yukawas"]
+    assert hy["nu_R_family_cancels"] and hy["nu_R_hydrogen_charge"] == 0 and hy["nu_R_neutron_charge_per_eps"] == 1
+    assert an["witten_doublets_per_family"] % 2 == 0
+    assert an["331_part_D"]["SU3L_cubed"] == 0
+    assert [a["families"] for a in an["331_allowed"]] == [3, 6, 9] and an["331_families_with_af"] == [3]
+
+
 def test_website_data_is_current():
     """assets/site-data.js (written by tools/site_data.py) shows the numbers the script computes."""
     import json

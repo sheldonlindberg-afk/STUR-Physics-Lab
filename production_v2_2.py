@@ -535,6 +535,9 @@ STAGES: Dict[str, Dict[str, str]] = {
                      "assumes": "minimal SU(5): gauge bosons at M_X = M_GUT, colour triplet at M_HC = M_GUT, every "
                                 "superpartner at M_S (Part I), tan(beta) from Part J; GUT phases scanned; one-loop "
                                 "operator running; GUT thresholds unknown"},
+    "anomalies": {"part": "R", "level": "exact",
+                  "assumes": "one family of the SM's representations (and Part D's 3-3-1 families); "
+                             "Yukawa couplings for every charged fermion"},
     "self_checks": {"part": "-", "level": "validation", "assumes": "tests the calculation, not the physics"},
 }
 
@@ -4922,6 +4925,120 @@ def proton_decay(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[
 
 
 # =============================================================================
+# 6p. PART R: WHAT ANOMALY CANCELLATION FIXES (exact)
+# =============================================================================
+# A chiral gauge theory is consistent only if its gauge anomalies cancel. These are exact
+# polynomial conditions on the charges, and they are the one place where the Standard Model's
+# "free" quantum numbers are calculated:
+#   R1. hypercharges: with one family of the SM's representations and unknown hypercharges,
+#       [SU(3)]^2 U(1), [SU(2)]^2 U(1), [gravity]^2 U(1) and U(1)^3 leave the SM's assignment
+#       (up to normalization and naming u^c <-> d^c) or a branch with Y_Q = 0; the Yukawa
+#       couplings select the SM. Electric charge is then quantized: q_p + q_e = 0 exactly.
+#       A right-handed neutrino reopens one direction (B - L); a Majorana mass closes it.
+#   R2. Witten's global SU(2) anomaly: an even number of doublets.
+#   R3. 3-3-1 (Part D): [SU(3)_L]^3 cancels only if the number of families is a multiple of the
+#       number of colours; with QCD asymptotically free, exactly three families.
+FIELDS_ONE_FAMILY = (("Q", 3, 2), ("u^c", 3, 1), ("d^c", 3, 1), ("L", 1, 2), ("e^c", 1, 1))
+
+
+def sm_anomalies(y: Dict[str, Fr], extra: Sequence[Tuple[str, int, int]] = ()) -> Dict[str, Fr]:
+    """The four hypercharge anomalies of one family (left-handed Weyl fields)."""
+    fields = FIELDS_ONE_FAMILY + tuple(extra)
+    return {"SU3^2 U1": sum(y[n] * d2 for n, d3, d2 in fields if d3 == 3),
+            "SU2^2 U1": sum(y[n] * d3 for n, d3, d2 in fields if d2 == 2),
+            "grav^2 U1": sum(y[n] * d3 * d2 for n, d3, d2 in fields),
+            "U1^3": sum(y[n] ** 3 * d3 * d2 for n, d3, d2 in fields)}
+
+
+def _rational_sqrt(q: Fr) -> Fr | None:
+    if q < 0:
+        return None
+    n, d = math.isqrt(q.numerator), math.isqrt(q.denominator)
+    return Fr(n, d) if n * n == q.numerator and d * d == q.denominator else None
+
+
+def hypercharge_solutions() -> Dict[str, Any]:
+    """Every hypercharge assignment of one family with cancelling anomalies (exact)."""
+    # the three linear conditions give Y_L, Y_d, Y_e from Y_Q, Y_u; U(1)^3 is then quadratic in Y_u
+    def complete(yq: Fr, yu: Fr) -> Dict[str, Fr]:
+        return {"Q": yq, "u^c": yu, "d^c": -2 * yq - yu, "L": -3 * yq, "e^c": 6 * yq}
+    yq = Fr(1, 6)                                   # the normalization (any nonzero value scales)
+    pts = [Fr(k) for k in range(3)]
+    vals = [sm_anomalies(complete(yq, p))["U1^3"] for p in pts]
+    # quadratic through three points: a t^2 + b t + c
+    c = vals[0]
+    a = (vals[2] - 2 * vals[1] + vals[0]) / 2
+    b = vals[1] - vals[0] - a
+    disc = _rational_sqrt(b * b - 4 * a * c)
+    roots = sorted({(-b + s_ * disc) / (2 * a) for s_ in (1, -1)}) if disc is not None and a != 0 else []
+    sols = [complete(yq, r) for r in roots]
+    ok = all(all(v == 0 for v in sm_anomalies(s_).values()) for s_ in sols)
+    # the Y_Q = 0 branch: Y_L = Y_e = 0, Y_d = -Y_u, any Y_u (only right-handed quarks charged)
+    branch = complete(Fr(0), Fr(1))
+    branch_ok = all(v == 0 for v in sm_anomalies(branch).values())
+    # Yukawa couplings Q H u^c, Q H* d^c, L H* e^c: Y_H = -Y_Q - Y_u = Y_Q + Y_d = Y_L + Y_e
+    def yukawa_ok(s_: Dict[str, Fr]) -> bool:
+        yh = -s_["Q"] - s_["u^c"]
+        return yh == s_["Q"] + s_["d^c"] == s_["L"] + s_["e^c"] and yh != 0
+    sm_like = [s_ for s_ in sols if yukawa_ok(s_)]
+    out: Dict[str, Any] = {"solutions": sols, "all_cancel": ok, "Y_Q_zero_branch_cancels": branch_ok,
+                           "Y_Q_zero_branch_has_yukawas": yukawa_ok(branch), "with_yukawas": sm_like}
+    # charges: Q = T3 + Y / (2 Y_H), so that the Higgs' neutral component is neutral (a photon)
+    if sm_like:
+        s_ = sm_like[0]
+        yh = -s_["Q"] - s_["u^c"]
+        norm = 1 / (2 * yh)
+        q_u, q_d = Fr(1, 2) + s_["Q"] * norm, -Fr(1, 2) + s_["Q"] * norm
+        q_e = -Fr(1, 2) + s_["L"] * norm
+        out["charges"] = {"u": q_u, "d": q_d, "e": q_e, "nu": Fr(1, 2) + s_["L"] * norm,
+                          "proton_plus_electron": 2 * q_u + q_d + q_e, "neutron": q_u + 2 * q_d,
+                          "Y_H": yh}
+    # a right-handed neutrino nu^c (singlet): the SM plus eps (B - L) cancels for every eps
+    bl = {"Q": Fr(1, 3), "u^c": Fr(-1, 3), "d^c": Fr(-1, 3), "L": Fr(-1), "e^c": Fr(1), "nu^c": Fr(1)}
+    if sm_like:
+        base = dict(sm_like[0])
+        base["nu^c"] = Fr(0)
+        fam = [{k: base[k] + e * bl[k] for k in bl} for e in (Fr(1, 7), Fr(-2, 3), Fr(5))]
+        out["nu_R_family_cancels"] = all(all(v == 0 for v in sm_anomalies(f_, [("nu^c", 1, 1)]).values())
+                                         for f_ in fam)
+        f_ = fam[0]
+        yh = -f_["Q"] - f_["u^c"]
+        qu, qd = Fr(1, 2) + f_["Q"] / (2 * yh), -Fr(1, 2) + f_["Q"] / (2 * yh)
+        qe = -Fr(1, 2) + f_["L"] / (2 * yh)
+        # hydrogen has B - L = 0, so it stays neutral; the neutron (B - L = 1) does not
+        out["nu_R_hydrogen_charge"] = 2 * qu + qd + qe
+        out["nu_R_neutron_charge_per_eps"] = (qu + 2 * qd) / Fr(1, 7)
+        # Dirac Yukawa L H nu^c holds for every eps; a Majorana mass nu^c nu^c needs Y(nu^c) = 0, so eps = 0
+        out["nu_R_dirac_yukawa_ok"] = f_["L"] + yh + f_["nu^c"] == 0
+    return out
+
+
+def anomaly_constraints(yuk331: Dict[int, Dict[str, Any]]) -> Dict[str, Any]:
+    out: Dict[str, Any] = {"hypercharge": hypercharge_solutions()}
+    # R2. Witten: doublets per family (colour copies count)
+    per_family = sum(d3 for _, d3, d2 in FIELDS_ONE_FAMILY if d2 == 2)
+    out["witten_doublets_per_family"] = per_family
+    # R3. 3-3-1: [SU(3)_L]^3 = (#triplets - #antitriplets); leptons in triplets, quarks with colour
+    n_c = int(su_n_casimirs(3)[0])
+    q331 = yuk331[-1]["quarks"]
+    k_trip = sum(1 for q in q331.values() if q["rep"] == "3")
+    n_f = len(q331)
+    out["331_part_D"] = {"families": n_f, "quark_triplet_families": k_trip,
+                         "SU3L_cubed": n_f + n_c * k_trip - n_c * (n_f - k_trip)}
+    # every family number up to a bound, every split: which cancel?
+    allowed = []
+    for nf in range(1, 4 * n_c):
+        for k in range(nf + 1):
+            if nf + n_c * k - n_c * (nf - k) == 0:
+                # QCD: each 3-3-1 family has three quark flavours (two SM, one exotic)
+                b0 = Fr(11, 3) * n_c - Fr(2, 3) * 3 * nf
+                allowed.append({"families": nf, "triplet_families": k, "qcd_b0": b0, "asymptotically_free": b0 > 0})
+    out["331_allowed"] = allowed
+    out["331_families_with_af"] = [a["families"] for a in allowed if a["asymptotically_free"]]
+    return out
+
+
+# =============================================================================
 # 7. COSMOLOGY (Decimal arithmetic)
 # =============================================================================
 def dec_pi() -> Decimal:
@@ -5316,6 +5433,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     scp = _stage("strong_cp", lambda: strong_cp(flav, survey, scales, alpha_unif, planck))
     nus = _stage("neutrinos", lambda: neutrinos(cosmo, flav, alpha_unif, planck))
     pdk = _stage("proton_decay", lambda: proton_decay(flav, alpha_unif, yukawa))
+    anom = _stage("anomalies", lambda: anomaly_constraints(yuk))
     _TRACE["stage"] = "self_checks"                 # everything below validates the stages above
     _TRACE["inputs"].setdefault("self_checks", set())
     checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
@@ -5558,6 +5676,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
             "symmetry": symm, "closure": closure, "quantum_gravity": qg, "alpha_unification": alpha_unif,
             "alpha_numerology": alpha_num, "yukawa": yukawa, "higgs": higgs, "criticality": crit,
             "joint": joint, "mass_formulas": masses, "strong_cp": scp, "neutrinos": nus, "proton_decay": pdk,
+            "anomalies": anom,
             "survey_certificates": certs, "checks": checks, "lineage": lin,
             "changed_inputs": dict(_TRACE["set"]),
             "precision": prec}
@@ -6460,6 +6579,47 @@ def report(res: Dict[str, Any]) -> str:
             + (f"In the SM, X bosons where g1 = g2 would make the proton live {sms[0]['tau_years']:.0e} years: "
                "excluded, one more reason the SM cannot unify." if sms else ""), 2))
     w("")
+    an = res["anomalies"]
+    hy = an["hypercharge"]
+    w("PART R. WHAT ANOMALY CANCELLATION FIXES (exact)")
+    w("-" * 78)
+    w("  A chiral gauge theory is consistent only if its gauge anomalies cancel: exact conditions on the")
+    w("  charges, and the one place where the SM's quantum numbers are calculated, not measured.")
+    w("  R1. One family with the SM's representations and unknown hypercharges Y_Q, Y_u, Y_d, Y_L, Y_e:")
+    w("      [SU(3)]^2 U(1), [SU(2)]^2 U(1), [gravity]^2 U(1), U(1)^3. The three linear ones give Y_L, Y_d,")
+    w("      Y_e; U(1)^3 is then a quadratic, solved exactly (Y_Q = 1/6 sets the normalization):")
+    for s_ in hy["solutions"]:
+        w("        " + ", ".join(f"Y({k}) = {v}" for k, v in s_.items()))
+    w("      the two differ only by naming u^c and d^c. A branch with Y_Q = 0 also cancels"
+      f" ({hy['Y_Q_zero_branch_cancels']}), but only the")
+    w(f"      right-handed quarks are charged and no Yukawa coupling exists ({hy['Y_Q_zero_branch_has_yukawas']}).")
+    w("      With Yukawa couplings for every fermion: the SM's hypercharges, uniquely.")
+    ch = hy.get("charges")
+    if ch:
+        w(f"      Electric charge Q = T3 + Y/(2 Y_H): u {ch['u']}, d {ch['d']}, e {ch['e']}, nu {ch['nu']}."
+          f" Proton + electron: {ch['proton_plus_electron']};")
+        w(f"      neutron: {ch['neutron']}. Charge is quantized: atoms are neutral because the anomalies cancel.")
+    w(f"      With a right-handed neutrino, SM + eps (B - L) cancels for every eps ({hy['nu_R_family_cancels']}) and keeps")
+    w(f"      a Dirac Yukawa ({hy['nu_R_dirac_yukawa_ok']}): hydrogen stays neutral ({hy['nu_R_hydrogen_charge']}) but the"
+      f" neutron gets charge {hy['nu_R_neutron_charge_per_eps']} x eps.")
+    w("      A Majorana mass for nu^c (the seesaw of Part P) needs Y(nu^c) = 0, so eps = 0: quantization returns.")
+    w(f"  R2. Witten's SU(2) anomaly: {an['witten_doublets_per_family']} doublets per family (3 colours of Q, plus L): even, consistent.")
+    d3 = an["331_part_D"]
+    w(f"  R3. 3-3-1 (Part D): [SU(3)_L]^3 = #triplets - #antitriplets = {d3['SU3L_cubed']} for Part D's"
+      f" {d3['families']} families ({d3['quark_triplet_families']} quark family in a triplet).")
+    w("      With N_f families of lepton triplets and k quark families in triplets (N_c colours), it cancels")
+    w("      only if N_f (N_c - 1) = 2 N_c k. For N_c = 3:")
+    for a_ in an["331_allowed"]:
+        w(f"        N_f = {a_['families']}, k = {a_['triplet_families']}: QCD b0 = {a_['qcd_b0']}"
+          f" ({'asymptotically free' if a_['asymptotically_free'] else 'not asymptotically free'})")
+    fam = an["331_families_with_af"]
+    w(_wrap("RESULT: the SM's hypercharges and the quantization of electric charge follow from anomaly "
+            "cancellation and the Yukawa couplings: calculated, not measured. A right-handed neutrino leaves one "
+            "free direction, closed by a Majorana mass. In 3-3-1 the number of families must be a multiple of the "
+            "number of colours, and asymptotic freedom of QCD leaves "
+            + (f"exactly {fam[0]}" if len(fam) == 1 else ", ".join(str(f_) for f_ in fam))
+            + ": the one free integer of the SM that a gauge theory calculates.", 2))
+    w("")
     w("THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)")
     w("-" * 78)
     lin = res["lineage"]
@@ -6540,7 +6700,7 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
         "checks": [{"name": n, "pass": ok, "detail": d} for n, ok, d in res["checks"]],
         "uv_joint_test": res["joint"],
         "mass_formulas": res["mass_formulas"], "strong_cp": res["strong_cp"], "neutrinos": res["neutrinos"],
-        "proton_decay": res["proton_decay"],
+        "proton_decay": res["proton_decay"], "anomalies": res["anomalies"],
         "survey_certificates": res["survey_certificates"],
         "model": {"stages": STAGES, "lineage": res["lineage"], "changed_inputs": res["changed_inputs"],
                   "audit_findings": [{"status": a, "finding": b} for a, b in AUDIT_FINDINGS]},

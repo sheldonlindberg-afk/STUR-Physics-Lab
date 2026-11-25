@@ -29,9 +29,11 @@ Status: [x] done, [~] in progress, [ ] not started.
       1.313 y_t(M_HC) = 3.55 is just past sqrt(4 pi), at the edge of perturbation theory.
 - [ ] 1c. Feed proton decay into Part M as a condition (done in Phase 5).
 
-## Phase 2: anomalies, charge quantization, family number (Part R)
-- [~] Hypercharges from anomaly cancellation (exact); 3-3-1: anomaly freedom needs the number of
-      families to equal the number of colours.
+## Phase 2: anomalies, charge quantization, family number (Part R) -- done
+- [x] Hypercharges from anomaly cancellation (exact): SM unique with Yukawas; charge quantized;
+      nu_R opens B - L, closed by a Majorana mass. Witten's anomaly. 3-3-1: N_f a multiple of 3,
+      exactly 3 with asymptotic freedom.
+- [ ] Later: the full 3-3-1 anomaly set with leptons and U(1)_X (Part D has the quarks only).
 
 ## Phase 3: baryon asymmetry and leptogenesis
 - [ ] SM electroweak baryogenesis: CP violation (Part O's invariant) and the transition strength
