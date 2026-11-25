@@ -30,7 +30,7 @@ python3 production_v2_2.py --certify            # also prove every texture exclu
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 65 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 66 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -672,9 +672,18 @@ and 10's components still at M_GUT:
 * M_I has a median near 1.5×10¹¹ GeV, and natural leptogenesis works for nearly all of them;
 * the vacuum can be stabilized for about 20%.
 
-The verdicts are now fractions of a calculated parameter space instead of an assumed band. The
-fractions depend on the scan's priors; the 126's mixed couplings to the 210, which fix its dominant
-(10,3,1), are the next layer.
+The verdicts are now fractions of a calculated parameter space instead of an assumed band.
+
+**Part T10: the 126's masses from its couplings to the 210.** The 126 is the self-dual part of a
+complex 5-form. Every invariant bilinear in it (the norm, one cubic, the quartics) becomes a mass
+matrix, and the Pati–Salam multiplets are its eigenspaces. A self-check confirms self-duality and
+that (10,3,1) and (10̄,1,3) do not mix. Only the cubic coupling, the one odd under D-parity, tells
+(10,3,1) from (10̄,1,3). The chain needs (10̄,1,3) light, because its vev breaks Pati–Salam at M_I, and
+that gives an exact result: **m²(10,3,1) = 2η₂v**. The dominant multiplet of T8 is set by one
+coupling. With the 126's couplings scanned as well, most jointly viable potentials pass proton
+decay, put M_I a little lower (median a few ×10¹⁰ GeV, often below the SM instability scale, so
+the vacuum can be stabilized), and keep natural leptogenesis. The fractions depend on the scan's
+priors, as the report states.
 
 **Part V: dark matter from the axion**
 

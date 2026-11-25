@@ -315,7 +315,7 @@ NUMERICS: Dict[str, Any] = {
     "check_axion_tol": "0.05",        # Part V: eq. 170 is an approximation (their words); agreement within 5 %
     "heavy_mass_spread": 10,          # Part T8: each heavy GUT multiplet's mass within this factor of M_GUT (assumed)
     "potential_seed": 20261125,       # Part T9: any seed works; the scan is deterministic
-    "potential_points": 6000,         # Part T9: coupling points tried
+    "potential_points": 12000,        # Parts T9, T10: coupling points tried
     "potential_lambda_max": 1,        # Part T9: |lambda_a| (normalized quartics) at most this (perturbative box, assumed)
     "potential_eta_max": 1,           # Part T9: |eta / v| at most this (assumed)
     "potential_directions": 32,       # Part T9: random directions for the bounded-below test
@@ -5745,6 +5745,109 @@ def potential_210_curvatures() -> Dict[str, Dict[str, float]]:
     return out
 
 
+# --- T10. The 126's masses from its couplings to <210>. The 126 is the self-dual part (*S = -i S) of a
+# complex 5-form S_ijklm. With the 210's vev phi_789,10 = v, its invariants with the 126 are bilinear in S:
+# the norm S*S, one cubic phi_ijkl S*_ijmno S_klmno (odd under D-parity) and the quartics
+# (phi phi)_kl,mn S*_klopq S_mnopq, phi_ijkl phi_mnop S*_ijmnq S_klopq and A_lm S*_lnopq S_mnopq. Each is a
+# Hermitian matrix on the 252 5-forms; on the self-dual subspace the Pati-Salam multiplets are its
+# eigenspaces: (6,1,1) and (15,2,2) single basis forms, (10,3,1) and (10bar,1,3) the two combinations
+# that the D-odd cubic splits (SU(2)_L-triplet = the self-dual SO(4) 2-form, as for the 210). The chain
+# needs (10bar,1,3) light (its vev breaks PS at M_I): that fixes the 126's mass term, and the rest follow:
+# m^2(10,3,1) = 2 eta_2 v exactly (only the cubic tells the two apart).
+FIVE_SETS = tuple(itertools.combinations(range(10), 5))
+FIVE_INDEX = {a_: n_ for n_, a_ in enumerate(FIVE_SETS)}
+
+
+def _signed(seq: Sequence[int]) -> int:
+    """Sign of the permutation that sorts seq; 0 if an index repeats."""
+    if len(set(seq)) < len(seq):
+        return 0
+    return _perm_sign(seq)
+
+
+def so10_126_mass_matrices() -> Dict[str, Dict[Tuple[int, int], float]]:
+    phi = {t: _signed(t) for t in itertools.permutations(PS_SINGLET_210)}
+    by2: Dict[Tuple[int, ...], List[Tuple[Tuple[int, ...], float]]] = {}
+    by3: Dict[Tuple[int, ...], List[Tuple[int, float]]] = {}
+    for t, v in phi.items():
+        by2.setdefault(t[:2], []).append((t[2:], v))
+        by3.setdefault(t[:3], []).append((t[3], v))
+    pp: Dict[Tuple[int, ...], List[Tuple[Tuple[int, ...], float]]] = {}
+    acc: Dict[Tuple[Tuple[int, ...], Tuple[int, ...]], float] = {}
+    for lst in by2.values():
+        for kl, v in lst:
+            for mn, w_ in lst:
+                acc[(kl, mn)] = acc.get((kl, mn), 0) + v * w_
+    for (kl, mn), v in acc.items():
+        pp.setdefault(kl, []).append((mn, v))
+    a3: Dict[int, Dict[int, float]] = {}
+    for lst in by3.values():
+        for l, v in lst:
+            for m, w_ in lst:
+                a3.setdefault(l, {})[m] = a3.get(l, {}).get(m, 0) + v * w_
+    mats: Dict[str, Dict[Tuple[int, int], float]] = {k: {} for k in ("norm", "cubic", "D", "E", "F")}
+
+    def add(name: str, a_: Tuple[int, ...], u: Tuple[int, ...], val: float) -> None:
+        sb = _signed(u)
+        if sb and val:
+            key = (FIVE_INDEX[a_], FIVE_INDEX[tuple(sorted(u))])
+            mats[name][key] = mats[name].get(key, 0) + val * sb
+    for a_ in FIVE_SETS:
+        for t in itertools.permutations(a_):
+            sa = _signed(t)
+            add("norm", a_, t, sa)
+            for kl, pv in by2.get(t[:2], []):
+                add("cubic", a_, kl + t[2:], pv * sa)
+                for op, p2 in by2.get(t[2:4], []):
+                    add("E", a_, kl + op + t[4:], pv * p2 * sa)
+            for mn, pv in pp.get(t[:2], []):
+                add("D", a_, mn + t[2:], pv * sa)
+            for m, pv in a3.get(t[0], {}).items():
+                add("F", a_, (m,) + t[1:], pv * sa)
+    return mats
+
+
+def _selfdual(a_: Tuple[int, ...]) -> Dict[int, complex]:
+    """The self-dual 126 vector built on e_A: (e_A + i sigma e_Ac)/sqrt2 with *e_A = sigma e_Ac."""
+    comp = tuple(x_ for x_ in range(10) if x_ not in a_)
+    return {FIVE_INDEX[a_]: 1 / math.sqrt(2), FIVE_INDEX[comp]: 1j * _signed(a_ + comp) / math.sqrt(2)}
+
+
+def _hodge_vec(u: Dict[int, complex]) -> Dict[int, complex]:
+    out: Dict[int, complex] = {}
+    for n_, z in u.items():
+        a_ = FIVE_SETS[n_]
+        comp = tuple(x_ for x_ in range(10) if x_ not in a_)
+        out[FIVE_INDEX[comp]] = out.get(FIVE_INDEX[comp], 0) + _signed(a_ + comp) * z
+    return out
+
+
+def _bilinear(m: Dict[Tuple[int, int], float], x_: Dict[int, complex], y_: Dict[int, complex]) -> complex:
+    return sum(x_[a_].conjugate() * v * y_[b_] for (a_, b_), v in m.items() if a_ in x_ and b_ in y_)
+
+
+def _combine(x_: Dict[int, complex], y_: Dict[int, complex], s_: int) -> Dict[int, complex]:
+    out = {k: v / math.sqrt(2) for k, v in x_.items()}
+    for k, v in y_.items():
+        out[k] = out.get(k, 0) + s_ * v / math.sqrt(2)
+    return out
+
+
+def so10_126_coefficients() -> Dict[str, Any]:
+    """Per PS multiplet of the 126, each invariant's eigenvalue (normalized to the norm), and checks."""
+    mats = so10_126_mass_matrices()
+    a1, a2 = _selfdual((0, 1, 2, 6, 7)), _selfdual((0, 1, 2, 8, 9))
+    reps = {"(6,1,1)": _selfdual((0, 1, 2, 3, 4)), "(15,2,2)": _selfdual((0, 1, 2, 3, 6)),
+            "(10,3,1)": _combine(a1, a2, 1), "(10bar,1,3)": _combine(a1, a2, -1)}
+    n0 = _bilinear(mats["norm"], reps["(6,1,1)"], reps["(6,1,1)"]).real
+    coef = {r_: {k: _bilinear(m, x_, x_).real / n0 for k, m in mats.items()} for r_, x_ in reps.items()}
+    # checks: self-duality; the two p = 3 combinations do not mix; D-even invariants equal on them
+    sd = max(abs(z + 1j * u[k]) for u in reps.values() for k, z in _hodge_vec(u).items())
+    mix = max(abs(_bilinear(m, reps["(10,3,1)"], reps["(10bar,1,3)"])) / n0 for m in mats.values())
+    deven = max(abs(coef["(10,3,1)"][k] - coef["(10bar,1,3)"][k]) for k in ("norm", "D", "E", "F"))
+    return {"coefficients": coef, "selfdual_dev": sd, "p3_mixing": mix, "d_even_dev": deven}
+
+
 def potential_210_scan(heavy: Dict[str, Any], alpha_gut: float, tau0: float, m_i0: float, tau_limit: float,
                        mu0: float, m1_nat: float) -> Dict[str, Any]:
     curv = potential_210_curvatures()
@@ -5761,10 +5864,17 @@ def potential_210_scan(heavy: Dict[str, Any], alpha_gut: float, tau0: float, m_i
     names = {"(15,1,1)": "210: (15,1,1)", "(15,3,1)": "210: (15,3,1)", "(15,1,3)": "210: (15,1,3)",
              "(10,2,2)": "210: (10,2,2) + conj."}
     g2 = 4 * math.pi * alpha_gut
-    pts, tried = [], int(num("potential_points"))
+    # the 126: eigenvalues per invariant, normalized to unit largest magnitude; F is universal (absorbed)
+    c126 = so10_126_coefficients()["coefficients"]
+    scale = {k: max(abs(c126[r_][k]) for r_ in c126) for k in ("cubic", "D", "E")}
+    light = "(10bar,1,3)"
+    names126 = {"(6,1,1)": "126: (6,1,1)", "(10,3,1)": "126: (10,3,1)", "(15,2,2)": "126: (15,2,2)"}
+    pts, pts_all, tried = [], [], int(num("potential_points"))
     for _ in range(tried):
         lam = {q: rng.uniform(-lam_max, lam_max) for q in QUARTICS_210}
         eta = rng.uniform(-eta_max, eta_max)
+        k126 = {"cubic": rng.uniform(-eta_max, eta_max), "D": rng.uniform(-lam_max, lam_max),
+                "E": rng.uniform(-lam_max, lam_max)}
         m2 = {n_: sum(lam[q] * c_[q] for q in QUARTICS_210) + eta * c_["eta"] for n_, c_ in curv.items()}
         if any(m2[n_] <= 0 for n_ in curv if n_ != "(6,2,2)"):
             continue
@@ -5774,15 +5884,33 @@ def potential_210_scan(heavy: Dict[str, Any], alpha_gut: float, tau0: float, m_i
         dtau = sum(resp[names[n_]]["dlntau"] * ell[n_] for n_ in names)
         dmi = sum(resp[names[n_]]["dlnMI"] * ell[n_] for n_ in names)
         pts.append({"ell": ell, "tau_p": tau0 * math.exp(dtau), "M_I": m_i0 * math.exp(dmi)})
+        # the 126, with its (10bar,1,3) light (the mass term set by that condition), in units of v^2
+        m126 = {r_: sum(k126[k] * (c126[r_][k] - c126[light][k]) / scale[k] for k in k126) for r_ in names126}
+        if any(v_ <= 0 for v_ in m126.values()):
+            continue
+        ell2 = dict(ell)
+        ell2.update({r_: math.log(math.sqrt(2 * m126[r_] / g2)) for r_ in names126})
+        dtau2 = dtau + sum(resp[names126[r_]]["dlntau"] * ell2[r_] for r_ in names126)
+        dmi2 = dmi + sum(resp[names126[r_]]["dlnMI"] * ell2[r_] for r_ in names126)
+        pts_all.append({"ell": ell2, "tau_p": tau0 * math.exp(dtau2), "M_I": m_i0 * math.exp(dmi2)})
     n_ok = len(pts)
 
-    def frac(cond: Callable[[Dict[str, Any]], bool]) -> float:
-        return sum(1 for p_ in pts if cond(p_)) / n_ok if n_ok else math.nan
+    def frac(cond: Callable[[Dict[str, Any]], bool], sample: List[Dict[str, Any]] | None = None) -> float:
+        sample = pts if sample is None else sample
+        return sum(1 for p_ in sample if cond(p_)) / len(sample) if sample else math.nan
 
-    def quantiles(key: str) -> Tuple[float, float, float]:
-        v_ = sorted(p_[key] for p_ in pts)
+    def quantiles(key: str, sample: List[Dict[str, Any]] | None = None) -> Tuple[float, float, float]:
+        v_ = sorted(p_[key] for p_ in (pts if sample is None else sample))
         return (v_[len(v_) // 6], v_[len(v_) // 2], v_[(5 * len(v_)) // 6]) if v_ else (math.nan,) * 3
+    with126 = {"viable": len(pts_all),
+               "frac_proton_ok": frac(lambda p_: p_["tau_p"] > tau_limit, pts_all),
+               "frac_vacuum_ok": frac(lambda p_: p_["M_I"] < mu0, pts_all),
+               "frac_leptogenesis_ok": frac(lambda p_: p_["M_I"] >= m1_nat, pts_all),
+               "frac_all": frac(lambda p_: p_["tau_p"] > tau_limit and p_["M_I"] >= m1_nat, pts_all),
+               "tau_p_quantiles": quantiles("tau_p", pts_all), "M_I_quantiles": quantiles("M_I", pts_all),
+               "coefficients_126": c126}
     return {"curvatures": curv, "tried": tried, "viable": n_ok, "lambda_max": lam_max, "eta_max": eta_max,
+            "with_126": with126,
             "frac_proton_ok": frac(lambda p_: p_["tau_p"] > tau_limit),
             "frac_vacuum_ok": frac(lambda p_: p_["M_I"] < mu0),
             "frac_leptogenesis_ok": frac(lambda p_: p_["M_I"] >= m1_nat),
@@ -6862,6 +6990,10 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     rad = max(abs(cv_["(1,1,1)"][q] - 8 * q0_[q] / 576) for q in QUARTICS_210)
     checks.append(("210 potential: the eaten (6,2,2) is massless for every coupling (Goldstone); the radial mode has"
                    " twice the vacuum curvature", gold < tol and rad < tol, f"max {max(gold, rad):.1e}"))
+    c126_ = so10_126_coefficients()
+    checks.append(("126: the self-dual basis is self-dual, (10,3,1) and (10bar,1,3) do not mix, and every D-even"
+                   " invariant is equal on them", max(c126_["selfdual_dev"], c126_["p3_mixing"], c126_["d_even_dev"]) < tol,
+                   f"max {max(c126_['selfdual_dev'], c126_['p3_mixing'], c126_['d_even_dev']):.1e}"))
     sm_c1, sm_c2 = sm_as_chain()
     ps1 = s10["chains"]["PS"]["loop1"]
     rel_c = max(abs(ps1["M_I"] / ps_["M_I"] - 1), abs(ps1["M_GUT"] / ps_["M_GUT"] - 1))
@@ -7965,6 +8097,20 @@ def report(res: Dict[str, Any]) -> str:
     w(f"        M_I 16-50-84 %: {mq[0]:.1e}, {mq[1]:.1e}, {mq[2]:.1e} GeV; natural leptogenesis {100 * pz['frac_leptogenesis_ok']:.0f} %;"
       f" stabilizable vacuum {100 * pz['frac_vacuum_ok']:.0f} %")
     w(f"        proton decay and natural leptogenesis together: {100 * pz['frac_all']:.0f} %")
+    p6 = pz["with_126"]
+    c6 = p6["coefficients_126"]
+    w("  T10. The 126's masses from its couplings to <210> (self-dual 5-forms; norm, the D-odd cubic, quartics D, E;")
+    w("       a universal quartic absorbed). Eigenvalues per multiplet, relative to the norm:")
+    for r_, c_ in c6.items():
+        w(f"        {r_:<11s} " + "  ".join(f"{k_} {v_:+.4f}" for k_, v_ in c_.items()))
+    w("       Only the cubic tells (10,3,1) from (10bar,1,3). The chain needs (10bar,1,3) light at M_I, so")
+    w("       m^2(10,3,1) = 2 eta_2 v exactly: the dominant multiplet of T8 is set by one coupling.")
+    tq, mq = p6["tau_p_quantiles"], p6["M_I_quantiles"]
+    w(f"       With the 126's couplings scanned too ({p6['viable']} jointly viable potentials):")
+    w(f"        proton decay passes {100 * p6['frac_proton_ok']:.0f} %; tau_p 16-50-84 %: {tq[0]:.1e}, {tq[1]:.1e}, {tq[2]:.1e} years")
+    w(f"        M_I 16-50-84 %: {mq[0]:.1e}, {mq[1]:.1e}, {mq[2]:.1e} GeV; natural leptogenesis {100 * p6['frac_leptogenesis_ok']:.0f} %;"
+      f" stabilizable vacuum {100 * p6['frac_vacuum_ok']:.0f} %")
+    w(f"        proton decay and natural leptogenesis together: {100 * p6['frac_all']:.0f} %")
     w(_wrap("RESULT: SO(10) calculates the hypercharges' normalization (sin^2 theta_W = 3/8 at unification) and "
             "requires the right-handed neutrino; its minimal Yukawa relations are excluded. Without supersymmetry, "
             f"the Pati-Salam route unifies the three couplings with M_I = {ps['M_I']:.0e} GeV and M_GUT = "

@@ -108,8 +108,10 @@ Status: [x] done, [~] in progress, [ ] not started.
    of (15,1,1), (15,3,1), (15,1,3), (10,2,2) from curvatures; Goldstones massless (check). Couplings
    scanned in a perturbative box; ~80 % of viable potentials pass proton decay. Open: boundedness is
    tested on random directions only; the vacuum is local, not shown global; tree level only.
-2. [ ] The 126 (and 10) couplings to the 210: the masses of the 126's (10,3,1), (6,1,1), (15,2,2), the
-   dominant (10,3,1) above all.
+2. [x] The 126's couplings to <210> (Part T10): self-dual 5-form mass matrices; only the D-odd cubic
+   splits (10,3,1) from (10bar,1,3); with (10bar,1,3) light, m^2(10,3,1) = 2 eta_2 v exactly. Joint scan
+   with the 210: most viable potentials pass proton decay and natural leptogenesis. Open: the 10's
+   couplings; the (1,2,2) doublet-mixing and fine-tuning of the light Higgs; one-loop potential.
 3. [ ] The same for the LR chain (210 under SU(3) x SU(2)^2 x U(1)).
 
 ## Later

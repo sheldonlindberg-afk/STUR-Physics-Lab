@@ -630,6 +630,12 @@ def test_potential_210():
     assert 0.5 < pz["frac_proton_ok"] <= 1 and 0.5 < pz["frac_leptogenesis_ok"] <= 1
     lo, mid, hi = pz["tau_p_quantiles"]
     assert lo < mid < hi
+    # T10: the 126 from its couplings to <210>; (10,3,1) and (10bar,1,3) differ only by the cubic
+    c6 = pz["with_126"]["coefficients_126"]
+    assert abs(c6["(10,3,1)"]["cubic"] + c6["(10bar,1,3)"]["cubic"]) < 1e-9 and c6["(10,3,1)"]["cubic"] > 0
+    assert all(abs(c6["(10,3,1)"][k] - c6["(10bar,1,3)"][k]) < 1e-9 for k in ("norm", "D", "E", "F"))
+    w6 = pz["with_126"]
+    assert w6["viable"] > 50 and w6["frac_proton_ok"] > 0.5
 
 
 def test_website_data_is_current():
