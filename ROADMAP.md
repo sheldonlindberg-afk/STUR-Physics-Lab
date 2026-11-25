@@ -62,7 +62,10 @@ Status: [x] done, [~] in progress, [ ] not started.
    content (checked on the SM); none predicts a coupling (unknowns = conditions). Two loops:
    PS M_I = 1.4e11, M_GUT = 8.0e15 GeV; both D-parity chains excluded by proton decay;
    lambda(M_I) = 0 gives 125.6 (PS), 123.3 (LR) GeV. Open: threshold corrections (tree matching).
-2. Lambda's running above M_I in the Pati-Salam scalar sector: what lambda(M_I) really is.
+2. [x] What lambda(M_I) is (Part T6): lambda_SM(M_I) = lambda_H - lambda_HS^2/lambda_S (tree threshold,
+   Elias-Miro et al. 2012), unknown shift; lambda(M_I) = 0 is not required. Stability needs M_I < mu_0
+   = 6.2e10 GeV (2.3e10-2.0e11 for M_t +- 1 sigma): LR, LR+D stabilizable; PS undecided (inside the
+   band); PS+D metastable. Open: the Pati-Salam quartics' own running and positivity above M_I.
 3. Proton decay above M_I with the Pati-Salam operator running; the dimension-5 factor-2.2 debug.
 4. Leptogenesis efficiency kappa from the Boltzmann equations, with M_1 tied to M_I.
 

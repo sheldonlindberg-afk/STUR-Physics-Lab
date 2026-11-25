@@ -5398,6 +5398,48 @@ def sm_as_chain() -> Tuple[List[Fr], List[List[Fr]]]:
     return chain_b(("U1", "SU2", "SU3"), fields, GUT_NORM)
 
 
+# --- T6. What lambda(M_I) is. Integrating out the heavy scalar whose vev breaks the chain at M_I
+# shifts the SM quartic at tree level (Elias-Miro, Espinosa, Giudice, Lee, Strumia 2012, eq. 5):
+#   lambda_SM(M_I) = lambda_H(M_I) - delta_lambda,  delta_lambda = lambda_HS^2 / lambda_S >= 0,
+# with the same normalization as Part L (m_h^2 = 2 lambda v^2). delta_lambda is unknown, so
+# lambda(M_I) = 0 is not a condition of the theory. What is fixed: below M_I the SM's own lambda
+# must stay positive for a stable vacuum, and above it lambda_H = lambda_SM + delta_lambda can stay
+# positive. So the threshold can stabilize the vacuum only if M_I lies below the scale mu_0 where the
+# SM's lambda (measured m_h, Part L's running) turns negative; lambda(M_I) = 0 is the boundary M_I = mu_0.
+def lambda_at_scale(crit: Dict[str, Any], m_h: float, mu: float, overrides: Dict[str, float] | None = None) -> float:
+    big_mt, _, full = anchored_state(overrides, m_h, crit.get("smdr"))
+    return run_sm(full[:6] + [full[6]], big_mt, mu, 3, int(num("crit_steps_per_efold")))[6]
+
+
+def instability_scale(crit: Dict[str, Any], m_h: float, overrides: Dict[str, float] | None = None) -> float:
+    """mu_0 where lambda turns negative (bisection in ln mu between M_t and M_P), or NaN if it never does."""
+    big_mt = inp("M_t") if not overrides or "M_t" not in overrides else overrides["M_t"]
+    lo, hi = math.log(big_mt), math.log(crit["planck"]["M_P"])
+    if lambda_at_scale(crit, m_h, math.exp(hi), overrides) > 0:
+        return math.nan
+    for _ in range(int(num("crit_iterations"))):
+        mid = (lo + hi) / 2
+        if lambda_at_scale(crit, m_h, math.exp(mid), overrides) > 0:
+            lo = mid
+        else:
+            hi = mid
+    return math.exp((lo + hi) / 2)
+
+
+def chain_vacuum(crit: Dict[str, Any], chains: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
+    mh = _comparison("m_h")[0]
+    mu0 = instability_scale(crit, mh)
+    s_t = sig("M_t")
+    band = [instability_scale(crit, mh, {"M_t": inp("M_t") + k * s_t}) for k in (-1, 1)]
+    rows = {}
+    for nm, ch in chains.items():
+        m_i = ch["loop2"]["M_I"]
+        lam = lambda_at_scale(crit, mh, m_i)
+        rows[nm] = {"M_I": m_i, "lambda_SM_at_MI": lam, "below_mu0": m_i < mu0,
+                    "ln_MI_over_mu0": math.log(m_i / mu0), "stabilizable": lam > 0}
+    return {"mu0": mu0, "mu0_band_Mt": sorted(b for b in band if math.isfinite(b)), "rows": rows}
+
+
 def so10(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any], scp: Dict[str, Any],
          bau: Dict[str, Any], pdk: Dict[str, Any], crit: Dict[str, Any]) -> Dict[str, Any]:
     x0 = _float_inputs()
@@ -5459,6 +5501,7 @@ def so10(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any
         rec["two_loop_shift_ln_MI"] = math.log(two["M_I"] / rec["loop1"]["M_I"])
         chains[name] = rec
     out["chains"] = chains
+    out["vacuum"] = chain_vacuum(crit, chains)
     return out
 
 
@@ -5507,6 +5550,18 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
            "A": entry("trade", "leptogenesis possible above M_1 ~ 3e8 GeV; gravitinos not checked"),
            "T": entry("open", "needs an axion or another mechanism")}
     rows["minimal SUSY SU(5)"] = su5
+    vac = s10["vacuum"]
+    band = vac["mu0_band_Mt"]
+
+    def vacuum_entry(v_: Dict[str, Any], nm: str) -> Dict[str, Any]:
+        r_ = v_["rows"][nm]
+        if r_["stabilizable"]:
+            return entry("pass", f"M_I below mu_0 = {v_['mu0']:.1e} GeV: a scalar threshold can stabilize the vacuum")
+        decided = bool(band) and r_["M_I"] > band[-1]
+        return entry("open", "metastable between mu_0 and M_I" + ("" if decided else
+                     f"; M_I lies inside mu_0's top-mass band ({band[0]:.0e} to {band[-1]:.0e} GeV)"))
+    rows["SM to M_P"]["V"] = entry("open", f"metastable: lambda turns negative at {vac['mu0']:.1e} GeV (Part L)")
+    rows["minimal SUSY SU(5)"]["V"] = entry("pass", "lambda is fixed positive by supersymmetry above M_S")
     # --- every SO(10) chain at two loops (Part T5)
     m3 = nus["orderings"]["NO"]["seesaw"]["m_heaviest_eV"] * 10 ** -9
     v = crit["state_mt"][1]
@@ -5529,9 +5584,10 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
                        f"p -> e+ pi0 in {two['tau_p_years']:.0e} years against {pdk['limit_e_pi0']:.1e}"),
             "A": entry("trade" if two["in_leptogenesis_window"] else "fail",
                        "leptogenesis needs M_1 between 3e8 GeV and M_I: allowed, not computed"),
-            "T": entry("trade", f"an axion at f_a = M_I would give m_a = {two['axion_m_a_eV_if_fa_MI'] * 10 ** 6:.2g} micro-eV")}
+            "T": entry("trade", f"an axion at f_a = M_I would give m_a = {two['axion_m_a_eV_if_fa_MI'] * 10 ** 6:.2g} micro-eV"),
+            "V": vacuum_entry(s10["vacuum"], nm)}
     conditions = {"U": "gauge unification", "B": "b-tau unification", "H": "Higgs mass", "N": "neutrino masses",
-                  "P": "proton decay", "A": "baryon asymmetry", "T": "strong CP"}
+                  "P": "proton decay", "A": "baryon asymmetry", "T": "strong CP", "V": "vacuum stability"}
     verdict = {h: {"fails": [c for c, e in r.items() if e["status"] == "fail"],
                    "trades": [c for c, e in r.items() if e["status"] == "trade"],
                    "passes": [c for c, e in r.items() if e["status"] == "pass"],
@@ -7231,6 +7287,18 @@ def report(res: Dict[str, Any]) -> str:
     w("      lambda(M_I) = 0 at each chain's two-loop M_I (Part L's running and matching):")
     for nm, c_ in so["chains"].items():
         w(f"        {nm:<6s} m_h = {c_['loop2']['m_h_lambda_MI_zero']:.2f} GeV")
+    vac = so["vacuum"]
+    w("  T6. What lambda(M_I) is. The heavy scalar that breaks the chain at M_I shifts the SM quartic at tree level")
+    w("      (Elias-Miro et al. 2012, eq. 5): lambda_SM(M_I) = lambda_H - lambda_HS^2/lambda_S, a shift that is >= 0")
+    w("      and unknown. So lambda(M_I) = 0 is not a condition of the theory. What is fixed: the vacuum is stable")
+    w("      only if the SM's lambda stays positive up to M_I, i.e. M_I below the scale mu_0 where it turns negative.")
+    band = vac["mu0_band_Mt"]
+    w(f"      mu_0 = {vac['mu0']:.2e} GeV for the measured m_h" + (f" ({band[0]:.1e} to {band[-1]:.1e} for M_t +/- 1 sigma)"
+                                                                     if band else ""))
+    for nm, r_ in vac["rows"].items():
+        verdict = "the threshold can stabilize the vacuum" if r_["stabilizable"] else "metastable SM between mu_0 and M_I"
+        w(f"        {nm:<6s} M_I = {r_['M_I']:.1e}: lambda_SM(M_I) = {r_['lambda_SM_at_MI']:+.4f}  ->  {verdict}")
+    w("      The 'lambda(M_I) = 0' Higgs masses above only say how close each chain's M_I lies to mu_0.")
     w(_wrap("RESULT: SO(10) calculates the hypercharges' normalization (sin^2 theta_W = 3/8 at unification) and "
             "requires the right-handed neutrino; its minimal Yukawa relations are excluded. Without supersymmetry, "
             f"the Pati-Salam route unifies the three couplings with M_I = {ps['M_I']:.0e} GeV and M_GUT = "

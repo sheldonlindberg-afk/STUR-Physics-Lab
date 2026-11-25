@@ -617,6 +617,17 @@ unknowns as conditions, so none predicts a coupling; the solution only locates t
 Proton decay excludes both D-parity chains. Two loops move Pati–Salam's M_I down from 5.5×10¹¹
 to 1.4×10¹¹ GeV, and its λ(M_I) = 0 Higgs mass from 126.1 to 125.6 GeV, against 125.20 measured.
 
+**Part T6: what λ(M_I) really is.** The heavy scalar that breaks a chain at M_I shifts the SM
+quartic at tree level (Elias-Miró, Espinosa, Giudice, Lee, Strumia 2012, eq. 5):
+λ_SM(M_I) = λ_H − λ_HS²/λ_S. The shift is positive and unknown, so λ(M_I) = 0 is not a condition
+of the theory. What is fixed is this: the vacuum can be stable only if the SM's λ stays positive up
+to M_I, that is, if M_I lies below the scale μ₀ where λ turns negative. For the measured Higgs
+mass μ₀ = 6.2×10¹⁰ GeV (2.3×10¹⁰ to 2.0×10¹¹ for M_t ± 1σ). Both left-right chains break below
+μ₀, so the threshold can stabilize them. Pati–Salam's M_I = 1.4×10¹¹ lies inside the top-mass
+band, so whether it is stable is decided by M_t. The "λ(M_I) = 0" Higgs masses only measure how
+close each chain's M_I lies to μ₀: the 125.6 GeV of Pati–Salam is a coincidence of scales, not a
+prediction. The scorecard has a vacuum-stability row.
+
 **Part U: the scorecard, every complete hypothesis against every condition**
 
 Part M weighs the high-energy hypotheses against unification, b–τ and the Higgs mass. Parts P–T add
@@ -639,10 +650,9 @@ decay, and the left-right chain passes everything with its Higgs value 2.0σ low
 D-parity fails nothing, but it also predicts nothing yet: its scales are solved from the couplings,
 and its passes are consistency checks, not calculations.
 
-The Higgs entry is the one to watch. Moving Part L's criticality condition from M_P to M_I gives
-125.6 GeV at two loops, against 125.20 measured. But nothing establishes why λ should vanish at M_I,
-where the scalar sector changes. That makes it a test, possibly a coincidence. Matching λ to the
-Pati–Salam scalar potential is the next item in [ROADMAP.md](ROADMAP.md).
+The Higgs entry for Pati–Salam (125.6 GeV) comes from λ(M_I) = 0. Part T6 shows that this condition
+is not required by the theory: it only says that Pati–Salam's M_I happens to lie near the SM
+instability scale.
 
 ## What changed from production v1
 

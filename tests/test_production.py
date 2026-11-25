@@ -534,6 +534,17 @@ def test_so10_chains():
     assert abs(ch["PS"]["loop1"]["M_I"] / ps["M_I"] - 1) < 1e-4
 
 
+def test_chain_vacuum():
+    """Part T6: the SM's lambda turns negative near 6e10 GeV; chains breaking below it (LR, LR+D) can be
+    stabilized by the scalar threshold, PS+D cannot; lambda_SM(M_I) has the sign of mu_0 - M_I."""
+    vac = RESULT["so10"]["vacuum"]
+    assert 1e10 < vac["mu0"] < 2e11 and vac["mu0_band_Mt"][0] < vac["mu0"] < vac["mu0_band_Mt"][-1]
+    rows = vac["rows"]
+    assert rows["LR"]["stabilizable"] and rows["LR+D"]["stabilizable"] and not rows["PS+D"]["stabilizable"]
+    assert all((r["lambda_SM_at_MI"] > 0) == r["below_mu0"] for r in rows.values())
+    assert RESULT["scorecard"]["rows"]["SO(10) via LR"]["V"]["status"] == "pass"
+
+
 def test_website_data_is_current():
     """assets/site-data.js (written by tools/site_data.py) shows the numbers the script computes."""
     import json
