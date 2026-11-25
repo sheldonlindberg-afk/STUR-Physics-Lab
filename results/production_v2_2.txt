@@ -864,12 +864,24 @@ PART T. SO(10)
         (15,3,1)  eta +2.0000  Q1 +0.0000  Q2 -0.5000  Q3 -0.4444  Q4 -0.2778
         (15,1,3)  eta -2.0000  Q1 +0.0000  Q2 -0.5000  Q3 -0.4444  Q4 -0.2778
         (10,2,2)  eta +0.0000  Q1 +0.0000  Q2 -0.7500  Q3 -0.6667  Q4 -0.3333
-      Couplings scanned: |lambda_a| <= 1, |eta/v| <= 1; 192 of 6000 points give a local minimum bounded
+      Couplings scanned: |lambda_a| <= 1, |eta/v| <= 1; 401 of 12000 points give a local minimum bounded
       below along the test directions. Their masses (the 126's and 10's still at M_GUT) give, as fractions of
       the viable potentials:
-        proton decay passes 81 %; tau_p 16-50-84 %: 2.1e+34, 9.7e+34, 4.4e+35 years
-        M_I 16-50-84 %: 5.5e+10, 1.6e+11, 4.3e+11 GeV; natural leptogenesis 98 %; stabilizable vacuum 19 %
-        proton decay and natural leptogenesis together: 79 %
+        proton decay passes 84 %; tau_p 16-50-84 %: 2.4e+34, 1.1e+35, 3.7e+35 years
+        M_I 16-50-84 %: 6.1e+10, 1.5e+11, 3.9e+11 GeV; natural leptogenesis 100 %; stabilizable vacuum 17 %
+        proton decay and natural leptogenesis together: 83 %
+  T10. The 126's masses from its couplings to <210> (self-dual 5-forms; norm, the D-odd cubic, quartics D, E;
+       a universal quartic absorbed). Eigenvalues per multiplet, relative to the norm:
+        (6,1,1)     norm +1.0000  cubic +0.0000  D +1.2000  E +0.4000  F +2.4000
+        (15,2,2)    norm +1.0000  cubic +0.0000  D +0.6000  E +0.0000  F +2.4000
+        (10,3,1)    norm +1.0000  cubic +0.2000  D +0.4000  E +0.0000  F +2.4000
+        (10bar,1,3) norm +1.0000  cubic -0.2000  D +0.4000  E +0.0000  F +2.4000
+       Only the cubic tells (10,3,1) from (10bar,1,3). The chain needs (10bar,1,3) light at M_I, so
+       m^2(10,3,1) = 2 eta_2 v exactly: the dominant multiplet of T8 is set by one coupling.
+       With the 126's couplings scanned too (152 jointly viable potentials):
+        proton decay passes 95 %; tau_p 16-50-84 %: 1.3e+35, 8.5e+35, 3.2e+36 years
+        M_I 16-50-84 %: 1.3e+10, 3.6e+10, 1.1e+11 GeV; natural leptogenesis 79 %; stabilizable vacuum 65 %
+        proton decay and natural leptogenesis together: 74 %
   RESULT: SO(10) calculates the hypercharges' normalization (sin^2 theta_W =
     3/8 at unification) and requires the right-handed neutrino; its minimal
     Yukawa relations are excluded. Without supersymmetry, the Pati-Salam
@@ -1346,8 +1358,9 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Axion misalignment from its ingredients reproduces Di Luzio et al.'s eq. 170 (their approximation)  (Omega h^2 = 0.1184 at f_a = 2.0e+11 GeV against 0.12)
   [PASS] SO(10) -> Pati-Salam decompositions of 10, 126, 210: component indices add up to the SO(10) index under every factor  (10: 1, 126: 35, 210: 56)
   [PASS] 210 potential: the eaten (6,2,2) is massless for every coupling (Goldstone); the radial mode has twice the vacuum curvature  (max 0.0e+00)
+  [PASS] 126: the self-dual basis is self-dual, (10,3,1) and (10bar,1,3) do not mix, and every D-even invariant is equal on them  (max 0.0e+00)
   [PASS] SO(10) chains: the general two-loop formula on the SM content = sm_gauge_b, sm_two_loop_b; the Newton solver at one loop = the linear solution  (rel diff 3.3e-10)
   [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (26 stages, 73 edges)
-  65/65 checks pass
+  66/66 checks pass
 ==============================================================================
-Elapsed: 391.9 s
+Elapsed: 399.8 s
