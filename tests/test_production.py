@@ -614,7 +614,11 @@ def test_z_pole_and_closed_cosmology():
     zp = RESULT["w_mass"]["z_pole"]
     assert 0.2314 < zp["sin2_eff"] < 0.2318 and all(abs(c["pull"]) < 2 for c in zp["comparisons"].values())
     cc = RESULT["closed_cosmology"]
-    assert cc["age_pull"] > 10 and 0.2 < cc["string_fraction_needed"] < 0.6
+    # Part X follows the surviving chain (Part U): its axion's share sets the dark matter still missing
+    surv = [h for h in RESULT["scorecard"]["survivors"] if h.startswith("SO(10) via ")]
+    assert surv and cc["chain"] == surv[0].replace("SO(10) via ", "")
+    frac = RESULT["dark_matter"]["chains"][cc["chain"]]["fraction_post"]
+    assert abs(cc["string_fraction_needed"] - (1 - frac)) < 1e-9 and cc["age_pull"] > 10
     assert abs(cc["age_with_all_dm_Gyr"] / float(RESULT["cosmology"]["age_Gyr"]) - 1) < 5e-3
 
 
@@ -655,6 +659,19 @@ def test_so10_yukawa():
     assert lr["reaches"] and lr["worst_rel_miss"] < 0.01
     sc = RESULT["scorecard"]["rows"]
     assert sc["SO(10) via PS"]["F"]["status"] == "fail" and sc["SO(10) via LR"]["F"]["status"] == "trade"
+
+
+def test_type2_and_ledger():
+    """Part Y3: type-II neutrinos from the 10 + 126 sum rule fail without supersymmetry (b and tau do not
+    converge). Part Z: every free number carries a status; only discrete ones are calculated."""
+    t2 = RESULT["so10_yukawa"]["LR"]["type2"]
+    assert not t2["reaches"] and t2["n_sigma_worst"] > 5 and t2["b_tau_mismatch"] < -0.2
+    lg = RESULT["ledger"]
+    st = {r["quantity"]: r["status"] for r in lg["rows"]}
+    assert st["hypercharges and electric charge"] == "calculated" and st["weak mixing angle at unification"] == "calculated"
+    assert st["neutrino masses and mixing"] == "open" and st["cosmological constant"] == "open"
+    assert set(st.values()) <= {"calculated", "related", "traded", "bounded", "open", "input"}
+    assert sum(lg["counts"].values()) == len(lg["rows"]) == 15
 
 
 def test_website_data_is_current():

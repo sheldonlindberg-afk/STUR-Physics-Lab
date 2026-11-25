@@ -325,6 +325,8 @@ NUMERICS: Dict[str, Any] = {
     "yukawa_fit_evals": 60000,        # Part Y: evaluation budget per start
     "yukawa_fit_polish": 12,          # Part Y: best starts refined by iterated local search
     "yukawa_fit_kicks": 25,           # Part Y: random kicks per refined start
+    "yukawa_nu_seeds": 3,             # Part Y3: charged-lepton solutions the type-II fit starts from
+    "yukawa_nu_kicks": 4,             # Part Y3: kicks per type-II start
     "yukawa_fit_min_step": "1e-6",    # Part Y: smallest compass step (in log-magnitudes and phases)
     "threshold_band": 1,              # Part T7: largest one-loop threshold per matching condition, in 1/alpha (an
                                       # assumption: one heavy multiplet with b ~ 2 a factor e off gives ~0.3)
@@ -614,11 +616,14 @@ STAGES: Dict[str, Dict[str, str]] = {
     "w_mass": {"part": "W", "level": "conditional",
                "assumes": "the SM's two-loop M_W in its published parametrization, at Part L's Higgs mass"},
     "closed_cosmology": {"part": "X", "level": "conditional",
-                         "assumes": "Omega_m from Omega_b (measured), the axion at Pati-Salam's M_I (misalignment, "
-                                    "post-inflation) and the minimal neutrino masses; flat LambdaCDM"},
+                         "assumes": "Omega_m from Omega_b (measured), the axion at the surviving chain's M_I "
+                                    "(misalignment, post-inflation) and the minimal neutrino masses; flat LambdaCDM"},
     "so10_yukawa": {"part": "Y", "level": "numerical",
                     "assumes": "symmetric Yukawas from a 10 and a 126; the selection rule exact at tree level; the "
                                "sum rule at the LR chain's M_GUT with SM running; unknowns searched, never set"},
+    "ledger": {"part": "Z", "level": "conditional",
+               "assumes": "every free number of the SM plus cosmology, with the status the stages computed for the "
+                          "surviving hypothesis"},
     "self_checks": {"part": "-", "level": "validation", "assumes": "tests the calculation, not the physics"},
 }
 
@@ -6346,21 +6351,50 @@ def so10_sum_rule(flav: Dict[str, Any], mu: float) -> Dict[str, Any]:
     v_ckm = ckm_from_wolfenstein(x)
     tol_m = num("yukawa_fit_mass_rel")
 
-    def lepton_masses(u: List[float]) -> List[float]:
+    def matrices(u: List[float]) -> Tuple[List[List[complex]], List[List[complex]]]:
         # u = (ln|c1|, arg c1, ln|c2|, arg c2, a, b, psi_1, psi_2): relative steps for couplings of any size.
         # With M_u real diagonal the up-quark phases Psi are physical: M_d = Psi V X D_d X V^T Psi.
         c1, c2 = cmath.rect(math.exp(u[0]), u[1]), cmath.rect(math.exp(u[2]), u[3])
         ph = (cmath.exp(1j * 2 * u[4]), cmath.exp(1j * 2 * u[5]), 1)
         psi = (cmath.exp(1j * u[6]), cmath.exp(1j * u[7]), 1)
         dd = [ms["d"][k] * ph[k] for k in range(3)]
-        me = [[c1 * psi[i] * psi[j] * sum(v_ckm[i][k] * dd[k] * v_ckm[j][k] for k in range(3))
-               + (c2 * ms["u"][i] if i == j else 0) for j in range(3)] for i in range(3)]
-        return [math.sqrt(max(e_, 0)) for e_ in _herm3_eigvals(_mm_dag(me))]
+        md = [[psi[i] * psi[j] * sum(v_ckm[i][k] * dd[k] * v_ckm[j][k] for k in range(3)) for j in range(3)]
+              for i in range(3)]
+        me = [[c1 * md[i][j] + (c2 * ms["u"][i] if i == j else 0) for j in range(3)] for i in range(3)]
+        return md, me
 
-    def chi2(u: List[float]) -> float:
+    def lepton_masses(u: List[float]) -> List[float]:
+        return [math.sqrt(max(e_, 0)) for e_ in _herm3_eigvals(_mm_dag(matrices(u)[1]))]
+
+    def chi2_masses(u: List[float]) -> float:
         return sum(((a_ / b_ - 1) / tol_m) ** 2 for a_, b_ in zip(lepton_masses(u), ms["e"]))
 
-    def compass(u: List[float], step: float) -> Tuple[List[float], float]:
+    # the type-II neutrinos: M_nu proportional to M_d - M_e; PMNS from the left eigenvectors
+    p_no = nu_params(x, "NO")
+    nu_data = {"s12sq": (p_no["s12sq"], sig("nu_s12sq")), "s13sq": (p_no["s13sq"], sig("nu_s13sq_NO")),
+               "s23sq": (p_no["s23sq"], sig("nu_s23sq_NO"))}
+    r_meas = p_no["dm21"] / p_no["dm3l"]
+    r_sig = r_meas * math.hypot(sig("nu_dm21") / p_no["dm21"], sig("nu_dm3l_NO") / p_no["dm3l"])
+
+    def neutrinos(u: List[float]) -> Dict[str, Any]:
+        md, me = matrices(u)
+        mn = [[md[i][j] - me[i][j] for j in range(3)] for i in range(3)]
+        he, hn = _mm_dag(me), _mm_dag(mn)
+        ee, en = _herm3_eigvals(he), _herm3_eigvals(hn)
+        ue = [_herm3_eigvec(he, e_) for e_ in ee]
+        un = [_herm3_eigvec(hn, e_) for e_ in en]
+        pm = [[sum(ue[i][k].conjugate() * un[j][k] for k in range(3)) for j in range(3)] for i in range(3)]
+        ang = pmns_angles(pm)
+        ratio = (en[1] - en[0]) / (en[2] - en[0]) if en[2] > en[0] else math.inf
+        return {"angles": ang, "ratio": ratio, "m_nu_rel": [math.sqrt(max(e_, 0) / en[2]) for e_ in en]}
+
+    def chi2_full(u: List[float]) -> float:
+        c = chi2_masses(u)
+        n_ = neutrinos(u)
+        c += sum(((n_["angles"][k] - v_) / s_) ** 2 for k, (v_, s_) in nu_data.items())
+        return c + ((n_["ratio"] - r_meas) / r_sig) ** 2
+
+    def compass(u: List[float], step: float, chi2: Callable[[List[float]], float] = chi2_masses) -> Tuple[List[float], float]:
         """Compass search with a hard evaluation budget."""
         best_c, steps, n_ev = chi2(u), [step] * len(u), 0
         while max(steps) > num("yukawa_fit_min_step") and n_ev < int(num("yukawa_fit_evals")):
@@ -6409,10 +6443,91 @@ def so10_sum_rule(flav: Dict[str, Any], mu: float) -> Dict[str, Any]:
         if cur[0] < best[0]:
             best = cur
     fit_m = lepton_masses(best[1])
-    return {"scale": mu, "masses": ms, "chi2_min": best[0], "starts": int(num("yukawa_fit_starts")),
-            "mass_tolerance": tol_m, "best_masses": fit_m,
-            "worst_rel_miss": max(abs(a_ / b_ - 1) for a_, b_ in zip(fit_m, ms["e"])),
-            "reaches": best[0] < 1}
+    out = {"scale": mu, "masses": ms, "chi2_min": best[0], "starts": int(num("yukawa_fit_starts")),
+           "mass_tolerance": tol_m, "best_masses": fit_m,
+           "worst_rel_miss": max(abs(a_ / b_ - 1) for a_, b_ in zip(fit_m, ms["e"])),
+           "reaches": best[0] < 1}
+    # Y3. add the neutrinos (type II): from the best charged-lepton points, then kicks; 8 unknowns, 7 data
+    seeds = [best[1]] + [f_[1] for f_ in found[:int(num("yukawa_nu_seeds"))]]
+    full_best, fits = (math.inf, None), []
+    for u0 in seeds:
+        cur = compass(u0, 1 / 4, chi2_full)
+        for _ in range(int(num("yukawa_nu_kicks"))):
+            u, c = compass([v_ + rng.uniform(-1, 1) for v_ in cur[0]], 1 / 4, chi2_full)
+            if c < cur[1]:
+                cur = (u, c)
+            if c < 1:
+                fits.append(neutrinos(u))
+        if cur[1] < full_best[0]:
+            full_best = (cur[1], cur[0])
+    nb = neutrinos(full_best[1])
+    out["type2"] = {"chi2_min": full_best[0], "data_points": 7, "unknowns": 8,
+                    "angles": {k: nb["angles"][k] for k in nu_data}, "ratio": nb["ratio"], "ratio_meas": r_meas,
+                    "lepton_masses": lepton_masses(full_best[1]),
+                    "n_sigma_worst": max([abs(nb["angles"][k] - v_) / s_ for k, (v_, s_) in nu_data.items()]
+                                         + [abs(nb["ratio"] - r_meas) / r_sig]),
+                    "fits_found": len(fits),
+                    "delta_deg_range": ((min(math.degrees(f_["angles"]["delta"]) for f_ in fits),
+                                         max(math.degrees(f_["angles"]["delta"]) for f_ in fits)) if fits else None),
+                    "m1_over_m3_range": ((min(f_["m_nu_rel"][0] for f_ in fits), max(f_["m_nu_rel"][0] for f_ in fits))
+                                         if fits else None)}
+    out["type2"]["reaches"] = full_best[0] < num("survival_sigma") ** 2
+    # the reason, in one number: large theta_23 from M_d - M_e needs b and tau to converge (m_b ~ m_tau)
+    out["type2"]["b_tau_mismatch"] = (ms["d"][2] - ms["e"][2]) / ms["d"][2]
+    return out
+
+
+# =============================================================================
+# 6x. PART Z: THE LEDGER, EVERY FREE NUMBER AND WHAT THE ALGORITHM DOES WITH IT
+# =============================================================================
+# The algorithm closes when every free number of the Standard Model plus cosmology carries a status the
+# stages computed, for the one hypothesis that survives every condition (Part U):
+#   calculated  fixed by the algorithm with nothing measured spent on it
+#   related     tied to other numbers by a relation that is tested
+#   traded      exchanged for an unknown of the hypothesis: nothing predicted
+#   bounded     only limited by measurements
+#   open        no mechanism in the surviving hypothesis
+#   input       measured, and used as such
+def final_ledger(score: Dict[str, Any], s10: Dict[str, Any], s10y: Dict[str, Any], scp: Dict[str, Any],
+                 nus: Dict[str, Any], bau: Dict[str, Any], dm: Dict[str, Any], crit: Dict[str, Any], anom: Dict[str, Any],
+                 mf: Dict[str, Any], closed: Dict[str, Any], joint: Dict[str, Any]) -> Dict[str, Any]:
+    surv = score["survivors"]
+    chain = closed["chain"]
+    two = s10["chains"][chain]["loop2"]
+    t2 = s10y["LR"]["type2"]
+    mh_pull = joint["SM_pulls"]["H"]
+    rows = [
+        ("hypercharges and electric charge", "5 per family", "calculated",
+         "anomaly cancellation plus Yukawas fix them uniquely; charge is quantized (Part R, exact)"),
+        ("number of families", "1 integer", "calculated" if anom["331_families_with_af"] == [3] else "open",
+         "3-3-1: a multiple of 3, exactly 3 with asymptotic freedom (Part R); not in the SO(10) survivor"),
+        ("gauge couplings", "3", "traded",
+         f"{chain} chain: the three fix M_I = {two['M_I']:.1e}, M_GUT = {two['M_GUT']:.1e} GeV and alpha_GUT (Part T)"),
+        ("weak mixing angle at unification", "1", "calculated", "sin^2 theta_W = 3/8 from the 16 (Part T1, exact)"),
+        ("Higgs mass", "1", "open",
+         f"lambda(M_P) = 0 misses by {abs(mh_pull):.1f} sigma (Part L); lambda(M_I) = 0 is not required (Part T6)"),
+        ("Higgs vacuum value", "1", "input", "from G_F"),
+        ("quark masses", "6", "input", "run to every scale (Parts B, L)"),
+        ("quark mixing (CKM)", "4", "related",
+         "one Hermitian texture predicts |V_td/V_ts| at 2.2 sigma (Part C), but it is not the surviving GUT's structure"),
+        ("charged-lepton masses", "3", "traded" if s10y["LR"]["reaches"] else "open",
+         "the 10 + 126 sum rule reaches them with 8 unknowns (Part Y2)"),
+        ("neutrino masses and mixing", "7-9", "open" if not t2["reaches"] else "related",
+         f"type II from the sum rule misses by {t2['n_sigma_worst']:.0f} sigma (Part Y3); type I not tested"),
+        ("strong CP angle", "1", "bounded",
+         f"|theta-bar| < {scp['bound']['theta_max']:.1e}; an axion at M_I would trade it for f_a (Part O)"),
+        ("dark-matter density", "1", "open" if not dm["chains"][chain]["pre_possible"] else "traded",
+         f"the axion at the survivor's M_I gives {100 * dm['chains'][chain]['fraction_post']:.1f} % (Part V)"),
+        ("baryon asymmetry", "1", "traded",
+         f"leptogenesis needs M_1 >= {bau['leptogenesis']['rows'][0]['M1_min']:.0e} GeV (Part S); M_1 is unknown"),
+        ("cosmological constant", "1", "open", "Omega_Lambda follows from flatness; rho_Lambda is not calculated"),
+        ("Newton's constant", "1", "input", "M_P is calculated from it (Part H1)"),
+    ]
+    counts: Dict[str, int] = {}
+    for r_ in rows:
+        counts[r_[2]] = counts.get(r_[2], 0) + 1
+    return {"survivors": surv, "chain": chain, "rows": [{"quantity": a_, "count": b_, "status": c_, "how": d_}
+                                                         for a_, b_, c_, d_ in rows], "counts": counts}
 
 
 # =============================================================================
@@ -6489,6 +6604,13 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
         return entry("open", frac + ", and no initial angle gives all of it: another candidate is needed")
     yps, ylr = s10y["PS"], s10y["LR"]
 
+    def neutrino_entry(nm: str, y_needed: float) -> Dict[str, Any]:
+        t2 = ylr["type2"]
+        if nm.startswith("LR") and not t2["reaches"]:
+            return entry("open", f"type II from the 10 + 126 sum rule misses the PMNS data by {t2['n_sigma_worst']:.0f} sigma"
+                                 f" (b and tau do not converge: (m_b - m_tau)/m_b = {t2['b_tau_mismatch']:+.2f}); type I untested")
+        return entry("pass", f"seesaw at M_I with a Dirac Yukawa of {y_needed:.3f} for the heaviest neutrino")
+
     def fermion_entry(nm: str) -> Dict[str, Any]:
         if nm.startswith("PS"):
             return entry("fail" if yps["excluded"] else "pass",
@@ -6521,7 +6643,7 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
             "B": entry("open", "no b-tau relation without a Yukawa structure (minimal 10_H excluded, Part T)"),
             "H": entry("fail" if abs(pull_h) > surv else "pass",
                        f"lambda(M_I) = 0 gives m_h = {two['m_h_lambda_MI_zero']:.2f} GeV", abs(pull_h)),
-            "N": entry("pass", f"seesaw at M_I with a Dirac Yukawa of {y_needed:.3f} for the heaviest neutrino"),
+            "N": neutrino_entry(nm, y_needed),
             "P": entry("pass" if two["tau_p_allowed"] else "fail",
                        f"p -> e+ pi0 in {two['tau_p_years']:.0e} years against {pdk['limit_e_pi0']:.1e}"),
             "A": leptogenesis_entry(m_i),
@@ -6942,8 +7064,13 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     dm = _stage("dark_matter", lambda: dark_matter(scp, s10, planck, bau))
     s10y = _stage("so10_yukawa", lambda: so10_yukawa_tests(flav, s10))
     mw = _stage("w_mass", lambda: {**w_mass_test(crit), "z_pole": sin2_eff_test(crit)})
-    closed = _stage("closed_cosmology", lambda: closed_cosmology(cosmo, dm, nus, "PS"))
     score = _stage("scorecard", lambda: scorecard(joint, higgs, crit, pdk, nus, bau, s10, scp, dm, s10y))
+
+    def survivor_chain() -> str:
+        chains = [h.replace("SO(10) via ", "") for h in score["survivors"] if h.startswith("SO(10) via ")]
+        return chains[0] if chains else "PS"
+    closed = _stage("closed_cosmology", lambda: closed_cosmology(cosmo, dm, nus, survivor_chain()))
+    ledger = _stage("ledger", lambda: final_ledger(score, s10, s10y, scp, nus, bau, dm, crit, anom, masses, closed, joint))
     _TRACE["stage"] = "self_checks"                 # everything below validates the stages above
     _TRACE["inputs"].setdefault("self_checks", set())
     checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
@@ -7268,7 +7395,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
             "alpha_numerology": alpha_num, "yukawa": yukawa, "higgs": higgs, "criticality": crit,
             "joint": joint, "mass_formulas": masses, "strong_cp": scp, "neutrinos": nus, "proton_decay": pdk,
             "anomalies": anom, "baryon_asymmetry": bau, "so10": s10, "scorecard": score,
-            "dark_matter": dm, "w_mass": mw, "closed_cosmology": closed, "so10_yukawa": s10y,
+            "dark_matter": dm, "w_mass": mw, "closed_cosmology": closed, "so10_yukawa": s10y, "ledger": ledger,
             "survey_certificates": certs, "checks": checks, "lineage": lin,
             "changed_inputs": dict(_TRACE["set"]),
             "precision": prec}
@@ -8445,7 +8572,8 @@ def report(res: Dict[str, Any]) -> str:
     w("PART X. CLOSING THE LOOP: COSMOLOGY FROM THE PARTICLE PHYSICS")
     w("-" * 78)
     w("  Part A takes Omega_m as an input. Here it follows from the rest: Omega_b (measured), the axion at the")
-    w(f"  Pati-Salam M_I by misalignment (Part V: Omega_a h^2 = {cc_['Omega_a_h2']:.4f}) and the minimal neutrino masses")
+    w(f"  surviving chain's M_I (Part U: {cc_['chain']}) by misalignment (Part V: Omega_a h^2 = {cc_['Omega_a_h2']:.4f}) and the"
+      " minimal neutrino masses")
     w("  (Part P). Flatness gives Omega_Lambda; the Friedmann equation the age.")
     w(f"    Omega_m = {cc_['Omega_m']:.4f} (Part A's input: {cc_['Omega_m_input']:.4f}), Omega_Lambda = {cc_['Omega_Lambda']:.4f},"
       f" age = {cc_['age_Gyr']:.3f} Gyr")
@@ -8514,6 +8642,23 @@ def report(res: Dict[str, Any]) -> str:
                           + ". It predicts nothing yet: its scales are solved from the couplings, and its passes are "
                             "consistency, not calculation; two-loop running and thresholds come next."
                           if sc_["survivors"] else "no complete hypothesis survives every condition."), 2))
+    w("")
+    lg_ = res["ledger"]
+    w("PART Z. THE LEDGER: EVERY FREE NUMBER AND WHAT THE ALGORITHM DOES WITH IT")
+    w("-" * 78)
+    w("  For the hypothesis that survives every condition (Part U): " + (", ".join(lg_["survivors"]) or "none")
+      + f"; scales from its {lg_['chain']} chain.")
+    w("  calculated = fixed with nothing measured spent; related = tied to others by a tested relation;")
+    w("  traded = exchanged for an unknown; bounded = only limited; open = no mechanism; input = measured.")
+    for r_ in lg_["rows"]:
+        w(_wrap(f"{r_['quantity']:<34s} {r_['count']:<12s} {r_['status']:<10s} {r_['how']}", 4, 110))
+    w("  Totals: " + ", ".join(f"{k} {v}" for k, v in sorted(lg_["counts"].items())))
+    w(_wrap("RESULT: the algorithm closes: one pass, every stage run in dependency order, every assumption of the "
+            "surviving hypothesis consistent with every condition tested, and every free number assigned a status. "
+            "What it calculates is discrete and exact (the charges, their quantization, sin^2 theta_W at unification, "
+            "the family number in 3-3-1). Every continuous number is still an input, traded for an unknown, bounded or "
+            "open: no free number of the Standard Model is calculated. The surviving hypothesis' open entries "
+            "(neutrino masses through type I, the dark matter, the Higgs mass) are where it must predict or fail next.", 2))
     w("")
     w("THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)")
     w("-" * 78)
@@ -8599,6 +8744,7 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
         "baryon_asymmetry": res["baryon_asymmetry"], "so10": res["so10"],
         "scorecard": res["scorecard"], "dark_matter": res["dark_matter"],
         "w_mass": res["w_mass"], "closed_cosmology": res["closed_cosmology"], "so10_yukawa": res["so10_yukawa"],
+        "ledger": res["ledger"],
         "survey_certificates": res["survey_certificates"],
         "model": {"stages": STAGES, "lineage": res["lineage"], "changed_inputs": res["changed_inputs"],
                   "audit_findings": [{"status": a, "finding": b} for a, b in AUDIT_FINDINGS]},
