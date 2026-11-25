@@ -6002,7 +6002,7 @@ def report(res: Dict[str, Any]) -> str:
     for r_ in sc["parity"]:
         sg = {k: "".join("+" if s_ > 0 else "-" for s_ in v["eigenvalue_signs"]) for k, v in r_["sectors"].items()}
         w(f"         Part C survivor (up {r_['up']}, down {r_['down']}): eigenvalue signs up {sg['u']}, down"
-          f" {sg['d']}; arg det(M_u M_d) = {r_['arg_det_over_pi']} pi")
+          f" {sg['d']}; arg det(M_u M_d) = {'pi' if r_['arg_det_over_pi'] else '0'}")
     w("         as found (heaviest eigenvalue positive), so theta-bar = 0 needs " +
       ("no sign flip." if all(r_["arg_det_over_pi"] == 0 for r_ in sc["parity"]) else "one sector's sign flipped."))
     w("         But Hermiticity needs a left-right parity (Part E), and the textures that parity gives are")
@@ -6065,8 +6065,8 @@ def report(res: Dict[str, Any]) -> str:
     klo, khi = _comparison("m_bb_KLZ_low")[0], _comparison("m_bb_KLZ_high")[0]
     io_lo, io_hi = nu["orderings"]["IO"]["m_bb_at_m0_0"]
     w(f"    KamLAND-Zen: m_bb < {1000 * klo:.0f} to {1000 * khi:.0f} meV (90%, by nuclear matrix element). The inverted")
-    w(f"    floor, {1000 * io_lo:.1f} meV, is below even the strongest limit; its top, {1000 * io_hi:.1f} meV, is above"
-      " it: not yet tested.")
+    w(f"    band at m0 = 0, {1000 * io_lo:.1f} to {1000 * io_hi:.1f} meV, is tested only above {1000 * klo:.0f} meV and only with the")
+    w("    most favourable matrix elements: neither ordering is excluded by double-beta decay yet.")
     w("  P4. Mixing patterns from discrete flavour symmetries (tested like Part C's textures; delta is")
     w("      far from Gaussian, so only theta12 decides survival, at the 3 sigma level)")
     for o, rec in nu["orderings"].items():
