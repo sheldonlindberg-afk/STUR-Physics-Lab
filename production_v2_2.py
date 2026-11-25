@@ -7293,7 +7293,9 @@ def report(res: Dict[str, Any]) -> str:
       " (from g* and M_P);")
     w("      z_B solves (K/4) z^3 e^-z (1 + sqrt(pi z/2)) = z - 1 (Buchmuller, Di Bari, Plumacher, eqs. 22, 59). Over")
     w("      the natural range m_sol <= m~_1 <= m_atm:")
-    for e_ in lg["efficiency"][::max(1, len(lg["efficiency"]) // 4)] + [lg["efficiency"][-1]]:
+    eff_ = lg["efficiency"]
+    shown = sorted({0, len(eff_) - 1} | set(range(0, len(eff_), max(1, len(eff_) // 4))))
+    for e_ in (eff_[i] for i in shown):
         w(f"        m~_1 = {1000 * e_['m_tilde_eV']:5.1f} meV: K = {e_['K']:5.1f}, z_B = {e_['z_B']:.2f}, kappa_f = {e_['kappa']:.4f}"
           f"  ->  M_1 >= {e_['M1_min']:.1e} GeV")
     w("      Thermal production also needs a reheating temperature above M_1.")
