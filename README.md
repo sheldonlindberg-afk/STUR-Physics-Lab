@@ -30,7 +30,7 @@ python3 production_v2_2.py --certify            # also prove every texture exclu
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 55 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 56 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -561,6 +561,22 @@ on the charges, and the one place where the Standard Model's quantum numbers are
 * **3-3-1 (Part D).** [SU(3)_L]³ cancels only if N_f(N_c − 1) = 2N_c·k, so for N_c = 3 the number of
   families is a multiple of 3: 3, 6, 9, and so on. Asymptotic freedom of QCD then leaves **exactly
   three families**, the one free integer of the SM that a gauge theory calculates.
+
+**Part S: the baryon asymmetry**
+
+η_B = n_B/n_γ = (6.116 ± 0.004)×10⁻¹⁰, calculated from Planck's Ω_b h² and T_CMB. Making it needs
+Sakharov's three conditions:
+
+* **The Standard Model alone fails two of them.** Sphalerons violate B + L, changing each by
+  N_f = 3, and chemical equilibrium gives B = 28/79 (B − L), solved exactly. But for the measured
+  Higgs mass the transition is a crossover: the lattice endpoint is 72.4 ± 1.7 GeV, 31σ below
+  125.2. And the CKM CP violation at T_c, J Π(m²_i − m²_j)/T_c¹², is 4×10⁻²⁴, 14 orders too small.
+* **Leptogenesis works, at a price.** The seesaw of Part P gives η_B = c_sph (3/4)(g*_s,0/g*) ε₁κ.
+  Every factor follows from the field content: c_sph = 28/79, g* = 108.5, g*_s,0 = 43/11, so the
+  prefactor is 0.96×10⁻², Buchmüller–Di Bari–Plümacher's value, reproduced. Davidson–Ibarra's bound
+  (their eq. 17) then needs M₁ > 3×10⁸ GeV, inside Part P's seesaw window (< 7.6×10¹⁵ GeV). It ties
+  η_B to the neutrino masses but adds unmeasured parameters. Part L's SM up to M_P, which needs Dirac
+  neutrinos, has no such mechanism.
 
 ## What changed from production v1
 

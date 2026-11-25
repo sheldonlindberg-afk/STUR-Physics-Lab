@@ -114,6 +114,8 @@ INPUTS: Dict[str, Dict[str, str]] = {
            "source": "Planck 2018 VI, TT,TE,EE+lowE+lensing"},
     "Omega_m": {"value": "0.3153", "sigma": "0.0073", "unit": "",
                 "source": "Planck 2018 VI, TT,TE,EE+lowE+lensing"},
+    "Omega_b_h2": {"value": "0.02237", "sigma": "0.00015", "unit": "",
+                   "source": "Planck 2018 VI, table 2, TT,TE,EE+lowE+lensing (Part S)"},
     # --- electroweak
     "G_F": {"value": "1.1663788e-5", "sigma": "0.0000006e-5", "unit": "GeV^-2", "source": "PDG 2024"},
     "M_Z": {"value": "91.1876", "sigma": "0.0021", "unit": "GeV", "source": "PDG (LEP Z pole)"},
@@ -470,6 +472,11 @@ LITERATURE: Dict[str, Dict[str, Any]] = {
                   "lifetime tau ~ C sin^4(2 beta) (0.1/Abar_R)^2 (M_S/100 TeV)^2 (M_HC/1e16 GeV)^2 years at "
                   "mu_H = M_S; C, quoted only to compare with Part Q's full calculation",
         "value": "4e35"},
+    "ew_transition": {
+        "source": "Lattice: the SM electroweak transition is first order only below the endpoint Higgs mass, "
+                  "72.4 +/- 1.7 GeV (Csikor, Fodor, Heitger 1999, hep-ph/9809291); above it a crossover at "
+                  "T_c = 159.5 +/- 1.5 GeV (D'Onofrio, Rummukainen 2016, arXiv:1508.07161)",
+        "value": {"endpoint_m_h": ("72.4", "1.7"), "T_c": ("159.5", "1.5")}},
     "axion_mass_nlo": {
         "source": "QCD axion mass at NLO in chiral perturbation theory with lattice input, Gorghetto-Villadoro "
                   "2019 (refining Grilli di Cortona et al. 2016): m_a = 5.69(5) micro-eV x (1e12 GeV / f_a)",
@@ -538,6 +545,9 @@ STAGES: Dict[str, Dict[str, str]] = {
     "anomalies": {"part": "R", "level": "exact",
                   "assumes": "one family of the SM's representations (and Part D's 3-3-1 families); "
                              "Yukawa couplings for every charged fermion"},
+    "baryon_asymmetry": {"part": "S", "level": "conditional",
+                         "assumes": "lattice endpoint and T_c of the SM transition; leptogenesis: hierarchical "
+                                    "right-handed neutrinos, thermal, efficiency kappa <= 1"},
     "self_checks": {"part": "-", "level": "validation", "assumes": "tests the calculation, not the physics"},
 }
 
@@ -5039,6 +5049,111 @@ def anomaly_constraints(yuk331: Dict[int, Dict[str, Any]]) -> Dict[str, Any]:
 
 
 # =============================================================================
+# 6q. PART S: THE BARYON ASYMMETRY
+# =============================================================================
+# The universe has baryons and almost no antibaryons: eta_B = n_B / n_gamma, calculated here from
+# the measured baryon density and T_CMB. Making it needs Sakharov's three conditions (B violation,
+# C and CP violation, departure from equilibrium).
+#   S1. eta_B from Omega_b h^2 and T_CMB.
+#   S2. The Standard Model alone: sphalerons violate B + L (Delta B = Delta L = N_f per transition,
+#       from the SU(2) anomaly of Part R) and convert lepton number to baryon number by a factor
+#       fixed by chemical equilibrium, solved exactly here. But the transition is a crossover for
+#       the measured Higgs mass (lattice), and the CKM CP violation at T_c is the flavour invariant
+#       of Part O over T_c^12: both fail.
+#   S3. Leptogenesis (the seesaw of Part P): heavy right-handed neutrinos decay out of equilibrium.
+#       eta_B = c_sph (3/4) (g*s today / g*) epsilon_1 kappa (kappa <= 1, the efficiency), with every
+#       factor from the field content, and Davidson-Ibarra's bound |epsilon_1| <= 3 M_1 (m_3 - m_1) /
+#       (8 pi <H>^2) (their eq. 17) turns eta_B into a lower bound on M_1, against Part P's window.
+def sphaleron_conversion(n_f: int, n_h: int) -> Dict[str, Fr]:
+    """B / (B - L) in chemical equilibrium (fast Yukawas, sphalerons, zero hypercharge), exactly.
+    Unknowns per family (all families equal): mu_Q, mu_u, mu_d, mu_L, mu_e and mu_H."""
+    hyp = {name: y for name, _, _, y, _, _ in SM_FIELDS}
+    # right-handed fields carry minus the hypercharge of the conjugates in SM_FIELDS
+    y_q, y_u, y_d, y_l, y_e, y_h = hyp["Q"], -hyp["u^c"], -hyp["d^c"], hyp["L"], -hyp["e^c"], hyp["H"]
+    # solve with mu_L = 1: Yukawas give mu_u = mu_Q + mu_H, mu_d = mu_Q - mu_H, mu_e = mu_L - mu_H;
+    # sphalerons n_f (3 mu_Q + mu_L) = 0 give mu_Q = -mu_L/3; hypercharge neutrality fixes mu_H.
+    mu_l = Fr(1)
+    mu_q = -mu_l / 3
+
+    def charge(mu_h: Fr) -> Fr:
+        mu_u, mu_d, mu_e = mu_q + mu_h, mu_q - mu_h, mu_l - mu_h
+        ferm = n_f * (6 * y_q * mu_q + 3 * y_u * mu_u + 3 * y_d * mu_d + 2 * y_l * mu_l + y_e * mu_e)
+        return ferm + 2 * 2 * y_h * mu_h * n_h            # bosons: twice the fermions' weight
+    c0, c1 = charge(Fr(0)), charge(Fr(1)) - charge(Fr(0))
+    mu_h = -c0 / c1
+    mu_u, mu_d, mu_e = mu_q + mu_h, mu_q - mu_h, mu_l - mu_h
+    b = n_f * (2 * mu_q + mu_u + mu_d)                 # 1/3 per quark times 3 colours
+    l = n_f * (2 * mu_l + mu_e)
+    return {"B_over_BminusL": b / (b - l), "L_over_BminusL": l / (b - l), "mu_H_over_mu_L": mu_h}
+
+
+def relativistic_dof(extra_majorana: int = 0) -> Dict[str, Fr]:
+    """g* of the SM plasma from the field content (and of today's photons + neutrinos, g*s)."""
+    gauge = sum(n * n - 1 for n in (2, 3)) + 1
+    bos = 2 * gauge + sum(2 * d3 * d2 * copies for _, d3, d2, _, kind, copies in SM_FIELDS if kind == "complex_scalar")
+    ferm = sum(2 * d3 * d2 * copies for _, d3, d2, _, kind, copies in SM_FIELDS if kind == "weyl")
+    g_star = bos + Fr(7, 8) * (ferm + 2 * extra_majorana)
+    n_nu = sum(copies for name, _, _, _, _, copies in SM_FIELDS if name == "L")
+    g_s_today = 2 + Fr(7, 8) * 2 * n_nu * Fr(4, 11)
+    return {"g_star": g_star, "g_s_today": g_s_today, "bosons": Fr(bos), "fermions": Fr(ferm)}
+
+
+def baryon_asymmetry(cosmo: Dict[str, Any], flav: Dict[str, Any], nus: Dict[str, Any]) -> Dict[str, Any]:
+    x = _float_inputs()
+    out: Dict[str, Any] = {}
+    # S1. eta_B
+    def eta(xx: Dict[str, float]) -> float:
+        hbar = xx["h"] / (2 * math.pi)
+        n_gamma = 2 * zeta3() / math.pi ** 2 * (xx["k_B"] * xx["T_CMB"] / (hbar * xx["c"])) ** 3
+        mpc = xx["au"] * 648000 / math.pi * 10 ** 6
+        rho_c100 = 3 * (100 * 1000 / mpc) ** 2 / (8 * math.pi * xx["G"])
+        return xx["Omega_b_h2"] * rho_c100 / xx["m_p"] / n_gamma
+    out["eta_B"] = eta(x)
+    out["eta_B_sigma"] = _propagate(eta, ("Omega_b_h2", "T_CMB", "G"))
+    # S2. the Standard Model
+    n_f = sum(copies for name, _, _, _, _, copies in SM_FIELDS if name == "L")
+    n_h = sum(copies for _, _, _, _, kind, copies in SM_FIELDS if kind == "complex_scalar")
+    sph = sphaleron_conversion(n_f, n_h)
+    out["sphaleron"] = {"delta_B_per_transition": n_f, "n_f": n_f, "n_h": n_h, **sph}
+    lat = LITERATURE["ew_transition"]["value"]
+    m_end, m_end_s = (float(v) for v in lat["endpoint_m_h"])
+    t_c, t_c_s = (float(v) for v in lat["T_c"])
+    mh = _comparison("m_h")[0]
+    out["transition"] = {"endpoint_m_h": m_end, "endpoint_sigma": m_end_s, "m_h": mh,
+                         "n_sigma_above": (mh - m_end) / m_end_s, "T_c": t_c, "T_c_sigma": t_c_s}
+    r0 = flav["ratios"][flav["runner"].mt_msbar]
+    ups = [r0[k] for k in ("m_u", "m_c", "m_t")]
+    dns = [r0[k] for k in ("m_d", "m_s", "m_b")]
+    prod = 1.0
+    for ms_ in (ups, dns):
+        for i in range(3):
+            for j in range(i + 1, 3):
+                prod *= ms_[j] ** 2 - ms_[i] ** 2
+    j_cp = _comparison("J")[0]
+    out["cp_measure"] = {"J": j_cp, "delta_CP": j_cp * prod / t_c ** 12, "T": t_c}
+    # S3. leptogenesis
+    dof = relativistic_dof(extra_majorana=1)
+    f_eta = float(sph["B_over_BminusL"]) * Fr(3, 4) * float(dof["g_s_today"] / dof["g_star"])
+    out["leptogenesis"] = {"eta_per_epsilon_kappa": f_eta, "g_star": dof["g_star"], "g_s_today": dof["g_s_today"]}
+    v_h = flav["runner"].v / math.sqrt(2)                       # <H> = v / sqrt2
+    eps_min = out["eta_B"] / abs(f_eta)
+    rows = []
+    for o, rec in nus["orderings"].items():
+        ms_ = rec["masses_at_m0_0"]
+        dm = (max(ms_) - min(ms_)) * 10 ** -9                    # GeV
+        m1_min = eps_min * 8 * math.pi * v_h ** 2 / (3 * dm)
+        rows.append({"ordering": o, "m3_minus_m1_eV": dm * 10 ** 9, "M1_min": m1_min,
+                     "window_top": rec["seesaw"]["M_max_perturbative"],
+                     "window_open": m1_min < rec["seesaw"]["M_max_perturbative"]})
+    out["leptogenesis"]["epsilon_min"] = eps_min
+    out["leptogenesis"]["rows"] = rows
+    # Davidson-Ibarra's own example: epsilon > 1e-6 needs M_1 > 4e9 GeV (their text, m_3 ~ the atmospheric mass)
+    m_atm = nus["orderings"]["NO"]["seesaw"]["m_heaviest_eV"] * 10 ** -9
+    out["leptogenesis"]["di_example_M1"] = 10 ** -6 * 8 * math.pi * v_h ** 2 / (3 * m_atm)
+    return out
+
+
+# =============================================================================
 # 7. COSMOLOGY (Decimal arithmetic)
 # =============================================================================
 def dec_pi() -> Decimal:
@@ -5434,6 +5549,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     nus = _stage("neutrinos", lambda: neutrinos(cosmo, flav, alpha_unif, planck))
     pdk = _stage("proton_decay", lambda: proton_decay(flav, alpha_unif, yukawa))
     anom = _stage("anomalies", lambda: anomaly_constraints(yuk))
+    bau = _stage("baryon_asymmetry", lambda: baryon_asymmetry(cosmo, flav, nus))
     _TRACE["stage"] = "self_checks"                 # everything below validates the stages above
     _TRACE["inputs"].setdefault("self_checks", set())
     checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
@@ -5667,6 +5783,10 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
                   for a_, b_ in zip(proton_exponents(m_, o_), pr_[m_][o_]))
     checks.append(("Proton decay: operator-running exponents -2 c_i/b_i from the script's b_i = Ellis et al.'s eq. 17",
                    worst_q < tol, f"max abs diff {worst_q:.1e}"))
+    # Part S: the chemical-equilibrium solution satisfies every condition it imposed
+    sph_ = sphaleron_conversion(3, 1)
+    checks.append(("Sphaleron conversion: B/(B - L) = 28/79 and L/(B - L) = -51/79 (exact, three families, one Higgs)",
+                   (sph_["B_over_BminusL"], sph_["L_over_BminusL"]) == (Fr(28, 79), Fr(-51, 79)), ""))
     _TRACE["stage"] = None
     lin = model_lineage()
     checks.append(("Model graph: every stage registered, acyclic, and run in dependency order",
@@ -5676,7 +5796,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
             "symmetry": symm, "closure": closure, "quantum_gravity": qg, "alpha_unification": alpha_unif,
             "alpha_numerology": alpha_num, "yukawa": yukawa, "higgs": higgs, "criticality": crit,
             "joint": joint, "mass_formulas": masses, "strong_cp": scp, "neutrinos": nus, "proton_decay": pdk,
-            "anomalies": anom,
+            "anomalies": anom, "baryon_asymmetry": bau,
             "survey_certificates": certs, "checks": checks, "lineage": lin,
             "changed_inputs": dict(_TRACE["set"]),
             "precision": prec}
@@ -6620,6 +6740,41 @@ def report(res: Dict[str, Any]) -> str:
             + (f"exactly {fam[0]}" if len(fam) == 1 else ", ".join(str(f_) for f_ in fam))
             + ": the one free integer of the SM that a gauge theory calculates.", 2))
     w("")
+    ba = res["baryon_asymmetry"]
+    w("PART S. THE BARYON ASYMMETRY")
+    w("-" * 78)
+    w(f"  S1. eta_B = n_B/n_gamma from Omega_b h^2 = {inp('Omega_b_h2')} (Planck 2018) and T_CMB:"
+      f" ({ba['eta_B'] * 1e10:.3f} +/- {ba['eta_B_sigma'] * 1e10:.3f}) x 10^-10")
+    w("      Making it needs B violation, C and CP violation, and a departure from equilibrium (Sakharov).")
+    sp, tr, cp = ba["sphaleron"], ba["transition"], ba["cp_measure"]
+    w("  S2. The Standard Model alone")
+    w(f"      B violation: sphalerons change B and L by N_f = {sp['delta_B_per_transition']} each (the SU(2) anomaly, Part R).")
+    w(f"      Chemical equilibrium (Yukawas, sphalerons, zero hypercharge), solved exactly for N_f = {sp['n_f']},"
+      f" N_H = {sp['n_h']}:")
+    w(f"        B = {sp['B_over_BminusL']} (B - L), L = {sp['L_over_BminusL']} (B - L)  (Harvey-Turner's 28/79)")
+    w(f"      Departure from equilibrium: the transition is first order only for m_h < {tr['endpoint_m_h']} +/-"
+      f" {tr['endpoint_sigma']} GeV (lattice);")
+    w(f"        measured m_h = {tr['m_h']:.2f} GeV, {tr['n_sigma_above']:.0f} sigma above: a smooth crossover at"
+      f" T_c = {tr['T_c']} GeV. Fails.")
+    w(f"      CP violation: J prod(m_i^2 - m_j^2) / T_c^12 = {cp['delta_CP']:.1e} (running masses at m_t(m_t)),")
+    w(f"        {math.log10(ba['eta_B'] / cp['delta_CP']):.0f} orders of magnitude below eta_B. Fails.")
+    lg = ba["leptogenesis"]
+    w("  S3. Leptogenesis (the seesaw of Part P): eta_B = c_sph (3/4) (g*s,0 / g*) epsilon_1 kappa, kappa <= 1")
+    w(f"      g* = {lg['g_star']} (SM plus N_1, from the field content), g*s,0 = {lg['g_s_today']}, c_sph ="
+      f" {sp['B_over_BminusL']}: eta_B = {lg['eta_per_epsilon_kappa']:.3e} epsilon_1 kappa")
+    w(f"      so epsilon_1 >= {lg['epsilon_min']:.1e}. Davidson-Ibarra (eq. 17): |epsilon_1| <= 3 M_1 (m_3 - m_1) / (8 pi <H>^2):")
+    for r_ in lg["rows"]:
+        w(f"        {r_['ordering']}: m_3 - m_1 = {1000 * r_['m3_minus_m1_eV']:.1f} meV  ->  M_1 >= {r_['M1_min']:.1e} GeV;"
+          f" Part P's window up to {r_['window_top']:.1e} GeV: {'open' if r_['window_open'] else 'closed'}")
+    w(f"      (check: their text's example, epsilon > 1e-6 needs M_1 > 4e9 GeV; here {lg['di_example_M1']:.1e} GeV)")
+    w("      Thermal production also needs a reheating temperature above M_1.")
+    w(_wrap("RESULT: eta_B is measured, not calculated. The Standard Model fails two of Sakharov's conditions: its "
+            f"transition is a crossover ({tr['n_sigma_above']:.0f} sigma above the lattice endpoint) and its CP "
+            f"violation is {math.log10(ba['eta_B'] / cp['delta_CP']):.0f} orders too small. Leptogenesis works if the "
+            f"lightest right-handed neutrino is above {min(r_['M1_min'] for r_ in lg['rows']):.0e} GeV, inside the "
+            "seesaw window of Part P: it ties eta_B to the neutrino masses but adds unmeasured parameters (M_1, the "
+            "phases, kappa). Part L's SM up to M_P, with Dirac neutrinos, has no seesaw and so no such mechanism.", 2))
+    w("")
     w("THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)")
     w("-" * 78)
     lin = res["lineage"]
@@ -6701,6 +6856,7 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
         "uv_joint_test": res["joint"],
         "mass_formulas": res["mass_formulas"], "strong_cp": res["strong_cp"], "neutrinos": res["neutrinos"],
         "proton_decay": res["proton_decay"], "anomalies": res["anomalies"],
+        "baryon_asymmetry": res["baryon_asymmetry"],
         "survey_certificates": res["survey_certificates"],
         "model": {"stages": STAGES, "lineage": res["lineage"], "changed_inputs": res["changed_inputs"],
                   "audit_findings": [{"status": a, "finding": b} for a, b in AUDIT_FINDINGS]},

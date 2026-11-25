@@ -469,6 +469,22 @@ def test_anomalies():
     assert [a["families"] for a in an["331_allowed"]] == [3, 6, 9] and an["331_families_with_af"] == [3]
 
 
+def test_baryon_asymmetry():
+    """Part S: eta_B from Planck; the SM fails (crossover, CP far too small); the leptogenesis factors
+    come out of the field content (28/79, g* = 106.75 + 7/4, 0.96e-2) and need M_1 > ~1e8 GeV."""
+    from fractions import Fraction as Fr
+    ba = RESULT["baryon_asymmetry"]
+    assert abs(ba["eta_B"] / 6.12e-10 - 1) < 0.01
+    assert ba["sphaleron"]["B_over_BminusL"] == Fr(28, 79)
+    assert ba["transition"]["n_sigma_above"] > 20
+    assert ba["cp_measure"]["delta_CP"] < 1e-15
+    lg = ba["leptogenesis"]
+    assert lg["g_star"] == Fr(427, 4) + Fr(7, 4) and lg["g_s_today"] == Fr(43, 11)
+    assert abs(lg["eta_per_epsilon_kappa"] - 0.96e-2) < 0.01e-2           # Buchmuller, Di Bari, Plumacher
+    assert all(1e8 < r["M1_min"] < 1e9 and r["window_open"] for r in lg["rows"])
+    assert abs(lg["di_example_M1"] / 4e9 - 1) < 0.4                       # Davidson-Ibarra's own example
+
+
 def test_website_data_is_current():
     """assets/site-data.js (written by tools/site_data.py) shows the numbers the script computes."""
     import json

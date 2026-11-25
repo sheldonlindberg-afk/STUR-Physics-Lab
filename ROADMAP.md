@@ -35,11 +35,12 @@ Status: [x] done, [~] in progress, [ ] not started.
       exactly 3 with asymptotic freedom.
 - [ ] Later: the full 3-3-1 anomaly set with leptons and U(1)_X (Part D has the quarks only).
 
-## Phase 3: baryon asymmetry and leptogenesis
-- [ ] SM electroweak baryogenesis: CP violation (Part O's invariant) and the transition strength
-      (Higgs mass) against eta_B.
-- [ ] Leptogenesis: Davidson-Ibarra bound on the lightest right-handed neutrino against Part P's
-      seesaw window.
+## Phase 3: baryon asymmetry and leptogenesis (Part S) -- done
+- [x] eta_B from Omega_b h^2 and T_CMB. SM: sphaleron conversion 28/79 (exact), crossover for the
+      measured m_h (31 sigma above the lattice endpoint), CP measure 4e-24: fails.
+- [x] Leptogenesis: prefactor 0.96e-2 from the field content; Davidson-Ibarra needs M_1 > 3e8 GeV,
+      inside Part P's window. Open: the washout efficiency kappa (bounded by 1 here) from the
+      Boltzmann equations; flavour effects; the reheating temperature and, in the MSSM, gravitinos.
 
 ## Phase 4: SO(10)
 - [ ] Right-handed neutrino in the 16; seesaw scale tied to M_GUT; t-b-tau unification at large
