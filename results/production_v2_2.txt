@@ -856,6 +856,20 @@ PART T. SO(10)
         10: (6,1,1)             1/6, 0, 0            +0.037     -0.136   at 8.3e+05     at 3.5e-10
       All eight within a factor 10.0 of M_GUT: M_I 4e+06 - 5e+15 GeV, M_GUT 8e+13 - 8e+17 GeV,
       tau_p 2e+27 - 1e+43 years: the heavy spectrum, not the running, decides.
+  T9. The 210's own potential calculates four of those masses. Invariants: S2, the cubic C, quartics Q1-Q4;
+      vev on the Pati-Salam singlet; mass^2/v^2 per multiplet (quartics per 576, cubic per 24, eta in units of v):
+        (1,1,1)   eta +0.0000  Q1 +8.0000  Q2 +2.0000  Q3 +1.3333  Q4 +0.6667
+        (15,1,1)  eta +0.0000  Q1 +0.0000  Q2 -1.0000  Q3 -0.6667  Q4 -0.3333
+        (6,2,2)   eta +0.0000  Q1 +0.0000  Q2 +0.0000  Q3 +0.0000  Q4 +0.0000
+        (15,3,1)  eta +2.0000  Q1 +0.0000  Q2 -0.5000  Q3 -0.4444  Q4 -0.2778
+        (15,1,3)  eta -2.0000  Q1 +0.0000  Q2 -0.5000  Q3 -0.4444  Q4 -0.2778
+        (10,2,2)  eta +0.0000  Q1 +0.0000  Q2 -0.7500  Q3 -0.6667  Q4 -0.3333
+      Couplings scanned: |lambda_a| <= 1, |eta/v| <= 1; 192 of 6000 points give a local minimum bounded
+      below along the test directions. Their masses (the 126's and 10's still at M_GUT) give, as fractions of
+      the viable potentials:
+        proton decay passes 81 %; tau_p 16-50-84 %: 2.1e+34, 9.7e+34, 4.4e+35 years
+        M_I 16-50-84 %: 5.5e+10, 1.6e+11, 4.3e+11 GeV; natural leptogenesis 98 %; stabilizable vacuum 19 %
+        proton decay and natural leptogenesis together: 79 %
   RESULT: SO(10) calculates the hypercharges' normalization (sin^2 theta_W =
     3/8 at unification) and requires the right-handed neutrino; its minimal
     Yukawa relations are excluded. Without supersymmetry, the Pati-Salam
@@ -1331,8 +1345,9 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Part X with all of Omega_c reproduces Part A's age (the same Friedmann equation)  (13.797 against 13.795 Gyr)
   [PASS] Axion misalignment from its ingredients reproduces Di Luzio et al.'s eq. 170 (their approximation)  (Omega h^2 = 0.1184 at f_a = 2.0e+11 GeV against 0.12)
   [PASS] SO(10) -> Pati-Salam decompositions of 10, 126, 210: component indices add up to the SO(10) index under every factor  (10: 1, 126: 35, 210: 56)
+  [PASS] 210 potential: the eaten (6,2,2) is massless for every coupling (Goldstone); the radial mode has twice the vacuum curvature  (max 0.0e+00)
   [PASS] SO(10) chains: the general two-loop formula on the SM content = sm_gauge_b, sm_two_loop_b; the Newton solver at one loop = the linear solution  (rel diff 3.3e-10)
   [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (26 stages, 73 edges)
-  64/64 checks pass
+  65/65 checks pass
 ==============================================================================
-Elapsed: 387.6 s
+Elapsed: 391.9 s
