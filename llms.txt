@@ -62,7 +62,8 @@
 - Part R (anomalies, exact): anomaly cancellation + Yukawas give the SM hypercharges uniquely and quantize charge (q_p + q_e = 0); nu_R opens B - L (neutron charge eps), a Majorana mass closes it; 3-3-1 needs N_families a multiple of 3 and QCD asymptotic freedom leaves exactly 3.
 - Part S (baryon asymmetry): eta_B = 6.12e-10 from Omega_b h^2 and T_CMB. SM fails: crossover (m_h 31 sigma above the lattice endpoint 72.4 GeV), CP measure 4e-24. Leptogenesis: sphaleron 28/79 and g* derived; needs M_1 > 3e8 GeV, inside Part P's seesaw window.
 - Part T (SO(10)): B - L needs nu^c; sin^2 theta_W = 3/8 and the 3/5 normalization derived; minimal 10_H Yukawas excluded; t-b-tau needs a ~+28% m_b threshold; non-SUSY SO(10) via Pati-Salam unifies at one loop with M_I = 5.5e11, M_GUT = 1.1e16 GeV, passes proton decay, and puts the seesaw scale where leptogenesis needs it.
-- Part U (scorecard): SM to M_P fails unification, b-tau, Higgs (3.3 sigma) and the baryon asymmetry; minimal SUSY SU(5) fails the Higgs mass and proton decay (dimension 5); non-SUSY SO(10) via Pati-Salam fails nothing at one loop (lambda(M_I) = 0 gives m_h = 126.1 GeV) but predicts nothing yet.
+- Part T5 (SO(10) chains, two loops): PS M_I = 1.4e11, M_GUT = 8.0e15; PS+D and LR+D excluded by proton decay; LR M_I = 2.8e9.
+- Part U (scorecard): SM to M_P fails unification, b-tau, Higgs (3.3 sigma), baryon asymmetry; minimal SUSY SU(5) fails the Higgs mass and proton decay; SO(10) via Pati-Salam fails nothing at two loops (lambda(M_I) = 0 gives m_h = 125.6 GeV) but predicts nothing yet.
 - Every scale comes from the algorithm: m_t(m_t), Part I's M_S = 2.54 TeV and M_GUT, M_Planck.
 
 ## Files

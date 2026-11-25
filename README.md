@@ -30,7 +30,7 @@ python3 production_v2_2.py --certify            # also prove every texture exclu
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 57 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 58 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -601,6 +601,22 @@ SO(10) puts a whole family, with a right-handed neutrino, into one 16.
   running and the thresholds decide whether it holds. In this picture Part L's SM runs only up to
   M_I.
 
+**Part T5: every minimal SO(10) chain at two loops.** Each chain's one- and two-loop gauge
+coefficients come from its field content, using the Machacek–Vaughn formula. The same code
+reproduces the SM's textbook matrices exactly (a self-check). The SM runs at two loops below M_I,
+and matching is tree-level, since the thresholds are unknown. Every chain has exactly as many
+unknowns as conditions, so none predicts a coupling; the solution only locates the scales:
+
+| Chain | b (one loop) | M_I, M_GUT (two loops, GeV) | τ(p → e⁺π⁰) | λ(M_I) = 0 gives m_h |
+|---|---|---|---|---|
+| Pati–Salam | (−23/3, −3, 11/3) | 1.4×10¹¹, 8.0×10¹⁵ | 1.5×10³⁵ yr | 125.6 GeV |
+| Pati–Salam + D-parity | (−14/3, 11/3, 11/3) | 4.4×10¹³, 8.4×10¹⁴ | 1.6×10³¹ yr: **excluded** | 127.4 GeV |
+| SU(3)×SU(2)²×U(1)_{B−L} | (−7, −3, −7/3, 11/2) | 2.8×10⁹, 1.5×10¹⁶ | 1.9×10³⁶ yr | 123.3 GeV |
+| same + D-parity | (−7, −7/3, −7/3, 7) | 3.0×10¹⁰, 2.3×10¹⁵ | 9.5×10³² yr: **excluded** | 124.8 GeV |
+
+Proton decay excludes both D-parity chains. Two loops move Pati–Salam's M_I down from 5.5×10¹¹
+to 1.4×10¹¹ GeV, and its λ(M_I) = 0 Higgs mass from 126.1 to 125.6 GeV, against 125.20 measured.
+
 **Part U: the scorecard, every complete hypothesis against every condition**
 
 Part M weighs the high-energy hypotheses against unification, b–τ and the Higgs mass. Parts P–T add
@@ -608,24 +624,25 @@ neutrino masses, proton decay, the baryon asymmetry, the strong CP angle and a t
 Each entry below is the verdict the stage that computes it reached. *Trade* means an unknown
 absorbs the condition, so nothing is tested; *open* means that hypothesis has no mechanism for it.
 
-| Condition | SM to M_P | minimal SUSY SU(5) | SO(10) via Pati–Salam |
+| Condition | SM to M_P | minimal SUSY SU(5) | SO(10) via Pati–Salam (two loops) |
 |---|---|---|---|
 | gauge unification | fail (79σ) | trade (M_S) | pass (M_I, M_GUT solved) |
 | b–τ unification | fail (79σ) | trade (tan β) | open |
-| Higgs mass | fail (3.3σ; 2.95σ with theory errors) | fail (m_h ≤ 103 GeV) | pass: λ(M_I) = 0 gives 126.1 GeV (~1σ) |
-| neutrino masses | trade (Dirac, y ~ 3×10⁻¹³) | trade | pass (seesaw at M_I, y ≈ 0.03) |
-| proton decay | pass (no GUT) | fail (p → ν̄K⁺, 4 orders short) | pass (6×10³⁵ yr) |
+| Higgs mass | fail (3.3σ; 2.95σ with theory errors) | fail (m_h ≤ 103 GeV) | pass: λ(M_I) = 0 gives 125.6 GeV (0.4σ) |
+| neutrino masses | trade (Dirac, y ~ 3×10⁻¹³) | trade | pass (seesaw at M_I) |
+| proton decay | pass (no GUT) | fail (p → ν̄K⁺, 4 orders short) | pass (1.5×10³⁵ yr) |
 | baryon asymmetry | fail (no mechanism) | trade | trade (leptogenesis window open) |
-| strong CP | open | open | trade (axion at f_a = M_I: m_a ≈ 10 μeV) |
+| strong CP | open | open | trade (axion at f_a = M_I) |
 
-The only hypothesis that fails nothing at this order is non-supersymmetric SO(10) through
-Pati–Salam. It also predicts nothing yet: its scales are solved from the couplings, and its passes
-are consistency checks, not calculations.
+The scorecard also has a row for each of the other three chains. Both D-parity chains fail proton
+decay, and the left-right chain passes everything with its Higgs value 2.0σ low. Pati–Salam without
+D-parity fails nothing, but it also predicts nothing yet: its scales are solved from the couplings,
+and its passes are consistency checks, not calculations.
 
 The Higgs entry is the one to watch. Moving Part L's criticality condition from M_P to M_I gives
-126.1 GeV, against 125.20 measured. But nothing establishes why λ should vanish at M_I, where the
-scalar sector changes. That makes it a test, possibly a coincidence. Two-loop running and the
-thresholds come next ([ROADMAP.md](ROADMAP.md)).
+125.6 GeV at two loops, against 125.20 measured. But nothing establishes why λ should vanish at M_I,
+where the scalar sector changes. That makes it a test, possibly a coincidence. Matching λ to the
+Pati–Salam scalar potential is the next item in [ROADMAP.md](ROADMAP.md).
 
 ## What changed from production v1
 

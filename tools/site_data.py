@@ -92,7 +92,7 @@ def main():
     pmssm = [r for r in res["proton_decay"]["rows"] if r["M_S"]][0]
     data = {
         "beyond": beyond,
-        "scorecard": {"m_h": res["scorecard"]["pati_salam_higgs"]["m_h"], "survivors": res["scorecard"]["survivors"]},
+        "scorecard": {"m_h": res["scorecard"]["chain_higgs"]["PS"]["m_h"], "survivors": res["scorecard"]["survivors"]},
         "proton": {"tau": pmssm["tau_years"], "ratio": pmssm["ratio_to_limit"],
                    "d5": max((r["tau_max"] for r in res["proton_decay"]["d5"]), default=None)},
         "criticality": {

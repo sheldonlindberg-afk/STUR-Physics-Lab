@@ -58,9 +58,10 @@ Status: [x] done, [~] in progress, [ ] not started.
       conditions into Part M's chi^2 machinery.
 
 ## Next round (proposed order)
-1. Two-loop Pati-Salam running with thresholds; the other SO(10) chains (2_L 2_R 3_C 1_{B-L},
-   D-parity); does any chain predict a number (e.g. sin^2 theta_W or alpha_s) once thresholds are
-   fixed by the scalar spectrum?
+1. [x] Two-loop running for every minimal chain (PS, PS+D, LR, LR+D; Part T5): b from the field
+   content (checked on the SM); none predicts a coupling (unknowns = conditions). Two loops:
+   PS M_I = 1.4e11, M_GUT = 8.0e15 GeV; both D-parity chains excluded by proton decay;
+   lambda(M_I) = 0 gives 125.6 (PS), 123.3 (LR) GeV. Open: threshold corrections (tree matching).
 2. Lambda's running above M_I in the Pati-Salam scalar sector: what lambda(M_I) really is.
 3. Proton decay above M_I with the Pati-Salam operator running; the dimension-5 factor-2.2 debug.
 4. Leptogenesis efficiency kappa from the Boltzmann equations, with M_1 tied to M_I.

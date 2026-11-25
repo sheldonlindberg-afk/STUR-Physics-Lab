@@ -552,8 +552,8 @@ STAGES: Dict[str, Dict[str, str]] = {
              "assumes": "SO(10) with one 16 per family; minimal Yukawas from one 10_H; the Pati-Salam chain with "
                         "scalars (1,2,2) + (10,1,3), one-loop running, no thresholds"},
     "scorecard": {"part": "U", "level": "conditional",
-                  "assumes": "three complete hypotheses, each condition judged by the stage that computes it; for "
-                             "Pati-Salam the Higgs condition is lambda(M_I) = 0"},
+                  "assumes": "the SM, minimal SUSY SU(5) and four SO(10) chains (two loops), each condition judged "
+                             "by the stage that computes it; for the chains the Higgs condition is lambda(M_I) = 0"},
     "self_checks": {"part": "-", "level": "validation", "assumes": "tests the calculation, not the physics"},
 }
 
@@ -5249,8 +5249,157 @@ def pati_salam_unification(x: Dict[str, float]) -> Dict[str, Any]:
             "consistent": 0 < t_i and d > 0}
 
 
+# --- T5. Every minimal SO(10) chain at one and two loops. A chain is the gauge group between M_I and
+# M_GUT with its fields; its one- and two-loop b come from the field content by the same
+# Machacek-Vaughn formulas as the SM's (gauge part). The SM runs at two loops below M_I (gauge part,
+# as in Part I). Tree-level matching at M_I and M_GUT: the heavy-field thresholds are unknown.
+#   PS     SU(4) x SU(2)_L x SU(2)_R, scalars (1,2,2) + (10,1,3)
+#   PS+D   with D-parity: g_L = g_R above M_I; scalars add (10bar,3,1)
+#   LR     SU(3) x SU(2)_L x SU(2)_R x U(1)_{B-L}, scalars (1,2,2,0) + (1,1,3,2)
+#   LR+D   with D-parity: adds (1,3,1,2); g_L = g_R above M_I
+# U(1)_{B-L} is normalized as in SO(10): X = sqrt(3/8) (B - L), so hypercharge matches as
+# 1/alpha_1 = (3/5)/alpha_2R + (2/5)/alpha_X. Counting: each chain has exactly as many unknowns
+# as conditions (M_I, M_GUT, alpha_GUT, and for LR without D-parity the split of hypercharge
+# between SU(2)_R and B - L), so none predicts a coupling; the solution says where the scales are.
+BL_NORM = Fr(3, 8)
+
+
+def _rep_info(group: str, dim: int) -> Tuple[Fr, Fr]:
+    """(Dynkin index T, Casimir C2) of an irreducible SU(N) representation, by dimension."""
+    n = {"SU4": 4, "SU3": 3, "SU2": 2}[group]
+    if dim == 1:
+        return Fr(0), Fr(0)
+    if dim == n:
+        return Fr(1, 2), Fr(n * n - 1, 2 * n)
+    if dim == n * n - 1:
+        return Fr(n), Fr(n)
+    if (n, dim) == (4, 10):                                  # symmetric tensor of SU(4)
+        return Fr(n + 2, 2), Fr((n + 2) * (n - 1), n)
+    raise ValueError(f"representation {dim} of {group} not tabulated")
+
+
+def chain_b(groups: Sequence[str], fields, u1_norm: Fr = BL_NORM) -> Tuple[List[Fr], List[List[Fr]]]:
+    """One- and two-loop gauge b of a product group. fields: (rep, kind, copies); rep lists the
+    dimension under each SU(N) and, for the U(1), its charge (squared and normalized by u1_norm)."""
+    k = len(groups)
+    ca = [Fr(0) if g == "U1" else _rep_info(g, {"SU4": 15, "SU3": 8, "SU2": 3}[g])[1] for g in groups]
+    b1 = [-Fr(11, 3) * c for c in ca]
+    b2 = [[(-Fr(34, 3) * ca[i] ** 2 if i == j else Fr(0)) for j in range(k)] for i in range(k)]
+    for rep, kind, copies in fields:
+        dims = [1 if g == "U1" else r for g, r in zip(groups, rep)]
+        size = math.prod(dims)
+        s_i, c_i = [], []
+        for g, r, d in zip(groups, rep, dims):
+            t, c = (u1_norm * r * r, u1_norm * r * r) if g == "U1" else _rep_info(g, d)
+            s_i.append(t * Fr(size, d))
+            c_i.append(c)
+        w1 = Fr(2, 3) if kind == "weyl" else Fr(1, 3)
+        for i in range(k):
+            b1[i] += w1 * copies * s_i[i]
+            for j in range(k):
+                if kind == "weyl":
+                    b2[i][j] += copies * s_i[i] * (2 * c_i[j] + (Fr(10, 3) * ca[i] if i == j else 0))
+                else:
+                    b2[i][j] += copies * s_i[i] * (4 * c_i[j] + (Fr(2, 3) * ca[i] if i == j else 0))
+    return b1, b2
+
+
+def so10_chains() -> Dict[str, Dict[str, Any]]:
+    n_f = sum(copies for name, _, _, _, _, copies in SM_FIELDS if name == "L")
+    ps = [((4, 2, 1), "weyl", n_f), ((4, 1, 2), "weyl", n_f), ((1, 2, 2), "scalar", 1), ((10, 1, 3), "scalar", 1)]
+    lr = [((3, 2, 1, Fr(1, 3)), "weyl", n_f), ((3, 1, 2, Fr(-1, 3)), "weyl", n_f),
+          ((1, 2, 1, Fr(-1)), "weyl", n_f), ((1, 1, 2, Fr(1)), "weyl", n_f),
+          ((1, 2, 2, Fr(0)), "scalar", 1), ((1, 1, 3, Fr(2)), "scalar", 1)]
+    out = {"PS": {"groups": ("SU4", "SU2", "SU2"), "fields": ps, "D": False},
+           "PS+D": {"groups": ("SU4", "SU2", "SU2"), "fields": ps + [((10, 3, 1), "scalar", 1)], "D": True},
+           "LR": {"groups": ("SU3", "SU2", "SU2", "U1"), "fields": lr, "D": False},
+           "LR+D": {"groups": ("SU3", "SU2", "SU2", "U1"), "fields": lr + [((1, 3, 1, Fr(2)), "scalar", 1)], "D": True}}
+    for c in out.values():
+        c["b1"], c["b2"] = chain_b(c["groups"], c["fields"])
+    return out
+
+
+def _run_inv(inv: List[float], b1: List[float], b2: List[List[float]], t0: float, t1: float, loops: int) -> List[float]:
+    """1/alpha_i from ln mu = t0 to t1 (RK4, the script's unification step)."""
+    n = max(1, math.ceil(abs(t1 - t0) / num("unif_step")))
+    h = (t1 - t0) / n
+    k = len(inv)
+
+    def rhs(v: List[float]) -> List[float]:
+        a = [1 / x_ for x_ in v]
+        return [-b1[i] / (2 * math.pi) - (sum(b2[i][j] * a[j] for j in range(k)) / (8 * math.pi ** 2) if loops == 2 else 0)
+                for i in range(k)]
+    for _ in range(n):
+        inv = _rk4(rhs, inv, h)
+    return inv
+
+
+def solve_chain(chain: Dict[str, Any], x: Dict[str, float], loops: int) -> Dict[str, Any]:
+    """Newton's method on the chain's conditions; unknowns u = (t_I, t_G[, inv_2R(M_I)]) in ln mu."""
+    a, s2 = 1 / x["alpha_em_inv_MZ"], x["s2_hat_Z"]
+    inv0 = [float(GUT_NORM) * (1 - s2) / a, s2 / a, 1 / x["alpha_s_MZ"]]
+    sm1 = [float(v) for v in sm_gauge_b()]
+    sm2 = [[float(v) for v in r] for r in (sm_two_loop_b() if loops == 2 else [[0] * 3] * 3)]
+    b1 = [float(v) for v in chain["b1"]]
+    b2 = [[float(v) for v in r] for r in chain["b2"]]
+    gn = float(GUT_NORM)
+    t_z = math.log(x["M_Z"])
+    free_split = chain["groups"][0] == "SU3" and not chain["D"]
+
+    def at_mi(u: List[float]) -> List[float]:
+        s = _run_inv(inv0, sm1, sm2, t_z, u[0], loops)
+        i1, i2, i3 = s
+        if chain["groups"][0] == "SU4":                  # alpha_4 = alpha_3; 2R from hypercharge
+            return [i3, i2, (i1 - (1 - gn) * i3) / gn]
+        r = u[2] if free_split else i2                    # LR: inv_2R free, or = inv_2L with D-parity
+        return [i3, i2, r, (i1 - gn * r) / (1 - gn)]
+
+    def residuals(u: List[float]) -> List[float]:
+        start = at_mi(u)
+        top = _run_inv(start, b1, b2, u[0], u[1], loops)
+        res = [top[0] - top[1]] + [top[i] - top[1] for i in range(2, len(top))]
+        if chain["D"] and chain["groups"][0] == "SU4":
+            res = [res[0], start[2] - start[1]]           # D-parity: g_R = g_L at M_I (then equal above)
+        elif chain["D"]:
+            res = [res[0], res[2]]                        # 2R = 2L above M_I automatically
+        return res
+    u = [math.log(10 ** 11), math.log(10 ** 16)] + ([inv0[1]] if free_split else [])
+    h_ = num("unif_ms_deriv_step")
+    for _ in range(int(num("unif_iterations"))):
+        f0 = residuals(u)
+        if max(abs(v) for v in f0) < num("unif_tol"):
+            break
+        jac = []
+        for k in range(len(u)):
+            du = list(u)
+            du[k] += h_
+            jac.append([(fa - fb) / h_ for fa, fb in zip(residuals(du), f0)])
+        # solve J^T rows: jac[k][i] = d res_i / d u_k
+        n = len(u)
+        m = [[jac[k][i] for k in range(n)] + [-f0[i]] for i in range(n)]
+        for i in range(n):
+            piv = max(range(i, n), key=lambda r_: abs(m[r_][i]))
+            m[i], m[piv] = m[piv], m[i]
+            for r_ in range(n):
+                if r_ != i:
+                    f = m[r_][i] / m[i][i]
+                    m[r_] = [p - f * q for p, q in zip(m[r_], m[i])]
+        u = [u[i] + m[i][n] / m[i][i] for i in range(n)]
+    f0 = residuals(u)
+    top = _run_inv(at_mi(u), b1, b2, u[0], u[1], loops)
+    return {"M_I": math.exp(u[0]), "M_GUT": math.exp(u[1]), "alpha_GUT": 1 / top[1],
+            "residual": max(abs(v) for v in f0), "consistent": t_z < u[0] < u[1]}
+
+
+def sm_as_chain() -> Tuple[List[Fr], List[List[Fr]]]:
+    """The SM's own content through chain_b: must equal sm_gauge_b and sm_two_loop_b (a check)."""
+    fields = [((y, d2, d3), "weyl" if kind == "weyl" else "scalar", copies)
+              for _, d3, d2, y, kind, copies in SM_FIELDS]
+    return chain_b(("U1", "SU2", "SU3"), fields, GUT_NORM)
+
+
 def so10(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any], scp: Dict[str, Any],
-         bau: Dict[str, Any], pdk: Dict[str, Any]) -> Dict[str, Any]:
+         bau: Dict[str, Any], pdk: Dict[str, Any], crit: Dict[str, Any]) -> Dict[str, Any]:
     x0 = _float_inputs()
     out: Dict[str, Any] = {}
     # T1
@@ -5294,6 +5443,22 @@ def so10(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any
     ps["M_I_in_leptogenesis_window"] = ps["M1_min_leptogenesis"] < ps["M_I"] < ps["seesaw_window_top"]
     ps["axion_m_a_eV_if_fa_MI"] = scp["axion"]["ma_fa_MeV2"] * 10 ** 3 / ps["M_I"]
     out["pati_salam"] = ps
+    # T5. every minimal chain at one and two loops, with its proton lifetime, lambda(M_I) = 0 and windows
+    chains = {}
+    for name, ch in so10_chains().items():
+        rec = {"b1": ch["b1"], "b2": ch["b2"], "D_parity": ch["D"], "groups": ch["groups"]}
+        for loops in (1, 2):
+            rec[f"loop{loops}"] = solve_chain(ch, x0, loops)
+        two = rec["loop2"]
+        two["tau_p_years"] = proton_lifetime(x0, two["M_GUT"], two["alpha_GUT"], None, a_l)
+        two["tau_p_allowed"] = two["tau_p_years"] > pdk["limit_e_pi0"]
+        two["m_h_lambda_MI_zero"] = predict_higgs_mass_nnlo(None, two["M_I"], 3, crit["central"]["m_h"],
+                                                             anchor=crit["smdr"])["m_h"]
+        two["in_leptogenesis_window"] = ps["M1_min_leptogenesis"] < two["M_I"] < ps["seesaw_window_top"]
+        two["axion_m_a_eV_if_fa_MI"] = scp["axion"]["ma_fa_MeV2"] * 10 ** 3 / two["M_I"]
+        rec["two_loop_shift_ln_MI"] = math.log(two["M_I"] / rec["loop1"]["M_I"])
+        chains[name] = rec
+    out["chains"] = chains
     return out
 
 
@@ -5342,27 +5507,29 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
            "A": entry("trade", "leptogenesis possible above M_1 ~ 3e8 GeV; gravitinos not checked"),
            "T": entry("open", "needs an axion or another mechanism")}
     rows["minimal SUSY SU(5)"] = su5
-    # --- SO(10) via Pati-Salam
-    ps = s10["pati_salam"]
-    m_i = ps["M_I"]
-    crit_mi = predict_higgs_mass_nnlo(None, m_i, 3, crit["central"]["m_h"], anchor=crit["smdr"])
-    sig_h = math.hypot(crit["sigma_total"], mh_s)
-    pull_h = (crit_mi["m_h"] - mh) / sig_h
+    # --- every SO(10) chain at two loops (Part T5)
     m3 = nus["orderings"]["NO"]["seesaw"]["m_heaviest_eV"] * 10 ** -9
     v = crit["state_mt"][1]
-    y_needed = math.sqrt(2 * m_i * m3) / v                      # Dirac Yukawa if M_R = M_I
-    pso = {"U": entry("pass" if ps["consistent"] else "fail",
-                      f"M_I = {m_i:.1e}, M_GUT = {ps['M_GUT']:.1e} GeV solve the three couplings (no prediction)"),
-           "B": entry("open", "no b-tau relation without a Yukawa structure (minimal 10_H excluded, Part T)"),
-           "H": entry("fail" if abs(pull_h) > surv else "pass",
-                      f"lambda(M_I) = 0 gives m_h = {crit_mi['m_h']:.2f} GeV", abs(pull_h)),
-           "N": entry("pass", f"seesaw at M_I with a Dirac Yukawa of {y_needed:.2f} for the heaviest neutrino"),
-           "P": entry("pass" if ps["tau_p_allowed"] else "fail",
-                      f"p -> e+ pi0 in {ps['tau_p_years']:.0e} years against {ps['tau_p_limit']:.1e}"),
-           "A": entry("trade" if ps["M_I_in_leptogenesis_window"] else "fail",
-                      "leptogenesis needs M_1 between 3e8 GeV and M_I: allowed, not computed"),
-           "T": entry("trade", f"an axion at f_a = M_I would give m_a = {ps['axion_m_a_eV_if_fa_MI'] * 10 ** 6:.0f} micro-eV")}
-    rows["SO(10) via Pati-Salam"] = pso
+    sig_h = math.hypot(crit["sigma_total"], mh_s)
+    higgs_rows = {}
+    for nm, ch in s10["chains"].items():
+        two = ch["loop2"]
+        m_i = two["M_I"]
+        pull_h = (two["m_h_lambda_MI_zero"] - mh) / sig_h
+        higgs_rows[nm] = {"m_h": two["m_h_lambda_MI_zero"], "sigma": sig_h, "pull": pull_h, "M_I": m_i}
+        y_needed = math.sqrt(2 * m_i * m3) / v
+        rows[f"SO(10) via {nm}"] = {
+            "U": entry("pass" if two["consistent"] else "fail",
+                       f"M_I = {m_i:.1e}, M_GUT = {two['M_GUT']:.1e} GeV solve the three couplings (no prediction)"),
+            "B": entry("open", "no b-tau relation without a Yukawa structure (minimal 10_H excluded, Part T)"),
+            "H": entry("fail" if abs(pull_h) > surv else "pass",
+                       f"lambda(M_I) = 0 gives m_h = {two['m_h_lambda_MI_zero']:.2f} GeV", abs(pull_h)),
+            "N": entry("pass", f"seesaw at M_I with a Dirac Yukawa of {y_needed:.3f} for the heaviest neutrino"),
+            "P": entry("pass" if two["tau_p_allowed"] else "fail",
+                       f"p -> e+ pi0 in {two['tau_p_years']:.0e} years against {pdk['limit_e_pi0']:.1e}"),
+            "A": entry("trade" if two["in_leptogenesis_window"] else "fail",
+                       "leptogenesis needs M_1 between 3e8 GeV and M_I: allowed, not computed"),
+            "T": entry("trade", f"an axion at f_a = M_I would give m_a = {two['axion_m_a_eV_if_fa_MI'] * 10 ** 6:.2g} micro-eV")}
     conditions = {"U": "gauge unification", "B": "b-tau unification", "H": "Higgs mass", "N": "neutrino masses",
                   "P": "proton decay", "A": "baryon asymmetry", "T": "strong CP"}
     verdict = {h: {"fails": [c for c, e in r.items() if e["status"] == "fail"],
@@ -5370,7 +5537,7 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
                    "passes": [c for c, e in r.items() if e["status"] == "pass"],
                    "open": [c for c, e in r.items() if e["status"] == "open"]} for h, r in rows.items()}
     return {"rows": rows, "conditions": conditions, "verdict": verdict,
-            "pati_salam_higgs": {"m_h": crit_mi["m_h"], "sigma": sig_h, "pull": pull_h, "M_I": m_i},
+            "chain_higgs": higgs_rows,
             "survivors": [h for h, v_ in verdict.items() if not v_["fails"]]}
 
 
@@ -5771,7 +5938,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     pdk = _stage("proton_decay", lambda: proton_decay(flav, alpha_unif, yukawa))
     anom = _stage("anomalies", lambda: anomaly_constraints(yuk))
     bau = _stage("baryon_asymmetry", lambda: baryon_asymmetry(cosmo, flav, nus))
-    s10 = _stage("so10", lambda: so10(flav, alpha_unif, yukawa, scp, bau, pdk))
+    s10 = _stage("so10", lambda: so10(flav, alpha_unif, yukawa, scp, bau, pdk, crit))
     score = _stage("scorecard", lambda: scorecard(joint, higgs, crit, pdk, nus, bau, s10, scp))
     _TRACE["stage"] = "self_checks"                 # everything below validates the stages above
     _TRACE["inputs"].setdefault("self_checks", set())
@@ -6021,6 +6188,12 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     worst_t = max(abs(v_ * ps_["alpha_GUT"] - 1) for v_ in at_g)
     checks.append(("SO(10) via Pati-Salam: the solved M_I, M_GUT make SU(4), SU(2)_L, SU(2)_R meet at 1/alpha_GUT",
                    worst_t < tol, f"max rel diff {worst_t:.1e}"))
+    sm_c1, sm_c2 = sm_as_chain()
+    ps1 = s10["chains"]["PS"]["loop1"]
+    rel_c = max(abs(ps1["M_I"] / ps_["M_I"] - 1), abs(ps1["M_GUT"] / ps_["M_GUT"] - 1))
+    checks.append(("SO(10) chains: the general two-loop formula on the SM content = sm_gauge_b, sm_two_loop_b;"
+                   " the Newton solver at one loop = the linear solution", sm_c1 == list(sm_gauge_b())
+                   and sm_c2 == sm_two_loop_b() and rel_c < num("check_survey_tol") * 10, f"rel diff {rel_c:.1e}"))
     _TRACE["stage"] = None
     lin = model_lineage()
     checks.append(("Model graph: every stage registered, acyclic, and run in dependency order",
@@ -7047,6 +7220,17 @@ def report(res: Dict[str, Any]) -> str:
     w(f"      M_I is where B - L breaks and the right-handed neutrinos get mass: inside leptogenesis's window"
       f" ({ps['M1_min_leptogenesis']:.0e} to {ps['seesaw_window_top']:.0e} GeV): {ps['M_I_in_leptogenesis_window']}")
     w(f"      If the axion scale is M_I (as in SO(10) axion models), m_a = {ps['axion_m_a_eV_if_fa_MI'] * 1e6:.1f} micro-eV.")
+    w("  T5. Every minimal chain, one and two loops (b from the field content; SM two loops below M_I; tree-level")
+    w("      matching, thresholds unknown). Each chain has as many unknowns as conditions: none predicts a coupling.")
+    w("      chain   b (one loop)                M_I, M_GUT (1 loop)    M_I, M_GUT (2 loops)  1/a_GUT  tau_p (yr)")
+    for nm, c_ in so["chains"].items():
+        l1, l2 = c_["loop1"], c_["loop2"]
+        w(f"      {nm:<6s}  {', '.join(str(v_) for v_ in c_['b1']):<26s}  {l1['M_I']:.1e}, {l1['M_GUT']:.1e}"
+          f"     {l2['M_I']:.1e}, {l2['M_GUT']:.1e}   {1 / l2['alpha_GUT']:5.1f}   {l2['tau_p_years']:.1e}"
+          f" {'ok' if l2['tau_p_allowed'] else 'EXCLUDED'}")
+    w("      lambda(M_I) = 0 at each chain's two-loop M_I (Part L's running and matching):")
+    for nm, c_ in so["chains"].items():
+        w(f"        {nm:<6s} m_h = {c_['loop2']['m_h_lambda_MI_zero']:.2f} GeV")
     w(_wrap("RESULT: SO(10) calculates the hypercharges' normalization (sin^2 theta_W = 3/8 at unification) and "
             "requires the right-handed neutrino; its minimal Yukawa relations are excluded. Without supersymmetry, "
             f"the Pati-Salam route unifies the three couplings with M_I = {ps['M_I']:.0e} GeV and M_GUT = "
@@ -7066,11 +7250,10 @@ def report(res: Dict[str, Any]) -> str:
         for c, e in r_.items():
             sg = f" ({e['sigma']:.1f} sigma)" if e["sigma"] is not None else ""
             w(_wrap(f"{sc_['conditions'][c]:<18s} {e['status']:<6s}{sg}: {e['detail']}", 4, 100))
-    ph = sc_["pati_salam_higgs"]
-    w(f"  Pati-Salam's Higgs condition, lambda(M_I) = 0 at M_I = {ph['M_I']:.2e} GeV (Part L's running and matching):")
-    w(f"    m_h = {ph['m_h']:.2f} +/- {ph['sigma']:.2f} GeV against {_comparison('m_h')[0]:.2f}: {ph['pull']:+.1f} sigma."
-      " Why lambda should vanish at M_I is not established:")
-    w("    the scalar sector changes there. A test, not a derivation.")
+    w("  The chains' Higgs condition, lambda(M_I) = 0 where the SM ends (Part L's running and matching):")
+    for nm, ph in sc_["chain_higgs"].items():
+        w(f"    {nm:<6s} M_I = {ph['M_I']:.2e} GeV: m_h = {ph['m_h']:.2f} +/- {ph['sigma']:.2f} GeV, {ph['pull']:+.1f} sigma")
+    w("    Why lambda should vanish at M_I is not established (the scalar sector changes there): a test.")
     for h, v_ in sc_["verdict"].items():
         w(_wrap(f"{h}: fails {', '.join(sc_['conditions'][c] for c in v_['fails']) or 'nothing'}; trades "
                 f"{len(v_['trades'])}, open {len(v_['open'])}, passes {len(v_['passes'])}.", 2))

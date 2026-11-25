@@ -506,14 +506,32 @@ def test_so10():
 
 def test_scorecard():
     """Part U: SM to M_P fails unification and the baryon asymmetry; minimal SUSY SU(5) fails the Higgs
-    mass and proton decay; SO(10) via Pati-Salam fails nothing at this order (lambda(M_I) = 0 near 126 GeV)."""
+    mass and proton decay; the D-parity SO(10) chains fail proton decay; Pati-Salam fails nothing."""
     sc = RESULT["scorecard"]
     v = sc["verdict"]
     assert {"U", "A"} <= set(v["SM to M_P"]["fails"])
     assert {"H", "P"} <= set(v["minimal SUSY SU(5)"]["fails"])
-    assert v["SO(10) via Pati-Salam"]["fails"] == [] and sc["survivors"] == ["SO(10) via Pati-Salam"]
-    ph = sc["pati_salam_higgs"]
-    assert 125 < ph["m_h"] < 127.5 and abs(ph["pull"]) < 3
+    assert "P" in v["SO(10) via PS+D"]["fails"] and "P" in v["SO(10) via LR+D"]["fails"]
+    assert v["SO(10) via PS"]["fails"] == [] and "SO(10) via PS" in sc["survivors"]
+    ph = sc["chain_higgs"]["PS"]
+    assert 125 < ph["m_h"] < 127 and abs(ph["pull"]) < 2
+
+
+def test_so10_chains():
+    """Part T5: chain b from the field content (one loop as published); two loops move M_I but keep
+    every chain consistent; the solver reproduces the linear one-loop solution."""
+    from fractions import Fraction as Fr
+    ch = RESULT["so10"]["chains"]
+    assert ch["PS"]["b1"] == [Fr(-23, 3), Fr(-3), Fr(11, 3)]
+    assert ch["PS+D"]["b1"] == [Fr(-14, 3), Fr(11, 3), Fr(11, 3)]
+    assert ch["LR"]["b1"] == [Fr(-7), Fr(-3), Fr(-7, 3), Fr(11, 2)]
+    assert ch["LR+D"]["b1"] == [Fr(-7), Fr(-7, 3), Fr(-7, 3), Fr(7)]
+    for c in ch.values():
+        assert c["loop1"]["consistent"] and c["loop2"]["consistent"]
+        assert c["loop2"]["residual"] < 1e-6
+        assert abs(c["two_loop_shift_ln_MI"]) < 2.5
+    ps = RESULT["so10"]["pati_salam"]
+    assert abs(ch["PS"]["loop1"]["M_I"] / ps["M_I"] - 1) < 1e-4
 
 
 def test_website_data_is_current():

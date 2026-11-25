@@ -251,15 +251,15 @@
   <h2 id="scorecard">Which complete theory survives everything?</h2>
   <p>Each hypothesis is tested against every condition, with the verdict the stage that computes it reached. A <i>trade</i> means an unknown absorbs the condition, so nothing is tested.</p>
   <div class="tablewrap"><table>
-    <tr><th>Condition</th><th>SM to M<sub>P</sub></th><th>minimal SUSY SU(5)</th><th>SO(10) via Pati–Salam</th></tr>
+    <tr><th>Condition</th><th>SM to M<sub>P</sub></th><th>minimal SUSY SU(5)</th><th>SO(10) via Pati–Salam (two loops)</th></tr>
     <tr><td>Gauge unification</td><td><span class="chip bad">fails</span></td><td><span class="chip info">trade</span></td><td><span class="chip good">solved</span></td></tr>
-    <tr><td>Higgs mass</td><td><span class="chip bad">3.3σ</span></td><td><span class="chip bad">≤ 103 GeV</span></td><td><span class="chip good"><span data-v="sc.mh">126.1</span> GeV</span></td></tr>
+    <tr><td>Higgs mass</td><td><span class="chip bad">3.3σ</span></td><td><span class="chip bad">≤ 103 GeV</span></td><td><span class="chip good"><span data-v="sc.mh">125.6</span> GeV</span></td></tr>
     <tr><td>Neutrino masses</td><td><span class="chip info">Dirac, unexplained</span></td><td><span class="chip info">trade</span></td><td><span class="chip good">seesaw at M<sub>I</sub></span></td></tr>
     <tr><td>Proton decay</td><td><span class="chip good">stable</span></td><td><span class="chip bad">fails (ν̄K⁺)</span></td><td><span class="chip good">passes</span></td></tr>
     <tr><td>Baryon asymmetry</td><td><span class="chip bad">no mechanism</span></td><td><span class="chip info">trade</span></td><td><span class="chip info">leptogenesis possible</span></td></tr>
     <tr><td>Strong CP</td><td><span class="chip info">open</span></td><td><span class="chip info">open</span></td><td><span class="chip info">axion at M<sub>I</sub></span></td></tr>
   </table></div>
-  <p>Only non-supersymmetric SO(10) through Pati–Salam fails nothing at this order. It still predicts nothing: its scales are solved from the measured couplings. The entry to watch is the Higgs mass. Moving the criticality condition from the Planck scale to the intermediate scale M<sub>I</sub> gives <span data-v="sc.mh">126.1</span> GeV against 125.20 measured, though nothing yet explains why λ should vanish there.</p>
+  <p>The scorecard also tests every other minimal SO(10) chain at two loops: both chains with D-parity unify too low and fail proton decay. Only non-supersymmetric SO(10) through Pati–Salam fails nothing at this order. It still predicts nothing: its scales are solved from the measured couplings. The entry to watch is the Higgs mass. Moving the criticality condition from the Planck scale to the intermediate scale M<sub>I</sub> gives <span data-v="sc.mh">125.6</span> GeV against 125.20 measured, though nothing yet explains why λ should vanish there.</p>
 
   <p class="kicker">The scoreboard</p>
   <h2 id="numbers">Nature's free numbers, one by one</h2>
@@ -297,7 +297,7 @@
     <div class="card"><h3>Measured inputs only</h3><p>About thirty constants (masses, couplings, the CMB temperature, G), each with its uncertainty and source: PDG 2024, Planck 2018, CODATA 2018. They are the only physics numbers that enter a calculation.</p></div>
     <div class="card"><h3>Established physics only</h3><p>The Friedmann equation, the renormalization group with coefficients from group theory, exact linear algebra, and semiclassical gravity. Every scale comes from an earlier step.</p></div>
     <div class="card"><h3>Unknowns are scanned</h3><p>Quantities nothing fixes, such as a phase or the stop mixing, are never given a value. They are scanned over their whole range, and the prediction is the band that results.</p></div>
-    <div class="card"><h3>Checked by itself</h3><p>A test fails if any tunable number appears outside the input tables. The run ends with <span data-v="checks">57</span> self-checks of the calculation itself, which test correctness, not agreement with data. Every coefficient quoted from the literature is checked against a published result.</p></div>
+    <div class="card"><h3>Checked by itself</h3><p>A test fails if any tunable number appears outside the input tables. The run ends with <span data-v="checks">58</span> self-checks of the calculation itself, which test correctness, not agreement with data. Every coefficient quoted from the literature is checked against a published result.</p></div>
     <div class="card"><h3>One model, traced</h3><p>The parts run as stages of one algorithm. Every read of an input and of an earlier stage's result is recorded, so the report prints the dependency graph the code actually followed. Change one input (<code>--set</code>) and every stage it reaches is recalculated.</p></div>
     <div class="card"><h3>Proved where it can be</h3><p>Where a claim is "nothing fits anywhere", a search is not enough. The zero-pattern results of Part F are proved exactly, and 80 of the 82 exclusions of Part C are proved by branch-and-bound over their whole parameter space.</p></div>
   </div>
