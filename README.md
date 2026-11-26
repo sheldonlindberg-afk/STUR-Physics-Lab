@@ -793,21 +793,27 @@ left-right one.
   M_ν ∝ M_D (M_d − M_e)⁻¹ M_D. Types I + II add one complex ratio. The right-handed masses follow without any
   vev: M_R,i = s_i(M_d − M_e) · s_max(M_ν matrix)/m₃. The fits also carry the overall phase of M_d against
   M_u, which the charged leptons cannot see but the neutrinos can (9 unknowns; with the 10 quark observables,
-  the model's 19 parameters). Levenberg–Marquardt runs from 1,000 seeded starts per type in parallel, with
-  cross-seeding and kicks of the best points:
+  the model's 19 parameters). For types I + II only the direction of M_ν matters, so it is written as
+  M_ν ∝ cos θ K̂ + sin θ e^{iφ} D̂: both pure limits are ordinary points. (As a ratio w of the two terms they
+  are endless flat valleys, w → 0 and w → ∞, which a local search runs into and never leaves; that, not the
+  physics, is why earlier searches found no fit.) Levenberg–Marquardt runs from 1,000 seeded starts per type in
+  parallel (three in four of the Georgi–Jarlskog-structured kind), with cross-seeding and small kicks of the
+  32 best points:
 
-  | Seesaw | Unknowns / data | Best χ² | Heaviest M_R / M_I near the best point |
-  |---|---|---|---|
-  | type II | 15 / 13 | ≈ 440 | – |
-  | type I | 15 / 13 | ≈ 160 | ≈ 10³ |
-  | types I + II | 17 / 13 | ≈ 24 | ≈ 10² – 10³ |
+  | Seesaw | Unknowns / data | Best χ² | Fits within 3σ | Heaviest M_R / M_I |
+  |---|---|---|---|---|
+  | type II | 15 / 13 | 440 | 0 (worst observable 19σ) | – |
+  | type I | 15 / 13 | 151 | 0 | ≈ 10³ at the best point |
+  | types I + II | 17 / 13 | 1.4 | 15 | 177 – 360 over the fits |
 
-  (Exact numbers in the output.) No point of the shipped run reaches 3σ. An exploratory run with other starts
-  found one types I + II point that fits (χ² = 4.8, every neutrino observable within 0.6σ). It predicts the CP
-  phase δ ≈ 17°, outside NuFIT's 3σ range, and needs M_R,3 = 600 M_I, far above the √(4π) M_I a perturbative
-  126 coupling allows with v_R ~ M_I = 2.8 × 10⁹ GeV. Published fits (Joshipura–Patel 2011, Ohlsson–Pernow
-  2019) find type-I solutions, so the scorecard's neutrino entry stays *open*; what is computed is that every
-  near-fit wants B − L broken well above the chain's M_I.
+  **The mixed type I + II case fits.** With 17 unknowns for 13 data it reaches the data rather than predicting
+  it, and the CP phase is not pinned: δ = 136°–289° over the fits (the measured 212° lies inside). What every
+  fit shares is the right-handed scale: M_R,3 is 177 to 360 times the chain's M_I = 2.8 × 10⁹ GeV, while a
+  perturbative 126 coupling with v_R ~ M_I allows at most √(4π) M_I ≈ 3.5 M_I. If these are the chain's
+  neutrinos, B − L must break far above its intermediate scale. The thresholds of Part T7 move M_I by up to
+  a factor of about 30, so the scorecard keeps the entry *open* with that tension stated, rather than failed.
+  The lightest right-handed neutrino comes out at M₁ = 4 × 10⁹ to 1 × 10¹⁰ GeV, above the full-efficiency
+  leptogenesis bound.
 * **Part X follows the survivor.** The cosmology closure now takes the surviving chain from Part U
   automatically: the left-right chain, whose axion gives under 1% of the dark matter. The loop then
   needs nearly all the dark matter from strings, domain walls or another component.
@@ -824,7 +830,7 @@ left-right one.
 | Higgs vev, quark masses, G | 1 + 6 + 1 | input |
 | CKM | 4 | related (texture, not the survivor's structure) |
 | charged-lepton masses | 3 | traded (sum rule, 8 unknowns) |
-| neutrino masses and mixing | 7–9 | open (type II excluded; type I and I + II not reached by the shipped search, M_R ≫ M_I) |
+| neutrino masses and mixing | 7–9 | open (type II excluded; type I + II fits need M_R ≈ 200–400 M_I) |
 | strong CP angle | 1 | bounded (< 9×10⁻¹¹) |
 | dark matter, Λ | 1 + 1 | open |
 | baryon asymmetry | 1 | traded (leptogenesis, M₁ unknown) |

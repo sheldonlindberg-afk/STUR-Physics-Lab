@@ -700,6 +700,11 @@ def test_type1_seesaw():
         mr = t_["scales"]["M_R_GeV"]
         assert mr[0] <= mr[1] <= mr[2] and abs(t_["scales"]["M_R_over_M_I"] - mr[2] / lr["M_I"]) < 1e-9 * mr[2] / lr["M_I"]
     assert abs(lr["M_R_max_over_M_I"] - math.sqrt(4 * math.pi)) < 1e-12
+    # the search finds the mixed fits, and every one needs the right-handed scale far above the chain's M_I
+    assert t12["fits_found"] > 0 and t12["chi2_min"] < 9
+    assert t12["M_R_over_M_I_range"][0] > 10 * lr["M_R_max_over_M_I"]
+    lo, hi = t12["delta_deg_range"]
+    assert 0 <= lo <= hi < 360
     assert P.so10_dirac_identity(3) < 1e-12
 
 

@@ -138,10 +138,14 @@ the new result, and the tests fail if a page value, the scorecard, the ledger or
    fixes the reduced form exactly. Matrix SM running to M_I, symmetric matching (<Phi> = diag(k1, 0)), left-right
    running to M_GUT (the four couplings meet there: a check). (m_b - m_tau)/m_b at M_GUT: -0.60 -> -0.41.
    Fix: the fits had dropped one physical phase (the overall phase of M_d against M_u): 9 unknowns, 19 model
-   parameters. Fits run in parallel (fork), with cross-seeding and kicks. Result: type II still fails (~19 sigma),
-   type I best chi^2 ~ 160, types I + II ~ 24 for 13 data. An exploratory serial run with other starts found one
-   I + II fit (chi^2 4.8): delta = 17 deg (outside NuFIT's 3 sigma range), M_R,3 = 600 M_I. Open: a search that finds
-   such fits reliably; the second bidoublet's vev and the Delta_R Majorana coupling in the running.
+   parameters. Fits run in parallel (fork), with cross-seeding and kicks.
+2b. [x] A reliable neutrino search. The type I + II mixture is now projective, M_nu ~ cos(theta) K^ + sin(theta)
+   e^(i phi) D^: as a ratio w, both pure limits were endless flat valleys that trapped the local search. With
+   uniform theta starts, mostly structured starts and small kicks, the shipped run finds 15 type I + II fits
+   (best chi^2 1.4 for 13 data): delta 136-289 deg (not pinned; an earlier single point at 17 deg was not
+   representative), M_R,3 = 177-360 M_I in every fit (perturbative bound 3.5 M_I), M_1 = 4e9-1e10 GeV. Type I
+   alone: best chi^2 151; type II: ~19 sigma. Neutrino entry open, with the M_R tension stated. Open: the second
+   bidoublet's vev and the Delta_R coupling in the running; whether thresholds (Part T7) can lift M_I enough.
 3. [ ] The LR chain's own scalar potential (as Parts T9-T11 did for Pati-Salam) and its thresholds.
 4. [ ] Proton running above M_I; triplet-mediated proton decay with the fitted Yukawas.
 

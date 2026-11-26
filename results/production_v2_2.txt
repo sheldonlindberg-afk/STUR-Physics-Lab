@@ -998,29 +998,32 @@ PART Y. THE SO(10) YUKAWA SECTOR: CAN IT GIVE THE CHARGED-FERMION MASSES?
       and 4 + 1000 seeded starts per type (I + II also from the best I and II points),
       then 16 kicks of each of the 32 best points:
         seesaw   unknowns    chi^2  worst nu  sin^2: th12   th13    th23   heaviest M_R / M_I
-        II             15    441.0    18.5 s  0.265  0.0201  0.192  -
-        I              15    159.3    10.3 s  0.289  0.0218  0.316  1.2e+03
-        I + II         17     24.1     0.1 s  0.308  0.0222  0.470  1.8e+02
+        II             15    439.5    18.7 s  0.265  0.0203  0.190  -
+        I              15    151.0     8.3 s  0.308  0.0218  0.346  1.2e+03
+        I + II         17      1.4     0.0 s  0.308  0.0222  0.470  1.8e+02
         measured                              0.308  0.0221  0.470  at most sqrt(4 pi) = 3.54
       Type II: b and tau do not converge without supersymmetry ((m_b - m_tau)/m_b = -0.41 at M_GUT), so
       M_d - M_e cannot give a large theta_23 (Bajc-Senjanovic-Vissani).
-      Type I: no fit within 3 sigma found; at the best point M_R = 4.0e+10, 1.1e+12, 3.3e+12 GeV.
-      Types I + II: no fit within 3 sigma found; at the best point M_R = 9.3e+09, 1.5e+11, 5.0e+11 GeV.
+      Type I: no fit within 3 sigma found; at the best point M_R = 2.2e+10, 7.4e+11, 3.4e+12 GeV.
+      Types I + II: 15 fit(s) within 3 sigma (best chi^2 1.4). They predict delta, never fitted: 136 to 289 deg,
+        against 212 +/- 34 deg: 1.0 to 2.3 sigma (NuFIT's delta is far from Gaussian: indicative only);
+        M_R,3/M_I 1.8e+02 to 3.6e+02; the lightest right-handed neutrino M_1 = 4.3e+09 to 1.1e+10 GeV.
       The heavy masses need no vev: M_R,i = s_i(M_d - M_e) s_max(M_nu matrix)/m_3. A perturbative 126 coupling
       (M_R,3 <= sqrt(4 pi) v_R) with v_R ~ M_I = 2.8e+09 GeV needs M_R,3/M_I <= 3.54.
       The fits add the overall phase of M_d against the real M_u (physical for the neutrinos: absorbed by c1 in
       M_e, not in M_d - M_e), so 9 unknowns: with the 10 quark observables, the 19 parameters of the model.
-      Published fits with full running (Joshipura-Patel 2011, Ohlsson-Pernow 2019) find type-I dominated
-      solutions; this search does not, so either the search or the left-out pieces (the second doublet's vev,
-      the Delta_R coupling, thresholds) decide.
+      Fits exist, as published fits with full running also find (Joshipura-Patel 2011, Ohlsson-Pernow 2019):
+      with 17 unknowns for 13 data they reach the data without predicting it, and delta is not pinned. What
+      every fit shares is the right-handed scale, far above the perturbative bound at the chain's M_I.
   RESULT: SO(10)'s Yukawa sector is a real test. The minimal Pati-Salam chain
     fails it: its unbroken SU(4) keeps the light Higgs in one irrep, which
     gives the wrong lepton/down ratios by tens of sigma. Where SU(4) breaks
     at M_GUT (left-right chain), the 10 + 126 sum rule reaches the charged
-    leptons; type-II neutrinos fail, and the type-I and mixed fits come
-    closest but are not found, with the right-handed neutrinos far above the
-    left-right M_I: if they are confirmed, the 126 breaking B - L must sit
-    well above M_I.
+    leptons; type-II neutrinos fail; mixed type I + II fits are found (type I
+    alone is not), with the right-handed neutrinos far above the left-right
+    M_I: if these are the chain's neutrinos, the 126 must break B - L well
+    above M_I, which the chain's own scales do not allow without large
+    thresholds.
 
 PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
 ------------------------------------------------------------------------------
@@ -1087,8 +1090,9 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
       Part T)
     Higgs mass pass (2.0 sigma): lambda(M_I) = 0 gives m_h = 123.32 GeV
     neutrino masses open : type II from the 10 + 126 sum rule misses the PMNS data by 19 sigma (b
-      and tau do not converge: (m_b - m_tau)/m_b = -0.41); types I and I + II not reached (best
-      chi^2 159, 24; the closest point puts M_R,3 at 2e+02 M_I)
+      and tau do not converge: (m_b - m_tau)/m_b = -0.41); 15 type I (+ II) fits, every one needing
+      M_R,3 >= 177 M_I, above the perturbative 3.5 M_I: B - L would break far above the chain's M_I
+      (thresholds move M_I by up to ~30, Part T7)
     proton decay pass : p -> e+ pi0 in 2e+36 years against 2.4e+34
     baryon asymmetry open : M_1 <~ M_I = 3e+09 GeV needs weak washout: the natural range needs M_1
       >= 2e+10 GeV
@@ -1106,8 +1110,9 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
       Part T)
     Higgs mass pass (0.4 sigma): lambda(M_I) = 0 gives m_h = 124.83 GeV
     neutrino masses open : type II from the 10 + 126 sum rule misses the PMNS data by 19 sigma (b
-      and tau do not converge: (m_b - m_tau)/m_b = -0.41); types I and I + II not reached (best
-      chi^2 159, 24; the closest point puts M_R,3 at 2e+02 M_I)
+      and tau do not converge: (m_b - m_tau)/m_b = -0.41); 15 type I (+ II) fits, every one needing
+      M_R,3 >= 177 M_I, above the perturbative 3.5 M_I: B - L would break far above the chain's M_I
+      (thresholds move M_I by up to ~30, Part T7)
     proton decay fail : p -> e+ pi0 in 9e+32 years against 2.4e+34
     baryon asymmetry trade : M_1 up to M_I = 3e+10 GeV covers the natural range (M_1 >= 2e+10 GeV)
     strong CP trade : an axion at f_a = M_I would give m_a = 1.9e+02 micro-eV
@@ -1167,7 +1172,8 @@ PART Z. THE LEDGER: EVERY FREE NUMBER AND WHAT THE ALGORITHM DOES WITH IT
         the 10 + 126 sum rule reaches them with 8 unknowns (Part Y2)
     neutrino masses and mixing         7-9           open
         type II from the sum rule misses by 19 sigma (Part Y3); with left-right running, best chi^2
-          for 13 data: type I 159, types I + II 24.1 (Part Y4)
+          for 13 data: type I 151, types I + II 1.4; its 15 fits need M_R,3 >= 177 M_I and leave
+          delta between 136 and 289 deg (Part Y4)
     strong CP angle                    1             bounded
         |theta-bar| < 8.8e-11; an axion at M_I would trade it for f_a (Part O)
     dark-matter density                1             open
@@ -1524,4 +1530,4 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (28 stages, 87 edges)
   71/71 checks pass
 ==============================================================================
-Elapsed: 1367.3 s
+Elapsed: 1440.2 s

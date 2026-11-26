@@ -327,11 +327,12 @@ NUMERICS: Dict[str, Any] = {
     "yukawa_fit_kicks": 25,           # Part Y: random kicks per refined start
     "yukawa_nu_seeds": 3,             # Part Y3: charged-lepton solutions the type-II fit starts from
     "yukawa_nu_starts": 1000,         # Parts Y3, Y4: fresh Levenberg-Marquardt starts per seesaw type (in parallel)
-    "yukawa_w_decades": 2,
-    "yukawa_cross_seeds": 10,
+    "yukawa_w_decades": 2,            # Part Y4: types I + II cross-starts at tan(theta) = 10^-2 (type I) and 10^2 (type II)
+    "yukawa_nu_generic_every": 4,     # Parts Y3, Y4: every 4th fresh start generic, the rest structured (as in Y2)
+    "yukawa_cross_seeds": 10,         # Part Y4: best type-I and type-II points that also start the I + II fit
     "yukawa_nu_polish": 32,           # Parts Y3, Y4: best points refined by kicks (iterated local search)
     "yukawa_nu_kicks": 16,            # kicks per refined point
-    "yukawa_nu_kick": "0.5",          # largest kick per unknown         # Part Y4: best type-I and type-II points that also start the I + II fit            # Part Y4: types I + II, starts at |w| from 10^-2 to 10^2 (type-II/type-I ratio)
+    "yukawa_nu_kick": "0.15",         # largest kick per unknown (larger kicks leave the basin)
     "yukawa_lm_iters": 400,           # Levenberg-Marquardt: iterations per start
     "yukawa_lm_step": "1e-5",         # forward-difference step (log-magnitudes, phases, pulls)
     "yukawa_lm_mu0": "1e-2",          # initial damping
@@ -6681,11 +6682,13 @@ def so10_sum_rule(flav: Dict[str, Any], mu: float, m_i: float, ms: Dict[str, Lis
     r_meas = p_no["dm21"] / p_no["dm3l"]
     r_sig = r_meas * math.hypot(sig("nu_dm21") / p_no["dm21"], sig("nu_dm3l_NO") / p_no["dm3l"])
 
-    def neutrino_matrix(u: List[float], kind: str) -> Tuple[List[List[complex]], List[List[complex]], Any]:
-        """(M_nu up to its scale, M_e, the type-I coefficient's matrix K or None). Type II: M_nu ~ M_d - M_e.
-        Type I: M_D = M_u + r (M_d - M_e) with r = (3 + c1)/c2 fixed by the sum rule (no new unknown), M_R ~
-        M_d - M_e, so M_nu ~ K = M_D (M_d - M_e)^-1 M_D. Types I + II: K + w (s_K/s_d) (M_d - M_e), w complex
-        (u[9], u[10]), normalized by the two matrices' largest singular values."""
+    def neutrino_matrix(u: List[float], kind: str) -> Tuple[List[List[complex]], List[List[complex]], float | None]:
+        """(M_nu up to its scale, M_e, the coefficient of the type-I matrix K in it, or None). Type II: M_nu ~
+        M_d - M_e. Type I: M_D = M_u + r (M_d - M_e) with r = (3 + c1)/c2 fixed by the sum rule (no new unknown),
+        M_R ~ M_d - M_e, so M_nu ~ K = M_D (M_d - M_e)^-1 M_D. Types I + II: only the direction of M_nu matters, so
+        M_nu ~ cos(theta) K/s(K) + sin(theta) e^(i phi) (M_d - M_e)/s(M_d - M_e) with theta = u[9], phi = u[10]
+        (s: largest singular value). Both pure limits are ordinary points (theta = 0, pi/2); in a ratio w they
+        would be endless flat valleys (w -> 0, w -> infinity) that a local search runs into and never leaves."""
         md, me = matrices(u)
         dm = [[md[i][j] - me[i][j] for j in range(3)] for i in range(3)]
         if kind == "II":
@@ -6696,9 +6699,10 @@ def so10_sum_rule(flav: Dict[str, Any], mu: float, m_i: float, ms: Dict[str, Lis
         m_d = [[(mu_[i] if i == j else 0) + r_ * dm[i][j] for j in range(3)] for i in range(3)]
         kk = _cmat_mul(_cmat_mul(m_d, _cmat_inv3(dm)), m_d)
         if kind == "I":
-            return kk, me, kk
-        w_ = cmath.rect(math.exp(u[9]), u[10]) * _sing_max(kk) / _sing_max(dm)
-        return [[kk[i][j] + w_ * dm[i][j] for j in range(3)] for i in range(3)], me, kk
+            return kk, me, 1.0
+        a_ = math.cos(u[9]) / _sing_max(kk)
+        b_ = cmath.rect(math.sin(u[9]), u[10]) / _sing_max(dm)
+        return [[a_ * kk[i][j] + b_ * dm[i][j] for j in range(3)] for i in range(3)], me, a_
 
     def neutrinos(u: List[float], kind: str = "II") -> Dict[str, Any]:
         mn, me, _ = neutrino_matrix(u, kind)
@@ -6789,22 +6793,22 @@ def so10_sum_rule(flav: Dict[str, Any], mu: float, m_i: float, ms: Dict[str, Lis
         return res + [(n_["ratio"] - r_meas) / r_sig] + list(u[len(core) - 1:])
 
     def seesaw_scales(core: List[float], kind: str) -> Dict[str, Any] | None:
-        """Type-I scales at a point: M_nu = lambda (K + ...), |lambda| = m_3/s_max(M_nu matrix), and M_R =
-        (M_d - M_e)/lambda, so M_R,i = s_i(M_d - M_e) s_max/m_3, whatever the 126's vevs are."""
+        """Type-I scales at a point: M_nu = lambda (a K + ...), |lambda| = m_3/s_max(M_nu matrix), and M_R =
+        (M_d - M_e)/(lambda a), so M_R,i = s_i(M_d - M_e) s_max/(m_3 |a|), whatever the 126's vevs are."""
         if kind == "II":
             return None
-        mn, _, _ = neutrino_matrix(core, kind)
+        mn, _, a_ = neutrino_matrix(core, kind)
         md, me = matrices(core)
         dm = [[md[i][j] - me[i][j] for j in range(3)] for i in range(3)]
         rho2 = neutrinos(core, kind)["m_nu_rel"][0] ** 2
-        lam = m3l / math.sqrt(1 - rho2) * 10 ** -9 / _sing_max(mn)
+        lam = m3l / math.sqrt(1 - rho2) * 10 ** -9 / _sing_max(mn) * abs(a_)
         m_r = [math.sqrt(max(e_, 0)) / lam for e_ in _herm3_eigvals(_mm_dag(dm))]
         return {"M_R_GeV": m_r, "M_R_over_M_I": m_r[2] / m_i, "M_1_GeV": m_r[0]}
 
     def start(kind: str, k_: int) -> List[float]:
         if k_ < len(seeds):
             u0 = list(seeds[k_])
-        elif k_ % 2:
+        elif k_ % int(num("yukawa_nu_generic_every")) == 0:
             u0 = [math.log(10) * rng.uniform(-1, 3 / 2), rng.uniform(0, 2 * math.pi), math.log(10) * rng.uniform(-6, 0),
                   rng.uniform(0, 2 * math.pi), rng.uniform(0, math.pi), rng.uniform(0, math.pi),
                   rng.uniform(0, 2 * math.pi), rng.uniform(0, 2 * math.pi)]
@@ -6816,8 +6820,7 @@ def so10_sum_rule(flav: Dict[str, Any], mu: float, m_i: float, ms: Dict[str, Lis
                   rng.uniform(0, math.pi), rng.uniform(0, math.pi), rng.uniform(0, 2 * math.pi), rng.uniform(0, 2 * math.pi)]
         u0 = u0 + [rng.uniform(0, 2 * math.pi)]                   # the third up-quark phase
         if kind == "I+II":
-            w_dec = num("yukawa_w_decades")
-            u0 += [math.log(10) * rng.uniform(-w_dec, w_dec), rng.uniform(0, 2 * math.pi)]
+            u0 += [rng.uniform(0, math.pi), rng.uniform(0, 2 * math.pi)]   # theta, phi: uniform on the projective circle
         return u0 + [0] * 6
 
     tops: Dict[str, List[Tuple[float, List[float]]]] = {}
@@ -6884,8 +6887,10 @@ def so10_sum_rule(flav: Dict[str, Any], mu: float, m_i: float, ms: Dict[str, Lis
     out["type1"] = fit_neutrinos("I")
     # types I + II also start from the best type-I points (type II small) and type-II points (type I small)
     w_dec = num("yukawa_w_decades")
-    cross = [u_[:9] + [math.log(10) * sg * w_dec, rng.uniform(0, 2 * math.pi)] + u_[9:]
-             for kind_, sg in (("I", -1), ("II", 1)) for _, u_ in tops[kind_]]
+    cross = []
+    for kind_, sg in (("I", -1), ("II", 1)):
+        for _, u_ in tops[kind_]:
+            cross.append(u_[:9] + [math.atan(10 ** (sg * w_dec)), rng.uniform(0, 2 * math.pi)] + u_[9:])
     out["type12"] = fit_neutrinos("I+II", cross)
     # perturbativity of the 126's coupling: M_R,3 = y_126 v_R <= sqrt(4 pi) v_R; with v_R ~ M_I (the scale where
     # SU(2)_R x U(1)_B-L breaks) the heaviest right-handed neutrino is at most sqrt(4 pi) M_I
@@ -7059,8 +7064,9 @@ def final_ledger(score: Dict[str, Any], s10: Dict[str, Any], s10y: Dict[str, Any
             score["rows"].get(f"SO(10) via {chain}", {}).get("N", {}).get("status", "open"), "open"),
          f"type II from the sum rule misses by {t2['n_sigma_worst']:.0f} sigma (Part Y3); with left-right running, best "
          f"chi^2 for 13 data: type I {s10y['LR']['type1']['chi2_min']:.0f}, types I + II {s10y['LR']['type12']['chi2_min']:.1f}"
-         + (f", whose fits need M_R,3 = {s10y['LR']['type12']['M_R_over_M_I_range'][0]:.0f} M_I and predict delta ="
-            f" {s10y['LR']['type12']['delta_deg_range'][0]:.0f} deg (Part Y4)" if s10y['LR']['type12']['fits_found'] else " (Part Y4)")),
+         + (f"; its {s10y['LR']['type12']['fits_found']} fits need M_R,3 >= {s10y['LR']['type12']['M_R_over_M_I_range'][0]:.0f}"
+            f" M_I and leave delta between {s10y['LR']['type12']['delta_deg_range'][0]:.0f} and"
+            f" {s10y['LR']['type12']['delta_deg_range'][1]:.0f} deg (Part Y4)" if s10y['LR']['type12']['fits_found'] else " (Part Y4)")),
         ("strong CP angle", "1", "bounded",
          f"|theta-bar| < {scp['bound']['theta_max']:.1e}; an axion at M_I would trade it for f_a (Part O)"),
         ("dark-matter density", "1", "open" if not dm["chains"][chain]["pre_possible"] else "traded",
@@ -7161,8 +7167,11 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
             if fit_ and min(t_["M_R_over_M_I_range"][0] for t_ in fit_) <= bound:
                 return entry("trade", lead + "; type I (+ II) fits with M_R below sqrt(4 pi) M_I: unknowns absorb the data")
             if fit_:
-                return entry("open", lead + f"; type I (+ II) fits need M_R,3 >= {min(t_['M_R_over_M_I_range'][0] for t_ in fit_):.0e}"
-                                            f" M_I, above the perturbative {bound:.1f} M_I: B - L would break above the chain's M_I")
+                n_ = sum(t_["fits_found"] for t_ in fit_)
+                return entry("open", lead + f"; {n_} type I (+ II) fits, every one needing M_R,3 >="
+                                            f" {min(t_['M_R_over_M_I_range'][0] for t_ in fit_):.0f} M_I, above the perturbative"
+                                            f" {bound:.1f} M_I: B - L would break far above the chain's M_I (thresholds move"
+                                            " M_I by up to ~30, Part T7)")
             return entry("open", lead + f"; types I and I + II not reached (best chi^2 {t1['chi2_min']:.0f}, {t12['chi2_min']:.0f};"
                                         f" the closest point puts M_R,3 at {t12['scales']['M_R_over_M_I']:.0e} M_I)")
         return entry("pass", f"seesaw at M_I with a Dirac Yukawa of {y_needed:.3f} for the heaviest neutrino")
@@ -9230,15 +9239,23 @@ def report(res: Dict[str, Any]) -> str:
     w(f"      (M_R,3 <= sqrt(4 pi) v_R) with v_R ~ M_I = {yl['M_I']:.1e} GeV needs M_R,3/M_I <= {yl['M_R_max_over_M_I']:.2f}.")
     w("      The fits add the overall phase of M_d against the real M_u (physical for the neutrinos: absorbed by c1 in")
     w("      M_e, not in M_d - M_e), so 9 unknowns: with the 10 quark observables, the 19 parameters of the model.")
-    w("      Published fits with full running (Joshipura-Patel 2011, Ohlsson-Pernow 2019) find type-I dominated")
-    w("      solutions; this search does not, so either the search or the left-out pieces (the second doublet's vev,")
-    w("      the Delta_R coupling, thresholds) decide.")
+    found_ = [t_ for t_ in (yl["type1"], yl["type12"]) if t_["fits_found"]]
+    if found_:
+        w("      Fits exist, as published fits with full running also find (Joshipura-Patel 2011, Ohlsson-Pernow 2019):")
+        w("      with 17 unknowns for 13 data they reach the data without predicting it, and delta is not pinned. What")
+        w("      every fit shares is the right-handed scale, far above the perturbative bound at the chain's M_I.")
+    else:
+        w("      Published fits with full running (Joshipura-Patel 2011, Ohlsson-Pernow 2019) find type-I dominated")
+        w("      solutions; this search does not, so either the search or the left-out pieces (the second doublet's vev,")
+        w("      the Delta_R coupling, thresholds) decide.")
     w(_wrap("RESULT: SO(10)'s Yukawa sector is a real test. The minimal Pati-Salam chain fails it: its unbroken SU(4) "
             "keeps the light Higgs in one irrep, which gives the wrong lepton/down ratios by tens of sigma. Where "
             "SU(4) breaks at M_GUT (left-right chain), the 10 + 126 sum rule reaches the charged leptons; type-II "
-            "neutrinos fail, and the type-I and mixed fits " + ("are found, " if yl["type12"]["fits_found"] or
-            yl["type1"]["fits_found"] else "come closest but are not found, ") + "with the right-handed neutrinos far "
-            "above the left-right M_I: if they are confirmed, the 126 breaking B - L must sit well above M_I.", 2))
+            "neutrinos fail; " + ("mixed type I + II fits are found" + (" (type I alone too)" if yl["type1"]["fits_found"]
+            else " (type I alone is not)") if yl["type12"]["fits_found"] else "type I and the mixed case come closest but "
+            "are not found") + ", with the right-handed neutrinos far "
+            "above the left-right M_I: if these are the chain's neutrinos, the 126 must break B - L well above M_I, "
+            "which the chain's own scales do not allow without large thresholds.", 2))
     w("")
     sc_ = res["scorecard"]
     w("PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION")

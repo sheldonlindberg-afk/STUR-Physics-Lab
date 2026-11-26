@@ -108,7 +108,9 @@ def main():
               "seesaw": {k: {"chi2": ylr[k]["chi2_min"], "n_sigma": ylr[k]["n_sigma_worst"], "unknowns": ylr[k]["unknowns"],
                              "data": ylr[k]["data_points"], "fits": ylr[k]["fits_found"],
                              "M_R_over_M_I": ylr[k]["scales"]["M_R_over_M_I"] if ylr[k]["scales"] else None,
-                             "s23": ylr[k]["angles"]["s23sq"]} for k in ("type2", "type1", "type12")}}
+                             "s23": ylr[k]["angles"]["s23sq"], "delta_range": ylr[k]["delta_deg_range"],
+                             "M_R_range": ylr[k].get("M_R_over_M_I_range"), "M_1_range": ylr[k].get("M_1_range_GeV")}
+                         for k in ("type2", "type1", "type12")}}
     survivor = {"chain": lg["chain"], "M_I": chain["M_I"], "M_GUT": chain["M_GUT"], "tau_p": chain["tau_p_years"],
                 "dm_fraction": res["dark_matter"]["chains"][lg["chain"]]["fraction_post"],
                 "age": res["closed_cosmology"]["age_Gyr"], "age_pull": res["closed_cosmology"]["age_pull"]}
