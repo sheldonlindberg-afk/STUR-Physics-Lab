@@ -157,7 +157,10 @@ the new result, and the tests fail if a page value, the scorecard, the ledger or
        and eta, the (3,1,1) vector as its own threshold. Checks: decompositions, T9's and T10's PS limits, Goldstones.
        Result: ~1150 viable 210 + 126 potentials; proton passes ~97 %; M_I median ~1e9 GeV (down, not up); none
        lifts M_I to where the neutrino fits need it with the proton kept. Delta_R light drags its SU(2)_R partners
-       light, lowering M_I. Open: the 10's couplings in this chain (T11's analogue), two-loop thresholds.
+       light, lowering M_I. The 10 (T11's analogue): H_i H_j A_ij splits it; the cubic mixes its triplet with the
+       126's (3,1,1) and, through the B - L vev, its doublet with the 126's (1,2,2): the light Higgs is a computed
+       10-126 mixture (median ~1/4 126, as Part Y assumes); with it, still none lifts M_I. Open: two-loop
+       thresholds; a complex 10 (the Yukawa fits use one).
 4. [ ] Proton running above M_I; triplet-mediated proton decay with the fitted Yukawas.
 
 ## Later

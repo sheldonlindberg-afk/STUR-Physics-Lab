@@ -114,7 +114,9 @@ def main():
     lift = yy.get("lift") or {}
     yukawa["lift"] = {k: lift.get(k) for k in ("reached", "spread", "M_I", "tau_p_years", "factor", "target_M_I",
                                                 "potential_n", "potential_hits", "potential_max_M_I")}
-    yukawa["potential_M_I_median"] = res["so10"]["potential_lr"]["with_126"]["M_I_quantiles"][1]
+    w10 = res["so10"]["potential_lr"]["with_10"]
+    yukawa["potential_M_I_median"] = w10["M_I_quantiles"][1]
+    yukawa["higgs_126_median"] = w10["higgs_126_fraction_quantiles"][1]
     survivor = {"chain": lg["chain"], "M_I": chain["M_I"], "M_GUT": chain["M_GUT"], "tau_p": chain["tau_p_years"],
                 "dm_fraction": res["dark_matter"]["chains"][lg["chain"]]["fraction_post"],
                 "age": res["closed_cosmology"]["age_Gyr"], "age_pull": res["closed_cosmology"]["age_pull"]}

@@ -697,8 +697,14 @@ def test_lr_potential():
     w2, w6 = pl["with_210"], pl["with_126"]
     assert w2["viable"] > 100 and w6["viable"] > 500 and w6["frac_proton_ok"] > 0.8
     assert w6["M_I_quantiles"][1] < RESULT["so10"]["chains"]["LR"]["loop2"]["M_I"]
+    assert ck["PS_limit_10"] < 1e-9                       # the 10's couplings reduce to T11's at the Pati-Salam vev
+    w10 = pl["with_10"]
+    assert w10["viable"] > 300 and w10["frac_proton_ok"] > 0.8
+    lo, mid, hi = w10["higgs_126_fraction_quantiles"]
+    assert 0 < lo < mid < hi < 1                            # the light Higgs is a genuine 10-126 mixture
+    assert 0.2 < w10["triplet_light_quantiles"][1] < 5
     lf = RESULT["so10_yukawa"]["lift"]
-    assert lf["potential_n"] == w6["viable"] and lf["potential_hits"] < 0.01 * lf["potential_n"]
+    assert lf["potential_n"] == w10["viable"] and lf["potential_hits"] < 0.01 * lf["potential_n"]
 
 
 def test_left_right_running():

@@ -710,8 +710,13 @@ annihilate. That separates the 210's two (3,2,2) and two singlets, which come ou
 Stationarity on the singlet plane fixes μ² and the cubic for scanned quartics and α. The heavy vectors split:
 (3,2,2) defines M_GUT, and (3,1,1) is a threshold of its own. The 126's masses come from T10's invariants at the
 new vev, with Δ_R light. Self-checks: the decompositions; at α = 0 every mass equals T9's and every 126
-coefficient T10's (to 10⁻¹⁵); the eaten (3,2,2) and (3,1,1) are massless at any two-vev vacuum. Over the viable
-potentials, proton decay passes about 97% of the time and M_I tends to fall (median ≈ 1 × 10⁹ GeV).
+coefficient T10's (to 10⁻¹⁵); the eaten (3,2,2) and (3,1,1) are massless at any two-vev vacuum. The 10 follows
+T11: H_iH_jA_ij splits it (A = 4 sin²α v² on SO(6), 6 cos²α v² on SO(4)), and the cubic H_iΣ_ijklmφ_jklm mixes its
+colour triplet with the 126's (3,1,1) and, through the B − L vev, its doublet with the 126's bidoublet (strength
+sin α). One doublet combination is kept light (the doublet–triplet tuning). So the light Higgs is a computed
+10–126 mixture (median about a quarter 126), which is what Part Y's sum rule assumes, and the lighter colour triplet
+sits near M_GUT. Over the viable 210 + 126 + 10 potentials, proton decay passes about 98% of the time and M_I tends
+to fall (median ≈ 9 × 10⁸ GeV).
 
 **Part V: dark matter from the axion**
 
@@ -837,7 +842,7 @@ left-right one.
   checked with the full two-loop solve. Answer: every heavy multiplet within a factor of about 1.5 of M_GUT
   suffices, M_I ≈ 1.4 × 10¹¹ GeV, and the proton then lives about 2.4 × 10³⁴ years, at the Super-K limit (the
   binding constraint, so within Hyper-Kamiokande's reach). The vacuum is then no longer stabilizable (M_I above
-  μ₀). But the chain's own potential (Part T13) does not give such a split: over the viable 210 + 126
+  μ₀). But the chain's own potential (Part T13) does not give such a split: over the viable 210 + 126 + 10
   potentials, none lifts M_I to the target with the proton kept, and their median M_I is lower than the chain's,
   not higher. Δ_R must be light, and it drags its SU(2)_R partners light with it. The neutrino entry stays open,
   with the fits and the chain's spectrum now pointing in opposite directions.

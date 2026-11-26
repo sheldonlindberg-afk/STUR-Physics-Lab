@@ -5967,9 +5967,9 @@ def so10_126_coefficients() -> Dict[str, Any]:
 # picks S_i6789, the 126's own (6,1,1): the two colour triplets mix. The light Higgs needs the (1,2,2) light
 # (at M_I, in this chain), which fixes the 10's mass term: the doublet-triplet splitting, a tuning of the
 # 10's mass against its coupling to <210> to (M_I / M_GUT)^2.
-def so10_10_splitting() -> Dict[Tuple[int, int], float]:
-    """A_ij = phi_iklm phi_jklm at the unit Pati-Salam vev (full index sums)."""
-    phi = {t: _signed(t) for t in itertools.permutations(PS_SINGLET_210)}
+def so10_10_splitting(phi4: Dict[Tuple[int, ...], float] | None = None) -> Dict[Tuple[int, int], float]:
+    """A_ij = phi_iklm phi_jklm at the 210 vev phi4 (default: the unit Pati-Salam singlet; full index sums)."""
+    phi = _full_tensor(phi4) if phi4 is not None else {t: _signed(t) for t in itertools.permutations(PS_SINGLET_210)}
     by3: Dict[Tuple[int, ...], List[Tuple[int, float]]] = {}
     for t, v in phi.items():
         by3.setdefault(t[1:], []).append((t[0], v))
@@ -6329,8 +6329,28 @@ def lr_potential_setup() -> Dict[str, Any]:
         x = vs[0]
         n0 = _bilinear(mats[(1, 0)]["norm"], x, x).real
         c126[k] = {pt: {nm: _bilinear(mats[pt][nm], x, x).real / n0 for nm in ("cubic", "D", "E", "F")} for pt in LR_VEV_POINTS}
-    return {"blocks": blocks, "pre": pre, "poly": poly, "labels210": labels210,
+    # the 10 (T11 in this chain): its mixing amplitudes with the 126's colour triplet and bidoublet (linear in the
+    # vev: two points fix them), against the 10's own components Z_0 (triplet) and U_1 (doublet); and A_ii (quadratic)
+    cb = _complex_basis_real()
+    amp10 = {}
+    for nm, key, hv in (("triplet", (3, 1, 1, Fr(-2, 3)), cb[0]), ("doublet", (1, 2, 2, Fr(0)), cb[6])):
+        amp10[nm] = {pt: sum(t_ * hv.get(i, 0).conjugate() for i, t_ in enumerate(
+            _cubic_10_126(b126[key][0], _form_lin((pt[0], {PS_SINGLET_210: 1}), (pt[1], lr_210_vev(math.pi / 2))))))
+            for pt in LR_VEV_POINTS[:2]}
+    a10 = {pt: so10_10_splitting(_form_lin((pt[0], {PS_SINGLET_210: 1}), (pt[1], lr_210_vev(math.pi / 2)))) for pt in LR_VEV_POINTS}
+    a10 = {pt: {"SO6": a_.get((0, 0), 0), "SO4": a_.get((6, 6), 0)} for pt, a_ in a10.items()}
+    return {"amp10": amp10, "A10": a10, "blocks": blocks, "pre": pre, "poly": poly, "labels210": labels210,
             "labels126": sorted((k for k, v_ in b126.items() for _ in v_), key=str), "c126": c126}
+
+
+def _cubic_10_126(x: Dict[int, complex], phi4: Dict[Tuple[int, ...], float]) -> List[complex]:
+    """T_i = S_ijklm phi_jklm (full index sums) for the 126 vector x: the 10 couples to it through H_i T_i."""
+    phi = _full_tensor(phi4)
+    out = [complex(0)] * 10
+    for n_, z in x.items():
+        for perm in itertools.permutations(FIVE_SETS[n_]):
+            out[perm[0]] += z * _perm_sign(perm) * phi.get(perm[1:], 0)
+    return out
 
 
 def _poly_at(pt3: Dict[Tuple[int, int], Any], a_: float, b_: float, deg: int, get: Callable[[Any], Any]) -> Any:
@@ -6382,6 +6402,17 @@ def lr_126_coefficients(setup: Dict[str, Any], key: Tuple[Any, ...], alpha: floa
             for nm in ("cubic", "D", "E", "F")}
 
 
+def lr_10_couplings(setup: Dict[str, Any], alpha: float) -> Dict[str, float]:
+    """At the vev direction alpha: the mixing strengths of the 10 with the 126's (3,1,1) and (1,2,2), relative to the
+    Pati-Salam triplet's (T11's unit), and A_ii on the SO(6) and SO(4) indices per v^2."""
+    a_, b_ = math.cos(alpha), math.sin(alpha)
+    unit = abs(setup["amp10"]["triplet"][(1, 0)])
+    out = {nm: abs(a_ * d_[(1, 0)] + b_ * d_[(0, 1)]) / unit for nm, d_ in setup["amp10"].items()}
+    for k in ("SO6", "SO4"):
+        out["A_" + k] = _poly_at(setup["A10"], a_, b_, 2, lambda d_: d_[k])
+    return out
+
+
 LR_210_NAMES = {(8, 1, 1, Fr(0)): "210: (8,1,1)", (8, 3, 1, Fr(0)): "210: (8,3,1)", (1, 3, 1, Fr(0)): "210: (1,3,1)",
                 (3, 3, 1, Fr(4, 3)): "210: (3,3,1)", (8, 1, 3, Fr(0)): "210: (8,1,3)", (1, 1, 3, Fr(0)): "210: (1,1,3)",
                 (3, 1, 3, Fr(4, 3)): "210: (3,1,3)", (3, 2, 2, Fr(-2, 3)): "210: (3,2,2)",
@@ -6422,7 +6453,8 @@ def potential_lr_scan(setup: Dict[str, Any], chain: Dict[str, Any], heavy: Dict[
     scale = {k: max(abs(c10[r_][k]) for r_ in c10) for k in ("cubic", "D", "E")}
     tol = num("check_rel_tol")
     tried, per = int(num("lr_potential_points")), int(num("lr_126_draws"))
-    pts210, pts, alphas = [], [], []
+    pts210, pts, alphas, pts10, extra10 = [], [], [], [], []
+    a_max = max(abs(v_) for v_ in so10_10_splitting().values())
     for _ in range(tried):
         lam = {q: rng.uniform(-lam_max, lam_max) for q in QUARTICS_210}
         alpha = rng.uniform(0, math.pi)
@@ -6446,6 +6478,7 @@ def potential_lr_scan(setup: Dict[str, Any], chain: Dict[str, Any], heavy: Dict[
         pts210.append((base["M_I"] * math.exp(dmi), base["tau_p_years"] * math.exp(dtau)))
         alphas.append(alpha)
         cl = lr_126_coefficients(setup, LR_DELTA_R, alpha)
+        c10s = lr_10_couplings(setup, alpha)
         cfs = {k: lr_126_coefficients(setup, k, alpha) for k in LR_126_NAMES}
         for _ in range(per):
             k126 = {"cubic": rng.uniform(-eta_max, eta_max), "D": rng.uniform(-lam_max, lam_max),
@@ -6454,8 +6487,31 @@ def potential_lr_scan(setup: Dict[str, Any], chain: Dict[str, Any], heavy: Dict[
             if min(m126.values()) <= 0:
                 continue
             ell2 = {nm: math.log(v_ / m322) / 2 for nm, v_ in m126.items()}
-            pts.append((base["M_I"] * math.exp(dmi + sum(resp[n_]["dlnMI"] * l_ for n_, l_ in ell2.items())),
-                        base["tau_p_years"] * math.exp(dtau + sum(resp[n_]["dlntau"] * l_ for n_, l_ in ell2.items()))))
+            dmi2 = dmi + sum(resp[n_]["dlnMI"] * l_ for n_, l_ in ell2.items())
+            dtau2 = dtau + sum(resp[n_]["dlntau"] * l_ for n_, l_ in ell2.items())
+            pts.append((base["M_I"] * math.exp(dmi2), base["tau_p_years"] * math.exp(dtau2)))
+            # the 10 (T11 here): kappa_10 H_i H_j A_ij splits it, the cubic (mix10 v^2 x the strengths) mixes its triplet
+            # with the 126's (3,1,1) and its doublet with the 126's (1,2,2); one doublet combination light (the tuning)
+            k10, mix10 = rng.uniform(-lam_max, lam_max), rng.uniform(-eta_max, eta_max)
+            m_sd, m_s3 = m126["126: (1,2,2) heavy"], m126["126: (3,1,1)"]
+            xd, xt = mix10 * c10s["doublet"], mix10 * c10s["triplet"]
+            m_hd = xd * xd / m_sd                                     # det = 0: the light Higgs
+            m_h3 = m_hd + k10 * (c10s["A_SO6"] - c10s["A_SO4"]) / a_max
+            tr_, det_ = m_h3 + m_s3, m_h3 * m_s3 - xt * xt
+            if det_ <= 0 or tr_ <= 0:
+                continue
+            root = math.sqrt(max(tr_ * tr_ / 4 - det_, 0))
+            trip = (tr_ / 2 - root, tr_ / 2 + root)
+            r3, rd = resp["10: (3,1,1)"], resp["126: (1,2,2) heavy"]
+            l3 = [math.log(e_ / m322) / 2 for e_ in trip]
+            ld = [math.log((m_sd + m_hd) / m322) / 2, ell2["126: (1,2,2) heavy"]]
+            # replace the 126's mixed triplet and its bidoublet (one real half now heavier) by the eigenstates
+            dmi3 = (dmi2 - resp["126: (3,1,1)"]["dlnMI"] * ell2["126: (3,1,1)"] + r3["dlnMI"] * sum(l3)
+                    - rd["dlnMI"] * ell2["126: (1,2,2) heavy"] + rd["dlnMI"] * sum(ld) / 2)
+            dtau3 = (dtau2 - resp["126: (3,1,1)"]["dlntau"] * ell2["126: (3,1,1)"] + r3["dlntau"] * sum(l3)
+                     - rd["dlntau"] * ell2["126: (1,2,2) heavy"] + rd["dlntau"] * sum(ld) / 2)
+            pts10.append((base["M_I"] * math.exp(dmi3), base["tau_p_years"] * math.exp(dtau3)))
+            extra10.append((math.sqrt(trip[0] / m322), xd * xd / (xd * xd + m_sd * m_sd)))
 
     def summary(sample: List[Tuple[float, float]]) -> Dict[str, Any]:
         if not sample:
@@ -6468,8 +6524,14 @@ def potential_lr_scan(setup: Dict[str, Any], chain: Dict[str, Any], heavy: Dict[
                 "frac_proton_ok": sum(t_ > tau_limit for t_ in ta_) / n_, "frac_vacuum_ok": sum(m_ < mu0 for m_ in mi_) / n_,
                 "frac_leptogenesis_ok": sum(m_ >= m1_nat for m_ in mi_) / n_}
     qa = sorted(alphas)
+    w10 = summary(pts10)
+    if extra10:
+        tl_ = sorted(e_[0] for e_ in extra10)
+        mx_ = sorted(e_[1] for e_ in extra10)
+        w10["triplet_light_quantiles"] = (tl_[len(tl_) // 6], tl_[len(tl_) // 2], tl_[(5 * len(tl_)) // 6])
+        w10["higgs_126_fraction_quantiles"] = (mx_[len(mx_) // 6], mx_[len(mx_) // 2], mx_[(5 * len(mx_)) // 6])
     return {"tried": tried, "per_vacuum_126": per, "vector_311": vrow, "with_210": summary(pts210), "with_126": summary(pts),
-            "points": sorted(pts), "alpha_quantiles": (qa[len(qa) // 6], qa[len(qa) // 2], qa[(5 * len(qa)) // 6]) if qa else None}
+            "with_10": w10, "points": sorted(pts10), "alpha_quantiles": (qa[len(qa) // 6], qa[len(qa) // 2], qa[(5 * len(qa)) // 6]) if qa else None}
 
 
 def lr_potential_checks(setup: Dict[str, Any]) -> Dict[str, float]:
@@ -6504,7 +6566,11 @@ def lr_potential_checks(setup: Dict[str, Any]) -> Dict[str, float]:
     phi = lr_210_vev(alpha)
     unbroken = max(sum(v_ * v_ for v_ in _gen_on_form(g_, phi).values()) for g_ in
                    ([(0, 1, 1), (2, 3, -1)], [(0, 2, 1), (1, 3, 1)], [(6, 7, 1), (8, 9, 1)], [(6, 7, 1), (8, 9, -1)], [(0, 1, 1), (2, 3, 1), (4, 5, 1)]))
-    return {"decompositions": dec, "PS_limit_210": ps9, "PS_limit_126": ps10, "goldstones": gold, "unbroken": unbroken}
+    t0_ = lr_10_couplings(setup, 0)
+    a10 = so10_10_splitting()
+    ten = max(abs(t0_["doublet"]), abs(t0_["triplet"] - 1), abs(t0_["A_SO6"] - a10.get((0, 0), 0)), abs(t0_["A_SO4"] - a10.get((6, 6), 0)))
+    return {"decompositions": dec, "PS_limit_210": ps9, "PS_limit_126": ps10, "goldstones": gold, "unbroken": unbroken,
+            "PS_limit_10": ten}
 
 
 def so10(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any], scp: Dict[str, Any],
@@ -8516,8 +8582,9 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     lc_ = s10["potential_lr"]["checks"]
     checks.append(("Left-right potential: highest weights reproduce the 210 and 126 decompositions; the Pati-Salam limit"
                    " equals T9's masses and T10's coefficients; the eaten (3,2,2), (3,1,1) are massless at a two-vev"
-                   " vacuum and 3221 annihilates it", lc_["decompositions"] == 0 and max(lc_[k] for k in ("PS_limit_210",
-                   "PS_limit_126", "goldstones", "unbroken")) < tol,
+                   " vacuum and 3221 annihilates it; the 10's couplings reduce to T11's (no doublet mixing)",
+                   lc_["decompositions"] == 0 and max(lc_[k] for k in ("PS_limit_210", "PS_limit_126", "goldstones", "unbroken",
+                                                                     "PS_limit_10")) < tol,
                    f"T9 {lc_['PS_limit_210']:.0e}, T10 {lc_['PS_limit_126']:.0e}, Goldstones {lc_['goldstones']:.0e}"))
     idx3 = all(so10_decomposition_index_3221(r_) == [Fr(SO10_INDEX[r_])] * 4 for r_ in SO10_TO_3221)
     dof3 = [sum(math.prod(c_[:3]) * (1 if k_ == "real" else 2) for c_, k_ in SO10_TO_3221[r_]) for r_ in (10, 126, 210)]
@@ -9709,15 +9776,24 @@ def report(res: Dict[str, Any]) -> str:
     w(f"       (d ln M_I = {pl_['vector_311']['dlnMI']:+.2f} per unit log). The 126 at this vev: T10's invariants, Delta_R"
       " = (1,1,3,2) light. Checks: the")
     w("       decompositions, T9's and T10's Pati-Salam limits, the Goldstones (self-checks).")
-    for lab_, key_ in (("210 alone (126, 10 at M_GUT)", "with_210"), ("210 + 126 (10 at M_GUT)", "with_126")):
+    for lab_, key_ in (("210 alone (126, 10 at M_GUT)", "with_210"), ("210 + 126 (10 at M_GUT)", "with_126"),
+                       ("210 + 126 + 10", "with_10")):
         r_ = pl_[key_]
         if not r_["viable"]:
             w(f"       {lab_}: no viable potential")
             continue
-        w(f"       {lab_}: {r_['viable']} viable of {pl_['tried']}" + (f" x {pl_['per_vacuum_126']}" if key_ == "with_126" else "")
+        w(f"       {lab_}: {r_['viable']} viable of {pl_['tried']}" + (f" x {pl_['per_vacuum_126']}" if key_ in ("with_126", "with_10") else "")
           + f"; M_I 16-50-84 %: {r_['M_I_quantiles'][0]:.1e}, {r_['M_I_quantiles'][1]:.1e}, {r_['M_I_quantiles'][2]:.1e} GeV;")
         w(f"         proton decay passes {100 * r_['frac_proton_ok']:.0f} %, stabilizable vacuum {100 * r_['frac_vacuum_ok']:.0f} %,"
           f" natural leptogenesis {100 * r_['frac_leptogenesis_ok']:.0f} %")
+    w10_ = pl_["with_10"]
+    if w10_.get("viable"):
+        w("       The 10 (T11 here): H_i H_j A_ij splits it (A = 4 sin^2 a v^2 on SO(6), 6 cos^2 a v^2 on SO(4)); the cubic")
+        w("       H_i S_ijklm phi_jklm mixes its triplet with the 126's (3,1,1) and, through the B - L vev, its doublet with")
+        w("       the 126's (1,2,2) (strength sin a): the light Higgs is a 10-126 mixture, as Part Y's sum rule assumes.")
+        tq, hq = w10_["triplet_light_quantiles"], w10_["higgs_126_fraction_quantiles"]
+        w(f"         lighter colour triplet / M_GUT 16-50-84 %: {tq[0]:.2f}, {tq[1]:.2f}, {tq[2]:.2f}; the light Higgs is"
+          f" {100 * hq[0]:.0f}, {100 * hq[1]:.0f}, {100 * hq[2]:.0f} % 126")
     w("       Delta_R light drags its SU(2)_R partners of the (10bar,1,3) light with it, and those lower M_I: the potential")
     w("       pushes M_I down, not up.")
     w(_wrap("RESULT: SO(10) calculates the hypercharges' normalization (sin^2 theta_W = 3/8 at unification) and "
@@ -9886,7 +9962,7 @@ def report(res: Dict[str, Any]) -> str:
               f"{', at its edge: the binding constraint' if lf['proton_ok'] else ''}). The vacuum is then")
             w(f"      {'still' if lf['vacuum_ok'] else 'no longer'} stabilizable (M_I against mu_0). The chain's own potential"
               f" (Part T13) gives such a")
-            w(f"      spectrum in {lf['potential_hits']} of {lf['potential_n']} viable 210 + 126 potentials (the largest M_I"
+            w(f"      spectrum in {lf['potential_hits']} of {lf['potential_n']} viable 210 + 126 + 10 potentials (the largest M_I"
               f" with the proton kept: {lf['potential_max_M_I']:.1e} GeV).")
         else:
             w(f"      cannot, within a factor {num('heavy_mass_spread'):.0f} of M_GUT, while keeping the proton.")
