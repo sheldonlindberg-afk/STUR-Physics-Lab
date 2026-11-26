@@ -947,6 +947,12 @@ PART T. SO(10)
        H_i S_ijklm phi_jklm mixes its triplet with the 126's (3,1,1) and, through the B - L vev, its doublet with
        the 126's (1,2,2) (strength sin a): the light Higgs is a 10-126 mixture, as Part Y's sum rule assumes.
          lighter colour triplet / M_GUT 16-50-84 %: 0.62, 1.30, 2.01; the light Higgs is 4, 24, 63 % 126
+       The complex 10 (two real 10s, eta_a complex, kappa_ab symmetric; its own random stream): the chain's light
+       complex bidoublet is two real SO(4) vectors of (V_1, V_2, W_R, W_I), so the Schur complement must vanish,
+       D10 = X X^T / m_126 (three conditions: the 10's doublet masses are fixed; a real 10 cannot leave two light).
+       Its two triplets mix with the 126's (3,1,1) (3x3 Hermitian); thresholds from the eigenstates.
+         4073 viable of 8648; M_I 16-50-84 %: 3.5e+08, 7.3e+08, 1.4e+09 GeV; proton decay passes 100 %, stabilizable vacuum 100 %;
+         lighter colour triplet / M_GUT 16-50-84 %: 0.50, 1.02, 1.68 (Part Y uses its points)
        Delta_R light drags its SU(2)_R partners of the (10bar,1,3) light with it, and those lower M_I: the potential
        pushes M_I down, not up.
   RESULT: SO(10) calculates the hypercharges' normalization (sin^2 theta_W =
@@ -1123,6 +1129,11 @@ PART Y. THE SO(10) YUKAWA SECTOR: CAN IT GIVE THE CHARGED-FERMION MASSES?
       potential gives for f, a perturbative Y126,3 <= 2 sqrt(4 pi) keeps v_R >= M_R,3/(2 sqrt(4 pi)) = 7.4e+10 GeV, 14 times
       the chain's: on its own that is within what thresholds can move (Part T7), so the verdict rests on T13's 126
       share; with it B - L breaks far above the left-right chain's M_I.
+  The complex 10's own potential (T13, 4073 points) decides it without the f band: inside the light bidoublet
+      the light Higgs is h = n_1 + z n_2 (z complex, picked at the v_R scale), and each fit's |a/c| and |b/d| are two
+      Apollonius circles in z. At their intersections |d|, so v_R, is predicted, against that point's own v_R = M_I/g_R:
+      1010 solutions (52 points, 11 fits): v_R / v_R(chain) min 3647, 16-50-84 % 8484, 27357, 385456, max 4e+06; the light Higgs 29 % 126 (median).
+      Every solution puts v_R above the chain's: the complex 10 does not rescue the neutrinos.
   RESULT: SO(10)'s Yukawa sector is a real test. The minimal Pati-Salam chain
     fails it: its unbroken SU(4) keeps the light Higgs in one irrep, which
     gives the wrong lepton/down ratios by tens of sigma. Where SU(4) breaks
@@ -1633,6 +1644,7 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Part O: each survivor sector's det = product of its signed eigenvalues (real: arg det = 0 or pi)  (1 survivor(s))
   [PASS] Proton decay: operator-running exponents -2 c_i/b_i from the script's b_i = Ellis et al.'s eq. 17  (max abs diff 2.8e-17)
   [PASS] Dimension five: the full higgsino term has Hisano et al.'s eq. 19 scaling exactly (one constant at every tan(beta)) and, with their alpha_p, their constant within eq. 19's one-digit precision  (spread 1e-15; C(eq. 19)/C = 1.37)
+  [PASS] Complex 10: D10 = X X^T/m_126 leaves exactly the two light SO(4) vectors (null), and matching |a/c|, |b/d| (two Apollonius circles) recovers a planted light Higgs's |d|  (null 5.6e-17, recovered 4.4e-16)
   [PASS] Slow roll: the numerical e-fold integral and epsilon = 1 endpoint give the exact phi^2 and phi^4 results (n_s = 1 - 4/(2N + 1), 1 - 3/(N + 1))  (max rel dev 4.4e-16)
   [PASS] R-parity (-1)^(3(B-L)+2s): every SM fermion and every 10, 126, 210 scalar of the minimal theory is R-even
   [PASS] Sphaleron conversion: B/(B - L) = 28/79 and L/(B - L) = -51/79 (exact, three families, one Higgs)
@@ -1657,6 +1669,6 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] SO(10) 10 + 126: the sum rule M_e = c1 M_d + c2 M_u and the Dirac matrix M_D = M_u + (3 + c1)/c2 (M_d - M_e) hold exactly at a random point  (max rel dev 3.2e-15)
   [PASS] SO(10) chains: the general two-loop formula on the SM content = sm_gauge_b, sm_two_loop_b; the Newton solver at one loop = the linear solution  (rel diff 3.3e-10)
   [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (29 stages, 93 edges)
-  79/79 checks pass
+  80/80 checks pass
 ==============================================================================
-Elapsed: 1442.8 s
+Elapsed: 1455.9 s

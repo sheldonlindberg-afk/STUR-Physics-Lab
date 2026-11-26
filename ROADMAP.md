@@ -185,7 +185,11 @@ the new result, and the tests fail if a page value, the scorecard, the ledger or
        now 4e12-2e13 GeV (800-4000 x the chain's); a perturbative Y126,3 alone keeps it >= 14 x (inside the x31 threshold band), so
        the verdict now rests on T13's 126 share (>= 4 %): 800 x, 25 x beyond thresholds. The chain still fails, with a
        margin 30 x smaller.
-       Open: the complex 10's own potential (two tunings for a light complex bidoublet; its triplets' thresholds).
+       [x] The complex 10's own potential (T13): a light complex bidoublet fixes the 10's doublet masses completely,
+       D10 = X X^T/m_126 (three conditions, not two; a real 10 cannot leave two vectors light); two triplets mix with the
+       126's (3,1,1), thresholds from the eigenstates; 4073 of 8648 draws viable. The fits' |a/c|, |b/d| pin the light
+       Higgs's direction inside the bidoublet (two Apollonius circles), so each point predicts d: 52 points match, and
+       every one puts v_R >= 3600 x its own chain's. The exclusion no longer rests on the f band.
    [x] 5c. Thresholds and the rest of the running. At two loops the matching now carries the heavy vectors' MS-bar
        constant, T_i/12 pi (Langacker-Polonsky eq. 12, C^1 = 1/21; T_i = C2(SO(10)) - C2(H_i), a check): no unknown,
        M_I +5 %, M_GUT +4 % in every chain. A second bidoublet vev up to |k2/k1| = m_b/m_t moves (m_b - m_tau)/m_b at

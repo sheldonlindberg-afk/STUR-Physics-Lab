@@ -755,6 +755,18 @@ def test_left_right_running():
     assert 0.2 < va[0][1] < 0.23 and 0.03 < va[1][2] < 0.045
 
 
+def test_complex_10_potential():
+    """The complex 10's own potential: the light complex bidoublet fixes its doublet masses (Schur complement zero);
+    viable points pass proton decay; the fits' |a/c|, |b/d| are matched per point by two circles, and every match is
+    reported against that point's own v_R."""
+    wc = RESULT["so10"]["potential_lr"]["with_complex_10"]
+    assert wc["viable"] > 100 and wc["frac_proton_ok"] > 0.5 and len(wc["points"]) == wc["viable"]
+    cx = RESULT["so10_yukawa"]["v_R"]["complex_10"]
+    assert cx["points"] == wc["viable"]
+    if cx["matches"]:
+        assert cx["ratio_quantiles"][0] <= cx["ratio_quantiles"][2] <= cx["ratio_quantiles"][4]
+
+
 def test_dark_sector():
     """Part AA: every field of the minimal theory is R-even (no candidate but the axion); minimal phi^4 and phi^2
     inflation are excluded by r, the plateau is allowed; SM Higgs inflation is excluded by lambda < 0 above mu_0."""

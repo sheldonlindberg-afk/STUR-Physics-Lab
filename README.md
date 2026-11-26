@@ -30,7 +30,7 @@ python3 production_v2_2.py --certify            # also prove every texture exclu
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 79 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 80 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -900,6 +900,16 @@ left-right one.
   - *A real 10 is excluded.* Its bidoublet is self-conjugate, so its doublet's up- and down-type vevs are complex
     conjugates and |a| = |c|, i.e. |c₂| = |1 − c₁|. The same charged-lepton search with that imposed (7 unknowns)
     reaches only χ² = 6×10³ (m_μ = 0.022 GeV against 0.093): the 10 must be complex, as the fits assume.
+  - *The complex 10's own potential decides it.* T13 now also scans the complex 10 (two real 10s, complex cubic
+    couplings η_a, a symmetric splitting κ_ab), on its own random stream. The chain needs a light complex bidoublet,
+    two real SO(4) vectors out of four (the two 10s' and the 126's two), so the Schur complement must vanish:
+    D₁₀ = XXᵀ/m₁₂₆, which fixes the 10's doublet mass matrix completely (three conditions; a real 10 has only three
+    vectors and can leave just one light). Its two triplets mix with the 126's (3,1,1); the thresholds come from the
+    eigenstates: 4073 of 8648 draws are viable, all pass proton decay. Inside the light bidoublet the light Higgs is
+    h = n₁ + z n₂ with z complex (picked at the v_R scale); each fit's |a/c| and |b/d| are two Apollonius circles in z,
+    and at their intersections |d|, so v_R, is predicted (a self-check recovers a planted Higgs exactly). 52 points
+    (1.3%) give the fits' Higgs, and at every one v_R is at least 3600 times that point's own v_R = M_I/g_R (median
+    3 × 10⁴): far beyond any threshold, with no assumption about the 126 share.
   - *What is left of the running (5c).* A second bidoublet vev up to |k₂/k₁| = m_b/m_t (beyond it the bottom mass
     would be the top's, a tuning) moves (m_b − m_τ)/m_b at M_GUT only to −0.48 … −0.35. The Δ_R coupling f, run with
     the rest, only makes the τ heavier: its RGE, derived from the general formula over every component (a check,

@@ -124,6 +124,12 @@ def main():
               "real10_chi2": yy["LR"]["real_10"]["chi2_min"], "b_tau_k2": rn5["b_tau_k2_range"],
               "b_tau_f_max": rn5["b_tau_f_max"],
               "vector_MI_factor": res["so10"]["chains"]["LR"]["loop2"]["M_I"] / res["so10"]["chains"]["LR"]["loop2_tree_matching"]["M_I"]}
+    wc_ = res["so10"]["potential_lr"].get("with_complex_10", {})
+    cx_ = (yy.get("v_R") or {}).get("complex_10", {})
+    round5["complex10"] = {"viable": wc_.get("viable", 0), "drawn": wc_.get("drawn", 0),
+                           "points_matched": cx_.get("points_matched", 0), "matches": cx_.get("matches", 0),
+                           "ratio_min": cx_["ratio_quantiles"][0] if cx_.get("matches") else None,
+                           "ratio_median": cx_["ratio_quantiles"][2] if cx_.get("matches") else None}
     ds = res["dark_sector"]
     dark_sector = {"n_fields": len(ds["r_parity"]), "axion_fraction": ds["axion_fraction"],
                    "r_phi4": ds["inflation"]["phi^4 (minimal)"]["r"], "ns_plateau": ds["inflation"]["plateau (Higgs, or xi phi^2 R)"]["n_s"],

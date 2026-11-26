@@ -353,7 +353,8 @@ NUMERICS: Dict[str, Any] = {
     "yukawa_lm_chi2_stop": "1e-6",
     "yukawa_lm_log_max": 30,          # |ln c1|, |ln c2| beyond this is outside any physical range
     "lr_running_phase_samples": 4,
-    "lr_f_bisect_steps": 16,          # Part Y (5c): bisection steps for the largest perturbative Delta_R coupling
+    "lr_f_bisect_steps": 16,
+    "lr_complex10_draws": 8,          # T13: complex-10 coupling draws per kept 126 draw          # Part Y (5c): bisection steps for the largest perturbative Delta_R coupling
     "check_matrix_running_rel": "0.01",  # matrix SM running vs Part J's third-generation running plus ratios    # Part Y: random Takagi phases at M_I, to show how much they move b - tau
     "yukawa_fit_min_step": "1e-6",    # Part Y: smallest compass step (in log-magnitudes and phases)
     "threshold_band": 1,              # Part T7: largest one-loop threshold per matching condition, in 1/alpha (an
@@ -6578,6 +6579,92 @@ LR_GOLDSTONES = ((3, 2, 2, Fr(-2, 3)), (3, 1, 1, Fr(4, 3)))
 LR_DELTA_R = (1, 1, 3, Fr(2))
 
 
+def complex_10_point(rng: "_UniformStream", c10s: Dict[str, float], m126: Dict[str, float], ell2: Dict[str, float],
+                     dmi2: float, dtau2: float, resp: Dict[str, Any], m322: float, a_max: float, lam_max: float,
+                     eta_max: float) -> Dict[str, Any] | None:
+    """One draw of the complex 10 = two real 10s H_1, H_2 with the 126 (Part T13's vacuum and 126 masses).
+    Doublets, as real SO(4) vectors (V_1, V_2 of the 10s; W_R, W_I of the 126's complex bidoublet, mass m_s):
+    M = [[D10, X], [X^T, m_s 1]], X_a = (Re, Im) of x_a = eta_a times T13's doublet strength (eta_a complex, in the box).
+    The chain needs a light complex bidoublet, two real vectors: rank M = 2, i.e. the Schur complement vanishes,
+    D10 = X X^T / m_s (three conditions: the 10's doublet mass matrix is fixed). (A real 10 gives three vectors, at most
+    one light: it cannot.) The light space is {(v, -X^T v / m_s)}. Triplets: the two 10 triplets (2x2 block D10 plus
+    the splitting kappa_ab (A_SO6 - A_SO4), kappa symmetric in the box) mix with the 126's (3,1,1) through eta_a times
+    the triplet strength: a 3x3 Hermitian matrix, every eigenvalue positive. Thresholds: the 126's (3,1,1) and its
+    bidoublet are replaced by the eigenstates (the 10 triplets' and the bidoublet's responses, as T13)."""
+    eta = [complex(rng.uniform(-eta_max, eta_max), rng.uniform(-eta_max, eta_max)) for _ in range(2)]
+    kap = [rng.uniform(-lam_max, lam_max) for _ in range(3)]
+    m_s, m_s3 = m126["126: (1,2,2) heavy"], m126["126: (3,1,1)"]
+    x_ = [e_ * c10s["doublet"] for e_ in eta]
+    xm = [[x_[a_].real, x_[a_].imag] for a_ in range(2)]
+    d10 = [[sum(xm[a_][k_] * xm[b_][k_] for k_ in range(2)) / m_s for b_ in range(2)] for a_ in range(2)]
+    big = [[d10[0][0], d10[0][1], xm[0][0], xm[0][1]], [d10[1][0], d10[1][1], xm[1][0], xm[1][1]],
+           [xm[0][0], xm[1][0], m_s, 0.0], [xm[0][1], xm[1][1], 0.0, m_s]]
+    ev4 = sorted(jacobi_eigh(big, num("check_rel_tol") ** 2)[0])
+    heavy_d = ev4[2:]
+    split = (c10s["A_SO6"] - c10s["A_SO4"]) / a_max
+    t10 = [[d10[0][0] + kap[0] * split, d10[0][1] + kap[1] * split], [d10[1][0] + kap[1] * split, d10[1][1] + kap[2] * split]]
+    y_ = [e_ * c10s["triplet"] for e_ in eta]
+    trip = [[complex(t10[0][0]), complex(t10[0][1]), y_[0]], [complex(t10[1][0]), complex(t10[1][1]), y_[1]],
+            [y_[0].conjugate(), y_[1].conjugate(), complex(m_s3)]]
+    ev3 = _herm3_eigvals(trip)
+    if min(ev3) <= 0 or min(heavy_d) <= 0:
+        return None
+    r3, rd, r126t = resp["10: (3,1,1)"], resp["126: (1,2,2) heavy"], resp["126: (3,1,1)"]
+    l3 = [math.log(e_ / m322) / 2 for e_ in ev3]
+    ld = [math.log(e_ / m322) / 2 for e_ in heavy_d]
+    out = {}
+    for key in ("dlnMI", "dlntau"):
+        out[key] = ((dmi2 if key == "dlnMI" else dtau2) - r126t[key] * ell2["126: (3,1,1)"] + r3[key] * sum(l3)
+                    - rd[key] * ell2["126: (1,2,2) heavy"] + rd[key] * sum(ld) / 2)
+    out.update({"x": (x_[0].real, x_[0].imag, x_[1].real, x_[1].imag), "m_s": m_s,
+                "triplet_light": math.sqrt(min(ev3) / m322)})
+    return out
+
+
+def _apollonius(a_: complex, b_: complex, r_: float) -> Tuple[complex, float] | None:
+    """The circle |z - a| = r |z - b| (r != 1): (center, radius)."""
+    if abs(r_ - 1) < num("check_rel_tol"):
+        return None
+    c_ = (a_ - r_ * r_ * b_) / (1 - r_ * r_)
+    return c_, r_ * abs(a_ - b_) / abs(1 - r_ * r_)
+
+
+def _circle_intersections(c1: Tuple[complex, float], c2: Tuple[complex, float]) -> List[complex]:
+    (z1, r1), (z2, r2) = c1, c2
+    d_ = abs(z2 - z1)
+    if d_ == 0 or d_ > r1 + r2 or d_ < abs(r1 - r2):
+        return []
+    a_ = (r1 * r1 - r2 * r2 + d_ * d_) / (2 * d_)
+    h_ = math.sqrt(max(r1 * r1 - a_ * a_, 0))
+    mid = z1 + a_ * (z2 - z1) / d_
+    perp = 1j * (z2 - z1) / d_
+    return [mid + h_ * perp, mid - h_ * perp]
+
+
+def complex_10_v_r(points: Sequence[Dict[str, Any]], r10: float, r126: float, k_: float) -> List[Tuple[int, float, float]]:
+    """For each complex-10 point: the light Higgs h = n_1 + z n_2 (z complex: the direction the v_R scale picks inside
+    the light bidoublet) whose up- and down-type parts give the fit's |a/c| and |b/d|. With c = (1, z, c3, c4) its
+    components on (V_1, V_2, W_R, W_I), Phi10 = (V_1 + i V_2)/sqrt2 and Phi126 = W_R + i W_I give |a/c| = |1 + iz|/|1 - iz|
+    = |z - i|/|z + i| and |b/d| = |x1 + z x2|/|x1* + z x2*|: two Apollonius circles in z. At each intersection
+    |d| = k |c3 - i c4| / (sqrt2 |c|). Both relative up/down conventions of the 126 (it couples as the 126-bar) are
+    tried. Returns (point index, |d|, 126 share f)."""
+    out = []
+    c_a = _apollonius(1j, -1j, r10)
+    for i_, p_ in enumerate(points):
+        x1, x2 = complex(p_["x"][0], p_["x"][1]), complex(p_["x"][2], p_["x"][3])
+        if x2 == 0 or c_a is None:
+            continue
+        for rr in (r126, 1 / r126):
+            c_b = _apollonius(-x1 / x2, -x1.conjugate() / x2.conjugate(), rr)
+            if c_b is None:
+                continue
+            for z_ in _circle_intersections(c_a, c_b):
+                c3, c4 = -(x1.real + z_ * x2.real) / p_["m_s"], -(x1.imag + z_ * x2.imag) / p_["m_s"]
+                nrm = math.sqrt(1 + abs(z_) ** 2 + abs(c3) ** 2 + abs(c4) ** 2)
+                out.append((i_, k_ * abs(c3 - 1j * c4) / (math.sqrt(2) * nrm), (abs(c3) ** 2 + abs(c4) ** 2) / nrm ** 2))
+    return out
+
+
 def potential_lr_scan(setup: Dict[str, Any], chain: Dict[str, Any], heavy: Dict[str, Any], base: Dict[str, Any],
                       x: Dict[str, float], tau_limit: float, mu0: float, m1_nat: float) -> Dict[str, Any]:
     """Quartics scanned in T9's box and the vev direction alpha uniform; mu^2 and eta follow from stationarity
@@ -6606,6 +6693,9 @@ def potential_lr_scan(setup: Dict[str, Any], chain: Dict[str, Any], heavy: Dict[
     tol = num("check_rel_tol")
     tried, per = int(num("lr_potential_points")), int(num("lr_126_draws"))
     pts210, pts, alphas, pts10, extra10 = [], [], [], [], []
+    # the complex 10 (two real 10s, its own stream so the real-10 results do not move)
+    rng_c = _UniformStream(int(num("potential_seed")) + 4)
+    pts10c, extra10c, n_c10 = [], [], 0
     a_max = max(abs(v_) for v_ in so10_10_splitting().values())
     for _ in range(tried):
         lam = {q: rng.uniform(-lam_max, lam_max) for q in QUARTICS_210}
@@ -6642,6 +6732,12 @@ def potential_lr_scan(setup: Dict[str, Any], chain: Dict[str, Any], heavy: Dict[
             dmi2 = dmi + sum(resp[n_]["dlnMI"] * l_ for n_, l_ in ell2.items())
             dtau2 = dtau + sum(resp[n_]["dlntau"] * l_ for n_, l_ in ell2.items())
             pts.append((base["M_I"] * math.exp(dmi2), base["tau_p_years"] * math.exp(dtau2)))
+            for _ in range(int(num("lr_complex10_draws"))):
+                c10 = complex_10_point(rng_c, c10s, m126, ell2, dmi2, dtau2, resp, m322, a_max, lam_max, eta_max)
+                n_c10 += 1
+                if c10:
+                    pts10c.append((base["M_I"] * math.exp(c10["dlnMI"]), base["tau_p_years"] * math.exp(c10["dlntau"])))
+                    extra10c.append(c10)
             # the 10 (T11 here): kappa_10 H_i H_j A_ij splits it, the cubic (mix10 v^2 x the strengths) mixes its triplet
             # with the 126's (3,1,1) and its doublet with the 126's (1,2,2); one doublet combination light (the tuning)
             k10, mix10 = rng.uniform(-lam_max, lam_max), rng.uniform(-eta_max, eta_max)
@@ -6682,7 +6778,14 @@ def potential_lr_scan(setup: Dict[str, Any], chain: Dict[str, Any], heavy: Dict[
         mx_ = sorted(e_[1] for e_ in extra10)
         w10["triplet_light_quantiles"] = (tl_[len(tl_) // 6], tl_[len(tl_) // 2], tl_[(5 * len(tl_)) // 6])
         w10["higgs_126_fraction_quantiles"] = (mx_[len(mx_) // 6], mx_[len(mx_) // 2], mx_[(5 * len(mx_)) // 6])
+    w10c = summary(pts10c)
+    if extra10c:
+        tl_ = sorted(e_["triplet_light"] for e_ in extra10c)
+        w10c["triplet_light_quantiles"] = (tl_[len(tl_) // 6], tl_[len(tl_) // 2], tl_[(5 * len(tl_)) // 6])
+        w10c["drawn"] = n_c10
+        w10c["points"] = [{"M_I": p_[0], "tau_p": p_[1], "x": e_["x"], "m_s": e_["m_s"]} for p_, e_ in zip(pts10c, extra10c)]
     return {"tried": tried, "per_vacuum_126": per, "vector_311": vrow, "with_210": summary(pts210), "with_126": summary(pts),
+            "with_complex_10": w10c,
             "with_10": w10, "points": sorted(pts10), "alpha_quantiles": (qa[len(qa) // 6], qa[len(qa) // 2], qa[(5 * len(qa)) // 6]) if qa else None}
 
 
@@ -7711,7 +7814,26 @@ def so10_v_r_prediction(lr: Dict[str, Any], s10: Dict[str, Any], flav: Dict[str,
     need = [4 * k_ * math.sqrt(f_ / (1 + p_["r126"] ** 2)) * p_["M_R_per_dm"] for f_ in (fq[0], fq[2]) for p_ in pts]
     old = [4 * k_ * math.sqrt(f_) * p_["M_R_per_dm"] for f_ in (fq[0], fq[2]) for p_ in pts]
     floor = [p_["M_R_over_M_I"] * lr["M_I"] / (2 * math.sqrt(4 * math.pi)) for p_ in pts]
+    # the complex 10's own potential (T13): per point and per fit, the v_R it predicts against that point's own chain
+    # v_R = M_I(point)/g_R
+    wc = s10["potential_lr"].get("with_complex_10", {})
+    cpts = wc.get("points", [])
+    cx = {"points": len(cpts), "fits": len(pts), "matches": 0, "ratios": [], "f": []}
+    hit = set()
+    for p_ in pts:
+        for i_, d_, f_ in complex_10_v_r(cpts, p_["r10"], p_["r126"], k_):
+            cx["matches"] += 1
+            hit.add(i_)
+            cx["ratios"].append(4 * d_ * p_["M_R_per_dm"] / (cpts[i_]["M_I"] / lr["g_R"]))
+            cx["f"].append(f_)
+    if cx["ratios"]:
+        rs, fs = sorted(cx["ratios"]), sorted(cx["f"])
+        q_ = lambda v_: (v_[0], v_[len(v_) // 6], v_[len(v_) // 2], v_[(5 * len(v_)) // 6], v_[-1])
+        cx["ratio_quantiles"], cx["f_quantiles"] = q_(rs), q_(fs)
+        cx["points_matched"] = len(hit)
+    del cx["ratios"], cx["f"]
     return {"v_R_chain": v_chain, "v_R_needed": (min(need), max(need)), "higgs_126_fraction": (fq[0], fq[2]),
+            "complex_10": cx,
             "ratio": (min(need) / v_chain, max(need) / v_chain), "M_R_per_dm": t12["M_R_per_dm_range"],
             "v_R_whole_share_to_d": (min(old), max(old)), "r126_range": t12["r126_range"], "r10_range": t12["r10_range"],
             "v_R_perturbative_floor": min(floor), "floor_ratio": min(floor) / v_chain}
@@ -9134,6 +9256,25 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
                        " every tan(beta)) and, with their alpha_p, their constant within eq. 19's one-digit precision",
                        (max(cs_) - min(cs_)) / cs_[0] < tol and 1 / num("check_eq19_factor") < f19 < num("check_eq19_factor"),
                        f"spread {(max(cs_) - min(cs_)) / cs_[0]:.0e}; C(eq. 19)/C = {f19:.2f}"))
+    # complex 10: the light space of M is null, and the circle matching recovers a planted light Higgs exactly
+    rng_k = _UniformStream(int(num("potential_seed")) + 5)
+    xk1, xk2 = complex(rng_k.uniform(-1, 1), rng_k.uniform(-1, 1)), complex(rng_k.uniform(-1, 1), rng_k.uniform(-1, 1))
+    msk, zk = 1 + rng_k.uniform(0, 1), complex(rng_k.uniform(-1, 1), rng_k.uniform(-1, 1))
+    xk = [[xk1.real, xk1.imag], [xk2.real, xk2.imag]]
+    dk_ = [[sum(xk[a_][k_] * xk[b_][k_] for k_ in range(2)) / msk for b_ in range(2)] for a_ in range(2)]
+    mk = [[dk_[0][0], dk_[0][1], xk[0][0], xk[0][1]], [dk_[1][0], dk_[1][1], xk[1][0], xk[1][1]],
+          [xk[0][0], xk[1][0], msk, 0], [xk[0][1], xk[1][1], 0, msk]]
+    null_dev = max(abs(sum(mk[i_][j_] * v_[j_] for j_ in range(4))) for v_ in
+                   ([1, 0, -xk[0][0] / msk, -xk[0][1] / msk], [0, 1, -xk[1][0] / msk, -xk[1][1] / msk]) for i_ in range(4))
+    c3k, c4k = -(xk1.real + zk * xk2.real) / msk, -(xk1.imag + zk * xk2.imag) / msk
+    nk = math.sqrt(1 + abs(zk) ** 2 + abs(c3k) ** 2 + abs(c4k) ** 2)
+    d_plant = abs(c3k - 1j * c4k) / (math.sqrt(2) * nk)
+    got_k = complex_10_v_r([{"x": (xk1.real, xk1.imag, xk2.real, xk2.imag), "m_s": msk}],
+                           abs(1 + 1j * zk) / abs(1 - 1j * zk), abs(c3k + 1j * c4k) / abs(c3k - 1j * c4k), 1.0)
+    rec_dev = min((abs(d_ / d_plant - 1) for _, d_, _ in got_k), default=math.inf)
+    checks.append(("Complex 10: D10 = X X^T/m_126 leaves exactly the two light SO(4) vectors (null), and matching |a/c|, |b/d|"
+                   " (two Apollonius circles) recovers a planted light Higgs's |d|", max(null_dev, rec_dev) < tol,
+                   f"null {null_dev:.1e}, recovered {rec_dev:.1e}"))
     # Part AA: the numerical slow roll against its exact solutions for phi^2 and phi^4 (N + 1/2 and N + 1 shifts)
     dev_sr = 0.0
     for n_ in (num("inflation_efolds_lo"), num("inflation_efolds_hi")):
@@ -10473,6 +10614,17 @@ def report(res: Dict[str, Any]) -> str:
         tq, hq = w10_["triplet_light_quantiles"], w10_["higgs_126_fraction_quantiles"]
         w(f"         lighter colour triplet / M_GUT 16-50-84 %: {tq[0]:.2f}, {tq[1]:.2f}, {tq[2]:.2f}; the light Higgs is"
           f" {100 * hq[0]:.0f}, {100 * hq[1]:.0f}, {100 * hq[2]:.0f} % 126")
+    wc_ = pl_.get("with_complex_10", {})
+    if wc_.get("viable"):
+        w("       The complex 10 (two real 10s, eta_a complex, kappa_ab symmetric; its own random stream): the chain's light")
+        w("       complex bidoublet is two real SO(4) vectors of (V_1, V_2, W_R, W_I), so the Schur complement must vanish,")
+        w("       D10 = X X^T / m_126 (three conditions: the 10's doublet masses are fixed; a real 10 cannot leave two light).")
+        w("       Its two triplets mix with the 126's (3,1,1) (3x3 Hermitian); thresholds from the eigenstates.")
+        w(f"         {wc_['viable']} viable of {wc_['drawn']}; M_I 16-50-84 %: {wc_['M_I_quantiles'][0]:.1e}, {wc_['M_I_quantiles'][1]:.1e},"
+          f" {wc_['M_I_quantiles'][2]:.1e} GeV; proton decay passes {100 * wc_['frac_proton_ok']:.0f} %,"
+          f" stabilizable vacuum {100 * wc_['frac_vacuum_ok']:.0f} %;")
+        tq_ = wc_["triplet_light_quantiles"]
+        w(f"         lighter colour triplet / M_GUT 16-50-84 %: {tq_[0]:.2f}, {tq_[1]:.2f}, {tq_[2]:.2f} (Part Y uses its points)")
     w("       Delta_R light drags its SU(2)_R partners of the (10bar,1,3) light with it, and those lower M_I: the potential")
     w("       pushes M_I down, not up.")
     w(_wrap("RESULT: SO(10) calculates the hypercharges' normalization (sin^2 theta_W = 3/8 at unification) and "
@@ -10723,6 +10875,18 @@ def report(res: Dict[str, Any]) -> str:
           f" {vr['floor_ratio']:.0f} times")
         w("      the chain's: on its own that is within what thresholds can move (Part T7), so the verdict rests on T13's 126")
         w("      share; with it B - L breaks far above the left-right chain's M_I.")
+        cx_ = vr["complex_10"]
+        w(f"  The complex 10's own potential (T13, {cx_['points']} points) decides it without the f band: inside the light bidoublet")
+        w("      the light Higgs is h = n_1 + z n_2 (z complex, picked at the v_R scale), and each fit's |a/c| and |b/d| are two")
+        w("      Apollonius circles in z. At their intersections |d|, so v_R, is predicted, against that point's own v_R = M_I/g_R:")
+        if cx_["matches"]:
+            rq, fq_ = cx_["ratio_quantiles"], cx_["f_quantiles"]
+            w(f"      {cx_['matches']} solutions ({cx_['points_matched']} points, {cx_['fits']} fits): v_R / v_R(chain) min {rq[0]:.0f},"
+              f" 16-50-84 % {rq[1]:.0f}, {rq[2]:.0f}, {rq[3]:.0f}, max {rq[4]:.0e}; the light Higgs {100 * fq_[1]:.0f} % 126 (median).")
+            w("      " + ("Every solution puts v_R above the chain's: the complex 10 does not rescue the neutrinos."
+                         if rq[0] > 1 else "Some solutions reach the chain's v_R: the complex 10 reopens the neutrinos."))
+        else:
+            w("      no point reaches the fits' |a/c| and |b/d|: the minimal potential cannot give the light Higgs the fits need.")
     w(_wrap("RESULT: SO(10)'s Yukawa sector is a real test. The minimal Pati-Salam chain fails it: its unbroken SU(4) "
             "keeps the light Higgs in one irrep, which gives the wrong lepton/down ratios by tens of sigma. Where "
             "SU(4) breaks at M_GUT (left-right chain), the 10 + 126 sum rule reaches the charged leptons; type-II "
