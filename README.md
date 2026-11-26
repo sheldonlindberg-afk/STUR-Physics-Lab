@@ -30,7 +30,7 @@ python3 production_v2_2.py --certify            # also prove every texture exclu
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 73 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 74 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -614,10 +614,18 @@ unknowns as conditions, so none predicts a coupling; the solution only locates t
 
 | Chain | b (one loop) | M_I, M_GUT (two loops, GeV) | τ(p → e⁺π⁰) | λ(M_I) = 0 gives m_h |
 |---|---|---|---|---|
-| Pati–Salam | (−23/3, −3, 11/3) | 1.4×10¹¹, 8.0×10¹⁵ | 1.5×10³⁵ yr | 125.6 GeV |
-| Pati–Salam + D-parity | (−14/3, 11/3, 11/3) | 4.4×10¹³, 8.4×10¹⁴ | 1.6×10³¹ yr: **excluded** | 127.4 GeV |
-| SU(3)×SU(2)²×U(1)_{B−L} | (−7, −3, −7/3, 11/2) | 2.8×10⁹, 1.5×10¹⁶ | 1.9×10³⁶ yr | 123.3 GeV |
-| same + D-parity | (−7, −7/3, −7/3, 7) | 3.0×10¹⁰, 2.3×10¹⁵ | 9.5×10³² yr: **excluded** | 124.8 GeV |
+| Pati–Salam | (−23/3, −3, 11/3) | 1.4×10¹¹, 8.0×10¹⁵ | 1.2×10³⁵ yr | 125.6 GeV |
+| Pati–Salam + D-parity | (−14/3, 11/3, 11/3) | 4.4×10¹³, 8.4×10¹⁴ | 1.5×10³¹ yr: **excluded** | 127.4 GeV |
+| SU(3)×SU(2)²×U(1)_{B−L} | (−7, −3, −7/3, 11/2) | 2.8×10⁹, 1.5×10¹⁶ | 1.6×10³⁶ yr | 123.3 GeV |
+| same + D-parity | (−7, −7/3, −7/3, 7) | 3.0×10¹⁰, 2.3×10¹⁵ | 8.5×10³² yr: **excluded** | 124.8 GeV |
+
+Above M_I the proton-decay operators run with the chain's own gauge group. Their anomalous dimensions are
+derived, not transcribed: in Landau gauge the fermion wave functions are not renormalized, and for an operator
+(ψψ)(χχ)† only gauge exchanges inside a Lorentz-scalar bilinear count, each 6 T_i·T_j (the value that gives a mass
+its −6C₂; T_i·T_j = −(N+1)/2N for ε-contracted SU(N) fundamentals), while left–right exchanges cancel. This
+reproduces Ellis et al.'s SM coefficients exactly for both operators (a self-check) and gives −15/2, −9/2, −9/2 g²
+for Pati–Salam and −4, −9/2, −9/2, −1/2 g² for the left-right group. Running with the chain's own group shortens
+each lifetime by 8–23 % against SM running throughout; no verdict changes.
 
 Proton decay excludes both D-parity chains. Two loops move Pati–Salam's M_I down from 5.5×10¹¹
 to 1.4×10¹¹ GeV, and its λ(M_I) = 0 Higgs mass from 126.1 to 125.6 GeV, against 125.20 measured.
@@ -640,10 +648,10 @@ Every corner is solved at two loops:
 
 | Chain | M_I range (GeV) | τ_p range (yr) | Verdicts that can flip |
 |---|---|---|---|
-| Pati–Salam | 1.5×10¹⁰ – 1.3×10¹² | 7×10³² – 4×10³⁷ | proton decay, vacuum |
-| Pati–Salam + D | 2.8×10¹³ – 6.7×10¹³ | 4×10²⁹ – 7×10³² | none: **robustly excluded** |
-| Left-right | 9×10⁷ – 9×10¹⁰ | 4×10³³ – 9×10³⁸ | proton decay, vacuum, leptogenesis |
-| Left-right + D | 5×10⁹ – 2×10¹¹ | 8×10³⁰ – 1×10³⁵ | all three, including its exclusion |
+| Pati–Salam | 1.5×10¹⁰ – 1.3×10¹² | 5×10³² – 3×10³⁷ | proton decay, vacuum |
+| Pati–Salam + D | 2.8×10¹³ – 6.7×10¹³ | 3×10²⁹ – 7×10³² | none: **robustly excluded** |
+| Left-right | 9×10⁷ – 9×10¹⁰ | 4×10³³ – 7×10³⁸ | proton decay, vacuum, leptogenesis |
+| Left-right + D | 5×10⁹ – 2×10¹¹ | 7×10³⁰ – 1×10³⁵ | all three, including its exclusion |
 
 So only Pati–Salam with D-parity is excluded whatever the thresholds. The surviving chains'
 verdicts depend on the heavy spectrum, which is what has to be calculated next.
@@ -668,7 +676,7 @@ an assumption), and a point counts only if the vacuum is a local minimum and the
 bounded below along a fixed set of random directions. Over the viable potentials, with the 126's
 and 10's components still at M_GUT:
 
-* proton decay passes for about 80% (median τ_p ≈ 1×10³⁵ years);
+* proton decay passes for about 77% (median τ_p ≈ 8×10³⁴ years);
 * M_I has a median near 1.5×10¹¹ GeV, and natural leptogenesis works for nearly all of them;
 * the vacuum can be stabilized for about 20%.
 
@@ -846,6 +854,10 @@ left-right one.
   potentials, none lifts M_I to the target with the proton kept, and their median M_I is lower than the chain's,
   not higher. Δ_R must be light, and it drags its SU(2)_R partners light with it. The neutrino entry stays open,
   with the fits and the chain's spectrum now pointing in opposite directions.
+* **Proton decay through the colour triplets.** They couple through the same Y₁₀ and Y₁₂₆ that give the masses.
+  An estimate uses the best fit's first-generation entries (Y₁₀,₁₁ ≈ 6×10⁻⁶, Y₁₂₆,₁₁ ≈ 2×10⁻⁵, with the light Higgs
+  a quarter 126, from Part T13), Clebsch factors up to 3, and the lighter triplet at T13's 1.3 M_GUT. The
+  amplitude is about 10⁻⁸ of the gauge bosons': τ ~ 10⁵² years. The triplets would matter only below ~10¹² GeV.
 * **Part X follows the survivor.** The cosmology closure now takes the surviving chain from Part U
   automatically: the left-right chain, whose axion gives under 1% of the dark matter. The loop then
   needs nearly all the dark matter from strings, domain walls or another component.
@@ -887,7 +899,7 @@ absorbs the condition, so nothing is tested; *open* means that hypothesis has no
 | b–τ unification | fail (79σ) | trade (tan β) | open |
 | Higgs mass | fail (3.3σ; 2.95σ with theory errors) | fail (m_h ≤ 103 GeV) | pass: λ(M_I) = 0 gives 125.6 GeV (0.4σ) |
 | neutrino masses | trade (Dirac, y ~ 3×10⁻¹³) | trade | pass (seesaw at M_I) |
-| proton decay | pass (no GUT) | fail (p → ν̄K⁺, 4 orders short) | pass (1.5×10³⁵ yr) |
+| proton decay | pass (no GUT) | fail (p → ν̄K⁺, 4 orders short) | pass (1.2×10³⁵ yr) |
 | baryon asymmetry | fail (no mechanism) | trade | trade (leptogenesis window open) |
 | strong CP | open | open | trade (axion at f_a = M_I) |
 

@@ -816,11 +816,15 @@ PART T. SO(10)
       If the axion scale is M_I (as in SO(10) axion models), m_a = 10.5 micro-eV.
   T5. Every minimal chain, one and two loops (b from the field content; SM two loops below M_I; tree-level
       matching, thresholds unknown). Each chain has as many unknowns as conditions: none predicts a coupling.
+      tau_p: above M_I the proton-decay operators run with the chain's group. Their anomalous dimensions are
+      derived (Landau gauge: each exchange inside a Lorentz-scalar bilinear gives 6 T_i.T_j, the mass operator's
+      value; left-right exchanges cancel), which reproduces Ellis et al.'s SM coefficients exactly (a self-check):
+      d ln C/d ln mu x 16 pi^2 = -15/2, -9/2, -9/2 g^2 for (4, 2L, 2R); -4, -9/2, -9/2, -1/2 g^2 for (3, 2L, 2R, B-L).
       chain   b (one loop)                M_I, M_GUT (1 loop)    M_I, M_GUT (2 loops)  1/a_GUT  tau_p (yr)
-      PS      -23/3, -3, 11/3             5.5e+11, 1.1e+16     1.4e+11, 8.0e+15    45.1   1.5e+35 ok
-      PS+D    -14/3, 11/3, 11/3           5.0e+13, 1.6e+15     4.4e+13, 8.4e+14    40.6   1.6e+31 EXCLUDED
-      LR      -7, -3, -7/3, 11/2          1.0e+09, 4.6e+16     2.8e+09, 1.5e+16    45.4   1.9e+36 ok
-      LR+D    -7, -7/3, -7/3, 7           1.3e+10, 5.8e+15     3.0e+10, 2.3e+15    43.2   9.5e+32 EXCLUDED
+      PS      -23/3, -3, 11/3             5.5e+11, 1.1e+16     1.4e+11, 8.0e+15    45.1   1.2e+35 ok
+      PS+D    -14/3, 11/3, 11/3           5.0e+13, 1.6e+15     4.4e+13, 8.4e+14    40.6   1.5e+31 EXCLUDED
+      LR      -7, -3, -7/3, 11/2          1.0e+09, 4.6e+16     2.8e+09, 1.5e+16    45.4   1.6e+36 ok
+      LR+D    -7, -7/3, -7/3, 7           1.3e+10, 5.8e+15     3.0e+10, 2.3e+15    43.2   8.5e+32 EXCLUDED
       lambda(M_I) = 0 at each chain's two-loop M_I (Part L's running and matching):
         PS     m_h = 125.58 GeV
         PS+D   m_h = 127.38 GeV
@@ -838,24 +842,24 @@ PART T. SO(10)
       The 'lambda(M_I) = 0' Higgs masses above only say how close each chain's M_I lies to mu_0.
   T7. Thresholds: each matching condition shifted by up to +/- 1.0 in 1/alpha (an assumed band, typical of
       one-loop thresholds), every corner solved at two loops. Ranges, and which verdicts can flip:
-        PS     M_I 1.5e+10 - 1.3e+12, M_GUT 2.0e+15 - 3.2e+16, tau_p 7e+32 - 4e+37: proton decay, vacuum can flip
-        PS+D   M_I 2.8e+13 - 6.7e+13, M_GUT 3.2e+14 - 2.2e+15, tau_p 4e+29 - 7e+32: robust
-        LR     M_I 8.9e+07 - 8.6e+10, M_GUT 3.2e+15 - 7.1e+16, tau_p 4e+33 - 9e+38: proton decay, vacuum, leptogenesis can flip
-        LR+D   M_I 5.1e+09 - 1.8e+11, M_GUT 6.8e+14 - 7.6e+15, tau_p 8e+30 - 1e+35: proton decay, vacuum, leptogenesis can flip
+        PS     M_I 1.5e+10 - 1.3e+12, M_GUT 2.0e+15 - 3.2e+16, tau_p 5e+32 - 3e+37: proton decay, vacuum can flip
+        PS+D   M_I 2.8e+13 - 6.7e+13, M_GUT 3.2e+14 - 2.2e+15, tau_p 3e+29 - 7e+32: robust
+        LR     M_I 8.9e+07 - 8.6e+10, M_GUT 3.2e+15 - 7.1e+16, tau_p 4e+33 - 7e+38: proton decay, vacuum, leptogenesis can flip
+        LR+D   M_I 5.1e+09 - 1.8e+11, M_GUT 6.8e+14 - 7.6e+15, tau_p 7e+30 - 1e+35: proton decay, vacuum, leptogenesis can flip
   T8. Pati-Salam's heavy GUT multiplets (SO(10) broken by a 210, plus the 126 and 10): each shifts the
       couplings at M_GUT by (b^h/2 pi) ln(M_h/M_GUT). Per unit of that log, and the mass ratio M_h/M_GUT
       (that multiplet alone) at which proton decay or vacuum stability would flip:
         multiplet               b (4, 2L, 2R)       d ln M_I  d ln tau_p   proton flips   vacuum flips
-        210: (15,1,1)           2/3, 0, 0            +0.149     -0.542   at 30          at 0.0043
-        210: (15,3,1)           2, 5, 0              -1.316     +2.174   at 0.43        at 1.9
-        210: (15,1,3)           2, 0, 5              +1.090     -1.357   at 3.9         at 0.48
-        210: (10,2,2) + conj.   4, 10/3, 10/3        +0.149     -0.542   at 30          at 0.0043
-        126: (6,1,1)            1/3, 0, 0            +0.075     -0.271   at 9.1e+02     at 1.9e-05
-        126: (10,3,1)           3, 20/3, 0           -1.681     +2.628   at 0.5         at 1.6
-        126: (15,2,2)           16/3, 5, 5           +0.075     -0.271   at 9.1e+02     at 1.9e-05
-        10: (6,1,1)             1/6, 0, 0            +0.037     -0.136   at 8.3e+05     at 3.5e-10
+        210: (15,1,1)           2/3, 0, 0            +0.149     -0.538   at 19          at 0.0043
+        210: (15,3,1)           2, 5, 0              -1.316     +2.124   at 0.47        at 1.9
+        210: (15,1,3)           2, 0, 5              +1.090     -1.312   at 3.4         at 0.48
+        210: (10,2,2) + conj.   4, 10/3, 10/3        +0.149     -0.538   at 19          at 0.0043
+        126: (6,1,1)            1/3, 0, 0            +0.075     -0.269   at 3.7e+02     at 1.9e-05
+        126: (10,3,1)           3, 20/3, 0           -1.681     +2.563   at 0.54        at 1.6
+        126: (15,2,2)           16/3, 5, 5           +0.075     -0.269   at 3.7e+02     at 1.9e-05
+        10: (6,1,1)             1/6, 0, 0            +0.037     -0.135   at 1.3e+05     at 3.5e-10
       All eight within a factor 10.0 of M_GUT: M_I 4e+06 - 5e+15 GeV, M_GUT 8e+13 - 8e+17 GeV,
-      tau_p 2e+27 - 1e+43 years: the heavy spectrum, not the running, decides.
+      tau_p 2e+27 - 7e+42 years: the heavy spectrum, not the running, decides.
   T9. The 210's own potential calculates four of those masses. Invariants: S2, the cubic C, quartics Q1-Q4;
       vev on the Pati-Salam singlet; mass^2/v^2 per multiplet (quartics per 576, cubic per 24, eta in units of v):
         (1,1,1)   eta +0.0000  Q1 +8.0000  Q2 +2.0000  Q3 +1.3333  Q4 +0.6667
@@ -867,9 +871,9 @@ PART T. SO(10)
       Couplings scanned: |lambda_a| <= 1, |eta/v| <= 1; 957 of 30000 points give a local minimum bounded
       below along the test directions. Their masses (the 126's and 10's still at M_GUT) give, as fractions of
       the viable potentials:
-        proton decay passes 81 %; tau_p 16-50-84 %: 2.1e+34, 1.0e+35, 3.6e+35 years
+        proton decay passes 77 %; tau_p 16-50-84 %: 1.7e+34, 7.9e+34, 2.7e+35 years
         M_I 16-50-84 %: 6.3e+10, 1.6e+11, 4.4e+11 GeV; natural leptogenesis 99 %; stabilizable vacuum 16 %
-        proton decay and natural leptogenesis together: 80 %
+        proton decay and natural leptogenesis together: 76 %
   T10. The 126's masses from its couplings to <210> (self-dual 5-forms; norm, the D-odd cubic, quartics D, E;
        a universal quartic absorbed). Eigenvalues per multiplet, relative to the norm:
         (6,1,1)     norm +1.0000  cubic +0.0000  D +1.2000  E +0.4000  F +2.4000
@@ -879,9 +883,9 @@ PART T. SO(10)
        Only the cubic tells (10,3,1) from (10bar,1,3). The chain needs (10bar,1,3) light at M_I, so
        m^2(10,3,1) = 2 eta_2 v exactly: the dominant multiplet of T8 is set by one coupling.
        With the 126's couplings scanned too (366 jointly viable potentials):
-        proton decay passes 94 %; tau_p 16-50-84 %: 1.2e+35, 7.7e+35, 3.8e+36 years
+        proton decay passes 92 %; tau_p 16-50-84 %: 9.0e+34, 5.6e+35, 2.7e+36 years
         M_I 16-50-84 %: 1.2e+10, 3.7e+10, 1.3e+11 GeV; natural leptogenesis 78 %; stabilizable vacuum 67 %
-        proton decay and natural leptogenesis together: 72 %
+        proton decay and natural leptogenesis together: 70 %
   T11. The 10's couplings. No cubic H H phi exists (10 x 10 holds no 210); the quartic H_i H_j A_ij,
        A_ij = phi_iklm phi_jklm, is 6 v^2 on SO(4) indices and 0 on SO(6): it alone splits the doublet (1,2,2) from
        the colour triplet (6,1,1). The cubic H_i S_ijklm phi_jklm mixes that triplet with the 126's (6,1,1).
@@ -889,9 +893,9 @@ PART T. SO(10)
        splitting problem, assumed here as in every SO(10) model.
        With the 10's couplings scanned too (115 jointly viable potentials):
         lighter colour triplet / M_GUT 16-50-84 %: 0.74, 1.41, 2.03
-        proton decay passes 97 %; tau_p 16-50-84 %: 1.5e+35, 9.1e+35, 4.8e+36 years
+        proton decay passes 96 %; tau_p 16-50-84 %: 1.1e+35, 6.7e+35, 3.4e+36 years
         M_I 16-50-84 %: 1.0e+10, 3.4e+10, 1.1e+11 GeV; natural leptogenesis 76 %; stabilizable vacuum 74 %
-        proton decay and natural leptogenesis together: 72 %
+        proton decay and natural leptogenesis together: 71 %
        Not included: proton decay through the colour triplets' own Yukawa couplings (scalar exchange), which
        needs the Yukawa matrices at M_GUT.
   T12. The left-right chain's heavy spectrum. SO(10) -> SU(3) x SU(2)_L x SU(2)_R x U(1)_B-L without D-parity
@@ -900,14 +904,14 @@ PART T. SO(10)
        checked against the SO(10) indices, B - L included), b under (3, 2L, 2R, B-L), per unit ln(M_h/M_GUT),
        sorted by their pull on M_I:
         multiplet               b (3, 2L, 2R, BL)     d ln M_I  d ln tau_p
-        126: (6,1,3)            5/2, 0, 4, 1            +1.452     -2.201
-        126: (6,3,1)            5/2, 4, 0, 1            -1.409     +1.231
-        210: (8,3,1)            3/2, 8/3, 0, 0          -1.058     +0.964
-        126: (3,3,1)            1/2, 2, 0, 1/2          -0.904     +1.316
-        210: (8,1,3)            3/2, 0, 8/3, 0          +0.848     -1.325
-        210: (3,3,1)            1/2, 2, 0, 2            -0.736     +1.344
-        210: (3,1,3)            1/2, 0, 2, 2            +0.694     -0.373
-        126: (3,1,3)            1/2, 0, 2, 1/2          +0.526     -0.401
+        126: (6,1,3)            5/2, 0, 4, 1            +1.452     -2.216
+        126: (6,3,1)            5/2, 4, 0, 1            -1.409     +1.245
+        210: (8,3,1)            3/2, 8/3, 0, 0          -1.058     +0.972
+        126: (3,3,1)            1/2, 2, 0, 1/2          -0.904     +1.321
+        210: (8,1,3)            3/2, 0, 8/3, 0          +0.848     -1.336
+        210: (3,3,1)            1/2, 2, 0, 2            -0.736     +1.351
+        210: (3,1,3)            1/2, 0, 2, 2            +0.694     -0.380
+        126: (3,1,3)            1/2, 0, 2, 1/2          +0.526     -0.410
         (14 more, each moving ln M_I by less than 0.28 per unit)
        The SU(2)_L-triplet coloured states pull M_I down when heavy, the SU(2)_R ones up: a split spectrum moves
        M_I by large factors (Part Y asks how far the neutrino fits need it moved).
@@ -920,9 +924,9 @@ PART T. SO(10)
        210 alone (126, 10 at M_GUT): 209 viable of 300000; M_I 16-50-84 %: 1.2e+09, 3.3e+09, 1.3e+10 GeV;
          proton decay passes 98 %, stabilizable vacuum 95 %, natural leptogenesis 16 %
        210 + 126 (10 at M_GUT): 1081 viable of 300000 x 20; M_I 16-50-84 %: 4.7e+08, 1.1e+09, 6.2e+09 GeV;
-         proton decay passes 97 %, stabilizable vacuum 98 %, natural leptogenesis 9 %
+         proton decay passes 96 %, stabilizable vacuum 98 %, natural leptogenesis 9 %
        210 + 126 + 10: 715 viable of 300000 x 20; M_I 16-50-84 %: 3.9e+08, 9.2e+08, 2.3e+09 GeV;
-         proton decay passes 98 %, stabilizable vacuum 98 %, natural leptogenesis 5 %
+         proton decay passes 97 %, stabilizable vacuum 98 %, natural leptogenesis 5 %
        The 10 (T11 here): H_i H_j A_ij splits it (A = 4 sin^2 a v^2 on SO(6), 6 cos^2 a v^2 on SO(4)); the cubic
        H_i S_ijklm phi_jklm mixes its triplet with the 126's (3,1,1) and, through the B - L vev, its doublet with
        the 126's (1,2,2) (strength sin a): the light Higgs is a 10-126 mixture, as Part Y's sum rule assumes.
@@ -1051,11 +1055,16 @@ PART Y. THE SO(10) YUKAWA SECTOR: CAN IT GIVE THE CHARGED-FERMION MASSES?
       with 17 unknowns for 13 data they reach the data without predicting it, and delta is not pinned. What
       every fit shares is the right-handed scale, far above the perturbative bound at the chain's M_I.
   Lifting M_I (Part T12): the fits need v_R ~ M_I >= 1.4e+11 GeV, 50 times the chain's M_I. The heavy spectrum
-      does it with every GUT multiplet within a factor 1.54 of M_GUT (the smallest such factor that also keeps the
-      proton: a linear program in the log-masses, then solved exactly): M_I = 1.39e+11, M_GUT = 5.05e+15 GeV,
+      does it with every GUT multiplet within a factor 1.55 of M_GUT (the smallest such factor that also keeps the
+      proton: a linear program in the log-masses, then solved exactly): M_I = 1.39e+11, M_GUT = 5.28e+15 GeV,
       tau_p = 2.40e+34 years (above the Super-K limit, at its edge: the binding constraint). The vacuum is then
       no longer stabilizable (M_I against mu_0). The chain's own potential (Part T13) gives such a
       spectrum in 0 of 715 viable 210 + 126 + 10 potentials (the largest M_I with the proton kept: 7.7e+10 GeV).
+  Proton decay through the colour triplets (an estimate): they couple through the same Yukawas, Y126 = (M_d -
+      M_e)/(4 d), Y10 = (3 M_d + M_e)/(4 c), with the light Higgs 24 % 126 (T13's median) and the best fit's first-generation
+      entries: Y10_11 = 6.2e-06, Y126_11 = 2.3e-05. With Clebsches up to 3 and the lighter triplet at 1.30 M_GUT,
+      the amplitude is 1e-08 of the gauge one: tau ~ 1e+52 years. The triplets only need M_T > 7e+11 GeV
+      (first-generation Yukawas are tiny): the gauge bosons, not the triplets, decide proton decay here.
   RESULT: SO(10)'s Yukawa sector is a real test. The minimal Pati-Salam chain
     fails it: its unbroken SU(4) keeps the light Higgs in one irrep, which
     gives the wrong lepton/down ratios by tens of sigma. Where SU(4) breaks
@@ -1100,7 +1109,7 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
       Part T)
     Higgs mass pass (0.4 sigma): lambda(M_I) = 0 gives m_h = 125.58 GeV
     neutrino masses pass : seesaw at M_I with a Dirac Yukawa of 0.015 for the heaviest neutrino
-    proton decay pass : p -> e+ pi0 in 2e+35 years against 2.4e+34
+    proton decay pass : p -> e+ pi0 in 1e+35 years against 2.4e+34
     baryon asymmetry trade : M_1 up to M_I = 1e+11 GeV covers the natural range (M_1 >= 2e+10 GeV)
     strong CP trade : an axion at f_a = M_I would give m_a = 41 micro-eV
     vacuum stability open : metastable between mu_0 and M_I; M_I lies inside mu_0's top-mass band
@@ -1133,7 +1142,7 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     neutrino masses open : type II from the 10 + 126 sum rule misses the PMNS data by 19 sigma (b
       and tau do not converge: (m_b - m_tau)/m_b = -0.41); 15 type I (+ II) fits, every one needing
       M_R,3 >= 177 M_I, above the perturbative 3.5 M_I: B - L would break far above the chain's
-      M_I; a heavy spectrum within a factor 1.54 of M_GUT would lift M_I there (Part T12), but the
+      M_I; a heavy spectrum within a factor 1.55 of M_GUT would lift M_I there (Part T12), but the
       chain's potential gives it in 0 of 715 viable cases (Part T13)
     proton decay pass : p -> e+ pi0 in 2e+36 years against 2.4e+34
     baryon asymmetry open : M_1 <~ M_I = 3e+09 GeV needs weak washout: the natural range needs M_1
@@ -1154,9 +1163,9 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     neutrino masses open : type II from the 10 + 126 sum rule misses the PMNS data by 19 sigma (b
       and tau do not converge: (m_b - m_tau)/m_b = -0.41); 15 type I (+ II) fits, every one needing
       M_R,3 >= 177 M_I, above the perturbative 3.5 M_I: B - L would break far above the chain's
-      M_I; a heavy spectrum within a factor 1.54 of M_GUT would lift M_I there (Part T12), but the
+      M_I; a heavy spectrum within a factor 1.55 of M_GUT would lift M_I there (Part T12), but the
       chain's potential gives it in 0 of 715 viable cases (Part T13)
-    proton decay fail : p -> e+ pi0 in 9e+32 years against 2.4e+34
+    proton decay fail : p -> e+ pi0 in 8e+32 years against 2.4e+34
     baryon asymmetry trade : M_1 up to M_I = 3e+10 GeV covers the natural range (M_1 >= 2e+10 GeV)
     strong CP trade : an axion at f_a = M_I would give m_a = 1.9e+02 micro-eV
     vacuum stability pass : M_I below mu_0 = 6.2e+10 GeV: a scalar threshold can stabilize the
@@ -1565,6 +1574,7 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Axion misalignment from its ingredients reproduces Di Luzio et al.'s eq. 170 (their approximation)  (Omega h^2 = 0.1184 at f_a = 2.0e+11 GeV against 0.12)
   [PASS] SO(10) -> Pati-Salam decompositions of 10, 126, 210: component indices add up to the SO(10) index under every factor  (10: 1, 126: 35, 210: 56)
   [PASS] 210 potential: the eaten (6,2,2) is massless for every coupling (Goldstone); the radial mode has twice the vacuum curvature  (max 0.0e+00)
+  [PASS] Proton-decay operators: the derived anomalous dimensions (6 T_i.T_j inside each Lorentz bilinear) = Ellis et al.'s SM coefficients for both operators; split running = direct  (split rel dev 0.0e+00)
   [PASS] Left-right potential: highest weights reproduce the 210 and 126 decompositions; the Pati-Salam limit equals T9's masses and T10's coefficients; the eaten (3,2,2), (3,1,1) are massless at a two-vev vacuum and 3221 annihilates it; the 10's couplings reduce to T11's (no doublet mixing)  (T9 2e-15, T10 4e-16, Goldstones 5e-14)
   [PASS] SO(10) -> SU(3) x SU(2)_L x SU(2)_R x U(1)_B-L decompositions of 10, 126, 210: real dimensions 10, 252, 210 and indices = the SO(10) index under every factor, B - L included  (dimensions [10, 252, 210])
   [PASS] 126: the self-dual basis is self-dual, (10,3,1) and (10bar,1,3) do not mix, and every D-even invariant is equal on them  (max 0.0e+00)
@@ -1575,6 +1585,6 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] SO(10) 10 + 126: the sum rule M_e = c1 M_d + c2 M_u and the Dirac matrix M_D = M_u + (3 + c1)/c2 (M_d - M_e) hold exactly at a random point  (max rel dev 3.2e-15)
   [PASS] SO(10) chains: the general two-loop formula on the SM content = sm_gauge_b, sm_two_loop_b; the Newton solver at one loop = the linear solution  (rel diff 3.3e-10)
   [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (28 stages, 87 edges)
-  73/73 checks pass
+  74/74 checks pass
 ==============================================================================
-Elapsed: 1657.3 s
+Elapsed: 1433.4 s

@@ -4842,6 +4842,58 @@ def proton_short_distance(x: Dict[str, float], m_x: float, m_s: float | None, op
     return a_s
 
 
+# Above M_I the operators run with the chain's own gauge group. Their anomalous dimensions are derived, not
+# quoted: in Landau gauge the fermion wave functions are not renormalized, and for an operator (psi psi)(chi chi)^+
+# only gauge exchanges inside a Lorentz-scalar bilinear count, each 6 T_i.T_j (the value that gives a mass its
+# -6 C2), while exchanges between a left- and a right-handed leg cancel. For fundamentals of SU(N) contracted by
+# epsilon, T_i.T_j = -(N+1)/(2N); for a U(1), the product of the normalized charges. So
+# d ln C/d ln mu = (G_g g_g^2/16 pi^2), C ~ prod alpha_g^(G_g/2 b_g). A self-check: the SM's G reproduces Ellis et
+# al.'s c_i (G = -4 c) for both operators.
+PROTON_OPERATORS = {
+    # each operator: its two Lorentz bilinears, every leg as (dimension under each factor..., U(1) charge)
+    "SM": {"groups": ("U1", "SU2", "SU3"), "norm": "GUT_NORM",
+           "S1": (((1, 1, 3, Fr(2, 3)), (1, 1, 3, Fr(-1, 3))), ((1, 2, 3, Fr(1, 6)), (1, 2, 1, Fr(-1, 2)))),
+           "S2": (((1, 2, 3, Fr(1, 6)), (1, 2, 3, Fr(1, 6))), ((1, 1, 3, Fr(2, 3)), (1, 1, 1, Fr(-1))))},
+    "SU3": {"groups": ("SU3", "SU2", "SU2", "U1"), "norm": "BL_NORM",
+            "S1": (((3, 1, 2, Fr(1, 3)), (3, 1, 2, Fr(1, 3))), ((3, 2, 1, Fr(1, 3)), (1, 2, 1, Fr(-1)))),
+            "S2": (((3, 2, 1, Fr(1, 3)), (3, 2, 1, Fr(1, 3))), ((3, 1, 2, Fr(1, 3)), (1, 1, 2, Fr(-1))))},
+    "SU4": {"groups": ("SU4", "SU2", "SU2"), "norm": None,
+            "S1": (((4, 1, 2), (4, 1, 2)), ((4, 2, 1), (4, 2, 1))),
+            "S2": (((4, 2, 1), (4, 2, 1)), ((4, 1, 2), (4, 1, 2)))}}
+
+
+def operator_gamma(model: str, op: str) -> List[Fr]:
+    """G_g per gauge factor (d ln C / d ln mu = G_g g_g^2 / 16 pi^2) of a baryon-number-violating operator."""
+    spec = PROTON_OPERATORS[model]
+    out = []
+    for g_i, grp in enumerate(spec["groups"]):
+        tot = Fr(0)
+        for a_, b_ in spec[op]:
+            if grp == "U1":
+                tot += {"GUT_NORM": GUT_NORM, "BL_NORM": BL_NORM}[spec["norm"]] * a_[-1] * b_[-1]   # charge: last entry
+            else:
+                n_ = {"SU2": 2, "SU3": 3, "SU4": 4}[grp]
+                if a_[g_i] == n_ and b_[g_i] == n_:
+                    tot += -Fr(n_ + 1, 2 * n_)
+        out.append(6 * tot)
+    return out
+
+
+def proton_short_distance_chain(x: Dict[str, float], chain: Dict[str, Any], sol: Dict[str, Any], op: str) -> float:
+    """A_S for a non-supersymmetric SO(10) chain: the chain's group from M_GUT to M_I (couplings from the chain's
+    solution), the SM from M_I to M_Z (one loop)."""
+    model = chain["groups"][0]
+    gam = operator_gamma(model, op)
+    inv_lo = sol["inv_alpha_MI"]
+    a_s = 1.0
+    for g_, b_, il in zip(gam, chain["b1"], inv_lo):
+        a_s *= (1 / (sol["alpha_GUT"] * il)) ** (float(g_) / (2 * float(b_)))   # (alpha(M_I)/alpha(M_GUT))^(G/2b)
+    a_hi, a_lo = _alpha_one_loop(sol["M_I"], x, None), _alpha_one_loop(x["M_Z"], x, None)
+    for e, al, ah in zip(proton_exponents("SM", op), a_lo, a_hi):
+        a_s *= (al / ah) ** e
+    return a_s
+
+
 def proton_long_distance(runner: "FlavourRunner", x: Dict[str, float]) -> float:
     """A_L: QCD running of the operators from M_Z to the matrix elements' scale (one loop in the
     exponent 2 c_3 / b0 per flavour region, alpha_s from the script's four-loop running)."""
@@ -4854,13 +4906,17 @@ def proton_long_distance(runner: "FlavourRunner", x: Dict[str, float]) -> float:
     return a_l
 
 
-def proton_lifetime(x: Dict[str, float], m_x: float, alpha_gut: float, m_s: float | None, a_l: float) -> float:
-    """tau(p -> e+ pi0) in years."""
+def proton_lifetime(x: Dict[str, float], m_x: float, alpha_gut: float, m_s: float | None, a_l: float,
+                    chain: Dict[str, Any] | None = None, sol: Dict[str, Any] | None = None) -> float:
+    """tau(p -> e+ pi0) in years. With a chain and its solution, the operators run with the chain's group above M_I."""
     gev = x["e_charge"] * 10 ** 9
     m_p = x["m_p"] * x["c"] ** 2 / gev
     m_pi = x["m_pi0_MeV"] / 1000
     g2 = 4 * math.pi * alpha_gut
-    s1, s2 = proton_short_distance(x, m_x, m_s, "S1"), proton_short_distance(x, m_x, m_s, "S2")
+    if chain is not None:
+        s1, s2 = proton_short_distance_chain(x, chain, sol, "S1"), proton_short_distance_chain(x, chain, sol, "S2")
+    else:
+        s1, s2 = proton_short_distance(x, m_x, m_s, "S1"), proton_short_distance(x, m_x, m_s, "S2")
     amp2 = s1 ** 2 * x["W_pi0_RL"] ** 2 + (1 + x["V_ud"] ** 2) ** 2 * s2 ** 2 * x["W_pi0_LL"] ** 2
     width = m_p / (32 * math.pi) * (1 - m_pi ** 2 / m_p ** 2) ** 2 * a_l ** 2 * (g2 / m_x ** 2) ** 2 * amp2
     hbar_gev_s = x["h"] / (2 * math.pi) / gev
@@ -5593,7 +5649,7 @@ def chain_thresholds(chain: Dict[str, Any], x: Dict[str, float], base: Dict[str,
         r_ = solve_chain(chain, x, 2, [s_ * d_max for s_ in signs])
         if not r_["consistent"] or r_["residual"] > num("unif_tol") * 100:
             continue
-        r_["tau_p_years"] = proton_lifetime(x, r_["M_GUT"], r_["alpha_GUT"], None, a_l)
+        r_["tau_p_years"] = proton_lifetime(x, r_["M_GUT"], r_["alpha_GUT"], None, a_l, chain, r_)
         rows.append(r_)
     mi = [r_["M_I"] for r_ in rows]
     mg = [r_["M_GUT"] for r_ in rows]
@@ -5657,7 +5713,7 @@ def heavy_spectrum_band(chain: Dict[str, Any], x: Dict[str, float], base: Dict[s
         delta = [bh_ / (2 * math.pi) for bh_ in bh]              # per unit ln(M_h/M_GUT)
         shifts = [delta[0] - delta[1], delta[2] - delta[1]]       # PS residuals: inv4 - inv2L, inv2R - inv2L
         r_ = solve_chain(chain, x, 2, shifts)
-        tau = proton_lifetime(x, r_["M_GUT"], r_["alpha_GUT"], None, a_l)
+        tau = proton_lifetime(x, r_["M_GUT"], r_["alpha_GUT"], None, a_l, chain, r_)
         rows.append({"multiplet": name, "b": heavy_b(rep, kind),
                      "dlnMI": math.log(r_["M_I"] / base["M_I"]), "dlnMG": math.log(r_["M_GUT"] / base["M_GUT"]),
                      "dlntau": math.log(tau / base["tau_p_years"])})
@@ -5732,7 +5788,7 @@ def heavy_spectrum_band_lr(chain: Dict[str, Any], x: Dict[str, float], base: Dic
         bh = [float(v) for v in heavy_b_3221(rep, kind)]
         delta = [bh_ / (2 * math.pi) for bh_ in bh]
         r_ = solve_chain(chain, x, 2, [delta[0] - delta[1], delta[2] - delta[1], delta[3] - delta[1]])
-        tau = proton_lifetime(x, r_["M_GUT"], r_["alpha_GUT"], None, a_l)
+        tau = proton_lifetime(x, r_["M_GUT"], r_["alpha_GUT"], None, a_l, chain, r_)
         rows.append({"multiplet": name, "b": heavy_b_3221(rep, kind),
                      "dlnMI": math.log(r_["M_I"] / base["M_I"]), "dlnMG": math.log(r_["M_GUT"] / base["M_GUT"]),
                      "dlntau": math.log(tau / base["tau_p_years"])})
@@ -6447,7 +6503,7 @@ def potential_lr_scan(setup: Dict[str, Any], chain: Dict[str, Any], heavy: Dict[
     dv = [float(b_) / (2 * math.pi) for b_ in bv]
     rv = solve_chain(chain, x, 2, [dv[0] - dv[1], dv[2] - dv[1], dv[3] - dv[1]])
     vrow = {"dlnMI": math.log(rv["M_I"] / base["M_I"]),
-            "dlntau": math.log(proton_lifetime(x, rv["M_GUT"], rv["alpha_GUT"], None, heavy["a_l"]) / base["tau_p_years"])}
+            "dlntau": math.log(proton_lifetime(x, rv["M_GUT"], rv["alpha_GUT"], None, heavy["a_l"], chain, rv) / base["tau_p_years"])}
     g2 = 4 * math.pi * base["alpha_GUT"]
     c10 = so10_126_coefficients()["coefficients"]
     scale = {k: max(abs(c10[r_][k]) for r_ in c10) for k in ("cubic", "D", "E")}
@@ -6625,7 +6681,7 @@ def so10(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any
         for loops in (1, 2):
             rec[f"loop{loops}"] = solve_chain(ch, x0, loops)
         two = rec["loop2"]
-        two["tau_p_years"] = proton_lifetime(x0, two["M_GUT"], two["alpha_GUT"], None, a_l)
+        two["tau_p_years"] = proton_lifetime(x0, two["M_GUT"], two["alpha_GUT"], None, a_l, ch, two)
         two["tau_p_allowed"] = two["tau_p_years"] > pdk["limit_e_pi0"]
         two["m_h_lambda_MI_zero"] = predict_higgs_mass_nnlo(None, two["M_I"], 3, crit["central"]["m_h"],
                                                              anchor=crit["smdr"])["m_h"]
@@ -7208,7 +7264,38 @@ def so10_yukawa_tests(flav: Dict[str, Any], s10: Dict[str, Any]) -> Dict[str, An
     out = {"PS": so10_selection_rule(flav, s10["chains"]["PS"]["loop2"]["M_I"]),
            "LR": so10_sum_rule(flav, two["M_GUT"], two["M_I"], run["masses"], run["V"]), "running": running}
     out["lift"] = heavy_spectrum_lift(out["LR"], s10, chain)
+    out["triplet"] = triplet_proton_estimate(out["LR"], s10, flav)
     return out
+
+
+def triplet_proton_estimate(lr: Dict[str, Any], s10: Dict[str, Any], flav: Dict[str, Any]) -> Dict[str, Any] | None:
+    """p -> e+ pi0 through the colour-triplet scalars of the 10 and 126, an order-of-magnitude estimate. Their
+    couplings are the Yukawas that give the masses: Y126 = (M_d - M_e)/(4 d), Y10 = (3 M_d + M_e)/(4 c), with c, d the
+    light Higgs's 10 and 126 components (k sqrt(1 - f), k sqrt f; f its 126 share, k = v/sqrt2; T13's median) and the
+    first-generation entries of the best type I + II fit. Clebsches bounded by 3 (Y_T = max(Y10, 3 Y126)); the
+    lighter triplet at T13's median mass; the same short- and long-distance factors as the gauge channel, so the
+    lifetime scales as (g^2/M_X^2)^2 / (Y_T^2/M_T^2)^2."""
+    t12 = lr["type12"]
+    w10 = s10["potential_lr"]["with_10"]
+    if not w10.get("viable"):
+        return None
+    two = s10["chains"]["LR"]["loop2"]
+    k_ = flav["runner"].v / math.sqrt(2)
+    f_ = w10["higgs_126_fraction_quantiles"][1]
+    fg = t12["first_gen"]
+    y126 = fg["d_minus_e"] / (4 * k_ * math.sqrt(f_))
+    y10 = fg["3d_plus_e"] / (4 * k_ * math.sqrt(1 - f_))
+    y_t = max(y10, 3 * y126)
+    g2 = 4 * math.pi * two["alpha_GUT"]
+    m_t_ratio = w10["triplet_light_quantiles"][1]
+    ratio = y_t ** 2 / (g2 * m_t_ratio ** 2)                       # C_T / C_X
+    tau_x = two["tau_p_years"]
+    limit = s10["pati_salam"]["tau_p_limit"]
+    return {"y10_11": y10, "y126_11": y126, "y_T": y_t, "higgs_126_fraction": f_, "M_T_over_M_GUT": m_t_ratio,
+            "amplitude_ratio": ratio, "tau_p_years": tau_x / ratio ** 2,
+            # tau_T = tau_X (g M_T / (Y_T M_X))^4 >= limit
+            "M_T_min_over_M_GUT": y_t / math.sqrt(g2) * (limit / tau_x) ** (1 / 4),
+            "M_T_min_GeV": two["M_GUT"] * y_t / math.sqrt(g2) * (limit / tau_x) ** (1 / 4)}
 
 
 def heavy_spectrum_lift(lr: Dict[str, Any], s10: Dict[str, Any], chain: Dict[str, Any]) -> Dict[str, Any] | None:
@@ -7263,7 +7350,7 @@ def heavy_spectrum_lift(lr: Dict[str, Any], s10: Dict[str, Any], chain: Dict[str
         for k, d_ in enumerate((bh[0] - bh[1], bh[2] - bh[1], bh[3] - bh[1])):
             shifts[k] += li * d_
     r_ = solve_chain(chain, x, 2, shifts)
-    tau = proton_lifetime(x, r_["M_GUT"], r_["alpha_GUT"], None, hs["a_l"])
+    tau = proton_lifetime(x, r_["M_GUT"], r_["alpha_GUT"], None, hs["a_l"], chain, r_)
     moved = sorted(((abs(li), r2_["multiplet"], math.exp(li)) for li, r2_ in zip(ell, hs["rows"])), reverse=True)
     pts = s10["potential_lr"]["points"]
     out["potential_n"] = len(pts)
@@ -7517,7 +7604,12 @@ def so10_sum_rule(flav: Dict[str, Any], mu: float, m_i: float, ms: Dict[str, Lis
                "n_sigma_worst": max(abs(v_) for v_ in res[3:7]), "fits_found": len(fits),
                "delta_deg_range": ((min(math.degrees(f_["angles"]["delta"]) % 360 for f_, _ in fits),
                                     max(math.degrees(f_["angles"]["delta"]) % 360 for f_, _ in fits)) if fits else None),
-               "scales": seesaw_scales(core, kind)}
+               "scales": seesaw_scales(core, kind),
+               # first-generation entries at the best point (the basis where M_u is real diagonal): proton decay through
+               # the colour triplets needs them
+               "first_gen": {"u": core[-1]["u"][0], "d": abs(matrices(core)[0][0][0]), "e": abs(matrices(core)[1][0][0]),
+                             "d_minus_e": abs(matrices(core)[0][0][0] - matrices(core)[1][0][0]),
+                             "3d_plus_e": abs(3 * matrices(core)[0][0][0] + matrices(core)[1][0][0])}}
         if fits:
             # delta is never fitted: each fit predicts it. Pull on the circle against the measured value (NuFIT's
             # distribution is far from Gaussian, so this is only indicative)
@@ -8579,6 +8671,19 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     rad = max(abs(cv_["(1,1,1)"][q] - 8 * q0_[q] / 576) for q in QUARTICS_210)
     checks.append(("210 potential: the eaten (6,2,2) is massless for every coupling (Goldstone); the radial mode has"
                    " twice the vacuum curvature", gold < tol and rad < tol, f"max {max(gold, rad):.1e}"))
+    ell_ok = all([-g_ / 4 for g_ in operator_gamma("SM", o_)] == [Fr(v_) for v_ in LITERATURE["proton_decay_d6"]["value"]["SM"][o_]]
+                 for o_ in ("S1", "S2"))
+    x_s = _float_inputs()
+    mi_, mg_ = s10["chains"]["LR"]["loop2"]["M_I"], s10["chains"]["LR"]["loop2"]["M_GUT"]
+    split_ = 1.0
+    for g_, b_, al_, ah_ in zip(operator_gamma("SM", "S1"), sm_gauge_b(), _alpha_one_loop(mi_, x_s, None), _alpha_one_loop(mg_, x_s, None)):
+        split_ *= (al_ / ah_) ** (float(g_) / (2 * float(b_)))
+    for e_, al_, ah_ in zip(proton_exponents("SM", "S1"), _alpha_one_loop(x_s["M_Z"], x_s, None), _alpha_one_loop(mi_, x_s, None)):
+        split_ *= (al_ / ah_) ** e_
+    dev_s = abs(split_ / proton_short_distance(x_s, mg_, None, "S1") - 1)
+    checks.append(("Proton-decay operators: the derived anomalous dimensions (6 T_i.T_j inside each Lorentz bilinear)"
+                   " = Ellis et al.'s SM coefficients for both operators; split running = direct", ell_ok and dev_s < tol,
+                   f"split rel dev {dev_s:.1e}"))
     lc_ = s10["potential_lr"]["checks"]
     checks.append(("Left-right potential: highest weights reproduce the 210 and 126 decompositions; the Pati-Salam limit"
                    " equals T9's masses and T10's coefficients; the eaten (3,2,2), (3,1,1) are massless at a two-vev"
@@ -9668,6 +9773,12 @@ def report(res: Dict[str, Any]) -> str:
     w(f"      If the axion scale is M_I (as in SO(10) axion models), m_a = {ps['axion_m_a_eV_if_fa_MI'] * 1e6:.1f} micro-eV.")
     w("  T5. Every minimal chain, one and two loops (b from the field content; SM two loops below M_I; tree-level")
     w("      matching, thresholds unknown). Each chain has as many unknowns as conditions: none predicts a coupling.")
+    g1_, g2_ = operator_gamma("SU4", "S1"), operator_gamma("SU3", "S1")
+    w("      tau_p: above M_I the proton-decay operators run with the chain's group. Their anomalous dimensions are")
+    w("      derived (Landau gauge: each exchange inside a Lorentz-scalar bilinear gives 6 T_i.T_j, the mass operator's")
+    w("      value; left-right exchanges cancel), which reproduces Ellis et al.'s SM coefficients exactly (a self-check):")
+    w(f"      d ln C/d ln mu x 16 pi^2 = {', '.join(str(v_) for v_ in g1_)} g^2 for (4, 2L, 2R);"
+      f" {', '.join(str(v_) for v_ in g2_)} g^2 for (3, 2L, 2R, B-L).")
     w("      chain   b (one loop)                M_I, M_GUT (1 loop)    M_I, M_GUT (2 loops)  1/a_GUT  tau_p (yr)")
     for nm, c_ in so["chains"].items():
         l1, l2 = c_["loop1"], c_["loop2"]
@@ -9970,6 +10081,16 @@ def report(res: Dict[str, Any]) -> str:
         w("      Published fits with full running (Joshipura-Patel 2011, Ohlsson-Pernow 2019) find type-I dominated")
         w("      solutions; this search does not, so either the search or the left-out pieces (the second doublet's vev,")
         w("      the Delta_R coupling, thresholds) decide.")
+    tp = yy.get("triplet")
+    if tp:
+        w("  Proton decay through the colour triplets (an estimate): they couple through the same Yukawas, Y126 = (M_d -")
+        w(f"      M_e)/(4 d), Y10 = (3 M_d + M_e)/(4 c), with the light Higgs {100 * tp['higgs_126_fraction']:.0f} % 126 (T13's median)"
+          " and the best fit's first-generation")
+        w(f"      entries: Y10_11 = {tp['y10_11']:.1e}, Y126_11 = {tp['y126_11']:.1e}. With Clebsches up to 3 and the lighter"
+          f" triplet at {tp['M_T_over_M_GUT']:.2f} M_GUT,")
+        w(f"      the amplitude is {tp['amplitude_ratio']:.0e} of the gauge one: tau ~ {tp['tau_p_years']:.0e} years. The triplets"
+          f" only need M_T > {tp['M_T_min_GeV']:.0e} GeV")
+        w("      (first-generation Yukawas are tiny): the gauge bosons, not the triplets, decide proton decay here.")
     w(_wrap("RESULT: SO(10)'s Yukawa sector is a real test. The minimal Pati-Salam chain fails it: its unbroken SU(4) "
             "keeps the light Higgs in one irrep, which gives the wrong lepton/down ratios by tens of sigma. Where "
             "SU(4) breaks at M_GUT (left-right chain), the 10 + 126 sum rule reaches the charged leptons; type-II "

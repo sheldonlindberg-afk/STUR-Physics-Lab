@@ -66,7 +66,7 @@ Status: [x] done, [~] in progress, [ ] not started.
    Elias-Miro et al. 2012), unknown shift; lambda(M_I) = 0 is not required. Stability needs M_I < mu_0
    = 6.2e10 GeV (2.3e10-2.0e11 for M_t +- 1 sigma): LR, LR+D stabilizable; PS undecided (inside the
    band); PS+D metastable. Open: the Pati-Salam quartics' own running and positivity above M_I.
-3. [ ] Deferred: proton-decay operator running above M_I in each chain. A general pair-exchange rule
+3. [x] (Done in item 4 of 'Next', below.) Deferred: proton-decay operator running above M_I in each chain. A general pair-exchange rule
    reproduces the SM's SU(3) exponent but not SU(2) (same- vs opposite-chirality pairs differ), so the
    one-loop anomalous-dimension formula for B-violating operators must be transcribed from a source
    (e.g. Abbott-Wise 1980; Alonso, Chang, Jenkins, Manohar, Shotwell 2014) and checked against Part Q's
@@ -88,7 +88,7 @@ Status: [x] done, [~] in progress, [ ] not started.
 3. [x] Electroweak precision (Part W): M_W = 80.350 +/- 0.004 GeV (two-loop SM, Awramik et al.
    parametrization) against 80.360 (no CDF) and 80.369 (PDG average): within 1.4 sigma; reproduces the
    PDG fit (80.353). Open: sin^2 theta_eff, the full set of Z-pole observables.
-4. [ ] Still deferred: proton-decay operator running above M_I (round 2, item 3), until its
+4. [x] (Done in item 4 of 'Next'.) Still deferred: proton-decay operator running above M_I (round 2, item 3), until its
    anomalous-dimension formula is transcribed from a source and checked on the SM exponents.
 
 ## Round 4
@@ -161,7 +161,14 @@ the new result, and the tests fail if a page value, the scorecard, the ledger or
        126's (3,1,1) and, through the B - L vev, its doublet with the 126's (1,2,2): the light Higgs is a computed
        10-126 mixture (median ~1/4 126, as Part Y assumes); with it, still none lifts M_I. Open: two-loop
        thresholds; a complex 10 (the Yukawa fits use one).
-4. [ ] Proton running above M_I; triplet-mediated proton decay with the fitted Yukawas.
+4. [x] Proton running above M_I; triplet-mediated proton decay with the fitted Yukawas.
+   The anomalous dimensions are derived, not transcribed: in Landau gauge only exchanges inside a Lorentz-scalar
+   bilinear count, each 6 T_i.T_j (the mass operator's value; T_i.T_j = -(N+1)/2N for epsilon-contracted SU(N)
+   fundamentals), and left-right exchanges cancel. This reproduces Ellis et al.'s SM c_i exactly (self-check); the
+   earlier failure treated every pair alike. Each chain now runs the operators with its own group above M_I:
+   A_S rises 5-16 %, tau_p falls 8-23 %; no verdict flips. Colour triplets (an estimate with the fitted first-
+   generation Yukawas, T13's Higgs mixture and triplet mass, Clebsches <= 3): amplitude ~1e-10 of the gauge one,
+   so triplets need only M_T >~ 1e11 GeV. Open: the exact triplet Clebsches; the dimension-five factor 2.2 (SUSY).
 
 ## Later
 - One running for every coupling (matrix Yukawas to M_GUT); GUT and superpartner thresholds;

@@ -707,6 +707,22 @@ def test_lr_potential():
     assert lf["potential_n"] == w10["viable"] and lf["potential_hits"] < 0.01 * lf["potential_n"]
 
 
+def test_proton_running_and_triplets():
+    """Item 4: the operators' anomalous dimensions from the bilinear rule reproduce Ellis et al.; above M_I each chain
+    runs them with its own group, a modest change; the colour triplets with the fitted Yukawas are negligible."""
+    from fractions import Fraction as Fr
+    for op in ("S1", "S2"):
+        assert [-g / 4 for g in P.operator_gamma("SM", op)] == [Fr(v) for v in P.LITERATURE["proton_decay_d6"]["value"]["SM"][op]]
+    assert P.operator_gamma("SU3", "S1") == [Fr(-4), Fr(-9, 2), Fr(-9, 2), Fr(-1, 2)]
+    x = P._float_inputs()
+    for nm, ch in P.so10_chains().items():
+        sol = RESULT["so10"]["chains"][nm]["loop2"]
+        a_ch, a_sm = P.proton_short_distance_chain(x, ch, sol, "S1"), P.proton_short_distance(x, sol["M_GUT"], None, "S1")
+        assert 1 < a_ch / a_sm < 1.5
+    tp = RESULT["so10_yukawa"]["triplet"]
+    assert tp["tau_p_years"] > 1e45 and tp["M_T_min_GeV"] < 1e-3 * RESULT["so10"]["chains"]["LR"]["loop2"]["M_GUT"]
+
+
 def test_left_right_running():
     """Part Y: matrix running SM -> M_I -> left-right -> M_GUT. The reduced RGEs equal the general formula; the
     left-right running brings b and tau closer than SM running does, whatever the unknown Takagi phases."""
