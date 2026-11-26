@@ -118,12 +118,24 @@ def main():
     yukawa["potential_M_I_median"] = w10["M_I_quantiles"][1]
     yukawa["higgs_126_median"] = w10["higgs_126_fraction_quantiles"][1]
     yukawa["v_R"] = yy.get("v_R")
+    rn5 = yy["running"]
+    round5 = {"r126": yy["v_R"]["r126_range"] if yy.get("v_R") else None,
+              "floor_ratio": yy["v_R"]["floor_ratio"] if yy.get("v_R") else None,
+              "real10_chi2": yy["LR"]["real_10"]["chi2_min"], "b_tau_k2": rn5["b_tau_k2_range"],
+              "b_tau_f_max": rn5["b_tau_f_max"],
+              "vector_MI_factor": res["so10"]["chains"]["LR"]["loop2"]["M_I"] / res["so10"]["chains"]["LR"]["loop2_tree_matching"]["M_I"]}
+    ds = res["dark_sector"]
+    dark_sector = {"n_fields": len(ds["r_parity"]), "axion_fraction": ds["axion_fraction"],
+                   "r_phi4": ds["inflation"]["phi^4 (minimal)"]["r"], "ns_plateau": ds["inflation"]["plateau (Higgs, or xi phi^2 R)"]["n_s"],
+                   "r_plateau": ds["inflation"]["plateau (Higgs, or xi phi^2 R)"]["r"],
+                   "mu_zero": ds["higgs"]["mu_zero"], "lambda_needed": ds["higgs"].get("lambda_needed")}
     survivor = {"chain": lg["chain"], "M_I": chain["M_I"], "M_GUT": chain["M_GUT"], "tau_p": chain["tau_p_years"],
                 "dm_fraction": res["dark_matter"]["chains"][lg["chain"]]["fraction_post"],
                 "age": res["closed_cosmology"]["age_Gyr"], "age_pull": res["closed_cosmology"]["age_pull"]}
     data = {
         "beyond": beyond,
         "scorecard": scorecard, "ledger": ledger, "yukawa": yukawa, "survivor": survivor,
+        "round5": round5, "dark_sector": dark_sector,
         "proton": {"tau": pmssm["tau_years"], "ratio": pmssm["ratio_to_limit"],
                    "d5": max((r["tau_max"] for r in res["proton_decay"]["d5"]), default=None)},
         "criticality": {

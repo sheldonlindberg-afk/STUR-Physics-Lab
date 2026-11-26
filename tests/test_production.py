@@ -471,6 +471,8 @@ def test_anomalies():
     assert an["witten_doublets_per_family"] % 2 == 0
     assert an["331_part_D"]["SU3L_cubed"] == 0
     assert [a["families"] for a in an["331_allowed"]] == [3, 6, 9] and an["331_families_with_af"] == [3]
+    assert an["331_full_ok"] and all(v == 0 for d in an["331_full"].values() for v in d.values())
+    assert all(d["SU3L^3"] != 0 and d["X^3"] != 0 for d in an["331_full_no_leptons"].values())
 
 
 def test_baryon_asymmetry():
@@ -716,7 +718,8 @@ def test_v_r_prediction():
     orders of magnitude above the left-right chain's, beyond anything the thresholds (Part T7) can move."""
     vr = RESULT["so10_yukawa"]["v_R"]
     lift_max = RESULT["so10"]["thresholds"]["LR"]["M_I"][1] / RESULT["so10"]["chains"]["LR"]["loop2"]["M_I"]
-    assert vr["ratio"][0] > 100 * lift_max and 1e12 < vr["v_R_needed"][0] < vr["v_R_needed"][1] < 1e17
+    # 5b: the fits' |b/d| ~ 30 cut d, and the margin, about 30-fold (it was > 100 x lift_max before)
+    assert vr["ratio"][0] > 10 * lift_max and 1e12 < vr["v_R_needed"][0] < vr["v_R_needed"][1] < 1e17
     assert RESULT["scorecard"]["rows"]["SO(10) via LR"]["N"]["status"] == "fail"
 
 
@@ -733,7 +736,8 @@ def test_proton_running_and_triplets():
         a_ch, a_sm = P.proton_short_distance_chain(x, ch, sol, "S1"), P.proton_short_distance(x, sol["M_GUT"], None, "S1")
         assert 1 < a_ch / a_sm < 1.5
     tp = RESULT["so10_yukawa"]["triplet"]
-    assert tp["tau_p_years"] > 1e45 and tp["M_T_min_GeV"] < 1e-3 * RESULT["so10"]["chains"]["LR"]["loop2"]["M_GUT"]
+    # 5b: the split of the 10 and 126 shares by |a/c|, |b/d| raises the triplet Yukawas ~ 50-fold (bounds loosened with it)
+    assert tp["tau_p_years"] > 1e43 and tp["M_T_min_GeV"] < 1e-2 * RESULT["so10"]["chains"]["LR"]["loop2"]["M_GUT"]
 
 
 def test_left_right_running():
@@ -744,10 +748,50 @@ def test_left_right_running():
     assert rn["SM"]["b_tau"] < rn["b_tau_dirac_like_up"] < rn["LR"]["b_tau"] < 0
     lo, hi = rn["b_tau_phase_range"]
     assert hi - lo < 1e-3 and lo - 1e-3 < rn["LR"]["b_tau"] < hi + 1e-3
-    inv = rn["LR"]["inv_alpha_M_GUT"]
+    vc = P.vector_threshold_constants(P.so10_chains()["LR"])["M_GUT"]
+    inv = [i + float(c) / (12 * math.pi) for i, c in zip(rn["LR"]["inv_alpha_M_GUT"], vc)]
     assert max(inv) - min(inv) < 1e-5
     va = rn["LR"]["V_abs"]
     assert 0.2 < va[0][1] < 0.23 and 0.03 < va[1][2] < 0.045
+
+
+def test_dark_sector():
+    """Part AA: every field of the minimal theory is R-even (no candidate but the axion); minimal phi^4 and phi^2
+    inflation are excluded by r, the plateau is allowed; SM Higgs inflation is excluded by lambda < 0 above mu_0."""
+    ds = RESULT["dark_sector"]
+    assert ds["r_odd"] == [] and ds["scalar_16_odd"] and ds["fermion_10_odd"]
+    inf = ds["inflation"]
+    assert inf["plateau (Higgs, or xi phi^2 R)"]["allowed"]
+    assert not inf["phi^4 (minimal)"]["allowed"] and not inf["phi^2 (minimal)"]["allowed"]
+    assert ds["higgs"]["excluded"] and ds["higgs"]["lambda_needed"] > 1
+
+
+def test_d5_eq19():
+    """7b: the full higgsino term has eq. 19's scaling exactly; with Hisano et al.'s alpha_p their constant follows."""
+    d5 = RESULT["proton_decay"]["d5"]
+    cs = [r["eq19_constant"] for r in d5]
+    assert (max(cs) - min(cs)) / cs[0] < 1e-9
+    assert 1 < 4e35 / d5[0]["eq19_constant_hisano_alpha_p"] < 1.5
+
+
+def test_second_vev_and_delta_r():
+    """5c: neither the second bidoublet vev (|k2/k1| <= m_b/m_t) nor a perturbative Delta_R coupling makes b and tau
+    meet at the left-right M_GUT; f only pushes tau up. The MS-bar vector constants move M_I and M_GUT by a few %."""
+    rn = RESULT["so10_yukawa"]["running"]
+    assert rn["b_tau_k2_range"][1] < -0.2 and rn["b_tau_f_max"] < rn["LR"]["b_tau"] < 0
+    assert 0 < rn["f3_max_M_I"] < P.PERTURBATIVE_LIMIT
+    for c in RESULT["so10"]["chains"].values():
+        assert 1 < c["loop2"]["M_I"] / c["loop2_tree_matching"]["M_I"] < 1.2
+
+
+def test_complex_10():
+    """5b: a real 10 forces |a/c| = 1 (|c2| = |1 - c1|) and then cannot give the charged leptons; with the complex 10 the
+    fits fix |b/d|, which lowers the predicted v_R, but perturbativity alone keeps it above the chain's."""
+    lr = RESULT["so10_yukawa"]["LR"]
+    assert lr["real_10"]["chi2_min"] > 9 > lr["chi2_min"]
+    vr = RESULT["so10_yukawa"]["v_R"]
+    assert vr["r126_range"][0] > 1 and vr["v_R_needed"][1] < vr["v_R_whole_share_to_d"][1]
+    assert vr["floor_ratio"] > 1
 
 
 def test_one_running():
@@ -755,7 +799,7 @@ def test_one_running():
     third generation the engine is Part J's right-hand side; at m_t(m_t) it starts from Part J's couplings and the
     QCD-run ratios; the light generations move Part J's third-generation results by under a percent."""
     flav = RESULT["flavour"]
-    assert set(P.matrix_rge_checks(5)) == {"SM", "LR", "MSSM"}
+    assert set(P.matrix_rge_checks(5)) == {"SM", "LR", "LR_Delta", "MSSM"}
     mt, st = P.couplings_at_mt(flav)
     m0 = P.masses_at_scale(flav, mt)
     kap = flav["runner"].v / math.sqrt(2)

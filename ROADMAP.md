@@ -178,8 +178,19 @@ the new result, and the tests fail if a page value, the scorecard, the ledger or
        the chain's, beyond any threshold (x31): the left-right chain FAILS the neutrinos. No complete hypothesis
        survives; Parts X and Z follow the closest (LR). Open: whether a non-minimal Yukawa sector (a 120, a 16_H
        breaking B - L, non-renormalizable M_R) changes this; 5b and 5c below no longer decide it.
-   [ ] 5b. A complex 10 in the potential (the Yukawa fits already use one; T11/T13 use a real 10).
-   [ ] 5c. Two-loop thresholds at M_I and M_GUT; the second bidoublet's vev and the Delta_R coupling in the running.
+   [x] 5b. A complex 10. A real 10's bidoublet is self-conjugate, so |a| = |c|, i.e. |c2| = |1 - c1|: with that imposed
+       the charged-lepton search reaches only chi^2 = 6e3 (m_mu = 0.022 GeV): the 10 must be complex. The fits fix the
+       light Higgs's up/down ratios, |a/c| = (1 - c1)/c2 ~ 60 and |b/d| = (-3 - c1)/c2 ~ 30, so the 126 share f splits
+       |b|^2 + |d|^2 = k^2 f and |d| = k sqrt(f/(1 + |b/d|^2)): giving all of f to d had overestimated d 30-fold. v_R
+       now 4e12-2e13 GeV (800-4000 x the chain's); a perturbative Y126,3 alone keeps it >= 14 x (inside the x31 threshold band), so
+       the verdict now rests on T13's 126 share (>= 4 %): 800 x, 25 x beyond thresholds. The chain still fails, with a
+       margin 30 x smaller.
+       Open: the complex 10's own potential (two tunings for a light complex bidoublet; its triplets' thresholds).
+   [x] 5c. Thresholds and the rest of the running. At two loops the matching now carries the heavy vectors' MS-bar
+       constant, T_i/12 pi (Langacker-Polonsky eq. 12, C^1 = 1/21; T_i = C2(SO(10)) - C2(H_i), a check): no unknown,
+       M_I +5 %, M_GUT +4 % in every chain. A second bidoublet vev up to |k2/k1| = m_b/m_t moves (m_b - m_tau)/m_b at
+       M_GUT to -0.48..-0.35; the Delta_R coupling (RGE derived from the general formula: +3 Y f^dag f in Y3, Y4;
+       6 f f^dag f + 2 Tr(f f^dag) f + A^T f + f A) only makes tau heavier, -1.58 at the largest perturbative f.
 6. [x] One running for every coupling: matrix Yukawas to M_GUT with every threshold (SM, chains, MSSM). One engine
        (gauge + the full 3x3 Yukawa matrices, all generations and the CKM mixing) runs the SM from m_t(m_t), the MSSM
        above M_S (tan(beta) matching) and a chain's left-right stage above M_I; Part B's ratios, every mass at M_I and
@@ -191,10 +202,17 @@ the new result, and the tests fail if a page value, the scorecard, the ledger or
        v_R = 1e14-7e14 GeV from SO(10): the left-right chain still fails the neutrinos. The fit count and the delta
        range move with 1e-8 changes in the inputs (the search lands on different points of a degenerate set), so
        only the right-handed scale is a robust output.
-7. [ ] Leftovers: the full 3-3-1 anomaly set with leptons and U(1)_X (Part D has the quarks only); the dimension-five
-       factor 2.2 against Hisano et al.'s eq. 19 (eq. 19 is itself an approximation, so it may not be a bug).
-8. [ ] Dark matter beyond the axion (the left-right chain's axion gives under 1 %: what else, and from which stage);
-       inflation (Higgs inflation against lambda(M_P) < 0; the 210/126 potentials as inflaton candidates).
+7. [x] Leftovers. The full 3-3-1 set (Part R): with the lepton triplets and every conjugate singlet, SU(3)_C^3,
+       SU(3)_L^3, SU(3)_C^2 X, SU(3)_L^2 X, X^3 and gravity^2 X vanish exactly for beta = +-1/sqrt3 (three fail without
+       the leptons). The dimension-five factor: the full higgsino term has eq. 19's scaling exactly (one constant,
+       1.77e35 years, at every tan(beta)); the factor 2.3 is 1.65 from the newer lattice alpha_p (-0.0144 vs -0.0112
+       GeV^3) times 1.37 from eq. 19's one-digit constant and 2013 inputs: not a bug (a check).
+8. [x] Dark matter and inflation (Part AA). Every one of the minimal theory's 28 multiplets is even under
+       R = (-1)^(3(B-L)+2s), the Z2 the 126 leaves: no candidate besides the axion (0.7 %); one needs a scalar 16 or a
+       fermionic 10/45/54 (mass a new unknown). Slow roll from each potential (N = 50-60): minimal phi^4 and phi^2
+       excluded by r; the xi phi^2 R plateau (n_s 0.962-0.968, r 0.003-0.004) allowed; SM Higgs inflation excluded
+       (lambda < 0 above mu_0 = 6e10 GeV: the CMB would need lambda ~ 1e21). A 210/126 direction with its own xi can
+       inflate: allowed, not predicted.
 
 ## Later
 - GUT and superpartner thresholds beyond tree level;
