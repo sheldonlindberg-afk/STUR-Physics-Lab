@@ -471,6 +471,8 @@ def test_anomalies():
     assert an["witten_doublets_per_family"] % 2 == 0
     assert an["331_part_D"]["SU3L_cubed"] == 0
     assert [a["families"] for a in an["331_allowed"]] == [3, 6, 9] and an["331_families_with_af"] == [3]
+    assert an["331_full_ok"] and all(v == 0 for d in an["331_full"].values() for v in d.values())
+    assert all(d["SU3L^3"] != 0 and d["X^3"] != 0 for d in an["331_full_no_leptons"].values())
 
 
 def test_baryon_asymmetry():
@@ -512,7 +514,8 @@ def test_scorecard():
     assert {"U", "A"} <= set(v["SM to M_P"]["fails"])
     assert {"H", "P"} <= set(v["minimal SUSY SU(5)"]["fails"])
     assert "P" in v["SO(10) via PS+D"]["fails"] and "P" in v["SO(10) via LR+D"]["fails"]
-    assert v["SO(10) via PS"]["fails"] == ["F"] and "SO(10) via LR" in sc["survivors"]
+    # Pati-Salam fails the fermion masses, left-right the neutrinos (SO(10)'s v_R): no complete hypothesis survives
+    assert v["SO(10) via PS"]["fails"] == ["F"] and v["SO(10) via LR"]["fails"] == ["N"] and sc["survivors"] == []
     ph = sc["chain_higgs"]["PS"]
     assert 125 < ph["m_h"] < 127 and abs(ph["pull"]) < 2
 
@@ -615,8 +618,9 @@ def test_z_pole_and_closed_cosmology():
     assert 0.2314 < zp["sin2_eff"] < 0.2318 and all(abs(c["pull"]) < 2 for c in zp["comparisons"].values())
     cc = RESULT["closed_cosmology"]
     # Part X follows the surviving chain (Part U): its axion's share sets the dark matter still missing
+    # Part X follows the surviving chain, or the closest one when none survives (fewest fails, most passes, fewest trades)
     surv = [h for h in RESULT["scorecard"]["survivors"] if h.startswith("SO(10) via ")]
-    assert surv and cc["chain"] == surv[0].replace("SO(10) via ", "")
+    assert cc["chain"] == (surv[0].replace("SO(10) via ", "") if surv else "LR")
     frac = RESULT["dark_matter"]["chains"][cc["chain"]]["fraction_post"]
     assert abs(cc["string_fraction_needed"] - (1 - frac)) < 1e-9 and cc["age_pull"] > 10
     assert abs(cc["age_with_all_dm_Gyr"] / float(RESULT["cosmology"]["age_Gyr"]) - 1) < 5e-3
@@ -674,6 +678,173 @@ def test_type2_and_ledger():
     assert sum(lg["counts"].values()) == len(lg["rows"]) == 15
 
 
+def test_heavy_spectrum_lr():
+    """Part T12: the 3221 decompositions add up to the SO(10) indices (B - L included); SU(2)_L-triplet coloured
+    states lower M_I when heavy and SU(2)_R ones raise it; the spectrum can lift M_I to where the neutrino fits put
+    B - L breaking, within a small factor of M_GUT, keeping the proton."""
+    from fractions import Fraction as Fr
+    assert all(P.so10_decomposition_index_3221(r) == [Fr(P.SO10_INDEX[r])] * 4 for r in P.SO10_TO_3221)
+    rows = {r["multiplet"]: r for r in RESULT["so10"]["heavy_spectrum_LR"]["rows"]}
+    assert rows["126: (6,3,1)"]["dlnMI"] < -1 < 1 < rows["126: (6,1,3)"]["dlnMI"]
+    lf = RESULT["so10_yukawa"]["lift"]
+    assert lf["reached"] and 1 < lf["spread"] < 3 and lf["proton_ok"]
+    # with the sharpened bound (2 sqrt(4 pi) M_I / g_R) the target lies below mu_0: the vacuum stays stabilizable
+    assert lf["vacuum_ok"] == (lf["target_M_I"] < RESULT["so10"]["vacuum"]["mu0"])
+    assert abs(lf["M_I"] / lf["target_M_I"] - 1) < 0.05
+
+
+def test_lr_potential():
+    """Part T13: the left-right chain's 210 vacuum with both vevs and the 126 at it. The highest weights reproduce
+    the decompositions; the Pati-Salam limit equals T9 and T10; the Goldstones are massless. Most viable potentials
+    keep the proton and lower M_I; almost none gives the lift the neutrino fits need."""
+    pl = RESULT["so10"]["potential_lr"]
+    ck = pl["checks"]
+    assert ck["decompositions"] == 0 and max(ck[k] for k in ("PS_limit_210", "PS_limit_126", "goldstones", "unbroken")) < 1e-9
+    w2, w6 = pl["with_210"], pl["with_126"]
+    assert w2["viable"] > 100 and w6["viable"] > 500 and w6["frac_proton_ok"] > 0.8
+    assert w6["M_I_quantiles"][1] < RESULT["so10"]["chains"]["LR"]["loop2"]["M_I"]
+    assert ck["PS_limit_10"] < 1e-9                       # the 10's couplings reduce to T11's at the Pati-Salam vev
+    w10 = pl["with_10"]
+    assert w10["viable"] > 300 and w10["frac_proton_ok"] > 0.8
+    lo, mid, hi = w10["higgs_126_fraction_quantiles"]
+    assert 0 < lo < mid < hi < 1                            # the light Higgs is a genuine 10-126 mixture
+    assert 0.2 < w10["triplet_light_quantiles"][1] < 5
+    lf = RESULT["so10_yukawa"]["lift"]
+    assert lf["potential_n"] == w10["viable"] and lf["potential_hits"] < 0.01 * lf["potential_n"]
+
+
+def test_v_r_prediction():
+    """Neutrino tension: with M_R = Y126 v_R and Y126 fixed by the charged fermions, the type I + II fits put v_R
+    orders of magnitude above the left-right chain's, beyond anything the thresholds (Part T7) can move."""
+    vr = RESULT["so10_yukawa"]["v_R"]
+    lift_max = RESULT["so10"]["thresholds"]["LR"]["M_I"][1] / RESULT["so10"]["chains"]["LR"]["loop2"]["M_I"]
+    # 5b: the fits' |b/d| ~ 30 cut d, and the margin, about 30-fold (it was > 100 x lift_max before)
+    assert vr["ratio"][0] > 10 * lift_max and 1e12 < vr["v_R_needed"][0] < vr["v_R_needed"][1] < 1e17
+    assert RESULT["scorecard"]["rows"]["SO(10) via LR"]["N"]["status"] == "fail"
+
+
+def test_proton_running_and_triplets():
+    """Item 4: the operators' anomalous dimensions from the bilinear rule reproduce Ellis et al.; above M_I each chain
+    runs them with its own group, a modest change; the colour triplets with the fitted Yukawas are negligible."""
+    from fractions import Fraction as Fr
+    for op in ("S1", "S2"):
+        assert [-g / 4 for g in P.operator_gamma("SM", op)] == [Fr(v) for v in P.LITERATURE["proton_decay_d6"]["value"]["SM"][op]]
+    assert P.operator_gamma("SU3", "S1") == [Fr(-4), Fr(-9, 2), Fr(-9, 2), Fr(-1, 2)]
+    x = P._float_inputs()
+    for nm, ch in P.so10_chains().items():
+        sol = RESULT["so10"]["chains"][nm]["loop2"]
+        a_ch, a_sm = P.proton_short_distance_chain(x, ch, sol, "S1"), P.proton_short_distance(x, sol["M_GUT"], None, "S1")
+        assert 1 < a_ch / a_sm < 1.5
+    tp = RESULT["so10_yukawa"]["triplet"]
+    # 5b: the split of the 10 and 126 shares by |a/c|, |b/d| raises the triplet Yukawas ~ 50-fold (bounds loosened with it)
+    assert tp["tau_p_years"] > 1e43 and tp["M_T_min_GeV"] < 1e-2 * RESULT["so10"]["chains"]["LR"]["loop2"]["M_GUT"]
+
+
+def test_left_right_running():
+    """Part Y: matrix running SM -> M_I -> left-right -> M_GUT. The reduced RGEs equal the general formula; the
+    left-right running brings b and tau closer than SM running does, whatever the unknown Takagi phases."""
+    rn = RESULT["so10_yukawa"]["running"]
+    assert max(P.matrix_rge_checks(11).values()) < 1e-12
+    assert rn["SM"]["b_tau"] < rn["b_tau_dirac_like_up"] < rn["LR"]["b_tau"] < 0
+    lo, hi = rn["b_tau_phase_range"]
+    assert hi - lo < 1e-3 and lo - 1e-3 < rn["LR"]["b_tau"] < hi + 1e-3
+    vc = P.vector_threshold_constants(P.so10_chains()["LR"])["M_GUT"]
+    inv = [i + float(c) / (12 * math.pi) for i, c in zip(rn["LR"]["inv_alpha_M_GUT"], vc)]
+    assert max(inv) - min(inv) < 1e-5
+    va = rn["LR"]["V_abs"]
+    assert 0.2 < va[0][1] < 0.23 and 0.03 < va[1][2] < 0.045
+
+
+def test_complex_10_potential():
+    """The complex 10's own potential: the light complex bidoublet fixes its doublet masses (Schur complement zero);
+    viable points pass proton decay; the fits' |a/c|, |b/d| are matched per point by two circles, and every match is
+    reported against that point's own v_R."""
+    wc = RESULT["so10"]["potential_lr"]["with_complex_10"]
+    assert wc["viable"] > 100 and wc["frac_proton_ok"] > 0.5 and len(wc["points"]) == wc["viable"]
+    cx = RESULT["so10_yukawa"]["v_R"]["complex_10"]
+    assert cx["points"] == wc["viable"]
+    if cx["matches"]:
+        assert cx["ratio_quantiles"][0] <= cx["ratio_quantiles"][2] <= cx["ratio_quantiles"][4]
+
+
+def test_dark_sector():
+    """Part AA: every field of the minimal theory is R-even (no candidate but the axion); minimal phi^4 and phi^2
+    inflation are excluded by r, the plateau is allowed; SM Higgs inflation is excluded by lambda < 0 above mu_0."""
+    ds = RESULT["dark_sector"]
+    assert ds["r_odd"] == [] and ds["scalar_16_odd"] and ds["fermion_10_odd"]
+    inf = ds["inflation"]
+    assert inf["plateau (Higgs, or xi phi^2 R)"]["allowed"]
+    assert not inf["phi^4 (minimal)"]["allowed"] and not inf["phi^2 (minimal)"]["allowed"]
+    assert ds["higgs"]["excluded"] and ds["higgs"]["lambda_needed"] > 1
+
+
+def test_d5_eq19():
+    """7b: the full higgsino term has eq. 19's scaling exactly; with Hisano et al.'s alpha_p their constant follows."""
+    d5 = RESULT["proton_decay"]["d5"]
+    cs = [r["eq19_constant"] for r in d5]
+    assert (max(cs) - min(cs)) / cs[0] < 1e-9
+    assert 1 < 4e35 / d5[0]["eq19_constant_hisano_alpha_p"] < 1.5
+
+
+def test_second_vev_and_delta_r():
+    """5c: neither the second bidoublet vev (|k2/k1| <= m_b/m_t) nor a perturbative Delta_R coupling makes b and tau
+    meet at the left-right M_GUT; f only pushes tau up. The MS-bar vector constants move M_I and M_GUT by a few %."""
+    rn = RESULT["so10_yukawa"]["running"]
+    assert rn["b_tau_k2_range"][1] < -0.2 and rn["b_tau_f_max"] < rn["LR"]["b_tau"] < 0
+    assert 0 < rn["f3_max_M_I"] < P.PERTURBATIVE_LIMIT
+    for c in RESULT["so10"]["chains"].values():
+        assert 1 < c["loop2"]["M_I"] / c["loop2_tree_matching"]["M_I"] < 1.2
+
+
+def test_complex_10():
+    """5b: a real 10 forces |a/c| = 1 (|c2| = |1 - c1|) and then cannot give the charged leptons; with the complex 10 the
+    fits fix |b/d|, which lowers the predicted v_R, but perturbativity alone keeps it above the chain's."""
+    lr = RESULT["so10_yukawa"]["LR"]
+    assert lr["real_10"]["chi2_min"] > 9 > lr["chi2_min"]
+    vr = RESULT["so10_yukawa"]["v_R"]
+    assert vr["r126_range"][0] > 1 and vr["v_R_needed"][1] < vr["v_R_whole_share_to_d"][1]
+    assert vr["floor_ratio"] > 1
+
+
+def test_one_running():
+    """Item 6: one matrix running for every coupling. The MSSM matrix RGE equals the superpotential formula; on the
+    third generation the engine is Part J's right-hand side; at m_t(m_t) it starts from Part J's couplings and the
+    QCD-run ratios; the light generations move Part J's third-generation results by under a percent."""
+    flav = RESULT["flavour"]
+    assert set(P.matrix_rge_checks(5)) == {"SM", "LR", "LR_Delta", "MSSM"}
+    mt, st = P.couplings_at_mt(flav)
+    m0 = P.masses_at_scale(flav, mt)
+    kap = flav["runner"].v / math.sqrt(2)
+    base = flav["ratios"][mt]
+    assert all(abs(m0[k][2] / (st[3 + i] * kap) - 1) < 1e-12 for i, k in enumerate("ude"))
+    assert abs(m0["u"][1] / m0["u"][2] / base["r_ct"] - 1) < 1e-9 and abs(m0["d"][0] / m0["d"][1] / base["r_ds"] - 1) < 1e-9
+    chk = P.matrix_running_checks(flav, 3, RESULT["yukawa"])
+    assert chk["rhs_SM"] < 1e-12 and chk["rhs_MSSM"] < 1e-12
+    assert 0 < chk["light_SM"] < 1e-2 and 0 < chk["light_MSSM_btau"] < 1e-2
+    hi = max(flav["ratios"])
+    assert flav["ratios"][hi]["r_uc"] != base["r_uc"]           # the light ratios run now (they were held fixed)
+
+
+def test_type1_seesaw():
+    """Part Y4: type I adds no unknown (M_D is fixed by the sum rule's c1, c2), types I + II one complex ratio;
+    each fit does at least as well as type II, and its right-handed scale is computed without the 126's vevs."""
+    lr = RESULT["so10_yukawa"]["LR"]
+    t2, t1, t12 = lr["type2"], lr["type1"], lr["type12"]
+    assert (t2["unknowns"], t1["unknowns"], t12["unknowns"]) == (15, 15, 17)
+    assert t12["chi2_min"] <= t1["chi2_min"] < t2["chi2_min"]
+    assert t12["starts"] > t1["starts"]                          # I + II also starts from the best I and II points
+    for t_ in (t1, t12):
+        mr = t_["scales"]["M_R_GeV"]
+        assert mr[0] <= mr[1] <= mr[2] and abs(t_["scales"]["M_R_over_M_I"] - mr[2] / lr["M_I"]) < 1e-9 * mr[2] / lr["M_I"]
+    assert abs(lr["M_R_max_over_M_I"] - 2 * math.sqrt(4 * math.pi) / lr["g_R"]) < 1e-12 and 0.4 < lr["g_R"] < 0.8
+    # the search finds the mixed fits, and every one needs the right-handed scale far above the chain's M_I
+    assert t12["fits_found"] > 0 and t12["chi2_min"] < 9
+    assert t12["M_R_over_M_I_range"][0] > 10 * lr["M_R_max_over_M_I"]
+    lo, hi = t12["delta_deg_range"]
+    assert 0 <= lo <= hi < 360
+    assert P.so10_dirac_identity(3) < 1e-12
+
+
 def test_website_data_is_current():
     """assets/site-data.js (written by tools/site_data.py) shows the numbers the script computes."""
     import json
@@ -682,6 +853,32 @@ def test_website_data_is_current():
     assert abs(data["criticality"]["m_h_pred"] - RESULT["criticality"]["central"]["m_h"]) < 1e-6
     assert abs(data["higgs_mssm"]["bound"] - RESULT["higgs"]["mh_upper_bound"]) < 1e-6
     assert data["checks"][0] == len(RESULT["checks"])
+    # the scorecard and ledger the page renders are the ones this run computed
+    sc = RESULT["scorecard"]
+    assert data["scorecard"]["survivors"] == list(sc["survivors"])
+    assert {h: {c: e["status"] for c, e in r.items()} for h, r in data["scorecard"]["rows"].items()} == \
+        {h: {c: e["status"] for c, e in r.items()} for h, r in sc["rows"].items()}
+    assert [(r["quantity"], r["status"]) for r in data["ledger"]["rows"]] == \
+        [(r["quantity"], r["status"]) for r in RESULT["ledger"]["rows"]]
+    lr = RESULT["so10_yukawa"]["LR"]
+    for k in ("type2", "type1", "type12"):
+        assert abs(data["yukawa"]["seesaw"][k]["chi2"] - lr[k]["chi2_min"]) < 1e-9 * max(1, lr[k]["chi2_min"])
+    assert data["survivor"]["chain"] == RESULT["closed_cosmology"]["chain"]
+
+
+def test_every_page_value_is_filled():
+    """Every number index.html marks with data-v is filled from assets/site-data.js, so no stale typed-in
+    value can survive a rerun; README states the current number of self-checks."""
+    html = open(os.path.join(ROOT, "index.html"), encoding="utf-8").read()
+    script = html[html.index('<script src="assets/site-data.js"></script>'):]
+    keys = set(re.findall(r'data-v="([^"]+)"', html))
+    filled = set(re.findall(r'"([a-z]+\.?[A-Za-z0-9]*)":', script)) | set(re.findall(r'vals\["([^"]+)"\]', script))
+    suffixes = re.findall(r'\[\["(\w+)", "type2"\], \["(\w+)", "type1"\], \["(\w+)", "type12"\]\]', script)
+    for pre in re.findall(r'vals\["([^"]+)" \+ k\[0\]\]', script):
+        filled |= {pre + s_ for s_ in (suffixes[0] if suffixes else ())}
+    assert keys and keys <= filled, sorted(keys - filled)
+    readme = open(os.path.join(ROOT, "README.md"), encoding="utf-8").read()
+    assert f"It ends with {len(RESULT['checks'])} self-checks" in readme.replace("\n", " ")
 
 
 def test_report_matches_expected_output():

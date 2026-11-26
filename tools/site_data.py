@@ -90,9 +90,58 @@ def main():
         "seesaw_max": no["seesaw"]["M_max_perturbative"], "M_GUT": nu["M_GUT"],
     }
     pmssm = [r for r in res["proton_decay"]["rows"] if r["M_S"]][0]
+    # Parts U, Y, Z: the scorecard and ledger as the stages computed them, and the Yukawa-sector tests
+    score = res["scorecard"]
+    scorecard = {"m_h": score["chain_higgs"]["PS"]["m_h"], "survivors": list(score["survivors"]),
+                 "conditions": dict(score["conditions"]),
+                 "rows": {h: {c: {"status": e["status"], "detail": e["detail"], "sigma": e["sigma"]}
+                              for c, e in r.items()} for h, r in score["rows"].items()}}
+    lg = res["ledger"]
+    ledger = {"chain": lg["chain"], "rows": [dict(r) for r in lg["rows"]], "counts": dict(lg["counts"])}
+    yy = res["so10_yukawa"]
+    ylr = yy["LR"]
+    chain = res["so10"]["chains"][lg["chain"]]["loop2"]
+    yukawa = {"ps_pull": min(yy["PS"]["worst_pull_10"], yy["PS"]["worst_pull_126"]),
+              "lr_miss": ylr["worst_rel_miss"], "M_I": ylr["M_I"], "M_GUT": ylr["scale"],
+              "b_tau": ylr["type2"]["b_tau_mismatch"], "M_R_bound": ylr["M_R_max_over_M_I"],
+              "b_tau_sm": yy["running"]["SM"]["b_tau"], "b_tau_lr": yy["running"]["LR"]["b_tau"],
+              "seesaw": {k: {"chi2": ylr[k]["chi2_min"], "n_sigma": ylr[k]["n_sigma_worst"], "unknowns": ylr[k]["unknowns"],
+                             "data": ylr[k]["data_points"], "fits": ylr[k]["fits_found"],
+                             "M_R_over_M_I": ylr[k]["scales"]["M_R_over_M_I"] if ylr[k]["scales"] else None,
+                             "s23": ylr[k]["angles"]["s23sq"], "delta_range": ylr[k]["delta_deg_range"],
+                             "M_R_range": ylr[k].get("M_R_over_M_I_range"), "M_1_range": ylr[k].get("M_1_range_GeV")}
+                         for k in ("type2", "type1", "type12")}}
+    lift = yy.get("lift") or {}
+    yukawa["lift"] = {k: lift.get(k) for k in ("reached", "spread", "M_I", "tau_p_years", "factor", "target_M_I",
+                                                "potential_n", "potential_hits", "potential_max_M_I")}
+    w10 = res["so10"]["potential_lr"]["with_10"]
+    yukawa["potential_M_I_median"] = w10["M_I_quantiles"][1]
+    yukawa["higgs_126_median"] = w10["higgs_126_fraction_quantiles"][1]
+    yukawa["v_R"] = yy.get("v_R")
+    rn5 = yy["running"]
+    round5 = {"r126": yy["v_R"]["r126_range"] if yy.get("v_R") else None,
+              "floor_ratio": yy["v_R"]["floor_ratio"] if yy.get("v_R") else None,
+              "real10_chi2": yy["LR"]["real_10"]["chi2_min"], "b_tau_k2": rn5["b_tau_k2_range"],
+              "b_tau_f_max": rn5["b_tau_f_max"],
+              "vector_MI_factor": res["so10"]["chains"]["LR"]["loop2"]["M_I"] / res["so10"]["chains"]["LR"]["loop2_tree_matching"]["M_I"]}
+    wc_ = res["so10"]["potential_lr"].get("with_complex_10", {})
+    cx_ = (yy.get("v_R") or {}).get("complex_10", {})
+    round5["complex10"] = {"viable": wc_.get("viable", 0), "drawn": wc_.get("drawn", 0),
+                           "points_matched": cx_.get("points_matched", 0), "matches": cx_.get("matches", 0),
+                           "ratio_min": cx_["ratio_quantiles"][0] if cx_.get("matches") else None,
+                           "ratio_median": cx_["ratio_quantiles"][2] if cx_.get("matches") else None}
+    ds = res["dark_sector"]
+    dark_sector = {"n_fields": len(ds["r_parity"]), "axion_fraction": ds["axion_fraction"],
+                   "r_phi4": ds["inflation"]["phi^4 (minimal)"]["r"], "ns_plateau": ds["inflation"]["plateau (Higgs, or xi phi^2 R)"]["n_s"],
+                   "r_plateau": ds["inflation"]["plateau (Higgs, or xi phi^2 R)"]["r"],
+                   "mu_zero": ds["higgs"]["mu_zero"], "lambda_needed": ds["higgs"].get("lambda_needed")}
+    survivor = {"chain": lg["chain"], "M_I": chain["M_I"], "M_GUT": chain["M_GUT"], "tau_p": chain["tau_p_years"],
+                "dm_fraction": res["dark_matter"]["chains"][lg["chain"]]["fraction_post"],
+                "age": res["closed_cosmology"]["age_Gyr"], "age_pull": res["closed_cosmology"]["age_pull"]}
     data = {
         "beyond": beyond,
-        "scorecard": {"m_h": res["scorecard"]["chain_higgs"]["PS"]["m_h"], "survivors": res["scorecard"]["survivors"]},
+        "scorecard": scorecard, "ledger": ledger, "yukawa": yukawa, "survivor": survivor,
+        "round5": round5, "dark_sector": dark_sector,
         "proton": {"tau": pmssm["tau_years"], "ratio": pmssm["ratio_to_limit"],
                    "d5": max((r["tau_max"] for r in res["proton_decay"]["d5"]), default=None)},
         "criticality": {
@@ -112,6 +161,7 @@ def main():
         "cosmology": {"age": float(res["cosmology"]["age_Gyr"]), "Omega_Lambda": float(res["cosmology"]["Omega_Lambda"])},
         "planck": qg["planck"],
         "checks": [len(res["checks"]), sum(1 for c in res["checks"] if c[1])],
+        "one_running": {"light_SM": res["one_running"]["light_SM"], "light_MSSM": res["one_running"]["light_MSSM_btau"]},
         "texture": texture,
         "joint": joint,
     }

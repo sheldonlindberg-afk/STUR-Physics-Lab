@@ -66,7 +66,7 @@ Status: [x] done, [~] in progress, [ ] not started.
    Elias-Miro et al. 2012), unknown shift; lambda(M_I) = 0 is not required. Stability needs M_I < mu_0
    = 6.2e10 GeV (2.3e10-2.0e11 for M_t +- 1 sigma): LR, LR+D stabilizable; PS undecided (inside the
    band); PS+D metastable. Open: the Pati-Salam quartics' own running and positivity above M_I.
-3. [ ] Deferred: proton-decay operator running above M_I in each chain. A general pair-exchange rule
+3. [x] (Done in item 4 of 'Next', below.) Deferred: proton-decay operator running above M_I in each chain. A general pair-exchange rule
    reproduces the SM's SU(3) exponent but not SU(2) (same- vs opposite-chirality pairs differ), so the
    one-loop anomalous-dimension formula for B-violating operators must be transcribed from a source
    (e.g. Abbott-Wise 1980; Alonso, Chang, Jenkins, Manohar, Shotwell 2014) and checked against Part Q's
@@ -88,7 +88,7 @@ Status: [x] done, [~] in progress, [ ] not started.
 3. [x] Electroweak precision (Part W): M_W = 80.350 +/- 0.004 GeV (two-loop SM, Awramik et al.
    parametrization) against 80.360 (no CDF) and 80.369 (PDG average): within 1.4 sigma; reproduces the
    PDG fit (80.353). Open: sin^2 theta_eff, the full set of Z-pole observables.
-4. [ ] Still deferred: proton-decay operator running above M_I (round 2, item 3), until its
+4. [x] (Done in item 4 of 'Next'.) Still deferred: proton-decay operator running above M_I (round 2, item 3), until its
    anomalous-dimension formula is transcribed from a source and checked on the SM exponents.
 
 ## Round 4
@@ -125,13 +125,100 @@ Status: [x] done, [~] in progress, [ ] not started.
    discrete numbers.
 
 ## Next (if the attempt continues)
-1. Type-I seesaw in the LR chain (M_R from Y126 v_R): existence test with the extra vev ratio.
-2. The LR chain's own scalar potential (as Parts T9-T11 did for Pati-Salam) and its thresholds.
-3. Left-right Yukawa running between M_I and M_GUT.
-4. Proton running above M_I; triplet-mediated proton decay with the fitted Yukawas.
-6. [ ] Left-right Yukawa running between M_I and M_GUT (SM running is used now).
+Every step also updates the website: tools/site_data.py regenerates assets/site-data.js, index.html shows
+the new result, and the tests fail if a page value, the scorecard, the ledger or README's check count is stale.
+1. [x] Type-I seesaw in the LR chain (Part Y4). Type I adds no unknown: M_D = M_u + (3 + c1)/c2 (M_d - M_e)
+   is fixed by the sum rule; M_R ~ M_d - M_e, and its masses follow without a vev. Types I + II add one
+   complex ratio. Levenberg-Marquardt (quark masses floated within errors, 13 data): type I best chi^2 ~ 160,
+   types I + II ~ 18-32, no 3 sigma fit; every near-fit has M_R,3 ~ 1e2-1e3 M_I, above sqrt(4 pi) M_I.
+   Neutrino entry stays open. Open: published fits (Joshipura-Patel 2011, Ohlsson-Pernow 2019) find type-I
+   solutions with full running, so item 2 decides; leptogenesis from the fitted M_1 once a fit exists.
+2. [x] Left-right Yukawa running between M_I and M_GUT (Part Y). The bidoublet theory's one-loop matrix RGE is
+   derived, not quoted: the general Machacek-Vaughn formula over every component (checked on the SM's matrix RGE)
+   fixes the reduced form exactly. Matrix SM running to M_I, symmetric matching (<Phi> = diag(k1, 0)), left-right
+   running to M_GUT (the four couplings meet there: a check). (m_b - m_tau)/m_b at M_GUT: -0.60 -> -0.41.
+   Fix: the fits had dropped one physical phase (the overall phase of M_d against M_u): 9 unknowns, 19 model
+   parameters. Fits run in parallel (fork), with cross-seeding and kicks.
+2b. [x] A reliable neutrino search. The type I + II mixture is now projective, M_nu ~ cos(theta) K^ + sin(theta)
+   e^(i phi) D^: as a ratio w, both pure limits were endless flat valleys that trapped the local search. With
+   uniform theta starts, mostly structured starts and small kicks, the shipped run finds 15 type I + II fits
+   (best chi^2 1.4 for 13 data): delta 136-289 deg (not pinned; an earlier single point at 17 deg was not
+   representative), M_R,3 = 177-360 M_I in every fit (perturbative bound 3.5 M_I), M_1 = 4e9-1e10 GeV. Type I
+   alone: best chi^2 151; type II: ~19 sigma. Neutrino entry open, with the M_R tension stated. Open: the second
+   bidoublet's vev and the Delta_R coupling in the running; whether thresholds (Part T7) can lift M_I enough.
+3. [x] The LR chain's own scalar potential and its thresholds.
+   [x] 3a. The heavy spectrum by group theory (Part T12): every heavy 3221 multiplet of the 210, 126 and 10 with its
+       B - L charge (decompositions checked against the SO(10) indices); threshold responses; and the "lift" (Part Y):
+       the smallest spread that brings M_I to where the type I + II fits put B - L breaking while keeping the proton,
+       a linear program in the log-masses solved exactly. Answer: within a factor ~1.5 of M_GUT, M_I -> 1.4e11 GeV,
+       tau_p at the Super-K limit (binding), vacuum no longer stabilizable.
+   [x] 3b. The potential (Part T13): the 210 with both 3221 vevs and the 126 at that vev, multiplets found as
+       highest-weight vectors (the 210's two (3,2,2) and two singlets as 2 x 2 blocks), stationarity solved for mu^2
+       and eta, the (3,1,1) vector as its own threshold. Checks: decompositions, T9's and T10's PS limits, Goldstones.
+       Result: ~1150 viable 210 + 126 potentials; proton passes ~97 %; M_I median ~1e9 GeV (down, not up); none
+       lifts M_I to where the neutrino fits need it with the proton kept. Delta_R light drags its SU(2)_R partners
+       light, lowering M_I. The 10 (T11's analogue): H_i H_j A_ij splits it; the cubic mixes its triplet with the
+       126's (3,1,1) and, through the B - L vev, its doublet with the 126's (1,2,2): the light Higgs is a computed
+       10-126 mixture (median ~1/4 126, as Part Y assumes); with it, still none lifts M_I. Open: two-loop
+       thresholds; a complex 10 (the Yukawa fits use one).
+4. [x] Proton running above M_I; triplet-mediated proton decay with the fitted Yukawas.
+   The anomalous dimensions are derived, not transcribed: in Landau gauge only exchanges inside a Lorentz-scalar
+   bilinear count, each 6 T_i.T_j (the mass operator's value; T_i.T_j = -(N+1)/2N for epsilon-contracted SU(N)
+   fundamentals), and left-right exchanges cancel. This reproduces Ellis et al.'s SM c_i exactly (self-check); the
+   earlier failure treated every pair alike. Each chain now runs the operators with its own group above M_I:
+   A_S rises 5-16 %, tau_p falls 8-23 %; no verdict flips. Colour triplets (an estimate with the fitted first-
+   generation Yukawas, T13's Higgs mixture and triplet mass, Clebsches <= 3): amplitude ~1e-10 of the gauge one,
+   so triplets need only M_T >~ 1e11 GeV. Open: the exact triplet Clebsches; the dimension-five factor 2.2 (SUSY).
+
+## After the "Next" round (in order)
+5. [x] The left-right chain's neutrino tension (Part Y4 against T12-T13): settled, the chain fails.
+   [x] 5a. The scales, sharpened (Part Y4). Perturbativity: M_R,3 <= 2 sqrt(4 pi) M_I/g_R ~ 12.6 M_I (M_WR = g_R v_R,
+       M_N = 2 f v_R); the lift then needs x14, a spread of 1.33, and the potential gives it in 4 of 715. But SO(10)'s
+       own Y126 (fixed by the charged fermions, ~1e-3) with M_R = Y126 v_R predicts v_R = 1e14-5e14 GeV, 2e4-1e5 times
+       the chain's, beyond any threshold (x31): the left-right chain FAILS the neutrinos. No complete hypothesis
+       survives; Parts X and Z follow the closest (LR). Open: whether a non-minimal Yukawa sector (a 120, a 16_H
+       breaking B - L, non-renormalizable M_R) changes this; 5b and 5c below no longer decide it.
+   [x] 5b. A complex 10. A real 10's bidoublet is self-conjugate, so |a| = |c|, i.e. |c2| = |1 - c1|: with that imposed
+       the charged-lepton search reaches only chi^2 = 6e3 (m_mu = 0.022 GeV): the 10 must be complex. The fits fix the
+       light Higgs's up/down ratios, |a/c| = (1 - c1)/c2 ~ 60 and |b/d| = (-3 - c1)/c2 ~ 30, so the 126 share f splits
+       |b|^2 + |d|^2 = k^2 f and |d| = k sqrt(f/(1 + |b/d|^2)): giving all of f to d had overestimated d 30-fold. v_R
+       now 4e12-2e13 GeV (800-4000 x the chain's); a perturbative Y126,3 alone keeps it >= 14 x (inside the x31 threshold band), so
+       the verdict now rests on T13's 126 share (>= 4 %): 800 x, 25 x beyond thresholds. The chain still fails, with a
+       margin 30 x smaller.
+       [x] The complex 10's own potential (T13): a light complex bidoublet fixes the 10's doublet masses completely,
+       D10 = X X^T/m_126 (three conditions, not two; a real 10 cannot leave two vectors light); two triplets mix with the
+       126's (3,1,1), thresholds from the eigenstates; 4073 of 8648 draws viable. The fits' |a/c|, |b/d| pin the light
+       Higgs's direction inside the bidoublet (two Apollonius circles), so each point predicts d: 52 points match, and
+       every one puts v_R >= 3600 x its own chain's. The exclusion no longer rests on the f band.
+   [x] 5c. Thresholds and the rest of the running. At two loops the matching now carries the heavy vectors' MS-bar
+       constant, T_i/12 pi (Langacker-Polonsky eq. 12, C^1 = 1/21; T_i = C2(SO(10)) - C2(H_i), a check): no unknown,
+       M_I +5 %, M_GUT +4 % in every chain. A second bidoublet vev up to |k2/k1| = m_b/m_t moves (m_b - m_tau)/m_b at
+       M_GUT to -0.48..-0.35; the Delta_R coupling (RGE derived from the general formula: +3 Y f^dag f in Y3, Y4;
+       6 f f^dag f + 2 Tr(f f^dag) f + A^T f + f A) only makes tau heavier, -1.58 at the largest perturbative f.
+6. [x] One running for every coupling: matrix Yukawas to M_GUT with every threshold (SM, chains, MSSM). One engine
+       (gauge + the full 3x3 Yukawa matrices, all generations and the CKM mixing) runs the SM from m_t(m_t), the MSSM
+       above M_S (tan(beta) matching) and a chain's left-right stage above M_I; Part B's ratios, every mass at M_I and
+       M_GUT and the left-right run all use it (the light-quark ratios, held fixed above m_t before, now run). MSSM
+       matrix RGE = the general superpotential formula over every component (1e-16); Part J's third-generation
+       running = the engine on that subspace (1e-16), and the light generations move it by 0.03 % (SM, at M_P) and
+       0.04 % (MSSM y_b/y_tau at M_GUT), so Part J keeps its fast form. Effects downstream are small: the type I + II
+       search now finds 19 fits (best chi^2 0.0, 17 unknowns for 13 data), delta 7-342 deg, M_R,3 = 167-720 M_I,
+       v_R = 1e14-7e14 GeV from SO(10): the left-right chain still fails the neutrinos. The fit count and the delta
+       range move with 1e-8 changes in the inputs (the search lands on different points of a degenerate set), so
+       only the right-handed scale is a robust output.
+7. [x] Leftovers. The full 3-3-1 set (Part R): with the lepton triplets and every conjugate singlet, SU(3)_C^3,
+       SU(3)_L^3, SU(3)_C^2 X, SU(3)_L^2 X, X^3 and gravity^2 X vanish exactly for beta = +-1/sqrt3 (three fail without
+       the leptons). The dimension-five factor: the full higgsino term has eq. 19's scaling exactly (one constant,
+       1.77e35 years, at every tan(beta)); the factor 2.3 is 1.65 from the newer lattice alpha_p (-0.0144 vs -0.0112
+       GeV^3) times 1.37 from eq. 19's one-digit constant and 2013 inputs: not a bug (a check).
+8. [x] Dark matter and inflation (Part AA). Every one of the minimal theory's 28 multiplets is even under
+       R = (-1)^(3(B-L)+2s), the Z2 the 126 leaves: no candidate besides the axion (0.7 %); one needs a scalar 16 or a
+       fermionic 10/45/54 (mass a new unknown). Slow roll from each potential (N = 50-60): minimal phi^4 and phi^2
+       excluded by r; the xi phi^2 R plateau (n_s 0.962-0.968, r 0.003-0.004) allowed; SM Higgs inflation excluded
+       (lambda < 0 above mu_0 = 6e10 GeV: the CMB would need lambda ~ 1e21). A 210/126 direction with its own xi can
+       inflate: allowed, not predicted.
 
 ## Later
-- One running for every coupling (matrix Yukawas to M_GUT); GUT and superpartner thresholds;
+- GUT and superpartner thresholds beyond tree level;
   dark matter (axion misalignment, LSP); inflation (Higgs inflation vs lambda(M_P) < 0);
   electroweak precision (M_W).
