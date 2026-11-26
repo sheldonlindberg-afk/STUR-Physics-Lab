@@ -313,6 +313,7 @@ NUMERICS: Dict[str, Any] = {
     "check_phase_grid": 96,           # Part P check: brute-force Majorana phases against the exact band
     "proton_phase_grid": 36,          # Part Q: grid per unknown GUT phase (phi_2, phi_3) for the dimension-five band
     "check_axion_tol": "0.05",        # Part V: eq. 170 is an approximation (their words); agreement within 5 %
+    "report_top_heavy": 8,            # Part T12: multiplets listed in the report (all are in the JSON)
     "heavy_mass_spread": 10,          # Part T8: each heavy GUT multiplet's mass within this factor of M_GUT (assumed)
     "potential_seed": 20261125,       # Part T9: any seed works; the scan is deterministic
     "potential_points": 30000,        # Parts T9-T11: coupling points tried
@@ -621,7 +622,8 @@ STAGES: Dict[str, Dict[str, str]] = {
                                     "right-handed neutrinos, thermal, efficiency kappa <= 1"},
     "so10": {"part": "T", "level": "conditional",
              "assumes": "SO(10) with one 16 per family; minimal Yukawas from one 10_H; the Pati-Salam chain with "
-                        "scalars (1,2,2) + (10,1,3), one-loop running, no thresholds"},
+                        "scalars (1,2,2) + (10,1,3), one-loop running, no thresholds; T7-T12 thresholds at "
+                        "leading log, heavy masses scanned or from the 210 potential (PS)"},
     "scorecard": {"part": "U", "level": "conditional",
                   "assumes": "the SM, minimal SUSY SU(5) and four SO(10) chains (two loops), each condition judged "
                              "by the stage that computes it; for the chains the Higgs condition is lambda(M_I) = 0"},
@@ -5405,7 +5407,7 @@ def _rep_info(group: str, dim: int) -> Tuple[Fr, Fr]:
         return Fr(1, 2), Fr(n * n - 1, 2 * n)
     if dim == n * n - 1:
         return Fr(n), Fr(n)
-    if (n, dim) == (4, 10):                                  # symmetric tensor of SU(4)
+    if dim == n * (n + 1) // 2 and n in (3, 4):              # symmetric tensor (the 6 of SU(3), the 10 of SU(4))
         return Fr(n + 2, 2), Fr((n + 2) * (n - 1), n)
     if (n, dim) == (4, 6):                                   # antisymmetric tensor of SU(4)
         return Fr(n - 2, 2), Fr((n - 2) * (n + 1), n)
@@ -5661,6 +5663,78 @@ def heavy_spectrum_band(chain: Dict[str, Any], x: Dict[str, float], base: Dict[s
     for key in ("dlnMI", "dlnMG", "dlntau"):
         width = spread * sum(abs(r_[key]) for r_ in rows)
         ext[key] = width
+    return {"spread": num("heavy_mass_spread"), "rows": rows,
+            "M_I": (base["M_I"] * math.exp(-ext["dlnMI"]), base["M_I"] * math.exp(ext["dlnMI"])),
+            "M_GUT": (base["M_GUT"] * math.exp(-ext["dlnMG"]), base["M_GUT"] * math.exp(ext["dlnMG"])),
+            "tau_p": (base["tau_p_years"] * math.exp(-ext["dlntau"]), base["tau_p_years"] * math.exp(ext["dlntau"]))}
+
+
+# --- T12. The left-right chain's heavy spectrum, by group theory. SO(10) -> SU(3) x SU(2)_L x SU(2)_R x U(1)_B-L
+# without D-parity needs the 210 to take both its 3221 singlets: the Pati-Salam singlet (odd under D) and the
+# B - L direction inside its (15,1,1) (even; alone it would leave D unbroken). The vectors eaten are
+# (3,2,2,-2/3) and (3,1,1,4/3) + conjugates (45 - 15 = 30). The 126 keeps Delta_R = (1,1,3,2) light (it breaks
+# 3221 at M_I) and the 10 + 126 one bidoublet (the light Higgs); everything else sits at M_GUT. Each entry:
+# (SU(3), SU(2)_L, SU(2)_R, B - L) with SU(4) = 3_1/3 + 1_-1, and whether the field is real or complex.
+SO10_TO_3221 = {
+    10: (((3, 1, 1, Fr(-2, 3)), "complex"), ((1, 2, 2, Fr(0)), "real")),
+    126: (((3, 1, 1, Fr(-2, 3)), "complex"), ((3, 1, 1, Fr(2, 3)), "complex"),
+          ((6, 3, 1, Fr(2, 3)), "complex"), ((3, 3, 1, Fr(-2, 3)), "complex"), ((1, 3, 1, Fr(-2)), "complex"),
+          ((6, 1, 3, Fr(-2, 3)), "complex"), ((3, 1, 3, Fr(2, 3)), "complex"), ((1, 1, 3, Fr(2)), "complex"),
+          ((8, 2, 2, Fr(0)), "complex"), ((1, 2, 2, Fr(0)), "complex"),
+          ((3, 2, 2, Fr(4, 3)), "complex"), ((3, 2, 2, Fr(-4, 3)), "complex")),
+    210: (((1, 1, 1, Fr(0)), "real"), ((1, 1, 1, Fr(0)), "real"), ((8, 1, 1, Fr(0)), "real"),
+          ((3, 1, 1, Fr(4, 3)), "complex"), ((8, 3, 1, Fr(0)), "real"), ((1, 3, 1, Fr(0)), "real"),
+          ((3, 3, 1, Fr(4, 3)), "complex"), ((8, 1, 3, Fr(0)), "real"), ((1, 1, 3, Fr(0)), "real"),
+          ((3, 1, 3, Fr(4, 3)), "complex"), ((3, 2, 2, Fr(-2, 3)), "complex"), ((3, 2, 2, Fr(-2, 3)), "complex"),
+          ((6, 2, 2, Fr(2, 3)), "complex"), ((1, 2, 2, Fr(-2)), "complex"))}
+LR_GUT_HEAVY = (
+    ("210: (8,1,1)", (8, 1, 1, Fr(0)), "real"), ("210: (8,3,1)", (8, 3, 1, Fr(0)), "real"),
+    ("210: (1,3,1)", (1, 3, 1, Fr(0)), "real"), ("210: (3,3,1)", (3, 3, 1, Fr(4, 3)), "complex"),
+    ("210: (8,1,3)", (8, 1, 3, Fr(0)), "real"), ("210: (1,1,3)", (1, 1, 3, Fr(0)), "real"),
+    ("210: (3,1,3)", (3, 1, 3, Fr(4, 3)), "complex"), ("210: (3,2,2)", (3, 2, 2, Fr(-2, 3)), "complex"),
+    ("210: (6,2,2)", (6, 2, 2, Fr(2, 3)), "complex"), ("210: (1,2,2)", (1, 2, 2, Fr(-2)), "complex"),
+    ("126: (3,1,1)", (3, 1, 1, Fr(-2, 3)), "complex"), ("126: (3,1,1)'", (3, 1, 1, Fr(2, 3)), "complex"),
+    ("126: (6,3,1)", (6, 3, 1, Fr(2, 3)), "complex"), ("126: (3,3,1)", (3, 3, 1, Fr(-2, 3)), "complex"),
+    ("126: (1,3,1) Delta_L", (1, 3, 1, Fr(-2)), "complex"), ("126: (6,1,3)", (6, 1, 3, Fr(-2, 3)), "complex"),
+    ("126: (3,1,3)", (3, 1, 3, Fr(2, 3)), "complex"), ("126: (8,2,2)", (8, 2, 2, Fr(0)), "complex"),
+    ("126: (1,2,2) heavy", (1, 2, 2, Fr(0)), "complex"), ("126: (3,2,2)", (3, 2, 2, Fr(4, 3)), "complex"),
+    ("126: (3,2,2)'", (3, 2, 2, Fr(-4, 3)), "complex"), ("10: (3,1,1)", (3, 1, 1, Fr(-2, 3)), "complex"))
+
+
+def heavy_b_3221(rep: Tuple[Any, ...], kind: str) -> List[Fr]:
+    """One-loop b of one scalar multiplet under SU(3), SU(2)_L, SU(2)_R, U(1)_B-L (charge normalized as in the
+    chains: BL_NORM (B - L)^2; real: 1/6, complex: 1/3 of the index sum)."""
+    w_ = Fr(1, 6) if kind == "real" else Fr(1, 3)
+    size = math.prod(rep[:3])
+    return [w_ * _rep_info(g, d)[0] * Fr(size, d) for g, d in zip(("SU3", "SU2", "SU2"), rep[:3])] + \
+        [w_ * BL_NORM * rep[3] ** 2 * size]
+
+
+def so10_decomposition_index_3221(rep: int) -> List[Fr]:
+    """Sum of the components' indices under SU(3), SU(2)_L, SU(2)_R and U(1)_B-L: must be the SO(10) index. In the
+    real 10 and 210 a complex component comes with its conjugate; the 126's components are its own."""
+    tot = [Fr(0)] * 4
+    for comp, kind in SO10_TO_3221[rep]:
+        b_ = heavy_b_3221(comp, kind)
+        for i in range(4):
+            tot[i] += b_[i] * (3 if (rep == 126 and kind == "complex") else 6)
+    return tot
+
+
+def heavy_spectrum_band_lr(chain: Dict[str, Any], x: Dict[str, float], base: Dict[str, Any], a_l: float) -> Dict[str, Any]:
+    """The left-right chain's heavy GUT multiplets: d(ln M_I, ln M_GUT, ln tau_p)/d ln(M_h/M_GUT) for each, and the
+    extremes when every one lies within heavy_mass_spread of M_GUT (linear in the logs)."""
+    spread = math.log(num("heavy_mass_spread"))
+    rows = []
+    for name, rep, kind in LR_GUT_HEAVY:
+        bh = [float(v) for v in heavy_b_3221(rep, kind)]
+        delta = [bh_ / (2 * math.pi) for bh_ in bh]
+        r_ = solve_chain(chain, x, 2, [delta[0] - delta[1], delta[2] - delta[1], delta[3] - delta[1]])
+        tau = proton_lifetime(x, r_["M_GUT"], r_["alpha_GUT"], None, a_l)
+        rows.append({"multiplet": name, "b": heavy_b_3221(rep, kind),
+                     "dlnMI": math.log(r_["M_I"] / base["M_I"]), "dlnMG": math.log(r_["M_GUT"] / base["M_GUT"]),
+                     "dlntau": math.log(tau / base["tau_p_years"])})
+    ext = {k: spread * sum(abs(r_[k]) for r_ in rows) for k in ("dlnMI", "dlnMG", "dlntau")}
     return {"spread": num("heavy_mass_spread"), "rows": rows,
             "M_I": (base["M_I"] * math.exp(-ext["dlnMI"]), base["M_I"] * math.exp(ext["dlnMI"])),
             "M_GUT": (base["M_GUT"] * math.exp(-ext["dlnMG"]), base["M_GUT"] * math.exp(ext["dlnMG"])),
@@ -6079,6 +6153,14 @@ def so10(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any
         r_["proton_flip_ratio"] = flip(pdk["limit_e_pi0"], base["tau_p_years"], r_["dlntau"])
         r_["vacuum_flip_ratio"] = flip(out["vacuum"]["mu0"], base["M_I"], r_["dlnMI"])
     out["heavy_spectrum_PS"] = hs
+    # T12. the left-right chain's heavy GUT multiplets, one by one (the response to each one's mass)
+    base_lr = chains["LR"]["loop2"]
+    hs_lr = heavy_spectrum_band_lr(defs["LR"], x0, base_lr, a_l)
+    for r_ in hs_lr["rows"]:
+        r_["proton_flip_ratio"] = math.exp(math.log(pdk["limit_e_pi0"] / base_lr["tau_p_years"]) / r_["dlntau"])
+        r_["vacuum_flip_ratio"] = math.exp(math.log(out["vacuum"]["mu0"] / base_lr["M_I"]) / r_["dlnMI"])
+    hs_lr["a_l"] = a_l
+    out["heavy_spectrum_LR"] = hs_lr
     # T9. the 210's own potential: its four multiplets' masses calculated over the allowed couplings
     out["potential_210"] = potential_210_scan(hs, base["alpha_GUT"], base["tau_p_years"], base["M_I"],
                                               pdk["limit_e_pi0"], out["vacuum"]["mu0"], m1_nat)
@@ -6623,6 +6705,67 @@ def so10_yukawa_tests(flav: Dict[str, Any], s10: Dict[str, Any]) -> Dict[str, An
                                                                               max(a_["b_tau"] for a_ in alt[1:]))}
     out = {"PS": so10_selection_rule(flav, s10["chains"]["PS"]["loop2"]["M_I"]),
            "LR": so10_sum_rule(flav, two["M_GUT"], two["M_I"], run["masses"], run["V"]), "running": running}
+    out["lift"] = heavy_spectrum_lift(out["LR"], s10, chain)
+    return out
+
+
+def heavy_spectrum_lift(lr: Dict[str, Any], s10: Dict[str, Any], chain: Dict[str, Any]) -> Dict[str, Any] | None:
+    """Can the left-right chain's heavy GUT spectrum (Part T12) lift M_I to where its neutrino fits put B - L
+    breaking, v_R ~ M_I >= M_R,3/sqrt(4 pi) (the smallest over the fits), and keep the proton? To first order in
+    l_h = ln(M_h/M_GUT), ln M_I and ln tau_p are linear (T12's responses): maximize d ln M_I subject to
+    d ln tau_p >= ln(limit/tau_p) and |l_h| <= ln S, a linear program with one constraint, solved exactly by
+    ordering (each multiplet starts at the extreme that raises M_I; those that buy back the most lifetime per
+    unit of M_I lost are moved first). The smallest S that reaches the target is found by bisection, and the
+    spectrum found is then solved exactly (two loops). The neutrino fits are not redone at the new M_I."""
+    fits = [t_ for t_ in (lr["type1"], lr["type12"]) if t_["fits_found"]]
+    if not fits:
+        return None
+    two = s10["chains"]["LR"]["loop2"]
+    hs = s10["heavy_spectrum_LR"]
+    x = _float_inputs()
+    limit = s10["pati_salam"]["tau_p_limit"]
+    target = min(t_["M_R_over_M_I_range"][0] for t_ in fits) * two["M_I"] / lr["M_R_max_over_M_I"]
+    need, slack = math.log(target / two["M_I"]), math.log(limit / two["tau_p_years"])
+    a_ = [r_["dlnMI"] for r_ in hs["rows"]]
+    c_ = [r_["dlntau"] for r_ in hs["rows"]]
+
+    def best(ln_s: float) -> Tuple[float, List[float]]:
+        ell = [ln_s * (1 if ai > 0 else -1) for ai in a_]
+        tau = sum(ci * li for ci, li in zip(c_, ell))
+        # moving l_h from its extreme toward the other changes tau by g_h and M_I by -|a_h| per unit
+        order = sorted((i for i in range(len(a_)) if -c_[i] * (1 if a_[i] > 0 else -1) > 0),
+                       key=lambda i: -(-c_[i] * (1 if a_[i] > 0 else -1)) / abs(a_[i]))
+        for i in order:
+            if tau >= slack:
+                break
+            g_ = -c_[i] * (1 if a_[i] > 0 else -1)
+            step = min(2 * ln_s, (slack - tau) / g_)
+            ell[i] -= step * (1 if a_[i] > 0 else -1)
+            tau += g_ * step
+        if tau < slack - num("unif_tol"):
+            return -math.inf, ell
+        return sum(ai * li for ai, li in zip(a_, ell)), ell
+    lo, hi = 0.0, math.log(num("heavy_mass_spread"))
+    out: Dict[str, Any] = {"target_M_I": target, "factor": target / two["M_I"],
+                           "vacuum_ok_at_target": target < s10["vacuum"]["mu0"]}
+    if best(hi)[0] < need:
+        out["reached"] = False
+        return out
+    for _ in range(int(num("unif_iterations"))):
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if best(mid)[0] < need else (lo, mid)
+    _, ell = best(hi)
+    shifts = [0.0, 0.0, 0.0]
+    for r_, li in zip(hs["rows"], ell):
+        bh = [float(v) / (2 * math.pi) for v in r_["b"]]
+        for k, d_ in enumerate((bh[0] - bh[1], bh[2] - bh[1], bh[3] - bh[1])):
+            shifts[k] += li * d_
+    r_ = solve_chain(chain, x, 2, shifts)
+    tau = proton_lifetime(x, r_["M_GUT"], r_["alpha_GUT"], None, hs["a_l"])
+    moved = sorted(((abs(li), r2_["multiplet"], math.exp(li)) for li, r2_ in zip(ell, hs["rows"])), reverse=True)
+    out.update({"reached": True, "spread": math.exp(hi), "M_I": r_["M_I"], "M_GUT": r_["M_GUT"], "tau_p_years": tau,
+                "proton_ok": tau > limit, "vacuum_ok": r_["M_I"] < s10["vacuum"]["mu0"],
+                "spectrum": [(nm_, ratio_) for _, nm_, ratio_ in moved]})
     return out
 
 
@@ -7166,12 +7309,14 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
             bound = ylr["M_R_max_over_M_I"]
             if fit_ and min(t_["M_R_over_M_I_range"][0] for t_ in fit_) <= bound:
                 return entry("trade", lead + "; type I (+ II) fits with M_R below sqrt(4 pi) M_I: unknowns absorb the data")
+            lf_ = s10y.get("lift") or {}
+            lift_txt = (f"; a heavy spectrum within a factor {lf_['spread']:.2f} of M_GUT lifts M_I there with the proton at"
+                        f" {lf_['tau_p_years']:.1e} years (Part T12)" if lf_.get("reached") else "")
             if fit_:
                 n_ = sum(t_["fits_found"] for t_ in fit_)
                 return entry("open", lead + f"; {n_} type I (+ II) fits, every one needing M_R,3 >="
                                             f" {min(t_['M_R_over_M_I_range'][0] for t_ in fit_):.0f} M_I, above the perturbative"
-                                            f" {bound:.1f} M_I: B - L would break far above the chain's M_I (thresholds move"
-                                            " M_I by up to ~30, Part T7)")
+                                            f" {bound:.1f} M_I: B - L would break far above the chain's M_I" + lift_txt)
             return entry("open", lead + f"; types I and I + II not reached (best chi^2 {t1['chi2_min']:.0f}, {t12['chi2_min']:.0f};"
                                         f" the closest point puts M_R,3 at {t12['scales']['M_R_over_M_I']:.0e} M_I)")
         return entry("pass", f"seesaw at M_I with a Dirac Yukawa of {y_needed:.3f} for the heaviest neutrino")
@@ -7927,6 +8072,11 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     rad = max(abs(cv_["(1,1,1)"][q] - 8 * q0_[q] / 576) for q in QUARTICS_210)
     checks.append(("210 potential: the eaten (6,2,2) is massless for every coupling (Goldstone); the radial mode has"
                    " twice the vacuum curvature", gold < tol and rad < tol, f"max {max(gold, rad):.1e}"))
+    idx3 = all(so10_decomposition_index_3221(r_) == [Fr(SO10_INDEX[r_])] * 4 for r_ in SO10_TO_3221)
+    dof3 = [sum(math.prod(c_[:3]) * (1 if k_ == "real" else 2) for c_, k_ in SO10_TO_3221[r_]) for r_ in (10, 126, 210)]
+    checks.append(("SO(10) -> SU(3) x SU(2)_L x SU(2)_R x U(1)_B-L decompositions of 10, 126, 210: real dimensions 10, 252,"
+                   " 210 and indices = the SO(10) index under every factor, B - L included", idx3 and dof3 == [10, 252, 210],
+                   f"dimensions {dof3}"))
     c126_ = so10_126_coefficients()
     checks.append(("126: the self-dual basis is self-dual, (10,3,1) and (10bar,1,3) do not mix, and every D-even"
                    " invariant is equal on them", max(c126_["selfdual_dev"], c126_["p3_mixing"], c126_["d_even_dev"]) < tol,
@@ -9091,6 +9241,19 @@ def report(res: Dict[str, Any]) -> str:
     w(f"        proton decay and natural leptogenesis together: {100 * p10['frac_all']:.0f} %")
     w("       Not included: proton decay through the colour triplets' own Yukawa couplings (scalar exchange), which")
     w("       needs the Yukawa matrices at M_GUT.")
+    hl_ = so["heavy_spectrum_LR"]
+    w("  T12. The left-right chain's heavy spectrum. SO(10) -> SU(3) x SU(2)_L x SU(2)_R x U(1)_B-L without D-parity")
+    w("       needs the 210 on both 3221 singlets (the Pati-Salam singlet, odd under D, and the B - L direction of its")
+    w("       (15,1,1)); (3,2,2) and (3,1,1) are eaten. Every heavy multiplet of the 210, 126 and 10 (decompositions")
+    w("       checked against the SO(10) indices, B - L included), b under (3, 2L, 2R, B-L), per unit ln(M_h/M_GUT),")
+    w("       sorted by their pull on M_I:")
+    w("        multiplet               b (3, 2L, 2R, BL)     d ln M_I  d ln tau_p")
+    for r_ in sorted(hl_["rows"], key=lambda r2_: -abs(r2_["dlnMI"]))[:int(num("report_top_heavy"))]:
+        w(f"        {r_['multiplet']:<23s} {', '.join(str(v_) for v_ in r_['b']):<21s} {r_['dlnMI']:+8.3f}  {r_['dlntau']:+9.3f}")
+    w(f"        ({len(hl_['rows']) - int(num('report_top_heavy'))} more, each moving ln M_I by less than"
+      f" {sorted(abs(r2_['dlnMI']) for r2_ in hl_['rows'])[-int(num('report_top_heavy')) - 1]:.2f} per unit)")
+    w("       The SU(2)_L-triplet coloured states pull M_I down when heavy, the SU(2)_R ones up: a split spectrum moves")
+    w("       M_I by large factors (Part Y asks how far the neutrino fits need it moved).")
     w(_wrap("RESULT: SO(10) calculates the hypercharges' normalization (sin^2 theta_W = 3/8 at unification) and "
             "requires the right-handed neutrino; its minimal Yukawa relations are excluded. Without supersymmetry, "
             f"the Pati-Salam route unifies the three couplings with M_I = {ps['M_I']:.0e} GeV and M_GUT = "
@@ -9244,6 +9407,21 @@ def report(res: Dict[str, Any]) -> str:
         w("      Fits exist, as published fits with full running also find (Joshipura-Patel 2011, Ohlsson-Pernow 2019):")
         w("      with 17 unknowns for 13 data they reach the data without predicting it, and delta is not pinned. What")
         w("      every fit shares is the right-handed scale, far above the perturbative bound at the chain's M_I.")
+    lf = yy.get("lift")
+    if lf:
+        w(f"  Lifting M_I (Part T12): the fits need v_R ~ M_I >= {lf['target_M_I']:.1e} GeV, {lf['factor']:.0f} times the chain's"
+          " M_I. The heavy spectrum")
+        if lf["reached"]:
+            w(f"      does it with every GUT multiplet within a factor {lf['spread']:.2f} of M_GUT (the smallest such factor"
+              " that also keeps the")
+            w(f"      proton: a linear program in the log-masses, then solved exactly): M_I = {lf['M_I']:.2e},"
+              f" M_GUT = {lf['M_GUT']:.2e} GeV,")
+            w(f"      tau_p = {lf['tau_p_years']:.2e} years ({'above' if lf['proton_ok'] else 'below'} the Super-K limit"
+              f"{', at its edge: the binding constraint' if lf['proton_ok'] else ''}). The vacuum is then")
+            w(f"      {'still' if lf['vacuum_ok'] else 'no longer'} stabilizable (M_I against mu_0). Whether the scalar potential"
+              " gives such a spectrum is next.")
+        else:
+            w(f"      cannot, within a factor {num('heavy_mass_spread'):.0f} of M_GUT, while keeping the proton.")
     else:
         w("      Published fits with full running (Joshipura-Patel 2011, Ohlsson-Pernow 2019) find type-I dominated")
         w("      solutions; this search does not, so either the search or the left-out pieces (the second doublet's vev,")

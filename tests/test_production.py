@@ -674,6 +674,19 @@ def test_type2_and_ledger():
     assert sum(lg["counts"].values()) == len(lg["rows"]) == 15
 
 
+def test_heavy_spectrum_lr():
+    """Part T12: the 3221 decompositions add up to the SO(10) indices (B - L included); SU(2)_L-triplet coloured
+    states lower M_I when heavy and SU(2)_R ones raise it; the spectrum can lift M_I to where the neutrino fits put
+    B - L breaking, within a small factor of M_GUT, keeping the proton but not the vacuum stabilization."""
+    from fractions import Fraction as Fr
+    assert all(P.so10_decomposition_index_3221(r) == [Fr(P.SO10_INDEX[r])] * 4 for r in P.SO10_TO_3221)
+    rows = {r["multiplet"]: r for r in RESULT["so10"]["heavy_spectrum_LR"]["rows"]}
+    assert rows["126: (6,3,1)"]["dlnMI"] < -1 < 1 < rows["126: (6,1,3)"]["dlnMI"]
+    lf = RESULT["so10_yukawa"]["lift"]
+    assert lf["reached"] and 1 < lf["spread"] < 3 and lf["proton_ok"] and not lf["vacuum_ok"]
+    assert abs(lf["M_I"] / lf["target_M_I"] - 1) < 0.05
+
+
 def test_left_right_running():
     """Part Y: matrix running SM -> M_I -> left-right -> M_GUT. The reduced RGEs equal the general formula; the
     left-right running brings b and tau closer than SM running does, whatever the unknown Takagi phases."""

@@ -30,7 +30,7 @@ python3 production_v2_2.py --certify            # also prove every texture exclu
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 71 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 72 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -696,6 +696,13 @@ M_GUT (median about 1.4 M_GUT). Most jointly viable potentials pass proton decay
 bosons, and most keep natural leptogenesis and a stabilizable vacuum. Not included: proton decay
 through the colour triplets' own Yukawa couplings, which needs the Yukawa matrices at M_GUT.
 
+**Part T12: the left-right chain's heavy spectrum.** SO(10) → SU(3) × SU(2)_L × SU(2)_R × U(1)_{B−L} without
+D-parity needs the 210 on both of its 3221 singlets: the Pati–Salam singlet (odd under D) and the B − L direction
+of its (15,1,1); the (3,2,2) and (3,1,1) are eaten. Every heavy multiplet of the 210, 126 and 10 is listed with
+its B − L charge, and a self-check confirms that each decomposition adds up to the SO(10) index under all four
+factors. Their threshold responses split cleanly: SU(2)_L-triplet coloured states (the 126's (6,3,1), the 210's
+(8,3,1)) lower M_I when heavy, SU(2)_R ones raise it, by up to 1.5 in ln M_I per unit of ln(M_h/M_GUT).
+
 **Part V: dark matter from the axion**
 
 Until now the dark-matter density was an input. The axion of Part O is produced by misalignment:
@@ -814,6 +821,13 @@ left-right one.
   a factor of about 30, so the scorecard keeps the entry *open* with that tension stated, rather than failed.
   The lightest right-handed neutrino comes out at M₁ = 4 × 10⁹ to 1 × 10¹⁰ GeV, above the full-efficiency
   leptogenesis bound.
+* **Lifting M_I.** Can the chain's heavy spectrum (Part T12) move M_I to where those fits put B − L breaking,
+  v_R ~ M_I ≥ M_R,3/√(4π) ≈ 50 M_I? To first order in the log-masses, ln M_I and ln τ_p are linear, so the
+  smallest spread that reaches the target while keeping the proton is a linear program, solved exactly and then
+  checked with the full two-loop solve. Answer: every heavy multiplet within a factor of about 1.5 of M_GUT
+  suffices, M_I ≈ 1.4 × 10¹¹ GeV, and the proton then lives about 2.4 × 10³⁴ years, at the Super-K limit (the
+  binding constraint, so within Hyper-Kamiokande's reach). The vacuum is then no longer stabilizable (M_I above
+  μ₀). Whether the scalar potential gives such a split is the next calculation.
 * **Part X follows the survivor.** The cosmology closure now takes the surviving chain from Part U
   automatically: the left-right chain, whose axion gives under 1% of the dark matter. The loop then
   needs nearly all the dark matter from strings, domain walls or another component.
