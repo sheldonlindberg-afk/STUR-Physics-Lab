@@ -170,6 +170,23 @@ the new result, and the tests fail if a page value, the scorecard, the ledger or
    generation Yukawas, T13's Higgs mixture and triplet mass, Clebsches <= 3): amplitude ~1e-10 of the gauge one,
    so triplets need only M_T >~ 1e11 GeV. Open: the exact triplet Clebsches; the dimension-five factor 2.2 (SUSY).
 
+## After the "Next" round (in order)
+5. [x] The left-right chain's neutrino tension (Part Y4 against T12-T13): settled, the chain fails.
+   [x] 5a. The scales, sharpened (Part Y4). Perturbativity: M_R,3 <= 2 sqrt(4 pi) M_I/g_R ~ 12.6 M_I (M_WR = g_R v_R,
+       M_N = 2 f v_R); the lift then needs x14, a spread of 1.33, and the potential gives it in 4 of 715. But SO(10)'s
+       own Y126 (fixed by the charged fermions, ~1e-3) with M_R = Y126 v_R predicts v_R = 1e14-5e14 GeV, 2e4-1e5 times
+       the chain's, beyond any threshold (x31): the left-right chain FAILS the neutrinos. No complete hypothesis
+       survives; Parts X and Z follow the closest (LR). Open: whether a non-minimal Yukawa sector (a 120, a 16_H
+       breaking B - L, non-renormalizable M_R) changes this; 5b and 5c below no longer decide it.
+   [ ] 5b. A complex 10 in the potential (the Yukawa fits already use one; T11/T13 use a real 10).
+   [ ] 5c. Two-loop thresholds at M_I and M_GUT; the second bidoublet's vev and the Delta_R coupling in the running.
+6. [ ] One running for every coupling: matrix Yukawas to M_GUT with every threshold (SM, chains, MSSM), replacing the
+       third-generation and ratio running where they are still used.
+7. [ ] Leftovers: the full 3-3-1 anomaly set with leptons and U(1)_X (Part D has the quarks only); the dimension-five
+       factor 2.2 against Hisano et al.'s eq. 19 (eq. 19 is itself an approximation, so it may not be a bug).
+8. [ ] Dark matter beyond the axion (the left-right chain's axion gives under 1 %: what else, and from which stage);
+       inflation (Higgs inflation against lambda(M_P) < 0; the 210/126 potentials as inflaton candidates).
+
 ## Later
 - One running for every coupling (matrix Yukawas to M_GUT); GUT and superpartner thresholds;
   dark matter (axion misalignment, LSP); inflation (Higgs inflation vs lambda(M_P) < 0);

@@ -770,9 +770,9 @@ SO(10) chains decouple, so this tests the SM below M_I, not the chains.
 **Part X: closing the loop, cosmology from the particle physics**
 
 Part A takes Ω_m as an input. Here it is built from the rest: Ω_b (measured), the axion at the
-surviving chain's M_I by misalignment (Part V) and the minimal neutrino masses (Part P). Flatness
-then gives Ω_Λ, and the Friedmann equation gives the age. The survivor is the left-right chain
-(Part U), whose axion gives under 1% of the dark matter: Ω_m = 0.052 and the universe would be
+surviving chain's M_I (or, when none survives, the closest one's) by misalignment (Part V) and the minimal
+neutrino masses (Part P). Flatness then gives Ω_Λ, and the Friedmann equation gives the age. That chain is
+the left-right one (Part U), whose axion gives under 1% of the dark matter: Ω_m = 0.052 and the universe would be
 21.4 Gyr old, against Planck's 13.787: **378σ off**. (At Pati–Salam's M_I it would be 15.2 Gyr,
 70σ.) With all of Ω_c the same code returns Part A's 13.797 Gyr (a self-check). Closing the loop
 therefore needs about 99% of the dark matter from the axion's strings and domain walls, or from a
@@ -838,31 +838,29 @@ left-right one.
 
   **The mixed type I + II case fits.** With 17 unknowns for 13 data it reaches the data rather than predicting
   it, and the CP phase is not pinned: δ = 136°–289° over the fits (the measured 212° lies inside). What every
-  fit shares is the right-handed scale: M_R,3 is 177 to 360 times the chain's M_I = 2.8 × 10⁹ GeV, while a
-  perturbative 126 coupling with v_R ~ M_I allows at most √(4π) M_I ≈ 3.5 M_I. If these are the chain's
-  neutrinos, B − L must break far above its intermediate scale. The thresholds of Part T7 move M_I by up to
-  a factor of about 30, so the scorecard keeps the entry *open* with that tension stated, rather than failed.
-  The lightest right-handed neutrino comes out at M₁ = 4 × 10⁹ to 1 × 10¹⁰ GeV, above the full-efficiency
-  leptogenesis bound.
-* **Lifting M_I.** Can the chain's heavy spectrum (Part T12) move M_I to where those fits put B − L breaking,
-  v_R ~ M_I ≥ M_R,3/√(4π) ≈ 50 M_I? To first order in the log-masses, ln M_I and ln τ_p are linear, so the
-  smallest spread that reaches the target while keeping the proton is a linear program, solved exactly and then
-  checked with the full two-loop solve. Answer: every heavy multiplet within a factor of about 1.5 of M_GUT
-  suffices, M_I ≈ 1.4 × 10¹¹ GeV, and the proton then lives about 2.4 × 10³⁴ years, at the Super-K limit (the
-  binding constraint, so within Hyper-Kamiokande's reach). The vacuum is then no longer stabilizable (M_I above
-  μ₀). But the chain's own potential (Part T13) does not give such a split: over the viable 210 + 126 + 10
-  potentials, none lifts M_I to the target with the proton kept, and their median M_I is lower than the chain's,
-  not higher. Δ_R must be light, and it drags its SU(2)_R partners light with it. The neutrino entry stays open,
-  with the fits and the chain's spectrum now pointing in opposite directions.
+  fit shares is the right-handed scale: M_R,3 is 177 to 360 times the chain's M_I = 2.8 × 10⁹ GeV. The lightest
+  right-handed neutrino comes out at M₁ = 4 × 10⁹ to 1 × 10¹⁰ GeV, above the full-efficiency leptogenesis bound.
+* **The neutrino tension, settled.** Two relations decide it.
+  - *The perturbative bound, sharpened.* The chain's M_I is the W_R mass, M_WR = g_R v_R for the triplet's vev,
+    and a Majorana mass from f νν δ⁰ is M_N = 2 f v_R. With f ≤ √(4π) the heaviest right-handed neutrino is at
+    most 2√(4π) M_I/g_R ≈ 12.6 M_I (not √(4π) M_I as earlier). The fits then need M_I ≈ 14 times higher. The heavy
+    spectrum (Part T12) can do that with every multiplet within a factor 1.33 of M_GUT, the proton surviving at
+    3.7 × 10³⁴ years; the chain's own potential (Part T13) does it in 4 of 715 viable cases.
+  - *SO(10) fixes the coupling.* The Δ_R coupling is Y₁₂₆ itself (M_R = Y₁₂₆ v_R and M_d ⊃ d Y₁₂₆ in the same
+    normalization), and the charged-fermion fit fixes Y₁₂₆ = (M_d − M_e)/4d, about 10⁻³ because b and τ have
+    similar masses at M_GUT. With d from T13's light-Higgs mixture, the fits then predict v_R = 1 × 10¹⁴ to
+    5 × 10¹⁴ GeV: 2 × 10⁴ to 10⁵ times the chain's own v_R = M_I/g_R = 4.9 × 10⁹ GeV. The unknown thresholds move M_I
+    by at most 31 (Part T7). So within the minimal 10 + 126 theory **the left-right chain fails the neutrinos**: B − L
+    would have to break near the unification scale (the standard minimal-SO(10) result), not at the chain's M_I.
 * **Proton decay through the colour triplets.** They couple through the same Y₁₀ and Y₁₂₆ that give the masses.
   An estimate uses the best fit's first-generation entries (Y₁₀,₁₁ ≈ 6×10⁻⁶, Y₁₂₆,₁₁ ≈ 2×10⁻⁵, with the light Higgs
   a quarter 126, from Part T13), Clebsch factors up to 3, and the lighter triplet at T13's 1.3 M_GUT. The
   amplitude is about 10⁻⁸ of the gauge bosons': τ ~ 10⁵² years. The triplets would matter only below ~10¹² GeV.
-* **Part X follows the survivor.** The cosmology closure now takes the surviving chain from Part U
-  automatically: the left-right chain, whose axion gives under 1% of the dark matter. The loop then
-  needs nearly all the dark matter from strings, domain walls or another component.
+* **No complete hypothesis survives.** The left-right chain now fails the neutrinos and Pati–Salam the fermion
+  masses: each fails exactly one condition. Parts X and Z follow the closest hypothesis (fewest fails, then most
+  passes, then fewest trades): the left-right chain, whose axion gives under 1% of the dark matter.
 * **Part Z: the ledger.** Every free number of the Standard Model plus cosmology carries the status
-  the stages computed for the surviving hypothesis:
+  the stages computed for the closest hypothesis:
 
 | Quantity | Count | Status |
 |---|---|---|
@@ -872,19 +870,18 @@ left-right one.
 | gauge couplings | 3 | traded (for M_I, M_GUT, α_GUT) |
 | Higgs mass | 1 | open (criticality 3.3σ off) |
 | Higgs vev, quark masses, G | 1 + 6 + 1 | input |
-| CKM | 4 | related (texture, not the survivor's structure) |
+| CKM | 4 | related (texture, not the SO(10) chain's structure) |
 | charged-lepton masses | 3 | traded (sum rule, 8 unknowns) |
-| neutrino masses and mixing | 7–9 | open (type II excluded; type I + II fits need M_R ≈ 200–400 M_I) |
+| neutrino masses and mixing | 7–9 | open: no working mechanism (type II excluded; type I + II fits need v_R ~ 10¹⁴ GeV) |
 | strong CP angle | 1 | bounded (< 9×10⁻¹¹) |
 | dark matter, Λ | 1 + 1 | open |
 | baryon asymmetry | 1 | traded (leptogenesis, M₁ unknown) |
 
-**The algorithm closes.** It runs in one pass, every stage in dependency order. Every assumption of
-the surviving hypothesis is consistent with every condition tested, and every free number has a
+**The algorithm closes.** It runs in one pass, every stage in dependency order, and every free number has a
 status. What it calculates is discrete and exact: the charges and their quantization, sin²θ_W at
 unification, and the family number in 3-3-1. No continuous free number of the Standard Model is
-calculated. The survivor's open entries (neutrinos through type I, the dark matter, the Higgs mass)
-are where it must predict or fail next.
+calculated. And no complete hypothesis survives every condition: the closest, SO(10) through the left-right
+chain, fails the neutrinos because SO(10) itself puts B − L breaking near the unification scale.
 
 **Part U: the scorecard, every complete hypothesis against every condition**
 
@@ -903,10 +900,11 @@ absorbs the condition, so nothing is tested; *open* means that hypothesis has no
 | baryon asymmetry | fail (no mechanism) | trade | trade (leptogenesis window open) |
 | strong CP | open | open | trade (axion at f_a = M_I) |
 
-The scorecard also has a row for each of the other three chains. Both D-parity chains fail proton
-decay, and the left-right chain passes everything with its Higgs value 2.0σ low. Pati–Salam without
-D-parity fails nothing, but it also predicts nothing yet: its scales are solved from the couplings,
-and its passes are consistency checks, not calculations.
+The table shows the first-pass Pati–Salam column; the full scorecard (in the output and on the website) has a
+row for every chain and two more conditions (fermion masses, vacuum stability, dark matter). Both D-parity
+chains fail proton decay. Pati–Salam fails the fermion masses (Part Y's selection rule), and the left-right
+chain the neutrinos (Part Y4: SO(10)'s own Y₁₂₆ puts B − L breaking near the unification scale). **No complete
+hypothesis survives every condition.**
 
 The Higgs entry for Pati–Salam (125.6 GeV) comes from λ(M_I) = 0. Part T6 shows that this condition
 is not required by the theory: it only says that Pati–Salam's M_I happens to lie near the SM

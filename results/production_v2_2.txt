@@ -989,7 +989,7 @@ PART W. THE W MASS: A TEST OF THE STANDARD MODEL ITSELF
 PART X. CLOSING THE LOOP: COSMOLOGY FROM THE PARTICLE PHYSICS
 ------------------------------------------------------------------------------
   Part A takes Omega_m as an input. Here it follows from the rest: Omega_b (measured), the axion at the
-  surviving chain's M_I (Part U: LR) by misalignment (Part V: Omega_a h^2 = 0.0008) and the minimal neutrino masses
+  surviving (or closest) chain's M_I (Part U: LR) by misalignment (Part V: Omega_a h^2 = 0.0008) and the minimal neutrino masses
   (Part P). Flatness gives Omega_Lambda; the Friedmann equation the age.
     Omega_m = 0.0524 (Part A's input: 0.3153), Omega_Lambda = 0.9475, age = 21.354 Gyr
     against Planck's 13.787 +/- 0.02 Gyr: +378 sigma (with all of Omega_c: 13.797 Gyr)
@@ -1040,31 +1040,37 @@ PART Y. THE SO(10) YUKAWA SECTOR: CAN IT GIVE THE CHARGED-FERMION MASSES?
         II             15    439.5    18.7 s  0.265  0.0203  0.190  -
         I              15    151.0     8.3 s  0.308  0.0218  0.346  1.2e+03
         I + II         17      1.4     0.0 s  0.308  0.0222  0.470  1.8e+02
-        measured                              0.308  0.0221  0.470  at most sqrt(4 pi) = 3.54
+        measured                              0.308  0.0221  0.470  at most 2 sqrt(4 pi)/g_R = 12.6
       Type II: b and tau do not converge without supersymmetry ((m_b - m_tau)/m_b = -0.41 at M_GUT), so
       M_d - M_e cannot give a large theta_23 (Bajc-Senjanovic-Vissani).
       Type I: no fit within 3 sigma found; at the best point M_R = 2.2e+10, 7.4e+11, 3.4e+12 GeV.
       Types I + II: 15 fit(s) within 3 sigma (best chi^2 1.4). They predict delta, never fitted: 136 to 289 deg,
         against 212 +/- 34 deg: 1.0 to 2.3 sigma (NuFIT's delta is far from Gaussian: indicative only);
         M_R,3/M_I 1.8e+02 to 3.6e+02; the lightest right-handed neutrino M_1 = 4.3e+09 to 1.1e+10 GeV.
-      The heavy masses need no vev: M_R,i = s_i(M_d - M_e) s_max(M_nu matrix)/m_3. A perturbative 126 coupling
-      (M_R,3 <= sqrt(4 pi) v_R) with v_R ~ M_I = 2.8e+09 GeV needs M_R,3/M_I <= 3.54.
+      The heavy masses need no vev: M_R,i = s_i(M_d - M_e) s_max(M_nu matrix)/m_3. The chain's M_I is the W_R mass,
+      M_WR = g_R v_R (the triplet's vev; g_R(M_I) = 0.562), and M_N = 2 f v_R: a perturbative Delta_R coupling (f <= sqrt(4 pi))
+      allows M_R,3 <= 2 sqrt(4 pi) M_I / g_R = 12.6 M_I, M_I = 2.8e+09 GeV.
       The fits add the overall phase of M_d against the real M_u (physical for the neutrinos: absorbed by c1 in
       M_e, not in M_d - M_e), so 9 unknowns: with the 10 quark observables, the 19 parameters of the model.
       Fits exist, as published fits with full running also find (Joshipura-Patel 2011, Ohlsson-Pernow 2019):
       with 17 unknowns for 13 data they reach the data without predicting it, and delta is not pinned. What
       every fit shares is the right-handed scale, far above the perturbative bound at the chain's M_I.
-  Lifting M_I (Part T12): the fits need v_R ~ M_I >= 1.4e+11 GeV, 50 times the chain's M_I. The heavy spectrum
-      does it with every GUT multiplet within a factor 1.55 of M_GUT (the smallest such factor that also keeps the
-      proton: a linear program in the log-masses, then solved exactly): M_I = 1.39e+11, M_GUT = 5.28e+15 GeV,
-      tau_p = 2.40e+34 years (above the Super-K limit, at its edge: the binding constraint). The vacuum is then
-      no longer stabilizable (M_I against mu_0). The chain's own potential (Part T13) gives such a
-      spectrum in 0 of 715 viable 210 + 126 + 10 potentials (the largest M_I with the proton kept: 7.7e+10 GeV).
+  Lifting M_I (Part T12): the fits need v_R ~ M_I >= 3.9e+10 GeV, 14 times the chain's M_I. The heavy spectrum
+      does it with every GUT multiplet within a factor 1.33 of M_GUT (the smallest such factor that also keeps the
+      proton: a linear program in the log-masses, then solved exactly): M_I = 3.88e+10, M_GUT = 5.88e+15 GeV,
+      tau_p = 3.72e+34 years (above the Super-K limit, at its edge: the binding constraint). The vacuum is then
+      still stabilizable (M_I against mu_0). The chain's own potential (Part T13) gives such a
+      spectrum in 4 of 715 viable 210 + 126 + 10 potentials (the largest M_I with the proton kept: 7.7e+10 GeV).
   Proton decay through the colour triplets (an estimate): they couple through the same Yukawas, Y126 = (M_d -
       M_e)/(4 d), Y10 = (3 M_d + M_e)/(4 c), with the light Higgs 24 % 126 (T13's median) and the best fit's first-generation
       entries: Y10_11 = 6.2e-06, Y126_11 = 2.3e-05. With Clebsches up to 3 and the lighter triplet at 1.30 M_GUT,
       the amplitude is 1e-08 of the gauge one: tau ~ 1e+52 years. The triplets only need M_T > 7e+11 GeV
       (first-generation Yukawas are tiny): the gauge bosons, not the triplets, decide proton decay here.
+  v_R predicted by SO(10). The Delta_R coupling is Y126 itself (M_R = Y126 v_R, M_d^126 = d Y126), and the fit
+      fixes Y126 = (M_d - M_e)/(4 d), d the light Higgs's 126 component (|d| = k sqrt f, f its 126 share from T13:
+      4-63 %). So v_R = 4 |d| M_R,3 / s_3(M_d - M_e) = 9.6e+13 to 5.4e+14 GeV over the fits,
+      against the chain's own v_R = M_I/g_R = 4.9e+09 GeV: 2e+04 to 1e+05 times larger. B - L would
+      break close to the unification scale, not at the left-right chain's M_I.
   RESULT: SO(10)'s Yukawa sector is a real test. The minimal Pati-Salam chain
     fails it: its unbroken SU(4) keeps the light Higgs in one irrep, which
     gives the wrong lepton/down ratios by tens of sigma. Where SU(4) breaks
@@ -1139,11 +1145,10 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     b-tau unification open : no b-tau relation without a Yukawa structure (minimal 10_H excluded,
       Part T)
     Higgs mass pass (2.0 sigma): lambda(M_I) = 0 gives m_h = 123.32 GeV
-    neutrino masses open : type II from the 10 + 126 sum rule misses the PMNS data by 19 sigma (b
-      and tau do not converge: (m_b - m_tau)/m_b = -0.41); 15 type I (+ II) fits, every one needing
-      M_R,3 >= 177 M_I, above the perturbative 3.5 M_I: B - L would break far above the chain's
-      M_I; a heavy spectrum within a factor 1.55 of M_GUT would lift M_I there (Part T12), but the
-      chain's potential gives it in 0 of 715 viable cases (Part T13)
+    neutrino masses fail : type II from the 10 + 126 sum rule misses the PMNS data by 19 sigma (b
+      and tau do not converge: (m_b - m_tau)/m_b = -0.41); type I + II fits exist, but with M_R =
+      Y126 v_R (SO(10)) they need v_R = 1e+14-5e+14 GeV, 2e+04 times the chain's, where thresholds
+      move M_I by at most 31 (Part Y4)
     proton decay pass : p -> e+ pi0 in 2e+36 years against 2.4e+34
     baryon asymmetry open : M_1 <~ M_I = 3e+09 GeV needs weak washout: the natural range needs M_1
       >= 2e+10 GeV
@@ -1162,9 +1167,10 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     Higgs mass pass (0.4 sigma): lambda(M_I) = 0 gives m_h = 124.83 GeV
     neutrino masses open : type II from the 10 + 126 sum rule misses the PMNS data by 19 sigma (b
       and tau do not converge: (m_b - m_tau)/m_b = -0.41); 15 type I (+ II) fits, every one needing
-      M_R,3 >= 177 M_I, above the perturbative 3.5 M_I: B - L would break far above the chain's
-      M_I; a heavy spectrum within a factor 1.55 of M_GUT would lift M_I there (Part T12), but the
-      chain's potential gives it in 0 of 715 viable cases (Part T13)
+      M_R,3 >= 177 M_I, above the perturbative 12.6 M_I: B - L would break far above the chain's
+      M_I; a heavy spectrum within a factor 1.33 of M_GUT would lift M_I there (Part T12), but the
+      chain's potential gives it in 4 of 715 viable cases (Part T13); and SO(10)'s own Y126 puts
+      v_R at 2e+04-1e+05 times the chain's (Part Y4)
     proton decay fail : p -> e+ pi0 in 8e+32 years against 2.4e+34
     baryon asymmetry trade : M_1 up to M_I = 3e+10 GeV covers the natural range (M_1 >= 2e+10 GeV)
     strong CP trade : an axion at f_a = M_I would give m_a = 1.9e+02 micro-eV
@@ -1188,17 +1194,16 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     (Part T7) can flip: proton decay, vacuum stability.
   SO(10) via PS+D: fails proton decay, fermion masses; trades 3, open 2,
     passes 3. Robust against the thresholds of Part T7.
-  SO(10) via LR: fails nothing; trades 2, open 4, passes 4. Thresholds (Part
-    T7) can flip: proton decay, vacuum stability, baryon asymmetry.
+  SO(10) via LR: fails neutrino masses; trades 2, open 3, passes 4.
+    Thresholds (Part T7) can flip: proton decay, vacuum stability, baryon
+    asymmetry.
   SO(10) via LR+D: fails proton decay; trades 3, open 3, passes 3. Thresholds
     (Part T7) can flip: proton decay, vacuum stability, baryon asymmetry.
-  RESULT: surviving every condition tested so far: SO(10) via LR. It predicts
-    nothing yet: its scales are solved from the couplings, and its passes are
-    consistency, not calculation; two-loop running and thresholds come next.
+  RESULT: no complete hypothesis survives every condition.
 
 PART Z. THE LEDGER: EVERY FREE NUMBER AND WHAT THE ALGORITHM DOES WITH IT
 ------------------------------------------------------------------------------
-  For the hypothesis that survives every condition (Part U): SO(10) via LR; scales from its LR chain.
+  No hypothesis survives every condition (Part U); the ledger is for the closest (fewest fails, then most passes, fewest trades); scales from its LR chain.
   calculated = fixed with nothing measured spent; related = tied to others by a tested relation;
   traded = exchanged for an unknown; bounded = only limited; open = no mechanism; input = measured.
     quantity                           count         status
@@ -1238,14 +1243,12 @@ PART Z. THE LEDGER: EVERY FREE NUMBER AND WHAT THE ALGORITHM DOES WITH IT
         M_P is calculated from it (Part H1)
   Totals: bounded 1, calculated 3, input 3, open 4, related 1, traded 3
   RESULT: the algorithm closes: one pass, every stage run in dependency
-    order, every assumption of the surviving hypothesis consistent with every
-    condition tested, and every free number assigned a status. What it
-    calculates is discrete and exact (the charges, their quantization, sin^2
-    theta_W at unification, the family number in 3-3-1). Every continuous
-    number is still an input, traded for an unknown, bounded or open: no free
-    number of the Standard Model is calculated. The surviving hypothesis'
-    open entries (neutrino masses through type I, the dark matter, the Higgs
-    mass) are where it must predict or fail next.
+    order, and every free number assigned a status. No complete hypothesis
+    survives every condition: the closest fails one. What it calculates is
+    discrete and exact (the charges, their quantization, sin^2 theta_W at
+    unification, the family number in 3-3-1). Every continuous number is
+    still an input, traded for an unknown, bounded or open: no free number of
+    the Standard Model is calculated.
 
 THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
 ------------------------------------------------------------------------------
@@ -1587,4 +1590,4 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (28 stages, 87 edges)
   74/74 checks pass
 ==============================================================================
-Elapsed: 1433.4 s
+Elapsed: 1305.7 s

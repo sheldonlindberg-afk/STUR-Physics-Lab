@@ -7262,10 +7262,30 @@ def so10_yukawa_tests(flav: Dict[str, Any], s10: Dict[str, Any]) -> Dict[str, An
                "b_tau_dirac_like_up": alt[0]["b_tau"], "b_tau_phase_range": (min(a_["b_tau"] for a_ in alt[1:]),
                                                                               max(a_["b_tau"] for a_ in alt[1:]))}
     out = {"PS": so10_selection_rule(flav, s10["chains"]["PS"]["loop2"]["M_I"]),
-           "LR": so10_sum_rule(flav, two["M_GUT"], two["M_I"], run["masses"], run["V"]), "running": running}
+           "LR": so10_sum_rule(flav, two["M_GUT"], two["M_I"], run["masses"], run["V"],
+                               math.sqrt(4 * math.pi / two["inv_alpha_MI"][2])), "running": running}
     out["lift"] = heavy_spectrum_lift(out["LR"], s10, chain)
     out["triplet"] = triplet_proton_estimate(out["LR"], s10, flav)
+    out["v_R"] = so10_v_r_prediction(out["LR"], s10, flav)
     return out
+
+
+def so10_v_r_prediction(lr: Dict[str, Any], s10: Dict[str, Any], flav: Dict[str, Any]) -> Dict[str, Any] | None:
+    """In SO(10) the Delta_R coupling is Y126 itself (16 16 126: M_R = Y126 v_R and M_d^126 = d Y126 in the same
+    normalization, Bajc-Senjanovic-Vissani's), and the fit fixes Y126 = (M_d - M_e)/(4 d). So the fits predict
+    v_R = 4 |d| M_R,3 / s_3(M_d - M_e), with |d| = k sqrt(f), f the light Higgs's 126 share (T13; its 16-50-84 %).
+    Compared with the chain's own v_R = M_I / g_R(M_I) (M_I = M_WR)."""
+    t12 = lr["type12"]
+    w10 = s10["potential_lr"]["with_10"]
+    if not t12.get("fits_found") or not w10.get("viable"):
+        return None
+    k_ = flav["runner"].v / math.sqrt(2)
+    lo, hi = t12["M_R_per_dm_range"]
+    fq = w10["higgs_126_fraction_quantiles"]
+    v_chain = lr["M_I"] / lr["g_R"]
+    need = [4 * k_ * math.sqrt(f_) * r_ for f_ in (fq[0], fq[2]) for r_ in (lo, hi)]
+    return {"v_R_chain": v_chain, "v_R_needed": (min(need), max(need)), "higgs_126_fraction": (fq[0], fq[2]),
+            "ratio": (min(need) / v_chain, max(need) / v_chain), "M_R_per_dm": (lo, hi)}
 
 
 def triplet_proton_estimate(lr: Dict[str, Any], s10: Dict[str, Any], flav: Dict[str, Any]) -> Dict[str, Any] | None:
@@ -7380,7 +7400,7 @@ def so10_selection_rule(flav: Dict[str, Any], m_i: float) -> Dict[str, Any]:
 
 
 def so10_sum_rule(flav: Dict[str, Any], mu: float, m_i: float, ms: Dict[str, List[float]] | None = None,
-                  v_ckm: List[List[complex]] | None = None) -> Dict[str, Any]:
+                  v_ckm: List[List[complex]] | None = None, g_r: float = 1) -> Dict[str, Any]:
     """The sum rule and the neutrino fits at mu, with the masses and quark mixing there (ms, v_ckm; by default
     the SM-run masses and the measured CKM matrix)."""
     ms = ms or masses_at_scale(flav, mu)
@@ -7539,7 +7559,7 @@ def so10_sum_rule(flav: Dict[str, Any], mu: float, m_i: float, ms: Dict[str, Lis
         rho2 = neutrinos(core, kind)["m_nu_rel"][0] ** 2
         lam = m3l / math.sqrt(1 - rho2) * 10 ** -9 / _sing_max(mn) * abs(a_)
         m_r = [math.sqrt(max(e_, 0)) / lam for e_ in _herm3_eigvals(_mm_dag(dm))]
-        return {"M_R_GeV": m_r, "M_R_over_M_I": m_r[2] / m_i, "M_1_GeV": m_r[0]}
+        return {"M_R_GeV": m_r, "M_R_over_M_I": m_r[2] / m_i, "M_1_GeV": m_r[0], "M_R_per_dm": 1 / lam}
 
     def start(kind: str, k_: int) -> List[float]:
         if k_ < len(seeds):
@@ -7619,6 +7639,7 @@ def so10_sum_rule(flav: Dict[str, Any], mu: float, m_i: float, ms: Dict[str, Lis
         if fits and kind != "II":
             rec["M_R_over_M_I_range"] = (min(s_["M_R_over_M_I"] for _, s_ in fits), max(s_["M_R_over_M_I"] for _, s_ in fits))
             rec["M_1_range_GeV"] = (min(s_["M_1_GeV"] for _, s_ in fits), max(s_["M_1_GeV"] for _, s_ in fits))
+            rec["M_R_per_dm_range"] = (min(s_["M_R_per_dm"] for _, s_ in fits), max(s_["M_R_per_dm"] for _, s_ in fits))
         rec["reaches"] = bool(fits)
         return rec
     out["type2"] = fit_neutrinos("II")
@@ -7633,10 +7654,12 @@ def so10_sum_rule(flav: Dict[str, Any], mu: float, m_i: float, ms: Dict[str, Lis
         for _, u_ in tops[kind_]:
             cross.append(u_[:9] + [math.atan(10 ** (sg * w_dec)), rng.uniform(0, 2 * math.pi)] + u_[9:])
     out["type12"] = fit_neutrinos("I+II", cross)
-    # perturbativity of the 126's coupling: M_R,3 = y_126 v_R <= sqrt(4 pi) v_R; with v_R ~ M_I (the scale where
-    # SU(2)_R x U(1)_B-L breaks) the heaviest right-handed neutrino is at most sqrt(4 pi) M_I
+    # perturbativity of the Delta_R coupling f: the chain's M_I is the W_R mass, M_WR = g_R v_R for the triplet's neutral
+    # vev v_R (M_W^2 = g^2 |<phi>|^2 (T(T+1) - T3^2) with T = 1, T3 = -1), and f nu nu delta0 gives M_N = 2 f v_R; with
+    # f <= sqrt(4 pi) the heaviest right-handed neutrino is at most 2 sqrt(4 pi) M_I / g_R(M_I)
     out["M_I"] = m_i
-    out["M_R_max_over_M_I"] = math.sqrt(4 * math.pi)
+    out["g_R"] = g_r
+    out["M_R_max_over_M_I"] = 2 * math.sqrt(4 * math.pi) / g_r
     for k_ in ("type1", "type12"):
         sc_ = out[k_]["scales"]
         out[k_]["scale_consistent"] = sc_["M_R_over_M_I"] <= out["M_R_max_over_M_I"]
@@ -7911,6 +7934,18 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
             lift_txt = (f"; a heavy spectrum within a factor {lf_['spread']:.2f} of M_GUT would lift M_I there (Part T12), but"
                         f" the chain's potential gives it in {lf_['potential_hits']} of {lf_['potential_n']} viable cases (Part T13)"
                         if lf_.get("reached") else "")
+            vr_ = s10y.get("v_R")
+            if vr_:
+                lift_txt += (f"; and SO(10)'s own Y126 puts v_R at {vr_['ratio'][0]:.0e}-{vr_['ratio'][1]:.0e} times the chain's"
+                             " (Part Y4)")
+            if fit_ and vr_ and nm == "LR":
+                # the verdict: SO(10)'s v_R against the chain's, beyond anything the thresholds can move (Part T7)
+                lift_max = s10["thresholds"][nm]["M_I"][1] / s10["chains"][nm]["loop2"]["M_I"]
+                if vr_["ratio"][0] > lift_max:
+                    return entry("fail", lead + f"; type I + II fits exist, but with M_R = Y126 v_R (SO(10)) they need v_R ="
+                                                f" {vr_['v_R_needed'][0]:.0e}-{vr_['v_R_needed'][1]:.0e} GeV,"
+                                                f" {vr_['ratio'][0]:.0e} times the chain's, where thresholds move M_I by at most"
+                                                f" {lift_max:.0f} (Part Y4)")
             if fit_:
                 n_ = sum(t_["fits_found"] for t_ in fit_)
                 return entry("open", lead + f"; {n_} type I (+ II) fits, every one needing M_R,3 >="
@@ -8376,8 +8411,14 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     score = _stage("scorecard", lambda: scorecard(joint, higgs, crit, pdk, nus, bau, s10, scp, dm, s10y))
 
     def survivor_chain() -> str:
+        """The surviving SO(10) chain; if none survives, the closest: fewest fails, then most passes, fewest trades."""
         chains = [h.replace("SO(10) via ", "") for h in score["survivors"] if h.startswith("SO(10) via ")]
-        return chains[0] if chains else "PS"
+        if chains:
+            return chains[0]
+        v_ = score["verdict"]
+        best = min((h for h in v_ if h.startswith("SO(10) via ")),
+                   key=lambda h: (len(v_[h]["fails"]), -len(v_[h]["passes"]), len(v_[h]["trades"])))
+        return best.replace("SO(10) via ", "")
     closed = _stage("closed_cosmology", lambda: closed_cosmology(cosmo, dm, nus, survivor_chain()))
     ledger = _stage("ledger", lambda: final_ledger(score, s10, s10y, scp, nus, bau, dm, crit, anom, masses, closed, joint))
     _TRACE["stage"] = "self_checks"                 # everything below validates the stages above
@@ -9967,7 +10008,7 @@ def report(res: Dict[str, Any]) -> str:
     w("PART X. CLOSING THE LOOP: COSMOLOGY FROM THE PARTICLE PHYSICS")
     w("-" * 78)
     w("  Part A takes Omega_m as an input. Here it follows from the rest: Omega_b (measured), the axion at the")
-    w(f"  surviving chain's M_I (Part U: {cc_['chain']}) by misalignment (Part V: Omega_a h^2 = {cc_['Omega_a_h2']:.4f}) and the"
+    w(f"  surviving (or closest) chain's M_I (Part U: {cc_['chain']}) by misalignment (Part V: Omega_a h^2 = {cc_['Omega_a_h2']:.4f}) and the"
       " minimal neutrino masses")
     w("  (Part P). Flatness gives Omega_Lambda; the Friedmann equation the age.")
     w(f"    Omega_m = {cc_['Omega_m']:.4f} (Part A's input: {cc_['Omega_m_input']:.4f}), Omega_Lambda = {cc_['Omega_Lambda']:.4f},"
@@ -10034,7 +10075,7 @@ def report(res: Dict[str, Any]) -> str:
           f"  {an_['s12sq']:.3f}  {an_['s13sq']:.4f}  {an_['s23sq']:.3f}  {mr_}")
     w(f"        measured                              {nu_params(_float_inputs(), 'NO')['s12sq']:.3f}  "
       f"{nu_params(_float_inputs(), 'NO')['s13sq']:.4f}  {nu_params(_float_inputs(), 'NO')['s23sq']:.3f}"
-      f"  at most sqrt(4 pi) = {yl['M_R_max_over_M_I']:.2f}")
+      f"  at most 2 sqrt(4 pi)/g_R = {yl['M_R_max_over_M_I']:.1f}")
     w(f"      Type II: b and tau do not converge without supersymmetry ((m_b - m_tau)/m_b = {yl['type2']['b_tau_mismatch']:+.2f}"
       " at M_GUT), so")
     w("      M_d - M_e cannot give a large theta_23 (Bajc-Senjanovic-Vissani).")
@@ -10051,8 +10092,10 @@ def report(res: Dict[str, Any]) -> str:
             sc_ = t_["scales"]
             w(f"      {nm_}: no fit within 3 sigma found; at the best point M_R = "
               + ", ".join(f"{m_:.1e}" for m_ in sc_["M_R_GeV"]) + " GeV.")
-    w("      The heavy masses need no vev: M_R,i = s_i(M_d - M_e) s_max(M_nu matrix)/m_3. A perturbative 126 coupling")
-    w(f"      (M_R,3 <= sqrt(4 pi) v_R) with v_R ~ M_I = {yl['M_I']:.1e} GeV needs M_R,3/M_I <= {yl['M_R_max_over_M_I']:.2f}.")
+    w("      The heavy masses need no vev: M_R,i = s_i(M_d - M_e) s_max(M_nu matrix)/m_3. The chain's M_I is the W_R mass,")
+    w(f"      M_WR = g_R v_R (the triplet's vev; g_R(M_I) = {yl['g_R']:.3f}), and M_N = 2 f v_R: a perturbative Delta_R"
+      " coupling (f <= sqrt(4 pi))")
+    w(f"      allows M_R,3 <= 2 sqrt(4 pi) M_I / g_R = {yl['M_R_max_over_M_I']:.1f} M_I, M_I = {yl['M_I']:.1e} GeV.")
     w("      The fits add the overall phase of M_d against the real M_u (physical for the neutrinos: absorbed by c1 in")
     w("      M_e, not in M_d - M_e), so 9 unknowns: with the 10 quark observables, the 19 parameters of the model.")
     found_ = [t_ for t_ in (yl["type1"], yl["type12"]) if t_["fits_found"]]
@@ -10091,6 +10134,15 @@ def report(res: Dict[str, Any]) -> str:
         w(f"      the amplitude is {tp['amplitude_ratio']:.0e} of the gauge one: tau ~ {tp['tau_p_years']:.0e} years. The triplets"
           f" only need M_T > {tp['M_T_min_GeV']:.0e} GeV")
         w("      (first-generation Yukawas are tiny): the gauge bosons, not the triplets, decide proton decay here.")
+    vr = yy.get("v_R")
+    if vr:
+        w("  v_R predicted by SO(10). The Delta_R coupling is Y126 itself (M_R = Y126 v_R, M_d^126 = d Y126), and the fit")
+        w("      fixes Y126 = (M_d - M_e)/(4 d), d the light Higgs's 126 component (|d| = k sqrt f, f its 126 share from T13:")
+        w(f"      {100 * vr['higgs_126_fraction'][0]:.0f}-{100 * vr['higgs_126_fraction'][1]:.0f} %). So v_R = 4 |d| M_R,3 / s_3(M_d - M_e)"
+          f" = {vr['v_R_needed'][0]:.1e} to {vr['v_R_needed'][1]:.1e} GeV over the fits,")
+        w(f"      against the chain's own v_R = M_I/g_R = {vr['v_R_chain']:.1e} GeV: {vr['ratio'][0]:.0e} to {vr['ratio'][1]:.0e}"
+          " times larger. B - L would")
+        w("      break close to the unification scale, not at the left-right chain's M_I.")
     w(_wrap("RESULT: SO(10)'s Yukawa sector is a real test. The minimal Pati-Salam chain fails it: its unbroken SU(4) "
             "keeps the light Higgs in one irrep, which gives the wrong lepton/down ratios by tens of sigma. Where "
             "SU(4) breaks at M_GUT (left-right chain), the 10 + 126 sum rule reaches the charged leptons; type-II "
@@ -10134,8 +10186,9 @@ def report(res: Dict[str, Any]) -> str:
     lg_ = res["ledger"]
     w("PART Z. THE LEDGER: EVERY FREE NUMBER AND WHAT THE ALGORITHM DOES WITH IT")
     w("-" * 78)
-    w("  For the hypothesis that survives every condition (Part U): " + (", ".join(lg_["survivors"]) or "none")
-      + f"; scales from its {lg_['chain']} chain.")
+    w((("  For the hypothesis that survives every condition (Part U): " + ", ".join(lg_["survivors"])) if lg_["survivors"] else
+      "  No hypothesis survives every condition (Part U); the ledger is for the closest (fewest fails, then most passes,"
+      " fewest trades)") + f"; scales from its {lg_['chain']} chain.")
     w("  calculated = fixed with nothing measured spent; related = tied to others by a tested relation;")
     w("  traded = exchanged for an unknown; bounded = only limited; open = no mechanism; input = measured.")
     w(f"    {'quantity':<34s} {'count':<13s} status")
@@ -10143,12 +10196,12 @@ def report(res: Dict[str, Any]) -> str:
         w(f"    {r_['quantity']:<34s} {r_['count']:<13s} {r_['status']}")
         w(_wrap(r_["how"], 8, 100))
     w("  Totals: " + ", ".join(f"{k} {v}" for k, v in sorted(lg_["counts"].items())))
-    w(_wrap("RESULT: the algorithm closes: one pass, every stage run in dependency order, every assumption of the "
-            "surviving hypothesis consistent with every condition tested, and every free number assigned a status. "
+    w(_wrap("RESULT: the algorithm closes: one pass, every stage run in dependency order, and every free number assigned a "
+            "status. " + ("Every assumption of the surviving hypothesis is consistent with every condition tested. "
+                          if lg_["survivors"] else "No complete hypothesis survives every condition: the closest fails one. ") +
             "What it calculates is discrete and exact (the charges, their quantization, sin^2 theta_W at unification, "
             "the family number in 3-3-1). Every continuous number is still an input, traded for an unknown, bounded or "
-            "open: no free number of the Standard Model is calculated. The surviving hypothesis' open entries "
-            "(neutrino masses through type I, the dark matter, the Higgs mass) are where it must predict or fail next.", 2))
+            "open: no free number of the Standard Model is calculated.", 2))
     w("")
     w("THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)")
     w("-" * 78)

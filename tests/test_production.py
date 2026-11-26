@@ -512,7 +512,8 @@ def test_scorecard():
     assert {"U", "A"} <= set(v["SM to M_P"]["fails"])
     assert {"H", "P"} <= set(v["minimal SUSY SU(5)"]["fails"])
     assert "P" in v["SO(10) via PS+D"]["fails"] and "P" in v["SO(10) via LR+D"]["fails"]
-    assert v["SO(10) via PS"]["fails"] == ["F"] and "SO(10) via LR" in sc["survivors"]
+    # Pati-Salam fails the fermion masses, left-right the neutrinos (SO(10)'s v_R): no complete hypothesis survives
+    assert v["SO(10) via PS"]["fails"] == ["F"] and v["SO(10) via LR"]["fails"] == ["N"] and sc["survivors"] == []
     ph = sc["chain_higgs"]["PS"]
     assert 125 < ph["m_h"] < 127 and abs(ph["pull"]) < 2
 
@@ -615,8 +616,9 @@ def test_z_pole_and_closed_cosmology():
     assert 0.2314 < zp["sin2_eff"] < 0.2318 and all(abs(c["pull"]) < 2 for c in zp["comparisons"].values())
     cc = RESULT["closed_cosmology"]
     # Part X follows the surviving chain (Part U): its axion's share sets the dark matter still missing
+    # Part X follows the surviving chain, or the closest one when none survives (fewest fails, most passes, fewest trades)
     surv = [h for h in RESULT["scorecard"]["survivors"] if h.startswith("SO(10) via ")]
-    assert surv and cc["chain"] == surv[0].replace("SO(10) via ", "")
+    assert cc["chain"] == (surv[0].replace("SO(10) via ", "") if surv else "LR")
     frac = RESULT["dark_matter"]["chains"][cc["chain"]]["fraction_post"]
     assert abs(cc["string_fraction_needed"] - (1 - frac)) < 1e-9 and cc["age_pull"] > 10
     assert abs(cc["age_with_all_dm_Gyr"] / float(RESULT["cosmology"]["age_Gyr"]) - 1) < 5e-3
@@ -677,13 +679,15 @@ def test_type2_and_ledger():
 def test_heavy_spectrum_lr():
     """Part T12: the 3221 decompositions add up to the SO(10) indices (B - L included); SU(2)_L-triplet coloured
     states lower M_I when heavy and SU(2)_R ones raise it; the spectrum can lift M_I to where the neutrino fits put
-    B - L breaking, within a small factor of M_GUT, keeping the proton but not the vacuum stabilization."""
+    B - L breaking, within a small factor of M_GUT, keeping the proton."""
     from fractions import Fraction as Fr
     assert all(P.so10_decomposition_index_3221(r) == [Fr(P.SO10_INDEX[r])] * 4 for r in P.SO10_TO_3221)
     rows = {r["multiplet"]: r for r in RESULT["so10"]["heavy_spectrum_LR"]["rows"]}
     assert rows["126: (6,3,1)"]["dlnMI"] < -1 < 1 < rows["126: (6,1,3)"]["dlnMI"]
     lf = RESULT["so10_yukawa"]["lift"]
-    assert lf["reached"] and 1 < lf["spread"] < 3 and lf["proton_ok"] and not lf["vacuum_ok"]
+    assert lf["reached"] and 1 < lf["spread"] < 3 and lf["proton_ok"]
+    # with the sharpened bound (2 sqrt(4 pi) M_I / g_R) the target lies below mu_0: the vacuum stays stabilizable
+    assert lf["vacuum_ok"] == (lf["target_M_I"] < RESULT["so10"]["vacuum"]["mu0"])
     assert abs(lf["M_I"] / lf["target_M_I"] - 1) < 0.05
 
 
@@ -705,6 +709,15 @@ def test_lr_potential():
     assert 0.2 < w10["triplet_light_quantiles"][1] < 5
     lf = RESULT["so10_yukawa"]["lift"]
     assert lf["potential_n"] == w10["viable"] and lf["potential_hits"] < 0.01 * lf["potential_n"]
+
+
+def test_v_r_prediction():
+    """Neutrino tension: with M_R = Y126 v_R and Y126 fixed by the charged fermions, the type I + II fits put v_R
+    orders of magnitude above the left-right chain's, beyond anything the thresholds (Part T7) can move."""
+    vr = RESULT["so10_yukawa"]["v_R"]
+    lift_max = RESULT["so10"]["thresholds"]["LR"]["M_I"][1] / RESULT["so10"]["chains"]["LR"]["loop2"]["M_I"]
+    assert vr["ratio"][0] > 100 * lift_max and 1e12 < vr["v_R_needed"][0] < vr["v_R_needed"][1] < 1e17
+    assert RESULT["scorecard"]["rows"]["SO(10) via LR"]["N"]["status"] == "fail"
 
 
 def test_proton_running_and_triplets():
@@ -748,7 +761,7 @@ def test_type1_seesaw():
     for t_ in (t1, t12):
         mr = t_["scales"]["M_R_GeV"]
         assert mr[0] <= mr[1] <= mr[2] and abs(t_["scales"]["M_R_over_M_I"] - mr[2] / lr["M_I"]) < 1e-9 * mr[2] / lr["M_I"]
-    assert abs(lr["M_R_max_over_M_I"] - math.sqrt(4 * math.pi)) < 1e-12
+    assert abs(lr["M_R_max_over_M_I"] - 2 * math.sqrt(4 * math.pi) / lr["g_R"]) < 1e-12 and 0.4 < lr["g_R"] < 0.8
     # the search finds the mixed fits, and every one needs the right-handed scale far above the chain's M_I
     assert t12["fits_found"] > 0 and t12["chi2_min"] < 9
     assert t12["M_R_over_M_I_range"][0] > 10 * lr["M_R_max_over_M_I"]
