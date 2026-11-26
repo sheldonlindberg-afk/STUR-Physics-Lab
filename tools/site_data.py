@@ -143,6 +143,7 @@ def main():
         "cosmology": {"age": float(res["cosmology"]["age_Gyr"]), "Omega_Lambda": float(res["cosmology"]["Omega_Lambda"])},
         "planck": qg["planck"],
         "checks": [len(res["checks"]), sum(1 for c in res["checks"] if c[1])],
+        "one_running": {"light_SM": res["one_running"]["light_SM"], "light_MSSM": res["one_running"]["light_MSSM_btau"]},
         "texture": texture,
         "joint": joint,
     }

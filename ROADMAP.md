@@ -180,14 +180,23 @@ the new result, and the tests fail if a page value, the scorecard, the ledger or
        breaking B - L, non-renormalizable M_R) changes this; 5b and 5c below no longer decide it.
    [ ] 5b. A complex 10 in the potential (the Yukawa fits already use one; T11/T13 use a real 10).
    [ ] 5c. Two-loop thresholds at M_I and M_GUT; the second bidoublet's vev and the Delta_R coupling in the running.
-6. [ ] One running for every coupling: matrix Yukawas to M_GUT with every threshold (SM, chains, MSSM), replacing the
-       third-generation and ratio running where they are still used.
+6. [x] One running for every coupling: matrix Yukawas to M_GUT with every threshold (SM, chains, MSSM). One engine
+       (gauge + the full 3x3 Yukawa matrices, all generations and the CKM mixing) runs the SM from m_t(m_t), the MSSM
+       above M_S (tan(beta) matching) and a chain's left-right stage above M_I; Part B's ratios, every mass at M_I and
+       M_GUT and the left-right run all use it (the light-quark ratios, held fixed above m_t before, now run). MSSM
+       matrix RGE = the general superpotential formula over every component (1e-16); Part J's third-generation
+       running = the engine on that subspace (1e-16), and the light generations move it by 0.03 % (SM, at M_P) and
+       0.04 % (MSSM y_b/y_tau at M_GUT), so Part J keeps its fast form. Effects downstream are small: the type I + II
+       search now finds 19 fits (best chi^2 0.0, 17 unknowns for 13 data), delta 7-342 deg, M_R,3 = 167-720 M_I,
+       v_R = 1e14-7e14 GeV from SO(10): the left-right chain still fails the neutrinos. The fit count and the delta
+       range move with 1e-8 changes in the inputs (the search lands on different points of a degenerate set), so
+       only the right-handed scale is a robust output.
 7. [ ] Leftovers: the full 3-3-1 anomaly set with leptons and U(1)_X (Part D has the quarks only); the dimension-five
        factor 2.2 against Hisano et al.'s eq. 19 (eq. 19 is itself an approximation, so it may not be a bug).
 8. [ ] Dark matter beyond the axion (the left-right chain's axion gives under 1 %: what else, and from which stage);
        inflation (Higgs inflation against lambda(M_P) < 0; the 210/126 potentials as inflaton candidates).
 
 ## Later
-- One running for every coupling (matrix Yukawas to M_GUT); GUT and superpartner thresholds;
+- GUT and superpartner thresholds beyond tree level;
   dark matter (axion misalignment, LSP); inflation (Higgs inflation vs lambda(M_P) < 0);
   electroweak precision (M_W).

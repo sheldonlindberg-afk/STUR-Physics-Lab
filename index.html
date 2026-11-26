@@ -178,7 +178,7 @@
       <p class="res">With the measured Higgs mass, λ turns negative at <b><span data-v="crit.muzero">5.9 × 10¹⁰</span> GeV</b> and reaches <span data-v="crit.lmp">−0.010</span> at the Planck mass. Our vacuum is not the lowest state of the Standard Model.</p></div></li>
     <li class="rung"><div class="scale"><b>10<sup>3</sup> GeV</b>superpartners</div><div class="body">
       <h3>Supersymmetry fixes the Higgs mass <span class="chip bad">excluded</span></h3>
-      <p>In the minimal supersymmetric model the Higgs self-coupling is not free. Two independent relations, bottom–tau unification and the top-quark fixed point, both give tan β ≈ <span data-v="tb">1.33</span>. Combined with M<sub>S</sub> from unification, they bound the Higgs mass.</p>
+      <p>In the minimal supersymmetric model the Higgs self-coupling is not free. Two independent relations, bottom–tau unification and the top-quark fixed point, both give tan β ≈ <span data-v="tb">1.33</span>. Combined with M<sub>S</sub> from unification, they bound the Higgs mass. These relations use the third generation only; one matrix running of every coupling (all three generations, the quark mixing, the superpartner threshold) moves y<sub>b</sub>/y<sub>τ</sub> at M<sub>GUT</sub> by <span data-v="run.mssm">0.01</span>%, and the Standard Model couplings at the Planck scale by <span data-v="run.sm">0.01</span>%.</p>
       <p class="res">At most <b><span data-v="mssm.bound">102.9</span> GeV</b> for every stop mixing, against 125.20 measured. That route cannot hold together.</p></div></li>
     <li class="rung"><div class="scale"><b>10<sup>2</sup> GeV</b>weak scale</div><div class="body">
       <h3>Quark masses and their mixing <span class="chip bad">not calculable by zeros</span></h3>
@@ -359,6 +359,9 @@ python3 production_v2_2.py --certify            # also prove the texture exclusi
       "mssm.bound": D.higgs_mssm.bound.toFixed(1), "mssm.gap": Math.round(c.m_h_meas - D.higgs_mssm.bound), "tb": D.tan_beta.btau.toFixed(2),
       "cosmo.age": D.cosmology.age.toFixed(3), "cosmo.ol": D.cosmology.Omega_Lambda.toFixed(4), "checks": D.checks[0]
     };
+    if (D.one_running) {
+      vals["run.sm"] = (100 * D.one_running.light_SM).toFixed(2); vals["run.mssm"] = (100 * D.one_running.light_MSSM).toFixed(2);
+    }
     if (D.texture) {
       var t = D.texture;
       vals["tex.tested"] = t.tested; vals["tex.up"] = t.up; vals["tex.down"] = t.down;

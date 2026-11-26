@@ -750,6 +750,25 @@ def test_left_right_running():
     assert 0.2 < va[0][1] < 0.23 and 0.03 < va[1][2] < 0.045
 
 
+def test_one_running():
+    """Item 6: one matrix running for every coupling. The MSSM matrix RGE equals the superpotential formula; on the
+    third generation the engine is Part J's right-hand side; at m_t(m_t) it starts from Part J's couplings and the
+    QCD-run ratios; the light generations move Part J's third-generation results by under a percent."""
+    flav = RESULT["flavour"]
+    assert set(P.matrix_rge_checks(5)) == {"SM", "LR", "MSSM"}
+    mt, st = P.couplings_at_mt(flav)
+    m0 = P.masses_at_scale(flav, mt)
+    kap = flav["runner"].v / math.sqrt(2)
+    base = flav["ratios"][mt]
+    assert all(abs(m0[k][2] / (st[3 + i] * kap) - 1) < 1e-12 for i, k in enumerate("ude"))
+    assert abs(m0["u"][1] / m0["u"][2] / base["r_ct"] - 1) < 1e-9 and abs(m0["d"][0] / m0["d"][1] / base["r_ds"] - 1) < 1e-9
+    chk = P.matrix_running_checks(flav, 3, RESULT["yukawa"])
+    assert chk["rhs_SM"] < 1e-12 and chk["rhs_MSSM"] < 1e-12
+    assert 0 < chk["light_SM"] < 1e-2 and 0 < chk["light_MSSM_btau"] < 1e-2
+    hi = max(flav["ratios"])
+    assert flav["ratios"][hi]["r_uc"] != base["r_uc"]           # the light ratios run now (they were held fixed)
+
+
 def test_type1_seesaw():
     """Part Y4: type I adds no unknown (M_D is fixed by the sum rule's c1, c2), types I + II one complex ratio;
     each fit does at least as well as type II, and its right-handed scale is computed without the 126's vevs."""

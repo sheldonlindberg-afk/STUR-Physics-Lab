@@ -30,7 +30,7 @@ python3 production_v2_2.py --certify            # also prove every texture exclu
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 74 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 75 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -114,8 +114,9 @@ open and resolved, are part of the output.
 
 1. The six measured quark masses are run with the renormalization group. Below the top mass
    this is two-loop QCD and one-loop QED, with flavour thresholds at m_c, m_b and m_t. Above
-   it, the same-type mass ratios are run with one-loop Standard Model Yukawa and gauge terms,
-   to m_t(m_t) and to the superpartner scale M_S = 2.54 TeV that Part I derives. No scale is typed in. The top pole mass
+   it there is one running for every coupling: the three Yukawa matrices (all generations and the
+   CKM mixing) with the gauge couplings at one loop, evaluated at m_t(m_t) and at the superpartner
+   scale M_S = 2.54 TeV that Part I derives. No scale is typed in. The top pole mass
    is converted to MS-bar at two loops. Every β-function and anomalous-dimension coefficient
    is computed from SU(N) Casimirs and the Standard Model field content, and checked against
    the textbook value.
@@ -805,6 +806,13 @@ left-right one.
 
 **Closing the algorithm: the neutrino test (Part Y3), the survivor fed back (Part X), the ledger (Part Z)**
 
+* **One running for every coupling.** Every running mass and mixing above m_t(m_t) comes from one engine:
+  the gauge couplings with the full 3×3 Yukawa matrices (all generations, the CKM mixing) in the SM, in the
+  MSSM above M_S (after y_SM = y_MSSM sin β or cos β) and in a chain's left-right stage above M_I. The MSSM
+  matrix RGE is checked against the general superpotential formula written over every component (to 10⁻¹⁶).
+  Part J's third-generation right-hand sides are the engine restricted to the third generation (a check, to
+  10⁻¹⁶); the light generations and the mixing move its results by 0.03 % (y_t, y_b, y_τ at M_P) and 0.04 %
+  (y_b/y_τ at M_GUT in the MSSM). The light-quark ratios now run too (they were held fixed above m_t).
 * **Running to the left-right M_GUT.** Between M_I and M_GUT the chain is SU(3) × SU(2)_L × SU(2)_R ×
   U(1)_{B−L} with one bidoublet, −L = Q_L (Y₁Φ + Y₂Φ̃) Q_R + leptons. Its matrix RGE is derived, not quoted:
   the general one-loop formula (Machacek–Vaughn) is written out over every field component, checked on the
@@ -833,29 +841,30 @@ left-right one.
   | Seesaw | Unknowns / data | Best χ² | Fits within 3σ | Heaviest M_R / M_I |
   |---|---|---|---|---|
   | type II | 15 / 13 | 440 | 0 (worst observable 19σ) | – |
-  | type I | 15 / 13 | 151 | 0 | ≈ 10³ at the best point |
-  | types I + II | 17 / 13 | 1.4 | 15 | 177 – 360 over the fits |
+  | type I | 15 / 13 | 150 | 0 | ≈ 10³ at the best point |
+  | types I + II | 17 / 13 | 0.0 | 19 | 167 – 720 over the fits |
 
   **The mixed type I + II case fits.** With 17 unknowns for 13 data it reaches the data rather than predicting
-  it, and the CP phase is not pinned: δ = 136°–289° over the fits (the measured 212° lies inside). What every
-  fit shares is the right-handed scale: M_R,3 is 177 to 360 times the chain's M_I = 2.8 × 10⁹ GeV. The lightest
-  right-handed neutrino comes out at M₁ = 4 × 10⁹ to 1 × 10¹⁰ GeV, above the full-efficiency leptogenesis bound.
+  it, and the CP phase is not pinned: δ = 7°–342° over the fits (the measured 212° lies inside; the count of fits and this range move with
+  tiny changes to the inputs, so they reflect the search more than the physics). What every
+  fit shares is the right-handed scale: M_R,3 is 167 to 720 times the chain's M_I = 2.8 × 10⁹ GeV. The lightest
+  right-handed neutrino comes out at M₁ = 6 × 10⁹ to 2.5 × 10¹⁰ GeV, above the full-efficiency leptogenesis bound.
 * **The neutrino tension, settled.** Two relations decide it.
   - *The perturbative bound, sharpened.* The chain's M_I is the W_R mass, M_WR = g_R v_R for the triplet's vev,
     and a Majorana mass from f νν δ⁰ is M_N = 2 f v_R. With f ≤ √(4π) the heaviest right-handed neutrino is at
-    most 2√(4π) M_I/g_R ≈ 12.6 M_I (not √(4π) M_I as earlier). The fits then need M_I ≈ 14 times higher. The heavy
-    spectrum (Part T12) can do that with every multiplet within a factor 1.33 of M_GUT, the proton surviving at
-    3.7 × 10³⁴ years; the chain's own potential (Part T13) does it in 4 of 715 viable cases.
+    most 2√(4π) M_I/g_R ≈ 12.6 M_I (not √(4π) M_I as earlier). The fits then need M_I ≈ 13 times higher. The heavy
+    spectrum (Part T12) can do that with every multiplet within a factor 1.32 of M_GUT, the proton surviving at
+    4.0 × 10³⁴ years; the chain's own potential (Part T13) does it in 4 of 715 viable cases.
   - *SO(10) fixes the coupling.* The Δ_R coupling is Y₁₂₆ itself (M_R = Y₁₂₆ v_R and M_d ⊃ d Y₁₂₆ in the same
     normalization), and the charged-fermion fit fixes Y₁₂₆ = (M_d − M_e)/4d, about 10⁻³ because b and τ have
     similar masses at M_GUT. With d from T13's light-Higgs mixture, the fits then predict v_R = 1 × 10¹⁴ to
-    5 × 10¹⁴ GeV: 2 × 10⁴ to 10⁵ times the chain's own v_R = M_I/g_R = 4.9 × 10⁹ GeV. The unknown thresholds move M_I
+    7 × 10¹⁴ GeV: 2 × 10⁴ to 10⁵ times the chain's own v_R = M_I/g_R = 4.9 × 10⁹ GeV. The unknown thresholds move M_I
     by at most 31 (Part T7). So within the minimal 10 + 126 theory **the left-right chain fails the neutrinos**: B − L
     would have to break near the unification scale (the standard minimal-SO(10) result), not at the chain's M_I.
 * **Proton decay through the colour triplets.** They couple through the same Y₁₀ and Y₁₂₆ that give the masses.
-  An estimate uses the best fit's first-generation entries (Y₁₀,₁₁ ≈ 6×10⁻⁶, Y₁₂₆,₁₁ ≈ 2×10⁻⁵, with the light Higgs
+  An estimate uses the best fit's first-generation entries (Y₁₀,₁₁ ≈ 1×10⁻⁵, Y₁₂₆,₁₁ ≈ 5×10⁻⁵, with the light Higgs
   a quarter 126, from Part T13), Clebsch factors up to 3, and the lighter triplet at T13's 1.3 M_GUT. The
-  amplitude is about 10⁻⁸ of the gauge bosons': τ ~ 10⁵² years. The triplets would matter only below ~10¹² GeV.
+  amplitude is about 4×10⁻⁸ of the gauge bosons': τ ~ 10⁵¹ years. The triplets would matter only below ~10¹² GeV.
 * **No complete hypothesis survives.** The left-right chain now fails the neutrinos and Pati–Salam the fermion
   masses: each fails exactly one condition. Parts X and Z follow the closest hypothesis (fewest fails, then most
   passes, then fewest trades): the left-right chain, whose axion gives under 1% of the dark matter.
@@ -872,7 +881,7 @@ left-right one.
 | Higgs vev, quark masses, G | 1 + 6 + 1 | input |
 | CKM | 4 | related (texture, not the SO(10) chain's structure) |
 | charged-lepton masses | 3 | traded (sum rule, 8 unknowns) |
-| neutrino masses and mixing | 7–9 | open: no working mechanism (type II excluded; type I + II fits need v_R ~ 10¹⁴ GeV) |
+| neutrino masses and mixing | 7–9 | open: no working mechanism (type II excluded; type I + II fits need v_R ~ 10¹⁴–10¹⁵ GeV) |
 | strong CP angle | 1 | bounded (< 9×10⁻¹¹) |
 | dark matter, Λ | 1 + 1 | open |
 | baryon asymmetry | 1 | traded (leptogenesis, M₁ unknown) |

@@ -1029,7 +1029,11 @@ class FlavourRunner:
         self.thresholds: List[float] = [x["m_c"], x["m_b"]]
         self.mt_msbar = self._top_msbar()
         self.thresholds = [x["m_c"], x["m_b"], self.mt_msbar]
-        self.v = (math.sqrt(2) * x["G_F"]) ** (-1 / 2)
+
+    @property
+    def v(self) -> float:
+        """v = (sqrt 2 G_F)^(-1/2), read from the inputs at each use (so the input tracer sees G_F)."""
+        return (math.sqrt(2) * self.x["G_F"]) ** (-1 / 2)
 
     # d alpha_s / d ln mu and d ln m / d ln mu (two-loop QCD, one-loop QED)
     def _qcd_rhs(self, y: List[float], nf: int, q2: float) -> List[float]:
@@ -1076,8 +1080,9 @@ class FlavourRunner:
             m = m_new
         return m
 
-    def ratios_at(self, scales: Sequence[float]) -> Dict[float, Dict[str, float]]:
-        """Same-type mass ratios at m_t(m_t) and at each scale above it."""
+    def _base(self) -> Dict[str, float]:
+        """The quark masses run (QCD) to m_t(m_t) and their same-type ratios there. Not cached: the input tracer
+        must see every stage that reads them."""
         x = self.x
         mu0 = self.mt_msbar
         up, dn = Fr(2, 3), Fr(-1, 3)
@@ -1089,56 +1094,42 @@ class FlavourRunner:
             "b": self.run_mass(x["m_b"], x["m_b"], mu0, dn),
             "t": mu0,
         }
-        base = {"mu": mu0, "m_u": m["u"], "m_d": m["d"], "m_s": m["s"], "m_c": m["c"], "m_b": m["b"],
+        return {"mu": mu0, "m_u": m["u"], "m_d": m["d"], "m_s": m["s"], "m_c": m["c"], "m_b": m["b"],
                 "m_t": m["t"], "r_uc": m["u"] / m["c"], "r_ct": m["c"] / m["t"],
                 "r_ds": m["d"] / m["s"], "r_sb": m["s"] / m["b"],
                 "alpha_s": alpha_up(self.alpha_s(mu0), 5, self.loops),      # six flavours from here up
                 "y_t": math.sqrt(2) * mu0 / self.v}
+
+    def matrix_start(self) -> Tuple[float, List[float], List[List[List[complex]]]]:
+        """(m_t(m_t), [g1, g2, g3], [Y_u, Y_d, Y_e]) at m_t(m_t): the one starting point of every Yukawa run."""
+        mt = self.mt_msbar
+        _, _, _, st = sm_state_at_mt(runner=self)
+        lep = lepton_masses_gev()
+        lr = [lepton_running_mass(lep[k], mt, inp("alpha_em")) for k in ("e", "mu", "tau")]
+        mats = sm_yukawas_at_mt(st, self._base(), [lr[0] / lr[2], lr[1] / lr[2]], ckm_from_wolfenstein(self.x))
+        return mt, list(st[:3]), mats
+
+    def ratios_at(self, scales: Sequence[float]) -> Dict[float, Dict[str, float]]:
+        """Same-type mass ratios at m_t(m_t) (QCD running of each mass) and at each scale above it (the one
+        matrix running: SM gauge couplings and the three Yukawa matrices, every generation and the mixing)."""
+        mu0 = self.mt_msbar
+        base = self._base()
         out = {mu0: base}
-
-        # Above m_t: alpha_s (nf = 6), g1, g2, y_t, ln(m_c/m_t), ln(m_s/m_b).
-        # Same-type ratios feel only the Yukawa difference term; gauge and Y2 terms cancel.
-        b1, b2, _ = (float(b) for b in sm_gauge_b())
-        c1, c2, c3 = (float(c) for c in top_yukawa_gauge_coeffs())
-        c_self = float(top_yukawa_self_coeff())
-        split = float(YUKAWA_SPLIT)
-        k = 16 * math.pi ** 2
-        # electroweak couplings at M_Z from G_F, alpha(M_Z), M_Z (tree-level relation)
-        al = self.alpha_em
-        s2c2 = math.pi * al / (math.sqrt(2) * x["G_F"] * x["M_Z"] ** 2)
-        s2 = (1 - math.sqrt(1 - 4 * s2c2)) / 2
-        g2sq_mz = 4 * math.pi * al / s2
-        g1sq_mz = 4 * math.pi * al / (1 - s2) / float(GUT_NORM)
-
-        def g_sq(gsq_mz: float, b: float, mu: float) -> float:
-            return 1 / (1 / gsq_mz - 2 * b / k * math.log(mu / x["M_Z"]))
-
-        yb = math.sqrt(2) * m["b"] / self.v  # bottom Yukawa held at its m_t value (a y_b^2 ~ 3e-4 effect)
-        state = [base["alpha_s"], math.sqrt(g_sq(g1sq_mz, b1, mu0)), math.sqrt(g_sq(g2sq_mz, b2, mu0)),
-                 math.sqrt(2) * mu0 / self.v, math.log(base["r_ct"]), math.log(base["r_sb"])]
-        self.ew = {"v_GeV": self.v, "sin2_theta_tree": s2, "y_t_at_mt": state[3], "y_b_at_mt": yb,
-                   "g1_at_mt": state[1], "g2_at_mt": state[2]}
-
-        def rhs(v: List[float], nf: int) -> List[float]:
-            als, g1, g2, yt, _, _ = v
-            dal = -2 * math.pi * sum(b * (als / math.pi) ** (i + 2) for i, b in enumerate(self.beta[6]))
-            g3sq = 4 * math.pi * als
-            dyt = yt * (c_self * yt * yt + split * yb * yb - c3 * g3sq - c2 * g2 * g2 - c1 * g1 * g1) / k
-            return [dal, b1 * g1 ** 3 / k, b2 * g2 ** 3 / k, dyt,
-                    split * (yb * yb - yt * yt) / k, split * (yt * yt - yb * yb) / k]
-
+        others = sorted(mu for mu in scales if mu != mu0)
+        if not others:
+            return out
+        # below m_t(m_t) the running is only continued across the top-mass uncertainty (input variations shift
+        # m_t(m_t) itself); anything lower is refused
+        if others[0] < mu0 * (1 - 3 * sig("M_t") / inp("M_t")):
+            raise ValueError(f"evaluation scale {others[0]} GeV is below m_t(m_t) = {mu0:.2f} GeV")
+        _, g, mats = self.matrix_start()
         mu_prev = mu0
-        for mu in sorted(scales):
-            # below m_t(m_t) the ratio running is only continued across the top-mass uncertainty
-            # (input variations shift m_t(m_t) itself); anything lower is refused
-            if mu < mu0 * (1 - 3 * sig("M_t") / inp("M_t")):
-                raise ValueError(f"evaluation scale {mu} GeV is below m_t(m_t) = {mu0:.2f} GeV")
-            if mu == mu0:
-                continue
-            state = integrate_ln_mu(state, mu_prev, mu, rhs, [], self.steps)
+        for mu in others:
+            g, mats = run_yukawa_matrices(g, mats, mu_prev, mu, "SM", steps=self.steps)
             mu_prev = mu
-            out[mu] = {"mu": mu, "alpha_s": state[0], "y_t": state[3], "r_uc": base["r_uc"],
-                       "r_ct": math.exp(state[4]), "r_ds": base["r_ds"], "r_sb": math.exp(state[5])}
+            su, sd = _sing_vals(mats[0]), _sing_vals(mats[1])
+            out[mu] = {"mu": mu, "alpha_s": g[2] ** 2 / (4 * math.pi), "y_t": su[2], "r_uc": su[0] / su[1],
+                       "r_ct": su[1] / su[2], "r_ds": sd[0] / sd[1], "r_sb": sd[1] / sd[2]}
         return out
 
 
@@ -7055,6 +7046,192 @@ def lr_yukawa_gauge_coeffs() -> Dict[str, List[float]]:
     return out
 
 
+def mssm_matrix_yukawa_beta(yu, yd, ye) -> Tuple[Any, Any, Any]:
+    """Yukawa part of the MSSM's one-loop matrix RGE (16 pi^2 dY/d ln mu), W = Q Y_u u^c H_u + Q Y_d d^c H_d
+    + L Y_e e^c H_d (rows: the doublet's generation)."""
+    hu, hd, he = (_cmat_mul(y_, _cdag3(y_)) for y_ in (yu, yd, ye))
+    tu = 3 * _ctrace(hu)
+    td = 3 * _ctrace(hd) + _ctrace(he)
+    return (_clin((3, _cmat_mul(hu, yu)), (1, _cmat_mul(hd, yu)), (tu, yu)),
+            _clin((3, _cmat_mul(hd, yd)), (1, _cmat_mul(hu, yd)), (td, yd)),
+            _clin((3, _cmat_mul(he, ye)), (td, ye)))
+
+
+def superpotential_yukawa_beta(terms: Sequence[Tuple[complex, int, int, int]]) -> Callable[[int, int, int], complex]:
+    """The general one-loop beta function of a superpotential coupling (Yukawa part): W = 1/6 Y^ijk phi_i phi_j
+    phi_k, gamma_p^k = 1/2 Y_pqr Y^kqr (lower indices: complex conjugate), 16 pi^2 beta(Y^ijk) = Y^ijp gamma_p^k
+    + Y^ipk gamma_p^j + Y^pjk gamma_p^i. terms: (coefficient, i, j, k) for W >= coefficient phi_i phi_j phi_k,
+    three distinct fields. Used only by the self-checks."""
+    y_: Dict[Tuple[int, int, int], complex] = {}
+    for c, i, j, k in terms:
+        for p in itertools.permutations((i, j, k)):
+            y_[p] = y_.get(p, 0) + c
+    rows: Dict[int, Dict[Tuple[int, int], complex]] = {}
+    for (i, j, k), w in y_.items():
+        rows.setdefault(i, {})[(j, k)] = w
+    gam: Dict[int, List[Tuple[int, complex]]] = {}
+    for p, rp in rows.items():
+        for k, rk in rows.items():
+            s = sum(w.conjugate() * rk.get(jk, 0) for jk, w in rp.items())
+            if s:
+                gam.setdefault(k, []).append((p, s / 2))
+
+    def beta(i: int, j: int, k: int) -> complex:
+        return (sum(y_.get((i, j, p), 0) * w for p, w in gam.get(k, ()))
+                + sum(y_.get((i, p, k), 0) * w for p, w in gam.get(j, ()))
+                + sum(y_.get((p, j, k), 0) * w for p, w in gam.get(i, ())))
+    return beta
+
+
+# =============================================================================
+# ONE RUNNING FOR EVERY COUPLING: the gauge couplings and the three (four) Yukawa matrices
+# =============================================================================
+# Every running mass and mixing above m_t(m_t) comes from here: the SM (g1, g2, g3 one loop, as Part J), the
+# MSSM above M_S (one loop, tan(beta) matching y_SM = y_MSSM sin(beta) or cos(beta)) and a chain's left-right
+# stage above M_I (two-loop gauge, from the chain's coefficients). Part J's (g, y_t, y_b, y_tau) right-hand
+# sides are this engine restricted to the third generation (a self-check); the light generations' feedback on
+# them is a stated, checked number.
+def matrix_yukawa_rhs(model: str, chain: Dict[str, Any] | None = None) -> Tuple[Callable[[List[float], int], List[float]], int, int]:
+    """(rhs, number of gauge entries, number of matrices) for the state [gauge..., packed matrices]: model "SM"
+    or "MSSM" (gauge: g1, g2, g3; matrices Y_u, Y_d, Y_e) or "LR" (gauge: 1/alpha for SU(3), SU(2)_L, SU(2)_R,
+    U(1)_B-L with the chain's b1, b2; matrices Y1, Y2 (quark bidoublet couplings), Y3, Y4 (lepton))."""
+    kk = 16 * math.pi ** 2
+    f_ = _fields()
+    if model in ("SM", "MSSM"):
+        if model == "SM":
+            gb = [float(b_) for b_ in sm_gauge_b()]
+            gc = [_pair_gauge_coeffs(f_["Q"], f_["u^c"]), _pair_gauge_coeffs(f_["Q"], f_["d^c"]),
+                  _pair_gauge_coeffs(f_["L"], f_["e^c"])]
+            beta = sm_matrix_yukawa_beta
+        else:
+            gb = [float(b_) for b_ in mssm_b()[0]]
+            gc = [_susy_gauge_coeffs((f_["H_u"], f_["Q"], f_["u^c"])), _susy_gauge_coeffs((f_["H_d"], f_["Q"], f_["d^c"])),
+                  _susy_gauge_coeffs((f_["H_d"], f_["L"], f_["e^c"]))]
+            beta = mssm_matrix_yukawa_beta
+
+        def rhs(v: List[float], nf: int) -> List[float]:
+            g = v[:3]
+            ys_ = _unpack(v[3:], 3)
+            out = [gb[i] * g[i] ** 3 / kk for i in range(3)]
+            for b_, y_, c_ in zip(beta(*ys_), ys_, gc):
+                gt = sum(ci * gi ** 2 for ci, gi in zip(c_, g))
+                out += _pack([_clin((1 / kk, b_), (-gt / kk, y_))])
+            return out
+        return rhs, 3, 3
+    if model != "LR" or chain is None:
+        raise ValueError(f"unknown running model {model!r} (LR needs its chain)")
+    b1 = [float(b_) for b_ in chain["b1"]]
+    b2 = [[float(b_) for b_ in r_] for r_ in chain["b2"]]
+    lc = lr_yukawa_gauge_coeffs()
+
+    def rhs_lr(v: List[float], nf: int) -> List[float]:
+        al = [1 / w_ for w_ in v[:4]]
+        g2s = [4 * math.pi * a_ for a_ in al]
+        out = [-b1[i] / (2 * math.pi) - sum(b2[i][j] * al[j] for j in range(4)) / (8 * math.pi ** 2) for i in range(4)]
+        ys_ = _unpack(v[4:], 4)
+        for b_, y_, key in zip(lr_matrix_yukawa_beta(*ys_), ys_, ("q", "q", "l", "l")):
+            gt = sum(ci * g_ for ci, g_ in zip(lc[key], g2s))
+            out += _pack([_clin((1 / kk, b_), (-gt / kk, y_))])
+        return out
+    return rhs_lr, 4, 4
+
+
+def run_yukawa_matrices(gauge: Sequence[float], mats: Sequence[List[List[complex]]], mu0: float, mu1: float,
+                        model: str, chain: Dict[str, Any] | None = None,
+                        steps: int | None = None) -> Tuple[List[float], List[List[List[complex]]]]:
+    """Run (gauge, matrices) from mu0 to mu1 in one model (see matrix_yukawa_rhs)."""
+    rhs, ng, nm = matrix_yukawa_rhs(model, chain)
+    if len(gauge) != ng or len(mats) != nm:
+        raise ValueError(f"{model} running takes {ng} gauge entries and {nm} matrices")
+    v = integrate_ln_mu(list(gauge) + _pack(mats), mu0, mu1, rhs, [], steps or int(num("rg_steps_per_efold")))
+    return v[:ng], _unpack(v[ng:], nm)
+
+
+def _sing_vals(y: List[List[complex]]) -> List[float]:
+    """Singular values, ascending. The largest from the eigenvalues of H = Y Y^dag; the other two from the invariants
+    |det Y|^2 = s1 s2 s3 and c2 = s1 s2 + s3 (s1 + s2) (sum of H's principal 2x2 minors, s = sigma^2), which keep
+    full relative precision when the smaller ones are 1e-3 to 1e-5 of the largest (the eigenvalues do not)."""
+    h = _mm_dag(y)
+    s3 = max(_herm3_eigvals(h)[2], 0)
+    if s3 == 0:
+        return [0.0, 0.0, 0.0]
+    det = (y[0][0] * (y[1][1] * y[2][2] - y[1][2] * y[2][1]) - y[0][1] * (y[1][0] * y[2][2] - y[1][2] * y[2][0])
+           + y[0][2] * (y[1][0] * y[2][1] - y[1][1] * y[2][0]))
+    c2 = sum((h[i][i] * h[j][j] - abs(h[i][j]) ** 2).real for i, j in ((0, 1), (0, 2), (1, 2)))
+    p = abs(det) ** 2 / s3
+    sm = max((c2 - p) / s3, 0)
+    s2 = (sm + math.sqrt(max(sm * sm - 4 * p, 0))) / 2
+    s1 = p / s2 if s2 > 0 else 0.0
+    return [math.sqrt(s1), math.sqrt(s2), math.sqrt(s3)]
+
+
+def sm_yukawas_at_mt(st: Sequence[float], base: Dict[str, float], lepton_ratios: Sequence[float],
+                     v_ckm: List[List[complex]]) -> List[List[List[complex]]]:
+    """Y_u, Y_d, Y_e at m_t(m_t): third generation from st = [g1, g2, g3, y_t, y_b, y_tau], the light quarks from
+    the QCD-run same-type ratios (base: ratios_at's entry at m_t(m_t)), the leptons from their running-mass
+    ratios; Y_u and Y_e diagonal, Y_d = V diag (the measured CKM matrix: the mixing feeds the running at
+    order V_ts^2 y_t^2, and the texture stage that predicts V reads only the eigenvalues)."""
+    du = [st[3] * base["r_ct"] * base["r_uc"], st[3] * base["r_ct"], st[3]]
+    dd = [st[4] * base["r_sb"] * base["r_ds"], st[4] * base["r_sb"], st[4]]
+    de = [st[5] * lepton_ratios[0], st[5] * lepton_ratios[1], st[5]]
+    return [[[complex(du[i] if i == j else 0) for j in range(3)] for i in range(3)],
+            [[v_ckm[i][j] * dd[j] for j in range(3)] for i in range(3)],
+            [[complex(de[i] if i == j else 0) for j in range(3)] for i in range(3)]]
+
+
+def yukawas_at_scale(flav: Dict[str, Any], mu: float, m_susy: float | None = None,
+                     tan_beta: float | None = None) -> Dict[str, Any]:
+    """Gauge couplings, Yukawa matrices, masses (GeV, ascending, times v/sqrt 2: in the MSSM the SM-normalized
+    y sin(beta) or y cos(beta)) and the quark mixing at mu: SM matrix running from m_t(m_t), and above m_susy
+    (if given) MSSM running after the tan(beta) matching."""
+    mt, g, ms_ = flav["runner"].matrix_start()
+    v_h = flav["runner"].v
+    if m_susy is None or mu <= m_susy:
+        g, ys_ = run_yukawa_matrices(g, ms_, mt, mu, "SM")
+        sc = (1.0, 1.0, 1.0)
+    else:
+        g, ys_ = run_yukawa_matrices(g, ms_, mt, m_susy, "SM")
+        sb, cb = tan_beta / math.sqrt(1 + tan_beta ** 2), 1 / math.sqrt(1 + tan_beta ** 2)
+        sc = (sb, cb, cb)
+        ys_ = [[[z / s_ for z in row] for row in y_] for y_, s_ in zip(ys_, sc)]
+        g, ys_ = run_yukawa_matrices(g, ys_, m_susy, mu, "MSSM")
+    kap = v_h / math.sqrt(2)
+    masses = {k: [s_ * kap * f_ for s_ in _sing_vals(y_)] for k, y_, f_ in zip("ude", ys_, sc)}
+    (_, uu), (_, ud) = _takagi_like(ys_[0]), _takagi_like(ys_[1])
+    return {"mu": mu, "gauge": g, "Y": ys_, "masses": masses, "V": _cmat_mul(_cdag3(uu), ud)}
+
+
+def matrix_running_checks(flav: Dict[str, Any], seed: int, yuk: Dict[str, Any]) -> Dict[str, float]:
+    """(1) The engine on the third-generation subspace equals Part J's right-hand sides (SM and MSSM), at a random
+    point; (2) how far the light generations and the mixing move Part J's third-generation running: y_t, y_b,
+    y_tau at M_Planck (SM) and y_b/y_tau at M_GUT at the b-tau tan(beta) (SM to M_S, MSSM above), full matrices
+    against Part J's run_to."""
+    rng = _UniformStream(seed)
+    out: Dict[str, float] = {}
+    for model in ("SM", "MSSM"):
+        g = [1 + rng.uniform(-1, 1) / 2 for _ in range(3)]
+        y3 = [(1 + rng.uniform(-1, 1)) / 2 for _ in range(3)]
+        mats = [[[complex(y3[k] if i == j == 2 else 0) for j in range(3)] for i in range(3)] for k in range(3)]
+        rhs, _, _ = matrix_yukawa_rhs(model)
+        full = rhs(g + _pack(mats), 6)
+        want = yukawa_rhs(model)(g + y3, 6)
+        got = full[:3] + [full[3 + 18 * k + 16] for k in range(3)]
+        out["rhs_" + model] = max(abs(a_ - b_) for a_, b_ in zip(got, want)) / max(abs(b_) for b_ in want)
+    mt, st = couplings_at_mt(flav)
+    m_pl = yuk["fixed_point_SM"]["scale"]
+    full = yukawas_at_scale(flav, m_pl)
+    third = run_to(st, mt, m_pl, "SM")
+    kap = flav["runner"].v / math.sqrt(2)
+    out["light_SM"] = max(abs(full["masses"][k][2] / kap / third[3 + i] - 1) for i, k in enumerate("ude"))
+    if yuk.get("btau_MSSM_unity") and yuk.get("M_S") and yuk.get("M_GUT"):
+        tb, m_s, m_g = yuk["btau_MSSM_unity"]["tan_beta"], yuk["M_S"], yuk["M_GUT"]
+        fm = yukawas_at_scale(flav, m_g, m_s, tb)
+        s_ms = run_to(st, mt, m_s, "SM")
+        sb, cb = tb / math.sqrt(1 + tb * tb), 1 / math.sqrt(1 + tb * tb)
+        s_g = run_to([s_ms[0], s_ms[1], s_ms[2], s_ms[3] / sb, s_ms[4] / cb, s_ms[5] / cb], m_s, m_g, "MSSM")
+        out["light_MSSM_btau"] = abs((fm["masses"]["d"][2] / fm["masses"]["e"][2]) / (s_g[4] / s_g[5]) - 1)
+    return out
+
 def matrix_rge_checks(seed: int) -> Dict[str, float]:
     """The reduced matrix RGEs against the general formula (mv_yukawa_beta) at a random point, three
     generations, every component written out: the SM (Q, u^c, d^c, L, e^c and one complex doublet H) and the
@@ -7107,6 +7284,22 @@ def matrix_rge_checks(seed: int) -> Dict[str, float]:
     got = [[[bt[a_].get((ix(f1, i, 0, 0), ix(f2, j, 0, 0)), 0) * r2 for j in range(3)] for i in range(3)]
            for a_, f1, f2 in ((0, "q", "qc"), (6, "q", "qc"), (0, "l", "lc"), (6, "l", "lc"))]
     out["LR"] = max(dev(g_, w_) for g_, w_ in zip(got, lr_matrix_yukawa_beta(*ys)))
+    # MSSM: W = Q_a eps_ab H_u,b Y_u u^c + Q_a eps_ab H_d,b Y_d d^c + L_a eps_ab H_d,b Y_e e^c (eps_12 = 1)
+    yu, yd, ye = rmat(), rmat(), rmat()
+    idx.clear()
+    terms_w = []
+    for i in range(3):
+        for j in range(3):
+            for c in range(3):
+                for hh, y_, fc in (("Hu", yu, "uc"), ("Hd", yd, "dc")):
+                    terms_w += [(y_[i][j], ix("q", i, 0, c), ix(fc, j, c), ix(hh, 1)),
+                                (-y_[i][j], ix("q", i, 1, c), ix(fc, j, c), ix(hh, 0))]
+            terms_w += [(ye[i][j], ix("l", i, 0), ix("ec", j), ix("Hd", 1)), (-ye[i][j], ix("l", i, 1), ix("ec", j), ix("Hd", 0))]
+    bw = superpotential_yukawa_beta(terms_w)
+    got = [[[bw(ix("q", i, 0, 0), ix("uc", j, 0), ix("Hu", 1)) for j in range(3)] for i in range(3)],
+           [[bw(ix("q", i, 0, 0), ix("dc", j, 0), ix("Hd", 1)) for j in range(3)] for i in range(3)],
+           [[bw(ix("l", i, 0), ix("ec", j), ix("Hd", 1)) for j in range(3)] for i in range(3)]]
+    out["MSSM"] = max(dev(g_, w_) for g_, w_ in zip(got, mssm_matrix_yukawa_beta(yu, yd, ye)))
     return out
 
 
@@ -7121,7 +7314,7 @@ def _takagi_like(y: List[List[complex]]) -> Tuple[List[float], List[List[complex
         big = max(v_, key=abs)
         ph = big.conjugate() / abs(big)
         cols.append([z * ph for z in v_])
-    return [math.sqrt(max(e_, 0)) for e_ in ev], [[cols[j][i] for j in range(3)] for i in range(3)]
+    return _sing_vals(y), [[cols[j][i] for j in range(3)] for i in range(3)]
 
 
 def yukawa_running_lr(flav: Dict[str, Any], chain: Dict[str, Any], two: Dict[str, Any], dirac_like_up: bool = False,
@@ -7130,33 +7323,9 @@ def yukawa_running_lr(flav: Dict[str, Any], chain: Dict[str, Any], two: Dict[str
     matching, left-right running to M_GUT (two-loop gauge, one-loop Yukawa). dirac_like_up: the Dirac neutrino
     Yukawa Y3 = Y1 at M_I instead of 0 (the two limits of an unknown). phases: Takagi phases of the up and down
     matrices at M_I (unknown; zero by default, varied to show the sensitivity)."""
-    x = _float_inputs()
-    mt, st = couplings_at_mt(flav)
     v_h = flav["runner"].v
-    m0 = masses_at_scale(flav, mt)
-    vc = ckm_from_wolfenstein(x)
-    k_ = math.sqrt(2) / v_h
-    yu = [[complex(m0["u"][i] * k_ if i == j else 0) for j in range(3)] for i in range(3)]
-    yd = [[vc[i][j] * m0["d"][j] * k_ for j in range(3)] for i in range(3)]
-    ye = [[complex(m0["e"][i] * k_ if i == j else 0) for j in range(3)] for i in range(3)]
-    gb = [float(b_) for b_ in sm_gauge_b()]
-    f_ = _fields()
-    gc = [_pair_gauge_coeffs(f_["Q"], f_["u^c"]), _pair_gauge_coeffs(f_["Q"], f_["d^c"]), _pair_gauge_coeffs(f_["L"], f_["e^c"])]
-    kk = 16 * math.pi ** 2
-
-    def rhs_sm(v: List[float], nf: int) -> List[float]:
-        g = v[:3]
-        ys_ = _unpack(v[3:], 3)
-        bs = sm_matrix_yukawa_beta(*ys_)
-        out = [gb[i] * g[i] ** 3 / kk for i in range(3)]
-        for b_, y_, c_ in zip(bs, ys_, gc):
-            gt = sum(ci * gi ** 2 for ci, gi in zip(c_, g))
-            out += _pack([_clin((1 / kk, b_), (-gt / kk, y_))])
-        return out
     m_i, m_gut = two["M_I"], two["M_GUT"]
-    steps = int(num("rg_steps_per_efold"))
-    s_mi = integrate_ln_mu(list(st[:3]) + _pack([yu, yd, ye]), mt, m_i, rhs_sm, [], steps)
-    yu, yd, ye = _unpack(s_mi[3:], 3)
+    yu, yd, ye = yukawas_at_scale(flav, m_i)["Y"]
     # symmetric matching at M_I
     sym = {}
     for nm_, y_, (pa, pb, pc) in (("u", yu, phases[:3]), ("d", yd, phases[3:]), ("e", ye, (0, 0, 0))):
@@ -7165,30 +7334,19 @@ def yukawa_running_lr(flav: Dict[str, Any], chain: Dict[str, Any], two: Dict[str
         uu = [[uu[i][j] * ph_[j] for j in range(3)] for i in range(3)]
         sym[nm_] = ([[sum(uu[i][k] * sv_[k] * uu[j][k] for k in range(3)) for j in range(3)] for i in range(3)], sv_)
     y1, y2, y4 = sym["u"][0], sym["d"][0], sym["e"][0]
+    # the symmetric matrices carry the same masses and (up to the unknown phases) the same mixing
+    match_dev = max(abs(a_ / b_ - 1) for k_ in sym for a_, b_ in zip(_sing_vals(sym[k_][0]), sym[k_][1]))
+    v_mi = _cmat_mul(_cdag3(_takagi_like(yu)[1]), _takagi_like(yd)[1])
+    v_sym = _cmat_mul(_cdag3(_takagi_like(y1)[1]), _takagi_like(y2)[1])
+    match_dev = max([match_dev] + [abs(abs(v_mi[i][j]) - abs(v_sym[i][j])) for i in range(3) for j in range(3)])
     y3 = [row[:] for row in y1] if dirac_like_up else [[complex(0)] * 3 for _ in range(3)]
-    b1 = [float(b_) for b_ in chain["b1"]]
-    b2 = [[float(b_) for b_ in r_] for r_ in chain["b2"]]
-    lc = lr_yukawa_gauge_coeffs()
-
-    def rhs_lr(v: List[float], nf: int) -> List[float]:
-        inv = v[:4]
-        al = [1 / w_ for w_ in inv]
-        g2s = [4 * math.pi * a_ for a_ in al]
-        out = [-b1[i] / (2 * math.pi) - sum(b2[i][j] * al[j] for j in range(4)) / (8 * math.pi ** 2) for i in range(4)]
-        ys_ = _unpack(v[4:], 4)
-        bs = lr_matrix_yukawa_beta(*ys_)
-        for b_, y_, key in zip(bs, ys_, ("q", "q", "l", "l")):
-            gt = sum(ci * g_ for ci, g_ in zip(lc[key], g2s))
-            out += _pack([_clin((1 / kk, b_), (-gt / kk, y_))])
-        return out
-    s_g = integrate_ln_mu(list(two["inv_alpha_MI"]) + _pack([y1, y2, y3, y4]), m_i, m_gut, rhs_lr, [], steps)
-    y1, y2, y3, y4 = _unpack(s_g[4:], 4)
+    inv_g, (y1, y2, y3, y4) = run_yukawa_matrices(two["inv_alpha_MI"], [y1, y2, y3, y4], m_i, m_gut, "LR", chain)
     kap = v_h / math.sqrt(2)
     (mu_, uu), (md_, ud), (me_, _) = (_takagi_like(y_) for y_ in (y1, y2, y4))
     v_gut = _cmat_mul(_cdag3(uu), ud)
     ms = {"u": [m_ * kap for m_ in mu_], "d": [m_ * kap for m_ in md_], "e": [m_ * kap for m_ in me_]}
     return {"masses": ms, "V": v_gut, "masses_M_I": {k: [w_ * kap for w_ in sym[k][1]] for k in sym},
-            "inv_alpha_M_GUT": s_g[:4], "b_tau": (ms["d"][2] - ms["e"][2]) / ms["d"][2],
+            "inv_alpha_M_GUT": inv_g, "matching_dev": match_dev, "b_tau": (ms["d"][2] - ms["e"][2]) / ms["d"][2],
             "V_abs": [[abs(v_gut[i][j]) for j in range(3)] for i in range(3)]}
 
 
@@ -7209,20 +7367,8 @@ def yukawa_running_lr(flav: Dict[str, Any], chain: Dict[str, Any], two: Dict[str
 #       Psi = diag(e^{i psi1}, e^{i psi2}, 1) are physical). Eight unknowns for the three charged-lepton masses:
 #       if no point reaches them, the sum rule is excluded whatever the neutrinos do.
 def masses_at_scale(flav: Dict[str, Any], mu: float) -> Dict[str, List[float]]:
-    """Running masses at mu (GeV): the third generation from the SM Yukawa running (Part J's), the lighter
-    from the flavour stage's same-type ratios; leptons with their ratios at M_Z (QED; above it the gauge part
-    is common to all three and y_tau^2 is negligible)."""
-    mt, st = couplings_at_mt(flav)
-    top = run_to(st, mt, mu, "SM")
-    v = flav["runner"].v
-    r = flav["runner"].ratios_at([mu])[mu]
-    m_t, m_b, m_tau = (top[k] * v / math.sqrt(2) for k in (3, 4, 5))
-    lep = lepton_masses_gev()
-    a0, mz = inp("alpha_em"), inp("M_Z")
-    lr = [lepton_running_mass(lep[k], mz, a0) for k in ("e", "mu", "tau")]
-    return {"u": [m_t * r["r_ct"] * r["r_uc"], m_t * r["r_ct"], m_t],
-            "d": [m_b * r["r_sb"] * r["r_ds"], m_b * r["r_sb"], m_b],
-            "e": [m_tau * lr[0] / lr[2], m_tau * lr[1] / lr[2], m_tau]}
+    """Running masses at mu (GeV, ascending): the one matrix running from m_t(m_t) (yukawas_at_scale)."""
+    return yukawas_at_scale(flav, mu)["masses"]
 
 
 def _mm_dag(m: List[List[complex]]) -> List[List[complex]]:
@@ -7257,7 +7403,7 @@ def so10_yukawa_tests(flav: Dict[str, Any], s10: Dict[str, Any]) -> Dict[str, An
     alt = [yukawa_running_lr(flav, chain, two, dirac_like_up=True)] + [
         yukawa_running_lr(flav, chain, two, phases=[rng.uniform(0, 2 * math.pi) for _ in range(6)])
         for _ in range(int(num("lr_running_phase_samples")))]
-    running = {"LR": {k: run[k] for k in ("masses", "masses_M_I", "b_tau", "V_abs", "inv_alpha_M_GUT")},
+    running = {"LR": {k: run[k] for k in ("masses", "masses_M_I", "b_tau", "V_abs", "inv_alpha_M_GUT", "matching_dev")},
                "SM": {"masses": sm_g, "b_tau": (sm_g["d"][2] - sm_g["e"][2]) / sm_g["d"][2]},
                "b_tau_dirac_like_up": alt[0]["b_tau"], "b_tau_phase_range": (min(a_["b_tau"] for a_ in alt[1:]),
                                                                               max(a_["b_tau"] for a_ in alt[1:]))}
@@ -8756,13 +8902,20 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
                    tr_ok, ", ".join(f"{e_:.4f}" for e_ in ev_)))
     mrc = matrix_rge_checks(int(num("potential_seed")))
     checks.append(("Matrix Yukawa RGEs = the general one-loop formula written over every component (SM; left-right"
-                   " bidoublet theory)", max(mrc.values()) < tol, f"max rel dev SM {mrc['SM']:.1e}, LR {mrc['LR']:.1e}"))
+                   " bidoublet theory; MSSM from the superpotential formula)", max(mrc.values()) < tol,
+                   f"max rel dev SM {mrc['SM']:.1e}, LR {mrc['LR']:.1e}, MSSM {mrc['MSSM']:.1e}"))
+    mrun = matrix_running_checks(flav, int(num("potential_seed")), yukawa)
+    checks.append(("One running: on the third generation the matrix engine is Part J's right-hand side (SM, MSSM);"
+                   " the light generations and the mixing move Part J's couplings by less than the matrix-running"
+                   " tolerance (y_t, y_b, y_tau at M_P; y_b/y_tau at M_GUT in the MSSM)",
+                   max(mrun["rhs_SM"], mrun["rhs_MSSM"]) < tol
+                   and max(v_ for k_, v_ in mrun.items() if k_.startswith("light")) < num("check_matrix_running_rel"),
+                   f"rhs SM {mrun['rhs_SM']:.1e}, MSSM {mrun['rhs_MSSM']:.1e}; light generations "
+                   + ", ".join(f"{k_[6:]} {v_:.1e}" for k_, v_ in mrun.items() if k_.startswith("light"))))
     rn_ = s10y["running"]
-    jm = s10["chains"]["LR"]["loop2"]["M_I"]
-    sm_mi = masses_at_scale(flav, jm)
-    dev_r = max(abs(a_ / b_ - 1) for k_ in "ude" for a_, b_ in zip(rn_["LR"]["masses_M_I"][k_], sm_mi[k_]))
+    dev_r = rn_["LR"]["matching_dev"]
     inv_g = rn_["LR"]["inv_alpha_M_GUT"]
-    checks.append(("Left-right running: the matrix SM running gives Part J's masses at M_I; after the left-right run"
+    checks.append(("Left-right running: the symmetric matching at M_I keeps the masses and |V|; after the left-right run"
                    " the four couplings meet at the chain's M_GUT", dev_r < num("check_matrix_running_rel")
                    and max(inv_g) - min(inv_g) < num("unif_tol") * 100, f"masses {dev_r:.1e}, couplings {max(inv_g) - min(inv_g):.1e}"))
     dev_d = so10_dirac_identity(int(num("potential_seed")))
@@ -8779,7 +8932,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     checks.append(("Model graph: every stage registered, acyclic, and run in dependency order",
                    lin["registered"] and lin["acyclic"] and lin["in_order"],
                    f"{len(lin['order'])} stages, {sum(len(u) for u in lin['uses'].values())} edges"))
-    return {"scales": scales, "cosmology": cosmo, "flavour": flav, "survey": survey, "yukawa_331": yuk,
+    return {"scales": scales, "cosmology": cosmo, "flavour": flav, "survey": survey, "yukawa_331": yuk, "one_running": mrun,
             "symmetry": symm, "closure": closure, "quantum_gravity": qg, "alpha_unification": alpha_unif,
             "alpha_numerology": alpha_num, "yukawa": yukawa, "higgs": higgs, "criticality": crit,
             "joint": joint, "mass_formulas": masses, "strong_cp": scp, "neutrinos": nus, "proton_decay": pdk,
@@ -8878,8 +9031,10 @@ def report(res: Dict[str, Any]) -> str:
     base = flav["ratios"][runner.mt_msbar]
     w(f"  m_t(m_t) MS-bar from the pole mass ({runner.loops}-loop)    {runner.mt_msbar:.3f} GeV")
     w(f"  v = (sqrt2 G_F)^(-1/2)                         {runner.v:.3f} GeV")
-    w(f"  y_t(m_t) = sqrt2 m_t(m_t) / v                  {runner.ew['y_t_at_mt']:.4f}")
-    w(f"  sin^2 theta_W (tree level, from G_F, alpha, M_Z) {runner.ew['sin2_theta_tree']:.5f}")
+    w(f"  y_t(m_t) = sqrt2 m_t(m_t) / v                  {base['y_t']:.4f}")
+    w(f"  sin^2 theta_W (MS-bar at M_Z, input; sets g1, g2) {runner.x['s2_hat_Z']:.5f}")
+    w("  Above m_t(m_t): one running for every coupling (g1, g2, g3 and the three Yukawa matrices, all")
+    w("  generations and the CKM mixing, one loop); the same engine runs every mass to M_I, M_S and M_GUT.")
     w(f"  Running masses at m_t(m_t) (GeV): u {base['m_u']:.4e}  d {base['m_d']:.4e}  s {base['m_s']:.4e}"
       f"  c {base['m_c']:.4f}  b {base['m_b']:.4f}")
     w("")
