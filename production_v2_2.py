@@ -314,6 +314,8 @@ NUMERICS: Dict[str, Any] = {
     "proton_phase_grid": 36,          # Part Q: grid per unknown GUT phase (phi_2, phi_3) for the dimension-five band
     "check_axion_tol": "0.05",        # Part V: eq. 170 is an approximation (their words); agreement within 5 %
     "report_top_heavy": 8,            # Part T12: multiplets listed in the report (all are in the JSON)
+    "lr_potential_points": 300000,    # Part T13: (quartics, alpha) points tried for the left-right 210 vacuum
+    "lr_126_draws": 20,               # Part T13: 126 coupling sets per viable 210 vacuum
     "heavy_mass_spread": 10,          # Part T8: each heavy GUT multiplet's mass within this factor of M_GUT (assumed)
     "potential_seed": 20261125,       # Part T9: any seed works; the scan is deterministic
     "potential_points": 30000,        # Parts T9-T11: coupling points tried
@@ -5873,8 +5875,10 @@ def _signed(seq: Sequence[int]) -> int:
     return _perm_sign(seq)
 
 
-def so10_126_mass_matrices() -> Dict[str, Dict[Tuple[int, int], float]]:
-    phi = {t: _signed(t) for t in itertools.permutations(PS_SINGLET_210)}
+def so10_126_mass_matrices(phi4: Dict[Tuple[int, ...], float] | None = None) -> Dict[str, Dict[Tuple[int, int], float]]:
+    """The invariants bilinear in the 126 as matrices on the 252 5-forms, at the 210 vev phi4 (sorted components;
+    by default the unit Pati-Salam singlet)."""
+    phi = _full_tensor(phi4) if phi4 is not None else {t: _signed(t) for t in itertools.permutations(PS_SINGLET_210)}
     by2: Dict[Tuple[int, ...], List[Tuple[Tuple[int, ...], float]]] = {}
     by3: Dict[Tuple[int, ...], List[Tuple[int, float]]] = {}
     for t, v in phi.items():
@@ -6076,6 +6080,433 @@ def potential_210_scan(heavy: Dict[str, Any], alpha_gut: float, tau0: float, m_i
                            for n_ in names}}
 
 
+# --- T13. The left-right chain's potential: the masses T12 left unknown, calculated (as T9-T10 did for Pati-Salam).
+# The 210's vev has two components, phi = v (cos(alpha) e_PS + sin(alpha) e_BL): the Pati-Salam singlet e_789,10
+# and the B - L direction e_BL = (e_0123 + e_0145 + e_2345)/sqrt3 of its (15,1,1). Multiplets are found, not
+# typed in: in the complex basis Z_k = (e_2k + i e_2k+1)/sqrt2 (k = 0, 1, 2; SO(6)), U_1 = (e_6 + i e_7)/sqrt2,
+# U_2 = (e_8 + i e_9)/sqrt2 and their conjugates, every wedge monomial is a weight vector of the rank-5 Cartan
+# subalgebra, and a 3221 multiplet's highest-weight vectors are those its raising operators (Z_0^Zb_1, Z_1^Zb_2:
+# SU(3); U_1^U_2: SU(2)_L; U_1^Ub_2: SU(2)_R) annihilate. Each weight space is small, so the multiplets that occur
+# more than once (the 210's two (3,2,2) and two singlets) come out as small Hermitian blocks of the Hessian. The
+# potential is T9's (S2, C, Q1-Q4); on the singlet plane each invariant is a polynomial in (cos alpha, sin alpha),
+# and the two stationarity conditions are linear in mu^2 and eta: for scanned quartics and alpha they fix both.
+# The heavy vectors (3,2,2) and (3,1,1) get different masses, M_V^2 = (g^2/2) |J phi|^2: the first defines M_GUT,
+# the second is a threshold (b = -7/2 T: the vector and the Goldstone it eats). The 126: T10's invariants at this
+# vev; its multiplets from the self-dual projection of the 5-form highest-weight vectors; Delta_R = (1,1,3,2) light
+# fixes its mass term. The 10 stays at M_GUT.
+FORM_WEIGHTS = ((1, 0, 0, 0, 0), (0, 1, 0, 0, 0), (0, 0, 1, 0, 0), (-1, 0, 0, 0, 0), (0, -1, 0, 0, 0), (0, 0, -1, 0, 0),
+                (0, 0, 0, 1, 0), (0, 0, 0, -1, 0), (0, 0, 0, 0, 1), (0, 0, 0, 0, -1))
+FORM_CONJ = (3, 4, 5, 0, 1, 2, 7, 6, 9, 8)
+FORM_RAISE_PAIRS = ((0, 4), (1, 5), (6, 8), (6, 9))      # Z0^Zb1, Z1^Zb2 (SU(3)), U1^U2 (SU(2)_L), U1^Ub2 (SU(2)_R)
+E_BL_210 = ((0, 1, 2, 3), (0, 1, 4, 5), (2, 3, 4, 5))
+LR_VECTOR_GENERATORS = {"(3,2,2)": ((0, 6, 1),), "(3,1,1)": ((0, 2, 1), (1, 3, -1))}   # J_06; J_02 - J_13 (normalized below)
+
+
+def _sort_sign(t: Sequence[int]) -> Tuple[Tuple[int, ...] | None, int]:
+    """(sorted tuple, sign of the sorting permutation); (None, 0) if an index repeats."""
+    if len(set(t)) < len(t):
+        return None, 0
+    return tuple(sorted(t)), _perm_sign(t)
+
+
+def _complex_basis_real() -> List[Dict[int, complex]]:
+    r_ = 1 / math.sqrt(2)
+    out = [{2 * k: r_, 2 * k + 1: 1j * r_} for k in range(3)] + [{2 * k: r_, 2 * k + 1: -1j * r_} for k in range(3)]
+    return out + [{6: r_, 7: 1j * r_}, {6: r_, 7: -1j * r_}, {8: r_, 9: 1j * r_}, {8: r_, 9: -1j * r_}]
+
+
+def _form_raise(x: int, y: int, vec: Dict[Tuple[int, ...], complex]) -> Dict[Tuple[int, ...], complex]:
+    """The so(10) generator c_x ^ c_y (v -> c_x (c_y . v) - c_y (c_x . v)) acting on a form, as a derivation."""
+    out: Dict[Tuple[int, ...], complex] = {}
+    for m_, v_ in vec.items():
+        for pos, c_ in enumerate(m_):
+            for c2, a_ in (((x, 1),) if FORM_CONJ[y] == c_ else ()) + (((y, -1),) if FORM_CONJ[x] == c_ else ()):
+                t_ = list(m_)
+                t_[pos] = c2
+                key, sg = _sort_sign(t_)
+                if sg:
+                    out[key] = out.get(key, 0) + v_ * a_ * sg
+    return out
+
+
+def _complex_nullspace(rows: List[Dict[int, complex]], n: int, tol: float) -> List[List[complex]]:
+    mat = [[r_.get(j, 0) for j in range(n)] for r_ in rows]
+    piv, r_ = [], 0
+    for c_ in range(n):
+        if r_ == len(mat):
+            break
+        p_ = max(range(r_, len(mat)), key=lambda i: abs(mat[i][c_]))
+        if abs(mat[p_][c_]) < tol:
+            continue
+        mat[r_], mat[p_] = mat[p_], mat[r_]
+        pv = mat[r_][c_]
+        mat[r_] = [v_ / pv for v_ in mat[r_]]
+        for i in range(len(mat)):
+            if i != r_ and mat[i][c_]:
+                f_ = mat[i][c_]
+                mat[i] = [a_ - f_ * b_ for a_, b_ in zip(mat[i], mat[r_])]
+        piv.append(c_)
+        r_ += 1
+    out = []
+    for f_ in (c_ for c_ in range(n) if c_ not in piv):
+        v_ = [complex(0)] * n
+        v_[f_] = complex(1)
+        for i, c_ in enumerate(piv):
+            v_[c_] = -mat[i][f_]
+        out.append(v_)
+    return out
+
+
+def form_highest_weights(p: int) -> List[Tuple[Tuple[int, ...], Dict[Tuple[int, ...], complex]]]:
+    """Every highest-weight vector of SU(3) x SU(2)_L x SU(2)_R x U(1)_B-L in the complex p-forms on R^10, with its
+    weight (H_0..H_4)."""
+    tol = num("check_rel_tol")
+    by_w: Dict[Tuple[int, ...], List[Tuple[int, ...]]] = {}
+    for m_ in itertools.combinations(range(10), p):
+        by_w.setdefault(tuple(sum(FORM_WEIGHTS[c_][i] for c_ in m_) for i in range(5)), []).append(m_)
+    out = []
+    for w_, ms in by_w.items():
+        rows = []
+        for x, y in FORM_RAISE_PAIRS:
+            imgs = [_form_raise(x, y, {m_: 1}) for m_ in ms]
+            for key in set(k for im in imgs for k in im):
+                rows.append({i: imgs[i][key] for i in range(len(ms)) if imgs[i].get(key)})
+        for v_ in _complex_nullspace(rows, len(ms), tol):
+            out.append((w_, {ms[i]: v_[i] for i in range(len(ms)) if abs(v_[i]) > tol}))
+    return out
+
+
+def hw_label(w_: Tuple[int, ...]) -> Tuple[int, int, int, Fr, Tuple[int, int]]:
+    """(SU(3) dimension, SU(2)_L dimension, SU(2)_R dimension, B - L, SU(3) Dynkin labels) of a highest weight."""
+    a_, b_ = w_[0] - w_[1], w_[1] - w_[2]
+    return ((a_ + 1) * (b_ + 1) * (a_ + b_ + 2) // 2, w_[3] + w_[4] + 1, w_[3] - w_[4] + 1,
+            Fr(-2 * (w_[0] + w_[1] + w_[2]), 3), (a_, b_))
+
+
+def _form_to_real(vec: Dict[Tuple[int, ...], complex]) -> Dict[Tuple[int, ...], complex]:
+    """A complex-basis form in sorted real components."""
+    basis = _complex_basis_real()
+    out: Dict[Tuple[int, ...], complex] = {}
+    for m_, c_ in vec.items():
+        for combo in itertools.product(*[list(basis[k].items()) for k in m_]):
+            key, sg = _sort_sign([i for i, _ in combo])
+            if sg:
+                val = c_ * sg
+                for _, a_ in combo:
+                    val *= a_
+                out[key] = out.get(key, 0) + val
+    return out
+
+
+def _herm(x: Dict[Any, complex], y: Dict[Any, complex]) -> complex:
+    return sum(v_.conjugate() * y.get(k, 0) for k, v_ in x.items())
+
+
+def _gram_schmidt(vecs: List[Dict[Any, complex]], tol: float) -> List[Dict[Any, complex]]:
+    out: List[Dict[Any, complex]] = []
+    for v_ in vecs:
+        for o_ in out:
+            c_ = _herm(o_, v_)
+            v_ = {k: v_.get(k, 0) - c_ * o_.get(k, 0) for k in set(v_) | set(o_)}
+        n2 = _herm(v_, v_).real
+        if n2 > tol:
+            out.append({k: z / math.sqrt(n2) for k, z in v_.items() if z})
+    return out
+
+
+def lr_210_vev(alpha: float) -> Dict[Tuple[int, ...], float]:
+    out = {PS_SINGLET_210: math.cos(alpha)}
+    for k in E_BL_210:
+        out[k] = math.sin(alpha) / math.sqrt(3)
+    return out
+
+
+def _form_lin(*terms: Tuple[float, Dict[Tuple[int, ...], Any]]) -> Dict[Tuple[int, ...], Any]:
+    out: Dict[Tuple[int, ...], Any] = {}
+    for c_, d_ in terms:
+        for k, v_ in d_.items():
+            out[k] = out.get(k, 0) + c_ * v_
+    return out
+
+
+def _gen_on_form(pairs: Sequence[Tuple[int, int, float]], phi: Dict[Tuple[int, ...], float]) -> Dict[Tuple[int, ...], float]:
+    """(sum c J_ab) phi, J_ab e_c = e_a d_bc - e_b d_ac, on a real form in sorted components."""
+    out: Dict[Tuple[int, ...], float] = {}
+    for a_, b_, c_ in pairs:
+        for key, v_ in phi.items():
+            for pos, idx in enumerate(key):
+                for src, dst, sg in ((b_, a_, 1), (a_, b_, -1)):
+                    if idx == src:
+                        t_ = list(key)
+                        t_[pos] = dst
+                        k2, s_ = _sort_sign(t_)
+                        if s_:
+                            out[k2] = out.get(k2, 0) + c_ * sg * s_ * v_
+    return out
+
+
+def lr_vector_mass2(alpha: float) -> Dict[str, float]:
+    """|J phi|^2 for a unit generator of each heavy vector multiplet, at the unit vev (M_V^2 = g^2 v^2/2 x this;
+    1 for the Pati-Salam vev, as T9 uses)."""
+    phi = lr_210_vev(alpha)
+    out = {}
+    for nm, pairs in LR_VECTOR_GENERATORS.items():
+        n_ = math.sqrt(sum(c_ * c_ for _, _, c_ in pairs))
+        out[nm] = sum(v_ * v_ for v_ in _gen_on_form([(a_, b_, c_ / n_) for a_, b_, c_ in pairs], phi).values())
+    return out
+
+
+INVARIANTS_210 = ("S2", "C") + QUARTICS_210
+LR_VEV_POINTS = ((1, 0), (0, 1), (1, 1))     # each invariant's Hessian is a polynomial in (cos, sin): 3 points fix it
+
+
+def _d2_210(xr: Dict[Tuple[int, ...], float], vev: Dict[Tuple[int, ...], float]) -> Dict[str, float]:
+    """Second derivative of every invariant along a real direction (five points: exact for quartics)."""
+    vals = [so10_210_invariants(_form_lin((1, vev), (t, xr))) for t in (-2, -1, 0, 1, 2)]
+    return {k: (-vals[4][k] + 16 * vals[3][k] - 30 * vals[2][k] + 16 * vals[1][k] - vals[0][k]) / 12
+            for k in INVARIANTS_210}
+
+
+def _hess_210(x: Dict[Tuple[int, ...], complex], y: Dict[Tuple[int, ...], complex],
+              vev: Dict[Tuple[int, ...], float]) -> Dict[str, complex]:
+    """x^dagger H y per invariant (H real symmetric: polarization of real second derivatives)."""
+    parts = [{k: (v_.real if i == 0 else v_.imag) for k, v_ in z.items()} for z in (x, y) for i in (0, 1)]
+    xr, xi, yr, yi = parts
+
+    def rb(u, w):
+        a_, b_ = _d2_210(_form_lin((1, u), (1, w)), vev), _d2_210(_form_lin((1, u), (-1, w)), vev)
+        return {k: (a_[k] - b_[k]) / 4 for k in INVARIANTS_210}
+    rr, ii, ri, ir = rb(xr, yr), rb(xi, yi), rb(xr, yi), rb(xi, yr)
+    return {k: rr[k] + ii[k] + 1j * (ri[k] - ir[k]) for k in INVARIANTS_210}
+
+
+def lr_potential_setup() -> Dict[str, Any]:
+    """Everything coupling-independent: the multiplets of the 210 and 126 under 3221, their Hessian blocks at the
+    three vev points, and the invariants on the singlet plane as polynomials."""
+    tol = num("check_rel_tol")
+    blocks: Dict[Tuple[Any, ...], List[Dict[Tuple[int, ...], complex]]] = {}
+    labels210 = []
+    for w_, vec in form_highest_weights(4):
+        lab = hw_label(w_)
+        labels210.append(lab[:4])
+        if lab[4][0] < lab[4][1] or (lab[4][0] == lab[4][1] and lab[3] < 0):
+            continue                                       # one of each conjugate pair (the 210 is real)
+        blocks.setdefault(lab[:4], []).append(_form_to_real(vec))
+    blocks = {k: _gram_schmidt(v_, tol) for k, v_ in blocks.items()}
+    pre = {}
+    for k, vs in blocks.items():
+        n_ = len(vs)
+        pre[k] = {}
+        for pt in LR_VEV_POINTS:
+            vev = _form_lin((pt[0], {PS_SINGLET_210: 1}), (pt[1], lr_210_vev(math.pi / 2)))
+            m_ = [[None] * n_ for _ in range(n_)]
+            for i in range(n_):
+                for j in range(i, n_):
+                    h_ = _hess_210(vs[i], vs[j], vev)
+                    m_[i][j], m_[j][i] = h_, {q: z.conjugate() for q, z in h_.items()}
+            pre[k][pt] = m_
+    deg = {"S2": 2, "C": 3, **{q: 4 for q in QUARTICS_210}}
+    poly = {}
+    for nm, d_ in deg.items():
+        th = [(j + 1) / (d_ + 2) for j in range(d_ + 1)]
+        rows = [[math.cos(t_) ** (d_ - p_) * math.sin(t_) ** p_ for p_ in range(d_ + 1)] for t_ in th]
+        poly[nm] = (d_, _solve_linear(rows, [so10_210_invariants(lr_210_vev(t_))[nm] for t_ in th]))
+    # the 126: highest-weight vectors of the 5-forms, projected on the self-dual part (*S = -i S)
+    b126: Dict[Tuple[Any, ...], List[Dict[int, complex]]] = {}
+    for w_, vec in form_highest_weights(5):
+        u = {FIVE_INDEX[k]: z for k, z in _form_to_real(vec).items()}
+        h_ = _hodge_vec(u)
+        sd = {k: (u.get(k, 0) + 1j * h_.get(k, 0)) / 2 for k in set(u) | set(h_)}
+        sd = {k: z for k, z in sd.items() if abs(z) > tol}
+        if sd:
+            b126.setdefault(hw_label(w_)[:4], []).append(sd)
+    b126 = {k: _gram_schmidt(v_, tol) for k, v_ in b126.items()}
+    b126 = {k: v_ for k, v_ in b126.items() if v_}
+    mats = {pt: so10_126_mass_matrices(_form_lin((pt[0], {PS_SINGLET_210: 1}), (pt[1], lr_210_vev(math.pi / 2))))
+            for pt in LR_VEV_POINTS}
+    c126 = {}
+    for k, vs in b126.items():
+        x = vs[0]
+        n0 = _bilinear(mats[(1, 0)]["norm"], x, x).real
+        c126[k] = {pt: {nm: _bilinear(mats[pt][nm], x, x).real / n0 for nm in ("cubic", "D", "E", "F")} for pt in LR_VEV_POINTS}
+    return {"blocks": blocks, "pre": pre, "poly": poly, "labels210": labels210,
+            "labels126": sorted((k for k, v_ in b126.items() for _ in v_), key=str), "c126": c126}
+
+
+def _poly_at(pt3: Dict[Tuple[int, int], Any], a_: float, b_: float, deg: int, get: Callable[[Any], Any]) -> Any:
+    """A quantity polynomial of degree deg (0, 1, 2) in (a, b), from its values at (1, 0), (0, 1), (1, 1)."""
+    p10, p01, p11 = get(pt3[(1, 0)]), get(pt3[(0, 1)]), get(pt3[(1, 1)])
+    if deg == 0:
+        return p10
+    if deg == 1:
+        return a_ * p10 + b_ * p01
+    return a_ * a_ * p10 + b_ * b_ * p01 + a_ * b_ * (p11 - p10 - p01)
+
+
+def lr_vacuum(setup: Dict[str, Any], lam: Dict[str, float], alpha: float) -> Tuple[float, float]:
+    """(mu^2, eta) that make (cos alpha, sin alpha) stationary: the two conditions are linear in them."""
+    a_, b_ = math.cos(alpha), math.sin(alpha)
+
+    def grad(nm: str) -> Tuple[float, float]:
+        d_, c_ = setup["poly"][nm]
+        return (sum(c_[p_] * (d_ - p_) * a_ ** (d_ - p_ - 1) * b_ ** p_ for p_ in range(d_)),
+                sum(c_[p_] * p_ * a_ ** (d_ - p_) * b_ ** (p_ - 1) for p_ in range(1, d_ + 1)))
+    gs, gc = grad("S2"), grad("C")
+    gq = [sum(lam[q] * grad(q)[i] for q in QUARTICS_210) / 576 for i in range(2)]
+    sol = _solve_linear([[-gs[0] / 48, gc[0] / 24], [-gs[1] / 48, gc[1] / 24]], [-gq[0], -gq[1]])
+    return (sol[0], sol[1]) if sol else (math.nan, math.nan)
+
+
+def lr_210_masses(setup: Dict[str, Any], lam: Dict[str, float], mu2: float, eta: float, alpha: float) -> Dict[Any, List[float]]:
+    """m^2/v^2 of every 210 multiplet (ascending within a block), T9's normalization."""
+    a_, b_ = math.cos(alpha), math.sin(alpha)
+    deg = {"S2": 0, "C": 1, **{q: 2 for q in QUARTICS_210}}
+    out = {}
+    for key, pre in setup["pre"].items():
+        n_ = len(pre[(1, 0)])
+        m_ = [[sum(cf * _poly_at(pre, a_, b_, deg[q], lambda blk: blk[i][j][q])
+                   for q, cf in (("S2", -mu2 / 48), ("C", eta / 24), *((q2, lam[q2] / 576) for q2 in QUARTICS_210)))
+               for j in range(n_)] for i in range(n_)]
+        if n_ == 1:
+            out[key] = [m_[0][0].real]
+        else:
+            tr_, det_ = (m_[0][0] + m_[1][1]).real, (m_[0][0] * m_[1][1] - m_[0][1] * m_[1][0]).real
+            r_ = math.sqrt(max(tr_ * tr_ / 4 - det_, 0))
+            out[key] = [tr_ / 2 - r_, tr_ / 2 + r_]
+    return out
+
+
+def lr_126_coefficients(setup: Dict[str, Any], key: Tuple[Any, ...], alpha: float) -> Dict[str, float]:
+    a_, b_ = math.cos(alpha), math.sin(alpha)
+    return {nm: _poly_at(setup["c126"][key], a_, b_, 1 if nm == "cubic" else 2, lambda d_: d_[nm])
+            for nm in ("cubic", "D", "E", "F")}
+
+
+LR_210_NAMES = {(8, 1, 1, Fr(0)): "210: (8,1,1)", (8, 3, 1, Fr(0)): "210: (8,3,1)", (1, 3, 1, Fr(0)): "210: (1,3,1)",
+                (3, 3, 1, Fr(4, 3)): "210: (3,3,1)", (8, 1, 3, Fr(0)): "210: (8,1,3)", (1, 1, 3, Fr(0)): "210: (1,1,3)",
+                (3, 1, 3, Fr(4, 3)): "210: (3,1,3)", (3, 2, 2, Fr(-2, 3)): "210: (3,2,2)",
+                (6, 2, 2, Fr(2, 3)): "210: (6,2,2)", (1, 2, 2, Fr(2)): "210: (1,2,2)"}
+LR_126_NAMES = {(1, 2, 2, Fr(0)): "126: (1,2,2) heavy", (1, 3, 1, Fr(-2)): "126: (1,3,1) Delta_L",
+                (3, 1, 1, Fr(-2, 3)): "126: (3,1,1)", (3, 1, 1, Fr(2, 3)): "126: (3,1,1)'", (3, 1, 3, Fr(2, 3)): "126: (3,1,3)",
+                (3, 2, 2, Fr(-4, 3)): "126: (3,2,2)'", (3, 2, 2, Fr(4, 3)): "126: (3,2,2)",
+                (3, 3, 1, Fr(-2, 3)): "126: (3,3,1)", (6, 1, 3, Fr(-2, 3)): "126: (6,1,3)", (6, 3, 1, Fr(2, 3)): "126: (6,3,1)",
+                (8, 2, 2, Fr(0)): "126: (8,2,2)"}
+LR_GOLDSTONES = ((3, 2, 2, Fr(-2, 3)), (3, 1, 1, Fr(4, 3)))
+LR_DELTA_R = (1, 1, 3, Fr(2))
+
+
+def potential_lr_scan(setup: Dict[str, Any], chain: Dict[str, Any], heavy: Dict[str, Any], base: Dict[str, Any],
+                      x: Dict[str, float], tau_limit: float, mu0: float, m1_nat: float) -> Dict[str, Any]:
+    """Quartics scanned in T9's box and the vev direction alpha uniform; mu^2 and eta follow from stationarity
+    (kept if |eta/v| <= potential_eta_max). Kept if every non-Goldstone 210 mass^2 is positive (a local minimum)
+    and the quartic part is positive along T9's random directions; then, per kept vacuum, lr_126_draws sets of the
+    126's couplings (cubic, D, E in the box; F is universal on self-dual forms and joins the mass term), kept if
+    every 126 multiplet but Delta_R is heavy. The thresholds use T12's responses; (M_I, tau_p) of every point is kept
+    for Part Y."""
+    rng = _UniformStream(int(num("potential_seed")) + 3)
+    lam_max, eta_max = num("potential_lambda_max"), num("potential_eta_max")
+    keys = list(itertools.combinations(range(10), 4))
+    dirs = []
+    for _ in range(int(num("potential_directions"))):
+        vec = [rng.gauss() for _ in keys]
+        nrm = math.sqrt(sum(v_ * v_ for v_ in vec))
+        dirs.append(so10_210_invariants({k_: v_ / nrm for k_, v_ in zip(keys, vec)}))
+    resp = {r_["multiplet"]: r_ for r_ in heavy["rows"]}
+    bv = [-Fr(7, 2) * _rep_info("SU3", 3)[0] * 2, Fr(0), Fr(0), -Fr(7, 2) * BL_NORM * Fr(4, 3) ** 2 * 3 * 2]
+    dv = [float(b_) / (2 * math.pi) for b_ in bv]
+    rv = solve_chain(chain, x, 2, [dv[0] - dv[1], dv[2] - dv[1], dv[3] - dv[1]])
+    vrow = {"dlnMI": math.log(rv["M_I"] / base["M_I"]),
+            "dlntau": math.log(proton_lifetime(x, rv["M_GUT"], rv["alpha_GUT"], None, heavy["a_l"]) / base["tau_p_years"])}
+    g2 = 4 * math.pi * base["alpha_GUT"]
+    c10 = so10_126_coefficients()["coefficients"]
+    scale = {k: max(abs(c10[r_][k]) for r_ in c10) for k in ("cubic", "D", "E")}
+    tol = num("check_rel_tol")
+    tried, per = int(num("lr_potential_points")), int(num("lr_126_draws"))
+    pts210, pts, alphas = [], [], []
+    for _ in range(tried):
+        lam = {q: rng.uniform(-lam_max, lam_max) for q in QUARTICS_210}
+        alpha = rng.uniform(0, math.pi)
+        mu2, eta = lr_vacuum(setup, lam, alpha)
+        if not abs(eta) <= eta_max:
+            continue
+        if any(sum(lam[q] * d_[q] for q in QUARTICS_210) <= 0 for d_ in dirs):
+            continue
+        m2 = lr_210_masses(setup, lam, mu2, eta, alpha)
+        g_ = m2[LR_GOLDSTONES[0]]
+        m2[LR_GOLDSTONES[0]] = [max(g_, key=abs)]                     # drop the eaten (3,2,2): the eigenvalue nearest 0
+        heavy_ev = [e_ for k, ev in m2.items() if k != LR_GOLDSTONES[1] for e_ in ev]
+        if min(heavy_ev) <= tol:
+            continue
+        mv = lr_vector_mass2(alpha)
+        m322 = g2 / 2 * mv["(3,2,2)"]
+        ell = {nm: math.log(m2[k][-1] / m322) / 2 for k, nm in LR_210_NAMES.items()}
+        lv = math.log(mv["(3,1,1)"] / mv["(3,2,2)"]) / 2
+        dmi = sum(resp[n_]["dlnMI"] * l_ for n_, l_ in ell.items()) + vrow["dlnMI"] * lv
+        dtau = sum(resp[n_]["dlntau"] * l_ for n_, l_ in ell.items()) + vrow["dlntau"] * lv
+        pts210.append((base["M_I"] * math.exp(dmi), base["tau_p_years"] * math.exp(dtau)))
+        alphas.append(alpha)
+        cl = lr_126_coefficients(setup, LR_DELTA_R, alpha)
+        cfs = {k: lr_126_coefficients(setup, k, alpha) for k in LR_126_NAMES}
+        for _ in range(per):
+            k126 = {"cubic": rng.uniform(-eta_max, eta_max), "D": rng.uniform(-lam_max, lam_max),
+                    "E": rng.uniform(-lam_max, lam_max)}
+            m126 = {nm: sum(k126[k] * (cfs[key][k] - cl[k]) / scale[k] for k in k126) for key, nm in LR_126_NAMES.items()}
+            if min(m126.values()) <= 0:
+                continue
+            ell2 = {nm: math.log(v_ / m322) / 2 for nm, v_ in m126.items()}
+            pts.append((base["M_I"] * math.exp(dmi + sum(resp[n_]["dlnMI"] * l_ for n_, l_ in ell2.items())),
+                        base["tau_p_years"] * math.exp(dtau + sum(resp[n_]["dlntau"] * l_ for n_, l_ in ell2.items()))))
+
+    def summary(sample: List[Tuple[float, float]]) -> Dict[str, Any]:
+        if not sample:
+            return {"viable": 0}
+        mi_ = sorted(p_[0] for p_ in sample)
+        ta_ = sorted(p_[1] for p_ in sample)
+        qs = lambda v_: (v_[len(v_) // 6], v_[len(v_) // 2], v_[(5 * len(v_)) // 6])
+        n_ = len(sample)
+        return {"viable": n_, "M_I_quantiles": qs(mi_), "tau_p_quantiles": qs(ta_),
+                "frac_proton_ok": sum(t_ > tau_limit for t_ in ta_) / n_, "frac_vacuum_ok": sum(m_ < mu0 for m_ in mi_) / n_,
+                "frac_leptogenesis_ok": sum(m_ >= m1_nat for m_ in mi_) / n_}
+    qa = sorted(alphas)
+    return {"tried": tried, "per_vacuum_126": per, "vector_311": vrow, "with_210": summary(pts210), "with_126": summary(pts),
+            "points": sorted(pts), "alpha_quantiles": (qa[len(qa) // 6], qa[len(qa) // 2], qa[(5 * len(qa)) // 6]) if qa else None}
+
+
+def lr_potential_checks(setup: Dict[str, Any]) -> Dict[str, float]:
+    """(1) the highest weights reproduce T12's decompositions of the 210 and 126; (2) at alpha = 0 (Pati-Salam vev)
+    every 3221 mass equals T9's and every 126 coefficient T10's; (3) at a two-vev vacuum the eaten (3,2,2) and (3,1,1)
+    are massless and the unbroken generators annihilate the vev."""
+    want210 = sorted([c_ for c_, k in SO10_TO_3221[210]] + [(c_[0], c_[1], c_[2], -c_[3]) for c_, k in SO10_TO_3221[210]
+                                                              if k == "complex"], key=str)
+    want126 = sorted([c_ for c_, _ in SO10_TO_3221[126]], key=str)
+    dec = float(sorted(setup["labels210"], key=str) != want210 or setup["labels126"] != want126)
+    rng = _UniformStream(int(num("potential_seed")) + 4)
+    lam = {q: rng.uniform(-1, 1) for q in QUARTICS_210}
+    eta = rng.uniform(-1, 1)
+    q0 = so10_210_invariants({PS_SINGLET_210: 1})
+    mu2 = 4 * sum(lam[q] * q0[q] for q in QUARTICS_210) / 576
+    m0 = lr_210_masses(setup, lam, mu2, eta, 0)
+    t9 = {n_: sum(lam[q] * c_[q] for q in QUARTICS_210) + eta * c_["eta"] for n_, c_ in potential_210_curvatures().items()}
+    parent = {(8, 1, 1): "(15,1,1)", (3, 1, 1): "(15,1,1)", (8, 3, 1): "(15,3,1)", (1, 3, 1): "(15,3,1)", (3, 3, 1): "(15,3,1)",
+              (8, 1, 3): "(15,1,3)", (1, 1, 3): "(15,1,3)", (3, 1, 3): "(15,1,3)", (6, 2, 2): "(10,2,2)", (1, 2, 2): "(10,2,2)"}
+    ps9 = max(abs(m0[k][0] - t9[parent[k[:3]]]) for k in m0 if k[:3] in parent)
+    for key, want in ((LR_GOLDSTONES[0], (0, t9["(10,2,2)"])), ((1, 1, 1, Fr(0)), (t9["(1,1,1)"], t9["(15,1,1)"]))):
+        ps9 = max(ps9, max(abs(a_ - b_) for a_, b_ in zip(sorted(m0[key]), sorted(want))))    # order-free
+    c10 = so10_126_coefficients()["coefficients"]
+    par126 = {(3, 1, 1): "(6,1,1)", (6, 3, 1): "(10,3,1)", (3, 3, 1): "(10,3,1)", (1, 3, 1): "(10,3,1)",
+              (6, 1, 3): "(10bar,1,3)", (3, 1, 3): "(10bar,1,3)", (1, 1, 3): "(10bar,1,3)", (8, 2, 2): "(15,2,2)",
+              (1, 2, 2): "(15,2,2)", (3, 2, 2): "(15,2,2)"}
+    ps10 = max(abs(lr_126_coefficients(setup, k, 0)[nm] - c10[par126[k[:3]]][nm]) for k in setup["c126"] for nm in ("cubic", "D", "E", "F"))
+    alpha = rng.uniform(0, math.pi / 2)
+    mu2, eta = lr_vacuum(setup, lam, alpha)
+    mm = lr_210_masses(setup, lam, mu2, eta, alpha)
+    gold = max(min(abs(e_) for e_ in mm[k]) for k in LR_GOLDSTONES)
+    phi = lr_210_vev(alpha)
+    unbroken = max(sum(v_ * v_ for v_ in _gen_on_form(g_, phi).values()) for g_ in
+                   ([(0, 1, 1), (2, 3, -1)], [(0, 2, 1), (1, 3, 1)], [(6, 7, 1), (8, 9, 1)], [(6, 7, 1), (8, 9, -1)], [(0, 1, 1), (2, 3, 1), (4, 5, 1)]))
+    return {"decompositions": dec, "PS_limit_210": ps9, "PS_limit_126": ps10, "goldstones": gold, "unbroken": unbroken}
+
+
 def so10(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any], scp: Dict[str, Any],
          bau: Dict[str, Any], pdk: Dict[str, Any], crit: Dict[str, Any]) -> Dict[str, Any]:
     x0 = _float_inputs()
@@ -6161,6 +6592,11 @@ def so10(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any
         r_["vacuum_flip_ratio"] = math.exp(math.log(out["vacuum"]["mu0"] / base_lr["M_I"]) / r_["dlnMI"])
     hs_lr["a_l"] = a_l
     out["heavy_spectrum_LR"] = hs_lr
+    # T13. the left-right chain's own potential: the 210 with both 3221 vevs, and the 126 at that vev
+    setup_lr = lr_potential_setup()
+    out["potential_lr"] = potential_lr_scan(setup_lr, defs["LR"], hs_lr, base_lr, x0, pdk["limit_e_pi0"],
+                                            out["vacuum"]["mu0"], m1_nat)
+    out["potential_lr"]["checks"] = lr_potential_checks(setup_lr)
     # T9. the 210's own potential: its four multiplets' masses calculated over the allowed couplings
     out["potential_210"] = potential_210_scan(hs, base["alpha_GUT"], base["tau_p_years"], base["M_I"],
                                               pdk["limit_e_pi0"], out["vacuum"]["mu0"], m1_nat)
@@ -6763,6 +7199,10 @@ def heavy_spectrum_lift(lr: Dict[str, Any], s10: Dict[str, Any], chain: Dict[str
     r_ = solve_chain(chain, x, 2, shifts)
     tau = proton_lifetime(x, r_["M_GUT"], r_["alpha_GUT"], None, hs["a_l"])
     moved = sorted(((abs(li), r2_["multiplet"], math.exp(li)) for li, r2_ in zip(ell, hs["rows"])), reverse=True)
+    pts = s10["potential_lr"]["points"]
+    out["potential_n"] = len(pts)
+    out["potential_hits"] = sum(1 for m_, t_ in pts if m_ >= target and t_ > limit)
+    out["potential_max_M_I"] = max((m_ for m_, t_ in pts if t_ > limit), default=None)
     out.update({"reached": True, "spread": math.exp(hi), "M_I": r_["M_I"], "M_GUT": r_["M_GUT"], "tau_p_years": tau,
                 "proton_ok": tau > limit, "vacuum_ok": r_["M_I"] < s10["vacuum"]["mu0"],
                 "spectrum": [(nm_, ratio_) for _, nm_, ratio_ in moved]})
@@ -7310,8 +7750,9 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
             if fit_ and min(t_["M_R_over_M_I_range"][0] for t_ in fit_) <= bound:
                 return entry("trade", lead + "; type I (+ II) fits with M_R below sqrt(4 pi) M_I: unknowns absorb the data")
             lf_ = s10y.get("lift") or {}
-            lift_txt = (f"; a heavy spectrum within a factor {lf_['spread']:.2f} of M_GUT lifts M_I there with the proton at"
-                        f" {lf_['tau_p_years']:.1e} years (Part T12)" if lf_.get("reached") else "")
+            lift_txt = (f"; a heavy spectrum within a factor {lf_['spread']:.2f} of M_GUT would lift M_I there (Part T12), but"
+                        f" the chain's potential gives it in {lf_['potential_hits']} of {lf_['potential_n']} viable cases (Part T13)"
+                        if lf_.get("reached") else "")
             if fit_:
                 n_ = sum(t_["fits_found"] for t_ in fit_)
                 return entry("open", lead + f"; {n_} type I (+ II) fits, every one needing M_R,3 >="
@@ -8072,6 +8513,12 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     rad = max(abs(cv_["(1,1,1)"][q] - 8 * q0_[q] / 576) for q in QUARTICS_210)
     checks.append(("210 potential: the eaten (6,2,2) is massless for every coupling (Goldstone); the radial mode has"
                    " twice the vacuum curvature", gold < tol and rad < tol, f"max {max(gold, rad):.1e}"))
+    lc_ = s10["potential_lr"]["checks"]
+    checks.append(("Left-right potential: highest weights reproduce the 210 and 126 decompositions; the Pati-Salam limit"
+                   " equals T9's masses and T10's coefficients; the eaten (3,2,2), (3,1,1) are massless at a two-vev"
+                   " vacuum and 3221 annihilates it", lc_["decompositions"] == 0 and max(lc_[k] for k in ("PS_limit_210",
+                   "PS_limit_126", "goldstones", "unbroken")) < tol,
+                   f"T9 {lc_['PS_limit_210']:.0e}, T10 {lc_['PS_limit_126']:.0e}, Goldstones {lc_['goldstones']:.0e}"))
     idx3 = all(so10_decomposition_index_3221(r_) == [Fr(SO10_INDEX[r_])] * 4 for r_ in SO10_TO_3221)
     dof3 = [sum(math.prod(c_[:3]) * (1 if k_ == "real" else 2) for c_, k_ in SO10_TO_3221[r_]) for r_ in (10, 126, 210)]
     checks.append(("SO(10) -> SU(3) x SU(2)_L x SU(2)_R x U(1)_B-L decompositions of 10, 126, 210: real dimensions 10, 252,"
@@ -9254,6 +9701,25 @@ def report(res: Dict[str, Any]) -> str:
       f" {sorted(abs(r2_['dlnMI']) for r2_ in hl_['rows'])[-int(num('report_top_heavy')) - 1]:.2f} per unit)")
     w("       The SU(2)_L-triplet coloured states pull M_I down when heavy, the SU(2)_R ones up: a split spectrum moves")
     w("       M_I by large factors (Part Y asks how far the neutrino fits need it moved).")
+    pl_ = so["potential_lr"]
+    w("  T13. The left-right chain's own potential. The 210's vev phi = v (cos a e_PS + sin a e_BL); multiplets found as")
+    w("       highest-weight vectors (complex basis Z_k, U_1, U_2: every monomial a weight vector), so the 210's two (3,2,2)")
+    w("       and two singlets come out as 2 x 2 Hessian blocks. Stationarity fixes mu^2 and eta for scanned quartics and")
+    w("       a; the heavy vectors (3,2,2) (M_GUT) and (3,1,1) get different masses, the latter a threshold of its own")
+    w(f"       (d ln M_I = {pl_['vector_311']['dlnMI']:+.2f} per unit log). The 126 at this vev: T10's invariants, Delta_R"
+      " = (1,1,3,2) light. Checks: the")
+    w("       decompositions, T9's and T10's Pati-Salam limits, the Goldstones (self-checks).")
+    for lab_, key_ in (("210 alone (126, 10 at M_GUT)", "with_210"), ("210 + 126 (10 at M_GUT)", "with_126")):
+        r_ = pl_[key_]
+        if not r_["viable"]:
+            w(f"       {lab_}: no viable potential")
+            continue
+        w(f"       {lab_}: {r_['viable']} viable of {pl_['tried']}" + (f" x {pl_['per_vacuum_126']}" if key_ == "with_126" else "")
+          + f"; M_I 16-50-84 %: {r_['M_I_quantiles'][0]:.1e}, {r_['M_I_quantiles'][1]:.1e}, {r_['M_I_quantiles'][2]:.1e} GeV;")
+        w(f"         proton decay passes {100 * r_['frac_proton_ok']:.0f} %, stabilizable vacuum {100 * r_['frac_vacuum_ok']:.0f} %,"
+          f" natural leptogenesis {100 * r_['frac_leptogenesis_ok']:.0f} %")
+    w("       Delta_R light drags its SU(2)_R partners of the (10bar,1,3) light with it, and those lower M_I: the potential")
+    w("       pushes M_I down, not up.")
     w(_wrap("RESULT: SO(10) calculates the hypercharges' normalization (sin^2 theta_W = 3/8 at unification) and "
             "requires the right-handed neutrino; its minimal Yukawa relations are excluded. Without supersymmetry, "
             f"the Pati-Salam route unifies the three couplings with M_I = {ps['M_I']:.0e} GeV and M_GUT = "
@@ -9418,8 +9884,10 @@ def report(res: Dict[str, Any]) -> str:
               f" M_GUT = {lf['M_GUT']:.2e} GeV,")
             w(f"      tau_p = {lf['tau_p_years']:.2e} years ({'above' if lf['proton_ok'] else 'below'} the Super-K limit"
               f"{', at its edge: the binding constraint' if lf['proton_ok'] else ''}). The vacuum is then")
-            w(f"      {'still' if lf['vacuum_ok'] else 'no longer'} stabilizable (M_I against mu_0). Whether the scalar potential"
-              " gives such a spectrum is next.")
+            w(f"      {'still' if lf['vacuum_ok'] else 'no longer'} stabilizable (M_I against mu_0). The chain's own potential"
+              f" (Part T13) gives such a")
+            w(f"      spectrum in {lf['potential_hits']} of {lf['potential_n']} viable 210 + 126 potentials (the largest M_I"
+              f" with the proton kept: {lf['potential_max_M_I']:.1e} GeV).")
         else:
             w(f"      cannot, within a factor {num('heavy_mass_spread'):.0f} of M_GUT, while keeping the proton.")
     else:

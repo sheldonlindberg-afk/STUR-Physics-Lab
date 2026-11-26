@@ -911,6 +911,18 @@ PART T. SO(10)
         (14 more, each moving ln M_I by less than 0.28 per unit)
        The SU(2)_L-triplet coloured states pull M_I down when heavy, the SU(2)_R ones up: a split spectrum moves
        M_I by large factors (Part Y asks how far the neutrino fits need it moved).
+  T13. The left-right chain's own potential. The 210's vev phi = v (cos a e_PS + sin a e_BL); multiplets found as
+       highest-weight vectors (complex basis Z_k, U_1, U_2: every monomial a weight vector), so the 210's two (3,2,2)
+       and two singlets come out as 2 x 2 Hessian blocks. Stationarity fixes mu^2 and eta for scanned quartics and
+       a; the heavy vectors (3,2,2) (M_GUT) and (3,1,1) get different masses, the latter a threshold of its own
+       (d ln M_I = -2.50 per unit log). The 126 at this vev: T10's invariants, Delta_R = (1,1,3,2) light. Checks: the
+       decompositions, T9's and T10's Pati-Salam limits, the Goldstones (self-checks).
+       210 alone (126, 10 at M_GUT): 221 viable of 300000; M_I 16-50-84 %: 1.2e+09, 3.5e+09, 1.3e+10 GeV;
+         proton decay passes 98 %, stabilizable vacuum 97 %, natural leptogenesis 15 %
+       210 + 126 (10 at M_GUT): 1149 viable of 300000 x 20; M_I 16-50-84 %: 4.1e+08, 1.1e+09, 6.2e+09 GeV;
+         proton decay passes 97 %, stabilizable vacuum 99 %, natural leptogenesis 9 %
+       Delta_R light drags its SU(2)_R partners of the (10bar,1,3) light with it, and those lower M_I: the potential
+       pushes M_I down, not up.
   RESULT: SO(10) calculates the hypercharges' normalization (sin^2 theta_W =
     3/8 at unification) and requires the right-handed neutrino; its minimal
     Yukawa relations are excluded. Without supersymmetry, the Pati-Salam
@@ -1036,7 +1048,8 @@ PART Y. THE SO(10) YUKAWA SECTOR: CAN IT GIVE THE CHARGED-FERMION MASSES?
       does it with every GUT multiplet within a factor 1.54 of M_GUT (the smallest such factor that also keeps the
       proton: a linear program in the log-masses, then solved exactly): M_I = 1.39e+11, M_GUT = 5.05e+15 GeV,
       tau_p = 2.40e+34 years (above the Super-K limit, at its edge: the binding constraint). The vacuum is then
-      no longer stabilizable (M_I against mu_0). Whether the scalar potential gives such a spectrum is next.
+      no longer stabilizable (M_I against mu_0). The chain's own potential (Part T13) gives such a
+      spectrum in 0 of 1149 viable 210 + 126 potentials (the largest M_I with the proton kept: 6.2e+10 GeV).
   RESULT: SO(10)'s Yukawa sector is a real test. The minimal Pati-Salam chain
     fails it: its unbroken SU(4) keeps the light Higgs in one irrep, which
     gives the wrong lepton/down ratios by tens of sigma. Where SU(4) breaks
@@ -1114,8 +1127,8 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     neutrino masses open : type II from the 10 + 126 sum rule misses the PMNS data by 19 sigma (b
       and tau do not converge: (m_b - m_tau)/m_b = -0.41); 15 type I (+ II) fits, every one needing
       M_R,3 >= 177 M_I, above the perturbative 3.5 M_I: B - L would break far above the chain's
-      M_I; a heavy spectrum within a factor 1.54 of M_GUT lifts M_I there with the proton at
-      2.4e+34 years (Part T12)
+      M_I; a heavy spectrum within a factor 1.54 of M_GUT would lift M_I there (Part T12), but the
+      chain's potential gives it in 0 of 1149 viable cases (Part T13)
     proton decay pass : p -> e+ pi0 in 2e+36 years against 2.4e+34
     baryon asymmetry open : M_1 <~ M_I = 3e+09 GeV needs weak washout: the natural range needs M_1
       >= 2e+10 GeV
@@ -1135,8 +1148,8 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     neutrino masses open : type II from the 10 + 126 sum rule misses the PMNS data by 19 sigma (b
       and tau do not converge: (m_b - m_tau)/m_b = -0.41); 15 type I (+ II) fits, every one needing
       M_R,3 >= 177 M_I, above the perturbative 3.5 M_I: B - L would break far above the chain's
-      M_I; a heavy spectrum within a factor 1.54 of M_GUT lifts M_I there with the proton at
-      2.4e+34 years (Part T12)
+      M_I; a heavy spectrum within a factor 1.54 of M_GUT would lift M_I there (Part T12), but the
+      chain's potential gives it in 0 of 1149 viable cases (Part T13)
     proton decay fail : p -> e+ pi0 in 9e+32 years against 2.4e+34
     baryon asymmetry trade : M_1 up to M_I = 3e+10 GeV covers the natural range (M_1 >= 2e+10 GeV)
     strong CP trade : an axion at f_a = M_I would give m_a = 1.9e+02 micro-eV
@@ -1546,6 +1559,7 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Axion misalignment from its ingredients reproduces Di Luzio et al.'s eq. 170 (their approximation)  (Omega h^2 = 0.1184 at f_a = 2.0e+11 GeV against 0.12)
   [PASS] SO(10) -> Pati-Salam decompositions of 10, 126, 210: component indices add up to the SO(10) index under every factor  (10: 1, 126: 35, 210: 56)
   [PASS] 210 potential: the eaten (6,2,2) is massless for every coupling (Goldstone); the radial mode has twice the vacuum curvature  (max 0.0e+00)
+  [PASS] Left-right potential: highest weights reproduce the 210 and 126 decompositions; the Pati-Salam limit equals T9's masses and T10's coefficients; the eaten (3,2,2), (3,1,1) are massless at a two-vev vacuum and 3221 annihilates it  (T9 2e-15, T10 4e-16, Goldstones 5e-14)
   [PASS] SO(10) -> SU(3) x SU(2)_L x SU(2)_R x U(1)_B-L decompositions of 10, 126, 210: real dimensions 10, 252, 210 and indices = the SO(10) index under every factor, B - L included  (dimensions [10, 252, 210])
   [PASS] 126: the self-dual basis is self-dual, (10,3,1) and (10bar,1,3) do not mix, and every D-even invariant is equal on them  (max 0.0e+00)
   [PASS] 10: A_ij = phi phi at the vev is 6 v^2 on SO(4) indices, 0 on SO(6), diagonal (splits (1,2,2) from (6,1,1))
@@ -1555,6 +1569,6 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] SO(10) 10 + 126: the sum rule M_e = c1 M_d + c2 M_u and the Dirac matrix M_D = M_u + (3 + c1)/c2 (M_d - M_e) hold exactly at a random point  (max rel dev 3.2e-15)
   [PASS] SO(10) chains: the general two-loop formula on the SM content = sm_gauge_b, sm_two_loop_b; the Newton solver at one loop = the linear solution  (rel diff 3.3e-10)
   [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (28 stages, 87 edges)
-  72/72 checks pass
+  73/73 checks pass
 ==============================================================================
-Elapsed: 1449.8 s
+Elapsed: 1488.3 s

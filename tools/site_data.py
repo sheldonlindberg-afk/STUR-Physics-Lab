@@ -112,7 +112,9 @@ def main():
                              "M_R_range": ylr[k].get("M_R_over_M_I_range"), "M_1_range": ylr[k].get("M_1_range_GeV")}
                          for k in ("type2", "type1", "type12")}}
     lift = yy.get("lift") or {}
-    yukawa["lift"] = {k: lift.get(k) for k in ("reached", "spread", "M_I", "tau_p_years", "factor", "target_M_I")}
+    yukawa["lift"] = {k: lift.get(k) for k in ("reached", "spread", "M_I", "tau_p_years", "factor", "target_M_I",
+                                                "potential_n", "potential_hits", "potential_max_M_I")}
+    yukawa["potential_M_I_median"] = res["so10"]["potential_lr"]["with_126"]["M_I_quantiles"][1]
     survivor = {"chain": lg["chain"], "M_I": chain["M_I"], "M_GUT": chain["M_GUT"], "tau_p": chain["tau_p_years"],
                 "dm_fraction": res["dark_matter"]["chains"][lg["chain"]]["fraction_post"],
                 "age": res["closed_cosmology"]["age_Gyr"], "age_pull": res["closed_cosmology"]["age_pull"]}

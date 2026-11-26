@@ -687,6 +687,20 @@ def test_heavy_spectrum_lr():
     assert abs(lf["M_I"] / lf["target_M_I"] - 1) < 0.05
 
 
+def test_lr_potential():
+    """Part T13: the left-right chain's 210 vacuum with both vevs and the 126 at it. The highest weights reproduce
+    the decompositions; the Pati-Salam limit equals T9 and T10; the Goldstones are massless. Most viable potentials
+    keep the proton and lower M_I; almost none gives the lift the neutrino fits need."""
+    pl = RESULT["so10"]["potential_lr"]
+    ck = pl["checks"]
+    assert ck["decompositions"] == 0 and max(ck[k] for k in ("PS_limit_210", "PS_limit_126", "goldstones", "unbroken")) < 1e-9
+    w2, w6 = pl["with_210"], pl["with_126"]
+    assert w2["viable"] > 100 and w6["viable"] > 500 and w6["frac_proton_ok"] > 0.8
+    assert w6["M_I_quantiles"][1] < RESULT["so10"]["chains"]["LR"]["loop2"]["M_I"]
+    lf = RESULT["so10_yukawa"]["lift"]
+    assert lf["potential_n"] == w6["viable"] and lf["potential_hits"] < 0.01 * lf["potential_n"]
+
+
 def test_left_right_running():
     """Part Y: matrix running SM -> M_I -> left-right -> M_GUT. The reduced RGEs equal the general formula; the
     left-right running brings b and tau closer than SM running does, whatever the unknown Takagi phases."""

@@ -146,15 +146,18 @@ the new result, and the tests fail if a page value, the scorecard, the ledger or
    representative), M_R,3 = 177-360 M_I in every fit (perturbative bound 3.5 M_I), M_1 = 4e9-1e10 GeV. Type I
    alone: best chi^2 151; type II: ~19 sigma. Neutrino entry open, with the M_R tension stated. Open: the second
    bidoublet's vev and the Delta_R coupling in the running; whether thresholds (Part T7) can lift M_I enough.
-3. [~] The LR chain's own scalar potential and its thresholds.
+3. [x] The LR chain's own scalar potential and its thresholds.
    [x] 3a. The heavy spectrum by group theory (Part T12): every heavy 3221 multiplet of the 210, 126 and 10 with its
        B - L charge (decompositions checked against the SO(10) indices); threshold responses; and the "lift" (Part Y):
        the smallest spread that brings M_I to where the type I + II fits put B - L breaking while keeping the proton,
        a linear program in the log-masses solved exactly. Answer: within a factor ~1.5 of M_GUT, M_I -> 1.4e11 GeV,
        tau_p at the Super-K limit (binding), vacuum no longer stabilizable.
-   [ ] 3b. The 210's potential with both 3221 vevs (as T9 did for Pati-Salam): the masses from couplings, Goldstones
-       (3,2,2) and (3,1,1) massless as a check; then the 126's and 10's couplings (T10, T11). Needs the weight-space
-       (highest-weight) machinery for multiplets that appear more than once, e.g. the 210's two (3,2,2).
+   [x] 3b. The potential (Part T13): the 210 with both 3221 vevs and the 126 at that vev, multiplets found as
+       highest-weight vectors (the 210's two (3,2,2) and two singlets as 2 x 2 blocks), stationarity solved for mu^2
+       and eta, the (3,1,1) vector as its own threshold. Checks: decompositions, T9's and T10's PS limits, Goldstones.
+       Result: ~1150 viable 210 + 126 potentials; proton passes ~97 %; M_I median ~1e9 GeV (down, not up); none
+       lifts M_I to where the neutrino fits need it with the proton kept. Delta_R light drags its SU(2)_R partners
+       light, lowering M_I. Open: the 10's couplings in this chain (T11's analogue), two-loop thresholds.
 4. [ ] Proton running above M_I; triplet-mediated proton decay with the fitted Yukawas.
 
 ## Later

@@ -30,7 +30,7 @@ python3 production_v2_2.py --certify            # also prove every texture exclu
 Or copy the file (the [website](https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/) has a
 **Copy Python script** button; on GitHub use *Copy raw file*) and paste it into any Python 3.8+
 runner, notebook or AI assistant's code tool. The expected output is
-[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 72 self-checks, which test
+[results/production_v2_2.txt](results/production_v2_2.txt). It ends with 73 self-checks, which test
 the calculation itself, not its agreement with data.
 
 ## The rule
@@ -703,6 +703,16 @@ its B − L charge, and a self-check confirms that each decomposition adds up to
 factors. Their threshold responses split cleanly: SU(2)_L-triplet coloured states (the 126's (6,3,1), the 210's
 (8,3,1)) lower M_I when heavy, SU(2)_R ones raise it, by up to 1.5 in ln M_I per unit of ln(M_h/M_GUT).
 
+**Part T13: the left-right chain's own potential.** The 210's vev now has both components,
+φ = v (cos α e_PS + sin α e_BL). The multiplets are not typed in: in a complex basis every wedge monomial is a weight
+vector of the rank-5 Cartan subalgebra, and each 3221 multiplet is found as the vectors its raising operators
+annihilate. That separates the 210's two (3,2,2) and two singlets, which come out as 2 × 2 blocks of the Hessian.
+Stationarity on the singlet plane fixes μ² and the cubic for scanned quartics and α. The heavy vectors split:
+(3,2,2) defines M_GUT, and (3,1,1) is a threshold of its own. The 126's masses come from T10's invariants at the
+new vev, with Δ_R light. Self-checks: the decompositions; at α = 0 every mass equals T9's and every 126
+coefficient T10's (to 10⁻¹⁵); the eaten (3,2,2) and (3,1,1) are massless at any two-vev vacuum. Over the viable
+potentials, proton decay passes about 97% of the time and M_I tends to fall (median ≈ 1 × 10⁹ GeV).
+
 **Part V: dark matter from the axion**
 
 Until now the dark-matter density was an input. The axion of Part O is produced by misalignment:
@@ -827,7 +837,10 @@ left-right one.
   checked with the full two-loop solve. Answer: every heavy multiplet within a factor of about 1.5 of M_GUT
   suffices, M_I ≈ 1.4 × 10¹¹ GeV, and the proton then lives about 2.4 × 10³⁴ years, at the Super-K limit (the
   binding constraint, so within Hyper-Kamiokande's reach). The vacuum is then no longer stabilizable (M_I above
-  μ₀). Whether the scalar potential gives such a split is the next calculation.
+  μ₀). But the chain's own potential (Part T13) does not give such a split: over the viable 210 + 126
+  potentials, none lifts M_I to the target with the proton kept, and their median M_I is lower than the chain's,
+  not higher. Δ_R must be light, and it drags its SU(2)_R partners light with it. The neutrino entry stays open,
+  with the fits and the chain's spectrum now pointing in opposite directions.
 * **Part X follows the survivor.** The cosmology closure now takes the surviving chain from Part U
   automatically: the left-right chain, whose axion gives under 1% of the dark matter. The loop then
   needs nearly all the dark matter from strings, domain walls or another component.
