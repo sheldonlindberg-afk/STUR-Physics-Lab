@@ -68,8 +68,13 @@ From that trace the report lists, for each stage, its evidence level (proved, ex
 numerical, conditional, parameter trade), the inputs it reads, the stages it takes results
 from, and what it assumes. It also lists which stages each input reaches (change `M_t` and
 seven stages are recalculated) and checks whether the stages' assumptions are compatible.
-They are not: Parts I, J and K assume the MSSM above M_S and Part L the Standard Model up to
-M_P. The script does not choose between them. Part M tests each against every combination of
+They are not: Parts I, J and K assume the MSSM above M_S, Part L the Standard Model up to
+M_P, the SO(10) stages the Standard Model only up to each chain's M_I, and Parts D and E 3-3-1.
+The script does not choose between them. Where one stage takes a result from a stage that
+assumes a different field content (the place where the numbers could stop locking together),
+the report lists the edge with its reason, for example the SO(10) chains take only Part L's
+Standard-Model running below M_I, which every hypothesis shares; a test fails if any such edge
+has no stated reason. Part M tests each against every combination of
 the conditions the other parts impose (gauge unification, b-τ unification, the Higgs mass):
 
 * **SM up to M_P** has no unknowns, so every condition is a prediction, and it misses each one:
@@ -587,9 +592,11 @@ Sakharov's three conditions:
 * **The efficiency is calculated.** κ_f = 2/(K z_B)(1 − e^{−K z_B/2}) with K = m̃₁/m_*, where
   m_* = 1.07 meV follows from g* and M_P, and z_B solves their freeze-out equation exactly (eqs. 22,
   59). Over the natural range m_sol ≤ m̃₁ ≤ m_atm, κ_f runs from 0.043 to 0.005, so **M₁ ≥ 1.5×10¹⁰
-  to 1.3×10¹¹ GeV**. All of that is inside Part P's seesaw window, but the left-right SO(10) chain
-  (M_I = 2.8×10⁹ GeV) would need weak washout. Part L's SM up to M_P, which needs Dirac neutrinos,
-  has no such mechanism.
+  to 1.3×10¹¹ GeV**. All of that is inside Part P's seesaw window. Each SO(10) chain allows M₁ up to
+  2√(4π) M_I/g_R (its M_I is the W_R mass g_R v_R, and M_N = 2f v_R with a perturbative f), the same
+  ceiling Parts T7 and Y4 use: for the left-right chain 12.6 M_I = 3.7×10¹⁰ GeV, which covers the
+  natural range (Part Y4's fits put M₁ at 5×10⁹–1.7×10¹⁰ GeV). Part L's SM up to M_P, which needs
+  Dirac neutrinos, has no such mechanism.
 
 **Part T: SO(10)**
 
@@ -745,12 +752,17 @@ script calculates this from its ingredients (Di Luzio, Giannotti, Nardi, Visinel
 148–169). It takes m_a f_a from Part O, M_P from Part H, g_S today = 43/11 from Part S and T₀ from
 T_CMB; the dilute-instanton m_a(T) is quoted. The result reproduces the paper's own eq. 170 to 1.3%
 (a self-check). After inflation, misalignment alone gives all of Ω_c h² = 0.1200 at
-**f_a = 2.0×10¹¹ GeV, m_a = 28.5 μeV**. If the axion scale is each SO(10) chain's M_I:
+**f_a = 2.0×10¹¹ GeV, m_a = 28.5 μeV**. If the axion scale is each SO(10) chain's M_I (an
+order-of-magnitude identification: f_a = v_PQ/N_DW, with PQ broken alongside B − L):
 
 | Chain | f_a = M_I | m_a | Post-inflation misalignment | Pre-inflation |
 |---|---|---|---|---|
-| Pati–Salam | 1.4×10¹¹ GeV | 41 μeV | 65% of the dark matter | θ_i = 2.66 gives all |
-| Left-right | 2.8×10⁹ GeV | 2.1 meV | 0.7% | impossible (θ_i > π) |
+| Pati–Salam | 1.5×10¹¹ GeV | 39 μeV | 69% of the dark matter | θ_i = 2.59 gives all |
+| Left-right | 2.9×10⁹ GeV | 2.0 meV | 0.7% | impossible (θ_i > π) |
+
+The same identification at the B − L scale SO(10)'s Y₁₂₆ needs for the neutrinos (Part Y4, ~10¹³ GeV)
+would overclose post-inflation: until f_a comes from a PQ-charged potential, the dark-matter and
+neutrino rows rest on different B − L scales (an open audit finding).
 
 So at the Pati–Salam scale the axion makes about two thirds of the dark matter from misalignment
 alone; strings and domain walls, whose yield is not agreed on, only add to it. Unification,
@@ -775,19 +787,25 @@ The effective weak mixing angle of the Z couplings, from the same authors' two-l
 (2006), comes out at sin²θ_eff = 0.23164 ± 0.00003, against 0.23151 ± 0.00016 (LEP + SLC) and
 0.23149 ± 0.00013 (hadron colliders).
 
-The SM prediction agrees with the measurements and reproduces the PDG fit. The heavy states of the
-SO(10) chains decouple, so this tests the SM below M_I, not the chains.
+The SM prediction agrees with the measurements and reproduces the PDG fit. Because it uses Part L's
+Higgs mass, it is the M_W of the SM-to-M_P hypothesis (and the stage is tagged with it); with the measured
+m_h it is the low-energy SM's, common to every hypothesis, since the SO(10) chains' heavy states decouple.
+The PDG average is also an input of Part L's matching, so only the other two comparisons are independent.
 
 **Part X: closing the loop, cosmology from the particle physics**
 
 Part A takes Ω_m as an input. Here it is built from the rest: Ω_b (measured), the axion at the
-surviving chain's M_I (or, when none survives, the closest one's) by misalignment (Part V) and the minimal
-neutrino masses (Part P). Flatness then gives Ω_Λ, and the Friedmann equation gives the age. That chain is
-the left-right one (Part U), whose axion gives under 1% of the dark matter: Ω_m = 0.052 and the universe would be
-21.4 Gyr old, against Planck's 13.787: **378σ off**. (At Pati–Salam's M_I it would be 15.2 Gyr,
-70σ.) With all of Ω_c the same code returns Part A's 13.797 Gyr (a self-check). Closing the loop
-therefore needs about 99% of the dark matter from the axion's strings and domain walls, or from a
-second component.
+M_I of each surviving chain (or, when none survives, of each closest one) by misalignment (Part V) and the
+minimal neutrino masses (Part P). Flatness then gives Ω_Λ, and the Friedmann equation gives the age:
+
+| Closest chain | axion share of Ω_c | Ω_m | age | vs Planck's 13.787 Gyr |
+|---|---|---|---|---|
+| left-right | 0.7% | 0.052 | 21.3 Gyr | **378σ** |
+| Pati–Salam | 69% | 0.233 | 15.0 Gyr | **60σ** |
+| left-right + D | 12% | 0.081 | 19.4 Gyr | **282σ** |
+
+With all of Ω_c the same code returns Part A's 13.797 Gyr (a self-check). Closing the loop therefore needs
+the rest of the dark matter (31% to 99%) from the axion's strings and domain walls, or from a second component.
 
 **Part AA: dark matter beyond the axion, and inflation**
 
@@ -921,59 +939,69 @@ left-right one.
   a quarter 126 from Part T13, split by the fit's |a/c| and |b/d|), Clebsch factors up to 3, and the lighter triplet
   at T13's 1.3 M_GUT. The amplitude is about 4×10⁻⁵ of the gauge bosons': τ ~ 10⁴⁵ years. The triplets would matter
   only below ~4×10¹³ GeV.
-* **No complete hypothesis survives.** The left-right chain now fails the neutrinos and Pati–Salam the fermion
-  masses: each fails exactly one condition. Parts X and Z follow the closest hypothesis (fewest fails, then most
-  passes, then fewest trades): the left-right chain, whose axion gives under 1% of the dark matter.
+* **No complete hypothesis survives.** The left-right chain fails the neutrinos, Pati–Salam the fermion masses
+  and left-right with D-parity proton decay: each fails exactly one condition. Parts X and Z follow every one of
+  these closest chains (fewest fails; the tie is carried, not broken by counting trades).
 * **Part Z: the ledger.** Every free number of the Standard Model plus cosmology carries the status
-  the stages computed for the closest hypothesis:
+  the stages computed for the closest hypotheses (shown for the left-right chain; the rows that differ for the
+  others are printed after it). Nothing is credited from a framework that is not the hypothesis:
 
 | Quantity | Count | Status |
 |---|---|---|
 | hypercharges, charge quantization | 5 per family | calculated (exact) |
-| number of families | 1 | calculated (in 3-3-1) |
+| number of families | 1 | open (3-3-1 fixes it, but 3-3-1 is not on the scorecard) |
 | weak mixing angle at unification | 1 | calculated (3/8) |
 | gauge couplings | 3 | traded (for M_I, M_GUT, α_GUT) |
 | Higgs mass | 1 | open (criticality 3.3σ off) |
 | Higgs vev, quark masses, G | 1 + 6 + 1 | input |
-| CKM | 4 | related (texture, not the SO(10) chain's structure) |
-| charged-lepton masses | 3 | traded (sum rule, 8 unknowns) |
-| neutrino masses and mixing | 7–9 | open: no working mechanism (type II excluded; type I + II fits need v_R ~ 10¹³ GeV, ≥ 14× the chain's) |
+| CKM | 4 | input (the predictive Hermitian texture comes from no framework tested) |
+| charged-lepton masses | 3 | traded (sum rule, 8 unknowns); open for Pati–Salam |
+| neutrino masses and mixing | 7–9 | open: no working mechanism (type II excluded; type I + II fits need v_R ~ 10¹³ GeV, ≥ 14× the chain's); traded for Pati–Salam (seesaw at M_I) |
 | strong CP angle | 1 | bounded (< 9×10⁻¹¹) |
-| dark matter, Λ | 1 + 1 | open |
-| baryon asymmetry | 1 | traded (leptogenesis, M₁ unknown) |
+| dark matter, Λ | 1 + 1 | open (dark matter traded for Pati–Salam: 69% from misalignment, an angle for the rest) |
+| baryon asymmetry | 1 | traded (leptogenesis, M₁ unknown, at most 2√(4π) M_I/g_R) |
+
+Totals for the left-right chain: calculated 2, input 4, traded 3, bounded 1, open 5 (Pati–Salam: open 4,
+traded 4).
 
 **The algorithm closes.** It runs in one pass, every stage in dependency order, and every free number has a
-status. What it calculates is discrete and exact: the charges and their quantization, sin²θ_W at
-unification, and the family number in 3-3-1. No continuous free number of the Standard Model is
-calculated. And no complete hypothesis survives every condition: the closest, SO(10) through the left-right
-chain, fails the neutrinos because SO(10) itself puts B − L breaking near the unification scale.
+status. What it calculates is discrete and exact: the charges and their quantization and sin²θ_W at
+unification (the family number only in 3-3-1, which is not a complete hypothesis here). No continuous free
+number of the Standard Model is calculated. And no complete hypothesis survives every condition: the closest
+SO(10) chains each fail one, the left-right chain the neutrinos because SO(10) itself puts B − L breaking near
+the unification scale, Pati–Salam the fermion masses by an exact selection rule.
 
 **Part U: the scorecard, every complete hypothesis against every condition**
 
 Part M weighs the high-energy hypotheses against unification, b–τ and the Higgs mass. Parts P–T add
-neutrino masses, proton decay, the baryon asymmetry, the strong CP angle and a third hypothesis.
-Each entry below is the verdict the stage that computes it reached. *Trade* means an unknown
-absorbs the condition, so nothing is tested; *open* means that hypothesis has no mechanism for it.
+neutrino masses, proton decay, the baryon asymmetry, the strong CP angle and the SO(10) chains.
+Each entry below is the verdict the stage that computes it reached, labelled by fixed rules: *pass*
+only for a test the hypothesis could have failed; *trade* when an unknown absorbs the condition (three
+couplings fixing three unknown scales is a trade, as is a seesaw with a free Dirac Yukawa or a vacuum a
+threshold of unknown size can stabilize); *open* when the hypothesis has no mechanism or does not impose
+the condition (λ(M_I) = 0, Part T6).
 
-| Condition | SM to M_P | minimal SUSY SU(5) | SO(10) via Pati–Salam (two loops) |
-|---|---|---|---|
-| gauge unification | fail (79σ) | trade (M_S) | pass (M_I, M_GUT solved) |
-| b–τ unification | fail (79σ) | trade (tan β) | open |
-| Higgs mass | fail (3.3σ; 2.95σ with theory errors) | fail (m_h ≤ 103 GeV) | pass: λ(M_I) = 0 gives 125.6 GeV (0.4σ) |
-| neutrino masses | trade (Dirac, y ~ 3×10⁻¹³) | trade | pass (seesaw at M_I) |
-| proton decay | pass (no GUT) | fail (p → ν̄K⁺, 4 orders short) | pass (1.2×10³⁵ yr) |
-| baryon asymmetry | fail (no mechanism) | trade | trade (leptogenesis window open) |
-| strong CP | open | open | trade (axion at f_a = M_I) |
+| Condition | SM to M_P | minimal SUSY SU(5) | SO(10) via Pati–Salam | SO(10) via left-right | left-right + D |
+|---|---|---|---|---|---|
+| gauge unification | fail (79σ) | trade (M_S) | trade | trade | trade |
+| b–τ unification | fail (79σ) | trade (tan β) | open | trade (sum rule) | trade |
+| Higgs mass | fail (3.3σ) | fail (m_h ≤ 103 GeV) | open | open | open |
+| neutrino masses | trade (Dirac) | trade | trade (seesaw at M_I) | **fail** (v_R ≥ 800× short) | open |
+| proton decay | pass (no GUT) | **fail** (p → ν̄K⁺) | pass (1×10³⁵ yr) | pass (2×10³⁶ yr) | **fail** (1×10³³ yr) |
+| baryon asymmetry | fail | trade | trade | trade (M₁ ≤ 12.6 M_I) | trade |
+| strong CP | open | open | trade (axion) | trade | trade |
+| vacuum stability | open | pass | open | trade | trade |
+| dark matter | open | trade | trade (69% + angle) | open (0.7%) | open (12%) |
+| fermion masses | trade | **fail** | **fail** (selection rule) | trade (8 unknowns) | trade |
 
-The table shows the first-pass Pati–Salam column; the full scorecard (in the output and on the website) has a
-row for every chain and two more conditions (fermion masses, vacuum stability, dark matter). Both D-parity
-chains fail proton decay. Pati–Salam fails the fermion masses (Part Y's selection rule), and the left-right
-chain the neutrinos (Part Y4: SO(10)'s own Y₁₂₆ puts B − L breaking near the unification scale). **No complete
-hypothesis survives every condition.**
+Pati–Salam, left-right and left-right with D-parity each fail exactly one condition, and each passes at
+most one real test (proton decay). Counts of trades and open entries do not rank them (every relabelling
+reorders those counts), so all three are carried forward as the closest into Parts X and Z. Left-right with
+D-parity's one failure, proton decay, is one the thresholds of Part T7 can flip. **No complete hypothesis
+survives every condition.**
 
-The Higgs entry for Pati–Salam (125.6 GeV) comes from λ(M_I) = 0. Part T6 shows that this condition
-is not required by the theory: it only says that Pati–Salam's M_I happens to lie near the SM
-instability scale.
+The λ(M_I) = 0 values (125.6 GeV for Pati–Salam) are still printed, but Part T6 shows the theory does not
+impose that condition: they only say how near each chain's M_I lies to the SM instability scale.
 
 ## Adjacent sims: one piece changed at a time
 
@@ -984,7 +1012,8 @@ like the main script (the website has the same **Copy Python script** button for
 `results/sims/`; [`tests/test_sims.py`](tests/test_sims.py) applies the no-tuning tests to every sim, checks
 that the diff is current, and (one CI job per sim) runs it in full against its expected output.
 
-**[sims/so10_flavour.py](sims/so10_flavour.py): SO(10) in place of 3-3-1, plus a two-step left-right chain.**
+**[sims/so10_flavour.py](sims/so10_flavour.py): SO(10) in place of 3-3-1, plus a two-step left-right chain and
+Pati–Salam with a light (15,2,2).**
 
 * *Parts D, E, R asked of SO(10).* The 16 × 16 Yukawa bilinears come from the exact spinor algebra (the ten
   32 × 32 gamma matrices, elimination mod p): the 10 and 126 are symmetric, the 120 antisymmetric, and together
@@ -1001,6 +1030,66 @@ that the diff is current, and (one CI job per sim) runs it in full against its e
   GeV, short of what SO(10)'s Y₁₂₆ needs (Part Y4) by 37 times at the weakest floor and thousands of times over
   the fits. **It fails the neutrinos too**: the scale problem belongs to every SO(10) → 3221 chain with this
   field content.
+* *Part T15, Pati–Salam with the 126's (15,2,2) near M_I.* Part Y's selection rule (M_e = M_d or −3M_d) holds only
+  if the whole (15,2,2) of the 126 sits at M_GUT. With it near M_I, the B − L vev that breaks SU(4) there mixes the 10's
+  and the 126's doublets, and the 10 + 126 sum rule applies at M_I. The extra complex (15,2,2) changes the running
+  (b = −7/3, 2, 26/3): at two loops M_I = 2.0 × 10¹⁰ GeV, M_GUT = 3.6 × 10¹⁶ GeV, τ_p = 2 × 10³⁷ years. The sum rule
+  reaches the charged-lepton masses, and the type I + II search finds 54 neutrino fits (M_R,3 = 35–162 M_I, M₁ =
+  5 × 10⁹–2 × 10¹⁰ GeV). **It fails no condition: the first complete hypothesis here that does.** It predicts nothing
+  new, and two rows stay open. The neutrinos: with M_R = Y₁₂₆ v_R, a perturbative Y₁₂₆ needs v_R at least 2.3 times
+  the chain's own M_I/g_R (against 3600 times for the left-right chain) when the (15,2,2) sits at M_I.
+* *Part T15b, the (15,2,2) mass scanned.* With M_15 = r M_I from M_I to M_GUT (two-loop running with a step at
+  M_15; at r = 1 it returns the T15 chain and above M_GUT minimal Pati–Salam, a self-check), raising r lifts M_I and
+  so v_R, but weakens the doublet mixing: the light Higgs's 126 share is δ²/(δ² + M_15⁴) with δ = λv_R² from one
+  quartic. Below r ≈ 30 v_R is under the fits' floor; at **r = 32** (M_I = 4.7 × 10¹⁰ GeV, v_R = 1.0 × 10¹¹ GeV) the
+  mixing needs **λ = 0.88**, inside T9's assumed box |λ| ≤ 1; at r = 56 it needs 2.9. The window is one grid step
+  wide (r = 32–100 with perturbativity alone, |λ| ≤ 4π), and the fits are T15's, not redone at each M_15. The
+  neutrino row becomes a trade, and every row of the chain is read at that working point: proton 4 × 10³⁶ years,
+  vacuum stabilizable (M_I < μ₀), leptogenesis open up to M₁ = 7 × 10¹¹ GeV, and the axion at 18% of the dark matter
+  (the universe 18.6 Gyr old in Part X). **It fails nothing; the dark matter stays open** (superseded below: V2, AA3).
+* *Part V2, the axion from its PQ charges.* The Yukawas 16 16 10 and 16 16 126bar fix the charges (16: 1, 10: −2,
+  126bar: −2; 16 16 10* is forbidden, so the 10 is complex). The physical axion is the part of the PQ current
+  orthogonal to every broken neutral gauge generator in the vev-weighted metric: Δ_R breaks PQ and B − L with one
+  phase, the heavy B − L boson eats it, and the axion lives in the electroweak doublets, f_a ≤ 29 GeV (m_a ≈ 200
+  keV). **The minimal theory's axion is visible, hence excluded, and f_a = M_I had no basis.** An invisible axion needs
+  a PQ singlet with its own scale. Then N = 6 and 2N = 12, and SO(10)'s centre Z₄ identifies vacua, leaving N_DW = 3
+  (σ 10 10) or 6 (σ² 10 10): after inflation the walls are stable; before it, isocurvature (β < 0.038; the
+  derivation reproduces Di Luzio et al.'s eq. 189) with Part AA's plateau inflation, H_I ≈ 1.5 × 10¹³ GeV, caps the
+  axion at 9 × 10⁻⁷ of the dark matter. **It solves strong CP (a trade) but cannot be the dark matter.**
+* *Part AA3, a candidate fixed by gauge interactions.* Freeze-out from Cirelli–Fornengo–Strumia's eqs. 11–13
+  (tree-level, reproducing their table 1 within 3%) fixes each candidate's mass, and each is put into the PS+15
+  chain's SM-stage running: a fermion triplet (45, 2.5 TeV) destroys unification, a fermion doublet (10, 1.2 TeV)
+  brings M_GUT to 7 × 10¹⁴ GeV, where the proton decays. **The inert scalar doublet of a 16, at 573 GeV, fits**, and
+  it raises M_I: with it the PS+15 chain has M_I = 5.7 × 10¹⁰ GeV, M_GUT = 1.5 × 10¹⁶ GeV and τ_p = 7.6 × 10³⁵ years;
+  62 type I + II fits; the neutrino window becomes M_15 = 1–18 M_I with |λ| ≤ 1 (λ = 0.001 at M_15 = M_I, the
+  working point, where the vacuum can also be stabilized). Its dark matter is a trade (a predicted mass for an assumed
+  field; its quartics neglected, its 16 partners near M_I), and Part X's age is then 13.797 Gyr by construction.
+  **The hypothesis SO(10) via Pati–Salam + (15,2,2) + a scalar 16 + a PQ singlet fails nothing; its one real pass is
+  proton decay and its one open row the Higgs mass.** It predicts nothing new yet.
+* *Part T15c, the mixing from the potential.* PQ allows one class of quartic that can mix the doublets through the
+  B − L vev, 10*·126bar·126·126bar. Its two Pati–Salam contractions, built as explicit tensors, are invariant under a
+  random group element (to 10⁻¹⁵) and mix the 10's doublet with the 126's T₁₅ doublet (the one carrying the sum rule's
+  −3) with Clebsch √3/2: δ = 0.87 λ v_R². With it the window is unchanged, M_15 = 1–18 M_I for |λ| ≤ 1 (λ = 0.0011 at
+  the working point). The inert doublet's 16 has PQ charge 1 (from χχ10, so χχ126bar is allowed too); ψχ10 is allowed
+  by PQ but forbidden by R-parity, so its lightest state is stable; and no renormalizable term splits its neutral
+  components ((H†χ)² has centre class 2), so the splitting that direct detection requires must come from χχ10 and
+  χχ126bar at second order, couplings not fixed here. The working point costs three cancellations, each assumed like the
+  doublet–triplet one: the light doublet (v/M_GUT)² ~ 10⁻²⁸, the (15,2,2) at M_I (M_15/M_GUT)² ~ 10⁻¹¹, and the inert
+  doublet below its 16 partners (M_η/M_I)² ~ 10⁻¹⁶. **The hypothesis survives the real mixing; what remains are
+  tunings and unfixed couplings, not failures.**
+* *Part T15d, the rest of the potential at the working point.* (1) The (15,2,2)'s own masses: five PQ-allowed
+  Σ†Σ·ΔΔ† contractions (tensors; the components' b add up to the whole multiplet's, a check) split its SM components.
+  With the quartics in T9's box, 81% of draws give a negative mass² (dropped); in the rest the components spread by a
+  factor ~3 in mass, their thresholds shift the matching by at most 0.8 in 1/α (inside T7's ±1 band in every draw), M_I
+  stays at 3 × 10¹⁰–1.1 × 10¹¹ GeV, the proton passes in all and the neutrino fits' v_R floor holds in 83%. (2) The
+  inert doublet's neutral splitting, second order in χχ10 and χχ126bar, must exceed xenon's inelastic threshold (338
+  keV, from v_esc + v_E) and stay below T_f = 24 GeV (the freeze-out assumed a degenerate doublet): k₁₂₆k₁₀² between 2 ×
+  10⁻⁶ and 0.1, possible with couplings below one. (3) PQ quality: σ is a gauge singlet, so keeping θ̄ < 8.8 × 10⁻¹¹
+  needs every Planck-suppressed PQ-breaking operator absent below dimension 9 (f_a = 10⁸ GeV) to 15 (10¹² GeV): a
+  discrete gauge symmetry the sim does not contain. (4) The Higgs: the measured mass needs λ_SM(M_I) = +0.0001, since
+  M_I sits just below μ₀ = 6.2 × 10¹⁰ GeV; the tree threshold λ_H − λ_HS²/λ_S has three unfixed quartics, so the Higgs
+  row stays without a prediction. **Nothing fails; every remaining item is a coupling the sim does not fix, a tuning,
+  or a symmetry it does not contain.**
 
 ## What changed from production v1
 
