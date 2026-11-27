@@ -9,6 +9,7 @@ Three kinds of test:
 """
 import ast
 import importlib.util
+import json
 import math
 import os
 import re
@@ -885,6 +886,11 @@ def test_report_matches_expected_output():
     got = P.report(RESULT).splitlines()
     want = [ln for ln in open(EXPECTED, encoding="utf-8").read().splitlines() if not ln.startswith("Elapsed")]
     assert got == want
+
+
+def test_json_export():
+    """--json-out writes every number: the whole result must convert to JSON."""
+    json.dumps(P.to_jsonable(RESULT))
 
 
 def test_command_line_runs():
