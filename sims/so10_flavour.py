@@ -5260,6 +5260,15 @@ def operator_gamma(model: str, op: str) -> List[Fr]:
     return out
 
 
+def _proton_sm_factor(x: Dict[str, float], sol: Dict[str, Any], op: str) -> float:
+    """The SM part of A_S, from M_I to M_Z (one loop)."""
+    a_s = 1.0
+    a_hi, a_lo = _alpha_one_loop(sol["M_I"], x, None), _alpha_one_loop(x["M_Z"], x, None)
+    for e, al, ah in zip(proton_exponents("SM", op), a_lo, a_hi):
+        a_s *= (al / ah) ** e
+    return a_s
+
+
 def proton_short_distance_chain(x: Dict[str, float], chain: Dict[str, Any], sol: Dict[str, Any], op: str) -> float:
     """A_S for a non-supersymmetric SO(10) chain: the chain's group from M_GUT to M_I (couplings from the chain's
     solution), the SM from M_I to M_Z (one loop)."""
@@ -5267,6 +5276,16 @@ def proton_short_distance_chain(x: Dict[str, float], chain: Dict[str, Any], sol:
     gam = operator_gamma(model, op)
     inv_lo = sol["inv_alpha_MI"]
     a_s = 1.0
+    step = chain.get("step")
+    m_s = step[0] * sol["M_I"] if step else None
+    if step and m_s < sol["M_GUT"]:
+        # T15b: two segments, the chain's b from M_I to M_step and the step's b above it (one loop in the exponent)
+        l_lo = math.log(m_s / sol["M_I"])
+        for g_, b_, bh_, il in zip(gam, chain["b1"], step[1], inv_lo):
+            inv_s = il - float(b_) / (2 * math.pi) * l_lo                                 # 1/alpha at M_step, up from M_I
+            a_s *= (1 / (sol["alpha_GUT"] * inv_s)) ** (float(g_) / (2 * float(bh_)))    # (alpha(M_s)/alpha(M_GUT))^(G/2b_hi)
+            a_s *= (inv_s / il) ** (float(g_) / (2 * float(b_)))                         # (alpha(M_I)/alpha(M_s))^(G/2b)
+        return a_s * _proton_sm_factor(x, sol, op)
     for g_, b_, il in zip(gam, chain["b1"], inv_lo):
         a_s *= (1 / (sol["alpha_GUT"] * il)) ** (float(g_) / (2 * float(b_)))   # (alpha(M_I)/alpha(M_GUT))^(G/2b)
     a_hi, a_lo = _alpha_one_loop(sol["M_I"], x, None), _alpha_one_loop(x["M_Z"], x, None)
@@ -8598,7 +8617,9 @@ def so10_ps15_scan(s10: Dict[str, Any], s10y: Dict[str, Any], flav: Dict[str, An
     window_4pi = [r_ for r_ in rows if r_["neutrino"] and r_["neutrino"]["lambda"] <= 4 * math.pi and r_["proton_ok"]]
     # the working point every later stage reads for this chain: the window's most natural mixing (smallest lambda)
     work = min(window, key=lambda r_: r_["neutrino"]["lambda"]) if window else None
+    tau_edge = abs(rows[0]["tau_p_years"] / s10["chains"]["PS+15"]["loop2"]["tau_p_years"] - 1) if rows else None
     return {"rows": rows, "window": window, "window_4pi": window_4pi, "lambda_max": lam_max, "fits": len(pts),
+            "tau_edge_check": tau_edge,
             "working_point": work,
             "M_I_fit": sr["M_I"],
             "edge_check": abs(rows[0]["M_I"] / s10["chains"]["PS+15"]["loop2"]["M_I"] - 1) if rows else None}
@@ -10417,9 +10438,9 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
         ref_ = solve_chain(dict(d15["PS"], sm_step=d15["PS+15"]["sm_step"]), x_s, 2)
         top_ = solve_chain(dict(d15["PS"], sm_step=d15["PS+15"]["sm_step"],
                                 step=(ref_["M_GUT"] / ref_["M_I"] * 2, d15["PS+15"]["b1"], d15["PS+15"]["b2"])), x_s, 2)
-        dev15 = max(t15c["edge_check"], abs(top_["M_I"] / ref_["M_I"] - 1))
-        checks.append(("T15b: the stepped running at M_15 = M_I equals the PS+15 chain, and with M_15 above M_GUT the"
-                       " Pati-Salam chain", dev15 < num("check_survey_tol"), f"max rel dev {dev15:.1e}"))
+        dev15 = max(t15c["edge_check"], abs(top_["M_I"] / ref_["M_I"] - 1), t15c["tau_edge_check"])
+        checks.append(("T15b: the stepped running (and the proton operators' running) at M_15 = M_I equals the PS+15 chain,"
+                       " and with M_15 above M_GUT the Pati-Salam chain", dev15 < num("check_survey_tol"), f"max rel dev {dev15:.1e}"))
     checks.append(("Model graph: every stage registered, acyclic, and run in dependency order",
                    lin["registered"] and lin["acyclic"] and lin["in_order"],
                    f"{len(lin['order'])} stages, {sum(len(u) for u in lin['uses'].values())} edges"))
@@ -11994,12 +12015,11 @@ def report(res: Dict[str, Any]) -> str:
         if sc15 and sc15["rows"]:
             w("  T15b. The (15,2,2) mass scanned, M_15 = r M_I from M_I to M_GUT (two-loop running with a step at M_15;")
             w("  the doublet mixing from one quartic, delta = lambda v_R^2; T15's fits, not redone per point):")
-            w("        r = M_15/M_I    M_I (GeV)   v_R (GeV)   tau_p (yr)  axion share  vacuum   lambda needed")
-            om_c_ = res["dark_matter"]["Omega_c_h2"]
+            w("        r = M_15/M_I    M_I (GeV)   M_15 (GeV)  v_R (GeV)   tau_p (yr)  vacuum   lambda needed")
             for r_ in sc15["rows"]:
                 nb = r_["neutrino"]
-                w(f"        {r_['r']:10.1f}   {r_['M_I']:9.2e}   {r_['v_R']:9.2e}   {r_['tau_p_years']:8.1e}"
-                  f"    {100 * r_['Omega_a_h2'] / om_c_:6.1f} %   {'stab.' if r_['stabilizable'] else 'meta.':<6s}  "
+                w(f"        {r_['r']:10.1f}   {r_['M_I']:9.2e}   {r_['M_15']:9.2e}   {r_['v_R']:9.2e}   {r_['tau_p_years']:8.1e}"
+                  f"   {'stab.' if r_['stabilizable'] else 'meta.':<6s}  "
                   + (f"{nb['lambda']:.2g}" if nb else "below the fits' floor"))
             w(f"  Self-check: at r = 1 the stepped running gives the PS+15 chain (rel dev {sc15['edge_check']:.0e}).")
             win, w4 = sc15["window"], sc15["window_4pi"]
