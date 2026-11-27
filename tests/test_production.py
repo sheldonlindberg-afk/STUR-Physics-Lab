@@ -523,7 +523,8 @@ def test_scorecard():
     # Pati-Salam fails the fermion masses, left-right the neutrinos (SO(10)'s v_R): no complete hypothesis survives
     assert v["SO(10) via PS"]["fails"] == ["F"] and v["SO(10) via LR"]["fails"] == ["N"] and sc["survivors"] == []
     # the closest chains are those with the fewest fails, ties carried (not broken by counting trades)
-    assert sorted(sc["closest_chains"]) == ["LR", "PS"]
+    assert {"LR", "PS"} <= set(sc["closest_chains"])
+    assert all(len(v[f"SO(10) via {c}"]["fails"]) == 1 for c in sc["closest_chains"])
     # the labels follow the definitions: no chain "passes" unification (three unknowns, three conditions) or the
     # Higgs mass (lambda(M_I) = 0 is not imposed, Part T6)
     for h, r in sc["rows"].items():
