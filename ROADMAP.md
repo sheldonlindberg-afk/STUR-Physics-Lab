@@ -249,8 +249,15 @@ the new result, and the tests fail if a page value, the scorecard, the ledger or
            doublet spoil unification or the proton; the inert scalar doublet of a 16 (573 GeV) fits and is in PS+15's
            running: M_I = 5.7e10, M_GUT = 1.5e16 GeV, tau_p = 7.6e35 yr, neutrino window M_15 = 1-18 M_I. The chain fails
            nothing; open: the Higgs mass. Also fixed: the proton operators' running in T15b (two segments at M_15).
-       [ ] (e) step (b) above: the PS potential with a light (15,2,2), the inert doublet's quartics and direct detection
-           (the neutral components must be split by lambda_5), the PQ singlet's potential, and the fits at the working point.
+       [x] (e) Part T15c: the mixing from the PQ-allowed quartics 10* 126bar 126 126bar (two Pati-Salam contractions as
+           tensors, invariant to 1e-15, Clebsch sqrt3/2): window unchanged (M_15 = 1-18 M_I). The inert doublet's 16: q = 1,
+           stable by R-parity, degenerate at tree level (centre class 2), so its direct-detection splitting needs chi chi 10
+           and chi chi 126bar at second order. Tunings at the working point: 1e-28 (doublet), 1e-11 (15,2,2), 1e-16 (eta).
+           The working point is M_15 = M_I, where T15's fits are made: no refit needed.
+       [ ] (f) Next: the inert doublet's splitting from chi chi 10 and chi chi 126bar against direct detection; the full
+           (15,2,2) mass matrix (its other components' masses, i.e. the threshold the T7 band now stands in for); the PQ
+           singlet's potential and the PQ quality (Planck-suppressed breaking against theta-bar < 1e-10); the Higgs mass,
+           the one open row, from the tree-level threshold at M_I once the 126 and the (15,2,2) quartics are fixed.
 
 ## Round 6: does every stage lock into the next? (a consistency audit)
 The algorithm runs in one pass, but a pass is only meaningful if every stage reads the same physics as the stages it

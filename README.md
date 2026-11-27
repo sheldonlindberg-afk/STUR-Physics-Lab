@@ -1065,8 +1065,18 @@ Pati–Salam with a light (15,2,2).**
   working point, where the vacuum can also be stabilized). Its dark matter is a trade (a predicted mass for an assumed
   field; its quartics neglected, its 16 partners near M_I), and Part X's age is then 13.797 Gyr by construction.
   **The hypothesis SO(10) via Pati–Salam + (15,2,2) + a scalar 16 + a PQ singlet fails nothing; its one real pass is
-  proton decay and its one open row the Higgs mass.** It predicts nothing new yet. Next: the Pati–Salam potential with
-  a light (15,2,2), the mixing from it instead of one quartic.
+  proton decay and its one open row the Higgs mass.** It predicts nothing new yet.
+* *Part T15c, the mixing from the potential.* PQ allows one class of quartic that can mix the doublets through the
+  B − L vev, 10*·126bar·126·126bar. Its two Pati–Salam contractions, built as explicit tensors, are invariant under a
+  random group element (to 10⁻¹⁵) and mix the 10's doublet with the 126's T₁₅ doublet (the one carrying the sum rule's
+  −3) with Clebsch √3/2: δ = 0.87 λ v_R². With it the window is unchanged, M_15 = 1–18 M_I for |λ| ≤ 1 (λ = 0.0011 at
+  the working point). The inert doublet's 16 has PQ charge 1 (from χχ10, so χχ126bar is allowed too); ψχ10 is allowed
+  by PQ but forbidden by R-parity, so its lightest state is stable; and no renormalizable term splits its neutral
+  components ((H†χ)² has centre class 2), so the splitting that direct detection requires must come from χχ10 and
+  χχ126bar at second order, couplings not fixed here. The working point costs three cancellations, each assumed like the
+  doublet–triplet one: the light doublet (v/M_GUT)² ~ 10⁻²⁸, the (15,2,2) at M_I (M_15/M_GUT)² ~ 10⁻¹¹, and the inert
+  doublet below its 16 partners (M_η/M_I)² ~ 10⁻¹⁶. **The hypothesis survives the real mixing; what remains are
+  tunings and unfixed couplings, not failures.**
 
 ## What changed from production v1
 
