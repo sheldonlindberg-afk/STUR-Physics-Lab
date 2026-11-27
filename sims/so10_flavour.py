@@ -153,6 +153,14 @@ INPUTS: Dict[str, Dict[str, str]] = {
     "alpha_em": {"value": "7.2973525693e-3", "sigma": "0.0000000011e-3", "unit": "",
                  "source": "CODATA 2018, fine-structure constant at zero momentum"},
     "m_p": {"value": "1.67262192369e-27", "sigma": "0.00000000051e-27", "unit": "kg", "source": "CODATA 2018"},
+    "u_kg": {"value": "1.66053906892e-27", "sigma": "0.00000000052e-27", "unit": "kg",
+             "source": "CODATA 2022: atomic mass constant (Part T15d)"},
+    "A_r_Xe": {"value": "131.293", "sigma": "0.006", "unit": "", "source": "CIAAW 2017: standard atomic weight of Xe (Part T15d)"},
+    "v_esc_km_s": {"value": "544", "sigma": "40", "unit": "km/s",
+                   "source": "Smith et al. 2007 (RAVE, MNRAS 379, 755): Galactic escape speed at the Sun (Part T15d)"},
+    "v_earth_km_s": {"value": "232", "sigma": "15", "unit": "km/s",
+                     "source": "standard halo model: Earth's speed in the Galactic frame, v_0 = 220 plus the Sun's peculiar and "
+                               "Earth's orbital motion (Lewin, Smith 1996) (Part T15d)"},
     "m_e": {"value": "9.1093837015e-31", "sigma": "0.0000000028e-31", "unit": "kg", "source": "CODATA 2018"},
     "m_mu_MeV": {"value": "105.6583755", "sigma": "0.0000023", "unit": "MeV", "source": "PDG 2024 (pole)"},
     "m_tau_MeV": {"value": "1776.93", "sigma": "0.09", "unit": "MeV", "source": "PDG 2024 (pole)"},
@@ -355,7 +363,9 @@ NUMERICS: Dict[str, Any] = {
     "potential_points": 30000,        # Parts T9-T11: coupling points tried
     "potential_lambda_max": 1,        # Part T9: |lambda_a| (normalized quartics) at most this (perturbative box, assumed)
     "t15_steps_per_decade": 4,
-    "v2_fa_points": 90,               # Part V2: f_a grid for the isocurvature bound, 1e8 GeV to M_P (log-spaced)
+    "v2_fa_points": 90,
+    "t15d_points": 4000,              # Part T15d: quartic draws for the (15,2,2) component masses
+    "t15d_n_max": 40,                 # Part T15d: largest operator dimension tried for PQ quality               # Part V2: f_a grid for the isocurvature bound, 1e8 GeV to M_P (log-spaced)
     "aa3_mass_bisections": 80,        # Part AA3: bisection steps for the relic mass        # Part T15b: grid in M_15/M_I (any density works; the window's edges move by one step)
     "potential_eta_max": 1,           # Part T9: |eta / v| at most this (assumed)
     "potential_directions": 32,       # Part T9: random directions for the bounded-below test
@@ -8658,6 +8668,64 @@ def ps_doublet_mixing(seed: int) -> Dict[str, Any]:
             "pq_charge": pq, "exact": math.sqrt(3) / 2}
 
 
+def ps15_component_clebsches() -> Dict[str, Any]:
+    """T15d. The Hermitian PQ-allowed quartics Sigma^dag Sigma D D^dag (Sigma the 126bar's (15,2,2), D its (10bar,1,3)):
+    beyond the universal one, five Pati-Salam contractions (SU(4) on Sigma's upper or lower index, SU(2)_R, mixed).
+    Each SM component's mass^2 = M_15^2 + v_R^2 sum_k lambda_k c_k, c_k evaluated on a representative state at the vev
+    D_44,22 = v_R (the holomorphic Sigma Sigma D* D* terms, also PQ-allowed, would split each complex component in two:
+    not included). Components (SU(3), Y) for each SU(2)_R side T3R = -+1/2: octet (8, T3R), leptoquark Sigma^c_4
+    (3, 2/3 + T3R), Sigma^4_c (3bar, -2/3 + T3R), and the T_15 doublet (1, T3R), which joins the light Higgs."""
+    r4, r2 = range(4), range(2)
+
+    def z():
+        return [[[[complex(0)] * 2 for _ in r2] for _ in r4] for _ in r4]
+    dv = z()
+    dv[3][3][1][1] = complex(1)
+
+    def q(k: int, st) -> float:
+        t = complex(0)
+        for a in r4:
+            for b in r4:
+                for al in r2:
+                    for ad in r2:
+                        sc = st[a][b][al][ad].conjugate()
+                        if sc == 0:
+                            continue
+                        for c in r4:
+                            for e in r4:
+                                for g in r2:
+                                    if k == 2:
+                                        t += sc * sum(st[c][b][al][ad] * dv[a][e][f][g].conjugate() * dv[c][e][f][g] for f in r2)
+                                    elif k == 3:
+                                        t += sc * sum(st[a][c][al][ad] * dv[b][e][f][g] * dv[c][e][f][g].conjugate() for f in r2)
+                                    else:
+                                        for bd in r2:
+                                            if k == 4:
+                                                t += sc * st[a][b][al][bd] * dv[c][e][bd][g] * dv[c][e][ad][g].conjugate()
+                                            elif k == 5:
+                                                t += sc * st[c][b][al][bd] * dv[a][e][ad][g].conjugate() * dv[c][e][bd][g]
+                                            elif k == 6:
+                                                t += sc * st[a][c][al][bd] * dv[b][e][bd][g] * dv[c][e][ad][g].conjugate()
+        return t.real
+    t15 = [1 / math.sqrt(12)] * 3 + [-3 / math.sqrt(12)]
+    comps = []
+    for ad, t3r in ((0, Fr(-1, 2)), (1, Fr(1, 2))):
+        for lab, d3, y, idx in (("octet", 8, t3r, (0, 1)), ("Sigma^c_4", 3, Fr(2, 3) + t3r, (0, 3)),
+                                ("Sigma^4_c", 3, Fr(-2, 3) + t3r, (3, 0)), ("T15 doublet", 1, t3r, None)):
+            st = z()
+            if idx:
+                st[idx[0]][idx[1]][0][ad] = complex(1)
+            else:
+                for a in r4:
+                    st[a][a][0][ad] = complex(t15[a])
+            b1_, _ = chain_b(("U1", "SU2", "SU3"), [((y, 2, d3), "scalar", 1)], GUT_NORM)
+            b0_, _ = chain_b(("U1", "SU2", "SU3"), [], GUT_NORM)                 # the gauge bosons' own part
+            b1_ = [a_ - c_ for a_, c_ in zip(b1_, b0_)]
+            comps.append({"name": f"{lab} (T3R {t3r})", "SU3": d3, "Y": y, "c": [q(k, st) for k in (2, 3, 4, 5, 6)],
+                          "b": b1_, "heavy": idx is not None})
+    return {"components": comps}
+
+
 def inert_doublet_symmetries() -> Dict[str, Any]:
     """T15c. The scalar 16 (chi) that carries the inert doublet: its PQ charge from its allowed couplings, its stability,
     and whether anything splits its neutral components at tree level. Centre Z_4 classes: 16: 1, 10 and 126: 2.
@@ -8671,6 +8739,88 @@ def inert_doublet_symmetries() -> Dict[str, Any]:
     cls = {"chi": 1, "10": 2}
     out["splitting_class"] = (2 * (cls["10"] - cls["chi"])) % 4      # (H^dag chi)^2: needs class 0 to exist
     out["splitting_renormalizable"] = out["splitting_class"] == 0
+    return out
+
+
+def ps15_t15d(wk: Dict[str, Any], flav: Dict[str, Any], s10: Dict[str, Any], scp: Dict[str, Any], pdk: Dict[str, Any],
+              defs: Dict[str, Any], x: Dict[str, float], a_l: float, lam_max: float) -> Dict[str, Any]:
+    """T15d at the working point. (1) The (15,2,2) components' masses from five quartics drawn in T9's box, and their
+    one-loop thresholds at M_I, Delta_i = sum b_i ln(m/M_I)/2 pi, put into the chain (two loops) against T7's +-1 band.
+    (2) The inert doublet's neutral splitting, second order in chi chi 10 (A = k10 M_s <H>) and chi chi 126bar
+    (B = k126 M_s v_R): Delta m = 2 |B| |A|^2 /(M_s^4 M_eta), M_s ~ M_I; it must beat the inelastic threshold in xenon,
+    mu v_max^2/2, and stay below T_f = M_eta/x_f (the freeze-out assumed a degenerate doublet). (3) PQ quality: a
+    Planck-suppressed sigma^n/M_P^(n-4) shifts theta-bar by ~ n v_s^n/(2^(n/2) M_P^(n-4) chi_top); the smallest n that keeps
+    it below Part O's bound, for f_a from 1e8 GeV up. (4) Higgs: what lambda_SM(M_I) the measured Higgs needs there."""
+    out: Dict[str, Any] = {}
+    # (1)
+    cl = ps15_component_clebsches()
+    heavy = [c_ for c_ in cl["components"] if c_["heavy"]]
+    rng = _UniformStream(int(num("potential_seed")) + 7)
+    m15, v_r, m_i = wk["M_15"], wk["v_R"], wk["M_I"]
+    rho = (v_r / m15) ** 2
+    gn = float(GUT_NORM)
+    ch15 = defs["PS+15"]
+    lim = pdk["limit_e_pi0"]
+    res_ = []
+    n_neg = 0
+    for _ in range(int(num("t15d_points"))):
+        lam = [rng.uniform(-lam_max, lam_max) for _ in range(5)]
+        m2 = [1 + rho * sum(l_ * c_ for l_, c_ in zip(lam, co["c"])) for co in heavy]
+        if min(m2) <= 0:
+            n_neg += 1
+            continue
+        d_ = [sum(float(co["b"][i]) * math.log(m15 * math.sqrt(mm) / m_i) for co, mm in zip(heavy, m2)) / (2 * math.pi)
+              for i in range(3)]                                                     # U(1)_Y (GUT), SU(2)_L, SU(3)
+        shifts = [d_[2] - d_[1], (d_[0] - (1 - gn) * d_[2]) / gn - d_[1]]            # into Pati-Salam's two residuals
+        q_ = solve_chain(ch15, x, 2, shifts)
+        if not q_["consistent"]:
+            continue
+        tau = proton_lifetime(x, q_["M_GUT"], q_["alpha_GUT"], None, a_l, ch15, q_)
+        res_.append({"spread": max(m2) / min(m2), "shift": max(abs(v_) for v_ in shifts), "M_I": q_["M_I"],
+                     "tau": tau, "v_R": q_["M_I"] / math.sqrt(4 * math.pi / q_["inv_alpha_MI"][2])})
+    floor = wk["neutrino"]["floor"]
+    if res_:
+        srt = lambda k_: sorted(r_[k_] for r_ in res_)
+        q5 = lambda v_: (v_[0], v_[len(v_) // 2], v_[-1])
+        out["components"] = {"clebsches": cl["components"], "rho": rho, "drawn": int(num("t15d_points")),
+                             "negative": n_neg, "kept": len(res_), "mass_ratio": q5([math.sqrt(v_) for v_ in srt("spread")]),
+                             "max_shift": q5(srt("shift")), "M_I": q5(srt("M_I")),
+                             "within_T7_band": sum(r_["shift"] <= num("threshold_band") for r_ in res_) / len(res_),
+                             "proton_ok": sum(r_["tau"] > lim for r_ in res_) / len(res_),
+                             "neutrino_floor_ok": sum(r_["v_R"] >= floor for r_ in res_) / len(res_),
+                             "both_ok": sum(r_["tau"] > lim and r_["v_R"] >= floor for r_ in res_) / len(res_)}
+    # (2)
+    m_eta = defs["PS+15"]["sm_step"][0]
+    x_f = dm_relic_mass(PS15_DM, _comparison("Omega_c_h2")[0])["x_f"]
+    gev = x["e_charge"] * 10 ** 9
+    m_xe = x["A_r_Xe"] * x["u_kg"] * x["c"] ** 2 / gev
+    mu = m_eta * m_xe / (m_eta + m_xe)
+    v_max = (x["v_esc_km_s"] + x["v_earth_km_s"]) * 1000 / x["c"]
+    dm_min = mu * v_max ** 2 / 2
+    dm_max = m_eta / x_f
+    h_ = flav["runner"].v / math.sqrt(2)
+    m_s = m_i
+    unit = 2 * h_ ** 2 * v_r / (m_s * m_eta)                     # Delta m at k10 = k126 = 1
+    out["splitting"] = {"M_eta": m_eta, "delta_min_GeV": dm_min, "delta_max_GeV": dm_max, "delta_at_unit_GeV": unit,
+                        "k_product_min": dm_min / unit, "k_product_max": dm_max / unit,
+                        "possible": dm_min / unit < 1}
+    # (3)
+    chi = (scp["axion"]["ma_fa_MeV2"] * 10 ** -6) ** 2         # GeV^4
+    th_max = scp["bound"]["theta_max"]
+    m_red = s10.get("M_P_reduced") or (planck_units()["E_P_GeV"] / math.sqrt(8 * math.pi))
+    rows = []
+    for f_a in (10 ** 8, 10 ** 10, 10 ** 12):
+        v_s = 3 * f_a                                            # sigma 10 10: f_a = v_sigma/3 (V2)
+        n_min = None
+        for n in range(5, int(num("t15d_n_max")) + 1):
+            if math.log(n) + n * math.log(v_s) - n / 2 * math.log(2) - (n - 4) * math.log(m_red) - math.log(chi) < math.log(th_max):
+                n_min = n
+                break
+        rows.append({"f_a": f_a, "n_min": n_min})
+    out["pq_quality"] = {"rows": rows, "theta_max": th_max}
+    # (4)
+    out["higgs"] = {"lambda_SM_at_MI": s10["vacuum"]["rows"]["PS+15"]["lambda_SM_at_MI"], "M_I": m_i,
+                    "mu0": s10["vacuum"]["mu0"]}
     return out
 
 
@@ -8738,7 +8888,9 @@ def so10_ps15_scan(s10: Dict[str, Any], s10y: Dict[str, Any], flav: Dict[str, An
     v_h = flav["runner"].v
     tuning = ({"doublet": (v_h / wk_["M_GUT"]) ** 2, "(15,2,2)": (wk_["M_15"] / wk_["M_GUT"]) ** 2,
                "inert doublet": (m_eta / wk_["M_I"]) ** 2} if wk_ else None)
+    t15d = ps15_t15d(wk_, flav, s10, scp, pdk, defs, x, a_l, lam_max) if wk_ else None
     return {"rows": rows, "window": window, "window_4pi": window_4pi, "lambda_max": lam_max, "fits": len(pts),
+            "t15d": t15d,
             "tau_edge_check": tau_edge, "mixing": mix, "eta": inert_doublet_symmetries(), "tuning": tuning,
             "working_point": work,
             "M_I_fit": sr["M_I"],
@@ -9502,16 +9654,22 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
     def strong_cp_entry(nm: str) -> Dict[str, Any]:
         mini = f"the minimal PQ content's axion has f_a <= {pq_['minimal']['f_a_max']:.0f} GeV (a visible axion, excluded: Part V2)"
         if nm == "PS+15":
+            pqq_ = ((t15b or {}).get("t15d") or {}).get("pq_quality")
+            q_txt = (f"; PQ quality needs PQ breaking absent below dimension {pqq_['rows'][0]['n_min']} (Part T15d)"
+                     if pqq_ else "")
             return entry("trade", f"an axion from a PQ singlet (sigma 10 10: f_a = {sg_['f_a_over_v_sigma']:.2f} v_sigma >= 1e8 GeV,"
-                                  " a new unknown); " + mini)
+                                  " a new unknown)" + q_txt + "; " + mini)
         return entry("open", mini + "; an invisible one needs a PQ singlet, not in this chain")
 
     def dark_matter_entry_v2(nm: str) -> Dict[str, Any]:
         if nm == "PS+15":
             c_ = dm["PS15_candidate"]
+            sp_ = ((t15b or {}).get("t15d") or {}).get("splitting")
+            sp_txt = (f"; its neutral splitting needs k126 k10^2 >= {sp_['k_product_min']:.0e} for direct detection"
+                      " (Part T15d)" if sp_ else "")
             return entry("trade", f"the inert doublet of a scalar 16 (R-odd), gauge interactions only, freezes out to all of"
                                   f" Omega_c at M = {c_['M_GeV']:.0f} GeV (Part AA3): a predicted mass for an assumed field (its"
-                                  " quartics neglected; its 16 partners near M_I); " + ax_txt)
+                                  " quartics neglected; its 16 partners near M_I)" + sp_txt + "; " + ax_txt)
         return entry("open", ax_txt + "; no other candidate in this chain")
 
     def dark_matter_entry(d_: Dict[str, Any]) -> Dict[str, Any]:
@@ -12164,6 +12322,40 @@ def report(res: Dict[str, Any]) -> str:
                     f"{et_['splitting_class']}, so no renormalizable term splits chi's neutral components: the splitting "
                     "direct detection needs (a degenerate inert doublet scatters through the Z) must come from chi chi 10 "
                     "and chi chi 126bar at second order, couplings this sim does not fix.", 4))
+            td = sc15.get("t15d")
+            if td:
+                w("  T15d. At the working point:")
+                cp = td.get("components")
+                if cp:
+                    w("    (15,2,2) components, mass^2 = M_15^2 + v_R^2 sum lambda_k c_k (c from the tensors; v_R^2/M_15^2 = "
+                      f"{cp['rho']:.2f}):")
+                    for co in cp["clebsches"]:
+                        w(f"      {co['name']:<28s} c = " + ", ".join(f"{v_:.2f}" for v_ in co["c"]))
+                    w(_wrap(f"With the five quartics in T9's box ({cp['drawn']} draws; {cp['negative']} give a negative "
+                            f"mass^2 and are dropped): the heavy components spread by a factor {cp['mass_ratio'][1]:.1f} in mass "
+                            f"(median; up to {cp['mass_ratio'][2]:.0f}); their thresholds shift the matching by up to "
+                            f"{cp['max_shift'][1]:.2f} in 1/alpha (median; max {cp['max_shift'][2]:.2f}), inside T7's +-"
+                            f"{num('threshold_band'):.0f} band in {100 * cp['within_T7_band']:.0f} % of draws; M_I moves over "
+                            f"{cp['M_I'][0]:.1e}-{cp['M_I'][2]:.1e} GeV (median {cp['M_I'][1]:.1e}); the proton passes in "
+                            f"{100 * cp['proton_ok']:.0f} %, the neutrino fits' v_R floor holds in "
+                            f"{100 * cp['neutrino_floor_ok']:.0f} %, both in {100 * cp['both_ok']:.0f} %.", 6))
+                sp = td["splitting"]
+                w(_wrap(f"The inert doublet's neutral splitting: Delta m = 2 k126 k10^2 <H>^2 v_R/(M_s M_eta) = "
+                        f"{sp['delta_at_unit_GeV']:.1e} GeV at unit couplings (M_s ~ M_I). Direct detection needs Delta m >"
+                        f" {1e6 * sp['delta_min_GeV']:.0f} keV (xenon, v_esc + v_E); the freeze-out (a degenerate doublet) needs"
+                        f" Delta m < T_f = {sp['delta_max_GeV']:.0f} GeV. So k126 k10^2 must lie in"
+                        f" {sp['k_product_min']:.0e}-{min(sp['k_product_max'], 1):.0e}: "
+                        + ("possible with couplings below one (a trade)." if sp["possible"] else "impossible."), 6))
+                pqq = td["pq_quality"]
+                w(_wrap("PQ quality: sigma is a gauge singlet, so nothing forbids sigma^n/M_P^(n-4). Keeping theta-bar below "
+                        f"{pqq['theta_max']:.1e} needs every PQ-breaking operator below dimension "
+                        + ", ".join(f"{r_['n_min']} (f_a = {r_['f_a']:.0e} GeV)" for r_ in pqq["rows"])
+                        + " absent: a discrete gauge symmetry the sim does not contain (a condition, not a test).", 6))
+                hg = td["higgs"]
+                w(_wrap(f"The Higgs: the measured mass needs lambda_SM(M_I) = {hg['lambda_SM_at_MI']:+.4f} at M_I = "
+                        f"{hg['M_I']:.1e} GeV (Part L's running; mu_0 = {hg['mu0']:.1e} GeV), and the tree-level threshold "
+                        "gives lambda_H - lambda_HS^2/lambda_S with three unfixed quartics: a trade, no prediction, until "
+                        "the potential's quartics are fixed by something the sim does not have.", 6))
             if sc15.get("tuning"):
                 w("    The working point's price, as cancellations (each assumed, like the doublet-triplet one): "
                   + ", ".join(f"{k_} {v_:.0e}" for k_, v_ in sc15["tuning"].items()) + ".")
