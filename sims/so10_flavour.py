@@ -11695,23 +11695,22 @@ def report(res: Dict[str, Any]) -> str:
     cc_ = res["closed_cosmology"]
     w("PART X. CLOSING THE LOOP: COSMOLOGY FROM THE PARTICLE PHYSICS")
     w("-" * 78)
-    w("  Part A takes Omega_m as an input. Here it follows from the rest: Omega_b (measured), the axion at the")
-    w(f"  M_I of each surviving (or closest, Part U: {', '.join(cc_['tied'])}) chain by misalignment (Part V) and the"
-      " minimal neutrino masses")
-    w("  (Part P). Flatness gives Omega_Lambda; the Friedmann equation the age.")
+    w("  Part A takes Omega_m as an input. Here it follows from the rest: Omega_b (measured), the dark matter each")
+    w(f"  surviving (or closest, Part U: {', '.join(cc_['tied'])}) chain has (Part V2: the axion's allowed share; Part AA3:")
+    w("  its candidate, if it carries one) and the minimal neutrino masses (Part P). Flatness gives Omega_Lambda; the")
+    w("  Friedmann equation the age.")
     for nm_, c_ in cc_["tied"].items():
-        w(f"    {nm_:<3s} Omega_a h^2 = {c_['Omega_a_h2']:.4f}: Omega_m = {c_['Omega_m']:.4f} (Part A's input:"
+        w(f"    {nm_:<3s} Omega_DM h^2 = {c_['Omega_a_h2']:.4f}: Omega_m = {c_['Omega_m']:.4f} (Part A's input:"
           f" {c_['Omega_m_input']:.4f}), Omega_Lambda = {c_['Omega_Lambda']:.4f}, age = {c_['age_Gyr']:.3f} Gyr,"
           f" {c_['age_pull']:+.0f} sigma")
     w(f"    against Planck's {_comparison('age_Gyr')[0]} +/- {_comparison('age_Gyr')[1]} Gyr"
       f" (with all of Omega_c: {cc_['age_with_all_dm_Gyr']:.3f} Gyr)")
-    w(_wrap("RESULT: misalignment alone leaves the universe too old for every closest chain ("
-            + ", ".join(f"{nm_} by {c_['age_pull']:.0f} sigma" for nm_, c_ in cc_["tied"].items())
-            + "): closing the loop needs "
-            + " or ".join(f"{100 * c_['string_fraction_needed']:.0f} %" for c_ in cc_["tied"].values())
-            + " of the dark matter from the axion's strings and domain walls (post-inflation), or a second component. "
-            "That fraction is the single number on which the particle-physics side of the cosmology hangs; the lattice "
-            "and simulation results for the string yield are what would test it.", 2))
+    closes = [nm_ for nm_, c_ in cc_["tied"].items() if abs(c_["age_pull"]) < num("survival_sigma")]
+    w(_wrap("RESULT: " + ("the loop closes for " + ", ".join(closes) + ": its candidate's mass is fixed by the measured "
+                          "Omega_c (Part AA3), so this is a consistency, not a prediction of the age. " if closes else "")
+            + ("Without a candidate the universe is too old (" + ", ".join(
+                f"{nm_} by {c_['age_pull']:.0f} sigma" for nm_, c_ in cc_["tied"].items() if nm_ not in closes)
+               + "): the axion cannot supply the rest (Part V2)." if len(closes) < len(cc_["tied"]) else ""), 2))
     w("")
     ds = res["dark_sector"]
     w("PART AA. DARK MATTER BEYOND THE AXION, AND INFLATION")

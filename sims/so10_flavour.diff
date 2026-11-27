@@ -2283,7 +2283,42 @@
      w("")
      wm = res["w_mass"]
      w("PART W. THE W MASS: A TEST OF THE STANDARD MODEL ITSELF")
-@@ -10827,6 +11747,17 @@
+@@ -10775,23 +11695,22 @@
+     cc_ = res["closed_cosmology"]
+     w("PART X. CLOSING THE LOOP: COSMOLOGY FROM THE PARTICLE PHYSICS")
+     w("-" * 78)
+-    w("  Part A takes Omega_m as an input. Here it follows from the rest: Omega_b (measured), the axion at the")
+-    w(f"  M_I of each surviving (or closest, Part U: {', '.join(cc_['tied'])}) chain by misalignment (Part V) and the"
+-      " minimal neutrino masses")
+-    w("  (Part P). Flatness gives Omega_Lambda; the Friedmann equation the age.")
++    w("  Part A takes Omega_m as an input. Here it follows from the rest: Omega_b (measured), the dark matter each")
++    w(f"  surviving (or closest, Part U: {', '.join(cc_['tied'])}) chain has (Part V2: the axion's allowed share; Part AA3:")
++    w("  its candidate, if it carries one) and the minimal neutrino masses (Part P). Flatness gives Omega_Lambda; the")
++    w("  Friedmann equation the age.")
+     for nm_, c_ in cc_["tied"].items():
+-        w(f"    {nm_:<3s} Omega_a h^2 = {c_['Omega_a_h2']:.4f}: Omega_m = {c_['Omega_m']:.4f} (Part A's input:"
++        w(f"    {nm_:<3s} Omega_DM h^2 = {c_['Omega_a_h2']:.4f}: Omega_m = {c_['Omega_m']:.4f} (Part A's input:"
+           f" {c_['Omega_m_input']:.4f}), Omega_Lambda = {c_['Omega_Lambda']:.4f}, age = {c_['age_Gyr']:.3f} Gyr,"
+           f" {c_['age_pull']:+.0f} sigma")
+     w(f"    against Planck's {_comparison('age_Gyr')[0]} +/- {_comparison('age_Gyr')[1]} Gyr"
+       f" (with all of Omega_c: {cc_['age_with_all_dm_Gyr']:.3f} Gyr)")
+-    w(_wrap("RESULT: misalignment alone leaves the universe too old for every closest chain ("
+-            + ", ".join(f"{nm_} by {c_['age_pull']:.0f} sigma" for nm_, c_ in cc_["tied"].items())
+-            + "): closing the loop needs "
+-            + " or ".join(f"{100 * c_['string_fraction_needed']:.0f} %" for c_ in cc_["tied"].values())
+-            + " of the dark matter from the axion's strings and domain walls (post-inflation), or a second component. "
+-            "That fraction is the single number on which the particle-physics side of the cosmology hangs; the lattice "
+-            "and simulation results for the string yield are what would test it.", 2))
++    closes = [nm_ for nm_, c_ in cc_["tied"].items() if abs(c_["age_pull"]) < num("survival_sigma")]
++    w(_wrap("RESULT: " + ("the loop closes for " + ", ".join(closes) + ": its candidate's mass is fixed by the measured "
++                          "Omega_c (Part AA3), so this is a consistency, not a prediction of the age. " if closes else "")
++            + ("Without a candidate the universe is too old (" + ", ".join(
++                f"{nm_} by {c_['age_pull']:.0f} sigma" for nm_, c_ in cc_["tied"].items() if nm_ not in closes)
++               + "): the axion cannot supply the rest (Part V2)." if len(closes) < len(cc_["tied"]) else ""), 2))
+     w("")
+     ds = res["dark_sector"]
+     w("PART AA. DARK MATTER BEYOND THE AXION, AND INFLATION")
+@@ -10827,6 +11746,17 @@
              "fits Planck and BICEP/Keck, but for the Higgs it needs lambda > 0 near M_P, which the measured masses "
              "deny. A 210 or 126 direction with its own xi can inflate: allowed, with xi a new unknown, so not a "
              "prediction.", 2))
@@ -2301,7 +2336,7 @@
      w("")
      yy = res["so10_yukawa"]
      yp, yl = yy["PS"], yy["LR"]
-@@ -10990,6 +11921,104 @@
+@@ -10990,6 +11920,104 @@
              "which the chain's own scales do not allow without large thresholds.", 2))
      w("")
      sc_ = res["scorecard"]
@@ -2406,7 +2441,7 @@
      w("PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION")
      w("-" * 78)
      w("  Each hypothesis meets every condition, with the verdict the earlier parts computed:")
-@@ -11005,9 +12034,6 @@
+@@ -11005,9 +12033,6 @@
      for nm, ph in sc_["chain_higgs"].items():
          w(f"    {nm:<6s} M_I = {ph['M_I']:.2e} GeV: m_h = {ph['m_h']:.2f} +/- {ph['sigma']:.2f} GeV, {ph['pull']:+.1f} sigma")
      w("    It only measures how close each chain's M_I lies to the SM instability scale mu_0 (Part T6).")
@@ -2416,7 +2451,7 @@
      thr = res["so10"]["thresholds"]
      for h, v_ in sc_["verdict"].items():
          rob = ""
-@@ -11023,7 +12049,9 @@
+@@ -11023,7 +12048,9 @@
                            + ". It predicts nothing yet: its scales are solved from the couplings, and its passes are "
                              "consistency, not calculation; two-loop running and thresholds come next."
                            if sc_["survivors"] else "no complete hypothesis survives every condition. Closest (fewest fails,"
@@ -2427,7 +2462,7 @@
      w("")
      lg_ = res["ledger"]
      w("PART Z. THE LEDGER: EVERY FREE NUMBER AND WHAT THE ALGORITHM DOES WITH IT")
-@@ -11049,9 +12077,9 @@
+@@ -11049,9 +12076,9 @@
      w(_wrap("RESULT: the algorithm closes: one pass, every stage run in dependency order, and every free number assigned a "
              "status. " + ("Every assumption of the surviving hypothesis is consistent with every condition tested. "
                            if lg_["survivors"] else "No complete hypothesis survives every condition: the closest fails one. ") +
@@ -2440,7 +2475,7 @@
      w("")
      w("THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)")
      w("-" * 78)
-@@ -11128,10 +12156,9 @@
+@@ -11128,10 +12155,9 @@
          "flavour": {"m_t_msbar": flav["runner"].mt_msbar,
                      "ratios": flav["ratios"], "scales": flav["scales"]},
          "texture_survey": {mu: sv["classes"] for mu, sv in res["survey"].items()},
