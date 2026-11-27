@@ -1,0 +1,11315 @@
+#!/usr/bin/env python3
+"""
+STUR Physics Lab: adjacent simulation so10_flavour (one piece changed from production v2.2).
+
+THE ONE CHANGE: SO(10), the most studied unification framework, takes the place of 3-3-1 in
+Parts D, E and R (the gauge framework that the mass matrices, the flavour symmetry and the family
+number are asked about). Every other part is production_v2_2.py unchanged; sims/so10_flavour.diff
+shows the whole difference.
+
+One self-contained script. Python 3.8+, standard library only. Copy it, paste it
+into any Python runner, notebook or AI assistant's code tool, and run it.
+
+THE RULE: NOTHING IN THIS FILE IS TUNED OR FITTED.
+  * Every measured number is in INPUTS, with its uncertainty and its source.
+  * Every measured number used only to judge the results is in COMPARISONS. Those
+    never enter a calculation.
+  * Every numerical-method setting (step counts, grid sizes, precision) is in
+    NUMERICS. The self-checks show the results do not depend on them.
+  * Everything else is calculated: group-theory coefficients from Casimirs and
+    field content, quark masses from the renormalization group, the quark-mixing
+    matrix from an exact diagonalization, and the cosmology from the Friedmann
+    equation.
+  * Where the inputs cannot fix a quantity (the two phases of the quark mass
+    matrices), the script does not choose a value. It scans the whole range,
+    and the prediction is the band the scan sweeps out.
+  tests/test_production.py enforces the rule: it fails if a non-integer number
+  appears anywhere outside INPUTS, COMPARISONS and NUMERICS.
+
+WHAT IT CALCULATES
+  Part A, cosmology (flat LambdaCDM): the radiation density from the CMB
+    temperature, the dark-energy density from flatness, the age of the universe,
+    the deceleration parameter, the redshift where the expansion starts to
+    accelerate, matter-radiation equality, and the horizon entropies.
+  Part B, quark flavour: the six quark masses run with the renormalization group
+    (two-loop QCD, one-loop QED, then one-loop Standard Model Yukawa and gauge
+    running above the top mass) to m_t(m_t) and to the superpartner scale that
+    Part I derives. They are then
+    put into the Fritzsch six-zero texture, whose entries the masses fix exactly.
+    Diagonalizing it gives the full CKM matrix for every value of the two free
+    phases, and each element's band is compared with the measured value.
+  Part C, every texture-zero pattern that makes a prediction: all pairs of
+    Hermitian quark mass matrices with five or six zeros, grouped into classes
+    under weak-basis permutations. Each sector's entries are solved exactly from
+    its masses. Every unknown is scanned or tested, never fixed, and each class
+    is judged against the measured CKM matrix.
+  Part D, what SO(10) says about the mass matrices: the 16 x 16 Yukawa
+    bilinears from the exact spinor algebra (10 and 126 symmetric, 120
+    antisymmetric), what that does to texture zeros, and the Part C survivor
+    counted as SO(10)'s symmetric matrices.
+  Part E, whether an abelian flavour symmetry inside SO(10) gives a predictive
+    texture: an exhaustive Z_N scan with the minimal Higgs content, the exact
+    number of relations among the 13 charged-fermion observables, and a fit of
+    every predictive class to the data at the left-right chain's M_GUT.
+  Part H, where quantum theory and gravity meet: Planck units, the one-loop
+    quantum correction to Newton's law, Hawking and de Sitter horizons, the
+    Unruh effect, gravity-mediated entanglement, the logarithmic origin of the
+    proton/Planck hierarchy, and the large dimensionless numbers with their status.
+  Part I, whether alpha can be calculated from the other numbers: grand
+    unification of the three gauge couplings at one and two loops, for the SM
+    and the MSSM with its unknown superpartner scale scanned, plus a test of the
+    closed formulas proposed for 1/alpha.
+  Part F, whether ANY zero pattern of general mass matrices predicts the CKM
+    matrix: the exact number of physical parameters of all 61,009 pattern pairs,
+    from the rank of the Jacobian of 10 weak-basis invariants. Every rank is proved
+    (an exact lower bound meets a symmetry upper bound) and J = 0 is proved by
+    symbolic expansion where it holds.
+  Parts N, O, P, what is left: closed mass formulas (Koide) at pole and running masses; the
+    strong CP angle (its bound from the neutron EDM via the chiral logarithm, and the massless
+    up quark, axion and parity explanations); neutrino masses (the lightest mass and Majorana
+    phases scanned, against cosmology, KATRIN and KamLAND-Zen) and mixing patterns from discrete
+    symmetries, with the unknowns of the corrected patterns solved exactly.
+  Part M, which high-energy hypothesis survives: the SM up to M_P and the MSSM
+    above M_S (its unknowns scanned), each against every combination of gauge
+    unification, b-tau unification and the Higgs mass. None is chosen in advance.
+
+THE MODEL AS ONE ALGORITHM
+  The parts run as named stages (STAGES). Every read of a measured input and of
+  another stage's result is recorded, and the report prints the graph the run
+  followed, each stage's evidence level and assumptions, which stages each input
+  reaches, whether the stages' assumptions are compatible, and the audit findings.
+  --set NAME=VALUE changes a measured input and recalculates the whole model.
+
+Run:  python3 production_v2_2.py                 (full report, about 7 minutes)
+      python3 production_v2_2.py --json-out out.json
+      python3 production_v2_2.py --set M_t=173.5   (change an input, recalculate everything)
+"""
+
+from __future__ import annotations
+
+import argparse
+import cmath
+from decimal import Decimal, localcontext
+from fractions import Fraction as Fr
+import itertools
+import json
+import math
+import sys
+import time
+from typing import Any, Callable, Dict, List, Sequence, Tuple
+
+VERSION = "production v2.2 / sim so10_flavour (SO(10) in place of 3-3-1)"
+
+# =============================================================================
+# 1. MEASURED INPUTS (the only physics numbers that enter a calculation)
+# =============================================================================
+# Values are strings so that the high-precision cosmology sees them exactly.
+INPUTS: Dict[str, Dict[str, str]] = {
+    # --- SI defining constants (exact) and astronomical unit (exact, IAU 2012)
+    "c": {"value": "299792458", "sigma": "0", "unit": "m/s", "source": "SI, exact"},
+    "h": {"value": "6.62607015e-34", "sigma": "0", "unit": "J s", "source": "SI, exact"},
+    "k_B": {"value": "1.380649e-23", "sigma": "0", "unit": "J/K", "source": "SI, exact"},
+    "au": {"value": "149597870700", "sigma": "0", "unit": "m", "source": "IAU 2012, exact"},
+    "G": {"value": "6.67430e-11", "sigma": "0.00015e-11", "unit": "m^3/(kg s^2)",
+          "source": "CODATA 2018"},
+    # --- cosmology
+    "T_CMB": {"value": "2.7255", "sigma": "0.0006", "unit": "K", "source": "Fixsen 2009 (COBE/FIRAS)"},
+    "N_eff": {"value": "3.044", "sigma": "0", "unit": "",
+              "source": "Standard Model calculation of N_eff (Bennett et al. 2021); not measured"},
+    "H0": {"value": "67.36", "sigma": "0.54", "unit": "km/s/Mpc",
+           "source": "Planck 2018 VI, TT,TE,EE+lowE+lensing"},
+    "Omega_m": {"value": "0.3153", "sigma": "0.0073", "unit": "",
+                "source": "Planck 2018 VI, TT,TE,EE+lowE+lensing"},
+    "Omega_b_h2": {"value": "0.02237", "sigma": "0.00015", "unit": "",
+                   "source": "Planck 2018 VI, table 2, TT,TE,EE+lowE+lensing (Part S)"},
+    "ln_1e10_A_s": {"value": "3.044", "sigma": "0.014", "unit": "",
+                    "source": "Planck 2018 VI, table 2, TT,TE,EE+lowE+lensing: ln(10^10 A_s) (Part AA)"},
+    # --- electroweak
+    "G_F": {"value": "1.1663788e-5", "sigma": "0.0000006e-5", "unit": "GeV^-2", "source": "PDG 2024"},
+    "M_Z": {"value": "91.1876", "sigma": "0.0021", "unit": "GeV", "source": "PDG (LEP Z pole)"},
+    "M_W": {"value": "80.3692", "sigma": "0.0133", "unit": "GeV", "source": "PDG 2024, world average (pole)"},
+    "alpha_em_inv_MZ": {"value": "127.951", "sigma": "0.009", "unit": "",
+                        "source": "PDG 2024, MS-bar at M_Z"},
+    "delta_alpha_had5": {"value": "0.02783", "sigma": "0.00006", "unit": "",
+                         "source": "PDG 2024, Electroweak review: Delta alpha_had^(5)(M_Z) (Part W)"},
+    # --- QCD
+    "alpha_s_MZ": {"value": "0.1180", "sigma": "0.0009", "unit": "", "source": "PDG 2024"},
+    # --- quark masses: u, d, s MS-bar at 2 GeV; c, b MS-bar at their own mass; t pole (direct)
+    "m_u": {"value": "0.00216", "sigma": "0.00007", "unit": "GeV", "source": "PDG 2024, MS-bar(2 GeV)"},
+    "m_d": {"value": "0.00470", "sigma": "0.00007", "unit": "GeV", "source": "PDG 2024, MS-bar(2 GeV)"},
+    "m_s": {"value": "0.0935", "sigma": "0.0008", "unit": "GeV", "source": "PDG 2024, MS-bar(2 GeV)"},
+    "mu_light": {"value": "2", "sigma": "0", "unit": "GeV", "source": "PDG convention for u, d, s"},
+    "m_c": {"value": "1.2730", "sigma": "0.0046", "unit": "GeV", "source": "PDG 2024, m_c(m_c)"},
+    "m_b": {"value": "4.183", "sigma": "0.007", "unit": "GeV", "source": "PDG 2024, m_b(m_b)"},
+    "M_t": {"value": "172.57", "sigma": "0.29", "unit": "GeV", "source": "PDG 2024, direct measurements"},
+    "s2_hat_Z": {"value": "0.23129", "sigma": "0.00004", "unit": "",
+                 "source": "PDG 2024 (rev. April 2024) global fit, MS-bar sin^2 theta_W(M_Z)"},
+    # --- atomic and astronomical constants (Part H)
+    "e_charge": {"value": "1.602176634e-19", "sigma": "0", "unit": "C", "source": "SI, exact"},
+    "alpha_em": {"value": "7.2973525693e-3", "sigma": "0.0000000011e-3", "unit": "",
+                 "source": "CODATA 2018, fine-structure constant at zero momentum"},
+    "m_p": {"value": "1.67262192369e-27", "sigma": "0.00000000051e-27", "unit": "kg", "source": "CODATA 2018"},
+    "m_e": {"value": "9.1093837015e-31", "sigma": "0.0000000028e-31", "unit": "kg", "source": "CODATA 2018"},
+    "m_mu_MeV": {"value": "105.6583755", "sigma": "0.0000023", "unit": "MeV", "source": "PDG 2024 (pole)"},
+    "m_tau_MeV": {"value": "1776.93", "sigma": "0.09", "unit": "MeV", "source": "PDG 2024 (pole)"},
+    "GM_sun": {"value": "1.3271244e20", "sigma": "0", "unit": "m^3/s^2", "source": "IAU 2015 B3, nominal (exact)"},
+    "GM_earth": {"value": "3.986004418e14", "sigma": "0.000000008e14", "unit": "m^3/s^2", "source": "IERS 2010"},
+    "R_earth": {"value": "6378137", "sigma": "0", "unit": "m", "source": "WGS 84 equatorial radius (defined)"},
+    "m_pi_MeV": {"value": "139.57039", "sigma": "0.00018", "unit": "MeV", "source": "PDG 2024, charged pion"},
+    # --- hadronic inputs of the strong CP angle (Part O)
+    "m_pi0_MeV": {"value": "134.9768", "sigma": "0.0005", "unit": "MeV", "source": "PDG 2024, neutral pion"},
+    "m_n": {"value": "1.67492749804e-27", "sigma": "0.00000000095e-27", "unit": "kg", "source": "CODATA 2018"},
+    "f_pi_MeV": {"value": "130.2", "sigma": "0.8", "unit": "MeV",
+                 "source": "PDG 2024, f_pi+ (130 MeV normalization; F_pi = f_pi/sqrt2)"},
+    "g_A": {"value": "1.2754", "sigma": "0.0013", "unit": "", "source": "PDG 2024, |lambda| = |g_A/g_V|"},
+    "delta_mN_QCD_MeV": {"value": "2.49", "sigma": "0.17", "unit": "MeV",
+                         "source": "strong (quark-mass) part of m_n - m_p, lattice QCD average: de Vries, "
+                                   "Mereghetti, Walker-Loud 2015 (arXiv:1506.06247), eq. 118"},
+    "d_n_limit": {"value": "1.8e-26", "sigma": "0", "unit": "e cm",
+                  "source": "Abel et al. 2020 (PSI), PRL 124, 081803: |d_n| < 1.8e-26 e cm, 90% CL"},
+    # --- proton decay (Part Q): lattice matrix elements (stat and syst errors combined in quadrature)
+    "W_pi0_RL": {"value": "-0.131", "sigma": "0.0136", "unit": "GeV^2",
+                 "source": "<pi0|(ud)_R u_L|p>, MS-bar NDR at 2 GeV: Aoki, Izubuchi, Shintani, Soni 2017 "
+                           "(arXiv:1705.01338), table 4: -0.131(4)(13)"},
+    "W_pi0_LL": {"value": "0.134", "sigma": "0.0168", "unit": "GeV^2",
+                 "source": "<pi0|(ud)_L u_L|p>, same: 0.134(5)(16)"},
+    "V_ud": {"value": "0.97367", "sigma": "0.00032", "unit": "", "source": "PDG 2024, superallowed beta decays"},
+    "CKM_lambda": {"value": "0.22501", "sigma": "0.00068", "unit": "", "source": "PDG 2024 CKM fit, Wolfenstein lambda"},
+    "CKM_A": {"value": "0.826", "sigma": "0.0155", "unit": "", "source": "PDG 2024 CKM fit: +0.016 -0.015"},
+    "CKM_rhobar": {"value": "0.1591", "sigma": "0.0094", "unit": "", "source": "PDG 2024 CKM fit"},
+    "CKM_etabar": {"value": "0.3523", "sigma": "0.0072", "unit": "", "source": "PDG 2024 CKM fit: +0.0073 -0.0071"},
+    "alpha_p_lattice": {"value": "-0.0144", "sigma": "0.0021", "unit": "GeV^3",
+                        "source": "Aoki, Izubuchi, Shintani, Soni 2017 (arXiv:1705.01338), eq. 23: -0.0144(3)(21)"},
+    "beta_p_lattice": {"value": "0.0144", "sigma": "0.0021", "unit": "GeV^3", "source": "same: 0.0144(3)(21)"},
+    "baryon_D": {"value": "0.80", "sigma": "0", "unit": "", "source": "chiral Lagrangian D, as used by Hisano et al. 2013"},
+    "baryon_F": {"value": "0.47", "sigma": "0", "unit": "", "source": "chiral Lagrangian F, as used by Hisano et al. 2013"},
+    "m_K_MeV": {"value": "493.677", "sigma": "0.015", "unit": "MeV", "source": "PDG 2024, charged kaon"},
+    "m_Sigma0_MeV": {"value": "1192.642", "sigma": "0.024", "unit": "MeV", "source": "PDG 2024"},
+    "m_Lambda_MeV": {"value": "1115.683", "sigma": "0.006", "unit": "MeV", "source": "PDG 2024"},
+    # --- neutrino oscillations (Part P): NuFIT 6.0 (arXiv:2410.05380, JHEP 12 (2024) 216), global fit
+    # IC24 with SK atmospheric data; asymmetric 1 sigma errors symmetrized (mean of the two sides).
+    # Delta m^2_3l = Delta m^2_31 > 0 for normal ordering (NO), Delta m^2_32 < 0 for inverted (IO).
+    "nu_s12sq": {"value": "0.308", "sigma": "0.0115", "unit": "", "source": "NuFIT 6.0 (NO and IO): +0.012 -0.011"},
+    "nu_dm21": {"value": "7.49e-5", "sigma": "0.19e-5", "unit": "eV^2", "source": "NuFIT 6.0 (NO and IO)"},
+    "nu_s13sq_NO": {"value": "0.02215", "sigma": "0.00057", "unit": "", "source": "NuFIT 6.0 NO: +0.00056 -0.00058"},
+    "nu_s23sq_NO": {"value": "0.470", "sigma": "0.015", "unit": "", "source": "NuFIT 6.0 NO: +0.017 -0.013"},
+    "nu_delta_NO": {"value": "212", "sigma": "33.5", "unit": "deg",
+                    "source": "NuFIT 6.0 NO: +26 -41 (far from Gaussian; 3 sigma range 124 to 364)"},
+    "nu_dm3l_NO": {"value": "2.513e-3", "sigma": "0.020e-3", "unit": "eV^2",
+                   "source": "NuFIT 6.0 NO, Delta m^2_31: +0.021 -0.019"},
+    "nu_s13sq_IO": {"value": "0.02231", "sigma": "0.00056", "unit": "", "source": "NuFIT 6.0 IO: +-0.00056"},
+    "nu_s23sq_IO": {"value": "0.550", "sigma": "0.0135", "unit": "", "source": "NuFIT 6.0 IO: +0.012 -0.015"},
+    "nu_delta_IO": {"value": "274", "sigma": "23.5", "unit": "deg",
+                    "source": "NuFIT 6.0 IO: +22 -25 (3 sigma range 201 to 335)"},
+    "nu_dm3l_IO": {"value": "-2.484e-3", "sigma": "0.020e-3", "unit": "eV^2",
+                   "source": "NuFIT 6.0 IO, Delta m^2_32: +-0.020"},
+}
+
+# The measured inputs whose uncertainties are propagated into the flavour bands.
+FLAVOUR_UNCERTAIN = ("m_u", "m_d", "m_s", "m_c", "m_b", "M_t", "alpha_s_MZ")
+COSMO_UNCERTAIN = ("H0", "Omega_m", "T_CMB")
+
+# =============================================================================
+# 2. COMPARISONS (measured results; used only to judge the output)
+# =============================================================================
+# (value, +sigma, -sigma)
+COMPARISONS: Dict[str, Dict[str, Any]] = {
+    "V_us": {"value": ("0.22501", "0.00068", "0.00068"), "source": "PDG 2024 CKM global fit, eq. 12.27"},
+    "V_cb": {"value": ("0.04183", "0.00079", "0.00069"), "source": "PDG 2024 CKM global fit, eq. 12.27"},
+    "V_ub": {"value": ("0.003732", "0.000090", "0.000085"), "source": "PDG 2024 CKM global fit, eq. 12.27"},
+    "J": {"value": ("3.12e-5", "0.13e-5", "0.12e-5"), "source": "PDG 2024 CKM global fit"},
+    "V_td/V_ts": {"value": ("0.207", "0.0032", "0.0032"),
+                  "source": "PDG 2024 eq. 12.14, from Delta m_d / Delta m_s: "
+                            "0.207 +/- 0.001 +/- 0.003, the two errors combined in quadrature"},
+    "age_Gyr": {"value": ("13.787", "0.020", "0.020"), "source": "Planck 2018 VI, TT,TE,EE+lowE+lensing"},
+    "Omega_Lambda": {"value": ("0.6847", "0.0073", "0.0073"), "source": "Planck 2018 VI, TT,TE,EE+lowE+lensing"},
+    "m_h": {"value": ("125.20", "0.11", "0.11"), "source": "PDG 2024, Higgs boson mass (combined)"},
+    # lower limits (Part Q): the value is the limit, the sigmas are zero
+    "tau_p_e_pi0": {"value": ("2.4e34", "0", "0"),
+                    "source": "Super-Kamiokande, Takenaka et al. 2020 (PRD 102, 112011): tau/B(p -> e+ pi0), "
+                              "years, 90% CL"},
+    "n_s": {"value": ("0.9649", "0.0042", "0.0042"),
+            "source": "Planck 2018 VI, table 2, TT,TE,EE+lowE+lensing: scalar spectral index (Part AA)"},
+    "r_limit": {"value": ("0.036", "0", "0"),
+                "source": "BICEP/Keck 2021 (PRL 127, 151301): tensor-to-scalar ratio r_0.05, 95% upper limit (Part AA)"},
+    "tau_p_K_nu": {"value": ("5.9e33", "0", "0"),
+                   "source": "Super-Kamiokande, Abe et al. 2014 (PRD 90, 072005): tau/B(p -> nubar K+), "
+                             "years, 90% CL"},
+    "M_W_noCDF": {"value": ("80.360", "0.012", "0.012"),
+                  "source": "PDG 2024, Electroweak review eq. 10.63: average without CDF II"},
+    "M_W_SM_fit": {"value": ("80.353", "0.006", "0.006"),
+                   "source": "PDG 2024, Electroweak review: global SM fit without the M_W measurements"},
+    "sin2_eff_LEP_SLC": {"value": ("0.23151", "0.00016", "0.00016"),
+                         "source": "PDG 2024, Electroweak review: sin^2 theta_eff^lept, LEP + SLC"},
+    "sin2_eff_colliders": {"value": ("0.23149", "0.00013", "0.00013"),
+                           "source": "PDG 2024, Electroweak review: sin^2 theta_eff^lept, hadron-collider average"},
+    "Omega_c_h2": {"value": ("0.1200", "0.0012", "0.0012"),
+                   "source": "Planck 2018 VI, table 2, TT,TE,EE+lowE+lensing (Part V)"},
+    # upper limits (Part P): the value is the limit, the sigmas are zero
+    "sum_mnu_Planck": {"value": ("0.12", "0", "0"),
+                       "source": "Planck 2018 VI, TT,TE,EE+lowE+lensing+BAO, 95% upper limit (LambdaCDM)"},
+    "sum_mnu_DESI": {"value": ("0.064", "0", "0"),
+                     "source": "DESI DR2 BAO + CMB (arXiv:2503.14738), 95% upper limit (LambdaCDM)"},
+    "m_beta_KATRIN": {"value": ("0.45", "0", "0"), "source": "KATRIN 2025, Science 388, 180: 90% CL"},
+    "m_bb_KLZ_low": {"value": ("0.028", "0", "0"),
+                     "source": "KamLAND-Zen 2025 (arXiv:2406.11438, PRL 135, 262501): 90% CL, most favourable "
+                               "nuclear matrix element"},
+    "m_bb_KLZ_high": {"value": ("0.122", "0", "0"),
+                      "source": "KamLAND-Zen 2025: 90% CL, least favourable nuclear matrix element"},
+}
+
+# =============================================================================
+# 3. NUMERICS (method settings only; the self-checks vary them)
+# =============================================================================
+NUMERICS: Dict[str, Any] = {
+    "precision_digits": 50,           # Decimal digits for the cosmology
+    "romberg_max_levels": 22,
+    "romberg_rel_tol": "1e-30",
+    "friedmann_check_steps": 20000,   # independent float quadrature of the age
+    "inflation_efolds_lo": 50,        # Part AA: e-folds between horizon exit and the end of inflation (reheating
+    "inflation_efolds_hi": 60,        #   unknown): the standard band, an assumption
+    "friedmann_check_lna_min": -40,
+    "rg_steps_per_efold": 200,        # RK4 steps per unit of ln(mu)
+    "phase_grid": 120,                # coarse grid per phase (both phases in [0, 2 pi))
+    "pattern_search_min_step": "1e-12",
+    "jacobi_tol": "1e-30",
+    "check_rel_tol": "1e-9",
+    "check_eq19_factor": "1.5",       # Part Q: eq. 19 is a one-digit approximation with 2013 inputs
+    "check_lit_tol": "1e-4",          # two units of the last digit the literature prints (Part L checks)
+    "check_lit_b4_tol": "1e-6",       # B4 is printed to six decimals
+    "check_rg_tol": "1e-7",
+    "check_age_tol": "1e-8",
+    "survey_min_zeros": 5,            # 5 or 6 zeros: the patterns with at least one prediction
+    "survey_curve_grid": 24,          # starting grid along a one-parameter family
+    "survey_phase_grid": 16,          # starting grid per phase
+    "survey_starts": 3,               # best grid points refined by compass search
+    "survey_sigma_iterations": 3,     # re-evaluations of the input-induced errors at the point found
+    "survey_min_step": "1e-9",
+    "survey_residual_tol": "1e-6",    # relative mismatch of trace, minors, det for an accepted matrix
+    "check_survey_eig_tol": "1e-6",   # float cancellation in hierarchical matrices; masses are known to ~1e-2
+    "root_trim_rel": "1e-14",
+    "root_merge_rel": "1e-13",
+    "survival_sigma": 3,              # a pattern survives if its p-value is above the 3-sigma level
+    "cert_round_rel": "1e-12",        # Part C certificates: outward widening of interval bounds (rounding)
+    "cert_eval_rel": "1e-14",         # Part C certificates: rounding of one polynomial evaluation, relative
+    "cert_min_width": "1e-12",        # Part C certificates: narrowest cell along a family
+    "cert_budget": 1000000,           # Part C certificates: cells per variant before giving up
+    "check_survey_tol": "1e-6",
+    "symmetry_max_N": 6,              # Z_N searched exhaustively for N = 2 .. this
+    "so10_flavour_max_fields": 2,     # Part E: Higgs fields of the minimal theory with Yukawas (a 10 and a 126)
+    "so10_flavour_extra_fields": 3,   # Part E3: one Higgs field more (counted, not fitted)
+    "so10_texture_fit_starts": 64,    # Part E4: seeded Levenberg-Marquardt starts per class
+    "so10_texture_fit_iters": 400,    # Part E4: iterations per start
+    "so10_texture_fit_polish": 8,     # Part E4: best starts refined by iterated local search
+    "so10_texture_fit_kicks": 20,     # Part E4: random kicks per refined start
+    "joint_ms_points": 20,            # Part M: grid in ln M_S from m_t(m_t) to Part I's scan top
+    "joint_tan_beta_points": 20,      # Part M: grid in ln tan(beta) over its perturbative range
+    "joint_bisections": 20,           # Part M: bisection steps for b-tau roots and perturbativity edges
+    "joint_chi2_zero": "1e-6",        # Part M: a chi^2 below this is bisection residue, printed as 0
+    "closure_seed": 20261123,         # integer points for the exact Jacobian ranks (any seed works)
+    "closure_points": 2,              # points per pattern; the largest rank found is kept
+    "unif_step": "0.02",              # RK4 step in ln(mu) for the gauge running
+    "unif_bracket_lo": 20,            # search interval for 1/alpha(M_Z)
+    "unif_bracket_hi": 200,
+    "unif_iterations": 60,
+    "unif_ms_deriv_step": "0.05",     # step in ln(M_S) for the slope
+    "unif_tol": "1e-7",
+    "unif_grid_points": 8,            # M_S scan: geometric grid from M_Z to the SM unification point
+    "yukawa_tan_beta_points": 16,     # tan(beta) scan: geometric grid between its perturbative bounds
+    "higgs_xt_points": 13,            # stop-mixing grid X_t/M_S from 0 to sqrt(12) (Part K)
+    "higgs_ms_search_efolds": 40,     # search range in ln(M_S) above m_t for the backwards reading
+    "higgs_iterations": 50,           # bisection steps for that reading
+    "crit_tol": "1e-10",              # relative tolerance of the root solves (Part L)
+    "crit_iterations": 40,
+    "crit_steps_per_efold": 50,       # RK4 steps per e-fold for Part L's runs to the Planck scale
+    "check_b0_points": 200000,       # midpoint quadrature points for the B0 check
+    "check_b0_tol": "1e-5",          # (the integrand has integrable log singularities above threshold)
+    "crit_yt_step": "1e-2",           # first relative step in y_t when bracketing beta_lambda = 0
+    "check_fd_rel_step": "1e-5",      # finite-difference step for the first-law check
+    "check_fd_tol": "1e-8",
+    "nu_m0_min": "1e-5",              # Part P: smallest lightest-neutrino mass on the grid (eV); 0 is also used
+    "nu_m0_points": 25,               # Part P: geometric grid of the lightest mass up to the cosmology limit
+    "nu_phase_grid": 360,             # Part P: grid of the free phase of a corrected pattern, then bisection
+    "nu_bisections": 80,
+    "check_phase_grid": 96,           # Part P check: brute-force Majorana phases against the exact band
+    "proton_phase_grid": 36,          # Part Q: grid per unknown GUT phase (phi_2, phi_3) for the dimension-five band
+    "check_axion_tol": "0.05",        # Part V: eq. 170 is an approximation (their words); agreement within 5 %
+    "report_top_heavy": 8,            # Part T12: multiplets listed in the report (all are in the JSON)
+    "lr_potential_points": 300000,    # Part T13: (quartics, alpha) points tried for the left-right 210 vacuum
+    "lr_126_draws": 20,               # Part T13: 126 coupling sets per viable 210 vacuum
+    "heavy_mass_spread": 10,          # Part T8: each heavy GUT multiplet's mass within this factor of M_GUT (assumed)
+    "potential_seed": 20261125,       # Part T9: any seed works; the scan is deterministic
+    "potential_points": 30000,        # Parts T9-T11: coupling points tried
+    "potential_lambda_max": 1,        # Part T9: |lambda_a| (normalized quartics) at most this (perturbative box, assumed)
+    "potential_eta_max": 1,           # Part T9: |eta / v| at most this (assumed)
+    "potential_directions": 32,       # Part T9: random directions for the bounded-below test
+    "yukawa_fit_mass_rel": "0.01",    # Part Y: tolerance on the fitted lepton masses (one-loop running at M_GUT)
+    "yukawa_ratio_theory_rel": "0.02",  # Part Y: floor on the error of a lepton/down mass ratio at M_I (running)
+    "yukawa_fit_starts": 600,         # Part Y: seeded starts of the sum-rule search (half structured)
+    "yukawa_fit_evals": 60000,        # Part Y: evaluation budget per start
+    "yukawa_fit_polish": 12,          # Part Y: best starts refined by iterated local search
+    "yukawa_fit_kicks": 25,           # Part Y: random kicks per refined start
+    "yukawa_nu_seeds": 3,             # Part Y3: charged-lepton solutions the type-II fit starts from
+    "yukawa_nu_starts": 1000,         # Parts Y3, Y4: fresh Levenberg-Marquardt starts per seesaw type (in parallel)
+    "yukawa_w_decades": 2,            # Part Y4: types I + II cross-starts at tan(theta) = 10^-2 (type I) and 10^2 (type II)
+    "yukawa_nu_generic_every": 4,     # Parts Y3, Y4: every 4th fresh start generic, the rest structured (as in Y2)
+    "yukawa_cross_seeds": 10,         # Part Y4: best type-I and type-II points that also start the I + II fit
+    "yukawa_nu_polish": 32,           # Parts Y3, Y4: best points refined by kicks (iterated local search)
+    "yukawa_nu_kicks": 16,            # kicks per refined point
+    "yukawa_nu_kick": "0.15",         # largest kick per unknown (larger kicks leave the basin)
+    "yukawa_lm_iters": 400,           # Levenberg-Marquardt: iterations per start
+    "yukawa_lm_step": "1e-5",         # forward-difference step (log-magnitudes, phases, pulls)
+    "yukawa_lm_mu0": "1e-2",          # initial damping
+    "yukawa_lm_mu_max": "1e10",       # damping at which a start is abandoned (no downhill step left)
+    "yukawa_lm_diag_floor": "1e-12",  # damping floor for a flat direction
+    "yukawa_lm_chi2_stop": "1e-6",
+    "yukawa_lm_log_max": 30,          # |ln c1|, |ln c2| beyond this is outside any physical range
+    "lr_running_phase_samples": 4,
+    "lr_f_bisect_steps": 16,
+    "lr_complex10_draws": 8,          # T13: complex-10 coupling draws per kept 126 draw          # Part Y (5c): bisection steps for the largest perturbative Delta_R coupling
+    "check_matrix_running_rel": "0.01",  # matrix SM running vs Part J's third-generation running plus ratios    # Part Y: random Takagi phases at M_I, to show how much they move b - tau
+    "yukawa_fit_min_step": "1e-6",    # Part Y: smallest compass step (in log-magnitudes and phases)
+    "threshold_band": 1,              # Part T7: largest one-loop threshold per matching condition, in 1/alpha (an
+                                      # assumption: one heavy multiplet with b ~ 2 a factor e off gives ~0.3)
+    "report_sci_below": "1e-3",       # print in scientific notation below / above these
+    "report_sci_above": "1e5",
+}
+# Scales are never typed in: Parts B and C are evaluated at m_t(m_t) and at the superpartner
+# scale M_S that Part I derives; Part J uses the unification scales it computes and M_Planck.
+
+
+# =============================================================================
+# 3a. LITERATURE (published calculations the script quotes instead of repeating)
+# =============================================================================
+# Coefficients of calculations too long to reproduce here, each with its source. They
+# are neither measured nor tuned. Self-checks reproduce published results with them.
+# Rational coefficients are written as fractions; the others are as printed in the source.
+LITERATURE: Dict[str, Dict[str, Any]] = {
+    "sm_beta_3loop": {
+        "source": "Buttazzo et al. 2013 (arXiv:1307.3536v2), appendix B: three-loop terms of the SM RGEs "
+                  "(Mihaila-Salomon-Steinhauser; Chetyrkin-Zoller; Bednyakov et al.), for d/d ln(mu^2), "
+                  "times (4 pi)^-6; y_b, y_tau neglected at three loops. Each term: (coefficient, powers of "
+                  "lambda, y_t^2, g3^2, g2^2, g1^2), multiplying g1^4, g2^4, g3^4, y_t^2 or 1.",
+        "value": {
+             "g1": ["g1^4", [("189/16",0,2,0,0,0),("-29/5",0,1,1,0,0),("-471/32",0,1,0,1,0),("-2827/800",0,1,0,0,1),
+                    ("-9/5",2,0,0,0,0),("9/10",1,0,0,1,0),("27/50",1,0,0,0,1),
+                    ("297/5",0,0,2,0,0),("789/64",0,0,0,2,0),("-388613/24000",0,0,0,0,2),("-3/5",0,0,1,1,0),
+                    ("-137/75",0,0,1,0,1),("123/160",0,0,0,1,1)]],
+             "g2": ["g2^4", [("147/16",0,2,0,0,0),("-7",0,1,1,0,0),("-729/32",0,1,0,1,0),("-593/160",0,1,0,0,1),
+                    ("-3",2,0,0,0,0),("3/2",1,0,0,1,0),("3/10",1,0,0,0,1),
+                    ("81",0,0,2,0,0),("324953/1728",0,0,0,2,0),("-5597/1600",0,0,0,0,2),("39",0,0,1,1,0),
+                    ("-1/5",0,0,1,0,1),("873/160",0,0,0,1,1)]],
+             "g3": ["g3^4", [("15",0,2,0,0,0),("-40",0,1,1,0,0),("-93/8",0,1,0,1,0),("-101/40",0,1,0,0,1),
+                    ("65/2",0,0,2,0,0),("109/8",0,0,0,2,0),("-523/120",0,0,0,0,2),("21",0,0,1,1,0),
+                    ("77/15",0,0,1,0,1),("-3/40",0,0,0,1,1)]],
+             "yt": ["yt^2", [("58.6028",0,3,0,0,0),("198",1,2,0,0,0),("-157",0,2,1,0,0),("-1593/16",0,2,0,1,0),("-2437/80",0,2,0,0,1),
+                    ("15/4",2,1,0,0,0),("16",1,1,1,0,0),("-135/2",1,1,0,1,0),("-127/10",1,1,0,0,1),
+                    ("363.764",0,1,2,0,0),("16.990",0,1,0,2,0),("-24.422",0,1,0,0,2),("48.370",0,1,1,1,0),("18.074",0,1,1,0,1),("34.829",0,1,0,1,1),
+                    ("-36",3,0,0,0,0),("45",2,0,0,1,0),("9",2,0,0,0,1),
+                    ("-171/16",1,0,0,2,0),("-1089/400",1,0,0,0,2),("117/40",1,0,0,1,1),
+                    ("-619.35",0,0,3,0,0),("169.829",0,0,0,3,0),("16.099",0,0,0,0,3),("73.654",0,0,2,1,0),("-15.096",0,0,2,0,1),
+                    ("-21.072",0,0,1,2,0),("-22.319",0,0,1,0,2),("-321/20",0,0,1,1,1),("-4.743",0,0,0,2,1),("-4.442",0,0,0,1,2)]],
+             "lam": ["1", [("6011.35",4,0,0,0,0),("873",3,1,0,0,0),("-387.452",3,0,0,1,0),("-77.490",3,0,0,0,1),
+                    ("1768.26",2,2,0,0,0),("160.77",2,1,1,0,0),("-359.539",2,1,0,1,0),("-63.869",2,1,0,0,1),
+                    ("-790.28",2,0,0,2,0),("-185.532",2,0,0,0,2),("-316.64",2,0,0,1,1),
+                    ("-223.382",1,3,0,0,0),("-662.866",1,2,1,0,0),("-5.470",1,2,0,1,0),("-21.015",1,2,0,0,1),
+                    ("356.968",1,1,2,0,0),("-319.664",1,1,0,2,0),("-74.8599",1,1,0,0,2),("15.1443",1,1,1,1,0),("17.454",1,1,1,0,1),("5.615",1,1,0,1,1),
+                    ("-57.144",1,0,1,2,0),("865.483",1,0,0,3,0),("79.638",1,0,0,2,1),
+                    ("-8.381",1,0,1,0,2),("61.753",1,0,0,1,2),("28.168",1,0,0,0,3),
+                    ("-243.149",0,4,0,0,0),("250.494",0,3,1,0,0),("74.138",0,3,0,1,0),("33.930",0,3,0,0,1),
+                    ("-50.201",0,2,2,0,0),("15.884",0,2,0,2,0),("15.948",0,2,0,0,2),("13.349",0,2,1,1,0),("17.570",0,2,1,0,1),("-70.356",0,2,0,1,1),
+                    ("16.464",0,1,1,2,0),("1.016",0,1,1,0,2),("11.386",0,1,1,1,1),
+                    ("62.500",0,1,0,3,0),("13.041",0,1,0,2,1),
+                    ("10.627",0,1,0,1,2),("11.117",0,1,0,0,3),
+                    ("7.536",0,0,1,3,0),("0.663",0,0,1,0,3),("1.507",0,0,1,2,1),("1.105",0,0,1,1,2),
+                    ("-114.091",0,0,0,4,0),("-1.508",0,0,0,0,4),("-37.889",0,0,0,3,1),("6.500",0,0,0,2,2),("-1.543",0,0,0,1,3)]],
+            },
+    },
+    "g3_beta_4loop": {"source": "same, pure QCD: g3^10 (4 pi)^-8 x this, in d g3^2/d ln(mu^2)",
+                      "value": "-2472.28"},
+    "top_mass_3loop": {
+        "source": "Melnikov, van Ritbergen 2000 (hep-ph/9912391), eq. (polethrms): the a^3 term of "
+                  "M/m(m), a = alpha_s(m)/pi: c2 N_L^2 + c1 N_L + c0",
+        "value": {"c2": "0.6527", "c1": "-26.655", "c0": "190.595"}},
+    "lambda_2loop_matching": {
+        "source": "Buttazzo et al. 2013, section 2.1: lambda^(2)(mu = M_t) = (4 pi)^-4 [g3^2 (a0 + a1 dM_h"
+                  " + a2 dM_t) + (b0 + b1 dM_h + b2 dM_t)], dM_h = M_h/GeV - 125, dM_t = M_t/GeV - 173 "
+                  "(their interpolation of the full two-loop result)",
+        "value": {"qcd": ("-23.88", "0.12", "-0.64"), "ew": ("-9.45", "-0.12", "-0.21"),
+                  "M_h0": "125", "M_t0": "173"}},
+    "yt_2loop_matching": {
+        "source": "Buttazzo et al. 2013, section 2.3: the electroweak and mixed QCD-electroweak two-loop "
+                  "parts of y_t(mu = M_t), same form (the pure QCD part is the two-loop pole/MS-bar "
+                  "conversion, already in this script)",
+        "value": {"ew": ("6.48", "-0.01", "0.18"), "qcd_ew": ("-7.53", "0.09", "-0.23"),
+                  "M_h0": "125", "M_t0": "173"}},
+    "qcd_beta_3_4loop": {
+        "source": "Chetyrkin, Kuehn, Steinhauser 2000, RunDec (hep-ph/0004189), eq. (betafct) "
+                  "(van Ritbergen, Vermaseren, Larin 1997): mu^2 d(a)/d mu^2 = -sum beta_i a^(i+2), "
+                  "a = alpha_s/pi. Terms (coefficient, power of n_f, zeta value), times norm",
+        "value": {"beta2": {"norm": "1/64", "terms": [("2857/2", 0, ""), ("-5033/18", 1, ""), ("325/54", 2, "")]},
+                  "beta3": {"norm": "1/256", "terms": [("149753/6", 0, ""), ("3564", 0, "z3"),
+                                                       ("-1078361/162", 1, ""), ("-6508/27", 1, "z3"),
+                                                       ("50065/162", 2, ""), ("6472/81", 2, "z3"),
+                                                       ("1093/729", 3, "")]}}},
+    "qcd_gamma_3_4loop": {
+        "source": "RunDec, eq. after (defgamma) (Chetyrkin 1997; Vermaseren, Larin, van Ritbergen 1997): "
+                  "mu^2 d m/d mu^2 = -m sum gamma_i a^(i+1), same form",
+        "value": {"gamma2": {"norm": "1/64", "terms": [("1249", 0, ""), ("-2216/27", 1, ""), ("-160/3", 1, "z3"),
+                                                        ("-140/81", 2, "")]},
+                  "gamma3": {"norm": "1/256", "terms": [("4603055/162", 0, ""), ("135680/27", 0, "z3"),
+                                                         ("-8800", 0, "z5"), ("-91723/27", 1, ""),
+                                                         ("-34192/9", 1, "z3"), ("880", 1, "z4"),
+                                                         ("18400/9", 1, "z5"), ("5242/243", 2, ""),
+                                                         ("800/9", 2, "z3"), ("-160/3", 2, "z4"),
+                                                         ("-332/243", 3, ""), ("64/27", 3, "z3")]}}},
+    "qcd_decoupling": {
+        "source": "RunDec eqs. (zetagSI), (zetamSI) at mu = mu_h = m_h(m_h), where every logarithm vanishes "
+                  "(Chetyrkin, Kniehl, Steinhauser 1997, 1998): alpha_s^(n_l) = zeta_g^2 alpha_s^(n_f), "
+                  "m^(n_l) = zeta_m m^(n_f), series in a = alpha_s^(n_f)/pi; terms (coefficient, power of "
+                  "n_l, constant). B4 = 16 Li4(1/2) - 13/2 zeta4 - 4 zeta2 ln^2 2 + 2/3 ln^4 2",
+        "value": {"g2": [("11/72", 0, "")],
+                  "g3": [("564731/124416", 0, ""), ("-82043/27648", 0, "z3"), ("-2633/31104", 1, "")],
+                  "m2": [("89/432", 0, "")],
+                  "m3": [("2951/2916", 0, ""), ("-407/864", 0, "z3"), ("5/4", 0, "z4"), ("-1/36", 0, "B4"),
+                         ("1327/11664", 1, ""), ("-2/27", 1, "z3")]}},
+    "top_mass_4loop": {
+        "source": "Marquard, Smirnov, Smirnov, Steinhauser 2015 (arXiv:1502.01030), eq. (cm4): the a^4 term "
+                  "of M/m(m) for n_l = 5, a = alpha_s^(6)(m)/pi (+-21.5)",
+        "value": {"c4_nl5": "827.37", "sigma": "21.5"}},
+    "lambda_3loop_qcd": {
+        "source": "Buttazzo et al. 2013, footnote in section 3.1 (from Martin 2013's three-loop effective "
+                  "potential): lambda^(3)_QCD(mu = M_t) = norm g3^4 G_mu^2 M_t^4 (4 pi)^-6 [sum], leading "
+                  "order in g3 and y_t, M_h, M_W, M_Z << M_t. Terms (coefficient, constant)",
+        "value": {"norm": "-8/135",
+                  "terms": [("176", "pi4"), ("720", "pi2"), ("960", "pi2_ln2sq"), ("1440", "pi2_ln2"),
+                            ("9105", ""), ("-960", "ln2_4"), ("-23040", "li4half"), ("8640", "z3")]}},
+    "smdr_reference": {
+        "source": "Martin, Robertson 2019 (arXiv:1907.02500v5, SMDR), eqs. (referencemodelOS) and "
+                  "(referencemodelMSbar): on-shell inputs and the MS-bar couplings at Q0 = 173.1 GeV that "
+                  "reproduce them, with full two-loop plus leading three-loop matching and four-loop QCD. "
+                  "Part L anchors its matching to this point and carries it to the measured inputs",
+        "value": {"inputs": {"M_t": "173.1", "M_h": "125.1", "alpha_s_MZ": "0.1181", "G_F": "1.1663787e-5",
+                             "M_Z": "91.1876"},
+                  "Q0": "173.1",
+                  "couplings": {"lambda": "0.12603842", "g3": "1.1636241", "g2": "0.64765961",
+                                "gp": "0.35853877", "y_t": "0.93480082"}}},
+    "check_rundec": {
+        "source": "RunDec section 2 and table (alsMb), eq. (numdef): alpha_s^(5)(mu) from alpha_s^(5)(M_Z) "
+                  "= 0.118 by exact integration, five flavours, at 3 and 4 loops; B4; Chetyrkin 1997 "
+                  "(hep-ph/9703278), numerical gamma_m: gamma_2, gamma_3 coefficients of n_f^k",
+        "value": {"alpha_MZ": "0.118", "M_Z": "91.18", "M_b": "4.7",
+                  "alpha_Mb_4L": "0.2169467", "alpha_1GeV_3L": "0.4029", "alpha_1GeV_4L": "0.4065",
+                  "B4": "-1.762800",
+                  "gamma2": ("19.5156", "-2.28412", "-0.0270062"),
+                  "gamma3": ("98.9434", "-19.1075", "0.276163", "0.00579322")}},
+    "check_buttazzo": {
+        "source": "Buttazzo et al. 2013: inputs (table 'values'), couplings at mu = M_t (section 3, with "
+                  "the three-loop QCD part of y_t) and at the Planck mass (eq. sys:Pl); used only by "
+                  "self-checks of the transcriptions above",
+        "value": {"inputs": {"M_h": "125.15", "M_t": "173.34", "alpha_s_MZ": "0.1184", "M_W": "80.384",
+                             "M_Z": "91.1876", "G_F": "1.1663787e-5"},
+                  "at_Mt": {"lambda": "0.12604", "y_t": "0.93690", "g2": "0.64779", "gY": "0.35830",
+                            "g3": "1.1666"},
+                  "at_MPl": {"g1": "0.6154", "g2": "0.5055", "g3": "0.4873", "y_t": "0.3825",
+                             "lambda": "-0.0143"},
+                  "M_Pl": "1.2209e19", "lambda_th": "0.00030", "yt_th": "0.00050",
+                  # lambda(M_Pl) = l0 + lt (M_t - 173.34) + la (alpha_s - 0.1184)/0.0007 + lh (M_h - 125.15),
+                  # eq. (sys:Pl), and d lambda(M_t)/d M_h (section 3.1)
+                  "lambda_MPl": {"l0": "-0.0143", "lt": "-0.0066", "la": "0.0018", "lh": "0.0029",
+                                 "alpha_step": "0.0007"},
+                  "dlambda_Mt_dMh": "0.00206"}},
+    "dn_theta": {
+        "source": "Full calculations of d_n / theta-bar, quoted to compare with Part O's chiral log: QCD sum "
+                  "rules, Pospelov-Ritz 2000 (hep-ph/9908508v4), eq. 5; lattice QCD, Dragos et al. 2019 "
+                  "(arXiv:1902.03254), -0.00152(71) theta e fm. Units: e cm per unit theta-bar",
+        "value": {"QCD sum rules (Pospelov-Ritz)": ("2.4e-16", "1.0e-16"),
+                  "lattice QCD (Dragos et al.)": ("1.52e-16", "0.71e-16")}},
+    "proton_decay_d6": {
+        "source": "Dimension-six proton decay through the SU(5) gauge bosons (Ellis, Garcia, Nagata, "
+                  "Nanopoulos, Olive 2020, arXiv:2003.03285, eqs. 17, 20, 45). The two operators (lepton "
+                  "doublet, lepton singlet) run as C ~ prod_i alpha_i^(-2 c_i / b_i): the one-loop "
+                  "anomalous-dimension coefficients c_i (d ln C / d ln mu = -sum c_i alpha_i / pi) for SU(3), "
+                  "SU(2), U(1)_GUT, in the SM and the MSSM; with the script's b_i they must reproduce the "
+                  "printed exponents (a self-check). Below M_Z the QCD coefficient is the same c_3 = 1. "
+                  "Two-loop long-distance factor A_L = 1.247, quoted only to compare",
+        "value": {"SM": {"S1": ("11/40", "9/8", "1"), "S2": ("23/40", "9/8", "1")},
+                  "MSSM": {"S1": ("11/60", "3/4", "2/3"), "S2": ("23/60", "3/4", "2/3")},
+                  "printed_exponents": {"SM": {"S1": ("-11/82", "27/38", "2/7"), "S2": ("-23/82", "27/38", "2/7")},
+                                        "MSSM": {"S1": ("-1/18", "-3/2", "4/9"), "S2": ("-23/198", "-3/2", "4/9")}},
+                  "A_L_two_loop": "1.247"}},
+    "proton_decay_d5_scaling": {
+        "source": "Hisano, Kobayashi, Kuwahara, Nagata 2013 (arXiv:1304.3651), eq. 19: the higgsino-exchange "
+                  "lifetime tau ~ C sin^4(2 beta) (0.1/Abar_R)^2 (M_S/100 TeV)^2 (M_HC/1e16 GeV)^2 years at "
+                  "mu_H = M_S; C, quoted only to compare with Part Q's full calculation. Their hadronic matrix "
+                  "element (eqs. 45-46): alpha_p = -0.0112 GeV^3 (RBC-UKQCD 2008), against this script's -0.0144",
+        "value": "4e35", "alpha_p": "-0.0112"},
+    "ew_transition": {
+        "source": "Lattice: the SM electroweak transition is first order only below the endpoint Higgs mass, "
+                  "72.4 +/- 1.7 GeV (Csikor, Fodor, Heitger 1999, hep-ph/9809291); above it a crossover at "
+                  "T_c = 159.5 +/- 1.5 GeV (D'Onofrio, Rummukainen 2016, arXiv:1508.07161)",
+        "value": {"endpoint_m_h": ("72.4", "1.7"), "T_c": ("159.5", "1.5")}},
+    "w_mass_fit": {
+        "source": "Awramik, Czakon, Freitas, Weiglein 2004 (hep-ph/0311148v3), eqs. 6-8: parametrization of the "
+                  "full two-loop SM prediction of M_W, better than 0.5 MeV for 10 GeV <= M_H <= 1 TeV; "
+                  "Delta alpha_lept from Steinhauser (their text)",
+        "value": {"coefficients": {"MW0": "80.3779", "c1": "0.05427", "c2": "0.008931", "c3": "0.0000882",
+                                   "c4": "0.000161", "c5": "1.070", "c6": "0.5237", "c7": "0.0679", "c8": "0.00179",
+                                   "c9": "0.0000664", "c10": "0.0795", "c11": "114.9"},
+                  "reference": {"M_H": "100", "m_t": "174.3", "M_Z": "91.1875", "delta_alpha": "0.05907",
+                                "alpha_s": "0.119"},
+                  "delta_alpha_lept": "0.0314977", "fit_accuracy": "0.0005"}},
+    "sin2_eff_fit": {
+        "source": "Awramik, Czakon, Freitas 2006 (hep-ph/0608099v2), eqs. 48-49 and table 5 (leptons): the SM's "
+                  "two-loop sin^2 theta_eff^lept, maximal deviation 4.5e-6 for 10 GeV <= M_H <= 1 TeV",
+        "value": {"coefficients": {"s0": "0.2312527", "d1": "4.729e-4", "d2": "2.07e-5", "d3": "3.85e-6",
+                                   "d4": "-1.85e-6", "d5": "2.07e-2", "d6": "-2.851e-3", "d7": "1.82e-4",
+                                   "d8": "-9.74e-6", "d9": "3.98e-4", "d10": "-6.55e-1"},
+                  "reference": {"M_H": "100", "m_t": "178.0", "M_Z": "91.1876", "delta_alpha": "0.05907",
+                                "alpha_s": "0.117"},
+                  "fit_accuracy": "4.5e-6"}},
+    "axion_misalignment": {
+        "source": "Di Luzio, Giannotti, Nardi, Visinelli 2020 (arXiv:2003.01100), sec. 3.3: m_a(T) = beta m_a "
+                  "(T_C/T)^gamma (eq. 150, dilute instanton gas, beta from their ref. 184), g* at oscillation, "
+                  "b = 1, the post-inflation <theta_i^2> = 2.15^2 with anharmonic terms; eq. 170, Omega h^2 = 0.12 "
+                  "at f_a = 2.0e11 GeV, quoted only to check the calculation",
+        "value": {"beta": "0.026", "gamma": "4", "T_C_GeV": "0.160", "g_star_osc": "61.75", "b": "1",
+                  "theta_post": "2.15", "eq170_f_a_GeV": "2.0e11", "eq170_Omega_h2": "0.12"}},
+    "axion_mass_nlo": {
+        "source": "QCD axion mass at NLO in chiral perturbation theory with lattice input, Gorghetto-Villadoro "
+                  "2019 (refining Grilli di Cortona et al. 2016): m_a = 5.69(5) micro-eV x (1e12 GeV / f_a)",
+        "value": ("5.69", "0.05")},
+}
+
+
+def lit_num(v: str) -> float:
+    """A LITERATURE coefficient as a float (fractions exactly)."""
+    return float(Fr(v)) if "/" in v else float(v)
+
+
+# =============================================================================
+# 3b. ONE MODEL: EVERY STAGE, WHAT IT ASSUMES, AND WHAT IT READS
+# =============================================================================
+# The simulation is one algorithm. Each stage below runs once, in order; a number
+# is calculated in the stage that produces it and handed to every later stage
+# that needs it. The dependency graph is not typed in: every read of a measured
+# input and every read of another stage's result is recorded while the stages
+# run, so the graph in the report is the one the code actually follows.
+#   level: proved / exact / numerical / conditional / parameter trade / validation
+#   uv:    the field content the stage assumes above the electroweak scale, where
+#          it assumes one. Stages that assume different ones cannot both hold.
+STAGES: Dict[str, Dict[str, str]] = {
+    "cosmology": {"part": "A", "level": "conditional",
+                  "assumes": "flat LambdaCDM: Omega_Lambda = 1 - Omega_m - Omega_r"},
+    "gauge_unification": {"part": "I", "level": "parameter trade", "uv": "MSSM above M_S",
+                          "assumes": "one superpartner scale M_S; the measured alpha is spent to infer it"},
+    "alpha_numerology": {"part": "I", "level": "exact", "assumes": "none (tests closed formulas)"},
+    "flavour": {"part": "B", "level": "numerical",
+                "assumes": "Fritzsch six-zero texture; phase bands from a finite grid plus local search"},
+    "texture_survey": {"part": "C", "level": "numerical",
+                       "assumes": "Hermitian textures; searches from finite grids (--certify proves the "
+                                  "exclusions: 80 of 82)"},
+    "survey_certificates": {"part": "C", "level": "proved",
+                            "assumes": "only with --certify; exclusions proved cell by cell, at m_t(m_t)"},
+    "gauge_so10": {"part": "D", "level": "exact", "assumes": "SO(10) with one 16 per family; spinor algebra exact"},
+    "flavour_symmetry_so10": {"part": "E", "level": "exact",
+                              "assumes": "abelian Z_N up to symmetry_max_N on whole 16s; Higgs fields 10s and 126s; one "
+                                         "light Higgs mixing every bidoublet (Part T13); scalar potential not solved"},
+    "so10_flavour_fit": {"part": "E", "level": "numerical",
+                         "assumes": "the predictive Z_N classes fitted to the charged-fermion masses and quark mixing of "
+                                    "Part Y's left-right running at M_GUT, every observable within yukawa_fit_mass_rel; "
+                                    "searched from seeded starts (an exclusion means no point was found)"},
+    "general_texture_closure": {"part": "F", "level": "proved",
+                                "assumes": "equalities only: a rank-10 pattern may still miss the data"},
+    "planck_units": {"part": "H1", "level": "exact", "assumes": "none; nothing derives G"},
+    "quantum_gravity": {"part": "H", "level": "exact",
+                        "assumes": "identities and effective field theory"},
+    "yukawa_relations": {"part": "J", "level": "conditional", "uv": "MSSM above M_S",
+                         "assumes": "M_S and M_GUT from Part I"},
+    "higgs_mssm": {"part": "K", "level": "conditional", "uv": "MSSM above M_S",
+                   "assumes": "M_S from Part I, tan(beta) from Part J, one-loop stop threshold"},
+    "criticality": {"part": "L", "level": "conditional", "uv": "SM up to M_P",
+                    "assumes": "lambda(M_P) = 0; three-loop running, matching anchored to SMDR, four-loop QCD"},
+    "uv_joint_test": {"part": "M", "level": "numerical",
+                      "assumes": "every hypothesis against every set of conditions; unknowns on a grid "
+                                 "plus exact roots and edges; theory errors = last-order shifts"},
+    "mass_formulas": {"part": "N", "level": "exact",
+                      "assumes": "none (tests closed mass formulas at stated scales)"},
+    "strong_cp": {"part": "O", "level": "conditional",
+                  "assumes": "leading-order chiral perturbation theory for d_n and m_a; theta-bar the only "
+                             "source of d_n"},
+    "neutrinos": {"part": "P", "level": "numerical",
+                  "assumes": "three light neutrinos; lightest mass and Majorana phases scanned; cosmological "
+                             "limits assume flat LambdaCDM; unknowns of corrected patterns solved exactly"},
+    "proton_decay": {"part": "Q", "level": "conditional", "uv": "MSSM above M_S",
+                     "assumes": "minimal SU(5): gauge bosons at M_X = M_GUT, colour triplet at M_HC = M_GUT, every "
+                                "superpartner at M_S (Part I), tan(beta) from Part J; GUT phases scanned; one-loop "
+                                "operator running; GUT thresholds unknown"},
+    "anomalies": {"part": "R", "level": "exact",
+                  "assumes": "one family of the SM's representations (and SO(10)'s 16, Part D); "
+                             "Yukawa couplings for every charged fermion"},
+    "baryon_asymmetry": {"part": "S", "level": "conditional",
+                         "assumes": "lattice endpoint and T_c of the SM transition; leptogenesis: hierarchical "
+                                    "right-handed neutrinos, thermal, efficiency kappa <= 1"},
+    "so10": {"part": "T", "level": "conditional",
+             "assumes": "SO(10) with one 16 per family; minimal Yukawas from one 10_H; the Pati-Salam chain with "
+                        "scalars (1,2,2) + (10,1,3), one-loop running, no thresholds; T7-T12 thresholds at "
+                        "leading log, heavy masses scanned or from the 210 potential (PS)"},
+    "scorecard": {"part": "U", "level": "conditional",
+                  "assumes": "the SM, minimal SUSY SU(5) and four SO(10) chains (two loops), each condition judged "
+                             "by the stage that computes it; for the chains the Higgs condition is lambda(M_I) = 0"},
+    "dark_matter": {"part": "V", "level": "conditional",
+                    "assumes": "QCD axion by misalignment; dilute-instanton m_a(T); string and domain-wall "
+                               "production left out; f_a scanned and at each SO(10) chain's M_I"},
+    "w_mass": {"part": "W", "level": "conditional",
+               "assumes": "the SM's two-loop M_W in its published parametrization, at Part L's Higgs mass"},
+    "closed_cosmology": {"part": "X", "level": "conditional",
+                         "assumes": "Omega_m from Omega_b (measured), the axion at the surviving chain's M_I "
+                                    "(misalignment, post-inflation) and the minimal neutrino masses; flat LambdaCDM"},
+    "so10_yukawa": {"part": "Y", "level": "numerical",
+                    "assumes": "symmetric Yukawas from a 10 and a 126; the selection rule exact at tree level; the "
+                               "sum rule at the LR chain's M_GUT, with matrix SM running to M_I and one-loop left-right "
+                               "running above it (the second bidoublet vev and the Delta_R coupling varied over their "
+                               "allowed ranges); a complex 10 (a real one is tested and fails); neutrinos by "
+                               "type II, type I, I + II "
+                               "(normal ordering, quark masses floated within errors); v_R ~ M_I for the M_R bound; "
+                               "unknowns searched, never set"},
+    "dark_sector": {"part": "AA", "level": "conditional",
+                    "assumes": "the left-right chain's minimal content (16 fermions; 10, 126, 210 scalars); single-field "
+                               "slow roll with N = 50-60 e-folds; the inflaton's couplings unknown"},
+    "ledger": {"part": "Z", "level": "conditional",
+               "assumes": "every free number of the SM plus cosmology, with the status the stages computed for the "
+                          "surviving hypothesis"},
+    "self_checks": {"part": "-", "level": "validation", "assumes": "tests the calculation, not the physics"},
+}
+
+# What the dependency audit found that the traced graph cannot show by itself.
+AUDIT_FINDINGS: Tuple[Tuple[str, str], ...] = (
+    ("resolved", "The SM couplings at m_t(m_t) were derived by two copies of the same formulas "
+                 "(Parts J/K and Part L). There is now one derivation, sm_state_at_mt."),
+    ("open", "Part L rebuilds the quark-mass running instead of taking the flavour stage's: same "
+             "function, same numbers, because its error propagation re-runs the chain per input."),
+    ("resolved", "Parts I, J, K assume the MSSM above M_S; Part L assumes the SM up to M_P. Both cannot "
+                 "hold, so neither is chosen: Part M runs each hypothesis against every combination of "
+                 "the conditions and reports which survive."),
+    ("resolved", "Part M's theory errors are calculated, not typed in: for every ingredient the change "
+                 "from the last order the script computes to the one below it."),
+    ("resolved", "Part L runs at three loops, matches at three loops (leading QCD part) and treats QCD at "
+                 "four loops with three-loop decoupling, each published coefficient checked by a self-check."),
+    ("resolved", "The electroweak and mixed higher-order thresholds Part L could not transcribe are taken "
+                 "from SMDR's reference point (full two-loop plus leading three-loop): anchoring to it moves "
+                 "M_h by about a MeV, so this script's matching is confirmed."),
+    ("open", "If SM criticality's Part M verdict differs between the two error sets, it is decided by the "
+             "last-order shifts, which four-loop QCD dominates. They are a conservative estimate: the QCD "
+             "series of the top pole mass falls by about a factor of three per order."),
+    ("open", "The MSSM with all three conditions still depends on the theory errors, through the one- to "
+             "two-loop shift of unification. Settling it needs three-loop gauge running with superpartner "
+             "and GUT thresholds, and the two-loop stop threshold."),
+    ("open", "No stage feeds cosmology: H0 and Omega_m are inputs. A shared mechanism would need "
+             "equations for the dark-matter density and Lambda."),
+    ("resolved", "M_P was computed inside Part H, so every input of Part H (H0 among them) seemed to "
+                 "reach Parts J and L. The Planck units are now their own stage."),
+    ("open", "No stage derives G: M_P is calculated from it and handed to Parts H, J and L."),
+    ("open", "The quark masses and mixing are inputs to the textures. Connecting them to SO(10) needs "
+             "the scalar potential, its vacuum, and the vevs that multiply the Yukawa couplings."),
+    ("open", "No common mechanism yet: no stage computes a quantity that two sectors both take "
+             "from it except M_S, M_GUT (Part I) and M_P (Part H1)."),
+    ("open", "Part L assumes the SM up to M_P, but neutrinos have mass (Part P). That holds only if they are "
+             "Dirac particles with Yukawa couplings below 3e-13, which do not affect the running; a seesaw "
+             "needs new states below about 8e15 GeV, whose couplings would enter lambda's running."),
+    ("open", "Part V calculates the axion's dark-matter density as a function of f_a, but Part A still takes "
+             "Omega_m as an input: feeding Part V back into Part A needs f_a fixed (at a chain's M_I, about two "
+             "thirds of Omega_c for Pati-Salam) and the string yield."),
+    ("open", "Theta-bar is bounded, not calculated (Part O). Each explanation adds something unmeasured: an "
+             "axion scale f_a, or a parity symmetry whose Hermitian textures Part G excludes."),
+)
+
+_TRACE: Dict[str, Any] = {"stage": None, "inputs": {}, "uses": {}, "keys": {}, "set": {}}
+
+
+def _note_input(name: str) -> None:
+    if _TRACE["stage"]:
+        _TRACE["inputs"].setdefault(_TRACE["stage"], set()).add(name)
+
+
+def _note_use(producer: str, key: Any = "*") -> None:
+    s = _TRACE["stage"]
+    if s and s != producer:
+        _TRACE["uses"].setdefault(s, set()).add(producer)
+        _TRACE["keys"].setdefault((producer, str(key)), set()).add(s)
+
+
+def _input_value(name: str) -> str:
+    """The one place a measured value is read: recorded, and replaced if --set changed it."""
+    _note_input(name)
+    return _TRACE["set"].get(name, INPUTS[name]["value"])
+
+
+def inp(name: str) -> float:
+    return float(_input_value(name))
+
+
+def sig(name: str) -> float:
+    _note_input(name)
+    return float(INPUTS[name]["sigma"])
+
+
+def inp_decimal(name: str) -> Decimal:
+    return Decimal(_input_value(name))
+
+
+def sig_decimal(name: str) -> Decimal:
+    _note_input(name)
+    return Decimal(INPUTS[name]["sigma"])
+
+
+class _InputView(dict):
+    """All measured inputs as floats; each read is recorded for the stage that makes it."""
+
+    def __getitem__(self, k: str) -> float:
+        _note_input(k)
+        return dict.__getitem__(self, k)
+
+
+class _Output(dict):
+    """A stage's result. Reading it from inside another stage records that dependency."""
+    producer = ""
+
+    def __getitem__(self, k: Any) -> Any:
+        _note_use(self.producer, k)
+        return dict.__getitem__(self, k)
+
+    def get(self, k: Any, d: Any = None) -> Any:
+        _note_use(self.producer, k)
+        return dict.get(self, k, d)
+
+    def items(self):
+        _note_use(self.producer)
+        return dict.items(self)
+
+    def values(self):
+        _note_use(self.producer)
+        return dict.values(self)
+
+    def __iter__(self):
+        _note_use(self.producer)
+        return dict.__iter__(self)
+
+
+def _stage(name: str, thunk: Callable[[], Any]) -> Any:
+    """Run one stage of the model with its reads recorded under its name."""
+    prev, _TRACE["stage"] = _TRACE["stage"], name
+    _TRACE["inputs"].setdefault(name, set())
+    try:
+        out = thunk()
+    finally:
+        _TRACE["stage"] = prev
+    if isinstance(out, dict):
+        out = _Output(out)
+        out.producer = name
+    return out
+
+
+def num(name: str) -> float:
+    return float(NUMERICS[name])
+
+
+# =============================================================================
+# 4. GROUP THEORY: every coefficient is computed, then cross-checked
+# =============================================================================
+def su_n_casimirs(n: int) -> Tuple[Fr, Fr, Fr]:
+    """C_A, C_F, T_F of SU(N) with fundamental Dynkin index T_F = 1/2."""
+    return Fr(n), Fr(n * n - 1, 2 * n), Fr(1, 2)
+
+
+def qcd_beta(nf: int) -> Tuple[Fr, Fr]:
+    """d a / d ln mu^2 = -b0 a^2 - b1 a^3 with a = alpha_s / (4 pi)."""
+    ca, cf, tf = su_n_casimirs(3)
+    b0 = Fr(11, 3) * ca - Fr(4, 3) * tf * nf
+    b1 = Fr(34, 3) * ca * ca - 4 * cf * tf * nf - Fr(20, 3) * ca * tf * nf
+    return b0, b1
+
+
+def qcd_gamma_m(nf: int) -> Tuple[Fr, Fr]:
+    """d ln m / d ln mu^2 = -(g0 a + g1 a^2) with a = alpha_s / (4 pi)."""
+    ca, cf, tf = su_n_casimirs(3)
+    g0 = 3 * cf
+    g1 = cf * (Fr(3, 2) * cf + Fr(97, 6) * ca - Fr(10, 3) * tf * nf)
+    return g0, g1
+
+
+# Standard Model field content: (name, SU(3) dim, SU(2) dim, hypercharge Y, kind, copies)
+SM_FIELDS = (
+    ("Q", 3, 2, Fr(1, 6), "weyl", 3),
+    ("u^c", 3, 1, Fr(-2, 3), "weyl", 3),
+    ("d^c", 3, 1, Fr(1, 3), "weyl", 3),
+    ("L", 1, 2, Fr(-1, 2), "weyl", 3),
+    ("e^c", 1, 1, Fr(1, 1), "weyl", 3),
+    ("H", 1, 2, Fr(1, 2), "complex_scalar", 1),
+)
+GUT_NORM = Fr(3, 5)  # g1^2 = (5/3) g'^2: the SU(5)-normalized hypercharge
+
+
+def dynkin_fund(dim: int) -> Fr:
+    return Fr(1, 2) if dim > 1 else Fr(0)
+
+
+def casimir_fund(group_n: int, dim: int) -> Fr:
+    return su_n_casimirs(group_n)[1] if dim > 1 else Fr(0)
+
+
+def sm_gauge_b() -> Tuple[Fr, Fr, Fr]:
+    """One-loop b_i in d g_i / d ln mu = b_i g_i^3 / (16 pi^2), from the field content."""
+    b = [Fr(0), -Fr(11, 3) * su_n_casimirs(2)[0], -Fr(11, 3) * su_n_casimirs(3)[0]]
+    for _, d3, d2, y, kind, copies in SM_FIELDS:
+        w = Fr(2, 3) if kind == "weyl" else Fr(1, 3)
+        b[0] += w * copies * GUT_NORM * y * y * d3 * d2
+        b[1] += w * copies * dynkin_fund(d2) * d3
+        b[2] += w * copies * dynkin_fund(d3) * d2
+    return b[0], b[1], b[2]
+
+
+def top_yukawa_gauge_coeffs() -> Tuple[Fr, Fr, Fr]:
+    """c_i in 16 pi^2 d ln y_t / d ln mu  contains  -c_i g_i^2: 3 [C2(Q) + C2(u^c)] per group."""
+    q = SM_FIELDS[0]
+    u = SM_FIELDS[1]
+    c1 = 3 * GUT_NORM * (q[3] ** 2 + u[3] ** 2)
+    c2 = 3 * (casimir_fund(2, q[2]) + casimir_fund(2, u[2]))
+    c3 = 3 * (casimir_fund(3, q[1]) + casimir_fund(3, u[1]))
+    return c1, c2, c3
+
+
+def top_yukawa_self_coeff() -> Fr:
+    """16 pi^2 d ln y_t / d ln mu contains (3/2) y_t^2 + Y2, with Y2 = N_c y_t^2."""
+    return Fr(3, 2) + su_n_casimirs(3)[0]
+
+
+YUKAWA_SPLIT = Fr(3, 2)  # coefficient of (Y_u Y_u^dag - Y_d Y_d^dag) in the SM Yukawa RGE
+
+
+def zeta3() -> float:
+    """Apery's constant from zeta(3) = (5/2) sum (-1)^(n+1) / (n^3 binom(2n, n))."""
+    total = 0.0
+    for n in range(1, 40):
+        total += (-1) ** (n + 1) / (n ** 3 * math.comb(2 * n, n))
+    return 5 * total / 2
+
+
+def zeta_int(n: int) -> float:
+    """Riemann zeta(n), integer n >= 2: twenty terms plus the Euler-Maclaurin tail."""
+    big = 20
+    head = sum(k ** -n for k in range(1, big))
+    return (head + big ** (1 - n) / (n - 1) + big ** -n / 2 + n * big ** (-n - 1) / 12
+            - n * (n + 1) * (n + 2) * big ** (-n - 3) / 720)
+
+
+def li4_half() -> float:
+    """Li_4(1/2) = sum 1/(2^k k^4)."""
+    return sum(1 / (2 ** k * k ** 4) for k in range(1, 60))
+
+
+def qcd_constant(tag: str) -> float:
+    """The transcendental constants the quoted QCD and matching coefficients multiply."""
+    l2, z2, z4 = math.log(2), math.pi ** 2 / 6, math.pi ** 4 / 90
+    return {"": 1.0, "z3": zeta3(), "z4": z4, "z5": zeta_int(5),
+            "B4": 16 * li4_half() - 13 * z4 / 2 - 4 * z2 * l2 ** 2 + 2 * l2 ** 4 / 3,
+            "pi4": math.pi ** 4, "pi2": math.pi ** 2, "pi2_ln2sq": math.pi ** 2 * l2 ** 2,
+            "pi2_ln2": math.pi ** 2 * l2, "ln2_4": l2 ** 4, "li4half": li4_half()}[tag]
+
+
+def _lit_poly(terms: Sequence[Tuple[str, int, str]], n: int) -> float:
+    return sum(lit_num(c) * n ** p * qcd_constant(z) for c, p, z in terms)
+
+
+def qcd_beta_pi(nf: int, loops: int) -> List[float]:
+    """beta_i with a = alpha_s/pi: one and two loops from the Casimirs (b_i/4^(i+1)), three and
+    four from LITERATURE."""
+    b0, b1 = qcd_beta(nf)
+    out = [float(b0) / 4, float(b1) / 16]
+    for key in ("beta2", "beta3"):
+        e = LITERATURE["qcd_beta_3_4loop"]["value"][key]
+        out.append(lit_num(e["norm"]) * _lit_poly(e["terms"], nf))
+    return out[:loops]
+
+
+def qcd_gamma_pi(nf: int, loops: int) -> List[float]:
+    """gamma_m,i with a = alpha_s/pi, the same way."""
+    g0, g1 = qcd_gamma_m(nf)
+    out = [float(g0) / 4, float(g1) / 16]
+    for key in ("gamma2", "gamma3"):
+        e = LITERATURE["qcd_gamma_3_4loop"]["value"][key]
+        out.append(lit_num(e["norm"]) * _lit_poly(e["terms"], nf))
+    return out[:loops]
+
+
+def decoupling_g2(alpha_f: float, n_l: int, loops: int) -> float:
+    """zeta_g^2 at mu = m_h(m_h): alpha_s^(n_l) / alpha_s^(n_f); (loops - 1)-loop matching
+    for loops-loop running, so nothing below three loops."""
+    e = LITERATURE["qcd_decoupling"]["value"]
+    a = alpha_f / math.pi
+    z = 1.0
+    if loops >= 3:
+        z += _lit_poly(e["g2"], n_l) * a * a
+    if loops >= 4:
+        z += _lit_poly(e["g3"], n_l) * a ** 3
+    return z
+
+
+def decoupling_m(alpha_f: float, n_l: int, loops: int) -> float:
+    """zeta_m at mu = m_h(m_h): m^(n_l) / m^(n_f) for a lighter quark."""
+    e = LITERATURE["qcd_decoupling"]["value"]
+    a = alpha_f / math.pi
+    z = 1.0
+    if loops >= 3:
+        z += _lit_poly(e["m2"], n_l) * a * a
+    if loops >= 4:
+        z += _lit_poly(e["m3"], n_l) * a ** 3
+    return z
+
+
+def alpha_up(alpha_l: float, n_l: int, loops: int) -> float:
+    """alpha_s^(n_f) from alpha_s^(n_l) at the threshold: the downward relation, inverted exactly."""
+    a_f = alpha_l
+    for _ in range(50):
+        new = alpha_l / decoupling_g2(a_f, n_l, loops)
+        if new == a_f:
+            break
+        a_f = new
+    return a_f
+
+
+def pole_to_msbar_coeffs(n_light: int) -> Tuple[float, float]:
+    """M / m(m) = 1 + k1 a + k2 a^2 with a = alpha_s(m)/pi (Gray, Broadhurst, Grafe, Schilcher 1990),
+    light-quark masses in the loop neglected."""
+    ca, cf, tf = su_n_casimirs(3)
+    z2 = math.pi ** 2 / 6
+    k1 = float(cf)
+    k2 = (307 / 32 + 2 * z2 + 2 * z2 * math.log(2) / 3 - zeta3() / 6
+          - n_light * (71 / 144 + z2 / 3))
+    return k1, k2
+
+
+def pole_to_msbar_k(n_light: int, loops: int) -> List[float]:
+    """M / m(m) = 1 + sum k_i a^i, a = alpha_s^(n_l + 1)(m)/pi: two loops analytic (above), three
+    (Melnikov-van Ritbergen) and four (Marquard et al., n_l = 5 only) from LITERATURE."""
+    k1, k2 = pole_to_msbar_coeffs(n_light)
+    c = LITERATURE["top_mass_3loop"]["value"]
+    k3 = lit_num(c["c2"]) * n_light ** 2 + lit_num(c["c1"]) * n_light + lit_num(c["c0"])
+    ks = [k1, k2, k3]
+    if loops >= 4:
+        if n_light != 5:
+            raise ValueError("the four-loop coefficient is quoted for n_l = 5 only")
+        ks.append(lit_num(LITERATURE["top_mass_4loop"]["value"]["c4_nl5"]))
+    return ks[:loops]
+
+
+# =============================================================================
+# 5. RENORMALIZATION-GROUP RUNNING
+# =============================================================================
+def _rk4(f: Callable[[List[float]], List[float]], y: List[float], h: float) -> List[float]:
+    k1 = f(y)
+    k2 = f([a + h / 2 * b for a, b in zip(y, k1)])
+    k3 = f([a + h / 2 * b for a, b in zip(y, k2)])
+    k4 = f([a + h * b for a, b in zip(y, k3)])
+    return [a + h / 6 * (b1 + 2 * b2 + 2 * b3 + b4) for a, b1, b2, b3, b4 in zip(y, k1, k2, k3, k4)]
+
+
+def _nf_at(mu: float, thresholds: Sequence[float]) -> int:
+    return 3 + sum(1 for m in thresholds if mu > m)
+
+
+def integrate_ln_mu(y0: List[float], mu0: float, mu1: float,
+                    rhs: Callable[[List[float], int], List[float]],
+                    thresholds: Sequence[float], steps_per_efold: int,
+                    match: Callable[[List[float], float, int, int], List[float]] | None = None) -> List[float]:
+    """RK4 in ln(mu), split exactly at the flavour thresholds; match(y, mu, nf_from, nf_to)
+    applies the decoupling relations where a threshold is crossed."""
+    l0, l1 = math.log(mu0), math.log(mu1)
+    cuts = sorted(math.log(m) for m in thresholds if min(l0, l1) < math.log(m) < max(l0, l1))
+    if l1 < l0:
+        cuts.reverse()
+    pts = [l0] + cuts + [l1]
+    y = list(y0)
+    nf_prev = None
+    for a, b in zip(pts[:-1], pts[1:]):
+        if b == a:
+            continue
+        nf = _nf_at(math.exp((a + b) / 2), thresholds)
+        if match is not None and nf_prev is not None and nf != nf_prev:
+            y = match(y, math.exp(a), nf_prev, nf)
+        nf_prev = nf
+        n = max(1, math.ceil(abs(b - a) * steps_per_efold))
+        h = (b - a) / n
+        for _ in range(n):
+            y = _rk4(lambda v: rhs(v, nf), y, h)
+    return y
+
+
+class FlavourRunner:
+    """Runs alpha_s and the quark masses from the measured inputs. No free parameters."""
+
+    def __init__(self, x: Dict[str, float], steps_per_efold: int, qcd_loops: int = 4):
+        """QCD at qcd_loops loops: the beta function and the mass anomalous dimension at that
+        order, (qcd_loops - 1)-loop decoupling at the quark thresholds, the top pole/MS-bar
+        conversion at qcd_loops loops. Lowering it by one is Part M's estimate of the error
+        from the orders not calculated."""
+        self.x = x
+        self.steps = steps_per_efold
+        self.loops = qcd_loops
+        self.alpha_em = 1 / x["alpha_em_inv_MZ"]
+        self.beta = {nf: qcd_beta_pi(nf, qcd_loops) for nf in range(3, 7)}
+        self.gamma = {nf: qcd_gamma_pi(nf, qcd_loops) for nf in range(3, 7)}
+        self.thresholds: List[float] = [x["m_c"], x["m_b"]]
+        self.mt_msbar = self._top_msbar()
+        self.thresholds = [x["m_c"], x["m_b"], self.mt_msbar]
+
+    @property
+    def v(self) -> float:
+        """v = (sqrt 2 G_F)^(-1/2), read from the inputs at each use (so the input tracer sees G_F)."""
+        return (math.sqrt(2) * self.x["G_F"]) ** (-1 / 2)
+
+    # d alpha_s / d ln mu and d ln m / d ln mu (two-loop QCD, one-loop QED)
+    def _qcd_rhs(self, y: List[float], nf: int, q2: float) -> List[float]:
+        """d alpha_s / d ln mu and d ln m / d ln mu (QCD at self.loops loops, one-loop QED)."""
+        a = y[0] / math.pi
+        dal = -2 * math.pi * sum(b * a ** (i + 2) for i, b in enumerate(self.beta[nf]))
+        dlnm = (-2 * sum(g * a ** (i + 1) for i, g in enumerate(self.gamma[nf]))
+                - 3 * q2 * self.alpha_em / (2 * math.pi))
+        return [dal, dlnm]
+
+    def _match(self, y: List[float], mu: float, nf_from: int, nf_to: int) -> List[float]:
+        """Decouple (downward) or re-couple (upward) alpha_s and a light mass at a threshold."""
+        if nf_to < nf_from:
+            al_f = y[0]
+            return [al_f * decoupling_g2(al_f, nf_to, self.loops),
+                    y[1] + math.log(decoupling_m(al_f, nf_to, self.loops))]
+        al_f = alpha_up(y[0], nf_from, self.loops)
+        return [al_f, y[1] - math.log(decoupling_m(al_f, nf_from, self.loops))]
+
+    def alpha_s(self, mu: float) -> float:
+        y = integrate_ln_mu([self.x["alpha_s_MZ"], 0.0], self.x["M_Z"], mu,
+                            lambda v, nf: self._qcd_rhs(v, nf, 0.0), self.thresholds, self.steps,
+                            self._match)
+        return y[0]
+
+    def run_mass(self, m0: float, mu0: float, mu1: float, charge: Fr) -> float:
+        y = integrate_ln_mu([self.alpha_s(mu0), math.log(m0)], mu0, mu1,
+                            lambda v, nf: self._qcd_rhs(v, nf, float(charge) ** 2),
+                            self.thresholds, self.steps, self._match)
+        return math.exp(y[1])
+
+    def _top_msbar(self) -> float:
+        """Solve M_t = m (1 + sum_i k_i a(m)^i) for the MS-bar mass m = m_t(m_t), with
+        a = alpha_s^(6)(m)/pi, to self.loops loops."""
+        ks = pole_to_msbar_k(5, self.loops)
+        big_m = self.x["M_t"]
+        m = big_m
+        for _ in range(100):
+            a = alpha_up(self.alpha_s(m), 5, self.loops) / math.pi
+            m_new = big_m / (1 + sum(k * a ** (i + 1) for i, k in enumerate(ks)))
+            if abs(m_new - m) <= abs(m) * float(NUMERICS["check_rel_tol"]) / 1000:
+                m = m_new
+                break
+            m = m_new
+        return m
+
+    def _base(self) -> Dict[str, float]:
+        """The quark masses run (QCD) to m_t(m_t) and their same-type ratios there. Not cached: the input tracer
+        must see every stage that reads them."""
+        x = self.x
+        mu0 = self.mt_msbar
+        up, dn = Fr(2, 3), Fr(-1, 3)
+        m = {
+            "u": self.run_mass(x["m_u"], x["mu_light"], mu0, up),
+            "d": self.run_mass(x["m_d"], x["mu_light"], mu0, dn),
+            "s": self.run_mass(x["m_s"], x["mu_light"], mu0, dn),
+            "c": self.run_mass(x["m_c"], x["m_c"], mu0, up),
+            "b": self.run_mass(x["m_b"], x["m_b"], mu0, dn),
+            "t": mu0,
+        }
+        return {"mu": mu0, "m_u": m["u"], "m_d": m["d"], "m_s": m["s"], "m_c": m["c"], "m_b": m["b"],
+                "m_t": m["t"], "r_uc": m["u"] / m["c"], "r_ct": m["c"] / m["t"],
+                "r_ds": m["d"] / m["s"], "r_sb": m["s"] / m["b"],
+                "alpha_s": alpha_up(self.alpha_s(mu0), 5, self.loops),      # six flavours from here up
+                "y_t": math.sqrt(2) * mu0 / self.v}
+
+    def matrix_start(self) -> Tuple[float, List[float], List[List[List[complex]]]]:
+        """(m_t(m_t), [g1, g2, g3], [Y_u, Y_d, Y_e]) at m_t(m_t): the one starting point of every Yukawa run."""
+        mt = self.mt_msbar
+        _, _, _, st = sm_state_at_mt(runner=self)
+        lep = lepton_masses_gev()
+        lr = [lepton_running_mass(lep[k], mt, inp("alpha_em")) for k in ("e", "mu", "tau")]
+        mats = sm_yukawas_at_mt(st, self._base(), [lr[0] / lr[2], lr[1] / lr[2]], ckm_from_wolfenstein(self.x))
+        return mt, list(st[:3]), mats
+
+    def ratios_at(self, scales: Sequence[float]) -> Dict[float, Dict[str, float]]:
+        """Same-type mass ratios at m_t(m_t) (QCD running of each mass) and at each scale above it (the one
+        matrix running: SM gauge couplings and the three Yukawa matrices, every generation and the mixing)."""
+        mu0 = self.mt_msbar
+        base = self._base()
+        out = {mu0: base}
+        others = sorted(mu for mu in scales if mu != mu0)
+        if not others:
+            return out
+        # below m_t(m_t) the running is only continued across the top-mass uncertainty (input variations shift
+        # m_t(m_t) itself); anything lower is refused
+        if others[0] < mu0 * (1 - 3 * sig("M_t") / inp("M_t")):
+            raise ValueError(f"evaluation scale {others[0]} GeV is below m_t(m_t) = {mu0:.2f} GeV")
+        _, g, mats = self.matrix_start()
+        mu_prev = mu0
+        for mu in others:
+            g, mats = run_yukawa_matrices(g, mats, mu_prev, mu, "SM", steps=self.steps)
+            mu_prev = mu
+            su, sd = _sing_vals(mats[0]), _sing_vals(mats[1])
+            out[mu] = {"mu": mu, "alpha_s": g[2] ** 2 / (4 * math.pi), "y_t": su[2], "r_uc": su[0] / su[1],
+                       "r_ct": su[1] / su[2], "r_ds": sd[0] / sd[1], "r_sb": sd[1] / sd[2]}
+        return out
+
+
+# =============================================================================
+# 6. THE FRITZSCH SIX-ZERO TEXTURE: exact entries, exact diagonalization
+# =============================================================================
+def fritzsch_entries(x1: float, x2: float) -> Tuple[Tuple[int, int, int], float, float, float]:
+    """Real Fritzsch matrix [[0,A,0],[A,0,B],[0,B,C]] with eigenvalues (s1 x1, s2 x2, s3 * 1).
+
+    The invariants fix every entry: C = trace, A^2 = -det / C, A^2 + B^2 = -(sum of 2x2 minors).
+    All sign assignments (overall sign fixed by s3 = +1) are tried; exactly one gives real A, B.
+    """
+    sols = []
+    for s1, s2 in itertools.product((1, -1), repeat=2):
+        e = (s1 * x1, s2 * x2, 1.0)
+        c = sum(e)
+        det = e[0] * e[1] * e[2]
+        minors = e[0] * e[1] + e[0] * e[2] + e[1] * e[2]
+        a2 = -det / c
+        b2 = -minors - a2
+        if a2 > 0 and b2 > 0:
+            sols.append(((s1, s2, 1), math.sqrt(a2), math.sqrt(b2), c))
+    if len(sols) != 1:
+        raise RuntimeError(f"expected one real Fritzsch solution, found {len(sols)}")
+    return sols[0]
+
+
+def jacobi_eigh(mat: List[List[float]], tol: float) -> Tuple[List[float], List[List[float]]]:
+    """Cyclic Jacobi diagonalization of a real symmetric matrix. Columns of O are eigenvectors."""
+    n = len(mat)
+    a = [row[:] for row in mat]
+    o = [[float(i == j) for j in range(n)] for i in range(n)]
+    for _ in range(100):
+        off = sum(a[i][j] ** 2 for i in range(n) for j in range(i + 1, n))
+        if off <= tol:
+            break
+        for p in range(n):
+            for q in range(p + 1, n):
+                if a[p][q] == 0:
+                    continue
+                theta = (a[q][q] - a[p][p]) / (2 * a[p][q])
+                t = math.copysign(1, theta) / (abs(theta) + math.sqrt(theta * theta + 1))
+                cs = 1 / math.sqrt(t * t + 1)
+                sn = t * cs
+                for k in range(n):
+                    akp, akq = a[k][p], a[k][q]
+                    a[k][p], a[k][q] = cs * akp - sn * akq, sn * akp + cs * akq
+                for k in range(n):
+                    apk, aqk = a[p][k], a[q][k]
+                    a[p][k], a[q][k] = cs * apk - sn * aqk, sn * apk + cs * aqk
+                for k in range(n):
+                    okp, okq = o[k][p], o[k][q]
+                    o[k][p], o[k][q] = cs * okp - sn * okq, sn * okp + cs * okq
+    evals = [a[i][i] for i in range(n)]
+    order = sorted(range(n), key=lambda i: abs(evals[i]))
+    return [evals[i] for i in order], [[o[r][i] for i in order] for r in range(n)]
+
+
+def texture_rotation(x1: float, x2: float) -> Dict[str, Any]:
+    signs, a, b, c = fritzsch_entries(x1, x2)
+    mat = [[0.0, a, 0.0], [a, 0.0, b], [0.0, b, c]]
+    evals, o = jacobi_eigh(mat, float(NUMERICS["jacobi_tol"]))
+    return {"signs": signs, "A": a, "B": b, "C": c, "eigenvalues": evals, "O": o}
+
+
+def ckm_coefficients(ou: List[List[float]], od: List[List[float]]) -> List[List[List[float]]]:
+    """V = O_u^T diag(1, e^{i sigma}, e^{i tau}) O_d, so V_ij = sum_k coef[i][j][k] p_k."""
+    return [[[ou[k][i] * od[k][j] for k in range(3)] for j in range(3)] for i in range(3)]
+
+
+def ckm_matrix(coef: List[List[List[float]]], sigma: float, tau: float) -> List[List[complex]]:
+    p = (1.0, cmath.exp(1j * sigma), cmath.exp(1j * tau))
+    return [[sum(coef[i][j][k] * p[k] for k in range(3)) for j in range(3)] for i in range(3)]
+
+
+OBSERVABLES = ("V_us", "V_cb", "V_ub", "V_ub/V_cb", "V_td/V_ts", "J")
+
+
+def ckm_observables(v: List[List[complex]]) -> Dict[str, float]:
+    vus, vcb, vub = abs(v[0][1]), abs(v[1][2]), abs(v[0][2])
+    vtd, vts = abs(v[2][0]), abs(v[2][1])
+    jarl = (v[0][1] * v[1][2] * v[0][2].conjugate() * v[1][1].conjugate()).imag
+    return {"V_us": vus, "V_cb": vcb, "V_ub": vub, "V_ub/V_cb": vub / vcb,
+            "V_td/V_ts": vtd / vts, "J": jarl}
+
+
+def texture_at(r: Dict[str, float]) -> Dict[str, Any]:
+    up = texture_rotation(r["r_uc"] * r["r_ct"], r["r_ct"])
+    dn = texture_rotation(r["r_ds"] * r["r_sb"], r["r_sb"])
+    return {"up": up, "down": dn, "coef": ckm_coefficients(up["O"], dn["O"])}
+
+
+def _pattern_search(f: Callable[[float, float], float], s: float, t: float, step: float,
+                    min_step: float) -> Tuple[float, float, float]:
+    best = f(s, t)
+    while step > min_step:
+        moved = False
+        for ds, dt in ((step, 0), (-step, 0), (0, step), (0, -step),
+                       (step, step), (-step, -step), (step, -step), (-step, step)):
+            val = f(s + ds, t + dt)
+            if val > best:
+                best, s, t, moved = val, s + ds, t + dt, True
+                break
+        if not moved:
+            step /= 2
+    return s, t, best
+
+
+def phase_bands(coef: List[List[List[float]]], grid: int, min_step: float) -> Dict[str, Dict[str, Any]]:
+    """Min and max of every observable over the full phase torus [0, 2 pi)^2."""
+    two_pi = 2 * math.pi
+    best: Dict[str, Dict[str, Any]] = {k: {"lo": (math.inf, 0.0, 0.0), "hi": (-math.inf, 0.0, 0.0)}
+                                       for k in OBSERVABLES}
+    for i in range(grid):
+        s = two_pi * i / grid
+        for j in range(grid):
+            t = two_pi * j / grid
+            obs = ckm_observables(ckm_matrix(coef, s, t))
+            for k, val in obs.items():
+                if val < best[k]["lo"][0]:
+                    best[k]["lo"] = (val, s, t)
+                if val > best[k]["hi"][0]:
+                    best[k]["hi"] = (val, s, t)
+    bands = {}
+    for k in OBSERVABLES:
+        _, s_lo, t_lo = best[k]["lo"]
+        _, s_hi, t_hi = best[k]["hi"]
+        s1, t1, neg_lo = _pattern_search(lambda a, b: -ckm_observables(ckm_matrix(coef, a, b))[k],
+                                         s_lo, t_lo, two_pi / grid, min_step)
+        s2, t2, hi = _pattern_search(lambda a, b: ckm_observables(ckm_matrix(coef, a, b))[k],
+                                     s_hi, t_hi, two_pi / grid, min_step)
+        bands[k] = {"lo": -neg_lo, "hi": hi,
+                    "lo_phases": (s1 % two_pi, t1 % two_pi), "hi_phases": (s2 % two_pi, t2 % two_pi)}
+    return bands
+
+
+# =============================================================================
+# 6b. TEXTURE SURVEY: every texture-zero pattern with at least one prediction
+# =============================================================================
+# Hermitian mass matrices, zeros counted per independent entry (a symmetric
+# off-diagonal pair is one zero). Any pair of quark mass matrices can be made
+# Hermitian by right-handed rotations, which leave the CKM matrix unchanged.
+#
+# A sector with 3 zeros has 3 nonzero entries, which its 3 masses fix exactly.
+# With 2 zeros it has 4, leaving one free entry. Counting unknowns: 2 phases
+# between the sectors, plus 1 per free entry, plus 1 per sector whose three
+# off-diagonal entries are all nonzero (a phase that cannot be rotated away).
+# The data are 4 numbers (|V_us|, |V_cb|, |V_ub|, J), so
+# predictions = 4 - unknowns. Only patterns with at least one prediction (five
+# or six zeros, no loop phase) are tested; the rest are counted.
+#
+# The unknowns are never given values. A pattern is tested in two steps:
+#   1. Exact band test. For fixed rotations, each |V_ij| = |c0 + c1 e^(i s) + c2 e^(i t)|
+#      sweeps exactly [max(0, 2 max|c| - sum|c|), sum|c|] over the phases. If any
+#      measurement lies outside its band (with input and measurement errors) at
+#      every value of the free entry, the pattern is excluded.
+#   2. Joint test. Otherwise the script asks whether ANY point of the unknowns
+#      reproduces all four data at once: it minimizes chi^2 over the unknowns and
+#      converts it to a p-value with (predictions) degrees of freedom. This is a
+#      hypothesis test. The point found is never reported as a determination and
+#      never used anywhere else.
+POSITIONS = ((0, 0), (1, 1), (2, 2), (0, 1), (0, 2), (1, 2))
+SURVEY_OBS = ("V_us", "V_cb", "V_ub", "J")
+_ELEMENTS = {"V_us": (0, 1), "V_cb": (1, 2), "V_ub": (0, 2)}
+
+
+def _comp(p: Tuple[int, int]) -> int:
+    return 3 - p[0] - p[1]
+
+
+def _invariants(e: Sequence[float]) -> Tuple[float, float, float]:
+    return e[0] + e[1] + e[2], e[0] * e[1] + e[0] * e[2] + e[1] * e[2], e[0] * e[1] * e[2]
+
+
+def _poly_coeffs(g: Callable[[float], float]) -> List[float]:
+    """Coefficients of a polynomial of degree <= 3 from its values at 0, +-1, +-2.
+
+    c0 = g(0) is read directly: rebuilding it from values at +-1, +-2 cancels O(1)
+    terms down to a constant that can be ~1e-8 (the determinant of a hierarchical
+    sector), losing most of its digits. The rest splits into odd and even parts."""
+    c0 = g(0)
+    o1, o2 = (g(1) - g(-1)) / 2, (g(2) - g(-2)) / 2            # c1 x + c3 x^3
+    e1, e2 = (g(1) + g(-1)) / 2 - c0, (g(2) + g(-2)) / 2 - c0  # c2 x^2
+    c3 = (o2 - 2 * o1) / 6
+    return [c0, o1 - c3, (4 * e1 + e2) / 8, c3]
+
+
+def real_roots(coefs: Sequence[float]) -> List[float]:
+    """All real roots of sum c_k x^k: monotone brackets between critical points, then bisection."""
+    c = list(coefs)
+    scale = max(abs(v) for v in c) or 1
+    while len(c) > 1 and abs(c[-1]) <= scale * num("root_trim_rel"):
+        c.pop()
+    deg = len(c) - 1
+    if deg <= 0:
+        return []
+    if deg == 1:
+        return [-c[0] / c[1]]
+
+    def f(x: float) -> float:
+        return sum(ck * x ** k for k, ck in enumerate(c))
+    bound = 1 + max(abs(ck / c[-1]) for ck in c[:-1])
+    crit = sorted(r for r in real_roots([k * c[k] for k in range(1, len(c))]) if -bound < r < bound)
+    pts = [-bound] + crit + [bound]
+    roots = []
+    for a, b in zip(pts[:-1], pts[1:]):
+        fa, fb = f(a), f(b)
+        if fa == 0:
+            roots.append(a)
+            continue
+        if (fa < 0) == (fb < 0):
+            continue
+        while True:
+            m = (a + b) / 2
+            if m in (a, b):
+                break
+            fm = f(m)
+            if fm == 0:
+                a = b = m
+                break
+            if (fa < 0) == (fm < 0):
+                a, fa = m, fm
+            else:
+                b = m
+        roots.append((a + b) / 2)
+    if f(bound) == 0:
+        roots.append(bound)
+    out: List[float] = []
+    for r in sorted(roots):
+        if not out or abs(r - out[-1]) > num("root_merge_rel") * max(1, abs(r)):
+            out.append(r)
+    return out
+
+
+def _sym_matrix(d: Dict[int, float], q: Dict[Tuple[int, int], float]) -> List[List[float]]:
+    m = [[0.0] * 3 for _ in range(3)]
+    for i, v in d.items():
+        m[i][i] = v
+    for p, v in q.items():
+        m[p[0]][p[1]] = m[p[1]][p[0]] = math.sqrt(max(v, 0))
+    return m
+
+
+def _invariant_residual(m: List[List[float]], e: Sequence[float]) -> float:
+    t, s2, det = _invariants(e)
+    tr = m[0][0] + m[1][1] + m[2][2]
+    minors = sum(m[i][i] * m[j][j] - m[i][j] ** 2 for i, j in ((0, 1), (0, 2), (1, 2)))
+    dt = (m[0][0] * (m[1][1] * m[2][2] - m[1][2] ** 2) - m[0][1] * (m[0][1] * m[2][2] - m[1][2] * m[0][2])
+          + m[0][2] * (m[0][1] * m[1][2] - m[1][1] * m[0][2]))
+    # relative to each invariant: the determinant of a hierarchical sector is ~1e-8
+    return max(abs(tr - t) / max(abs(v) for v in e), abs(minors - s2) / abs(s2), abs(dt - det) / abs(det))
+
+
+def _q_solve(d: Dict[int, float], offs: Sequence[Tuple[int, int]], e: Sequence[float]):
+    """Squared off-diagonal entries from the invariants, which are linear in them (no loop)."""
+    _, s2, det = _invariants(e)
+    dd = [d.get(i, 0) for i in range(3)]
+    r1 = dd[0] * dd[1] + dd[0] * dd[2] + dd[1] * dd[2] - s2      # = sum of q
+    r2 = dd[0] * dd[1] * dd[2] - det                              # = sum of d_comp(q) q
+    if len(offs) == 2:
+        a, b = offs
+        ca, cb = dd[_comp(a)], dd[_comp(b)]
+        if cb == ca:
+            return None
+        qb = (r2 - ca * r1) / (cb - ca)
+        return {a: r1 - qb, b: qb}
+    if len(offs) == 1:
+        return {offs[0]: r1}
+    return {}
+
+
+def _split(nonzero: Sequence[Tuple[int, int]]):
+    return [p[0] for p in nonzero if p[0] == p[1]], [p for p in nonzero if p[0] != p[1]]
+
+
+def family_kinds(nonzero: Sequence[Tuple[int, int]]):
+    """The solution families of a sector with these nonzero entries, or 'loop'."""
+    diags, offs = _split(nonzero)
+    if len(offs) == 3:
+        return "loop"
+    if len(nonzero) == 3:
+        if len(diags) == 1:
+            return [("fixed", 0)]
+        if len(diags) == 2:
+            return [("root", k) for k in range(3)]
+        return [("perm", k) for k in range(6)]
+    if len(diags) == 2:
+        return [("curve", k) for k in range(3)]          # one free diagonal entry, q's linear
+    return [("block", m) for m in range(3)]               # one state decouples with eigenvalue e_m
+
+
+def fixed_matrix(nonzero, kind: str, br: int, e: Sequence[float]):
+    diags, offs = _split(nonzero)
+    t, _, det = _invariants(e)
+    if kind == "fixed":
+        d = {diags[0]: t}
+        q = _q_solve(d, offs, e)
+    elif kind == "root":
+        i, j = diags
+        a = offs[0]
+
+        def g(x: float) -> float:
+            dx = {i: x, j: t - x}
+            qq = _q_solve(dx, offs, e)
+            v = [dx.get(k, 0) for k in range(3)]
+            return v[0] * v[1] * v[2] - v[_comp(a)] * qq[a] - det
+        rts = real_roots(_poly_coeffs(g))
+        if br >= len(rts):
+            return None
+        d = {i: rts[br], j: t - rts[br]}
+        q = _q_solve(d, offs, e)
+    else:
+        perm = list(itertools.permutations(range(3)))[br]
+        d = {k: e[perm[k]] for k in range(3)}
+        q = {}
+    if q is None or any(v < 0 for v in q.values()):
+        return None
+    m = _sym_matrix(d, q)
+    return m if _invariant_residual(m, e) < num("survey_residual_tol") else None
+
+
+def curve_interval(nonzero, kind: str, br: int, e: Sequence[float]):
+    """The br-th interval of the free diagonal entry on which every q >= 0 (|entries| <= 1)."""
+    diags, offs = _split(nonzero)
+    t, s2, det = _invariants(e)
+    if kind == "block":
+        others = [e[i] for i in range(3) if i != br]
+        return (min(others), max(others))
+    i, j = diags
+    a, b = offs
+
+    def dd(x: float) -> List[float]:
+        return [{i: x, j: t - x}.get(k, 0) for k in range(3)]
+
+    def den(x: float) -> float:
+        v = dd(x)
+        return v[_comp(b)] - v[_comp(a)]
+
+    def r1(x: float) -> float:
+        v = dd(x)
+        return v[0] * v[1] + v[0] * v[2] + v[1] * v[2] - s2
+
+    def nb(x: float) -> float:
+        v = dd(x)
+        return (v[0] * v[1] * v[2] - det) - v[_comp(a)] * r1(x)
+
+    def na(x: float) -> float:
+        return r1(x) * den(x) - nb(x)
+
+    breaks = {-1, 1}
+    for f in (den, nb, na):
+        breaks |= {r for r in real_roots(_poly_coeffs(f)) if -1 < r < 1}
+    breaks_sorted = sorted(breaks)
+    ivs: List[Tuple[float, float]] = []
+    for lo, hi in zip(breaks_sorted[:-1], breaks_sorted[1:]):
+        q = _q_solve({i: (lo + hi) / 2, j: t - (lo + hi) / 2}, offs, e)
+        if q is not None and all(v >= 0 for v in q.values()):
+            if ivs and ivs[-1][1] == lo:
+                ivs[-1] = (ivs[-1][0], hi)
+            else:
+                ivs.append((lo, hi))
+    return ivs[br] if br < len(ivs) else None
+
+
+def curve_matrix(nonzero, kind: str, br: int, e: Sequence[float], t_unit: float):
+    """The matrix at relative position t_unit in [0, 1] along the family (Chebyshev spacing)."""
+    iv = curve_interval(nonzero, kind, br, e)
+    if iv is None:
+        return None
+    x = iv[0] + (iv[1] - iv[0]) * (1 - math.cos(math.pi * t_unit)) / 2
+    diags, offs = _split(nonzero)
+    t, _, _ = _invariants(e)
+    if kind == "block":
+        a = offs[0]
+        others = [e[i] for i in range(3) if i != br]
+        d = {_comp(a): e[br], a[0]: x, a[1]: sum(others) - x}
+        q = {a: x * (sum(others) - x) - others[0] * others[1]}
+    else:
+        i, j = diags
+        d = {i: x, j: t - x}
+        q = _q_solve(d, offs, e)
+    if q is None:
+        return None
+    m = _sym_matrix(d, q)
+    return m if _invariant_residual(m, e) < num("survey_residual_tol") else None
+
+
+def _sector_matrix(nonzero, var, e_abs: Sequence[float], t_unit: float):
+    signs, kind, br = var
+    e = (signs[0] * e_abs[0], signs[1] * e_abs[1], e_abs[2])
+    if kind in ("curve", "block"):
+        return curve_matrix(nonzero, kind, br, e, t_unit)
+    return fixed_matrix(nonzero, kind, br, e)
+
+
+def sector_variants(nonzero, e_abs: Sequence[float]):
+    """Every (eigenvalue signs, family, branch) with a real solution; 'loop' if a phase survives.
+    The overall sign is fixed by the heaviest eigenvalue being positive (it does not change V)."""
+    kinds = family_kinds(nonzero)
+    if kinds == "loop":
+        return "loop"
+    out = []
+    for signs in itertools.product((1, -1), repeat=2):
+        e = (signs[0] * e_abs[0], signs[1] * e_abs[1], e_abs[2])
+        for kind, br in kinds:
+            ok = (curve_interval(nonzero, kind, br, e) if kind in ("curve", "block")
+                  else fixed_matrix(nonzero, kind, br, e))
+            if ok is not None:
+                out.append((signs, kind, br))
+    return out
+
+
+def _permute_pattern(zeros, perm):
+    return tuple(sorted(tuple(sorted((perm[i], perm[j]))) for i, j in zeros))
+
+
+def pattern_class(zu, zd, perms=None):
+    """Canonical representative of (zeros_u, zeros_d) under simultaneous index permutations,
+    which are weak-basis changes and leave the CKM matrix unchanged."""
+    perms = perms or list(itertools.permutations(range(3)))
+    return min((_permute_pattern(zu, p), _permute_pattern(zd, p)) for p in perms)
+
+
+def pattern_mask(zeros) -> str:
+    rows = []
+    for i in range(3):
+        rows.append("".join("0" if tuple(sorted((i, j))) in zeros else "X" for j in range(3)))
+    return "/".join(rows)
+
+
+def _eigen_ratios(r: Dict[str, float]) -> Dict[str, Tuple[float, float, float]]:
+    return {"u": (r["r_uc"] * r["r_ct"], r["r_ct"], 1.0), "d": (r["r_ds"] * r["r_sb"], r["r_sb"], 1.0)}
+
+
+def _magnitude_band(coef, ij: Tuple[int, int]) -> Tuple[float, float]:
+    c = [abs(v) for v in coef[ij[0]][ij[1]]]
+    s = sum(c)
+    return max(0, 2 * max(c) - s), s
+
+
+def _survey_obs(coef, s: float, t: float) -> Tuple[float, float, float, float]:
+    p1, p2 = cmath.exp(1j * s), cmath.exp(1j * t)
+
+    def v(i: int, j: int) -> complex:
+        c = coef[i][j]
+        return c[0] + c[1] * p1 + c[2] * p2
+    vus, vcb, vub, vcs = v(0, 1), v(1, 2), v(0, 2), v(1, 1)
+    return abs(vus), abs(vcb), abs(vub), (vus * vcb * vub.conjugate() * vcs.conjugate()).imag
+
+
+def _minimize(f: Callable[[List[float]], float], x: List[float], steps: List[float],
+              min_step: float) -> Tuple[List[float], float]:
+    """Compass search: deterministic, derivative-free."""
+    best = f(x)
+    steps = list(steps)
+    while max(steps) > min_step:
+        moved = False
+        for d in range(len(x)):
+            if steps[d] == 0:
+                continue
+            for sgn in (1, -1):
+                y = list(x)
+                y[d] += sgn * steps[d]
+                v = f(y)
+                if v < best:
+                    best, x, moved = v, y, True
+                    break
+            if moved:
+                break
+        if not moved:
+            steps = [s / 2 for s in steps]
+    return x, best
+
+
+def chi2_pvalue(chi2: float, dof: int) -> float:
+    """Upper tail of the chi^2 distribution for integer dof (closed forms)."""
+    if dof <= 0:
+        return math.nan
+    h = chi2 / 2
+    if dof % 2 == 0:
+        return math.exp(-h) * sum(h ** j / math.factorial(j) for j in range(dof // 2))
+    tail = sum(h ** (j - 1 / 2) / math.gamma(j + 1 / 2) for j in range(1, (dof - 1) // 2 + 1))
+    return math.erfc(math.sqrt(h)) + math.exp(-h) * tail
+
+
+def pvalue_to_sigma(p: float) -> float:
+    """Two-sided Gaussian equivalent: erfc(n / sqrt2) = p."""
+    if p <= 0:
+        return math.inf
+    lo, hi = 0.0, 40.0
+    for _ in range(200):
+        mid = (lo + hi) / 2
+        if math.erfc(mid / math.sqrt(2)) > p:
+            lo = mid
+        else:
+            hi = mid
+    return (lo + hi) / 2
+
+
+class TextureSurvey:
+    """All texture pairs with >= 1 prediction at one evaluation scale."""
+
+    def __init__(self, ratios_central: Dict[str, float], ratios_varied: Sequence[Tuple[Dict, Dict]]):
+        self.E = [_eigen_ratios(ratios_central)]
+        for plus, minus in ratios_varied:
+            self.E += [_eigen_ratios(plus), _eigen_ratios(minus)]
+        self.cache: Dict[Any, Any] = {}
+        self.meas = {k: _comparison(k) for k in SURVEY_OBS}
+
+    def rotation(self, sector: str, nonzero, var, ei: int, t_unit: float):
+        key = (sector, tuple(nonzero), var, ei, t_unit)
+        if key not in self.cache:
+            m = _sector_matrix(nonzero, var, self.E[ei][sector], t_unit)
+            self.cache[key] = None if m is None else jacobi_eigh(m, num("jacobi_tol"))[1]
+        return self.cache[key]
+
+    def coef(self, pair, t_unit: float, ei: int = 0):
+        nu, vu, nd, vd = pair
+        ou = self.rotation("u", nu, vu, ei, t_unit if vu[1] in ("curve", "block") else 0)
+        od = self.rotation("d", nd, vd, ei, t_unit if vd[1] in ("curve", "block") else 0)
+        return None if ou is None or od is None else ckm_coefficients(ou, od)
+
+    def input_sigma(self, pair, f, t_unit: float) -> float:
+        v2 = 0.0
+        for k in range(1, len(self.E), 2):
+            cp, cm = self.coef(pair, t_unit, k), self.coef(pair, t_unit, k + 1)
+            if cp is not None and cm is not None:
+                v2 += ((f(cp) - f(cm)) / 2) ** 2
+        return math.sqrt(v2)
+
+    def band_distance(self, pair, t_unit: float) -> float:
+        """Largest n-sigma distance of a measured |V_ij| from its exact phase band."""
+        c = self.coef(pair, t_unit)
+        if c is None:
+            return math.inf
+        worst = 0.0
+        for k, ij in _ELEMENTS.items():
+            lo, hi = _magnitude_band(c, ij)
+            m, up, dn = self.meas[k]
+            if lo <= m <= hi:
+                continue
+            edge = 0 if m < lo else 1
+            s = self.input_sigma(pair, lambda cc: _magnitude_band(cc, ij)[edge], t_unit)
+            n = (lo - m) / math.hypot(s, up) if m < lo else (m - hi) / math.hypot(s, dn)
+            worst = max(worst, n)
+        return worst
+
+    def chi2(self, o: Sequence[float], sig_in: Sequence[float]) -> float:
+        tot = 0.0
+        for k, val, si in zip(SURVEY_OBS, o, sig_in):
+            m, up, dn = self.meas[k]
+            tot += ((val - m) / math.hypot(up if val > m else dn, si)) ** 2
+        return tot
+
+    def joint(self, pair, n_curve: int, nt: int, nph: int):
+        ts = [(i + 1 / 2) / nt for i in range(nt)] if n_curve else [0]
+        zero = (0, 0, 0, 0)
+        starts = []
+        for t in ts:
+            c = self.coef(pair, t)
+            if c is None:
+                continue
+            for i in range(nph):
+                for j in range(nph):
+                    s, u = 2 * math.pi * i / nph, 2 * math.pi * j / nph
+                    starts.append((self.chi2(_survey_obs(c, s, u), zero), t, s, u))
+        starts.sort()
+
+        def f(x: List[float], sig: Sequence[float]) -> float:
+            if n_curve and not 0 <= x[0] <= 1:
+                return math.inf
+            c = self.coef(pair, x[0] if n_curve else 0)
+            return math.inf if c is None else self.chi2(_survey_obs(c, x[1], x[2]), sig)
+        best = (math.inf, None)
+        for _, t, s, u in starts[:int(num("survey_starts"))]:
+            x, sig = [t, s, u], zero
+            for _ in range(int(num("survey_sigma_iterations"))):
+                x, _ = _minimize(lambda y: f(y, sig), x,
+                                 [1 / nt if n_curve else 0, 2 * math.pi / nph, 2 * math.pi / nph],
+                                 num("survey_min_step"))
+                sig = tuple(self.input_sigma(pair, lambda cc, k=k: _survey_obs(cc, x[1], x[2])[k],
+                                             x[0] if n_curve else 0) for k in range(4))
+            val = f(x, sig)
+            if val < best[0]:
+                best = (val, (x, sig))
+        return best
+
+    def bands(self, pair, n_curve: int, nt: int, nph: int) -> Dict[str, Tuple[float, float]]:
+        """Range of each observable over ALL unknowns (free entry and both phases)."""
+        ts = [(i + 1 / 2) / nt for i in range(nt)] if n_curve else [0]
+        out = {}
+        for k in range(4):
+            res = []
+            for sense in (1, -1):
+                def f(x: List[float]) -> float:
+                    if n_curve and not 0 <= x[0] <= 1:
+                        return math.inf
+                    c = self.coef(pair, x[0] if n_curve else 0)
+                    return math.inf if c is None else sense * _survey_obs(c, x[1], x[2])[k]
+                start = min(([t, 2 * math.pi * i / nph, 2 * math.pi * j / nph]
+                             for t in ts for i in range(nph) for j in range(nph)), key=f)
+                x, v = _minimize(f, start, [1 / nt if n_curve else 0, 2 * math.pi / nph, 2 * math.pi / nph],
+                                 num("survey_min_step"))
+                res.append(sense * v)
+            out[SURVEY_OBS[k]] = (res[0], res[1])
+        return out
+
+    def prediction(self, rec: Dict[str, Any], nt: int, nph: int) -> List[Dict[str, float]]:
+        """What a surviving pattern predicts. |V_us|, |V_cb|, |V_ub| fix its three unknowns (t and
+        both phases) at isolated points, found from every grid point by compass search; at each,
+        |J| and |V_td/V_ts| follow (CP-conjugate solutions, J -> -J, are merged). Errors: re-solve
+        with each measured modulus moved by its error, and with each input moved by its error."""
+        pair, n_curve = rec["pair"], rec["n_curve"]
+        mods = SURVEY_OBS[:3]
+
+        def at(x: List[float], ei: int = 0):
+            if n_curve and not 0 <= x[0] <= 1:
+                return None
+            c = self.coef(pair, x[0] if n_curve else 0, ei)
+            if c is None:
+                return None
+            v = ckm_matrix(c, x[1], x[2])
+            return _survey_obs(c, x[1], x[2]), abs(v[2][0]) / abs(v[2][1])
+
+        def solve(x0: List[float], target: Sequence[float], ei: int = 0):
+            def f(x: List[float]) -> float:
+                r = at(x, ei)
+                if r is None:
+                    return math.inf
+                return sum(((r[0][k] - target[k]) / self.meas[name][1]) ** 2 for k, name in enumerate(mods))
+            x, v = _minimize(f, list(x0), [1 / nt if n_curve else 0, 2 * math.pi / nph, 2 * math.pi / nph],
+                             num("survey_min_step"))
+            return x, v
+        central = [self.meas[k][0] for k in mods]
+        ts = [(i + 1 / 2) / nt for i in range(nt)] if n_curve else [0]
+        starts = []
+        for t in ts:
+            for a in range(nph):
+                for b in range(nph):
+                    x = [t, 2 * math.pi * a / nph, 2 * math.pi * b / nph]
+                    r = at(x)
+                    if r is not None:
+                        starts.append((sum(((r[0][k] - central[k]) / self.meas[n][1]) ** 2
+                                           for k, n in enumerate(mods)), x))
+        starts.sort(key=lambda z: z[0])
+        sols: List[List[float]] = []
+        tol = num("survey_residual_tol")
+        for _, x0 in starts[:nt * int(num("survey_starts"))]:
+            x, v = solve(x0, central)
+            if v > tol:
+                continue
+            key = [x[0], x[1] % (2 * math.pi), x[2] % (2 * math.pi)]
+            if all(sum(abs(a - b) for a, b in zip(key, y)) > tol for y in sols):
+                sols.append(key)
+        out: List[Dict[str, float]] = []
+        for x in sols:
+            r = at(x)
+            j0, q0 = abs(r[0][3]), r[1]
+            dj2 = dq2 = 0.0
+            for k, name in enumerate(mods):                  # measured moduli moved by their errors
+                tgt = list(central)
+                tgt[k] += self.meas[name][1]
+                xs, _ = solve(x, tgt)
+                rs = at(xs)
+                dj2 += (abs(rs[0][3]) - j0) ** 2
+                dq2 += (rs[1] - q0) ** 2
+            for e in range(1, len(self.E), 2):              # inputs moved by their errors
+                pm = []
+                for ei in (e, e + 1):
+                    xs, _ = solve(x, central, ei)
+                    rs = at(xs, ei)
+                    pm.append(rs)
+                dj2 += ((abs(pm[0][0][3]) - abs(pm[1][0][3])) / 2) ** 2
+                dq2 += ((pm[0][1] - pm[1][1]) / 2) ** 2
+            if not any(abs(j0 - o["J"]) < tol * j0 and abs(q0 - o["V_td/V_ts"]) < tol for o in out):
+                out.append({"J": j0, "J_sigma": math.sqrt(dj2), "V_td/V_ts": q0, "V_td/V_ts_sigma": math.sqrt(dq2)})
+        return sorted(out, key=lambda o: o["J"])
+
+    def run(self, min_zeros: int) -> Dict[str, Any]:
+        e = self.E[0]
+        sector: Dict[Any, Dict[str, Any]] = {}
+        for nz in (2, 3):
+            for z in itertools.combinations(POSITIONS, nz):
+                nonzero = [p for p in POSITIONS if p not in z]
+                sector[tuple(sorted(z))] = {s: sector_variants(nonzero, e[s]) for s in ("u", "d")}
+        classes: Dict[Any, List[Any]] = {}
+        for zu, zd in itertools.product(sector, repeat=2):
+            if len(zu) + len(zd) >= min_zeros:
+                classes.setdefault(pattern_class(zu, zd), []).append((zu, zd))
+        nt, nph = int(num("survey_curve_grid")), int(num("survey_phase_grid"))
+        results = []
+        for key in sorted(classes):
+            zu, zd = key
+            rec: Dict[str, Any] = {"zeros_u": zu, "zeros_d": zd, "zeros": len(zu) + len(zd),
+                                   "orbit": len(classes[key])}
+            vu, vd = sector[zu]["u"], sector[zd]["d"]
+            if vu == "loop" or vd == "loop":
+                rec["status"] = "loop"
+                results.append(rec)
+                continue
+            if not vu or not vd:
+                rec["status"] = "no_solution"
+                results.append(rec)
+                continue
+            nu = [p for p in POSITIONS if p not in zu]
+            nd = [p for p in POSITIONS if p not in zd]
+            rec.update({"status": "tested", "band_sigma": math.inf, "chi2": math.inf, "variant": None})
+            for a, b in itertools.product(vu, vd):
+                pair = (nu, a, nd, b)
+                n_curve = (a[1] in ("curve", "block")) + (b[1] in ("curve", "block"))
+                rec["predictions"] = 4 - 2 - n_curve
+                ts = [(i + 1 / 2) / nt for i in range(nt)] if n_curve else [0]
+                bd = min(self.band_distance(pair, t) for t in ts)
+                rec["band_sigma"] = min(rec["band_sigma"], bd)
+                if bd > num("survival_sigma"):
+                    continue
+                c2, arg = self.joint(pair, n_curve, nt, nph)
+                if c2 < rec["chi2"]:
+                    rec.update({"chi2": c2, "variant": (a, b), "pair": pair, "n_curve": n_curve,
+                                "input_sigma": arg[1]})
+            if rec["chi2"] < math.inf:
+                rec["sigma"] = pvalue_to_sigma(chi2_pvalue(rec["chi2"], rec["predictions"]))
+            else:
+                rec["sigma"] = rec["band_sigma"]
+            rec["survives"] = rec["sigma"] <= num("survival_sigma")
+            if rec["survives"]:
+                rec["bands"] = self.bands(rec["pair"], rec["n_curve"], nt, nph)
+                rec["prediction"] = self.prediction(rec, nt, nph)
+            results.append(rec)
+        return {"classes": results, "n_ordered_pairs": sum(len(v) for v in classes.values())}
+
+
+# --- Part C certificates: is an exclusion true at EVERY point, not just where the search looked?
+# The joint test and the band test of a family are evaluated at sampled points. A certificate
+# covers the whole parameter space (position t along the family, both phases) with cells, and
+# proves for each cell that no point in it can survive: a rigorous upper bound on how far every
+# CKM element can move inside the cell gives a lower bound on its distance from the data.
+#   * Matrix entries: along a family they are x, T - x, constants, or sqrt(N(x)/D(x)) with
+#     polynomials N, D; their exact range on a cell comes from the endpoints and the roots of
+#     N'D - N D' (found once per family), widened for rounding.
+#   * Eigenvectors: every matrix of a family has the same eigenvalues (its invariants are
+#     fixed). For the eigenvector v' of M + dM with eigenvalue lambda_i, its component along v_k
+#     is a_k = v_k.dM.v' / (lambda_i - lambda_k), so |a_k| <= (|v_k.dM.v_i| + |dM| s) / gap_ik
+#     with s = |v' - v_i| <= A + A^2, A = sum |a_k|: solved as a quadratic inequality.
+#   * CKM elements: V_ij = u_i.P.d_j with P = diag(1, e^is, e^it), so the change of V_ij is at
+#     most sum_k |a_k| B_kj + sum_l |b_l| B_il + (eta_u + eta_d + eta_u eta_d) B_ij + A_u A_d,
+#     B_kl = sum of |coefficients| >= |V_kl| at any phase; a phase step dp moves V_ij by at
+#     most |c_1| dp_1 + |c_2| dp_2; J from the product of the four disks.
+#   * Input errors: the input-induced sigma is bounded above by the same radii.
+# A cell is discarded if its band distance or its chi^2 is provably above the 3-sigma level;
+# otherwise it is split (along t while the eigenvector part dominates, else the phases).
+class _Iv:
+    """A closed interval, widened outward by cert_round_rel at every operation."""
+    __slots__ = ("lo", "hi")
+
+    def __init__(self, lo: float, hi: float | None = None):
+        hi = lo if hi is None else hi
+        w = num("cert_round_rel") * max(abs(lo), abs(hi))
+        self.lo, self.hi = lo - w, hi + w
+
+
+def _padd(a: List[float], b: List[float]) -> List[float]:
+    n = max(len(a), len(b))
+    return [(a[k] if k < len(a) else 0) + (b[k] if k < len(b) else 0) for k in range(n)]
+
+
+def _pneg(a: List[float]) -> List[float]:
+    return [-v for v in a]
+
+
+def _pmul(a: List[float], b: List[float]) -> List[float]:
+    out = [0.0] * (len(a) + len(b) - 1)
+    for i, u in enumerate(a):
+        for j, w in enumerate(b):
+            out[i + j] += u * w
+    return out
+
+
+def _pval(a: List[float], x: float) -> float:
+    return sum(c * x ** k for k, c in enumerate(a))
+
+
+def _pabs(a: List[float], x: float) -> float:
+    return sum(abs(c) * abs(x) ** k for k, c in enumerate(a))
+
+
+def _pder(a: List[float]) -> List[float]:
+    return [k * a[k] for k in range(1, len(a))] or [0.0]
+
+
+def _family_polys(nonzero, kind: str, br: int, e: Sequence[float]):
+    """Diagonal entries as polynomials in x, and the squared off-diagonals as (position, N, D,
+    critical points of N/D)."""
+    diags, offs = _split(nonzero)
+    t_, s2, det = _invariants(e)
+    if kind == "block":
+        a = offs[0]
+        others = [e[i] for i in range(3) if i != br]
+        tot = sum(others)
+        dg = {_comp(a): [e[br]], a[0]: [0.0, 1.0], a[1]: [tot, -1.0]}
+        qs = [(a, [-others[0] * others[1], tot, -1.0], [1.0])]
+    else:
+        i, j = diags
+        a, b = offs
+        dd: List[List[float]] = [[0.0], [0.0], [0.0]]
+        dd[i], dd[j] = [0.0, 1.0], [t_, -1.0]
+        r1 = _padd(_padd(_padd(_pmul(dd[0], dd[1]), _pmul(dd[0], dd[2])), _pmul(dd[1], dd[2])), [-s2])
+        r2 = _padd(_pmul(_pmul(dd[0], dd[1]), dd[2]), [-det])
+        ca, cb = dd[_comp(a)], dd[_comp(b)]
+        nb, den = _padd(r2, _pneg(_pmul(ca, r1))), _padd(cb, _pneg(ca))
+        dg = {k: dd[k] for k in range(3)}
+        qs = [(a, _padd(_pmul(r1, den), _pneg(nb)), den), (b, nb, den)]
+    out = []
+    for pos, n_, d_ in qs:
+        k_ = _padd(_pmul(_pder(n_), d_), _pneg(_pmul(n_, _pder(d_))))
+        out.append((pos, n_, d_, sorted(real_roots(k_)) if any(k_) else []))
+    return dg, out
+
+
+def _rational_range(n_: List[float], d_: List[float], crit: Sequence[float], x0: float, x1: float):
+    pts = [x0, x1] + [r for r in crit if x0 < r < x1]
+    vals, wid = [], 0.0
+    for x in pts:
+        d = _pval(d_, x)
+        vals.append(_pval(n_, x) / d)
+        wid = max(wid, num("cert_eval_rel") * (_pabs(n_, x) + abs(vals[-1]) * _pabs(d_, x)) / abs(d))
+    return min(vals) - wid, max(vals) + wid
+
+
+class _Certifier:
+    """Rigorous exclusion of one pattern pair over all of (t, sigma, tau), see the comment above."""
+    ELEM = {"V_us": (0, 1), "V_cb": (1, 2), "V_ub": (0, 2), "V_cs": (1, 1)}
+
+    def __init__(self, sv: "TextureSurvey"):
+        self.sv = sv
+        self.cache: Dict[Any, Any] = {}
+
+    def _sector(self, nonzero, var, e_abs: Sequence[float], ta: float, tb: float):
+        """(matrix at the cell centre, entrywise bound on its change over the cell) or None."""
+        signs, kind, br = var
+        e = (signs[0] * e_abs[0], signs[1] * e_abs[1], e_abs[2])
+        key = (tuple(nonzero), var, tuple(e_abs))
+        if kind not in ("curve", "block"):
+            if key not in self.cache:
+                self.cache[key] = fixed_matrix(nonzero, kind, br, e)
+            m = self.cache[key]
+            return None if m is None else (m, [[0.0] * 3 for _ in range(3)])
+        if key not in self.cache:
+            iv = curve_interval(nonzero, kind, br, e)
+            self.cache[key] = (iv, None if iv is None else _family_polys(nonzero, kind, br, e))
+        iv, polys = self.cache[key]
+        if iv is None:
+            return None
+
+        def x_of(t: float) -> float:
+            return iv[0] + (iv[1] - iv[0]) * (1 - math.cos(math.pi * t)) / 2
+        xc, x0, x1 = x_of((ta + tb) / 2), x_of(ta), x_of(tb)
+        dg, qs = polys
+        mc = [[0.0] * 3 for _ in range(3)]
+        dev = [[0.0] * 3 for _ in range(3)]
+        for k, pk in dg.items():
+            mc[k][k] = _pval(pk, xc)
+            lo, hi = sorted((_pval(pk, x0), _pval(pk, x1)))
+            r = _Iv(lo, hi)
+            dev[k][k] = max(r.hi - mc[k][k], mc[k][k] - r.lo)
+        for pos, n_, d_, crit in qs:
+            v = math.sqrt(max(_pval(n_, xc) / _pval(d_, xc), 0))
+            lo, hi = _rational_range(n_, d_, crit, x0, x1)
+            r = _Iv(math.sqrt(max(lo, 0)), math.sqrt(max(hi, 0)))
+            for p_ in (pos, pos[::-1]):
+                mc[p_[0]][p_[1]] = v
+                dev[p_[0]][p_[1]] = max(r.hi - v, v - r.lo)
+        return mc, dev
+
+    @staticmethod
+    def _components(mc, dev):
+        """Eigenvectors at the centre and, for each, bounds on its components along the others
+        and on eta over the cell (None where the bound does not close)."""
+        ev, o = jacobi_eigh(mc, num("jacobi_tol"))
+        vec = [[o[r][i] for r in range(3)] for i in range(3)]
+        dn = math.sqrt(sum(dev[r][c] ** 2 for r in range(3) for c in range(3)))
+        comps = []
+        for i in range(3):
+            rk, alpha, beta = {}, 0.0, 0.0
+            for k in range(3):
+                if k == i:
+                    continue
+                g = abs(ev[i] - ev[k])
+                rk[k] = (sum(abs(vec[k][r]) * dev[r][c] * abs(vec[i][c]) for r in range(3) for c in range(3)), g)
+                alpha += rk[k][0] / g
+                beta += dn / g
+            s1 = None
+            if beta < 1:
+                qa, qb, qc = beta * beta, 2 * alpha * beta + beta - 1, alpha + alpha * alpha
+                if qa == 0:
+                    s1 = qc / -qb
+                elif qb * qb - 4 * qa * qc >= 0:
+                    rt = math.sqrt(qb * qb - 4 * qa * qc)
+                    s1 = (-qb - rt) / (2 * qa) if (-qb + rt) / (2 * qa) > math.sqrt(2) else None
+            if s1 is None or s1 >= 1:
+                comps.append(None)
+                continue
+            a = {k: (r + dn * s1) / g for k, (r, g) in rk.items()}
+            comps.append((a, min(1.0, sum(a.values()) ** 2)))
+        return o, comps
+
+    def tdata(self, pair, ta: float, tb: float):
+        """For the central inputs and every input variation: CKM coefficients at the cell centre
+        and the radius of each element over the cell (any phase)."""
+        nu, vu, nd, vd = pair
+        out = []
+        for e in self.sv.E:
+            su, sd = self._sector(nu, vu, e["u"], ta, tb), self._sector(nd, vd, e["d"], ta, tb)
+            if su is None or sd is None:
+                return None
+            ou, cu = self._components(*su)
+            od, cd = self._components(*sd)
+            coef = ckm_coefficients(ou, od)
+            bnd = [[sum(abs(x) for x in coef[i][j]) for j in range(3)] for i in range(3)]
+            rad = {}
+            for k, (i, j) in self.ELEM.items():
+                if cu[i] is None or cd[j] is None:
+                    rad[k] = 2.0
+                    continue
+                (au, etu), (ad, etd) = cu[i], cd[j]
+                rad[k] = min(2.0, (etu + etd + etu * etd) * bnd[i][j] + sum(v * bnd[m][j] for m, v in au.items())
+                             + sum(v * bnd[i][m] for m, v in ad.items()) + sum(au.values()) * sum(ad.values()))
+            out.append((coef, rad))
+        return out
+
+    def _obs(self, coef, rad, sc: float, tc: float, hs: float, ht: float) -> Dict[str, Tuple[float, float, float, float]]:
+        """(lower, upper, centre value, radius) of each survey observable over the cell."""
+        p = (1, cmath.exp(1j * sc), cmath.exp(1j * tc))
+        z = {}
+        for k, (i, j) in self.ELEM.items():
+            c = coef[i][j]
+            z[k] = (sum(c[m] * p[m] for m in range(3)), rad[k] + abs(c[1]) * hs + abs(c[2]) * ht)
+        out = {k: (max(0, abs(z[k][0]) - z[k][1]), abs(z[k][0]) + z[k][1], abs(z[k][0]), z[k][1])
+               for k in ("V_us", "V_cb", "V_ub")}
+        zs = [z["V_us"], z["V_cb"], z["V_ub"], z["V_cs"]]
+        jc = (zs[0][0] * zs[1][0] * zs[2][0].conjugate() * zs[3][0].conjugate()).imag
+        jr = math.prod(abs(v) + r for v, r in zs) - math.prod(abs(v) for v, _ in zs)
+        out["J"] = (jc - jr, jc + jr, jc, jr)
+        return out
+
+    def _sigma_up(self, per_e: List[Any], k: str, idx: int) -> float:
+        """Upper bound on the input-induced sigma: centre differences plus both radii."""
+        v2 = 0.0
+        for a in range(1, len(per_e), 2):
+            v2 += ((abs(per_e[a][k][idx] - per_e[a + 1][k][idx]) + per_e[a][k][3] + per_e[a + 1][k][3]) / 2) ** 2
+        return math.sqrt(v2)
+
+    def chi2_lower(self, td, sc: float, tc: float, hs: float, ht: float) -> float:
+        per_e = [self._obs(c, r, sc, tc, hs, ht) for c, r in td]
+        tot = 0.0
+        for k in SURVEY_OBS:
+            lo, hi = per_e[0][k][0], per_e[0][k][1]
+            m, up, dn = self.sv.meas[k]
+            if lo <= m <= hi:
+                continue
+            s = self._sigma_up(per_e, k, 2)
+            tot += ((lo - m) / math.hypot(up, s)) ** 2 if m < lo else ((m - hi) / math.hypot(dn, s)) ** 2
+        return tot
+
+    def band_lower(self, td, with_radii: bool = True) -> float:
+        """Lower bound on the largest band distance of |V_us|, |V_cb|, |V_ub| over the cell."""
+        worst = 0.0
+        for k in ("V_us", "V_cb", "V_ub"):
+            ij = self.ELEM[k]
+            per_e = []
+            for coef, rad in td:
+                lo, hi = _magnitude_band(coef, ij)
+                r = rad[k] if with_radii else 0.0
+                per_e.append({k: (lo - r, hi + r, lo, r, hi)})
+            lo, hi = per_e[0][k][0], per_e[0][k][1]
+            m, up, dn = self.sv.meas[k]
+            if lo <= m <= hi:
+                continue
+            v2 = 0.0
+            edge = 2 if m < lo else 4
+            for a in range(1, len(per_e), 2):
+                v2 += ((abs(per_e[a][k][edge] - per_e[a + 1][k][edge]) + per_e[a][k][3] + per_e[a + 1][k][3]) / 2) ** 2
+            s = math.sqrt(v2)
+            worst = max(worst, (lo - m) / math.hypot(s, up) if m < lo else (m - hi) / math.hypot(s, dn))
+        return worst
+
+    def certify(self, pair, n_curve: int, dof: int) -> Tuple[bool, int]:
+        """True if no point of the pair's parameter space survives; also the cells used."""
+        sig3 = num("survival_sigma")
+        lo_, hi_ = 0.0, 100 * sig3 * sig3
+        for _ in range(int(num("crit_iterations"))):       # the chi^2 at the 3-sigma level
+            mid = (lo_ + hi_) / 2
+            lo_, hi_ = (mid, hi_) if pvalue_to_sigma(chi2_pvalue(mid, dof)) < sig3 else (lo_, mid)
+        thr = hi_
+        nt = int(num("survey_curve_grid"))
+        two_pi = 2 * math.pi
+        stack = [("b", i / nt, (i + 1) / nt, 0.0, two_pi, 0.0, two_pi) for i in range(nt)] if n_curve \
+            else [("j", 0.0, 0.0, 0.0, two_pi, 0.0, two_pi)]
+        tcache: Dict[Tuple[float, float], Any] = {}
+        n, budget, wmin = 0, int(num("cert_budget")), num("cert_min_width")
+        while stack:
+            n += 1
+            if n > budget:
+                return False, n
+            mode, ta, tb, s0, s1, u0, u1 = stack.pop()
+            if (ta, tb) not in tcache:
+                tcache[(ta, tb)] = self.tdata(pair, ta, tb)
+            td = tcache[(ta, tb)]
+            mid = (ta + tb) / 2
+            if td is None:
+                if tb - ta < wmin:
+                    return False, n
+                stack += [(mode, ta, mid, s0, s1, u0, u1), (mode, mid, tb, s0, s1, u0, u1)]
+                continue
+            if self.band_lower(td) > sig3:
+                continue
+            if mode == "b":                                   # phase-independent: refine t only
+                if self.band_lower(td, False) > sig3 and tb - ta > wmin:
+                    stack += [("b", ta, mid, s0, s1, u0, u1), ("b", mid, tb, s0, s1, u0, u1)]
+                else:
+                    stack.append(("j", ta, tb, s0, s1, u0, u1))
+                continue
+            hs, hu = (s1 - s0) / 2, (u1 - u0) / 2
+            if self.chi2_lower(td, s0 + hs, u0 + hu, hs, hu) > thr:
+                continue
+            point = [(c, {k: 0.0 for k in r}) for c, r in td]          # the cell centre itself
+            if self.band_lower(point) <= sig3 and self.chi2_lower(point, s0 + hs, u0 + hu, 0, 0) <= thr:
+                return False, n                                       # a surviving point: not excluded
+            tr = max(td[0][1].values())
+            pr = max(abs(td[0][0][i][j][1]) * hs + abs(td[0][0][i][j][2]) * hu for i, j in self.ELEM.values())
+            if n_curve and tr > pr and tb - ta > wmin:
+                stack += [("j", ta, mid, s0, s1, u0, u1), ("j", mid, tb, s0, s1, u0, u1)]
+            elif hs >= hu:
+                stack += [("j", ta, tb, s0, s0 + hs, u0, u1), ("j", ta, tb, s0 + hs, s1, u0, u1)]
+            else:
+                stack += [("j", ta, tb, s0, s1, u0, u0 + hu), ("j", ta, tb, s0, s1, u0 + hu, u1)]
+        return True, n
+
+
+def _certify_class(args) -> Dict[str, Any]:
+    sv, rec = args
+    e = sv.E[0]
+    nu = [p for p in POSITIONS if p not in rec["zeros_u"]]
+    nd = [p for p in POSITIONS if p not in rec["zeros_d"]]
+    cert, cells = _Certifier(sv), 0
+    for a, b in itertools.product(sector_variants(nu, e["u"]), sector_variants(nd, e["d"])):
+        n_curve = (a[1] in ("curve", "block")) + (b[1] in ("curve", "block"))
+        ok, n = cert.certify((nu, a, nd, b), n_curve, rec["predictions"])
+        cells += n
+        if not ok:
+            return {"zeros_u": rec["zeros_u"], "zeros_d": rec["zeros_d"], "certified": False, "cells": cells}
+    return {"zeros_u": rec["zeros_u"], "zeros_d": rec["zeros_d"], "certified": True, "cells": cells}
+
+
+def certify_survey(survey_at_scale: Dict[str, Any]) -> Dict[str, Any]:
+    """Certify every exclusion of one scale's survey (all variants of each class), in parallel
+    where the platform can fork."""
+    sv = survey_at_scale["survey"]
+    todo = [(sv, r) for r in survey_at_scale["classes"] if r["status"] == "tested" and not r["survives"]]
+    t0 = time.perf_counter()
+    try:
+        import multiprocessing
+        with multiprocessing.get_context("fork").Pool() as pool:
+            results = pool.map(_certify_class, todo, chunksize=1)
+    except (ValueError, OSError, ImportError):
+        results = [_certify_class(a) for a in todo]
+    return {"results": results, "certified": sum(r["certified"] for r in results), "excluded": len(results),
+            "seconds": time.perf_counter() - t0}
+
+
+# =============================================================================
+# 6c. WHAT SO(10) SAYS ABOUT THE QUARK MASS MATRICES (from the spinor algebra)
+# =============================================================================
+# Every family is one 16, the chiral half of the 32-component spinor of SO(10). The 32 x 32
+# gamma matrices are built from Pauli matrices (entries 0, +-1, +-i), so every statement below
+# is exact: the bilinear psi^T C Gamma_[k] chi of two 16s, with Gamma_[k] the antisymmetrized
+# product of k gammas, is the Yukawa coupling to a k-form Higgs (k = 1: the 10; k = 3: the 120;
+# k = 5: the 126 and its conjugate). Whether each is symmetric or antisymmetric in the family
+# indices, and how many independent couplings each gives, is computed by elimination modulo a
+# prime p = 1 mod 4 (where i exists), with the dimension of the symmetric (136) and
+# antisymmetric (120) 16 x 16 spaces as upper bounds.
+_P_I = 998244353                               # prime, = 1 mod 4: sqrt(-1) exists mod p
+
+
+# A gamma matrix here has one nonzero entry per row, so it is stored as (column, value) for every
+# row: a "monomial" matrix. Products and Kronecker products of monomial matrices are monomial.
+def _mono_kron(a: Tuple[Tuple[int, ...], Tuple[complex, ...]],
+               b: Tuple[Tuple[int, ...], Tuple[complex, ...]]) -> Tuple[Tuple[int, ...], Tuple[complex, ...]]:
+    nb = len(b[0])
+    cols = tuple(ca * nb + cb for ca in a[0] for cb in b[0])
+    vals = tuple(va * vb for va in a[1] for vb in b[1])
+    return cols, vals
+
+
+def _mono_mul(a: Tuple[Tuple[int, ...], Tuple[complex, ...]],
+              b: Tuple[Tuple[int, ...], Tuple[complex, ...]]) -> Tuple[Tuple[int, ...], Tuple[complex, ...]]:
+    return tuple(b[0][c] for c in a[0]), tuple(v * b[1][c] for c, v in zip(a[0], a[1]))
+
+
+def _mono_dense(a: Tuple[Tuple[int, ...], Tuple[complex, ...]]) -> List[List[complex]]:
+    n = len(a[0])
+    out = [[0] * n for _ in range(n)]
+    for i, (c, v) in enumerate(zip(*a)):
+        out[i][c] = v
+    return out
+
+
+def so10_gammas() -> List[Tuple[Tuple[int, ...], Tuple[complex, ...]]]:
+    """The ten 32 x 32 gamma matrices, {G_a, G_b} = 2 delta_ab, as Jordan-Wigner products of Pauli
+    matrices (sigma_z ... sigma_z sigma_{x or y} 1 ... 1)."""
+    pauli = {"1": ((0, 1), (1, 1)), "x": ((1, 0), (1, 1)), "y": ((1, 0), (-1j, 1j)), "z": ((0, 1), (1, -1))}
+    out = []
+    for k in range(5):
+        for t in ("x", "y"):
+            m: Tuple[Tuple[int, ...], Tuple[complex, ...]] = ((0,), (1,))
+            for j in range(5):
+                m = _mono_kron(m, pauli["z"] if j < k else (pauli[t] if j == k else pauli["1"]))
+            out.append(m)
+    return out
+
+
+def _gauss_int(z: Any, i_p: int) -> int:
+    """A Gaussian integer modulo _P_I, with i -> i_p (i_p^2 = -1 mod p)."""
+    z = complex(z)
+    return (int(z.real) + int(z.imag) * i_p) % _P_I
+
+
+def _rank_mod_p(rows: List[List[int]]) -> int:
+    rows = [list(r) for r in rows]
+    rank = 0
+    for c in range(len(rows[0]) if rows else 0):
+        p = next((r for r in range(rank, len(rows)) if rows[r][c]), None)
+        if p is None:
+            continue
+        rows[rank], rows[p] = rows[p], rows[rank]
+        inv = pow(rows[rank][c], _P_I - 2, _P_I)
+        for r in range(len(rows)):
+            if r != rank and rows[r][c]:
+                f = rows[r][c] * inv % _P_I
+                rows[r] = [(x - f * y) % _P_I for x, y in zip(rows[r], rows[rank])]
+        rank += 1
+    return rank
+
+
+def so10_yukawa_bilinears() -> Dict[str, Any]:
+    """Symmetry and multiplicity of the 16 x 16 Yukawa bilinears, exact."""
+    g = so10_gammas()
+    n = len(g[0][0])
+    ident = (tuple(range(n)), tuple(1 for _ in range(n)))
+
+    def dense_sum(a, b, s_):
+        da, db = _mono_dense(a), _mono_dense(b)
+        return [[da[i][j] + s_ * db[i][j] for j in range(n)] for i in range(n)]
+    clifford = all(dense_sum(_mono_mul(g[a], g[b]), _mono_mul(g[b], g[a]), 1)
+                   == [[(2 if a == b and i == j else 0) for j in range(n)] for i in range(n)]
+                   for a in range(10) for b in range(a, 10))
+    # chirality: G11 = (-i)^5 G_1 ... G_10, diagonal with entries +-1 in this basis
+    prod = ident
+    for m in g:
+        prod = _mono_mul(prod, m)
+    diag_ok = prod[0] == ident[0]
+    chir = [((-1j) ** 5) * v for v in prod[1]]
+    plus = [i for i in range(n) if chir[i] == 1]
+    # charge conjugation: C = product of the antisymmetric gammas (the sigma_y ones)
+    def antisymmetric(m) -> bool:
+        d = _mono_dense(m)
+        return all(d[i][j] == -d[j][i] for i in range(n) for j in range(n))
+    cc = ident
+    for m in g:
+        if antisymmetric(m):
+            cc = _mono_mul(cc, m)
+    i_p = pow(3, (_P_I - 1) // 4, _P_I)          # 3 is a primitive root of 998244353
+    out: Dict[str, Any] = {"clifford": clifford, "chirality_diagonal": diag_ok,
+                           "chirality_squares_to_one": all(c * c == 1 for c in chir), "dim_16": len(plus),
+                           "i_mod_p_ok": i_p * i_p % _P_I == _P_I - 1, "forms": {}}
+    pos = {r: k for k, r in enumerate(plus)}
+    sym_rows: List[List[int]] = []
+    for k, name in ((1, "10"), (3, "120"), (5, "126 + 126bar")):
+        mats = []
+        for idx in itertools.combinations(range(10), k):
+            m = cc
+            for a in idx:
+                m = _mono_mul(m, g[a])
+            ent = {(pos[r], pos[c]): v for r, (c, v) in enumerate(zip(*m)) if r in pos and c in pos}
+            if ent:
+                mats.append(ent)
+        sym = all(e.get((j, i)) == v for e in mats for (i, j), v in e.items())
+        asym = all(e.get((j, i)) == -v for e in mats for (i, j), v in e.items())
+        vecs = []
+        for e in mats:
+            row = [0] * 256
+            for (i, j), v in e.items():
+                row[16 * i + j] = _gauss_int(v, i_p)
+            vecs.append(row)
+        rank = _rank_mod_p(vecs) if vecs else 0
+        if sym:
+            sym_rows += vecs
+        out["forms"][name] = {"k": k, "nonzero": len(mats), "symmetric": sym, "antisymmetric": asym,
+                              "independent": rank}
+    out["symmetric_total"] = _rank_mod_p(sym_rows)
+    out["symmetric_space"], out["antisymmetric_space"] = 16 * 17 // 2, 16 * 15 // 2
+    return out
+
+
+def so10_weights(rep: str) -> List[Tuple[Fr, ...]]:
+    """Weights of the 10 (+-e_i), the 16 (all (+-1/2)^5 with an even number of minus signs) and the
+    45 (+-e_i +- e_j and five zeros) in the orthonormal basis of the Cartan subalgebra."""
+    if rep == "10":
+        return [tuple(Fr(s) if j == i else Fr(0) for j in range(5)) for i in range(5) for s in (1, -1)]
+    if rep == "16":
+        return [tuple(Fr(s, 2) for s in sg) for sg in itertools.product((1, -1), repeat=5)
+                if sum(1 for s in sg if s < 0) % 2 == 0]
+    if rep == "45":
+        out = [tuple(Fr(0) for _ in range(5))] * 5
+        for i, j in itertools.combinations(range(5), 2):
+            for si, sj in itertools.product((1, -1), repeat=2):
+                out.append(tuple(Fr(si) if t == i else (Fr(sj) if t == j else Fr(0)) for t in range(5)))
+        return out
+    raise ValueError(rep)
+
+
+def so10_index_from_weights(rep: str) -> Fr:
+    """Dynkin index T(R) = sum over weights of (w . e_1)^2, normalized to T(10) = 1."""
+    def raw(r: str) -> Fr:
+        return sum((w[0] ** 2 for w in so10_weights(r)), Fr(0))
+    return raw(rep) / raw("10")
+
+
+def so10_cubic_anomaly(rep: str) -> Fr:
+    """Largest |sum_w w_a w_b w_c| over all a, b, c: the SO(10) cubic anomaly of rep (zero for every
+    SO(10) representation; checked here for the 16)."""
+    ws = so10_weights(rep)
+    return max(abs(sum((w[a] * w[b] * w[c] for w in ws), Fr(0)))
+               for a, b, c in itertools.combinations_with_replacement(range(5), 3))
+
+
+def so10_family_bound(scalars: Sequence[Tuple[int, str]]) -> Dict[str, Any]:
+    """Which family numbers SO(10) allows. Anomalies: none (the 16 is anomaly-free), so any N_f.
+    Asymptotic freedom of the SO(10) coupling with the chain's scalars: b = -(11/3) C2(45)
+    + (2/3) T(16) N_f + sum over scalars (1/3 T complex, 1/6 T real) < 0. CP violation in the quark
+    mixing needs (N_f - 1)(N_f - 2)/2 >= 1 phases (Kobayashi-Maskawa)."""
+    t16, t45 = so10_index_from_weights("16"), so10_index_from_weights("45")
+    t_s = sum(((Fr(1, 3) if kind == "complex" else Fr(1, 6)) * so10_decomposition_index(rep)[0]
+               for rep, kind in scalars), Fr(0))
+    rows = []
+    for nf in range(1, 13):
+        b = -Fr(11, 3) * t45 + Fr(2, 3) * t16 * nf + t_s
+        phases = (nf - 1) * (nf - 2) // 2
+        rows.append({"families": nf, "b_SO10": b, "asymptotically_free": b < 0, "ckm_phases": phases})
+    allowed = [r["families"] for r in rows if r["asymptotically_free"] and r["ckm_phases"] >= 1]
+    return {"T16": t16, "T45": t45, "scalar_sum": t_s, "rows": rows, "cubic_anomaly_16": so10_cubic_anomaly("16"),
+            "allowed": allowed}
+
+
+# Texture counting in SO(10). Both quark sectors are built from the same symmetric Yukawa matrices
+# of the 10s and 126s, and a family rephasing acts on Q_i and q^c_i alike (one 16): M_ij -> e^{i(f_i+f_j)} M_ij.
+# The weak basis keeps only M -> U^T M U, so the Hermitian form of Part C is not available.
+def _ent_index(support: Any, symmetric: bool) -> Dict[Tuple[int, int], int]:
+    keys = sorted({tuple(sorted(e)) for e in support} if symmetric else set(support))
+    return {k: n for n, k in enumerate(keys)}
+
+
+def texture_rank(sectors: Dict[str, Tuple[set, str]], draw: "_IntStream") -> int:
+    """Rank (mod a 61-bit prime) of the Jacobian of the 10 quark invariants with respect to the entries,
+    for sectors given as (support of independent entries, kind): kind 'hermitian' (diagonal real,
+    M_ji = M_ij*), 'symmetric' (M_ji = M_ij, complex) or 'general'."""
+    var: List[Tuple[str, Tuple[int, int], str]] = []
+    for s_, (sup, kind) in sectors.items():
+        for e in sorted(_ent_index(sup, kind != "general")):
+            var.append((s_, e, "r"))
+            if not (kind == "hermitian" and e[0] == e[1]):
+                var.append((s_, e, "i"))
+    m = len(var)
+    zero = _Dual(0, [0] * m)
+    vals: Dict[Tuple[str, Tuple[int, int]], List[_Dual]] = {}
+    for k, (s_, e, part) in enumerate(var):
+        gr = [0] * m
+        gr[k] = 1
+        vals.setdefault((s_, e), [zero, zero])[0 if part == "r" else 1] = _Dual(draw(), gr)
+    mats = {}
+    for s_, (sup, kind) in sectors.items():
+        mt = [[_Cx(zero, zero) for _ in range(3)] for _ in range(3)]
+        for (ss, e), (re_, im_) in vals.items():
+            if ss != s_:
+                continue
+            i, j = e
+            mt[i][j] = _Cx(re_, im_)
+            if kind == "symmetric":
+                mt[j][i] = _Cx(re_, im_)
+            elif kind == "hermitian":
+                mt[j][i] = _Cx(re_, zero - im_)
+        mats[s_] = mt
+    hu = _cmm(mats["u"], _cdag(mats["u"], zero))
+    hd = _cmm(mats["d"], _cdag(mats["d"], zero))
+    hu2, hd2 = _cmm(hu, hu), _cmm(hd, hd)
+
+    def tr(a):
+        return a[0][0].r + a[1][1].r + a[2][2].r
+    f = [tr(hu), tr(hu2), _cdet(hu).r, tr(hd), tr(hd2), _cdet(hd).r,
+         tr(_cmm(hu, hd)), tr(_cmm(hu2, hd)), tr(_cmm(hu, hd2)), tr(_cmm(hu2, hd2))]
+    rows = [list(x.g) for x in f]
+    rank = 0
+    for c in range(m):
+        p = next((r for r in range(rank, len(rows)) if rows[r][c]), None)
+        if p is None:
+            continue
+        rows[rank], rows[p] = rows[p], rows[rank]
+        inv = pow(rows[rank][c], _PRIME - 2, _PRIME)
+        for r in range(len(rows)):
+            if r != rank and rows[r][c]:
+                fct = rows[r][c] * inv % _PRIME
+                rows[r] = [(x - fct * y) % _PRIME for x, y in zip(rows[r], rows[rank])]
+        rank += 1
+    return rank
+
+
+def _rephasing_rank_so10(entries: Any, hermitian: bool) -> int:
+    """Rank of the family rephasings on the given entries: f_i - f_j (Hermitian, left and right rotate
+    oppositely) or f_i + f_j (SO(10): Q_i and q^c_i in one 16)."""
+    rows = []
+    for i, j in entries:
+        r = [Fr(0)] * 3
+        r[i] += 1
+        r[j] += -1 if hermitian else 1
+        if any(r):
+            rows.append(r)
+    rank = 0
+    for c in range(3):
+        p = next((r for r in range(rank, len(rows)) if rows[r][c] != 0), None)
+        if p is None:
+            continue
+        rows[rank], rows[p] = rows[p], rows[rank]
+        for r in range(len(rows)):
+            if r != rank and rows[r][c] != 0:
+                f = rows[r][c] / rows[rank][c]
+                rows[r] = [x - f * y for x, y in zip(rows[r], rows[rank])]
+        rank += 1
+    return rank
+
+
+def survivor_in_so10(zu, zd, seed: int) -> Dict[str, Any]:
+    """The Part C survivor as Hermitian matrices (its own form) and as SO(10)'s complex symmetric ones:
+    the naive count (magnitudes + phases - rephasings) is an upper bound on the physical parameters,
+    the Jacobian rank at an integer point a lower bound; where they meet the count is proved."""
+    out = {}
+    for kind in ("hermitian", "symmetric"):
+        sup = {s_: {e for e in POSITIONS if e not in z} for s_, z in (("u", zu), ("d", zd))}
+        ents = [e for s_ in "ud" for e in sorted(sup[s_])]
+        mags = len(ents)
+        ph = sum(1 for e in ents if not (kind == "hermitian" and e[0] == e[1]))
+        naive = mags + ph - _rephasing_rank_so10(ents, kind == "hermitian")
+        rank = texture_rank({s_: (sup[s_], kind) for s_ in "ud"}, _IntStream(seed))
+        out[kind] = {"magnitudes": mags, "phases": ph, "naive": min(naive, 10), "rank": rank,
+                     "proved": rank == min(naive, 10), "predictions": 10 - rank}
+    return out
+
+
+# Abelian flavour symmetry inside SO(10). A Z_N charge q_i per family (each a whole 16) and h_k per Higgs
+# field (a 10 or a 126): Y_k,ij is allowed only if q_i + q_j + h_k = 0 mod N. With one light Higgs, a
+# mixture of every field's bidoublet (Part T13), each sector is M = sum_k x_k Y_k with its own
+# coefficients (up: a_k; down: c_k; charged leptons: kappa_k c_k, kappa = 1 for a 10 and -3 for a 126),
+# so all sectors share one support: textures are parallel by construction. What is left to compute is
+# whether the shared Yukawas make any relation among the 13 charged-fermion observables: the rank of the
+# Jacobian of the 13 invariants (the quarks' 10 plus tr H_e, tr H_e^2, det H_e) with respect to the
+# Yukawa entries and the coefficients.
+def so10_flavour_rank(supports: Sequence[Tuple[set, int]], draw: "_IntStream") -> Dict[str, Any]:
+    """supports: one (set of entries i <= j, lepton Clebsch kappa) per Higgs field. Returns the rank of the
+    13 invariants and whether CP violation is possible (Im det[H_u, H_d] at an integer point)."""
+    var = []
+    for k, (sup, _) in enumerate(supports):
+        for e in sorted(sup):
+            var += [("Y", k, e, "r"), ("Y", k, e, "i")]
+        if k > 0:                               # the first field's up coefficient is absorbed into its Yukawas
+            var += [("a", k, None, "r"), ("a", k, None, "i")]
+        var += [("c", k, None, "r"), ("c", k, None, "i")]
+    m = len(var)
+    zero = _Dual(0, [0] * m)
+    one = _Dual(1, [0] * m)
+    val: Dict[Tuple[Any, ...], List[_Dual]] = {}
+    for n, (t, k, e, part) in enumerate(var):
+        gr = [0] * m
+        gr[n] = 1
+        val.setdefault((t, k, e), [zero, zero])[0 if part == "r" else 1] = _Dual(draw(), gr)
+
+    def cx(key) -> _Cx:
+        if key in val:
+            return _Cx(*val[key])
+        return _Cx(one, zero)
+    mats = {s_: [[_Cx(zero, zero) for _ in range(3)] for _ in range(3)] for s_ in "ude"}
+    for k, (sup, kappa) in enumerate(supports):
+        a_k, c_k = cx(("a", k, None)), cx(("c", k, None))
+        kap = _Cx(_Dual(kappa % _PRIME, [0] * m), zero)
+        for e in sup:
+            y = cx(("Y", k, e))
+            for s_, coef in (("u", a_k), ("d", c_k), ("e", kap * c_k)):
+                v = coef * y
+                i, j = e
+                mats[s_][i][j] = mats[s_][i][j] + v
+                if i != j:
+                    mats[s_][j][i] = mats[s_][j][i] + v
+    hs = {s_: _cmm(mats[s_], _cdag(mats[s_], zero)) for s_ in "ude"}
+    hu, hd, he = hs["u"], hs["d"], hs["e"]
+    hu2, hd2, he2 = _cmm(hu, hu), _cmm(hd, hd), _cmm(he, he)
+
+    def tr(a):
+        return a[0][0].r + a[1][1].r + a[2][2].r
+    f = [tr(hu), tr(hu2), _cdet(hu).r, tr(hd), tr(hd2), _cdet(hd).r,
+         tr(_cmm(hu, hd)), tr(_cmm(hu2, hd)), tr(_cmm(hu, hd2)), tr(_cmm(hu2, hd2)),
+         tr(he), tr(he2), _cdet(he).r]
+    rows = [list(x.g) for x in f]
+    rank = 0
+    for c in range(m):
+        p = next((r for r in range(rank, len(rows)) if rows[r][c]), None)
+        if p is None:
+            continue
+        rows[rank], rows[p] = rows[p], rows[rank]
+        inv = pow(rows[rank][c], _PRIME - 2, _PRIME)
+        for r in range(len(rows)):
+            if r != rank and rows[r][c]:
+                fct = rows[r][c] * inv % _PRIME
+                rows[r] = [(x - fct * y) % _PRIME for x, y in zip(rows[r], rows[rank])]
+        rank += 1
+    comm_a, comm_b = _cmm(hu, hd), _cmm(hd, hu)
+    comm = [[comm_a[i][j] - comm_b[i][j] for j in range(3)] for i in range(3)]
+    return {"rank": rank, "cp": _cdet(comm).i.v != 0,
+            "masses": all(_cdet(mats[s_]).r.v != 0 or _cdet(mats[s_]).i.v != 0 for s_ in "ude")}
+
+
+def so10_symmetry_scan(n_max: int, max_fields: int) -> Dict[str, Any]:
+    """Every Z_N (N <= n_max) with up to max_fields Higgs fields (10s or 126s, distinct charges): which
+    supports occur, and do any make a relation among the 13 charged-fermion observables?"""
+    seen: Dict[Any, Dict[str, Any]] = {}
+    per_n = []
+    upper = [(i, j) for i in range(3) for j in range(i, 3)]
+    for n in range(2, n_max + 1):
+        count = 0
+        for q in itertools.product(range(n), repeat=3):
+            if q[0] != 0:
+                continue                         # one overall family shift is absorbed by the Higgs charges
+            for nf in range(1, max_fields + 1):
+                for hs in itertools.combinations(range(n), nf):
+                    sups = [frozenset(e for e in upper if (q[e[0]] + q[e[1]] + h) % n == 0) for h in hs]
+                    if any(not s_ for s_ in sups):
+                        continue
+                    union = frozenset().union(*sups)
+                    if not _structural_rank3({(i, j) for i, j in union} | {(j, i) for i, j in union}):
+                        continue
+                    for kinds in itertools.product((1, -3), repeat=nf):
+                        count += 1
+                        key = min(tuple(sorted((tuple(sorted(_permute_pattern(tuple(s_), p))), kp)
+                                               for s_, kp in zip(sups, kinds)))
+                                  for p in itertools.permutations(range(3)))
+                        seen.setdefault(key, {"N": n, "fields": nf})
+        per_n.append({"N": n, "configurations": count})
+    draw = _IntStream(int(num("closure_seed")))
+    classes = []
+    for key, info in seen.items():
+        sups = [(set(s_), kp) for s_, kp in key]
+        r = so10_flavour_rank(sups, draw)
+        union = set().union(*(s_ for s_, _ in sups))
+        classes.append({"fields": [(sorted(s_), kp) for s_, kp in sups], "N": info["N"], "rank": r["rank"],
+                        "cp": r["cp"], "masses": r["masses"], "predictions": 13 - r["rank"],
+                        "zeros": tuple(sorted(e for e in upper if e not in union))})
+    viable = [c for c in classes if c["cp"] and c["masses"]]
+    return {"per_N": per_n, "classes": classes, "viable": viable,
+            "predictive": [c for c in viable if c["predictions"] > 0]}
+
+
+# E4. The predictive classes against the data. At the left-right chain's M_GUT (where SU(4) is broken and the
+# 10 and 126 bidoublets mix, Part Y) each class must give the nine charged-fermion masses and |V_us|, |V_cb|,
+# |V_ub|, J of Part Y's left-right running, with the shared Yukawas: M_u = sum_k a_k Y_k (a_0 = 1),
+# M_d = sum_k c_k Y_k, M_e = sum_k kappa_k c_k Y_k. Every observable carries Part Y's relative tolerance
+# (yukawa_fit_mass_rel: one-loop running at M_GUT). Levenberg-Marquardt from seeded starts; the smallest chi^2
+# is converted with (predictions) degrees of freedom. A class survives if some point reaches the data.
+def so10_texture_fit(cls: Dict[str, Any], ms: Dict[str, List[float]], v_t: List[List[complex]],
+                     seed: int) -> Dict[str, Any]:
+    tol = num("yukawa_fit_mass_rel")
+    fields = [(sorted(tuple(e) for e in s_), kp) for s_, kp in cls["fields"]]
+    j_t = (v_t[0][1] * v_t[1][2] * v_t[0][2].conjugate() * v_t[1][1].conjugate()).imag
+    targets = {"V_us": abs(v_t[0][1]), "V_cb": abs(v_t[1][2]), "V_ub": abs(v_t[0][2])}
+    layout = []                                  # (kind, field, entry): one (ln|z|, arg z) pair each
+    for k, (sup, _) in enumerate(fields):
+        layout += [("Y", k, e) for e in sup]
+    layout += [("a", k, None) for k in range(1, len(fields))] + [("c", k, None) for k in range(len(fields))]
+
+    def matrices(u: List[float]) -> Dict[str, List[List[complex]]]:
+        z = {key: cmath.rect(math.exp(u[2 * n]), u[2 * n + 1]) for n, key in enumerate(layout)}
+        mats = {s_: [[complex(0) for _ in range(3)] for _ in range(3)] for s_ in "ude"}
+        for k, (sup, kp) in enumerate(fields):
+            coef = {"u": z.get(("a", k, None), 1), "d": z[("c", k, None)], "e": kp * z[("c", k, None)]}
+            for (i, j) in sup:
+                for s_ in "ude":
+                    v = coef[s_] * z[("Y", k, (i, j))]
+                    mats[s_][i][j] += v
+                    if i != j:
+                        mats[s_][j][i] += v
+        return mats
+
+    def observables(u: List[float]) -> Dict[str, Any]:
+        mats = matrices(u)
+        out: Dict[str, Any] = {}
+        vecs = {}
+        for s_ in "ude":
+            h = _mm_dag(mats[s_])
+            ev = _herm3_eigvals(h)
+            out[s_] = [math.sqrt(max(e_, 0)) for e_ in ev]
+            if s_ != "e":
+                vecs[s_] = [_herm3_eigvec(h, e_) for e_ in ev]
+        v = [[sum(vecs["u"][i][k].conjugate() * vecs["d"][j][k] for k in range(3)) for j in range(3)] for i in range(3)]
+        out.update({"V_us": abs(v[0][1]), "V_cb": abs(v[1][2]), "V_ub": abs(v[0][2]),
+                    "J": (v[0][1] * v[1][2] * v[0][2].conjugate() * v[1][1].conjugate()).imag})
+        return out
+
+    def resid(u: List[float]) -> List[float]:
+        o = observables(u)
+        r = [math.log(o[s_][i] / ms[s_][i]) / tol for s_ in "ude" for i in range(3)]
+        r += [math.log(o[k_] / targets[k_]) / tol for k_ in ("V_us", "V_cb", "V_ub")]
+        r.append((o["J"] - j_t) / (tol * abs(j_t)))
+        return r
+    rng = _UniformStream(seed)
+    lo, hi = math.log(ms["u"][0]), math.log(ms["u"][2])
+    lc_lo, lc_hi = math.log(ms["d"][0] / ms["u"][2]), math.log(ms["d"][2] / ms["u"][0])
+    starts = []
+    for _ in range(int(num("so10_texture_fit_starts"))):
+        u0: List[float] = []
+        for kind, _, _ in layout:
+            if kind == "Y":
+                u0 += [rng.uniform(lo, hi), rng.uniform(0, 2 * math.pi)]
+            elif kind == "a":
+                u0 += [rng.uniform(lc_lo, lc_hi), rng.uniform(0, 2 * math.pi)]
+            else:
+                u0 += [rng.uniform(lc_lo, 0), rng.uniform(0, 2 * math.pi)]
+        starts.append(u0)
+    iters = int(num("so10_texture_fit_iters"))
+    found = sorted(((c, u) for u, c in (_levenberg_marquardt(resid, u0, iters) for u0 in starts)),
+                   key=lambda t: t[0])
+    # iterated local search: kick the best points (every coordinate by up to one unit) and re-minimize
+    best = found[0] if found else (math.inf, None)
+    for c0, u0 in found[:int(num("so10_texture_fit_polish"))]:
+        cur = (c0, u0)
+        for _ in range(int(num("so10_texture_fit_kicks"))):
+            u, c = _levenberg_marquardt(resid, [v_ + rng.uniform(-1, 1) for v_ in cur[1]], iters)
+            if c < cur[0]:
+                cur = (c, u)
+        if cur[0] < best[0]:
+            best = cur
+    verdict = _joint_verdict(best[0], 13, 13 - cls["predictions"])
+    obs = observables(best[1]) if best[1] is not None else None
+    worst = None
+    if obs is not None:
+        r_ = resid(best[1])
+        names = [f"m_{s_}{i + 1}" for s_ in "ude" for i in range(3)] + ["V_us", "V_cb", "V_ub", "J"]
+        worst = max(zip((abs(x_) for x_ in r_), names))
+    return {"chi2": best[0], "verdict": verdict, "worst": worst, "observables": obs,
+            "parameters": 2 * len(layout)}
+
+
+def so10_gauge_structure(survivors: Sequence[Tuple[Any, Any]]) -> Dict[str, Any]:
+    """Part D: the Yukawa bilinears of the 16, and each Part C survivor counted in its Hermitian form and in
+    SO(10)'s symmetric form."""
+    seed = int(num("closure_seed"))
+    return {"bilinears": so10_yukawa_bilinears(),
+            "permutations_kept": len(list(itertools.permutations(range(3)))),
+            "survivors": [dict(survivor_in_so10(zu, zd, seed), zeros_u=zu, zeros_d=zd) for zu, zd in survivors]}
+
+
+def so10_flavour_symmetry() -> Dict[str, Any]:
+    """Part E1-E3: the Z_N scan with the minimal Higgs content (fitted in E4) and with one field more (counted)."""
+    n_max = int(num("symmetry_max_N"))
+    return {"minimal": so10_symmetry_scan(n_max, int(num("so10_flavour_max_fields"))),
+            "extra": so10_symmetry_scan(n_max, int(num("so10_flavour_extra_fields")))}
+
+
+def so10_flavour_fit(symm: Dict[str, Any], s10y: Dict[str, Any]) -> Dict[str, Any]:
+    """Part E4: every predictive minimal class against Part Y's left-right running at M_GUT."""
+    run = s10y["running"]
+    ms = run["LR"]["masses"]
+    v_t = [[complex(a_, b_) for a_, b_ in row] for row in run["LR_V_re_im"]]
+    classes = symm["minimal"]["predictive"]
+    seed = int(num("potential_seed")) + 7
+    fits = _parallel_map(lambda k_: so10_texture_fit(classes[k_], ms, v_t, seed + k_), len(classes))
+    rows = []
+    for c_, f_ in zip(classes, fits):
+        rows.append({"fields": c_["fields"], "N": c_["N"], "predictions": c_["predictions"], "zeros": c_["zeros"],
+                     "chi2": f_["chi2"], "n_sigma": f_["verdict"]["n_sigma"], "survives": f_["verdict"]["survives"],
+                     "worst": f_["worst"], "parameters": f_["parameters"]})
+    return {"rows": rows, "survivors": [r_ for r_ in rows if r_["survives"]]}
+
+
+# Helpers shared with Part F (unchanged from production v2.2).
+def _structural_rank3(pat) -> bool:
+    return any(all((i, p[i]) in pat for i in range(3)) for p in itertools.permutations(range(3)))
+
+
+def _row_components(pat) -> List[set]:
+    rows = [{a for (i, a) in pat if i == r} for r in range(3)]
+    comps: List[set] = []
+    for r in range(3):
+        merged = {r}
+        for c in [c for c in comps if any(rows[r] & rows[x] for x in c)]:
+            merged |= c
+            comps.remove(c)
+        comps.append(merged)
+    return comps
+
+
+def _three_family_mixing(pu, pd) -> bool:
+    """Can every CKM element be nonzero? Mass eigenstates live inside row components, so
+    V_ab can be nonzero only if the up and down components overlap."""
+    return all(a & b for a in _row_components(pu) for b in _row_components(pd))
+
+
+def _nonzero_full(zeros) -> set:
+    """Nonzero entries of a general (non-Hermitian) matrix with the same zero positions."""
+    z = {(i, j) for a, b in zeros for (i, j) in ((a, b), (b, a))}
+    return {(i, j) for i in range(3) for j in range(3)} - z
+
+
+def rephasing_rank(nz_u: set, nz_d: set) -> int:
+    """Rank of the phase redefinitions (Q_i shared, u^c_a, d^c_a) acting on the nonzero entries."""
+    rows = []
+    for nz, off in ((nz_u, 3), (nz_d, 6)):
+        for i, a in sorted(nz):
+            r = [Fr(0)] * 9
+            r[i] = Fr(1)
+            r[off + a] = Fr(1)
+            rows.append(r)
+    rank = 0
+    for c in range(9):
+        p = next((r for r in range(rank, len(rows)) if rows[r][c] != 0), None)
+        if p is None:
+            continue
+        rows[rank], rows[p] = rows[p], rows[rank]
+        for r in range(len(rows)):
+            if r != rank and rows[r][c] != 0:
+                f = rows[r][c] / rows[rank][c]
+                rows[r] = [x - f * yv for x, yv in zip(rows[r], rows[rank])]
+        rank += 1
+    return rank
+
+
+# =============================================================================
+# 6e. DOES ANY TEXTURE OF GENERAL MASS MATRICES PREDICT THE CKM MATRIX?
+# =============================================================================
+# Part E shows that inside 3-3-1 a symmetry can only put zeros into general
+# (non-Hermitian) mass matrices. This part asks, for EVERY zero pattern of
+# general 3x3 matrices in both sectors, how many independent combinations of its
+# parameters reach the 10 observables (6 masses, 3 angles, 1 phase). They are
+# measured by 10 weak-basis invariants of H = M M^dag:
+#     tr H_u, tr H_u^2, det H_u, the same for H_d, and tr(H_u^a H_d^b), a, b = 1, 2.
+# The rank of their Jacobian with respect to the real and imaginary parts of the
+# nonzero entries is the number of physical parameters; predictions = 10 - rank.
+# Every count below is proved, not sampled:
+#   * Lower bound. At integer points the invariants and their derivatives are
+#     integers, and the rank is found by elimination modulo a large prime. The rank
+#     mod p at one point is at most the rank over the rationals there, which is at
+#     most the generic rank. Because 10 is the largest possible rank, rank 10 at any
+#     point proves the generic rank is 10.
+#   * Upper bound. Unitary weak-basis transformations that keep every zero a zero
+#     (rephasings, and rotations of rows or columns with equal supports) leave all
+#     10 invariants unchanged, so their tangent vectors lie in the Jacobian's kernel.
+#     Rank <= 2 * (nonzero entries) - (their rank at a point, again a lower bound).
+#     Where the two bounds meet, the generic rank is certified.
+#   * CP. Im det[H_u, H_d] is proportional to J. A nonzero value at an integer point
+#     (exact Gaussian integers) proves CP violation is possible; if none is found, the
+#     polynomial is expanded symbolically, and an empty expansion proves J = 0.
+_PRIME = (1 << 61) - 1
+
+
+class _Dual:
+    """A value and its gradient, integers modulo _PRIME (forward-mode exact derivatives)."""
+    __slots__ = ("v", "g")
+
+    def __init__(self, v: int, g: List[int]):
+        self.v, self.g = v, g
+
+    def __add__(self, o: "_Dual") -> "_Dual":
+        return _Dual((self.v + o.v) % _PRIME, [(a + b) % _PRIME for a, b in zip(self.g, o.g)])
+
+    def __sub__(self, o: "_Dual") -> "_Dual":
+        return _Dual((self.v - o.v) % _PRIME, [(a - b) % _PRIME for a, b in zip(self.g, o.g)])
+
+    def __mul__(self, o: "_Dual") -> "_Dual":
+        return _Dual(self.v * o.v % _PRIME, [(self.v * b + o.v * a) % _PRIME for a, b in zip(self.g, o.g)])
+
+
+class _Cx:
+    """Complex number over any ring with + - * (here _Dual or int)."""
+    __slots__ = ("r", "i")
+
+    def __init__(self, r: Any, i: Any):
+        self.r, self.i = r, i
+
+    def __add__(self, o: "_Cx") -> "_Cx":
+        return _Cx(self.r + o.r, self.i + o.i)
+
+    def __sub__(self, o: "_Cx") -> "_Cx":
+        return _Cx(self.r - o.r, self.i - o.i)
+
+    def __mul__(self, o: "_Cx") -> "_Cx":
+        return _Cx(self.r * o.r - self.i * o.i, self.r * o.i + self.i * o.r)
+
+    def conj(self, zero: Any) -> "_Cx":
+        return _Cx(self.r, zero - self.i)
+
+
+def _cmm(a, b):
+    out = []
+    for i in range(3):
+        row = []
+        for j in range(3):
+            acc = a[i][0] * b[0][j]
+            for k in (1, 2):
+                acc = acc + a[i][k] * b[k][j]
+            row.append(acc)
+        out.append(row)
+    return out
+
+
+def _cdag(a, zero):
+    return [[a[j][i].conj(zero) for j in range(3)] for i in range(3)]
+
+
+def _cdet(a):
+    def t(p, q, r, s):
+        return p * s - q * r
+    return (a[0][0] * t(a[1][1], a[1][2], a[2][1], a[2][2]) - a[0][1] * t(a[1][0], a[1][2], a[2][0], a[2][2])
+            + a[0][2] * t(a[1][0], a[1][1], a[2][0], a[2][1]))
+
+
+class _IntStream:
+    """Deterministic integers 1..97 (a 64-bit linear congruential generator)."""
+
+    def __init__(self, seed: int):
+        self.s = seed
+
+    def __call__(self) -> int:
+        self.s = (self.s * 6364136223846793005 + 1442695040888963407) % (1 << 64)
+        return 1 + (self.s >> 40) % 97
+
+
+def invariant_rank(pu, pd, draw: _IntStream) -> int:
+    """Exact rank (mod a 61-bit prime) of the Jacobian of the 10 invariants at one integer point."""
+    ents = [("u", e) for e in sorted(pu)] + [("d", e) for e in sorted(pd)]
+    m = 2 * len(ents)
+    zero = _Dual(0, [0] * m)
+    mats = {s: [[_Cx(zero, zero) for _ in range(3)] for _ in range(3)] for s in "ud"}
+    for k, (s, (i, a)) in enumerate(ents):
+        gr, gi = [0] * m, [0] * m
+        gr[2 * k], gi[2 * k + 1] = 1, 1
+        mats[s][i][a] = _Cx(_Dual(draw(), gr), _Dual(draw(), gi))
+    hu = _cmm(mats["u"], _cdag(mats["u"], zero))
+    hd = _cmm(mats["d"], _cdag(mats["d"], zero))
+    hu2, hd2 = _cmm(hu, hu), _cmm(hd, hd)
+
+    def tr(a):
+        return a[0][0].r + a[1][1].r + a[2][2].r
+    f = [tr(hu), tr(hu2), _cdet(hu).r, tr(hd), tr(hd2), _cdet(hd).r,
+         tr(_cmm(hu, hd)), tr(_cmm(hu2, hd)), tr(_cmm(hu, hd2)), tr(_cmm(hu2, hd2))]
+    rows = [list(x.g) for x in f]
+    rank = 0
+    for c in range(m):
+        p = next((r for r in range(rank, len(rows)) if rows[r][c]), None)
+        if p is None:
+            continue
+        rows[rank], rows[p] = rows[p], rows[rank]
+        inv = pow(rows[rank][c], _PRIME - 2, _PRIME)
+        for r in range(len(rows)):
+            if r != rank and rows[r][c]:
+                fct = rows[r][c] * inv % _PRIME
+                rows[r] = [(x - fct * y) % _PRIME for x, y in zip(rows[r], rows[rank])]
+        rank += 1
+    return rank
+
+
+def cp_violation_possible(pu, pd, draw: _IntStream, tries: int) -> bool:
+    """Is Im det[H_u, H_d] nonzero at some integer point? Exact Gaussian-integer arithmetic."""
+    for _ in range(tries):
+        mats = {s: [[_Cx(draw(), draw()) if (i, a) in p else _Cx(0, 0) for a in range(3)] for i in range(3)]
+                for s, p in (("u", pu), ("d", pd))}
+        hu = _cmm(mats["u"], _cdag(mats["u"], 0))
+        hd = _cmm(mats["d"], _cdag(mats["d"], 0))
+        a, b = _cmm(hu, hd), _cmm(hd, hu)
+        comm = [[a[i][j] - b[i][j] for j in range(3)] for i in range(3)]
+        if _cdet(comm).i != 0:
+            return True
+    return False
+
+
+class _Poly:
+    """Sparse polynomial with integer coefficients: {exponent tuple: coefficient}."""
+    __slots__ = ("t",)
+
+    def __init__(self, t: Dict[Tuple[int, ...], int]):
+        self.t = t
+
+    def __add__(self, o: "_Poly") -> "_Poly":
+        t = dict(self.t)
+        for k, c in o.t.items():
+            v = t.get(k, 0) + c
+            if v:
+                t[k] = v
+            else:
+                t.pop(k, None)
+        return _Poly(t)
+
+    def __sub__(self, o: "_Poly") -> "_Poly":
+        return self + _Poly({k: -c for k, c in o.t.items()})
+
+    def __mul__(self, o: "_Poly") -> "_Poly":
+        t: Dict[Tuple[int, ...], int] = {}
+        for k1, c1 in self.t.items():
+            for k2, c2 in o.t.items():
+                k = tuple(a + b for a, b in zip(k1, k2))
+                v = t.get(k, 0) + c1 * c2
+                if v:
+                    t[k] = v
+                else:
+                    t.pop(k, None)
+        return _Poly(t)
+
+
+def cp_identically_zero(pu, pd) -> bool:
+    """Is Im det[H_u, H_d] the zero polynomial in the real and imaginary parts of the nonzero
+    entries? Exact symbolic expansion, so True is a proof that J = 0 everywhere on the pattern."""
+    ents = [("u", e) for e in sorted(pu)] + [("d", e) for e in sorted(pd)]
+    n = 2 * len(ents)
+    zero = _Poly({})
+
+    def var(k: int) -> _Poly:
+        return _Poly({tuple(1 if j == k else 0 for j in range(n)): 1})
+    mats = {s: [[_Cx(zero, zero) for _ in range(3)] for _ in range(3)] for s in "ud"}
+    for k, (s, (i, a)) in enumerate(ents):
+        mats[s][i][a] = _Cx(var(2 * k), var(2 * k + 1))
+    hu = _cmm(mats["u"], _cdag(mats["u"], zero))
+    hd = _cmm(mats["d"], _cdag(mats["d"], zero))
+    a, b = _cmm(hu, hd), _cmm(hd, hu)
+    comm = [[a[i][j] - b[i][j] for j in range(3)] for i in range(3)]
+    return not _cdet(comm).i.t
+
+
+def _stabilizer_generators(pu, pd) -> List[Tuple[str, str, int, int, int]]:
+    """Generators of the unitary weak-basis transformations that keep every zero a zero:
+    a common left rotation of rows i, j (support equal in both sectors) and a right rotation
+    of columns i, j of one sector (support equal). Each is (side, sector, i, j, kind) with
+    kind 0 the phase (i = j), 1 the real and 2 the imaginary off-diagonal generator."""
+    def rows(p, r):
+        return {a for (i, a) in p if i == r}
+
+    def cols(p, c):
+        return {i for (i, a) in p if a == c}
+    gens = []
+    for i in range(3):
+        for j in range(i, 3):
+            kinds = (0,) if i == j else (1, 2)
+            if i == j or all(rows(p, i) == rows(p, j) for p in (pu, pd)):
+                gens += [("L", "ud", i, j, k) for k in kinds]
+            for s, p in (("u", pu), ("d", pd)):
+                if i == j or cols(p, i) == cols(p, j):
+                    gens += [("R", s, i, j, k) for k in kinds]
+    return gens
+
+
+def stabilizer_rank(pu, pd, draw: _IntStream) -> int:
+    """Rank (mod _PRIME, at one integer point) of the tangent vectors of those transformations.
+    They leave all 10 invariants unchanged, so they lie in the kernel of the Jacobian, and
+    2 * (nonzero entries) - this rank is an upper bound on the generic Jacobian rank."""
+    ents = [("u", e) for e in sorted(pu)] + [("d", e) for e in sorted(pd)]
+    mats = {s: [[_Cx(0, 0) for _ in range(3)] for _ in range(3)] for s in "ud"}
+    for s, (i, a) in ents:
+        mats[s][i][a] = _Cx(draw(), draw())
+    rows = []
+    for side, secs, i, j, kind in _stabilizer_generators(pu, pd):
+        x = [[_Cx(0, 0) for _ in range(3)] for _ in range(3)]
+        if kind == 0:
+            x[i][i] = _Cx(0, 1)
+        elif kind == 1:
+            x[i][j], x[j][i] = _Cx(1, 0), _Cx(-1, 0)
+        else:
+            x[i][j], x[j][i] = _Cx(0, 1), _Cx(0, 1)
+        delta = {s: (_cmm(x, mats[s]) if side == "L" else _cmm(mats[s], x)) for s in secs}
+        vec = []
+        for s, (r, c) in ents:
+            d = delta[s][r][c] if s in delta else _Cx(0, 0)
+            vec += [d.r % _PRIME, d.i % _PRIME]
+        rows.append(vec)
+    rank = 0
+    for c in range(2 * len(ents)):
+        p = next((r for r in range(rank, len(rows)) if rows[r][c]), None)
+        if p is None:
+            continue
+        rows[rank], rows[p] = rows[p], rows[rank]
+        inv = pow(rows[rank][c], _PRIME - 2, _PRIME)
+        for r in range(len(rows)):
+            if r != rank and rows[r][c]:
+                fct = rows[r][c] * inv % _PRIME
+                rows[r] = [(x - fct * y) % _PRIME for x, y in zip(rows[r], rows[rank])]
+        rank += 1
+    return rank
+
+
+def general_texture_closure() -> Dict[str, Any]:
+    entries = [(i, a) for i in range(3) for a in range(3)]
+    perms = list(itertools.permutations(range(3)))
+    pats = [frozenset(c) for k in range(3, 10) for c in itertools.combinations(entries, k)
+            if _structural_rank3(set(c))]
+    # canonical form under (common row permutation, separate column permutations)
+    col_canon = {}
+    for p in pats:
+        for r in perms:
+            col_canon[(p, r)] = min(tuple(sorted((r[i], c[j]) for i, j in p)) for c in perms)
+    classes: Dict[Any, Tuple[Any, Any]] = {}
+    for pu in pats:
+        for pd in pats:
+            key = min((col_canon[(pu, r)], col_canon[(pd, r)]) for r in perms)
+            classes.setdefault(key, (pu, pd))
+    draw = _IntStream(int(num("closure_seed")))
+    tries = int(num("closure_points"))
+    counts = {"ordered_pairs": len(pats) ** 2, "classes": len(classes), "no_three_family_mixing": 0,
+              "no_phase": 0, "candidates": 0, "rank": {}, "rank_certified": 0, "rank_open": [],
+              "cp_impossible": 0, "predictive_with_cp": []}
+    for key in sorted(classes):
+        pu, pd = (frozenset(x) for x in key)
+        if not _three_family_mixing(pu, pd):
+            counts["no_three_family_mixing"] += 1
+            continue
+        if len(pu) + len(pd) - rephasing_rank(set(pu), set(pd)) < 1:
+            counts["no_phase"] += 1
+            continue
+        counts["candidates"] += 1
+        # lower bound: the rank found at integer points (mod p it can only be smaller)
+        rk = max(invariant_rank(pu, pd, draw) for _ in range(tries))
+        # upper bound: 10, and the parameters left after the zero-preserving transformations
+        upper = min(10, 2 * (len(pu) + len(pd)) - max(stabilizer_rank(pu, pd, draw) for _ in range(tries)))
+        counts["rank"][rk] = counts["rank"].get(rk, 0) + 1
+        if rk == upper:
+            counts["rank_certified"] += 1
+        else:
+            counts["rank_open"].append({"zeros_u": key[0], "zeros_d": key[1], "lower": rk, "upper": upper})
+        if upper < 10 or rk < 10:
+            # a nonzero integer witness proves CP violation; otherwise expand the polynomial
+            cp = cp_violation_possible(pu, pd, draw, tries) or not cp_identically_zero(pu, pd)
+            if cp:
+                counts["predictive_with_cp"].append({"zeros_u": key[0], "zeros_d": key[1], "rank": rk,
+                                                     "rank_upper": upper})
+            else:
+                counts["cp_impossible"] += 1
+    return counts
+
+
+# =============================================================================
+# 6f. PART H: WHERE QUANTUM THEORY AND GRAVITY MEET (established physics only)
+# =============================================================================
+# Everything here follows from G, hbar, c, k_B, measured masses and the Part A age,
+# except one thing, labelled where it appears: the coefficient 41/(10 pi) of the
+# one-loop quantum correction to Newton's potential, quoted from the published
+# calculation (Bjerrum-Bohr, Donoghue, Holstein 2003).
+EFT_NEWTON_COEFF_NUM, EFT_NEWTON_COEFF_DEN = 41, 10   # coefficient = 41 / (10 pi)
+
+
+def _schwarzschild(m: float, c: float, g: float, hbar: float, kb: float) -> Dict[str, float]:
+    return {
+        "mass_kg": m,
+        "r_s_m": 2 * g * m / c ** 2,
+        "T_H_K": hbar * c ** 3 / (8 * math.pi * g * m * kb),
+        "S_BH_kB": 4 * math.pi * g * m ** 2 / (hbar * c),
+        # evaporation into massless quanta, geometric-optics estimate (photons only)
+        "t_evap_s": 5120 * math.pi * g ** 2 * m ** 3 / (hbar * c ** 4),
+    }
+
+
+def _lambda_qcd_2loop(alpha_mz: float, mz: float, nf: int) -> float:
+    """Lambda_MSbar from the two-loop formula alpha_s = 4 pi/(b0 t) [1 - b1 ln t/(b0^2 t)], t = ln(mu^2/L^2)."""
+    b0, b1 = (float(v) for v in qcd_beta(nf))
+
+    def alpha(lam: float) -> float:
+        t = math.log(mz ** 2 / lam ** 2)
+        return 4 * math.pi / (b0 * t) * (1 - b1 * math.log(t) / (b0 ** 2 * t))
+    lo, hi = mz * 10 ** -6, mz / 10
+    for _ in range(300):
+        mid = math.sqrt(lo * hi)
+        if alpha(mid) < alpha_mz:
+            lo = mid
+        else:
+            hi = mid
+    return math.sqrt(lo * hi)
+
+
+def _two_qubit_entropy(amps: List[complex]) -> float:
+    """Entanglement entropy (bits) from the reduced density matrix of a two-qubit pure state."""
+    a00, a01, a10, a11 = amps
+    r00 = abs(a00) ** 2 + abs(a01) ** 2
+    r11 = abs(a10) ** 2 + abs(a11) ** 2
+    r01 = a00 * a10.conjugate() + a01 * a11.conjugate()
+    disc = math.sqrt(max(0, (r00 - r11) ** 2 + 4 * abs(r01) ** 2))
+    ent = 0.0
+    for lam in ((r00 + r11 + disc) / 2, (r00 + r11 - disc) / 2):
+        if lam > 0:
+            ent -= lam * math.log2(lam)
+    return ent
+
+
+def planck_units() -> Dict[str, float]:
+    """H1. Planck units from G, hbar, c, k_B: calculated once, here, and handed to every stage
+    that needs the Planck scale (Parts H, J, L)."""
+    x = _float_inputs()
+    c, g, kb = x["c"], x["G"], x["k_B"]
+    hbar = x["h"] / (2 * math.pi)
+    gev = x["e_charge"] * 10 ** 9                     # J per GeV
+    lp, mp_planck = math.sqrt(hbar * g / c ** 3), math.sqrt(hbar * c / g)
+    return {"l_P_m": lp, "t_P_s": lp / c, "m_P_kg": mp_planck, "E_P_GeV": mp_planck * c ** 2 / gev,
+            "T_P_K": mp_planck * c ** 2 / kb, "rho_P_kg_m3": c ** 5 / (hbar * g ** 2)}
+
+
+def quantum_gravity(cosmo: Dict[str, Any], flav: Dict[str, Any], planck: Dict[str, float]) -> Dict[str, Any]:
+    x = _float_inputs()
+    c, g, kb, alpha = x["c"], x["G"], x["k_B"], x["alpha_em"]
+    hbar = x["h"] / (2 * math.pi)
+    gev = x["e_charge"] * 10 ** 9                     # J per GeV
+    out: Dict[str, Any] = {}
+
+    # H1. Planck units (their own stage)
+    out["planck"] = dict(planck)
+    lp, mp_planck = planck["l_P_m"], planck["m_P_kg"]
+
+    # H2. Newton's potential with its one-loop quantum correction
+    #     V = -G m1 m2 / r [1 + 3 G (m1 + m2)/(r c^2) + (41/(10 pi)) G hbar/(r^2 c^3)]
+    k_q = EFT_NEWTON_COEFF_NUM / (EFT_NEWTON_COEFF_DEN * math.pi)
+    m_p = x["m_p"]
+    out["newton"] = {
+        "coefficient": k_q,
+        "quantum_rel_sun_earth": k_q * lp ** 2 / x["au"] ** 2,
+        "classical_rel_sun_earth": 3 * (x["GM_sun"] + x["GM_earth"]) / (x["au"] * c ** 2),
+        # distance where the quantum term equals the relativistic one: r = k_q hbar / (3 (m1 + m2) c)
+        "r_equal_two_protons_m": k_q * hbar / (3 * 2 * m_p * c),
+        "proton_compton_m": hbar / (m_p * c),
+        # distance where the quantum term reaches 1: the effective theory stops there
+        "r_breakdown_m": math.sqrt(k_q) * lp,
+    }
+
+    # H3. Black holes and horizons
+    m_sun = x["GM_sun"] / g
+    t0_s = float(cosmo["age_Gyr"]) * 31557600 * 10 ** 9
+    m_evap = (t0_s * hbar * c ** 4 / (5120 * math.pi * g ** 2)) ** (1 / 3)
+    h0 = float(cosmo["H0_per_s"])
+    h_l = h0 * math.sqrt(float(cosmo["Omega_Lambda"]))
+    out["black_holes"] = {"sun": _schwarzschild(m_sun, c, g, hbar, kb),
+                          "evaporating_now": _schwarzschild(m_evap, c, g, hbar, kb)}
+    out["de_sitter"] = {"H_Lambda_per_s": h_l, "T_dS_K": hbar * h_l / (2 * math.pi * kb),
+                        "S_area_law_kB": math.pi * (c / h_l) ** 2 / lp ** 2,
+                        "S_part_A_kB": float(cosmo["S_deSitter_kB"])}
+
+    # H4. Unruh effect
+    g_earth = x["GM_earth"] / x["R_earth"] ** 2
+    out["unruh"] = {"g_earth": g_earth, "T_at_g_K": hbar * g_earth / (2 * math.pi * c * kb),
+                    "a_for_1K": 2 * math.pi * c * kb / hbar}
+
+    # H5. The smallest mass gravity can ever entangle maximally. Two equal masses, each in two
+    #     places; the branch phases are G m^2 tau/(hbar r). For any geometry the entangling phase
+    #     d_phi = phi(d) + phi(d+2dx) - 2 phi(d+dx) is below G m^2 tau/(hbar d) (its limit for
+    #     dx >> d). Maximal entanglement (concurrence 1) needs d_phi = pi. The time is at most the
+    #     age of the universe (Part A), and a mass cannot be localized more tightly than its
+    #     Compton wavelength, d >= hbar/(m c). Together: G m^3 c t0 / hbar^2 >= pi, so
+    #     m >= (pi hbar^2 / (G c t0))^(1/3). No design number enters.
+    mev = x["e_charge"] * 10 ** 6
+    m_min = (math.pi * hbar ** 2 / (g * c * t0_s)) ** (1 / 3)
+    d_min = hbar / (m_min * c)
+    phase_close = g * m_min ** 2 * t0_s / (hbar * d_min)
+    # limiting geometry (dx >> d): only the closest branch pair has a phase
+    phases = {(0, 0): 0, (0, 1): 0, (1, 0): phase_close, (1, 1): 0}
+    amps = [cmath.exp(1j * phases[k]) / 2 for k in ((0, 0), (0, 1), (1, 0), (1, 1))]
+    dphi = phases[(1, 0)] + phases[(0, 1)] - phases[(0, 0)] - phases[(1, 1)]
+    conc = abs(math.sin(dphi / 2))
+    p = (1 + math.sqrt(max(0, 1 - conc ** 2))) / 2
+    ent_formula = -(p * math.log2(p) + (1 - p) * math.log2(1 - p)) if 0 < p < 1 else 0.0
+    out["entanglement"] = {"m_min_kg": m_min, "m_min_MeV": m_min * c ** 2 / mev, "d_min_m": d_min,
+                           "t0_s": t0_s, "entangling_phase_rad": dphi, "concurrence": conc,
+                           "entropy_bits": _two_qubit_entropy(amps), "entropy_formula_bits": ent_formula,
+                           "m_min_over_m_p": m_min / x["m_p"]}
+
+    # H6. Why gravity is weak for protons: the strong scale comes from logarithmic running
+    runner = flav["runner"]
+    mp_gev = mp_planck * c ** 2 / gev
+    as_planck = runner.alpha_s(mp_gev)
+    lam5 = _lambda_qcd_2loop(x["alpha_s_MZ"], x["M_Z"], 5)
+    b0_6 = float(qcd_beta(6)[0])
+    out["transmutation"] = {"alpha_s_at_M_P": as_planck, "Lambda5_GeV": lam5,
+                            "ln_MP_over_Lambda": math.log(mp_gev / lam5),
+                            "one_loop_2pi_over_b0_alpha": 2 * math.pi / (b0_6 * as_planck),
+                            "m_p_over_Lambda": m_p * c ** 2 / gev / lam5}
+
+    # H7. Dimensionless numbers (patterns; each labelled)
+    rho_crit = 3 * h0 ** 2 / (8 * math.pi * g)
+    rho_l = float(cosmo["Omega_Lambda"]) * rho_crit
+    alpha_g_p = g * m_p ** 2 / (hbar * c)
+    out["numbers"] = {
+        "alpha": alpha, "alpha_G_proton": alpha_g_p, "alpha_G_electron": g * x["m_e"] ** 2 / (hbar * c),
+        "m_p_over_m_e": m_p / x["m_e"], "m_p_over_M_P": m_p / mp_planck,
+        "hubble_radius_over_proton_compton": (c / h0) / (hbar / (m_p * c)),
+        "electric_over_gravity_p_e": alpha * hbar * c / (g * m_p * x["m_e"]),
+        "rho_Lambda_over_rho_P": rho_l / out["planck"]["rho_P_kg_m3"],
+        "S_dS_times_rho_ratio": float(cosmo["S_deSitter_kB"]) * rho_l / out["planck"]["rho_P_kg_m3"],
+        # Weinberg (1972): (hbar^2 H0 / (G c))^(1/3) is close to the pion mass
+        "weinberg_over_m_pi": (hbar ** 2 * h0 / (g * c)) ** (1 / 3) * c ** 2 / mev / x["m_pi_MeV"],
+        "m_min_entangle_over_m_pi": out["entanglement"]["m_min_MeV"] / x["m_pi_MeV"],
+    }
+    return out
+
+
+# =============================================================================
+# 6g. PART I: CAN ALPHA BE CALCULATED FROM THE OTHER NUMBERS?
+# =============================================================================
+# No accepted theory derives alpha. One established framework relates it to other
+# measured numbers: grand unification. If the three gauge couplings meet at one
+# scale, alpha(M_Z) follows from alpha_s(M_Z) and sin^2 theta_W(M_Z) alone. The
+# script runs the couplings at one and two loops (coefficients computed from the
+# field content and checked against the textbook matrices) and solves for the
+# alpha at which all three meet. It does this for the Standard Model and for its
+# minimal supersymmetric extension (MSSM). The MSSM's superpartner mass scale M_S
+# is unknown, so it is scanned over its whole range, not chosen. alpha is never
+# used: the measured value is only a comparison. Threshold corrections at M_S and
+# at the unification scale are unknown and are not included.
+def _rep_indices(field) -> Tuple[List[Fr], List[Fr]]:
+    """S_i(R) times the dimension under the other groups (summed over copies), and C2_i(R)."""
+    _, d3, d2, y, _, copies = field
+    s = [GUT_NORM * y * y * d3 * d2, dynkin_fund(d2) * d3, dynkin_fund(d3) * d2]
+    c = [GUT_NORM * y * y, casimir_fund(2, d2), casimir_fund(3, d3)]
+    return [v * copies for v in s], c
+
+
+def sm_two_loop_b() -> List[List[Fr]]:
+    """Gauge two-loop coefficients b_ij (Machacek-Vaughn, gauge part) from the SM content."""
+    ca = [Fr(0), su_n_casimirs(2)[0], su_n_casimirs(3)[0]]
+    b = [[Fr(0)] * 3 for _ in range(3)]
+    for i in range(3):
+        b[i][i] -= Fr(34, 3) * ca[i] ** 2
+    for f in SM_FIELDS:
+        s, c = _rep_indices(f)
+        for i in range(3):
+            for j in range(3):
+                if f[4] == "weyl":
+                    b[i][j] += s[i] * (2 * c[j] + (Fr(10, 3) * ca[i] if i == j else 0))
+                else:
+                    b[i][j] += s[i] * (4 * c[j] + (Fr(2, 3) * ca[i] if i == j else 0))
+    return b
+
+
+MSSM_HIGGS = (("H_u", 1, 2, Fr(1, 2), "chiral", 1), ("H_d", 1, 2, Fr(-1, 2), "chiral", 1))
+
+
+def mssm_b() -> Tuple[List[Fr], List[List[Fr]]]:
+    """One- and two-loop gauge coefficients of a supersymmetric theory from its chiral superfields:
+    b_i = -3 C_A + sum S(R);  b_ij = -6 C_A^2 delta_ij + sum S_i(R) [2 C_A delta_ij + 4 C2_j(R)]."""
+    ca = [Fr(0), su_n_casimirs(2)[0], su_n_casimirs(3)[0]]
+    chiral = [f for f in SM_FIELDS if f[4] == "weyl"] + list(MSSM_HIGGS)
+    b1 = [-3 * ca[i] for i in range(3)]
+    b2 = [[Fr(0)] * 3 for _ in range(3)]
+    for i in range(3):
+        b2[i][i] -= 6 * ca[i] ** 2
+    for f in chiral:
+        s, c = _rep_indices(f)
+        for i in range(3):
+            b1[i] += s[i]
+            for j in range(3):
+                b2[i][j] += s[i] * (4 * c[j] + (2 * ca[i] if i == j else 0))
+    return b1, b2
+
+
+def _gauge_rhs(inv: List[float], b1: List[float], b2: List[List[float]], loops: int) -> List[float]:
+    """d(1/alpha_i)/d ln mu = -b_i/(2 pi) - sum_j b_ij alpha_j / (8 pi^2)."""
+    alphas = [1 / v for v in inv]
+    out = []
+    for i in range(3):
+        d = -b1[i] / (2 * math.pi)
+        if loops == 2:
+            d -= sum(b2[i][j] * alphas[j] for j in range(3)) / (8 * math.pi ** 2)
+        out.append(d)
+    return out
+
+
+def unification_mismatch(inv_alpha_em: float, s2: float, alpha_s: float, mz: float, m_s: float,
+                         loops: int, step: float) -> Tuple[float, float, float]:
+    """Run 1/alpha_i up; where 1/alpha_1 = 1/alpha_2, return (1/alpha_3 - 1/alpha_1, M_GUT, alpha_GUT)."""
+    sm1 = [float(v) for v in sm_gauge_b()]
+    sm2 = [[float(v) for v in r] for r in sm_two_loop_b()]
+    ms1_f, ms2_f = mssm_b()
+    ms1 = [float(v) for v in ms1_f]
+    ms2 = [[float(v) for v in r] for r in ms2_f]
+    ca = [0, float(su_n_casimirs(2)[0]), float(su_n_casimirs(3)[0])]
+    inv = [float(GUT_NORM) * (1 - s2) * inv_alpha_em, s2 * inv_alpha_em, 1 / alpha_s]
+    t, t_s = math.log(mz), math.log(m_s)
+    switched = m_s <= mz
+    if switched:   # MS-bar -> DR-bar at the start
+        inv = [inv[i] - ca[i] / (12 * math.pi) for i in range(3)]
+    prev = None
+    while t < math.log(mz) + 60:
+        if not switched and t + step >= t_s:
+            h = t_s - t
+            if h > 0:
+                inv = _rk4(lambda v: _gauge_rhs(v, sm1, sm2, loops), inv, h)
+            t = t_s
+            inv = [inv[i] - ca[i] / (12 * math.pi) for i in range(3)]
+            switched = True
+            continue
+        b1, b2 = (ms1, ms2) if switched else (sm1, sm2)
+        new = _rk4(lambda v: _gauge_rhs(v, b1, b2, loops), inv, step)
+        d_old, d_new = inv[0] - inv[1], new[0] - new[1]
+        if d_old > 0 >= d_new:
+            f = d_old / (d_old - d_new)
+            cross = [a + f * (b - a) for a, b in zip(inv, new)]
+            return cross[2] - cross[0], math.exp(t + f * step), 1 / cross[0]
+        inv, t = new, t + step
+        if any(v <= 0 for v in inv):
+            break
+    return math.nan, math.nan, math.nan
+
+
+def predict_alpha(s2: float, alpha_s: float, mz: float, m_s: float, loops: int) -> Dict[str, float]:
+    """The 1/alpha(M_Z) at which all three couplings meet (secant iteration on the mismatch)."""
+    step = num("unif_step")
+    lo, hi = num("unif_bracket_lo"), num("unif_bracket_hi")
+    f_lo = unification_mismatch(lo, s2, alpha_s, mz, m_s, loops, step)[0]
+    f_hi = unification_mismatch(hi, s2, alpha_s, mz, m_s, loops, step)[0]
+    if not (f_lo * f_hi < 0):
+        return {"inv_alpha": math.nan, "M_GUT": math.nan, "alpha_GUT": math.nan}
+    root, side = lo, 0
+    for _ in range(int(num("unif_iterations"))):          # Illinois variant of regula falsi
+        mid = hi - f_hi * (hi - lo) / (f_hi - f_lo)
+        f_mid = unification_mismatch(mid, s2, alpha_s, mz, m_s, loops, step)[0]
+        if abs(mid - root) < num("unif_tol"):
+            root = mid
+            break
+        root = mid
+        if (f_mid < 0) == (f_lo < 0):
+            lo, f_lo = mid, f_mid
+            if side == -1:
+                f_hi /= 2
+            side = -1
+        else:
+            hi, f_hi = mid, f_mid
+            if side == 1:
+                f_lo /= 2
+            side = 1
+    _, m_gut, a_gut = unification_mismatch(root, s2, alpha_s, mz, m_s, loops, step)
+    return {"inv_alpha": root, "M_GUT": m_gut, "alpha_GUT": a_gut}
+
+
+def alpha_from_unification() -> Dict[str, Any]:
+    x = _float_inputs()
+    s2, s2_sig = x["s2_hat_Z"], sig("s2_hat_Z")
+    a_s, a_s_sig, mz = x["alpha_s_MZ"], sig("alpha_s_MZ"), x["M_Z"]
+    out: Dict[str, Any] = {"rows": []}
+    # scan M_S from M_Z up to the scale where pure-SM couplings, forced to unify, meet (one loop):
+    # above it there is no supersymmetric range left and every row is the SM row
+    m12 = predict_alpha(s2, a_s, mz, mz * 10 ** 30, 1)["M_GUT"]
+    n_pts = int(num("unif_grid_points"))
+    grid = [mz * (m12 / mz) ** (k / (n_pts - 1)) for k in range(n_pts)] + [math.inf]
+    out["scan_top_GeV"] = m12
+    for m_s in grid:
+        row: Dict[str, Any] = {"M_S": m_s}
+        for loops in (1, 2):
+            ms_eff = m_s if math.isfinite(m_s) else mz * 10 ** 30   # beyond M_GUT: pure SM
+            c = predict_alpha(s2, a_s, mz, ms_eff, loops)
+            if loops == 2:
+                var = 0.0
+                for name, val, sg in (("s2", s2, s2_sig), ("as", a_s, a_s_sig)):
+                    p = predict_alpha(s2 + sg if name == "s2" else s2, a_s + sg if name == "as" else a_s,
+                                      mz, ms_eff, loops)["inv_alpha"]
+                    var += (p - c["inv_alpha"]) ** 2
+                c["sigma_inputs"] = math.sqrt(var)
+            row[f"loop{loops}"] = c
+        out["rows"].append(row)
+    out["measured_inv_alpha_MZ"] = x["alpha_em_inv_MZ"]
+    out["measured_sigma"] = sig("alpha_em_inv_MZ")
+    # read backwards: the superpartner scale at which the two-loop prediction equals the measurement
+    def gap(log_ms: float, s2v: float = s2, asv: float = a_s, target: float = x["alpha_em_inv_MZ"]) -> float:
+        return predict_alpha(s2v, asv, mz, math.exp(log_ms), 2)["inv_alpha"] - target
+    lo, hi = math.log(mz), math.log(m12)
+    if gap(lo) * gap(hi) < 0:
+        for _ in range(int(num("unif_iterations"))):
+            mid = (lo + hi) / 2
+            if (gap(mid) > 0) == (gap(lo) > 0):
+                lo = mid
+            else:
+                hi = mid
+        l_ms = (lo + hi) / 2
+        h = num("unif_ms_deriv_step")
+        slope = (gap(l_ms + h) - gap(l_ms - h)) / (2 * h)            # d(1/alpha)/d ln M_S
+        d_s2 = (gap(l_ms, s2v=s2 + s2_sig) - gap(l_ms)) / slope
+        d_as = (gap(l_ms, asv=a_s + a_s_sig) - gap(l_ms)) / slope
+        sig_ln = math.hypot(d_s2, d_as)
+        at_ms = predict_alpha(s2, a_s, mz, math.exp(l_ms), 2)
+        out["M_S_for_measured_alpha"] = {"M_S_GeV": math.exp(l_ms), "ln_sigma": sig_ln,
+                                         "M_GUT_GeV": at_ms["M_GUT"], "alpha_GUT": at_ms["alpha_GUT"],
+                                         "low_GeV": math.exp(l_ms - sig_ln), "high_GeV": math.exp(l_ms + sig_ln),
+                                         "slope_per_efold": slope}
+    return out
+
+
+def predict_alpha_one_loop_exact(s2: float, alpha_s: float, mz: float, m_s: float, sm_only: bool = False) -> float:
+    """One loop in closed form: X_i = 1/alpha_i(M_Z) - b_i^SM l_s/2pi - C_A,i/12pi - b_i^MSSM L/2pi
+    equal for i = 1, 2, 3, linear in (1/alpha, L). Used to check the numerical solution."""
+    sm1 = [float(v) for v in sm_gauge_b()]
+    ms1 = sm1 if sm_only else [float(v) for v in mssm_b()[0]]
+    ca = [0, 0, 0] if sm_only else [0, float(su_n_casimirs(2)[0]), float(su_n_casimirs(3)[0])]
+    ls = 0 if sm_only else math.log(m_s / mz)
+    k = [float(GUT_NORM) * (1 - s2), s2, 0]                  # coefficient of 1/alpha in 1/alpha_i
+    const = [(1 / alpha_s if i == 2 else 0) - sm1[i] * ls / (2 * math.pi) - ca[i] / (12 * math.pi)
+             for i in range(3)]
+    lcoef = [-ms1[i] / (2 * math.pi) for i in range(3)]
+    # (k1 - k3) A + (l1 - l3) L = c3 - c1 ;  (k2 - k3) A + (l2 - l3) L = c3 - c2
+    a11, a12, r1 = k[0] - k[2], lcoef[0] - lcoef[2], const[2] - const[0]
+    a21, a22, r2 = k[1] - k[2], lcoef[1] - lcoef[2], const[2] - const[1]
+    return (r1 * a22 - r2 * a12) / (a11 * a22 - a12 * a21)
+
+
+def alpha_numerology() -> List[Dict[str, Any]]:
+    """Closed formulas proposed for 1/alpha(0), tested against CODATA. None is a derivation."""
+    a_inv = 1 / inp("alpha_em")
+    a_sig = sig("alpha_em") / inp("alpha_em") ** 2
+    pi = math.pi
+    cands = [
+        ("Eddington 1929: 136", 136),
+        ("Eddington 1931: 137", 137),
+        ("4 pi^3 + pi^2 + pi", 4 * pi ** 3 + pi ** 2 + pi),
+        ("Wyler 1969: (8 pi^4 / 9) (2^4 5! / pi^5)^(1/4)",
+         8 * pi ** 4 / 9 * (2 ** 4 * math.factorial(5) / pi ** 5) ** (1 / 4)),
+    ]
+    return [{"formula": n, "value": v, "n_sigma": abs(v - a_inv) / a_sig} for n, v in cands]
+
+
+# =============================================================================
+# 6h. PART J: CAN THE YUKAWA COUPLINGS BE CALCULATED FROM THE OTHER NUMBERS?
+# =============================================================================
+# No accepted theory gives the Yukawa couplings. Two established ideas relate them:
+#   * grand unification puts quarks and leptons in one multiplet, which fixes
+#     quark/lepton mass ratios at the unification scale by group theory
+#     (minimal SU(5): m_b = m_tau, m_s = m_mu, m_d = m_e; Georgi-Jarlskog with a
+#     45-dimensional Higgs: m_s = m_mu/3, m_d = 3 m_e);
+#   * a large top coupling at high scales is driven by running to an infrared
+#     quasi-fixed point, set by the gauge couplings (Pendleton-Ross, Hill).
+# Unknowns (the unification scale, the MSSM's tan(beta) and its superpartner
+# scale) are scanned or taken from Part I; nothing is fitted.
+PERTURBATIVE_LIMIT = math.sqrt(4 * math.pi)   # a coupling above sqrt(4 pi) is not perturbative
+
+
+def lepton_masses_gev() -> Dict[str, float]:
+    x = _float_inputs()
+    me = x["m_e"] * x["c"] ** 2 / (x["e_charge"] * 10 ** 9)
+    return {"e": me, "mu": x["m_mu_MeV"] / 1000, "tau": x["m_tau_MeV"] / 1000}
+
+
+def lepton_running_mass(pole: float, mu: float, alpha: float) -> float:
+    """One-loop QED: m(m) = M / (1 + alpha/pi), then d ln m / d ln mu = -3 alpha/(2 pi) (charge 1)."""
+    m_m = pole / (1 + alpha / math.pi)
+    return m_m * (mu / m_m) ** (-3 * alpha / (2 * math.pi))
+
+
+def _pair_gauge_coeffs(left, right) -> Tuple[float, float, float]:
+    """16 pi^2 d ln y/d ln mu contains -c_i g_i^2 with c_i = 3 [C2_i(left) + C2_i(right)] (SM)."""
+    return (float(3 * GUT_NORM * (left[3] ** 2 + right[3] ** 2)),
+            float(3 * (casimir_fund(2, left[2]) + casimir_fund(2, right[2]))),
+            float(3 * (casimir_fund(3, left[1]) + casimir_fund(3, right[1]))))
+
+
+def _susy_gauge_coeffs(fields) -> Tuple[float, float, float]:
+    """MSSM: 16 pi^2 d ln y/d ln mu contains -2 sum over the three fields of C2_i g_i^2."""
+    return (float(2 * sum(GUT_NORM * f[3] ** 2 for f in fields)),
+            float(2 * sum(casimir_fund(2, f[2]) for f in fields)),
+            float(2 * sum(casimir_fund(3, f[1]) for f in fields)))
+
+
+def _fields() -> Dict[str, Any]:
+    named = {f[0]: f for f in SM_FIELDS}
+    named.update({f[0]: f for f in MSSM_HIGGS})
+    return named
+
+
+def yukawa_rhs(model: str):
+    """Right-hand side for (g1, g2, g3, y_t, y_b, y_tau) in d/d ln mu, one loop."""
+    f = _fields()
+    k = 16 * math.pi ** 2
+    nc = float(su_n_casimirs(3)[0])
+    if model == "SM":
+        gb = [float(v) for v in sm_gauge_b()]
+        ct = _pair_gauge_coeffs(f["Q"], f["u^c"])
+        cb = _pair_gauge_coeffs(f["Q"], f["d^c"])
+        cl = _pair_gauge_coeffs(f["L"], f["e^c"])
+        split = float(YUKAWA_SPLIT)
+
+        def rhs(v: List[float], nf: int) -> List[float]:
+            g1, g2, g3, yt, yb, yl = v
+            y2 = nc * yt ** 2 + nc * yb ** 2 + yl ** 2
+            gs = (g1 ** 2, g2 ** 2, g3 ** 2)
+            return [gb[0] * g1 ** 3 / k, gb[1] * g2 ** 3 / k, gb[2] * g3 ** 3 / k,
+                    yt * (split * (yt ** 2 - yb ** 2) + y2 - sum(c * g for c, g in zip(ct, gs))) / k,
+                    yb * (split * (yb ** 2 - yt ** 2) + y2 - sum(c * g for c, g in zip(cb, gs))) / k,
+                    yl * (split * yl ** 2 + y2 - sum(c * g for c, g in zip(cl, gs))) / k]
+        return rhs
+    gb = [float(v) for v in mssm_b()[0]]
+    ct = _susy_gauge_coeffs((f["H_u"], f["Q"], f["u^c"]))
+    cb = _susy_gauge_coeffs((f["H_d"], f["Q"], f["d^c"]))
+    cl = _susy_gauge_coeffs((f["H_d"], f["L"], f["e^c"]))
+    # anomalous dimensions: a superpotential term with N invariant terms gives each field
+    # (N / its number of components) x y^2
+    dims = {"H_u": 2, "H_d": 2, "Q": 6, "u^c": 3, "d^c": 3, "L": 2, "e^c": 1}
+    terms = {"t": ("H_u", "Q", "u^c", 6), "b": ("H_d", "Q", "d^c", 6), "l": ("H_d", "L", "e^c", 2)}
+
+    def rhs(v: List[float], nf: int) -> List[float]:
+        g1, g2, g3, yt, yb, yl = v
+        y = {"t": yt, "b": yb, "l": yl}
+        gam = {name: 0.0 for name in dims}
+        for key, (a, b, c, n) in terms.items():
+            for fld in (a, b, c):
+                gam[fld] += n / dims[fld] * y[key] ** 2
+        gs = (g1 ** 2, g2 ** 2, g3 ** 2)
+        out = [gb[0] * g1 ** 3 / k, gb[1] * g2 ** 3 / k, gb[2] * g3 ** 3 / k]
+        for key, cc in (("t", ct), ("b", cb), ("l", cl)):
+            a, b, c, _ = terms[key]
+            out.append(y[key] * (gam[a] + gam[b] + gam[c] - sum(ci * g for ci, g in zip(cc, gs))) / k)
+        return out
+    return rhs
+
+
+def couplings_at_mt(flav: Dict[str, Any]) -> Tuple[float, List[float]]:
+    """(m_t(m_t), [g1, g2, g3, y_t, y_b, y_tau]) at mu = m_t(m_t), from the flavour stage's running."""
+    mt, _, _, st = sm_state_at_mt(runner=flav["runner"])
+    return mt, st
+
+
+def run_to(state: List[float], mu0: float, mu1: float, model: str) -> List[float]:
+    return integrate_ln_mu(state, mu0, mu1, yukawa_rhs(model), [], int(num("rg_steps_per_efold")))
+
+
+def unification_point(state: List[float], mu0: float, model: str,
+                       mu_stop: float | None = None) -> Tuple[float, List[float]]:
+    """Run up until g1 = g2 (or until mu_stop, if given); NaN scale if a coupling leaves
+    perturbation theory first."""
+    rhs = yukawa_rhs(model)
+    h = num("unif_step")
+    t, v = math.log(mu0), list(state)
+    while t < math.log(mu0) + 60:
+        if mu_stop is not None and t + h >= math.log(mu_stop):
+            new = _rk4(lambda s: rhs(s, 6), v, math.log(mu_stop) - t)
+            if any(abs(c) > PERTURBATIVE_LIMIT for c in new):
+                return math.nan, new
+            return mu_stop, new
+        new = _rk4(lambda s: rhs(s, 6), v, h)
+        if mu_stop is None and v[0] < v[1] and new[0] >= new[1]:
+            f = (v[1] - v[0]) / ((v[1] - v[0]) - (new[1] - new[0]))
+            return math.exp(t + f * h), [a + f * (b - a) for a, b in zip(v, new)]
+        if any(abs(c) > PERTURBATIVE_LIMIT for c in new):
+            return math.nan, new
+        v, t = new, t + h
+    return math.nan, v
+
+
+def yukawa_relations(flav: Dict[str, Any], m_s_susy: float | None, m_gut: float | None,
+                     m_planck_gev: float) -> Dict[str, Any]:
+    """m_s_susy and m_gut come from Part I (two-loop unification at the measured alpha)."""
+    x = _float_inputs()
+    out: Dict[str, Any] = {}
+    mt, st = couplings_at_mt(flav)
+    lep = lepton_masses_gev()
+    a0 = inp("alpha_em")
+    # J1. ratios (same-type ratios do not run with QCD; gauge and Yukawa terms cancel within a type)
+    r_q = 1 / flav["ratios"][mt]["r_ds"]                                    # m_s/m_d
+    r_l = lepton_running_mass(lep["mu"], mt, a0) / lepton_running_mass(lep["e"], mt, a0)
+    sig_q = r_q * math.hypot(sig("m_s") / inp("m_s"), sig("m_d") / inp("m_d"))
+    out["ratios"] = {"ms_over_md": r_q, "ms_over_md_sigma": sig_q, "mmu_over_me_at_mt": r_l,
+                     "SU5": {"predicted": r_l, "n_sigma": abs(r_l - r_q) / sig_q},
+                     "GJ": {"predicted": r_l / 9, "n_sigma": abs(r_l / 9 - r_q) / sig_q}}
+    # J2. b-tau unification
+    # the SM has no unification point: report where g1 = g2 and at M_Planck
+    mu12, s12 = unification_point(st, mt, "SM")
+    s_pl = run_to(st, mt, m_planck_gev, "SM")
+    out["btau_SM"] = [{"mu": mu12, "where": "SM g1 = g2", "yb_over_ytau": s12[4] / s12[5]},
+                      {"mu": m_planck_gev, "where": "M_Planck", "yb_over_ytau": s_pl[4] / s_pl[5]}]
+    mssm = []
+    if m_s_susy:
+        s_ms = run_to(st, mt, m_s_susy, "SM")
+        # tan(beta) range: y_t/sin(beta) and y_b/cos(beta) at M_S must stay below sqrt(4 pi)
+        sb_min = s_ms[3] / PERTURBATIVE_LIMIT
+        cb_min = s_ms[4] / PERTURBATIVE_LIMIT
+        tb_lo = sb_min / math.sqrt(1 - sb_min ** 2)
+        tb_hi = math.sqrt(1 - cb_min ** 2) / cb_min
+        n_tb = int(num("yukawa_tan_beta_points"))
+        out["tan_beta_range"] = (tb_lo, tb_hi)
+        for k in range(n_tb):
+            tb = tb_lo * (tb_hi / tb_lo) ** (k / (n_tb - 1))
+            sb, cb = tb / math.sqrt(1 + tb * tb), 1 / math.sqrt(1 + tb * tb)
+            s0 = [s_ms[0], s_ms[1], s_ms[2], s_ms[3] / sb, s_ms[4] / cb, s_ms[5] / cb]
+            mg, sg = unification_point(s0, m_s_susy, "MSSM", m_gut)
+            mssm.append({"tan_beta": tb, "M_GUT": mg,
+                         "yb_over_ytau": sg[4] / sg[5] if math.isfinite(mg) else math.nan,
+                         "yt_GUT": sg[3], "yb_GUT": sg[4]})
+    out["btau_MSSM"] = mssm
+    out["M_S"] = m_s_susy
+    out["M_GUT"] = m_gut
+    if m_s_susy:
+        # where does y_b/y_tau reach 1 at low tan(beta)? (bisection between the last
+        # non-perturbative point and the first perturbative one)
+        def ratio_at(tb: float) -> Tuple[float, float]:
+            sb, cb = tb / math.sqrt(1 + tb * tb), 1 / math.sqrt(1 + tb * tb)
+            s0 = [s_ms[0], s_ms[1], s_ms[2], s_ms[3] / sb, s_ms[4] / cb, s_ms[5] / cb]
+            mg, sg = unification_point(s0, m_s_susy, "MSSM", m_gut)
+            return (sg[4] / sg[5] if math.isfinite(mg) else math.inf), sg[3]
+        ok = [r for r in mssm if math.isfinite(r["M_GUT"])]
+        first_ok = min((q["tan_beta"] for q in ok), default=math.inf)
+        bad = [r for r in mssm if not math.isfinite(r["M_GUT"]) and r["tan_beta"] < first_ok]
+        if ok and bad:
+            lo, hi = max(r["tan_beta"] for r in bad), min(r["tan_beta"] for r in ok)
+            if ratio_at(hi)[0] < 1:
+                for _ in range(int(num("unif_iterations"))):
+                    mid = (lo + hi) / 2
+                    if ratio_at(mid)[0] >= 1:
+                        lo = mid
+                    else:
+                        hi = mid
+                r1, yt1 = ratio_at(hi)
+                out["btau_MSSM_unity"] = {"tan_beta": (lo + hi) / 2, "yt_GUT": yt1, "ratio": r1,
+                                          "tan_beta_nonperturbative_below": lo}
+    # J3. top quasi-fixed point: start large at the unification scale, run down
+    # a "large" top coupling: half the perturbative limit and the limit itself
+    starts = (PERTURBATIVE_LIMIT / 2, PERTURBATIVE_LIMIT)
+    fp = []
+    mu_top = m_planck_gev
+    s_up = run_to(st, mt, mu_top, "SM")
+    for y0 in starts:
+        s = list(s_up)
+        s[3] = float(y0)
+        down = run_to(s, mu_top, mt, "SM")
+        fp.append({"yt_start": float(y0), "yt_mt": down[3], "mt_msbar": down[3] * flav["runner"].v / math.sqrt(2)})
+    out["fixed_point_SM"] = {"scale": mu_top, "runs": fp, "measured_yt_mt": st[3], "measured_mt_msbar": mt}
+    # MSSM quasi-fixed point: large y_t at M_GUT, MSSM running to M_S, y_t(SM) = y_t(MSSM) sin(beta),
+    # SM running to m_t; solve for the sin(beta) that gives the measured top coupling
+    if m_s_susy:
+        s_ms = run_to(st, mt, m_s_susy, "SM")
+        mg, s_g = unification_point([s_ms[0], s_ms[1], s_ms[2], s_ms[3], 0, 0], m_s_susy, "MSSM", m_gut)
+        rows = []
+        for y0 in starts:
+            down = run_to([s_g[0], s_g[1], s_g[2], float(y0), 0, 0], mg, m_s_susy, "MSSM")
+
+            def yt_mt(sb: float) -> float:
+                return run_to([down[0], down[1], down[2], down[3] * sb, 0, 0], m_s_susy, mt, "SM")[3]
+            lo, hi = 0, 1
+            for _ in range(int(num("unif_iterations"))):
+                mid = (lo + hi) / 2
+                if yt_mt(mid) < st[3]:
+                    lo = mid
+                else:
+                    hi = mid
+            sb = (lo + hi) / 2
+            rows.append({"yt_start": float(y0), "yt_MSSM_at_MS": down[3], "sin_beta": sb,
+                         "tan_beta": sb / math.sqrt(1 - sb * sb)})
+        out["fixed_point_MSSM"] = {"M_GUT": mg, "runs": rows}
+    return out
+
+
+# =============================================================================
+# 6b. PART K: THE HIGGS MASS IN THE MSSM, FROM THE SCALES OF PARTS I AND J
+# =============================================================================
+# Effective theory: the MSSM above M_S, the SM below. Convention V = (lambda/2) (H^dag H)^2,
+# so m_h^2 = lambda v^2 at tree level.
+def sm_higgs_rhs():
+    """(g1, g2, g3, y_t, y_b, y_tau, lambda) in d/d ln mu, one loop (lambda adds nothing to
+    the others at one loop). 16 pi^2 beta_lambda = 12 lambda^2 - 3 lambda (3 g^2 + g'^2)
+    + 12 lambda y_t^2 - 12 y_t^4 + (3/4) [2 g^4 + (g^2 + g'^2)^2]."""
+    base = yukawa_rhs("SM")
+    gn = float(GUT_NORM)
+    k = 16 * math.pi ** 2
+
+    def rhs(v: List[float], nf: int) -> List[float]:
+        out = base(v[:6], nf)
+        g1, g2, _, yt, _, _, lam = v
+        gp2, g22 = gn * g1 ** 2, g2 ** 2
+        out.append((12 * lam ** 2 - 3 * lam * (3 * g22 + gp2) + 12 * lam * yt ** 2 - 12 * yt ** 4
+                    + 3 * (2 * g22 ** 2 + (g22 + gp2) ** 2) / 4) / k)
+        return out
+    return rhs
+
+
+def stop_threshold(xt: float) -> float:
+    """One-loop stop threshold to lambda at M_S, in units of 3 y_t^4/(8 pi^2):
+    X^2 (1 - X^2/12), X = X_t/M_S. Its maximum over every mixing is 3, at X^2 = 6."""
+    return xt ** 2 * (1 - xt ** 2 / 12)
+
+
+def mssm_lambda_at_ms(state_ms: List[float], tan_beta: float, xt: float) -> float:
+    """Matching at M_S: lambda = (g^2 + g'^2)/4 cos^2(2 beta) + stop threshold."""
+    g1, g2, _, yt = state_ms[:4]
+    c2b = (1 - tan_beta ** 2) / (1 + tan_beta ** 2)
+    tree = (g2 ** 2 + float(GUT_NORM) * g1 ** 2) / 4 * c2b ** 2
+    return tree + 3 * yt ** 4 / (8 * math.pi ** 2) * stop_threshold(xt)
+
+
+def mssm_higgs_mass(flav: Dict[str, Any], m_s: float, tan_beta: float, xt: float,
+                    steps: int | None = None) -> float:
+    mt, st = couplings_at_mt(flav)
+    steps = steps or int(num("rg_steps_per_efold"))
+    s_ms = integrate_ln_mu(st, mt, m_s, yukawa_rhs("SM"), [], steps)
+    lam_ms = mssm_lambda_at_ms(s_ms, tan_beta, xt)
+    down = integrate_ln_mu(s_ms + [lam_ms], m_s, mt, sm_higgs_rhs(), [], steps)
+    return math.sqrt(down[6]) * flav["runner"].v if down[6] > 0 else math.nan
+
+
+def ms_for_higgs_mass(flav: Dict[str, Any], tan_beta: float, target: float) -> float:
+    """Read backwards: the M_S at which the largest MSSM Higgs mass (maximal mixing) equals target."""
+    mt = flav["runner"].mt_msbar
+    x6 = math.sqrt(6)
+    lo, hi = math.log(mt), math.log(mt) + int(num("higgs_ms_search_efolds"))
+    if (mssm_higgs_mass(flav, math.exp(hi), tan_beta, x6) - target) < 0:
+        return math.nan
+    for _ in range(int(num("higgs_iterations"))):
+        mid = (lo + hi) / 2
+        if mssm_higgs_mass(flav, math.exp(mid), tan_beta, x6) < target:
+            lo = mid
+        else:
+            hi = mid
+    return math.exp((lo + hi) / 2)
+
+
+def higgs_mass_mssm(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yuk: Dict[str, Any]) -> Dict[str, Any]:
+    """M_S (with its range) from Part I, tan(beta) from Part J's two determinations; the stop
+    mixing X_t is unknown and scanned over all values: the threshold is largest at X_t^2 = 6 M_S^2,
+    so that value gives an upper bound on m_h that holds for every mixing."""
+    ms = alpha_unif.get("M_S_for_measured_alpha")
+    if not ms or not yuk.get("btau_MSSM_unity") or not yuk.get("fixed_point_MSSM"):
+        return {}
+    tbs = [yuk["btau_MSSM_unity"]["tan_beta"]] + [r["tan_beta"] for r in yuk["fixed_point_MSSM"]["runs"]]
+    x6 = math.sqrt(6)
+    rows = []
+    for label, m_s in (("low", ms["low_GeV"]), ("central", ms["M_S_GeV"]), ("high", ms["high_GeV"])):
+        for tb in (min(tbs), max(tbs)):
+            rows.append({"M_S_label": label, "M_S": m_s, "tan_beta": tb,
+                         "mh_no_mixing": mssm_higgs_mass(flav, m_s, tb, 0),
+                         "mh_max_mixing": mssm_higgs_mass(flav, m_s, tb, x6)})
+    # dependence on X_t at the central point (the bound is the maximum of this curve)
+    n_x = int(num("higgs_xt_points"))
+    xt_max = math.sqrt(12)                    # beyond this the threshold is negative
+    curve = [(xt_max * i / (n_x - 1), mssm_higgs_mass(flav, ms["M_S_GeV"], max(tbs), xt_max * i / (n_x - 1)))
+             for i in range(n_x)]
+    bound = max(r["mh_max_mixing"] for r in rows)
+    return {"tan_betas": tbs, "rows": rows, "xt_curve": curve, "mh_upper_bound": bound,
+            "M_S": ms["M_S_GeV"], "M_S_range": (ms["low_GeV"], ms["high_GeV"])}
+
+
+# =============================================================================
+# 6c. PART L: STANDARD MODEL CRITICALITY AT THE PLANCK SCALE (two-loop running)
+# =============================================================================
+# Convention of Buttazzo et al. 2013 (arXiv:1307.3536): V = lambda (|H|^2 - v^2/2)^2,
+# m_h^2 = 2 lambda v^2 at tree level. Quoted two-loop coefficients (their appendix B,
+# top Yukawa only at two loops; y_b and y_tau enter at one loop), in GUT normalization
+# and d/d ln(mu^2), so each term below is (4 pi)^-4 x [coefficient]:
+GAUGE_2L_YT = (Fr(17, 10), Fr(3, 2), Fr(2))             # -d_i y_t^2 in g_i^3 [...]
+# top Yukawa: y_t [y_t^2 (c0 y_t^2 + c1 lambda + c2 g3^2 + c3 g2^2 + c4 g1^2) + c5 lambda^2
+#                  + c6 g3^4 + c7 g2^4 + c8 g1^4 + c9 g3^2 g2^2 + c10 g3^2 g1^2 + c11 g2^2 g1^2]
+YT_2L = (Fr(-12), Fr(-12), Fr(36), Fr(225, 16), Fr(393, 80), Fr(6), Fr(-108), Fr(-23, 4),
+         Fr(1187, 600), Fr(9), Fr(19, 15), Fr(-9, 20))
+# Higgs quartic, as (coefficient, powers of lambda, y_t^2, g3^2, g2^2, g1^2)
+LAMBDA_2L = ((Fr(-156), 3, 0, 0, 0, 0), (Fr(-72), 2, 1, 0, 0, 0), (Fr(54), 2, 0, 0, 1, 0),
+             (Fr(54, 5), 2, 0, 0, 0, 1), (Fr(-3, 2), 1, 2, 0, 0, 0), (Fr(40), 1, 1, 1, 0, 0),
+             (Fr(45, 4), 1, 1, 0, 1, 0), (Fr(17, 4), 1, 1, 0, 0, 1), (Fr(-73, 16), 1, 0, 0, 2, 0),
+             (Fr(1887, 400), 1, 0, 0, 0, 2), (Fr(117, 40), 1, 0, 0, 1, 1), (Fr(15), 0, 3, 0, 0, 0),
+             (Fr(-16), 0, 2, 1, 0, 0), (Fr(-4, 5), 0, 2, 0, 0, 1), (Fr(-9, 8), 0, 1, 0, 2, 0),
+             (Fr(-171, 200), 0, 1, 0, 0, 2), (Fr(63, 20), 0, 1, 0, 1, 1), (Fr(305, 32), 0, 0, 0, 3, 0),
+             (Fr(-3411, 4000), 0, 0, 0, 0, 3), (Fr(-289, 160), 0, 0, 0, 2, 1), (Fr(-1677, 800), 0, 0, 0, 1, 2))
+
+
+def sm_rge(loops: int):
+    """(g1, g2, g3, y_t, y_b, y_tau, lambda) in d/d ln mu. One loop from the field content
+    (Part J's Yukawa equations; lambda in this Part's convention), two loops from the
+    quoted coefficients above plus the gauge b_ij from the field content, three loops (and
+    the four-loop pure QCD term of g3) from LITERATURE["sm_beta_3loop"]."""
+    base = yukawa_rhs("SM")
+    gn = float(GUT_NORM)
+    k = 16 * math.pi ** 2
+    b2 = [[float(c) for c in row] for row in sm_two_loop_b()]
+    dt = [float(c) for c in GAUGE_2L_YT]
+    c = [float(v) for v in YT_2L]
+    l2 = [(float(a), p) for a, *p in LAMBDA_2L]
+    b3 = {key: [(lit_num(a), p) for a, *p in terms[1]] for key, terms in LITERATURE["sm_beta_3loop"]["value"].items()}
+    g3_4 = lit_num(LITERATURE["g3_beta_4loop"]["value"])
+
+    def rhs(v: List[float], nf: int) -> List[float]:
+        g1, g2, g3, yt, _, _, lam = v
+        out = base(v[:6], nf)
+        a1, a2, a3, y2 = g1 ** 2, g2 ** 2, g3 ** 2, yt ** 2
+        gp2 = gn * a1
+        dl = (24 * lam ** 2 - 3 * lam * (3 * a2 + gp2) + 12 * lam * y2 - 6 * y2 ** 2
+              + 3 * (2 * a2 ** 2 + (a2 + gp2) ** 2) / 8) / k
+        if loops >= 2:
+            for i, g in enumerate((g1, g2, g3)):
+                out[i] += g ** 3 * (sum(b2[i][j] * a for j, a in enumerate((a1, a2, a3))) - dt[i] * y2) / k ** 2
+            out[3] += yt * (y2 * (c[0] * y2 + c[1] * lam + c[2] * a3 + c[3] * a2 + c[4] * a1) + c[5] * lam ** 2
+                            + c[6] * a3 ** 2 + c[7] * a2 ** 2 + c[8] * a1 ** 2 + c[9] * a3 * a2
+                            + c[10] * a3 * a1 + c[11] * a2 * a1) / k ** 2
+            # the quoted lambda coefficients are for d/d ln(mu^2): times 2 for d/d ln mu
+            dl += 2 * sum(a * lam ** p[0] * y2 ** p[1] * a3 ** p[2] * a2 ** p[3] * a1 ** p[4]
+                          for a, p in l2) / k ** 2
+        if loops >= 3:
+            pw = [[1.0, x, x * x, x ** 3, x ** 4] for x in (lam, y2, a3, a2, a1)]
+            pl_, py_, p3_, p2_, p1_ = pw
+
+            def bracket(key: str) -> float:
+                return sum(a * pl_[p[0]] * py_[p[1]] * p3_[p[2]] * p2_[p[3]] * p1_[p[4]] for a, p in b3[key])
+            # d g/d ln mu = (1/g) d g^2/d ln(mu^2), and the prefactor is g^4: g^3 [...]
+            out[0] += g1 ** 3 * bracket("g1") / k ** 3
+            out[1] += g2 ** 3 * bracket("g2") / k ** 3
+            out[2] += g3 ** 3 * (bracket("g3") / k ** 3 + g3_4 * a3 ** 3 / k ** 4)
+            out[3] += yt * bracket("yt") / k ** 3
+            dl += 2 * bracket("lam") / k ** 3
+        out.append(dl)
+        return out
+    return rhs
+
+
+def sm_state_at_mt(overrides: Dict[str, float] | None = None, runner: "FlavourRunner | None" = None,
+                   qcd_loops: int = 4) -> Tuple[float, float, float, List[float]]:
+    """(m_t(m_t), v, M_t/m_t(m_t), [g1, g2, g3, y_t, y_b, y_tau]) at m_t(m_t), from the inputs
+    (with optional changes, for propagating their errors). The one derivation of these
+    couplings: pass a runner to reuse running that is already done."""
+    if runner is None:
+        runner = FlavourRunner(_float_inputs(overrides), int(num("rg_steps_per_efold")), qcd_loops)
+    x = runner.x
+    mt = runner.mt_msbar
+    base = runner.ratios_at([mt])[mt]
+    a_em, s2 = 1 / x["alpha_em_inv_MZ"], x["s2_hat_Z"]
+    sm1 = [float(b) for b in sm_gauge_b()]
+    k = 16 * math.pi ** 2
+    lt = math.log(mt / x["M_Z"])
+    g1 = math.sqrt(1 / (float(GUT_NORM) / (4 * math.pi * a_em / (1 - s2)) - 2 * sm1[0] / k * lt))
+    g2 = math.sqrt(1 / (s2 / (4 * math.pi * a_em) - 2 * sm1[1] / k * lt))
+    g3 = math.sqrt(4 * math.pi * base["alpha_s"])
+    m_tau = lepton_running_mass(lepton_masses_gev()["tau"], mt, inp("alpha_em"))
+    rt2 = math.sqrt(2)
+    return mt, runner.v, x["M_t"] / mt, [g1, g2, g3, rt2 * mt / runner.v, rt2 * base["m_b"] / runner.v,
+                                         rt2 * m_tau / runner.v]
+
+
+def run_sm(state: List[float], mu0: float, mu1: float, loops: int, steps: int | None = None) -> List[float]:
+    return integrate_ln_mu(state, mu0, mu1, sm_rge(loops), [], steps or int(num("rg_steps_per_efold")))
+
+
+def _bracketed_root(f: Callable[[float], float], a: float, b: float, tol: float, iters: int) -> float:
+    """Root of f in [a, b] with f(a), f(b) of opposite sign (Illinois false position)."""
+    fa, fb = f(a), f(b)
+    side = 0
+    for _ in range(iters):
+        c = b - fb * (b - a) / (fb - fa)
+        fc = f(c)
+        if abs(c - b) < tol * abs(c) or fc == 0:
+            return c
+        if (fc > 0) == (fb > 0):
+            b, fb = c, fc
+            if side == -1:
+                fa /= 2
+            side = -1
+        else:
+            a, fa = c, fc
+            if side == 1:
+                fb /= 2
+            side = 1
+    return c
+
+
+def _lambda_at(state: List[float], lam0: float, mu0: float, mu1: float, loops: int,
+               steps: int | None = None) -> float:
+    """lambda(mu1); +inf if it runs into a Landau pole on the way."""
+    try:
+        out = run_sm(state + [lam0], mu0, mu1, loops, steps)[6]
+    except OverflowError:
+        return math.inf
+    return out if math.isfinite(out) else math.inf
+
+
+def critical_lambda(state: List[float], mt: float, mu: float, loops: int, steps: int | None = None,
+                    guess: float | None = None) -> float:
+    """The lambda(m_t) for which lambda(mu) = 0. Bracket: lambda = 0 (it runs negative) and the
+    smallest of y_t^2 / 2^n, n = 1, 2, ..., above which lambda(mu) is positive; or, from a guess,
+    guess (1 -+ crit_yt_step 2^n) until the sign changes."""
+    steps = steps or int(num("crit_steps_per_efold"))
+
+    def f(lam0: float) -> float:
+        return _lambda_at(state, lam0, mt, mu, loops, steps)
+    if guess:
+        d = num("crit_yt_step")
+        lo, hi = guess * (1 - d), guess * (1 + d)
+        flo, fhi = f(lo), f(hi)
+        while flo > 0 or fhi < 0:
+            d *= 2
+            if flo > 0:
+                lo = guess * max(1 - d, 0)
+                flo = f(lo)
+            if fhi < 0:
+                hi = guess * (1 + d)
+                fhi = f(hi)
+        return _bracketed_root(f, lo, hi, num("crit_tol"), int(num("crit_iterations")))
+    lo, hi = 0, state[3] ** 2
+    while f(hi / 2) > 0:
+        hi /= 2
+    def capped(lam0: float) -> float:
+        return min(f(lam0), 1)                 # a Landau pole counts as "positive", finitely
+    return _bracketed_root(capped, lo, hi, num("crit_tol"), int(num("crit_iterations")))
+
+
+# --- one-loop matching of lambda and y_t to the pole masses (Buttazzo et al. 2013, appendix A,
+# eqs. (89), (90), (93); M_b = M_tau = 0). Self-check: their mu dependence is the one-loop RGE.
+def pv_a0(m2: float, mu2: float) -> float:
+    """Finite part of A0: M^2 (1 - ln(M^2/mu^2))."""
+    return 0 if m2 == 0 else m2 * (1 - math.log(m2 / mu2))
+
+
+def _int_ln_abs(r: float) -> float:
+    """int_0^1 ln|x - r| dx."""
+    def f(t: float) -> float:
+        return 0 if t == 0 else t * math.log(abs(t))
+    return f(1 - r) + f(r) - 1
+
+
+def pv_b0(p2: float, m12: float, m22: float, mu2: float) -> float:
+    """Real part of the finite B0(p; M1, M2) = -int_0^1 ln[(x M1^2 + (1-x) M2^2 - x(1-x) p^2)/mu^2] dx,
+    in closed form: the argument is the quadratic p^2 x^2 + (M1^2 - M2^2 - p^2) x + M2^2."""
+    a, b, c = p2, m12 - m22 - p2, m22
+    if a == 0:
+        val = math.log(abs(c)) if b == 0 else math.log(abs(b)) + _int_ln_abs(-c / b)
+    else:
+        d = b * b - 4 * a * c
+        if d >= 0:
+            sq = math.sqrt(d)
+            val = math.log(abs(a)) + _int_ln_abs((-b + sq) / (2 * a)) + _int_ln_abs((-b - sq) / (2 * a))
+        else:
+            u, w = -b / (2 * a), math.sqrt(-d) / (2 * a)
+
+            def F(x: float) -> float:
+                return (x - u) * math.log((x - u) ** 2 + w * w) - 2 * (x - u) + 2 * w * math.atan((x - u) / w)
+            val = math.log(abs(a)) + F(1) - F(0)
+    return math.log(mu2) - val
+
+
+def lambda_one_loop(mh: float, mt: float, mw: float, mz: float, v: float, mu: float) -> float:
+    """lambda^(1)(mu): lambda(mu) = M_h^2/(2 V^2) + this, V = (sqrt2 G_F)^(-1/2)."""
+    h, t, w, z, m = mh * mh, mt * mt, mw * mw, mz * mz, mu * mu
+
+    def A(x: float) -> float:
+        return pv_a0(x, m)
+
+    def B(p: float, x: float, y: float) -> float:
+        return pv_b0(p, x, y, m)
+    s = (3 * t * (h - 4 * t) * B(h, t, t) + 3 * h * A(t)
+         + (h * h - 4 * h * z + 12 * z * z) / 4 * B(h, z, z) + h * (7 * w - 4 * z) / (2 * (z - w)) * A(z)
+         + (h * h - 4 * h * w + 12 * w * w) / 2 * B(h, w, w) - 3 * h * w / (2 * (h - w)) * A(h)
+         + h / 2 * (-11 + 3 * h / (h - w) - 3 * w / (z - w)) * A(w)
+         + 9 * h * h / 4 * B(h, h, h) + (h * h + h * (z + 2 * w - 6 * t) - 8 * (z * z + 2 * w * w)) / 4)
+    return s / (16 * math.pi ** 2 * v ** 4)
+
+
+def yt_ew_one_loop(mh: float, mt: float, mw: float, mz: float, v: float, mu: float) -> float:
+    """Electroweak part of y_t^(1)(mu) (eq. 93 without its g3^2 term; QCD is in the m_t conversion)."""
+    h, t, w, z, m = mh * mh, mt * mt, mw * mw, mz * mz, mu * mu
+
+    def A(x: float) -> float:
+        return pv_a0(x, m)
+
+    def B(p: float, x: float, y: float) -> float:
+        return pv_b0(p, x, y, m)
+    s = (-(h - 4 * t) * B(t, h, t)
+         + (t * (80 * w * z - 64 * w * w - 7 * z * z) + 40 * w * z * z - 32 * w * w * z - 17 * z ** 3)
+         / (9 * t * z) * B(t, t, z)
+         + (t * w + t * t - 2 * w * w) / t * B(t, 0, w)
+         + (3 * h / (h - w) + 2 * w / t + 3 * w / (w - z) - 10) * A(w) + (3 * w / (w - h) + 1) * A(h)
+         + (36 * t * z - 56 * w * z + 64 * w * w - 17 * z * z) / (9 * t * z) * A(t)
+         + (3 * w / (z - w) + (32 * w * w - 40 * w * z + 17 * z * z) / (9 * t * z) - 3) * A(z)
+         + h / 2 - 3 * t - 9 * w + 7 * z / 18 + 64 * w * w / (9 * z))
+    return mt / (math.sqrt(2) * v ** 3 * 16 * math.pi ** 2) * s
+
+
+def higgs_mass_from_lambda(lam: float, mt: float, mw: float, mz: float, v: float, mu: float,
+                           matched: bool, extra: Callable[[float], float] | None = None) -> float:
+    """Invert lambda(mu) = M_h^2/(2V^2) [+ lambda^(1) [+ extra(M_h), the two-loop part]] for M_h."""
+    tree = math.sqrt(2 * lam) * v
+    if not matched:
+        return tree
+
+    def f(mh: float) -> float:
+        return (mh * mh / (2 * v * v) + lambda_one_loop(mh, mt, mw, mz, v, mu)
+                + (extra(mh) if extra else 0) - lam)
+    lo, hi = tree, tree
+    step = num("crit_yt_step")
+    while f(lo) > 0:
+        lo *= 1 - step
+    while f(hi) < 0:
+        hi *= 1 + step
+    return _bracketed_root(f, lo, hi, num("crit_tol"), int(num("crit_iterations")))
+
+
+def matched_couplings(overrides: Dict[str, float] | None, mh: float, matched: bool, qcd_loops: int = 4):
+    """State at m_t(m_t) with y_t matched to the pole mass (QCD conversion of the script plus the
+    one-loop electroweak part, which depends on M_h), and the mass inputs for the lambda matching."""
+    mt, v, pole_ratio, st = sm_state_at_mt(overrides, qcd_loops=qcd_loops)
+    x = _float_inputs(overrides)
+    masses = (x["M_t"], x["M_W"], x["M_Z"])
+    if matched:
+        st = list(st)
+        st[3] += yt_ew_one_loop(mh, masses[0], masses[1], masses[2], v, mt)
+    return mt, v, pole_ratio, st, masses
+
+
+def predict_higgs_mass(overrides: Dict[str, float] | None, mu: float, loops: int, matched: bool,
+                       steps: int | None = None, mh_start: float | None = None) -> Dict[str, float]:
+    """M_h from lambda(mu) = 0. With matching, y_t depends on M_h: iterate to the fixed point
+    (from the tree-level answer, or from mh_start)."""
+    mh = mh_start or 0
+    lam = 0.0
+    if not mh:
+        mt, v, _, st, ms_ = matched_couplings(overrides, 0, False)
+        lam = critical_lambda(st, mt, mu, loops, steps)
+        mh = math.sqrt(2 * lam) * v
+        if not matched:                  # tree level: that is the answer
+            return {"m_h": mh, "lambda_mt": lam, "yt_mt": st[3]}
+    for _ in range(int(num("crit_iterations")) if matched else 1):
+        mt, v, _, st, ms_ = matched_couplings(overrides, mh, matched)
+        # warm start from the last root (or the tree-level lambda of this M_h)
+        lam = critical_lambda(st, mt, mu, loops, steps, guess=lam or mh * mh / (2 * v * v))
+        new = higgs_mass_from_lambda(lam, ms_[0], ms_[1], ms_[2], v, mt, matched)
+        done = abs(new - mh) < num("crit_tol") * mh
+        mh = new
+        if done:
+            break
+    return {"m_h": mh, "lambda_mt": lam, "yt_mt": st[3]}
+
+
+def _fit_2loop(name: str, part: str, mh: float, mt: float) -> float:
+    val = LITERATURE[name]["value"]
+    c0, ch, ct = (lit_num(a) for a in val[part])
+    return c0 + ch * (mh - lit_num(val["M_h0"])) + ct * (mt - lit_num(val["M_t0"]))
+
+
+def lambda_two_loop(mh: float, mt_pole: float, g3: float) -> float:
+    """lambda^(2)(mu = M_t): QCD and electroweak two-loop thresholds (LITERATURE)."""
+    k2 = (16 * math.pi ** 2) ** 2
+    return (g3 ** 2 * _fit_2loop("lambda_2loop_matching", "qcd", mh, mt_pole)
+            + _fit_2loop("lambda_2loop_matching", "ew", mh, mt_pole)) / k2
+
+
+def yt_two_loop(mh: float, mt_pole: float, g3: float) -> float:
+    """The electroweak and mixed two-loop parts of y_t(mu = M_t) (LITERATURE)."""
+    k2 = (16 * math.pi ** 2) ** 2
+    return (_fit_2loop("yt_2loop_matching", "ew", mh, mt_pole)
+            + g3 ** 2 * _fit_2loop("yt_2loop_matching", "qcd_ew", mh, mt_pole)) / k2
+
+
+def lambda_three_loop_qcd(g3: float, v: float, mt_pole: float) -> float:
+    """lambda^(3)(mu = M_t), its leading QCD part (LITERATURE); G_mu = 1/(sqrt2 V^2)."""
+    e = LITERATURE["lambda_3loop_qcd"]["value"]
+    g_mu = 1 / (math.sqrt(2) * v * v)
+    bracket = sum(lit_num(c) * qcd_constant(t) for c, t in e["terms"])
+    return lit_num(e["norm"]) * g3 ** 4 * g_mu ** 2 * mt_pole ** 4 / (16 * math.pi ** 2) ** 3 * bracket
+
+
+def nnlo_state(overrides: Dict[str, float] | None, mh: float, loops: int, qcd_loops: int = 4):
+    """(M_t, v, pole masses, [g1, g2, g3, y_t, y_b, y_tau] at mu = M_t) with two-loop matching:
+    y_t from the QCD conversion (qcd_loops loops, in the flavour running) and the one-loop
+    electroweak part at m_t(m_t) (Part L), run to mu = M_t, plus the two-loop electroweak and
+    mixed parts."""
+    mt, v, _, st, masses = matched_couplings(overrides, mh, True, qcd_loops)
+    big_mt = masses[0]
+    s_ = run_sm(list(st) + [mh * mh / (2 * v * v)], mt, big_mt, loops)[:6]
+    s_[3] += yt_two_loop(mh, big_mt, s_[2])
+    return big_mt, v, masses, s_
+
+
+def lambda_nnlo(mh: float, masses: Tuple[float, float, float], v: float, g3: float, matching: int = 3) -> float:
+    """lambda(mu = M_t) for a Higgs pole mass: tree + one loop + two loops (+ the leading QCD
+    part of three loops)."""
+    big_mt = masses[0]
+    return (mh * mh / (2 * v * v) + lambda_one_loop(mh, big_mt, masses[1], masses[2], v, big_mt)
+            + lambda_two_loop(mh, big_mt, g3) + (lambda_three_loop_qcd(g3, v, big_mt) if matching >= 3 else 0))
+
+
+def smdr_offsets() -> Dict[str, float]:
+    """SMDR's couplings at its reference point minus this script's (three-loop matching, four-loop
+    QCD) at the same inputs: the electroweak and mixed higher-order thresholds this script lacks,
+    plus its simpler electroweak inputs. Indices into the state: g1, g2, g3, y_t; and lambda."""
+    c = LITERATURE["smdr_reference"]["value"]
+    ins = {k: lit_num(v) for k, v in c["inputs"].items()}
+    mh = ins.pop("M_h")
+    big_mt, v, masses, st = nnlo_state(ins, mh, 3)
+    q0 = lit_num(c["Q0"])
+    st = run_sm(st + [lambda_nnlo(mh, masses, v, st[2], 3)], big_mt, q0, 3)
+    ref = {k: lit_num(x) for k, x in c["couplings"].items()}
+    return {"g1": ref["gp"] / math.sqrt(float(GUT_NORM)) - st[0], "g2": ref["g2"] - st[1],
+            "g3": ref["g3"] - st[2], "y_t": ref["y_t"] - st[3], "lambda": ref["lambda"] - st[6],
+            "ours": {"lambda": st[6], "y_t": st[3], "g3": st[2], "g2": st[1],
+                     "gp": st[0] * math.sqrt(float(GUT_NORM))}, "smdr": ref}
+
+
+def anchored_state(overrides: Dict[str, float] | None, mh: float, anchor: Dict[str, float] | None,
+                   loops: int = 3):
+    """(M_t, v, [g1, g2, g3, y_t, y_b, y_tau, lambda] at mu = M_t) for a Higgs pole mass, at Part L's
+    central order: three-loop matching, four-loop QCD, shifted by SMDR's offsets if anchor."""
+    big_mt, v, masses, s_ = nnlo_state(overrides, mh, loops)
+    lam = lambda_nnlo(mh, masses, v, s_[2], 3)
+    if anchor:
+        s_ = [s_[0] + anchor["g1"], s_[1] + anchor["g2"], s_[2] + anchor["g3"], s_[3] + anchor["y_t"]] + s_[4:]
+        lam += anchor["lambda"]
+    return big_mt, v, list(s_) + [lam]
+
+
+def predict_higgs_mass_nnlo(overrides: Dict[str, float] | None, mu: float, loops: int, mh_start: float,
+                            matching: int = 3, qcd_loops: int = 4, steps: int | None = None,
+                            anchor: Dict[str, float] | None = None) -> Dict[str, float]:
+    """M_h from lambda(mu) = 0 with two- or three-loop matching at mu = M_t (iterated: y_t and
+    the thresholds depend on M_h). With anchor (smdr_offsets()), the couplings at M_t are shifted
+    by SMDR's offsets: its matching, carried to these inputs by this script's."""
+    steps = steps or int(num("crit_steps_per_efold"))
+    mh, lam, s_ = mh_start, 0.0, []
+    for _ in range(int(num("crit_iterations"))):
+        big_mt, v, masses, s_ = nnlo_state(overrides, mh, loops, qcd_loops)
+        if anchor:
+            s_ = [s_[0] + anchor["g1"], s_[1] + anchor["g2"], s_[2] + anchor["g3"], s_[3] + anchor["y_t"]] + s_[4:]
+        lam = critical_lambda(s_, big_mt, mu, loops, steps, guess=lam or mh * mh / (2 * v * v))
+        l3 = lambda_three_loop_qcd(s_[2], v, big_mt) if matching >= 3 else 0
+        if anchor:
+            l3 += anchor["lambda"]
+        new = higgs_mass_from_lambda(lam, masses[0], masses[1], masses[2], v, big_mt, True,
+                                     extra=lambda m: lambda_two_loop(m, big_mt, s_[2]) + l3)
+        done = abs(new - mh) < num("crit_tol") * mh
+        mh = new
+        if done:
+            break
+    return {"m_h": mh, "lambda_Mt": lam, "yt_Mt": s_[3]}
+
+
+def sm_criticality(planck_gev: float) -> Dict[str, Any]:
+    """lambda(M_P) = 0 (Froggatt-Nielsen 1996; Shaposhnikov-Wetterich 2010): one condition at the
+    Planck scale fixes m_h from the measured top mass and alpha_s. Both Planck masses (G only)."""
+    out: Dict[str, Any] = {}
+    m_red = planck_gev / math.sqrt(8 * math.pi)
+    out["planck"] = {"M_P": planck_gev, "M_P_reduced": m_red}
+    rows = []
+    c_steps = int(num("crit_steps_per_efold"))
+    for name, mu in (("M_P", planck_gev), ("M_P reduced", m_red)):
+        for loops in (1, 2, 3):
+            r = predict_higgs_mass(None, mu, loops, False, steps=c_steps if loops == 3 else None)
+            rows.append({"scale": name, "mu": mu, "loops": loops, "matching": "tree", "matched": False, **r})
+    out["tree_matching"] = [r for r in rows if r["scale"] == "M_P" and r["loops"] == 2][0]
+    start = out["tree_matching"]["m_h"]
+    for loops in (2, 3):              # one-loop matching at mu = m_t(m_t)
+        rows.append({"scale": "M_P", "mu": planck_gev, "loops": loops, "matching": "one loop", "matched": True,
+                     **predict_higgs_mass(None, planck_gev, loops, True, mh_start=start,
+                                          steps=c_steps if loops == 3 else None)})
+    for loops, matching, qcd, label in ((2, 2, 4, "two loops"), (3, 2, 3, "two loops, QCD 3"), (3, 2, 4, "two loops"),
+                                        (2, 3, 4, "three loops"), (3, 3, 3, "three loops, QCD 3"),
+                                        (3, 3, 4, "three loops")):
+        r = predict_higgs_mass_nnlo(None, planck_gev, loops, start, matching, qcd)
+        rows.append({"scale": "M_P", "mu": planck_gev, "loops": loops, "matching": label, "matched": True,
+                     "lambda_mt": r["lambda_Mt"], **r})
+    out["rows"] = rows
+
+    def row(loops: int, matching: str) -> Dict[str, Any]:
+        return [r for r in rows if r["scale"] == "M_P" and r["loops"] == loops and r["matching"] == matching][0]
+    out["row"] = {f"{lp}L/{m}": row(lp, m) for lp, m in ((1, "tree"), (2, "tree"), (3, "tree"), (2, "one loop"),
+                                                          (3, "one loop"), (2, "two loops"), (3, "two loops"),
+                                                          (3, "two loops, QCD 3"), (2, "three loops"),
+                                                          (3, "three loops, QCD 3"), (3, "three loops"))}
+    out["two_loop_one_loop"] = row(2, "one loop")         # two-loop running, one-loop matching
+    anchor = smdr_offsets()
+    out["smdr"] = anchor
+    r = predict_higgs_mass_nnlo(None, planck_gev, 3, row(3, "three loops")["m_h"], 3, 4, anchor=anchor)
+    rows.append({"scale": "M_P", "mu": planck_gev, "loops": 3, "matching": "SMDR-anchored", "matched": True,
+                 "lambda_mt": r["lambda_Mt"], **r})
+    out["row"]["3L/SMDR-anchored"] = rows[-1]
+    central = rows[-1]
+    # input errors: M_t and alpha_s dominate; M_W enters only through the matching
+    var = {}
+    for name in ("M_t", "alpha_s_MZ", "M_W"):
+        var[name] = predict_higgs_mass_nnlo({name: inp(name) + sig(name)}, planck_gev, 3,
+                                            central["m_h"], 3, anchor=anchor)["m_h"] - central["m_h"]
+    out["sigma_inputs"] = var
+    out["sigma_total"] = math.sqrt(sum(d ** 2 for d in var.values()))
+    out["central"] = central
+    # both conditions at once, lambda(M_P) = 0 and beta_lambda(M_P) = 0: solve for lambda(m_t) and y_t(m_t)
+    # (at two-loop running and one-loop matching)
+    central = out["two_loop_one_loop"]
+    mt, v, pole_ratio, st, masses = matched_couplings(None, central["m_h"], True)
+    rhs2 = sm_rge(2)
+
+    def beta_at_crit(yt0: float) -> Tuple[float, float]:
+        s = list(st)
+        s[3] = yt0
+        lam = critical_lambda(s, mt, planck_gev, 2, guess=central["lambda_mt"])
+        top = run_sm(s + [lam], mt, planck_gev, 2, int(num("crit_steps_per_efold")))
+        return rhs2(top, 6)[6], lam
+    # bracket in y_t: step from the measured value towards smaller |beta_lambda| until it changes sign
+    step = num("crit_yt_step")
+    y0, b0 = st[3], beta_at_crit(st[3])[0]
+    y1, b1 = y0 * (1 + step), beta_at_crit(y0 * (1 + step))[0]
+    sgn = 1 if abs(b1) < abs(b0) else -1
+    while (b1 > 0) == (b0 > 0):
+        y0, b0 = y1, b1
+        step *= 2
+        y1 = st[3] * (1 + sgn * step)
+        b1 = beta_at_crit(y1)[0]
+    yt_c = _bracketed_root(lambda y: beta_at_crit(y)[0], y0, y1, num("crit_tol"), int(num("crit_iterations")))
+    lam_c = beta_at_crit(yt_c)[1]
+    # translate (y_t, lambda) at m_t(m_t) back to pole masses: y_t = sqrt2 M_t/(r v) + y_t^EW(M_h, M_t),
+    # r = M_t/m_t(m_t) of the measured top (QCD), and lambda = M_h^2/(2 v^2) + lambda^(1)(M_h, M_t)
+    mh_c, mtp_c = central["m_h"], masses[0]
+    for _ in range(int(num("crit_iterations"))):
+        def g(mtp: float) -> float:
+            return math.sqrt(2) * mtp / (pole_ratio * v) + yt_ew_one_loop(mh_c, mtp, masses[1], masses[2], v, mt) - yt_c
+        lo, hi = mtp_c * (1 - step), mtp_c * (1 + step)
+        mtp_new = _bracketed_root(g, lo, hi, num("crit_tol"), int(num("crit_iterations")))
+        mh_new = higgs_mass_from_lambda(lam_c, mtp_new, masses[1], masses[2], v, mt, True)
+        done = abs(mh_new - mh_c) < num("crit_tol") * mh_c and abs(mtp_new - mtp_c) < num("crit_tol") * mtp_c
+        mh_c, mtp_c = mh_new, mtp_new
+        if done:
+            break
+    out["double"] = {"yt_mt": yt_c, "lambda_mt": lam_c, "m_h": mh_c, "M_t": mtp_c}
+    out["buttazzo"] = buttazzo_checks()
+    out["qcd_checks"] = qcd_checks()
+    out["state_mt"] = (mt, v, masses)
+    return out
+
+
+def sm_lambda_profile(crit: Dict[str, Any], m_h: float) -> Dict[str, Any]:
+    """lambda(mu) at three loops for a given Higgs pole mass (Part L's central matching at M_t): its value
+    at M_P and where it turns negative. Called by the report with the measured m_h."""
+    big_mt, v, full = anchored_state(None, m_h, crit.get("smdr"))
+    st, lam0 = full[:6], full[6]
+    mp = crit["planck"]["M_P"]
+    c_steps = int(num("crit_steps_per_efold"))
+    top = run_sm(st + [lam0], big_mt, mp, 3, c_steps)
+    lo, hi = math.log(big_mt), math.log(mp)
+    if top[6] >= 0:
+        return {"lambda_MP": top[6], "beta_MP": sm_rge(3)(top, 6)[6], "mu_zero": math.nan}
+    for _ in range(int(num("crit_iterations"))):
+        mid = (lo + hi) / 2
+        if run_sm(st + [lam0], big_mt, math.exp(mid), 3, c_steps)[6] > 0:
+            lo = mid
+        else:
+            hi = mid
+    return {"lambda_MP": top[6], "beta_MP": sm_rge(3)(top, 6)[6], "mu_zero": math.exp((lo + hi) / 2)}
+
+
+def qcd_checks() -> Dict[str, float]:
+    """The quoted four-loop QCD coefficients against published numbers (LITERATURE["check_rundec"])."""
+    c = LITERATURE["check_rundec"]["value"]
+    steps = int(num("rg_steps_per_efold"))
+
+    def run5(loops: int, mu: float) -> float:          # five flavours, exact integration
+        beta = qcd_beta_pi(5, loops)
+        return integrate_ln_mu([lit_num(c["alpha_MZ"])], lit_num(c["M_Z"]), mu,
+                               lambda v, nf: [-2 * math.pi * sum(b * (v[0] / math.pi) ** (i + 2)
+                                                                  for i, b in enumerate(beta))], [], steps)[0]
+    out = {"alpha_Mb_4L": run5(4, lit_num(c["M_b"])), "alpha_1GeV_3L": run5(3, 1), "alpha_1GeV_4L": run5(4, 1)}
+    out["dev_alpha_Mb"] = abs(out["alpha_Mb_4L"] / lit_num(c["alpha_Mb_4L"]) - 1)
+    out["dev_alpha_1GeV"] = max(abs(out["alpha_1GeV_3L"] - lit_num(c["alpha_1GeV_3L"])),
+                                abs(out["alpha_1GeV_4L"] - lit_num(c["alpha_1GeV_4L"])))
+    dev_g = 0.0                                          # coefficient of each power of n_f
+    for key in ("gamma2", "gamma3"):
+        e = LITERATURE["qcd_gamma_3_4loop"]["value"][key]
+        for k, want in enumerate(c[key]):
+            got = lit_num(e["norm"]) * sum(lit_num(a) * qcd_constant(z) for a, p, z in e["terms"] if p == k)
+            dev_g = max(dev_g, abs(got / lit_num(want) - 1))
+    out["dev_gamma"] = dev_g
+    out["dev_B4"] = abs(qcd_constant("B4") - lit_num(c["B4"]))
+    al_f = lit_num(c["alpha_Mb_4L"])
+    out["dev_roundtrip"] = abs(alpha_up(al_f * decoupling_g2(al_f, 4, 4), 4, 4) / al_f - 1)
+    return out
+
+
+def buttazzo_checks() -> Dict[str, float]:
+    """Reproduce Buttazzo et al. 2013 with the quoted coefficients: (1) their couplings at M_t run
+    to M_Pl at three loops (and at two, which must miss); (2) lambda(M_t) and y_t(M_t) from their
+    inputs through this script's matching."""
+    c = LITERATURE["check_buttazzo"]["value"]
+    at, pl = {k: lit_num(v) for k, v in c["at_Mt"].items()}, {k: lit_num(v) for k, v in c["at_MPl"].items()}
+    inputs = {k: lit_num(v) for k, v in c["inputs"].items()}
+    g1 = at["gY"] / math.sqrt(float(GUT_NORM))
+    st = [g1, at["g2"], at["g3"], at["y_t"], 0.0, 0.0, at["lambda"]]
+    out: Dict[str, float] = {}
+    for loops in (2, 3):
+        top = run_sm(st, inputs["M_t"], lit_num(c["M_Pl"]), loops, int(num("crit_steps_per_efold")))
+        out[f"dev_{loops}L"] = max(abs(top[i] - pl[k]) for i, k in ((0, "g1"), (1, "g2"), (2, "g3"),
+                                                                     (3, "y_t"), (6, "lambda")))
+    mh = inputs.pop("M_h")
+    # at the paper's own order: two-loop matching, QCD (running, top mass) at three loops
+    big_mt, v, masses, s_ = nnlo_state(inputs, mh, 3, qcd_loops=3)
+    out["lambda_Mt"], out["yt_Mt"] = lambda_nnlo(mh, masses, v, s_[2], 2), s_[3]
+    out["dev_lambda"], out["dev_yt"] = abs(out["lambda_Mt"] - at["lambda"]), abs(out["yt_Mt"] - at["y_t"])
+    out["lambda_th"], out["yt_th"] = lit_num(c["lambda_th"]), lit_num(c["yt_th"])
+    # their linear lambda(M_Pl) = 0, solved for M_h at this script's M_t and alpha_s
+    lm = {k: lit_num(v) for k, v in c["lambda_MPl"].items()}
+    lam_pl = (lm["l0"] + lm["lt"] * (inp("M_t") - lit_num(c["inputs"]["M_t"]))
+              + lm["la"] * (inp("alpha_s_MZ") - lit_num(c["inputs"]["alpha_s_MZ"])) / lm["alpha_step"])
+    out["mh_linear"] = mh - lam_pl / lm["lh"]
+    out["mh_linear_tol"] = out["lambda_th"] / lit_num(c["dlambda_Mt_dMh"])     # their theory error, in GeV
+    return out
+
+
+# =============================================================================
+# 6i. PART M: WHICH HIGH-ENERGY HYPOTHESIS SURVIVES EVERY CONDITION AT ONCE?
+# =============================================================================
+# The field content above the electroweak scale is not fixed by the inputs, so it
+# is not chosen: every hypothesis is run against every combination of the
+# conditions the other parts impose, and the data decide. Conditions:
+#   U  gauge unification         predicts 1/alpha(M_Z)        (measured input)
+#   B  b-tau unification         predicts y_b/y_tau = 1 at M_GUT (SM: where g1 = g2)
+#   H  Higgs mass                SM: lambda(M_P) = 0 (Part L); MSSM: matching at M_S
+# The MSSM has three unknowns (M_S, tan beta, the stop mixing X_t). They are scanned
+# and the smallest chi^2 is found only to decide survival, as in Part C: the point
+# is never reported or used. X_t enters only the stop threshold, and m_h rises with
+# it, so for X_t in [0, sqrt12] m_h covers exactly [m_h(X_t = 0), m_h(X_t^2 = 6 M_S^2)].
+# Every MSSM point must keep its Yukawa couplings perturbative up to M_GUT, the scale where
+# the three gauge couplings meet for that M_S; b-tau unification is tested there (as in Part J).
+# Errors, two ways, so each verdict is bracketed:
+#   inputs           the measured inputs' errors only: the strongest exclusion
+#   inputs + theory  plus, for every ingredient, the change from the last order the script
+#                    calculates to the order below it (running: 2 loops vs 1; low-scale
+#                    matching: one loop vs tree). The next order is usually much smaller
+#                    than the last step, so this is the weakest exclusion.
+# Not estimated: the two-loop stop threshold (the code has only the one-loop one, which is
+# the leading effect, not a correction), GUT and superpartner thresholds of unification.
+JOINT_CONDITIONS = ("U", "B", "H")
+
+
+def mh_from_ms(state_ms: List[float], m_s: float, lam_k: float, x: Dict[str, float], v: float, mt: float,
+               loops: int, matched: bool) -> float:
+    """m_h from lambda (Part K convention, lambda_K = 2 lambda_L) at M_S: run down at one loop
+    (Part K) or two (Part L), convert at m_t at tree level or with Part L's one-loop matching."""
+    steps = int(num("rg_steps_per_efold"))
+    if loops == 1:
+        lam_l = integrate_ln_mu(state_ms + [lam_k], m_s, mt, sm_higgs_rhs(), [], steps)[6] / 2
+    else:
+        lam_l = run_sm(state_ms + [lam_k / 2], m_s, mt, 2)[6]
+    if lam_l <= 0:
+        return 0.0
+    return higgs_mass_from_lambda(lam_l, x["M_t"], x["M_W"], x["M_Z"], v, mt, matched)
+
+
+def _joint_verdict(chi2: float, n_cond: int, n_par: int) -> Dict[str, Any]:
+    dof = n_cond - n_par
+    if dof >= 1:
+        p = chi2_pvalue(chi2, dof)
+        n_sig = pvalue_to_sigma(p) if p > 0 else math.sqrt(chi2)     # beyond float range: asymptotic
+    else:                            # no prediction: how far the data lie outside what it can reach
+        n_sig = math.sqrt(max(chi2, 0.0))
+    return {"chi2": chi2, "dof": dof, "n_sigma": n_sig, "survives": n_sig <= num("survival_sigma"),
+            "predicts": dof >= 1}
+
+
+def uv_joint_test(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yuk: Dict[str, Any],
+                  crit: Dict[str, Any]) -> Dict[str, Any]:
+    x = _float_inputs()
+    mh_meas, mh_err, _ = _comparison("m_h")
+    a_meas, a_err = x["alpha_em_inv_MZ"], sig("alpha_em_inv_MZ")
+    s2, a_s, mz = x["s2_hat_Z"], x["alpha_s_MZ"], x["M_Z"]
+    runner = flav["runner"]
+    mt, v = runner.mt_msbar, runner.v
+    _, _, _, st = sm_state_at_mt(runner=runner)
+    steps = int(num("rg_steps_per_efold"))
+    # relative error of y_b(m_t), from the flavour stage's input variations (b-tau errors, linear)
+    mb = flav["ratios"][mt]["m_b"]
+    def mb_of(ratios: Dict[float, Dict[str, float]]) -> float:     # m_b(m_t) at that run's own m_t
+        return next(e["m_b"] for e in ratios.values() if "m_b" in e)
+    yb_rel = math.sqrt(sum(((mb_of(flav["varied"][n][0]) - mb_of(flav["varied"][n][1])) / 2) ** 2
+                           for n in FLAVOUR_UNCERTAIN)) / mb
+    out: Dict[str, Any] = {"yb_rel_sigma": yb_rel, "rows": []}
+
+    # theory error of y_b(m_t): the last QCD order (running, decoupling) against the one below
+    mb1 = FlavourRunner(x, steps, qcd_loops=runner.loops - 1)
+    yb_rel_th = abs(mb1.ratios_at([mb1.mt_msbar])[mb1.mt_msbar]["m_b"] / mb - 1)
+
+    # --- Standard Model up to M_P: no unknowns, every condition is a prediction
+    sm_rows = [r for r in alpha_unif["rows"] if not math.isfinite(r["M_S"])][0]
+    sm_row = sm_rows["loop2"]
+    r_sm = yuk["btau_SM"][0]["yb_over_ytau"]
+    crow = {k: r["m_h"] for k, r in crit["row"].items()}
+    # Part L's last orders: three-loop running against two, three-loop matching against two,
+    # four-loop QCD (running, decoupling, top mass) against three
+    # matching: SMDR's (full two-loop plus leading three-loop) against this script's own three-loop
+    c_ = crow["3L/three loops"]
+    parts = {"running": c_ - crow["2L/three loops"], "matching": crow["3L/SMDR-anchored"] - c_,
+             "QCD": c_ - crow["3L/three loops, QCD 3"]}
+    sm_th = {"U": abs(sm_row["inv_alpha"] - sm_rows["loop1"]["inv_alpha"]),
+             "B": yb_rel_th,
+             "H": math.sqrt(sum(d * d for d in parts.values()))}
+    out["SM_theory_H_parts"] = parts
+    sm_in = {"U": math.hypot(sm_row["sigma_inputs"], a_err), "B": yb_rel,
+             "H": math.hypot(crit["sigma_total"], mh_err)}
+    sm_gap = {"U": sm_row["inv_alpha"] - a_meas, "B": (r_sm - 1) / r_sm, "H": crit["central"]["m_h"] - mh_meas}
+    sm_pull = {c: sm_gap[c] / sm_in[c] for c in JOINT_CONDITIONS}
+    sm_pull_th = {c: sm_gap[c] / math.hypot(sm_in[c], sm_th[c]) for c in JOINT_CONDITIONS}
+    out["SM_pulls"], out["SM_pulls_theory"], out["SM_theory_sigma"] = sm_pull, sm_pull_th, sm_th
+
+    # --- MSSM above M_S
+    l_lo, l_hi = math.log(mt), math.log(alpha_unif["scan_top_GeV"])
+    alpha_cache: Dict[float, Dict[str, float]] = {}
+
+    def unif_at(l_ms: float) -> Dict[str, float]:
+        if l_ms not in alpha_cache:
+            alpha_cache[l_ms] = predict_alpha(s2, a_s, mz, math.exp(l_ms), 2)
+        return alpha_cache[l_ms]
+
+    def alpha_at(l_ms: float) -> float:
+        return unif_at(l_ms)["inv_alpha"]
+
+    def mh_from(state: List[float], m_s: float, lam: float, vev: float, mt_: float) -> float:
+        down = integrate_ln_mu(state + [lam], m_s, mt_, sm_higgs_rhs(), [], steps)
+        return math.sqrt(down[6]) * vev if down[6] > 0 else 0.0
+
+    n_ms, n_tb = int(num("joint_ms_points")), int(num("joint_tan_beta_points"))
+    grid_l = [l_lo + (l_hi - l_lo) * k / (n_ms - 1) for k in range(n_ms)]
+    sig_u, sig_h, th_u, th_h = {}, {}, {}, {}
+    for l_ms in grid_l:               # input errors at each grid M_S (used at the nearest one)
+        d = [predict_alpha(s2 + sig("s2_hat_Z"), a_s, mz, math.exp(l_ms), 2)["inv_alpha"] - alpha_at(l_ms),
+             predict_alpha(s2, a_s + sig("alpha_s_MZ"), mz, math.exp(l_ms), 2)["inv_alpha"] - alpha_at(l_ms)]
+        sig_u[l_ms] = math.hypot(math.hypot(*d), a_err)
+        dm = []
+        ref = None
+        for ov in (None, {"M_t": inp("M_t") + sig("M_t")}, {"alpha_s_MZ": a_s + sig("alpha_s_MZ")}):
+            mt_o, v_o, _, st_o = sm_state_at_mt(ov) if ov else (mt, v, None, st)
+            s_ms = integrate_ln_mu(st_o, mt_o, math.exp(l_ms), yukawa_rhs("SM"), [], steps)
+            # tan(beta) = 0 gives cos^2(2 beta) = 1, the same tree value as tan(beta) -> infinity
+            m = mh_from(s_ms, math.exp(l_ms), mssm_lambda_at_ms(s_ms, 0, math.sqrt(6)), v_o, mt_o)
+            if ref is None:
+                ref = m
+            else:
+                dm.append(m - ref)
+        sig_h[l_ms] = math.hypot(math.hypot(*dm), mh_err)
+        # theory: unification at one loop against two; m_h with two-loop running against one,
+        # and with Part L's one-loop matching against tree level (at tan beta -> infinity, X_t^2 = 6 M_S^2)
+        th_u[l_ms] = abs(alpha_at(l_ms) - predict_alpha(s2, a_s, mz, math.exp(l_ms), 1)["inv_alpha"])
+        s_ms = integrate_ln_mu(st, mt, math.exp(l_ms), yukawa_rhs("SM"), [], steps)
+        lam_k = mssm_lambda_at_ms(s_ms, 0, math.sqrt(6))
+        m11 = mh_from_ms(s_ms, math.exp(l_ms), lam_k, x, v, mt, 1, False)
+        th_h[l_ms] = math.hypot(mh_from_ms(s_ms, math.exp(l_ms), lam_k, x, v, mt, 2, False) - m11,
+                                mh_from_ms(s_ms, math.exp(l_ms), lam_k, x, v, mt, 1, True) - m11)
+
+    def nearest(l_ms: float) -> float:
+        return min(grid_l, key=lambda g: abs(g - l_ms))
+
+    def tb_range(s_ms: List[float]) -> Tuple[float, float]:
+        sb_min, cb_min = s_ms[3] / PERTURBATIVE_LIMIT, s_ms[4] / PERTURBATIVE_LIMIT
+        return sb_min / math.sqrt(1 - sb_min ** 2), math.sqrt(1 - cb_min ** 2) / cb_min
+
+    def point(l_ms: float, s_ms: List[float], l_tb: float) -> Dict[str, Any] | None:
+        """All three pulls at one (M_S, tan beta); None where a Yukawa coupling leaves
+        perturbation theory below M_GUT (where the three gauge couplings meet for this M_S,
+        Part I's two-loop running: the scale b-tau unification refers to, as in Part J)."""
+        m_s, tb = math.exp(l_ms), math.exp(l_tb)
+        sb, cb = tb / math.sqrt(1 + tb * tb), 1 / math.sqrt(1 + tb * tb)
+        m_gut = unif_at(l_ms)["M_GUT"]
+        if not math.isfinite(m_gut):
+            return None
+        mg, sg = unification_point([s_ms[0], s_ms[1], s_ms[2], s_ms[3] / sb, s_ms[4] / cb, s_ms[5] / cb],
+                                   m_s, "MSSM", m_gut)
+        if not math.isfinite(mg):
+            return None
+        g = nearest(l_ms)
+        r = sg[4] / sg[5]
+        m0 = mh_from(s_ms, m_s, mssm_lambda_at_ms(s_ms, tb, 0), v, mt)
+        m3 = mh_from(s_ms, m_s, mssm_lambda_at_ms(s_ms, tb, math.sqrt(6)), v, mt)
+        gap_h = (m0 - mh_meas) if mh_meas < m0 else (mh_meas - m3) if mh_meas > m3 else 0.0
+        gaps = {"U": alpha_at(l_ms) - a_meas, "B": (r - 1) / r, "H": gap_h}
+        sin = {"U": sig_u[g], "B": yb_rel, "H": sig_h[g]}
+        sth = {"U": th_u[g], "B": yb_rel_th, "H": th_h[g]}
+        return {"pull": {c: gaps[c] / sin[c] for c in JOINT_CONDITIONS},
+                "pull_th": {c: gaps[c] / math.hypot(sin[c], sth[c]) for c in JOINT_CONDITIONS},
+                "ratio": r}
+
+    n_bis = int(num("joint_bisections"))
+
+    def candidates(l_ms: float) -> List[Dict[str, Any]]:
+        """Every tan(beta) worth testing at this M_S: a grid over the perturbative range, plus each
+        root of y_b/y_tau = 1 and each edge of perturbation theory, located by bisection. b-tau is
+        so sharp (the y_b error is 0.5 percent) that only its roots can satisfy it."""
+        s_ms = integrate_ln_mu(st, mt, math.exp(l_ms), yukawa_rhs("SM"), [], steps)
+        lo_tb, hi_tb = tb_range(s_ms)
+        ls = [math.log(lo_tb) + (math.log(hi_tb) - math.log(lo_tb)) * k / (n_tb - 1) for k in range(n_tb)]
+        pts = [(lt, point(l_ms, s_ms, lt)) for lt in ls]
+        edges = []
+        for (la, pa), (lb, pb) in zip(pts, pts[1:]):
+            if (pa is None) != (pb is None):                     # edge of perturbation theory
+                good, bad = (la, lb) if pa is not None else (lb, la)
+                for _ in range(n_bis):
+                    mid = (good + bad) / 2
+                    if point(l_ms, s_ms, mid) is None:
+                        bad = mid
+                    else:
+                        good = mid
+                edges.append((good, point(l_ms, s_ms, good)))
+        valid = sorted([(lt, p) for lt, p in pts + edges if p is not None], key=lambda z: z[0])
+        roots = []
+        for (la, pa), (lb, pb) in zip(valid, valid[1:]):        # b-tau roots between valid points
+            if (pa["ratio"] - 1) * (pb["ratio"] - 1) < 0:
+                a, b, fa = la, lb, pa["ratio"] - 1
+                for _ in range(n_bis):
+                    mid = (a + b) / 2
+                    pm = point(l_ms, s_ms, mid)
+                    if pm is None:
+                        b = mid
+                        continue
+                    if (pm["ratio"] - 1) * fa > 0:
+                        a, fa = mid, pm["ratio"] - 1
+                    else:
+                        b = mid
+                pr = point(l_ms, s_ms, a)
+                if pr is not None:
+                    roots.append(pr)
+        return [p for _, p in valid] + roots
+
+    # M_S: the grid, plus where unification reproduces the measured alpha (Part I) and around it,
+    # because the alpha condition is sharp in M_S (3.5 units of 1/alpha per e-fold)
+    l_list = list(grid_l)
+    ms_i = alpha_unif.get("M_S_for_measured_alpha")
+    if ms_i:
+        l_star, s_l = math.log(ms_i["M_S_GeV"]), ms_i["ln_sigma"]
+        l_list += [l_star + k * s_l for k in (-2, -1, 0, 1, 2) if l_lo <= l_star + k * s_l <= l_hi]
+    allpts = [p for l_ms in l_list for p in candidates(l_ms)]
+    out["MSSM_points"] = len(allpts)
+
+    def chi2_of(p: Dict[str, float], conds: Sequence[str]) -> float:
+        return sum(p[c] ** 2 for c in conds)
+
+    for k in range(1, len(JOINT_CONDITIONS) + 1):
+        for conds in itertools.combinations(JOINT_CONDITIONS, k):
+            out["rows"].append({"hypothesis": "SM up to M_P", "conditions": conds, "unknowns": 0,
+                                **_joint_verdict(chi2_of(sm_pull, conds), len(conds), 0),
+                                "with_theory": _joint_verdict(chi2_of(sm_pull_th, conds), len(conds), 0)})
+            n_par = 1 + (("B" in conds or "H" in conds)) + ("H" in conds)     # M_S, tan beta, X_t
+            best = min((chi2_of(p["pull"], conds) for p in allpts), default=math.inf)
+            best_th = min((chi2_of(p["pull_th"], conds) for p in allpts), default=math.inf)
+            out["rows"].append({"hypothesis": "MSSM above M_S", "conditions": conds, "unknowns": n_par,
+                                **_joint_verdict(best, len(conds), n_par),
+                                "with_theory": _joint_verdict(best_th, len(conds), n_par)})
+    if ms_i:
+        g = nearest(math.log(ms_i["M_S_GeV"]))
+        out["MSSM_theory_sigma_at_part_I"] = {"U": th_u[g], "B": yb_rel_th, "H": th_h[g],
+                                              "M_S": math.exp(g)}
+    out["check_U_at_part_I"] = (alpha_at(math.log(ms_i["M_S_GeV"])) - a_meas) if ms_i else math.nan
+    out["survivors"] = [(r["hypothesis"], r["conditions"]) for r in out["rows"] if r["survives"]]
+    out["predictive_survivors"] = [(r["hypothesis"], r["conditions"]) for r in out["rows"]
+                                   if r["survives"] and r["predicts"]]
+    out["survivors_theory"] = [(r["hypothesis"], r["conditions"]) for r in out["rows"]
+                               if r["with_theory"]["survives"]]
+    out["predictive_survivors_theory"] = [(r["hypothesis"], r["conditions"]) for r in out["rows"]
+                                          if r["with_theory"]["survives"] and r["with_theory"]["predicts"]]
+    return out
+
+
+# =============================================================================
+# 6k. SHARED HELPERS FOR PARTS N, O, P
+# =============================================================================
+def _propagate(f: Callable[[Dict[str, float]], float], names: Sequence[str]) -> float:
+    """Input-induced error of f(x): central differences, each input moved by its own sigma."""
+    v2 = 0.0
+    for name in names:
+        s_ = sig(name)
+        if s_ == 0:
+            continue
+        hi = f(_float_inputs({name: inp(name) + s_}))
+        lo = f(_float_inputs({name: inp(name) - s_}))
+        v2 += ((hi - lo) / 2) ** 2
+    return math.sqrt(v2)
+
+
+def _mev_per_kg(x: Dict[str, float]) -> float:
+    return x["c"] ** 2 / (x["e_charge"] * 10 ** 6)
+
+
+# =============================================================================
+# 6l. PART N: CAN THE QUARK AND LEPTON MASSES BE CALCULATED? CLOSED MASS FORMULAS
+# =============================================================================
+# Part J tested what grand unification relates (quark/lepton ratios, b-tau, the top fixed
+# point). What is left are closed formulas proposed for the masses themselves, the way Part I
+# tests closed formulas for 1/alpha. The best known is Koide's (1982):
+#   Q = (m_1 + m_2 + m_3) / (sqrt m_1 + sqrt m_2 + sqrt m_3)^2 = 2/3,
+# which no accepted theory derives. Q lies between 1/3 (equal masses) and 1 (one mass). A
+# relation among masses means something only at a stated scale: pole masses are not the
+# couplings of any Lagrangian at one scale, and running masses change their ratios with mu.
+# The formula is tested at the pole masses, at running masses, and for the quarks.
+def koide_q(m: Sequence[float]) -> float:
+    return sum(m) / sum(math.sqrt(v) for v in m) ** 2
+
+
+def mass_formulas(flav: Dict[str, Any]) -> Dict[str, Any]:
+    out: Dict[str, Any] = {}
+    names_l = ("m_e", "m_mu_MeV", "m_tau_MeV")
+
+    def lep(x: Dict[str, float]) -> List[float]:
+        return [x["m_e"] * _mev_per_kg(x) / 1000, x["m_mu_MeV"] / 1000, x["m_tau_MeV"] / 1000]
+
+    def q_pole(x: Dict[str, float]) -> float:
+        return koide_q(lep(x))
+
+    def q_run(alpha_of: Callable[[Dict[str, float]], float]) -> Callable[[Dict[str, float]], float]:
+        def f(x: Dict[str, float]) -> float:
+            return koide_q([lepton_running_mass(m, x["M_Z"], alpha_of(x)) for m in lep(x)])
+        return f
+    target = 2 / 3
+    x0 = _float_inputs()
+    rows = []
+    for label, f in (("charged leptons, pole masses", q_pole),
+                     ("charged leptons, MS-bar at M_Z (one-loop QED, alpha(0))",
+                      q_run(lambda x: x["alpha_em"])),
+                     ("charged leptons, MS-bar at M_Z (one-loop QED, alpha(M_Z))",
+                      q_run(lambda x: 1 / x["alpha_em_inv_MZ"]))):
+        q, s_ = f(x0), _propagate(f, names_l)
+        rows.append({"set": label, "Q": q, "sigma": s_, "n_sigma": abs(q - target) / s_})
+    # quarks: running masses at m_t(m_t), from the flavour stage's QCD running
+    mu0 = flav["runner"].mt_msbar
+    r0 = flav["ratios"][mu0]
+
+    def q_sector(r: Dict[str, float], keys: Sequence[str]) -> float:
+        return koide_q([r[k] for k in keys])
+    for label, keys in (("up quarks u, c, t at m_t(m_t)", ("m_u", "m_c", "m_t")),
+                        ("down quarks d, s, b at m_t(m_t)", ("m_d", "m_s", "m_b"))):
+        q = q_sector(r0, keys)
+        v2 = 0.0
+        for name, pair in flav["varied"].items():
+            plus, minus = (next(r for r in p.values() if "m_u" in r) for p in pair)   # each run's m_t(m_t)
+            v2 += ((q_sector(plus, keys) - q_sector(minus, keys)) / 2) ** 2
+        s_ = math.sqrt(v2)
+        rows.append({"set": label, "Q": q, "sigma": s_, "n_sigma": abs(q - target) / s_})
+    out["koide"] = rows
+    # the scale dependence: how far running moves Q, against how well the pole value fits
+    out["koide_running_shift"] = rows[1]["Q"] - rows[0]["Q"]
+    out["koide_pole_sigma"] = rows[0]["sigma"]
+    out["koide_qed_alpha_spread"] = abs(rows[2]["Q"] - rows[1]["Q"])
+    # what Q = 2/3 at pole masses would predict for m_tau from m_e and m_mu (the classic use)
+    me, mmu, _ = lep(x0)
+    # me + mmu + u^2 = (2/3)(sqrt me + sqrt mmu + u)^2 with u = sqrt(m_tau):  u^2 - 4 a u + 3 b - 2 a^2 = 0
+    a_, b_ = math.sqrt(me) + math.sqrt(mmu), me + mmu
+    u = 2 * a_ + math.sqrt(6 * a_ ** 2 - 3 * b_)
+    out["koide_m_tau_MeV"] = u * u * 1000
+    out["m_tau_MeV"] = inp("m_tau_MeV")
+    out["m_tau_sigma_MeV"] = sig("m_tau_MeV")
+    return out
+
+
+# =============================================================================
+# 6m. PART O: THE STRONG CP ANGLE THETA-BAR
+# =============================================================================
+# QCD allows a term theta (g^2/32 pi^2) G G~ that violates P and CP. Only the combination
+#   theta-bar = theta - arg det(M_u M_d)
+# is physical: a chiral rotation of the quarks moves phase between the two pieces. The
+# Standard Model gives it no value. It would give the neutron an electric dipole moment:
+#   O1. d_n from theta-bar, calculated with the leading chiral logarithm (Crewther, Di Vecchia,
+#       Veneziano, Witten 1979): theta-bar makes a CP-odd pion-nucleon coupling g0, fixed at
+#       leading order by the strong part of the neutron-proton mass difference,
+#         g0 = delta m_N m* theta / (m-bar eps),  eps = (m_d - m_u)/(m_d + m_u),
+#         m* = m_u m_d m_s / (m_s (m_u + m_d) + m_u m_d)   (de Vries et al. 2015, eq. 33),
+#       and the pion loop gives d_n = e g_piNN g0/(2 F_pi) ln(m_N/m_pi) / (4 pi^2 m_N),
+#       with g_piNN = g_A m_N / F_pi (Goldberger-Treiman). The measured limit on d_n then
+#       bounds theta-bar. The chiral log has an unknown counterterm beside it, so the
+#       coefficient is compared with the full calculations (LITERATURE).
+#   O2. The proposed explanations, each tested:
+#       a massless up quark (theta-bar would be unphysical): against the measured m_u;
+#       the axion (Peccei-Quinn): theta-bar relaxes to zero, but the decay constant f_a is
+#       new; m_a f_a is calculated (leading-order chiral perturbation theory);
+#       parity (Hermitian mass matrices by symmetry, theta = 0 by P): arg det M is 0 or pi.
+#   O3. Can the Standard Model's own CP violation feed theta-bar? Only through the flavour
+#       invariant Im det[H_u, H_d], whose size is calculated.
+def theta_coefficient(x: Dict[str, float]) -> Dict[str, float]:
+    """d_n per unit theta-bar from the chiral logarithm, in e cm; every factor from inputs."""
+    hbar_c_mev_cm = x["h"] / (2 * math.pi) * x["c"] / (x["e_charge"] * 10 ** 6) * 100
+    m_n = x["m_n"] * _mev_per_kg(x)
+    f_pi = x["f_pi_MeV"] / math.sqrt(2)
+    mu_, md_, ms_ = x["m_u"], x["m_d"], x["m_s"]
+    eps = (md_ - mu_) / (md_ + mu_)
+    mbar = (mu_ + md_) / 2
+    mstar = mu_ * md_ * ms_ / (ms_ * (mu_ + md_) + mu_ * md_)
+    g0 = x["delta_mN_QCD_MeV"] * mstar / (mbar * eps)            # MeV per unit theta-bar
+    gbar = g0 / (2 * f_pi)                                        # the CP-odd pi-N coupling
+    g_pinn = x["g_A"] * m_n / f_pi
+    log = math.log(m_n / x["m_pi_MeV"])
+    dn = g_pinn * gbar * log / (4 * math.pi ** 2 * m_n) * hbar_c_mev_cm
+    return {"eps": eps, "m_star_GeV": mstar, "g0_MeV": g0, "gbar": gbar, "g_piNN": g_pinn,
+            "chiral_log": log, "d_n_per_theta": dn, "F_pi_MeV": f_pi}
+
+
+def axion_mass_times_fa(x: Dict[str, float]) -> float:
+    """m_a f_a = sqrt(z)/(1 + z) m_pi F_pi at leading order, z = m_u/m_d; in MeV^2."""
+    z = x["m_u"] / x["m_d"]
+    return math.sqrt(z) / (1 + z) * x["m_pi0_MeV"] * x["f_pi_MeV"] / math.sqrt(2)
+
+
+def strong_cp(flav: Dict[str, Any], survey: Dict[float, Dict[str, Any]], scales: Sequence[float],
+              alpha_unif: Dict[str, Any], planck: Dict[str, float]) -> Dict[str, Any]:
+    out: Dict[str, Any] = {}
+    x0 = _float_inputs()
+    had = ("m_u", "m_d", "m_s", "delta_mN_QCD_MeV", "f_pi_MeV", "g_A", "m_n", "m_pi_MeV")
+    # O1. the coefficient and the bound
+    co = theta_coefficient(x0)
+    co["d_n_per_theta_sigma"] = _propagate(lambda x: theta_coefficient(x)["d_n_per_theta"], had)
+    co["gbar_sigma"] = _propagate(lambda x: theta_coefficient(x)["gbar"], had)
+    lim = inp("d_n_limit")
+    co["d_n_limit"] = lim
+    co["theta_max"] = lim / co["d_n_per_theta"]
+    co["literature"] = []
+    for label, (v, s_) in LITERATURE["dn_theta"]["value"].items():
+        c_, e_ = float(v), float(s_)
+        co["literature"].append({"method": label, "d_n_per_theta": c_, "sigma": e_,
+                                 "theta_max": lim / c_, "theta_max_weakest": lim / (c_ - e_)})
+    co["theta_max_weakest"] = max([lim / (co["d_n_per_theta"] - co["d_n_per_theta_sigma"])]
+                                  + [r["theta_max_weakest"] for r in co["literature"]])
+    out["bound"] = co
+    # O2a. a massless up quark
+    z = inp("m_u") / inp("m_d")
+    z_sig = _propagate(lambda x: x["m_u"] / x["m_d"], ("m_u", "m_d"))
+    out["massless_up"] = {"m_u_GeV": inp("m_u"), "sigma": sig("m_u"), "n_sigma": inp("m_u") / sig("m_u"),
+                          "z": z, "z_sigma": z_sig}
+    # O2b. the axion
+    maf = axion_mass_times_fa(x0)
+    maf_sig = _propagate(axion_mass_times_fa, ("m_u", "m_d", "f_pi_MeV", "m_pi0_MeV"))
+    ref = 10 ** 12                                                # GeV: the unit the literature quotes in
+    ueV_at_ref = maf * 10 ** 3 / ref * 10 ** 6                    # micro-eV at f_a = 1e12 GeV
+    nlo, nlo_s = (float(v) for v in LITERATURE["axion_mass_nlo"]["value"])
+    au_ms = alpha_unif.get("M_S_for_measured_alpha", {})
+    scales_fa = [("M_GUT (Part I)", au_ms.get("M_GUT_GeV")), ("M_P (Part H1)", planck["E_P_GeV"])]
+    out["axion"] = {"ma_fa_MeV2": maf, "ma_fa_sigma": maf_sig,
+                    "m_a_ueV_at_1e12": ueV_at_ref, "m_a_ueV_at_1e12_sigma": maf_sig / maf * ueV_at_ref,
+                    "nlo_ueV": nlo, "nlo_sigma": nlo_s, "lo_minus_nlo_rel": ueV_at_ref / nlo - 1,
+                    "at_scales": [{"f_a": name, "f_a_GeV": fa, "m_a_eV": maf * 10 ** 3 / fa}
+                                  for name, fa in scales_fa if fa]}
+    # O2c. parity: Hermitian matrices have real determinants, arg det in {0, pi}. The overall
+    # sign of a sector's matrix does not change V (same eigenvectors) but flips det (3 x 3), so
+    # theta-bar = 0 at tree level is always reachable. Recorded for the Part C survivor.
+    mu0 = scales[0]
+    surv = [r for r in survey[mu0]["classes"] if r["status"] == "tested" and r["survives"]]
+    herm = []
+    sv = survey[mu0]["survey"]
+    for r in surv:
+        nu_, a_, nd_, b_ = r["pair"]
+        dets = {}
+        for sector, nz, var in (("u", nu_, a_), ("d", nd_, b_)):
+            m = _sector_matrix(nz, var, sv.E[0][sector], 1 / 2)
+            if m is None:
+                continue
+            det = (m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1])
+                   - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0])
+                   + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]))
+            signs = var[0]
+            want = signs[0] * signs[1] * math.prod(sv.E[0][sector])
+            dets[sector] = {"det_over_mheaviest3": det, "signed_eigenvalue_product": want,
+                            "eigenvalue_signs": (signs[0], signs[1], 1)}
+        if len(dets) == 2:
+            prod_sign = math.copysign(1, dets["u"]["det_over_mheaviest3"] * dets["d"]["det_over_mheaviest3"])
+            herm.append({"up": pattern_mask(r["zeros_u"]), "down": pattern_mask(r["zeros_d"]),
+                         "sectors": dets, "arg_det_over_pi": 0 if prod_sign > 0 else 1})
+    out["parity"] = herm
+    # O3. the Standard Model's own CP-odd flavour invariant (without J, which only judges: the
+    # report multiplies it in). Im det[H_u, H_d] = 2 J prod_{i<j} (y_ui^2 - y_uj^2)(y_di^2 - y_dj^2)
+    r0 = flav["ratios"][mu0]
+    v = flav["runner"].v
+    yu = [math.sqrt(2) * r0[k] / v for k in ("m_u", "m_c", "m_t")]
+    yd = [math.sqrt(2) * r0[k] / v for k in ("m_d", "m_s", "m_b")]
+    prod = 1.0
+    for ys in (yu, yd):
+        for i in range(3):
+            for j in range(i + 1, 3):
+                prod *= ys[j] ** 2 - ys[i] ** 2
+    out["sm_invariant"] = {"scale": mu0, "mass_difference_product": 2 * prod,
+                           "y_t": yu[2], "y_b": yd[2]}
+    return out
+
+
+# =============================================================================
+# 6n. PART P: NEUTRINO MASSES AND MIXING
+# =============================================================================
+# Oscillations measure two mass-squared differences and the PMNS matrix (three angles and a
+# Dirac phase, delta). Not measured: the lightest mass m_0, the ordering (normal: m1 < m2 <
+# m3; inverted: m3 < m1 < m2), two Majorana phases if neutrinos are their own antiparticles,
+# and the origin of the masses. Each unknown is scanned, never set:
+#   P1. the spectrum against m_0 (from 0 up): the smallest possible sum of the masses in each
+#       ordering, against the cosmological limits (which assume the same flat LambdaCDM as
+#       Part A), and the neutrinos' share of Omega_m, calculated from T_CMB;
+#   P2. the beta-decay mass m_beta = sqrt(sum |U_ei|^2 m_i^2) against KATRIN;
+#   P3. the double-beta mass m_bb = |sum U_ei^2 m_i|: with the two free phases its exact band is
+#       [max(0, 2 max c - sum c), sum c], c_i = |U_ei|^2 m_i (the band of Part C);
+#   P4. mixing patterns from discrete flavour symmetries, tested like Part C's textures:
+#       fixed patterns (tribimaximal, bimaximal, golden ratio, hexagonal) predict all three
+#       angles; the corrected ones (TM1, TM2: one column of the tribimaximal matrix kept, a
+#       rotation with angle and phase added) have two unknowns, which the measured theta13 and
+#       theta23 fix exactly: they then predict theta12 and delta. Also quark-lepton
+#       complementarity, theta12 + theta_C = 45 degrees.
+#   P5. what the masses say about new physics: the seesaw scale, against Part I's M_GUT and
+#       Part H's M_P, and the Dirac alternative.
+NU_ORDERINGS = ("NO", "IO")
+
+
+def nu_params(x: Dict[str, float], o: str) -> Dict[str, float]:
+    return {"s12sq": x["nu_s12sq"], "s13sq": x["nu_s13sq_" + o], "s23sq": x["nu_s23sq_" + o],
+            "delta": math.radians(x["nu_delta_" + o]), "dm21": x["nu_dm21"], "dm3l": x["nu_dm3l_" + o]}
+
+
+def nu_masses(p: Dict[str, float], o: str, m0: float) -> List[float]:
+    """(m1, m2, m3) in eV for lightest mass m0."""
+    if o == "NO":
+        return [m0, math.sqrt(m0 ** 2 + p["dm21"]), math.sqrt(m0 ** 2 + p["dm3l"])]
+    m2 = math.sqrt(m0 ** 2 - p["dm3l"])                      # dm3l = dm32 < 0
+    return [math.sqrt(m2 ** 2 - p["dm21"]), m2, m0]
+
+
+def pmns(s12sq: float, s13sq: float, s23sq: float, delta: float) -> List[List[complex]]:
+    """Standard parametrization (PDG)."""
+    s12, s13, s23 = math.sqrt(s12sq), math.sqrt(s13sq), math.sqrt(s23sq)
+    c12, c13, c23 = math.sqrt(1 - s12sq), math.sqrt(1 - s13sq), math.sqrt(1 - s23sq)
+    e = cmath.exp(1j * delta)
+    return [[c12 * c13, s12 * c13, s13 / e],
+            [-s12 * c23 - c12 * s23 * s13 * e, c12 * c23 - s12 * s23 * s13 * e, s23 * c13],
+            [s12 * s23 - c12 * c23 * s13 * e, -c12 * s23 - s12 * c23 * s13 * e, c23 * c13]]
+
+
+def pmns_angles(u: List[List[complex]]) -> Dict[str, float]:
+    """s12^2, s13^2, s23^2, delta (radians, [0, 2 pi)) and J from any unitary matrix."""
+    ue3 = abs(u[0][2]) ** 2
+    s12sq = abs(u[0][1]) ** 2 / (1 - ue3)
+    s23sq = abs(u[1][2]) ** 2 / (1 - ue3)
+    s12, s13, s23 = math.sqrt(s12sq), math.sqrt(ue3), math.sqrt(s23sq)
+    c12, c13, c23 = math.sqrt(1 - s12sq), math.sqrt(1 - ue3), math.sqrt(1 - s23sq)
+    jj = (u[0][0] * u[1][1] * u[0][1].conjugate() * u[1][0].conjugate()).imag
+    norm = c12 * s12 * c23 * s23 * c13 ** 2 * s13
+    if norm == 0:
+        return {"s12sq": s12sq, "s13sq": ue3, "s23sq": s23sq, "delta": math.nan, "J": jj}
+    cosd = (abs(u[1][0]) ** 2 - s12sq * c23 ** 2 - c12 ** 2 * s23sq * ue3) / (2 * s12 * c12 * s23 * c23 * s13)
+    sind = jj / norm
+    return {"s12sq": s12sq, "s13sq": ue3, "s23sq": s23sq,
+            "delta": math.atan2(sind, cosd) % (2 * math.pi), "J": jj}
+
+
+def _matmul(a: List[List[complex]], b: List[List[complex]]) -> List[List[complex]]:
+    return [[sum(a[i][k] * b[k][j] for k in range(3)) for j in range(3)] for i in range(3)]
+
+
+def tribimaximal() -> List[List[complex]]:
+    r2, r3, r6 = math.sqrt(2), math.sqrt(3), math.sqrt(6)
+    return [[2 / r6, 1 / r3, 0], [-1 / r6, 1 / r3, -1 / r2], [-1 / r6, 1 / r3, 1 / r2]]
+
+
+def corrected_tbm(kind: str, theta: float, phi: float) -> List[List[complex]]:
+    """TM1: U_TBM R_23(theta, phi) keeps the first column; TM2: U_TBM R_13 keeps the second."""
+    c, s = math.cos(theta), math.sin(theta)
+    e = cmath.exp(1j * phi)
+    i, j = (1, 2) if kind == "TM1" else (0, 2)
+    r: List[List[complex]] = [[1 if a == b else 0 for b in range(3)] for a in range(3)]
+    r[i][i], r[j][j], r[i][j], r[j][i] = c, c, s / e, -s * e
+    return _matmul(tribimaximal(), r)
+
+
+def _angle_pull(pred: float, meas: float, sig_: float) -> float:
+    return (pred - meas) / sig_
+
+
+def solve_corrected(kind: str, s13sq: float, s23sq: float) -> List[Tuple[float, float]]:
+    """Every (theta, phi) with the measured theta13 and theta23 (exactly: bisection)."""
+    iters = int(num("nu_bisections"))
+
+    def ue3(th: float) -> float:
+        return abs(corrected_tbm(kind, th, 0)[0][2]) ** 2
+    lo, hi = 0.0, math.pi / 4                                   # |U_e3|^2 rises on [0, pi/4]
+    if not ue3(lo) <= s13sq <= ue3(hi):
+        return []
+    for _ in range(iters):
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if ue3(mid) < s13sq else (lo, mid)
+    th = (lo + hi) / 2
+
+    def g(ph: float) -> float:
+        return pmns_angles(corrected_tbm(kind, th, ph))["s23sq"] - s23sq
+    n = int(num("nu_phase_grid"))
+    grid = [2 * math.pi * k / n for k in range(n + 1)]
+    sols = []
+    for a, b in zip(grid[:-1], grid[1:]):
+        ga, gb = g(a), g(b)
+        if ga == 0:
+            sols.append((th, a))
+        elif ga * gb < 0:
+            for _ in range(iters):
+                mid = (a + b) / 2
+                if g(a) * g(mid) <= 0:
+                    b = mid
+                else:
+                    a = mid
+            sols.append((th, (a + b) / 2))
+    return sols
+
+
+def nu_patterns(o: str) -> Dict[str, Any]:
+    x0 = _float_inputs()
+    p = nu_params(x0, o)
+    meas = {k: (p[k], sig(f"nu_{k}" if k == "s12sq" else f"nu_{k}_{o}")) for k in ("s12sq", "s13sq", "s23sq")}
+    d_meas, d_sig = inp("nu_delta_" + o), sig("nu_delta_" + o)
+    phi_g = (1 + math.sqrt(5)) / 2
+    fixed = (("tribimaximal", 1 / 3), ("bimaximal", 1 / 2), ("golden ratio, tan theta12 = 1/phi", 1 / (1 + phi_g ** 2)),
+             ("golden ratio, cos theta12 = phi/2", 1 - phi_g ** 2 / 4), ("hexagonal, theta12 = 30 deg", 1 / 4))
+    rows = []
+    for name, s12 in fixed:
+        pred = {"s12sq": s12, "s13sq": 0, "s23sq": 1 / 2}
+        pulls = {k: _angle_pull(pred[k], *meas[k]) for k in pred}
+        chi2 = sum(v * v for v in pulls.values())
+        rows.append({"pattern": name, "unknowns": 0, "predictions": 3, "pred": pred, "pulls": pulls,
+                     "chi2": chi2, "n_sigma": pvalue_to_sigma(chi2_pvalue(chi2, 3))})
+    for kind in ("TM1", "TM2"):
+        sols = solve_corrected(kind, p["s13sq"], p["s23sq"])
+        preds = []
+        for th, ph in sols:
+            a = pmns_angles(corrected_tbm(kind, th, ph))
+            preds.append({"theta": th, "phi": ph, "s12sq": a["s12sq"], "delta_deg": math.degrees(a["delta"])})
+        rec: Dict[str, Any] = {"pattern": kind + (": first column of TBM kept" if kind == "TM1"
+                                                  else ": second column of TBM kept"),
+                               "unknowns": 2, "predictions": 2, "solutions": preds}
+        if preds:
+            # errors propagated from the two measured angles that fix the unknowns
+            def pred_of(x: Dict[str, float], which: str, k: int) -> float:
+                q = nu_params(x, o)
+                ss = solve_corrected(kind, q["s13sq"], q["s23sq"])
+                # follow the same solution (nearest phase)
+                th, ph = min(ss, key=lambda t: abs(math.remainder(t[1] - preds[k]["phi"], 2 * math.pi)))
+                a = pmns_angles(corrected_tbm(kind, th, ph))
+                return a["s12sq"] if which == "s12sq" else math.degrees(a["delta"])
+            names = ("nu_s13sq_" + o, "nu_s23sq_" + o)
+            for k, pr in enumerate(preds):
+                pr["s12sq_sigma"] = _propagate(lambda x: pred_of(x, "s12sq", k), names)
+                pr["delta_sigma"] = _propagate(lambda x: pred_of(x, "delta", k), names)
+                pr["s12_pull"] = (pr["s12sq"] - meas["s12sq"][0]) / math.hypot(pr["s12sq_sigma"], meas["s12sq"][1])
+                dd = math.remainder(pr["delta_deg"] - d_meas, 360)
+                pr["delta_pull"] = dd / math.hypot(pr["delta_sigma"], d_sig)
+            # survival is decided by theta12, the Gaussian prediction; delta is far from Gaussian
+            best = min(preds, key=lambda q_: abs(q_["s12_pull"]))
+            rec["chi2"] = best["s12_pull"] ** 2
+            rec["n_sigma"] = abs(best["s12_pull"])
+        else:
+            rec["chi2"], rec["n_sigma"] = math.inf, math.inf
+        rows.append(rec)
+    for r in rows:
+        r["survives"] = r["n_sigma"] <= num("survival_sigma")
+    # quark-lepton complementarity: theta12 + theta_C = pi/4 (theta_C from |V_us|, a comparison)
+    vus = _comparison("V_us")[0]
+    th12 = math.asin(math.sqrt(p["s12sq"]))
+    th12_sig = meas["s12sq"][1] / (2 * math.sqrt(p["s12sq"] * (1 - p["s12sq"])))
+    qlc = math.degrees(th12 + math.asin(vus))
+    qlc_sig = math.degrees(th12_sig)
+    return {"rows": rows, "qlc": {"sum_deg": qlc, "sigma_deg": qlc_sig, "n_sigma": abs(qlc - 45) / qlc_sig},
+            "delta_meas": d_meas, "delta_sigma": d_sig}
+
+
+def neutrino_cosmology_unit(x: Dict[str, float]) -> float:
+    """The sum of neutrino masses (eV) that gives Omega_nu h^2 = 1: relic number density from
+    T_CMB, T_nu = (4/11)^(1/3) T_gamma (instantaneous decoupling), three species of nu + nu-bar."""
+    hbar = x["h"] / (2 * math.pi)
+    kt = x["k_B"] * x["T_CMB"]
+    n_gamma = 2 * zeta3() / math.pi ** 2 * (kt / (hbar * x["c"])) ** 3      # per m^3
+    n_nu = Fr(3, 11) * n_gamma                                             # per species (nu + nu-bar)
+    mpc = x["au"] * 648000 / math.pi * 10 ** 6
+    h100 = 100 * 1000 / mpc
+    rho_c = 3 * h100 ** 2 / (8 * math.pi * x["G"])                         # kg/m^3 for h = 1
+    return rho_c * x["c"] ** 2 / (float(n_nu) * x["e_charge"])            # eV
+
+
+def neutrinos(cosmo: Dict[str, Any], flav: Dict[str, Any], alpha_unif: Dict[str, Any],
+              planck: Dict[str, float]) -> Dict[str, Any]:
+    out: Dict[str, Any] = {"orderings": {}}
+    x0 = _float_inputs()
+    unit = neutrino_cosmology_unit(x0)
+    h_ = inp("H0") / 100
+    om_m = float(cosmo["Omega_m"])
+    lims = {k: _comparison(k)[0] for k in ("sum_mnu_Planck", "sum_mnu_DESI")}
+    n_m0 = int(num("nu_m0_points"))
+    m0_min = num("nu_m0_min")
+    v = flav["runner"].v
+    for o in NU_ORDERINGS:
+        names = ["nu_s12sq", "nu_dm21"] + [f"nu_{k}_{o}" for k in ("s13sq", "s23sq", "delta", "dm3l")]
+        p = nu_params(x0, o)
+        u = pmns(p["s12sq"], p["s13sq"], p["s23sq"], p["delta"])
+        ue2 = [abs(u[0][i]) ** 2 for i in range(3)]
+
+        def total(m0: float, x: Dict[str, float] = x0) -> float:
+            return sum(nu_masses(nu_params(x, o), o, m0))
+
+        def mbeta(m0: float, x: Dict[str, float] = x0) -> float:
+            q = nu_params(x, o)
+            uu = pmns(q["s12sq"], q["s13sq"], q["s23sq"], q["delta"])
+            return math.sqrt(sum(abs(uu[0][i]) ** 2 * m ** 2 for i, m in enumerate(nu_masses(q, o, m0))))
+
+        def mbb_band(m0: float, x: Dict[str, float] = x0) -> Tuple[float, float]:
+            q = nu_params(x, o)
+            uu = pmns(q["s12sq"], q["s13sq"], q["s23sq"], q["delta"])
+            c = [abs(uu[0][i]) ** 2 * m for i, m in enumerate(nu_masses(q, o, m0))]
+            return max(0.0, 2 * max(c) - sum(c)), sum(c)
+
+        rec: Dict[str, Any] = {"masses_at_m0_0": nu_masses(p, o, 0), "sum_min": total(0),
+                               "sum_min_sigma": _propagate(lambda x: total(0, x), names),
+                               "U_e_sq": ue2}
+        # largest m0 each cosmological limit allows (bisection), or None if even m0 = 0 is above it
+        rec["m0_max"] = {}
+        for k, lim in lims.items():
+            if total(0) > lim:
+                rec["m0_max"][k] = None
+                continue
+            lo, hi = 0.0, lim
+            for _ in range(int(num("nu_bisections"))):
+                mid = (lo + hi) / 2
+                lo, hi = (mid, hi) if total(mid) < lim else (lo, mid)
+            rec["m0_max"][k] = (lo + hi) / 2
+        rec["vs_cosmology"] = {k: {"limit": lim, "allowed": total(0) <= lim, "sum_min_minus_limit": total(0) - lim}
+                               for k, lim in lims.items()}
+        rec["Omega_nu_h2_at_min"] = total(0) / unit
+        rec["Omega_nu_over_Omega_m_at_min"] = total(0) / unit / h_ ** 2 / om_m
+        # P2, P3 over the lightest mass: 0, then a geometric grid up to the loosest cosmology limit
+        top = max(m for m in rec["m0_max"].values() if m is not None) if any(
+            m is not None for m in rec["m0_max"].values()) else m0_min
+        grid = [0.0] + [m0_min * (top / m0_min) ** (k / (n_m0 - 1)) for k in range(n_m0)]
+        rec["scan"] = [{"m0": m0, "sum": total(m0), "m_beta": mbeta(m0),
+                        "m_bb_lo": mbb_band(m0)[0], "m_bb_hi": mbb_band(m0)[1]} for m0 in grid]
+        rec["m_beta_min"] = mbeta(0)
+        rec["m_beta_max_cosmology"] = {k: (mbeta(m) if m is not None else None) for k, m in rec["m0_max"].items()}
+        lo0, hi0 = mbb_band(0)
+        rec["m_bb_at_m0_0"] = (lo0, hi0)
+        rec["m_bb_at_m0_0_sigma"] = (_propagate(lambda x: mbb_band(0, x)[0], names),
+                                     _propagate(lambda x: mbb_band(0, x)[1], names))
+        # the range of m0 where full cancellation (m_bb = 0) is possible
+        # the range of m0 where full cancellation (m_bb = 0) is possible: grid, then bisection at each edge
+        sc_ = rec["scan"]
+        edges = []
+        for a_, b_ in zip(sc_[:-1], sc_[1:]):
+            za, zb = a_["m_bb_lo"] == 0, b_["m_bb_lo"] == 0
+            if za != zb:
+                lo, hi = a_["m0"], b_["m0"]
+                for _ in range(int(num("nu_bisections"))):
+                    mid = (lo + hi) / 2
+                    lo, hi = (mid, hi) if (mbb_band(mid)[0] == 0) == za else (lo, mid)
+                edges.append((lo + hi) / 2)
+        rec["m_bb_cancellation_m0"] = (min(edges), max(edges)) if len(edges) >= 2 else None
+        rec["m_bb_max_cosmology"] = {k: (mbb_band(m)[1] if m is not None else None) for k, m in rec["m0_max"].items()}
+        # P5. heaviest mass at m0 = 0 sets the seesaw scale: m = y^2 v^2 / (2 M)
+        m_heavy = max(nu_masses(p, o, 0)) * 10 ** -9                       # GeV
+        rec["seesaw"] = {"m_heaviest_eV": m_heavy * 10 ** 9,
+                         "M_for_y_1": v ** 2 / (2 * m_heavy),
+                         "M_max_perturbative": PERTURBATIVE_LIMIT ** 2 * v ** 2 / (2 * m_heavy),
+                         "M_for_y_top": flav["ratios"][flav["runner"].mt_msbar]["y_t"] ** 2 * v ** 2 / (2 * m_heavy),
+                         "dirac_yukawa": [math.sqrt(2) * m * 10 ** -9 / v for m in nu_masses(p, o, 0)]}
+        rec["patterns"] = nu_patterns(o)
+        out["orderings"][o] = rec
+    au_ms = alpha_unif.get("M_S_for_measured_alpha", {})
+    out["M_GUT"] = au_ms.get("M_GUT_GeV")
+    out["M_P"] = planck["E_P_GeV"]
+    out["sum_for_omega_h2_1_eV"] = unit
+    me = inp("m_e") * _mev_per_kg(x0) / 1000
+    out["electron_yukawa"] = math.sqrt(2) * me / v
+    return out
+
+
+# =============================================================================
+# 6o. PART Q: PROTON DECAY, THE DIRECT TEST OF UNIFICATION
+# =============================================================================
+# If the gauge couplings unify (Part I), the quarks and leptons share multiplets and the heavy
+# gauge bosons X, Y of SU(5) turn quarks into leptons: the proton decays. Dimension-six exchange
+# gives p -> e+ pi0 with (Ellis et al. 2020, eq. 45, minimal SU(5))
+#   Gamma = m_p/(32 pi) (1 - m_pi^2/m_p^2)^2 A_L^2 (g_GUT^2/M_X^2)^2
+#           x [A_S1^2 W_RL^2 + (1 + |V_ud|^2)^2 A_S2^2 W_LL^2],
+# W = lattice matrix elements at 2 GeV, A_S = the two operators' running from M_X to M_Z (one
+# loop, exponents -2 c_i/b_i with the script's own b_i), A_L = their QCD running from M_Z to 2 GeV.
+# Every scale comes from the algorithm: M_X = M_GUT and alpha_GUT from Part I (MSSM above M_S);
+# for the SM, which does not unify, the point where g1 = g2 (Part J). GUT thresholds unknown.
+def _alpha_one_loop(mu: float, x: Dict[str, float], m_s: float | None) -> List[float]:
+    """alpha_1 (GUT-normalized), alpha_2, alpha_3 at mu: one loop from M_Z, MSSM above m_s if given."""
+    a, s2 = 1 / x["alpha_em_inv_MZ"], x["s2_hat_Z"]
+    inv = [float(GUT_NORM) * (1 - s2) / a, s2 / a, 1 / x["alpha_s_MZ"]]
+    b_sm = [float(b) for b in sm_gauge_b()]
+    b_ms = [float(b) for b in mssm_b()[0]]
+    lo = min(mu, m_s) if m_s else mu
+    out = [i - b / (2 * math.pi) * math.log(lo / x["M_Z"]) for i, b in zip(inv, b_sm)]
+    if m_s and mu > m_s:
+        out = [i - b / (2 * math.pi) * math.log(mu / m_s) for i, b in zip(out, b_ms)]
+    return [1 / v for v in out]
+
+
+def proton_exponents(model: str, op: str) -> List[float]:
+    """-2 c_i / b_i for (alpha_1, alpha_2, alpha_3): the running of one dimension-six operator."""
+    c = [float(Fr(v)) for v in LITERATURE["proton_decay_d6"]["value"][model][op]]
+    b = [float(v) for v in (sm_gauge_b() if model == "SM" else mssm_b()[0])]
+    return [-2 * ci / bi for ci, bi in zip(c, b)]
+
+
+def proton_short_distance(x: Dict[str, float], m_x: float, m_s: float | None, op: str) -> float:
+    """A_S: the operator's coefficient at M_Z over its value at M_X."""
+    steps = [("MSSM", m_x, m_s), ("SM", m_s, x["M_Z"])] if m_s else [("SM", m_x, x["M_Z"])]
+    a_s = 1.0
+    for model, hi, lo in steps:
+        a_hi, a_lo = _alpha_one_loop(hi, x, m_s), _alpha_one_loop(lo, x, m_s)
+        for e, al, ah in zip(proton_exponents(model, op), a_lo, a_hi):
+            a_s *= (al / ah) ** e
+    return a_s
+
+
+# Above M_I the operators run with the chain's own gauge group. Their anomalous dimensions are derived, not
+# quoted: in Landau gauge the fermion wave functions are not renormalized, and for an operator (psi psi)(chi chi)^+
+# only gauge exchanges inside a Lorentz-scalar bilinear count, each 6 T_i.T_j (the value that gives a mass its
+# -6 C2), while exchanges between a left- and a right-handed leg cancel. For fundamentals of SU(N) contracted by
+# epsilon, T_i.T_j = -(N+1)/(2N); for a U(1), the product of the normalized charges. So
+# d ln C/d ln mu = (G_g g_g^2/16 pi^2), C ~ prod alpha_g^(G_g/2 b_g). A self-check: the SM's G reproduces Ellis et
+# al.'s c_i (G = -4 c) for both operators.
+PROTON_OPERATORS = {
+    # each operator: its two Lorentz bilinears, every leg as (dimension under each factor..., U(1) charge)
+    "SM": {"groups": ("U1", "SU2", "SU3"), "norm": "GUT_NORM",
+           "S1": (((1, 1, 3, Fr(2, 3)), (1, 1, 3, Fr(-1, 3))), ((1, 2, 3, Fr(1, 6)), (1, 2, 1, Fr(-1, 2)))),
+           "S2": (((1, 2, 3, Fr(1, 6)), (1, 2, 3, Fr(1, 6))), ((1, 1, 3, Fr(2, 3)), (1, 1, 1, Fr(-1))))},
+    "SU3": {"groups": ("SU3", "SU2", "SU2", "U1"), "norm": "BL_NORM",
+            "S1": (((3, 1, 2, Fr(1, 3)), (3, 1, 2, Fr(1, 3))), ((3, 2, 1, Fr(1, 3)), (1, 2, 1, Fr(-1)))),
+            "S2": (((3, 2, 1, Fr(1, 3)), (3, 2, 1, Fr(1, 3))), ((3, 1, 2, Fr(1, 3)), (1, 1, 2, Fr(-1))))},
+    "SU4": {"groups": ("SU4", "SU2", "SU2"), "norm": None,
+            "S1": (((4, 1, 2), (4, 1, 2)), ((4, 2, 1), (4, 2, 1))),
+            "S2": (((4, 2, 1), (4, 2, 1)), ((4, 1, 2), (4, 1, 2)))}}
+
+
+def operator_gamma(model: str, op: str) -> List[Fr]:
+    """G_g per gauge factor (d ln C / d ln mu = G_g g_g^2 / 16 pi^2) of a baryon-number-violating operator."""
+    spec = PROTON_OPERATORS[model]
+    out = []
+    for g_i, grp in enumerate(spec["groups"]):
+        tot = Fr(0)
+        for a_, b_ in spec[op]:
+            if grp == "U1":
+                tot += {"GUT_NORM": GUT_NORM, "BL_NORM": BL_NORM}[spec["norm"]] * a_[-1] * b_[-1]   # charge: last entry
+            else:
+                n_ = {"SU2": 2, "SU3": 3, "SU4": 4}[grp]
+                if a_[g_i] == n_ and b_[g_i] == n_:
+                    tot += -Fr(n_ + 1, 2 * n_)
+        out.append(6 * tot)
+    return out
+
+
+def proton_short_distance_chain(x: Dict[str, float], chain: Dict[str, Any], sol: Dict[str, Any], op: str) -> float:
+    """A_S for a non-supersymmetric SO(10) chain: the chain's group from M_GUT to M_I (couplings from the chain's
+    solution), the SM from M_I to M_Z (one loop)."""
+    model = chain["groups"][0]
+    gam = operator_gamma(model, op)
+    inv_lo = sol["inv_alpha_MI"]
+    a_s = 1.0
+    for g_, b_, il in zip(gam, chain["b1"], inv_lo):
+        a_s *= (1 / (sol["alpha_GUT"] * il)) ** (float(g_) / (2 * float(b_)))   # (alpha(M_I)/alpha(M_GUT))^(G/2b)
+    a_hi, a_lo = _alpha_one_loop(sol["M_I"], x, None), _alpha_one_loop(x["M_Z"], x, None)
+    for e, al, ah in zip(proton_exponents("SM", op), a_lo, a_hi):
+        a_s *= (al / ah) ** e
+    return a_s
+
+
+def proton_long_distance(runner: "FlavourRunner", x: Dict[str, float]) -> float:
+    """A_L: QCD running of the operators from M_Z to the matrix elements' scale (one loop in the
+    exponent 2 c_3 / b0 per flavour region, alpha_s from the script's four-loop running)."""
+    c3 = float(Fr(LITERATURE["proton_decay_d6"]["value"]["SM"]["S1"][2]))
+    pts = [(x["M_Z"], 5), (x["m_b"], 4), (x["mu_light"], 4)]
+    a_l = 1.0
+    for (hi, nf), (lo, _) in zip(pts[:-1], pts[1:]):
+        b0 = float(qcd_beta(nf)[0])
+        a_l *= (runner.alpha_s(lo) / runner.alpha_s(hi)) ** (2 * c3 / b0)
+    return a_l
+
+
+def proton_lifetime(x: Dict[str, float], m_x: float, alpha_gut: float, m_s: float | None, a_l: float,
+                    chain: Dict[str, Any] | None = None, sol: Dict[str, Any] | None = None) -> float:
+    """tau(p -> e+ pi0) in years. With a chain and its solution, the operators run with the chain's group above M_I."""
+    gev = x["e_charge"] * 10 ** 9
+    m_p = x["m_p"] * x["c"] ** 2 / gev
+    m_pi = x["m_pi0_MeV"] / 1000
+    g2 = 4 * math.pi * alpha_gut
+    if chain is not None:
+        s1, s2 = proton_short_distance_chain(x, chain, sol, "S1"), proton_short_distance_chain(x, chain, sol, "S2")
+    else:
+        s1, s2 = proton_short_distance(x, m_x, m_s, "S1"), proton_short_distance(x, m_x, m_s, "S2")
+    amp2 = s1 ** 2 * x["W_pi0_RL"] ** 2 + (1 + x["V_ud"] ** 2) ** 2 * s2 ** 2 * x["W_pi0_LL"] ** 2
+    width = m_p / (32 * math.pi) * (1 - m_pi ** 2 / m_p ** 2) ** 2 * a_l ** 2 * (g2 / m_x ** 2) ** 2 * amp2
+    hbar_gev_s = x["h"] / (2 * math.pi) / gev
+    return hbar_gev_s / width / 31557600                      # Julian year
+
+
+# --- Q2. Dimension five: p -> K+ nubar through the colour-triplet Higgsinos of minimal SUSY SU(5)
+# (Hisano, Kobayashi, Kuwahara, Nagata 2013, arXiv:1304.3651, eqs. 15-49). The triplet mass M_HC
+# is set to Part I's M_GUT, every superpartner (sfermions, wino, higgsino) to Part I's M_S, and
+# tan(beta) is Part J's. The unknown GUT phases phi_2, phi_3 (phi_1 = -phi_2 - phi_3) are scanned,
+# and the band of lifetimes is reported. Yukawas: SM running to M_S (Parts B, J), MSSM above;
+# operator running between M_HC and M_S with the Yukawas (eqs. 41, 42), gauge-only below (eqs. 37,
+# 38, SM b_i), QCD to 2 GeV (eq. 24). Not included: the wino and higgsino thresholds between M_S and
+# M_Z (taken at M_S), two-loop running, and the GUT-scale thresholds that fix M_HC.
+def ckm_from_wolfenstein(x: Dict[str, float]) -> List[List[complex]]:
+    """The CKM matrix from the PDG fit's Wolfenstein parameters, exactly (PDG convention)."""
+    lam, a, rho, eta = x["CKM_lambda"], x["CKM_A"], x["CKM_rhobar"], x["CKM_etabar"]
+    s12, s23 = lam, a * lam ** 2
+    z = complex(rho, eta)
+    s13e = a * lam ** 3 * z * math.sqrt(1 - a * a * lam ** 4) / (math.sqrt(1 - lam * lam) * (1 - a * a * lam ** 4 * z))
+    s13, delta = abs(s13e), cmath.phase(s13e)
+    return pmns(s12 ** 2, s13 ** 2, s23 ** 2, delta)          # same standard parametrization
+
+
+def _f_susy(m: float, ms: float) -> float:
+    """F(M, M_S^2) of eq. 16; its limit 1/(2 M_S) at M = M_S (eq. 18)."""
+    if abs(m / ms - 1) < num("check_rel_tol"):
+        return 1 / (2 * ms)
+    d = ms ** 2 - m ** 2
+    return m * (1 / d - m ** 2 / d ** 2 * math.log(ms ** 2 / m ** 2))
+
+
+def proton_decay_d5(flav: Dict[str, Any], m_s: float, m_hc: float, tan_beta: float) -> Dict[str, Any]:
+    x = _float_inputs()
+    runner = flav["runner"]
+    mt = runner.mt_msbar
+    mz, mw = x["M_Z"], x["M_W"]
+    q2 = x["mu_light"]
+    up, dn = Fr(2, 3), Fr(-1, 3)
+    sb, cb = tan_beta / math.sqrt(1 + tan_beta ** 2), 1 / math.sqrt(1 + tan_beta ** 2)
+    s2b = 2 * sb * cb
+    k = 16 * math.pi ** 2
+
+    def drbar(m: float, mu: float) -> float:                  # eq. 21
+        return m * (1 - runner.alpha_s(mu) / (3 * math.pi))
+    # quark masses (MS-bar -> DR-bar) at m_Z and at 2 GeV
+    src = {"d": (x["m_d"], q2, dn), "s": (x["m_s"], q2, dn), "c": (x["m_c"], x["m_c"], up),
+           "b": (x["m_b"], x["m_b"], dn), "t": (mt, mt, up)}
+    m_z = {q: drbar(runner.run_mass(m0, mu0, mz, ch), mz) for q, (m0, mu0, ch) in src.items()}
+    m_2 = {q: drbar(runner.run_mass(m0, mu0, q2, ch) if mu0 != q2 else m0, q2) for q, (m0, mu0, ch) in src.items()}
+    lep = lepton_masses_gev()
+    a0 = inp("alpha_em")
+    mtau_z = lepton_running_mass(lep["tau"], mz, a0)
+    # third-generation couplings at M_S (SM), second generation from the flavour stage's ratios
+    _, st = couplings_at_mt(flav)
+    s_ms = run_to(st, mt, m_s, "SM")
+    r_ms = flav["ratios"][min(flav["ratios"], key=lambda mu: abs(math.log(mu / m_s)))]
+    # MSSM couplings at M_S: y_u / sin(beta), y_d, y_e / cos(beta) (eq. 30); then run to M_HC with
+    # the ratios y_c/y_t and y_s/y_b (MSSM anomalous dimensions) and the operators' exponents
+    y0 = [s_ms[0], s_ms[1], s_ms[2], s_ms[3] / sb, s_ms[4] / cb, s_ms[5] / cb,
+          math.log(r_ms["r_ct"]), math.log(r_ms["r_sb"]), 0.0, 0.0, 0.0, 0.0, 0.0]
+    gauge6 = yukawa_rhs("MSSM")
+    r_mu_tau = lep["mu"] / lep["tau"]
+
+    def rhs(v: List[float], nf: int) -> List[float]:
+        g1, g2, g3, yt, yb, yl = v[:6]
+        out = gauge6(v[:6], nf)
+        yc, ys = yt * math.exp(v[6]), yb * math.exp(v[7])
+        gg = 8 * g3 ** 2 + 6 * g2 ** 2 + Fr(2, 5) * g1 ** 2
+        ups, dns, els = (yc, yt), (ys, yb), (yl * r_mu_tau, yl)
+        ints = [(2 * (ups[i] ** 2 + dns[j] ** 2) + els[j] ** 2 - float(gg)) / k for i in range(2) for j in range(2)]
+        cbar = (2 * (yt ** 2 + yl ** 2) - 8 * g3 ** 2 - float(Fr(12, 5)) * g1 ** 2) / k
+        return out + [-(3 * yt ** 2 + yb ** 2) / k, -(3 * yb ** 2 + yt ** 2) / k] + ints + [cbar]
+    top = integrate_ln_mu(y0, m_s, m_hc, rhs, [], int(num("rg_steps_per_efold")))
+    f = {"t": top[3], "b": top[4], "tau": top[5], "c": top[3] * math.exp(top[6]), "s": top[4] * math.exp(top[7])}
+    # C_ij(M_S)/C_ij(M_HC) = exp(-integral of the exponent from M_S to M_HC)
+    c_ratio = {(i, j): math.exp(-top[8 + 2 * a + b]) for a, i in enumerate(("c", "t")) for b, j in enumerate(("s", "b"))}
+    cbar_ratio = math.exp(-top[12])
+    # gauge-only running from M_S to m_Z (eqs. 37, 38; SM b_i)
+    b_sm = [float(b) for b in sm_gauge_b()]
+    al_s, al_z = _alpha_one_loop(m_s, x, None), _alpha_one_loop(mz, x, None)
+    ratio = [z_ / s_ for z_, s_ in zip(al_z, al_s)]
+    c_wino = ratio[2] ** (-2 / b_sm[2]) * ratio[1] ** (-15 / (2 * b_sm[1])) * ratio[0] ** (-1 / (10 * b_sm[0]))
+    c_higgsino = ratio[2] ** (-2 / b_sm[2]) * ratio[1] ** (-9 / (4 * b_sm[1])) * ratio[0] ** (-11 / (20 * b_sm[0]))
+    a2_z, a2_s = al_z[1], al_s[1]
+    # QCD below m_Z (eq. 24)
+    as2, asb, asz = runner.alpha_s(q2), runner.alpha_s(x["m_b"]), runner.alpha_s(mz)
+    a_l = (as2 / asb) ** Fr(-18, 25) * (asb / asz) ** Fr(-18, 23)
+    abar_l = (as2 / asb) ** Fr(-6, 5) * (asb / asz) ** Fr(-30, 23)
+    a_s = {(i, j): mw ** 2 * s2b * f[i] * f[j] / (4 * math.pi * m_z[i] * m_z[j]) * a2_s / a2_z ** 2
+           * c_wino * c_ratio[(i, j)] for i in ("c", "t") for j in ("s", "b")}
+    ybar_t_ms, ybar_tau_ms = s_ms[3] / sb, s_ms[5] / cb
+    abar_s = (mw ** 4 * s2b ** 2 * f["t"] * ybar_t_ms * ybar_tau_ms * f["s"]
+              / ((4 * math.pi) ** 2 * a2_z ** 2 * m_z["t"] ** 2 * mtau_z * m_z["s"]) * c_higgsino * cbar_ratio)
+    a_r = {key: a_l * v for key, v in a_s.items()}
+    abar_r = abar_l * abar_s
+    # hadronic matrix elements and the width (eqs. 44-49)
+    v = ckm_from_wolfenstein(x)
+    gev = x["e_charge"] * 10 ** 9
+    m_p = x["m_p"] * x["c"] ** 2 / gev
+    m_k, m_bar = x["m_K_MeV"] / 1000, (x["m_Sigma0_MeV"] + x["m_Lambda_MeV"]) / 2000
+    f_pi = x["f_pi_MeV"] / math.sqrt(2) / 1000
+    d_, f_ = x["baryon_D"], x["baryon_F"]
+    al_p, be_p = x["alpha_p_lattice"], x["beta_p_lattice"]
+    f_w, f_h = _f_susy(m_s, m_s), _f_susy(m_s, m_s)            # wino and higgsino at M_S
+    chi = 1 + (d_ + f_) * m_p / m_bar
+    idx = {"u": 0, "c": 1, "t": 2, "d": 0, "s": 1, "b": 2}
+
+    def amplitudes(ph2: float, ph3: float) -> Tuple[complex, complex]:
+        ph = {"c": ph2, "t": ph3}
+        ph1 = -ph2 - ph3
+        wino = {j: sum(m_2[i] * v[idx[i]][0] * v[idx[i]][1] * cmath.exp(1j * ph[i]) * a_r[(i, j)] for i in ("c", "t"))
+                for j in ("s", "b")}
+        c_mu = 2 * be_p * f_w * chi * m_2["s"] * v[0][1].conjugate() * wino["s"]
+        higg = (al_p * m_2["t"] ** 2 * mtau_z * v[2][2].conjugate() * cmath.exp(1j * ph1) / (mw ** 2 * s2b)
+                * f_h * abar_r * (m_2["d"] * v[0][0] * v[2][1] * (1 + (d_ + 3 * f_) / 3 * m_p / m_bar)
+                                  + m_2["s"] * v[0][1] * v[2][0] * 2 * d_ / 3 * m_p / m_bar))
+        c_tau = 2 * be_p * f_w * chi * m_2["b"] * v[0][2].conjugate() * wino["b"] - higg
+        return c_mu, c_tau
+
+    pre = m_p * a2_z ** 4 / (64 * math.pi * f_pi ** 2 * m_hc ** 2 * mw ** 4 * s2b ** 2) * (1 - m_k ** 2 / m_p ** 2) ** 2
+    hbar_gev_s = x["h"] / (2 * math.pi) / gev
+    n_ph = int(num("proton_phase_grid"))
+    taus = []
+    for a in range(n_ph):
+        for b in range(n_ph):
+            cm, ct = amplitudes(2 * math.pi * a / n_ph, 2 * math.pi * b / n_ph)
+            taus.append(hbar_gev_s / (pre * (abs(cm) ** 2 + abs(ct) ** 2)) / 31557600)
+    cm0, ct0 = amplitudes(0, 0)
+    higg_only = hbar_gev_s / (pre * abs(ct0 - 2 * be_p * f_w * chi * m_2["b"] * v[0][2].conjugate()
+                                         * sum(m_2[i] * v[idx[i]][0] * v[idx[i]][1] * a_r[(i, "b")]
+                                               for i in ("c", "t"))) ** 2) / 31557600
+    # eq. 19's constant implied by the full higgsino term: tau / [sin^4 2beta (0.1/Abar_R)^2 (M_S/100 TeV)^2
+    # (M_HC/1e16 GeV)^2]; with Hisano et al.'s alpha_p in place of the newer lattice value
+    eq19_c = higg_only / (s2b ** 4 * (1 / (10 * abar_r)) ** 2 * (m_s / 10 ** 5) ** 2 * (m_hc / 10 ** 16) ** 2)
+    eq19_c_hisano = eq19_c * (al_p / float(LITERATURE["proton_decay_d5_scaling"]["alpha_p"])) ** 2
+    return {"tan_beta": tan_beta, "M_S": m_s, "M_HC": m_hc, "A_L": a_l, "Abar_L": abar_l,
+            "eq19_constant": eq19_c, "eq19_constant_hisano_alpha_p": eq19_c_hisano,
+            "A_R": {f"{i}{j}": val for (i, j), val in a_r.items()}, "Abar_R": abar_r,
+            "f_GUT": f, "tau_min": min(taus), "tau_max": max(taus), "tau_higgsino_only": higg_only}
+
+
+def proton_decay(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any]) -> Dict[str, Any]:
+    x0 = _float_inputs()
+    runner = flav["runner"]
+    a_l = proton_long_distance(runner, x0)
+    lim = _comparison("tau_p_e_pi0")[0]
+    rows = []
+    au = alpha_unif.get("M_S_for_measured_alpha", {})
+    hyps = []
+    if au.get("M_GUT_GeV"):
+        hyps.append(("MSSM above M_S (Part I)", au["M_GUT_GeV"], au["alpha_GUT"], au["M_S_GeV"]))
+    sm12 = yukawa["btau_SM"][0]["mu"]
+    if math.isfinite(sm12):
+        hyps.append(("SM, X bosons where g1 = g2 (Part J)", sm12, _alpha_one_loop(sm12, x0, None)[1], None))
+    names = ("W_pi0_RL", "W_pi0_LL", "V_ud", "m_p", "m_pi0_MeV")
+    for label, m_x, a_g, m_s in hyps:
+        tau = proton_lifetime(x0, m_x, a_g, m_s, a_l)
+        tau_sig = _propagate(lambda x: proton_lifetime(x, m_x, a_g, m_s, a_l), names)
+        rows.append({"hypothesis": label, "M_X": m_x, "alpha_GUT": a_g, "M_S": m_s,
+                     "A_S1": proton_short_distance(x0, m_x, m_s, "S1"),
+                     "A_S2": proton_short_distance(x0, m_x, m_s, "S2"),
+                     "tau_years": tau, "tau_sigma": tau_sig, "limit": lim, "allowed": tau > lim,
+                     "ratio_to_limit": tau / lim, "M_X_needed": m_x * (lim / tau) ** (1 / 4)})
+    d5 = []
+    lim_k = _comparison("tau_p_K_nu")[0]
+    if au.get("M_GUT_GeV") and yukawa.get("btau_MSSM_unity"):
+        tbs = [yukawa["btau_MSSM_unity"]["tan_beta"]] + [r["tan_beta"] for r in yukawa.get("fixed_point_MSSM", {}).get("runs", [])]
+        for tb in tbs:
+            r5 = proton_decay_d5(flav, au["M_S_GeV"], au["M_GUT_GeV"], tb)
+            r5["allowed_somewhere"] = r5["tau_max"] > lim_k
+            r5["allowed_everywhere"] = r5["tau_min"] > lim_k
+            # M_HC that the limit needs (the lifetime grows as M_HC^2, at the most favourable phases)
+            r5["M_HC_needed"] = r5["M_HC"] * math.sqrt(lim_k / r5["tau_max"])
+            r5["M_S_needed_scaling"] = r5["M_S"] * math.sqrt(lim_k / r5["tau_max"])
+            d5.append(r5)
+    return {"A_L": a_l, "A_L_two_loop_quoted": float(LITERATURE["proton_decay_d6"]["value"]["A_L_two_loop"]),
+            "rows": rows, "limit_e_pi0": lim, "limit_K_nu": lim_k, "d5": d5}
+
+
+# =============================================================================
+# 6p. PART R: WHAT ANOMALY CANCELLATION FIXES (exact)
+# =============================================================================
+# A chiral gauge theory is consistent only if its gauge anomalies cancel. These are exact
+# polynomial conditions on the charges, and they are the one place where the Standard Model's
+# "free" quantum numbers are calculated:
+#   R1. hypercharges: with one family of the SM's representations and unknown hypercharges,
+#       [SU(3)]^2 U(1), [SU(2)]^2 U(1), [gravity]^2 U(1) and U(1)^3 leave the SM's assignment
+#       (up to normalization and naming u^c <-> d^c) or a branch with Y_Q = 0; the Yukawa
+#       couplings select the SM. Electric charge is then quantized: q_p + q_e = 0 exactly.
+#       A right-handed neutrino reopens one direction (B - L); a Majorana mass closes it.
+#   R2. Witten's global SU(2) anomaly: an even number of doublets.
+#   R3. SO(10) (Part D): every SO(10) representation is anomaly-free, so the 16 allows any number of
+#       families; asymptotic freedom of the SO(10) coupling with the chain's scalars bounds it from above,
+#       and CP violation in the quark mixing (Kobayashi-Maskawa) needs at least three.
+FIELDS_ONE_FAMILY = (("Q", 3, 2), ("u^c", 3, 1), ("d^c", 3, 1), ("L", 1, 2), ("e^c", 1, 1))
+
+
+def sm_anomalies(y: Dict[str, Fr], extra: Sequence[Tuple[str, int, int]] = ()) -> Dict[str, Fr]:
+    """The four hypercharge anomalies of one family (left-handed Weyl fields)."""
+    fields = FIELDS_ONE_FAMILY + tuple(extra)
+    return {"SU3^2 U1": sum(y[n] * d2 for n, d3, d2 in fields if d3 == 3),
+            "SU2^2 U1": sum(y[n] * d3 for n, d3, d2 in fields if d2 == 2),
+            "grav^2 U1": sum(y[n] * d3 * d2 for n, d3, d2 in fields),
+            "U1^3": sum(y[n] ** 3 * d3 * d2 for n, d3, d2 in fields)}
+
+
+def _rational_sqrt(q: Fr) -> Fr | None:
+    if q < 0:
+        return None
+    n, d = math.isqrt(q.numerator), math.isqrt(q.denominator)
+    return Fr(n, d) if n * n == q.numerator and d * d == q.denominator else None
+
+
+def hypercharge_solutions() -> Dict[str, Any]:
+    """Every hypercharge assignment of one family with cancelling anomalies (exact)."""
+    # the three linear conditions give Y_L, Y_d, Y_e from Y_Q, Y_u; U(1)^3 is then quadratic in Y_u
+    def complete(yq: Fr, yu: Fr) -> Dict[str, Fr]:
+        return {"Q": yq, "u^c": yu, "d^c": -2 * yq - yu, "L": -3 * yq, "e^c": 6 * yq}
+    yq = Fr(1, 6)                                   # the normalization (any nonzero value scales)
+    pts = [Fr(k) for k in range(3)]
+    vals = [sm_anomalies(complete(yq, p))["U1^3"] for p in pts]
+    # quadratic through three points: a t^2 + b t + c
+    c = vals[0]
+    a = (vals[2] - 2 * vals[1] + vals[0]) / 2
+    b = vals[1] - vals[0] - a
+    disc = _rational_sqrt(b * b - 4 * a * c)
+    roots = sorted({(-b + s_ * disc) / (2 * a) for s_ in (1, -1)}) if disc is not None and a != 0 else []
+    sols = [complete(yq, r) for r in roots]
+    ok = all(all(v == 0 for v in sm_anomalies(s_).values()) for s_ in sols)
+    # the Y_Q = 0 branch: Y_L = Y_e = 0, Y_d = -Y_u, any Y_u (only right-handed quarks charged)
+    branch = complete(Fr(0), Fr(1))
+    branch_ok = all(v == 0 for v in sm_anomalies(branch).values())
+    # Yukawa couplings Q H u^c, Q H* d^c, L H* e^c: Y_H = -Y_Q - Y_u = Y_Q + Y_d = Y_L + Y_e
+    def yukawa_ok(s_: Dict[str, Fr]) -> bool:
+        yh = -s_["Q"] - s_["u^c"]
+        return yh == s_["Q"] + s_["d^c"] == s_["L"] + s_["e^c"] and yh != 0
+    sm_like = [s_ for s_ in sols if yukawa_ok(s_)]
+    out: Dict[str, Any] = {"solutions": sols, "all_cancel": ok, "Y_Q_zero_branch_cancels": branch_ok,
+                           "Y_Q_zero_branch_has_yukawas": yukawa_ok(branch), "with_yukawas": sm_like}
+    # charges: Q = T3 + Y / (2 Y_H), so that the Higgs' neutral component is neutral (a photon)
+    if sm_like:
+        s_ = sm_like[0]
+        yh = -s_["Q"] - s_["u^c"]
+        norm = 1 / (2 * yh)
+        q_u, q_d = Fr(1, 2) + s_["Q"] * norm, -Fr(1, 2) + s_["Q"] * norm
+        q_e = -Fr(1, 2) + s_["L"] * norm
+        out["charges"] = {"u": q_u, "d": q_d, "e": q_e, "nu": Fr(1, 2) + s_["L"] * norm,
+                          "proton_plus_electron": 2 * q_u + q_d + q_e, "neutron": q_u + 2 * q_d,
+                          "Y_H": yh}
+    # a right-handed neutrino nu^c (singlet): the SM plus eps (B - L) cancels for every eps
+    bl = {"Q": Fr(1, 3), "u^c": Fr(-1, 3), "d^c": Fr(-1, 3), "L": Fr(-1), "e^c": Fr(1), "nu^c": Fr(1)}
+    if sm_like:
+        base = dict(sm_like[0])
+        base["nu^c"] = Fr(0)
+        fam = [{k: base[k] + e * bl[k] for k in bl} for e in (Fr(1, 7), Fr(-2, 3), Fr(5))]
+        out["nu_R_family_cancels"] = all(all(v == 0 for v in sm_anomalies(f_, [("nu^c", 1, 1)]).values())
+                                         for f_ in fam)
+        f_ = fam[0]
+        yh = -f_["Q"] - f_["u^c"]
+        qu, qd = Fr(1, 2) + f_["Q"] / (2 * yh), -Fr(1, 2) + f_["Q"] / (2 * yh)
+        qe = -Fr(1, 2) + f_["L"] / (2 * yh)
+        # hydrogen has B - L = 0, so it stays neutral; the neutron (B - L = 1) does not
+        out["nu_R_hydrogen_charge"] = 2 * qu + qd + qe
+        out["nu_R_neutron_charge_per_eps"] = (qu + 2 * qd) / Fr(1, 7)
+        # Dirac Yukawa L H nu^c holds for every eps; a Majorana mass nu^c nu^c needs Y(nu^c) = 0, so eps = 0
+        out["nu_R_dirac_yukawa_ok"] = f_["L"] + yh + f_["nu^c"] == 0
+    return out
+
+
+SO10_CHAIN_SCALARS = ((10, "complex"), (126, "complex"), (210, "real"))   # the minimal left-right theory (Part T13)
+
+
+def anomaly_constraints() -> Dict[str, Any]:
+    out: Dict[str, Any] = {"hypercharge": hypercharge_solutions()}
+    # R2. Witten: doublets per family (colour copies count)
+    per_family = sum(d3 for _, d3, d2 in FIELDS_ONE_FAMILY if d2 == 2)
+    out["witten_doublets_per_family"] = per_family
+    # R3. SO(10): the 16 is anomaly-free for any number of families; asymptotic freedom and CP bound N_f
+    out["so10_families"] = so10_family_bound(SO10_CHAIN_SCALARS)
+    return out
+
+
+# =============================================================================
+# 6q. PART S: THE BARYON ASYMMETRY
+# =============================================================================
+# The universe has baryons and almost no antibaryons: eta_B = n_B / n_gamma, calculated here from
+# the measured baryon density and T_CMB. Making it needs Sakharov's three conditions (B violation,
+# C and CP violation, departure from equilibrium).
+#   S1. eta_B from Omega_b h^2 and T_CMB.
+#   S2. The Standard Model alone: sphalerons violate B + L (Delta B = Delta L = N_f per transition,
+#       from the SU(2) anomaly of Part R) and convert lepton number to baryon number by a factor
+#       fixed by chemical equilibrium, solved exactly here. But the transition is a crossover for
+#       the measured Higgs mass (lattice), and the CKM CP violation at T_c is the flavour invariant
+#       of Part O over T_c^12: both fail.
+#   S3. Leptogenesis (the seesaw of Part P): heavy right-handed neutrinos decay out of equilibrium.
+#       eta_B = c_sph (3/4) (g*s today / g*) epsilon_1 kappa (kappa <= 1, the efficiency), with every
+#       factor from the field content, and Davidson-Ibarra's bound |epsilon_1| <= 3 M_1 (m_3 - m_1) /
+#       (8 pi <H>^2) (their eq. 17) turns eta_B into a lower bound on M_1, against Part P's window.
+def sphaleron_conversion(n_f: int, n_h: int) -> Dict[str, Fr]:
+    """B / (B - L) in chemical equilibrium (fast Yukawas, sphalerons, zero hypercharge), exactly.
+    Unknowns per family (all families equal): mu_Q, mu_u, mu_d, mu_L, mu_e and mu_H."""
+    hyp = {name: y for name, _, _, y, _, _ in SM_FIELDS}
+    # right-handed fields carry minus the hypercharge of the conjugates in SM_FIELDS
+    y_q, y_u, y_d, y_l, y_e, y_h = hyp["Q"], -hyp["u^c"], -hyp["d^c"], hyp["L"], -hyp["e^c"], hyp["H"]
+    # solve with mu_L = 1: Yukawas give mu_u = mu_Q + mu_H, mu_d = mu_Q - mu_H, mu_e = mu_L - mu_H;
+    # sphalerons n_f (3 mu_Q + mu_L) = 0 give mu_Q = -mu_L/3; hypercharge neutrality fixes mu_H.
+    mu_l = Fr(1)
+    mu_q = -mu_l / 3
+
+    def charge(mu_h: Fr) -> Fr:
+        mu_u, mu_d, mu_e = mu_q + mu_h, mu_q - mu_h, mu_l - mu_h
+        ferm = n_f * (6 * y_q * mu_q + 3 * y_u * mu_u + 3 * y_d * mu_d + 2 * y_l * mu_l + y_e * mu_e)
+        return ferm + 2 * 2 * y_h * mu_h * n_h            # bosons: twice the fermions' weight
+    c0, c1 = charge(Fr(0)), charge(Fr(1)) - charge(Fr(0))
+    mu_h = -c0 / c1
+    mu_u, mu_d, mu_e = mu_q + mu_h, mu_q - mu_h, mu_l - mu_h
+    b = n_f * (2 * mu_q + mu_u + mu_d)                 # 1/3 per quark times 3 colours
+    l = n_f * (2 * mu_l + mu_e)
+    return {"B_over_BminusL": b / (b - l), "L_over_BminusL": l / (b - l), "mu_H_over_mu_L": mu_h}
+
+
+def relativistic_dof(extra_majorana: int = 0) -> Dict[str, Fr]:
+    """g* of the SM plasma from the field content (and of today's photons + neutrinos, g*s)."""
+    gauge = sum(n * n - 1 for n in (2, 3)) + 1
+    bos = 2 * gauge + sum(2 * d3 * d2 * copies for _, d3, d2, _, kind, copies in SM_FIELDS if kind == "complex_scalar")
+    ferm = sum(2 * d3 * d2 * copies for _, d3, d2, _, kind, copies in SM_FIELDS if kind == "weyl")
+    g_star = bos + Fr(7, 8) * (ferm + 2 * extra_majorana)
+    n_nu = sum(copies for name, _, _, _, _, copies in SM_FIELDS if name == "L")
+    g_s_today = 2 + Fr(7, 8) * 2 * n_nu * Fr(4, 11)
+    return {"g_star": g_star, "g_s_today": g_s_today, "bosons": Fr(bos), "fermions": Fr(ferm)}
+
+
+def leptogenesis_efficiency(k_dec: float) -> Tuple[float, float]:
+    """(z_B, kappa_f) for decay parameter K = m~_1 / m_*: z_B solves Buchmuller, Di Bari, Plumacher's
+    eq. 59, (K/4) z^3 e^-z (1 + sqrt(pi z / 2)) = z - 1 (bisection, z > 1); kappa_f from their eq. 22
+    (thermal initial abundance; scatterings neglected, which gives the largest efficiency)."""
+    def g(z: float) -> float:
+        return k_dec / 4 * z ** 3 * math.exp(-z) * (1 + math.sqrt(math.pi * z / 2)) - (z - 1)
+    lo, hi = 1.0, 2.0
+    while g(hi) > 0:
+        hi *= 2
+    # g(1) > 0 and g < 0 beyond the root: the largest root is where the asymmetry freezes
+    for _ in range(int(num("nu_bisections"))):
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if g(mid) > 0 else (lo, mid)
+    z_b = (lo + hi) / 2
+    return z_b, 2 / (k_dec * z_b) * (1 - math.exp(-k_dec * z_b / 2))
+
+
+def equilibrium_neutrino_mass(v_h: float, m_planck: float, g_star: float) -> float:
+    """m_* = 16 pi^(5/2) sqrt(g*) v^2 / (3 sqrt5 M_P) in eV (their eq. 10, v = <H> = 174 GeV)."""
+    return 16 * math.pi ** Fr(5, 2) * math.sqrt(g_star) * v_h ** 2 / (3 * math.sqrt(5) * m_planck) * 10 ** 9
+
+
+def baryon_asymmetry(cosmo: Dict[str, Any], flav: Dict[str, Any], nus: Dict[str, Any],
+                     planck: Dict[str, float]) -> Dict[str, Any]:
+    x = _float_inputs()
+    out: Dict[str, Any] = {}
+    # S1. eta_B
+    def eta(xx: Dict[str, float]) -> float:
+        hbar = xx["h"] / (2 * math.pi)
+        n_gamma = 2 * zeta3() / math.pi ** 2 * (xx["k_B"] * xx["T_CMB"] / (hbar * xx["c"])) ** 3
+        mpc = xx["au"] * 648000 / math.pi * 10 ** 6
+        rho_c100 = 3 * (100 * 1000 / mpc) ** 2 / (8 * math.pi * xx["G"])
+        return xx["Omega_b_h2"] * rho_c100 / xx["m_p"] / n_gamma
+    out["eta_B"] = eta(x)
+    out["eta_B_sigma"] = _propagate(eta, ("Omega_b_h2", "T_CMB", "G"))
+    # S2. the Standard Model
+    n_f = sum(copies for name, _, _, _, _, copies in SM_FIELDS if name == "L")
+    n_h = sum(copies for _, _, _, _, kind, copies in SM_FIELDS if kind == "complex_scalar")
+    sph = sphaleron_conversion(n_f, n_h)
+    out["sphaleron"] = {"delta_B_per_transition": n_f, "n_f": n_f, "n_h": n_h, **sph}
+    lat = LITERATURE["ew_transition"]["value"]
+    m_end, m_end_s = (float(v) for v in lat["endpoint_m_h"])
+    t_c, t_c_s = (float(v) for v in lat["T_c"])
+    mh = _comparison("m_h")[0]
+    out["transition"] = {"endpoint_m_h": m_end, "endpoint_sigma": m_end_s, "m_h": mh,
+                         "n_sigma_above": (mh - m_end) / m_end_s, "T_c": t_c, "T_c_sigma": t_c_s}
+    r0 = flav["ratios"][flav["runner"].mt_msbar]
+    ups = [r0[k] for k in ("m_u", "m_c", "m_t")]
+    dns = [r0[k] for k in ("m_d", "m_s", "m_b")]
+    prod = 1.0
+    for ms_ in (ups, dns):
+        for i in range(3):
+            for j in range(i + 1, 3):
+                prod *= ms_[j] ** 2 - ms_[i] ** 2
+    j_cp = _comparison("J")[0]
+    out["cp_measure"] = {"J": j_cp, "delta_CP": j_cp * prod / t_c ** 12, "T": t_c}
+    # S3. leptogenesis
+    dof = relativistic_dof(extra_majorana=1)
+    f_eta = float(sph["B_over_BminusL"]) * Fr(3, 4) * float(dof["g_s_today"] / dof["g_star"])
+    out["leptogenesis"] = {"eta_per_epsilon_kappa": f_eta, "g_star": dof["g_star"], "g_s_today": dof["g_s_today"]}
+    v_h = flav["runner"].v / math.sqrt(2)                       # <H> = v / sqrt2
+    eps_min = out["eta_B"] / abs(f_eta)
+    # the SM bound on the CP asymmetry, |epsilon_1| <= 3 M_1 (m_3 - m_1) / (16 pi <H>^2) (Buchmuller, Di Bari,
+    # Plumacher, eq. 31; Davidson-Ibarra's eq. 17 is written for the MSSM, whose asymmetry is twice as large)
+    rows = []
+    for o, rec in nus["orderings"].items():
+        ms_ = rec["masses_at_m0_0"]
+        dm = (max(ms_) - min(ms_)) * 10 ** -9                    # GeV
+        m1_min = eps_min * 16 * math.pi * v_h ** 2 / (3 * dm)
+        rows.append({"ordering": o, "m3_minus_m1_eV": dm * 10 ** 9, "M1_min": m1_min,
+                     "window_top": rec["seesaw"]["M_max_perturbative"],
+                     "window_open": m1_min < rec["seesaw"]["M_max_perturbative"]})
+    out["leptogenesis"]["epsilon_min"] = eps_min
+    out["leptogenesis"]["rows"] = rows
+    # the efficiency: kappa_f(K), K = m~_1 / m_*, over the natural range m_sol <= m~_1 <= m_atm (NO, m0 = 0)
+    g_sm = relativistic_dof()["g_star"]
+    m_star = equilibrium_neutrino_mass(v_h, planck["E_P_GeV"], float(g_sm))
+    ms_no = nus["orderings"]["NO"]["masses_at_m0_0"]
+    m_sol, m_atm_ = ms_no[1], ms_no[2]
+    no_min = rows[0]["M1_min"]
+    eff = []
+    n_k = int(num("nu_m0_points"))
+    for k in range(n_k):
+        mt_ = m_sol * (m_atm_ / m_sol) ** (k / (n_k - 1))
+        z_b, kap_ = leptogenesis_efficiency(mt_ / m_star)
+        eff.append({"m_tilde_eV": mt_, "K": mt_ / m_star, "z_B": z_b, "kappa": kap_, "M1_min": no_min / kap_})
+    out["leptogenesis"]["m_star_eV"] = m_star
+    out["leptogenesis"]["efficiency"] = eff
+    out["leptogenesis"]["M1_min_natural"] = (eff[0]["M1_min"], eff[-1]["M1_min"])
+    # Davidson-Ibarra's own example: epsilon > 1e-6 needs M_1 > 4e9 GeV (their text, m_3 ~ the atmospheric mass)
+    m_atm = nus["orderings"]["NO"]["seesaw"]["m_heaviest_eV"] * 10 ** -9
+    out["leptogenesis"]["di_example_M1"] = 10 ** -6 * 8 * math.pi * v_h ** 2 / (3 * m_atm)   # their normalization
+    return out
+
+
+# =============================================================================
+# 6r. PART T: SO(10)
+# =============================================================================
+# SO(10) puts a whole family, with a right-handed neutrino, into one 16. What that fixes:
+#   T1. Group theory (exact): the 16's content is Part R's family plus nu^c; gauging B - L is
+#       anomaly-free only with nu^c; the GUT normalization of hypercharge, sin^2 theta_W = 3/8 at
+#       the unification scale, from traces over the 16.
+#   T2. Minimal Yukawas (one 10_H): M_u ~ M_d ~ M_e ~ M_nu^D, so V = 1 and m_c/m_t = m_s/m_b =
+#       m_mu/m_tau at M_GUT; tested with Part B's running ratios.
+#   T3. t-b-tau unification (one 10_H in the MSSM): y_t = y_b = y_tau at M_GUT, with Part I's scales;
+#       tan(beta) scanned; the SUSY threshold to m_b it would need.
+#   T4. Non-supersymmetric SO(10) through Pati-Salam SU(4) x SU(2)_L x SU(2)_R at M_I: one-loop
+#       running, b_i from the field content (fermions in (4,2,1) + (4bar,1,2), scalars (1,2,2) and
+#       (10,1,3)); the three measured couplings fix M_I, M_GUT and alpha_GUT exactly (a linear
+#       system), and then proton decay (Part Q) and the seesaw / leptogenesis scale (Parts P, S).
+SO10_16 = (("Q", 3, 2), ("u^c", 3, 1), ("d^c", 3, 1), ("L", 1, 2), ("e^c", 1, 1), ("nu^c", 1, 1))
+BL_CHARGE = {"Q": Fr(1, 3), "u^c": Fr(-1, 3), "d^c": Fr(-1, 3), "L": Fr(-1), "e^c": Fr(1), "nu^c": Fr(1)}
+
+
+def bl_anomalies(with_nu_c: bool) -> Dict[str, Fr]:
+    fields = [f for f in SO10_16 if with_nu_c or f[0] != "nu^c"]
+    return {"SU3^2 (B-L)": sum(BL_CHARGE[n] * d2 for n, d3, d2 in fields if d3 == 3),
+            "SU2^2 (B-L)": sum(BL_CHARGE[n] * d3 for n, d3, d2 in fields if d2 == 2),
+            "grav^2 (B-L)": sum(BL_CHARGE[n] * d3 * d2 for n, d3, d2 in fields),
+            "(B-L)^3": sum(BL_CHARGE[n] ** 3 * d3 * d2 for n, d3, d2 in fields)}
+
+
+def weinberg_angle_at_unification() -> Dict[str, Fr]:
+    """sin^2 theta_W = Tr T3^2 / Tr Q^2 over one 16 (any complete multiplet), and the GUT normalization."""
+    hyp = {n: y for n, _, _, y, _, _ in SM_FIELDS}
+    hyp["nu^c"] = Fr(0)
+    t3sq = Fr(0)
+    qsq = Fr(0)
+    ysq = Fr(0)
+    for n, d3, d2 in SO10_16:
+        t3 = [Fr(1, 2), Fr(-1, 2)] if d2 == 2 else [Fr(0)]
+        for t in t3:
+            q = t + hyp[n]
+            t3sq += d3 * t * t
+            qsq += d3 * q * q
+            ysq += d3 * hyp[n] ** 2
+    return {"sin2_theta_W": t3sq / qsq, "GUT_norm": t3sq / ysq}
+
+
+def _pati_salam_b() -> Dict[str, Fr]:
+    """One-loop b for SU(4), SU(2)_L, SU(2)_R: gauge, three families of (4,2,1) + (4bar,1,2) Weyl
+    fermions, complex scalars (1,2,2) and (10,1,3)."""
+    def t_index(n: int, dim: int) -> Fr:
+        return {1: Fr(0), n: Fr(1, 2)}.get(dim, {(4, 10): Fr(3), (4, 15): Fr(4), (2, 3): Fr(2)}.get((n, dim), Fr(0)))
+    b = {"4": -Fr(11, 3) * 4, "2L": -Fr(11, 3) * 2, "2R": -Fr(11, 3) * 2}
+    n_f = sum(copies for name, _, _, _, _, copies in SM_FIELDS if name == "L")
+    reps = [((4, 2, 1), "weyl", n_f), ((4, 1, 2), "weyl", n_f), ((1, 2, 2), "scalar", 1), ((10, 1, 3), "scalar", 1)]
+    for (d4, d2l, d2r), kind, copies in reps:
+        w_ = Fr(2, 3) if kind == "weyl" else Fr(1, 3)
+        b["4"] += w_ * copies * t_index(4, d4) * d2l * d2r
+        b["2L"] += w_ * copies * t_index(2, d2l) * d4 * d2r
+        b["2R"] += w_ * copies * t_index(2, d2r) * d4 * d2l
+    return b
+
+
+def pati_salam_unification(x: Dict[str, float]) -> Dict[str, Any]:
+    """One loop: SM from M_Z to M_I, Pati-Salam from M_I to M_GUT; solve the linear system for
+    (t_I = ln M_I/M_Z, D = ln M_GUT/M_I, 1/alpha_GUT)."""
+    a, s2 = 1 / x["alpha_em_inv_MZ"], x["s2_hat_Z"]
+    inv0 = [float(GUT_NORM) * (1 - s2) / a, s2 / a, 1 / x["alpha_s_MZ"]]     # 1/alpha_1, 1/alpha_2, 1/alpha_3
+    bs = [float(b) for b in sm_gauge_b()]
+    bp = {k: float(v) for k, v in _pati_salam_b().items()}
+    tp = 2 * math.pi
+    gn = float(GUT_NORM)
+    # 1/alpha_1 = gn / alpha_2R + (1 - gn) / alpha_4 at M_I  ->  1/alpha_2R = (1/alpha_1 - (1 - gn)/alpha_3) / gn
+    # unknowns u = (t_I, D, A): rows "value at M_I - b/(2 pi) D - A = 0"
+    rows = [  # coefficients of (t_I, D, A) and the constant
+        ([-bs[2] / tp, -bp["4"] / tp, -1], inv0[2]),
+        ([-bs[1] / tp, -bp["2L"] / tp, -1], inv0[1]),
+        ([(-bs[0] / tp - (1 - gn) * (-bs[2] / tp)) / gn, -bp["2R"] / tp, -1], (inv0[0] - (1 - gn) * inv0[2]) / gn),
+    ]
+    m = [r[0] + [-r[1]] for r in rows]
+    for i in range(3):                                          # Gaussian elimination, partial pivoting
+        piv = max(range(i, 3), key=lambda r: abs(m[r][i]))
+        m[i], m[piv] = m[piv], m[i]
+        for r in range(3):
+            if r != i:
+                f = m[r][i] / m[i][i]
+                m[r] = [p - f * q for p, q in zip(m[r], m[i])]
+    t_i, d, a_inv = (m[i][3] / m[i][i] for i in range(3))
+    m_i = x["M_Z"] * math.exp(t_i)
+    return {"b_PS": _pati_salam_b(), "M_I": m_i, "M_GUT": m_i * math.exp(d), "alpha_GUT": 1 / a_inv,
+            "consistent": 0 < t_i and d > 0}
+
+
+# --- T5. Every minimal SO(10) chain at one and two loops. A chain is the gauge group between M_I and
+# M_GUT with its fields; its one- and two-loop b come from the field content by the same
+# Machacek-Vaughn formulas as the SM's (gauge part). The SM runs at two loops below M_I (gauge part,
+# as in Part I). Tree-level matching at M_I and M_GUT: the heavy-field thresholds are unknown.
+#   PS     SU(4) x SU(2)_L x SU(2)_R, scalars (1,2,2) + (10,1,3)
+#   PS+D   with D-parity: g_L = g_R above M_I; scalars add (10bar,3,1)
+#   LR     SU(3) x SU(2)_L x SU(2)_R x U(1)_{B-L}, scalars (1,2,2,0) + (1,1,3,2)
+#   LR+D   with D-parity: adds (1,3,1,2); g_L = g_R above M_I
+# U(1)_{B-L} is normalized as in SO(10): X = sqrt(3/8) (B - L), so hypercharge matches as
+# 1/alpha_1 = (3/5)/alpha_2R + (2/5)/alpha_X. Counting: each chain has exactly as many unknowns
+# as conditions (M_I, M_GUT, alpha_GUT, and for LR without D-parity the split of hypercharge
+# between SU(2)_R and B - L), so none predicts a coupling; the solution says where the scales are.
+BL_NORM = Fr(3, 8)
+
+
+def _rep_info(group: str, dim: int) -> Tuple[Fr, Fr]:
+    """(Dynkin index T, Casimir C2) of an irreducible SU(N) representation, by dimension."""
+    n = {"SU4": 4, "SU3": 3, "SU2": 2}[group]
+    if dim == 1:
+        return Fr(0), Fr(0)
+    if dim == n:
+        return Fr(1, 2), Fr(n * n - 1, 2 * n)
+    if dim == n * n - 1:
+        return Fr(n), Fr(n)
+    if dim == n * (n + 1) // 2 and n in (3, 4):              # symmetric tensor (the 6 of SU(3), the 10 of SU(4))
+        return Fr(n + 2, 2), Fr((n + 2) * (n - 1), n)
+    if (n, dim) == (4, 6):                                   # antisymmetric tensor of SU(4)
+        return Fr(n - 2, 2), Fr((n - 2) * (n + 1), n)
+    raise ValueError(f"representation {dim} of {group} not tabulated")
+
+
+def chain_b(groups: Sequence[str], fields, u1_norm: Fr = BL_NORM) -> Tuple[List[Fr], List[List[Fr]]]:
+    """One- and two-loop gauge b of a product group. fields: (rep, kind, copies); rep lists the
+    dimension under each SU(N) and, for the U(1), its charge (squared and normalized by u1_norm)."""
+    k = len(groups)
+    ca = [Fr(0) if g == "U1" else _rep_info(g, {"SU4": 15, "SU3": 8, "SU2": 3}[g])[1] for g in groups]
+    b1 = [-Fr(11, 3) * c for c in ca]
+    b2 = [[(-Fr(34, 3) * ca[i] ** 2 if i == j else Fr(0)) for j in range(k)] for i in range(k)]
+    for rep, kind, copies in fields:
+        dims = [1 if g == "U1" else r for g, r in zip(groups, rep)]
+        size = math.prod(dims)
+        s_i, c_i = [], []
+        for g, r, d in zip(groups, rep, dims):
+            t, c = (u1_norm * r * r, u1_norm * r * r) if g == "U1" else _rep_info(g, d)
+            s_i.append(t * Fr(size, d))
+            c_i.append(c)
+        w1 = Fr(2, 3) if kind == "weyl" else Fr(1, 3)
+        for i in range(k):
+            b1[i] += w1 * copies * s_i[i]
+            for j in range(k):
+                if kind == "weyl":
+                    b2[i][j] += copies * s_i[i] * (2 * c_i[j] + (Fr(10, 3) * ca[i] if i == j else 0))
+                else:
+                    b2[i][j] += copies * s_i[i] * (4 * c_i[j] + (Fr(2, 3) * ca[i] if i == j else 0))
+    return b1, b2
+
+
+def so10_chains() -> Dict[str, Dict[str, Any]]:
+    n_f = sum(copies for name, _, _, _, _, copies in SM_FIELDS if name == "L")
+    ps = [((4, 2, 1), "weyl", n_f), ((4, 1, 2), "weyl", n_f), ((1, 2, 2), "scalar", 1), ((10, 1, 3), "scalar", 1)]
+    lr = [((3, 2, 1, Fr(1, 3)), "weyl", n_f), ((3, 1, 2, Fr(-1, 3)), "weyl", n_f),
+          ((1, 2, 1, Fr(-1)), "weyl", n_f), ((1, 1, 2, Fr(1)), "weyl", n_f),
+          ((1, 2, 2, Fr(0)), "scalar", 1), ((1, 1, 3, Fr(2)), "scalar", 1)]
+    out = {"PS": {"groups": ("SU4", "SU2", "SU2"), "fields": ps, "D": False},
+           "PS+D": {"groups": ("SU4", "SU2", "SU2"), "fields": ps + [((10, 3, 1), "scalar", 1)], "D": True},
+           "LR": {"groups": ("SU3", "SU2", "SU2", "U1"), "fields": lr, "D": False},
+           "LR+D": {"groups": ("SU3", "SU2", "SU2", "U1"), "fields": lr + [((1, 3, 1, Fr(2)), "scalar", 1)], "D": True}}
+    for c in out.values():
+        c["b1"], c["b2"] = chain_b(c["groups"], c["fields"])
+    return out
+
+
+def _run_inv(inv: List[float], b1: List[float], b2: List[List[float]], t0: float, t1: float, loops: int) -> List[float]:
+    """1/alpha_i from ln mu = t0 to t1 (RK4, the script's unification step)."""
+    n = max(1, math.ceil(abs(t1 - t0) / num("unif_step")))
+    h = (t1 - t0) / n
+    k = len(inv)
+
+    def rhs(v: List[float]) -> List[float]:
+        a = [1 / x_ for x_ in v]
+        return [-b1[i] / (2 * math.pi) - (sum(b2[i][j] * a[j] for j in range(k)) / (8 * math.pi ** 2) if loops == 2 else 0)
+                for i in range(k)]
+    for _ in range(n):
+        inv = _rk4(rhs, inv, h)
+    return inv
+
+
+# 5c. The MS-bar matching constant of the heavy vector bosons. With two-loop running, one-loop matching is the
+# consistent order, and in MS-bar a heavy vector (with its eaten Goldstone, b = -21/6 T) leaves a constant even at
+# mu = M_V: Langacker-Polonsky 1993 (hep-ph/9210235) eq. 12 with footnote 9's C^1 = 1/21 gives
+# 1/alpha_i(low) = 1/alpha_i(high combination) - T_i(heavy V)/(12 pi), T_i the heavy vectors' Dynkin index under
+# the low group's factor i (= C2(G) - C2(G_i) for simple G; Hall 1981). No free number: the heavy vectors are the
+# broken generators. Their mass splittings (the logarithms) are T12/T13's thresholds.
+HEAVY_VECTORS = {
+    # at M_GUT, SO(10) -> the chain's group: (rep in the chain's notation, real copies: 2 for a complex pair)
+    "SU4": [((6, 2, 2), 1)],
+    "SU3": [((3, 2, 2, Fr(-2, 3)), 2), ((3, 1, 1, Fr(4, 3)), 2)],
+}
+HEAVY_VECTORS_MI = {
+    # at M_I, the chain's group -> SM: (SU(3) dim, SU(2)_L dim, Y, real copies); PS: leptoquarks and W_R; LR: W_R
+    "SU4": [(3, 1, Fr(2, 3), 2), (1, 1, Fr(1), 2)],
+    "SU3": [(1, 1, Fr(1), 2)],
+}
+
+
+def vector_threshold_constants(chain: Dict[str, Any]) -> Dict[str, List[Fr]]:
+    """T_i(heavy vectors) at M_GUT (per factor of the chain's group) and at M_I (per SM factor U(1)_Y GUT-normalized,
+    SU(2)_L, SU(3)), from HEAVY_VECTORS by the same index rules as chain_b."""
+    groups = chain["groups"]
+    t_g = [Fr(0)] * len(groups)
+    for rep, copies in HEAVY_VECTORS[groups[0]]:
+        dims = [1 if g == "U1" else r for g, r in zip(groups, rep)]
+        size = math.prod(dims)
+        for i, (g, r, d) in enumerate(zip(groups, rep, dims)):
+            t = BL_NORM * r * r if g == "U1" else _rep_info(g, d)[0]
+            t_g[i] += copies * t * Fr(size, d)
+    t_i = [Fr(0)] * 3
+    for d3, d2, y, copies in HEAVY_VECTORS_MI[groups[0]]:
+        t_i[0] += copies * GUT_NORM * y * y * d3 * d2
+        t_i[1] += copies * _rep_info("SU2", d2)[0] * d3
+        t_i[2] += copies * _rep_info("SU3", d3)[0] * d2
+    return {"M_GUT": t_g, "M_I": t_i}
+
+
+def solve_chain(chain: Dict[str, Any], x: Dict[str, float], loops: int,
+                shifts: Sequence[float] | None = None, vector_constants: bool | None = None) -> Dict[str, Any]:
+    """Newton's method on the chain's conditions; unknowns u = (t_I, t_G[, inv_2R(M_I)]) in ln mu.
+    shifts: a threshold correction added to each matching condition (in 1/alpha). vector_constants: the heavy
+    vectors' MS-bar matching constants at M_I and M_GUT (5c); by default on at two loops, off at one."""
+    a, s2 = 1 / x["alpha_em_inv_MZ"], x["s2_hat_Z"]
+    inv0 = [float(GUT_NORM) * (1 - s2) / a, s2 / a, 1 / x["alpha_s_MZ"]]
+    sm1 = [float(v) for v in sm_gauge_b()]
+    sm2 = [[float(v) for v in r] for r in (sm_two_loop_b() if loops == 2 else [[0] * 3] * 3)]
+    b1 = [float(v) for v in chain["b1"]]
+    b2 = [[float(v) for v in r] for r in chain["b2"]]
+    gn = float(GUT_NORM)
+    t_z = math.log(x["M_Z"])
+    free_split = chain["groups"][0] == "SU3" and not chain["D"]
+    if vector_constants is None:
+        vector_constants = loops == 2
+    vc = vector_threshold_constants(chain)
+    k12 = 12 * math.pi
+    c_mi = [float(t_) / k12 if vector_constants else 0.0 for t_ in vc["M_I"]]
+    c_g = [float(t_ - vc["M_GUT"][1]) / k12 if vector_constants else 0.0 for t_ in vc["M_GUT"]]
+
+    def at_mi(u: List[float]) -> List[float]:
+        s = _run_inv(inv0, sm1, sm2, t_z, u[0], loops)
+        i1, i2, i3 = (s_ + c_ for s_, c_ in zip(s, c_mi))           # 1/alpha of the high group's combinations
+        if chain["groups"][0] == "SU4":                  # alpha_4 = alpha_3; 2R from hypercharge
+            return [i3, i2, (i1 - (1 - gn) * i3) / gn]
+        r = u[2] if free_split else i2                    # LR: inv_2R free, or = inv_2L with D-parity
+        return [i3, i2, r, (i1 - gn * r) / (1 - gn)]
+
+    def residuals(u: List[float]) -> List[float]:
+        start = at_mi(u)
+        top = _run_inv(start, b1, b2, u[0], u[1], loops)
+        # unification in MS-bar: 1/alpha_i(M_GUT) = 1/alpha_G - T_i/(12 pi), so top_i - top_2L = -(T_i - T_2L)/(12 pi)
+        res = [top[0] - top[1] + c_g[0]] + [top[i] - top[1] + c_g[i] for i in range(2, len(top))]
+        if chain["D"] and chain["groups"][0] == "SU4":
+            res = [res[0], start[2] - start[1]]           # D-parity: g_R = g_L at M_I (then equal above)
+        elif chain["D"]:
+            res = [res[0], res[2]]                        # 2R = 2L above M_I automatically
+        if shifts:
+            res = [r_ + d_ for r_, d_ in zip(res, shifts)]
+        return res
+    u = [math.log(10 ** 11), math.log(10 ** 16)] + ([inv0[1]] if free_split else [])
+    h_ = num("unif_ms_deriv_step")
+    for _ in range(int(num("unif_iterations"))):
+        f0 = residuals(u)
+        if max(abs(v) for v in f0) < num("unif_tol"):
+            break
+        jac = []
+        for k in range(len(u)):
+            du = list(u)
+            du[k] += h_
+            jac.append([(fa - fb) / h_ for fa, fb in zip(residuals(du), f0)])
+        # solve J^T rows: jac[k][i] = d res_i / d u_k
+        n = len(u)
+        m = [[jac[k][i] for k in range(n)] + [-f0[i]] for i in range(n)]
+        for i in range(n):
+            piv = max(range(i, n), key=lambda r_: abs(m[r_][i]))
+            m[i], m[piv] = m[piv], m[i]
+            for r_ in range(n):
+                if r_ != i:
+                    f = m[r_][i] / m[i][i]
+                    m[r_] = [p - f * q for p, q in zip(m[r_], m[i])]
+        u = [u[i] + m[i][n] / m[i][i] for i in range(n)]
+    f0 = residuals(u)
+    top = _run_inv(at_mi(u), b1, b2, u[0], u[1], loops)
+    # alpha_G itself: 1/alpha_G = 1/alpha_2L(M_GUT) + T_2L/(12 pi)
+    inv_g = top[1] + (float(vc["M_GUT"][1]) / k12 if vector_constants else 0.0)
+    return {"M_I": math.exp(u[0]), "M_GUT": math.exp(u[1]), "alpha_GUT": 1 / inv_g, "inv_alpha_MI": at_mi(u),
+            "vector_constants": vector_constants,
+            "residual": max(abs(v) for v in f0), "consistent": t_z < u[0] < u[1]}
+
+
+def sm_as_chain() -> Tuple[List[Fr], List[List[Fr]]]:
+    """The SM's own content through chain_b: must equal sm_gauge_b and sm_two_loop_b (a check)."""
+    fields = [((y, d2, d3), "weyl" if kind == "weyl" else "scalar", copies)
+              for _, d3, d2, y, kind, copies in SM_FIELDS]
+    return chain_b(("U1", "SU2", "SU3"), fields, GUT_NORM)
+
+
+# --- T6. What lambda(M_I) is. Integrating out the heavy scalar whose vev breaks the chain at M_I
+# shifts the SM quartic at tree level (Elias-Miro, Espinosa, Giudice, Lee, Strumia 2012, eq. 5):
+#   lambda_SM(M_I) = lambda_H(M_I) - delta_lambda,  delta_lambda = lambda_HS^2 / lambda_S >= 0,
+# with the same normalization as Part L (m_h^2 = 2 lambda v^2). delta_lambda is unknown, so
+# lambda(M_I) = 0 is not a condition of the theory. What is fixed: below M_I the SM's own lambda
+# must stay positive for a stable vacuum, and above it lambda_H = lambda_SM + delta_lambda can stay
+# positive. So the threshold can stabilize the vacuum only if M_I lies below the scale mu_0 where the
+# SM's lambda (measured m_h, Part L's running) turns negative; lambda(M_I) = 0 is the boundary M_I = mu_0.
+def lambda_at_scale(crit: Dict[str, Any], m_h: float, mu: float, overrides: Dict[str, float] | None = None) -> float:
+    big_mt, _, full = anchored_state(overrides, m_h, crit.get("smdr"))
+    return run_sm(full[:6] + [full[6]], big_mt, mu, 3, int(num("crit_steps_per_efold")))[6]
+
+
+def instability_scale(crit: Dict[str, Any], m_h: float, overrides: Dict[str, float] | None = None) -> float:
+    """mu_0 where lambda turns negative (bisection in ln mu between M_t and M_P), or NaN if it never does."""
+    big_mt = inp("M_t") if not overrides or "M_t" not in overrides else overrides["M_t"]
+    lo, hi = math.log(big_mt), math.log(crit["planck"]["M_P"])
+    if lambda_at_scale(crit, m_h, math.exp(hi), overrides) > 0:
+        return math.nan
+    for _ in range(int(num("crit_iterations"))):
+        mid = (lo + hi) / 2
+        if lambda_at_scale(crit, m_h, math.exp(mid), overrides) > 0:
+            lo = mid
+        else:
+            hi = mid
+    return math.exp((lo + hi) / 2)
+
+
+def chain_vacuum(crit: Dict[str, Any], chains: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
+    mh = _comparison("m_h")[0]
+    mu0 = instability_scale(crit, mh)
+    s_t = sig("M_t")
+    band = [instability_scale(crit, mh, {"M_t": inp("M_t") + k * s_t}) for k in (-1, 1)]
+    rows = {}
+    for nm, ch in chains.items():
+        m_i = ch["loop2"]["M_I"]
+        lam = lambda_at_scale(crit, mh, m_i)
+        rows[nm] = {"M_I": m_i, "lambda_SM_at_MI": lam, "below_mu0": m_i < mu0,
+                    "ln_MI_over_mu0": math.log(m_i / mu0), "stabilizable": lam > 0}
+    return {"mu0": mu0, "mu0_band_Mt": sorted(b for b in band if math.isfinite(b)), "rows": rows}
+
+
+def chain_thresholds(chain: Dict[str, Any], x: Dict[str, float], base: Dict[str, Any], a_l: float,
+                     tau_limit: float, mu0: float, m1_nat: float) -> Dict[str, Any]:
+    """Every corner of the threshold box |delta_k| <= threshold_band (in 1/alpha, one per matching
+    condition), two loops: the ranges of M_I, M_GUT and tau_p, and whether any verdict flips."""
+    d_max = num("threshold_band")
+    n_cond = 3 if (chain["groups"][0] == "SU3" and not chain["D"]) else 2
+    rows = []
+    for signs in itertools.product((-1, 0, 1), repeat=n_cond):
+        r_ = solve_chain(chain, x, 2, [s_ * d_max for s_ in signs])
+        if not r_["consistent"] or r_["residual"] > num("unif_tol") * 100:
+            continue
+        r_["tau_p_years"] = proton_lifetime(x, r_["M_GUT"], r_["alpha_GUT"], None, a_l, chain, r_)
+        rows.append(r_)
+    mi = [r_["M_I"] for r_ in rows]
+    mg = [r_["M_GUT"] for r_ in rows]
+    tau = [r_["tau_p_years"] for r_ in rows]
+    base_p = base["tau_p_years"] > tau_limit
+    base_v = base["M_I"] < mu0
+    base_a = base["M_I"] >= m1_nat
+    return {"band": d_max, "corners": len(rows), "M_I": (min(mi), max(mi)), "M_GUT": (min(mg), max(mg)),
+            "tau_p": (min(tau), max(tau)),
+            "proton_flips": any((t_ > tau_limit) != base_p for t_ in tau),
+            "vacuum_flips": any((m_ < mu0) != base_v for m_ in mi),
+            "leptogenesis_flips": any((m_ >= m1_nat) != base_a for m_ in mi)}
+
+
+# --- T8. The heavy spectrum at M_GUT, by group theory. SO(10) -> Pati-Salam without D-parity is broken
+# by the D-odd singlet of a 210; the 126 (whose (10bar,1,3) breaks PS at M_I) and the 10 (whose (1,2,2) holds
+# the light Higgs) have their other components at M_GUT. Under SU(4) x SU(2)_L x SU(2)_R:
+#   210 = (1,1,1) + (15,1,1) + (15,3,1) + (15,1,3) + (6,2,2) + (10,2,2) + (10bar,2,2)
+#   126 = (6,1,1) + (10,3,1) + (10bar,1,3) + (15,2,2)            10 = (6,1,1) + (1,2,2)
+# The (6,2,2) of the 210 is eaten by the heavy vectors (6,2,2), whose mass defines M_GUT. Each remaining
+# heavy multiplet h with mass M_h shifts the couplings at M_GUT by (b_i^h / 2 pi) ln(M_h / M_GUT) (leading
+# log; b_i^h its one-loop contribution). The masses come from the unknown scalar potential: each is
+# scanned within a factor heavy_mass_spread of M_GUT, the response is linear in the logs, so every
+# extreme follows from one solve per multiplet.
+SO10_TO_PS = {10: ((6, 1, 1), (1, 2, 2)),
+              126: ((6, 1, 1), (10, 3, 1), (10, 1, 3), (15, 2, 2)),
+              210: ((1, 1, 1), (15, 1, 1), (15, 3, 1), (15, 1, 3), (6, 2, 2), (10, 2, 2), (10, 2, 2))}
+SO10_INDEX = {10: 1, 126: 35, 210: 56}                       # Dynkin indices, the 10 normalized to 1
+
+
+def so10_decomposition_index(rep: int) -> List[Fr]:
+    """Sum of the components' Dynkin indices under SU(4), SU(2)_L, SU(2)_R: each must equal the SO(10)
+    index (embedding index 1), a check of the decompositions T8 uses."""
+    tot = [Fr(0)] * 3
+    for comp in SO10_TO_PS[rep]:
+        size = math.prod(comp)
+        for i, (g, d) in enumerate(zip(("SU4", "SU2", "SU2"), comp)):
+            tot[i] += _rep_info(g, d)[0] * Fr(size, d)        # T(fund) = 1/2 gives T(10 of SO(10)) = 1
+    return tot
+
+
+PS_GUT_HEAVY = (("210: (15,1,1)", (15, 1, 1), "real"), ("210: (15,3,1)", (15, 3, 1), "real"),
+                ("210: (15,1,3)", (15, 1, 3), "real"), ("210: (10,2,2) + conj.", (10, 2, 2), "complex"),
+                ("126: (6,1,1)", (6, 1, 1), "complex"), ("126: (10,3,1)", (10, 3, 1), "complex"),
+                ("126: (15,2,2)", (15, 2, 2), "complex"), ("10: (6,1,1)", (6, 1, 1), "real"))
+
+
+def heavy_b(rep: Tuple[int, int, int], kind: str) -> List[Fr]:
+    """One-loop b of one scalar multiplet under SU(4), SU(2)_L, SU(2)_R (real: 1/6, complex: 1/3 S)."""
+    w_ = Fr(1, 6) if kind == "real" else Fr(1, 3)
+    size = math.prod(rep)
+    return [w_ * _rep_info(g, d)[0] * Fr(size, d) for g, d in zip(("SU4", "SU2", "SU2"), rep)]
+
+
+def heavy_spectrum_band(chain: Dict[str, Any], x: Dict[str, float], base: Dict[str, Any], a_l: float) -> Dict[str, Any]:
+    """d(ln M_I, ln M_GUT, ln tau_p)/d ln(M_h/M_GUT) per multiplet, and the extremes for |ln| <= ln(spread)."""
+    spread = math.log(num("heavy_mass_spread"))
+    rows = []
+    for name, rep, kind in PS_GUT_HEAVY:
+        bh = [float(v) for v in heavy_b(rep, kind)]
+        delta = [bh_ / (2 * math.pi) for bh_ in bh]              # per unit ln(M_h/M_GUT)
+        shifts = [delta[0] - delta[1], delta[2] - delta[1]]       # PS residuals: inv4 - inv2L, inv2R - inv2L
+        r_ = solve_chain(chain, x, 2, shifts)
+        tau = proton_lifetime(x, r_["M_GUT"], r_["alpha_GUT"], None, a_l, chain, r_)
+        rows.append({"multiplet": name, "b": heavy_b(rep, kind),
+                     "dlnMI": math.log(r_["M_I"] / base["M_I"]), "dlnMG": math.log(r_["M_GUT"] / base["M_GUT"]),
+                     "dlntau": math.log(tau / base["tau_p_years"])})
+    ext = {}
+    for key in ("dlnMI", "dlnMG", "dlntau"):
+        width = spread * sum(abs(r_[key]) for r_ in rows)
+        ext[key] = width
+    return {"spread": num("heavy_mass_spread"), "rows": rows,
+            "M_I": (base["M_I"] * math.exp(-ext["dlnMI"]), base["M_I"] * math.exp(ext["dlnMI"])),
+            "M_GUT": (base["M_GUT"] * math.exp(-ext["dlnMG"]), base["M_GUT"] * math.exp(ext["dlnMG"])),
+            "tau_p": (base["tau_p_years"] * math.exp(-ext["dlntau"]), base["tau_p_years"] * math.exp(ext["dlntau"]))}
+
+
+# --- T12. The left-right chain's heavy spectrum, by group theory. SO(10) -> SU(3) x SU(2)_L x SU(2)_R x U(1)_B-L
+# without D-parity needs the 210 to take both its 3221 singlets: the Pati-Salam singlet (odd under D) and the
+# B - L direction inside its (15,1,1) (even; alone it would leave D unbroken). The vectors eaten are
+# (3,2,2,-2/3) and (3,1,1,4/3) + conjugates (45 - 15 = 30). The 126 keeps Delta_R = (1,1,3,2) light (it breaks
+# 3221 at M_I) and the 10 + 126 one bidoublet (the light Higgs); everything else sits at M_GUT. Each entry:
+# (SU(3), SU(2)_L, SU(2)_R, B - L) with SU(4) = 3_1/3 + 1_-1, and whether the field is real or complex.
+SO10_TO_3221 = {
+    10: (((3, 1, 1, Fr(-2, 3)), "complex"), ((1, 2, 2, Fr(0)), "real")),
+    126: (((3, 1, 1, Fr(-2, 3)), "complex"), ((3, 1, 1, Fr(2, 3)), "complex"),
+          ((6, 3, 1, Fr(2, 3)), "complex"), ((3, 3, 1, Fr(-2, 3)), "complex"), ((1, 3, 1, Fr(-2)), "complex"),
+          ((6, 1, 3, Fr(-2, 3)), "complex"), ((3, 1, 3, Fr(2, 3)), "complex"), ((1, 1, 3, Fr(2)), "complex"),
+          ((8, 2, 2, Fr(0)), "complex"), ((1, 2, 2, Fr(0)), "complex"),
+          ((3, 2, 2, Fr(4, 3)), "complex"), ((3, 2, 2, Fr(-4, 3)), "complex")),
+    210: (((1, 1, 1, Fr(0)), "real"), ((1, 1, 1, Fr(0)), "real"), ((8, 1, 1, Fr(0)), "real"),
+          ((3, 1, 1, Fr(4, 3)), "complex"), ((8, 3, 1, Fr(0)), "real"), ((1, 3, 1, Fr(0)), "real"),
+          ((3, 3, 1, Fr(4, 3)), "complex"), ((8, 1, 3, Fr(0)), "real"), ((1, 1, 3, Fr(0)), "real"),
+          ((3, 1, 3, Fr(4, 3)), "complex"), ((3, 2, 2, Fr(-2, 3)), "complex"), ((3, 2, 2, Fr(-2, 3)), "complex"),
+          ((6, 2, 2, Fr(2, 3)), "complex"), ((1, 2, 2, Fr(-2)), "complex"))}
+LR_GUT_HEAVY = (
+    ("210: (8,1,1)", (8, 1, 1, Fr(0)), "real"), ("210: (8,3,1)", (8, 3, 1, Fr(0)), "real"),
+    ("210: (1,3,1)", (1, 3, 1, Fr(0)), "real"), ("210: (3,3,1)", (3, 3, 1, Fr(4, 3)), "complex"),
+    ("210: (8,1,3)", (8, 1, 3, Fr(0)), "real"), ("210: (1,1,3)", (1, 1, 3, Fr(0)), "real"),
+    ("210: (3,1,3)", (3, 1, 3, Fr(4, 3)), "complex"), ("210: (3,2,2)", (3, 2, 2, Fr(-2, 3)), "complex"),
+    ("210: (6,2,2)", (6, 2, 2, Fr(2, 3)), "complex"), ("210: (1,2,2)", (1, 2, 2, Fr(-2)), "complex"),
+    ("126: (3,1,1)", (3, 1, 1, Fr(-2, 3)), "complex"), ("126: (3,1,1)'", (3, 1, 1, Fr(2, 3)), "complex"),
+    ("126: (6,3,1)", (6, 3, 1, Fr(2, 3)), "complex"), ("126: (3,3,1)", (3, 3, 1, Fr(-2, 3)), "complex"),
+    ("126: (1,3,1) Delta_L", (1, 3, 1, Fr(-2)), "complex"), ("126: (6,1,3)", (6, 1, 3, Fr(-2, 3)), "complex"),
+    ("126: (3,1,3)", (3, 1, 3, Fr(2, 3)), "complex"), ("126: (8,2,2)", (8, 2, 2, Fr(0)), "complex"),
+    ("126: (1,2,2) heavy", (1, 2, 2, Fr(0)), "complex"), ("126: (3,2,2)", (3, 2, 2, Fr(4, 3)), "complex"),
+    ("126: (3,2,2)'", (3, 2, 2, Fr(-4, 3)), "complex"), ("10: (3,1,1)", (3, 1, 1, Fr(-2, 3)), "complex"))
+
+
+def heavy_b_3221(rep: Tuple[Any, ...], kind: str) -> List[Fr]:
+    """One-loop b of one scalar multiplet under SU(3), SU(2)_L, SU(2)_R, U(1)_B-L (charge normalized as in the
+    chains: BL_NORM (B - L)^2; real: 1/6, complex: 1/3 of the index sum)."""
+    w_ = Fr(1, 6) if kind == "real" else Fr(1, 3)
+    size = math.prod(rep[:3])
+    return [w_ * _rep_info(g, d)[0] * Fr(size, d) for g, d in zip(("SU3", "SU2", "SU2"), rep[:3])] + \
+        [w_ * BL_NORM * rep[3] ** 2 * size]
+
+
+def so10_decomposition_index_3221(rep: int) -> List[Fr]:
+    """Sum of the components' indices under SU(3), SU(2)_L, SU(2)_R and U(1)_B-L: must be the SO(10) index. In the
+    real 10 and 210 a complex component comes with its conjugate; the 126's components are its own."""
+    tot = [Fr(0)] * 4
+    for comp, kind in SO10_TO_3221[rep]:
+        b_ = heavy_b_3221(comp, kind)
+        for i in range(4):
+            tot[i] += b_[i] * (3 if (rep == 126 and kind == "complex") else 6)
+    return tot
+
+
+def heavy_spectrum_band_lr(chain: Dict[str, Any], x: Dict[str, float], base: Dict[str, Any], a_l: float) -> Dict[str, Any]:
+    """The left-right chain's heavy GUT multiplets: d(ln M_I, ln M_GUT, ln tau_p)/d ln(M_h/M_GUT) for each, and the
+    extremes when every one lies within heavy_mass_spread of M_GUT (linear in the logs)."""
+    spread = math.log(num("heavy_mass_spread"))
+    rows = []
+    for name, rep, kind in LR_GUT_HEAVY:
+        bh = [float(v) for v in heavy_b_3221(rep, kind)]
+        delta = [bh_ / (2 * math.pi) for bh_ in bh]
+        r_ = solve_chain(chain, x, 2, [delta[0] - delta[1], delta[2] - delta[1], delta[3] - delta[1]])
+        tau = proton_lifetime(x, r_["M_GUT"], r_["alpha_GUT"], None, a_l, chain, r_)
+        rows.append({"multiplet": name, "b": heavy_b_3221(rep, kind),
+                     "dlnMI": math.log(r_["M_I"] / base["M_I"]), "dlnMG": math.log(r_["M_GUT"] / base["M_GUT"]),
+                     "dlntau": math.log(tau / base["tau_p_years"])})
+    ext = {k: spread * sum(abs(r_[k]) for r_ in rows) for k in ("dlnMI", "dlnMG", "dlntau")}
+    return {"spread": num("heavy_mass_spread"), "rows": rows,
+            "M_I": (base["M_I"] * math.exp(-ext["dlnMI"]), base["M_I"] * math.exp(ext["dlnMI"])),
+            "M_GUT": (base["M_GUT"] * math.exp(-ext["dlnMG"]), base["M_GUT"] * math.exp(ext["dlnMG"])),
+            "tau_p": (base["tau_p_years"] * math.exp(-ext["dlntau"]), base["tau_p_years"] * math.exp(ext["dlntau"]))}
+
+
+# --- T9. The 210's own potential: the masses T8 left unknown, calculated. The 210 is the antisymmetric
+# tensor phi_ijkl of SO(10); its renormalizable potential is built from every invariant: the mass term
+# S2 = phi.phi, the cubic C = phi_ijkl phi_klmn phi_mnij, and four quartics Q1 = S2^2,
+# Q2 = A_lm A_ml (A_lm = phi_ijkl phi_ijkm), Q3 = B_(kl)(mn) B_(mn)(kl) (B = phi_ijkl phi_ijmn),
+# Q4 = phi_ijkl phi_ijmn phi_kmop phi_lnop. With the vev on the Pati-Salam singlet phi_789,10 = v, each
+# multiplet's mass is the curvature along one representative direction (SO(10) indices 0-5 for SO(6),
+# 6-9 for SO(4)): (15,1,1) phi_0123; (6,2,2) phi_0789 (eaten: must be massless for every coupling, a
+# check of the construction); (15,3,1) and (15,1,3) phi_0167 +- phi_0189; (10,2,2) phi_0126. The heavy
+# vectors get M_V^2 = g^2 v^2 / 2 (generators normalized to index 1 on the 10), which defines M_GUT.
+# The couplings are unknown: they are scanned (seeded) within a perturbative box, and a point counts
+# only if the vacuum is a local minimum and the quartic part is positive along a fixed set of random
+# directions (a necessary condition for a potential bounded below). Each viable point's masses then go
+# into T8's responses: the fraction of viable potentials that passes each test is the calculated answer.
+class _UniformStream:
+    """Deterministic floats: the 64-bit linear congruential generator of _IntStream, top 53 bits."""
+
+    def __init__(self, seed: int):
+        self.s = seed
+
+    def __call__(self) -> float:
+        self.s = (self.s * 6364136223846793005 + 1442695040888963407) % (1 << 64)
+        return (self.s >> 11) / (1 << 53)
+
+    def uniform(self, lo: float, hi: float) -> float:
+        return lo + (hi - lo) * self()
+
+    def gauss(self) -> float:
+        """Box-Muller."""
+        u1 = self() or 1 / (1 << 53)
+        return math.sqrt(-2 * math.log(u1)) * math.cos(2 * math.pi * self())
+
+
+def _perm_sign(p: Sequence[int]) -> int:
+    s_ = 1
+    for i in range(len(p)):
+        for j in range(i + 1, len(p)):
+            if p[i] > p[j]:
+                s_ = -s_
+    return s_
+
+
+def _full_tensor(phi: Dict[Tuple[int, ...], float]) -> Dict[Tuple[int, ...], float]:
+    out: Dict[Tuple[int, ...], float] = {}
+    for key, v in phi.items():
+        if v:
+            for p in itertools.permutations(range(4)):
+                idx = tuple(key[q] for q in p)
+                out[idx] = out.get(idx, 0) + _perm_sign(p) * v
+    return out
+
+
+def so10_210_invariants(phi: Dict[Tuple[int, ...], float]) -> Dict[str, float]:
+    f = _full_tensor(phi)
+    s2 = sum(v * v for v in f.values())
+    by3: Dict[Tuple[int, ...], List[Tuple[int, float]]] = {}
+    by2: Dict[Tuple[int, ...], List[Tuple[Tuple[int, int], float]]] = {}
+    for (i, j, k, l), v in f.items():
+        by3.setdefault((i, j, k), []).append((l, v))
+        by2.setdefault((i, j), []).append(((k, l), v))
+    a: Dict[Tuple[int, int], float] = {}
+    for lst in by3.values():
+        for l, v in lst:
+            for m, w_ in lst:
+                a[(l, m)] = a.get((l, m), 0) + v * w_
+    b: Dict[Tuple[Tuple[int, int], Tuple[int, int]], float] = {}
+    for lst in by2.values():
+        for kl, v in lst:
+            for mn, w_ in lst:
+                b[(kl, mn)] = b.get((kl, mn), 0) + v * w_
+    rows: Dict[Tuple[int, int], List[Tuple[Tuple[int, int], float]]] = {}
+    g_ = {((i, j), (k, l)): v for (i, j, k, l), v in f.items()}
+    for (r, c), v in g_.items():
+        rows.setdefault(r, []).append((c, v))
+    cub = sum(v * w_ * g_.get((c2, r), 0) for (r, c), v in g_.items() for c2, w_ in rows.get(c, []))
+    return {"S2": s2, "C": cub, "Q1": s2 * s2,
+            "Q2": sum(v * a.get((m, l), 0) for (l, m), v in a.items()),
+            "Q3": sum(v * b.get((mn, kl), 0) for (kl, mn), v in b.items()),
+            "Q4": sum(v * b.get(((k, m), (l, n)), 0) for ((k, l), (m, n)), v in b.items())}
+
+
+PS_SINGLET_210 = (6, 7, 8, 9)
+PS_210_DIRECTIONS = {"(1,1,1)": (((6, 7, 8, 9), 1),), "(15,1,1)": (((0, 1, 2, 3), 1),),
+                     "(6,2,2)": (((0, 7, 8, 9), 1),),
+                     "(15,3,1)": (((0, 1, 6, 7), 1), ((0, 1, 8, 9), 1)),
+                     "(15,1,3)": (((0, 1, 6, 7), 1), ((0, 1, 8, 9), -1)),
+                     "(10,2,2)": (((0, 1, 2, 6), 1),)}
+QUARTICS_210 = ("Q1", "Q2", "Q3", "Q4")
+
+
+def potential_210_curvatures() -> Dict[str, Dict[str, float]]:
+    """Per multiplet, the coefficient of each normalized coupling in m^2 / v^2 at the vacuum:
+    V = -mu^2 S2/48 + eta C/24 + sum_a lambda_a Q_a/576, mu^2 fixed by the minimum (the cubic vanishes
+    on the singlet). Exact second derivatives of the quartic polynomials from five points."""
+    q0 = so10_210_invariants({PS_SINGLET_210: 1})
+    norm = {"S2": 48, "C": 24, "Q1": 576, "Q2": 576, "Q3": 576, "Q4": 576}
+    out = {}
+    for name, d_ in PS_210_DIRECTIONS.items():
+        nrm = math.sqrt(sum(c_ * c_ for _, c_ in d_))
+        vals = []
+        for t in (-2, -1, 0, 1, 2):
+            phi = {PS_SINGLET_210: 1}
+            for key, c_ in d_:
+                phi[key] = phi.get(key, 0) + t * c_ / nrm
+            vals.append(so10_210_invariants(phi))
+        dd = {k: (-vals[4][k] + 16 * vals[3][k] - 30 * vals[2][k] + 16 * vals[1][k] - vals[0][k]) / 12 for k in vals[0]}
+        # the mass term's curvature is 1 per unit; at the minimum mu^2 = 4 sum_a lambda_a Q_a(e)/576
+        out[name] = {"eta": dd["C"] / norm["C"]}
+        for q in QUARTICS_210:
+            out[name][q] = (dd[q] - 4 * q0[q] * dd["S2"] / norm["S2"]) / norm[q]
+    return out
+
+
+# --- T10. The 126's masses from its couplings to <210>. The 126 is the self-dual part (*S = -i S) of a
+# complex 5-form S_ijklm. With the 210's vev phi_789,10 = v, its invariants with the 126 are bilinear in S:
+# the norm S*S, one cubic phi_ijkl S*_ijmno S_klmno (odd under D-parity) and the quartics
+# (phi phi)_kl,mn S*_klopq S_mnopq, phi_ijkl phi_mnop S*_ijmnq S_klopq and A_lm S*_lnopq S_mnopq. Each is a
+# Hermitian matrix on the 252 5-forms; on the self-dual subspace the Pati-Salam multiplets are its
+# eigenspaces: (6,1,1) and (15,2,2) single basis forms, (10,3,1) and (10bar,1,3) the two combinations
+# that the D-odd cubic splits (SU(2)_L-triplet = the self-dual SO(4) 2-form, as for the 210). The chain
+# needs (10bar,1,3) light (its vev breaks PS at M_I): that fixes the 126's mass term, and the rest follow:
+# m^2(10,3,1) = 2 eta_2 v exactly (only the cubic tells the two apart).
+FIVE_SETS = tuple(itertools.combinations(range(10), 5))
+FIVE_INDEX = {a_: n_ for n_, a_ in enumerate(FIVE_SETS)}
+
+
+def _signed(seq: Sequence[int]) -> int:
+    """Sign of the permutation that sorts seq; 0 if an index repeats."""
+    if len(set(seq)) < len(seq):
+        return 0
+    return _perm_sign(seq)
+
+
+def so10_126_mass_matrices(phi4: Dict[Tuple[int, ...], float] | None = None) -> Dict[str, Dict[Tuple[int, int], float]]:
+    """The invariants bilinear in the 126 as matrices on the 252 5-forms, at the 210 vev phi4 (sorted components;
+    by default the unit Pati-Salam singlet)."""
+    phi = _full_tensor(phi4) if phi4 is not None else {t: _signed(t) for t in itertools.permutations(PS_SINGLET_210)}
+    by2: Dict[Tuple[int, ...], List[Tuple[Tuple[int, ...], float]]] = {}
+    by3: Dict[Tuple[int, ...], List[Tuple[int, float]]] = {}
+    for t, v in phi.items():
+        by2.setdefault(t[:2], []).append((t[2:], v))
+        by3.setdefault(t[:3], []).append((t[3], v))
+    pp: Dict[Tuple[int, ...], List[Tuple[Tuple[int, ...], float]]] = {}
+    acc: Dict[Tuple[Tuple[int, ...], Tuple[int, ...]], float] = {}
+    for lst in by2.values():
+        for kl, v in lst:
+            for mn, w_ in lst:
+                acc[(kl, mn)] = acc.get((kl, mn), 0) + v * w_
+    for (kl, mn), v in acc.items():
+        pp.setdefault(kl, []).append((mn, v))
+    a3: Dict[int, Dict[int, float]] = {}
+    for lst in by3.values():
+        for l, v in lst:
+            for m, w_ in lst:
+                a3.setdefault(l, {})[m] = a3.get(l, {}).get(m, 0) + v * w_
+    mats: Dict[str, Dict[Tuple[int, int], float]] = {k: {} for k in ("norm", "cubic", "D", "E", "F")}
+
+    def add(name: str, a_: Tuple[int, ...], u: Tuple[int, ...], val: float) -> None:
+        sb = _signed(u)
+        if sb and val:
+            key = (FIVE_INDEX[a_], FIVE_INDEX[tuple(sorted(u))])
+            mats[name][key] = mats[name].get(key, 0) + val * sb
+    for a_ in FIVE_SETS:
+        for t in itertools.permutations(a_):
+            sa = _signed(t)
+            add("norm", a_, t, sa)
+            for kl, pv in by2.get(t[:2], []):
+                add("cubic", a_, kl + t[2:], pv * sa)
+                for op, p2 in by2.get(t[2:4], []):
+                    add("E", a_, kl + op + t[4:], pv * p2 * sa)
+            for mn, pv in pp.get(t[:2], []):
+                add("D", a_, mn + t[2:], pv * sa)
+            for m, pv in a3.get(t[0], {}).items():
+                add("F", a_, (m,) + t[1:], pv * sa)
+    return mats
+
+
+def _selfdual(a_: Tuple[int, ...]) -> Dict[int, complex]:
+    """The self-dual 126 vector built on e_A: (e_A + i sigma e_Ac)/sqrt2 with *e_A = sigma e_Ac."""
+    comp = tuple(x_ for x_ in range(10) if x_ not in a_)
+    return {FIVE_INDEX[a_]: 1 / math.sqrt(2), FIVE_INDEX[comp]: 1j * _signed(a_ + comp) / math.sqrt(2)}
+
+
+def _hodge_vec(u: Dict[int, complex]) -> Dict[int, complex]:
+    out: Dict[int, complex] = {}
+    for n_, z in u.items():
+        a_ = FIVE_SETS[n_]
+        comp = tuple(x_ for x_ in range(10) if x_ not in a_)
+        out[FIVE_INDEX[comp]] = out.get(FIVE_INDEX[comp], 0) + _signed(a_ + comp) * z
+    return out
+
+
+def _bilinear(m: Dict[Tuple[int, int], float], x_: Dict[int, complex], y_: Dict[int, complex]) -> complex:
+    return sum(x_[a_].conjugate() * v * y_[b_] for (a_, b_), v in m.items() if a_ in x_ and b_ in y_)
+
+
+def _combine(x_: Dict[int, complex], y_: Dict[int, complex], s_: int) -> Dict[int, complex]:
+    out = {k: v / math.sqrt(2) for k, v in x_.items()}
+    for k, v in y_.items():
+        out[k] = out.get(k, 0) + s_ * v / math.sqrt(2)
+    return out
+
+
+def so10_126_coefficients() -> Dict[str, Any]:
+    """Per PS multiplet of the 126, each invariant's eigenvalue (normalized to the norm), and checks."""
+    mats = so10_126_mass_matrices()
+    a1, a2 = _selfdual((0, 1, 2, 6, 7)), _selfdual((0, 1, 2, 8, 9))
+    reps = {"(6,1,1)": _selfdual((0, 1, 2, 3, 4)), "(15,2,2)": _selfdual((0, 1, 2, 3, 6)),
+            "(10,3,1)": _combine(a1, a2, 1), "(10bar,1,3)": _combine(a1, a2, -1)}
+    n0 = _bilinear(mats["norm"], reps["(6,1,1)"], reps["(6,1,1)"]).real
+    coef = {r_: {k: _bilinear(m, x_, x_).real / n0 for k, m in mats.items()} for r_, x_ in reps.items()}
+    # checks: self-duality; the two p = 3 combinations do not mix; D-even invariants equal on them
+    sd = max(abs(z + 1j * u[k]) for u in reps.values() for k, z in _hodge_vec(u).items())
+    mix = max(abs(_bilinear(m, reps["(10,3,1)"], reps["(10bar,1,3)"])) / n0 for m in mats.values())
+    deven = max(abs(coef["(10,3,1)"][k] - coef["(10bar,1,3)"][k]) for k in ("norm", "D", "E", "F"))
+    return {"coefficients": coef, "selfdual_dev": sd, "p3_mixing": mix, "d_even_dev": deven}
+
+
+# --- T11. The 10's couplings. 10 x 10 = 1 + 45 + 54 holds no 210, so there is no cubic H H phi; the one
+# quartic that splits the 10 is H_i H_j A_ij with A_ij = phi_iklm phi_jklm (the trace part is universal). At
+# the vev A_ij is 6 v^2 on the SO(4) indices and 0 on the SO(6) ones: it splits the doublet (1,2,2) from the
+# colour triplet (6,1,1). 10 x 126 holds the 210, so the cubic H_i S_ijklm phi_jklm exists; at the vev it
+# picks S_i6789, the 126's own (6,1,1): the two colour triplets mix. The light Higgs needs the (1,2,2) light
+# (at M_I, in this chain), which fixes the 10's mass term: the doublet-triplet splitting, a tuning of the
+# 10's mass against its coupling to <210> to (M_I / M_GUT)^2.
+def so10_10_splitting(phi4: Dict[Tuple[int, ...], float] | None = None) -> Dict[Tuple[int, int], float]:
+    """A_ij = phi_iklm phi_jklm at the 210 vev phi4 (default: the unit Pati-Salam singlet; full index sums)."""
+    phi = _full_tensor(phi4) if phi4 is not None else {t: _signed(t) for t in itertools.permutations(PS_SINGLET_210)}
+    by3: Dict[Tuple[int, ...], List[Tuple[int, float]]] = {}
+    for t, v in phi.items():
+        by3.setdefault(t[1:], []).append((t[0], v))
+    a_: Dict[Tuple[int, int], float] = {}
+    for lst in by3.values():
+        for i, v in lst:
+            for j, w_ in lst:
+                a_[(i, j)] = a_.get((i, j), 0) + v * w_
+    return a_
+
+
+def potential_210_scan(heavy: Dict[str, Any], alpha_gut: float, tau0: float, m_i0: float, tau_limit: float,
+                       mu0: float, m1_nat: float) -> Dict[str, Any]:
+    curv = potential_210_curvatures()
+    rng = _UniformStream(int(num("potential_seed")))
+    lam_max, eta_max = num("potential_lambda_max"), num("potential_eta_max")
+    # random directions for the bounded-below test (a fixed set; quartic invariants evaluated once)
+    keys = list(itertools.combinations(range(10), 4))
+    dirs = []
+    for _ in range(int(num("potential_directions"))):
+        vec = [rng.gauss() for _ in keys]
+        nrm = math.sqrt(sum(v * v for v in vec))
+        dirs.append(so10_210_invariants({k_: v / nrm for k_, v in zip(keys, vec)}))
+    resp = {r_["multiplet"]: r_ for r_ in heavy["rows"]}
+    names = {"(15,1,1)": "210: (15,1,1)", "(15,3,1)": "210: (15,3,1)", "(15,1,3)": "210: (15,1,3)",
+             "(10,2,2)": "210: (10,2,2) + conj."}
+    g2 = 4 * math.pi * alpha_gut
+    # the 126: eigenvalues per invariant, normalized to unit largest magnitude; F is universal (absorbed)
+    c126 = so10_126_coefficients()["coefficients"]
+    scale = {k: max(abs(c126[r_][k]) for r_ in c126) for k in ("cubic", "D", "E")}
+    light = "(10bar,1,3)"
+    names126 = {"(6,1,1)": "126: (6,1,1)", "(10,3,1)": "126: (10,3,1)", "(15,2,2)": "126: (15,2,2)"}
+    a10 = so10_10_splitting()
+    a_max = max(abs(v_) for v_ in a10.values())
+    split10 = (a10.get((0, 0), 0) - a10.get((6, 6), 0)) / a_max        # m^2(6,1,1) - m^2(1,2,2), per kappa v^2
+    pts, pts_all, pts_10, tried = [], [], [], int(num("potential_points"))
+    for _ in range(tried):
+        lam = {q: rng.uniform(-lam_max, lam_max) for q in QUARTICS_210}
+        eta = rng.uniform(-eta_max, eta_max)
+        k126 = {"cubic": rng.uniform(-eta_max, eta_max), "D": rng.uniform(-lam_max, lam_max),
+                "E": rng.uniform(-lam_max, lam_max)}
+        k10, mix10 = rng.uniform(-lam_max, lam_max), rng.uniform(-eta_max, eta_max)
+        m2 = {n_: sum(lam[q] * c_[q] for q in QUARTICS_210) + eta * c_["eta"] for n_, c_ in curv.items()}
+        if any(m2[n_] <= 0 for n_ in curv if n_ != "(6,2,2)"):
+            continue
+        if any(sum(lam[q] * d_[q] for q in QUARTICS_210) <= 0 for d_ in dirs):
+            continue
+        ell = {n_: math.log(math.sqrt(2 * m2[n_] / g2)) for n_ in names}     # ln(M_h / M_V)
+        dtau = sum(resp[names[n_]]["dlntau"] * ell[n_] for n_ in names)
+        dmi = sum(resp[names[n_]]["dlnMI"] * ell[n_] for n_ in names)
+        pts.append({"ell": ell, "tau_p": tau0 * math.exp(dtau), "M_I": m_i0 * math.exp(dmi)})
+        # the 126, with its (10bar,1,3) light (the mass term set by that condition), in units of v^2
+        m126 = {r_: sum(k126[k] * (c126[r_][k] - c126[light][k]) / scale[k] for k in k126) for r_ in names126}
+        if any(v_ <= 0 for v_ in m126.values()):
+            continue
+        ell2 = dict(ell)
+        ell2.update({r_: math.log(math.sqrt(2 * m126[r_] / g2)) for r_ in names126})
+        dtau2 = dtau + sum(resp[names126[r_]]["dlntau"] * ell2[r_] for r_ in names126)
+        dmi2 = dmi + sum(resp[names126[r_]]["dlnMI"] * ell2[r_] for r_ in names126)
+        pts_all.append({"ell": ell2, "tau_p": tau0 * math.exp(dtau2), "M_I": m_i0 * math.exp(dmi2)})
+        # the 10: doublet light, so m^2(6,1,1)_10 = kappa_10 * split10 v^2; it mixes (cubic, mix10 v^2) with one
+        # real component of the 126's (6,1,1); the other real component keeps m126["(6,1,1)"]
+        m_h6, m_s6 = k10 * split10, m126["(6,1,1)"]
+        tr_, det_ = m_h6 + m_s6, m_h6 * m_s6 - mix10 ** 2
+        if det_ <= 0 or tr_ <= 0:
+            continue
+        root = math.sqrt(max(tr_ * tr_ / 4 - det_, 0))
+        eig = (tr_ / 2 - root, tr_ / 2 + root, m_s6)                   # three real colour-triplet 6's
+        r6 = resp["10: (6,1,1)"]                                         # the response of one real 6
+        old6 = resp["126: (6,1,1)"]
+        ell6 = [math.log(math.sqrt(2 * e_ / g2)) for e_ in eig]
+        # replace the 126's (6,1,1) term (two real 6's at m126) by the three eigenstates
+        dtau3 = dtau2 - old6["dlntau"] * ell2["(6,1,1)"] + r6["dlntau"] * sum(ell6)
+        dmi3 = dmi2 - old6["dlnMI"] * ell2["(6,1,1)"] + r6["dlnMI"] * sum(ell6)
+        pts_10.append({"tau_p": tau0 * math.exp(dtau3), "M_I": m_i0 * math.exp(dmi3),
+                       "triplet_light": math.sqrt(2 * eig[0] / g2)})
+    n_ok = len(pts)
+
+    def frac(cond: Callable[[Dict[str, Any]], bool], sample: List[Dict[str, Any]] | None = None) -> float:
+        sample = pts if sample is None else sample
+        return sum(1 for p_ in sample if cond(p_)) / len(sample) if sample else math.nan
+
+    def quantiles(key: str, sample: List[Dict[str, Any]] | None = None) -> Tuple[float, float, float]:
+        v_ = sorted(p_[key] for p_ in (pts if sample is None else sample))
+        return (v_[len(v_) // 6], v_[len(v_) // 2], v_[(5 * len(v_)) // 6]) if v_ else (math.nan,) * 3
+    with126 = {"viable": len(pts_all),
+               "frac_proton_ok": frac(lambda p_: p_["tau_p"] > tau_limit, pts_all),
+               "frac_vacuum_ok": frac(lambda p_: p_["M_I"] < mu0, pts_all),
+               "frac_leptogenesis_ok": frac(lambda p_: p_["M_I"] >= m1_nat, pts_all),
+               "frac_all": frac(lambda p_: p_["tau_p"] > tau_limit and p_["M_I"] >= m1_nat, pts_all),
+               "tau_p_quantiles": quantiles("tau_p", pts_all), "M_I_quantiles": quantiles("M_I", pts_all),
+               "coefficients_126": c126}
+    with10 = {"viable": len(pts_10), "split_per_kappa": split10, "A_SO6": a10.get((0, 0), 0), "A_SO4": a10.get((6, 6), 0),
+              "frac_proton_ok": frac(lambda p_: p_["tau_p"] > tau_limit, pts_10),
+              "frac_vacuum_ok": frac(lambda p_: p_["M_I"] < mu0, pts_10),
+              "frac_leptogenesis_ok": frac(lambda p_: p_["M_I"] >= m1_nat, pts_10),
+              "frac_all": frac(lambda p_: p_["tau_p"] > tau_limit and p_["M_I"] >= m1_nat, pts_10),
+              "tau_p_quantiles": quantiles("tau_p", pts_10), "M_I_quantiles": quantiles("M_I", pts_10),
+              "triplet_light_quantiles": quantiles("triplet_light", pts_10)}
+    return {"curvatures": curv, "tried": tried, "viable": n_ok, "lambda_max": lam_max, "eta_max": eta_max,
+            "with_126": with126, "with_10": with10,
+            "frac_proton_ok": frac(lambda p_: p_["tau_p"] > tau_limit),
+            "frac_vacuum_ok": frac(lambda p_: p_["M_I"] < mu0),
+            "frac_leptogenesis_ok": frac(lambda p_: p_["M_I"] >= m1_nat),
+            "frac_all": frac(lambda p_: p_["tau_p"] > tau_limit and p_["M_I"] >= m1_nat),
+            "tau_p_quantiles": quantiles("tau_p"), "M_I_quantiles": quantiles("M_I"),
+            "ell_ranges": {n_: (min(p_["ell"][n_] for p_ in pts), max(p_["ell"][n_] for p_ in pts)) if pts else None
+                           for n_ in names}}
+
+
+# --- T13. The left-right chain's potential: the masses T12 left unknown, calculated (as T9-T10 did for Pati-Salam).
+# The 210's vev has two components, phi = v (cos(alpha) e_PS + sin(alpha) e_BL): the Pati-Salam singlet e_789,10
+# and the B - L direction e_BL = (e_0123 + e_0145 + e_2345)/sqrt3 of its (15,1,1). Multiplets are found, not
+# typed in: in the complex basis Z_k = (e_2k + i e_2k+1)/sqrt2 (k = 0, 1, 2; SO(6)), U_1 = (e_6 + i e_7)/sqrt2,
+# U_2 = (e_8 + i e_9)/sqrt2 and their conjugates, every wedge monomial is a weight vector of the rank-5 Cartan
+# subalgebra, and a 3221 multiplet's highest-weight vectors are those its raising operators (Z_0^Zb_1, Z_1^Zb_2:
+# SU(3); U_1^U_2: SU(2)_L; U_1^Ub_2: SU(2)_R) annihilate. Each weight space is small, so the multiplets that occur
+# more than once (the 210's two (3,2,2) and two singlets) come out as small Hermitian blocks of the Hessian. The
+# potential is T9's (S2, C, Q1-Q4); on the singlet plane each invariant is a polynomial in (cos alpha, sin alpha),
+# and the two stationarity conditions are linear in mu^2 and eta: for scanned quartics and alpha they fix both.
+# The heavy vectors (3,2,2) and (3,1,1) get different masses, M_V^2 = (g^2/2) |J phi|^2: the first defines M_GUT,
+# the second is a threshold (b = -7/2 T: the vector and the Goldstone it eats). The 126: T10's invariants at this
+# vev; its multiplets from the self-dual projection of the 5-form highest-weight vectors; Delta_R = (1,1,3,2) light
+# fixes its mass term. The 10 stays at M_GUT.
+FORM_WEIGHTS = ((1, 0, 0, 0, 0), (0, 1, 0, 0, 0), (0, 0, 1, 0, 0), (-1, 0, 0, 0, 0), (0, -1, 0, 0, 0), (0, 0, -1, 0, 0),
+                (0, 0, 0, 1, 0), (0, 0, 0, -1, 0), (0, 0, 0, 0, 1), (0, 0, 0, 0, -1))
+FORM_CONJ = (3, 4, 5, 0, 1, 2, 7, 6, 9, 8)
+FORM_RAISE_PAIRS = ((0, 4), (1, 5), (6, 8), (6, 9))      # Z0^Zb1, Z1^Zb2 (SU(3)), U1^U2 (SU(2)_L), U1^Ub2 (SU(2)_R)
+E_BL_210 = ((0, 1, 2, 3), (0, 1, 4, 5), (2, 3, 4, 5))
+LR_VECTOR_GENERATORS = {"(3,2,2)": ((0, 6, 1),), "(3,1,1)": ((0, 2, 1), (1, 3, -1))}   # J_06; J_02 - J_13 (normalized below)
+
+
+def _sort_sign(t: Sequence[int]) -> Tuple[Tuple[int, ...] | None, int]:
+    """(sorted tuple, sign of the sorting permutation); (None, 0) if an index repeats."""
+    if len(set(t)) < len(t):
+        return None, 0
+    return tuple(sorted(t)), _perm_sign(t)
+
+
+def _complex_basis_real() -> List[Dict[int, complex]]:
+    r_ = 1 / math.sqrt(2)
+    out = [{2 * k: r_, 2 * k + 1: 1j * r_} for k in range(3)] + [{2 * k: r_, 2 * k + 1: -1j * r_} for k in range(3)]
+    return out + [{6: r_, 7: 1j * r_}, {6: r_, 7: -1j * r_}, {8: r_, 9: 1j * r_}, {8: r_, 9: -1j * r_}]
+
+
+def _form_raise(x: int, y: int, vec: Dict[Tuple[int, ...], complex]) -> Dict[Tuple[int, ...], complex]:
+    """The so(10) generator c_x ^ c_y (v -> c_x (c_y . v) - c_y (c_x . v)) acting on a form, as a derivation."""
+    out: Dict[Tuple[int, ...], complex] = {}
+    for m_, v_ in vec.items():
+        for pos, c_ in enumerate(m_):
+            for c2, a_ in (((x, 1),) if FORM_CONJ[y] == c_ else ()) + (((y, -1),) if FORM_CONJ[x] == c_ else ()):
+                t_ = list(m_)
+                t_[pos] = c2
+                key, sg = _sort_sign(t_)
+                if sg:
+                    out[key] = out.get(key, 0) + v_ * a_ * sg
+    return out
+
+
+def _complex_nullspace(rows: List[Dict[int, complex]], n: int, tol: float) -> List[List[complex]]:
+    mat = [[r_.get(j, 0) for j in range(n)] for r_ in rows]
+    piv, r_ = [], 0
+    for c_ in range(n):
+        if r_ == len(mat):
+            break
+        p_ = max(range(r_, len(mat)), key=lambda i: abs(mat[i][c_]))
+        if abs(mat[p_][c_]) < tol:
+            continue
+        mat[r_], mat[p_] = mat[p_], mat[r_]
+        pv = mat[r_][c_]
+        mat[r_] = [v_ / pv for v_ in mat[r_]]
+        for i in range(len(mat)):
+            if i != r_ and mat[i][c_]:
+                f_ = mat[i][c_]
+                mat[i] = [a_ - f_ * b_ for a_, b_ in zip(mat[i], mat[r_])]
+        piv.append(c_)
+        r_ += 1
+    out = []
+    for f_ in (c_ for c_ in range(n) if c_ not in piv):
+        v_ = [complex(0)] * n
+        v_[f_] = complex(1)
+        for i, c_ in enumerate(piv):
+            v_[c_] = -mat[i][f_]
+        out.append(v_)
+    return out
+
+
+def form_highest_weights(p: int) -> List[Tuple[Tuple[int, ...], Dict[Tuple[int, ...], complex]]]:
+    """Every highest-weight vector of SU(3) x SU(2)_L x SU(2)_R x U(1)_B-L in the complex p-forms on R^10, with its
+    weight (H_0..H_4)."""
+    tol = num("check_rel_tol")
+    by_w: Dict[Tuple[int, ...], List[Tuple[int, ...]]] = {}
+    for m_ in itertools.combinations(range(10), p):
+        by_w.setdefault(tuple(sum(FORM_WEIGHTS[c_][i] for c_ in m_) for i in range(5)), []).append(m_)
+    out = []
+    for w_, ms in by_w.items():
+        rows = []
+        for x, y in FORM_RAISE_PAIRS:
+            imgs = [_form_raise(x, y, {m_: 1}) for m_ in ms]
+            for key in set(k for im in imgs for k in im):
+                rows.append({i: imgs[i][key] for i in range(len(ms)) if imgs[i].get(key)})
+        for v_ in _complex_nullspace(rows, len(ms), tol):
+            out.append((w_, {ms[i]: v_[i] for i in range(len(ms)) if abs(v_[i]) > tol}))
+    return out
+
+
+def hw_label(w_: Tuple[int, ...]) -> Tuple[int, int, int, Fr, Tuple[int, int]]:
+    """(SU(3) dimension, SU(2)_L dimension, SU(2)_R dimension, B - L, SU(3) Dynkin labels) of a highest weight."""
+    a_, b_ = w_[0] - w_[1], w_[1] - w_[2]
+    return ((a_ + 1) * (b_ + 1) * (a_ + b_ + 2) // 2, w_[3] + w_[4] + 1, w_[3] - w_[4] + 1,
+            Fr(-2 * (w_[0] + w_[1] + w_[2]), 3), (a_, b_))
+
+
+def _form_to_real(vec: Dict[Tuple[int, ...], complex]) -> Dict[Tuple[int, ...], complex]:
+    """A complex-basis form in sorted real components."""
+    basis = _complex_basis_real()
+    out: Dict[Tuple[int, ...], complex] = {}
+    for m_, c_ in vec.items():
+        for combo in itertools.product(*[list(basis[k].items()) for k in m_]):
+            key, sg = _sort_sign([i for i, _ in combo])
+            if sg:
+                val = c_ * sg
+                for _, a_ in combo:
+                    val *= a_
+                out[key] = out.get(key, 0) + val
+    return out
+
+
+def _herm(x: Dict[Any, complex], y: Dict[Any, complex]) -> complex:
+    return sum(v_.conjugate() * y.get(k, 0) for k, v_ in x.items())
+
+
+def _gram_schmidt(vecs: List[Dict[Any, complex]], tol: float) -> List[Dict[Any, complex]]:
+    out: List[Dict[Any, complex]] = []
+    for v_ in vecs:
+        for o_ in out:
+            c_ = _herm(o_, v_)
+            v_ = {k: v_.get(k, 0) - c_ * o_.get(k, 0) for k in set(v_) | set(o_)}
+        n2 = _herm(v_, v_).real
+        if n2 > tol:
+            out.append({k: z / math.sqrt(n2) for k, z in v_.items() if z})
+    return out
+
+
+def lr_210_vev(alpha: float) -> Dict[Tuple[int, ...], float]:
+    out = {PS_SINGLET_210: math.cos(alpha)}
+    for k in E_BL_210:
+        out[k] = math.sin(alpha) / math.sqrt(3)
+    return out
+
+
+def _form_lin(*terms: Tuple[float, Dict[Tuple[int, ...], Any]]) -> Dict[Tuple[int, ...], Any]:
+    out: Dict[Tuple[int, ...], Any] = {}
+    for c_, d_ in terms:
+        for k, v_ in d_.items():
+            out[k] = out.get(k, 0) + c_ * v_
+    return out
+
+
+def _gen_on_form(pairs: Sequence[Tuple[int, int, float]], phi: Dict[Tuple[int, ...], float]) -> Dict[Tuple[int, ...], float]:
+    """(sum c J_ab) phi, J_ab e_c = e_a d_bc - e_b d_ac, on a real form in sorted components."""
+    out: Dict[Tuple[int, ...], float] = {}
+    for a_, b_, c_ in pairs:
+        for key, v_ in phi.items():
+            for pos, idx in enumerate(key):
+                for src, dst, sg in ((b_, a_, 1), (a_, b_, -1)):
+                    if idx == src:
+                        t_ = list(key)
+                        t_[pos] = dst
+                        k2, s_ = _sort_sign(t_)
+                        if s_:
+                            out[k2] = out.get(k2, 0) + c_ * sg * s_ * v_
+    return out
+
+
+def lr_vector_mass2(alpha: float) -> Dict[str, float]:
+    """|J phi|^2 for a unit generator of each heavy vector multiplet, at the unit vev (M_V^2 = g^2 v^2/2 x this;
+    1 for the Pati-Salam vev, as T9 uses)."""
+    phi = lr_210_vev(alpha)
+    out = {}
+    for nm, pairs in LR_VECTOR_GENERATORS.items():
+        n_ = math.sqrt(sum(c_ * c_ for _, _, c_ in pairs))
+        out[nm] = sum(v_ * v_ for v_ in _gen_on_form([(a_, b_, c_ / n_) for a_, b_, c_ in pairs], phi).values())
+    return out
+
+
+INVARIANTS_210 = ("S2", "C") + QUARTICS_210
+LR_VEV_POINTS = ((1, 0), (0, 1), (1, 1))     # each invariant's Hessian is a polynomial in (cos, sin): 3 points fix it
+
+
+def _d2_210(xr: Dict[Tuple[int, ...], float], vev: Dict[Tuple[int, ...], float]) -> Dict[str, float]:
+    """Second derivative of every invariant along a real direction (five points: exact for quartics)."""
+    vals = [so10_210_invariants(_form_lin((1, vev), (t, xr))) for t in (-2, -1, 0, 1, 2)]
+    return {k: (-vals[4][k] + 16 * vals[3][k] - 30 * vals[2][k] + 16 * vals[1][k] - vals[0][k]) / 12
+            for k in INVARIANTS_210}
+
+
+def _hess_210(x: Dict[Tuple[int, ...], complex], y: Dict[Tuple[int, ...], complex],
+              vev: Dict[Tuple[int, ...], float]) -> Dict[str, complex]:
+    """x^dagger H y per invariant (H real symmetric: polarization of real second derivatives)."""
+    parts = [{k: (v_.real if i == 0 else v_.imag) for k, v_ in z.items()} for z in (x, y) for i in (0, 1)]
+    xr, xi, yr, yi = parts
+
+    def rb(u, w):
+        a_, b_ = _d2_210(_form_lin((1, u), (1, w)), vev), _d2_210(_form_lin((1, u), (-1, w)), vev)
+        return {k: (a_[k] - b_[k]) / 4 for k in INVARIANTS_210}
+    rr, ii, ri, ir = rb(xr, yr), rb(xi, yi), rb(xr, yi), rb(xi, yr)
+    return {k: rr[k] + ii[k] + 1j * (ri[k] - ir[k]) for k in INVARIANTS_210}
+
+
+def lr_potential_setup() -> Dict[str, Any]:
+    """Everything coupling-independent: the multiplets of the 210 and 126 under 3221, their Hessian blocks at the
+    three vev points, and the invariants on the singlet plane as polynomials."""
+    tol = num("check_rel_tol")
+    blocks: Dict[Tuple[Any, ...], List[Dict[Tuple[int, ...], complex]]] = {}
+    labels210 = []
+    for w_, vec in form_highest_weights(4):
+        lab = hw_label(w_)
+        labels210.append(lab[:4])
+        if lab[4][0] < lab[4][1] or (lab[4][0] == lab[4][1] and lab[3] < 0):
+            continue                                       # one of each conjugate pair (the 210 is real)
+        blocks.setdefault(lab[:4], []).append(_form_to_real(vec))
+    blocks = {k: _gram_schmidt(v_, tol) for k, v_ in blocks.items()}
+    pre = {}
+    for k, vs in blocks.items():
+        n_ = len(vs)
+        pre[k] = {}
+        for pt in LR_VEV_POINTS:
+            vev = _form_lin((pt[0], {PS_SINGLET_210: 1}), (pt[1], lr_210_vev(math.pi / 2)))
+            m_ = [[None] * n_ for _ in range(n_)]
+            for i in range(n_):
+                for j in range(i, n_):
+                    h_ = _hess_210(vs[i], vs[j], vev)
+                    m_[i][j], m_[j][i] = h_, {q: z.conjugate() for q, z in h_.items()}
+            pre[k][pt] = m_
+    deg = {"S2": 2, "C": 3, **{q: 4 for q in QUARTICS_210}}
+    poly = {}
+    for nm, d_ in deg.items():
+        th = [(j + 1) / (d_ + 2) for j in range(d_ + 1)]
+        rows = [[math.cos(t_) ** (d_ - p_) * math.sin(t_) ** p_ for p_ in range(d_ + 1)] for t_ in th]
+        poly[nm] = (d_, _solve_linear(rows, [so10_210_invariants(lr_210_vev(t_))[nm] for t_ in th]))
+    # the 126: highest-weight vectors of the 5-forms, projected on the self-dual part (*S = -i S)
+    b126: Dict[Tuple[Any, ...], List[Dict[int, complex]]] = {}
+    for w_, vec in form_highest_weights(5):
+        u = {FIVE_INDEX[k]: z for k, z in _form_to_real(vec).items()}
+        h_ = _hodge_vec(u)
+        sd = {k: (u.get(k, 0) + 1j * h_.get(k, 0)) / 2 for k in set(u) | set(h_)}
+        sd = {k: z for k, z in sd.items() if abs(z) > tol}
+        if sd:
+            b126.setdefault(hw_label(w_)[:4], []).append(sd)
+    b126 = {k: _gram_schmidt(v_, tol) for k, v_ in b126.items()}
+    b126 = {k: v_ for k, v_ in b126.items() if v_}
+    mats = {pt: so10_126_mass_matrices(_form_lin((pt[0], {PS_SINGLET_210: 1}), (pt[1], lr_210_vev(math.pi / 2))))
+            for pt in LR_VEV_POINTS}
+    c126 = {}
+    for k, vs in b126.items():
+        x = vs[0]
+        n0 = _bilinear(mats[(1, 0)]["norm"], x, x).real
+        c126[k] = {pt: {nm: _bilinear(mats[pt][nm], x, x).real / n0 for nm in ("cubic", "D", "E", "F")} for pt in LR_VEV_POINTS}
+    # the 10 (T11 in this chain): its mixing amplitudes with the 126's colour triplet and bidoublet (linear in the
+    # vev: two points fix them), against the 10's own components Z_0 (triplet) and U_1 (doublet); and A_ii (quadratic)
+    cb = _complex_basis_real()
+    amp10 = {}
+    for nm, key, hv in (("triplet", (3, 1, 1, Fr(-2, 3)), cb[0]), ("doublet", (1, 2, 2, Fr(0)), cb[6])):
+        amp10[nm] = {pt: sum(t_ * hv.get(i, 0).conjugate() for i, t_ in enumerate(
+            _cubic_10_126(b126[key][0], _form_lin((pt[0], {PS_SINGLET_210: 1}), (pt[1], lr_210_vev(math.pi / 2))))))
+            for pt in LR_VEV_POINTS[:2]}
+    a10 = {pt: so10_10_splitting(_form_lin((pt[0], {PS_SINGLET_210: 1}), (pt[1], lr_210_vev(math.pi / 2)))) for pt in LR_VEV_POINTS}
+    a10 = {pt: {"SO6": a_.get((0, 0), 0), "SO4": a_.get((6, 6), 0)} for pt, a_ in a10.items()}
+    return {"amp10": amp10, "A10": a10, "blocks": blocks, "pre": pre, "poly": poly, "labels210": labels210,
+            "labels126": sorted((k for k, v_ in b126.items() for _ in v_), key=str), "c126": c126}
+
+
+def _cubic_10_126(x: Dict[int, complex], phi4: Dict[Tuple[int, ...], float]) -> List[complex]:
+    """T_i = S_ijklm phi_jklm (full index sums) for the 126 vector x: the 10 couples to it through H_i T_i."""
+    phi = _full_tensor(phi4)
+    out = [complex(0)] * 10
+    for n_, z in x.items():
+        for perm in itertools.permutations(FIVE_SETS[n_]):
+            out[perm[0]] += z * _perm_sign(perm) * phi.get(perm[1:], 0)
+    return out
+
+
+def _poly_at(pt3: Dict[Tuple[int, int], Any], a_: float, b_: float, deg: int, get: Callable[[Any], Any]) -> Any:
+    """A quantity polynomial of degree deg (0, 1, 2) in (a, b), from its values at (1, 0), (0, 1), (1, 1)."""
+    p10, p01, p11 = get(pt3[(1, 0)]), get(pt3[(0, 1)]), get(pt3[(1, 1)])
+    if deg == 0:
+        return p10
+    if deg == 1:
+        return a_ * p10 + b_ * p01
+    return a_ * a_ * p10 + b_ * b_ * p01 + a_ * b_ * (p11 - p10 - p01)
+
+
+def lr_vacuum(setup: Dict[str, Any], lam: Dict[str, float], alpha: float) -> Tuple[float, float]:
+    """(mu^2, eta) that make (cos alpha, sin alpha) stationary: the two conditions are linear in them."""
+    a_, b_ = math.cos(alpha), math.sin(alpha)
+
+    def grad(nm: str) -> Tuple[float, float]:
+        d_, c_ = setup["poly"][nm]
+        return (sum(c_[p_] * (d_ - p_) * a_ ** (d_ - p_ - 1) * b_ ** p_ for p_ in range(d_)),
+                sum(c_[p_] * p_ * a_ ** (d_ - p_) * b_ ** (p_ - 1) for p_ in range(1, d_ + 1)))
+    gs, gc = grad("S2"), grad("C")
+    gq = [sum(lam[q] * grad(q)[i] for q in QUARTICS_210) / 576 for i in range(2)]
+    sol = _solve_linear([[-gs[0] / 48, gc[0] / 24], [-gs[1] / 48, gc[1] / 24]], [-gq[0], -gq[1]])
+    return (sol[0], sol[1]) if sol else (math.nan, math.nan)
+
+
+def lr_210_masses(setup: Dict[str, Any], lam: Dict[str, float], mu2: float, eta: float, alpha: float) -> Dict[Any, List[float]]:
+    """m^2/v^2 of every 210 multiplet (ascending within a block), T9's normalization."""
+    a_, b_ = math.cos(alpha), math.sin(alpha)
+    deg = {"S2": 0, "C": 1, **{q: 2 for q in QUARTICS_210}}
+    out = {}
+    for key, pre in setup["pre"].items():
+        n_ = len(pre[(1, 0)])
+        m_ = [[sum(cf * _poly_at(pre, a_, b_, deg[q], lambda blk: blk[i][j][q])
+                   for q, cf in (("S2", -mu2 / 48), ("C", eta / 24), *((q2, lam[q2] / 576) for q2 in QUARTICS_210)))
+               for j in range(n_)] for i in range(n_)]
+        if n_ == 1:
+            out[key] = [m_[0][0].real]
+        else:
+            tr_, det_ = (m_[0][0] + m_[1][1]).real, (m_[0][0] * m_[1][1] - m_[0][1] * m_[1][0]).real
+            r_ = math.sqrt(max(tr_ * tr_ / 4 - det_, 0))
+            out[key] = [tr_ / 2 - r_, tr_ / 2 + r_]
+    return out
+
+
+def lr_126_coefficients(setup: Dict[str, Any], key: Tuple[Any, ...], alpha: float) -> Dict[str, float]:
+    a_, b_ = math.cos(alpha), math.sin(alpha)
+    return {nm: _poly_at(setup["c126"][key], a_, b_, 1 if nm == "cubic" else 2, lambda d_: d_[nm])
+            for nm in ("cubic", "D", "E", "F")}
+
+
+def lr_10_couplings(setup: Dict[str, Any], alpha: float) -> Dict[str, float]:
+    """At the vev direction alpha: the mixing strengths of the 10 with the 126's (3,1,1) and (1,2,2), relative to the
+    Pati-Salam triplet's (T11's unit), and A_ii on the SO(6) and SO(4) indices per v^2."""
+    a_, b_ = math.cos(alpha), math.sin(alpha)
+    unit = abs(setup["amp10"]["triplet"][(1, 0)])
+    out = {nm: abs(a_ * d_[(1, 0)] + b_ * d_[(0, 1)]) / unit for nm, d_ in setup["amp10"].items()}
+    for k in ("SO6", "SO4"):
+        out["A_" + k] = _poly_at(setup["A10"], a_, b_, 2, lambda d_: d_[k])
+    return out
+
+
+LR_210_NAMES = {(8, 1, 1, Fr(0)): "210: (8,1,1)", (8, 3, 1, Fr(0)): "210: (8,3,1)", (1, 3, 1, Fr(0)): "210: (1,3,1)",
+                (3, 3, 1, Fr(4, 3)): "210: (3,3,1)", (8, 1, 3, Fr(0)): "210: (8,1,3)", (1, 1, 3, Fr(0)): "210: (1,1,3)",
+                (3, 1, 3, Fr(4, 3)): "210: (3,1,3)", (3, 2, 2, Fr(-2, 3)): "210: (3,2,2)",
+                (6, 2, 2, Fr(2, 3)): "210: (6,2,2)", (1, 2, 2, Fr(2)): "210: (1,2,2)"}
+LR_126_NAMES = {(1, 2, 2, Fr(0)): "126: (1,2,2) heavy", (1, 3, 1, Fr(-2)): "126: (1,3,1) Delta_L",
+                (3, 1, 1, Fr(-2, 3)): "126: (3,1,1)", (3, 1, 1, Fr(2, 3)): "126: (3,1,1)'", (3, 1, 3, Fr(2, 3)): "126: (3,1,3)",
+                (3, 2, 2, Fr(-4, 3)): "126: (3,2,2)'", (3, 2, 2, Fr(4, 3)): "126: (3,2,2)",
+                (3, 3, 1, Fr(-2, 3)): "126: (3,3,1)", (6, 1, 3, Fr(-2, 3)): "126: (6,1,3)", (6, 3, 1, Fr(2, 3)): "126: (6,3,1)",
+                (8, 2, 2, Fr(0)): "126: (8,2,2)"}
+LR_GOLDSTONES = ((3, 2, 2, Fr(-2, 3)), (3, 1, 1, Fr(4, 3)))
+LR_DELTA_R = (1, 1, 3, Fr(2))
+
+
+def complex_10_point(rng: "_UniformStream", c10s: Dict[str, float], m126: Dict[str, float], ell2: Dict[str, float],
+                     dmi2: float, dtau2: float, resp: Dict[str, Any], m322: float, a_max: float, lam_max: float,
+                     eta_max: float) -> Dict[str, Any] | None:
+    """One draw of the complex 10 = two real 10s H_1, H_2 with the 126 (Part T13's vacuum and 126 masses).
+    Doublets, as real SO(4) vectors (V_1, V_2 of the 10s; W_R, W_I of the 126's complex bidoublet, mass m_s):
+    M = [[D10, X], [X^T, m_s 1]], X_a = (Re, Im) of x_a = eta_a times T13's doublet strength (eta_a complex, in the box).
+    The chain needs a light complex bidoublet, two real vectors: rank M = 2, i.e. the Schur complement vanishes,
+    D10 = X X^T / m_s (three conditions: the 10's doublet mass matrix is fixed). (A real 10 gives three vectors, at most
+    one light: it cannot.) The light space is {(v, -X^T v / m_s)}. Triplets: the two 10 triplets (2x2 block D10 plus
+    the splitting kappa_ab (A_SO6 - A_SO4), kappa symmetric in the box) mix with the 126's (3,1,1) through eta_a times
+    the triplet strength: a 3x3 Hermitian matrix, every eigenvalue positive. Thresholds: the 126's (3,1,1) and its
+    bidoublet are replaced by the eigenstates (the 10 triplets' and the bidoublet's responses, as T13)."""
+    eta = [complex(rng.uniform(-eta_max, eta_max), rng.uniform(-eta_max, eta_max)) for _ in range(2)]
+    kap = [rng.uniform(-lam_max, lam_max) for _ in range(3)]
+    m_s, m_s3 = m126["126: (1,2,2) heavy"], m126["126: (3,1,1)"]
+    x_ = [e_ * c10s["doublet"] for e_ in eta]
+    xm = [[x_[a_].real, x_[a_].imag] for a_ in range(2)]
+    d10 = [[sum(xm[a_][k_] * xm[b_][k_] for k_ in range(2)) / m_s for b_ in range(2)] for a_ in range(2)]
+    big = [[d10[0][0], d10[0][1], xm[0][0], xm[0][1]], [d10[1][0], d10[1][1], xm[1][0], xm[1][1]],
+           [xm[0][0], xm[1][0], m_s, 0.0], [xm[0][1], xm[1][1], 0.0, m_s]]
+    ev4 = sorted(jacobi_eigh(big, num("check_rel_tol") ** 2)[0])
+    heavy_d = ev4[2:]
+    split = (c10s["A_SO6"] - c10s["A_SO4"]) / a_max
+    t10 = [[d10[0][0] + kap[0] * split, d10[0][1] + kap[1] * split], [d10[1][0] + kap[1] * split, d10[1][1] + kap[2] * split]]
+    y_ = [e_ * c10s["triplet"] for e_ in eta]
+    trip = [[complex(t10[0][0]), complex(t10[0][1]), y_[0]], [complex(t10[1][0]), complex(t10[1][1]), y_[1]],
+            [y_[0].conjugate(), y_[1].conjugate(), complex(m_s3)]]
+    ev3 = _herm3_eigvals(trip)
+    if min(ev3) <= 0 or min(heavy_d) <= 0:
+        return None
+    r3, rd, r126t = resp["10: (3,1,1)"], resp["126: (1,2,2) heavy"], resp["126: (3,1,1)"]
+    l3 = [math.log(e_ / m322) / 2 for e_ in ev3]
+    ld = [math.log(e_ / m322) / 2 for e_ in heavy_d]
+    out = {}
+    for key in ("dlnMI", "dlntau"):
+        out[key] = ((dmi2 if key == "dlnMI" else dtau2) - r126t[key] * ell2["126: (3,1,1)"] + r3[key] * sum(l3)
+                    - rd[key] * ell2["126: (1,2,2) heavy"] + rd[key] * sum(ld) / 2)
+    out.update({"x": (x_[0].real, x_[0].imag, x_[1].real, x_[1].imag), "m_s": m_s,
+                "triplet_light": math.sqrt(min(ev3) / m322)})
+    return out
+
+
+def _apollonius(a_: complex, b_: complex, r_: float) -> Tuple[complex, float] | None:
+    """The circle |z - a| = r |z - b| (r != 1): (center, radius)."""
+    if abs(r_ - 1) < num("check_rel_tol"):
+        return None
+    c_ = (a_ - r_ * r_ * b_) / (1 - r_ * r_)
+    return c_, r_ * abs(a_ - b_) / abs(1 - r_ * r_)
+
+
+def _circle_intersections(c1: Tuple[complex, float], c2: Tuple[complex, float]) -> List[complex]:
+    (z1, r1), (z2, r2) = c1, c2
+    d_ = abs(z2 - z1)
+    if d_ == 0 or d_ > r1 + r2 or d_ < abs(r1 - r2):
+        return []
+    a_ = (r1 * r1 - r2 * r2 + d_ * d_) / (2 * d_)
+    h_ = math.sqrt(max(r1 * r1 - a_ * a_, 0))
+    mid = z1 + a_ * (z2 - z1) / d_
+    perp = 1j * (z2 - z1) / d_
+    return [mid + h_ * perp, mid - h_ * perp]
+
+
+def complex_10_v_r(points: Sequence[Dict[str, Any]], r10: float, r126: float, k_: float) -> List[Tuple[int, float, float]]:
+    """For each complex-10 point: the light Higgs h = n_1 + z n_2 (z complex: the direction the v_R scale picks inside
+    the light bidoublet) whose up- and down-type parts give the fit's |a/c| and |b/d|. With c = (1, z, c3, c4) its
+    components on (V_1, V_2, W_R, W_I), Phi10 = (V_1 + i V_2)/sqrt2 and Phi126 = W_R + i W_I give |a/c| = |1 + iz|/|1 - iz|
+    = |z - i|/|z + i| and |b/d| = |x1 + z x2|/|x1* + z x2*|: two Apollonius circles in z. At each intersection
+    |d| = k |c3 - i c4| / (sqrt2 |c|). Both relative up/down conventions of the 126 (it couples as the 126-bar) are
+    tried. Returns (point index, |d|, 126 share f)."""
+    out = []
+    c_a = _apollonius(1j, -1j, r10)
+    for i_, p_ in enumerate(points):
+        x1, x2 = complex(p_["x"][0], p_["x"][1]), complex(p_["x"][2], p_["x"][3])
+        if x2 == 0 or c_a is None:
+            continue
+        for rr in (r126, 1 / r126):
+            c_b = _apollonius(-x1 / x2, -x1.conjugate() / x2.conjugate(), rr)
+            if c_b is None:
+                continue
+            for z_ in _circle_intersections(c_a, c_b):
+                c3, c4 = -(x1.real + z_ * x2.real) / p_["m_s"], -(x1.imag + z_ * x2.imag) / p_["m_s"]
+                nrm = math.sqrt(1 + abs(z_) ** 2 + abs(c3) ** 2 + abs(c4) ** 2)
+                out.append((i_, k_ * abs(c3 - 1j * c4) / (math.sqrt(2) * nrm), (abs(c3) ** 2 + abs(c4) ** 2) / nrm ** 2))
+    return out
+
+
+def potential_lr_scan(setup: Dict[str, Any], chain: Dict[str, Any], heavy: Dict[str, Any], base: Dict[str, Any],
+                      x: Dict[str, float], tau_limit: float, mu0: float, m1_nat: float) -> Dict[str, Any]:
+    """Quartics scanned in T9's box and the vev direction alpha uniform; mu^2 and eta follow from stationarity
+    (kept if |eta/v| <= potential_eta_max). Kept if every non-Goldstone 210 mass^2 is positive (a local minimum)
+    and the quartic part is positive along T9's random directions; then, per kept vacuum, lr_126_draws sets of the
+    126's couplings (cubic, D, E in the box; F is universal on self-dual forms and joins the mass term), kept if
+    every 126 multiplet but Delta_R is heavy. The thresholds use T12's responses; (M_I, tau_p) of every point is kept
+    for Part Y."""
+    rng = _UniformStream(int(num("potential_seed")) + 3)
+    lam_max, eta_max = num("potential_lambda_max"), num("potential_eta_max")
+    keys = list(itertools.combinations(range(10), 4))
+    dirs = []
+    for _ in range(int(num("potential_directions"))):
+        vec = [rng.gauss() for _ in keys]
+        nrm = math.sqrt(sum(v_ * v_ for v_ in vec))
+        dirs.append(so10_210_invariants({k_: v_ / nrm for k_, v_ in zip(keys, vec)}))
+    resp = {r_["multiplet"]: r_ for r_ in heavy["rows"]}
+    bv = [-Fr(7, 2) * _rep_info("SU3", 3)[0] * 2, Fr(0), Fr(0), -Fr(7, 2) * BL_NORM * Fr(4, 3) ** 2 * 3 * 2]
+    dv = [float(b_) / (2 * math.pi) for b_ in bv]
+    rv = solve_chain(chain, x, 2, [dv[0] - dv[1], dv[2] - dv[1], dv[3] - dv[1]])
+    vrow = {"dlnMI": math.log(rv["M_I"] / base["M_I"]),
+            "dlntau": math.log(proton_lifetime(x, rv["M_GUT"], rv["alpha_GUT"], None, heavy["a_l"], chain, rv) / base["tau_p_years"])}
+    g2 = 4 * math.pi * base["alpha_GUT"]
+    c10 = so10_126_coefficients()["coefficients"]
+    scale = {k: max(abs(c10[r_][k]) for r_ in c10) for k in ("cubic", "D", "E")}
+    tol = num("check_rel_tol")
+    tried, per = int(num("lr_potential_points")), int(num("lr_126_draws"))
+    pts210, pts, alphas, pts10, extra10 = [], [], [], [], []
+    # the complex 10 (two real 10s, its own stream so the real-10 results do not move)
+    rng_c = _UniformStream(int(num("potential_seed")) + 4)
+    pts10c, extra10c, n_c10 = [], [], 0
+    a_max = max(abs(v_) for v_ in so10_10_splitting().values())
+    for _ in range(tried):
+        lam = {q: rng.uniform(-lam_max, lam_max) for q in QUARTICS_210}
+        alpha = rng.uniform(0, math.pi)
+        mu2, eta = lr_vacuum(setup, lam, alpha)
+        if not abs(eta) <= eta_max:
+            continue
+        if any(sum(lam[q] * d_[q] for q in QUARTICS_210) <= 0 for d_ in dirs):
+            continue
+        m2 = lr_210_masses(setup, lam, mu2, eta, alpha)
+        g_ = m2[LR_GOLDSTONES[0]]
+        m2[LR_GOLDSTONES[0]] = [max(g_, key=abs)]                     # drop the eaten (3,2,2): the eigenvalue nearest 0
+        heavy_ev = [e_ for k, ev in m2.items() if k != LR_GOLDSTONES[1] for e_ in ev]
+        if min(heavy_ev) <= tol:
+            continue
+        mv = lr_vector_mass2(alpha)
+        m322 = g2 / 2 * mv["(3,2,2)"]
+        ell = {nm: math.log(m2[k][-1] / m322) / 2 for k, nm in LR_210_NAMES.items()}
+        lv = math.log(mv["(3,1,1)"] / mv["(3,2,2)"]) / 2
+        dmi = sum(resp[n_]["dlnMI"] * l_ for n_, l_ in ell.items()) + vrow["dlnMI"] * lv
+        dtau = sum(resp[n_]["dlntau"] * l_ for n_, l_ in ell.items()) + vrow["dlntau"] * lv
+        pts210.append((base["M_I"] * math.exp(dmi), base["tau_p_years"] * math.exp(dtau)))
+        alphas.append(alpha)
+        cl = lr_126_coefficients(setup, LR_DELTA_R, alpha)
+        c10s = lr_10_couplings(setup, alpha)
+        cfs = {k: lr_126_coefficients(setup, k, alpha) for k in LR_126_NAMES}
+        for _ in range(per):
+            k126 = {"cubic": rng.uniform(-eta_max, eta_max), "D": rng.uniform(-lam_max, lam_max),
+                    "E": rng.uniform(-lam_max, lam_max)}
+            m126 = {nm: sum(k126[k] * (cfs[key][k] - cl[k]) / scale[k] for k in k126) for key, nm in LR_126_NAMES.items()}
+            if min(m126.values()) <= 0:
+                continue
+            ell2 = {nm: math.log(v_ / m322) / 2 for nm, v_ in m126.items()}
+            dmi2 = dmi + sum(resp[n_]["dlnMI"] * l_ for n_, l_ in ell2.items())
+            dtau2 = dtau + sum(resp[n_]["dlntau"] * l_ for n_, l_ in ell2.items())
+            pts.append((base["M_I"] * math.exp(dmi2), base["tau_p_years"] * math.exp(dtau2)))
+            for _ in range(int(num("lr_complex10_draws"))):
+                c10 = complex_10_point(rng_c, c10s, m126, ell2, dmi2, dtau2, resp, m322, a_max, lam_max, eta_max)
+                n_c10 += 1
+                if c10:
+                    pts10c.append((base["M_I"] * math.exp(c10["dlnMI"]), base["tau_p_years"] * math.exp(c10["dlntau"])))
+                    extra10c.append(c10)
+            # the 10 (T11 here): kappa_10 H_i H_j A_ij splits it, the cubic (mix10 v^2 x the strengths) mixes its triplet
+            # with the 126's (3,1,1) and its doublet with the 126's (1,2,2); one doublet combination light (the tuning)
+            k10, mix10 = rng.uniform(-lam_max, lam_max), rng.uniform(-eta_max, eta_max)
+            m_sd, m_s3 = m126["126: (1,2,2) heavy"], m126["126: (3,1,1)"]
+            xd, xt = mix10 * c10s["doublet"], mix10 * c10s["triplet"]
+            m_hd = xd * xd / m_sd                                     # det = 0: the light Higgs
+            m_h3 = m_hd + k10 * (c10s["A_SO6"] - c10s["A_SO4"]) / a_max
+            tr_, det_ = m_h3 + m_s3, m_h3 * m_s3 - xt * xt
+            if det_ <= 0 or tr_ <= 0:
+                continue
+            root = math.sqrt(max(tr_ * tr_ / 4 - det_, 0))
+            trip = (tr_ / 2 - root, tr_ / 2 + root)
+            r3, rd = resp["10: (3,1,1)"], resp["126: (1,2,2) heavy"]
+            l3 = [math.log(e_ / m322) / 2 for e_ in trip]
+            ld = [math.log((m_sd + m_hd) / m322) / 2, ell2["126: (1,2,2) heavy"]]
+            # replace the 126's mixed triplet and its bidoublet (one real half now heavier) by the eigenstates
+            dmi3 = (dmi2 - resp["126: (3,1,1)"]["dlnMI"] * ell2["126: (3,1,1)"] + r3["dlnMI"] * sum(l3)
+                    - rd["dlnMI"] * ell2["126: (1,2,2) heavy"] + rd["dlnMI"] * sum(ld) / 2)
+            dtau3 = (dtau2 - resp["126: (3,1,1)"]["dlntau"] * ell2["126: (3,1,1)"] + r3["dlntau"] * sum(l3)
+                     - rd["dlntau"] * ell2["126: (1,2,2) heavy"] + rd["dlntau"] * sum(ld) / 2)
+            pts10.append((base["M_I"] * math.exp(dmi3), base["tau_p_years"] * math.exp(dtau3)))
+            extra10.append((math.sqrt(trip[0] / m322), xd * xd / (xd * xd + m_sd * m_sd)))
+
+    def summary(sample: List[Tuple[float, float]]) -> Dict[str, Any]:
+        if not sample:
+            return {"viable": 0}
+        mi_ = sorted(p_[0] for p_ in sample)
+        ta_ = sorted(p_[1] for p_ in sample)
+        qs = lambda v_: (v_[len(v_) // 6], v_[len(v_) // 2], v_[(5 * len(v_)) // 6])
+        n_ = len(sample)
+        return {"viable": n_, "M_I_quantiles": qs(mi_), "tau_p_quantiles": qs(ta_),
+                "frac_proton_ok": sum(t_ > tau_limit for t_ in ta_) / n_, "frac_vacuum_ok": sum(m_ < mu0 for m_ in mi_) / n_,
+                "frac_leptogenesis_ok": sum(m_ >= m1_nat for m_ in mi_) / n_}
+    qa = sorted(alphas)
+    w10 = summary(pts10)
+    if extra10:
+        tl_ = sorted(e_[0] for e_ in extra10)
+        mx_ = sorted(e_[1] for e_ in extra10)
+        w10["triplet_light_quantiles"] = (tl_[len(tl_) // 6], tl_[len(tl_) // 2], tl_[(5 * len(tl_)) // 6])
+        w10["higgs_126_fraction_quantiles"] = (mx_[len(mx_) // 6], mx_[len(mx_) // 2], mx_[(5 * len(mx_)) // 6])
+    w10c = summary(pts10c)
+    if extra10c:
+        tl_ = sorted(e_["triplet_light"] for e_ in extra10c)
+        w10c["triplet_light_quantiles"] = (tl_[len(tl_) // 6], tl_[len(tl_) // 2], tl_[(5 * len(tl_)) // 6])
+        w10c["drawn"] = n_c10
+        w10c["points"] = [{"M_I": p_[0], "tau_p": p_[1], "x": e_["x"], "m_s": e_["m_s"]} for p_, e_ in zip(pts10c, extra10c)]
+    return {"tried": tried, "per_vacuum_126": per, "vector_311": vrow, "with_210": summary(pts210), "with_126": summary(pts),
+            "with_complex_10": w10c,
+            "with_10": w10, "points": sorted(pts10), "alpha_quantiles": (qa[len(qa) // 6], qa[len(qa) // 2], qa[(5 * len(qa)) // 6]) if qa else None}
+
+
+def lr_potential_checks(setup: Dict[str, Any]) -> Dict[str, float]:
+    """(1) the highest weights reproduce T12's decompositions of the 210 and 126; (2) at alpha = 0 (Pati-Salam vev)
+    every 3221 mass equals T9's and every 126 coefficient T10's; (3) at a two-vev vacuum the eaten (3,2,2) and (3,1,1)
+    are massless and the unbroken generators annihilate the vev."""
+    want210 = sorted([c_ for c_, k in SO10_TO_3221[210]] + [(c_[0], c_[1], c_[2], -c_[3]) for c_, k in SO10_TO_3221[210]
+                                                              if k == "complex"], key=str)
+    want126 = sorted([c_ for c_, _ in SO10_TO_3221[126]], key=str)
+    dec = float(sorted(setup["labels210"], key=str) != want210 or setup["labels126"] != want126)
+    rng = _UniformStream(int(num("potential_seed")) + 4)
+    lam = {q: rng.uniform(-1, 1) for q in QUARTICS_210}
+    eta = rng.uniform(-1, 1)
+    q0 = so10_210_invariants({PS_SINGLET_210: 1})
+    mu2 = 4 * sum(lam[q] * q0[q] for q in QUARTICS_210) / 576
+    m0 = lr_210_masses(setup, lam, mu2, eta, 0)
+    t9 = {n_: sum(lam[q] * c_[q] for q in QUARTICS_210) + eta * c_["eta"] for n_, c_ in potential_210_curvatures().items()}
+    parent = {(8, 1, 1): "(15,1,1)", (3, 1, 1): "(15,1,1)", (8, 3, 1): "(15,3,1)", (1, 3, 1): "(15,3,1)", (3, 3, 1): "(15,3,1)",
+              (8, 1, 3): "(15,1,3)", (1, 1, 3): "(15,1,3)", (3, 1, 3): "(15,1,3)", (6, 2, 2): "(10,2,2)", (1, 2, 2): "(10,2,2)"}
+    ps9 = max(abs(m0[k][0] - t9[parent[k[:3]]]) for k in m0 if k[:3] in parent)
+    for key, want in ((LR_GOLDSTONES[0], (0, t9["(10,2,2)"])), ((1, 1, 1, Fr(0)), (t9["(1,1,1)"], t9["(15,1,1)"]))):
+        ps9 = max(ps9, max(abs(a_ - b_) for a_, b_ in zip(sorted(m0[key]), sorted(want))))    # order-free
+    c10 = so10_126_coefficients()["coefficients"]
+    par126 = {(3, 1, 1): "(6,1,1)", (6, 3, 1): "(10,3,1)", (3, 3, 1): "(10,3,1)", (1, 3, 1): "(10,3,1)",
+              (6, 1, 3): "(10bar,1,3)", (3, 1, 3): "(10bar,1,3)", (1, 1, 3): "(10bar,1,3)", (8, 2, 2): "(15,2,2)",
+              (1, 2, 2): "(15,2,2)", (3, 2, 2): "(15,2,2)"}
+    ps10 = max(abs(lr_126_coefficients(setup, k, 0)[nm] - c10[par126[k[:3]]][nm]) for k in setup["c126"] for nm in ("cubic", "D", "E", "F"))
+    alpha = rng.uniform(0, math.pi / 2)
+    mu2, eta = lr_vacuum(setup, lam, alpha)
+    mm = lr_210_masses(setup, lam, mu2, eta, alpha)
+    gold = max(min(abs(e_) for e_ in mm[k]) for k in LR_GOLDSTONES)
+    phi = lr_210_vev(alpha)
+    unbroken = max(sum(v_ * v_ for v_ in _gen_on_form(g_, phi).values()) for g_ in
+                   ([(0, 1, 1), (2, 3, -1)], [(0, 2, 1), (1, 3, 1)], [(6, 7, 1), (8, 9, 1)], [(6, 7, 1), (8, 9, -1)], [(0, 1, 1), (2, 3, 1), (4, 5, 1)]))
+    t0_ = lr_10_couplings(setup, 0)
+    a10 = so10_10_splitting()
+    ten = max(abs(t0_["doublet"]), abs(t0_["triplet"] - 1), abs(t0_["A_SO6"] - a10.get((0, 0), 0)), abs(t0_["A_SO4"] - a10.get((6, 6), 0)))
+    return {"decompositions": dec, "PS_limit_210": ps9, "PS_limit_126": ps10, "goldstones": gold, "unbroken": unbroken,
+            "PS_limit_10": ten}
+
+
+def so10(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any], scp: Dict[str, Any],
+         bau: Dict[str, Any], pdk: Dict[str, Any], crit: Dict[str, Any]) -> Dict[str, Any]:
+    x0 = _float_inputs()
+    out: Dict[str, Any] = {}
+    # T1
+    out["bl_anomalies_with_nu_c"] = bl_anomalies(True)
+    out["bl_anomalies_without_nu_c"] = bl_anomalies(False)
+    out["weinberg"] = weinberg_angle_at_unification()
+    out["weinberg"]["script_GUT_norm"] = GUT_NORM
+    # T2. minimal Yukawas at the highest evaluation scale (Part I's M_S): same-type ratios
+    mu_top = max(flav["ratios"])
+    r = flav["ratios"][mu_top]
+    lep = lepton_masses_gev()
+    rmt = lep["mu"] / lep["tau"]
+    sig_rel = {k: math.hypot(*(sig(n) / inp(n) for n in pair)) for k, pair in
+               (("ct", ("m_c", "M_t")), ("sb", ("m_s", "m_b")))}
+    out["minimal_10"] = {"scale": mu_top, "m_c/m_t": r["r_ct"], "m_s/m_b": r["r_sb"], "m_mu/m_tau": rmt,
+                         "s_over_c": r["r_sb"] / r["r_ct"], "mu_over_s": rmt / r["r_sb"],
+                         "n_sigma_s_c": abs(r["r_sb"] / r["r_ct"] - 1) / math.hypot(sig_rel["ct"], sig_rel["sb"]),
+                         "n_sigma_mu_s": abs(rmt / r["r_sb"] - 1) / sig_rel["sb"]}
+    # T3. t-b-tau in the MSSM: where y_t = y_b at M_GUT (large tan beta), y_b/y_tau there
+    rows = [rw for rw in yukawa.get("btau_MSSM", []) if math.isfinite(rw["M_GUT"])]
+    tbt = None
+    for a_, b_ in zip(rows[:-1], rows[1:]):
+        fa, fb = a_["yt_GUT"] - a_["yb_GUT"], b_["yt_GUT"] - b_["yb_GUT"]
+        if fa * fb < 0:
+            w_ = fa / (fa - fb)
+            tb = math.exp(math.log(a_["tan_beta"]) + w_ * (math.log(b_["tan_beta"]) - math.log(a_["tan_beta"])))
+            tbt = {"tan_beta": tb, "yb_over_ytau": a_["yb_over_ytau"] + w_ * (b_["yb_over_ytau"] - a_["yb_over_ytau"])}
+    if tbt:
+        tbt["m_b_threshold_needed"] = 1 / tbt["yb_over_ytau"] - 1
+    out["t_b_tau"] = tbt
+    # T4. non-SUSY SO(10) through Pati-Salam
+    ps = pati_salam_unification(x0)
+    runner = flav["runner"]
+    a_l = proton_long_distance(runner, x0)
+    ps["tau_p_years"] = proton_lifetime(x0, ps["M_GUT"], ps["alpha_GUT"], None, a_l)
+    ps["tau_p_limit"] = pdk["limit_e_pi0"]
+    ps["tau_p_allowed"] = ps["tau_p_years"] > pdk["limit_e_pi0"]
+    lg = bau["leptogenesis"]["rows"]
+    ps["M1_min_leptogenesis"] = min(r_["M1_min"] for r_ in lg)
+    ps["seesaw_window_top"] = min(r_["window_top"] for r_ in lg)
+    ps["M_I_in_leptogenesis_window"] = ps["M1_min_leptogenesis"] < ps["M_I"] < ps["seesaw_window_top"]
+    ps["axion_m_a_eV_if_fa_MI"] = scp["axion"]["ma_fa_MeV2"] * 10 ** 3 / ps["M_I"]
+    out["pati_salam"] = ps
+    # T5. every minimal chain at one and two loops, with its proton lifetime, lambda(M_I) = 0 and windows
+    chains = {}
+    for name, ch in so10_chains().items():
+        rec = {"b1": ch["b1"], "b2": ch["b2"], "D_parity": ch["D"], "groups": ch["groups"]}
+        for loops in (1, 2):
+            rec[f"loop{loops}"] = solve_chain(ch, x0, loops)
+        rec["loop2_tree_matching"] = solve_chain(ch, x0, 2, vector_constants=False)
+        rec["vector_constants"] = vector_threshold_constants(ch)
+        two = rec["loop2"]
+        two["tau_p_years"] = proton_lifetime(x0, two["M_GUT"], two["alpha_GUT"], None, a_l, ch, two)
+        two["tau_p_allowed"] = two["tau_p_years"] > pdk["limit_e_pi0"]
+        two["m_h_lambda_MI_zero"] = predict_higgs_mass_nnlo(None, two["M_I"], 3, crit["central"]["m_h"],
+                                                             anchor=crit["smdr"])["m_h"]
+        two["in_leptogenesis_window"] = ps["M1_min_leptogenesis"] < two["M_I"] < ps["seesaw_window_top"]
+        two["axion_m_a_eV_if_fa_MI"] = scp["axion"]["ma_fa_MeV2"] * 10 ** 3 / two["M_I"]
+        rec["two_loop_shift_ln_MI"] = math.log(two["M_I"] / rec["loop1"]["M_I"])
+        chains[name] = rec
+    out["chains"] = chains
+    out["vacuum"] = chain_vacuum(crit, chains)
+    # T7. how robust each chain's verdicts are against the unknown thresholds
+    m1_nat = bau["leptogenesis"]["M1_min_natural"][0]
+    defs = so10_chains()
+    out["thresholds"] = {nm: chain_thresholds(defs[nm], x0, ch["loop2"], a_l, pdk["limit_e_pi0"],
+                                              out["vacuum"]["mu0"], m1_nat) for nm, ch in chains.items()}
+    # T8. the Pati-Salam chain's heavy GUT multiplets, one by one
+    hs = heavy_spectrum_band(defs["PS"], x0, chains["PS"]["loop2"], a_l)
+    base = chains["PS"]["loop2"]
+    for r_ in hs["rows"]:
+        # the mass ratio M_h/M_GUT at which each verdict flips (linear in the log; None if it never does here)
+        def flip(target: float, value: float, slope: float) -> float | None:
+            return math.exp(math.log(target / value) / slope) if slope else None
+        r_["proton_flip_ratio"] = flip(pdk["limit_e_pi0"], base["tau_p_years"], r_["dlntau"])
+        r_["vacuum_flip_ratio"] = flip(out["vacuum"]["mu0"], base["M_I"], r_["dlnMI"])
+    out["heavy_spectrum_PS"] = hs
+    # T12. the left-right chain's heavy GUT multiplets, one by one (the response to each one's mass)
+    base_lr = chains["LR"]["loop2"]
+    hs_lr = heavy_spectrum_band_lr(defs["LR"], x0, base_lr, a_l)
+    for r_ in hs_lr["rows"]:
+        r_["proton_flip_ratio"] = math.exp(math.log(pdk["limit_e_pi0"] / base_lr["tau_p_years"]) / r_["dlntau"])
+        r_["vacuum_flip_ratio"] = math.exp(math.log(out["vacuum"]["mu0"] / base_lr["M_I"]) / r_["dlnMI"])
+    hs_lr["a_l"] = a_l
+    out["heavy_spectrum_LR"] = hs_lr
+    # T13. the left-right chain's own potential: the 210 with both 3221 vevs, and the 126 at that vev
+    setup_lr = lr_potential_setup()
+    out["potential_lr"] = potential_lr_scan(setup_lr, defs["LR"], hs_lr, base_lr, x0, pdk["limit_e_pi0"],
+                                            out["vacuum"]["mu0"], m1_nat)
+    out["potential_lr"]["checks"] = lr_potential_checks(setup_lr)
+    # T9. the 210's own potential: its four multiplets' masses calculated over the allowed couplings
+    out["potential_210"] = potential_210_scan(hs, base["alpha_GUT"], base["tau_p_years"], base["M_I"],
+                                              pdk["limit_e_pi0"], out["vacuum"]["mu0"], m1_nat)
+    return out
+
+
+# =============================================================================
+# 6t. PART V: DARK MATTER FROM THE AXION
+# =============================================================================
+# Part A takes the dark-matter density as an input. The axion of Part O, if it exists, is made in the
+# early universe by misalignment: the field sits at a random angle theta_i until the Hubble rate drops
+# below its temperature-dependent mass, then oscillates and redshifts like matter. Calculated here
+# (Di Luzio, Giannotti, Nardi, Visinelli 2020, eqs. 148-169), with every scale from the algorithm:
+#   m_a(T) = beta m_a (T_C/T)^gamma above T_C (dilute instanton gas; beta, gamma, T_C quoted);
+#   oscillation when 3 H(T_osc) = m_a(T_osc), H = sqrt(8 pi^3 g*/90) T^2 / M_P (M_P from Part H1);
+#   n_a(T_osc) = (b/2) m_a(T_osc) f_a^2 <theta_i^2>, then n_a/s is conserved to today
+#   (g_S today = 43/11 from Part S, T_0 from T_CMB); m_a f_a from Part O.
+# Pre-inflation: theta_i is one unknown angle (scanned). Post-inflation: it averages over the universe,
+# <theta_i^2> = 2.15^2 with anharmonic terms (quoted), and the string and domain-wall contribution,
+# on which no quantitative agreement exists, is left out. f_a is scanned, and set to each SO(10) chain's
+# M_I (where PQ symmetry would break with B - L).
+def axion_relic(f_a: float, theta2: float, maf_mev2: float, m_planck: float, g_s0: float, x: Dict[str, float]) -> Dict[str, float]:
+    lit = LITERATURE["axion_misalignment"]["value"]
+    beta, gamma, t_c = float(lit["beta"]), float(lit["gamma"]), float(lit["T_C_GeV"])
+    g_osc, b_ = float(lit["g_star_osc"]), float(lit["b"])
+    m_a = maf_mev2 * 10 ** -6 / f_a                                       # GeV
+    h_coef = math.sqrt(8 * math.pi ** 3 * g_osc / 90) / m_planck
+    t_osc = (beta * m_a * t_c ** gamma / (3 * h_coef)) ** (1 / (2 + gamma))
+    m_osc = beta * m_a * (t_c / t_osc) ** gamma
+    if t_osc < t_c:                                                       # oscillates after QCD: m_a(T) = m_a
+        t_osc = math.sqrt(m_a / (3 * h_coef))
+        m_osc = m_a
+    n_osc = b_ / 2 * m_osc * f_a ** 2 * theta2
+    gev = x["e_charge"] * 10 ** 9
+    hbar_c = x["h"] / (2 * math.pi) * x["c"] / gev                        # GeV m
+    t_0 = x["k_B"] * x["T_CMB"] / gev
+    n_0 = n_osc * g_s0 * t_0 ** 3 / (g_osc * t_osc ** 3)
+    mpc = x["au"] * 648000 / math.pi * 10 ** 6
+    rho_c100 = 3 * (100 * 1000 / mpc) ** 2 / (8 * math.pi * x["G"]) * x["c"] ** 2 / gev * hbar_c ** 3   # GeV^4
+    return {"m_a_eV": m_a * 10 ** 9, "T_osc_GeV": t_osc, "Omega_h2": m_a * n_0 / rho_c100}
+
+
+def dark_matter(scp: Dict[str, Any], s10: Dict[str, Any], planck: Dict[str, float], bau: Dict[str, Any]) -> Dict[str, Any]:
+    x = _float_inputs()
+    maf = scp["axion"]["ma_fa_MeV2"]
+    m_p = planck["E_P_GeV"]
+    g_s0 = float(bau["leptogenesis"]["g_s_today"])
+    lit = LITERATURE["axion_misalignment"]["value"]
+    th_post = float(lit["theta_post"])
+    om_c, om_c_s, _ = _comparison("Omega_c_h2")
+
+    def omega(f_a: float, th2: float) -> float:
+        return axion_relic(f_a, th2, maf, m_p, g_s0, x)["Omega_h2"]
+    # post-inflation: the f_a (and m_a) for which misalignment alone is all the dark matter
+    lo, hi = math.log(10 ** 8), math.log(10 ** 16)
+    for _ in range(int(num("nu_bisections"))):
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if omega(math.exp(mid), th_post ** 2) < om_c else (lo, mid)
+    f_dm = math.exp((lo + hi) / 2)
+    post = axion_relic(f_dm, th_post ** 2, maf, m_p, g_s0, x)
+    ref = axion_relic(float(lit["eq170_f_a_GeV"]), th_post ** 2, maf, m_p, g_s0, x)
+    chains = {}
+    for nm, ch in s10["chains"].items():
+        m_i = ch["loop2"]["M_I"]
+        r_ = axion_relic(m_i, th_post ** 2, maf, m_p, g_s0, x)
+        th_need = th_post * math.sqrt(om_c / r_["Omega_h2"])               # pre-inflation, quadratic potential
+        chains[nm] = {"f_a": m_i, "m_a_eV": r_["m_a_eV"], "Omega_h2_post": r_["Omega_h2"],
+                      "fraction_post": r_["Omega_h2"] / om_c, "theta_i_pre_needed": th_need,
+                      "pre_possible": th_need < math.pi}
+    return {"Omega_c_h2": om_c, "Omega_c_h2_sigma": om_c_s, "theta_post": th_post,
+            "f_a_all_dm_post": f_dm, "m_a_all_dm_post_eV": post["m_a_eV"], "T_osc_GeV": post["T_osc_GeV"],
+            "check_eq170": {"f_a": float(lit["eq170_f_a_GeV"]), "Omega_h2": ref["Omega_h2"],
+                            "printed": float(lit["eq170_Omega_h2"])},
+            "chains": chains}
+
+
+# =============================================================================
+# 6u. PART W: THE W MASS, A TEST OF THE STANDARD MODEL ITSELF
+# =============================================================================
+# Given G_F, alpha, M_Z and the masses of the top and the Higgs, the SM fixes M_W through its quantum
+# corrections. The full two-loop result is quoted in its published parametrization (Awramik, Czakon,
+# Freitas, Weiglein 2004, eqs. 6-8: better than 0.5 MeV for 10 GeV <= M_H <= 1 TeV), with
+# Delta alpha = Delta alpha_lept (quoted) + Delta alpha_had^(5) (an input). The Higgs mass is the one Part L
+# calculates (lambda(M_P) = 0); the measured one is only a comparison here, and moving to it shifts
+# M_W by about a MeV (the dependence is logarithmic).
+def w_mass(x: Dict[str, float], m_h: float) -> float:
+    c = {k: float(v) for k, v in LITERATURE["w_mass_fit"]["value"]["coefficients"].items()}
+    ref = {k: float(v) for k, v in LITERATURE["w_mass_fit"]["value"]["reference"].items()}
+    d_alpha = float(LITERATURE["w_mass_fit"]["value"]["delta_alpha_lept"]) + x["delta_alpha_had5"]
+    dh_ = math.log(m_h / ref["M_H"])
+    h2 = (m_h / ref["M_H"]) ** 2
+    dt = (x["M_t"] / ref["m_t"]) ** 2 - 1
+    dz = x["M_Z"] / ref["M_Z"] - 1
+    da = d_alpha / ref["delta_alpha"] - 1
+    das = x["alpha_s_MZ"] / ref["alpha_s"] - 1
+    return (c["MW0"] - c["c1"] * dh_ - c["c2"] * dh_ ** 2 + c["c3"] * dh_ ** 4 + c["c4"] * (h2 - 1) - c["c5"] * da
+            + c["c6"] * dt - c["c7"] * dt ** 2 - c["c8"] * dh_ * dt + c["c9"] * h2 * dt - c["c10"] * das + c["c11"] * dz)
+
+
+def w_mass_test(crit: Dict[str, Any]) -> Dict[str, Any]:
+    x0 = _float_inputs()
+    m_h = crit["central"]["m_h"]
+    mw = w_mass(x0, m_h)
+    names = ("M_t", "alpha_s_MZ", "M_Z", "delta_alpha_had5")
+    parts = {n: _propagate(lambda x, n_=n: w_mass(x, m_h), (n,)) for n in names}
+    sig_in = math.sqrt(sum(v * v for v in parts.values()))
+    sig_mh = abs(w_mass(x0, m_h + crit["sigma_total"]) - w_mass(x0, m_h - crit["sigma_total"])) / 2
+    mh_meas = _comparison("m_h")[0]
+    shift = w_mass(x0, mh_meas) - mw
+    fit_err = float(LITERATURE["w_mass_fit"]["value"]["fit_accuracy"])
+    sig_tot = math.sqrt(sig_in ** 2 + sig_mh ** 2 + fit_err ** 2)
+    out = {"M_W": mw, "sigma": sig_tot, "sigma_parts": parts, "sigma_m_h": sig_mh, "fit_accuracy": fit_err,
+           "m_h_used": m_h, "shift_to_measured_m_h": shift}
+    meas = {"PDG 2024 average (the input M_W)": (inp("M_W"), sig("M_W")),
+            "PDG 2024 average without CDF": _comparison("M_W_noCDF")[:2],
+            "PDG 2024 global-fit prediction": _comparison("M_W_SM_fit")[:2]}
+    out["comparisons"] = {k: {"value": v, "sigma": s_, "pull": (v - mw) / math.hypot(s_, sig_tot)}
+                          for k, (v, s_) in meas.items()}
+    return out
+
+
+def sin2_eff(x: Dict[str, float], m_h: float) -> float:
+    """sin^2 theta_eff^lept, the SM's two-loop fermionic result in its published parametrization
+    (Awramik, Czakon, Freitas 2006, eqs. 48-49, table 5, leptons)."""
+    lit = LITERATURE["sin2_eff_fit"]["value"]
+    d = {k: float(v) for k, v in lit["coefficients"].items()}
+    ref = {k: float(v) for k, v in lit["reference"].items()}
+    d_alpha = float(LITERATURE["w_mass_fit"]["value"]["delta_alpha_lept"]) + x["delta_alpha_had5"]
+    l_h = math.log(m_h / ref["M_H"])
+    dh = m_h / ref["M_H"]
+    da = d_alpha / ref["delta_alpha"] - 1
+    dt = (x["M_t"] / ref["m_t"]) ** 2 - 1
+    das = x["alpha_s_MZ"] / ref["alpha_s"] - 1
+    dz = x["M_Z"] / ref["M_Z"] - 1
+    return (d["s0"] + d["d1"] * l_h + d["d2"] * l_h ** 2 + d["d3"] * l_h ** 4 + d["d4"] * (dh ** 2 - 1)
+            + d["d5"] * da + d["d6"] * dt + d["d7"] * dt ** 2 + d["d8"] * dt * (dh - 1) + d["d9"] * das + d["d10"] * dz)
+
+
+def sin2_eff_test(crit: Dict[str, Any]) -> Dict[str, Any]:
+    x0 = _float_inputs()
+    m_h = crit["central"]["m_h"]
+    s2 = sin2_eff(x0, m_h)
+    names = ("M_t", "alpha_s_MZ", "M_Z", "delta_alpha_had5")
+    parts = {n: _propagate(lambda x, n_=n: sin2_eff(x, m_h), (n,)) for n in names}
+    sig_mh = abs(sin2_eff(x0, m_h + crit["sigma_total"]) - sin2_eff(x0, m_h - crit["sigma_total"])) / 2
+    fit_err = float(LITERATURE["sin2_eff_fit"]["value"]["fit_accuracy"])
+    sig_tot = math.sqrt(sum(v * v for v in parts.values()) + sig_mh ** 2 + fit_err ** 2)
+    out = {"sin2_eff": s2, "sigma": sig_tot, "sigma_parts": parts, "sigma_m_h": sig_mh, "fit_accuracy": fit_err,
+           "shift_to_measured_m_h": sin2_eff(x0, _comparison("m_h")[0]) - s2}
+    out["comparisons"] = {}
+    for k in ("sin2_eff_LEP_SLC", "sin2_eff_colliders"):
+        v, s_, _ = _comparison(k)
+        out["comparisons"][k] = {"value": v, "sigma": s_, "pull": (v - s2) / math.hypot(s_, sig_tot)}
+    return out
+
+
+# =============================================================================
+# 6v. PART X: CLOSING THE LOOP, COSMOLOGY FROM THE PARTICLE PHYSICS
+# =============================================================================
+# Part A takes Omega_m as an input. With the axion at the surviving chain's M_I (Part V) the matter density
+# follows instead: Omega_m h^2 = Omega_b h^2 (measured) + Omega_a h^2 (misalignment) + Omega_nu h^2 (Part P,
+# normal-ordering minimum). Flatness then gives Omega_Lambda, and the Friedmann equation the age (Part A's
+# float quadrature, the same function as its check). Against Planck's age this tests the closed loop; the
+# string and domain-wall yield, the one unknown left, is what must make up any missing dark matter.
+# =============================================================================
+# PART AA: DARK MATTER BEYOND THE AXION, AND INFLATION (roadmap item 8)
+# =============================================================================
+# AA1. A stable particle needs a symmetry. The 126's vev breaks B - L by two units and leaves the exact Z2
+#      R = (-1)^(3(B - L) + 2s) (matter parity times fermion number). Every field of the minimal left-right theory is
+#      classified: if all are R-even, nothing but the axion can be the dark matter, and the smallest additions that
+#      would give an R-odd neutral state are named (spinor scalars, tensor fermions).
+# AA2. Inflation in slow roll, computed from each potential (no leading-1/N formulas): Higgs inflation (and any
+#      scalar with a large nonminimal coupling xi phi^2 R), U ~ (1 - exp(-sqrt(2/3) chi))^2 in the Einstein frame;
+#      a minimally coupled GUT scalar (the 210's or 126's vev direction), U ~ phi^4 or phi^2. Against Planck's n_s and
+#      BICEP/Keck's r. Higgs inflation also needs lambda > 0 where the plateau sits, chi ~ M_P: Part L's lambda turns
+#      negative at mu_0, and the CMB amplitude fixes lambda/xi^2.
+def slow_roll(u_: Callable[[float], float], du: Callable[[float], float], d2u: Callable[[float], float], n_e: float,
+              lo: float, hi: float) -> Dict[str, float]:
+    """n_s, r and U/epsilon at the field value N e-folds before the end (epsilon = 1), reduced Planck units; the
+    field rolls toward small values. N(phi) = integral of U/U' from phi_end; both by bisection, the integral by
+    Simpson's rule."""
+    eps = lambda f_: (du(f_) / u_(f_)) ** 2 / 2
+    a_, b_ = lo, hi
+    for _ in range(int(num("unif_iterations"))):
+        m_ = (a_ + b_) / 2
+        a_, b_ = (m_, b_) if eps(m_) > 1 else (a_, m_)
+    f_end = (a_ + b_) / 2
+    n_simp = int(num("friedmann_check_steps"))
+
+    def efolds(f_: float) -> float:
+        h_ = (f_ - f_end) / n_simp
+        return h_ / 3 * sum((1 if k_ in (0, n_simp) else 4 if k_ % 2 else 2) * u_(f_end + k_ * h_) / du(f_end + k_ * h_)
+                            for k_ in range(n_simp + 1))
+    a_, b_ = f_end, hi
+    for _ in range(int(num("unif_iterations"))):
+        m_ = (a_ + b_) / 2
+        a_, b_ = (m_, b_) if efolds(m_) < n_e else (a_, m_)
+    f_ = (a_ + b_) / 2
+    e_, eta = eps(f_), d2u(f_) / u_(f_)
+    return {"phi": f_, "n_s": 1 - 6 * e_ + 2 * eta, "r": 16 * e_, "U_over_eps": u_(f_) / e_}
+
+
+def dark_sector(dm: Dict[str, Any], crit: Dict[str, Any], chain: str) -> Dict[str, Any]:
+    out: Dict[str, Any] = {"chain": chain}
+    # AA1. R-parity of every field (B - L as in the chains: quarks 1/3)
+    fields = [(nm_, key[3], 0) for key, nm_ in {**LR_126_NAMES, **LR_210_NAMES}.items()]
+    fields += [("126: (1,1,3) Delta_R", LR_DELTA_R[3], 0), ("10: (1,2,2)", Fr(0), 0), ("10: (3,1,1)", Fr(2, 3), 0)]
+    fields += [(f"16: {rep_[:3]}", rep_[3], 1) for rep_, kind, _ in so10_chains()["LR"]["fields"] if kind == "weyl"]
+    rows = []
+    for nm_, bl, two_s in fields:
+        three_bl = 3 * bl
+        rows.append({"field": nm_, "3(B-L)": three_bl, "spin_x2": two_s,
+                     "R": 1 if (three_bl.numerator + two_s) % 2 == 0 else -1})
+    out["r_parity"] = rows
+    out["r_odd"] = [r_["field"] for r_ in rows if r_["R"] < 0]
+    # additions: the components of a 16 have odd 3(B - L), those of a 10 even, so a scalar spinor and a fermionic tensor
+    # are R-odd; each has neutral components (the 16's lepton doublet and singlet; the 10's (1,2,2))
+    sp = [r_ for r_ in rows if r_["field"].startswith("16:")]
+    out["scalar_16_odd"] = all(r_["3(B-L)"].numerator % 2 == 1 for r_ in sp)
+    out["fermion_10_odd"] = all((3 * bl).numerator % 2 == 0 for bl in (Fr(0), Fr(2, 3), Fr(-2, 3)))
+    out["axion_fraction"] = dm["chains"][chain]["Omega_h2_post"] / dm["Omega_c_h2"]
+    # AA2. inflation
+    a_s = math.exp(inp("ln_1e10_A_s")) / 10 ** 10
+    ns, ns_s, _ = _comparison("n_s")
+    r_lim = _comparison("r_limit")[0]
+    k_ = math.sqrt(2 / 3)
+    models = {
+        "plateau (Higgs, or xi phi^2 R)": (lambda c: (1 - math.exp(-k_ * c)) ** 2,
+                                          lambda c: 2 * k_ * math.exp(-k_ * c) * (1 - math.exp(-k_ * c)),
+                                          lambda c: 2 * k_ ** 2 * math.exp(-k_ * c) * (2 * math.exp(-k_ * c) - 1)),
+        "phi^4 (minimal)": (lambda c: c ** 4, lambda c: 4 * c ** 3, lambda c: 12 * c ** 2),
+        "phi^2 (minimal)": (lambda c: c ** 2, lambda c: 2 * c, lambda c: 2.0),
+    }
+    n_lo, n_hi = num("inflation_efolds_lo"), num("inflation_efolds_hi")
+    infl = {}
+    for nm_, (u_, du, d2u) in models.items():
+        res = [slow_roll(u_, du, d2u, n_, num("check_rel_tol"), 100.0) for n_ in (n_lo, n_hi)]
+        pulls = [(r_["n_s"] - ns) / ns_s for r_ in res]
+        infl[nm_] = {"n_s": [r_["n_s"] for r_ in res], "r": [r_["r"] for r_ in res], "n_s_pull": pulls,
+                     "U_over_eps": [r_["U_over_eps"] for r_ in res],
+                     "allowed": max(r_["r"] for r_ in res) < r_lim and min(abs(p_) for p_ in pulls) < num("survival_sigma")}
+    out["inflation"] = infl
+    # Higgs inflation: U = lambda/(4 xi^2) M^4 shape, A_s = U/(24 pi^2 eps) => lambda/xi^2 = 96 pi^2 A_s eps/shape
+    pl = infl["plateau (Higgs, or xi phi^2 R)"]
+    lam_over_xi2 = [96 * math.pi ** 2 * a_s / uo for uo in pl["U_over_eps"]]
+    prof = sm_lambda_profile(crit, _comparison("m_h")[0])
+    m_red = crit["planck"]["M_P_reduced"]
+    out["higgs"] = {"lambda_over_xi2": lam_over_xi2, "mu_zero": prof["mu_zero"], "lambda_MP": prof["lambda_MP"]}
+    if math.isfinite(prof["mu_zero"]):
+        # the plateau (h ~ M_P/sqrt(xi)) must lie where lambda > 0, below mu_0: xi >= (M_P/mu_0)^2, and then the CMB
+        # amplitude needs lambda = (lambda/xi^2) xi^2
+        xi_min = (m_red / prof["mu_zero"]) ** 2
+        out["higgs"].update({"xi_min": xi_min, "lambda_needed": min(lam_over_xi2) * xi_min ** 2,
+                             "excluded": min(lam_over_xi2) * xi_min ** 2 > PERTURBATIVE_LIMIT})
+    else:
+        out["higgs"]["excluded"] = False
+    return out
+
+
+def closed_cosmology(cosmo: Dict[str, Any], dm: Dict[str, Any], nus: Dict[str, Any], chain: str) -> Dict[str, Any]:
+    h_ = inp("H0") / 100
+    om_r = float(cosmo["Omega_r"])
+    h0 = float(cosmo["H0_per_s"])
+    om_b = inp("Omega_b_h2") / h_ ** 2
+    om_nu = nus["orderings"]["NO"]["Omega_nu_h2_at_min"] / h_ ** 2
+    om_c_meas = dm["Omega_c_h2"]
+    gyr = 31557600 * 10 ** 9
+
+    def age(om_c_h2: float) -> Tuple[float, float, float]:
+        om_m = om_b + om_c_h2 / h_ ** 2 + om_nu
+        om_l = 1 - om_m - om_r
+        t = age_by_float_quadrature(om_r, om_m, om_l, int(num("friedmann_check_steps")),
+                                    num("friedmann_check_lna_min")) / h0 / gyr
+        return om_m, om_l, t
+    a_mis = dm["chains"][chain]["Omega_h2_post"]
+    om_m, om_l, t_mis = age(a_mis)
+    _, _, t_all = age(om_c_meas)
+    t_meas, t_sig, _ = _comparison("age_Gyr")
+    return {"chain": chain, "Omega_a_h2": a_mis, "Omega_m": om_m, "Omega_Lambda": om_l, "age_Gyr": t_mis,
+            "age_with_all_dm_Gyr": t_all, "age_pull": (t_mis - t_meas) / t_sig,
+            "string_fraction_needed": 1 - a_mis / om_c_meas, "Omega_m_input": float(cosmo["Omega_m"])}
+
+
+def _herm3_eigvals(m: List[List[complex]]) -> List[float]:
+    """Eigenvalues (ascending) of a 3x3 Hermitian matrix in closed form (trigonometric solution of the cubic)."""
+    a, b, c = m[0][0].real, m[1][1].real, m[2][2].real
+    d, e, f = m[0][1], m[1][2], m[0][2]
+    q = (a + b + c) / 3
+    p1 = abs(d) ** 2 + abs(e) ** 2 + abs(f) ** 2
+    p2 = (a - q) ** 2 + (b - q) ** 2 + (c - q) ** 2 + 2 * p1
+    if p2 <= 0:
+        return [q, q, q]
+    p = math.sqrt(p2 / 6)
+    # B = (A - q I)/p ; r = det(B)/2
+    aa, bb, cc = (a - q) / p, (b - q) / p, (c - q) / p
+    dd, ee, ff = d / p, e / p, f / p
+    det = (aa * bb * cc + 2 * (dd * ee * ff.conjugate()).real - aa * abs(ee) ** 2 - bb * abs(ff) ** 2 - cc * abs(dd) ** 2)
+    r = max(-1.0, min(1.0, det / 2))
+    phi = math.acos(r) / 3
+    l1 = q + 2 * p * math.cos(phi)
+    l3 = q + 2 * p * math.cos(phi + 2 * math.pi / 3)
+    return sorted([l3, 3 * q - l1 - l3, l1])
+
+
+def _herm3_eigvec(m: List[List[complex]], lam: float) -> List[complex]:
+    """Unit eigenvector for a simple eigenvalue: the largest cross product of two rows of (A - lam I)."""
+    rows = [[m[i][j] - (lam if i == j else 0) for j in range(3)] for i in range(3)]
+    best, bn = None, -1.0
+    for i, j in ((0, 1), (0, 2), (1, 2)):
+        u, w = rows[i], rows[j]
+        cr = [u[1] * w[2] - u[2] * w[1], u[2] * w[0] - u[0] * w[2], u[0] * w[1] - u[1] * w[0]]   # rows . v = 0
+        nrm = math.sqrt(sum(abs(z) ** 2 for z in cr))
+        if nrm > bn:
+            best, bn = cr, nrm
+    return [z / bn for z in best]
+
+
+# =============================================================================
+# 6w0. MATRIX YUKAWA RUNNING: THE SM UP TO M_I, THE LEFT-RIGHT THEORY UP TO M_GUT
+# =============================================================================
+# Part Y evaluates the SO(10) relations at the left-right chain's M_GUT. Between M_I and M_GUT the theory is
+# SU(3) x SU(2)_L x SU(2)_R x U(1)_B-L with one complex bidoublet Phi: -L = Q_L (Y1 Phi + Y2 Phi~) Q_R
+# + L_L (Y3 Phi + Y4 Phi~) L_R + h.c. Its one-loop Yukawa RGE is not quoted: the general one-loop formula
+# (Machacek-Vaughn; two-component fermions, real scalars) is coded over explicit components, checked on the
+# SM's matrix RGE, and the reduced matrix form below is checked against it at a random point (self-checks):
+#   16 pi^2 dY1/dt = 2 Y1 Y1+ Y1 - Y1 Y2+ Y2 - Y2 Y2+ Y1 + T Y1 + 2 Tr(3 Y1 Y2+ + Y3 Y4+) Y2 - gauge
+#   (Y2: exchange 1 <-> 2; leptons: 3 <-> 1, 4 <-> 2), T = Tr(3 Y1 Y1+ + 3 Y2 Y2+ + Y3 Y3+ + Y4 Y4+).
+# Matching at M_I with <Phi> = diag(k1, 0) (the second doublet's vev neglected): M_u = Y1 k1, M_d = Y2 k1*,
+# M_e = Y4 k1*. SO(10)'s Yukawas are symmetric and the left-right running keeps them so, so each matrix is
+# taken in its symmetric (Takagi) form at M_I. Not included: the Majorana coupling of the triplet Delta_R.
+def _cdag3(a: List[List[complex]]) -> List[List[complex]]:
+    return [[a[j][i].conjugate() for j in range(3)] for i in range(3)]
+
+
+def _ctrace(a: List[List[complex]]) -> complex:
+    return a[0][0] + a[1][1] + a[2][2]
+
+
+def _clin(*terms: Tuple[complex, List[List[complex]]]) -> List[List[complex]]:
+    """sum of coefficient x matrix."""
+    return [[sum(c * m[i][j] for c, m in terms) for j in range(3)] for i in range(3)]
+
+
+def _pack(mats: Sequence[List[List[complex]]]) -> List[float]:
+    return [p for m in mats for row in m for z in row for p in (z.real, z.imag)]
+
+
+def _unpack(v: Sequence[float], n: int) -> List[List[List[complex]]]:
+    return [[[complex(v[18 * k + 6 * i + 2 * j], v[18 * k + 6 * i + 2 * j + 1]) for j in range(3)] for i in range(3)]
+            for k in range(n)]
+
+
+def mv_yukawa_beta(terms: Sequence[Tuple[complex, int, int, int, bool]], n_complex: int) -> List[Dict[Tuple[int, int], complex]]:
+    """The general one-loop Yukawa beta function (Yukawa part; Machacek-Vaughn, as in Luo, Wang, Xiao 2003),
+    two-component fermions, real scalars: 16 pi^2 beta(Y^a) = 1/2 [Y2(F)* Y^a + Y^a Y2(F)] + 2 Y^b Y^a+ Y^b
+    + Y^b Y2(S)^ab, Y2(F) = Y^b+ Y^b, Y2(S)^ab = 1/2 Tr(Y^a+ Y^b + Y^b+ Y^a). terms: (coefficient, fermion I,
+    fermion J, complex scalar k, conjugated) for -L = coefficient psi_I psi_J S_k (or S_k*) + h.c.;
+    S_k = (phi_2k + i phi_2k+1)/sqrt 2. Sparse matrices; used only by the self-checks."""
+    ys: List[Dict[Tuple[int, int], complex]] = [dict() for _ in range(2 * n_complex)]
+    for c, i, j, k, conj in terms:
+        for a, d in ((2 * k, 1), (2 * k + 1, -1j if conj else 1j)):
+            for p, q in ((i, j), (j, i)) if i != j else ((i, j),):
+                ys[a][(p, q)] = ys[a].get((p, q), 0) + c * d / math.sqrt(2) * (1 if i != j else 2)
+
+    def mul(a, b):
+        rows: Dict[int, List[Tuple[int, complex]]] = {}
+        for (k, j), w in b.items():
+            rows.setdefault(k, []).append((j, w))
+        out: Dict[Tuple[int, int], complex] = {}
+        for (i, k), w in a.items():
+            for j, x_ in rows.get(k, ()):
+                out[(i, j)] = out.get((i, j), 0) + w * x_
+        return out
+
+    def dg(a):
+        return {(j, i): w.conjugate() for (i, j), w in a.items()}
+
+    def lin(pairs):
+        out: Dict[Tuple[int, int], complex] = {}
+        for c, m in pairs:
+            for key, w in m.items():
+                out[key] = out.get(key, 0) + c * w
+        return out
+
+    def tr(a):
+        return sum(w for (i, j), w in a.items() if i == j)
+    n = len(ys)
+    y2f = lin([(1, mul(dg(y_), y_)) for y_ in ys])
+    y2f_c = {key: w.conjugate() for key, w in y2f.items()}
+    y2s = [[(tr(mul(dg(ys[a]), ys[b])) + tr(mul(dg(ys[b]), ys[a]))) / 2 for b in range(n)] for a in range(n)]
+    return [lin([(Fr(1, 2), mul(y2f_c, ys[a])), (Fr(1, 2), mul(ys[a], y2f))]
+                + [(2, mul(mul(ys[b], dg(ys[a])), ys[b])) for b in range(n)] + [(y2s[a][b], ys[b]) for b in range(n)])
+            for a in range(n)]
+
+
+def sm_matrix_yukawa_beta(yu, yd, ye) -> Tuple[Any, Any, Any]:
+    """Yukawa part of the SM's one-loop matrix RGE (16 pi^2 dY/d ln mu)."""
+    hu, hd, he = (_cmat_mul(y_, _cdag3(y_)) for y_ in (yu, yd, ye))
+    t = 3 * _ctrace(hu) + 3 * _ctrace(hd) + _ctrace(he)
+    sp = float(YUKAWA_SPLIT)
+    return (_clin((sp, _cmat_mul(hu, yu)), (-sp, _cmat_mul(hd, yu)), (t, yu)),
+            _clin((sp, _cmat_mul(hd, yd)), (-sp, _cmat_mul(hu, yd)), (t, yd)),
+            _clin((sp, _cmat_mul(he, ye)), (t, ye)))
+
+
+def lr_matrix_yukawa_beta(y1, y2, y3, y4, f=None) -> Tuple[Any, ...]:
+    """Yukawa part of the left-right bidoublet theory's one-loop matrix RGE (16 pi^2 dY/d ln mu). With f (5c), the
+    Delta_R Majorana coupling -L = f_ij L^c_i Delta_R L^c_j (M_N = 2 f v_R): the leptons' Y3, Y4 gain 3 Y f^dag f and
+    f runs with 6 f f^dag f + 2 Tr(f f^dag) f + A^T f + f A, A = Y3^dag Y3 + Y4^dag Y4 (both derived from the general
+    formula, a self-check); the five betas are returned."""
+    if f is not None:
+        out = lr_matrix_yukawa_beta(y1, y2, y3, y4)
+        ff = _cmat_mul(_cdag3(f), f)
+        a_ = _clin((1, _cmat_mul(_cdag3(y3), y3)), (1, _cmat_mul(_cdag3(y4), y4)))
+        a_t = [[a_[j][i] for j in range(3)] for i in range(3)]
+        bf = _clin((6, _cmat_mul(_cmat_mul(f, _cdag3(f)), f)), (2 * _ctrace(_cmat_mul(f, _cdag3(f))), f),
+                   (1, _cmat_mul(a_t, f)), (1, _cmat_mul(f, a_)))
+        return (out[0], out[1], _clin((1, out[2]), (3, _cmat_mul(y3, ff))), _clin((1, out[3]), (3, _cmat_mul(y4, ff))), bf)
+    t = sum(c * _ctrace(_cmat_mul(y_, _cdag3(y_))) for c, y_ in ((3, y1), (3, y2), (1, y3), (1, y4)))
+    mix = 2 * (3 * _ctrace(_cmat_mul(y1, _cdag3(y2))) + _ctrace(_cmat_mul(y3, _cdag3(y4))))
+
+    def one(me, other, m_):
+        return _clin((2, _cmat_mul(_cmat_mul(me, _cdag3(me)), me)), (-1, _cmat_mul(_cmat_mul(me, _cdag3(other)), other)),
+                     (-1, _cmat_mul(_cmat_mul(other, _cdag3(other)), me)), (t, me), (m_, other))
+    return one(y1, y2, mix), one(y2, y1, mix.conjugate()), one(y3, y4, mix), one(y4, y3, mix.conjugate())
+
+
+LR_YUKAWA_FIELDS = {"q": ((3, 2, 1, Fr(1, 3)), (3, 1, 2, Fr(1, 3))), "l": ((1, 2, 1, Fr(-1)), (1, 1, 2, Fr(-1)))}
+
+
+def lr_yukawa_gauge_coeffs() -> Dict[str, List[float]]:
+    """16 pi^2 d ln Y/d ln mu contains -c_i g_i^2, c_i = 3 [C2_i(left) + C2_i(right)], for SU(3), SU(2)_L,
+    SU(2)_R and U(1)_B-L (charge normalized as in the chains, BL_NORM (B - L)^2)."""
+    out = {}
+    for k, (a, b) in LR_YUKAWA_FIELDS.items():
+        out[k] = [float(3 * (casimir_fund(3, a[0]) + casimir_fund(3, b[0]))),
+                  float(3 * (casimir_fund(2, a[1]) + casimir_fund(2, b[1]))),
+                  float(3 * (casimir_fund(2, a[2]) + casimir_fund(2, b[2]))),
+                  float(3 * BL_NORM * (a[3] ** 2 + b[3] ** 2))]
+    return out
+
+
+def mssm_matrix_yukawa_beta(yu, yd, ye) -> Tuple[Any, Any, Any]:
+    """Yukawa part of the MSSM's one-loop matrix RGE (16 pi^2 dY/d ln mu), W = Q Y_u u^c H_u + Q Y_d d^c H_d
+    + L Y_e e^c H_d (rows: the doublet's generation)."""
+    hu, hd, he = (_cmat_mul(y_, _cdag3(y_)) for y_ in (yu, yd, ye))
+    tu = 3 * _ctrace(hu)
+    td = 3 * _ctrace(hd) + _ctrace(he)
+    return (_clin((3, _cmat_mul(hu, yu)), (1, _cmat_mul(hd, yu)), (tu, yu)),
+            _clin((3, _cmat_mul(hd, yd)), (1, _cmat_mul(hu, yd)), (td, yd)),
+            _clin((3, _cmat_mul(he, ye)), (td, ye)))
+
+
+def superpotential_yukawa_beta(terms: Sequence[Tuple[complex, int, int, int]]) -> Callable[[int, int, int], complex]:
+    """The general one-loop beta function of a superpotential coupling (Yukawa part): W = 1/6 Y^ijk phi_i phi_j
+    phi_k, gamma_p^k = 1/2 Y_pqr Y^kqr (lower indices: complex conjugate), 16 pi^2 beta(Y^ijk) = Y^ijp gamma_p^k
+    + Y^ipk gamma_p^j + Y^pjk gamma_p^i. terms: (coefficient, i, j, k) for W >= coefficient phi_i phi_j phi_k,
+    three distinct fields. Used only by the self-checks."""
+    y_: Dict[Tuple[int, int, int], complex] = {}
+    for c, i, j, k in terms:
+        for p in itertools.permutations((i, j, k)):
+            y_[p] = y_.get(p, 0) + c
+    rows: Dict[int, Dict[Tuple[int, int], complex]] = {}
+    for (i, j, k), w in y_.items():
+        rows.setdefault(i, {})[(j, k)] = w
+    gam: Dict[int, List[Tuple[int, complex]]] = {}
+    for p, rp in rows.items():
+        for k, rk in rows.items():
+            s = sum(w.conjugate() * rk.get(jk, 0) for jk, w in rp.items())
+            if s:
+                gam.setdefault(k, []).append((p, s / 2))
+
+    def beta(i: int, j: int, k: int) -> complex:
+        return (sum(y_.get((i, j, p), 0) * w for p, w in gam.get(k, ()))
+                + sum(y_.get((i, p, k), 0) * w for p, w in gam.get(j, ()))
+                + sum(y_.get((p, j, k), 0) * w for p, w in gam.get(i, ())))
+    return beta
+
+
+# =============================================================================
+# ONE RUNNING FOR EVERY COUPLING: the gauge couplings and the three (four) Yukawa matrices
+# =============================================================================
+# Every running mass and mixing above m_t(m_t) comes from here: the SM (g1, g2, g3 one loop, as Part J), the
+# MSSM above M_S (one loop, tan(beta) matching y_SM = y_MSSM sin(beta) or cos(beta)) and a chain's left-right
+# stage above M_I (two-loop gauge, from the chain's coefficients). Part J's (g, y_t, y_b, y_tau) right-hand
+# sides are this engine restricted to the third generation (a self-check); the light generations' feedback on
+# them is a stated, checked number.
+def lr_majorana_gauge_coeffs() -> List[float]:
+    """16 pi^2 d ln f/d ln mu contains -c_i g_i^2 for the Delta_R coupling L^c L^c: c_i = 3 [C2(L^c) + C2(L^c)]."""
+    lc = LR_YUKAWA_FIELDS["l"][1]
+    return [0.0, 0.0, float(6 * casimir_fund(2, lc[2])), float(6 * BL_NORM * lc[3] ** 2)]
+
+
+def matrix_yukawa_rhs(model: str, chain: Dict[str, Any] | None = None) -> Tuple[Callable[[List[float], int], List[float]], int, int]:
+    """(rhs, number of gauge entries, number of matrices) for the state [gauge..., packed matrices]: model "SM"
+    or "MSSM" (gauge: g1, g2, g3; matrices Y_u, Y_d, Y_e) or "LR" (gauge: 1/alpha for SU(3), SU(2)_L, SU(2)_R,
+    U(1)_B-L with the chain's b1, b2; matrices Y1, Y2 (quark bidoublet couplings), Y3, Y4 (lepton))."""
+    kk = 16 * math.pi ** 2
+    f_ = _fields()
+    if model in ("SM", "MSSM"):
+        if model == "SM":
+            gb = [float(b_) for b_ in sm_gauge_b()]
+            gc = [_pair_gauge_coeffs(f_["Q"], f_["u^c"]), _pair_gauge_coeffs(f_["Q"], f_["d^c"]),
+                  _pair_gauge_coeffs(f_["L"], f_["e^c"])]
+            beta = sm_matrix_yukawa_beta
+        else:
+            gb = [float(b_) for b_ in mssm_b()[0]]
+            gc = [_susy_gauge_coeffs((f_["H_u"], f_["Q"], f_["u^c"])), _susy_gauge_coeffs((f_["H_d"], f_["Q"], f_["d^c"])),
+                  _susy_gauge_coeffs((f_["H_d"], f_["L"], f_["e^c"]))]
+            beta = mssm_matrix_yukawa_beta
+
+        def rhs(v: List[float], nf: int) -> List[float]:
+            g = v[:3]
+            ys_ = _unpack(v[3:], 3)
+            out = [gb[i] * g[i] ** 3 / kk for i in range(3)]
+            for b_, y_, c_ in zip(beta(*ys_), ys_, gc):
+                gt = sum(ci * gi ** 2 for ci, gi in zip(c_, g))
+                out += _pack([_clin((1 / kk, b_), (-gt / kk, y_))])
+            return out
+        return rhs, 3, 3
+    if model not in ("LR", "LR+f") or chain is None:
+        raise ValueError(f"unknown running model {model!r} (LR needs its chain)")
+    b1 = [float(b_) for b_ in chain["b1"]]
+    b2 = [[float(b_) for b_ in r_] for r_ in chain["b2"]]
+    lc = lr_yukawa_gauge_coeffs()
+
+    def rhs_lr(v: List[float], nf: int) -> List[float]:
+        al = [1 / w_ for w_ in v[:4]]
+        g2s = [4 * math.pi * a_ for a_ in al]
+        out = [-b1[i] / (2 * math.pi) - sum(b2[i][j] * al[j] for j in range(4)) / (8 * math.pi ** 2) for i in range(4)]
+        ys_ = _unpack(v[4:], n_m)
+        for b_, y_, cs_ in zip(lr_matrix_yukawa_beta(*ys_), ys_, coeffs):
+            gt = sum(ci * g_ for ci, g_ in zip(cs_, g2s))
+            out += _pack([_clin((1 / kk, b_), (-gt / kk, y_))])
+        return out
+    n_m = 5 if model == "LR+f" else 4
+    coeffs = [lc["q"], lc["q"], lc["l"], lc["l"]] + ([lr_majorana_gauge_coeffs()] if n_m == 5 else [])
+    return rhs_lr, 4, n_m
+
+
+def run_yukawa_matrices(gauge: Sequence[float], mats: Sequence[List[List[complex]]], mu0: float, mu1: float,
+                        model: str, chain: Dict[str, Any] | None = None,
+                        steps: int | None = None) -> Tuple[List[float], List[List[List[complex]]]]:
+    """Run (gauge, matrices) from mu0 to mu1 in one model (see matrix_yukawa_rhs)."""
+    rhs, ng, nm = matrix_yukawa_rhs(model, chain)
+    if len(gauge) != ng or len(mats) != nm:
+        raise ValueError(f"{model} running takes {ng} gauge entries and {nm} matrices")
+    v = integrate_ln_mu(list(gauge) + _pack(mats), mu0, mu1, rhs, [], steps or int(num("rg_steps_per_efold")))
+    return v[:ng], _unpack(v[ng:], nm)
+
+
+def _sing_vals(y: List[List[complex]]) -> List[float]:
+    """Singular values, ascending. The largest from the eigenvalues of H = Y Y^dag; the other two from the invariants
+    |det Y|^2 = s1 s2 s3 and c2 = s1 s2 + s3 (s1 + s2) (sum of H's principal 2x2 minors, s = sigma^2), which keep
+    full relative precision when the smaller ones are 1e-3 to 1e-5 of the largest (the eigenvalues do not)."""
+    h = _mm_dag(y)
+    s3 = max(_herm3_eigvals(h)[2], 0)
+    if s3 == 0:
+        return [0.0, 0.0, 0.0]
+    det = (y[0][0] * (y[1][1] * y[2][2] - y[1][2] * y[2][1]) - y[0][1] * (y[1][0] * y[2][2] - y[1][2] * y[2][0])
+           + y[0][2] * (y[1][0] * y[2][1] - y[1][1] * y[2][0]))
+    c2 = sum((h[i][i] * h[j][j] - abs(h[i][j]) ** 2).real for i, j in ((0, 1), (0, 2), (1, 2)))
+    p = abs(det) ** 2 / s3
+    sm = max((c2 - p) / s3, 0)
+    s2 = (sm + math.sqrt(max(sm * sm - 4 * p, 0))) / 2
+    s1 = p / s2 if s2 > 0 else 0.0
+    return [math.sqrt(s1), math.sqrt(s2), math.sqrt(s3)]
+
+
+def sm_yukawas_at_mt(st: Sequence[float], base: Dict[str, float], lepton_ratios: Sequence[float],
+                     v_ckm: List[List[complex]]) -> List[List[List[complex]]]:
+    """Y_u, Y_d, Y_e at m_t(m_t): third generation from st = [g1, g2, g3, y_t, y_b, y_tau], the light quarks from
+    the QCD-run same-type ratios (base: ratios_at's entry at m_t(m_t)), the leptons from their running-mass
+    ratios; Y_u and Y_e diagonal, Y_d = V diag (the measured CKM matrix: the mixing feeds the running at
+    order V_ts^2 y_t^2, and the texture stage that predicts V reads only the eigenvalues)."""
+    du = [st[3] * base["r_ct"] * base["r_uc"], st[3] * base["r_ct"], st[3]]
+    dd = [st[4] * base["r_sb"] * base["r_ds"], st[4] * base["r_sb"], st[4]]
+    de = [st[5] * lepton_ratios[0], st[5] * lepton_ratios[1], st[5]]
+    return [[[complex(du[i] if i == j else 0) for j in range(3)] for i in range(3)],
+            [[v_ckm[i][j] * dd[j] for j in range(3)] for i in range(3)],
+            [[complex(de[i] if i == j else 0) for j in range(3)] for i in range(3)]]
+
+
+def yukawas_at_scale(flav: Dict[str, Any], mu: float, m_susy: float | None = None,
+                     tan_beta: float | None = None) -> Dict[str, Any]:
+    """Gauge couplings, Yukawa matrices, masses (GeV, ascending, times v/sqrt 2: in the MSSM the SM-normalized
+    y sin(beta) or y cos(beta)) and the quark mixing at mu: SM matrix running from m_t(m_t), and above m_susy
+    (if given) MSSM running after the tan(beta) matching."""
+    mt, g, ms_ = flav["runner"].matrix_start()
+    v_h = flav["runner"].v
+    if m_susy is None or mu <= m_susy:
+        g, ys_ = run_yukawa_matrices(g, ms_, mt, mu, "SM")
+        sc = (1.0, 1.0, 1.0)
+    else:
+        g, ys_ = run_yukawa_matrices(g, ms_, mt, m_susy, "SM")
+        sb, cb = tan_beta / math.sqrt(1 + tan_beta ** 2), 1 / math.sqrt(1 + tan_beta ** 2)
+        sc = (sb, cb, cb)
+        ys_ = [[[z / s_ for z in row] for row in y_] for y_, s_ in zip(ys_, sc)]
+        g, ys_ = run_yukawa_matrices(g, ys_, m_susy, mu, "MSSM")
+    kap = v_h / math.sqrt(2)
+    masses = {k: [s_ * kap * f_ for s_ in _sing_vals(y_)] for k, y_, f_ in zip("ude", ys_, sc)}
+    (_, uu), (_, ud) = _takagi_like(ys_[0]), _takagi_like(ys_[1])
+    return {"mu": mu, "gauge": g, "Y": ys_, "masses": masses, "V": _cmat_mul(_cdag3(uu), ud)}
+
+
+def matrix_running_checks(flav: Dict[str, Any], seed: int, yuk: Dict[str, Any]) -> Dict[str, float]:
+    """(1) The engine on the third-generation subspace equals Part J's right-hand sides (SM and MSSM), at a random
+    point; (2) how far the light generations and the mixing move Part J's third-generation running: y_t, y_b,
+    y_tau at M_Planck (SM) and y_b/y_tau at M_GUT at the b-tau tan(beta) (SM to M_S, MSSM above), full matrices
+    against Part J's run_to."""
+    rng = _UniformStream(seed)
+    out: Dict[str, float] = {}
+    for model in ("SM", "MSSM"):
+        g = [1 + rng.uniform(-1, 1) / 2 for _ in range(3)]
+        y3 = [(1 + rng.uniform(-1, 1)) / 2 for _ in range(3)]
+        mats = [[[complex(y3[k] if i == j == 2 else 0) for j in range(3)] for i in range(3)] for k in range(3)]
+        rhs, _, _ = matrix_yukawa_rhs(model)
+        full = rhs(g + _pack(mats), 6)
+        want = yukawa_rhs(model)(g + y3, 6)
+        got = full[:3] + [full[3 + 18 * k + 16] for k in range(3)]
+        out["rhs_" + model] = max(abs(a_ - b_) for a_, b_ in zip(got, want)) / max(abs(b_) for b_ in want)
+    mt, st = couplings_at_mt(flav)
+    m_pl = yuk["fixed_point_SM"]["scale"]
+    full = yukawas_at_scale(flav, m_pl)
+    third = run_to(st, mt, m_pl, "SM")
+    kap = flav["runner"].v / math.sqrt(2)
+    out["light_SM"] = max(abs(full["masses"][k][2] / kap / third[3 + i] - 1) for i, k in enumerate("ude"))
+    if yuk.get("btau_MSSM_unity") and yuk.get("M_S") and yuk.get("M_GUT"):
+        tb, m_s, m_g = yuk["btau_MSSM_unity"]["tan_beta"], yuk["M_S"], yuk["M_GUT"]
+        fm = yukawas_at_scale(flav, m_g, m_s, tb)
+        s_ms = run_to(st, mt, m_s, "SM")
+        sb, cb = tb / math.sqrt(1 + tb * tb), 1 / math.sqrt(1 + tb * tb)
+        s_g = run_to([s_ms[0], s_ms[1], s_ms[2], s_ms[3] / sb, s_ms[4] / cb, s_ms[5] / cb], m_s, m_g, "MSSM")
+        out["light_MSSM_btau"] = abs((fm["masses"]["d"][2] / fm["masses"]["e"][2]) / (s_g[4] / s_g[5]) - 1)
+    return out
+
+def matrix_rge_checks(seed: int) -> Dict[str, float]:
+    """The reduced matrix RGEs against the general formula (mv_yukawa_beta) at a random point, three
+    generations, every component written out: the SM (Q, u^c, d^c, L, e^c and one complex doublet H) and the
+    left-right theory (Q_L, Q_R^c, L_L, L_R^c and the bidoublet Phi, Phi~ = sigma2 Phi* sigma2). Returns the
+    largest relative deviation of each."""
+    rng = _UniformStream(seed)
+
+    def rmat() -> List[List[complex]]:
+        return [[complex(rng.uniform(-1, 1), rng.uniform(-1, 1)) for _ in range(3)] for _ in range(3)]
+    idx: Dict[Tuple[Any, ...], int] = {}
+
+    def ix(*k: Any) -> int:
+        return idx.setdefault(k, len(idx))
+
+    def dev(got, want) -> float:
+        return max(abs(got[i][j] - want[i][j]) for i in range(3) for j in range(3)) / max(
+            abs(want[i][j]) for i in range(3) for j in range(3))
+    out = {}
+    # SM: Y_u q_a eps_ab H_b u^c + Y_d q_a H*_a d^c + Y_e l_a H*_a e^c (complex scalars H_1, H_2 = 0, 1)
+    yu, yd, ye = rmat(), rmat(), rmat()
+    terms = []
+    for i in range(3):
+        for j in range(3):
+            for c in range(3):
+                terms += [(yu[i][j], ix("q", i, 0, c), ix("uc", j, c), 1, False),
+                          (-yu[i][j], ix("q", i, 1, c), ix("uc", j, c), 0, False),
+                          (yd[i][j], ix("q", i, 0, c), ix("dc", j, c), 0, True),
+                          (yd[i][j], ix("q", i, 1, c), ix("dc", j, c), 1, True)]
+            terms += [(ye[i][j], ix("l", i, 0), ix("ec", j), 0, True), (ye[i][j], ix("l", i, 1), ix("ec", j), 1, True)]
+    bt = mv_yukawa_beta(terms, 2)
+    r2 = math.sqrt(2)
+    got = [[[bt[a_].get((ix(f1, i, *w1), ix(f2, j, *w2)), 0) * r2 for j in range(3)] for i in range(3)]
+           for a_, f1, w1, f2, w2 in ((2, "q", (0, 0), "uc", (0,)), (0, "q", (0, 0), "dc", (0,)), (0, "l", (0,), "ec", ()))]
+    out["SM"] = max(dev(g_, w_) for g_, w_ in zip(got, sm_matrix_yukawa_beta(yu, yd, ye)))
+    # left-right: Y Phi_ab q_a qc_b, Phi complex scalar k = 2a + b; Phi~ = [[P22*, -P21*], [-P12*, P11*]]
+    ys = [rmat() for _ in range(4)]
+    tilde = {(0, 0): (3, 1), (0, 1): (2, -1), (1, 0): (1, -1), (1, 1): (0, 1)}
+    idx.clear()
+    terms = []
+    for f1, f2, nc, ya, yb in (("q", "qc", 3, ys[0], ys[1]), ("l", "lc", 1, ys[2], ys[3])):
+        for i in range(3):
+            for j in range(3):
+                for c in range(nc):
+                    for a_ in range(2):
+                        for b_ in range(2):
+                            k_, sg = tilde[(a_, b_)]
+                            terms += [(ya[i][j], ix(f1, i, a_, c), ix(f2, j, b_, c), 2 * a_ + b_, False),
+                                      (sg * yb[i][j], ix(f1, i, a_, c), ix(f2, j, b_, c), k_, True)]
+    bt = mv_yukawa_beta(terms, 4)
+    got = [[[bt[a_].get((ix(f1, i, 0, 0), ix(f2, j, 0, 0)), 0) * r2 for j in range(3)] for i in range(3)]
+           for a_, f1, f2 in ((0, "q", "qc"), (6, "q", "qc"), (0, "l", "lc"), (6, "l", "lc"))]
+    out["LR"] = max(dev(g_, w_) for g_, w_ in zip(got, lr_matrix_yukawa_beta(*ys)))
+    # with Delta_R (5c): -L = f_ij lc_i,a D_ab lc_j,b, D symmetric: D_00, D_11 and D_01 = D_10 = D_+/sqrt2 (complex 4, 6, 5)
+    f_ = rmat()
+    f_ = [[(f_[i][j] + f_[j][i]) / 2 for j in range(3)] for i in range(3)]
+    dk = {(0, 0): (4, 1.0), (1, 1): (6, 1.0), (0, 1): (5, 1 / r2), (1, 0): (5, 1 / r2)}
+    terms_d = list(terms)
+    for i in range(3):
+        for j in range(3):
+            for a_ in range(2):
+                for b_ in range(2):
+                    k_, w_ = dk[(a_, b_)]
+                    terms_d.append((f_[i][j] * w_, ix("lc", i, a_, 0), ix("lc", j, b_, 0), k_, False))
+    bt = mv_yukawa_beta(terms_d, 7)
+    got = [[[bt[a_].get((ix(f1, i, 0, 0), ix(f2, j, 0, 0)), 0) * r2 for j in range(3)] for i in range(3)]
+           for a_, f1, f2 in ((0, "q", "qc"), (6, "q", "qc"), (0, "l", "lc"), (6, "l", "lc"))]
+    got.append([[bt[8].get((ix("lc", i, 0, 0), ix("lc", j, 0, 0)), 0) / r2 for j in range(3)] for i in range(3)])
+    out["LR_Delta"] = max(dev(g_, w_) for g_, w_ in zip(got, lr_matrix_yukawa_beta(*ys, f=f_)))
+    # MSSM: W = Q_a eps_ab H_u,b Y_u u^c + Q_a eps_ab H_d,b Y_d d^c + L_a eps_ab H_d,b Y_e e^c (eps_12 = 1)
+    yu, yd, ye = rmat(), rmat(), rmat()
+    idx.clear()
+    terms_w = []
+    for i in range(3):
+        for j in range(3):
+            for c in range(3):
+                for hh, y_, fc in (("Hu", yu, "uc"), ("Hd", yd, "dc")):
+                    terms_w += [(y_[i][j], ix("q", i, 0, c), ix(fc, j, c), ix(hh, 1)),
+                                (-y_[i][j], ix("q", i, 1, c), ix(fc, j, c), ix(hh, 0))]
+            terms_w += [(ye[i][j], ix("l", i, 0), ix("ec", j), ix("Hd", 1)), (-ye[i][j], ix("l", i, 1), ix("ec", j), ix("Hd", 0))]
+    bw = superpotential_yukawa_beta(terms_w)
+    got = [[[bw(ix("q", i, 0, 0), ix("uc", j, 0), ix("Hu", 1)) for j in range(3)] for i in range(3)],
+           [[bw(ix("q", i, 0, 0), ix("dc", j, 0), ix("Hd", 1)) for j in range(3)] for i in range(3)],
+           [[bw(ix("l", i, 0), ix("ec", j), ix("Hd", 1)) for j in range(3)] for i in range(3)]]
+    out["MSSM"] = max(dev(g_, w_) for g_, w_ in zip(got, mssm_matrix_yukawa_beta(yu, yd, ye)))
+    return out
+
+
+def _takagi_like(y: List[List[complex]]) -> Tuple[List[float], List[List[complex]]]:
+    """Singular values (ascending) and the left singular vectors (columns), each column's largest entry made
+    real positive."""
+    h = _cmat_mul(y, _cdag3(y))
+    ev = _herm3_eigvals(h)
+    cols = []
+    for e_ in ev:
+        v_ = _herm3_eigvec(h, e_)
+        big = max(v_, key=abs)
+        ph = big.conjugate() / abs(big)
+        cols.append([z * ph for z in v_])
+    return _sing_vals(y), [[cols[j][i] for j in range(3)] for i in range(3)]
+
+
+def yukawa_running_lr(flav: Dict[str, Any], chain: Dict[str, Any], two: Dict[str, Any], dirac_like_up: bool = False,
+                      phases: Sequence[float] = (0, 0, 0, 0, 0, 0), k_ratio: float = 0.0, f3: float = 0.0) -> Dict[str, Any]:
+    """Masses and quark mixing at the left-right chain's M_GUT: SM matrix running from m_t(m_t) to M_I, symmetric
+    matching, left-right running to M_GUT (two-loop gauge, one-loop Yukawa). dirac_like_up: the Dirac neutrino
+    Yukawa Y3 = Y1 at M_I instead of 0 (the two limits of an unknown). phases: Takagi phases of the up and down
+    matrices at M_I (unknown; zero by default, varied to show the sensitivity). 5c: k_ratio = k2/k1, the second
+    bidoublet vev (<Phi> = diag(k1, k2): M_u = k1 Y1 + k2 Y2, M_d = k2 Y1 + k1 Y2, leptons alike); f3: the Delta_R
+    coupling's largest singular value at M_I, with SO(10)'s shape f ~ Y126 ~ M_d - M_e, run with the rest."""
+    v_h = flav["runner"].v
+    m_i, m_gut = two["M_I"], two["M_GUT"]
+    yu, yd, ye = yukawas_at_scale(flav, m_i)["Y"]
+    # symmetric matching at M_I
+    sym = {}
+    for nm_, y_, (pa, pb, pc) in (("u", yu, phases[:3]), ("d", yd, phases[3:]), ("e", ye, (0, 0, 0))):
+        sv_, uu = _takagi_like(y_)
+        ph_ = (cmath.exp(1j * pa), cmath.exp(1j * pb), cmath.exp(1j * pc))
+        uu = [[uu[i][j] * ph_[j] for j in range(3)] for i in range(3)]
+        sym[nm_] = ([[sum(uu[i][k] * sv_[k] * uu[j][k] for k in range(3)) for j in range(3)] for i in range(3)], sv_)
+    y1, y2, y4 = sym["u"][0], sym["d"][0], sym["e"][0]
+    cr, sr = 1 / math.sqrt(1 + k_ratio ** 2), k_ratio / math.sqrt(1 + k_ratio ** 2)
+    m_u_s, m_d_s, m_e_s = y1, y2, y4
+    # the symmetric matrices carry the same masses and (up to the unknown phases) the same mixing
+    match_dev = max(abs(a_ / b_ - 1) for k_ in sym for a_, b_ in zip(_sing_vals(sym[k_][0]), sym[k_][1]))
+    v_mi = _cmat_mul(_cdag3(_takagi_like(yu)[1]), _takagi_like(yd)[1])
+    v_sym = _cmat_mul(_cdag3(_takagi_like(y1)[1]), _takagi_like(y2)[1])
+    match_dev = max([match_dev] + [abs(abs(v_mi[i][j]) - abs(v_sym[i][j])) for i in range(3) for j in range(3)])
+    # invert M_u = c Y1 + s Y2, M_d = s Y1 + c Y2 (c, s = k1, k2 over sqrt(k1^2 + k2^2))
+    den = cr * cr - sr * sr
+    y1 = _clin((cr / den, m_u_s), (-sr / den, m_d_s))
+    y2 = _clin((cr / den, m_d_s), (-sr / den, m_u_s))
+    y3 = [row[:] for row in y1] if dirac_like_up else [[complex(0)] * 3 for _ in range(3)]
+    y4 = _clin((1 / cr, m_e_s), (-sr / cr, y3))
+    mats = [y1, y2, y3, y4]
+    if f3:
+        dme = _clin((1, m_d_s), (-1, m_e_s))
+        mats.append(_clin((f3 / _sing_max(dme), dme)))
+    inv_g, out_m = run_yukawa_matrices(two["inv_alpha_MI"], mats, m_i, m_gut, "LR+f" if f3 else "LR", chain)
+    if f3 and not all(math.isfinite(z_.real) and math.isfinite(z_.imag) and abs(z_) < PERTURBATIVE_LIMIT
+                      for m_ in out_m for r_ in m_ for z_ in r_):
+        return {"perturbative": False}
+    y1, y2, y3, y4 = out_m[:4]
+    kap = v_h / math.sqrt(2)
+    lu, ld, le = _clin((cr, y1), (sr, y2)), _clin((sr, y1), (cr, y2)), _clin((sr, y3), (cr, y4))
+    (mu_, uu), (md_, ud), (me_, _) = (_takagi_like(y_) for y_ in (lu, ld, le))
+    v_gut = _cmat_mul(_cdag3(uu), ud)
+    ms = {"u": [m_ * kap for m_ in mu_], "d": [m_ * kap for m_ in md_], "e": [m_ * kap for m_ in me_]}
+    return {"masses": ms, "V": v_gut, "masses_M_I": {k: [w_ * kap for w_ in sym[k][1]] for k in sym},
+            "inv_alpha_M_GUT": inv_g, "matching_dev": match_dev, "perturbative": True,
+            "f_M_GUT": _sing_max(out_m[4]) if f3 else 0.0, "b_tau": (ms["d"][2] - ms["e"][2]) / ms["d"][2],
+            "V_abs": [[abs(v_gut[i][j]) for j in range(3)] for i in range(3)]}
+
+
+# =============================================================================
+# 6w. PART Y: THE SO(10) YUKAWA SECTOR, CAN IT GIVE THE CHARGED-FERMION MASSES?
+# =============================================================================
+# With a 10 and a 126 coupling to the fermions, the Yukawa matrices are symmetric and shared by all four
+# sectors: M_u = a Y10 + b Y126, M_d = c Y10 + d Y126, M_e = c Y10 - 3 d Y126 (a-d: the light Higgs'
+# components). Two tests, at the scale where the relations hold (each chain's M_I):
+#   Y1. Pati-Salam selection rule (exact): between M_I and M_GUT SU(4) is unbroken and <210> is a PS singlet,
+#       so nothing mixes the 10's bidoublet (1,2,2) (an SU(4) singlet) with the 126's (15,2,2) (an SU(4) 15);
+#       T11's contraction H_i S_ijklm phi_jklm indeed reaches only the (6,1,1). The light Higgs then lies in
+#       one SU(4) irrep: the 10 alone (M_e = M_d) or the 126 alone (M_e = -3 M_d), for every generation at
+#       once. Tested on m_e/m_d, m_mu/m_s, m_tau/m_b at M_I.
+#   Y2. Where the doublets can mix (SU(4) broken above M_I), eliminating Y10, Y126 gives the sum rule
+#       M_e = c1 M_d + c2 M_u with any complex c1, c2. In the basis where M_u is diagonal,
+#       M_d = Psi V diag(m_d e^{2ia}, m_s e^{2ib}, m_b) V^T Psi (with M_u real diagonal the up-quark phases
+#       Psi = diag(e^{i psi1}, e^{i psi2}, 1) are physical). Eight unknowns for the three charged-lepton masses:
+#       if no point reaches them, the sum rule is excluded whatever the neutrinos do.
+def masses_at_scale(flav: Dict[str, Any], mu: float) -> Dict[str, List[float]]:
+    """Running masses at mu (GeV, ascending): the one matrix running from m_t(m_t) (yukawas_at_scale)."""
+    return yukawas_at_scale(flav, mu)["masses"]
+
+
+def _mm_dag(m: List[List[complex]]) -> List[List[complex]]:
+    return [[sum(m[i][k] * m[j][k].conjugate() for k in range(3)) for j in range(3)] for i in range(3)]
+
+
+def _cmat_mul(a: List[List[complex]], b: List[List[complex]]) -> List[List[complex]]:
+    return [[sum(a[i][k] * b[k][j] for k in range(3)) for j in range(3)] for i in range(3)]
+
+
+def _cmat_inv3(m: List[List[complex]]) -> List[List[complex]]:
+    """Inverse of a complex 3x3 matrix by its adjugate."""
+    cof = [[m[(i + 1) % 3][(j + 1) % 3] * m[(i + 2) % 3][(j + 2) % 3] - m[(i + 1) % 3][(j + 2) % 3] * m[(i + 2) % 3][(j + 1) % 3]
+            for j in range(3)] for i in range(3)]
+    det = sum(m[0][j] * cof[0][j] for j in range(3))
+    return [[cof[j][i] / det for j in range(3)] for i in range(3)]
+
+
+def _sing_max(m: List[List[complex]]) -> float:
+    """Largest singular value."""
+    return math.sqrt(max(_herm3_eigvals(_mm_dag(m))[2], 0))
+
+
+def so10_yukawa_tests(flav: Dict[str, Any], s10: Dict[str, Any]) -> Dict[str, Any]:
+    """Y1 at the Pati-Salam chain's M_I (where its relations hold); Y2 at the left-right chain's M_GUT (where
+    SU(4) breaks and the doublets can mix; SM running stands in for the missing left-right Yukawa running)."""
+    two = s10["chains"]["LR"]["loop2"]
+    chain = so10_chains()["LR"]
+    run = yukawa_running_lr(flav, chain, two)
+    sm_g = masses_at_scale(flav, two["M_GUT"])
+    rng = _UniformStream(int(num("potential_seed")) + 2)
+    alt = [yukawa_running_lr(flav, chain, two, dirac_like_up=True)] + [
+        yukawa_running_lr(flav, chain, two, phases=[rng.uniform(0, 2 * math.pi) for _ in range(6)])
+        for _ in range(int(num("lr_running_phase_samples")))]
+    running = {"LR": {k: run[k] for k in ("masses", "masses_M_I", "b_tau", "V_abs", "inv_alpha_M_GUT", "matching_dev")},
+               "LR_V_re_im": [[(v_.real, v_.imag) for v_ in row] for row in run["V"]],
+               "SM": {"masses": sm_g, "b_tau": (sm_g["d"][2] - sm_g["e"][2]) / sm_g["d"][2]},
+               "b_tau_dirac_like_up": alt[0]["b_tau"], "b_tau_phase_range": (min(a_["b_tau"] for a_ in alt[1:]),
+                                                                              max(a_["b_tau"] for a_ in alt[1:]))}
+    # 5c: the second bidoublet vev up to |k2/k1| = m_b/m_t at M_I (beyond it M_d would be the top's, a tuning), and the
+    # Delta_R coupling up to the perturbative limit, run with the rest
+    r_bt = run["masses_M_I"]["d"][2] / run["masses_M_I"]["u"][2]
+    alt_k = [yukawa_running_lr(flav, chain, two, k_ratio=sg_ * r_bt) for sg_ in (1, -1)]
+    running["k_ratio_max"] = r_bt
+    running["b_tau_k2_range"] = (min(a_["b_tau"] for a_ in alt_k), max(a_["b_tau"] for a_ in alt_k))
+    # the largest f(M_I) that stays perturbative (every coupling below sqrt(4 pi)) up to M_GUT: bisection
+    lo_f, hi_f, best_f = 0.0, float(PERTURBATIVE_LIMIT), None
+    for _ in range(int(num("lr_f_bisect_steps"))):
+        mid = (lo_f + hi_f) / 2
+        try:
+            r_ = yukawa_running_lr(flav, chain, two, f3=mid)
+        except (OverflowError, ValueError, ZeroDivisionError, TypeError):   # the run blew up: not perturbative
+            r_ = {"perturbative": False}
+        if r_["perturbative"]:
+            lo_f, best_f = mid, r_
+        else:
+            hi_f = mid
+    running["f3_max_M_I"] = lo_f
+    running["b_tau_f_max"] = best_f["b_tau"] if best_f else None
+    running["f_max_M_GUT"] = best_f["f_M_GUT"] if best_f else None
+    out = {"PS": so10_selection_rule(flav, s10["chains"]["PS"]["loop2"]["M_I"]),
+           "LR": so10_sum_rule(flav, two["M_GUT"], two["M_I"], run["masses"], run["V"],
+                               math.sqrt(4 * math.pi / two["inv_alpha_MI"][2])), "running": running}
+    out["lift"] = heavy_spectrum_lift(out["LR"], s10, chain)
+    out["triplet"] = triplet_proton_estimate(out["LR"], s10, flav)
+    out["v_R"] = so10_v_r_prediction(out["LR"], s10, flav)
+    return out
+
+
+def so10_v_r_prediction(lr: Dict[str, Any], s10: Dict[str, Any], flav: Dict[str, Any]) -> Dict[str, Any] | None:
+    """In SO(10) the Delta_R coupling is Y126 itself (16 16 126: M_R = Y126 v_R and M_d^126 = d Y126 in the same
+    normalization, Bajc-Senjanovic-Vissani's), and the fit fixes Y126 = (M_d - M_e)/(4 d). So the fits predict
+    v_R = 4 |d| M_R,3 / s_3(M_d - M_e). The light Higgs's 126 share f splits into its up and down parts, |b|^2 + |d|^2
+    = k^2 f, and the fit fixes |b/d| (higgs_component_ratios), so |d| = k sqrt(f / (1 + |b/d|^2)) per fit (5b; with f
+    T13's 16-84 % band). Whatever f is, Y126,3 <= 2 sqrt(4 pi) (the bound of Part Y4) gives v_R >= M_R,3/(2 sqrt(4 pi)).
+    Compared with the chain's own v_R = M_I / g_R(M_I) (M_I = M_WR)."""
+    t12 = lr["type12"]
+    w10 = s10["potential_lr"]["with_10"]
+    if not t12.get("fits_found") or not w10.get("viable"):
+        return None
+    k_ = flav["runner"].v / math.sqrt(2)
+    fq = w10["higgs_126_fraction_quantiles"]
+    v_chain = lr["M_I"] / lr["g_R"]
+    pts = t12["fit_points"]
+    need = [4 * k_ * math.sqrt(f_ / (1 + p_["r126"] ** 2)) * p_["M_R_per_dm"] for f_ in (fq[0], fq[2]) for p_ in pts]
+    old = [4 * k_ * math.sqrt(f_) * p_["M_R_per_dm"] for f_ in (fq[0], fq[2]) for p_ in pts]
+    floor = [p_["M_R_over_M_I"] * lr["M_I"] / (2 * math.sqrt(4 * math.pi)) for p_ in pts]
+    # the complex 10's own potential (T13): per point and per fit, the v_R it predicts against that point's own chain
+    # v_R = M_I(point)/g_R
+    wc = s10["potential_lr"].get("with_complex_10", {})
+    cpts = wc.get("points", [])
+    cx = {"points": len(cpts), "fits": len(pts), "matches": 0, "ratios": [], "f": []}
+    hit = set()
+    for p_ in pts:
+        for i_, d_, f_ in complex_10_v_r(cpts, p_["r10"], p_["r126"], k_):
+            cx["matches"] += 1
+            hit.add(i_)
+            cx["ratios"].append(4 * d_ * p_["M_R_per_dm"] / (cpts[i_]["M_I"] / lr["g_R"]))
+            cx["f"].append(f_)
+    if cx["ratios"]:
+        rs, fs = sorted(cx["ratios"]), sorted(cx["f"])
+        q_ = lambda v_: (v_[0], v_[len(v_) // 6], v_[len(v_) // 2], v_[(5 * len(v_)) // 6], v_[-1])
+        cx["ratio_quantiles"], cx["f_quantiles"] = q_(rs), q_(fs)
+        cx["points_matched"] = len(hit)
+    del cx["ratios"], cx["f"]
+    return {"v_R_chain": v_chain, "v_R_needed": (min(need), max(need)), "higgs_126_fraction": (fq[0], fq[2]),
+            "complex_10": cx,
+            "ratio": (min(need) / v_chain, max(need) / v_chain), "M_R_per_dm": t12["M_R_per_dm_range"],
+            "v_R_whole_share_to_d": (min(old), max(old)), "r126_range": t12["r126_range"], "r10_range": t12["r10_range"],
+            "v_R_perturbative_floor": min(floor), "floor_ratio": min(floor) / v_chain}
+
+
+def triplet_proton_estimate(lr: Dict[str, Any], s10: Dict[str, Any], flav: Dict[str, Any]) -> Dict[str, Any] | None:
+    """p -> e+ pi0 through the colour-triplet scalars of the 10 and 126, an order-of-magnitude estimate. Their
+    couplings are the Yukawas that give the masses: Y126 = (M_d - M_e)/(4 d), Y10 = (3 M_d + M_e)/(4 c), with c, d the
+    light Higgs's 10 and 126 components (k sqrt(1 - f), k sqrt f; f its 126 share, k = v/sqrt2; T13's median) and the
+    first-generation entries of the best type I + II fit. Clebsches bounded by 3 (Y_T = max(Y10, 3 Y126)); the
+    lighter triplet at T13's median mass; the same short- and long-distance factors as the gauge channel, so the
+    lifetime scales as (g^2/M_X^2)^2 / (Y_T^2/M_T^2)^2."""
+    t12 = lr["type12"]
+    w10 = s10["potential_lr"]["with_10"]
+    if not w10.get("viable"):
+        return None
+    two = s10["chains"]["LR"]["loop2"]
+    k_ = flav["runner"].v / math.sqrt(2)
+    f_ = w10["higgs_126_fraction_quantiles"][1]
+    fg = t12["first_gen"]
+    hr = t12["higgs_ratios"]
+    y126 = fg["d_minus_e"] / (4 * k_ * math.sqrt(f_ / (1 + hr["r126"] ** 2)))
+    y10 = fg["3d_plus_e"] / (4 * k_ * math.sqrt((1 - f_) / (1 + hr["r10"] ** 2)))
+    y_t = max(y10, 3 * y126)
+    g2 = 4 * math.pi * two["alpha_GUT"]
+    m_t_ratio = w10["triplet_light_quantiles"][1]
+    ratio = y_t ** 2 / (g2 * m_t_ratio ** 2)                       # C_T / C_X
+    tau_x = two["tau_p_years"]
+    limit = s10["pati_salam"]["tau_p_limit"]
+    return {"y10_11": y10, "y126_11": y126, "y_T": y_t, "higgs_126_fraction": f_, "M_T_over_M_GUT": m_t_ratio,
+            "amplitude_ratio": ratio, "tau_p_years": tau_x / ratio ** 2,
+            # tau_T = tau_X (g M_T / (Y_T M_X))^4 >= limit
+            "M_T_min_over_M_GUT": y_t / math.sqrt(g2) * (limit / tau_x) ** (1 / 4),
+            "M_T_min_GeV": two["M_GUT"] * y_t / math.sqrt(g2) * (limit / tau_x) ** (1 / 4)}
+
+
+def heavy_spectrum_lift(lr: Dict[str, Any], s10: Dict[str, Any], chain: Dict[str, Any]) -> Dict[str, Any] | None:
+    """Can the left-right chain's heavy GUT spectrum (Part T12) lift M_I to where its neutrino fits put B - L
+    breaking, v_R ~ M_I >= M_R,3/sqrt(4 pi) (the smallest over the fits), and keep the proton? To first order in
+    l_h = ln(M_h/M_GUT), ln M_I and ln tau_p are linear (T12's responses): maximize d ln M_I subject to
+    d ln tau_p >= ln(limit/tau_p) and |l_h| <= ln S, a linear program with one constraint, solved exactly by
+    ordering (each multiplet starts at the extreme that raises M_I; those that buy back the most lifetime per
+    unit of M_I lost are moved first). The smallest S that reaches the target is found by bisection, and the
+    spectrum found is then solved exactly (two loops). The neutrino fits are not redone at the new M_I."""
+    fits = [t_ for t_ in (lr["type1"], lr["type12"]) if t_["fits_found"]]
+    if not fits:
+        return None
+    two = s10["chains"]["LR"]["loop2"]
+    hs = s10["heavy_spectrum_LR"]
+    x = _float_inputs()
+    limit = s10["pati_salam"]["tau_p_limit"]
+    target = min(t_["M_R_over_M_I_range"][0] for t_ in fits) * two["M_I"] / lr["M_R_max_over_M_I"]
+    need, slack = math.log(target / two["M_I"]), math.log(limit / two["tau_p_years"])
+    a_ = [r_["dlnMI"] for r_ in hs["rows"]]
+    c_ = [r_["dlntau"] for r_ in hs["rows"]]
+
+    def best(ln_s: float) -> Tuple[float, List[float]]:
+        ell = [ln_s * (1 if ai > 0 else -1) for ai in a_]
+        tau = sum(ci * li for ci, li in zip(c_, ell))
+        # moving l_h from its extreme toward the other changes tau by g_h and M_I by -|a_h| per unit
+        order = sorted((i for i in range(len(a_)) if -c_[i] * (1 if a_[i] > 0 else -1) > 0),
+                       key=lambda i: -(-c_[i] * (1 if a_[i] > 0 else -1)) / abs(a_[i]))
+        for i in order:
+            if tau >= slack:
+                break
+            g_ = -c_[i] * (1 if a_[i] > 0 else -1)
+            step = min(2 * ln_s, (slack - tau) / g_)
+            ell[i] -= step * (1 if a_[i] > 0 else -1)
+            tau += g_ * step
+        if tau < slack - num("unif_tol"):
+            return -math.inf, ell
+        return sum(ai * li for ai, li in zip(a_, ell)), ell
+    lo, hi = 0.0, math.log(num("heavy_mass_spread"))
+    out: Dict[str, Any] = {"target_M_I": target, "factor": target / two["M_I"],
+                           "vacuum_ok_at_target": target < s10["vacuum"]["mu0"]}
+    if best(hi)[0] < need:
+        out["reached"] = False
+        return out
+    for _ in range(int(num("unif_iterations"))):
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if best(mid)[0] < need else (lo, mid)
+    _, ell = best(hi)
+    shifts = [0.0, 0.0, 0.0]
+    for r_, li in zip(hs["rows"], ell):
+        bh = [float(v) / (2 * math.pi) for v in r_["b"]]
+        for k, d_ in enumerate((bh[0] - bh[1], bh[2] - bh[1], bh[3] - bh[1])):
+            shifts[k] += li * d_
+    r_ = solve_chain(chain, x, 2, shifts)
+    tau = proton_lifetime(x, r_["M_GUT"], r_["alpha_GUT"], None, hs["a_l"], chain, r_)
+    moved = sorted(((abs(li), r2_["multiplet"], math.exp(li)) for li, r2_ in zip(ell, hs["rows"])), reverse=True)
+    pts = s10["potential_lr"]["points"]
+    out["potential_n"] = len(pts)
+    out["potential_hits"] = sum(1 for m_, t_ in pts if m_ >= target and t_ > limit)
+    out["potential_max_M_I"] = max((m_ for m_, t_ in pts if t_ > limit), default=None)
+    out.update({"reached": True, "spread": math.exp(hi), "M_I": r_["M_I"], "M_GUT": r_["M_GUT"], "tau_p_years": tau,
+                "proton_ok": tau > limit, "vacuum_ok": r_["M_I"] < s10["vacuum"]["mu0"],
+                "spectrum": [(nm_, ratio_) for _, nm_, ratio_ in moved]})
+    return out
+
+
+def so10_selection_rule(flav: Dict[str, Any], m_i: float) -> Dict[str, Any]:
+    ms = masses_at_scale(flav, m_i)
+    # Y1: lepton/down ratios per generation against 1 (10 alone) and 3 (126 alone); errors from the inputs
+    rel = {"d": math.hypot(sig("m_d") / inp("m_d"), sig("m_s") / inp("m_s")) / math.sqrt(2),
+           "s": sig("m_s") / inp("m_s"), "b": sig("m_b") / inp("m_b")}
+    gens = []
+    for k, (q, l, e_) in enumerate((("d", "e", rel["d"]), ("s", "mu", rel["s"]), ("b", "tau", rel["b"]))):
+        ratio = ms["e"][k] / ms["d"][k]
+        s_ = ratio * max(e_, num("yukawa_ratio_theory_rel"))
+        gens.append({"pair": f"m_{l}/m_{q}", "ratio": ratio, "sigma": s_,
+                     "pull_10": (ratio - 1) / s_, "pull_126": (ratio - 3) / s_})
+    worst10 = max(abs(g_["pull_10"]) for g_ in gens)
+    worst126 = max(abs(g_["pull_126"]) for g_ in gens)
+    return {"scale": m_i, "masses": ms, "generations": gens, "worst_pull_10": worst10, "worst_pull_126": worst126,
+            "excluded": min(worst10, worst126) > num("survival_sigma")}
+
+
+def higgs_component_ratios(u: Sequence[Any]) -> Dict[str, float]:
+    """|a/c| = |1 - c1|/|c2| and |b/d| = |3 + c1|/|c2| at a sum-rule point u = (ln|c1|, arg c1, ln|c2|, arg c2, ...):
+    the up- over down-type 10 and 126 components of the light Higgs, which the fit fixes."""
+    c1, c2 = cmath.rect(math.exp(u[0]), u[1]), cmath.rect(math.exp(u[2]), u[3])
+    return {"r10": abs(1 - c1) / abs(c2), "r126": abs(3 + c1) / abs(c2)}
+
+
+def so10_sum_rule(flav: Dict[str, Any], mu: float, m_i: float, ms: Dict[str, List[float]] | None = None,
+                  v_ckm: List[List[complex]] | None = None, g_r: float = 1) -> Dict[str, Any]:
+    """The sum rule and the neutrino fits at mu, with the masses and quark mixing there (ms, v_ckm; by default
+    the SM-run masses and the measured CKM matrix)."""
+    ms = ms or masses_at_scale(flav, mu)
+    # Y2: the general sum rule on the three charged-lepton masses (seeded multi-start compass search)
+    x = _float_inputs()
+    v_ckm = v_ckm or ckm_from_wolfenstein(x)
+    tol_m = num("yukawa_fit_mass_rel")
+
+    def matrices(u: List[float]) -> Tuple[List[List[complex]], List[List[complex]]]:
+        # u = (ln|c1|, arg c1, ln|c2|, arg c2, a, b, psi_1, psi_2): relative steps for couplings of any size.
+        # With M_u real diagonal the up-quark phases Psi are physical: M_d = Psi V X D_d X V^T Psi.
+        # A mass dictionary as the last entry of u replaces the central quark masses (Y3, Y4).
+        # The neutrino fits (Y3, Y4) add u[8], the third up-quark phase: an overall phase of M_d against the real
+        # M_u, absorbed by c1 in M_e but not in M_d - M_e (Y2 has no use for it).
+        m_ = u[-1] if isinstance(u[-1], dict) else ms
+        c1, c2 = cmath.rect(math.exp(u[0]), u[1]), cmath.rect(math.exp(u[2]), u[3])
+        ph = (cmath.exp(1j * 2 * u[4]), cmath.exp(1j * 2 * u[5]), 1)
+        psi = (cmath.exp(1j * u[6]), cmath.exp(1j * u[7]), cmath.exp(1j * u[8]) if isinstance(u[-1], dict) else 1)
+        dd = [m_["d"][k] * ph[k] for k in range(3)]
+        md = [[psi[i] * psi[j] * sum(v_ckm[i][k] * dd[k] * v_ckm[j][k] for k in range(3)) for j in range(3)]
+              for i in range(3)]
+        me = [[c1 * md[i][j] + (c2 * m_["u"][i] if i == j else 0) for j in range(3)] for i in range(3)]
+        return md, me
+
+    def lepton_masses(u: List[float]) -> List[float]:
+        return [math.sqrt(max(e_, 0)) for e_ in _herm3_eigvals(_mm_dag(matrices(u)[1]))]
+
+    def chi2_masses(u: List[float]) -> float:
+        return sum(((a_ / b_ - 1) / tol_m) ** 2 for a_, b_ in zip(lepton_masses(u), ms["e"]))
+
+    # the type-II neutrinos: M_nu proportional to M_d - M_e; PMNS from the left eigenvectors
+    p_no = nu_params(x, "NO")
+    nu_data = {"s12sq": (p_no["s12sq"], sig("nu_s12sq")), "s13sq": (p_no["s13sq"], sig("nu_s13sq_NO")),
+               "s23sq": (p_no["s23sq"], sig("nu_s23sq_NO"))}
+    r_meas = p_no["dm21"] / p_no["dm3l"]
+    r_sig = r_meas * math.hypot(sig("nu_dm21") / p_no["dm21"], sig("nu_dm3l_NO") / p_no["dm3l"])
+
+    def neutrino_matrix(u: List[float], kind: str) -> Tuple[List[List[complex]], List[List[complex]], float | None]:
+        """(M_nu up to its scale, M_e, the coefficient of the type-I matrix K in it, or None). Type II: M_nu ~
+        M_d - M_e. Type I: M_D = M_u + r (M_d - M_e) with r = (3 + c1)/c2 fixed by the sum rule (no new unknown),
+        M_R ~ M_d - M_e, so M_nu ~ K = M_D (M_d - M_e)^-1 M_D. Types I + II: only the direction of M_nu matters, so
+        M_nu ~ cos(theta) K/s(K) + sin(theta) e^(i phi) (M_d - M_e)/s(M_d - M_e) with theta = u[9], phi = u[10]
+        (s: largest singular value). Both pure limits are ordinary points (theta = 0, pi/2); in a ratio w they
+        would be endless flat valleys (w -> 0, w -> infinity) that a local search runs into and never leaves."""
+        md, me = matrices(u)
+        dm = [[md[i][j] - me[i][j] for j in range(3)] for i in range(3)]
+        if kind == "II":
+            return dm, me, None
+        c1, c2 = cmath.rect(math.exp(u[0]), u[1]), cmath.rect(math.exp(u[2]), u[3])
+        r_ = (3 + c1) / c2
+        mu_ = u[-1]["u"] if isinstance(u[-1], dict) else ms["u"]
+        m_d = [[(mu_[i] if i == j else 0) + r_ * dm[i][j] for j in range(3)] for i in range(3)]
+        kk = _cmat_mul(_cmat_mul(m_d, _cmat_inv3(dm)), m_d)
+        if kind == "I":
+            return kk, me, 1.0
+        a_ = math.cos(u[9]) / _sing_max(kk)
+        b_ = cmath.rect(math.sin(u[9]), u[10]) / _sing_max(dm)
+        return [[a_ * kk[i][j] + b_ * dm[i][j] for j in range(3)] for i in range(3)], me, a_
+
+    def neutrinos(u: List[float], kind: str = "II") -> Dict[str, Any]:
+        mn, me, _ = neutrino_matrix(u, kind)
+        he, hn = _mm_dag(me), _mm_dag(mn)
+        ee, en = _herm3_eigvals(he), _herm3_eigvals(hn)
+        ue = [_herm3_eigvec(he, e_) for e_ in ee]
+        un = [_herm3_eigvec(hn, e_) for e_ in en]
+        pm = [[sum(ue[i][k].conjugate() * un[j][k] for k in range(3)) for j in range(3)] for i in range(3)]
+        ang = pmns_angles(pm)
+        ratio = (en[1] - en[0]) / (en[2] - en[0]) if en[2] > en[0] else math.inf
+        return {"angles": ang, "ratio": ratio, "m_nu_rel": [math.sqrt(max(e_, 0) / en[2]) for e_ in en]}
+
+    def compass(u: List[float], step: float, chi2: Callable[[List[float]], float] = chi2_masses) -> Tuple[List[float], float]:
+        """Compass search with a hard evaluation budget."""
+        best_c, steps, n_ev = chi2(u), [step] * len(u), 0
+        while max(steps) > num("yukawa_fit_min_step") and n_ev < int(num("yukawa_fit_evals")):
+            moved = False
+            for d_ in range(len(u)):
+                for sgn in (1, -1):
+                    y_ = list(u)
+                    y_[d_] += sgn * steps[d_]
+                    c_ = chi2(y_)
+                    n_ev += 1
+                    if c_ < best_c:
+                        best_c, u, moved = c_, y_, True
+                        break
+                if moved:
+                    break
+            if not moved:
+                steps = [s_ / 2 for s_ in steps]
+        return u, best_c
+    rng = _UniformStream(int(num("potential_seed")) + 1)
+    starts0: List[List[float]] = []
+    for k_ in range(int(num("yukawa_fit_starts"))):
+        if k_ % 2:
+            # generic start
+            u0 = [math.log(10) * rng.uniform(-1, 3 / 2), rng.uniform(0, 2 * math.pi), math.log(10) * rng.uniform(-6, 0),
+                  rng.uniform(0, 2 * math.pi), rng.uniform(0, math.pi), rng.uniform(0, math.pi),
+                  rng.uniform(0, 2 * math.pi), rng.uniform(0, 2 * math.pi)]
+        else:
+            # structured start: |c1| of a Georgi-Jarlskog size for the muon, and c2 m_t cancelling the excess of
+            # c1 m_b in the 33 entry (arg c2 opposite to arg c1)
+            c1m = rng.uniform(1, 8) * ms["e"][1] / ms["d"][1] / 3
+            a1 = rng.uniform(0, 2 * math.pi)
+            c2m = abs(c1m * ms["d"][2] - ms["e"][2]) / ms["u"][2] * rng.uniform(1 / 2, 2)
+            u0 = [math.log(c1m), a1, math.log(c2m), a1 + math.pi + rng.uniform(-1 / 2, 1 / 2),
+                  rng.uniform(0, math.pi), rng.uniform(0, math.pi), rng.uniform(0, 2 * math.pi), rng.uniform(0, 2 * math.pi)]
+        starts0.append(u0)
+    found = [(c, u) for u, c in _parallel_map(lambda k_: compass(starts0[k_], 1 / 2), len(starts0))]
+    # iterated local search: kick the best points (every coordinate by up to one unit) and re-minimize
+    found.sort(key=lambda t: t[0])
+    best = found[0]
+    for c0, u0 in found[:int(num("yukawa_fit_polish"))]:
+        cur = (c0, u0)
+        for _ in range(int(num("yukawa_fit_kicks"))):
+            u, c = compass([v_ + rng.uniform(-1, 1) for v_ in cur[1]], 1 / 4)
+            if c < cur[0]:
+                cur = (c, u)
+        if cur[0] < best[0]:
+            best = cur
+    fit_m = lepton_masses(best[1])
+
+    # 5b: with a real 10 its bidoublet is self-conjugate, the up and down vevs of its doublet are complex conjugates,
+    # so |a| = |c|: |c2| = |1 - c1| (higgs_component_ratios). The same search with that imposed (one unknown fewer).
+    def full_r10(w: List[float]) -> List[float]:
+        c1 = cmath.rect(math.exp(w[0]), w[1])
+        return [w[0], w[1], math.log(max(abs(1 - c1), math.ulp(1.0)))] + list(w[2:])
+
+    def chi2_r10(w: List[float]) -> float:
+        return chi2_masses(full_r10(w))
+    found10 = [(c, u) for u, c in _parallel_map(lambda k_: compass(starts0[k_][:2] + starts0[k_][3:], 1 / 2, chi2_r10),
+                                                 len(starts0))]
+    found10.sort(key=lambda t: t[0])
+    best10 = found10[0]
+    for c0, u0 in found10[:int(num("yukawa_fit_polish"))]:
+        cur = (c0, u0)
+        for _ in range(int(num("yukawa_fit_kicks"))):
+            u, c = compass([v_ + rng.uniform(-1, 1) for v_ in cur[1]], 1 / 4, chi2_r10)
+            if c < cur[0]:
+                cur = (c, u)
+        if cur[0] < best10[0]:
+            best10 = cur
+    real10 = {"chi2_min": best10[0], "masses": lepton_masses(full_r10(best10[1])), "unknowns": 7}
+    out = {"scale": mu, "masses": ms, "chi2_min": best[0], "starts": int(num("yukawa_fit_starts")), "real_10": real10,
+           "mass_tolerance": tol_m, "best_masses": fit_m,
+           "worst_rel_miss": max(abs(a_ / b_ - 1) for a_, b_ in zip(fit_m, ms["e"])),
+           "reaches": best[0] < 1}
+    # Y3, Y4. add the neutrinos. 7 data (3 lepton masses, 3 angles, the ratio of the mass splittings) and the six
+    # quark masses, each floated within its error (input error and the running floor): 13 data. Unknowns: the 8
+    # above plus the six quark masses; types I + II add w (2 more). Levenberg-Marquardt from the best charged-lepton
+    # points and from fresh seeded starts (half structured, half generic, as in Y2).
+    seeds = [best[1]] + [f_[1] for f_ in found[:int(num("yukawa_nu_seeds"))]]
+    m3l = math.sqrt(p_no["dm3l"])                      # sqrt(Delta m^2_31), eV
+    floor = num("yukawa_ratio_theory_rel")
+    q_rel = {"u": [math.hypot(sig(n_) / inp(n_), floor) for n_ in ("m_u", "m_c", "M_t")],
+             "d": [math.hypot(sig(n_) / inp(n_), floor) for n_ in ("m_d", "m_s", "m_b")]}
+
+    def split(u: List[float], kind: str) -> Tuple[List[float], Dict[str, List[float]]]:
+        n_ = 11 if kind == "I+II" else 9
+        pull = u[n_:]
+        m_ = {"u": [ms["u"][i] * math.exp(q_rel["u"][i] * pull[i]) for i in range(3)],
+              "d": [ms["d"][i] * math.exp(q_rel["d"][i] * pull[3 + i]) for i in range(3)], "e": ms["e"]}
+        return u[:n_] + [m_], m_
+
+    def residuals(u: List[float], kind: str) -> List[float]:
+        core, m_ = split(u, kind)
+        n_ = neutrinos(core, kind)
+        res = [(a_ / b_ - 1) / tol_m for a_, b_ in zip(lepton_masses(core), ms["e"])]
+        res += [(n_["angles"][k] - v_) / s_ for k, (v_, s_) in nu_data.items()]
+        return res + [(n_["ratio"] - r_meas) / r_sig] + list(u[len(core) - 1:])
+
+    def seesaw_scales(core: List[float], kind: str) -> Dict[str, Any] | None:
+        """Type-I scales at a point: M_nu = lambda (a K + ...), |lambda| = m_3/s_max(M_nu matrix), and M_R =
+        (M_d - M_e)/(lambda a), so M_R,i = s_i(M_d - M_e) s_max/(m_3 |a|), whatever the 126's vevs are."""
+        if kind == "II":
+            return None
+        mn, _, a_ = neutrino_matrix(core, kind)
+        md, me = matrices(core)
+        dm = [[md[i][j] - me[i][j] for j in range(3)] for i in range(3)]
+        rho2 = neutrinos(core, kind)["m_nu_rel"][0] ** 2
+        lam = m3l / math.sqrt(1 - rho2) * 10 ** -9 / _sing_max(mn) * abs(a_)
+        m_r = [math.sqrt(max(e_, 0)) / lam for e_ in _herm3_eigvals(_mm_dag(dm))]
+        return {"M_R_GeV": m_r, "M_R_over_M_I": m_r[2] / m_i, "M_1_GeV": m_r[0], "M_R_per_dm": 1 / lam}
+
+    def start(kind: str, k_: int) -> List[float]:
+        if k_ < len(seeds):
+            u0 = list(seeds[k_])
+        elif k_ % int(num("yukawa_nu_generic_every")) == 0:
+            u0 = [math.log(10) * rng.uniform(-1, 3 / 2), rng.uniform(0, 2 * math.pi), math.log(10) * rng.uniform(-6, 0),
+                  rng.uniform(0, 2 * math.pi), rng.uniform(0, math.pi), rng.uniform(0, math.pi),
+                  rng.uniform(0, 2 * math.pi), rng.uniform(0, 2 * math.pi)]
+        else:
+            c1m = rng.uniform(1, 8) * ms["e"][1] / ms["d"][1] / 3
+            a1 = rng.uniform(0, 2 * math.pi)
+            c2m = abs(c1m * ms["d"][2] - ms["e"][2]) / ms["u"][2] * rng.uniform(1 / 2, 2)
+            u0 = [math.log(c1m), a1, math.log(c2m), a1 + math.pi + rng.uniform(-1 / 2, 1 / 2),
+                  rng.uniform(0, math.pi), rng.uniform(0, math.pi), rng.uniform(0, 2 * math.pi), rng.uniform(0, 2 * math.pi)]
+        u0 = u0 + [rng.uniform(0, 2 * math.pi)]                   # the third up-quark phase
+        if kind == "I+II":
+            u0 += [rng.uniform(0, math.pi), rng.uniform(0, 2 * math.pi)]   # theta, phi: uniform on the projective circle
+        return u0 + [0] * 6
+
+    tops: Dict[str, List[Tuple[float, List[float]]]] = {}
+
+    def fit_neutrinos(kind: str, extra: Sequence[List[float]] = ()) -> Dict[str, Any]:
+        n_starts = len(seeds) + int(num("yukawa_nu_starts"))
+        lm_iters, cut = int(num("yukawa_lm_iters")), num("survival_sigma") ** 2
+        starts = [start(kind, k_) for k_ in range(n_starts)] + [list(e_) for e_ in extra]
+
+        def one(k_: int) -> Tuple[float, List[float]]:
+            u, c = _levenberg_marquardt(lambda y_: residuals(y_, kind), starts[k_], lm_iters)
+            return c, u
+        ranked = _parallel_map(one, len(starts))
+        fit_us = [u for c, u in ranked if c < cut]
+        # iterated local search: kick the best points (every unknown by up to yukawa_nu_kick, in log-magnitudes,
+        # phases and quark pulls) and re-minimize; a kick is kept if it lowers chi^2. Each refined point has its
+        # own deterministic stream, so the result does not depend on how the work is shared out.
+        ranked.sort(key=lambda t_: t_[0])
+        n_pol = min(int(num("yukawa_nu_polish")), len(ranked))
+        base_seed = rng.s
+
+        def polish(j_: int) -> Tuple[Tuple[float, List[float]], List[List[float]]]:
+            r_ = _UniformStream(base_seed + j_ + 1)
+            cur, hits = ranked[j_], []
+            kick = num("yukawa_nu_kick")
+            for _ in range(int(num("yukawa_nu_kicks"))):
+                u, c = _levenberg_marquardt(lambda y_: residuals(y_, kind),
+                                            [v_ + r_.uniform(-kick, kick) for v_ in cur[1]], lm_iters)
+                if c < cut:
+                    hits.append(u)
+                if c < cur[0]:
+                    cur = (c, u)
+            return cur, hits
+        for j_, (cur, hits) in enumerate(_parallel_map(polish, n_pol)):
+            ranked[j_] = cur
+            fit_us += hits
+        best_ = min(ranked, key=lambda t_: t_[0])
+        fits = [(neutrinos(split(u, kind)[0], kind), seesaw_scales(split(u, kind)[0], kind)) for u in fit_us]
+        # the light Higgs's components the sum rule fixes: M_u = (a/c) A + (b/d) B with A = c Y10, B = d Y126, so
+        # a/c = (1 - c1)/c2 and b/d = (-3 - c1)/c2 (5b: a real 10 has |a/c| = 1; a complex 10 frees it)
+        ratios_ = [higgs_component_ratios(split(u, kind)[0]) for u in fit_us]
+        tops[kind] = sorted(ranked, key=lambda t_: t_[0])[:int(num("yukawa_cross_seeds"))]
+        core = split(best_[1], kind)[0]
+        nb, res = neutrinos(core, kind), residuals(best_[1], kind)
+        rec = {"chi2_min": best_[0], "starts": len(starts), "seeds": len(seeds), "data_points": 7 + 6, "unknowns": len(best_[1]),
+               "angles": {k: nb["angles"][k] for k in nu_data}, "ratio": nb["ratio"], "ratio_meas": r_meas,
+               "lepton_masses": lepton_masses(core), "quark_pulls": res[7:],
+               "n_sigma_worst": max(abs(v_) for v_ in res[3:7]), "fits_found": len(fits),
+               "delta_deg_range": ((min(math.degrees(f_["angles"]["delta"]) % 360 for f_, _ in fits),
+                                    max(math.degrees(f_["angles"]["delta"]) % 360 for f_, _ in fits)) if fits else None),
+               "scales": seesaw_scales(core, kind),
+               # first-generation entries at the best point (the basis where M_u is real diagonal): proton decay through
+               # the colour triplets needs them
+               "higgs_ratios": higgs_component_ratios(core),
+               "first_gen": {"u": core[-1]["u"][0], "d": abs(matrices(core)[0][0][0]), "e": abs(matrices(core)[1][0][0]),
+                             "d_minus_e": abs(matrices(core)[0][0][0] - matrices(core)[1][0][0]),
+                             "3d_plus_e": abs(3 * matrices(core)[0][0][0] + matrices(core)[1][0][0])}}
+        if fits:
+            # delta is never fitted: each fit predicts it. Pull on the circle against the measured value (NuFIT's
+            # distribution is far from Gaussian, so this is only indicative)
+            d0, ds = inp("nu_delta_NO"), sig("nu_delta_NO")
+            pulls = [abs((math.degrees(f_["angles"]["delta"]) - d0 + 180) % 360 - 180) / ds for f_, _ in fits]
+            rec["delta_pull_range"] = (min(pulls), max(pulls))
+        if fits and kind != "II":
+            rec["M_R_over_M_I_range"] = (min(s_["M_R_over_M_I"] for _, s_ in fits), max(s_["M_R_over_M_I"] for _, s_ in fits))
+            rec["M_1_range_GeV"] = (min(s_["M_1_GeV"] for _, s_ in fits), max(s_["M_1_GeV"] for _, s_ in fits))
+            rec["M_R_per_dm_range"] = (min(s_["M_R_per_dm"] for _, s_ in fits), max(s_["M_R_per_dm"] for _, s_ in fits))
+            rec["fit_points"] = [{"r10": r_["r10"], "r126": r_["r126"], "M_R_per_dm": s_["M_R_per_dm"],
+                                  "M_R_over_M_I": s_["M_R_over_M_I"]} for (_, s_), r_ in zip(fits, ratios_)]
+            rec["r10_range"] = (min(r_["r10"] for r_ in ratios_), max(r_["r10"] for r_ in ratios_))
+            rec["r126_range"] = (min(r_["r126"] for r_ in ratios_), max(r_["r126"] for r_ in ratios_))
+        rec["reaches"] = bool(fits)
+        return rec
+    out["type2"] = fit_neutrinos("II")
+    # the reason, in one number: large theta_23 from M_d - M_e needs b and tau to converge (m_b ~ m_tau)
+    out["type2"]["b_tau_mismatch"] = (ms["d"][2] - ms["e"][2]) / ms["d"][2]
+    # Y4. type I (M_D fixed by the same c1, c2: no new unknown) and types I + II (one complex ratio more)
+    out["type1"] = fit_neutrinos("I")
+    # types I + II also start from the best type-I points (type II small) and type-II points (type I small)
+    w_dec = num("yukawa_w_decades")
+    cross = []
+    for kind_, sg in (("I", -1), ("II", 1)):
+        for _, u_ in tops[kind_]:
+            cross.append(u_[:9] + [math.atan(10 ** (sg * w_dec)), rng.uniform(0, 2 * math.pi)] + u_[9:])
+    out["type12"] = fit_neutrinos("I+II", cross)
+    # perturbativity of the Delta_R coupling f: the chain's M_I is the W_R mass, M_WR = g_R v_R for the triplet's neutral
+    # vev v_R (M_W^2 = g^2 |<phi>|^2 (T(T+1) - T3^2) with T = 1, T3 = -1), and f nu nu delta0 gives M_N = 2 f v_R; with
+    # f <= sqrt(4 pi) the heaviest right-handed neutrino is at most 2 sqrt(4 pi) M_I / g_R(M_I)
+    out["M_I"] = m_i
+    out["g_R"] = g_r
+    out["M_R_max_over_M_I"] = 2 * math.sqrt(4 * math.pi) / g_r
+    for k_ in ("type1", "type12"):
+        sc_ = out[k_]["scales"]
+        out[k_]["scale_consistent"] = sc_["M_R_over_M_I"] <= out["M_R_max_over_M_I"]
+    return out
+
+
+def so10_dirac_identity(seed: int) -> float:
+    """The algebra behind Y2 and Y4, checked at a random point: with M_u = a Y10 + b Y126, M_d = c Y10 + d Y126,
+    M_e = c Y10 - 3 d Y126, M_D = a Y10 - 3 b Y126 (Y10, Y126 complex symmetric), the coefficients
+    c1 = -(3a/c + b/d)/(a/c - b/d), c2 = 4/(a/c - b/d) give M_e = c1 M_d + c2 M_u and
+    M_D = M_u + (3 + c1)/c2 (M_d - M_e) exactly. Returns the largest relative deviation."""
+    rng = _UniformStream(seed)
+
+    def cx() -> complex:
+        return complex(rng.uniform(-1, 1), rng.uniform(-1, 1))
+    y10, y126 = ([[complex(0)] * 3 for _ in range(3)] for _ in range(2))
+    for y_ in (y10, y126):
+        for i in range(3):
+            for j in range(i, 3):
+                y_[i][j] = y_[j][i] = cx()
+    a, b, c, d = cx(), cx(), cx(), cx()
+    mu = [[a * y10[i][j] + b * y126[i][j] for j in range(3)] for i in range(3)]
+    md = [[c * y10[i][j] + d * y126[i][j] for j in range(3)] for i in range(3)]
+    me = [[c * y10[i][j] - 3 * d * y126[i][j] for j in range(3)] for i in range(3)]
+    mdir = [[a * y10[i][j] - 3 * b * y126[i][j] for j in range(3)] for i in range(3)]
+    den = a / c - b / d
+    c1, c2 = -(3 * a / c + b / d) / den, 4 / den
+    dev = 0.0
+    for i in range(3):
+        for j in range(3):
+            dev = max(dev, abs(me[i][j] - c1 * md[i][j] - c2 * mu[i][j]) / abs(me[i][j]),
+                      abs(mdir[i][j] - mu[i][j] - (3 + c1) / c2 * (md[i][j] - me[i][j])) / abs(mdir[i][j]))
+    return dev
+
+
+def _parallel_map(fn: Callable[[int], Any], n: int) -> List[Any]:
+    """[fn(0), ..., fn(n - 1)], on every core where the platform can fork (each forked worker inherits fn and
+    sends back its share of the results; nothing but the results is pickled), else in turn. The order of the
+    results never depends on the platform or the number of cores."""
+    try:
+        import multiprocessing
+        ctx = multiprocessing.get_context("fork")
+        n_proc = min(multiprocessing.cpu_count(), n)
+        if n_proc < 2:
+            raise ValueError("one core")
+        jobs = []
+        for w_ in range(n_proc):
+            rd, wr = ctx.Pipe(duplex=False)
+
+            def work(w_: int = w_, wr: Any = wr) -> None:
+                wr.send([(i, fn(i)) for i in range(w_, n, n_proc)])
+                wr.close()
+            p_ = ctx.Process(target=work)
+            p_.start()
+            wr.close()
+            jobs.append((p_, rd))
+        out: List[Any] = [None] * n
+        for p_, rd in jobs:
+            for i, r_ in rd.recv():
+                out[i] = r_
+            p_.join()
+        return out
+    except (ValueError, OSError, ImportError, EOFError):
+        return [fn(i) for i in range(n)]
+
+
+def _levenberg_marquardt(resid: Callable[[List[float]], List[float]], u: List[float], iters: int) -> Tuple[List[float], float]:
+    """Least squares: minimizes sum(resid^2) from u. Forward-difference Jacobian, Marquardt's diagonal damping;
+    a point where the residuals cannot be evaluated (or |log coupling| beyond yukawa_lm_log_max) is a rejected step."""
+    def cost(y_: List[float]) -> Tuple[float, List[float]]:
+        try:
+            if max(abs(y_[0]), abs(y_[2])) > num("yukawa_lm_log_max"):
+                return math.inf, []
+            r_ = resid(y_)
+            c_ = sum(v_ * v_ for v_ in r_)
+            return (c_, r_) if math.isfinite(c_) else (math.inf, [])
+        except (ZeroDivisionError, ValueError, OverflowError, TypeError):   # TypeError: a NaN eigenvector
+            return math.inf, []
+    c, r = cost(u)
+    if not math.isfinite(c):
+        return u, c
+    mu, h, n = num("yukawa_lm_mu0"), num("yukawa_lm_step"), len(u)
+    for _ in range(iters):
+        jac = []
+        for d_ in range(n):
+            y_ = list(u)
+            y_[d_] += h
+            cy, ry = cost(y_)
+            if not math.isfinite(cy):
+                return u, c
+            jac.append([(a_ - b_) / h for a_, b_ in zip(ry, r)])
+        jtj = [[sum(p_ * q_ for p_, q_ in zip(jac[i], jac[j])) for j in range(n)] for i in range(n)]
+        g = [sum(p_ * q_ for p_, q_ in zip(jac[i], r)) for i in range(n)]
+        while True:
+            a_ = [[jtj[i][j] + (mu * max(jtj[i][i], num("yukawa_lm_diag_floor")) if i == j else 0) for j in range(n)]
+                  for i in range(n)]
+            step = _solve_linear(a_, [-v_ for v_ in g])
+            y_ = [p_ + q_ for p_, q_ in zip(u, step)] if step else u
+            cy, ry = cost(y_) if step else (math.inf, [])
+            if cy < c:
+                u, r, c, mu = y_, ry, cy, mu / 3
+                break
+            mu *= 4
+            if mu > num("yukawa_lm_mu_max"):
+                return u, c
+        if c < num("yukawa_lm_chi2_stop"):
+            break
+    return u, c
+
+
+def _solve_linear(a: List[List[float]], b: List[float]) -> List[float] | None:
+    """Gaussian elimination with partial pivoting; None if singular."""
+    n = len(b)
+    m = [row[:] + [b[i]] for i, row in enumerate(a)]
+    for c in range(n):
+        piv = max(range(c, n), key=lambda r_: abs(m[r_][c]))
+        if m[piv][c] == 0:
+            return None
+        m[c], m[piv] = m[piv], m[c]
+        for r_ in range(c + 1, n):
+            f_ = m[r_][c] / m[c][c]
+            for k in range(c, n + 1):
+                m[r_][k] -= f_ * m[c][k]
+    x_ = [0.0] * n
+    for r_ in reversed(range(n)):
+        x_[r_] = (m[r_][n] - sum(m[r_][k] * x_[k] for k in range(r_ + 1, n))) / m[r_][r_]
+    return x_
+
+
+# =============================================================================
+# 6x. PART Z: THE LEDGER, EVERY FREE NUMBER AND WHAT THE ALGORITHM DOES WITH IT
+# =============================================================================
+# The algorithm closes when every free number of the Standard Model plus cosmology carries a status the
+# stages computed, for the one hypothesis that survives every condition (Part U):
+#   calculated  fixed by the algorithm with nothing measured spent on it
+#   related     tied to other numbers by a relation that is tested
+#   traded      exchanged for an unknown of the hypothesis: nothing predicted
+#   bounded     only limited by measurements
+#   open        no mechanism in the surviving hypothesis
+#   input       measured, and used as such
+def final_ledger(score: Dict[str, Any], s10: Dict[str, Any], s10y: Dict[str, Any], scp: Dict[str, Any],
+                 nus: Dict[str, Any], bau: Dict[str, Any], dm: Dict[str, Any], crit: Dict[str, Any], anom: Dict[str, Any],
+                 mf: Dict[str, Any], closed: Dict[str, Any], joint: Dict[str, Any]) -> Dict[str, Any]:
+    surv = score["survivors"]
+    chain = closed["chain"]
+    two = s10["chains"][chain]["loop2"]
+    t2 = s10y["LR"]["type2"]
+    mh_pull = joint["SM_pulls"]["H"]
+    rows = [
+        ("hypercharges and electric charge", "5 per family", "calculated",
+         "anomaly cancellation plus Yukawas fix them uniquely; charge is quantized (Part R, exact)"),
+        ("number of families", "1 integer",
+         "calculated" if len(anom["so10_families"]["allowed"]) == 1 else ("bounded" if anom["so10_families"]["allowed"]
+                                                                           else "open"),
+         "SO(10): anomaly-free for any number; " + (
+             f"{anom['so10_families']['allowed'][0]} to {anom['so10_families']['allowed'][-1]} families keep the SO(10) "
+             "coupling asymptotically free with the chain's scalars and allow CKM CP violation (Part R)"
+             if anom["so10_families"]["allowed"] else "no number allowed (Part R)")),
+        ("gauge couplings", "3", "traded",
+         f"{chain} chain: the three fix M_I = {two['M_I']:.1e}, M_GUT = {two['M_GUT']:.1e} GeV and alpha_GUT (Part T)"),
+        ("weak mixing angle at unification", "1", "calculated", "sin^2 theta_W = 3/8 from the 16 (Part T1, exact)"),
+        ("Higgs mass", "1", "open",
+         f"lambda(M_P) = 0 misses by {abs(mh_pull):.1f} sigma (Part L); lambda(M_I) = 0 is not required (Part T6)"),
+        ("Higgs vacuum value", "1", "input", "from G_F"),
+        ("quark masses", "6", "input", "run to every scale (Parts B, L)"),
+        ("quark mixing (CKM)", "4", "related",
+         "one Hermitian texture predicts |V_td/V_ts| at 2.2 sigma (Part C), but it is not the surviving GUT's structure"),
+        ("charged-lepton masses", "3", "traded" if s10y["LR"]["reaches"] else "open",
+         "the 10 + 126 sum rule reaches them with 8 unknowns (Part Y2)"),
+        ("neutrino masses and mixing", "7-9", {"trade": "traded", "pass": "related"}.get(
+            score["rows"].get(f"SO(10) via {chain}", {}).get("N", {}).get("status", "open"), "open"),
+         f"type II from the sum rule misses by {t2['n_sigma_worst']:.0f} sigma (Part Y3); with left-right running, best "
+         f"chi^2 for 13 data: type I {s10y['LR']['type1']['chi2_min']:.0f}, types I + II {s10y['LR']['type12']['chi2_min']:.1f}"
+         + (f"; its {s10y['LR']['type12']['fits_found']} fits need M_R,3 >= {s10y['LR']['type12']['M_R_over_M_I_range'][0]:.0f}"
+            f" M_I and leave delta between {s10y['LR']['type12']['delta_deg_range'][0]:.0f} and"
+            f" {s10y['LR']['type12']['delta_deg_range'][1]:.0f} deg (Part Y4)" if s10y['LR']['type12']['fits_found'] else " (Part Y4)")),
+        ("strong CP angle", "1", "bounded",
+         f"|theta-bar| < {scp['bound']['theta_max']:.1e}; an axion at M_I would trade it for f_a (Part O)"),
+        ("dark-matter density", "1", "open" if not dm["chains"][chain]["pre_possible"] else "traded",
+         f"the axion at the survivor's M_I gives {100 * dm['chains'][chain]['fraction_post']:.1f} % (Part V)"),
+        ("baryon asymmetry", "1", "traded",
+         f"leptogenesis needs M_1 >= {bau['leptogenesis']['rows'][0]['M1_min']:.0e} GeV (Part S); M_1 is unknown"),
+        ("cosmological constant", "1", "open", "Omega_Lambda follows from flatness; rho_Lambda is not calculated"),
+        ("Newton's constant", "1", "input", "M_P is calculated from it (Part H1)"),
+    ]
+    counts: Dict[str, int] = {}
+    for r_ in rows:
+        counts[r_[2]] = counts.get(r_[2], 0) + 1
+    return {"survivors": surv, "chain": chain, "rows": [{"quantity": a_, "count": b_, "status": c_, "how": d_}
+                                                         for a_, b_, c_, d_ in rows], "counts": counts}
+
+
+# =============================================================================
+# 6s. PART U: THE SCORECARD, EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
+# =============================================================================
+# Part M weighs the high-energy hypotheses against unification, b-tau and the Higgs mass. Parts
+# P-T add neutrino masses, proton decay, the baryon asymmetry, the strong CP angle and a third
+# hypothesis. Here each complete hypothesis meets every condition, with the verdict each earlier
+# stage computed:
+#   SM to M_P              nothing new below the Planck mass (neutrinos Dirac)
+#   minimal SUSY SU(5)     the MSSM above Part I's M_S, unified at M_GUT (Parts I, J, K, Q)
+#   SO(10) via Pati-Salam  the SM up to M_I, SU(4) x SU(2)_L x SU(2)_R up to M_GUT (Part T)
+# Each entry is one of: pass, fail (with its sigma or reason), trade (an unknown absorbs the
+# condition, so nothing is tested), or open (no mechanism in that hypothesis).
+# For the Pati-Salam chain the Higgs condition is lambda(M_I) = 0, Part L's criticality moved to
+# the scale where the SM ends: computed with Part L's own running and matching.
+def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any], pdk: Dict[str, Any],
+              nus: Dict[str, Any], bau: Dict[str, Any], s10: Dict[str, Any], scp: Dict[str, Any],
+              dm: Dict[str, Any], s10y: Dict[str, Any]) -> Dict[str, Any]:
+    mh, mh_s, _ = _comparison("m_h")
+    surv = num("survival_sigma")
+    rows: Dict[str, Dict[str, Dict[str, Any]]] = {}
+
+    def entry(status: str, detail: str, sigma: float | None = None) -> Dict[str, Any]:
+        return {"status": status, "detail": detail, "sigma": sigma}
+    # --- SM up to M_P
+    sp = joint["SM_pulls"]
+    sm = {"U": entry("fail", "the couplings do not meet", abs(sp["U"])),
+          "B": entry("fail", "y_b/y_tau far from 1 where g1 = g2", abs(sp["B"])),
+          "H": entry("fail" if abs(sp["H"]) > surv else "pass", "lambda(M_P) = 0 (Part L)", abs(sp["H"])),
+          "N": entry("trade", f"Dirac Yukawas up to {max(nus['orderings']['NO']['seesaw']['dirac_yukawa']):.0e}, unexplained"),
+          "P": entry("pass", "no grand unification: B is conserved in perturbation theory"),
+          "A": entry("fail", "no out-of-equilibrium step, CP violation 14 orders short (Part S)"),
+          "T": entry("open", "theta-bar bounded, not explained (Part O)")}
+    rows["SM to M_P"] = sm
+    # --- minimal SUSY SU(5)
+    d5max = max((r["tau_max"] for r in pdk["d5"]), default=math.nan)
+    mssm_rows = {tuple(r["conditions"]): r for r in joint["rows"] if r["hypothesis"].startswith("MSSM")}
+    all3 = mssm_rows.get(("U", "B", "H"))
+    su5 = {"U": entry("trade", "M_S chosen by the measured alpha (Part I)"),
+           "B": entry("trade", "tan(beta) chosen by b-tau (Part J)"),
+           "H": entry("fail", f"m_h <= {higgs['mh_upper_bound']:.1f} GeV at those scales (Part K)",
+                      all3["n_sigma"] if all3 else None),
+           "N": entry("trade", "seesaw available, scale unknown"),
+           "P": entry("fail", f"p -> nubar K+ at most {d5max:.0e} years against {pdk['limit_K_nu']:.1e} (Part Q)"),
+           "A": entry("trade", "leptogenesis possible above M_1 ~ 7e8 GeV; gravitinos not checked"),
+           "T": entry("open", "needs an axion or another mechanism")}
+    rows["minimal SUSY SU(5)"] = su5
+    vac = s10["vacuum"]
+    band = vac["mu0_band_Mt"]
+
+    def vacuum_entry(v_: Dict[str, Any], nm: str) -> Dict[str, Any]:
+        r_ = v_["rows"][nm]
+        if r_["stabilizable"]:
+            return entry("pass", f"M_I below mu_0 = {v_['mu0']:.1e} GeV: a scalar threshold can stabilize the vacuum")
+        decided = bool(band) and r_["M_I"] > band[-1]
+        return entry("open", "metastable between mu_0 and M_I" + ("" if decided else
+                     f"; M_I lies inside mu_0's top-mass band ({band[0]:.0e} to {band[-1]:.0e} GeV)"))
+    lg_ = bau["leptogenesis"]
+    m1_full = min(r_["M1_min"] for r_ in lg_["rows"])
+    m1_nat = lg_["M1_min_natural"][0]
+
+    def leptogenesis_entry(m_i: float) -> Dict[str, Any]:
+        if m_i < m1_full:
+            return entry("fail", f"M_1 <~ M_I = {m_i:.0e} GeV is below even the full-efficiency bound {m1_full:.0e} GeV")
+        if m_i < m1_nat:
+            return entry("open", f"M_1 <~ M_I = {m_i:.0e} GeV needs weak washout: the natural range needs M_1 >= {m1_nat:.0e} GeV")
+        return entry("trade", f"M_1 up to M_I = {m_i:.0e} GeV covers the natural range (M_1 >= {m1_nat:.0e} GeV)")
+    def dark_matter_entry(d_: Dict[str, Any]) -> Dict[str, Any]:
+        frac = f"axion at f_a = M_I: {100 * d_['fraction_post']:.2g} % of the dark matter by post-inflation misalignment"
+        if d_["pre_possible"]:
+            return entry("trade", frac + f" (strings add more); pre-inflation theta_i = {d_['theta_i_pre_needed']:.2f}"
+                                         " gives all of it")
+        return entry("open", frac + ", and no initial angle gives all of it: another candidate is needed")
+    yps, ylr = s10y["PS"], s10y["LR"]
+
+    def neutrino_entry(nm: str, y_needed: float) -> Dict[str, Any]:
+        t2, t1, t12 = ylr["type2"], ylr["type1"], ylr["type12"]
+        if nm.startswith("LR") and not t2["reaches"]:
+            lead = (f"type II from the 10 + 126 sum rule misses the PMNS data by {t2['n_sigma_worst']:.0f} sigma"
+                    f" (b and tau do not converge: (m_b - m_tau)/m_b = {t2['b_tau_mismatch']:+.2f})")
+            fit_ = [t_ for t_ in (t1, t12) if t_["fits_found"]]
+            bound = ylr["M_R_max_over_M_I"]
+            if fit_ and min(t_["M_R_over_M_I_range"][0] for t_ in fit_) <= bound:
+                return entry("trade", lead + "; type I (+ II) fits with M_R below sqrt(4 pi) M_I: unknowns absorb the data")
+            lf_ = s10y.get("lift") or {}
+            lift_txt = (f"; a heavy spectrum within a factor {lf_['spread']:.2f} of M_GUT would lift M_I there (Part T12), but"
+                        f" the chain's potential gives it in {lf_['potential_hits']} of {lf_['potential_n']} viable cases (Part T13)"
+                        if lf_.get("reached") else "")
+            vr_ = s10y.get("v_R")
+            if vr_:
+                lift_txt += (f"; and SO(10)'s own Y126 puts v_R at {vr_['ratio'][0]:.0e}-{vr_['ratio'][1]:.0e} times the chain's"
+                             " (Part Y4)")
+            if fit_ and vr_ and nm == "LR":
+                # the verdict: SO(10)'s v_R against the chain's, beyond anything the thresholds can move (Part T7)
+                lift_max = s10["thresholds"][nm]["M_I"][1] / s10["chains"][nm]["loop2"]["M_I"]
+                if vr_["ratio"][0] > lift_max:
+                    return entry("fail", lead + f"; type I + II fits exist, but with M_R = Y126 v_R (SO(10)) they need v_R ="
+                                                f" {vr_['v_R_needed'][0]:.0e}-{vr_['v_R_needed'][1]:.0e} GeV,"
+                                                f" {vr_['ratio'][0]:.0e} times the chain's, where thresholds move M_I by at most"
+                                                f" {lift_max:.0f} (Part Y4)")
+            if fit_:
+                n_ = sum(t_["fits_found"] for t_ in fit_)
+                return entry("open", lead + f"; {n_} type I (+ II) fits, every one needing M_R,3 >="
+                                            f" {min(t_['M_R_over_M_I_range'][0] for t_ in fit_):.0f} M_I, above the perturbative"
+                                            f" {bound:.1f} M_I: B - L would break far above the chain's M_I" + lift_txt)
+            return entry("open", lead + f"; types I and I + II not reached (best chi^2 {t1['chi2_min']:.0f}, {t12['chi2_min']:.0f};"
+                                        f" the closest point puts M_R,3 at {t12['scales']['M_R_over_M_I']:.0e} M_I)")
+        return entry("pass", f"seesaw at M_I with a Dirac Yukawa of {y_needed:.3f} for the heaviest neutrino")
+
+    def fermion_entry(nm: str) -> Dict[str, Any]:
+        if nm.startswith("PS"):
+            return entry("fail" if yps["excluded"] else "pass",
+                         "the light doublet sits in one SU(4) irrep (exact selection rule): M_e = M_d or -3 M_d,"
+                         f" missed by at least {min(yps['worst_pull_10'], yps['worst_pull_126']):.0f} sigma (Part Y)",
+                         min(yps["worst_pull_10"], yps["worst_pull_126"]))
+        return entry("trade" if ylr["reaches"] else "fail",
+                     "M_e = c1 M_d + c2 M_u reaches the lepton masses" + ("" if ylr["reaches"] else " only within"
+                     f" {100 * ylr['worst_rel_miss']:.0f} %") + " (8 unknowns, 3 masses: predictive only with neutrinos)")
+    rows["SM to M_P"]["F"] = entry("trade", "the Yukawa couplings are free parameters")
+    rows["minimal SUSY SU(5)"]["F"] = entry("fail", "m_s/m_d = m_mu/m_e (minimal SU(5)) excluded (Part J)")
+    rows["SM to M_P"]["D"] = entry("open", "no dark-matter candidate; Omega_c is an input (Part A)")
+    rows["minimal SUSY SU(5)"]["D"] = entry("trade", "the lightest superpartner, not calculated here")
+    rows["SM to M_P"]["V"] = entry("open", f"metastable: lambda turns negative at {vac['mu0']:.1e} GeV (Part L)")
+    rows["minimal SUSY SU(5)"]["V"] = entry("pass", "lambda is fixed positive by supersymmetry above M_S")
+    # --- every SO(10) chain at two loops (Part T5)
+    m3 = nus["orderings"]["NO"]["seesaw"]["m_heaviest_eV"] * 10 ** -9
+    v = crit["state_mt"][1]
+    sig_h = math.hypot(crit["sigma_total"], mh_s)
+    higgs_rows = {}
+    for nm, ch in s10["chains"].items():
+        two = ch["loop2"]
+        m_i = two["M_I"]
+        pull_h = (two["m_h_lambda_MI_zero"] - mh) / sig_h
+        higgs_rows[nm] = {"m_h": two["m_h_lambda_MI_zero"], "sigma": sig_h, "pull": pull_h, "M_I": m_i}
+        y_needed = math.sqrt(2 * m_i * m3) / v
+        rows[f"SO(10) via {nm}"] = {
+            "U": entry("pass" if two["consistent"] else "fail",
+                       f"M_I = {m_i:.1e}, M_GUT = {two['M_GUT']:.1e} GeV solve the three couplings (no prediction)"),
+            "B": entry("open", "no b-tau relation without a Yukawa structure (minimal 10_H excluded, Part T)"),
+            "H": entry("fail" if abs(pull_h) > surv else "pass",
+                       f"lambda(M_I) = 0 gives m_h = {two['m_h_lambda_MI_zero']:.2f} GeV", abs(pull_h)),
+            "N": neutrino_entry(nm, y_needed),
+            "P": entry("pass" if two["tau_p_allowed"] else "fail",
+                       f"p -> e+ pi0 in {two['tau_p_years']:.0e} years against {pdk['limit_e_pi0']:.1e}"),
+            "A": leptogenesis_entry(m_i),
+            "T": entry("trade", f"an axion at f_a = M_I would give m_a = {two['axion_m_a_eV_if_fa_MI'] * 10 ** 6:.2g} micro-eV"),
+            "V": vacuum_entry(s10["vacuum"], nm),
+            "D": dark_matter_entry(dm["chains"][nm]),
+            "F": fermion_entry(nm)}
+    conditions = {"U": "gauge unification", "B": "b-tau unification", "H": "Higgs mass", "N": "neutrino masses",
+                  "P": "proton decay", "A": "baryon asymmetry", "T": "strong CP", "V": "vacuum stability",
+                  "D": "dark matter", "F": "fermion masses"}
+    verdict = {h: {"fails": [c for c, e in r.items() if e["status"] == "fail"],
+                   "trades": [c for c, e in r.items() if e["status"] == "trade"],
+                   "passes": [c for c, e in r.items() if e["status"] == "pass"],
+                   "open": [c for c, e in r.items() if e["status"] == "open"]} for h, r in rows.items()}
+    return {"rows": rows, "conditions": conditions, "verdict": verdict,
+            "chain_higgs": higgs_rows,
+            "survivors": [h for h, v_ in verdict.items() if not v_["fails"]]}
+
+
+# =============================================================================
+# 7. COSMOLOGY (Decimal arithmetic)
+# =============================================================================
+def dec_pi() -> Decimal:
+    """pi to the current Decimal precision (series from the Python decimal documentation)."""
+    with localcontext() as ctx:
+        ctx.prec += 2
+        three = Decimal(3)
+        lasts, t, s, n, na, d, da = 0, three, three, 1, 0, 0, 24
+        while s != lasts:
+            lasts = s
+            n, na = n + na, na + 8
+            d, da = d + da, da + 32
+            t = (t * n) / d
+            s += t
+    return +s
+
+
+def romberg(f: Callable[[Decimal], Decimal], a: Decimal, b: Decimal, max_levels: int,
+            rel_tol: Decimal) -> Tuple[Decimal, Decimal, int]:
+    prev = [(b - a) * (f(a) + f(b)) / 2]
+    err = Decimal(0)
+    for k in range(1, max_levels):
+        h = (b - a) / (2 ** k)
+        s = sum(f(a + (2 * i - 1) * h) for i in range(1, 2 ** (k - 1) + 1))
+        row = [prev[0] / 2 + h * s]
+        for j in range(1, k + 1):
+            row.append(row[j - 1] + (row[j - 1] - prev[j - 1]) / (4 ** j - 1))
+        err = abs(row[-1] - prev[-1])
+        prev = row
+        if err <= rel_tol * abs(row[-1]):
+            return row[-1], err, k
+    return prev[-1], err, max_levels
+
+
+def cosmology(x: Dict[str, Decimal], prec: int) -> Dict[str, Any]:
+    with localcontext() as ctx:
+        ctx.prec = prec
+        one, two, three = Decimal(1), Decimal(2), Decimal(3)
+        pi = dec_pi()
+        c, kb, grav = x["c"], x["k_B"], x["G"]
+        hbar = x["h"] / (2 * pi)
+        mpc = x["au"] * 648000 / pi * 10 ** 6               # 1 pc = 648000/pi au
+        h0 = x["H0"] * 1000 / mpc                            # s^-1
+        rho_crit = three * h0 ** 2 / (8 * pi * grav)         # kg/m^3
+        u_gamma = pi ** 2 / 15 * (kb * x["T_CMB"]) ** 4 / (hbar * c) ** 3  # J/m^3, Stefan-Boltzmann
+        om_g = u_gamma / (rho_crit * c ** 2)
+        nu_per_species = Decimal(7) / 8 * (Decimal(4) / 11) ** (Decimal(4) / 3)
+        om_r = om_g * (one + x["N_eff"] * nu_per_species)
+        om_m = x["Omega_m"]
+        om_l = one - om_m - om_r                              # flatness
+
+        # t0 = (1/H0) int_0^1 da / (a E(a)); with a = u^2 the integrand is smooth on [0, 1]
+        def integrand(u: Decimal) -> Decimal:
+            return u ** 3 / (om_r + om_m * u ** 2 + om_l * u ** 8).sqrt()
+
+        integral, err, levels = romberg(integrand, Decimal(0), one, int(NUMERICS["romberg_max_levels"]),
+                                        Decimal(NUMERICS["romberg_rel_tol"]))
+        t0_s = two * integral / h0
+        gyr_s = Decimal(31557600) * 10 ** 9                   # Julian year = 365.25 x 86400 s
+        t0_gyr = t0_s / gyr_s
+
+        q0 = om_r + om_m / 2 - om_l
+        # q(z) = 0  <=>  2 om_r y^4 + om_m y^3 - 2 om_l = 0 with y = 1 + z (monotonic for y > 0)
+        lo, hi = one, two
+        while 2 * om_r * hi ** 4 + om_m * hi ** 3 - 2 * om_l < 0:
+            hi *= 2
+        for _ in range(4 * prec):  # each halving gains log10(2) of a digit
+            mid = (lo + hi) / 2
+            if 2 * om_r * mid ** 4 + om_m * mid ** 3 - 2 * om_l < 0:
+                lo = mid
+            else:
+                hi = mid
+        z_acc = (lo + hi) / 2 - one
+        z_eq = om_m / om_r - one
+        a_ml = (om_m / om_l) ** (one / three)
+        s_h0 = pi * c ** 5 / (grav * hbar * h0 ** 2)          # Hubble-horizon entropy today, units of k_B
+        s_ds = s_h0 / om_l                                    # de Sitter limit, H -> H0 sqrt(Omega_Lambda)
+        return {
+            "Omega_gamma": om_g, "Omega_r": om_r, "Omega_m": om_m, "Omega_Lambda": om_l,
+            "age_Gyr": t0_gyr, "age_integral": integral, "romberg_error": err, "romberg_levels": levels,
+            "q0": q0, "z_acc": z_acc, "z_eq": z_eq, "a_matter_Lambda": a_ml,
+            "S_Hubble_today_kB": s_h0, "S_deSitter_kB": s_ds, "H0_per_s": h0,
+        }
+
+
+def age_by_float_quadrature(om_r: float, om_m: float, om_l: float, steps: int, lna_min: float) -> float:
+    """Independent check: H0 t0 = int d(ln a) / E(a), composite Simpson in ln a (floats)."""
+    def f(lna: float) -> float:
+        a = math.exp(lna)
+        return 1 / math.sqrt(om_r / a ** 4 + om_m / a ** 3 + om_l)
+    n = steps + steps % 2
+    h = -lna_min / n
+    total = f(lna_min) + f(0.0)
+    for i in range(1, n):
+        total += (4 if i % 2 else 2) * f(lna_min + i * h)
+    return total * h / 3
+
+
+# =============================================================================
+# 8. THE SIMULATION
+# =============================================================================
+def _float_inputs(overrides: Dict[str, float] | None = None) -> Dict[str, float]:
+    x = _InputView({k: float(_TRACE["set"].get(k, INPUTS[k]["value"])) for k in INPUTS})
+    if overrides:
+        x.update(overrides)
+    return x
+
+
+def _comparison(name: str) -> Tuple[float, float, float]:
+    v, up, dn = COMPARISONS[name]["value"]
+    return float(v), float(up), float(dn)
+
+
+def _tension(lo: float, hi: float, s_lo: float, s_hi: float, name: str) -> Dict[str, Any]:
+    meas, up, dn = _comparison(name)
+    if lo <= meas <= hi:
+        return {"inside": True, "n_sigma": 0.0}
+    if meas < lo:
+        n = (lo - meas) / math.hypot(s_lo, up)
+    else:
+        n = (meas - hi) / math.hypot(s_hi, dn)
+    return {"inside": False, "n_sigma": n}
+
+
+def run_flavour(scales: Sequence[float], steps: int, grid: int) -> Dict[str, Any]:
+    min_step = num("pattern_search_min_step")
+    central = FlavourRunner(_float_inputs(), steps)
+    ratios = central.ratios_at(scales)
+
+    # input variations for uncertainty propagation (+/- 1 sigma, central differences)
+    varied = {}
+    for name in FLAVOUR_UNCERTAIN:
+        varied[name] = tuple(FlavourRunner(_float_inputs({name: inp(name) + s * sig(name)}), steps)
+                             .ratios_at(scales) for s in (1, -1))
+
+    results = {}
+    for mu in sorted(scales):
+        r = ratios[mu]
+        tex = texture_at(r)
+        bands = phase_bands(tex["coef"], grid, min_step)
+        tex_var = {name: tuple(texture_at(v[mu]) for v in pair) for name, pair in varied.items()}
+        for k, band in bands.items():
+            for edge in ("lo", "hi"):
+                s, t = band[edge + "_phases"]
+                var2 = 0.0
+                for name in FLAVOUR_UNCERTAIN:
+                    fp = ckm_observables(ckm_matrix(tex_var[name][0]["coef"], s, t))[k]
+                    fm = ckm_observables(ckm_matrix(tex_var[name][1]["coef"], s, t))[k]
+                    var2 += ((fp - fm) / 2) ** 2
+                band["sigma_" + edge] = math.sqrt(var2)
+            band["vs_measurement"] = _tension(band["lo"], band["hi"], band["sigma_lo"], band["sigma_hi"], k)
+        results[mu] = {"ratios": r, "texture": tex, "bands": bands}
+    return {"runner": central, "ratios": ratios, "scales": results, "varied": varied}
+
+
+def run_survey(flav: Dict[str, Any], scales: Sequence[float]) -> Dict[float, Dict[str, Any]]:
+    out = {}
+    for mu in scales:
+        varied = [(flav["varied"][name][0][mu], flav["varied"][name][1][mu]) for name in FLAVOUR_UNCERTAIN]
+        sv = TextureSurvey(flav["ratios"][mu], varied)
+        out[mu] = sv.run(int(num("survey_min_zeros")))
+        out[mu]["survey"] = sv
+    return out
+
+
+def _derived_vub_over_vcb() -> None:
+    """The measured |V_ub/V_cb|, formed from the two PDG fit values (correlation neglected)."""
+    vub, ub_up, ub_dn = _comparison("V_ub")
+    vcb, cb_up, cb_dn = _comparison("V_cb")
+    ratio = vub / vcb
+    up = ratio * math.hypot(ub_up / vub, cb_dn / vcb)
+    dn = ratio * math.hypot(ub_dn / vub, cb_up / vcb)
+    COMPARISONS["V_ub/V_cb"] = {"value": (repr(ratio), repr(up), repr(dn)),
+                                "source": "ratio of the PDG 2024 fit values of |V_ub| and |V_cb|"}
+
+
+def run_cosmology(prec: int) -> Dict[str, Any]:
+    base = _InputView({k: Decimal(_TRACE["set"].get(k, INPUTS[k]["value"])) for k in INPUTS})
+    out = cosmology(base, prec)
+    var2 = 0.0
+    var2_ol = 0.0
+    for name in COSMO_UNCERTAIN:
+        vals = []
+        for s in (1, -1):
+            x = _InputView(base)
+            x[name] = base[name] + s * sig_decimal(name)
+            vals.append(cosmology(x, prec))
+        var2 += (float(vals[0]["age_Gyr"] - vals[1]["age_Gyr"]) / 2) ** 2
+        var2_ol += (float(vals[0]["Omega_Lambda"] - vals[1]["Omega_Lambda"]) / 2) ** 2
+    out["age_sigma_uncorrelated_Gyr"] = math.sqrt(var2)
+    out["Omega_Lambda_sigma"] = math.sqrt(var2_ol)
+    out["age_float_check_Gyr"] = (age_by_float_quadrature(float(out["Omega_r"]), float(out["Omega_m"]),
+                                                          float(out["Omega_Lambda"]),
+                                                          int(NUMERICS["friedmann_check_steps"]),
+                                                          float(NUMERICS["friedmann_check_lna_min"]))
+                                  / float(out["H0_per_s"]) / (31557600 * 10 ** 9))
+    return out
+
+
+# =============================================================================
+# 9. SELF-CHECKS (correctness of the calculation, never agreement with data)
+# =============================================================================
+def self_checks(flav: Dict[str, Any], cosmo: Dict[str, Any], scales: Sequence[float], steps: int,
+                grid: int, survey: Dict[float, Dict[str, Any]], yuk: Dict[int, Dict[str, Any]]
+                ) -> List[Tuple[str, bool, str]]:
+    tol = num("check_rel_tol")
+    checks: List[Tuple[str, bool, str]] = []
+
+    def add(name: str, ok: bool, detail: str) -> None:
+        checks.append((name, bool(ok), detail))
+
+    b0, b1 = qcd_beta(5)
+    add("QCD beta coefficients from Casimirs: b0(nf=5) = 23/3, b1(nf=5) = 116/3",
+        b0 == Fr(23, 3) and b1 == Fr(116, 3), f"b0 = {b0}, b1 = {b1}")
+    g0, g1 = qcd_gamma_m(5)
+    add("Quark-mass anomalous dimension: g0 = 4, g1(nf=5) = 202/3 - 100/9",
+        g0 == 4 and g1 == Fr(202, 3) - Fr(100, 9), f"g0 = {g0}, g1 = {g1}")
+    bsm = sm_gauge_b()
+    add("SM gauge b_i from field content = (41/10, -19/6, -7)",
+        bsm == (Fr(41, 10), Fr(-19, 6), Fr(-7)), f"b = {tuple(str(b) for b in bsm)}")
+    add("SM b_3 equals -b0(nf=6) of the QCD formula", bsm[2] == -qcd_beta(6)[0], "")
+    cy = top_yukawa_gauge_coeffs()
+    add("Top-Yukawa gauge coefficients from Casimirs = (17/20, 9/4, 8)",
+        cy == (Fr(17, 20), Fr(9, 4), Fr(8)), f"c = {tuple(str(c) for c in cy)}")
+    n_direct = 1000
+    z3_direct = sum(1 / n ** 3 for n in range(1, n_direct + 1)) + 1 / (2 * n_direct ** 2) - 1 / (2 * n_direct ** 3)
+    add("zeta(3): fast series agrees with the direct sum plus Euler-Maclaurin tail",
+        abs(zeta3() / z3_direct - 1) < tol, f"zeta(3) = {zeta3():.15f}")
+
+    # texture: uniqueness, eigenvalues, unitarity, CP symmetry of the J band
+    worst_eig = 0.0
+    worst_unit = 0.0
+    worst_jsym = 0.0
+    for mu in scales:
+        r = flav["ratios"][mu]
+        tex = flav["scales"][mu]["texture"]
+        for sector, (x1, x2) in (("up", (r["r_uc"] * r["r_ct"], r["r_ct"])),
+                                 ("down", (r["r_ds"] * r["r_sb"], r["r_sb"]))):
+            ev = [abs(e) for e in tex[sector]["eigenvalues"]]
+            for got, want in zip(ev, (x1, x2, 1.0)):
+                worst_eig = max(worst_eig, abs(got / want - 1))
+        for s, t in ((1, 2), (2, 4), (5, 1)):  # sample phases in radians
+            v = ckm_matrix(tex["coef"], s, t)
+            for i in range(3):
+                for j in range(3):
+                    dot = sum(v[i][k] * v[j][k].conjugate() for k in range(3))
+                    worst_unit = max(worst_unit, abs(dot - (1 if i == j else 0)))
+        jb = flav["scales"][mu]["bands"]["J"]
+        worst_jsym = max(worst_jsym, abs(jb["hi"] + jb["lo"]) / jb["hi"])
+    add("Fritzsch texture: exactly one real sign assignment, (+, -, +) in both sectors",
+        all(flav["scales"][mu]["texture"][s]["signs"] == (1, -1, 1) for mu in scales for s in ("up", "down")),
+        "")
+    add("Texture eigenvalues reproduce the RG mass ratios", worst_eig < tol, f"max rel err {worst_eig:.1e}")
+    add("CKM matrix is unitary", worst_unit < tol, f"max |V V^dag - 1| = {worst_unit:.1e}")
+    add("J band is symmetric (J_min = -J_max, CP conjugate phases)", worst_jsym < tol,
+        f"max rel asym {worst_jsym:.1e}")
+
+    # RG: doubling the step count does not move the ratios
+    fine = FlavourRunner(_float_inputs(), 2 * steps).ratios_at(scales)
+    worst_rg = max(abs(fine[mu][k] / flav["ratios"][mu][k] - 1)
+                   for mu in scales for k in ("r_uc", "r_ct", "r_ds", "r_sb"))
+    add("RG running converged (step count doubled)", worst_rg < num("check_rg_tol"),
+        f"max rel change {worst_rg:.1e}")
+
+    # phase scan: a finer coarse grid finds the same band edges
+    mu = max(scales)
+    fine_b = phase_bands(flav["scales"][mu]["texture"]["coef"], grid + grid // 2 + 1,
+                         num("pattern_search_min_step"))
+    worst_band = max(abs(fine_b[k][e] / flav["scales"][mu]["bands"][k][e] - 1)
+                     for k in OBSERVABLES for e in ("lo", "hi"))
+    add("Phase-band edges independent of the scan grid", worst_band < tol, f"max rel change {worst_band:.1e}")
+
+    # cosmology
+    add("Romberg quadrature of the age converged", cosmo["romberg_error"] <=
+        Decimal(NUMERICS["romberg_rel_tol"]) * cosmo["age_integral"],
+        f"{cosmo['romberg_levels']} levels, error {float(cosmo['romberg_error']):.1e}")
+    rel = abs(cosmo["age_float_check_Gyr"] / float(cosmo["age_Gyr"]) - 1)
+    add("Age agrees with an independent float quadrature in ln a", rel < num("check_age_tol"),
+        f"rel diff {rel:.1e}")
+    total = cosmo["Omega_r"] + cosmo["Omega_m"] + cosmo["Omega_Lambda"]
+    add("Flatness holds exactly", total == 1, "")
+
+    # texture survey
+    fz = ((0, 0), (1, 1), (0, 2))                       # Fritzsch: zeros at 11, 22, 13
+    nz = [p for p in POSITIONS if p not in fz]
+    worst_f = 0.0
+    for mu in scales:
+        sv = survey[mu]["survey"]
+        pair = (nz, ((1, -1), "fixed", 0), nz, ((1, -1), "fixed", 0))
+        lo, hi = _magnitude_band(sv.coef(pair, 0), _ELEMENTS["V_cb"])
+        pb = flav["scales"][mu]["bands"]["V_cb"]
+        worst_f = max(worst_f, abs(lo / pb["lo"] - 1), abs(hi / pb["hi"] - 1))
+    add("Survey reproduces Part B for the Fritzsch pattern (exact |V_cb| band vs phase scan)",
+        worst_f < tol, f"max rel diff {worst_f:.1e}")
+    worst_e = 0.0
+    for mu in scales:
+        sv = survey[mu]["survey"]
+        for (sector, nonzero, var, ei, t_unit), o in sv.cache.items():
+            if o is None or ei != 0:
+                continue
+            m = _sector_matrix(list(nonzero), var, sv.E[0][sector], t_unit)
+            ev = sorted(abs(x) for x in jacobi_eigh(m, num("jacobi_tol"))[0])
+            for got, want in zip(ev, sv.E[0][sector]):
+                worst_e = max(worst_e, abs(got / want - 1))
+    add("Every survey mass matrix has the RG-run masses as eigenvalues", worst_e < num("check_survey_eig_tol"),
+        f"max rel err {worst_e:.1e}")
+    mu = max(scales)
+    sv = survey[mu]["survey"]
+    worst_g = 0.0
+    for rec in survey[mu]["classes"]:
+        if rec.get("pair") is None:
+            continue
+        c2, _ = sv.joint(rec["pair"], rec["n_curve"], 2 * int(num("survey_curve_grid")),
+                         2 * int(num("survey_phase_grid")))
+        worst_g = max(worst_g, abs(c2 - rec["chi2"]) / max(1, rec["chi2"]))
+    add("Joint-test chi^2 independent of the starting grids (both doubled)", worst_g < num("check_survey_tol"),
+        f"max rel change {worst_g:.1e}")
+
+    # SO(10) spinor algebra and the Part C survivor's count (Part D)
+    bl = yuk["bilinears"]
+    fm = bl["forms"]
+    add("SO(10) spinors: the ten 32 x 32 gammas satisfy the Clifford algebra, chirality splits 32 = 16 + 16bar, and the 16 x 16"
+        " bilinears are 10 symmetric (k = 1), 120 antisymmetric (k = 3), 126 symmetric (k = 5, the self-dual half), together"
+        " all 136 symmetric and 120 antisymmetric couplings (exact, mod p)",
+        bl["clifford"] and bl["chirality_diagonal"] and bl["chirality_squares_to_one"] and bl["dim_16"] == 16 and bl["i_mod_p_ok"]
+        and fm["10"]["symmetric"] and fm["10"]["independent"] == 10 and fm["120"]["antisymmetric"]
+        and fm["120"]["independent"] == bl["antisymmetric_space"] and fm["126 + 126bar"]["symmetric"]
+        and fm["126 + 126bar"]["independent"] == 126 and bl["symmetric_total"] == bl["symmetric_space"],
+        f"10: {fm['10']['independent']}, 120: {fm['120']['independent']}, 126: {fm['126 + 126bar']['independent']},"
+        f" symmetric span {bl['symmetric_total']}")
+    fb = so10_family_bound(SO10_CHAIN_SCALARS)
+    herm = [s_["hermitian"] for s_ in yuk["survivors"]]
+    add("SO(10) group theory from weights: T(16) = 2, T(45) = 8 = C2(adjoint), T(10) = 1 as in Part T8, the 16's cubic anomaly"
+        " vanishes; the Hermitian count of the Part C survivor reproduces Part C's one prediction (rank 9, proved)",
+        fb["T16"] == 2 and fb["T45"] == 8 and so10_decomposition_index(10)[0] == 1 and fb["cubic_anomaly_16"] == 0
+        and bool(herm) and all(h_["proved"] and h_["predictions"] == 1 for h_ in herm),
+        f"T16 = {fb['T16']}, T45 = {fb['T45']}, ranks {[h_['rank'] for h_ in herm]}")
+    return checks
+
+
+# =============================================================================
+# 10. REPORT
+# =============================================================================
+def _fmt(x: float, nd: int = 5) -> str:
+    if x == 0:
+        return "0"
+    if abs(x) < float(NUMERICS["report_sci_below"]) or abs(x) >= float(NUMERICS["report_sci_above"]):
+        return f"{x:.{nd - 1}e}"
+    return f"{x:.{nd}g}"
+
+
+def run(scales: Sequence[float] | None = None, prec: int | None = None, certify: bool = False) -> Dict[str, Any]:
+    prec = int(prec or NUMERICS["precision_digits"])
+    steps = int(NUMERICS["rg_steps_per_efold"])
+    grid = int(NUMERICS["phase_grid"])
+    _derived_vub_over_vcb()
+    _TRACE.update(stage=None, inputs={}, uses={}, keys={})
+    cosmo = _stage("cosmology", lambda: run_cosmology(prec))
+    alpha_unif = _stage("gauge_unification", alpha_from_unification)   # Part I first: it supplies M_S
+    alpha_num = _stage("alpha_numerology", alpha_numerology)
+
+    def flavour() -> Dict[str, Any]:
+        sc = scales
+        if not sc:
+            m_s = alpha_unif.get("M_S_for_measured_alpha", {}).get("M_S_GeV")
+            sc = [FlavourRunner(_float_inputs(), steps).mt_msbar] + ([m_s] if m_s else [])
+        sc = sorted(float(v) for v in sc)
+        out = run_flavour(sc, steps, grid)
+        out["evaluation_scales"] = sc
+        return out
+    flav = _stage("flavour", flavour)
+    scales = dict.__getitem__(flav, "evaluation_scales")
+    survey = _stage("texture_survey", lambda: run_survey(flav, scales))
+    certs = _stage("survey_certificates", lambda: certify_survey(survey[scales[0]])) if certify else None
+
+    def survivors() -> List[Tuple[Any, Any]]:
+        return [(r["zeros_u"], r["zeros_d"]) for r in survey[scales[0]]["classes"]
+                if r["status"] == "tested" and all(
+                    next(x for x in survey[mu]["classes"]
+                         if (x["zeros_u"], x["zeros_d"]) == (r["zeros_u"], r["zeros_d"]))["survives"]
+                    for mu in scales)]
+    yuk = _stage("gauge_so10", lambda: so10_gauge_structure(survivors()))
+    symm = _stage("flavour_symmetry_so10", lambda: so10_flavour_symmetry())
+    closure = _stage("general_texture_closure", general_texture_closure)
+    planck = _stage("planck_units", planck_units)
+    qg = _stage("quantum_gravity", lambda: quantum_gravity(cosmo, flav, planck))
+    yukawa = _stage("yukawa_relations", lambda: yukawa_relations(
+        flav, alpha_unif.get("M_S_for_measured_alpha", {}).get("M_S_GeV"),
+        alpha_unif.get("M_S_for_measured_alpha", {}).get("M_GUT_GeV"), planck["E_P_GeV"]))
+    higgs = _stage("higgs_mssm", lambda: higgs_mass_mssm(flav, alpha_unif, yukawa))
+    crit = _stage("criticality", lambda: sm_criticality(planck["E_P_GeV"]))
+    joint = _stage("uv_joint_test", lambda: uv_joint_test(flav, alpha_unif, yukawa, crit))
+    masses = _stage("mass_formulas", lambda: mass_formulas(flav))
+    scp = _stage("strong_cp", lambda: strong_cp(flav, survey, scales, alpha_unif, planck))
+    nus = _stage("neutrinos", lambda: neutrinos(cosmo, flav, alpha_unif, planck))
+    pdk = _stage("proton_decay", lambda: proton_decay(flav, alpha_unif, yukawa))
+    anom = _stage("anomalies", anomaly_constraints)
+    bau = _stage("baryon_asymmetry", lambda: baryon_asymmetry(cosmo, flav, nus, planck))
+    s10 = _stage("so10", lambda: so10(flav, alpha_unif, yukawa, scp, bau, pdk, crit))
+    dm = _stage("dark_matter", lambda: dark_matter(scp, s10, planck, bau))
+    s10y = _stage("so10_yukawa", lambda: so10_yukawa_tests(flav, s10))
+    sfit = _stage("so10_flavour_fit", lambda: so10_flavour_fit(symm, s10y))
+    mw = _stage("w_mass", lambda: {**w_mass_test(crit), "z_pole": sin2_eff_test(crit)})
+    score = _stage("scorecard", lambda: scorecard(joint, higgs, crit, pdk, nus, bau, s10, scp, dm, s10y))
+
+    def survivor_chain() -> str:
+        """The surviving SO(10) chain; if none survives, the closest: fewest fails, then most passes, fewest trades."""
+        chains = [h.replace("SO(10) via ", "") for h in score["survivors"] if h.startswith("SO(10) via ")]
+        if chains:
+            return chains[0]
+        v_ = score["verdict"]
+        best = min((h for h in v_ if h.startswith("SO(10) via ")),
+                   key=lambda h: (len(v_[h]["fails"]), -len(v_[h]["passes"]), len(v_[h]["trades"])))
+        return best.replace("SO(10) via ", "")
+    closed = _stage("closed_cosmology", lambda: closed_cosmology(cosmo, dm, nus, survivor_chain()))
+    dark = _stage("dark_sector", lambda: dark_sector(dm, crit, survivor_chain()))
+    ledger = _stage("ledger", lambda: final_ledger(score, s10, s10y, scp, nus, bau, dm, crit, anom, masses, closed, joint))
+    _TRACE["stage"] = "self_checks"                 # everything below validates the stages above
+    _TRACE["inputs"].setdefault("self_checks", set())
+    checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
+    # Part K checks
+    k16 = 16 * math.pi ** 2
+    hr = sm_higgs_rhs()
+    gn = float(GUT_NORM)
+    got_l = [hr([0, 0, 0, 1, 0, 0, 0], 6)[6] * k16, hr([0, 0, 0, 0, 0, 0, 1], 6)[6] * k16,
+             hr([0, 1, 0, 0, 0, 0, 0], 6)[6] * k16, hr([1 / math.sqrt(gn), 0, 0, 0, 0, 0, 0], 6)[6] * k16]
+    want_l = [-12, 12, 9 / 4, 3 / 4]
+    checks.append(("SM beta_lambda coefficients: -12 y_t^4, 12 lambda^2, (9/4) g^4, (3/4) g'^4",
+                   all(abs(a - b) < num("check_rel_tol") for a, b in zip(got_l, want_l)),
+                   ", ".join(f"{a:.4f}" for a in got_l)))
+    if higgs:
+        r0 = max(higgs["rows"], key=lambda r: r["mh_max_mixing"])
+        m2 = mssm_higgs_mass(flav, r0["M_S"], r0["tan_beta"], math.sqrt(6), steps=2 * steps)
+        rel = abs(m2 / r0["mh_max_mixing"] - 1)
+        checks.append(("Higgs-mass running converged (step count doubled)", rel < num("check_rg_tol"),
+                       f"rel change {rel:.1e}"))
+        xs = [c[0] for c in higgs["xt_curve"]]
+        peak = max(higgs["xt_curve"], key=lambda c: c[1])[0]
+        spacing = xs[1] - xs[0]
+        checks.append(("Largest Higgs mass over the X_t scan sits at X_t^2 = 6 M_S^2 (the bound used)",
+                       abs(peak - math.sqrt(6)) <= spacing, f"peak at X_t/M_S = {peak:.3f}"))
+    # Part L checks
+    pt = [2 / 5, 3 / 5, 11 / 10, 9 / 10, 0, 0, 1 / 10]
+    one_l = sm_rge(1)(pt, 6)[6]
+    k_conv = sm_higgs_rhs()(pt[:6] + [2 * pt[6]], 6)[6] / 2
+    checks.append(("One-loop beta_lambda: Part L convention = Part K convention (lambda_K = 2 lambda)",
+                   abs(one_l / k_conv - 1) < num("check_rel_tol"), f"rel diff {abs(one_l / k_conv - 1):.1e}"))
+    # the quoted coefficients, rewritten for hypercharge g'^2 = (3/5) g1^2 and d/d ln mu, must give
+    # the independently published form (Ford, Jack, Jones 1992; Degrassi et al. 2012)
+    lam_terms = {tuple(p): a for a, *p in LAMBDA_2L}
+    gn_ = GUT_NORM
+    conv = [2 * lam_terms[(3, 0, 0, 0, 0)], 2 * lam_terms[(1, 0, 0, 0, 2)] / gn_ ** 2,
+            2 * lam_terms[(0, 0, 0, 0, 3)] / gn_ ** 3, 2 * lam_terms[(2, 0, 0, 0, 1)] / gn_,
+            2 * lam_terms[(0, 1, 0, 1, 1)] / gn_]
+    want_c = [Fr(-312), Fr(629, 24), Fr(-379, 48), Fr(36), Fr(21, 2)]
+    checks.append(("Two-loop beta_lambda coefficients agree with the hypercharge-normalized literature form",
+                   conv == want_c, " ".join(str(v_) for v_ in conv)))
+    mt_c, _, _, st_c, _ = matched_couplings(None, crit["two_loop_one_loop"]["m_h"], True)
+    lam_fine = critical_lambda(st_c, mt_c, crit["planck"]["M_P"], 2, steps=2 * int(num("crit_steps_per_efold")))
+    rel = abs(lam_fine / crit["two_loop_one_loop"]["lambda_mt"] - 1)
+    big_c, _, s_c = anchored_state(None, crit["central"]["m_h"], crit["smdr"])
+    lam_fine3 = critical_lambda(s_c[:6], big_c, crit["planck"]["M_P"], 3, steps=2 * int(num("crit_steps_per_efold")),
+                                guess=crit["central"]["lambda_Mt"])
+    rel3 = abs(lam_fine3 / crit["central"]["lambda_Mt"] - 1)
+    checks.append(("Criticality solve converged (step count doubled; two and three loops)",
+                   max(rel, rel3) < num("check_rg_tol"), f"rel change {max(rel, rel3):.1e}"))
+    bz = crit["buttazzo"]
+    tol_l = num("check_lit_tol")
+    checks.append(("Three-loop RGEs: Buttazzo et al.'s couplings at M_t reproduce their Planck-scale values"
+                   " (two loops must miss)", bz["dev_3L"] < tol_l < bz["dev_2L"],
+                   f"max dev {bz['dev_3L']:.1e} at 3 loops, {bz['dev_2L']:.1e} at 2"))
+    m_paper = crit["row"]["3L/two loops, QCD 3"]["m_h"]
+    checks.append(("Part L at Buttazzo et al.'s order = their lambda(M_Pl) = 0, solved at our M_t, alpha_s"
+                   " (their theory error)", abs(m_paper - bz["mh_linear"]) < bz["mh_linear_tol"],
+                   f"{m_paper:.2f} against {bz['mh_linear']:.2f} GeV"))
+    qc = crit["qcd_checks"]
+    checks.append(("Four-loop QCD beta function: RunDec's alpha_s(M_b) (7 digits) and alpha_s(1 GeV) at 3, 4 loops",
+                   qc["dev_alpha_Mb"] < num("check_lit_tol") / 10 and qc["dev_alpha_1GeV"] < num("check_lit_tol") / 2,
+                   f"alpha_s(M_b) = {qc['alpha_Mb_4L']:.7f}, alpha_s(1 GeV) = {qc['alpha_1GeV_4L']:.4f}"))
+    checks.append(("Four-loop mass anomalous dimension = Chetyrkin's numerical form (each power of n_f); B4;"
+                   " decoupling inverted exactly", qc["dev_gamma"] < num("check_lit_tol") / 10
+                   and qc["dev_B4"] < num("check_lit_b4_tol") and qc["dev_roundtrip"] < num("check_rel_tol"),
+                   f"max rel dev {qc['dev_gamma']:.1e}, B4 dev {qc['dev_B4']:.1e}"))
+    sm_ = crit["smdr"]
+    checks.append(("This script's own matching = SMDR's at its reference point, within Buttazzo et al.'s"
+                   " theory errors (lambda, y_t)", abs(sm_["lambda"]) < bz["lambda_th"] and abs(sm_["y_t"]) < bz["yt_th"],
+                   f"lambda {sm_['lambda']:+.1e}, y_t {sm_['y_t']:+.1e}"))
+    checks.append(("Two-loop matching: their inputs give their lambda(M_t) and y_t(M_t) within their theory errors",
+                   bz["dev_lambda"] < bz["lambda_th"] and bz["dev_yt"] < bz["yt_th"],
+                   f"lambda {bz['lambda_Mt']:.5f}, y_t {bz['yt_Mt']:.5f}"))
+    # matching: B0 in closed form against direct quadrature (midpoint rule, below and above threshold)
+    n_q = int(num("check_b0_points"))
+    worst_b = 0.0
+    xm = _float_inputs()
+    mt_p, mw_p, mz_p = xm["M_t"], xm["M_W"], xm["M_Z"]
+    mh_p = (mt_p + mw_p) / 2                 # any test point: the checks are identities
+    for p2, m1, m2 in ((mh_p ** 2, mt_p ** 2, mt_p ** 2), (mt_p ** 2, 0, mw_p ** 2), (mt_p ** 2, mt_p ** 2, mz_p ** 2)):
+        quad = -sum(math.log(abs(((i + 1 / 2) / n_q) * m1 + (1 - (i + 1 / 2) / n_q) * m2
+                                 - ((i + 1 / 2) / n_q) * (1 - (i + 1 / 2) / n_q) * p2) / mt_p ** 2)
+                    for i in range(n_q)) / n_q
+        worst_b = max(worst_b, abs(pv_b0(p2, m1, m2, mt_p ** 2) - quad))
+    checks.append(("Passarino-Veltman B0 in closed form = direct quadrature (below and above threshold)",
+                   worst_b < num("check_b0_tol"), f"max abs diff {worst_b:.1e}"))
+    # the mu dependence of the one-loop thresholds must be the one-loop RGE (tree couplings from masses)
+    vv = crit["state_mt"][1]
+    g2t = 2 * mw_p / vv
+    g1t = 2 * math.sqrt((mz_p ** 2 - mw_p ** 2) / float(GUT_NORM)) / vv
+    yt_t, lam_t = math.sqrt(2) * mt_p / vv, mh_p ** 2 / (2 * vv ** 2)
+    beta1 = sm_rge(1)([g1t, g2t, 0, yt_t, 0, 0, lam_t], 6)
+    h_ = num("check_fd_rel_step")
+    worst_m = 0.0
+    for f_, want_ in ((lambda m_: lambda_one_loop(mh_p, mt_p, mw_p, mz_p, vv, m_), beta1[6]),
+                      (lambda m_: yt_ew_one_loop(mh_p, mt_p, mw_p, mz_p, vv, m_), beta1[3])):
+        for mu_ in (mz_p, mt_p, 2 * mt_p):
+            d_ = (f_(mu_ * math.exp(h_)) - f_(mu_ * math.exp(-h_))) / (2 * h_)
+            worst_m = max(worst_m, abs(d_ / want_ - 1))
+    checks.append(("One-loop matching of lambda and y_t: d/d ln mu reproduces the one-loop RGE exactly",
+                   worst_m < num("check_fd_tol") * 100, f"max rel diff {worst_m:.1e}"))
+    checks.append(("Every symmetry found reproduces its target zeros exactly (recomputed from the charges)",
+                   all(sv["verified"] for e in symm["by_beta"].values() for sv in e["survivors"]
+                       if sv["symmetry"] is not None), ""))
+    full = frozenset((i, a) for i in range(3) for a in range(3))
+    diag = frozenset((i, i) for i in range(3))
+    draw = _IntStream(int(num("closure_seed")))
+    r_full, r_diag = invariant_rank(full, full, draw), invariant_rank(diag, diag, draw)
+    checks.append(("Invariant-rank method: general matrices give 10 physical parameters, diagonal ones 6",
+                   (r_full, r_diag) == (10, 6), f"ranks {r_full}, {r_diag}"))
+    u_full = 2 * (len(full) + len(full)) - stabilizer_rank(full, full, draw)
+    u_diag = 2 * (len(diag) + len(diag)) - stabilizer_rank(diag, diag, draw)
+    upper_tri = frozenset((i, a) for i in range(3) for a in range(i, 3))
+    cp_ok = cp_identically_zero(diag, diag) and not cp_identically_zero(upper_tri, diag)
+    checks.append(("Part F certificates: symmetry upper bounds meet the ranks (10, 6); J = 0 proved"
+                   " for diagonal matrices and refuted for triangular ones", (u_full, u_diag) == (10, 6) and cp_ok,
+                   f"upper bounds {u_full}, {u_diag}"))
+    # Part H
+    tol = num("check_rel_tol")
+    xf = _float_inputs()
+    hb, cc, gg, kk = xf["h"] / (2 * math.pi), xf["c"], xf["G"], xf["k_B"]
+    msun = qg["black_holes"]["sun"]["mass_kg"]
+    step = msun * num("check_fd_rel_step")
+    s_p = _schwarzschild(msun + step, cc, gg, hb, kk)["S_BH_kB"]
+    s_m = _schwarzschild(msun - step, cc, gg, hb, kk)["S_BH_kB"]
+    ds_de = (s_p - s_m) / (2 * step * cc ** 2)                # dS/dE in units of k_B per joule
+    inv_kt = 1 / (kk * qg["black_holes"]["sun"]["T_H_K"])
+    checks.append(("Black-hole first law: dS/dE = 1/(k_B T_H) (entropy and temperature consistent)",
+                   abs(ds_de / inv_kt - 1) < num("check_fd_tol"), f"rel diff {abs(ds_de / inv_kt - 1):.1e}"))
+    kappa = cc ** 4 / (4 * gg * msun)                        # surface gravity
+    t_unruh = hb * kappa / (2 * math.pi * cc * kk)
+    rel = abs(t_unruh / qg["black_holes"]["sun"]["T_H_K"] - 1)
+    checks.append(("Hawking temperature = Unruh temperature at the horizon's surface gravity", rel < tol,
+                   f"rel diff {rel:.1e}"))
+    ds = qg["de_sitter"]
+    rel = abs(ds["S_area_law_kB"] / ds["S_part_A_kB"] - 1)
+    checks.append(("de Sitter entropy: area law A/(4 l_P^2) = Part A's pi c^5/(G hbar H^2)", rel < tol,
+                   f"rel diff {rel:.1e}"))
+    rel = abs(qg["numbers"]["S_dS_times_rho_ratio"] / (3 / 8) - 1)
+    checks.append(("Identity: S_dS x (rho_Lambda / rho_Planck) = 3/8 exactly", rel < tol, f"rel diff {rel:.1e}"))
+    en = qg["entanglement"]
+    rel = abs(en["entropy_bits"] - en["entropy_formula_bits"])
+    checks.append(("Entanglement entropy: reduced density matrix = concurrence formula", rel < tol,
+                   f"abs diff {rel:.1e}"))
+    lam = qg["transmutation"]["Lambda5_GeV"]
+    b0, b1 = (float(v) for v in qcd_beta(5))
+    t = math.log(xf["M_Z"] ** 2 / lam ** 2)
+    back = 4 * math.pi / (b0 * t) * (1 - b1 * math.log(t) / (b0 ** 2 * t))
+    sm2 = sm_two_loop_b()
+    want_sm2 = [[Fr(199, 50), Fr(27, 10), Fr(44, 5)], [Fr(9, 10), Fr(35, 6), Fr(12)], [Fr(11, 10), Fr(9, 2), Fr(-26)]]
+    mb1, mb2 = mssm_b()
+    want_m2 = [[Fr(199, 25), Fr(27, 5), Fr(88, 5)], [Fr(9, 5), Fr(25), Fr(24)], [Fr(11, 5), Fr(9), Fr(14)]]
+    checks.append(("Two-loop gauge coefficients from field content = textbook matrices (SM and MSSM)",
+                   sm2 == want_sm2 and mb1 == [Fr(33, 5), Fr(1), Fr(-3)] and mb2 == want_m2, ""))
+    worst_u = 0.0
+    for row in alpha_unif["rows"]:
+        finite = math.isfinite(row["M_S"])
+        exact = predict_alpha_one_loop_exact(xf["s2_hat_Z"], xf["alpha_s_MZ"], xf["M_Z"],
+                                             row["M_S"] if finite else 1, sm_only=not finite)
+        worst_u = max(worst_u, abs(row["loop1"]["inv_alpha"] / exact - 1))
+    checks.append(("Unification solver at one loop = closed-form solution (every M_S, and pure SM)",
+                   worst_u < num("check_survey_tol"), f"max rel diff {worst_u:.1e}"))
+    f_ = _fields()
+    got = (_pair_gauge_coeffs(f_["Q"], f_["u^c"]), _pair_gauge_coeffs(f_["Q"], f_["d^c"]),
+           _pair_gauge_coeffs(f_["L"], f_["e^c"]),
+           _susy_gauge_coeffs((f_["H_u"], f_["Q"], f_["u^c"])), _susy_gauge_coeffs((f_["H_d"], f_["Q"], f_["d^c"])),
+           _susy_gauge_coeffs((f_["H_d"], f_["L"], f_["e^c"])))
+    want = ((17 / 20, 9 / 4, 8), (1 / 4, 9 / 4, 8), (9 / 4, 9 / 4, 0),
+            (13 / 15, 3, 16 / 3), (7 / 15, 3, 16 / 3), (9 / 5, 3, 0))
+    ok_y = all(abs(a - b) < tol for g_, w_ in zip(got, want) for a, b in zip(g_, w_))
+    checks.append(("Yukawa-RGE gauge coefficients from Casimirs = textbook (SM and MSSM; t, b, tau)", ok_y, ""))
+    yt_test = yukawa_rhs("MSSM")([0, 0, 0, 1, 0, 0], 6)[3] * 16 * math.pi ** 2
+    yl_test = yukawa_rhs("MSSM")([0, 0, 0, 0, 1, 1], 6)[5] * 16 * math.pi ** 2
+    checks.append(("MSSM Yukawa self-terms from field multiplicities: 6 y_t^3, (3 y_b^2 + 4 y_tau^2) y_tau",
+                   abs(yt_test - 6) < tol and abs(yl_test - 7) < tol, f"{yt_test:.3f}, {yl_test:.3f}"))
+    checks.append(("Lambda_QCD (2-loop) reproduces alpha_s(M_Z)", abs(back / xf["alpha_s_MZ"] - 1) < tol,
+                   f"rel diff {abs(back / xf['alpha_s_MZ'] - 1):.1e}"))
+    checks.append(("Part M at Part I's M_S reproduces the measured alpha (the two stages agree)",
+                   abs(joint["check_U_at_part_I"]) < num("unif_tol") * 100,
+                   f"diff {joint['check_U_at_part_I']:.1e}"))
+    # Parts N, O, P
+    xn = _float_inputs()
+    worst_p = 0.0
+    for o in NU_ORDERINGS:
+        q_ = nu_params(xn, o)
+        back_ = pmns_angles(pmns(q_["s12sq"], q_["s13sq"], q_["s23sq"], q_["delta"]))
+        worst_p = max(worst_p, *(abs(back_[k] / q_[k] - 1) for k in ("s12sq", "s13sq", "s23sq", "delta")))
+        # J in the PDG form: (1/8) sin 2th12 sin 2th23 sin 2th13 cos th13 sin delta
+        s2 = [2 * math.sqrt(q_[k] * (1 - q_[k])) for k in ("s12sq", "s23sq", "s13sq")]
+        j_pdg = s2[0] * s2[1] * s2[2] * math.sqrt(1 - q_["s13sq"]) * math.sin(q_["delta"]) / 8
+        worst_p = max(worst_p, abs(back_["J"] / j_pdg - 1))
+    checks.append(("PMNS matrix: angles, delta and J recovered exactly from the matrix built from them",
+                   worst_p < tol, f"max rel diff {worst_p:.1e}"))
+    tb_ = pmns_angles(tribimaximal())
+    cols_ok = True
+    for kind, col in (("TM1", 0), ("TM2", 1)):
+        um = corrected_tbm(kind, 1 / 3, 1)                 # any point: the checks are identities
+        cols_ok &= all(abs(abs(um[i][col]) - abs(tribimaximal()[i][col])) < tol for i in range(3))
+        cols_ok &= all(abs(sum(abs(um[i][j]) ** 2 for j in range(3)) - 1) < tol for i in range(3))
+    checks.append(("Tribimaximal = (1/3, 0, 1/2); TM1/TM2 keep their TBM column and stay unitary",
+                   abs(tb_["s12sq"] - 1 / 3) < tol and tb_["s13sq"] < tol and abs(tb_["s23sq"] - 1 / 2) < tol
+                   and cols_ok, ""))
+    # m_bb: the exact band against brute force over the two Majorana phases
+    nph_ = int(num("check_phase_grid"))
+    worst_b2 = 0.0
+    for o in NU_ORDERINGS:
+        q_ = nu_params(xn, o)
+        uu = pmns(q_["s12sq"], q_["s13sq"], q_["s23sq"], q_["delta"])
+        for m0 in (0.0, nus["orderings"]["NO"]["m_bb_cancellation_m0"][0] / 2, num("nu_m0_min") * 1000):
+            cc = [abs(uu[0][i]) ** 2 * m for i, m in enumerate(nu_masses(q_, o, m0))]
+            vals = [abs(cc[0] + cc[1] * cmath.exp(1j * 2 * math.pi * a / nph_) + cc[2] * cmath.exp(1j * 2 * math.pi * b / nph_))
+                    for a in range(nph_) for b in range(nph_)]
+            lo_, hi_ = max(0.0, 2 * max(cc) - sum(cc)), sum(cc)
+            worst_b2 = max(worst_b2, abs(max(vals) - hi_) / hi_, (min(vals) - lo_) / hi_)
+    checks.append(("m_bb: exact band over the Majorana phases = brute force on a phase grid (to grid accuracy)",
+                   worst_b2 < (2 * math.pi / nph_) ** 2, f"max rel diff {worst_b2:.1e}"))
+    kq = (koide_q([1, 1, 1]), koide_q([0, 0, 1]))
+    worst_k = abs(kq[0] - 1 / 3) + abs(kq[1] - 1)
+    m_tau_k = masses["koide_m_tau_MeV"] / 1000
+    lep_ = lepton_masses_gev()
+    worst_k += abs(koide_q([lep_["e"], lep_["mu"], m_tau_k]) - 2 / 3)
+    checks.append(("Koide Q: 1/3 for equal masses, 1 for one mass; the m_tau solved from Q = 2/3 gives Q = 2/3",
+                   worst_k < tol, f"abs diff {worst_k:.1e}"))
+    par_ok = all(abs(sec["det_over_mheaviest3"] / sec["signed_eigenvalue_product"] - 1) < num("check_survey_eig_tol")
+                 for r_ in scp["parity"] for sec in r_["sectors"].values())
+    checks.append(("Part O: each survivor sector's det = product of its signed eigenvalues (real: arg det = 0 or pi)",
+                   par_ok and bool(scp["parity"]), f"{len(scp['parity'])} survivor(s)"))
+    # Part Q: the operator-running exponents from the script's own b_i = the printed ones
+    pr_ = LITERATURE["proton_decay_d6"]["value"]["printed_exponents"]
+    worst_q = max(abs(a_ - float(Fr(b_))) for m_ in ("SM", "MSSM") for o_ in ("S1", "S2")
+                  for a_, b_ in zip(proton_exponents(m_, o_), pr_[m_][o_]))
+    checks.append(("Proton decay: operator-running exponents -2 c_i/b_i from the script's b_i = Ellis et al.'s eq. 17",
+                   worst_q < tol, f"max abs diff {worst_q:.1e}"))
+    if pdk["d5"]:
+        cs_ = [r_["eq19_constant"] for r_ in pdk["d5"]]
+        f19 = float(LITERATURE["proton_decay_d5_scaling"]["value"]) / pdk["d5"][0]["eq19_constant_hisano_alpha_p"]
+        checks.append(("Dimension five: the full higgsino term has Hisano et al.'s eq. 19 scaling exactly (one constant at"
+                       " every tan(beta)) and, with their alpha_p, their constant within eq. 19's one-digit precision",
+                       (max(cs_) - min(cs_)) / cs_[0] < tol and 1 / num("check_eq19_factor") < f19 < num("check_eq19_factor"),
+                       f"spread {(max(cs_) - min(cs_)) / cs_[0]:.0e}; C(eq. 19)/C = {f19:.2f}"))
+    # complex 10: the light space of M is null, and the circle matching recovers a planted light Higgs exactly
+    rng_k = _UniformStream(int(num("potential_seed")) + 5)
+    xk1, xk2 = complex(rng_k.uniform(-1, 1), rng_k.uniform(-1, 1)), complex(rng_k.uniform(-1, 1), rng_k.uniform(-1, 1))
+    msk, zk = 1 + rng_k.uniform(0, 1), complex(rng_k.uniform(-1, 1), rng_k.uniform(-1, 1))
+    xk = [[xk1.real, xk1.imag], [xk2.real, xk2.imag]]
+    dk_ = [[sum(xk[a_][k_] * xk[b_][k_] for k_ in range(2)) / msk for b_ in range(2)] for a_ in range(2)]
+    mk = [[dk_[0][0], dk_[0][1], xk[0][0], xk[0][1]], [dk_[1][0], dk_[1][1], xk[1][0], xk[1][1]],
+          [xk[0][0], xk[1][0], msk, 0], [xk[0][1], xk[1][1], 0, msk]]
+    null_dev = max(abs(sum(mk[i_][j_] * v_[j_] for j_ in range(4))) for v_ in
+                   ([1, 0, -xk[0][0] / msk, -xk[0][1] / msk], [0, 1, -xk[1][0] / msk, -xk[1][1] / msk]) for i_ in range(4))
+    c3k, c4k = -(xk1.real + zk * xk2.real) / msk, -(xk1.imag + zk * xk2.imag) / msk
+    nk = math.sqrt(1 + abs(zk) ** 2 + abs(c3k) ** 2 + abs(c4k) ** 2)
+    d_plant = abs(c3k - 1j * c4k) / (math.sqrt(2) * nk)
+    got_k = complex_10_v_r([{"x": (xk1.real, xk1.imag, xk2.real, xk2.imag), "m_s": msk}],
+                           abs(1 + 1j * zk) / abs(1 - 1j * zk), abs(c3k + 1j * c4k) / abs(c3k - 1j * c4k), 1.0)
+    rec_dev = min((abs(d_ / d_plant - 1) for _, d_, _ in got_k), default=math.inf)
+    checks.append(("Complex 10: D10 = X X^T/m_126 leaves exactly the two light SO(4) vectors (null), and matching |a/c|, |b/d|"
+                   " (two Apollonius circles) recovers a planted light Higgs's |d|", max(null_dev, rec_dev) < tol,
+                   f"null {null_dev:.1e}, recovered {rec_dev:.1e}"))
+    # Part AA: the numerical slow roll against its exact solutions for phi^2 and phi^4 (N + 1/2 and N + 1 shifts)
+    dev_sr = 0.0
+    for n_ in (num("inflation_efolds_lo"), num("inflation_efolds_hi")):
+        for nm_, want in (("phi^2 (minimal)", (1 - 4 / (2 * n_ + 1), 16 / (2 * n_ + 1))),
+                          ("phi^4 (minimal)", (1 - 3 / (n_ + 1), 16 / (n_ + 1)))):
+            k_ = 0 if n_ == num("inflation_efolds_lo") else 1
+            got = (dark["inflation"][nm_]["n_s"][k_], dark["inflation"][nm_]["r"][k_])
+            dev_sr = max(dev_sr, max(abs(g_ / w_ - 1) for g_, w_ in zip(got, want)))
+    checks.append(("Slow roll: the numerical e-fold integral and epsilon = 1 endpoint give the exact phi^2 and phi^4 results"
+                   " (n_s = 1 - 4/(2N + 1), 1 - 3/(N + 1))", dev_sr < num("check_matrix_running_rel") / 100, f"max rel dev {dev_sr:.1e}"))
+    # Part AA: R-parity: the SM fermions' 3(B - L) is odd, the scalars' even (a scalar 16 and a fermionic 10 would be odd)
+    checks.append(("R-parity (-1)^(3(B-L)+2s): every SM fermion and every 10, 126, 210 scalar of the minimal theory is R-even",
+                   not dark["r_odd"] and dark["scalar_16_odd"] and dark["fermion_10_odd"], ""))
+    # Part S: the chemical-equilibrium solution satisfies every condition it imposed
+    sph_ = sphaleron_conversion(3, 1)
+    checks.append(("Sphaleron conversion: B/(B - L) = 28/79 and L/(B - L) = -51/79 (exact, three families, one Higgs)",
+                   (sph_["B_over_BminusL"], sph_["L_over_BminusL"]) == (Fr(28, 79), Fr(-51, 79)), ""))
+    # Part T: the one-loop Pati-Salam solution satisfies its three matching conditions
+    ps_ = s10["pati_salam"]
+    a_i = _alpha_one_loop(ps_["M_I"], xn, None)
+    bp_ = {k_: float(v_) for k_, v_ in ps_["b_PS"].items()}
+    ln_ = math.log(ps_["M_GUT"] / ps_["M_I"]) / (2 * math.pi)
+    gn_ = float(GUT_NORM)
+    at_g = [1 / a_i[2] - bp_["4"] * ln_, 1 / a_i[1] - bp_["2L"] * ln_,
+            (1 / a_i[0] - (1 - gn_) / a_i[2]) / gn_ - bp_["2R"] * ln_]
+    worst_t = max(abs(v_ * ps_["alpha_GUT"] - 1) for v_ in at_g)
+    checks.append(("SO(10) via Pati-Salam: the solved M_I, M_GUT make SU(4), SU(2)_L, SU(2)_R meet at 1/alpha_GUT",
+                   worst_t < tol, f"max rel diff {worst_t:.1e}"))
+    # Part S: each z_B solves the freeze-out condition, and kappa_f -> 1 as K -> 0 (thermal initial abundance)
+    worst_z = 0.0
+    for e_ in bau["leptogenesis"]["efficiency"]:
+        z_, k_ = e_["z_B"], e_["K"]
+        worst_z = max(worst_z, abs(k_ / 4 * z_ ** 3 * math.exp(-z_) * (1 + math.sqrt(math.pi * z_ / 2)) - (z_ - 1)) / z_)
+    k_small = leptogenesis_efficiency(num("nu_m0_min"))[1]
+    checks.append(("Leptogenesis efficiency: z_B solves its freeze-out equation; kappa_f -> 1 in weak washout",
+                   worst_z < num("check_survey_tol") and abs(k_small - 1) < num("check_fd_rel_step") * 10,
+                   f"max rel residual {worst_z:.1e}, kappa(K -> 0) = {k_small:.6f}"))
+    # Part W: at the parametrization's own reference point it returns M_W^0
+    lw = LITERATURE["w_mass_fit"]["value"]
+    xr = dict(xn)
+    d_ref = float(lw["reference"]["delta_alpha"]) - float(lw["delta_alpha_lept"])
+    xr.update({"M_t": float(lw["reference"]["m_t"]), "M_Z": float(lw["reference"]["M_Z"]),
+               "alpha_s_MZ": float(lw["reference"]["alpha_s"]), "delta_alpha_had5": d_ref})
+    w_ref = w_mass(xr, float(lw["reference"]["M_H"]))
+    checks.append(("M_W parametrization returns M_W^0 at its reference point (transcription check)",
+                   abs(w_ref - float(lw["coefficients"]["MW0"])) < num("check_rel_tol") * 100, f"{w_ref:.5f} GeV"))
+    ls_ = LITERATURE["sin2_eff_fit"]["value"]
+    xs_ = dict(xn)
+    xs_.update({"M_t": float(ls_["reference"]["m_t"]), "M_Z": float(ls_["reference"]["M_Z"]),
+                "alpha_s_MZ": float(ls_["reference"]["alpha_s"]),
+                "delta_alpha_had5": float(ls_["reference"]["delta_alpha"]) - float(lw["delta_alpha_lept"])})
+    s_ref = sin2_eff(xs_, float(ls_["reference"]["M_H"]))
+    checks.append(("sin^2 theta_eff parametrization returns s0 at its reference point (transcription check)",
+                   abs(s_ref - float(ls_["coefficients"]["s0"])) < num("check_rel_tol") * 100, f"{s_ref:.7f}"))
+    cl_ = closed["age_with_all_dm_Gyr"]
+    checks.append(("Part X with all of Omega_c reproduces Part A's age (the same Friedmann equation)",
+                   abs(cl_ / float(cosmo["age_Gyr"]) - 1) < num("check_axion_tol") / 10,
+                   f"{cl_:.3f} against {float(cosmo['age_Gyr']):.3f} Gyr"))
+    c170 = dm["check_eq170"]
+    checks.append(("Axion misalignment from its ingredients reproduces Di Luzio et al.'s eq. 170 (their approximation)",
+                   abs(c170["Omega_h2"] / c170["printed"] - 1) < num("check_axion_tol"),
+                   f"Omega h^2 = {c170['Omega_h2']:.4f} at f_a = {c170['f_a']:.1e} GeV against {c170['printed']}"))
+    idx_ok = all(so10_decomposition_index(r_) == [Fr(SO10_INDEX[r_])] * 3 for r_ in SO10_TO_PS)
+    checks.append(("SO(10) -> Pati-Salam decompositions of 10, 126, 210: component indices add up to the SO(10)"
+                   " index under every factor", idx_ok, ", ".join(f"{r_}: {SO10_INDEX[r_]}" for r_ in SO10_TO_PS)))
+    cv_ = s10["potential_210"]["curvatures"]
+    q0_ = so10_210_invariants({PS_SINGLET_210: 1})
+    gold = max(abs(v_) for v_ in cv_["(6,2,2)"].values())
+    rad = max(abs(cv_["(1,1,1)"][q] - 8 * q0_[q] / 576) for q in QUARTICS_210)
+    checks.append(("210 potential: the eaten (6,2,2) is massless for every coupling (Goldstone); the radial mode has"
+                   " twice the vacuum curvature", gold < tol and rad < tol, f"max {max(gold, rad):.1e}"))
+    ell_ok = all([-g_ / 4 for g_ in operator_gamma("SM", o_)] == [Fr(v_) for v_ in LITERATURE["proton_decay_d6"]["value"]["SM"][o_]]
+                 for o_ in ("S1", "S2"))
+    x_s = _float_inputs()
+    mi_, mg_ = s10["chains"]["LR"]["loop2"]["M_I"], s10["chains"]["LR"]["loop2"]["M_GUT"]
+    split_ = 1.0
+    for g_, b_, al_, ah_ in zip(operator_gamma("SM", "S1"), sm_gauge_b(), _alpha_one_loop(mi_, x_s, None), _alpha_one_loop(mg_, x_s, None)):
+        split_ *= (al_ / ah_) ** (float(g_) / (2 * float(b_)))
+    for e_, al_, ah_ in zip(proton_exponents("SM", "S1"), _alpha_one_loop(x_s["M_Z"], x_s, None), _alpha_one_loop(mi_, x_s, None)):
+        split_ *= (al_ / ah_) ** e_
+    dev_s = abs(split_ / proton_short_distance(x_s, mg_, None, "S1") - 1)
+    checks.append(("Proton-decay operators: the derived anomalous dimensions (6 T_i.T_j inside each Lorentz bilinear)"
+                   " = Ellis et al.'s SM coefficients for both operators; split running = direct", ell_ok and dev_s < tol,
+                   f"split rel dev {dev_s:.1e}"))
+    lc_ = s10["potential_lr"]["checks"]
+    checks.append(("Left-right potential: highest weights reproduce the 210 and 126 decompositions; the Pati-Salam limit"
+                   " equals T9's masses and T10's coefficients; the eaten (3,2,2), (3,1,1) are massless at a two-vev"
+                   " vacuum and 3221 annihilates it; the 10's couplings reduce to T11's (no doublet mixing)",
+                   lc_["decompositions"] == 0 and max(lc_[k] for k in ("PS_limit_210", "PS_limit_126", "goldstones", "unbroken",
+                                                                     "PS_limit_10")) < tol,
+                   f"T9 {lc_['PS_limit_210']:.0e}, T10 {lc_['PS_limit_126']:.0e}, Goldstones {lc_['goldstones']:.0e}"))
+    idx3 = all(so10_decomposition_index_3221(r_) == [Fr(SO10_INDEX[r_])] * 4 for r_ in SO10_TO_3221)
+    dof3 = [sum(math.prod(c_[:3]) * (1 if k_ == "real" else 2) for c_, k_ in SO10_TO_3221[r_]) for r_ in (10, 126, 210)]
+    checks.append(("SO(10) -> SU(3) x SU(2)_L x SU(2)_R x U(1)_B-L decompositions of 10, 126, 210: real dimensions 10, 252,"
+                   " 210 and indices = the SO(10) index under every factor, B - L included", idx3 and dof3 == [10, 252, 210],
+                   f"dimensions {dof3}"))
+    c126_ = so10_126_coefficients()
+    checks.append(("126: the self-dual basis is self-dual, (10,3,1) and (10bar,1,3) do not mix, and every D-even"
+                   " invariant is equal on them", max(c126_["selfdual_dev"], c126_["p3_mixing"], c126_["d_even_dev"]) < tol,
+                   f"max {max(c126_['selfdual_dev'], c126_['p3_mixing'], c126_['d_even_dev']):.1e}"))
+    a10_ = so10_10_splitting()
+    a10_ok = all(abs(a10_.get((i, i), 0) - (6 if i >= 6 else 0)) < tol for i in range(10)) and all(
+        abs(v_) < tol for (i, j), v_ in a10_.items() if i != j)
+    checks.append(("10: A_ij = phi phi at the vev is 6 v^2 on SO(4) indices, 0 on SO(6), diagonal (splits (1,2,2) from"
+                   " (6,1,1))", a10_ok, ""))
+    mt_ = [[complex(2, 0), complex(1, 1), complex(0, 2)], [complex(1, -1), complex(3, 0), complex(1, 0)],
+           [complex(0, -2), complex(1, 0), complex(1, 0)]]
+    ev_ = _herm3_eigvals(mt_)
+    tr_ok = abs(sum(ev_) - 6) < tol and all(
+        max(abs(sum(mt_[i][k] * v_[k] for k in range(3)) - e_ * v_[i]) for i in range(3)) < tol
+        for e_ in ev_ for v_ in [_herm3_eigvec(mt_, e_)])
+    checks.append(("Closed-form 3x3 Hermitian eigenvalues: trace preserved and every eigenvector satisfies A v = lambda v",
+                   tr_ok, ", ".join(f"{e_:.4f}" for e_ in ev_)))
+    mrc = matrix_rge_checks(int(num("potential_seed")))
+    checks.append(("Matrix Yukawa RGEs = the general one-loop formula written over every component (SM; left-right"
+                   " bidoublet theory, with the Delta_R coupling; MSSM from the superpotential formula)", max(mrc.values()) < tol,
+                   f"max rel dev SM {mrc['SM']:.1e}, LR {mrc['LR']:.1e}, LR + Delta_R {mrc['LR_Delta']:.1e}, MSSM {mrc['MSSM']:.1e}"))
+    mrun = matrix_running_checks(flav, int(num("potential_seed")), yukawa)
+    checks.append(("One running: on the third generation the matrix engine is Part J's right-hand side (SM, MSSM);"
+                   " the light generations and the mixing move Part J's couplings by less than the matrix-running"
+                   " tolerance (y_t, y_b, y_tau at M_P; y_b/y_tau at M_GUT in the MSSM)",
+                   max(mrun["rhs_SM"], mrun["rhs_MSSM"]) < tol
+                   and max(v_ for k_, v_ in mrun.items() if k_.startswith("light")) < num("check_matrix_running_rel"),
+                   f"rhs SM {mrun['rhs_SM']:.1e}, MSSM {mrun['rhs_MSSM']:.1e}; light generations "
+                   + ", ".join(f"{k_[6:]} {v_:.1e}" for k_, v_ in mrun.items() if k_.startswith("light"))))
+    rn_ = s10y["running"]
+    dev_r = rn_["LR"]["matching_dev"]
+    vc_lr = vector_threshold_constants(so10_chains()["LR"])["M_GUT"]
+    inv_g = [i_ + float(t_) / (12 * math.pi) for i_, t_ in zip(rn_["LR"]["inv_alpha_M_GUT"], vc_lr)]
+    # 5c: the heavy vectors' indices are the Casimir differences, C2(SO(10)) - C2(H_i) (dual Coxeter: SO(N) N - 2)
+    vc_ok = all(vector_threshold_constants(c_)["M_GUT"][i_] == (10 - 2) - (Fr(0) if g_ == "U1" else _rep_info(g_, {"SU4": 15, "SU3": 8, "SU2": 3}[g_])[1])
+                for c_ in so10_chains().values() for i_, g_ in enumerate(c_["groups"]))
+    checks.append(("MS-bar vector thresholds: the broken generators' Dynkin indices equal C2(SO(10)) - C2(H_i) for every"
+                   " factor of every chain (45 = the chain's adjoint + the heavy vectors)", vc_ok, ""))
+    checks.append(("Left-right running: the symmetric matching at M_I keeps the masses and |V|; after the left-right run"
+                   " the four couplings meet at the chain's M_GUT (each with its MS-bar vector constant T_i/12 pi)", dev_r < num("check_matrix_running_rel")
+                   and max(inv_g) - min(inv_g) < num("unif_tol") * 100, f"masses {dev_r:.1e}, couplings {max(inv_g) - min(inv_g):.1e}"))
+    dev_d = so10_dirac_identity(int(num("potential_seed")))
+    checks.append(("SO(10) 10 + 126: the sum rule M_e = c1 M_d + c2 M_u and the Dirac matrix M_D = M_u + (3 + c1)/c2"
+                   " (M_d - M_e) hold exactly at a random point", dev_d < tol, f"max rel dev {dev_d:.1e}"))
+    sm_c1, sm_c2 = sm_as_chain()
+    ps1 = s10["chains"]["PS"]["loop1"]
+    rel_c = max(abs(ps1["M_I"] / ps_["M_I"] - 1), abs(ps1["M_GUT"] / ps_["M_GUT"] - 1))
+    checks.append(("SO(10) chains: the general two-loop formula on the SM content = sm_gauge_b, sm_two_loop_b;"
+                   " the Newton solver at one loop = the linear solution", sm_c1 == list(sm_gauge_b())
+                   and sm_c2 == sm_two_loop_b() and rel_c < num("check_survey_tol") * 10, f"rel diff {rel_c:.1e}"))
+    _TRACE["stage"] = None
+    lin = model_lineage()
+    checks.append(("Model graph: every stage registered, acyclic, and run in dependency order",
+                   lin["registered"] and lin["acyclic"] and lin["in_order"],
+                   f"{len(lin['order'])} stages, {sum(len(u) for u in lin['uses'].values())} edges"))
+    return {"scales": scales, "cosmology": cosmo, "flavour": flav, "survey": survey, "yukawa_so10": yuk, "so10_flavour_fit": sfit, "one_running": mrun,
+            "symmetry": symm, "closure": closure, "quantum_gravity": qg, "alpha_unification": alpha_unif,
+            "alpha_numerology": alpha_num, "yukawa": yukawa, "higgs": higgs, "criticality": crit,
+            "joint": joint, "mass_formulas": masses, "strong_cp": scp, "neutrinos": nus, "proton_decay": pdk,
+            "anomalies": anom, "baryon_asymmetry": bau, "so10": s10, "scorecard": score,
+            "dark_matter": dm, "w_mass": mw, "closed_cosmology": closed, "so10_yukawa": s10y, "ledger": ledger,
+            "dark_sector": dark,
+            "survey_certificates": certs, "checks": checks, "lineage": lin,
+            "changed_inputs": dict(_TRACE["set"]),
+            "precision": prec}
+
+
+def model_lineage() -> Dict[str, Any]:
+    """The dependency graph the last run followed, read from the trace, and what it implies:
+    which stages each measured input reaches, and which stage assumptions conflict."""
+    order = list(_TRACE["inputs"])                      # stages in the order they ran
+    uses = {st: sorted(_TRACE["uses"].get(st, ()), key=order.index) for st in order}
+    reads = {st: sorted(_TRACE["inputs"][st]) for st in order}
+    # every stage downstream of each stage (transitive)
+    down: Dict[str, set] = {st: set() for st in order}
+    for st in reversed(order):
+        for consumer in order:
+            if st in uses[consumer]:
+                down[st] |= {consumer} | down[consumer]
+    reaches = {}
+    for name in INPUTS:
+        direct = {st for st in order if name in reads[st]}
+        allst = set(direct)
+        for st in direct:
+            allst |= down[st]
+        reaches[name] = sorted(allst, key=order.index)
+    uv: Dict[str, List[str]] = {}
+    for st in order:
+        if "uv" in STAGES.get(st, {}):
+            uv.setdefault(STAGES[st]["uv"], []).append(st)
+    takers = {f"{p}[{k}]": sorted(v - {"self_checks"}, key=order.index) for (p, k), v in _TRACE["keys"].items()}
+    return {"order": order, "uses": uses, "reads": reads, "reaches": reaches, "takers": takers,
+            "registered": all(st in STAGES for st in order)
+            and all(st in order for st in STAGES if st != "survey_certificates"),
+            "acyclic": all(st not in down[st] for st in order),
+            "in_order": all(order.index(u) < order.index(st) for st in order for u in uses[st]),
+            "uv_hypotheses": uv, "uv_consistent": len(uv) <= 1}
+
+
+def _wrap(text: str, indent: int, width: int = 78) -> str:
+    lines, cur = [], " " * indent
+    for word in text.split():
+        if len(cur) + len(word) + 1 > width and cur.strip():
+            lines.append(cur.rstrip())
+            cur = " " * (indent + 2)
+        cur += word + " "
+    lines.append(cur.rstrip())
+    return "\n".join(lines)
+
+
+def report(res: Dict[str, Any]) -> str:
+    out: List[str] = []
+    w = out.append
+    bar = "=" * 78
+    cos = res["cosmology"]
+    flav = res["flavour"]
+    runner = flav["runner"]
+    w(bar)
+    w(f"STUR Physics Lab, {VERSION}: nothing tuned, nothing fitted")
+    w(bar)
+    w(f"Inputs: {len(INPUTS)} measured or defined constants (INPUTS). Comparisons: {len(COMPARISONS)}"
+      f" measured results, never used in a calculation.")
+    for name, val in res["changed_inputs"].items():
+        w(f"  CHANGED INPUT (--set): {name} = {val} instead of {INPUTS[name]['value']}; every stage it"
+          " reaches is recalculated")
+    w("")
+    w("PART A. COSMOLOGY (flat Lambda-CDM, Friedmann equation)")
+    w("-" * 78)
+    w(f"  Omega_gamma  from T_CMB (Stefan-Boltzmann)    {_fmt(float(cos['Omega_gamma']), 6)}")
+    w(f"  Omega_r      photons + N_eff neutrinos         {_fmt(float(cos['Omega_r']), 6)}")
+    w(f"  Omega_Lambda = 1 - Omega_m - Omega_r           {float(cos['Omega_Lambda']):.6f}"
+      f" +/- {cos['Omega_Lambda_sigma']:.4f}")
+    ol, ol_up, _ = _comparison("Omega_Lambda")
+    w(f"      measured (Planck 2018)                    {ol} +/- {ol_up}"
+      f"   pull {(float(cos['Omega_Lambda']) - ol) / math.hypot(ol_up, cos['Omega_Lambda_sigma']):+.2f} sigma")
+    age = float(cos["age_Gyr"])
+    w(f"  Age of the universe t0                         {age:.4f} Gyr"
+      f" +/- {cos['age_sigma_uncorrelated_Gyr']:.3f} (H0, Omega_m, T_CMB uncorrelated)")
+    a_meas, a_up, _ = _comparison("age_Gyr")
+    w(f"      measured (Planck 2018)                    {a_meas} +/- {a_up} Gyr"
+      f"   difference {age - a_meas:+.4f} Gyr")
+    w(f"      (the Planck error is smaller because Planck's H0 and Omega_m are anticorrelated)")
+    w(f"  Deceleration parameter q0                      {float(cos['q0']):+.5f}")
+    w(f"  Acceleration began at redshift z_acc           {float(cos['z_acc']):.5f}")
+    w(f"  Matter-radiation equality z_eq                 {float(cos['z_eq']):.1f}")
+    w(f"  Matter-Lambda equality a                       {float(cos['a_matter_Lambda']):.5f}")
+    w(f"  Hubble-horizon entropy today                   {float(cos['S_Hubble_today_kB']):.4e} k_B")
+    w(f"  de Sitter horizon entropy (t -> infinity)      {float(cos['S_deSitter_kB']):.4e} k_B")
+    w(f"  Age to {res['precision']} digits: {cos['age_Gyr']} Gyr (numerical, not physical, precision)")
+    w("")
+    w("PART B. QUARK FLAVOUR: RG-run masses in the Fritzsch six-zero texture")
+    w("-" * 78)
+    base = flav["ratios"][runner.mt_msbar]
+    w(f"  m_t(m_t) MS-bar from the pole mass ({runner.loops}-loop)    {runner.mt_msbar:.3f} GeV")
+    w(f"  v = (sqrt2 G_F)^(-1/2)                         {runner.v:.3f} GeV")
+    w(f"  y_t(m_t) = sqrt2 m_t(m_t) / v                  {base['y_t']:.4f}")
+    w(f"  sin^2 theta_W (MS-bar at M_Z, input; sets g1, g2) {runner.x['s2_hat_Z']:.5f}")
+    w("  Above m_t(m_t): one running for every coupling (g1, g2, g3 and the three Yukawa matrices, all")
+    w("  generations and the CKM mixing, one loop); the same engine runs every mass to M_I, M_S and M_GUT.")
+    w(f"  Running masses at m_t(m_t) (GeV): u {base['m_u']:.4e}  d {base['m_d']:.4e}  s {base['m_s']:.4e}"
+      f"  c {base['m_c']:.4f}  b {base['m_b']:.4f}")
+    w("")
+    w("  The texture fixes every matrix entry from the masses. Its two phases are not")
+    w("  fixed by anything, so each prediction is the band swept by ALL phase values;")
+    w("  the band edges carry the propagated input uncertainty.")
+    for mu in res["scales"]:
+        blk = flav["scales"][mu]
+        r = blk["ratios"]
+        w("")
+        w(f"  Scale mu = {mu:.0f} GeV   alpha_s = {r['alpha_s']:.5f}   y_t = {r['y_t']:.4f}")
+        w(f"    sqrt(m_d/m_s) = {math.sqrt(r['r_ds']):.5f}  sqrt(m_u/m_c) = {math.sqrt(r['r_uc']):.5f}"
+          f"  sqrt(m_s/m_b) = {math.sqrt(r['r_sb']):.5f}  sqrt(m_c/m_t) = {math.sqrt(r['r_ct']):.5f}")
+        w(f"    {'observable':<10} {'band over all phases':<34} {'measured':<22} verdict")
+        for k in OBSERVABLES:
+            b = blk["bands"][k]
+            meas, up, dn = _comparison(k)
+            band = f"[{_fmt(b['lo'])} +/- {_fmt(b['sigma_lo'], 2)}, {_fmt(b['hi'])} +/- {_fmt(b['sigma_hi'], 2)}]"
+            m_s = f"{_fmt(meas)} +{_fmt(up, 2)}/-{_fmt(dn, 2)}"
+            vm = b["vs_measurement"]
+            verdict = "inside band" if vm["inside"] else f"outside by {vm['n_sigma']:.1f} sigma"
+            w(f"    {k:<10} {band:<34} {m_s:<22} {verdict}")
+    w("")
+    excluded = [(k, flav["scales"][mu]["bands"][k]["vs_measurement"]["n_sigma"])
+                for mu in res["scales"] for k in OBSERVABLES
+                if not flav["scales"][mu]["bands"][k]["vs_measurement"]["inside"]]
+    if excluded:
+        worst = {}
+        for k, n in excluded:
+            worst[k] = min(worst.get(k, math.inf), n)
+        w("  RESULT: at every evaluation scale and for every value of the two phases, the")
+        w("  six-zero texture misses: " + ", ".join(f"{k} (at least {n:.0f} sigma)" for k, n in worst.items())
+          + ".")
+        w("  The masses alone do not produce the measured mixing in this texture.")
+    else:
+        w("  RESULT: every measured value lies inside its band at every evaluation scale.")
+    w("")
+    w("PART C. EVERY TEXTURE-ZERO PATTERN THAT MAKES A PREDICTION")
+    w("-" * 78)
+    w("  Hermitian mass matrices; a symmetric off-diagonal pair counts as one zero.")
+    w("  Unknowns (2 phases, 1 per free entry) are scanned or tested, never fixed;")
+    w("  predictions = 4 data (|V_us|, |V_cb|, |V_ub|, J) - unknowns.")
+    sv0 = res["survey"][res["scales"][0]]
+    recs = {mu: {(r["zeros_u"], r["zeros_d"]): r for r in res["survey"][mu]["classes"]} for mu in res["scales"]}
+    n_loop = sum(1 for r in sv0["classes"] if r["status"] == "loop")
+    n_none = sum(1 for r in sv0["classes"] if r["status"] == "no_solution")
+    tested = [r for r in sv0["classes"] if r["status"] == "tested"]
+    w(f"  {sv0['n_ordered_pairs']} ordered pattern pairs with 5 or 6 zeros fall into {len(sv0['classes'])} classes"
+      f" under weak-basis permutations:")
+    w(f"    {n_none:3d} cannot give three nonzero masses with real entries")
+    w(f"    {n_loop:3d} keep a phase inside one sector, so they predict nothing (not tested)")
+    w(f"    {len(tested):3d} make predictions and are tested")
+    w("")
+    sc = res["scales"]
+    w("  zeros  up mass matrix  down mass matrix  pred   n-sigma at " + "  ".join(f"{m / 1000:g} TeV" for m in sc)
+      + "   verdict")
+
+    def key_sigma(r: Dict[str, Any]) -> float:
+        return max(recs[mu][(r["zeros_u"], r["zeros_d"])]["sigma"] for mu in sc)
+    for r in sorted(tested, key=key_sigma):
+        k = (r["zeros_u"], r["zeros_d"])
+        sig_s = "  ".join(f"{recs[mu][k]['sigma']:9.1f}" if recs[mu][k]["sigma"] < 1000 else "    >1000"
+                          for mu in sc)
+        surv = all(recs[mu][k]["survives"] for mu in sc)
+        how = "joint" if recs[sc[0]][k].get("pair") is not None else "band"
+        verdict = "SURVIVES" if surv else f"excluded ({how})"
+        w(f"  {r['zeros']:5d}  {pattern_mask(r['zeros_u']):<14}  {pattern_mask(r['zeros_d']):<16}  {r['predictions']:4d}"
+          f"   {sig_s}   {verdict}")
+    w("  (masks: rows of the matrix, X = nonzero, 0 = texture zero; 'band' = one |V_ij| alone")
+    w("   is out of reach for every value of the unknowns; 'joint' = all four data at once)")
+    survivors = [r for r in tested if all(recs[mu][(r["zeros_u"], r["zeros_d"])]["survives"] for mu in sc)]
+    for r in survivors:
+        k = (r["zeros_u"], r["zeros_d"])
+        w("")
+        w(f"  Survivor  up {pattern_mask(k[0])}  down {pattern_mask(k[1])}:"
+          f" {r['predictions']} prediction(s), class of {r['orbit']} equivalent orderings")
+        for mu in sc:
+            rr = recs[mu][k]
+            bands = "  ".join(f"{name} [{_fmt(lo, 3)}, {_fmt(hi, 3)}]" for name, (lo, hi) in rr["bands"].items())
+            w(f"    {mu / 1000:g} TeV: chi^2 = {rr['chi2']:.2f} for {rr['predictions']} dof"
+              f" ({rr['sigma']:.1f} sigma);  ranges over all unknowns: {bands}")
+    if survivors:
+        w("  (the free entry and the phases sweep each observable over a wide range on its own; the")
+        w("   prediction is a relation among the four, which the joint test checks)")
+        for r in survivors:
+            k = (r["zeros_u"], r["zeros_d"])
+            w("  What it predicts: |V_us|, |V_cb|, |V_ub| fix its three unknowns at isolated points; at each,")
+            w("  |J| and |V_td/V_ts| follow (errors: the three moduli and the inputs, re-solved):")
+            mj, sj, _ = _comparison("J")
+            mq, sq, _ = _comparison("V_td/V_ts")
+            for mu in sc:
+                for o in recs[mu][k]["prediction"]:
+                    pj = (o["J"] - mj) / math.hypot(o["J_sigma"], sj)
+                    pq = (o["V_td/V_ts"] - mq) / math.hypot(o["V_td/V_ts_sigma"], sq)
+                    w(f"    {mu / 1000:g} TeV: |J| = {o['J']:.3e} +/- {o['J_sigma']:.1e} ({pj:+.1f} sigma)   |V_td/V_ts| ="
+                      f" {o['V_td/V_ts']:.4f} +/- {o['V_td/V_ts_sigma']:.4f} ({pq:+.1f} sigma)")
+            w(f"    measured: J = {mj:.3e} +/- {sj:.1e}, |V_td/V_ts| = {mq} +/- {sq}")
+            best = []
+            for mu in sc:
+                c2 = [((o["J"] - mj) / math.hypot(o["J_sigma"], sj)) ** 2
+                      + ((o["V_td/V_ts"] - mq) / math.hypot(o["V_td/V_ts_sigma"], sq)) ** 2
+                      for o in recs[mu][k]["prediction"]]
+                best.append(pvalue_to_sigma(chi2_pvalue(min(c2), 2)) if c2 else math.inf)
+            w(f"    Both predictions at once (2 dof), best solution: " + ", ".join(
+                f"{b:.1f} sigma at {mu / 1000:g} TeV" for b, mu in zip(best, sc)))
+            w("    |V_td/V_ts| is not used by the survey, but the PDG fit behind the measured moduli and J")
+            w("    includes B-mixing data, so this test is not fully independent of them.")
+            w("    (|V_td/V_ts| is used nowhere in the survey: it is an independent test)")
+    cert_ = res.get("survey_certificates")
+    w("")
+    if cert_:
+        bad = [r for r in cert_["results"] if not r["certified"]]
+        w(f"  Certificates (at m_t(m_t)): {cert_['certified']} of {cert_['excluded']} exclusions are proved over the")
+        w("    whole parameter space (every point of every family, both phases), by interval bounds on")
+        w("    the matrix entries, perturbation bounds on the eigenvectors and branch-and-bound;")
+        w(f"    {cert_['seconds']:.0f} s.")
+        if bad:
+            w("    Not proved (excluded by the numerical search only): " + "; ".join(
+                f"{pattern_mask(r['zeros_u'])} / {pattern_mask(r['zeros_d'])}" for r in bad))
+        w("    A survival needs no certificate: the search exhibits a point that fits.")
+    else:
+        w("  Certificates: not run here (python3 production_v2_2.py --certify proves each exclusion over")
+        w("    the whole parameter space; it takes several minutes).")
+    if not survivors:
+        w("  RESULT: no texture-zero pattern with a prediction survives.")
+    else:
+        w("")
+        w(f"  RESULT: {len(survivors)} of {len(tested)} predictive patterns survive at every scale;"
+          f" {len(tested) - len(survivors)} are excluded.")
+    w("")
+    w("PART D. WHAT SO(10) SAYS ABOUT THE MASS MATRICES (from the spinor algebra)")
+    w("-" * 78)
+    yd = res["yukawa_so10"]
+    bl = yd["bilinears"]
+    w("  Every family is one 16, the chiral half of SO(10)'s 32-component spinor. The ten 32 x 32 gamma matrices")
+    w(f"  (Pauli products, entries 0, +-1, +-i) satisfy the Clifford algebra: {bl['clifford']}; chirality splits")
+    w(f"  32 = {bl['dim_16']} + {32 - bl['dim_16']}. The Yukawa coupling of two 16s to a k-form Higgs is psi^T C Gamma_[k] chi (exact):")
+    for nm, f_ in bl["forms"].items():
+        kind = "symmetric" if f_["symmetric"] else ("antisymmetric" if f_["antisymmetric"] else "neither")
+        w(f"    {nm:<13s} (k = {f_['k']}): {f_['independent']:3d} independent couplings, {kind} in the family indices")
+    w(f"    the 10 and the 126 together span all {bl['symmetric_total']} symmetric 16 x 16 couplings"
+      f" (of {bl['symmetric_space']}); the 120 all {bl['antisymmetric_space']} antisymmetric ones.")
+    w("  Consequences:")
+    w("    * every entry of every mass matrix is allowed: the gauge symmetry forces no texture zero.")
+    w("    * all sectors are built from the same matrices: M_u = a Y10 + b Y126, M_d = c Y10 + d Y126,")
+    w("      M_e = c Y10 - 3 d Y126 (Part Y), symmetric with a 10 and a 126, never Hermitian. Q_i and q^c_i sit in one 16,")
+    w("      so the weak basis keeps only M -> U^T M U, and a family rephasing acts as M_ij -> e^{i(f_i + f_j)} M_ij.")
+    w(f"    * every family is the same representation: all {yd['permutations_kept']} index permutations stay basis changes,")
+    w("      so a texture class is one SO(10) hypothesis (3-3-1 split each class into several).")
+    for s_ in yd["survivors"]:
+        h_, y_ = s_["hermitian"], s_["symmetric"]
+        w(f"    survivor up {pattern_mask(s_['zeros_u'])} down {pattern_mask(s_['zeros_d'])} (Part C):")
+        w(f"      as Hermitian matrices: {h_['magnitudes']} magnitudes + {h_['phases']} phases, physical parameters"
+          f" {h_['rank']} ({'proved' if h_['proved'] else 'lower bound'}): {h_['predictions']} prediction(s)")
+        w(f"      as SO(10)'s symmetric matrices: {y_['magnitudes']} magnitudes + {y_['phases']} phases, physical parameters"
+          f" {y_['rank']} ({'proved' if y_['proved'] else 'lower bound'}): {y_['predictions']} prediction(s)")
+    w("    The diagonal entries become complex and the rephasing f_i + f_j cannot remove their phases: in SO(10) the")
+    w("    survivor's zeros predict nothing.")
+    w("")
+    w("PART E. CAN A FLAVOUR SYMMETRY GIVE A PREDICTIVE TEXTURE INSIDE SO(10)?")
+    w("-" * 78)
+    sy = res["symmetry"]
+    nmax = int(num("symmetry_max_N"))
+    mn, ex = sy["minimal"], sy["extra"]
+    w("  A Z_N charge per family (a whole 16) and per Higgs field (a 10 or a 126): Y_k,ij is allowed only if")
+    w("  q_i + q_j + h_k = 0 mod N. With one light Higgs, a mixture of every bidoublet (Part T13), each sector is a")
+    w("  sum over the same Y_k with its own coefficients, so M_u, M_d, M_e and M_D share one support: parallel")
+    w("  textures, by construction. What is computed is whether the shared Yukawas make relations among the 13")
+    w("  charged-fermion observables: the rank of the Jacobian of 13 invariants (the quarks' 10, plus tr H_e,")
+    w("  tr H_e^2, det H_e) at an integer point, mod a 61-bit prime (a lower bound on the physical parameters).")
+    w(f"  E1. Up to {int(num('so10_flavour_max_fields'))} Higgs fields (the minimal theory's 10 and 126), N = 2..{nmax}:")
+    for m_ in mn["per_N"]:
+        w(f"        Z_{m_['N']}: {m_['configurations']:5d} configurations with three nonzero masses (structural)")
+    w(f"      {len(mn['classes'])} distinct classes (family permutations identified); {len(mn['viable'])} give three"
+      f" nonzero masses in every sector and CP violation; {len(mn['predictive'])} of those make relations:")
+    for c_ in mn["predictive"]:
+        fl = "; ".join(f"{'10' if kp == 1 else '126'} on {','.join(f'{i + 1}{j + 1}' for i, j in sup)}" for sup, kp in c_["fields"])
+        w(f"        Z_{c_['N']}: {fl}: rank {c_['rank']}, {c_['predictions']} relation(s)")
+    w("  E2. Hermitian textures are not available (Part D): SO(10)'s couplings are symmetric.")
+    w(f"  E3. With one Higgs field more ({int(num('so10_flavour_extra_fields'))} fields): {len(ex['classes'])} classes,"
+      f" {len(ex['viable'])} viable, {len(ex['predictive'])} with relations (counted, not fitted: open).")
+    ft = res["so10_flavour_fit"]
+    w("  E4. The minimal predictive classes against the data at the left-right chain's M_GUT (Part Y's running:")
+    w("      nine masses, |V_us|, |V_cb|, |V_ub|, J, each within the 1 % running tolerance), seeded Levenberg-Marquardt:")
+    w("        class                                          relations     chi^2    sigma   worst observable")
+    for r_ in ft["rows"]:
+        fl = "; ".join(f"{'10' if kp == 1 else '126'}:{','.join(f'{i + 1}{j + 1}' for i, j in sup)}" for sup, kp in r_["fields"])
+        wo = f"{r_['worst'][1]} ({r_['worst'][0]:.0f} tol)" if r_["worst"] else "-"
+        w(f"        {fl:<46s} {r_['predictions']:5d}  {r_['chi2']:10.3g}  {r_['n_sigma']:7.1f}   {wo}")
+    if ft["survivors"]:
+        w(f"  RESULT: {len(ft['survivors'])} SO(10) flavour class(es) reach the data with relations to spare: candidates.")
+    else:
+        w("  RESULT: no abelian flavour symmetry inside minimal SO(10) gives a texture that both predicts and fits.")
+    w("    * SO(10)'s couplings are symmetric, so Hermitian textures (and the Part C survivor's prediction) are lost (D);")
+    w("    * with one light Higgs every sector shares one support (parallel textures); the Z_N classes that make")
+    w("      relations make too many: each ties M_d to M_u block by block, and the data exclude every one (E4,")
+    w("      a search: an exclusion means no point was found);")
+    w("    * with more Higgs fields (E3) or several light doublets the counting changes: open.")
+    w("")
+    w("PART F. DOES ANY TEXTURE OF GENERAL MASS MATRICES PREDICT THE CKM MATRIX?")
+    w("-" * 78)
+    cl = res["closure"]
+    w("  Every zero pattern of two general 3x3 mass matrices. Physical parameters = exact rank of")
+    w("  the Jacobian of 10 weak-basis invariants of H = M M^dag (6 masses, 4 mixing invariants).")
+    w(f"    {cl['ordered_pairs']} ordered pairs of patterns with three nonzero masses, {cl['classes']} classes")
+    w(f"    {cl['no_three_family_mixing']:5d} cannot mix all three families (measured: all nine |V_ij| nonzero)")
+    w(f"    {cl['no_phase']:5d} have no phase left, so J = 0 (measured: J = 3.12e-5)")
+    w(f"    {cl['candidates']:5d} candidates; physical parameters (rank) per class: "
+      + ", ".join(f"rank {k}: {v}" for k, v in sorted(cl["rank"].items(), reverse=True)))
+    w(f"    {cl['rank_certified']:5d} of these ranks proved (exact lower bound = symmetry upper bound),"
+      f" {len(cl['rank_open'])} open")
+    w(f"    {cl['cp_impossible']:5d} of the classes with rank below 10 have J = 0 identically"
+      " (symbolic expansion)")
+    w(f"    {len(cl['predictive_with_cp']):5d} make a prediction and allow CP violation")
+    if not cl["predictive_with_cp"] and not cl["rank_open"]:
+        w("  RESULT (proved): no texture-zero pattern of general quark mass matrices predicts")
+        w("    an equality. Every viable pattern has exactly as many physical parameters as there")
+        w("    are observables (10), so zeros alone, however a symmetry makes them, fix nothing.")
+        w("    Scope: this is a statement about relations. A rank-10 pattern can still fail to")
+        w("    reach the measured values (an inequality); that is not tested here.")
+    w("")
+    w("PART G. OTHER GAUGE FRAMEWORKS")
+    w("-" * 78)
+    sc_all = res["scales"]
+    par = [r for r in res["survey"][sc_all[0]]["classes"] if r["status"] == "tested" and r["zeros_u"] == r["zeros_d"]]
+    par_surv = [r for r in par if all(next(x for x in res["survey"][mu]["classes"]
+                                           if (x["zeros_u"], x["zeros_d"]) == (r["zeros_u"], r["zeros_d"]))["survives"]
+                                      for mu in sc_all)]
+    w("  Standard Model with any number of Higgs doublets: an abelian symmetry makes zeros in")
+    w("    general matrices; Part F: none of those predicts anything.")
+    w("  Left-right symmetric model with parity: Yukawa matrices are Hermitian, but every")
+    w("    bidoublet feeds both sectors (M_u and M_d mix the same couplings through its two")
+    w("    vevs), so zeros sit in the same places in up and down: parallel textures.")
+    w(f"    Part C tested {len(par)} parallel Hermitian classes with a prediction;"
+      f" {len(par_surv)} survive at every scale.")
+    w("  RESULT: texture zeros calculate no CKM number in the Standard Model or in left-right")
+    w("    models with abelian flavour symmetries; in SO(10) the relations they make are excluded (Part E4).")
+    w("-" * 78)
+    w("  * Hermitian textures (B, C): one pattern survives, with one prediction.")
+    w("  * In SO(10) the mass matrices are symmetric, never Hermitian (D), which removes the survivor's")
+    w("    prediction; abelian symmetries there make parallel textures whose relations the data exclude (E).")
+    w("  * Zeros in general matrices never predict anything (F).")
+    w("  * In the Standard Model and in left-right models the same holds (G).")
+    w("  So with abelian flavour symmetries, in all three frameworks, the quark")
+    w("  sector closes with 10 measured inputs: 6 masses and 4 CKM parameters. None of the")
+    w("  four CKM numbers can be calculated from zeros. Calculating them needs relations")
+    w("  between nonzero entries (non-abelian flavour symmetries or grand unification),")
+    w("  which this script does not search.")
+    w("")
+    w("PART H. WHERE QUANTUM THEORY AND GRAVITY MEET (established physics)")
+    w("-" * 78)
+    qg = res["quantum_gravity"]
+    pl = qg["planck"]
+    w("  H1. Planck units from G, hbar, c, k_B")
+    w(f"      l_P = {pl['l_P_m']:.4e} m   t_P = {pl['t_P_s']:.4e} s   m_P = {pl['m_P_kg']:.4e} kg"
+      f"   E_P = {pl['E_P_GeV']:.4e} GeV   T_P = {pl['T_P_K']:.4e} K")
+    nw = qg["newton"]
+    w("  H2. Newton's law with its one-loop quantum correction (gravity as an effective field theory)")
+    w("      V = -G m1 m2 / r [1 + 3 G (m1+m2)/(r c^2) + (41/10pi) G hbar/(r^2 c^3)]")
+    w(f"      coefficient 41/(10 pi) = {nw['coefficient']:.5f}  [quoted: Bjerrum-Bohr, Donoghue, Holstein 2003]")
+    w(f"      Sun-Earth at 1 au: relativistic term {nw['classical_rel_sun_earth']:.2e},"
+      f" quantum term {nw['quantum_rel_sun_earth']:.2e}")
+    w(f"      for two protons the quantum term overtakes the relativistic one below r = {nw['r_equal_two_protons_m']:.2e} m"
+      f" ({nw['r_equal_two_protons_m'] / nw['proton_compton_m']:.3f} proton Compton lengths)")
+    w(f"      the quantum term reaches 1 (the effective theory ends) at r = {nw['r_breakdown_m']:.2e} m"
+      f" = {nw['r_breakdown_m'] / pl['l_P_m']:.3f} l_P")
+    w("  H3. Black holes and horizons (Hawking, Bekenstein)")
+    for name, bh in qg["black_holes"].items():
+        label = "the Sun's mass" if name == "sun" else "mass evaporating in exactly the age of Part A"
+        w(f"      {label}: M = {bh['mass_kg']:.4e} kg, r_s = {bh['r_s_m']:.4e} m, T_H = {bh['T_H_K']:.4e} K,"
+          f" S = {bh['S_BH_kB']:.4e} k_B, t_evap = {bh['t_evap_s'] / (31557600 * 10 ** 9):.4e} Gyr")
+    ds = qg["de_sitter"]
+    w(f"      de Sitter horizon of the Part A cosmology: T = {ds['T_dS_K']:.4e} K,"
+      f" S = A/(4 l_P^2) = {ds['S_area_law_kB']:.4e} k_B")
+    w("      (t_evap counts photon emission only; more particle species shorten it)")
+    un = qg["unruh"]
+    w("  H4. Unruh effect: an accelerated observer sees the vacuum as thermal")
+    w(f"      at g = {un['g_earth']:.4f} m/s^2: T = {un['T_at_g_K']:.4e} K;  1 K needs a = {un['a_for_1K']:.4e} m/s^2")
+    en = qg["entanglement"]
+    w("  H5. The smallest mass that gravity can ever entangle maximally (two masses, each in two places)")
+    w("      limits: entangling phase pi (concurrence 1); time <= age of the universe (Part A);")
+    w("      separation >= the Compton wavelength hbar/(m c). Then m >= (pi hbar^2 / (G c t0))^(1/3).")
+    w(f"      m_min = {en['m_min_kg']:.4e} kg = {en['m_min_MeV']:.1f} MeV/c^2 = {en['m_min_over_m_p']:.3f} m_p,"
+      f" at separation {en['d_min_m']:.3e} m")
+    w(f"      check: phase {en['entangling_phase_rad']:.6f} rad, concurrence {en['concurrence']:.6f},"
+      f" entropy {en['entropy_bits']:.6f} bits")
+    w("      Anything lighter cannot be fully entangled by gravity in the lifetime of the universe.")
+    w("      A classical gravitational field cannot entangle at all (concurrence 0): measuring")
+    w("      gravity-made entanglement in any system is the open test of whether gravity is quantum.")
+    tr = qg["transmutation"]
+    w("  H6. Why gravity is so weak for a proton: the strong scale comes from logarithmic running")
+    w(f"      alpha_s(M_P) = {tr['alpha_s_at_M_P']:.5f} (Standard Model running to M_P, no new physics assumed)")
+    w(f"      Lambda_QCD(5 flavours, 2-loop) = {tr['Lambda5_GeV']:.4f} GeV;  ln(M_P/Lambda) = {tr['ln_MP_over_Lambda']:.2f};"
+      f"  one-loop 2pi/(b0 alpha_s(M_P)) = {tr['one_loop_2pi_over_b0_alpha']:.2f}")
+    w(f"      m_p / Lambda = {tr['m_p_over_Lambda']:.2f}: the proton mass is set by Lambda (computing it needs lattice QCD)")
+    nb = qg["numbers"]
+    w("  H7. Dimensionless numbers, each with its status")
+    rows = [
+        ("alpha (electromagnetic coupling)", nb["alpha"], "measured input; not derived by any theory"),
+        ("alpha_G (proton) = G m_p^2/(hbar c)", nb["alpha_G_proton"], "= (m_p/M_P)^2 exactly; small because of H6"),
+        ("alpha_G (electron)", nb["alpha_G_electron"], "the electron mass is a Higgs coupling: not derived"),
+        ("m_p / m_e", nb["m_p_over_m_e"], "QCD scale over a Yukawa coupling: not derived"),
+        ("electric/gravitational force, p-e", nb["electric_over_gravity_p_e"], "= alpha hbar c/(G m_p m_e): follows from rows above"),
+        ("Hubble radius / proton Compton length", nb["hubble_radius_over_proton_compton"],
+         "Dirac's large number; its closeness to 1/alpha_G is unexplained"),
+        ("rho_Lambda / rho_Planck", nb["rho_Lambda_over_rho_P"], "the cosmological-constant problem: open"),
+        ("S_dS x rho_Lambda / rho_Planck", nb["S_dS_times_rho_ratio"], "= 3/8 exactly: the 10^122 and 10^-123 are one fact"),
+        ("(hbar^2 H0/(G c))^(1/3) / m_pi", nb["weinberg_over_m_pi"], "Weinberg 1972: same order as 1; unexplained"),
+        ("H5 smallest entangled mass / m_pi", nb["m_min_entangle_over_m_pi"],
+         "same combination as Weinberg's (t0 ~ 1/H0)"),
+    ]
+    for name, val, status in rows:
+        w(f"      {name:<38} {val:12.4e}   log10 {math.log10(val):8.2f}   {status}")
+    w("  RESULT: every number above is calculated from G, hbar, c, k_B and measured masses. Two of")
+    w("    the apparent large-number coincidences are exact identities (alpha_G = (m_p/M_P)^2 and")
+    w("    S_dS rho_Lambda/rho_P = 3/8). One has a known mechanism (the proton/Planck hierarchy from")
+    w("    logarithmic running). Open: alpha, the Yukawa couplings, rho_Lambda, and whether gravity")
+    w("    carries entanglement (H5) - the measurement that would decide if gravity is quantum.")
+    w(f"    A coincidence to watch: the smallest mass gravity can entangle within the age of the universe")
+    w(f"    (H5) is {nb['m_min_entangle_over_m_pi']:.2f} m_pi - the same combination of hbar, G, c and the Hubble")
+    w("    time as Weinberg's 1972 large-number relation. Same order of magnitude, no known mechanism.")
+    w("")
+    w("PART I. CAN ALPHA BE CALCULATED FROM THE OTHER NUMBERS?")
+    w("-" * 78)
+    au = res["alpha_unification"]
+    w("  No accepted theory derives alpha. Grand unification relates it to other measured numbers:")
+    w("  if the three gauge couplings meet at one scale, 1/alpha(M_Z) follows from alpha_s(M_Z) and")
+    w("  sin^2 theta_W(M_Z) alone. The script solves for the alpha at which they meet, running at")
+    w("  one and two loops (coefficients from the field content). Superpartner scale M_S unknown:")
+    w("  scanned. Unknown threshold corrections (superpartner spectrum, GUT particles): not included.")
+    w(f"    measured 1/alpha(M_Z), MS-bar: {au['measured_inv_alpha_MZ']} +/- {au['measured_sigma']}")
+    w("    content                     1/alpha(M_Z) 1-loop   2-loop (+/- inputs)     M_GUT (GeV)   1/alpha_GUT")
+    for row in au["rows"]:
+        name = (f"MSSM above M_S = {row['M_S']:.3g} GeV" if math.isfinite(row["M_S"])
+                else "Standard Model only")
+        l1, l2 = row["loop1"], row["loop2"]
+        w(f"    {name:<30} {l1['inv_alpha']:9.2f}        {l2['inv_alpha']:8.2f} +/- {l2['sigma_inputs']:.2f}"
+          f"      {l2['M_GUT']:.2e}     {1 / l2['alpha_GUT']:.2f}")
+    sm_row = [r for r in au["rows"] if not math.isfinite(r["M_S"])][0]
+    miss = sm_row["loop2"]["inv_alpha"] / au["measured_inv_alpha_MZ"] - 1
+    w(f"  Standard Model: forcing unification gives 1/alpha = {sm_row['loop2']['inv_alpha']:.1f},"
+      f" {100 * miss:+.0f}% from the measurement. The SM couplings do not meet.")
+    ms = au.get("M_S_for_measured_alpha")
+    if ms:
+        w(f"  MSSM: the prediction slides with the unknown M_S by {ms['slope_per_efold']:.2f} per e-fold. It equals")
+        w(f"    the measured alpha at M_S = {ms['M_S_GeV'] / 1000:.2f} TeV ({ms['low_GeV'] / 1000:.2f} to"
+          f" {ms['high_GeV'] / 1000:.2f} TeV from the alpha_s and sin^2 theta_W errors alone),")
+        w(f"    with unification at M_GUT = {ms['M_GUT_GeV']:.3e} GeV, 1/alpha_GUT = {1 / ms['alpha_GUT']:.2f}."
+          " Parts B, C and J use these scales.")
+    w("  Numerology: closed formulas proposed for 1/alpha(0), tested against CODATA 2018")
+    for c_ in res["alpha_numerology"]:
+        w(f"    {c_['formula']:<48} {c_['value']:.7f}   off by {c_['n_sigma']:.2e} sigma")
+    w(f"    CODATA 2018: 1/alpha = {1 / inp('alpha_em'):.9f}")
+    w("  RESULT: alpha is not calculated. Unification turns it into a function of one unknown, the")
+    w("    superpartner scale; equivalently, the measured alpha points to M_S of a few TeV in the MSSM")
+    w("    (before unknown threshold corrections). The SM alone cannot unify, and every closed")
+    w("    formula tested is excluded by thousands of standard deviations or more. Getting from")
+    w("    alpha(M_Z) to alpha(0) also needs the hadronic vacuum polarization, a measured input.")
+    w("")
+    w("PART J. CAN THE YUKAWA COUPLINGS BE CALCULATED FROM THE OTHER NUMBERS?")
+    w("-" * 78)
+    yk = res["yukawa"]
+    ra = yk["ratios"]
+    w("  J1. Quark/lepton mass ratios fixed by grand unification (group theory, at the unification")
+    w("      scale; same-charge ratios hardly run, so they can be compared at m_t)")
+    w(f"      measured m_s/m_d = {ra['ms_over_md']:.2f} +/- {ra['ms_over_md_sigma']:.2f};"
+      f" m_mu/m_e at m_t = {ra['mmu_over_me_at_mt']:.2f}")
+    w(f"      minimal SU(5), m_s/m_d = m_mu/m_e:            {ra['SU5']['predicted']:8.2f}   off by {ra['SU5']['n_sigma']:.0f} sigma")
+    w(f"      Georgi-Jarlskog, m_s/m_d = m_mu/(9 m_e):      {ra['GJ']['predicted']:8.2f}   off by {ra['GJ']['n_sigma']:.1f} sigma")
+    w("  J2. b-tau unification: y_b = y_tau at the unification scale (MSSM: M_GUT from Part I)")
+    for p_ in yk["btau_SM"]:
+        w(f"      SM at {p_['where']} ({p_['mu']:.2e} GeV): y_b/y_tau = {p_['yb_over_ytau']:.3f}")
+    if yk.get("btau_MSSM"):
+        lo_, hi_ = yk["tan_beta_range"]
+        w(f"      MSSM above M_S = {yk['M_S'] / 1000:.2f} TeV, up to M_GUT = {yk['M_GUT']:.2e} GeV (both Part I);")
+        w(f"      tan(beta) scanned over its perturbative"
+          f" range {lo_:.2f} to {hi_:.1f}:")
+        line = []
+        for r_ in yk["btau_MSSM"]:
+            v_ = f"{r_['yb_over_ytau']:.3f}" if math.isfinite(r_["yb_over_ytau"]) else "n.p."
+            line.append(f"{r_['tan_beta']:.3g}: {v_}")
+        for i in range(0, len(line), 6):
+            w("        " + "   ".join(line[i:i + 6]))
+        w("        (y_b/y_tau at the unification point; n.p. = a coupling leaves perturbation theory)")
+        u_ = yk.get("btau_MSSM_unity")
+        if u_:
+            w(f"      y_b/y_tau = 1 only at tan(beta) = {u_['tan_beta']:.3f}, where y_t(M_GUT) = {u_['yt_GUT']:.2f}:"
+              f" the edge of perturbation theory")
+    fs = yk["fixed_point_SM"]
+    w("  J3. Top quasi-fixed point: a large y_t at high scale is driven to a value set by the gauge couplings")
+    for r_ in fs["runs"]:
+        w(f"      SM, y_t = {r_['yt_start']:.2f} at M_Planck -> m_t(m_t) = {r_['mt_msbar']:.1f} GeV")
+    w(f"      measured m_t(m_t) = {fs['measured_mt_msbar']:.1f} GeV")
+    if yk.get("fixed_point_MSSM"):
+        for r_ in yk["fixed_point_MSSM"]["runs"]:
+            w(f"      MSSM, y_t = {r_['yt_start']:.2f} at M_GUT (Part I):"
+              f" the measured top mass needs tan(beta) = {r_['tan_beta']:.3f}")
+    w("  RESULT: no Yukawa coupling is calculated. Minimal SU(5) and Georgi-Jarlskog mass ratios are")
+    w("    excluded. In the SM, b-tau unification and the top fixed point both fail.")
+    if yk.get("btau_MSSM_unity") and yk.get("fixed_point_MSSM"):
+        tbs = [r_["tan_beta"] for r_ in yk["fixed_point_MSSM"]["runs"]]
+        w(f"    In the MSSM (scales from Part I), b-tau unification needs tan(beta) ="
+          f" {yk['btau_MSSM_unity']['tan_beta']:.2f} and the top fixed point")
+        w(f"    gives tan(beta) = {min(tbs):.2f} to {max(tbs):.2f}: the same narrow region, at the edge of"
+          " perturbation theory.")
+        w("    That is one number (tan beta), not a calculation of the Yukawas. Part K tests it against")
+        w("    the Higgs mass.")
+    w("")
+    hg = res.get("higgs")
+    if hg:
+        mh, mh_up, _ = _comparison("m_h")
+        w("PART K. THE HIGGS MASS IN THE MSSM, FROM THE SCALES OF PARTS I AND J")
+        w("-" * 78)
+        w("  In the MSSM the Higgs self-coupling is not free: at M_S it is fixed by the gauge couplings,")
+        w("  tan(beta) and the stop mixing X_t. Effective theory: lambda(M_S) = (g^2 + g'^2)/4 cos^2(2 beta)")
+        w("  + (3 y_t^4 / 8 pi^2) X^2 (1 - X^2/12), X = X_t/M_S; SM running of lambda down to m_t; m_h = sqrt(lambda) v.")
+        w(f"  Inputs from the algorithm: M_S = {hg['M_S'] / 1000:.2f} TeV ({hg['M_S_range'][0] / 1000:.2f} to"
+          f" {hg['M_S_range'][1] / 1000:.2f}, Part I);")
+        w(f"  tan(beta) = {min(hg['tan_betas']):.3f} to {max(hg['tan_betas']):.3f} (Part J: b-tau unification and the top fixed point).")
+        w("  X_t is unknown: scanned. The threshold is largest at X^2 = 6, so maximal mixing bounds m_h from above.")
+        w("      M_S (TeV)   tan(beta)   m_h, no mixing   m_h, maximal mixing  (GeV)")
+        for r_ in hg["rows"]:
+            w(f"      {r_['M_S'] / 1000:7.2f}     {r_['tan_beta']:7.3f}      {r_['mh_no_mixing']:8.1f}          {r_['mh_max_mixing']:8.1f}")
+        w(f"      m_h against X_t/M_S at M_S = {hg['M_S'] / 1000:.2f} TeV, tan(beta) = {max(hg['tan_betas']):.3f}:")
+        line = [f"{x_:.2f}: {m_:.1f}" if math.isfinite(m_) else f"{x_:.2f}: unstable" for x_, m_ in hg["xt_curve"]]
+        for i in range(0, len(line), 5):
+            w("        " + "   ".join(line[i:i + 5]))
+        gap_ = mh - hg["mh_upper_bound"]
+        w(f"  Upper bound over every mixing and the whole M_S, tan(beta) range: m_h <= {hg['mh_upper_bound']:.1f} GeV")
+        w(f"      measured m_h = {mh:.2f} +/- {mh_up:.2f} GeV: the bound is {gap_:.1f} GeV short")
+        need = ms_for_higgs_mass(res["flavour"], max(hg["tan_betas"]), mh)
+        if math.isfinite(need):
+            w(f"  Read backwards: at tan(beta) = {max(hg['tan_betas']):.3f} and maximal mixing, m_h = {mh:.1f} GeV needs"
+              f" M_S = {need:.2e} GeV,")
+            w(f"      {math.log(need / hg['M_S']):.1f} e-folds above Part I's M_S.")
+        w("  Not included: two-loop thresholds and the pole-to-MS-bar Higgs-mass conversion (a few GeV in")
+        w("  the literature), heavy-Higgs and gaugino thresholds. None closes a gap of this size.")
+        w("  RESULT: the MSSM route of Parts I and J is excluded by the Higgs mass. The superpartner scale")
+        w("    that gives the measured alpha and the tan(beta) that gives b-tau unification together")
+        w(f"    predict m_h <= {hg['mh_upper_bound']:.0f} GeV. Unification (Part I), b-tau unification and the top")
+        w("    fixed point (Part J) cannot all hold in the minimal model with one superpartner scale.")
+        w("")
+    cr = res.get("criticality")
+    if cr:
+        mh, mh_up, _ = _comparison("m_h")
+        c_ = cr["central"]
+        w("PART L. STANDARD MODEL CRITICALITY: THE HIGGS MASS FROM ONE CONDITION AT THE PLANCK SCALE")
+        w("-" * 78)
+        w("  If nothing new enters below the Planck scale, the Higgs self-coupling can be fixed there:")
+        w("  lambda(M_P) = 0 (Froggatt-Nielsen 1996; Shaposhnikov-Wetterich 2010). Running it down to m_t")
+        w("  with the measured top mass and alpha_s then predicts m_h. No free parameter, no new particle.")
+        w("  Running: one, two and three loops (two-loop gauge b_ij from the field content; y_t and lambda")
+        w("  two-loop terms and all three-loop terms quoted from Buttazzo et al. 2013, appendix B). Matching")
+        w("  to the pole masses M_h, M_t, M_W, M_Z and G_F: tree level; one loop at mu = m_t(m_t) (their")
+        w("  appendix A, Passarino-Veltman functions in closed form); two loops at mu = M_t (their section 2")
+        w("  interpolations of lambda^(2) and of the electroweak parts of y_t^(2)); three loops: the leading")
+        w("  QCD part of lambda^(3) (their footnote, from Martin 2013). QCD: alpha_s and the quark masses run")
+        w("  at four loops with three-loop decoupling (RunDec), the top pole/MS-bar conversion at four loops")
+        w("  (Melnikov-van Ritbergen 2000, Marquard et al. 2015).")
+        w("      condition                 loops   matching            predicted M_h (GeV)")
+        for r_ in cr["rows"]:
+            w(f"      lambda({r_['scale']:<11}) = 0       {r_['loops']}      {r_['matching']:18s}  {r_['m_h']:8.2f}")
+        si = cr["sigma_inputs"]
+        rw = cr["row"]
+        sm_ = cr["smdr"]
+        w("  Anchored to SMDR (Martin-Robertson 2019: full two-loop plus leading three-loop matching, four-loop")
+        w("  QCD) at its reference point. Couplings at Q0 = 173.1 GeV for SMDR's inputs, this script vs SMDR:")
+        w("      " + "   ".join(f"{k} {sm_['ours'][k]:.5f} / {sm_['smdr'][k]:.5f}" for k in ("lambda", "y_t", "g3")))
+        w("      " + "   ".join(f"{k} {sm_['ours'][k]:.5f} / {sm_['smdr'][k]:.5f}" for k in ("g2", "gp")))
+        w("  The differences (this script's missing electroweak and mixed thresholds and its simpler")
+        w("  electroweak inputs) are added at M_t; this script's own matching carries them to the inputs.")
+        w(f"  Three-loop running, SMDR-anchored matching, four-loop QCD: M_h = {c_['m_h']:.2f} GeV +/-"
+          f" {cr['sigma_total']:.2f}")
+        w(f"      (inputs: M_t {si['M_t']:+.2f}, alpha_s {si['alpha_s_MZ']:+.2f}, M_W {si['M_W']:+.3f})")
+        cm_ = c_["m_h"]
+        own = rw["3L/three loops"]["m_h"]
+        w(f"      against this script's own three-loop matching ({own:.2f} GeV): {cm_ - own:+.2f} GeV. Last orders of")
+        w(f"      its own calculation: running (3 loops vs 2) {own - rw['2L/three loops']['m_h']:+.2f} GeV, matching"
+          f" (3 vs 2) {own - rw['3L/two loops']['m_h']:+.2f} GeV,")
+        w(f"      QCD running, decoupling and top mass (4 loops vs 3) {own - rw['3L/three loops, QCD 3']['m_h']:+.2f}"
+          " GeV")
+        w(f"      measured M_h = {mh:.2f} +/- {mh_up:.2f} GeV: the prediction is {c_['m_h'] - mh:.1f} GeV high,"
+          f" {(c_['m_h'] - mh) / math.hypot(cr['sigma_total'], mh_up):.1f} sigma on the input errors")
+        bz = cr["buttazzo"]
+        w(f"      cross-check at Buttazzo et al.'s own order (two-loop matching, QCD at three loops):"
+          f" {rw['3L/two loops, QCD 3']['m_h']:.2f} GeV;")
+        w(f"      their lambda(M_Pl), linear in M_h, M_t, alpha_s, gives {bz['mh_linear']:.2f} GeV here")
+        w("      This script's own three-loop matching is its leading QCD part (lambda: O(alpha_s^2 y_t^4); y_t:")
+        w("      pure QCD, to four loops); the anchor adds SMDR's full two loops and leading three loops. Not")
+        w("      included: the rest of three-loop matching, and four-loop running beyond pure QCD.")
+        d_ = cr["double"]
+        w("  Both conditions at the Planck scale, lambda(M_P) = 0 and beta_lambda(M_P) = 0, fix two numbers")
+        w("  (at two loops, one-loop matching):")
+        w(f"      M_h = {d_['m_h']:.1f} GeV and M_t = {d_['M_t']:.1f} GeV"
+          f" (measured {mh:.1f} and {inp('M_t'):.2f}; QCD pole/MS-bar ratio of the measured top kept)")
+        pr = sm_lambda_profile(cr, mh)
+        w(f"  Read backwards, with the measured M_h (Part L's central order): lambda(M_P) = {pr['lambda_MP']:+.4f},"
+          f" beta_lambda(M_P) = {pr['beta_MP']:+.1e}")
+        if math.isfinite(pr["mu_zero"]):
+            w(f"      lambda turns negative at mu = {pr['mu_zero']:.2e} GeV: the electroweak vacuum is not the")
+            w("      lowest state. Whether it is long-lived (metastable) needs the tunnelling rate, not")
+            w("      calculated here.")
+        w(f"  RESULT: one condition at the Planck scale gives the Higgs mass to"
+          f" {100 * abs(c_['m_h'] / mh - 1):.0f} percent with nothing adjusted:")
+        w(f"    {c_['m_h']:.1f} GeV against {mh:.2f}. Against two-loop running with one-loop matching (same QCD),")
+        w(f"    the higher orders move it by {c_['m_h'] - cr['two_loop_one_loop']['m_h']:+.2f} GeV and do not close"
+          " the gap: the measured Higgs mass makes lambda slightly")
+        w("    negative at M_P and the SM vacuum is not stable. The top mass dominates the input error; the")
+        w("    second condition (beta_lambda = 0) lands near the measured top mass.")
+        w("")
+    jt = res["joint"]
+    w("PART M. WHICH HIGH-ENERGY HYPOTHESIS SURVIVES EVERY CONDITION AT ONCE?")
+    w("-" * 78)
+    w("  The field content above the electroweak scale is not chosen. Each hypothesis is tested")
+    w("  against every combination of the conditions the other parts impose:")
+    w("    U  gauge unification      predicts 1/alpha(M_Z)")
+    w("    B  b-tau unification      predicts y_b/y_tau = 1 at M_GUT (SM: where g1 = g2)")
+    w("    H  Higgs mass             SM: lambda(M_P) = 0 (Part L); MSSM: matching at M_S (Part K)")
+    w("  SM up to M_P has no unknowns. The MSSM has M_S, tan(beta) and the stop mixing X_t. M_S is")
+    w("  scanned on a grid plus where unification gives the measured alpha; tan(beta) on a grid plus")
+    w("  every root of y_b/y_tau = 1 and every edge of perturbation theory (bisection); X_t is")
+    w(f"  eliminated exactly. {jt['MSSM_points']} perturbative points; the best one only decides survival.")
+    w("  With no prediction (dof <= 0) the number is the distance in sigma between the data and")
+    w("  everything the hypothesis can reach. Two error sets bracket every verdict:")
+    w("    inputs           measured inputs only: the strongest exclusion")
+    w("    +theory          plus, per ingredient, the change from the last order calculated to the")
+    w("                     one below (running 2 loops vs 1, matching one loop vs tree); the next")
+    w("                     order is usually smaller, so this is the weakest exclusion")
+    th, tm = jt["SM_theory_sigma"], jt.get("MSSM_theory_sigma_at_part_I")
+    w(f"  Theory errors, SM:   1/alpha {th['U']:.2f}   y_b {100 * th['B']:.1f} %   m_h {th['H']:.2f} GeV"
+      " (from Parts I, J, L)")
+    if tm:
+        w(f"  Theory errors, MSSM at M_S = {_fmt(tm['M_S'] / 1000, 3)} TeV:   1/alpha {tm['U']:.2f}   y_b"
+          f" {100 * tm['B']:.1f} %   m_h {tm['H']:.2f} GeV")
+    w("  Not estimated: the two-loop stop threshold, GUT and superpartner thresholds.")
+    sp, st_ = jt["SM_pulls"], jt["SM_pulls_theory"]
+    w(f"  SM pulls, inputs:  U {sp['U']:+.1f}  B {sp['B']:+.1f}  H {sp['H']:+.1f} sigma;"
+      f"  +theory:  U {st_['U']:+.1f}  B {st_['B']:+.1f}  H {st_['H']:+.2f} sigma")
+    w("    hypothesis        conditions  unknowns  dof  |  sigma   verdict    |  sigma   verdict")
+    w("                                                 |  (inputs)           |  (+theory)")
+
+    def verdict(v: Dict[str, Any]) -> str:
+        return ("predicts" if v["predicts"] else "survives") if v["survives"] else "excluded"
+
+    for r in jt["rows"]:
+        cols = []
+        for v in (r, r["with_theory"]):
+            zero = v["chi2"] < num("joint_chi2_zero")
+            cols.append(f"{'0' if zero else _fmt(v['n_sigma'], 3):>7s}   {verdict(v):9s}")
+        w(f"    {r['hypothesis']:17s} {'+'.join(r['conditions']):10s} {r['unknowns']:5d} {r['dof']:6d}"
+          f"  | {cols[0]}  | {cols[1]}".rstrip())
+    w("    (survives: no prediction, the unknowns absorb the conditions; predicts: survives and")
+    w("    predicts at least one number)")
+    for label, key in (("inputs only", "predictive_survivors"), ("with theory errors", "predictive_survivors_theory")):
+        preds = jt[key]
+        w(_wrap(f"RESULT ({label}): " + ("survives and predicts: " + "; ".join(
+            f"{h} with {'+'.join(c)}" for h, c in preds) if preds else
+            "no hypothesis and set of conditions both survives and predicts anything."), 2))
+    flips = [r for r in jt["rows"] if r["survives"] != r["with_theory"]["survives"]]
+    if flips:
+        w(_wrap("Verdicts that depend on the theory errors: " + "; ".join(
+            f"{r['hypothesis']} with {'+'.join(r['conditions'])}" for r in flips)
+            + ". Deciding them needs the next order, not a different error estimate.", 4))
+    w("")
+    mf = res["mass_formulas"]
+    w("PART N. CAN THE QUARK AND LEPTON MASSES BE CALCULATED? CLOSED MASS FORMULAS")
+    w("-" * 78)
+    w("  Part J tested what grand unification relates. Left to test are closed formulas for the masses")
+    w("  themselves, as Part I tests them for 1/alpha. Koide (1982): Q = (m1 + m2 + m3)/(sqrt m1 + sqrt m2")
+    w("  + sqrt m3)^2 = 2/3. No accepted theory derives it; Q lies between 1/3 (equal) and 1 (one mass).")
+    w("  A mass relation needs a scale: pole masses are not the couplings of a Lagrangian at one scale,")
+    w("  and running masses change their ratios with mu.")
+    w("      masses                                                        Q           off by")
+    for r_ in mf["koide"]:
+        w(f"      {r_['set']:<58s} {r_['Q']:.7f} +/- {_fmt(r_['sigma'], 2):<8s} {r_['n_sigma']:7.1f} sigma")
+    w(f"  Q = 2/3 at pole masses, solved for m_tau from m_e and m_mu: {mf['koide_m_tau_MeV']:.3f} MeV"
+      f" (measured {mf['m_tau_MeV']:.2f} +/- {mf['m_tau_sigma_MeV']:.2f})")
+    w(f"  Running from the pole masses to M_Z moves Q by {mf['koide_running_shift']:.2e}, about"
+      f" {mf['koide_running_shift'] / mf['koide_pole_sigma']:.0f} times its error;")
+    w(f"  alpha(0) or alpha(M_Z) in the QED running changes that by {mf['koide_qed_alpha_spread']:.1e}.")
+    kr = mf["koide"]
+    w(_wrap(f"RESULT: Koide's relation holds for the charged-lepton pole masses ({kr[0]['n_sigma']:.1f} sigma), but at "
+            f"no scale where the masses are couplings: at M_Z it fails by {min(r_['n_sigma'] for r_ in kr[1:3]):.0f} "
+            f"sigma or more, and for the quarks at m_t(m_t) by {min(r_['n_sigma'] for r_ in kr[3:]):.0f} sigma or "
+            "more. A relation that holds only for pole masses has no known mechanism; it stays a coincidence "
+            "to watch. No quark or lepton mass is calculated.", 2))
+    w("")
+    sc = res["strong_cp"]
+    bd = sc["bound"]
+    w("PART O. THE STRONG CP ANGLE THETA-BAR")
+    w("-" * 78)
+    w("  QCD allows theta (g^2/32 pi^2) G G~, which violates P and CP. Only theta-bar = theta - arg det(M_u M_d)")
+    w("  is physical, and the Standard Model gives it no value. It would give the neutron an electric")
+    w("  dipole moment.")
+    w("  O1. d_n per unit theta-bar, leading chiral logarithm (Crewther, Di Vecchia, Veneziano, Witten 1979):")
+    w("      g0 = delta m_N m* theta/(m-bar eps), from the strong part of m_n - m_p (de Vries et al. 2015);")
+    w("      d_n = e g_piNN [g0/(2 F_pi)] ln(m_N/m_pi) / (4 pi^2 m_N), g_piNN = g_A m_N/F_pi (Goldberger-Treiman)")
+    w(f"      eps = (m_d - m_u)/(m_d + m_u) = {bd['eps']:.3f}; g0/(2 F_pi) = ({1000 * bd['gbar']:.1f} +/-"
+      f" {1000 * bd['gbar_sigma']:.1f}) x 10^-3 theta-bar; g_piNN = {bd['g_piNN']:.2f}; ln(m_N/m_pi) = {bd['chiral_log']:.3f}")
+    w(f"      d_n = ({bd['d_n_per_theta'] * 1e16:.2f} +/- {bd['d_n_per_theta_sigma'] * 1e16:.2f}) x 10^-16 theta-bar e cm"
+      " (input errors; the counterterm beside the log is unknown)")
+    for r_ in bd["literature"]:
+        w(f"      {r_['method']:<32s} ({r_['d_n_per_theta'] * 1e16:.2f} +/- {r_['sigma'] * 1e16:.2f}) x 10^-16 theta-bar e cm")
+    w(f"      measured: |d_n| < {_fmt(bd['d_n_limit'], 2)} e cm (90% CL)  ->  |theta-bar| < {bd['theta_max']:.1e}"
+      f" (chiral log); < {bd['theta_max_weakest']:.1e} with the")
+    w("      weakest coefficient above, each lowered by its 1 sigma error")
+    mu_ = sc["massless_up"]
+    w("  O2. The explanations proposed, each tested:")
+    w(f"      a. massless up quark (theta-bar unphysical): m_u = {1000 * mu_['m_u_GeV']:.2f} +/-"
+      f" {1000 * mu_['sigma']:.2f} MeV, {mu_['n_sigma']:.0f} sigma from zero;")
+    w(f"         m_u/m_d = {mu_['z']:.3f} +/- {mu_['z_sigma']:.3f}. Excluded.")
+    ax = sc["axion"]
+    w("      b. axion (Peccei-Quinn): theta-bar relaxes to zero, at the cost of a new scale f_a.")
+    w(f"         m_a f_a = sqrt(z)/(1 + z) m_pi0 F_pi = {ax['ma_fa_MeV2']:.0f} +/- {ax['ma_fa_sigma']:.0f} MeV^2:"
+      f" m_a = {ax['m_a_ueV_at_1e12']:.2f} +/- {ax['m_a_ueV_at_1e12_sigma']:.2f} micro-eV x (1e12 GeV/f_a)")
+    w(f"         (leading order; NLO with lattice input: {ax['nlo_ueV']:.2f} +/- {ax['nlo_sigma']:.2f},"
+      f" {100 * ax['lo_minus_nlo_rel']:+.1f} %). At the algorithm's scales:")
+    for r_ in ax["at_scales"]:
+        w(f"           f_a = {r_['f_a']:<15s} = {r_['f_a_GeV']:.2e} GeV  ->  m_a = {r_['m_a_eV']:.2e} eV")
+    w("         One unknown (f_a) replaces one (theta-bar): a parameter trade, not a calculation.")
+    w("      c. parity: if a symmetry makes M_u and M_d Hermitian and sets theta = 0, then det M is real")
+    w("         and arg det(M_u M_d) is 0 or pi. Flipping the sign of a sector's matrix keeps V (same")
+    w("         eigenvectors) and flips its det (3 x 3), so theta-bar = 0 at tree level is always reachable.")
+    for r_ in sc["parity"]:
+        sg = {k: "".join("+" if s_ > 0 else "-" for s_ in v["eigenvalue_signs"]) for k, v in r_["sectors"].items()}
+        w(f"         Part C survivor (up {r_['up']}, down {r_['down']}): eigenvalue signs up {sg['u']}, down"
+          f" {sg['d']}; arg det(M_u M_d) = {'pi' if r_['arg_det_over_pi'] else '0'}")
+    w("         as found (heaviest eigenvalue positive), so theta-bar = 0 needs " +
+      ("no sign flip." if all(r_["arg_det_over_pi"] == 0 for r_ in sc["parity"]) else "one sector's sign flipped."))
+    w("         But Hermiticity needs a left-right parity (Part E), and the textures that parity gives are")
+    w("         excluded (Part G); radiative corrections then move theta-bar off zero. Not a calculation either.")
+    inv = sc["sm_invariant"]
+    j_meas = _comparison("J")[0]
+    w("  O3. Can the SM's own CP violation make theta-bar? Only through the flavour invariant")
+    w("      Im det[H_u, H_d] = 2 J prod_(i<j) (y_ui^2 - y_uj^2)(y_di^2 - y_dj^2), H = Y Y^dagger, which")
+    w(f"      vanishes if any two same-charge quarks were degenerate. At m_t(m_t), with the measured J:"
+      f" {j_meas * inv['mass_difference_product']:.1e}.")
+    w("      Its first divergent contribution to theta-bar is at seven loops (Ellis-Gaillard 1979), so the")
+    w(f"      SM's own theta-bar lies many orders below the bound {bd['theta_max']:.0e}.")
+    w(f"  RESULT: theta-bar is bounded, |theta-bar| < {bd['theta_max']:.1e} (up to {bd['theta_max_weakest']:.1e}"
+      " with the hadronic uncertainty),")
+    w("    but not calculated. The massless-up-quark solution is excluded; the axion trades theta-bar for")
+    w("    f_a and predicts m_a f_a; parity sets it to zero at tree level but needs Hermitian textures,")
+    w("    and the predictive ones are excluded. Theta-bar is the one free number whose smallness the")
+    w("    Standard Model's own CP violation cannot explain.")
+    w("")
+    nu = res["neutrinos"]
+    w("PART P. NEUTRINO MASSES AND MIXING")
+    w("-" * 78)
+    w("  Oscillations (NuFIT 6.0) measure two mass-squared differences and the PMNS matrix. Not measured:")
+    w("  the lightest mass m0, the ordering, two Majorana phases, and the origin of the masses. Each")
+    w("  unknown is scanned, never set.")
+    lims = {"sum_mnu_Planck": "Planck 2018", "sum_mnu_DESI": "DESI DR2 + CMB"}
+    for o, rec in nu["orderings"].items():
+        lab = "normal (m1 < m2 < m3)" if o == "NO" else "inverted (m3 < m1 < m2)"
+        ms_ = rec["masses_at_m0_0"]
+        w(f"  {o}, {lab}:")
+        w(f"    P1. at m0 = 0: masses {', '.join(f'{1000 * m:.2f}' for m in ms_)} meV; sum ="
+          f" {1000 * rec['sum_min']:.2f} +/- {1000 * rec['sum_min_sigma']:.2f} meV (the smallest possible)")
+        for k, v_ in rec["vs_cosmology"].items():
+            m0m = rec["m0_max"][k]
+            tail = (f"allowed; m0 < {1000 * m0m:.1f} meV" if v_["allowed"] else
+                    f"EXCLUDED at 95%: the minimum is {1000 * v_['sum_min_minus_limit']:.1f} meV above it")
+            w(f"        vs {lims[k]:<15s} sum < {1000 * v_['limit']:.0f} meV (95%): {tail}")
+        w(f"        Omega_nu h^2 at the minimum = {rec['Omega_nu_h2_at_min']:.2e}: {100 * rec['Omega_nu_over_Omega_m_at_min']:.2f} %"
+          " of Part A's Omega_m")
+        mbm = rec["m_beta_max_cosmology"]["sum_mnu_Planck"]
+        w(f"    P2. m_beta = {1000 * rec['m_beta_min']:.1f} meV at m0 = 0" +
+          (f", at most {1000 * mbm:.1f} meV under Planck's limit" if mbm else "") +
+          f"; KATRIN: < {1000 * _comparison('m_beta_KATRIN')[0]:.0f} meV (90%)")
+        lo0, hi0 = rec["m_bb_at_m0_0"]
+        sl, sh = rec["m_bb_at_m0_0_sigma"]
+        w(f"    P3. m_bb band over the Majorana phases at m0 = 0: {1000 * lo0:.2f} +/- {1000 * sl:.2f} to"
+          f" {1000 * hi0:.2f} +/- {1000 * sh:.2f} meV")
+        cz = rec["m_bb_cancellation_m0"]
+        if cz:
+            w(f"        m_bb can vanish (phases cancel) for {1000 * cz[0]:.2f} < m0 < {1000 * cz[1]:.2f} meV")
+        else:
+            w("        m_bb cannot vanish for any m0: the inverted ordering has a floor")
+        mbb = rec["m_bb_max_cosmology"]["sum_mnu_Planck"]
+        if mbb:
+            w(f"        largest m_bb under Planck's limit: {1000 * mbb:.1f} meV")
+        line = [f"{1000 * r_['m0']:.3g}: {1000 * r_['m_bb_lo']:.2f}-{1000 * r_['m_bb_hi']:.2f}" for r_ in rec["scan"][::4]]
+        w("        m0 (meV): m_bb band (meV)")
+        for i in range(0, len(line), 4):
+            w("          " + "   ".join(line[i:i + 4]))
+    klo, khi = _comparison("m_bb_KLZ_low")[0], _comparison("m_bb_KLZ_high")[0]
+    io_lo, io_hi = nu["orderings"]["IO"]["m_bb_at_m0_0"]
+    w(f"    KamLAND-Zen: m_bb < {1000 * klo:.0f} to {1000 * khi:.0f} meV (90%, by nuclear matrix element). The inverted")
+    w(f"    band at m0 = 0, {1000 * io_lo:.1f} to {1000 * io_hi:.1f} meV, is tested only above {1000 * klo:.0f} meV and only with the")
+    w("    most favourable matrix elements: neither ordering is excluded by double-beta decay yet.")
+    w("  P4. Mixing patterns from discrete flavour symmetries (tested like Part C's textures; delta is")
+    w("      far from Gaussian, so only theta12 decides survival, at the 3 sigma level)")
+    for o, rec in nu["orderings"].items():
+        pt = rec["patterns"]
+        w(f"    {o}:  pattern                             unknowns  predicts   pulls / prediction            verdict")
+        for r_ in pt["rows"]:
+            verdict = "survives" if r_["survives"] else "excluded"
+            if r_["unknowns"] == 0:
+                pl = r_["pulls"]
+                w(f"        {r_['pattern']:<36s} {r_['unknowns']:4d} {r_['predictions']:8d}     theta12 {pl['s12sq']:+5.1f},"
+                  f" theta13 {pl['s13sq']:+5.1f}, theta23 {pl['s23sq']:+4.1f}   {verdict}")
+            else:
+                w(f"        {r_['pattern']:<36s} {r_['unknowns']:4d} {r_['predictions']:8d}     theta13, theta23 fix the"
+                  f" unknowns                {verdict}")
+                for q_ in r_["solutions"]:
+                    w(f"            sin^2 theta12 = {q_['s12sq']:.4f} +/- {q_['s12sq_sigma']:.4f} ({q_['s12_pull']:+.1f} sigma);"
+                      f" delta = {q_['delta_deg']:.0f} +/- {q_['delta_sigma']:.0f} deg ({q_['delta_pull']:+.1f} sigma)")
+        w(f"        measured: sin^2 theta12 = {inp('nu_s12sq'):.3f}, delta = {pt['delta_meas']:.0f} +/- {pt['delta_sigma']:.1f} deg")
+    qlc = nu["orderings"]["NO"]["patterns"]["qlc"]
+    w(f"    Quark-lepton complementarity, theta12 + theta_C = 45 deg: {qlc['sum_deg']:.2f} +/- {qlc['sigma_deg']:.2f} deg,"
+      f" {qlc['n_sigma']:.1f} sigma")
+    no_ = nu["orderings"]["NO"]["seesaw"]
+    w("  P5. Where the masses come from. Seesaw: m = y^2 v^2/(2 M), with the heaviest mass at m0 = 0")
+    w(f"      ({1000 * no_['m_heaviest_eV']:.1f} meV, NO):  M = {no_['M_for_y_1']:.1e} GeV for y = 1,"
+      f" {no_['M_for_y_top']:.1e} GeV for y = y_t,")
+    w(f"      at most {no_['M_max_perturbative']:.1e} GeV for y = sqrt(4 pi) (perturbative). Part I's M_GUT ="
+      f" {_fmt(nu['M_GUT'] or math.nan, 3)} GeV and")
+    w(f"      M_P = {nu['M_P']:.2e} GeV lie above it: a seesaw needs new states below the unification scale.")
+    w(f"      Dirac alternative: y_nu up to {max(no_['dirac_yukawa']):.1e}, against y_e = {nu['electron_yukawa']:.1e}"
+      " (a new hierarchy, no new scale).")
+    no_rec, io_rec = nu["orderings"]["NO"], nu["orderings"]["IO"]
+    io_out = [lims[k] for k, v_ in io_rec["vs_cosmology"].items() if not v_["allowed"]]
+    fixed_ = [r_ for r_ in no_rec["patterns"]["rows"] if r_["unknowns"] == 0]
+    t13 = min(abs(r_["pulls"]["s13sq"]) for o_ in NU_ORDERINGS for r_ in nu["orderings"][o_]["patterns"]["rows"]
+              if r_["unknowns"] == 0)
+    corr = {r_["pattern"].split(":")[0]: max(nu["orderings"][o_]["patterns"]["rows"][i]["n_sigma"] for o_ in NU_ORDERINGS)
+            for i, r_ in enumerate(no_rec["patterns"]["rows"]) if r_["unknowns"]}
+    surv_ = [k for k, s_ in corr.items() if s_ <= num("survival_sigma")]
+    w(_wrap("RESULT: the masses and the mixing are measured, not calculated. "
+            + (f"Cosmology ({', '.join(io_out)}, flat LambdaCDM) excludes the inverted ordering at 95%; the normal "
+               f"one keeps m0 below {1000 * min(m for m in no_rec['m0_max'].values() if m):.1f} meV. " if io_out else "")
+            + f"Every fixed mixing pattern ({len(fixed_)}: tribimaximal, bimaximal, golden ratio, hexagonal) is "
+            f"excluded by theta13 at {t13:.0f} sigma or more. "
+            + (f"Surviving corrected patterns: {', '.join(f'{k} (theta12 at {corr[k]:.1f} sigma)' for k in surv_)}; "
+               "each predicts sin^2 theta12 and delta from theta13 and theta23, a test for DUNE and Hyper-Kamiokande."
+               if surv_ else "No corrected pattern survives."), 2))
+    w("    Neutrino masses also test Part L's assumption: the SM up to M_P holds only for Dirac neutrinos.")
+    w("")
+    pq = res["proton_decay"]
+    w("PART Q. PROTON DECAY: THE DIRECT TEST OF UNIFICATION")
+    w("-" * 78)
+    w("  If the couplings unify (Part I), the SU(5) gauge bosons X, Y turn quarks into leptons. Their")
+    w("  exchange gives p -> e+ pi0 (Ellis et al. 2020, minimal SU(5)):")
+    w("    Gamma = m_p/(32 pi) (1 - m_pi^2/m_p^2)^2 A_L^2 (g_GUT^2/M_X^2)^2 [A_S1^2 W_RL^2 + (1 + |V_ud|^2)^2 A_S2^2 W_LL^2]")
+    w("  W: lattice matrix elements at 2 GeV (Aoki et al. 2017). A_S: one-loop running of the two operators")
+    w("  from M_X to M_Z, exponents -2 c_i/b_i with this script's b_i. A_L: their QCD running to 2 GeV with")
+    w(f"  this script's alpha_s: A_L = {pq['A_L']:.3f} (one-loop exponent; two loops: {pq['A_L_two_loop_quoted']:.3f}, quoted).")
+    w("  M_X and alpha_GUT come from the algorithm; GUT thresholds (M_X against M_GUT) are unknown.")
+    w("      hypothesis                            M_X (GeV)   alpha_GUT  A_S1   A_S2   tau (years)")
+    for r_ in pq["rows"]:
+        w(f"      {r_['hypothesis']:<37s} {r_['M_X']:.2e}   {r_['alpha_GUT']:.4f}   {r_['A_S1']:.2f}   {r_['A_S2']:.2f}"
+          f"   {r_['tau_years']:.1e} +/- {r_['tau_sigma']:.0e}")
+    w(f"  Super-Kamiokande: tau/B(p -> e+ pi0) > {pq['limit_e_pi0']:.1e} years (90% CL)")
+    for r_ in pq["rows"]:
+        verdict = (f"allowed, {r_['ratio_to_limit']:.1f} times the limit" if r_["allowed"] else
+                   f"EXCLUDED: {r_['ratio_to_limit']:.0e} of the limit")
+        w(f"      {r_['hypothesis']:<37s} {verdict}; the limit needs M_X > {r_['M_X_needed']:.1e} GeV")
+    w("  Q2. Dimension five, p -> nubar K+, through the colour-triplet Higgsinos of minimal SUSY SU(5)")
+    w("      (Hisano et al. 2013, eqs. 15-49): M_HC = M_GUT and every superpartner at M_S (Part I),")
+    w("      tan(beta) from Part J; Yukawas run in the SM to M_S and in the MSSM to M_HC; the operators run")
+    w("      with the Yukawas above M_S, with the gauge couplings below, with QCD to 2 GeV. The two unknown")
+    w("      GUT phases are scanned: the band is every lifetime they allow.")
+    for r_ in pq["d5"]:
+        w(f"      tan(beta) = {r_['tan_beta']:.3f}: tau = {r_['tau_min']:.1e} to {r_['tau_max']:.1e} years"
+          f"   (A_L = {r_['A_L']:.2f}, Abar_R = {r_['Abar_R']:.2f}, y_t(M_HC) = {r_['f_GUT']['t']:.2f})")
+    if pq["d5"]:
+        r0 = pq["d5"][0]
+        w(f"      Super-Kamiokande: tau/B(p -> nubar K+) > {pq['limit_K_nu']:.1e} years (90% CL). Even at the best")
+        w(f"      phases the limit needs M_HC > {r0['M_HC_needed']:.1e} GeV (tau ~ M_HC^2), or superpartners near"
+          f" {r0['M_S_needed_scaling'] / 1000:.0f} TeV (tau ~ M_S^2).")
+        c19 = float(LITERATURE["proton_decay_d5_scaling"]["value"])
+        cs = [r_["eq19_constant"] for r_ in pq["d5"]]
+        w(f"      Check against Hisano et al.'s eq. 19, tau = C sin^4 2beta (0.1/Abar_R)^2 (M_S/100 TeV)^2 (M_HC/1e16 GeV)^2")
+        w(f"      with C = {c19:.0e} years: the higgsino part alone ({r0['tau_higgsino_only']:.1e} years) implies C = {cs[0]:.2e},")
+        w(f"      the same at every tan(beta) (spread {(max(cs) - min(cs)) / cs[0]:.0e}: the scaling is exact). Their lattice matrix element")
+        w(f"      (alpha_p = {LITERATURE['proton_decay_d5_scaling']['alpha_p']} GeV^3, against {inp('alpha_p_lattice')} here) gives C ="
+          f" {r0['eq19_constant_hisano_alpha_p']:.2e}: the old factor {c19 / cs[0]:.1f} is {(inp('alpha_p_lattice') / float(LITERATURE['proton_decay_d5_scaling']['alpha_p'])) ** 2:.2f}"
+          f" from alpha_p times {c19 / r0['eq19_constant_hisano_alpha_p']:.2f}")
+        w("      from eq. 19's one-digit constant and its older quark masses: not a bug.")
+    mss = [r_ for r_ in pq["rows"] if r_["M_S"]]
+    sms = [r_ for r_ in pq["rows"] if not r_["M_S"]]
+    d5_out = [r_ for r_ in pq["d5"] if not r_["allowed_somewhere"]]
+    w(_wrap("RESULT: " + (f"with superpartners at Part I's M_S, the gauge-boson channel gives "
+                          f"{mss[0]['tau_years']:.1e} years, {mss[0]['ratio_to_limit']:.0f} times the Super-K limit: "
+                          f"{'allowed' if mss[0]['allowed'] else 'excluded'}, and within reach of Hyper-Kamiokande. "
+                          if mss else "")
+            + (f"But the Higgsino channel of minimal SUSY SU(5) at the same scales lives at most "
+               f"{max(r_['tau_max'] for r_ in pq['d5']):.0e} years: excluded for every phase and every tan(beta) of "
+               "Part J. Minimal SUSY SU(5) with one superpartner scale M_S fails proton decay, as Part K's Higgs mass "
+               "already found; a heavier colour triplet or superpartners above about 100 TeV are needed. "
+               if pq["d5"] and len(d5_out) == len(pq["d5"]) else "")
+            + (f"In the SM, X bosons where g1 = g2 would make the proton live {sms[0]['tau_years']:.0e} years: "
+               "excluded, one more reason the SM cannot unify." if sms else ""), 2))
+    w("")
+    an = res["anomalies"]
+    hy = an["hypercharge"]
+    w("PART R. WHAT ANOMALY CANCELLATION FIXES (exact)")
+    w("-" * 78)
+    w("  A chiral gauge theory is consistent only if its gauge anomalies cancel: exact conditions on the")
+    w("  charges, and the one place where the SM's quantum numbers are calculated, not measured.")
+    w("  R1. One family with the SM's representations and unknown hypercharges Y_Q, Y_u, Y_d, Y_L, Y_e:")
+    w("      [SU(3)]^2 U(1), [SU(2)]^2 U(1), [gravity]^2 U(1), U(1)^3. The three linear ones give Y_L, Y_d,")
+    w("      Y_e; U(1)^3 is then a quadratic, solved exactly (Y_Q = 1/6 sets the normalization):")
+    for s_ in hy["solutions"]:
+        w("        " + ", ".join(f"Y({k}) = {v}" for k, v in s_.items()))
+    w("      the two differ only by naming u^c and d^c. A branch with Y_Q = 0 also cancels"
+      f" ({hy['Y_Q_zero_branch_cancels']}), but only the")
+    w(f"      right-handed quarks are charged and no Yukawa coupling exists ({hy['Y_Q_zero_branch_has_yukawas']}).")
+    w("      With Yukawa couplings for every fermion: the SM's hypercharges, uniquely.")
+    ch = hy.get("charges")
+    if ch:
+        w(f"      Electric charge Q = T3 + Y/(2 Y_H): u {ch['u']}, d {ch['d']}, e {ch['e']}, nu {ch['nu']}."
+          f" Proton + electron: {ch['proton_plus_electron']};")
+        w(f"      neutron: {ch['neutron']}. Charge is quantized: atoms are neutral because the anomalies cancel.")
+    w(f"      With a right-handed neutrino, SM + eps (B - L) cancels for every eps ({hy['nu_R_family_cancels']}) and keeps")
+    w(f"      a Dirac Yukawa ({hy['nu_R_dirac_yukawa_ok']}): hydrogen stays neutral ({hy['nu_R_hydrogen_charge']}) but the"
+      f" neutron gets charge {hy['nu_R_neutron_charge_per_eps']} x eps.")
+    w("      A Majorana mass for nu^c (the seesaw of Part P) needs Y(nu^c) = 0, so eps = 0: quantization returns.")
+    w(f"  R2. Witten's SU(2) anomaly: {an['witten_doublets_per_family']} doublets per family (3 colours of Q, plus L): even, consistent.")
+    fb = an["so10_families"]
+    w(f"  R3. SO(10) (Part D): the 16's cubic anomaly, max |sum_w w_a w_b w_c| over its weights, is {fb['cubic_anomaly_16']}:")
+    w("      every SO(10) representation is anomaly-free, so anomalies allow any number of families.")
+    w(f"      Asymptotic freedom of the SO(10) coupling with the chain's scalars (complex 10, 126, real 210):")
+    w(f"      b = -(11/3) C2(45) + (2/3) T(16) N_f + {fb['scalar_sum']} with C2(45) = {fb['T45']}, T(16) = {fb['T16']} (from the weights):")
+    for r_ in fb["rows"][:8]:
+        w(f"        N_f = {r_['families']}: b = {str(r_['b_SO10']):>6}  ({'asymptotically free' if r_['asymptotically_free'] else 'not asymptotically free'}),"
+          f" {r_['ckm_phases']} CKM phase(s)")
+    al = fb["allowed"]
+    w(_wrap("RESULT: the SM's hypercharges and the quantization of electric charge follow from anomaly "
+            "cancellation and the Yukawa couplings: calculated, not measured. A right-handed neutrino leaves one "
+            "free direction, closed by a Majorana mass. SO(10) does not fix the number of families: anomalies allow any, "
+            + (f"and asymptotic freedom with CP violation leaves {al[0]} to {al[-1]}: bounded, not calculated."
+               if len(al) > 1 else (f"and asymptotic freedom with CP violation leaves exactly {al[0]}." if al else
+                                    "and nothing is left.")), 2))
+    w("")
+    ba = res["baryon_asymmetry"]
+    w("PART S. THE BARYON ASYMMETRY")
+    w("-" * 78)
+    w(f"  S1. eta_B = n_B/n_gamma from Omega_b h^2 = {inp('Omega_b_h2')} (Planck 2018) and T_CMB:"
+      f" ({ba['eta_B'] * 1e10:.3f} +/- {ba['eta_B_sigma'] * 1e10:.3f}) x 10^-10")
+    w("      Making it needs B violation, C and CP violation, and a departure from equilibrium (Sakharov).")
+    sp, tr, cp = ba["sphaleron"], ba["transition"], ba["cp_measure"]
+    w("  S2. The Standard Model alone")
+    w(f"      B violation: sphalerons change B and L by N_f = {sp['delta_B_per_transition']} each (the SU(2) anomaly, Part R).")
+    w(f"      Chemical equilibrium (Yukawas, sphalerons, zero hypercharge), solved exactly for N_f = {sp['n_f']},"
+      f" N_H = {sp['n_h']}:")
+    w(f"        B = {sp['B_over_BminusL']} (B - L), L = {sp['L_over_BminusL']} (B - L)  (Harvey-Turner's 28/79)")
+    w(f"      Departure from equilibrium: the transition is first order only for m_h < {tr['endpoint_m_h']} +/-"
+      f" {tr['endpoint_sigma']} GeV (lattice);")
+    w(f"        measured m_h = {tr['m_h']:.2f} GeV, {tr['n_sigma_above']:.0f} sigma above: a smooth crossover at"
+      f" T_c = {tr['T_c']} GeV. Fails.")
+    w(f"      CP violation: J prod(m_i^2 - m_j^2) / T_c^12 = {cp['delta_CP']:.1e} (running masses at m_t(m_t)),")
+    w(f"        {math.log10(ba['eta_B'] / cp['delta_CP']):.0f} orders of magnitude below eta_B. Fails.")
+    lg = ba["leptogenesis"]
+    w("  S3. Leptogenesis (the seesaw of Part P): eta_B = c_sph (3/4) (g*s,0 / g*) epsilon_1 kappa, kappa <= 1")
+    w(f"      g* = {lg['g_star']} (SM plus N_1, from the field content), g*s,0 = {lg['g_s_today']}, c_sph ="
+      f" {sp['B_over_BminusL']}: eta_B = {lg['eta_per_epsilon_kappa']:.3e} epsilon_1 kappa")
+    w(f"      so epsilon_1 >= {lg['epsilon_min']:.1e}. SM bound: |epsilon_1| <= 3 M_1 (m_3 - m_1) / (16 pi <H>^2):")
+    for r_ in lg["rows"]:
+        w(f"        {r_['ordering']}: m_3 - m_1 = {1000 * r_['m3_minus_m1_eV']:.1f} meV  ->  M_1 >= {r_['M1_min']:.1e} GeV;"
+          f" Part P's window up to {r_['window_top']:.1e} GeV: {'open' if r_['window_open'] else 'closed'}")
+    w(f"      (Davidson-Ibarra's MSSM form has 8 pi; their example, epsilon > 1e-6 needs M_1 > 4e9 GeV: here"
+      f" {lg['di_example_M1']:.1e} GeV)")
+    w(f"      Efficiency: kappa_f = 2/(K z_B) (1 - e^(-K z_B / 2)), K = m~_1/m_*, m_* = {1000 * lg['m_star_eV']:.3f} meV"
+      " (from g* and M_P);")
+    w("      z_B solves (K/4) z^3 e^-z (1 + sqrt(pi z/2)) = z - 1 (Buchmuller, Di Bari, Plumacher, eqs. 22, 59). Over")
+    w("      the natural range m_sol <= m~_1 <= m_atm:")
+    eff_ = lg["efficiency"]
+    shown = sorted({0, len(eff_) - 1} | set(range(0, len(eff_), max(1, len(eff_) // 4))))
+    for e_ in (eff_[i] for i in shown):
+        w(f"        m~_1 = {1000 * e_['m_tilde_eV']:5.1f} meV: K = {e_['K']:5.1f}, z_B = {e_['z_B']:.2f}, kappa_f = {e_['kappa']:.4f}"
+          f"  ->  M_1 >= {e_['M1_min']:.1e} GeV")
+    w("      Thermal production also needs a reheating temperature above M_1.")
+    w(_wrap("RESULT: eta_B is measured, not calculated. The Standard Model fails two of Sakharov's conditions: its "
+            f"transition is a crossover ({tr['n_sigma_above']:.0f} sigma above the lattice endpoint) and its CP "
+            f"violation is {math.log10(ba['eta_B'] / cp['delta_CP']):.0f} orders too small. Leptogenesis works if the "
+            f"lightest right-handed neutrino is above {min(r_['M1_min'] for r_ in lg['rows']):.0e} GeV (at full "
+            f"efficiency; {lg['M1_min_natural'][0]:.0e} to {lg['M1_min_natural'][1]:.0e} GeV over the natural washout range), inside the "
+            "seesaw window of Part P: it ties eta_B to the neutrino masses but adds unmeasured parameters (M_1, the "
+            "phases, kappa). Part L's SM up to M_P, with Dirac neutrinos, has no seesaw and so no such mechanism.", 2))
+    w("")
+    so = res["so10"]
+    w("PART T. SO(10)")
+    w("-" * 78)
+    w("  SO(10) puts a whole family, with a right-handed neutrino, into one 16.")
+    wa = so["weinberg"]
+    w("  T1. Group theory (exact)")
+    w("      B - L anomalies of one family, " + ", ".join(f"{k} = {v}" for k, v in so["bl_anomalies_without_nu_c"].items())
+      + " without nu^c;")
+    w("        all zero with it: gauging B - L (inside SO(10)) requires the right-handed neutrino.")
+    w(f"      Over a complete 16: sin^2 theta_W = Tr T3^2 / Tr Q^2 = {wa['sin2_theta_W']} at unification;"
+      f" Tr T3^2 / Tr Y^2 = {wa['GUT_norm']},")
+    w(f"        the hypercharge normalization this script uses throughout ({wa['script_GUT_norm']}).")
+    mn = so["minimal_10"]
+    w(f"  T2. Minimal Yukawas (one 10_H): M_u ~ M_d ~ M_e, so V = 1 and equal mass ratios. At"
+      f" {_fmt(mn['scale'], 3)} GeV:")
+    w(f"      m_c/m_t = {mn['m_c/m_t']:.4f}, m_s/m_b = {mn['m_s/m_b']:.4f}, m_mu/m_tau = {mn['m_mu/m_tau']:.4f}:"
+      f" (m_s/m_b)/(m_c/m_t) = {mn['s_over_c']:.1f}, (m_mu/m_tau)/(m_s/m_b) = {mn['mu_over_s']:.1f}")
+    w("      Excluded (and V = 1 contradicts every CKM measurement). Adding a 126_H gives each sector its own")
+    w("      matrix: enough parameters to fit, none predicted (Part F's closure).")
+    tb = so["t_b_tau"]
+    if tb:
+        w(f"  T3. t-b-tau unification (MSSM, Part I's scales): y_t = y_b at M_GUT for tan(beta) = {tb['tan_beta']:.0f},"
+          f" where y_b/y_tau = {tb['yb_over_ytau']:.3f}.")
+        w(f"      It needs a supersymmetric threshold correction of {100 * tb['m_b_threshold_needed']:+.0f} % to m_b: a"
+          " function of the unknown superpartner spectrum, so a trade, not a test.")
+    ps = so["pati_salam"]
+    bp = ps["b_PS"]
+    w("  T4. Non-supersymmetric SO(10) through Pati-Salam SU(4) x SU(2)_L x SU(2)_R at M_I (one loop)")
+    w(f"      b from the field content: SU(4) {bp['4']}, SU(2)_L {bp['2L']}, SU(2)_R {bp['2R']} (three families of")
+    w("      (4,2,1) + (4bar,1,2), scalars (1,2,2) and (10,1,3)). The three measured couplings fix the three")
+    w("      unknowns exactly (a linear system):")
+    w(f"        M_I = {ps['M_I']:.2e} GeV, M_GUT = {ps['M_GUT']:.2e} GeV, 1/alpha_GUT = {1 / ps['alpha_GUT']:.1f}"
+      f" ({'consistent: M_Z < M_I < M_GUT' if ps['consistent'] else 'inconsistent ordering'})")
+    w(f"      Proton decay (Part Q's formula, SM running throughout): tau = {ps['tau_p_years']:.1e} years against"
+      f" {ps['tau_p_limit']:.1e}: {'allowed' if ps['tau_p_allowed'] else 'excluded'}")
+    w(f"      M_I is where B - L breaks and the right-handed neutrinos get mass: inside leptogenesis's window"
+      f" ({ps['M1_min_leptogenesis']:.0e} to {ps['seesaw_window_top']:.0e} GeV): {ps['M_I_in_leptogenesis_window']}")
+    w(f"      If the axion scale is M_I (as in SO(10) axion models), m_a = {ps['axion_m_a_eV_if_fa_MI'] * 1e6:.1f} micro-eV.")
+    w("  T5. Every minimal chain, one and two loops (b from the field content; SM two loops below M_I). At two loops")
+    w("      the matching carries the heavy vectors' MS-bar constant, 1/alpha_i(low) = 1/alpha_i(high) - T_i/(12 pi) with")
+    w("      T_i their Dynkin index (= C2(SO(10)) - C2(H_i) at M_GUT; W_R and leptoquarks at M_I; Langacker-Polonsky")
+    w("      eq. 12, C^1 = 1/21): no unknown. The heavy masses' splittings are T7/T12/T13. Each chain has as many")
+    w("      unknowns as conditions: none predicts a coupling.")
+    for nm, c_ in so["chains"].items():
+        a_, b_ = c_["loop2_tree_matching"], c_["loop2"]
+        w(f"        {nm:<6s} T(M_GUT) = {', '.join(str(t_) for t_ in c_['vector_constants']['M_GUT'])}; T(M_I) (Y, 2L, 3) ="
+          f" {', '.join(str(t_) for t_ in c_['vector_constants']['M_I'])}: M_I x{b_['M_I'] / a_['M_I']:.3f},"
+          f" M_GUT x{b_['M_GUT'] / a_['M_GUT']:.3f} against tree matching")
+    g1_, g2_ = operator_gamma("SU4", "S1"), operator_gamma("SU3", "S1")
+    w("      tau_p: above M_I the proton-decay operators run with the chain's group. Their anomalous dimensions are")
+    w("      derived (Landau gauge: each exchange inside a Lorentz-scalar bilinear gives 6 T_i.T_j, the mass operator's")
+    w("      value; left-right exchanges cancel), which reproduces Ellis et al.'s SM coefficients exactly (a self-check):")
+    w(f"      d ln C/d ln mu x 16 pi^2 = {', '.join(str(v_) for v_ in g1_)} g^2 for (4, 2L, 2R);"
+      f" {', '.join(str(v_) for v_ in g2_)} g^2 for (3, 2L, 2R, B-L).")
+    w("      chain   b (one loop)                M_I, M_GUT (1 loop)    M_I, M_GUT (2 loops)  1/a_GUT  tau_p (yr)")
+    for nm, c_ in so["chains"].items():
+        l1, l2 = c_["loop1"], c_["loop2"]
+        w(f"      {nm:<6s}  {', '.join(str(v_) for v_ in c_['b1']):<26s}  {l1['M_I']:.1e}, {l1['M_GUT']:.1e}"
+          f"     {l2['M_I']:.1e}, {l2['M_GUT']:.1e}   {1 / l2['alpha_GUT']:5.1f}   {l2['tau_p_years']:.1e}"
+          f" {'ok' if l2['tau_p_allowed'] else 'EXCLUDED'}")
+    w("      lambda(M_I) = 0 at each chain's two-loop M_I (Part L's running and matching):")
+    for nm, c_ in so["chains"].items():
+        w(f"        {nm:<6s} m_h = {c_['loop2']['m_h_lambda_MI_zero']:.2f} GeV")
+    vac = so["vacuum"]
+    w("  T6. What lambda(M_I) is. The heavy scalar that breaks the chain at M_I shifts the SM quartic at tree level")
+    w("      (Elias-Miro et al. 2012, eq. 5): lambda_SM(M_I) = lambda_H - lambda_HS^2/lambda_S, a shift that is >= 0")
+    w("      and unknown. So lambda(M_I) = 0 is not a condition of the theory. What is fixed: the vacuum is stable")
+    w("      only if the SM's lambda stays positive up to M_I, i.e. M_I below the scale mu_0 where it turns negative.")
+    band = vac["mu0_band_Mt"]
+    w(f"      mu_0 = {vac['mu0']:.2e} GeV for the measured m_h" + (f" ({band[0]:.1e} to {band[-1]:.1e} for M_t +/- 1 sigma)"
+                                                                     if band else ""))
+    for nm, r_ in vac["rows"].items():
+        verdict = "the threshold can stabilize the vacuum" if r_["stabilizable"] else "metastable SM between mu_0 and M_I"
+        w(f"        {nm:<6s} M_I = {r_['M_I']:.1e}: lambda_SM(M_I) = {r_['lambda_SM_at_MI']:+.4f}  ->  {verdict}")
+    w("      The 'lambda(M_I) = 0' Higgs masses above only say how close each chain's M_I lies to mu_0.")
+    th_ = so["thresholds"]
+    band_ = next(iter(th_.values()))["band"] if th_ else 0
+    w(f"  T7. Thresholds: each matching condition shifted by up to +/- {band_} in 1/alpha (an assumed band, typical of")
+    w("      one-loop thresholds), every corner solved at two loops. Ranges, and which verdicts can flip:")
+    for nm, t_ in th_.items():
+        flips = [n_ for n_, f_ in (("proton decay", t_["proton_flips"]), ("vacuum", t_["vacuum_flips"]),
+                                   ("leptogenesis", t_["leptogenesis_flips"])) if f_]
+        w(f"        {nm:<6s} M_I {t_['M_I'][0]:.1e} - {t_['M_I'][1]:.1e}, M_GUT {t_['M_GUT'][0]:.1e} - {t_['M_GUT'][1]:.1e},"
+          f" tau_p {t_['tau_p'][0]:.0e} - {t_['tau_p'][1]:.0e}: " + (", ".join(flips) + " can flip" if flips else "robust"))
+    hs_ = so["heavy_spectrum_PS"]
+    w("  T8. Pati-Salam's heavy GUT multiplets (SO(10) broken by a 210, plus the 126 and 10): each shifts the")
+    w("      couplings at M_GUT by (b^h/2 pi) ln(M_h/M_GUT). Per unit of that log, and the mass ratio M_h/M_GUT")
+    w("      (that multiplet alone) at which proton decay or vacuum stability would flip:")
+    w("        multiplet               b (4, 2L, 2R)       d ln M_I  d ln tau_p   proton flips   vacuum flips")
+    for r_ in hs_["rows"]:
+        pf = f"{r_['proton_flip_ratio']:.2g}" if r_["proton_flip_ratio"] else "-"
+        vf = f"{r_['vacuum_flip_ratio']:.2g}" if r_["vacuum_flip_ratio"] else "-"
+        w(f"        {r_['multiplet']:<23s} {', '.join(str(v_) for v_ in r_['b']):<18s} {r_['dlnMI']:+8.3f}  {r_['dlntau']:+9.3f}"
+          f"   at {pf:<9s}   at {vf}")
+    w(f"      All eight within a factor {hs_['spread']} of M_GUT: M_I {hs_['M_I'][0]:.0e} - {hs_['M_I'][1]:.0e} GeV,"
+      f" M_GUT {hs_['M_GUT'][0]:.0e} - {hs_['M_GUT'][1]:.0e} GeV,")
+    w(f"      tau_p {hs_['tau_p'][0]:.0e} - {hs_['tau_p'][1]:.0e} years: the heavy spectrum, not the running, decides.")
+    pz = so["potential_210"]
+    w("  T9. The 210's own potential calculates four of those masses. Invariants: S2, the cubic C, quartics Q1-Q4;")
+    w("      vev on the Pati-Salam singlet; mass^2/v^2 per multiplet (quartics per 576, cubic per 24, eta in units of v):")
+    for nm, c_ in pz["curvatures"].items():
+        w(f"        {nm:<9s} " + "  ".join(f"{k_} {v_:+.4f}" for k_, v_ in c_.items()))
+    w(f"      Couplings scanned: |lambda_a| <= {_fmt(pz['lambda_max'], 2)}, |eta/v| <= {_fmt(pz['eta_max'], 2)};"
+      f" {pz['viable']} of {pz['tried']} points give a local minimum bounded")
+    w("      below along the test directions. Their masses (the 126's and 10's still at M_GUT) give, as fractions of")
+    w("      the viable potentials:")
+    tq, mq = pz["tau_p_quantiles"], pz["M_I_quantiles"]
+    w(f"        proton decay passes {100 * pz['frac_proton_ok']:.0f} %; tau_p 16-50-84 %: {tq[0]:.1e}, {tq[1]:.1e}, {tq[2]:.1e} years")
+    w(f"        M_I 16-50-84 %: {mq[0]:.1e}, {mq[1]:.1e}, {mq[2]:.1e} GeV; natural leptogenesis {100 * pz['frac_leptogenesis_ok']:.0f} %;"
+      f" stabilizable vacuum {100 * pz['frac_vacuum_ok']:.0f} %")
+    w(f"        proton decay and natural leptogenesis together: {100 * pz['frac_all']:.0f} %")
+    p6 = pz["with_126"]
+    c6 = p6["coefficients_126"]
+    w("  T10. The 126's masses from its couplings to <210> (self-dual 5-forms; norm, the D-odd cubic, quartics D, E;")
+    w("       a universal quartic absorbed). Eigenvalues per multiplet, relative to the norm:")
+    for r_, c_ in c6.items():
+        w(f"        {r_:<11s} " + "  ".join(f"{k_} {v_:+.4f}" for k_, v_ in c_.items()))
+    w("       Only the cubic tells (10,3,1) from (10bar,1,3). The chain needs (10bar,1,3) light at M_I, so")
+    w("       m^2(10,3,1) = 2 eta_2 v exactly: the dominant multiplet of T8 is set by one coupling.")
+    tq, mq = p6["tau_p_quantiles"], p6["M_I_quantiles"]
+    w(f"       With the 126's couplings scanned too ({p6['viable']} jointly viable potentials):")
+    w(f"        proton decay passes {100 * p6['frac_proton_ok']:.0f} %; tau_p 16-50-84 %: {tq[0]:.1e}, {tq[1]:.1e}, {tq[2]:.1e} years")
+    w(f"        M_I 16-50-84 %: {mq[0]:.1e}, {mq[1]:.1e}, {mq[2]:.1e} GeV; natural leptogenesis {100 * p6['frac_leptogenesis_ok']:.0f} %;"
+      f" stabilizable vacuum {100 * p6['frac_vacuum_ok']:.0f} %")
+    w(f"        proton decay and natural leptogenesis together: {100 * p6['frac_all']:.0f} %")
+    p10 = pz["with_10"]
+    w("  T11. The 10's couplings. No cubic H H phi exists (10 x 10 holds no 210); the quartic H_i H_j A_ij,")
+    w(f"       A_ij = phi_iklm phi_jklm, is {p10['A_SO4']:.0f} v^2 on SO(4) indices and {p10['A_SO6']:.0f} on SO(6): it alone"
+      " splits the doublet (1,2,2) from")
+    w("       the colour triplet (6,1,1). The cubic H_i S_ijklm phi_jklm mixes that triplet with the 126's (6,1,1).")
+    w("       The light doublet fixes the 10's mass term: a cancellation to (M_I/M_GUT)^2, the doublet-triplet")
+    w("       splitting problem, assumed here as in every SO(10) model.")
+    tq, mq, lq = p10["tau_p_quantiles"], p10["M_I_quantiles"], p10["triplet_light_quantiles"]
+    w(f"       With the 10's couplings scanned too ({p10['viable']} jointly viable potentials):")
+    w(f"        lighter colour triplet / M_GUT 16-50-84 %: {lq[0]:.2f}, {lq[1]:.2f}, {lq[2]:.2f}")
+    w(f"        proton decay passes {100 * p10['frac_proton_ok']:.0f} %; tau_p 16-50-84 %: {tq[0]:.1e}, {tq[1]:.1e}, {tq[2]:.1e} years")
+    w(f"        M_I 16-50-84 %: {mq[0]:.1e}, {mq[1]:.1e}, {mq[2]:.1e} GeV; natural leptogenesis {100 * p10['frac_leptogenesis_ok']:.0f} %;"
+      f" stabilizable vacuum {100 * p10['frac_vacuum_ok']:.0f} %")
+    w(f"        proton decay and natural leptogenesis together: {100 * p10['frac_all']:.0f} %")
+    w("       Not included: proton decay through the colour triplets' own Yukawa couplings (scalar exchange), which")
+    w("       needs the Yukawa matrices at M_GUT.")
+    hl_ = so["heavy_spectrum_LR"]
+    w("  T12. The left-right chain's heavy spectrum. SO(10) -> SU(3) x SU(2)_L x SU(2)_R x U(1)_B-L without D-parity")
+    w("       needs the 210 on both 3221 singlets (the Pati-Salam singlet, odd under D, and the B - L direction of its")
+    w("       (15,1,1)); (3,2,2) and (3,1,1) are eaten. Every heavy multiplet of the 210, 126 and 10 (decompositions")
+    w("       checked against the SO(10) indices, B - L included), b under (3, 2L, 2R, B-L), per unit ln(M_h/M_GUT),")
+    w("       sorted by their pull on M_I:")
+    w("        multiplet               b (3, 2L, 2R, BL)     d ln M_I  d ln tau_p")
+    for r_ in sorted(hl_["rows"], key=lambda r2_: -abs(r2_["dlnMI"]))[:int(num("report_top_heavy"))]:
+        w(f"        {r_['multiplet']:<23s} {', '.join(str(v_) for v_ in r_['b']):<21s} {r_['dlnMI']:+8.3f}  {r_['dlntau']:+9.3f}")
+    w(f"        ({len(hl_['rows']) - int(num('report_top_heavy'))} more, each moving ln M_I by less than"
+      f" {sorted(abs(r2_['dlnMI']) for r2_ in hl_['rows'])[-int(num('report_top_heavy')) - 1]:.2f} per unit)")
+    w("       The SU(2)_L-triplet coloured states pull M_I down when heavy, the SU(2)_R ones up: a split spectrum moves")
+    w("       M_I by large factors (Part Y asks how far the neutrino fits need it moved).")
+    pl_ = so["potential_lr"]
+    w("  T13. The left-right chain's own potential. The 210's vev phi = v (cos a e_PS + sin a e_BL); multiplets found as")
+    w("       highest-weight vectors (complex basis Z_k, U_1, U_2: every monomial a weight vector), so the 210's two (3,2,2)")
+    w("       and two singlets come out as 2 x 2 Hessian blocks. Stationarity fixes mu^2 and eta for scanned quartics and")
+    w("       a; the heavy vectors (3,2,2) (M_GUT) and (3,1,1) get different masses, the latter a threshold of its own")
+    w(f"       (d ln M_I = {pl_['vector_311']['dlnMI']:+.2f} per unit log). The 126 at this vev: T10's invariants, Delta_R"
+      " = (1,1,3,2) light. Checks: the")
+    w("       decompositions, T9's and T10's Pati-Salam limits, the Goldstones (self-checks).")
+    for lab_, key_ in (("210 alone (126, 10 at M_GUT)", "with_210"), ("210 + 126 (10 at M_GUT)", "with_126"),
+                       ("210 + 126 + 10", "with_10")):
+        r_ = pl_[key_]
+        if not r_["viable"]:
+            w(f"       {lab_}: no viable potential")
+            continue
+        w(f"       {lab_}: {r_['viable']} viable of {pl_['tried']}" + (f" x {pl_['per_vacuum_126']}" if key_ in ("with_126", "with_10") else "")
+          + f"; M_I 16-50-84 %: {r_['M_I_quantiles'][0]:.1e}, {r_['M_I_quantiles'][1]:.1e}, {r_['M_I_quantiles'][2]:.1e} GeV;")
+        w(f"         proton decay passes {100 * r_['frac_proton_ok']:.0f} %, stabilizable vacuum {100 * r_['frac_vacuum_ok']:.0f} %,"
+          f" natural leptogenesis {100 * r_['frac_leptogenesis_ok']:.0f} %")
+    w10_ = pl_["with_10"]
+    if w10_.get("viable"):
+        w("       The 10 (T11 here): H_i H_j A_ij splits it (A = 4 sin^2 a v^2 on SO(6), 6 cos^2 a v^2 on SO(4)); the cubic")
+        w("       H_i S_ijklm phi_jklm mixes its triplet with the 126's (3,1,1) and, through the B - L vev, its doublet with")
+        w("       the 126's (1,2,2) (strength sin a): the light Higgs is a 10-126 mixture, as Part Y's sum rule assumes.")
+        tq, hq = w10_["triplet_light_quantiles"], w10_["higgs_126_fraction_quantiles"]
+        w(f"         lighter colour triplet / M_GUT 16-50-84 %: {tq[0]:.2f}, {tq[1]:.2f}, {tq[2]:.2f}; the light Higgs is"
+          f" {100 * hq[0]:.0f}, {100 * hq[1]:.0f}, {100 * hq[2]:.0f} % 126")
+    wc_ = pl_.get("with_complex_10", {})
+    if wc_.get("viable"):
+        w("       The complex 10 (two real 10s, eta_a complex, kappa_ab symmetric; its own random stream): the chain's light")
+        w("       complex bidoublet is two real SO(4) vectors of (V_1, V_2, W_R, W_I), so the Schur complement must vanish,")
+        w("       D10 = X X^T / m_126 (three conditions: the 10's doublet masses are fixed; a real 10 cannot leave two light).")
+        w("       Its two triplets mix with the 126's (3,1,1) (3x3 Hermitian); thresholds from the eigenstates.")
+        w(f"         {wc_['viable']} viable of {wc_['drawn']}; M_I 16-50-84 %: {wc_['M_I_quantiles'][0]:.1e}, {wc_['M_I_quantiles'][1]:.1e},"
+          f" {wc_['M_I_quantiles'][2]:.1e} GeV; proton decay passes {100 * wc_['frac_proton_ok']:.0f} %,"
+          f" stabilizable vacuum {100 * wc_['frac_vacuum_ok']:.0f} %;")
+        tq_ = wc_["triplet_light_quantiles"]
+        w(f"         lighter colour triplet / M_GUT 16-50-84 %: {tq_[0]:.2f}, {tq_[1]:.2f}, {tq_[2]:.2f} (Part Y uses its points)")
+    w("       Delta_R light drags its SU(2)_R partners of the (10bar,1,3) light with it, and those lower M_I: the potential")
+    w("       pushes M_I down, not up.")
+    w(_wrap("RESULT: SO(10) calculates the hypercharges' normalization (sin^2 theta_W = 3/8 at unification) and "
+            "requires the right-handed neutrino; its minimal Yukawa relations are excluded. Without supersymmetry, "
+            f"the Pati-Salam route unifies the three couplings with M_I = {ps['M_I']:.0e} GeV and M_GUT = "
+            f"{ps['M_GUT']:.0e} GeV, passes proton decay, and puts the seesaw scale where leptogenesis needs it: one "
+            "chain that joins Parts I, P, Q and S. It predicts nothing yet (three couplings fix three unknowns); "
+            "two-loop running and the thresholds at M_I and M_GUT decide whether it holds, and Part L's SM then "
+            "runs only up to M_I.", 2))
+    w("")
+    dmr = res["dark_matter"]
+    w("PART V. DARK MATTER FROM THE AXION")
+    w("-" * 78)
+    w("  The axion of Part O is made by misalignment: frozen at an angle theta_i until 3 H = m_a(T), then")
+    w("  oscillating and redshifting like matter (Di Luzio et al. 2020, eqs. 148-169). m_a f_a from Part O,")
+    w("  M_P from Part H1, g_S today = 43/11 from Part S, T_0 from T_CMB; m_a(T) from the dilute instanton gas")
+    w("  (beta, gamma, T_C quoted). Strings and domain walls (post-inflation only) are left out: their yield is")
+    w("  not agreed on.")
+    c170 = dmr["check_eq170"]
+    w(f"  Check: at f_a = {c170['f_a']:.1e} GeV, Omega_a h^2 = {c170['Omega_h2']:.4f} (their eq. 170: {c170['printed']})")
+    w(f"  Post-inflation (<theta_i^2> = {dmr['theta_post']}^2): all of Omega_c h^2 = {dmr['Omega_c_h2']} needs f_a ="
+      f" {dmr['f_a_all_dm_post']:.2e} GeV,")
+    w(f"    m_a = {1e6 * dmr['m_a_all_dm_post_eV']:.1f} micro-eV (oscillation at T = {1000 * dmr['T_osc_GeV']:.0f} MeV)."
+      " Larger f_a overcloses, smaller leaves room for strings.")
+    w("  At each SO(10) chain's M_I (PQ broken with B - L):")
+    for nm, c_ in dmr["chains"].items():
+        pre = (f"pre-inflation theta_i = {c_['theta_i_pre_needed']:.2f}" if c_["pre_possible"]
+               else "pre-inflation impossible (theta_i > pi)")
+        w(f"    {nm:<6s} f_a = {c_['f_a']:.1e} GeV, m_a = {1e6 * c_['m_a_eV']:7.1f} micro-eV: {100 * c_['fraction_post']:6.2f} %"
+          f" of the dark matter post-inflation; {pre}")
+    w(_wrap("RESULT: the dark-matter density, an input until now, becomes a function of one unknown, f_a. Put at "
+            "the Pati-Salam scale, the axion makes about two thirds of the dark matter by misalignment alone (strings "
+            "add more), at m_a near 40 micro-eV: unification, neutrino masses, the strong CP problem and dark matter "
+            "would share one scale. At the left-right scale it cannot be the dark matter. Not yet a prediction: the "
+            "string yield and m_a(T) near T_C are the open inputs.", 2))
+    w("")
+    wm = res["w_mass"]
+    w("PART W. THE W MASS: A TEST OF THE STANDARD MODEL ITSELF")
+    w("-" * 78)
+    w("  The SM fixes M_W from G_F, alpha, M_Z, m_t and m_h through its quantum corrections. The full two-loop")
+    w("  result in its published parametrization (Awramik, Czakon, Freitas, Weiglein 2004; accurate to 0.5 MeV),")
+    w(f"  Delta alpha_had^(5) = {inp('delta_alpha_had5')} (PDG 2024), at Part L's Higgs mass m_h = {wm['m_h_used']:.2f} GeV:")
+    pts = ", ".join(f"{k} {1000 * v:.1f}" for k, v in wm["sigma_parts"].items())
+    w(f"    M_W = {wm['M_W']:.4f} +/- {wm['sigma']:.4f} GeV  (MeV: {pts}, m_h {1000 * wm['sigma_m_h']:.1f},"
+      f" fit {1000 * wm['fit_accuracy']:.1f})")
+    w(f"    at the measured m_h instead: {1000 * wm['shift_to_measured_m_h']:+.1f} MeV")
+    for k, c_ in wm["comparisons"].items():
+        w(f"    {k:<36s} {c_['value']:.4f} +/- {c_['sigma']:.4f}: {c_['pull']:+.1f} sigma")
+    zp = wm["z_pole"]
+    w("  The effective weak mixing angle of the Z couplings (Awramik, Czakon, Freitas 2006, two loops, leptons):")
+    w(f"    sin^2 theta_eff = {zp['sin2_eff']:.5f} +/- {zp['sigma']:.5f}; at the measured m_h:"
+      f" {zp['shift_to_measured_m_h']:+.5f}")
+    for k, c_ in zp["comparisons"].items():
+        w(f"    {COMPARISONS[k]['source'].split(': ')[-1]:<36s} {c_['value']:.5f} +/- {c_['sigma']:.5f}: {c_['pull']:+.1f} sigma")
+    w(_wrap("RESULT: the Standard Model's M_W, with every input but Delta alpha_had measured or calculated here, "
+            "agrees with the measurements and reproduces the PDG's global fit. No new physics is needed at the weak "
+            "scale; the heavy states of the SO(10) chains decouple, so this tests the SM below M_I, not the chains.", 2))
+    w("")
+    cc_ = res["closed_cosmology"]
+    w("PART X. CLOSING THE LOOP: COSMOLOGY FROM THE PARTICLE PHYSICS")
+    w("-" * 78)
+    w("  Part A takes Omega_m as an input. Here it follows from the rest: Omega_b (measured), the axion at the")
+    w(f"  surviving (or closest) chain's M_I (Part U: {cc_['chain']}) by misalignment (Part V: Omega_a h^2 = {cc_['Omega_a_h2']:.4f}) and the"
+      " minimal neutrino masses")
+    w("  (Part P). Flatness gives Omega_Lambda; the Friedmann equation the age.")
+    w(f"    Omega_m = {cc_['Omega_m']:.4f} (Part A's input: {cc_['Omega_m_input']:.4f}), Omega_Lambda = {cc_['Omega_Lambda']:.4f},"
+      f" age = {cc_['age_Gyr']:.3f} Gyr")
+    w(f"    against Planck's {_comparison('age_Gyr')[0]} +/- {_comparison('age_Gyr')[1]} Gyr: {cc_['age_pull']:+.0f} sigma"
+      f" (with all of Omega_c: {cc_['age_with_all_dm_Gyr']:.3f} Gyr)")
+    w(_wrap(f"RESULT: misalignment alone leaves the universe too old by {cc_['age_pull']:.0f} sigma: closing the loop needs "
+            f"{100 * cc_['string_fraction_needed']:.0f} % of the dark matter from the axion's strings and domain walls "
+            "(post-inflation), or a second component. That fraction is now the single number on which the "
+            "particle-physics side of the cosmology hangs; the lattice and simulation results for the string "
+            "yield are what would test it.", 2))
+    w("")
+    ds = res["dark_sector"]
+    w("PART AA. DARK MATTER BEYOND THE AXION, AND INFLATION")
+    w("-" * 78)
+    w(f"  AA1. What else could be the dark matter in the {ds['chain']} chain? A stable particle needs a symmetry: the 126's")
+    w("       vev breaks B - L by two units and leaves exactly R = (-1)^(3(B-L) + 2s). Every field of the minimal theory:")
+    odd = ds["r_odd"]
+    w(f"       {len(ds['r_parity'])} multiplets (16 fermions; the 10's, 126's, 210's scalars), "
+      + (f"R-odd: {', '.join(odd)}." if odd else "all R-even: every new particle can decay to SM ones."))
+    w(f"       So nothing but the axion ({100 * ds['axion_fraction']:.1f} % of Omega_c by misalignment at this M_I) is a candidate."
+      " An R-odd neutral")
+    w(f"       state needs one more multiplet: a scalar 16 (odd 3(B - L): {ds['scalar_16_odd']}; an inert doublet or singlet)")
+    w(f"       or a fermionic 10, 45, 54, ... (even 3(B - L): {ds['fermion_10_odd']}). Its mass is a new unknown: open, not a prediction.")
+    w("  AA2. Inflation, slow roll computed from each potential (reduced Planck units), N = "
+      f"{num('inflation_efolds_lo'):.0f}-{num('inflation_efolds_hi'):.0f} e-folds:")
+    ns_, nss_, _ = _comparison("n_s")
+    w(f"       Planck n_s = {ns_} +/- {nss_}; BICEP/Keck r < {_comparison('r_limit')[0]}")
+    for nm_, r_ in ds["inflation"].items():
+        w(f"       {nm_:<32s} n_s = {r_['n_s'][0]:.4f}-{r_['n_s'][1]:.4f} ({r_['n_s_pull'][0]:+.1f}, {r_['n_s_pull'][1]:+.1f} sigma),"
+          f" r = {r_['r'][0]:.4f}-{r_['r'][1]:.4f}: {'allowed' if r_['allowed'] else 'EXCLUDED'}")
+    hg = ds["higgs"]
+    w(f"       Higgs inflation: the CMB amplitude fixes lambda/xi^2 = {min(hg['lambda_over_xi2']):.1e}-{max(hg['lambda_over_xi2']):.1e}."
+      " The plateau sits at h ~ M_P/sqrt(xi),")
+    if math.isfinite(hg["mu_zero"]):
+        w(f"       where lambda must be positive; Part L's lambda turns negative at mu_0 = {hg['mu_zero']:.1e} GeV, so xi >="
+          f" (M_P/mu_0)^2 = {hg['xi_min']:.1e}")
+        w(f"       and then lambda = {hg['lambda_needed']:.0e}: "
+          + ("not perturbative. SM Higgs inflation is EXCLUDED by the measured masses (unless new physics below mu_0"
+             " keeps lambda > 0)." if hg["excluded"] else "possible."))
+    w(_wrap("RESULT: the minimal theory has no dark-matter candidate besides the axion (all its fields are R-even), so "
+            "the rest of the dark matter needs a field it does not contain. A minimally coupled GUT scalar cannot "
+            "inflate (phi^4 and phi^2 give too large an r); the plateau that a nonminimal coupling xi phi^2 R gives "
+            "fits Planck and BICEP/Keck, but for the Higgs it needs lambda > 0 near M_P, which the measured masses "
+            "deny. A 210 or 126 direction with its own xi can inflate: allowed, with xi a new unknown, so not a "
+            "prediction.", 2))
+    w("")
+    yy = res["so10_yukawa"]
+    yp, yl = yy["PS"], yy["LR"]
+    w("PART Y. THE SO(10) YUKAWA SECTOR: CAN IT GIVE THE CHARGED-FERMION MASSES?")
+    w("-" * 78)
+    w("  With a 10 and a 126 the Yukawas are symmetric and shared: M_u = a Y10 + b Y126, M_d = c Y10 + d Y126,")
+    w("  M_e = c Y10 - 3 d Y126 (a-d: the light Higgs' components).")
+    w(f"  Y1. Pati-Salam (at M_I = {yp['scale']:.1e} GeV). SU(4) is unbroken up to M_GUT and <210> is a PS singlet, so")
+    w("      nothing mixes the 10's (1,2,2) (SU(4) singlet) with the 126's (15,2,2): the light Higgs lies in one")
+    w("      SU(4) irrep, and M_e = M_d (10) or M_e = -3 M_d (126) for every generation (exact at tree level).")
+    for g_ in yp["generations"]:
+        w(f"        {g_['pair']:<11s} = {g_['ratio']:.3f} +/- {g_['sigma']:.3f}:  {g_['pull_10']:+.0f} sigma from 1,"
+          f" {g_['pull_126']:+.0f} sigma from 3")
+    w(f"      Excluded: {yp['excluded']}. The minimal Pati-Salam chain cannot give the charged-fermion masses; it needs")
+    w("      more Yukawa structure (a 120, or a vev that breaks SU(4) at M_GUT).")
+    rn = yy["running"]
+    w("  Running to the left-right M_GUT. Between M_I and M_GUT the chain is SU(3) x SU(2)_L x SU(2)_R x U(1)_B-L with")
+    w("      one bidoublet: -L = Q_L (Y1 Phi + Y2 Phi~) Q_R + leptons. Its matrix RGE is derived from the general")
+    w("      one-loop formula written over every component (a self-check), e.g. for the down quarks")
+    w("        16 pi^2 dY2/dt = 2 Y2 Y2+ Y2 - Y2 Y1+ Y1 - Y1 Y1+ Y2 + T Y2 + 2 Tr(3 Y2 Y1+ + Y4 Y3+) Y1 - gauge,")
+    w("      so u_R and d_R in one SU(2)_R doublet give y_b a +4 y_t^2 push (the SM's is -3/2 y_t^2). Matrix SM")
+    w(f"      running to M_I = {yl['M_I']:.1e} GeV, symmetric matching (<Phi> = diag(k1, 0)), left-right running to M_GUT:")
+    for k_, nm_ in (("u", "up"), ("d", "down"), ("e", "leptons")):
+        w(f"        {nm_:<8s} SM running {', '.join(f'{m_:.4g}' for m_ in rn['SM']['masses'][k_]):<30s}"
+          f" left-right {', '.join(f'{m_:.4g}' for m_ in rn['LR']['masses'][k_])} GeV")
+    va = rn["LR"]["V_abs"]
+    w(f"      |V_us|, |V_cb|, |V_ub| at M_GUT: {va[0][1]:.4f}, {va[1][2]:.4f}, {va[0][2]:.5f} (the fits use this matrix).")
+    w(f"      (m_b - m_tau)/m_b: {rn['SM']['b_tau']:+.2f} with SM running, {rn['LR']['b_tau']:+.2f} with left-right running"
+      f" ({rn['b_tau_dirac_like_up']:+.2f} if the Dirac")
+    w(f"      neutrino Yukawa is as large as the up quarks'; the unknown Takagi phases move it by at most"
+      f" {max(abs(v_ - rn['LR']['b_tau']) for v_ in rn['b_tau_phase_range']):.0e}).")
+    w(f"      5c: a second bidoublet vev up to |k2/k1| = m_b/m_t = {rn['k_ratio_max']:.4f} at M_I moves it to"
+      f" {rn['b_tau_k2_range'][0]:+.2f} .. {rn['b_tau_k2_range'][1]:+.2f}; the Delta_R")
+    w("      coupling f (16 pi^2 df/dt = 6 f f^dag f + 2 Tr(f f^dag) f + A^T f + f A - gauge, and +3 Y f^dag f in the")
+    w("      leptons' Y3, Y4: derived from the general formula, a self-check) makes y_tau grow: at the largest f(M_I) that")
+    w(f"      stays perturbative to M_GUT, f_3 = {rn['f3_max_M_I']:.2f} (f_3(M_GUT) = {rn['f_max_M_GUT']:.1f}), it is"
+      f" {rn['b_tau_f_max']:+.2f}. Nothing within reach makes b and tau meet.")
+    w(f"  Y2. Where the doublets can mix (the left-right chain, SU(4) broken at M_GUT = {yl['scale']:.1e} GeV): eliminating")
+    w("      Y10, Y126 gives M_e = c1 M_d + c2 M_u, c1, c2 complex. With M_u real diagonal, M_d = Psi V X D_d X V^T Psi")
+    w("      (the up-quark phases Psi are physical for symmetric Yukawas). Eight unknowns, three lepton masses:")
+    w(f"      best of {yl['starts']} seeded starts: chi^2 = {_fmt(yl['chi2_min'], 2)} at {100 * yl['mass_tolerance']:.0f} % per mass;"
+      f" masses {', '.join(f'{m_:.4g}' for m_ in yl['best_masses'])} GeV")
+    w(f"      against {', '.join(f'{m_:.4g}' for m_ in yl['masses']['e'])} GeV (worst miss {100 * yl['worst_rel_miss']:.3f} %)."
+      " Reached; a prediction must come from the neutrinos.")
+    r10_ = yl["real_10"]
+    w(f"      A real 10 (5b): its bidoublet is self-conjugate, so its doublet's up and down vevs are conjugates and |a| = |c|,")
+    w(f"      i.e. |c2| = |1 - c1|. The same search with that imposed ({r10_['unknowns']} unknowns): chi^2 = {_fmt(r10_['chi2_min'], 2)},"
+      f" masses {', '.join(f'{m_:.4g}' for m_ in r10_['masses'])} GeV:")
+    w("      " + ("a real 10 cannot give the charged leptons; the 10 must be complex (as the fits assume)."
+                 if r10_["chi2_min"] > num("survival_sigma") ** 2 else "a real 10 also reaches them."))
+    w("  Y3, Y4. The neutrinos (normal ordering): the same unknowns must also give the three PMNS angles and")
+    w("      Delta m^2_21/Delta m^2_31, with the six quark masses floated within their errors (13 data).")
+    w("      Type II: M_nu ~ M_d - M_e. Type I: the Dirac matrix is fixed by the same c1, c2,")
+    w("      M_D = M_u + (3 + c1)/c2 (M_d - M_e), and M_R ~ M_d - M_e, so M_nu ~ M_D (M_d - M_e)^-1 M_D: no new")
+    w("      unknown. Types I + II add one complex ratio. Levenberg-Marquardt from the best charged-lepton points")
+    w(f"      and {yl['type1']['seeds']} + {yl['type1']['starts'] - yl['type1']['seeds']} seeded starts per type (I + II also from the"
+      f" best I and II points),")
+    w(f"      then {int(num('yukawa_nu_kicks'))} kicks of each of the {int(num('yukawa_nu_polish'))} best points:")
+    w(f"        {'seesaw':<8s} {'unknowns':>8s} {'chi^2':>8s} {'worst nu':>9s}  sin^2: th12   th13    th23   heaviest M_R / M_I")
+    for nm_, k_ in (("II", "type2"), ("I", "type1"), ("I + II", "type12")):
+        t_ = yl[k_]
+        an_ = t_["angles"]
+        mr_ = f"{t_['scales']['M_R_over_M_I']:.1e}" if t_["scales"] else "-"
+        w(f"        {nm_:<8s} {t_['unknowns']:>8d} {t_['chi2_min']:>8.1f} {t_['n_sigma_worst']:>7.1f} s"
+          f"  {an_['s12sq']:.3f}  {an_['s13sq']:.4f}  {an_['s23sq']:.3f}  {mr_}")
+    w(f"        measured                              {nu_params(_float_inputs(), 'NO')['s12sq']:.3f}  "
+      f"{nu_params(_float_inputs(), 'NO')['s13sq']:.4f}  {nu_params(_float_inputs(), 'NO')['s23sq']:.3f}"
+      f"  at most 2 sqrt(4 pi)/g_R = {yl['M_R_max_over_M_I']:.1f}")
+    w(f"      Type II: b and tau do not converge without supersymmetry ((m_b - m_tau)/m_b = {yl['type2']['b_tau_mismatch']:+.2f}"
+      " at M_GUT), so")
+    w("      M_d - M_e cannot give a large theta_23 (Bajc-Senjanovic-Vissani).")
+    for nm_, k_ in (("Type I", "type1"), ("Types I + II", "type12")):
+        t_ = yl[k_]
+        if t_["fits_found"]:
+            w(f"      {nm_}: {t_['fits_found']} fit(s) within 3 sigma (best chi^2 {t_['chi2_min']:.1f}). They predict delta,"
+              f" never fitted: {t_['delta_deg_range'][0]:.0f} to {t_['delta_deg_range'][1]:.0f} deg,")
+            w(f"        against {inp('nu_delta_NO'):.0f} +/- {sig('nu_delta_NO'):.0f} deg: {t_['delta_pull_range'][0]:.1f} to"
+              f" {t_['delta_pull_range'][1]:.1f} sigma (NuFIT's delta is far from Gaussian: indicative only);")
+            w(f"        M_R,3/M_I {t_['M_R_over_M_I_range'][0]:.1e} to {t_['M_R_over_M_I_range'][1]:.1e};"
+              f" the lightest right-handed neutrino M_1 = {t_['M_1_range_GeV'][0]:.1e} to {t_['M_1_range_GeV'][1]:.1e} GeV.")
+        else:
+            sc_ = t_["scales"]
+            w(f"      {nm_}: no fit within 3 sigma found; at the best point M_R = "
+              + ", ".join(f"{m_:.1e}" for m_ in sc_["M_R_GeV"]) + " GeV.")
+    w("      The heavy masses need no vev: M_R,i = s_i(M_d - M_e) s_max(M_nu matrix)/m_3. The chain's M_I is the W_R mass,")
+    w(f"      M_WR = g_R v_R (the triplet's vev; g_R(M_I) = {yl['g_R']:.3f}), and M_N = 2 f v_R: a perturbative Delta_R"
+      " coupling (f <= sqrt(4 pi))")
+    w(f"      allows M_R,3 <= 2 sqrt(4 pi) M_I / g_R = {yl['M_R_max_over_M_I']:.1f} M_I, M_I = {yl['M_I']:.1e} GeV.")
+    w("      The fits add the overall phase of M_d against the real M_u (physical for the neutrinos: absorbed by c1 in")
+    w("      M_e, not in M_d - M_e), so 9 unknowns: with the 10 quark observables, the 19 parameters of the model.")
+    found_ = [t_ for t_ in (yl["type1"], yl["type12"]) if t_["fits_found"]]
+    if found_:
+        w("      Fits exist, as published fits with full running also find (Joshipura-Patel 2011, Ohlsson-Pernow 2019):")
+        w("      with 17 unknowns for 13 data they reach the data without predicting it, and delta is not pinned. What")
+        w("      every fit shares is the right-handed scale, far above the perturbative bound at the chain's M_I.")
+    lf = yy.get("lift")
+    if lf:
+        w(f"  Lifting M_I (Part T12): the fits need v_R ~ M_I >= {lf['target_M_I']:.1e} GeV, {lf['factor']:.0f} times the chain's"
+          " M_I. The heavy spectrum")
+        if lf["reached"]:
+            w(f"      does it with every GUT multiplet within a factor {lf['spread']:.2f} of M_GUT (the smallest such factor"
+              " that also keeps the")
+            w(f"      proton: a linear program in the log-masses, then solved exactly): M_I = {lf['M_I']:.2e},"
+              f" M_GUT = {lf['M_GUT']:.2e} GeV,")
+            w(f"      tau_p = {lf['tau_p_years']:.2e} years ({'above' if lf['proton_ok'] else 'below'} the Super-K limit"
+              f"{', at its edge: the binding constraint' if lf['proton_ok'] else ''}). The vacuum is then")
+            w(f"      {'still' if lf['vacuum_ok'] else 'no longer'} stabilizable (M_I against mu_0). The chain's own potential"
+              f" (Part T13) gives such a")
+            w(f"      spectrum in {lf['potential_hits']} of {lf['potential_n']} viable 210 + 126 + 10 potentials (the largest M_I"
+              f" with the proton kept: {lf['potential_max_M_I']:.1e} GeV).")
+        else:
+            w(f"      cannot, within a factor {num('heavy_mass_spread'):.0f} of M_GUT, while keeping the proton.")
+    else:
+        w("      Published fits with full running (Joshipura-Patel 2011, Ohlsson-Pernow 2019) find type-I dominated")
+        w("      solutions; this search does not, so either the search or the left-out pieces (the second doublet's vev,")
+        w("      the Delta_R coupling, thresholds) decide.")
+    tp = yy.get("triplet")
+    if tp:
+        w("  Proton decay through the colour triplets (an estimate): they couple through the same Yukawas, Y126 = (M_d -")
+        w(f"      M_e)/(4 d), Y10 = (3 M_d + M_e)/(4 c), with the light Higgs {100 * tp['higgs_126_fraction']:.0f} % 126 (T13's median)"
+          " and the best fit's first-generation")
+        w(f"      entries: Y10_11 = {tp['y10_11']:.1e}, Y126_11 = {tp['y126_11']:.1e}. With Clebsches up to 3 and the lighter"
+          f" triplet at {tp['M_T_over_M_GUT']:.2f} M_GUT,")
+        w(f"      the amplitude is {tp['amplitude_ratio']:.0e} of the gauge one: tau ~ {tp['tau_p_years']:.0e} years. The triplets"
+          f" only need M_T > {tp['M_T_min_GeV']:.0e} GeV")
+        w("      (first-generation Yukawas are tiny): the gauge bosons, not the triplets, decide proton decay here.")
+    vr = yy.get("v_R")
+    if vr:
+        w("  v_R predicted by SO(10). The Delta_R coupling is Y126 itself (M_R = Y126 v_R, M_d^126 = d Y126), and the fit")
+        w("      fixes Y126 = (M_d - M_e)/(4 d), d the light Higgs's down-type 126 component. Its 126 share f (T13:")
+        w(f"      {100 * vr['higgs_126_fraction'][0]:.0f}-{100 * vr['higgs_126_fraction'][1]:.0f} %) splits as |b|^2 + |d|^2 = k^2 f, and each fit fixes"
+          f" |b/d| = |3 + c1|/|c2| ({vr['r126_range'][0]:.0f}-{vr['r126_range'][1]:.0f};")
+        w(f"      |a/c| = {vr['r10_range'][0]:.0f}-{vr['r10_range'][1]:.0f}), so |d| = k sqrt(f/(1 + |b/d|^2)) (5b; giving all of f to d, as"
+          f" before, gave {vr['v_R_whole_share_to_d'][0]:.0e}-{vr['v_R_whole_share_to_d'][1]:.0e} GeV).")
+        w(f"      So v_R = 4 |d| M_R,3 / s_3(M_d - M_e) = {vr['v_R_needed'][0]:.1e} to {vr['v_R_needed'][1]:.1e} GeV over the fits,")
+        w(f"      against the chain's own v_R = M_I/g_R = {vr['v_R_chain']:.1e} GeV: {vr['ratio'][0]:.0e} to {vr['ratio'][1]:.0e}"
+          " times larger. Whatever the")
+        w(f"      potential gives for f, a perturbative Y126,3 <= 2 sqrt(4 pi) keeps v_R >= M_R,3/(2 sqrt(4 pi)) = {vr['v_R_perturbative_floor']:.1e} GeV,"
+          f" {vr['floor_ratio']:.0f} times")
+        w("      the chain's: on its own that is within what thresholds can move (Part T7), so the verdict rests on T13's 126")
+        w("      share; with it B - L breaks far above the left-right chain's M_I.")
+        cx_ = vr["complex_10"]
+        w(f"  The complex 10's own potential (T13, {cx_['points']} points) decides it without the f band: inside the light bidoublet")
+        w("      the light Higgs is h = n_1 + z n_2 (z complex, picked at the v_R scale), and each fit's |a/c| and |b/d| are two")
+        w("      Apollonius circles in z. At their intersections |d|, so v_R, is predicted, against that point's own v_R = M_I/g_R:")
+        if cx_["matches"]:
+            rq, fq_ = cx_["ratio_quantiles"], cx_["f_quantiles"]
+            w(f"      {cx_['matches']} solutions ({cx_['points_matched']} points, {cx_['fits']} fits): v_R / v_R(chain) min {rq[0]:.0f},"
+              f" 16-50-84 % {rq[1]:.0f}, {rq[2]:.0f}, {rq[3]:.0f}, max {rq[4]:.0e}; the light Higgs {100 * fq_[1]:.0f} % 126 (median).")
+            w("      " + ("Every solution puts v_R above the chain's: the complex 10 does not rescue the neutrinos."
+                         if rq[0] > 1 else "Some solutions reach the chain's v_R: the complex 10 reopens the neutrinos."))
+        else:
+            w("      no point reaches the fits' |a/c| and |b/d|: the minimal potential cannot give the light Higgs the fits need.")
+    w(_wrap("RESULT: SO(10)'s Yukawa sector is a real test. The minimal Pati-Salam chain fails it: its unbroken SU(4) "
+            "keeps the light Higgs in one irrep, which gives the wrong lepton/down ratios by tens of sigma. Where "
+            "SU(4) breaks at M_GUT (left-right chain), the 10 + 126 sum rule reaches the charged leptons; type-II "
+            "neutrinos fail; " + ("mixed type I + II fits are found" + (" (type I alone too)" if yl["type1"]["fits_found"]
+            else " (type I alone is not)") if yl["type12"]["fits_found"] else "type I and the mixed case come closest but "
+            "are not found") + ", with the right-handed neutrinos far "
+            "above the left-right M_I: if these are the chain's neutrinos, the 126 must break B - L well above M_I, "
+            "which the chain's own scales do not allow without large thresholds.", 2))
+    w("")
+    sc_ = res["scorecard"]
+    w("PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION")
+    w("-" * 78)
+    w("  Each hypothesis meets every condition, with the verdict the earlier parts computed:")
+    w("    pass / fail (sigma or reason) / trade (an unknown absorbs the condition: nothing tested) /")
+    w("    open (no mechanism in that hypothesis).")
+    for h, r_ in sc_["rows"].items():
+        w(f"  {h}")
+        for c, e in r_.items():
+            sg = f" ({e['sigma']:.1f} sigma)" if e["sigma"] is not None else ""
+            w(_wrap(f"{sc_['conditions'][c]:<18s} {e['status']:<6s}{sg}: {e['detail']}", 4, 100))
+    w("  The chains' Higgs condition, lambda(M_I) = 0 where the SM ends (Part L's running and matching):")
+    for nm, ph in sc_["chain_higgs"].items():
+        w(f"    {nm:<6s} M_I = {ph['M_I']:.2e} GeV: m_h = {ph['m_h']:.2f} +/- {ph['sigma']:.2f} GeV, {ph['pull']:+.1f} sigma")
+    w("    Why lambda should vanish at M_I is not established (the scalar sector changes there): a test.")
+    thr = res["so10"]["thresholds"]
+    for h, v_ in sc_["verdict"].items():
+        rob = ""
+        nm_ = h.replace("SO(10) via ", "")
+        if nm_ in thr:
+            t_ = thr[nm_]
+            flips = [c for c, f_ in (("P", t_["proton_flips"]), ("V", t_["vacuum_flips"]), ("A", t_["leptogenesis_flips"])) if f_]
+            rob = (" Thresholds (Part T7) can flip: " + ", ".join(sc_["conditions"][c] for c in flips) + "."
+                   if flips else " Robust against the thresholds of Part T7.")
+        w(_wrap(f"{h}: fails {', '.join(sc_['conditions'][c] for c in v_['fails']) or 'nothing'}; trades "
+                f"{len(v_['trades'])}, open {len(v_['open'])}, passes {len(v_['passes'])}." + rob, 2))
+    w(_wrap("RESULT: " + ("surviving every condition tested so far: " + ", ".join(sc_["survivors"])
+                          + ". It predicts nothing yet: its scales are solved from the couplings, and its passes are "
+                            "consistency, not calculation; two-loop running and thresholds come next."
+                          if sc_["survivors"] else "no complete hypothesis survives every condition."), 2))
+    w("")
+    lg_ = res["ledger"]
+    w("PART Z. THE LEDGER: EVERY FREE NUMBER AND WHAT THE ALGORITHM DOES WITH IT")
+    w("-" * 78)
+    w((("  For the hypothesis that survives every condition (Part U): " + ", ".join(lg_["survivors"])) if lg_["survivors"] else
+      "  No hypothesis survives every condition (Part U); the ledger is for the closest (fewest fails, then most passes,"
+      " fewest trades)") + f"; scales from its {lg_['chain']} chain.")
+    w("  calculated = fixed with nothing measured spent; related = tied to others by a tested relation;")
+    w("  traded = exchanged for an unknown; bounded = only limited; open = no mechanism; input = measured.")
+    w(f"    {'quantity':<34s} {'count':<13s} status")
+    for r_ in lg_["rows"]:
+        w(f"    {r_['quantity']:<34s} {r_['count']:<13s} {r_['status']}")
+        w(_wrap(r_["how"], 8, 100))
+    w("  Totals: " + ", ".join(f"{k} {v}" for k, v in sorted(lg_["counts"].items())))
+    w(_wrap("RESULT: the algorithm closes: one pass, every stage run in dependency order, and every free number assigned a "
+            "status. " + ("Every assumption of the surviving hypothesis is consistent with every condition tested. "
+                          if lg_["survivors"] else "No complete hypothesis survives every condition: the closest fails one. ") +
+            "What it calculates is discrete and exact (the charges, their quantization, sin^2 theta_W at unification, "
+            "and, in SO(10), only bounds on the family number). Every continuous number is still an input, traded for an unknown, bounded or "
+            "open: no free number of the Standard Model is calculated.", 2))
+    w("")
+    w("THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)")
+    w("-" * 78)
+    lin = res["lineage"]
+    w("  Stage (part, evidence level): measured inputs read; results taken from earlier stages")
+    for st in lin["order"]:
+        info = STAGES[st]
+        ins = lin["reads"][st]
+        w(f"  {st} ({info['part']}, {info['level']})")
+        w(_wrap("inputs: " + (", ".join(ins) if ins else "none"), 6))
+        if lin["uses"][st]:
+            w(_wrap("takes:  " + ", ".join(lin["uses"][st]), 6))
+        w(_wrap("assumes: " + info["assumes"], 6))
+    au_ms = res["alpha_unification"].get("M_S_for_measured_alpha", {})
+    w("  Numbers calculated once and handed on:")
+    handoffs = (("M_S, M_GUT", f"{_fmt(au_ms.get('M_S_GeV') or math.nan)}, {_fmt(au_ms.get('M_GUT_GeV') or math.nan)}",
+                 "gauge_unification[M_S_for_measured_alpha]"),
+                ("M_P", _fmt(res["quantum_gravity"]["planck"]["E_P_GeV"]), "planck_units[E_P_GeV]"),
+                ("m_t(m_t)", _fmt(res["flavour"]["runner"].mt_msbar), "flavour[runner]"))
+    for name, val, key in handoffs:
+        w(_wrap(f"{name} = {val} GeV, from {key}, taken by " + (", ".join(lin["takers"].get(key, [])) or "none"), 4))
+    w("  Changing one measured input recalculates every stage it reaches, for example:")
+    for name in ("M_t", "alpha_s_MZ", "G", "H0"):
+        w(_wrap(f"{name}: " + ", ".join(st for st in lin["reaches"][name] if st != "self_checks"), 4))
+    unused = [k for k, v in lin["reaches"].items() if not v]
+    if unused:
+        w(_wrap("Inputs no stage reads: " + ", ".join(unused), 4))
+    w("  Global consistency of the stage assumptions:")
+    for hyp, sts in lin["uv_hypotheses"].items():
+        w(f"    {hyp:16s}: " + ", ".join(sts))
+    if not lin["uv_consistent"]:
+        w("    These field contents exclude each other. No stage chooses: Part M tests every")
+        w("    hypothesis against every combination of conditions.")
+    w(f"  The graph is acyclic ({lin['acyclic']}), so one pass in order is self-consistent: no stage")
+    w("  needs a value that a later stage changes. A shared mechanism would add such feedback.")
+    w("  Audit findings:")
+    for status, text in AUDIT_FINDINGS:
+        w(_wrap(f"[{status}] {text}", 4))
+    w("")
+    w("SELF-CHECKS (correctness of the calculation, not agreement with data)")
+    w("-" * 78)
+    for name, ok, detail in res["checks"]:
+        w(f"  [{'PASS' if ok else 'FAIL'}] {name}" + (f"  ({detail})" if detail else ""))
+    n_pass = sum(1 for _, ok, _ in res["checks"] if ok)
+    w(f"  {n_pass}/{len(res['checks'])} checks pass")
+    w(bar)
+    return "\n".join(out)
+
+
+def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
+    def conv(o: Any) -> Any:
+        if isinstance(o, Decimal):
+            return str(o)
+        if isinstance(o, Fr):
+            return str(o)
+        if isinstance(o, dict):
+            return {str(k): conv(v) for k, v in o.items()
+                    if k not in ("coef", "runner", "survey", "varied", "pair")}
+        if isinstance(o, (list, tuple)):
+            return [conv(v) for v in o]
+        if isinstance(o, float) and not math.isfinite(o):
+            return str(o)
+        return o
+    flav = res["flavour"]
+    return conv({
+        "version": VERSION, "inputs": INPUTS, "comparisons": COMPARISONS, "numerics": NUMERICS,
+        "cosmology": res["cosmology"],
+        "flavour": {"m_t_msbar": flav["runner"].mt_msbar,
+                    "ratios": flav["ratios"], "scales": flav["scales"]},
+        "texture_survey": {mu: sv["classes"] for mu, sv in res["survey"].items()},
+        "yukawa_so10": res["yukawa_so10"], "symmetry_so10": res["symmetry"],
+        "so10_flavour_fit": res["so10_flavour_fit"],
+        "general_texture_closure": res["closure"],
+        "quantum_gravity": res["quantum_gravity"],
+        "alpha_unification": res["alpha_unification"], "alpha_numerology": res["alpha_numerology"],
+        "yukawa": res["yukawa"], "scales": res["scales"],
+        "checks": [{"name": n, "pass": ok, "detail": d} for n, ok, d in res["checks"]],
+        "uv_joint_test": res["joint"],
+        "mass_formulas": res["mass_formulas"], "strong_cp": res["strong_cp"], "neutrinos": res["neutrinos"],
+        "proton_decay": res["proton_decay"], "anomalies": res["anomalies"],
+        "baryon_asymmetry": res["baryon_asymmetry"], "so10": res["so10"],
+        "scorecard": res["scorecard"], "dark_matter": res["dark_matter"],
+        "w_mass": res["w_mass"], "closed_cosmology": res["closed_cosmology"], "so10_yukawa": res["so10_yukawa"],
+        "ledger": res["ledger"],
+        "survey_certificates": res["survey_certificates"],
+        "model": {"stages": STAGES, "lineage": res["lineage"], "changed_inputs": res["changed_inputs"],
+                  "audit_findings": [{"status": a, "finding": b} for a, b in AUDIT_FINDINGS]},
+    })
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description=f"STUR Physics Lab {VERSION}")
+    ap.add_argument("--scales", type=float, nargs="+", default=None,
+                    help="evaluation scales in GeV (default: m_t(m_t) and the superpartner scale from Part I)")
+    ap.add_argument("--precision", type=int, default=None, help="Decimal digits for the cosmology")
+    ap.add_argument("--json-out", type=str, default=None, help="write every number to this JSON file")
+    ap.add_argument("--certify", action="store_true",
+                    help="prove every texture exclusion of Part C over its whole parameter space (minutes)")
+    ap.add_argument("--set", action="append", default=[], metavar="NAME=VALUE",
+                    help="change one measured input (repeatable); the whole model is recalculated")
+    args = ap.parse_args(argv)
+    _TRACE["set"] = {}
+    for item in args.set:
+        name, _, value = item.partition("=")
+        if name not in INPUTS:
+            ap.error(f"--set: unknown input {name!r}")
+        Decimal(value)                                  # must be a number
+        _TRACE["set"][name] = value
+    t0 = time.perf_counter()
+    res = run(args.scales, args.precision, args.certify)
+    print(report(res))
+    if args.json_out:
+        with open(args.json_out, "w", encoding="utf-8") as fh:
+            json.dump(to_jsonable(res), fh, indent=2)
+    print(f"Elapsed: {time.perf_counter() - t0:.1f} s")
+    return 0 if all(ok for _, ok, _ in res["checks"]) else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

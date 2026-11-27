@@ -21,3 +21,19 @@ jobs:
         run: python production_v2_2.py
       - name: Nothing tuned, every number pinned
         run: python -m pytest tests/ -q
+
+  # Each adjacent sim (sims/*.py: production_v2_2.py with one piece changed) runs in full, in parallel.
+  sims:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sim: [so10_flavour]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pytest
+      - name: The sim runs, passes its self-checks and reproduces its expected output
+        run: STUR_SIM=${{ matrix.sim }} python -m pytest tests/test_sims.py -q
