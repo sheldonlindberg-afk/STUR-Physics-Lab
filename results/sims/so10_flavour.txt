@@ -1,5 +1,5 @@
 ==============================================================================
-STUR Physics Lab, production v2.2 / sim so10_flavour (SO(10) in place of 3-3-1; the two-step left-right chain): nothing tuned, nothing fitted
+STUR Physics Lab, production v2.2 / sim so10_flavour (SO(10) in place of 3-3-1; the two-step left-right chain; Pati-Salam with a light (15,2,2)): nothing tuned, nothing fitted
 ==============================================================================
 Inputs: 65 measured or defined constants (INPUTS). Comparisons: 23 measured results, never used in a calculation.
 
@@ -826,6 +826,7 @@ PART T. SO(10)
         PS+D   T(M_GUT) = 4, 6, 6; T(M_I) (Y, 2L, 3) = 14/5, 0, 1: M_I x1.046, M_GUT x1.045 against tree matching
         LR     T(M_GUT) = 5, 6, 6, 8; T(M_I) (Y, 2L, 3) = 6/5, 0, 0: M_I x1.051, M_GUT x1.044 against tree matching
         LR+D   T(M_GUT) = 5, 6, 6, 8; T(M_I) (Y, 2L, 3) = 6/5, 0, 0: M_I x1.049, M_GUT x1.045 against tree matching
+        PS+15  T(M_GUT) = 4, 6, 6; T(M_I) (Y, 2L, 3) = 14/5, 0, 1: M_I x1.062, M_GUT x1.038 against tree matching
       tau_p: above M_I the proton-decay operators run with the chain's group. Their anomalous dimensions are
       derived (Landau gauge: each exchange inside a Lorentz-scalar bilinear gives 6 T_i.T_j, the mass operator's
       value; left-right exchanges cancel), which reproduces Ellis et al.'s SM coefficients exactly (a self-check):
@@ -835,11 +836,13 @@ PART T. SO(10)
       PS+D    -14/3, 11/3, 11/3           5.0e+13, 1.6e+15     4.6e+13, 8.8e+14    40.8   1.8e+31 EXCLUDED
       LR      -7, -3, -7/3, 11/2          1.0e+09, 4.6e+16     2.9e+09, 1.6e+16    45.5   1.9e+36 ok
       LR+D    -7, -7/3, -7/3, 7           1.3e+10, 5.8e+15     3.2e+10, 2.4e+15    43.4   1.0e+33 EXCLUDED
+      PS+15   -7/3, 2, 26/3               3.1e+11, 2.3e+16     2.0e+10, 3.6e+16    32.5   2.1e+37 ok
       lambda(M_I) = 0 at each chain's two-loop M_I (Part L's running and matching):
         PS     m_h = 125.60 GeV
         PS+D   m_h = 127.38 GeV
         LR     m_h = 123.36 GeV
         LR+D   m_h = 124.86 GeV
+        PS+15  m_h = 124.59 GeV
   T6. What lambda(M_I) is. The heavy scalar that breaks the chain at M_I shifts the SM quartic at tree level
       (Elias-Miro et al. 2012, eq. 5): lambda_SM(M_I) = lambda_H - lambda_HS^2/lambda_S, a shift that is >= 0
       and unknown. So lambda(M_I) = 0 is not a condition of the theory. What is fixed: the vacuum is stable
@@ -849,6 +852,7 @@ PART T. SO(10)
         PS+D   M_I = 4.6e+13: lambda_SM(M_I) = -0.0074  ->  metastable SM between mu_0 and M_I
         LR     M_I = 2.9e+09: lambda_SM(M_I) = +0.0060  ->  the threshold can stabilize the vacuum
         LR+D   M_I = 3.2e+10: lambda_SM(M_I) = +0.0011  ->  the threshold can stabilize the vacuum
+        PS+15  M_I = 2.0e+10: lambda_SM(M_I) = +0.0020  ->  the threshold can stabilize the vacuum
       The 'lambda(M_I) = 0' Higgs masses above only say how close each chain's M_I lies to mu_0.
   T7. Thresholds: each matching condition shifted by up to +/- 1.0 in 1/alpha (an assumed band, typical of
       one-loop thresholds), every corner solved at two loops. Ranges, and which verdicts can flip:
@@ -856,6 +860,7 @@ PART T. SO(10)
         PS+D   M_I 3.0e+13 - 7.0e+13, M_GUT 3.4e+14 - 2.3e+15, tau_p 4e+29 - 9e+32: robust
         LR     M_I 9.4e+07 - 9.0e+10, M_GUT 3.3e+15 - 7.4e+16, tau_p 4e+33 - 9e+38: proton decay, vacuum, leptogenesis can flip
         LR+D   M_I 5.3e+09 - 1.9e+11, M_GUT 7.2e+14 - 7.9e+15, tau_p 8e+30 - 1e+35: proton decay, vacuum can flip
+        PS+15  M_I 6.1e+08 - 4.1e+11, M_GUT 6.3e+15 - 2.4e+17, tau_p 3e+34 - 3e+40: vacuum, leptogenesis can flip
   T8. Pati-Salam's heavy GUT multiplets (SO(10) broken by a 210, plus the 126 and 10): each shifts the
       couplings at M_GUT by (b^h/2 pi) ln(M_h/M_GUT). Per unit of that log, and the mass ratio M_h/M_GUT
       (that multiplet alone) at which proton decay or vacuum stability would flip:
@@ -974,6 +979,7 @@ PART V. DARK MATTER FROM THE AXION
     PS+D   f_a = 4.6e+13 GeV, m_a =     0.1 micro-eV: 55754.98 % of the dark matter post-inflation; pre-inflation theta_i = 0.09
     LR     f_a = 2.9e+09 GeV, m_a =  1989.0 micro-eV:   0.71 % of the dark matter post-inflation; pre-inflation impossible (theta_i > pi)
     LR+D   f_a = 3.2e+10 GeV, m_a =   180.7 micro-eV:  11.61 % of the dark matter post-inflation; pre-inflation impossible (theta_i > pi)
+    PS+15  f_a = 2.0e+10 GeV, m_a =   293.5 micro-eV:   6.59 % of the dark matter post-inflation; pre-inflation impossible (theta_i > pi)
   RESULT: the dark-matter density, an input until now, becomes a function of
     one unknown, f_a. Put at the Pati-Salam scale, the axion makes about two
     thirds of the dark matter by misalignment alone (strings add more), at
@@ -1007,26 +1013,23 @@ PART W. THE W MASS: A TEST OF THE STANDARD MODEL ITSELF
 PART X. CLOSING THE LOOP: COSMOLOGY FROM THE PARTICLE PHYSICS
 ------------------------------------------------------------------------------
   Part A takes Omega_m as an input. Here it follows from the rest: Omega_b (measured), the axion at the
-  M_I of each surviving (or closest, Part U: LR, PS, LR+D) chain by misalignment (Part V) and the minimal neutrino masses
+  M_I of each surviving (or closest, Part U: PS+15) chain by misalignment (Part V) and the minimal neutrino masses
   (Part P). Flatness gives Omega_Lambda; the Friedmann equation the age.
-    LR  Omega_a h^2 = 0.0008: Omega_m = 0.0525 (Part A's input: 0.3153), Omega_Lambda = 0.9474, age = 21.345 Gyr, +378 sigma
-    PS  Omega_a h^2 = 0.0826: Omega_m = 0.2328 (Part A's input: 0.3153), Omega_Lambda = 0.7672, age = 14.995 Gyr, +60 sigma
-    LR+D Omega_a h^2 = 0.0139: Omega_m = 0.0814 (Part A's input: 0.3153), Omega_Lambda = 0.9185, age = 19.418 Gyr, +282 sigma
+    PS+15 Omega_a h^2 = 0.0079: Omega_m = 0.0681 (Part A's input: 0.3153), Omega_Lambda = 0.9318, age = 20.198 Gyr, +321 sigma
     against Planck's 13.787 +/- 0.02 Gyr (with all of Omega_c: 13.797 Gyr)
   RESULT: misalignment alone leaves the universe too old for every closest
-    chain (LR by 378 sigma, PS by 60 sigma, LR+D by 282 sigma): closing the
-    loop needs 99 % or 31 % or 88 % of the dark matter from the axion's
-    strings and domain walls (post-inflation), or a second component. That
-    fraction is the single number on which the particle-physics side of the
-    cosmology hangs; the lattice and simulation results for the string yield
-    are what would test it.
+    chain (PS+15 by 321 sigma): closing the loop needs 93 % of the dark
+    matter from the axion's strings and domain walls (post-inflation), or a
+    second component. That fraction is the single number on which the
+    particle-physics side of the cosmology hangs; the lattice and simulation
+    results for the string yield are what would test it.
 
 PART AA. DARK MATTER BEYOND THE AXION, AND INFLATION
 ------------------------------------------------------------------------------
-  AA1. What else could be the dark matter in the LR chain? A stable particle needs a symmetry: the 126's
+  AA1. What else could be the dark matter in the PS+15 chain? A stable particle needs a symmetry: the 126's
        vev breaks B - L by two units and leaves exactly R = (-1)^(3(B-L) + 2s). Every field of the minimal theory:
        28 multiplets (16 fermions; the 10's, 126's, 210's scalars), all R-even: every new particle can decay to SM ones.
-       So nothing but the axion (0.7 % of Omega_c by misalignment at this M_I) is a candidate. An R-odd neutral
+       So nothing but the axion (6.6 % of Omega_c by misalignment at this M_I) is a candidate. An R-odd neutral
        state needs one more multiplet: a scalar 16 (odd 3(B - L): True; an inert doublet or singlet)
        or a fermionic 10, 45, 54, ... (even 3(B - L): True). Its mass is a new unknown: open, not a prediction.
   AA2. Inflation, slow roll computed from each potential (reduced Planck units), N = 50-60 e-folds:
@@ -1173,6 +1176,31 @@ PART T14. THE TWO-STEP LEFT-RIGHT CHAIN: CAN B - L BREAK ABOVE THE W_R SCALE'S L
     (Pati-Salam's M_I ~ 1e11 GeV is closer, but fails the fermion masses),
     more Yukawa structure, or a different B - L breaking (a 16_H).
 
+PART T15. PATI-SALAM WITH THE 126's (15,2,2) NEAR M_I: CAN THE DOUBLETS MIX?
+------------------------------------------------------------------------------
+  Part Y's selection rule (M_e = M_d or -3 M_d) holds only if the whole
+    (15,2,2) of the 126 sits at M_GUT. With it near M_I, the B - L vev that
+    breaks SU(4) there mixes the 10's (1,2,2) with the 126's (15,2,2)
+    doublet, the light Higgs is a 10-126 mixture, and the 10 + 126 sum rule
+    applies at M_I. The cost: a complex (15,2,2) in the running between M_I
+    and M_GUT (its mass is taken as M_I: the minimal case; the potential that
+    would fix it is not computed).
+  One-loop b: -7/3, 2, 26/3 (SU(4), SU(2)_L, SU(2)_R; Pati-Salam's -23/3, -3, 11/3).
+  Two loops: M_I = 1.97e+10 GeV, M_GUT = 3.58e+16 GeV, 1/alpha_GUT = 32.51 (one loop: 3.1e+11, 2.3e+16).
+  Proton: p -> e+ pi0 in 2.1e+37 years against 2.4e+34; thresholds (Part T7) move M_I over 6.1e+08 to 4.1e+11 GeV.
+  Sum rule at M_I (Y2): reaches the charged-lepton masses (worst miss 0.00 %).
+  Neutrinos at M_I (Y3, Y4; normal ordering, quark masses floated):
+    type II       best chi^2    374.7 for 13 data, 15 unknowns; fits within 3 sigma: 0
+    type I        best chi^2    151.0 for 13 data, 15 unknowns; fits within 3 sigma: 0
+    types I + II  best chi^2      0.0 for 13 data, 17 unknowns; fits within 3 sigma: 54; M_R,3/M_I 35-162, M_1 5.2e+09-2.2e+10 GeV
+  SO(10)'s v_R (M_R = Y126 v_R): the chain's own v_R = M_I/g_R = 4.2e+10 GeV; a perturbative Y126,3 needs v_R >= 9.6e+10 GeV (2.28 of the chain's); the fits match the chain's v_R for a 126 share f up to 1.9e-06-5.9e-06.
+  Scorecard (Part U): gauge unification trade; b-tau unification trade; Higgs mass open; neutrino masses open; proton decay pass; baryon asymmetry trade; strong CP trade; vacuum stability trade; dark matter open; fermion masses trade.
+  RESULT: the (15,2,2) near M_I lets Pati-Salam's doublets mix, and with it
+    the chain fails nothing the scorecard tests. It predicts nothing new
+    either: every row it passes beyond proton decay is a trade, and the
+    (15,2,2) mass and the 126 share f are unknowns its potential would have
+    to fix.
+
 PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
 ------------------------------------------------------------------------------
   Each hypothesis meets every condition, with the verdict the earlier parts computed:
@@ -1290,12 +1318,35 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
       another candidate is needed
     fermion masses trade : M_e = c1 M_d + c2 M_u reaches the lepton masses (8 unknowns, 3 masses:
       predictive only with neutrinos)
+  SO(10) via PS+15
+    gauge unification trade : M_I = 2.0e+10, M_GUT = 3.6e+16 GeV solve the three couplings (three
+      unknowns, no prediction)
+    b-tau unification trade : the 10 + 126 sum rule imposes no b-tau equality: c1, c2 absorb it
+      ((m_b - m_tau)/m_b = -0.29 at M_I, Part T15)
+    Higgs mass open (0.6 sigma): lambda(M_I) = 0 would give m_h = 124.59 GeV (-0.6 sigma), but the
+      theory does not impose it: the heavy scalar shifts lambda at M_I by an unknown amount (Part
+      T6)
+    neutrino masses open : type II from the sum rule at M_I misses by 18 sigma (Part T15); 54 type
+      I (+ II) fits need v_R >= 1e+11 GeV, 2.3 times the chain's: only thresholds (up to x21) could
+      supply it
+    proton decay pass : p -> e+ pi0 in 2e+37 years against 2.4e+34
+    baryon asymmetry trade : M_1 <= 2 sqrt(4 pi) M_I/g_R = 3e+11 GeV covers the natural range (M_1
+      >= 2e+10 GeV); M_1 itself is unknown
+    strong CP trade : an axion at f_a = M_I would give m_a = 2.9e+02 micro-eV
+    vacuum stability trade : M_I below mu_0 = 6.2e+10 GeV: a scalar threshold of unknown size can
+      stabilize the vacuum (Part T6)
+    dark matter open : axion at f_a = M_I (an order-of-magnitude identification: f_a = v_PQ/N_DW):
+      6.6 % of the dark matter by post-inflation misalignment, and no initial angle gives all of
+      it: another candidate is needed
+    fermion masses trade : M_e = c1 M_d + c2 M_u at M_I (the (15,2,2) lets the doublets mix, Part
+      T15) reaches the lepton masses (8 unknowns, 3 masses)
   What lambda(M_I) = 0 would give where each chain's SM ends (Part L's running and matching; not a condition of
   the theory, Part T6, so the Higgs row is open):
     PS     M_I = 1.47e+11 GeV: m_h = 125.60 +/- 0.96 GeV, +0.4 sigma
     PS+D   M_I = 4.57e+13 GeV: m_h = 127.38 +/- 0.96 GeV, +2.3 sigma
     LR     M_I = 2.90e+09 GeV: m_h = 123.36 +/- 0.96 GeV, -1.9 sigma
     LR+D   M_I = 3.19e+10 GeV: m_h = 124.86 +/- 0.96 GeV, -0.4 sigma
+    PS+15  M_I = 1.97e+10 GeV: m_h = 124.59 +/- 0.96 GeV, -0.6 sigma
     It only measures how close each chain's M_I lies to the SM instability scale mu_0 (Part T6).
   SM to M_P: fails gauge unification, b-tau unification, Higgs mass, baryon
     asymmetry; trades 2, open 3, passes 1.
@@ -1310,13 +1361,17 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     asymmetry.
   SO(10) via LR+D: fails proton decay; trades 6, open 3, passes 0. Thresholds
     (Part T7) can flip: proton decay, vacuum stability.
-  RESULT: no complete hypothesis survives every condition. Closest (fewest
-    fails, ties carried): PS, LR, LR+D. The two-step left-right variant (Part
-    T14) fails the neutrinos too.
+  SO(10) via PS+15: fails nothing; trades 6, open 3, passes 1. Thresholds
+    (Part T7) can flip: vacuum stability, baryon asymmetry.
+  RESULT: surviving every condition tested so far: SO(10) via PS+15. It
+    predicts nothing yet: its scales are solved from the couplings, and its
+    passes are consistency, not calculation; two-loop running and thresholds
+    come next. The two-step left-right variant (Part T14) fails the neutrinos
+    too.
 
 PART Z. THE LEDGER: EVERY FREE NUMBER AND WHAT THE ALGORITHM DOES WITH IT
 ------------------------------------------------------------------------------
-  No hypothesis survives every condition (Part U); the ledger is for the closest (fewest fails: LR, PS, LR+D); shown for LR (the chain Parts T12, T13 and Y analyse in full; an order, not a ranking), with the rows that differ for the others below.
+  For the hypothesis that survives every condition (Part U): SO(10) via PS+15; shown for PS+15.
   calculated = fixed with nothing measured spent; related = tied to others by a tested relation;
   traded = exchanged for an unknown; bounded = only limited; open = no mechanism; input = measured.
     quantity                           count         status
@@ -1326,7 +1381,7 @@ PART Z. THE LEDGER: EVERY FREE NUMBER AND WHAT THE ALGORITHM DOES WITH IT
         SO(10): anomaly-free for any number; 3 to 5 families keep the SO(10) coupling
           asymptotically free with the chain's scalars and allow CKM CP violation (Part R)
     gauge couplings                    3             traded
-        LR chain: the three fix M_I = 2.9e+09, M_GUT = 1.6e+16 GeV and alpha_GUT (Part T)
+        PS+15 chain: the three fix M_I = 2.0e+10, M_GUT = 3.6e+16 GeV and alpha_GUT (Part T)
     weak mixing angle at unification   1             calculated
         sin^2 theta_W = 3/8 from the 16 (Part T1, exact)
     Higgs mass                         1             open
@@ -1341,55 +1396,30 @@ PART Z. THE LEDGER: EVERY FREE NUMBER AND WHAT THE ALGORITHM DOES WITH IT
           excluded (Part G); the Z_N classes of minimal SO(10) that make relations are excluded
           (Part E); with general matrices no texture predicts (Part F)
     charged-lepton masses              3             traded
-        the 10 + 126 sum rule reaches them with 8 unknowns (Part Y2)
+        the 10 + 126 sum rule at M_I reaches them with 8 unknowns (Part T15)
     neutrino masses and mixing         7-9           open
-        type II from the sum rule misses by 19 sigma (Part Y3); with left-right running, best chi^2
-          for 13 data: type I 151, types I + II 0.0; its 11 fits need M_R,3 >= 180 M_I and leave
-          delta between 36 and 353 deg (Part Y4)
+        type II from the sum rule at M_I misses by 18 sigma (Part T15); 54 type I (+ II) fits need
+          v_R >= 1e+11 GeV, 2.3 times the chain's: only thresholds (up to x21) could supply it
     strong CP angle                    1             bounded
         |theta-bar| < 8.8e-11; an axion at M_I would trade it for f_a (Part O)
     dark-matter density                1             open
-        the axion at the LR chain's M_I gives 0.7 % (Part V)
+        the axion at the PS+15 chain's M_I gives 6.6 % (Part V)
     baryon asymmetry                   1             traded
-        leptogenesis needs M_1 >= 6e+08 GeV (Part S), and the chain allows M_1 up to 4e+10 GeV
+        leptogenesis needs M_1 >= 6e+08 GeV (Part S), and the chain allows M_1 up to 3e+11 GeV
           (Part U); M_1 is unknown
     cosmological constant              1             open
         Omega_Lambda follows from flatness; rho_Lambda is not calculated
     Newton's constant                  1             input
         M_P is calculated from it (Part H1)
   Totals: bounded 2, calculated 2, input 4, open 4, traded 3
-  For the PS chain these rows differ:
-    gauge couplings                    3             traded
-        PS chain: the three fix M_I = 1.5e+11, M_GUT = 8.4e+15 GeV and alpha_GUT (Part T)
-    charged-lepton masses              3             open
-        the minimal 10 + 126 Yukawas fail: the light Higgs sits in one SU(4) irrep (Part Y's
-          selection rule); a 120 or an SU(4)-breaking vev at M_GUT would be needed
-    neutrino masses and mixing         7-9           traded
-        a seesaw at M_I with free Dirac Yukawas (Part P); the 10 + 126 neutrino fits are run only
-          for the LR chain
-    dark-matter density                1             traded
-        the axion at the PS chain's M_I gives 68.8 % (Part V); a pre-inflation angle can give the
-          rest (an unknown)
-    baryon asymmetry                   1             traded
-        leptogenesis needs M_1 >= 6e+08 GeV (Part S), and the chain allows M_1 up to 2e+12 GeV
-          (Part U); M_1 is unknown
-  Totals: bounded 2, calculated 2, input 4, open 3, traded 4
-  For the LR+D chain these rows differ:
-    gauge couplings                    3             traded
-        LR+D chain: the three fix M_I = 3.2e+10, M_GUT = 2.4e+15 GeV and alpha_GUT (Part T)
-    dark-matter density                1             open
-        the axion at the LR+D chain's M_I gives 11.6 % (Part V)
-    baryon asymmetry                   1             traded
-        leptogenesis needs M_1 >= 6e+08 GeV (Part S), and the chain allows M_1 up to 4e+11 GeV
-          (Part U); M_1 is unknown
-  Totals: bounded 2, calculated 2, input 4, open 4, traded 3
   RESULT: the algorithm closes: one pass, every stage run in dependency
-    order, and every free number assigned a status. No complete hypothesis
-    survives every condition: the closest fails one. What it calculates is
-    discrete and exact (the charges, their quantization, sin^2 theta_W at
-    unification, and, in SO(10), only bounds on the family number). Every
-    continuous number is still an input, traded for an unknown, bounded or
-    open: no free number of the Standard Model is calculated.
+    order, and every free number assigned a status. Every assumption of the
+    surviving hypothesis is consistent with every condition tested. What it
+    calculates is discrete and exact (the charges, their quantization, sin^2
+    theta_W at unification, and, in SO(10), only bounds on the family
+    number). Every continuous number is still an input, traded for an
+    unknown, bounded or open: no free number of the Standard Model is
+    calculated.
 
 THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
 ------------------------------------------------------------------------------
@@ -1531,8 +1561,9 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
         (the second bidoublet vev and the Delta_R coupling varied over their
         allowed ranges); a complex 10 (a real one is tested and fails);
         neutrinos by type II, type I, I + II (normal ordering, quark masses
-        floated within errors); v_R ~ M_I for the M_R bound; unknowns
-        searched, never set
+        floated within errors); v_R ~ M_I for the M_R bound; T15: the same
+        fits at the PS+15 chain's M_I with SM running below, its (15,2,2) at
+        M_I; unknowns searched, never set
   so10_flavour_fit (E, numerical)
       inputs: none
       takes: flavour_symmetry_so10, so10_yukawa
@@ -1639,7 +1670,7 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
     so10 (SM up to M_I, SO(10)) takes proton_decay (MSSM above M_S): only
       Super-K's limits (measured), not the MSSM lifetimes
     so10_two_step (SM up to M_I, SO(10)) takes proton_decay (MSSM above M_S):
-      NO REASON GIVEN: an open finding
+      only Super-K's limit (measured), not the MSSM lifetimes
     dark_sector (SM up to M_I, SO(10)) takes criticality (SM up to M_P): SM
       Higgs inflation is a test of the SM up to the plateau, i.e. of Part L's
       hypothesis
@@ -1796,4 +1827,4 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (31 stages, 95 edges)
   81/81 checks pass
 ==============================================================================
-Elapsed: 2527.1 s
+Elapsed: 2998.2 s

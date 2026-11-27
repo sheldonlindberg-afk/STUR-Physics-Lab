@@ -1012,7 +1012,8 @@ like the main script (the website has the same **Copy Python script** button for
 `results/sims/`; [`tests/test_sims.py`](tests/test_sims.py) applies the no-tuning tests to every sim, checks
 that the diff is current, and (one CI job per sim) runs it in full against its expected output.
 
-**[sims/so10_flavour.py](sims/so10_flavour.py): SO(10) in place of 3-3-1, plus a two-step left-right chain.**
+**[sims/so10_flavour.py](sims/so10_flavour.py): SO(10) in place of 3-3-1, plus a two-step left-right chain and
+Pati–Salam with a light (15,2,2).**
 
 * *Parts D, E, R asked of SO(10).* The 16 × 16 Yukawa bilinears come from the exact spinor algebra (the ten
   32 × 32 gamma matrices, elimination mod p): the 10 and 126 are symmetric, the 120 antisymmetric, and together
@@ -1029,6 +1030,17 @@ that the diff is current, and (one CI job per sim) runs it in full against its e
   GeV, short of what SO(10)'s Y₁₂₆ needs (Part Y4) by 37 times at the weakest floor and thousands of times over
   the fits. **It fails the neutrinos too**: the scale problem belongs to every SO(10) → 3221 chain with this
   field content.
+* *Part T15, Pati–Salam with the 126's (15,2,2) near M_I.* Part Y's selection rule (M_e = M_d or −3M_d) holds only
+  if the whole (15,2,2) of the 126 sits at M_GUT. With it near M_I, the B − L vev that breaks SU(4) there mixes the 10's
+  and the 126's doublets, and the 10 + 126 sum rule applies at M_I. The extra complex (15,2,2) changes the running
+  (b = −7/3, 2, 26/3): at two loops M_I = 2.0 × 10¹⁰ GeV, M_GUT = 3.6 × 10¹⁶ GeV, τ_p = 2 × 10³⁷ years. The sum rule
+  reaches the charged-lepton masses, and the type I + II search finds 54 neutrino fits (M_R,3 = 35–162 M_I, M₁ =
+  5 × 10⁹–2 × 10¹⁰ GeV). **It fails no condition: the first complete hypothesis here that does.** It predicts nothing
+  new, and two rows stay open. The neutrinos: with M_R = Y₁₂₆ v_R, a perturbative Y₁₂₆ needs v_R at least 2.3 times
+  the chain's own M_I/g_R (against 3600 times for the left-right chain), which only the thresholds (up to ×21) could
+  supply. The dark matter: the axion at M_I gives 6.6%, so the universe would be 20.2 Gyr old. Next: the (15,2,2)
+  mass scanned above M_I, the thresholds from the Pati–Salam potential with a light (15,2,2), f_a from a PQ charge,
+  and a dark-matter candidate.
 
 ## What changed from production v1
 

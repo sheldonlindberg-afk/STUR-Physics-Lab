@@ -11564,14 +11564,18 @@ def report(res: Dict[str, Any]) -> str:
         if o15.get("v_R"):
             v_ = o15["v_R"]
             w(f"  SO(10)'s v_R (M_R = Y126 v_R): the chain's own v_R = M_I/g_R = {v_['v_R_chain']:.1e} GeV; a perturbative"
-              f" Y126,3 needs v_R >= {v_['floor']:.1e} GeV ({v_['floor_ratio']:.2f} of the chain's); the fits match the"
-              f" chain's v_R for a 126 share f up to {v_['f_max_range'][0]:.1e}-{v_['f_max_range'][1]:.1e}.")
+              f" Y126,3 needs v_R >= {v_['floor']:.1e} GeV ({v_['floor_ratio']:.2f} times the chain's)"
+              + (f"; the fits match the chain's v_R for a 126 share f up to {v_['f_max_range'][1]:.1e}."
+                 if v_["floor_ratio"] <= 1 else
+                 ": no 126 share fits at the chain's own v_R (a smaller share would need a non-perturbative Y126);"
+                 " v_R must rise by that factor, inside the threshold band of Part T7."))
         w("  Scorecard (Part U): " + "; ".join(f"{sc_['conditions'][c]} {e['status']}" for c, e in r15.items()) + ".")
         f15 = [sc_["conditions"][c] for c, e in r15.items() if e["status"] == "fail"]
+        o15_ = [sc_["conditions"][c] for c, e in r15.items() if e["status"] == "open"]
         w(_wrap("RESULT: " + ("the (15,2,2) near M_I lets Pati-Salam's doublets mix, and with it the chain fails nothing "
-                              "the scorecard tests. It predicts nothing new either: every row it passes beyond proton "
-                              "decay is a trade, and the (15,2,2) mass and the 126 share f are unknowns its potential "
-                              "would have to fix." if not f15 else
+                              "the scorecard tests: the first complete hypothesis here that does. It predicts nothing new: "
+                              "beyond proton decay every row is a trade or open (" + ", ".join(o15_) + "), and the "
+                              "(15,2,2) mass and the 126 share f are unknowns its potential would have to fix." if not f15 else
                               "with the (15,2,2) near M_I the chain still fails: " + ", ".join(f15) + "."), 2))
         w("")
     w("PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION")

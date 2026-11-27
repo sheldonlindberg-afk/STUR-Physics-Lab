@@ -227,6 +227,15 @@ the new result, and the tests fail if a page value, the scorecard, the ledger or
 2. [x] Part T14 (in so10_flavour): the two-step left-right chain SO(10) -> 3221 -> 3211 -> SM. M_R stays near 1e9 GeV
        for any M_BL, v_R <= M_R/g_R ~ 2e9 GeV: fails the neutrinos (37x short at the perturbative floor). Open: chains
        with SU(2)_R broken far higher, a 16_H for B - L, a 120 in the Yukawas.
+3. [x] Part T15 (in so10_flavour): Pati-Salam with the 126's (15,2,2) near M_I. Part Y's selection rule holds only if the
+       whole (15,2,2) sits at M_GUT; light near M_I, the B - L vev mixes the 10's and 126's doublets, so the sum rule applies
+       at M_I. Two loops: M_I = 2.0e10, M_GUT = 3.6e16 GeV, tau_p = 2e37 yr; the sum rule reaches the charged leptons; 54
+       type I + II fits (M_R,3 = 35-162 M_I). It FAILS NOTHING: the first complete hypothesis that does. Open: the neutrino
+       fits need v_R >= 2.3 x the chain's M_I/g_R (no 126 share works at the chain's own v_R without a non-perturbative
+       Y126; inside T7's threshold band, x21); dark matter (the axion at M_I gives 6.6 %; the universe 20.2 Gyr old).
+       Next, in order: (a) the (15,2,2) mass scanned above M_I (the mixing falls as (M_I/M_15)^2); (b) the thresholds that
+       give the x2.3 in v_R, from the PS potential with a light (15,2,2) (T9-T11's machinery); (c) f_a from a PQ charge,
+       not f_a = M_I; (d) a dark-matter candidate (Part AA: a scalar 16 or a fermionic 10/45).
 
 ## Round 6: does every stage lock into the next? (a consistency audit)
 The algorithm runs in one pass, but a pass is only meaningful if every stage reads the same physics as the stages it
