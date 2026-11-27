@@ -254,10 +254,14 @@ the new result, and the tests fail if a page value, the scorecard, the ledger or
            stable by R-parity, degenerate at tree level (centre class 2), so its direct-detection splitting needs chi chi 10
            and chi chi 126bar at second order. Tunings at the working point: 1e-28 (doublet), 1e-11 (15,2,2), 1e-16 (eta).
            The working point is M_15 = M_I, where T15's fits are made: no refit needed.
-       [ ] (f) Next: the inert doublet's splitting from chi chi 10 and chi chi 126bar against direct detection; the full
-           (15,2,2) mass matrix (its other components' masses, i.e. the threshold the T7 band now stands in for); the PQ
-           singlet's potential and the PQ quality (Planck-suppressed breaking against theta-bar < 1e-10); the Higgs mass,
-           the one open row, from the tree-level threshold at M_I once the 126 and the (15,2,2) quartics are fixed.
+       [x] (f) Part T15d: the (15,2,2) component masses (five quartics, tensors): thresholds within 0.8 in 1/alpha, inside
+           T7's band in every viable draw; proton passes in all, neutrino floor in 83 %. The inert doublet's splitting
+           window: k126 k10^2 in 2e-6-0.1. PQ quality: no PQ-breaking operator below dimension 9-15. Higgs: lambda_SM(M_I)
+           = +0.0001 needed, from three unfixed quartics.
+       [ ] (g) Toward a prediction (every row is now a trade): a principle that fixes the quartics (e.g. lambda(M_I) = 0
+           at the scale where it is already ~0, which would predict m_h; T6 says the theory does not impose it), the
+           discrete gauge symmetry for PQ quality and whether it also fixes the PQ singlet's coupling, the holomorphic
+           Sigma Sigma D* D* terms in T15d, two-loop thresholds, and the neutrino fits redone with the (15,2,2) split.
 
 ## Round 6: does every stage lock into the next? (a consistency audit)
 The algorithm runs in one pass, but a pass is only meaningful if every stage reads the same physics as the stages it

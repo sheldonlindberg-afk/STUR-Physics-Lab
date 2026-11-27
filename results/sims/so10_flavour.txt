@@ -1,7 +1,7 @@
 ==============================================================================
 STUR Physics Lab, production v2.2 / sim so10_flavour (SO(10) in place of 3-3-1; the two-step left-right chain; Pati-Salam with a light (15,2,2)): nothing tuned, nothing fitted
 ==============================================================================
-Inputs: 65 measured or defined constants (INPUTS). Comparisons: 25 measured results, never used in a calculation.
+Inputs: 69 measured or defined constants (INPUTS). Comparisons: 25 measured results, never used in a calculation.
 
 PART A. COSMOLOGY (flat Lambda-CDM, Friedmann equation)
 ------------------------------------------------------------------------------
@@ -1261,6 +1261,39 @@ PART T15. PATI-SALAM WITH THE 126's (15,2,2) NEAR M_I: CAN THE DOUBLETS MIX?
       (a degenerate inert doublet scatters through the Z) must come from chi
       chi 10 and chi chi 126bar at second order, couplings this sim does not
       fix.
+  T15d. At the working point:
+    (15,2,2) components, mass^2 = M_15^2 + v_R^2 sum lambda_k c_k (c from the tensors; v_R^2/M_15^2 = 4.36):
+      octet (T3R -1/2)             c = 0.00, 0.00, 0.00, 0.00, 0.00
+      Sigma^c_4 (T3R -1/2)         c = 0.00, 1.00, 0.00, 0.00, 0.00
+      Sigma^4_c (T3R -1/2)         c = 1.00, 0.00, 0.00, 0.00, 0.00
+      T15 doublet (T3R -1/2)       c = 0.75, 0.75, 0.00, 0.00, 0.00
+      octet (T3R 1/2)              c = 0.00, 0.00, 1.00, 0.00, 0.00
+      Sigma^c_4 (T3R 1/2)          c = 0.00, 1.00, 1.00, 0.00, 1.00
+      Sigma^4_c (T3R 1/2)          c = 1.00, 0.00, 1.00, 1.00, 0.00
+      T15 doublet (T3R 1/2)        c = 0.75, 0.75, 1.00, 0.75, 0.75
+      With the five quartics in T9's box (4000 draws; 3222 give a negative
+        mass^2 and are dropped): the heavy components spread by a factor 2.9
+        in mass (median; up to 43); their thresholds shift the matching by up
+        to 0.20 in 1/alpha (median; max 0.83), inside T7's +-1 band in 100 %
+        of draws; M_I moves over 3.0e+10-1.1e+11 GeV (median 6.6e+10); the
+        proton passes in 100 %, the neutrino fits' v_R floor holds in 83 %,
+        both in 83 %.
+      The inert doublet's neutral splitting: Delta m = 2 k126 k10^2 <H>^2
+        v_R/(M_s M_eta) = 2.2e+02 GeV at unit couplings (M_s ~ M_I). Direct
+        detection needs Delta m > 338 keV (xenon, v_esc + v_E); the
+        freeze-out (a degenerate doublet) needs Delta m < T_f = 24 GeV. So
+        k126 k10^2 must lie in 2e-06-1e-01: possible with couplings below one
+        (a trade).
+      PQ quality: sigma is a gauge singlet, so nothing forbids
+        sigma^n/M_P^(n-4). Keeping theta-bar below 8.8e-11 needs every
+        PQ-breaking operator below dimension 9 (f_a = 1e+08 GeV), 12 (f_a =
+        1e+10 GeV), 15 (f_a = 1e+12 GeV) absent: a discrete gauge symmetry
+        the sim does not contain (a condition, not a test).
+      The Higgs: the measured mass needs lambda_SM(M_I) = +0.0001 at M_I =
+        5.7e+10 GeV (Part L's running; mu_0 = 6.2e+10 GeV), and the
+        tree-level threshold gives lambda_H - lambda_HS^2/lambda_S with three
+        unfixed quartics: a trade, no prediction, until the potential's
+        quartics are fixed by something the sim does not have.
     The working point's price, as cancellations (each assumed, like the doublet-triplet one): doublet 3e-28, (15,2,2) 1e-11, inert doublet 1e-16.
   Window with |lambda| <= 1 (T9's box): r = 1-18 (working point r = 1, M_I =
     5.7e+10 GeV: every row of the PS+15 chain below is read there). With the
@@ -1410,14 +1443,15 @@ PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
     baryon asymmetry trade : M_1 <= 2 sqrt(4 pi) M_I/g_R = 8e+11 GeV covers the natural range (M_1
       >= 2e+10 GeV); M_1 itself is unknown
     strong CP trade : an axion from a PQ singlet (sigma 10 10: f_a = 0.33 v_sigma >= 1e8 GeV, a new
-      unknown); the minimal PQ content's axion has f_a <= 29 GeV (a visible axion, excluded: Part
-      V2)
+      unknown); PQ quality needs PQ breaking absent below dimension 9 (Part T15d); the minimal PQ
+      content's axion has f_a <= 29 GeV (a visible axion, excluded: Part V2)
     vacuum stability trade : M_I = 5.7e+10 GeV below mu_0 = 6.2e+10 GeV: a scalar threshold of
       unknown size can stabilize the vacuum (Part T6)
     dark matter trade : the inert doublet of a scalar 16 (R-odd), gauge interactions only, freezes
       out to all of Omega_c at M = 573 GeV (Part AA3): a predicted mass for an assumed field (its
-      quartics neglected; its 16 partners near M_I); the axion cannot be it: after inflation N_DW =
-      3 leaves stable domain walls, before it isocurvature with Part AA's plateau (H_I = 1e+13 GeV)
+      quartics neglected; its 16 partners near M_I); its neutral splitting needs k126 k10^2 >=
+      2e-06 for direct detection (Part T15d); the axion cannot be it: after inflation N_DW = 3
+      leaves stable domain walls, before it isocurvature with Part AA's plateau (H_I = 1e+13 GeV)
       allows at most 9e-07 of Omega_c (Part V2)
     fermion masses trade : M_e = c1 M_d + c2 M_u at M_I (the (15,2,2) lets the doublets mix, Part
       T15) reaches the lepton masses (8 unknowns, 3 masses)
@@ -1485,14 +1519,16 @@ PART Z. THE LEDGER: EVERY FREE NUMBER AND WHAT THE ALGORITHM DOES WITH IT
           would fix f is not computed
     strong CP angle                    1             traded
         |theta-bar| < 8.8e-11 (Part O); an axion from a PQ singlet (sigma 10 10: f_a = 0.33 v_sigma
-          >= 1e8 GeV, a new unknown); the minimal PQ content's axion has f_a <= 29 GeV (a visible
-          axion, excluded: Part V2)
+          >= 1e8 GeV, a new unknown); PQ quality needs PQ breaking absent below dimension 9 (Part
+          T15d); the minimal PQ content's axion has f_a <= 29 GeV (a visible axion, excluded: Part
+          V2)
     dark-matter density                1             traded
         the inert doublet of a scalar 16 (R-odd), gauge interactions only, freezes out to all of
           Omega_c at M = 573 GeV (Part AA3): a predicted mass for an assumed field (its quartics
-          neglected; its 16 partners near M_I); the axion cannot be it: after inflation N_DW = 3
-          leaves stable domain walls, before it isocurvature with Part AA's plateau (H_I = 1e+13
-          GeV) allows at most 9e-07 of Omega_c (Part V2)
+          neglected; its 16 partners near M_I); its neutral splitting needs k126 k10^2 >= 2e-06 for
+          direct detection (Part T15d); the axion cannot be it: after inflation N_DW = 3 leaves
+          stable domain walls, before it isocurvature with Part AA's plateau (H_I = 1e+13 GeV)
+          allows at most 9e-07 of Omega_c (Part V2)
     baryon asymmetry                   1             traded
         leptogenesis needs M_1 >= 6e+08 GeV (Part S), and the chain allows M_1 up to 8e+11 GeV
           (Part U); M_1 is unknown
@@ -1665,9 +1701,9 @@ THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
         below; two-loop gauge running, no U(1) kinetic mixing; v_R <=
         M_R/g_R; the needed v_R from Part Y4's fits (left-right running)
   so10_ps15_scan (T15b, conditional)
-      inputs: G, G_F, M_Z, T_CMB, V_ud, W_pi0_LL, W_pi0_RL, alpha_em_inv_MZ,
-        alpha_s_MZ, au, c, e_charge, h, k_B, m_b, m_p, m_pi0_MeV, mu_light,
-        s2_hat_Z
+      inputs: A_r_Xe, G, G_F, M_Z, T_CMB, V_ud, W_pi0_LL, W_pi0_RL,
+        alpha_em_inv_MZ, alpha_s_MZ, au, c, e_charge, h, k_B, m_b, m_p,
+        m_pi0_MeV, mu_light, s2_hat_Z, u_kg, v_earth_km_s, v_esc_km_s
       takes: flavour, planck_units, strong_cp, proton_decay,
         baryon_asymmetry, so10, so10_yukawa
       assumes: Pati-Salam with the 126's (15,2,2) entering at M_15 >= M_I
@@ -1944,4 +1980,4 @@ SELF-CHECKS (correctness of the calculation, not agreement with data)
   [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (32 stages, 103 edges)
   85/85 checks pass
 ==============================================================================
-Elapsed: 2834.1 s
+Elapsed: 3078.8 s

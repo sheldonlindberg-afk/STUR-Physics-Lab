@@ -1077,6 +1077,19 @@ Pati–Salam with a light (15,2,2).**
   doublet–triplet one: the light doublet (v/M_GUT)² ~ 10⁻²⁸, the (15,2,2) at M_I (M_15/M_GUT)² ~ 10⁻¹¹, and the inert
   doublet below its 16 partners (M_η/M_I)² ~ 10⁻¹⁶. **The hypothesis survives the real mixing; what remains are
   tunings and unfixed couplings, not failures.**
+* *Part T15d, the rest of the potential at the working point.* (1) The (15,2,2)'s own masses: five PQ-allowed
+  Σ†Σ·ΔΔ† contractions (tensors; the components' b add up to the whole multiplet's, a check) split its SM components.
+  With the quartics in T9's box, 81% of draws give a negative mass² (dropped); in the rest the components spread by a
+  factor ~3 in mass, their thresholds shift the matching by at most 0.8 in 1/α (inside T7's ±1 band in every draw), M_I
+  stays at 3 × 10¹⁰–1.1 × 10¹¹ GeV, the proton passes in all and the neutrino fits' v_R floor holds in 83%. (2) The
+  inert doublet's neutral splitting, second order in χχ10 and χχ126bar, must exceed xenon's inelastic threshold (338
+  keV, from v_esc + v_E) and stay below T_f = 24 GeV (the freeze-out assumed a degenerate doublet): k₁₂₆k₁₀² between 2 ×
+  10⁻⁶ and 0.1, possible with couplings below one. (3) PQ quality: σ is a gauge singlet, so keeping θ̄ < 8.8 × 10⁻¹¹
+  needs every Planck-suppressed PQ-breaking operator absent below dimension 9 (f_a = 10⁸ GeV) to 15 (10¹² GeV): a
+  discrete gauge symmetry the sim does not contain. (4) The Higgs: the measured mass needs λ_SM(M_I) = +0.0001, since
+  M_I sits just below μ₀ = 6.2 × 10¹⁰ GeV; the tree threshold λ_H − λ_HS²/λ_S has three unfixed quartics, so the Higgs
+  row stays without a prediction. **Nothing fails; every remaining item is a coupling the sim does not fix, a tuning,
+  or a symmetry it does not contain.**
 
 ## What changed from production v1
 
