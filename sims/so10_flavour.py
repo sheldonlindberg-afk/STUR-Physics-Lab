@@ -7,6 +7,10 @@ Parts D, E and R (the gauge framework that the mass matrices, the flavour symmet
 number are asked about). Every other part is production_v2_2.py unchanged; sims/so10_flavour.diff
 shows the whole difference.
 
+SECOND CHANGE (Part T14): a two-step left-right chain, SO(10) -> 3221 -> 3211 -> SM, in which B - L breaks
+below SU(2)_R, is added beside the chains of Part T5 to test whether separating the two scales rescues the
+neutrinos (Part Y4). Nothing upstream of it changes.
+
 One self-contained script. Python 3.8+, standard library only. Copy it, paste it
 into any Python runner, notebook or AI assistant's code tool, and run it.
 
@@ -98,7 +102,7 @@ import sys
 import time
 from typing import Any, Callable, Dict, List, Sequence, Tuple
 
-VERSION = "production v2.2 / sim so10_flavour (SO(10) in place of 3-3-1)"
+VERSION = "production v2.2 / sim so10_flavour (SO(10) in place of 3-3-1; the two-step left-right chain)"
 
 # =============================================================================
 # 1. MEASURED INPUTS (the only physics numbers that enter a calculation)
@@ -302,6 +306,9 @@ NUMERICS: Dict[str, Any] = {
     "so10_texture_fit_iters": 400,    # Part E4: iterations per start
     "so10_texture_fit_polish": 8,     # Part E4: best starts refined by iterated local search
     "so10_texture_fit_kicks": 20,     # Part E4: random kicks per refined start
+    "lr2_scan_points": 14,            # Part T14: M_BL values from 10^lr2_log10_m_bl_min to 10^16 GeV
+    "lr2_log10_m_bl_min": 3,          # Part T14: the lowest B - L scale scanned (GeV, as a power of ten)
+    "lr2_bisect_steps": 40,           # Part T14: bisection for the one-step edge M_BL = M_R
     "joint_ms_points": 20,            # Part M: grid in ln M_S from m_t(m_t) to Part I's scan top
     "joint_tan_beta_points": 20,      # Part M: grid in ln tan(beta) over its perturbative range
     "joint_bisections": 20,           # Part M: bisection steps for b-tau roots and perturbativity edges
@@ -615,6 +622,10 @@ STAGES: Dict[str, Dict[str, str]] = {
     "flavour_symmetry_so10": {"part": "E", "level": "exact",
                               "assumes": "abelian Z_N up to symmetry_max_N on whole 16s; Higgs fields 10s and 126s; one "
                                          "light Higgs mixing every bidoublet (Part T13); scalar potential not solved"},
+    "so10_two_step": {"part": "T14", "level": "conditional",
+                      "assumes": "SO(10) -> 3221 -> 3211 -> SM; the left-right chain's fields plus a real (1,1,3,0) above "
+                                 "M_R, the SM's with nu^c and Delta_R^0 below; two-loop gauge running, no U(1) kinetic "
+                                 "mixing; v_R <= M_R/g_R; the needed v_R from Part Y4's fits (left-right running)"},
     "so10_flavour_fit": {"part": "E", "level": "numerical",
                          "assumes": "the predictive Z_N classes fitted to the charged-fermion masses and quark mixing of "
                                     "Part Y's left-right running at M_GUT, every observable within yukawa_fit_mass_rel; "
@@ -7192,6 +7203,179 @@ def so10(flav: Dict[str, Any], alpha_unif: Dict[str, Any], yukawa: Dict[str, Any
 
 
 # =============================================================================
+# 6r2. PART T14: THE TWO-STEP LEFT-RIGHT CHAIN (B - L BREAKS BELOW SU(2)_R)
+# =============================================================================
+# The left-right chain fails the neutrinos because one scale does two jobs: the 126's Delta_R breaks SU(2)_R and
+# B - L together at M_I, so the W_R mass (fixed by unification at ~3e9 GeV) also sets v_R, while SO(10)'s own Y126
+# needs v_R ~ 1e13 GeV or more (Part Y4). The two-step chain separates the jobs:
+#   M_GUT:  SO(10) -> SU(3) x SU(2)_L x SU(2)_R x U(1)_B-L       (3221, the 210 as in Part T13)
+#   M_R:    3221 -> SU(3) x SU(2)_L x U(1)_R x U(1)_B-L           (3211: the 210's (1,1,3,0), B - L unbroken)
+#   M_BL:   3211 -> SM                                             (the 126's Delta_R^0, T3R = -1, B - L = 2)
+# Fields: above M_R the left-right chain's (Part T5) plus the real (1,1,3,0); between M_BL and M_R the SM's with
+# nu^c, the light doublet (T3R = +1/2) and Delta_R^0. U(1)_R is normalized as T3R (it is part of SU(2)_R), U(1)_B-L as
+# in SO(10), X = sqrt(3/8) (B - L), so 1/alpha_1 = (3/5)/alpha_R + (2/5)/alpha_X at M_BL. Matching at two loops carries
+# the heavy vectors' MS-bar constants (5c): W_R at M_R (T = 2 under U(1)_R), the Z' at M_BL (neutral: none), SO(10) at
+# M_GUT. Counting: four unknowns (M_R, M_GUT, alpha_GUT and the split of hypercharge at M_BL) for three conditions at
+# fixed M_BL, so the chain is a one-parameter family in M_BL; M_BL = M_R is the one-step chain (a self-check).
+# Not included: U(1)_R - U(1)_B-L kinetic mixing (only Delta_R^0 carries both charges: sum T3R (B - L) = -2 per copy).
+LR2_GROUPS = ("SU3", "SU2", "U1", "U1")
+LR2_NORMS = (None, None, Fr(1), BL_NORM)
+
+
+def chain_b_norms(groups: Sequence[str], fields, norms: Sequence[Any]) -> Tuple[List[Fr], List[List[Fr]]]:
+    """chain_b with one normalization per U(1) (gauge part, kinetic mixing left out)."""
+    k = len(groups)
+    ca = [Fr(0) if g == "U1" else _rep_info(g, {"SU4": 15, "SU3": 8, "SU2": 3}[g])[1] for g in groups]
+    b1 = [-Fr(11, 3) * c for c in ca]
+    b2 = [[(-Fr(34, 3) * ca[i] ** 2 if i == j else Fr(0)) for j in range(k)] for i in range(k)]
+    for rep, kind, copies in fields:
+        dims = [1 if g == "U1" else r for g, r in zip(groups, rep)]
+        size = math.prod(dims)
+        s_i, c_i = [], []
+        for g, r, d, nrm in zip(groups, rep, dims, norms):
+            t, c = (nrm * r * r, nrm * r * r) if g == "U1" else _rep_info(g, d)
+            s_i.append(t * Fr(size, d))
+            c_i.append(c)
+        w1 = Fr(2, 3) if kind == "weyl" else Fr(1, 3)
+        for i in range(k):
+            b1[i] += w1 * copies * s_i[i]
+            for j in range(k):
+                if kind == "weyl":
+                    b2[i][j] += copies * s_i[i] * (2 * c_i[j] + (Fr(10, 3) * ca[i] if i == j else 0))
+                else:
+                    b2[i][j] += copies * s_i[i] * (4 * c_i[j] + (Fr(2, 3) * ca[i] if i == j else 0))
+    return b1, b2
+
+
+def lr2_chain() -> Dict[str, Any]:
+    n_f = sum(copies for name, _, _, _, _, copies in SM_FIELDS if name == "L")
+    low = [((3, 2, Fr(0), Fr(1, 3)), "weyl", n_f), ((3, 1, Fr(-1, 2), Fr(-1, 3)), "weyl", n_f),
+           ((3, 1, Fr(1, 2), Fr(-1, 3)), "weyl", n_f), ((1, 2, Fr(0), Fr(-1)), "weyl", n_f),
+           ((1, 1, Fr(1, 2), Fr(1)), "weyl", n_f), ((1, 1, Fr(-1, 2), Fr(1)), "weyl", n_f),
+           ((1, 2, Fr(1, 2), Fr(0)), "scalar", 1), ((1, 1, Fr(-1), Fr(2)), "scalar", 1)]
+    lr = so10_chains()["LR"]
+    high_fields = list(lr["fields"]) + [((1, 1, 3, Fr(0)), "scalar", Fr(1, 2))]     # the real (1,1,3,0)
+    b1h, b2h = chain_b(lr["groups"], high_fields)
+    b1l, b2l = chain_b_norms(LR2_GROUPS, low, LR2_NORMS)
+    # SM check: the 3211 content without nu^c and Delta_R^0 gives the SM's hypercharge b through (3/5, 2/5)
+    sm_like = [f_ for f_ in low if f_[0] != (1, 1, Fr(-1), Fr(2))]     # nu^c is a hypercharge singlet; Delta_R^0 mixes
+    b1s, _ = chain_b_norms(LR2_GROUPS, sm_like, LR2_NORMS)
+    return {"groups": lr["groups"], "fields": high_fields, "D": False, "b1": b1h, "b2": b2h,
+            "low_fields": low, "b1_3211": b1l, "b2_3211": b2l,
+            "sm_hypercharge_check": GUT_NORM * b1s[2] + (1 - GUT_NORM) * b1s[3], "sm_b": sm_gauge_b()}
+
+
+def solve_lr2(chain: Dict[str, Any], x: Dict[str, float], t_bl: float, loops: int,
+              start: Sequence[float] | None = None) -> Dict[str, Any]:
+    """At fixed ln M_BL: Newton on u = (1/alpha_R(M_BL), ln M_R, ln M_GUT) for the three unification conditions."""
+    a, s2 = 1 / x["alpha_em_inv_MZ"], x["s2_hat_Z"]
+    inv0 = [float(GUT_NORM) * (1 - s2) / a, s2 / a, 1 / x["alpha_s_MZ"]]
+    sm1 = [float(v) for v in sm_gauge_b()]
+    sm2 = [[float(v) for v in r] for r in (sm_two_loop_b() if loops == 2 else [[0] * 3] * 3)]
+    bl1 = [float(v) for v in chain["b1_3211"]]
+    bl2 = [[float(v) for v in r] for r in (chain["b2_3211"] if loops == 2 else [[0] * 4] * 4)]
+    bh1 = [float(v) for v in chain["b1"]]
+    bh2 = [[float(v) for v in r] for r in (chain["b2"] if loops == 2 else [[0] * 4] * 4)]
+    gn = float(GUT_NORM)
+    t_z = math.log(x["M_Z"])
+    vc = vector_threshold_constants(so10_chains()["LR"])
+    k12 = 12 * math.pi
+    on = loops == 2
+    c_g = [float(t_ - vc["M_GUT"][1]) / k12 if on else 0.0 for t_ in vc["M_GUT"]]
+    c_wr = float(2 * LR2_NORMS[2]) / k12 if on else 0.0          # W_R+-: charge +-1 under U(1)_R, two real vectors
+    s_bl = _run_inv(inv0, sm1, sm2, t_z, t_bl, loops)              # 1/alpha_1, 1/alpha_2, 1/alpha_3 at M_BL
+
+    def at_mr(u: List[float]) -> List[float]:
+        inv_r, inv_x = u[0], (s_bl[0] - gn * u[0]) / (1 - gn)
+        low = _run_inv([s_bl[2], s_bl[1], inv_r, inv_x], bl1, bl2, t_bl, u[1], loops)
+        return [low[0], low[1], low[2] + c_wr, low[3]]              # 3, 2L, 2R (= U(1)_R + the W_R constant), X
+
+    def residuals(u: List[float]) -> List[float]:
+        top = _run_inv(at_mr(u), bh1, bh2, u[1], u[2], loops)
+        return [top[0] - top[1] + c_g[0]] + [top[i] - top[1] + c_g[i] for i in range(2, 4)]
+    u = list(start) if start else [s_bl[0], t_bl + 1, math.log(10 ** 16)]
+    h_ = num("unif_ms_deriv_step")
+    for _ in range(int(num("unif_iterations"))):
+        f0 = residuals(u)
+        if max(abs(v) for v in f0) < num("unif_tol"):
+            break
+        jac = []
+        for k in range(3):
+            du = list(u)
+            du[k] += h_
+            jac.append([(fa - fb) / h_ for fa, fb in zip(residuals(du), f0)])
+        m = [[jac[k][i] for k in range(3)] + [-f0[i]] for i in range(3)]
+        for i in range(3):
+            piv = max(range(i, 3), key=lambda r_: abs(m[r_][i]))
+            m[i], m[piv] = m[piv], m[i]
+            for r_ in range(3):
+                if r_ != i:
+                    f = m[r_][i] / m[i][i]
+                    m[r_] = [p - f * q for p, q in zip(m[r_], m[i])]
+        u = [u[i] + m[i][3] / m[i][i] for i in range(3)]
+    f0 = residuals(u)
+    mr = at_mr(u)
+    top = _run_inv(mr, bh1, bh2, u[1], u[2], loops)
+    inv_g = top[1] + (float(vc["M_GUT"][1]) / k12 if on else 0.0)
+    inv_x_bl = (s_bl[0] - gn * u[0]) / (1 - gn)
+    return {"M_BL": math.exp(t_bl), "M_R": math.exp(u[1]), "M_GUT": math.exp(u[2]), "alpha_GUT": 1 / inv_g,
+            "u": u, "inv_alpha_MBL": [s_bl[2], s_bl[1], u[0], inv_x_bl], "inv_alpha_MR": mr,
+            "residual": max(abs(v) for v in f0), "consistent": t_bl <= u[1] + num("unif_tol") and u[1] < u[2],
+            # for the operator running above M_I in Part Q's chain formula (left-right group above M_R)
+            "M_I": math.exp(u[1]), "inv_alpha_MI": mr}
+
+
+def so10_two_step(s10: Dict[str, Any], s10y: Dict[str, Any], flav: Dict[str, Any], pdk: Dict[str, Any]) -> Dict[str, Any] | None:
+    """Part T14: the two-step family at two loops, its largest B - L scale, and that scale against what SO(10)'s Y126
+    needs (Part Y4). The W_R mass is at least g_R v_R (M_WR^2 = g_R^2 (v_Delta^2 + v_T^2)), so v_R <= M_R / g_R(M_R)."""
+    x0 = _float_inputs()
+    ch = lr2_chain()
+    loops = 2
+    t_lo, t_hi = math.log(10 ** int(num("lr2_log10_m_bl_min"))), math.log(10 ** 16)
+    st: List[float] | None = None
+    rows = []
+    n_pts = int(num("lr2_scan_points"))
+    for k_ in range(n_pts):
+        t_ = t_lo + (t_hi - t_lo) * k_ / (n_pts - 1)
+        r_ = solve_lr2(ch, x0, t_, loops, st)
+        st = r_["u"]
+        rows.append(r_)
+    # the boundary M_BL = M_R (the one-step limit) by bisection on ln M_BL - ln M_R
+    a_, b_ = t_lo, t_hi
+    st = rows[0]["u"]
+    edge = rows[0]
+    for _ in range(int(num("lr2_bisect_steps"))):
+        mid = (a_ + b_) / 2
+        r_ = solve_lr2(ch, x0, mid, loops, st)
+        if mid <= r_["u"][1]:
+            a_, edge, st = mid, r_, r_["u"]
+        else:
+            b_ = mid
+    a_l = proton_long_distance(flav["runner"], x0)
+    for r_ in rows + [edge]:
+        r_["tau_p_years"] = proton_lifetime(x0, r_["M_GUT"], r_["alpha_GUT"], None, a_l, ch, r_)
+        r_["g_R_MR"] = math.sqrt(4 * math.pi / r_["inv_alpha_MR"][2])
+        r_["v_R_max"] = r_["M_R"] / r_["g_R_MR"]
+    consistent = [r_ for r_ in rows if r_["consistent"]] + [edge]
+    vr = s10y.get("v_R")
+    out = {"b1_3221": ch["b1"], "b1_3211": ch["b1_3211"], "rows": rows, "edge": edge,
+           "M_R_range": (min(r_["M_R"] for r_ in consistent), max(r_["M_R"] for r_ in consistent)),
+           "tau_range": (min(r_["tau_p_years"] for r_ in consistent), max(r_["tau_p_years"] for r_ in consistent)),
+           "v_R_max": max(r_["v_R_max"] for r_ in consistent), "tau_limit": pdk["limit_e_pi0"]}
+    if vr:
+        out["v_R_floor"] = vr["v_R_perturbative_floor"]
+        out["v_R_needed"] = vr["v_R_needed"]
+        cq = vr["complex_10"].get("ratio_quantiles")
+        out["v_R_complex_10_min"] = cq[0] * vr["v_R_chain"] if cq else None
+        out["fails_neutrinos"] = out["v_R_max"] < out["v_R_floor"]
+        out["shortfall_floor"] = out["v_R_floor"] / out["v_R_max"]
+        out["shortfall_needed"] = out["v_R_needed"][0] / out["v_R_max"]
+        out["shortfall_complex_10"] = out["v_R_complex_10_min"] / out["v_R_max"] if cq else None
+    out["proton_ok_everywhere"] = out["tau_range"][0] > pdk["limit_e_pi0"]
+    return out
+
+
+# =============================================================================
 # 6t. PART V: DARK MATTER FROM THE AXION
 # =============================================================================
 # Part A takes the dark-matter density as an input. The axion of Part O, if it exists, is made in the
@@ -9205,6 +9389,18 @@ def self_checks(flav: Dict[str, Any], cosmo: Dict[str, Any], scales: Sequence[fl
         fb["T16"] == 2 and fb["T45"] == 8 and so10_decomposition_index(10)[0] == 1 and fb["cubic_anomaly_16"] == 0
         and bool(herm) and all(h_["proved"] and h_["predictions"] == 1 for h_ in herm),
         f"T16 = {fb['T16']}, T45 = {fb['T45']}, ranks {[h_['rank'] for h_ in herm]}")
+    # Part T14: the 3211 content against the SM, and the one-step limit
+    c2 = lr2_chain()
+    b_sm = c2["sm_b"]
+    x0 = _float_inputs()
+    one = solve_chain(so10_chains()["LR"], x0, 2)
+    no_t = dict(c2, fields=so10_chains()["LR"]["fields"], b1=so10_chains()["LR"]["b1"], b2=so10_chains()["LR"]["b2"])
+    lim = solve_lr2(no_t, x0, math.log(one["M_I"]), 2)
+    dev = max(abs(lim["M_R"] / one["M_I"] - 1), abs(lim["M_GUT"] / one["M_GUT"] - 1), abs(lim["alpha_GUT"] / one["alpha_GUT"] - 1))
+    add("Two-step chain (T14): the 3211 content (with nu^c, without Delta_R^0) gives the SM's b through 1/alpha_1 = (3/5)/alpha_R"
+        " + (2/5)/alpha_X, and with M_BL = M_R (and no (1,1,3,0)) the two-step solver returns the one-step chain's M_I, M_GUT,"
+        " alpha_GUT", c2["sm_hypercharge_check"] == b_sm[0] and c2["b1_3211"][1] == b_sm[1] and c2["b1_3211"][0] == b_sm[2]
+        and dev < num("check_rel_tol") ** (1 / 2), f"b_1 {c2['sm_hypercharge_check']}, rel dev {dev:.1e}")
     return checks
 
 
@@ -9270,6 +9466,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     dm = _stage("dark_matter", lambda: dark_matter(scp, s10, planck, bau))
     s10y = _stage("so10_yukawa", lambda: so10_yukawa_tests(flav, s10))
     sfit = _stage("so10_flavour_fit", lambda: so10_flavour_fit(symm, s10y))
+    ts2 = _stage("so10_two_step", lambda: so10_two_step(s10, s10y, flav, pdk))
     mw = _stage("w_mass", lambda: {**w_mass_test(crit), "z_pole": sin2_eff_test(crit)})
     score = _stage("scorecard", lambda: scorecard(joint, higgs, crit, pdk, nus, bau, s10, scp, dm, s10y))
 
@@ -9698,7 +9895,7 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     checks.append(("Model graph: every stage registered, acyclic, and run in dependency order",
                    lin["registered"] and lin["acyclic"] and lin["in_order"],
                    f"{len(lin['order'])} stages, {sum(len(u) for u in lin['uses'].values())} edges"))
-    return {"scales": scales, "cosmology": cosmo, "flavour": flav, "survey": survey, "yukawa_so10": yuk, "so10_flavour_fit": sfit, "one_running": mrun,
+    return {"scales": scales, "cosmology": cosmo, "flavour": flav, "survey": survey, "yukawa_so10": yuk, "so10_flavour_fit": sfit, "so10_two_step": ts2, "one_running": mrun,
             "symmetry": symm, "closure": closure, "quantum_gravity": qg, "alpha_unification": alpha_unif,
             "alpha_numerology": alpha_num, "yukawa": yukawa, "higgs": higgs, "criticality": crit,
             "joint": joint, "mass_formulas": masses, "strong_cp": scp, "neutrinos": nus, "proton_decay": pdk,
@@ -11147,6 +11344,39 @@ def report(res: Dict[str, Any]) -> str:
             "which the chain's own scales do not allow without large thresholds.", 2))
     w("")
     sc_ = res["scorecard"]
+    t14 = res["so10_two_step"]
+    w("PART T14. THE TWO-STEP LEFT-RIGHT CHAIN: CAN B - L BREAK ABOVE THE W_R SCALE'S LIMIT?")
+    w("-" * 78)
+    w("  SO(10) -> 3221 (M_GUT) -> SU(3) x SU(2)_L x U(1)_R x U(1)_B-L (M_R, the 210's (1,1,3,0)) -> SM (M_BL, the 126's")
+    w("  Delta_R^0). One-loop b: 3221 stage " + ", ".join(str(b_) for b_ in t14["b1_3221"]) + "; 3211 stage "
+      + ", ".join(str(b_) for b_ in t14["b1_3211"]) + " (SU(3), SU(2)_L, U(1)_R, U(1)_X).")
+    w("  Four unknowns, three conditions: a family in M_BL (two loops, MS-bar vector constants):")
+    w("        M_BL (GeV)     M_R (GeV)    M_GUT (GeV)  1/alpha_GUT  tau_p (yr)   v_R <= M_R/g_R")
+    for r_ in [r_ for r_ in t14["rows"] if r_["consistent"]] + [t14["edge"]]:
+        w(f"        {r_['M_BL']:9.2e}    {r_['M_R']:9.2e}    {r_['M_GUT']:9.2e}    {1 / r_['alpha_GUT']:6.2f}"
+          f"     {r_['tau_p_years']:8.1e}     {r_['v_R_max']:8.1e}")
+    w("      (the last row is the one-step edge M_BL = M_R; above it M_BL > M_R, which the 126 cannot do: its Delta_R")
+    w("      is an SU(2)_R triplet, so breaking B - L also breaks SU(2)_R and M_WR >= g_R v_R.)")
+    w(f"  M_R stays between {t14['M_R_range'][0]:.1e} and {t14['M_R_range'][1]:.1e} GeV whatever M_BL is: U(1)_R x U(1)_B-L runs")
+    w("  almost as hypercharge does, so the W_R scale, set by SU(2)_R's own running, does not move. So")
+    w(f"  v_R <= {t14['v_R_max']:.1e} GeV everywhere on the family.")
+    if t14.get("v_R_floor"):
+        w(f"  What SO(10)'s Y126 needs (Part Y4): v_R >= {t14['v_R_floor']:.1e} GeV for any 126 share (perturbative floor),"
+          f" {t14['v_R_needed'][0]:.1e} to {t14['v_R_needed'][1]:.1e} GeV over T13's share band"
+          + (f", >= {t14['v_R_complex_10_min']:.1e} GeV with the complex 10's potential" if t14.get("v_R_complex_10_min") else "")
+          + ".")
+        w(f"  Short by {t14['shortfall_floor']:.0f} times at the floor, {t14['shortfall_needed']:.0f} times over the band"
+          + (f", {t14['shortfall_complex_10']:.0f} times with the complex 10" if t14.get("shortfall_complex_10") else "") + ".")
+    w(f"  Proton decay: {t14['tau_range'][0]:.1e} to {t14['tau_range'][1]:.1e} years against {t14['tau_limit']:.1e}"
+      f" ({'passes' if t14['proton_ok_everywhere'] else 'fails somewhere'} on the family; operators run with the left-right group"
+      " above M_R, the SM's below).")
+    w(_wrap("RESULT: separating the B - L scale from the W_R scale does not rescue the neutrinos. "
+            + ("The two-step chain fails them as the one-step chain does: unification holds the W_R mass near 1e9 GeV "
+               "and the B - L vev cannot exceed it. The needed v_R is out of reach of every SO(10) -> 3221 chain with this "
+               "field content; it needs a chain whose SU(2)_R breaks far higher (Pati-Salam's M_I ~ 1e11 GeV is closer, "
+               "but fails the fermion masses), more Yukawa structure, or a different B - L breaking (a 16_H)."
+               if t14.get("fails_neutrinos") else "The family reaches the needed v_R: see the table."), 2))
+    w("")
     w("PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION")
     w("-" * 78)
     w("  Each hypothesis meets every condition, with the verdict the earlier parts computed:")
@@ -11175,7 +11405,9 @@ def report(res: Dict[str, Any]) -> str:
     w(_wrap("RESULT: " + ("surviving every condition tested so far: " + ", ".join(sc_["survivors"])
                           + ". It predicts nothing yet: its scales are solved from the couplings, and its passes are "
                             "consistency, not calculation; two-loop running and thresholds come next."
-                          if sc_["survivors"] else "no complete hypothesis survives every condition."), 2))
+                          if sc_["survivors"] else "no complete hypothesis survives every condition.")
+            + (" The two-step left-right variant (Part T14) fails the neutrinos too." if res["so10_two_step"].get("fails_neutrinos")
+               else ""), 2))
     w("")
     lg_ = res["ledger"]
     w("PART Z. THE LEDGER: EVERY FREE NUMBER AND WHAT THE ALGORITHM DOES WITH IT")
@@ -11267,7 +11499,7 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
                     "ratios": flav["ratios"], "scales": flav["scales"]},
         "texture_survey": {mu: sv["classes"] for mu, sv in res["survey"].items()},
         "yukawa_so10": res["yukawa_so10"], "symmetry_so10": res["symmetry"],
-        "so10_flavour_fit": res["so10_flavour_fit"],
+        "so10_flavour_fit": res["so10_flavour_fit"], "so10_two_step": res["so10_two_step"],
         "general_texture_closure": res["closure"],
         "quantum_gravity": res["quantum_gravity"],
         "alpha_unification": res["alpha_unification"], "alpha_numerology": res["alpha_numerology"],
