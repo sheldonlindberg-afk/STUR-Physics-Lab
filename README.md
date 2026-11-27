@@ -1037,10 +1037,18 @@ Pati–Salam with a light (15,2,2).**
   reaches the charged-lepton masses, and the type I + II search finds 54 neutrino fits (M_R,3 = 35–162 M_I, M₁ =
   5 × 10⁹–2 × 10¹⁰ GeV). **It fails no condition: the first complete hypothesis here that does.** It predicts nothing
   new, and two rows stay open. The neutrinos: with M_R = Y₁₂₆ v_R, a perturbative Y₁₂₆ needs v_R at least 2.3 times
-  the chain's own M_I/g_R (against 3600 times for the left-right chain), which only the thresholds (up to ×21) could
-  supply. The dark matter: the axion at M_I gives 6.6%, so the universe would be 20.2 Gyr old. Next: the (15,2,2)
-  mass scanned above M_I, the thresholds from the Pati–Salam potential with a light (15,2,2), f_a from a PQ charge,
-  and a dark-matter candidate.
+  the chain's own M_I/g_R (against 3600 times for the left-right chain) when the (15,2,2) sits at M_I.
+* *Part T15b, the (15,2,2) mass scanned.* With M_15 = r M_I from M_I to M_GUT (two-loop running with a step at
+  M_15; at r = 1 it returns the T15 chain and above M_GUT minimal Pati–Salam, a self-check), raising r lifts M_I and
+  so v_R, but weakens the doublet mixing: the light Higgs's 126 share is δ²/(δ² + M_15⁴) with δ = λv_R² from one
+  quartic. Below r ≈ 30 v_R is under the fits' floor; at **r = 32** (M_I = 4.7 × 10¹⁰ GeV, v_R = 1.0 × 10¹¹ GeV) the
+  mixing needs **λ = 0.88**, inside T9's assumed box |λ| ≤ 1; at r = 56 it needs 2.9. The window is one grid step
+  wide (r = 32–100 with perturbativity alone, |λ| ≤ 4π), and the fits are T15's, not redone at each M_15. The
+  neutrino row becomes a trade, and every row of the chain is read at that working point: proton 4 × 10³⁶ years,
+  vacuum stabilizable (M_I < μ₀), leptogenesis open up to M₁ = 7 × 10¹¹ GeV, and the axion at 18% of the dark matter
+  (the universe 18.6 Gyr old in Part X). **It fails nothing; the dark matter stays open.** Next: the Pati–Salam
+  potential with a light (15,2,2) (the real mixing and thresholds instead of one quartic), the fits redone at the
+  working point, f_a from a PQ charge, and a dark-matter candidate.
 
 ## What changed from production v1
 

@@ -233,9 +233,17 @@ the new result, and the tests fail if a page value, the scorecard, the ledger or
        type I + II fits (M_R,3 = 35-162 M_I). It FAILS NOTHING: the first complete hypothesis that does. Open: the neutrino
        fits need v_R >= 2.3 x the chain's M_I/g_R (no 126 share works at the chain's own v_R without a non-perturbative
        Y126; inside T7's threshold band, x21); dark matter (the axion at M_I gives 6.6 %; the universe 20.2 Gyr old).
-       Next, in order: (a) the (15,2,2) mass scanned above M_I (the mixing falls as (M_I/M_15)^2); (b) the thresholds that
-       give the x2.3 in v_R, from the PS potential with a light (15,2,2) (T9-T11's machinery); (c) f_a from a PQ charge,
-       not f_a = M_I; (d) a dark-matter candidate (Part AA: a scalar 16 or a fermionic 10/45).
+       Next, in order:
+       [x] (a) T15b: the (15,2,2) mass scanned, M_15 = r M_I (two-loop stepped running; both ends a self-check). At r = 32
+           (M_I = 4.7e10, v_R = 1.0e11 GeV) the fits' floor is cleared and the doublet mixing (delta = lambda v_R^2, one
+           quartic) needs lambda = 0.88, inside T9's box |lambda| <= 1: the neutrino row becomes a trade. The window is one
+           grid step wide (32-100 with |lambda| <= 4 pi). One scale per chain: the working point (smallest lambda) is
+           read by every row (proton 4e36 yr, vacuum stabilizable, axion 18 %, Part X 18.6 Gyr, the ledger).
+       [ ] (b) the PS potential with a light (15,2,2) (T9-T11's machinery): the real mixing (Clebsches, not one quartic),
+           whether the potential puts M_15 near 32 M_I, and its thresholds; and the neutrino fits redone at the working
+           point's M_I (now T15's at 2.0e10).
+       [ ] (c) f_a from a PQ charge, not f_a = M_I.
+       [ ] (d) a dark-matter candidate for the rest (Part AA: a scalar 16 or a fermionic 10/45).
 
 ## Round 6: does every stage lock into the next? (a consistency audit)
 The algorithm runs in one pass, but a pass is only meaningful if every stage reads the same physics as the stages it
