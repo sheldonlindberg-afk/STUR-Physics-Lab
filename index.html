@@ -142,6 +142,7 @@
       <a href="#numbers">Nature's numbers</a>
       <a href="#method">Method</a>
       <a href="#run">Run it</a>
+      <a href="#sims">Sims</a>
     </nav>
   </header>
 
@@ -327,6 +328,25 @@
 python3 production_v2_2.py --json-out out.json # every number, as JSON
 python3 production_v2_2.py --set M_t=173.5      # change an input; the whole model is recalculated
 python3 production_v2_2.py --certify            # also prove the texture exclusions (about 10 more minutes)</pre>
+
+  <h2 id="sims">Adjacent sims: one piece changed at a time</h2>
+  <p>Each adjacent sim is the whole production script with one piece swapped, run under the same rules: nothing tuned, nothing fitted, every self-check passing. Each one is a single standard-library file you can copy or download, like the main script, and its diff against the main script shows exactly what changed.</p>
+  <div class="card">
+    <h3>so10_flavour: SO(10) in place of 3-3-1, and a two-step left-right chain</h3>
+    <ul class="patterns">
+      <li><span class="chip bad">lost</span>SO(10)’s Yukawa couplings come out symmetric, never Hermitian (10 and 126 symmetric, 120 antisymmetric, from the exact spinor algebra). The one surviving quark texture then predicts nothing (proved: <span data-sim="so10_flavour">10</span> physical parameters for 10 observables).</li>
+      <li><span class="chip bad">excluded</span>Abelian flavour symmetries inside minimal SO(10) give <span data-sim="so10_flavour">15</span> classes that make relations among the charged-fermion masses and mixing; every one misses the data by more than 100σ.</li>
+      <li><span class="chip warn">bounded</span>The number of families is no longer calculated (3-3-1 gave exactly 3): SO(10) is anomaly-free for any number, and asymptotic freedom with CP violation leaves <span data-sim="so10_flavour">3 to 5</span>.</li>
+      <li><span class="chip bad">fails</span>Breaking B − L below SU(2)<sub>R</sub> (SO(10) → 3221 → 3211 → SM) does not rescue the neutrinos: unification holds the W<sub>R</sub> mass near 10⁹ GeV, so v<sub>R</sub> ≤ <span data-sim="so10_flavour">2.0e+09</span> GeV, short of what SO(10)’s own Y<sub>126</sub> needs by <span data-sim="so10_flavour">37 times</span> even at the weakest floor.</li>
+    </ul>
+    <div class="cta">
+      <button class="btn primary copy-script" type="button" data-src="sims/so10_flavour.py" data-status="copy-status-so10">Copy Python script</button>
+      <a class="btn" href="sims/so10_flavour.py" download="so10_flavour.py">Download .py</a>
+      <a class="btn" href="sims/so10_flavour.diff">What changed (diff)</a>
+      <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/results/sims/so10_flavour.txt">Expected output</a>
+    </div>
+    <p class="status" id="copy-status-so10" role="status" aria-live="polite">One file, standard library only, about 25 minutes on four cores. Run it with <code>python3 so10_flavour.py</code>; the same options as the main script work.</p>
+  </div>
 
   <footer>
     Independent work, not peer reviewed. CC0 1.0 (public domain). Every number and curve on this page is generated from the script by <code>tools/site_data.py</code>. Source, tests and history:

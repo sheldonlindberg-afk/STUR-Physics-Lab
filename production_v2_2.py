@@ -11013,7 +11013,7 @@ def to_jsonable(res: Dict[str, Any]) -> Dict[str, Any]:
     return conv({
         "version": VERSION, "inputs": INPUTS, "comparisons": COMPARISONS, "numerics": NUMERICS,
         "cosmology": res["cosmology"],
-        "flavour": {"m_t_msbar": flav["runner"].mt_msbar, "electroweak": flav["runner"].ew,
+        "flavour": {"m_t_msbar": flav["runner"].mt_msbar,
                     "ratios": flav["ratios"], "scales": flav["scales"]},
         "texture_survey": {mu: sv["classes"] for mu, sv in res["survey"].items()},
         "yukawa_331": {f"b={b}": {"operators": {f"{f}{fl}": v for (f, fl), v in y["operators"].items()},

@@ -975,6 +975,33 @@ The Higgs entry for Pati–Salam (125.6 GeV) comes from λ(M_I) = 0. Part T6 sho
 is not required by the theory: it only says that Pati–Salam's M_I happens to lie near the SM
 instability scale.
 
+## Adjacent sims: one piece changed at a time
+
+Each file in [`sims/`](sims) is the whole production script with one piece swapped, under the same rules:
+nothing tuned or fitted, every self-check passing, standard library only. Each can be copied or downloaded
+like the main script (the website has the same **Copy Python script** button for each), and
+`sims/<name>.diff` is its exact difference from `production_v2_2.py`. Its expected output is in
+`results/sims/`; [`tests/test_sims.py`](tests/test_sims.py) applies the no-tuning tests to every sim, checks
+that the diff is current, and (one CI job per sim) runs it in full against its expected output.
+
+**[sims/so10_flavour.py](sims/so10_flavour.py): SO(10) in place of 3-3-1, plus a two-step left-right chain.**
+
+* *Parts D, E, R asked of SO(10).* The 16 × 16 Yukawa bilinears come from the exact spinor algebra (the ten
+  32 × 32 gamma matrices, elimination mod p): the 10 and 126 are symmetric, the 120 antisymmetric, and together
+  they span every coupling. So SO(10)'s mass matrices are symmetric, never Hermitian, and the one surviving
+  Hermitian texture of Part C loses its prediction (9 physical parameters as Hermitian matrices, 10 as symmetric
+  ones; both proved). An abelian Z_N (N ≤ 6) on whole 16s with the minimal 10 + 126 makes every sector share one
+  support; 15 classes make relations among the 13 charged-fermion observables (the exact Jacobian rank), and a
+  fit of each to Part Y's masses and mixing at M_GUT misses by more than 100σ. With one more Higgs field there
+  are 81 such classes, counted but not fitted. The family number is no longer calculated: SO(10) is anomaly-free
+  for any number, and asymptotic freedom with the chain's scalars plus CP violation leave 3 to 5 (bounded).
+* *Part T14, the two-step left-right chain* SO(10) → 3221 → 3211 → SM, with B − L breaking below SU(2)_R. The
+  family in M_BL is solved at two loops; with M_BL = M_R it returns the one-step chain (a self-check). The W_R
+  scale stays near 10⁹ GeV whatever M_BL is, and since M_WR ≥ g_R v_R the B − L vev stays below about 2 × 10⁹
+  GeV, short of what SO(10)'s Y₁₂₆ needs (Part Y4) by 37 times at the weakest floor and thousands of times over
+  the fits. **It fails the neutrinos too**: the scale problem belongs to every SO(10) → 3221 chain with this
+  field content.
+
 ## What changed from production v1
 
 The first version of `production_v2_2.py` (commit `2fa12f0`) gave χ² ≈ 3,600 for its Fritzsch
@@ -1001,6 +1028,10 @@ v2.2 replaces each one:
 production_v2_2.py            the simulation
 results/production_v2_2.txt   its expected output
 tests/test_production.py      the no-tuning rule, the self-checks, the pinned numbers
+sims/                         adjacent sims (one piece changed each) and their diffs
+results/sims/                 their expected outputs
+tests/test_sims.py            the same rules for every sim; full runs with STUR_SIM=<name>
+tools/sim_diff.py             writes sims/<name>.diff
 index.html                    website: the ladder, the results and their curves
 assets/site-data.js           every number and curve the website shows (generated)
 tools/site_data.py            writes assets/site-data.js from one run of the simulation
