@@ -1046,9 +1046,27 @@ Pati–Salam with a light (15,2,2).**
   wide (r = 32–100 with perturbativity alone, |λ| ≤ 4π), and the fits are T15's, not redone at each M_15. The
   neutrino row becomes a trade, and every row of the chain is read at that working point: proton 4 × 10³⁶ years,
   vacuum stabilizable (M_I < μ₀), leptogenesis open up to M₁ = 7 × 10¹¹ GeV, and the axion at 18% of the dark matter
-  (the universe 18.6 Gyr old in Part X). **It fails nothing; the dark matter stays open.** Next: the Pati–Salam
-  potential with a light (15,2,2) (the real mixing and thresholds instead of one quartic), the fits redone at the
-  working point, f_a from a PQ charge, and a dark-matter candidate.
+  (the universe 18.6 Gyr old in Part X). **It fails nothing; the dark matter stays open** (superseded below: V2, AA3).
+* *Part V2, the axion from its PQ charges.* The Yukawas 16 16 10 and 16 16 126bar fix the charges (16: 1, 10: −2,
+  126bar: −2; 16 16 10* is forbidden, so the 10 is complex). The physical axion is the part of the PQ current
+  orthogonal to every broken neutral gauge generator in the vev-weighted metric: Δ_R breaks PQ and B − L with one
+  phase, the heavy B − L boson eats it, and the axion lives in the electroweak doublets, f_a ≤ 29 GeV (m_a ≈ 200
+  keV). **The minimal theory's axion is visible, hence excluded, and f_a = M_I had no basis.** An invisible axion needs
+  a PQ singlet with its own scale. Then N = 6 and 2N = 12, and SO(10)'s centre Z₄ identifies vacua, leaving N_DW = 3
+  (σ 10 10) or 6 (σ² 10 10): after inflation the walls are stable; before it, isocurvature (β < 0.038; the
+  derivation reproduces Di Luzio et al.'s eq. 189) with Part AA's plateau inflation, H_I ≈ 1.5 × 10¹³ GeV, caps the
+  axion at 9 × 10⁻⁷ of the dark matter. **It solves strong CP (a trade) but cannot be the dark matter.**
+* *Part AA3, a candidate fixed by gauge interactions.* Freeze-out from Cirelli–Fornengo–Strumia's eqs. 11–13
+  (tree-level, reproducing their table 1 within 3%) fixes each candidate's mass, and each is put into the PS+15
+  chain's SM-stage running: a fermion triplet (45, 2.5 TeV) destroys unification, a fermion doublet (10, 1.2 TeV)
+  brings M_GUT to 7 × 10¹⁴ GeV, where the proton decays. **The inert scalar doublet of a 16, at 573 GeV, fits**, and
+  it raises M_I: with it the PS+15 chain has M_I = 5.7 × 10¹⁰ GeV, M_GUT = 1.5 × 10¹⁶ GeV and τ_p = 7.6 × 10³⁵ years;
+  62 type I + II fits; the neutrino window becomes M_15 = 1–18 M_I with |λ| ≤ 1 (λ = 0.001 at M_15 = M_I, the
+  working point, where the vacuum can also be stabilized). Its dark matter is a trade (a predicted mass for an assumed
+  field; its quartics neglected, its 16 partners near M_I), and Part X's age is then 13.797 Gyr by construction.
+  **The hypothesis SO(10) via Pati–Salam + (15,2,2) + a scalar 16 + a PQ singlet fails nothing; its one real pass is
+  proton decay and its one open row the Higgs mass.** It predicts nothing new yet. Next: the Pati–Salam potential with
+  a light (15,2,2), the mixing from it instead of one quartic.
 
 ## What changed from production v1
 

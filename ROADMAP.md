@@ -242,8 +242,15 @@ the new result, and the tests fail if a page value, the scorecard, the ledger or
        [ ] (b) the PS potential with a light (15,2,2) (T9-T11's machinery): the real mixing (Clebsches, not one quartic),
            whether the potential puts M_15 near 32 M_I, and its thresholds; and the neutrino fits redone at the working
            point's M_I (now T15's at 2.0e10).
-       [ ] (c) f_a from a PQ charge, not f_a = M_I.
-       [ ] (d) a dark-matter candidate for the rest (Part AA: a scalar 16 or a fermionic 10/45).
+       [x] (c) Part V2: f_a from the PQ charges. The minimal content's axion is visible (f_a <= 29 GeV): excluded. With a
+           PQ singlet: N_DW = 3 or 6 after SO(10)'s centre (walls after inflation), isocurvature before it with Part AA's
+           H_I ~ 1.5e13 GeV caps the axion at 9e-7 of the dark matter: it solves strong CP, it is not the dark matter.
+       [x] (d) Part AA3: gauge-fixed candidates by freeze-out (CFS eqs. 11-13; table 1 within 3 %). Fermion triplet and
+           doublet spoil unification or the proton; the inert scalar doublet of a 16 (573 GeV) fits and is in PS+15's
+           running: M_I = 5.7e10, M_GUT = 1.5e16 GeV, tau_p = 7.6e35 yr, neutrino window M_15 = 1-18 M_I. The chain fails
+           nothing; open: the Higgs mass. Also fixed: the proton operators' running in T15b (two segments at M_15).
+       [ ] (e) step (b) above: the PS potential with a light (15,2,2), the inert doublet's quartics and direct detection
+           (the neutral components must be split by lambda_5), the PQ singlet's potential, and the fits at the working point.
 
 ## Round 6: does every stage lock into the next? (a consistency audit)
 The algorithm runs in one pass, but a pass is only meaningful if every stage reads the same physics as the stages it
