@@ -677,7 +677,8 @@ STAGES: Dict[str, Dict[str, str]] = {
                              "does not impose (lambda(M_I) = 0) is open; closest = fewest fails, ties carried"},
     "dark_matter": {"part": "V", "level": "conditional", "uv": "SM up to M_I, SO(10)",
                     "assumes": "QCD axion by misalignment; dilute-instanton m_a(T); string and domain-wall "
-                               "production left out; f_a scanned and at each SO(10) chain's M_I"},
+                               "production left out; f_a scanned and at each SO(10) chain's M_I (PS+15 at T15b's "
+                               "working point)"},
     "w_mass": {"part": "W", "level": "conditional", "uv": "SM up to M_P",
                "assumes": "the SM's two-loop M_W in its published parametrization, at Part L's Higgs mass"},
     "closed_cosmology": {"part": "X", "level": "conditional", "uv": "SM up to M_I, SO(10)",
@@ -7463,7 +7464,8 @@ def axion_relic(f_a: float, theta2: float, maf_mev2: float, m_planck: float, g_s
     return {"m_a_eV": m_a * 10 ** 9, "T_osc_GeV": t_osc, "Omega_h2": m_a * n_0 / rho_c100}
 
 
-def dark_matter(scp: Dict[str, Any], s10: Dict[str, Any], planck: Dict[str, float], bau: Dict[str, Any]) -> Dict[str, Any]:
+def dark_matter(scp: Dict[str, Any], s10: Dict[str, Any], planck: Dict[str, float], bau: Dict[str, Any],
+                t15b: Dict[str, Any] | None = None) -> Dict[str, Any]:
     x = _float_inputs()
     maf = scp["axion"]["ma_fa_MeV2"]
     m_p = planck["E_P_GeV"]
@@ -7483,8 +7485,9 @@ def dark_matter(scp: Dict[str, Any], s10: Dict[str, Any], planck: Dict[str, floa
     post = axion_relic(f_dm, th_post ** 2, maf, m_p, g_s0, x)
     ref = axion_relic(float(lit["eq170_f_a_GeV"]), th_post ** 2, maf, m_p, g_s0, x)
     chains = {}
+    wp = (t15b or {}).get("working_point")
     for nm, ch in s10["chains"].items():
-        m_i = ch["loop2"]["M_I"]
+        m_i = wp["M_I"] if nm == "PS+15" and wp else ch["loop2"]["M_I"]
         r_ = axion_relic(m_i, th_post ** 2, maf, m_p, g_s0, x)
         th_need = th_post * math.sqrt(om_c / r_["Omega_h2"])               # pre-inflation, quadratic potential
         chains[nm] = {"f_a": m_i, "m_a_eV": r_["m_a_eV"], "Omega_h2_post": r_["Omega_h2"],
@@ -8350,6 +8353,7 @@ def so10_ps15_scan(s10: Dict[str, Any], s10y: Dict[str, Any], flav: Dict[str, An
         tau = proton_lifetime(x, q["M_GUT"], q["alpha_GUT"], None, a_l, ch, q)
         ax = axion_relic(q["M_I"], th_post ** 2, maf, m_p, g_s0, x)
         rows.append({"r": r, "M_15": m15, "M_I": q["M_I"], "M_GUT": q["M_GUT"], "alpha_GUT": q["alpha_GUT"], "v_R": v_r,
+                     "inv_alpha_MI": q["inv_alpha_MI"],
                      "tau_p_years": tau, "proton_ok": tau > pdk["limit_e_pi0"], "Omega_a_h2": ax["Omega_h2"],
                      "stabilizable": q["M_I"] < mu0, "leptogenesis_ok": m_r_ceiling(q) >= m1_nat,
                      "neutrino": best, "neutrino_ok": bool(best) and best["lambda"] <= lam_max})
@@ -8357,7 +8361,10 @@ def so10_ps15_scan(s10: Dict[str, Any], s10y: Dict[str, Any], flav: Dict[str, An
     window = [r_ for r_ in rows if r_["neutrino_ok"] and r_["proton_ok"]]
     # the looser criterion: perturbativity of the quartic alone, |lambda| <= 4 pi (reported, not the verdict)
     window_4pi = [r_ for r_ in rows if r_["neutrino"] and r_["neutrino"]["lambda"] <= 4 * math.pi and r_["proton_ok"]]
+    # the working point every later stage reads for this chain: the window's most natural mixing (smallest lambda)
+    work = min(window, key=lambda r_: r_["neutrino"]["lambda"]) if window else None
     return {"rows": rows, "window": window, "window_4pi": window_4pi, "lambda_max": lam_max, "fits": len(pts),
+            "working_point": work,
             "M_I_fit": sr["M_I"],
             "edge_check": abs(rows[0]["M_I"] / s10["chains"]["PS+15"]["loop2"]["M_I"] - 1) if rows else None}
 
@@ -8977,7 +8984,7 @@ def final_ledger(score: Dict[str, Any], s10: Dict[str, Any], s10y: Dict[str, Any
                  mf: Dict[str, Any], closed: Dict[str, Any], joint: Dict[str, Any]) -> Dict[str, Any]:
     surv = score["survivors"]
     chain = closed["chain"]
-    two = s10["chains"][chain]["loop2"]
+    two = {**s10["chains"][chain]["loop2"], **score.get("working_points", {}).get(chain, {})}
     t2 = s10y["LR"]["type2"]
     mh_pull = joint["SM_pulls"]["H"]
     rows = [
@@ -9141,10 +9148,13 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
         win = (t15b or {}).get("window") if nm == "PS+15" else None
         if vr_["floor_ratio"] > 1 and win:
             w0, w1 = win[0], win[-1]
-            return entry("trade", lead + f"; with the (15,2,2) at M_15 = {w0['r']:.0f}-{w1['r']:.0f} M_I (an unknown, Part T15b) the"
-                                         f" chain's v_R ({w0['v_R']:.1e}-{w1['v_R']:.1e} GeV) clears the fits' floor and the doublet"
-                                         f" mixing needs lambda = {min(r_['neutrino']['lambda'] for r_ in win):.2f} or more"
-                                         f" (box {t15b['lambda_max']:.0f}); the fits are T15's, not redone at each M_15")
+            wk = t15b["working_point"]
+            span = f"{w0['r']:.0f}" if w0 is w1 else f"{w0['r']:.0f}-{w1['r']:.0f}"
+            return entry("trade", lead + f"; with the (15,2,2) at M_15 = {span} M_I (an unknown, Part T15b; one grid step wide"
+                                         " or more) the chain's v_R clears the fits' floor; at the working point (M_15 ="
+                                         f" {wk['r']:.0f} M_I, v_R = {wk['v_R']:.1e} GeV) the doublet mixing needs lambda ="
+                                         f" {wk['neutrino']['lambda']:.2f} (box {t15b['lambda_max']:.0f}); the fits are T15's,"
+                                         " not redone at each M_15")
         if vr_["floor_ratio"] > 1:
             return entry("open", lead + f"; {n_} type I (+ II) fits need v_R >= {vr_['floor']:.0e} GeV, {vr_['floor_ratio']:.1f}"
                                         f" times the chain's: only thresholds (up to x{lift_max:.0f}) could supply it")
@@ -9220,8 +9230,19 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
     sig_h = math.hypot(crit["sigma_total"], mh_s)
     higgs_rows = {}
     t2_ = ylr["type2"]
+    wp15 = (t15b or {}).get("working_point")
+    working = {}
     for nm, ch in s10["chains"].items():
         two = ch["loop2"]
+        if nm == "PS+15" and wp15:
+            # every row of this chain at T15b's working point (M_15 = r M_I), the scale its neutrino row needs
+            two = {**two, "M_I": wp15["M_I"], "M_GUT": wp15["M_GUT"], "alpha_GUT": wp15["alpha_GUT"],
+                   "inv_alpha_MI": wp15["inv_alpha_MI"], "tau_p_years": wp15["tau_p_years"],
+                   "tau_p_allowed": wp15["proton_ok"],
+                   "m_h_lambda_MI_zero": predict_higgs_mass_nnlo(None, wp15["M_I"], 3, crit["central"]["m_h"],
+                                                                 anchor=crit["smdr"])["m_h"]}
+            working[nm] = {k_: two[k_] for k_ in ("M_I", "M_GUT", "alpha_GUT", "inv_alpha_MI", "tau_p_years")}
+            working[nm]["r"] = wp15["r"]
         m_i = two["M_I"]
         pull_h = (two["m_h_lambda_MI_zero"] - mh) / sig_h
         higgs_rows[nm] = {"m_h": two["m_h_lambda_MI_zero"], "sigma": sig_h, "pull": pull_h, "M_I": m_i}
@@ -9249,7 +9270,10 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
                        f"p -> e+ pi0 in {two['tau_p_years']:.0e} years against {pdk['limit_e_pi0']:.1e}"),
             "A": leptogenesis_entry(two, nm),
             "T": entry("trade", f"an axion at f_a = M_I would give m_a = {two['axion_m_a_eV_if_fa_MI'] * 10 ** 6:.2g} micro-eV"),
-            "V": vacuum_entry(s10["vacuum"], nm),
+            "V": (vacuum_entry(s10["vacuum"], nm) if nm not in working else
+                  entry("trade", f"M_I = {two['M_I']:.1e} GeV below mu_0 = {s10['vacuum']['mu0']:.1e} GeV: a scalar threshold of"
+                                 " unknown size can stabilize the vacuum (Part T6)") if wp15["stabilizable"] else
+                  entry("open", f"metastable between mu_0 and M_I = {two['M_I']:.1e} GeV")),
             "D": dark_matter_entry(dm["chains"][nm]),
             "F": fermion_entry(nm)}
     conditions = {"U": "gauge unification", "B": "b-tau unification", "H": "Higgs mass", "N": "neutrino masses",
@@ -9266,7 +9290,7 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
     n_min = min(len(verdict[h]["fails"]) for h in so_)
     closest = [h.replace("SO(10) via ", "") for h in so_ if len(verdict[h]["fails"]) == n_min]
     return {"rows": rows, "conditions": conditions, "verdict": verdict,
-            "chain_higgs": higgs_rows, "survivors": survivors, "closest_chains": closest}
+            "chain_higgs": higgs_rows, "survivors": survivors, "closest_chains": closest, "working_points": working}
 
 
 # =============================================================================
@@ -9681,11 +9705,12 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     anom = _stage("anomalies", anomaly_constraints)
     bau = _stage("baryon_asymmetry", lambda: baryon_asymmetry(cosmo, flav, nus, planck))
     s10 = _stage("so10", lambda: so10(flav, alpha_unif, yukawa, scp, bau, pdk, crit))
-    dm = _stage("dark_matter", lambda: dark_matter(scp, s10, planck, bau))
     s10y = _stage("so10_yukawa", lambda: so10_yukawa_tests(flav, s10))
     sfit = _stage("so10_flavour_fit", lambda: so10_flavour_fit(symm, s10y))
     ts2 = _stage("so10_two_step", lambda: so10_two_step(s10, s10y, flav, pdk))
     t15b = _stage("so10_ps15_scan", lambda: so10_ps15_scan(s10, s10y, flav, scp, planck, bau, pdk))
+    # after T15b, so that the PS+15 chain's axion sits at the working point its neutrino row uses (one scale per chain)
+    dm = _stage("dark_matter", lambda: dark_matter(scp, s10, planck, bau, t15b))
     mw = _stage("w_mass", lambda: {**w_mass_test(crit), "z_pole": sin2_eff_test(crit)})
     score = _stage("scorecard", lambda: scorecard(joint, higgs, crit, pdk, nus, bau, s10, scp, dm, s10y, t15b))
 
@@ -11673,7 +11698,9 @@ def report(res: Dict[str, Any]) -> str:
                   + (f"{nb['lambda']:.2g}" if nb else "below the fits' floor"))
             w(f"  Self-check: at r = 1 the stepped running gives the PS+15 chain (rel dev {sc15['edge_check']:.0e}).")
             win, w4 = sc15["window"], sc15["window_4pi"]
-            w(_wrap(("Window with |lambda| <= " + f"{sc15['lambda_max']:.0f} (T9's box): r = {win[0]['r']:.0f}-{win[-1]['r']:.0f}."
+            w(_wrap(("Window with |lambda| <= " + f"{sc15['lambda_max']:.0f} (T9's box): r = {win[0]['r']:.0f}"
+                     + ("" if len(win) == 1 else f"-{win[-1]['r']:.0f}") + f" (working point r = {sc15['working_point']['r']:.0f},"
+                     f" M_I = {sc15['working_point']['M_I']:.1e} GeV: every row of the PS+15 chain below is read there)."
                      if win else f"No point has |lambda| <= {sc15['lambda_max']:.0f} (T9's box): the neutrino row stays open.")
                     + (f" With the looser |lambda| <= 4 pi (perturbativity alone): r = {w4[0]['r']:.0f}-{w4[-1]['r']:.0f},"
                        f" M_I = {w4[0]['M_I']:.1e}-{w4[-1]['M_I']:.1e} GeV." if w4 else " Not even with |lambda| <= 4 pi."), 2))
