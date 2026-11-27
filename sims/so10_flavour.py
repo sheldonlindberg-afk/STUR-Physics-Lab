@@ -9386,9 +9386,12 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
             worst_m = max(worst_m, abs(d_ / want_ - 1))
     checks.append(("One-loop matching of lambda and y_t: d/d ln mu reproduces the one-loop RGE exactly",
                    worst_m < num("check_fd_tol") * 100, f"max rel diff {worst_m:.1e}"))
-    checks.append(("Every symmetry found reproduces its target zeros exactly (recomputed from the charges)",
-                   all(sv["verified"] for e in symm["by_beta"].values() for sv in e["survivors"]
-                       if sv["symmetry"] is not None), ""))
+    upper_ = {(i, j) for i in range(3) for j in range(i, 3)}
+    full_ = so10_flavour_rank([(upper_, 1), (upper_, -3)], _IntStream(int(num("closure_seed"))))
+    one_ = so10_flavour_rank([(upper_, 1)], _IntStream(int(num("closure_seed"))))
+    checks.append(("SO(10) flavour rank: a full 10 + 126 reaches all 13 charged-fermion invariants (no relation, as Part Y's"
+                   " 19 parameters for 13 data), and a single 10 gives V = 1, no CP violation",
+                   full_["rank"] == 13 and full_["cp"] and not one_["cp"], f"ranks {full_['rank']}, {one_['rank']}"))
     full = frozenset((i, a) for i in range(3) for a in range(3))
     diag = frozenset((i, i) for i in range(3))
     draw = _IntStream(int(num("closure_seed")))

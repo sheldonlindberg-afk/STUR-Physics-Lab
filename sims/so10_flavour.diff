@@ -1044,7 +1044,23 @@
      mw = _stage("w_mass", lambda: {**w_mass_test(crit), "z_pole": sin2_eff_test(crit)})
      score = _stage("scorecard", lambda: scorecard(joint, higgs, crit, pdk, nus, bau, s10, scp, dm, s10y))
  
-@@ -9426,7 +9695,7 @@
+@@ -9117,9 +9386,12 @@
+             worst_m = max(worst_m, abs(d_ / want_ - 1))
+     checks.append(("One-loop matching of lambda and y_t: d/d ln mu reproduces the one-loop RGE exactly",
+                    worst_m < num("check_fd_tol") * 100, f"max rel diff {worst_m:.1e}"))
+-    checks.append(("Every symmetry found reproduces its target zeros exactly (recomputed from the charges)",
+-                   all(sv["verified"] for e in symm["by_beta"].values() for sv in e["survivors"]
+-                       if sv["symmetry"] is not None), ""))
++    upper_ = {(i, j) for i in range(3) for j in range(i, 3)}
++    full_ = so10_flavour_rank([(upper_, 1), (upper_, -3)], _IntStream(int(num("closure_seed"))))
++    one_ = so10_flavour_rank([(upper_, 1)], _IntStream(int(num("closure_seed"))))
++    checks.append(("SO(10) flavour rank: a full 10 + 126 reaches all 13 charged-fermion invariants (no relation, as Part Y's"
++                   " 19 parameters for 13 data), and a single 10 gives V = 1, no CP violation",
++                   full_["rank"] == 13 and full_["cp"] and not one_["cp"], f"ranks {full_['rank']}, {one_['rank']}"))
+     full = frozenset((i, a) for i in range(3) for a in range(3))
+     diag = frozenset((i, i) for i in range(3))
+     draw = _IntStream(int(num("closure_seed")))
+@@ -9426,7 +9698,7 @@
      checks.append(("Model graph: every stage registered, acyclic, and run in dependency order",
                     lin["registered"] and lin["acyclic"] and lin["in_order"],
                     f"{len(lin['order'])} stages, {sum(len(u) for u in lin['uses'].values())} edges"))
@@ -1053,7 +1069,7 @@
              "symmetry": symm, "closure": closure, "quantum_gravity": qg, "alpha_unification": alpha_unif,
              "alpha_numerology": alpha_num, "yukawa": yukawa, "higgs": higgs, "criticality": crit,
              "joint": joint, "mass_formulas": masses, "strong_cp": scp, "neutrinos": nus, "proton_decay": pdk,
-@@ -9660,89 +9929,74 @@
+@@ -9660,89 +9932,74 @@
          w(f"  RESULT: {len(survivors)} of {len(tested)} predictive patterns survive at every scale;"
            f" {len(tested) - len(survivors)} are excluded.")
      w("")
@@ -1206,7 +1222,7 @@
      w("")
      w("PART F. DOES ANY TEXTURE OF GENERAL MASS MATRICES PREDICT THE CKM MATRIX?")
      w("-" * 78)
-@@ -9780,16 +10034,15 @@
+@@ -9780,16 +10037,15 @@
      w("    vevs), so zeros sit in the same places in up and down: parallel textures.")
      w(f"    Part C tested {len(par)} parallel Hermitian classes with a prediction;"
        f" {len(par_surv)} survive at every scale.")
@@ -1229,7 +1245,7 @@
      w("  sector closes with 10 measured inputs: 6 masses and 4 CKM parameters. None of the")
      w("  four CKM numbers can be calculated from zeros. Calculating them needs relations")
      w("  between nonzero entries (non-abelian flavour symmetries or grand unification),")
-@@ -10366,27 +10619,21 @@
+@@ -10366,27 +10622,21 @@
        f" neutron gets charge {hy['nu_R_neutron_charge_per_eps']} x eps.")
      w("      A Majorana mass for nu^c (the seesaw of Part P) needs Y(nu^c) = 0, so eps = 0: quantization returns.")
      w(f"  R2. Witten's SU(2) anomaly: {an['witten_doublets_per_family']} doublets per family (3 colours of Q, plus L): even, consistent.")
@@ -1270,7 +1286,7 @@
      w("")
      ba = res["baryon_asymmetry"]
      w("PART S. THE BARYON ASYMMETRY")
-@@ -10944,7 +11191,7 @@
+@@ -10944,7 +11194,7 @@
              "status. " + ("Every assumption of the surviving hypothesis is consistent with every condition tested. "
                            if lg_["survivors"] else "No complete hypothesis survives every condition: the closest fails one. ") +
              "What it calculates is discrete and exact (the charges, their quantization, sin^2 theta_W at unification, "
@@ -1279,7 +1295,7 @@
              "open: no free number of the Standard Model is calculated.", 2))
      w("")
      w("THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)")
-@@ -11016,10 +11263,8 @@
+@@ -11016,10 +11266,8 @@
          "flavour": {"m_t_msbar": flav["runner"].mt_msbar,
                      "ratios": flav["ratios"], "scales": flav["scales"]},
          "texture_survey": {mu: sv["classes"] for mu, sv in res["survey"].items()},
