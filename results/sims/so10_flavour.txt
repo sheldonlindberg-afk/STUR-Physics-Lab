@@ -1,0 +1,1718 @@
+==============================================================================
+STUR Physics Lab, production v2.2 / sim so10_flavour (SO(10) in place of 3-3-1; the two-step left-right chain): nothing tuned, nothing fitted
+==============================================================================
+Inputs: 65 measured or defined constants (INPUTS). Comparisons: 23 measured results, never used in a calculation.
+
+PART A. COSMOLOGY (flat Lambda-CDM, Friedmann equation)
+------------------------------------------------------------------------------
+  Omega_gamma  from T_CMB (Stefan-Boltzmann)    5.45024e-05
+  Omega_r      photons + N_eff neutrinos         9.21807e-05
+  Omega_Lambda = 1 - Omega_m - Omega_r           0.684608 +/- 0.0073
+      measured (Planck 2018)                    0.6847 +/- 0.0073   pull -0.01 sigma
+  Age of the universe t0                         13.7952 Gyr +/- 0.142 (H0, Omega_m, T_CMB uncorrelated)
+      measured (Planck 2018)                    13.787 +/- 0.02 Gyr   difference +0.0082 Gyr
+      (the Planck error is smaller because Planck's H0 and Omega_m are anticorrelated)
+  Deceleration parameter q0                      -0.52687
+  Acceleration began at redshift z_acc           0.63096
+  Matter-radiation equality z_eq                 3419.5
+  Matter-Lambda equality a                       0.77225
+  Hubble-horizon entropy today                   2.2681e+122 k_B
+  de Sitter horizon entropy (t -> infinity)      3.3130e+122 k_B
+  Age to 50 digits: 13.795175594202987172436750705412839947362670774933 Gyr (numerical, not physical, precision)
+
+PART B. QUARK FLAVOUR: RG-run masses in the Fritzsch six-zero texture
+------------------------------------------------------------------------------
+  m_t(m_t) MS-bar from the pole mass (4-loop)    162.790 GeV
+  v = (sqrt2 G_F)^(-1/2)                         246.220 GeV
+  y_t(m_t) = sqrt2 m_t(m_t) / v                  0.9350
+  sin^2 theta_W (MS-bar at M_Z, input; sets g1, g2) 0.23129
+  Above m_t(m_t): one running for every coupling (g1, g2, g3 and the three Yukawa matrices, all
+  generations and the CKM mixing, one loop); the same engine runs every mass to M_I, M_S and M_GUT.
+  Running masses at m_t(m_t) (GeV): u 1.1810e-03  d 2.5839e-03  s 5.1404e-02  c 0.5975  b 2.7288
+
+  The texture fixes every matrix entry from the masses. Its two phases are not
+  fixed by anything, so each prediction is the band swept by ALL phase values;
+  the band edges carry the propagated input uncertainty.
+
+  Scale mu = 163 GeV   alpha_s = 0.10849   y_t = 0.9350
+    sqrt(m_d/m_s) = 0.22420  sqrt(m_u/m_c) = 0.04446  sqrt(m_s/m_b) = 0.13725  sqrt(m_c/m_t) = 0.06058
+    observable band over all phases               measured               verdict
+    V_us       [0.17537 +/- 0.0019, 0.26182 +/- 0.0019] 0.22501 +6.8e-04/-6.8e-04 inside band
+    V_cb       [0.072358 +/- 6.5e-04, 0.19205 +/- 9.4e-04] 0.04183 +7.9e-04/-6.9e-04 outside by 29.9 sigma
+    V_ub       [0.0026437 +/- 6.2e-05, 0.0091114 +/- 1.4e-04] 0.003732 +9.0e-05/-8.5e-05 inside band
+    V_ub/V_cb  [0.036512 +/- 7.6e-04, 0.052139 +/- 7.3e-04] 0.089218 +0.0026/-0.0026 outside by 13.5 sigma
+    V_td/V_ts  [0.22722 +/- 0.0019, 0.23257 +/- 0.002] 0.207 +0.0032/-0.0032  outside by 5.4 sigma
+    J          [-3.4826e-04 +/- 6.3e-06, 3.4826e-04 +/- 6.3e-06] 3.1200e-05 +1.3e-06/-1.2e-06 inside band
+
+  Scale mu = 2536 GeV   alpha_s = 0.08145   y_t = 0.8270
+    sqrt(m_d/m_s) = 0.22421  sqrt(m_u/m_c) = 0.04446  sqrt(m_s/m_b) = 0.13863  sqrt(m_c/m_t) = 0.05998
+    observable band over all phases               measured               verdict
+    V_us       [0.17538 +/- 0.0019, 0.26182 +/- 0.0019] 0.22501 +6.8e-04/-6.8e-04 inside band
+    V_cb       [0.074276 +/- 6.5e-04, 0.19276 +/- 9.4e-04] 0.04183 +7.9e-04/-6.9e-04 outside by 31.7 sigma
+    V_ub       [0.0027121 +/- 6.3e-05, 0.0091597 +/- 1.4e-04] 0.003732 +9.0e-05/-8.5e-05 inside band
+    V_ub/V_cb  [0.036488 +/- 7.6e-04, 0.052177 +/- 7.3e-04] 0.089218 +0.0026/-0.0026 outside by 13.5 sigma
+    V_td/V_ts  [0.22731 +/- 0.0019, 0.2326 +/- 0.002] 0.207 +0.0032/-0.0032  outside by 5.4 sigma
+    J          [-3.5088e-04 +/- 6.3e-06, 3.5088e-04 +/- 6.3e-06] 3.1200e-05 +1.3e-06/-1.2e-06 inside band
+
+  RESULT: at every evaluation scale and for every value of the two phases, the
+  six-zero texture misses: V_cb (at least 30 sigma), V_ub/V_cb (at least 14 sigma), V_td/V_ts (at least 5 sigma).
+  The masses alone do not produce the measured mixing in this texture.
+
+PART C. EVERY TEXTURE-ZERO PATTERN THAT MAKES A PREDICTION
+------------------------------------------------------------------------------
+  Hermitian mass matrices; a symmetric off-diagonal pair counts as one zero.
+  Unknowns (2 phases, 1 per free entry) are scanned or tested, never fixed;
+  predictions = 4 data (|V_us|, |V_cb|, |V_ub|, J) - unknowns.
+  1000 ordered pattern pairs with 5 or 6 zeros fall into 188 classes under weak-basis permutations:
+     64 cannot give three nonzero masses with real entries
+     41 keep a phase inside one sector, so they predict nothing (not tested)
+     83 make predictions and are tested
+
+  zeros  up mass matrix  down mass matrix  pred   n-sigma at 0.16279 TeV  2.53649 TeV   verdict
+      5  00X/0XX/XXX     0X0/X0X/0XX          1         0.5        0.6   SURVIVES
+      5  00X/0X0/X0X     0X0/XXX/0XX          1        13.2       13.2   excluded (band)
+      5  00X/0XX/XXX     0X0/XX0/00X          1        13.3       13.3   excluded (band)
+      5  00X/0XX/XXX     00X/0XX/XX0          1        13.8       13.6   excluded (joint)
+      5  00X/0XX/XX0     00X/0XX/XXX          1        17.2       17.1   excluded (joint)
+      5  00X/0XX/XX0     0XX/XX0/X0X          1        19.7       19.1   excluded (band)
+      6  00X/0XX/XX0     00X/0X0/X0X          2        20.1       19.5   excluded (band)
+      5  00X/0XX/XX0     X0X/0X0/X0X          1        20.1       19.5   excluded (band)
+      5  00X/0X0/X0X     XX0/X0X/0XX          1        20.2       19.6   excluded (band)
+      5  0XX/XX0/X0X     X0X/0X0/X00          1        20.2       20.5   excluded (band)
+      5  00X/0X0/X0X     00X/0XX/XXX          1        24.2       24.2   excluded (band)
+      5  00X/0XX/XXX     00X/0X0/X0X          1        25.8       25.8   excluded (band)
+      5  00X/0XX/XX0     X0X/0XX/XX0          1        28.2       30.0   excluded (band)
+      5  0XX/XX0/X0X     0XX/X00/X0X          1        29.8       31.7   excluded (band)
+      6  00X/0XX/XX0     00X/0XX/XX0          2        29.9       31.7   excluded (band)
+      5  00X/0XX/XX0     XX0/XXX/0X0          1        31.9       33.8   excluded (band)
+      5  00X/0XX/XXX     X00/0X0/00X          1        34.3       34.4   excluded (band)
+      5  00X/0X0/X0X     0XX/XX0/X0X          1        37.0       36.8   excluded (band)
+      5  X00/0XX/0XX     00X/0XX/XX0          1        37.1       36.9   excluded (band)
+      6  00X/0X0/X0X     0XX/X00/X0X          2        37.1       36.9   excluded (band)
+      5  00X/0X0/X0X     XXX/X00/X0X          1        39.0       38.9   excluded (band)
+      5  X00/0X0/00X     00X/0XX/XXX          1        42.3       42.2   excluded (band)
+      5  00X/0XX/XXX     XX0/X00/00X          1        42.9       42.9   excluded (band)
+      6  00X/0X0/X0X     XX0/X00/00X          2        43.9       43.9   excluded (band)
+      5  00X/0X0/X0X     XX0/XX0/00X          1        43.9       43.9   excluded (band)
+      5  X00/0XX/0XX     00X/0X0/X0X          1        43.9       43.9   excluded (band)
+      5  00X/0XX/XXX     X00/00X/0XX          1        46.2       46.4   excluded (band)
+      5  0XX/XX0/X0X     00X/0X0/X0X          1        50.8       52.2   excluded (band)
+      5  0XX/XX0/X0X     X00/00X/0XX          1        51.7       53.1   excluded (band)
+      5  00X/0XX/XX0     0X0/XXX/0XX          1        56.2       57.2   excluded (band)
+      5  X00/0X0/00X     0XX/XX0/X0X          1        60.6       60.6   excluded (band)
+      6  00X/0X0/X0X     00X/0X0/X0X          2        60.6       60.6   excluded (band)
+      6  00X/0X0/X0X     0X0/XX0/00X          2        60.6       60.6   excluded (band)
+      5  00X/0X0/X0X     X0X/0X0/X0X          1        60.6       60.6   excluded (band)
+      5  X00/0XX/0XX     X00/00X/0XX          1        60.6       60.6   excluded (band)
+      5  X00/0XX/0XX     X00/0X0/00X          1        60.6       60.6   excluded (band)
+      6  X00/0X0/00X     00X/0X0/X0X          2        60.6       60.6   excluded (band)
+      5  X00/0X0/00X     X00/0XX/0XX          1        60.6       60.6   excluded (band)
+      5  0XX/XX0/X0X     X00/0X0/00X          1        69.7       69.2   excluded (band)
+      5  00X/0XX/XXX     0XX/X00/X0X          1        77.0       77.0   excluded (band)
+      5  00X/0X0/X0X     X0X/00X/XXX          1        82.4       83.0   excluded (band)
+      5  0XX/XX0/X0X     00X/0XX/XX0          1        82.7       83.6   excluded (band)
+      5  00X/0X0/X0X     XX0/XXX/0X0          1        84.6       85.6   excluded (band)
+      5  00X/0X0/X0X     X0X/0XX/XX0          1        85.5       86.4   excluded (band)
+      5  X00/0XX/0XX     X0X/00X/XX0          1        87.5       88.4   excluded (band)
+      6  00X/0X0/X0X     00X/0XX/XX0          2        87.9       88.7   excluded (band)
+      6  00X/0X0/X0X     0X0/X0X/0XX          2        88.0       88.8   excluded (band)
+      6  X00/0X0/00X     00X/0XX/XX0          2        88.0       88.8   excluded (band)
+      5  X00/0XX/0XX     X0X/0X0/X00          1       104.2      104.5   excluded (band)
+      5  00X/0XX/XXX     XX0/X0X/0X0          1       120.2      119.9   excluded (band)
+      5  00X/0XX/XXX     0XX/XX0/X00          1       128.4      128.0   excluded (band)
+      5  00X/0XX/XXX     X0X/00X/XX0          1       156.7      156.7   excluded (band)
+      5  00X/0XX/XXX     X0X/0X0/X00          1       156.8      156.8   excluded (band)
+      5  00X/0XX/XXX     X00/0XX/0X0          1       159.5      159.5   excluded (band)
+      6  00X/0X0/X0X     X00/0X0/00X          2       180.0      180.0   excluded (band)
+      5  00X/0XX/XX0     X00/0XX/0XX          1       180.0      180.0   excluded (band)
+      5  00X/0X0/X0X     X00/0XX/0XX          1       180.0      180.0   excluded (band)
+      6  00X/0XX/XX0     0X0/XX0/00X          2       180.2      180.2   excluded (band)
+      6  00X/0XX/XX0     X00/0X0/00X          2       180.2      180.2   excluded (band)
+      6  00X/0XX/XX0     X00/0XX/0X0          2       180.4      180.4   excluded (band)
+      6  00X/0X0/X0X     X00/0XX/0X0          2       181.2      181.3   excluded (band)
+      5  00X/0XX/XX0     XX0/XX0/00X          1       259.6      260.4   excluded (band)
+      5  X00/0XX/0XX     0XX/X00/X0X          1       310.7      310.3   excluded (band)
+      6  00X/0X0/X0X     X00/00X/0XX          2       330.3      330.3   excluded (band)
+      6  X00/0X0/00X     X00/0X0/00X          2       330.9      330.9   excluded (band)
+      5  0XX/XX0/X0X     X0X/00X/XX0          1       772.5      761.5   excluded (band)
+      5  00X/0XX/XX0     XXX/X00/X0X          1       857.6      857.3   excluded (band)
+      5  00X/0XX/XX0     X0X/00X/XXX          1       861.1      860.8   excluded (band)
+      5  00X/0XX/XX0     XXX/XX0/X00          1       865.3      865.3   excluded (band)
+      5  00X/0X0/X0X     XXX/XX0/X00          1       865.5      865.5   excluded (band)
+      6  00X/0X0/X0X     X0X/0X0/X00          2       866.0      866.0   excluded (band)
+      6  00X/0XX/XX0     X0X/0X0/X00          2       866.1      866.1   excluded (band)
+      6  00X/0XX/XX0     0XX/XX0/X00          2       879.4      879.6   excluded (band)
+      6  00X/0X0/X0X     0XX/XX0/X00          2       880.6      880.8   excluded (band)
+      6  00X/0XX/XX0     X00/00X/0XX          2       >1000      >1000   excluded (band)
+      5  00X/0XX/XX0     XX0/X0X/0XX          1       >1000      >1000   excluded (band)
+      6  00X/0XX/XX0     0X0/X0X/0XX          2       >1000      >1000   excluded (band)
+      6  00X/0X0/X0X     X0X/00X/XX0          2       >1000      >1000   excluded (band)
+      6  00X/0XX/XX0     0XX/X00/X0X          2       >1000      >1000   excluded (band)
+      6  00X/0X0/X0X     XX0/X0X/0X0          2       >1000      >1000   excluded (band)
+      6  00X/0XX/XX0     XX0/X00/00X          2       >1000      >1000   excluded (band)
+      6  00X/0XX/XX0     X0X/00X/XX0          2       >1000      >1000   excluded (band)
+      6  00X/0XX/XX0     XX0/X0X/0X0          2       >1000      >1000   excluded (band)
+  (masks: rows of the matrix, X = nonzero, 0 = texture zero; 'band' = one |V_ij| alone
+   is out of reach for every value of the unknowns; 'joint' = all four data at once)
+
+  Survivor  up 00X/0XX/XXX  down 0X0/X0X/0XX: 1 prediction(s), class of 6 equivalent orderings
+    0.16279 TeV: chi^2 = 0.27 for 1 dof (0.5 sigma);  ranges over all unknowns: V_us [1.83e-09, 0.992]  V_cb [8.34e-11, 0.999]  V_ub [9.55e-13, 0.045]  J [-0.0037, 0.0037]
+    2.53649 TeV: chi^2 = 0.40 for 1 dof (0.6 sigma);  ranges over all unknowns: V_us [1.17e-10, 0.991]  V_cb [3.72e-11, 0.999]  V_ub [4.07e-12, 0.045]  J [-0.0037, 0.0037]
+  (the free entry and the phases sweep each observable over a wide range on its own; the
+   prediction is a relation among the four, which the joint test checks)
+  What it predicts: |V_us|, |V_cb|, |V_ub| fix its three unknowns at isolated points; at each,
+  |J| and |V_td/V_ts| follow (errors: the three moduli and the inputs, re-solved):
+    0.16279 TeV: |J| = 2.903e-05 +/- 1.2e-06 (-1.2 sigma)   |V_td/V_ts| = 0.1966 +/- 0.0030 (-2.4 sigma)
+    0.16279 TeV: |J| = 3.233e-05 +/- 1.3e-06 (+0.6 sigma)   |V_td/V_ts| = 0.2751 +/- 0.0034 (+14.5 sigma)
+    2.53649 TeV: |J| = 2.956e-05 +/- 1.2e-06 (-0.9 sigma)   |V_td/V_ts| = 0.1994 +/- 0.0031 (-1.7 sigma)
+    2.53649 TeV: |J| = 3.259e-05 +/- 1.2e-06 (+0.8 sigma)   |V_td/V_ts| = 0.2732 +/- 0.0036 (+13.8 sigma)
+    measured: J = 3.120e-05 +/- 1.3e-06, |V_td/V_ts| = 0.207 +/- 0.0032
+    Both predictions at once (2 dof), best solution: 2.2 sigma at 0.16279 TeV, 1.4 sigma at 2.53649 TeV
+    |V_td/V_ts| is not used by the survey, but the PDG fit behind the measured moduli and J
+    includes B-mixing data, so this test is not fully independent of them.
+    (|V_td/V_ts| is used nowhere in the survey: it is an independent test)
+
+  Certificates: not run here (python3 production_v2_2.py --certify proves each exclusion over
+    the whole parameter space; it takes several minutes).
+
+  RESULT: 1 of 83 predictive patterns survive at every scale; 82 are excluded.
+
+PART D. WHAT SO(10) SAYS ABOUT THE MASS MATRICES (from the spinor algebra)
+------------------------------------------------------------------------------
+  Every family is one 16, the chiral half of SO(10)'s 32-component spinor. The ten 32 x 32 gamma matrices
+  (Pauli products, entries 0, +-1, +-i) satisfy the Clifford algebra: True; chirality splits
+  32 = 16 + 16. The Yukawa coupling of two 16s to a k-form Higgs is psi^T C Gamma_[k] chi (exact):
+    10            (k = 1):  10 independent couplings, symmetric in the family indices
+    120           (k = 3): 120 independent couplings, antisymmetric in the family indices
+    126 + 126bar  (k = 5): 126 independent couplings, symmetric in the family indices
+    the 10 and the 126 together span all 136 symmetric 16 x 16 couplings (of 136); the 120 all 120 antisymmetric ones.
+  Consequences:
+    * every entry of every mass matrix is allowed: the gauge symmetry forces no texture zero.
+    * all sectors are built from the same matrices: M_u = a Y10 + b Y126, M_d = c Y10 + d Y126,
+      M_e = c Y10 - 3 d Y126 (Part Y), symmetric with a 10 and a 126, never Hermitian. Q_i and q^c_i sit in one 16,
+      so the weak basis keeps only M -> U^T M U, and a family rephasing acts as M_ij -> e^{i(f_i + f_j)} M_ij.
+    * every family is the same representation: all 6 index permutations stay basis changes,
+      so a texture class is one SO(10) hypothesis (3-3-1 split each class into several).
+    survivor up 00X/0XX/XXX down 0X0/X0X/0XX (Part C):
+      as Hermitian matrices: 7 magnitudes + 4 phases, physical parameters 9 (proved): 1 prediction(s)
+      as SO(10)'s symmetric matrices: 7 magnitudes + 7 phases, physical parameters 10 (proved): 0 prediction(s)
+    The diagonal entries become complex and the rephasing f_i + f_j cannot remove their phases: in SO(10) the
+    survivor's zeros predict nothing.
+
+PART E. CAN A FLAVOUR SYMMETRY GIVE A PREDICTIVE TEXTURE INSIDE SO(10)?
+------------------------------------------------------------------------------
+  A Z_N charge per family (a whole 16) and per Higgs field (a 10 or a 126): Y_k,ij is allowed only if
+  q_i + q_j + h_k = 0 mod N. With one light Higgs, a mixture of every bidoublet (Part T13), each sector is a
+  sum over the same Y_k with its own coefficients, so M_u, M_d, M_e and M_D share one support: parallel
+  textures, by construction. What is computed is whether the shared Yukawas make relations among the 13
+  charged-fermion observables: the rank of the Jacobian of 13 invariants (the quarks' 10, plus tr H_e,
+  tr H_e^2, det H_e) at an integer point, mod a 61-bit prime (a lower bound on the physical parameters).
+  E1. Up to 2 Higgs fields (the minimal theory's 10 and 126), N = 2..6:
+        Z_2:    20 configurations with three nonzero masses (structural)
+        Z_3:    86 configurations with three nonzero masses (structural)
+        Z_4:   200 configurations with three nonzero masses (structural)
+        Z_5:   410 configurations with three nonzero masses (structural)
+        Z_6:   500 configurations with three nonzero masses (structural)
+      45 distinct classes (family permutations identified); 15 give three nonzero masses in every sector and CP violation; 15 of those make relations:
+        Z_2: 10 on 11,12,22,33; 10 on 13,23: rank 10, 3 relation(s)
+        Z_2: 10 on 11,12,22,33; 126 on 13,23: rank 10, 3 relation(s)
+        Z_2: 126 on 11,12,22,33; 10 on 13,23: rank 10, 3 relation(s)
+        Z_2: 126 on 11,12,22,33; 126 on 13,23: rank 10, 3 relation(s)
+        Z_3: 10 on 11,12,22; 10 on 13,23: rank 8, 5 relation(s)
+        Z_3: 10 on 11,12,22; 126 on 13,23: rank 8, 5 relation(s)
+        Z_3: 126 on 11,12,22; 10 on 13,23: rank 8, 5 relation(s)
+        Z_3: 126 on 11,12,22; 126 on 13,23: rank 8, 5 relation(s)
+        Z_3: 10 on 11,23; 10 on 12,33: rank 8, 5 relation(s)
+        Z_3: 126 on 11,23; 10 on 12,33: rank 8, 5 relation(s)
+        Z_3: 126 on 11,23; 126 on 12,33: rank 8, 5 relation(s)
+        Z_4: 10 on 11,23; 10 on 12: rank 6, 7 relation(s)
+        Z_4: 126 on 11,23; 10 on 12: rank 6, 7 relation(s)
+        Z_4: 10 on 11,23; 126 on 12: rank 6, 7 relation(s)
+        Z_4: 126 on 11,23; 126 on 12: rank 6, 7 relation(s)
+  E2. Hermitian textures are not available (Part D): SO(10)'s couplings are symmetric.
+  E3. With one Higgs field more (3 fields): 143 classes, 83 viable, 81 with relations (counted, not fitted: open).
+  E4. The minimal predictive classes against the data at the left-right chain's M_GUT (Part Y's running:
+      nine masses, |V_us|, |V_cb|, |V_ub|, J, each within the 1 % running tolerance), seeded Levenberg-Marquardt:
+        class                                          relations     chi^2    sigma   worst observable
+        10:11,12,22,33; 10:13,23                           3    3.25e+04    180.2   m_e2 (117 tol)
+        10:11,12,22,33; 126:13,23                          3    1.52e+04    123.3   V_cb (77 tol)
+        126:11,12,22,33; 10:13,23                          3    2.15e+04    146.5   m_u3 (74 tol)
+        126:11,12,22,33; 126:13,23                         3    4.06e+04    201.5   m_e1 (109 tol)
+        10:11,12,22; 10:13,23                              5    9.95e+04    315.5   m_u3 (135 tol)
+        10:11,12,22; 126:13,23                             5     8.4e+04    289.9   m_u3 (145 tol)
+        126:11,12,22; 10:13,23                             5    1.26e+05    355.1   m_u1 (162 tol)
+        126:11,12,22; 126:13,23                            5    1.07e+05    326.4   m_d1 (172 tol)
+        10:11,23; 10:12,33                                 5    3.85e+04    196.2   m_e2 (111 tol)
+        126:11,23; 10:12,33                                5    2.65e+04    162.7   m_d1 (83 tol)
+        126:11,23; 126:12,33                               5    4.73e+04    217.5   m_e1 (107 tol)
+        10:11,23; 10:12                                    7    7.51e+04    274.1   m_u3 (140 tol)
+        126:11,23; 10:12                                   7    1.78e+05    421.5   m_e2 (228 tol)
+        10:11,23; 126:12                                   7    6.83e+04    261.3   m_u3 (132 tol)
+        126:11,23; 126:12                                  7     8.3e+04    288.2   m_u3 (141 tol)
+  RESULT: no abelian flavour symmetry inside minimal SO(10) gives a texture that both predicts and fits.
+    * SO(10)'s couplings are symmetric, so Hermitian textures (and the Part C survivor's prediction) are lost (D);
+    * with one light Higgs every sector shares one support (parallel textures); the Z_N classes that make
+      relations make too many: each ties M_d to M_u block by block, and the data exclude every one (E4,
+      a search: an exclusion means no point was found);
+    * with more Higgs fields (E3) or several light doublets the counting changes: open.
+
+PART F. DOES ANY TEXTURE OF GENERAL MASS MATRICES PREDICT THE CKM MATRIX?
+------------------------------------------------------------------------------
+  Every zero pattern of two general 3x3 mass matrices. Physical parameters = exact rank of
+  the Jacobian of 10 weak-basis invariants of H = M M^dag (6 masses, 4 mixing invariants).
+    61009 ordered pairs of patterns with three nonzero masses, 497 classes
+       19 cannot mix all three families (measured: all nine |V_ij| nonzero)
+        6 have no phase left, so J = 0 (measured: J = 3.12e-5)
+      472 candidates; physical parameters (rank) per class: rank 10: 470, rank 8: 2
+      472 of these ranks proved (exact lower bound = symmetry upper bound), 0 open
+        2 of the classes with rank below 10 have J = 0 identically (symbolic expansion)
+        0 make a prediction and allow CP violation
+  RESULT (proved): no texture-zero pattern of general quark mass matrices predicts
+    an equality. Every viable pattern has exactly as many physical parameters as there
+    are observables (10), so zeros alone, however a symmetry makes them, fix nothing.
+    Scope: this is a statement about relations. A rank-10 pattern can still fail to
+    reach the measured values (an inequality); that is not tested here.
+
+PART G. OTHER GAUGE FRAMEWORKS
+------------------------------------------------------------------------------
+  Standard Model with any number of Higgs doublets: an abelian symmetry makes zeros in
+    general matrices; Part F: none of those predicts anything.
+  Left-right symmetric model with parity: Yukawa matrices are Hermitian, but every
+    bidoublet feeds both sectors (M_u and M_d mix the same couplings through its two
+    vevs), so zeros sit in the same places in up and down: parallel textures.
+    Part C tested 3 parallel Hermitian classes with a prediction; 0 survive at every scale.
+  RESULT: texture zeros calculate no CKM number in the Standard Model or in left-right
+    models with abelian flavour symmetries; in SO(10) the relations they make are excluded (Part E4).
+------------------------------------------------------------------------------
+  * Hermitian textures (B, C): one pattern survives, with one prediction.
+  * In SO(10) the mass matrices are symmetric, never Hermitian (D), which removes the survivor's
+    prediction; abelian symmetries there make parallel textures whose relations the data exclude (E).
+  * Zeros in general matrices never predict anything (F).
+  * In the Standard Model and in left-right models the same holds (G).
+  So with abelian flavour symmetries, in all three frameworks, the quark
+  sector closes with 10 measured inputs: 6 masses and 4 CKM parameters. None of the
+  four CKM numbers can be calculated from zeros. Calculating them needs relations
+  between nonzero entries (non-abelian flavour symmetries or grand unification),
+  which this script does not search.
+
+PART H. WHERE QUANTUM THEORY AND GRAVITY MEET (established physics)
+------------------------------------------------------------------------------
+  H1. Planck units from G, hbar, c, k_B
+      l_P = 1.6163e-35 m   t_P = 5.3912e-44 s   m_P = 2.1764e-08 kg   E_P = 1.2209e+19 GeV   T_P = 1.4168e+32 K
+  H2. Newton's law with its one-loop quantum correction (gravity as an effective field theory)
+      V = -G m1 m2 / r [1 + 3 G (m1+m2)/(r c^2) + (41/10pi) G hbar/(r^2 c^3)]
+      coefficient 41/(10 pi) = 1.30507  [quoted: Bjerrum-Bohr, Donoghue, Holstein 2003]
+      Sun-Earth at 1 au: relativistic term 2.96e-08, quantum term 1.52e-92
+      for two protons the quantum term overtakes the relativistic one below r = 4.57e-17 m (0.218 proton Compton lengths)
+      the quantum term reaches 1 (the effective theory ends) at r = 1.85e-35 m = 1.142 l_P
+  H3. Black holes and horizons (Hawking, Bekenstein)
+      the Sun's mass: M = 1.9884e+30 kg, r_s = 2.9533e+03 m, T_H = 6.1703e-08 K, S = 1.0489e+77 k_B, t_evap = 2.0955e+58 Gyr
+      mass evaporating in exactly the age of Part A: M = 1.7298e+11 kg, r_s = 2.5691e-16 m, T_H = 7.0929e+11 K, S = 7.9376e+38 k_B, t_evap = 1.3795e+01 Gyr
+      de Sitter horizon of the Part A cosmology: T = 2.1958e-30 K, S = A/(4 l_P^2) = 3.3130e+122 k_B
+      (t_evap counts photon emission only; more particle species shorten it)
+  H4. Unruh effect: an accelerated observer sees the vacuum as thermal
+      at g = 9.7983 m/s^2: T = 3.9732e-20 K;  1 K needs a = 2.4661e+20 m/s^2
+  H5. The smallest mass that gravity can ever entangle maximally (two masses, each in two places)
+      limits: entangling phase pi (concurrence 1); time <= age of the universe (Part A);
+      separation >= the Compton wavelength hbar/(m c). Then m >= (pi hbar^2 / (G c t0))^(1/3).
+      m_min = 1.5888e-28 kg = 89.1 MeV/c^2 = 0.095 m_p, at separation 2.214e-15 m
+      check: phase 3.141593 rad, concurrence 1.000000, entropy 1.000000 bits
+      Anything lighter cannot be fully entangled by gravity in the lifetime of the universe.
+      A classical gravitational field cannot entangle at all (concurrence 0): measuring
+      gravity-made entanglement in any system is the open test of whether gravity is quantum.
+  H6. Why gravity is so weak for a proton: the strong scale comes from logarithmic running
+      alpha_s(M_P) = 0.01886 (Standard Model running to M_P, no new physics assumed)
+      Lambda_QCD(5 flavours, 2-loop) = 0.2262 GeV;  ln(M_P/Lambda) = 45.43;  one-loop 2pi/(b0 alpha_s(M_P)) = 47.59
+      m_p / Lambda = 4.15: the proton mass is set by Lambda (computing it needs lattice QCD)
+  H7. Dimensionless numbers, each with its status
+      alpha (electromagnetic coupling)         7.2974e-03   log10    -2.14   measured input; not derived by any theory
+      alpha_G (proton) = G m_p^2/(hbar c)      5.9061e-39   log10   -38.23   = (m_p/M_P)^2 exactly; small because of H6
+      alpha_G (electron)                       1.7518e-45   log10   -44.76   the electron mass is a Higgs coupling: not derived
+      m_p / m_e                                1.8362e+03   log10     3.26   QCD scale over a Yukawa coupling: not derived
+      electric/gravitational force, p-e        2.2687e+39   log10    39.36   = alpha hbar c/(G m_p m_e): follows from rows above
+      Hubble radius / proton Compton length    6.5300e+41   log10    41.81   Dirac's large number; its closeness to 1/alpha_G is unexplained
+      rho_Lambda / rho_Planck                 1.1319e-123   log10  -122.95   the cosmological-constant problem: open
+      S_dS x rho_Lambda / rho_Planck           3.7500e-01   log10    -0.43   = 3/8 exactly: the 10^122 and 10^-123 are one fact
+      (hbar^2 H0/(G c))^(1/3) / m_pi           4.2868e-01   log10    -0.37   Weinberg 1972: same order as 1; unexplained
+      H5 smallest entangled mass / m_pi        6.3859e-01   log10    -0.19   same combination as Weinberg's (t0 ~ 1/H0)
+  RESULT: every number above is calculated from G, hbar, c, k_B and measured masses. Two of
+    the apparent large-number coincidences are exact identities (alpha_G = (m_p/M_P)^2 and
+    S_dS rho_Lambda/rho_P = 3/8). One has a known mechanism (the proton/Planck hierarchy from
+    logarithmic running). Open: alpha, the Yukawa couplings, rho_Lambda, and whether gravity
+    carries entanglement (H5) - the measurement that would decide if gravity is quantum.
+    A coincidence to watch: the smallest mass gravity can entangle within the age of the universe
+    (H5) is 0.64 m_pi - the same combination of hbar, G, c and the Hubble
+    time as Weinberg's 1972 large-number relation. Same order of magnitude, no known mechanism.
+
+PART I. CAN ALPHA BE CALCULATED FROM THE OTHER NUMBERS?
+------------------------------------------------------------------------------
+  No accepted theory derives alpha. Grand unification relates it to other measured numbers:
+  if the three gauge couplings meet at one scale, 1/alpha(M_Z) follows from alpha_s(M_Z) and
+  sin^2 theta_W(M_Z) alone. The script solves for the alpha at which they meet, running at
+  one and two loops (coefficients from the field content). Superpartner scale M_S unknown:
+  scanned. Unknown threshold corrections (superpartner spectrum, GUT particles): not included.
+    measured 1/alpha(M_Z), MS-bar: 127.951 +/- 0.009
+    content                     1/alpha(M_Z) 1-loop   2-loop (+/- inputs)     M_GUT (GeV)   1/alpha_GUT
+    MSSM above M_S = 91.2 GeV         126.56          139.62 +/- 0.97      7.00e+17     25.26
+    MSSM above M_S = 813 GeV          119.51          131.94 +/- 0.97      4.67e+16     25.55
+    MSSM above M_S = 7.26e+03 GeV     112.46          124.26 +/- 0.98      3.13e+15     25.81
+    MSSM above M_S = 6.47e+04 GeV     105.41          116.55 +/- 0.98      2.10e+14     26.04
+    MSSM above M_S = 5.77e+05 GeV      98.36          108.83 +/- 0.98      1.41e+13     26.25
+    MSSM above M_S = 5.15e+06 GeV      91.31          101.10 +/- 0.99      9.49e+11     26.46
+    MSSM above M_S = 4.59e+07 GeV      84.27           93.35 +/- 0.99      6.36e+10     26.65
+    MSSM above M_S = 4.1e+08 GeV       77.22           85.59 +/- 1.00      4.26e+09     26.83
+    Standard Model only                77.05           81.85 +/- 0.58      1.11e+09     26.94
+  Standard Model: forcing unification gives 1/alpha = 81.8, -36% from the measurement. The SM couplings do not meet.
+  MSSM: the prediction slides with the unknown M_S by -3.51 per e-fold. It equals
+    the measured alpha at M_S = 2.54 TeV (1.92 to 3.35 TeV from the alpha_s and sin^2 theta_W errors alone),
+    with unification at M_GUT = 1.146e+16 GeV, 1/alpha_GUT = 25.69. Parts B, C and J use these scales.
+  Numerology: closed formulas proposed for 1/alpha(0), tested against CODATA 2018
+    Eddington 1929: 136                              136.0000000   off by 5.02e+07 sigma
+    Eddington 1931: 137                              137.0000000   off by 1.74e+06 sigma
+    4 pi^3 + pi^2 + pi                               137.0363038   off by 1.48e+04 sigma
+    Wyler 1969: (8 pi^4 / 9) (2^4 5! / pi^5)^(1/4)   137.0360824   off by 4.04e+03 sigma
+    CODATA 2018: 1/alpha = 137.035999084
+  RESULT: alpha is not calculated. Unification turns it into a function of one unknown, the
+    superpartner scale; equivalently, the measured alpha points to M_S of a few TeV in the MSSM
+    (before unknown threshold corrections). The SM alone cannot unify, and every closed
+    formula tested is excluded by thousands of standard deviations or more. Getting from
+    alpha(M_Z) to alpha(0) also needs the hadronic vacuum polarization, a measured input.
+
+PART J. CAN THE YUKAWA COUPLINGS BE CALCULATED FROM THE OTHER NUMBERS?
+------------------------------------------------------------------------------
+  J1. Quark/lepton mass ratios fixed by grand unification (group theory, at the unification
+      scale; same-charge ratios hardly run, so they can be compared at m_t)
+      measured m_s/m_d = 19.89 +/- 0.34; m_mu/m_e at m_t = 210.65
+      minimal SU(5), m_s/m_d = m_mu/m_e:              210.65   off by 558 sigma
+      Georgi-Jarlskog, m_s/m_d = m_mu/(9 m_e):         23.41   off by 10.3 sigma
+  J2. b-tau unification: y_b = y_tau at the unification scale (MSSM: M_GUT from Part I)
+      SM at SM g1 = g2 (1.02e+13 GeV): y_b/y_tau = 0.691
+      SM at M_Planck (1.22e+19 GeV): y_b/y_tau = 0.584
+      MSSM above M_S = 2.54 TeV, up to M_GUT = 1.15e+16 GeV (both Part I);
+      tan(beta) scanned over its perturbative range 0.24 to 265.6:
+        0.24: n.p.   0.383: n.p.   0.611: n.p.   0.975: n.p.   1.56: 0.864   2.48: 0.805
+        3.96: 0.792   6.32: 0.787   10.1: 0.786   16.1: 0.786   25.7: 0.787   41: 0.790
+        65.4: 0.774   104: n.p.   166: n.p.   266: n.p.
+        (y_b/y_tau at the unification point; n.p. = a coupling leaves perturbation theory)
+      y_b/y_tau = 1 only at tan(beta) = 1.327, where y_t(M_GUT) = 2.77: the edge of perturbation theory
+  J3. Top quasi-fixed point: a large y_t at high scale is driven to a value set by the gauge couplings
+      SM, y_t = 1.77 at M_Planck -> m_t(m_t) = 216.9 GeV
+      SM, y_t = 3.54 at M_Planck -> m_t(m_t) = 220.4 GeV
+      measured m_t(m_t) = 162.8 GeV
+      MSSM, y_t = 1.77 at M_GUT (Part I): the measured top mass needs tan(beta) = 1.382
+      MSSM, y_t = 3.54 at M_GUT (Part I): the measured top mass needs tan(beta) = 1.313
+  RESULT: no Yukawa coupling is calculated. Minimal SU(5) and Georgi-Jarlskog mass ratios are
+    excluded. In the SM, b-tau unification and the top fixed point both fail.
+    In the MSSM (scales from Part I), b-tau unification needs tan(beta) = 1.33 and the top fixed point
+    gives tan(beta) = 1.31 to 1.38: the same narrow region, at the edge of perturbation theory.
+    That is one number (tan beta), not a calculation of the Yukawas. Part K tests it against
+    the Higgs mass.
+
+PART K. THE HIGGS MASS IN THE MSSM, FROM THE SCALES OF PARTS I AND J
+------------------------------------------------------------------------------
+  In the MSSM the Higgs self-coupling is not free: at M_S it is fixed by the gauge couplings,
+  tan(beta) and the stop mixing X_t. Effective theory: lambda(M_S) = (g^2 + g'^2)/4 cos^2(2 beta)
+  + (3 y_t^4 / 8 pi^2) X^2 (1 - X^2/12), X = X_t/M_S; SM running of lambda down to m_t; m_h = sqrt(lambda) v.
+  Inputs from the algorithm: M_S = 2.54 TeV (1.92 to 3.35, Part I);
+  tan(beta) = 1.313 to 1.382 (Part J: b-tau unification and the top fixed point).
+  X_t is unknown: scanned. The threshold is largest at X^2 = 6, so maximal mixing bounds m_h from above.
+      M_S (TeV)   tan(beta)   m_h, no mixing   m_h, maximal mixing  (GeV)
+         1.92       1.313          82.0              98.7
+         1.92       1.382          83.2              99.7
+         2.54       1.313          85.0             100.4
+         2.54       1.382          86.1             101.3
+         3.35       1.313          87.7             101.9
+         3.35       1.382          88.8             102.9
+      m_h against X_t/M_S at M_S = 2.54 TeV, tan(beta) = 1.382:
+        0.00: 86.1   0.29: 86.6   0.58: 87.9   0.87: 90.0   1.15: 92.5
+        1.44: 95.2   1.73: 97.8   2.02: 99.9   2.31: 101.2   2.60: 101.1
+        2.89: 99.2   3.18: 94.6   3.46: 86.1
+  Upper bound over every mixing and the whole M_S, tan(beta) range: m_h <= 102.9 GeV
+      measured m_h = 125.20 +/- 0.11 GeV: the bound is 22.3 GeV short
+  Read backwards: at tan(beta) = 1.382 and maximal mixing, m_h = 125.2 GeV needs M_S = 1.33e+07 GeV,
+      8.6 e-folds above Part I's M_S.
+  Not included: two-loop thresholds and the pole-to-MS-bar Higgs-mass conversion (a few GeV in
+  the literature), heavy-Higgs and gaugino thresholds. None closes a gap of this size.
+  RESULT: the MSSM route of Parts I and J is excluded by the Higgs mass. The superpartner scale
+    that gives the measured alpha and the tan(beta) that gives b-tau unification together
+    predict m_h <= 103 GeV. Unification (Part I), b-tau unification and the top
+    fixed point (Part J) cannot all hold in the minimal model with one superpartner scale.
+
+PART L. STANDARD MODEL CRITICALITY: THE HIGGS MASS FROM ONE CONDITION AT THE PLANCK SCALE
+------------------------------------------------------------------------------
+  If nothing new enters below the Planck scale, the Higgs self-coupling can be fixed there:
+  lambda(M_P) = 0 (Froggatt-Nielsen 1996; Shaposhnikov-Wetterich 2010). Running it down to m_t
+  with the measured top mass and alpha_s then predicts m_h. No free parameter, no new particle.
+  Running: one, two and three loops (two-loop gauge b_ij from the field content; y_t and lambda
+  two-loop terms and all three-loop terms quoted from Buttazzo et al. 2013, appendix B). Matching
+  to the pole masses M_h, M_t, M_W, M_Z and G_F: tree level; one loop at mu = m_t(m_t) (their
+  appendix A, Passarino-Veltman functions in closed form); two loops at mu = M_t (their section 2
+  interpolations of lambda^(2) and of the electroweak parts of y_t^(2)); three loops: the leading
+  QCD part of lambda^(3) (their footnote, from Martin 2013). QCD: alpha_s and the quark masses run
+  at four loops with three-loop decoupling (RunDec), the top pole/MS-bar conversion at four loops
+  (Melnikov-van Ritbergen 2000, Marquard et al. 2015).
+      condition                 loops   matching            predicted M_h (GeV)
+      lambda(M_P        ) = 0       1      tree                  133.40
+      lambda(M_P        ) = 0       2      tree                  127.62
+      lambda(M_P        ) = 0       3      tree                  127.39
+      lambda(M_P reduced) = 0       1      tree                  133.32
+      lambda(M_P reduced) = 0       2      tree                  127.64
+      lambda(M_P reduced) = 0       3      tree                  127.41
+      lambda(M_P        ) = 0       2      one loop              127.58
+      lambda(M_P        ) = 0       3      one loop              127.35
+      lambda(M_P        ) = 0       2      two loops             128.50
+      lambda(M_P        ) = 0       3      two loops, QCD 3      128.67
+      lambda(M_P        ) = 0       3      two loops             128.27
+      lambda(M_P        ) = 0       2      three loops           128.57
+      lambda(M_P        ) = 0       3      three loops, QCD 3    128.74
+      lambda(M_P        ) = 0       3      three loops           128.34
+      lambda(M_P        ) = 0       3      SMDR-anchored         128.34
+  Anchored to SMDR (Martin-Robertson 2019: full two-loop plus leading three-loop matching, four-loop
+  QCD) at its reference point. Couplings at Q0 = 173.1 GeV for SMDR's inputs, this script vs SMDR:
+      lambda 0.12581 / 0.12604   y_t 0.93461 / 0.93480   g3 1.16360 / 1.16362
+      g2 0.64812 / 0.64766   gp 0.35871 / 0.35854
+  The differences (this script's missing electroweak and mixed thresholds and its simpler
+  electroweak inputs) are added at M_t; this script's own matching carries them to the inputs.
+  Three-loop running, SMDR-anchored matching, four-loop QCD: M_h = 128.34 GeV +/- 0.95
+      (inputs: M_t +0.60, alpha_s -0.74, M_W +0.000)
+      against this script's own three-loop matching (128.34 GeV): -0.00 GeV. Last orders of
+      its own calculation: running (3 loops vs 2) -0.23 GeV, matching (3 vs 2) +0.07 GeV,
+      QCD running, decoupling and top mass (4 loops vs 3) -0.40 GeV
+      measured M_h = 125.20 +/- 0.11 GeV: the prediction is 3.1 GeV high, 3.3 sigma on the input errors
+      cross-check at Buttazzo et al.'s own order (two-loop matching, QCD at three loops): 128.67 GeV;
+      their lambda(M_Pl), linear in M_h, M_t, alpha_s, gives 128.68 GeV here
+      This script's own three-loop matching is its leading QCD part (lambda: O(alpha_s^2 y_t^4); y_t:
+      pure QCD, to four loops); the anchor adds SMDR's full two loops and leading three loops. Not
+      included: the rest of three-loop matching, and four-loop running beyond pure QCD.
+  Both conditions at the Planck scale, lambda(M_P) = 0 and beta_lambda(M_P) = 0, fix two numbers
+  (at two loops, one-loop matching):
+      M_h = 130.7 GeV and M_t = 174.3 GeV (measured 125.2 and 172.57; QCD pole/MS-bar ratio of the measured top kept)
+  Read backwards, with the measured M_h (Part L's central order): lambda(M_P) = -0.0098, beta_lambda(M_P) = +1.6e-04
+      lambda turns negative at mu = 6.20e+10 GeV: the electroweak vacuum is not the
+      lowest state. Whether it is long-lived (metastable) needs the tunnelling rate, not
+      calculated here.
+  RESULT: one condition at the Planck scale gives the Higgs mass to 3 percent with nothing adjusted:
+    128.3 GeV against 125.20. Against two-loop running with one-loop matching (same QCD),
+    the higher orders move it by +0.76 GeV and do not close the gap: the measured Higgs mass makes lambda slightly
+    negative at M_P and the SM vacuum is not stable. The top mass dominates the input error; the
+    second condition (beta_lambda = 0) lands near the measured top mass.
+
+PART M. WHICH HIGH-ENERGY HYPOTHESIS SURVIVES EVERY CONDITION AT ONCE?
+------------------------------------------------------------------------------
+  The field content above the electroweak scale is not chosen. Each hypothesis is tested
+  against every combination of the conditions the other parts impose:
+    U  gauge unification      predicts 1/alpha(M_Z)
+    B  b-tau unification      predicts y_b/y_tau = 1 at M_GUT (SM: where g1 = g2)
+    H  Higgs mass             SM: lambda(M_P) = 0 (Part L); MSSM: matching at M_S (Part K)
+  SM up to M_P has no unknowns. The MSSM has M_S, tan(beta) and the stop mixing X_t. M_S is
+  scanned on a grid plus where unification gives the measured alpha; tan(beta) on a grid plus
+  every root of y_b/y_tau = 1 and every edge of perturbation theory (bisection); X_t is
+  eliminated exactly. 367 perturbative points; the best one only decides survival.
+  With no prediction (dof <= 0) the number is the distance in sigma between the data and
+  everything the hypothesis can reach. Two error sets bracket every verdict:
+    inputs           measured inputs only: the strongest exclusion
+    +theory          plus, per ingredient, the change from the last order calculated to the
+                     one below (running 2 loops vs 1, matching one loop vs tree); the next
+                     order is usually smaller, so this is the weakest exclusion
+  Theory errors, SM:   1/alpha 4.80   y_b 0.1 %   m_h 0.46 GeV (from Parts I, J, L)
+  Theory errors, MSSM at M_S = 3.62 TeV:   1/alpha 12.00   y_b 0.1 %   m_h 0.71 GeV
+  Not estimated: the two-loop stop threshold, GUT and superpartner thresholds.
+  SM pulls, inputs:  U -78.8  B -78.5  H +3.3 sigma;  +theory:  U -9.5  B -77.9  H +2.95 sigma
+    hypothesis        conditions  unknowns  dof  |  sigma   verdict    |  sigma   verdict
+                                                 |  (inputs)           |  (+theory)
+    SM up to M_P      U              0      1  |    78.8   excluded   |    9.53   excluded
+    MSSM above M_S    U              1      0  |       0   survives   |       0   survives
+    SM up to M_P      B              0      1  |    78.5   excluded   |    77.9   excluded
+    MSSM above M_S    B              2     -1  |       0   survives   |       0   survives
+    SM up to M_P      H              0      1  |    3.27   excluded   |    2.95   predicts
+    MSSM above M_S    H              3     -2  |       0   survives   |       0   survives
+    SM up to M_P      U+B            0      2  |     111   excluded   |    78.5   excluded
+    MSSM above M_S    U+B            2      0  |       0   survives   |       0   survives
+    SM up to M_P      U+H            0      2  |    78.9   excluded   |    9.72   excluded
+    MSSM above M_S    U+H            3     -1  |       0   survives   |       0   survives
+    SM up to M_P      B+H            0      2  |    78.5   excluded   |      78   excluded
+    MSSM above M_S    B+H            3     -1  |   0.937   survives   |   0.459   survives
+    SM up to M_P      U+B+H          0      3  |     111   excluded   |    78.5   excluded
+    MSSM above M_S    U+B+H          3      0  |    23.9   excluded   |    2.65   survives
+    (survives: no prediction, the unknowns absorb the conditions; predicts: survives and
+    predicts at least one number)
+  RESULT (inputs only): no hypothesis and set of conditions both survives and
+    predicts anything.
+  RESULT (with theory errors): survives and predicts: SM up to M_P with H
+    Verdicts that depend on the theory errors: SM up to M_P with H; MSSM
+      above M_S with U+B+H. Deciding them needs the next order, not a
+      different error estimate.
+
+PART N. CAN THE QUARK AND LEPTON MASSES BE CALCULATED? CLOSED MASS FORMULAS
+------------------------------------------------------------------------------
+  Part J tested what grand unification relates. Left to test are closed formulas for the masses
+  themselves, as Part I tests them for 1/alpha. Koide (1982): Q = (m1 + m2 + m3)/(sqrt m1 + sqrt m2
+  + sqrt m3)^2 = 2/3. No accepted theory derives it; Q lies between 1/3 (equal) and 1 (one mass).
+  A mass relation needs a scale: pole masses are not the couplings of a Lagrangian at one scale,
+  and running masses change their ratios with mu.
+      masses                                                        Q           off by
+      charged leptons, pole masses                               0.6666645 +/- 5.1e-06      0.4 sigma
+      charged leptons, MS-bar at M_Z (one-loop QED, alpha(0))    0.6678129 +/- 5.1e-06    225.0 sigma
+      charged leptons, MS-bar at M_Z (one-loop QED, alpha(M_Z))  0.6678943 +/- 5.1e-06    240.9 sigma
+      up quarks u, c, t at m_t(m_t)                              0.8877698 +/- 7.7e-04    288.7 sigma
+      down quarks d, s, b at m_t(m_t)                            0.7474903 +/- 8.2e-04     98.6 sigma
+  Q = 2/3 at pole masses, solved for m_tau from m_e and m_mu: 1776.969 MeV (measured 1776.93 +/- 0.09)
+  Running from the pole masses to M_Z moves Q by 1.15e-03, about 226 times its error;
+  alpha(0) or alpha(M_Z) in the QED running changes that by 8.1e-05.
+  RESULT: Koide's relation holds for the charged-lepton pole masses (0.4
+    sigma), but at no scale where the masses are couplings: at M_Z it fails
+    by 225 sigma or more, and for the quarks at m_t(m_t) by 99 sigma or more.
+    A relation that holds only for pole masses has no known mechanism; it
+    stays a coincidence to watch. No quark or lepton mass is calculated.
+
+PART O. THE STRONG CP ANGLE THETA-BAR
+------------------------------------------------------------------------------
+  QCD allows theta (g^2/32 pi^2) G G~, which violates P and CP. Only theta-bar = theta - arg det(M_u M_d)
+  is physical, and the Standard Model gives it no value. It would give the neutron an electric
+  dipole moment.
+  O1. d_n per unit theta-bar, leading chiral logarithm (Crewther, Di Vecchia, Veneziano, Witten 1979):
+      g0 = delta m_N m* theta/(m-bar eps), from the strong part of m_n - m_p (de Vries et al. 2015);
+      d_n = e g_piNN [g0/(2 F_pi)] ln(m_N/m_pi) / (4 pi^2 m_N), g_piNN = g_A m_N/F_pi (Goldberger-Treiman)
+      eps = (m_d - m_u)/(m_d + m_u) = 0.370; g0/(2 F_pi) = (15.5 +/- 1.4) x 10^-3 theta-bar; g_piNN = 13.02; ln(m_N/m_pi) = 1.907
+      d_n = (2.05 +/- 0.18) x 10^-16 theta-bar e cm (input errors; the counterterm beside the log is unknown)
+      QCD sum rules (Pospelov-Ritz)    (2.40 +/- 1.00) x 10^-16 theta-bar e cm
+      lattice QCD (Dragos et al.)      (1.52 +/- 0.71) x 10^-16 theta-bar e cm
+      measured: |d_n| < 1.8e-26 e cm (90% CL)  ->  |theta-bar| < 8.8e-11 (chiral log); < 2.2e-10 with the
+      weakest coefficient above, each lowered by its 1 sigma error
+  O2. The explanations proposed, each tested:
+      a. massless up quark (theta-bar unphysical): m_u = 2.16 +/- 0.07 MeV, 31 sigma from zero;
+         m_u/m_d = 0.460 +/- 0.016. Excluded.
+      b. axion (Peccei-Quinn): theta-bar relaxes to zero, at the cost of a new scale f_a.
+         m_a f_a = sqrt(z)/(1 + z) m_pi0 F_pi = 5772 +/- 52 MeV^2: m_a = 5.77 +/- 0.05 micro-eV x (1e12 GeV/f_a)
+         (leading order; NLO with lattice input: 5.69 +/- 0.05, +1.4 %). At the algorithm's scales:
+           f_a = M_GUT (Part I)  = 1.15e+16 GeV  ->  m_a = 5.04e-10 eV
+           f_a = M_P (Part H1)   = 1.22e+19 GeV  ->  m_a = 4.73e-13 eV
+         One unknown (f_a) replaces one (theta-bar): a parameter trade, not a calculation.
+      c. parity: if a symmetry makes M_u and M_d Hermitian and sets theta = 0, then det M is real
+         and arg det(M_u M_d) is 0 or pi. Flipping the sign of a sector's matrix keeps V (same
+         eigenvectors) and flips its det (3 x 3), so theta-bar = 0 at tree level is always reachable.
+         Part C survivor (up 00X/0XX/XXX, down 0X0/X0X/0XX): eigenvalue signs up +-+, down +-+; arg det(M_u M_d) = 0
+         as found (heaviest eigenvalue positive), so theta-bar = 0 needs no sign flip.
+         But Hermiticity needs a left-right parity (Part E), and the textures that parity gives are
+         excluded (Part G); radiative corrections then move theta-bar off zero. Not a calculation either.
+  O3. Can the SM's own CP violation make theta-bar? Only through the flavour invariant
+      Im det[H_u, H_d] = 2 J prod_(i<j) (y_ui^2 - y_uj^2)(y_di^2 - y_dj^2), H = Y Y^dagger, which
+      vanishes if any two same-charge quarks were degenerate. At m_t(m_t), with the measured J: 2.9e-24.
+      Its first divergent contribution to theta-bar is at seven loops (Ellis-Gaillard 1979), so the
+      SM's own theta-bar lies many orders below the bound 9e-11.
+  RESULT: theta-bar is bounded, |theta-bar| < 8.8e-11 (up to 2.2e-10 with the hadronic uncertainty),
+    but not calculated. The massless-up-quark solution is excluded; the axion trades theta-bar for
+    f_a and predicts m_a f_a; parity sets it to zero at tree level but needs Hermitian textures,
+    and the predictive ones are excluded. Theta-bar is the one free number whose smallness the
+    Standard Model's own CP violation cannot explain.
+
+PART P. NEUTRINO MASSES AND MIXING
+------------------------------------------------------------------------------
+  Oscillations (NuFIT 6.0) measure two mass-squared differences and the PMNS matrix. Not measured:
+  the lightest mass m0, the ordering, two Majorana phases, and the origin of the masses. Each
+  unknown is scanned, never set.
+  NO, normal (m1 < m2 < m3):
+    P1. at m0 = 0: masses 0.00, 8.65, 50.13 meV; sum = 58.78 +/- 0.23 meV (the smallest possible)
+        vs Planck 2018     sum < 120 meV (95%): allowed; m0 < 30.1 meV
+        vs DESI DR2 + CMB  sum < 64 meV (95%): allowed; m0 < 4.1 meV
+        Omega_nu h^2 at the minimum = 6.25e-04: 0.44 % of Part A's Omega_m
+    P2. m_beta = 8.8 meV at m0 = 0, at most 31.4 meV under Planck's limit; KATRIN: < 450 meV (90%)
+    P3. m_bb band over the Majorana phases at m0 = 0: 1.50 +/- 0.11 to 3.72 +/- 0.11 meV
+        m_bb can vanish (phases cancel) for 2.35 < m0 < 6.46 meV
+        largest m_bb under Planck's limit: 31.1 meV
+        m0 (meV): m_bb band (meV)
+          0: 1.50-3.72   0.0272: 1.48-3.74   0.103: 1.43-3.79   0.393: 1.23-3.99
+          1.49: 0.52-4.77   5.68: 0.00-8.08   21.6: 6.39-22.82
+  IO, inverted (m3 < m1 < m2):
+    P1. at m0 = 0: masses 49.08, 49.84, 0.00 meV; sum = 98.92 +/- 0.40 meV (the smallest possible)
+        vs Planck 2018     sum < 120 meV (95%): allowed; m0 < 16.0 meV
+        vs DESI DR2 + CMB  sum < 64 meV (95%): EXCLUDED at 95%: the minimum is 34.9 meV above it
+        Omega_nu h^2 at the minimum = 1.05e-03: 0.74 % of Part A's Omega_m
+    P2. m_beta = 48.8 meV at m0 = 0, at most 51.3 meV under Planck's limit; KATRIN: < 450 meV (90%)
+    P3. m_bb band over the Majorana phases at m0 = 0: 18.20 +/- 1.12 to 48.22 +/- 0.20 meV
+        m_bb cannot vanish for any m0: the inverted ordering has a floor
+        largest m_bb under Planck's limit: 51.1 meV
+        m0 (meV): m_bb band (meV)
+          0: 18.20-48.22   0.0252: 18.20-48.22   0.086: 18.20-48.22   0.294: 18.19-48.22
+          1.01: 18.18-48.25   3.44: 18.17-48.41   11.8: 18.47-49.83
+    KamLAND-Zen: m_bb < 28 to 122 meV (90%, by nuclear matrix element). The inverted
+    band at m0 = 0, 18.2 to 48.2 meV, is tested only above 28 meV and only with the
+    most favourable matrix elements: neither ordering is excluded by double-beta decay yet.
+  P4. Mixing patterns from discrete flavour symmetries (tested like Part C's textures; delta is
+      far from Gaussian, so only theta12 decides survival, at the 3 sigma level)
+    NO:  pattern                             unknowns  predicts   pulls / prediction            verdict
+        tribimaximal                            0        3     theta12  +2.2, theta13 -38.9, theta23 +2.0   excluded
+        bimaximal                               0        3     theta12 +16.7, theta13 -38.9, theta23 +2.0   excluded
+        golden ratio, tan theta12 = 1/phi       0        3     theta12  -2.7, theta13 -38.9, theta23 +2.0   excluded
+        golden ratio, cos theta12 = phi/2       0        3     theta12  +3.3, theta13 -38.9, theta23 +2.0   excluded
+        hexagonal, theta12 = 30 deg             0        3     theta12  -5.0, theta13 -38.9, theta23 +2.0   excluded
+        TM1: first column of TBM kept           2        2     theta13, theta23 fix the unknowns                survives
+            sin^2 theta12 = 0.3182 +/- 0.0004 (+0.9 sigma); delta = 262 +/- 4 deg (+1.5 sigma)
+            sin^2 theta12 = 0.3182 +/- 0.0004 (+0.9 sigma); delta = 98 +/- 4 deg (-3.4 sigma)
+        TM2: second column of TBM kept          2        2     theta13, theta23 fix the unknowns                survives
+            sin^2 theta12 = 0.3409 +/- 0.0002 (+2.9 sigma); delta = 286 +/- 8 deg (+2.1 sigma)
+            sin^2 theta12 = 0.3409 +/- 0.0002 (+2.9 sigma); delta = 74 +/- 8 deg (-4.0 sigma)
+        measured: sin^2 theta12 = 0.308, delta = 212 +/- 33.5 deg
+    IO:  pattern                             unknowns  predicts   pulls / prediction            verdict
+        tribimaximal                            0        3     theta12  +2.2, theta13 -39.8, theta23 -3.7   excluded
+        bimaximal                               0        3     theta12 +16.7, theta13 -39.8, theta23 -3.7   excluded
+        golden ratio, tan theta12 = 1/phi       0        3     theta12  -2.7, theta13 -39.8, theta23 -3.7   excluded
+        golden ratio, cos theta12 = phi/2       0        3     theta12  +3.3, theta13 -39.8, theta23 -3.7   excluded
+        hexagonal, theta12 = 30 deg             0        3     theta12  -5.0, theta13 -39.8, theta23 -3.7   excluded
+        TM1: first column of TBM kept           2        2     theta13, theta23 fix the unknowns                survives
+            sin^2 theta12 = 0.3181 +/- 0.0004 (+0.9 sigma); delta = 283 +/- 4 deg (+0.4 sigma)
+            sin^2 theta12 = 0.3181 +/- 0.0004 (+0.9 sigma); delta = 77 +/- 4 deg (+6.9 sigma)
+        TM2: second column of TBM kept          2        2     theta13, theta23 fix the unknowns                survives
+            sin^2 theta12 = 0.3409 +/- 0.0002 (+2.9 sigma); delta = 242 +/- 8 deg (-1.3 sigma)
+            sin^2 theta12 = 0.3409 +/- 0.0002 (+2.9 sigma); delta = 118 +/- 8 deg (-6.3 sigma)
+        measured: sin^2 theta12 = 0.308, delta = 274 +/- 23.5 deg
+    Quark-lepton complementarity, theta12 + theta_C = 45 deg: 46.71 +/- 0.71 deg, 2.4 sigma
+  P5. Where the masses come from. Seesaw: m = y^2 v^2/(2 M), with the heaviest mass at m0 = 0
+      (50.1 meV, NO):  M = 6.0e+14 GeV for y = 1, 5.3e+14 GeV for y = y_t,
+      at most 7.6e+15 GeV for y = sqrt(4 pi) (perturbative). Part I's M_GUT = 1.15e+16 GeV and
+      M_P = 1.22e+19 GeV lie above it: a seesaw needs new states below the unification scale.
+      Dirac alternative: y_nu up to 2.9e-13, against y_e = 2.9e-06 (a new hierarchy, no new scale).
+  RESULT: the masses and the mixing are measured, not calculated. Cosmology
+    (DESI DR2 + CMB, flat LambdaCDM) excludes the inverted ordering at 95%;
+    the normal one keeps m0 below 4.1 meV. Every fixed mixing pattern (5:
+    tribimaximal, bimaximal, golden ratio, hexagonal) is excluded by theta13
+    at 39 sigma or more. Surviving corrected patterns: TM1 (theta12 at 0.9
+    sigma), TM2 (theta12 at 2.9 sigma); each predicts sin^2 theta12 and delta
+    from theta13 and theta23, a test for DUNE and Hyper-Kamiokande.
+    Neutrino masses also test Part L's assumption: the SM up to M_P holds only for Dirac neutrinos.
+
+PART Q. PROTON DECAY: THE DIRECT TEST OF UNIFICATION
+------------------------------------------------------------------------------
+  If the couplings unify (Part I), the SU(5) gauge bosons X, Y turn quarks into leptons. Their
+  exchange gives p -> e+ pi0 (Ellis et al. 2020, minimal SU(5)):
+    Gamma = m_p/(32 pi) (1 - m_pi^2/m_p^2)^2 A_L^2 (g_GUT^2/M_X^2)^2 [A_S1^2 W_RL^2 + (1 + |V_ud|^2)^2 A_S2^2 W_LL^2]
+  W: lattice matrix elements at 2 GeV (Aoki et al. 2017). A_S: one-loop running of the two operators
+  from M_X to M_Z, exponents -2 c_i/b_i with this script's b_i. A_L: their QCD running to 2 GeV with
+  this script's alpha_s: A_L = 1.269 (one-loop exponent; two loops: 1.247, quoted).
+  M_X and alpha_GUT come from the algorithm; GUT thresholds (M_X against M_GUT) are unknown.
+      hypothesis                            M_X (GeV)   alpha_GUT  A_S1   A_S2   tau (years)
+      MSSM above M_S (Part I)               1.15e+16   0.0389   2.16   2.28   2.4e+35 +/- 5e+34
+      SM, X bosons where g1 = g2 (Part J)   1.02e+13   0.0236   2.05   2.16   4.6e+23 +/- 1e+23
+  Super-Kamiokande: tau/B(p -> e+ pi0) > 2.4e+34 years (90% CL)
+      MSSM above M_S (Part I)               allowed, 10.0 times the limit; the limit needs M_X > 6.4e+15 GeV
+      SM, X bosons where g1 = g2 (Part J)   EXCLUDED: 2e-11 of the limit; the limit needs M_X > 4.9e+15 GeV
+  Q2. Dimension five, p -> nubar K+, through the colour-triplet Higgsinos of minimal SUSY SU(5)
+      (Hisano et al. 2013, eqs. 15-49): M_HC = M_GUT and every superpartner at M_S (Part I),
+      tan(beta) from Part J; Yukawas run in the SM to M_S and in the MSSM to M_HC; the operators run
+      with the Yukawas above M_S, with the gauge couplings below, with QCD to 2 GeV. The two unknown
+      GUT phases are scanned: the band is every lifetime they allow.
+      tan(beta) = 1.327: tau = 2.5e+28 to 7.1e+29 years   (A_L = 0.49, Abar_R = 0.38, y_t(M_HC) = 2.77)
+      tan(beta) = 1.382: tau = 4.4e+28 to 8.8e+29 years   (A_L = 0.49, Abar_R = 0.28, y_t(M_HC) = 1.77)
+      tan(beta) = 1.313: tau = 1.8e+28 to 6.4e+29 years   (A_L = 0.49, Abar_R = 0.44, y_t(M_HC) = 3.55)
+      Super-Kamiokande: tau/B(p -> nubar K+) > 5.9e+33 years (90% CL). Even at the best
+      phases the limit needs M_HC > 1.0e+18 GeV (tau ~ M_HC^2), or superpartners near 231 TeV (tau ~ M_S^2).
+      Check against Hisano et al.'s eq. 19, tau = C sin^4 2beta (0.1/Abar_R)^2 (M_S/100 TeV)^2 (M_HC/1e16 GeV)^2
+      with C = 4e+35 years: the higgsino part alone (8.9e+30 years) implies C = 1.77e+35,
+      the same at every tan(beta) (spread 1e-15: the scaling is exact). Their lattice matrix element
+      (alpha_p = -0.0112 GeV^3, against -0.0144 here) gives C = 2.92e+35: the old factor 2.3 is 1.65 from alpha_p times 1.37
+      from eq. 19's one-digit constant and its older quark masses: not a bug.
+  RESULT: with superpartners at Part I's M_S, the gauge-boson channel gives
+    2.4e+35 years, 10 times the Super-K limit: allowed, and within reach of
+    Hyper-Kamiokande. But the Higgsino channel of minimal SUSY SU(5) at the
+    same scales lives at most 9e+29 years: excluded for every phase and every
+    tan(beta) of Part J. Minimal SUSY SU(5) with one superpartner scale M_S
+    fails proton decay, as Part K's Higgs mass already found; a heavier
+    colour triplet or superpartners above about 100 TeV are needed. In the
+    SM, X bosons where g1 = g2 would make the proton live 5e+23 years:
+    excluded, one more reason the SM cannot unify.
+
+PART R. WHAT ANOMALY CANCELLATION FIXES (exact)
+------------------------------------------------------------------------------
+  A chiral gauge theory is consistent only if its gauge anomalies cancel: exact conditions on the
+  charges, and the one place where the SM's quantum numbers are calculated, not measured.
+  R1. One family with the SM's representations and unknown hypercharges Y_Q, Y_u, Y_d, Y_L, Y_e:
+      [SU(3)]^2 U(1), [SU(2)]^2 U(1), [gravity]^2 U(1), U(1)^3. The three linear ones give Y_L, Y_d,
+      Y_e; U(1)^3 is then a quadratic, solved exactly (Y_Q = 1/6 sets the normalization):
+        Y(Q) = 1/6, Y(u^c) = -2/3, Y(d^c) = 1/3, Y(L) = -1/2, Y(e^c) = 1
+        Y(Q) = 1/6, Y(u^c) = 1/3, Y(d^c) = -2/3, Y(L) = -1/2, Y(e^c) = 1
+      the two differ only by naming u^c and d^c. A branch with Y_Q = 0 also cancels (True), but only the
+      right-handed quarks are charged and no Yukawa coupling exists (False).
+      With Yukawa couplings for every fermion: the SM's hypercharges, uniquely.
+      Electric charge Q = T3 + Y/(2 Y_H): u 2/3, d -1/3, e -1, nu 0. Proton + electron: 0;
+      neutron: 0. Charge is quantized: atoms are neutral because the anomalies cancel.
+      With a right-handed neutrino, SM + eps (B - L) cancels for every eps (True) and keeps
+      a Dirac Yukawa (True): hydrogen stays neutral (0) but the neutron gets charge 1 x eps.
+      A Majorana mass for nu^c (the seesaw of Part P) needs Y(nu^c) = 0, so eps = 0: quantization returns.
+  R2. Witten's SU(2) anomaly: 4 doublets per family (3 colours of Q, plus L): even, consistent.
+  R3. SO(10) (Part D): the 16's cubic anomaly, max |sum_w w_a w_b w_c| over its weights, is 0:
+      every SO(10) representation is anomaly-free, so anomalies allow any number of families.
+      Asymptotic freedom of the SO(10) coupling with the chain's scalars (complex 10, 126, real 210):
+      b = -(11/3) C2(45) + (2/3) T(16) N_f + 64/3 with C2(45) = 8, T(16) = 2 (from the weights):
+        N_f = 1: b =  -20/3  (asymptotically free), 0 CKM phase(s)
+        N_f = 2: b =  -16/3  (asymptotically free), 0 CKM phase(s)
+        N_f = 3: b =     -4  (asymptotically free), 1 CKM phase(s)
+        N_f = 4: b =   -8/3  (asymptotically free), 3 CKM phase(s)
+        N_f = 5: b =   -4/3  (asymptotically free), 6 CKM phase(s)
+        N_f = 6: b =      0  (not asymptotically free), 10 CKM phase(s)
+        N_f = 7: b =    4/3  (not asymptotically free), 15 CKM phase(s)
+        N_f = 8: b =    8/3  (not asymptotically free), 21 CKM phase(s)
+  RESULT: the SM's hypercharges and the quantization of electric charge
+    follow from anomaly cancellation and the Yukawa couplings: calculated,
+    not measured. A right-handed neutrino leaves one free direction, closed
+    by a Majorana mass. SO(10) does not fix the number of families: anomalies
+    allow any, and asymptotic freedom with CP violation leaves 3 to 5:
+    bounded, not calculated.
+
+PART S. THE BARYON ASYMMETRY
+------------------------------------------------------------------------------
+  S1. eta_B = n_B/n_gamma from Omega_b h^2 = 0.02237 (Planck 2018) and T_CMB: (6.116 +/- 0.041) x 10^-10
+      Making it needs B violation, C and CP violation, and a departure from equilibrium (Sakharov).
+  S2. The Standard Model alone
+      B violation: sphalerons change B and L by N_f = 3 each (the SU(2) anomaly, Part R).
+      Chemical equilibrium (Yukawas, sphalerons, zero hypercharge), solved exactly for N_f = 3, N_H = 1:
+        B = 28/79 (B - L), L = -51/79 (B - L)  (Harvey-Turner's 28/79)
+      Departure from equilibrium: the transition is first order only for m_h < 72.4 +/- 1.7 GeV (lattice);
+        measured m_h = 125.20 GeV, 31 sigma above: a smooth crossover at T_c = 159.5 GeV. Fails.
+      CP violation: J prod(m_i^2 - m_j^2) / T_c^12 = 4.2e-24 (running masses at m_t(m_t)),
+        14 orders of magnitude below eta_B. Fails.
+  S3. Leptogenesis (the seesaw of Part P): eta_B = c_sph (3/4) (g*s,0 / g*) epsilon_1 kappa, kappa <= 1
+      g* = 217/2 (SM plus N_1, from the field content), g*s,0 = 43/11, c_sph = 28/79: eta_B = 9.577e-03 epsilon_1 kappa
+      so epsilon_1 >= 6.4e-08. SM bound: |epsilon_1| <= 3 M_1 (m_3 - m_1) / (16 pi <H>^2):
+        NO: m_3 - m_1 = 50.1 meV  ->  M_1 >= 6.5e+08 GeV; Part P's window up to 7.6e+15 GeV: open
+        IO: m_3 - m_1 = 49.8 meV  ->  M_1 >= 6.5e+08 GeV; Part P's window up to 7.6e+15 GeV: open
+      (Davidson-Ibarra's MSSM form has 8 pi; their example, epsilon > 1e-6 needs M_1 > 4e9 GeV: here 5.1e+09 GeV)
+      Efficiency: kappa_f = 2/(K z_B) (1 - e^(-K z_B / 2)), K = m~_1/m_*, m_* = 1.070 meV (from g* and M_P);
+      z_B solves (K/4) z^3 e^-z (1 + sqrt(pi z/2)) = z - 1 (Buchmuller, Di Bari, Plumacher, eqs. 22, 59). Over
+      the natural range m_sol <= m~_1 <= m_atm:
+        m~_1 =   8.7 meV: K =   8.1, z_B = 5.80, kappa_f = 0.0426  ->  M_1 >= 1.5e+10 GeV
+        m~_1 =  13.4 meV: K =  12.5, z_B = 6.48, kappa_f = 0.0246  ->  M_1 >= 2.6e+10 GeV
+        m~_1 =  20.8 meV: K =  19.5, z_B = 7.13, kappa_f = 0.0144  ->  M_1 >= 4.5e+10 GeV
+        m~_1 =  32.3 meV: K =  30.2, z_B = 7.76, kappa_f = 0.0085  ->  M_1 >= 7.6e+10 GeV
+        m~_1 =  50.1 meV: K =  46.8, z_B = 8.37, kappa_f = 0.0051  ->  M_1 >= 1.3e+11 GeV
+      Thermal production also needs a reheating temperature above M_1.
+  RESULT: eta_B is measured, not calculated. The Standard Model fails two of
+    Sakharov's conditions: its transition is a crossover (31 sigma above the
+    lattice endpoint) and its CP violation is 14 orders too small.
+    Leptogenesis works if the lightest right-handed neutrino is above 6e+08
+    GeV (at full efficiency; 2e+10 to 1e+11 GeV over the natural washout
+    range), inside the seesaw window of Part P: it ties eta_B to the neutrino
+    masses but adds unmeasured parameters (M_1, the phases, kappa). Part L's
+    SM up to M_P, with Dirac neutrinos, has no seesaw and so no such
+    mechanism.
+
+PART T. SO(10)
+------------------------------------------------------------------------------
+  SO(10) puts a whole family, with a right-handed neutrino, into one 16.
+  T1. Group theory (exact)
+      B - L anomalies of one family, SU3^2 (B-L) = 0, SU2^2 (B-L) = 0, grav^2 (B-L) = -1, (B-L)^3 = -1 without nu^c;
+        all zero with it: gauging B - L (inside SO(10)) requires the right-handed neutrino.
+      Over a complete 16: sin^2 theta_W = Tr T3^2 / Tr Q^2 = 3/8 at unification; Tr T3^2 / Tr Y^2 = 3/5,
+        the hypercharge normalization this script uses throughout (3/5).
+  T2. Minimal Yukawas (one 10_H): M_u ~ M_d ~ M_e, so V = 1 and equal mass ratios. At 2.54e+03 GeV:
+      m_c/m_t = 0.0036, m_s/m_b = 0.0192, m_mu/m_tau = 0.0595: (m_s/m_b)/(m_c/m_t) = 5.3, (m_mu/m_tau)/(m_s/m_b) = 3.1
+      Excluded (and V = 1 contradicts every CKM measurement). Adding a 126_H gives each sector its own
+      matrix: enough parameters to fit, none predicted (Part F's closure).
+  T3. t-b-tau unification (MSSM, Part I's scales): y_t = y_b at M_GUT for tan(beta) = 49, where y_b/y_tau = 0.783.
+      It needs a supersymmetric threshold correction of +28 % to m_b: a function of the unknown superpartner spectrum, so a trade, not a test.
+  T4. Non-supersymmetric SO(10) through Pati-Salam SU(4) x SU(2)_L x SU(2)_R at M_I (one loop)
+      b from the field content: SU(4) -23/3, SU(2)_L -3, SU(2)_R 11/3 (three families of
+      (4,2,1) + (4bar,1,2), scalars (1,2,2) and (10,1,3)). The three measured couplings fix the three
+      unknowns exactly (a linear system):
+        M_I = 5.51e+11 GeV, M_GUT = 1.14e+16 GeV, 1/alpha_GUT = 45.7 (consistent: M_Z < M_I < M_GUT)
+      Proton decay (Part Q's formula, SM running throughout): tau = 6.2e+35 years against 2.4e+34: allowed
+      M_I is where B - L breaks and the right-handed neutrinos get mass: inside leptogenesis's window (6e+08 to 8e+15 GeV): True
+      If the axion scale is M_I (as in SO(10) axion models), m_a = 10.5 micro-eV.
+  T5. Every minimal chain, one and two loops (b from the field content; SM two loops below M_I). At two loops
+      the matching carries the heavy vectors' MS-bar constant, 1/alpha_i(low) = 1/alpha_i(high) - T_i/(12 pi) with
+      T_i their Dynkin index (= C2(SO(10)) - C2(H_i) at M_GUT; W_R and leptoquarks at M_I; Langacker-Polonsky
+      eq. 12, C^1 = 1/21): no unknown. The heavy masses' splittings are T7/T12/T13. Each chain has as many
+      unknowns as conditions: none predicts a coupling.
+        PS     T(M_GUT) = 4, 6, 6; T(M_I) (Y, 2L, 3) = 14/5, 0, 1: M_I x1.053, M_GUT x1.043 against tree matching
+        PS+D   T(M_GUT) = 4, 6, 6; T(M_I) (Y, 2L, 3) = 14/5, 0, 1: M_I x1.046, M_GUT x1.045 against tree matching
+        LR     T(M_GUT) = 5, 6, 6, 8; T(M_I) (Y, 2L, 3) = 6/5, 0, 0: M_I x1.051, M_GUT x1.044 against tree matching
+        LR+D   T(M_GUT) = 5, 6, 6, 8; T(M_I) (Y, 2L, 3) = 6/5, 0, 0: M_I x1.049, M_GUT x1.045 against tree matching
+      tau_p: above M_I the proton-decay operators run with the chain's group. Their anomalous dimensions are
+      derived (Landau gauge: each exchange inside a Lorentz-scalar bilinear gives 6 T_i.T_j, the mass operator's
+      value; left-right exchanges cancel), which reproduces Ellis et al.'s SM coefficients exactly (a self-check):
+      d ln C/d ln mu x 16 pi^2 = -15/2, -9/2, -9/2 g^2 for (4, 2L, 2R); -4, -9/2, -9/2, -1/2 g^2 for (3, 2L, 2R, B-L).
+      chain   b (one loop)                M_I, M_GUT (1 loop)    M_I, M_GUT (2 loops)  1/a_GUT  tau_p (yr)
+      PS      -23/3, -3, 11/3             5.5e+11, 1.1e+16     1.5e+11, 8.4e+15    45.3   1.4e+35 ok
+      PS+D    -14/3, 11/3, 11/3           5.0e+13, 1.6e+15     4.6e+13, 8.8e+14    40.8   1.8e+31 EXCLUDED
+      LR      -7, -3, -7/3, 11/2          1.0e+09, 4.6e+16     2.9e+09, 1.6e+16    45.5   1.9e+36 ok
+      LR+D    -7, -7/3, -7/3, 7           1.3e+10, 5.8e+15     3.2e+10, 2.4e+15    43.4   1.0e+33 EXCLUDED
+      lambda(M_I) = 0 at each chain's two-loop M_I (Part L's running and matching):
+        PS     m_h = 125.60 GeV
+        PS+D   m_h = 127.38 GeV
+        LR     m_h = 123.36 GeV
+        LR+D   m_h = 124.86 GeV
+  T6. What lambda(M_I) is. The heavy scalar that breaks the chain at M_I shifts the SM quartic at tree level
+      (Elias-Miro et al. 2012, eq. 5): lambda_SM(M_I) = lambda_H - lambda_HS^2/lambda_S, a shift that is >= 0
+      and unknown. So lambda(M_I) = 0 is not a condition of the theory. What is fixed: the vacuum is stable
+      only if the SM's lambda stays positive up to M_I, i.e. M_I below the scale mu_0 where it turns negative.
+      mu_0 = 6.20e+10 GeV for the measured m_h (2.3e+10 to 2.0e+11 for M_t +/- 1 sigma)
+        PS     M_I = 1.5e+11: lambda_SM(M_I) = -0.0013  ->  metastable SM between mu_0 and M_I
+        PS+D   M_I = 4.6e+13: lambda_SM(M_I) = -0.0074  ->  metastable SM between mu_0 and M_I
+        LR     M_I = 2.9e+09: lambda_SM(M_I) = +0.0060  ->  the threshold can stabilize the vacuum
+        LR+D   M_I = 3.2e+10: lambda_SM(M_I) = +0.0011  ->  the threshold can stabilize the vacuum
+      The 'lambda(M_I) = 0' Higgs masses above only say how close each chain's M_I lies to mu_0.
+  T7. Thresholds: each matching condition shifted by up to +/- 1.0 in 1/alpha (an assumed band, typical of
+      one-loop thresholds), every corner solved at two loops. Ranges, and which verdicts can flip:
+        PS     M_I 1.6e+10 - 1.3e+12, M_GUT 2.1e+15 - 3.3e+16, tau_p 6e+32 - 3e+37: proton decay, vacuum can flip
+        PS+D   M_I 3.0e+13 - 7.0e+13, M_GUT 3.4e+14 - 2.3e+15, tau_p 4e+29 - 9e+32: robust
+        LR     M_I 9.4e+07 - 9.0e+10, M_GUT 3.3e+15 - 7.4e+16, tau_p 4e+33 - 9e+38: proton decay, vacuum, leptogenesis can flip
+        LR+D   M_I 5.3e+09 - 1.9e+11, M_GUT 7.2e+14 - 7.9e+15, tau_p 8e+30 - 1e+35: proton decay, vacuum, leptogenesis can flip
+  T8. Pati-Salam's heavy GUT multiplets (SO(10) broken by a 210, plus the 126 and 10): each shifts the
+      couplings at M_GUT by (b^h/2 pi) ln(M_h/M_GUT). Per unit of that log, and the mass ratio M_h/M_GUT
+      (that multiplet alone) at which proton decay or vacuum stability would flip:
+        multiplet               b (4, 2L, 2R)       d ln M_I  d ln tau_p   proton flips   vacuum flips
+        210: (15,1,1)           2/3, 0, 0            +0.149     -0.538   at 26          at 0.0031
+        210: (15,3,1)           2, 5, 0              -1.315     +2.123   at 0.44        at 1.9
+        210: (15,1,3)           2, 0, 5              +1.089     -1.312   at 3.8         at 0.45
+        210: (10,2,2) + conj.   4, 10/3, 10/3        +0.149     -0.538   at 26          at 0.0031
+        126: (6,1,1)            1/3, 0, 0            +0.074     -0.269   at 7e+02       at 9.4e-06
+        126: (10,3,1)           3, 20/3, 0           -1.680     +2.563   at 0.5         at 1.7
+        126: (15,2,2)           16/3, 5, 5           +0.074     -0.269   at 7e+02       at 9.4e-06
+        10: (6,1,1)             1/6, 0, 0            +0.037     -0.135   at 4.8e+05     at 8.7e-11
+      All eight within a factor 10.0 of M_GUT: M_I 4e+06 - 5e+15 GeV, M_GUT 9e+13 - 8e+17 GeV,
+      tau_p 3e+27 - 8e+42 years: the heavy spectrum, not the running, decides.
+  T9. The 210's own potential calculates four of those masses. Invariants: S2, the cubic C, quartics Q1-Q4;
+      vev on the Pati-Salam singlet; mass^2/v^2 per multiplet (quartics per 576, cubic per 24, eta in units of v):
+        (1,1,1)   eta +0.0000  Q1 +8.0000  Q2 +2.0000  Q3 +1.3333  Q4 +0.6667
+        (15,1,1)  eta +0.0000  Q1 +0.0000  Q2 -1.0000  Q3 -0.6667  Q4 -0.3333
+        (6,2,2)   eta +0.0000  Q1 +0.0000  Q2 +0.0000  Q3 +0.0000  Q4 +0.0000
+        (15,3,1)  eta +2.0000  Q1 +0.0000  Q2 -0.5000  Q3 -0.4444  Q4 -0.2778
+        (15,1,3)  eta -2.0000  Q1 +0.0000  Q2 -0.5000  Q3 -0.4444  Q4 -0.2778
+        (10,2,2)  eta +0.0000  Q1 +0.0000  Q2 -0.7500  Q3 -0.6667  Q4 -0.3333
+      Couplings scanned: |lambda_a| <= 1, |eta/v| <= 1; 957 of 30000 points give a local minimum bounded
+      below along the test directions. Their masses (the 126's and 10's still at M_GUT) give, as fractions of
+      the viable potentials:
+        proton decay passes 80 %; tau_p 16-50-84 %: 2.0e+34, 9.3e+34, 3.2e+35 years
+        M_I 16-50-84 %: 6.6e+10, 1.6e+11, 4.6e+11 GeV; natural leptogenesis 99 %; stabilizable vacuum 15 %
+        proton decay and natural leptogenesis together: 79 %
+  T10. The 126's masses from its couplings to <210> (self-dual 5-forms; norm, the D-odd cubic, quartics D, E;
+       a universal quartic absorbed). Eigenvalues per multiplet, relative to the norm:
+        (6,1,1)     norm +1.0000  cubic +0.0000  D +1.2000  E +0.4000  F +2.4000
+        (15,2,2)    norm +1.0000  cubic +0.0000  D +0.6000  E +0.0000  F +2.4000
+        (10,3,1)    norm +1.0000  cubic +0.2000  D +0.4000  E +0.0000  F +2.4000
+        (10bar,1,3) norm +1.0000  cubic -0.2000  D +0.4000  E +0.0000  F +2.4000
+       Only the cubic tells (10,3,1) from (10bar,1,3). The chain needs (10bar,1,3) light at M_I, so
+       m^2(10,3,1) = 2 eta_2 v exactly: the dominant multiplet of T8 is set by one coupling.
+       With the 126's couplings scanned too (366 jointly viable potentials):
+        proton decay passes 93 %; tau_p 16-50-84 %: 1.1e+35, 6.7e+35, 3.2e+36 years
+        M_I 16-50-84 %: 1.3e+10, 3.9e+10, 1.4e+11 GeV; natural leptogenesis 80 %; stabilizable vacuum 66 %
+        proton decay and natural leptogenesis together: 73 %
+  T11. The 10's couplings. No cubic H H phi exists (10 x 10 holds no 210); the quartic H_i H_j A_ij,
+       A_ij = phi_iklm phi_jklm, is 6 v^2 on SO(4) indices and 0 on SO(6): it alone splits the doublet (1,2,2) from
+       the colour triplet (6,1,1). The cubic H_i S_ijklm phi_jklm mixes that triplet with the 126's (6,1,1).
+       The light doublet fixes the 10's mass term: a cancellation to (M_I/M_GUT)^2, the doublet-triplet
+       splitting problem, assumed here as in every SO(10) model.
+       With the 10's couplings scanned too (115 jointly viable potentials):
+        lighter colour triplet / M_GUT 16-50-84 %: 0.75, 1.42, 2.03
+        proton decay passes 97 %; tau_p 16-50-84 %: 1.3e+35, 7.9e+35, 4.0e+36 years
+        M_I 16-50-84 %: 1.1e+10, 3.6e+10, 1.1e+11 GeV; natural leptogenesis 77 %; stabilizable vacuum 71 %
+        proton decay and natural leptogenesis together: 73 %
+       Not included: proton decay through the colour triplets' own Yukawa couplings (scalar exchange), which
+       needs the Yukawa matrices at M_GUT.
+  T12. The left-right chain's heavy spectrum. SO(10) -> SU(3) x SU(2)_L x SU(2)_R x U(1)_B-L without D-parity
+       needs the 210 on both 3221 singlets (the Pati-Salam singlet, odd under D, and the B - L direction of its
+       (15,1,1)); (3,2,2) and (3,1,1) are eaten. Every heavy multiplet of the 210, 126 and 10 (decompositions
+       checked against the SO(10) indices, B - L included), b under (3, 2L, 2R, B-L), per unit ln(M_h/M_GUT),
+       sorted by their pull on M_I:
+        multiplet               b (3, 2L, 2R, BL)     d ln M_I  d ln tau_p
+        126: (6,1,3)            5/2, 0, 4, 1            +1.452     -2.216
+        126: (6,3,1)            5/2, 4, 0, 1            -1.409     +1.245
+        210: (8,3,1)            3/2, 8/3, 0, 0          -1.058     +0.972
+        126: (3,3,1)            1/2, 2, 0, 1/2          -0.904     +1.321
+        210: (8,1,3)            3/2, 0, 8/3, 0          +0.848     -1.336
+        210: (3,3,1)            1/2, 2, 0, 2            -0.736     +1.351
+        210: (3,1,3)            1/2, 0, 2, 2            +0.694     -0.380
+        126: (3,1,3)            1/2, 0, 2, 1/2          +0.526     -0.410
+        (14 more, each moving ln M_I by less than 0.28 per unit)
+       The SU(2)_L-triplet coloured states pull M_I down when heavy, the SU(2)_R ones up: a split spectrum moves
+       M_I by large factors (Part Y asks how far the neutrino fits need it moved).
+  T13. The left-right chain's own potential. The 210's vev phi = v (cos a e_PS + sin a e_BL); multiplets found as
+       highest-weight vectors (complex basis Z_k, U_1, U_2: every monomial a weight vector), so the 210's two (3,2,2)
+       and two singlets come out as 2 x 2 Hessian blocks. Stationarity fixes mu^2 and eta for scanned quartics and
+       a; the heavy vectors (3,2,2) (M_GUT) and (3,1,1) get different masses, the latter a threshold of its own
+       (d ln M_I = -2.50 per unit log). The 126 at this vev: T10's invariants, Delta_R = (1,1,3,2) light. Checks: the
+       decompositions, T9's and T10's Pati-Salam limits, the Goldstones (self-checks).
+       210 alone (126, 10 at M_GUT): 209 viable of 300000; M_I 16-50-84 %: 1.2e+09, 3.5e+09, 1.4e+10 GeV;
+         proton decay passes 98 %, stabilizable vacuum 95 %, natural leptogenesis 16 %
+       210 + 126 (10 at M_GUT): 1081 viable of 300000 x 20; M_I 16-50-84 %: 4.9e+08, 1.2e+09, 6.5e+09 GeV;
+         proton decay passes 97 %, stabilizable vacuum 98 %, natural leptogenesis 9 %
+       210 + 126 + 10: 715 viable of 300000 x 20; M_I 16-50-84 %: 4.1e+08, 9.6e+08, 2.4e+09 GeV;
+         proton decay passes 98 %, stabilizable vacuum 98 %, natural leptogenesis 6 %
+       The 10 (T11 here): H_i H_j A_ij splits it (A = 4 sin^2 a v^2 on SO(6), 6 cos^2 a v^2 on SO(4)); the cubic
+       H_i S_ijklm phi_jklm mixes its triplet with the 126's (3,1,1) and, through the B - L vev, its doublet with
+       the 126's (1,2,2) (strength sin a): the light Higgs is a 10-126 mixture, as Part Y's sum rule assumes.
+         lighter colour triplet / M_GUT 16-50-84 %: 0.62, 1.30, 2.01; the light Higgs is 4, 24, 63 % 126
+       The complex 10 (two real 10s, eta_a complex, kappa_ab symmetric; its own random stream): the chain's light
+       complex bidoublet is two real SO(4) vectors of (V_1, V_2, W_R, W_I), so the Schur complement must vanish,
+       D10 = X X^T / m_126 (three conditions: the 10's doublet masses are fixed; a real 10 cannot leave two light).
+       Its two triplets mix with the 126's (3,1,1) (3x3 Hermitian); thresholds from the eigenstates.
+         4073 viable of 8648; M_I 16-50-84 %: 3.5e+08, 7.3e+08, 1.4e+09 GeV; proton decay passes 100 %, stabilizable vacuum 100 %;
+         lighter colour triplet / M_GUT 16-50-84 %: 0.50, 1.02, 1.68 (Part Y uses its points)
+       Delta_R light drags its SU(2)_R partners of the (10bar,1,3) light with it, and those lower M_I: the potential
+       pushes M_I down, not up.
+  RESULT: SO(10) calculates the hypercharges' normalization (sin^2 theta_W =
+    3/8 at unification) and requires the right-handed neutrino; its minimal
+    Yukawa relations are excluded. Without supersymmetry, the Pati-Salam
+    route unifies the three couplings with M_I = 6e+11 GeV and M_GUT = 1e+16
+    GeV, passes proton decay, and puts the seesaw scale where leptogenesis
+    needs it: one chain that joins Parts I, P, Q and S. It predicts nothing
+    yet (three couplings fix three unknowns); two-loop running and the
+    thresholds at M_I and M_GUT decide whether it holds, and Part L's SM then
+    runs only up to M_I.
+
+PART V. DARK MATTER FROM THE AXION
+------------------------------------------------------------------------------
+  The axion of Part O is made by misalignment: frozen at an angle theta_i until 3 H = m_a(T), then
+  oscillating and redshifting like matter (Di Luzio et al. 2020, eqs. 148-169). m_a f_a from Part O,
+  M_P from Part H1, g_S today = 43/11 from Part S, T_0 from T_CMB; m_a(T) from the dilute instanton gas
+  (beta, gamma, T_C quoted). Strings and domain walls (post-inflation only) are left out: their yield is
+  not agreed on.
+  Check: at f_a = 2.0e+11 GeV, Omega_a h^2 = 0.1184 (their eq. 170: 0.12)
+  Post-inflation (<theta_i^2> = 2.15^2): all of Omega_c h^2 = 0.12 needs f_a = 2.02e+11 GeV,
+    m_a = 28.5 micro-eV (oscillation at T = 730 MeV). Larger f_a overcloses, smaller leaves room for strings.
+  At each SO(10) chain's M_I (PQ broken with B - L):
+    PS     f_a = 1.5e+11 GeV, m_a =    39.3 micro-eV:  68.84 % of the dark matter post-inflation; pre-inflation theta_i = 2.59
+    PS+D   f_a = 4.6e+13 GeV, m_a =     0.1 micro-eV: 55754.98 % of the dark matter post-inflation; pre-inflation theta_i = 0.09
+    LR     f_a = 2.9e+09 GeV, m_a =  1989.0 micro-eV:   0.71 % of the dark matter post-inflation; pre-inflation impossible (theta_i > pi)
+    LR+D   f_a = 3.2e+10 GeV, m_a =   180.7 micro-eV:  11.61 % of the dark matter post-inflation; pre-inflation impossible (theta_i > pi)
+  RESULT: the dark-matter density, an input until now, becomes a function of
+    one unknown, f_a. Put at the Pati-Salam scale, the axion makes about two
+    thirds of the dark matter by misalignment alone (strings add more), at
+    m_a near 40 micro-eV: unification, neutrino masses, the strong CP problem
+    and dark matter would share one scale. At the left-right scale it cannot
+    be the dark matter. Not yet a prediction: the string yield and m_a(T)
+    near T_C are the open inputs.
+
+PART W. THE W MASS: A TEST OF THE STANDARD MODEL ITSELF
+------------------------------------------------------------------------------
+  The SM fixes M_W from G_F, alpha, M_Z, m_t and m_h through its quantum corrections. The full two-loop
+  result in its published parametrization (Awramik, Czakon, Freitas, Weiglein 2004; accurate to 0.5 MeV),
+  Delta alpha_had^(5) = 0.02783 (PDG 2024), at Part L's Higgs mass m_h = 128.34 GeV:
+    M_W = 80.3497 +/- 0.0035 GeV  (MeV: M_t 1.7, alpha_s_MZ 0.6, M_Z 2.6, delta_alpha_had5 1.1, m_h 0.4, fit 0.5)
+    at the measured m_h instead: +1.4 MeV
+    PDG 2024 average (the input M_W)     80.3692 +/- 0.0133: +1.4 sigma
+    PDG 2024 average without CDF         80.3600 +/- 0.0120: +0.8 sigma
+    PDG 2024 global-fit prediction       80.3530 +/- 0.0060: +0.5 sigma
+  The effective weak mixing angle of the Z couplings (Awramik, Czakon, Freitas 2006, two loops, leptons):
+    sin^2 theta_eff = 0.23164 +/- 0.00003; at the measured m_h: -0.00001
+    sin^2 theta_eff^lept, LEP + SLC      0.23151 +/- 0.00016: -0.8 sigma
+    sin^2 theta_eff^lept, hadron-collider average 0.23149 +/- 0.00013: -1.1 sigma
+  RESULT: the Standard Model's M_W, with every input but Delta alpha_had
+    measured or calculated here, agrees with the measurements and reproduces
+    the PDG's global fit. No new physics is needed at the weak scale; the
+    heavy states of the SO(10) chains decouple, so this tests the SM below
+    M_I, not the chains.
+
+PART X. CLOSING THE LOOP: COSMOLOGY FROM THE PARTICLE PHYSICS
+------------------------------------------------------------------------------
+  Part A takes Omega_m as an input. Here it follows from the rest: Omega_b (measured), the axion at the
+  surviving (or closest) chain's M_I (Part U: LR) by misalignment (Part V: Omega_a h^2 = 0.0008) and the minimal neutrino masses
+  (Part P). Flatness gives Omega_Lambda; the Friedmann equation the age.
+    Omega_m = 0.0525 (Part A's input: 0.3153), Omega_Lambda = 0.9474, age = 21.345 Gyr
+    against Planck's 13.787 +/- 0.02 Gyr: +378 sigma (with all of Omega_c: 13.797 Gyr)
+  RESULT: misalignment alone leaves the universe too old by 378 sigma:
+    closing the loop needs 99 % of the dark matter from the axion's strings
+    and domain walls (post-inflation), or a second component. That fraction
+    is now the single number on which the particle-physics side of the
+    cosmology hangs; the lattice and simulation results for the string yield
+    are what would test it.
+
+PART AA. DARK MATTER BEYOND THE AXION, AND INFLATION
+------------------------------------------------------------------------------
+  AA1. What else could be the dark matter in the LR chain? A stable particle needs a symmetry: the 126's
+       vev breaks B - L by two units and leaves exactly R = (-1)^(3(B-L) + 2s). Every field of the minimal theory:
+       28 multiplets (16 fermions; the 10's, 126's, 210's scalars), all R-even: every new particle can decay to SM ones.
+       So nothing but the axion (0.7 % of Omega_c by misalignment at this M_I) is a candidate. An R-odd neutral
+       state needs one more multiplet: a scalar 16 (odd 3(B - L): True; an inert doublet or singlet)
+       or a fermionic 10, 45, 54, ... (even 3(B - L): True). Its mass is a new unknown: open, not a prediction.
+  AA2. Inflation, slow roll computed from each potential (reduced Planck units), N = 50-60 e-folds:
+       Planck n_s = 0.9649 +/- 0.0042; BICEP/Keck r < 0.036
+       plateau (Higgs, or xi phi^2 R)   n_s = 0.9616-0.9678 (-0.8, +0.7 sigma), r = 0.0042-0.0030: allowed
+       phi^4 (minimal)                  n_s = 0.9412-0.9508 (-5.6, -3.4 sigma), r = 0.3137-0.2623: EXCLUDED
+       phi^2 (minimal)                  n_s = 0.9604-0.9669 (-1.1, +0.5 sigma), r = 0.1584-0.1322: EXCLUDED
+       Higgs inflation: the CMB amplitude fixes lambda/xi^2 = 3.8e-10-5.4e-10. The plateau sits at h ~ M_P/sqrt(xi),
+       where lambda must be positive; Part L's lambda turns negative at mu_0 = 6.2e+10 GeV, so xi >= (M_P/mu_0)^2 = 1.5e+15
+       and then lambda = 9e+20: not perturbative. SM Higgs inflation is EXCLUDED by the measured masses (unless new physics below mu_0 keeps lambda > 0).
+  RESULT: the minimal theory has no dark-matter candidate besides the axion
+    (all its fields are R-even), so the rest of the dark matter needs a field
+    it does not contain. A minimally coupled GUT scalar cannot inflate (phi^4
+    and phi^2 give too large an r); the plateau that a nonminimal coupling xi
+    phi^2 R gives fits Planck and BICEP/Keck, but for the Higgs it needs
+    lambda > 0 near M_P, which the measured masses deny. A 210 or 126
+    direction with its own xi can inflate: allowed, with xi a new unknown, so
+    not a prediction.
+
+PART Y. THE SO(10) YUKAWA SECTOR: CAN IT GIVE THE CHARGED-FERMION MASSES?
+------------------------------------------------------------------------------
+  With a 10 and a 126 the Yukawas are symmetric and shared: M_u = a Y10 + b Y126, M_d = c Y10 + d Y126,
+  M_e = c Y10 - 3 d Y126 (a-d: the light Higgs' components).
+  Y1. Pati-Salam (at M_I = 1.5e+11 GeV). SU(4) is unbroken up to M_GUT and <210> is a PS singlet, so
+      nothing mixes the 10's (1,2,2) (SU(4) singlet) with the 126's (15,2,2): the light Higgs lies in one
+      SU(4) irrep, and M_e = M_d (10) or M_e = -3 M_d (126) for every generation (exact at tree level).
+        m_e/m_d     = 0.362 +/- 0.007:  -88 sigma from 1, -364 sigma from 3
+        m_mu/m_s    = 3.834 +/- 0.077:  +37 sigma from 1, +11 sigma from 3
+        m_tau/m_b   = 1.345 +/- 0.027:  +13 sigma from 1, -62 sigma from 3
+      Excluded: True. The minimal Pati-Salam chain cannot give the charged-fermion masses; it needs
+      more Yukawa structure (a 120, or a vev that breaks SU(4) at M_GUT).
+  Running to the left-right M_GUT. Between M_I and M_GUT the chain is SU(3) x SU(2)_L x SU(2)_R x U(1)_B-L with
+      one bidoublet: -L = Q_L (Y1 Phi + Y2 Phi~) Q_R + leptons. Its matrix RGE is derived from the general
+      one-loop formula written over every component (a self-check), e.g. for the down quarks
+        16 pi^2 dY2/dt = 2 Y2 Y2+ Y2 - Y2 Y1+ Y1 - Y1 Y1+ Y2 + T Y2 + 2 Tr(3 Y2 Y1+ + Y4 Y3+) Y1 - gauge,
+      so u_R and d_R in one SU(2)_R doublet give y_b a +4 y_t^2 push (the SM's is -3/2 y_t^2). Matrix SM
+      running to M_I = 2.9e+09 GeV, symmetric matching (<Phi> = diag(k1, 0)), left-right running to M_GUT:
+        up       SM running 0.0004942, 0.2501, 76.66       left-right 0.0004756, 0.2385, 73.88 GeV
+        down     SM running 0.001117, 0.02222, 1.049       left-right 0.00108, 0.02156, 1.12 GeV
+        leptons  SM running 0.0004688, 0.09875, 1.677      left-right 0.0004431, 0.09334, 1.585 GeV
+      |V_us|, |V_cb|, |V_ub| at M_GUT: 0.2173, 0.0402, 0.00359 (the fits use this matrix).
+      (m_b - m_tau)/m_b: -0.60 with SM running, -0.42 with left-right running (-0.48 if the Dirac
+      neutrino Yukawa is as large as the up quarks'; the unknown Takagi phases move it by at most 4e-05).
+      5c: a second bidoublet vev up to |k2/k1| = m_b/m_t = 0.0145 at M_I moves it to -0.48 .. -0.35; the Delta_R
+      coupling f (16 pi^2 df/dt = 6 f f^dag f + 2 Tr(f f^dag) f + A^T f + f A - gauge, and +3 Y f^dag f in the
+      leptons' Y3, Y4: derived from the general formula, a self-check) makes y_tau grow: at the largest f(M_I) that
+      stays perturbative to M_GUT, f_3 = 0.85 (f_3(M_GUT) = 3.7), it is -1.58. Nothing within reach makes b and tau meet.
+  Y2. Where the doublets can mix (the left-right chain, SU(4) broken at M_GUT = 1.6e+16 GeV): eliminating
+      Y10, Y126 gives M_e = c1 M_d + c2 M_u, c1, c2 complex. With M_u real diagonal, M_d = Psi V X D_d X V^T Psi
+      (the up-quark phases Psi are physical for symmetric Yukawas). Eight unknowns, three lepton masses:
+      best of 600 seeded starts: chi^2 = 9.0e-04 at 1 % per mass; masses 0.0004431, 0.09331, 1.586 GeV
+      against 0.0004431, 0.09334, 1.585 GeV (worst miss 0.026 %). Reached; a prediction must come from the neutrinos.
+      A real 10 (5b): its bidoublet is self-conjugate, so its doublet's up and down vevs are conjugates and |a| = |c|,
+      i.e. |c2| = |1 - c1|. The same search with that imposed (7 unknowns): chi^2 = 6.1e+03, masses 0.0005088, 0.02228, 1.698 GeV:
+      a real 10 cannot give the charged leptons; the 10 must be complex (as the fits assume).
+  Y3, Y4. The neutrinos (normal ordering): the same unknowns must also give the three PMNS angles and
+      Delta m^2_21/Delta m^2_31, with the six quark masses floated within their errors (13 data).
+      Type II: M_nu ~ M_d - M_e. Type I: the Dirac matrix is fixed by the same c1, c2,
+      M_D = M_u + (3 + c1)/c2 (M_d - M_e), and M_R ~ M_d - M_e, so M_nu ~ M_D (M_d - M_e)^-1 M_D: no new
+      unknown. Types I + II add one complex ratio. Levenberg-Marquardt from the best charged-lepton points
+      and 4 + 1000 seeded starts per type (I + II also from the best I and II points),
+      then 16 kicks of each of the 32 best points:
+        seesaw   unknowns    chi^2  worst nu  sin^2: th12   th13    th23   heaviest M_R / M_I
+        II             15    440.6    18.9 s  0.268  0.0204  0.186  -
+        I              15    150.8     8.6 s  0.301  0.0218  0.341  1.3e+03
+        I + II         17      0.0     0.0 s  0.308  0.0221  0.470  2.7e+02
+        measured                              0.308  0.0221  0.470  at most 2 sqrt(4 pi)/g_R = 12.6
+      Type II: b and tau do not converge without supersymmetry ((m_b - m_tau)/m_b = -0.42 at M_GUT), so
+      M_d - M_e cannot give a large theta_23 (Bajc-Senjanovic-Vissani).
+      Type I: no fit within 3 sigma found; at the best point M_R = 2.3e+10, 7.8e+11, 3.7e+12 GeV.
+      Types I + II: 11 fit(s) within 3 sigma (best chi^2 0.0). They predict delta, never fitted: 36 to 353 deg,
+        against 212 +/- 34 deg: 0.9 to 5.2 sigma (NuFIT's delta is far from Gaussian: indicative only);
+        M_R,3/M_I 1.8e+02 to 3.8e+02; the lightest right-handed neutrino M_1 = 5.0e+09 to 1.7e+10 GeV.
+      The heavy masses need no vev: M_R,i = s_i(M_d - M_e) s_max(M_nu matrix)/m_3. The chain's M_I is the W_R mass,
+      M_WR = g_R v_R (the triplet's vev; g_R(M_I) = 0.561), and M_N = 2 f v_R: a perturbative Delta_R coupling (f <= sqrt(4 pi))
+      allows M_R,3 <= 2 sqrt(4 pi) M_I / g_R = 12.6 M_I, M_I = 2.9e+09 GeV.
+      The fits add the overall phase of M_d against the real M_u (physical for the neutrinos: absorbed by c1 in
+      M_e, not in M_d - M_e), so 9 unknowns: with the 10 quark observables, the 19 parameters of the model.
+      Fits exist, as published fits with full running also find (Joshipura-Patel 2011, Ohlsson-Pernow 2019):
+      with 17 unknowns for 13 data they reach the data without predicting it, and delta is not pinned. What
+      every fit shares is the right-handed scale, far above the perturbative bound at the chain's M_I.
+  Lifting M_I (Part T12): the fits need v_R ~ M_I >= 4.1e+10 GeV, 14 times the chain's M_I. The heavy spectrum
+      does it with every GUT multiplet within a factor 1.33 of M_GUT (the smallest such factor that also keeps the
+      proton: a linear program in the log-masses, then solved exactly): M_I = 4.15e+10, M_GUT = 6.10e+15 GeV,
+      tau_p = 4.28e+34 years (above the Super-K limit, at its edge: the binding constraint). The vacuum is then
+      still stabilizable (M_I against mu_0). The chain's own potential (Part T13) gives such a
+      spectrum in 4 of 715 viable 210 + 126 + 10 potentials (the largest M_I with the proton kept: 8.0e+10 GeV).
+  Proton decay through the colour triplets (an estimate): they couple through the same Yukawas, Y126 = (M_d -
+      M_e)/(4 d), Y10 = (3 M_d + M_e)/(4 c), with the light Higgs 24 % 126 (T13's median) and the best fit's first-generation
+      entries: Y10_11 = 8.1e-04, Y126_11 = 1.4e-03. With Clebsches up to 3 and the lighter triplet at 1.30 M_GUT,
+      the amplitude is 4e-05 of the gauge one: tau ~ 1e+45 years. The triplets only need M_T > 4e+13 GeV
+      (first-generation Yukawas are tiny): the gauge bosons, not the triplets, decide proton decay here.
+  v_R predicted by SO(10). The Delta_R coupling is Y126 itself (M_R = Y126 v_R, M_d^126 = d Y126), and the fit
+      fixes Y126 = (M_d - M_e)/(4 d), d the light Higgs's down-type 126 component. Its 126 share f (T13:
+      4-63 %) splits as |b|^2 + |d|^2 = k^2 f, and each fit fixes |b/d| = |3 + c1|/|c2| (27-32;
+      |a/c| = 59-64), so |d| = k sqrt(f/(1 + |b/d|^2)) (5b; giving all of f to d, as before, gave 1e+14-7e+14 GeV).
+      So v_R = 4 |d| M_R,3 / s_3(M_d - M_e) = 4.2e+12 to 2.3e+13 GeV over the fits,
+      against the chain's own v_R = M_I/g_R = 5.2e+09 GeV: 8e+02 to 4e+03 times larger. Whatever the
+      potential gives for f, a perturbative Y126,3 <= 2 sqrt(4 pi) keeps v_R >= M_R,3/(2 sqrt(4 pi)) = 7.4e+10 GeV, 14 times
+      the chain's: on its own that is within what thresholds can move (Part T7), so the verdict rests on T13's 126
+      share; with it B - L breaks far above the left-right chain's M_I.
+  The complex 10's own potential (T13, 4073 points) decides it without the f band: inside the light bidoublet
+      the light Higgs is h = n_1 + z n_2 (z complex, picked at the v_R scale), and each fit's |a/c| and |b/d| are two
+      Apollonius circles in z. At their intersections |d|, so v_R, is predicted, against that point's own v_R = M_I/g_R:
+      1010 solutions (52 points, 11 fits): v_R / v_R(chain) min 3647, 16-50-84 % 8484, 27357, 385456, max 4e+06; the light Higgs 29 % 126 (median).
+      Every solution puts v_R above the chain's: the complex 10 does not rescue the neutrinos.
+  RESULT: SO(10)'s Yukawa sector is a real test. The minimal Pati-Salam chain
+    fails it: its unbroken SU(4) keeps the light Higgs in one irrep, which
+    gives the wrong lepton/down ratios by tens of sigma. Where SU(4) breaks
+    at M_GUT (left-right chain), the 10 + 126 sum rule reaches the charged
+    leptons; type-II neutrinos fail; mixed type I + II fits are found (type I
+    alone is not), with the right-handed neutrinos far above the left-right
+    M_I: if these are the chain's neutrinos, the 126 must break B - L well
+    above M_I, which the chain's own scales do not allow without large
+    thresholds.
+
+PART T14. THE TWO-STEP LEFT-RIGHT CHAIN: CAN B - L BREAK ABOVE THE W_R SCALE'S LIMIT?
+------------------------------------------------------------------------------
+  SO(10) -> 3221 (M_GUT) -> SU(3) x SU(2)_L x U(1)_R x U(1)_B-L (M_R, the 210's (1,1,3,0)) -> SM (M_BL, the 126's
+  Delta_R^0). One-loop b: 3221 stage -7, -3, -2, 11/2; 3211 stage -7, -19/6, 9/2, 9/2 (SU(3), SU(2)_L, U(1)_R, U(1)_X).
+  Four unknowns, three conditions: a family in M_BL (two loops, MS-bar vector constants):
+        M_BL (GeV)     M_R (GeV)    M_GUT (GeV)  1/alpha_GUT  tau_p (yr)   v_R <= M_R/g_R
+         1.00e+03     2.35e+08     1.41e+16     45.41      1.2e+36      4.2e+08
+         1.00e+04     3.03e+08     1.43e+16     45.43      1.3e+36      5.4e+08
+         1.00e+05     3.91e+08     1.44e+16     45.44      1.3e+36      7.0e+08
+         1.00e+06     5.05e+08     1.46e+16     45.45      1.4e+36      9.0e+08
+         1.00e+07     6.52e+08     1.48e+16     45.47      1.4e+36      1.2e+09
+         1.00e+08     8.42e+08     1.49e+16     45.48      1.5e+36      1.5e+09
+         1.00e+09     1.09e+09     1.51e+16     45.49      1.6e+36      2.0e+09
+         1.10e+09     1.10e+09     1.51e+16     45.49      1.6e+36      2.0e+09
+      (the last row is the one-step edge M_BL = M_R; above it M_BL > M_R, which the 126 cannot do: its Delta_R
+      is an SU(2)_R triplet, so breaking B - L also breaks SU(2)_R and M_WR >= g_R v_R.)
+  M_R stays between 2.3e+08 and 1.1e+09 GeV whatever M_BL is: U(1)_R x U(1)_B-L runs
+  almost as hypercharge does, so the W_R scale, set by SU(2)_R's own running, does not move. So
+  v_R <= 2.0e+09 GeV everywhere on the family.
+  What SO(10)'s Y126 needs (Part Y4): v_R >= 7.4e+10 GeV for any 126 share (perturbative floor), 4.2e+12 to 2.3e+13 GeV over T13's share band, >= 1.9e+13 GeV with the complex 10's potential.
+  Short by 37 times at the floor, 2120 times over the band, 9564 times with the complex 10.
+  Proton decay: 1.2e+36 to 1.6e+36 years against 2.4e+34 (passes on the family; operators run with the left-right group above M_R, the SM's below).
+  RESULT: separating the B - L scale from the W_R scale does not rescue the
+    neutrinos. The two-step chain fails them as the one-step chain does:
+    unification holds the W_R mass near 1e9 GeV and the B - L vev cannot
+    exceed it. The needed v_R is out of reach of every SO(10) -> 3221 chain
+    with this field content; it needs a chain whose SU(2)_R breaks far higher
+    (Pati-Salam's M_I ~ 1e11 GeV is closer, but fails the fermion masses),
+    more Yukawa structure, or a different B - L breaking (a 16_H).
+
+PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION
+------------------------------------------------------------------------------
+  Each hypothesis meets every condition, with the verdict the earlier parts computed:
+    pass / fail (sigma or reason) / trade (an unknown absorbs the condition: nothing tested) /
+    open (no mechanism in that hypothesis).
+  SM to M_P
+    gauge unification fail (78.8 sigma): the couplings do not meet
+    b-tau unification fail (78.5 sigma): y_b/y_tau far from 1 where g1 = g2
+    Higgs mass fail (3.3 sigma): lambda(M_P) = 0 (Part L)
+    neutrino masses trade : Dirac Yukawas up to 3e-13, unexplained
+    proton decay pass : no grand unification: B is conserved in perturbation theory
+    baryon asymmetry fail : no out-of-equilibrium step, CP violation 14 orders short (Part S)
+    strong CP open : theta-bar bounded, not explained (Part O)
+    fermion masses trade : the Yukawa couplings are free parameters
+    dark matter open : no dark-matter candidate; Omega_c is an input (Part A)
+    vacuum stability open : metastable: lambda turns negative at 6.2e+10 GeV (Part L)
+  minimal SUSY SU(5)
+    gauge unification trade : M_S chosen by the measured alpha (Part I)
+    b-tau unification trade : tan(beta) chosen by b-tau (Part J)
+    Higgs mass fail (23.9 sigma): m_h <= 102.9 GeV at those scales (Part K)
+    neutrino masses trade : seesaw available, scale unknown
+    proton decay fail : p -> nubar K+ at most 9e+29 years against 5.9e+33 (Part Q)
+    baryon asymmetry trade : leptogenesis possible above M_1 ~ 7e8 GeV; gravitinos not checked
+    strong CP open : needs an axion or another mechanism
+    fermion masses fail : m_s/m_d = m_mu/m_e (minimal SU(5)) excluded (Part J)
+    dark matter trade : the lightest superpartner, not calculated here
+    vacuum stability pass : lambda is fixed positive by supersymmetry above M_S
+  SO(10) via PS
+    gauge unification pass : M_I = 1.5e+11, M_GUT = 8.4e+15 GeV solve the three couplings (no
+      prediction)
+    b-tau unification open : no b-tau relation without a Yukawa structure (minimal 10_H excluded,
+      Part T)
+    Higgs mass pass (0.4 sigma): lambda(M_I) = 0 gives m_h = 125.60 GeV
+    neutrino masses pass : seesaw at M_I with a Dirac Yukawa of 0.016 for the heaviest neutrino
+    proton decay pass : p -> e+ pi0 in 1e+35 years against 2.4e+34
+    baryon asymmetry trade : M_1 up to M_I = 1e+11 GeV covers the natural range (M_1 >= 2e+10 GeV)
+    strong CP trade : an axion at f_a = M_I would give m_a = 39 micro-eV
+    vacuum stability open : metastable between mu_0 and M_I; M_I lies inside mu_0's top-mass band
+      (2e+10 to 2e+11 GeV)
+    dark matter trade : axion at f_a = M_I: 69 % of the dark matter by post-inflation misalignment
+      (strings add more); pre-inflation theta_i = 2.59 gives all of it
+    fermion masses fail (88.1 sigma): the light doublet sits in one SU(4) irrep (exact selection
+      rule): M_e = M_d or -3 M_d, missed by at least 88 sigma (Part Y)
+  SO(10) via PS+D
+    gauge unification pass : M_I = 4.6e+13, M_GUT = 8.8e+14 GeV solve the three couplings (no
+      prediction)
+    b-tau unification open : no b-tau relation without a Yukawa structure (minimal 10_H excluded,
+      Part T)
+    Higgs mass pass (2.3 sigma): lambda(M_I) = 0 gives m_h = 127.38 GeV
+    neutrino masses pass : seesaw at M_I with a Dirac Yukawa of 0.275 for the heaviest neutrino
+    proton decay fail : p -> e+ pi0 in 2e+31 years against 2.4e+34
+    baryon asymmetry trade : M_1 up to M_I = 5e+13 GeV covers the natural range (M_1 >= 2e+10 GeV)
+    strong CP trade : an axion at f_a = M_I would give m_a = 0.13 micro-eV
+    vacuum stability open : metastable between mu_0 and M_I
+    dark matter trade : axion at f_a = M_I: 5.6e+04 % of the dark matter by post-inflation
+      misalignment (strings add more); pre-inflation theta_i = 0.09 gives all of it
+    fermion masses fail (88.1 sigma): the light doublet sits in one SU(4) irrep (exact selection
+      rule): M_e = M_d or -3 M_d, missed by at least 88 sigma (Part Y)
+  SO(10) via LR
+    gauge unification pass : M_I = 2.9e+09, M_GUT = 1.6e+16 GeV solve the three couplings (no
+      prediction)
+    b-tau unification open : no b-tau relation without a Yukawa structure (minimal 10_H excluded,
+      Part T)
+    Higgs mass pass (1.9 sigma): lambda(M_I) = 0 gives m_h = 123.36 GeV
+    neutrino masses fail : type II from the 10 + 126 sum rule misses the PMNS data by 19 sigma (b
+      and tau do not converge: (m_b - m_tau)/m_b = -0.42); type I + II fits exist, but with M_R =
+      Y126 v_R (SO(10)) they need v_R = 4e+12-2e+13 GeV, 8e+02 times the chain's, where thresholds
+      move M_I by at most 31 (Part Y4)
+    proton decay pass : p -> e+ pi0 in 2e+36 years against 2.4e+34
+    baryon asymmetry open : M_1 <~ M_I = 3e+09 GeV needs weak washout: the natural range needs M_1
+      >= 2e+10 GeV
+    strong CP trade : an axion at f_a = M_I would give m_a = 2e+03 micro-eV
+    vacuum stability pass : M_I below mu_0 = 6.2e+10 GeV: a scalar threshold can stabilize the
+      vacuum
+    dark matter open : axion at f_a = M_I: 0.71 % of the dark matter by post-inflation
+      misalignment, and no initial angle gives all of it: another candidate is needed
+    fermion masses trade : M_e = c1 M_d + c2 M_u reaches the lepton masses (8 unknowns, 3 masses:
+      predictive only with neutrinos)
+  SO(10) via LR+D
+    gauge unification pass : M_I = 3.2e+10, M_GUT = 2.4e+15 GeV solve the three couplings (no
+      prediction)
+    b-tau unification open : no b-tau relation without a Yukawa structure (minimal 10_H excluded,
+      Part T)
+    Higgs mass pass (0.4 sigma): lambda(M_I) = 0 gives m_h = 124.86 GeV
+    neutrino masses open : type II from the 10 + 126 sum rule misses the PMNS data by 19 sigma (b
+      and tau do not converge: (m_b - m_tau)/m_b = -0.42); 11 type I (+ II) fits, every one needing
+      M_R,3 >= 180 M_I, above the perturbative 12.6 M_I: B - L would break far above the chain's
+      M_I; a heavy spectrum within a factor 1.33 of M_GUT would lift M_I there (Part T12), but the
+      chain's potential gives it in 4 of 715 viable cases (Part T13); and SO(10)'s own Y126 puts
+      v_R at 8e+02-4e+03 times the chain's (Part Y4)
+    proton decay fail : p -> e+ pi0 in 1e+33 years against 2.4e+34
+    baryon asymmetry trade : M_1 up to M_I = 3e+10 GeV covers the natural range (M_1 >= 2e+10 GeV)
+    strong CP trade : an axion at f_a = M_I would give m_a = 1.8e+02 micro-eV
+    vacuum stability pass : M_I below mu_0 = 6.2e+10 GeV: a scalar threshold can stabilize the
+      vacuum
+    dark matter open : axion at f_a = M_I: 12 % of the dark matter by post-inflation misalignment,
+      and no initial angle gives all of it: another candidate is needed
+    fermion masses trade : M_e = c1 M_d + c2 M_u reaches the lepton masses (8 unknowns, 3 masses:
+      predictive only with neutrinos)
+  The chains' Higgs condition, lambda(M_I) = 0 where the SM ends (Part L's running and matching):
+    PS     M_I = 1.47e+11 GeV: m_h = 125.60 +/- 0.96 GeV, +0.4 sigma
+    PS+D   M_I = 4.57e+13 GeV: m_h = 127.38 +/- 0.96 GeV, +2.3 sigma
+    LR     M_I = 2.90e+09 GeV: m_h = 123.36 +/- 0.96 GeV, -1.9 sigma
+    LR+D   M_I = 3.19e+10 GeV: m_h = 124.86 +/- 0.96 GeV, -0.4 sigma
+    Why lambda should vanish at M_I is not established (the scalar sector changes there): a test.
+  SM to M_P: fails gauge unification, b-tau unification, Higgs mass, baryon
+    asymmetry; trades 2, open 3, passes 1.
+  minimal SUSY SU(5): fails Higgs mass, proton decay, fermion masses; trades
+    5, open 1, passes 1.
+  SO(10) via PS: fails fermion masses; trades 3, open 2, passes 4. Thresholds
+    (Part T7) can flip: proton decay, vacuum stability.
+  SO(10) via PS+D: fails proton decay, fermion masses; trades 3, open 2,
+    passes 3. Robust against the thresholds of Part T7.
+  SO(10) via LR: fails neutrino masses; trades 2, open 3, passes 4.
+    Thresholds (Part T7) can flip: proton decay, vacuum stability, baryon
+    asymmetry.
+  SO(10) via LR+D: fails proton decay; trades 3, open 3, passes 3. Thresholds
+    (Part T7) can flip: proton decay, vacuum stability, baryon asymmetry.
+  RESULT: no complete hypothesis survives every condition. The two-step
+    left-right variant (Part T14) fails the neutrinos too.
+
+PART Z. THE LEDGER: EVERY FREE NUMBER AND WHAT THE ALGORITHM DOES WITH IT
+------------------------------------------------------------------------------
+  No hypothesis survives every condition (Part U); the ledger is for the closest (fewest fails, then most passes, fewest trades); scales from its LR chain.
+  calculated = fixed with nothing measured spent; related = tied to others by a tested relation;
+  traded = exchanged for an unknown; bounded = only limited; open = no mechanism; input = measured.
+    quantity                           count         status
+    hypercharges and electric charge   5 per family  calculated
+        anomaly cancellation plus Yukawas fix them uniquely; charge is quantized (Part R, exact)
+    number of families                 1 integer     bounded
+        SO(10): anomaly-free for any number; 3 to 5 families keep the SO(10) coupling
+          asymptotically free with the chain's scalars and allow CKM CP violation (Part R)
+    gauge couplings                    3             traded
+        LR chain: the three fix M_I = 2.9e+09, M_GUT = 1.6e+16 GeV and alpha_GUT (Part T)
+    weak mixing angle at unification   1             calculated
+        sin^2 theta_W = 3/8 from the 16 (Part T1, exact)
+    Higgs mass                         1             open
+        lambda(M_P) = 0 misses by 3.3 sigma (Part L); lambda(M_I) = 0 is not required (Part T6)
+    Higgs vacuum value                 1             input
+        from G_F
+    quark masses                       6             input
+        run to every scale (Parts B, L)
+    quark mixing (CKM)                 4             related
+        one Hermitian texture predicts |V_td/V_ts| at 2.2 sigma (Part C), but it is not the
+          surviving GUT's structure
+    charged-lepton masses              3             traded
+        the 10 + 126 sum rule reaches them with 8 unknowns (Part Y2)
+    neutrino masses and mixing         7-9           open
+        type II from the sum rule misses by 19 sigma (Part Y3); with left-right running, best chi^2
+          for 13 data: type I 151, types I + II 0.0; its 11 fits need M_R,3 >= 180 M_I and leave
+          delta between 36 and 353 deg (Part Y4)
+    strong CP angle                    1             bounded
+        |theta-bar| < 8.8e-11; an axion at M_I would trade it for f_a (Part O)
+    dark-matter density                1             open
+        the axion at the survivor's M_I gives 0.7 % (Part V)
+    baryon asymmetry                   1             traded
+        leptogenesis needs M_1 >= 6e+08 GeV (Part S); M_1 is unknown
+    cosmological constant              1             open
+        Omega_Lambda follows from flatness; rho_Lambda is not calculated
+    Newton's constant                  1             input
+        M_P is calculated from it (Part H1)
+  Totals: bounded 2, calculated 2, input 3, open 4, related 1, traded 3
+  RESULT: the algorithm closes: one pass, every stage run in dependency
+    order, and every free number assigned a status. No complete hypothesis
+    survives every condition: the closest fails one. What it calculates is
+    discrete and exact (the charges, their quantization, sin^2 theta_W at
+    unification, and, in SO(10), only bounds on the family number). Every
+    continuous number is still an input, traded for an unknown, bounded or
+    open: no free number of the Standard Model is calculated.
+
+THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)
+------------------------------------------------------------------------------
+  Stage (part, evidence level): measured inputs read; results taken from earlier stages
+  cosmology (A, conditional)
+      inputs: G, H0, N_eff, Omega_m, T_CMB, au, c, h, k_B
+      assumes: flat LambdaCDM: Omega_Lambda = 1 - Omega_m - Omega_r
+  gauge_unification (I, parameter trade)
+      inputs: M_Z, alpha_em_inv_MZ, alpha_s_MZ, s2_hat_Z
+      assumes: one superpartner scale M_S; the measured alpha is spent to
+        infer it
+  alpha_numerology (I, exact)
+      inputs: alpha_em
+      assumes: none (tests closed formulas)
+  flavour (B, numerical)
+      inputs: CKM_A, CKM_etabar, CKM_lambda, CKM_rhobar, G_F, M_Z, M_t,
+        alpha_em, alpha_em_inv_MZ, alpha_s_MZ, c, e_charge, m_b, m_c, m_d,
+        m_e, m_mu_MeV, m_s, m_tau_MeV, m_u, mu_light, s2_hat_Z
+      takes: gauge_unification
+      assumes: Fritzsch six-zero texture; phase bands from a finite grid plus
+        local search
+  texture_survey (C, numerical)
+      inputs: none
+      takes: flavour
+      assumes: Hermitian textures; searches from finite grids (--certify
+        proves the exclusions: 80 of 82)
+  gauge_so10 (D, exact)
+      inputs: none
+      takes: texture_survey
+      assumes: SO(10) with one 16 per family; spinor algebra exact
+  flavour_symmetry_so10 (E, exact)
+      inputs: none
+      assumes: abelian Z_N up to symmetry_max_N on whole 16s; Higgs fields
+        10s and 126s; one light Higgs mixing every bidoublet (Part T13);
+        scalar potential not solved
+  general_texture_closure (F, proved)
+      inputs: none
+      assumes: equalities only: a rank-10 pattern may still miss the data
+  planck_units (H1, exact)
+      inputs: G, c, e_charge, h, k_B
+      assumes: none; nothing derives G
+  quantum_gravity (H, exact)
+      inputs: G, GM_earth, GM_sun, M_Z, R_earth, alpha_em, alpha_s_MZ, au, c,
+        e_charge, h, k_B, m_e, m_p, m_pi_MeV
+      takes: cosmology, flavour, planck_units
+      assumes: identities and effective field theory
+  yukawa_relations (J, conditional)
+      inputs: G_F, M_Z, M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ, c,
+        e_charge, m_b, m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV, m_u,
+        mu_light, s2_hat_Z
+      takes: gauge_unification, flavour, planck_units
+      assumes: M_S and M_GUT from Part I
+  higgs_mssm (K, conditional)
+      inputs: G_F, M_Z, M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ, c,
+        e_charge, m_b, m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV, m_u,
+        mu_light, s2_hat_Z
+      takes: gauge_unification, flavour, yukawa_relations
+      assumes: M_S from Part I, tan(beta) from Part J, one-loop stop
+        threshold
+  criticality (L, conditional)
+      inputs: G_F, M_W, M_Z, M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ, c,
+        e_charge, m_b, m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV, m_u,
+        mu_light, s2_hat_Z
+      takes: planck_units
+      assumes: lambda(M_P) = 0; three-loop running, matching anchored to
+        SMDR, four-loop QCD
+  uv_joint_test (M, numerical)
+      inputs: G_F, M_W, M_Z, M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ, c,
+        e_charge, m_b, m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV, m_u,
+        mu_light, s2_hat_Z
+      takes: gauge_unification, flavour, yukawa_relations, criticality
+      assumes: every hypothesis against every set of conditions; unknowns on
+        a grid plus exact roots and edges; theory errors = last-order shifts
+  mass_formulas (N, exact)
+      inputs: M_Z, alpha_em, alpha_em_inv_MZ, c, e_charge, m_e, m_mu_MeV,
+        m_tau_MeV
+      takes: flavour
+      assumes: none (tests closed mass formulas at stated scales)
+  strong_cp (O, conditional)
+      inputs: G_F, c, d_n_limit, delta_mN_QCD_MeV, e_charge, f_pi_MeV, g_A,
+        h, m_d, m_n, m_pi0_MeV, m_pi_MeV, m_s, m_u
+      takes: gauge_unification, flavour, texture_survey, planck_units
+      assumes: leading-order chiral perturbation theory for d_n and m_a;
+        theta-bar the only source of d_n
+  neutrinos (P, numerical)
+      inputs: G, G_F, H0, T_CMB, au, c, e_charge, h, k_B, m_e, nu_delta_IO,
+        nu_delta_NO, nu_dm21, nu_dm3l_IO, nu_dm3l_NO, nu_s12sq, nu_s13sq_IO,
+        nu_s13sq_NO, nu_s23sq_IO, nu_s23sq_NO
+      takes: cosmology, gauge_unification, flavour, planck_units
+      assumes: three light neutrinos; lightest mass and Majorana phases
+        scanned; cosmological limits assume flat LambdaCDM; unknowns of
+        corrected patterns solved exactly
+  proton_decay (Q, conditional)
+      inputs: CKM_A, CKM_etabar, CKM_lambda, CKM_rhobar, G_F, M_W, M_Z, M_t,
+        V_ud, W_pi0_LL, W_pi0_RL, alpha_em, alpha_em_inv_MZ, alpha_p_lattice,
+        alpha_s_MZ, baryon_D, baryon_F, beta_p_lattice, c, e_charge,
+        f_pi_MeV, h, m_K_MeV, m_Lambda_MeV, m_Sigma0_MeV, m_b, m_c, m_d, m_e,
+        m_mu_MeV, m_p, m_pi0_MeV, m_s, m_tau_MeV, m_u, mu_light, s2_hat_Z
+      takes: gauge_unification, flavour, yukawa_relations
+      assumes: minimal SU(5): gauge bosons at M_X = M_GUT, colour triplet at
+        M_HC = M_GUT, every superpartner at M_S (Part I), tan(beta) from Part
+        J; GUT phases scanned; one-loop operator running; GUT thresholds
+        unknown
+  anomalies (R, exact)
+      inputs: none
+      assumes: one family of the SM's representations (and SO(10)'s 16, Part
+        D); Yukawa couplings for every charged fermion
+  baryon_asymmetry (S, conditional)
+      inputs: G, G_F, Omega_b_h2, T_CMB, au, c, h, k_B, m_p
+      takes: flavour, planck_units, neutrinos
+      assumes: lattice endpoint and T_c of the SM transition; leptogenesis:
+        hierarchical right-handed neutrinos, thermal, efficiency kappa <= 1
+  so10 (T, conditional)
+      inputs: G_F, M_W, M_Z, M_t, V_ud, W_pi0_LL, W_pi0_RL, alpha_em,
+        alpha_em_inv_MZ, alpha_s_MZ, c, e_charge, h, m_b, m_c, m_d, m_e,
+        m_mu_MeV, m_p, m_pi0_MeV, m_s, m_tau_MeV, m_u, mu_light, s2_hat_Z
+      takes: flavour, yukawa_relations, criticality, strong_cp, proton_decay,
+        baryon_asymmetry
+      assumes: SO(10) with one 16 per family; minimal Yukawas from one 10_H;
+        the Pati-Salam chain with scalars (1,2,2) + (10,1,3), one-loop
+        running, no thresholds; T7-T12 thresholds at leading log, heavy
+        masses scanned or from the 210 potential (PS)
+  dark_matter (V, conditional)
+      inputs: G, T_CMB, au, c, e_charge, h, k_B
+      takes: planck_units, strong_cp, baryon_asymmetry, so10
+      assumes: QCD axion by misalignment; dilute-instanton m_a(T); string and
+        domain-wall production left out; f_a scanned and at each SO(10)
+        chain's M_I
+  so10_yukawa (Y, numerical)
+      inputs: CKM_A, CKM_etabar, CKM_lambda, CKM_rhobar, G_F, M_Z, M_t, V_ud,
+        W_pi0_LL, W_pi0_RL, alpha_em, alpha_em_inv_MZ, alpha_s_MZ, c,
+        e_charge, h, m_b, m_c, m_d, m_e, m_mu_MeV, m_p, m_pi0_MeV, m_s,
+        m_tau_MeV, m_u, mu_light, nu_delta_NO, nu_dm21, nu_dm3l_NO, nu_s12sq,
+        nu_s13sq_NO, nu_s23sq_NO, s2_hat_Z
+      takes: flavour, so10
+      assumes: symmetric Yukawas from a 10 and a 126; the selection rule
+        exact at tree level; the sum rule at the LR chain's M_GUT, with
+        matrix SM running to M_I and one-loop left-right running above it
+        (the second bidoublet vev and the Delta_R coupling varied over their
+        allowed ranges); a complex 10 (a real one is tested and fails);
+        neutrinos by type II, type I, I + II (normal ordering, quark masses
+        floated within errors); v_R ~ M_I for the M_R bound; unknowns
+        searched, never set
+  so10_flavour_fit (E, numerical)
+      inputs: none
+      takes: flavour_symmetry_so10, so10_yukawa
+      assumes: the predictive Z_N classes fitted to the charged-fermion
+        masses and quark mixing of Part Y's left-right running at M_GUT,
+        every observable within yukawa_fit_mass_rel; searched from seeded
+        starts (an exclusion means no point was found)
+  so10_two_step (T14, conditional)
+      inputs: M_Z, V_ud, W_pi0_LL, W_pi0_RL, alpha_em_inv_MZ, alpha_s_MZ, c,
+        e_charge, h, m_b, m_p, m_pi0_MeV, mu_light, s2_hat_Z
+      takes: flavour, proton_decay, so10_yukawa
+      assumes: SO(10) -> 3221 -> 3211 -> SM; the left-right chain's fields
+        plus a real (1,1,3,0) above M_R, the SM's with nu^c and Delta_R^0
+        below; two-loop gauge running, no U(1) kinetic mixing; v_R <=
+        M_R/g_R; the needed v_R from Part Y4's fits (left-right running)
+  w_mass (W, conditional)
+      inputs: M_W, M_Z, M_t, alpha_s_MZ, delta_alpha_had5
+      takes: criticality
+      assumes: the SM's two-loop M_W in its published parametrization, at
+        Part L's Higgs mass
+  scorecard (U, conditional)
+      inputs: none
+      takes: higgs_mssm, criticality, uv_joint_test, neutrinos, proton_decay,
+        baryon_asymmetry, so10, dark_matter, so10_yukawa
+      assumes: the SM, minimal SUSY SU(5) and four SO(10) chains (two loops),
+        each condition judged by the stage that computes it; for the chains
+        the Higgs condition is lambda(M_I) = 0
+  closed_cosmology (X, conditional)
+      inputs: H0, Omega_b_h2
+      takes: cosmology, neutrinos, dark_matter, scorecard
+      assumes: Omega_m from Omega_b (measured), the axion at the surviving
+        chain's M_I (misalignment, post-inflation) and the minimal neutrino
+        masses; flat LambdaCDM
+  dark_sector (AA, conditional)
+      inputs: G_F, M_W, M_Z, M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ, c,
+        e_charge, ln_1e10_A_s, m_b, m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV,
+        m_u, mu_light, s2_hat_Z
+      takes: criticality, dark_matter, scorecard
+      assumes: the left-right chain's minimal content (16 fermions; 10, 126,
+        210 scalars); single-field slow roll with N = 50-60 e-folds; the
+        inflaton's couplings unknown
+  ledger (Z, conditional)
+      inputs: none
+      takes: uv_joint_test, strong_cp, anomalies, baryon_asymmetry, so10,
+        dark_matter, so10_yukawa, scorecard, closed_cosmology
+      assumes: every free number of the SM plus cosmology, with the status
+        the stages computed for the surviving hypothesis
+  self_checks (-, validation)
+      inputs: CKM_A, CKM_etabar, CKM_lambda, CKM_rhobar, G, G_F, M_W, M_Z,
+        M_t, alpha_em, alpha_em_inv_MZ, alpha_s_MZ, c, e_charge, h, k_B, m_b,
+        m_c, m_d, m_e, m_mu_MeV, m_s, m_tau_MeV, m_u, mu_light, nu_delta_IO,
+        nu_delta_NO, nu_dm21, nu_dm3l_IO, nu_dm3l_NO, nu_s12sq, nu_s13sq_IO,
+        nu_s13sq_NO, nu_s23sq_IO, nu_s23sq_NO, s2_hat_Z
+      takes: cosmology, gauge_unification, flavour, texture_survey,
+        gauge_so10, quantum_gravity, yukawa_relations, higgs_mssm,
+        criticality, uv_joint_test, mass_formulas, strong_cp, neutrinos,
+        proton_decay, baryon_asymmetry, so10, dark_matter, so10_yukawa,
+        closed_cosmology, dark_sector
+      assumes: tests the calculation, not the physics
+  Numbers calculated once and handed on:
+    M_S, M_GUT = 2536.5, 1.1459e+16 GeV, from
+      gauge_unification[M_S_for_measured_alpha], taken by flavour,
+      yukawa_relations, higgs_mssm, uv_joint_test, strong_cp, neutrinos,
+      proton_decay
+    M_P = 1.2209e+19 GeV, from planck_units[E_P_GeV], taken by
+      quantum_gravity, yukawa_relations, criticality, strong_cp, neutrinos,
+      baryon_asymmetry, dark_matter
+    m_t(m_t) = 162.79 GeV, from flavour[runner], taken by quantum_gravity,
+      yukawa_relations, higgs_mssm, uv_joint_test, mass_formulas, strong_cp,
+      neutrinos, proton_decay, baryon_asymmetry, so10, so10_yukawa,
+      so10_two_step
+  Changing one measured input recalculates every stage it reaches, for example:
+    M_t: flavour, texture_survey, gauge_so10, quantum_gravity,
+      yukawa_relations, higgs_mssm, criticality, uv_joint_test,
+      mass_formulas, strong_cp, neutrinos, proton_decay, baryon_asymmetry,
+      so10, dark_matter, so10_yukawa, so10_flavour_fit, so10_two_step,
+      w_mass, scorecard, closed_cosmology, dark_sector, ledger
+    alpha_s_MZ: gauge_unification, flavour, texture_survey, gauge_so10,
+      quantum_gravity, yukawa_relations, higgs_mssm, criticality,
+      uv_joint_test, mass_formulas, strong_cp, neutrinos, proton_decay,
+      baryon_asymmetry, so10, dark_matter, so10_yukawa, so10_flavour_fit,
+      so10_two_step, w_mass, scorecard, closed_cosmology, dark_sector, ledger
+    G: cosmology, planck_units, quantum_gravity, yukawa_relations,
+      higgs_mssm, criticality, uv_joint_test, strong_cp, neutrinos,
+      proton_decay, baryon_asymmetry, so10, dark_matter, so10_yukawa,
+      so10_flavour_fit, so10_two_step, w_mass, scorecard, closed_cosmology,
+      dark_sector, ledger
+    H0: cosmology, quantum_gravity, neutrinos, baryon_asymmetry, so10,
+      dark_matter, so10_yukawa, so10_flavour_fit, so10_two_step, scorecard,
+      closed_cosmology, dark_sector, ledger
+  Global consistency of the stage assumptions:
+    MSSM above M_S  : gauge_unification, yukawa_relations, higgs_mssm, proton_decay
+    SM up to M_P    : criticality
+    These field contents exclude each other. No stage chooses: Part M tests every
+    hypothesis against every combination of conditions.
+  The graph is acyclic (True), so one pass in order is self-consistent: no stage
+  needs a value that a later stage changes. A shared mechanism would add such feedback.
+  Audit findings:
+    [resolved] The SM couplings at m_t(m_t) were derived by two copies of the
+      same formulas (Parts J/K and Part L). There is now one derivation,
+      sm_state_at_mt.
+    [open] Part L rebuilds the quark-mass running instead of taking the
+      flavour stage's: same function, same numbers, because its error
+      propagation re-runs the chain per input.
+    [resolved] Parts I, J, K assume the MSSM above M_S; Part L assumes the SM
+      up to M_P. Both cannot hold, so neither is chosen: Part M runs each
+      hypothesis against every combination of the conditions and reports
+      which survive.
+    [resolved] Part M's theory errors are calculated, not typed in: for every
+      ingredient the change from the last order the script computes to the
+      one below it.
+    [resolved] Part L runs at three loops, matches at three loops (leading
+      QCD part) and treats QCD at four loops with three-loop decoupling, each
+      published coefficient checked by a self-check.
+    [resolved] The electroweak and mixed higher-order thresholds Part L could
+      not transcribe are taken from SMDR's reference point (full two-loop
+      plus leading three-loop): anchoring to it moves M_h by about a MeV, so
+      this script's matching is confirmed.
+    [open] If SM criticality's Part M verdict differs between the two error
+      sets, it is decided by the last-order shifts, which four-loop QCD
+      dominates. They are a conservative estimate: the QCD series of the top
+      pole mass falls by about a factor of three per order.
+    [open] The MSSM with all three conditions still depends on the theory
+      errors, through the one- to two-loop shift of unification. Settling it
+      needs three-loop gauge running with superpartner and GUT thresholds,
+      and the two-loop stop threshold.
+    [open] No stage feeds cosmology: H0 and Omega_m are inputs. A shared
+      mechanism would need equations for the dark-matter density and Lambda.
+    [resolved] M_P was computed inside Part H, so every input of Part H (H0
+      among them) seemed to reach Parts J and L. The Planck units are now
+      their own stage.
+    [open] No stage derives G: M_P is calculated from it and handed to Parts
+      H, J and L.
+    [open] The quark masses and mixing are inputs to the textures. Connecting
+      them to SO(10) needs the scalar potential, its vacuum, and the vevs
+      that multiply the Yukawa couplings.
+    [open] No common mechanism yet: no stage computes a quantity that two
+      sectors both take from it except M_S, M_GUT (Part I) and M_P (Part H1).
+    [open] Part L assumes the SM up to M_P, but neutrinos have mass (Part P).
+      That holds only if they are Dirac particles with Yukawa couplings below
+      3e-13, which do not affect the running; a seesaw needs new states below
+      about 8e15 GeV, whose couplings would enter lambda's running.
+    [open] Part V calculates the axion's dark-matter density as a function of
+      f_a, but Part A still takes Omega_m as an input: feeding Part V back
+      into Part A needs f_a fixed (at a chain's M_I, about two thirds of
+      Omega_c for Pati-Salam) and the string yield.
+    [open] Theta-bar is bounded, not calculated (Part O). Each explanation
+      adds something unmeasured: an axion scale f_a, or a parity symmetry
+      whose Hermitian textures Part G excludes.
+
+SELF-CHECKS (correctness of the calculation, not agreement with data)
+------------------------------------------------------------------------------
+  [PASS] QCD beta coefficients from Casimirs: b0(nf=5) = 23/3, b1(nf=5) = 116/3  (b0 = 23/3, b1 = 116/3)
+  [PASS] Quark-mass anomalous dimension: g0 = 4, g1(nf=5) = 202/3 - 100/9  (g0 = 4, g1 = 506/9)
+  [PASS] SM gauge b_i from field content = (41/10, -19/6, -7)  (b = ('41/10', '-19/6', '-7'))
+  [PASS] SM b_3 equals -b0(nf=6) of the QCD formula
+  [PASS] Top-Yukawa gauge coefficients from Casimirs = (17/20, 9/4, 8)  (c = ('17/20', '9/4', '8'))
+  [PASS] zeta(3): fast series agrees with the direct sum plus Euler-Maclaurin tail  (zeta(3) = 1.202056903159594)
+  [PASS] Fritzsch texture: exactly one real sign assignment, (+, -, +) in both sectors
+  [PASS] Texture eigenvalues reproduce the RG mass ratios  (max rel err 6.0e-14)
+  [PASS] CKM matrix is unitary  (max |V V^dag - 1| = 1.3e-15)
+  [PASS] J band is symmetric (J_min = -J_max, CP conjugate phases)  (max rel asym 1.6e-16)
+  [PASS] RG running converged (step count doubled)  (max rel change 1.1e-12)
+  [PASS] Phase-band edges independent of the scan grid  (max rel change 3.3e-16)
+  [PASS] Romberg quadrature of the age converged  (16 levels, error 2.2e-33)
+  [PASS] Age agrees with an independent float quadrature in ln a  (rel diff 1.7e-14)
+  [PASS] Flatness holds exactly
+  [PASS] Survey reproduces Part B for the Fritzsch pattern (exact |V_cb| band vs phase scan)  (max rel diff 7.3e-15)
+  [PASS] Every survey mass matrix has the RG-run masses as eigenvalues  (max rel err 2.4e-09)
+  [PASS] Joint-test chi^2 independent of the starting grids (both doubled)  (max rel change 2.0e-08)
+  [PASS] SO(10) spinors: the ten 32 x 32 gammas satisfy the Clifford algebra, chirality splits 32 = 16 + 16bar, and the 16 x 16 bilinears are 10 symmetric (k = 1), 120 antisymmetric (k = 3), 126 symmetric (k = 5, the self-dual half), together all 136 symmetric and 120 antisymmetric couplings (exact, mod p)  (10: 10, 120: 120, 126: 126, symmetric span 136)
+  [PASS] SO(10) group theory from weights: T(16) = 2, T(45) = 8 = C2(adjoint), T(10) = 1 as in Part T8, the 16's cubic anomaly vanishes; the Hermitian count of the Part C survivor reproduces Part C's one prediction (rank 9, proved)  (T16 = 2, T45 = 8, ranks [9])
+  [PASS] Two-step chain (T14): the 3211 content (with nu^c, without Delta_R^0) gives the SM's b through 1/alpha_1 = (3/5)/alpha_R + (2/5)/alpha_X, and with M_BL = M_R (and no (1,1,3,0)) the two-step solver returns the one-step chain's M_I, M_GUT, alpha_GUT  (b_1 41/10, rel dev 4.8e-08)
+  [PASS] SM beta_lambda coefficients: -12 y_t^4, 12 lambda^2, (9/4) g^4, (3/4) g'^4  (-12.0000, 12.0000, 2.2500, 0.7500)
+  [PASS] Higgs-mass running converged (step count doubled)  (rel change 2.3e-15)
+  [PASS] Largest Higgs mass over the X_t scan sits at X_t^2 = 6 M_S^2 (the bound used)  (peak at X_t/M_S = 2.309)
+  [PASS] One-loop beta_lambda: Part L convention = Part K convention (lambda_K = 2 lambda)  (rel diff 4.4e-16)
+  [PASS] Two-loop beta_lambda coefficients agree with the hypercharge-normalized literature form  (-312 629/24 -379/48 36 21/2)
+  [PASS] Criticality solve converged (step count doubled; two and three loops)  (rel change 1.1e-13)
+  [PASS] Three-loop RGEs: Buttazzo et al.'s couplings at M_t reproduce their Planck-scale values (two loops must miss)  (max dev 6.1e-05 at 3 loops, 7.8e-04 at 2)
+  [PASS] Part L at Buttazzo et al.'s order = their lambda(M_Pl) = 0, solved at our M_t, alpha_s (their theory error)  (128.67 against 128.68 GeV)
+  [PASS] Four-loop QCD beta function: RunDec's alpha_s(M_b) (7 digits) and alpha_s(1 GeV) at 3, 4 loops  (alpha_s(M_b) = 0.2169467, alpha_s(1 GeV) = 0.4065)
+  [PASS] Four-loop mass anomalous dimension = Chetyrkin's numerical form (each power of n_f); B4; decoupling inverted exactly  (max rel dev 2.0e-06, B4 dev 8.7e-08)
+  [PASS] This script's own matching = SMDR's at its reference point, within Buttazzo et al.'s theory errors (lambda, y_t)  (lambda +2.3e-04, y_t +1.9e-04)
+  [PASS] Two-loop matching: their inputs give their lambda(M_t) and y_t(M_t) within their theory errors  (lambda 0.12605, y_t 0.93689)
+  [PASS] Passarino-Veltman B0 in closed form = direct quadrature (below and above threshold)  (max abs diff 5.0e-06)
+  [PASS] One-loop matching of lambda and y_t: d/d ln mu reproduces the one-loop RGE exactly  (max rel diff 1.6e-11)
+  [PASS] SO(10) flavour rank: a full 10 + 126 reaches all 13 charged-fermion invariants (no relation, as Part Y's 19 parameters for 13 data), and a single 10 gives V = 1, no CP violation  (ranks 13, 4)
+  [PASS] Invariant-rank method: general matrices give 10 physical parameters, diagonal ones 6  (ranks 10, 6)
+  [PASS] Part F certificates: symmetry upper bounds meet the ranks (10, 6); J = 0 proved for diagonal matrices and refuted for triangular ones  (upper bounds 10, 6)
+  [PASS] Black-hole first law: dS/dE = 1/(k_B T_H) (entropy and temperature consistent)  (rel diff 2.0e-12)
+  [PASS] Hawking temperature = Unruh temperature at the horizon's surface gravity  (rel diff 0.0e+00)
+  [PASS] de Sitter entropy: area law A/(4 l_P^2) = Part A's pi c^5/(G hbar H^2)  (rel diff 0.0e+00)
+  [PASS] Identity: S_dS x (rho_Lambda / rho_Planck) = 3/8 exactly  (rel diff 0.0e+00)
+  [PASS] Entanglement entropy: reduced density matrix = concurrence formula  (abs diff 1.1e-16)
+  [PASS] Two-loop gauge coefficients from field content = textbook matrices (SM and MSSM)
+  [PASS] Unification solver at one loop = closed-form solution (every M_S, and pure SM)  (max rel diff 6.2e-13)
+  [PASS] Yukawa-RGE gauge coefficients from Casimirs = textbook (SM and MSSM; t, b, tau)
+  [PASS] MSSM Yukawa self-terms from field multiplicities: 6 y_t^3, (3 y_b^2 + 4 y_tau^2) y_tau  (6.000, 7.000)
+  [PASS] Lambda_QCD (2-loop) reproduces alpha_s(M_Z)  (rel diff 2.2e-16)
+  [PASS] Part M at Part I's M_S reproduces the measured alpha (the two stages agree)  (diff -1.4e-14)
+  [PASS] PMNS matrix: angles, delta and J recovered exactly from the matrix built from them  (max rel diff 4.4e-16)
+  [PASS] Tribimaximal = (1/3, 0, 1/2); TM1/TM2 keep their TBM column and stay unitary
+  [PASS] m_bb: exact band over the Majorana phases = brute force on a phase grid (to grid accuracy)  (max rel diff 1.2e-16)
+  [PASS] Koide Q: 1/3 for equal masses, 1 for one mass; the m_tau solved from Q = 2/3 gives Q = 2/3  (abs diff 0.0e+00)
+  [PASS] Part O: each survivor sector's det = product of its signed eigenvalues (real: arg det = 0 or pi)  (1 survivor(s))
+  [PASS] Proton decay: operator-running exponents -2 c_i/b_i from the script's b_i = Ellis et al.'s eq. 17  (max abs diff 2.8e-17)
+  [PASS] Dimension five: the full higgsino term has Hisano et al.'s eq. 19 scaling exactly (one constant at every tan(beta)) and, with their alpha_p, their constant within eq. 19's one-digit precision  (spread 1e-15; C(eq. 19)/C = 1.37)
+  [PASS] Complex 10: D10 = X X^T/m_126 leaves exactly the two light SO(4) vectors (null), and matching |a/c|, |b/d| (two Apollonius circles) recovers a planted light Higgs's |d|  (null 5.6e-17, recovered 4.4e-16)
+  [PASS] Slow roll: the numerical e-fold integral and epsilon = 1 endpoint give the exact phi^2 and phi^4 results (n_s = 1 - 4/(2N + 1), 1 - 3/(N + 1))  (max rel dev 4.4e-16)
+  [PASS] R-parity (-1)^(3(B-L)+2s): every SM fermion and every 10, 126, 210 scalar of the minimal theory is R-even
+  [PASS] Sphaleron conversion: B/(B - L) = 28/79 and L/(B - L) = -51/79 (exact, three families, one Higgs)
+  [PASS] SO(10) via Pati-Salam: the solved M_I, M_GUT make SU(4), SU(2)_L, SU(2)_R meet at 1/alpha_GUT  (max rel diff 1.1e-15)
+  [PASS] Leptogenesis efficiency: z_B solves its freeze-out equation; kappa_f -> 1 in weak washout  (max rel residual 1.1e-15, kappa(K -> 0) = 0.999997)
+  [PASS] M_W parametrization returns M_W^0 at its reference point (transcription check)  (80.37790 GeV)
+  [PASS] sin^2 theta_eff parametrization returns s0 at its reference point (transcription check)  (0.2312527)
+  [PASS] Part X with all of Omega_c reproduces Part A's age (the same Friedmann equation)  (13.797 against 13.795 Gyr)
+  [PASS] Axion misalignment from its ingredients reproduces Di Luzio et al.'s eq. 170 (their approximation)  (Omega h^2 = 0.1184 at f_a = 2.0e+11 GeV against 0.12)
+  [PASS] SO(10) -> Pati-Salam decompositions of 10, 126, 210: component indices add up to the SO(10) index under every factor  (10: 1, 126: 35, 210: 56)
+  [PASS] 210 potential: the eaten (6,2,2) is massless for every coupling (Goldstone); the radial mode has twice the vacuum curvature  (max 0.0e+00)
+  [PASS] Proton-decay operators: the derived anomalous dimensions (6 T_i.T_j inside each Lorentz bilinear) = Ellis et al.'s SM coefficients for both operators; split running = direct  (split rel dev 0.0e+00)
+  [PASS] Left-right potential: highest weights reproduce the 210 and 126 decompositions; the Pati-Salam limit equals T9's masses and T10's coefficients; the eaten (3,2,2), (3,1,1) are massless at a two-vev vacuum and 3221 annihilates it; the 10's couplings reduce to T11's (no doublet mixing)  (T9 2e-15, T10 4e-16, Goldstones 5e-14)
+  [PASS] SO(10) -> SU(3) x SU(2)_L x SU(2)_R x U(1)_B-L decompositions of 10, 126, 210: real dimensions 10, 252, 210 and indices = the SO(10) index under every factor, B - L included  (dimensions [10, 252, 210])
+  [PASS] 126: the self-dual basis is self-dual, (10,3,1) and (10bar,1,3) do not mix, and every D-even invariant is equal on them  (max 0.0e+00)
+  [PASS] 10: A_ij = phi phi at the vev is 6 v^2 on SO(4) indices, 0 on SO(6), diagonal (splits (1,2,2) from (6,1,1))
+  [PASS] Closed-form 3x3 Hermitian eigenvalues: trace preserved and every eigenvector satisfies A v = lambda v  (-0.6940, 1.7480, 4.9460)
+  [PASS] Matrix Yukawa RGEs = the general one-loop formula written over every component (SM; left-right bidoublet theory, with the Delta_R coupling; MSSM from the superpotential formula)  (max rel dev SM 4.6e-16, LR 2.9e-16, LR + Delta_R 6.5e-16, MSSM 5.4e-16)
+  [PASS] One running: on the third generation the matrix engine is Part J's right-hand side (SM, MSSM); the light generations and the mixing move Part J's couplings by less than the matrix-running tolerance (y_t, y_b, y_tau at M_P; y_b/y_tau at M_GUT in the MSSM)  (rhs SM 6.7e-17, MSSM 5.2e-17; light generations SM 2.6e-04, MSSM_btau 3.8e-04)
+  [PASS] MS-bar vector thresholds: the broken generators' Dynkin indices equal C2(SO(10)) - C2(H_i) for every factor of every chain (45 = the chain's adjoint + the heavy vectors)
+  [PASS] Left-right running: the symmetric matching at M_I keeps the masses and |V|; after the left-right run the four couplings meet at the chain's M_GUT (each with its MS-bar vector constant T_i/12 pi)  (masses 3.0e-11, couplings 1.3e-12)
+  [PASS] SO(10) 10 + 126: the sum rule M_e = c1 M_d + c2 M_u and the Dirac matrix M_D = M_u + (3 + c1)/c2 (M_d - M_e) hold exactly at a random point  (max rel dev 3.2e-15)
+  [PASS] SO(10) chains: the general two-loop formula on the SM content = sm_gauge_b, sm_two_loop_b; the Newton solver at one loop = the linear solution  (rel diff 3.3e-10)
+  [PASS] Model graph: every stage registered, acyclic, and run in dependency order  (31 stages, 95 edges)
+  81/81 checks pass
+==============================================================================
+Elapsed: 1520.4 s

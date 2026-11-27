@@ -998,7 +998,7 @@ that the diff is current, and (one CI job per sim) runs it in full against its e
 * *Part T14, the two-step left-right chain* SO(10) → 3221 → 3211 → SM, with B − L breaking below SU(2)_R. The
   family in M_BL is solved at two loops; with M_BL = M_R it returns the one-step chain (a self-check). The W_R
   scale stays near 10⁹ GeV whatever M_BL is, and since M_WR ≥ g_R v_R the B − L vev stays below about 2 × 10⁹
-  GeV, short of what SO(10)'s Y₁₂₆ needs (Part Y4) by 38 times at the weakest floor and thousands of times over
+  GeV, short of what SO(10)'s Y₁₂₆ needs (Part Y4) by 37 times at the weakest floor and thousands of times over
   the fits. **It fails the neutrinos too**: the scale problem belongs to every SO(10) → 3221 chain with this
   field content.
 

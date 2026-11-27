@@ -223,7 +223,7 @@ the new result, and the tests fail if a page value, the scorecard, the ledger or
        Part C survivor's prediction; minimal SO(10) x Z_N (N <= 6) gives 15 predictive classes, all excluded by fits
        (> 100 sigma); family number bounded 3-5. Open: the 81 classes with one more Higgs field; several light doublets.
 2. [x] Part T14 (in so10_flavour): the two-step left-right chain SO(10) -> 3221 -> 3211 -> SM. M_R stays near 1e9 GeV
-       for any M_BL, v_R <= M_R/g_R ~ 2e9 GeV: fails the neutrinos (38x short at the perturbative floor). Open: chains
+       for any M_BL, v_R <= M_R/g_R ~ 2e9 GeV: fails the neutrinos (37x short at the perturbative floor). Open: chains
        with SU(2)_R broken far higher, a 16_H for B - L, a 120 in the Yukawas.
 
 ## Later
