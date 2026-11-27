@@ -225,6 +225,11 @@ def test_model_lineage():
     assert "criticality" in lin["reaches"]["M_t"] and "criticality" in lin["reaches"]["G"]
     assert "flavour" in lin["takers"]["gauge_unification[M_S_for_measured_alpha]"]
     assert not lin["uv_consistent"]
+    # every result handed across field contents has a stated reason (CROSS_EDGES), and the SO(10) and 3-3-1 stages
+    # carry their field content
+    assert lin["cross_edges"] and not lin["cross_unexplained"], lin["cross_unexplained"]
+    for st in ("so10", "so10_yukawa", "dark_matter", "gauge_331", "w_mass"):
+        assert "uv" in P.STAGES[st]
 
 
 def test_uv_joint_test():
@@ -509,7 +514,7 @@ def test_so10():
 
 def test_scorecard():
     """Part U: SM to M_P fails unification and the baryon asymmetry; minimal SUSY SU(5) fails the Higgs
-    mass and proton decay; the D-parity SO(10) chains fail proton decay; Pati-Salam fails nothing."""
+    mass and proton decay; the D-parity SO(10) chains fail proton decay; PS and LR fail one condition each."""
     sc = RESULT["scorecard"]
     v = sc["verdict"]
     assert {"U", "A"} <= set(v["SM to M_P"]["fails"])
@@ -517,6 +522,14 @@ def test_scorecard():
     assert "P" in v["SO(10) via PS+D"]["fails"] and "P" in v["SO(10) via LR+D"]["fails"]
     # Pati-Salam fails the fermion masses, left-right the neutrinos (SO(10)'s v_R): no complete hypothesis survives
     assert v["SO(10) via PS"]["fails"] == ["F"] and v["SO(10) via LR"]["fails"] == ["N"] and sc["survivors"] == []
+    # the closest chains are those with the fewest fails, ties carried (not broken by counting trades)
+    assert sorted(sc["closest_chains"]) == ["LR", "PS"]
+    # the labels follow the definitions: no chain "passes" unification (three unknowns, three conditions) or the
+    # Higgs mass (lambda(M_I) = 0 is not imposed, Part T6)
+    for h, r in sc["rows"].items():
+        if h.startswith("SO(10) via "):
+            assert r["U"]["status"] in ("trade", "fail") and r["H"]["status"] == "open"
+            assert r["N"]["status"] != "pass" and r["V"]["status"] != "pass"
     ph = sc["chain_higgs"]["PS"]
     assert 125 < ph["m_h"] < 127 and abs(ph["pull"]) < 2
 
@@ -546,7 +559,8 @@ def test_chain_vacuum():
     rows = vac["rows"]
     assert rows["LR"]["stabilizable"] and rows["LR+D"]["stabilizable"] and not rows["PS+D"]["stabilizable"]
     assert all((r["lambda_SM_at_MI"] > 0) == r["below_mu0"] for r in rows.values())
-    assert RESULT["scorecard"]["rows"]["SO(10) via LR"]["V"]["status"] == "pass"
+    # a stabilizing threshold of unknown size absorbs the condition: a trade, not a pass
+    assert RESULT["scorecard"]["rows"]["SO(10) via LR"]["V"]["status"] == "trade"
 
 
 def test_leptogenesis_efficiency():
@@ -560,8 +574,12 @@ def test_leptogenesis_efficiency():
     assert abs(m1 / 6.6e8 - 1) < 0.15
     lo, hi = lg["M1_min_natural"]
     assert 5e9 < lo < 5e10 < hi < 5e11
+    # one B - L ceiling for every stage: M_1 <= 2 sqrt(4 pi) M_I/g_R (Parts T7, U, Y4 agree)
     sc = RESULT["scorecard"]["rows"]
-    assert sc["SO(10) via PS"]["A"]["status"] == "trade" and sc["SO(10) via LR"]["A"]["status"] == "open"
+    lr2 = RESULT["so10"]["chains"]["LR"]["loop2"]
+    assert abs(P.m_r_ceiling(lr2) / lr2["M_I"] - RESULT["so10_yukawa"]["LR"]["M_R_max_over_M_I"]) < 1e-9
+    assert (sc["SO(10) via LR"]["A"]["status"] == "trade") == (P.m_r_ceiling(lr2) >= lo)
+    assert sc["SO(10) via PS"]["A"]["status"] == "trade"
 
 
 def test_dark_matter():
@@ -618,10 +636,11 @@ def test_z_pole_and_closed_cosmology():
     zp = RESULT["w_mass"]["z_pole"]
     assert 0.2314 < zp["sin2_eff"] < 0.2318 and all(abs(c["pull"]) < 2 for c in zp["comparisons"].values())
     cc = RESULT["closed_cosmology"]
-    # Part X follows the surviving chain (Part U): its axion's share sets the dark matter still missing
-    # Part X follows the surviving chain, or the closest one when none survives (fewest fails, most passes, fewest trades)
-    surv = [h for h in RESULT["scorecard"]["survivors"] if h.startswith("SO(10) via ")]
-    assert cc["chain"] == (surv[0].replace("SO(10) via ", "") if surv else "LR")
+    # Part X follows every surviving chain, or every closest one (fewest fails, ties carried) when none survives
+    surv = [h.replace("SO(10) via ", "") for h in RESULT["scorecard"]["survivors"] if h.startswith("SO(10) via ")]
+    assert set(cc["tied"]) == set(surv or RESULT["scorecard"]["closest_chains"])
+    assert cc["chain"] == ("LR" if "LR" in cc["tied"] else list(cc["tied"])[0])
+    assert all(c_["age_pull"] > 10 for c_ in cc["tied"].values())
     frac = RESULT["dark_matter"]["chains"][cc["chain"]]["fraction_post"]
     assert abs(cc["string_fraction_needed"] - (1 - frac)) < 1e-9 and cc["age_pull"] > 10
     assert abs(cc["age_with_all_dm_Gyr"] / float(RESULT["cosmology"]["age_Gyr"]) - 1) < 5e-3
@@ -677,6 +696,10 @@ def test_type2_and_ledger():
     assert st["neutrino masses and mixing"] == "open" and st["cosmological constant"] == "open"
     assert set(st.values()) <= {"calculated", "related", "traded", "bounded", "open", "input"}
     assert sum(lg["counts"].values()) == len(lg["rows"]) == 15
+    # nothing from a framework that is not the closest hypothesis is credited: 3-3-1 is not on the scorecard, and
+    # the Hermitian texture of Part C belongs to no framework tested here
+    assert st["number of families"] == "open" and st["quark mixing (CKM)"] == "input"
+    assert set(lg["tied"]) == set(RESULT["closed_cosmology"]["tied"])
 
 
 def test_heavy_spectrum_lr():

@@ -27,13 +27,14 @@ Status: [x] done, [~] in progress, [ ] not started.
       than their eq. 19 scaling; wino/higgsino thresholds below M_S; two-loop running; the
       CKM phases in the operator coefficients checked against their conventions; at tan(beta) =
       1.313 y_t(M_HC) = 3.55 is just past sqrt(4 pi), at the edge of perturbation theory.
-- [ ] 1c. Feed proton decay into Part M as a condition (done in Phase 5).
+- [ ] 1c. Feed proton decay into Part M as a condition. Phase 5 added it to Part U's scorecard instead; Part M's
+      chi^2 machinery still covers only unification, b-tau and the Higgs mass (see Round 6, item 5).
 
 ## Phase 2: anomalies, charge quantization, family number (Part R) -- done
 - [x] Hypercharges from anomaly cancellation (exact): SM unique with Yukawas; charge quantized;
       nu_R opens B - L, closed by a Majorana mass. Witten's anomaly. 3-3-1: N_f a multiple of 3,
       exactly 3 with asymptotic freedom.
-- [ ] Later: the full 3-3-1 anomaly set with leptons and U(1)_X (Part D has the quarks only).
+- [x] Later: the full 3-3-1 anomaly set with leptons and U(1)_X (done in "After the Next round", item 7).
 
 ## Phase 3: baryon asymmetry and leptogenesis (Part S) -- done
 - [x] eta_B from Omega_b h^2 and T_CMB. SM: sphaleron conversion 28/79 (exact), crossover for the
@@ -101,7 +102,7 @@ Status: [x] done, [~] in progress, [ ] not started.
    universe 15.2 Gyr old (70 sigma): strings/defects must give ~35 % of the DM. Open: the string yield.
 3. [x] Z pole (Part W): sin^2 theta_eff = 0.23164 (two-loop parametrization, Awramik et al. 2006) vs
    0.23151 +- 0.00016 (LEP+SLC). Open: Gamma_Z, R_l, the other pseudo-observables.
-4. Proton running above M_I and the dimension-five factor 2.2.
+4. [x] Proton running above M_I and the dimension-five factor 2.2 (done in "Next", item 4, and "After", item 7).
 
 ## Round 5: the scalar potential
 1. [x] The 210's potential (Part T9): all invariants (S2, cubic, Q1-Q4), vev on the PS singlet, masses
@@ -115,7 +116,7 @@ Status: [x] done, [~] in progress, [ ] not started.
    SO(4), 0 on SO(6)); the cubic H S phi mixes the 10's and 126's (6,1,1). Light doublet assumed (the
    doublet-triplet tuning); the lighter colour triplet sits near M_GUT. Open: triplet-mediated proton
    decay (needs Yukawas at M_GUT); a complex 10 (two doublets); the one-loop potential.
-3. [ ] The same for the LR chain (210 under SU(3) x SU(2)^2 x U(1)).
+3. [x] The same for the LR chain (210 under SU(3) x SU(2)^2 x U(1)): done as Parts T12 and T13.
 4. [x] The Yukawa sector (Part Y): PS excluded by an exact selection rule (light Higgs in one SU(4) irrep:
    M_e = M_d or -3 M_d); the LR chain's 10+126 sum rule reaches the charged leptons (8 unknowns).
 5. [x] Type-II neutrinos from the sum rule (Part Y3): excluded at ~21 sigma; b and tau do not converge
@@ -201,11 +202,12 @@ the new result, and the tests fail if a page value, the scorecard, the ledger or
        M_GUT and the left-right run all use it (the light-quark ratios, held fixed above m_t before, now run). MSSM
        matrix RGE = the general superpotential formula over every component (1e-16); Part J's third-generation
        running = the engine on that subspace (1e-16), and the light generations move it by 0.03 % (SM, at M_P) and
-       0.04 % (MSSM y_b/y_tau at M_GUT), so Part J keeps its fast form. Effects downstream are small: the type I + II
-       search now finds 19 fits (best chi^2 0.0, 17 unknowns for 13 data), delta 7-342 deg, M_R,3 = 167-720 M_I,
-       v_R = 1e14-7e14 GeV from SO(10): the left-right chain still fails the neutrinos. The fit count and the delta
-       range move with 1e-8 changes in the inputs (the search lands on different points of a degenerate set), so
-       only the right-handed scale is a robust output.
+       0.04 % (MSSM y_b/y_tau at M_GUT), so Part J keeps its fast form. Effects downstream are small; with 5b and 5c
+       the shipped run finds 11 type I + II fits (best chi^2 0.0, 17 unknowns for 13 data), delta 36-353 deg,
+       M_R,3 = 180-380 M_I, v_R = 4e12-2e13 GeV over T13's 126 share (>= 3600 x the chain's with the complex 10's
+       potential): the left-right chain still fails the neutrinos. The fit count and the delta range move with 1e-8
+       changes in the inputs (the search lands on different points of a degenerate set), so only the right-handed
+       scale is a robust output. (An earlier pass printed 19 fits, 7-342 deg, 167-720 M_I, 1e14-7e14 GeV.)
 7. [x] Leftovers. The full 3-3-1 set (Part R): with the lepton triplets and every conjugate singlet, SU(3)_C^3,
        SU(3)_L^3, SU(3)_C^2 X, SU(3)_L^2 X, X^3 and gravity^2 X vanish exactly for beta = +-1/sqrt3 (three fail without
        the leptons). The dimension-five factor: the full higgsino term has eq. 19's scaling exactly (one constant,
@@ -226,7 +228,35 @@ the new result, and the tests fail if a page value, the scorecard, the ledger or
        for any M_BL, v_R <= M_R/g_R ~ 2e9 GeV: fails the neutrinos (37x short at the perturbative floor). Open: chains
        with SU(2)_R broken far higher, a 16_H for B - L, a 120 in the Yukawas.
 
+## Round 6: does every stage lock into the next? (a consistency audit)
+The algorithm runs in one pass, but a pass is only meaningful if every stage reads the same physics as the stages it
+takes from. This round checks the handoffs, not the physics inside each Part.
+1. [x] Field content on every stage. The SO(10) stages (T, V, X, Y, AA), 3-3-1's (D, E) and Part W now carry their `uv`
+   tag, and the lineage lists every result handed between stages that assume different field contents, each with
+   its reason (`CROSS_EDGES`); an edge without one is reported as an open finding and fails a test.
+2. [x] Scorecard labels follow their own definitions. Unification with three unknowns for three couplings is a trade;
+   lambda(M_I) = 0, which Part T6 shows the theory does not impose, makes the Higgs row open; a seesaw with a free
+   Dirac Yukawa and a vacuum a threshold of unknown size can stabilize are trades. Each chain now passes exactly one
+   real test, proton decay (or fails it).
+3. [x] Ties are carried, not broken. The closest chains are those with the fewest fails; PS and LR tie (one fail each),
+   and counting trades or opens ordered them differently under each relabelling, so Parts X and Z now run for every
+   tied chain (the ledger shows LR, with the rows that differ for PS).
+4. [x] One B - L ceiling. Leptogenesis (Part U), the threshold flips (T7) and Y4's perturbative bound now all use
+   M_N <= 2 sqrt(4 pi) M_I/g_R; the scorecard had used M_1 <= M_I while Y4's fits put M_1 above M_I.
+5. [x] Nothing credited from outside the closest hypothesis. The ledger's family number (3-3-1 only) is open and the
+   CKM (a Hermitian texture that neither 3-3-1 nor SO(10) produces) is input; the SO(10) sim's ledger agrees with its
+   own Part D. Part W states that it uses Part L's Higgs mass (the SM-to-M_P hypothesis's M_W) and that the PDG
+   average is also Part L's matching input; stale audit findings are resolved.
+Still open, in order:
+6. [ ] 3-3-1 as a complete hypothesis: its own running from the 3-3-1 scale (matching 1/alpha_Y = 1/alpha_X + beta^2/alpha_L
+   for the hypercharge, the Landau-pole limit for each beta), its proton, neutrino and dark sectors, and a scorecard
+   column; or a stage that embeds it in a unified group. Until then its family number is not credited.
+7. [ ] f_a from a PQ-charged potential instead of f_a = M_I, so the axion (Part V) and the neutrinos (Part Y4) read
+   one B - L / PQ scale; at Y4's v_R (~1e13 GeV) the same identification overcloses post-inflation.
+8. [ ] Fold the scorecard's conditions into Part M's chi^2 machinery (with theory errors), so the two judges agree:
+   Part M with theory errors lets SM criticality survive (2.95 sigma), Part U fails it (3.3 sigma, input errors).
+9. [ ] Part Y's neutrino fits at the LR+D chain's own scales (its neutrino row stays open until then), and the SO(10)
+   sim's family bound with "no Landau pole below M_P" in place of asymptotic freedom.
+
 ## Later
-- GUT and superpartner thresholds beyond tree level;
-  dark matter (axion misalignment, LSP); inflation (Higgs inflation vs lambda(M_P) < 0);
-  electroweak precision (M_W).
+- GUT and superpartner thresholds beyond tree level.

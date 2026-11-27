@@ -599,8 +599,8 @@ STAGES: Dict[str, Dict[str, str]] = {
                                   "exclusions: 80 of 82)"},
     "survey_certificates": {"part": "C", "level": "proved",
                             "assumes": "only with --certify; exclusions proved cell by cell, at m_t(m_t)"},
-    "gauge_331": {"part": "D", "level": "exact", "assumes": "3-3-1 representations, beta = -1/sqrt3, +1/sqrt3"},
-    "flavour_symmetry_331": {"part": "E", "level": "exact",
+    "gauge_331": {"part": "D", "level": "exact", "uv": "3-3-1 above its scale", "assumes": "3-3-1 representations, beta = -1/sqrt3, +1/sqrt3"},
+    "flavour_symmetry_331": {"part": "E", "level": "exact", "uv": "3-3-1 above its scale",
                              "assumes": "abelian Z_N up to symmetry_max_N; scalar potential not solved"},
     "general_texture_closure": {"part": "F", "level": "proved",
                                 "assumes": "equalities only: a rank-10 pattern may still miss the data"},
@@ -634,22 +634,23 @@ STAGES: Dict[str, Dict[str, str]] = {
     "baryon_asymmetry": {"part": "S", "level": "conditional",
                          "assumes": "lattice endpoint and T_c of the SM transition; leptogenesis: hierarchical "
                                     "right-handed neutrinos, thermal, efficiency kappa <= 1"},
-    "so10": {"part": "T", "level": "conditional",
-             "assumes": "SO(10) with one 16 per family; minimal Yukawas from one 10_H; the Pati-Salam chain with "
-                        "scalars (1,2,2) + (10,1,3), one-loop running, no thresholds; T7-T12 thresholds at "
-                        "leading log, heavy masses scanned or from the 210 potential (PS)"},
+    "so10": {"part": "T", "level": "conditional", "uv": "SM up to M_I, SO(10)",
+             "assumes": "SO(10) with one 16 per family, the SM up to each chain's M_I; four minimal chains at two "
+                        "loops with the heavy vectors' MS-bar constants; T7 thresholds as an assumed band, T8-T13 heavy "
+                        "masses from group theory and the 210, 126 and 10 potentials (tree level)"},
     "scorecard": {"part": "U", "level": "conditional",
                   "assumes": "the SM, minimal SUSY SU(5) and four SO(10) chains (two loops), each condition judged "
-                             "by the stage that computes it; for the chains the Higgs condition is lambda(M_I) = 0"},
-    "dark_matter": {"part": "V", "level": "conditional",
+                             "by the stage that computes it; a condition an unknown absorbs is a trade, one the theory "
+                             "does not impose (lambda(M_I) = 0) is open; closest = fewest fails, ties carried"},
+    "dark_matter": {"part": "V", "level": "conditional", "uv": "SM up to M_I, SO(10)",
                     "assumes": "QCD axion by misalignment; dilute-instanton m_a(T); string and domain-wall "
                                "production left out; f_a scanned and at each SO(10) chain's M_I"},
-    "w_mass": {"part": "W", "level": "conditional",
+    "w_mass": {"part": "W", "level": "conditional", "uv": "SM up to M_P",
                "assumes": "the SM's two-loop M_W in its published parametrization, at Part L's Higgs mass"},
-    "closed_cosmology": {"part": "X", "level": "conditional",
+    "closed_cosmology": {"part": "X", "level": "conditional", "uv": "SM up to M_I, SO(10)",
                          "assumes": "Omega_m from Omega_b (measured), the axion at the surviving chain's M_I "
                                     "(misalignment, post-inflation) and the minimal neutrino masses; flat LambdaCDM"},
-    "so10_yukawa": {"part": "Y", "level": "numerical",
+    "so10_yukawa": {"part": "Y", "level": "numerical", "uv": "SM up to M_I, SO(10)",
                     "assumes": "symmetric Yukawas from a 10 and a 126; the selection rule exact at tree level; the "
                                "sum rule at the LR chain's M_GUT, with matrix SM running to M_I and one-loop left-right "
                                "running above it (the second bidoublet vev and the Delta_R coupling varied over their "
@@ -657,13 +658,24 @@ STAGES: Dict[str, Dict[str, str]] = {
                                "type II, type I, I + II "
                                "(normal ordering, quark masses floated within errors); v_R ~ M_I for the M_R bound; "
                                "unknowns searched, never set"},
-    "dark_sector": {"part": "AA", "level": "conditional",
+    "dark_sector": {"part": "AA", "level": "conditional", "uv": "SM up to M_I, SO(10)",
                     "assumes": "the left-right chain's minimal content (16 fermions; 10, 126, 210 scalars); single-field "
                                "slow roll with N = 50-60 e-folds; the inflaton's couplings unknown"},
     "ledger": {"part": "Z", "level": "conditional",
                "assumes": "every free number of the SM plus cosmology, with the status the stages computed for the "
                           "surviving hypothesis"},
     "self_checks": {"part": "-", "level": "validation", "assumes": "tests the calculation, not the physics"},
+}
+
+# A stage that assumes one field content and takes a result from a stage that assumes another is where the
+# numbers can stop locking together. Each such edge the trace finds must have a reason here; model_lineage
+# reports any edge without one as an open audit finding.
+CROSS_EDGES: Dict[Tuple[str, str], str] = {
+    ("so10", "criticality"): "the SM's running and matching below M_I, which every hypothesis shares",
+    ("so10", "yukawa_relations"): "Part T2's t-b-tau test is of supersymmetric SO(10), a hypothesis of its own, not a chain",
+    ("so10", "proton_decay"): "only Super-K's limits (measured), not the MSSM lifetimes",
+    ("so10", "gauge_unification"): "only the low-energy couplings, not the MSSM's M_S",
+    ("dark_sector", "criticality"): "SM Higgs inflation is a test of the SM up to the plateau, i.e. of Part L's hypothesis",
 }
 
 # What the dependency audit found that the traced graph cannot show by itself.
@@ -688,21 +700,32 @@ AUDIT_FINDINGS: Tuple[Tuple[str, str], ...] = (
     ("open", "The MSSM with all three conditions still depends on the theory errors, through the one- to "
              "two-loop shift of unification. Settling it needs three-loop gauge running with superpartner "
              "and GUT thresholds, and the two-loop stop threshold."),
-    ("open", "No stage feeds cosmology: H0 and Omega_m are inputs. A shared mechanism would need "
-             "equations for the dark-matter density and Lambda."),
+    ("resolved", "No stage fed cosmology. Part X now builds Omega_m from Omega_b, the axion at each closest "
+                 "chain's M_I (Part V) and the neutrinos (Part P); Lambda is still not calculated."),
     ("resolved", "M_P was computed inside Part H, so every input of Part H (H0 among them) seemed to "
                  "reach Parts J and L. The Planck units are now their own stage."),
     ("open", "No stage derives G: M_P is calculated from it and handed to Parts H, J and L."),
     ("open", "The quark masses and mixing are inputs to the textures. Connecting them to 3-3-1 needs "
              "the scalar potential, its vacuum, and the vevs that multiply the Yukawa couplings."),
-    ("open", "No common mechanism yet: no stage computes a quantity that two sectors both take "
-             "from it except M_S, M_GUT (Part I) and M_P (Part H1)."),
+    ("resolved", "No common mechanism: besides M_S, M_GUT (Part I) and M_P (Part H1), each chain's M_I (Part T) "
+                 "is now taken by the baryon asymmetry, the axion, the Yukawa sector, the scorecard and Part X, "
+                 "and one B - L ceiling (M_N <= 2 sqrt(4 pi) M_I/g_R) serves Parts T7, U and Y4."),
+    ("open", "The axion's f_a is identified with each chain's M_I (Part V), an order-of-magnitude choice "
+             "(f_a = v_PQ/N_DW). If B - L broke where SO(10)'s Y126 puts it for the neutrinos (Part Y4, "
+             "~1e13 GeV), the same identification would overclose post-inflation: the neutrino and dark-matter "
+             "rows rest on different B - L scales until f_a is computed from a PQ-charged potential."),
+    ("open", "3-3-1 (Parts D, E, R) is not a complete hypothesis: no running, breaking scale, proton, "
+             "neutrino or dark sector, and no stage joins it to an SO(10) chain. It is not on the scorecard, "
+             "so its family number is not credited in the ledger."),
+    ("resolved", "The scorecard counted 'pass' where an unknown absorbs the condition (unification, the "
+                 "seesaw's Dirac Yukawa, a stabilizing threshold) and where the theory imposes nothing "
+                 "(lambda(M_I) = 0): these are trades and open now, and the closest chains are those with the "
+                 "fewest fails, ties carried into Parts X and Z instead of broken by counting trades."),
     ("open", "Part L assumes the SM up to M_P, but neutrinos have mass (Part P). That holds only if they are "
              "Dirac particles with Yukawa couplings below 3e-13, which do not affect the running; a seesaw "
              "needs new states below about 8e15 GeV, whose couplings would enter lambda's running."),
-    ("open", "Part V calculates the axion's dark-matter density as a function of f_a, but Part A still takes "
-             "Omega_m as an input: feeding Part V back into Part A needs f_a fixed (at a chain's M_I, about two "
-             "thirds of Omega_c for Pati-Salam) and the string yield."),
+    ("resolved", "Part V's axion density is fed back (Part X) at each closest chain's M_I; what remains open "
+                 "is the string and domain-wall yield."),
     ("open", "Theta-bar is bounded, not calculated (Part O). Each explanation adds something unmeasured: an "
              "axion scale f_a, or a parity symmetry whose Hermitian textures Part G excludes."),
 )
@@ -5735,6 +5758,14 @@ def chain_vacuum(crit: Dict[str, Any], chains: Dict[str, Dict[str, Any]]) -> Dic
     return {"mu0": mu0, "mu0_band_Mt": sorted(b for b in band if math.isfinite(b)), "rows": rows}
 
 
+def m_r_ceiling(sol: Dict[str, Any]) -> float:
+    """The heaviest right-handed neutrino a chain allows: its M_I is the W_R mass, M_WR = g_R v_R, and the Delta_R
+    coupling gives M_N = 2 f v_R, so with f <= sqrt(4 pi) every M_N (M_1 included) is at most 2 sqrt(4 pi) M_I / g_R(M_I).
+    One ceiling for every stage that needs the B - L scale (Parts T7, U and Y4 use the same one)."""
+    g_r = math.sqrt(4 * math.pi / sol["inv_alpha_MI"][2])
+    return 2 * math.sqrt(4 * math.pi) * sol["M_I"] / g_r
+
+
 def chain_thresholds(chain: Dict[str, Any], x: Dict[str, float], base: Dict[str, Any], a_l: float,
                      tau_limit: float, mu0: float, m1_nat: float) -> Dict[str, Any]:
     """Every corner of the threshold box |delta_k| <= threshold_band (in 1/alpha, one per matching
@@ -5753,12 +5784,12 @@ def chain_thresholds(chain: Dict[str, Any], x: Dict[str, float], base: Dict[str,
     tau = [r_["tau_p_years"] for r_ in rows]
     base_p = base["tau_p_years"] > tau_limit
     base_v = base["M_I"] < mu0
-    base_a = base["M_I"] >= m1_nat
+    base_a = m_r_ceiling(base) >= m1_nat
     return {"band": d_max, "corners": len(rows), "M_I": (min(mi), max(mi)), "M_GUT": (min(mg), max(mg)),
             "tau_p": (min(tau), max(tau)),
             "proton_flips": any((t_ > tau_limit) != base_p for t_ in tau),
             "vacuum_flips": any((m_ < mu0) != base_v for m_ in mi),
-            "leptogenesis_flips": any((m_ >= m1_nat) != base_a for m_ in mi)}
+            "leptogenesis_flips": any((m_r_ceiling(r_) >= m1_nat) != base_a for r_ in rows)}
 
 
 # --- T8. The heavy spectrum at M_GUT, by group theory. SO(10) -> Pati-Salam without D-parity is broken
@@ -7033,7 +7064,7 @@ def w_mass_test(crit: Dict[str, Any]) -> Dict[str, Any]:
     sig_tot = math.sqrt(sig_in ** 2 + sig_mh ** 2 + fit_err ** 2)
     out = {"M_W": mw, "sigma": sig_tot, "sigma_parts": parts, "sigma_m_h": sig_mh, "fit_accuracy": fit_err,
            "m_h_used": m_h, "shift_to_measured_m_h": shift}
-    meas = {"PDG 2024 average (the input M_W)": (inp("M_W"), sig("M_W")),
+    meas = {"PDG 2024 average (also Part L's matching input: not independent)": (inp("M_W"), sig("M_W")),
             "PDG 2024 average without CDF": _comparison("M_W_noCDF")[:2],
             "PDG 2024 global-fit prediction": _comparison("M_W_SM_fit")[:2]}
     out["comparisons"] = {k: {"value": v, "sigma": s_, "pull": (v - mw) / math.hypot(s_, sig_tot)}
@@ -8400,8 +8431,12 @@ def final_ledger(score: Dict[str, Any], s10: Dict[str, Any], s10y: Dict[str, Any
     rows = [
         ("hypercharges and electric charge", "5 per family", "calculated",
          "anomaly cancellation plus Yukawas fix them uniquely; charge is quantized (Part R, exact)"),
-        ("number of families", "1 integer", "calculated" if anom["331_families_with_af"] == [3] else "open",
-         "3-3-1: a multiple of 3, exactly 3 with asymptotic freedom (Part R); not in the SO(10) survivor"),
+        # 3-3-1 fixes it, but 3-3-1 is not this hypothesis: no stage joins it to an SO(10) chain, and it is not on the
+        # scorecard (no running, no scale, no neutrino or dark sector), so its result is not credited here
+        ("number of families", "1 integer", "open",
+         "3-3-1 would fix it (a multiple of 3, exactly 3 with asymptotic freedom: "
+         + ("3" if anom["331_families_with_af"] == [3] else "not 3") + ", Part R), but 3-3-1 is not on the scorecard"
+         " and no stage joins it to an SO(10) chain; SO(10)'s 16s are anomaly-free for any number"),
         ("gauge couplings", "3", "traded",
          f"{chain} chain: the three fix M_I = {two['M_I']:.1e}, M_GUT = {two['M_GUT']:.1e} GeV and alpha_GUT (Part T)"),
         ("weak mixing angle at unification", "1", "calculated", "sin^2 theta_W = 3/8 from the 16 (Part T1, exact)"),
@@ -8409,12 +8444,19 @@ def final_ledger(score: Dict[str, Any], s10: Dict[str, Any], s10y: Dict[str, Any
          f"lambda(M_P) = 0 misses by {abs(mh_pull):.1f} sigma (Part L); lambda(M_I) = 0 is not required (Part T6)"),
         ("Higgs vacuum value", "1", "input", "from G_F"),
         ("quark masses", "6", "input", "run to every scale (Parts B, L)"),
-        ("quark mixing (CKM)", "4", "related",
-         "one Hermitian texture predicts |V_td/V_ts| at 2.2 sigma (Part C), but it is not the surviving GUT's structure"),
-        ("charged-lepton masses", "3", "traded" if s10y["LR"]["reaches"] else "open",
-         "the 10 + 126 sum rule reaches them with 8 unknowns (Part Y2)"),
+        ("quark mixing (CKM)", "4", "input",
+         "Part C's one predictive texture needs Hermitian matrices, which no framework tested here gives: 3-3-1 cannot"
+         " (Part E), left-right parity gives parallel textures, all excluded (Part G), and SO(10)'s 10 + 126 Yukawas are"
+         " symmetric (Part Y); with general matrices no texture predicts (Part F)"),
+        (("charged-lepton masses", "3", "traded" if s10y["LR"]["reaches"] else "open",
+          "the 10 + 126 sum rule reaches them with 8 unknowns (Part Y2)") if chain.startswith("LR") else
+         ("charged-lepton masses", "3", "open",
+          "the minimal 10 + 126 Yukawas fail: the light Higgs sits in one SU(4) irrep (Part Y's selection rule); a 120 or"
+          " an SU(4)-breaking vev at M_GUT would be needed")),
         ("neutrino masses and mixing", "7-9", {"trade": "traded", "pass": "related"}.get(
             score["rows"].get(f"SO(10) via {chain}", {}).get("N", {}).get("status", "open"), "open"),
+         "a seesaw at M_I with free Dirac Yukawas (Part P); the 10 + 126 neutrino fits are run only for the LR chain"
+         if not chain.startswith("LR") else
          f"type II from the sum rule misses by {t2['n_sigma_worst']:.0f} sigma (Part Y3); with left-right running, best "
          f"chi^2 for 13 data: type I {s10y['LR']['type1']['chi2_min']:.0f}, types I + II {s10y['LR']['type12']['chi2_min']:.1f}"
          + (f"; its {s10y['LR']['type12']['fits_found']} fits need M_R,3 >= {s10y['LR']['type12']['M_R_over_M_I_range'][0]:.0f}"
@@ -8423,9 +8465,12 @@ def final_ledger(score: Dict[str, Any], s10: Dict[str, Any], s10y: Dict[str, Any
         ("strong CP angle", "1", "bounded",
          f"|theta-bar| < {scp['bound']['theta_max']:.1e}; an axion at M_I would trade it for f_a (Part O)"),
         ("dark-matter density", "1", "open" if not dm["chains"][chain]["pre_possible"] else "traded",
-         f"the axion at the survivor's M_I gives {100 * dm['chains'][chain]['fraction_post']:.1f} % (Part V)"),
-        ("baryon asymmetry", "1", "traded",
-         f"leptogenesis needs M_1 >= {bau['leptogenesis']['rows'][0]['M1_min']:.0e} GeV (Part S); M_1 is unknown"),
+         f"the axion at the {chain} chain's M_I gives {100 * dm['chains'][chain]['fraction_post']:.1f} % (Part V)"
+         + ("; a pre-inflation angle can give the rest (an unknown)" if dm["chains"][chain]["pre_possible"] else "")),
+        ("baryon asymmetry", "1", {"trade": "traded", "pass": "related"}.get(
+            score["rows"].get(f"SO(10) via {chain}", {}).get("A", {}).get("status", "open"), "open"),
+         f"leptogenesis needs M_1 >= {bau['leptogenesis']['rows'][0]['M1_min']:.0e} GeV (Part S), and the chain allows"
+         f" M_1 up to {m_r_ceiling(two):.0e} GeV (Part U); M_1 is unknown"),
         ("cosmological constant", "1", "open", "Omega_Lambda follows from flatness; rho_Lambda is not calculated"),
         ("Newton's constant", "1", "input", "M_P is calculated from it (Part H1)"),
     ]
@@ -8488,7 +8533,9 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
     def vacuum_entry(v_: Dict[str, Any], nm: str) -> Dict[str, Any]:
         r_ = v_["rows"][nm]
         if r_["stabilizable"]:
-            return entry("pass", f"M_I below mu_0 = {v_['mu0']:.1e} GeV: a scalar threshold can stabilize the vacuum")
+            # possible, not computed: the threshold shift lambda_HS^2/lambda_S is an unknown that absorbs the condition
+            return entry("trade", f"M_I below mu_0 = {v_['mu0']:.1e} GeV: a scalar threshold of unknown size can stabilize"
+                                  " the vacuum (Part T6)")
         decided = bool(band) and r_["M_I"] > band[-1]
         return entry("open", "metastable between mu_0 and M_I" + ("" if decided else
                      f"; M_I lies inside mu_0's top-mass band ({band[0]:.0e} to {band[-1]:.0e} GeV)"))
@@ -8496,14 +8543,21 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
     m1_full = min(r_["M1_min"] for r_ in lg_["rows"])
     m1_nat = lg_["M1_min_natural"][0]
 
-    def leptogenesis_entry(m_i: float) -> Dict[str, Any]:
-        if m_i < m1_full:
-            return entry("fail", f"M_1 <~ M_I = {m_i:.0e} GeV is below even the full-efficiency bound {m1_full:.0e} GeV")
-        if m_i < m1_nat:
-            return entry("open", f"M_1 <~ M_I = {m_i:.0e} GeV needs weak washout: the natural range needs M_1 >= {m1_nat:.0e} GeV")
-        return entry("trade", f"M_1 up to M_I = {m_i:.0e} GeV covers the natural range (M_1 >= {m1_nat:.0e} GeV)")
+    def leptogenesis_entry(sol: Dict[str, Any], nm: str) -> Dict[str, Any]:
+        # the same B - L ceiling as Parts T7 and Y4: M_1 <= 2 sqrt(4 pi) M_I / g_R (a perturbative Delta_R coupling)
+        m_c = m_r_ceiling(sol)
+        cap = f"M_1 <= 2 sqrt(4 pi) M_I/g_R = {m_c:.0e} GeV"
+        fit_ = ylr["type12"] if nm == "LR" and ylr["type12"]["fits_found"] else None
+        fit_txt = (f"; Part Y4's type I + II fits put M_1 at {fit_['M_1_range_GeV'][0]:.0e}-{fit_['M_1_range_GeV'][1]:.0e} GeV"
+                   if fit_ and "M_1_range_GeV" in fit_ else "")
+        if m_c < m1_full:
+            return entry("fail", cap + f" is below even the full-efficiency bound {m1_full:.0e} GeV" + fit_txt)
+        if m_c < m1_nat:
+            return entry("open", cap + f" needs weak washout: the natural range needs M_1 >= {m1_nat:.0e} GeV" + fit_txt)
+        return entry("trade", cap + f" covers the natural range (M_1 >= {m1_nat:.0e} GeV); M_1 itself is unknown" + fit_txt)
     def dark_matter_entry(d_: Dict[str, Any]) -> Dict[str, Any]:
-        frac = f"axion at f_a = M_I: {100 * d_['fraction_post']:.2g} % of the dark matter by post-inflation misalignment"
+        frac = (f"axion at f_a = M_I (an order-of-magnitude identification: f_a = v_PQ/N_DW): {100 * d_['fraction_post']:.2g} %"
+                " of the dark matter by post-inflation misalignment")
         if d_["pre_possible"]:
             return entry("trade", frac + f" (strings add more); pre-inflation theta_i = {d_['theta_i_pre_needed']:.2f}"
                                          " gives all of it")
@@ -8537,12 +8591,15 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
                                                 f" {lift_max:.0f} (Part Y4)")
             if fit_:
                 n_ = sum(t_["fits_found"] for t_ in fit_)
+                if nm != "LR":
+                    lift_txt += "; not judged: Part Y's fits and v_R are run at the LR chain's scales, not this chain's"
                 return entry("open", lead + f"; {n_} type I (+ II) fits, every one needing M_R,3 >="
                                             f" {min(t_['M_R_over_M_I_range'][0] for t_ in fit_):.0f} M_I, above the perturbative"
                                             f" {bound:.1f} M_I: B - L would break far above the chain's M_I" + lift_txt)
             return entry("open", lead + f"; types I and I + II not reached (best chi^2 {t1['chi2_min']:.0f}, {t12['chi2_min']:.0f};"
                                         f" the closest point puts M_R,3 at {t12['scales']['M_R_over_M_I']:.0e} M_I)")
-        return entry("pass", f"seesaw at M_I with a Dirac Yukawa of {y_needed:.3f} for the heaviest neutrino")
+        return entry("trade", f"seesaw at M_I with a Dirac Yukawa of {y_needed:.3f} for the heaviest neutrino, a free"
+                              " parameter in this chain")
 
     def fermion_entry(nm: str) -> Dict[str, Any]:
         if nm.startswith("PS"):
@@ -8564,22 +8621,32 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
     v = crit["state_mt"][1]
     sig_h = math.hypot(crit["sigma_total"], mh_s)
     higgs_rows = {}
+    t2_ = ylr["type2"]
     for nm, ch in s10["chains"].items():
         two = ch["loop2"]
         m_i = two["M_I"]
         pull_h = (two["m_h_lambda_MI_zero"] - mh) / sig_h
         higgs_rows[nm] = {"m_h": two["m_h_lambda_MI_zero"], "sigma": sig_h, "pull": pull_h, "M_I": m_i}
         y_needed = math.sqrt(2 * m_i * m3) / v
+        # the labels follow the definitions: three couplings fixing three unknowns is a trade, not a pass; a
+        # condition the theory does not impose (lambda(M_I) = 0, Part T6) is not a test
+        b_row = (entry("trade", "the 10 + 126 sum rule imposes no b-tau equality: c1, c2 absorb it (at M_GUT (m_b - m_tau)/m_b"
+                                f" = {t2_['b_tau_mismatch']:+.2f}, Part Y, at the LR chain's scales)")
+                 if nm.startswith("LR") else
+                 entry("open", "no b-tau relation is imposed; the selection rule that would give one (m_b = m_tau or 3 m_b"
+                               " at M_I) fails, in the fermion-mass row (Part Y)"))
         rows[f"SO(10) via {nm}"] = {
-            "U": entry("pass" if two["consistent"] else "fail",
-                       f"M_I = {m_i:.1e}, M_GUT = {two['M_GUT']:.1e} GeV solve the three couplings (no prediction)"),
-            "B": entry("open", "no b-tau relation without a Yukawa structure (minimal 10_H excluded, Part T)"),
-            "H": entry("fail" if abs(pull_h) > surv else "pass",
-                       f"lambda(M_I) = 0 gives m_h = {two['m_h_lambda_MI_zero']:.2f} GeV", abs(pull_h)),
+            "U": entry("trade" if two["consistent"] else "fail",
+                       f"M_I = {m_i:.1e}, M_GUT = {two['M_GUT']:.1e} GeV solve the three couplings (three unknowns, no"
+                       " prediction)"),
+            "B": b_row,
+            "H": entry("open", f"lambda(M_I) = 0 would give m_h = {two['m_h_lambda_MI_zero']:.2f} GeV ({pull_h:+.1f} sigma),"
+                               " but the theory does not impose it: the heavy scalar shifts lambda at M_I by an unknown"
+                               " amount (Part T6)", abs(pull_h)),
             "N": neutrino_entry(nm, y_needed),
             "P": entry("pass" if two["tau_p_allowed"] else "fail",
                        f"p -> e+ pi0 in {two['tau_p_years']:.0e} years against {pdk['limit_e_pi0']:.1e}"),
-            "A": leptogenesis_entry(m_i),
+            "A": leptogenesis_entry(two, nm),
             "T": entry("trade", f"an axion at f_a = M_I would give m_a = {two['axion_m_a_eV_if_fa_MI'] * 10 ** 6:.2g} micro-eV"),
             "V": vacuum_entry(s10["vacuum"], nm),
             "D": dark_matter_entry(dm["chains"][nm]),
@@ -8591,9 +8658,14 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
                    "trades": [c for c, e in r.items() if e["status"] == "trade"],
                    "passes": [c for c, e in r.items() if e["status"] == "pass"],
                    "open": [c for c, e in r.items() if e["status"] == "open"]} for h, r in rows.items()}
+    survivors = [h for h, v_ in verdict.items() if not v_["fails"]]
+    # the closest SO(10) chains when none survives: the fewest fails. Counts of trades, opens and passes are not a
+    # measure of closeness (each relabelling reorders them), so every chain tied on fails is carried forward
+    so_ = [h for h in verdict if h.startswith("SO(10) via ")]
+    n_min = min(len(verdict[h]["fails"]) for h in so_)
+    closest = [h.replace("SO(10) via ", "") for h in so_ if len(verdict[h]["fails"]) == n_min]
     return {"rows": rows, "conditions": conditions, "verdict": verdict,
-            "chain_higgs": higgs_rows,
-            "survivors": [h for h, v_ in verdict.items() if not v_["fails"]]}
+            "chain_higgs": higgs_rows, "survivors": survivors, "closest_chains": closest}
 
 
 # =============================================================================
@@ -9004,18 +9076,27 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
     mw = _stage("w_mass", lambda: {**w_mass_test(crit), "z_pole": sin2_eff_test(crit)})
     score = _stage("scorecard", lambda: scorecard(joint, higgs, crit, pdk, nus, bau, s10, scp, dm, s10y))
 
-    def survivor_chain() -> str:
-        """The surviving SO(10) chain; if none survives, the closest: fewest fails, then most passes, fewest trades."""
+    def survivor_chains() -> List[str]:
+        """The surviving SO(10) chains; if none survives, every chain with the fewest fails (Part U: ties are carried,
+        not broken by counting trades or passes)."""
         chains = [h.replace("SO(10) via ", "") for h in score["survivors"] if h.startswith("SO(10) via ")]
-        if chains:
-            return chains[0]
-        v_ = score["verdict"]
-        best = min((h for h in v_ if h.startswith("SO(10) via ")),
-                   key=lambda h: (len(v_[h]["fails"]), -len(v_[h]["passes"]), len(v_[h]["trades"])))
-        return best.replace("SO(10) via ", "")
-    closed = _stage("closed_cosmology", lambda: closed_cosmology(cosmo, dm, nus, survivor_chain()))
-    dark = _stage("dark_sector", lambda: dark_sector(dm, crit, survivor_chain()))
-    ledger = _stage("ledger", lambda: final_ledger(score, s10, s10y, scp, nus, bau, dm, crit, anom, masses, closed, joint))
+        # listed first (a presentation order, not a ranking): the chain the later Parts analyse in full (LR: T12, T13, Y2-Y4)
+        return sorted(chains or list(score["closest_chains"]), key=lambda c_: c_ != "LR")
+
+    def closed_all() -> Dict[str, Any]:
+        per = {c_: closed_cosmology(cosmo, dm, nus, c_) for c_ in survivor_chains()}
+        return {**per[survivor_chains()[0]], "tied": per}
+    closed = _stage("closed_cosmology", closed_all)
+    dark = _stage("dark_sector", lambda: dark_sector(dm, crit, survivor_chains()[0]))
+
+    def ledgers() -> Dict[str, Any]:
+        per = {c_: final_ledger(score, s10, s10y, scp, nus, bau, dm, crit, anom, masses, closed["tied"][c_], joint)
+               for c_ in closed["tied"]}
+        first = per[closed["chain"]]
+        diff = {c_: [r_ for r_, r0 in zip(l_["rows"], first["rows"]) if (r_["status"], r_["how"]) != (r0["status"], r0["how"])]
+                for c_, l_ in per.items() if c_ != closed["chain"]}
+        return {**first, "tied": list(per), "tied_differences": diff, "tied_counts": {c_: l_["counts"] for c_, l_ in per.items()}}
+    ledger = _stage("ledger", ledgers)
     _TRACE["stage"] = "self_checks"                 # everything below validates the stages above
     _TRACE["inputs"].setdefault("self_checks", set())
     checks = self_checks(flav, cosmo, scales, steps, grid, survey, yuk)
@@ -9462,12 +9543,18 @@ def model_lineage() -> Dict[str, Any]:
         if "uv" in STAGES.get(st, {}):
             uv.setdefault(STAGES[st]["uv"], []).append(st)
     takers = {f"{p}[{k}]": sorted(v - {"self_checks"}, key=order.index) for (p, k), v in _TRACE["keys"].items()}
+    # edges between stages that assume different field contents, with the reason each is allowed (or none)
+    cross = [{"stage": st, "takes": u, "uv": STAGES[st]["uv"], "uv_taken": STAGES[u]["uv"],
+              "reason": CROSS_EDGES.get((st, u))}
+             for st in order for u in uses[st]
+             if "uv" in STAGES.get(st, {}) and "uv" in STAGES.get(u, {}) and STAGES[st]["uv"] != STAGES[u]["uv"]]
     return {"order": order, "uses": uses, "reads": reads, "reaches": reaches, "takers": takers,
             "registered": all(st in STAGES for st in order)
             and all(st in order for st in STAGES if st != "survey_certificates"),
             "acyclic": all(st not in down[st] for st in order),
             "in_order": all(order.index(u) < order.index(st) for st in order for u in uses[st]),
-            "uv_hypotheses": uv, "uv_consistent": len(uv) <= 1}
+            "uv_hypotheses": uv, "uv_consistent": len(uv) <= 1, "cross_edges": cross,
+            "cross_unexplained": [e_ for e_ in cross if not e_["reason"]]}
 
 
 def _wrap(text: str, indent: int, width: int = 78) -> str:
@@ -10680,25 +10767,31 @@ def report(res: Dict[str, Any]) -> str:
     for k, c_ in zp["comparisons"].items():
         w(f"    {COMPARISONS[k]['source'].split(': ')[-1]:<36s} {c_['value']:.5f} +/- {c_['sigma']:.5f}: {c_['pull']:+.1f} sigma")
     w(_wrap("RESULT: the Standard Model's M_W, with every input but Delta alpha_had measured or calculated here, "
-            "agrees with the measurements and reproduces the PDG's global fit. No new physics is needed at the weak "
-            "scale; the heavy states of the SO(10) chains decouple, so this tests the SM below M_I, not the chains.", 2))
+            "agrees with the measurements and reproduces the PDG's global fit. The Higgs mass used is Part L's, so this "
+            "is the SM-to-M_P hypothesis's M_W; with the measured m_h it is the low-energy SM's, common to every "
+            "hypothesis (the SO(10) chains' heavy states decouple). The PDG average is also an input of Part L's "
+            "matching, so only the other two comparisons are independent.", 2))
     w("")
     cc_ = res["closed_cosmology"]
     w("PART X. CLOSING THE LOOP: COSMOLOGY FROM THE PARTICLE PHYSICS")
     w("-" * 78)
     w("  Part A takes Omega_m as an input. Here it follows from the rest: Omega_b (measured), the axion at the")
-    w(f"  surviving (or closest) chain's M_I (Part U: {cc_['chain']}) by misalignment (Part V: Omega_a h^2 = {cc_['Omega_a_h2']:.4f}) and the"
+    w(f"  M_I of each surviving (or closest, Part U: {', '.join(cc_['tied'])}) chain by misalignment (Part V) and the"
       " minimal neutrino masses")
     w("  (Part P). Flatness gives Omega_Lambda; the Friedmann equation the age.")
-    w(f"    Omega_m = {cc_['Omega_m']:.4f} (Part A's input: {cc_['Omega_m_input']:.4f}), Omega_Lambda = {cc_['Omega_Lambda']:.4f},"
-      f" age = {cc_['age_Gyr']:.3f} Gyr")
-    w(f"    against Planck's {_comparison('age_Gyr')[0]} +/- {_comparison('age_Gyr')[1]} Gyr: {cc_['age_pull']:+.0f} sigma"
+    for nm_, c_ in cc_["tied"].items():
+        w(f"    {nm_:<3s} Omega_a h^2 = {c_['Omega_a_h2']:.4f}: Omega_m = {c_['Omega_m']:.4f} (Part A's input:"
+          f" {c_['Omega_m_input']:.4f}), Omega_Lambda = {c_['Omega_Lambda']:.4f}, age = {c_['age_Gyr']:.3f} Gyr,"
+          f" {c_['age_pull']:+.0f} sigma")
+    w(f"    against Planck's {_comparison('age_Gyr')[0]} +/- {_comparison('age_Gyr')[1]} Gyr"
       f" (with all of Omega_c: {cc_['age_with_all_dm_Gyr']:.3f} Gyr)")
-    w(_wrap(f"RESULT: misalignment alone leaves the universe too old by {cc_['age_pull']:.0f} sigma: closing the loop needs "
-            f"{100 * cc_['string_fraction_needed']:.0f} % of the dark matter from the axion's strings and domain walls "
-            "(post-inflation), or a second component. That fraction is now the single number on which the "
-            "particle-physics side of the cosmology hangs; the lattice and simulation results for the string "
-            "yield are what would test it.", 2))
+    w(_wrap("RESULT: misalignment alone leaves the universe too old for every closest chain ("
+            + ", ".join(f"{nm_} by {c_['age_pull']:.0f} sigma" for nm_, c_ in cc_["tied"].items())
+            + "): closing the loop needs "
+            + " or ".join(f"{100 * c_['string_fraction_needed']:.0f} %" for c_ in cc_["tied"].values())
+            + " of the dark matter from the axion's strings and domain walls (post-inflation), or a second component. "
+            "That fraction is the single number on which the particle-physics side of the cosmology hangs; the lattice "
+            "and simulation results for the string yield are what would test it.", 2))
     w("")
     ds = res["dark_sector"]
     w("PART AA. DARK MATTER BEYOND THE AXION, AND INFLATION")
@@ -10907,10 +11000,14 @@ def report(res: Dict[str, Any]) -> str:
         for c, e in r_.items():
             sg = f" ({e['sigma']:.1f} sigma)" if e["sigma"] is not None else ""
             w(_wrap(f"{sc_['conditions'][c]:<18s} {e['status']:<6s}{sg}: {e['detail']}", 4, 100))
-    w("  The chains' Higgs condition, lambda(M_I) = 0 where the SM ends (Part L's running and matching):")
+    w("  What lambda(M_I) = 0 would give where each chain's SM ends (Part L's running and matching; not a condition of")
+    w("  the theory, Part T6, so the Higgs row is open):")
     for nm, ph in sc_["chain_higgs"].items():
         w(f"    {nm:<6s} M_I = {ph['M_I']:.2e} GeV: m_h = {ph['m_h']:.2f} +/- {ph['sigma']:.2f} GeV, {ph['pull']:+.1f} sigma")
-    w("    Why lambda should vanish at M_I is not established (the scalar sector changes there): a test.")
+    w("    It only measures how close each chain's M_I lies to the SM instability scale mu_0 (Part T6).")
+    w("  Not a column: 3-3-1 (Parts D, E, R). It is not a complete hypothesis here (no running, no breaking scale, no")
+    w("  proton, neutrino or dark sector), and no stage joins it to an SO(10) chain, so nothing it fixes is credited")
+    w("  in the ledger (Part Z).")
     thr = res["so10"]["thresholds"]
     for h, v_ in sc_["verdict"].items():
         rob = ""
@@ -10925,14 +11022,17 @@ def report(res: Dict[str, Any]) -> str:
     w(_wrap("RESULT: " + ("surviving every condition tested so far: " + ", ".join(sc_["survivors"])
                           + ". It predicts nothing yet: its scales are solved from the couplings, and its passes are "
                             "consistency, not calculation; two-loop running and thresholds come next."
-                          if sc_["survivors"] else "no complete hypothesis survives every condition."), 2))
+                          if sc_["survivors"] else "no complete hypothesis survives every condition. Closest (fewest fails,"
+                          " ties carried): " + ", ".join(sc_["closest_chains"]) + "."), 2))
     w("")
     lg_ = res["ledger"]
     w("PART Z. THE LEDGER: EVERY FREE NUMBER AND WHAT THE ALGORITHM DOES WITH IT")
     w("-" * 78)
     w((("  For the hypothesis that survives every condition (Part U): " + ", ".join(lg_["survivors"])) if lg_["survivors"] else
-      "  No hypothesis survives every condition (Part U); the ledger is for the closest (fewest fails, then most passes,"
-      " fewest trades)") + f"; scales from its {lg_['chain']} chain.")
+      "  No hypothesis survives every condition (Part U); the ledger is for the closest (fewest fails: "
+      + ", ".join(lg_["tied"]) + ")") + f"; shown for {lg_['chain']}"
+      + (" (the chain Parts T12, T13 and Y analyse in full; an order, not a ranking), with the rows that differ for the"
+         " others below." if len(lg_["tied"]) > 1 else "."))
     w("  calculated = fixed with nothing measured spent; related = tied to others by a tested relation;")
     w("  traded = exchanged for an unknown; bounded = only limited; open = no mechanism; input = measured.")
     w(f"    {'quantity':<34s} {'count':<13s} status")
@@ -10940,12 +11040,18 @@ def report(res: Dict[str, Any]) -> str:
         w(f"    {r_['quantity']:<34s} {r_['count']:<13s} {r_['status']}")
         w(_wrap(r_["how"], 8, 100))
     w("  Totals: " + ", ".join(f"{k} {v}" for k, v in sorted(lg_["counts"].items())))
+    for nm_, rows_ in lg_["tied_differences"].items():
+        w(f"  For the {nm_} chain these rows differ:")
+        for r_ in rows_:
+            w(f"    {r_['quantity']:<34s} {r_['count']:<13s} {r_['status']}")
+            w(_wrap(r_["how"], 8, 100))
+        w("  Totals: " + ", ".join(f"{k} {v}" for k, v in sorted(lg_["tied_counts"][nm_].items())))
     w(_wrap("RESULT: the algorithm closes: one pass, every stage run in dependency order, and every free number assigned a "
             "status. " + ("Every assumption of the surviving hypothesis is consistent with every condition tested. "
                           if lg_["survivors"] else "No complete hypothesis survives every condition: the closest fails one. ") +
-            "What it calculates is discrete and exact (the charges, their quantization, sin^2 theta_W at unification, "
-            "the family number in 3-3-1). Every continuous number is still an input, traded for an unknown, bounded or "
-            "open: no free number of the Standard Model is calculated.", 2))
+            "What it calculates is discrete and exact (the charges, their quantization, sin^2 theta_W at unification; "
+            "the family number only in 3-3-1, which is not on the scorecard). Every continuous number is still an "
+            "input, traded for an unknown, bounded or open: no free number of the Standard Model is calculated.", 2))
     w("")
     w("THE MODEL AS ONE ALGORITHM: WHERE EVERY NUMBER COMES FROM (traced while it ran)")
     w("-" * 78)
@@ -10977,8 +11083,14 @@ def report(res: Dict[str, Any]) -> str:
     for hyp, sts in lin["uv_hypotheses"].items():
         w(f"    {hyp:16s}: " + ", ".join(sts))
     if not lin["uv_consistent"]:
-        w("    These field contents exclude each other. No stage chooses: Part M tests every")
-        w("    hypothesis against every combination of conditions.")
+        w("    These field contents exclude each other. No stage chooses: Parts M and U test every")
+        w("    hypothesis against the conditions.")
+    w("  Results handed across field contents (where the numbers could stop locking together):")
+    for e_ in lin["cross_edges"]:
+        w(_wrap(f"{e_['stage']} ({e_['uv']}) takes {e_['takes']} ({e_['uv_taken']}): "
+                + (e_["reason"] or "NO REASON GIVEN: an open finding"), 4))
+    if not lin["cross_edges"]:
+        w("    none")
     w(f"  The graph is acyclic ({lin['acyclic']}), so one pass in order is self-consistent: no stage")
     w("  needs a value that a later stage changes. A shared mechanism would add such feedback.")
     w("  Audit findings:")

@@ -93,11 +93,14 @@ def main():
     # Parts U, Y, Z: the scorecard and ledger as the stages computed them, and the Yukawa-sector tests
     score = res["scorecard"]
     scorecard = {"m_h": score["chain_higgs"]["PS"]["m_h"], "survivors": list(score["survivors"]),
+                 "closest": list(score["closest_chains"]),
                  "conditions": dict(score["conditions"]),
                  "rows": {h: {c: {"status": e["status"], "detail": e["detail"], "sigma": e["sigma"]}
                               for c, e in r.items()} for h, r in score["rows"].items()}}
     lg = res["ledger"]
-    ledger = {"chain": lg["chain"], "rows": [dict(r) for r in lg["rows"]], "counts": dict(lg["counts"])}
+    ledger = {"chain": lg["chain"], "rows": [dict(r) for r in lg["rows"]], "counts": dict(lg["counts"]),
+              "tied": list(lg["tied"]), "tied_differences": {c: [dict(r) for r in rs] for c, rs in lg["tied_differences"].items()},
+              "tied_counts": {c: dict(v) for c, v in lg["tied_counts"].items()}}
     yy = res["so10_yukawa"]
     ylr = yy["LR"]
     chain = res["so10"]["chains"][lg["chain"]]["loop2"]
@@ -137,7 +140,10 @@ def main():
                    "mu_zero": ds["higgs"]["mu_zero"], "lambda_needed": ds["higgs"].get("lambda_needed")}
     survivor = {"chain": lg["chain"], "M_I": chain["M_I"], "M_GUT": chain["M_GUT"], "tau_p": chain["tau_p_years"],
                 "dm_fraction": res["dark_matter"]["chains"][lg["chain"]]["fraction_post"],
-                "age": res["closed_cosmology"]["age_Gyr"], "age_pull": res["closed_cosmology"]["age_pull"]}
+                "age": res["closed_cosmology"]["age_Gyr"], "age_pull": res["closed_cosmology"]["age_pull"],
+                "tied": {c: {"age": v["age_Gyr"], "age_pull": v["age_pull"], "Omega_m": v["Omega_m"],
+                             "dm_fraction": res["dark_matter"]["chains"][c]["fraction_post"]}
+                         for c, v in res["closed_cosmology"]["tied"].items()}}
     data = {
         "beyond": beyond,
         "scorecard": scorecard, "ledger": ledger, "yukawa": yukawa, "survivor": survivor,

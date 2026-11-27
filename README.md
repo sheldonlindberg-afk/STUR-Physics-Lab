@@ -68,8 +68,13 @@ From that trace the report lists, for each stage, its evidence level (proved, ex
 numerical, conditional, parameter trade), the inputs it reads, the stages it takes results
 from, and what it assumes. It also lists which stages each input reaches (change `M_t` and
 seven stages are recalculated) and checks whether the stages' assumptions are compatible.
-They are not: Parts I, J and K assume the MSSM above M_S and Part L the Standard Model up to
-M_P. The script does not choose between them. Part M tests each against every combination of
+They are not: Parts I, J and K assume the MSSM above M_S, Part L the Standard Model up to
+M_P, the SO(10) stages the Standard Model only up to each chain's M_I, and Parts D and E 3-3-1.
+The script does not choose between them. Where one stage takes a result from a stage that
+assumes a different field content (the place where the numbers could stop locking together),
+the report lists the edge with its reason, for example the SO(10) chains take only Part L's
+Standard-Model running below M_I, which every hypothesis shares; a test fails if any such edge
+has no stated reason. Part M tests each against every combination of
 the conditions the other parts impose (gauge unification, b-τ unification, the Higgs mass):
 
 * **SM up to M_P** has no unknowns, so every condition is a prediction, and it misses each one:
@@ -587,9 +592,11 @@ Sakharov's three conditions:
 * **The efficiency is calculated.** κ_f = 2/(K z_B)(1 − e^{−K z_B/2}) with K = m̃₁/m_*, where
   m_* = 1.07 meV follows from g* and M_P, and z_B solves their freeze-out equation exactly (eqs. 22,
   59). Over the natural range m_sol ≤ m̃₁ ≤ m_atm, κ_f runs from 0.043 to 0.005, so **M₁ ≥ 1.5×10¹⁰
-  to 1.3×10¹¹ GeV**. All of that is inside Part P's seesaw window, but the left-right SO(10) chain
-  (M_I = 2.8×10⁹ GeV) would need weak washout. Part L's SM up to M_P, which needs Dirac neutrinos,
-  has no such mechanism.
+  to 1.3×10¹¹ GeV**. All of that is inside Part P's seesaw window. Each SO(10) chain allows M₁ up to
+  2√(4π) M_I/g_R (its M_I is the W_R mass g_R v_R, and M_N = 2f v_R with a perturbative f), the same
+  ceiling Parts T7 and Y4 use: for the left-right chain 12.6 M_I = 3.7×10¹⁰ GeV, which covers the
+  natural range (Part Y4's fits put M₁ at 5×10⁹–1.7×10¹⁰ GeV). Part L's SM up to M_P, which needs
+  Dirac neutrinos, has no such mechanism.
 
 **Part T: SO(10)**
 
@@ -745,12 +752,17 @@ script calculates this from its ingredients (Di Luzio, Giannotti, Nardi, Visinel
 148–169). It takes m_a f_a from Part O, M_P from Part H, g_S today = 43/11 from Part S and T₀ from
 T_CMB; the dilute-instanton m_a(T) is quoted. The result reproduces the paper's own eq. 170 to 1.3%
 (a self-check). After inflation, misalignment alone gives all of Ω_c h² = 0.1200 at
-**f_a = 2.0×10¹¹ GeV, m_a = 28.5 μeV**. If the axion scale is each SO(10) chain's M_I:
+**f_a = 2.0×10¹¹ GeV, m_a = 28.5 μeV**. If the axion scale is each SO(10) chain's M_I (an
+order-of-magnitude identification: f_a = v_PQ/N_DW, with PQ broken alongside B − L):
 
 | Chain | f_a = M_I | m_a | Post-inflation misalignment | Pre-inflation |
 |---|---|---|---|---|
-| Pati–Salam | 1.4×10¹¹ GeV | 41 μeV | 65% of the dark matter | θ_i = 2.66 gives all |
-| Left-right | 2.8×10⁹ GeV | 2.1 meV | 0.7% | impossible (θ_i > π) |
+| Pati–Salam | 1.5×10¹¹ GeV | 39 μeV | 69% of the dark matter | θ_i = 2.59 gives all |
+| Left-right | 2.9×10⁹ GeV | 2.0 meV | 0.7% | impossible (θ_i > π) |
+
+The same identification at the B − L scale SO(10)'s Y₁₂₆ needs for the neutrinos (Part Y4, ~10¹³ GeV)
+would overclose post-inflation: until f_a comes from a PQ-charged potential, the dark-matter and
+neutrino rows rest on different B − L scales (an open audit finding).
 
 So at the Pati–Salam scale the axion makes about two thirds of the dark matter from misalignment
 alone; strings and domain walls, whose yield is not agreed on, only add to it. Unification,
@@ -775,8 +787,10 @@ The effective weak mixing angle of the Z couplings, from the same authors' two-l
 (2006), comes out at sin²θ_eff = 0.23164 ± 0.00003, against 0.23151 ± 0.00016 (LEP + SLC) and
 0.23149 ± 0.00013 (hadron colliders).
 
-The SM prediction agrees with the measurements and reproduces the PDG fit. The heavy states of the
-SO(10) chains decouple, so this tests the SM below M_I, not the chains.
+The SM prediction agrees with the measurements and reproduces the PDG fit. Because it uses Part L's
+Higgs mass, it is the M_W of the SM-to-M_P hypothesis (and the stage is tagged with it); with the measured
+m_h it is the low-energy SM's, common to every hypothesis, since the SO(10) chains' heavy states decouple.
+The PDG average is also an input of Part L's matching, so only the other two comparisons are independent.
 
 **Part X: closing the loop, cosmology from the particle physics**
 
