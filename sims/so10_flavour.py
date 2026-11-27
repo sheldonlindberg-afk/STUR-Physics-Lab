@@ -102,7 +102,7 @@ import sys
 import time
 from typing import Any, Callable, Dict, List, Sequence, Tuple
 
-VERSION = "production v2.2 / sim so10_flavour (SO(10) in place of 3-3-1; the two-step left-right chain)"
+VERSION = "production v2.2 / sim so10_flavour (SO(10) in place of 3-3-1; the two-step left-right chain; Pati-Salam with a light (15,2,2))"
 
 # =============================================================================
 # 1. MEASURED INPUTS (the only physics numbers that enter a calculation)
@@ -685,6 +685,7 @@ STAGES: Dict[str, Dict[str, str]] = {
                                "allowed ranges); a complex 10 (a real one is tested and fails); neutrinos by "
                                "type II, type I, I + II "
                                "(normal ordering, quark masses floated within errors); v_R ~ M_I for the M_R bound; "
+                               "T15: the same fits at the PS+15 chain's M_I with SM running below, its (15,2,2) at M_I; "
                                "unknowns searched, never set"},
     "dark_sector": {"part": "AA", "level": "conditional", "uv": "SM up to M_I, SO(10)",
                     "assumes": "the left-right chain's minimal content (16 fermions; 10, 126, 210 scalars); single-field "
@@ -702,6 +703,7 @@ CROSS_EDGES: Dict[Tuple[str, str], str] = {
     ("so10", "criticality"): "the SM's running and matching below M_I, which every hypothesis shares",
     ("so10", "yukawa_relations"): "Part T2's t-b-tau test is of supersymmetric SO(10), a hypothesis of its own, not a chain",
     ("so10", "proton_decay"): "only Super-K's limits (measured), not the MSSM lifetimes",
+    ("so10_two_step", "proton_decay"): "only Super-K's limit (measured), not the MSSM lifetimes",
     ("so10", "gauge_unification"): "only the low-energy couplings, not the MSSM's M_S",
     ("dark_sector", "criticality"): "SM Higgs inflation is a test of the SM up to the plateau, i.e. of Part L's hypothesis",
 }
@@ -5852,7 +5854,11 @@ def so10_chains() -> Dict[str, Dict[str, Any]]:
     out = {"PS": {"groups": ("SU4", "SU2", "SU2"), "fields": ps, "D": False},
            "PS+D": {"groups": ("SU4", "SU2", "SU2"), "fields": ps + [((10, 3, 1), "scalar", 1)], "D": True},
            "LR": {"groups": ("SU3", "SU2", "SU2", "U1"), "fields": lr, "D": False},
-           "LR+D": {"groups": ("SU3", "SU2", "SU2", "U1"), "fields": lr + [((1, 3, 1, Fr(2)), "scalar", 1)], "D": True}}
+           "LR+D": {"groups": ("SU3", "SU2", "SU2", "U1"), "fields": lr + [((1, 3, 1, Fr(2)), "scalar", 1)], "D": True},
+           # T15: Pati-Salam with the 126's (15,2,2) near M_I (complex, as in the 126). Part Y's selection rule holds only
+           # if the whole (15,2,2) sits at M_GUT; light near M_I, the B - L vev mixes the 10's and the 126's doublets, so
+           # the light Higgs is a 10-126 mixture and the 10 + 126 sum rule applies at M_I, where SU(4) breaks
+           "PS+15": {"groups": ("SU4", "SU2", "SU2"), "fields": ps + [((15, 2, 2), "scalar", 1)], "D": False}}
     for c in out.values():
         c["b1"], c["b2"] = chain_b(c["groups"], c["fields"])
     return out
@@ -8268,10 +8274,34 @@ def so10_yukawa_tests(flav: Dict[str, Any], s10: Dict[str, Any]) -> Dict[str, An
     out = {"PS": so10_selection_rule(flav, s10["chains"]["PS"]["loop2"]["M_I"]),
            "LR": so10_sum_rule(flav, two["M_GUT"], two["M_I"], run["masses"], run["V"],
                                math.sqrt(4 * math.pi / two["inv_alpha_MI"][2])), "running": running}
+    # T15: Pati-Salam with the (15,2,2) near M_I: the sum rule and the neutrino fits at its M_I (SM matrix running below)
+    if "PS+15" in s10["chains"]:
+        t15 = s10["chains"]["PS+15"]["loop2"]
+        y15 = yukawas_at_scale(flav, t15["M_I"])
+        out["PS+15"] = so10_sum_rule(flav, t15["M_I"], t15["M_I"], y15["masses"], y15["V"],
+                                     math.sqrt(4 * math.pi / t15["inv_alpha_MI"][2]))
+        out["PS+15"]["v_R"] = own_chain_v_r(out["PS+15"], flav)
     out["lift"] = heavy_spectrum_lift(out["LR"], s10, chain)
     out["triplet"] = triplet_proton_estimate(out["LR"], s10, flav)
     out["v_R"] = so10_v_r_prediction(out["LR"], s10, flav)
     return out
+
+
+def own_chain_v_r(sr: Dict[str, Any], flav: Dict[str, Any]) -> Dict[str, Any] | None:
+    """Part Y4's v_R test for a chain with its own fits (T15) and no computed potential. With M_R = Y126 v_R and the
+    fit's Y126 = (M_d - M_e)/(4 d), each fit needs v_R(f) = 4 k sqrt(f/(1 + |b/d|^2)) M_R,3/s_3(M_d - M_e), f the light
+    Higgs's 126 share. Two numbers per fit: the floor any f allows (a perturbative Y126,3: v_R >= M_R,3/(2 sqrt(4 pi)))
+    and the largest f for which v_R(f) is the chain's own v_R = M_I/g_R (above it the fit needs a higher v_R)."""
+    fits = [t_ for t_ in (sr["type1"], sr["type12"]) if t_.get("fits_found")]
+    if not fits:
+        return None
+    k_ = flav["runner"].v / math.sqrt(2)
+    v_chain = sr["M_I"] / sr["g_R"]
+    pts = [p_ for t_ in fits for p_ in t_["fit_points"]]
+    floor = [p_["M_R_over_M_I"] * sr["M_I"] / (2 * math.sqrt(4 * math.pi)) for p_ in pts]
+    f_max = [(v_chain / (4 * k_ * p_["M_R_per_dm"])) ** 2 * (1 + p_["r126"] ** 2) for p_ in pts]
+    return {"v_R_chain": v_chain, "floor": min(floor), "floor_ratio": min(floor) / v_chain,
+            "f_max_range": (min(f_max), max(f_max)), "fits": len(pts)}
 
 
 def so10_v_r_prediction(lr: Dict[str, Any], s10: Dict[str, Any], flav: Dict[str, Any]) -> Dict[str, Any] | None:
@@ -8896,13 +8926,16 @@ def final_ledger(score: Dict[str, Any], s10: Dict[str, Any], s10y: Dict[str, Any
          "Part C's one predictive texture needs Hermitian matrices: SO(10)'s couplings are symmetric, which removes its"
          " prediction (Part D); left-right parity gives parallel textures, all excluded (Part G); the Z_N classes of"
          " minimal SO(10) that make relations are excluded (Part E); with general matrices no texture predicts (Part F)"),
-        (("charged-lepton masses", "3", "traded" if s10y["LR"]["reaches"] else "open",
-          "the 10 + 126 sum rule reaches them with 8 unknowns (Part Y2)") if chain.startswith("LR") else
+        (("charged-lepton masses", "3", "traded" if s10y[chain]["reaches"] else "open",
+          "the 10 + 126 sum rule at M_I reaches them with 8 unknowns (Part T15)") if chain in s10y and chain not in ("PS", "LR")
+         else ("charged-lepton masses", "3", "traded" if s10y["LR"]["reaches"] else "open",
+               "the 10 + 126 sum rule reaches them with 8 unknowns (Part Y2)") if chain.startswith("LR") else
          ("charged-lepton masses", "3", "open",
           "the minimal 10 + 126 Yukawas fail: the light Higgs sits in one SU(4) irrep (Part Y's selection rule); a 120 or"
           " an SU(4)-breaking vev at M_GUT would be needed")),
         ("neutrino masses and mixing", "7-9", {"trade": "traded", "pass": "related"}.get(
             score["rows"].get(f"SO(10) via {chain}", {}).get("N", {}).get("status", "open"), "open"),
+         score["rows"][f"SO(10) via {chain}"]["N"]["detail"] if chain in s10y and chain not in ("PS", "LR") else
          "a seesaw at M_I with free Dirac Yukawas (Part P); the 10 + 126 neutrino fits are run only for the LR chain"
          if not chain.startswith("LR") else
          f"type II from the sum rule misses by {t2['n_sigma_worst']:.0f} sigma (Part Y3); with left-right running, best "
@@ -9012,7 +9045,36 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
         return entry("open", frac + ", and no initial angle gives all of it: another candidate is needed")
     yps, ylr = s10y["PS"], s10y["LR"]
 
+    def own_fit_neutrino_entry(nm: str) -> Dict[str, Any]:
+        """A chain with its own sum-rule fits at its M_I (T15): the fits, then SO(10)'s v_R against the chain's."""
+        sr = s10y[nm]
+        t2, t1, t12 = sr["type2"], sr["type1"], sr["type12"]
+        if t2["reaches"]:
+            return entry("trade", "type II from the 10 + 126 sum rule at M_I reaches the PMNS data (Part T15)")
+        lead = f"type II from the sum rule at M_I misses by {t2['n_sigma_worst']:.0f} sigma (Part T15)"
+        fit_ = [t_ for t_ in (t1, t12) if t_["fits_found"]]
+        if not fit_:
+            return entry("open", lead + f"; types I and I + II not reached (best chi^2 {t1['chi2_min']:.0f},"
+                                        f" {t12['chi2_min']:.0f})")
+        vr_ = sr["v_R"]
+        lift_max = s10["thresholds"][nm]["M_I"][1] / s10["chains"][nm]["loop2"]["M_I"]
+        n_ = sum(t_["fits_found"] for t_ in fit_)
+        if vr_["floor_ratio"] > lift_max:
+            return entry("fail", lead + f"; {n_} type I (+ II) fits, but with M_R = Y126 v_R even a perturbative Y126,3"
+                                        f" needs v_R >= {vr_['floor']:.0e} GeV, {vr_['floor_ratio']:.0f} times the chain's,"
+                                        f" beyond its thresholds (x{lift_max:.0f})")
+        if vr_["floor_ratio"] > 1:
+            return entry("open", lead + f"; {n_} type I (+ II) fits need v_R >= {vr_['floor']:.0e} GeV, {vr_['floor_ratio']:.1f}"
+                                        f" times the chain's: only thresholds (up to x{lift_max:.0f}) could supply it")
+        f_txt = ("any 126 share" if vr_["f_max_range"][1] >= 1 else
+                 f"a light-Higgs 126 share f <= {vr_['f_max_range'][1]:.1e} (the best fit)")
+        return entry("trade", lead + f"; {n_} type I (+ II) fits (17 unknowns, 13 data) reach the data, and with M_R = Y126 v_R"
+                                     f" they fit the chain's own v_R = {vr_['v_R_chain']:.0e} GeV for {f_txt}; the"
+                                     " potential that would fix f is not computed")
+
     def neutrino_entry(nm: str, y_needed: float) -> Dict[str, Any]:
+        if nm in s10y and nm not in ("PS", "LR"):
+            return own_fit_neutrino_entry(nm)
         t2, t1, t12 = ylr["type2"], ylr["type1"], ylr["type12"]
         if nm.startswith("LR") and not t2["reaches"]:
             lead = (f"type II from the 10 + 126 sum rule misses the PMNS data by {t2['n_sigma_worst']:.0f} sigma"
@@ -9050,6 +9112,12 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
                               " parameter in this chain")
 
     def fermion_entry(nm: str) -> Dict[str, Any]:
+        if nm in s10y and nm not in ("PS", "LR"):
+            own_ = s10y[nm]
+            return entry("trade" if own_["reaches"] else "fail",
+                         "M_e = c1 M_d + c2 M_u at M_I (the (15,2,2) lets the doublets mix, Part T15) reaches the lepton"
+                         " masses" + ("" if own_["reaches"] else f" only within {100 * own_['worst_rel_miss']:.0f} %")
+                         + " (8 unknowns, 3 masses)")
         if nm.startswith("PS"):
             return entry("fail" if yps["excluded"] else "pass",
                          "the light doublet sits in one SU(4) irrep (exact selection rule): M_e = M_d or -3 M_d,"
@@ -9078,7 +9146,10 @@ def scorecard(joint: Dict[str, Any], higgs: Dict[str, Any], crit: Dict[str, Any]
         y_needed = math.sqrt(2 * m_i * m3) / v
         # the labels follow the definitions: three couplings fixing three unknowns is a trade, not a pass; a
         # condition the theory does not impose (lambda(M_I) = 0, Part T6) is not a test
-        b_row = (entry("trade", "the 10 + 126 sum rule imposes no b-tau equality: c1, c2 absorb it (at M_GUT (m_b - m_tau)/m_b"
+        own_b = s10y.get(nm) if nm not in ("PS", "LR") else None
+        b_row = (entry("trade", "the 10 + 126 sum rule imposes no b-tau equality: c1, c2 absorb it ((m_b - m_tau)/m_b"
+                                f" = {own_b['type2']['b_tau_mismatch']:+.2f} at M_I, Part T15)") if own_b else
+                 entry("trade", "the 10 + 126 sum rule imposes no b-tau equality: c1, c2 absorb it (at M_GUT (m_b - m_tau)/m_b"
                                 f" = {t2_['b_tau_mismatch']:+.2f}, Part Y, at the LR chain's scales)")
                  if nm.startswith("LR") else
                  entry("open", "no b-tau relation is imposed; the selection rule that would give one (m_b = m_tau or 3 m_b"
@@ -11463,6 +11534,46 @@ def report(res: Dict[str, Any]) -> str:
                "but fails the fermion masses), more Yukawa structure, or a different B - L breaking (a 16_H)."
                if t14.get("fails_neutrinos") else "The family reaches the needed v_R: see the table."), 2))
     w("")
+    if "PS+15" in res["so10"]["chains"] and "PS+15" in res["so10_yukawa"]:
+        c15 = res["so10"]["chains"]["PS+15"]
+        t15, o15 = c15["loop2"], res["so10_yukawa"]["PS+15"]
+        r15 = sc_["rows"]["SO(10) via PS+15"]
+        w("PART T15. PATI-SALAM WITH THE 126's (15,2,2) NEAR M_I: CAN THE DOUBLETS MIX?")
+        w("-" * 78)
+        w(_wrap("Part Y's selection rule (M_e = M_d or -3 M_d) holds only if the whole (15,2,2) of the 126 sits at M_GUT. "
+                "With it near M_I, the B - L vev that breaks SU(4) there mixes the 10's (1,2,2) with the 126's (15,2,2) "
+                "doublet, the light Higgs is a 10-126 mixture, and the 10 + 126 sum rule applies at M_I. The cost: a "
+                "complex (15,2,2) in the running between M_I and M_GUT (its mass is taken as M_I: the minimal case; the "
+                "potential that would fix it is not computed).", 2))
+        w("  One-loop b: " + ", ".join(str(b_) for b_ in c15["b1"]) + " (SU(4), SU(2)_L, SU(2)_R; Pati-Salam's "
+          + ", ".join(str(b_) for b_ in res["so10"]["chains"]["PS"]["b1"]) + ").")
+        w(f"  Two loops: M_I = {t15['M_I']:.2e} GeV, M_GUT = {t15['M_GUT']:.2e} GeV, 1/alpha_GUT = {1 / t15['alpha_GUT']:.2f}"
+          f" (one loop: {c15['loop1']['M_I']:.1e}, {c15['loop1']['M_GUT']:.1e}).")
+        w(f"  Proton: p -> e+ pi0 in {t15['tau_p_years']:.1e} years against {res['proton_decay']['limit_e_pi0']:.1e};"
+          f" thresholds (Part T7) move M_I over {res['so10']['thresholds']['PS+15']['M_I'][0]:.1e} to"
+          f" {res['so10']['thresholds']['PS+15']['M_I'][1]:.1e} GeV.")
+        w(f"  Sum rule at M_I (Y2): " + ("reaches the charged-lepton masses" if o15["reaches"] else "does not reach the"
+                                       " charged-lepton masses") + f" (worst miss {100 * o15['worst_rel_miss']:.2f} %).")
+        w("  Neutrinos at M_I (Y3, Y4; normal ordering, quark masses floated):")
+        for k_, lab in (("type2", "type II"), ("type1", "type I"), ("type12", "types I + II")):
+            t_ = o15[k_]
+            w(f"    {lab:<13s} best chi^2 {t_['chi2_min']:8.1f} for {t_['data_points']} data, {t_['unknowns']} unknowns;"
+              f" fits within 3 sigma: {t_['fits_found']}"
+              + (f"; M_R,3/M_I {t_['M_R_over_M_I_range'][0]:.0f}-{t_['M_R_over_M_I_range'][1]:.0f},"
+                 f" M_1 {t_['M_1_range_GeV'][0]:.1e}-{t_['M_1_range_GeV'][1]:.1e} GeV" if t_.get("M_R_over_M_I_range") else ""))
+        if o15.get("v_R"):
+            v_ = o15["v_R"]
+            w(f"  SO(10)'s v_R (M_R = Y126 v_R): the chain's own v_R = M_I/g_R = {v_['v_R_chain']:.1e} GeV; a perturbative"
+              f" Y126,3 needs v_R >= {v_['floor']:.1e} GeV ({v_['floor_ratio']:.2f} of the chain's); the fits match the"
+              f" chain's v_R for a 126 share f up to {v_['f_max_range'][0]:.1e}-{v_['f_max_range'][1]:.1e}.")
+        w("  Scorecard (Part U): " + "; ".join(f"{sc_['conditions'][c]} {e['status']}" for c, e in r15.items()) + ".")
+        f15 = [sc_["conditions"][c] for c, e in r15.items() if e["status"] == "fail"]
+        w(_wrap("RESULT: " + ("the (15,2,2) near M_I lets Pati-Salam's doublets mix, and with it the chain fails nothing "
+                              "the scorecard tests. It predicts nothing new either: every row it passes beyond proton "
+                              "decay is a trade, and the (15,2,2) mass and the 126 share f are unknowns its potential "
+                              "would have to fix." if not f15 else
+                              "with the (15,2,2) near M_I the chain still fails: " + ", ".join(f15) + "."), 2))
+        w("")
     w("PART U. THE SCORECARD: EVERY COMPLETE HYPOTHESIS AGAINST EVERY CONDITION")
     w("-" * 78)
     w("  Each hypothesis meets every condition, with the verdict the earlier parts computed:")
