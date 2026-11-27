@@ -648,8 +648,9 @@ STAGES: Dict[str, Dict[str, str]] = {
                                  "mixing; v_R <= M_R/g_R; the needed v_R from Part Y4's fits (left-right running)"},
     "so10_ps15_scan": {"part": "T15b", "level": "conditional", "uv": "SM up to M_I, SO(10)",
                        "assumes": "Pati-Salam with the 126's (15,2,2) entering at M_15 >= M_I (two-loop running with a step); "
-                                  "T15's neutrino fits at its M_I, not redone per point; the doublet mixing from one "
-                                  "quartic, delta = lambda v_R^2, with |lambda| <= potential_lambda_max (T9's box); f_a = M_I"},
+                                  "T15's neutrino fits at its M_I, not redone per point; the doublet mixing from the "
+                                  "PQ-allowed quartics, delta = c lambda v_R^2 with T15c's Clebsch c, |lambda| <= "
+                                  "potential_lambda_max (T9's box); tunings assumed as for the doublet"},
     "so10_flavour_fit": {"part": "E", "level": "numerical", "uv": "SM up to M_I, SO(10)",
                          "assumes": "the predictive Z_N classes fitted to the charged-fermion masses and quark mixing of "
                                     "Part Y's left-right running at M_GUT, every observable within yukawa_fit_mass_rel; "
@@ -8562,6 +8563,117 @@ def so10_yukawa_tests(flav: Dict[str, Any], s10: Dict[str, Any]) -> Dict[str, An
     return out
 
 
+def ps_doublet_mixing(seed: int) -> Dict[str, Any]:
+    """T15c. The quartics that mix the 10's (1,2,2) with the 126bar's (15,2,2) through <(10bar,1,3)>: PQ allows
+    10* 126bar 126 126bar (+2 - 2 + 2 - 2 = 0). Under Pati-Salam they are two independent contractions,
+    I_A = H*^{al ad} S^a_b,al ad D_ac,ef D*^bc,ef and I_B = H*^{al ad} S^a_b,al bd D_ac,ad f D*^bc,bd f (SU(4) indices a-c,
+    SU(2)_L al, SU(2)_R ad, bd, e, f; D symmetric in both pairs). Built as explicit tensors: invariance under a random
+    U(4) x U(2) x U(2) element (Cayley transforms), then the mixing coefficient at the vev D_44,22 = v_R between the
+    normalized doublets H = e_al x e_ad and S = T_15 x e_al x e_ad (T_15 = diag(1, 1, 1, -3)/sqrt 12, the 126's doublet
+    that carries the -3 of the sum rule)."""
+    rng = _UniformStream(seed)
+    r4, r2 = range(4), range(2)
+
+    def cx() -> complex:
+        return complex(rng.uniform(-1, 1), rng.uniform(-1, 1))
+
+    def unitary(n: int) -> List[List[complex]]:
+        a = [[complex(0)] * n for _ in range(n)]
+        for i in range(n):
+            a[i][i] = complex(rng.uniform(-1, 1), 0)
+            for j in range(i + 1, n):
+                a[i][j] = cx()
+                a[j][i] = a[i][j].conjugate()
+        m1 = [[(1 if i == j else 0) - 1j * a[i][j] for j in range(n)] for i in range(n)]
+        m2 = [[(1 if i == j else 0) + 1j * a[i][j] for j in range(n)] for i in range(n)]
+        aug = [row[:] + [complex(1 if i == j else 0) for j in range(n)] for i, row in enumerate(m2)]
+        for i in range(n):
+            piv = max(range(i, n), key=lambda r_: abs(aug[r_][i]))
+            aug[i], aug[piv] = aug[piv], aug[i]
+            aug[i] = [z / aug[i][i] for z in aug[i]]
+            for r_ in range(n):
+                if r_ != i:
+                    f_ = aug[r_][i]
+                    aug[r_] = [z - f_ * w_ for z, w_ in zip(aug[r_], aug[i])]
+        inv_ = [row[n:] for row in aug]
+        return [[sum(m1[i][k] * inv_[k][j] for k in range(n)) for j in range(n)] for i in range(n)]
+
+    def z4() -> List[List[List[complex]]]:
+        return [[[complex(0)] * 2 for _ in r2] for _ in r4]
+
+    def i_a(h, s_, d) -> complex:
+        return sum(h[al][ad].conjugate() * s_[a][b][al][ad] * d[a][c][e][f] * d[b][c][e][f].conjugate()
+                   for al in r2 for ad in r2 for a in r4 for b in r4 for c in r4 for e in r2 for f in r2)
+
+    def i_b(h, s_, d) -> complex:
+        return sum(h[al][ad].conjugate() * s_[a][b][al][bd] * d[a][c][ad][f] * d[b][c][bd][f].conjugate()
+                   for al in r2 for ad in r2 for bd in r2 for a in r4 for b in r4 for c in r4 for f in r2)
+    h = [[cx() for _ in r2] for _ in r2]
+    s_ = [z4() for _ in r4]
+    d = [z4() for _ in r4]
+    for a in r4:
+        for b in r4:
+            for al in r2:
+                for ad in r2:
+                    s_[a][b][al][ad] = cx()
+    for al in r2:
+        for ad in r2:
+            tr = sum(s_[a][a][al][ad] for a in r4) / 4
+            for a in r4:
+                s_[a][a][al][ad] -= tr
+    for a in r4:
+        for b in range(a, 4):
+            for c in r2:
+                for e in range(c, 2):
+                    z = cx()
+                    for i, j in ((a, b), (b, a)):
+                        for k, l in ((c, e), (e, c)):
+                            d[i][j][k][l] = z
+    u, v, w = unitary(4), unitary(2), unitary(2)
+    uc = [[z.conjugate() for z in row] for row in u]
+    h2 = [[sum(v[al][x_] * w[ad][y_] * h[x_][y_] for x_ in r2 for y_ in r2) for ad in r2] for al in r2]
+    s2, d2 = [z4() for _ in r4], [z4() for _ in r4]
+    for a in r4:
+        for b in r4:
+            for al in r2:
+                for ad in r2:
+                    s2[a][b][al][ad] = sum(u[a][p_] * uc[b][q_] * v[al][x_] * w[ad][y_] * s_[p_][q_][x_][y_]
+                                           for p_ in r4 for q_ in r4 for x_ in r2 for y_ in r2)
+                    d2[a][b][al][ad] = sum(uc[a][p_] * uc[b][q_] * w[al][x_] * w[ad][y_] * d[p_][q_][x_][y_]
+                                           for p_ in r4 for q_ in r4 for x_ in r2 for y_ in r2)
+    inv_dev = max(abs(i_a(h2, s2, d2) / i_a(h, s_, d) - 1), abs(i_b(h2, s2, d2) / i_b(h, s_, d) - 1))
+    dv = [z4() for _ in r4]
+    dv[3][3][1][1] = complex(1)
+    t15 = [1 / math.sqrt(12)] * 3 + [-3 / math.sqrt(12)]
+    coef = []
+    for ad in r2:
+        hd = [[complex(0)] * 2 for _ in r2]
+        hd[0][ad] = complex(1)
+        sd = [z4() for _ in r4]
+        for a in r4:
+            sd[a][a][0][ad] = complex(t15[a])
+        coef.append((abs(i_a(hd, sd, dv)), abs(i_b(hd, sd, dv))))
+    pq = Fr(2) - 2 + 2 - 2
+    return {"invariance_dev": inv_dev, "coefficients": coef, "clebsch": max(a_ for a_, _ in coef),
+            "pq_charge": pq, "exact": math.sqrt(3) / 2}
+
+
+def inert_doublet_symmetries() -> Dict[str, Any]:
+    """T15c. The scalar 16 (chi) that carries the inert doublet: its PQ charge from its allowed couplings, its stability,
+    and whether anything splits its neutral components at tree level. Centre Z_4 classes: 16: 1, 10 and 126: 2.
+    R = (-1)^(3(B-L) + 2s) (Part AA1): fermion 16 even, scalar 16 odd, 10 and 126 even."""
+    q16, q10, q126b = Fr(1), Fr(-2), Fr(-2)
+    q_chi = -q10 / 2                                       # chi chi 10 invariant
+    out = {"q_chi": q_chi, "chi_chi_126bar_allowed": 2 * q_chi + q126b == 0}
+    r_ = {"psi16": 1, "chi16": -1, "10": 1}
+    out["psi_chi_10_R"] = r_["psi16"] * r_["chi16"] * r_["10"]      # -1: forbidden, so chi's lightest state is stable
+    out["psi_chi_10_PQ"] = q16 + q_chi + q10
+    cls = {"chi": 1, "10": 2}
+    out["splitting_class"] = (2 * (cls["10"] - cls["chi"])) % 4      # (H^dag chi)^2: needs class 0 to exist
+    out["splitting_renormalizable"] = out["splitting_class"] == 0
+    return out
+
+
 def so10_ps15_scan(s10: Dict[str, Any], s10y: Dict[str, Any], flav: Dict[str, Any], scp: Dict[str, Any],
                    planck: Dict[str, float], bau: Dict[str, Any], pdk: Dict[str, Any]) -> Dict[str, Any] | None:
     """T15b. The (15,2,2) mass M_15 = r M_I, scanned from M_I to M_GUT (two-loop running with a step at M_15). Rising r
@@ -8584,6 +8696,8 @@ def so10_ps15_scan(s10: Dict[str, Any], s10y: Dict[str, Any], flav: Dict[str, An
     th_post = float(LITERATURE["axion_misalignment"]["value"]["theta_post"])
     m1_nat = bau["leptogenesis"]["M1_min_natural"][0]
     mu0 = s10["vacuum"]["mu0"]
+    mix = ps_doublet_mixing(int(num("potential_seed")) + 5)
+    c_mix = mix["clebsch"]
     rows = []
     k = 0
     while True:
@@ -8601,7 +8715,7 @@ def so10_ps15_scan(s10: Dict[str, Any], s10y: Dict[str, Any], flav: Dict[str, An
             f_need = (v_r / (4 * k_ * p_["M_R_per_dm"])) ** 2 * (1 + p_["r126"] ** 2)
             if v_r < floor or f_need >= 1:
                 continue
-            lam = math.sqrt(f_need / (1 - f_need)) * (m15 / v_r) ** 2
+            lam = math.sqrt(f_need / (1 - f_need)) * (m15 / v_r) ** 2 / c_mix   # delta = c lambda v_R^2 (T15c)
             if best is None or lam < best["lambda"]:
                 best = {"lambda": lam, "f": f_need, "floor": floor}
         tau = proton_lifetime(x, q["M_GUT"], q["alpha_GUT"], None, a_l, ch, q)
@@ -8618,8 +8732,14 @@ def so10_ps15_scan(s10: Dict[str, Any], s10y: Dict[str, Any], flav: Dict[str, An
     # the working point every later stage reads for this chain: the window's most natural mixing (smallest lambda)
     work = min(window, key=lambda r_: r_["neutrino"]["lambda"]) if window else None
     tau_edge = abs(rows[0]["tau_p_years"] / s10["chains"]["PS+15"]["loop2"]["tau_p_years"] - 1) if rows else None
+    # T15c: what the working point costs in tunings (each a cancellation to this size, assumed as for the doublet)
+    wk_ = min(window, key=lambda r_: r_["neutrino"]["lambda"]) if window else None
+    m_eta = so10_chains()["PS+15"]["sm_step"][0]
+    v_h = flav["runner"].v
+    tuning = ({"doublet": (v_h / wk_["M_GUT"]) ** 2, "(15,2,2)": (wk_["M_15"] / wk_["M_GUT"]) ** 2,
+               "inert doublet": (m_eta / wk_["M_I"]) ** 2} if wk_ else None)
     return {"rows": rows, "window": window, "window_4pi": window_4pi, "lambda_max": lam_max, "fits": len(pts),
-            "tau_edge_check": tau_edge,
+            "tau_edge_check": tau_edge, "mixing": mix, "eta": inert_doublet_symmetries(), "tuning": tuning,
             "working_point": work,
             "M_I_fit": sr["M_I"],
             "edge_check": abs(rows[0]["M_I"] / s10["chains"]["PS+15"]["loop2"]["M_I"] - 1) if rows else None}
@@ -10432,6 +10552,15 @@ def run(scales: Sequence[float] | None = None, prec: int | None = None, certify:
                    "from eqs. 187-188 reproduces Di Luzio et al.'s eq. 189 coefficient", fpq_dev < num("check_rel_tol") * 100
                    and iso_dev < num("check_axion_tol"), f"f_PQ {fpq_dev:.1e}, eq. 189 {iso_dev:.3f}"))
     t15c = t15b
+    if t15c and t15c.get("mixing"):
+        mx_ = t15c["mixing"]
+        et_ = t15c["eta"]
+        checks.append(("T15c: the two 10* 126bar 126 126bar contractions are Pati-Salam invariant (random group element),"
+                       " PQ-neutral, and mix the doublets at the vev with Clebsch sqrt3/2; the inert doublet's chi chi 10"
+                       " fixes q_chi = 1, R-parity forbids psi chi 10, the centre forbids (H^dag chi)^2",
+                       mx_["invariance_dev"] < tol and mx_["pq_charge"] == 0 and abs(mx_["clebsch"] - mx_["exact"]) < tol
+                       and et_["q_chi"] == 1 and et_["psi_chi_10_R"] == -1 and not et_["splitting_renormalizable"],
+                       f"invariance {mx_['invariance_dev']:.1e}, c = {mx_['clebsch']:.6f}"))
     if t15c and t15c["rows"]:
         ps_mi = s10["chains"]["PS"]["loop2"]["M_I"]
         d15 = so10_chains()
@@ -12022,6 +12151,22 @@ def report(res: Dict[str, Any]) -> str:
                   f"   {'stab.' if r_['stabilizable'] else 'meta.':<6s}  "
                   + (f"{nb['lambda']:.2g}" if nb else "below the fits' floor"))
             w(f"  Self-check: at r = 1 the stepped running gives the PS+15 chain (rel dev {sc15['edge_check']:.0e}).")
+            mx_, et_ = sc15["mixing"], sc15["eta"]
+            w(_wrap("T15c. The mixing from the potential, not an estimate: PQ allows 10* 126bar 126 126bar (charge "
+                    f"{mx_['pq_charge']}); its two Pati-Salam contractions, built as tensors, are invariant (random group "
+                    f"element, dev {mx_['invariance_dev']:.0e}) and mix the 10's doublet with the 126's T_15 doublet at the "
+                    f"vev with coefficients {', '.join(f'({a_:.3f}, {b_:.3f})' for a_, b_ in mx_['coefficients'])} for the "
+                    f"two SU(2)_R components: delta = {mx_['clebsch']:.3f} lambda v_R^2 (sqrt3/2; the table's lambda uses "
+                    "it). The inert doublet's 16 (chi): chi chi 10 fixes q_chi = "
+                    f"{et_['q_chi']}, so chi chi 126bar is {'allowed' if et_['chi_chi_126bar_allowed'] else 'forbidden'}; "
+                    "psi chi 10 is " + ("forbidden by R-parity (chi's lightest state is stable)" if et_["psi_chi_10_R"] < 0
+                                        else "allowed (chi decays)") + "; (H^dag chi)^2 has centre class "
+                    f"{et_['splitting_class']}, so no renormalizable term splits chi's neutral components: the splitting "
+                    "direct detection needs (a degenerate inert doublet scatters through the Z) must come from chi chi 10 "
+                    "and chi chi 126bar at second order, couplings this sim does not fix.", 4))
+            if sc15.get("tuning"):
+                w("    The working point's price, as cancellations (each assumed, like the doublet-triplet one): "
+                  + ", ".join(f"{k_} {v_:.0e}" for k_, v_ in sc15["tuning"].items()) + ".")
             win, w4 = sc15["window"], sc15["window_4pi"]
             w(_wrap(("Window with |lambda| <= " + f"{sc15['lambda_max']:.0f} (T9's box): r = {win[0]['r']:.0f}"
                      + ("" if len(win) == 1 else f"-{win[-1]['r']:.0f}") + f" (working point r = {sc15['working_point']['r']:.0f},"
